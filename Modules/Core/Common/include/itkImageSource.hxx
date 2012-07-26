@@ -63,7 +63,7 @@ ProcessObject::DataObjectPointer
 ImageSource< TOutputImage >
 ::MakeOutput(ProcessObject::DataObjectPointerArraySizeType)
 {
-  return static_cast< DataObject * >( TOutputImage::New().GetPointer() );
+  return TOutputImage::New().GetPointer();
 }
 
 /**
@@ -76,7 +76,7 @@ ImageSource< TOutputImage >
 {
 
   // we assume that the first output is of the templated type
-  return static_cast< TOutputImage * >( this->GetPrimaryOutput() );
+  return itkDynamicCastInDebugMode< TOutputImage * >( this->GetPrimaryOutput() );
 }
 
 /**
@@ -93,7 +93,7 @@ ImageSource< TOutputImage >
     }
 
   // we assume that the first output is of the templated type
-  return static_cast< const TOutputImage * >
+  return itkDynamicCastInDebugMode< const TOutputImage * >
          ( this->ProcessObject::GetOutput(0) );
 }
 

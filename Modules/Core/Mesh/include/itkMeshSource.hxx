@@ -49,7 +49,7 @@ typename MeshSource< TOutputMesh >::DataObjectPointer
 MeshSource< TOutputMesh >
 ::MakeOutput(DataObjectPointerArraySizeType)
 {
-  return static_cast< DataObject * >( TOutputMesh::New().GetPointer() );
+  return TOutputMesh::New().GetPointer();
 }
 
 /**
@@ -60,7 +60,7 @@ typename MeshSource< TOutputMesh >::OutputMeshType *
 MeshSource< TOutputMesh >
 ::GetOutput(void)
 {
-  return static_cast< TOutputMesh * >( this->GetPrimaryOutput() );
+  return itkDynamicCastInDebugMode< TOutputMesh * >( this->GetPrimaryOutput() );
 }
 
 /**
@@ -71,7 +71,7 @@ typename MeshSource< TOutputMesh >::OutputMeshType *
 MeshSource< TOutputMesh >
 ::GetOutput(unsigned int idx)
 {
-  return static_cast< TOutputMesh * >
+  return itkDynamicCastInDebugMode< TOutputMesh * >
          ( this->ProcessObject::GetOutput(idx) );
 }
 

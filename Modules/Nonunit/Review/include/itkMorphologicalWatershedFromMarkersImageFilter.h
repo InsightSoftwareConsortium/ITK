@@ -122,8 +122,8 @@ public:
   /** Get the marker image */
   const LabelImageType * GetMarkerImage() const
   {
-    return static_cast< LabelImageType * >(
-             const_cast< DataObject * >( this->ProcessObject::GetInput(1) ) );
+    return itkDynamicCastInDebugMode< LabelImageType * >
+      (const_cast< DataObject * >( this->ProcessObject::GetInput(1) ) );
   }
 
   /** Set the input image */

@@ -100,7 +100,7 @@ ScalarImageToCooccurrenceMatrixFilter< TImageType,
                                        THistogramFrequencyContainer >
 ::GetInput() const
 {
-  return static_cast< const ImageType * >( this->GetPrimaryInput() );
+  return itkDynamicCastInDebugMode< const ImageType * >( this->GetPrimaryInput() );
 }
 
 template< class TImageType, class THistogramFrequencyContainer >
@@ -132,8 +132,7 @@ ScalarImageToCooccurrenceMatrixFilter< TImageType,
                                        THistogramFrequencyContainer >
 ::MakeOutput( DataObjectPointerArraySizeType itkNotUsed(idx) )
 {
-  typename HistogramType::Pointer output = HistogramType::New();
-  return static_cast< DataObject * >( output );
+  return HistogramType::New().GetPointer();
 }
 
 template< class TImageType, class THistogramFrequencyContainer >

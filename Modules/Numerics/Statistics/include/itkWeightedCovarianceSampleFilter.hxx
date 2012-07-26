@@ -92,13 +92,13 @@ WeightedCovarianceSampleFilter< TSample >
     input->GetMeasurementVectorSize();
 
   MatrixDecoratedType *decoratedOutput =
-    static_cast< MatrixDecoratedType * >(
+    itkDynamicCastInDebugMode< MatrixDecoratedType * >(
       this->ProcessObject::GetOutput(0) );
 
   MatrixType output = decoratedOutput->Get();
 
   MeasurementVectorDecoratedType *decoratedMeanOutput =
-    static_cast< MeasurementVectorDecoratedType * >(
+    itkDynamicCastInDebugMode< MeasurementVectorDecoratedType * >(
       this->ProcessObject::GetOutput(1) );
 
   output.SetSize(measurementVectorSize, measurementVectorSize);
@@ -189,13 +189,13 @@ WeightedCovarianceSampleFilter< TSample >
     input->GetMeasurementVectorSize();
 
   MatrixDecoratedType * const decoratedOutput =
-    static_cast< MatrixDecoratedType * >(
+    itkDynamicCastInDebugMode< MatrixDecoratedType * >(
       this->ProcessObject::GetOutput(0) );
 
   MatrixType output = decoratedOutput->Get();
 
   MeasurementVectorDecoratedType * const decoratedMeanOutput =
-    static_cast< MeasurementVectorDecoratedType * >(
+    itkDynamicCastInDebugMode< MeasurementVectorDecoratedType * >(
       this->ProcessObject::GetOutput(1) );
 
   output.SetSize(measurementVectorSize, measurementVectorSize);

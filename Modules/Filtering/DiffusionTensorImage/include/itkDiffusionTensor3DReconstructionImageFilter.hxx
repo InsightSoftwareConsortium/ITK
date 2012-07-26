@@ -327,8 +327,8 @@ void DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
 
     // Would have liked a dynamic_cast here, but seems SGI doesn't like it
     // The enum will ensure that an inappropriate cast is not done
-    gradientImagePointer = static_cast< GradientImagesType * >(
-      this->ProcessObject::GetInput(0) );
+    gradientImagePointer = itkDynamicCastInDebugMode< GradientImagesType * >
+      (this->ProcessObject::GetInput(0) );
 
     GradientIteratorType git(gradientImagePointer, outputRegionForThread);
     git.GoToBegin();
@@ -496,7 +496,7 @@ DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
     }
   // input 0 is either the single gradient image, or the reference
   // image. input 1 is either null or a mask image.
-  return static_cast< const GradientImageType * >
+  return itkDynamicCastInDebugMode< const GradientImageType * >
     (this->ProcessObject::GetInput(index+2));
 }
 

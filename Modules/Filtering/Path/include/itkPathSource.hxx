@@ -48,7 +48,7 @@ typename PathSource< TOutputPath >::OutputPathType *
 PathSource< TOutputPath >
 ::GetOutput(void)
 {
-  return static_cast< TOutputPath * >( this->GetPrimaryOutput() );
+  return itkDynamicCastInDebugMode< TOutputPath * >( this->GetPrimaryOutput() );
 }
 
 /**
@@ -59,7 +59,7 @@ typename PathSource< TOutputPath >::OutputPathType *
 PathSource< TOutputPath >
 ::GetOutput(unsigned int idx)
 {
-  return static_cast< TOutputPath * >
+  return itkDynamicCastInDebugMode< TOutputPath * >
          ( this->ProcessObject::GetOutput(idx) );
 }
 
@@ -123,7 +123,7 @@ typename PathSource< TOutputPath >::DataObjectPointer
 PathSource< TOutputPath >
 ::MakeOutput(DataObjectPointerArraySizeType)
 {
-  return static_cast< DataObject * >( TOutputPath::New().GetPointer() );
+  return itkDynamicCastInDebugMode< DataObject * >( TOutputPath::New().GetPointer() );
 }
 
 /**

@@ -76,7 +76,7 @@ const typename PathToImageFilter< TInputPath, TOutputImage >::InputPathType *
 PathToImageFilter< TInputPath, TOutputImage >
 ::GetInput(void)
 {
-  return static_cast< const TInputPath * >( this->GetPrimaryInput() );
+  return itkDynamicCastInDebugMode< const TInputPath * >( this->GetPrimaryInput() );
 }
 
 /** Get the input Path */
@@ -85,8 +85,7 @@ const typename PathToImageFilter< TInputPath, TOutputImage >::InputPathType *
 PathToImageFilter< TInputPath, TOutputImage >
 ::GetInput(unsigned int idx)
 {
-  return static_cast< const TInputPath * >
-         ( this->ProcessObject::GetInput(idx) );
+  return itkDynamicCastInDebugMode< const TInputPath * >( this->ProcessObject::GetInput(idx) );
 }
 
 //----------------------------------------------------------------------------

@@ -55,15 +55,15 @@ MinimumMaximumImageFilter< TInputImage >
   switch ( output )
     {
     case 0:
-      return static_cast< DataObject * >( TInputImage::New().GetPointer() );
+      return TInputImage::New().GetPointer();
       break;
     case 1:
     case 2:
-      return static_cast< DataObject * >( PixelObjectType::New().GetPointer() );
+      return PixelObjectType::New().GetPointer();
       break;
     default:
       // might as well make an image
-      return static_cast< DataObject * >( TInputImage::New().GetPointer() );
+      return TInputImage::New().GetPointer();
       break;
     }
 }

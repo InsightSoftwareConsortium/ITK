@@ -64,23 +64,23 @@ StatisticsImageFilter< TInputImage >
   switch ( output )
     {
     case 0:
-      return static_cast< DataObject * >( TInputImage::New().GetPointer() );
+      return TInputImage::New().GetPointer();
       break;
     case 1:
-      return static_cast< DataObject * >( PixelObjectType::New().GetPointer() );
+      return PixelObjectType::New().GetPointer();
       break;
     case 2:
-      return static_cast< DataObject * >( PixelObjectType::New().GetPointer() );
+      return PixelObjectType::New().GetPointer();
       break;
     case 3:
     case 4:
     case 5:
     case 6:
-      return static_cast< DataObject * >( RealObjectType::New().GetPointer() );
+      return RealObjectType::New().GetPointer();
       break;
     default:
       // might as well make an image
-      return static_cast< DataObject * >( TInputImage::New().GetPointer() );
+      return TInputImage::New().GetPointer();
       break;
     }
 }

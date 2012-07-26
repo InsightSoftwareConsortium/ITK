@@ -59,8 +59,7 @@ DataObject::Pointer
 ImageToHistogramFilter< TImage >
 ::MakeOutput( DataObjectPointerArraySizeType itkNotUsed(idx) )
 {
-  typename HistogramType::Pointer output = HistogramType::New();
-  return static_cast< DataObject * >( output );
+  return HistogramType::New().GetPointer();
 }
 
 template< class TImage >
@@ -69,7 +68,7 @@ ImageToHistogramFilter< TImage >
 ::GetOutput() const
 {
   const HistogramType *output =
-    static_cast< const HistogramType * >( this->ProcessObject::GetOutput(0) );
+    itkDynamicCastInDebugMode< const HistogramType * >( this->ProcessObject::GetOutput(0) );
 
   return output;
 }

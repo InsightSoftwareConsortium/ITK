@@ -255,7 +255,7 @@ public:
   /** Get the label image */
   const LabelImageType * GetLabelInput() const
   {
-    return static_cast< LabelImageType * >( const_cast< DataObject * >( this->ProcessObject::GetInput(1) ) );
+    return itkDynamicCastInDebugMode< LabelImageType * >( const_cast< DataObject * >( this->ProcessObject::GetInput(1) ) );
   }
 
   /** Does the specified label exist? Can only be called after a call

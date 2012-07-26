@@ -72,7 +72,7 @@ const typename PointSetToImageFilter< TInputPointSet, TOutputImage >::InputPoint
 PointSetToImageFilter< TInputPointSet, TOutputImage >
 ::GetInput(void)
 {
-  return static_cast< const TInputPointSet * >( this->GetPrimaryInput() );
+  return itkDynamicCastInDebugMode< const TInputPointSet * >( this->GetPrimaryInput() );
 }
 
 /** Get the input point-set */
@@ -81,7 +81,7 @@ const typename PointSetToImageFilter< TInputPointSet, TOutputImage >::InputPoint
 PointSetToImageFilter< TInputPointSet, TOutputImage >
 ::GetInput(unsigned int idx)
 {
-  return static_cast< const TInputPointSet * >
+  return itkDynamicCastInDebugMode< const TInputPointSet * >
          ( this->ProcessObject::GetInput(idx) );
 }
 

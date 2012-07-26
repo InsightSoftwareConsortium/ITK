@@ -95,7 +95,7 @@ typename SampleToHistogramFilter< TSample, THistogram >::DataObjectPointer
 SampleToHistogramFilter< TSample, THistogram >
 ::MakeOutput(DataObjectPointerArraySizeType)
 {
-  return static_cast< DataObject * >( HistogramType::New().GetPointer() );
+  return HistogramType::New().GetPointer();
 }
 
 template< class TSample, class THistogram >

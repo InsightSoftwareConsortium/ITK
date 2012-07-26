@@ -128,7 +128,7 @@ public:
   /** Get the feature image */
   FeatureImageType * GetFeatureImage()
     {
-    return static_cast<FeatureImageType*>(const_cast<DataObject *>(this->ProcessObject::GetInput(1)));
+    return itkDynamicCastInDebugMode<FeatureImageType*>(const_cast<DataObject *>(this->ProcessObject::GetInput(1)));
     }
 
    /** Set the input image */

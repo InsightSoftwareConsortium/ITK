@@ -57,7 +57,7 @@ const TImage *
 ScalarImageToCooccurrenceListSampleFilter< TImage >
 ::GetInput() const
 {
-  return static_cast< const ImageType * >( this->GetPrimaryInput() );
+  return itkDynamicCastInDebugMode< const ImageType * >( this->GetPrimaryInput() );
 }
 
 template< class TImage >
@@ -76,7 +76,7 @@ typename ScalarImageToCooccurrenceListSampleFilter< TImage >::DataObjectPointer
 ScalarImageToCooccurrenceListSampleFilter< TImage >
 ::MakeOutput(DataObjectPointerArraySizeType)
 {
-  return static_cast< DataObject * >( SampleType::New().GetPointer() );
+  return SampleType::New().GetPointer();
 }
 
 template< class TImage >

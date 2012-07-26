@@ -39,7 +39,7 @@ const TMaskImage *
 NormalizedCorrelationImageFilter< TInputImage, TMaskImage, TOutputImage, TOperatorValueType >
 ::GetMaskImage() const
 {
-  return static_cast< MaskImageType * >( const_cast< DataObject * >( this->ProcessObject::GetInput(1) ) );
+  return itkDynamicCastInDebugMode< MaskImageType * >( const_cast< DataObject * >( this->ProcessObject::GetInput(1) ) );
 }
 
 template< class TInputImage, class TMaskImage, class TOutputImage, class TOperatorValueType >

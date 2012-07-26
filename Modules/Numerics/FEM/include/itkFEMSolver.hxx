@@ -98,8 +98,7 @@ Solver<VDimension>
     return 0;
     }
 
-  return static_cast<FEMObjectType *>
-         (this->ProcessObject::GetInput(0) );
+  return itkDynamicCastInDebugMode<FEMObjectType *>(this->ProcessObject::GetInput(0) );
   }
 
 template <unsigned int VDimension>
@@ -107,8 +106,7 @@ typename Solver<VDimension>::FEMObjectType *
 Solver<VDimension>
 ::GetInput(unsigned int idx)
   {
-  return static_cast<FEMObjectType *>
-         (this->ProcessObject::GetInput(idx) );
+  return itkDynamicCastInDebugMode<FEMObjectType *>(this->ProcessObject::GetInput(idx) );
   }
 
 template <unsigned int VDimension>
@@ -139,7 +137,7 @@ typename Solver<VDimension>::DataObjectPointer
 Solver<VDimension>
 ::MakeOutput(DataObjectPointerArraySizeType itkNotUsed(idx))
 {
-  return static_cast<DataObject *>(FEMObjectType::New().GetPointer() );
+  return FEMObjectType::New().GetPointer();
 }
 
 template <unsigned int VDimension>
@@ -152,8 +150,7 @@ Solver<VDimension>
     return 0;
     }
 
-  return static_cast<FEMObjectType *>
-         (this->ProcessObject::GetOutput(0) );
+  return itkDynamicCastInDebugMode<FEMObjectType *>(this->ProcessObject::GetOutput(0));
   }
 
 template <unsigned int VDimension>

@@ -308,8 +308,7 @@ VideoFileWriter< TInputVideoStream >
     }
 
   // Write the frame out
-  m_VideoIO->Write(static_cast<const void*>(
-    frame->GetBufferPointer()));
+  m_VideoIO->Write(static_cast<const void*>(frame->GetBufferPointer()));
 }
 
 //

@@ -160,7 +160,7 @@ CHARLS_IMEXPORT JLS_ERROR JpegLsVerifyEncode(const void* pdataUncompressed, size
     LONG cbyteComp = size.cx*size.cy*((cbit +7)/8);
     for (LONG icomp = 0; icomp < params.components; ++icomp)
     {
-      const BYTE* pbyteComp = static_cast<const BYTE*>(pdataUncompressed) + icomp*cbyteComp;
+      const BYTE* pbyteComp = itkDynamicCastInDebugMode<const BYTE*>(pdataUncompressed) + icomp*cbyteComp;
       stream.AddScan(pbyteComp, &params);
     }
   }

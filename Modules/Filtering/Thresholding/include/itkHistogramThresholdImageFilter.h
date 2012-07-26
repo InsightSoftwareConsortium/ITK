@@ -128,8 +128,8 @@ public:
   /** Get the marker image */
   const MaskImageType * GetMaskImage() const
   {
-    return static_cast< MaskImageType * >(
-             const_cast< DataObject * >( this->ProcessObject::GetInput(1) ) );
+    return itkDynamicCastInDebugMode< MaskImageType * >
+      (const_cast< DataObject * >( this->ProcessObject::GetInput(1) ) );
   }
 
   /** Set the input image */

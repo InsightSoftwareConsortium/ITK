@@ -92,11 +92,11 @@ MultiScaleHessianBasedMeasureImageFilter
 {
   if ( idx == 1 )
     {
-    return static_cast< DataObject * >( ScalesImageType::New().GetPointer() );
+    return ScalesImageType::New().GetPointer();
     }
   if ( idx == 2 )
     {
-    return static_cast< DataObject * >( HessianImageType::New().GetPointer() );
+    return HessianImageType::New().GetPointer();
     }
   return Superclass::MakeOutput(idx);
 }

@@ -97,8 +97,7 @@ ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
 ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
 ::MakeOutput( DataObjectPointerArraySizeType itkNotUsed(idx) )
 {
-  return static_cast<DataObject *>(
-    FeatureValueVectorDataObjectType::New().GetPointer() );
+  return FeatureValueVectorDataObjectType::New().GetPointer();
 }
 
 template<class TImage, class THistogramFrequencyContainer>
@@ -206,13 +205,11 @@ ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
     }
 
   FeatureValueVectorDataObjectType *meanOutputObject =
-    static_cast<FeatureValueVectorDataObjectType *>(
-    this->ProcessObject::GetOutput( 0 ) );
+    itkDynamicCastInDebugMode<FeatureValueVectorDataObjectType *>( this->ProcessObject::GetOutput( 0 ) );
   meanOutputObject->Set( this->m_FeatureMeans );
 
   FeatureValueVectorDataObjectType *standardDeviationOutputObject =
-    static_cast<FeatureValueVectorDataObjectType *>(
-    this->ProcessObject::GetOutput( 1 ) );
+    itkDynamicCastInDebugMode<FeatureValueVectorDataObjectType *>( this->ProcessObject::GetOutput( 1 ) );
   standardDeviationOutputObject->Set( this->m_FeatureStandardDeviations );
 
   delete[] tempFeatureMeans;
@@ -254,13 +251,11 @@ ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
     }
 
   FeatureValueVectorDataObjectType *meanOutputObject =
-    static_cast<FeatureValueVectorDataObjectType *>(
-    this->ProcessObject::GetOutput( 0 ) );
+    itkDynamicCastInDebugMode<FeatureValueVectorDataObjectType *>( this->ProcessObject::GetOutput( 0 ) );
   meanOutputObject->Set( this->m_FeatureMeans );
 
   FeatureValueVectorDataObjectType *standardDeviationOutputObject =
-    static_cast<FeatureValueVectorDataObjectType *>(
-    this->ProcessObject::GetOutput( 1 ) );
+    itkDynamicCastInDebugMode<FeatureValueVectorDataObjectType *>( this->ProcessObject::GetOutput( 1 ) );
   standardDeviationOutputObject->Set( this->m_FeatureStandardDeviations );
 }
 
@@ -337,8 +332,8 @@ ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
 ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
 ::GetFeatureMeansOutput() const
 {
-  return static_cast<const FeatureValueVectorDataObjectType *>(
-    this->ProcessObject::GetOutput( 0 ) );
+  return itkDynamicCastInDebugMode<const FeatureValueVectorDataObjectType *>
+    (this->ProcessObject::GetOutput( 0 ) );
 }
 
 template<class TImage, class THistogramFrequencyContainer>
@@ -348,8 +343,8 @@ ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
 ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
 ::GetFeatureStandardDeviationsOutput() const
 {
-  return static_cast< const FeatureValueVectorDataObjectType * >(
-    this->ProcessObject::GetOutput( 1 ) );
+  return itkDynamicCastInDebugMode< const FeatureValueVectorDataObjectType * >
+    ( this->ProcessObject::GetOutput( 1 ) );
 }
 
 template<class TImage, class THistogramFrequencyContainer>

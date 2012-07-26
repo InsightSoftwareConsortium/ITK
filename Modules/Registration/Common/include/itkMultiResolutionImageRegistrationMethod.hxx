@@ -61,8 +61,7 @@ MultiResolutionImageRegistrationMethod< TFixedImage, TMovingImage >
   m_LastTransformParameters.Fill(0.0f);
 
   TransformOutputPointer transformDecorator =
-    static_cast< TransformOutputType * >(
-      this->MakeOutput(0).GetPointer() );
+    itkDynamicCastInDebugMode< TransformOutputType * >( this->MakeOutput(0).GetPointer() );
 
   this->ProcessObject::SetNthOutput( 0, transformDecorator.GetPointer() );
 }
@@ -471,7 +470,7 @@ MultiResolutionImageRegistrationMethod< TFixedImage, TMovingImage >
   switch ( output )
     {
     case 0:
-      return static_cast< DataObject * >( TransformOutputType::New().GetPointer() );
+      return TransformOutputType::New().GetPointer();
       break;
     default:
       itkExceptionMacro("MakeOutput request for an output number larger than the expected number of outputs");

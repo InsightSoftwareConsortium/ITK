@@ -130,7 +130,7 @@ typename WarpVectorImageFilter< TInputImage, TOutputImage, TDisplacementField >
 WarpVectorImageFilter< TInputImage, TOutputImage, TDisplacementField >
 ::GetDisplacementField(void)
 {
-  return static_cast< DisplacementFieldType * >
+  return itkDynamicCastInDebugMode< DisplacementFieldType * >
          ( this->ProcessObject::GetInput(1) );
 }
 

@@ -99,7 +99,7 @@ public:
   { this->SetDisplacementField(ptr); }
 
   DeformationFieldType * GetDeformationField(void)
-  { return static_cast<DeformationFieldType *> (this->GetDisplacementField()); }
+  { return itkDynamicCastInDebugMode<DeformationFieldType *> (this->GetDisplacementField()); }
 #endif
 
   void SetEnergy(double e) { m_Energy = e; }

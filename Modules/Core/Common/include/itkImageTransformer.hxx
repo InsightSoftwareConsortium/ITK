@@ -85,7 +85,7 @@ ImageTransformer< TInputImage >
     return 0;
     }
 
-  return static_cast< const TInputImage * >
+  return itkDynamicCastInDebugMode< const TInputImage * >
          ( this->ProcessObject::GetInput(0) );
 }
 
@@ -102,7 +102,7 @@ ImageTransformer< TInputImage >
     return 0;
     }
 
-  return static_cast< TInputImage * >
+  return itkDynamicCastInDebugMode< TInputImage * >
          ( this->ProcessObject::GetInput(0) );
 }
 
@@ -114,7 +114,7 @@ const typename ImageTransformer< TInputImage >::InputImageType *
 ImageTransformer< TInputImage >
 ::GetInput(unsigned int idx) const
 {
-  return static_cast< const TInputImage * >
+  return itkDynamicCastInDebugMode< const TInputImage * >
          ( this->ProcessObject::GetInput(idx) );
 }
 

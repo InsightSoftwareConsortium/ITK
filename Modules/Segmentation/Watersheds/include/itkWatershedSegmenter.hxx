@@ -1252,14 +1252,16 @@ Segmenter< TInputImage >
 ::MakeOutput(DataObjectPointerArraySizeType idx)
 {
   if ( idx == 0 )
-          {  return static_cast< DataObject * >( OutputImageType::New().GetPointer() ); }
+    {
+    return OutputImageType::New().GetPointer();
+    }
   else if ( idx == 1 )
     {
-    return static_cast< DataObject * >( SegmentTableType::New().GetPointer() );
+    return SegmentTableType::New().GetPointer();
     }
   else if ( idx == 2 )
     {
-    return static_cast< DataObject * >( BoundaryType::New().GetPointer() );
+    return BoundaryType::New().GetPointer();
     }
   else { return 0; }
 }

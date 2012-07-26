@@ -248,7 +248,7 @@ RecursiveMultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
   // call the superclass's implementation of this method
   Superclass::GenerateOutputRequestedRegion(ptr);
 
-  TOutputImage *refOutputPtr = static_cast< TOutputImage * >( ptr );
+  TOutputImage *refOutputPtr = itkDynamicCastInDebugMode< TOutputImage * >( ptr );
   if ( !refOutputPtr )
     {
     itkExceptionMacro(<< "Could not cast ptr to TOutputImage*.");

@@ -79,8 +79,7 @@ ImageToRectilinearFEMObjectFilter<TInputImage>
     return 0;
     }
 
-  return static_cast<InputImageType *>
-    (this->ProcessObject::GetInput(0) );
+  return itkDynamicCastInDebugMode<InputImageType *>(this->ProcessObject::GetInput(0) );
 }
 
 /**
@@ -91,8 +90,7 @@ typename ImageToRectilinearFEMObjectFilter<TInputImage>::InputImageType *
 ImageToRectilinearFEMObjectFilter<TInputImage>
 ::GetInput(unsigned int idx)
 {
-  return static_cast<InputImageType *>
-    (this->ProcessObject::GetInput(idx) );
+  return itkDynamicCastInDebugMode<InputImageType *>(this->ProcessObject::GetInput(idx) );
 }
 
 /**
@@ -103,7 +101,7 @@ typename ImageToRectilinearFEMObjectFilter<TInputImage>::DataObjectPointer
 ImageToRectilinearFEMObjectFilter<TInputImage>
 ::MakeOutput(DataObjectPointerArraySizeType itkNotUsed(idx))
 {
-  return static_cast<DataObject *>(FEMObjectType::New().GetPointer() );
+  return FEMObjectType::New().GetPointer();
 }
 
 /**
@@ -119,8 +117,7 @@ ImageToRectilinearFEMObjectFilter<TInputImage>
     return 0;
     }
 
-  return static_cast<FEMObjectType *>
-    (this->ProcessObject::GetOutput(0) );
+  return itkDynamicCastInDebugMode<FEMObjectType *>(this->ProcessObject::GetOutput(0) );
 }
 
 /**

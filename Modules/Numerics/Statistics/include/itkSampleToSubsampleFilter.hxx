@@ -66,7 +66,7 @@ typename SampleToSubsampleFilter< TSample >::DataObjectPointer
 SampleToSubsampleFilter< TSample >
 ::MakeOutput(DataObjectPointerArraySizeType)
 {
-  return static_cast< DataObject * >( SubsampleType::New().GetPointer() );
+  return SubsampleType::New().GetPointer();
 }
 
 template< class TSample >

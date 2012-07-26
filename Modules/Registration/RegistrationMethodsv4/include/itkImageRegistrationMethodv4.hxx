@@ -462,7 +462,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
   switch ( output )
     {
     case 0:
-      return static_cast<DataObject *>( DecoratedOutputTransformType::New().GetPointer() );
+      return DecoratedOutputTransformType::New().GetPointer();
       break;
     default:
       itkExceptionMacro("MakeOutput request for an output number larger than the expected number of outputs");

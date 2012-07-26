@@ -452,7 +452,7 @@ MultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
   typedef typename OutputImageType::IndexType  IndexType;
   typedef typename OutputImageType::RegionType RegionType;
 
-  TOutputImage *ptr = static_cast< TOutputImage * >( refOutput );
+  TOutputImage *ptr = itkDynamicCastInDebugMode< TOutputImage * >( refOutput );
   if ( !ptr )
     {
     itkExceptionMacro(<< "Could not cast refOutput to TOutputImage*.");

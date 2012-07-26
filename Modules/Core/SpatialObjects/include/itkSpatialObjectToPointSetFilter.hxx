@@ -75,8 +75,7 @@ const typename SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointS
 SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >
 ::GetInput(unsigned int idx)
 {
-  return static_cast< const TInputSpatialObject * >
-         ( this->ProcessObject::GetInput(idx) );
+  return static_cast< const TInputSpatialObject * >( this->ProcessObject::GetInput(idx) );
 }
 
 /** Update */

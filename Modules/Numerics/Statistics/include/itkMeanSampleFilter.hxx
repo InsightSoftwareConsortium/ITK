@@ -61,7 +61,7 @@ const TSample *
 MeanSampleFilter< TSample >
 ::GetInput() const
 {
-  return static_cast< const SampleType * >( this->GetPrimaryInput() );
+  return itkDynamicCastInDebugMode< const SampleType * >( this->GetPrimaryInput() );
 }
 
 template< class TSample >
@@ -75,7 +75,7 @@ MeanSampleFilter< TSample >
   mean.Fill( NumericTraits< MeasurementRealType >::Zero );
   typename MeasurementVectorDecoratedType::Pointer decoratedMean = MeasurementVectorDecoratedType::New();
   decoratedMean->Set( mean );
-  return static_cast< DataObject * >( decoratedMean.GetPointer() );
+  return decoratedMean.GetPointer();
 }
 
 template< class TSample >
@@ -83,8 +83,7 @@ const typename MeanSampleFilter< TSample >::MeasurementVectorDecoratedType *
 MeanSampleFilter< TSample >
 ::GetOutput() const
 {
-  return static_cast< const MeasurementVectorDecoratedType * >(
-           this->ProcessObject::GetOutput(0) );
+  return itkDynamicCastInDebugMode< const MeasurementVectorDecoratedType * >(this->ProcessObject::GetOutput(0) );
 }
 
 template< class TSample >
@@ -134,8 +133,7 @@ MeanSampleFilter< TSample >
     input->GetMeasurementVectorSize();
 
   MeasurementVectorDecoratedType *decoratedOutput =
-    static_cast< MeasurementVectorDecoratedType * >(
-      this->ProcessObject::GetOutput(0) );
+    itkDynamicCastInDebugMode< MeasurementVectorDecoratedType * >(this->ProcessObject::GetOutput(0) );
 
   MeasurementVectorRealType output = decoratedOutput->Get();
 

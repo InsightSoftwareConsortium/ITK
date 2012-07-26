@@ -62,7 +62,7 @@ const TSample *
 CovarianceSampleFilter< TSample >
 ::GetInput() const
 {
-  return static_cast< const SampleType * >( this->GetPrimaryInput() );
+  return itkDynamicCastInDebugMode< const SampleType * >( this->GetPrimaryInput() );
 }
 
 template< class TSample >
@@ -78,7 +78,7 @@ CovarianceSampleFilter< TSample >
     covarianceMatrix.SetIdentity();
     MatrixDecoratedType::Pointer decoratedCovarianceMatrix = MatrixDecoratedType::New();
     decoratedCovarianceMatrix->Set(covarianceMatrix);
-    return static_cast< DataObject * >( decoratedCovarianceMatrix.GetPointer() );
+    return decoratedCovarianceMatrix.GetPointer();
     }
 
   if ( index == 1 )
@@ -89,7 +89,7 @@ CovarianceSampleFilter< TSample >
     mean.Fill( NumericTraits< MeasurementRealType >::Zero );
     typename MeasurementVectorDecoratedType::Pointer decoratedMean = MeasurementVectorDecoratedType::New();
     decoratedMean->Set( mean );
-    return static_cast< DataObject * >( decoratedMean.GetPointer() );
+    return decoratedMean.GetPointer();
     }
   itkExceptionMacro("Trying to create output of index " << index << " larger than the number of output");
 }
@@ -130,14 +130,12 @@ CovarianceSampleFilter< TSample >
   MeasurementVectorSizeType measurementVectorSize = input->GetMeasurementVectorSize();
 
   MatrixDecoratedType *decoratedOutput =
-    static_cast< MatrixDecoratedType * >(
-      this->ProcessObject::GetOutput(0) );
+    itkDynamicCastInDebugMode< MatrixDecoratedType * >( this->ProcessObject::GetOutput(0) );
 
   MatrixType output = decoratedOutput->Get();
 
   MeasurementVectorDecoratedType *decoratedMeanOutput =
-    static_cast< MeasurementVectorDecoratedType * >(
-      this->ProcessObject::GetOutput(1) );
+    itkDynamicCastInDebugMode< MeasurementVectorDecoratedType * >(this->ProcessObject::GetOutput(1));
 
   output.SetSize(measurementVectorSize, measurementVectorSize);
   output.Fill(0.0);

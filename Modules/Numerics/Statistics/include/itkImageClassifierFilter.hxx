@@ -71,7 +71,7 @@ const TInputImage *
 ImageClassifierFilter< TSample, TInputImage, TOutputImage >
 ::GetImage() const
 {
-  return static_cast< const TInputImage * >( this->GetPrimaryInput() );
+  return itkDynamicCastInDebugMode< const TInputImage * >( this->GetPrimaryInput() );
 }
 
 template< class TSample, class TInputImage, class TOutputImage >
