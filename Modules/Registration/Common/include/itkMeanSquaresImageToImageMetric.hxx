@@ -80,7 +80,7 @@ throw ( ExceptionObject )
 
   delete[] m_PerThread;
 
-  m_PerThread = new PerThreadS[this->m_NumberOfThreads];
+  m_PerThread = new AlignedPerThreadType[this->m_NumberOfThreads];
 
   for( ThreadIdType threadID = 0; threadID < this->m_NumberOfThreads; threadID++ )
     {
@@ -163,7 +163,7 @@ MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>
 {
   double diff = movingImageValue - this->m_FixedImageSamples[fixedImageSample].value;
 
-  PerThreadS &threadS =  m_PerThread[threadID];
+  AlignedPerThreadType &threadS =  m_PerThread[threadID];
 
   threadS.m_MSE += diff * diff;
 

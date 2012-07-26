@@ -340,7 +340,8 @@ private:
     typename TransformType::JacobianType Jacobian;
   };
 
-  PerThreadS *m_PerThread;
+  itkAlignedTypedef( ITK_CACHE_LINE_ALIGNMENT, PerThreadS, AlignedPerThreadType );
+  AlignedPerThreadType *m_PerThread;
 
   bool         m_UseExplicitPDFDerivatives;
   mutable bool m_ImplicitDerivativesSecondPass;

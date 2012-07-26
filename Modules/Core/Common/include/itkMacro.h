@@ -846,6 +846,30 @@ itkTypeMacro(newexcp, parentexcp);                                              
     " instead.")
 #endif
 
+// Most modern x86 CPUs have 64 byte aligned blocks which are used for
+// the cache lines. By aligning multi-threaded structures with the
+// cache lines, false shared can be reduced, and performance
+// increased.
+#define ITK_CACHE_LINE_ALIGNMENT 64
+
+//
+// itkAlignedTypedef is a macro which creates a new typedef to make a
+// data structure aligned.
+//
+#if defined ( ITK_HAS_CPP11_ALIGNAS )
+# define itkAlignedTypedef( alignment, oldtype, newtype )   \
+  typedef oldtype newtype alignas(alignment)
+#elif defined( ITK_HAS_GNU_ATTRIBUTE_ALIGNED )
+# define itkAlignedTypedef( alignment, oldtype, newtype )   \
+  typedef oldtype newtype __attribute__((aligned(alignment)))
+#elif defined ( _MSC_VER )
+# define itkAlignedTypedef( alignment, oldtype, newtype )   \
+  typedef __declspec(align( alignment )) struct oldtype newtype
+#else
+# define itkAlignedTypedef( alignment, oldtype, newtype )        \
+  typedef oldtype newtype
+#endif
+
 //=============================================================================
 /* Define a common way of declaring a templated function as a friend inside a class.
   - ITK_FRIEND_TEMPLATE_FUNCTION_ARGUMENTS(T)
