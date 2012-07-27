@@ -535,7 +535,16 @@ int itkVersorRigid3DTransformTest(int, char * [] )
         return EXIT_FAILURE;
         }
       }
-
+      {
+      TransformType::Pointer tInverse = TransformType::New();
+      if(!t->GetInverse(tInverse))
+        {
+        std::cout << "Cannot create inverse transform" << std::endl;
+        return EXIT_FAILURE;
+        }
+      std::cout << "translation: " << t;
+      std::cout << "translationInverse: " << tInverse;
+      }
     std::cout << "[ PASSED ]" << std::endl;
     }
 
