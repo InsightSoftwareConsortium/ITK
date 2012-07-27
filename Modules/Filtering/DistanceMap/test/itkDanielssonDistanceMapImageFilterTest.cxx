@@ -19,7 +19,6 @@
 #include "itkImageSliceConstIteratorWithIndex.h"
 #include "itkDanielssonDistanceMapImageFilter.h"
 
-
 int itkDanielssonDistanceMapImageFilterTest(int, char* [] )
 {
 
@@ -299,6 +298,48 @@ int itkDanielssonDistanceMapImageFilterTest(int, char* [] )
       }
     it2D2.NextSlice();
     }
+
+  // Create a large 3D image with a small foreground object.  The foreground is denoted by a pixel value of 0,
+  // and the background by a non-zero pixel value.  This will test speedups to the code that ignore all background
+  // pixels in the computation since those pixels do not influence the result.
+
+  // Allocate the 3D image
+  typedef itk::Image< float, 3>  ImageType3D;
+  ImageType3D::SizeType size3D = {{200,200,200}};
+  ImageType3D::IndexType index3D = {{0,0}};
+  ImageType3D::RegionType region3D;
+  region3D.SetSize( size3D );
+  region3D.SetIndex( index3D );
+  ImageType3D::Pointer inputImage3D = ImageType3D::New();
+  inputImage3D->SetRegions( region3D );
+  inputImage3D->Allocate();
+  inputImage3D->FillBuffer(1);
+
+  // Set a few pixels in the middle of the image to 0.  These are the foreground pixels for which the distance will be solved.
+  ImageType3D::IndexType foregroundIndex;
+  ImageType3D::SizeType foregroundSize;
+  for( unsigned int i = 0; i < 3; i++ )
+  {
+    foregroundSize[i] =  5;
+    foregroundIndex[i] = (size3D[i]/2) - foregroundSize[i]/2;
+  }
+  ImageType3D::RegionType foregroundRegion;
+  foregroundRegion.SetSize( foregroundSize );
+  foregroundRegion.SetIndex( foregroundIndex );
+
+  itk::ImageRegionIteratorWithIndex<ImageType3D> it3D(inputImage3D,foregroundRegion);
+  for( it3D.GoToBegin(); !it3D.IsAtEnd(); ++it3D )
+  {
+    it3D.Set( 0 );
+  }
+
+  // Create Danielsson Distance Map filter
+  typedef itk::DanielssonDistanceMapImageFilter< ImageType3D, ImageType3D > myFilterType3D;
+
+  myFilterType3D::Pointer filter3D = myFilterType3D::New();
+
+  filter3D->SetInput( inputImage3D );
+  filter3D->Update();
 
   return EXIT_SUCCESS;
 }

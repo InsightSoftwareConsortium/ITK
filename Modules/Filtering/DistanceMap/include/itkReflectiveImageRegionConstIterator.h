@@ -40,7 +40,8 @@ namespace itk
  * iterator traverses the interval [BeginIndex[d]+BeginOffset[d], EndIndex[d]).
  * When going back, it traverses the interval (EndIndex[d]-EndOffset[d],
  * BeginIndex[d]].  Setting both offsets to (1, ..., 1) enables the
- * DanielssonDistanceMapImageFilter to process the entire image, rather
+ * DanielssonDistanceMapImageFilter to process the entire image,
+ * without encountering boundary conditions, rather
  * than removing a one-pixel border.
  *
  * \sa DanielssonDistanceMapImageFilter

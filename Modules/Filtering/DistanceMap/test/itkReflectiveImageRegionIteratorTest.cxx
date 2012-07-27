@@ -73,7 +73,6 @@ int itkReflectiveImageRegionIteratorTest(int, char* [] )
     }
 
 
-
   typedef itk::ReflectiveImageRegionConstIterator< ImageType >
                                                   ReflectiveIteratorType;
   ReflectiveIteratorType rit( myImage, region );
@@ -84,7 +83,7 @@ int itkReflectiveImageRegionIteratorTest(int, char* [] )
   ReflectiveVisitsIteratorType rvt( visitImage, region );
 
   // Verification
-  std::cout << "Verifying the reflective iterator... " << std::endl;;
+  std::cout << "Verifying the reflective iterator... " << std::endl;
 
   rit.GoToBegin();
   rvt.GoToBegin();
@@ -101,8 +100,6 @@ int itkReflectiveImageRegionIteratorTest(int, char* [] )
     ++rit;
     ++rvt;
     }
-
-
 
 
   // Each element should be visited 2 ^ # of dimensions
@@ -124,6 +121,37 @@ int itkReflectiveImageRegionIteratorTest(int, char* [] )
 
   std::cout << std::endl;
 
+  // Test the value at a pixel using both the iterator and the image given the index pointed
+  // to by the iterator.  These should obviously always be the same.
+  // But this test exposes a bug in the code that has been fixed.
+  ImageType::OffsetType voffset;
+  for ( unsigned int dim = 0; dim < Dimension; dim++ )
+    {
+    if ( region.GetSize()[dim] > 1 )
+      {
+      voffset[dim] = 1;
+      }
+    else
+      {
+      voffset[dim] = 0;
+      }
+    }
+  rit.SetBeginOffset(voffset);
+  rit.SetEndOffset(voffset);
+
+  for( rit.GoToBegin(); !rit.IsAtEnd(); ++rit )
+  {
+    if( rit.Get() != myImage->GetPixel( rit.GetIndex() ) )
+    {
+      std::cerr << "Error: pixel value returned by iterator is "
+          << rit.Get()
+          << ", but pixel value defined by image at the same index is "
+          << myImage->GetPixel( rit.GetIndex() )
+          << std::endl;
+      failed = 1;
+    }
+  }
+
   if ( failed )
     {
     std::cout << "      FAILED !" << std::endl << std::endl;
@@ -135,6 +163,3 @@ int itkReflectiveImageRegionIteratorTest(int, char* [] )
   return EXIT_SUCCESS;
 
 }
-
-
-

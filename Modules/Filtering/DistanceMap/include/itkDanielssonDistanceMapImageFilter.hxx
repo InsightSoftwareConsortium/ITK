@@ -380,8 +380,18 @@ DanielssonDistanceMapImageFilter< TInputImage, TOutputImage, TVoronoiImage >
     }
   it.SetBeginOffset(voffset);
   it.SetEndOffset(voffset);
-
   it.GoToBegin();
+
+  // Set up an iterator for the input image.
+  // In this image, non-zero values are the background and zero values are the foreground.
+  // The foreground values are where the distance map should be solved.
+  // We iterate over this input image so that all background (non-zero) values are ignored in the
+  // distance map computation.
+  InputImagePointer  inputImage  = dynamic_cast<const InputImageType  *>( ProcessObject::GetInput(0) );
+  ReflectiveImageRegionConstIterator<const InputImageType> inputIt( inputImage, region );
+  inputIt.SetBeginOffset( voffset );
+  inputIt.SetEndOffset( voffset );
+  inputIt.GoToBegin();
 
   // Support progress methods/callbacks.
 
@@ -410,6 +420,12 @@ DanielssonDistanceMapImageFilter< TInputImage, TOutputImage, TVoronoiImage >
       this->UpdateProgress( static_cast< float >( i ) / updatePeriod );
       }
 
+    // The background is the region from which we are growing.
+    // The region we want to solve for is the foreground.
+    // The background pixels are set to a non-zero value.
+    // We can ignore these pixels in the update step.
+    if( !inputIt.Get() )
+    {
     IndexType here = it.GetIndex();
     for ( unsigned int dim = 0; dim < InputImageDimension; dim++ )
       {
@@ -430,8 +446,10 @@ DanielssonDistanceMapImageFilter< TInputImage, TOutputImage, TVoronoiImage >
         offset[dim] = 0;
         }
       }
+    }
     ++it;
     ++i;
+    ++inputIt;
     }
 
   itkDebugMacro(<< "GenerateData: ComputeVoronoiMap");
