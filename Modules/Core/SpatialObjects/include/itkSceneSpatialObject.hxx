@@ -262,29 +262,29 @@ SceneSpatialObject< TSpaceDimension >
   bool ret = true;
   while ( it != itEnd )
     {
-    int pID = ( *it )->GetParentId();
-    if ( pID >= 0 )
+    const int parentId = ( *it )->GetParentId();
+    if ( parentId >= 0 )
       {
-      SpatialObject< TSpaceDimension > *pObj =
+      SpatialObject< TSpaceDimension > *parentObject =
         static_cast< SpatialObject< TSpaceDimension > * >
-        ( this->GetObjectById(pID) );
-      if ( pObj == NULL )
+        ( this->GetObjectById(parentId) );
+      if ( parentObject == NULL )
         {
         ret = false;
-        it++;
+        ++it;
         }
       else
         {
-        pObj->AddSpatialObject( dynamic_cast< SpatialObject< TSpaceDimension > * >
+        parentObject->AddSpatialObject( dynamic_cast< SpatialObject< TSpaceDimension > * >
                                 ( ( *it ).GetPointer() ) );
         oldIt = it;
-        it++;
+        ++it;
         m_Objects.erase(oldIt);
         }
       }
     else
       {
-      it++;
+      ++it;
       }
     }
 

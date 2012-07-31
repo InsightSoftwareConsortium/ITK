@@ -93,6 +93,9 @@ public:
   /** Return a SpatialObject in the SceneSpatialObject given its ID */
   SpatialObject< TSpaceDimension > * GetObjectById(int Id);
 
+  /** In practice, this is used to transform an imported MetaIO scene hierarchy
+   * specified only by Ids into the SceneSpatialObject hierarchy specified by
+   * Ids and Child/Parent lists. */
   bool FixHierarchy(void);
 
   bool CheckIdValidity(void);
