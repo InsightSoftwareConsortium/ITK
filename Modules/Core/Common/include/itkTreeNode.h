@@ -65,10 +65,10 @@ public:
   TValueType Set(const TValueType data);
 
   /** Get the child node */
-  TreeNode< TValueType > * GetChild(ChildIdentifier number) const;
+  Self * GetChild(ChildIdentifier number) const;
 
   /** Get the parent node */
-  TreeNode< TValueType > * GetParent() const;
+  Self * GetParent() const;
 
   /** Return true if the node has children */
   bool HasChildren() const;
@@ -77,31 +77,31 @@ public:
   bool HasParent() const;
 
   /** Set the parent of the node */
-  void SetParent(TreeNode< TValueType > *n);
+  void SetParent(Self *n);
 
   /** Return the number of children */
   ChildIdentifier CountChildren() const;
 
   /** Remove a node from the node */
-  bool Remove(TreeNode< TValueType > *n);
+  bool Remove(Self *n);
 
   /** Get the number of children given a name and depth */
   ChildIdentifier GetNumberOfChildren(unsigned int depth = 0, char *name = NULL) const;
 
   /** Replace a given child by a new one */
-  bool ReplaceChild(TreeNode< TValueType > *oldChild, TreeNode< TValueType > *newChild);
+  bool ReplaceChild(Self *oldChild, Self *newChild);
 
   /** Return the child position given a node */
-  ChildIdentifier ChildPosition(const TreeNode< TValueType > *node) const;
+  ChildIdentifier ChildPosition(const Self *node) const;
 
   /** Return the child position given a value */
   ChildIdentifier ChildPosition(TValueType node) const;
 
   /** Add a child to the node */
-  void AddChild(TreeNode< TValueType > *node);
+  void AddChild(Self *node);
 
   /** Add a child to the node and specify the number in the children list */
-  virtual void AddChild(ChildIdentifier number, TreeNode< TValueType > *node);
+  virtual void AddChild(ChildIdentifier number, Self *node);
 
   /** Get the children list */
 #if !defined( CABLE_CONFIGURATION )

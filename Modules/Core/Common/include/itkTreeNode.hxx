@@ -20,18 +20,19 @@
 
 #include "itkTreeNode.h"
 #include <cstring>
-#include <string.h>
 
 namespace itk
 {
 /** Constructor */
 template< class TValueType >
-TreeNode< TValueType >::TreeNode():m_Parent(NULL)
+TreeNode< TValueType >
+::TreeNode():m_Parent(NULL)
 {}
 
 /** Destructor */
 template< class TValueType >
-TreeNode< TValueType >::~TreeNode()
+TreeNode< TValueType >
+::~TreeNode()
 {
   if ( m_Parent )
     {
@@ -78,7 +79,9 @@ TreeNode< TValueType >
 
 /** Set the value of a node */
 template< class TValueType >
-TValueType TreeNode< TValueType >::Set(const TValueType data)
+TValueType
+TreeNode< TValueType >
+::Set(const TValueType data)
 {
   TValueType help = m_Data;
 
@@ -88,7 +91,9 @@ TValueType TreeNode< TValueType >::Set(const TValueType data)
 
 /** Get the data of node */
 template< class TValueType >
-const TValueType & TreeNode< TValueType >::Get() const
+const TValueType &
+TreeNode< TValueType >
+::Get() const
 {
   return m_Data;
 }
@@ -96,7 +101,8 @@ const TValueType & TreeNode< TValueType >::Get() const
 /** Return true if has a parent */
 template< class TValueType >
 bool
-TreeNode< TValueType >::HasParent() const
+TreeNode< TValueType >
+::HasParent() const
 {
   return ( m_Parent ) ? true : false;
 }
@@ -104,7 +110,8 @@ TreeNode< TValueType >::HasParent() const
 /** Set the parent node */
 template< class TValueType >
 void
-TreeNode< TValueType >::SetParent(TreeNode< TValueType > *node)
+TreeNode< TValueType >
+::SetParent(TreeNode< TValueType > *node)
 {
   //keep ourself alive just a bit longer
   Pointer ourself = this;
@@ -118,7 +125,9 @@ TreeNode< TValueType >::SetParent(TreeNode< TValueType > *node)
 
 /** Return true if the node has children */
 template< class TValueType >
-bool TreeNode< TValueType >::HasChildren() const
+bool
+TreeNode< TValueType >
+::HasChildren() const
 {
   return ( m_Children.size() > 0 ) ? true : false;
 }
@@ -136,7 +145,7 @@ TreeNode< TValueType >
 template< class TValueType >
 bool
 TreeNode< TValueType >
-::Remove(TreeNode< TValueType > *n)
+::Remove(Self *n)
 {
   typename std::vector< Pointer >::iterator pos;
   pos = std::find(m_Children.begin(), m_Children.end(), n);
@@ -153,7 +162,9 @@ TreeNode< TValueType >
 
 /** Replace a child by a new one */
 template< class TValueType >
-bool TreeNode< TValueType >::ReplaceChild(TreeNode< TValueType > *oldChild, TreeNode< TValueType > *newChild)
+bool
+TreeNode< TValueType >
+::ReplaceChild(Self *oldChild, Self *newChild)
 {
   const ChildIdentifier numberOfChildren = static_cast< ChildIdentifier >( m_Children.size() );
 
@@ -171,7 +182,8 @@ bool TreeNode< TValueType >::ReplaceChild(TreeNode< TValueType > *oldChild, Tree
 /** Return the child position given a node */
 template< class TValueType >
 OffsetValueType
-TreeNode< TValueType >::ChildPosition(const TreeNode< TValueType > *node) const
+TreeNode< TValueType >
+::ChildPosition(const Self *node) const
 {
   const ChildIdentifier numberOfChildren = static_cast< ChildIdentifier >( m_Children.size() );
 
@@ -188,7 +200,8 @@ TreeNode< TValueType >::ChildPosition(const TreeNode< TValueType > *node) const
 /** Return the child position given an element, the first child found. */
 template< class TValueType >
 typename TreeNode< TValueType >::ChildIdentifier
-TreeNode< TValueType >::ChildPosition(TValueType element) const
+TreeNode< TValueType >
+::ChildPosition(TValueType element) const
 {
   const ChildIdentifier numberOfChildren = static_cast< ChildIdentifier >( m_Children.size() );
 
@@ -204,7 +217,9 @@ TreeNode< TValueType >::ChildPosition(TValueType element) const
 
 /** Add a child node */
 template< class TValueType >
-void TreeNode< TValueType >::AddChild(TreeNode< TValueType > *node)
+void
+TreeNode< TValueType >
+::AddChild(Self *node)
 {
   Pointer nodeKeepAlive = node;
 
@@ -216,7 +231,7 @@ void TreeNode< TValueType >::AddChild(TreeNode< TValueType > *node)
 template< class TValueType >
 void
 TreeNode< TValueType >
-::AddChild(ChildIdentifier number, TreeNode< TValueType > *node)
+::AddChild(ChildIdentifier number, Self *node)
 {
   const ChildIdentifier numberOfChildren = static_cast< ChildIdentifier >( m_Children.size() );
   ChildIdentifier childId = static_cast<ChildIdentifier>( number );
