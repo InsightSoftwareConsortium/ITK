@@ -211,6 +211,8 @@ KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>
   int movingArea = 0;
   int intersection = 0;
 
+  TransformJacobianType jacobian;
+
   ti.GoToBegin();
   while( !ti.IsAtEnd() )
     {
@@ -253,7 +255,6 @@ KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>
         intersection++;
         }
 
-      TransformJacobianType jacobian;
       this->m_Transform->ComputeJacobianWithRespectToParameters(
         inputPoint, jacobian);
 
