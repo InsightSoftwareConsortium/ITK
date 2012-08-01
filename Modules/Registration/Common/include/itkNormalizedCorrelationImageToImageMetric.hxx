@@ -220,6 +220,8 @@ NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>
     ++ti;
     }
 
+  TransformJacobianType jacobian;
+
   // Compute contributions to derivatives
   ti.GoToBegin();
   while( !ti.IsAtEnd() )
@@ -248,7 +250,6 @@ NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>
       const RealType movingValue  = this->m_Interpolator->Evaluate(transformedPoint);
       const RealType fixedValue     = ti.Get();
 
-      TransformJacobianType jacobian;
       this->m_Transform->ComputeJacobianWithRespectToParameters(inputPoint, jacobian);
 
       // Get the gradient by NearestNeighboorInterpolation:

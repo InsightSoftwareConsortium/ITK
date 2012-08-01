@@ -245,7 +245,7 @@ public:
   /**
    * Calculate the intensity derivatives at a point
    */
-  void CalculateDerivatives(const FixedImagePointType &, DerivativeType &) const;
+  void CalculateDerivatives(const FixedImagePointType &, DerivativeType &, TransformJacobianType &) const;
 
   typedef typename Superclass::CoordinateRepresentationType
   CoordinateRepresentationType;

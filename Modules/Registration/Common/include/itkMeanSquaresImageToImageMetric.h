@@ -126,8 +126,14 @@ private:
                                                        const ImageDerivativesType &
                                                        movingImageGradientValue) const;
 
-  MeasureType *   m_ThreaderMSE;
-  DerivativeType *m_ThreaderMSEDerivatives;
+  struct PerThreadS
+  {
+    TransformJacobianType m_Jacobian;
+    MeasureType           m_MSE;
+    DerivativeType        m_MSEDerivative;
+  };
+
+  PerThreadS *m_PerThread;
 };
 } // end namespace itk
 

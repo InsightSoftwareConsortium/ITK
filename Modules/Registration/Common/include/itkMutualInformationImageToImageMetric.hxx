@@ -336,12 +336,13 @@ MutualInformationImageToImageMetric<TFixedImage, TMovingImage>
   sampleADerivatives.resize(m_NumberOfSpatialSamples);
 
   typename DerivativeContainer::iterator aditer;
-  DerivativeType tempDeriv(numberOfParameters);
+  DerivativeType        tempDeriv(numberOfParameters);
+  TransformJacobianType jacobian(numberOfParameters, numberOfParameters);
   for( aiter = m_SampleA.begin(), aditer = sampleADerivatives.begin();
        aiter != aend; ++aiter, ++aditer )
     {
     /** FIXME: is there a way to avoid the extra copying step? */
-    this->CalculateDerivatives( ( *aiter ).FixedImagePointValue, tempDeriv );
+    this->CalculateDerivatives( ( *aiter ).FixedImagePointValue, tempDeriv, jacobian );
     ( *aditer ) = tempDeriv;
     }
 
@@ -387,7 +388,7 @@ MutualInformationImageToImageMetric<TFixedImage, TMovingImage>
       }
 
     /** get the image derivative for this B sample */
-    this->CalculateDerivatives( ( *biter ).FixedImagePointValue, derivB );
+    this->CalculateDerivatives( ( *biter ).FixedImagePointValue, derivB, jacobian );
 
     SumType totalWeight;
     for( aiter = m_SampleA.begin(), aditer = sampleADerivatives.begin();
@@ -468,7 +469,8 @@ void
 MutualInformationImageToImageMetric<TFixedImage, TMovingImage>
 ::CalculateDerivatives(
   const FixedImagePointType & point,
-  DerivativeType & derivatives) const
+  DerivativeType & derivatives,
+  TransformJacobianType &jacobian) const
 {
   MovingImagePointType mappedPoint = this->m_Transform->TransformPoint(point);
 
@@ -485,7 +487,6 @@ MutualInformationImageToImageMetric<TFixedImage, TMovingImage>
     }
 
   typedef typename TransformType::JacobianType JacobianType;
-  JacobianType jacobian;
   this->m_Transform->ComputeJacobianWithRespectToParameters(point, jacobian);
 
   unsigned int numberOfParameters = this->m_Transform->GetNumberOfParameters();

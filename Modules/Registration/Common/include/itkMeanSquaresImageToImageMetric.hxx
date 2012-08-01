@@ -36,8 +36,7 @@ MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>
 {
   this->SetComputeGradient(true);
 
-  m_ThreaderMSE = NULL;
-  m_ThreaderMSEDerivatives = NULL;
+  m_PerThread = NULL;
   this->m_WithinThreadPreProcess = false;
   this->m_WithinThreadPostProcess = false;
 
@@ -51,17 +50,9 @@ template <class TFixedImage, class TMovingImage>
 MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>
 ::~MeanSquaresImageToImageMetric()
 {
-  if( m_ThreaderMSE != NULL )
-    {
-    delete[] m_ThreaderMSE;
-    }
-  m_ThreaderMSE = NULL;
-
-  if( m_ThreaderMSEDerivatives != NULL )
-    {
-    delete[] m_ThreaderMSEDerivatives;
-    }
-  m_ThreaderMSEDerivatives = NULL;
+  // C++ says if NULL is passed to delete, nothing should happend
+  delete[] m_PerThread;
+  m_PerThread = NULL;
 }
 
 /**
@@ -87,20 +78,13 @@ throw ( ExceptionObject )
   this->Superclass::Initialize();
   this->Superclass::MultiThreadingInitialize();
 
-  if( m_ThreaderMSE != NULL )
-    {
-    delete[] m_ThreaderMSE;
-    }
-  m_ThreaderMSE = new double[this->m_NumberOfThreads];
+  delete[] m_PerThread;
 
-  if( m_ThreaderMSEDerivatives != NULL )
-    {
-    delete[] m_ThreaderMSEDerivatives;
-    }
-  m_ThreaderMSEDerivatives = new DerivativeType[this->m_NumberOfThreads];
+  m_PerThread = new PerThreadS[this->m_NumberOfThreads];
+
   for( ThreadIdType threadID = 0; threadID < this->m_NumberOfThreads; threadID++ )
     {
-    m_ThreaderMSEDerivatives[threadID].SetSize(this->m_NumberOfParameters);
+    m_PerThread[threadID].m_MSEDerivative.SetSize(this->m_NumberOfParameters);
     }
 }
 
@@ -114,7 +98,7 @@ MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>
 {
   double diff = movingImageValue - this->m_FixedImageSamples[fixedImageSample].value;
 
-  m_ThreaderMSE[threadID] += diff * diff;
+  m_PerThread[threadID].m_MSE += diff * diff;
 
   return true;
 }
@@ -132,9 +116,10 @@ MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>
     itkExceptionMacro(<< "Fixed image has not been assigned");
     }
 
-  memset( m_ThreaderMSE,
-          0,
-          this->m_NumberOfThreads * sizeof( MeasureType ) );
+  for( unsigned int i = 0; i < this->m_NumberOfThreads; ++i )
+    {
+    m_PerThread[i].m_MSE = NumericTraits<MeasureType>::ZeroValue();
+    }
 
   // Set up the parameters in the transform
   this->m_Transform->SetParameters(parameters);
@@ -156,10 +141,10 @@ MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>
                       << std::endl);
     }
 
-  double mse = m_ThreaderMSE[0];
+  double mse = m_PerThread[0].m_MSE;
   for( unsigned int t = 1; t < this->m_NumberOfThreads; t++ )
     {
-    mse += m_ThreaderMSE[t];
+    mse += m_PerThread[t].m_MSE;
     }
   mse /= this->m_NumberOfPixelsCounted;
 
@@ -178,7 +163,9 @@ MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>
 {
   double diff = movingImageValue - this->m_FixedImageSamples[fixedImageSample].value;
 
-  m_ThreaderMSE[threadID] += diff * diff;
+  PerThreadS &threadS =  m_PerThread[threadID];
+
+  threadS.m_MSE += diff * diff;
 
   FixedImagePointType fixedImagePoint = this->m_FixedImageSamples[fixedImageSample].point;
 
@@ -200,16 +187,15 @@ MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>
     }
 
   // Jacobian should be evaluated at the unmapped (fixed image) point.
-  TransformJacobianType jacobian;
-  transform->ComputeJacobianWithRespectToParameters(fixedImagePoint, jacobian);
+  transform->ComputeJacobianWithRespectToParameters(fixedImagePoint,threadS.m_Jacobian);
   for( unsigned int par = 0; par < this->m_NumberOfParameters; par++ )
     {
     double sum = 0.0;
     for( unsigned int dim = 0; dim < MovingImageDimension; dim++ )
       {
-      sum += 2.0 *diff *jacobian(dim, par) * movingImageGradientValue[dim];
+      sum += 2.0 *diff *threadS.m_Jacobian(dim, par) * movingImageGradientValue[dim];
       }
-    m_ThreaderMSEDerivatives[threadID][par] += sum;
+   threadS.m_MSEDerivative[par] += sum;
     }
 
   return true;
@@ -234,9 +220,10 @@ MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>
   this->m_Transform->SetParameters(parameters);
 
   // Reset the joint pdfs to zero
-  memset( m_ThreaderMSE,
-          0,
-          this->m_NumberOfThreads * sizeof( MeasureType ) );
+  for( unsigned int i = 0; i < this->m_NumberOfThreads; ++i )
+    {
+    m_PerThread[i].m_MSE = NumericTraits<MeasureType>::ZeroValue();
+    }
 
   // Set output values to zero
   if( derivative.GetSize() != this->m_NumberOfParameters )
@@ -248,10 +235,11 @@ MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>
           this->m_NumberOfParameters * sizeof( double ) );
   for( ThreadIdType threadID = 0; threadID < this->m_NumberOfThreads; threadID++ )
     {
-    memset( m_ThreaderMSEDerivatives[threadID].data_block(),
+    memset( m_PerThread[threadID].m_MSEDerivative.data_block(),
             0,
             this->m_NumberOfParameters * sizeof( double ) );
     }
+
 
   // MUST BE CALLED TO INITIATE PROCESSING
   this->GetValueAndDerivativeMultiThreadedInitiate();
@@ -273,11 +261,11 @@ MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>
   value = 0;
   for( unsigned int t = 0; t < this->m_NumberOfThreads; t++ )
     {
-    value += m_ThreaderMSE[t];
+    value += m_PerThread[t].m_MSE;
     for( unsigned int parameter = 0; parameter < this->m_NumberOfParameters;
          parameter++ )
       {
-      derivative[parameter] += m_ThreaderMSEDerivatives[t][parameter];
+      derivative[parameter] += m_PerThread[t].m_MSEDerivative[parameter];
       }
     }
 
