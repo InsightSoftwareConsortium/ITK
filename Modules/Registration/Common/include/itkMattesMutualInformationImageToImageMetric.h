@@ -226,11 +226,11 @@ public:
    */
   const typename JointPDFType::Pointer GetJointPDF () const
     {
-    if( this->m_ThreaderJointPDF.size() == 0 )
+      if( this->m_PerThread == NULL )
       {
       return JointPDFType::Pointer(NULL);
       }
-    return this->m_ThreaderJointPDF[0];
+    return this->m_PerThread[0].JointPDF;
     }
 
   /**
@@ -241,11 +241,11 @@ public:
    */
   const typename JointPDFDerivativesType::Pointer GetJointPDFDerivatives () const
     {
-    if( this->m_ThreaderJointPDFDerivatives.size() == 0 )
+      if( this->m_PerThread == NULL )
       {
       return JointPDFDerivativesType::Pointer(NULL);
       }
-    return this->m_ThreaderJointPDFDerivatives[0];
+    return this->m_PerThread[0].JointPDFDerivatives;
     }
 protected:
 
@@ -318,21 +318,29 @@ private:
 
   mutable PRatioArrayType m_PRatioArray;
 
-  /** Helper variable for accumulating the derivative of the metric. */
-  mutable std::vector<DerivativeType> m_ThreaderMetricDerivative;
-
   /** The moving image marginal PDF. */
   mutable std::vector<PDFValueType>               m_MovingImageMarginalPDF;
-  mutable std::vector<std::vector<PDFValueType> > m_ThreaderFixedImageMarginalPDF;
 
-  /** The joint PDF and PDF derivatives. */
-  typename std::vector<JointPDFType::Pointer>            m_ThreaderJointPDF;
-  typename std::vector<JointPDFDerivativesType::Pointer> m_ThreaderJointPDFDerivatives;
+  struct PerThreadS
+  {
+    int JointPDFStartBin;
+    int JointPDFEndBin;
 
-  std::vector<int> m_ThreaderJointPDFStartBin;
-  std::vector<int> m_ThreaderJointPDFEndBin;
+    PDFValueType JointPDFSum;
 
-  mutable std::vector<PDFValueType> m_ThreaderJointPDFSum;
+    /** Helper variable for accumulating the derivative of the metric. */
+    DerivativeType MetricDerivative;
+
+    std::vector<PDFValueType> FixedImageMarginalPDF;
+
+    /** The joint PDF and PDF derivatives. */
+    typename JointPDFType::Pointer            JointPDF;
+    typename JointPDFDerivativesType::Pointer JointPDFDerivatives;
+
+    typename TransformType::JacobianType Jacobian;
+  };
+
+  PerThreadS *m_PerThread;
 
   bool         m_UseExplicitPDFDerivatives;
   mutable bool m_ImplicitDerivativesSecondPass;
