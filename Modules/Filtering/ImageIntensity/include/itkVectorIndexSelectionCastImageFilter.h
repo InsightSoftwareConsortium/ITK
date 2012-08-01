@@ -73,6 +73,8 @@ private:
  *
  * \ingroup IntensityImageFilters  MultiThreaded
  * \ingroup ITKImageIntensity
+*
+* \sa ComposeImageFilter
  *
  * \wiki
  * \wikiexample{VectorImages/VectorIndexSelectionCastImageFilter,Extract a component/channel of a vector image}
