@@ -31,7 +31,6 @@ if(COMMAND CMAKE_POLICY)
   if(POLICY CMP0011)
     cmake_policy(SET CMP0011 NEW)
   endif(POLICY CMP0011)
-
 endif(COMMAND CMAKE_POLICY)
 include("CMakeUtilityFunctions.cmake")
 
@@ -41,11 +40,6 @@ if(NOT "${CMAKE_VERSION}" STRLESS "2.6.3")
 endif(NOT "${CMAKE_VERSION}" STRLESS "2.6.3")
 
 enable_testing()
-# include(CTest)
-# if(BUILD_TESTING)
-#   set(BUILDNAME "${BUILDNAME}" CACHE STRING "Name of build on the dashboard")
-#   mark_as_advanced(BUILDNAME)
-# endif(BUILD_TESTING)
 
 ###############################################################################
 # Config ITKWrap
@@ -85,7 +79,7 @@ option(ITK_WRAP_rgba_unsigned_short "Wrap RGBA< unsigned short > type" OFF)
 option(ITK_WRAP_complex_float "Wrap complex<float> type" ON)
 option(ITK_WRAP_complex_double "Wrap complex<double> type" OFF)
 
-set(ITK_WRAP_DIMS "2;3" CACHE STRING "dimensions available separated by semicolons (;)")
+set(ITK_WRAP_DIMS "2;3" CACHE STRING "Dimensions available separated by semicolons (;)")
 
 option(INSTALL_WRAP_ITK_COMPATIBILITY "Install FindWrapITK.cmake and WrapITK.pth (so cmake and python can find WrapITK) as part of the standard installation process. This requires admin privileges. These files can be separately installed by making the install_wrapitk_compatibility target. " ON)
 

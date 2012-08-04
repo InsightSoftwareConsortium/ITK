@@ -1,6 +1,6 @@
 
-# make easier to unable the main supported languages, by provided the option even when
-# the Wrapping direrctory has not yet been included
+# Make it easier to enable the main supported languages, by providing the option even when
+# the Wrapping directory has not yet been included
 option(ITK_WRAP_PYTHON "Build python support" OFF)
 option(ITK_WRAP_JAVA "Build java support" OFF)
 
@@ -22,4 +22,3 @@ if(ITK_WRAPPING)
     message(FATAL_ERROR "Wrapping requires a shared build, change BUILD_SHARED_LIBS to ON")
   endif()
 endif(ITK_WRAPPING)
-

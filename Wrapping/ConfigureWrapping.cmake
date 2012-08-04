@@ -53,16 +53,13 @@ include(${ITK_USE_FILE})
 # we must be sure we have the right ITK version; WrapITK can't build with
 # an old version of ITK because some classes will not be there.
 # newer version should only cause some warnings
-set(ITK_REQUIRED_VERSION "3.11.0")
+set(ITK_REQUIRED_VERSION "4.0.0")
 set(ITK_VERSION "${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}.${ITK_VERSION_PATCH}")
-if("${ITK_VERSION}" STRLESS "${ITK_REQUIRED_VERSION}")
+if("${ITK_VERSION}" VERSION_LESS "${ITK_REQUIRED_VERSION}")
   message(FATAL_ERROR "ITK ${ITK_REQUIRED_VERSION} is required to build this version of WrapITK, and you are trying to use version ${ITK_VERSION}. Set ITK_DIR to point to the directory of ITK ${ITK_REQUIRED_VERSION}.")
-endif("${ITK_VERSION}" STRLESS "${ITK_REQUIRED_VERSION}")
+endif()
 
-set(CMAKE_VERSION "${CMAKE_CACHE_MAJOR_VERSION}.${CMAKE_CACHE_MINOR_VERSION}.${CMAKE_CACHE_RELEASE_VERSION}")
-if("${CMAKE_VERSION}" STRGREATER "2.6")
-  cmake_policy(SET CMP0003 NEW)
-endif("${CMAKE_VERSION}" STRGREATER "2.6")
+cmake_policy(SET CMP0003 NEW)
 
 ###############################################################################
 # Set various variables in order
@@ -70,7 +67,7 @@ endif("${CMAKE_VERSION}" STRGREATER "2.6")
 # set(CMAKE_SKIP_RPATH ON CACHE BOOL "ITK wrappers must not have runtime path information." FORCE)
 
 #------------------------------------------------------------------------------
-# System dependant wraping stuff
+# System dependant wrapping stuff
 
 # Make a variable that expands to nothing if there are no configuration types,
 # otherwise it expands to the active type plus a /, so that in either case,
@@ -79,9 +76,9 @@ if(CMAKE_CONFIGURATION_TYPES)
   set(WRAP_ITK_BUILD_INTDIR "${CMAKE_CFG_INTDIR}/")
   set(WRAP_ITK_INSTALL_INTDIR "\${BUILD_TYPE}/")
 
-  # horrible hack to avoid having ${BUILD_TYPE} expanded to an empty sting
+  # horrible hack to avoid having ${BUILD_TYPE} expanded to an empty string
   # while passing through the macros.
-  # Insitead of expanding to an empty string, it expand to ${BUILD_TYPE}
+  # Instead of expanding to an empty string, it expands to ${BUILD_TYPE}
   # and so can be reexpanded again and again (and again)
   set(BUILD_TYPE "\${BUILD_TYPE}")
 

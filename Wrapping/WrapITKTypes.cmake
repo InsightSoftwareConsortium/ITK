@@ -27,9 +27,9 @@ endmacro(WRAP_TYPE)
 macro(END_WRAP_TYPE)
    # create the type vars.
    # must be called after END_WRAP_TYPE
-   # Create the vars used for to designe types in all the cmake
+   # Create the vars used to design types in all the cmake
    # files. This method ensure all the type names are constructed
-   # with the same method
+   # with the same method.
    foreach(wrap ${WRAPPER_TEMPLATES})
       string(REGEX REPLACE "([0-9A-Za-z]*)[ ]*#[ ]*(.*)" "\\1" wrapTpl "${wrap}")
       string(REGEX REPLACE "([0-9A-Za-z]*)[ ]*#[ ]*(.*)" "\\2" wrapType "${wrap}")
@@ -58,7 +58,7 @@ endmacro(ADD_TEMPLATE)
 
 # now, define types vars
 # the result is stored in itk_Wrap_XXX where XXX is the name of the class
-# to be wrapped in there own file, most of the time in CommonA
+# to be wrapped in their own file, most of the time in Common.
 
 
 WRAP_TYPE("itk::Offset" "O")

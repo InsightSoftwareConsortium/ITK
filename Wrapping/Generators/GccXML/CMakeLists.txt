@@ -53,15 +53,7 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
   WRAP_ITK_INSTALL(/Configuration/Generators/GccXML CMakeLists.txt)
   WRAP_ITK_INSTALL(/Configuration/Generators/GccXML gcc_xml.inc.in)
   WRAP_ITK_INSTALL(/Configuration/Generators/GccXML wrap_.cxx.in)
-endif(NOT EXTERNAL_WRAP_ITK_PROJECT)
-
-
-###############################################################################
-# hide cable swig dir in external projects - it is safer to use the same as the
-# one used to build wrapitk
-if(EXTERNAL_WRAP_ITK_PROJECT)
-  mark_as_advanced(GCCXML)
-endif(EXTERNAL_WRAP_ITK_PROJECT)
+endif()
 
 
 ###############################################################################
