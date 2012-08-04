@@ -122,7 +122,7 @@ macro(itk_end_wrap_submodule_gccxml module)
   set(_gccxml_depends)
   if(NOT ITK_USE_SYSTEM_GCCXML)
     # ExternalProject target for GCC_XML.
-    set(_gccxml_depends GCC_XML-install)
+    set(_gccxml_depends GCC_XML)
   endif()
   if(ITK_USE_CCACHE)
     add_custom_command(
@@ -192,8 +192,5 @@ endmacro(itk_wrap_module_gccxml)
 
 macro(itk_end_wrap_module_gccxml)
   add_custom_target(${WRAPPER_LIBRARY_NAME}GccXML DEPENDS ${GCC_XML_OUTPUT_FILES})
-  if(NOT ITK_USE_SYSTEM_GCCXML)
-    add_dependencies(${WRAPPER_LIBRARY_NAME}GccXML GCC_XML)
-  endif()
   set(${WRAPPER_LIBRARY_NAME}XmlFiles ${GCC_XML_OUTPUT_FILES} CACHE INTERNAL "Internal ${WRAPPER_LIBRARY_NAME}Xml file list.")
 endmacro(itk_end_wrap_module_gccxml)
