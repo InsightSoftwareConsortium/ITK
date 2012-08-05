@@ -93,6 +93,7 @@ protected:
   /** \brief Compute the quadric error at the origin of the edge
    *  \param[in] iEdge input edge
    *  \param[in,out] oQ quadric element to be modified
+   *  \param[in] outputMesh mesh to be processed
    */
   inline void QuadricAtOrigin(OutputQEType *iEdge, QuadricElementType & oQ, OutputMeshType *outputMesh)
   {
