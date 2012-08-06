@@ -68,8 +68,8 @@ public:
 
   typedef typename Superclass::OperatorType    OperatorType;
   typedef typename Superclass::OperatorPointer OperatorPointer;
-protected:
 
+protected:
   SquaredEdgeLengthDecimationQuadEdgeMeshFilter();
   virtual ~SquaredEdgeLengthDecimationQuadEdgeMeshFilter();
 
@@ -90,6 +90,8 @@ protected:
   }
 
   /**
+   * \brief Calculate the position of the remaining vertex from collapsing
+   * iEdge.
    * \param[in] iEdge
    * \return the optimal point location
    */
