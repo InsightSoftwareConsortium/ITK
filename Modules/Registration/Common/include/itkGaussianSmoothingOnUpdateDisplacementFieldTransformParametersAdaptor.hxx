@@ -103,7 +103,7 @@ GaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>
          << this->m_GaussianSmoothingVarianceForTheUpdateField
          << std::endl;
       }
-    if( this->m_GaussianSmoothingVarianceForTheUpdateFieldSetTime > 0 )
+    if( this->m_GaussianSmoothingVarianceForTheTotalFieldSetTime > 0 )
       {
       os << indent << "m_GaussianSmoothingVarianceForTheTotalField: "
          << this->m_GaussianSmoothingVarianceForTheTotalField

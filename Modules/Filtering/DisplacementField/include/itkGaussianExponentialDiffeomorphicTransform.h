@@ -24,10 +24,25 @@ namespace itk
 {
 
 /** \class GaussianExponentialDiffeomorphicTransform
- * \brief Modifies the UpdateTransformParameters method
- * to peform a Gaussian smoothing of the constant
- * velocity field after adding the update array.
+ * \brief Exponential transform using a Gaussian smoothing kernel.
  *
+ * Exponential transform inspired by the work of J. Ashburner (see reference
+ * below).  Assuming a constant velocity field, the transform takes as input
+ * the update field at time point t = 1, \f$u\f$ and smooths it using Gaussian
+ * smoothing, \f$S_{update}\f$ defined by \c GaussianSmoothingVarianceForTheUpdateField
+ * We add that the current estimate of the velocity field and then perform a
+ * second smoothing step such that the new velocity field is
+ *
+ * \f{eqnarray*}{
+ *   v_{new} = S_{velocity}( v_{old} + S_{update}( u ) ).
+ * \f}
+ *
+ * We then exponentiate \f$v_{new}\f$ using the class
+ * \c ExponentialDisplacementImageFilter to yield both the forward and inverse
+ * displacement fields.
+ *
+ * \ref J. Ashburner. A Fast Diffeomorphic Image Registration Algorithm.
+ * NeuroImage, 38(1):95-113, 2007.
  *
  * \author Nick Tustison
  * \author Brian Avants
@@ -75,19 +90,25 @@ public:
    */
   virtual void UpdateTransformParameters( const DerivativeType & update, ScalarType factor = 1.0 );
 
+  /**
+   * Set/Get Gaussian smoothing parameter for the smoothed velocity field.
+   */
+  itkSetMacro( GaussianSmoothingVarianceForTheVelocityField, ScalarType );
+  itkGetConstMacro( GaussianSmoothingVarianceForTheVelocityField, ScalarType );
+
   // Set/get compute inverse
   itkSetMacro( ComputeInverse, bool );
   itkGetConstMacro( ComputeInverse, bool );
   itkBooleanMacro( ComputeInverse );
 
-  // Set/get compute number of exp. iterations automatically
-  itkSetMacro( CalculateNumberOfIterationsAutomatically, bool );
-  itkGetConstMacro( CalculateNumberOfIterationsAutomatically, bool );
-  itkBooleanMacro( CalculateNumberOfIterationsAutomatically );
+  // Set/get compute number of exp. integration steps automatically
+  itkSetMacro( CalculateNumberOfIntegrationStepsAutomatically, bool );
+  itkGetConstMacro( CalculateNumberOfIntegrationStepsAutomatically, bool );
+  itkBooleanMacro( CalculateNumberOfIntegrationStepsAutomatically );
 
   // Set/get the number of iterations (valid only if CalculateNumberOfIterationsAutomatically = false)
-  itkSetMacro( MaximumNumberOfIterations, unsigned int );
-  itkGetConstMacro( MaximumNumberOfIterations, unsigned int );
+  itkSetMacro( NumberOfIntegrationSteps, unsigned int );
+  itkGetConstMacro( NumberOfIntegrationSteps, unsigned int );
 
 protected:
   GaussianExponentialDiffeomorphicTransform();
@@ -99,10 +120,14 @@ private:
   GaussianExponentialDiffeomorphicTransform( const Self& ); //purposely not implemented
   void operator=( const Self& ); //purposely not implemented
 
-  bool                                    m_CalculateNumberOfIterationsAutomatically;
-  unsigned int                            m_MaximumNumberOfIterations;
+  bool                                    m_CalculateNumberOfIntegrationStepsAutomatically;
+  unsigned int                            m_NumberOfIntegrationSteps;
 
   bool                                    m_ComputeInverse;
+
+  ConstantVelocityFieldPointer            m_ConstantVelocityField;
+
+  ScalarType                              m_GaussianSmoothingVarianceForTheVelocityField;
 };
 
 } // end namespace itk

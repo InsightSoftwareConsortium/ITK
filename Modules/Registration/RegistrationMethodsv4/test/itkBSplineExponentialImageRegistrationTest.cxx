@@ -22,9 +22,9 @@
 #include "itkImageRegistrationMethodv4.h"
 
 #include "itkANTSNeighborhoodCorrelationImageToImageMetricv4.h"
+#include "itkBSplineExponentialDiffeomorphicTransform.h"
+#include "itkBSplineExponentialDiffeomorphicTransformParametersAdaptor.h"
 #include "itkComposeDisplacementFieldsImageFilter.h"
-#include "itkGaussianExponentialDiffeomorphicTransform.h"
-#include "itkGaussianExponentialDiffeomorphicTransformParametersAdaptor.h"
 #include "itkVectorMagnitudeImageFilter.h"
 #include "itkStatisticsImageFilter.h"
 
@@ -98,7 +98,7 @@ public:
 };
 
 template <unsigned int VImageDimension>
-int PerformExpImageRegistration( int argc, char *argv[] )
+int PerformBSplineExpImageRegistration( int argc, char *argv[] )
 {
   if( argc < 6 )
     {
@@ -207,14 +207,21 @@ int PerformExpImageRegistration( int argc, char *argv[] )
   displacementField->Allocate();
   displacementField->FillBuffer( zeroVector );
 
-  typedef itk::GaussianExponentialDiffeomorphicTransform<RealType, VImageDimension> DisplacementFieldTransformType;
+  typedef itk::BSplineExponentialDiffeomorphicTransform<RealType, VImageDimension> DisplacementFieldTransformType;
 
   typedef itk::ImageRegistrationMethodv4<FixedImageType, MovingImageType, DisplacementFieldTransformType> DisplacementFieldRegistrationType;
   typename DisplacementFieldRegistrationType::Pointer displacementFieldSimple = DisplacementFieldRegistrationType::New();
 
   typename DisplacementFieldTransformType::Pointer fieldTransform = const_cast<DisplacementFieldTransformType *>( displacementFieldSimple->GetOutput()->Get() );
-  fieldTransform->SetGaussianSmoothingVarianceForTheUpdateField( 0.75 );
-  fieldTransform->SetGaussianSmoothingVarianceForTheVelocityField( 1.5 );
+
+  typename DisplacementFieldTransformType::ArrayType updateControlPoints;
+  updateControlPoints.Fill( 10 );
+
+  typename DisplacementFieldTransformType::ArrayType velocityControlPoints;
+  velocityControlPoints.Fill( 10 );
+
+  fieldTransform->SetNumberOfControlPointsForTheUpdateField( updateControlPoints );
+  fieldTransform->SetNumberOfControlPointsForTheVelocityField( velocityControlPoints );
   fieldTransform->SetDisplacementField( displacementField );
   fieldTransform->SetComputeInverse( true );
   fieldTransform->SetCalculateNumberOfIntegrationStepsAutomatically( true );
@@ -267,7 +274,7 @@ int PerformExpImageRegistration( int argc, char *argv[] )
   smoothingSigmasPerLevel[2] = 1;
   displacementFieldSimple->SetSmoothingSigmasPerLevel( smoothingSigmasPerLevel );
 
-  typedef itk::GaussianExponentialDiffeomorphicTransformParametersAdaptor<DisplacementFieldTransformType> DisplacementFieldTransformAdaptorType;
+  typedef itk::BSplineExponentialDiffeomorphicTransformParametersAdaptor<DisplacementFieldTransformType> DisplacementFieldTransformAdaptorType;
 
   typename DisplacementFieldRegistrationType::TransformParametersAdaptorsContainerType adaptors;
 
@@ -323,7 +330,7 @@ int PerformExpImageRegistration( int argc, char *argv[] )
   resampler->SetTransform( compositeTransform );
   resampler->SetInput( movingImage );
   resampler->SetSize( fixedImage->GetLargestPossibleRegion().GetSize() );
-  resampler->SetOutputOrigin( fixedImage->GetOrigin() );
+  resampler->SetOutputOrigin(  fixedImage->GetOrigin() );
   resampler->SetOutputSpacing( fixedImage->GetSpacing() );
   resampler->SetOutputDirection( fixedImage->GetDirection() );
   resampler->SetDefaultPixelValue( 0 );
@@ -367,7 +374,7 @@ int PerformExpImageRegistration( int argc, char *argv[] )
   return EXIT_SUCCESS;
 }
 
-int itkExponentialImageRegistrationTest( int argc, char *argv[] )
+int itkBSplineExponentialImageRegistrationTest( int argc, char *argv[] )
 {
   if( argc < 6 )
     {
@@ -378,10 +385,10 @@ int itkExponentialImageRegistrationTest( int argc, char *argv[] )
   switch( atoi( argv[1] ) )
    {
    case 2:
-     PerformExpImageRegistration<2>( argc, argv );
+     PerformBSplineExpImageRegistration<2>( argc, argv );
      break;
    case 3:
-     PerformExpImageRegistration<3>( argc, argv );
+     PerformBSplineExpImageRegistration<3>( argc, argv );
      break;
    default:
       std::cerr << "Unsupported dimension" << std::endl;

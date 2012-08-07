@@ -24,13 +24,26 @@ namespace itk
 {
 
 /** \class BSplineExponentialDiffeomorphicTransform
- * \brief Modifies the UpdateTransformParameters method to
- * perform a B-spline smoothing of the constant velocity
- * field after adding the update array.
+ * \brief Exponential transform using B-splines as the smoothing kernel.
  *
- * This class takes as input a constant velocity field, smooths it on demand using
- * the specified B-spline parameters and then scales-and-squares the smooth field
- * to obtain an exponentiated displacement field.
+ * Exponential transform inspired by the work of J. Ashburner (see reference
+ * below).  Assuming a constant velocity field, the transform takes as input
+ * the update field at time point t = 1, \f$u\f$ and smooths it using a B-spline
+ * smoothing (i.e. fitting) operation, \f$S_{update}\f$ defined by \c SplineOrder and
+ * \c NumberOfControlPointsForTheUpdateField.  We add that the current estimate
+ * of the velocity field and then perform a second smoothing step such that
+ * the new velocity field is
+ *
+ * \f{eqnarray*}{
+ *   v_{new} = S_{velocity}( v_{old} + S_{update}( u ) ).
+ * \f}
+ *
+ * We then exponentiate \f$v_{new}\f$ using the class
+ * \c ExponentialDisplacementImageFilter to yield both the forward and inverse
+ * displacement fields.
+ *
+ * \ref J. Ashburner. A Fast Diffeomorphic Image Registration Algorithm.
+ * NeuroImage, 38(1):95-113, 2007.
  *
  * \author Nick Tustison
  * \author Brian Avants
@@ -60,6 +73,7 @@ public:
 
   /** Types from superclass */
   typedef typename Superclass::ScalarType               ScalarType;
+  typedef typename Superclass::ArrayType                ArrayType;
   typedef typename Superclass::DerivativeType           DerivativeType;
   typedef typename DerivativeType::ValueType            DerivativeValueType;
   typedef typename Superclass::DisplacementFieldType    DisplacementFieldType;
@@ -90,19 +104,37 @@ public:
     return this->BSplineSmoothDisplacementField( field, scalar );
     }
 
+  /**
+   * Set the control point grid size defining the B-spline estimate of the
+   * smoothed velocity field.  In each dimension, the B-spline mesh size is equal
+   * to the number of control points in that dimension minus the spline order.
+   * Default = 4 control points in each dimension for a mesh size of 1 in each
+   * dimension.
+   */
+  itkSetMacro( NumberOfControlPointsForTheVelocityField, ArrayType );
+
+  /**
+   * Get the control point grid size defining the B-spline estimate of the smoothing
+   * of the velocity field.  In each dimension, the B-spline mesh size is equal
+   * to the number of control points in that dimension minus the spline order.
+   * Default = 4 control points in each dimension for a mesh size of 1 in each
+   * dimension.
+   */
+  itkGetConstMacro( NumberOfControlPointsForTheVelocityField, ArrayType );
+
   // Set/get compute inverse
   itkSetMacro( ComputeInverse, bool );
   itkGetConstMacro( ComputeInverse, bool );
   itkBooleanMacro( ComputeInverse );
 
   // Set/get compute number of exp. iterations automatically
-  itkSetMacro( CalculateNumberOfIterationsAutomatically, bool );
-  itkGetConstMacro( CalculateNumberOfIterationsAutomatically, bool );
-  itkBooleanMacro( CalculateNumberOfIterationsAutomatically );
+  itkSetMacro( CalculateNumberOfIntegrationStepsAutomatically, bool );
+  itkGetConstMacro( CalculateNumberOfIntegrationStepsAutomatically, bool );
+  itkBooleanMacro( CalculateNumberOfIntegrationStepsAutomatically );
 
   // Set/get the number of iterations (valid only if CalculateNumberOfIterationsAutomatically = false)
-  itkSetMacro( MaximumNumberOfIterations, unsigned int );
-  itkGetConstMacro( MaximumNumberOfIterations, unsigned int );
+  itkSetMacro( NumberOfIntegrationSteps, unsigned int );
+  itkGetConstMacro( NumberOfIntegrationSteps, unsigned int );
 
 protected:
   BSplineExponentialDiffeomorphicTransform();
@@ -114,10 +146,14 @@ private:
   BSplineExponentialDiffeomorphicTransform( const Self& ); //purposely not implemented
   void operator=( const Self& ); //purposely not implemented
 
-  bool                                    m_CalculateNumberOfIterationsAutomatically;
-  unsigned int                            m_MaximumNumberOfIterations;
+  bool                                    m_CalculateNumberOfIntegrationStepsAutomatically;
+  unsigned int                            m_NumberOfIntegrationSteps;
 
   bool                                    m_ComputeInverse;
+
+  ConstantVelocityFieldPointer            m_ConstantVelocityField;
+
+  ArrayType                               m_NumberOfControlPointsForTheVelocityField;
 };
 
 } // end namespace itk
