@@ -301,12 +301,6 @@ public:
   /** Return the region of the grid wholly within the support region */
   itkGetConstReferenceMacro(ValidRegion, RegionType);
 
-  /** Return the number of local parameters */
-  virtual NumberOfParametersType GetNumberOfLocalParameters() const
-  {
-    itkExceptionMacro("GetNumberOfLocalParameters not yet implemented.");
-  }
-
 protected:
   /** Print contents of an BSplineDeformableTransform. */
   void PrintSelf( std::ostream & os, Indent indent ) const;

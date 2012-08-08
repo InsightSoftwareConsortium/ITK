@@ -151,6 +151,7 @@ GradientDescentLineSearchOptimizerv4
 
   this->m_LearningRate = b;
   this->ModifyGradientByLearningRate();
+
   this->m_Metric->UpdateTransformParameters( this->m_Gradient );
   metricb = this->GetMetric()->GetValue( );
 

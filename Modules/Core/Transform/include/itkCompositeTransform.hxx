@@ -67,7 +67,6 @@ CompositeTransform<TScalar, NDimensions>
 
   // Check if displacement field
   bool isDisplacementFieldTransform = true;
-  typename TransformQueueType::const_iterator it;
   for( signed long tind = static_cast<signed long>( this->GetNumberOfTransforms() ) - 1; tind >= 0; tind-- )
     {
     if( this->GetNthTransformToOptimize( tind ) &&

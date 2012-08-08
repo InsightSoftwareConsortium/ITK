@@ -33,14 +33,10 @@ BSplineBaseTransform<TScalarType, NDimensions, VSplineOrder>
 ::BSplineBaseTransform() : Superclass( 0 ),
   m_CoefficientImages( this->ArrayOfImagePointerGeneratorHelper() )
 {
-
   this->m_InternalParametersBuffer = ParametersType( 0 );
-  // Make sure the parameters pointer is not NULL after construction.
-  this->m_InputParametersPointer = &( this->m_InternalParametersBuffer );
 
   // Instantiate a weights function
   this->m_WeightsFunction = WeightsFunctionType::New();
-
 }
 
 // Destructor
@@ -57,18 +53,12 @@ void
 BSplineBaseTransform<TScalarType, NDimensions, VSplineOrder>
 ::SetIdentity()
 {
-  if( this->m_InputParametersPointer == &( this->m_InternalParametersBuffer ) )
+  if( this->m_InternalParametersBuffer.Size() != this->GetNumberOfParameters() )
     {
-    // If this->m_InternalParametersBuffer is the this->m_InputParametersPointer
-    this->m_InternalParametersBuffer.Fill( 0.0 );
-    }
-  else
-    {
-    // Should not be allowed to modify a const parameter set, so
-    // make an internal representation that is an identity mapping
     this->m_InternalParametersBuffer.SetSize( this->GetNumberOfParameters() );
-    this->m_InternalParametersBuffer.Fill( 0.0 );
     }
+  this->m_InternalParametersBuffer.Fill( 0.0 );
+
   this->SetParameters( this->m_InternalParametersBuffer );
   this->Modified();
 }
@@ -96,15 +86,8 @@ BSplineBaseTransform<TScalarType, NDimensions, VSplineOrder>
     {
     // Clean up this->m_InternalParametersBuffer because we will
     // use an externally supplied set of parameters as the buffer
-    this->m_InternalParametersBuffer = ParametersType( 0 );
+    this->m_InternalParametersBuffer = parameters;
     }
-
-  // Keep a reference to the input parameters
-  // directly from the calling environment.
-  // this requires that the parameters persist
-  // in the calling evironment while being used
-  // here.
-  this->m_InputParametersPointer = &parameters;
 
   // Wrap flat array as images of coefficients
   this->WrapAsImages();
@@ -223,8 +206,7 @@ BSplineBaseTransform<TScalarType, NDimensions, VSplineOrder>
    * NOTE: For efficiency, parameters are not copied locally. The parameters
    * are assumed to be maintained by the caller.
    */
-  PixelType *dataPointer = const_cast<PixelType *>(
-    this->m_InputParametersPointer->data_block() );
+  PixelType *dataPointer = const_cast<PixelType *>( this->m_InternalParametersBuffer.data_block() );
   const NumberOfParametersType numberOfPixels = this->GetNumberOfParametersPerDimension();
 
   for( unsigned int j = 0; j < SpaceDimension; j++ )
@@ -240,15 +222,7 @@ const typename BSplineBaseTransform<TScalarType, NDimensions, VSplineOrder>::Par
 BSplineBaseTransform<TScalarType, NDimensions, VSplineOrder>
 ::GetParameters() const
 {
-  /** NOTE: For efficiency, this class does not keep a copy of the parameters -
-   * it just keeps pointer to input parameters.
-   */
-  if( this->m_InputParametersPointer == NULL )
-    {
-    itkExceptionMacro(
-      << "Cannot GetParameters() because this->m_InputParametersPointer is NULL." );
-    }
-  return *( this->m_InputParametersPointer );
+  return this->m_InternalParametersBuffer;
 }
 
 // Get the parameters
@@ -278,9 +252,6 @@ BSplineBaseTransform<TScalarType, NDimensions, VSplineOrder>
     }
   os << this->m_CoefficientImages[SpaceDimension - 1].GetPointer()
      << " ]" << std::endl;
-
-  os << indent << "InputParametersPointer: "
-     << this->m_InputParametersPointer << std::endl;
 }
 
 

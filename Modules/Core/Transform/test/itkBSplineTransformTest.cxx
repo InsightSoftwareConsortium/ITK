@@ -180,41 +180,8 @@ int itkBSplineTransformTest1()
    */
   transform->SetParameters( parameters );
 
-  /**
-   * Get the parameters back
-   */
-
-  // outParametersRef should point back to parameters
-  const ParametersType & outParametersRef = transform->GetParameters();
-
-  if( &outParametersRef != &parameters )
-    {
-    std::cout << "outParametersRef should point to the same memory as "
-              << "parameters";
-    std::cout << std::endl;
-    std::cout << "Test failed." << std::endl;
-    return EXIT_FAILURE;
-    }
-
   // outParametersCopy should make a copy of the parameters
   ParametersType outParametersCopy = transform->GetParameters();
-
-  if( outParametersCopy != parameters )
-    {
-    std::cout << "outParametersCopy should be the same as parameters";
-    std::cout << std::endl;
-    std::cout << "Test failed." << std::endl;
-    return EXIT_FAILURE;
-    }
-
-  if( &outParametersCopy == &parameters )
-    {
-    std::cout << "outParametersCopy should point to memory different "
-              << "to parameters";
-    std::cout << std::endl;
-    std::cout << "Test failed." << std::endl;
-    return EXIT_FAILURE;
-    }
 
   /**
    * Transform some points
@@ -463,8 +430,7 @@ int itkBSplineTransformTest1()
   std::cout << transform->GetTransformDomainMeshSize() << std::endl;
   std::cout << transform->GetTransformDomainDirection() << std::endl;
 
-  typedef itk::BSplineTransform<CoordinateRepType, SpaceDimension, 2>
-  EvenOrderTransformType;
+  typedef itk::BSplineTransform<CoordinateRepType, SpaceDimension, 2> EvenOrderTransformType;
   EvenOrderTransformType::Pointer evenOrderTransform = EvenOrderTransformType::New();
   if( evenOrderTransform.IsNull() )
     {
@@ -533,7 +499,9 @@ int itkBSplineTransformTest2()
   // Set up the transform
   const unsigned int SplineOrder = 3;
   typedef double CoordRep;
+
   typedef itk::BSplineTransform<CoordRep, Dimension, SplineOrder> TransformType;
+
   TransformType::InputPointType  inputPoint;
   TransformType::OutputPointType outputPoint;
 
@@ -745,22 +713,6 @@ int itkBSplineTransformTest3()
   std::cout << "Input Point: " << inputPoint << std::endl;
   std::cout << "Output Point: " << outputPoint << std::endl;
   std::cout << std::endl;
-
-  /**
-   * Get the parameters back
-   */
-
-  // outParametersRef should not point back to parameters
-  const ParametersType & outParametersRef = transform->GetParameters();
-
-  if( &outParametersRef == &parameters )
-    {
-    std::cout << "outParametersRef should not point to the same memory as "
-              << "parameters";
-    std::cout << std::endl;
-    std::cout << "Test failed." << std::endl;
-    return EXIT_FAILURE;
-    }
 
   /**
    * Internal parameters should remain even when the external parameters
