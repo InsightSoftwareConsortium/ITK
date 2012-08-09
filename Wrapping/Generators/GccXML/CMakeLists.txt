@@ -24,10 +24,8 @@ else()
     set(test )
   endif()
   ExternalProject_add(GCC_XML
-  CVS_REPOSITORY ":pserver:anoncvs@www.gccxml.org:/cvsroot/GCC_XML"
-  CVS_MODULE "gccxml"
-#  CVS_TAG -r ITK-3-20
-  UPDATE_COMMAND ""
+  URL http://itk.org/files/gccxml/gccxml-2012-08-08.tar.bz2
+  URL_MD5 199924259f913a914f7084213b71d6da
   PREFIX gccxml
   CMAKE_ARGS
     -DCMAKE_CXX_COMPILER:STRING=${CMAKE_CXX_COMPILER}
