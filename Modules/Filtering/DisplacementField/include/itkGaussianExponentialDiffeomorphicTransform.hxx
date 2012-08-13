@@ -20,7 +20,10 @@
 
 #include "itkGaussianExponentialDiffeomorphicTransform.h"
 
+#include "itkComposeDisplacementFieldsImageFilter.h"
 #include "itkExponentialDisplacementFieldImageFilter.h"
+#include "itkMultiplyImageFilter.h"
+#include "itkVectorResampleImageFilter.h"
 
 namespace itk
 {
@@ -28,9 +31,10 @@ namespace itk
 template<class TScalar, unsigned int NDimensions>
 GaussianExponentialDiffeomorphicTransform<TScalar, NDimensions>
 ::GaussianExponentialDiffeomorphicTransform():
-  m_CalculateNumberOfIterationsAutomatically( true ),
-  m_MaximumNumberOfIterations( 10 ),
-  m_ComputeInverse( false )
+  m_CalculateNumberOfIntegrationStepsAutomatically( true ),
+  m_NumberOfIntegrationSteps( 10 ),
+  m_ComputeInverse( false ),
+  m_ConstantVelocityField( NULL )
 {
 }
 
@@ -53,6 +57,12 @@ GaussianExponentialDiffeomorphicTransform<TScalar, NDimensions>
   typedef ImportImageFilter<DisplacementVectorType, NDimensions> ImporterType;
   const bool importFilterWillReleaseMemory = false;
 
+  // Temporarily set the direction cosine to identity since the B-spline
+  // approximation algorithm works in parametric space and not physical
+  // space.
+  typename DisplacementFieldType::DirectionType identity;
+  identity.SetIdentity();
+
   //
   // Smooth the update field
   //
@@ -70,15 +80,15 @@ GaussianExponentialDiffeomorphicTransform<TScalar, NDimensions>
   importer->SetRegion( displacementField->GetBufferedRegion() );
   importer->SetOrigin( displacementField->GetOrigin() );
   importer->SetSpacing( displacementField->GetSpacing() );
-  importer->SetDirection( displacementField->GetDirection() );
+  importer->SetDirection( identity );
 
-  DisplacementFieldPointer updateField = importer->GetOutput();
+  ConstantVelocityFieldPointer updateField = importer->GetOutput();
   updateField->Update();
   updateField->DisconnectPipeline();
 
   if( smoothUpdateField )
     {
-    itkDebugMacro( "Smooothing the update field." );
+    itkDebugMacro( "Smoothing the update field." );
 
     // The update field is the velocity field but since it's constant
     // we smooth it using the parent class smoothing functionality
@@ -88,88 +98,139 @@ GaussianExponentialDiffeomorphicTransform<TScalar, NDimensions>
     updateField = updateSmoothField;
     }
 
-  typedef ExponentialDisplacementFieldImageFilter<ConstantVelocityFieldType, DisplacementFieldType> ExponentiatorType;
-  typename ExponentiatorType::Pointer exponentiator = ExponentiatorType::New();
-  exponentiator->SetInput( updateField );
-  exponentiator->SetAutomaticNumberOfIterations( this->m_CalculateNumberOfIterationsAutomatically );
-  exponentiator->SetMaximumNumberOfIterations( this->m_MaximumNumberOfIterations );
-  exponentiator->SetComputeInverse( false );
-  exponentiator->Update();
-
-  // Now rescale the field by the max norm
-
-  typename DisplacementFieldType::Pointer expField = exponentiator->GetOutput();
-  typename DisplacementFieldType::SpacingType spacing = displacementField->GetSpacing();
-
-  ImageRegionIterator<DisplacementFieldType> ItF( expField, expField->GetRequestedRegion() );
-
-  ScalarType maxNorm = NumericTraits<ScalarType>::NonpositiveMin();
-  for( ItF.GoToBegin(); !ItF.IsAtEnd(); ++ItF )
-    {
-    DisplacementVectorType vector = ItF.Get();
-
-    ScalarType localNorm = 0;
-    for( unsigned int d = 0; d < NDimensions; d++ )
-      {
-      localNorm += vnl_math_sqr( vector[d] / spacing[d] );
-      }
-    localNorm = vcl_sqrt( localNorm );
-
-    if( localNorm > maxNorm )
-      {
-      maxNorm = localNorm;
-      }
-    }
-
-  ScalarType scale = 1.0 / maxNorm;
-
   typedef Image<ScalarType, NDimensions> RealImageType;
 
   typedef MultiplyImageFilter<DisplacementFieldType, RealImageType, DisplacementFieldType> MultiplierType;
   typename MultiplierType::Pointer multiplier = MultiplierType::New();
-  multiplier->SetInput( expField );
-  multiplier->SetConstant( scale );
+  multiplier->SetInput( updateField );
+  multiplier->SetConstant( factor );
 
   typename DisplacementFieldType::Pointer scaledUpdateField = multiplier->GetOutput();
   scaledUpdateField->Update();
   scaledUpdateField->DisconnectPipeline();
 
-  DerivativeValueType *updatePointer = reinterpret_cast<DerivativeValueType *>( scaledUpdateField->GetBufferPointer() );
+  // Compose the scaled update field with the
 
-  // Add the update field to the current total field
-  bool letArrayManageMemory = false;
-  // Pass data pointer to required container. No copying is done.
-  DerivativeType expUpdate( updatePointer, update.GetSize(), letArrayManageMemory );
-  SuperSuperclass::UpdateTransformParameters( expUpdate, factor );
+  if( !this->m_ConstantVelocityField )
+    {
+    DisplacementVectorType zeroVector( 0.0 );
+
+    this->m_ConstantVelocityField = ConstantVelocityFieldType::New();
+    this->m_ConstantVelocityField->CopyInformation( scaledUpdateField );
+    this->m_ConstantVelocityField->SetRegions( scaledUpdateField->GetRequestedRegion() );
+    this->m_ConstantVelocityField->Allocate();
+    this->m_ConstantVelocityField->FillBuffer( zeroVector );
+    }
+  else
+    {
+    // Check to see if the velocity field needs to be resampled to match the size
+    // of the displacement field
+
+    const typename DisplacementFieldType::SizeType displacementFieldSize = displacementField->GetRequestedRegion().GetSize();
+
+    if( displacementFieldSize != this->m_ConstantVelocityField->GetRequestedRegion().GetSize() )
+      {
+      typedef IdentityTransform<ScalarType, NDimensions> IdentityTransformType;
+      typename IdentityTransformType::Pointer identityTransform = IdentityTransformType::New();
+      identityTransform->SetIdentity();
+
+      typedef VectorLinearInterpolateImageFunction<DisplacementFieldType, ScalarType> LinearInterpolatorType;
+      typename LinearInterpolatorType::Pointer interpolator = LinearInterpolatorType::New();
+      interpolator->SetInputImage( this->m_ConstantVelocityField );
+
+      typedef VectorResampleImageFilter<DisplacementFieldType, DisplacementFieldType, ScalarType> ResamplerType;
+      typename ResamplerType::Pointer resampler = ResamplerType::New();
+      resampler->SetInput( this->m_ConstantVelocityField );
+      resampler->SetOutputDirection( scaledUpdateField->GetDirection() );
+      resampler->SetOutputOrigin( scaledUpdateField->GetOrigin() );
+      resampler->SetOutputSpacing( scaledUpdateField->GetSpacing() );
+      resampler->SetSize( displacementFieldSize );
+      resampler->SetTransform( identityTransform );
+      resampler->SetInterpolator( interpolator );
+      resampler->Update();
+
+      this->m_ConstantVelocityField = resampler->GetOutput();
+      }
+    }
+
+  typedef AddImageFilter<ConstantVelocityFieldType, ConstantVelocityFieldType, ConstantVelocityFieldType> AdderType;
+  typename AdderType::Pointer adder = AdderType::New();
+  adder->SetInput1( this->m_ConstantVelocityField );
+  adder->SetInput2( scaledUpdateField );
+
+  ConstantVelocityFieldPointer velocityField = adder->GetOutput();
+  velocityField->Update();
+  velocityField->DisconnectPipeline();
 
   //
-  // Smooth the total field
+  // Smooth the velocity field
   //
-  bool smoothTotalField = true;
-  if( this->m_GaussianSmoothingVarianceForTheTotalField <= 0.0 )
+  bool smoothVelocityField = true;
+  if( this->m_GaussianSmoothingVarianceForTheVelocityField <= 0 )
     {
-    itkDebugMacro( "Not smoothing the total field." );
-    smoothTotalField = false;
+    itkDebugMacro( "Not smooothing the velocity field." );
+    smoothVelocityField = false;
     }
-  if( smoothTotalField )
+
+  if( smoothVelocityField )
     {
-    itkDebugMacro( "Smoothing the total field." );
+    itkDebugMacro( "Smoothing the velocity field." );
 
-    typename ImporterType::Pointer importer2 = ImporterType::New();
-    importer2->SetImportPointer( displacementField->GetBufferPointer(), numberOfPixels, importFilterWillReleaseMemory );
-    importer2->SetRegion( displacementField->GetBufferedRegion() );
-    importer2->SetOrigin( displacementField->GetOrigin() );
-    importer2->SetSpacing( displacementField->GetSpacing() );
-    importer2->SetDirection( displacementField->GetDirection() );
+    // The update field is the velocity field but since it's constant
+    // we smooth it using the parent class smoothing functionality
 
-    DisplacementFieldPointer totalField = importer2->GetOutput();
-    totalField->Update();
-    totalField->DisconnectPipeline();
+    ConstantVelocityFieldPointer velocitySmoothField = this->GaussianSmoothDisplacementField( velocityField, this->GetGaussianSmoothingVarianceForTheVelocityField() );
 
-    DisplacementFieldPointer totalSmoothField = this->GaussianSmoothDisplacementField( totalField, this->GetGaussianSmoothingVarianceForTheTotalField() );
-
-    ImageAlgorithm::Copy<DisplacementFieldType, DisplacementFieldType>( totalSmoothField, totalField, totalSmoothField->GetBufferedRegion(), totalField->GetBufferedRegion() );
+    velocityField = velocitySmoothField;
     }
+
+  typedef ExponentialDisplacementFieldImageFilter<ConstantVelocityFieldType, DisplacementFieldType> ExponentiatorType;
+  typename ExponentiatorType::Pointer exponentiator = ExponentiatorType::New();
+  exponentiator->SetInput( velocityField );
+  if( this->m_CalculateNumberOfIntegrationStepsAutomatically || this->m_NumberOfIntegrationSteps == 0 )
+    {
+    exponentiator->SetAutomaticNumberOfIterations( true );
+    if( this->m_NumberOfIntegrationSteps == 0 )
+      {
+      itkWarningMacro( "Number of integration steps is 0.  Calculating the number of integration steps automatically." );
+      }
+    }
+  else
+    {
+    exponentiator->SetAutomaticNumberOfIterations( false );
+    exponentiator->SetMaximumNumberOfIterations( this->m_NumberOfIntegrationSteps );
+    }
+  exponentiator->SetComputeInverse( false );
+  exponentiator->Update();
+
+  this->SetDisplacementField( exponentiator->GetOutput() );
+
+  // Compute the inverse displacement field if requested
+
+  if( this->m_ComputeInverse )
+    {
+    typename ExponentiatorType::Pointer exponentiatorInv = ExponentiatorType::New();
+    exponentiatorInv->SetInput( velocityField );
+    if( this->m_CalculateNumberOfIntegrationStepsAutomatically || this->m_NumberOfIntegrationSteps == 0 )
+      {
+      exponentiatorInv->SetAutomaticNumberOfIterations( true );
+      if( this->m_NumberOfIntegrationSteps == 0 )
+        {
+        itkWarningMacro( "Number of integration steps is 0.  Calculating the number of integration steps automatically." );
+        }
+      }
+    else
+      {
+      exponentiatorInv->SetAutomaticNumberOfIterations( false );
+      exponentiatorInv->SetMaximumNumberOfIterations( this->m_NumberOfIntegrationSteps );
+      }
+    exponentiatorInv->SetComputeInverse( true );
+    exponentiatorInv->Update();
+
+    this->SetInverseDisplacementField( exponentiatorInv->GetOutput() );
+    }
+
+  this->m_ConstantVelocityField = velocityField;
 }
 
 /**
@@ -182,9 +243,11 @@ GaussianExponentialDiffeomorphicTransform<TScalar, NDimensions>
 {
   Superclass::PrintSelf( os, indent );
 
-  os << indent << "Calculate number of iterations automatically = " << this->m_CalculateNumberOfIterationsAutomatically << std::endl;
-  os << indent << "Number of iterations = " << this->m_MaximumNumberOfIterations << std::endl;
+  os << indent << "Calculate number of integration steps automatically = " << this->m_CalculateNumberOfIntegrationStepsAutomatically << std::endl;
+  os << indent << "Number of integration steps = " << this->m_NumberOfIntegrationSteps << std::endl;
   os << indent << "Compute inverse = " << this->m_ComputeInverse << std::endl;
+  os << indent << "Gaussian variance for the velocity field = "
+    << this->m_GaussianSmoothingVarianceForTheVelocityField << std::endl;
 }
 
 } // namespace itk

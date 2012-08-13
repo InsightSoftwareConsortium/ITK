@@ -41,6 +41,11 @@ int itkBSplineExponentialDiffeomorphicTransformTest(int ,char *[] )
   /* Create a displacement field transform */
   DisplacementTransformType::Pointer displacementTransform =
       DisplacementTransformType::New();
+  displacementTransform->SetComputeInverse( true );
+  displacementTransform->SetCalculateNumberOfIntegrationStepsAutomatically( true );
+  displacementTransform->SetNumberOfIntegrationSteps( 10 );
+
+  displacementTransform->Print( std::cout, 3 );
 
   typedef DisplacementTransformType::DisplacementFieldType FieldType;
   FieldType::Pointer field = FieldType::New(); //This is based on itk::Image
