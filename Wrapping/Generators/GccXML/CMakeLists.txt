@@ -43,6 +43,8 @@ else()
   ${test}
   STEP_TARGETS install
   )
+  set_property(TARGET GCC_XML PROPERTY _EP_TEST_AFTER_INSTALL 1)
+  set_property(TARGET GCC_XML PROPERTY _EP_TEST_BEFORE_INSTALL 0)
   set(GCCXML ${gccxml_ep} CACHE FILEPATH "gccxml executable." FORCE)
 endif()
 mark_as_advanced(GCCXML)
