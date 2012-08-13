@@ -57,12 +57,6 @@ GaussianExponentialDiffeomorphicTransform<TScalar, NDimensions>
   typedef ImportImageFilter<DisplacementVectorType, NDimensions> ImporterType;
   const bool importFilterWillReleaseMemory = false;
 
-  // Temporarily set the direction cosine to identity since the B-spline
-  // approximation algorithm works in parametric space and not physical
-  // space.
-  typename DisplacementFieldType::DirectionType identity;
-  identity.SetIdentity();
-
   //
   // Smooth the update field
   //
@@ -80,7 +74,7 @@ GaussianExponentialDiffeomorphicTransform<TScalar, NDimensions>
   importer->SetRegion( displacementField->GetBufferedRegion() );
   importer->SetOrigin( displacementField->GetOrigin() );
   importer->SetSpacing( displacementField->GetSpacing() );
-  importer->SetDirection( identity );
+  importer->SetDirection( displacementField->GetDirection() );
 
   ConstantVelocityFieldPointer updateField = importer->GetOutput();
   updateField->Update();
@@ -147,9 +141,12 @@ GaussianExponentialDiffeomorphicTransform<TScalar, NDimensions>
       resampler->SetSize( displacementFieldSize );
       resampler->SetTransform( identityTransform );
       resampler->SetInterpolator( interpolator );
-      resampler->Update();
 
-      this->m_ConstantVelocityField = resampler->GetOutput();
+      ConstantVelocityFieldPointer resampledVelocityField = resampler->GetOutput();
+      resampledVelocityField->Update();
+      resampledVelocityField->DisconnectPipeline();
+
+      this->m_ConstantVelocityField = resampledVelocityField;
       }
     }
 
@@ -168,7 +165,7 @@ GaussianExponentialDiffeomorphicTransform<TScalar, NDimensions>
   bool smoothVelocityField = true;
   if( this->m_GaussianSmoothingVarianceForTheVelocityField <= 0 )
     {
-    itkDebugMacro( "Not smooothing the velocity field." );
+    itkDebugMacro( "Not smoothing the velocity field." );
     smoothVelocityField = false;
     }
 

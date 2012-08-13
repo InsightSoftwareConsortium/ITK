@@ -51,6 +51,21 @@ GaussianExponentialDiffeomorphicTransformParametersAdaptor<TTransform>
     }
 }
 
+template<class TTransform>
+void
+GaussianExponentialDiffeomorphicTransformParametersAdaptor<TTransform>
+::AdaptTransformParameters()
+{
+  Superclass::AdaptTransformParameters();
+
+  if( this->m_GaussianSmoothingVarianceForTheVelocityFieldSetTime > 0 )
+    {
+    this->m_Transform->SetGaussianSmoothingVarianceForTheVelocityField(
+      this->m_GaussianSmoothingVarianceForTheVelocityField );
+    }
+}
+
+
 template <class TTransform>
 void
 GaussianExponentialDiffeomorphicTransformParametersAdaptor<TTransform>

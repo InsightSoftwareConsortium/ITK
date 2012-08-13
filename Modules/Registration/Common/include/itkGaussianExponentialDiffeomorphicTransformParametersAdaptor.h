@@ -57,6 +57,8 @@ public:
   virtual void SetGaussianSmoothingVarianceForTheVelocityField( ScalarType );
   itkGetConstReferenceMacro( GaussianSmoothingVarianceForTheVelocityField, ScalarType );
 
+  virtual void AdaptTransformParameters();
+
 protected:
   GaussianExponentialDiffeomorphicTransformParametersAdaptor();
   ~GaussianExponentialDiffeomorphicTransformParametersAdaptor();
