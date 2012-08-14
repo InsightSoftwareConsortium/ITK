@@ -82,9 +82,7 @@ int MakeNiftiImage(void)
   spacing[0] = spacing[1] = spacing[2] = 1.0;
 
   const typename ImageType::IndexType index = {{0,0,0}};
-  typename ImageType::RegionType region;
-  region.SetSize( size );
-  region.SetIndex( index );
+  typename ImageType::RegionType region(index,size);
   typename ImageType::Pointer img =
     itk::IOTestHelper::AllocateImageFromRegionAndSpacing<ImageType>(region, spacing);
 
@@ -104,13 +102,15 @@ int MakeNiftiImage(void)
         return EXIT_FAILURE;
       }
   }
+
+  typename ImageType::RegionType RPIregion;
+  itk::ImageRegionIterator<ImageType >  RPIiterator;
+
   { //Fill in left half
     const typename ImageType::IndexType RPIindex = {{0,0,0}};
     const typename ImageType::SizeType RPIsize = {{5,10,10}};
-    typename ImageType::RegionType RPIregion;
-    RPIregion.SetSize( RPIsize );
-    RPIregion.SetIndex( RPIindex );
-    itk::ImageRegionIterator<ImageType > RPIiterator(img,RPIregion);
+    RPIregion = typename ImageType::RegionType(RPIindex, RPIsize);
+    RPIiterator = itk::ImageRegionIterator<ImageType >(img,RPIregion);
     while(!RPIiterator.IsAtEnd())
       {
         RPIiterator.Set( RPIiterator.Get() + LEFT );
@@ -119,11 +119,9 @@ int MakeNiftiImage(void)
   }
   { //Fill in anterior half
     const typename ImageType::IndexType RPIindex = {{0,5,0}};
-    const typename ImageType::SizeType RPIsize = {{10,5,10}};
-    typename ImageType::RegionType RPIregion;
-    RPIregion.SetSize( RPIsize );
-    RPIregion.SetIndex( RPIindex );
-    itk::ImageRegionIterator<ImageType > RPIiterator(img,RPIregion);
+    const typename ImageType::SizeType RPIsize =  {{10,5,10}};
+    RPIregion = typename ImageType::RegionType(RPIindex, RPIsize);
+    RPIiterator = itk::ImageRegionIterator<ImageType > (img,RPIregion);
     while(!RPIiterator.IsAtEnd())
       {
         RPIiterator.Set( RPIiterator.Get() + ANTERIOR );
@@ -133,10 +131,8 @@ int MakeNiftiImage(void)
   { //Fill in superior half
     const typename ImageType::IndexType RPIindex = {{0,0,5}};
     const typename ImageType::SizeType RPIsize = {{10,10,5}};
-    typename ImageType::RegionType RPIregion;
-    RPIregion.SetSize( RPIsize );
-    RPIregion.SetIndex( RPIindex );
-    itk::ImageRegionIterator<ImageType > RPIiterator(img,RPIregion);
+    RPIregion = typename ImageType::RegionType(RPIindex, RPIsize);
+    RPIiterator = itk::ImageRegionIterator<ImageType >(img,RPIregion);
     while(!RPIiterator.IsAtEnd())
       {
         RPIiterator.Set( RPIiterator.Get() + SUPERIOR );
