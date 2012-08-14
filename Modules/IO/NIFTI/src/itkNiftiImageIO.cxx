@@ -640,7 +640,11 @@ void NiftiImageIO::Read(void *buffer)
                 ( c * seriesdist + volumedist * t + slicedist * z + rowdist * y + x ) * pixelSize;
               const unsigned int itk_index =
                 ( ( volumedist * t + slicedist * z + rowdist * y + x ) * numComponents + vecOrder[c] ) * pixelSize;
-              memcpy(itkbuf + itk_index, niftibuf + nifti_index, pixelSize);
+              for( unsigned int b = 0; b < pixelSize; ++b )
+                {
+                itkbuf[itk_index+b] = niftibuf[nifti_index+b];
+                }
+
               }
             }
           }
@@ -1927,7 +1931,11 @@ NiftiImageIO
               const unsigned int itk_index =
                 ( ( volumedist * t + slicedist * z + rowdist * y
                     + x ) * numComponents + vecOrder[c] ) * this->m_NiftiImage->nbyper;
-              memcpy(nifti_buf + nifti_index, itkbuf + itk_index, this->m_NiftiImage->nbyper);
+
+              for( int b = 0; b < this->m_NiftiImage->nbyper; ++b )
+                {
+                nifti_buf[nifti_index+b] =  itkbuf[itk_index+b];
+                }
               }
             }
           }
