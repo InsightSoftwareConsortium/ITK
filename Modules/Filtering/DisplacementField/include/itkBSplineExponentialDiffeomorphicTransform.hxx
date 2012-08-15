@@ -64,12 +64,6 @@ BSplineExponentialDiffeomorphicTransform<TScalar, NDimensions>
   typedef ImportImageFilter<DisplacementVectorType, Dimension> ImporterType;
   const bool importFilterWillReleaseMemory = false;
 
-  // Temporarily set the direction cosine to identity since the B-spline
-  // approximation algorithm works in parametric space and not physical
-  // space.
-  typename DisplacementFieldType::DirectionType identity;
-  identity.SetIdentity();
-
   //
   // Smooth the update field
   //
@@ -91,7 +85,7 @@ BSplineExponentialDiffeomorphicTransform<TScalar, NDimensions>
   importer->SetRegion( displacementField->GetBufferedRegion() );
   importer->SetOrigin( displacementField->GetOrigin() );
   importer->SetSpacing( displacementField->GetSpacing() );
-  importer->SetDirection( identity );
+  importer->SetDirection( displacementField->GetDirection() );
 
   ConstantVelocityFieldPointer updateField = importer->GetOutput();
   updateField->Update();
@@ -156,9 +150,12 @@ BSplineExponentialDiffeomorphicTransform<TScalar, NDimensions>
       resampler->SetSize( displacementFieldSize );
       resampler->SetTransform( identityTransform );
       resampler->SetInterpolator( interpolator );
-      resampler->Update();
 
-      this->m_ConstantVelocityField = resampler->GetOutput();
+      ConstantVelocityFieldPointer resampledVelocityField = resampler->GetOutput();
+      resampledVelocityField->Update();
+      resampledVelocityField->DisconnectPipeline();
+
+      this->m_ConstantVelocityField = resampledVelocityField;
       }
     }
 
@@ -179,7 +176,7 @@ BSplineExponentialDiffeomorphicTransform<TScalar, NDimensions>
     {
     if( this->GetNumberOfControlPointsForTheVelocityField()[d] <= this->GetSplineOrder() )
       {
-      itkDebugMacro( "Not smooothing the velocity field." );
+      itkDebugMacro( "Not smoothing the velocity field." );
       smoothVelocityField = false;
       break;
       }

@@ -95,12 +95,6 @@ BSplineSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
   typedef ImportImageFilter<DisplacementVectorType, Dimension> ImporterType;
   const bool importFilterWillReleaseMemory = false;
 
-  // Temporarily set the direction cosine to identity since the B-spline
-  // approximation algorithm works in parametric space and not physical
-  // space.
-  typename DisplacementFieldType::DirectionType identity;
-  identity.SetIdentity();
-
   //
   // Smooth the update field
   //
@@ -125,7 +119,7 @@ BSplineSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
     importer->SetRegion( displacementField->GetBufferedRegion() );
     importer->SetOrigin( displacementField->GetOrigin() );
     importer->SetSpacing( displacementField->GetSpacing() );
-    importer->SetDirection( identity );
+    importer->SetDirection( displacementField->GetDirection() );
 
     DisplacementFieldPointer updateField = importer->GetOutput();
     updateField->Update();
@@ -169,7 +163,7 @@ BSplineSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
     importer->SetRegion( displacementField->GetBufferedRegion() );
     importer->SetOrigin( displacementField->GetOrigin() );
     importer->SetSpacing( displacementField->GetSpacing() );
-    importer->SetDirection( identity );
+    importer->SetDirection( displacementField->GetDirection() );
 
     DisplacementFieldPointer totalField = importer->GetOutput();
     totalField->Update();
