@@ -161,7 +161,7 @@ public:
   typedef typename Superclass::VirtualImageType           VirtualImageType;
   typedef typename Superclass::VirtualIndexType           VirtualIndexType;
   typedef typename Superclass::VirtualPointType           VirtualPointType;
-  typedef typename Superclass::VirtualPointSetType VirtualPointSetType;
+  typedef typename Superclass::VirtualPointSetType        VirtualPointSetType;
 
   /* Image dimension accessors */
   itkStaticConstMacro(VirtualImageDimension, ImageDimensionType, ::itk::GetImageDimension<TVirtualImage>::ImageDimension);
@@ -335,12 +335,13 @@ double itkMetricImageGradientTestRunTest( unsigned int imageSize, typename TTran
     metric->SetUseMovingImageGradientFilter( b2 );
     metric->Initialize();
 
-    bool b = metric->TransformAndEvaluateMovingPoint( virtualIndex, virtualPoint, true, mappedMovingPoint,
-        mappedMovingPixelValue, mappedMovingImageGradient );
+    bool b = metric->TransformAndEvaluateMovingPoint( virtualPoint, mappedMovingPoint, mappedMovingPixelValue );
 
     // computed explicitly as ground truth
     if ( b )
       {
+      metric->ComputeMovingImageGradientAtPoint( mappedMovingPoint, mappedMovingImageGradient );
+
       vnl_vector_ref<double> p2 = mappedMovingImageGradient.GetVnlVector();
       vnl_vector_ref<double> p1 = mappedMovingImageGradientGroundtruth.GetVnlVector();
 

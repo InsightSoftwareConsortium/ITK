@@ -26,12 +26,17 @@ template<class TDomainPartitioner, class TImageToImageMetric, class TCorrelation
 void CorrelationImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric, TCorrelationMetric>
 ::BeforeThreadedExecution()
 {
-  TCorrelationMetric * associate = dynamic_cast<TCorrelationMetric *>(this->m_Associate);
-
   Superclass::BeforeThreadedExecution();
 
+  /* Store the casted pointer to avoid dynamic casting in tight loops. */
+  this->m_CorrelationAssociate = dynamic_cast<TCorrelationMetric *>(this->m_Associate);
+  if( this->m_CorrelationAssociate == NULL )
+    {
+    itkExceptionMacro("Dynamic casting of associate pointer failed.");
+    }
+
   /* This size always comes from the moving image */
-  const NumberOfParametersType globalDerivativeSize = associate->GetNumberOfParameters();
+  const NumberOfParametersType globalDerivativeSize = this->GetCachedNumberOfParameters();
 
   // set size
   m_InternalCumSumPerThread.resize(this->GetNumberOfThreadsUsed());
@@ -63,30 +68,28 @@ CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner,
 ::AfterThreadedExecution()
 {
 
-  TCorrelationMetric * associate = dynamic_cast<TCorrelationMetric *>(this->m_Associate);
-
   /* This size always comes from the moving image */
-  const NumberOfParametersType globalDerivativeSize = associate->GetNumberOfParameters();
+  const NumberOfParametersType globalDerivativeSize = this->GetCachedNumberOfParameters();
 
   /* Store the number of valid points the enclosing class \c
    * m_NumberOfValidPoints by collecting the valid points per thread. */
-  associate->m_NumberOfValidPoints = NumericTraits<SizeValueType>::Zero;
+  this->m_CorrelationAssociate->m_NumberOfValidPoints = NumericTraits<SizeValueType>::Zero;
   for (ThreadIdType i = 0; i < this->GetNumberOfThreadsUsed(); i++)
     {
-    associate->m_NumberOfValidPoints += this->m_NumberOfValidPointsPerThread[i];
+    this->m_CorrelationAssociate->m_NumberOfValidPoints += this->m_NumberOfValidPointsPerThread[i];
     }
 
   /* Check the number of valid points meets the default minimum.
    * If not, parameters will hold default return values for this case */
-  if( ! associate->VerifyNumberOfValidPoints( associate->m_Value, *(associate->m_DerivativeResult) ) )
+  if( ! this->m_CorrelationAssociate->VerifyNumberOfValidPoints( this->m_CorrelationAssociate->m_Value, *(this->m_CorrelationAssociate->m_DerivativeResult) ) )
     {
     return;
     }
 
-  itkDebugMacro("CorrelationImageToImageMetricv4: NumberOfValidPoints: " << associate->m_NumberOfValidPoints);
+  itkDebugMacro("CorrelationImageToImageMetricv4: NumberOfValidPoints: " << this->m_CorrelationAssociate->m_NumberOfValidPoints);
 
   /* Accumulate the metric value from threads and store */
-  associate->m_Value = NumericTraits<InternalComputationValueType>::Zero;
+  this->m_CorrelationAssociate->m_Value = NumericTraits<InternalComputationValueType>::Zero;
   InternalComputationValueType fm = NumericTraits<InternalComputationValueType>::Zero;
   InternalComputationValueType f2 = NumericTraits<InternalComputationValueType>::Zero;
   InternalComputationValueType m2 = NumericTraits<InternalComputationValueType>::Zero;
@@ -104,10 +107,10 @@ CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner,
     return;
     }
 
-  associate->m_Value = -1.0 * fm * fm / (m2f2);
+  this->m_CorrelationAssociate->m_Value = -1.0 * fm * fm / (m2f2);
 
   /* For global transforms, compute the derivatives by combining values from each region. */
-  if( this->GetComputeDerivative() )
+  if( this->m_CorrelationAssociate->GetComputeDerivative() )
     {
     DerivativeType fdm, mdm;
     fdm.SetSize(globalDerivativeSize);
@@ -130,7 +133,7 @@ CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner,
      *  we will want to always add to the values in m_DerivativeResult so they
      *  can be efficiently accumulated between multiple metrics.
      */
-    *(associate->m_DerivativeResult) += 2.0 *fm/(f2*m2)*(fdm - fm/m2*mdm);
+    *(this->m_CorrelationAssociate->m_DerivativeResult) += 2.0 *fm/(f2*m2)*(fdm - fm/m2*mdm);
     }
 
 }
@@ -149,20 +152,19 @@ CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner,
   bool                        pointIsValid = false;
   MeasureType                 metricValueResult;
 
-  TCorrelationMetric * associate = dynamic_cast<TCorrelationMetric *>(this->m_Associate);
-
   /* Transform the point into fixed and moving spaces, and evaluate.
    * Different behavior with pre-warping enabled is handled transparently.
    * Do this in a try block to catch exceptions and print more useful info
    * then we otherwise get when exceptions are caught in MultiThreader. */
   try
     {
-    pointIsValid = associate->TransformAndEvaluateFixedPoint( virtualIndex,
-                                      virtualPoint,
-                                      this->GetComputeDerivative() && this->m_Associate->GetGradientSourceIncludesFixed(),
-                                      mappedFixedPoint,
-                                      mappedFixedPixelValue,
-                                      mappedFixedImageGradient );
+    pointIsValid = this->m_CorrelationAssociate->TransformAndEvaluateFixedPoint( virtualPoint, mappedFixedPoint, mappedFixedPixelValue );
+    if( pointIsValid &&
+        this->m_CorrelationAssociate->GetComputeDerivative() &&
+        this->m_CorrelationAssociate->GetGradientSourceIncludesFixed() )
+      {
+      this->m_CorrelationAssociate->ComputeFixedImageGradientAtPoint( mappedFixedPoint, mappedFixedImageGradient );
+      }
     }
   catch( ExceptionObject & exc )
     {
@@ -179,12 +181,13 @@ CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner,
 
   try
     {
-    pointIsValid = associate->TransformAndEvaluateMovingPoint( virtualIndex,
-                                    virtualPoint,
-                                    this->GetComputeDerivative() && this->m_Associate->GetGradientSourceIncludesMoving(),
-                                    mappedMovingPoint,
-                                    mappedMovingPixelValue,
-                                    mappedMovingImageGradient );
+    pointIsValid = this->m_CorrelationAssociate->TransformAndEvaluateMovingPoint( virtualPoint, mappedMovingPoint, mappedMovingPixelValue );
+    if( pointIsValid &&
+        this->m_CorrelationAssociate->GetComputeDerivative() &&
+        this->m_CorrelationAssociate->GetGradientSourceIncludesMoving() )
+      {
+      this->m_CorrelationAssociate->ComputeMovingImageGradientAtPoint( mappedMovingPoint, mappedMovingImageGradient );
+      }
     }
   catch( ExceptionObject & exc )
     {
@@ -250,13 +253,11 @@ CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner,
    * and finally compute metric and derivative in overloaded AfterThreadedExecution
    */
 
-  TCorrelationMetric * associate = dynamic_cast<TCorrelationMetric *>(this->m_Associate);
-
   InternalCumSumType & cumsum = this->m_InternalCumSumPerThread[threadID];
 
   /* subtract the average of pixels (computed during InitializeIteration) */
-  InternalComputationValueType f1 = fixedImageValue - associate->m_AverageFix;
-  InternalComputationValueType m1 = movingImageValue - associate->m_AverageMov;
+  InternalComputationValueType f1 = fixedImageValue - this->m_CorrelationAssociate->m_AverageFix;
+  InternalComputationValueType m1 = movingImageValue - this->m_CorrelationAssociate->m_AverageMov;
 
   cumsum.f += f1;
   cumsum.m += m1;
@@ -264,16 +265,16 @@ CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner,
   cumsum.m2 += m1 * m1;
   cumsum.fm += f1 * m1;
 
-  if( this->GetComputeDerivative() )
+  if( this->m_CorrelationAssociate->GetComputeDerivative() )
     {
     /* Use a pre-allocated jacobian object for efficiency */
     typedef typename TImageToImageMetric::JacobianType & JacobianReferenceType;
     JacobianReferenceType jacobian = this->m_MovingTransformJacobianPerThread[threadID];
 
     /** For dense transforms, this returns identity */
-    associate->GetMovingTransform()->ComputeJacobianWithRespectToParameters(virtualPoint, jacobian);
+    this->m_CorrelationAssociate->GetMovingTransform()->ComputeJacobianWithRespectToParameters(virtualPoint, jacobian);
 
-    for (unsigned int par = 0; par < associate->GetNumberOfLocalParameters(); par++)
+    for (unsigned int par = 0; par < this->m_CorrelationAssociate->GetNumberOfLocalParameters(); par++)
       {
       InternalComputationValueType sum = NumericTraits< InternalComputationValueType >::Zero;
       for (SizeValueType dim = 0; dim < ImageToImageMetricv4Type::MovingImageDimension; dim++)

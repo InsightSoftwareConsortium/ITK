@@ -22,6 +22,20 @@
 
 namespace itk
 {
+template< class TDomainPartitioner, class TImageToImageMetric, class TDemonsMetric >
+void
+DemonsImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric, TDemonsMetric >
+::BeforeThreadedExecution()
+{
+  Superclass::BeforeThreadedExecution();
+
+  /* Store the casted pointer to avoid dynamic casting in tight loops. */
+  this->m_DemonsAssociate = dynamic_cast<TDemonsMetric*>( this->m_Associate );
+  if( this->m_DemonsAssociate == NULL )
+    {
+    itkExceptionMacro("Dynamic casting of associate pointer failed.");
+    }
+}
 
 template< class TDomainPartitioner, class TImageToImageMetric, class TDemonsMetric >
 bool
@@ -38,8 +52,6 @@ DemonsImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TIm
                 DerivativeType &                   localDerivativeReturn,
                 const ThreadIdType ) const
 {
-   TDemonsMetric * associate = dynamic_cast< TDemonsMetric * >( this->m_Associate );
-
   /* Metric value */
   const InternalComputationValueType speedValue = fixedImageValue - movingImageValue;
   const InternalComputationValueType sqr_speedValue = vnl_math_sqr( speedValue );
@@ -55,7 +67,7 @@ DemonsImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TIm
   const FixedImageGradientType* gradient;
   SizeValueType                 numberOfDimensions;
 
-  if( associate->GetGradientSourceIncludesFixed() )
+  if( this->m_DemonsAssociate->GetGradientSourceIncludesFixed() )
     {
     gradient = &fixedImageGradient;
     numberOfDimensions = ImageToImageMetricv4Type::FixedImageDimension;
@@ -81,16 +93,16 @@ DemonsImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TIm
    * such that denominator = (g-f)^2/K + grad_mag^2
    * where K = mean square spacing to compensate for the mismatch in units.
    */
-  const InternalComputationValueType denominator = sqr_speedValue / associate->m_Normalizer + gradientSquaredMagnitude;
+  const InternalComputationValueType denominator = sqr_speedValue / this->m_DemonsAssociate->m_Normalizer + gradientSquaredMagnitude;
 
-  if ( vnl_math_abs(speedValue) < associate->GetIntensityDifferenceThreshold() ||
-       denominator < associate->GetDenominatorThreshold() )
+  if ( vnl_math_abs(speedValue) < this->m_DemonsAssociate->GetIntensityDifferenceThreshold() ||
+       denominator < this->m_DemonsAssociate->GetDenominatorThreshold() )
     {
     localDerivativeReturn.Fill( NumericTraits<DerivativeValueType>::Zero );
     return true;
     }
 
-  for ( SizeValueType p = 0; p < associate->GetNumberOfLocalParameters(); p++ )
+  for ( SizeValueType p = 0; p < this->GetCachedNumberOfLocalParameters(); p++ )
     {
     localDerivativeReturn[p] = speedValue * (*gradient)[p] / denominator;
     }

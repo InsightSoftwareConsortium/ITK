@@ -116,6 +116,10 @@ protected:
 private:
   MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader( const Self & ); // purposely not implemented
   void operator=( const Self & ); // purposely not implemented
+
+  /** Internal pointer to the Mattes metric object in use by this threader.
+   *  This will avoid costly dynamic casting in tight loops. */
+  TMattesMutualInformationMetric * m_MattesAssociate;
 };
 
 } // end namespace itk

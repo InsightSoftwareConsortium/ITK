@@ -101,6 +101,18 @@ protected:
   virtual void ThreadedExecution( const DomainType & subdomain,
                                   const ThreadIdType threadId );
 
+  /** Get cached values for efficiency. Only valid once threading has started.
+   *  These methods should be used in tight loops (inlining helps measurably).
+   *  Put these methods here so derived threaders can access them directly. */
+  inline NumberOfParametersType GetCachedNumberOfParameters() const
+  {
+    return this->m_CachedNumberOfParameters;
+  }
+  inline NumberOfParametersType GetCachedNumberOfLocalParameters() const
+  {
+    return this->m_CachedNumberOfLocalParameters;
+  }
+
 private:
   ImageToImageMetricv4GetValueAndDerivativeThreader( const Self & ); // purposely not implemented
   void operator=( const Self & ); // purposely not implemented
@@ -161,6 +173,18 @@ protected:
    * point. */
   virtual void ThreadedExecution( const DomainType & subdomain,
                                   const ThreadIdType threadId );
+
+  /** Get cached values for efficiency. Only valid once threading has started.
+   *  These methods should be used in tight loops (inlining helps measurably).
+   *  Put these methods here so derived threaders can access them directly. */
+  inline NumberOfParametersType GetCachedNumberOfParameters() const
+  {
+    return this->m_CachedNumberOfParameters;
+  }
+  inline NumberOfParametersType GetCachedNumberOfLocalParameters() const
+  {
+    return this->m_CachedNumberOfLocalParameters;
+  }
 
 private:
   ImageToImageMetricv4GetValueAndDerivativeThreader( const Self & ); // purposely not implemented

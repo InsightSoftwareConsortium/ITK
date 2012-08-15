@@ -54,13 +54,14 @@ MeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner
   /** For dense transforms, this returns identity */
   this->m_Associate->GetMovingTransform()->ComputeJacobianWithRespectToParameters( virtualPoint, jacobian );
 
-  for ( unsigned int par = 0; par < this->m_Associate->GetNumberOfLocalParameters(); par++ )
+  for ( unsigned int par = 0; par < this->GetCachedNumberOfLocalParameters(); par++ )
     {
-    localDerivativeReturn[par] = NumericTraits<DerivativeValueType>::Zero;
+    DerivativeValueType sum = NumericTraits<DerivativeValueType>::Zero;
     for ( SizeValueType dim = 0; dim < ImageToImageMetricv4Type::MovingImageDimension; dim++ )
       {
-      localDerivativeReturn[par] += 2.0 * diff * jacobian(dim, par) * movingImageGradient[dim];
+      sum += 2.0 * diff * jacobian(dim, par) * movingImageGradient[dim];
       }
+    localDerivativeReturn[par] = sum;
     }
   return true;
 }

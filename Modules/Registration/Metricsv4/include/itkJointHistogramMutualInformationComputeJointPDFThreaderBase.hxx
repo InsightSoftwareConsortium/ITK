@@ -55,7 +55,7 @@ JointHistogramMutualInformationComputeJointPDFThreaderBase< TDomainPartitioner, 
 template< class TDomainPartitioner, class TJointHistogramMetric >
 void
 JointHistogramMutualInformationComputeJointPDFThreaderBase< TDomainPartitioner, TJointHistogramMetric >
-::ProcessPoint( const VirtualIndexType & virtualIndex,
+::ProcessPoint( const VirtualIndexType & itkNotUsed(virtualIndex),
                 const VirtualPointType & virtualPoint,
                 const ThreadIdType threadId )
 {
@@ -69,20 +69,10 @@ JointHistogramMutualInformationComputeJointPDFThreaderBase< TDomainPartitioner, 
 
   try
     {
-    pointIsValid = this->m_Associate->TransformAndEvaluateFixedPoint( virtualIndex,
-                                          virtualPoint,
-                                          false /*compute gradient*/,
-                                          mappedFixedPoint,
-                                          fixedImageValue,
-                                          fixedImageGradients );
+    pointIsValid = this->m_Associate->TransformAndEvaluateFixedPoint( virtualPoint, mappedFixedPoint, fixedImageValue );
     if( pointIsValid )
       {
-      pointIsValid = this->m_Associate->TransformAndEvaluateMovingPoint( virtualIndex,
-                                            virtualPoint,
-                                            false /*compute gradient*/,
-                                            mappedMovingPoint,
-                                            movingImageValue,
-                                            movingImageGradients );
+      pointIsValid = this->m_Associate->TransformAndEvaluateMovingPoint( virtualPoint, mappedMovingPoint, movingImageValue );
       }
     }
   catch( ExceptionObject & exc )

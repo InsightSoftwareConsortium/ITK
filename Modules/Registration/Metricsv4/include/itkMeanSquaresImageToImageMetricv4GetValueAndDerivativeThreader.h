@@ -59,6 +59,7 @@ public:
   typedef typename Superclass::MeasureType              MeasureType;
   typedef typename Superclass::DerivativeType           DerivativeType;
   typedef typename Superclass::DerivativeValueType      DerivativeValueType;
+  typedef typename Superclass::NumberOfParametersType   NumberOfParametersType;
 
 protected:
   MeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader() {}

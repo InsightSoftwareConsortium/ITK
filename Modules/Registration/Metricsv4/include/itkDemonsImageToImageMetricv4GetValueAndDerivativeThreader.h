@@ -66,6 +66,11 @@ public:
 protected:
   DemonsImageToImageMetricv4GetValueAndDerivativeThreader() {}
 
+  /** Overload.
+   *  Get pointer to metric object.
+   */
+  virtual void BeforeThreadedExecution();
+
   /** This function computes the local voxel-wise contribution of
    *  the metric to the global integral of the metric/derivative.
    */
@@ -85,6 +90,10 @@ protected:
 private:
   DemonsImageToImageMetricv4GetValueAndDerivativeThreader( const Self & ); // purposely not implemented
   void operator=( const Self & ); // purposely not implemented
+
+  /** Internal pointer to the Mattes metric object in use by this threader.
+   *  This will avoid costly dynamic casting in tight loops. */
+  TDemonsMetric * m_DemonsAssociate;
 };
 
 } // end namespace itk

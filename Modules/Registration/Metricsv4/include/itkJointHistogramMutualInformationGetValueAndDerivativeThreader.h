@@ -119,6 +119,10 @@ protected:
 private:
   JointHistogramMutualInformationGetValueAndDerivativeThreader( const Self & ); // purposely not implemented
   void operator=( const Self & ); // purposely not implemented
+
+  /** Internal pointer to the metric object in use by this threader.
+   *  This will avoid costly dynamic casting in tight loops. */
+  TJointHistogramMetric * m_JointAssociate;
 };
 
 } // end namespace itk

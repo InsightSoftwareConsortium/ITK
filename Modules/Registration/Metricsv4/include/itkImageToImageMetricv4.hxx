@@ -186,19 +186,17 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
   this->InitializeDefaultMovingImageGradientFilter();
 
   /* If user set to use a pre-calculated fixed gradient image,
+   * and the metric is set to use fixed image gradients,
    * then we need to calculate the gradient image.
-   * We only need to compute once since the fixed transform isn't
-   * optimized. */
-  if ( this->m_UseFixedImageGradientFilter )
+   * We only need to compute once. */
+  if ( this->GetGradientSourceIncludesFixed() && this->m_UseFixedImageGradientFilter )
     {
     itkDebugMacro("Initialize: ComputeFixedImageGradientFilterImage");
     this->ComputeFixedImageGradientFilterImage();
     }
 
-  /* Compute gradient image for moving image. Needed now for
-   * derived classes that use it before InitializeForIteration is called.
-   * It's also computed at begin of every iteration. */
-  if( this->m_UseMovingImageGradientFilter )
+  /* Compute gradient image for moving image. */
+  if( this->GetGradientSourceIncludesMoving() && this->m_UseMovingImageGradientFilter )
     {
     itkDebugMacro("Initialize: ComputeMovingImageGradientFilterImage");
     this->ComputeMovingImageGradientFilterImage();
@@ -296,12 +294,9 @@ template<class TFixedImage,class TMovingImage,class TVirtualImage>
 bool
 ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
 ::TransformAndEvaluateFixedPoint(
-                         const VirtualIndexType & itkNotUsed(index),
                          const VirtualPointType & virtualPoint,
-                         const bool computeImageGradient,
                          FixedImagePointType & mappedFixedPoint,
-                         FixedImagePixelType & mappedFixedPixelValue,
-                         FixedImageGradientType & mappedFixedImageGradient ) const
+                         FixedImagePixelType & mappedFixedPixelValue ) const
 {
   bool pointIsValid = true;
   mappedFixedPixelValue = NumericTraits<FixedImagePixelType>::Zero;
@@ -323,16 +318,11 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
 
   // Check if mapped point is inside image buffer
   pointIsValid = this->m_FixedInterpolator->IsInsideBuffer(mappedFixedPoint);
-  if( ! pointIsValid )
-    {
-    return pointIsValid;
-    }
 
-  mappedFixedPixelValue = this->m_FixedInterpolator->Evaluate(mappedFixedPoint);
-  if( computeImageGradient )
+  // Evaluate
+  if( pointIsValid )
     {
-    this->ComputeFixedImageGradientAtPoint( mappedFixedPoint,
-                                     mappedFixedImageGradient );
+    mappedFixedPixelValue = this->m_FixedInterpolator->Evaluate(mappedFixedPoint);
     }
 
   return pointIsValid;
@@ -342,12 +332,9 @@ template<class TFixedImage,class TMovingImage,class TVirtualImage>
 bool
 ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
 ::TransformAndEvaluateMovingPoint(
-                         const VirtualIndexType & itkNotUsed(index),
                          const VirtualPointType & virtualPoint,
-                         const bool computeImageGradient,
                          MovingImagePointType & mappedMovingPoint,
-                         MovingImagePixelType & mappedMovingPixelValue,
-                         MovingImageGradientType & mappedMovingImageGradient ) const
+                         MovingImagePixelType & mappedMovingPixelValue ) const
 {
   bool pointIsValid = true;
   mappedMovingPixelValue = NumericTraits<MovingImagePixelType>::Zero;
@@ -369,15 +356,11 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
 
   // Check if mapped point is inside image buffer
   pointIsValid = this->m_MovingInterpolator->IsInsideBuffer(mappedMovingPoint);
-  if( ! pointIsValid )
-    {
-    return pointIsValid;
-    }
 
-  mappedMovingPixelValue = this->m_MovingInterpolator->Evaluate( mappedMovingPoint );
-  if( computeImageGradient )
+  // Evaluate
+  if( pointIsValid )
     {
-    this->ComputeMovingImageGradientAtPoint( mappedMovingPoint, mappedMovingImageGradient );
+    mappedMovingPixelValue = this->m_MovingInterpolator->Evaluate( mappedMovingPoint );
     }
 
   return pointIsValid;
@@ -386,71 +369,44 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 void
 ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
-::ComputeFixedImageGradientAtPoint( const FixedImagePointType & mappedPoint,
-                             FixedImageGradientType & gradient ) const
+::ComputeFixedImageGradientAtPoint( const FixedImagePointType & mappedPoint, FixedImageGradientType & gradient ) const
 {
   if ( this->m_UseFixedImageGradientFilter )
     {
+    if( ! this->GetGradientSourceIncludesFixed() )
+      {
+      itkExceptionMacro("Attempted to retrieve fixed image gradient from gradient image filter, "
+                        "but GradientSource does not include 'fixed', and thus the gradient image has not been calculated.");
+      }
     gradient = m_FixedImageGradientInterpolator->Evaluate( mappedPoint );
     }
   else
     {
     // if not using the gradient image
+std::cout << "CFixedIMGAP: point: " << mappedPoint << "...";
     gradient = this->m_FixedImageGradientCalculator->Evaluate( mappedPoint );
+std::cout << "done\n";
     }
 }
 
 template<class TFixedImage,class TMovingImage,class TVirtualImage>
 void
 ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
-::ComputeMovingImageGradientAtPoint(
-                              const MovingImagePointType & mappedPoint,
-                              MovingImageGradientType & gradient ) const
+::ComputeMovingImageGradientAtPoint( const MovingImagePointType & mappedPoint, MovingImageGradientType & gradient ) const
 {
   if ( this->m_UseMovingImageGradientFilter )
     {
+    if( ! this->GetGradientSourceIncludesMoving() )
+      {
+      itkExceptionMacro("Attempted to retrieve moving image gradient from gradient image filter, "
+                        "but GradientSource does not include 'moving', and thus the gradient image has not been calculated.");
+      }
     gradient = m_MovingImageGradientInterpolator->Evaluate( mappedPoint );
     }
   else
     {
     // if not using the gradient image
     gradient = this->m_MovingImageGradientCalculator->Evaluate(mappedPoint);
-    }
-}
-
-template<class TFixedImage,class TMovingImage,class TVirtualImage>
-void
-ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
-::ComputeFixedImageGradientAtIndex(
-                              const VirtualIndexType & index,
-                              FixedImageGradientType & gradient ) const
-{
-  if ( this->m_UseFixedImageGradientFilter )
-    {
-    gradient = this->m_FixedImageGradientImage->GetPixel(index);
-    }
-  else
-    {
-    // if not using the gradient image
-    gradient = this->m_FixedImageGradientCalculator->EvaluateAtIndex(index);
-    }
-}
-
-template<class TFixedImage,class TMovingImage,class TVirtualImage>
-void
-ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage >
-::ComputeMovingImageGradientAtIndex(
-                              const VirtualIndexType & index,
-                              MovingImageGradientType & gradient ) const
-{
-  if ( this->m_UseMovingImageGradientFilter )
-    {
-    gradient = this->m_MovingImageGradientImage->GetPixel(index);
-    }
-  else
-    {
-    // if not using the gradient image
-    gradient = this->m_MovingImageGradientCalculator->EvaluateAtIndex(index);
     }
 }
 
