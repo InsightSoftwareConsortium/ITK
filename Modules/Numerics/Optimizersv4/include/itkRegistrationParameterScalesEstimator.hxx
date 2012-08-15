@@ -19,6 +19,8 @@
 #define __itkRegistrationParameterScalesEstimator_hxx
 
 #include "itkRegistrationParameterScalesEstimator.h"
+
+#include "itkCompositeTransform.h"
 #include "itkPointSet.h"
 #include "itkObjectToObjectMetric.h"
 
@@ -30,16 +32,16 @@ RegistrationParameterScalesEstimator< TMetric >
 ::RegistrationParameterScalesEstimator()
 {
   // estimate parameter scales of the moving transform
-  m_TransformForward = true;
+  this->m_TransformForward = true;
 
   // number for random sampling
-  m_NumberOfRandomSamples = 0;
+  this->m_NumberOfRandomSamples = 0;
 
   // default sampling strategy
-  m_SamplingStrategy = FullDomainSampling;
+  this->m_SamplingStrategy = FullDomainSampling;
 
   // the default radius of the central region for sampling
-  m_CentralRegionRadius = 5;
+  this->m_CentralRegionRadius = 5;
 
   // the metric object must be set before EstimateScales()
 }
@@ -82,11 +84,11 @@ if (m_Metric.IsNull())
 
   if (this->m_Metric->GetMovingTransform() == NULL)
     {
-    itkExceptionMacro("RegistrationParameterScalesEstimator: m_MovingTransform in the metric is NULL.");
+    itkExceptionMacro("RegistrationParameterScalesEstimator: this->m_MovingTransform in the metric is NULL.");
     }
   if (this->m_Metric->GetFixedTransform() == NULL)
     {
-    itkExceptionMacro("RegistrationParameterScalesEstimator: m_FixedTransform in the metric is NULL.");
+    itkExceptionMacro("RegistrationParameterScalesEstimator: this->m_FixedTransform in the metric is NULL.");
     }
 
   return true;
@@ -125,23 +127,104 @@ RegistrationParameterScalesEstimator< TMetric >
 }
 
 /** Check if the transform being optimized has local support. */
+
 template< class TMetric >
 bool
 RegistrationParameterScalesEstimator< TMetric >
 ::IsDisplacementFieldTransform()
 {
-  bool isDisplacementFieldTransform = false;
-
   if( this->m_TransformForward && this->m_Metric->GetMovingTransform()->GetTransformCategory() == MovingTransformType::DisplacementField )
     {
-    isDisplacementFieldTransform = true;
+    return true;
     }
-  if( !this->m_TransformForward && this->m_Metric->GetFixedTransform()->GetTransformCategory() == FixedTransformType::DisplacementField )
+  else if( !this->m_TransformForward && this->m_Metric->GetFixedTransform()->GetTransformCategory() == FixedTransformType::DisplacementField )
     {
-    isDisplacementFieldTransform = true;
+    return true;
+    }
+  return false;
+}
+
+template< class TMetric >
+bool
+RegistrationParameterScalesEstimator< TMetric >
+::IsBSplineTransform()
+{
+  bool isBSplineTransform = false;
+
+  if( this->m_TransformForward && this->m_Metric->GetMovingTransform()->GetTransformCategory() == MovingTransformType::BSpline )
+    {
+    isBSplineTransform = true;
+    }
+  else if( !this->m_TransformForward && this->m_Metric->GetFixedTransform()->GetTransformCategory() == FixedTransformType::BSpline )
+    {
+    isBSplineTransform = true;
     }
 
-  return isDisplacementFieldTransform;
+  // We need to check for the case where the fixed/moving transform is
+  // a composite transform with optimizing B-spline transforms.
+  // The CompositeTransform class function GetTransformCategory() handles
+  // this scenario for displacement field transforms but we need to duplicate
+  // the analogous b-spline case here.
+
+  if( !isBSplineTransform )
+    {
+    if( this->m_TransformForward )
+      {
+      typedef CompositeTransform<FloatType, MovingDimension> CompositeTransformType;
+      typename CompositeTransformType::Pointer compositeTransform = dynamic_cast<CompositeTransformType *>( const_cast<MovingTransformType *>( this->m_Metric->GetMovingTransform() ) );
+
+      if( compositeTransform )
+        {
+        isBSplineTransform = true;
+        for( signed long tind = static_cast<signed long>( compositeTransform->GetNumberOfTransforms() ) - 1; tind >= 0; tind-- )
+          {
+          if( compositeTransform->GetNthTransformToOptimize( tind ) &&
+            ( compositeTransform->GetNthTransform( tind ).GetPointer()->GetTransformCategory() != MovingTransformType::BSpline ) )
+            {
+            isBSplineTransform = false;
+            break;
+            }
+          }
+        }
+      }
+    else // !this->m_TransformForward
+      {
+      typedef CompositeTransform<FloatType, FixedDimension> CompositeTransformType;
+      typename CompositeTransformType::Pointer compositeTransform = dynamic_cast<CompositeTransformType *>( const_cast<FixedTransformType *>( this->m_Metric->GetFixedTransform() ) );
+
+      if( compositeTransform )
+        {
+        isBSplineTransform = true;
+        for( signed long tind = static_cast<signed long>( compositeTransform->GetNumberOfTransforms() ) - 1; tind >= 0; tind-- )
+          {
+          if( compositeTransform->GetNthTransformToOptimize( tind ) &&
+            ( compositeTransform->GetNthTransform( tind ).GetPointer()->GetTransformCategory() != FixedTransformType::BSpline ) )
+            {
+            isBSplineTransform = false;
+            break;
+            }
+          }
+        }
+      }
+    }
+
+  return isBSplineTransform;
+}
+
+
+template< class TMetric >
+bool
+RegistrationParameterScalesEstimator< TMetric >
+::TransformHasLocalSupportForScalesEstimation()
+{
+  if( this->IsDisplacementFieldTransform() || this->IsBSplineTransform() )
+    {
+    return true;
+    }
+  else
+    {
+    return false;
+    }
 }
 
 /** Get the number of scales. */
@@ -240,7 +323,7 @@ RegistrationParameterScalesEstimator< TMetric >
 }
 
 /** Sample the virtual domain with phyical points
- *  and store the results into m_SamplePoints.
+ *  and store the results into this->m_SamplePoints.
  */
 template< class TMetric >
 void
@@ -255,7 +338,7 @@ RegistrationParameterScalesEstimator< TMetric >
   if( ! this->m_Metric->SupportsArbitraryVirtualDomainSamples() && ! this->m_VirtualDomainPointSet )
     {
     itkExceptionMacro(" The assigned metric does not support aribitrary virtual domain sampling, "
-                      " yet m_VirtualDomainPointSet has not been assigned. " );
+                      " yet this->m_VirtualDomainPointSet has not been assigned. " );
     }
 
   if (m_SamplingStrategy == VirtualDomainPointSetSampling)
@@ -301,7 +384,7 @@ RegistrationParameterScalesEstimator< TMetric >
     {
     this->SetSamplingStrategy(VirtualDomainPointSetSampling);
     }
-  else if( this->IsDisplacementFieldTransform() )
+  else if( this->TransformHasLocalSupportForScalesEstimation() )
     {
     this->SetSamplingStrategy(CentralRegionSampling);
     }
@@ -328,7 +411,7 @@ RegistrationParameterScalesEstimator< TMetric >
     {
     this->SetSamplingStrategy(VirtualDomainPointSetSampling);
     }
-  else if (this->IsDisplacementFieldTransform())
+  else if( this->TransformHasLocalSupportForScalesEstimation() )
     {
     // Have to use FullDomainSampling for a transform with local support
     this->SetSamplingStrategy(FullDomainSampling);
@@ -485,7 +568,7 @@ RegistrationParameterScalesEstimator< TMetric >
 {
   VirtualImageConstPointer image = this->m_Metric->GetVirtualImage();
   const SizeValueType total = region.GetNumberOfPixels();
-  m_SamplePoints.resize(total);
+  this->m_SamplePoints.resize(total);
 
   /* Set up an iterator within the user specified virtual image region. */
   typedef ImageRegionConstIteratorWithIndex<VirtualImageType> RegionIterator;
@@ -499,7 +582,7 @@ RegistrationParameterScalesEstimator< TMetric >
   while( !regionIter.IsAtEnd() )
     {
     image->TransformIndexToPhysicalPoint( regionIter.GetIndex(), point );
-    m_SamplePoints[count] = point;
+    this->m_SamplePoints[count] = point;
     ++regionIter;
     ++count;
     }
@@ -507,7 +590,7 @@ RegistrationParameterScalesEstimator< TMetric >
 
 /**
  *  Sample the virtual domain with the points at image corners.
- *  And store the results into m_SamplePoints.
+ *  And store the results into this->m_SamplePoints.
  */
 template< class TMetric >
 void
@@ -524,7 +607,7 @@ RegistrationParameterScalesEstimator< TMetric >
   VirtualSizeType size = region.GetSize();
   const int cornerNumber = 1 << VirtualDimension; // 2^Dimension
 
-  m_SamplePoints.resize(cornerNumber);
+  this->m_SamplePoints.resize(cornerNumber);
 
   for(int i=0; i<cornerNumber; i++)
     {
@@ -536,7 +619,7 @@ RegistrationParameterScalesEstimator< TMetric >
       }
 
     image->TransformIndexToPhysicalPoint(corner, point);
-    m_SamplePoints[i] = point;
+    this->m_SamplePoints[i] = point;
     }
 }
 
@@ -555,22 +638,22 @@ RegistrationParameterScalesEstimator< TMetric >
     const SizeValueType total = this->m_Metric->GetVirtualRegion().GetNumberOfPixels();
     if (total <= SizeOfSmallDomain)
       {
-      m_NumberOfRandomSamples = total;
+      this->m_NumberOfRandomSamples = total;
       }
     else
       {
       FloatType ratio = 1 + vcl_log((FloatType)total/SizeOfSmallDomain);
       //ratio >= 1 since total/SizeOfSmallDomain > 1
 
-      m_NumberOfRandomSamples = static_cast<int>(SizeOfSmallDomain * ratio);
+      this->m_NumberOfRandomSamples = static_cast<int>(SizeOfSmallDomain * ratio);
       if (m_NumberOfRandomSamples > total)
         {
-        m_NumberOfRandomSamples = total;
+        this->m_NumberOfRandomSamples = total;
         }
       }
     }
 
-  m_SamplePoints.resize(m_NumberOfRandomSamples);
+  this->m_SamplePoints.resize(m_NumberOfRandomSamples);
 
   // Set up a random iterator within the user specified virtual image region.
   typedef ImageRandomConstIteratorWithIndex<VirtualImageType> RandomIterator;
@@ -578,12 +661,12 @@ RegistrationParameterScalesEstimator< TMetric >
 
   VirtualPointType point;
 
-  randIter.SetNumberOfSamples( m_NumberOfRandomSamples );
+  randIter.SetNumberOfSamples( this->m_NumberOfRandomSamples );
   randIter.GoToBegin();
   for (SizeValueType i=0; i<m_NumberOfRandomSamples; i++)
     {
     image->TransformIndexToPhysicalPoint( randIter.GetIndex(), point );
-    m_SamplePoints[i] = point;
+    this->m_SamplePoints[i] = point;
     ++randIter;
     }
 }
@@ -606,13 +689,13 @@ RegistrationParameterScalesEstimator< TMetric >
     itkExceptionMacro("The virtual domain point set has no points.");
     }
 
-  m_SamplePoints.resize( this->m_VirtualDomainPointSet->GetNumberOfPoints() );
+  this->m_SamplePoints.resize( this->m_VirtualDomainPointSet->GetNumberOfPoints() );
 
   typename VirtualPointSetType::PointsContainerConstIterator it( this->m_VirtualDomainPointSet->GetPoints()->Begin() );
   SizeValueType count = 0;
   while( it != this->m_VirtualDomainPointSet->GetPoints()->End() )
     {
-    m_SamplePoints[count] = it.Value();
+    this->m_SamplePoints[count] = it.Value();
     ++count;
     ++it;
     }

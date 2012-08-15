@@ -53,7 +53,8 @@ RegistrationParameterScalesFromShiftBase< TMetric >
   FloatType minNonZeroShift = NumericTraits<FloatType>::max();
 
   OffsetValueType offset = 0;
-  if( this->GetTransform()->GetTransformCategory() == MovingTransformType::DisplacementField )
+
+  if( this->IsDisplacementFieldTransform() )
     {
     //FIXME: remove if we end up not using this
     //if( this->MetricIsPointSetToPointSetType() )
@@ -76,7 +77,8 @@ RegistrationParameterScalesFromShiftBase< TMetric >
     // For local support, we need to refill deltaParameters with zeros at each loop
     // since smoothing may change the values around the local voxel.
     deltaParameters.Fill(NumericTraits< typename ParametersType::ValueType >::Zero);
-    deltaParameters[offset + i] = m_SmallParameterVariation;
+    deltaParameters[offset + i] = this->m_SmallParameterVariation;
+
     maxShift = this->ComputeMaximumVoxelShift(deltaParameters);
 
     parameterScales[i] = maxShift;
@@ -93,22 +95,28 @@ RegistrationParameterScalesFromShiftBase< TMetric >
     }
   else
     {
-    for (SizeValueType i=0; i<numLocalPara; i++)
+    if( this->IsBSplineTransform() )
       {
-      if (parameterScales[i] <= NumericTraits<FloatType>::epsilon())
+      parameterScales.Fill( minNonZeroShift );
+      }
+    else
+      {
+      for (SizeValueType i=0; i<numLocalPara; i++)
         {
-        // To avoid division-by-zero in optimizers, assign a small value for a zero scale.
-        parameterScales[i] = minNonZeroShift * minNonZeroShift;
+        if (parameterScales[i] <= NumericTraits<FloatType>::epsilon())
+          {
+          // To avoid division-by-zero in optimizers, assign a small value for a zero scale.
+          parameterScales[i] = minNonZeroShift * minNonZeroShift;
+          }
+        else
+          {
+          parameterScales[i] *= parameterScales[i];
+          }
+        //normalize to unit variation
+        parameterScales[i] *= NumericTraits< typename ScalesType::ValueType >::One / vnl_math_sqr( this->m_SmallParameterVariation );
         }
-      else
-        {
-        parameterScales[i] *= parameterScales[i];
-        }
-      //normalize to unit variation
-      parameterScales[i] *= NumericTraits< typename ScalesType::ValueType >::One / m_SmallParameterVariation / m_SmallParameterVariation;
       }
     }
-
 }
 
 /** Compute the scale for a step. For transform T(x + t * step), the scale
@@ -123,7 +131,7 @@ RegistrationParameterScalesFromShiftBase< TMetric >
   this->SetStepScaleSamplingStrategy();
   this->SampleVirtualDomain();
 
-  if( this->GetTransform()->GetTransformCategory() == MovingTransformType::DisplacementField )
+  if( this->TransformHasLocalSupportForScalesEstimation() )
     {
     return this->ComputeMaximumVoxelShift(step);
     }
@@ -145,7 +153,7 @@ RegistrationParameterScalesFromShiftBase< TMetric >
     }
   else
     {
-    FloatType factor = m_SmallParameterVariation / maxStep;
+    FloatType factor = this->m_SmallParameterVariation / maxStep;
     ParametersType smallStep(step.size());
     //Use a small step to have a linear approximation.
     smallStep = step * factor;
@@ -161,9 +169,9 @@ void
 RegistrationParameterScalesFromShiftBase< TMetric >
 ::EstimateLocalStepScales(const ParametersType &step, ScalesType &localStepScales)
 {
-  if( !( this->GetTransform()->GetTransformCategory() == MovingTransformType::DisplacementField ) )
+  if( !this->TransformHasLocalSupportForScalesEstimation() )
     {
-    itkExceptionMacro("EstimateLocalStepScales: the transform doesn't have local support.");
+    itkExceptionMacro( "EstimateLocalStepScales: the transform doesn't have local support (displacement field or b-spline)." );
     }
 
   this->CheckAndSetInputs();

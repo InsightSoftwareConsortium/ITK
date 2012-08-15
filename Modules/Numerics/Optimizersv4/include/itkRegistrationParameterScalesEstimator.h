@@ -188,7 +188,13 @@ protected:
   void ComputeSquaredJacobianNorms( const VirtualPointType  & p, ParametersType & squareNorms);
 
   /** Check if the transform being optimized has local support. */
+  bool TransformHasLocalSupportForScalesEstimation();
+
+  /** Check if the transform being optimized is a displacement field transform. */
   bool IsDisplacementFieldTransform();
+
+  /** Check if the transform being optimized is a B-spline transform. */
+  bool IsBSplineTransform();
 
   /** Get the number of local parameters. */
   SizeValueType GetNumberOfLocalParameters();

@@ -149,16 +149,13 @@ BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
     // If we are using the default parameters, update their size and set to
     // identity.
     //
-    // Input parameters point to internal buffer => using default parameters.
-    if( this->m_InputParametersPointer == &(this->m_InternalParametersBuffer) )
+
+    // Check if we need to resize the default parameter buffer.
+    if( this->m_InternalParametersBuffer.GetSize() != this->GetNumberOfParameters() )
       {
-      // Check if we need to resize the default parameter buffer.
-      if( this->m_InternalParametersBuffer.GetSize() != this->GetNumberOfParameters() )
-        {
-        this->m_InternalParametersBuffer.SetSize( this->GetNumberOfParameters() );
-        // Fill with zeros for identity.
-        this->m_InternalParametersBuffer.Fill(0);
-        }
+      this->m_InternalParametersBuffer.SetSize( this->GetNumberOfParameters() );
+      // Fill with zeros for identity.
+      this->m_InternalParametersBuffer.Fill( 0 );
       }
     this->SetFixedParametersGridSizeFromTransformDomainInformation();
     this->Modified();
