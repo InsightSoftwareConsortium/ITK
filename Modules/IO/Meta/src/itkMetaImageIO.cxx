@@ -625,14 +625,22 @@ MetaImageIO
       {
       strs << bval;
       }
-    else
-      {
-      itkWarningMacro("Unsupported metaData item "
-        << *keyIt << " of type "
-        << metaDict[*keyIt]->GetMetaDataObjectTypeName()
-        << "found, won't be written to image file");
-      }
+
     value = strs.str();
+
+    if (value == "" )
+      {
+      // if the value is an empty string then the resulting entry in
+      // the header will not be able to be read the the metaIO
+      // library, which results is a unreadable/corrupt file.
+      itkWarningMacro("Unsupported or empty metaData item "
+                      << *keyIt << " of type "
+                      << metaDict[*keyIt]->GetMetaDataObjectTypeName()
+                      << "found, won't be written to image file");
+
+      // so this entry should be skipped.
+      continue;
+      }
 
     // Rolling this back out so that the tests pass.
     // The meta image AddUserField requires control of the memory space.
