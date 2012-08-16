@@ -400,8 +400,7 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualI
     }
   else
     {
-    const OffsetValueType nindex =
-      static_cast<OffsetValueType>( this->m_NumberOfHistogramBins ) - 3;
+    const OffsetValueType nindex = static_cast<OffsetValueType>( this->m_NumberOfHistogramBins ) - 3;
     if( pindex > nindex )
       {
       pindex = nindex;

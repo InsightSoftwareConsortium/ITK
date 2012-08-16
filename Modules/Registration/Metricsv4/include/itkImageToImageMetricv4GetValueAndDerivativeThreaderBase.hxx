@@ -108,6 +108,11 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase< TDomainPartitioner, TImag
         }
       }
     }
+
+  //-----------------------------------------------------------------
+  // Cache some values
+ this->m_CachedNumberOfParameters      = this->m_Associate->GetNumberOfParameters();
+ this->m_CachedNumberOfLocalParameters = this->m_Associate->GetNumberOfLocalParameters();
 }
 
 template< class TDomainPartitioner, class TImageToImageMetricv4 >
@@ -188,12 +193,13 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase< TDomainPartitioner, TImag
    * then we otherwise get when exceptions are caught in MultiThreader. */
   try
     {
-    pointIsValid = this->m_Associate->TransformAndEvaluateFixedPoint( virtualIndex,
-                                      virtualPoint,
-                                      this->m_Associate->GetComputeDerivative() && this->m_Associate->GetGradientSourceIncludesFixed(),
-                                      mappedFixedPoint,
-                                      mappedFixedPixelValue,
-                                      mappedFixedImageGradient );
+    pointIsValid = this->m_Associate->TransformAndEvaluateFixedPoint( virtualPoint, mappedFixedPoint, mappedFixedPixelValue);
+    if( pointIsValid &&
+        this->m_Associate->GetComputeDerivative() &&
+        this->m_Associate->GetGradientSourceIncludesFixed() )
+      {
+      this->m_Associate->ComputeFixedImageGradientAtPoint( mappedFixedPoint, mappedFixedImageGradient );
+      }
     }
   catch( ExceptionObject & exc )
     {
@@ -210,12 +216,13 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase< TDomainPartitioner, TImag
 
   try
     {
-    pointIsValid = this->m_Associate->TransformAndEvaluateMovingPoint( virtualIndex,
-                                    virtualPoint,
-                                    this->m_Associate->GetComputeDerivative() && this->m_Associate->GetGradientSourceIncludesMoving(),
-                                    mappedMovingPoint,
-                                    mappedMovingPixelValue,
-                                    mappedMovingImageGradient );
+    pointIsValid = this->m_Associate->TransformAndEvaluateMovingPoint( virtualPoint, mappedMovingPoint, mappedMovingPixelValue );
+    if( pointIsValid &&
+        this->m_Associate->GetComputeDerivative() &&
+        this->m_Associate->GetGradientSourceIncludesMoving() )
+      {
+      this->m_Associate->ComputeMovingImageGradientAtPoint( mappedMovingPoint, mappedMovingImageGradient );
+      }
     }
   catch( ExceptionObject & exc )
     {
@@ -275,13 +282,13 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase< TDomainPartitioner, TImag
     if ( this->m_Associate->GetUseFloatingPointCorrection() )
       {
       DerivativeValueType correctionResolution = this->m_Associate->GetFloatingPointCorrectionResolution();
-      for (NumberOfParametersType p = 0; p < this->m_Associate->GetNumberOfParameters(); p++ )
+      for (NumberOfParametersType p = 0; p < this->m_CachedNumberOfParameters; p++ )
         {
         intmax_t test = static_cast< intmax_t >( this->m_LocalDerivativesPerThread[threadId][p] * correctionResolution );
         this->m_LocalDerivativesPerThread[threadId][p] = static_cast<DerivativeValueType>( test / correctionResolution );
         }
       }
-    for (NumberOfParametersType p = 0; p < this->m_Associate->GetNumberOfParameters(); p++ )
+    for (NumberOfParametersType p = 0; p < this->m_CachedNumberOfParameters; p++ )
       {
       this->m_CompensatedDerivativesPerThread[threadId][p] += this->m_LocalDerivativesPerThread[threadId][p];
       }
@@ -294,8 +301,8 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase< TDomainPartitioner, TImag
     // is scalar (which is verified during Metric initialization).
     try
       {
-      OffsetValueType offset = this->m_Associate->ComputeParameterOffsetFromVirtualIndex( virtualIndex, this->m_Associate->GetNumberOfLocalParameters() );
-      for (NumberOfParametersType i=0; i < this->m_Associate->GetNumberOfLocalParameters(); i++)
+      OffsetValueType offset = this->m_Associate->ComputeParameterOffsetFromVirtualIndex( virtualIndex, this->m_CachedNumberOfLocalParameters );
+      for (NumberOfParametersType i=0; i < this->m_CachedNumberOfLocalParameters; i++)
         {
         /* Be sure to *add* here and not assign. Required for proper behavior
          * with multi-variate metric. */

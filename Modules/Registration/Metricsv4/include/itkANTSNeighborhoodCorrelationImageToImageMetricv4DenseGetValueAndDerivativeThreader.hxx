@@ -29,7 +29,12 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreade
 ::ThreadedExecution( const DomainType & virtualImageSubRegion,
                      const ThreadIdType threadId )
 {
-  TNeighborhoodCorrelationMetric * associate = dynamic_cast< TNeighborhoodCorrelationMetric * >( this->m_Associate );
+  /* Store the casted pointer to avoid dynamic casting in tight loops. */
+  this->m_ANTSAssociate = dynamic_cast< TNeighborhoodCorrelationMetric * >( this->m_Associate );
+  if( this->m_ANTSAssociate == NULL )
+    {
+    itkExceptionMacro("Dynamic casting of associate pointer failed.");
+    }
 
   VirtualPointType     virtualPoint;
   MeasureType          metricValueResult;
@@ -42,14 +47,14 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreade
   DerivativeType & localDerivativeResult = this->m_LocalDerivativesPerThread[threadId];
 
   /* Create an iterator over the virtual sub region */
-  associate->InitializeScanning( virtualImageSubRegion, scanIt, scanMem, scanParameters );
+  this->m_ANTSAssociate->InitializeScanning( virtualImageSubRegion, scanIt, scanMem, scanParameters );
 
   /* Iterate over the sub region */
   scanIt.GoToBegin();
   while (!scanIt.IsAtEnd())
     {
     /* Get the virtual point */
-    associate->TransformVirtualIndexToPhysicalPoint( scanIt.GetIndex(), virtualPoint );
+    this->m_ANTSAssociate->TransformVirtualIndexToPhysicalPoint( scanIt.GetIndex(), virtualPoint );
 
     /* Call the user method in derived classes to do the specific
      * calculations for value and derivative. */
@@ -97,8 +102,6 @@ void
 ANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreader< TImageToImageMetric, TNeighborhoodCorrelationMetric >
 ::UpdateQueuesAtBeginningOfLine( const ScanIteratorType &scanIt, ScanMemType &scanMem, const ScanParametersType &scanParameters, const ThreadIdType ) const
 {
-  TNeighborhoodCorrelationMetric * associate = dynamic_cast< TNeighborhoodCorrelationMetric * >( this->m_Associate );
-
   const SizeValueType numberOfFillZero = scanParameters.numberOfFillZero;
   const SizeValueType hoodlen = scanParameters.windowLength;
 
@@ -140,30 +143,18 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreade
       VirtualPointType        virtualPoint;
       FixedImagePointType     mappedFixedPoint;
       FixedImagePixelType     fixedImageValue;
-      FixedImageGradientType  fixedImageGradient;
       MovingImagePointType    mappedMovingPoint;
       MovingImagePixelType    movingImageValue;
-      MovingImageGradientType movingImageGradient;
       bool pointIsValid;
 
-      associate->TransformVirtualIndexToPhysicalPoint(index, virtualPoint);
+      this->m_ANTSAssociate->TransformVirtualIndexToPhysicalPoint(index, virtualPoint);
 
       try
         {
-        pointIsValid = associate->TransformAndEvaluateFixedPoint( index,
-                          virtualPoint,
-                          false/*compute gradient*/,
-                          mappedFixedPoint,
-                          fixedImageValue,
-                          fixedImageGradient );
+        pointIsValid = this->m_ANTSAssociate->TransformAndEvaluateFixedPoint( virtualPoint, mappedFixedPoint, fixedImageValue );
         if ( pointIsValid )
           {
-          pointIsValid = associate->TransformAndEvaluateMovingPoint(index,
-                            virtualPoint,
-                            false/*compute gradient*/,
-                            mappedMovingPoint,
-                            movingImageValue,
-                            movingImageGradient );
+          pointIsValid = this->m_ANTSAssociate->TransformAndEvaluateMovingPoint( virtualPoint, mappedMovingPoint, movingImageValue );
           }
         }
       catch (ExceptionObject & exc)
@@ -201,8 +192,6 @@ void
 ANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreader< TImageToImageMetric, TNeighborhoodCorrelationMetric >
 ::UpdateQueuesToNextScanWindow( const ScanIteratorType &scanIt, ScanMemType &scanMem, const ScanParametersType &scanParameters, const ThreadIdType ) const
 {
-  TNeighborhoodCorrelationMetric * associate = dynamic_cast< TNeighborhoodCorrelationMetric * >( this->m_Associate );
-
   const SizeValueType hoodlen = scanParameters.windowLength;
 
   typedef InternalComputationValueType LocalRealType;
@@ -233,29 +222,18 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreade
     VirtualPointType virtualPoint;
     FixedImagePointType mappedFixedPoint;
     FixedImagePixelType fixedImageValue;
-    FixedImageGradientType fixedImageGradient;
     MovingImagePointType mappedMovingPoint;
     MovingImagePixelType movingImageValue;
     MovingImageGradientType movingImageGradient;
     bool pointIsValid;
 
-    associate->TransformVirtualIndexToPhysicalPoint(index, virtualPoint);
+    this->m_ANTSAssociate->TransformVirtualIndexToPhysicalPoint(index, virtualPoint);
     try
       {
-      pointIsValid = associate->TransformAndEvaluateFixedPoint( index,
-            virtualPoint,
-            false/*compute gradient*/,
-            mappedFixedPoint,
-            fixedImageValue,
-            fixedImageGradient );
+      pointIsValid = this->m_ANTSAssociate->TransformAndEvaluateFixedPoint( virtualPoint, mappedFixedPoint, fixedImageValue );
       if (pointIsValid)
         {
-        pointIsValid = associate->TransformAndEvaluateMovingPoint( index,
-              virtualPoint,
-             false/*compute gradient*/,
-             mappedMovingPoint,
-             movingImageValue,
-             movingImageGradient );
+        pointIsValid = this->m_ANTSAssociate->TransformAndEvaluateMovingPoint( virtualPoint, mappedMovingPoint, movingImageValue );
         }
       }
     catch (ExceptionObject & exc)
@@ -312,8 +290,6 @@ bool
 ANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreader< TImageToImageMetric, TNeighborhoodCorrelationMetric >
 ::ComputeInformationFromQueues( const ScanIteratorType &scanIt, ScanMemType &scanMem, const ScanParametersType &, const ThreadIdType ) const
 {
-  TNeighborhoodCorrelationMetric * associate = dynamic_cast< TNeighborhoodCorrelationMetric * >( this->m_Associate );
-
   typedef InternalComputationValueType LocalRealType;
 
   const LocalRealType localZero = NumericTraits<LocalRealType>::ZeroValue();
@@ -378,24 +354,25 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreade
   MovingImageGradientType movingImageGradient;
   bool pointIsValid;
 
-  associate->TransformVirtualIndexToPhysicalPoint(oindex, virtualPoint);
+  this->m_ANTSAssociate->TransformVirtualIndexToPhysicalPoint(oindex, virtualPoint);
 
   try
     {
-    pointIsValid = associate->TransformAndEvaluateFixedPoint( oindex,
-            virtualPoint,
-            this->GetComputeDerivative() && associate->GetGradientSourceIncludesFixed() /*compute gradient*/,
-            mappedFixedPoint,
-            fixedImageValue,
-            fixedImageGradient );
+    pointIsValid = this->m_ANTSAssociate->TransformAndEvaluateFixedPoint( virtualPoint, mappedFixedPoint, fixedImageValue );
     if ( pointIsValid )
       {
-      pointIsValid = associate->TransformAndEvaluateMovingPoint( oindex,
-             virtualPoint,
-             this->GetComputeDerivative() && associate->GetGradientSourceIncludesMoving() /*compute gradient*/,
-             mappedMovingPoint,
-             movingImageValue,
-             movingImageGradient );
+      pointIsValid = this->m_ANTSAssociate->TransformAndEvaluateMovingPoint( virtualPoint, mappedMovingPoint, movingImageValue );
+      if( pointIsValid && this->m_ANTSAssociate->GetComputeDerivative() )
+        {
+        if( this->m_ANTSAssociate->GetGradientSourceIncludesFixed() )
+          {
+          this->m_ANTSAssociate->ComputeFixedImageGradientAtPoint( mappedFixedPoint, fixedImageGradient );
+          }
+        if( this->m_ANTSAssociate->GetGradientSourceIncludesMoving() )
+          {
+          this->m_ANTSAssociate->ComputeMovingImageGradientAtPoint( mappedMovingPoint, movingImageGradient );
+          }
+        }
       }
     }
   catch (ExceptionObject & exc)
@@ -449,7 +426,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreade
     localCC = sFixedMoving * sFixedMoving / (sFixedFixed_sMovingMoving);
     }
 
-  if( this->GetComputeDerivative() )
+  if( this->m_ANTSAssociate->GetComputeDerivative() )
     {
     const MovingImageGradientType movingImageGradient = scanMem.movingImageGradient;
 

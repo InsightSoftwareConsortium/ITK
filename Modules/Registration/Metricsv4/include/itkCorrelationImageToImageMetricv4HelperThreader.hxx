@@ -28,6 +28,9 @@ void CorrelationImageToImageMetricv4HelperThreader< TDomainPartitioner, TImageTo
 {
    Superclass::BeforeThreadedExecution();
 
+  /* Store the casted pointer to avoid dynamic casting in tight loops. */
+  this->m_CorrelationAssociate = dynamic_cast<TCorrelationMetric *>(this->m_Associate);
+
    this->m_FixSumPerThread.resize(this->GetNumberOfThreadsUsed());
    this->m_MovSumPerThread.resize(this->GetNumberOfThreadsUsed());
 
@@ -47,20 +50,16 @@ CorrelationImageToImageMetricv4HelperThreader<TDomainPartitioner,
     TImageToImageMetric, TCorrelationMetric>::AfterThreadedExecution()
 {
 
-  // only need to dynamic cast asscociate to the specific metric class
-  // to  access the inherited protected members from its parent class
-  TCorrelationMetric * associate = dynamic_cast<TCorrelationMetric *>(this->m_Associate);
-
   /* Store the number of valid points the enclosing class \c
    * m_NumberOfValidPoints by collecting the valid points per thread. */
-  associate->m_NumberOfValidPoints = NumericTraits<SizeValueType>::Zero;
+  this->m_CorrelationAssociate->m_NumberOfValidPoints = NumericTraits<SizeValueType>::Zero;
 
   for (ThreadIdType i = 0; i < this->GetNumberOfThreadsUsed(); i++)
     {
-    associate->m_NumberOfValidPoints += this->m_NumberOfValidPointsPerThread[i];
+    this->m_CorrelationAssociate->m_NumberOfValidPoints += this->m_NumberOfValidPointsPerThread[i];
     }
 
-  if (associate->m_NumberOfValidPoints <= 0 )
+  if (this->m_CorrelationAssociate->m_NumberOfValidPoints <= 0 )
     {
     itkWarningMacro("collected only zero points");
     return;
@@ -75,25 +74,21 @@ CorrelationImageToImageMetricv4HelperThreader<TDomainPartitioner,
     sumM += this->m_MovSumPerThread[i];
     }
 
-  associate->m_AverageFix = sumF / associate->m_NumberOfValidPoints;
-  associate->m_AverageMov = sumM / associate->m_NumberOfValidPoints;
+  this->m_CorrelationAssociate->m_AverageFix = sumF / this->m_CorrelationAssociate->m_NumberOfValidPoints;
+  this->m_CorrelationAssociate->m_AverageMov = sumM / this->m_CorrelationAssociate->m_NumberOfValidPoints;
 }
 
 template<class TDomainPartitioner, class TImageToImageMetric, class TCorrelationMetric>
 bool
 CorrelationImageToImageMetricv4HelperThreader<TDomainPartitioner,
 TImageToImageMetric, TCorrelationMetric>
-::ProcessVirtualPoint( const VirtualIndexType & virtualIndex, const VirtualPointType & virtualPoint, const ThreadIdType threadID )
+::ProcessVirtualPoint( const VirtualIndexType & itkNotUsed(virtualIndex), const VirtualPointType & virtualPoint, const ThreadIdType threadID )
 {
   FixedOutputPointType        mappedFixedPoint;
   FixedImagePixelType         mappedFixedPixelValue;
-  FixedImageGradientType      mappedFixedImageGradient;
   MovingOutputPointType       mappedMovingPoint;
   MovingImagePixelType        mappedMovingPixelValue;
-  MovingImageGradientType     mappedMovingImageGradient;
   bool                        pointIsValid = false;
-
-  TCorrelationMetric * associate = dynamic_cast<TCorrelationMetric *>(this->m_Associate);
 
   /* Transform the point into fixed and moving spaces, and evaluate.
    * Different behavior with pre-warping enabled is handled transparently.
@@ -101,12 +96,7 @@ TImageToImageMetric, TCorrelationMetric>
    * then we otherwise get when exceptions are caught in MultiThreader. */
   try
     {
-    pointIsValid = associate->TransformAndEvaluateFixedPoint( virtualIndex,
-                                                              virtualPoint,
-                                                              false,
-                                                              mappedFixedPoint,
-                                                              mappedFixedPixelValue,
-                                                              mappedFixedImageGradient );
+    pointIsValid = this->m_CorrelationAssociate->TransformAndEvaluateFixedPoint( virtualPoint, mappedFixedPoint, mappedFixedPixelValue );
     }
   catch( ExceptionObject & exc )
     {
@@ -123,12 +113,7 @@ TImageToImageMetric, TCorrelationMetric>
 
   try
     {
-    pointIsValid = associate->TransformAndEvaluateMovingPoint( virtualIndex,
-                                                               virtualPoint,
-                                                               false,
-                                                               mappedMovingPoint,
-                                                               mappedMovingPixelValue,
-                                                               mappedMovingImageGradient );
+    pointIsValid = this->m_CorrelationAssociate->TransformAndEvaluateMovingPoint( virtualPoint, mappedMovingPoint, mappedMovingPixelValue );
     }
   catch( ExceptionObject & exc )
     {

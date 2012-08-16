@@ -131,6 +131,10 @@ protected:
 private:
   ANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreader( const Self & ); // purposely not implemented
   void operator=( const Self & ); // purposely not implemented
+
+  /** Internal pointer to the metric object in use by this threader.
+   *  This will avoid costly dynamic casting in tight loops. */
+  TNeighborhoodCorrelationMetric * m_ANTSAssociate;
 };
 
 } // end namespace itk

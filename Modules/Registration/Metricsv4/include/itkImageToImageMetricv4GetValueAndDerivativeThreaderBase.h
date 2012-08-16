@@ -176,6 +176,11 @@ protected:
    * classes for efficiency. */
   mutable std::vector< JacobianType >                 m_MovingTransformJacobianPerThread;
 
+  /** Cached values to avoid call overhead.
+   *  These will only be set once threading has been started. */
+  mutable NumberOfParametersType                      m_CachedNumberOfParameters;
+  mutable NumberOfParametersType                      m_CachedNumberOfLocalParameters;
+
 private:
   ImageToImageMetricv4GetValueAndDerivativeThreaderBase( const Self & ); // purposely not implemented
   void operator=( const Self & ); // purposely not implemented

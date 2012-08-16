@@ -420,8 +420,9 @@ public:
   itkGetConstReferenceMacro(UseMovingImageGradientFilter, bool);
   itkBooleanMacro(UseMovingImageGradientFilter);
 
-  /** Get number of threads to used in the the \c GetValueAndDerivative
-   * calculation.  Only valid after \c GetValueAndDerivative has been called. */
+  /** Get number of threads to used in the the most recent
+   * evaluation.  Only valid after GetValueAndDerivative() or
+   * GetValue() has been called. */
   virtual ThreadIdType GetNumberOfThreadsUsed() const;
 
   /** Set number of threads to use. This the maximum number of threads to use
@@ -529,57 +530,28 @@ protected:
   virtual void InitializeForIteration() const;
 
   /**
-   * Transform a point from VirtualImage domain to FixedImage domain.
+   * Transform a point from VirtualImage domain to FixedImage domain and evaluate.
    * This function also checks if mapped point is within the mask if
    * one is set, and that is within the fixed image buffer, in which
    * case the return value will be true.
-   * \c mappedFixedPoint and \c mappedFixedPixelValue are  returned, and
-   * \c mappedFixedImageGradient is returned if \c computeImageGradient is set.
-   * All return values are in the virtual domain.
-   * \note It would be better for maintenance to have a single method
-   * that could work for either fixed or moving domains. However setting
-   * that up is complicated because dimensionality and pixel type may
-   * be different between the two. */
+   * Parameters \c mappedFixedPoint and \c mappedFixedPixelValue are  returned.
+   */
   bool TransformAndEvaluateFixedPoint(
-                           const VirtualIndexType & index,
-                           const VirtualPointType & point,
-                           const bool computeImageGradient,
-                           FixedImagePointType & mappedFixedPoint,
-                           FixedImagePixelType & mappedFixedPixelValue,
-                           FixedImageGradientType & mappedFixedImageGradient ) const;
-  /** Transform a point from VirtualImage domain to MovingImage domain. */
+                         const VirtualPointType & virtualPoint,
+                         FixedImagePointType & mappedFixedPoint,
+                         FixedImagePixelType & mappedFixedPixelValue ) const;
+
+  /** Transform and evaluate a point from VirtualImage domain to MovingImage domain. */
   bool TransformAndEvaluateMovingPoint(
-                           const VirtualIndexType & index,
-                           const VirtualPointType & point,
-                           const bool computeImageGradient,
-                           MovingImagePointType & mappedMovingPoint,
-                           MovingImagePixelType & mappedMovingPixelValue,
-                           MovingImageGradientType & mappedMovingImageGradient ) const;
+                         const VirtualPointType & virtualPoint,
+                         MovingImagePointType & mappedMovingPoint,
+                         MovingImagePixelType & mappedMovingPixelValue ) const;
 
-  /** Compute image derivatives for a Fixed point.
-   * \warning This doesn't transform result into virtual space. For that,
-   * see TransformAndEvaluateFixedPoint
-   */
-  virtual void ComputeFixedImageGradientAtPoint(
-                                    const FixedImagePointType & mappedPoint,
-                                    FixedImageGradientType & gradient ) const;
-  /** Compute image derivatives for a moving point. */
-  virtual void ComputeMovingImageGradientAtPoint(
-                                    const MovingImagePointType & mappedPoint,
-                                    MovingImageGradientType & gradient ) const;
+  /** Compute image derivatives for a Fixed point. */
+  virtual void ComputeFixedImageGradientAtPoint( const FixedImagePointType & mappedPoint, FixedImageGradientType & gradient ) const;
 
-  /**
-   * Compute fixed warped image derivatives for an index at virtual domain.
-   * \warning This doesn't transform result into virtual space. For that,
-   * see TransformAndEvaluateFixedPoint
-   */
-  virtual void ComputeFixedImageGradientAtIndex(
-                                    const VirtualIndexType & index,
-                                    FixedImageGradientType & gradient ) const;
   /** Compute image derivatives for a moving point. */
-  virtual void ComputeMovingImageGradientAtIndex(
-                                    const VirtualIndexType & index,
-                                    MovingImageGradientType & gradient ) const;
+  virtual void ComputeMovingImageGradientAtPoint( const MovingImagePointType & mappedPoint, MovingImageGradientType & gradient ) const;
 
   /** Computes the gradients of the fixed image, using the
    * GradientFilter, assigning the output to
