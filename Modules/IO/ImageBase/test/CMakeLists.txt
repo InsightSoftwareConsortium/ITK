@@ -225,27 +225,42 @@ itk_add_test(NAME itkImageIODirection3DTest03
               DATA{${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirectionIdentity.mhd} 1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0 ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeWithDirectionIdentity.nhdr)
 itk_add_test(NAME itkImageIODirection3DTest04
       COMMAND ITKIOImageBaseTestDriver itkImageIODirection3DTest
-              DATA{${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirection.mhd} 0.8660254 0.5 0.0 -0.5 0.8660254 0.0 0.0 0.0 1.0 ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeWithDirection.nhdr)
+              DATA{${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirection.mhd}
+              0.8660254 0.5 0.0 -0.5 0.8660254 0.0 0.0 0.0 1.0 ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeWithDirection.nhdr)
 itk_add_test(NAME itkImageIODirection3DTest05
       COMMAND ITKIOImageBaseTestDriver itkImageIODirection3DTest
-              DATA{${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirectionIdentity.nhdr,HeadMRVolumeWithDirectionIdentity.raw.gz} 1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0)
+              DATA{${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirectionIdentity.nhdr,HeadMRVolumeWithDirectionIdentity.raw.gz}
+              1.0 0.0 0.0 0.0 1.0 0.0 0.0 0.0 1.0)
 itk_add_test(NAME itkImageIODirection3DTest06
       COMMAND ITKIOImageBaseTestDriver itkImageIODirection3DTest
-              DATA{${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirection.nhdr,HeadMRVolumeWithDirection.raw.gz} 0.8660254 0.5 0.0 -0.5 0.8660254 0.0 0.0 0.0 1.0)
+              DATA{${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirection.nhdr,HeadMRVolumeWithDirection.raw.gz}
+              0.8660254 0.5 0.0 -0.5 0.8660254 0.0 0.0 0.0 1.0)
 itk_add_test(NAME itkImageIODirection3DTest07
       COMMAND ITKIOImageBaseTestDriver itkImageIODirection3DTest
-              DATA{${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirection001.mhd} 1.0 0.0 0.0 0.0 -1.0 0.0 0.0 0.0 1.0 ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeWithDirection001.nhdr)
+              DATA{${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirection001.mhd}
+              1.0 0.0 0.0 0.0 -1.0 0.0 0.0 0.0 1.0 ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeWithDirection001.nhdr)
 itk_add_test(NAME itkImageIODirection3DTest08
       COMMAND ITKIOImageBaseTestDriver itkImageIODirection3DTest
-              DATA{${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirection002.mhd} 1.0 0.0 0.0 0.0 0.0 01.0 0.0 -1.0 0.0 ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeWithDirection002.nhdr)
+              DATA{${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirection002.mhd}
+              1.0 0.0 0.0 0.0 0.0 01.0 0.0 -1.0 0.0 ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeWithDirection002.nhdr)
 itk_add_test(NAME itkImageIODirection3DTest09
       COMMAND ITKIOImageBaseTestDriver itkImageIODirection3DTest
-              DATA{${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirection003.mhd} 0.0 -1.0 0.0 0.0 0.0 1.0 1.0 0.0 0.0 ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeWithDirection003.nhdr)
+              DATA{${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirection003.mhd}
+              0.0 -1.0 0.0 0.0 0.0 1.0 1.0 0.0 0.0 ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeWithDirection003.nhdr)
 itk_add_test(NAME itkImageIOFileNameExtensionsTests
       COMMAND ITKIOImageBaseTestDriver itkImageIOFileNameExtensionsTests)
+
+## Construct the DICOMSERIES_DIR from external data, and set up the proper dependancies.
+ExternalData_expand_arguments(ITKData VAR_IMAGE0075 DATA{${ITK_DATA_ROOT}/Input/DicomSeries/Image0075.dcm})
+ExternalData_expand_arguments(ITKData VAR_IMAGE0076 DATA{${ITK_DATA_ROOT}/Input/DicomSeries/Image0076.dcm})
+ExternalData_expand_arguments(ITKData VAR_IMAGE0077 DATA{${ITK_DATA_ROOT}/Input/DicomSeries/Image0077.dcm})
+get_filename_component(DICOMSERIES_DIR ${VAR_IMAGE0075} PATH)
+
 itk_add_test(NAME itkImageSeriesReaderDimensionsTest1
       COMMAND ITKIOImageBaseTestDriver itkImageSeriesReaderDimensionsTest
-              ${ITK_DATA_ROOT}/Input/DicomSeries/Image0075.dcm ${ITK_DATA_ROOT}/Input/DicomSeries/Image0076.dcm ${ITK_DATA_ROOT}/Input/DicomSeries/Image0077.dcm)
+      ${DICOMSERIES_DIR}/Image0075.dcm
+      ${DICOMSERIES_DIR}/Image0076.dcm
+      ${DICOMSERIES_DIR}/Image0077.dcm)
 itk_add_test(NAME itkImageSeriesReaderDimensionsTest2
       COMMAND ITKIOImageBaseTestDriver itkImageSeriesReaderDimensionsTest
               DATA{${ITK_DATA_ROOT}/Input/cthead1.tif} DATA{${ITK_DATA_ROOT}/Input/cthead1.tif} DATA{${ITK_DATA_ROOT}/Input/cthead1.tif})
@@ -257,7 +272,7 @@ itk_add_test(NAME itkImageSeriesReaderVectorImageTest2
    DATA{${ITK_DATA_ROOT}/Input/48BitTestImage.tif} DATA{${ITK_DATA_ROOT}/Input/48BitTestImage.tif} DATA{${ITK_DATA_ROOT}/Input/48BitTestImage.tif} )
 itk_add_test(NAME itkImageSeriesWriterTest
       COMMAND ITKIOImageBaseTestDriver itkImageSeriesWriterTest
-              ${ITK_DATA_ROOT}/Input/DicomSeries ${ITK_TEST_OUTPUT_DIR} png)
+              ${DICOMSERIES_DIR} ${ITK_TEST_OUTPUT_DIR} png)
 
 if(ITK_BUILD_SHARED_LIBS)
   itk_add_test(NAME itkIOPluginTest

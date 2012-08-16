@@ -100,17 +100,23 @@ itk_add_test(NAME itkAnalyzeImageIORGBImageTest
       COMMAND DeprecatedIOTestDriver itkAnalyzeImageIORGBImageTest
                                        ${ITK_TEST_OUTPUT_DIR})
 # DICOM
+## Construct the DICOMSERIES_DIR from external data, and set up the proper dependancies.
+ExternalData_expand_arguments(ITKData VAR_IMAGE0075 DATA{${ITK_DATA_ROOT}/Input/DicomSeries/Image0075.dcm})
+ExternalData_expand_arguments(ITKData VAR_IMAGE0076 DATA{${ITK_DATA_ROOT}/Input/DicomSeries/Image0076.dcm})
+ExternalData_expand_arguments(ITKData VAR_IMAGE0077 DATA{${ITK_DATA_ROOT}/Input/DicomSeries/Image0077.dcm})
+get_filename_component(DICOMSERIES_DIR ${VAR_IMAGE0075} PATH)
+
 itk_add_test(NAME itkDICOMImageSeriesTest
      COMMAND DeprecatedIOTestDriver itkDICOMImageSeriesTest
-              ${ITK_DATA_ROOT}/Input/DicomSeries 0)
+             ${DICOMSERIES_DIR} 0)
 itk_add_test(NAME itkDICOMImageSeriesTest2
-       COMMAND DeprecatedIOTestDriver  itkDICOMImageSeriesTest2
-            ${ITK_DATA_ROOT}/Input/DicomSeries )
+     COMMAND DeprecatedIOTestDriver  itkDICOMImageSeriesTest2
+             ${DICOMSERIES_DIR} )
 itk_add_test(NAME itkDICOMSeriesFileNamesTest
-       COMMAND DeprecatedIOTestDriver itkDICOMSeriesFileNamesTest ${ITK_DATA_ROOT}/Input/DicomSeries)
+     COMMAND DeprecatedIOTestDriver itkDICOMSeriesFileNamesTest ${DICOMSERIES_DIR})
 itk_add_test(NAME itkDicomDifficultFile
      COMMAND DeprecatedIOTestDriver
-    itkDicomImageIOTest DATA{${ITK_DATA_ROOT}/Input/012345.002.050}
+         itkDicomImageIOTest DATA{${ITK_DATA_ROOT}/Input/012345.002.050}
          ${ITK_TEST_OUTPUT_DIR}/itkDicomDifficultFile.png)
 itk_add_test(NAME itkDicomImageIODirection2DTest
       COMMAND DeprecatedIOTestDriver itkDicomImageIODirection2DTest
