@@ -34,7 +34,8 @@ GaussianExponentialDiffeomorphicTransform<TScalar, NDimensions>
   m_CalculateNumberOfIntegrationStepsAutomatically( true ),
   m_NumberOfIntegrationSteps( 10 ),
   m_ComputeInverse( false ),
-  m_ConstantVelocityField( NULL )
+  m_ConstantVelocityField( NULL ),
+  m_GaussianSmoothingVarianceForTheVelocityField( 0.5 )
 {
 }
 
