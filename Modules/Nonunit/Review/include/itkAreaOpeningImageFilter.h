@@ -19,6 +19,7 @@
 #define __itkAreaOpeningImageFilter_h
 
 #include "itkAttributeMorphologyBaseImageFilter.h"
+#include <functional>
 
 namespace itk
 {

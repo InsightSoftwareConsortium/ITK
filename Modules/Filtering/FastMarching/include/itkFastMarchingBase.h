@@ -24,6 +24,7 @@
 #include "itkFastMarchingTraits.h"
 
 #include <queue>
+#include <functional>
 
 namespace itk
 {

@@ -21,6 +21,8 @@
 #include "itkValuedRegionalExtremaImageFilter.h"
 #include "itkConceptChecking.h"
 
+#include <functional>
+
 namespace itk
 {
 /** \class ValuedRegionalMaximaImageFilter

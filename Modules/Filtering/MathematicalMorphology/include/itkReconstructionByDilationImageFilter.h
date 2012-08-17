@@ -21,6 +21,7 @@
 #include "itkReconstructionImageFilter.h"
 
 #include "itkNumericTraits.h"
+#include <functional>
 
 namespace itk
 {
