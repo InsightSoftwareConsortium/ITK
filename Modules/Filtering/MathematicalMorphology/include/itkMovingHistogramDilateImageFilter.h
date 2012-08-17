@@ -19,6 +19,7 @@
 #define __itkMovingHistogramDilateImageFilter_h
 
 #include "itkMovingHistogramMorphologyImageFilter.h"
+#include <functional>
 
 namespace itk
 {
