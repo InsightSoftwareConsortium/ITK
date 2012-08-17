@@ -30,7 +30,7 @@ OtsuThresholdCalculator< THistogram, TOutput >
 ::GenerateData(void)
 {
   const HistogramType * histogram = this->GetInput();
-  // histogram->Print(std::cout);
+
   if ( histogram->GetTotalFrequency() == 0 )
     {
     itkExceptionMacro(<< "Histogram is empty");
@@ -41,13 +41,13 @@ OtsuThresholdCalculator< THistogram, TOutput >
     this->GetOutput()->Set( static_cast<OutputType>(histogram->GetMeasurement(0,0)) );
     }
 
-  unsigned int size = histogram->GetSize(0);
+  SizeValueType size = histogram->GetSize(0);
 
   // normalize the frequencies
   std::vector< double > relativeFrequency;
   relativeFrequency.resize(size);
   double totalMean = 0.0;
-  for ( unsigned int j = 0; j < size; j++ )
+  for ( SizeValueType j = 0; j < size; j++ )
     {
     relativeFrequency[j] = histogram->GetFrequency(j,0);
     relativeFrequency[j] /= histogram->GetTotalFrequency();
@@ -59,21 +59,32 @@ OtsuThresholdCalculator< THistogram, TOutput >
   // variance
   double freqLeft = relativeFrequency[0];
   double meanLeft = 1.0;
-  double meanRight = ( totalMean - freqLeft ) / ( 1.0 - freqLeft );
+  double meanRight = 0.0;
+
+  if ( freqLeft < 1.0 )
+    {
+    meanRight = ( totalMean - meanLeft * freqLeft )
+                / ( 1.0 - freqLeft );
+    }
 
   double maxVarBetween = freqLeft * ( 1.0 - freqLeft )
                          * vnl_math_sqr(meanLeft - meanRight);
-  int maxBinNumber = 0;
+  SizeValueType  maxBinNumber = 0;
 
   double freqLeftOld = freqLeft;
   double meanLeftOld = meanLeft;
 
-  for ( unsigned int j = 1; j < size; j++ )
+  for ( SizeValueType j = 1; j < size; j++ )
     {
     freqLeft += relativeFrequency[j];
-    meanLeft = ( meanLeftOld * freqLeftOld
-                 + ( j + 1 ) * relativeFrequency[j] ) / freqLeft;
-    if ( freqLeft == 1.0 )
+
+    if ( freqLeft > 0.0 )
+      {
+      meanLeft = ( meanLeftOld * freqLeftOld
+                   + ( j + 1 ) * relativeFrequency[j] ) / freqLeft;
+      }
+
+    if ( freqLeft >= 1.0 )
       {
       meanRight = 0.0;
       }
