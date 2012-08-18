@@ -380,11 +380,11 @@ IsoContourDistanceImageFilter< TInputImage, TOutputImage >
         PixelRealType valNew0 = val0 * val;
         PixelRealType valNew1 = val1 * val;
 
-        if ( vcl_fabs( valNew0 ) < vcl_fabs( outNeigIt.GetNext(n, 0) ) )
+        if ( vcl_fabs( static_cast< double >( valNew0 ) ) < vcl_fabs( static_cast< double >( outNeigIt.GetNext(n, 0) ) ) )
           {
           outNeigIt.SetNext( n, 0, static_cast< PixelType >( valNew0 ) );
           }
-        if ( vcl_fabs( valNew1 ) < vcl_fabs( outNeigIt.GetNext(n, 1) ) )
+        if ( vcl_fabs( static_cast< double >( valNew1 ) ) < vcl_fabs( static_cast< double >( outNeigIt.GetNext(n, 1) ) ) )
           {
           outNeigIt.SetNext( n, 1, static_cast< PixelType >( valNew1 ) );
           }

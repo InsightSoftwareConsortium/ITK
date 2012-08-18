@@ -43,6 +43,8 @@ else()
   ${test}
   STEP_TARGETS install
   )
+  set_property(TARGET GCC_XML PROPERTY _EP_TEST_AFTER_INSTALL 1)
+  set_property(TARGET GCC_XML PROPERTY _EP_TEST_BEFORE_INSTALL 0)
   set(GCCXML ${gccxml_ep} CACHE FILEPATH "gccxml executable." FORCE)
 endif()
 mark_as_advanced(GCCXML)
@@ -53,15 +55,7 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
   WRAP_ITK_INSTALL(/Configuration/Generators/GccXML CMakeLists.txt)
   WRAP_ITK_INSTALL(/Configuration/Generators/GccXML gcc_xml.inc.in)
   WRAP_ITK_INSTALL(/Configuration/Generators/GccXML wrap_.cxx.in)
-endif(NOT EXTERNAL_WRAP_ITK_PROJECT)
-
-
-###############################################################################
-# hide cable swig dir in external projects - it is safer to use the same as the
-# one used to build wrapitk
-if(EXTERNAL_WRAP_ITK_PROJECT)
-  mark_as_advanced(GCCXML)
-endif(EXTERNAL_WRAP_ITK_PROJECT)
+endif()
 
 
 ###############################################################################
@@ -114,6 +108,10 @@ macro(itk_end_wrap_submodule_gccxml module)
   set(CONFIG_WRAPPER_FORCE_INSTANTIATE "${GCC_XML_FORCE_INSTANTIATE}")
   configure_file("${ITK_WRAP_GCCXML_SOURCE_DIR}/wrap_.cxx.in"
     "${cxx_file}" @ONLY IMMEDIATE)
+  set(ADDITIONAL_GCC_XML_FLAGS "")
+  if(MSVC90)
+    set( ADDITIONAL_GCC_XML_FLAGS "-D\"_HAS_TR1=0\"" )
+  endif()
 
   # generate the xml file
   set(gccxml_inc_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/gcc_xml.inc")
@@ -122,7 +120,7 @@ macro(itk_end_wrap_submodule_gccxml module)
   set(_gccxml_depends)
   if(NOT ITK_USE_SYSTEM_GCCXML)
     # ExternalProject target for GCC_XML.
-    set(_gccxml_depends GCC_XML-install)
+    set(_gccxml_depends GCC_XML)
   endif()
   if(ITK_USE_CCACHE)
     add_custom_command(
@@ -148,6 +146,7 @@ macro(itk_end_wrap_submodule_gccxml module)
             -DCSWIG
             -DCABLE_CONFIGURATION
             -DITK_MANUAL_INSTANTIATION
+            ${ADDITIONAL_GCC_XML_FLAGS}
             ${cxx_file}
       DEPENDS ${_gccxml_depends} ${cxx_file} ${gccxml_inc_file}
     )
@@ -173,7 +172,6 @@ macro(itk_wrap_module_gccxml library_name)
   list( REMOVE_DUPLICATES include_dir_list )
 
   if(ITK_USE_CCACHE)
-
     # it is used on the command line
     foreach(dir ${include_dir_list})
       set(CONFIG_GCCXML_INC_CONTENTS ${CONFIG_GCCXML_INC_CONTENTS} -I${dir})
@@ -192,8 +190,5 @@ endmacro(itk_wrap_module_gccxml)
 
 macro(itk_end_wrap_module_gccxml)
   add_custom_target(${WRAPPER_LIBRARY_NAME}GccXML DEPENDS ${GCC_XML_OUTPUT_FILES})
-  if(NOT ITK_USE_SYSTEM_GCCXML)
-    add_dependencies(${WRAPPER_LIBRARY_NAME}GccXML GCC_XML)
-  endif()
   set(${WRAPPER_LIBRARY_NAME}XmlFiles ${GCC_XML_OUTPUT_FILES} CACHE INTERNAL "Internal ${WRAPPER_LIBRARY_NAME}Xml file list.")
 endmacro(itk_end_wrap_module_gccxml)
