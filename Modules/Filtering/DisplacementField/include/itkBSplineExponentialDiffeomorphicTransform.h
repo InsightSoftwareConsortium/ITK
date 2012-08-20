@@ -18,7 +18,9 @@
 #ifndef __itkBSplineExponentialDiffeomorphicTransform_h
 #define __itkBSplineExponentialDiffeomorphicTransform_h
 
-#include "itkBSplineSmoothingOnUpdateDisplacementFieldTransform.h"
+#include "itkConstantVelocityFieldTransform.h"
+#include "itkDisplacementFieldToBSplineImageFilter.h"
+#include "itkPointSet.h"
 
 namespace itk
 {
@@ -52,89 +54,104 @@ namespace itk
  */
 template<class TScalar, unsigned int NDimensions>
 class ITK_EXPORT BSplineExponentialDiffeomorphicTransform :
-  public  BSplineSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
+  public ConstantVelocityFieldTransform<TScalar, NDimensions>
 {
 public:
   /** Standard class typedefs. */
-  typedef BSplineExponentialDiffeomorphicTransform                                   Self;
-  typedef BSplineSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>   Superclass;
-  typedef DisplacementFieldTransform<TScalar, NDimensions>                           SuperSuperclass;
-  typedef SmartPointer<Self>                                                         Pointer;
-  typedef SmartPointer<const Self>                                                   ConstPointer;
+  typedef BSplineExponentialDiffeomorphicTransform              Self;
+  typedef ConstantVelocityFieldTransform<TScalar, NDimensions>  Superclass;
+  typedef SmartPointer<Self>                                    Pointer;
+  typedef SmartPointer<const Self>                              ConstPointer;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( BSplineExponentialDiffeomorphicTransform, BSplineSmoothingOnUpdateDisplacementFieldTransform );
+  itkTypeMacro( BSplineExponentialDiffeomorphicTransform, ConstantVelocityFieldTransform );
 
   /** New macro for creation of through a Smart Pointer */
   itkNewMacro( Self );
 
-  /** Dimension of the domain spaces. */
+  /** Dimension of the velocity field . */
+  itkStaticConstMacro( ConstantVelocityFieldDimension, unsigned int, NDimensions );
+
+  /** Dimension of the vector spaces. */
   itkStaticConstMacro( Dimension, unsigned int, NDimensions );
 
   /** Types from superclass */
   typedef typename Superclass::ScalarType               ScalarType;
-  typedef typename Superclass::ArrayType                ArrayType;
   typedef typename Superclass::DerivativeType           DerivativeType;
   typedef typename DerivativeType::ValueType            DerivativeValueType;
-  typedef typename Superclass::DisplacementFieldType    DisplacementFieldType;
-  typedef typename Superclass::DisplacementFieldPointer DisplacementFieldPointer;
-  typedef typename Superclass::DisplacementFieldType    ConstantVelocityFieldType;
-  typedef typename Superclass::DisplacementFieldPointer ConstantVelocityFieldPointer;
-  typedef typename Superclass::DisplacementVectorType   DisplacementVectorType;
 
-  typedef typename Transform<TScalar,NDimensions,NDimensions>::Pointer TransformPointer;
+  typedef typename Superclass::DisplacementFieldType        DisplacementFieldType;
+  typedef typename Superclass::DisplacementFieldPointer     DisplacementFieldPointer;
+  typedef typename Superclass::ConstantVelocityFieldType    ConstantVelocityFieldType;
+  typedef typename Superclass::ConstantVelocityFieldPointer ConstantVelocityFieldPointer;
+
+  typedef typename DisplacementFieldType::PixelType     DisplacementVectorType;
 
   /**
-   * Update the transform's parameters by the values in \c update.  We
-   * assume \c update is of the same length as Parameters. Throw exception
-   * otherwise. The update process performs an smoothing on the velocity field
-   * field by using BSplines.
-   * \c factor is a scalar multiplier for each value in update.
-   * \c BSplineSmoothDisplacementField is called after the update is
-   * added to the field.
-   * See base class for more details.
+   * typedefs for projecting the input displacement field onto a
+   * B-spline field.
+   */
+  typedef PointSet<ConstantVelocityFieldType, Dimension>            PointSetType;
+  typedef unsigned int                                              SplineOrderType;
+  typedef DisplacementFieldToBSplineImageFilter
+    <ConstantVelocityFieldType, ConstantVelocityFieldType>          BSplineFilterType;
+  typedef typename BSplineFilterType::WeightsContainerType          WeightsContainerType;
+  typedef typename BSplineFilterType::ArrayType                     ArrayType;
+  typedef typename ArrayType::ValueType                             ArrayValueType;
+
+  /**
+   * Update the transform's parameters by the values in \c update. We overwrite the
+   * base class implementation as we might want to smooth the update field before
+   * adding it to the velocity field
    */
   virtual void UpdateTransformParameters( const DerivativeType & update, ScalarType factor = 1.0 );
 
   /**
    * Smooth the constant velocity field in-place.
    */
-  virtual ConstantVelocityFieldPointer BSplineSmoothConstantVelocityField( ConstantVelocityFieldType * field, ScalarType scalar )
-    {
-    return this->BSplineSmoothDisplacementField( field, scalar );
-    }
+  virtual ConstantVelocityFieldPointer BSplineSmoothConstantVelocityField( const ConstantVelocityFieldType *, const ArrayType & );
 
   /**
-   * Set the control point grid size defining the B-spline estimate of the
+   * Set/Get the spline order.
+   */
+  itkSetMacro( SplineOrder, SplineOrderType );
+  itkGetConstMacro( SplineOrder, SplineOrderType );
+
+  /**
+   * Set/Get the control point grid size defining the B-spline estimate of the
    * smoothed velocity field.  In each dimension, the B-spline mesh size is equal
    * to the number of control points in that dimension minus the spline order.
    * Default = 4 control points in each dimension for a mesh size of 1 in each
    * dimension.
    */
-  itkSetMacro( NumberOfControlPointsForTheVelocityField, ArrayType );
+  itkSetMacro( NumberOfControlPointsForTheConstantVelocityField, ArrayType );
+  itkGetConstMacro( NumberOfControlPointsForTheConstantVelocityField, ArrayType );
 
   /**
-   * Get the control point grid size defining the B-spline estimate of the smoothing
-   * of the velocity field.  In each dimension, the B-spline mesh size is equal
+   * Set the control point grid size defining the B-spline estimate of the
+   * smoothed update field.  In each dimension, the B-spline mesh size is equal
    * to the number of control points in that dimension minus the spline order.
    * Default = 4 control points in each dimension for a mesh size of 1 in each
    * dimension.
    */
-  itkGetConstMacro( NumberOfControlPointsForTheVelocityField, ArrayType );
+  itkSetMacro( NumberOfControlPointsForTheUpdateField, ArrayType );
+  itkGetConstMacro( NumberOfControlPointsForTheUpdateField, ArrayType );
 
-  // Set/get compute inverse
-  itkSetMacro( ComputeInverse, bool );
-  itkGetConstMacro( ComputeInverse, bool );
-  itkBooleanMacro( ComputeInverse );
+  /**
+   * Set the update field mesh size which is used to specify the control point
+   * grid size.  The mesh size in each dimension is calculated as the
+   * difference between the control point grid size and the spline order, i.e.
+   * meshSize = controlPointGridSize - SplineOrder.
+   */
+  void SetMeshSizeForTheConstantVelocityField( const ArrayType & );
 
-  // Set/get compute number of exp. iterations automatically
-  itkSetMacro( CalculateNumberOfIntegrationStepsAutomatically, bool );
-  itkGetConstMacro( CalculateNumberOfIntegrationStepsAutomatically, bool );
-  itkBooleanMacro( CalculateNumberOfIntegrationStepsAutomatically );
-
-  // Set/get the number of iterations (valid only if CalculateNumberOfIterationsAutomatically = false)
-  itkSetMacro( NumberOfIntegrationSteps, unsigned int );
-  itkGetConstMacro( NumberOfIntegrationSteps, unsigned int );
+  /**
+   * Set the velocity field mesh size which is used to specify the control point
+   * grid size.  The mesh size in each dimension is calculated as the
+   * difference between the control point grid size and the spline order, i.e.
+   * meshSize = controlPointGridSize - SplineOrder.
+   */
+  void SetMeshSizeForTheUpdateField( const ArrayType & );
 
 protected:
   BSplineExponentialDiffeomorphicTransform();
@@ -146,14 +163,10 @@ private:
   BSplineExponentialDiffeomorphicTransform( const Self& ); //purposely not implemented
   void operator=( const Self& ); //purposely not implemented
 
-  bool                                    m_CalculateNumberOfIntegrationStepsAutomatically;
-  unsigned int                            m_NumberOfIntegrationSteps;
+  ArrayType                               m_NumberOfControlPointsForTheConstantVelocityField;
+  ArrayType                               m_NumberOfControlPointsForTheUpdateField;
 
-  bool                                    m_ComputeInverse;
-
-  ConstantVelocityFieldPointer            m_ConstantVelocityField;
-
-  ArrayType                               m_NumberOfControlPointsForTheVelocityField;
+  SplineOrderType                         m_SplineOrder;
 };
 
 } // end namespace itk

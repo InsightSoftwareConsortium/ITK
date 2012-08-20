@@ -256,7 +256,7 @@ int PerformTimeVaryingVelocityFieldImageRegistration( int argc, char *argv[] )
   outputTransform->SetGaussianTemporalSmoothingVarianceForTheTotalField( 0.0 );
   outputTransform->SetGaussianTemporalSmoothingVarianceForTheUpdateField( 0.5 );
 
-  outputTransform->SetTimeVaryingVelocityField( velocityField );
+  outputTransform->SetVelocityField( velocityField );
   outputTransform->SetLowerTimeBound( 0.0 );
   outputTransform->SetUpperTimeBound( 1.0 );
 
@@ -389,7 +389,7 @@ int PerformTimeVaryingVelocityFieldImageRegistration( int argc, char *argv[] )
   typedef itk::ImageFileWriter<TimeVaryingVelocityFieldType> VelocityFieldWriterType;
   typename VelocityFieldWriterType::Pointer velocityFieldWriter = VelocityFieldWriterType::New();
   velocityFieldWriter->SetFileName( velocityFieldFileName.c_str() );
-  velocityFieldWriter->SetInput( outputTransform->GetTimeVaryingVelocityField() );
+  velocityFieldWriter->SetInput( outputTransform->GetVelocityField() );
   velocityFieldWriter->Update();
 
   return EXIT_SUCCESS;

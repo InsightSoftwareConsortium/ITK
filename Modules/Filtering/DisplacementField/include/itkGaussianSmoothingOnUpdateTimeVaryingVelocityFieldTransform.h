@@ -61,9 +61,12 @@ public:
   typedef typename Superclass::ScalarType                         ScalarType;
   typedef typename Superclass::DerivativeType                     DerivativeType;
   typedef typename DerivativeType::ValueType                      DerivativeValueType;
+  typedef typename Superclass::VelocityFieldType                  VelocityFieldType;
+
   typedef typename Superclass::TimeVaryingVelocityFieldType       TimeVaryingVelocityFieldType;
-  typedef typename TimeVaryingVelocityFieldType::Pointer          TimeVaryingVelocityFieldPointer;
-  typedef typename TimeVaryingVelocityFieldType::PixelType        DisplacementVectorType;
+  typedef typename Superclass::TimeVaryingVelocityFieldPointer    TimeVaryingVelocityFieldPointer;
+
+  typedef typename VelocityFieldType::PixelType                   DisplacementVectorType;
   typedef typename DisplacementVectorType::ValueType              DisplacementVectorValueType;
 
 
@@ -109,7 +112,7 @@ public:
    * Uses m_GaussSmoothSigma to change the variance for the GaussianOperator.
    * \warning Not thread safe. Does its own threading.
    */
-  virtual TimeVaryingVelocityFieldPointer GaussianSmoothTimeVaryingVelocityField( TimeVaryingVelocityFieldType *, ScalarType, ScalarType );
+  virtual TimeVaryingVelocityFieldPointer GaussianSmoothTimeVaryingVelocityField( VelocityFieldType *, ScalarType, ScalarType );
 
 protected:
   GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform();

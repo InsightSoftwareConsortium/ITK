@@ -148,14 +148,14 @@ GaussianSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
   for( unsigned int dimension = 0; dimension < Superclass::Dimension; ++dimension )
     {
     // smooth along this dimension
-    m_GaussianSmoothingOperator.SetDirection( dimension );
-    m_GaussianSmoothingOperator.SetVariance( variance );
-    m_GaussianSmoothingOperator.SetMaximumError( 0.001 );
-    m_GaussianSmoothingOperator.SetMaximumKernelWidth( smoothField->GetRequestedRegion().GetSize()[dimension] );
-    m_GaussianSmoothingOperator.CreateDirectional();
+    this->m_GaussianSmoothingOperator.SetDirection( dimension );
+    this->m_GaussianSmoothingOperator.SetVariance( variance );
+    this->m_GaussianSmoothingOperator.SetMaximumError( 0.001 );
+    this->m_GaussianSmoothingOperator.SetMaximumKernelWidth( smoothField->GetRequestedRegion().GetSize()[dimension] );
+    this->m_GaussianSmoothingOperator.CreateDirectional();
 
     // todo: make sure we only smooth within the buffered region
-    smoother->SetOperator( m_GaussianSmoothingOperator );
+    smoother->SetOperator( this->m_GaussianSmoothingOperator );
     smoother->SetInput( smoothField );
     try
       {
@@ -177,9 +177,9 @@ GaussianSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
 
   //make sure boundary does not move
   ScalarType weight1 = 1.0;
-  if (variance < 0.5)
+  if( variance < 0.5 )
     {
-    weight1 = 1.0 - 1.0 * ( variance / 0.5);
+    weight1 = 1.0 - 1.0 * ( variance / 0.5 );
     }
   ScalarType weight2 = 1.0 - weight1;
 
@@ -190,7 +190,7 @@ GaussianSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
   ImageRegionIteratorWithIndex< DisplacementFieldType > fieldIt( field, field->GetLargestPossibleRegion() );
   ImageRegionConstIteratorWithIndex< DisplacementFieldType > smoothedFieldIt( smoothField, smoothField->GetLargestPossibleRegion() );
   for( fieldIt.GoToBegin(), smoothedFieldIt.GoToBegin(); !fieldIt.IsAtEnd(); ++fieldIt, ++smoothedFieldIt )
-  {
+    {
     typename DisplacementFieldType::IndexType index = fieldIt.GetIndex();
     bool isOnBoundary = false;
     for ( unsigned int dimension = 0; dimension < Superclass::Dimension; ++dimension )
@@ -209,7 +209,7 @@ GaussianSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
       {
       fieldIt.Set( smoothedFieldIt.Get() * weight1 + fieldIt.Get() * weight2 );
       }
-  }
+    }
 
   return field;
 }

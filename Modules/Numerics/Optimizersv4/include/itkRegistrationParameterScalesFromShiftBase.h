@@ -57,6 +57,7 @@ public:
   typedef typename Superclass::ScalesType                ScalesType;
   /** Type of parameters of the optimizer */
   typedef typename Superclass::ParametersType            ParametersType;
+  typedef typename ParametersType::ValueType             ParametersValueType;
   /** Type of float */
   typedef typename Superclass::FloatType                 FloatType;
 
@@ -73,9 +74,13 @@ public:
   /** Estimate the scale of a step */
   virtual FloatType EstimateStepScale(const ParametersType &step);
 
-  /** Estimate the scales of local steps. */
+  /** Estimate the scales of local steps */
   virtual void EstimateLocalStepScales(const ParametersType &step,
     ScalesType &localStepScales);
+
+  /** Set/get small parameter variation */
+  itkSetMacro( SmallParameterVariation, ParametersValueType );
+  itkGetConstMacro( SmallParameterVariation, ParametersValueType );
 
 protected:
   RegistrationParameterScalesFromShiftBase();
@@ -96,7 +101,7 @@ private:
   void operator=(const Self&); //purposely not implemented
 
   //A small variation of parameters
-  typename ParametersType::ValueType   m_SmallParameterVariation;
+  ParametersValueType  m_SmallParameterVariation;
 
 }; //class RegistrationParameterScalesFromShiftBase
 

@@ -17,10 +17,11 @@
  *=========================================================================*/
 #ifndef __itkGaussianSmoothingOnUpdateDisplacementFieldTransform_h
 #define __itkGaussianSmoothingOnUpdateDisplacementFieldTransform_h
-#include "itkGaussianOperator.h"
-#include "itkVectorNeighborhoodOperatorImageFilter.h"
 
 #include "itkDisplacementFieldTransform.h"
+
+#include "itkGaussianOperator.h"
+#include "itkVectorNeighborhoodOperatorImageFilter.h"
 
 namespace itk
 {

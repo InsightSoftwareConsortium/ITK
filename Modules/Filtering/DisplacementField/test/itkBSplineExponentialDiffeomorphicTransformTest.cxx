@@ -19,6 +19,7 @@
 
 #include "itkBSplineExponentialDiffeomorphicTransform.h"
 
+
 /**
  * Test the UpdateTransformParameters and related methods,
  * introduced by this derivation.
@@ -41,7 +42,6 @@ int itkBSplineExponentialDiffeomorphicTransformTest(int ,char *[] )
   /* Create a displacement field transform */
   DisplacementTransformType::Pointer displacementTransform =
       DisplacementTransformType::New();
-  displacementTransform->SetComputeInverse( true );
   displacementTransform->SetCalculateNumberOfIntegrationStepsAutomatically( true );
   displacementTransform->SetNumberOfIntegrationSteps( 10 );
 
@@ -65,7 +65,8 @@ int itkBSplineExponentialDiffeomorphicTransformTest(int ,char *[] )
   zeroVector.Fill( 0 );
   field->FillBuffer( zeroVector );
 
-  displacementTransform->SetDisplacementField( field );
+  displacementTransform->SetConstantVelocityField( field );
+  displacementTransform->IntegrateVelocityField();
 
   /* Test SmoothDisplacementFieldBSpline */
   std::cout << "Test SmoothDisplacementFieldBSpline" << std::endl;
@@ -81,9 +82,9 @@ int itkBSplineExponentialDiffeomorphicTransformTest(int ,char *[] )
   DisplacementTransformType::ArrayType meshSizeForUpdateField;
   meshSizeForUpdateField.Fill( 15 );
   displacementTransform->SetMeshSizeForTheUpdateField( meshSizeForUpdateField );
-  DisplacementTransformType::ArrayType meshSizeForTotalField;
-  meshSizeForTotalField.Fill( 30 );
-  displacementTransform->SetMeshSizeForTheTotalField( meshSizeForTotalField );
+  DisplacementTransformType::ArrayType meshSizeForVelocityField;
+  meshSizeForVelocityField.Fill( 30 );
+  displacementTransform->SetMeshSizeForTheConstantVelocityField( meshSizeForVelocityField );
   displacementTransform->SetSplineOrder( 3 );
   displacementTransform->SetParameters( paramsFill );
 

@@ -94,7 +94,8 @@ public:
     Linear=1,
     BSpline=2,
     Spline=3,
-    DisplacementField=4
+    DisplacementField=4,
+    VelocityField=5
   } TransformCategoryType;
 
   /** Get transform category */

@@ -18,9 +18,7 @@
 #ifndef __itkTimeVaryingVelocityFieldTransform_h
 #define __itkTimeVaryingVelocityFieldTransform_h
 
-#include "itkDisplacementFieldTransform.h"
-
-#include "itkImageVectorOptimizerParametersHelper.h"
+#include "itkVelocityFieldTransform.h"
 
 namespace itk
 {
@@ -54,23 +52,34 @@ namespace itk
  */
 template<class TScalar, unsigned int NDimensions>
 class ITK_EXPORT TimeVaryingVelocityFieldTransform :
-  public DisplacementFieldTransform<TScalar, NDimensions>
+  public VelocityFieldTransform<TScalar, NDimensions>
 {
 public:
   /** Standard class typedefs. */
   typedef TimeVaryingVelocityFieldTransform                 Self;
-  typedef DisplacementFieldTransform<TScalar, NDimensions>  Superclass;
+  typedef VelocityFieldTransform<TScalar, NDimensions>      Superclass;
   typedef SmartPointer<Self>                                Pointer;
   typedef SmartPointer<const Self>                          ConstPointer;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( TimeVaryingVelocityFieldTransform, DisplacementFieldTransform );
+  itkTypeMacro( TimeVaryingVelocityFieldTransform, VelocityFieldTransform );
 
   /** New macro for creation of through a Smart Pointer */
   itkNewMacro( Self );
 
   /** InverseTransform type. */
-  typedef typename Superclass:: InverseTransformBasePointer InverseTransformBasePointer;
+  typedef typename Superclass::InverseTransformBasePointer InverseTransformBasePointer;
+
+  /** Interpolator types.*/
+  typedef typename Superclass::InterpolatorType                     InterpolatorType;
+  typedef typename Superclass::VelocityFieldInterpolatorType        VelocityFieldIntegratorType;
+
+  /** Field types. */
+  typedef typename Superclass::DisplacementFieldType                DisplacementFieldType;
+  typedef typename Superclass::VelocityFieldType                    VelocityFieldType;
+
+  typedef VelocityFieldType                                         TimeVaryingVelocityFieldType;
+  typedef typename VelocityFieldType::Pointer                       TimeVaryingVelocityFieldPointer;
 
   /** Scalar type. */
   typedef typename Superclass::ScalarType          ScalarType;
@@ -80,157 +89,30 @@ public:
   typedef typename ParametersType::ValueType           ParametersValueType;
   typedef typename Superclass::NumberOfParametersType  NumberOfParametersType;
 
-  /** Jacobian type. */
-  typedef typename Superclass::JacobianType        JacobianType;
-
-  /** Standard coordinate point type for this class. */
-  typedef typename Superclass::InputPointType      InputPointType;
-  typedef typename Superclass::OutputPointType     OutputPointType;
-
-  /** Standard vector type for this class. */
-  typedef typename Superclass::InputVectorType     InputVectorType;
-  typedef typename Superclass::OutputVectorType    OutputVectorType;
-
   /** Derivative type */
   typedef typename Superclass::DerivativeType       DerivativeType;
 
   typedef typename Transform<TScalar,NDimensions,NDimensions>::Pointer TransformPointer;
 
-  /** Dimension of the domain spaces. */
-  itkStaticConstMacro( Dimension, unsigned int, NDimensions );
+  /** Get the time-varying velocity field. */
+  typename VelocityFieldType::Pointer GetTimeVaryingVelocityField()
+    {
+    return this->GetVelocityField();
+    }
 
-  /** Dimension of the time varying velocity field. */
-  itkStaticConstMacro( TimeVaryingVelocityFieldDimension, unsigned int, NDimensions+1 );
-
-  /**
-   * Define the time-varying velocity field type and corresponding interpolator
-   * type.
-   */
-  typedef Image<OutputVectorType, TimeVaryingVelocityFieldDimension>  TimeVaryingVelocityFieldType;
-  typedef typename TimeVaryingVelocityFieldType::Pointer              TimeVaryingVelocityFieldPointer;
-  typedef typename TimeVaryingVelocityFieldType::PointType            TimeVaryingVelocityFieldPointType;
-  typedef typename TimeVaryingVelocityFieldType::SpacingType          TimeVaryingVelocityFieldSpacingType;
-  typedef typename TimeVaryingVelocityFieldType::DirectionType        TimeVaryingVelocityFieldDirectionType;
-
-  typedef VectorInterpolateImageFunction<TimeVaryingVelocityFieldType, ScalarType>  TimeVaryingVelocityFieldInterpolatorType;
-  typedef typename TimeVaryingVelocityFieldInterpolatorType::Pointer                TimeVaryingVelocityFieldInterpolatorPointer;
-
-  typedef typename TimeVaryingVelocityFieldType::SizeType          SizeType;
-  typedef typename TimeVaryingVelocityFieldType::PointType         PointType;
-  typedef typename TimeVaryingVelocityFieldType::SpacingType       SpacingType;
-  typedef typename TimeVaryingVelocityFieldType::DirectionType     DirectionType;
-
-  typedef typename Superclass::DisplacementFieldType               DisplacementFieldType;
-  typedef typename DisplacementFieldType::PixelType                DisplacementVectorType;
-
-  /** Define the internal parameter helper used to access the field */
-  typedef ImageVectorOptimizerParametersHelper
-    <ScalarType, OutputVectorType::Dimension,
-    itkGetStaticConstMacro( Dimension ) + 1>      OptimizerParametersHelperType;
-
-  /** Get the time-varying deformation field. */
-  itkGetObjectMacro( TimeVaryingVelocityField, TimeVaryingVelocityFieldType );
-
-  /** Set the time-varying field.  */
-  virtual void SetTimeVaryingVelocityField( TimeVaryingVelocityFieldType * );
-
-  /** Set the interpolator for the time-varying velocity field. */
-  itkSetObjectMacro( TimeVaryingVelocityFieldInterpolator,
-    TimeVaryingVelocityFieldInterpolatorType );
-
-  /** Get the interpolator for the time-varying velocity field. */
-  itkGetConstObjectMacro( TimeVaryingVelocityFieldInterpolator,
-    TimeVaryingVelocityFieldInterpolatorType );
-
-  /**
-   * Set the deformation field. We want to override the base class
-   * implementation since we don't want to optimize over the deformation
-   * field for this class but rather the time-varying velocity field
-   */
-  itkSetObjectMacro( DisplacementField, DisplacementFieldType );
-
-  /**
-   * Set the transformation parameters. This sets the time-varying velocity
-   * field image directly.
-   */
-  virtual void SetParameters( const ParametersType & );
+  /** Set the time-varying velocity field.  */
+  virtual void SetTimeVaryingVelocityField( VelocityFieldType * field )
+    {
+    this->SetVelocityField( field );
+    }
 
   /** Trigger the computation of the displacement field by integrating
    * the time-varying velocity field. */
   virtual void IntegrateVelocityField();
 
-  /** Set the fixed parameters and update internal transformation. */
-  virtual void SetFixedParameters( const ParametersType & );
-
-  /** Get the Fixed Parameters. */
-
-  virtual void UpdateTransformParameters( const DerivativeType &, ScalarType factor = 1.0 );
-
-  /** Return an inverse of this transform. */
-  bool GetInverse( Self *inverse ) const;
-
-  /** Return an inverse of this transform. */
-  virtual InverseTransformBasePointer GetInverseTransform() const;
-
-  /**
-   * Set the lower time bound defining the integration domain of the transform.
-   * We assume that the total possible time domain is [0,1]
-   */
-  itkSetClampMacro( LowerTimeBound, ScalarType, 0, 1 );
-
-  /**
-   * Get the lower time bound defining the integration domain of the transform.
-   * We assume that the total possible time domain is [0,1]
-   */
-  itkGetConstMacro( LowerTimeBound, ScalarType );
-
-  /**
-   * Set the upper time bound defining the integration domain of the transform.
-   * We assume that the total possible time domain is [0,1]
-   */
-  itkSetClampMacro( UpperTimeBound, ScalarType, 0, 1 );
-
-  /**
-   * Get the upper time bound defining the integration domain of the transform.
-   * We assume that the total possible time domain is [0,1]
-   */
-  itkGetConstMacro( UpperTimeBound, ScalarType );
-
-  /**
-   * Set the number of integration steps used in the Runge-Kutta solution of the
-   * initial value problem.  Default = 100;
-   */
-  itkSetMacro( NumberOfIntegrationSteps, unsigned int );
-
-  /**
-   * Get the number of integration steps used in the Runge-Kutta solution of the
-   * initial value problem.  Default = 100;
-   */
-  itkGetConstMacro( NumberOfIntegrationSteps, unsigned int );
-
 protected:
   TimeVaryingVelocityFieldTransform();
   virtual ~TimeVaryingVelocityFieldTransform();
-  void PrintSelf( std::ostream& os, Indent indent ) const;
-
-  ScalarType                                m_LowerTimeBound;
-  ScalarType                                m_UpperTimeBound;
-
-  /** Clone the current transform */
-  virtual typename LightObject::Pointer InternalClone() const;
-
-  typename DisplacementFieldType::Pointer
-    CopyDisplacementField(const DisplacementFieldType *toCopy) const;
-  /**
-   * Convenience method which reads the information from the current
-   * displacement field into m_FixedParameters.
-   */
-  virtual void SetFixedParametersFromTimeVaryingVelocityField();
-
-  /** The deformation field and its inverse (if it exists). */
-  typename TimeVaryingVelocityFieldType::Pointer    m_TimeVaryingVelocityField;
-  TimeVaryingVelocityFieldInterpolatorPointer       m_TimeVaryingVelocityFieldInterpolator;
-  unsigned int                                      m_NumberOfIntegrationSteps;
 
 private:
   TimeVaryingVelocityFieldTransform( const Self& ); //purposely not implemented
