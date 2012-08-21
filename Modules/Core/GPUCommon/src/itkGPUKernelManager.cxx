@@ -264,6 +264,27 @@ cl_int GPUKernelManager::GetKernelWorkGroupInfo(int kernelIdx,
   return errid;
 }
 
+cl_int GPUKernelManager::GetDeviceInfo(
+                     cl_kernel_work_group_info paramName,
+                     size_t argSize, void *argValue)
+{
+  cl_int errid;
+
+  switch (paramName)
+    {
+    case CL_DEVICE_MAX_WORK_ITEM_SIZES:
+      errid = clGetDeviceInfo(m_Manager->GetDeviceId(0),
+        CL_DEVICE_MAX_WORK_ITEM_SIZES, argSize, argValue, NULL);
+      break;
+    default:
+      itkGenericExceptionMacro (<< "Unknown type of device info");
+      break;
+    }
+  OpenCLCheckError(errid, __FILE__, __LINE__, ITK_LOCATION);
+
+  return errid;
+}
+
 bool GPUKernelManager::SetKernelArg(int kernelIdx, cl_uint argIdx, size_t argSize, const void* argVal)
 {
   if(kernelIdx < 0 || kernelIdx >= (int)m_KernelContainer.size() ) return false;

@@ -69,6 +69,9 @@ public:
   cl_int GetKernelWorkGroupInfo(int kernelIdx,
                                 cl_kernel_work_group_info paramName,void *value);
 
+  cl_int GetDeviceInfo(cl_kernel_work_group_info paramName,
+                       size_t argSize, void *argValue);
+
   bool SetKernelArg(int kernelIdx, cl_uint argIdx, size_t argSize, const void* argVal);
 
   bool SetKernelArgWithImage(int kernelIdx, cl_uint argIdx, GPUDataManager::Pointer manager);

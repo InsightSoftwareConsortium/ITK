@@ -87,6 +87,7 @@ void
 GPUDenseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TParentImageFilter >
 ::AllocateUpdateBuffer()
 {
+  //CPUSuperclass will call Image::Allocate() which will call GPUImage::Allocate() .
   CPUSuperclass::AllocateUpdateBuffer();
 }
 

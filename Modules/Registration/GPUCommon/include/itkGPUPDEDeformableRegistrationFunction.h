@@ -37,16 +37,16 @@ namespace itk
  * \ingroup FiniteDifferenceFunctions
  * \ingroup ITKGPURegistrationCommon
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template <class TFixedImage, class TMovingImage, class TDisplacementField>
 class ITK_EXPORT GPUPDEDeformableRegistrationFunction :
-  public GPUFiniteDifferenceFunction< TDeformationField >
+  public GPUFiniteDifferenceFunction<TDisplacementField>
 {
 public:
   /** Standard class typedefs. */
-  typedef GPUPDEDeformableRegistrationFunction             Self;
-  typedef GPUFiniteDifferenceFunction< TDeformationField > Superclass;
-  typedef SmartPointer< Self >                             Pointer;
-  typedef SmartPointer< const Self >                       ConstPointer;
+  typedef GPUPDEDeformableRegistrationFunction            Self;
+  typedef GPUFiniteDifferenceFunction<TDisplacementField> Superclass;
+  typedef SmartPointer<Self>                              Pointer;
+  typedef SmartPointer<const Self>                        ConstPointer;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(GPUPDEDeformableRegistrationFunction,
@@ -61,8 +61,8 @@ public:
   typedef typename FixedImageType::ConstPointer FixedImagePointer;
 
   /** Deformation field type. */
-  typedef TDeformationField                      DeformationFieldType;
-  typedef typename DeformationFieldType::Pointer DeformationFieldTypePointer;
+  typedef TDisplacementField                      DisplacementFieldType;
+  typedef typename DisplacementFieldType::Pointer DisplacementFieldTypePointer;
 
   /** Set the moving image.  */
   void SetMovingImage(const MovingImageType *ptr)
@@ -89,48 +89,61 @@ public:
   }
 
   /** Set the deformation field image. */
-  void SetDeformationField(DeformationFieldTypePointer ptr)
+  void SetDisplacementField(DisplacementFieldTypePointer ptr)
   {
-    m_DeformationField = ptr;
+    m_DisplacementField = ptr;
   }
 
   /** Get the deformation field. This function should have been
    *  declared const. It is not for backward compatibility reasons. */
-  DeformationFieldType * GetDeformationField(void)
+  DisplacementFieldType * GetDisplacementField(void)
   {
-    return m_DeformationField;
+    return m_DisplacementField;
   }
 
-  void SetEnergy(double e) {
+  void SetEnergy(double e)
+  {
     m_Energy = e;
   }
-  double GetEnergy() const {
+
+  double GetEnergy() const
+  {
     return m_Energy;
   }
-  void SetGradientStep(double e) {
+
+  void SetGradientStep(double e)
+  {
     m_GradientStep = e;
   }
-  double GetGradientStep() const {
+
+  double GetGradientStep() const
+  {
     return m_GradientStep;
   }
-  void SetNormalizeGradient(bool e) {
+
+  void SetNormalizeGradient(bool e)
+  {
     m_NormalizeGradient = e;
   }
-  bool GetNormalizeGradient() const {
+
+  bool GetNormalizeGradient() const
+  {
     return m_NormalizeGradient;
   }
+
 protected:
   GPUPDEDeformableRegistrationFunction()
   {
     m_MovingImage = NULL;
     m_FixedImage = NULL;
-    m_DeformationField = NULL;
+    m_DisplacementField = NULL;
     m_Energy = 0.0;
     m_NormalizeGradient = true;
     m_GradientStep = 1.0;
   }
 
-  ~GPUPDEDeformableRegistrationFunction() {
+  ~GPUPDEDeformableRegistrationFunction()
+  {
   }
 
   void PrintSelf(std::ostream & os, Indent indent) const
@@ -149,7 +162,7 @@ protected:
   FixedImagePointer m_FixedImage;
 
   /** The deformation field. */
-  DeformationFieldTypePointer m_DeformationField;
+  DisplacementFieldTypePointer m_DisplacementField;
 
   mutable double m_Energy;
 
@@ -157,10 +170,11 @@ protected:
 
   mutable double m_GradientStep;
 private:
-  GPUPDEDeformableRegistrationFunction(const Self &); //purposely not
+  GPUPDEDeformableRegistrationFunction(const Self &); // purposely not
                                                       // implemented
-  void operator=(const Self &);                       //purposely not
-                                                      // implemented
+  void operator=(const Self &);                       // purposely not
+
+  // implemented
 
 };
 } // end namespace itk
