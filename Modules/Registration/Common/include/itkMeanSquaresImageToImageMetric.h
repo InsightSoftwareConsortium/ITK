@@ -133,7 +133,9 @@ private:
     DerivativeType        m_MSEDerivative;
   };
 
-  PerThreadS *m_PerThread;
+
+  itkAlignedTypedef( 64, PerThreadS, AlignedPerThreadType );
+  AlignedPerThreadType *m_PerThread;
 };
 } // end namespace itk
 

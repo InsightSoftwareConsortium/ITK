@@ -51,6 +51,15 @@ include(CheckIncludeFileCXX)
 check_include_file_cxx( tr1/type_traits ITK_HAS_STLTR1_TR1_TYPE_TRAITS )
 check_include_file_cxx( type_traits ITK_HAS_STLTR1_TYPE_TRAITS )
 
+# Check for the new C++11 alignas type specifier for future portable alignment
+try_compile( ITK_HAS_CPP11_ALIGNAS
+  ${ITK_BINARY_DIR}/CMakeTmp
+  ${CMAKE_CURRENT_SOURCE_DIR}/CMake/itkCheckHasCPP11Alignas.cxx )
+
+try_compile( ITK_HAS_GNU_ATTRIBUTE_ALIGNED
+  ${ITK_BINARY_DIR}/CMakeTmp
+  ${CMAKE_CURRENT_SOURCE_DIR}/CMake/itkCheckHasGNUAttributeAligned.cxx )
+
 
 configure_file(src/itkConfigure.h.in itkConfigure.h)
 

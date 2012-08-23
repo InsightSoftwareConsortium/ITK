@@ -217,7 +217,7 @@ throw ( ExceptionObject )
   this->m_MovingImageMarginalPDF.resize(m_NumberOfHistogramBins, 0.0F);
 
   delete[] this->m_PerThread;
-  this->m_PerThread = new PerThreadS[this->m_NumberOfThreads];
+  this->m_PerThread = new AlignedPerThreadType[this->m_NumberOfThreads];
 
     {
     const int binRange = this->m_NumberOfHistogramBins / this->m_NumberOfThreads;
