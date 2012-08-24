@@ -56,7 +56,7 @@ itk_add_test(NAME itkBinaryThresholdImageFilterTest2
       COMMAND ITKThresholdingTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/BinaryThresholdImageFilterTest2.png}
               ${ITK_TEST_OUTPUT_DIR}/BinaryThresholdImageFilterTest2.png
-    itkBinaryThresholdImageFilterTest2 DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_DATA_ROOT}/Input/DicomSeries/Image0076.dcm ${ITK_TEST_OUTPUT_DIR}/BinaryThresholdImageFilterTest2.png)
+              itkBinaryThresholdImageFilterTest2 DATA{${ITK_DATA_ROOT}/Input/cthead1.png} DATA{${ITK_DATA_ROOT}/Input/DicomSeries/Image0076.dcm} ${ITK_TEST_OUTPUT_DIR}/BinaryThresholdImageFilterTest2.png)
 itk_add_test(NAME itkBinaryThresholdProjectionImageFilterTest
       COMMAND ITKThresholdingTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/HeadMRVolumeBinaryThresholdProjection.png}

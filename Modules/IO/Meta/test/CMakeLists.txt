@@ -125,9 +125,9 @@ itk_add_test(NAME itkMetaImageStreamingWriterIOTest
     itkMetaImageStreamingWriterIOTest DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw} ${ITK_TEST_OUTPUT_DIR}/MetaImageStreamingWriterIOTest.mha)
 itk_add_test(NAME itkMetaImageStreamingWriterIOTest2
       COMMAND ITKIOMetaTestDriver
-    --compare ${ITK_DATA_ROOT}/Input/mri3D.mhd
+      --compare DATA{${ITK_DATA_ROOT}/Input/mri3D.mhd}
               ${ITK_TEST_OUTPUT_DIR}/mri3DWriteStreamed.mha
-    itkMetaImageStreamingWriterIOTest ${ITK_DATA_ROOT}/Input/mri3D.mhd ${ITK_TEST_OUTPUT_DIR}/mri3DWriteStreamed.mha)
+              itkMetaImageStreamingWriterIOTest DATA{${ITK_DATA_ROOT}/Input/mri3D.mhd} ${ITK_TEST_OUTPUT_DIR}/mri3DWriteStreamed.mha)
 
 if( "${ITK_COMPUTER_MEMORY_SIZE}" GREATER 5 )
 

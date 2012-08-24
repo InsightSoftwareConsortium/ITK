@@ -622,7 +622,7 @@ itk_add_test(NAME  ResampleVolumesToBeIsotropicTest COMMAND ${ITK_TEST_DRIVER}
   --compare DATA{${BASELINE}/ResampleVolumesToBeIsotropic.mha}
             ${TEMP}/ResampleVolumesToBeIsotropic.mha
   $<TARGET_FILE:ResampleVolumesToBeIsotropic>
-        ${ITK_SOURCE_DIR}/Testing/Data/Input/mri3D.mhd
+        DATA{${ITK_SOURCE_DIR}/Testing/Data/Input/mri3D.mhd}
         ${TEMP}/ResampleVolumesToBeIsotropic.mha
         0 255
 )

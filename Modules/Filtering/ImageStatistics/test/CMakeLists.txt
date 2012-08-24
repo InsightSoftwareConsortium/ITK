@@ -131,11 +131,18 @@ itk_add_test(NAME itkHistogramToProbabilityImageFilterTest1
 itk_add_test(NAME itkHistogramToProbabilityImageFilterTest2
       COMMAND ITKImageStatisticsTestDriver itkHistogramToProbabilityImageFilterTest2
               ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySlice.png ${ITK_EXAMPLE_DATA_ROOT}/BrainT1Slice.png ${ITK_TEST_OUTPUT_DIR}/itkHistogramToProbabilityImageFilterTest2.mhd)
+
+## Construct the DICOMSERIES_DIR from external data, and set up the proper dependancies.
+ExternalData_expand_arguments(ITKData VAR_IMAGE0075 DATA{${ITK_DATA_ROOT}/Input/DicomSeries/Image0075.dcm})
+ExternalData_expand_arguments(ITKData VAR_IMAGE0076 DATA{${ITK_DATA_ROOT}/Input/DicomSeries/Image0076.dcm})
+ExternalData_expand_arguments(ITKData VAR_IMAGE0077 DATA{${ITK_DATA_ROOT}/Input/DicomSeries/Image0077.dcm})
+get_filename_component(DICOMSERIES_DIR ${VAR_IMAGE0075} PATH)
+
 itk_add_test(NAME itkAccumulateImageFilterTest
       COMMAND ITKImageStatisticsTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/AccumulateImageFilterTest.png}
               ${ITK_TEST_OUTPUT_DIR}/AccumulateImageFilterTest.png
-    itkAccumulateImageFilterTest ${ITK_DATA_ROOT}/Input/DicomSeries ${ITK_TEST_OUTPUT_DIR}/AccumulateImageFilterTest.png)
+    itkAccumulateImageFilterTest ${DICOMSERIES_DIR} ${ITK_TEST_OUTPUT_DIR}/AccumulateImageFilterTest.png)
 itk_add_test(NAME itkAdaptiveHistogramEqualizationImageFilterTest
       COMMAND ITKImageStatisticsTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/AdaptiveHistogramEqualizationImageFilterTest.png}
@@ -150,7 +157,7 @@ itk_add_test(NAME itkGetAverageSliceImageFilterTest
       COMMAND ITKImageStatisticsTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/AccumulateImageFilterTest.png}
               ${ITK_TEST_OUTPUT_DIR}/GetAverageSliceImageFilterTest.png
-    itkGetAverageSliceImageFilterTest ${ITK_DATA_ROOT}/Input/DicomSeries ${ITK_TEST_OUTPUT_DIR}/GetAverageSliceImageFilterTest.png)
+    itkGetAverageSliceImageFilterTest ${DICOMSERIES_DIR} ${ITK_TEST_OUTPUT_DIR}/GetAverageSliceImageFilterTest.png)
 itk_add_test(NAME itkBinaryProjectionImageFilterTest1
       COMMAND ITKImageStatisticsTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/HeadMRVolumeBinaryProjection100.tif}
