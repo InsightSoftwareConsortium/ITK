@@ -19,6 +19,7 @@
 #define __itkAnchorDilateImageFilter_h
 
 #include "itkAnchorErodeDilateImageFilter.h"
+#include <functional>
 
 namespace itk
 {
