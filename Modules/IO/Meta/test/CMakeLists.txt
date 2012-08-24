@@ -3,6 +3,7 @@ set(ITKIOMetaTests
 itkMetaImageIOMetaDataTest.cxx
 itkMetaImageIOGzTest.cxx
 itkMetaImageIOTest.cxx
+itkMetaImageIOTest2.cxx
 itkLargeMetaImageWriteReadTest.cxx
 testMetaArray.cxx
 testMetaBlob.cxx
@@ -34,6 +35,9 @@ itk_add_test(NAME itkMetaImageIOTest
     --compare DATA{${ITK_DATA_ROOT}/Baseline/IO/HeadMRVolume.mhd,HeadMRVolume.raw}
               ${ITK_TEST_OUTPUT_DIR}/HeadMRVolume.mhd
     itkMetaImageIOTest DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw} ${ITK_TEST_OUTPUT_DIR}/HeadMRVolume.mhd)
+itk_add_test(NAME itkMetaImageIOTest2
+      COMMAND ITKIOMetaTestDriver itkMetaImageIOTest2
+      ${ITK_TEST_OUTPUT_DIR}/itkMetaImageIOTest2.mha)
 itk_add_test(NAME itkMetaImageIOShouldFailTest
       COMMAND ITKIOMetaTestDriver itkMetaImageIOTest
               DATA{${ITK_DATA_ROOT}/Input/MetaImageError.mhd} 1)
