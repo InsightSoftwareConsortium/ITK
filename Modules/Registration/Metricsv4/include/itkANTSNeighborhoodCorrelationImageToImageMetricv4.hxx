@@ -34,8 +34,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4<TFixedImage, TMovingImage,TVirtu
   // We have our own GetValueAndDerivativeThreader's that we want
   // ImageToImageMetricv4 to use.
   this->m_DenseGetValueAndDerivativeThreader  = ANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreaderType::New();
-  // not implemented
-  //this->m_SparseGetValueAndDerivativeThreader =
+  this->m_SparseGetValueAndDerivativeThreader = ANTSNeighborhoodCorrelationImageToImageMetricv4SparseGetValueAndDerivativeThreaderType::New();
 }
 
 template<class TFixedImage, class TMovingImage, class TVirtualImage>
@@ -49,50 +48,8 @@ void
 ANTSNeighborhoodCorrelationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
 ::Initialize(void) throw ( itk::ExceptionObject )
 {
-  if( this->GetUseFixedSampledPointSet() )
-    {
-    itkExceptionMacro("UseFixedSampledPointSet is set, but not supported in this metric.");
-    }
   Superclass::Initialize();
 }
-
-template<class TFixedImage, class TMovingImage, class TVirtualImage>
-void
-ANTSNeighborhoodCorrelationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
-::InitializeScanning( const ImageRegionType &scanRegion, ScanIteratorType &scanIt,
-                      ScanMemType & scanMem, ScanParametersType &scanParameters ) const
-{
-  scanParameters.scanRegion   = scanRegion;
-  scanParameters.fixedImage   = this->m_FixedImage;
-  scanParameters.movingImage  = this->m_MovingImage;
-  scanParameters.virtualImage = this->GetVirtualImage();
-  scanParameters.radius       = this->GetRadius();
-
-  OffsetValueType numberOfFillZero = this->GetVirtualRegion().GetIndex(0)
-      - (scanRegion.GetIndex(0) - scanParameters.radius[0]);
-
-  if (numberOfFillZero < NumericTraits<OffsetValueType>::ZeroValue())
-    {
-    numberOfFillZero = NumericTraits<OffsetValueType>::ZeroValue();
-    }
-
-  scanParameters.numberOfFillZero = numberOfFillZero;
-
-  scanIt = ScanIteratorType(scanParameters.radius, scanParameters.virtualImage, scanRegion);
-  scanParameters.windowLength = scanIt.Size();
-  scanParameters.scanRegionBeginIndexDim0 = scanIt.GetBeginIndex()[0];
-
-  scanMem.fixedA = NumericTraits< QueueRealType >::Zero;
-  scanMem.movingA = NumericTraits< QueueRealType >::Zero;
-  scanMem.sFixedMoving = NumericTraits< QueueRealType >::Zero;
-  scanMem.sFixedFixed = NumericTraits< QueueRealType >::Zero;
-  scanMem.sMovingMoving = NumericTraits< QueueRealType >::Zero;
-
-  scanMem.fixedImageGradient.Fill(0.0);
-  scanMem.movingImageGradient.Fill(0.0);
-  scanMem.mappedMovingPoint.Fill(0.0);
-}
-
 
 template<class TFixedImage, class TMovingImage, class TVirtualImage>
 void
