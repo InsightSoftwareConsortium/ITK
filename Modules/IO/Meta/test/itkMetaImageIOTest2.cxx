@@ -24,7 +24,6 @@
 #include "itkTestingHashImageFilter.h"
 #include "itkTestingMacros.h"
 
-
 #define SPECIFIC_IMAGEIO_MODULE_TEST
 
 namespace
@@ -32,12 +31,10 @@ namespace
 
 int TestUnknowMetaDataBug( const std::string &fname )
 {
-
   std::cout << "Testing for unknow meta data entry bug." << std::endl;
 
   try
     {
-
     typedef unsigned short           PixelType;
     typedef itk::Image<PixelType, 2> ImageType;
 
@@ -83,15 +80,12 @@ int TestUnknowMetaDataBug( const std::string &fname )
     std::cout << "\tRead hash: " << readHash << std::endl;
 
     TEST_EXPECT_EQUAL( originalHash, readHash );
-
     }
   catch ( std::exception &e )
     {
     std::cerr << "Exception: " << e.what() << std::endl;
     return EXIT_FAILURE;
     }
-
-
   return EXIT_SUCCESS;
 }
 
@@ -105,9 +99,6 @@ int itkMetaImageIOTest2(int argc, char* argv[])
     return EXIT_FAILURE;
     }
 
-  bool pass = true;
-
-  pass = ( TestUnknowMetaDataBug( argv[1] ) == EXIT_SUCCESS );
-
-  return EXIT_SUCCESS;
+  const bool pass = ( TestUnknowMetaDataBug( argv[1] ) == EXIT_SUCCESS );
+  return (pass ? EXIT_SUCCESS : EXIT_FAILURE);
 }
