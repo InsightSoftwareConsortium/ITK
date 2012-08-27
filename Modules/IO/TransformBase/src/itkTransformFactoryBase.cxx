@@ -37,6 +37,8 @@
 #include "itkBSplineTransform.h"
 #include "itkCompositeTransform.h"
 
+#include "itkDisplacementFieldTransform.h"
+
 #if defined( ITKV3_COMPATIBILITY )
 #include "itkBSplineDeformableTransform.h"
 #endif
@@ -231,6 +233,12 @@ void TransformFactoryBase::RegisterDefaultTransforms()
 
     TransformFactory< VersorRigid3DTransform< float > >::RegisterTransform ();
     TransformFactory< VersorTransform< float > >::RegisterTransform ();
+
+    // Float type not yet supported due to parameter matching in parent classes
+    //TransformFactory< DisplacementFieldTransform<float, 2> >::RegisterTransform ();
+    //TransformFactory< DisplacementFieldTransform<float, 3> >::RegisterTransform ();
+    TransformFactory< DisplacementFieldTransform<double, 2> >::RegisterTransform ();
+    TransformFactory< DisplacementFieldTransform<double, 3> >::RegisterTransform ();
     }
   TransformFactoryBasePrivate::DefaultTransformsRegistered = true;
 }

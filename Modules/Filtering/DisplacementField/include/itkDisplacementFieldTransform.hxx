@@ -42,12 +42,8 @@ DisplacementFieldTransform<TScalar, NDimensions>::DisplacementFieldTransform()
   this->m_FixedParameters.Fill( 0.0 );
 
   // Setup and assign default interpolator
-  typedef VectorLinearInterpolateImageFunction<
-    DisplacementFieldType,
-    ScalarType>
-  DefaultInterpolatorType;
-  typename DefaultInterpolatorType::Pointer
-  interpolator = DefaultInterpolatorType::New();
+  typedef VectorLinearInterpolateImageFunction< DisplacementFieldType, ScalarType> DefaultInterpolatorType;
+  typename DefaultInterpolatorType::Pointer interpolator = DefaultInterpolatorType::New();
   this->m_Interpolator = interpolator;
 
   // Setup and assign parameter helper. This will hold the displacement field
