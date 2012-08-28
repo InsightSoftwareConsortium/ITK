@@ -20,11 +20,11 @@
 # (To distribute this file outside of CMake, substitute the full
 #  License text for the above reference.)
 
-INCLUDE(CheckCSourceCompiles)
+include(CheckCSourceCompiles)
 
-MACRO (ITK_CHECK_C_COMPILER_FLAG _FLAG _RESULT)
-   SET(SAFE_CMAKE_REQUIRED_DEFINITIONS "${CMAKE_REQUIRED_DEFINITIONS}")
-   SET(CMAKE_REQUIRED_DEFINITIONS "${_FLAG}")
+macro (ITK_CHECK_C_COMPILER_FLAG _FLAG _RESULT)
+   set(SAFE_CMAKE_REQUIRED_DEFINITIONS "${CMAKE_REQUIRED_DEFINITIONS}")
+   set(CMAKE_REQUIRED_DEFINITIONS "${_FLAG}")
    CHECK_C_SOURCE_COMPILES("int main(void) { return 0; }" ${_RESULT}
      # Some compilers do not fail with a bad flag
      FAIL_REGEX "warning: command line option .* is valid for .* but not for C"
@@ -38,5 +38,5 @@ MACRO (ITK_CHECK_C_COMPILER_FLAG _FLAG _RESULT)
      FAIL_REGEX "command option .* is not recognized"       # XL
      FAIL_REGEX "warning #10156: ignoring option"       # INTEL compilers
      )
-   SET (CMAKE_REQUIRED_DEFINITIONS "${SAFE_CMAKE_REQUIRED_DEFINITIONS}")
-ENDMACRO (ITK_CHECK_C_COMPILER_FLAG)
+   set (CMAKE_REQUIRED_DEFINITIONS "${SAFE_CMAKE_REQUIRED_DEFINITIONS}")
+endmacro (ITK_CHECK_C_COMPILER_FLAG)
