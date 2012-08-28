@@ -281,7 +281,7 @@ public:
   }
 
   /** Misc. functionality */
-  bool IsTransformQueueEmpty()
+  bool IsTransformQueueEmpty() const
   {
     return this->m_TransformQueue.empty();
   }
