@@ -70,7 +70,7 @@ if( USE_FFTWD )
 
   add_executable(DeformableRegistration10 DeformableRegistration10.cxx )
   target_link_libraries(DeformableRegistration10 ${ITK_LIBRARIES})
-endif( USE_FFTWD )
+endif()
 
 add_executable(MultiResImageRegistration1 MultiResImageRegistration1.cxx )
 target_link_libraries(MultiResImageRegistration1 ${ITK_LIBRARIES})
@@ -169,4 +169,4 @@ target_link_libraries(IterativeClosestPoint3 ${ITK_LIBRARIES})
 
 if(BUILD_TESTING)
   add_subdirectory(test)
-endif(BUILD_TESTING)
+endif()

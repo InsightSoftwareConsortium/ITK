@@ -82,37 +82,37 @@ if(CMAKE_CONFIGURATION_TYPES)
   # and so can be reexpanded again and again (and again)
   set(BUILD_TYPE "\${BUILD_TYPE}")
 
-else(CMAKE_CONFIGURATION_TYPES)
+else()
   set(WRAP_ITK_BUILD_INTDIR "")
   set(WRAP_ITK_INSTALL_INTDIR "")
-endif(CMAKE_CONFIGURATION_TYPES)
+endif()
 
 
 set(ITK_WRAP_NEEDS_DEPEND 1)
 if(${CMAKE_MAKE_PROGRAM} MATCHES make)
   set(ITK_WRAP_NEEDS_DEPEND 0)
-endif(${CMAKE_MAKE_PROGRAM} MATCHES make)
+endif()
 
 set(CSWIG_EXTRA_LINKFLAGS )
 if(CMAKE_BUILD_TOOL MATCHES "(msdev|devenv|nmake)")
   set(CSWIG_EXTRA_LINKFLAGS "/IGNORE:4049 /IGNORE:4109")
-endif(CMAKE_BUILD_TOOL MATCHES "(msdev|devenv|nmake)")
+endif()
 
 if(CMAKE_SYSTEM MATCHES "IRIX.*")
   if(CMAKE_CXX_COMPILER MATCHES "CC")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -woff 1552")
-  endif(CMAKE_CXX_COMPILER MATCHES "CC")
-endif(CMAKE_SYSTEM MATCHES "IRIX.*")
+  endif()
+endif()
 
 if(CMAKE_COMPILER_IS_GNUCXX)
   string(REGEX REPLACE "-Wcast-qual" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
-endif(CMAKE_COMPILER_IS_GNUCXX)
+endif()
 
 if(UNIX)
   set(WRAP_ITK_LIBNAME_PREFIX "lib")
-else(UNIX)
+else()
   set(WRAP_ITK_LIBNAME_PREFIX "")
-endif(UNIX)
+endif()
 
 # 467 is for warnings caused by typemap on overloaded methods
 set(CSWIG_IGNORE_WARNINGS -w362 -w389 -w467 -w503 -w508 -w509 -w516)
@@ -131,7 +131,7 @@ include("${WRAP_ITK_CMAKE_DIR}/CMakeUtilityFunctions.cmake")
 
 macro(WRAP_ITK_INSTALL path)
   install(FILES ${ARGN} DESTINATION "${WRAP_ITK_INSTALL_PREFIX}${path}")
-endmacro(WRAP_ITK_INSTALL)
+endmacro()
 
 
 ###############################################################################
@@ -139,7 +139,7 @@ endmacro(WRAP_ITK_INSTALL)
 ###############################################################################
 macro(WRAP_ITK_BINDINGS_INSTALL path)
   install(FILES ${ARGN} DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}${path}")
-endmacro(WRAP_ITK_BINDINGS_INSTALL)
+endmacro()
 
 ###############################################################################
 # Include needed macros -- WRAP_ITK_CMAKE_DIR must be set correctly

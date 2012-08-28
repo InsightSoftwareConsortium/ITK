@@ -92,7 +92,7 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
     DESTINATION "${WRAP_ITK_INSTALL_PREFIX}/Configuration/Generators/SwigInterface"
   )
 
-endif(NOT EXTERNAL_WRAP_ITK_PROJECT)
+endif()
 
 
 ###############################################################################
@@ -113,7 +113,7 @@ macro(itk_wrap_module_swig_interface library_name)
   # build a list of modules to create the ignerator custom command in
   # itk_end_wrap_module_swig_interface
   set(SWIG_INTERFACE_MODULES )
-endmacro(itk_wrap_module_swig_interface)
+endmacro()
 
 macro(itk_end_wrap_module_swig_interface)
 
@@ -124,7 +124,7 @@ macro(itk_end_wrap_module_swig_interface)
     exec_program(${CMAKE_COMMAND} ARGS -E copy_if_different "\"${source}\"" "\"${dest}\"")
     WRAP_ITK_INSTALL("/Configuration/Typedefs" "${dest}")
 #    set(SWIG_INTERFACE_MODULE_CONTENT "${SWIG_INTERFACE_MODULE_CONTENT}%import ${basename}\n")
-  endforeach(source)
+  endforeach()
 
   # the list of .i files generated for the module
   set(SWIG_INTERFACE_FILES )
@@ -134,7 +134,7 @@ macro(itk_end_wrap_module_swig_interface)
   foreach(dep ${WRAPPER_LIBRARY_DEPENDS})
     set(DEPS ${DEPS} ${${dep}IdxFiles} ${${dep}SwigFiles})
     set(SWIG_INTERFACE_MDX_CONTENT "${dep}.mdx\n${SWIG_INTERFACE_MDX_CONTENT}")
-  endforeach(dep)
+  endforeach()
 
   # add some libs required by this module
   set(swig_libs )
@@ -144,7 +144,7 @@ macro(itk_end_wrap_module_swig_interface)
     set(dest "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${basename}")
     exec_program(${CMAKE_COMMAND} ARGS -E copy_if_different "\"${swig_lib}\"" "\"${dest}\"")
     WRAP_ITK_INSTALL("/Configuration/Typedefs" "${dest}")
-  endforeach(swig_lib WRAPPER_SWIG_LIBRARY_FILES)
+  endforeach()
 
   # accumulate the idx files already generated before this module to generate usable depenencies
   set(idx_files )
@@ -164,13 +164,13 @@ macro(itk_end_wrap_module_swig_interface)
       set(opts ${opts} --mdx "${WRAP_ITK_TYPEDEFS_DIRECTORY}/${dep}.mdx")
 #      set(opts ${opts} --include "${dep}.includes")
 #      set(opts ${opts} --import "${dep}.i")
-    endforeach(dep)
+    endforeach()
     # import the interface files previously defined instead of importing all the files defined
     # in the module to avoid many warnings when running swig
 #    foreach(i ${SWIG_INTERFACE_FILES})
 #      get_filename_component(bi "${i}" NAME)
 #      set(opts ${opts} --import "${bi}")
-#    endforeach(i)
+#    endforeach()
 
   # message("${opts}")
 
@@ -183,7 +183,7 @@ macro(itk_end_wrap_module_swig_interface)
 
     if(ITK_WRAP_EXPLICIT)
       set(opts ${opts} --include "${WRAPPER_LIBRARY_NAME}Explicit.h")
-    endif(ITK_WRAP_EXPLICIT)
+    endif()
 
     add_custom_command(
       OUTPUT ${interface_file} ${typedef_file}
@@ -213,7 +213,7 @@ macro(itk_end_wrap_module_swig_interface)
 
     WRAP_ITK_INSTALL("/Configuration/Typedefs" "${interface_file}")
 
-  endforeach(module)
+  endforeach()
 
 
   # the mdx file
@@ -230,7 +230,7 @@ macro(itk_end_wrap_module_swig_interface)
   foreach(dep ${WRAPPER_LIBRARY_DEPENDS})
     set(deps_imports "${deps_imports}%import ${dep}.i\n")
 #    set(deps_includes "${deps_includes}#include \"${dep}.includes\"\n")
-  endforeach(dep)
+  endforeach()
 
 #  set(SWIG_INTERFACE_INCLUDES "${deps_includes}#include \"${WRAPPER_LIBRARY_NAME}.includes\"")
   set(CONFIG_MODULE_INTERFACE_CONTENT ) #"${deps_imports}${SWIG_INTERFACE_MODULE_CONTENT}")
@@ -256,15 +256,15 @@ macro(itk_end_wrap_module_swig_interface)
     # don't depends on the targets from wrapitk in external projects
     foreach(dep ${WRAPPER_LIBRARY_DEPENDS})
       add_dependencies(${WRAPPER_LIBRARY_NAME}Swig ${dep}Swig ${dep}Idx)
-    endforeach(dep)
-  endif(NOT EXTERNAL_WRAP_ITK_PROJECT)
+    endforeach()
+  endif()
 
-endmacro(itk_end_wrap_module_swig_interface)
+endmacro()
 
 
 macro(itk_wrap_include_swig_interface include_file)
   list(APPEND SWIG_INTERFACE_INCLUDES ${include_file})
-endmacro(itk_wrap_include_swig_interface)
+endmacro()
 
 
 macro(itk_wrap_submodule_swig_interface module)
@@ -272,7 +272,7 @@ macro(itk_wrap_submodule_swig_interface module)
   set(SWIG_INTERFACE_INCLUDES )
   # typedefs for swig
   set(SWIG_INTERFACE_TYPEDEFS )
-endmacro(itk_wrap_submodule_swig_interface)
+endmacro()
 
 macro(itk_end_wrap_submodule_swig_interface module)
   # variables used:
@@ -287,7 +287,7 @@ macro(itk_end_wrap_submodule_swig_interface module)
   set(SWIG_INTERFACE_INCLUDES_CONTENT )
 #  foreach(dep ${WRAPPER_LIBRARY_DEPENDS})
 #    set(SWIG_INTERFACE_INCLUDES_CONTENT "${SWIG_INTERFACE_INCLUDES_CONTENT}#include \"${dep}.includes\"\n")
-#  endforeach(dep)
+#  endforeach()
   if(SWIG_INTERFACE_INCLUDES)
     list(REMOVE_DUPLICATES SWIG_INTERFACE_INCLUDES)
     foreach(include_file ${SWIG_INTERFACE_INCLUDES})
@@ -335,7 +335,7 @@ macro(itk_end_wrap_submodule_swig_interface module)
 #    DESTINATION "${WRAP_ITK_INSTALL_PREFIX}/Configuration/Typedefs/"
 #  )
 
-endmacro(itk_end_wrap_submodule_swig_interface)
+endmacro()
 
 
 macro(itk_wrap_one_type_swig_interface wrap_method wrap_class swig_name)
@@ -357,9 +357,9 @@ macro(itk_wrap_one_type_swig_interface wrap_method wrap_class swig_name)
   set(template_parameters "${ARGV3}")
   if(template_parameters)
     set(full_class_name "${wrap_class}< ${template_parameters} >")
-  else(template_parameters)
+  else()
     set(full_class_name "${wrap_class}")
-  endif(template_parameters)
+  endif()
 
   # itk_wrap_one_type_all_generators("${wrap_method}" "${wrap_class}" "${swig_name}" "${ARGV3}")
 
@@ -370,12 +370,12 @@ macro(itk_wrap_one_type_swig_interface wrap_method wrap_class swig_name)
   if("${wrap_method}" MATCHES "2_SUPERCLASSES")
     itk_wrap_simple_type_swig_interface("${full_class_name}::Superclass::Superclass" "${swig_name}_Superclass_Superclass")
     itk_wrap_simple_type_swig_interface("${full_class_name}::Superclass::Superclass::Pointer" "${swig_name}_Superclass_Superclass_Pointer")
-  endif("${wrap_method}" MATCHES "2_SUPERCLASSES")
+  endif()
 
   if("${wrap_method}" MATCHES "SUPERCLASS")
     itk_wrap_simple_type_swig_interface("${full_class_name}::Superclass" "${swig_name}_Superclass")
     itk_wrap_simple_type_swig_interface("${full_class_name}::Superclass::Pointer" "${swig_name}_Superclass_Pointer")
-  endif("${wrap_method}" MATCHES "SUPERCLASS")
+  endif()
 
   # the same output with or without FORCE_INSTANTIATE
   itk_wrap_simple_type_swig_interface("${full_class_name}" "${swig_name}")
@@ -384,17 +384,17 @@ macro(itk_wrap_one_type_swig_interface wrap_method wrap_class swig_name)
     if("${wrap_method}" STREQUAL "AUTOPOINTER")
       # add a pointer typedef if we are so asked
       itk_wrap_simple_type_swig_interface("${full_class_name}::SelfAutoPointer" "${swig_name}_AutoPointer")
-    else("${wrap_method}" STREQUAL "AUTOPOINTER")
+    else()
       # add a pointer typedef if we are so asked
       itk_wrap_simple_type_swig_interface("${full_class_name}::Pointer" "${swig_name}_Pointer")
-    endif("${wrap_method}" STREQUAL "AUTOPOINTER")
-  endif("${wrap_method}" MATCHES "POINTER")
+    endif()
+  endif()
 
-endmacro(itk_wrap_one_type_swig_interface)
+endmacro()
 
 
 macro(itk_wrap_simple_type_swig_interface wrap_class swig_name)
   set(SWIG_INTERFACE_TYPEDEFS "${SWIG_INTERFACE_TYPEDEFS}typedef ${wrap_class} ${swig_name};\n")
-endmacro(itk_wrap_simple_type_swig_interface)
+endmacro()
 
 include_directories("${WRAPPER_MASTER_INDEX_OUTPUT_DIR}")

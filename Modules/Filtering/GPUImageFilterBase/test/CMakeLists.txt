@@ -26,4 +26,4 @@ itk_add_test(NAME itkGPUNeighborhoodOperatorImageFilterTest3D
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${ITK_TEST_OUTPUT_DIR}/gpuNeighborhoodOperatorImageFilterTest3D.mha 3)
 
-endif(ITK_USE_GPU)
+endif()

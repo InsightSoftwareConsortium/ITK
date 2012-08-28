@@ -190,11 +190,11 @@ mark_as_advanced(ITK_USE_REVIEW)
 
 if (ITK_USE_REVIEW)
   set(Module_ITKReview ON)
-endif(ITK_USE_REVIEW)
+endif()
 
 #-----------------------------------------------------------------------------
 # ITK uses KWStyle for checking the coding style
-INCLUDE(${ITK_SOURCE_DIR}/Utilities/KWStyle/KWStyle.cmake)
+include(${ITK_SOURCE_DIR}/Utilities/KWStyle/KWStyle.cmake)
 
 #-----------------------------------------------------------------------------
 # ITK build the Examples that are illustrated in the Software Guide
@@ -208,7 +208,7 @@ mark_as_advanced(ITK_USE_GPU)
 
 if( ITK_USE_GPU )
    include(itkOpenCL)
-endif( ITK_USE_GPU )
+endif()
 
 #-----------------------------------------------------------------------------
 # Manage FFT v3 Options
@@ -231,7 +231,7 @@ if( USE_FFTWD OR USE_FFTWF )
   include(ExternalProject)
 
   include(itkExternal_FFTW)
-endif( USE_FFTWD OR USE_FFTWF )
+endif()
 
 if(NOT ITKV3_COMPATIBILITY)
   option(ITK_USE_64BITS_IDS "When ON, ITK will use 64 bits integers to index pixels. This is needed for managing images larger than 4Gb in some platforms." OFF)
@@ -403,14 +403,14 @@ endforeach()
 set(CPACK_SOURCE_IGNORE_FILES
   "${ITK_MODULES_DISABLED_CPACK};/\\\\.git")
 
-SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Insight Toolkit version ${ITK_VERSION_MAJOR}")
-SET(CPACK_PACKAGE_VENDOR "ISC")
-SET(CPACK_PACKAGE_VERSION_MAJOR "${ITK_VERSION_MAJOR}")
-SET(CPACK_PACKAGE_VERSION_MINOR "${ITK_VERSION_MINOR}")
-SET(CPACK_PACKAGE_VERSION_PATCH "${ITK_VERSION_PATCH}")
-SET(CPACK_PACKAGE_INSTALL_DIRECTORY "ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}")
-SET(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_CURRENT_SOURCE_DIR}/README.txt")
-SET(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Insight Toolkit version ${ITK_VERSION_MAJOR}")
+set(CPACK_PACKAGE_VENDOR "ISC")
+set(CPACK_PACKAGE_VERSION_MAJOR "${ITK_VERSION_MAJOR}")
+set(CPACK_PACKAGE_VERSION_MINOR "${ITK_VERSION_MINOR}")
+set(CPACK_PACKAGE_VERSION_PATCH "${ITK_VERSION_PATCH}")
+set(CPACK_PACKAGE_INSTALL_DIRECTORY "ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}")
+set(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_CURRENT_SOURCE_DIR}/README.txt")
+set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
 
 include(CPack)
 
@@ -590,7 +590,7 @@ string(REGEX REPLACE "/" ";" _count "${ITK_INSTALL_PACKAGE_DIR}")
 foreach(p ${_count})
   set(ITK_CONFIG_CODE "${ITK_CONFIG_CODE}
 get_filename_component(ITK_INSTALL_PREFIX \"\${ITK_INSTALL_PREFIX}\" PATH)")
-endforeach(p)
+endforeach()
 set(ITK_CONFIG_CODE "${ITK_CONFIG_CODE}
 set(ITK_MODULES_DIR \"\${ITK_INSTALL_PREFIX}/${ITK_INSTALL_PACKAGE_DIR}/Modules\")")
 set(ITK_USE_FILE "\${ITK_INSTALL_PREFIX}/${ITK_INSTALL_PACKAGE_DIR}/UseITK.cmake")
@@ -643,7 +643,7 @@ set(ITK_DIR "${ITK_BINARY_DIR}")
 include(Wrapping/itkWrapSetup.cmake)
 if(ITK_WRAPPING)
   add_subdirectory(Wrapping)
-endif(ITK_WRAPPING)
+endif()
 
 if(BUILD_EXAMPLES)
   add_subdirectory(Examples)

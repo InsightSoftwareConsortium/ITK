@@ -28,20 +28,20 @@ find_path(MINC2_INCLUDE_PATH minc2.h ${MINC2_INC_SEARCHPATH})
 
 if(NETCDF_INCLUDE_PATH)
   set(NETCDF_INCLUDE  ${NETCDF_INCLUDE_PATH})
-endif(NETCDF_INCLUDE_PATH)
+endif()
 
 if(HDF5_INCLUDE_PATH)
   set(HDF5_INCLUDE  ${HDF5_INCLUDE_PATH})
-endif(HDF5_INCLUDE_PATH)
+endif()
 
 if(MINC_INCLUDE_PATH)
   set(MINC_INCLUDE ${MINC_INCLUDE_PATH})
-endif(MINC_INCLUDE_PATH)
+endif()
 
 
 if(MINC2_INCLUDE_PATH)
   set(MINC2_INCLUDE ${MINC2_INCLUDE_PATH})
-endif(MINC2_INCLUDE_PATH)
+endif()
 
 find_library(NETCDF_LIB netcdf /usr/lib /usr/local/lib )
 find_library(HDF5_LIB hdf5 /usr/lib /usr/local/lib )
@@ -50,28 +50,28 @@ find_library(MINC2_LIB minc2 /usr/lib /usr/local/lib )
 
 if(NETCDF_LIB)
         get_filename_component(NETCDF_LIBRARY_PATH ${NETCDF_LIB} PATH)
-endif(NETCDF_LIB)
+endif()
 
 if(HDF5_LIB)
         get_filename_component(HDF5_LIBRARY_PATH ${HDF5_LIB} PATH)
-endif(HDF5_LIB)
+endif()
 
 if(MINC2_LIB)
         get_filename_component(MINC2_LIBRARY_PATH ${MINC2_LIB} PATH)
-endif(MINC2_LIB)
+endif()
 
 set(MINC2_FOUND 0)
 
 if(MINC_INCLUDE AND MINC2_INCLUDE AND HDF5_INCLUDE AND NETCDF_INCLUDE)
   if(MINC2_LIBRARY_PATH AND HDF5_LIBRARY_PATH AND NETCDF_LIBRARY_PATH)
     set(MINC2_FOUND 1)
-  endif(MINC2_LIBRARY_PATH AND HDF5_LIBRARY_PATH AND NETCDF_LIBRARY_PATH)
-endif(MINC_INCLUDE AND MINC2_INCLUDE AND HDF5_INCLUDE AND NETCDF_INCLUDE )
+  endif()
+endif()
 
 if(MINC2_FOUND)
   include_directories( ${NETCDF_INCLUDE} ${HDF5_INCLUDE} ${MINC_INCLUDE} ${MINC2_INCLUDE}  )
   link_directories( ${NETCDF_LIBRARY_PATH} ${HDF5_LIBRARY_PATH} ${MINC2_LIBRARY_PATH})
   add_definitions(-DUSE_MINC2)
-endif(MINC2_FOUND)
+endif()
 
-endif(ITK_USE_MINC2)
+endif()

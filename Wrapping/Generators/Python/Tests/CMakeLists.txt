@@ -228,7 +228,7 @@ if(ITK_WRAP_unsigned_char AND WRAP_2)
           3
   )
 
-endif(ITK_WRAP_unsigned_char AND WRAP_2)
+endif()
 
 
 if(ITK_WRAP_float AND WRAP_2)
@@ -415,7 +415,7 @@ if(ITK_WRAP_float AND WRAP_2)
           SpatialObject.png
   )
 
-endif(ITK_WRAP_float AND WRAP_2)
+endif()
 
 
 INTERSECTION(WRAP_3 3 "${ITK_WRAP_DIMS}")
@@ -428,7 +428,7 @@ if(ITK_WRAP_float AND WRAP_3)
           AntiAliasBinaryImageFilter.png
           .001 50
   )
-endif(ITK_WRAP_float AND WRAP_3)
+endif()
 
 
 UNIQUE(types "${WRAP_ITK_SCALAR};UC")
@@ -444,5 +444,5 @@ foreach(d ${ITK_WRAP_DIMS})
       simple_pipeline${t}${d}.nrrd
       --compare simple_pipeline${t}${d}.nrrd DATA{${WrapITK_SOURCE_DIR}/images/cthead1.png}
     )
-  endforeach(t)
-endforeach(d)
+  endforeach()
+endforeach()

@@ -93,7 +93,7 @@ set(TEMP ${ITK_TEST_OUTPUT_DIR})
 
 if(ITK_USE_MINC2 AND MINC2_FOUND)
   set(ITKReviewTests ${ITKReviewTests} itkMINC2ImageIOTest.cxx)
-endif(ITK_USE_MINC2 AND MINC2_FOUND)
+endif()
 
 
 if( USE_FFTWD OR USE_FFTWF )
@@ -102,7 +102,7 @@ if( USE_FFTWD OR USE_FFTWF )
     itkFFTComplexToComplexImageFilterTest01.cxx
     itkFFTComplexToComplexImageFilterTest02.cxx
     )
-endif( USE_FFTWD OR USE_FFTWF )
+endif()
 
 
 CreateTestDriver_SupportBuildInIOFactories(ITKReview  "${ITKReview-Test_LIBRARIES}" "${ITKReviewTests}")

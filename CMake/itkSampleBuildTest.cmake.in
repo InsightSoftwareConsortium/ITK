@@ -25,9 +25,9 @@ set(DEFAULT_BUILD_TYPE "Release")
 
 if("@CMAKE_BUILD_TYPE@" STREQUAL "")
   set(BUILD_TYPE ${DEFAULT_BUILD_TYPE})
-else("@CMAKE_BUILD_TYPE@" STREQUAL "")
+else()
   set(BUILD_TYPE @CMAKE_BUILD_TYPE@)
-endif("@CMAKE_BUILD_TYPE@" STREQUAL "")
+endif()
 
 
 # These are the the locations of the source and binary directory
@@ -43,18 +43,18 @@ set(CTEST_COMMAND
 # CMake/RemoveTemporaryFiles.cmake must exist before the CTEST_COMMAND runs
 if(NOT EXISTS ${CTEST_BINARY_DIRECTORY}/CMake/RemoveTemporaryFiles.cmake)
   set(CTEST_CMAKE_COMMAND "@CMAKE_COMMAND@")
-endif(NOT EXISTS ${CTEST_BINARY_DIRECTORY}/CMake/RemoveTemporaryFiles.cmake)
+endif()
 
 # CMakeCache.txt must exist before the CTEST_COMMAND runs
 if(NOT EXISTS ${CTEST_BINARY_DIRECTORY}/CMakeCache.txt)
   set(CTEST_CMAKE_COMMAND "@CMAKE_COMMAND@")
-endif(NOT EXISTS ${CTEST_BINARY_DIRECTORY}/CMakeCache.txt)
+endif()
 
 # Specify how long to run the continuous in minutes
 if(${DASHBOARD} STREQUAL "Continuous")
   set(CTEST_CONTINUOUS_DURATION 1080)
   set(CTEST_CONTINUOUS_MINIMUM_INTERVAL 15)
-endif(${DASHBOARD} STREQUAL "Continuous")
+endif()
 
 # Set defaults
 set(CTEST_START_WITH_EMPTY_BINARY_DIRECTORY FALSE)
@@ -63,22 +63,22 @@ set(CTEST_START_WITH_EMPTY_BINARY_DIRECTORY_ONCE FALSE)
 # For Nightly builds, this should be TRUE
 if(${DASHBOARD} STREQUAL "Nightly")
   set(CTEST_START_WITH_EMPTY_BINARY_DIRECTORY TRUE)
-else(${DASHBOARD} STREQUAL "Nightly")
+else()
   set(CTEST_START_WITH_EMPTY_BINARY_DIRECTORY FALSE)
-endif(${DASHBOARD} STREQUAL "Nightly")
+endif()
 
 # For Continuous builds. this should be TRUE
 if(${DASHBOARD} STREQUAL "Continuous")
   set(CTEST_START_WITH_EMPTY_BINARY_DIRECTORY_ONCE TRUE)
-else(${DASHBOARD} STREQUAL "Continuous")
+else()
   set(CTEST_START_WITH_EMPTY_BINARY_DIRECTORY_ONCE FALSE)
-endif(${DASHBOARD} STREQUAL "Continuous")
+endif()
 
 # For Experimental builds, these should be FALSE
 if(${DASHBOARD} STREQUAL "Experimental")
   set(CTEST_START_WITH_EMPTY_BINARY_DIRECTORY FALSE)
   set(CTEST_START_WITH_EMPTY_BINARY_DIRECTORY_ONCE FALSE)
-endif(${DASHBOARD} STREQUAL "Experimental")
+endif()
 
 # This is the initial cache to use for the binary tree, be careful to escape
 # any quotes inside of this string if you use it

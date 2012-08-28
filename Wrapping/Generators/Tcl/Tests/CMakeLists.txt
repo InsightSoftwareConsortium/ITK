@@ -99,7 +99,7 @@ if(ITK_WRAP_unsigned_char AND WRAP_2)
     --compare ThresholdImageFilter.png DATA{${WrapITK_SOURCE_DIR}/images/ThresholdImageFilter.png}
   )
 
-endif(ITK_WRAP_unsigned_char AND WRAP_2)
+endif()
 
 
 
@@ -132,7 +132,7 @@ if(ITK_WRAP_float AND WRAP_2)
     --compare GradientAnisotropicDiffusionImageFilter.png
               DATA{${WrapITK_SOURCE_DIR}/images/GradientAnisotropicDiffusionImageFilter.png}
   )
-endif(ITK_WRAP_float AND WRAP_2)
+endif()
 
 
 UNIQUE(types "${WRAP_ITK_SCALAR};UC")
@@ -154,5 +154,5 @@ foreach(TCL_TEST_IMAGE_DIMENSION ${ITK_WRAP_DIMS})
       --compare ${TEST_FILE_NAME}.nrrd DATA{${WrapITK_SOURCE_DIR}/images/cthead1.png}
     )
 
-  endforeach(TCL_TEST_PIXEL_TYPE)
-endforeach(TCL_TEST_IMAGE_DIMENSION)
+  endforeach()
+endforeach()

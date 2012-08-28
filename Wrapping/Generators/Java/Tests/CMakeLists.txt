@@ -4,9 +4,9 @@
 # windows doesn't use the same separator than the others
 if(WIN32)
   set(sep "\\\;")
-else(WIN32)
+else()
   set(sep ":")
-endif(WIN32)
+endif()
 
 # put all generated files in this list
 set(targets "")
@@ -30,9 +30,9 @@ macro(build_classpath var)
     set(depends ${depends} ${lib}JavaJar)
     if(NOT "${WRAP_ITK_MODULES}" MATCHES "(^|;)${lib}(;|$)")
       set(LAST_TEST_DEPS_OK OFF)
-    endif(NOT "${WRAP_ITK_MODULES}" MATCHES "(^|;)${lib}(;|$)")
-  endforeach(lib)
-endmacro(build_classpath)
+    endif()
+  endforeach()
+endmacro()
 
 
 #----------------
@@ -49,10 +49,10 @@ macro(build_java_test name cp_var)
       DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/${name}.java
       )
     set(targets ${targets} ${CMAKE_CURRENT_BINARY_DIR}/${name}.class)
-  else(LAST_TEST_DEPS_OK)
+  else()
     message("Warning: Can't buid java test ${name}.")
-  endif(LAST_TEST_DEPS_OK)
-endmacro(build_java_test)
+  endif()
+endmacro()
 
 
 #----------------
@@ -69,10 +69,10 @@ macro(build_java_test_bin name cp_var)
       DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/${name}.java
       )
     set(targets ${targets} ${CMAKE_CURRENT_BINARY_DIR}/${name}.class)
-  else(LAST_TEST_DEPS_OK)
+  else()
     message("Warning: Can't buid java test ${name}.")
-  endif(LAST_TEST_DEPS_OK)
-endmacro(build_java_test_bin)
+  endif()
+endmacro()
 
 
 #----------------
@@ -105,8 +105,8 @@ macro(add_java_test name classpath)
       -cp "${classpath}"
       ${ARGN}
       )
-  endif(LAST_TEST_DEPS_OK)
-endmacro(add_java_test)
+  endif()
+endmacro()
 
 
 #----------------
@@ -141,8 +141,8 @@ foreach(d ${ITK_WRAP_DIMS})
       --compare ${test_base_name}.nrrd DATA{${WrapITK_SOURCE_DIR}/images/cthead1.png}
     )
 
-  endforeach(t)
-endforeach(d)
+  endforeach()
+endforeach()
 
 #----------------
 foreach(d ${ITK_WRAP_DIMS})

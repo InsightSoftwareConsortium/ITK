@@ -17,20 +17,20 @@
 #
 #----------------------------------------------------------------------
 
-SET(CTEST_CUSTOM_MAXIMUM_NUMBER_OF_WARNINGS 199)
-SET(CTEST_CUSTOM_MAXIMUM_NUMBER_OF_ERRORS 50)
+set(CTEST_CUSTOM_MAXIMUM_NUMBER_OF_WARNINGS 199)
+set(CTEST_CUSTOM_MAXIMUM_NUMBER_OF_ERRORS 50)
 
-SET(CTEST_CUSTOM_MEMCHECK_IGNORE
+set(CTEST_CUSTOM_MEMCHECK_IGNORE
   @CTEST_CUSTOM_MEMCHECK_IGNORE@
   )
 
-SET(CTEST_EXTRA_COVERAGE_GLOB
+set(CTEST_EXTRA_COVERAGE_GLOB
   Source/.*/*.h
   Source/.*/*.txx
   Source/.*/*.cxx
   )
 
-SET(CTEST_CUSTOM_COVERAGE_EXCLUDE
+set(CTEST_CUSTOM_COVERAGE_EXCLUDE
  ${CTEST_CUSTOM_COVERAGE_EXCLUDE}
 
  # Exclude try_compile sources from coverage results:
@@ -51,7 +51,7 @@ SET(CTEST_CUSTOM_COVERAGE_EXCLUDE
  ".*/Wrapping/.*"
  )
 
-SET(CTEST_CUSTOM_WARNING_EXCEPTION
+set(CTEST_CUSTOM_WARNING_EXCEPTION
   ${CTEST_CUSTOM_WARNING_EXCEPTION}
   "warning LNK4221.*no public symbols found"
   "ranlib:.*file:.*has no symbols"
@@ -98,10 +98,10 @@ SET(CTEST_CUSTOM_WARNING_EXCEPTION
   "[0-9,]+ warnings? generated."
   )
 
-IF(APPLE)
-SET(CTEST_CUSTOM_WARNING_EXCEPTION
+if(APPLE)
+set(CTEST_CUSTOM_WARNING_EXCEPTION
   ${CTEST_CUSTOM_WARNING_EXCEPTION}
   "warning -.: directory name .* does not exist"
   "ld.*warning.*duplicate dylib.*"
   )
-ENDIF(APPLE)
+endif()

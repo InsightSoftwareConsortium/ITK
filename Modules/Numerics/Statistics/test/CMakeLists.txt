@@ -210,7 +210,7 @@ set_tests_properties( itkKdTreeTest2Plot PROPERTIES DEPENDS itkKdTreeTest2 )
 itk_add_test(NAME itkKdTreeTest3Plot
       COMMAND ${DOXYGEN_DOT_EXECUTABLE} -Tpng -o  ${ITK_TEST_OUTPUT_DIR}/itkKdTreeTest3.png ${ITK_TEST_OUTPUT_DIR}/itkKdTreeTest3.dot)
 set_tests_properties( itkKdTreeTest3Plot PROPERTIES DEPENDS itkKdTreeTest3 )
-endif(DOXYGEN_DOT_EXECUTABLE)
+endif()
 
 itk_add_test(NAME itkKdTreeTestSamplePoints
       COMMAND ITKStatisticsTestDriver itkKdTreeTestSamplePoints)

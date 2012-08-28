@@ -16,4 +16,4 @@ string(REGEX REPLACE "[^;]*vtkmetaio;"
          "" VTK_INCLUDE_DIRS "${VTK_INCLUDE_DIRS}")
 string(REGEX REPLACE "[^;]*DICOMParser;"
          "" VTK_INCLUDE_DIRS "${VTK_INCLUDE_DIRS}")
-INCLUDE(${VTK_USE_FILE})
+include(${VTK_USE_FILE})

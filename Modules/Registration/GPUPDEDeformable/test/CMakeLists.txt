@@ -35,4 +35,4 @@ itk_add_test(NAME itkGPUDemonsRegistrationFilterTest2
              )
 
 
-endif(ITK_USE_GPU)
+endif()

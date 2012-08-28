@@ -188,7 +188,7 @@ if(ITK_BUILD_SHARED_LIBS)
   target_link_libraries(FactoryTestLib ${ITKCommon_LIBRARIES})
   set_property(TARGET FactoryTestLib PROPERTY LIBRARY_OUTPUT_DIRECTORY ${ITK_TEST_OUTPUT_DIR})
   add_dependencies(ITKCommon2TestDriver FactoryTestLib)
-endif(ITK_BUILD_SHARED_LIBS)
+endif()
 
 itk_add_test(NAME itkAdaptorComparisonTest COMMAND ITKCommon1TestDriver itkAdaptorComparisonTest)
 itk_add_test(NAME itkThreadedIndexedContainerPartitionerTest COMMAND ITKCommon2TestDriver itkThreadedIndexedContainerPartitionerTest)
@@ -228,7 +228,7 @@ itk_add_test(NAME itkAutoPointerTest COMMAND ITKCommon2TestDriver itkAutoPointer
 if(NOT MINGW)
 itk_add_test(NAME itkBarrierTest COMMAND ITKCommon2TestDriver itkBarrierTest)
 itk_add_test(NAME itkConditionVariableTest COMMAND ITKCommon1TestDriver itkConditionVariableTest)
-endif(NOT MINGW)
+endif()
 itk_add_test(NAME itkTimeStampTest COMMAND ITKCommon2TestDriver itkTimeStampTest)
 itk_add_test(NAME itkBoundingBoxTest COMMAND ITKCommon1TestDriver itkBoundingBoxTest)
 itk_add_test(NAME itkBoundaryConditionTest COMMAND ITKCommon1TestDriver itkBoundaryConditionTest)
@@ -317,7 +317,7 @@ itk_add_test(NAME itkPointGeometryTest COMMAND ITKCommon1TestDriver itkPointGeom
 # is not working
 if(0)
   itk_add_test(NAME itkMemoryLeakTest COMMAND ITKCommon2TestDriver itkMemoryLeakTest)
-endif(0)
+endif()
 
 itk_add_test(NAME itkMetaDataDictionaryTest COMMAND ITKCommon2TestDriver itkMetaDataDictionaryTest)
 itk_add_test(NAME itkMultiThreaderTest COMMAND ITKCommon2TestDriver itkMultiThreaderTest)
@@ -345,7 +345,7 @@ itk_add_test(NAME itkOctreeTest COMMAND ITKCommon2TestDriver itkOctreeTest)
 if(ITK_BUILD_SHARED_LIBS)
 itk_add_test(NAME itkObjectFactoryTest2 COMMAND ITKCommon2TestDriver itkObjectFactoryTest2 ${ITK_TEST_OUTPUT_DIR})
 set_tests_properties(itkObjectFactoryTest2 PROPERTIES RUN_SERIAL 1)
-endif(ITK_BUILD_SHARED_LIBS)
+endif()
 
 itk_add_test(NAME itkObjectFactoryTest3 COMMAND ITKCommon2TestDriver itkObjectFactoryTest3)
 itk_add_test(NAME itkPeriodicBoundaryConditionTest COMMAND ITKCommon2TestDriver itkPeriodicBoundaryConditionTest)
@@ -441,7 +441,7 @@ if("${CMAKE_SYSTEM_NAME}" MATCHES "Linux")
 
   set(CTEST_CUSTOM_MEMCHECK_IGNORE ${CTEST_CUSTOM_MEMCHECK_IGNORE} itkFloatingPointExceptionsTest5 CACHE INTERNAL "tests excluded from memcheck" FORCE)
 
-endif("${CMAKE_SYSTEM_NAME}" MATCHES "Linux")
+endif()
 
 add_executable(itkSystemInformationTest itkSystemInformationTest.cxx)
 itk_module_target_label(itkSystemInformationTest)

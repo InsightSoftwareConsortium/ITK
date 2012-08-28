@@ -144,9 +144,9 @@ if( ${CMAKE_BUILD_TYPE} MATCHES "Release")
       300  # maximum number of iterations
     )
   set_tests_properties(ImageRegistration20Test PROPERTIES RUN_SERIAL 1)
-endif( ${CMAKE_BUILD_TYPE} MATCHES "Release")
+endif()
 
-endif(ITK_USE_BRAINWEB_DATA)
+endif()
 
 itk_add_test(NAME ImageRegistration9Test COMMAND ${ITK_TEST_DRIVER}
   --compare DATA{${BASELINE}/ImageRegistration9TestPixelCentered.png}
@@ -689,7 +689,7 @@ itk_add_test(NAME DeformableRegistration14Test4 COMMAND ${ITK_TEST_DRIVER}
         10.0 50
 )
 set_property(TEST DeformableRegistration14Test4 PROPERTY DEPENDS BSplineWarping2Test)
-endif( DART_TESTING_TIMEOUT GREATER 3000 )
+endif()
 
 itk_add_test(NAME ChangeInformationTest1 COMMAND ${ITK_TEST_DRIVER}
         $<TARGET_FILE:ChangeInformationImageFilter>
@@ -719,7 +719,7 @@ itk_add_test(NAME DeformableRegistration15Test1 COMMAND ${ITK_TEST_DRIVER}
         10.0 50
 )
 set_property(TEST DeformableRegistration15Test1 PROPERTY DEPENDS ChangeInformationTest1)
-endif( DART_TESTING_TIMEOUT GREATER 10000 )
+endif()
 
 if( "${ITK_COMPUTER_MEMORY_SIZE}" GREATER 6 )
 
@@ -862,7 +862,7 @@ endif()
 
 endif()
 
-endif(ITK_USE_BRAINWEB_DATA)
+endif()
 
 
 if(ITK_MRI_UNC_DATABASE_DATA_ROOT)
@@ -881,9 +881,9 @@ itk_add_test(NAME DeformableRegistration15Test2 COMMAND ${ITK_TEST_DRIVER}
         5 100
         10.0 50
 )
-endif( DART_TESTING_TIMEOUT GREATER 10000 )
+endif()
 
-endif(ITK_MRI_UNC_DATABASE_DATA_ROOT)
+endif()
 
 
 itk_add_test(NAME LandmarkWarping2Test COMMAND ${ITK_TEST_DRIVER}

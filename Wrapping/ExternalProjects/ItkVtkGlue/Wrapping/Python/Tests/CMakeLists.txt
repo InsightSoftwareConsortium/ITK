@@ -18,4 +18,4 @@ itk_add_test(NAME SimpleItkVtkPipeline
 # some tests will fail if dim=2 and unsigned short are not wrapped
 INTERSECTION(WRAP_2 2 "${ITK_WRAP_DIMS}")
 if(ITK_WRAP_unsigned_short AND WRAP_2)
-endif(ITK_WRAP_unsigned_short AND WRAP_2)
+endif()

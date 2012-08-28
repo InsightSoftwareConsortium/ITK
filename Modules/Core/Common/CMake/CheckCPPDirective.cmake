@@ -22,11 +22,11 @@ macro(CHECK_CPP_DIRECTIVE_EXISTS DIRECTIVE VARIABLE)
     file(APPEND ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeOutput.log
       "Checking to see if this platform supports has the ${DIRECTIVE} C-Preprocessor directive with "
       "the following output:\n${OUTPUT}\n\n")
-  else(${VARIABLE})
+  else()
     message(STATUS "Checking to see if this platform supports has the ${DIRECTIVE} C-Preprocessor directive - no")
     file(APPEND ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeError.log
       "Checking to see if this platform supports has the ${DIRECTIVE} C-Preprocessor directive with "
       "the following output:\n${OUTPUT}\n\n")
-  endif(${VARIABLE})
-  endif("HAVE_${VARIABLE}" MATCHES "^HAVE_${VARIABLE}$")
-endmacro(CHECK_CPP_DIRECTIVE_EXISTS)
+  endif()
+  endif()
+endmacro()

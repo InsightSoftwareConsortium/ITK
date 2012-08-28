@@ -67,7 +67,7 @@ foreach( loop_var ${CURV_TESTS} )
       COMMAND ITKQuadEdgeMeshFilteringTestDriver
             itkDiscrete${loop_var}CurvatureQuadEdgeMeshFilterTest
             DATA{${INPUTDATA}/mushroom.vtk})
-endforeach( loop_var )
+endforeach()
 
 itk_add_test(NAME itkDelaunayConformingQuadEdgeMeshFilterTest
       COMMAND ITKQuadEdgeMeshFilteringTestDriver
@@ -109,6 +109,6 @@ foreach( border 0 1 )
                     itkParameterizationQuadEdgeMeshFilterTest
               DATA{${INPUTDATA}/mushroom.vtk} ${border} ${coeff} ${solver}
               ${TEMP}/param_border${border}_coeff${coeff}_solver${solver}.vtk)
-    endforeach( solver )
-  endforeach( coeff )
-endforeach( border )
+    endforeach()
+  endforeach()
+endforeach()

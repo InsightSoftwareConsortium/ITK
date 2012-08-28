@@ -4,6 +4,6 @@ if (ITK_USE_GPU)
   set(ITKGPUCommon_LIBRARIES ITKGPUCommon)
   set(ITKGPUCommon_SYSTEM_INCLUDE_DIRS ${OPENCL_INCLUDE_DIRS})
   set(ITKGPUCommon_SYSTEM_LIBRARY_DIRS ${OPENCL_LIBRARIES})
-endif(ITK_USE_GPU)
+endif()
 
 itk_module_impl()

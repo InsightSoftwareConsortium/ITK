@@ -1,10 +1,10 @@
 macro(ADD_TCL_TYPEMAP simple_name cpp_name swig_name template_params)
   # write me
-endmacro(ADD_TCL_TYPEMAP)
+endmacro()
 
 macro(TCL_SUPPORT_CONFIGURE_FILES)
   # write me
-endmacro(TCL_SUPPORT_CONFIGURE_FILES)
+endmacro()
 
 macro(END_WRAPPER_LIBRARY_TCL)
 
@@ -45,7 +45,7 @@ macro(END_WRAPPER_LIBRARY_TCL)
     set_target_properties(${lib} PROPERTIES PREFIX "")
     target_link_libraries(${lib} ${WRAPPER_LIBRARY_LINK_LIBRARIES} ${TCL_LIBRARY})
 
-  endforeach(source)
+  endforeach()
 
 #  add_library(${WRAPPER_LIBRARY_NAME}Tcl MODULE ${cpp_files})
 #  set_target_properties(${WRAPPER_LIBRARY_NAME}Tcl PROPERTIES PREFIX "_")
@@ -59,4 +59,4 @@ macro(END_WRAPPER_LIBRARY_TCL)
   add_custom_target(${WRAPPER_LIBRARY_NAME}Tcl DEPENDS ${modules})
 
 
-endmacro(END_WRAPPER_LIBRARY_TCL)
+endmacro()

@@ -39,5 +39,5 @@ target_link_libraries(RGBImage ${ITK_LIBRARIES})
 
 if(BUILD_TESTING)
   add_subdirectory(test)
-endif(BUILD_TESTING)
+endif()
 

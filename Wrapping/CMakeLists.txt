@@ -30,14 +30,14 @@ if(COMMAND CMAKE_POLICY)
   cmake_policy(SET CMP0003 NEW)
   if(POLICY CMP0011)
     cmake_policy(SET CMP0011 NEW)
-  endif(POLICY CMP0011)
-endif(COMMAND CMAKE_POLICY)
+  endif()
+endif()
 include("CMakeUtilityFunctions.cmake")
 
 set(ITK_VERSION "${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}.${ITK_VERSION_PATCH}")
 if(NOT "${CMAKE_VERSION}" STRLESS "2.6.3")
   cmake_policy(SET CMP0011 OLD)
-endif(NOT "${CMAKE_VERSION}" STRLESS "2.6.3")
+endif()
 
 enable_testing()
 
@@ -97,11 +97,11 @@ set(ITK_WRAP_JAVA_DIR "${WrapITK_BINARY_DIR}/Java")
 
 if(NOT CMAKE_LIBRARY_OUTPUT_DIRECTORY)
   set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${WrapITK_BINARY_DIR}/lib CACHE INTERNAL "Single output directory for building all libraries.")
-endif(NOT CMAKE_LIBRARY_OUTPUT_DIRECTORY)
+endif()
 
 if(NOT EXECUTABLE_OUTPUT_PATH)
   set(EXECUTABLE_OUTPUT_PATH ${WrapITK_BINARY_DIR}/bin CACHE INTERNAL "Single output directory for building all executables.")
-endif(NOT EXECUTABLE_OUTPUT_PATH)
+endif()
 
 mark_as_advanced(CMAKE_LIBRARY_OUTPUT_DIRECTORY EXECUTABLE_OUTPUT_PATH WRAP_ITK_INSTALL_PREFIX)
 
@@ -130,12 +130,12 @@ if(INSTALL_WRAP_ITK_COMPATIBILITY)
   # always be built.
   CREATE_INSTALL_AT_ABSOLUTE_PATH_TARGET(install_wrapitk_compatibility DEFAULT
     "Installing WrapITK compatibility files. Requires admin priviliges: turn off INSTALL_WRAP_ITK_COMPATIBILITY in cmake to disable.")
-else(INSTALL_WRAP_ITK_COMPATIBILITY)
+else()
   # otherwise, add a target that will install the files only when that target is
   # manually built.
   CREATE_INSTALL_AT_ABSOLUTE_PATH_TARGET(install_wrapitk_compatibility ON_DEMAND
     "Installing WrapITK compatibility files. Requires admin priviliges.")
-endif(INSTALL_WRAP_ITK_COMPATIBILITY)
+endif()
 
 INSTALL_AT_ABSOLUTE_PATH(install_wrapitk_compatibility "${CMAKE_ROOT}/Modules" "${WrapITK_BINARY_DIR}/InstallOnly/FindWrapITK.cmake")
 
@@ -187,7 +187,7 @@ set(CONFIG_WRAP_ITK_MORE_OPTIONS)
 foreach(lang ${WRAP_ITK_GENERATORS} ${WRAP_ITK_UNUSED_GENERATORS})
   string(TOUPPER "${lang}" lang_upper)
   set(CONFIG_WRAP_ITK_MORE_OPTIONS "${CONFIG_WRAP_ITK_MORE_OPTIONS}set(WRAP_ITK_${lang_upper} ${WRAP_ITK_${lang_upper}} CACHE BOOL \"Build swig ${lang} wrapper support.\")\n")
-endforeach(lang)
+endforeach()
 set(CONFIG_CONFIG_DIR "${WrapITK_SOURCE_DIR}/ConfigurationInputs")
 set(CONFIG_CMAKE_DIR "${WrapITK_SOURCE_DIR}")
 set(CONFIG_WRAP_ITK_TYPEDEFS_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/Typedefs")
