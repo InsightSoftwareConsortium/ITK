@@ -87,14 +87,8 @@ const typename ImageSource< TOutputImage >::OutputImageType *
 ImageSource< TOutputImage >
 ::GetOutput() const
 {
-  if ( this->GetNumberOfOutputs() < 1 )
-    {
-    return 0;
-    }
-
   // we assume that the first output is of the templated type
-  return itkDynamicCastInDebugMode< const TOutputImage * >
-         ( this->ProcessObject::GetOutput(0) );
+  return itkDynamicCastInDebugMode< const TOutputImage * >( this->GetPrimaryOutput() );
 }
 
 /**
