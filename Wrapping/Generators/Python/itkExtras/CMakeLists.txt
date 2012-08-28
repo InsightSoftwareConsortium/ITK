@@ -14,8 +14,8 @@ if("${WrapITK_BINARY_DIR}" MATCHES "^${WrapITK_SOURCE_DIR}$")
   foreach(file ${ITK_PYTHON_EXTRAS_FILES})
     set(install_tgt "${CMAKE_CURRENT_SOURCE_DIR}/${file}.py")
     set(ITK_WRAP_PYTHON_EXTRAS_INSTALL_FILES ${ITK_WRAP_PYTHON_EXTRAS_FILES} "${install_tgt}")
-  endforeach(file)
-else("${WrapITK_BINARY_DIR}" MATCHES "^${WrapITK_SOURCE_DIR}$")
+  endforeach()
+else()
   set(ITK_WRAP_PYTHON_EXTRAS_FILES)
   add_custom_target(copy_python_extras_files ALL)
   foreach(file ${ITK_PYTHON_EXTRAS_FILES})
@@ -37,14 +37,14 @@ else("${WrapITK_BINARY_DIR}" MATCHES "^${WrapITK_SOURCE_DIR}$")
       OUTPUTS ${copy_tgt}
       TARGET copy_python_extras_files
       COMMENT "source copy")
-  endforeach(file)
+  endforeach()
 
   # driver command to make the copy happen.
   add_custom_command(
     SOURCE copy_python_extras_files
     DEPENDS ${ITK_WRAP_PYTHON_EXTRAS_FILES}
     TARGET copy_python_extras_files)
-endif("${WrapITK_BINARY_DIR}" MATCHES "^${WrapITK_SOURCE_DIR}$")
+endif()
 
 # Install the package python files.
 WRAP_ITK_BINDINGS_INSTALL(/Python/itkExtras ${ITK_WRAP_PYTHON_EXTRAS_INSTALL_FILES})

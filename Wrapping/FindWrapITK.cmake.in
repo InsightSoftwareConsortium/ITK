@@ -13,6 +13,6 @@ find_path(WrapITK_DIR WrapITKConfig.cmake
 if(WrapITK_DIR)
   set(WrapITK_FOUND 1)
   include("${WrapITK_DIR}/WrapITKConfig.cmake")
-else(WrapITK_DIR)
+else()
   set(WrapITK_FOUND 0)
-endif(WrapITK_DIR)
+endif()

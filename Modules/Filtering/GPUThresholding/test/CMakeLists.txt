@@ -44,4 +44,4 @@ itk_add_test(NAME itkGPUBinaryThresholdImageFilterTest3D
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${ITK_TEST_OUTPUT_DIR}/gpuBinaryThresholdImageFilterTest3D.mha 3)
 
-endif(ITK_USE_GPU)
+endif()

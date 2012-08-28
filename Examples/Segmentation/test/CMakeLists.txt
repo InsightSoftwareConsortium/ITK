@@ -207,7 +207,7 @@ itk_add_test(NAME CellularSegmentation2Test COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/CellularSegmentation2Test.vtk
 )
 
-endif( ITK_USE_BRAINWEB_DATA )
+endif()
 
 itk_add_test(NAME VectorConfidenceConnectedTest1 COMMAND ${ITK_TEST_DRIVER}
   --compare DATA{${BASELINE}/VectorConfidenceConnected1.png}

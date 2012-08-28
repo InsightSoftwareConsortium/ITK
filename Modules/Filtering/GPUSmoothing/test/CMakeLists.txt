@@ -37,4 +37,4 @@ itk_add_test(NAME itkGPUDiscreteGaussianImageFilterTest3D
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${ITK_TEST_OUTPUT_DIR}/gpuGradientDiscreteGaussianImageFilterTest3D.mha 3)
 
-endif(ITK_USE_GPU)
+endif()

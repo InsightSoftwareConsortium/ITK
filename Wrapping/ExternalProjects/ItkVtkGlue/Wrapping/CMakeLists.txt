@@ -11,19 +11,19 @@ itk_wrap_module("${PROJECT_NAME}")
     set(MIN_ITK_VER "5.0.0")
     if("${VTK_VERSION}" STRLESS "${MIN_ITK_VER}")
       set(WRAPPER_LIBRARY_LINK_LIBRARIES ${WRAPPER_LIBRARY_LINK_LIBRARIES} vtkImagingPython)
-    else("${VTK_VERSION}" STRLESS "${MIN_ITK_VER}")
+    else()
       set(WRAPPER_LIBRARY_LINK_LIBRARIES ${WRAPPER_LIBRARY_LINK_LIBRARIES} vtkImagingPythonD)
-    endif("${VTK_VERSION}" STRLESS "${MIN_ITK_VER}")
+    endif()
 
     subdirs(Python)
-  else(ITK_WRAP_PYTHON)
+  else()
     set(WRAPPER_LIBRARY_LINK_LIBRARIES ${ITK_LIBRARIES} vtkImaging vtkFiltering)
-  endif(ITK_WRAP_PYTHON)
+  endif()
 
   if(ITK_WRAP_JAVA AND WRAPPER_LIBRARY_JAVA)
     set(ITK_WRAP_JAVA_USER_CLASS_PATH "${ITK_WRAP_JAVA_USER_CLASS_PATH}${VTK_LIBRARY_DIRS}/java/vtk.jar")#use NO space
     set(ITK_WRAP_JAVA_EXTENDED_JAVAIMPORTS "import vtk.*;")
-  endif(ITK_WRAP_JAVA AND WRAPPER_LIBRARY_JAVA)
+  endif()
 
   itk_auto_load_submodules()
 

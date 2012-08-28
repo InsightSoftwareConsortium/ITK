@@ -2,9 +2,9 @@
 
 if(APPLE)
   set( ITK_WRAP_JAVAC_ARGS "-J-mx2048m" CACHE STRING "Extra arguments for javac")
-else(APPLE)
+else()
   set( ITK_WRAP_JAVAC_ARGS "" CACHE STRING "Extra arguments for javac")
-endif(APPLE)
+endif()
 mark_as_advanced(ITK_WRAP_JAVAC_ARGS)
 
 
@@ -47,7 +47,7 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
     module_ext.i.in
     manifest.in
   )
-endif(NOT EXTERNAL_WRAP_ITK_PROJECT)
+endif()
 
 
 ###############################################################################
@@ -63,7 +63,7 @@ macro(CREATE_JAVA_DIRECTORY_STRUCTURE)
   # Packages output directory
   file(MAKE_DIRECTORY ${ITK_WRAP_JAVA_SRC_DIR}/${ITK_WRAP_JAVA_CORE_PACKAGE_PATH})
 
-endmacro(CREATE_JAVA_DIRECTORY_STRUCTURE)
+endmacro()
 
 
 #-----------------------------------------------------------------------------#
@@ -100,7 +100,7 @@ macro(itk_wrap_module_java library_name)
     ARGS -E make_directory ${java_package_path}/dummy
     OUTPUT ${java_package_path}/dummy
   )
-endmacro(itk_wrap_module_java library_name)
+endmacro()
 
 
 ###############################################################################
@@ -113,7 +113,7 @@ macro(itk_end_wrap_module_java)
     get_filename_component(base_name ${source} NAME_WE)
     itk_wrap_submodule_java("${base_name}")
     itk_end_wrap_submodule_java("${base_name}")
-  endforeach(source)
+  endforeach()
 
   # set the package name and path
   string(TOLOWER ${WRAPPER_LIBRARY_NAME} _java_package_name)
@@ -129,7 +129,7 @@ macro(itk_end_wrap_module_java)
   foreach(class_name ${ITK_WRAP_JAVA_CLASS_NAMES})
     set(java_file ${java_file} ${java_package_path}/${class_name}.java)
     set(java_bin_file ${java_bin_file} ${java_package_bin_path}/${class_name}.class)
-  endforeach(class_name ${ITK_WRAP_JAVA_CLASS_NAMES})
+  endforeach()
 
   configure_file("${ITK_WRAP_JAVA_SOURCE_DIR}/module_ext.i.in"
     "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/java/${WRAPPER_LIBRARY_NAME}_ext.i"
@@ -147,23 +147,23 @@ macro(itk_end_wrap_module_java)
 
   if(APPLE)
     set_target_properties(${lib} PROPERTIES SUFFIX .jnilib)
-  endif(APPLE)
+  endif()
 
   # work around linkage problem on some solaris systems
   if(CMAKE_SYSTEM MATCHES "SunOS-." AND CMAKE_COMPILER_IS_GNUCXX AND CMAKE_COMPILER_IS_GNUCC)
     target_link_libraries(${lib} stdc++)
-  endif(CMAKE_SYSTEM MATCHES "SunOS-." AND CMAKE_COMPILER_IS_GNUCXX AND CMAKE_COMPILER_IS_GNUCC)
+  endif()
 
   # strict-aliasing breaks produced code with gcc, according to http://www.swig.org/Doc1.3/Java.html#compiling_dynamic
   if(CMAKE_COMPILER_IS_GNUCC)
     set_target_properties(${lib} PROPERTIES COMPILE_FLAGS -fno-strict-aliasing)
-  endif(CMAKE_COMPILER_IS_GNUCC)
+  endif()
 
   target_link_libraries(${lib} ${WRAPPER_LIBRARY_LINK_LIBRARIES})
 
   if(ITK_WRAP_EXPLICIT AND NOT ${WRAPPER_LIBRARY_NAME} STREQUAL ITKJavaBase)
     target_link_libraries(${lib} ${WRAPPER_LIBRARY_NAME}Explicit)
-  endif(ITK_WRAP_EXPLICIT AND NOT ${WRAPPER_LIBRARY_NAME} STREQUAL ITKJavaBase)
+  endif()
 
   add_dependencies(${lib} ${WRAPPER_LIBRARY_NAME}Swig)
   install(TARGETS "${lib}" DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}/Java")
@@ -172,14 +172,14 @@ macro(itk_end_wrap_module_java)
     # don't depends on the targets from wrapitk in external projects
     foreach(dep ${WRAPPER_LIBRARY_DEPENDS} ITKJavaBase)
       add_dependencies(${lib} ${dep}Swig)
-    endforeach(dep)
-  endif(EXTERNAL_WRAP_ITK_PROJECT)
+    endforeach()
+  endif()
 
   if(WIN32)
     set(sep "\;")
-  else(WIN32)
+  else()
     set(sep ":")
-  endif(WIN32)
+  endif()
 
   set(class_path )
   # Current module source path
@@ -195,15 +195,15 @@ macro(itk_end_wrap_module_java)
     set(dep_jar_file ${WRAP_ITK_LIB_DIRECTORY}/${ITK_WRAP_JAVA_CORE_PACKAGE_NAME}.${ldep}.jar)
     set(class_path "${class_path}${dep_jar_file}${sep}")
     set(ITK_WRAP_JAVA_MANIFEST "${ITK_WRAP_JAVA_MANIFEST} \n ${ITK_WRAP_JAVA_CORE_PACKAGE_NAME}.${ldep}.jar ")
-  endforeach(dep)
+  endforeach()
   foreach(ucp ${ITK_WRAP_JAVA_USER_CLASS_PATH})
     set(class_path "${class_path}${ucp}${sep}")
-  endforeach(ucp)
+  endforeach()
 
   # create the manifest file
   if(ITK_WRAP_JAVA_MANIFEST)
     set(ITK_WRAP_JAVA_MANIFEST "Class-Path: ${ITK_WRAP_JAVA_MANIFEST}")
-  endif(ITK_WRAP_JAVA_MANIFEST)
+  endif()
   configure_file("${ITK_WRAP_JAVA_SOURCE_DIR}/manifest.in"
                 "${CMAKE_CURRENT_BINARY_DIR}/manifest"
                 @ONLY IMMEDIATE)
@@ -245,13 +245,13 @@ macro(itk_end_wrap_module_java)
       foreach(dep ${WRAPPER_LIBRARY_DEPENDS} ITKJavaBase)
         add_dependencies(${lib_jar} ${dep}Java)
         add_dependencies(${lib_jar} ${dep}JavaJar)
-      endforeach(dep)
-    endif(NOT EXTERNAL_WRAP_ITK_PROJECT)
+      endforeach()
+    endif()
 
     set(ITK_WRAP_JAVA_JAR_DEPS ${ITK_WRAP_JAVA_JAR_DEPS} ${lib_jar})
-  else(NOT "${ITK_WRAP_JAVA_CLASS_NAMES}" STREQUAL "")
+  else()
     message("Warning: Unable to create java proxies for ${WRAPPER_LIBRARY_NAME}, nothing to get wrapped in this module.")
-  endif(NOT "${ITK_WRAP_JAVA_CLASS_NAMES}" STREQUAL "")
+  endif()
 
   # store the module dependencies to be able to reuse them easily - without recurssion
   set(deps )
@@ -262,7 +262,7 @@ macro(itk_end_wrap_module_java)
     list(REMOVE_DUPLICATES deps)
   endif()
   set(ITK_WRAP_JAVA_${WRAPPER_LIBRARY_NAME}_DEPS ${deps} CACHE INTERNAL "java module dependencies" FORCE)
-endmacro(itk_end_wrap_module_java)
+endmacro()
 
 ###############################################################################
 macro(itk_end_wrap_submodule_java group_name)
@@ -277,7 +277,7 @@ macro(itk_end_wrap_submodule_java group_name)
   set(java_file )
   foreach(class_name ${ITK_WRAP_JAVA_CLASS_NAMES})
     set(java_file ${java_file} ${java_package_path}/${class_name}.java)
-  endforeach(class_name ${ITK_WRAP_JAVA_CLASS_NAMES})
+  endforeach()
 
   set(base_name ${group_name})
 
@@ -304,17 +304,17 @@ macro(itk_end_wrap_submodule_java group_name)
       set(java_import_package_name ${ITK_WRAP_JAVA_CORE_PACKAGE_NAME}.${java_import_package_name})
       set(ITK_WRAP_JAVA_TYPEMAP_JAVAIMPORTS ${ITK_WRAP_JAVA_TYPEMAP_JAVAIMPORTS} "import ${java_import_package_name}.*;")
     endforeach()
-  endforeach(dep)
+  endforeach()
 
   set(swig_command ${SWIG_EXECUTABLE})
   if(ITK_USE_CCACHE)
     set(swig_command ${CCACHE_EXECUTABLE} ${swig_command})
-  endif(ITK_USE_CCACHE)
+  endif()
 
   # if this is for an external library, let the user add extra swig args
   if(EXTERNAL_WRAP_ITK_PROJECT)
     set(WRAP_ITK_SWIG_ARGS_JAVA "" CACHE STRING "Extra user-defined swig arguments to be to the swig executable.")
-  endif(EXTERNAL_WRAP_ITK_PROJECT)
+  endif()
 
   add_custom_command(
     OUTPUT ${cpp_file} ${java_file}
@@ -353,7 +353,7 @@ macro(itk_end_wrap_submodule_java group_name)
 
   set(ITK_WRAP_JAVA_LIBRARY_DEPS ${ITK_WRAP_JAVA_LIBRARY_DEPS} "${java_file}" "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/java/${base_name}_ext.i")
 
-endmacro(itk_end_wrap_submodule_java group_name)
+endmacro()
 
 
 ###############################################################################
@@ -365,7 +365,7 @@ macro(itk_wrap_submodule_java module)
 
   set(ITK_WRAP_JAVA_SWIG_EXT "${text}")
 
-endmacro(itk_wrap_submodule_java)
+endmacro()
 
 
 ###############################################################################
@@ -376,7 +376,7 @@ macro(itk_wrap_simple_type_java wrap_class swig_name)
     ADD_JAVA_POINTER_TYPEMAP("${smart_pointed}")
   endif()
 
-endmacro(itk_wrap_simple_type_java wrap_class swig_name)
+endmacro()
 
 
 ###############################################################################
@@ -385,7 +385,7 @@ macro(ADD_JAVA_POINTER_TYPEMAP template_params)
   set(text "DECLARE_REF_COUNT_CLASS_JAVA(${template_params})\n")
   set(ITK_WRAP_JAVA_SWIG_EXT "${ITK_WRAP_JAVA_SWIG_EXT}${text}")
 
-endmacro(ADD_JAVA_POINTER_TYPEMAP template_params)
+endmacro()
 
 
 ###############################################################################
@@ -394,7 +394,7 @@ macro(itk_wrap_one_type_java wrap_method wrap_class swig_name template_params)
   # store the wrapped final class names
   set(ITK_WRAP_JAVA_CLASS_NAMES ${ITK_WRAP_JAVA_CLASS_NAMES} ${swig_name})
 
-endmacro(itk_wrap_one_type_java wrap_method wrap_class swig_name template_params)
+endmacro()
 
 
 ###############################################################################
@@ -404,19 +404,19 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
   macro(itk_end_wrap_modules_java)
     add_subdirectory(${ITK_WRAP_JAVA_SOURCE_DIR}/Tests)
 #    add_subdirectory(${ITK_WRAP_JAVA_SOURCE_DIR}/JavaUtils)
-  endmacro(itk_end_wrap_modules_java)
+  endmacro()
 
   macro(itk_wrap_modules_java)
     add_subdirectory(${ITK_WRAP_JAVA_SOURCE_DIR}/JavaBase)
-  endmacro(itk_wrap_modules_java)
+  endmacro()
 
-else(NOT EXTERNAL_WRAP_ITK_PROJECT)
+else()
   macro(itk_end_wrap_modules_java)
     # just do nothing
-  endmacro(itk_end_wrap_modules_java)
+  endmacro()
 
   macro(itk_wrap_modules_java)
     # just do nothing
-  endmacro(itk_wrap_modules_java)
+  endmacro()
 
-endif(NOT EXTERNAL_WRAP_ITK_PROJECT)
+endif()

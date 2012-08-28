@@ -7,7 +7,7 @@ file(GLOB OLD_DASHBOARDS "@ITK_BINARY_DIR@/Testing/20*")
 foreach(OLD ${OLD_DASHBOARDS})
   message(" Removing old submission in ${OLD}")
   file(REMOVE_RECURSE "${OLD}")
-endforeach(OLD ${OLD_DASHBOARDS})
+endforeach()
 
 # Cleanup the Testing/Temporary directory
 file(REMOVE_RECURSE "@ITK_BINARY_DIR@/Testing/Temporary")

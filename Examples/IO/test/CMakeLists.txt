@@ -12,7 +12,7 @@ if(ITK_WRAP_PYTHON)
         DATA{${ITK_SOURCE_DIR}/Examples/IO/test/Baseline/DicomSliceReadPythonOutputBaseline.png}
       )
   endif()
-endif(ITK_WRAP_PYTHON)
+endif()
 
 if(ITK_VISIBLEHUMAN_DATA_ROOT)
   itk_add_test(NAME VisibleHumanStreamReadWriteTest
@@ -36,4 +36,4 @@ if(ITK_VISIBLEHUMAN_DATA_ROOT)
     PROPERTIES
     DEPENDS VisibleHumanStreamReadWriteTest
     )
-endif(ITK_VISIBLEHUMAN_DATA_ROOT)
+endif()

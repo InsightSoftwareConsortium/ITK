@@ -563,7 +563,7 @@ if( USE_FFTWF )
           ${ITK_SOURCE_DIR}/Examples/Data/Point.png
           ${TEMP}/FFTDirectInverse2Point.png
   )
-endif( USE_FFTWF )
+endif()
 itk_add_test(NAME  FFTImageFilterTest2 COMMAND ${ITK_TEST_DRIVER}
   $<TARGET_FILE:FFTImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/FFTcenteredDC.png

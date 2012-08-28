@@ -39,4 +39,4 @@ macro (ITK_CHECK_CXX_COMPILER_FLAG _FLAG _RESULT)
      FAIL_REGEX "warning #10156: ignoring option"       # INTEL compilers
      )
    set (CMAKE_REQUIRED_DEFINITIONS "${SAFE_CMAKE_REQUIRED_DEFINITIONS}")
-endmacro (ITK_CHECK_CXX_COMPILER_FLAG)
+endmacro ()

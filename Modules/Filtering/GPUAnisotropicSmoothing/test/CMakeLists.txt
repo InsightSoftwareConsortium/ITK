@@ -26,4 +26,4 @@ itk_add_test(NAME itkGPUGradientAnisotropicDiffusionImageFilterTest3D
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensity3Slices.mha
         ${ITK_TEST_OUTPUT_DIR}/gpuGradientAnisotropicDiffusionImageFilterTest3D.mha 3)
 
-endif(ITK_USE_GPU)
+endif()

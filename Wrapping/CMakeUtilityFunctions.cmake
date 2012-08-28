@@ -22,18 +22,18 @@ macro(SORT var_name list)
       if("${l}" STRLESS "${l1}" AND ${sort_inserted} EQUAL 0)
         set(sort_tmp2 ${sort_tmp2} "${l}" "${l1}")
         set(sort_inserted 1)
-      else("${l}" STRLESS "${l1}" AND ${sort_inserted} EQUAL 0)
+      else()
         set(sort_tmp2 ${sort_tmp2} "${l1}")
-      endif("${l}" STRLESS "${l1}" AND ${sort_inserted} EQUAL 0)
-    endforeach(l1)
+      endif()
+    endforeach()
     if(${sort_inserted} EQUAL 0)
       set(sort_tmp1 ${sort_tmp1} "${l}")
-    else(${sort_inserted} EQUAL 0)
+    else()
       set(sort_tmp1 ${sort_tmp2})
-    endif(${sort_inserted} EQUAL 0)
-  endforeach(l)
+    endif()
+  endforeach()
   set(${var_name} ${sort_tmp1})
-endmacro(SORT)
+endmacro()
 
 macro(UNIQUE var_name list)
   # Make the given list have only one instance of each unique element and
@@ -42,10 +42,10 @@ macro(UNIQUE var_name list)
   foreach(l ${list})
     if(NOT "${unique_tmp}" MATCHES "(^|;)${l}(;|$)")
       set(unique_tmp ${unique_tmp} ${l})
-    endif(NOT "${unique_tmp}" MATCHES "(^|;)${l}(;|$)")
-  endforeach(l)
+    endif()
+  endforeach()
   set(${var_name} ${unique_tmp})
-endmacro(UNIQUE)
+endmacro()
 
 macro(INTERSECTION var_name list1 list2)
   # Store the intersection between the two given lists in var_name.
@@ -53,21 +53,21 @@ macro(INTERSECTION var_name list1 list2)
   foreach(l ${list1})
     if("${list2}" MATCHES "(^|;)${l}(;|$)")
       set(intersect_tmp ${intersect_tmp} ${l})
-    endif("${list2}" MATCHES "(^|;)${l}(;|$)")
-  endforeach(l)
+    endif()
+  endforeach()
   set(${var_name} ${intersect_tmp})
-endmacro(INTERSECTION)
+endmacro()
 
 macro(REMOVE var_name list1 list2)
   # Remove elements in list2 from list1 and store the result in var_name.
   if("${list1}" STREQUAL "")
     # if list1 is empty, list(REMOVE_ITEM ...) send an error message
     set(${var_name} "")
-  else("${list1}" STREQUAL "")
+  else()
     set(${var_name} ${list1})
     list(REMOVE_ITEM ${var_name} list1 ${list2})
-  endif("${list1}" STREQUAL "")
-endmacro(REMOVE)
+  endif()
+endmacro()
 
 
 ################################################################################
@@ -77,12 +77,12 @@ endmacro(REMOVE)
 macro(INCREMENT var_name input)
   # Increment the input variable and store the result in var_name.
   math(EXPR ${var_name} "${input} + 1")
-endmacro(INCREMENT)
+endmacro()
 
 macro(DECREMENT var_name input)
   # Decrement the input variable and store the result in var_name.
   math(EXPR ${var_name} "${input} - 1")
-endmacro(DECREMENT)
+endmacro()
 
 ################################################################################
 # Macros to install files at absolute locations.
@@ -104,8 +104,8 @@ macro(INSTALL_AT_ABSOLUTE_PATH target path)
 #     "message(STATUS \"Installing ${stripped_path}/${filename}\")\n")
     file(APPEND "${install_file_name}"
      "file(INSTALL DESTINATION \"${path}\" TYPE FILE FILES \"${file}\")\n")
-  endforeach(file)
-endmacro(INSTALL_AT_ABSOLUTE_PATH)
+  endforeach()
+endmacro()
 
 macro(CREATE_INSTALL_AT_ABSOLUTE_PATH_TARGET target type comment)
   # Creates a target to hang an absolute-path install procedure on.
@@ -124,12 +124,12 @@ macro(CREATE_INSTALL_AT_ABSOLUTE_PATH_TARGET target type comment)
     add_custom_target(${target} ALL)
     set_target_properties(${target} PROPERTIES
       POST_INSTALL_SCRIPT "${install_file_name}")
-  else("${type}" MATCHES "DEFAULT")
+  else()
     add_custom_target(${target})
     add_custom_command(TARGET ${target}
       PRE_BUILD
       COMMAND ${CMAKE_COMMAND}
       ARGS -P "${install_file_name}"
       COMMENT "Manual installation of files from target ${target}")
-  endif("${type}" MATCHES "DEFAULT")
-endmacro(CREATE_INSTALL_AT_ABSOLUTE_PATH_TARGET)
+  endif()
+endmacro()

@@ -37,7 +37,7 @@ itk_wrap_module("ITKPyBase" Python)
     ADD_PYTHON_CONFIG_TEMPLATE("set" "std::set" "set${t}" "${ITKT_${t}}")
     ADD_PYTHON_CONFIG_TEMPLATE("vector" "std::vector" "vector${t}" "${ITKT_${t}}")
     ADD_PYTHON_CONFIG_TEMPLATE("vector" "std::vector" "vectorvector${t}" "std::vector< ${ITKT_${t}} >")
-  endforeach(t)
+  endforeach()
 
   ADD_PYTHON_CONFIG_TEMPLATE("map" "std::map" "mapULD" "unsigned long, double")
   ADD_PYTHON_CONFIG_TEMPLATE("vector" "std::vector" "vectorsetUL" "std::set< unsigned long >")

@@ -288,7 +288,7 @@ if(ITK_BUILD_SHARED_LIBS)
   target_link_libraries(FileFreeTestLib ${ITKIOImageBase_LIBRARIES})
   set_property(TARGET FileFreeTestLib PROPERTY LIBRARY_OUTPUT_DIRECTORY ${ITK_TEST_OUTPUT_DIR})
   add_dependencies(ITKIOImageBaseTestDriver FileFreeTestLib)
-endif(ITK_BUILD_SHARED_LIBS)
+endif()
 itk_add_test(NAME itkNoiseImageFilterTest
       COMMAND ITKIOImageBaseTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/itkNoiseImageFilterTest.png}

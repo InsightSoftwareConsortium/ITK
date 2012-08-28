@@ -38,7 +38,7 @@ set(FFTW_OPTIMIZATION_CONFIGURATION "" CACHE INTERNAL "architecture flags: --ena
 if(USE_SYSTEM_FFTW)
   find_package( FFTW )
   link_directories(${FFTW_LIBDIR})
-else(USE_SYSTEM_FFTW)
+else()
   set(FFTW_COMPILER_FLAGS
     CC=${CMAKE_C_COMPILER}
     CXX=${CMAKE_CXX_COMPILER}
@@ -48,19 +48,19 @@ else(USE_SYSTEM_FFTW)
   if(WIN32 AND NOT MINGW)
     message("Can't build fftw as external project on Windows")
     message(ERROR "install fftw and use USE_SYSTEM_FFTW")
-  else(WIN32 AND NOT MINGW)
+  else()
     #
     # fftw limitation -- can't be built in
     # a directory with whitespace in its name.
     if(${CMAKE_CURRENT_BINARY_DIR} MATCHES ".*[ \t].*")
       message(FATAL_ERROR
         "Can't build fftw in a directory with whitespace in its name")
-    endif(${CMAKE_CURRENT_BINARY_DIR} MATCHES ".*[ \t].*")
+    endif()
     #
     # build fftw as an external project
     if(BUILD_SHARED_LIBS)
       set(FFTW_SHARED_FLAG --enable-shared)
-    endif(BUILD_SHARED_LIBS)
+    endif()
     if(USE_FFTWF)
       ExternalProject_add(fftwf
         PREFIX fftwf
@@ -75,7 +75,7 @@ else(USE_SYSTEM_FFTW)
         --prefix=${ITK_BINARY_DIR}/fftw
         ${FFTW_COMPILER_FLAGS}
         )
-    endif(USE_FFTWF)
+    endif()
 
     if(USE_FFTWD)
       ExternalProject_add(fftwd
@@ -91,7 +91,7 @@ else(USE_SYSTEM_FFTW)
         --prefix=${ITK_BINARY_DIR}/fftw
         ${FFTW_COMPILER_FLAGS}
         )
-    endif(USE_FFTWD)
+    endif()
     set(FFTW_INCLUDE_PATH ${ITK_BINARY_DIR}/fftw/include)
     set(FFTW_LIBDIR ${ITK_BINARY_DIR}/fftw/lib)
     link_directories(${FFTW_LIBDIR})
@@ -109,5 +109,5 @@ TYPE FILE FILES \${FFTW_LIBS})" COMPONENT Development)
 file(INSTALL DESTINATION \"\${CMAKE_INSTALL_PREFIX}/include/InsightToolkit-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}/Algorithms\"
 TYPE FILE FILES \${FFTW_INC})" COMPONENT Development)
 
-  endif(WIN32 AND NOT MINGW)
-endif(USE_SYSTEM_FFTW)
+  endif()
+endif()

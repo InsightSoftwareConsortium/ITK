@@ -19,4 +19,4 @@ CreateTestDriver(ITKGPUCommon "${ITKGPUCommon-Test_LIBRARIES}" "${ITKGPUCommon-t
 itk_add_test(NAME itkGPUImageTest COMMAND ITKGPUCommonTestDriver itkGPUImageTest)
 itk_add_test(NAME itkGPUReductionTest COMMAND ITKGPUCommonTestDriver itkGPUReductionTest)
 
-endif(ITK_USE_GPU)
+endif()

@@ -11,7 +11,7 @@
       ARGS "\"${CMAKE_CURRENT_BINARY_DIR}/det_npp.py\""
       OUTPUT_VARIABLE NUMPY_PATH
     )
-  endif(PYTHON_EXECUTABLE)
+  endif()
 
   # TODO The user might want to select between numpy/numarray
   find_path(PYTHON_NUMARRAY_INCLUDE_DIR arrayobject.h
@@ -29,4 +29,4 @@
 
   if(PYTHON_NUMARRAY_INCLUDE_DIR)
     set(PYTHON_NUMARRAY_FOUND 1 CACHE INTERNAL "Python numarray development package is available")
-  endif(PYTHON_NUMARRAY_INCLUDE_DIR)
+  endif()

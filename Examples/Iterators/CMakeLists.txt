@@ -48,4 +48,4 @@ target_link_libraries(ShapedNeighborhoodIterators2 ${ITK_LIBRARIES})
 
 if(BUILD_TESTING)
   add_subdirectory(test)
-endif(BUILD_TESTING)
+endif()

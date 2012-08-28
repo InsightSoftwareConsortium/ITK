@@ -74,7 +74,7 @@ itkCompensatedSummation.cxx
 
 if(WIN32)
    set(ITKCommon_SRCS ${ITKCommon_SRCS};itkWin32OutputWindow.cxx;itkSmartPointerForwardReferenceProcessObject.cxx)
-endif(WIN32)
+endif()
 
 # Prevent optimization from affecting the floating point calculation.
 if( CMAKE_CXX_COMPILER MATCHES "^icc" )
@@ -106,13 +106,13 @@ if(NOT WIN32 AND CMAKE_COMPILER_IS_GNUCXX AND BUILD_SHARED_LIBS)
     set_target_properties(ITKCommon PROPERTIES
       COMPILE_FLAGS "${ITKCommon_CXX_FLAGS}"
     )
-  endif(ITKCommon_HAS_GCC_VISIBILITY_FLAGS)
+  endif()
 endif()
 
 target_link_libraries(ITKCommon itksys ITKVNLInstantiation)
 
 if(UNIX)
   target_link_libraries(ITKCommon ${CMAKE_THREAD_LIBS} ${CMAKE_DL_LIBS} -lm)
-endif(UNIX)
+endif()
 
 itk_module_target(ITKCommon)

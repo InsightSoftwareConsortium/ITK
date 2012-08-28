@@ -8,6 +8,6 @@ foreach(entry TCL_LIBRARY_DEBUG
               TK_STUB_LIBRARY_DEBUG
               TK_WISH)
   set(${entry} "${${entry}}" CACHE INTERNAL "This value is not used by ITK.")
-endforeach(entry)
+endforeach()
 
 include_directories(${TCL_INCLUDE_PATH} ${TK_INCLUDE_PATH})

@@ -12,8 +12,8 @@ if (ITK_USE_GPU)
        # replace all " with \" to make the c string constant work
        string(REGEX REPLACE "\"" "\\\\\"" EscapedSourceLine "${TempSourceLine}")
        set(${RESULT_CMAKE_VAR} "${${RESULT_CMAKE_VAR}}\n\"${EscapedSourceLine}\\n\"")
-     endforeach(SourceLine)
-  endmacro(sourcefile_to_string)
+     endforeach()
+  endmacro()
 
   macro(write_gpu_kernel_to_file OPENCL_FILE GPUFILTER_NAME GPUFILTER_KERNELNAME
      OUTPUT_FILE SRC_VAR)
@@ -48,14 +48,14 @@ if (ITK_USE_GPU)
     set_source_files_properties(${CMAKE_CURRENT_BINARY_DIR}/${OUTPUT_FILE}
                                 PROPERTIES GENERATED ON)
     set(${SRC_VAR} ${${SRC_VAR}} ${OUTPUT_FILE})
-  endmacro(write_gpu_kernel_to_file)
+  endmacro()
 
   macro(write_gpu_kernels GPUKernels GPU_SRC)
     foreach(GPUKernel ${GPUKernels})
       get_filename_component(FilterName ${GPUKernel} NAME_WE)
       write_gpu_kernel_to_file(${GPUKernel} ${FilterName} ${FilterName}Kernel "${FilterName}Kernel.cxx" ${GPU_SRC})
-    endforeach(GPUKernel)
-  endmacro(write_gpu_kernels)
+    endforeach()
+  endmacro()
 
 
-endif(ITK_USE_GPU)
+endif()

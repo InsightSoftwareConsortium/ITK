@@ -10,7 +10,7 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
   WRAP_ITK_INSTALL(/Configuration/Generators/Doc itk_doxy2swig.conf.in)
   WRAP_ITK_INSTALL(/Configuration/Generators/Doc doxy2swig.py)
   WRAP_ITK_INSTALL(/Configuration/Generators/Doc itk_doxy2swig.py)
-endif(NOT EXTERNAL_WRAP_ITK_PROJECT)
+endif()
 
 ###############################################################################
 # store the current dir, so it can be reused later
@@ -31,7 +31,7 @@ macro(itk_wrap_module_DOC library_name)
   set(ITK_WRAP_DOC_DOXYGEN_PAGES )  # pages produced by doxygen in this lib
   set(ITK_WRAP_DOC_DOXYGEN_XML_FILES )  # xml files produced by doxygen in this lib
   set(ITK_WRAP_DOC_DOCSTRING_FILES )  # swig docstring files produced by doxygen in this lib
-endmacro(itk_wrap_module_DOC)
+endmacro()
 
 
 ###############################################################################
@@ -39,13 +39,13 @@ macro(itk_wrap_named_class_DOC class swig_name)
   if("${WRAPPER_WRAP_METHOD}" STREQUAL "ENUM")
     # doc is not generated in the same way for enum. Just ignore it
     set(ITK_WRAP_DOC_GENERATE_DOXY2SWIG_INPUT OFF)
-  else("${WRAPPER_WRAP_METHOD}" STREQUAL "ENUM")
+  else()
     set(ITK_WRAP_DOC_GENERATE_DOXY2SWIG_INPUT OFF)
     get_directory_property(dirs INCLUDE_DIRECTORIES)
     set(paths )
     foreach(dir ${dirs})
       set(paths ${paths} "${dir}/${swig_name}.h")
-    endforeach(dir)
+    endforeach()
     file(GLOB doc_path ${paths})
     if(doc_path AND "${class}" MATCHES "^itk::")
       # store the header
@@ -58,7 +58,7 @@ macro(itk_wrap_named_class_DOC class swig_name)
       if(ITK_WRAP_DOC_MAN AND NOT "${ITK_WRAP_DOC_DOXYGEN_INSTALLED_PAGES}" MATCHES "(^|;)${base_name}\\.3(;|$)")
         WRAP_ITK_INSTALL(/Doc/man3 "${page}")
         set(ITK_WRAP_DOC_DOXYGEN_INSTALLED_PAGES ${ITK_WRAP_DOC_DOXYGEN_INSTALLED_PAGES} "${base_name}.3" CACHE INTERNAL "man pages produced by doxygen and already installed")
-      endif(ITK_WRAP_DOC_MAN AND NOT "${ITK_WRAP_DOC_DOXYGEN_INSTALLED_PAGES}" MATCHES "(^|;)${base_name}\\.3(;|$)")
+      endif()
 
       # some simple computations to find the xml file produced for this class
       string(REGEX REPLACE "([A-Z])" "_\\1" xmlname ${class})
@@ -69,16 +69,16 @@ macro(itk_wrap_named_class_DOC class swig_name)
       # the doxy2swig input
       set(ITK_WRAP_DOC_DOXY2SWIG_INPUT "${ITK_WRAP_DOC_DOXY2SWIG_INPUT}\n${CMAKE_CURRENT_BINARY_DIR}/Doc/xml/class${xmlname}.xml\t${class}")
       set(ITK_WRAP_DOC_GENERATE_DOXY2SWIG_INPUT ON)
-    endif(doc_path AND "${class}" MATCHES "^itk::")
-  endif("${WRAPPER_WRAP_METHOD}" STREQUAL "ENUM")
+    endif()
+  endif()
 
-endmacro(itk_wrap_named_class_DOC)
+endmacro()
 
 macro(itk_wrap_one_type_DOC wrap_method wrap_class swig_name template_params)
   if(ITK_WRAP_DOC_GENERATE_DOXY2SWIG_INPUT)
     set(ITK_WRAP_DOC_DOXY2SWIG_INPUT "${ITK_WRAP_DOC_DOXY2SWIG_INPUT}\t${swig_name}")
-  endif(ITK_WRAP_DOC_GENERATE_DOXY2SWIG_INPUT)
-endmacro(itk_wrap_one_type_DOC)
+  endif()
+endmacro()
 
 ###############################################################################
 macro(itk_end_wrap_module_DOC)
@@ -94,11 +94,11 @@ macro(itk_end_wrap_module_DOC)
     set(ITK_WRAP_DOC_DOXYGEN_HEADERS_FORMATED)
     foreach(header ${headers})
       set(ITK_WRAP_DOC_DOXYGEN_HEADERS_FORMATED "${ITK_WRAP_DOC_DOXYGEN_HEADERS_FORMATED}           \"${header}\"\\\n")
-    endforeach(header)
+    endforeach()
     set(ITK_WRAP_DOC_GENERATE_MAN "NO")
     if(ITK_WRAP_DOC_MAN)
       set(ITK_WRAP_DOC_GENERATE_MAN "YES")
-    endif(ITK_WRAP_DOC_MAN)
+    endif()
     set(ITK_WRAP_DOC_LIBRARY_DIR "${library_doc_build_dir}")
     configure_file("${ITK_WRAP_DOC_SOURCE_DIR}/doxygen.config.in"
       "${library_doxygen_config_file}"
@@ -108,7 +108,7 @@ macro(itk_end_wrap_module_DOC)
     set(outputs ${ITK_WRAP_DOC_DOXYGEN_XML_FILES})
     if(ITK_WRAP_DOC_MAN)
       set(outputs ${outputs} ${ITK_WRAP_DOC_DOXYGEN_PAGES})
-    endif(ITK_WRAP_DOC_MAN)
+    endif()
 
     # run doxygen
     add_custom_command(
@@ -121,11 +121,11 @@ macro(itk_end_wrap_module_DOC)
 
     add_custom_target(${WRAPPER_LIBRARY_NAME}Doxygen ALL DEPENDS ${outputs} ${ITK_WRAP_DOC_DOCSTRING_FILES})
 
-endmacro(itk_end_wrap_module_DOC)
+endmacro()
 
 macro(itk_wrap_submodule_DOC module)
   set(ITK_WRAP_DOC_DOXY2SWIG_INPUT )  # the c++ name - swig names definitions
-endmacro(itk_wrap_submodule_DOC)
+endmacro()
 
 ###############################################################################
 # This macro is called once per module
@@ -151,4 +151,4 @@ macro(itk_end_wrap_submodule_DOC)
 
     # install the produced file
     WRAP_ITK_INSTALL(/Configuration/Typedefs "${swig_doc_interface_file}")
-endmacro(itk_end_wrap_submodule_DOC)
+endmacro()

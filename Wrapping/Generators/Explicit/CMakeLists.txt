@@ -4,7 +4,7 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
   WRAP_ITK_INSTALL(/Configuration/Generators/Explicit CMakeLists.txt)
   WRAP_ITK_INSTALL(/Configuration/Generators/Explicit Explicit.h.in)
   WRAP_ITK_INSTALL(/Configuration/Generators/Explicit Explicit.cxx.in)
-endif(NOT EXTERNAL_WRAP_ITK_PROJECT)
+endif()
 
 
 ###############################################################################
@@ -19,22 +19,22 @@ set(WRAPPER_MASTER_INDEX_OUTPUT_DIR "${PROJECT_BINARY_DIR}/Typedefs")
 
 macro(itk_wrap_include_explicit include_file)
   list(APPEND EXPLICIT_INCLUDES ${include_file})
-endmacro(itk_wrap_include_explicit)
+endmacro()
 
 
 macro(itk_wrap_simple_type_explicit wrap_class swig_name)
   if("${wrap_class}" MATCHES "<.*>")
     set(EXPLICIT_EXPLICITS "${EXPLICIT_EXPLICITS}extern template class ${wrap_class};\n")
     set(EXPLICIT_INSTANTIATES "${EXPLICIT_INSTANTIATES}template class WRAP_ITK_${WRAPPER_LIBRARY_NAME}_EXPORT ${wrap_class};\n")
-  endif("${wrap_class}" MATCHES "<.*>")
-endmacro(itk_wrap_simple_type_explicit)
+  endif()
+endmacro()
 
 
 macro(itk_wrap_submodule_explicit module)
   # clear the typedefs and the includes
   set(EXPLICIT_INSTANTIATES )
   set(EXPLICIT_EXPLICITS "${EXPLICIT_EXPLICITS}#ifndef __${WRAPPER_LIBRARY_NAME}Explicit_${module}\n")
-endmacro(itk_wrap_submodule_explicit)
+endmacro()
 
 macro(itk_end_wrap_submodule_explicit module)
   set(EXPLICIT_EXPLICITS "${EXPLICIT_EXPLICITS}#endif\n\n")
@@ -44,7 +44,7 @@ macro(itk_end_wrap_submodule_explicit module)
   configure_file("${ITK_WRAP_EXPLICIT_SOURCE_DIR}/Explicit.cxx.in"
     "${cxx_file}" @ONLY IMMEDIATE)
   set(EXPLICIT_EXPLICITS_FILES ${EXPLICIT_EXPLICITS_FILES} ${cxx_file})
-endmacro(itk_end_wrap_submodule_explicit)
+endmacro()
 
 
 macro(itk_wrap_one_type_explicit  wrap_method wrap_class swig_name template_params)
@@ -66,9 +66,9 @@ macro(itk_wrap_one_type_explicit  wrap_method wrap_class swig_name template_para
   set(template_parameters "${ARGV3}")
   if(template_parameters)
     set(full_class_name "${wrap_class}< ${template_parameters} >")
-  else(template_parameters)
+  else()
     set(full_class_name "${wrap_class}")
-  endif(template_parameters)
+  endif()
 
   # itk_wrap_one_type_all_generators("${wrap_method}" "${wrap_class}" "${swig_name}" "${ARGV3}")
 
@@ -81,12 +81,12 @@ macro(itk_wrap_one_type_explicit  wrap_method wrap_class swig_name template_para
 #   if("${wrap_method}" MATCHES "2_SUPERCLASSES")
 #     itk_wrap_simple_type_explicit("${full_class_name}::Superclass::Superclass" "${swig_name}_Superclass_Superclass")
 #     itk_wrap_simple_type_explicit("${full_class_name}::Superclass::Superclass::Pointer::SmartPointer" "${swig_name}_Superclass_Superclass_Pointer")
-#   endif("${wrap_method}" MATCHES "2_SUPERCLASSES")
+#   endif()
 #
 #   if("${wrap_method}" MATCHES "SUPERCLASS")
 #     itk_wrap_simple_type_explicit("${full_class_name}::Superclass" "${swig_name}_Superclass")
 #     itk_wrap_simple_type_explicit("${full_class_name}::Superclass::Pointer::SmartPointer" "${swig_name}_Superclass_Pointer")
-#   endif("${wrap_method}" MATCHES "SUPERCLASS")
+#   endif()
 
   if(NOT WIN32 OR NOT "${wrap_method}" MATCHES "EXPLICIT_SPECIALIZATION")
     itk_wrap_simple_type_explicit("${full_class_name}" "${swig_name}")
@@ -98,24 +98,24 @@ macro(itk_wrap_one_type_explicit  wrap_method wrap_class swig_name template_para
 #     if("${wrap_method}" STREQUAL "AUTOPOINTER")
 #       # add a pointer typedef if we are so asked
 #       itk_wrap_simple_type_explicit("${full_class_name}::SelfAutoPointer" "${swig_name}_AutoPointer")
-#     else("${wrap_method}" STREQUAL "AUTOPOINTER")
+#     else()
 #       # add a pointer typedef if we are so asked
 #       itk_wrap_simple_type_explicit("itk::SmartPointer< ${full_class_name} >" "${swig_name}_Pointer")
-#     endif("${wrap_method}" STREQUAL "AUTOPOINTER")
-#   endif("${wrap_method}" MATCHES "POINTER")
-endmacro(itk_wrap_one_type_explicit)
+#     endif()
+#   endif()
+endmacro()
 
 macro(itk_wrap_module_explicit library_name)
   set(EXPLICIT_EXPLICITS )
   set(EXPLICIT_EXPLICITS_FILES )
   set(EXPLICIT_INCLUDES )
-endmacro(itk_wrap_module_explicit)
+endmacro()
 
 macro(itk_end_wrap_module_explicit)
   set(CONFIG_EXPLICIT_INCLUDES )
   foreach(dep ${WRAPPER_LIBRARY_DEPENDS})
     set(CONFIG_EXPLICIT_INCLUDES "${CONFIG_EXPLICIT_INCLUDES}#include \"${dep}Explicit.h\"\n")
-  endforeach(dep)
+  endforeach()
   if(EXPLICIT_INCLUDES)
     list(REMOVE_DUPLICATES EXPLICIT_INCLUDES)
     foreach(include_file ${EXPLICIT_INCLUDES})
@@ -137,9 +137,9 @@ macro(itk_end_wrap_module_explicit)
     add_library(${WRAPPER_LIBRARY_NAME}Explicit SHARED ${EXPLICIT_EXPLICITS_FILES})
     foreach(dep ${WRAPPER_LIBRARY_DEPENDS})
       target_link_libraries(${WRAPPER_LIBRARY_NAME}Explicit ${dep}Explicit)
-    endforeach(dep)
+    endforeach()
     target_link_libraries(${WRAPPER_LIBRARY_NAME}Explicit ${WRAPPER_LIBRARY_LINK_LIBRARIES} )
     set_target_properties(${WRAPPER_LIBRARY_NAME}Explicit PROPERTIES COMPILE_FLAGS -DWRAP_ITK_${WRAPPER_LIBRARY_NAME}_EXPORTS )
     install(TARGETS ${WRAPPER_LIBRARY_NAME}Explicit DESTINATION "${CMAKE_INSTALL_PREFIX}/lib")
-  endif(EXPLICIT_EXPLICITS_FILES)
-endmacro(itk_end_wrap_module_explicit)
+  endif()
+endmacro()

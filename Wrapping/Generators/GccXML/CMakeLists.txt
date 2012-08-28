@@ -70,16 +70,16 @@ set(WRAPPER_SWIG_LIBRARY_OUTPUT_DIR "${PROJECT_BINARY_DIR}/SWIG")
 macro(itk_wrap_include_gccxml include_file)
   if("${include_file}" MATCHES "<.*>")
     set(GCC_XML_INCLUDES "${GCC_XML_INCLUDES}#include ${include_file}\n")
-  else("${include_file}" MATCHES "<.*>")
+  else()
     set(GCC_XML_INCLUDES "${GCC_XML_INCLUDES}#include \"${include_file}\"\n")
-  endif("${include_file}" MATCHES "<.*>")
-endmacro(itk_wrap_include_gccxml)
+  endif()
+endmacro()
 
 
 macro(itk_wrap_simple_type_gccxml wrap_class swig_name)
   set(GCC_XML_TYPEDEFS "${GCC_XML_TYPEDEFS}      typedef ${wrap_class} ${swig_name};\n")
   set(GCC_XML_FORCE_INSTANTIATE "${GCC_XML_FORCE_INSTANTIATE}  sizeof(${swig_name});\n")
-endmacro(itk_wrap_simple_type_gccxml)
+endmacro()
 
 
 macro(itk_wrap_submodule_gccxml module)
@@ -87,7 +87,7 @@ macro(itk_wrap_submodule_gccxml module)
   set(GCC_XML_TYPEDEFS )
   set(GCC_XML_INCLUDES )
   set(GCC_XML_FORCE_INSTANTIATE )
-endmacro(itk_wrap_submodule_gccxml)
+endmacro()
 
 macro(itk_end_wrap_submodule_gccxml module)
   # write the wrap_*.cxx file
@@ -134,7 +134,7 @@ macro(itk_end_wrap_submodule_gccxml module)
             ${cxx_file}
       DEPENDS ${_gccxml_depends} ${cxx_file}
     )
-  else(ITK_USE_CCACHE)
+  else()
     add_custom_command(
       OUTPUT ${xml_file}
       COMMAND ${GCCXML}
@@ -148,11 +148,11 @@ macro(itk_end_wrap_submodule_gccxml module)
             ${cxx_file}
       DEPENDS ${_gccxml_depends} ${cxx_file} ${gccxml_inc_file}
     )
-  endif(ITK_USE_CCACHE)
+  endif()
 
   set(GCC_XML_OUTPUT_FILES ${GCC_XML_OUTPUT_FILES} ${xml_file})
 
-endmacro(itk_end_wrap_submodule_gccxml)
+endmacro()
 
 
 macro(itk_wrap_one_type_gccxml  wrap_method wrap_class swig_name template_params)
@@ -160,7 +160,7 @@ macro(itk_wrap_one_type_gccxml  wrap_method wrap_class swig_name template_params
   set(GCC_XML_TYPEDEFS "${GCC_XML_TYPEDEFS}\n")
   # add a peace of code for type instantiation
   set(GCC_XML_FORCE_INSTANTIATE "${GCC_XML_FORCE_INSTANTIATE}\n")
-endmacro(itk_wrap_one_type_gccxml)
+endmacro()
 
 macro(itk_wrap_module_gccxml library_name)
   # create the files used to pass the file to include to gccxml
@@ -173,20 +173,20 @@ macro(itk_wrap_module_gccxml library_name)
     # it is used on the command line
     foreach(dir ${include_dir_list})
       set(CONFIG_GCCXML_INC_CONTENTS ${CONFIG_GCCXML_INC_CONTENTS} -I${dir})
-    endforeach(dir)
-  else(ITK_USE_CCACHE)
+    endforeach()
+  else()
     # really create the content of the file
     foreach(dir ${include_dir_list})
       set(CONFIG_GCCXML_INC_CONTENTS "${CONFIG_GCCXML_INC_CONTENTS}-I${dir}\n")
-    endforeach(dir)
+    endforeach()
     # and the file.
     configure_file("${ITK_WRAP_GCCXML_SOURCE_DIR}/gcc_xml.inc.in" "${gccxml_inc_file}"
       @ONLY IMMEDIATE)
-  endif(ITK_USE_CCACHE)
+  endif()
   set(GCC_XML_OUTPUT_FILES )
-endmacro(itk_wrap_module_gccxml)
+endmacro()
 
 macro(itk_end_wrap_module_gccxml)
   add_custom_target(${WRAPPER_LIBRARY_NAME}GccXML DEPENDS ${GCC_XML_OUTPUT_FILES})
   set(${WRAPPER_LIBRARY_NAME}XmlFiles ${GCC_XML_OUTPUT_FILES} CACHE INTERNAL "Internal ${WRAPPER_LIBRARY_NAME}Xml file list.")
-endmacro(itk_end_wrap_module_gccxml)
+endmacro()

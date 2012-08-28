@@ -108,7 +108,7 @@ function(_fetch_with_git git_executable git_repository git_tag module_dir)
   else() # We already have a clone, but we need to check that it has the right revision.
     _git_update("${git_executable}" "${git_repository}" "${git_tag}" "${module_dir}")
   endif()
-endfunction(_fetch_with_git)
+endfunction()
 
 # Fetch a remote module.
 #
