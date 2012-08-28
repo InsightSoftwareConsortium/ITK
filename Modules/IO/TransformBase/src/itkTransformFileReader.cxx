@@ -56,29 +56,31 @@ void TransformFileReader
   TransformIOBase::TransformListType &ioTransformList =
     transformIO->GetTransformList();
 
-  for ( TransformListType::iterator it =
-          ioTransformList.begin();
-        it != ioTransformList.end(); ++it )
-    {
-    this->m_TransformList.push_back( TransformPointer(*it) );
-    }
-
-  //
-  // in the case where the first transform in the list is a
+  // In the case where the first transform in the list is a
   // CompositeTransform, add all the transforms to that first
-  // transform.
-  std::string transformName =
-    ioTransformList.front()->GetNameOfClass();
-  if(transformName.find("CompositeTransform") != std::string::npos)
+  // transform. and return a single composite item on the
+  // m_TransformList
+  const std::string firstTransformName = ioTransformList.front()->GetNameOfClass();
+  if(firstTransformName.find("CompositeTransform") != std::string::npos)
     {
-
     TransformListType::const_iterator tit = ioTransformList.begin();
-    TransformType *composite = (*tit).GetPointer();
+    TransformType::Pointer composite = (*tit).GetPointer();
     //
     // CompositeTransformIOHelper knows how to assign to the composite
     // transform's internal list
     CompositeTransformIOHelper helper;
-    helper.SetTransformList(composite,ioTransformList);
+    helper.SetTransformList(composite.GetPointer(),ioTransformList);
+
+    this->m_TransformList.push_back( composite.GetPointer() );
+    }
+  else  //Just return the entire list of elements
+    {
+    for ( TransformListType::iterator it =
+      ioTransformList.begin();
+      it != ioTransformList.end(); ++it )
+      {
+      this->m_TransformList.push_back( (*it).GetPointer() );
+      }
     }
 }
 
