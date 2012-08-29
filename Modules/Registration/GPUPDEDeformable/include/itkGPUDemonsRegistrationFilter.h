@@ -46,13 +46,13 @@ namespace itk
  *
  * The input fixed and moving images are set via methods SetFixedImage
  * and SetMovingImage respectively. An initial deformation field maybe set via
- * SetInitialDeformationField or SetInput. If no initial field is set,
+ * SetInitialDisplacementField or SetInput. If no initial field is set,
  * a zero field is used as the initial condition.
  *
  * The algorithm has one parameters: the number of iteration to be performed.
  *
  * The output deformation field can be obtained via methods GetOutput
- * or GetDeformationField.
+ * or GetDisplacementField.
  *
  * This class make use of the finite difference solver hierarchy. Update
  * for each iteration is computed in GPUDemonsRegistrationFunction.
@@ -64,17 +64,17 @@ namespace itk
  * \ingroup DeformableImageRegistration MultiThreaded
  * \ingroup ITKGPUPDEDeformableRegistration
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField,
-          class TParentImageFilter = itk::DemonsRegistrationFilter< TFixedImage, TMovingImage, TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField,
+          class TParentImageFilter = itk::DemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
           >
 class ITK_EXPORT GPUDemonsRegistrationFilter :
   public GPUPDEDeformableRegistrationFilter< TFixedImage, TMovingImage,
-                                             TDeformationField, TParentImageFilter >
+                                             TDisplacementField, TParentImageFilter >
 {
 public:
   /** Standard class typedefs. */
   typedef GPUDemonsRegistrationFilter Self;
-  typedef GPUPDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDeformationField,
+  typedef GPUPDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField,
                                               TParentImageFilter > GPUSuperclass;
   typedef TParentImageFilter
   CPUSuperclass;
@@ -102,10 +102,10 @@ public:
   typedef typename GPUSuperclass::MovingImagePointer MovingImagePointer;
 
   /** Deformation field type. */
-  typedef typename GPUSuperclass::DeformationFieldType
-  DeformationFieldType;
-  typedef typename GPUSuperclass::DeformationFieldPointer
-  DeformationFieldPointer;
+  typedef typename GPUSuperclass::DisplacementFieldType
+  DisplacementFieldType;
+  typedef typename GPUSuperclass::DisplacementFieldPointer
+  DisplacementFieldPointer;
 
   /** FiniteDifferenceFunction type. */
   typedef typename GPUSuperclass::FiniteDifferenceFunctionType
@@ -113,7 +113,7 @@ public:
 
   /** GPUDemonsRegistrationFilterFunction type. */
   typedef GPUDemonsRegistrationFunction< FixedImageType, MovingImageType,
-                                         DeformationFieldType >  GPUDemonsRegistrationFunctionType;
+                                         DisplacementFieldType >  GPUDemonsRegistrationFunctionType;
 
   /** Get the metric value. The metric value is the mean square difference
    * in intensity between the fixed image and transforming moving image
@@ -199,13 +199,13 @@ private:
     typedef GPUImage<ipt,dm>                 InputImageType; \
     typedef GPUImage<opt,dm>                 OutputImageType; \
     typedef Vector< float, dm >              VectorPixelType; \
-    typedef GPUImage<  VectorPixelType, dm > DeformationFieldType; \
+    typedef GPUImage<  VectorPixelType, dm > DisplacementFieldType; \
     this->RegisterOverride( \
-      typeid(DemonsRegistrationFilter<InputImageType,OutputImageType,DeformationFieldType>).name(), \
-      typeid(GPUDemonsRegistrationFilter<InputImageType,OutputImageType,DeformationFieldType>).name(), \
+      typeid(DemonsRegistrationFilter<InputImageType,OutputImageType,DisplacementFieldType>).name(), \
+      typeid(GPUDemonsRegistrationFilter<InputImageType,OutputImageType,DisplacementFieldType>).name(), \
       "GPU Demons Registration Filter Override", \
       true, \
-      CreateObjectFunction<GPUDemonsRegistrationFilter<InputImageType,OutputImageType,DeformationFieldType> >::New() ); \
+      CreateObjectFunction<GPUDemonsRegistrationFilter<InputImageType,OutputImageType,DisplacementFieldType> >::New() ); \
     }
 
   GPUDemonsRegistrationFilterFactory()

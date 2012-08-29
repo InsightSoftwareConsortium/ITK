@@ -53,17 +53,17 @@ namespace itk
 /** Create a helper GPU Kernel class for GPUDemonsRegistrationFunction */
 itkGPUKernelClassMacro(GPUDemonsRegistrationFunctionKernel);
 
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 class ITK_EXPORT GPUDemonsRegistrationFunction :
   public GPUPDEDeformableRegistrationFunction< TFixedImage,
                                                TMovingImage,
-                                               TDeformationField >
+                                               TDisplacementField >
 {
 public:
   /** Standard class typedefs. */
   typedef GPUDemonsRegistrationFunction Self;
   typedef GPUPDEDeformableRegistrationFunction< TFixedImage, TMovingImage,
-                                                TDeformationField>                  Superclass;
+                                                TDisplacementField>                  Superclass;
   typedef SmartPointer< Self >       Pointer;
   typedef SmartPointer< const Self > ConstPointer;
 
@@ -86,9 +86,9 @@ public:
   typedef typename FixedImageType::SpacingType   SpacingType;
 
   /** Deformation field type. */
-  typedef typename Superclass::DeformationFieldType DeformationFieldType;
-  typedef typename Superclass::DeformationFieldTypePointer
-  DeformationFieldTypePointer;
+  typedef typename Superclass::DisplacementFieldType DisplacementFieldType;
+  typedef typename Superclass::DisplacementFieldTypePointer
+  DisplacementFieldTypePointer;
 
   /** Inherit some enums from the superclass. */
   itkStaticConstMacro(ImageDimension, unsigned
@@ -179,8 +179,8 @@ public:
                                     const FloatOffsetType & offset =
                                       FloatOffsetType(0.0) );
 
-  virtual void GPUComputeUpdate( const DeformationFieldTypePointer output,
-                                 DeformationFieldTypePointer update,
+  virtual void GPUComputeUpdate( const DisplacementFieldTypePointer output,
+                                 DisplacementFieldTypePointer update,
                                  void *gd);
 
   /** Get the metric value. The metric value is the mean square difference

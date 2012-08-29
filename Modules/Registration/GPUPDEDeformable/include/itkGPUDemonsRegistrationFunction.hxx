@@ -27,8 +27,8 @@ namespace itk
 /**
  * Default constructor
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
-GPUDemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
+GPUDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::GPUDemonsRegistrationFunction()
 {
   RadiusType   r;
@@ -72,21 +72,21 @@ GPUDemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
 
   std::ostringstream defines;
 
-  if(TDeformationField::ImageDimension > 3 || TDeformationField::ImageDimension < 1)
+  if(TDisplacementField::ImageDimension > 3 || TDisplacementField::ImageDimension < 1)
   {
     itkExceptionMacro("GPUDenseFiniteDifferenceImageFilter supports 1/2/3D image.");
   }
 
-  defines << "#define DIM_" << TDeformationField::ImageDimension << "\n";
+  defines << "#define DIM_" << TDisplacementField::ImageDimension << "\n";
 
   defines << "#define IMGPIXELTYPE ";
   GetTypenameInString( typeid ( typename TFixedImage::PixelType ), defines );
 
   defines << "#define BUFPIXELTYPE ";
-  GetTypenameInString( typeid ( typename TDeformationField::PixelType::ValueType ), defines );
+  GetTypenameInString( typeid ( typename TDisplacementField::PixelType::ValueType ), defines );
 
   defines << "#define OUTPIXELTYPE ";
-  GetTypenameInString( typeid ( typename TDeformationField::PixelType::ValueType ), defines );
+  GetTypenameInString( typeid ( typename TDisplacementField::PixelType::ValueType ), defines );
   std::cout << "Defines: " << defines.str() << std::endl;
 
   const char* GPUSource = GPUDemonsRegistrationFunction::GetOpenCLSource();
@@ -102,9 +102,9 @@ GPUDemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
 /**
  * Standard "PrintSelf" method.
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 void
-GPUDemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
+GPUDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
@@ -136,9 +136,9 @@ GPUDemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
 /**
  *
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 void
-GPUDemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
+GPUDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::SetIntensityDifferenceThreshold(double threshold)
 {
   m_IntensityDifferenceThreshold = threshold;
@@ -147,9 +147,9 @@ GPUDemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
 /**
  *
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 double
-GPUDemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
+GPUDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::GetIntensityDifferenceThreshold() const
 {
   return m_IntensityDifferenceThreshold;
@@ -158,9 +158,9 @@ GPUDemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
 /**
  * Set the function state values before each iteration
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 void
-GPUDemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
+GPUDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::InitializeIteration()
 {
   if ( !this->GetMovingImage() || !this->GetFixedImage() || !m_MovingImageInterpolator )
@@ -197,9 +197,9 @@ GPUDemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
 /**
  * Allocate GPU buffers for computing metric statitics
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 void
-GPUDemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
+GPUDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::GPUAllocateMetricData(unsigned int numPixels)
 {
   // allocate gpu buffers for statistics
@@ -219,9 +219,9 @@ GPUDemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
 
 }
 
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 void
-GPUDemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
+GPUDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::GPUReleaseMetricData()
 {
   m_GPUPixelCounter->ReleaseGPUInputBuffer( );
@@ -233,22 +233,22 @@ GPUDemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
  * Compute update at a specify neighbourhood
  */
 
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 void
-GPUDemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
-::GPUComputeUpdate( DeformationFieldTypePointer output,
-                    DeformationFieldTypePointer update,
+GPUDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
+::GPUComputeUpdate( DisplacementFieldTypePointer output,
+                    DisplacementFieldTypePointer update,
                     void *itkNotUsed(gd)
                     )
 {
   typename TFixedImage::ConstPointer  fixedImage  = dynamic_cast< const TFixedImage * >( this->GetFixedImage() );
   typename TMovingImage::ConstPointer movingImage = dynamic_cast< const TMovingImage * >( this->GetMovingImage() );
-  typename DeformationFieldType::SizeType outSize = output->GetLargestPossibleRegion().GetSize();
+  typename DisplacementFieldType::SizeType outSize = output->GetLargestPossibleRegion().GetSize();
 
   int imgSize[3];
   imgSize[0] = imgSize[1] = imgSize[2] = 1;
 
-  int ImageDim = (int)DeformationFieldType::ImageDimension;
+  int ImageDim = (int)DisplacementFieldType::ImageDimension;
 
   for(int i=0; i<ImageDim; i++)
   {
@@ -282,7 +282,7 @@ GPUDemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
   }
 
   // launch kernel
-  this->m_GPUKernelManager->LaunchKernel(m_ComputeUpdateGPUKernelHandle, (int)DeformationFieldType::ImageDimension, globalSize, localSize );
+  this->m_GPUKernelManager->LaunchKernel(m_ComputeUpdateGPUKernelHandle, (int)DisplacementFieldType::ImageDimension, globalSize, localSize );
 
   // compute statistics
   m_GPUPixelCounter->GPUGenerateData();
@@ -305,10 +305,10 @@ GPUDemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
 /**
  * Compute update at a specify neighbourhood
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
-typename GPUDemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
+typename GPUDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::PixelType
-GPUDemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
+GPUDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::ComputeUpdate( const NeighborhoodType & it, void *gd,
                  const FloatOffsetType & itkNotUsed(offset) )
 {
@@ -400,9 +400,9 @@ GPUDemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
 /**
  * Update the metric and release the per-thread-global data.
  */
-template< class TFixedImage, class TMovingImage, class TDeformationField >
+template< class TFixedImage, class TMovingImage, class TDisplacementField >
 void
-GPUDemonsRegistrationFunction< TFixedImage, TMovingImage, TDeformationField >
+GPUDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::ReleaseGlobalDataPointer(void *gd) const
 {
   GlobalDataStruct *globalData = (GlobalDataStruct *)gd;

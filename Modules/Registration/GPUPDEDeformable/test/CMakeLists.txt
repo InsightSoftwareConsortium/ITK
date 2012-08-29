@@ -21,8 +21,18 @@ CreateTestDriver(ITKGPUPDEDeformableRegistration
  "${ITKGPUPDEDeformableTest_LIBRARIES}"
  "${ITKGPUPDEDeformableRegistration-tests}")
 
-itk_add_test(NAME itkGPUDemonsRegistrationFilterTest
+itk_add_test(NAME itkGPUDemonsRegistrationFilterTestDim2
         COMMAND ITKGPUPDEDeformableRegistrationTestDriver itkGPUDemonsRegistrationFilterTest
+        2 # number of dimensions
+        50 # number of iterations
+        DATA{Input/LenaFix.png}
+        DATA{Input/LenaMov.png}
+        ${ITK_TEST_OUTPUT_DIR}/gpuDemonsRegistrationTest2D.mha)
+
+itk_add_test(NAME itkGPUDemonsRegistrationFilterTestDim3
+        COMMAND ITKGPUPDEDeformableRegistrationTestDriver itkGPUDemonsRegistrationFilterTest
+        3 # number of dimensions
+        50 # number of iterations
         DATA{Input/LenaFix.png}
         DATA{Input/LenaMov.png}
         ${ITK_TEST_OUTPUT_DIR}/gpuDemonsRegistrationTest2D.mha)

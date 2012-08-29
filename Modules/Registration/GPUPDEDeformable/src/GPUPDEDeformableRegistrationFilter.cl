@@ -64,13 +64,6 @@ __kernel void SmoothingFilterReorder(__global OUTPIXELTYPE *imgIn, __global OUTP
                                     __local volatile OUTPIXELTYPE *sharedData
                                     )
 {
-  if(get_global_id(0) >= imgSize[0] ||
-     get_global_id(1) >= imgSize[1] ||
-     get_global_id(2) >= imgSize[2])
-    {
-    return;
-    }
-
   int blockSize = get_local_size(indir);
   int threadId  = get_local_id(indir);
   int index[MAXDIM];
@@ -98,6 +91,7 @@ __kernel void SmoothingFilterReorder(__global OUTPIXELTYPE *imgIn, __global OUTP
     {
     index[indir] -= radius;
 
+    // Load (blockSize+filterSize-1) elements along indir dimension
     for (i = threadId; i < blockSize+filterSize-1; i += blockSize)
       {
         if (index[indir] < 0 )
@@ -117,16 +111,44 @@ __kernel void SmoothingFilterReorder(__global OUTPIXELTYPE *imgIn, __global OUTP
       }
     // wait for loading data to shared memory
     barrier(CLK_LOCAL_MEM_FENCE);
-
-    // Compute the dot product
-    sum = 0;
-    for (i=0; i<filterSize; i++)
-      {
-        sum += sharedData[threadId+i] * sharedFilter[i];
-      }
     index[indir] = get_global_id(indir);
-    imgOut[GetImageOffset(outdir, imgSize, index) * dim + component] = sum;
-//     imgOut[GetImageOffset(outdir, imgSize, index) * dim + component] = imgIn[GetImageOffset(indir, imgSize, index)*dim + component];
+
+    // Important: we can't simply skip the above loading process if
+    // get_global_id() is beyond the image region. This is due to that
+    // thread with threadId loads elements at
+    // (threadId - radius + blockSize * k)
+    // where k is an interger.
+    //
+    // Otherwise, some boundary voxel may be not loaded. For example,
+    // let us assume,
+    // radius = 2, blockSize = 16, imgSize[0] = 8, indir = 0, dim = 2,
+    // imgIn[0][7] is expected to be loaded by threadId = 7+2 = 9.
+    // If we skip thread with threadId = 9 by simply checking
+    // threadId >= imgSize[0], we will not load element imgIn[0][7].
+    //
+    // Therefore, we put the boundary check below before computing and
+    // storing the dot sum.
+
+    /* NOTE: More than three-level nested conditional statements (e.g.,
+       if A && B && C..) invalidates command queue during kernel
+       execution on Apple OpenCL 1.0 (such Macbook Pro with NVIDIA 9600M
+       GT). Therefore, we flattened conditional statements. */
+
+    bool isValid = true;
+    if(get_global_id(0) >= imgSize[0]) isValid = false;
+    if(get_global_id(1) >= imgSize[1]) isValid = false;
+    if(get_global_id(2) >= imgSize[2]) isValid = false;
+
+    if ( isValid )
+      {
+      // Compute the dot product
+      sum = 0;
+      for (i=0; i<filterSize; i++)
+        {
+          sum += sharedData[threadId+i] * sharedFilter[i];
+        }
+      imgOut[GetImageOffset(outdir, imgSize, index) * dim + component] = sum;
+      }
     } // for component
 }
 
@@ -140,13 +162,6 @@ __kernel void SmoothingFilter(__global OUTPIXELTYPE *imgIn, __global OUTPIXELTYP
                               __local volatile OUTPIXELTYPE *sharedData
 )
 {
-  if(get_global_id(0) >= imgSize[0] ||
-     get_global_id(1) >= imgSize[1] ||
-     get_global_id(2) >= imgSize[2])
-    {
-    return;
-    }
-
   int blockSize = get_local_size(indir);
   int threadId  = get_local_id(indir);
   int index[MAXDIM];
@@ -175,17 +190,9 @@ __kernel void SmoothingFilter(__global OUTPIXELTYPE *imgIn, __global OUTPIXELTYP
     {
     index[indir] -= radius;
 
+    // Load (blockSize+filterSize-1) elements along indir dimension
     for (i = threadId; i < blockSize+filterSize-1; i += blockSize)
       {
-//       if (index[indir] < 0 || index[indir] >= imgSize[indir])
-//         {
-//         sharedData[i] = 0;
-//         }
-//       else
-//         {
-//         offset = (index[2]*imgSize[1] + index[1])*imgSize[0] + index[0];
-//         sharedData[i] = imgIn[offset * dim + component];
-//         }
         if (index[indir] < 0 )
         {
           tempIndex[indir] = lowerBound;
@@ -201,19 +208,48 @@ __kernel void SmoothingFilter(__global OUTPIXELTYPE *imgIn, __global OUTPIXELTYP
         offset = (tempIndex[2]*imgSize[1] + tempIndex[1])*imgSize[0] + tempIndex[0];
         sharedData[i] = imgIn[offset * dim + component];
 
-      index[indir] += blockSize;
+        index[indir] += blockSize;
       }
     // wait for loading data to shared memory
     barrier(CLK_LOCAL_MEM_FENCE);
-
-    // Compute the dot product
-    sum = 0;
-    for (i=0; i<filterSize; i++)
-      {
-      sum += sharedData[threadId+i] * sharedFilter[i];
-      }
     index[indir] = get_global_id(indir);
-    offset = (index[2]*imgSize[1] + index[1])*imgSize[0] + index[0];
-    imgOut[offset * dim + component] = sum;
+
+    // Important: we can't simply skip the above loading process if
+    // get_global_id() is beyond the image region. This is due to that
+    // thread with threadId loads elements at
+    // (threadId - radius + blockSize * k)
+    // where k is an interger.
+    //
+    // Otherwise, some boundary voxel may be not loaded. For example,
+    // let us assume,
+    // radius = 2, blockSize = 16, imgSize[0] = 8, indir = 0, dim = 2,
+    // imgIn[0][7] is expected to be loaded by threadId = 7+2 = 9.
+    // If we skip thread with threadId = 9 by simply checking
+    // threadId >= imgSize[0], we will not load element imgIn[0][7].
+    //
+    // Therefore, we put the boundary check below before computing and
+    // storing the dot sum.
+
+    /* NOTE: More than three-level nested conditional statements (e.g.,
+       if A && B && C..) invalidates command queue during kernel
+       execution on Apple OpenCL 1.0 (such Macbook Pro with NVIDIA 9600M
+       GT). Therefore, we flattened conditional statements. */
+
+    bool isValid = true;
+    if(get_global_id(0) >= imgSize[0]) isValid = false;
+    if(get_global_id(1) >= imgSize[1]) isValid = false;
+    if(get_global_id(2) >= imgSize[2]) isValid = false;
+
+    if ( isValid )
+      {
+      // Compute the dot product
+      sum = 0;
+      for (i=0; i<filterSize; i++)
+        {
+        sum += sharedData[threadId+i] * sharedFilter[i];
+        }
+      offset = (index[2]*imgSize[1] + index[1])*imgSize[0] + index[0];
+      imgOut[offset * dim + component] = sum;
+      }
     } // for component
 }
