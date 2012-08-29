@@ -246,6 +246,16 @@ operator*(const T & scalar, const CovariantVector< T, NVectorDimension > & v)
   return v * scalar;
 }
 
+/** Performs the scalar product of a covariant with a contravariant.
+ * This scalar product is invariant under affine transformations */
+template< class T, unsigned int NVectorDimension >
+inline
+T
+operator*(const Vector< T, NVectorDimension > & contravariant, const CovariantVector< T, NVectorDimension > & covariant)
+{
+  return covariant.operator*( contravariant );
+}
+
 ITKCommon_EXPORT void CrossProduct(CovariantVector< double, 3 > &,
                                    const Vector< double, 3 > &,
                                    const Vector< double, 3 > &);
