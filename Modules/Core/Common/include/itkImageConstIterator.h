@@ -168,6 +168,35 @@ public:
   {
     m_Image = ptr;
     m_Buffer = m_Image->GetBufferPointer();
+
+    SetRegion(region);
+
+    m_PixelAccessor = ptr->GetPixelAccessor();
+    m_PixelAccessorFunctor.SetPixelAccessor(m_PixelAccessor);
+    m_PixelAccessorFunctor.SetBegin(m_Buffer);
+  }
+
+  /** operator= is provided to make sure the handle to the image is properly
+   * reference counted. */
+  Self & operator=(const Self & it)
+  {
+    m_Image = it.m_Image;     // copy the smart pointer
+    m_Region = it.m_Region;
+
+    m_Buffer = it.m_Buffer;
+    m_Offset = it.m_Offset;
+    m_BeginOffset = it.m_BeginOffset;
+    m_EndOffset = it.m_EndOffset;
+    m_PixelAccessor = it.m_PixelAccessor;
+    m_PixelAccessorFunctor = it.m_PixelAccessorFunctor;
+    m_PixelAccessorFunctor.SetBegin(m_Buffer);
+
+    return *this;
+  }
+
+  /** Set the region of the image to iterate over. */
+  virtual void SetRegion(const RegionType & region)
+  {
     m_Region = region;
 
     if ( region.GetNumberOfPixels() > 0 ) // If region is non-empty
@@ -201,28 +230,6 @@ public:
       m_EndOffset = m_Image->ComputeOffset(ind);
       m_EndOffset++;
       }
-
-    m_PixelAccessor = ptr->GetPixelAccessor();
-    m_PixelAccessorFunctor.SetPixelAccessor(m_PixelAccessor);
-    m_PixelAccessorFunctor.SetBegin(m_Buffer);
-  }
-
-  /** operator= is provided to make sure the handle to the image is properly
-   * reference counted. */
-  Self & operator=(const Self & it)
-  {
-    m_Image = it.m_Image;     // copy the smart pointer
-    m_Region = it.m_Region;
-
-    m_Buffer = it.m_Buffer;
-    m_Offset = it.m_Offset;
-    m_BeginOffset = it.m_BeginOffset;
-    m_EndOffset = it.m_EndOffset;
-    m_PixelAccessor = it.m_PixelAccessor;
-    m_PixelAccessorFunctor = it.m_PixelAccessorFunctor;
-    m_PixelAccessorFunctor.SetBegin(m_Buffer);
-
-    return *this;
   }
 
   /** Get the dimension (size) of the index. */
