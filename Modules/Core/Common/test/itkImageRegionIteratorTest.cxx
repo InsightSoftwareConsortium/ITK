@@ -137,6 +137,92 @@ int itkImageRegionIteratorTest(int, char* [] )
     }
   while (!backIt.IsAtBegin()); // stop when we reach the beginning
 
+  // Iterate over a region, then change the region and iterate over the new region
+  {
+    // Create an image
+    typedef itk::Image<int, 2> TestImageType;
+    TestImageType::IndexType imageCorner;
+    imageCorner.Fill(0);
+
+    TestImageType::SizeType imageSize;
+    imageSize.Fill(3);
+
+    TestImageType::RegionType imageRegion(imageCorner, imageSize);
+
+    TestImageType::Pointer image = TestImageType::New();
+    image->SetRegions(imageRegion);
+    image->Allocate();
+
+    itk::ImageRegionIterator<TestImageType> createImageIterator(image,imageRegion);
+
+    // Set all pixels with first index == 0 to 0, and set the rest of the image to 255
+    while(!createImageIterator.IsAtEnd())
+      {
+      if(createImageIterator.GetIndex()[0] == 0)
+        {
+        createImageIterator.Set(0);
+        }
+      else
+        {
+        createImageIterator.Set(255);
+        }
+
+      ++createImageIterator;
+      }
+
+    // Setup and iterate over the first region
+    TestImageType::IndexType region1Start;
+    region1Start.Fill(0);
+
+    TestImageType::SizeType regionSize;
+    regionSize.Fill(2);
+
+    TestImageType::RegionType region1(region1Start, regionSize);
+
+    itk::ImageRegionConstIterator<TestImageType> imageIterator(image,region1);
+
+    std::vector<int> expectedValuesRegion1(4);
+    expectedValuesRegion1[0] = 0;
+    expectedValuesRegion1[1] = 255;
+    expectedValuesRegion1[2] = 0;
+    expectedValuesRegion1[3] = 255;
+    unsigned int counter = 0;
+    while(!imageIterator.IsAtEnd())
+      {
+      if(imageIterator.Get() != expectedValuesRegion1[counter])
+        {
+        status = 1; // Fail
+        }
+      counter++;
+      ++imageIterator;
+      }
+
+    // Change iteration region
+    TestImageType::IndexType region2start;
+    region2start.Fill(1);
+
+    TestImageType::RegionType region2(region2start, regionSize);
+
+    imageIterator.SetRegion(region2);
+    imageIterator.GoToBegin();
+
+    std::vector<int> expectedValuesRegion2(4);
+    expectedValuesRegion2[0] = 255;
+    expectedValuesRegion2[1] = 255;
+    expectedValuesRegion2[2] = 255;
+    expectedValuesRegion2[3] = 255;
+    counter = 0;
+    while(!imageIterator.IsAtEnd())
+      {
+      if(imageIterator.Get() != expectedValuesRegion2[counter])
+        {
+        status = 1; // Fail
+        }
+      counter++;
+      ++imageIterator;
+      }
+
+  } // end "Change Region" test
 
   if (status == 0)
     {
