@@ -440,6 +440,9 @@ public:
     return m_NeedToUseBoundaryCondition;
   }
 
+  /** Set the region to iterate over. */
+  virtual void SetRegion(const RegionType & region);
+
 protected:
 
   /** Default method for setting the coordinate location of the iterator.
