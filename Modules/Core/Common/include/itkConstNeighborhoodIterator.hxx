@@ -380,27 +380,26 @@ ConstNeighborhoodIterator< TImage, TBoundaryCondition >
 }
 
 template< class TImage, class TBoundaryCondition >
-void ConstNeighborhoodIterator< TImage, TBoundaryCondition >
-::Initialize(const SizeType & radius, const ImageType *ptr,
-             const RegionType & region)
+void
+ConstNeighborhoodIterator< TImage, TBoundaryCondition >
+::SetRegion(const RegionType & region)
 {
-  m_ConstImage = ptr;
   m_Region = region;
+
   const IndexType regionIndex = region.GetIndex();
 
-  this->SetRadius(radius);
   this->SetBeginIndex( region.GetIndex() );
   this->SetLocation( region.GetIndex() );
   this->SetBound( region.GetSize() );
   this->SetEndIndex();
 
-  m_Begin = ptr->GetBufferPointer() + ptr->ComputeOffset(regionIndex);
+  m_Begin = m_ConstImage->GetBufferPointer() + m_ConstImage->ComputeOffset(regionIndex);
 
-  m_End = ptr->GetBufferPointer() + ptr->ComputeOffset(m_EndIndex);
+  m_End = m_ConstImage->GetBufferPointer() + m_ConstImage->ComputeOffset(m_EndIndex);
 
   // now determine whether boundary conditions are going to be needed
-  const IndexType bStart = ptr->GetBufferedRegion().GetIndex();
-  const SizeType  bSize  = ptr->GetBufferedRegion().GetSize();
+  const IndexType bStart = m_ConstImage->GetBufferedRegion().GetIndex();
+  const SizeType  bSize  = m_ConstImage->GetBufferedRegion().GetSize();
   const IndexType rStart = region.GetIndex();
   const SizeType  rSize  = region.GetSize();
 
@@ -410,9 +409,9 @@ void ConstNeighborhoodIterator< TImage, TBoundaryCondition >
   m_NeedToUseBoundaryCondition = false;
   for ( DimensionValueType i = 0; i < Dimension; ++i )
     {
-    overlapLow = static_cast< OffsetValueType >( ( rStart[i] - static_cast<OffsetValueType>( radius[i] ) ) - bStart[i] );
+    overlapLow = static_cast< OffsetValueType >( ( rStart[i] - static_cast<OffsetValueType>( this->GetRadius(i) ) ) - bStart[i] );
     overlapHigh = static_cast< OffsetValueType >( ( bStart[i] + bSize[i] )
-                                       - ( rStart[i] + rSize[i] + static_cast<OffsetValueType>( radius[i] ) ) );
+                                       - ( rStart[i] + rSize[i] + static_cast<OffsetValueType>( this->GetRadius(i) ) ) );
 
     if ( overlapLow < 0 ) // out of bounds condition, define a region of
       {
@@ -426,6 +425,18 @@ void ConstNeighborhoodIterator< TImage, TBoundaryCondition >
       break;
       }
     }
+}
+
+template< class TImage, class TBoundaryCondition >
+void ConstNeighborhoodIterator< TImage, TBoundaryCondition >
+::Initialize(const SizeType & radius, const ImageType *ptr,
+             const RegionType & region)
+{
+  m_ConstImage = ptr;
+
+  this->SetRadius(radius);
+
+  SetRegion(region);
 
   m_IsInBoundsValid = false;
   m_IsInBounds = false;

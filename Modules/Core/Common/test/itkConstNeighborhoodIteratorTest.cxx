@@ -307,6 +307,116 @@ int itkConstNeighborhoodIteratorTest(int, char* [] )
     result = EXIT_FAILURE;
     }
 
+  // Iterate over a region, then change the region and iterate over the new region
+  {
+    // Create an image
+    typedef itk::Image<int, 2> ChangeRegionTestImageType;
+    ChangeRegionTestImageType::IndexType imageCorner;
+    imageCorner.Fill(0);
+
+    ChangeRegionTestImageType::SizeType imageSize;
+    imageSize.Fill(4);
+
+    ChangeRegionTestImageType::RegionType imageRegion(imageCorner, imageSize);
+
+    ChangeRegionTestImageType::Pointer image = ChangeRegionTestImageType::New();
+    image->SetRegions(imageRegion);
+    image->Allocate();
+
+    itk::ImageRegionIterator<ChangeRegionTestImageType> createImageIterator(image, imageRegion);
+
+    // Set all pixels with first index == 0 to 0, and set the rest of the image to 255
+    while(!createImageIterator.IsAtEnd())
+      {
+      if(createImageIterator.GetIndex()[0] == 0)
+        {
+        createImageIterator.Set(0);
+        }
+      else
+        {
+        createImageIterator.Set(255);
+        }
+
+      ++createImageIterator;
+      }
+
+    // Setup and iterate over the first region
+    ChangeRegionTestImageType::IndexType region1Start;
+    region1Start.Fill(1);
+
+    ChangeRegionTestImageType::SizeType regionSize;
+    regionSize.Fill(1);
+
+    ChangeRegionTestImageType::RegionType region1(region1Start, regionSize);
+
+    // Create the radius (a 3x3 region)
+    ChangeRegionTestImageType::SizeType neighborhoodRadius;
+    neighborhoodRadius.Fill(1);
+
+    typedef itk::ConstNeighborhoodIterator<ChangeRegionTestImageType> NeighborhoodIteratorType;
+    NeighborhoodIteratorType neighborhoodIterator(neighborhoodRadius, image, region1);
+
+    std::vector<int> expectedValuesRegion1(9);
+    expectedValuesRegion1[0] = 0;
+    expectedValuesRegion1[1] = 255;
+    expectedValuesRegion1[2] = 255;
+    expectedValuesRegion1[3] = 0;
+    expectedValuesRegion1[4] = 255;
+    expectedValuesRegion1[5] = 255;
+    expectedValuesRegion1[6] = 0;
+    expectedValuesRegion1[7] = 255;
+    expectedValuesRegion1[8] = 255;
+    unsigned int counter = 0;
+    //while(!neighborhoodIterator.IsAtEnd()) // no need for this loop as we are only iterating over a 1x1 region
+      //{
+    NeighborhoodIteratorType::ConstIterator pixelIterator = neighborhoodIterator.Begin();
+    for(pixelIterator = neighborhoodIterator.Begin(); pixelIterator < neighborhoodIterator.End(); ++pixelIterator)
+      {
+      if(**pixelIterator != expectedValuesRegion1[counter])
+        {
+        result = EXIT_FAILURE;
+        }
+      counter++;
+      }
+      //++imageIterator;
+      //}
+
+    // Change iteration region
+    ChangeRegionTestImageType::IndexType region2start;
+    region2start.Fill(2);
+
+    ChangeRegionTestImageType::RegionType region2(region2start, regionSize);
+
+    neighborhoodIterator.SetRegion(region2);
+    neighborhoodIterator.GoToBegin();
+
+    std::vector<int> expectedValuesRegion2(9);
+    expectedValuesRegion2[0] = 255;
+    expectedValuesRegion2[1] = 255;
+    expectedValuesRegion2[2] = 255;
+    expectedValuesRegion2[3] = 255;
+    expectedValuesRegion2[4] = 255;
+    expectedValuesRegion2[5] = 255;
+    expectedValuesRegion2[6] = 255;
+    expectedValuesRegion2[7] = 255;
+    expectedValuesRegion2[8] = 255;
+    counter = 0;
+    //while(!neighborhoodIterator.IsAtEnd()) // no need for this loop as we are only iterating over a 1x1 region
+      //{
+    pixelIterator = neighborhoodIterator.Begin();
+    for(pixelIterator = neighborhoodIterator.Begin(); pixelIterator < neighborhoodIterator.End(); ++pixelIterator)
+      {
+      if(**pixelIterator != expectedValuesRegion2[counter])
+        {
+        result = EXIT_FAILURE;
+        }
+      counter++;
+      }
+      //++imageIterator;
+      //}
+
+  } // end "Change Region" test
+
   return result;
 
 }
