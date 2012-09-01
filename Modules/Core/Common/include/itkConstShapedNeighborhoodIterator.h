@@ -214,6 +214,12 @@ protected:
   /** Default constructor */
   ConstShapedNeighborhoodIterator()
   {
+    InitializeConstShapedNeighborhoodIterator();
+  }
+
+  /** Initialize the iterator. */
+  void InitializeConstShapedNeighborhoodIterator()
+  {
     m_ConstBeginIterator = ConstIterator(this);
     m_ConstEndIterator = ConstIterator(this);
     m_ConstEndIterator.GoToEnd();
@@ -230,10 +236,7 @@ protected:
                                   const RegionType & region):
     Superclass (radius, const_cast< ImageType * >( ptr ), region)
   {
-    m_ConstBeginIterator = ConstIterator(this);
-    m_ConstEndIterator = ConstIterator(this);
-    m_ConstEndIterator.GoToEnd();
-    m_CenterIsActive = false;
+    InitializeConstShapedNeighborhoodIterator();
   }
 
   // Expose the following methods from the superclass.  This is a
@@ -272,6 +275,7 @@ protected:
   using Superclass::Print;
   using Superclass::operator-;
   using Superclass::GetPixel;
+  using Superclass::SetRegion;
 
   /** Assignment operator */
   Self & operator=(const Self & orig)
