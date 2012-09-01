@@ -18,7 +18,7 @@
 #ifndef __itkGaussianExponentialDiffeomorphicTransformParametersAdaptor_h
 #define __itkGaussianExponentialDiffeomorphicTransformParametersAdaptor_h
 
-#include "itkGaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor.h"
+#include "itkConstantVelocityFieldTransformParametersAdaptor.h"
 
 namespace itk
 {
@@ -31,22 +31,22 @@ namespace itk
  */
 template<class TTransform>
 class ITK_EXPORT GaussianExponentialDiffeomorphicTransformParametersAdaptor
-: public GaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>
+: public ConstantVelocityFieldTransformParametersAdaptor<TTransform>
 {
 public:
 
   /** Standard class typedefs. */
-  typedef GaussianExponentialDiffeomorphicTransformParametersAdaptor                               Self;
-  typedef GaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>         Superclass;
-  typedef SmartPointer<Self>                                                                       Pointer;
-  typedef SmartPointer<const Self>                                                                 ConstPointer;
+  typedef GaussianExponentialDiffeomorphicTransformParametersAdaptor  Self;
+  typedef ConstantVelocityFieldTransformParametersAdaptor<TTransform> Superclass;
+  typedef SmartPointer<Self>                                          Pointer;
+  typedef SmartPointer<const Self>                                    ConstPointer;
 
   /** New macro for creation of through a Smart Pointer. */
   itkNewMacro( Self );
 
   /** Run-time type information (and related methods). */
   itkTypeMacro( GaussianExponentialDiffeomorphicTransformParametersAdaptor,
-    GaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor );
+   ConstantVelocityFieldTransformParametersAdaptor );
 
   typedef TTransform                               TransformType;
   typedef typename TransformType::ScalarType       ScalarType;
@@ -54,8 +54,14 @@ public:
   /**
    * Get/Set the Gaussian smoothing standard deviation for the velocity field.
    */
-  virtual void SetGaussianSmoothingVarianceForTheVelocityField( ScalarType );
-  itkGetConstReferenceMacro( GaussianSmoothingVarianceForTheVelocityField, ScalarType );
+  virtual void SetGaussianSmoothingVarianceForTheConstantVelocityField( ScalarType );
+  itkGetConstReferenceMacro( GaussianSmoothingVarianceForTheConstantVelocityField, ScalarType );
+
+  /**
+   * Get/Set the Gaussian smoothing standard deviation for the update field.
+   */
+  virtual void SetGaussianSmoothingVarianceForTheUpdateField( ScalarType );
+  itkGetConstReferenceMacro( GaussianSmoothingVarianceForTheUpdateField, ScalarType );
 
   virtual void AdaptTransformParameters();
 
@@ -69,9 +75,11 @@ private:
   GaussianExponentialDiffeomorphicTransformParametersAdaptor( const Self & ); //purposely not implemented
   void operator=( const Self & );             //purposely not implemented
 
-  ScalarType          m_GaussianSmoothingVarianceForTheVelocityField;
+  ScalarType          m_GaussianSmoothingVarianceForTheConstantVelocityField;
+  ScalarType          m_GaussianSmoothingVarianceForTheUpdateField;
 
-  unsigned long       m_GaussianSmoothingVarianceForTheVelocityFieldSetTime;
+  unsigned long       m_GaussianSmoothingVarianceForTheConstantVelocityFieldSetTime;
+  unsigned long       m_GaussianSmoothingVarianceForTheUpdateFieldSetTime;
 
 }; //class GaussianExponentialDiffeomorphicTransformParametersAdaptor
 }  // namespace itk

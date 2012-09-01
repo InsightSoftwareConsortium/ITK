@@ -27,8 +27,10 @@ template<class TTransform>
 BSplineExponentialDiffeomorphicTransformParametersAdaptor<TTransform>
 ::BSplineExponentialDiffeomorphicTransformParametersAdaptor()
 {
-  this->m_NumberOfControlPointsForTheVelocityField.Fill( 4 );
-  this->m_NumberOfControlPointsForTheVelocityFieldSetTime = 0;
+  this->m_NumberOfControlPointsForTheConstantVelocityField.Fill( 4 );
+  this->m_NumberOfControlPointsForTheConstantVelocityFieldSetTime = 0;
+  this->m_NumberOfControlPointsForTheUpdateField.Fill( 4 );
+  this->m_NumberOfControlPointsForTheUpdateFieldSetTime = 0;
 }
 
 template<class TTransform>
@@ -43,7 +45,7 @@ BSplineExponentialDiffeomorphicTransformParametersAdaptor<TTransform>
 template<class TTransform>
 void
 BSplineExponentialDiffeomorphicTransformParametersAdaptor<TTransform>
-::SetMeshSizeForTheVelocityField( const ArrayType &meshSize )
+::SetMeshSizeForTheConstantVelocityField( const ArrayType &meshSize )
 {
   ArrayType numberOfControlPoints;
   numberOfControlPoints.Fill( 0 );
@@ -54,7 +56,27 @@ BSplineExponentialDiffeomorphicTransformParametersAdaptor<TTransform>
       numberOfControlPoints[d] = meshSize[d] + this->m_Transform->GetSplineOrder();
       }
     }
-  this->SetNumberOfControlPointsForTheVelocityField( numberOfControlPoints );
+  this->SetNumberOfControlPointsForTheConstantVelocityField( numberOfControlPoints );
+}
+
+/**
+ * set mesh size for update field
+ */
+template<class TTransform>
+void
+BSplineExponentialDiffeomorphicTransformParametersAdaptor<TTransform>
+::SetMeshSizeForTheUpdateField( const ArrayType &meshSize )
+{
+  ArrayType numberOfControlPoints;
+  numberOfControlPoints.Fill( 0 );
+  for( unsigned int d = 0; d < SpaceDimension; d++ )
+    {
+    if( meshSize[d] > 0 )
+      {
+      numberOfControlPoints[d] = meshSize[d] + this->m_Transform->GetSplineOrder();
+      }
+    }
+  this->SetNumberOfControlPointsForTheUpdateField( numberOfControlPoints );
 }
 
 /**
@@ -63,12 +85,28 @@ BSplineExponentialDiffeomorphicTransformParametersAdaptor<TTransform>
 template<class TTransform>
 void
 BSplineExponentialDiffeomorphicTransformParametersAdaptor<TTransform>
-::SetNumberOfControlPointsForTheVelocityField( const ArrayType &controlPoints )
+::SetNumberOfControlPointsForTheConstantVelocityField( const ArrayType &controlPoints )
 {
-  this->m_NumberOfControlPointsForTheVelocityFieldSetTime = this->GetMTime();
-  if( controlPoints != this->m_NumberOfControlPointsForTheVelocityField )
+  this->m_NumberOfControlPointsForTheConstantVelocityFieldSetTime = this->GetMTime();
+  if( controlPoints != this->m_NumberOfControlPointsForTheConstantVelocityField )
     {
-    this->m_NumberOfControlPointsForTheVelocityField = controlPoints;
+    this->m_NumberOfControlPointsForTheConstantVelocityField = controlPoints;
+    this->Modified();
+    }
+}
+
+/**
+ * set number of control points for update field
+ */
+template<class TTransform>
+void
+BSplineExponentialDiffeomorphicTransformParametersAdaptor<TTransform>
+::SetNumberOfControlPointsForTheUpdateField( const ArrayType &controlPoints )
+{
+  this->m_NumberOfControlPointsForTheUpdateFieldSetTime = this->GetMTime();
+  if( controlPoints != this->m_NumberOfControlPointsForTheUpdateField )
+    {
+    this->m_NumberOfControlPointsForTheUpdateField = controlPoints;
     this->Modified();
     }
 }
@@ -80,10 +118,15 @@ BSplineExponentialDiffeomorphicTransformParametersAdaptor<TTransform>
 {
   Superclass::AdaptTransformParameters();
 
-  if( this->m_NumberOfControlPointsForTheVelocityFieldSetTime > 0 )
+  if( this->m_NumberOfControlPointsForTheUpdateFieldSetTime > 0 )
     {
-    this->m_Transform->SetNumberOfControlPointsForTheVelocityField(
-      this->m_NumberOfControlPointsForTheVelocityField );
+    this->m_Transform->SetNumberOfControlPointsForTheUpdateField(
+      this->m_NumberOfControlPointsForTheUpdateField );
+    }
+  if( this->m_NumberOfControlPointsForTheConstantVelocityFieldSetTime > 0 )
+    {
+    this->m_Transform->SetNumberOfControlPointsForTheConstantVelocityField(
+      this->m_NumberOfControlPointsForTheConstantVelocityField );
     }
 }
 
@@ -96,7 +139,7 @@ BSplineExponentialDiffeomorphicTransformParametersAdaptor<TTransform>
 
   os << indent << "B-spline parameters: " << std::endl;
   os << indent << "  number of control points for the velocity field = "
-    << this->m_NumberOfControlPointsForTheVelocityField << std::endl;
+    << this->m_NumberOfControlPointsForTheConstantVelocityField << std::endl;
 }
 
 }  // namespace itk

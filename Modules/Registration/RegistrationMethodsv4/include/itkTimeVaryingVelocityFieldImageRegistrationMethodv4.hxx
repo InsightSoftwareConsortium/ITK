@@ -79,7 +79,7 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TOu
   // This transform gets used for the moving image
   typename DisplacementFieldDuplicatorType::Pointer fieldDuplicatorIdentity = DisplacementFieldDuplicatorType::New();
 
-  TimeVaryingVelocityFieldPointer velocityField = this->m_OutputTransform->GetTimeVaryingVelocityField();
+  TimeVaryingVelocityFieldPointer velocityField = this->m_OutputTransform->GetVelocityField();
   IndexValueType numberOfTimePoints = velocityField->GetLargestPossibleRegion().GetSize()[ImageDimension];
 
   SizeValueType numberOfIntegrationSteps = numberOfTimePoints + 2;

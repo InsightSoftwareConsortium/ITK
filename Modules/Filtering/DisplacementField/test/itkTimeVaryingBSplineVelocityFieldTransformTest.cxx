@@ -133,6 +133,8 @@ int itkTimeVaryingBSplineVelocityFieldTransformTest( int, char* [] )
   typedef TransformType::OutputPointType OutputPointType;
   OutputPointType transformedPoint = transform->TransformPoint( point );
 
+  std::cout << point << ", " << transformedPoint << transform->TransformPoint( point ) << std::endl;
+
   VectorType displacement;
   displacement.Fill( 0.1 );
 

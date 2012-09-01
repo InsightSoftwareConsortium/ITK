@@ -221,9 +221,8 @@ int PerformBSplineExpImageRegistration( int argc, char *argv[] )
   velocityControlPoints.Fill( 10 );
 
   fieldTransform->SetNumberOfControlPointsForTheUpdateField( updateControlPoints );
-  fieldTransform->SetNumberOfControlPointsForTheVelocityField( velocityControlPoints );
-  fieldTransform->SetDisplacementField( displacementField );
-  fieldTransform->SetComputeInverse( true );
+  fieldTransform->SetNumberOfControlPointsForTheConstantVelocityField( velocityControlPoints );
+  fieldTransform->SetConstantVelocityField( displacementField );
   fieldTransform->SetCalculateNumberOfIntegrationStepsAutomatically( true );
 
   typedef itk::ANTSNeighborhoodCorrelationImageToImageMetricv4<FixedImageType, MovingImageType> CorrelationMetricType;
@@ -241,11 +240,12 @@ int PerformBSplineExpImageRegistration( int argc, char *argv[] )
   typename ScalesEstimatorType::Pointer scalesEstimator = ScalesEstimatorType::New();
   scalesEstimator->SetMetric( correlationMetric );
   scalesEstimator->SetTransformForward( true );
+  scalesEstimator->SetSmallParameterVariation( 1.0 );
 
   typename GradientDescentOptimizerv4Type::Pointer optimizer = GradientDescentOptimizerv4Type::New();
   optimizer->SetLearningRate( 1.0 );
   optimizer->SetNumberOfIterations( atoi( argv[6] ) );
-  optimizer->SetScalesEstimator( scalesEstimator );
+  optimizer->SetScalesEstimator( NULL );
   optimizer->SetDoEstimateLearningRateOnce( false ); //true by default
   optimizer->SetDoEstimateLearningRateAtEachIteration( true );
 
@@ -306,7 +306,7 @@ int PerformBSplineExpImageRegistration( int argc, char *argv[] )
 
   try
     {
-    std::cout << "Displ. txf - gauss update" << std::endl;
+    std::cout << "Displ. txf - bspline update" << std::endl;
     displacementFieldSimple->Update();
     }
   catch( itk::ExceptionObject &e )

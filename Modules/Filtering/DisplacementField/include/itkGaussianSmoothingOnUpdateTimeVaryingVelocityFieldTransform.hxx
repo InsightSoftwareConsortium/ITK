@@ -52,9 +52,9 @@ void
 GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TScalar, NDimensions>
 ::UpdateTransformParameters( const DerivativeType & update, ScalarType factor )
 {
-  TimeVaryingVelocityFieldPointer velocityField = this->GetTimeVaryingVelocityField();
+  TimeVaryingVelocityFieldPointer velocityField = this->GetVelocityField();
 
-  const typename TimeVaryingVelocityFieldType::RegionType & bufferedRegion = velocityField->GetBufferedRegion();
+  const typename VelocityFieldType::RegionType & bufferedRegion = velocityField->GetBufferedRegion();
   const SizeValueType numberOfPixels = bufferedRegion.GetNumberOfPixels();
 
   typedef ImportImageFilter<DisplacementVectorType, NDimensions + 1> ImporterType;
@@ -89,7 +89,7 @@ GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TScalar, NDimensions>
     TimeVaryingVelocityFieldPointer updateSmoothField = this->GaussianSmoothTimeVaryingVelocityField( updateField,
       this->m_GaussianSpatialSmoothingVarianceForTheUpdateField, this->m_GaussianTemporalSmoothingVarianceForTheUpdateField );
 
-    ImageAlgorithm::Copy< TimeVaryingVelocityFieldType, TimeVaryingVelocityFieldType >( updateSmoothField, updateField, updateSmoothField->GetBufferedRegion(), updateField->GetBufferedRegion() );
+    ImageAlgorithm::Copy< VelocityFieldType, VelocityFieldType >( updateSmoothField, updateField, updateSmoothField->GetBufferedRegion(), updateField->GetBufferedRegion() );
     }
 
   //
@@ -125,33 +125,30 @@ GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TScalar, NDimensions>
     TimeVaryingVelocityFieldPointer totalSmoothField = this->GaussianSmoothTimeVaryingVelocityField( totalField,
       this->m_GaussianSpatialSmoothingVarianceForTheTotalField, this->m_GaussianTemporalSmoothingVarianceForTheTotalField );
 
-    ImageAlgorithm::Copy< TimeVaryingVelocityFieldType, TimeVaryingVelocityFieldType >( totalSmoothField, velocityField, totalSmoothField->GetBufferedRegion(), velocityField->GetBufferedRegion() );
+    ImageAlgorithm::Copy< VelocityFieldType, VelocityFieldType >( totalSmoothField, velocityField, totalSmoothField->GetBufferedRegion(), velocityField->GetBufferedRegion() );
     }
 
-  if( smoothTotalField || smoothUpdateField )
-    {
-    this->IntegrateVelocityField();
-    }
+  this->IntegrateVelocityField();
 }
 
 template<class TScalar, unsigned int NDimensions>
 typename GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TScalar, NDimensions>::TimeVaryingVelocityFieldPointer
 GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TScalar, NDimensions>
-::GaussianSmoothTimeVaryingVelocityField( TimeVaryingVelocityFieldType *field, ScalarType spatialVariance, ScalarType temporalVariance )
+::GaussianSmoothTimeVaryingVelocityField( VelocityFieldType *field, ScalarType spatialVariance, ScalarType temporalVariance )
 {
   if( spatialVariance <= 0.0 && temporalVariance <= 0.0 )
     {
     return field;
     }
 
-  typedef ImageDuplicator<TimeVaryingVelocityFieldType> DuplicatorType;
+  typedef ImageDuplicator<VelocityFieldType> DuplicatorType;
   typename DuplicatorType::Pointer duplicator = DuplicatorType::New();
   duplicator->SetInputImage( field );
   duplicator->Update();
 
   TimeVaryingVelocityFieldPointer smoothField = duplicator->GetOutput();
 
-  typedef VectorNeighborhoodOperatorImageFilter<TimeVaryingVelocityFieldType, TimeVaryingVelocityFieldType> SmootherType;
+  typedef VectorNeighborhoodOperatorImageFilter<VelocityFieldType, VelocityFieldType> SmootherType;
   typename SmootherType::Pointer smoother = SmootherType::New();
 
   for( unsigned int d = 0; d < TimeVaryingVelocityFieldDimension; d++ )
@@ -194,14 +191,14 @@ GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TScalar, NDimensions>
     }
   ScalarType weight2 = 1.0 - weight1;
 
-  typedef typename TimeVaryingVelocityFieldType::SizeType TimeVaryingVelocityFieldSizeType;
-  typedef typename TimeVaryingVelocityFieldType::IndexType TimeVaryingVelocityFieldIndexType;
+  typedef typename VelocityFieldType::SizeType TimeVaryingVelocityFieldSizeType;
+  typedef typename VelocityFieldType::IndexType TimeVaryingVelocityFieldIndexType;
 
   TimeVaryingVelocityFieldSizeType size = field->GetLargestPossibleRegion().GetSize();
   TimeVaryingVelocityFieldIndexType startIndex = field->GetLargestPossibleRegion().GetIndex();
 
-  ImageRegionIteratorWithIndex<TimeVaryingVelocityFieldType> fieldIt( field, field->GetLargestPossibleRegion() );
-  ImageRegionConstIteratorWithIndex<TimeVaryingVelocityFieldType> smoothedFieldIt( smoothField, smoothField->GetLargestPossibleRegion() );
+  ImageRegionIteratorWithIndex<VelocityFieldType> fieldIt( field, field->GetLargestPossibleRegion() );
+  ImageRegionConstIteratorWithIndex<VelocityFieldType> smoothedFieldIt( smoothField, smoothField->GetLargestPossibleRegion() );
   for( fieldIt.GoToBegin(), smoothedFieldIt.GoToBegin(); !fieldIt.IsAtEnd(); ++fieldIt, ++smoothedFieldIt )
     {
     TimeVaryingVelocityFieldIndexType index = fieldIt.GetIndex();

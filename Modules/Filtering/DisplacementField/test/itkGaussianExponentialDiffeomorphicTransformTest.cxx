@@ -41,7 +41,6 @@ int itkGaussianExponentialDiffeomorphicTransformTest(int ,char *[] )
   /* Create a displacement field transform */
   DisplacementTransformType::Pointer displacementTransform =
       DisplacementTransformType::New();
-  displacementTransform->SetComputeInverse( true );
   displacementTransform->SetCalculateNumberOfIntegrationStepsAutomatically( true );
   displacementTransform->SetNumberOfIntegrationSteps( 10 );
 
@@ -61,11 +60,12 @@ int itkGaussianExponentialDiffeomorphicTransformTest(int ,char *[] )
   field->SetRegions( region );
   field->Allocate();
 
-  DisplacementTransformType::OutputVectorType zeroVector;
+  FieldType::PixelType zeroVector;
   zeroVector.Fill( 0 );
   field->FillBuffer( zeroVector );
 
-  displacementTransform->SetDisplacementField( field );
+  displacementTransform->SetConstantVelocityField( field );
+  displacementTransform->IntegrateVelocityField();
 
   /* Test SmoothDisplacementFieldGauss */
   std::cout << "Test SmoothDisplacementFieldGauss" << std::endl;
@@ -78,7 +78,6 @@ int itkGaussianExponentialDiffeomorphicTransformTest(int ,char *[] )
   unsigned int outlier = dimLength*dimensions*4 + dimLength*dimensions / 2;
   paramsFill( outlier ) = 99.0;
   paramsFill( outlier + 1 ) = 99.0;
-  displacementTransform->SetGaussianSmoothingVarianceForTheTotalField(0.25);
   displacementTransform->SetGaussianSmoothingVarianceForTheUpdateField(3);
   displacementTransform->SetParameters( paramsFill );
   //params = displacementTransform->GetParameters();
@@ -94,11 +93,20 @@ int itkGaussianExponentialDiffeomorphicTransformTest(int ,char *[] )
     {
     bool ok = true;
     if( i < linelength && params[i] != 0 )
+      {
       ok = false;
+      std::cout << params[i] << " != 0 " << std::endl;
+      }
     if( i % linelength == 0 && params[i] != 0 )
+      {
       ok = false;
+      std::cout << params[i] << " != 0 " << std::endl;
+      }
     if( i % linelength == (linelength - 1) && params[i] != 0 )
+      {
       ok = false;
+      std::cout << params[i] << " != 0 " << std::endl;
+      }
     if( !ok )
       {
       std::cout << "0-valued boundaries not found when expected "
@@ -140,11 +148,20 @@ int itkGaussianExponentialDiffeomorphicTransformTest(int ,char *[] )
     {
     bool ok = true;
     if( i < linelength && params[i] != 0 )
+      {
       ok = false;
+      std::cout << params[i] << " != 0 " << std::endl;
+      }
     if( i % linelength == 0 && params[i] != 0 )
+      {
       ok = false;
+      std::cout << params[i] << " != 0 " << std::endl;
+      }
     if( i % linelength == (linelength - 1) && params[i] != 0 )
+      {
       ok = false;
+      std::cout << params[i] << " != 0 " << std::endl;
+      }
     if( !ok )
       {
       std::cout << "0-valued boundaries not found when expected "
@@ -188,11 +205,6 @@ int itkGaussianExponentialDiffeomorphicTransformTest(int ,char *[] )
   displacementTransform->SetGaussianSmoothingVarianceForTheUpdateField(2);
   std::cout << "sigma: "
             << displacementTransform->GetGaussianSmoothingVarianceForTheUpdateField()
-            << std::endl;
-
-  displacementTransform->SetGaussianSmoothingVarianceForTheTotalField(2);
-  std::cout << "sigma: "
-            << displacementTransform->GetGaussianSmoothingVarianceForTheTotalField()
             << std::endl;
 
   return EXIT_SUCCESS;

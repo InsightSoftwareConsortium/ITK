@@ -21,9 +21,9 @@
 #include "itkBSplineExponentialDiffeomorphicTransform.h"
 
 #include "itkAddImageFilter.h"
-#include "itkExponentialDisplacementFieldImageFilter.h"
+#include "itkImageDuplicator.h"
+#include "itkImportImageFilter.h"
 #include "itkMultiplyImageFilter.h"
-#include "itkVectorResampleImageFilter.h"
 
 namespace itk
 {
@@ -34,12 +34,10 @@ namespace itk
 template<class TScalar, unsigned int NDimensions>
 BSplineExponentialDiffeomorphicTransform<TScalar, NDimensions>
 ::BSplineExponentialDiffeomorphicTransform() :
-  m_CalculateNumberOfIntegrationStepsAutomatically( true ),
-  m_NumberOfIntegrationSteps( 10 ),
-  m_ComputeInverse( false ),
-  m_ConstantVelocityField( NULL )
+  m_SplineOrder( 3 )
 {
-  this->m_NumberOfControlPointsForTheVelocityField.Fill( 4 );
+  this->m_NumberOfControlPointsForTheConstantVelocityField.Fill( 4 );
+  this->m_NumberOfControlPointsForTheUpdateField.Fill( 4 );
 }
 
 /**
@@ -51,19 +49,43 @@ BSplineExponentialDiffeomorphicTransform<TScalar, NDimensions>::
 {
 }
 
+/**
+ * set mesh size for update field
+ */
+template<class TScalar, unsigned int NDimensions>
+void
+BSplineExponentialDiffeomorphicTransform<TScalar, NDimensions>
+::SetMeshSizeForTheUpdateField( const ArrayType &meshSize )
+{
+  ArrayType numberOfControlPoints;
+  for( unsigned int d = 0; d < Dimension; d++ )
+    {
+    numberOfControlPoints[d] = meshSize[d] + this->m_SplineOrder;
+    }
+  this->SetNumberOfControlPointsForTheUpdateField( numberOfControlPoints );
+}
+
+/**
+ * set mesh size for update field
+ */
+template<class TScalar, unsigned int NDimensions>
+void
+BSplineExponentialDiffeomorphicTransform<TScalar, NDimensions>
+::SetMeshSizeForTheConstantVelocityField( const ArrayType &meshSize )
+{
+  ArrayType numberOfControlPoints;
+  for( unsigned int d = 0; d < Dimension; d++ )
+    {
+    numberOfControlPoints[d] = meshSize[d] + this->m_SplineOrder;
+    }
+  this->SetNumberOfControlPointsForTheConstantVelocityField( numberOfControlPoints );
+}
+
 template<class TScalar, unsigned int NDimensions>
 void
 BSplineExponentialDiffeomorphicTransform<TScalar, NDimensions>
 ::UpdateTransformParameters( const DerivativeType & update, ScalarType factor )
 {
-  DisplacementFieldPointer displacementField = this->GetDisplacementField();
-
-  const typename DisplacementFieldType::RegionType & bufferedRegion = displacementField->GetBufferedRegion();
-  const SizeValueType numberOfPixels = bufferedRegion.GetNumberOfPixels();
-
-  typedef ImportImageFilter<DisplacementVectorType, Dimension> ImporterType;
-  const bool importFilterWillReleaseMemory = false;
-
   //
   // Smooth the update field
   //
@@ -78,14 +100,26 @@ BSplineExponentialDiffeomorphicTransform<TScalar, NDimensions>
       }
     }
 
+  ConstantVelocityFieldPointer velocityField = this->GetConstantVelocityField();
+  if( !velocityField )
+    {
+    itkExceptionMacro( "The velocity field has not been set." );
+    }
+
+  const typename ConstantVelocityFieldType::RegionType & bufferedRegion = velocityField->GetBufferedRegion();
+  const SizeValueType numberOfPixels = bufferedRegion.GetNumberOfPixels();
+
   DisplacementVectorType *updateFieldPointer = reinterpret_cast<DisplacementVectorType *>( const_cast<DerivativeType &>( update ).data_block() );
+
+  typedef ImportImageFilter<DisplacementVectorType, NDimensions> ImporterType;
+  const bool importFilterWillReleaseMemory = false;
 
   typename ImporterType::Pointer importer = ImporterType::New();
   importer->SetImportPointer( updateFieldPointer, numberOfPixels, importFilterWillReleaseMemory );
-  importer->SetRegion( displacementField->GetBufferedRegion() );
-  importer->SetOrigin( displacementField->GetOrigin() );
-  importer->SetSpacing( displacementField->GetSpacing() );
-  importer->SetDirection( displacementField->GetDirection() );
+  importer->SetRegion( velocityField->GetBufferedRegion() );
+  importer->SetOrigin( velocityField->GetOrigin() );
+  importer->SetSpacing( velocityField->GetSpacing() );
+  importer->SetDirection( velocityField->GetDirection() );
 
   ConstantVelocityFieldPointer updateField = importer->GetOutput();
   updateField->Update();
@@ -95,78 +129,28 @@ BSplineExponentialDiffeomorphicTransform<TScalar, NDimensions>
     {
     itkDebugMacro( "Smoothing the update field." );
 
-    // The update field is the velocity field but since it's constant
-    // we smooth it using the parent class smoothing functionality
-
-    ConstantVelocityFieldPointer updateSmoothField = this->BSplineSmoothDisplacementField( updateField, this->GetNumberOfControlPointsForTheUpdateField() );
+    ConstantVelocityFieldPointer updateSmoothField =
+      this->BSplineSmoothConstantVelocityField( updateField, this->GetNumberOfControlPointsForTheUpdateField() );
 
     updateField = updateSmoothField;
     }
 
   typedef Image<ScalarType, NDimensions> RealImageType;
 
-  typedef MultiplyImageFilter<DisplacementFieldType, RealImageType, DisplacementFieldType> MultiplierType;
+  typedef MultiplyImageFilter<ConstantVelocityFieldType, RealImageType, ConstantVelocityFieldType> MultiplierType;
   typename MultiplierType::Pointer multiplier = MultiplierType::New();
   multiplier->SetInput( updateField );
   multiplier->SetConstant( factor );
-
-  typename DisplacementFieldType::Pointer scaledUpdateField = multiplier->GetOutput();
-  scaledUpdateField->Update();
-  scaledUpdateField->DisconnectPipeline();
-
-  if( !this->m_ConstantVelocityField )
-    {
-    DisplacementVectorType zeroVector( 0.0 );
-
-    this->m_ConstantVelocityField = ConstantVelocityFieldType::New();
-    this->m_ConstantVelocityField->CopyInformation( scaledUpdateField );
-    this->m_ConstantVelocityField->SetRegions( scaledUpdateField->GetRequestedRegion() );
-    this->m_ConstantVelocityField->Allocate();
-    this->m_ConstantVelocityField->FillBuffer( zeroVector );
-    }
-  else
-    {
-    // Check to see if the velocity field needs to be resampled to match the size
-    // of the displacement field
-
-    const typename DisplacementFieldType::SizeType displacementFieldSize = displacementField->GetRequestedRegion().GetSize();
-
-    if( displacementFieldSize != this->m_ConstantVelocityField->GetRequestedRegion().GetSize() )
-      {
-      typedef IdentityTransform<ScalarType, NDimensions> IdentityTransformType;
-      typename IdentityTransformType::Pointer identityTransform = IdentityTransformType::New();
-      identityTransform->SetIdentity();
-
-      typedef VectorLinearInterpolateImageFunction<DisplacementFieldType, ScalarType> LinearInterpolatorType;
-      typename LinearInterpolatorType::Pointer interpolator = LinearInterpolatorType::New();
-      interpolator->SetInputImage( this->m_ConstantVelocityField );
-
-      typedef VectorResampleImageFilter<DisplacementFieldType, DisplacementFieldType, ScalarType> ResamplerType;
-      typename ResamplerType::Pointer resampler = ResamplerType::New();
-      resampler->SetInput( this->m_ConstantVelocityField );
-      resampler->SetOutputDirection( scaledUpdateField->GetDirection() );
-      resampler->SetOutputOrigin( scaledUpdateField->GetOrigin() );
-      resampler->SetOutputSpacing( scaledUpdateField->GetSpacing() );
-      resampler->SetSize( displacementFieldSize );
-      resampler->SetTransform( identityTransform );
-      resampler->SetInterpolator( interpolator );
-
-      ConstantVelocityFieldPointer resampledVelocityField = resampler->GetOutput();
-      resampledVelocityField->Update();
-      resampledVelocityField->DisconnectPipeline();
-
-      this->m_ConstantVelocityField = resampledVelocityField;
-      }
-    }
+  multiplier->Update();
 
   typedef AddImageFilter<ConstantVelocityFieldType, ConstantVelocityFieldType, ConstantVelocityFieldType> AdderType;
   typename AdderType::Pointer adder = AdderType::New();
-  adder->SetInput1( this->m_ConstantVelocityField );
-  adder->SetInput2( scaledUpdateField );
+  adder->SetInput1( velocityField );
+  adder->SetInput2( multiplier->GetOutput() );
 
-  ConstantVelocityFieldPointer velocityField = adder->GetOutput();
-  velocityField->Update();
-  velocityField->DisconnectPipeline();
+  ConstantVelocityFieldPointer updatedVelocityField = adder->GetOutput();
+  updatedVelocityField->Update();
+  updatedVelocityField->DisconnectPipeline();
 
   //
   // Smooth the velocity field
@@ -174,7 +158,7 @@ BSplineExponentialDiffeomorphicTransform<TScalar, NDimensions>
   bool smoothVelocityField = true;
   for( unsigned int d = 0; d < Dimension; d++ )
     {
-    if( this->GetNumberOfControlPointsForTheVelocityField()[d] <= this->GetSplineOrder() )
+    if( this->GetNumberOfControlPointsForTheConstantVelocityField()[d] <= this->GetSplineOrder() )
       {
       itkDebugMacro( "Not smoothing the velocity field." );
       smoothVelocityField = false;
@@ -186,61 +170,36 @@ BSplineExponentialDiffeomorphicTransform<TScalar, NDimensions>
     {
     itkDebugMacro( "Smoothing the velocity field." );
 
-    // The update field is the velocity field but since it's constant
-    // we smooth it using the parent class smoothing functionality
+    ConstantVelocityFieldPointer velocitySmoothField =
+      this->BSplineSmoothConstantVelocityField( updatedVelocityField, this->GetNumberOfControlPointsForTheConstantVelocityField() );
 
-    ConstantVelocityFieldPointer velocitySmoothField = this->BSplineSmoothDisplacementField( velocityField, this->GetNumberOfControlPointsForTheVelocityField() );
-
-    velocityField = velocitySmoothField;
-    }
-
-  typedef ExponentialDisplacementFieldImageFilter<ConstantVelocityFieldType, DisplacementFieldType> ExponentiatorType;
-  typename ExponentiatorType::Pointer exponentiator = ExponentiatorType::New();
-  exponentiator->SetInput( velocityField );
-  if( this->m_CalculateNumberOfIntegrationStepsAutomatically || this->m_NumberOfIntegrationSteps == 0 )
-    {
-    exponentiator->SetAutomaticNumberOfIterations( true );
-    if( this->m_NumberOfIntegrationSteps == 0 )
-      {
-      itkWarningMacro( "Number of integration steps is 0.  Calculating the number of integration steps automatically." );
-      }
+    this->SetConstantVelocityField( velocitySmoothField );
     }
   else
     {
-    exponentiator->SetAutomaticNumberOfIterations( false );
-    exponentiator->SetMaximumNumberOfIterations( this->m_NumberOfIntegrationSteps );
-    }
-  exponentiator->SetComputeInverse( false );
-  exponentiator->Update();
-
-  this->SetDisplacementField( exponentiator->GetOutput() );
-
-  // Compute the inverse displacement field if requested
-
-  if( this->m_ComputeInverse )
-    {
-    typename ExponentiatorType::Pointer exponentiatorInv = ExponentiatorType::New();
-    exponentiatorInv->SetInput( velocityField );
-    if( this->m_CalculateNumberOfIntegrationStepsAutomatically || this->m_NumberOfIntegrationSteps == 0 )
-      {
-      exponentiatorInv->SetAutomaticNumberOfIterations( true );
-      if( this->m_NumberOfIntegrationSteps == 0 )
-        {
-        itkWarningMacro( "Number of integration steps is 0.  Calculating the number of integration steps automatically." );
-        }
-      }
-    else
-      {
-      exponentiatorInv->SetAutomaticNumberOfIterations( false );
-      exponentiatorInv->SetMaximumNumberOfIterations( this->m_NumberOfIntegrationSteps );
-      }
-    exponentiatorInv->SetComputeInverse( true );
-    exponentiatorInv->Update();
-
-    this->SetInverseDisplacementField( exponentiatorInv->GetOutput() );
+    this->SetConstantVelocityField( updatedVelocityField );
     }
 
-  this->m_ConstantVelocityField = velocityField;
+  this->IntegrateVelocityField();
+}
+
+template<class TScalar, unsigned int NDimensions>
+typename BSplineExponentialDiffeomorphicTransform<TScalar, NDimensions>::ConstantVelocityFieldPointer
+BSplineExponentialDiffeomorphicTransform<TScalar, NDimensions>
+::BSplineSmoothConstantVelocityField( const ConstantVelocityFieldType * field, const ArrayType &numberOfControlPoints )
+{
+  typename BSplineFilterType::Pointer bspliner = BSplineFilterType::New();
+  bspliner->SetDisplacementField( field );
+  bspliner->SetNumberOfControlPoints( numberOfControlPoints );
+  bspliner->SetSplineOrder( this->m_SplineOrder );
+  bspliner->SetNumberOfFittingLevels( 1 );
+  bspliner->SetEnforceStationaryBoundary( true );
+  bspliner->SetEstimateInverse( false );
+  bspliner->Update();
+
+  ConstantVelocityFieldPointer smoothField = bspliner->GetOutput();
+
+  return smoothField;
 }
 
 /**
@@ -253,11 +212,11 @@ BSplineExponentialDiffeomorphicTransform<TScalar, NDimensions>
 {
   Superclass::PrintSelf( os, indent );
 
-  os << indent << "Calculate number of integration steps automatically = " << this->m_CalculateNumberOfIntegrationStepsAutomatically << std::endl;
-  os << indent << "Number of integration steps = " << this->m_NumberOfIntegrationSteps << std::endl;
-  os << indent << "Compute inverse = " << this->m_ComputeInverse << std::endl;
+  os << indent << "Spline order = " << this->m_SplineOrder << std::endl;
   os << indent << "Number of control points for the velocity field = "
-    << this->m_NumberOfControlPointsForTheVelocityField << std::endl;
+    << this->m_NumberOfControlPointsForTheConstantVelocityField << std::endl;
+  os << indent << "Number of control points for the update field = "
+    << this->m_NumberOfControlPointsForTheUpdateField << std::endl;
 }
 
 } // namespace itk

@@ -37,8 +37,6 @@ template<class TScalar, unsigned int NDimensions>
 TimeVaryingBSplineVelocityFieldTransform<TScalar, NDimensions>
 ::TimeVaryingBSplineVelocityFieldTransform()
 {
-  this->m_TimeVaryingVelocityFieldControlPointLattice = NULL;
-
   this->m_SplineOrder = 3;
   this->m_TemporalPeriodicity = false;
 
@@ -57,106 +55,14 @@ TimeVaryingBSplineVelocityFieldTransform<TScalar, NDimensions>::
 {
 }
 
-template <class TScalar, unsigned int NDimensions>
-void
-TimeVaryingBSplineVelocityFieldTransform<TScalar, NDimensions>
-::SetFixedParameters( const ParametersType & fixedParameters )
-{
-  if( fixedParameters.Size() != TimeVaryingVelocityFieldDimension * ( TimeVaryingVelocityFieldDimension + 3 ) )
-    {
-    itkExceptionMacro( "The fixed parameters are not the right size." );
-    }
-
-  VelocityFieldSizeType size;
-  for( unsigned int d = 0; d < TimeVaryingVelocityFieldDimension; d++ )
-    {
-    size[d] = static_cast<SizeValueType>( fixedParameters[d] );
-    }
-
-  VelocityFieldPointType origin;
-  for( unsigned int d = 0; d < TimeVaryingVelocityFieldDimension; d++ )
-    {
-    origin[d] = fixedParameters[d + TimeVaryingVelocityFieldDimension];
-    }
-
-  VelocityFieldSpacingType spacing;
-  for( unsigned int d = 0; d < TimeVaryingVelocityFieldDimension; d++ )
-    {
-    spacing[d] = fixedParameters[d + 2 * TimeVaryingVelocityFieldDimension];
-    }
-
-  VelocityFieldDirectionType direction;
-  for( unsigned int di = 0; di < TimeVaryingVelocityFieldDimension; di++ )
-    {
-    for( unsigned int dj = 0; dj < TimeVaryingVelocityFieldDimension; dj++ )
-      {
-      direction[di][dj] = fixedParameters[3 * TimeVaryingVelocityFieldDimension + ( di * TimeVaryingVelocityFieldDimension + dj )];
-      }
-    }
-
-  DisplacementVectorType zeroDisplacement;
-  zeroDisplacement.Fill( 0.0 );
-
-  TimeVaryingVelocityFieldControlPointLatticePointer velocityFieldLattice = TimeVaryingVelocityFieldControlPointLatticeType::New();
-  velocityFieldLattice->SetSpacing( spacing );
-  velocityFieldLattice->SetOrigin( origin );
-  velocityFieldLattice->SetDirection( direction );
-  velocityFieldLattice->SetRegions( size );
-  velocityFieldLattice->Allocate();
-  velocityFieldLattice->FillBuffer( zeroDisplacement );
-
-  this->SetTimeVaryingVelocityFieldControlPointLattice( velocityFieldLattice );
-}
-
-/**
- * return an inverse transformation
- */
-template<class TScalar, unsigned int NDimensions>
-bool
-TimeVaryingBSplineVelocityFieldTransform<TScalar, NDimensions>
-::GetInverse( Self *inverse ) const
-{
-  if ( !inverse || !this->m_TimeVaryingVelocityFieldControlPointLattice )
-    {
-    return false;
-    }
-  else
-    {
-    inverse->SetTimeVaryingVelocityFieldControlPointLattice( this->m_TimeVaryingVelocityFieldControlPointLattice );
-    inverse->SetUpperTimeBound( this->m_LowerTimeBound );
-    inverse->SetLowerTimeBound( this->m_UpperTimeBound );
-    inverse->SetDisplacementField( this->m_InverseDisplacementField );
-    inverse->SetInverseDisplacementField( this->m_DisplacementField );
-    inverse->SetInterpolator( this->m_Interpolator );
-    return true;
-    }
-}
-
-// Return an inverse of this transform
-template<class TScalar, unsigned int NDimensions>
-typename TimeVaryingBSplineVelocityFieldTransform<TScalar, NDimensions>::InverseTransformBasePointer
-TimeVaryingBSplineVelocityFieldTransform<TScalar, NDimensions>
-::GetInverseTransform() const
-{
-  Pointer inverseTransform = New();
-  if( this->GetInverse( inverseTransform ) )
-    {
-    return inverseTransform.GetPointer();
-    }
-  else
-    {
-    return NULL;
-    }
-}
-
 template<class TScalar, unsigned int NDimensions>
 void
 TimeVaryingBSplineVelocityFieldTransform<TScalar, NDimensions>
 ::IntegrateVelocityField()
 {
-  if( !this->m_TimeVaryingVelocityFieldControlPointLattice.IsNull() )
+  if( this->GetVelocityField() )
     {
-    typedef BSplineControlPointImageFilter<TimeVaryingVelocityFieldControlPointLatticeType, TimeVaryingVelocityFieldType> BSplineFilterType;
+    typedef BSplineControlPointImageFilter<VelocityFieldType, VelocityFieldType> BSplineFilterType;
 
     typename BSplineFilterType::ArrayType closeDimensions;
     closeDimensions.Fill( 0 );
@@ -166,7 +72,7 @@ TimeVaryingBSplineVelocityFieldTransform<TScalar, NDimensions>
       }
 
     typename BSplineFilterType::Pointer bspliner = BSplineFilterType::New();
-    bspliner->SetInput( this->m_TimeVaryingVelocityFieldControlPointLattice );
+    bspliner->SetInput( this->GetTimeVaryingVelocityFieldControlPointLattice() );
     bspliner->SetSplineOrder( this->m_SplineOrder );
     bspliner->SetSpacing( this->m_VelocityFieldSpacing );
     bspliner->SetSize( this->m_VelocityFieldSize );
@@ -175,19 +81,19 @@ TimeVaryingBSplineVelocityFieldTransform<TScalar, NDimensions>
     bspliner->SetCloseDimension( closeDimensions );
     bspliner->Update();
 
-    typedef TimeVaryingVelocityFieldIntegrationImageFilter<TimeVaryingVelocityFieldType, DisplacementFieldType> IntegratorType;
+    typedef TimeVaryingVelocityFieldIntegrationImageFilter<VelocityFieldType, DisplacementFieldType> IntegratorType;
 
     typename IntegratorType::Pointer integrator = IntegratorType::New();
     integrator->SetInput( bspliner->GetOutput() );
-    integrator->SetLowerTimeBound( this->m_LowerTimeBound );
-    integrator->SetUpperTimeBound( this->m_UpperTimeBound );
+    integrator->SetLowerTimeBound( this->GetLowerTimeBound() );
+    integrator->SetUpperTimeBound( this->GetUpperTimeBound() );
 
-    if( !this->m_TimeVaryingVelocityFieldInterpolator.IsNull() )
+    if( this->GetVelocityFieldInterpolator() )
       {
-      integrator->SetVelocityFieldInterpolator( this->m_TimeVaryingVelocityFieldInterpolator );
+      integrator->SetVelocityFieldInterpolator( this->GetVelocityFieldInterpolator() );
       }
 
-    integrator->SetNumberOfIntegrationSteps( this->m_NumberOfIntegrationSteps );
+    integrator->SetNumberOfIntegrationSteps( this->GetNumberOfIntegrationSteps() );
     integrator->Update();
 
     typename DisplacementFieldType::Pointer displacementField = integrator->GetOutput();
@@ -198,14 +104,14 @@ TimeVaryingBSplineVelocityFieldTransform<TScalar, NDimensions>
 
     typename IntegratorType::Pointer inverseIntegrator = IntegratorType::New();
     inverseIntegrator->SetInput( bspliner->GetOutput() );
-    inverseIntegrator->SetLowerTimeBound( this->m_UpperTimeBound );
-    inverseIntegrator->SetUpperTimeBound( this->m_LowerTimeBound );
-    if( !this->m_TimeVaryingVelocityFieldInterpolator.IsNull() )
+    inverseIntegrator->SetLowerTimeBound( this->GetUpperTimeBound() );
+    inverseIntegrator->SetUpperTimeBound( this->GetLowerTimeBound() );
+    if( this->GetVelocityFieldInterpolator() )
       {
-      inverseIntegrator->SetVelocityFieldInterpolator( this->m_TimeVaryingVelocityFieldInterpolator );
+      inverseIntegrator->SetVelocityFieldInterpolator( this->GetVelocityFieldInterpolator() );
       }
 
-    inverseIntegrator->SetNumberOfIntegrationSteps( this->m_NumberOfIntegrationSteps );
+    inverseIntegrator->SetNumberOfIntegrationSteps( this->GetNumberOfIntegrationSteps() );
     inverseIntegrator->Update();
 
     typename DisplacementFieldType::Pointer inverseDisplacementField = inverseIntegrator->GetOutput();
@@ -216,21 +122,6 @@ TimeVaryingBSplineVelocityFieldTransform<TScalar, NDimensions>
   else
     {
     itkExceptionMacro( "The B-spline velocity field does not exist." );
-    }
-}
-
-template<class TScalar, unsigned int NDimensions>
-void
-TimeVaryingBSplineVelocityFieldTransform<TScalar, NDimensions>
-::SetTimeVaryingVelocityFieldControlPointLattice( TimeVaryingVelocityFieldControlPointLatticeType * fieldLattice )
-{
-  itkDebugMacro( "Setting TimeVaryingVelocityFieldControlPointLattice to " << fieldLattice );
-  if ( this->m_TimeVaryingVelocityFieldControlPointLattice != fieldLattice )
-    {
-    this->m_TimeVaryingVelocityFieldControlPointLattice = fieldLattice;
-    this->Modified();
-    // Assign to parameters object
-    this->m_Parameters.SetParametersObject( this->m_TimeVaryingVelocityFieldControlPointLattice );
     }
 }
 
@@ -259,22 +150,22 @@ TimeVaryingBSplineVelocityFieldTransform<TScalar, NDimensions>
   typedef ImportImageFilter<DisplacementVectorType, NDimensions+1> ImporterType;
   typename ImporterType::Pointer importer = ImporterType::New();
   importer->SetImportPointer( updateFieldPointer, numberOfPixels, importFilterWillReleaseMemory );
-  importer->SetRegion( this->m_TimeVaryingVelocityFieldControlPointLattice->GetBufferedRegion() );
-  importer->SetOrigin( this->m_TimeVaryingVelocityFieldControlPointLattice->GetOrigin() );
-  importer->SetSpacing( this->m_TimeVaryingVelocityFieldControlPointLattice->GetSpacing() );
-  importer->SetDirection( this->m_TimeVaryingVelocityFieldControlPointLattice->GetDirection() );
+  importer->SetRegion( this->GetTimeVaryingVelocityFieldControlPointLattice()->GetBufferedRegion() );
+  importer->SetOrigin( this->GetTimeVaryingVelocityFieldControlPointLattice()->GetOrigin() );
+  importer->SetSpacing( this->GetTimeVaryingVelocityFieldControlPointLattice()->GetSpacing() );
+  importer->SetDirection( this->GetTimeVaryingVelocityFieldControlPointLattice()->GetDirection() );
   importer->Update();
 
-  typedef AddImageFilter<TimeVaryingVelocityFieldControlPointLatticeType,
-    TimeVaryingVelocityFieldControlPointLatticeType, TimeVaryingVelocityFieldControlPointLatticeType> AdderType;
+  typedef AddImageFilter<VelocityFieldType, VelocityFieldType, VelocityFieldType> AdderType;
   typename AdderType::Pointer adder = AdderType::New();
-  adder->SetInput1( this->m_TimeVaryingVelocityFieldControlPointLattice );
+  adder->SetInput1( this->GetVelocityField() );
   adder->SetInput2( importer->GetOutput() );
 
-  TimeVaryingVelocityFieldControlPointLatticePointer totalFieldLattice = adder->GetOutput();
+  typename VelocityFieldType::Pointer totalFieldLattice = adder->GetOutput();
   totalFieldLattice->Update();
 
   this->SetTimeVaryingVelocityFieldControlPointLattice( totalFieldLattice );
+  this->IntegrateVelocityField();
 }
 
 template <class TScalar, unsigned int NDimensions>
@@ -282,6 +173,8 @@ void
 TimeVaryingBSplineVelocityFieldTransform<TScalar, NDimensions>
 ::PrintSelf( std::ostream& os, Indent indent ) const
 {
+  Superclass::PrintSelf( os, indent );
+
   os << indent << "Spline order: " << this->m_SplineOrder << std::endl;
 
   os << indent << "Sampled velocity field parameters" << std::endl;

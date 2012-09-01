@@ -26,8 +26,10 @@ namespace itk
 template<class TTransform>
 GaussianExponentialDiffeomorphicTransformParametersAdaptor<TTransform>
 ::GaussianExponentialDiffeomorphicTransformParametersAdaptor() :
-  m_GaussianSmoothingVarianceForTheVelocityField( 1.75 ),
-  m_GaussianSmoothingVarianceForTheVelocityFieldSetTime( 0 )
+  m_GaussianSmoothingVarianceForTheConstantVelocityField( 0.5 ),
+  m_GaussianSmoothingVarianceForTheUpdateField( 1.75 ),
+  m_GaussianSmoothingVarianceForTheConstantVelocityFieldSetTime( 0 ),
+  m_GaussianSmoothingVarianceForTheUpdateFieldSetTime( 0 )
 {
 }
 
@@ -40,13 +42,27 @@ GaussianExponentialDiffeomorphicTransformParametersAdaptor<TTransform>
 template<class TTransform>
 void
 GaussianExponentialDiffeomorphicTransformParametersAdaptor<TTransform>
-::SetGaussianSmoothingVarianceForTheVelocityField( ScalarType variance )
+::SetGaussianSmoothingVarianceForTheConstantVelocityField( ScalarType variance )
 {
-  this->m_GaussianSmoothingVarianceForTheVelocityFieldSetTime = this->GetMTime();
-  if( this->m_GaussianSmoothingVarianceForTheVelocityField != variance )
+  this->m_GaussianSmoothingVarianceForTheConstantVelocityFieldSetTime = this->GetMTime();
+  if( this->m_GaussianSmoothingVarianceForTheConstantVelocityField != variance )
     {
-    itkDebugMacro( "Setting GaussianSmoothingVarianceForTheVelocityField to " << variance );
-    this->m_GaussianSmoothingVarianceForTheVelocityField = variance;
+    itkDebugMacro( "Setting GaussianSmoothingVarianceForTheConstantVelocityField to " << variance );
+    this->m_GaussianSmoothingVarianceForTheConstantVelocityField = variance;
+    this->Modified();
+    }
+}
+
+template<class TTransform>
+void
+GaussianExponentialDiffeomorphicTransformParametersAdaptor<TTransform>
+::SetGaussianSmoothingVarianceForTheUpdateField( ScalarType variance )
+{
+  this->m_GaussianSmoothingVarianceForTheUpdateFieldSetTime = this->GetMTime();
+  if( this->m_GaussianSmoothingVarianceForTheUpdateField != variance )
+    {
+    itkDebugMacro( "Setting GaussianSmoothingVarianceForTheUpdateField to " << variance );
+    this->m_GaussianSmoothingVarianceForTheUpdateField = variance;
     this->Modified();
     }
 }
@@ -58,13 +74,17 @@ GaussianExponentialDiffeomorphicTransformParametersAdaptor<TTransform>
 {
   Superclass::AdaptTransformParameters();
 
-  if( this->m_GaussianSmoothingVarianceForTheVelocityFieldSetTime > 0 )
+  if( this->m_GaussianSmoothingVarianceForTheConstantVelocityFieldSetTime > 0 )
     {
-    this->m_Transform->SetGaussianSmoothingVarianceForTheVelocityField(
-      this->m_GaussianSmoothingVarianceForTheVelocityField );
+    this->m_Transform->SetGaussianSmoothingVarianceForTheConstantVelocityField(
+      this->m_GaussianSmoothingVarianceForTheConstantVelocityField );
+    }
+  if( this->m_GaussianSmoothingVarianceForTheUpdateFieldSetTime > 0 )
+    {
+    this->m_Transform->SetGaussianSmoothingVarianceForTheUpdateField(
+      this->m_GaussianSmoothingVarianceForTheUpdateField );
     }
 }
-
 
 template <class TTransform>
 void
@@ -73,13 +93,19 @@ GaussianExponentialDiffeomorphicTransformParametersAdaptor<TTransform>
 {
   Superclass::PrintSelf( os,indent );
 
-  if( this->m_GaussianSmoothingVarianceForTheVelocityFieldSetTime > 0 )
+  if( this->m_GaussianSmoothingVarianceForTheConstantVelocityFieldSetTime > 0 )
     {
     os << indent << "Gaussian smoothing parameters: " << std::endl;
-    if( this->m_GaussianSmoothingVarianceForTheVelocityFieldSetTime > 0 )
+    if( this->m_GaussianSmoothingVarianceForTheConstantVelocityFieldSetTime > 0 )
       {
-      os << indent << "m_GaussianSmoothingVarianceForTheVelocityField: "
-         << this->m_GaussianSmoothingVarianceForTheVelocityField
+      os << indent << "m_GaussianSmoothingVarianceForTheConstantVelocityField: "
+         << this->m_GaussianSmoothingVarianceForTheConstantVelocityField
+         << std::endl;
+      }
+    if( this->m_GaussianSmoothingVarianceForTheUpdateFieldSetTime > 0 )
+      {
+      os << indent << "m_GaussianSmoothingVarianceForTheUpdateField: "
+         << this->m_GaussianSmoothingVarianceForTheUpdateField
          << std::endl;
       }
     }

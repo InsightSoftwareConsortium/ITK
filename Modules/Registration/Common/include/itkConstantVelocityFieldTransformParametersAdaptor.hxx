@@ -15,10 +15,10 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTimeVaryingVelocityFieldTransformParametersAdaptor_hxx
-#define __itkTimeVaryingVelocityFieldTransformParametersAdaptor_hxx
+#ifndef __itkConstantVelocityFieldTransformParametersAdaptor_hxx
+#define __itkConstantVelocityFieldTransformParametersAdaptor_hxx
 
-#include "itkTimeVaryingVelocityFieldTransformParametersAdaptor.h"
+#include "itkConstantVelocityFieldTransformParametersAdaptor.h"
 
 #include "itkIdentityTransform.h"
 #include "itkVectorResampleImageFilter.h"
@@ -28,26 +28,26 @@ namespace itk
 {
 
 template<class TTransform>
-TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>
-::TimeVaryingVelocityFieldTransformParametersAdaptor()
+ConstantVelocityFieldTransformParametersAdaptor<TTransform>
+::ConstantVelocityFieldTransformParametersAdaptor()
 {
-  this->m_RequiredFixedParameters.SetSize( TotalDimension * ( TotalDimension + 3 ) );
+  this->m_RequiredFixedParameters.SetSize( ConstantVelocityFieldDimension * ( ConstantVelocityFieldDimension + 3 ) );
   this->m_RequiredFixedParameters.Fill( 0.0 );
 }
 
 template<class TTransform>
-TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>
-::~TimeVaryingVelocityFieldTransformParametersAdaptor()
+ConstantVelocityFieldTransformParametersAdaptor<TTransform>
+::~ConstantVelocityFieldTransformParametersAdaptor()
 {
 }
 
 template<class TTransform>
 void
-TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>
+ConstantVelocityFieldTransformParametersAdaptor<TTransform>
 ::SetRequiredSize( const SizeType & size )
 {
   bool isModified = false;
-  for( SizeValueType d = 0; d < TotalDimension; d++ )
+  for( SizeValueType d = 0; d < ConstantVelocityFieldDimension; d++ )
     {
     if( this->m_RequiredFixedParameters[d] != size[d] )
       {
@@ -64,12 +64,12 @@ TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>
 }
 
 template<class TTransform>
-const typename TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>::SizeType
-TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>
+const typename ConstantVelocityFieldTransformParametersAdaptor<TTransform>::SizeType
+ConstantVelocityFieldTransformParametersAdaptor<TTransform>
 ::GetRequiredSize() const
 {
   SizeType size;
-  for( SizeValueType d = 0; d < TotalDimension; d++ )
+  for( SizeValueType d = 0; d < ConstantVelocityFieldDimension; d++ )
     {
     size[d] = static_cast<SizeValueType>( this->m_RequiredFixedParameters[d] );
     }
@@ -78,17 +78,17 @@ TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>
 
 template<class TTransform>
 void
-TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>
+ConstantVelocityFieldTransformParametersAdaptor<TTransform>
 ::SetRequiredOrigin( const PointType & origin )
 {
   bool isModified = false;
-  for( SizeValueType d = 0; d < TotalDimension; d++ )
+  for( SizeValueType d = 0; d < ConstantVelocityFieldDimension; d++ )
     {
-    if( this->m_RequiredFixedParameters[TotalDimension + d] != origin[d] )
+    if( this->m_RequiredFixedParameters[ConstantVelocityFieldDimension + d] != origin[d] )
       {
       isModified = true;
       }
-    this->m_RequiredFixedParameters[TotalDimension + d] = origin[d];
+    this->m_RequiredFixedParameters[ConstantVelocityFieldDimension + d] = origin[d];
     }
 
   if( isModified )
@@ -99,31 +99,31 @@ TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>
 }
 
 template<class TTransform>
-const typename TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>::PointType
-TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>
+const typename ConstantVelocityFieldTransformParametersAdaptor<TTransform>::PointType
+ConstantVelocityFieldTransformParametersAdaptor<TTransform>
 ::GetRequiredOrigin() const
 {
   PointType origin;
-  for( SizeValueType d = 0; d < TotalDimension; d++ )
+  for( SizeValueType d = 0; d < ConstantVelocityFieldDimension; d++ )
     {
-    origin[d] = this->m_RequiredFixedParameters[TotalDimension + d];
+    origin[d] = this->m_RequiredFixedParameters[ConstantVelocityFieldDimension + d];
     }
   return origin;
 }
 
 template<class TTransform>
 void
-TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>
+ConstantVelocityFieldTransformParametersAdaptor<TTransform>
 ::SetRequiredSpacing( const SpacingType & spacing )
 {
   bool isModified = false;
-  for( SizeValueType d = 0; d < TotalDimension; d++ )
+  for( SizeValueType d = 0; d < ConstantVelocityFieldDimension; d++ )
     {
-    if( this->m_RequiredFixedParameters[2*TotalDimension + d] != spacing[d] )
+    if( this->m_RequiredFixedParameters[2*ConstantVelocityFieldDimension + d] != spacing[d] )
       {
       isModified = true;
       }
-    this->m_RequiredFixedParameters[2*TotalDimension + d] = spacing[d];
+    this->m_RequiredFixedParameters[2*ConstantVelocityFieldDimension + d] = spacing[d];
     }
 
   if( isModified )
@@ -134,33 +134,33 @@ TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>
 }
 
 template<class TTransform>
-const typename TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>::SpacingType
-TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>
+const typename ConstantVelocityFieldTransformParametersAdaptor<TTransform>::SpacingType
+ConstantVelocityFieldTransformParametersAdaptor<TTransform>
 ::GetRequiredSpacing() const
 {
   SpacingType spacing;
-  for( SizeValueType d = 0; d < TotalDimension; d++ )
+  for( SizeValueType d = 0; d < ConstantVelocityFieldDimension; d++ )
     {
-    spacing[d] = this->m_RequiredFixedParameters[2*TotalDimension + d];
+    spacing[d] = this->m_RequiredFixedParameters[2*ConstantVelocityFieldDimension + d];
     }
   return spacing;
 }
 
 template<class TTransform>
 void
-TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>
+ConstantVelocityFieldTransformParametersAdaptor<TTransform>
 ::SetRequiredDirection( const DirectionType & direction )
 {
   bool isModified = false;
-  for( SizeValueType di = 0; di < TotalDimension; di++ )
+  for( SizeValueType di = 0; di < ConstantVelocityFieldDimension; di++ )
     {
-    for( SizeValueType dj = 0; dj < TotalDimension; dj++ )
+    for( SizeValueType dj = 0; dj < ConstantVelocityFieldDimension; dj++ )
       {
-      if( this->m_RequiredFixedParameters[3 * TotalDimension + ( di * TotalDimension + dj )] != direction[di][dj] )
+      if( this->m_RequiredFixedParameters[3 * ConstantVelocityFieldDimension + ( di * ConstantVelocityFieldDimension + dj )] != direction[di][dj] )
         {
         isModified = true;
         }
-      this->m_RequiredFixedParameters[3 * TotalDimension + ( di * TotalDimension + dj )] = direction[di][dj];
+      this->m_RequiredFixedParameters[3 * ConstantVelocityFieldDimension + ( di * ConstantVelocityFieldDimension + dj )] = direction[di][dj];
       }
     }
 
@@ -172,16 +172,16 @@ TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>
 }
 
 template<class TTransform>
-const typename TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>::DirectionType
-TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>
+const typename ConstantVelocityFieldTransformParametersAdaptor<TTransform>::DirectionType
+ConstantVelocityFieldTransformParametersAdaptor<TTransform>
 ::GetRequiredDirection() const
 {
   DirectionType direction;
-  for( SizeValueType di = 0; di < TotalDimension; di++ )
+  for( SizeValueType di = 0; di < ConstantVelocityFieldDimension; di++ )
     {
-    for( SizeValueType dj = 0; dj < TotalDimension; dj++ )
+    for( SizeValueType dj = 0; dj < ConstantVelocityFieldDimension; dj++ )
       {
-      direction[di][dj] = this->m_RequiredFixedParameters[3 * TotalDimension + ( di * TotalDimension + dj )];
+      direction[di][dj] = this->m_RequiredFixedParameters[3 * ConstantVelocityFieldDimension + ( di * ConstantVelocityFieldDimension + dj )];
       }
     }
   return direction;
@@ -189,7 +189,7 @@ TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>
 
 template<class TTransform>
 void
-TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>
+ConstantVelocityFieldTransformParametersAdaptor<TTransform>
 ::AdaptTransformParameters()
 {
   if( !this->m_Transform )
@@ -208,17 +208,17 @@ TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>
   const SpacingType newFieldSpacing = this->GetRequiredSpacing();
   const DirectionType newFieldDirection = this->GetRequiredDirection();
 
-  typedef IdentityTransform<ParametersValueType, TotalDimension> IdentityTransformType;
+  typedef IdentityTransform<ParametersValueType, ConstantVelocityFieldDimension> IdentityTransformType;
   typename IdentityTransformType::Pointer identityTransform = IdentityTransformType::New();
   identityTransform->SetIdentity();
 
-  typedef VectorLinearInterpolateImageFunction<TimeVaryingVelocityFieldType, ParametersValueType> LinearInterpolatorType;
+  typedef VectorLinearInterpolateImageFunction<ConstantVelocityFieldType, ParametersValueType> LinearInterpolatorType;
   typename LinearInterpolatorType::Pointer interpolator = LinearInterpolatorType::New();
-  interpolator->SetInputImage( this->m_Transform->GetVelocityField() );
+  interpolator->SetInputImage( this->m_Transform->GetConstantVelocityField() );
 
-  typedef VectorResampleImageFilter<TimeVaryingVelocityFieldType, TimeVaryingVelocityFieldType, ParametersValueType> ResamplerType;
+  typedef VectorResampleImageFilter<ConstantVelocityFieldType, ConstantVelocityFieldType, ParametersValueType> ResamplerType;
   typename ResamplerType::Pointer resampler = ResamplerType::New();
-  resampler->SetInput( this->m_Transform->GetVelocityField() );
+  resampler->SetInput( this->m_Transform->GetConstantVelocityField() );
   resampler->SetOutputDirection( newFieldDirection );
   resampler->SetOutputOrigin( newFieldOrigin );
   resampler->SetOutputSpacing( newFieldSpacing );
@@ -226,13 +226,11 @@ TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>
   resampler->SetTransform( identityTransform );
   resampler->SetInterpolator( interpolator );
 
-  typename TimeVaryingVelocityFieldType::Pointer newTimeVaryingVelocityField = resampler->GetOutput();
-  newTimeVaryingVelocityField->Update();
-  newTimeVaryingVelocityField->DisconnectPipeline();
+  typename ConstantVelocityFieldType::Pointer newConstantVelocityField = resampler->GetOutput();
+  newConstantVelocityField->Update();
+  newConstantVelocityField->DisconnectPipeline();
 
-  this->m_Transform->SetVelocityField( newTimeVaryingVelocityField );
-  this->m_Transform->SetLowerTimeBound( 0.0 );
-  this->m_Transform->SetUpperTimeBound( 1.0 );
+  this->m_Transform->SetConstantVelocityField( newConstantVelocityField );
   this->m_Transform->IntegrateVelocityField();
 }
 
