@@ -319,8 +319,125 @@ int itkConstShapedNeighborhoodIteratorTest(int, char* [] )
   it.Print(std::cout);
   oeIt.Print(std::cout);
 
+  int result = EXIT_SUCCESS;
 
-  return EXIT_SUCCESS;
+  // Iterate over a region, then change the region and iterate over the new region
+  {
+    // Create an image
+    typedef itk::Image<int, 2> ChangeRegionTestImageType;
+    ChangeRegionTestImageType::IndexType imageCorner;
+    imageCorner.Fill(0);
+
+    ChangeRegionTestImageType::SizeType imageSize;
+    imageSize.Fill(4);
+
+    ChangeRegionTestImageType::RegionType imageRegion(imageCorner, imageSize);
+
+    ChangeRegionTestImageType::Pointer image = ChangeRegionTestImageType::New();
+    image->SetRegions(imageRegion);
+    image->Allocate();
+
+    itk::ImageRegionIterator<ChangeRegionTestImageType> createImageIterator(image, imageRegion);
+
+    // Set all pixels with first index == 0 to 0, and set the rest of the image to 255
+    while(!createImageIterator.IsAtEnd())
+      {
+      if(createImageIterator.GetIndex()[0] == 0)
+        {
+        createImageIterator.Set(0);
+        }
+      else
+        {
+        createImageIterator.Set(255);
+        }
+
+      ++createImageIterator;
+      }
+
+    // Setup and iterate over the first region
+    ChangeRegionTestImageType::IndexType region1Start;
+    region1Start.Fill(1);
+
+    ChangeRegionTestImageType::SizeType regionSize;
+    regionSize.Fill(1);
+
+    ChangeRegionTestImageType::RegionType region1(region1Start, regionSize);
+
+    // Create the radius (a 3x3 region)
+    ChangeRegionTestImageType::SizeType neighborhoodRadius;
+    neighborhoodRadius.Fill(1);
+
+    // Use the first two offsets
+    std::vector<itk::Offset<2> > offsets;
+    ChangeRegionTestImageType::OffsetType offset = {{-1,-1}};
+    offsets.push_back(offset);
+    offset[0] = 0;
+    offset[1] = 0;
+    offsets.push_back(offset);
+
+    typedef itk::ConstShapedNeighborhoodIterator<ChangeRegionTestImageType> ShapedNeighborhoodIteratorType;
+    ShapedNeighborhoodIteratorType shapedNeighborhoodIterator(neighborhoodRadius, image, region1);
+
+    // Activate all of the offsets
+    for(size_t i = 0; i < offsets.size(); ++i)
+    {
+      shapedNeighborhoodIterator.ActivateOffset(offsets[i]);
+    }
+
+    std::vector<int> expectedValuesRegion1(2);
+    expectedValuesRegion1[0] = 0;
+    expectedValuesRegion1[1] = 255;
+
+    unsigned int counter = 0;
+    //while(!shapedNeighborhoodIterator.IsAtEnd()) // no need for this loop as we are only iterating over a 1x1 region
+      //{
+      ShapedNeighborhoodIteratorType::ConstIterator pixelIterator = shapedNeighborhoodIterator.Begin();
+
+      while (!pixelIterator.IsAtEnd())
+        {
+        if(pixelIterator.Get() != expectedValuesRegion1[counter])
+          {
+          result = EXIT_FAILURE;
+          }
+        counter++;
+        ++pixelIterator;
+        }
+
+      //++imageIterator;
+      //}
+
+    // Change iteration region
+    ChangeRegionTestImageType::IndexType region2start;
+    region2start.Fill(2);
+
+    ChangeRegionTestImageType::RegionType region2(region2start, regionSize);
+
+    shapedNeighborhoodIterator.SetRegion(region2);
+    shapedNeighborhoodIterator.GoToBegin();
+
+    std::vector<int> expectedValuesRegion2(2);
+    expectedValuesRegion2[0] = 255;
+    expectedValuesRegion2[1] = 255;
+
+    counter = 0;
+    //while(!shapedNeighborhoodIterator.IsAtEnd()) // no need for this loop as we are only iterating over a 1x1 region
+      //{
+    pixelIterator = shapedNeighborhoodIterator.Begin();
+    while (!pixelIterator.IsAtEnd())
+      {
+      if(pixelIterator.Get() != expectedValuesRegion2[counter])
+        {
+        result = EXIT_FAILURE;
+        }
+      counter++;
+      ++pixelIterator;
+      }
+      //++imageIterator;
+      //}
+
+  } // end "Change Region" test
+
+  return result;
 }
 
 //
