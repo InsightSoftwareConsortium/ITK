@@ -64,8 +64,8 @@ else()
     if(USE_FFTWF)
       ExternalProject_add(fftwf
         PREFIX fftwf
-        URL "http://www.fftw.org/fftw-3.2.2.tar.gz"
-        URL_MD5 b616e5c91218cc778b5aa735fefb61ae
+        URL "http://www.fftw.org/fftw-3.3.2.tar.gz"
+        URL_MD5 6977ee770ed68c85698c7168ffa6e178
         CONFIGURE_COMMAND ${ITK_BINARY_DIR}/fftwf/src/fftwf/configure
         ${FFTW_SHARED_FLAG}
         ${FFTW_OPTIMIZATION_CONFIGURATION}
@@ -80,8 +80,8 @@ else()
     if(USE_FFTWD)
       ExternalProject_add(fftwd
         PREFIX fftwd
-        URL "http://www.fftw.org/fftw-3.2.2.tar.gz"
-        URL_MD5 b616e5c91218cc778b5aa735fefb61ae
+        URL "http://www.fftw.org/fftw-3.3.2.tar.gz"
+        URL_MD5 6977ee770ed68c85698c7168ffa6e178
         CONFIGURE_COMMAND ${ITK_BINARY_DIR}/fftwd/src/fftwd/configure
         ${FFTW_SHARED_FLAG}
         ${FFTW_OPTIMIZATION_CONFIGURATION}
