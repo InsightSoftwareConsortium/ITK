@@ -577,6 +577,11 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
     }
   else
     {
+    // Ensure that the two lattices occupy the same physical space.  Not
+    // necessary for performance since the parameters of the reconstructed
+    // bias field are specified later in this function in the reconstructer.
+    bspliner->GetPhiLattice()->SetOrigin( this->m_LogBiasFieldControlPointLattice->GetOrigin() );
+
     typedef AddImageFilter<BiasFieldControlPointLatticeType,
                            BiasFieldControlPointLatticeType,
                            BiasFieldControlPointLatticeType>
