@@ -236,6 +236,42 @@ int itkANTSNeighborhoodCorrelationImageToImageRegistrationTest(int argc, char *a
 
   std::cout << "threads: metric: " << metric->GetNumberOfThreadsUsed() << "  optimizer: " << optimizer->GetNumberOfThreads() << std::endl;
 
+  // try use the sparse sample point set in CC metric
+  typedef MetricType::FixedSampledPointSetType  PointSetType;
+  typedef PointSetType::PointType               PointType;
+  std::cout << "Using sparse point set..." << std::endl;
+  PointSetType::Pointer               pset(PointSetType::New());
+  unsigned int ind=0,ct=0;
+  itk::ImageRegionIteratorWithIndex<FixedImageType> It(fixedImage, fixedImage->GetLargestPossibleRegion() );
+  for( It.GoToBegin(); !It.IsAtEnd(); ++It )
+    {
+    // take every point
+      PointType pt;
+      fixedImage->TransformIndexToPhysicalPoint( It.GetIndex(), pt);
+      pset->SetPoint(ind, pt);
+      ind++;
+      ct++;
+    }
+  metric->SetFixedSampledPointSet( pset );
+  metric->SetUseFixedSampledPointSet( true );
+  metric->Initialize();
+  try
+    {
+    optimizer->StartOptimization();
+    }
+  catch( itk::ExceptionObject & e )
+    {
+    std::cout << "Exception thrown using sparse metric ! " << std::endl;
+    std::cout << "An error occurred during deformation Optimization using sparse metric:" << std::endl;
+    std::cout << e.GetLocation() << std::endl;
+    std::cout << e.GetDescription() << std::endl;
+    std::cout << e.what()    << std::endl;
+    std::cout << "Test FAILED." << std::endl;
+    return EXIT_FAILURE;
+    }
+  std::cout << "...finished. " << std::endl;
+  std::cout << "threads: metric: " << metric->GetNumberOfThreadsUsed() << "  optimizer: " << optimizer->GetNumberOfThreads() << std::endl;
+
   //warp the image with the displacement field
   resample->SetTransform( compositeTransform );
   resample->SetInput( movingImageReader->GetOutput() );

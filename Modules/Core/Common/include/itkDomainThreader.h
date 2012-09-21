@@ -55,7 +55,7 @@ namespace itk
  *
  *  \tparam TDomainPartitioner A class that inherits from
  *  ThreadedDomainPartitioner.
- *  \tparam TAssociate  The asssociated class that uses a derived version of
+ *  \tparam TAssociate  The associated class that uses a derived version of
  *  this class as a "threaded method".  The associated class usually declares
  *  derived version of this class as nested classes so there is easy access to
  *  its protected and private members in ThreadedExecution.

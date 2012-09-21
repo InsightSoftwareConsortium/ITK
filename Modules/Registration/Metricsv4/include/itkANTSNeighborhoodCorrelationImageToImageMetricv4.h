@@ -19,9 +19,7 @@
 #define __itkANTSNeighborhoodCorrelationImageToImageMetricv4_h
 
 #include "itkImageToImageMetricv4.h"
-#include "itkConstNeighborhoodIterator.h"
-
-#include "itkANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreader.h"
+#include "itkANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader.h"
 
 #include <deque>
 
@@ -177,59 +175,13 @@ protected:
   ANTSNeighborhoodCorrelationImageToImageMetricv4();
   virtual ~ANTSNeighborhoodCorrelationImageToImageMetricv4();
 
-  // interested values here updated during scanning
-  typedef InternalComputationValueType                 QueueRealType;
-  typedef std::deque<QueueRealType>                    SumQueueType;
-  typedef ConstNeighborhoodIterator<VirtualImageType>  ScanIteratorType;
-
-  // one ScanMemType for each thread
-  typedef struct ScanMemType {
-    // queues used in the scanning
-    // sum of the fixed value squared
-    SumQueueType QsumFixed2;
-    // sum of the moving value squared
-    SumQueueType QsumMoving2;
-    SumQueueType QsumFixed;
-    SumQueueType QsumMoving;
-    SumQueueType QsumFixedMoving;
-    SumQueueType Qcount;
-
-    QueueRealType fixedA;
-    QueueRealType movingA;
-    QueueRealType sFixedMoving;
-    QueueRealType sFixedFixed;
-    QueueRealType sMovingMoving;
-
-    FixedImageGradientType  fixedImageGradient;
-    MovingImageGradientType movingImageGradient;
-
-    FixedImagePointType     mappedFixedPoint;
-    MovingImagePointType    mappedMovingPoint;
-    VirtualPointType        virtualPoint;
-  } ScanMemType;
-
-  typedef struct ScanParametersType {
-    // const values during scanning
-    ImageRegionType scanRegion;
-    SizeValueType   numberOfFillZero; // for each queue
-    SizeValueType   windowLength; // number of voxels in the scanning window
-    IndexValueType  scanRegionBeginIndexDim0;
-
-    typename FixedImageType::ConstPointer   fixedImage;
-    typename MovingImageType::ConstPointer  movingImage;
-    typename VirtualImageType::ConstPointer virtualImage;
-    RadiusType radius;
-
-  } ScanParametersType;
-
-  friend class ANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreader< Superclass, Self >;
-  typedef ANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreader< Superclass, Self >
+  friend class ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedImageRegionPartitioner< VirtualImageDimension >, Superclass, Self >;
+  typedef ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedImageRegionPartitioner< VirtualImageDimension >, Superclass, Self >
     ANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreaderType;
 
-  /** Create an iterator over the virtual sub region */
-  void InitializeScanning(const ImageRegionType &scanRegion,
-    ScanIteratorType &scanIt, ScanMemType &scanMem,
-    ScanParametersType &scanParameters ) const;
+  friend class ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedIndexedContainerPartitioner, Superclass, Self >;
+  typedef ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedIndexedContainerPartitioner, Superclass, Self >
+    ANTSNeighborhoodCorrelationImageToImageMetricv4SparseGetValueAndDerivativeThreaderType;
 
   virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
