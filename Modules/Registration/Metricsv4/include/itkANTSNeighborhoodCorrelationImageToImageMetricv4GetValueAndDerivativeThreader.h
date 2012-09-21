@@ -23,6 +23,8 @@
 #include "itkThreadedIndexedContainerPartitioner.h"
 #include "itkConstNeighborhoodIterator.h"
 
+#include <deque>
+
 namespace itk
 {
 
