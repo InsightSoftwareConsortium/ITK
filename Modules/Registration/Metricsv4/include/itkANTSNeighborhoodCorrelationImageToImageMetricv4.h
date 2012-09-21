@@ -21,8 +21,6 @@
 #include "itkImageToImageMetricv4.h"
 #include "itkANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader.h"
 
-#include <deque>
-
 namespace itk {
 
 /** \class ANTSNeighborhoodCorrelationImageToImageMetricv4
