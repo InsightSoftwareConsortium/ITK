@@ -320,7 +320,11 @@ FFTWGlobalConfiguration
 
 bool
 FFTWGlobalConfiguration
-::ImportWisdomFileFloat( const std::string & path )
+::ImportWisdomFileFloat( const std::string &
+#if defined(USE_FFTWF) //Only define if USE_FFTWF, to avoid compiler warning
+  path
+#endif
+  )
 {
   bool ret = false;
 #if defined(USE_FFTWF)
@@ -351,7 +355,11 @@ FFTWGlobalConfiguration
 
 bool
 FFTWGlobalConfiguration
-::ImportWisdomFileDouble( const std::string & path )
+::ImportWisdomFileDouble( const std::string &
+#if defined(USE_FFTWD) //Only define if USE_FFTWD, to avoid compiler warning
+  path
+#endif
+)
 {
   bool ret = false;
 #if defined(USE_FFTWD)
@@ -382,7 +390,11 @@ FFTWGlobalConfiguration
 
 bool
 FFTWGlobalConfiguration
-::ExportWisdomFileFloat( const std::string & path )
+::ExportWisdomFileFloat( const std::string &
+#if defined(USE_FFTWF) //Only define if USE_FFTWF, to avoid compiler warning
+  path
+#endif
+)
 {
   bool ret = false;
     {
@@ -419,7 +431,11 @@ FFTWGlobalConfiguration
 
 bool
 FFTWGlobalConfiguration
-::ExportWisdomFileDouble( const std::string & path )
+::ExportWisdomFileDouble( const std::string &
+#if defined(USE_FFTWD) //Only define if USE_FFTWD, to avoid compiler warning
+  path
+#endif
+)
 {
   bool ret = false;
 #if defined(USE_FFTWD)
