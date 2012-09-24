@@ -129,7 +129,7 @@ public:
   virtual void SetConstantVelocityFieldInterpolator( ConstantVelocityFieldInterpolatorType * );
 
   /** Get the modification time of velocity field */
-  itkGetConstReferenceMacro( ConstantVelocityFieldSetTime, unsigned long );
+  itkGetConstReferenceMacro( ConstantVelocityFieldSetTime, ModifiedTimeType );
 
   virtual void UpdateTransformParameters( const DerivativeType & update, ScalarType factor = 1.0 );
 
@@ -202,7 +202,7 @@ protected:
 
   /** Track when the VELOCITY field was last set/assigned, as
    * distinct from when it may have had its contents modified. */
-  unsigned long m_ConstantVelocityFieldSetTime;
+  ModifiedTimeType m_ConstantVelocityFieldSetTime;
 
   ScalarType                                m_LowerTimeBound;
   ScalarType                                m_UpperTimeBound;

@@ -197,7 +197,7 @@ public:
   virtual void SetInterpolator( InterpolatorType* interpolator );
 
   /** Get the modification time of displacement field */
-  itkGetConstReferenceMacro( DisplacementFieldSetTime, unsigned long );
+  itkGetConstReferenceMacro( DisplacementFieldSetTime, ModifiedTimeType );
 
   /**  Method to transform a point. Out-of-bounds points will
    * be returned with zero displacemnt. */
@@ -408,7 +408,7 @@ protected:
 
   /** Track when the displacement field was last set/assigned, as
    * distinct from when it may have had its contents modified. */
-  unsigned long m_DisplacementFieldSetTime;
+  ModifiedTimeType m_DisplacementFieldSetTime;
 
   /** Create an identity jacobian for use in
    * ComputeJacobianWithRespectToParameters. */

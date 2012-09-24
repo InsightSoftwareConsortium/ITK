@@ -349,11 +349,11 @@ BoundingBox< TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer >
 
 template< typename TPointIdentifier, int VPointDimension,
           typename TCoordRep, typename TPointsContainer >
-unsigned long
+ModifiedTimeType
 BoundingBox< TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer >
 ::GetMTime(void) const
 {
-  unsigned long latestTime = Object::GetMTime();
+  ModifiedTimeType latestTime = Object::GetMTime();
 
   if ( m_PointsContainer )
     {

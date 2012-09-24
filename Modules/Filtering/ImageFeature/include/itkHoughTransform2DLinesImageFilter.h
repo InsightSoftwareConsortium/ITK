@@ -191,7 +191,7 @@ private:
   LinesListSizeType  m_NumberOfLines;
   float              m_DiscRadius;
   float              m_Variance;
-  unsigned long      m_OldModifiedTime;
+  ModifiedTimeType   m_OldModifiedTime;
   LinesListSizeType  m_OldNumberOfLines;
 };
 } // end namespace itk

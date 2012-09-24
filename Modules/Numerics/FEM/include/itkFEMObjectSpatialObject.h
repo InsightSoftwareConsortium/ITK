@@ -73,7 +73,7 @@ public:
 
 
   /** Returns the latest modified time of the object and its component. */
-  unsigned long GetMTime( void ) const;
+  ModifiedTimeType GetMTime( void ) const;
 
 protected:
   FEMObjectSpatialObject(const Self&); //purposely not implemented

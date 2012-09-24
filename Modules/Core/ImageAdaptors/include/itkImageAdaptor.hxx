@@ -366,11 +366,11 @@ ImageAdaptor< TImage, TAccessor >
 
 //----------------------------------------------------------------------------
 template< class TImage, class TAccessor >
-unsigned long
+ModifiedTimeType
 ImageAdaptor< TImage, TAccessor >
 ::GetMTime() const
 {
-  unsigned long mtime1, mtime2;
+  ModifiedTimeType mtime1, mtime2;
 
   mtime1 = Superclass::GetMTime();
   mtime2 = m_Image->GetMTime();

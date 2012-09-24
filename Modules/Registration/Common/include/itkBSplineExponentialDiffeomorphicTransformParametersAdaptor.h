@@ -124,10 +124,10 @@ private:
   void operator=( const Self & );             //purposely not implemented
 
   ArrayType                   m_NumberOfControlPointsForTheConstantVelocityField;
-  unsigned long               m_NumberOfControlPointsForTheConstantVelocityFieldSetTime;
+  ModifiedTimeType            m_NumberOfControlPointsForTheConstantVelocityFieldSetTime;
 
   ArrayType                   m_NumberOfControlPointsForTheUpdateField;
-  unsigned long               m_NumberOfControlPointsForTheUpdateFieldSetTime;
+  ModifiedTimeType            m_NumberOfControlPointsForTheUpdateFieldSetTime;
 
 }; //class BSplineExponentialDiffeomorphicTransformParametersAdaptor
 }  // namespace itk

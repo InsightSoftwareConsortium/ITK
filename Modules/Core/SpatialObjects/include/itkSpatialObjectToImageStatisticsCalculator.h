@@ -129,8 +129,8 @@ private:
   SizeValueType        m_NumberOfPixels;
   MatrixType           m_CovarianceMatrix;
   unsigned int         m_SampleDirection;
-  unsigned long        m_InternalImageTime;
-  unsigned long        m_InternalSpatialObjectTime;
+  ModifiedTimeType     m_InternalImageTime;
+  ModifiedTimeType     m_InternalSpatialObjectTime;
   TimeStamp            m_ModifiedTime;
 
   typename SampleType::Pointer m_Sample;

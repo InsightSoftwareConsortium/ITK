@@ -78,8 +78,8 @@ private:
   ScalarType          m_GaussianSmoothingVarianceForTheUpdateField;
   ScalarType          m_GaussianSmoothingVarianceForTheTotalField;
 
-  unsigned long       m_GaussianSmoothingVarianceForTheUpdateFieldSetTime;
-  unsigned long       m_GaussianSmoothingVarianceForTheTotalFieldSetTime;
+  ModifiedTimeType    m_GaussianSmoothingVarianceForTheUpdateFieldSetTime;
+  ModifiedTimeType    m_GaussianSmoothingVarianceForTheTotalFieldSetTime;
 
 }; //class GaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor
 }  // namespace itk

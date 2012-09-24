@@ -72,15 +72,15 @@ SceneSpatialObject< TSpaceDimension >
 
 /** Return the modification time of the SceneSpatialObject */
 template< unsigned int TSpaceDimension >
-unsigned long
+ModifiedTimeType
 SceneSpatialObject< TSpaceDimension >
 ::GetMTime(void) const
 {
   typename ObjectListType::const_iterator it = m_Objects.begin();
   typename ObjectListType::const_iterator itEnd = m_Objects.end();
 
-  unsigned long latestTime = Superclass::GetMTime();
-  unsigned long localTime;
+  ModifiedTimeType latestTime = Superclass::GetMTime();
+  ModifiedTimeType localTime;
   while ( it != itEnd )
     {
     localTime = ( *it )->GetMTime();

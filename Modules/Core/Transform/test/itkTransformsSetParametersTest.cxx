@@ -34,6 +34,7 @@
 #include "itkThinPlateR2LogRSplineKernelTransform.h"
 #include "itkThinPlateSplineKernelTransform.h"
 #include "itkVolumeSplineKernelTransform.h"
+#include "itkIntTypes.h"
 
 
 // Generic Kernel Transform Tester
@@ -78,8 +79,8 @@ template<class KernelType> int TestKernelTransform(const char *name, KernelType 
   kernel->SetSourceLandmarks( sourceLandmarks );
   kernel->SetTargetLandmarks( targetLandmarks );
 
-  unsigned int beginMTime;
-  unsigned int endMTime;
+  itk::ModifiedTimeType beginMTime;
+  itk::ModifiedTimeType endMTime;
   beginMTime = kernel->GetMTime();
   typename KernelType::ParametersType kernelParams = kernel->GetParameters();
   kernelParams[0] = 1.0;

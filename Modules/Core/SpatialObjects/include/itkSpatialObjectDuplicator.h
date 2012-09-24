@@ -78,7 +78,7 @@ private:
 
   SpatialObjectConstPointer m_Input;
   SpatialObjectPointer      m_Output;
-  unsigned long             m_InternalSpatialObjectTime;
+  ModifiedTimeType          m_InternalSpatialObjectTime;
 };
 } // end namespace itk
 

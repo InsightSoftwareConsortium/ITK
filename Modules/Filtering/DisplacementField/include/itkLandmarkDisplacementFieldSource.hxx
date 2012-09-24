@@ -224,11 +224,11 @@ LandmarkDisplacementFieldSource< TOutputImage >
  * Verify if any of the components has been modified.
  */
 template< class TOutputImage >
-unsigned long
+ModifiedTimeType
 LandmarkDisplacementFieldSource< TOutputImage >
 ::GetMTime(void) const
 {
-  unsigned long latestTime = Object::GetMTime();
+  ModifiedTimeType latestTime = Object::GetMTime();
 
   if ( m_KernelTransform )
     {

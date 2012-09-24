@@ -45,9 +45,9 @@ ImageDuplicator< TInputImage >
     }
 
   // Update only if the input image has been modified
-  const unsigned long t1 = m_InputImage->GetPipelineMTime();
-  const unsigned long t2 = m_InputImage->GetMTime();
-  const unsigned long t = ( t1 > t2 ? t1 : t2 );
+  const ModifiedTimeType t1 = m_InputImage->GetPipelineMTime();
+  const ModifiedTimeType t2 = m_InputImage->GetMTime();
+  const ModifiedTimeType t = ( t1 > t2 ? t1 : t2 );
 
   if ( t == m_InternalImageTime )
     {

@@ -353,8 +353,8 @@ private:
   // regarding the number of valid points.
   mutable bool m_HaveWarnedAboutNumberOfValidPoints;
 
-  mutable unsigned long m_MovingTransformedPointSetTime;
-  mutable unsigned long m_FixedTransformedPointSetTime;
+  mutable ModifiedTimeType m_MovingTransformedPointSetTime;
+  mutable ModifiedTimeType m_FixedTransformedPointSetTime;
 };
 } // end namespace itk
 

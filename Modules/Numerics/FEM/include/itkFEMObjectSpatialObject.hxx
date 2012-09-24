@@ -67,12 +67,12 @@ FEMObjectSpatialObject< TDimension>
 
 /** Get the modification time */
 template< unsigned int TDimension>
-unsigned long
+ModifiedTimeType
 FEMObjectSpatialObject< TDimension>
 ::GetMTime( void ) const
 {
-  unsigned long latestMTime = Superclass::GetMTime();
-  unsigned long femobjectMTime = m_FEMObject->GetMTime();
+  ModifiedTimeType latestMTime = Superclass::GetMTime();
+  const ModifiedTimeType femobjectMTime = m_FEMObject->GetMTime();
 
   if( femobjectMTime > latestMTime )
     {

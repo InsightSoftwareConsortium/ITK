@@ -32,7 +32,7 @@ template
 CompositeTransform<TScalar, NDimensions>::CompositeTransform() : Superclass( 0 )
 {
   this->m_NumberOfLocalParameters = itk::NumericTraits< NumberOfParametersType >::Zero;
-  this->m_LocalParametersUpdateTime = itk::NumericTraits< unsigned long >::Zero;
+  this->m_LocalParametersUpdateTime = itk::NumericTraits< ModifiedTimeType >::Zero;
   this->m_TransformQueue.clear();
   this->m_TransformsToOptimizeFlags.clear();
   this->m_TransformsToOptimizeQueue.clear();

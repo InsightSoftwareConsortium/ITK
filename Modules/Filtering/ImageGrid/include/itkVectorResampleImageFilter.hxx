@@ -280,11 +280,11 @@ VectorResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType
  * Verify if any of the components has been modified.
  */
 template< class TInputImage, class TOutputImage, class TInterpolatorPrecisionType >
-unsigned long
+ModifiedTimeType
 VectorResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType >
 ::GetMTime(void) const
 {
-  unsigned long latestTime = Object::GetMTime();
+  ModifiedTimeType latestTime = Object::GetMTime();
 
   if ( m_Transform )
     {

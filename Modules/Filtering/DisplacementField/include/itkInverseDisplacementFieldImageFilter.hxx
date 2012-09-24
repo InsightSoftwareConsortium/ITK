@@ -339,11 +339,11 @@ InverseDisplacementFieldImageFilter< TInputImage, TOutputImage >
  * Verify if any of the components has been modified.
  */
 template< class TInputImage, class TOutputImage >
-unsigned long
+ModifiedTimeType
 InverseDisplacementFieldImageFilter< TInputImage, TOutputImage >
 ::GetMTime(void) const
 {
-  unsigned long latestTime = Object::GetMTime();
+  ModifiedTimeType latestTime = Object::GetMTime();
 
   if ( m_KernelTransform )
     {

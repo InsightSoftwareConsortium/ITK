@@ -183,7 +183,7 @@ private:
 
 private:
   /** PipelineMTime from the last call to PipelineModifiedCallback. */
-  unsigned long m_LastPipelineMTime;
+  ModifiedTimeType m_LastPipelineMTime;
 };
 } // end namespace itk
 

@@ -221,12 +221,12 @@ MeshSpatialObject< TMesh >
 
 /** Get the modification time */
 template< class TMesh >
-unsigned long
+ModifiedTimeType
 MeshSpatialObject< TMesh >
 ::GetMTime(void) const
 {
-  unsigned long latestMTime = Superclass::GetMTime();
-  unsigned long MeshMTime = m_Mesh->GetMTime();
+  ModifiedTimeType latestMTime = Superclass::GetMTime();
+  const ModifiedTimeType MeshMTime = m_Mesh->GetMTime();
 
   if ( MeshMTime > latestMTime )
     {

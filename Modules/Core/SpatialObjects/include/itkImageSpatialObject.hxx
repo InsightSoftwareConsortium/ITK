@@ -333,12 +333,12 @@ ImageSpatialObject< TDimension,  PixelType >
 
 /** Get the modification time */
 template< unsigned int TDimension, class PixelType >
-unsigned long
+ModifiedTimeType
 ImageSpatialObject< TDimension,  PixelType >
 ::GetMTime(void) const
 {
-  unsigned long latestMTime = Superclass::GetMTime();
-  unsigned long imageMTime = m_Image->GetMTime();
+  ModifiedTimeType latestMTime = Superclass::GetMTime();
+  const ModifiedTimeType imageMTime = m_Image->GetMTime();
 
   if ( imageMTime > latestMTime )
     {

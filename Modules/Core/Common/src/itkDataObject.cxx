@@ -447,7 +447,7 @@ DataObject
 }
 
 //----------------------------------------------------------------------------
-unsigned long
+ModifiedTimeType
 DataObject
 ::GetUpdateMTime() const
 {

@@ -89,7 +89,7 @@ public:
   void SetDebug(bool debugFlag) const;
 
   /** Return this objects modified time.  */
-  virtual unsigned long GetMTime() const;
+  virtual ModifiedTimeType GetMTime() const;
 
   /** Return this object's time stamp.  */
   virtual const TimeStamp & GetTimeStamp() const;

@@ -20,12 +20,13 @@
 #include "itkTimeStamp.h"
 #include "itkMultiThreader.h"
 
+
 // A helper struct for the test, the idea is to have one timestamp per thread.
 // To ease the writing of the test, we use  MultiThreader::SingleMethodExecute
 // with an array of timestamps in the shared data
 typedef struct {
   std::vector<itk::TimeStamp> timestamps;
-  std::vector<long int> counters;
+  std::vector<unsigned long> counters;
 } TimeStampTestHelper;
 
 ITK_THREAD_RETURN_TYPE modified_function( void *ptr )
@@ -59,8 +60,7 @@ int itkTimeStampTest(int, char*[])
     multithreader->SetSingleMethod( modified_function, &helper);
 
     // Test that the number of threads has actually been clamped
-    const long int numberOfThreads =
-      static_cast<long int>( multithreader->GetNumberOfThreads() );
+    const itk::ThreadIdType numberOfThreads = multithreader->GetNumberOfThreads();
 
     if( numberOfThreads > ITK_MAX_THREADS )
       {
@@ -72,7 +72,7 @@ int itkTimeStampTest(int, char*[])
     // Set up the helper class
     helper.counters.resize( numberOfThreads );
     helper.timestamps.resize( numberOfThreads );
-    for(int k=0; k < numberOfThreads; k++)
+    for(itk::ThreadIdType k=0; k < numberOfThreads; k++)
     {
        helper.counters[k] = 0;
     }
@@ -86,22 +86,22 @@ int itkTimeStampTest(int, char*[])
     // Call Modified once  on any object to make it up-to-date
     multithreader->Modified();
 
-    const long int init_mtime = multithreader->GetMTime();
+    const itk::ModifiedTimeType init_mtime = multithreader->GetMTime();
     std::cout << "init_mtime: " << init_mtime << std::endl;
 
-    long int prev_mtime = init_mtime;
+    itk::ModifiedTimeType prev_mtime = init_mtime;
 
-    const int num_exp = 500;
+    const unsigned int num_exp = 500;
 
-    for( int i = 0; i < num_exp; i++ )
+    for( unsigned int i = 0; i < num_exp; i++ )
       {
       multithreader->SingleMethodExecute();
 
-      long int min_mtime = helper.timestamps[0].GetMTime();
-      long int max_mtime = helper.timestamps[0].GetMTime();
-      for(int k=0; k < numberOfThreads; k++)
+      itk::ModifiedTimeType min_mtime = helper.timestamps[0].GetMTime();
+      itk::ModifiedTimeType max_mtime = helper.timestamps[0].GetMTime();
+      for(itk::ThreadIdType k=0; k < numberOfThreads; k++)
         {
-        const long int & mtime = helper.timestamps[k].GetMTime();
+        const itk::ModifiedTimeType & mtime = helper.timestamps[k].GetMTime();
         if ( mtime > max_mtime )
           {
           max_mtime = mtime;
@@ -121,11 +121,11 @@ int itkTimeStampTest(int, char*[])
 
       if ( iter_success )
         {
-        for(int k=0; k < numberOfThreads; k++)
+        for(itk::ThreadIdType k=0; k < numberOfThreads; k++)
           {
           // Test whether the all modified times have
           // been used
-          const long int index = helper.timestamps[k].GetMTime()-min_mtime;
+          const itk::ModifiedTimeType index = helper.timestamps[k].GetMTime()-min_mtime;
 
           if ( istimestamped[index] == true )
             {

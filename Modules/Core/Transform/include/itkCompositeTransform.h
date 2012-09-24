@@ -518,8 +518,8 @@ private:
   CompositeTransform( const Self & ); // purposely not implemented
   void operator=( const Self & );     // purposely not implemented
 
-  mutable unsigned long m_PreviousTransformsToOptimizeUpdateTime;
-  mutable unsigned long m_LocalParametersUpdateTime;
+  mutable ModifiedTimeType m_PreviousTransformsToOptimizeUpdateTime;
+  mutable ModifiedTimeType m_LocalParametersUpdateTime;
 
 };
 

@@ -389,12 +389,12 @@ public:
 
   /** The maximum MTime of all upstream filters and data objects.
    * This does not include the MTime of this data object. */
-  void SetPipelineMTime(unsigned long time)
+  void SetPipelineMTime(ModifiedTimeType time)
   { m_PipelineMTime = time; }
-  itkGetConstReferenceMacro(PipelineMTime, unsigned long);
+  itkGetConstReferenceMacro(PipelineMTime, ModifiedTimeType);
 
   /** MTime for the last time this DataObject was generated. */
-  virtual unsigned long GetUpdateMTime() const;
+  virtual ModifiedTimeType GetUpdateMTime() const;
 
   /** RealTime stamp for the last time this DataObject was generated.
    *  By default, the real time stamp is initialized to the origin of
@@ -506,7 +506,7 @@ private:
 
   /** The maximum MTime of all upstream filters and data objects.
    * This does not include the MTime of this data object. */
-  unsigned long m_PipelineMTime;
+  ModifiedTimeType m_PipelineMTime;
 
   /** Static member that controls global data release after use by filter. */
   static bool m_GlobalReleaseDataFlag;
