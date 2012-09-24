@@ -28,28 +28,23 @@ typename PolyLineParametricPath< VDimension >::OutputType
 PolyLineParametricPath< VDimension >
 ::Evaluate(const InputType & input) const
 {
-  OutputType output;
-  PointType  outputPoint;
-  VertexType vertex0;
-  VertexType vertex1;
-  double     fractionOfLineSegment;
-
   // Handle the endpoint carefully, since there is no following vertex
   const InputType endPoint = static_cast< InputType >( m_VertexList->Size() - 1 );
   if ( input > endPoint || itk::Math::FloatAlmostEqual( input, endPoint ) )
     {
-    return this->m_VertexList->ElementAt(m_VertexList->Size() - 1); // the last vertex
+    return static_cast<const VertexListType*>(this->m_VertexList)->ElementAt(m_VertexList->Size() - 1); // the last vertex
     }
 
-  vertex0 = m_VertexList->ElementAt( int(input) );
-  vertex1 = m_VertexList->ElementAt( int(input + 1.0) );
+  const VertexType vertex0 = static_cast<const VertexListType*>(this->m_VertexList)->ElementAt( int(input) );
+  const VertexType vertex1 = static_cast<const VertexListType*>(this->m_VertexList)->ElementAt( int(input + 1.0) );
 
-  fractionOfLineSegment = input - int(input);
+  const double fractionOfLineSegment = input - int(input);
 
-  outputPoint = vertex0 + ( vertex1 - vertex0 ) * fractionOfLineSegment;
+  const PointType outputPoint = vertex0 + ( vertex1 - vertex0 ) * fractionOfLineSegment;
 
   // For some stupid reason, there is no easy way to cast from a point to a
   // continuous index.
+  OutputType output;
   for ( unsigned int i = 0; i < VDimension; i++ )
     {
     output[i] = outputPoint[i];
