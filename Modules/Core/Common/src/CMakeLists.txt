@@ -5,6 +5,7 @@ itkNumericTraits.cxx
 itkMutexLock.cxx
 itkHexahedronCellTopology.cxx
 itkIndent.cxx
+itkIndex.cxx
 itkEventObject.cxx
 itkFileOutputWindow.cxx
 itkSimpleFilterWatcher.cxx
