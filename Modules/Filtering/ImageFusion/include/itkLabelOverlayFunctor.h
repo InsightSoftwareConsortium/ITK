@@ -75,11 +75,13 @@ public:
     // taint the input pixel with the colored one returned by
     // the color functor.
     TRGBPixel opaque = m_RGBFunctor(p2);
-    for ( unsigned int i = 0; i < 3; i++ )
-      {
-      rgbPixel[i] = static_cast< typename TRGBPixel::ValueType >(
-        opaque[i] * m_Opacity + p1 * ( 1.0 - m_Opacity ) );
-      }
+    // the following has been unrolled due to a bug with apple's
+    // llvm-gcc-4.2 build 5658
+    const double p1_blend= p1 * ( 1.0 - m_Opacity );
+    rgbPixel[0] = static_cast< typename TRGBPixel::ValueType >( opaque[0] * m_Opacity + p1_blend );
+    rgbPixel[1] = static_cast< typename TRGBPixel::ValueType >( opaque[1] * m_Opacity + p1_blend );
+    rgbPixel[2] = static_cast< typename TRGBPixel::ValueType >( opaque[2] * m_Opacity + p1_blend );
+
     return rgbPixel;
   }
 
