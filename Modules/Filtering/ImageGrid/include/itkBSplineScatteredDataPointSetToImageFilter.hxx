@@ -1213,6 +1213,11 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
     }
   origin = this->m_Direction * origin;
 
+  for( unsigned int i = 0; i < ImageDimension; i++ )
+    {
+    origin[i] += this->m_Origin[i];
+    }
+
   this->m_PhiLattice->SetOrigin( origin );
   this->m_PhiLattice->SetSpacing( spacing );
   this->m_PhiLattice->SetDirection( this->m_Direction );
