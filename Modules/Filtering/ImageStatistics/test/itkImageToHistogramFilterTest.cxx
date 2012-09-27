@@ -19,6 +19,7 @@
 #include "itkImageToHistogramFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkSimpleFilterWatcher.h"
+#include "itkIntTypes.h"
 
 int itkImageToHistogramFilterTest( int , char * [] )
 {
@@ -282,7 +283,7 @@ int itkImageToHistogramFilterTest( int , char * [] )
 
   filter->SetHistogramBinMaximum( histogramBinMaximum1 );
 
-  unsigned long modifiedTime = filter->GetMTime();
+  itk::ModifiedTimeType modifiedTime = filter->GetMTime();
   filter->SetHistogramBinMaximum( histogramBinMaximum1 );
 
   if( filter->GetMTime() != modifiedTime )

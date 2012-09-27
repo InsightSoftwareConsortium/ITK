@@ -137,7 +137,7 @@ int VTKImageExportBase::PipelineModifiedCallback()
     return -1;
     }
 
-  unsigned long pipelineMTime = input->GetPipelineMTime();
+  ModifiedTimeType pipelineMTime = input->GetPipelineMTime();
 
   if ( this->GetMTime() > pipelineMTime )
     {

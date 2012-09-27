@@ -19,6 +19,8 @@
 #include "itkListSample.h"
 #include "itkHistogram.h"
 #include "itkSampleToHistogramFilter.h"
+#include "itkIntTypes.h"
+
 
 int itkSampleToHistogramFilterTest( int , char * [] )
 {
@@ -231,7 +233,7 @@ int itkSampleToHistogramFilterTest( int , char * [] )
 
   filter->SetHistogramSize( histogramSize1 );
   filter->Update();
-  unsigned long modifiedTime = filter->GetMTime();
+  itk::ModifiedTimeType modifiedTime = filter->GetMTime();
   filter->SetHistogramSize( histogramSize1 );
 
   if( filter->GetMTime() != modifiedTime )

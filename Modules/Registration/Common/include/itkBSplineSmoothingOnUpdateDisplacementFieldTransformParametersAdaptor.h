@@ -125,8 +125,8 @@ private:
 
   ArrayType                   m_NumberOfControlPointsForTheUpdateField;
   ArrayType                   m_NumberOfControlPointsForTheTotalField;
-  unsigned long               m_NumberOfControlPointsForTheUpdateFieldSetTime;
-  unsigned long               m_NumberOfControlPointsForTheTotalFieldSetTime;
+  ModifiedTimeType            m_NumberOfControlPointsForTheUpdateFieldSetTime;
+  ModifiedTimeType            m_NumberOfControlPointsForTheTotalFieldSetTime;
 
 
 }; //class BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor

@@ -1220,7 +1220,7 @@ void
 ProcessObject
 ::UpdateOutputInformation()
 {
-  unsigned long                  t1, t2;
+  ModifiedTimeType               t1, t2;
   DataObject *                   input;
   DataObject *                   output;
 

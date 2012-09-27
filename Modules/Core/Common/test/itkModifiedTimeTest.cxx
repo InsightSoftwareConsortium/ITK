@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkBoundingBox.h"
+#include "itkIntTypes.h"
 
 int itkModifiedTimeTest( int, char* [] )
 {
@@ -41,8 +42,8 @@ int itkModifiedTimeTest( int, char* [] )
 
   bb->SetPoints(pc);
 
-  const unsigned long bbBeforeTime = bb->GetMTime();
-  const unsigned long pcBeforeTime = pc->GetMTime();
+  const itk::ModifiedTimeType bbBeforeTime = bb->GetMTime();
+  const itk::ModifiedTimeType pcBeforeTime = pc->GetMTime();
 
 
   std::cout<<"BB time before modification: "<< bbBeforeTime <<std::endl;
@@ -51,8 +52,8 @@ int itkModifiedTimeTest( int, char* [] )
   pc->InsertElement(2,r);
   pc->Modified(); // call the Modified function to update the modified time of the container
 
-  const unsigned long bbAfterTime = bb->GetMTime();
-  const unsigned long pcAfterTime = pc->GetMTime();
+  const itk::ModifiedTimeType bbAfterTime = bb->GetMTime();
+  const itk::ModifiedTimeType pcAfterTime = pc->GetMTime();
 
   std::cout<<"BB time after modification: "<< bbAfterTime <<std::endl;
   std::cout<<"PC time after modification: "<< pcAfterTime <<std::endl;

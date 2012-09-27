@@ -140,7 +140,7 @@ public:
   virtual void GenerateOutputInformation();
 
   /** Method Compute the Modified Time based on changed to the components. */
-  unsigned long GetMTime(void) const;
+  ModifiedTimeType GetMTime(void) const;
 
 protected:
   LandmarkDisplacementFieldSource();

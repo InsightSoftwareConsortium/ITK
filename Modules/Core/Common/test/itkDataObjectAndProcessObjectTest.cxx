@@ -24,6 +24,7 @@
 #include "itkProcessObject.h"
 #include "itkTestingMacros.h"
 #include "itkNumericTraits.h"
+#include "itkIntTypes.h"
 
 
 namespace itk
@@ -124,7 +125,7 @@ int itkDataObjectAndProcessObjectTest(int, char* [] )
   itk::TestProcessObject::NameArray names;
   itk::TestProcessObject::DataObjectPointerArray dataObjects;
   itk::DataObject::Pointer dataObject;
-  unsigned long mtime;
+  itk::ModifiedTimeType mtime;
 
   // and exercise various methods
   names = process->GetInputNames();

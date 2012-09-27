@@ -192,7 +192,7 @@ private:
   CirclesListSizeType   m_NumberOfCircles;
   float                 m_DiscRadiusRatio;
   float                 m_Variance;
-  unsigned long         m_OldModifiedTime;
+  ModifiedTimeType      m_OldModifiedTime;
 
   CirclesListSizeType m_OldNumberOfCircles;
 };

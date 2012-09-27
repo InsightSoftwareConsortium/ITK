@@ -37,9 +37,9 @@ void GPUImageDataManager< ImageType >::MakeCPUBufferUpToDate()
     {
     m_Mutex.Lock();
 
-    unsigned long gpu_time = this->GetMTime();
+    ModifiedTimeType gpu_time = this->GetMTime();
     TimeStamp     cpu_time_stamp = m_Image->GetTimeStamp();
-    unsigned long cpu_time = cpu_time_stamp.GetMTime();
+    ModifiedTimeType cpu_time = cpu_time_stamp.GetMTime();
 
     /* Why we check dirty flag and time stamp together?
      * Because existing CPU image filters do not use pixel/buffer
@@ -76,9 +76,9 @@ void GPUImageDataManager< ImageType >::MakeGPUBufferUpToDate()
     {
     m_Mutex.Lock();
 
-    unsigned long gpu_time = this->GetMTime();
+    ModifiedTimeType gpu_time = this->GetMTime();
     TimeStamp     cpu_time_stamp = m_Image->GetTimeStamp();
-    unsigned long cpu_time = m_Image->GetMTime();
+    ModifiedTimeType cpu_time = m_Image->GetMTime();
 
     /* Why we check dirty flag and time stamp together?
     * Because existing CPU image filters do not use pixel/buffer

@@ -150,7 +150,7 @@ public:
 
   /** Method to return the latest modified time of this object or
    * any of its cached ivars */
-  unsigned long GetMTime() const;
+  ModifiedTimeType GetMTime() const;
 
 #ifdef ITKV3_COMPATIBILITY
   /** Method that initiates the registration. This will Initialize and ensure

@@ -168,8 +168,8 @@ protected:
   virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** TimeStamps */
-  mutable unsigned long m_OldMTime;
-  mutable unsigned long m_IndexToWorldTransformMTime;
+  mutable ModifiedTimeType m_OldMTime;
+  mutable ModifiedTimeType m_IndexToWorldTransformMTime;
 private:
   TubeSpatialObject(const Self &); //purposely not implemented
   void operator=(const Self &);    //purposely not implemented

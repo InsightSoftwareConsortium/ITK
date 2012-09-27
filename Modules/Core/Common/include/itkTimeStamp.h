@@ -29,6 +29,7 @@
 #define __itkTimeStamp_h
 
 #include "itkMacro.h"
+#include "itkIntTypes.h"
 
 namespace itk
 {
@@ -87,7 +88,7 @@ public:
   void Modified();
 
   /** Return this object's Modified time.  */
-  unsigned long GetMTime() const
+  ModifiedTimeType GetMTime() const
   { return m_ModifiedTime; }
 
   /** Support comparisons of time stamp objects directly.  */
@@ -97,7 +98,7 @@ public:
   { return ( m_ModifiedTime < ts.m_ModifiedTime ); }
 
   /** Allow for typcasting to unsigned long.  */
-  operator unsigned long() const
+  operator ModifiedTimeType() const
         { return m_ModifiedTime; }
 
   /** Assignment operator, allows to initialize one time stamp by copying from
@@ -105,7 +106,7 @@ public:
   const Self & operator=( const Self & other );
 
 private:
-  unsigned long m_ModifiedTime;
+  ModifiedTimeType m_ModifiedTime;
 };
 } // end namespace itk
 

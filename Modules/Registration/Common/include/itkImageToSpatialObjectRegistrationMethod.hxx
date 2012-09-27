@@ -208,12 +208,12 @@ ImageToSpatialObjectRegistrationMethod< TFixedImage, TMovingSpatialObject >
  *
  */
 template< typename TFixedImage, typename TMovingSpatialObject >
-unsigned long
+ModifiedTimeType
 ImageToSpatialObjectRegistrationMethod< TFixedImage, TMovingSpatialObject >
 ::GetMTime() const
 {
-  unsigned long mtime = Superclass::GetMTime();
-  unsigned long m;
+  ModifiedTimeType mtime = Superclass::GetMTime();
+  ModifiedTimeType m;
 
   // Some of the following should be removed once ivars are put in the
   // input and output lists

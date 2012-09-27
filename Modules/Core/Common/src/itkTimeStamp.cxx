@@ -84,7 +84,7 @@ TimeStamp
   // Windows optimization
 #if defined( WIN32 ) || defined( _WIN32 )
   static LONG itkTimeStampTime = 0;
-  m_ModifiedTime = (unsigned long)InterlockedIncrement(&itkTimeStampTime);
+  m_ModifiedTime = (ModifiedTimeType)InterlockedIncrement(&itkTimeStampTime);
 
   // Mac optimization
 #elif defined( __APPLE__ ) && ( MAC_OS_X_VERSION_MIN_REQUIRED >= 1050 )
@@ -94,10 +94,10 @@ TimeStamp
   // operates on a variable of the exact type needed.  The cast does not
   // change the size, but does change signedness, which is not ideal.
   static volatile int64_t itkTimeStampTime = 0;
-  m_ModifiedTime = (unsigned long)OSAtomicIncrement64Barrier(&itkTimeStampTime);
+  m_ModifiedTime = (ModifiedTimeType)OSAtomicIncrement64Barrier(&itkTimeStampTime);
  #else
   static volatile int32_t itkTimeStampTime = 0;
-  m_ModifiedTime = (unsigned long)OSAtomicIncrement32Barrier(&itkTimeStampTime);
+  m_ModifiedTime = (ModifiedTimeType)OSAtomicIncrement32Barrier(&itkTimeStampTime);
  #endif
 
 // gcc optimization
@@ -106,14 +106,14 @@ TimeStamp
   // value. This is not really necessary but will make the absolute value of the
   // timestamp more consistent across platforms.
   static volatile _Atomic_word itkTimeStampTime = 1;
-  m_ModifiedTime = (unsigned long)__exchange_and_add(&itkTimeStampTime, 1);
+  m_ModifiedTime = (ModifiedTimeType)__exchange_and_add(&itkTimeStampTime, 1);
 
 // General case
 #else
   /**
    * Initialize static member
    */
-  static unsigned long itkTimeStampTime = 0;
+  static ModifiedTimeType itkTimeStampTime = 0;
 
   /** Used for mutex locking */
   static SimpleFastMutexLock TimeStampMutex;

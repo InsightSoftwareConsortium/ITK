@@ -150,8 +150,8 @@ private:
   bool m_StopIteration;
 
   /** Modified times for the input and kernel. */
-  unsigned long m_InputMTime;
-  unsigned long m_KernelMTime;
+  ModifiedTimeType m_InputMTime;
+  ModifiedTimeType m_KernelMTime;
 
 };
 } // end namespace itk

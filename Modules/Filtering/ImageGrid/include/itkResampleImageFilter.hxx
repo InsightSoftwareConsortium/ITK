@@ -638,11 +638,11 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType >
 template< class TInputImage,
           class TOutputImage,
           class TInterpolatorPrecisionType >
-unsigned long
+ModifiedTimeType
 ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType >
 ::GetMTime(void) const
 {
-  unsigned long latestTime = Object::GetMTime();
+  ModifiedTimeType latestTime = Object::GetMTime();
 
   if ( m_Transform )
     {

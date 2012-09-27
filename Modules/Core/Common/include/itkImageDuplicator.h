@@ -95,7 +95,7 @@ private:
 
   ImageConstPointer m_InputImage;
   ImagePointer      m_Output;
-  unsigned long     m_InternalImageTime;
+  ModifiedTimeType  m_InternalImageTime;
 };
 } // end namespace itk
 

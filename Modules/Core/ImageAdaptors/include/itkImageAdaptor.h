@@ -291,7 +291,7 @@ public:
   virtual void Modified() const;
 
   /** Delegate GetMTime to the Internal Image */
-  virtual unsigned long GetMTime() const;
+  virtual ModifiedTimeType GetMTime() const;
 
   /** Return the Data Accesor object */
   AccessorType & GetPixelAccessor(void)

@@ -278,7 +278,7 @@ Object
 /**
  * Return the modification for this object.
  */
-unsigned long
+ModifiedTimeType
 Object
 ::GetMTime() const
 {

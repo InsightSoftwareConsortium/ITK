@@ -476,11 +476,11 @@ SpatialObject< TDimension >
 
 /** Get the modification time  */
 template< unsigned int TDimension >
-unsigned long
+ModifiedTimeType
 SpatialObject< TDimension >
 ::GetMTime(void) const
 {
-  unsigned long latestTime = Object::GetMTime();
+  ModifiedTimeType latestTime = Object::GetMTime();
 
   if ( latestTime < m_BoundsMTime )
     {
@@ -496,7 +496,7 @@ SpatialObject< TDimension >
   TreeChildrenListType *children = m_TreeNode->GetChildren();
   typename TreeChildrenListType::const_iterator it = children->begin();
   typename TreeChildrenListType::const_iterator itEnd = children->end();
-  unsigned long localTime;
+  ModifiedTimeType localTime;
 
   while ( it != itEnd )
     {
