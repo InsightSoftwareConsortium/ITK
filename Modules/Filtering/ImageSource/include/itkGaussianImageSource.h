@@ -51,6 +51,9 @@ public:
   typedef SmartPointer< Self >                  Pointer;
   typedef SmartPointer< const Self >            ConstPointer;
 
+  /** Typedef for the output image type. */
+  typedef TOutputImage                     OutputImageType;
+
   /** Typedef for the output image PixelType. */
   typedef typename TOutputImage::PixelType OutputImagePixelType;
 
