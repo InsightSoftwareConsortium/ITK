@@ -24,7 +24,7 @@
 #include "itkVector.h"
 #include "itkMersenneTwisterRandomVariateGenerator.h"
 #include <math.h>
-#include <stdlib.h>
+#include <cstdlib>
 
 namespace itk
 {

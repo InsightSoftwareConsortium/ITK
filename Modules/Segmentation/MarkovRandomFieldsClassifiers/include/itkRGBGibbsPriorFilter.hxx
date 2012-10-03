@@ -19,7 +19,7 @@
 #define __itkRGBGibbsPriorFilter_hxx
 
 #include "itkRGBGibbsPriorFilter.h"
-#include <stdlib.h>
+#include <cstdlib>
 #include <stdio.h>
 #include <time.h>
 #include <math.h>

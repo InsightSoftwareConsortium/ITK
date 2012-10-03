@@ -32,7 +32,7 @@
 #include "itkSpatialOrientationAdapter.h"
 
 #if defined(_WIN32) && defined(_MSC_VER)
-#include <stdlib.h>
+#include <cstdlib>
 #define _unlink unlink
 #else
 #include <unistd.h>

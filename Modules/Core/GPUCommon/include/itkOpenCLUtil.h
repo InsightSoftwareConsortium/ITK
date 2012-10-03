@@ -19,7 +19,7 @@
 #define __itkOpenCLUtil_h
 
 #include <string.h>
-#include <stdlib.h>
+#include <cstdlib>
 #include <stdio.h>
 
 #include <iostream>
