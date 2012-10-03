@@ -192,6 +192,8 @@ protected:
 
   virtual void ThreadedProcessLabelObject( LabelObjectType * labelObject );
 
+  virtual void GenerateOutputInformation();
+
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   virtual LabelMapType * GetLabelMap()
