@@ -35,7 +35,7 @@
 #define __itkPhilipsPAR_h
 
 #include <stdio.h>
-#include <stdlib.h>
+#include <cstdlib>
 #include <string>
 #include "itkLightProcessObject.h"
 #include "itkVectorContainer.h"
