@@ -18,9 +18,9 @@
 #ifndef __itkImagePCAShapeModelEstimator_h
 #define __itkImagePCAShapeModelEstimator_h
 
-#include <time.h>
-#include <math.h>
-#include <float.h>
+#include <ctime>
+#include <cmath>
+#include <cfloat>
 
 #include "vnl/vnl_vector.h"
 #include "vnl/vnl_matrix.h"

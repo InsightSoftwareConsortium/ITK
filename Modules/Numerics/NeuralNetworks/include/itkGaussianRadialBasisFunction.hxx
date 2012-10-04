@@ -20,7 +20,7 @@
 
 #include "itkGaussianRadialBasisFunction.h"
 
-#include <math.h>
+#include <cmath>
 
 namespace itk
 {

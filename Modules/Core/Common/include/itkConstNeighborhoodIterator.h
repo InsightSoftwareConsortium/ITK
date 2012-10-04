@@ -19,7 +19,7 @@
 #define __itkConstNeighborhoodIterator_h
 
 #include <vector>
-#include <string.h>
+#include <cstring>
 #include <iostream>
 #include "itkImage.h"
 #include "itkNeighborhood.h"

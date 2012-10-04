@@ -21,7 +21,7 @@
 
 #include "itkRGBPixel.h"
 
-#include <stddef.h>
+#include <cstddef>
 
 namespace itk
 {

@@ -23,7 +23,7 @@
 #include "vnl/vnl_diag_matrix.h"
 #include "itkVector.h"
 #include "itkMersenneTwisterRandomVariateGenerator.h"
-#include <math.h>
+#include <cmath>
 #include <cstdlib>
 
 namespace itk

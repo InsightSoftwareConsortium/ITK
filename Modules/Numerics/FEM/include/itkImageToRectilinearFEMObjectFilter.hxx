@@ -21,7 +21,7 @@
 #include "itkImageToRectilinearFEMObjectFilter.h"
 #include "itkFEMElement2DC0LinearQuadrilateral.h"
 #include "itkFEMElement3DC0LinearHexahedron.h"
-#include <math.h>
+#include <cmath>
 namespace itk
 {
 namespace fem

@@ -20,7 +20,7 @@
 
 #include "itkChainCodePath.h"
 #include "itkFourierSeriesPath.h"
-#include <math.h>
+#include <cmath>
 
 namespace itk
 {

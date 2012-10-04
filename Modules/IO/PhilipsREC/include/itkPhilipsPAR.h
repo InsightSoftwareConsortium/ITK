@@ -34,7 +34,7 @@
 #ifndef __itkPhilipsPAR_h
 #define __itkPhilipsPAR_h
 
-#include <stdio.h>
+#include <cstdio>
 #include <cstdlib>
 #include <string>
 #include "itkLightProcessObject.h"

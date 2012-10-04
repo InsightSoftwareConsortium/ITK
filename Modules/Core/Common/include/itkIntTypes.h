@@ -28,12 +28,12 @@
 #include "itksys/FundamentalType.h"
 
 #ifdef ITK_HAVE_STDDEF_H
-#include <stddef.h>
+#include <cstddef>
 #endif //ITK_HAVE_STDDEF_H
 
 #endif // ITK_HAVE_CSTDINT
 
-#include <limits.h>
+#include <climits>
 
 namespace itk
 {

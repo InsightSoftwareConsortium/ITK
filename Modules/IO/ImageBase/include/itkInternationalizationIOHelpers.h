@@ -32,7 +32,7 @@
 #include <io.h>
 #endif
 
-#include <stdio.h>
+#include <cstdio>
 #include <fcntl.h>
 #include <iostream>
 #include <string>

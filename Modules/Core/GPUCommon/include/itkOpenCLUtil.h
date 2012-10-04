@@ -18,9 +18,9 @@
 #ifndef __itkOpenCLUtil_h
 #define __itkOpenCLUtil_h
 
-#include <string.h>
+#include <cstring>
 #include <cstdlib>
-#include <stdio.h>
+#include <cstdio>
 
 #include <iostream>
 #include <sstream>

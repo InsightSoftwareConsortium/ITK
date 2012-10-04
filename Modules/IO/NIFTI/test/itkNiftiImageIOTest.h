@@ -42,10 +42,10 @@
 
 #include "nifti1_io.h"
 
-#include <string.h>
+#include <cstring>
 #include <iostream>
 #include <fstream>
-#include <stdio.h>
+#include <cstdio>
 
 #include "itkIOTestHelper.h"
 

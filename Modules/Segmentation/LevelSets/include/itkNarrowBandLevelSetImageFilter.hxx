@@ -19,7 +19,7 @@
 #define __itkNarrowBandLevelSetImageFilter_hxx
 
 #include "itkNarrowBandLevelSetImageFilter.h"
-#include <stdio.h>
+#include <cstdio>
 
 namespace itk
 {

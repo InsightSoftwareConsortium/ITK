@@ -23,7 +23,7 @@
 
 #include "vnl/vnl_math.h"
 
-#include <float.h>  // for DBL_MIN
+#include <cfloat>  // for DBL_MIN
 
 /*
  * This code was contributed in the Insight Journal paper:

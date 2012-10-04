@@ -18,7 +18,7 @@
 #ifndef __itkGrayscaleGeodesicErodeImageFilter_hxx
 #define __itkGrayscaleGeodesicErodeImageFilter_hxx
 
-#include <limits.h>
+#include <climits>
 
 #include "itkZeroFluxNeumannBoundaryCondition.h"
 #include "itkNumericTraits.h"

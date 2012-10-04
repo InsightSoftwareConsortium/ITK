@@ -20,7 +20,7 @@
 
 #include "itkKernelFunctionBase.h"
 #include "vnl/vnl_math.h"
-#include <math.h>
+#include <cmath>
 
 namespace itk
 {

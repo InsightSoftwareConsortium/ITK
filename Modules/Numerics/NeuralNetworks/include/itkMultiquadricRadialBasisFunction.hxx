@@ -19,7 +19,7 @@
 #define __itkMultiquadricRadialBasisFunction_hxx
 
 #include "itkMultiquadricRadialBasisFunction.h"
-#include <math.h>
+#include <cmath>
 
 namespace itk
 {

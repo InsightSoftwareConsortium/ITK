@@ -18,8 +18,8 @@
 #ifndef __itkImageGaussianModelEstimator_h
 #define __itkImageGaussianModelEstimator_h
 
-#include <math.h>
-#include <float.h>
+#include <cmath>
+#include <cfloat>
 
 #include "vnl/vnl_vector.h"
 #include "vnl/vnl_matrix.h"

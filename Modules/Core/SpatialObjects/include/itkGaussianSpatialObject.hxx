@@ -18,7 +18,7 @@
 #ifndef __itkGaussianSpatialObject_hxx
 #define __itkGaussianSpatialObject_hxx
 
-#include <math.h>
+#include <cmath>
 #include "itkGaussianSpatialObject.h"
 
 namespace itk

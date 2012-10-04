@@ -20,9 +20,9 @@
 
 #include "itkRGBGibbsPriorFilter.h"
 #include <cstdlib>
-#include <stdio.h>
-#include <time.h>
-#include <math.h>
+#include <cstdio>
+#include <ctime>
+#include <cmath>
 
 #define RGBGibbsPriorFilterNeedsDebugging 1
 

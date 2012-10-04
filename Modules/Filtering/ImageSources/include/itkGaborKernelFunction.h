@@ -19,7 +19,7 @@
 #define __itkGaborKernelFunction_h
 
 #include "itkKernelFunctionBase.h"
-#include <math.h>
+#include <cmath>
 
 namespace itk
 {

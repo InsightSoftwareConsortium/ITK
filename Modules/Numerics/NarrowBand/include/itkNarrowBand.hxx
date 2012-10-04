@@ -29,7 +29,7 @@
 #define __itkNarrowBand_hxx
 #include "itkNarrowBand.h"
 #include "vcl_cmath.h"
-#include <math.h>
+#include <cmath>
 
 namespace itk
 {

@@ -20,7 +20,7 @@
 
 #include "itkCommand.h"
 #include "itkProcessObject.h"
-#include <time.h>
+#include <ctime>
 // The following class is a convenience  to watch the progress of a filter
 
 class FilterWatcher

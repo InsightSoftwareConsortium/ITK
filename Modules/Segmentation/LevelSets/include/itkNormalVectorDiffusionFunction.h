@@ -20,7 +20,7 @@
 
 #include "itkNormalVectorFunctionBase.h"
 #include "itkNumericTraits.h"
-#include <math.h>
+#include <cmath>
 
 namespace itk
 {

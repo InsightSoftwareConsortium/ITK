@@ -19,7 +19,7 @@
 #define __itkSymmetricEllipsoidInteriorExteriorSpatialFunction_hxx
 
 #include "itkSymmetricEllipsoidInteriorExteriorSpatialFunction.h"
-#include <math.h>
+#include <cmath>
 
 namespace itk
 {

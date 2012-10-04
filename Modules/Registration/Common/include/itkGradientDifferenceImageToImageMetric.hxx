@@ -24,7 +24,7 @@
 
 #include <iostream>
 #include <iomanip>
-#include <stdio.h>
+#include <cstdio>
 
 #include "itkSimpleFilterWatcher.h"
 namespace itk

@@ -19,7 +19,7 @@
 #define __itkNeighborhoodIterator_h
 
 #include <vector>
-#include <string.h>
+#include <cstring>
 #include <iostream>
 #include "itkConstNeighborhoodIterator.h"
 

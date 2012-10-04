@@ -24,11 +24,11 @@
 
 #ifdef ITK_USE_UNIX_IPC_SEMAPHORES
 #include "itkMutexLock.h"
-#include <stdio.h>
+#include <cstdio>
 #include <sys/types.h>
 #include <sys/ipc.h>
 #include <sys/sem.h>
-#include <errno.h>
+#include <cerrno>
 #endif
 
 #ifndef ITK_USE_UNIX_IPC_SEMAPHORES

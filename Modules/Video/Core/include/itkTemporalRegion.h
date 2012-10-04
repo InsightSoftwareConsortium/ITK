@@ -22,7 +22,7 @@
 #include "itkRealTimeStamp.h"
 #include "itkRealTimeInterval.h"
 #include "itkNumericTraits.h"
-#include <limits.h>
+#include <climits>
 
 /** Define representations of infinite duration for frames and real time */
 #define ITK_INFINITE_FRAME_DURATION itk::NumericTraits<itk::SizeValueType>::max()
