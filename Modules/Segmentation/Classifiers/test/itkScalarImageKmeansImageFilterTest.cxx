@@ -20,7 +20,7 @@
 #include "itkImageFileWriter.h"
 #include "itkScalarImageKmeansImageFilter.h"
 #include "itkRelabelComponentImageFilter.h"
-
+#include "itkTestingMacros.h"
 
 int itkScalarImageKmeansImageFilterTest(int argc, char* argv [] )
 {
@@ -74,6 +74,10 @@ int itkScalarImageKmeansImageFilterTest(int argc, char* argv [] )
     std::cerr << "line arguments " << std::endl;
     return EXIT_FAILURE;
     }
+
+  // before we add any mean check that an expection is thrown
+  TRY_EXPECT_EXCEPTION( kmeansFilter->Update() );
+
 
   for(unsigned k=0; k<numberOfInitialClasses; k++)
     {
