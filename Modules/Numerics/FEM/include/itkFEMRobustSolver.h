@@ -66,7 +66,7 @@ namespace fem
  * O. Clatz, H. Delingette, I.-F. Talos, A. Golby, R. Kikinis, F. Jolesz,
  * N. Ayache, and S. Warfield, "Robust non-rigid registration to capture
  * brain shift from intra-operative MRI", IEEE Trans. Med. Imag., vol. 24,
- * no. 11, pp. 1417¨C1427, 2005.
+ * no. 11, pp. 1417-1427, 2005.
  *
  *
  * \par REFERENCE
