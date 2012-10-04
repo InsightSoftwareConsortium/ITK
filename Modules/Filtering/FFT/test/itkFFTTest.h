@@ -70,6 +70,21 @@ test_fft(unsigned int *SizeOfDimensions)
   realImage->SetBufferedRegion( region );
   realImage->SetRequestedRegion( region );
   realImage->Allocate();
+
+  // Set up spacing and origin to test passing of metadata
+  typename RealImageType::PointType     origin;
+  typename RealImageType::SpacingType   spacing;
+  typename RealImageType::DirectionType direction;
+  direction.Fill( 0.0 );
+  for ( unsigned int i = 0; i < VImageDimensions; i++ )
+    {
+    origin[i]  = static_cast< typename RealImageType::PointValueType >( i ) + 1.0;
+    spacing[i] = static_cast< typename RealImageType::SpacingValueType >( i ) + 2.0;
+    direction[i][i] = static_cast< typename RealImageType::DirectionType::ValueType > ( i ) + 3.0;
+    }
+  realImage->SetOrigin( origin );
+  realImage->SetSpacing( spacing );
+  realImage->SetDirection( direction );
   vnl_sample_reseed( static_cast< int >( itksys::SystemTools::GetTime() / 10000.0 ) );
 
   // We use 2 region iterators for this test: the original image
@@ -155,6 +170,25 @@ test_fft(unsigned int *SizeOfDimensions)
 
   std::cout << std::endl << std::endl;
 
+  // Check to see that the metadata has been copied
+  if ( complexImage->GetOrigin() != origin )
+    {
+    std::cerr << "Origin in R2C output does not match!" << std::endl;
+    return -1;
+    }
+
+  if ( complexImage->GetSpacing() != spacing )
+    {
+    std::cerr << "Spacing in R2C output does not match!" << std::endl;
+    return -1;
+    }
+
+  if ( complexImage->GetDirection() != direction )
+    {
+    std::cerr << "Direction in R2C output does not match!" << std::endl;
+    return -1;
+    }
+
   // Perform the Inverse FFT to get back the Real Image. C2R is the
   // complex conjugate to real image filter and we give the resulting
   // complex image as input to this filter. This is the Inverse FFT of
@@ -167,6 +201,25 @@ test_fft(unsigned int *SizeOfDimensions)
   C2R->Update();
   std::cerr << "C2R region: " << C2R->GetOutput()->GetLargestPossibleRegion() << std::endl;
   typename RealImageType::Pointer imageAfterInverseFFT = C2R->GetOutput();
+
+  // Check to see that the metadata has been copied
+  if ( imageAfterInverseFFT->GetOrigin() != origin )
+    {
+    std::cerr << "Origin in C2R output does not match!" << std::endl;
+    return -1;
+    }
+
+  if ( imageAfterInverseFFT->GetSpacing() != spacing )
+    {
+    std::cerr << "Spacing in C2R output does not match!" << std::endl;
+    return -1;
+    }
+
+  if ( imageAfterInverseFFT->GetDirection() != direction )
+    {
+    std::cerr << "Direction in C2R output does not match!" << std::endl;
+    return -1;
+    }
 
   // The Inverse FFT image iterator is the resultant iterator after we
   // perform the FFT and Inverse FFT on the Original Image. */
