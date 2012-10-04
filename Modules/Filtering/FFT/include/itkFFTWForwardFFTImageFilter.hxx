@@ -88,6 +88,9 @@ FFTWForwardFFTImageFilter< TInputImage, TOutputImage >
   fftwOutputRegion.SetSize( fftwOutputSize );
 
   typename OutputImageType::Pointer fftwOutput = OutputImageType::New();
+  // The information is copied to the half image so that it will then
+  // be copied to the final output of this filter.
+  fftwOutput->CopyInformation( inputPtr );
   fftwOutput->SetRegions( fftwOutputRegion );
   fftwOutput->Allocate();
 
