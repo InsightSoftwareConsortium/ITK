@@ -335,6 +335,19 @@ RecursiveGaussianImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 RecursiveGaussianImageFilter< TInputImage, TOutputImage >
+::VerifyPreconditions()
+{
+  this->Superclass::VerifyPreconditions();
+
+  if( this->m_Sigma <= 0.0 )
+    {
+    itkExceptionMacro( "Sigma must be greater than zero." );
+    }
+}
+
+template< typename TInputImage, typename TOutputImage >
+void
+RecursiveGaussianImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
