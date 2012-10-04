@@ -19,7 +19,7 @@
 #define __itkGaussianOperator_h
 
 #include "itkNeighborhoodOperator.h"
-#include <math.h>
+#include <cmath>
 namespace itk
 {
 /**

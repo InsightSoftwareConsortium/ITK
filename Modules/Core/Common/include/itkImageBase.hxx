@@ -33,7 +33,7 @@
 #include "itkFastMutexLock.h"
 #include "itkProcessObject.h"
 #include "itkSpatialOrientation.h"
-#include <string.h>
+#include <cstring>
 
 namespace itk
 {

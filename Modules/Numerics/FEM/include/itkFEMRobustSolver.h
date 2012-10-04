@@ -27,7 +27,7 @@
 #include "itkFEMLinearSystemWrapperVNL.h"
 #include "itkFEMLinearSystemWrapperItpack.h"
 
-#include <math.h>
+#include <cmath>
 
 namespace itk
 {

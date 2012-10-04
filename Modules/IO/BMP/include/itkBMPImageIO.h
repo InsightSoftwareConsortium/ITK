@@ -21,7 +21,7 @@
 
 #include <fstream>
 #include "itkImageIOBase.h"
-#include <stdio.h>
+#include <cstdio>
 #include "itkRGBPixel.h"
 
 namespace itk

@@ -19,7 +19,7 @@
 #define __itkFlatStructuringElement_hxx
 #include "vnl/vnl_math.h"
 #include "itkFlatStructuringElement.h"
-#include <math.h>
+#include <cmath>
 #include <vector>
 
 #ifndef M_PI

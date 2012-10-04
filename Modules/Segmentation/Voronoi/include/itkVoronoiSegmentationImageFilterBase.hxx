@@ -22,7 +22,7 @@
 
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkVoronoiDiagram2DGenerator.h"
-#include <math.h>
+#include <cmath>
 
 namespace itk
 {

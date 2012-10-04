@@ -31,7 +31,7 @@
 #include "itkImportImageContainer.h"
 #include <cstring>
 #include <cstdlib>
-#include <string.h>
+#include <cstring>
 
 namespace itk
 {

@@ -18,7 +18,7 @@
 #ifndef __itkDifferenceOfGaussiansGradientImageFilter_hxx
 #define __itkDifferenceOfGaussiansGradientImageFilter_hxx
 
-#include <math.h>
+#include <cmath>
 #include "itkProgressReporter.h"
 #include "itkDifferenceOfGaussiansGradientImageFilter.h"
 #include "itkImageRegionIterator.h"

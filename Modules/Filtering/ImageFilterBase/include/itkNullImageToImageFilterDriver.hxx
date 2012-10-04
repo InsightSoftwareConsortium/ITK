@@ -29,7 +29,7 @@
 #include "itkIndex.h"
 #include <iostream>
 extern "C" {
-#include <time.h>
+#include <ctime>
 }
 
 namespace itk {

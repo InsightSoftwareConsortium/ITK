@@ -18,7 +18,7 @@
 #ifndef __itkImageRegionMultidimensionalSplitter_hxx
 #define __itkImageRegionMultidimensionalSplitter_hxx
 #include "itkImageRegionMultidimensionalSplitter.h"
-#include <math.h>
+#include <cmath>
 
 namespace itk
 {

@@ -24,7 +24,7 @@
 #include "itkIntTypes.h"
 #include "vcl_ctime.h"
 #include "vnl/vnl_math.h"
-#include <limits.h>
+#include <climits>
 
 namespace itk
 {

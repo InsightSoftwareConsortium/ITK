@@ -26,7 +26,7 @@
 #include "itkAnalyzeImageIOFactory.h"
 #include "itkAnalyzeImageIO.h"
 #include "itkIOTestHelper.h"
-#include <stdio.h>
+#include <cstdio>
 #include "itk_zlib.h"
 #include "itkRGBPixel.h"
 #include "itkSpatialOrientationAdapter.h"

@@ -22,7 +22,7 @@
 #include "itkMatrix.h"
 #include "itkPointSet.h"
 #include <deque>
-#include <math.h>
+#include <cmath>
 #include "vnl/vnl_matrix_fixed.h"
 #include "vnl/vnl_matrix.h"
 #include "vnl/vnl_vector.h"

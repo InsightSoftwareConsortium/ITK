@@ -31,7 +31,7 @@
 #include "itkMacro.h"
 #include "itkObject.h"
 
-#include <stdio.h>
+#include <cstdio>
 #include <string>
 #include <list>
 /** Set built-in type.  Creates member Set"name"() (e.g., SetVisibility()); */

@@ -26,7 +26,7 @@
 #include "itkOffset.h"
 #include <vector>
 #include <cstdlib>
-#include <string.h>
+#include <cstring>
 
 namespace itk
 {

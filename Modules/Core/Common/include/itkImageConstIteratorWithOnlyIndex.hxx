@@ -19,7 +19,7 @@
 #define __itkImageConstIteratorWithOnlyIndex_hxx
 
 #include "itkImageConstIteratorWithOnlyIndex.h"
-#include <string.h>
+#include <cstring>
 
 namespace itk
 {

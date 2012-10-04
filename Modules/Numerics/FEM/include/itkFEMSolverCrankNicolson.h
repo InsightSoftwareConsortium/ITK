@@ -31,7 +31,7 @@
 #include "vnl/algo/vnl_svd.h"
 #include "vnl/algo/vnl_cholesky.h"
 #include <vnl/vnl_sparse_matrix_linear_system.h>
-#include <math.h>
+#include <cmath>
 
 namespace itk
 {

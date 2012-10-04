@@ -27,7 +27,7 @@
 #include "itkMetaDataObject.h"
 #include "itkArray.h"
 #include "vnl/algo/vnl_determinant.h"
-#include <stdio.h>
+#include <cstdio>
 namespace itk
 {
 //---------------------------------------------------------

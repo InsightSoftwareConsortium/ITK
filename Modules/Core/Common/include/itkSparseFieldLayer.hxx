@@ -18,7 +18,7 @@
 #ifndef __itkSparseFieldLayer_hxx
 #define __itkSparseFieldLayer_hxx
 #include "itkSparseFieldLayer.h"
-#include <math.h>
+#include <cmath>
 #include "vcl_cmath.h"
 
 namespace itk

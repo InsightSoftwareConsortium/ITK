@@ -22,7 +22,7 @@
 #include "itkImplicitManifoldNormalVectorFilter.h"
 #include "itkLevelSetFunctionWithRefitTerm.h"
 #include "itkSparseFieldLevelSetImageFilter.h"
-#include <math.h>
+#include <cmath>
 
 namespace itk
 {

@@ -18,7 +18,7 @@
 #ifndef __itkGaussianSpatialFunction_hxx
 #define __itkGaussianSpatialFunction_hxx
 
-#include <math.h>
+#include <cmath>
 #include "vnl/vnl_math.h"
 #include "itkGaussianSpatialFunction.h"
 

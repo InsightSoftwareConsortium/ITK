@@ -19,7 +19,7 @@
 #define __itkFiniteCylinderSpatialFunction_hxx
 
 #include "itkFiniteCylinderSpatialFunction.h"
-#include <math.h>
+#include <cmath>
 
 namespace itk
 {

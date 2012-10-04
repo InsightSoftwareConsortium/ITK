@@ -18,7 +18,7 @@
 #ifndef __itkObjectMorphologyImageFilter_hxx
 #define __itkObjectMorphologyImageFilter_hxx
 
-#include <limits.h>
+#include <climits>
 
 #include "itkNumericTraits.h"
 #include "itkObjectMorphologyImageFilter.h"

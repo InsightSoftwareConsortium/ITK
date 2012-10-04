@@ -19,7 +19,7 @@
 #define __itkPolyLineParametricPath_hxx
 
 #include "itkPolyLineParametricPath.h"
-#include <math.h>
+#include <cmath>
 
 namespace itk
 {

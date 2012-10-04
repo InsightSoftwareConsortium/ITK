@@ -22,7 +22,7 @@
 #include "itkMatrix.h"
 #include "itkSymmetricEigenAnalysis.h"
 
-#include <math.h>
+#include <cmath>
 #include "vnl/algo/vnl_qr.h"
 
 namespace itk
