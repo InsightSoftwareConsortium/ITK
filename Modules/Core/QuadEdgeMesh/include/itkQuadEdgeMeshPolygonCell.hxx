@@ -127,8 +127,8 @@ unsigned int QuadEdgeMeshPolygonCell< TCellInterface >
 {
   // The constructor creates one edge by default
   unsigned int                 n = 0;
-  PointIdInternalConstIterator it   = this->InternalPointIdsBegin();
-  PointIdInternalConstIterator end  = this->InternalPointIdsEnd();
+  PointIdInternalConstIterator it  = this->InternalPointIdsBegin();
+  PointIdInternalConstIterator end = this->InternalPointIdsEnd();
 
   while ( it != end )
     {
@@ -204,9 +204,9 @@ QuadEdgeMeshPolygonCell< TCellInterface >
 {
   if ( this->GetNumberOfPoints() > 2 )
     {
-    PointIdInternalConstIterator i2   = first;
-    PointIdInternalIterator      i1   = this->InternalPointIdsBegin();
-    PointIdInternalIterator      end  = this->InternalPointIdsEnd();
+    PointIdInternalConstIterator i2  = first;
+    PointIdInternalIterator      i1  = this->InternalPointIdsBegin();
+    PointIdInternalIterator      end = this->InternalPointIdsEnd();
 
     while ( i1 != end )
       {
@@ -241,9 +241,9 @@ void QuadEdgeMeshPolygonCell< TCellInterface >
 ::InternalSetPointIds(PointIdInternalConstIterator first,
                       PointIdInternalConstIterator last)
 {
-  PointIdInternalIterator      i1 = this->InternalPointIdsBegin();
-  PointIdInternalIterator     end = this->InternalPointIdsEnd();
-  PointIdInternalConstIterator i2 = first;
+  PointIdInternalIterator      i1  = this->InternalPointIdsBegin();
+  PointIdInternalIterator      end = this->InternalPointIdsEnd();
+  PointIdInternalConstIterator i2  = first;
 
   while ( i1 != end && i2 != last )
     {
@@ -258,7 +258,7 @@ template< class TCellInterface >
 void QuadEdgeMeshPolygonCell< TCellInterface >
 ::SetPointId(int localId, PointIdentifier pId)
 {
-  int                     n   = 0;
+  int                     n = 0;
   PointIdInternalIterator it  = this->InternalPointIdsBegin();
   PointIdInternalIterator end = this->InternalPointIdsEnd();
 
@@ -282,16 +282,15 @@ QuadEdgeMeshPolygonCell< TCellInterface >
 {
   int                          n = 0;
   PointIdInternalConstIterator it = this->InternalPointIdsBegin();
-  PointIdInternalConstIterator end= this->InternalPointIdsEnd();
 
-  while ( it != end && n <= localId )
+  while ( it != this->InternalPointIdsEnd() && n <= localId )
     {
     if ( n == localId )
       {
       return ( it.Value()->GetOrigin() );
       }
-    ++it;
-    ++n;
+    it++;
+    n++;
     }
   return ( PointIdentifier(-1) );
 }
