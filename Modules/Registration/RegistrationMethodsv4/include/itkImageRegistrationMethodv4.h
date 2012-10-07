@@ -228,10 +228,18 @@ public:
   /**
    * Set/Get the smoothing sigmas for each level.  At each resolution level, a gaussian smoothing
    * filter (specifically, the \c itkDiscreteGaussianImageFilter) is applied.  Sigma values are
-   * specified in physical units.
+   * specified according to the option \c m_SmoothingSigmasAreSpecifiedInPhysicalUnits.
    */
   itkSetMacro( SmoothingSigmasPerLevel, SmoothingSigmasArrayType );
   itkGetConstMacro( SmoothingSigmasPerLevel, SmoothingSigmasArrayType );
+
+  /**
+   * Set/Get whether to specify the smoothing sigmas for each level in physical units
+   * (default) or in terms of voxels.
+   */
+  itkSetMacro( SmoothingSigmasAreSpecifiedInPhysicalUnits, bool );
+  itkGetConstMacro( SmoothingSigmasAreSpecifiedInPhysicalUnits, bool );
+  itkBooleanMacro( SmoothingSigmasAreSpecifiedInPhysicalUnits );
 
   /** Make a DataObject of the correct type to be used as the specified output. */
   typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
@@ -313,6 +321,7 @@ protected:
 
   ShrinkFactorsArrayType                                          m_ShrinkFactorsPerLevel;
   SmoothingSigmasArrayType                                        m_SmoothingSigmasPerLevel;
+  bool                                                            m_SmoothingSigmasAreSpecifiedInPhysicalUnits;
 
   TransformParametersAdaptorsContainerType                        m_TransformParametersAdaptorsPerLevel;
 

@@ -107,6 +107,8 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
   this->m_SmoothingSigmasPerLevel[1] = 1;
   this->m_SmoothingSigmasPerLevel[2] = 0;
 
+  this->m_SmoothingSigmasAreSpecifiedInPhysicalUnits = true;
+
   this->m_MetricSamplingStrategy = NONE;
   this->m_MetricSamplingPercentagePerLevel.SetSize( this->m_NumberOfLevels );
   this->m_MetricSamplingPercentagePerLevel.Fill( 1.0 );
@@ -177,7 +179,14 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
 
   typedef DiscreteGaussianImageFilter<FixedImageType, FixedImageType> FixedImageSmoothingFilterType;
   typename FixedImageSmoothingFilterType::Pointer fixedImageSmoothingFilter = FixedImageSmoothingFilterType::New();
-  fixedImageSmoothingFilter->SetUseImageSpacingOn();
+  if( this->m_SmoothingSigmasAreSpecifiedInPhysicalUnits == true )
+    {
+    fixedImageSmoothingFilter->SetUseImageSpacingOn();
+    }
+  else
+    {
+    fixedImageSmoothingFilter->SetUseImageSpacingOff();
+    }
   fixedImageSmoothingFilter->SetVariance( vnl_math_sqr( this->m_SmoothingSigmasPerLevel[level] ) );
   fixedImageSmoothingFilter->SetMaximumError( 0.01 );
   fixedImageSmoothingFilter->SetInput( this->GetFixedImage() );
@@ -188,7 +197,14 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
 
   typedef DiscreteGaussianImageFilter<MovingImageType, MovingImageType> MovingImageSmoothingFilterType;
   typename MovingImageSmoothingFilterType::Pointer movingImageSmoothingFilter = MovingImageSmoothingFilterType::New();
-  movingImageSmoothingFilter->SetUseImageSpacingOn();
+  if( this->m_SmoothingSigmasAreSpecifiedInPhysicalUnits == true )
+    {
+    movingImageSmoothingFilter->SetUseImageSpacingOn();
+    }
+  else
+    {
+    movingImageSmoothingFilter->SetUseImageSpacingOff();
+    }
   movingImageSmoothingFilter->SetVariance( vnl_math_sqr( this->m_SmoothingSigmasPerLevel[level] ) );
   movingImageSmoothingFilter->SetMaximumError( 0.01 );
   movingImageSmoothingFilter->SetInput( this->GetMovingImage() );
@@ -432,6 +448,15 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
 
   os << indent << "Shrink factors: " << this->m_ShrinkFactorsPerLevel << std::endl;
   os << indent << "Smoothing sigmas: " << this->m_SmoothingSigmasPerLevel << std::endl;
+
+  if( this->m_SmoothingSigmasAreSpecifiedInPhysicalUnits == true )
+    {
+    os << indent << indent << "Smoothing sigmas are specified in physical units." << std::endl;
+    }
+  else
+    {
+    os << indent << indent << "Smoothing sigmas are specified in voxel units." << std::endl;
+    }
 
   os << indent << "Metric sampling strategy: " << this->m_MetricSamplingStrategy << std::endl;
 
