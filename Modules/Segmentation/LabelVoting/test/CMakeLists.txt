@@ -2,6 +2,7 @@ itk_module_test()
 set(ITKLabelVotingTests
 itkVotingBinaryImageFilterTest.cxx
 itkLabelVotingImageFilterTest.cxx
+itkMultiLabelSTAPLEImageFilterTest.cxx
 itkVotingBinaryIterativeHoleFillingImageFilterTest.cxx
 itkBinaryMedianImageFilterTest.cxx
 itkVotingBinaryHoleFillingImageFilterTest.cxx
@@ -25,3 +26,5 @@ itk_add_test(NAME itkBinaryMedianImageFilterTest
       COMMAND ITKLabelVotingTestDriver itkBinaryMedianImageFilterTest)
 itk_add_test(NAME itkVotingBinaryHoleFillingImageFilterTest
       COMMAND ITKLabelVotingTestDriver itkVotingBinaryHoleFillingImageFilterTest)
+itk_add_test( NAME itkMultiLabelSTAPLEImageFilterTest
+      COMMAND ITKLabelVotingTestDriver itkMultiLabelSTAPLEImageFilterTest )
