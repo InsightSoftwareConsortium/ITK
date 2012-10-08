@@ -129,6 +129,23 @@ int PerformSimpleImageRegistration( int argc, char *argv[] )
   affineSimple->SetFixedImage( fixedImage );
   affineSimple->SetMovingImage( movingImage );
 
+  // Ensuring code coverage for boolean macros
+  affineSimple->SmoothingSigmasAreSpecifiedInPhysicalUnitsOff();
+  affineSimple->SetSmoothingSigmasAreSpecifiedInPhysicalUnits( false );
+  if( affineSimple->GetSmoothingSigmasAreSpecifiedInPhysicalUnits() != false )
+    {
+    std::cerr << "Returned unexpected value of TRUE." << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  affineSimple->SmoothingSigmasAreSpecifiedInPhysicalUnitsOn();
+  affineSimple->SetSmoothingSigmasAreSpecifiedInPhysicalUnits( true );
+  if( affineSimple->GetSmoothingSigmasAreSpecifiedInPhysicalUnits() != true )
+    {
+    std::cerr << "Returned unexpected value of FALSE." << std::endl;
+    return EXIT_FAILURE;
+    }
+
   // Smooth by specified gaussian sigmas for each level.  These values are specified in
   // physical units. Sigmas of zero cause inconsistency between some platforms.
   {
