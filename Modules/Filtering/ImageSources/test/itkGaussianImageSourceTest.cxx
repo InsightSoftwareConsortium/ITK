@@ -139,5 +139,10 @@ int itkGaussianImageSourceTest(int, char* [] )
   // Exercise the print method
   std::cout << image << std::endl;
 
+  // Instantiate 1D case.
+  typedef itk::Image< PixelType, 1 >              Image1DType;
+  typedef itk::GaussianImageSource< Image1DType > GaussianSource1DType;
+  GaussianSource1DType::Pointer source1D = GaussianSource1DType::New();
+
   return EXIT_SUCCESS;
 }
