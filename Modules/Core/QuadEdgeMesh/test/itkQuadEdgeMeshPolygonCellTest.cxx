@@ -138,5 +138,5 @@ int itkQuadEdgeMeshPolygonCellTest(int, char* [] )
   std::cout << (void const *)testCell.GetPointer() << std::endl;
   std::cout << "PolygonCell Owner   = " << testCell.IsOwner() << std::endl;
 
-  return 0;
+  return EXIT_SUCCESS;
 }
