@@ -18,19 +18,21 @@
 
 #include "itkFilterWatcher.h"
 #include "itkGaussianImageSource.h"
+#include "itkTestingMacros.h"
 
 int itkGaussianImageSourceTest(int, char* [] )
 {
   // This can be changed!
-  const unsigned int dim = 3;
+  const unsigned int    Dimension = 3;
+  typedef unsigned char PixelType;
 
   // Image typedef
-  typedef itk::Image< unsigned char, dim > ImageType;
+  typedef itk::Image< PixelType, Dimension > ImageType;
 
   // Create a gaussian image source
   typedef itk::GaussianImageSource< ImageType > GaussianSourceType;
-  GaussianSourceType::Pointer pSource = GaussianSourceType::New();
-  FilterWatcher watcher(pSource, "pSource");
+  GaussianSourceType::Pointer source = GaussianSourceType::New();
+  FilterWatcher watcher(source, "source");
 
   ImageType::SpacingValueType   spacing[] = { 1.2f, 1.3f, 1.4f };
   ImageType::PointValueType     origin[] = { 1.0f, 4.0f, 2.0f };
@@ -46,24 +48,24 @@ int itkGaussianImageSourceTest(int, char* [] )
   sigma[1] = 35.0f;
   sigma[2] = 55.0f;
 
-  pSource->SetSize( size );
-  pSource->SetOrigin( origin );
-  pSource->SetSpacing( spacing );
-  pSource->SetMean( mean );
-  pSource->SetSigma( sigma );
+  source->SetSize( size );
+  source->SetOrigin( origin );
+  source->SetSpacing( spacing );
+  source->SetMean( mean );
+  source->SetSigma( sigma );
 
   // Test the get macros as well (booorrring...)
-  pSource->GetSize();
-  pSource->GetSpacing();
-  pSource->GetOrigin();
-  pSource->GetDirection();
-  pSource->GetScale();
-  pSource->GetNormalized();
-  pSource->GetSigma();
-  pSource->GetMean();
+  source->GetSize();
+  source->GetSpacing();
+  source->GetOrigin();
+  source->GetDirection();
+  source->GetScale();
+  source->GetNormalized();
+  source->GetSigma();
+  source->GetMean();
 
   // Test the get/set parameters
-  GaussianSourceType::ParametersType params = pSource->GetParameters();
+  GaussianSourceType::ParametersType params = source->GetParameters();
   if ( params.GetSize() != 7 )
     {
     std::cerr << "Incorrect number of parameters. Expected 7, got "
@@ -83,7 +85,7 @@ int itkGaussianImageSourceTest(int, char* [] )
     return EXIT_FAILURE;
     }
 
-  if ( params[6] != pSource->GetScale() )
+  if ( params[6] != source->GetScale() )
     {
     std::cerr << "Parameters have incorrect scale value." << std::endl;
     return EXIT_FAILURE;
@@ -96,45 +98,51 @@ int itkGaussianImageSourceTest(int, char* [] )
   params[4] = 32.0;
   params[5] = 42.0;
   params[6] = 55.5;
-  pSource->SetParameters( params );
+  source->SetParameters( params );
 
-  if ( pSource->GetSigma()[0] != params[0] ||
-       pSource->GetSigma()[1] != params[1] ||
-       pSource->GetSigma()[2] != params[2] )
+  if ( source->GetSigma()[0] != params[0] ||
+       source->GetSigma()[1] != params[1] ||
+       source->GetSigma()[2] != params[2] )
     {
     std::cerr << "Sigma disagrees with parameters array." << std::endl;
-    std::cerr << "Sigma: " << pSource->GetSigma() << ", parameters: ["
+    std::cerr << "Sigma: " << source->GetSigma() << ", parameters: ["
               << params[0] << ", " << params[1] << ", " << params[2]
               << "]" << std::endl;
     return EXIT_FAILURE;
     }
 
-  if ( pSource->GetMean()[0] != params[3] ||
-       pSource->GetMean()[1] != params[4] ||
-       pSource->GetMean()[2] != params[5] )
+  if ( source->GetMean()[0] != params[3] ||
+       source->GetMean()[1] != params[4] ||
+       source->GetMean()[2] != params[5] )
     {
     std::cerr << "Mean disagrees with parameters array." << std::endl;
-    std::cerr << "Mean: " << pSource->GetMean() << ", parameters: ["
+    std::cerr << "Mean: " << source->GetMean() << ", parameters: ["
              << params[3] << ", " << params[4] << ", " << params[5]
              << "]" << std::endl;
     return EXIT_FAILURE;
     }
 
-  if ( pSource->GetScale() != params[6] )
+  if ( source->GetScale() != params[6] )
     {
     std::cerr << "Scale disagrees with parameters array." << std::endl;
-    std::cerr << "Scale: " << pSource->GetScale() << ", parameters: "
+    std::cerr << "Scale: " << source->GetScale() << ", parameters: "
               << params[6] << std::endl;
     return EXIT_FAILURE;
     }
 
   // Get the output of the source
-  ImageType::Pointer pImage = pSource->GetOutput();
+  ImageType::ConstPointer image = source->GetOutput();
 
   // Run the pipeline
-  pSource->Update();
+  TRY_EXPECT_NO_EXCEPTION( source->Update() );
 
-  std::cout << pImage << std::endl;
+  // Exercise the print method
+  std::cout << image << std::endl;
+
+  // Instantiate 1D case.
+  typedef itk::Image< PixelType, 1 >              Image1DType;
+  typedef itk::GaussianImageSource< Image1DType > GaussianSource1DType;
+  GaussianSource1DType::Pointer source1D = GaussianSource1DType::New();
 
   return EXIT_SUCCESS;
 }

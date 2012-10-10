@@ -48,21 +48,27 @@ GaussianImageSource< TOutputImage >
 {
   Superclass::PrintSelf(os, indent);
 
-  unsigned int i;
-
   os << indent << "Gaussian sigma: [";
-  for ( i = 0; i < NDimensions - 1; i++ )
+  for ( unsigned int ii = 0; ii < NDimensions; ++ii )
     {
-    os << m_Sigma[i] << ", ";
+    os << m_Sigma[ii];
+    if( ii != NDimensions - 1 )
+      {
+      os << ", ";
+      }
     }
-  os << m_Sigma[i] << "]" << std::endl;
+  os << "]" << std::endl;
 
   os << indent << "Gaussian mean: [";
-  for ( i = 0; i < NDimensions - 1; i++ )
+  for ( unsigned int ii = 0; ii < NDimensions; ++ii )
     {
-    os << m_Mean[i] << ", ";
+    os << m_Mean[ii];
+    if( ii != NDimensions - 1 )
+      {
+      os << ", ";
+      }
     }
-  os << m_Mean[i] << "]" << std::endl;
+  os << "]" << std::endl;
 
   os << indent << "Gaussian scale: " << m_Scale << std::endl;
   os << indent << "Normalized Gaussian?: " << m_Normalized << std::endl;
