@@ -39,6 +39,17 @@ set(ITKM_LD  "LD")            # Mangle
 set(ITKT_B  "bool")           # Type
 set(ITKM_B  "B")              # Mangle
 
+###############################################################################
+# A list of the union of ${ITK_WRAP_DIMS} and incremented ITK_WRAP_DIMS.  This
+# is needed for the VelocityFieldTransform related classes
+###############################################################################
+set(ITK_WRAP_DIMS_INCREMENTED "")
+foreach(d ${ITK_WRAP_DIMS})
+  # For VelocityFieldTranform
+  INCREMENT(d_inc ${d})
+  list(APPEND ITK_WRAP_DIMS_INCREMENTED ${d} ${d_inc})
+endforeach(d)
+list(REMOVE_DUPLICATES ITK_WRAP_DIMS_INCREMENTED)
 
 ###############################################################################
 # Create some variable which can be used later
