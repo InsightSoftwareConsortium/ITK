@@ -64,6 +64,7 @@ public:
   typedef GaussianInterpolateImageFunction<TInputImage, TCoordRep>  Superclass;
   typedef SmartPointer<Self>                                        Pointer;
   typedef SmartPointer<const Self>                                  ConstPointer;
+  typedef typename TInputImage::PixelType                           InputPixelType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro( LabelImageGaussianInterpolateImageFunction, GaussianInterpolateImageFunction );
@@ -100,6 +101,11 @@ public:
     {
     return this->EvaluateAtContinuousIndex( cindex, NULL );
     }
+
+  /**
+   * Ensure that the input label image label type is an integer type
+   */
+  itkConceptMacro( InputPixelTypeIsInteger, ( Concept::IsInteger<InputPixelType> ) );
 
 protected:
   LabelImageGaussianInterpolateImageFunction();
