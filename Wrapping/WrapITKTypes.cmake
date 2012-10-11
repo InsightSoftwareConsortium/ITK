@@ -62,7 +62,7 @@ endmacro()
 
 
 WRAP_TYPE("itk::Offset" "O")
-  UNIQUE(dims "${ITK_WRAP_DIMS};1;2")
+  UNIQUE(dims "${ITK_WRAP_DIMS_INCREMENTED};1;2")
   foreach(d ${dims})
     ADD_TEMPLATE("${d}"  "${d}")
   endforeach()
@@ -71,7 +71,7 @@ set(itk_Wrap_Offset ${WRAPPER_TEMPLATES})
 
 WRAP_TYPE("itk::Vector" "V")
   # dim 6 is used by ScaleSkewVersor3DTransform
-  UNIQUE(vector_sizes "1;${ITK_WRAP_DIMS};6")
+  UNIQUE(vector_sizes "1;${ITK_WRAP_DIMS_INCREMENTED};6")
   UNIQUE(vector_types "UC;F;D;${WRAP_ITK_SCALAR}")
   foreach(d ${vector_sizes})
     foreach(t ${vector_types})
@@ -82,7 +82,7 @@ END_WRAP_TYPE()
 set(itk_Wrap_Vector ${WRAPPER_TEMPLATES})
 
 WRAP_TYPE("itk::CovariantVector" "CV")
-  foreach(d ${ITK_WRAP_DIMS})
+  foreach(d ${ITK_WRAP_DIMS_INCREMENTED})
     ADD_TEMPLATE("${ITKM_F}${d}"  "${ITKT_F},${d}")
     ADD_TEMPLATE("${ITKM_D}${d}"  "${ITKT_D},${d}")
   endforeach()
@@ -90,7 +90,7 @@ END_WRAP_TYPE()
 set(itk_Wrap_CovariantVector ${WRAPPER_TEMPLATES})
 
 WRAP_TYPE("itk::ContinuousIndex" "CI")
-  foreach(d ${ITK_WRAP_DIMS})
+foreach(d ${ITK_WRAP_DIMS_INCREMENTED})
     ADD_TEMPLATE("${ITKM_F}${d}"  "${ITKT_F},${d}")
     ADD_TEMPLATE("${ITKM_D}${d}"  "${ITKT_D},${d}")
   endforeach()
@@ -175,8 +175,8 @@ set(itk_Wrap_SymmetricSecondRankTensor ${WRAPPER_TEMPLATES})
 
 WRAP_TYPE("itk::Image" "I")
   # Make a list of all of the selected image pixel types and also double (for
-  # BSplineDeformableTransform), uchar (for 8-bit image output), and ulong
-  # (for the watershed and relabel filters).
+  # BSplineDeformableTransform), uchar (for 8-bit image output), ulong
+  # (for the watershed and relabel filters)
   UNIQUE(wrap_image_types "${WRAP_ITK_ALL_TYPES};D;UC;UL;RGBUC;RGBAUC;VD")
 
   foreach(d ${ITK_WRAP_DIMS})
@@ -199,6 +199,9 @@ WRAP_TYPE("itk::Image" "I")
     # SymmetricSecondRankTensor types required by level set filters
     ADD_TEMPLATE("${ITKM_SSRT${ITKM_D}${d}}${d}"  "${ITKT_SSRT${ITKM_D}${d}}, ${d}")
 
+    # Vector types required by VelocityFieldTranform classes
+    INCREMENT(d_inc ${d})
+    ADD_TEMPLATE("${ITKM_VD${d}}${d_inc}" "${ITKT_VD${d}},${d_inc}")
   endforeach()
 END_WRAP_TYPE()
 set(itk_Wrap_Image ${WRAPPER_TEMPLATES})
@@ -228,7 +231,7 @@ END_WRAP_TYPE()
 set(itk_Wrap_VariableLengthVector ${WRAPPER_TEMPLATES})
 
 WRAP_TYPE("itk::Point" "P")
-  foreach(d ${ITK_WRAP_DIMS})
+  foreach(d ${ITK_WRAP_DIMS_INCREMENTED})
     ADD_TEMPLATE("${ITKM_F}${d}"  "${ITKT_F},${d}")
     ADD_TEMPLATE("${ITKM_D}${d}"  "${ITKT_D},${d}")
   endforeach()
