@@ -166,11 +166,14 @@ GPUNeighborhoodOperatorImageFilter< TInputImage, TOutputImage, TOperatorValueTyp
 
   typedef typename itk::GPUTraits< TInputImage >::Type  GPUInputImage;
   typedef typename itk::GPUTraits< TOutputImage >::Type GPUOutputImage;
+  typedef GPUImageDataManager<GPUInputImage>            GPUInputManagerType;
+  typedef GPUImageDataManager<GPUOutputImage>           GPUOutputManagerType;
 
   typename GPUInputImage::Pointer  inPtr =  dynamic_cast< GPUInputImage * >( this->ProcessObject::GetInput(0) );
   typename GPUOutputImage::Pointer otPtr =  dynamic_cast< GPUOutputImage * >( this->ProcessObject::GetOutput(0) );
 
-  typename GPUOutputImage::SizeType outSize = otPtr->GetLargestPossibleRegion().GetSize();
+  //typename GPUOutputImage::SizeType outSize = otPtr->GetLargestPossibleRegion().GetSize();
+  typename GPUOutputImage::SizeType outSize = otPtr->GetBufferedRegion().GetSize();
 
   int radius[3];
   int imgSize[3];
@@ -198,9 +201,11 @@ GPUNeighborhoodOperatorImageFilter< TInputImage, TOutputImage, TOperatorValueTyp
     }
 
   // arguments set up
-  int argidx = 0;
-  this->m_GPUKernelManager->SetKernelArgWithImage(kHd, argidx++, inPtr->GetGPUDataManager() );
-  this->m_GPUKernelManager->SetKernelArgWithImage(kHd, argidx++, otPtr->GetGPUDataManager() );
+  cl_uint argidx = 0;
+  this->m_GPUKernelManager->template SetKernelArgWithImageAndBufferedRegion<GPUInputManagerType>
+    (kHd, argidx, inPtr->GetDataManager() );
+  this->m_GPUKernelManager->template SetKernelArgWithImageAndBufferedRegion<GPUOutputManagerType>
+    (kHd, argidx, otPtr->GetDataManager() );
   this->m_GPUKernelManager->SetKernelArgWithImage(kHd, argidx++, m_NeighborhoodGPUBuffer->GetGPUDataManager() );
 
   for(int i=0; i<(int)TInputImage::ImageDimension; i++)
@@ -208,10 +213,10 @@ GPUNeighborhoodOperatorImageFilter< TInputImage, TOutputImage, TOperatorValueTyp
     this->m_GPUKernelManager->SetKernelArg(kHd, argidx++, sizeof(int), &(radius[i]) );
     }
 
-  for(int i=0; i<(int)TInputImage::ImageDimension; i++)
-    {
-    this->m_GPUKernelManager->SetKernelArg(kHd, argidx++, sizeof(int), &(imgSize[i]) );
-    }
+  //for(int i=0; i<(int)TInputImage::ImageDimension; i++)
+  //  {
+  //  this->m_GPUKernelManager->SetKernelArg(kHd, argidx++, sizeof(int), &(imgSize[i]) );
+  //  }
 
   // launch kernel
   this->m_GPUKernelManager->LaunchKernel(kHd, ImageDim, globalSize, localSize);

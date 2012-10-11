@@ -28,6 +28,35 @@ template < class ImageType >
 void GPUImageDataManager< ImageType >::SetImagePointer( typename ImageType::Pointer img )
 {
   m_Image = img;
+
+  typedef typename ImageType::RegionType RegionType;
+  typedef typename ImageType::IndexType  IndexType;
+  typedef typename ImageType::SizeType   SizeType;
+
+  RegionType region = m_Image->GetBufferedRegion();
+  IndexType  index  = region.GetIndex();
+  SizeType   size   = region.GetSize();
+
+  for (unsigned int d = 0; d < ImageDimension; d++)
+    {
+    m_BufferedRegionIndex[d] = index[d];
+    m_BufferedRegionSize[d] = size[d];
+    }
+
+  m_GPUBufferedRegionIndex = GPUDataManager::New();
+  m_GPUBufferedRegionIndex->SetBufferSize( sizeof(int) * ImageDimension );
+  m_GPUBufferedRegionIndex->SetCPUBufferPointer( m_BufferedRegionIndex );
+  m_GPUBufferedRegionIndex->SetBufferFlag( CL_MEM_READ_ONLY );
+  m_GPUBufferedRegionIndex->Allocate();
+  m_GPUBufferedRegionIndex->SetGPUDirtyFlag(true);
+
+  m_GPUBufferedRegionSize = GPUDataManager::New();
+  m_GPUBufferedRegionSize->SetBufferSize( sizeof(int) * ImageDimension );
+  m_GPUBufferedRegionSize->SetCPUBufferPointer( m_BufferedRegionSize );
+  m_GPUBufferedRegionSize->SetBufferFlag( CL_MEM_READ_ONLY );
+  m_GPUBufferedRegionSize->Allocate();
+  m_GPUBufferedRegionSize->SetGPUDirtyFlag(true);
+
 }
 
 template < class ImageType >

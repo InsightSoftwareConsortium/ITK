@@ -155,6 +155,8 @@ public:
     return m_DataManager->GetCurrentCommandQueueID();
   }
 
+  itkGetObjectMacro(DataManager, GPUImageDataManager< GPUImage >);
+
   GPUDataManager::Pointer GetGPUDataManager() const;
 
   /* Override DataHasBeenGenerated() in DataObject class.
