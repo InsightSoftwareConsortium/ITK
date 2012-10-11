@@ -22,6 +22,7 @@
  */
 
 
+#include "itkMath.h"
 #include "itkCovariantVector.h"
 #include <iostream>
 
@@ -172,6 +173,31 @@ int itkCovariantVectorGeometryTest(int, char* [] )
 
   }
 
+  // Test the inner products
+  {
+    typedef itk::Vector<double, 3>           ContravariantVectorType;
+    typedef itk::CovariantVector<double, 3>  CovariantVectorType;
+
+    ContravariantVectorType contravariant;
+    contravariant[0] = 1.0;
+    contravariant[1] = 2.0;
+    contravariant[2] = -7.0;
+
+    CovariantVectorType covariant;
+    covariant[0] = 1.0;
+    covariant[1] = 3.0;
+    covariant[2] = 5.0;
+
+    const double expectedValue = -28.0;
+
+    if( !itk::Math::FloatAlmostEqual( expectedValue, covariant * contravariant ) ||
+        !itk::Math::FloatAlmostEqual( expectedValue, contravariant * covariant ) )
+        {
+        std::cerr << "Error in inner product computation." << std::endl;
+        return EXIT_FAILURE;
+        }
+  }
+
   // Test the Cross products
   {
     typedef itk::Vector<double, 3>           ContravariantVectorType;
@@ -198,11 +224,9 @@ int itkCovariantVectorGeometryTest(int, char* [] )
     expectedNormal[1] = 0.0;
     expectedNormal[2] = 1.0;
 
-    const double tolerance = 1e-7;
-
-    if( vcl_fabs( normal[0] - expectedNormal[0] ) > tolerance ||
-        vcl_fabs( normal[1] - expectedNormal[1] ) > tolerance ||
-        vcl_fabs( normal[2] - expectedNormal[2] ) > tolerance )
+    if( !itk::Math::FloatAlmostEqual( normal[0], expectedNormal[0] ) ||
+        !itk::Math::FloatAlmostEqual( normal[1], expectedNormal[1] ) ||
+        !itk::Math::FloatAlmostEqual( normal[2], expectedNormal[2] ) )
       {
       std::cerr << "Error in CrossProduct computation." << std::endl;
       return EXIT_FAILURE;
