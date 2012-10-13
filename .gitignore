@@ -4,6 +4,10 @@
 # back-up files
 *~
 *.bak
+# vim swp files
+*.swp
+*.clang_complete
+
 
 # KWStyle hook output
 *.kws
