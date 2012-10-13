@@ -493,7 +493,7 @@ private:
   DataObjectIdentifierType                  m_SourceOutputName;
 
   /** When was this data last generated?
-   *  This time stap is an integer number and it is intended to synchronize the
+   *  This time stamp is an integer number and it is intended to synchronize the
    *  activities of the pipeline. It doesn't relates to the clock time of
    *  acquiring or processing the data. */
   TimeStamp m_UpdateMTime;
