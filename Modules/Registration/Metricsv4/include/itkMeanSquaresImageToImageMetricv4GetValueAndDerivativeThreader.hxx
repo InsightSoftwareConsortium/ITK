@@ -40,7 +40,14 @@ MeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner
 {
   /** Only the voxelwise contribution given the point pairs. */
   FixedImagePixelType diff = fixedImageValue - movingImageValue;
-  metricValueReturn = diff * diff;
+  const unsigned int nComponents = NumericTraits<FixedImagePixelType>::GetLength( diff );
+  metricValueReturn = NumericTraits<MeasureType>::ZeroValue();
+
+  for ( unsigned int nc = 0; nc < nComponents; nc++ )
+    {
+    MeasureType diffC = DefaultConvertPixelTraits<FixedImagePixelType>::GetNthComponent(nc, diff);
+    metricValueReturn += diffC*diffC;
+    }
 
   if( ! this->GetComputeDerivative() )
     {
@@ -56,12 +63,17 @@ MeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner
 
   for ( unsigned int par = 0; par < this->GetCachedNumberOfLocalParameters(); par++ )
     {
-    DerivativeValueType sum = NumericTraits<DerivativeValueType>::Zero;
-    for ( SizeValueType dim = 0; dim < ImageToImageMetricv4Type::MovingImageDimension; dim++ )
+    localDerivativeReturn[par] = NumericTraits<DerivativeValueType>::Zero;
+    for ( unsigned int nc = 0; nc < nComponents; nc++ )
       {
-      sum += 2.0 * diff * jacobian(dim, par) * movingImageGradient[dim];
+      MeasureType diffValue = DefaultConvertPixelTraits<FixedImagePixelType>::GetNthComponent(nc,diff);
+      for ( SizeValueType dim = 0; dim < ImageToImageMetricv4Type::MovingImageDimension; dim++ )
+        {
+        localDerivativeReturn[par] += 2.0 * diffValue * jacobian(dim, par) *
+          DefaultConvertPixelTraits<MovingImageGradientType>::GetNthComponent(
+            ImageToImageMetricv4Type::FixedImageDimension * nc + dim, movingImageGradient );
+        }
       }
-    localDerivativeReturn[par] = sum;
     }
   return true;
 }

@@ -17,7 +17,7 @@
 *=========================================================================*/
 
 /**
- * Test program for itkDemonImageToImageMetricv4 and
+ * Test program for itkDemonsImageToImageMetricv4 and
  * GradientDescentOptimizerv4 classes.
  *
  * Perform a registration using user-supplied images.
@@ -38,6 +38,48 @@
 #include "itkImageFileWriter.h"
 
 #include <iomanip>
+
+#include "itkCommand.h"
+
+#include <iostream>
+#include <fstream>
+
+template<class TFilter>
+class itkDemonsImageToImageMetricv4RegistrationTestCommandIterationUpdate : public itk::Command
+{
+public:
+  typedef itkDemonsImageToImageMetricv4RegistrationTestCommandIterationUpdate   Self;
+
+  typedef itk::Command             Superclass;
+  typedef itk::SmartPointer<Self>  Pointer;
+  itkNewMacro( Self );
+
+protected:
+  itkDemonsImageToImageMetricv4RegistrationTestCommandIterationUpdate() {};
+
+public:
+
+  void Execute(itk::Object *caller, const itk::EventObject & event)
+    {
+    Execute( (const itk::Object *) caller, event);
+    }
+
+  void Execute(const itk::Object * object, const itk::EventObject & event)
+    {
+    if( typeid( event ) != typeid( itk::IterationEvent ) )
+      {
+      return;
+      }
+    const TFilter *optimizer = dynamic_cast< const TFilter * >( object );
+
+    if( !optimizer )
+      {
+      itkGenericExceptionMacro( "Error dynamic_cast failed" );
+      }
+    std::cout << "It: " << optimizer->GetCurrentIteration() << " metric value: " << optimizer->GetValue();
+    std::cout << std::endl;
+    }
+};
 
 int itkDemonsImageToImageMetricv4RegistrationTest(int argc, char *argv[])
 {

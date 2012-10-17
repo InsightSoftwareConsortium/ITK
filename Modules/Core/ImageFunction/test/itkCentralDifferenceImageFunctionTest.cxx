@@ -51,7 +51,8 @@ int itkCentralDifferenceImageFunctionTest(int, char* [] )
   // set up central difference calculator
   typedef float CoordRepType;
   typedef itk::CentralDifferenceImageFunction<ImageType,CoordRepType> FunctionType;
-  typedef FunctionType::OutputType  OutputType;
+  typedef FunctionType::OutputType                                    OutputType;
+  typedef FunctionType::OutputValueType                               OutputValueType;
 
   FunctionType::Pointer function = FunctionType::New();
 
@@ -107,6 +108,11 @@ int itkCentralDifferenceImageFunctionTest(int, char* [] )
     {
     std::cout << "Index: " << index << " is inside the BufferedRegion." << std::endl;
     }
+  if( indexOutput[0] != itk::NumericTraits<OutputValueType>::Zero )
+    {
+    std::cout << "ERROR: Index: " << index << " - expected result dim 0 to have value 0. " << std::endl;
+    result = EXIT_FAILURE;
+    }
 
   cindex.Fill( 8.0 );
   cindex[0] = 15.0;
@@ -134,50 +140,54 @@ int itkCentralDifferenceImageFunctionTest(int, char* [] )
     result = EXIT_FAILURE;
     }
 
-  // test out-of-bounds index. Also makes sure we don't segfault.
-  index.Fill( 123 );
+  // test other edge
+  index.Fill( 8 );
+  index[1] = 0;
   indexOutput = function->EvaluateAtIndex( index );
-  std::cout << "Index: " << index << " Derivative: " << indexOutput << std::endl;
+  std::cout << "Index: " << index << " Derivative: ";
+  std::cout << indexOutput << std::endl;
   if ( function->IsInsideBuffer( index ) )
     {
-    std::cerr << "ERROR: expected index to be out of buffered region." << std::endl;
-    result = EXIT_FAILURE;
+    std::cout << "Index: " << index << " is inside the BufferedRegion." << std::endl;
     }
-  if( indexOutput[0] != 0 || indexOutput[1] != 0)
+  if( indexOutput[1] != itk::NumericTraits<OutputValueType>::Zero )
     {
-    std::cerr << "ERROR: EvaluteAtIndex for out-of-bounds index did not generate 0 derivatives." << std::endl;
+    std::cout << "ERROR: Index: " << index << " - expected result dim 1 to have value 0. " << std::endl;
     result = EXIT_FAILURE;
     }
 
-  cindex.Fill( -123.4 );
+  cindex.Fill( 8.0 );
+  cindex[1] = 0;
   continuousIndexOutput = function->EvaluateAtContinuousIndex( cindex );
-  std::cout << "ContinuousIndex: " << cindex << " Derivative: " << continuousIndexOutput << std::endl;
-  if ( function->IsInsideBuffer( cindex ) )
+  std::cout << "ContinuousIndex: " << cindex << " Derivative: ";
+  std::cout << continuousIndexOutput << std::endl;
+
+  if( indexOutput != continuousIndexOutput )
     {
-    std::cerr << "ERROR: expected continuous index to be out of buffered region." << std::endl;
-    result = EXIT_FAILURE;
-    }
-  if( continuousIndexOutput[0] != 0 || continuousIndexOutput[1] != 0)
-    {
-    std::cerr << "ERROR: EvaluteAtContinuousIndex for out-of-bounds index did not generate 0 derivatives." << std::endl;
+    std::cerr << "ERROR: Output of EvaluateAtIndex and EvaluateAtContinuousIndex do not match at boundary." << std::endl;
+    std::cerr << "indexOutput: " << indexOutput << " continuousIndexOutput: " << continuousIndexOutput << std::endl;
     result = EXIT_FAILURE;
     }
 
-  // out-of-bounds point
-  point[0] = 123.0;
-  point[1] = -123.0;
+  point.Fill( 8.0 );
+  // The point has to be just off of 0 because of the fact that points span +/- 0.5 in space.
+  // If just use 0.0, then the test for being on a boundary will fail because one of the
+  // neighboring points will be considered to be the same as point.
+  point[1] = -0.000001;
   pointOutput = function->Evaluate( point );
-  std::cout << "Point: " << point << " Derivative: " << pointOutput << std::endl;
-  if ( function->IsInsideBuffer( point ) )
+  std::cout << "Point: " << point << " Derivative: ";
+  std::cout << pointOutput << std::endl;
+
+  if( indexOutput != pointOutput )
     {
-    std::cerr << "ERROR: expected point to be out of buffered region." << std::endl;
+    std::cerr << "ERROR: Output of EvaluateAtIndex and Evaluate do not match at boundary." << std::endl;
+    std::cerr << "indexOutput: " << indexOutput << " pointOutput: " << pointOutput << std::endl;
     result = EXIT_FAILURE;
     }
-  if( pointOutput[0] != 0 || pointOutput[1] != 0)
-    {
-    std::cerr << "ERROR: Evalute for out-of-bounds point did not generate 0 derivatives." << std::endl;
-    result = EXIT_FAILURE;
-    }
+
+  // DO NOT test out-of-bounds index.
+  // Method documentation states that index/point is assumed
+  // to be in bounds.
 
   // test results at non-interger positions
   std::cout << "Test non-integer position for EvaluateAtContinuousIndex. "
@@ -367,7 +377,6 @@ int itkCentralDifferenceImageFunctionTest(int, char* [] )
     std::cerr << "ERROR: Expected derivative 0, " << outOfBoundsDerivative[0] << "with out-of-bounds point." << std::endl;
     result = EXIT_FAILURE;
     }
-
 
   if( result == EXIT_SUCCESS )
     {

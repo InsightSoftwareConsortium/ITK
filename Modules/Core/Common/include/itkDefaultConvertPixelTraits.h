@@ -22,6 +22,7 @@
 #include "itkVector.h"
 #include "itkMatrix.h"
 #include "itkVariableLengthVector.h"
+#include "itkVariableSizeMatrix.h"
 
 namespace itk
 {
@@ -140,7 +141,7 @@ public:
   {                                                                     \
   public:                                                               \
     typedef type< TComponentType, VDimension > TargetType;              \
-    typedef TComponentType                    ComponentType;            \
+    typedef TComponentType                     ComponentType;           \
     static unsigned int GetNumberOfComponents()                         \
     {                                                                   \
       return VDimension;                                                \
@@ -208,6 +209,43 @@ public:
 
 
 //
+//  Default traits for pixel types deriving from VariableSizeMatrix<>
+//
+template<typename VComponent>
+class DefaultConvertPixelTraits< VariableSizeMatrix< VComponent > >
+{
+public:
+  typedef VariableSizeMatrix< VComponent >   TargetType;
+  typedef VComponent                         ComponentType;
+  static unsigned int GetNumberOfComponents()
+  {
+    return 0;
+  }
+  static unsigned int GetNumberOfComponents( const TargetType pixel )
+  {
+    return pixel.Cols() * pixel.Rows();
+  }
+  static void SetNthComponent(int i, TargetType & pixel,
+                              const ComponentType &v)
+  {
+    const unsigned int row = i / pixel.Cols();
+    const unsigned int col = i % pixel.Cols();
+    pixel(row,col) = v;
+  }
+  static ComponentType GetNthComponent(int i, const TargetType & pixel)
+  {
+    const unsigned int row = i / pixel.Cols();
+    const unsigned int col = i % pixel.Cols();
+    return pixel(row,col);
+  }
+  static ComponentType GetScalarValue(const TargetType &pixel)
+  {
+    return 0.0;
+  }
+};
+
+
+//
 //  End of Traits for the classes deriving from FixedArray.
 //
 //
@@ -233,6 +271,12 @@ public:
       const unsigned int col = i % VCols;
       pixel[row][col] = v;
     }
+  static ComponentType GetNthComponent(int i, const TargetType & pixel)
+  {
+    const unsigned int row = i / VCols;
+    const unsigned int col = i % VCols;
+    return pixel[row][col];
+  }
   static ComponentType GetScalarValue(const TargetType &pixel)
     {
       return pixel[0][0];

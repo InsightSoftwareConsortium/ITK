@@ -9,6 +9,8 @@ set(ITKMetricsv4Tests
   itkJointHistogramMutualInformationImageToImageRegistrationTest.cxx
   itkMeanSquaresImageToImageMetricv4Test.cxx
   itkCorrelationImageToImageMetricv4Test.cxx
+  itkMeanSquaresImageToImageMetricv4OnVectorTest.cxx
+  itkMeanSquaresImageToImageMetricv4OnVectorTest2.cxx
   itkANTSNeighborhoodCorrelationImageToImageMetricv4Test.cxx
   itkANTSNeighborhoodCorrelationImageToImageRegistrationTest.cxx
   itkMattesMutualInformationImageToImageMetricv4Test.cxx
@@ -25,6 +27,8 @@ set(ITKMetricsv4Tests
   itkEuclideanDistancePointSetMetricTest2.cxx
   itkObjectToObjectMultiMetricv4Test.cxx
   itkObjectToObjectMultiMetricv4RegistrationTest.cxx
+  itkMeanSquaresImageToImageMetricv4SpeedTest.cxx
+  itkMeanSquaresImageToImageMetricv4VectorRegistrationTest.cxx
 )
 
 set(INPUTDATA ${ITK_DATA_ROOT}/Input)
@@ -80,6 +84,13 @@ itk_add_test(NAME itkCorrelationImageToImageMetricv4Test
       COMMAND ITKMetricsv4TestDriver
       itkCorrelationImageToImageMetricv4Test)
 
+itk_add_test(NAME itkMeanSquaresImageToImageMetricv4OnVectorTest
+      COMMAND ITKMetricsv4TestDriver
+      itkMeanSquaresImageToImageMetricv4OnVectorTest)
+
+itk_add_test(NAME itkMeanSquaresImageToImageMetricv4OnVectorTest2
+      COMMAND ITKMetricsv4TestDriver
+      itkMeanSquaresImageToImageMetricv4OnVectorTest2)
 
 itk_add_test(NAME itkANTSNeighborhoodCorrelationImageToImageMetricv4Test
       COMMAND ITKMetricsv4TestDriver
@@ -227,3 +238,14 @@ itk_add_test(NAME itkObjectToObjectMultiMetricv4Test
 itk_add_test(NAME itkObjectToObjectMultiMetricv4RegistrationTest
       COMMAND ITKMetricsv4TestDriver
               itkObjectToObjectMultiMetricv4RegistrationTest )
+
+itk_add_test(NAME itkMeanSquaresImageToImageMetricv4VectorRegistrationTest
+      COMMAND ITKMetricsv4TestDriver
+      --with-threads 1
+      --compare DATA{Baseline/itkMeanSquaresImageToImageMetricv4VectorRegistrationTest.nii.gz}
+                ${TEMP}/itkMeanSquaresImageToImageMetricv4VectorRegistrationTest.nii.gz
+              itkMeanSquaresImageToImageMetricv4VectorRegistrationTest
+              DATA{Input/orange.jpg}
+              DATA{Input/apple.jpg}
+              ${TEMP}/itkMeanSquaresImageToImageMetricv4VectorRegistrationTest.nii.gz
+              100 25 )

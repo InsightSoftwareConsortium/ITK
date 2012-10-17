@@ -23,8 +23,8 @@
 namespace itk
 {
 
-template < class TFixedImage, class TMovingImage, class TVirtualImage >
-MeanSquaresImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage>
+template < class TFixedImage, class TMovingImage, class TVirtualImage, class TMetricTraits>
+MeanSquaresImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage,TMetricTraits>
 ::MeanSquaresImageToImageMetricv4()
 {
   // We have our own GetValueAndDerivativeThreader's that we want
@@ -33,15 +33,15 @@ MeanSquaresImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage>
   this->m_SparseGetValueAndDerivativeThreader = MeanSquaresSparseGetValueAndDerivativeThreaderType::New();
 }
 
-template < class TFixedImage, class TMovingImage, class TVirtualImage >
-MeanSquaresImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage>
+template < class TFixedImage, class TMovingImage, class TVirtualImage, class TMetricTraits >
+MeanSquaresImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage,TMetricTraits>
 ::~MeanSquaresImageToImageMetricv4()
 {
 }
 
-template < class TFixedImage, class TMovingImage, class TVirtualImage  >
+template < class TFixedImage, class TMovingImage, class TVirtualImage, class TMetricTraits  >
 void
-MeanSquaresImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage>
+MeanSquaresImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage,TMetricTraits>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
