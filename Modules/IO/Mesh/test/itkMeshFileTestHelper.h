@@ -32,7 +32,7 @@ TestPointsContainer( typename TMesh::PointsContainerPointer points0,
   typedef TMesh                                           MeshType;
   typedef typename MeshType::PointsContainerConstIterator PointsContainerConstIterator;
 
-  if ( points0 && points1 )
+  if ( points0.IsNotNull() && points1.IsNotNull() )
     {
     if( points0->Size() != points1->Size() )
       {
@@ -45,6 +45,13 @@ TestPointsContainer( typename TMesh::PointsContainerPointer points0,
 
     while ( ( pt0 != points0->End() ) && ( pt1 != points1->End() ) )
       {
+      if( pt0->Index() != pt1->Index() )
+        {
+        std::cerr << "Input mesh and output mesh are different in points!" << std::endl;
+        std::cerr << "Input point ID  = "   << pt0.Index() << std::endl;
+        std::cerr << "Output point ID = "   << pt1.Index() << std::endl;
+        return EXIT_FAILURE;
+        }
       if ( pt0.Value().SquaredEuclideanDistanceTo( pt1.Value() ) > tol )
         {
         std::cerr << "Input mesh and output mesh are different in points!" << std::endl;
@@ -79,7 +86,7 @@ TestCellsContainer( typename TMesh::CellsContainerPointer cells0,
   typedef typename MeshType::CellsContainerConstIterator  CellsContainerConstIterator;
   typedef typename MeshType::CellType::PointIdIterator    CellPointIdIterator;
 
-  if ( cells0 && cells1 )
+  if ( cells0.IsNotNull() && cells1.IsNotNull() )
     {
     if( cells0->Size() != cells1->Size() )
       {
@@ -96,7 +103,13 @@ TestCellsContainer( typename TMesh::CellsContainerPointer cells0,
         std::cerr << "Input mesh and output mesh are different in cell type!" << std::endl;
         return EXIT_FAILURE;
         }
-
+      if ( ceIt0.Index() != ceIt1.Index() )
+        {
+        std::cerr << "Input mesh and output mesh have different cell IDs" << std::endl;
+        std::cerr << "Input mesh cell ID: "   << ceIt0.Index() << std::endl;
+        std::cerr << "Output mesh cell ID: "  << ceIt1.Index() << std::endl;
+        return EXIT_FAILURE;
+        }
       CellPointIdIterator pit0 = ceIt0.Value()->PointIdsBegin();
       CellPointIdIterator pit1 = ceIt1.Value()->PointIdsBegin();
       while ( pit0 != ceIt0.Value()->PointIdsEnd() )
@@ -135,7 +148,7 @@ TestPointDataContainer( typename TMesh::PointDataContainerPointer pointData0,
   typedef TMesh                                         MeshType;
   typedef typename MeshType::PointDataContainerIterator PointDataContainerIterator;
 
-  if ( pointData0 && pointData1 )
+  if ( pointData0.IsNotNull() && pointData1.IsNotNull() )
     {
     if( pointData0->Size() != pointData1->Size() )
       {
@@ -147,6 +160,13 @@ TestPointDataContainer( typename TMesh::PointDataContainerPointer pointData0,
 
     while ( ( pdIt0 != pointData0->End() ) && ( pdIt1 != pointData1->End() ) )
       {
+      if( pdIt0->Index() != pdIt1->Index() )
+        {
+        std::cerr << "Input mesh and output mesh are different in point data!" << std::endl;
+        std::cerr << "Input point ID  = "   << pdIt0.Index() << std::endl;
+        std::cerr << "Output point ID = "   << pdIt1.Index() << std::endl;
+        return EXIT_FAILURE;
+        }
       if ( pdIt0.Value() != pdIt1.Value() )
         {
         std::cerr << "Input mesh and output mesh are different in point data!" << std::endl;
@@ -179,7 +199,7 @@ TestCellDataContainer( typename TMesh::CellDataContainerPointer cellData0,
   typedef TMesh                                        MeshType;
   typedef typename MeshType::CellDataContainerIterator CellDataContainerIterator;
 
-  if ( cellData0 && cellData1 )
+  if ( cellData0.IsNotNull() && cellData1.IsNotNull() )
     {
     if( cellData0->Size() != cellData1->Size() )
       {
@@ -191,6 +211,13 @@ TestCellDataContainer( typename TMesh::CellDataContainerPointer cellData0,
     CellDataContainerIterator cdIt1 = cellData1->Begin();
     while ( cdIt0 != cellData0->End() )
       {
+      if( cdIt0->Index() != cdIt1->Index() )
+        {
+        std::cerr << "Input mesh and output mesh are different in cell data!" << std::endl;
+        std::cerr << "Input cell ID  = "   << cdIt0.Index() << std::endl;
+        std::cerr << "Output cell ID = "   << cdIt1.Index() << std::endl;
+        return EXIT_FAILURE;
+        }
       if ( cdIt0.Value() != cdIt1.Value() )
         {
         std::cerr << "Input mesh and output mesh are different in cell data!" << std::endl;
@@ -285,8 +312,8 @@ test(char *INfilename, char *OUTfilename, bool IsBinary)
     }
 
   // Test points
-  if( TestPointsContainer< MeshType >( reader->GetOutput()->GetPoints(),
-                                   reader1->GetOutput()->GetPoints() ) == EXIT_FAILURE )
+  if( TestPointsContainer< MeshType >(  reader->GetOutput()->GetPoints(),
+                                        reader1->GetOutput()->GetPoints() ) == EXIT_FAILURE )
     {
     return EXIT_FAILURE;
     }
