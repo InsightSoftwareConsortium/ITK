@@ -358,12 +358,9 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
 
   typedef typename MetricType::VirtualImageType         VirtualDomainImageType;
   typedef typename VirtualDomainImageType::RegionType   VirtualDomainRegionType;
-
   const VirtualDomainImageType * virtualImage = this->m_Metric->GetVirtualImage();
   const VirtualDomainRegionType & virtualDomainRegion = virtualImage->GetRequestedRegion();
-  const typename VirtualDomainImageType::SpacingType virtualSpacing = virtualImage->GetSpacing();
-
-  unsigned long sampleCount = virtualDomainRegion.GetNumberOfPixels();
+  const typename VirtualDomainImageType::SpacingType oneThirdVirtualSpacing = virtualImage->GetSpacing() / 3.0;
 
   typedef typename Statistics::MersenneTwisterRandomVariateGenerator RandomizerType;
   typename RandomizerType::Pointer randomizer = RandomizerType::New();
@@ -375,33 +372,33 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
     {
     case REGULAR:
       {
-      sampleCount = static_cast<unsigned long>( vcl_ceil( 1.0 / this->m_MetricSamplingPercentagePerLevel[this->m_CurrentLevel] ) );
-
-      unsigned long count = 0;
+      const unsigned long sampleCount = static_cast<unsigned long>( vcl_ceil( 1.0 / this->m_MetricSamplingPercentagePerLevel[this->m_CurrentLevel] ) );
+      unsigned long count = sampleCount; //Start at sampleCount to keep behavior backwards identical, using first element.
       ImageRegionConstIteratorWithIndex<VirtualDomainImageType> It( virtualImage, virtualDomainRegion );
       for( It.GoToBegin(); !It.IsAtEnd(); ++It )
         {
-        if( count % sampleCount == 0 )
+        if( count == sampleCount )
           {
+          count=0; //Reset counter
           SamplePointType point;
           virtualImage->TransformIndexToPhysicalPoint( It.GetIndex(), point );
 
           // randomly perturb the point within a voxel (approximately)
           for( unsigned int d = 0; d < ImageDimension; d++ )
             {
-            point[d] += randomizer->GetNormalVariate() / 3.0 * virtualSpacing[d];
+            point[d] += randomizer->GetNormalVariate() * oneThirdVirtualSpacing[d];
             }
           samplePointSet->SetPoint( index, point );
-          index++;
+          ++index;
           }
-        count++;
+        ++count;
         }
       break;
       }
     case RANDOM:
       {
-      sampleCount = static_cast<unsigned long>( static_cast<float>( sampleCount ) * this->m_MetricSamplingPercentagePerLevel[this->m_CurrentLevel] );
-
+      const unsigned long totalVirtualDomainVoxels = virtualDomainRegion.GetNumberOfPixels();
+      const unsigned long sampleCount = static_cast<unsigned long>( static_cast<float>( totalVirtualDomainVoxels ) * this->m_MetricSamplingPercentagePerLevel[this->m_CurrentLevel] );
       ImageRandomConstIteratorWithIndex<VirtualDomainImageType> ItR( virtualImage, virtualDomainRegion );
       ItR.SetNumberOfSamples( sampleCount );
       for( ItR.GoToBegin(); !ItR.IsAtEnd(); ++ItR )
@@ -412,10 +409,10 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
         // randomly perturb the point within a voxel (approximately)
         for ( unsigned int d = 0; d < ImageDimension; d++ )
           {
-          point[d] += randomizer->GetNormalVariate() / 3.0 * virtualSpacing[d];
+          point[d] += randomizer->GetNormalVariate() * oneThirdVirtualSpacing[d];
           }
         samplePointSet->SetPoint( index, point );
-        index++;
+        ++index;
         }
       break;
       }
@@ -424,7 +421,6 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
       itkExceptionMacro( "Invalid sampling strategy requested." );
       }
     }
-
   this->m_Metric->SetFixedSampledPointSet( samplePointSet );
   this->m_Metric->SetUseFixedSampledPointSet( true );
 }
