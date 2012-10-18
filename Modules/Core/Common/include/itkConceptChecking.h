@@ -600,10 +600,13 @@ struct HasNumericTraits {
       typedef typename NumericTraits< T >::FloatType      FloatType;
       T    a;
       bool b;
-      a = NumericTraits< T >::Zero;
-      a = NumericTraits< T >::One;
-      a = NumericTraits< T >::NonpositiveMin();
-      a = NumericTraits< T >::ZeroValue();
+
+      // Test these methods that take an instance of T to
+      // allow for types with variable length.
+      a = NumericTraits< T >::NonpositiveMin( a );
+      a = NumericTraits< T >::ZeroValue( a );
+      a = NumericTraits< T >::OneValue( a );
+
       b = NumericTraits< T >::IsPositive(a);
       b = NumericTraits< T >::IsNonpositive(a);
       b = NumericTraits< T >::IsNegative(a);

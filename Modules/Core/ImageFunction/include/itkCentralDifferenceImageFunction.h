@@ -21,6 +21,9 @@
 #include "itkImageFunction.h"
 #include "itkCovariantVector.h"
 #include "itkInterpolateImageFunction.h"
+#include "itkDefaultConvertPixelTraits.h"
+#include "itkEnableIf.h"
+#include "itkIsSame.h"
 
 namespace itk
 {
@@ -28,22 +31,55 @@ namespace itk
  * \class CentralDifferenceImageFunction
  * \brief Calculate the derivative by central differencing.
  *
- * This class is templated over the input image type and
- * the coordinate representation type (e.g. float or double).
+ * This class is templated over the input image type,
+ * the coordinate representation type (e.g. float or double),
+ * and the output derivative type.
+ *
+ * This class supports both scalar and vector pixel types
+ * for the input image, including VectorImage types.
+ *
+ * For vector-pixel image types, the TOutputType template
+ * parameter must be set to a vector of appropriate size, to
+ * accomadate a result for each pixel component in each dimension.
+ * The output is packed by pixel component, i.e.
+ *
+ *  [C0D0, C0D1, ..., C0DN, C1D0, ...]
+ *
+ * where C = pixel component, and D = image dimension.
+ *
+ * The output type can be, for example:
+ *
+ *     \code CovariantVector<double, numberOfPixelComponents * ImageDimension> \endcode
+ *  or
+ *     \code Matrix<double, numberOfPixelComponents, ImageDimension> \endcode
  *
  * Possible improvements:
- * - the use of Neighborhood operators may improve efficiency.
+ *
+ * 1) speed performance:
+ * The template-specialization of the Evaluate*() methods (needed
+ * to support vector-pixel types) incur a performance penalty for the
+ * scalar-pixel case, when compared with previous scalar-only
+ * versions of the code. On MacOS (2.4GHz Core 2 Duo, gcc 4.2)
+ * the penalty is 0.5-2%, depending on the method. To recover this loss,
+ * the specialization of the methods would have to be done such that
+ * a nested subroutine need not be called, ie the specialization is
+ * performed on the Evaluate* methods directly. At the moment is seems
+ * this can't be done without requiring a template parameter on the
+ * methods.
+ *
+ * 2) the use of Neighborhood operators may improve efficiency.
  *
  * \ingroup ImageFunctions
  * \ingroup ITKImageFunction
  */
 template<
   class TInputImage,
-  class TCoordRep = float >
+  class TCoordRep = float,
+  class TOutputType = CovariantVector<double, TInputImage::ImageDimension >
+  >
 class ITK_EXPORT CentralDifferenceImageFunction:
   public ImageFunction< TInputImage,
-                        CovariantVector< double, \
-                                         TInputImage::ImageDimension >,
+                        TOutputType,
                         TCoordRep >
 {
 public:
@@ -52,13 +88,12 @@ public:
                       TInputImage::ImageDimension);
 
   /** Standard class typedefs. */
-  typedef CentralDifferenceImageFunction Self;
+  typedef CentralDifferenceImageFunction   Self;
   typedef ImageFunction< TInputImage,
-                         CovariantVector< double,
-                                          itkGetStaticConstMacro(ImageDimension) >,
+                         TOutputType,
                          TCoordRep >       Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  typedef SmartPointer< Self >             Pointer;
+  typedef SmartPointer< const Self >       ConstPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(CentralDifferenceImageFunction, ImageFunction);
@@ -69,8 +104,23 @@ public:
   /** InputImageType typedef support. */
   typedef TInputImage InputImageType;
 
+  /** InputPixelType typedef support */
+  typedef typename InputImageType::PixelType InputPixelType;
+
+  /** InputPixelConvert typedef support */
+  typedef DefaultConvertPixelTraits< InputPixelType > InputPixelConvertType;
+
   /** OutputType typdef support. */
   typedef typename Superclass::OutputType OutputType;
+
+  /** Output convert typedef support */
+  typedef DefaultConvertPixelTraits<OutputType> OutputConvertType;
+
+  /** Output value typedef support */
+  typedef typename OutputConvertType::ComponentType OutputValueType;
+
+  /** Scalar derivative typedef support */
+  typedef CovariantVector<OutputValueType, itkGetStaticConstMacro(ImageDimension) > ScalarDerivativeType;
 
   /** Index typedef support. */
   typedef typename Superclass::IndexType IndexType;
@@ -101,8 +151,7 @@ public:
   /** Evalulate the image derivative by central differencing at specified index.
    *
    *  No bounds checking is done.
-   *  The point is assume to lie within the image buffer. If not, 0 is
-   *  returned for the derivative without any error return.
+   *  The point is assumed to lie within the image buffer.
    *
    *  If \c index lies on a boundary in a given dimension, 0 is returned for
    *  that dimension.
@@ -114,6 +163,7 @@ public:
   /** Evalulate the image derivative by central differencing at non-integer
    *  point.
    *
+   *  No bounds checking is done.
    *  The point is assumed to lie within the image buffer. If not, 0 is
    *  returned for the derivative without any error return, because of
    *  bounds-checking performed on the neighboring points.
@@ -129,15 +179,14 @@ public:
    *  index.
    *
    *  No bounds checking is done.
-   *  The point is assume to lie within the image buffer.
+   *  The point is assumed to lie within the image buffer.
    *
    *  If \c cindex lies on a boundary in a given dimension, 0 is returned for
    *  that dimension.
    *
    *  ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method. */
-  virtual OutputType EvaluateAtContinuousIndex(
-    const ContinuousIndexType & cindex) const;
+  virtual OutputType EvaluateAtContinuousIndex( const ContinuousIndexType & cindex) const;
 
   /** The UseImageDirection flag determines whether image derivatives are
    * computed with respect to the image grid or with respect to the physical
@@ -164,6 +213,33 @@ protected:
 private:
   CentralDifferenceImageFunction(const Self &); //purposely not implemented
   void operator=(const Self &);                 //purposely not implemented
+
+
+  /** Structure for specialization of Evaulate* methods on OutputType */
+  template<typename T>
+  struct OutputTypeSpecializationStructType
+  {
+    typedef T Type;
+  };
+
+  /** Specialized versions of EvaluteAtIndex() method to handle scalar or vector pixel types.*/
+  template< class Type >
+  inline void EvaluateAtIndexSpecialized( const IndexType & index, OutputType & derivative, OutputTypeSpecializationStructType<OutputType>) const;
+  template< class Type >
+  inline void EvaluateAtIndexSpecialized( const IndexType & index, OutputType & derivative, OutputTypeSpecializationStructType<Type>) const;
+
+  /** Specialized versions of EvaluteAtContinuousIndex() method to handle scalar or vector pixel types.*/
+  template< class Type >
+  inline void EvaluateAtContinuousIndexSpecialized( const ContinuousIndexType & index, OutputType & derivative, OutputTypeSpecializationStructType<OutputType>) const;
+  template< class Type >
+  inline void EvaluateAtContinuousIndexSpecialized( const ContinuousIndexType & index, OutputType & derivative, OutputTypeSpecializationStructType<Type>) const;
+
+  /** Specialized versions of Evalute() method to handle scalar or vector pixel types.*/
+  // NOTE: for some unknown reason, making these methods inline (as those above are inlined) makes them run *slower*.
+  template< class Type >
+  void EvaluateSpecialized( const PointType & point, OutputType & derivative, OutputTypeSpecializationStructType<OutputType>) const;
+  template< class Type >
+  void EvaluateSpecialized( const PointType & point, OutputType & derivative, OutputTypeSpecializationStructType<Type>) const;
 
   // flag to take or not the image direction into account
   // when computing the derivatives.

@@ -19,8 +19,8 @@
 #define __itkMeanSquaresImageToImageMetricv4_h
 
 #include "itkImageToImageMetricv4.h"
-
 #include "itkMeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader.h"
+#include "itkDefaultImageToImageMetricTraitsv4.h"
 
 namespace itk
 {
@@ -29,19 +29,26 @@ namespace itk
  *
  *  \brief Class implementing a mean squares metric.
  *
+ *  This class supports vector images of type VectorImage
+ *  and Image< VectorType, imageDimension >.
+ *
  *  See
  *  MeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader::ProcessPoint for algorithm implementation.
  *
  * \ingroup ITKMetricsv4
  */
-template <class TFixedImage, class TMovingImage, class TVirtualImage = TFixedImage >
+template <class TFixedImage, class TMovingImage, class TVirtualImage = TFixedImage,
+          class TMetricTraits = DefaultImageToImageMetricTraitsv4<TFixedImage,TMovingImage,TVirtualImage>
+          >
 class ITK_EXPORT MeanSquaresImageToImageMetricv4 :
-public ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
+  public ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TMetricTraits>
 {
 public:
   /** Standard class typedefs. */
-  typedef MeanSquaresImageToImageMetricv4                                Self;
-  typedef ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage> Superclass;
+  typedef MeanSquaresImageToImageMetricv4                                     Self;
+
+  typedef ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TMetricTraits> Superclass;
+
   typedef SmartPointer<Self>                                             Pointer;
   typedef SmartPointer<const Self>                                       ConstPointer;
 

@@ -19,6 +19,7 @@
 #define __itkNthElementPixelAccessor_h
 
 #include "itkMacro.h"
+#include "itkDefaultConvertPixelTraits.h"
 
 namespace itk
 {
@@ -61,11 +62,11 @@ public:
 
   /** Write access to the NthElement component */
   inline void Set(InternalType & output, const ExternalType & input) const
-  { output[m_ElementNumber] =  input; }
+  { DefaultConvertPixelTraits<InternalType>::SetNthComponent(m_ElementNumber, output, input); }
 
   /** Read access to the NthElement component */
   inline ExternalType Get(const InternalType & input) const
-  { return static_cast< ExternalType >( input[m_ElementNumber] ); }
+  { return static_cast<ExternalType>( DefaultConvertPixelTraits<InternalType>::GetNthComponent( m_ElementNumber, input ) ); }
 
   /** Get the element number to access in the container */
   unsigned int GetElementNumber(void) const

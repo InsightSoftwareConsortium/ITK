@@ -120,6 +120,58 @@ public:
     return OneValue();
   }
 
+  static bool IsPositive( const Self & a)
+  {
+    bool flag = false;
+    for (unsigned int i=0; i < GetLength( a ); i++)
+      {
+      if ( a[i] > NumericTraits< ValueType >::ZeroValue() )
+        {
+        flag = true;
+        }
+      }
+    return flag;
+  }
+
+  static bool IsNonpositive( const Self & a)
+  {
+    bool flag = false;
+    for (unsigned int i=0; i < GetLength( a ); i++)
+      {
+      if ( ! (a[i] > 0.0 ) )
+        {
+        flag = true;
+        }
+      }
+    return flag;
+  }
+
+  static bool IsNegative( const Self & a)
+  {
+    bool flag = false;
+    for (unsigned int i=0; i < GetLength( a ); i++)
+      {
+      if ( a[i] < 0.0 )
+        {
+        flag = true;
+        }
+      }
+    return flag;
+  }
+
+  static bool IsNonnegative( const Self & a)
+  {
+    bool flag = false;
+    for (unsigned int i=0; i < GetLength( a ); i++)
+      {
+      if ( ! (a[i] < 0.0 ))
+        {
+        flag = true;
+        }
+      }
+    return flag;
+  }
+
   /** Fixed length vectors cannot be resized, so an exception will
    *  be thrown if the input size is not valid.  If the size is valid
    *  the vector will be filled with zeros. */

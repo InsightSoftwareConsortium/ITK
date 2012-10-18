@@ -19,8 +19,18 @@
 #include "itkGradientRecursiveGaussianImageFilter.h"
 
 
-int itkGradientRecursiveGaussianFilterTest(int, char* [] )
+int itkGradientRecursiveGaussianFilterSpeedTest(int argc, char* argv[] )
 {
+  if( argc != 3 )
+    {
+    std::cerr << "usage: size reps" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  int imageSize = atoi( argv[1] );
+  int reps = atoi( argv[2] );
+
+  std::cout << "imageSize: " << imageSize << " reps: " << reps << std::endl;
 
   // Define the dimension of the images
   const unsigned int myDimension = 3;
@@ -43,9 +53,9 @@ int itkGradientRecursiveGaussianFilterTest(int, char* [] )
 
   // Define their size, and start index
   mySizeType size;
-  size[0] = 8;
-  size[1] = 8;
-  size[2] = 8;
+  size[0] = imageSize;
+  size[1] = imageSize;
+  size[2] = imageSize;
 
   myIndexType start;
   start.Fill(0);
@@ -73,9 +83,7 @@ int itkGradientRecursiveGaussianFilterTest(int, char* [] )
     ++it;
     }
 
-  size[0] = 4;
-  size[1] = 4;
-  size[2] = 4;
+  size.Fill( imageSize - 4 );
 
   start[0] = 2;
   start[1] = 2;
@@ -107,78 +115,37 @@ int itkGradientRecursiveGaussianFilterTest(int, char* [] )
   // Connect the input images
   filter->SetInput( inputImage );
 
-  // Select the value of Sigma
-  filter->SetSigma( 2.5 );
 
-
-  // Execute the filter
-  filter->Update();
-
-  // Get the Smart Pointer to the Filter Output
-  // It is important to do it AFTER the filter is Updated
-  // Because the object connected to the output may be changed
-  // by another during GenerateData() call
-  myGradientImageType::Pointer outputImage = filter->GetOutput();
-
-  // Declare Iterator type for the output image
-  typedef itk::ImageRegionIteratorWithIndex<myGradientImageType>  myOutputIteratorType;
-
-  // Create an iterator for going through the output image
-  myOutputIteratorType itg( outputImage, outputImage->GetRequestedRegion() );
-
-  //  Print the content of the result image
-  std::cout << " Result " << std::endl;
-  itg.GoToBegin();
-  while( !itg.IsAtEnd() )
+  // loop
+  for( int i=0; i < reps; i++ )
     {
+    // Select the value of Sigma
+    filter->SetSigma( 2.5 + reps/100.0 );
+
+    // Execute the filter
+    filter->Update();
+    }
+
+  if( reps > 0 )
+    {
+    // Get the Smart Pointer to the Filter Output
+    // It is important to do it AFTER the filter is Updated
+    // Because the object connected to the output may be changed
+    // by another during GenerateData() call
+    myGradientImageType::Pointer outputImage = filter->GetOutput();
+
+    // Declare Iterator type for the output image
+    typedef itk::ImageRegionIteratorWithIndex<myGradientImageType>  myOutputIteratorType;
+
+    // Create an iterator for going through the output image
+    myOutputIteratorType itg( outputImage, outputImage->GetRequestedRegion() );
+
+    //  Print the content of the result image
+    std::cout << " Result " << std::endl;
+    itg.GoToBegin();
     std::cout << itg.Get();
-    ++itg;
-    }
-  std::cout << std::endl;
-
-  //
-  // Test with a change in image direction
-  //
-  myImageType::DirectionType direction;
-  direction.Fill( 0.0 );
-  direction[0][0] = -1.0;
-  direction[1][1] = -1.0;
-  direction[2][2] = -1.0;
-  inputImage->SetDirection( direction );
-
-  // Create a  Filter
-  myFilterType::Pointer filter2 = myFilterType::New();
-  filter2->SetInput( inputImage );
-  filter2->SetSigma( 2.5 );
-  filter2->Update();
-  myGradientImageType::Pointer outputFlippedImage = filter2->GetOutput();
-
-  // compare the output between identity direction and flipped direction
-  std::cout << " Result of flipped image " << std::endl;
-  myOutputIteratorType itf( outputFlippedImage, outputFlippedImage->GetRequestedRegion() );
-  itf.GoToBegin();
-  bool passed = true;
-  while( !itf.IsAtEnd() )
-    {
-    std::cout << itf.Get();
-    myImageType::IndexType index;
-    for( unsigned int d = 0; d < myDimension; d++ )
-      {
-      index[d] = region.GetSize()[d] - 1 - itf.GetIndex()[d];
-      }
-    if( itf.Value() != outputImage->GetPixel( index ) )
-      {
-      passed = false;
-      }
-    ++itf;
-    }
-  std::cout << std::endl;
-  if( ! passed )
-    {
-    std::cerr << "Flipped image gradient does not match regular image as expected." << std::endl;
-    return EXIT_FAILURE;
+    std::cout << std::endl;
     }
 
-  // All objects should be automatically destroyed at this point
   return EXIT_SUCCESS;
 }

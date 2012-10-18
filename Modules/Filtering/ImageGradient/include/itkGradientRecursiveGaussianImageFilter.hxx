@@ -21,6 +21,7 @@
 #include "itkGradientRecursiveGaussianImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkImageRegionIterator.h"
+#include "itkImageRegionConstIterator.h"
 
 namespace itk
 {
@@ -78,7 +79,7 @@ GradientRecursiveGaussianImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 GradientRecursiveGaussianImageFilter< TInputImage, TOutputImage >
-::SetSigma(RealType sigma)
+::SetSigma(ScalarRealType sigma)
 {
   int imageDimensionMinus1 = static_cast< int >( ImageDimension ) - 1;
 
@@ -178,6 +179,15 @@ GradientRecursiveGaussianImageFilter< TInputImage, TOutputImage >
 
   const typename TInputImage::ConstPointer inputImage( this->GetInput() );
 
+  unsigned int nComponents = inputImage->GetNumberOfComponentsPerPixel();
+  /* An image of VariableLengthVectors will return 0 */
+  if (nComponents == 0 )
+    {
+    typename InputImageType::IndexType idx;
+    idx.Fill( 0 );
+    nComponents = NumericTraits<typename InputImageType::PixelType>::GetLength( inputImage->GetPixel(idx) );
+    }
+
   m_ImageAdaptor->SetImage( this->GetOutput() );
 
   m_ImageAdaptor->SetLargestPossibleRegion(
@@ -189,72 +199,92 @@ GradientRecursiveGaussianImageFilter< TInputImage, TOutputImage >
   m_ImageAdaptor->SetRequestedRegion(
     inputImage->GetRequestedRegion() );
 
+  m_ImageAdaptor->SetNumberOfComponentsPerPixel( nComponents );
   m_ImageAdaptor->Allocate();
 
   m_DerivativeFilter->SetInput(inputImage);
 
-  for ( unsigned int dim = 0; dim < ImageDimension; dim++ )
+  // For variable length output pixel types
+  ImageRegionIteratorWithIndex<OutputImageType> initGradIt(
+    this->GetOutput(), this->m_ImageAdaptor->GetRequestedRegion() );
+
+  if ( NumericTraits<OutputPixelType>::GetLength( initGradIt.Value() ) == 0 )
     {
-    unsigned int i = 0;
-    unsigned int j = 0;
-    while (  i < imageDimensionMinus1 )
+    while ( ! initGradIt.IsAtEnd() )
       {
-      if ( i == dim )
+      OutputPixelType pix;
+      NumericTraits<OutputPixelType>::SetLength( pix, nComponents*ImageDimension );
+      initGradIt.Set(pix);
+      ++initGradIt;
+      }
+    }
+
+  for ( unsigned int nc = 0; nc < nComponents; nc++ )
+    {
+    for ( unsigned int dim = 0; dim < ImageDimension; dim++ )
+      {
+      unsigned int i = 0;
+      unsigned int j = 0;
+      while (  i < imageDimensionMinus1 )
         {
+        if ( i == dim )
+          {
+          j++;
+        }
+        m_SmoothingFilters[i]->SetDirection(j);
+        i++;
         j++;
         }
-      m_SmoothingFilters[i]->SetDirection(j);
-      i++;
-      j++;
-      }
-    m_DerivativeFilter->SetDirection(dim);
+      m_DerivativeFilter->SetDirection(dim);
 
-    GaussianFilterPointer lastFilter;
+      GaussianFilterPointer lastFilter;
 
-    if ( ImageDimension > 1 )
-      {
-      const unsigned int imageDimensionMinus2 = static_cast< unsigned int >( ImageDimension - 2 );
-      lastFilter = m_SmoothingFilters[imageDimensionMinus2];
-      lastFilter->UpdateLargestPossibleRegion();
-      }
-    else
-      {
-      m_DerivativeFilter->UpdateLargestPossibleRegion();
-      }
+      if ( ImageDimension > 1 )
+        {
+        const unsigned int imageDimensionMinus2 = static_cast< unsigned int >( ImageDimension - 2 );
+        lastFilter = m_SmoothingFilters[imageDimensionMinus2];
+        lastFilter->UpdateLargestPossibleRegion();
+        }
+      else
+        {
+        m_DerivativeFilter->UpdateLargestPossibleRegion();
+        }
 
-    progress->ResetFilterProgressAndKeepAccumulatedProgress();
+      progress->ResetFilterProgressAndKeepAccumulatedProgress();
 
-    // Copy the results to the corresponding component
-    // on the output image of vectors
-    m_ImageAdaptor->SelectNthElement(dim);
+      // Copy the results to the corresponding component
+      // on the output image of vectors
+      m_ImageAdaptor->SelectNthElement(nc*ImageDimension + dim);
 
-    typename RealImageType::Pointer derivativeImage;
-    if ( ImageDimension > 1 )
-      {
-      derivativeImage = lastFilter->GetOutput();
-      }
-    else
-      {
-      derivativeImage = m_DerivativeFilter->GetOutput();
-      }
+      typename RealImageType::Pointer derivativeImage;
+      if ( ImageDimension > 1 )
+        {
+        derivativeImage = lastFilter->GetOutput();
+        }
+      else
+        {
+        derivativeImage = m_DerivativeFilter->GetOutput();
+        }
 
-    ImageRegionIteratorWithIndex< RealImageType > it(
-      derivativeImage,
-      derivativeImage->GetRequestedRegion() );
+      ImageRegionIteratorWithIndex< RealImageType > it(
+        derivativeImage,
+        derivativeImage->GetRequestedRegion() );
 
-    ImageRegionIteratorWithIndex< OutputImageAdaptorType > ot(
-      m_ImageAdaptor,
-      m_ImageAdaptor->GetRequestedRegion() );
+      ImageRegionIteratorWithIndex< OutputImageAdaptorType > ot(
+        m_ImageAdaptor,
+        m_ImageAdaptor->GetRequestedRegion() );
 
-    const RealType spacing = inputImage->GetSpacing()[dim];
+      const ScalarRealType spacing = inputImage->GetSpacing()[dim];
 
-    it.GoToBegin();
-    ot.GoToBegin();
-    while ( !it.IsAtEnd() )
-      {
-      ot.Set(it.Get() / spacing);
-      ++it;
-      ++ot;
+      it.GoToBegin();
+      ot.GoToBegin();
+      while ( !it.IsAtEnd() )
+        {
+        OutputComponentType outValue = static_cast<OutputComponentType>( DefaultConvertPixelTraits<InternalRealType>::GetNthComponent( nc, it.Get() / spacing ) );
+        ot.Set( outValue );
+        ++it;
+        ++ot;
+        }
       }
     }
 
@@ -274,6 +304,7 @@ GradientRecursiveGaussianImageFilter< TInputImage, TOutputImage >
   // of the output gradient image.
   if ( this->m_UseImageDirection )
     {
+
     OutputImageType *gradientImage = this->GetOutput();
     typedef typename InputImageType::DirectionType DirectionType;
     ImageRegionIterator< OutputImageType > itr( gradientImage,
@@ -283,10 +314,26 @@ GradientRecursiveGaussianImageFilter< TInputImage, TOutputImage >
     while ( !itr.IsAtEnd() )
       {
       const OutputPixelType & gradient = itr.Get();
-      inputImage->TransformLocalVectorToPhysicalVector(gradient, correctedGradient);
+
+      for (unsigned int nc = 0; nc < nComponents; nc++ )
+        {
+        GradientVectorType componentGradient;
+        GradientVectorType correctedComponentGradient;
+        for (unsigned int dim = 0; dim < ImageDimension; dim++ )
+          {
+          componentGradient[dim] = DefaultConvertPixelTraits<OutputPixelType>::GetNthComponent( nc*ImageDimension+dim, gradient );
+          }
+        inputImage->TransformLocalVectorToPhysicalVector(componentGradient, correctedComponentGradient );
+        for (unsigned int dim = 0; dim < ImageDimension; dim++ )
+          {
+          DefaultConvertPixelTraits<OutputPixelType>::SetNthComponent( nc*ImageDimension+dim, correctedGradient,
+            correctedComponentGradient[dim] );
+          }
+        }
       itr.Set(correctedGradient);
       ++itr;
       }
+
     }
 }
 

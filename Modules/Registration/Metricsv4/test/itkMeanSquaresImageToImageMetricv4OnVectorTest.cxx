@@ -17,20 +17,24 @@
  *=========================================================================*/
 #include "itkMeanSquaresImageToImageMetricv4.h"
 #include "itkTranslationTransform.h"
+#include "itkVectorImageToImageMetricTraitsv4.h"
 
 /* Simple test to verify that class builds and runs.
- * Results are not verified. See ImageToImageMetricv4Test
+ * Results are not verified. See ImageToImageObjectMetricTest
  * for verification of basic metric functionality.
  *
  * TODO Numerical verification.
  */
 
-int itkMeanSquaresImageToImageMetricv4Test(int, char ** const)
+int itkMeanSquaresImageToImageMetricv4OnVectorTest(int, char ** const)
 {
 
   const unsigned int imageSize = 5;
   const unsigned int imageDimensionality = 3;
-  typedef itk::Image< double, imageDimensionality >              ImageType;
+  const unsigned int vectorLength = 2;
+
+  typedef itk::Vector<double, vectorLength>             VectorType;
+  typedef itk::Image< VectorType, imageDimensionality > ImageType;
 
   ImageType::SizeType       size;
   size.Fill( imageSize );
@@ -67,7 +71,10 @@ int itkMeanSquaresImageToImageMetricv4Test(int, char ** const)
   unsigned int count = 1;
   while( !itFixed.IsAtEnd() )
     {
-    itFixed.Set( count*count );
+    VectorType pix;
+    pix[0] = count*count;
+    pix[1] = pix[0];
+    itFixed.Set( pix );
     count++;
     ++itFixed;
     }
@@ -79,7 +86,10 @@ int itkMeanSquaresImageToImageMetricv4Test(int, char ** const)
 
   while( !itMoving.IsAtEnd() )
     {
-    itMoving.Set( 1.0/(count*count) );
+    VectorType pix;
+    pix[0] = 1.0/(count*count);
+    pix[1] = pix[0];
+    itMoving.Set( pix );
     count++;
     ++itMoving;
     }
@@ -95,7 +105,8 @@ int itkMeanSquaresImageToImageMetricv4Test(int, char ** const)
   movingTransform->SetIdentity();
 
   /* The metric */
-  typedef itk::MeanSquaresImageToImageMetricv4< ImageType, ImageType, ImageType > MetricType;
+  typedef itk::VectorImageToImageMetricTraitsv4< ImageType, ImageType, ImageType, vectorLength > MetricTraitsType;
+  typedef itk::MeanSquaresImageToImageMetricv4< ImageType, ImageType, ImageType, MetricTraitsType > MetricType;
 
   MetricType::Pointer metric = MetricType::New();
 
@@ -106,6 +117,9 @@ int itkMeanSquaresImageToImageMetricv4Test(int, char ** const)
   metric->SetMovingImage( movingImage );
   metric->SetFixedTransform( fixedTransform );
   metric->SetMovingTransform( movingTransform );
+  metric->SetMaximumNumberOfThreads( 1 );
+
+  metric->DebugOn();
 
   /* Initialize. */
   try
@@ -118,8 +132,9 @@ int itkMeanSquaresImageToImageMetricv4Test(int, char ** const)
     std::cerr << "Caught unexpected exception during Initialize: " << exc << std::endl;
     return EXIT_FAILURE;
     }
+  std::cout << "Initialized" << std::endl;
 
-  // Evaluate with GetValueAndDerivative
+  /* Evaluate with GetValueAndDerivative */
   MetricType::MeasureType valueReturn1, valueReturn2;
   MetricType::DerivativeType derivativeReturn;
 
@@ -159,7 +174,7 @@ int itkMeanSquaresImageToImageMetricv4Test(int, char ** const)
     return EXIT_FAILURE;
     }
 
-  // Test same value returned by different methods
+  /* Test same value returned by different methods */
   std::cout << "Check Value return values..." << std::endl;
   if( valueReturn1 != valueReturn2 )
     {
@@ -170,24 +185,6 @@ int itkMeanSquaresImageToImageMetricv4Test(int, char ** const)
     {
     std::cout << "Metric value = " << valueReturn1 << std::endl;
     std::cout << "Gradient value = " << derivativeReturn << std::endl;
-    }
-
-  // Test that using floating point correction produces
-  // a different result
-  std::cout << "Testing with different floating point correction settings." << std::endl;
-  MetricType::DerivativeType derivativeWithFPC, derivativeWithOutFPC;
-  metric->SetMaximumNumberOfThreads( 1 );
-  metric->SetUseFloatingPointCorrection( false ); //default
-  metric->GetValueAndDerivative( valueReturn1, derivativeWithOutFPC );
-  metric->SetUseFloatingPointCorrection( true );
-  metric->SetFloatingPointCorrectionResolution( 1e1 ); //severe truncation
-  metric->GetValueAndDerivative( valueReturn1, derivativeWithFPC );
-  if( derivativeWithFPC == derivativeWithOutFPC )
-    {
-    std::cerr << "Expected different derivative result when using floating-point correction: "
-              << "With correction: " << derivativeWithFPC << ", without: " << derivativeWithOutFPC
-              << std::endl;
-    return EXIT_FAILURE;
     }
 
   std::cout << "Test passed." << std::endl;

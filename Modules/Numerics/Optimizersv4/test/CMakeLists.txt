@@ -15,6 +15,7 @@ set(ITKOptimizersv4Tests
   itkRegistrationParameterScalesFromIndexShiftTest.cxx
   itkRegistrationParameterScalesFromJacobianTest.cxx
   itkAutoScaledGradientDescentRegistrationTest.cxx
+  itkAutoScaledGradientDescentRegistrationOnVectorTest.cxx
   itkWindowConvergenceMonitoringFunctionTest.cxx
   itkQuasiNewtonOptimizerv4Test.cxx
   itkObjectToObjectMetricBaseTest.cxx
