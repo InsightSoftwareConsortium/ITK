@@ -36,16 +36,19 @@ int itkMeshFileReadWriteVectorAttributeTest(int argc, char * argv[])
   typedef itk::Mesh< PixelType, dimension >            MeshType;
   typedef itk::QuadEdgeMesh< PixelType, dimension >    QEMeshType;
 
+  int result = EXIT_SUCCESS;
+
   if( test< MeshType >( argv[1], argv[2], IsBinary ) )
     {
-    return EXIT_FAILURE;
+    std::cerr << "Failure for itk::Mesh" << std::endl;
+    result = EXIT_FAILURE;
     }
 
   if( test< QEMeshType >( argv[1], argv[2], IsBinary ) )
     {
-    return EXIT_FAILURE;
+    std::cerr << "Failure for itk::QuadEdgeMesh" << std::endl;
+    result = EXIT_FAILURE;
     }
 
-  return EXIT_SUCCESS;
-
+  return result;
 }
