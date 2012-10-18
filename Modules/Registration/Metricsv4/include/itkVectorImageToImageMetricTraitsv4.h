@@ -22,6 +22,9 @@
 #include "itkCovariantVector.h"
 #include "itkVariableLengthVector.h"
 #include "itkObjectToObjectMetricBase.h"
+#include "itkDefaultConvertPixelTraits.h"
+#include "itkGradientRecursiveGaussianImageFilter.h"
+#include "itkCentralDifferenceImageFunction.h"
 
 namespace itk
 {
