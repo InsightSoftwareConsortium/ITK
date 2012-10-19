@@ -71,7 +71,6 @@ int itkCentralDifferenceImageFunctionSpeedTest(int argc, char* argv[] )
 
   ImageType::IndexType index;
 
-  OutputType indexOutput;
   OutputType total;
   total.Fill( 0 );
 
@@ -86,7 +85,7 @@ int itkCentralDifferenceImageFunctionSpeedTest(int argc, char* argv[] )
       index = iter.GetIndex();
       if( doEAI )
         {
-        indexOutput = function->EvaluateAtIndex( index );
+        OutputType indexOutput = function->EvaluateAtIndex( index );
         total += indexOutput;
         }
 
@@ -110,7 +109,7 @@ int itkCentralDifferenceImageFunctionSpeedTest(int argc, char* argv[] )
       ++iter;
       }
     }
-  std::cout << "total: " << indexOutput << std::endl;
+  std::cout << "total: " << total << std::endl;
 
   return EXIT_SUCCESS;
 }
