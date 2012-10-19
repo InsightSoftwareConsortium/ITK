@@ -44,7 +44,7 @@ namespace itk
  * \c ExponentialDisplacementImageFilter to yield both the forward and inverse
  * displacement fields.
  *
- * \ref J. Ashburner. A Fast Diffeomorphic Image Registration Algorithm.
+ * \li J. Ashburner. A Fast Diffeomorphic Image Registration Algorithm.
  * NeuroImage, 38(1):95-113, 2007.
  *
  * \author Nick Tustison

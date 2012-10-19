@@ -98,8 +98,9 @@ protected:
   OutputPointType Relocate(OutputQEType *iEdge);
 
 private:
-  SquaredEdgeLengthDecimationQuadEdgeMeshFilter(const Self &);
-  void operator=(const Self &);
+
+  SquaredEdgeLengthDecimationQuadEdgeMeshFilter(const Self &); // purposely not implemented
+  void operator=(const Self &); // purposely not implemented
 };
 }
 
