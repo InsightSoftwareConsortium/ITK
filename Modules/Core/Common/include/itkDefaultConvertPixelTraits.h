@@ -238,7 +238,7 @@ public:
     const unsigned int col = i % pixel.Cols();
     return pixel(row,col);
   }
-  static ComponentType GetScalarValue(const TargetType &pixel)
+  static ComponentType GetScalarValue(const TargetType &)
   {
     return 0.0;
   }
