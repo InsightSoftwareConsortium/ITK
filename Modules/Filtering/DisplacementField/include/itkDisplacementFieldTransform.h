@@ -196,6 +196,11 @@ public:
   /* Create out own set accessor that assigns the displacement field */
   virtual void SetInterpolator( InterpolatorType* interpolator );
 
+  /** Get/Set the interpolator for the inverse field. */
+  itkGetObjectMacro( InverseInterpolator, InterpolatorType );
+  /* Create out own set accessor that assigns the displacement field */
+  virtual void SetInverseInterpolator( InterpolatorType* interpolator );
+
   /** Get the modification time of displacement field */
   itkGetConstReferenceMacro( DisplacementFieldSetTime, ModifiedTimeType );
 
@@ -405,6 +410,7 @@ protected:
 
   /** The interpolator. */
   typename InterpolatorType::Pointer          m_Interpolator;
+  typename InterpolatorType::Pointer          m_InverseInterpolator;
 
   /** Track when the displacement field was last set/assigned, as
    * distinct from when it may have had its contents modified. */

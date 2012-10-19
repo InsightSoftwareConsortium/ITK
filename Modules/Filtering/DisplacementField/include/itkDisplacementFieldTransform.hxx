@@ -46,6 +46,9 @@ DisplacementFieldTransform<TScalar, NDimensions>::DisplacementFieldTransform()
   typename DefaultInterpolatorType::Pointer interpolator = DefaultInterpolatorType::New();
   this->m_Interpolator = interpolator;
 
+  typename DefaultInterpolatorType::Pointer inverseInterpolator = DefaultInterpolatorType::New();
+  this->m_InverseInterpolator = inverseInterpolator;
+
   // Setup and assign parameter helper. This will hold the displacement field
   // for access through the common OptimizerParameters interface.
   OptimizerParametersHelperType* helper = new OptimizerParametersHelperType;
@@ -126,7 +129,8 @@ bool DisplacementFieldTransform<TScalar, NDimensions>
     {
     inverse->SetDisplacementField( this->m_InverseDisplacementField );
     inverse->SetInverseDisplacementField( this->m_DisplacementField );
-    inverse->SetInterpolator( this->m_Interpolator );
+    inverse->SetInterpolator( this->m_InverseInterpolator );
+    inverse->SetInverseInterpolator( this->m_Interpolator );
 
     return true;
     }
@@ -401,6 +405,10 @@ void DisplacementFieldTransform<TScalar, NDimensions>
       {
       this->VerifyFixedParametersInformation();
       }
+    if( !this->m_InverseInterpolator.IsNull() )
+      {
+      this->m_InverseInterpolator->SetInputImage( this->m_InverseDisplacementField );
+      }
     this->Modified();
     }
 }
@@ -489,6 +497,23 @@ DisplacementFieldTransform<TScalar, NDimensions>
     if( !this->m_DisplacementField.IsNull() )
       {
       this->m_Interpolator->SetInputImage( this->m_DisplacementField );
+      }
+    }
+}
+
+template <class TScalar, unsigned int NDimensions>
+void
+DisplacementFieldTransform<TScalar, NDimensions>
+::SetInverseInterpolator( InterpolatorType* interpolator )
+{
+  itkDebugMacro("setting InverseInterpolator to " << interpolator);
+  if( this->m_InverseInterpolator != interpolator )
+    {
+    this->m_InverseInterpolator = interpolator;
+    this->Modified();
+    if( !this->m_InverseDisplacementField.IsNull() )
+      {
+      this->m_InverseInterpolator->SetInputImage( this->m_InverseDisplacementField );
       }
     }
 }
@@ -609,6 +634,9 @@ DisplacementFieldTransform<TScalar, NDimensions>
 
   std::cout << indent << "Interpolator: " << std::endl;
   std::cout << indent << indent << this->m_Interpolator << std::endl;
+
+  std::cout << indent << "InverseInterpolator: " << std::endl;
+  std::cout << indent << indent << this->m_InverseInterpolator << std::endl;
 
   if( this->m_DisplacementField )
     {
