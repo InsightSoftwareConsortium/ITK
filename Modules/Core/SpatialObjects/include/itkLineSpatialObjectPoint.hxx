@@ -28,11 +28,13 @@ LineSpatialObjectPoint< TPointDimension >
 ::LineSpatialObjectPoint(void)
 {
   this->m_ID = 0;
-  for ( unsigned int i = 0; i < TPointDimension - 1; i++ )
+  unsigned int ii = 0;
+  VectorType normal;
+  normal.Fill(0);
+  while( ii < TPointDimension - 1 )
     {
-    VectorType normal;
-    normal.Fill(0);
-    m_NormalArray[i] = normal;
+    this->m_NormalArray[ii] = normal;
+    ++ii;
     }
 }
 
@@ -59,9 +61,11 @@ LineSpatialObjectPoint< TPointDimension >
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "LineSpatialObjectPoint(" << this << ")" << std::endl;
-  for ( unsigned int i = 0; i < TPointDimension - 1; i++ )
+  unsigned int ii = 0;
+  while( ii < TPointDimension - 1 )
     {
-    os << indent <<   m_NormalArray[i] << std::endl;
+    os << indent << this->m_NormalArray[ii] << std::endl;
+    ++ii;
     }
 }
 

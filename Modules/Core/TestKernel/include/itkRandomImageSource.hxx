@@ -181,27 +181,33 @@ RandomImageSource< TOutputImage >
   os << indent << "Min: "
      << static_cast< typename NumericTraits< OutputImagePixelType >::PrintType >( m_Min )
      << std::endl;
-  unsigned int i;
+
   os << indent << "Origin: [";
-  for ( i = 0; i < TOutputImage::ImageDimension - 1; i++ )
+  unsigned int ii = 0;
+  while( ii < TOutputImage::ImageDimension - 1 )
     {
-    os << m_Origin[i] << ", ";
+    os << m_Origin[ii] << ", ";
+    ++ii;
     }
-  os << m_Origin[i] << "]" << std::endl;
+  os << m_Origin[ii] << "]" << std::endl;
 
   os << indent << "Spacing: [";
-  for ( i = 0; i < TOutputImage::ImageDimension - 1; i++ )
+  ii = 0;
+  while( ii < TOutputImage::ImageDimension - 1 )
     {
-    os << m_Spacing[i] << ", ";
+    os << m_Spacing[ii] << ", ";
+    ++ii;
     }
-  os << m_Spacing[i] << "]" << std::endl;
+  os << m_Spacing[ii] << "]" << std::endl;
 
   os << indent << "Size: [";
-  for ( i = 0; i < TOutputImage::ImageDimension - 1; i++ )
+  ii = 0;
+  while( ii < TOutputImage::ImageDimension - 1 )
     {
-    os << m_Size[i] << ", ";
+    os << m_Size[ii] << ", ";
+    ++ii;
     }
-  os << m_Size[i] << "]" << std::endl;
+  os << m_Size[ii] << "]" << std::endl;
 }
 
 //----------------------------------------------------------------------------
