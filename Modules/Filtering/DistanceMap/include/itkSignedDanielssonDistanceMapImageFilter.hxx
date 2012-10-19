@@ -128,8 +128,6 @@ void SignedDanielssonDistanceMapImageFilter< TInputImage, TOutputImage, TVoronoi
   typename FilterType::Pointer filter1 = FilterType::New();
   typename FilterType::Pointer filter2 = FilterType::New();
 
-  filter1->SetInputIsBinary(true);    // Force signed distance map to work on
-  filter2->SetInputIsBinary(true);    // binary images
   filter1->SetUseImageSpacing(m_UseImageSpacing);
   filter2->SetUseImageSpacing(m_UseImageSpacing);
   filter1->SetSquaredDistance(m_SquaredDistance);
@@ -147,7 +145,7 @@ void SignedDanielssonDistanceMapImageFilter< TInputImage, TOutputImage, TVoronoi
   inverter->SetInput( this->GetInput() );
 
   //Dilate the inverted image by 1 pixel to give it the same boundary
-  //as the univerted input.
+  //as the uninverted input.
 
   typedef BinaryBallStructuringElement<
     InputPixelType,

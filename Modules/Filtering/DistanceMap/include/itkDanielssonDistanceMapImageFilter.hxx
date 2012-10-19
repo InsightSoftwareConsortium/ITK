@@ -174,7 +174,7 @@ DanielssonDistanceMapImageFilter< TInputImage, TOutputImage, TVoronoiImage >
       {
       if ( it.Get() )
         {
-        ot.Set(npt++);
+        ot.Set(npt);
         }
       else
         {
@@ -220,11 +220,14 @@ DanielssonDistanceMapImageFilter< TInputImage, TOutputImage, TVoronoiImage >
 
   itkDebugMacro(<< "PrepareData: Copy output to ct");
 
-  ot.GoToBegin();
+  // Iterate over the input image and distanceComponents image.
+  // Wherever the input image is non-zero, initialize the distanceComponents image to the minValue.
+  // Wherever the input image is zero, initialize the distanceComponents image to the maxValue.
+  it.GoToBegin();
   ct.GoToBegin();
-  while ( !ot.IsAtEnd() )
+  while ( !it.IsAtEnd() )
     {
-    if ( ot.Get() )
+    if ( it.Get() )
       {
       ct.Set(minValue);
       }
@@ -232,7 +235,7 @@ DanielssonDistanceMapImageFilter< TInputImage, TOutputImage, TVoronoiImage >
       {
       ct.Set(maxValue);
       }
-    ++ot;
+    ++it;
     ++ct;
     }
   itkDebugMacro(<< "PrepareData End");
