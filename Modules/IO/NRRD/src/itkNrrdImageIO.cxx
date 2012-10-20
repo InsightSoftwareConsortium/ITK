@@ -37,8 +37,8 @@ NrrdImageIO::NrrdImageIO()
 }
 
 NrrdImageIO::~NrrdImageIO()
-{}
-
+{
+}
 
 bool NrrdImageIO::SupportsDimension(unsigned long dim)
 {
@@ -82,10 +82,10 @@ NrrdImageIO::NrrdToITKComponentType(const int nrrdComponentType) const
     // cross-platform across 32-vs-64 bit machines, but we'll use it
     // where possible.
     case nrrdTypeLLong:
-      return airMy32Bit ? UNKNOWNCOMPONENTTYPE : LONG;
+      return (4 == sizeof(long) ) ? UNKNOWNCOMPONENTTYPE : LONG;
       break;
     case nrrdTypeULLong:
-      return airMy32Bit ? UNKNOWNCOMPONENTTYPE : ULONG;
+      return (4 == sizeof(long) ) ? UNKNOWNCOMPONENTTYPE : ULONG;
       break;
     case nrrdTypeInt:
       return INT;
@@ -131,10 +131,10 @@ NrrdImageIO::ITKToNrrdComponentType(const ImageIOBase::IOComponentType itkCompon
     // cross-platform across 32-vs-64 bit machines, but we can figure out
     // a cross-platform way of storing the information.
     case LONG:
-      return airMy32Bit ? nrrdTypeInt : nrrdTypeLLong;
+      return (4 == sizeof(long) ) ? nrrdTypeInt : nrrdTypeLLong;
       break;
     case ULONG:
-      return airMy32Bit ? nrrdTypeUInt : nrrdTypeULLong;
+      return (4 == sizeof(long) ) ? nrrdTypeUInt : nrrdTypeULLong;
       break;
     case INT:
       return nrrdTypeInt;
@@ -237,10 +237,11 @@ void NrrdImageIO::ReadImageInformation()
 
   Nrrd *       nrrd = nrrdNew();
   NrrdIoState *nio = nrrdIoStateNew();
+
   try
     {
     // nrrd causes exceptions on purpose, so mask them
-    bool saveFPEState(FloatingPointExceptions::GetExceptionAction());
+    bool saveFPEState(FloatingPointExceptions::GetExceptionAction() );
     FloatingPointExceptions::Disable();
 
     // this is the mechanism by which we tell nrrdLoad to read
@@ -295,7 +296,7 @@ void NrrdImageIO::ReadImageInformation()
     if ( UNKNOWNCOMPONENTTYPE == cmpType )
       {
       itkExceptionMacro("Nrrd type " << airEnumStr(nrrdType, nrrd->type)
-                        << " could not be mapped to an ITK component type");
+                                     << " could not be mapped to an ITK component type");
       }
     this->SetComponentType(cmpType);
 
@@ -400,7 +401,7 @@ void NrrdImageIO::ReadImageInformation()
           break;
         default:
           itkExceptionMacro("ReadImageInformation: nrrdKind " << kind
-                            << " not known!");
+                                                              << " not known!");
           break;
         }
       }
@@ -739,7 +740,7 @@ void NrrdImageIO::Read(void *buffer)
     }
 
   // nrrd causes exceptions on purpose, so mask them
-  bool saveFPEState(FloatingPointExceptions::GetExceptionAction());
+  bool saveFPEState(FloatingPointExceptions::GetExceptionAction() );
   FloatingPointExceptions::Disable();
 
   // Read in the nrrd.  Yes, this means that the header is being read
@@ -1124,4 +1125,5 @@ void NrrdImageIO::Write(const void *buffer)
   nrrd = nrrdNix(nrrd);
   nio = nrrdIoStateNix(nio);
 }
+
 } // end namespace itk

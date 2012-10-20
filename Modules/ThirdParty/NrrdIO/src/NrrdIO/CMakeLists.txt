@@ -3,17 +3,17 @@ INCLUDE_REGULAR_EXPRESSION("^.*.h$")
 
 #
 # This CMake file configures the NrrdIO library build.  NrrdIO
-# is used by Insight/Code/IO/itkNrrdIO for reading/writing 
-# "Nearly Raw Raster Data" within the open-source Teem software 
+# is used by Insight/Code/IO/itkNrrdIO for reading/writing
+# "Nearly Raw Raster Data" within the open-source Teem software
 # package. See http://teem.sourceforge.net for more information.
 #
 
-SET(nrrdio_SRCS 754.c mop.c array.c parseAir.c dio.c sane.c endianAir.c 
-string.c enum.c miscAir.c biffbiff.c biffmsg.c accessors.c defaultsNrrd.c 
-enumsNrrd.c arraysNrrd.c methodsNrrd.c reorder.c axis.c simple.c comment.c 
-keyvalue.c endianNrrd.c parseNrrd.c gzio.c read.c write.c format.c 
-formatNRRD.c encoding.c encodingRaw.c encodingAscii.c encodingHex.c 
-encodingGzip.c subset.c encodingBzip2.c formatEPS.c formatPNG.c 
+SET(nrrdio_SRCS 754.c mop.c array.c parseAir.c dio.c sane.c endianAir.c
+string.c enum.c miscAir.c biffbiff.c biffmsg.c accessors.c defaultsNrrd.c
+enumsNrrd.c arraysNrrd.c methodsNrrd.c reorder.c axis.c simple.c comment.c
+keyvalue.c endianNrrd.c parseNrrd.c gzio.c read.c write.c format.c
+formatNRRD.c encoding.c encodingRaw.c encodingAscii.c encodingHex.c
+encodingGzip.c subset.c encodingBzip2.c formatEPS.c formatPNG.c
 formatPNM.c formatText.c formatVTK.c )
 
 # Turn on TEEM_BUILD and TEEM_STATIIC so that the proper dll export
@@ -24,11 +24,9 @@ if(NOT BUILD_SHARED_LIBS)
  set(TEEM_STATIC 1)
 endif()
 
-# Configure files with settings for use by the build.
-CONFIGURE_FILE(${ITK3P_NrrdIO_SOURCE_DIR}/NrrdConfigure.h.in
-  ${ITK3P_NrrdIO_BINARY_DIR}/NrrdConfigure.h)
-
-# Need to be able to fine NrrdConfig.h
+# Configure (and learn how to find) NrrdIO.h
+CONFIGURE_FILE(${ITK3P_NrrdIO_SOURCE_DIR}/NrrdIO.h.in
+  ${ITK3P_NrrdIO_BINARY_DIR}/NrrdIO.h)
 INCLUDE_DIRECTORIES(
   ${ITK3P_NrrdIO_BINARY_DIR}
 )
@@ -44,13 +42,6 @@ if(QNANHIBIT_VALUE)
 else(QNANHIBIT_VALUE)
    set(QNANHIBIT 0 CACHE INTERNAL "The 22nd bit of 32-bit floating-point quiet NaN.")
 endif(QNANHIBIT_VALUE)
-
-# Set compiler flags for endian-ness.
-#IF(CMAKE_WORDS_BIGENDIAN)
-#  ADD_DEFINITIONS(-DTEEM_ENDIAN=4321)
-#ELSE(CMAKE_WORDS_BIGENDIAN)
-#  ADD_DEFINITIONS(-DTEEM_ENDIAN=1234)
-#ENDIF(CMAKE_WORDS_BIGENDIAN)
 
 #The QNANHIBIT variable is configured by the root level CMakeLists.txt
 IF(QNANHIBIT)
@@ -89,7 +80,7 @@ IF(NOT ITK_INSTALL_NO_LIBRARIES)
 ENDIF(NOT ITK_INSTALL_NO_LIBRARIES)
 
 IF(NOT ITK_INSTALL_NO_DEVELOPMENT)
-  INSTALL(FILES NrrdIO.h itk_NrrdIO_mangle.h ${ITK3P_NrrdIO_BINARY_DIR}/NrrdConfigure.h
+  INSTALL(FILES NrrdIO.h itk_NrrdIO_mangle.h
     DESTINATION ${ITK3P_INSTALL_INCLUDE_DIR} # TODO: itk_NrrdIO.h #include "itkNrrdIO/NrrdIO.h"
     COMPONENT Development)
 ENDIF(NOT ITK_INSTALL_NO_DEVELOPMENT)

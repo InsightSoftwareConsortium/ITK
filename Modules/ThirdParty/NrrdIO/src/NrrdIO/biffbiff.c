@@ -1,32 +1,42 @@
 /*
   NrrdIO: stand-alone code for basic nrrd functionality
+  Copyright (C) 2012, 2011, 2010, 2009  University of Chicago
   Copyright (C) 2008, 2007, 2006, 2005  Gordon Kindlmann
   Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
- 
+
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any
   damages arising from the use of this software.
- 
+
   Permission is granted to anyone to use this software for any
   purpose, including commercial applications, and to alter it and
   redistribute it freely, subject to the following restrictions:
- 
+
   1. The origin of this software must not be misrepresented; you must
      not claim that you wrote the original software. If you use this
      software in a product, an acknowledgment in the product
      documentation would be appreciated but is not required.
- 
+
   2. Altered source versions must be plainly marked as such, and must
      not be misrepresented as being the original software.
- 
+
   3. This notice may not be removed or altered from any source distribution.
 */
 
 #include "NrrdIO.h"
+#include "privateBiff.h"
+
+/*
+** Until Teem has its own printf implementation, this will have to do;
+** it is imperfect because these are not functionally identical.
+*/
+#if defined(WIN32) || defined(_WIN32)
+#  define snprintf _snprintf
+#endif
 
 static biffMsg **
 _bmsg=NULL;            /* master array of biffMsg pointers */
-static size_t
+static unsigned int
 _bmsgNum=0;            /* length of _biffErr == # keys maintained */
 static airArray *
 _bmsgArr=NULL;         /* air array of _biffErr and _biffNum */
@@ -41,12 +51,12 @@ typedef union {
 /*
 ** _bmsgStart()
 **
-** allocates data structers needed by biff.  Panics and exit(1)s if 
+** allocates data structers needed by biff.  Panics if
 ** anything goes wrong.
 **
 ** NOTE: Can be harmlessly called multiple times.
 */
-void
+static void
 _bmsgStart(void) {
   static const char me[]="[biff] _bmsgStart";
   _beu uu;
@@ -59,14 +69,13 @@ _bmsgStart(void) {
   _bmsgArr = airArrayNew(uu.v, &_bmsgNum, sizeof(biffMsg*), __INCR);
   if (!_bmsgArr) {
     fprintf(stderr, "%s: PANIC: couldn't allocate internal data\n", me);
-    exit(1);
+    /* exit(1); */
   }
-  /* airArrayPointerCB(_bmsgArr, NULL, biffMsgNix); */
-  /* HEY: not using any pointer callbacks here? */
+  /* airArrayPointerCB(_bmsgArr, NULL, (airMopper)biffMsgNix);*/
   return;
 }
 
-void
+static void
 _bmsgFinish(void) {
 
   if (_bmsgArr) {
@@ -83,7 +92,7 @@ _bmsgFinish(void) {
 ** returns the biffMsg (in _bmsg) of the entry with the given key, or
 ** NULL if it was not found
 */
-biffMsg *
+static biffMsg *
 _bmsgFind(const char *key) {
   static const char me[]="[biff] _bmsgFind";
   biffMsg *msg;
@@ -91,7 +100,7 @@ _bmsgFind(const char *key) {
 
   if (!key) {
     fprintf(stderr, "%s: PANIC got NULL key", me);
-    exit(1);
+    return NULL; /* exit(1); */
   }
   msg = NULL;
   if (_bmsgNum) {
@@ -108,7 +117,7 @@ _bmsgFind(const char *key) {
 /*
 ** assumes that msg really is in _bmsg[]
 */
-unsigned int
+static unsigned int
 _bmsgFindIdx(biffMsg *msg) {
   unsigned int ii;
   
@@ -125,12 +134,12 @@ _bmsgFindIdx(biffMsg *msg) {
 **
 ** if given key already has a biffMsg in _bmsg, returns that.
 ** otherise, adds a new biffMsg for given key to _bmsg, and returns it
-** panics and exit(1)s if there is a problem
+** panics if there is a problem
 */
-biffMsg *
+static biffMsg *
 _bmsgAdd(const char *key) {
   static const char me[]="[biff] _bmsgAdd";
-  size_t ii;
+  unsigned int ii;
   biffMsg *msg;
 
   msg = NULL;
@@ -145,8 +154,8 @@ _bmsgAdd(const char *key) {
     /* have to add new biffMsg */
     ii = airArrayLenIncr(_bmsgArr, 1);
     if (!_bmsg) {
-      fprintf(stderr, "%s: PANIC: couldn't accomodate one more key\n", me);
-      exit(1);
+      fprintf(stderr, "%s: PANIC: couldn't accommodate one more key\n", me);
+      return NULL; /* exit(1); */
     }
     msg = _bmsg[ii] = biffMsgNew(key);
   }
@@ -174,13 +183,13 @@ biffAdd(const char *key, const char *err) {
   return;
 }
 
-void
-biffAddVL(const char *key, const char *errfmt, va_list args) {
+static void
+_biffAddVL(const char *key, const char *errfmt, va_list args) {
   biffMsg *msg;
 
   _bmsgStart();
   msg = _bmsgAdd(key);
-  biffMsgAddVL(msg, errfmt, args);
+  _biffMsgAddVL(msg, errfmt, args);
   return;
 }
 
@@ -196,7 +205,7 @@ biffAddf(const char *key, const char *errfmt, ...) {
   va_list args;
 
   va_start(args, errfmt);
-  biffAddVL(key, errfmt, args);
+  _biffAddVL(key, errfmt, args);
   va_end(args);
   return;
 }
@@ -214,9 +223,9 @@ biffAddf_e(biffMsg *msg, const char *key, const char *errfmt, ...) {
 
   va_start(args, errfmt);
   if (msg) {
-    biffMsgAddVL(msg, errfmt, args);
+    _biffMsgAddVL(msg, errfmt, args);
   } else {
-    biffAddVL(key, errfmt, args);
+    _biffAddVL(key, errfmt, args);
   }
   va_end(args);
   return;
@@ -243,11 +252,12 @@ biffMaybeAddf(int useBiff, const char *key, const char *errfmt, ...) {
 
   va_start(args, errfmt);
   if (useBiff) {
-    biffAddVL(key, errfmt, args);
+    _biffAddVL(key, errfmt, args);
   }
   va_end(args);
   return;
 }
+
 
 /*
 ******** biffGet()
@@ -257,7 +267,7 @@ biffMaybeAddf(int useBiff, const char *key, const char *errfmt, ...) {
 ** be considered a glorified strdup(): it is the callers responsibility
 ** to free() this string later
 */
-char *
+char * /*Teem: allocates char* */     /* this comment is an experiment */
 biffGet(const char *key) {
   static const char me[]="biffGet";
   char *ret;
@@ -273,20 +283,16 @@ biffGet(const char *key) {
     ret = AIR_CALLOC(errlen, char);
     if (!ret) {
       fprintf(stderr, "%s: PANIC: unable to allocate buffer\n", me);
-      exit(1);
+      return NULL; /* exit(1); */
     }
-#if defined(WIN32) || defined(_WIN32)
-    _snprintf(ret, errlen, err, key);
-#else
     snprintf(ret, errlen, err, key);
-#endif
     return ret;
   }
 
   ret = AIR_CALLOC(biffMsgStrlen(msg)+1, char);
   if (!ret) {
     fprintf(stderr, "%s: PANIC: unable to allocate buffer\n", me);
-    exit(1);
+    return NULL; /* exit(1); */
   }
   biffMsgStrSet(ret, msg);
   return ret;
@@ -298,7 +304,7 @@ biffGet(const char *key) {
 ** for when you want to allocate the buffer for the biff string, this is
 ** how you learn its length
 */
-int
+unsigned int
 biffGetStrlen(const char *key) {
   static const char me[]="biffGetStrlen";
   biffMsg *msg;
@@ -346,20 +352,14 @@ biffSetStr(char *str, const char *key) {
 /*
 ******** biffCheck()
 **
-** sees how many messages there are for a given key
-** returns 0 if the key doesn't exist.
+** sees how many messages there are for a given key;
+** Note that this is just a simple wrapper around biffMsgErrNum
 */
-size_t
+unsigned int
 biffCheck(const char *key) {
-  biffMsg *msg;
 
   _bmsgStart();
-  msg = _bmsgFind(key);
-  if (!msg) {
-    return 0;
-  }
-  
-  return msg->errNum;
+  return biffMsgErrNum(_bmsgFind(key));
 }
 
 /*
@@ -413,9 +413,9 @@ biffMove(const char *destKey, const char *err, const char *srcKey) {
   return;
 }
 
-void
-biffMoveVL(const char *destKey, const char *srcKey,
-           const char *errfmt, va_list args) {
+static void
+_biffMoveVL(const char *destKey, const char *srcKey,
+            const char *errfmt, va_list args) {
   static const char me[]="biffMovev";
   biffMsg *dest, *src;
 
@@ -426,7 +426,7 @@ biffMoveVL(const char *destKey, const char *srcKey,
     fprintf(stderr, "%s: WARNING: key \"%s\" unknown\n", me, srcKey);
     return;
   }
-  biffMsgMoveVL(dest, src, errfmt, args);
+  _biffMsgMoveVL(dest, src, errfmt, args);
   return;
 }
 
@@ -436,7 +436,7 @@ biffMovef(const char *destKey, const char *srcKey,
   va_list args;
 
   va_start(args, errfmt);
-  biffMoveVL(destKey, srcKey, errfmt, args);
+  _biffMoveVL(destKey, srcKey, errfmt, args);
   va_end(args);
   return;
 }
@@ -453,13 +453,4 @@ biffGetDone(const char *key) {
   return ret;
 }
 
-void
-biffSetStrDone(char *str, const char *key) {
-
-  _bmsgStart();
-
-  biffSetStr(str, key);
-  biffDone(key);  /* will call _bmsgFinish if this is the last key */
-
-  return;
-}
+/* this is the end */

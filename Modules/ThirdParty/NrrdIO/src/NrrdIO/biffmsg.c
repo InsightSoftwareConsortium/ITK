@@ -1,28 +1,31 @@
 /*
   NrrdIO: stand-alone code for basic nrrd functionality
+  Copyright (C) 2012, 2011, 2010, 2009  University of Chicago
   Copyright (C) 2008, 2007, 2006, 2005  Gordon Kindlmann
   Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
- 
+
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any
   damages arising from the use of this software.
- 
+
   Permission is granted to anyone to use this software for any
   purpose, including commercial applications, and to alter it and
   redistribute it freely, subject to the following restrictions:
- 
+
   1. The origin of this software must not be misrepresented; you must
      not claim that you wrote the original software. If you use this
      software in a product, an acknowledgment in the product
      documentation would be appreciated but is not required.
- 
+
   2. Altered source versions must be plainly marked as such, and must
      not be misrepresented as being the original software.
- 
+
   3. This notice may not be removed or altered from any source distribution.
 */
 
 #include "NrrdIO.h"
+#include "privateBiff.h"
+
 
 /* 
 ** with the Nov'09 re-write of biff, this sourcefile becomes the only
@@ -40,22 +43,25 @@ biffMsgNew(const char *key) {
 
   if (!key) {
     fprintf(stderr, "%s: PANIC got NULL key\n", me);
-    exit(1);
+    return NULL; /* exit(1); */
   }
   msg = AIR_CALLOC(1, biffMsg);
   if (msg) {
+    airPtrPtrUnion appu;
+
     msg->key = airStrdup(key);
     msg->err = NULL;
     msg->errNum = 0;
-    msg->errArr = airArrayNew(AIR_CAST(void**, &(msg->err)),
-                              &(msg->errNum), sizeof(char*), _MSG_INCR);
+    appu.cp = &(msg->err);
+    msg->errArr = airArrayNew(appu.v, &(msg->errNum),
+                              sizeof(char*), _MSG_INCR);
     if (msg->errArr) {
       airArrayPointerCB(msg->errArr, NULL, airFree);
     }
   }
   if (!( msg && msg->key && msg->errArr )) {
     fprintf(stderr, "%s: PANIC couldn't calloc new msg\n", me);
-    exit(1);
+    return NULL; /* exit(1); */
   }
   return msg;
 }
@@ -80,29 +86,30 @@ biffMsgNix(biffMsg *msg) {
 void
 biffMsgAdd(biffMsg *msg, const char *err) {
   static const char me[]="biffMsgAdd";
-  size_t idx;
+  unsigned int idx;
 
   if (biffMsgNoop == msg) {
     return;
   }
   if (!( msg && err )) {
-    fprintf(stderr, "%s: PANIC got NULL msg (%p) or err (%p)\n", me, msg, err);
-    exit(1);
+    fprintf(stderr, "%s: PANIC got NULL msg (%p) or err (%p)\n", me,
+            AIR_VOIDP(msg), AIR_CVOIDP(err));
+    /* exit(1); */
   }
   idx = airArrayLenIncr(msg->errArr, 1);
   if (!msg->err) {
     fprintf(stderr, "%s: PANIC: couldn't add message to %s\n", me, msg->key);
-    exit(1);
+    /* exit(1); */
   }
   if (!( msg->err[idx] = airOneLinify(airStrdup(err)) )) {
     fprintf(stderr, "%s: PANIC: couldn't alloc message to %s\n", me, msg->key);
-    exit(1);
+    /* exit(1); */
   }
   return;
 }
 
 void
-biffMsgAddVL(biffMsg *msg, const char *errfmt, va_list args) {
+_biffMsgAddVL(biffMsg *msg, const char *errfmt, va_list args) {
   char errstr[_HACK_STRLEN];
 
   vsprintf(errstr, errfmt, args);
@@ -110,15 +117,6 @@ biffMsgAddVL(biffMsg *msg, const char *errfmt, va_list args) {
   return;
 }
 
-void
-biffMsgAddf(biffMsg *msg, const char *errfmt, ...) {
-  va_list args;
-
-  va_start(args, errfmt);
-  biffMsgAddVL(msg, errfmt, args);
-  va_end(args);
-  return;
-}
 
 void
 biffMsgClear(biffMsg *msg) {
@@ -143,7 +141,7 @@ biffMsgLineLenMax(const biffMsg *msg) {
   }
   maxlen = 0;
   for (ii=0; ii<msg->errNum; ii++) {
-    len = AIR_CAST(unsigned int, strlen(msg->err[ii]) + strlen(msg->key) + strlen("[] \n"));
+    len = AIR_UINT(strlen(msg->err[ii]) + strlen(msg->key) + strlen("[] \n"));
     maxlen = AIR_MAX(maxlen, len);
   }
   return maxlen;
@@ -164,8 +162,9 @@ biffMsgMove(biffMsg *dest, biffMsg *src, const char *err) {
     return;
   }
   if (!( dest && src )) {
-    fprintf(stderr, "%s: PANIC got NULL msg (%p %p)\n", me, dest, src);
-    exit(1);
+    fprintf(stderr, "%s: PANIC got NULL msg (%p %p)\n", me,
+            AIR_VOIDP(dest), AIR_VOIDP(src));
+    /* exit(1); */
   }
   /* if src and dest are same, this degenerates to biffMsgAdd */
   if (dest == src && airStrlen(err)) {
@@ -176,7 +175,7 @@ biffMsgMove(biffMsg *dest, biffMsg *src, const char *err) {
   buff = AIR_CALLOC(biffMsgLineLenMax(src)+1, char);
   if (!buff) {
     fprintf(stderr, "%s: PANIC: can't allocate buffer\n", me);
-    exit(1);
+    /* exit(1); */
   }
   for (ii=0; ii<src->errNum; ii++) {
     sprintf(buff, "[%s] %s", src->key, src->err[ii]);
@@ -191,8 +190,8 @@ biffMsgMove(biffMsg *dest, biffMsg *src, const char *err) {
 }
 
 void
-biffMsgMoveVL(biffMsg *dest, biffMsg *src,
-              const char *errfmt, va_list args) {
+_biffMsgMoveVL(biffMsg *dest, biffMsg *src,
+               const char *errfmt, va_list args) {
   char errstr[_HACK_STRLEN];
   
   vsprintf(errstr, errfmt, args);
@@ -205,9 +204,26 @@ biffMsgMovef(biffMsg *dest, biffMsg *src, const char *errfmt, ...) {
   va_list args;
   
   va_start(args, errfmt);
-  biffMsgMoveVL(dest, src, errfmt, args);
+  _biffMsgMoveVL(dest, src, errfmt, args);
   va_end(args);
   return;
+}
+
+/*
+******** biffMsgErrNum
+**
+** returns number of errors in a message
+*/
+unsigned int
+biffMsgErrNum(const biffMsg *msg) {
+
+  if (biffMsgNoop == msg) {
+    return 0;
+  }
+  if (!msg) {
+    return 0;
+  }
+  return msg->errNum;
 }
 
 /*
@@ -225,13 +241,14 @@ biffMsgStrlen(const biffMsg *msg) {
     return 0;
   }
   if (!( msg )) {
-    fprintf(stderr, "%s: PANIC got NULL msg %p\n", me, msg);
-    exit(1);
+    fprintf(stderr, "%s: PANIC got NULL msg %p\n", me, AIR_CVOIDP(msg));
+    return 0; /* exit(1); */
   }
 
   len = 0;
   for (ii=0; ii<msg->errNum; ii++) {
-    len += AIR_CAST(unsigned int, strlen(msg->key) + strlen(msg->err[ii]) + strlen("[] \n"));
+    len += AIR_UINT(strlen(msg->key)
+                    + strlen(msg->err[ii]) + strlen("[] \n"));
   }
   return len+1;
 }
@@ -249,7 +266,7 @@ biffMsgStrAlloc(const biffMsg *msg) {
   ret = AIR_CALLOC(len+1, char);
   if (!ret) {
     fprintf(stderr, "%s: PANIC couldn't alloc string", me);
-    exit(1);
+    return NULL; /* exit(1); */
   }
   return ret;
 }
@@ -262,7 +279,7 @@ void
 biffMsgStrSet(char *ret, const biffMsg *msg) {
   static const char me[]="biffMsgStrSet";
   char *buff;
-  size_t ii;
+  unsigned int ii;
 
   if (biffMsgNoop == msg) {
     return;
@@ -270,7 +287,7 @@ biffMsgStrSet(char *ret, const biffMsg *msg) {
   buff = AIR_CALLOC(biffMsgLineLenMax(msg)+1, char);
   if (!buff) {
     fprintf(stderr, "%s: PANIC couldn't alloc buffer", me);
-    exit(1);
+    /* exit(1); */
   }
   strcpy(ret, "");
   for (ii=msg->errNum; ii>0; ii--) {
