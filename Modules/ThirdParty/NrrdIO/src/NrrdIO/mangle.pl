@@ -1,6 +1,7 @@
 #
 #  NrrdIO: stand-alone code for basic nrrd functionality
-#  Copyright (C) 2005  Gordon Kindlmann
+#  Copyright (C) 2012, 2011, 2010, 2009  University of Chicago
+#  Copyright (C) 2008, 2007, 2006, 2005  Gordon Kindlmann
 #  Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
 # 
 #  This software is provided 'as-is', without any express or implied
@@ -45,7 +46,6 @@ print "#ifndef __${prefix}_NrrdIO_mangle_h\n";
 print "#define __${prefix}_NrrdIO_mangle_h\n";
 print "\n";
 print "/*\n";
-print "\n";
 print "This header file mangles all symbols exported from the\n";
 print "NrrdIO library. It is included in all files while building\n";
 print "the NrrdIO library.  Due to namespace pollution, no NrrdIO\n";
@@ -59,33 +59,27 @@ print "\n";
 print "This uses nm to list all text (T), data (D) symbols, as well\n";
 print "read-only (R) things (seen on Linux) and \"other\" (S) things\n";
 print "(seen on Mac).  On Macs, the preceeding underscore is removed.\n";
-print "*/\n";
+print "\n";
 print "Also ensures that a few others starting with nrrd are included, and\n";
 print "prevents variables ending with .N* where N is some number, from inclusion.\n";
+print "*/\n";
 print "\n";
 open(NM, "nm libNrrdIO.a |");
 while (<NM>) {
     if (m/.* .* .*\.[0-9]/) {
         next;
     }
-    if (m/ [TBDRStb] /) {
-        s|.* [TBDRStb] (.*)|$1|g;
+    if (m/.*\.eh$/) {
+        next;
+    }
+    if (m/ [TBDRS] /) {
+        s|.* [TBDRS] (.*)|$1|g;
         if ($mac) {
             s|^_||g;
         }
         chop;
         $sym = $_;
         print "#define ${sym} ${prefix}_${sym}\n";
-    } else {
-      if (m/nrrd/) {
-          s|.* . (.*nrrd*)|$1|g;
-          if ($mac) {
-            s|^_||g;
-          }
-          chop;
-          $sym = $_;
-          print "#define ${sym} ${prefix}_${sym}\n";
-        }
     }
 }
 close(NM);

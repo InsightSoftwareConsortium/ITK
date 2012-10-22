@@ -1,28 +1,37 @@
 /*
   NrrdIO: stand-alone code for basic nrrd functionality
+  Copyright (C) 2012, 2011, 2010, 2009  University of Chicago
   Copyright (C) 2008, 2007, 2006, 2005  Gordon Kindlmann
   Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
- 
+
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any
   damages arising from the use of this software.
- 
+
   Permission is granted to anyone to use this software for any
   purpose, including commercial applications, and to alter it and
   redistribute it freely, subject to the following restrictions:
- 
+
   1. The origin of this software must not be misrepresented; you must
      not claim that you wrote the original software. If you use this
      software in a product, an acknowledgment in the product
      documentation would be appreciated but is not required.
- 
+
   2. Altered source versions must be plainly marked as such, and must
      not be misrepresented as being the original software.
- 
+
   3. This notice may not be removed or altered from any source distribution.
 */
 
 #include "NrrdIO.h"
+
+/*
+** Until Teem has its own printf implementation, this will have to do;
+** it is imperfect because these are not functionally identical.
+*/
+#if defined(WIN32) || defined(_WIN32)
+#  define snprintf _snprintf
+#endif
 
 /*
 ******** airEnumUnknown
@@ -40,28 +49,13 @@ airEnumUnknown(const airEnum *enm) {
 }
 
 /*
-******** airEnumLast
-**
-** return the highest value representing a known value
-*/
-int
-airEnumLast(const airEnum *enm) {
-  
-  if (enm && enm->val) {
-    return enm->val[enm->M];
-  } else {
-    return enm->M;
-  }
-}
-
-/*
 ** _airEnumIndex()
 **
 ** given an enum "enm" and value "val", return the index into enm->str[] 
 ** and enm->desc[] which correspond to that value.  To be safe, when
 ** given an invalid enum value, we return zero.
 */
-unsigned int
+static unsigned int
 _airEnumIndex(const airEnum *enm, int val) {
   unsigned int ii, ret;
 
@@ -74,7 +68,9 @@ _airEnumIndex(const airEnum *enm, int val) {
       }
     }
   } else {
-    ret = AIR_IN_CL(0, val, (int)(enm->M)) ? val : 0; /* HEY scrutinize cast */
+    unsigned int uval;
+    uval = AIR_UINT(val);
+    ret = (0 <= val && uval <= enm->M) ? uval : 0;
   }
   return ret;
 }
@@ -91,7 +87,7 @@ airEnumValCheck(const airEnum *enm, int val) {
 
 const char *
 airEnumStr(const airEnum *enm, int val) {
-  int idx;
+  unsigned int idx;
 
   idx = _airEnumIndex(enm, val);
   return enm->str[idx];
@@ -99,7 +95,7 @@ airEnumStr(const airEnum *enm, int val) {
 
 const char *
 airEnumDesc(const airEnum *enm, int val) {
-  int idx;
+  unsigned int idx;
 
   idx = _airEnumIndex(enm, val);
   return enm->desc[idx];
@@ -123,8 +119,7 @@ airEnumVal(const airEnum *enm, const char *str) {
     /* want strlen and not airStrlen here because the strEqv array
        should be terminated by a non-null empty string */
     for (ii=0; strlen(enm->strEqv[ii]); ii++) {
-      strncpy(test, enm->strEqv[ii], AIR_STRLEN_SMALL);
-      test[AIR_STRLEN_SMALL-1] = '\0';
+      airStrcpy(test, AIR_STRLEN_SMALL, enm->strEqv[ii]);
       if (!enm->sense) {
         airToLower(test);
       }
@@ -136,8 +131,7 @@ airEnumVal(const airEnum *enm, const char *str) {
   } else {
     /* enm->strEqv NULL */
     for (ii=1; ii<=enm->M; ii++) {
-      strncpy(test, enm->str[ii], AIR_STRLEN_SMALL);
-      test[AIR_STRLEN_SMALL-1] = '\0';
+      airStrcpy(test, AIR_STRLEN_SMALL, enm->str[ii]);
       if (!enm->sense) {
         airToLower(test);
       }
@@ -195,8 +189,7 @@ airEnumFmtDesc(const airEnum *enm, int val, int canon, const char *fmt) {
       }
     }
   }
-  strncpy(ident, _ident, AIR_STRLEN_SMALL);
-  ident[AIR_STRLEN_SMALL-1] = '\0';
+  airStrcpy(ident, AIR_STRLEN_SMALL, _ident);
   if (!enm->sense) {
     airToLower(ident);
   }
@@ -268,3 +261,5 @@ airEnumPrint(FILE *file, const airEnum *enm) {
   }
   return;
 }
+
+/* this is the end */

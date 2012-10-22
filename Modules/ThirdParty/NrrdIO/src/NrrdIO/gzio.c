@@ -1,24 +1,25 @@
 /*
   NrrdIO: stand-alone code for basic nrrd functionality
+  Copyright (C) 2012, 2011, 2010, 2009  University of Chicago
   Copyright (C) 2008, 2007, 2006, 2005  Gordon Kindlmann
   Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
- 
+
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any
   damages arising from the use of this software.
- 
+
   Permission is granted to anyone to use this software for any
   purpose, including commercial applications, and to alter it and
   redistribute it freely, subject to the following restrictions:
- 
+
   1. The origin of this software must not be misrepresented; you must
      not claim that you wrote the original software. If you use this
      software in a product, an acknowledgment in the product
      documentation would be appreciated but is not required.
- 
+
   2. Altered source versions must be plainly marked as such, and must
      not be misrepresented as being the original software.
- 
+
   3. This notice may not be removed or altered from any source distribution.
 */
 /* 
@@ -162,7 +163,7 @@ _nrrdGzOpen(FILE* fd, const char* mode) {
   int error;
   int level = Z_DEFAULT_COMPRESSION; /* compression level */
   int strategy = Z_DEFAULT_STRATEGY; /* compression strategy */
-  char *p = (char*)mode;
+  const char *p = mode;
   _NrrdGzStream *s;
   char fmode[AIR_STRLEN_MED]; /* copy of mode, without the compression level */
   char *m = fmode;
@@ -299,7 +300,7 @@ _nrrdGzClose (gzFile file) {
 ** Returns the number of bytes actually read (0 for end of file).
 */
 int
-_nrrdGzRead(gzFile file, voidp buf, size_t len, unsigned int* read) {
+_nrrdGzRead(gzFile file, void* buf, unsigned int len, unsigned int* didread) {
   static const char me[]="_nrrdGzRead";
   _NrrdGzStream *s = (_NrrdGzStream*)file;
   Bytef *start = (Bytef*)buf; /* starting point for crc computation */
@@ -307,24 +308,24 @@ _nrrdGzRead(gzFile file, voidp buf, size_t len, unsigned int* read) {
 
   if (s == NULL || s->mode != 'r') {
     biffAddf(NRRD, "%s: invalid stream or file mode", me);
-    *read = 0;
+    *didread = 0;
     return 1;
   }
 
   if (s->z_err == Z_DATA_ERROR || s->z_err == Z_ERRNO) {
     biffAddf(NRRD, "%s: data read error", me);
-    *read = 0;
+    *didread = 0;
     return 1;
   }
 
   if (s->z_err == Z_STREAM_END) {
-    *read = 0;
+    *didread = 0;
     return 0;  /* EOF */
   }
 
   next_out = (Byte*)buf;
   s->stream.next_out = (Bytef*)buf;
-  s->stream.avail_out = (uInt)(len);
+  s->stream.avail_out = len;
 
   while (s->stream.avail_out != 0) {
 
@@ -345,10 +346,10 @@ _nrrdGzRead(gzFile file, voidp buf, size_t len, unsigned int* read) {
                                            s->file);
       }
       len -= s->stream.avail_out;
-      s->stream.total_in  += (uInt)len;
-      s->stream.total_out += (uInt)len;
+      s->stream.total_in  += len;
+      s->stream.total_out += len;
       if (len == 0) s->z_eof = 1;
-      *read = (uInt)len;
+      *didread = len;
       return 0;
     }
     if (s->stream.avail_in == 0 && !s->z_eof) {
@@ -395,7 +396,7 @@ _nrrdGzRead(gzFile file, voidp buf, size_t len, unsigned int* read) {
   }
   s->crc = crc32(s->crc, start, (uInt)(s->stream.next_out - start));
 
-  *read = (uInt)len - s->stream.avail_out;
+  *didread = len - s->stream.avail_out;
   return 0;
 }
 
@@ -406,10 +407,11 @@ _nrrdGzRead(gzFile file, voidp buf, size_t len, unsigned int* read) {
 ** Returns the number of bytes actually written (0 in case of error).
 */
 int
-_nrrdGzWrite(gzFile file, const voidp buf, size_t len,
+_nrrdGzWrite(gzFile file, const void* buf, unsigned int len,
              unsigned int* written) {
   static const char me[]="_nrrdGzWrite";
   _NrrdGzStream *s = (_NrrdGzStream*)file;
+  void *nonconstbuf;
 
   if (s == NULL || s->mode != 'w') {
     biffAddf(NRRD, "%s: invalid stream or file mode", me);
@@ -417,8 +419,14 @@ _nrrdGzWrite(gzFile file, const voidp buf, size_t len,
     return 1;
   }
 
-  s->stream.next_in = (Bytef*)buf;
-  s->stream.avail_in = (uInt)len;
+  /* If you google for "const correct zlib" or "zlib.h is not
+     const-correct" you'll find zlib mailing list discussions of how
+     zlib doesn't have all the consts that it should, and various code
+     examples of using multiple casts to hide the problem. Here's a
+     slow way that doesn't use mere casting to make the const go away */
+  memcpy(&nonconstbuf, &buf, sizeof(void*));
+  s->stream.next_in = (Bytef*)nonconstbuf;
+  s->stream.avail_in = len;
 
   while (s->stream.avail_in != 0) {
     if (s->stream.avail_out == 0) {
@@ -433,9 +441,9 @@ _nrrdGzWrite(gzFile file, const voidp buf, size_t len,
     s->z_err = deflate(&(s->stream), Z_NO_FLUSH);
     if (s->z_err != Z_OK) break;
   }
-  s->crc = crc32(s->crc, (const Bytef *)buf, (uInt)len);
+  s->crc = crc32(s->crc, (const Bytef *)buf, len);
 
-  *written = (uInt)len - s->stream.avail_in;
+  *written = len - s->stream.avail_in;
   return 0;
 }
 

@@ -1,24 +1,25 @@
 /*
   NrrdIO: stand-alone code for basic nrrd functionality
+  Copyright (C) 2012, 2011, 2010, 2009  University of Chicago
   Copyright (C) 2008, 2007, 2006, 2005  Gordon Kindlmann
   Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
- 
+
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any
   damages arising from the use of this software.
- 
+
   Permission is granted to anyone to use this software for any
   purpose, including commercial applications, and to alter it and
   redistribute it freely, subject to the following restrictions:
- 
+
   1. The origin of this software must not be misrepresented; you must
      not claim that you wrote the original software. If you use this
      software in a product, an acknowledgment in the product
      documentation would be appreciated but is not required.
- 
+
   2. Altered source versions must be plainly marked as such, and must
      not be misrepresented as being the original software.
- 
+
   3. This notice may not be removed or altered from any source distribution.
 */
 
@@ -45,7 +46,7 @@ nrrdInvertPerm(unsigned int *invp, const unsigned int *pp, unsigned int nn) {
   }
   
   /* use the given array "invp" as a temp buffer for validity checking */
-  memset(invp, 0, nn*sizeof(int));
+  memset(invp, 0, nn*sizeof(unsigned int));
   for (ii=0; ii<nn; ii++) {
     if (!( pp[ii] <= nn-1)) {
       biffAddf(NRRD,
@@ -55,6 +56,11 @@ nrrdInvertPerm(unsigned int *invp, const unsigned int *pp, unsigned int nn) {
     }
     invp[pp[ii]]++;
   }
+  /* for some reason when this code was written (revision 2700 Sun Jul
+     3 04:18:33 2005 UTC) it was decided that all problems with the
+     permutation would be reported with a pile of error messages in
+     biff; rather than bailing at the first problem.  Not clear if
+     this is a good idea. */
   problem = AIR_FALSE;
   for (ii=0; ii<nn; ii++) {
     if (1 != invp[ii]) {
@@ -214,7 +220,7 @@ nrrdAxesPermute(Nrrd *nout, const Nrrd *nin, const unsigned int *axes) {
        there's nothing to do other than the copy already done.  Otherwise,
        here we are (actually, lowPax < nin->dim-1) */
     for (ai=0; ai<nin->dim; ai++) {
-      axmap[ai] = axes[ai];
+      axmap[ai] = AIR_INT(axes[ai]);
     }
     nrrdAxisInfoGet_nva(nin, nrrdAxisInfoSize, szIn);
     if (nrrdAxisInfoCopy(nout, nin, axmap, NRRD_AXIS_INFO_NONE)) {
@@ -232,13 +238,13 @@ nrrdAxesPermute(Nrrd *nout, const Nrrd *nin, const unsigned int *axes) {
     lszIn = szIn + lowPax;
     lszOut = szOut + lowPax;
     ldim = nin->dim - lowPax;
-    memset(laxes, 0, NRRD_DIM_MAX*sizeof(unsigned int));
+    memset(laxes, 0, sizeof(laxes));
     for (ai=0; ai<ldim; ai++) {
       laxes[ai] = axes[ai+lowPax]-lowPax;
     }
-    dataOut = (char *)nout->data;
-    memset(cIn, 0, NRRD_DIM_MAX*sizeof(size_t));
-    memset(cOut, 0, NRRD_DIM_MAX*sizeof(size_t));
+    dataOut = AIR_CAST(char *, nout->data);
+    memset(cIn, 0, sizeof(cIn));
+    memset(cOut, 0, sizeof(cOut));
     for (idxOut=0; idxOut<numLines; idxOut++) {
       /* in our representation of the coordinates of the start of the
          scanlines that we're copying, we are not even storing all the
@@ -319,11 +325,9 @@ nrrdShuffle(Nrrd *nout, const Nrrd *nin, unsigned int axis,
      documented for long axes */
 #define LONGEST_INTERESTING_AXIS 42
   char buff1[LONGEST_INTERESTING_AXIS*30];
-  unsigned int 
-    ai, ldim, len,
-    cIn[NRRD_DIM_MAX+1],
-    cOut[NRRD_DIM_MAX+1];
-  size_t idxIn, idxOut, lineSize, numLines, size[NRRD_DIM_MAX], *lsize;
+  unsigned int ai, ldim, len;
+  size_t idxIn, idxOut, lineSize, numLines, size[NRRD_DIM_MAX], *lsize,
+    cIn[NRRD_DIM_MAX+1], cOut[NRRD_DIM_MAX+1];
   char *dataIn, *dataOut;
 
   if (!(nin && nout && perm)) {
@@ -342,8 +346,9 @@ nrrdShuffle(Nrrd *nout, const Nrrd *nin, unsigned int axis,
   len = AIR_CAST(unsigned int, nin->axis[axis].size);
   for (ai=0; ai<len; ai++) {
     if (!( perm[ai] < len )) {
-      biffAddf(NRRD, "%s: perm[%d] (" _AIR_SIZE_T_CNV
-               ") outside valid range [0,%d]", me, ai, perm[ai], len-1);
+      char stmp[AIR_STRLEN_SMALL];
+      biffAddf(NRRD, "%s: perm[%d] (%s) outside valid range [0,%d]", me, ai,
+               airSprintSize_t(stmp, perm[ai]), len-1);
       return 1;
     }
   }
@@ -392,13 +397,13 @@ nrrdShuffle(Nrrd *nout, const Nrrd *nin, unsigned int axis,
   lineSize *= nrrdElementSize(nin);
   lsize = size + axis;
   ldim = nin->dim - axis;
-  dataIn = (char *)nin->data;
-  dataOut = (char *)nout->data;
-  memset(cIn, 0, (NRRD_DIM_MAX+1)*sizeof(int));
-  memset(cOut, 0, (NRRD_DIM_MAX+1)*sizeof(int));
+  dataIn = AIR_CAST(char *, nin->data);
+  dataOut = AIR_CAST(char *, nout->data);
+  memset(cIn, 0, sizeof(cIn));
+  memset(cOut, 0, sizeof(cOut));
   for (idxOut=0; idxOut<numLines; idxOut++) {
-    memcpy(cIn, cOut, ldim*sizeof(int));
-    cIn[0] = AIR_CAST(unsigned int, perm[cOut[0]]);
+    memcpy(cIn, cOut, sizeof(cIn));
+    cIn[0] = perm[cOut[0]];
     NRRD_INDEX_GEN(idxIn, cIn, lsize, ldim);
     NRRD_INDEX_GEN(idxOut, cOut, lsize, ldim);
     memcpy(dataOut + idxOut*lineSize, dataIn + idxIn*lineSize, lineSize);
@@ -409,7 +414,8 @@ nrrdShuffle(Nrrd *nout, const Nrrd *nin, unsigned int axis,
   if (len <= LONGEST_INTERESTING_AXIS) {
     strcpy(buff1, "");
     for (ai=0; ai<len; ai++) {
-      sprintf(buff2, "%s" _AIR_SIZE_T_CNV, (ai ? "," : ""), perm[ai]);
+      char stmp[AIR_STRLEN_SMALL];
+      sprintf(buff2, "%s%s", (ai ? "," : ""), airSprintSize_t(stmp, perm[ai]));
       strcat(buff1, buff2);
     }
     if (nrrdContentSet_va(nout, func, nin, "%s", buff1)) {

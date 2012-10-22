@@ -1,6 +1,7 @@
 #
 #  NrrdIO: stand-alone code for basic nrrd functionality
-#  Copyright (C) 2005  Gordon Kindlmann
+#  Copyright (C) 2012, 2011, 2010, 2009  University of Chicago
+#  Copyright (C) 2008, 2007, 2006, 2005  Gordon Kindlmann
 #  Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
 # 
 #  This software is provided 'as-is', without any express or implied
@@ -47,9 +48,18 @@ while (<>) {
     } else {
 	s|\/\* NrrdIO-hack-000 \*\/||g;
     }
-    s|\/\* NrrdIO-hack-001 \*\/|#define TEEM_BUILD 1|g;
+    if ($ITK) {
+        s|\/\* NrrdIO-hack-001 \*\/|#cmakedefine TEEM_STATIC|g;
+    } else {
+        s|\/\* NrrdIO-hack-001 \*\/||g;
+    }
     s|.* \/\* NrrdIO-hack-002 \*\/|#if 1|g;
     s|.* \/\* NrrdIO-hack-003 \*\/|int nrrdStateVerboseIO = 0;|g;
+    if ($ITK) {
+        s|.* \/\* NrrdIO-hack-004 \*\/|#include "itk_zlib.h"|g;
+    } else {
+        s|.* \/\* NrrdIO-hack-004 \*\/|#include <zlib.h>|g;
+    }
     s|AIR_EXPORT|NRRDIO_EXPORT|g;
     s|BIFF_EXPORT|NRRDIO_EXPORT|g;
     s|NRRD_EXPORT|NRRDIO_EXPORT|g;

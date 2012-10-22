@@ -1,24 +1,25 @@
 /*
   NrrdIO: stand-alone code for basic nrrd functionality
+  Copyright (C) 2012, 2011, 2010, 2009  University of Chicago
   Copyright (C) 2008, 2007, 2006, 2005  Gordon Kindlmann
   Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
- 
+
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any
   damages arising from the use of this software.
- 
+
   Permission is granted to anyone to use this software for any
   purpose, including commercial applications, and to alter it and
   redistribute it freely, subject to the following restrictions:
- 
+
   1. The origin of this software must not be misrepresented; you must
      not claim that you wrote the original software. If you use this
      software in a product, an acknowledgment in the product
      documentation would be appreciated but is not required.
- 
+
   2. Altered source versions must be plainly marked as such, and must
      not be misrepresented as being the original software.
- 
+
   3. This notice may not be removed or altered from any source distribution.
 */
 
@@ -33,6 +34,10 @@ extern "C" {
 #endif
 
 #define _NRRD_TEXT_INCR 1024
+#define _NRRD_LLONG_MAX_HELP AIR_LLONG(2305843009213693951)
+#define _NRRD_LLONG_MIN_HELP AIR_LLONG(-2305843009213693952)
+
+#define _NRRD_WHITESPACE_NOTAB " \n\r\v\f"       /* K+R pg. 157 */
 
 
 /*
@@ -63,7 +68,14 @@ typedef union {
   double (*V)[NRRD_SPACE_DIM_MAX];
 } _nrrdAxisInfoGetPtrs;
 
+/* defaultsNrrd.c */
+extern airLLong _nrrdLLongMaxHelp(airLLong val);
+extern airLLong _nrrdLLongMinHelp(airLLong val);
+extern airULLong _nrrdULLongMaxHelp(airULLong val);
+
 /* keyvalue.c */
+extern void _nrrdWriteEscaped(FILE *file, char *dst, const char *str,
+                              const char *toescape, const char *tospace);
 extern int _nrrdKeyValueWrite(FILE *file, char **stringP, const char *prefix,
                               const char *key, const char *value);
 
@@ -104,7 +116,6 @@ extern int _nrrdContentSet_nva(Nrrd *nout, const char *func,
                                va_list arg);
 extern int _nrrdContentSet_va(Nrrd *nout, const char *func,
                               char *content, const char *format, ...);
-extern int _nrrdFieldCheckSpaceInfo(const Nrrd *nrrd, int useBiff);
 extern int (*_nrrdFieldCheck[NRRD_FIELD_MAX+1])(const Nrrd *nrrd, int useBiff);
 extern void _nrrdSplitSizes(size_t *pieceSize, size_t *pieceNum, 
                             Nrrd *nrrd, unsigned int listDim);
@@ -131,8 +142,8 @@ extern char _nrrdTextSep[];
 extern void _nrrdSplitName(char **dirP, char **baseP, const char *name);
 
 /* write.c */
-extern int _nrrdFieldInteresting (const Nrrd *nrrd, NrrdIoState *nio,
-                                  int field);
+extern int _nrrdFieldInteresting(const Nrrd *nrrd, NrrdIoState *nio,
+                                 int field);
 extern void _nrrdSprintFieldInfo(char **strP, const char *prefix,
                                  const Nrrd *nrrd, NrrdIoState *nio,
                                  int field);
@@ -149,22 +160,22 @@ extern int nrrdPeripheralCopy(Nrrd *nout, const Nrrd *nin);
 extern int _nrrdCopy(Nrrd *nout, const Nrrd *nin, int bitflag);
 extern int _nrrdSizeCheck(const size_t *size, unsigned int dim, int useBiff);
 extern void _nrrdTraverse(Nrrd *nrrd);
+extern int _nrrdMaybeAllocMaybeZero_nva(Nrrd *nrrd, int type,
+                                        unsigned int dim, const size_t *size,
+                                        int zeroWhenNoAlloc);
 
 #if TEEM_ZLIB
 #if TEEM_VTK_MANGLE
 #include "vtk_zlib_mangle.h"
 #endif
-//The procedure to checkout this file from NrrdIO repository has
-//#include <zlib.h> instead, but this line must be edited as below
-//for ITK to build without turning on ITK_USE_SYSTEM_ZLIB. 
 #include "itk_zlib.h"
-   
+
 /* gzio.c */
 extern gzFile _nrrdGzOpen(FILE* fd, const char *mode);
 extern int _nrrdGzClose(gzFile file);
-extern int _nrrdGzRead(gzFile file, voidp buf, size_t len,
+extern int _nrrdGzRead(gzFile file, void* buf, unsigned int len,
                        unsigned int* read);
-extern int _nrrdGzWrite(gzFile file, const voidp buf, size_t len,
+extern int _nrrdGzWrite(gzFile file, const void* buf, unsigned int len,
                         unsigned int* written);
 #endif
 
