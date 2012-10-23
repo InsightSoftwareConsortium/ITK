@@ -23,8 +23,9 @@ namespace itk
 {
 
 /** \class LabelImageGaussianInterpolateImageFunction
- * \brief Interpolation function for multi-label images that implicitly smooths the
- * binary images corresponding to each label and returns the label with largest vote.
+ * \brief Interpolation function for multi-label images that implicitly smooths each
+ * unique value in the image corresponding to each label set element and returns the
+ * corresponding label set element with the largest wieght.
  *
  * This filter is an alternative to nearest neighbor interpolation for multi-label
  * images. Given a multi-label image \c I with label set \c L, this function returns a
@@ -39,13 +40,17 @@ namespace itk
  * for which the response is largest is returned. For sigma=0, this is just nearest
  * neighbor interpolation.
  *
- * This class defines an N-dimensional Gaussian interpolation function for label images
+ * This class defines an N-dimensional Gaussian interpolation function for label
  * using the vnl error function.  The two parameters associated with this function
  * are:
  * \li \c Sigma - a scalar array of size ImageDimension determining the width
  *      of the interpolation function.
  * \li \c Alpha - a scalar specifying the cutoff distance over which the function
  *      is calculated.
+ *
+ * \note The input image can be of any type, but the number of unique intensity values
+ * in the image will determine the amount of memory needed to complete each interpolation.
+ *
  *
  * \author Paul Yushkevich
  * \author Nick Tustison
@@ -101,11 +106,6 @@ public:
     {
     return this->EvaluateAtContinuousIndex( cindex, NULL );
     }
-
-  /**
-   * Ensure that the input label image label type is an integer type
-   */
-  itkConceptMacro( InputPixelTypeIsInteger, ( Concept::IsInteger<InputPixelType> ) );
 
 protected:
   LabelImageGaussianInterpolateImageFunction();
