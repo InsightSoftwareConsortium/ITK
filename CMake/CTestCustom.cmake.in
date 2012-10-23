@@ -80,7 +80,6 @@ set(CTEST_CUSTOM_WARNING_EXCEPTION
   ".*[/\\\\][Mm]odules[/\\\\][Tt]hird[Pp]arty[/\\\\][Mm]eta[Ii][Oo][/\\\\].*[Ww]arning.*"
   ".*[/\\\\][Mm]odules[/\\\\][Tt]hird[Pp]arty[/\\\\][Nn]etlib[/\\\\].*[Ww]arning.*"
   ".*[/\\\\][Mm]odules[/\\\\][Tt]hird[Pp]arty[/\\\\][Nn][Ii][Ff][Tt][Ii][/\\\\].*[Ww]arning.*"
-  ".*[/\\\\][Mm]odules[/\\\\][Tt]hird[Pp]arty[/\\\\][Nn]rrd[Ii][Oo][/\\\\].*[Ww]arning.*"
   ".*[/\\\\][Mm]odules[/\\\\][Tt]hird[Pp]arty[/\\\\][Oo]pen[Jj][Pp][Ee][Gg][/\\\\].*[Ww]arning.*"
   ".*[/\\\\][Mm]odules[/\\\\][Tt]hird[Pp]arty[/\\\\][Pp][Nn][Gg][/\\\\].*[Ww]arning.*"
   ".*[/\\\\][Mm]odules[/\\\\][Tt]hird[Pp]arty[/\\\\][Tt][Ii][Ff][Ff][/\\\\].*[Ww]arning.*"
