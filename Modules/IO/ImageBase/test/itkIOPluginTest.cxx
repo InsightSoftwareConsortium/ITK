@@ -27,13 +27,17 @@ int itkIOPluginTest(int argc, char *argv[])
     return EXIT_FAILURE;
     }
 
-  std::string myenv = std::string("ITK_AUTOLOAD_PATH=") + std::string(argv[1]) + std::string("/");
-#ifdef CMAKE_INTDIR
-  myenv += std::string(CMAKE_INTDIR);
-#endif
-  std::cout << myenv << std::endl;
-  putenv (const_cast<char *>(myenv.c_str()));
-  itk::ObjectFactoryBase::ReHash();
+  const char* envName = "ITK_AUTOLOAD_PATH";
+  char*myenv = getenv( envName );
+
+  if (myenv)
+    {
+    std::cout << myenv << std::endl;
+    }
+  else
+    {
+    std::cout << envName << " is not set!" << std::endl;
+    }
 
   // List all registered factories
   std::list<itk::ObjectFactoryBase *> factories =
@@ -107,7 +111,6 @@ int itkIOPluginTest(int argc, char *argv[])
     {
     std::cout << "------------------ Caught expected exception!" << std::endl;
     std::cout << ex;
-    status = EXIT_SUCCESS;
     }
 
   return status;
