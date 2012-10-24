@@ -32,6 +32,9 @@ namespace itk
 class ITK_ABI_EXPORT ImageSeriesWriterException:public ExceptionObject
 {
 public:
+  /** Has to have empty throw(). */
+  virtual ~ImageSeriesWriterException() throw( ) {};
+
   /** Run-time information. */
   itkTypeMacro(ImageSeriesWriterException, ExceptionObject);
 

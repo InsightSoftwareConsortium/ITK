@@ -44,6 +44,9 @@ namespace itk
 class ITK_ABI_EXPORT MeshFileReaderException:public ExceptionObject
 {
 public:
+  /** Has to have empty throw(). */
+  virtual ~MeshFileReaderException() throw() {};
+
   /** Run-time information. */
   itkTypeMacro(MeshFileReaderException, ExceptionObject);
 
@@ -60,6 +63,7 @@ public:
                           const char *loc = "Unknown"):
     ExceptionObject(file, line, message, loc)
   {}
+
 };
 
 /** \class MeshFileReader
