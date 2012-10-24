@@ -106,7 +106,7 @@ END_WRAP_TYPE()
 set(itk_Wrap_Array ${WRAPPER_TEMPLATES})
 
 WRAP_TYPE("itk::FixedArray" "FA")
-  set(dims ${ITK_WRAP_DIMS})
+  set(dims ${ITK_WRAP_DIMS_INCREMENTED})
   foreach(d ${ITK_WRAP_DIMS})
     math(EXPR d2 "${d} * 2")
     # for itk::SymmetricSecondRankTensor
