@@ -67,10 +67,10 @@ _nrrdEncodingGzip_read(FILE *file, void *_data, size_t elNum,
     biffAddf(NRRD, "%s: error opening gzFile", me);
     return 1;
   }
-  
+
   /* keeps track of how many bytes have been successfully read in */
   sizeRed = 0;
-  
+
   /* zlib can only handle data sizes up to UINT_MAX ==> if there's more than
      UINT_MAX bytes to read in, we read in in chunks. However, we wrap a value
      _nrrdZlibMaxChunk around UINT_MAX for testing purposes.  Given how
@@ -78,8 +78,8 @@ _nrrdEncodingGzip_read(FILE *file, void *_data, size_t elNum,
      prevent overflow. */
   maxChunk = _nrrdZlibMaxChunk/2;
   sizeChunk = AIR_CAST(unsigned int, AIR_MIN(sizeData, maxChunk));
-  
-  if (nio->byteSkip < 0) { 
+
+  if (nio->byteSkip < 0) {
     /* We don't know the size of the size to skip before the data, so
        decompress the data first into a temporary memory buffer.  Then
        the byteskipping is then just memcpy-ing the appropriate region
@@ -87,7 +87,7 @@ _nrrdEncodingGzip_read(FILE *file, void *_data, size_t elNum,
     char *buff;
     airArray *buffArr;
     long backwards;
-      
+
     /* setting the airArray increment to twice the chunk size means that for
        headers that are small compared to the data, the airArray never
        actually has to reallocate.  The unit is 1 because we are managing
@@ -100,11 +100,11 @@ _nrrdEncodingGzip_read(FILE *file, void *_data, size_t elNum,
       biffAddf(NRRD, "%s: couldn't initialize airArray\n", me);
       return 1;
     }
-    
+
     /* we keep reading in chunks as long as there hasn't been an error,
        and we haven't hit EOF (EOF signified by read == 0).  Unlike the
        code below (for positive byteskip), we are obligated to read until
-       the bitter end, and can't update sizeChunk to encompass only the 
+       the bitter end, and can't update sizeChunk to encompass only the
        required data. */
     while (!(error = _nrrdGzRead(gzfin, buff + sizeRed,
                                  sizeChunk, &didread))
@@ -166,7 +166,7 @@ _nrrdEncodingGzip_read(FILE *file, void *_data, size_t elNum,
          to make sure that we don't request data that might be there but that
          we don't want.  This will reduce sizeChunk when we get to the last
          block (which may be smaller than the original sizeChunk). */
-      if (sizeData >= sizeRed 
+      if (sizeData >= sizeRed
           && sizeData - sizeRed < sizeChunk) {
         sizeChunk = AIR_CAST(unsigned int, sizeData - sizeRed);
       }
@@ -191,7 +191,7 @@ _nrrdEncodingGzip_read(FILE *file, void *_data, size_t elNum,
     biffAddf(NRRD, "%s: error closing gzFile", me);
     return 1;
   }
-  
+
   return 0;
 #else
   AIR_UNUSED(file);
@@ -215,7 +215,7 @@ _nrrdEncodingGzip_write(FILE *file, const void *_data, size_t elNum,
   char fmt[4];
   gzFile gzfout;
   unsigned int wrote, sizeChunk;
-  
+
   sizeData = nrrdElementSize(nrrd)*elNum;
 
   /* Set format string based on the NrrdIoState parameters. */
@@ -241,7 +241,7 @@ _nrrdEncodingGzip_write(FILE *file, const void *_data, size_t elNum,
     biffAddf(NRRD, "%s: error opening gzFile", me);
     return 1;
   }
-  
+
   /* zlib can only handle data sizes up to UINT_MAX ==> if there's more than
      UINT_MAX bytes to write out, we write out in chunks.  As above, we wrap
      _nrrdZlibMaxChunk around UINT_MAX for testing purposes. */
@@ -251,7 +251,7 @@ _nrrdEncodingGzip_write(FILE *file, const void *_data, size_t elNum,
   sizeWrit = 0;
   /* Pointer to the chunks as we write them. */
   data = AIR_CAST(const char *, _data);
-  
+
   /* Ok, now we can begin writing. */
   while ((error = _nrrdGzWrite(gzfout, AIR_CVOIDP(data),
                                sizeChunk, &wrote)) == 0
@@ -268,12 +268,12 @@ _nrrdEncodingGzip_write(FILE *file, const void *_data, size_t elNum,
         && sizeData - sizeWrit < sizeChunk)
       sizeChunk = AIR_CAST(unsigned int, sizeData - sizeWrit);
   }
-  
+
   if (error) {
     biffAddf(NRRD, "%s: error writing to gzFile", me);
     return 1;
   }
-  
+
   /* Check to see if we wrote out as much as we thought we should. */
   if (sizeWrit != sizeData) {
     char stmp1[AIR_STRLEN_SMALL], stmp2[AIR_STRLEN_SMALL];
@@ -282,14 +282,14 @@ _nrrdEncodingGzip_write(FILE *file, const void *_data, size_t elNum,
              airSprintSize_t(stmp2, sizeWrit));
     return 1;
   }
-  
+
   /* Close the gzFile.  Since _nrrdGzClose does not close the FILE* we
      will not encounter problems when dataFile is closed later. */
   if (_nrrdGzClose(gzfout)) {
     biffAddf(NRRD, "%s: error closing gzFile", me);
     return 1;
   }
-  
+
   return 0;
 #else
   AIR_UNUSED(file);

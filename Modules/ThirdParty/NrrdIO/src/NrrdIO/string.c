@@ -59,7 +59,7 @@ airStrdup(const char *s) {
 size_t
 airStrlen(const char *s) {
   size_t ret;
-  
+
   if (!s) {
     ret = 0;
   }
@@ -82,7 +82,7 @@ airStrlen(const char *s) {
 char *
 airStrtok(char *s, const char *ct, char **last) {
   char *h, *e, *q;
-  
+
   if (!(ct && last)) {
     /* can't do any work, bail */
     return NULL;
@@ -145,7 +145,7 @@ airStrntok(const char *_s, const char *ct) {
 char *
 airStrtrans(char *s, char from, char to) {
   size_t i, l;
-  
+
   if (s) {
     l = strlen(s);
     for (i=0; i<l; i++) {
@@ -202,7 +202,7 @@ airStrcpy(char *dst, size_t dstSize, const char *src) {
 */
 int
 airEndsWith(const char *s, const char *suff) {
-  
+
   if (!(s && suff))
     return 0;
   if (!(strlen(s) >= strlen(suff)))
@@ -225,7 +225,7 @@ airUnescape(char *s) {
   int found=0;
 
   len = airStrlen(s);
-  if (!len) 
+  if (!len)
     return s;
 
   for (i=1, j=0; i<len; i++, j++) {
@@ -262,7 +262,7 @@ airOneLinify(char *s) {
   size_t i, j, len;
 
   len = airStrlen(s);
-  if (!len) 
+  if (!len)
     return s;
 
   /* convert white space to space (' '), and delete unprintables */
@@ -341,7 +341,7 @@ airToUpper(char *str) {
 
 /*
 ******** airOneLine()
-** 
+**
 ** gets one line from "file", putting it into an array if given size.
 ** "size" must be the size of line buffer "line": the size which
 ** "line" was allocated for, not the number of non-null characters it
@@ -372,7 +372,7 @@ unsigned int
 airOneLine(FILE *file, char *line, unsigned int size) {
   int cc=0;
   unsigned int ii;
-  
+
   if (!(size >= 3  /* need room for a character and a Windows newline */
         && line && file)) {
     return 0;

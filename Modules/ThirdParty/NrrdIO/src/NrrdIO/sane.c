@@ -42,7 +42,7 @@ airSanity(void) {
   char endian;
   unsigned char uc0, uc1;
   static int _airSanity=0;
-  
+
   if (_airSanity) {
     return airInsane_not;
   }
@@ -62,9 +62,9 @@ airSanity(void) {
     if (1234 != airMyEndian()) {
       return airInsane_endian;
     }
-  }    
+  }
 
-  /* checks on sizes of uchar, float, int, double, airLLong */  
+  /* checks on sizes of uchar, float, int, double, airLLong */
   uc0 = 255;
   uc1 = AIR_CAST(unsigned char, AIR_INT(uc0) + 1); /* want to overflow */
   if (!( 255 == uc0 && 0 == uc1 )) {
@@ -129,12 +129,12 @@ airSanity(void) {
   if (!(airFP_QNAN == airFPClass_f(nanF)
         && airFP_POS_INF == airFPClass_f(pinfF)
         && airFP_NEG_INF == airFPClass_f(ninfF))) {
-    /* really, this is verifying that assigning from a double to a 
+    /* really, this is verifying that assigning from a double to a
        float maintains the FPClass for non-existent values */
     return airInsane_FltDblFPClass;
   }
-  
-  /* just make sure AIR_DIO is reasonably set 
+
+  /* just make sure AIR_DIO is reasonably set
      (actually, this should be done by include/teemDio.h) */
   switch (AIR_DIO) {
   case 0: break;
@@ -167,7 +167,7 @@ static const char _airBadInsane[] = "(invalid insane value)";
 
 const char *
 airInsaneErr(int insane) {
-  
+
   if (AIR_IN_CL(0, insane, AIR_INSANE_MAX)) {
     return _airInsaneErr[insane];
   }

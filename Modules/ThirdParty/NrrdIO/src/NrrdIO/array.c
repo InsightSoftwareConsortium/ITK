@@ -27,19 +27,19 @@
 
 static void
 _airLenSet(airArray *a, unsigned int len) {
-  
+
   a->len = len;
   /* printf("    HEY: len = %d\n", a->len); */
   if (a->lenP) {
     *(a->lenP) = len;
-    /* printf("    HEY: *(a->lenP) = *(%lu) = %d\n", 
+    /* printf("    HEY: *(a->lenP) = *(%lu) = %d\n",
        (unsigned long)a->lenP, *(a->lenP)); */
   }
 }
 
 static void
 _airSetData(airArray *a, void *data) {
-  
+
   a->data = data;
   if (a->dataP) {
     *(a->dataP) = data;
@@ -71,7 +71,7 @@ airArrayNew(void **dataP, unsigned int *lenP, size_t unit, unsigned int incr) {
   if (unit<=0 || incr<=0) {
     return NULL;
   }
-  
+
   a = AIR_CALLOC(1, airArray);
   if (!a) {
     return NULL;
@@ -98,8 +98,8 @@ airArrayNew(void **dataP, unsigned int *lenP, size_t unit, unsigned int incr) {
 **
 ** set callbacks to maintain array of structs
 */
-void 
-airArrayStructCB(airArray *a, 
+void
+airArrayStructCB(airArray *a,
                  void (*initCB)(void *), void (*doneCB)(void *)) {
 
   if (a) {
@@ -112,11 +112,11 @@ airArrayStructCB(airArray *a,
 
 /*
 ******** airArrayPointerCB()
-** 
+**
 ** set callbacks to maintain array of pointers
 */
 void
-airArrayPointerCB(airArray *a, 
+airArrayPointerCB(airArray *a,
                   void *(*allocCB)(void), void *(*freeCB)(void *)) {
 
   if (a) {
@@ -132,13 +132,13 @@ airArrayPointerCB(airArray *a,
 ******** airArrayLenSet()
 **
 ** Set the length of the array, allocating or freeing as needed
-** 
+**
 ** returns 1 on error, otherwise 0 if okay
 ** possible errors: bogus arguments, or couldn't allocate new memory segment
 **
 ** In case we can't allocate the new space, the old space is left untouched,
 ** however if the new length is smaller, the free/done callbacks will
-** have been called on invalidated elements 
+** have been called on invalidated elements
 **
 ** NB: this used to have a "boolean" return to indicate allocation
 ** error, but almost nothing in Teem actually did the error checking.
@@ -150,7 +150,7 @@ airArrayLenSet(airArray *a, unsigned int newlen) {
   /* char me[]="airArrayLenSet"; */
   unsigned int ii, newsize;
   void *addr, *newdata;
-  
+
   if (!a) {
     /* user is a moron, what can you do */
     return;
@@ -188,7 +188,7 @@ airArrayLenSet(airArray *a, unsigned int newlen) {
           _airSetData(a, NULL);
           return;
         }
-        memcpy(newdata, a->data, AIR_MIN(a->len*a->unit, 
+        memcpy(newdata, a->data, AIR_MIN(a->len*a->unit,
                                          newsize*a->incr*a->unit));
         free(a->data);
         _airSetData(a, newdata);
@@ -224,7 +224,7 @@ airArrayLenSet(airArray *a, unsigned int newlen) {
 ******** airArrayLenIncr()
 **
 ** Like airArrayLenSet, but works with an increment instead of an
-** absolute length.  Return value is different: 
+** absolute length.  Return value is different:
 **             got NULL: return 0
 **     allocation error: return 0, and a->data set to NULL
 **  no error, delta > 0: return index of 1st element in newly allocated
@@ -272,7 +272,7 @@ airArrayLenIncr(airArray *a, int delta) {
 */
 airArray *
 airArrayNuke(airArray *a) {
-  
+
   if (a) {
     airArrayLenSet(a, 0);
     free(a);
@@ -287,7 +287,7 @@ airArrayNuke(airArray *a) {
 */
 airArray *
 airArrayNix(airArray *a) {
-  
+
   if (a) {
     free(a);
   }

@@ -39,7 +39,7 @@ nrrdCommentAdd(Nrrd *nrrd, const char *_str) {
   /* static const char me[]="nrrdCommentAdd";*/
   char *str;
   unsigned int ii;
-  
+
   if (!(nrrd && _str)) {
     /*
     sprintf(err, "%s: got NULL pointer", me);
