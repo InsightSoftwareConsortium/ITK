@@ -18,6 +18,7 @@
 #ifndef __itkRayCastInterpolateImageFunction_hxx
 #define __itkRayCastInterpolateImageFunction_hxx
 
+#include "itkCompensatedSummation.h"
 #include "itkRayCastInterpolateImageFunction.h"
 
 #include "vnl/vnl_math.h"
@@ -57,6 +58,8 @@ public:
   typedef typename InputImageType::PixelType PixelType;
   typedef typename InputImageType::IndexType IndexType;
 
+  typedef itk::CompensatedSummation< double > CompensatedSummationType;
+
   /**
    * Set the image class
    */
@@ -68,12 +71,12 @@ public:
   /**
    *  Initialise the ray using the position and direction of a line.
    *
-   *  \param RayPosn       The position of the ray in 3D (mm).
-   *  \param RayDirn       The direction of the ray in 3D (mm).
+   *  \param rayPosition       The position of the ray in 3D (mm).
+   *  \param rayDirection      The direction of the ray in 3D (mm).
    *
    *  \return True if this is a valid ray.
    */
-  bool SetRay(OutputPointType RayPosn, DirectionType RayDirn);
+  bool SetRay(const OutputPointType & rayPosition, const DirectionType & rayDirection);
 
   /** \brief
    * Integrate the interpolated intensities above a given threshold,
@@ -226,7 +229,7 @@ protected:
    * voxel. This enables indices of the neighbouring voxels within the plane
    * to be determined by simply casting to 'int' and optionally adding 1.
    */
-  double m_Position3Dvox[3];
+  CompensatedSummationType m_Position3Dvox[3];
 
   /** The incremental direction vector of the ray in voxels. */
   double m_VoxelIncrement[3];
@@ -667,7 +670,7 @@ RayCastHelper< TInputImage, TCoordRep >
 template< class TInputImage, class TCoordRep >
 bool
 RayCastHelper< TInputImage, TCoordRep >
-::SetRay(OutputPointType RayPosn, DirectionType RayDirn)
+::SetRay(const OutputPointType & rayPosition, const DirectionType & rayDirection)
 {
   // Store the position and direction of the ray
   typename TInputImage::SpacingType spacing = this->m_Image->GetSpacing();
@@ -683,17 +686,17 @@ RayCastHelper< TInputImage, TCoordRep >
   m_VoxelDimensionInZ = spacing[2];
 
   m_CurrentRayPositionInMM[0] =
-    RayPosn[0] + 0.5 * m_VoxelDimensionInX * (double)m_NumberOfVoxelsInX;
+    rayPosition[0] + 0.5 * m_VoxelDimensionInX * (double)m_NumberOfVoxelsInX;
 
   m_CurrentRayPositionInMM[1] =
-    RayPosn[1] + 0.5 * m_VoxelDimensionInY * (double)m_NumberOfVoxelsInY;
+    rayPosition[1] + 0.5 * m_VoxelDimensionInY * (double)m_NumberOfVoxelsInY;
 
   m_CurrentRayPositionInMM[2] =
-    RayPosn[2] + 0.5 * m_VoxelDimensionInZ * (double)m_NumberOfVoxelsInZ;
+    rayPosition[2] + 0.5 * m_VoxelDimensionInZ * (double)m_NumberOfVoxelsInZ;
 
-  m_RayDirectionInMM[0] = RayDirn[0];
-  m_RayDirectionInMM[1] = RayDirn[1];
-  m_RayDirectionInMM[2] = RayDirn[2];
+  m_RayDirectionInMM[0] = rayDirection[0];
+  m_RayDirectionInMM[1] = rayDirection[1];
+  m_RayDirectionInMM[2] = rayDirection[2];
 
   // Compute the ray path for this coordinate in mm
 
@@ -1208,17 +1211,17 @@ void
 RayCastHelper< TInputImage, TCoordRep >
 ::IncrementVoxelPointers(void)
 {
-  double xBefore = m_Position3Dvox[0];
-  double yBefore = m_Position3Dvox[1];
-  double zBefore = m_Position3Dvox[2];
+  double xBefore = m_Position3Dvox[0].GetSum();
+  double yBefore = m_Position3Dvox[1].GetSum();
+  double zBefore = m_Position3Dvox[2].GetSum();
 
   m_Position3Dvox[0] += m_VoxelIncrement[0];
   m_Position3Dvox[1] += m_VoxelIncrement[1];
   m_Position3Dvox[2] += m_VoxelIncrement[2];
 
-  int dx = ( (int)m_Position3Dvox[0] ) - ( (int)xBefore );
-  int dy = ( (int)m_Position3Dvox[1] ) - ( (int)yBefore );
-  int dz = ( (int)m_Position3Dvox[2] ) - ( (int)zBefore );
+  int dx = ( (int)m_Position3Dvox[0].GetSum() ) - ( (int)xBefore );
+  int dy = ( (int)m_Position3Dvox[1].GetSum() ) - ( (int)yBefore );
+  int dz = ( (int)m_Position3Dvox[2].GetSum() ) - ( (int)zBefore );
 
   m_RayIntersectionVoxelIndex[0] += dx;
   m_RayIntersectionVoxelIndex[1] += dy;
@@ -1258,20 +1261,20 @@ RayCastHelper< TInputImage, TCoordRep >
     {
     case TRANSVERSE_IN_X:
       {
-      y = m_Position3Dvox[1] - vcl_floor(m_Position3Dvox[1]);
-      z = m_Position3Dvox[2] - vcl_floor(m_Position3Dvox[2]);
+      y = m_Position3Dvox[1].GetSum() - vcl_floor(m_Position3Dvox[1].GetSum());
+      z = m_Position3Dvox[2].GetSum() - vcl_floor(m_Position3Dvox[2].GetSum());
       break;
       }
     case TRANSVERSE_IN_Y:
       {
-      y = m_Position3Dvox[0] - vcl_floor(m_Position3Dvox[0]);
-      z = m_Position3Dvox[2] - vcl_floor(m_Position3Dvox[2]);
+      y = m_Position3Dvox[0].GetSum() - vcl_floor(m_Position3Dvox[0].GetSum());
+      z = m_Position3Dvox[2].GetSum() - vcl_floor(m_Position3Dvox[2].GetSum());
       break;
       }
     case TRANSVERSE_IN_Z:
       {
-      y = m_Position3Dvox[0] - vcl_floor(m_Position3Dvox[0]);
-      z = m_Position3Dvox[1] - vcl_floor(m_Position3Dvox[1]);
+      y = m_Position3Dvox[0].GetSum() - vcl_floor(m_Position3Dvox[0].GetSum());
+      z = m_Position3Dvox[1].GetSum() - vcl_floor(m_Position3Dvox[1].GetSum());
       break;
       }
     default:
@@ -1301,7 +1304,7 @@ RayCastHelper< TInputImage, TCoordRep >
 
 //  double posn3D_x, posn3D_y, posn3D_z;
 
-  integral = 0.;
+  CompensatedSummationType sum;
 
   // Check if this is a valid ray
 
@@ -1320,7 +1323,7 @@ RayCastHelper< TInputImage, TCoordRep >
 
     if ( intensity > threshold )
       {
-      integral += intensity - threshold;
+      sum += intensity - threshold;
       }
     this->IncrementVoxelPointers();
     }
@@ -1329,6 +1332,7 @@ RayCastHelper< TInputImage, TCoordRep >
      however, if its moving diagonally the ray points will be further
      apart so account for this by scaling by the distance moved. */
 
+  integral = sum.GetSum();
   integral *= this->GetRayPointSpacing();
 
   return true;
