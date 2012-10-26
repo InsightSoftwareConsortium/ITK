@@ -27,7 +27,7 @@
 
 /*
 learned: using these functions correctly to manage even simple
-memory usage can be very tricky.  
+memory usage can be very tricky.
 
 problem 0: even trying to write airMopPrint, I foolishly thought:
 "print the string, then free it".  But the print callback clobbered
@@ -38,7 +38,7 @@ problem 1: debugging hest with purify, on case of hitting error after
 parsing multiple variable parameter option of strings: so, I allocated
 an array of strings (arrays), and registered all the strings with
 airMopMem(), and registered the array itself also with airMopMem().
-Again, got clobbered.  airSetNull(&((*vP)[0])) clobbered 
+Again, got clobbered.  airSetNull(&((*vP)[0])) clobbered
 airFree(*vP).  So, I gave up on using airMopMem() for the individual
 elements, and am using simply airMopAdd(airFree).  The alternative
 was to change the airMopAdd()s in airMopMem() to _airMopAdd()s, but
@@ -62,7 +62,7 @@ airMopSub() and airMopUnMem were created
 
 airArray *
 airMopNew() {
-  
+
   return airArrayNew(NULL, NULL, sizeof(airMop), AIR_MOP_INCR);
 }
 
@@ -84,7 +84,7 @@ airMopAdd(airArray *arr, void *ptr, airMopper mop, int when) {
   static const char me[]="airMopAdd";
   airMop *mops;
   unsigned int ii;
-  
+
   if (!arr) {
     return 0;
   }
@@ -115,7 +115,7 @@ void
 airMopSub(airArray *arr, void *ptr, airMopper mop) {
   airMop *mops;
   unsigned int ii;
-  
+
   if (!arr) {
     return;
   }
@@ -146,9 +146,9 @@ airMopMem(airArray *arr, void *_ptrP, int when) {
   airMopAdd(arr, ptrP, (airMopper)airSetNull, when);
   airMopAdd(arr, *ptrP, airFree, when);
   /*
-  printf("airMopMem(0x%p): will free() 0x%p\n", 
+  printf("airMopMem(0x%p): will free() 0x%p\n",
          (void*)arr, (void*)(*ptrP));
-  printf("airMopMem(0x%p): will set 0x%p to NULL\n", 
+  printf("airMopMem(0x%p): will set 0x%p to NULL\n",
          (void*)arr, (void*)ptrP);
   */
   return;
@@ -291,13 +291,13 @@ airMopDone(airArray *arr, int error) {
 
 void
 airMopError(airArray *arr) {
-  
+
   airMopDone(arr, AIR_TRUE);
 }
 
 void
 airMopOkay(airArray *arr) {
-  
+
   airMopDone(arr, AIR_FALSE);
 }
 

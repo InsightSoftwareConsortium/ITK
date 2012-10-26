@@ -40,7 +40,7 @@
 */
 int
 airEnumUnknown(const airEnum *enm) {
-  
+
   if (enm && enm->val) {
     return enm->val[0];
   } else {
@@ -51,7 +51,7 @@ airEnumUnknown(const airEnum *enm) {
 /*
 ** _airEnumIndex()
 **
-** given an enum "enm" and value "val", return the index into enm->str[] 
+** given an enum "enm" and value "val", return the index into enm->str[]
 ** and enm->desc[] which correspond to that value.  To be safe, when
 ** given an invalid enum value, we return zero.
 */
@@ -76,7 +76,7 @@ _airEnumIndex(const airEnum *enm, int val) {
 }
 
 /*
-** returns non-zero if there is an error: given "val" is *not* 
+** returns non-zero if there is an error: given "val" is *not*
 ** a valid value of the airEnum "enm"
 */
 int
@@ -101,7 +101,7 @@ airEnumDesc(const airEnum *enm, int val) {
   return enm->desc[idx];
 }
 
-int 
+int
 airEnumVal(const airEnum *enm, const char *str) {
   char *strCpy, test[AIR_STRLEN_SMALL];
   unsigned int ii;
@@ -109,7 +109,7 @@ airEnumVal(const airEnum *enm, const char *str) {
   if (!str) {
     return airEnumUnknown(enm);
   }
-  
+
   strCpy = airStrdup(str);
   if (!enm->sense) {
     airToLower(strCpy);
@@ -138,7 +138,7 @@ airEnumVal(const airEnum *enm, const char *str) {
       if (!strcmp(test, strCpy)) {
         free(strCpy);
         return enm->val ? enm->val[ii] : (int)ii; /* HEY scrutinize cast */
-      }      
+      }
     }
   }
 
@@ -226,7 +226,7 @@ _enumPrintVal(FILE *file, const airEnum *enm, int ii) {
 
 void
 airEnumPrint(FILE *file, const airEnum *enm) {
-  int ii; /* this should arguable be unsigned int, but 
+  int ii; /* this should arguable be unsigned int, but
              airEnum values were kept as "int", even after
              the great unsigned conversion */
 

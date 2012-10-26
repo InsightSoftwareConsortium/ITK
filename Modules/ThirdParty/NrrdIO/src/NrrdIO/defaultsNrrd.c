@@ -79,7 +79,7 @@ _nrrdULLongMaxHelp(airULLong val) {
   return val + 1;
 }
 
-/* should the acceptance (or not) of malformed NRRD header fields 
+/* should the acceptance (or not) of malformed NRRD header fields
    embedded in PNM or text comments be controlled here? */
 
 /* Are there other assumptions currently built into nrrd which could

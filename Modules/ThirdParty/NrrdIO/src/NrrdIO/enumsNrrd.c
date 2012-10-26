@@ -32,10 +32,10 @@
 **
 ** 1) Be awake and undistracted.  Turn down the music.
 ** 2) When editing the char arrays, make sure that you put commas
-**    where you mean them to be.  C's automatic string concatenation 
+**    where you mean them to be.  C's automatic string concatenation
 **    is not your friend here.  In fact, EXPLOIT the fact that you can have
 **    a comma after the last element of a list (of strings)- it decreases
-**    the chances that adding a new element at the end will be thwarted by 
+**    the chances that adding a new element at the end will be thwarted by
 **    the lack of a comma at the end of the previous (and previously last)
 **    string.
 ** 3) When editing the *StrEqv and *ValEqv arrays, make absolutely
@@ -153,15 +153,15 @@ _nrrdTypeDesc[NRRD_TYPE_MAX+1] = {
 static const char *
 _nrrdTypeStrEqv[] = {
   "signed char", /* but NOT just "char" */ "int8", "int8_t",
-  "uchar", "unsigned char", "uint8", "uint8_t", 
+  "uchar", "unsigned char", "uint8", "uint8_t",
   "short", "short int", "signed short", "signed short int", "int16", "int16_t",
-  "ushort", "unsigned short", "unsigned short int", "uint16", "uint16_t", 
-  "int", "signed int", "int32", "int32_t", 
+  "ushort", "unsigned short", "unsigned short int", "uint16", "uint16_t",
+  "int", "signed int", "int32", "int32_t",
   "uint", "unsigned int", "uint32", "uint32_t",
   "longlong", "long long", "long long int", "signed long long",
-               "signed long long int", "int64", "int64_t", 
+               "signed long long int", "int64", "int64_t",
   "ulonglong", "unsigned long long", "unsigned long long int",
-               "uint64", "uint64_t", 
+               "uint64", "uint64_t",
   "float",
   "double",
   "block",
@@ -175,9 +175,9 @@ _nrrdTypeValEqv[] = {
   ntSH, ntSH, ntSH, ntSH, ntSH, ntSH,
   ntUS, ntUS, ntUS, ntUS, ntUS,
   ntIN, ntIN, ntIN, ntIN,
-  ntUI, ntUI, ntUI, ntUI, 
-  ntLL, ntLL, ntLL, ntLL, ntLL, ntLL, ntLL, 
-  ntUL, ntUL, ntUL, ntUL, ntUL, 
+  ntUI, ntUI, ntUI, ntUI,
+  ntLL, ntLL, ntLL, ntLL, ntLL, ntLL, ntLL,
+  ntUL, ntUL, ntUL, ntUL, ntUL,
   ntFL,
   ntDB,
   ntBL,
@@ -414,7 +414,7 @@ _nrrdKindStr_Eqv[] = {
   "3-normal",
   "4-vector",
   "quaternion",
-  "2D-symmetric-matrix", "2D-sym-matrix", 
+  "2D-symmetric-matrix", "2D-sym-matrix",
         "2D-symmetric-tensor", "2D-sym-tensor",
   "2D-masked-symmetric-matrix", "2D-masked-sym-matrix",
         "2D-masked-symmetric-tensor", "2D-masked-sym-tensor",
@@ -440,7 +440,7 @@ _nrrdKindVal_Eqv[] = {
   nrrdKindTime,
   nrrdKindList,
   nrrdKindPoint,
-  nrrdKindVector, nrrdKindVector, 
+  nrrdKindVector, nrrdKindVector,
   nrrdKindCovariantVector,
   nrrdKindNormal,
   nrrdKindStub,
@@ -600,7 +600,7 @@ _nrrdFieldStrEqv[] = {
   "sample units", "sampleunits",
   "space units", "spaceunits",
   "space origin", "spaceorigin",
-  "measurement frame", "measurementframe", 
+  "measurement frame", "measurementframe",
   "data file", "datafile",
   ""
 };
@@ -647,7 +647,7 @@ _nrrdField = {
   NRRD_FIELD_MAX,
   _nrrdFieldStr, NULL,
   _nrrdFieldDesc,
-  _nrrdFieldStrEqv, _nrrdFieldValEqv, 
+  _nrrdFieldStrEqv, _nrrdFieldValEqv,
   AIR_FALSE  /* field identifiers not case sensitive */
 };
 const airEnum *const
@@ -721,7 +721,7 @@ _nrrdSpaceStrEqv[] = {
   "left-posterior-superior-time", "left posterior superior time",
       "leftposteriorsuperiortime", "LPST",
   "scanner-xyz",
-  "scanner-xyz-time", "scanner-xyzt", 
+  "scanner-xyz-time", "scanner-xyzt",
   "3D-right-handed", "3D right handed", "3Drighthanded",
   "3D-left-handed", "3D left handed", "3Dlefthanded",
   "3D-right-handed-time", "3D right handed time",
@@ -746,10 +746,10 @@ _nrrdSpaceValEqv[] = {
   nrrdSpaceLeftPosteriorSuperiorTime, nrrdSpaceLeftPosteriorSuperiorTime,
      nrrdSpaceLeftPosteriorSuperiorTime, nrrdSpaceLeftPosteriorSuperiorTime,
   nrrdSpaceScannerXYZ,
-  nrrdSpaceScannerXYZTime, nrrdSpaceScannerXYZTime, 
+  nrrdSpaceScannerXYZTime, nrrdSpaceScannerXYZTime,
   nrrdSpace3DRightHanded, nrrdSpace3DRightHanded, nrrdSpace3DRightHanded,
   nrrdSpace3DLeftHanded, nrrdSpace3DLeftHanded, nrrdSpace3DLeftHanded,
-  nrrdSpace3DRightHandedTime, nrrdSpace3DRightHandedTime, 
+  nrrdSpace3DRightHandedTime, nrrdSpace3DRightHandedTime,
      nrrdSpace3DRightHandedTime,
   nrrdSpace3DLeftHandedTime, nrrdSpace3DLeftHandedTime,
      nrrdSpace3DLeftHandedTime

@@ -120,7 +120,7 @@ _bmsgFind(const char *key) {
 static unsigned int
 _bmsgFindIdx(biffMsg *msg) {
   unsigned int ii;
-  
+
   for (ii=0; ii<_bmsgNum; ii++) {
     if (msg == _bmsg[ii]) {
       break;
@@ -168,8 +168,8 @@ _bmsgAdd(const char *key) {
 /*
 ******** biffAdd()
 **
-** Adds string "err" at key "key", whether or not there are any 
-** existing messages there.  Since biffSet() was killed 
+** Adds string "err" at key "key", whether or not there are any
+** existing messages there.  Since biffSet() was killed
 ** Wed Apr 20 11:11:51 EDT 2005, this has become the main biff
 ** function.
 */
@@ -375,7 +375,7 @@ biffDone(const char *key) {
   biffMsg *msg;
 
   _bmsgStart();
-  
+
   msg = _bmsgFind(key);
   if (!msg) {
     fprintf(stderr, "%s: WARNING: no information for key \"%s\"\n", me, key);

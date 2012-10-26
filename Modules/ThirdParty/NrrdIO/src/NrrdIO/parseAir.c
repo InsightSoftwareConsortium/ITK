@@ -77,7 +77,7 @@ airBool = &_airBool;
 double
 airAtod(const char *str) {
   double val = 0.0;
-  
+
   airSingleSscanf(str, "%lf", &val);
   return val;
 }
@@ -87,7 +87,7 @@ airSingleSscanf(const char *str, const char *fmt, void *ptr) {
   char *tmp;
   double val;
   int ret;
-  
+
   if (!strcmp(fmt, "%e") || !strcmp(fmt, "%f") || !strcmp(fmt, "%g")
       || !strcmp(fmt, "%le") || !strcmp(fmt, "%lf") || !strcmp(fmt, "%lg")) {
     tmp = airStrdup(str);
@@ -178,7 +178,7 @@ airSingleSscanf(const char *str, const char *fmt, void *ptr) {
 ** given string "s"; try to parse "n" of them, as delimited by
 ** characters in "ct", and put the results in "out".
 **
-** Returns the number of things succesfully parsed- should be n; 
+** Returns the number of things succesfully parsed- should be n;
 ** there's been an error if return is < n.
 **
 ** The embarrassing reason for the var-args ("...") is that I want the

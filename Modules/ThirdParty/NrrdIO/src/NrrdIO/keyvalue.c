@@ -39,7 +39,7 @@
 */
 unsigned int
 nrrdKeyValueSize(const Nrrd *nrrd) {
-  
+
   if (!nrrd) {
     return 0;
   }
@@ -60,7 +60,7 @@ nrrdKeyValueSize(const Nrrd *nrrd) {
 void
 nrrdKeyValueIndex(const Nrrd *nrrd, char **keyP, char **valueP,
                   unsigned int ki) {
-  
+
   if (!( nrrd && keyP && valueP && ki < nrrd->kvpArr->len )) {
     if (keyP) {
       *keyP = NULL;
@@ -114,7 +114,7 @@ nrrdKeyValueClear(Nrrd *nrrd) {
     nrrd->kvp[1 + 2*ki] = (char *)airFree(nrrd->kvp[1 + 2*ki]);
   }
   airArrayLenSet(nrrd->kvpArr, 0);
-  
+
   return;
 }
 
@@ -122,7 +122,7 @@ int
 nrrdKeyValueErase(Nrrd *nrrd, const char *key) {
   unsigned int nk, ki;
   int found;
-  
+
   if (!( nrrd && key )) {
     /* got NULL pointer */
     return 1;
@@ -197,7 +197,7 @@ nrrdKeyValueGet(const Nrrd *nrrd, const char *key) {
   char *ret;
   unsigned int ki;
   int found;
-  
+
   if (!( nrrd && key )) {
     /* got NULL pointer */
     return NULL;
@@ -285,9 +285,9 @@ _nrrdWriteEscaped(FILE *file, char *dst, const char *str,
 ** prefix (if non-NULL), and ending with "\n"
 */
 int
-_nrrdKeyValueWrite(FILE *file, char **stringP, const char *prefix, 
+_nrrdKeyValueWrite(FILE *file, char **stringP, const char *prefix,
                    const char *key, const char *value) {
-  
+
   if (!( (file || stringP) && key && value )) {
     return 1;
   }

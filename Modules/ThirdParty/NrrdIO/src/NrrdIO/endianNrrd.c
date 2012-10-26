@@ -29,7 +29,7 @@ static void
 _nrrdSwap16Endian(void *_data, size_t N) {
   unsigned short *data, dd, fix, mask;
   size_t I;
-  
+
   if (!_data) {
     return;
   }
@@ -97,7 +97,7 @@ _nrrdNoopEndian(void *data, size_t N) {
 static void
 _nrrdBlockEndian(void *data, size_t N) {
   char me[]="_nrrdBlockEndian";
-  
+
   AIR_UNUSED(data);
   AIR_UNUSED(N);
   fprintf(stderr, "%s: WARNING: can't fix endiannes of nrrd type %s\n", me,
@@ -122,9 +122,9 @@ static void
 
 void
 nrrdSwapEndian(Nrrd *nrrd) {
-  
-  if (nrrd 
-      && nrrd->data 
+
+  if (nrrd
+      && nrrd->data
       && !airEnumValCheck(nrrdType, nrrd->type)) {
     _nrrdSwapEndian[nrrd->type](nrrd->data, nrrdElementNumber(nrrd));
   }

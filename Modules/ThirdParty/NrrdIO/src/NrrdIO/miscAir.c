@@ -38,7 +38,7 @@
 ******** airTeemVersion
 ******** airTeemReleaseDate
 **
-** updated with each release to contain a string representation of 
+** updated with each release to contain a string representation of
 ** the Teem version number and release date.  Originated in version 1.5;
 ** use of TEEM_VERSION #defines started in 1.9
 */
@@ -70,7 +70,7 @@ airNull(void) {
 */
 void *
 airSetNull(void **ptrP) {
-  
+
   if (ptrP) {
     *ptrP = NULL;
   }
@@ -96,7 +96,7 @@ airFree(void *ptr) {
 ******** airFopen()
 **
 ** encapsulates that idea that "-" is either standard in or stardard
-** out, and does McRosopht stuff required to make piping work 
+** out, and does McRosopht stuff required to make piping work
 **
 ** Does not error checking.  If fopen fails, then C' errno and strerror are
 ** left untouched for the caller to access.
@@ -162,7 +162,7 @@ airSinglePrintf(FILE *file, char *str, const char *_fmt, ...) {
   int ret, isF, isD, cls;
   char *conv=NULL, *p0, *p1, *p2, *p3, *p4, *p5;
   va_list ap;
-  
+
   va_start(ap, _fmt);
   fmt = airStrdup(_fmt);
 
@@ -175,8 +175,8 @@ airSinglePrintf(FILE *file, char *str, const char *_fmt, ...) {
   p5 = strstr(fmt, "%lg");
   isF = p0 || p1 || p2;
   isD = p3 || p4 || p5;
-  /* the code here says "isF" and "isD" as if it means "is float" or 
-     "is double".  It really should be "is2" or "is3", as in, 
+  /* the code here says "isF" and "isD" as if it means "is float" or
+     "is double".  It really should be "is2" or "is3", as in,
      "is 2-character conv. seq., or "is 3-character conv. seq." */
   if (isF) {
     conv = p0 ? p0 : (p1 ? p1 : p2);
@@ -239,7 +239,7 @@ airSinglePrintf(FILE *file, char *str, const char *_fmt, ...) {
     /* conversion sequence is neither for float nor double */
     ret = file ? vfprintf(file, fmt, ap) : vsprintf(str, fmt, ap);
   }
-  
+
   va_end(ap);
   free(fmt);
   return ret;

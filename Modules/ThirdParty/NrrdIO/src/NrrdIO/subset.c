@@ -37,13 +37,13 @@
 ** in the original data (viewed as a one- dimensional array).  The
 ** characteristics of that periodic pattern are how far from the
 ** beginning it starts (offset), the length of the "on" part (length),
-** the period (period), and the number of periods (numper). 
+** the period (period), and the number of periods (numper).
 */
 int
 nrrdSlice(Nrrd *nout, const Nrrd *cnin, unsigned int saxi, size_t pos) {
   static const char me[]="nrrdSlice", func[]="slice";
-  size_t 
-    I, 
+  size_t
+    I,
     rowLen,                  /* length of segment */
     colStep,                 /* distance between start of each segment */
     colLen,                  /* number of periods */
@@ -128,7 +128,7 @@ nrrdSlice(Nrrd *nout, const Nrrd *cnin, unsigned int saxi, size_t pos) {
     biffAddf(NRRD, "%s: failed to create slice", me);
     airMopError(mop); return 1;
   }
-  
+
   /* the skinny */
   src = AIR_CAST(const char *, (nin ? nin : cnin)->data);
   dest = AIR_CAST(char *, nout->data);
@@ -230,7 +230,7 @@ nrrdCrop(Nrrd *nout, const Nrrd *nin, size_t *min, size_t *max) {
     biffAddf(NRRD, "%s: nrrd reports zero element size!", me);
     return 1;
   }
-  
+
   /* allocate */
   nrrdAxisInfoGet_nva(nin, nrrdAxisInfoSize, szIn);
   numLines = 1;
@@ -246,7 +246,7 @@ nrrdCrop(Nrrd *nout, const Nrrd *nin, size_t *min, size_t *max) {
     return 1;
   }
   lineSize = szOut[0]*nrrdElementSize(nin);
-  
+
   /* the skinny */
   typeSize = nrrdElementSize(nin);
   dataIn = (char *)nin->data;
@@ -274,7 +274,7 @@ nrrdCrop(Nrrd *nout, const Nrrd *nin, size_t *min, size_t *max) {
            me, (int)I, cIn[0], cIn[1], cIn[2], (int)idxIn);
     */
     memcpy(dataOut + idxOut*typeSize, dataIn + idxIn*typeSize, lineSize);
-    /* the lowest coordinate in cOut[] will stay zero, since we are 
+    /* the lowest coordinate in cOut[] will stay zero, since we are
        copying one (1-D) scanline at a time */
     NRRD_COORD_INCR(cOut, szOut, nin->dim, 1);
   }
@@ -286,7 +286,7 @@ nrrdCrop(Nrrd *nout, const Nrrd *nin, size_t *min, size_t *max) {
   }
   for (ai=0; ai<nin->dim; ai++) {
     nrrdAxisInfoPosRange(&(nout->axis[ai].min), &(nout->axis[ai].max),
-                         nin, ai, AIR_CAST(double, min[ai]), 
+                         nin, ai, AIR_CAST(double, min[ai]),
                          AIR_CAST(double, max[ai]));
     /* do the safe thing first */
     nout->axis[ai].kind = _nrrdKindAltered(nin->axis[ai].kind, AIR_FALSE);
@@ -359,11 +359,11 @@ nrrdCrop(Nrrd *nout, const Nrrd *nin, size_t *min, size_t *max) {
     if (AIR_EXISTS(nin->axis[ai].spaceDirection[0])) {
       nrrdSpaceVecScaleAdd2(nout->spaceOrigin,
                             1.0, nout->spaceOrigin,
-                            AIR_CAST(double, min[ai]), 
+                            AIR_CAST(double, min[ai]),
                             nin->axis[ai].spaceDirection);
     }
   }
-                         
+
 
   return 0;
 }

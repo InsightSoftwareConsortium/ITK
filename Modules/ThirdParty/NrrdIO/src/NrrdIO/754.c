@@ -99,7 +99,7 @@ typedef union {
   double v;
 } _airDoubleEndianBig;
 
-/* 
+/*
 ** The hex numbers in braces are examples of C's "initial member of a union"
 ** aggregate initialization.
 */
@@ -183,7 +183,7 @@ extern air_export const airDouble airDoubleMin;
 
 float
 airFPPartsToVal_f(unsigned int sign,
-                  unsigned int expo, 
+                  unsigned int expo,
                   unsigned int mant) {
   _airFloatEndianLittle flit;
   _airFloatEndianBig fbig;
@@ -194,9 +194,9 @@ airFPPartsToVal_f(unsigned int sign,
           : fbig.v);
 }
 
-void 
-airFPValToParts_f(unsigned int *signP, 
-                  unsigned int *expoP, 
+void
+airFPValToParts_f(unsigned int *signP,
+                  unsigned int *expoP,
                   unsigned int *mantP, float v) {
   _airFloatEndianLittle flit;
   _airFloatEndianBig fbig;
@@ -206,7 +206,7 @@ airFPValToParts_f(unsigned int *signP,
 }
 
 double
-airFPPartsToVal_d(unsigned int sign, 
+airFPPartsToVal_d(unsigned int sign,
                   unsigned int expo,
                   unsigned int mant0,
                   unsigned int mant1) {
@@ -228,7 +228,7 @@ airFPPartsToVal_d(unsigned int sign,
 #pragma warning(disable : 4700)
 #endif
 void
-airFPValToParts_d(unsigned int *signP, 
+airFPValToParts_d(unsigned int *signP,
                   unsigned int *expoP,
                   unsigned int *mant0P,
                   unsigned int *mant1P, double v) {
@@ -247,7 +247,7 @@ airFPValToParts_d(unsigned int *signP,
 **
 ** generates a floating point value which is a member of the given class
 */
-float 
+float
 airFPGen_f(int cls) {
   _airFloatEndianLittle flit;
   _airFloatEndianBig fbig;
@@ -366,15 +366,15 @@ airFPClass_f(float val) {
   FP_GET_F(sign, expv, mant, flit, fbig);
   indexv = ((!!sign) << 2) | ((!!expv) << 1) | (!!mant);
   switch(indexv) {
-  case 0: 
+  case 0:
     /* all fields are zero */
-    ret = airFP_POS_ZERO;   
+    ret = airFP_POS_ZERO;
     break;
-  case 1: 
+  case 1:
     /* only mantissa is non-zero */
-    ret = airFP_POS_DENORM; 
+    ret = airFP_POS_DENORM;
     break;
-  case 2: 
+  case 2:
     /* only exponent field is non-zero */
     if (0xff == expv) {
       ret = airFP_POS_INF;
@@ -394,9 +394,9 @@ airFPClass_f(float val) {
       ret = airFP_POS_NORM;
     }
     break;
-  case 4: 
+  case 4:
     /* only sign field is non-zero */
-    ret = airFP_NEG_ZERO; 
+    ret = airFP_NEG_ZERO;
     break;
   case 5:
     /* sign and mantissa fields are non-zero */
@@ -429,7 +429,7 @@ airFPClass_f(float val) {
 /*
 ** Disable the 'local variable used without having been initialized'
 ** warning produced by the MSVC compiler
-*/ 
+*/
 #ifdef _MSC_VER
 #pragma warning(push)
 #pragma warning(disable : 4700)
@@ -457,15 +457,15 @@ airFPClass_d(double val) {
 
   indexv = ((!!sign) << 2) | ((!!expo) << 1) | (!!mant0 || !!mant1);
   switch(indexv) {
-  case 0: 
+  case 0:
     /* all fields are zero */
-    ret = airFP_POS_ZERO;   
+    ret = airFP_POS_ZERO;
     break;
-  case 1: 
+  case 1:
     /* only fractional field is non-zero */
-    ret = airFP_POS_DENORM; 
+    ret = airFP_POS_DENORM;
     break;
-  case 2: 
+  case 2:
     /* only exponent field is non-zero */
     if (0x7ff > expo) {
       ret = airFP_POS_NORM;
@@ -485,9 +485,9 @@ airFPClass_d(double val) {
       }
     }
     break;
-  case 4: 
+  case 4:
     /* only sign field is non-zero */
-    ret = airFP_NEG_ZERO; 
+    ret = airFP_NEG_ZERO;
     break;
   case 5:
     /* sign and fractional fields are non-zero */
@@ -534,7 +534,7 @@ airIsNaN(double g) {
   _airFloatEndianLittle flit;
   _airFloatEndianBig fbig;
   unsigned int sign, expo, mant;
-  
+
   flit.v = fbig.v = AIR_CAST(float, g);
   FP_GET_F(sign, expo, mant, flit, fbig);
   AIR_UNUSED(sign);
@@ -545,16 +545,16 @@ airIsNaN(double g) {
 ******** airIsInf_f(), airIsInf_d()
 **
 ** returns 1 if input is positive infinity,
-** -1 if negative infinity, 
+** -1 if negative infinity,
 ** or 0 otherwise (including NaN)
 **
-** thus the non-zero-ness of the return is an easy way to do a 
+** thus the non-zero-ness of the return is an easy way to do a
 ** boolean check of whether the value is infinite
 */
 int
 airIsInf_f(float f) {
   int c, ret;
-  
+
   c = airFPClass_f(f);
   if (airFP_POS_INF == c) {
     ret = 1;
@@ -568,7 +568,7 @@ airIsInf_f(float f) {
 int
 airIsInf_d(double d) {
   int c, ret;
-  
+
   c = airFPClass_d(d);
   if (airFP_POS_INF == c) {
     ret = 1;
@@ -580,7 +580,7 @@ airIsInf_d(double d) {
   return ret;
 }
 
-/* airExists_f() airExists_d() were nixed because they weren't used- 
+/* airExists_f() airExists_d() were nixed because they weren't used-
   you can just use AIR_EXISTS_F and AIR_EXISTS_D directly */
 
 /*
@@ -621,7 +621,7 @@ airFPFprintf_f(FILE *file, float val) {
   unsigned int sign, expo, mant;
   _airFloatEndianLittle flit;
   _airFloatEndianBig fbig;
-  
+
   if (file) {
     flit.v = fbig.v = val;
     FP_GET_F(sign, expo, mant, flit, fbig);
@@ -653,7 +653,7 @@ airFPFprintf_d(FILE *file, double val) {
   _airDoubleEndianLittle dlit;
   _airDoubleEndianBig dbig;
   unsigned int sign, expo, mant0, mant1;
-  
+
   if (file) {
     dlit.v = dbig.v = val;
     fprintf(file, "%f: class %d; 0x%08x %08x = \n",

@@ -40,7 +40,7 @@
 ** -- in case of error, put text error messages into biff via
 **    biffAddf(NRRD, <error char*> ...)
 **
-** The "unknown" encoding below is intended to serve as a template for 
+** The "unknown" encoding below is intended to serve as a template for
 ** any new encodings being developed.
 */
 

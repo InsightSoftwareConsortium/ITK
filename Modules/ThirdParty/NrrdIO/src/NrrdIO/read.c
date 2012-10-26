@@ -71,8 +71,8 @@ _nrrdHeaderStringOneLine(NrrdIoState *nio) {
 ** wrapper around airOneLine; does re-allocation of line buffer
 ** ("line") in the NrrdIoState if needed.  The return value semantics
 ** are similar, except that what airOneLine would return, we put
-** in *lenP.  If there is an error (airOneLine returned 0, 
-** something couldn't be allocated), *lenP is set to 0, and 
+** in *lenP.  If there is an error (airOneLine returned 0,
+** something couldn't be allocated), *lenP is set to 0, and
 ** we return 1.  HITTING EOF IS NOT ACTUALLY AN ERROR, see code
 ** below.  Otherwise we return 0.
 **
@@ -207,7 +207,7 @@ _nrrdCalloc(Nrrd *nrrd, NrrdIoState *nio, FILE *file) {
   } else {
     nrrd->data = airFree(nrrd->data);
     fd = file ? fileno(file) : -1;
-    if (nrrdEncodingRaw == nio->encoding 
+    if (nrrdEncodingRaw == nio->encoding
         && -1 != fd
         && airNoDio_okay == airDioTest(fd, NULL, needDataSize)) {
       nrrd->data = airDioMalloc(needDataSize, fd);
@@ -244,12 +244,12 @@ nrrdLineSkip(FILE *dataFile, NrrdIoState *nio) {
      top of your gzipped data then you will potentially huge lines
      while _nrrdOneLine looks for line terminations.  Quoting Gordon:
      "Garbage in, Garbage out." */
-  
+
   if (!( dataFile && nio )) {
     biffAddf(NRRD, "%s: got NULL pointer", me);
     return 1;
   }
-  
+
   for (lsi=0; lsi<nio->lineSkip; lsi++) {
     if (_nrrdOneLine(&skipRet, nio, dataFile)) {
       biffAddf(NRRD, "%s: error skipping line %u of %u",
@@ -308,7 +308,7 @@ nrrdByteSkip(FILE *dataFile, Nrrd *nrrd, NrrdIoState *nio) {
       char stmp[AIR_STRLEN_SMALL];
       biffAddf(NRRD, "%s: failed to fseek(dataFile, %s, SEEK_END)", me,
                airSprintSize_t(stmp, bsize));
-      return 1;      
+      return 1;
     }
     if (nrrdStateVerboseIO >= 2) {
       fprintf(stderr, "(%s: actually skipped %d bytes)\n",
@@ -352,15 +352,15 @@ _nrrdRead(Nrrd *nrrd, FILE *file, const char *string, NrrdIoState *_nio) {
   unsigned int llen;
   NrrdIoState *nio;
   int nfi;
-  airArray *mop; 
+  airArray *mop;
 
   /* sanity check, for good measure */
   if (!nrrdSanity()) {
-    biffAddf(NRRD, "%s: sanity check FAILED: have to fix and re-compile", 
+    biffAddf(NRRD, "%s: sanity check FAILED: have to fix and re-compile",
              me);
     return 1;
   }
-  
+
   if (!((file || string) && nrrd)) {
     biffAddf(NRRD, "%s: got NULL pointer", me);
     return 1;
@@ -381,11 +381,11 @@ _nrrdRead(Nrrd *nrrd, FILE *file, const char *string, NrrdIoState *_nio) {
     airMopAdd(mop, nio, (airMopper)nrrdIoStateNix, airMopAlways);
   }
 
-  /* remember old data pointer and allocated size.  Whether or not to 
+  /* remember old data pointer and allocated size.  Whether or not to
      free() this memory will be decided later */
   nio->oldData = nrrd->data;
-  nio->oldDataSize = (nio->oldData 
-                      ? nrrdElementNumber(nrrd)*nrrdElementSize(nrrd) 
+  nio->oldDataSize = (nio->oldData
+                      ? nrrdElementNumber(nrrd)*nrrdElementSize(nrrd)
                       : 0);
   /*
   fprintf(stderr, "!%s: nio->oldData = %p, oldDataSize = %d\n", me,
@@ -408,10 +408,10 @@ _nrrdRead(Nrrd *nrrd, FILE *file, const char *string, NrrdIoState *_nio) {
      biffAddf(NRRD, "%s: immediately hit EOF", me);
      airMopError(mop); return 1;
   }
-  
+
   nio->format = nrrdFormatUnknown;
-  for (nfi = nrrdFormatTypeUnknown+1; 
-       nfi < nrrdFormatTypeLast; 
+  for (nfi = nrrdFormatTypeUnknown+1;
+       nfi < nrrdFormatTypeLast;
        nfi++) {
     if (nrrdFormatArray[nfi]->contentStartsLike(nio)) {
       nio->format = nrrdFormatArray[nfi];
@@ -436,13 +436,13 @@ _nrrdRead(Nrrd *nrrd, FILE *file, const char *string, NrrdIoState *_nio) {
              me, nrrdFormatNRRD->name, nio->format->name);
     airMopError(mop); return 1;
   }
-  
+
   /* try to read the file */
   if (nio->format->read(file, nrrd, nio)) {
     biffAddf(NRRD, "%s: trouble reading %s file", me, nio->format->name);
     airMopError(mop); return 1;
   }
-  
+
   /* reshape up grayscale images, if desired */
   if (nio->format->isImage && 2 == nrrd->dim && nrrdStateGrayscaleImage3D) {
     if (nrrdAxesInsert(nrrd, nrrd, 0)) {
@@ -465,7 +465,7 @@ _nrrdRead(Nrrd *nrrd, FILE *file, const char *string, NrrdIoState *_nio) {
     biffAddf(NRRD, "%s: problem with nrrd after reading", me);
     return 1;
   }
-  
+
   airMopOkay(mop);
   return 0;
 }
@@ -522,7 +522,7 @@ nrrdStringRead(Nrrd *nrrd, const char *string, NrrdIoState *_nio) {
 void
 _nrrdSplitName(char **dirP, char **baseP, const char *name) {
   char *where;
-  
+
   if (dirP) {
     *dirP = (char *)airFree(*dirP);
   }
@@ -563,8 +563,8 @@ _nrrdSplitName(char **dirP, char **baseP, const char *name) {
 /*
 ******** nrrdLoad()
 **
-** 
-** 
+**
+**
 ** call tree for this, to help figure out what's going on
 **
 **   read.c/nrrdLoad
@@ -589,7 +589,7 @@ _nrrdSplitName(char **dirP, char **baseP, const char *name) {
 ** (more documentation here)
 **
 ** sneakiness: returns 2 if the reason for problem was a failed fopen().
-** 
+**
 */
 int /*Teem: biff if (ret) */
 nrrdLoad(Nrrd *nrrd, const char *filename, NrrdIoState *nio) {
@@ -610,7 +610,7 @@ nrrdLoad(Nrrd *nrrd, const char *filename, NrrdIoState *nio) {
     }
     airMopAdd(mop, nio, (airMopper)nrrdIoStateNix, airMopAlways);
   }
-  
+
   /* we save the directory of the filename given to us so that if it turns
      out that this is a detached header with a header-relative data file,
      then we will know how to find the data file */
@@ -618,7 +618,7 @@ nrrdLoad(Nrrd *nrrd, const char *filename, NrrdIoState *nio) {
   /* printf("!%s: |%s|%s|\n", me, nio->dir, nio->base); */
 
   if (!( file = airFopen(filename, stdin, "rb") )) {
-    biffAddf(NRRD, "%s: fopen(\"%s\",\"rb\") failed: %s", 
+    biffAddf(NRRD, "%s: fopen(\"%s\",\"rb\") failed: %s",
              me, filename, strerror(errno));
     airMopError(mop); return 2;
   }
@@ -629,7 +629,7 @@ nrrdLoad(Nrrd *nrrd, const char *filename, NrrdIoState *nio) {
     biffAddf(NRRD, "%s: trouble reading \"%s\"", me, filename);
     airMopError(mop); return 1;
   }
-  
+
   if (nrrdFormatNRRD == nio->format
       && nio->keepNrrdDataFileOpen
       && file == nio->dataFile ) {
@@ -664,7 +664,7 @@ nrrdLoadMulti(Nrrd *const *nin, unsigned int ninLen,
              "an unsigned int\n", me, fnameFormat);
     return 1;
   }
-  
+
   mop = airMopNew();
   /* should be big enough for the number replacing the format sequence */
   fname = AIR_CAST(char *, malloc(strlen(fnameFormat) + 128));
