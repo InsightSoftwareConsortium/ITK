@@ -98,6 +98,9 @@ public:
   /** Reset the sum and compensation to zero. */
   void ResetToZero();
 
+  /** Reset the sum to the given value and the compensation to zero. */
+  Self & operator=( const FloatType & rhs );
+
   /** Get the sum. */
   const AccumulateType & GetSum() const;
 

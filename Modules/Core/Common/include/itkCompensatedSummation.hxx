@@ -142,6 +142,17 @@ CompensatedSummation< TFloat >
 }
 
 template < class TFloat >
+CompensatedSummation< TFloat > &
+CompensatedSummation< TFloat >
+::operator=( const FloatType & rhs )
+{
+  this->m_Sum          = rhs;
+  this->m_Compensation = NumericTraits< AccumulateType >::Zero;
+
+  return *this;
+}
+
+template < class TFloat >
 const typename CompensatedSummation< TFloat >::AccumulateType &
 CompensatedSummation< TFloat >
 ::GetSum() const

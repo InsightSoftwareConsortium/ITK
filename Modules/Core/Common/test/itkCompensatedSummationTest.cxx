@@ -104,5 +104,12 @@ int itkCompensatedSummationTest( int, char * [] )
     return EXIT_FAILURE;
     }
 
+  floatAccumulator = 2.0;
+  if( floatAccumulator.GetSum() != 2.0 )
+    {
+    std::cerr << "operator= did not set the value." << std::endl;
+    return EXIT_FAILURE;
+    }
+
   return EXIT_SUCCESS;
 }
