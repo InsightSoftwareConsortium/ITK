@@ -67,6 +67,13 @@ itkPromoteDimensionImageTest.cxx
 itkModulusImageFilterTest.cxx
 itkVectorMagnitudeImageFilterTest.cxx
 itkNormalizeToConstantImageFilterTest.cxx
+itkEqualTest.cxx
+itkNotEqualTest.cxx
+itkGreaterEqualTest.cxx
+itkGreaterTest.cxx
+itkLessEqualTest.cxx
+itkLessTest.cxx
+
 )
 
 CreateTestDriver(ITKImageIntensity  "${ITKImageIntensity-Test_LIBRARIES}" "${ITKImageIntensityTests}")
@@ -237,3 +244,15 @@ itk_add_test(NAME itkVectorMagnitudeImageFilterTest
       COMMAND ITKImageIntensityTestDriver itkVectorMagnitudeImageFilterTest)
 itk_add_test(NAME itkNormalizeToConstantImageFilterTest
       COMMAND ITKImageIntensityTestDriver itkNormalizeToConstantImageFilterTest)
+itk_add_test(NAME itkEqualTest
+      COMMAND ITKImageIntensityTestDriver itkEqualTest)
+itk_add_test(NAME itkNotEqualTest
+      COMMAND ITKImageIntensityTestDriver itkNotEqualTest)
+itk_add_test(NAME itkGreaterEqualTest
+      COMMAND ITKImageIntensityTestDriver itkGreaterEqualTest)
+itk_add_test(NAME itkGreaterTest
+      COMMAND ITKImageIntensityTestDriver itkGreaterTest)
+itk_add_test(NAME itkLessEqualTest
+      COMMAND ITKImageIntensityTestDriver itkLessEqualTest)
+itk_add_test(NAME itkLessTest
+      COMMAND ITKImageIntensityTestDriver itkLessTest)
