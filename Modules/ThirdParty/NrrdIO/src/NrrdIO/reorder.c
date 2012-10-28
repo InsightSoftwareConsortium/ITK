@@ -159,7 +159,7 @@ int
 nrrdAxesPermute(Nrrd *nout, const Nrrd *nin, const unsigned int *axes) {
   static const char me[]="nrrdAxesPermute", func[]="permute";
   char buff1[NRRD_DIM_MAX*30], buff2[AIR_STRLEN_SMALL];
-  size_t idxOut, idxIn=0,    /* indices for input and output scanlines */
+  size_t idxOut, idxInA=0,   /* indices for input and output scanlines */
     lineSize,                /* size of block of memory which can be
                                 moved contiguously from input to output,
                                 thought of as a "scanline" */
@@ -253,8 +253,8 @@ nrrdAxesPermute(Nrrd *nout, const Nrrd *nin, const unsigned int *axes) {
       for (ai=0; ai<ldim; ai++) {
         cIn[laxes[ai]] = cOut[ai];
       }
-      NRRD_INDEX_GEN(idxIn, cIn, lszIn, ldim);
-      memcpy(dataOut + idxOut*lineSize, dataIn + idxIn*lineSize, lineSize);
+      NRRD_INDEX_GEN(idxInA, cIn, lszIn, ldim);
+      memcpy(dataOut + idxOut*lineSize, dataIn + idxInA*lineSize, lineSize);
       NRRD_COORD_INCR(cOut, lszOut, ldim, 0);
     }
     /* set content */
@@ -326,7 +326,7 @@ nrrdShuffle(Nrrd *nout, const Nrrd *nin, unsigned int axis,
 #define LONGEST_INTERESTING_AXIS 42
   char buff1[LONGEST_INTERESTING_AXIS*30];
   unsigned int ai, ldim, len;
-  size_t idxIn=0, idxOut, lineSize, numLines, size[NRRD_DIM_MAX], *lsize,
+  size_t idxInB=0, idxOut, lineSize, numLines, size[NRRD_DIM_MAX], *lsize,
     cIn[NRRD_DIM_MAX+1], cOut[NRRD_DIM_MAX+1];
   char *dataIn, *dataOut;
 
@@ -404,9 +404,9 @@ nrrdShuffle(Nrrd *nout, const Nrrd *nin, unsigned int axis,
   for (idxOut=0; idxOut<numLines; idxOut++) {
     memcpy(cIn, cOut, sizeof(cIn));
     cIn[0] = perm[cOut[0]];
-    NRRD_INDEX_GEN(idxIn, cIn, lsize, ldim);
+    NRRD_INDEX_GEN(idxInB, cIn, lsize, ldim);
     NRRD_INDEX_GEN(idxOut, cOut, lsize, ldim);
-    memcpy(dataOut + idxOut*lineSize, dataIn + idxIn*lineSize, lineSize);
+    memcpy(dataOut + idxOut*lineSize, dataIn + idxInB*lineSize, lineSize);
     NRRD_COORD_INCR(cOut, lsize, ldim, 0);
   }
   /* Set content. The LONGEST_INTERESTING_AXIS hack avoids the
