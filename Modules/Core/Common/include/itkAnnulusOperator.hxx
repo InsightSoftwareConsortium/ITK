@@ -37,6 +37,221 @@ AnnulusOperator< TPixel, TDimension, TAllocator >
   this->Fill(coefficients);
 }
 
+/** Set/Get the inner radius of the annulus. Radius is specified in
+* physical units (mm). */
+template< class TPixel, unsigned int TDimension, class TAllocator >
+void
+AnnulusOperator< TPixel, TDimension, TAllocator >
+::SetInnerRadius(double r)
+{
+  m_InnerRadius = r;
+}
+
+template< class TPixel, unsigned int TDimension, class TAllocator >
+double
+AnnulusOperator< TPixel, TDimension, TAllocator >
+::GetInnerRadius() const
+{
+  return m_InnerRadius;
+}
+
+/** Set/Get the thickness of the annulus.  The outer radius of the
+ * annulus is defined as r = InnerRadius + Thickness. Thickness is
+ * specified in physical units (mm). */
+template< class TPixel, unsigned int TDimension, class TAllocator >
+void
+AnnulusOperator< TPixel, TDimension, TAllocator >
+::SetThickness(double t)
+{
+  m_Thickness = t;
+}
+
+template< class TPixel, unsigned int TDimension, class TAllocator >
+double
+AnnulusOperator< TPixel, TDimension, TAllocator >
+::GetThickness() const
+{
+  return m_Thickness;
+}
+
+/** Set/Get the pixel spacings.  Setting these ensures the annulus
+ * is round in physical space. Defaults to 1. */
+template< class TPixel, unsigned int TDimension, class TAllocator >
+void
+AnnulusOperator< TPixel, TDimension, TAllocator >
+::SetSpacing(SpacingType & s)
+{
+  m_Spacing = s;
+}
+
+/** Set/Get the pixel spacings.  Setting these ensures the annulus
+ * is round in physical space. Defaults to 1. */
+template< class TPixel, unsigned int TDimension, class TAllocator >
+const typename AnnulusOperator< TPixel, TDimension, TAllocator >::SpacingType &
+AnnulusOperator< TPixel, TDimension, TAllocator >
+::GetSpacing() const
+{
+  return m_Spacing;
+}
+
+/** Set/Get whether kernel values are computed automatically or
+ * specified manually */
+template< class TPixel, unsigned int TDimension, class TAllocator >
+void
+AnnulusOperator< TPixel, TDimension, TAllocator >
+::SetNormalize(bool b)
+{
+  m_Normalize = b;
+}
+
+template< class TPixel, unsigned int TDimension, class TAllocator >
+bool
+AnnulusOperator< TPixel, TDimension, TAllocator >
+::GetNormalize() const
+{
+  return m_Normalize;
+}
+
+template< class TPixel, unsigned int TDimension, class TAllocator >
+void
+AnnulusOperator< TPixel, TDimension, TAllocator >
+::NormalizeOn()
+{
+  this->SetNormalize(true);
+}
+
+template< class TPixel, unsigned int TDimension, class TAllocator >
+void
+AnnulusOperator< TPixel, TDimension, TAllocator >
+::NormalizeOff()
+{
+  this->SetNormalize(false);
+}
+
+/** If Normalize is on, you define the annulus to have a bright
+ * center or a dark center. */
+template< class TPixel, unsigned int TDimension, class TAllocator >
+void
+AnnulusOperator< TPixel, TDimension, TAllocator >
+::SetBrightCenter(bool b)
+{
+  m_BrightCenter = b;
+}
+
+template< class TPixel, unsigned int TDimension, class TAllocator >
+bool
+AnnulusOperator< TPixel, TDimension, TAllocator >
+::GetBrightCenter() const
+{
+  return m_BrightCenter;
+}
+
+template< class TPixel, unsigned int TDimension, class TAllocator >
+void
+AnnulusOperator< TPixel, TDimension, TAllocator >
+::BrightCenterOn()
+{
+  this->SetBrightCenter(true);
+}
+
+template< class TPixel, unsigned int TDimension, class TAllocator >
+void
+AnnulusOperator< TPixel, TDimension, TAllocator >
+::BrightCenterOff()
+{
+  this->SetBrightCenter(false);
+}
+
+/** If Normalize is off, the interior to annulus, the
+ * annulus (region between the two circles), and the region exterior to the
+ * annulus to be defined manually.  Defauls are 0, 1, 0
+ * respectively. */
+template< class TPixel, unsigned int TDimension, class TAllocator >
+void
+AnnulusOperator< TPixel, TDimension, TAllocator >
+::SetInteriorValue(TPixel v)
+{
+  m_InteriorValue = v;
+}
+
+template< class TPixel, unsigned int TDimension, class TAllocator >
+typename AnnulusOperator< TPixel, TDimension, TAllocator >::PixelType
+AnnulusOperator< TPixel, TDimension, TAllocator >
+::GetInteriorValue() const
+{
+  return m_InteriorValue;
+}
+
+template< class TPixel, unsigned int TDimension, class TAllocator >
+void
+AnnulusOperator< TPixel, TDimension, TAllocator >
+::SetAnnulusValue(TPixel v)
+{
+  m_AnnulusValue = v;
+}
+
+template< class TPixel, unsigned int TDimension, class TAllocator >
+typename AnnulusOperator< TPixel, TDimension, TAllocator >
+::PixelType
+AnnulusOperator< TPixel, TDimension, TAllocator >
+::GetAnnulusValue() const
+{
+  return m_AnnulusValue;
+}
+
+template< class TPixel, unsigned int TDimension, class TAllocator >
+void
+AnnulusOperator< TPixel, TDimension, TAllocator >
+::SetExteriorValue(TPixel v)
+{
+  m_ExteriorValue = v;
+}
+
+template< class TPixel, unsigned int TDimension, class TAllocator >
+typename AnnulusOperator< TPixel, TDimension, TAllocator >
+::PixelType
+AnnulusOperator< TPixel, TDimension, TAllocator >
+::GetExteriorValue() const
+{
+  return m_ExteriorValue;
+}
+
+/** Assignment operator */
+template< class TPixel, unsigned int TDimension, class TAllocator >
+AnnulusOperator< TPixel, TDimension, TAllocator > &
+AnnulusOperator< TPixel, TDimension, TAllocator >
+::operator=(const Self & other)
+{
+  Superclass::operator=(other);
+  m_InnerRadius = other.m_InnerRadius;
+  m_Thickness = other.m_Thickness;
+  m_Spacing = other.m_Spacing;
+  m_InteriorValue = other.m_InteriorValue;
+  m_AnnulusValue = other.m_AnnulusValue;
+  m_ExteriorValue = other.m_ExteriorValue;
+  m_Normalize = other.m_Normalize;
+  m_BrightCenter = other.m_BrightCenter;
+  return *this;
+}
+
+/** Prints some debugging information */
+template< class TPixel, unsigned int TDimension, class TAllocator >
+void
+AnnulusOperator< TPixel, TDimension, TAllocator >
+::PrintSelf(std::ostream & os, Indent i) const
+{
+  os << i << "AnnulusOperator { this=" << this
+     << ", m_InnerRadius = " << m_InnerRadius
+     << ", m_Thickness = " << m_Thickness
+     << ", m_Spacing = " << m_Spacing
+     << ", m_Normalize = " << m_Normalize
+     << ", m_BrightCenter = " << m_BrightCenter
+     << ", m_InteriorValue = " << m_InteriorValue
+     << ", m_ExteriorValue = " << m_ExteriorValue
+     << "}" << std::endl;
+  Superclass::PrintSelf( os, i.GetNextIndent() );
+}
+
 /** This function fills the coefficients into the corresponding
  *  neighborhood. */
 template< class TPixel, unsigned int TDimension, class TAllocator >

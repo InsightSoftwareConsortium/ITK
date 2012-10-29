@@ -92,7 +92,7 @@ public:
   itkSetMacro(Origin, InputType);
 
   /** Set/Get the gradient at the origin of the function. */
-  GradientType GetOriginGradient() { return m_OriginGradient; }
+  GradientType GetOriginGradient();
   void SetOriginGradient(GradientType grad);
 
   /** Set/Get the minimum search distance. */

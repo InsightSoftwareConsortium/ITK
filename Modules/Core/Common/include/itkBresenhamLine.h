@@ -41,8 +41,8 @@ public:
   typedef std::vector< IndexType >    IndexArray;
 
   // constructurs
-  BresenhamLine(){}
-  ~BresenhamLine(){}
+  BresenhamLine();
+  ~BresenhamLine();
 
   /** Build a line in a specified Direction. */
   OffsetArray BuildLine(LType Direction, unsigned int length);

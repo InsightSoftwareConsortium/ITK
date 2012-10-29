@@ -61,14 +61,14 @@ public:
 
   const Self & operator=(const VnlMatrixType & matrix);
 
-  void Fill(TValueType const & v) { this->fill(v); }
+  void Fill(TValueType const & v);
 
   /** Destructively set the size to that given.  Will lose data.  */
   void SetSize(unsigned int m, unsigned int n);
 
   /** This destructor is not virtual for performance reasons. However, this
    * means that subclasses cannot allocate memory. */
-  ~Array2D() {}
+  ~Array2D();
 };
 
 template< typename TValueType >

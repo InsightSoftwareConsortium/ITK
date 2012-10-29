@@ -81,8 +81,8 @@ public:
   virtual void Set(T *val);
 
   /** Get the contained object */
-  virtual T * Get() { return m_Component.get(); }
-  virtual const T * Get() const { return m_Component.get(); }
+  virtual T * Get();
+  virtual const T * Get() const;
 
 protected:
   AutoPointerDataObjectDecorator();

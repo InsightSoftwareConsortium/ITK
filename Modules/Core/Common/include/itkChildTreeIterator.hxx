@@ -123,6 +123,21 @@ TreeIteratorBase< TTreeType > *ChildTreeIterator< TTreeType >::Clone()
   *clone = *this;
   return clone;
 }
+
+/** operator = */
+template< class TTreeType >
+ChildTreeIterator< TTreeType > &
+ChildTreeIterator< TTreeType >
+::operator=(Superclass & iterator)
+{
+  Superclass::operator=(iterator);
+  ChildTreeIterator< TTreeType > & it =
+    static_cast< ChildTreeIterator< TTreeType > & >( iterator );
+  m_ListPosition = it.m_ListPosition;
+  m_ParentNode = it.m_ParentNode;
+  return *this;
+}
+
 } // namespace
 
 #endif

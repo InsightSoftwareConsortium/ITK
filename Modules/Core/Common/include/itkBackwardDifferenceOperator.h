@@ -55,7 +55,7 @@ public:
   typedef typename Superclass::PixelType PixelType;
 
   /** Constructor. */
-  BackwardDifferenceOperator() {}
+  BackwardDifferenceOperator();
 
 protected:
   /** Necessary to work around a compiler bug in VC++. */
@@ -65,8 +65,7 @@ protected:
   CoefficientVector GenerateCoefficients();
 
   /** Arranges coefficients spatially in the memory buffer. */
-  void Fill(const CoefficientVector & coeff)
-  { this->FillCenteredDirectional(coeff); }
+  void Fill(const CoefficientVector & coeff);
 
 private:
   BackwardDifferenceOperator(const Self & other); //purposely not implemented

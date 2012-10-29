@@ -100,10 +100,7 @@ public:
   }
 
   /** Set the all the elements of the array to the specified value */
-  void Fill(TValueType const & v)
-    {
-    this->fill(v);
-    }
+  void Fill(TValueType const & v);
 
   /** Copy opertor */
   const Self & operator=(const Self & rhs);
@@ -111,24 +108,19 @@ public:
   const Self & operator=(const VnlVectorType & rhs);
 
   /** Return the number of elements in the Array  */
-  SizeValueType Size(void) const
-  { return static_cast<SizeValueType >( this->size() ); }
-  unsigned int GetNumberOfElements(void) const
-  { return static_cast<SizeValueType >( this->size() ); }
+  SizeValueType Size(void) const;
+  unsigned int GetNumberOfElements(void) const;
 
   /** Get one element */
-  const TValueType & GetElement(SizeValueType i) const
-  { return this->operator[](i); }
+  const ValueType & GetElement(SizeValueType i) const;
 
   /** Set one element */
-  void SetElement(SizeValueType i, const TValueType & value)
-  { this->operator[](i) = value; }
+  void SetElement(SizeValueType i, const TValueType & value);
 
   /** Destructively set the size to that given.  Will lose data.  */
   void SetSize(SizeValueType sz);
 
-  SizeValueType GetSize(void) const
-  { return static_cast< SizeValueType >( this->size() ); }
+  SizeValueType GetSize(void) const;
 
   /** Set the pointer from which the data is imported.
    * If "LetArrayManageMemory" is false, then the application retains

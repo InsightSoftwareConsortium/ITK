@@ -135,6 +135,20 @@ typename BresenhamLine< VDimension >::IndexArray BresenhamLine< VDimension >
   return indices;
 }
 
+template< unsigned int VDimension >
+BresenhamLine< VDimension >
+::BresenhamLine()
+{
+
+}
+
+template< unsigned int VDimension >
+BresenhamLine< VDimension >
+::~BresenhamLine()
+{
+
+}
+
 } // namespace itk
 
 #endif

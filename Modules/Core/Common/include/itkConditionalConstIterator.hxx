@@ -22,15 +22,42 @@
 
 namespace itk
 {
+
+/** operator= is provided to make sure the handle to the image is properly
+* reference counted. */
+template< typename TImageType >
+ConditionalConstIterator< TImageType > &
+ConditionalConstIterator< TImageType >
+::operator=(const Self & it)
+{
+  m_IsAtEnd = it.m_IsAtEnd; // copy the end flag
+  m_Image = it.m_Image;     // copy the smart pointer
+  m_Region = it.m_Region;   // copy the region
+  return *this;
+}
+
+/** Get the dimension (size) of the index. */
+template< typename TImageType >
+unsigned int
+ConditionalConstIterator< TImageType >
+::GetIteratorDimension(void)
+{
+  return Self::NDimension;
+}
+
 template< typename TImageType >
 ConditionalConstIterator< TImageType >
 ::ConditionalConstIterator()
-{}
+{
+
+}
 
 template< typename TImageType >
 ConditionalConstIterator< TImageType >
 ::~ConditionalConstIterator()
-{}
+{
+
+}
 } // end namespace itk
 
 #endif

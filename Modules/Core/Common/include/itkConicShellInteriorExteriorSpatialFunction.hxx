@@ -127,6 +127,15 @@ ConicShellInteriorExteriorSpatialFunction< VDimension, TInput >
   return result;
 }
 
+/** Set/Get the gradient at the origin of the function. */
+template< unsigned int VDimension, typename TInput >
+typename ConicShellInteriorExteriorSpatialFunction< VDimension, TInput >::GradientType
+ConicShellInteriorExteriorSpatialFunction< VDimension, TInput >
+::GetOriginGradient()
+{
+  return m_OriginGradient;
+}
+
 template< unsigned int VDimension, typename TInput >
 void
 ConicShellInteriorExteriorSpatialFunction< VDimension, TInput >

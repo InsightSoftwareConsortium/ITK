@@ -1,11 +1,11 @@
 set(ITKCommon_SRCS
+itkCommonExplicitInstantiation.cxx
 itkLoggerOutput.cxx
 itkProgressAccumulator.cxx
 itkNumericTraits.cxx
 itkMutexLock.cxx
 itkHexahedronCellTopology.cxx
 itkIndent.cxx
-itkIndex.cxx
 itkEventObject.cxx
 itkFileOutputWindow.cxx
 itkSimpleFilterWatcher.cxx
@@ -93,6 +93,12 @@ elseif( CMAKE_COMPILER_IS_GNUCXX )
   else()
     set_source_files_properties( itkCompensatedSummation.cxx PROPERTIES COMPILE_FLAGS -fno-unsafe-math-optimizations )
   endif()
+  CHECK_CXX_COMPILER_FLAG( -fno-implicit-templates gcc_has_no_implicit_templates )
+  if ( gcc_has_no_implicit_templates )
+    set_source_files_properties ( itkIndent.cxx PROPERTIES COMPILE_FLAGS "-fno-implicit-templates" )
+    #set_source_files_properties ( ${ITKCommon_SRCS} PROPERTIES COMPILE_FLAGS "-fno-implicit-templates" )
+  endif()
+
 elseif( MSVC )
   set_source_files_properties( itkCompensatedSummation.cxx PROPERTIES COMPILE_FLAGS -fp:precise )
 endif()

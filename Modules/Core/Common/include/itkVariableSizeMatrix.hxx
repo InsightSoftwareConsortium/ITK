@@ -185,6 +185,27 @@ VariableSizeMatrix< T >
   return *this;
 }
 
+/** Matrix by scalar division.  */
+template< class T >
+void
+VariableSizeMatrix< T >
+::operator/=(const T & value)
+{
+  m_Matrix /= value;
+}
+
+/** Matrix by scalar division.  */
+template< class T >
+VariableSizeMatrix< T >
+VariableSizeMatrix< T >
+::operator/(const T & value)
+{
+  Self result(*this);
+
+  result /= value;
+  return result;
+}
+
 template< class T >
 VariableSizeMatrix< T > &
 VariableSizeMatrix< T >
@@ -243,6 +264,79 @@ VariableSizeMatrix< T >
 {
   return m_Matrix * vc;
 }
+
+template< class T >
+void
+VariableSizeMatrix< T >
+::operator*=(const T & value)
+{
+  m_Matrix *= value;
+}
+
+/** Matrix by scalar multiplication.  */
+template< class T >
+VariableSizeMatrix< T >
+VariableSizeMatrix< T >
+::operator*(const T & value)
+{
+  Self result(*this);
+
+  result *= value;
+  return result;
+}
+
+/**
+ *  Comparison
+ */
+template< class T >
+bool
+VariableSizeMatrix< T >
+::operator==(const Self & matrix) const
+{
+  if ( ( matrix.Rows() != this->Rows() )
+       || ( matrix.Cols() != this->Cols() ) )
+    {
+    return false;
+    }
+  bool equal = true;
+
+  for ( unsigned int r = 0; r < this->Rows(); r++ )
+    {
+    for ( unsigned int c = 0; c < this->Cols(); c++ )
+      {
+      if ( m_Matrix(r, c) != matrix.m_Matrix(r, c) )
+        {
+        equal = false;
+        break;
+        }
+      }
+    }
+  return equal;
+}
+
+template< class T >
+VariableSizeMatrix< T >
+::VariableSizeMatrix()
+:m_Matrix()
+{
+
+}
+
+template< class T >
+VariableSizeMatrix< T >
+::VariableSizeMatrix(const Self & matrix)
+:m_Matrix(matrix.m_Matrix)
+{
+
+}
+
+template< class T >
+ITK_EXPORT std::ostream & operator<<(std::ostream & os,
+                                     const VariableSizeMatrix< T > & v)
+{
+  os << v.GetVnlMatrix(); return os;
+}
+
 } // end namespace itk
 
 #endif

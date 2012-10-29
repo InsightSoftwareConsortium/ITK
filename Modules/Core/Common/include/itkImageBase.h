@@ -715,6 +715,9 @@ private:
   RegionType m_RequestedRegion;
   RegionType m_BufferedRegion;
 };
+extern template class itk::ImageBase<2u>;
+extern template class itk::ImageBase<3u>;
+extern template class itk::ImageBase<4u>;
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

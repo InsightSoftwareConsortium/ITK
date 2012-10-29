@@ -160,6 +160,19 @@ LevelOrderTreeIterator< TTreeType >::GetLevel() const
   return level;
 }
 
+/** operator = */
+template< class TTreeType >
+const LevelOrderTreeIterator< TTreeType > &
+LevelOrderTreeIterator< TTreeType >
+::operator=(const Self & iterator)
+{
+  this->Superclass::operator=(iterator);
+  m_StartLevel = iterator.m_StartLevel;
+  m_EndLevel = iterator.m_EndLevel;
+  m_Queue = iterator.m_Queue;
+  return *this;
+}
+
 /** Return the level given a node */
 template< class TTreeType >
 int
@@ -225,6 +238,7 @@ TreeIteratorBase< TTreeType > *LevelOrderTreeIterator< TTreeType >::Clone()
   *clone = *this;
   return clone;
 }
+
 } // end namespace itk
 
 #endif

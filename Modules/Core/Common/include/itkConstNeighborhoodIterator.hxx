@@ -104,6 +104,47 @@ ConstNeighborhoodIterator< TImage, TBoundaryCondition >
     }
 }
 
+/** Allows a user to override the internal boundary condition. Care should
+ * be taken to ensure that the overriding boundary condition is a persistent
+ * object during the time it is referenced.  The overriding condition
+ * can be of a different type than the default type as long as it is
+ * a subclass of ImageBoundaryCondition. */
+template< class TImage, class TBoundaryCondition >
+void
+ConstNeighborhoodIterator< TImage, TBoundaryCondition >
+::OverrideBoundaryCondition(const ImageBoundaryConditionPointerType i)
+{
+  m_BoundaryCondition = i;
+}
+
+/** Resets the boundary condition to the internal, default conditions
+ * specified by the template parameter. */
+template< class TImage, class TBoundaryCondition >
+void
+ConstNeighborhoodIterator< TImage, TBoundaryCondition >
+::ResetBoundaryCondition()
+{
+  m_BoundaryCondition = &m_InternalBoundaryCondition;
+}
+
+/** Sets the internal, default boundary condition. */
+template< class TImage, class TBoundaryCondition >
+void
+ConstNeighborhoodIterator< TImage, TBoundaryCondition >
+::SetBoundaryCondition(const TBoundaryCondition & c)
+{
+  m_InternalBoundaryCondition = c;
+}
+
+/** */
+template< class TImage, class TBoundaryCondition >
+typename ConstNeighborhoodIterator< TImage, TBoundaryCondition >::ImageBoundaryConditionPointerType
+ConstNeighborhoodIterator< TImage, TBoundaryCondition >
+::GetBoundaryCondition() const
+{
+  return m_BoundaryCondition;
+}
+
 template< class TImage, class TBoundaryCondition >
 typename ConstNeighborhoodIterator< TImage, TBoundaryCondition >::PixelType
 ConstNeighborhoodIterator< TImage, TBoundaryCondition >
@@ -161,6 +202,189 @@ ConstNeighborhoodIterator< TImage, TBoundaryCondition >
   return ans;
 }
 
+/** Returns the array of upper loop bounds used during iteration. */
+template< class TImage, class TBoundaryCondition >
+typename ConstNeighborhoodIterator< TImage, TBoundaryCondition >::IndexType
+ConstNeighborhoodIterator< TImage, TBoundaryCondition >
+::GetBound() const
+{
+  return m_Bound;
+}
+
+///** Returns the loop bound used to define the edge of a single
+// * dimension in the itk::Image region. */
+//template< class TImage, class TBoundaryCondition >
+//typename ConstNeighborhoodIterator< TImage, TBoundaryCondition >::IndexValueType
+//ConstNeighborhoodIterator< TImage, TBoundaryCondition >
+//::GetBound(NeighborIndexType n) const
+//{
+//  return m_Bound[n];
+//}
+
+/** Returns the pointer to the center pixel of the neighborhood. */
+template< class TImage, class TBoundaryCondition >
+const typename ConstNeighborhoodIterator< TImage, TBoundaryCondition >::InternalPixelType *
+ConstNeighborhoodIterator< TImage, TBoundaryCondition >
+::GetCenterPointer() const
+{
+  return ( this->operator[]( ( this->Size() ) >> 1 ) );
+}
+
+/** Returns the pixel referenced at the center of the
+*  ConstNeighborhoodIterator. */
+template< class TImage, class TBoundaryCondition >
+typename ConstNeighborhoodIterator< TImage, TBoundaryCondition >::PixelType
+ConstNeighborhoodIterator< TImage, TBoundaryCondition >
+::GetCenterPixel() const
+{
+  return m_NeighborhoodAccessorFunctor.Get( this->GetCenterPointer() );
+}
+
+/** Returns a smartpointer to the image on which this iterator operates. */
+template< class TImage, class TBoundaryCondition >
+const typename ConstNeighborhoodIterator< TImage, TBoundaryCondition >::ImageType *
+ConstNeighborhoodIterator< TImage, TBoundaryCondition >
+::GetImagePointer(void) const
+{
+  return m_ConstImage;
+}
+
+/** Returns the N-dimensional index of the iterator's position in
+ * the image. */
+template< class TImage, class TBoundaryCondition >
+typename ConstNeighborhoodIterator< TImage, TBoundaryCondition >::IndexType
+ConstNeighborhoodIterator< TImage, TBoundaryCondition >
+::GetIndex(void) const
+{
+  return m_Loop;
+}
+
+/** Returns the pixel value located at a linear array location i. */
+template< class TImage, class TBoundaryCondition >
+typename ConstNeighborhoodIterator< TImage, TBoundaryCondition >::PixelType
+ConstNeighborhoodIterator< TImage, TBoundaryCondition >
+::GetPixel(NeighborIndexType i) const
+{
+  if ( !m_NeedToUseBoundaryCondition )
+    {
+    return ( m_NeighborhoodAccessorFunctor.Get( this->operator[](i) ) );
+    }
+  bool inbounds;
+  return this->GetPixel(i, inbounds);
+}
+
+/** Returns the pixel value located at the itk::Offset o from the center of
+    the neighborhood. */
+template< class TImage, class TBoundaryCondition >
+typename ConstNeighborhoodIterator< TImage, TBoundaryCondition >::PixelType
+ConstNeighborhoodIterator< TImage, TBoundaryCondition >
+::GetPixel(const OffsetType & o) const
+{
+  bool inbounds;
+
+  return ( this->GetPixel(this->GetNeighborhoodIndex(o), inbounds) );
+}
+
+/** Returns the pixel value located at the itk::Offset o from the center of
+ * the neighborhood. Sets "IsInBounds" to true if the offset is inside the
+ * image and the pixel value returned is an actual pixel in the
+ * image. Sets "IsInBounds" to false if the offset is outside the
+ * image and the pixel value returned is a boundary condition. */
+template< class TImage, class TBoundaryCondition >
+typename ConstNeighborhoodIterator< TImage, TBoundaryCondition >::PixelType
+ConstNeighborhoodIterator< TImage, TBoundaryCondition >
+::GetPixel(const OffsetType & o, bool & IsInBounds) const
+{
+  return ( this->GetPixel(this->GetNeighborhoodIndex(o), IsInBounds) );
+}
+
+/** Returns the pixel value located i pixels distant from the neighborhood
+ *  center in the positive specified ``axis'' direction. No bounds checking
+ *  is done on the size of the neighborhood. */
+template< class TImage, class TBoundaryCondition >
+typename ConstNeighborhoodIterator< TImage, TBoundaryCondition >::PixelType
+ConstNeighborhoodIterator< TImage, TBoundaryCondition >
+::GetNext(const unsigned axis, NeighborIndexType i) const
+{
+  return ( this->GetPixel( this->GetCenterNeighborhoodIndex()
+                           + ( i * this->GetStride(axis) ) ) );
+}
+
+/** Returns the pixel value located one pixel distant from the neighborhood
+ *  center in the specifed positive axis direction. No bounds checking is
+ *  done on the size of the neighborhood. */
+template< class TImage, class TBoundaryCondition >
+typename ConstNeighborhoodIterator< TImage, TBoundaryCondition >::PixelType
+ConstNeighborhoodIterator< TImage, TBoundaryCondition >
+::GetNext(const unsigned axis) const
+{
+  return ( this->GetPixel( this->GetCenterNeighborhoodIndex()
+                           + this->GetStride(axis) ) );
+}
+
+/** Returns the pixel value located i pixels distant from the neighborhood
+ *  center in the negative specified ``axis'' direction. No bounds checking
+ *  is done on the size of the neighborhood. */
+template< class TImage, class TBoundaryCondition >
+typename ConstNeighborhoodIterator< TImage, TBoundaryCondition >::PixelType
+ConstNeighborhoodIterator< TImage, TBoundaryCondition >
+::GetPrevious(const unsigned axis, NeighborIndexType i) const
+{
+  return ( this->GetPixel( this->GetCenterNeighborhoodIndex()
+                           - ( i * this->GetStride(axis) ) ) );
+}
+
+/** Returns the pixel value located one pixel distant from the neighborhood
+ *  center in the specifed negative axis direction. No bounds checking is
+ *  done on the size of the neighborhood. */
+template< class TImage, class TBoundaryCondition >
+typename ConstNeighborhoodIterator< TImage, TBoundaryCondition >::PixelType
+ConstNeighborhoodIterator< TImage, TBoundaryCondition >
+::GetPrevious(const unsigned axis) const
+{
+  return ( this->GetPixel( this->GetCenterNeighborhoodIndex()
+                           - this->GetStride(axis) ) );
+}
+
+/** Returns the image index for neighbor pixel at offset o from the center of
+    the neighborhood. */
+template< class TImage, class TBoundaryCondition >
+typename ConstNeighborhoodIterator< TImage, TBoundaryCondition >::IndexType
+ConstNeighborhoodIterator< TImage, TBoundaryCondition >
+::GetIndex(const OffsetType & o) const
+{
+  return ( this->GetIndex() + o );
+}
+
+/** Returns the image index for neighbor pixel at index i in the
+    neighborhood. */
+template< class TImage, class TBoundaryCondition >
+typename ConstNeighborhoodIterator< TImage, TBoundaryCondition >::IndexType
+ConstNeighborhoodIterator< TImage, TBoundaryCondition >
+::GetIndex(NeighborIndexType i) const
+{
+  return ( this->GetIndex() + this->GetOffset(i) );
+}
+
+/**  Returns the region of iteration. */
+template< class TImage, class TBoundaryCondition >
+typename ConstNeighborhoodIterator< TImage, TBoundaryCondition >::RegionType
+ConstNeighborhoodIterator< TImage, TBoundaryCondition >
+::GetRegion() const
+{
+  return m_Region;
+}
+
+/** Returns the N-dimensional starting index of the iterator's position on
+ * the image. */
+template< class TImage, class TBoundaryCondition >
+typename ConstNeighborhoodIterator< TImage, TBoundaryCondition >::IndexType
+ConstNeighborhoodIterator< TImage, TBoundaryCondition >
+::GetBeginIndex() const
+{
+  return m_BeginIndex;
+}
+
 template< class TImage, class TBoundaryCondition >
 typename ConstNeighborhoodIterator< TImage, TBoundaryCondition >::RegionType
 ConstNeighborhoodIterator< TImage, TBoundaryCondition >
@@ -174,6 +398,28 @@ ConstNeighborhoodIterator< TImage, TBoundaryCondition >
 
   return ans;
 }
+
+/** Returns the offsets used to wrap across dimensional boundaries. */
+template< class TImage, class TBoundaryCondition >
+typename ConstNeighborhoodIterator< TImage, TBoundaryCondition >::OffsetType
+ConstNeighborhoodIterator< TImage, TBoundaryCondition >
+::GetWrapOffset() const
+{
+  return m_WrapOffset;
+}
+
+///** Returns the internal offset associated with wrapping around a single
+// * dimension's region boundary in the itk::Image.  An offset for each
+// * dimension is necessary to shift pointers when wrapping around region
+// * edges because region memory is not necessarily contiguous within the
+// * buffer. */
+//template< class TImage, class TBoundaryCondition >
+//typename ConstNeighborhoodIterator< TImage, TBoundaryCondition >::OffsetValueType
+//ConstNeighborhoodIterator< TImage, TBoundaryCondition >
+//::GetWrapOffset(NeighborIndexType n) const
+//{
+//  return m_WrapOffset[n];
+//}
 
 template< class TImage, class TBoundaryCondition >
 ConstNeighborhoodIterator< TImage, TBoundaryCondition >
@@ -206,6 +452,29 @@ ConstNeighborhoodIterator< TImage, TBoundaryCondition >
   m_IsInBoundsValid = false;
 
   m_BoundaryCondition = &m_InternalBoundaryCondition;
+}
+
+template< class TImage, class TBoundaryCondition >
+ConstNeighborhoodIterator< TImage, TBoundaryCondition >
+::~ConstNeighborhoodIterator()
+{
+
+}
+
+/** Constructor which establishes the region size, neighborhood, and image
+ * over which to walk. */
+template< class TImage, class TBoundaryCondition >
+ConstNeighborhoodIterator< TImage, TBoundaryCondition >
+::ConstNeighborhoodIterator(const SizeType & radius,
+                          const ImageType *ptr,
+                          const RegionType & region)
+{
+  this->Initialize(radius, ptr, region);
+  for ( unsigned int i = 0; i < Dimension; i++ )
+            { m_InBounds[i] = false; }
+  this->ResetBoundaryCondition();
+  m_NeighborhoodAccessorFunctor = ptr->GetNeighborhoodAccessor();
+  m_NeighborhoodAccessorFunctor.SetBegin( ptr->GetBufferPointer() );
 }
 
 template< class TImage, class TBoundaryCondition >
@@ -427,8 +696,11 @@ ConstNeighborhoodIterator< TImage, TBoundaryCondition >
     }
 }
 
+/** Initializes the iterator to walk a particular image and a particular
+ * region of that image. */
 template< class TImage, class TBoundaryCondition >
-void ConstNeighborhoodIterator< TImage, TBoundaryCondition >
+void
+ConstNeighborhoodIterator< TImage, TBoundaryCondition >
 ::Initialize(const SizeType & radius, const ImageType *ptr,
              const RegionType & region)
 {
@@ -440,6 +712,125 @@ void ConstNeighborhoodIterator< TImage, TBoundaryCondition >
 
   m_IsInBoundsValid = false;
   m_IsInBounds = false;
+}
+
+/** Virtual method for determining whether the iterator is at the
+ * beginning of its iteration region. */
+template< class TImage, class TBoundaryCondition >
+bool
+ConstNeighborhoodIterator< TImage, TBoundaryCondition >
+::IsAtBegin() const
+{
+  return ( this->GetCenterPointer() == m_Begin );
+}
+
+/** Virtual method for determining whether the iterator has reached the
+ * end of its iteration region. */
+template< class TImage, class TBoundaryCondition >
+bool
+ConstNeighborhoodIterator< TImage, TBoundaryCondition >
+::IsAtEnd() const
+{
+  if ( this->GetCenterPointer() > m_End )
+    {
+    ExceptionObject    e(__FILE__, __LINE__);
+    std::ostringstream msg;
+    msg << "In method IsAtEnd, CenterPointer = " << this->GetCenterPointer()
+        << " is greater than End = " << m_End
+        << std::endl
+        << "  " << *this;
+    e.SetDescription( msg.str().c_str() );
+    throw e;
+    }
+  return ( this->GetCenterPointer() == m_End );
+}
+
+/** Returns a boolean == comparison of the memory addresses of the center
+ * elements of two ConstNeighborhoodIterators of like pixel type and
+ * dimensionality.  The radii of the iterators are ignored. */
+template< class TImage, class TBoundaryCondition >
+bool
+ConstNeighborhoodIterator< TImage, TBoundaryCondition >
+::operator==(const Self & it) const
+{
+  return it.GetCenterPointer() == this->GetCenterPointer();
+}
+
+/** Returns a boolean != comparison of the memory addresses of the center
+ * elements of two ConstNeighborhoodIterators of like pixel type and
+ * dimensionality.  The radii of the iterators are ignored. */
+template< class TImage, class TBoundaryCondition >
+bool
+ConstNeighborhoodIterator< TImage, TBoundaryCondition >
+::operator!=(const Self & it) const
+{
+  return it.GetCenterPointer() != this->GetCenterPointer();
+}
+
+/** Returns a boolean < comparison of the memory addresses of the center
+ * elements of two ConstNeighborhoodIterators of like pixel type and
+ * dimensionality.  The radii of the iterators are ignored. */
+template< class TImage, class TBoundaryCondition >
+bool
+ConstNeighborhoodIterator< TImage, TBoundaryCondition >
+::operator<(const Self & it) const
+{
+  return this->GetCenterPointer() < it.GetCenterPointer();
+}
+
+/** Returns a boolean < comparison of the memory addresses of the center
+ * elements of two ConstNeighborhoodIterators of like pixel type and
+ * dimensionality.  The radii of the iterators are ignored. */
+template< class TImage, class TBoundaryCondition >
+bool
+ConstNeighborhoodIterator< TImage, TBoundaryCondition >
+::operator<=(const Self & it) const
+{
+  return this->GetCenterPointer() <= it.GetCenterPointer();
+}
+
+/** Returns a boolean > comparison of the memory addresses of the center
+ * elements of two ConstNeighborhoodIterators of like pixel type and
+ * dimensionality.  The radii of the iterators are ignored. */
+template< class TImage, class TBoundaryCondition >
+bool
+ConstNeighborhoodIterator< TImage, TBoundaryCondition >
+::operator>(const Self & it) const
+{
+  return this->GetCenterPointer() > it.GetCenterPointer();
+}
+
+/** Returns a boolean >= comparison of the memory addresses of the center
+ * elements of two ConstNeighborhoodIterators of like pixel type and
+ * dimensionality.  The radii of the iterators are ignored. */
+template< class TImage, class TBoundaryCondition >
+bool
+ConstNeighborhoodIterator< TImage, TBoundaryCondition >
+::operator>=(const Self & it) const
+{
+  return this->GetCenterPointer() >= it.GetCenterPointer();
+}
+
+/** This method positions the iterator at an indexed location in the
+ * image. SetLocation should _NOT_ be used to update the position of the
+ * iterator during iteration, only for initializing it to a position
+ * prior to iteration.  This method is not optimized for speed. */
+template< class TImage, class TBoundaryCondition >
+void
+ConstNeighborhoodIterator< TImage, TBoundaryCondition >
+::SetLocation(const IndexType & position)
+{
+  this->SetLoop(position);
+  this->SetPixelPointers(position);
+}
+
+/** Distance between two iterators */
+template< class TImage, class TBoundaryCondition >
+typename ConstNeighborhoodIterator< TImage, TBoundaryCondition >::OffsetType
+ConstNeighborhoodIterator< TImage, TBoundaryCondition >
+::operator-(const Self & b)
+{
+  return m_Loop - b.m_Loop;
 }
 
 template< class TImage, class TBoundaryCondition >

@@ -65,10 +65,10 @@ public:
   /** Query the machine Endian-ness. */
   static bool SystemIsBigEndian();
 
-  static bool SystemIsBE() { return SystemIsBigEndian(); }
+  static bool SystemIsBE();
   static bool SystemIsLittleEndian();
 
-  static bool SystemIsLE() { return SystemIsLittleEndian(); }
+  static bool SystemIsLE();
 
   /** Generic swap method handles type T. The swapping is
    * done in-place. 2, 4 and 8 byte swapping

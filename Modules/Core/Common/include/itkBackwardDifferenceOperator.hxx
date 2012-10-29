@@ -36,6 +36,23 @@ BackwardDifferenceOperator< TPixel, TDimension, TAllocator >
 
   return coeff;
 }
+
+template< class TPixel, unsigned int TDimension, class TAllocator >
+void
+BackwardDifferenceOperator< TPixel, TDimension, TAllocator >
+::Fill(const CoefficientVector & coeff)
+{
+  this->FillCenteredDirectional(coeff);
+}
+
+/** Constructor. */
+template< class TPixel, unsigned int TDimension, class TAllocator >
+BackwardDifferenceOperator< TPixel, TDimension, TAllocator >
+::BackwardDifferenceOperator()
+{
+
+}
+
 } // namespace itk
 
 #endif

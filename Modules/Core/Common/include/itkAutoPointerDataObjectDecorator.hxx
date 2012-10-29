@@ -59,6 +59,24 @@ AutoPointerDataObjectDecorator< T >
     }
 }
 
+/** Get the contained object */
+template< class T >
+T *
+AutoPointerDataObjectDecorator< T >
+::Get()
+{
+  return m_Component.get();
+}
+
+/** Get the contained object */
+template< class T >
+const T *
+AutoPointerDataObjectDecorator< T >
+::Get() const
+{
+  return m_Component.get();
+}
+
 /** PrintSelf method */
 template< class T >
 void

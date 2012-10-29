@@ -57,6 +57,15 @@ VectorNeighborhoodInnerProduct< TImage >
 template< class TImage >
 typename VectorNeighborhoodInnerProduct< TImage >::PixelType
 VectorNeighborhoodInnerProduct< TImage >
+::operator()(const ConstNeighborhoodIterator< TImage > & it,
+             const OperatorType & op) const
+{
+  return this->operator()(std::slice(0, it.Size(), 1), it, op);
+}
+
+template< class TImage >
+typename VectorNeighborhoodInnerProduct< TImage >::PixelType
+VectorNeighborhoodInnerProduct< TImage >
 ::operator()(const std::slice & s,
              const NeighborhoodType & it,
              const OperatorType & op) const

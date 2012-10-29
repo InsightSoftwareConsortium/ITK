@@ -22,6 +22,134 @@
 
 namespace itk
 {
+/** Given the parametric coordinates of a point in the cell
+ * (pCoords[CellDimension]), get the closest cell boundary feature of
+ * topological dimension CellDimension-1.  If the "inside" pointer is not
+ * NULL, the flag is set to indicate whether the point is inside the cell. */
+template< typename TPixelType, typename TCellTraits >
+bool
+CellInterface< TPixelType, TCellTraits >
+::GetClosestBoundary(CoordRepType[], bool *, CellAutoPointer &)
+{
+  return false;
+}
+
+/** Given the geometric coordinates of a point (coord[PointDimension]),
+ * return whether it is inside the cell.  Also perform the following
+ * calculations, if the corresponding result pointers are not NULL:
+ *
+ *  - Find the closest point in or on the cell to the given point
+ *     (Returns through pointer to array: closestPoint[PointDimension]).
+ *
+ *  - Get the cell's parametric coordinates for the given point
+ *     (Returns through pointer to array: pCoords[CellDimension]).
+ *
+ *  - Get the square of the distance between the point and the cell
+ *     (this is the distance from the point to the closest point,
+ *      returned through "dist2" pointer).
+ *
+ *
+ *  - Get the interpolation weights for the cell
+ *     (Returns through pointer to array: weights[NumberOfPoints]). */
+template< typename TPixelType, typename TCellTraits >
+bool
+CellInterface< TPixelType, TCellTraits >
+::EvaluatePosition(CoordRepType *,
+                              PointsContainer *,
+                              CoordRepType *,
+                              CoordRepType[],
+                              double *,
+                              InterpolationWeightType *)
+{
+  return bool();
+}
+
+/** Given the parametric coordinates of a point in the cell
+ *  determine the value of its Shape Functions
+ *  returned through an itkArray<InterpolationWeightType>).  */
+template< typename TPixelType, typename TCellTraits >
+void
+CellInterface< TPixelType, TCellTraits >
+::EvaluateShapeFunctions(
+  const ParametricCoordArrayType &,
+  ShapeFunctionsArrayType  &) const
+{
+
+}
+
+/** Intersect the cell with a line given by an origin (origin[PointDimension])
+  * and direction (direction[PointDimension]).  The intersection point
+  * found will be within the given tolerance of the real intersection.
+  * Get the following results if the corresponding pointers are not NULL:
+  *
+  *  - The intersection point's geometric coordinates (returned through
+  *     pointer to array: coords[PointDimension]).
+  *
+  *  - The line's parametric coordinate of the intersection point
+  *     (returned through "t" pointer).
+  *
+  *  - The cell's parametric coordinates of the intersection point
+  *     (returned through pointer to array: pCoords[CellDimension]).
+  *
+  * Returns whether an intersection exists within the given tolerance. */
+template< typename TPixelType, typename TCellTraits >
+bool
+CellInterface< TPixelType, TCellTraits >
+::IntersectWithLine(CoordRepType[PointDimension],
+                               CoordRepType[PointDimension],
+                               CoordRepType,
+                               CoordRepType[PointDimension],
+                               CoordRepType *,
+                               CoordRepType[])
+{
+  return bool();
+}
+
+/** Compute cell bounding box and store in the user-provided array.
+ * Array is ordered (xmin, xmax,  ymin, ymax, ....).  A pointer to the
+ * array is returned for convenience.  This allows code like:
+ * "CoordRep* bounds = cell->GetBoundingBox(new CoordRep[6]);". */
+template< typename TPixelType, typename TCellTraits >
+typename CellInterface< TPixelType, TCellTraits >::CoordRepType *
+CellInterface< TPixelType, TCellTraits >
+::GetBoundingBox(CoordRepType[PointDimension * 2])
+{
+  return NULL;
+}
+
+/** Compute the square of the diagonal length of the bounding box. */
+template< typename TPixelType, typename TCellTraits >
+typename CellInterface< TPixelType, TCellTraits >::CoordRepType
+CellInterface< TPixelType, TCellTraits >
+::GetBoundingBoxDiagonalLength2(void)
+{
+  return NULL;
+}
+
+/** Intersect the given bounding box (bounds[PointDimension*2]) with a line
+ * given by an origin (origin[PointDimension]) and direction
+ * (direction[PointDimension]). Get the following results if the
+ * corresponding pointers are not NULL:
+ *
+ *  - The intersection point's geometric coordinates (returned through
+ *     pointer to array: coords[PointDimension]).
+ *
+ *  - The line's parametric coordinate of the intersection point
+ *     (returned through "t" pointer).
+ *
+ * Returns whether an intersection exists. */
+template< typename TPixelType, typename TCellTraits >
+bool
+CellInterface< TPixelType, TCellTraits >
+::IntersectBoundingBoxWithLine(CoordRepType[PointDimension * 2],
+                                          CoordRepType[PointDimension],
+                                          CoordRepType[PointDimension],
+                                          CoordRepType[PointDimension],
+                                          CoordRepType *)
+{
+  return bool();
+}
+
 /**
  * Get the interpolation order of the cell.  Usually linear.
  */
@@ -161,6 +289,20 @@ CellInterface< TPixelType, TCellTraits >
 ::UsingCellsEnd(void)
 {
   return m_UsingCells.end();
+}
+
+template< typename TPixelType, typename TCellTraits >
+CellInterface< TPixelType, TCellTraits >
+::CellInterface()
+{
+
+}
+
+template< typename TPixelType, typename TCellTraits >
+CellInterface< TPixelType, TCellTraits >
+::~CellInterface()
+{
+
 }
 
 #endif

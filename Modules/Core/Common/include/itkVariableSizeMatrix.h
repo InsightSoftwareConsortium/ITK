@@ -85,28 +85,16 @@ public:
   vnl_vector< T > operator *(const vnl_vector< T > & matrix) const;
 
   /** Matrix by scalar multiplication.  */
-  void operator*=(const T & value) { m_Matrix *= value; }
+  void operator*=(const T & value);
 
   /** Matrix by scalar multiplication.  */
-  Self operator*(const T & value)
-  {
-    Self result(*this);
-
-    result *= value;
-    return result;
-  }
+  Self operator*(const T & value);
 
   /** Matrix by scalar division.  */
-  void operator/=(const T & value) { m_Matrix /= value; }
+  void operator/=(const T & value);
 
   /** Matrix by scalar division.  */
-  Self operator/(const T & value)
-  {
-    Self result(*this);
-
-    result /= value;
-    return result;
-  }
+  Self operator/(const T & value);
 
   /** Return an element of the matrix. */
   inline T & operator()(unsigned int row, unsigned int col)
@@ -192,12 +180,12 @@ public:
   }
 
   /** Default constructor. */
-  VariableSizeMatrix():m_Matrix() {}
+  VariableSizeMatrix();
 
   VariableSizeMatrix(unsigned int rows, unsigned int cols);
 
   /** Copy constructor. */
-  VariableSizeMatrix(const Self & matrix):m_Matrix(matrix.m_Matrix) {}
+  VariableSizeMatrix(const Self & matrix);
 
   /** Return number of rows in the matrix */
   inline unsigned int Rows() const { return m_Matrix.rows(); }
@@ -212,42 +200,6 @@ private:
   InternalMatrixType m_Matrix;
 };
 
-template< class T >
-ITK_EXPORT std::ostream & operator<<(std::ostream & os,
-                                     const VariableSizeMatrix< T > & v)
-{
-  os << v.GetVnlMatrix(); return os;
-}
-
-/**
- *  Comparison
- */
-template< class T >
-inline
-bool
-VariableSizeMatrix< T >
-::operator==(const Self & matrix) const
-{
-  if ( ( matrix.Rows() != this->Rows() )
-       || ( matrix.Cols() != this->Cols() ) )
-    {
-    return false;
-    }
-  bool equal = true;
-
-  for ( unsigned int r = 0; r < this->Rows(); r++ )
-    {
-    for ( unsigned int c = 0; c < this->Cols(); c++ )
-      {
-      if ( m_Matrix(r, c) != matrix.m_Matrix(r, c) )
-        {
-        equal = false;
-        break;
-        }
-      }
-    }
-  return equal;
-}
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

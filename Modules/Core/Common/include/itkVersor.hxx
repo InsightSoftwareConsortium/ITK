@@ -303,6 +303,42 @@ Versor< T >
   return m_W;
 }
 
+/** Get the X component. */
+template< class T >
+typename Versor< T >::ValueType
+Versor< T >
+::GetX(void) const
+{
+  return m_X;
+}
+
+/** Get the Y component. */
+template< class T >
+typename Versor< T >::ValueType
+Versor< T >
+::GetY(void) const
+{
+  return m_Y;
+}
+
+/** Get the Z component. */
+template< class T >
+typename Versor< T >::ValueType
+Versor< T >
+::GetZ(void) const
+{
+  return m_Z;
+}
+
+/** Get the W component. */
+template< class T >
+typename Versor< T >::ValueType
+Versor< T >
+::GetW(void) const
+{
+  return m_W;
+}
+
 /** Get Angle (in radians) */
 template< class T >
 typename Versor< T >::ValueType

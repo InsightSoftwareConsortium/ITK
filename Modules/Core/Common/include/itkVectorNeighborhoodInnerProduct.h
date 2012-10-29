@@ -73,12 +73,10 @@ public:
 
   /** Conversion operator. */
   PixelType operator()(const ConstNeighborhoodIterator< TImage > & it,
-                       const OperatorType & op) const
-  {
-    return this->operator()(std::slice(0, it.Size(), 1), it, op);
-  }
+                       const OperatorType & op) const;
 
-  PixelType operator()(const std::slice & s, const NeighborhoodType & N,
+  PixelType operator()(const std::slice & s,
+                       const NeighborhoodType & N,
                        const OperatorType & op) const;
 };
 } // end namespace itk

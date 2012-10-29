@@ -70,19 +70,10 @@ public:
 
   /** operator= is provided to make sure the handle to the image is properly
    * reference counted. */
-  Self & operator=(const Self & it)
-  {
-    m_IsAtEnd = it.m_IsAtEnd; // copy the end flag
-    m_Image = it.m_Image;     // copy the smart pointer
-    m_Region = it.m_Region;   // copy the region
-    return *this;
-  }
+  Self & operator=(const Self & it);
 
   /** Get the dimension (size) of the index. */
-  static unsigned int GetIteratorDimension(void)
-  {
-    return Self::NDimension;
-  }
+  static unsigned int GetIteratorDimension(void);
 
   /** Get the index at the current iterator location. */
   virtual const IndexType GetIndex() = 0;

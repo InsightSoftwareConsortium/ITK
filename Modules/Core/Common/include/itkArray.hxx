@@ -82,6 +82,41 @@ Array< TValueType >
     }
 }
 
+/** Return the number of elements in the Array  */
+template< typename TValueType >
+typename Array< TValueType >::SizeValueType
+Array< TValueType >
+::Size(void) const
+{
+  return static_cast<SizeValueType >( this->size() );
+}
+
+/** Return the number of elements in the Array  */
+template< typename TValueType >
+unsigned int
+Array< TValueType >
+::GetNumberOfElements(void) const
+{
+  return static_cast<SizeValueType >( this->size() );
+}
+
+/** Get one element */
+template< typename TValueType >
+const typename Array< TValueType >::ValueType &
+Array< TValueType >
+::GetElement(SizeValueType i) const
+{
+  return this->operator[](i);
+}
+
+template< typename TValueType >
+typename Array< TValueType >::SizeValueType
+Array< TValueType >
+::GetSize(void) const
+{
+  return static_cast< SizeValueType >( this->size() );
+}
+
 /** Set the pointer from which the data is imported.
  * If "LetArrayManageMemory" is false, then the application retains
  * the responsibility of freeing the memory for this data.  If
@@ -184,6 +219,27 @@ Array< TValueType >
 
   return *this;
 }
+
+/** Set the all the elements of the array to the specified value */
+template< typename TValueType >
+void
+Array< TValueType >
+::Fill(TValueType const & v)
+{
+  this->fill(v);
+}
+
+/** Set one element */
+template< typename TValueType >
+void
+Array< TValueType >
+::SetElement(SizeValueType i, const TValueType & value)
+{
+  this->operator[](i) = value;
+}
+
+
+
 } // namespace itk
 
 #endif

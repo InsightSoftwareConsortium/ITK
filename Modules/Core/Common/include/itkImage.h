@@ -299,6 +299,46 @@ private:
 };
 } // end namespace itk
 
+extern template class itk::Image<int8_t, 2u>;
+extern template class itk::Image<int8_t, 3u>;
+extern template class itk::Image<int8_t, 4u>;
+
+extern template class itk::Image<uint8_t, 2u>;
+extern template class itk::Image<uint8_t, 3u>;
+extern template class itk::Image<uint8_t, 4u>;
+
+extern template class itk::Image<int16_t, 2u>;
+extern template class itk::Image<int16_t, 3u>;
+extern template class itk::Image<int16_t, 4u>;
+
+extern template class itk::Image<uint16_t, 2u>;
+extern template class itk::Image<uint16_t, 3u>;
+extern template class itk::Image<uint16_t, 4u>;
+
+extern template class itk::Image<uint32_t, 2u>;
+extern template class itk::Image<uint32_t, 3u>;
+extern template class itk::Image<uint32_t, 4u>;
+
+extern template class itk::Image<int32_t, 2u>;
+extern template class itk::Image<int32_t, 3u>;
+extern template class itk::Image<int32_t, 4u>;
+
+extern template class itk::Image<uint64_t, 2u>;
+extern template class itk::Image<uint64_t, 3u>;
+extern template class itk::Image<uint64_t, 4u>;
+
+extern template class itk::Image<int64_t, 2u>;
+extern template class itk::Image<int64_t, 3u>;
+extern template class itk::Image<int64_t, 4u>;
+
+extern template class itk::Image<float, 2u>;
+extern template class itk::Image<float, 3u>;
+extern template class itk::Image<float, 4u>;
+
+extern template class itk::Image<double, 2u>;
+extern template class itk::Image<double, 3u>;
+extern template class itk::Image<double, 4u>;
+
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkImage.hxx"
 #endif

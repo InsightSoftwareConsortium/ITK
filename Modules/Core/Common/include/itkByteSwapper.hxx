@@ -48,6 +48,22 @@ template< class T >
 bool ByteSwapper< T >::SystemIsLittleEndian() { return true; }
 #endif
 
+template< class T >
+bool
+ByteSwapper< T >
+::SystemIsBE()
+{
+  return SystemIsBigEndian();
+}
+
+template< class T >
+bool
+ByteSwapper< T >
+::SystemIsLE()
+{
+  return SystemIsLittleEndian();
+}
+
 //------Big Endian methods----------------------------------------------
 
 // Use different swap methods based on type

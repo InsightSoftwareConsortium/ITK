@@ -28,6 +28,13 @@ Array2D< TValueType >
 ::Array2D():vnl_matrix< TValueType >()
 {}
 
+template< typename TValueType >
+Array2D< TValueType >
+::~Array2D()
+{
+
+}
+
 /** Constructor with number of rows and columns as arguments */
 template< typename TValueType >
 Array2D< TValueType >
@@ -65,6 +72,13 @@ Array2D< TValueType >
 {
   this->VnlMatrixType::operator=(matrix);
   return *this;
+}
+
+template< typename TValueType >
+void Array2D< TValueType >
+::Fill(TValueType const & v)
+{
+  this->fill(v);
 }
 
 /** Set the size of the array */

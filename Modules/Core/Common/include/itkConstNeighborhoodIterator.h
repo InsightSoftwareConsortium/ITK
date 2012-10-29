@@ -103,7 +103,7 @@ public:
   ConstNeighborhoodIterator();
 
   /** Virtual destructor */
-  virtual ~ConstNeighborhoodIterator() {}
+  virtual ~ConstNeighborhoodIterator();
 
   /** Copy constructor */
   ConstNeighborhoodIterator(const ConstNeighborhoodIterator &);
@@ -112,15 +112,7 @@ public:
    * over which to walk. */
   ConstNeighborhoodIterator(const SizeType & radius,
                             const ImageType *ptr,
-                            const RegionType & region)
-  {
-    this->Initialize(radius, ptr, region);
-    for ( unsigned int i = 0; i < Dimension; i++ )
-              { m_InBounds[i] = false; }
-    this->ResetBoundaryCondition();
-    m_NeighborhoodAccessorFunctor = ptr->GetNeighborhoodAccessor();
-    m_NeighborhoodAccessorFunctor.SetBegin( ptr->GetBufferPointer() );
-  }
+                            const RegionType & region);
 
   /** Assignment operator */
   Self & operator=(const Self & orig);
@@ -133,46 +125,34 @@ public:
   OffsetType ComputeInternalIndex(NeighborIndexType n) const;
 
   /** Returns the array of upper loop bounds used during iteration. */
-  IndexType GetBound() const
-  {    return m_Bound;   }
+  IndexType GetBound() const;
 
   /** Returns the loop bound used to define the edge of a single
    * dimension in the itk::Image region. */
+  //IndexValueType GetBound(NeighborIndexType n) const;
   IndexValueType GetBound(NeighborIndexType n) const
   {    return m_Bound[n];  }
 
   /** Returns the pointer to the center pixel of the neighborhood. */
-  const InternalPixelType * GetCenterPointer() const
-  {    return ( this->operator[]( ( this->Size() ) >> 1 ) );  }
+  const InternalPixelType * GetCenterPointer() const;
 
   /** Returns the pixel referenced at the center of the
    *  ConstNeighborhoodIterator. */
-  PixelType GetCenterPixel() const
-  { return m_NeighborhoodAccessorFunctor.Get( this->GetCenterPointer() ); }
+  PixelType GetCenterPixel() const;
 
   /** Returns a smartpointer to the image on which this iterator operates. */
-  const ImageType * GetImagePointer(void) const
-  { return m_ConstImage; }
+  const ImageType * GetImagePointer(void) const;
 
   /** Returns the N-dimensional index of the iterator's position in
    * the image. */
-  virtual IndexType GetIndex(void) const
-  { return m_Loop;  }
+  virtual IndexType GetIndex(void) const;
 
   /** Virtual function that "dereferences" a ConstNeighborhoodIterator,
    * returning a Neighborhood of pixel values. */
   virtual NeighborhoodType GetNeighborhood() const;
 
   /** Returns the pixel value located at a linear array location i. */
-  virtual PixelType GetPixel(NeighborIndexType i) const
-  {
-    if ( !m_NeedToUseBoundaryCondition )
-      {
-      return ( m_NeighborhoodAccessorFunctor.Get( this->operator[](i) ) );
-      }
-    bool inbounds;
-    return this->GetPixel(i, inbounds);
-  }
+  virtual PixelType GetPixel(NeighborIndexType i) const;
 
   /** Return the pixel value located at a linear array location i.
    * Sets "IsInBounds" to true if the location is inside the
@@ -183,84 +163,56 @@ public:
 
   /** Returns the pixel value located at the itk::Offset o from the center of
       the neighborhood. */
-  virtual PixelType GetPixel(const OffsetType & o) const
-  {
-    bool inbounds;
-
-    return ( this->GetPixel(this->GetNeighborhoodIndex(o), inbounds) );
-  }
+  virtual PixelType GetPixel(const OffsetType & o) const;
 
   /** Returns the pixel value located at the itk::Offset o from the center of
    * the neighborhood. Sets "IsInBounds" to true if the offset is inside the
    * image and the pixel value returned is an actual pixel in the
    * image. Sets "IsInBounds" to false if the offset is outside the
    * image and the pixel value returned is a boundary condition. */
-  virtual PixelType GetPixel(const OffsetType & o,
-                             bool & IsInBounds) const
-  { return ( this->GetPixel(this->GetNeighborhoodIndex(o), IsInBounds) ); }
+  virtual PixelType GetPixel(const OffsetType & o, bool & IsInBounds) const;
 
   /** Returns the pixel value located i pixels distant from the neighborhood
    *  center in the positive specified ``axis'' direction. No bounds checking
    *  is done on the size of the neighborhood. */
-  virtual PixelType GetNext(const unsigned axis, NeighborIndexType i) const
-  {
-    return ( this->GetPixel( this->GetCenterNeighborhoodIndex()
-                             + ( i * this->GetStride(axis) ) ) );
-  }
+  virtual PixelType GetNext(const unsigned axis, NeighborIndexType i) const;
 
   /** Returns the pixel value located one pixel distant from the neighborhood
    *  center in the specifed positive axis direction. No bounds checking is
    *  done on the size of the neighborhood. */
-  virtual PixelType GetNext(const unsigned axis) const
-  {
-    return ( this->GetPixel( this->GetCenterNeighborhoodIndex()
-                             + this->GetStride(axis) ) );
-  }
+  virtual PixelType GetNext(const unsigned axis) const;
 
   /** Returns the pixel value located i pixels distant from the neighborhood
    *  center in the negative specified ``axis'' direction. No bounds checking
    *  is done on the size of the neighborhood. */
-  virtual PixelType GetPrevious(const unsigned axis, NeighborIndexType i) const
-  {
-    return ( this->GetPixel( this->GetCenterNeighborhoodIndex()
-                             - ( i * this->GetStride(axis) ) ) );
-  }
+  virtual PixelType GetPrevious(const unsigned axis, NeighborIndexType i) const;
 
   /** Returns the pixel value located one pixel distant from the neighborhood
    *  center in the specifed negative axis direction. No bounds checking is
    *  done on the size of the neighborhood. */
-  virtual PixelType GetPrevious(const unsigned axis) const
-  {
-    return ( this->GetPixel( this->GetCenterNeighborhoodIndex()
-                             - this->GetStride(axis) ) );
-  }
+  virtual PixelType GetPrevious(const unsigned axis) const;
 
   /** Returns the image index for neighbor pixel at offset o from the center of
       the neighborhood. */
-  virtual IndexType GetIndex(const OffsetType & o) const
-  { return ( this->GetIndex() + o ); }
+  virtual IndexType GetIndex(const OffsetType & o) const;
 
   /** Returns the image index for neighbor pixel at index i in the
       neighborhood. */
-  virtual IndexType GetIndex(NeighborIndexType i) const
-  { return ( this->GetIndex() + this->GetOffset(i) ); }
+  virtual IndexType GetIndex(NeighborIndexType i) const;
 
   /**  Returns the region of iteration. */
-  RegionType GetRegion() const
-  { return m_Region; }
+  RegionType GetRegion() const;
 
   /** Returns the N-dimensional starting index of the iterator's position on
    * the image. */
-  IndexType GetBeginIndex() const
-  { return m_BeginIndex; }
+  IndexType GetBeginIndex() const;
 
   /** Returns a bounding box for the region spanned by this neighborhood
       represented by an itk::ImageRegion */
   RegionType GetBoundingBoxAsImageRegion() const;
 
   /** Returns the offsets used to wrap across dimensional boundaries. */
-  OffsetType GetWrapOffset() const
-  {  return m_WrapOffset;  }
+  OffsetType GetWrapOffset() const;
 
   /** Returns the internal offset associated with wrapping around a single
    * dimension's region boundary in the itk::Image.  An offset for each
@@ -269,6 +221,7 @@ public:
    * buffer. */
   OffsetValueType GetWrapOffset(NeighborIndexType n) const
   {    return m_WrapOffset[n];   }
+  //OffsetValueType GetWrapOffset(NeighborIndexType n) const;
 
   /** Virtual method for rewinding the iterator to its beginning pixel.
    * This is useful for writing functions which take neighborhood iterators
@@ -286,26 +239,11 @@ public:
 
   /** Virtual method for determining whether the iterator is at the
    * beginning of its iteration region. */
-  virtual bool IsAtBegin() const
-  {    return ( this->GetCenterPointer() == m_Begin );   }
+  virtual bool IsAtBegin() const;
 
   /** Virtual method for determining whether the iterator has reached the
    * end of its iteration region. */
-  virtual bool IsAtEnd() const
-  {
-    if ( this->GetCenterPointer() > m_End )
-      {
-      ExceptionObject    e(__FILE__, __LINE__);
-      std::ostringstream msg;
-      msg << "In method IsAtEnd, CenterPointer = " << this->GetCenterPointer()
-          << " is greater than End = " << m_End
-          << std::endl
-          << "  " << *this;
-      e.SetDescription( msg.str().c_str() );
-      throw e;
-      }
-    return ( this->GetCenterPointer() == m_End );
-  }
+  virtual bool IsAtEnd() const;
 
   /** Increments the pointers in the ConstNeighborhoodIterator,
    * wraps across boundaries automatically, accounting for
@@ -322,48 +260,38 @@ public:
   /** Returns a boolean == comparison of the memory addresses of the center
    * elements of two ConstNeighborhoodIterators of like pixel type and
    * dimensionality.  The radii of the iterators are ignored. */
-  bool operator==(const Self & it) const
-  {   return it.GetCenterPointer() == this->GetCenterPointer();   }
+  bool operator==(const Self & it) const;
 
   /** Returns a boolean != comparison of the memory addresses of the center
    * elements of two ConstNeighborhoodIterators of like pixel type and
    * dimensionality.  The radii of the iterators are ignored. */
-  bool operator!=(const Self & it) const
-  {    return it.GetCenterPointer() != this->GetCenterPointer();  }
+  bool operator!=(const Self & it) const;
 
   /** Returns a boolean < comparison of the memory addresses of the center
    * elements of two ConstNeighborhoodIterators of like pixel type and
    * dimensionality.  The radii of the iterators are ignored. */
-  bool operator<(const Self & it) const
-  {  return this->GetCenterPointer() < it.GetCenterPointer();  }
+  bool operator<(const Self & it) const;
 
   /** Returns a boolean < comparison of the memory addresses of the center
    * elements of two ConstNeighborhoodIterators of like pixel type and
    * dimensionality.  The radii of the iterators are ignored. */
-  bool operator<=(const Self & it) const
-  {    return this->GetCenterPointer() <= it.GetCenterPointer();  }
+  bool operator<=(const Self & it) const;
 
   /** Returns a boolean > comparison of the memory addresses of the center
    * elements of two ConstNeighborhoodIterators of like pixel type and
    * dimensionality.  The radii of the iterators are ignored. */
-  bool operator>(const Self & it) const
-  {    return this->GetCenterPointer() > it.GetCenterPointer();  }
+  bool operator>(const Self & it) const;
 
   /** Returns a boolean >= comparison of the memory addresses of the center
    * elements of two ConstNeighborhoodIterators of like pixel type and
    * dimensionality.  The radii of the iterators are ignored. */
-  bool operator>=(const Self & it) const
-  {    return this->GetCenterPointer() >= it.GetCenterPointer();  }
+  bool operator>=(const Self & it) const;
 
   /** This method positions the iterator at an indexed location in the
    * image. SetLocation should _NOT_ be used to update the position of the
    * iterator during iteration, only for initializing it to a position
    * prior to iteration.  This method is not optimized for speed. */
-  void SetLocation(const IndexType & position)
-  {
-    this->SetLoop(position);
-    this->SetPixelPointers(position);
-  }
+  void SetLocation(const IndexType & position);
 
   /** Addition of an itk::Offset.  Note that this method does not do any bounds
    * checking.  Adding an offset that moves the iterator out of its assigned
@@ -376,8 +304,7 @@ public:
   Self & operator-=(const OffsetType &);
 
   /** Distance between two iterators */
-  OffsetType operator-(const Self & b)
-  {  return m_Loop - b.m_Loop;  }
+  OffsetType operator-(const Self & b);
 
   /** Returns false if the iterator overlaps region boundaries, true
    * otherwise.  Also updates an internal boolean array indicating
@@ -402,22 +329,17 @@ public:
    * object during the time it is referenced.  The overriding condition
    * can be of a different type than the default type as long as it is
    * a subclass of ImageBoundaryCondition. */
-  virtual void OverrideBoundaryCondition(const
-                                         ImageBoundaryConditionPointerType i)
-  { m_BoundaryCondition = i; }
+  virtual void OverrideBoundaryCondition(const ImageBoundaryConditionPointerType i);
 
   /** Resets the boundary condition to the internal, default conditions
    * specified by the template parameter. */
-  virtual void ResetBoundaryCondition()
-  { m_BoundaryCondition = &m_InternalBoundaryCondition;  }
+  virtual void ResetBoundaryCondition();
 
   /** Sets the internal, default boundary condition. */
-  void SetBoundaryCondition(const TBoundaryCondition & c)
-  { m_InternalBoundaryCondition = c; }
+  void SetBoundaryCondition(const TBoundaryCondition & c);
 
   /** */
-  ImageBoundaryConditionPointerType GetBoundaryCondition() const
-  { return m_BoundaryCondition; }
+  ImageBoundaryConditionPointerType GetBoundaryCondition() const;
 
   /** */
   void NeedToUseBoundaryConditionOn()

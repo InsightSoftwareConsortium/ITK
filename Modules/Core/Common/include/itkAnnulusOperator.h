@@ -80,6 +80,11 @@ public:
   typedef typename Superclass::OffsetType    OffsetType;
   typedef Vector< double, TDimension >       SpacingType;
 
+  /** Typedef support for coefficient vector type.  Necessary to
+   *  work around compiler bug on VC++. */
+  typedef typename Superclass::CoefficientVector CoefficientVector;
+  typedef typename Superclass::PixelType         PixelType;
+
   itkTypeMacro(AnnulusOperator, NeighborhoodOperator);
 
   AnnulusOperator():
@@ -109,101 +114,52 @@ public:
 
   /** Set/Get the inner radius of the annulus. Radius is specified in
    * physical units (mm). */
-  void SetInnerRadius(double r)
-  { m_InnerRadius = r; }
-  double GetInnerRadius() const
-  { return m_InnerRadius; }
+  void SetInnerRadius(double r);
+  double GetInnerRadius() const;
 
   /** Set/Get the thickness of the annulus.  The outer radius of the
    * annulus is defined as r = InnerRadius + Thickness. Thickness is
    * specified in physical units (mm). */
-  void SetThickness(double t)
-  { m_Thickness = t; }
-  double GetThickness() const
-  { return m_Thickness; }
+  void SetThickness(double t);
+  double GetThickness() const;
 
   /** Set/Get the pixel spacings.  Setting these ensures the annulus
    * is round in physical space. Defaults to 1. */
-  void SetSpacing(SpacingType & s)
-  { m_Spacing = s; }
-  const SpacingType & GetSpacing() const
-  { return m_Spacing; }
+  void SetSpacing(SpacingType & s);
+  const SpacingType & GetSpacing() const;
 
   /** Set/Get whether kernel values are computed automatically or
    * specified manually */
-  void SetNormalize(bool b)
-  { m_Normalize = b; }
-  bool GetNormalize() const
-  { return m_Normalize; }
-  void NormalizeOn()
-  { this->SetNormalize(true); }
-  void NormalizeOff()
-  { this->SetNormalize(false); }
+  void SetNormalize(bool b);
+  bool GetNormalize() const;
+  void NormalizeOn();
+  void NormalizeOff();
 
   /** If Normalize is on, you define the annulus to have a bright
    * center or a dark center. */
-  void SetBrightCenter(bool b)
-  { m_BrightCenter = b; }
-  bool GetBrightCenter() const
-  { return m_BrightCenter; }
-  void BrightCenterOn()
-  { this->SetBrightCenter(true); }
-  void BrightCenterOff()
-  { this->SetBrightCenter(false); }
+  void SetBrightCenter(bool b);
+  bool GetBrightCenter() const;
+  void BrightCenterOn();
+  void BrightCenterOff();
 
   /** If Normalize is off, the interior to annulus, the
    * annulus (region between the two circles), and the region exterior to the
    * annulus to be defined manually.  Defauls are 0, 1, 0
    * respectively. */
-  void SetInteriorValue(TPixel v)
-  { m_InteriorValue = v; }
-  TPixel GetInteriorValue() const
-  { return m_InteriorValue; }
-  void SetAnnulusValue(TPixel v)
-  { m_AnnulusValue = v; }
-  TPixel GetAnnulusValue() const
-  { return m_AnnulusValue; }
-  void SetExteriorValue(TPixel v)
-  { m_ExteriorValue = v; }
-  TPixel GetExteriorValue() const
-  { return m_ExteriorValue; }
+  void SetInteriorValue(TPixel v);
+  PixelType GetInteriorValue() const;
+  void SetAnnulusValue(TPixel v);
+  PixelType GetAnnulusValue() const;
+  void SetExteriorValue(TPixel v);
+  PixelType GetExteriorValue() const;
 
   /** Assignment operator */
-  Self & operator=(const Self & other)
-  {
-    Superclass::operator=(other);
-    m_InnerRadius = other.m_InnerRadius;
-    m_Thickness = other.m_Thickness;
-    m_Spacing = other.m_Spacing;
-    m_InteriorValue = other.m_InteriorValue;
-    m_AnnulusValue = other.m_AnnulusValue;
-    m_ExteriorValue = other.m_ExteriorValue;
-    m_Normalize = other.m_Normalize;
-    m_BrightCenter = other.m_BrightCenter;
-    return *this;
-  }
+  Self & operator=(const Self & other);
 
   /** Prints some debugging information */
-  virtual void PrintSelf(std::ostream & os, Indent i) const
-  {
-    os << i << "AnnulusOperator { this=" << this
-       << ", m_InnerRadius = " << m_InnerRadius
-       << ", m_Thickness = " << m_Thickness
-       << ", m_Spacing = " << m_Spacing
-       << ", m_Normalize = " << m_Normalize
-       << ", m_BrightCenter = " << m_BrightCenter
-       << ", m_InteriorValue = " << m_InteriorValue
-       << ", m_ExteriorValue = " << m_ExteriorValue
-       << "}" << std::endl;
-    Superclass::PrintSelf( os, i.GetNextIndent() );
-  }
+  virtual void PrintSelf(std::ostream & os, Indent i) const;
 
 protected:
-
-  /** Typedef support for coefficient vector type.  Necessary to
-   *  work around compiler bug on VC++. */
-  typedef typename Superclass::CoefficientVector CoefficientVector;
-  typedef typename Superclass::PixelType         PixelType;
 
   /** Calculates operator coefficients. */
   CoefficientVector GenerateCoefficients();
