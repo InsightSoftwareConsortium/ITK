@@ -37,7 +37,8 @@ namespace itk
  */
 template< class TInputImage, class TOutputImage >
 ImageToImageFilter< TInputImage, TOutputImage >
-::ImageToImageFilter()
+::ImageToImageFilter() : m_CoordinateTolerance(1.0e-6),
+                         m_DirectionTolerance(1.0e-6)
 {
   // Modify superclass default values, can be overridden by subclasses
   this->SetNumberOfRequiredInputs(1);
@@ -161,6 +162,10 @@ ImageToImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
+  os << indent << "CoordinateTolerance: "
+     << this->m_CoordinateTolerance << std::endl;
+  os << indent << "DirectionTolerance: "
+     << this->m_DirectionTolerance << std::endl;
 }
 
 template< class TInputImage, class TOutputImage >
@@ -205,12 +210,11 @@ ImageToImageFilter< TInputImage, TOutputImage >
       // tolerance for origin and spacing depends on the size of pixel
       // tolerance for directions a fraction of the unit cube.
       const double coordinateTol
-        = 1.0e-6 * inputPtr1->GetSpacing()[0]; // use first dimension spacing
-      const double directionTol = 1.0e-6;
+        = this->m_CoordinateTolerance * inputPtr1->GetSpacing()[0]; // use first dimension spacing
 
       if ( !inputPtr1->GetOrigin().GetVnlVector().is_equal(inputPtrN->GetOrigin().GetVnlVector(), coordinateTol) ||
            !inputPtr1->GetSpacing().GetVnlVector().is_equal(inputPtrN->GetSpacing().GetVnlVector(), coordinateTol) ||
-           !inputPtr1->GetDirection().GetVnlMatrix().as_ref().is_equal(inputPtrN->GetDirection().GetVnlMatrix(), directionTol) )
+           !inputPtr1->GetDirection().GetVnlMatrix().as_ref().is_equal(inputPtrN->GetDirection().GetVnlMatrix(), this->m_DirectionTolerance) )
         {
         std::ostringstream originString, spacingString, directionString;
         if ( !inputPtr1->GetOrigin().GetVnlVector().is_equal(inputPtrN->GetOrigin().GetVnlVector(), coordinateTol) )
@@ -229,13 +233,13 @@ ImageToImageFilter< TInputImage, TOutputImage >
                         << ", InputImage" << it.GetName() << " Spacing: " << inputPtrN->GetSpacing() << std::endl;
           spacingString << "\tTolerance: " << coordinateTol << std::endl;
           }
-        if ( !inputPtr1->GetDirection().GetVnlMatrix().as_ref().is_equal(inputPtrN->GetDirection().GetVnlMatrix(), directionTol) )
+        if ( !inputPtr1->GetDirection().GetVnlMatrix().as_ref().is_equal(inputPtrN->GetDirection().GetVnlMatrix(), this->m_DirectionTolerance) )
           {
           directionString.setf( std::ios::scientific );
           directionString.precision( 7 );
           directionString << "InputImage Direction: " << inputPtr1->GetDirection()
                           << ", InputImage" << it.GetName() << " Direction: " << inputPtrN->GetDirection() << std::endl;
-          directionString << "\tTolerance: " << directionTol << std::endl;
+          directionString << "\tTolerance: " << this->m_DirectionTolerance << std::endl;
           }
         itkExceptionMacro(<< "Inputs do not occupy the same physical space! "
                           << std::endl
