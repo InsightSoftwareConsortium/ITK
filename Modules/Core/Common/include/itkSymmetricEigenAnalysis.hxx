@@ -510,9 +510,9 @@ SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValuesUsin
           {
           break;
           }
-        d[i] = vnl_math_abs(d[i - 1]);
+        d[i] = d[i - 1];
         }
-      d[i] = vnl_math_abs(p);
+      d[i] = p;
       }
     else
       {
@@ -705,8 +705,9 @@ SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValuesAndV
         {
         continue;
         }
-      d[k] = vnl_math_abs(d[i]);
-      d[i] = vnl_math_abs(p);
+
+      d[k] = d[i];
+      d[i] = p;
 
       for ( j = 0; j < m_Order; ++j )
         {
