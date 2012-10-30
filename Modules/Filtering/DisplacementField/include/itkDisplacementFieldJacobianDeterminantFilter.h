@@ -111,7 +111,7 @@ namespace itk
 template< typename TInputImage,
           typename TRealType = float,
           typename TOutputImage = Image< TRealType,
-                                         ::itk::GetImageDimension< TInputImage >::ImageDimension >
+                                         TInputImage::ImageDimension >
           >
 class ITK_EXPORT DisplacementFieldJacobianDeterminantFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
@@ -150,9 +150,9 @@ public:
 
   /** Define the data type and the vector of data type used in calculations. */
   typedef TRealType RealType;
-  typedef Vector< TRealType, ::itk::GetVectorDimension< InputPixelType >::VectorDimension >
+  typedef Vector< TRealType, InputPixelType::Dimension >
   RealVectorType;
-  typedef Image< RealVectorType, ::itk::GetImageDimension< TInputImage >::ImageDimension >
+  typedef Image< RealVectorType, TInputImage::ImageDimension >
   RealVectorImageType;
 
   /** Type of the iterator that will be used to move through the image.  Also

@@ -71,8 +71,8 @@ namespace itk {
  */
 template<class TInputImage, class TOutputImage=TInputImage,
   class TInputFilter=ImageToImageFilter<
-    Image< unsigned char, ::itk::GetImageDimension<TInputImage >::ImageDimension >,
-    Image< unsigned char, ::itk::GetImageDimension<TOutputImage>::ImageDimension > >,
+    Image< unsigned char, TInputImage::ImageDimension >,
+    Image< unsigned char, TOutputImage::ImageDimension > >,
   class TOutputFilter=typename TInputFilter::Superclass,
   class TInternalInputImage=typename TInputFilter::InputImageType,
   class TInternalOutputImage=typename TOutputFilter::OutputImageType >

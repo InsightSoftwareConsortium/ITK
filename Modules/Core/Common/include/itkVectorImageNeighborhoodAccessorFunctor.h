@@ -48,7 +48,7 @@ public:
   typedef typename ImageType::OffsetType        OffsetType;
 
   typedef Neighborhood< InternalPixelType *,
-                        ::itk::GetImageDimension< TImage >::ImageDimension > NeighborhoodType;
+                         TImage ::ImageDimension > NeighborhoodType;
 
   typedef ImageBoundaryCondition< ImageType > const
   *ImageBoundaryConditionConstPointerType;

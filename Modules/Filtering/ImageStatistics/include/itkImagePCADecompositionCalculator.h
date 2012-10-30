@@ -56,7 +56,7 @@ namespace itk
  * \ingroup ITKImageStatistics
  */
 template< class TInputImage,
-          class TBasisImage = Image< double, ::itk::GetImageDimension< TInputImage >::ImageDimension > >
+          class TBasisImage = Image< double, TInputImage::ImageDimension > >
 class ITK_EXPORT ImagePCADecompositionCalculator:public Object
 {
 public:

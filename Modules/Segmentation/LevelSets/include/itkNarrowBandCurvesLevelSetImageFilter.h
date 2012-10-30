@@ -103,14 +103,14 @@ template< class TInputImage,
 class ITK_EXPORT NarrowBandCurvesLevelSetImageFilter:
   public NarrowBandLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType,
                                         Image< TOutputPixelType,
-                                               ::itk::GetImageDimension< TInputImage >::ImageDimension > >
+                                               TInputImage::ImageDimension > >
 {
 public:
   /** Standard class typedefs */
   typedef NarrowBandCurvesLevelSetImageFilter Self;
   typedef  NarrowBandLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType,
                                           Image< TOutputPixelType,
-                                                 ::itk::GetImageDimension< TInputImage >::ImageDimension > >
+                                                 TInputImage::ImageDimension > >
   Superclass;
   typedef SmartPointer< Self >       Pointer;
   typedef SmartPointer< const Self > ConstPointer;

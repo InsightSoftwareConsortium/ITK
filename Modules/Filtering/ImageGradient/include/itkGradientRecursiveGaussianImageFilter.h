@@ -63,8 +63,8 @@ namespace itk
 template< typename TInputImage,
           typename TOutputImage = Image< CovariantVector<
                                            typename NumericTraits< typename TInputImage::PixelType >::RealType,
-                                           ::itk::GetImageDimension< TInputImage >::ImageDimension >,
-                                         ::itk::GetImageDimension< TInputImage >::ImageDimension > >
+                                           TInputImage::ImageDimension >,
+                                         TInputImage::ImageDimension > >
 class ITK_EXPORT GradientRecursiveGaussianImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {

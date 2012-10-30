@@ -94,7 +94,7 @@ public:
 
   /** Image dimension = 3. */
   itkStaticConstMacro(ImageDimension, unsigned int,
-                      ::itk::GetImageDimension< InputImageType >::ImageDimension);
+                       InputImageType ::ImageDimension);
   itkStaticConstMacro(InputPixelDimension, unsigned int,
                       InputPixelType::Dimension);
 

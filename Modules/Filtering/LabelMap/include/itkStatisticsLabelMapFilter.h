@@ -40,7 +40,7 @@ namespace itk
 template< class TImage, class TFeatureImage >
 class ITK_EXPORT StatisticsLabelMapFilter:
   public ShapeLabelMapFilter< TImage,
-                              Image< typename TImage::PixelType, ::itk::GetImageDimension< TImage >::ImageDimension > >
+                              Image< typename TImage::PixelType,  TImage ::ImageDimension > >
 {
 public:
   /** Standard class typedefs. */

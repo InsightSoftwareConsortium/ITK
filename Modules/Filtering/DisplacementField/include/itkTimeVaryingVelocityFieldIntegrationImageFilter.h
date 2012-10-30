@@ -51,7 +51,7 @@ namespace itk
  */
 template<class TTimeVaryingVelocityField, class TDisplacementField =
  Image<typename TTimeVaryingVelocityField::PixelType,
- GetImageDimension<TTimeVaryingVelocityField>::ImageDimension - 1> >
+ TTimeVaryingVelocityField::ImageDimension - 1> >
 class ITK_EXPORT TimeVaryingVelocityFieldIntegrationImageFilter :
   public ImageToImageFilter<TTimeVaryingVelocityField, TDisplacementField>
 {

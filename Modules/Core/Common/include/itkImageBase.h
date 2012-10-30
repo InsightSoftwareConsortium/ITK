@@ -49,19 +49,6 @@ class ImageTransformHelper;
 
 namespace itk
 {
-//HACK:  Need to remove this function also
-#if 1
-/**
- * Due to a bug in MSVC, an enum value cannot be accessed out of a template
- * parameter until the template class opens.  In order for templated classes
- * to access the dimension of an image template parameter in defining their
- * own dimension, this class is needed as a work-around.
- */
-template< typename TImage >
-struct GetImageDimension {
-  itkStaticConstMacro(ImageDimension, unsigned int, TImage::ImageDimension);
-};
-#endif
 
 /** \class ImageBase
  * \brief Base class for templated image classes.

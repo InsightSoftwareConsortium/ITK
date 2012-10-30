@@ -91,9 +91,9 @@ public:
 
   /* Image dimension accessors */
   itkStaticConstMacro(VirtualImageDimension, ImageDimensionType,
-      ::itk::GetImageDimension<TVirtualImage>::ImageDimension);
+      TVirtualImage::ImageDimension);
   itkStaticConstMacro(MovingImageDimension, ImageDimensionType,
-      ::itk::GetImageDimension<TMovingImage>::ImageDimension);
+      TMovingImage::ImageDimension);
 
   /** Value type of the PDF */
   typedef InternalComputationValueType                  PDFValueType;

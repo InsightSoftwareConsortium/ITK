@@ -72,8 +72,8 @@ namespace itk
 template< class TInputImage,
           class TOutputImage,
           class TInputFilter = ImageToImageFilter<
-            Image< typename TInputImage::PixelType,  ::itk::GetImageDimension< TInputImage >::ImageDimension - 1 >,
-            Image< typename TOutputImage::PixelType, ::itk::GetImageDimension< TOutputImage >::ImageDimension - 1 > >,
+            Image< typename TInputImage::PixelType,  TInputImage::ImageDimension - 1 >,
+            Image< typename TOutputImage::PixelType,  TOutputImage ::ImageDimension - 1 > >,
           class TOutputFilter = typename TInputFilter::Superclass,
           class TInternalInputImage = typename TInputFilter::InputImageType,
           class TInternalOutputImage = typename TOutputFilter::OutputImageType >

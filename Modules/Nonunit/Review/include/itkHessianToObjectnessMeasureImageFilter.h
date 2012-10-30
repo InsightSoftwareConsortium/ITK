@@ -78,7 +78,7 @@ public:
   typedef typename OutputImageType::RegionType OutputImageRegionType;
 
   /** Image dimension */
-  itkStaticConstMacro(ImageDimension, unsigned int, ::itk::GetImageDimension< InputImageType >::ImageDimension);
+  itkStaticConstMacro(ImageDimension, unsigned int,  InputImageType ::ImageDimension);
 
   typedef double                                                                    EigenValueType;
   typedef itk::FixedArray< EigenValueType, itkGetStaticConstMacro(ImageDimension) > EigenValueArrayType;

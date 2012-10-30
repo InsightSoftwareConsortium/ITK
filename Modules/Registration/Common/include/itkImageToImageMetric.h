@@ -417,7 +417,7 @@ public:
   itkStaticConstMacro(DeformationSplineOrder, unsigned int, 3);
 
   typedef BSplineBaseTransform< CoordinateRepresentationType,
-                                      ::itk::GetImageDimension< FixedImageType >::ImageDimension,
+                                       FixedImageType ::ImageDimension,
                                       itkGetStaticConstMacro(DeformationSplineOrder) >             BSplineTransformType;
 
   typedef typename BSplineTransformType::WeightsType      BSplineTransformWeightsType;
@@ -430,7 +430,7 @@ public:
 
   typedef std::vector< MovingImagePointType > MovingImagePointArrayType;
   typedef std::vector< bool >                 BooleanArrayType;
-  typedef FixedArray< SizeValueType, ::itk::GetImageDimension< FixedImageType >::ImageDimension > BSplineParametersOffsetType;
+  typedef FixedArray< SizeValueType,  FixedImageType ::ImageDimension > BSplineParametersOffsetType;
   /**
    * If a BSplineInterpolationFunction is used, this class obtain
    * image derivatives from the BSpline interpolator. Otherwise,

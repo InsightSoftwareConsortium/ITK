@@ -35,16 +35,6 @@
 
 namespace itk
 {
-/**
- * Due to a bug in MSVC, an enum value cannot be accessed out of a template
- * parameter until the template class opens.  In order for templated classes
- * to access the dimension of an image template parameter in defining their
- * own dimension, this class is needed as a work-around.
- */
-template< typename TPointSet >
-struct GetPointSetDimension {
-  itkStaticConstMacro(PointDimension, unsigned int,  TPointSet::PointDimension);
-};
 
 /** \class PointSet
  * \brief A superclass of the N-dimensional mesh structure;

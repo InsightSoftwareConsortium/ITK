@@ -22,19 +22,6 @@
 
 namespace itk
 {
-//HACK:  Need to remove this function.
-#if 1
-/**
- * Due to a bug in MSVC, an enum value cannot be accessed out of a template
- * parameter until the template class opens.  In order for templated classes
- * to access the dimension of a vector template parameter in defining their
- * own dimension, this class is needed as a work-around.
- */
-template< typename TVector >
-struct GetVectorDimension {
-  itkStaticConstMacro(VectorDimension, unsigned int, TVector::Dimension);
-};
-#endif
 
 /** \class FixedArray
  *  \brief Simulate a standard C array with copy semnatics.

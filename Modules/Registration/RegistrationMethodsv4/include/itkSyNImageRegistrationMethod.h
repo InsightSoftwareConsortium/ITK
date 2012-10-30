@@ -70,7 +70,7 @@ class Array1DToData;
  * \ingroup ITKRegistrationMethodsv4
  */
 template<typename TFixedImage, typename TMovingImage, typename TOutputTransform =
-  DisplacementFieldTransform<double, GetImageDimension<TFixedImage>::ImageDimension> >
+  DisplacementFieldTransform<double, TFixedImage::ImageDimension> >
 class ITK_EXPORT SyNImageRegistrationMethod
 : public ImageRegistrationMethodv4<TFixedImage, TMovingImage, TOutputTransform>
 {

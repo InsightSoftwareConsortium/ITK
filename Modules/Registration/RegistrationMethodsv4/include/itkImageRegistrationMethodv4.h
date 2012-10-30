@@ -86,7 +86,7 @@ namespace itk
  * \ingroup ITKRegistrationMethodsv4
  */
 template<typename TFixedImage, typename TMovingImage, typename TOutputTransform =
-  AffineTransform<double, GetImageDimension<TFixedImage>::ImageDimension> >
+  AffineTransform<double, TFixedImage::ImageDimension> >
 class ITK_EXPORT ImageRegistrationMethodv4
 :public ProcessObject
 {

@@ -168,7 +168,7 @@ struct MakeJoin {
   typedef JoinFunctor< typename TImage1::PixelType,
                        typename TImage2::PixelType > FunctorType;
   typedef Image< typename FunctorType::JoinType,
-                 ::itk::GetImageDimension< TImage1 >::ImageDimension > ImageType;
+                  TImage1 ::ImageDimension > ImageType;
 };
 } //namespace functor
 

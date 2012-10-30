@@ -86,11 +86,11 @@ public:
 
   /* Image dimension accessors */
   itkStaticConstMacro(FixedImageDimension, itk::SizeValueType,
-      ::itk::GetImageDimension<FixedImageType>::ImageDimension);
+      FixedImageType::ImageDimension);
   itkStaticConstMacro(MovingImageDimension, itk::SizeValueType,
-      ::itk::GetImageDimension<MovingImageType>::ImageDimension);
+      MovingImageType::ImageDimension);
   itkStaticConstMacro(VirtualImageDimension, itk::SizeValueType,
-      ::itk::GetImageDimension<VirtualImageType>::ImageDimension);
+      VirtualImageType::ImageDimension);
 
 private:
 

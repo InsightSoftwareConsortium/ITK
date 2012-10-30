@@ -41,14 +41,14 @@ namespace itk
 template< typename TFunction >
 class ITK_EXPORT BinaryThresholdSpatialFunction:
   public SpatialFunction< bool,
-                          ::itk::GetImageDimension< TFunction >::ImageDimension,
+                          TFunction::ImageDimension,
                           typename TFunction::InputType >
 {
 public:
   /** Standard class typedefs. */
   typedef BinaryThresholdSpatialFunction Self;
   typedef SpatialFunction< bool,
-                           ::itk::GetImageDimension< TFunction >::ImageDimension,
+                           TFunction::ImageDimension,
                            typename TFunction::InputType > Superclass;
 
   typedef SmartPointer< Self >       Pointer;

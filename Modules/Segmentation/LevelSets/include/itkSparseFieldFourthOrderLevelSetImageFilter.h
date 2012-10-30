@@ -49,7 +49,7 @@ public:
 
   /** The definition for the normal vector type of the scalar image. */
   typedef Vector< NodeValueType,
-                  ::itk::GetImageDimension< TImageType >::ImageDimension >
+                   TImageType ::ImageDimension >
   NodeDataType;
 
   /** Container for output data (normal vectors). */
@@ -64,10 +64,10 @@ public:
   /** Container for the manifold normal vector. These are computed once at
       initialization and later used for computing intrinsic derivatives. */
   NodeDataType
-    m_ManifoldNormal[::itk::GetImageDimension < TImageType > ::ImageDimension];
+    m_ManifoldNormal[TImageType::ImageDimension];
 
   /** Intermediate flux computations used in computing the update. */
-  NodeDataType m_Flux[::itk::GetImageDimension < TImageType > ::ImageDimension];
+  NodeDataType m_Flux[TImageType::ImageDimension];
 
   /** Curvature computed from the output normal vectors. Used by
       LevelSetFunctionWithRefitTerm for its propagation term. */

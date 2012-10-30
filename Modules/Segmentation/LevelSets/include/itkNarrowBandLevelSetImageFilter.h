@@ -143,7 +143,7 @@ template< class TInputImage,
           class TFeatureImage,
           class TOutputPixelType = float,
           class TOutputImage = Image< TOutputPixelType,
-                                      ::itk::GetImageDimension< TInputImage >::ImageDimension > >
+                                      TInputImage::ImageDimension > >
 class ITK_EXPORT NarrowBandLevelSetImageFilter:
   public NarrowBandImageFilterBase< TInputImage, TOutputImage >
 {

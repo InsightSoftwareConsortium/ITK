@@ -60,7 +60,7 @@ namespace itk
  * \endwiki
  */
 template< class TInputImage,
-          class TOutputImage = Image< unsigned char, ::itk::GetImageDimension< TInputImage >::ImageDimension > >
+          class TOutputImage = Image< unsigned char, TInputImage::ImageDimension > >
 class ITK_EXPORT ScalarImageKmeansImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {

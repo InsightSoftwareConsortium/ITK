@@ -57,7 +57,7 @@ public:
   typedef const Self *ConstPointer;
 
   /**
-   * Easy (and required on MSVC) access to the base class of objects inside the array.
+   * Easy access to the base class of objects inside the array.
    */
   typedef T                                ClassType;
   typedef typename ClassType::Pointer      ClassTypePointer;

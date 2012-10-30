@@ -39,7 +39,7 @@ template< class TInputImage >
 class ITK_EXPORT TobogganImageFilter:
   public ImageToImageFilter<
     TInputImage,
-    Image< IdentifierType, ::itk::GetImageDimension< TInputImage >::ImageDimension > >
+    Image< IdentifierType, TInputImage::ImageDimension > >
 {
 public:
   /** Standard "Self" typedef.   */

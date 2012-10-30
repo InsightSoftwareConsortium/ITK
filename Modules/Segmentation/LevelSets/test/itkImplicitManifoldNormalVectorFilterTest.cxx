@@ -31,13 +31,13 @@ public:
   typedef typename LevelSetImageType::PixelType   NodeValueType;
   typedef typename LevelSetImageType::IndexType   IndexType;
   typedef Vector <NodeValueType,
-                  ::itk::GetImageDimension<TImageType>::ImageDimension>
+                  TImageType::ImageDimension>
   NodeDataType;
 
   NodeDataType m_Data, m_InputData, m_Update;
   NodeDataType
-  m_ManifoldNormal [::itk::GetImageDimension<TImageType>::ImageDimension];
-  NodeDataType m_Flux [::itk::GetImageDimension<TImageType>::ImageDimension];
+  m_ManifoldNormal [TImageType::ImageDimension];
+  NodeDataType m_Flux [TImageType::ImageDimension];
 
   IndexType m_Index;
   NormalBandNode *Next;
