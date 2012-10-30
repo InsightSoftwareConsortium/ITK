@@ -13,6 +13,7 @@ itkNrrdRGBAImageReadWriteTest.cxx
 itkNrrdRGBImageReadWriteTest.cxx
 itkNrrdVectorImageReadTest.cxx
 itkNrrdVectorImageReadWriteTest.cxx
+itkNrrdMetaDataTest.cxx
 )
 
 # For itkNrrdImageIOTest.h.
@@ -155,3 +156,6 @@ itk_add_test(NAME itkNrrdVectorImageReadWriteTest
     --compare DATA{${ITK_DATA_ROOT}/Baseline/IO/mini-vector.nrrd}
               ${ITK_TEST_OUTPUT_DIR}/mini-vector.nrrd
     itkNrrdVectorImageReadWriteTest DATA{${ITK_DATA_ROOT}/Input/mini-vector-slow.nrrd} ${ITK_TEST_OUTPUT_DIR}/mini-vector.nrrd)
+
+itk_add_test(NAME itkNrrdMetaDataTest COMMAND ITKIONRRDTestDriver itkNrrdMetaDataTest
+  ${ITK_TEST_OUTPUT_DIR})
