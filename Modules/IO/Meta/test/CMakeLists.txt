@@ -20,6 +20,7 @@ testMetaTube.cxx
 testMetaUtils.cxx
 itkMetaImageStreamingIOTest.cxx
 itkMetaImageStreamingWriterIOTest.cxx
+itkMetaTestLongFilename.cxx
 )
 
 CreateTestDriver(ITKIOMeta  "${ITKIOMeta-Test_LIBRARIES}" "${ITKIOMetaTests}")
@@ -132,6 +133,8 @@ itk_add_test(NAME itkMetaImageStreamingWriterIOTest2
       --compare DATA{${ITK_DATA_ROOT}/Input/mri3D.mhd}
               ${ITK_TEST_OUTPUT_DIR}/mri3DWriteStreamed.mha
               itkMetaImageStreamingWriterIOTest DATA{${ITK_DATA_ROOT}/Input/mri3D.mhd} ${ITK_TEST_OUTPUT_DIR}/mri3DWriteStreamed.mha)
+
+itk_add_test(NAME itkMetaTestLongFilename COMMAND ITKIOMetaTestDriver itkMetaTestLongFilename)
 
 if( "${ITK_COMPUTER_MEMORY_SIZE}" GREATER 5 )
 
