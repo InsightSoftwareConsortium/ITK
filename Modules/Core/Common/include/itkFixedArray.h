@@ -253,6 +253,72 @@ template< typename TValueType, unsigned int VLength >
 std::ostream & operator<<(std::ostream & os, const FixedArray< TValueType, VLength > & arr);
 } // namespace itk
 
+extern template class itk::FixedArray<uint8_t,1u>;
+extern template class itk::FixedArray<uint8_t,2u>;
+extern template class itk::FixedArray<uint8_t,3u>;
+extern template class itk::FixedArray<uint8_t,4u>;
+extern template class itk::FixedArray<uint8_t,5u>;
+extern template class itk::FixedArray<uint8_t,6u>;
+extern template class itk::FixedArray< int8_t,1u>;
+extern template class itk::FixedArray< int8_t,2u>;
+extern template class itk::FixedArray< int8_t,3u>;
+extern template class itk::FixedArray< int8_t,4u>;
+extern template class itk::FixedArray< int8_t,5u>;
+extern template class itk::FixedArray< int8_t,6u>;
+
+extern template class itk::FixedArray<uint16_t,1u>;
+extern template class itk::FixedArray<uint16_t,2u>;
+extern template class itk::FixedArray<uint16_t,3u>;
+extern template class itk::FixedArray<uint16_t,4u>;
+extern template class itk::FixedArray<uint16_t,5u>;
+extern template class itk::FixedArray<uint16_t,6u>;
+extern template class itk::FixedArray< int16_t,1u>;
+extern template class itk::FixedArray< int16_t,2u>;
+extern template class itk::FixedArray< int16_t,3u>;
+extern template class itk::FixedArray< int16_t,4u>;
+extern template class itk::FixedArray< int16_t,5u>;
+extern template class itk::FixedArray< int16_t,6u>;
+
+extern template class itk::FixedArray<uint32_t,1u>;
+extern template class itk::FixedArray<uint32_t,2u>;
+extern template class itk::FixedArray<uint32_t,3u>;
+extern template class itk::FixedArray<uint32_t,4u>;
+extern template class itk::FixedArray<uint32_t,5u>;
+extern template class itk::FixedArray<uint32_t,6u>;
+extern template class itk::FixedArray< int32_t,1u>;
+extern template class itk::FixedArray< int32_t,2u>;
+extern template class itk::FixedArray< int32_t,3u>;
+extern template class itk::FixedArray< int32_t,4u>;
+extern template class itk::FixedArray< int32_t,5u>;
+extern template class itk::FixedArray< int32_t,6u>;
+
+extern template class itk::FixedArray<uint64_t,1u>;
+extern template class itk::FixedArray<uint64_t,2u>;
+extern template class itk::FixedArray<uint64_t,3u>;
+extern template class itk::FixedArray<uint64_t,4u>;
+extern template class itk::FixedArray<uint64_t,5u>;
+extern template class itk::FixedArray<uint64_t,6u>;
+extern template class itk::FixedArray< int64_t,1u>;
+extern template class itk::FixedArray< int64_t,2u>;
+extern template class itk::FixedArray< int64_t,3u>;
+extern template class itk::FixedArray< int64_t,4u>;
+extern template class itk::FixedArray< int64_t,5u>;
+extern template class itk::FixedArray< int64_t,6u>;
+
+extern template class itk::FixedArray<float,1u>;
+extern template class itk::FixedArray<float,2u>;
+extern template class itk::FixedArray<float,3u>;
+extern template class itk::FixedArray<float,4u>;
+extern template class itk::FixedArray<float,5u>;
+extern template class itk::FixedArray<float,6u>;
+
+extern template class itk::FixedArray<double,1u>;
+extern template class itk::FixedArray<double,2u>;
+extern template class itk::FixedArray<double,3u>;
+extern template class itk::FixedArray<double,4u>;
+extern template class itk::FixedArray<double,5u>;
+extern template class itk::FixedArray<double,6u>;
+
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkFixedArray.hxx"
 #endif

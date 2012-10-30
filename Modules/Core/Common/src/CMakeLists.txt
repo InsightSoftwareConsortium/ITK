@@ -95,7 +95,7 @@ elseif( CMAKE_COMPILER_IS_GNUCXX )
   endif()
   CHECK_CXX_COMPILER_FLAG( -fno-implicit-templates gcc_has_no_implicit_templates )
   if ( gcc_has_no_implicit_templates )
-    set_source_files_properties ( itkIndent.cxx PROPERTIES COMPILE_FLAGS "-fno-implicit-templates" )
+    set_source_files_properties ( itkCommonExplicitInstantiation.cxx PROPERTIES COMPILE_FLAGS "-fno-implicit-templates" )
     #set_source_files_properties ( ${ITKCommon_SRCS} PROPERTIES COMPILE_FLAGS "-fno-implicit-templates" )
   endif()
 
