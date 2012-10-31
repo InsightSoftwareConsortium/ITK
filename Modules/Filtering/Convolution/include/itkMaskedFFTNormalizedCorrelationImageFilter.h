@@ -112,7 +112,7 @@ namespace itk
  * \ingroup ITKConvolution
  */
 
-template <class TInputImage, class TOutputImage >
+template <class TInputImage, class TOutputImage, class TMaskImage=TInputImage >
 class ITK_EXPORT MaskedFFTNormalizedCorrelationImageFilter :
     public ImageToImageFilter< TInputImage, TOutputImage >
 {
@@ -136,11 +136,12 @@ public:
 
   /** Extract some information from the image types. */
   typedef TInputImage                               InputImageType;
-  typedef TOutputImage                              OutputImageType;
   typedef typename InputImageType::RegionType       InputRegionType;
   typedef typename InputImageType::Pointer          InputImagePointer;
   typedef typename InputImageType::ConstPointer     InputImageConstPointer;
   typedef typename InputImageType::SizeType         InputSizeType;
+
+  typedef TOutputImage                              OutputImageType;
   typedef typename OutputImageType::Pointer         OutputImagePointer;
   typedef typename OutputImageType::PixelType       OutputPixelType;
 
@@ -150,6 +151,9 @@ public:
   typedef typename RealImageType::IndexType         RealIndexType;
   typedef typename RealImageType::SizeType          RealSizeType;
   typedef typename RealImageType::RegionType        RealRegionType;
+
+  typedef TMaskImage                                MaskImageType;
+  typedef typename MaskImageType::Pointer           MaskImagePointer;
 
   typedef Image< std::complex<RealPixelType>, ImageDimension >  FFTImageType;
   typedef typename FFTImageType::Pointer                        FFTImagePointer;
@@ -175,23 +179,23 @@ public:
     }
 
   /** Set and get the fixed mask */
-  void SetFixedImageMask(const InputImageType *input)
+  void SetFixedImageMask(const MaskImageType *input)
     {
-      this->SetNthInput(2, const_cast<InputImageType *>(input) );
+      this->SetNthInput(2, const_cast<MaskImageType *>(input) );
     }
-  InputImageType * GetFixedImageMask()
+  MaskImageType * GetFixedImageMask()
     {
-      return itkDynamicCastInDebugMode<InputImageType*>(const_cast<DataObject *>(this->ProcessObject::GetInput(2)));
+      return itkDynamicCastInDebugMode<MaskImageType*>(const_cast<DataObject *>(this->ProcessObject::GetInput(2)));
     }
 
   /** Set and get the moving mask */
-  void SetMovingImageMask(const InputImageType *input)
+  void SetMovingImageMask(const MaskImageType *input)
     {
-      this->SetNthInput(3, const_cast<InputImageType *>(input) );
+      this->SetNthInput(3, const_cast<MaskImageType *>(input) );
     }
-  InputImageType * GetMovingImageMask()
+  MaskImageType * GetMovingImageMask()
     {
-      return itkDynamicCastInDebugMode<InputImageType * >(const_cast<DataObject *>(this->ProcessObject::GetInput(3)));
+      return itkDynamicCastInDebugMode<MaskImageType * >(const_cast<DataObject *>(this->ProcessObject::GetInput(3)));
     }
 
   /** Set and get the required percentage of overlapping pixels */
@@ -233,13 +237,12 @@ protected:
    * \sa ProcessObject::GenerateOutputRequestedRegion() */
   void GenerateOutputInformation();
 
-  template< class LocalInputImageType >
-  typename LocalInputImageType::Pointer PreProcessMask( const LocalInputImageType * inputImage, const LocalInputImageType * inputMask );
+  typename TMaskImage::Pointer PreProcessMask( const InputImageType * inputImage, const MaskImageType * inputMask );
+
+  typename TInputImage::Pointer PreProcessImage( const InputImageType * inputImage, MaskImageType * inputMask );
 
   template< class LocalInputImageType >
-  typename LocalInputImageType::Pointer PreProcessImage( const LocalInputImageType * inputImage, LocalInputImageType * inputMask );
-
-  typename TInputImage::Pointer RotateImage( InputImageType * inputImage );
+  typename LocalInputImageType::Pointer RotateImage( LocalInputImageType * inputImage );
 
   template< class LocalInputImageType, class LocalOutputImageType >
   typename LocalOutputImageType::Pointer CalculateForwardFFT( LocalInputImageType * inputImage, InputSizeType & FFTImageSize );
