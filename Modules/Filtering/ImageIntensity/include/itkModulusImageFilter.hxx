@@ -35,35 +35,13 @@ namespace itk
 /**
  *
  */
-template< class TInputImage, class TOutputImage >
-ModulusImageFilter< TInputImage, TOutputImage >
+template< class TInputImage1, class TInputImage2,  class TOutputImage >
+ModulusImageFilter< TInputImage1, TInputImage2, TOutputImage >
 ::ModulusImageFilter()
 {
-  m_Dividend = 5;
+  this->SetConstant2( static_cast<typename TInputImage2::PixelType>(5) );
 }
 
-template< class TInputImage, class TOutputImage >
-void
-ModulusImageFilter< TInputImage, TOutputImage >
-::BeforeThreadedGenerateData()
-{
-  this->GetFunctor().SetDividend(m_Dividend);
-}
-
-/**
- *
- */
-template< class TInputImage, class TOutputImage >
-void
-ModulusImageFilter< TInputImage, TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
-{
-  Superclass::PrintSelf(os, indent);
-
-  os << indent << "Dividend: "
-     << static_cast< typename NumericTraits< InputPixelType >::PrintType >( m_Dividend )
-     << std::endl;
-}
 } // end namespace itk
 
 #endif
