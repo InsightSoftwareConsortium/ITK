@@ -2,6 +2,7 @@ itk_module_test()
 
 set(ITKIOMeshTests
   itkMeshFileReadWriteTest.cxx
+  itkMeshFileWriteReadTensorTest.cxx
   itkMeshFileReadWriteVectorAttributeTest.cxx
   itkPolylineReadWriteTest.cxx
 )
@@ -86,4 +87,9 @@ itk_add_test(NAME itkPolylineReadWriteTest01
       DATA{Baseline/fibers.vtk}
       ${ITK_TEST_OUTPUT_DIR}/fibers_b.vtk
       1
+)
+itk_add_test(NAME itkMeshFileWriteReadTensorTest
+  COMMAND ITKIOMeshTestDriver itkMeshFileWriteReadTensorTest
+  ${ITK_TEST_OUTPUT_DIR}/itkMeshFileWriteReadTensorTest2D.vtk
+  ${ITK_TEST_OUTPUT_DIR}/itkMeshFileWriteReadTensorTest3D.vtk
 )
