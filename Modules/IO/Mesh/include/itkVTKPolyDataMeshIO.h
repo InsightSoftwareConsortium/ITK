@@ -745,6 +745,8 @@ protected:
       T *ptr = buffer;
       SizeValueType i = 0;
       const SizeValueType num = this->m_NumberOfPointPixelComponents * this->m_NumberOfPointPixels;
+      // Note that only the 3D tensors are supported in the VTK File Format
+      // documentation.
       if( this->m_NumberOfPointPixelComponents == 3 )
         {
         T zero( itk::NumericTraits<T>::Zero );
@@ -765,7 +767,7 @@ protected:
           i += 3;
           }
         }
-      else if( this->m_NumberOfPointPixelComponents == 3 )
+      else if( this->m_NumberOfPointPixelComponents == 6 )
         {
         T e12;
         T e13;
