@@ -113,22 +113,6 @@ private:
 };
 } // end namespace itk
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_GaussianDerivativeSpatialFunction(_, EXPORT, TypeX, TypeY)     \
-  namespace itk                                                                     \
-  {                                                                                 \
-  _( 3 ( class EXPORT GaussianDerivativeSpatialFunction< ITK_TEMPLATE_3 TypeX > ) ) \
-  namespace Templates                                                               \
-  {                                                                                 \
-  typedef GaussianDerivativeSpatialFunction< ITK_TEMPLATE_3 TypeX >                 \
-  GaussianDerivativeSpatialFunction##TypeY;                                       \
-  }                                                                                 \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-#include "Templates/itkGaussianDerivativeSpatialFunction+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkGaussianDerivativeSpatialFunction.hxx"
 #endif

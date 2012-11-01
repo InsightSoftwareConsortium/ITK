@@ -161,22 +161,6 @@ protected:
 };
 } // namespace itk
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_SobelOperator(_, EXPORT, TypeX, TypeY)     \
-  namespace itk                                                 \
-  {                                                             \
-  _( 2 ( class EXPORT SobelOperator< ITK_TEMPLATE_2 TypeX > ) ) \
-  namespace Templates                                           \
-  {                                                             \
-  typedef SobelOperator< ITK_TEMPLATE_2 TypeX >                 \
-  SobelOperator##TypeY;                                       \
-  }                                                             \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-#include "Templates/itkSobelOperator+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkSobelOperator.hxx"
 #endif

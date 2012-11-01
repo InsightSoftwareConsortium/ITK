@@ -114,24 +114,6 @@ protected: //made protected so other iterators can access
 };
 } // end namespace itk
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_ConditionalConstIterator(_, EXPORT, TypeX, TypeY)     \
-  namespace itk                                                            \
-  {                                                                        \
-  _( 1 ( class EXPORT ConditionalConstIterator< ITK_TEMPLATE_1 TypeX > ) ) \
-  namespace Templates                                                      \
-  {                                                                        \
-  typedef ConditionalConstIterator< ITK_TEMPLATE_1 TypeX >                 \
-  ConditionalConstIterator##TypeY;                                       \
-  }                                                                        \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-//HACK attempt to make static const unsigned ints work  template<class TImage>
-// const unsigned int ConditionalConstIterator<TImage>::ImageDimension;
-#include "Templates/itkConditionalConstIterator+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkConditionalConstIterator.hxx"
 #endif

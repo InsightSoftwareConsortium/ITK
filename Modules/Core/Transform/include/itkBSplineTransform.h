@@ -307,30 +307,6 @@ private:
 }; // class BSplineTransform
 }  // namespace itk
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_BSplineTransform(_, EXPORT, TypeX, TypeY)     \
-  namespace itk                                                              \
-  {                                                                          \
-  _( 3 ( class EXPORT BSplineTransform<ITK_TEMPLATE_3 TypeX> ) ) \
-  namespace Templates                                                        \
-  {                                                                          \
-  typedef BSplineTransform<ITK_TEMPLATE_3 TypeX>                 \
-  BSplineTransform##TypeY;                                       \
-  }                                                                          \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-// template < class TScalarType, unsigned int NDimensions, unsigned int
-// VSplineOrder >
-//   const unsigned int itk::BSplineTransform<TScalarType,
-// NDimensions, VSplineOrder >::SpaceDimension;
-// template < class TScalarType, unsigned int NDimensions, unsigned int
-// VSplineOrder >
-//   const unsigned int itk::BSplineTransform<TScalarType,
-// NDimensions, VSplineOrder >::SplineOrder;
-#include "Templates/itkBSplineTransform+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkBSplineTransform.hxx"
 #endif

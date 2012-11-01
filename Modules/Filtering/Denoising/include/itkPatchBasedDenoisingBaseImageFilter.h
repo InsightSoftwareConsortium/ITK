@@ -349,18 +349,6 @@ public ImageToImageFilter<TInputImage, TOutputImage>
 
 } // end namespace itk
 
-// Define instantiation macro for this template
-
-#define ITK_TEMPLATE_PatchBasedDenoisingBaseImageFilter(_, EXPORT, x, y) namespace itk { \
-    _(2(class EXPORT PatchBasedDenoisingBaseImageFilter< ITK_TEMPLATE_2 x >)) | \
-      namespace Templates { typedef PatchBasedDenoisingBaseImageFilter< ITK_TEMPLATE_2 x > \
-        PatchBasedDenoisingBaseImageFilter##y; } \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-# include "Templates/itkPatchBasedDenoisingBaseImageFilter+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 # include "itkPatchBasedDenoisingBaseImageFilter.hxx"
 #endif

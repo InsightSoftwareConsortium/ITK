@@ -120,22 +120,6 @@ private:
 };
 } // end namespace itk
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_VarianceImageFunction(_, EXPORT, TypeX, TypeY)     \
-  namespace itk                                                         \
-  {                                                                     \
-  _( 2 ( class EXPORT VarianceImageFunction< ITK_TEMPLATE_2 TypeX > ) ) \
-  namespace Templates                                                   \
-  {                                                                     \
-  typedef VarianceImageFunction< ITK_TEMPLATE_2 TypeX >                 \
-  VarianceImageFunction##TypeY;                                       \
-  }                                                                     \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-#include "Templates/itkVarianceImageFunction+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkVarianceImageFunction.hxx"
 #endif

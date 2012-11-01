@@ -344,22 +344,6 @@ private:
 };
 } // namespace itk
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_LevelSetFunction(_, EXPORT, TypeX, TypeY)     \
-  namespace itk                                                    \
-  {                                                                \
-  _( 1 ( class EXPORT LevelSetFunction< ITK_TEMPLATE_1 TypeX > ) ) \
-  namespace Templates                                              \
-  {                                                                \
-  typedef LevelSetFunction< ITK_TEMPLATE_1 TypeX >                 \
-  LevelSetFunction##TypeY;                                       \
-  }                                                                \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-#include "Templates/itkLevelSetFunction+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkLevelSetFunction.hxx"
 #endif

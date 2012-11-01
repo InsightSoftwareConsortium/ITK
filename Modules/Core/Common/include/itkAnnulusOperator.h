@@ -224,24 +224,7 @@ private:
 };
 } // namespace itk
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_AnnulusOperator(_, EXPORT, TypeX, TypeY)     \
-  namespace itk                                                   \
-  {                                                               \
-  _( 2 ( class EXPORT AnnulusOperator< ITK_TEMPLATE_2 TypeX > ) ) \
-  namespace Templates                                             \
-  {                                                               \
-  typedef AnnulusOperator< ITK_TEMPLATE_2 TypeX >                 \
-  AnnulusOperator##TypeY;                                       \
-  }                                                               \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-#include "Templates/itkAnnulusOperator+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkAnnulusOperator.hxx"
 #endif
-
 #endif

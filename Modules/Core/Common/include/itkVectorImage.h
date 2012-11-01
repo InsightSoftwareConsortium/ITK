@@ -340,21 +340,6 @@ private:
 };
 } // end namespace itk
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_VectorImage(_, EXPORT, TypeX, TypeY)           \
-  namespace itk                                                     \
-  {                                                                 \
-  _( 2 ( class EXPORT VectorImage< ITK_TEMPLATE_2 TypeX > ) )       \
-  namespace Templates                                               \
-  {                                                                 \
-  typedef VectorImage< ITK_TEMPLATE_2 TypeX > VectorImage##TypeY; \
-  }                                                                 \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-#include "Templates/itkVectorImage+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkVectorImage.hxx"
 #endif

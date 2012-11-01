@@ -140,10 +140,6 @@ private:
 
 } // end namespace itk
 
-#if ITK_TEMPLATE_EXPLICIT
-# include "Templates/itkGaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 # include "itkGaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform.hxx"
 #endif

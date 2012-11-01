@@ -226,21 +226,6 @@ private:
 };
 } // end namespace itk
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_ImageFunction(_, EXPORT, TypeX, TypeY)             \
-  namespace itk                                                         \
-  {                                                                     \
-  _( 3 ( class EXPORT ImageFunction< ITK_TEMPLATE_3 TypeX > ) )         \
-  namespace Templates                                                   \
-  {                                                                     \
-  typedef ImageFunction< ITK_TEMPLATE_3 TypeX > ImageFunction##TypeY; \
-  }                                                                     \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-#include "Templates/itkImageFunction+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkImageFunction.hxx"
 #endif

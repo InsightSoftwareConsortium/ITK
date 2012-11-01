@@ -249,23 +249,6 @@ template< typename TValueType, unsigned int VLength >
 std::ostream & operator<<(std::ostream & os, const FixedArray< TValueType, VLength > & arr);
 } // namespace itk
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_FixedArray(_, EXPORT, TypeX, TypeY)                                  \
-  namespace itk                                                                           \
-  {                                                                                       \
-  _( 2 ( class EXPORT FixedArray< ITK_TEMPLATE_2 TypeX > ) )                              \
-  _( 1 ( EXPORT std::ostream & operator<<(std::ostream &,                                 \
-                                          const FixedArray< ITK_TEMPLATE_2 TypeX > &) ) ) \
-  namespace Templates                                                                     \
-  {                                                                                       \
-  typedef FixedArray< ITK_TEMPLATE_2 TypeX > FixedArray##TypeY;                         \
-  }                                                                                       \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-#include "Templates/itkFixedArray+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkFixedArray.hxx"
 #endif

@@ -121,21 +121,6 @@ private:
 }; // class CenteredAffineTransform
 }  // namespace itk
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_CenteredAffineTransform(_, EXPORT, TypeX, TypeY)                       \
-  namespace itk                                                                             \
-  {                                                                                         \
-  _( 2 ( class EXPORT CenteredAffineTransform<ITK_TEMPLATE_2 TypeX> ) )                   \
-  namespace Templates                                                                       \
-  {                                                                                         \
-  typedef CenteredAffineTransform<ITK_TEMPLATE_2 TypeX> CenteredAffineTransform##TypeY; \
-  }                                                                                         \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-#include "Templates/itkCenteredAffineTransform+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkCenteredAffineTransform.hxx"
 #endif

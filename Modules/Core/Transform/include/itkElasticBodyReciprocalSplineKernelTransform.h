@@ -111,22 +111,6 @@ private:
 };
 } // namespace itk
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_ElasticBodyReciprocalSplineKernelTransform(_, EXPORT, TypeX, TypeY)     \
-  namespace itk                                                                              \
-  {                                                                                          \
-  _( 2 ( class EXPORT ElasticBodyReciprocalSplineKernelTransform< ITK_TEMPLATE_2 TypeX > ) ) \
-  namespace Templates                                                                        \
-  {                                                                                          \
-  typedef ElasticBodyReciprocalSplineKernelTransform< ITK_TEMPLATE_2 TypeX >                 \
-  ElasticBodyReciprocalSplineKernelTransform##TypeY;                                       \
-  }                                                                                          \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-#include "Templates/itkElasticBodyReciprocalSplineKernelTransform+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkElasticBodyReciprocalSplineKernelTransform.hxx"
 #endif

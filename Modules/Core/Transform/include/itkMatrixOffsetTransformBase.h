@@ -524,33 +524,6 @@ private:
 }; // class MatrixOffsetTransformBase
 }  // namespace itk
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_MatrixOffsetTransformBase(_, EXPORT, TypeX, TypeY)                         \
-  namespace itk                                                                                 \
-  {                                                                                             \
-  _( 3 ( class EXPORT MatrixOffsetTransformBase<ITK_TEMPLATE_3 TypeX> ) )                     \
-  namespace Templates                                                                           \
-  {                                                                                             \
-  typedef MatrixOffsetTransformBase<ITK_TEMPLATE_3 TypeX> MatrixOffsetTransformBase##TypeY; \
-  }                                                                                             \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-// template < class TScalarType, unsigned int NInputDimensions, unsigned int
-// NOutputDimensions>
-//   const unsigned int itk::MatrixOffsetTransformBase< TScalarType,
-// NInputDimensions, NOutputDimensions >::InputSpaceDimension;
-// template < class TScalarType, unsigned int NInputDimensions, unsigned int
-// NOutputDimensions>
-//   const unsigned int itk::MatrixOffsetTransformBase< TScalarType,
-// NInputDimensions, NOutputDimensions >::OutputSpaceDimension;
-// template < class TScalarType, unsigned int NInputDimensions, unsigned int
-// NOutputDimensions>
-//   const unsigned int itk::MatrixOffsetTransformBase< TScalarType,
-// NInputDimensions, NOutputDimensions >::ParametersDimension;
-#include "Templates/itkMatrixOffsetTransformBase+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkMatrixOffsetTransformBase.hxx"
 #endif

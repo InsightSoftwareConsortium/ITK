@@ -717,23 +717,6 @@ private:
 };
 } // end namespace itk
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_ImageBase(_, EXPORT, TypeX, TypeY)         \
-  namespace itk                                                 \
-  {                                                             \
-  _( 1 ( class EXPORT ImageBase< ITK_TEMPLATE_1 TypeX > ) )     \
-  namespace Templates                                           \
-  {                                                             \
-  typedef ImageBase< ITK_TEMPLATE_1 TypeX > ImageBase##TypeY; \
-  }                                                             \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-//template <unsigned int VImageDimension> const unsigned int
-// itk::ImageBase<VImageDimension>::ImageDimension;
-#include "Templates/itkImageBase+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkImageBase.hxx"
 #endif

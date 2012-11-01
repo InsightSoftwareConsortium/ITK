@@ -127,22 +127,6 @@ private:
 };
 } // end namespace itk
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_CovarianceImageFunction(_, EXPORT, TypeX, TypeY)     \
-  namespace itk                                                           \
-  {                                                                       \
-  _( 2 ( class EXPORT CovarianceImageFunction< ITK_TEMPLATE_2 TypeX > ) ) \
-  namespace Templates                                                     \
-  {                                                                       \
-  typedef CovarianceImageFunction< ITK_TEMPLATE_2 TypeX >                 \
-  CovarianceImageFunction##TypeY;                                       \
-  }                                                                       \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-#include "Templates/itkCovarianceImageFunction+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkCovarianceImageFunction.hxx"
 #endif

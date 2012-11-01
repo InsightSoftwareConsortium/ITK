@@ -163,21 +163,6 @@ private:
 };
 } // namespace itk
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_GaussianDerivativeImageFunction(_, EXPORT, TypeX, TypeY)                                \
-  namespace itk                                                                                              \
-  {                                                                                                          \
-  _( 2 ( class EXPORT GaussianDerivativeImageFunction< ITK_TEMPLATE_2 TypeX > ) )                            \
-  namespace Templates                                                                                        \
-  {                                                                                                          \
-  typedef GaussianDerivativeImageFunction< ITK_TEMPLATE_2 TypeX >  GaussianDerivativeImageFunction##TypeY; \
-  }                                                                                                          \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-#include "Templates/itkGaussianDerivativeImageFunction+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkGaussianDerivativeImageFunction.hxx"
 #endif

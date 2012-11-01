@@ -57,7 +57,6 @@
 #cmakedefine ITK_LEGACY_SILENT
 #cmakedefine ITK_USE_CONCEPT_CHECKING
 #cmakedefine ITK_USE_STRICT_CONCEPT_CHECKING
-#cmakedefine ITK_EXPLICIT_INSTANTIATION
 #cmakedefine USE_FFTWF
 #cmakedefine USE_FFTWD
 #cmakedefine ITK_USE_REVIEW

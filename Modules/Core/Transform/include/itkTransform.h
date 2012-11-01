@@ -582,21 +582,6 @@ private:
 };
 } // end namespace itk
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_Transform(_, EXPORT, TypeX, TypeY)         \
-  namespace itk                                                 \
-  {                                                             \
-  _( 3 ( class EXPORT Transform<ITK_TEMPLATE_3 TypeX> ) )     \
-  namespace Templates                                           \
-  {                                                             \
-  typedef Transform<ITK_TEMPLATE_3 TypeX> Transform##TypeY; \
-  }                                                             \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-#include "Templates/itkTransform+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkTransform.hxx"
 #endif

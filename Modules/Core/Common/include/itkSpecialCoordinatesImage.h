@@ -292,22 +292,6 @@ private:
 };
 } // end namespace itk
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_SpecialCoordinatesImage(_, EXPORT, TypeX, TypeY)     \
-  namespace itk                                                           \
-  {                                                                       \
-  _( 2 ( class EXPORT SpecialCoordinatesImage< ITK_TEMPLATE_2 TypeX > ) ) \
-  namespace Templates                                                     \
-  {                                                                       \
-  typedef SpecialCoordinatesImage< ITK_TEMPLATE_2 TypeX >                 \
-  SpecialCoordinatesImage##TypeY;                                       \
-  }                                                                       \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-#include "Templates/itkSpecialCoordinatesImage+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkSpecialCoordinatesImage.hxx"
 #endif

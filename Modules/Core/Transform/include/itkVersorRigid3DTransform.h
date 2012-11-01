@@ -124,21 +124,6 @@ private:
 };                                      // class VersorRigid3DTransform
 }  // namespace itk
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_VersorRigid3DTransform(_, EXPORT, TypeX, TypeY)                      \
-  namespace itk                                                                           \
-  {                                                                                       \
-  _( 1 ( class EXPORT VersorRigid3DTransform<ITK_TEMPLATE_1 TypeX> ) )                  \
-  namespace Templates                                                                     \
-  {                                                                                       \
-  typedef VersorRigid3DTransform<ITK_TEMPLATE_1 TypeX> VersorRigid3DTransform##TypeY; \
-  }                                                                                       \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-#include "Templates/itkVersorRigid3DTransform+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkVersorRigid3DTransform.hxx"
 #endif

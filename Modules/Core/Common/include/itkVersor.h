@@ -288,21 +288,6 @@ ITK_EXPORT std::istream & operator>>(std::istream & is,
                                      Versor< T > & v);
 } // end namespace itk
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_Versor(_, EXPORT, TypeX, TypeY)      \
-  namespace itk                                           \
-  {                                                       \
-  _( 1 ( class EXPORT Versor< ITK_TEMPLATE_1 TypeX > ) )  \
-  namespace Templates                                     \
-  {                                                       \
-  typedef Versor< ITK_TEMPLATE_1 TypeX > Versor##TypeY; \
-  }                                                       \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-#include "Templates/itkVersor+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkVersor.hxx"
 #endif

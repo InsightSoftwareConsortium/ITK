@@ -97,22 +97,6 @@ private:
 };
 } // namespace itk
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_ThinPlateSplineKernelTransform(_, EXPORT, TypeX, TypeY)     \
-  namespace itk                                                                  \
-  {                                                                              \
-  _( 2 ( class EXPORT ThinPlateSplineKernelTransform< ITK_TEMPLATE_2 TypeX > ) ) \
-  namespace Templates                                                            \
-  {                                                                              \
-  typedef ThinPlateSplineKernelTransform< ITK_TEMPLATE_2 TypeX >                 \
-  ThinPlateSplineKernelTransform##TypeY;                                       \
-  }                                                                              \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-#include "Templates/itkThinPlateSplineKernelTransform+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkThinPlateSplineKernelTransform.hxx"
 #endif

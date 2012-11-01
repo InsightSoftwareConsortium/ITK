@@ -244,21 +244,6 @@ private:
 };
 } // end namespace itk
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_ImageTransformer(_, EXPORT, TypeX, TypeY)           \
-  namespace itk                                                     \
-  {                                                                 \
-  _( 1 ( class EXPORT ImageTransformer< ITK_TEMPLATE_1 TypeX > ) )       \
-  namespace Templates                                               \
-  {                                                                 \
-  typedef ImageTransformer< ITK_TEMPLATE_1 TypeX > ImageTransformer##TypeY; \
-  }                                                                 \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-#include "Templates/itkImageTransformer+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkImageTransformer.hxx"
 #endif

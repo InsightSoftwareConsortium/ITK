@@ -111,22 +111,6 @@ public:
 };
 } // end namespace itk
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_PeriodicBoundaryCondition(_, EXPORT, TypeX, TypeY)     \
-  namespace itk                                                             \
-  {                                                                         \
-  _( 1 ( class EXPORT PeriodicBoundaryCondition< ITK_TEMPLATE_1 TypeX > ) ) \
-  namespace Templates                                                       \
-  {                                                                         \
-  typedef PeriodicBoundaryCondition< ITK_TEMPLATE_1 TypeX >                 \
-  PeriodicBoundaryCondition##TypeY;                                       \
-  }                                                                         \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-#include "Templates/itkPeriodicBoundaryCondition+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkPeriodicBoundaryCondition.hxx"
 #endif

@@ -114,22 +114,6 @@ private:
 };
 } // end namespace itk
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_ImageRegionMultidimensionalSplitter(_, EXPORT, TypeX, TypeY)     \
-  namespace itk                                                                       \
-  {                                                                                   \
-  _( 1 ( class EXPORT ImageRegionMultidimensionalSplitter< ITK_TEMPLATE_1 TypeX > ) ) \
-  namespace Templates                                                                 \
-  {                                                                                   \
-  typedef ImageRegionMultidimensionalSplitter< ITK_TEMPLATE_1 TypeX >                 \
-  ImageRegionMultidimensionalSplitter##TypeY;                                       \
-  }                                                                                   \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-#include "Templates/itkImageRegionMultidimensionalSplitter+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkImageRegionMultidimensionalSplitter.hxx"
 #endif

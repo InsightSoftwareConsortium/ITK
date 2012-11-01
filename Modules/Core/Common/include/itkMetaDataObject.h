@@ -304,22 +304,6 @@ inline bool ExposeMetaData(const MetaDataDictionary & Dictionary, const char *co
   ITK_OBJECT_TYPE_METADATAPRINT_1COMMA(itk::Image< STORAGE_TYPE, 7 >::Pointer) \
   ITK_OBJECT_TYPE_METADATAPRINT_1COMMA(itk::Image< STORAGE_TYPE, 8 >::Pointer) \
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_MetaDataObject(_, EXPORT, TypeX, TypeY)     \
-  namespace itk                                                  \
-  {                                                              \
-  _( 1 ( class EXPORT MetaDataObject< ITK_TEMPLATE_1 TypeX > ) ) \
-  namespace Templates                                            \
-  {                                                              \
-  typedef MetaDataObject< ITK_TEMPLATE_1 TypeX >                 \
-  MetaDataObject##TypeY;                                       \
-  }                                                              \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-#include "Templates/itkMetaDataObject+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkMetaDataObject.hxx"
 #endif

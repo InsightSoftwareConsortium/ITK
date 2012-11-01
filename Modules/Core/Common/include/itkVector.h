@@ -271,35 +271,6 @@ ITKCommon_EXPORT Vector< int, 3 > CrossProduct(const Vector< int, 3 > &,
                                                const Vector< int, 3 > &);
 } // end namespace itk
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_Vector(_, EXPORT, TypeX, TypeY)                                  \
-  namespace itk                                                                       \
-  {                                                                                   \
-  _( 2 ( class EXPORT Vector< ITK_TEMPLATE_2 TypeX > ) )                              \
-  _( 1 ( EXPORT std::ostream & operator<<(std::ostream &,                             \
-                                          const Vector< ITK_TEMPLATE_2 TypeX > &) ) ) \
-  _( 1 ( EXPORT std::istream & operator>>(std::istream &,                             \
-                                          Vector< ITK_TEMPLATE_2 TypeX > &) ) )       \
-  namespace Templates                                                                 \
-  {                                                                                   \
-  typedef Vector< ITK_TEMPLATE_2 TypeX > Vector##TypeY;                             \
-  }                                                                                   \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-#include "Templates/itkVector+-.h"
-#endif
-
-//
-// Numeric traits must be included after (optionally) including the explicit
-// instantiations control of this class, in case the implicit instantiation
-// needs to be disabled.
-//
-// NumericTraits must be included before (optionally) including the .hxx file,
-// in case the .hxx requires to use NumericTraits.
-//
-#include "itkNumericTraitsVectorPixel.h"
-
 #if ITK_TEMPLATE_TXX
 #include "itkVector.hxx"
 #endif

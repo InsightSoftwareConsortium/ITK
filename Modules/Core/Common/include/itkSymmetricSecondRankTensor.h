@@ -224,25 +224,6 @@ ITK_EXPORT InputStreamType & operator>>(InputStreamType & is,
 
 #include "itkNumericTraitsTensorPixel.h"
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_SymmetricSecondRankTensor(_, EXPORT, TypeX, TypeY)     \
-  namespace itk                                                             \
-  {                                                                         \
-  _( 2 ( class EXPORT SymmetricSecondRankTensor< ITK_TEMPLATE_2 TypeX > ) ) \
-  namespace Templates                                                       \
-  {                                                                         \
-  typedef SymmetricSecondRankTensor< ITK_TEMPLATE_2 TypeX >                 \
-  SymmetricSecondRankTensor##TypeY;                                       \
-  }                                                                         \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-//template < typename TComponent, unsigned int NDimension> const unsigned int
-// itk::SymmetricSecondRankTensor<TComponent,NDimension>::InternalDimension;
-
-#include "Templates/itkSymmetricSecondRankTensor+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkSymmetricSecondRankTensor.hxx"
 #endif

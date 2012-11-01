@@ -372,21 +372,6 @@ protected:
 };
 } // end namespace itk
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_ImageRegionReverseConstIterator(_, EXPORT, TypeX, TypeY)                               \
-  namespace itk                                                                                             \
-  {                                                                                                         \
-  _( 1 ( class EXPORT ImageRegionReverseConstIterator< ITK_TEMPLATE_1 TypeX > ) )                           \
-  namespace Templates                                                                                       \
-  {                                                                                                         \
-  typedef ImageRegionReverseConstIterator< ITK_TEMPLATE_1 TypeX > ImageRegionReverseConstIterator##TypeY; \
-  }                                                                                                         \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-#include "Templates/itkImageRegionReverseConstIterator+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkImageRegionReverseConstIterator.hxx"
 #endif

@@ -299,23 +299,6 @@ private:
 };
 } // end namespace itk
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_Image(_, EXPORT, TypeX, TypeY)     \
-  namespace itk                                         \
-  {                                                     \
-  _( 2 ( class EXPORT Image< ITK_TEMPLATE_2 TypeX > ) ) \
-  namespace Templates                                   \
-  {                                                     \
-  typedef Image< ITK_TEMPLATE_2 TypeX > Image##TypeY; \
-  }                                                     \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-//template <class TPixel, unsigned int VImageDimension> const unsigned int
-// itk::Image<TPixel,VImageDimension>::ImageDimension;
-#include "Templates/itkImage+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkImage.hxx"
 #endif

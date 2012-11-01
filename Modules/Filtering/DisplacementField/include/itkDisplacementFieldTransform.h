@@ -450,10 +450,6 @@ private:
 
 } // end namespace itk
 
-#if ITK_TEMPLATE_EXPLICIT
-#include "Templates/itkDisplacementFieldTransform+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkDisplacementFieldTransform.hxx"
 #endif

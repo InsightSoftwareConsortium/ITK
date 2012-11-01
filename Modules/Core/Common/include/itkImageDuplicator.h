@@ -99,21 +99,6 @@ private:
 };
 } // end namespace itk
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_ImageDuplicator(_, EXPORT, TypeX, TypeY)               \
-  namespace itk                                                             \
-  {                                                                         \
-  _( 1 ( class EXPORT ImageDuplicator< ITK_TEMPLATE_1 TypeX > ) )           \
-  namespace Templates                                                       \
-  {                                                                         \
-  typedef ImageDuplicator< ITK_TEMPLATE_1 TypeX > ImageDuplicator##TypeY; \
-  }                                                                         \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-#include "Templates/itkImageDuplicator+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkImageDuplicator.hxx"
 #endif

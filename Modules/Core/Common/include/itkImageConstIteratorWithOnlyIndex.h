@@ -276,23 +276,6 @@ protected: //made protected so other iterators can access
 };
 } // end namespace itk
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_ImageConstIteratorWithOnlyIndex(_, EXPORT, TypeX, TypeY)                           \
-  namespace itk                                                                                     \
-  {                                                                                                 \
-  _( 1 ( class EXPORT ImageConstIteratorWithOnlyIndex< ITK_TEMPLATE_1 TypeX > ) )                       \
-  namespace Templates                                                                               \
-  {                                                                                                 \
-  typedef ImageConstIteratorWithOnlyIndex< ITK_TEMPLATE_1 TypeX > ImageConstIteratorWithOnlyIndex##TypeY; \
-  }                                                                                                 \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-//template<typename TImage> const unsigned int itk::ImageConstIteratorWithOnlyIndex<
-// TImage>::ImageDimension;
-#include "Templates/itkImageConstIteratorWithOnlyIndex+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkImageConstIteratorWithOnlyIndex.hxx"
 #endif

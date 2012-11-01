@@ -128,22 +128,6 @@ public:
 };
 } // end namespace itk
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_ZeroFluxNeumannBoundaryCondition(_, EXPORT, TypeX, TypeY)     \
-  namespace itk                                                                    \
-  {                                                                                \
-  _( 1 ( class EXPORT ZeroFluxNeumannBoundaryCondition< ITK_TEMPLATE_1 TypeX > ) ) \
-  namespace Templates                                                              \
-  {                                                                                \
-  typedef ZeroFluxNeumannBoundaryCondition< ITK_TEMPLATE_1 TypeX >                 \
-  ZeroFluxNeumannBoundaryCondition##TypeY;                                       \
-  }                                                                                \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-#include "Templates/itkZeroFluxNeumannBoundaryCondition+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkZeroFluxNeumannBoundaryCondition.hxx"
 #endif

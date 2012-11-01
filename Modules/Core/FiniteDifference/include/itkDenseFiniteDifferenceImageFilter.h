@@ -189,22 +189,6 @@ private:
 };
 } // end namespace itk
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_DenseFiniteDifferenceImageFilter(_, EXPORT, TypeX, TypeY)     \
-  namespace itk                                                                    \
-  {                                                                                \
-  _( 2 ( class EXPORT DenseFiniteDifferenceImageFilter< ITK_TEMPLATE_2 TypeX > ) ) \
-  namespace Templates                                                              \
-  {                                                                                \
-  typedef DenseFiniteDifferenceImageFilter< ITK_TEMPLATE_2 TypeX >                 \
-  DenseFiniteDifferenceImageFilter##TypeY;                                       \
-  }                                                                                \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-#include "Templates/itkDenseFiniteDifferenceImageFilter+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkDenseFiniteDifferenceImageFilter.hxx"
 #endif

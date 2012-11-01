@@ -381,21 +381,6 @@ protected: //made protected so other iterators can access
 };
 } // end namespace itk
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_ImageConstIterator(_, EXPORT, TypeX, TypeY)                  \
-  namespace itk                                                                   \
-  {                                                                               \
-  _( 1 ( class EXPORT ImageConstIterator< ITK_TEMPLATE_1 TypeX > ) )              \
-  namespace Templates                                                             \
-  {                                                                               \
-  typedef ImageConstIterator< ITK_TEMPLATE_1 TypeX > ImageConstIterator##TypeY; \
-  }                                                                               \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-#include "Templates/itkImageConstIterator+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkImageConstIterator.hxx"
 #endif

@@ -1075,6 +1075,7 @@ itkTypeMacro(newexcp, parentexcp);                                              
 #ifndef ITK_TEMPLATE_TYPE
 #define ITK_TEMPLATE_TYPE 0
 #endif
+
 #if defined( ITK_MANUAL_INSTANTIATION )
 #define ITK_TEMPLATE_TXX 0
 #else
@@ -1098,25 +1099,6 @@ itkTypeMacro(newexcp, parentexcp);                                              
   ITK_EXPORT_TEMPLATE(ITKCommon_EXPORT, c, x, n)
 #define ITK_IMPORT_ITKCommon(c, x, n) \
   ITK_IMPORT_TEMPLATE(ITKCommon_EXPORT, c, x, n)
-
-/* Define a macro to decide whether to block instantiation of ITK
-   templates.  They should be blocked only if the platform supports
-   blocking template instantiation and the explicit instantiations are
-   available.
-
-   - ITK_TEMPLATE_EXPLICIT =
-      Whether to include "XXX+-.h" from "XXX.h" to prevent implicit
-      instantiations of templates explicitly instantiated elsewhere.
-      Typical usage in itkFoo.h:
-        #if ITK_TEMPLATE_EXPLICIT
-        #include "itkFoo+-.h"
-        #endif
-*/
-#if ITK_TEMPLATE_IMPORT_WORKS && defined( ITK_EXPLICIT_INSTANTIATION )
-#define ITK_TEMPLATE_EXPLICIT !ITK_TEMPLATE_CXX
-#else
-#define ITK_TEMPLATE_EXPLICIT 0
-#endif
 
 //--------------------------------------------------------------------------------
 //  Helper macros for Template Meta-Programming techniques of for-loops

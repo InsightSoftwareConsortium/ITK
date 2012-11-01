@@ -224,21 +224,6 @@ private:
 }; // class Similarity2DTransform
 }  // namespace itk
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_Similarity2DTransform(_, EXPORT, TypeX, TypeY)                     \
-  namespace itk                                                                         \
-  {                                                                                     \
-  _( 1 ( class EXPORT Similarity2DTransform<ITK_TEMPLATE_1 TypeX> ) )                 \
-  namespace Templates                                                                   \
-  {                                                                                     \
-  typedef Similarity2DTransform<ITK_TEMPLATE_1 TypeX> Similarity2DTransform##TypeY; \
-  }                                                                                     \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-#include "Templates/itkSimilarity2DTransform+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkSimilarity2DTransform.hxx"
 #endif

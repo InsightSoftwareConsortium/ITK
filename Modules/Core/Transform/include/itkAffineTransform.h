@@ -397,21 +397,6 @@ AffineTransform< TScalarType, NDimensions >::BackTransform(const OutputPointType
 #endif
 }  // namespace itk
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_AffineTransform(_, EXPORT, TypeX, TypeY)                \
-  namespace itk                                                              \
-  {                                                                          \
-  _( 2 ( class EXPORT AffineTransform< ITK_TEMPLATE_2 TypeX > ) )            \
-  namespace Templates                                                        \
-  {                                                                          \
-  typedef AffineTransform< ITK_TEMPLATE_2 TypeX >  AffineTransform##TypeY; \
-  }                                                                          \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-#include "Templates/itkAffineTransform+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkAffineTransform.hxx"
 #endif
