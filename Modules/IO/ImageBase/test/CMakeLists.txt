@@ -276,7 +276,8 @@ itk_add_test(NAME itkImageSeriesWriterTest
 
 if(ITK_BUILD_SHARED_LIBS)
   itk_add_test(NAME itkIOPluginTest
-           COMMAND ITKIOImageBaseTestDriver itkIOPluginTest
+           COMMAND itkTestDriver  --add-before-env ITK_AUTOLOAD_PATH "${ITK_TEST_OUTPUT_DIR}/$<CONFIGURATION>"
+              "$<TARGET_FILE:ITKIOImageBaseTestDriver>" itkIOPluginTest
              ${ITK_TEST_OUTPUT_DIR}
              "FileFreeIO::Size=128,256:Spacing=.5,.8:Origin=5,6:Direction=-1,0,0,-1"
              ${ITK_TEST_OUTPUT_DIR}/itkIOPluginTest.png
