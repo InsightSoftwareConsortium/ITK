@@ -52,7 +52,7 @@ int itkImageFileWriterStreamingTest1(int argc, char* argv[])
     }
 
 
-  typedef unsigned char            PixelType;
+  typedef uint8_t            PixelType;
   typedef itk::Image<PixelType,3>   ImageType;
 
   typedef itk::ImageFileReader<ImageType>         ReaderType;

@@ -34,8 +34,8 @@ int itkFFTNormalizedCorrelationImageFilterTest(int argc, char * argv[] )
     return EXIT_FAILURE;
     }
 
-  typedef itk::Image<unsigned short, 2> InputImageType;
-  typedef itk::Image<unsigned char, 2 > OutputImageType;
+  typedef itk::Image<uint16_t, 2> InputImageType;
+  typedef itk::Image<uint8_t, 2 > OutputImageType;
   // We need the internal type to be either float or double since
   // the correlation image contains values between -1 and 1.
   typedef itk::Image<double, 2> RealImageType;

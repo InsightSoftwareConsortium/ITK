@@ -282,7 +282,7 @@ void GiplImageIO::ReadImageInformation()
       }
     }
 
-  unsigned short dims[4];
+  uint16_t dims[4];
 
   unsigned int numberofdimension = 0;
   for ( i = 0; i < 4; i++ )
@@ -294,19 +294,19 @@ void GiplImageIO::ReadImageInformation()
     {
     if ( m_IsCompressed )
       {
-      gzread( m_Internal->m_GzFile, (char *)&dims[i], static_cast< unsigned int >( sizeof( unsigned short ) ) );
+      gzread( m_Internal->m_GzFile, (char *)&dims[i], static_cast< unsigned int >( sizeof( uint16_t ) ) );
       }
     else
       {
-      m_Ifstream.read( (char *)&dims[i], sizeof( unsigned short ) );
+      m_Ifstream.read( (char *)&dims[i], sizeof( uint16_t ) );
       }
     if ( m_ByteOrder == BigEndian )
       {
-      ByteSwapper< unsigned short >::SwapFromSystemToBigEndian(&dims[i]);
+      ByteSwapper< uint16_t >::SwapFromSystemToBigEndian(&dims[i]);
       }
     else if ( m_ByteOrder == LittleEndian )
       {
-      ByteSwapper< unsigned short >::SwapFromSystemToLittleEndian(&dims[i]);
+      ByteSwapper< uint16_t >::SwapFromSystemToLittleEndian(&dims[i]);
       }
 
     if ( dims[i] > 0 )
@@ -329,20 +329,20 @@ void GiplImageIO::ReadImageInformation()
     m_Dimensions[i] = dims[i];
     }
 
-  unsigned short image_type;
+  uint16_t image_type;
 
   if ( m_IsCompressed )
     {
-    gzread( m_Internal->m_GzFile, (char *)&image_type, sizeof( unsigned short ) );
+    gzread( m_Internal->m_GzFile, (char *)&image_type, sizeof( uint16_t ) );
     }
   else
     {
-    m_Ifstream.read( (char *)&image_type, sizeof( unsigned short ) );
+    m_Ifstream.read( (char *)&image_type, sizeof( uint16_t ) );
     }
 
   if ( m_ByteOrder == BigEndian )
     {
-    ByteSwapper< unsigned short >::SwapFromSystemToBigEndian(&image_type);
+    ByteSwapper< uint16_t >::SwapFromSystemToBigEndian(&image_type);
     }
 
   m_PixelType = SCALAR;
@@ -634,13 +634,13 @@ GiplImageIO
       {
       if ( m_ByteOrder == LittleEndian )
         {
-        ByteSwapper< unsigned char >::SwapRangeFromSystemToLittleEndian(
-          (unsigned char *)buffer, numberOfPixels);
+        ByteSwapper< uint8_t >::SwapRangeFromSystemToLittleEndian(
+          (uint8_t *)buffer, numberOfPixels);
         }
       else if ( m_ByteOrder == BigEndian )
         {
-        ByteSwapper< unsigned char >::SwapRangeFromSystemToBigEndian(
-          (unsigned char *)buffer, numberOfPixels);
+        ByteSwapper< uint8_t >::SwapRangeFromSystemToBigEndian(
+          (uint8_t *)buffer, numberOfPixels);
         }
       break;
       }
@@ -662,13 +662,13 @@ GiplImageIO
       {
       if ( m_ByteOrder == LittleEndian )
         {
-        ByteSwapper< unsigned short >::SwapRangeFromSystemToLittleEndian(
-          (unsigned short *)buffer, numberOfPixels);
+        ByteSwapper< uint16_t >::SwapRangeFromSystemToLittleEndian(
+          (uint16_t *)buffer, numberOfPixels);
         }
       else if ( m_ByteOrder == BigEndian )
         {
-        ByteSwapper< unsigned short >::SwapRangeFromSystemToBigEndian(
-          (unsigned short *)buffer, numberOfPixels);
+        ByteSwapper< uint16_t >::SwapRangeFromSystemToBigEndian(
+          (uint16_t *)buffer, numberOfPixels);
         }
       break;
       }
@@ -746,26 +746,26 @@ GiplImageIO
 
   for (unsigned int i = 0; i < 4; i++ )
     {
-    unsigned short value;
+    uint16_t value;
     if ( i < nDims )
       {
       value = this->GetDimensions(i);
       if ( m_ByteOrder == BigEndian )
         {
-        ByteSwapper< unsigned short >::SwapFromSystemToBigEndian(&value);
+        ByteSwapper< uint16_t >::SwapFromSystemToBigEndian(&value);
         }
       else if ( m_ByteOrder == LittleEndian )
         {
-        ByteSwapper< unsigned short >::SwapFromSystemToLittleEndian(&value);
+        ByteSwapper< uint16_t >::SwapFromSystemToLittleEndian(&value);
         }
 
       if ( m_IsCompressed )
         {
-        gzwrite( m_Internal->m_GzFile, (char *)&( value ), static_cast< unsigned int >( sizeof( unsigned short ) ) );
+        gzwrite( m_Internal->m_GzFile, (char *)&( value ), static_cast< unsigned int >( sizeof( uint16_t ) ) );
         }
       else
         {
-        m_Ofstream.write( (char *)&( value ), sizeof( unsigned short ) );
+        m_Ofstream.write( (char *)&( value ), sizeof( uint16_t ) );
         }
       }
     else
@@ -773,24 +773,24 @@ GiplImageIO
       value = 1;
       if ( m_ByteOrder == BigEndian )
         {
-        ByteSwapper< unsigned short >::SwapFromSystemToBigEndian(&value);
+        ByteSwapper< uint16_t >::SwapFromSystemToBigEndian(&value);
         }
       else if ( m_ByteOrder == LittleEndian )
         {
-        ByteSwapper< unsigned short >::SwapFromSystemToLittleEndian(&value);
+        ByteSwapper< uint16_t >::SwapFromSystemToLittleEndian(&value);
         }
       if ( m_IsCompressed )
         {
-        gzwrite( m_Internal->m_GzFile, (char *)&( value ), static_cast< unsigned int >( sizeof( unsigned short ) ) );
+        gzwrite( m_Internal->m_GzFile, (char *)&( value ), static_cast< unsigned int >( sizeof( uint16_t ) ) );
         }
       else
         {
-        m_Ofstream.write( (char *)&value, sizeof( unsigned short ) );
+        m_Ofstream.write( (char *)&value, sizeof( uint16_t ) );
         }
       }
     }
 
-  unsigned short image_type;
+  uint16_t image_type;
   switch ( m_ComponentType )
     {
     case  CHAR:
@@ -815,20 +815,20 @@ GiplImageIO
 
   if ( m_ByteOrder == BigEndian )
     {
-    ByteSwapper< unsigned short >::SwapFromSystemToBigEndian( (unsigned short *)&image_type );
+    ByteSwapper< uint16_t >::SwapFromSystemToBigEndian( (uint16_t *)&image_type );
     }
   if ( m_ByteOrder == LittleEndian )
     {
-    ByteSwapper< unsigned short >::SwapFromSystemToLittleEndian( (unsigned short *)&image_type );
+    ByteSwapper< uint16_t >::SwapFromSystemToLittleEndian( (uint16_t *)&image_type );
     }
 
   if ( m_IsCompressed )
     {
-    gzwrite( m_Internal->m_GzFile, (char *)&image_type, static_cast< unsigned int >( sizeof( unsigned short ) ) );
+    gzwrite( m_Internal->m_GzFile, (char *)&image_type, static_cast< unsigned int >( sizeof( uint16_t ) ) );
     }
   else
     {
-    m_Ofstream.write( (char *)&image_type, sizeof( unsigned short ) );
+    m_Ofstream.write( (char *)&image_type, sizeof( uint16_t ) );
     }
 
   /*   10   16  X,Y,Z,T pixel dimensions mm */

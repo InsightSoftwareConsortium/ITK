@@ -52,7 +52,7 @@ int itkComposeRGBAImageFilterTest(int argc, char* argv[])
     char* Input4Filename  = argv[5];
 
     // Typedefs
-    typedef unsigned char                                 ScalarPixelType;
+    typedef uint8_t                                 ScalarPixelType;
     const unsigned int                                    Dimension = 2;
     typedef itk::RGBAPixel< ScalarPixelType >             RGBAPixelType;
     typedef itk::Image< ScalarPixelType, Dimension >      ScalarImageType;

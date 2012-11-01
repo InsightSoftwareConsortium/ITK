@@ -46,25 +46,25 @@ void TestConstPixelAccess(const itk::Image<T, VImageDimension> &in,
 int itkImageRegionIteratorTest(int, char* [] )
 {
   std::cout << "Creating an image" << std::endl;
-  itk::Image<itk::Vector<unsigned short, 5>, 3>::Pointer
-    o3 = itk::Image<itk::Vector<unsigned short, 5>, 3>::New();
+  itk::Image<itk::Vector<uint16_t, 5>, 3>::Pointer
+    o3 = itk::Image<itk::Vector<uint16_t, 5>, 3>::New();
 
   int status = 0;
 
   float origin3D[3] = { 5, 2.1, 8.1};
   float spacing3D[3] = { 1.5, 2.1, 1};
 
-  itk::Image<itk::Vector<unsigned short, 5>, 3>::SizeType imageSize3D = {{ 20, 40, 60 }};
-  itk::Image<itk::Vector<unsigned short, 5>, 3>::SizeType bufferSize3D = {{ 8, 20, 14 }};
-  itk::Image<itk::Vector<unsigned short, 5>, 3>::SizeType regionSize3D = {{ 4,  6,  6 }};
+  itk::Image<itk::Vector<uint16_t, 5>, 3>::SizeType imageSize3D = {{ 20, 40, 60 }};
+  itk::Image<itk::Vector<uint16_t, 5>, 3>::SizeType bufferSize3D = {{ 8, 20, 14 }};
+  itk::Image<itk::Vector<uint16_t, 5>, 3>::SizeType regionSize3D = {{ 4,  6,  6 }};
 
-  itk::Image<itk::Vector<unsigned short, 5>, 3>::IndexType startIndex3D = {{5, 4, 1}};
-  itk::Image<itk::Vector<unsigned short, 5>, 3>::IndexType bufferStartIndex3D = {{2, 3, 5}};
-  itk::Image<itk::Vector<unsigned short, 5>, 3>::IndexType regionStartIndex3D = {{5, 10, 12}};
-  itk::Image<itk::Vector<unsigned short, 5>, 3>::IndexType regionEndIndex3D = {{8, 15, 17}};
+  itk::Image<itk::Vector<uint16_t, 5>, 3>::IndexType startIndex3D = {{5, 4, 1}};
+  itk::Image<itk::Vector<uint16_t, 5>, 3>::IndexType bufferStartIndex3D = {{2, 3, 5}};
+  itk::Image<itk::Vector<uint16_t, 5>, 3>::IndexType regionStartIndex3D = {{5, 10, 12}};
+  itk::Image<itk::Vector<uint16_t, 5>, 3>::IndexType regionEndIndex3D = {{8, 15, 17}};
 
 
-  itk::Image<itk::Vector<unsigned short, 5>, 3>::RegionType region;
+  itk::Image<itk::Vector<uint16_t, 5>, 3>::RegionType region;
   region.SetSize(imageSize3D);
   region.SetIndex(startIndex3D);
   o3->SetLargestPossibleRegion( region );
@@ -81,7 +81,7 @@ int itkImageRegionIteratorTest(int, char* [] )
   o3->Allocate();
 
   std::cout << "Setting/Getting a pixel" << std::endl;
-  itk::Vector<unsigned short, 5> vec;
+  itk::Vector<uint16_t, 5> vec;
 
   vec[0] = 5;
   vec[1] = 4;
@@ -94,40 +94,40 @@ int itkImageRegionIteratorTest(int, char* [] )
   TestConstPixelAccess(*o3, *o3);
 
 
-  itk::ImageIterator<itk::Image<itk::Vector<unsigned short, 5>, 3> > standardIt(o3, region);
+  itk::ImageIterator<itk::Image<itk::Vector<uint16_t, 5>, 3> > standardIt(o3, region);
 
   // Iterate over a region using a simple for loop
-  itk::ImageRegionIterator<itk::Image<itk::Vector<unsigned short, 5>, 3> > it(o3, region);
+  itk::ImageRegionIterator<itk::Image<itk::Vector<uint16_t, 5>, 3> > it(o3, region);
 
   std::cout << "Simple iterator loop: ";
   for ( ; !it.IsAtEnd(); ++it)
     {
-    itk::Image<itk::Vector<unsigned short, 5>, 3>::IndexType index = it.GetIndex();
+    itk::Image<itk::Vector<uint16_t, 5>, 3>::IndexType index = it.GetIndex();
     std::cout << index << std::endl;
     }
 
-  itk::ImageRegionConstIterator<itk::Image<itk::Vector<unsigned short, 5>, 3> > standardCIt(o3, region);
+  itk::ImageRegionConstIterator<itk::Image<itk::Vector<uint16_t, 5>, 3> > standardCIt(o3, region);
 
   // Iterate over a region using a simple for loop and a const iterator
-  itk::ImageRegionConstIterator<itk::Image<itk::Vector<unsigned short, 5>, 3> > cit(o3, region);
+  itk::ImageRegionConstIterator<itk::Image<itk::Vector<uint16_t, 5>, 3> > cit(o3, region);
 
   std::cout << "Simple const iterator loop: ";
   for ( ; !cit.IsAtEnd(); ++cit)
     {
-    itk::Image<itk::Vector<unsigned short, 5>, 3>::IndexType index = cit.GetIndex();
+    itk::Image<itk::Vector<uint16_t, 5>, 3>::IndexType index = cit.GetIndex();
     std::cout << index << std::endl;
     }
 
 
   // Iterator over the region backwards using a simple for loop
-  itk::ImageRegionIterator<itk::Image<itk::Vector<unsigned short, 5>, 3> > backIt(o3, region);
+  itk::ImageRegionIterator<itk::Image<itk::Vector<uint16_t, 5>, 3> > backIt(o3, region);
 
   backIt.GoToEnd(); // one pixel past the end of the region
   do
     {
     --backIt;
 
-    itk::Image<itk::Vector<unsigned short, 5>, 3>::IndexType index = backIt.GetIndex();
+    itk::Image<itk::Vector<uint16_t, 5>, 3>::IndexType index = backIt.GetIndex();
     std::cout << "Simple iterator backwards loop: ";
     for (unsigned int i=0; i < index.GetIndexDimension(); i++)
       {

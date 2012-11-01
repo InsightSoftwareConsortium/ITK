@@ -127,7 +127,7 @@ int main( int argc, char *argv[] )
     }
 
   const    unsigned int    Dimension = 2;
-  typedef  unsigned char   PixelType;
+  typedef  uint8_t   PixelType;
 
   typedef itk::Image< PixelType, Dimension >  FixedImageType;
   typedef itk::Image< PixelType, Dimension >  MovingImageType;
@@ -549,7 +549,7 @@ int main( int argc, char *argv[] )
 
   DifferenceFilterType::Pointer difference = DifferenceFilterType::New();
 
-  typedef  unsigned char  OutputPixelType;
+  typedef  uint8_t  OutputPixelType;
 
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
 

@@ -20,8 +20,8 @@ GPUBinaryThresholdImageFilter< TInputImage, TOutputImage >
     }
 
   std::vector<std::string> validTypes;
-  validTypes.push_back( "unsigned char" );
-  validTypes.push_back( "unsigned short" );
+  validTypes.push_back( "uint8_t" );
+  validTypes.push_back( "uint16_t" );
   validTypes.push_back( "char" );
   validTypes.push_back( "int" );
   validTypes.push_back( "unsigned int" );
@@ -38,14 +38,14 @@ GPUBinaryThresholdImageFilter< TInputImage, TOutputImage >
       defines << "#define OutPixelType " << validTypeName << "\n";
 #ifdef __APPLE__
       // This is to work around a bug in the OpenCL compiler on Mac OS 10.6 and 10.7 with NVidia drivers
-      // where the compiler was not handling unsigned char arguments correctly.
+      // where the compiler was not handling uint8_t arguments correctly.
       // be sure to define the kernel arguments as InArgType and OutArgType in the kernel source
-      // Using unsigned short instead of unsigned char in the kernel definition
+      // Using uint16_t instead of uint8_t in the kernel definition
       // is a known workaround to this problem.
-      if (validTypeName == "unsigned char")
+      if (validTypeName == "uint8_t")
       {
-        defines << "#define InArgType unsigned short\n";
-        defines << "#define OutArgType unsigned short\n";
+        defines << "#define InArgType uint16_t\n";
+        defines << "#define OutArgType uint16_t\n";
       }
       else
       {

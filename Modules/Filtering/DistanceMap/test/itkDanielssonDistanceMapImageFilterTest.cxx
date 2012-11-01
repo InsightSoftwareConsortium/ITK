@@ -29,7 +29,7 @@ int itkDanielssonDistanceMapImageFilterTest(int, char* [] )
   std::cout << "with a point at (1,6) (value=2)" << std::endl << std::endl;
 
 
-  typedef itk::Image<unsigned char, 2>  myImageType2D1;
+  typedef itk::Image<uint8_t, 2>  myImageType2D1;
   typedef itk::Image<float, 2>          myImageType2D2;
 
   /* Allocate the 2D image */

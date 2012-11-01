@@ -35,11 +35,11 @@ int itkVectorThresholdSegmentationLevelSetImageFilterTest(int ac, char* av[] )
 
   const unsigned int Dimension = 2;
 
-  typedef unsigned char PixelComponentType;
+  typedef uint8_t PixelComponentType;
   typedef itk::RGBPixel<PixelComponentType> RGBPixelType;
-  typedef unsigned char InputPixelType;
+  typedef uint8_t InputPixelType;
   typedef float         OutputPixelType;
-  typedef unsigned char WritePixelType;
+  typedef uint8_t WritePixelType;
 
   typedef itk::Image< InputPixelType,  Dimension > InputImageType;
   typedef itk::Image< RGBPixelType,    Dimension > RGBImageType;

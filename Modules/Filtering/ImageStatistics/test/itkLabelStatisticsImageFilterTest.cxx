@@ -35,7 +35,7 @@ int itkLabelStatisticsImageFilterTest(int argc, char* argv [] )
     std::cerr << argv[0] << " inputImage labeledImage " << std::endl;
     return EXIT_FAILURE;
   }
-  typedef itk::Image<unsigned char,2> ImageType;
+  typedef itk::Image<uint8_t,2> ImageType;
 
   typedef itk::ImageFileReader< ImageType >    ReaderType;
 

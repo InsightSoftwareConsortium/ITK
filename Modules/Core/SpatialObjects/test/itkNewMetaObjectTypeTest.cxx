@@ -210,7 +210,7 @@ int itkNewMetaObjectTypeTest(int, char* [])
 
   typedef itk::SceneSpatialObject<3>                 SceneType;
   typedef itk::DummySpatialObject<3>                 DummyType;
-  typedef itk::MetaSceneConverter<3,unsigned short>  MetaSceneConverterType;
+  typedef itk::MetaSceneConverter<3,uint16_t>  MetaSceneConverterType;
 
   typedef itk::MetaDummyConverter<3>                 DummyConverterType;
 

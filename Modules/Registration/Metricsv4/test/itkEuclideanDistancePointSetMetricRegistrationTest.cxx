@@ -216,7 +216,7 @@ int itkEuclideanDistancePointSetMetricRegistrationTest( int argc, char *argv[] )
   //
 
   // metric
-  typedef itk::PointSet<unsigned char, Dimension> PointSetType;
+  typedef itk::PointSet<uint8_t, Dimension> PointSetType;
   typedef itk::EuclideanDistancePointSetToPointSetMetricv4<PointSetType> PointSetMetricType;
   PointSetMetricType::Pointer metric = PointSetMetricType::New();
 

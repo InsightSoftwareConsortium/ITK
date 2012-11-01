@@ -55,7 +55,7 @@ int main(int argc, char * argv [] )
   // Software Guide : BeginCodeSnippet
   const unsigned int Dimension = 2;
 
-  typedef itk::Image< unsigned char, Dimension > ImageType;
+  typedef itk::Image< uint8_t, Dimension > ImageType;
 
   typedef itk::PolyLineParametricPath< Dimension > PathType;
   // Software Guide : EndCodeSnippet

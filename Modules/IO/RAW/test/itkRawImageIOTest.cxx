@@ -27,7 +27,7 @@
 
 int itkRawImageIOTest(int argc, char* argv[])
 {
-  typedef itk::Image<unsigned short,2>    ImageType;
+  typedef itk::Image<uint16_t,2>    ImageType;
   typedef ImageType::PixelType            PixelType;
   typedef itk::ImageRegionConstIterator<
                                   ImageType > ImageIteratorType;
@@ -53,8 +53,8 @@ int itkRawImageIOTest(int argc, char* argv[])
   // Create a mapper (in this case a writer). A mapper
   // is templated on the input type.
   //
-  itk::RawImageIO<unsigned short,2>::Pointer io;
-  io = itk::RawImageIO<unsigned short,2>::New();
+  itk::RawImageIO<uint16_t,2>::Pointer io;
+  io = itk::RawImageIO<uint16_t,2>::New();
 
   //  io->SetFileTypeToASCII();
 

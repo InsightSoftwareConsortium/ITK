@@ -35,7 +35,7 @@ int itkBoxSpatialObjectTest( int argc, char *argv[] )
   const unsigned int Dimension = 2;
   typedef itk::GroupSpatialObject< Dimension >       SceneType;
   typedef itk::BoxSpatialObject< Dimension >         BoxType;
-  typedef itk::Image< unsigned char, Dimension >     OutputImageType;
+  typedef itk::Image< uint8_t, Dimension >     OutputImageType;
   typedef itk::ImageFileWriter< OutputImageType >    WriterType;
   typedef itk::SpatialObjectToImageFilter< SceneType, OutputImageType >
                                       SpatialObjectToImageFilterType;

@@ -1512,7 +1512,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 
   StatusType    up_to = 1,   up_search = 5;
   StatusType    down_to = 2, down_search = 6;
-  unsigned char j = 0, k = 1;
+  uint8_t j = 0, k = 1;
 
   // The 3D case: this loop is executed at least once
   while ( down_search < 2 * m_NumberOfLayers + 1 )

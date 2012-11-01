@@ -128,7 +128,7 @@ int main( int argc, char *argv[] )
 
 
 // Software Guide : BeginCodeSnippet
-  typedef unsigned char  InputPixelType;
+  typedef uint8_t  InputPixelType;
   const   unsigned int   Dimension = 2;
   typedef itk::Image< InputPixelType,  Dimension  >   InputImageType;
   typedef itk::CovariantVector< float, Dimension  >   VectorPixelType;
@@ -205,7 +205,7 @@ int main( int argc, char *argv[] )
 // Software Guide : EndCodeSnippet
 
 
-  typedef itk::Image< unsigned char, Dimension >   OutputImageType;
+  typedef itk::Image< uint8_t, Dimension >   OutputImageType;
   typedef itk::RescaleIntensityImageFilter< ImageAdaptorType, OutputImageType>
     RescalerType;
   RescalerType::Pointer rescaler = RescalerType::New();

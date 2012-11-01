@@ -19,7 +19,7 @@
 
 #include "itkNiftiImageIOTest.h"
 
-typedef itk::Image<unsigned char,3> Test4ImageType;
+typedef itk::Image<uint8_t,3> Test4ImageType;
 
 void
 PrintDir(Test4ImageType::DirectionType &dir)

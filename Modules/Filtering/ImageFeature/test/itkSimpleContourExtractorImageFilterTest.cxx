@@ -35,7 +35,7 @@ int itkSimpleContourExtractorImageFilterTest(int argc, char* argv [] )
   const unsigned int Dimension = 2;
 
   // Define the pixel type
-  typedef unsigned char PixelType;
+  typedef uint8_t PixelType;
 
   // Declare the types of the images
   typedef itk::Image<PixelType, Dimension>  ImageType;

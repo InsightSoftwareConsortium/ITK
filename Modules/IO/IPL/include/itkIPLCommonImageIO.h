@@ -54,10 +54,10 @@ public:
   typedef ImageIOBase          Superclass;
   typedef SmartPointer< Self > Pointer;
 
-  typedef unsigned char  U8;
-  typedef signed char    S8;
-  typedef unsigned short U16;
-  typedef signed short   S16;
+  typedef uint8_t  U8;
+  typedef int8_t    S8;
+  typedef uint16_t U16;
+  typedef int16_t   S16;
   typedef unsigned int   U32;
   typedef signed int     S32;
   typedef uint64_t       U64;
@@ -91,7 +91,7 @@ public:
   virtual void Read(void *buffer);
 
   /** Compute the size (in bytes) of the components of a pixel. For
-       * example, and RGB pixel of unsigned char would have a
+       * example, and RGB pixel of uint8_t would have a
        * component size of 1 byte. */
   virtual unsigned int GetComponentSize() const;
 

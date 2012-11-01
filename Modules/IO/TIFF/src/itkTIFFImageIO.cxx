@@ -39,15 +39,15 @@ public:
   bool           m_IsOpen;
   uint32_t       m_Width;
   uint32_t       m_Height;
-  unsigned short m_NumberOfPages;
-  unsigned short m_CurrentPage;
-  unsigned short m_SamplesPerPixel;
-  unsigned short m_Compression;
-  unsigned short m_BitsPerSample;
-  unsigned short m_Photometrics;
+  uint16_t m_NumberOfPages;
+  uint16_t m_CurrentPage;
+  uint16_t m_SamplesPerPixel;
+  uint16_t m_Compression;
+  uint16_t m_BitsPerSample;
+  uint16_t m_Photometrics;
   bool           m_HasValidPhotometricInterpretation;
-  unsigned short m_PlanarConfig;
-  unsigned short m_Orientation;
+  uint16_t m_PlanarConfig;
+  uint16_t m_Orientation;
   uint32         m_TileDepth;
   unsigned int   m_TileRows;
   unsigned int   m_TileColumns;
@@ -310,7 +310,7 @@ void TIFFImageIO::ReadTwoSamplesPerPixelImage(void *out,
 
   if ( m_ComponentType == UCHAR )
     {
-    unsigned char *image;
+    uint8_t *image;
     if ( m_InternalImage->m_PlanarConfig == PLANARCONFIG_CONTIG )
       {
       for ( row = 0; row < (int)height; row++ )
@@ -323,18 +323,18 @@ void TIFFImageIO::ReadTwoSamplesPerPixelImage(void *out,
 
         if ( m_InternalImage->m_Orientation == ORIENTATION_TOPLEFT )
           {
-          image = reinterpret_cast< unsigned char * >( out ) + row * width * inc;
+          image = reinterpret_cast< uint8_t * >( out ) + row * width * inc;
           }
         else
           {
-          image = reinterpret_cast< unsigned char * >( out ) + width * inc * ( height - ( row + 1 ) );
+          image = reinterpret_cast< uint8_t * >( out ) + width * inc * ( height - ( row + 1 ) );
           }
 
         for ( cc = 0; cc < isize;
               cc += m_InternalImage->m_SamplesPerPixel )
           {
           inc = this->EvaluateImageAt(image,
-                                      static_cast< unsigned char * >( buf )
+                                      static_cast< uint8_t * >( buf )
                                       + cc);
           image += inc;
           }
@@ -359,11 +359,11 @@ void TIFFImageIO::ReadTwoSamplesPerPixelImage(void *out,
 
           if ( m_InternalImage->m_Orientation == ORIENTATION_TOPLEFT )
             {
-            image = reinterpret_cast< unsigned char * >( out ) + row * width * inc;
+            image = reinterpret_cast< uint8_t * >( out ) + row * width * inc;
             }
           else
             {
-            image = reinterpret_cast< unsigned char * >( out ) + width * inc * ( height - ( row + 1 ) );
+            image = reinterpret_cast< uint8_t * >( out ) + width * inc * ( height - ( row + 1 ) );
             }
 
           // We translate the output pixel to be on the right RGB
@@ -371,7 +371,7 @@ void TIFFImageIO::ReadTwoSamplesPerPixelImage(void *out,
           for ( cc = 0; cc < isize;
                 cc += 1 )
             {
-            ( *image ) = *( static_cast< unsigned char * >( buf ) + cc );
+            ( *image ) = *( static_cast< uint8_t * >( buf ) + cc );
             inc = 3;
             image += inc;
             }
@@ -382,7 +382,7 @@ void TIFFImageIO::ReadTwoSamplesPerPixelImage(void *out,
   else if ( m_ComponentType == USHORT )
     {
     isize /= 2;
-    unsigned short *image;
+    uint16_t *image;
     if ( m_InternalImage->m_PlanarConfig == PLANARCONFIG_CONTIG )
       {
       for ( row = 0; row < (int)height; row++ )
@@ -395,18 +395,18 @@ void TIFFImageIO::ReadTwoSamplesPerPixelImage(void *out,
 
         if ( m_InternalImage->m_Orientation == ORIENTATION_TOPLEFT )
           {
-          image = reinterpret_cast< unsigned short * >( out ) + row * width * inc;
+          image = reinterpret_cast< uint16_t * >( out ) + row * width * inc;
           }
         else
           {
-          image = reinterpret_cast< unsigned short * >( out ) + width * inc * ( height - ( row + 1 ) );
+          image = reinterpret_cast< uint16_t * >( out ) + width * inc * ( height - ( row + 1 ) );
           }
 
         for ( cc = 0; cc < isize;
               cc += m_InternalImage->m_SamplesPerPixel )
           {
           inc = this->EvaluateImageAt(image,
-                                      static_cast< unsigned short * >( buf )
+                                      static_cast< uint16_t * >( buf )
                                       + cc);
           image += inc;
           }
@@ -428,18 +428,18 @@ void TIFFImageIO::ReadTwoSamplesPerPixelImage(void *out,
 
           if ( m_InternalImage->m_Orientation == ORIENTATION_TOPLEFT )
             {
-            image = reinterpret_cast< unsigned short * >( out ) + row * width * inc;
+            image = reinterpret_cast< uint16_t * >( out ) + row * width * inc;
             }
           else
             {
-            image = reinterpret_cast< unsigned short * >( out ) + width * inc * ( height - ( row + 1 ) );
+            image = reinterpret_cast< uint16_t * >( out ) + width * inc * ( height - ( row + 1 ) );
             }
           // We translate the output pixel to be on the right RGB
           image += s;
           for ( cc = 0; cc < isize;
                 cc += 1 )
             {
-            ( *image ) = *( static_cast< unsigned short * >( buf ) + cc );
+            ( *image ) = *( static_cast< uint16_t * >( buf ) + cc );
             inc = 3;
             image += inc;
             }
@@ -495,7 +495,7 @@ void TIFFImageIO::ReadGenericImage(void *out,
 
   if ( m_ComponentType == UCHAR )
     {
-    unsigned char *image;
+    uint8_t *image;
     if ( m_InternalImage->m_PlanarConfig == PLANARCONFIG_CONTIG )
       {
       for ( row = 0; row < (int)height; row++ )
@@ -508,18 +508,18 @@ void TIFFImageIO::ReadGenericImage(void *out,
 
         if ( m_InternalImage->m_Orientation == ORIENTATION_TOPLEFT )
           {
-          image = reinterpret_cast< unsigned char * >( out ) + row * width * inc;
+          image = reinterpret_cast< uint8_t * >( out ) + row * width * inc;
           }
         else
           {
-          image = reinterpret_cast< unsigned char * >( out ) + width * inc * ( height - ( row + 1 ) );
+          image = reinterpret_cast< uint8_t * >( out ) + width * inc * ( height - ( row + 1 ) );
           }
 
         for ( cc = 0; cc < isize;
               cc += m_InternalImage->m_SamplesPerPixel )
           {
           inc = this->EvaluateImageAt(image,
-                                      static_cast< unsigned char * >( buf )
+                                      static_cast< uint8_t * >( buf )
                                       + cc);
           image += inc;
           }
@@ -543,18 +543,18 @@ void TIFFImageIO::ReadGenericImage(void *out,
           inc = 3;
           if ( m_InternalImage->m_Orientation == ORIENTATION_TOPLEFT )
             {
-            image = reinterpret_cast< unsigned char * >( out ) + row * width * inc;
+            image = reinterpret_cast< uint8_t * >( out ) + row * width * inc;
             }
           else
             {
-            image = reinterpret_cast< unsigned char * >( out ) + width * inc * ( height - ( row + 1 ) );
+            image = reinterpret_cast< uint8_t * >( out ) + width * inc * ( height - ( row + 1 ) );
             }
 
           for ( cc = 0; cc < isize;
                 cc += m_InternalImage->m_SamplesPerPixel )
             {
             inc = this->EvaluateImageAt(image,
-                                        static_cast< unsigned char * >( buf )
+                                        static_cast< uint8_t * >( buf )
                                         + cc);
             image += inc;
             }
@@ -634,7 +634,7 @@ void TIFFImageIO::ReadGenericImage(void *out,
   else if ( m_ComponentType == USHORT )
     {
     isize /= 2;
-    unsigned short *image;
+    uint16_t *image;
     if ( m_InternalImage->m_PlanarConfig == PLANARCONFIG_CONTIG )
       {
       for ( row = 0; row < (int)height; row++ )
@@ -647,18 +647,18 @@ void TIFFImageIO::ReadGenericImage(void *out,
 
         if ( m_InternalImage->m_Orientation == ORIENTATION_TOPLEFT )
           {
-          image = reinterpret_cast< unsigned short * >( out ) + row * width * inc;
+          image = reinterpret_cast< uint16_t * >( out ) + row * width * inc;
           }
         else
           {
-          image = reinterpret_cast< unsigned short * >( out ) + width * inc * ( height - ( row + 1 ) );
+          image = reinterpret_cast< uint16_t * >( out ) + width * inc * ( height - ( row + 1 ) );
           }
 
         for ( cc = 0; cc < isize;
               cc += m_InternalImage->m_SamplesPerPixel )
           {
           inc = this->EvaluateImageAt(image,
-                                      static_cast< unsigned short * >( buf )
+                                      static_cast< uint16_t * >( buf )
                                       + cc);
           image += inc;
           }
@@ -680,17 +680,17 @@ void TIFFImageIO::ReadGenericImage(void *out,
 
           if ( m_InternalImage->m_Orientation == ORIENTATION_TOPLEFT )
             {
-            image = reinterpret_cast< unsigned short * >( out ) + row * width * inc;
+            image = reinterpret_cast< uint16_t * >( out ) + row * width * inc;
             }
           else
             {
-            image = reinterpret_cast< unsigned short * >( out ) + width * inc * ( height - ( row + 1 ) );
+            image = reinterpret_cast< uint16_t * >( out ) + width * inc * ( height - ( row + 1 ) );
             }
           for ( cc = 0; cc < isize;
                 cc += m_InternalImage->m_SamplesPerPixel )
             {
             inc = this->EvaluateImageAt(image,
-                                        static_cast< unsigned short * >( buf )
+                                        static_cast< uint16_t * >( buf )
                                         + cc);
             image += inc;
             }
@@ -838,11 +838,11 @@ void TIFFImageIO::ReadGenericImage(void *out,
 
 int TIFFImageIO::EvaluateImageAt(void *out, void *in)
 {
-  unsigned char *image = (unsigned char *)out;
-  unsigned char *source = (unsigned char *)in;
+  uint8_t *image = (uint8_t *)out;
+  uint8_t *source = (uint8_t *)in;
 
   int            increment;
-  unsigned short red, green, blue, alpha;
+  uint16_t red, green, blue, alpha;
 
   switch ( this->GetFormat() )
     {
@@ -852,8 +852,8 @@ int TIFFImageIO::EvaluateImageAt(void *out, void *in)
         {
         if ( m_ComponentType == USHORT )
           {
-          unsigned short *image_us = (unsigned short *)out;
-          unsigned short *source_us = (unsigned short *)in;
+          uint16_t *image_us = (uint16_t *)out;
+          uint16_t *source_us = (uint16_t *)in;
           *image_us = *source_us;
           }
         else if ( m_ComponentType == SHORT )
@@ -887,14 +887,14 @@ int TIFFImageIO::EvaluateImageAt(void *out, void *in)
       break;
     case TIFFImageIO::PALETTE_GRAYSCALE:
       this->GetColor(*source, &red, &green, &blue);
-      *image = static_cast< unsigned char >( red >> 8 );
+      *image = static_cast< uint8_t >( red >> 8 );
       increment = 1;
       break;
     case TIFFImageIO::RGB_:
       if ( m_ComponentType == USHORT )
         {
-        unsigned short *image_us = (unsigned short *)out;
-        unsigned short *source_us = (unsigned short *)in;
+        uint16_t *image_us = (uint16_t *)out;
+        uint16_t *source_us = (uint16_t *)in;
 
         red   = *( source_us );
         green = *( source_us + 1 );
@@ -927,8 +927,8 @@ int TIFFImageIO::EvaluateImageAt(void *out, void *in)
     case TIFFImageIO::PALETTE_RGB:
       if ( m_ComponentType == USHORT )
         {
-        unsigned short *image_us = (unsigned short *)out;
-        unsigned short *source_us = (unsigned short *)in;
+        uint16_t *image_us = (uint16_t *)out;
+        uint16_t *source_us = (uint16_t *)in;
         this->GetColor(*source_us, &red, &green, &blue);
         *( image_us )   = red << 8;
         *( image_us + 1 ) = green << 8;
@@ -953,9 +953,9 @@ int TIFFImageIO::EvaluateImageAt(void *out, void *in)
       else
         {
         this->GetColor(*source, &red, &green, &blue);
-        *( image )   = static_cast< unsigned char >( red >> 8 );
-        *( image + 1 ) = static_cast< unsigned char >( green >> 8 );
-        *( image + 2 ) = static_cast< unsigned char >( blue >> 8 );
+        *( image )   = static_cast< uint8_t >( red >> 8 );
+        *( image + 1 ) = static_cast< uint8_t >( green >> 8 );
+        *( image + 2 ) = static_cast< uint8_t >( blue >> 8 );
         }
       increment = 3;
       break;
@@ -966,8 +966,8 @@ int TIFFImageIO::EvaluateImageAt(void *out, void *in)
   return increment;
 }
 
-void TIFFImageIO::GetColor(int index, unsigned short *red,
-                           unsigned short *green, unsigned short *blue)
+void TIFFImageIO::GetColor(int index, uint16_t *red,
+                           uint16_t *green, uint16_t *blue)
 {
   *red   = 0;
   *green = 0;
@@ -992,7 +992,7 @@ void TIFFImageIO::GetColor(int index, unsigned short *red,
     return;
     }
 
-  unsigned short photometric;
+  uint16_t photometric;
 
   if ( !TIFFGetField(m_InternalImage->m_Image, TIFFTAG_PHOTOMETRIC, &photometric) )
     {
@@ -1003,7 +1003,7 @@ void TIFFImageIO::GetColor(int index, unsigned short *red,
       }
     }
 
-  unsigned short *red_orig, *green_orig, *blue_orig;
+  uint16_t *red_orig, *green_orig, *blue_orig;
 
   switch ( m_InternalImage->m_BitsPerSample )
     {
@@ -1064,7 +1064,7 @@ unsigned int TIFFImageIO::GetFormat()
     case PHOTOMETRIC_PALETTE:
       for ( cc = 0; cc < 256; cc++ )
         {
-        unsigned short red, green, blue;
+        uint16_t red, green, blue;
         this->GetColor(cc, &red, &green, &blue);
         if ( red != green || red != blue )
           {
@@ -1082,15 +1082,15 @@ unsigned int TIFFImageIO::GetFormat()
 /** Read a tiled tiff */
 void TIFFImageIO::ReadTiles(void *buffer)
 {
-  unsigned char *volume = reinterpret_cast< unsigned char * >( buffer );
+  uint8_t *volume = reinterpret_cast< uint8_t * >( buffer );
 
   for ( unsigned int col = 0; col < m_InternalImage->m_Width; col += m_InternalImage->m_TileWidth )
     {
     for ( unsigned int row = 0; row < m_InternalImage->m_Height; row += m_InternalImage->m_TileHeight )
       {
-      unsigned char *tempImage;
+      uint8_t *tempImage;
       tempImage =
-        new unsigned char[m_InternalImage->m_TileWidth * m_InternalImage->m_TileHeight
+        new uint8_t[m_InternalImage->m_TileWidth * m_InternalImage->m_TileHeight
                           * m_InternalImage->m_SamplesPerPixel];
 
       if ( TIFFReadTile(m_InternalImage->m_Image, tempImage, col, row, 0, 0) < 0 )
@@ -1153,7 +1153,7 @@ void TIFFImageIO::ReadVolume(void *buffer)
       {
       if ( m_ComponentType == USHORT )
         {
-        unsigned short *volume = reinterpret_cast< unsigned short * >( buffer );
+        uint16_t *volume = reinterpret_cast< uint16_t * >( buffer );
         volume += width * height * m_InternalImage->m_SamplesPerPixel * page;
         this->ReadTwoSamplesPerPixelImage(volume, width, height);
         }
@@ -1171,7 +1171,7 @@ void TIFFImageIO::ReadVolume(void *buffer)
         }
       else
         {
-        unsigned char *volume = reinterpret_cast< unsigned char * >( buffer );
+        uint8_t *volume = reinterpret_cast< uint8_t * >( buffer );
         volume += width * height * m_InternalImage->m_SamplesPerPixel * page;
         this->ReadTwoSamplesPerPixelImage(volume, width, height);
         }
@@ -1198,17 +1198,17 @@ void TIFFImageIO::ReadVolume(void *buffer)
 
       if ( m_ComponentType == USHORT )
         {
-        unsigned short *fimage = (unsigned short *)buffer;
+        uint16_t *fimage = (uint16_t *)buffer;
         fimage += width * height * 4 * page;
         for ( yy = 0; yy < height; yy++ )
           {
           ssimage = tempImage + ( height - yy - 1 ) * width;
           for ( xx = 0; xx < width; xx++ )
             {
-            unsigned short red   = static_cast< unsigned short >( TIFFGetR(*ssimage) );
-            unsigned short green = static_cast< unsigned short >( TIFFGetG(*ssimage) );
-            unsigned short blue  = static_cast< unsigned short >( TIFFGetB(*ssimage) );
-            unsigned short alpha = static_cast< unsigned short >( TIFFGetA(*ssimage) );
+            uint16_t red   = static_cast< uint16_t >( TIFFGetR(*ssimage) );
+            uint16_t green = static_cast< uint16_t >( TIFFGetG(*ssimage) );
+            uint16_t blue  = static_cast< uint16_t >( TIFFGetB(*ssimage) );
+            uint16_t alpha = static_cast< uint16_t >( TIFFGetA(*ssimage) );
 
             *( fimage  ) = red;
             *( fimage + 1 ) = green;
@@ -1267,17 +1267,17 @@ void TIFFImageIO::ReadVolume(void *buffer)
         }
       else
         {
-        unsigned char *fimage = (unsigned char *)buffer;
+        uint8_t *fimage = (uint8_t *)buffer;
         fimage += width * height * 4 * page / 2;
         for ( yy = 0; yy < height; yy++ )
           {
           ssimage = tempImage + ( height - yy - 1 ) * width;
           for ( xx = 0; xx < width; xx++ )
             {
-            unsigned char red   = static_cast< unsigned char >( TIFFGetR(*ssimage) );
-            unsigned char green = static_cast< unsigned char >( TIFFGetG(*ssimage) );
-            unsigned char blue  = static_cast< unsigned char >( TIFFGetB(*ssimage) );
-            unsigned char alpha = static_cast< unsigned char >( TIFFGetA(*ssimage) );
+            uint8_t red   = static_cast< uint8_t >( TIFFGetR(*ssimage) );
+            uint8_t green = static_cast< uint8_t >( TIFFGetG(*ssimage) );
+            uint8_t blue  = static_cast< uint8_t >( TIFFGetB(*ssimage) );
+            uint8_t alpha = static_cast< uint8_t >( TIFFGetA(*ssimage) );
 
             *( fimage  ) = red;
             *( fimage + 1 ) = green;
@@ -1304,7 +1304,7 @@ void TIFFImageIO::ReadVolume(void *buffer)
         case TIFFImageIO::PALETTE_GRAYSCALE:
           if ( m_ComponentType == USHORT )
             {
-            unsigned short *volume = reinterpret_cast< unsigned short * >( buffer );
+            uint16_t *volume = reinterpret_cast< uint16_t * >( buffer );
             volume += width * height * m_InternalImage->m_SamplesPerPixel * page;
             this->ReadGenericImage(volume, width, height);
             }
@@ -1328,7 +1328,7 @@ void TIFFImageIO::ReadVolume(void *buffer)
             }
           else
             {
-            unsigned char *volume = reinterpret_cast< unsigned char * >( buffer );
+            uint8_t *volume = reinterpret_cast< uint8_t * >( buffer );
             volume += width * height * m_InternalImage->m_SamplesPerPixel * page;
             this->ReadGenericImage(volume, width, height);
             }
@@ -1339,7 +1339,7 @@ void TIFFImageIO::ReadVolume(void *buffer)
           // consists of RGB.
           if ( m_ComponentType == USHORT )
             {
-            unsigned short *volume = reinterpret_cast< unsigned short * >( buffer );
+            uint16_t *volume = reinterpret_cast< uint16_t * >( buffer );
             volume += width * height * m_InternalImage->m_SamplesPerPixel * page * 3;
             this->ReadGenericImage(volume, width, height);
             }
@@ -1357,7 +1357,7 @@ void TIFFImageIO::ReadVolume(void *buffer)
             }
           else
             {
-            unsigned char *volume = reinterpret_cast< unsigned char * >( buffer );
+            uint8_t *volume = reinterpret_cast< uint8_t * >( buffer );
             volume += width * height * m_InternalImage->m_SamplesPerPixel * page * 3;
             this->ReadGenericImage(volume, width, height);
             }
@@ -1428,17 +1428,17 @@ void TIFFImageIO::Read(void *buffer)
       }
     int            xx, yy;
     uint32 *       ssimage;
-    unsigned char *fimage = (unsigned char *)buffer;
+    uint8_t *fimage = (uint8_t *)buffer;
 
     for ( yy = 0; yy < height; yy++ )
       {
       ssimage = tempImage + ( height - yy - 1 ) * width;
       for ( xx = 0; xx < width; xx++ )
         {
-        unsigned char red   = static_cast< unsigned char >( TIFFGetR(*ssimage) );
-        unsigned char green = static_cast< unsigned char >( TIFFGetG(*ssimage) );
-        unsigned char blue  = static_cast< unsigned char >( TIFFGetB(*ssimage) );
-        unsigned char alpha = static_cast< unsigned char >( TIFFGetA(*ssimage) );
+        uint8_t red   = static_cast< uint8_t >( TIFFGetR(*ssimage) );
+        uint8_t green = static_cast< uint8_t >( TIFFGetG(*ssimage) );
+        uint8_t blue  = static_cast< uint8_t >( TIFFGetB(*ssimage) );
+        uint8_t alpha = static_cast< uint8_t >( TIFFGetA(*ssimage) );
 
         *( fimage  ) = red;
         *( fimage + 1 ) = green;
@@ -1755,7 +1755,7 @@ void TIFFImageIO::InternalWrite(const void *buffer)
       break;
     default:
       itkExceptionMacro(
-        << "TIFF supports unsigned/signed char, unsigned/signed short, and float");
+        << "TIFF supports unsigned/int8_t, unsigned/int16_t, and float");
     }
 
   int predictor;
@@ -1912,10 +1912,10 @@ void TIFFImageIO::InternalWrite(const void *buffer)
     switch ( this->GetComponentType() )
       {
       case UCHAR:
-        rowLength = sizeof( unsigned char );
+        rowLength = sizeof( uint8_t );
         break;
       case USHORT:
-        rowLength = sizeof( unsigned short );
+        rowLength = sizeof( uint16_t );
         break;
       case CHAR:
         rowLength = sizeof( char );
@@ -1928,7 +1928,7 @@ void TIFFImageIO::InternalWrite(const void *buffer)
         break;
       default:
         itkExceptionMacro(
-          << "TIFF supports unsigned/signed char, unsigned/signed short, and float");
+          << "TIFF supports unsigned/int8_t, unsigned/int16_t, and float");
       }
 
     rowLength *= this->GetNumberOfComponents();

@@ -438,7 +438,7 @@ OFFMeshIO
       {
       case UCHAR:
         {
-        WriteBufferAsAscii(static_cast< unsigned char * >( buffer ), outputFile, m_NumberOfPoints, m_PointDimension);
+        WriteBufferAsAscii(static_cast< uint8_t * >( buffer ), outputFile, m_NumberOfPoints, m_PointDimension);
         break;
         }
       case CHAR:
@@ -449,7 +449,7 @@ OFFMeshIO
         }
       case USHORT:
         {
-        WriteBufferAsAscii(static_cast< unsigned short * >( buffer ), outputFile, m_NumberOfPoints, m_PointDimension);
+        WriteBufferAsAscii(static_cast< uint16_t * >( buffer ), outputFile, m_NumberOfPoints, m_PointDimension);
 
         break;
         }
@@ -525,7 +525,7 @@ OFFMeshIO
       {
       case UCHAR:
         {
-        WriteBufferAsBinary< float >(static_cast< unsigned char * >( buffer ), outputFile, m_NumberOfPoints * m_PointDimension);
+        WriteBufferAsBinary< float >(static_cast< uint8_t * >( buffer ), outputFile, m_NumberOfPoints * m_PointDimension);
         break;
         }
       case CHAR:
@@ -536,7 +536,7 @@ OFFMeshIO
         }
       case USHORT:
         {
-        WriteBufferAsBinary< float >(static_cast< unsigned short * >( buffer ), outputFile, m_NumberOfPoints * m_PointDimension);
+        WriteBufferAsBinary< float >(static_cast< uint16_t * >( buffer ), outputFile, m_NumberOfPoints * m_PointDimension);
 
         break;
         }
@@ -647,19 +647,19 @@ OFFMeshIO
       {
       case UCHAR:
         {
-        WriteCellsAsAscii(static_cast< unsigned char * >( buffer ), outputFile);
+        WriteCellsAsAscii(static_cast< uint8_t * >( buffer ), outputFile);
 
         break;
         }
       case CHAR:
         {
-        WriteCellsAsAscii(static_cast< unsigned char * >( buffer ), outputFile);
+        WriteCellsAsAscii(static_cast< uint8_t * >( buffer ), outputFile);
 
         break;
         }
       case USHORT:
         {
-        WriteCellsAsAscii(static_cast< unsigned short * >( buffer ), outputFile);
+        WriteCellsAsAscii(static_cast< uint16_t * >( buffer ), outputFile);
 
         break;
         }
@@ -735,7 +735,7 @@ OFFMeshIO
       {
       case UCHAR:
         {
-        WriteCellsAsBinary< itk::uint32_t >(static_cast< unsigned char * >( buffer ), outputFile);
+        WriteCellsAsBinary< itk::uint32_t >(static_cast< uint8_t * >( buffer ), outputFile);
 
         break;
         }
@@ -747,7 +747,7 @@ OFFMeshIO
         }
       case USHORT:
         {
-        WriteCellsAsBinary< itk::uint32_t >(static_cast< unsigned short * >( buffer ), outputFile);
+        WriteCellsAsBinary< itk::uint32_t >(static_cast< uint16_t * >( buffer ), outputFile);
 
         break;
         }

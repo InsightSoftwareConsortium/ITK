@@ -72,7 +72,7 @@ int itkExpectationBasedPointSetMetricRegistrationTest( int argc, char *argv[] )
     numberOfIterations = atoi( argv[1] );
     }
 
-  typedef itk::PointSet<unsigned char, Dimension> PointSetType;
+  typedef itk::PointSet<uint8_t, Dimension> PointSetType;
 
   typedef PointSetType::PointType PointType;
 

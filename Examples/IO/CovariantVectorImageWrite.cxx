@@ -74,14 +74,14 @@ int main( int argc, char ** argv )
 
   //  Software Guide : BeginLatex
   //
-  //  We select to read an image of \code{signed short} pixels and compute the
+  //  We select to read an image of \code{int16_t} pixels and compute the
   //  gradient to produce an image of CovariantVector where each
   //  component is of type \code{float}.
   //
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef signed short          InputPixelType;
+  typedef int16_t          InputPixelType;
   typedef float                 ComponentType;
   const   unsigned int          Dimension = 2;
 

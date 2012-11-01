@@ -33,7 +33,7 @@ int itkNrrdRGBImageReadWriteTest( int ac, char* av[] )
     return EXIT_FAILURE;
     }
 
-  typedef itk::RGBPixel<unsigned char> PixelType;
+  typedef itk::RGBPixel<uint8_t> PixelType;
   typedef itk::Image<PixelType, 2> myImage;
 
   itk::ImageFileReader<myImage>::Pointer reader

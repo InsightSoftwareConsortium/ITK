@@ -51,7 +51,7 @@
 
 
 //  Software Guide : BeginCodeSnippet
-typedef itk::Image<unsigned char, 2>                       DiskImageType;
+typedef itk::Image<uint8_t, 2>                       DiskImageType;
 typedef itk::Image<float, 2>                               ImageType;
 typedef itk::fem::Element2DC0LinearQuadrilateralMembrane   ElementType;
 typedef itk::fem::Element2DC0LinearTriangularMembrane      ElementType2;
@@ -70,7 +70,7 @@ typedef itk::fem::FEMObject<2>                             FEMObjectType;
 
 
 //  SoftwareGuide : BeginCodeSnippet
-typedef itk::Image<unsigned char, 3>                    fileImage3DType;
+typedef itk::Image<uint8_t, 3>                    fileImage3DType;
 typedef itk::Image<float, 3>                            Image3DType;
 typedef itk::fem::Element3DC0LinearHexahedronMembrane   Element3DType;
 typedef itk::fem::Element3DC0LinearTetrahedronMembrane  Element3DType2;

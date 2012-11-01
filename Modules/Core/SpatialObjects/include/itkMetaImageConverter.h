@@ -34,7 +34,7 @@ namespace itk
  *  \ingroup ITKSpatialObjects
  */
 template< unsigned int NDimensions = 3,
-          typename TPixel = unsigned char,
+          typename TPixel = uint8_t,
           typename TSpatialObjectType = ImageSpatialObject< NDimensions,TPixel > >
 class ITK_EXPORT MetaImageConverter :
     public MetaConverterBase< NDimensions >

@@ -103,7 +103,7 @@ int itkGDCMImageIOTest(int ac, char* av[])
 
   // Rescale intensities and rewrite the image in another format
   //
-  typedef unsigned char                   WritePixelType;
+  typedef uint8_t                   WritePixelType;
   typedef itk::Image< WritePixelType, 2 > WriteImageType;
   typedef itk::RescaleIntensityImageFilter<
     InputImageType, WriteImageType >      RescaleFilterType;

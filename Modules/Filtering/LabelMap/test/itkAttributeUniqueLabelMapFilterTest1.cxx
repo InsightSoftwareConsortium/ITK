@@ -39,9 +39,9 @@ int itkAttributeUniqueLabelMapFilterTest1(int argc, char * argv[])
 
   const int dim = 2;
 
-  typedef itk::Image< unsigned char, dim > ImageType;
+  typedef itk::Image< uint8_t, dim > ImageType;
 
-  typedef itk::ShapeLabelObject< unsigned char, dim > LabelObjectType;
+  typedef itk::ShapeLabelObject< uint8_t, dim > LabelObjectType;
   typedef itk::LabelMap< LabelObjectType >            LabelMapType;
 
   typedef itk::ImageFileReader< ImageType > ReaderType;

@@ -24,10 +24,10 @@
 #include "itkImageRegionIteratorWithIndex.h"
 
 typedef itk::Image< unsigned int , 2 > ImageType;
-typedef itk::Image< unsigned char, 2 > MaskImageType;
+typedef itk::Image< uint8_t, 2 > MaskImageType;
 
 //------------------------------------------------------------------------
-// Creates a 10 x 10 image of unsigned chars with pixel at location
+// Creates a 10 x 10 image of uint8_ts with pixel at location
 // (x,y) being yx. ie Pixel at (6,4) = 46.
 //
 static ImageType::Pointer CreateImage()
@@ -57,7 +57,7 @@ static ImageType::Pointer CreateImage()
 }
 
 //------------------------------------------------------------------------
-// Creates a 10 x 10 image of unsigned chars with pixel from (2,3) - (8,5) as
+// Creates a 10 x 10 image of uint8_ts with pixel from (2,3) - (8,5) as
 // 255 and rest as 0
 static MaskImageType::Pointer CreateMaskImage()
 {
@@ -88,7 +88,7 @@ static MaskImageType::Pointer CreateMaskImage()
   it.GoToBegin();
   while (!it.IsAtEnd())
     {
-    it.Set((unsigned char)255);
+    it.Set((uint8_t)255);
     ++it;
     }
   return image;

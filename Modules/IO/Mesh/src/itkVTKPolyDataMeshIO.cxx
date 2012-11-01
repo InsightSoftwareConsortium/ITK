@@ -978,7 +978,7 @@ VTKPolyDataMeshIO
       {
       case UCHAR:
         {
-        ReadPointsBufferAsASCII( inputFile, static_cast< unsigned char * >( buffer ) );
+        ReadPointsBufferAsASCII( inputFile, static_cast< uint8_t * >( buffer ) );
         break;
         }
       case CHAR:
@@ -988,7 +988,7 @@ VTKPolyDataMeshIO
         }
       case USHORT:
         {
-        ReadPointsBufferAsASCII( inputFile, static_cast< unsigned short * >( buffer ) );
+        ReadPointsBufferAsASCII( inputFile, static_cast< uint16_t * >( buffer ) );
         break;
         }
       case SHORT:
@@ -1053,7 +1053,7 @@ VTKPolyDataMeshIO
       {
       case UCHAR:
         {
-        ReadPointsBufferAsBINARY( inputFile, static_cast< unsigned char * >( buffer ) );
+        ReadPointsBufferAsBINARY( inputFile, static_cast< uint8_t * >( buffer ) );
         break;
         }
       case CHAR:
@@ -1063,7 +1063,7 @@ VTKPolyDataMeshIO
         }
       case USHORT:
         {
-        ReadPointsBufferAsBINARY( inputFile, static_cast< unsigned short * >( buffer ) );
+        ReadPointsBufferAsBINARY( inputFile, static_cast< uint16_t * >( buffer ) );
         break;
         }
       case SHORT:
@@ -1376,7 +1376,7 @@ VTKPolyDataMeshIO
       {
       case UCHAR:
         {
-        ReadPointDataBufferAsASCII( inputFile, static_cast< unsigned char * >( buffer ) );
+        ReadPointDataBufferAsASCII( inputFile, static_cast< uint8_t * >( buffer ) );
         break;
         }
       case CHAR:
@@ -1386,7 +1386,7 @@ VTKPolyDataMeshIO
         }
       case USHORT:
         {
-        ReadPointDataBufferAsASCII( inputFile, static_cast< unsigned short * >( buffer ) );
+        ReadPointDataBufferAsASCII( inputFile, static_cast< uint16_t * >( buffer ) );
         break;
         }
       case SHORT:
@@ -1451,7 +1451,7 @@ VTKPolyDataMeshIO
       {
       case UCHAR:
         {
-        ReadPointDataBufferAsBINARY( inputFile, static_cast< unsigned char * >( buffer ) );
+        ReadPointDataBufferAsBINARY( inputFile, static_cast< uint8_t * >( buffer ) );
         break;
         }
       case CHAR:
@@ -1461,7 +1461,7 @@ VTKPolyDataMeshIO
         }
       case USHORT:
         {
-        ReadPointDataBufferAsBINARY( inputFile, static_cast< unsigned short * >( buffer ) );
+        ReadPointDataBufferAsBINARY( inputFile, static_cast< uint16_t * >( buffer ) );
         break;
         }
       case SHORT:
@@ -1585,7 +1585,7 @@ VTKPolyDataMeshIO
       {
       case UCHAR:
         {
-        ReadCellDataBufferAsASCII( inputFile, static_cast< unsigned char * >( buffer ) );
+        ReadCellDataBufferAsASCII( inputFile, static_cast< uint8_t * >( buffer ) );
         break;
         }
       case CHAR:
@@ -1595,7 +1595,7 @@ VTKPolyDataMeshIO
         }
       case USHORT:
         {
-        ReadCellDataBufferAsASCII( inputFile, static_cast< unsigned short * >( buffer ) );
+        ReadCellDataBufferAsASCII( inputFile, static_cast< uint16_t * >( buffer ) );
         break;
         }
       case SHORT:
@@ -1660,7 +1660,7 @@ VTKPolyDataMeshIO
       {
       case UCHAR:
         {
-        ReadCellDataBufferAsBINARY( inputFile, static_cast< unsigned char * >( buffer ) );
+        ReadCellDataBufferAsBINARY( inputFile, static_cast< uint8_t * >( buffer ) );
         break;
         }
       case CHAR:
@@ -1670,7 +1670,7 @@ VTKPolyDataMeshIO
         }
       case USHORT:
         {
-        ReadCellDataBufferAsBINARY( inputFile, static_cast< unsigned short * >( buffer ) );
+        ReadCellDataBufferAsBINARY( inputFile, static_cast< uint16_t * >( buffer ) );
         break;
         }
       case SHORT:
@@ -1850,7 +1850,7 @@ VTKPolyDataMeshIO
       {
       case UCHAR:
         {
-        WritePointsBufferAsASCII(outputFile, static_cast< unsigned char * >( buffer ), " unsigned_char");
+        WritePointsBufferAsASCII(outputFile, static_cast< uint8_t * >( buffer ), " unsigned_char");
         break;
         }
       case CHAR:
@@ -1860,7 +1860,7 @@ VTKPolyDataMeshIO
         }
       case USHORT:
         {
-        WritePointsBufferAsASCII(outputFile, static_cast< unsigned short * >( buffer ), " unsigned_short");
+        WritePointsBufferAsASCII(outputFile, static_cast< uint16_t * >( buffer ), " unsigned_short");
         break;
         }
 
@@ -1926,7 +1926,7 @@ VTKPolyDataMeshIO
       {
       case UCHAR:
         {
-        WritePointsBufferAsBINARY(outputFile, static_cast< unsigned char * >( buffer ), " unsigned_char");
+        WritePointsBufferAsBINARY(outputFile, static_cast< uint8_t * >( buffer ), " unsigned_char");
         break;
         }
       case CHAR:
@@ -1936,7 +1936,7 @@ VTKPolyDataMeshIO
         }
       case USHORT:
         {
-        WritePointsBufferAsBINARY(outputFile, static_cast< unsigned short * >( buffer ), " unsigned_short");
+        WritePointsBufferAsBINARY(outputFile, static_cast< uint16_t * >( buffer ), " unsigned_short");
         break;
         }
 
@@ -2066,8 +2066,8 @@ VTKPolyDataMeshIO
       {
       case UCHAR:
         {
-        UpdateCellInformation( static_cast< unsigned char * >( buffer ) );
-        WriteCellsBufferAsASCII( outputFile, static_cast< unsigned char * >( buffer ) );
+        UpdateCellInformation( static_cast< uint8_t * >( buffer ) );
+        WriteCellsBufferAsASCII( outputFile, static_cast< uint8_t * >( buffer ) );
         break;
         }
       case CHAR:
@@ -2078,8 +2078,8 @@ VTKPolyDataMeshIO
         }
       case USHORT:
         {
-        UpdateCellInformation( static_cast< unsigned short * >( buffer ) );
-        WriteCellsBufferAsASCII( outputFile, static_cast< unsigned short * >( buffer ) );
+        UpdateCellInformation( static_cast< uint16_t * >( buffer ) );
+        WriteCellsBufferAsASCII( outputFile, static_cast< uint16_t * >( buffer ) );
         break;
         }
 
@@ -2155,8 +2155,8 @@ VTKPolyDataMeshIO
       {
       case UCHAR:
         {
-        UpdateCellInformation( static_cast< unsigned char * >( buffer ) );
-        WriteCellsBufferAsBINARY( outputFile, static_cast< unsigned char * >( buffer ) );
+        UpdateCellInformation( static_cast< uint8_t * >( buffer ) );
+        WriteCellsBufferAsBINARY( outputFile, static_cast< uint8_t * >( buffer ) );
         break;
         }
       case CHAR:
@@ -2167,8 +2167,8 @@ VTKPolyDataMeshIO
         }
       case USHORT:
         {
-        UpdateCellInformation( static_cast< unsigned short * >( buffer ) );
-        WriteCellsBufferAsBINARY( outputFile, static_cast< unsigned short * >( buffer ) );
+        UpdateCellInformation( static_cast< uint16_t * >( buffer ) );
+        WriteCellsBufferAsBINARY( outputFile, static_cast< uint16_t * >( buffer ) );
         break;
         }
 
@@ -2282,7 +2282,7 @@ VTKPolyDataMeshIO
       {
       case UCHAR:
         {
-        WritePointDataBufferAsASCII(outputFile, static_cast< unsigned char * >( buffer ), " unsigned_char");
+        WritePointDataBufferAsASCII(outputFile, static_cast< uint8_t * >( buffer ), " unsigned_char");
         break;
         }
       case CHAR:
@@ -2292,7 +2292,7 @@ VTKPolyDataMeshIO
         }
       case USHORT:
         {
-        WritePointDataBufferAsASCII(outputFile, static_cast< unsigned short * >( buffer ), " unsigned_short");
+        WritePointDataBufferAsASCII(outputFile, static_cast< uint16_t * >( buffer ), " unsigned_short");
         break;
         }
 
@@ -2357,7 +2357,7 @@ VTKPolyDataMeshIO
       {
       case UCHAR:
         {
-        WritePointDataBufferAsBINARY(outputFile, static_cast< unsigned char * >( buffer ), " unsigned_char");
+        WritePointDataBufferAsBINARY(outputFile, static_cast< uint8_t * >( buffer ), " unsigned_char");
         break;
         }
       case CHAR:
@@ -2367,7 +2367,7 @@ VTKPolyDataMeshIO
         }
       case USHORT:
         {
-        WritePointDataBufferAsBINARY(outputFile, static_cast< unsigned short * >( buffer ), " unsigned_short");
+        WritePointDataBufferAsBINARY(outputFile, static_cast< uint16_t * >( buffer ), " unsigned_short");
         break;
         }
 
@@ -2500,7 +2500,7 @@ VTKPolyDataMeshIO
       {
       case UCHAR:
         {
-        WriteCellDataBufferAsASCII(outputFile, static_cast< unsigned char * >( buffer ), " unsigned_char");
+        WriteCellDataBufferAsASCII(outputFile, static_cast< uint8_t * >( buffer ), " unsigned_char");
         break;
         }
       case CHAR:
@@ -2510,7 +2510,7 @@ VTKPolyDataMeshIO
         }
       case USHORT:
         {
-        WriteCellDataBufferAsASCII(outputFile, static_cast< unsigned short * >( buffer ), " unsigned_short");
+        WriteCellDataBufferAsASCII(outputFile, static_cast< uint16_t * >( buffer ), " unsigned_short");
         break;
         }
 
@@ -2576,7 +2576,7 @@ VTKPolyDataMeshIO
       {
       case UCHAR:
         {
-        WriteCellDataBufferAsBINARY(outputFile, static_cast< unsigned char * >( buffer ), " unsigned_char");
+        WriteCellDataBufferAsBINARY(outputFile, static_cast< uint8_t * >( buffer ), " unsigned_char");
         break;
         }
       case CHAR:
@@ -2586,7 +2586,7 @@ VTKPolyDataMeshIO
         }
       case USHORT:
         {
-        WriteCellDataBufferAsBINARY(outputFile, static_cast< unsigned short * >( buffer ), " unsigned_short");
+        WriteCellDataBufferAsBINARY(outputFile, static_cast< uint16_t * >( buffer ), " unsigned_short");
         break;
         }
 

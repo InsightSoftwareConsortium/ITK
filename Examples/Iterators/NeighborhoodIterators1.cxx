@@ -195,13 +195,13 @@ int main( int argc, char ** argv )
   //
   // The last step is to write the output buffer to an image file.  Writing is
   // done inside a \code{try/catch} block to handle any exceptions.  The output
-  // is rescaled to intensity range $[0, 255]$ and cast to unsigned char so that
+  // is rescaled to intensity range $[0, 255]$ and cast to uint8_t so that
   // it can be saved and visualized as a PNG image.
   //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef unsigned char                          WritePixelType;
+  typedef uint8_t                          WritePixelType;
   typedef itk::Image< WritePixelType, 2 >        WriteImageType;
   typedef itk::ImageFileWriter< WriteImageType > WriterType;
 

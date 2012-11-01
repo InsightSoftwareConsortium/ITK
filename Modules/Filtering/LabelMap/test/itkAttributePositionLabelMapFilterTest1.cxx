@@ -51,7 +51,7 @@ int itkAttributePositionLabelMapFilterTest1(int argc, char * argv[])
 
   // declare the dimension used, and the type of the input image
   const int dim = 3;
-  typedef unsigned char            PType;
+  typedef uint8_t            PType;
   typedef itk::Image< PType, dim > IType;
 
   // We read the input image.

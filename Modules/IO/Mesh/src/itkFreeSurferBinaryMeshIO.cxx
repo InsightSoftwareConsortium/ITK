@@ -105,7 +105,7 @@ FreeSurferBinaryMeshIO
   // Define required variables
   const unsigned int numberOfCellPoints = 3;
   const unsigned int fileTypeIdLength = 3;
-  unsigned char      fileTypeId[fileTypeIdLength];
+  uint8_t      fileTypeId[fileTypeIdLength];
   this->m_FileType = BINARY;
 
   // Read file type
@@ -391,7 +391,7 @@ FreeSurferBinaryMeshIO
     {
     case UCHAR:
       {
-      WritePoints(static_cast< unsigned char * >( buffer ), outputFile);
+      WritePoints(static_cast< uint8_t * >( buffer ), outputFile);
       break;
       }
     case CHAR:
@@ -402,7 +402,7 @@ FreeSurferBinaryMeshIO
       }
     case USHORT:
       {
-      WritePoints(static_cast< unsigned short * >( buffer ), outputFile);
+      WritePoints(static_cast< uint16_t * >( buffer ), outputFile);
 
       break;
       }
@@ -502,7 +502,7 @@ FreeSurferBinaryMeshIO
     {
     case UCHAR:
       {
-      WriteCells(static_cast< unsigned char * >( buffer ), outputFile);
+      WriteCells(static_cast< uint8_t * >( buffer ), outputFile);
       break;
       }
     case CHAR:
@@ -512,7 +512,7 @@ FreeSurferBinaryMeshIO
       }
     case USHORT:
       {
-      WriteCells(static_cast< unsigned short * >( buffer ), outputFile);
+      WriteCells(static_cast< uint16_t * >( buffer ), outputFile);
       break;
       }
     case SHORT:
@@ -602,7 +602,7 @@ FreeSurferBinaryMeshIO
     {
     case UCHAR:
       {
-      WritePointData(static_cast< unsigned char * >( buffer ), outputFile);
+      WritePointData(static_cast< uint8_t * >( buffer ), outputFile);
       break;
       }
     case CHAR:
@@ -613,7 +613,7 @@ FreeSurferBinaryMeshIO
       }
     case USHORT:
       {
-      WritePointData(static_cast< unsigned short * >( buffer ), outputFile);
+      WritePointData(static_cast< uint16_t * >( buffer ), outputFile);
 
       break;
       }

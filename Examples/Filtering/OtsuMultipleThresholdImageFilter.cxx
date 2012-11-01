@@ -48,8 +48,8 @@ int main( int argc, char * argv[] )
     }
 
   //Convenience typedefs
-  typedef  unsigned short  InputPixelType;
-  typedef  unsigned char   OutputPixelType;
+  typedef  uint16_t  InputPixelType;
+  typedef  uint8_t   OutputPixelType;
 
   typedef itk::Image< InputPixelType,  2 >   InputImageType;
   typedef itk::Image< OutputPixelType, 2 >   OutputImageType;

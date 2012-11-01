@@ -41,8 +41,8 @@ int itkPolylineMaskImageFilterTest(int , char * [] )
 
 
   // Declare the types of the images
-  typedef itk::Image<unsigned short, iDimension>     inputImageType;
-  typedef itk::Image<unsigned short, iDimension>     outputImageType;
+  typedef itk::Image<uint16_t, iDimension>     inputImageType;
+  typedef itk::Image<uint16_t, iDimension>     outputImageType;
   typedef itk::Vector<double, iDimension>            inputVectorType;
   typedef itk::PolyLineParametricPath<pDimension>    inputPolylineType;
 

@@ -35,7 +35,7 @@ int itkNormalizedCorrelationImageFilterTest(int ac, char* av[] )
     }
 
   const unsigned int Dimension = 2;
-  typedef unsigned char PixelType;
+  typedef uint8_t PixelType;
   typedef float         CorrelationPixelType;
 
   typedef itk::Image<PixelType, Dimension>            InputImageType;

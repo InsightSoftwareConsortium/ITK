@@ -39,7 +39,7 @@ void test(int testIdx)
   const unsigned int Dimension = 2;
   typedef float      PixelType;
 
-  typedef itk::Image< unsigned char, Dimension >  myImageType2D1;
+  typedef itk::Image< uint8_t, Dimension >  myImageType2D1;
   typedef itk::Image< PixelType, Dimension >      myImageType2D2;
 
   /* TEST 1: For a point image, SignedDaniessonDistanceMapImageFilter should

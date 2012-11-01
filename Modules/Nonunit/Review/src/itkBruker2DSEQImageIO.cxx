@@ -106,16 +106,16 @@ Bruker2DSEQImageIO::SwapBytesIfNecessary(void *buffer,
           ( (char *)buffer, numberOfPixels );
         break;
       case UCHAR:
-        ByteSwapper< unsigned char >::SwapRangeFromSystemToLittleEndian
-          ( (unsigned char *)buffer, numberOfPixels );
+        ByteSwapper< uint8_t >::SwapRangeFromSystemToLittleEndian
+          ( (uint8_t *)buffer, numberOfPixels );
         break;
       case SHORT:
         ByteSwapper< short >::SwapRangeFromSystemToLittleEndian
           ( (short *)buffer, numberOfPixels );
         break;
       case USHORT:
-        ByteSwapper< unsigned short >::SwapRangeFromSystemToLittleEndian
-          ( (unsigned short *)buffer, numberOfPixels );
+        ByteSwapper< uint16_t >::SwapRangeFromSystemToLittleEndian
+          ( (uint16_t *)buffer, numberOfPixels );
         break;
       case INT:
         ByteSwapper< int >::SwapRangeFromSystemToLittleEndian
@@ -157,16 +157,16 @@ Bruker2DSEQImageIO::SwapBytesIfNecessary(void *buffer,
           ( (char *)buffer, numberOfPixels );
         break;
       case UCHAR:
-        ByteSwapper< unsigned char >::SwapRangeFromSystemToBigEndian
-          ( (unsigned char *)buffer, numberOfPixels );
+        ByteSwapper< uint8_t >::SwapRangeFromSystemToBigEndian
+          ( (uint8_t *)buffer, numberOfPixels );
         break;
       case SHORT:
         ByteSwapper< short >::SwapRangeFromSystemToBigEndian
           ( (short *)buffer, numberOfPixels );
         break;
       case USHORT:
-        ByteSwapper< unsigned short >::SwapRangeFromSystemToBigEndian
-          ( (unsigned short *)buffer, numberOfPixels );
+        ByteSwapper< uint16_t >::SwapRangeFromSystemToBigEndian
+          ( (uint16_t *)buffer, numberOfPixels );
         break;
       case INT:
         ByteSwapper< int >::SwapRangeFromSystemToBigEndian
@@ -348,7 +348,7 @@ bool Bruker2DSEQImageIO::CanReadFile(const char *FileNameToRead)
         }
       else if ( dattypeString.find(BRUKER_UNSIGNED_CHAR) != std::string::npos )
         {
-        calcLength *= (SizeValueType)sizeof( unsigned char );
+        calcLength *= (SizeValueType)sizeof( uint8_t );
         }
       else if ( dattypeString.find(BRUKER_SIGNED_SHORT) != std::string::npos )
         {

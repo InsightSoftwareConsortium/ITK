@@ -109,13 +109,13 @@ int main( int argc, char * argv [] )
   // classify. With this image type we can also declare the
   // \doxygen{ImageFileReader} needed for reading the input image, create one and
   // set its input filename. In this particular case we choose to use
-  // \code{signed short} as pixel type, which is typical for MicroMRI and CT data
+  // \code{int16_t} as pixel type, which is typical for MicroMRI and CT data
   // sets.
   //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef signed short        PixelType;
+  typedef int16_t        PixelType;
   const unsigned int          Dimension = 2;
 
   typedef itk::Image<PixelType, Dimension > ImageType;
@@ -137,7 +137,7 @@ int main( int argc, char * argv [] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef unsigned char       LabelPixelType;
+  typedef uint8_t       LabelPixelType;
 
   typedef itk::Image<LabelPixelType, Dimension > LabelImageType;
 
@@ -419,7 +419,7 @@ int main( int argc, char * argv [] )
   // Software Guide : EndCodeSnippet
 
   // Rescale outputs to the dynamic range of the display
-  typedef itk::Image< unsigned char, Dimension > RescaledOutputImageType;
+  typedef itk::Image< uint8_t, Dimension > RescaledOutputImageType;
   typedef itk::RescaleIntensityImageFilter<
              OutputImageType, RescaledOutputImageType >   RescalerType;
 

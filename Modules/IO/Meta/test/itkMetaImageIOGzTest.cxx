@@ -47,9 +47,9 @@ int itkMetaImageIOGzTest(int ac, char* av[])
   std::string dataName(av[1]);
   dataName += "/GzTest.raw.gz";
   gzFile compressed = gzopen(dataName.c_str(),"wb");
-  for(unsigned short i = 0; i < (32 * 32); i++)
+  for(uint16_t i = 0; i < (32 * 32); i++)
     {
-    unsigned short pixel = i & 0xff;
+    uint16_t pixel = i & 0xff;
     if( gzwrite(compressed,&pixel,sizeof(pixel)) != sizeof(pixel) )
       {
       std::cerr << "Write error for " << dataName << std::endl;
@@ -58,7 +58,7 @@ int itkMetaImageIOGzTest(int ac, char* av[])
     }
   gzclose(compressed);
 
-  typedef unsigned short           PixelType;
+  typedef uint16_t           PixelType;
   typedef itk::Image<PixelType, 3> myImage;
 
   itk::ImageFileReader<myImage>::Pointer reader

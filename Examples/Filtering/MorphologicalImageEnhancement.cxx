@@ -63,8 +63,8 @@ int main( int argc, char * argv[] )
   //
   const unsigned int Dimension = 2;
 
-  typedef unsigned char   PixelType;
-  typedef unsigned char   WritePixelType;
+  typedef uint8_t   PixelType;
+  typedef uint8_t   WritePixelType;
 
   typedef itk::Image< PixelType,  Dimension >       ImageType;
     typedef itk::Image< WritePixelType, Dimension > WriteImageType;

@@ -179,7 +179,7 @@ int main( int argc, char *argv[] )
   warper->SetDisplacementField( multires->GetOutput() );
 
   // Write warped image out to file
-  typedef unsigned short                           OutputPixelType;
+  typedef uint16_t                           OutputPixelType;
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
   typedef itk::CastImageFilter<
                         MovingImageType,

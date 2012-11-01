@@ -227,7 +227,7 @@ TDisplacementFieldPointer itkGPUDemons(int, char *argv[])
   const unsigned int Dimension = VDimension;
   unsigned int numOfIterations = atoi( argv[2] );
 
-  typedef unsigned short PixelType;
+  typedef uint16_t PixelType;
 
   typedef itk::Image<PixelType, Dimension> FixedImageType;
   typedef itk::Image<PixelType, Dimension> MovingImageType;
@@ -326,7 +326,7 @@ TDisplacementFieldPointer itkGPUDemons(int, char *argv[])
   warper->SetDisplacementField( filter->GetOutput() );
 
   // write the warped image into a file
-  typedef  unsigned char OutputPixelType;
+  typedef  uint8_t OutputPixelType;
 
   typedef itk::Image<OutputPixelType, Dimension> OutputImageType;
   typedef itk::CastImageFilter<
@@ -354,7 +354,7 @@ TDisplacementFieldPointer itkCPUDemons(int, char *argv[])
   const unsigned int Dimension = VDimension;
   unsigned int numOfIterations = atoi( argv[2] );
 
-  typedef unsigned short PixelType;
+  typedef uint16_t PixelType;
 
   typedef itk::Image<PixelType, Dimension> FixedImageType;
   typedef itk::Image<PixelType, Dimension> MovingImageType;
@@ -444,7 +444,7 @@ TDisplacementFieldPointer itkCPUDemons(int, char *argv[])
   warper->SetDisplacementField( filter->GetOutput() );
 
   // write the warped image into a file
-  typedef  unsigned char                         OutputPixelType;
+  typedef  uint8_t                         OutputPixelType;
   typedef itk::Image<OutputPixelType, Dimension> OutputImageType;
   typedef itk::CastImageFilter<
     MovingImageType, OutputImageType>            CastFilterType;

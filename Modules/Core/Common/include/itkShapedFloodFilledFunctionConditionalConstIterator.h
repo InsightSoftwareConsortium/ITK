@@ -233,7 +233,7 @@ protected: //made protected so other iterators can access
    * 1 = pixel is not inside the function
    * 2 = pixel is inside the function, neighbor check incomplete
    * 3 = pixel is inside the function, neighbor check complete */
-  typedef Image< unsigned char, itkGetStaticConstMacro(NDimensions) > TTempImage;
+  typedef Image< uint8_t, itkGetStaticConstMacro(NDimensions) > TTempImage;
 
   typename TTempImage::Pointer m_TempPtr;
 

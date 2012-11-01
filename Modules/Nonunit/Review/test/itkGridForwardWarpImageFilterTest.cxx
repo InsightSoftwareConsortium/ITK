@@ -26,7 +26,7 @@ int itkGridForwardWarpImageFilterTest(int, char* [] )
   const unsigned int ImageDimension = 3;
 
   typedef itk::Vector< double, ImageDimension >   DeformationPixelType;
-  typedef unsigned char                           OutputPixelType;
+  typedef uint8_t                           OutputPixelType;
 
   // Declare the types of the images
   typedef itk::Image<DeformationPixelType, ImageDimension>  DisplacementFieldType;

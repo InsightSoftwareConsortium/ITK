@@ -353,7 +353,7 @@ BYUMeshIO
     {
     case UCHAR:
       {
-      WritePoints(static_cast< unsigned char * >( buffer ), outputFile);
+      WritePoints(static_cast< uint8_t * >( buffer ), outputFile);
       break;
       }
     case CHAR:
@@ -364,7 +364,7 @@ BYUMeshIO
       }
     case USHORT:
       {
-      WritePoints(static_cast< unsigned short * >( buffer ), outputFile);
+      WritePoints(static_cast< uint16_t * >( buffer ), outputFile);
 
       break;
       }
@@ -464,17 +464,17 @@ BYUMeshIO
     {
     case UCHAR:
       {
-      WriteCells(static_cast< unsigned char * >( buffer ), outputFile);
+      WriteCells(static_cast< uint8_t * >( buffer ), outputFile);
       break;
       }
     case CHAR:
       {
-      WriteCells(static_cast< unsigned char * >( buffer ), outputFile);
+      WriteCells(static_cast< uint8_t * >( buffer ), outputFile);
       break;
       }
     case USHORT:
       {
-      WriteCells(static_cast< unsigned short * >( buffer ), outputFile);
+      WriteCells(static_cast< uint16_t * >( buffer ), outputFile);
       break;
       }
     case SHORT:

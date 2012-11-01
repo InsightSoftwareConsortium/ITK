@@ -170,15 +170,15 @@ PyBuffer<TImage>
     {
     item_type = PyArray_SHORT;
     }
-  else if(typeid(ScalarType) == typeid(unsigned short))
+  else if(typeid(ScalarType) == typeid(uint16_t))
     {
     item_type = PyArray_USHORT;
     }
-  else if(typeid(ScalarType) == typeid(signed char))
+  else if(typeid(ScalarType) == typeid(int8_t))
     {
     item_type = PyArray_BYTE;
     }
-  else if(typeid(ScalarType) == typeid(unsigned char))
+  else if(typeid(ScalarType) == typeid(uint8_t))
     {
     item_type = PyArray_UBYTE;
     }

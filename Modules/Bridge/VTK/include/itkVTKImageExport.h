@@ -40,7 +40,7 @@ namespace itk
  *
  * Note that not all image types will work correctly.  VTK will only
  * support images of 1, 2, or 3 dimensions.  Scalar value types can be
- * one of: float, double, char, unsigned char, short, unsigned short,
+ * one of: float, double, char, uint8_t, short, uint16_t,
  * int, unsigned int, long, unsigned long.
  *
  * Currently VTKImageExport does not support pixel types with multiple

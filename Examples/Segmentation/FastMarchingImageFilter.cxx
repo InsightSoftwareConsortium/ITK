@@ -202,7 +202,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef unsigned char                            OutputPixelType;
+  typedef uint8_t                            OutputPixelType;
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
   // Software Guide : EndCodeSnippet
 

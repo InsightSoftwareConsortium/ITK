@@ -80,8 +80,8 @@ int itkBasicFiltersPrintTest(int , char* [])
 {
   typedef itk::Image<float,2>         InputType;
   typedef itk::Image<float,2>         OutputType;
-  typedef itk::Image<unsigned char,2> CharType;
-  typedef itk::Image<unsigned char,3> CharType3D;
+  typedef itk::Image<uint8_t,2> CharType;
+  typedef itk::Image<uint8_t,3> CharType3D;
 
   typedef itk::Point<float,2>       MeshPixelType;
   typedef itk::Mesh<MeshPixelType>  MeshType;
@@ -92,11 +92,11 @@ int itkBasicFiltersPrintTest(int , char* [])
   typedef itk::CovariantVector<float,2>     CovariantVectorType;
   typedef itk::Image<CovariantVectorType,2> CovariantVectorImageType;
 
-  //typedef itk::Neighborhood<unsigned short,2> KernelType;
-  typedef itk::BinaryBallStructuringElement<unsigned short,2> KernelType;
+  //typedef itk::Neighborhood<uint16_t,2> KernelType;
+  typedef itk::BinaryBallStructuringElement<uint16_t,2> KernelType;
 
   // Used for MaskImageFilter
-  typedef itk::Image<unsigned short,2> MaskImageType;
+  typedef itk::Image<uint16_t,2> MaskImageType;
 
   // Used for TransformMeshFilter
   typedef itk::AffineTransform<float,3> AffineTransformType;

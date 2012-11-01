@@ -31,7 +31,7 @@ int itkBioRadImageIOTest(int argc, char* argv[])
     return EXIT_FAILURE;
     }
 
-  typedef unsigned char InputPixelType;
+  typedef uint8_t InputPixelType;
   typedef itk::Image< InputPixelType, 2 > InputImageType;
   typedef itk::ImageFileReader< InputImageType > ReaderType;
   typedef itk::BioRadImageIO ImageIOType;

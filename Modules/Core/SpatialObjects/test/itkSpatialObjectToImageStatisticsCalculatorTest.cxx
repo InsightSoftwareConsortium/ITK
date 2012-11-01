@@ -24,7 +24,7 @@
 
 int itkSpatialObjectToImageStatisticsCalculatorTest(int, char * [] )
 {
-  typedef unsigned char                PixelType;
+  typedef uint8_t                PixelType;
   typedef itk::Image<PixelType,2>      ImageType;
   typedef itk::EllipseSpatialObject<2> EllipseType;
 

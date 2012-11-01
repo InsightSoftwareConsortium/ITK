@@ -144,17 +144,17 @@ int itkVTKImageIOTest(int argc, char* argv[] )
                              itk::NumericTraits<double>::max(),
                              argv[1], argv[2], true);
 
-  status += ReadWrite<unsigned char,2>(itk::NumericTraits<unsigned char>::NonpositiveMin(),
-                             itk::NumericTraits<unsigned char>::max(),
+  status += ReadWrite<uint8_t,2>(itk::NumericTraits<uint8_t>::NonpositiveMin(),
+                             itk::NumericTraits<uint8_t>::max(),
                              argv[1], argv[2], false);
-  status += ReadWrite<unsigned char,2>(itk::NumericTraits<unsigned char>::NonpositiveMin(),
-                             itk::NumericTraits<unsigned char>::max(),
+  status += ReadWrite<uint8_t,2>(itk::NumericTraits<uint8_t>::NonpositiveMin(),
+                             itk::NumericTraits<uint8_t>::max(),
                              argv[1], argv[2], true);
-  status += ReadWrite<unsigned char,3>(itk::NumericTraits<unsigned char>::NonpositiveMin(),
-                             itk::NumericTraits<unsigned char>::max(),
+  status += ReadWrite<uint8_t,3>(itk::NumericTraits<uint8_t>::NonpositiveMin(),
+                             itk::NumericTraits<uint8_t>::max(),
                              argv[1], argv[2], false);
-  status += ReadWrite<unsigned char,3>(itk::NumericTraits<unsigned char>::NonpositiveMin(),
-                             itk::NumericTraits<unsigned char>::max(),
+  status += ReadWrite<uint8_t,3>(itk::NumericTraits<uint8_t>::NonpositiveMin(),
+                             itk::NumericTraits<uint8_t>::max(),
                              argv[1], argv[2], true);
 
 
@@ -171,17 +171,17 @@ int itkVTKImageIOTest(int argc, char* argv[] )
                              itk::NumericTraits<char>::max(),
                              argv[1], argv[2], true);
 
-  status += ReadWrite<unsigned short,2>(itk::NumericTraits<unsigned short>::NonpositiveMin(),
-                             itk::NumericTraits<unsigned short>::max(),
+  status += ReadWrite<uint16_t,2>(itk::NumericTraits<uint16_t>::NonpositiveMin(),
+                             itk::NumericTraits<uint16_t>::max(),
                              argv[1], argv[2], false);
-  status += ReadWrite<unsigned short,2>(itk::NumericTraits<unsigned short>::NonpositiveMin(),
-                             itk::NumericTraits<unsigned short>::max(),
+  status += ReadWrite<uint16_t,2>(itk::NumericTraits<uint16_t>::NonpositiveMin(),
+                             itk::NumericTraits<uint16_t>::max(),
                              argv[1], argv[2], true);
-  status += ReadWrite<unsigned short,3>(itk::NumericTraits<unsigned short>::NonpositiveMin(),
-                             itk::NumericTraits<unsigned short>::max(),
+  status += ReadWrite<uint16_t,3>(itk::NumericTraits<uint16_t>::NonpositiveMin(),
+                             itk::NumericTraits<uint16_t>::max(),
                              argv[1], argv[2], false);
-  status += ReadWrite<unsigned short,3>(itk::NumericTraits<unsigned short>::NonpositiveMin(),
-                             itk::NumericTraits<unsigned short>::max(),
+  status += ReadWrite<uint16_t,3>(itk::NumericTraits<uint16_t>::NonpositiveMin(),
+                             itk::NumericTraits<uint16_t>::max(),
                              argv[1], argv[2], true);
 
   status += ReadWrite<short,2>(itk::NumericTraits<short>::NonpositiveMin(),

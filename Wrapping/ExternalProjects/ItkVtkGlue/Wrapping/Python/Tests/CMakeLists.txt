@@ -15,7 +15,7 @@ itk_add_test(NAME SimpleItkVtkPipeline
   --compare SimpleItkVtkPipeline.png ${PROJECT_SOURCE_DIR}/images/cthead1.png
 )
 
-# some tests will fail if dim=2 and unsigned short are not wrapped
+# some tests will fail if dim=2 and uint16_t are not wrapped
 INTERSECTION(WRAP_2 2 "${ITK_WRAP_DIMS}")
 if(ITK_WRAP_unsigned_short AND WRAP_2)
 endif()

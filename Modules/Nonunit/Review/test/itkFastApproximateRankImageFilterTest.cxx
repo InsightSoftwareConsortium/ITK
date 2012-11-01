@@ -34,7 +34,7 @@ int itkFastApproximateRankImageFilterTest(int ac, char* av[] )
     return -1;
     }
 
-  typedef itk::Image<unsigned char, 2> ImageType;
+  typedef itk::Image<uint8_t, 2> ImageType;
 
   typedef itk::ImageFileReader<ImageType> ReaderType;
   ReaderType::Pointer input  = ReaderType::New();

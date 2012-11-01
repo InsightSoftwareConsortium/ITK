@@ -131,7 +131,7 @@ ContourExtractor2DImageFilter< TInputImage >
     v2 = it.GetPixel(7);
     v3 = it.GetPixel(8);
     InputIndexType index = it.GetIndex();
-    unsigned char  squareCase = 0;
+    uint8_t  squareCase = 0;
     if ( v0 > m_ContourValue ) { squareCase += 1; }
     if ( v1 > m_ContourValue ) { squareCase += 2; }
     if ( v2 > m_ContourValue ) { squareCase += 4; }

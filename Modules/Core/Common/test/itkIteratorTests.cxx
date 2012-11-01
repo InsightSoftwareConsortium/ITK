@@ -27,7 +27,7 @@
 int itkIteratorTests(int, char* [] )
 {
   std::cout << "Creating an image" << std::endl;
-  typedef itk::Image<unsigned short, 3> ScalarImage;
+  typedef itk::Image<uint16_t, 3> ScalarImage;
   ScalarImage::Pointer  o3 = ScalarImage::New();
 
   double origin3D[3] = { 5, 2.1, 8.1};
@@ -67,8 +67,8 @@ int itkIteratorTests(int, char* [] )
 
   // memset
   start = clock();
-  unsigned short *ptr = o3->GetBufferPointer();
-  memset(ptr, 0, num*sizeof(unsigned short));
+  uint16_t *ptr = o3->GetBufferPointer();
+  memset(ptr, 0, num*sizeof(uint16_t));
   end = clock();
   elapsedTime = (end - start) / (double) CLOCKS_PER_SEC;
 
@@ -125,7 +125,7 @@ int itkIteratorTests(int, char* [] )
   start = clock();
   itk::ImageRegionIterator<ScalarImage> it(o3, region);
 
-  unsigned short scalar;
+  uint16_t scalar;
   scalar = 5;
 
   i = 0;

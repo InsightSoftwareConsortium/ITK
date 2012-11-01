@@ -37,7 +37,7 @@ int itkLabelMapToAttributeImageFilterTest1(int argc, char * argv[])
 
   const unsigned int dim = 2;
 
-  typedef unsigned short PixelType;
+  typedef uint16_t PixelType;
 
   typedef itk::Image< PixelType, dim > ImageType;
 

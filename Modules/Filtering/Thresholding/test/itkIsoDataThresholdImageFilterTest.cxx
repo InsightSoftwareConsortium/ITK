@@ -34,7 +34,7 @@ int itkIsoDataThresholdImageFilterTest(int argc, char* argv[] )
     }
 
   typedef  short          InputPixelType;
-  typedef  unsigned char  OutputPixelType;
+  typedef  uint8_t  OutputPixelType;
 
   typedef itk::Image< InputPixelType,  2 >   InputImageType;
   typedef itk::Image< OutputPixelType, 2 >   OutputImageType;

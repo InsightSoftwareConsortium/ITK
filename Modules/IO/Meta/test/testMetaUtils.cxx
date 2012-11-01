@@ -38,7 +38,7 @@ int testMetaUtils(int argc, char * argv[])
     {
     std::cout << "MET_SYSTEM_BYTE_ORDER_MSB = FALSE" << std::endl;
     }
-  unsigned short x = 256;
+  uint16_t x = 256;
   std::cout << "MET_ByteSwapShort: ";
   if(MET_ByteOrderSwapShort(x) != 1)
     std::cout << "FAILED: 256->" << MET_ByteOrderSwapShort(x) << std::endl;

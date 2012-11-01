@@ -20,7 +20,7 @@
 //
 //This example illustrates how the \doxygen{ImageAdaptor} can be used to cast
 // an image from one pixel type to another. In particular, we will
-// \emph{adapt} an \code{unsigned char} image to make it appear as an image of
+// \emph{adapt} an \code{uint8_t} image to make it appear as an image of
 // pixel type \code{float}.
 //
 // \index{itk::ImageAdaptor!Instantiation}
@@ -48,7 +48,7 @@
 // provide methods \code{Set()} and \code{Get()}, and define the types of
 // \code{InternalPixelType} and \code{ExternalPixelType}. The
 // \code{InternalPixelType} corresponds to the pixel type of the image to be
-// adapted (\code{unsigned char} in this example). The \code{ExternalPixelType}
+// adapted (\code{uint8_t} in this example). The \code{ExternalPixelType}
 // corresponds to the pixel type we wish to emulate with the ImageAdaptor
 // (\code{float} in this case).
 //
@@ -59,7 +59,7 @@
 class CastPixelAccessor
 {
 public:
-  typedef unsigned char InternalType;
+  typedef uint8_t InternalType;
   typedef float         ExternalType;
 
   static void Set(InternalType & output, const ExternalType & input)
@@ -102,7 +102,7 @@ int main( int argc, char *argv[] )
 
 
 // Software Guide : BeginCodeSnippet
-  typedef unsigned char  InputPixelType;
+  typedef uint8_t  InputPixelType;
   const   unsigned int   Dimension = 2;
   typedef itk::Image< InputPixelType, Dimension >   ImageType;
 

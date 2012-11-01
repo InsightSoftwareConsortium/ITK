@@ -353,7 +353,7 @@ int main( int argc, char *argv[] )
   resample->SetOutputDirection( fixedImage->GetDirection() );
   resample->SetDefaultPixelValue( 100 );
 
-  typedef  unsigned char  OutputPixelType;
+  typedef  uint8_t  OutputPixelType;
 
   typedef itk::Image< OutputPixelType, ImageDimension > OutputImageType;
 

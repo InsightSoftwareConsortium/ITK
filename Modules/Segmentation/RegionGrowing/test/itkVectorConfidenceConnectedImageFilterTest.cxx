@@ -36,10 +36,10 @@ int itkVectorConfidenceConnectedImageFilterTest(int ac, char* av[] )
 
   const unsigned int Dimension = 2;
 
-  typedef unsigned char                     PixelComponentType;
+  typedef uint8_t                     PixelComponentType;
   typedef itk::RGBPixel<PixelComponentType> PixelType;
 
-  typedef unsigned char OutputPixelType;
+  typedef uint8_t OutputPixelType;
 
   typedef itk::Image<PixelType,       Dimension> ImageType;
   typedef itk::Image<OutputPixelType, Dimension> OutputImageType;

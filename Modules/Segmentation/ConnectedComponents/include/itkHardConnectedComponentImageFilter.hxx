@@ -32,9 +32,9 @@ HardConnectedComponentImageFilter< TInputImage, TOutputImage >
   unsigned int i;
   int          p, q, m;
 
-  unsigned short *eq_tab = new unsigned short[NumericTraits < unsigned short > ::max()];
-  unsigned char * flags = new unsigned char[NumericTraits < unsigned short > ::max()];
-  unsigned short  label, max_label = 0;
+  uint16_t *eq_tab = new uint16_t[NumericTraits < uint16_t > ::max()];
+  uint8_t * flags = new uint8_t[NumericTraits < uint16_t > ::max()];
+  uint16_t  label, max_label = 0;
   IndexType       index, current;
   SizeType        size;
 
@@ -63,7 +63,7 @@ HardConnectedComponentImageFilter< TInputImage, TOutputImage >
     {
     if ( it.Get() != 0 )
       {
-      ot.Set( NumericTraits< unsigned short >::max() );
+      ot.Set( NumericTraits< uint16_t >::max() );
       }
     else
       {
@@ -86,21 +86,21 @@ HardConnectedComponentImageFilter< TInputImage, TOutputImage >
           }
         else
           {
-          label = static_cast< unsigned short >( output->GetPixel(current) );
+          label = static_cast< uint16_t >( output->GetPixel(current) );
           }
         if ( label )
           {
-          if ( ot.Get() == NumericTraits< unsigned short >::max() )
+          if ( ot.Get() == NumericTraits< uint16_t >::max() )
             {
             ot.Set(label);
             }
           else if ( ( ot.Get() != label )
-                    && ( eq_tab[static_cast< unsigned short >( ot.Get() )]
+                    && ( eq_tab[static_cast< uint16_t >( ot.Get() )]
                          != eq_tab[label] ) )
             {
-            if ( eq_tab[static_cast< unsigned short >( ot.Get() )] > eq_tab[label] )
+            if ( eq_tab[static_cast< uint16_t >( ot.Get() )] > eq_tab[label] )
               {
-              q = eq_tab[static_cast< unsigned short >( ot.Get() )];
+              q = eq_tab[static_cast< uint16_t >( ot.Get() )];
               for ( p = q; p <= max_label; p++ )
                 {
                 if ( eq_tab[p] == q )
@@ -116,19 +116,19 @@ HardConnectedComponentImageFilter< TInputImage, TOutputImage >
                 {
                 if ( eq_tab[p] == q )
                   {
-                  eq_tab[p] = eq_tab[static_cast< unsigned short >( ot.Get() )];
+                  eq_tab[p] = eq_tab[static_cast< uint16_t >( ot.Get() )];
                   }
                 }
               }
             }
           }
         }
-      if ( ot.Get() == NumericTraits< unsigned short >::max() )
+      if ( ot.Get() == NumericTraits< uint16_t >::max() )
         {
         ++max_label;
         eq_tab[max_label] = max_label;
         ot.Set(max_label);
-        if ( max_label == NumericTraits< unsigned short >::max() )
+        if ( max_label == NumericTraits< uint16_t >::max() )
           {
           return;
           }
@@ -162,7 +162,7 @@ HardConnectedComponentImageFilter< TInputImage, TOutputImage >
   for ( iter = m_Seeds.begin(); iter != m_Seeds.end(); iter++ )
     {
     current = *iter;
-    m = eq_tab[static_cast< unsigned short >( output->GetPixel(current) )];
+    m = eq_tab[static_cast< uint16_t >( output->GetPixel(current) )];
     for ( i = m; i <= max_label; i++ )
       {
       if ( eq_tab[i] == m )
@@ -177,14 +177,14 @@ HardConnectedComponentImageFilter< TInputImage, TOutputImage >
     {
     for (; !ot.IsAtEnd(); ++ot )
       {
-      ot.Set(eq_tab[static_cast< unsigned short >( ot.Get() )]);
+      ot.Set(eq_tab[static_cast< uint16_t >( ot.Get() )]);
       }
     }
   else
     {
     for (; !ot.IsAtEnd(); ++ot )
       {
-      ot.Set(flags[static_cast< unsigned short >( ot.Get() )]);
+      ot.Set(flags[static_cast< uint16_t >( ot.Get() )]);
       }
     }
   delete[] eq_tab;

@@ -40,8 +40,8 @@ int itkMutualInformationMetricTest(int, char* [] )
 //------------------------------------------------------------
 
   //Allocate Images
-  typedef itk::Image<unsigned char,2>           MovingImageType;
-  typedef itk::Image<unsigned char,2>           FixedImageType;
+  typedef itk::Image<uint8_t,2>           MovingImageType;
+  typedef itk::Image<uint8_t,2>           FixedImageType;
   enum { ImageDimension = MovingImageType::ImageDimension };
 
   MovingImageType::SizeType size = {{100,100}};
@@ -93,7 +93,7 @@ int itkMutualInformationMetricTest(int, char* [] )
     d += displacement;
     const double x = d[0];
     const double y = d[1];
-    ri.Set( (unsigned char) ( 200.0 * vcl_exp( - ( x*x + y*y )/(s*s) ) ) );
+    ri.Set( (uint8_t) ( 200.0 * vcl_exp( - ( x*x + y*y )/(s*s) ) ) );
     ++ri;
     }
 
@@ -106,7 +106,7 @@ int itkMutualInformationMetricTest(int, char* [] )
     d = p-center;
     const double x = d[0];
     const double y = d[1];
-    ti.Set( (unsigned char) ( 200.0 * vcl_exp( - ( x*x + y*y )/(s*s) ) ) );
+    ti.Set( (uint8_t) ( 200.0 * vcl_exp( - ( x*x + y*y )/(s*s) ) ) );
     ++ti;
     }
 

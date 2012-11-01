@@ -18,7 +18,7 @@
 #ifndef __BigEndian_img_h
 #define __BigEndian_img_h
 
-const unsigned char BigEndian_img[] = {
+const uint8_t BigEndian_img[] = {
   67, 16, 0, 0, 67, 16, 0, 0, 67, 16, 0, 0, 65, 128, 0, 0, 65, 128, 0, 0,
   65, 128, 0, 0, 67, 16, 0, 0, 67, 16, 0, 0, 67, 16, 0, 0, 65, 128, 0, 0,
   65, 128, 0, 0, 65, 128, 0, 0, 67, 16, 0, 0, 67, 16, 0, 0, 67, 16, 0, 0,

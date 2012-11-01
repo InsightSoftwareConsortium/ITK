@@ -36,7 +36,7 @@ class BandNode
 public:
   TDataType   m_Data;
   TIndexType  m_Index;
-  signed char m_NodeState;
+  int8_t m_NodeState;
   BandNode() : m_NodeState( 0 ) {}
 };
 

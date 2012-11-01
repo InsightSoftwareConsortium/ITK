@@ -688,15 +688,15 @@ RGBGibbsPriorFilter< TInputImage, TClassifiedImage >
     {
     delete[] m_Region;
     }
-  m_Region = new unsigned short[size];
+  m_Region = new uint16_t[size];
 
   if ( m_RegionCount )
     {
     delete[] m_RegionCount;
     }
-  m_RegionCount = new unsigned short[size];
+  m_RegionCount = new uint16_t[size];
 
-  unsigned short *valid_region_counter = new unsigned short[size];
+  uint16_t *valid_region_counter = new uint16_t[size];
 
   LabelledImageRegionIterator
   labelledImageIt( m_LabelledImage, m_LabelledImage->GetBufferedRegion() );

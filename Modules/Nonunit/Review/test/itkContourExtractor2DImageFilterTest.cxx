@@ -21,7 +21,7 @@
 namespace itkContourExtractor2DImageFilterTestNamespace
 {
 const unsigned int Dimension = 2;
-typedef unsigned char                                   PixelType;
+typedef uint8_t                                   PixelType;
 typedef itk::Image<PixelType, Dimension>                ImageType;
 typedef itk::ImageFileReader<ImageType>                 ReaderType;
 typedef itk::ContourExtractor2DImageFilter<ImageType>   ExtractorType;

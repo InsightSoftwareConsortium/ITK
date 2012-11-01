@@ -38,7 +38,7 @@ int itkPermuteAxesImageFilterTest(int, char* [] )
 
   itk::OutputWindow::SetInstance( itk::TextOutput::New() );
 
-  typedef unsigned char PixelType;
+  typedef uint8_t PixelType;
   enum { ImageDimension = 4 };
   typedef itk::Image<PixelType,ImageDimension> ImageType;
   typedef itk::PermuteAxesImageFilter<ImageType> PermuterType;

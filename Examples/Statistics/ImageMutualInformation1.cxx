@@ -105,7 +105,7 @@ int main( int argc, char * argv [] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef unsigned char                                 PixelComponentType;
+  typedef uint8_t                                 PixelComponentType;
   const unsigned int                                    Dimension = 2;
 
   typedef itk::Image< PixelComponentType, Dimension >   ImageType;

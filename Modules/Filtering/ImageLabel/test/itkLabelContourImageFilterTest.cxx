@@ -36,7 +36,7 @@ int itkLabelContourImageFilterTest(int argc, char * argv[])
 
   const int dim = 3;
 
-  typedef unsigned char            PType;
+  typedef uint8_t            PType;
   typedef itk::Image< PType, dim > IType;
 
   typedef itk::ImageFileReader< IType > ReaderType;

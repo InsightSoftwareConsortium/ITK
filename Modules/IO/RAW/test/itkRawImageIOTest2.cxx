@@ -40,7 +40,7 @@ int itkRawImageIOTest2(int argc, char * argv [])
   // itk::OutputWindow::GetInstance()->PromptUserOn();
 
   // We are reading a RGB pixel
-  typedef itk::RGBPixel<unsigned char> RGBPixelType;
+  typedef itk::RGBPixel<uint8_t> RGBPixelType;
 
   // Create a source object (in this case a reader)
   itk::RawImageIO<RGBPixelType>::Pointer io;

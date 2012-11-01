@@ -50,8 +50,8 @@ public:
 
   virtual double GetSensitivity( unsigned int ) = 0;
   virtual double GetSpecificity( unsigned int ) = 0;
-  virtual unsigned short GetForeground() const  = 0;
-  virtual void SetForeground( unsigned short )  = 0;
+  virtual uint16_t GetForeground() const  = 0;
+  virtual void SetForeground( uint16_t )  = 0;
   virtual void SetConfidenceWeight( double ) = 0;
   virtual double GetConfidenceWeight() const = 0;
 
@@ -69,7 +69,7 @@ class Stapler : public StaplerBase
 {
 public:
   typedef itk::Image< double, VDimension > OutputImageType;
-  typedef itk::Image< unsigned short, VDimension > InputImageType;
+  typedef itk::Image< uint16_t, VDimension > InputImageType;
   typedef itk::STAPLEImageFilter<InputImageType, OutputImageType> StapleFilterType;
 
   Stapler()
@@ -89,9 +89,9 @@ public:
   virtual double GetSpecificity( unsigned int i )
   { return m_Stapler->GetSpecificity(i); }
 
-  virtual unsigned short GetForeground() const
+  virtual uint16_t GetForeground() const
   { return m_Stapler->GetForegroundValue(); }
-  virtual void SetForeground( unsigned short l )
+  virtual void SetForeground( uint16_t l )
   { m_Stapler->SetForegroundValue( l ); }
 
   virtual unsigned int GetElapsedIterations()
@@ -182,7 +182,7 @@ int itkSTAPLEImageFilterTest( int argc, char * argv[])
 
   stapler->SetConfidenceWeight( static_cast<double>( atof(argv[4]) ));
   stapler->SetOutputFileName( argv[2] );
-  stapler->SetForeground( static_cast<unsigned short>( atoi(argv[3])) );
+  stapler->SetForeground( static_cast<uint16_t>( atoi(argv[3])) );
 
   // Execute the stapler
   int ret = stapler->Execute();

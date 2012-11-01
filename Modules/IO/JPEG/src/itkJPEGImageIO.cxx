@@ -127,7 +127,7 @@ bool JPEGImageIO::CanReadFile(const char *file)
     }
 
   // read the first two bytes
-  unsigned char magic[2];
+  uint8_t magic[2];
   int           n = static_cast< int >( fread(magic, sizeof( magic ), 1, JPEGfp.m_FilePointer) );
   if ( n != 1 )
     {
@@ -425,7 +425,7 @@ void JPEGImageIO::Write(const void *buffer)
   if ( this->GetComponentType() != UCHAR
        && this->GetComponentType() != UINT )
     {
-    itkExceptionMacro(<< "JPEG supports unsigned char/int only");
+    itkExceptionMacro(<< "JPEG supports uint8_t/int only");
     }
 
   this->WriteSlice(m_FileName, buffer);

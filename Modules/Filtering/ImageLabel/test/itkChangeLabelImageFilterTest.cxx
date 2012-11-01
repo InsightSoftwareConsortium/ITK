@@ -27,8 +27,8 @@ int itkChangeLabelImageFilterTest(int, char* [] )
   const unsigned int ImageDimension = 3;
 
   // Declare the types of the images
-  typedef itk::Image<unsigned short, ImageDimension>  InputImageType;
-  typedef itk::Image<unsigned char, ImageDimension>  OutputImageType;
+  typedef itk::Image<uint16_t, ImageDimension>  InputImageType;
+  typedef itk::Image<uint8_t, ImageDimension>  OutputImageType;
   typedef InputImageType::PixelType InputPixelType;
   typedef OutputImageType::PixelType OutputPixelType;
 

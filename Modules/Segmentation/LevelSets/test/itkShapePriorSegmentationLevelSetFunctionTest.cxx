@@ -164,7 +164,7 @@ int itkShapePriorSegmentationLevelSetFunctionTest( int, char *[])
   /**
    * Threshold output and verify results.
    */
-  typedef itk::Image<unsigned char,Dimension> CharImageType;
+  typedef itk::Image<uint8_t,Dimension> CharImageType;
   typedef itk::BinaryThresholdImageFilter< ImageType, CharImageType >
     ThresholdFilterType;
   ThresholdFilterType::Pointer thresholder = ThresholdFilterType::New();

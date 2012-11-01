@@ -20,7 +20,7 @@
 /*
 * This is a test file for the itkImageSpatialObject class.
 * The suported pixel types does not include itkRGBPixel, itkRGBAPixel, etc...
-* So far it only allows to manage images of simple types like unsigned short,
+* So far it only allows to manage images of simple types like uint16_t,
 * unsigned int, or itk::Vector<...>.
 */
 
@@ -36,7 +36,7 @@ int itkImageSpatialObjectTest(int, char* [])
   #define NDimensions 3
 
   typedef double ScalarType;
-  typedef unsigned short Pixel;
+  typedef uint16_t Pixel;
   typedef itk::Image<Pixel,NDimensions> ImageType;
   typedef itk::ImageSpatialObject<NDimensions,Pixel> ImageSpatialObject;
   typedef ImageSpatialObject::BoundingBoxType BoundingBox;

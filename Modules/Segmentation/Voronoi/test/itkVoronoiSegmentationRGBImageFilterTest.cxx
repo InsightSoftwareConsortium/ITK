@@ -22,9 +22,9 @@
 #include <iostream>
 
 // typedefs for all functions
-typedef itk::RGBPixel<unsigned char> PixelType;
+typedef itk::RGBPixel<uint8_t> PixelType;
 typedef itk::Image<PixelType,2> ImageType;
-typedef itk::Image<unsigned char,2> SegmentationType;
+typedef itk::Image<uint8_t,2> SegmentationType;
 typedef itk::ImageFileReader<ImageType> ReaderType;
 typedef itk::VoronoiSegmentationRGBImageFilter<ImageType, SegmentationType> FilterType;
 typedef FilterType::BinaryObjectImage BinaryObjectImage;
@@ -37,10 +37,10 @@ namespace VoronoiSegRGBTest
 //
 const unsigned int width = 256;
 const unsigned int height = 256;
-const unsigned char bgMean = 64;
-const unsigned char bgStd = 10;
-const unsigned char fgMean = 128;
-const unsigned char fgStd = 5;
+const uint8_t bgMean = 64;
+const uint8_t bgStd = 10;
+const uint8_t fgMean = 128;
+const uint8_t fgStd = 5;
 const unsigned int objAStartX = 30;
 const unsigned int objAEndX = 94;
 const unsigned int objAStartY = 30;
@@ -72,9 +72,9 @@ ImageType::Pointer SetUpInputImage()
   while (!iter.IsAtEnd())
     {
     PixelType px;
-    px[0] = (unsigned char)(vnl_sample_uniform(bgMean-bgStd,bgMean+bgStd));
-    px[1] = (unsigned char)(vnl_sample_uniform(bgMean-bgStd,bgMean+bgStd));
-    px[2] = (unsigned char)(vnl_sample_uniform(bgMean-bgStd,bgMean+bgStd));
+    px[0] = (uint8_t)(vnl_sample_uniform(bgMean-bgStd,bgMean+bgStd));
+    px[1] = (uint8_t)(vnl_sample_uniform(bgMean-bgStd,bgMean+bgStd));
+    px[2] = (uint8_t)(vnl_sample_uniform(bgMean-bgStd,bgMean+bgStd));
     iter.Set(px);
     ++iter;
     }
@@ -89,9 +89,9 @@ ImageType::Pointer SetUpInputImage()
       idx[1] = y;
 
       PixelType px;
-      px[0] = (unsigned char)(vnl_sample_uniform(fgMean-fgStd,fgMean+fgStd));
-      px[1] = (unsigned char)(vnl_sample_uniform(fgMean-fgStd,fgMean+fgStd));
-      px[2] = (unsigned char)(vnl_sample_uniform(fgMean-fgStd,fgMean+fgStd));
+      px[0] = (uint8_t)(vnl_sample_uniform(fgMean-fgStd,fgMean+fgStd));
+      px[1] = (uint8_t)(vnl_sample_uniform(fgMean-fgStd,fgMean+fgStd));
+      px[2] = (uint8_t)(vnl_sample_uniform(fgMean-fgStd,fgMean+fgStd));
       inputImage->SetPixel(idx, px);
       }
     }
@@ -104,9 +104,9 @@ ImageType::Pointer SetUpInputImage()
       idx[1] = y;
 
       PixelType px;
-      px[0] = (unsigned char)(vnl_sample_uniform(fgMean-fgStd,fgMean+fgStd));
-      px[1] = (unsigned char)(vnl_sample_uniform(fgMean-fgStd,fgMean+fgStd));
-      px[2] = (unsigned char)(vnl_sample_uniform(fgMean-fgStd,fgMean+fgStd));
+      px[0] = (uint8_t)(vnl_sample_uniform(fgMean-fgStd,fgMean+fgStd));
+      px[1] = (uint8_t)(vnl_sample_uniform(fgMean-fgStd,fgMean+fgStd));
+      px[2] = (uint8_t)(vnl_sample_uniform(fgMean-fgStd,fgMean+fgStd));
       inputImage->SetPixel(idx, px);
       }
     }

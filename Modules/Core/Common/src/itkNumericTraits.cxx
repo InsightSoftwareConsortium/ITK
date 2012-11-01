@@ -22,17 +22,17 @@ namespace itk
 const bool NumericTraits< bool >:: Zero = false;
 const bool NumericTraits< bool >:: One = true;
 
-const unsigned char NumericTraits< unsigned char >:: Zero = 0;
-const unsigned char NumericTraits< unsigned char >:: One = 1;
+const uint8_t NumericTraits< uint8_t >:: Zero = 0;
+const uint8_t NumericTraits< uint8_t >:: One = 1;
 
-const signed char NumericTraits< signed char >:: Zero = 0;
-const signed char NumericTraits< signed char >:: One = 1;
+const int8_t NumericTraits< int8_t >:: Zero = 0;
+const int8_t NumericTraits< int8_t >:: One = 1;
 
 const char NumericTraits< char >:: Zero = 0;
 const char NumericTraits< char >:: One = 1;
 
-const unsigned short NumericTraits< unsigned short >:: Zero = 0;
-const unsigned short NumericTraits< unsigned short >:: One = 1;
+const uint16_t NumericTraits< uint16_t >:: Zero = 0;
+const uint16_t NumericTraits< uint16_t >:: One = 1;
 
 const short NumericTraits< short >:: Zero = 0;
 const short NumericTraits< short >:: One = 1;

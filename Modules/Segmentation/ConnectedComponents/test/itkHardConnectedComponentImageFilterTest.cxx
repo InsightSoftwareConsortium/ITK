@@ -25,7 +25,7 @@ const int WIDTH = 20;
 int itkHardConnectedComponentImageFilterTest(int, char* [] )
 {
   typedef itk::Image<bool,2> InputImageType;
-  typedef itk::Image<unsigned short,2> OutputImageType;
+  typedef itk::Image<uint16_t,2> OutputImageType;
   typedef InputImageType::IndexType IndexType;
 
   itk::HardConnectedComponentImageFilter<InputImageType, OutputImageType>::Pointer

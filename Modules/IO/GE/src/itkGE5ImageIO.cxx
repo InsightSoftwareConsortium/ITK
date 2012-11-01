@@ -128,7 +128,7 @@ GE5ImageIO::SwapPixHdr(Ge5xPixelHeader *hdr)
   ByteSwapper< int >::SwapFromSystemToBigEndian ( &( hdr->GENESIS_IH_img_top_offset ) );
   ByteSwapper< int >::SwapFromSystemToBigEndian ( &( hdr->GENESIS_IH_img_bot_offset ) );
   ByteSwapper< short >::SwapFromSystemToBigEndian ( &( hdr->GENESIS_IH_img_version ) );
-  ByteSwapper< unsigned short >::SwapFromSystemToBigEndian ( &( hdr->GENESIS_IH_img_checksum ) );
+  ByteSwapper< uint16_t >::SwapFromSystemToBigEndian ( &( hdr->GENESIS_IH_img_checksum ) );
   ByteSwapper< int >::SwapFromSystemToBigEndian ( &( hdr->GENESIS_IH_img_p_id ) );
   ByteSwapper< int >::SwapFromSystemToBigEndian ( &( hdr->GENESIS_IH_img_l_id ) );
   ByteSwapper< int >::SwapFromSystemToBigEndian ( &( hdr->GENESIS_IH_img_p_unpack ) );

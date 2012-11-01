@@ -49,7 +49,7 @@ int itkImageFilterToVideoFilterWrapperTest( int argc, char* argv[] )
     }
 
   // Typedefs
-  typedef unsigned char                                                   PixelType;
+  typedef uint8_t                                                   PixelType;
   typedef itk::Image<PixelType, 2>                                        FrameType;
   typedef itk::VideoStream< FrameType >                                   VideoType;
   typedef itk::RecursiveGaussianImageFilter< FrameType, FrameType >       GaussianImageFilterType;

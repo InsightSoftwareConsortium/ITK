@@ -143,7 +143,7 @@ int main( int argc, char * argv [] )
 
   const unsigned int Dimension = 2;
 
-  typedef unsigned char MaskPixelType;
+  typedef uint8_t MaskPixelType;
 
   typedef itk::Image< MaskPixelType, Dimension > MaskImageType;
 
@@ -163,11 +163,11 @@ int main( int argc, char * argv [] )
                                     FixedPointSetType
                                             >  NarrowBandFilterType;
 
-  typedef  signed short   PixelType;
+  typedef  int16_t   PixelType;
 
   typedef itk::Image< PixelType, Dimension >  ImageType;
 
-  typedef  unsigned char       MaskPixelType;
+  typedef  uint8_t       MaskPixelType;
 
   typedef itk::Image< MaskPixelType, Dimension >  MaskImageType;
 

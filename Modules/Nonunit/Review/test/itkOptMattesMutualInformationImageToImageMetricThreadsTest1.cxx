@@ -43,7 +43,7 @@ int itkOptMattesMutualInformationImageToImageMetricThreadsTest1( int argc, char*
   std::cout << std::endl;
 
 
-  typedef unsigned char  PixelType;
+  typedef uint8_t  PixelType;
   const unsigned int     Dimension = 2;
 
   typedef itk::Image< PixelType > ImageType;

@@ -31,7 +31,7 @@ int itkGradientImageFilterTest(int , char * [] )
 {
   try
     {
-    typedef itk::Image<unsigned short, 2>                     ImageType;
+    typedef itk::Image<uint16_t, 2>                     ImageType;
     typedef itk::GradientImageFilter<ImageType, float, float> FilterType;
     typedef FilterType::OutputImageType                       OutputImageType;
 

@@ -47,9 +47,9 @@ int itkShiftScaleLabelMapFilterTest1(int argc, char * argv[])
 
   const unsigned int dim = 2;
 
-  typedef itk::Image< unsigned char, dim > ImageType;
+  typedef itk::Image< uint8_t, dim > ImageType;
 
-  typedef itk::LabelObject< unsigned char, dim > LabelObjectType;
+  typedef itk::LabelObject< uint8_t, dim > LabelObjectType;
   typedef itk::LabelMap< LabelObjectType >       LabelMapType;
 
   typedef itk::ImageFileReader< ImageType > ReaderType;

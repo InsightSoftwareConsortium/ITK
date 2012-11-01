@@ -27,8 +27,8 @@
 int itkVoronoiPartitioningImageFilterTest(int argc, char* argv[])
 {
   typedef itk::Image<float,2> FloatImage;
-  typedef itk::Image<unsigned char,2> UnsignedCharImage;
-  typedef itk::Image<unsigned short,2> UnsignedShortImage;
+  typedef itk::Image<uint8_t,2> UnsignedCharImage;
+  typedef itk::Image<uint16_t,2> UnsignedShortImage;
   typedef itk::Image<bool,2> BoolImage;
 
   if (argc != 4)
@@ -72,7 +72,7 @@ int itkVoronoiPartitioningImageFilterTest(int argc, char* argv[])
   FilterWatcher voronoiWatcher(voronoi);
 
   // Write out an image of the voronoi diagram
-  typedef itk::RGBPixel<unsigned char>   RGBPixelType;
+  typedef itk::RGBPixel<uint8_t>   RGBPixelType;
   typedef itk::Image<RGBPixelType, 2> RGBImageType;
   typedef itk::Functor::ScalarToRGBPixelFunctor<float>
     ColorMapFunctorType;

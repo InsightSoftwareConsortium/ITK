@@ -33,8 +33,8 @@ int main (int , char* [])
   typedef itk::Image<float,3>          InputType3D;
   typedef itk::Image<float,2>          OutputType;
   typedef itk::Image<bool,2>           BinaryImageType;
-  typedef itk::Image<unsigned short,2> UShortImageType;
-  typedef itk::Image<unsigned char,2>  CharType;
+  typedef itk::Image<uint16_t,2> UShortImageType;
+  typedef itk::Image<uint8_t,2>  CharType;
 
   typedef itk::Mesh<double>  MeshType;
 
@@ -56,7 +56,7 @@ int main (int , char* [])
     itk::GradientToMagnitudeImageFilter<VectorImageType,OutputType>::New();
   std::cout << "-------------GradientToMagnitudeImageFilter" << GradientToMagnitudeImageFilterObj;
 
-  typedef itk::Image<unsigned char,2> ImageType;
+  typedef itk::Image<uint8_t,2> ImageType;
   itk::ImageFileReader<ImageType>::Pointer reader =
     itk::ImageFileReader<ImageType>::New();
 

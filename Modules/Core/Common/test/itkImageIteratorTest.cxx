@@ -48,20 +48,20 @@ int itkImageIteratorTest(int, char* [] )
   const unsigned int ImageDimension = 3;
 
   std::cout << "Creating an image" << std::endl;
-  itk::Image<itk::Vector<unsigned short, 5>, ImageDimension>::Pointer
-    o3 = itk::Image<itk::Vector<unsigned short, 5>, ImageDimension>::New();
+  itk::Image<itk::Vector<uint16_t, 5>, ImageDimension>::Pointer
+    o3 = itk::Image<itk::Vector<uint16_t, 5>, ImageDimension>::New();
 
   float origin3D[ImageDimension] = { 5, 2.1, 8.1};
   float spacing3D[ImageDimension] = { 1.5, 2.1, 1};
 
-  itk::Image<itk::Vector<unsigned short, 5>, ImageDimension>::SizeType imageSize3D = {{ 20, 40, 60 }};
+  itk::Image<itk::Vector<uint16_t, 5>, ImageDimension>::SizeType imageSize3D = {{ 20, 40, 60 }};
 
-  itk::Image<itk::Vector<unsigned short, 5>, ImageDimension>::IndexType startIndex3D = {{5, 4, 1}};
-  itk::Image<itk::Vector<unsigned short, 5>, ImageDimension>::IndexType regionStartIndex3D = {{5, 10, 12}};
-  itk::Image<itk::Vector<unsigned short, 5>, ImageDimension>::IndexType regionEndIndex3D = {{8, 15, 17}};
+  itk::Image<itk::Vector<uint16_t, 5>, ImageDimension>::IndexType startIndex3D = {{5, 4, 1}};
+  itk::Image<itk::Vector<uint16_t, 5>, ImageDimension>::IndexType regionStartIndex3D = {{5, 10, 12}};
+  itk::Image<itk::Vector<uint16_t, 5>, ImageDimension>::IndexType regionEndIndex3D = {{8, 15, 17}};
 
 
-  itk::Image<itk::Vector<unsigned short, 5>, ImageDimension>::RegionType region;
+  itk::Image<itk::Vector<uint16_t, 5>, ImageDimension>::RegionType region;
   region.SetSize(imageSize3D);
   region.SetIndex(startIndex3D);
   o3->SetRegions( region );
@@ -69,12 +69,12 @@ int itkImageIteratorTest(int, char* [] )
   o3->SetSpacing(spacing3D);
 
   o3->Allocate();
-  itk::Vector<unsigned short, 5> fillValue;
-  fillValue.Fill(itk::NumericTraits<unsigned short>::max());
+  itk::Vector<uint16_t, 5> fillValue;
+  fillValue.Fill(itk::NumericTraits<uint16_t>::max());
   o3->FillBuffer(fillValue);
 
   std::cout << "Setting/Getting a pixel" << std::endl;
-  itk::Vector<unsigned short, 5> vec;
+  itk::Vector<uint16_t, 5> vec;
 
   vec[0] = 5;
   vec[1] = 4;
@@ -86,7 +86,7 @@ int itkImageIteratorTest(int, char* [] )
   (*o3)[regionEndIndex3D] = (*o3)[regionStartIndex3D];
   TestConstPixelAccess(*o3, *o3);
 
-  typedef itk::Vector< unsigned short, 5 >  VectorPixelType;
+  typedef itk::Vector< uint16_t, 5 >  VectorPixelType;
   typedef itk::Image< VectorPixelType, ImageDimension >  VectorImageType;
 
   typedef itk::ImageIterator<      VectorImageType >  VectorImageIterator;

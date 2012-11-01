@@ -91,9 +91,9 @@ BayesianClassifierInitializationImageFilter< TInputImage,
 
   typedef Statistics::GaussianMembershipFunction<
     MeasurementVectorType >                        GaussianMembershipFunctionType;
-  typedef VectorContainer< unsigned short, typename
+  typedef VectorContainer< uint16_t, typename
                            GaussianMembershipFunctionType::MeanVectorType * >          MeanEstimatorsContainerType;
-  typedef VectorContainer< unsigned short, typename
+  typedef VectorContainer< uint16_t, typename
                            GaussianMembershipFunctionType::CovarianceMatrixType * >    CovarianceEstimatorsContainerType;
 
   // Run k means to get the means from the input image

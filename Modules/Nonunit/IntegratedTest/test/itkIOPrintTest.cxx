@@ -36,7 +36,7 @@
 
 int itkIOPrintTest(int , char* [])
 {
-  typedef itk::Image<unsigned char,2> ImageType;
+  typedef itk::Image<uint8_t,2> ImageType;
   itk::ImageFileReader<ImageType>::Pointer reader =
     itk::ImageFileReader<ImageType>::New();
 
@@ -87,8 +87,8 @@ int itkIOPrintTest(int , char* [])
   reader->SetImageIO(Metaio);
   std::cout << "---------------Meta" << reader;
 
-  itk::RawImageIO<unsigned char>::Pointer Rawio;
-  Rawio = itk::RawImageIO<unsigned char>::New();
+  itk::RawImageIO<uint8_t>::Pointer Rawio;
+  Rawio = itk::RawImageIO<uint8_t>::New();
   reader->SetImageIO(Rawio);
   std::cout << "---------------Raw" << reader;
 

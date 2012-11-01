@@ -65,7 +65,7 @@ int main( int argc, char* argv[] )
 //
 // We define the pixel type and dimension of the image to be read. In this
 // particular case, the dimensionality of the image is 3, and we assume a
-// \code{signed short} pixel type that is commonly used for X-Rays CT scanners.
+// \code{int16_t} pixel type that is commonly used for X-Rays CT scanners.
 //
 // The image orientation information contained in the direction cosines
 // of the DICOM header are read in and passed correctly down the image processing
@@ -74,7 +74,7 @@ int main( int argc, char* argv[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef signed short    PixelType;
+  typedef int16_t    PixelType;
   const unsigned int      Dimension = 3;
 
   typedef itk::Image< PixelType, Dimension >         ImageType;

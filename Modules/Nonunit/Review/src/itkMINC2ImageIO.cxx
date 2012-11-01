@@ -1112,7 +1112,7 @@ void MINC2ImageIO::Write(const void *buffer)
       break;
     case UCHAR:
       minctype = MI_TYPE_UBYTE;
-      MINCWriteHyperSlab(volume, ndims, minctype, offsets, counts, (unsigned char *)buffer);
+      MINCWriteHyperSlab(volume, ndims, minctype, offsets, counts, (uint8_t *)buffer);
       break;
     case SHORT:
       minctype = MI_TYPE_SHORT;
@@ -1120,7 +1120,7 @@ void MINC2ImageIO::Write(const void *buffer)
       break;
     case USHORT:
       minctype = MI_TYPE_USHORT;
-      MINCWriteHyperSlab(volume, ndims, minctype, offsets, counts, (unsigned short *)buffer);
+      MINCWriteHyperSlab(volume, ndims, minctype, offsets, counts, (uint16_t *)buffer);
       break;
     case INT:
       minctype = MI_TYPE_INT;
@@ -1167,13 +1167,13 @@ void MINC2ImageIO::Write(const void *buffer)
         MINCComputeScalarRange(Strides, Sizes, this->GetNumberOfComponents(), maxval, minval, (char *)buffer);
         break;
       case MI_TYPE_UBYTE:
-        MINCComputeScalarRange(Strides, Sizes, this->GetNumberOfComponents(), maxval, minval, (unsigned char *)buffer);
+        MINCComputeScalarRange(Strides, Sizes, this->GetNumberOfComponents(), maxval, minval, (uint8_t *)buffer);
         break;
       case MI_TYPE_SHORT:
         MINCComputeScalarRange(Strides, Sizes, this->GetNumberOfComponents(), maxval, minval, (short *)buffer);
         break;
       case MI_TYPE_USHORT:
-        MINCComputeScalarRange(Strides, Sizes, this->GetNumberOfComponents(), maxval, minval, (unsigned short *)buffer);
+        MINCComputeScalarRange(Strides, Sizes, this->GetNumberOfComponents(), maxval, minval, (uint16_t *)buffer);
         break;
       case MI_TYPE_INT:
         MINCComputeScalarRange(Strides, Sizes, this->GetNumberOfComponents(), maxval, minval, (int *)buffer);

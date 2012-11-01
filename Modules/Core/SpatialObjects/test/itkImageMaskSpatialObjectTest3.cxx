@@ -20,7 +20,7 @@
 /*
 * This is a test file for the itkImageMaskSpatialObject class.
 * The suported pixel types does not include itkRGBPixel, itkRGBAPixel, etc...
-* So far it only allows to manage images of simple types like unsigned short,
+* So far it only allows to manage images of simple types like uint16_t,
 * unsigned int, or itk::Vector<...>.
 */
 

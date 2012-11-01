@@ -34,7 +34,7 @@ int itkMapRankImageFilterTest(int ac, char* av[] )
     return -1;
     }
 
-  typedef itk::Image<unsigned short, 2> ImageType;
+  typedef itk::Image<uint16_t, 2> ImageType;
 
   typedef itk::ImageFileReader<ImageType> ReaderType;
   ReaderType::Pointer input  = ReaderType::New();

@@ -108,7 +108,7 @@ struct TestObject
 int itkCommonPrintTest(int , char* [])
 {
   typedef itk::Image<float,2>         InputType;
-  typedef itk::Image<unsigned char,2> CharType;
+  typedef itk::Image<uint8_t,2> CharType;
   typedef itk::Image<float,2>         OutputType;
 
   typedef itk::Point<float,3>   Point3DType;
@@ -118,7 +118,7 @@ int itkCommonPrintTest(int , char* [])
   typedef itk::Vector<float,2>      VectorType;
   typedef itk::Image<VectorType, 2> VectorImageType;
 
-  typedef itk::RGBPixel<unsigned short> RGBPixelType;
+  typedef itk::RGBPixel<uint16_t> RGBPixelType;
   typedef itk::Image<RGBPixelType,2>    RGBImageType;
 
   // Used for CenteredTransformInitializer

@@ -36,8 +36,8 @@
 template< unsigned int VImageDimension >
 int runGPUBinaryThresholdImageFilterTest(const std::string& inFile, const std::string& outFile)
 {
-  typedef   unsigned char  InputPixelType;
-  typedef   unsigned char  OutputPixelType;
+  typedef   uint8_t  InputPixelType;
+  typedef   uint8_t  OutputPixelType;
 
   typedef itk::GPUImage< InputPixelType,  VImageDimension >   InputImageType;
   typedef itk::GPUImage< OutputPixelType, VImageDimension >   OutputImageType;

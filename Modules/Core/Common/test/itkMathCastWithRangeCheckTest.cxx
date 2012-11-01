@@ -96,10 +96,10 @@ bool DoCastWithRangeCheckTestForTypes( const T1* = 0 )
   // call method for all type to be converted to type T1
   bool pass = true;
 
-  pass &= DoCastWithRangeCheckTest<T1, unsigned char>();
-  pass &= DoCastWithRangeCheckTest<T1, signed char>();
-  pass &= DoCastWithRangeCheckTest<T1, unsigned short>();
-  pass &= DoCastWithRangeCheckTest<T1, signed short>();
+  pass &= DoCastWithRangeCheckTest<T1, uint8_t>();
+  pass &= DoCastWithRangeCheckTest<T1, int8_t>();
+  pass &= DoCastWithRangeCheckTest<T1, uint16_t>();
+  pass &= DoCastWithRangeCheckTest<T1, int16_t>();
   pass &= DoCastWithRangeCheckTest<T1, unsigned int>();
   pass &= DoCastWithRangeCheckTest<T1, signed int>();
   pass &= DoCastWithRangeCheckTest<T1, unsigned long>();
@@ -129,18 +129,18 @@ int itkMathCastWithRangeCheckTest( int, char *[] )
      }
 
 
-  DoCastWithRangeCheckTestExulstive<signed char, unsigned char>();
-  DoCastWithRangeCheckTestExulstive<unsigned char, signed char>();
-  DoCastWithRangeCheckTestExulstive<unsigned char, signed short>();
-  DoCastWithRangeCheckTestExulstive<signed char, signed short>();
+  DoCastWithRangeCheckTestExulstive<int8_t, uint8_t>();
+  DoCastWithRangeCheckTestExulstive<uint8_t, int8_t>();
+  DoCastWithRangeCheckTestExulstive<uint8_t, int16_t>();
+  DoCastWithRangeCheckTestExulstive<int8_t, int16_t>();
 
-  DoCastWithRangeCheckTestExulstive<unsigned int, signed char>();
+  DoCastWithRangeCheckTestExulstive<unsigned int, int8_t>();
 
 
-  pass &= DoCastWithRangeCheckTestForTypes<unsigned char>();
-  pass &= DoCastWithRangeCheckTestForTypes<signed char>();
-  pass &= DoCastWithRangeCheckTestForTypes<unsigned short>();
-  pass &= DoCastWithRangeCheckTestForTypes<signed short>();
+  pass &= DoCastWithRangeCheckTestForTypes<uint8_t>();
+  pass &= DoCastWithRangeCheckTestForTypes<int8_t>();
+  pass &= DoCastWithRangeCheckTestForTypes<uint16_t>();
+  pass &= DoCastWithRangeCheckTestForTypes<int16_t>();
   pass &= DoCastWithRangeCheckTestForTypes<unsigned int>();
   pass &= DoCastWithRangeCheckTestForTypes<signed int>();
   pass &= DoCastWithRangeCheckTestForTypes<unsigned long>();

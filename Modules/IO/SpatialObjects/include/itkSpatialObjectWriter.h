@@ -30,7 +30,7 @@ namespace itk
  * \ingroup ITKIOSpatialObjects
  */
 template< unsigned int NDimensions = 3,
-          typename PixelType = unsigned char,
+          typename PixelType = uint8_t,
           typename TMeshTraits = DefaultStaticMeshTraits< PixelType,
                                                           NDimensions,
                                                           NDimensions >

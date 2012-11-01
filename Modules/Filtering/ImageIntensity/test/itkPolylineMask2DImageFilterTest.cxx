@@ -34,7 +34,7 @@ int itkPolylineMask2DImageFilterTest(int argc, char * argv [] )
 
   // Declare the types of the images
   const unsigned int Dimension = 2;
-  typedef unsigned char PixelType;
+  typedef uint8_t PixelType;
 
   typedef itk::Image<PixelType, Dimension>        InputImageType;
   typedef itk::Image<PixelType, Dimension>        OutputImageType;

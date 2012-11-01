@@ -133,14 +133,14 @@ int itkFixedArrayTest(int, char* [] )
   // Try all index types
 #define TRY_INDEX_CONST(T) {T in = 10; if (array20[in] != 10) {std::cerr << "index failed" << std::endl; return EXIT_FAILURE;}}
       TRY_INDEX_CONST(short);
-      TRY_INDEX_CONST(unsigned short);
+      TRY_INDEX_CONST(uint16_t);
       TRY_INDEX_CONST(int);
       TRY_INDEX_CONST(unsigned int);
       TRY_INDEX_CONST(long);
       TRY_INDEX_CONST(unsigned long);
 #define TRY_INDEX(T) {T in = 10; array20[in] = 10;}
       TRY_INDEX(short);
-      TRY_INDEX(unsigned short);
+      TRY_INDEX(uint16_t);
       TRY_INDEX(int);
       TRY_INDEX(unsigned int);
       TRY_INDEX(long);

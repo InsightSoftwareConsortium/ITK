@@ -75,7 +75,7 @@ int main(int argc, char* argv[])
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef signed short InputPixelType;
+  typedef int16_t InputPixelType;
   const unsigned int   Dimension = 2;
   typedef itk::Image< InputPixelType, Dimension > InputImageType;
 // Software Guide : EndCodeSnippet

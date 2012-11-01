@@ -39,7 +39,7 @@ int itk2DDeformableTest(int, char* [])
   typedef itk::Image<double, myDimension>           myImageType;
 
   // Declare the types of the output images
-  typedef itk::Image<unsigned short, myDimension>   binaryImageType;
+  typedef itk::Image<uint16_t, myDimension>   binaryImageType;
 
   // Declare the type of the index to access images
   typedef itk::Index<myDimension>       myIndexType;

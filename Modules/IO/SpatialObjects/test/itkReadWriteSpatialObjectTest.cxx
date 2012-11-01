@@ -41,11 +41,11 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
   typedef itk::ContourSpatialObject<3>     ContourType;
 
 
-  typedef itk::ImageSpatialObject<3,unsigned short>  ImageType;
+  typedef itk::ImageSpatialObject<3,uint16_t>  ImageType;
   typedef itk::ImageMaskSpatialObject<3>             ImageMaskType;
 
-  typedef itk::SpatialObjectWriter<3,unsigned short> WriterType;
-  typedef itk::SpatialObjectReader<3,unsigned short> ReaderType;
+  typedef itk::SpatialObjectWriter<3,uint16_t> WriterType;
+  typedef itk::SpatialObjectReader<3,uint16_t> ReaderType;
 
   typedef itk::TubeSpatialObjectPoint<3>        TubePointType;
   typedef itk::VesselTubeSpatialObjectPoint<3>  VesselTubePointType;
@@ -730,7 +730,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
       maskFound = true;
       itkImageMaskType::ConstPointer constImage = dynamic_cast<const ImageMaskType*>((*obj).GetPointer())->GetImage();
       itk::ImageRegionConstIteratorWithIndex< itkImageMaskType > it(constImage, constImage->GetLargestPossibleRegion());
-      for(unsigned char i = 0; !it.IsAtEnd(); i++, ++it)
+      for(uint8_t i = 0; !it.IsAtEnd(); i++, ++it)
         {
         if(it.Get() != i)
           {

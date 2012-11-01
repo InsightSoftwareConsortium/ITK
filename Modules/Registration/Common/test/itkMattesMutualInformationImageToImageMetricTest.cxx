@@ -115,7 +115,7 @@ int TestMattesMetricWithAffineTransform(
     d += displacement;
     const double x = d[0];
     const double y = d[1];
-    ri.Set( (unsigned char) ( 200.0 * vcl_exp( - ( x*x + y*y )/(s*s) ) ) );
+    ri.Set( (uint8_t) ( 200.0 * vcl_exp( - ( x*x + y*y )/(s*s) ) ) );
     ++ri;
     }
 
@@ -127,7 +127,7 @@ int TestMattesMetricWithAffineTransform(
     d = p-center;
     const double x = d[0];
     const double y = d[1];
-    ti.Set( (unsigned char) ( 200.0 * vcl_exp( - ( x*x + y*y )/(s*s) ) ) );
+    ti.Set( (uint8_t) ( 200.0 * vcl_exp( - ( x*x + y*y )/(s*s) ) ) );
     ++ti;
     }
 
@@ -488,7 +488,7 @@ int TestMattesMetricWithBSplineTransform(
     d += displacement;
     const double x = d[0];
     const double y = d[1];
-    ri.Set( (unsigned char) ( 200.0 * vcl_exp( - ( x*x + y*y )/(s*s) ) ) );
+    ri.Set( (uint8_t) ( 200.0 * vcl_exp( - ( x*x + y*y )/(s*s) ) ) );
     ++ri;
     }
 
@@ -500,7 +500,7 @@ int TestMattesMetricWithBSplineTransform(
     d = p-center;
     const double x = d[0];
     const double y = d[1];
-    ti.Set( (unsigned char) ( 200.0 * vcl_exp( - ( x*x + y*y )/(s*s) ) ) );
+    ti.Set( (uint8_t) ( 200.0 * vcl_exp( - ( x*x + y*y )/(s*s) ) ) );
     ++ti;
     }
 
@@ -690,7 +690,7 @@ int itkMattesMutualInformationImageToImageMetricTest(int argc, char * argv [] )
     }
 
   int failed;
-  typedef itk::Image<unsigned char,2> ImageType;
+  typedef itk::Image<uint8_t,2> ImageType;
 
   bool useSampling = true;
 

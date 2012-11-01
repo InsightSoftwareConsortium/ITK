@@ -34,9 +34,9 @@
 #include "itkImageMomentsCalculator.h"
 #include "itkMultiResolutionPyramidImageFilter.h"
 
-//typedef itk::Image<signed short, 2> TImageType;
-typedef itk::Image<signed short, 2> WImageType;
-//typedef itk::Image<signed short, 2> TImageType;
+//typedef itk::Image<int16_t, 2> TImageType;
+typedef itk::Image<int16_t, 2> WImageType;
+//typedef itk::Image<int16_t, 2> TImageType;
 typedef itk::Image<float, 2> TImageType;
 //typedef itk::Image<double, 2> TImageType;
 

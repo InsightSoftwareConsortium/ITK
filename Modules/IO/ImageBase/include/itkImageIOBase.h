@@ -295,7 +295,7 @@ public:
   SizeType GetImageSizeInComponents() const;
 
   /** Compute the size (in bytes) of the components of a pixel. For
-   * example, and RGB pixel of unsigned char would have a
+   * example, and RGB pixel of uint8_t would have a
    * component size of 1 byte. This method can be invoked only after
    * the component type is set. */
   virtual unsigned int GetComponentSize() const;
@@ -586,7 +586,7 @@ protected:
               const unsigned int *dimensions);
 
   /** Compute the size (in bytes) of the pixel. For
-   * example, and RGB pixel of unsigned char would have size 3 bytes. */
+   * example, and RGB pixel of uint8_t would have size 3 bytes. */
   virtual unsigned int GetPixelSize() const;
 
   /** Calculates the different strides (distance from one thing to the next).
@@ -654,9 +654,9 @@ private:
   }
 
 IMAGEIOBASE_TYPEMAP(char, CHAR);
-IMAGEIOBASE_TYPEMAP(unsigned char, UCHAR);
+IMAGEIOBASE_TYPEMAP(uint8_t, UCHAR);
 IMAGEIOBASE_TYPEMAP(short, SHORT);
-IMAGEIOBASE_TYPEMAP(unsigned short, USHORT);
+IMAGEIOBASE_TYPEMAP(uint16_t, USHORT);
 IMAGEIOBASE_TYPEMAP(int, INT);
 IMAGEIOBASE_TYPEMAP(unsigned int, UINT);
 IMAGEIOBASE_TYPEMAP(long, LONG);

@@ -58,7 +58,7 @@ int itkDicomImageIOTest(int ac, char* av[])
     return EXIT_FAILURE;
     }
 
-  typedef unsigned char WritePixelType;
+  typedef uint8_t WritePixelType;
 
   typedef itk::Image< WritePixelType, 2 > WriteImageType;
 

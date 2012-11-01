@@ -35,7 +35,7 @@ int itkHistogramToProbabilityImageFilterTest2( int argc, char * argv [] )
 
 
   const unsigned int                Dimension = 2;
-  typedef unsigned char             PixelComponentType;
+  typedef uint8_t             PixelComponentType;
 
   typedef itk::Image< PixelComponentType, Dimension > ScalarImageType;
   typedef itk::ImageFileReader< ScalarImageType >     ReaderType;

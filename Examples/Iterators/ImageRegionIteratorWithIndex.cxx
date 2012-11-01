@@ -77,7 +77,7 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   const unsigned int Dimension = 2;
 
-  typedef itk::RGBPixel< unsigned char >        RGBPixelType;
+  typedef itk::RGBPixel< uint8_t >        RGBPixelType;
   typedef itk::Image< RGBPixelType, Dimension > ImageType;
 
   typedef itk::ImageRegionIteratorWithIndex< ImageType > IteratorType;

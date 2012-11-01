@@ -34,7 +34,7 @@ int itkMetaImageIOTest(int ac, char* av[])
 
   // ATTENTION THIS IS THE PIXEL TYPE FOR
   // THE RESULTING IMAGE
-  typedef unsigned short           PixelType;
+  typedef uint16_t           PixelType;
   typedef itk::Image<PixelType, 3> myImage;
 
   itk::ImageFileReader<myImage>::Pointer reader

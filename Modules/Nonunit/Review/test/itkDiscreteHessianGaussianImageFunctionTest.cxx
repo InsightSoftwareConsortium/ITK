@@ -152,7 +152,7 @@ int itkDiscreteHessianGaussianImageFunctionTestND( int argc, char* argv[] )
     }
 
   // Write outputs
-  typedef unsigned char                                  OutputPixelType;
+  typedef uint8_t                                  OutputPixelType;
   typedef itk::Image< OutputPixelType, Dimension >       OutputImageType;
   typedef itk::ImageFileWriter< OutputImageType >        WriterType;
 

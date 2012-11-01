@@ -55,7 +55,7 @@ public:
 
   typedef ImageIOBase::SizeType SizeType;
 
-  virtual unsigned char ReadByte() = 0;
+  virtual uint8_t ReadByte() = 0;
 
   virtual void ReadData(void *data, SizeType bytes) = 0;
 
@@ -65,7 +65,7 @@ public:
   {
     // Read everything up to the \f symbol
     itksys_ios::ostringstream oss;
-    unsigned char             byte = ReadByte();
+    uint8_t             byte = ReadByte();
 
     while ( byte != '\f' )
       {
@@ -74,7 +74,7 @@ public:
       }
 
     // Read the next byte
-    unsigned char term = ReadByte();
+    uint8_t term = ReadByte();
     if ( term == '\r' )
       {
       term = ReadByte();
@@ -119,7 +119,7 @@ public:
       }
   }
 
-  unsigned char ReadByte()
+  uint8_t ReadByte()
   {
     int byte = gzgetc(m_GzFile);
 
@@ -131,7 +131,7 @@ public:
       exception.SetDescription( oss.str().c_str() );
       throw exception;
       }
-    return static_cast< unsigned char >( byte );
+    return static_cast< uint8_t >( byte );
   }
 
   void ReadData(void *data, SizeType bytes)
@@ -208,7 +208,7 @@ public:
       }
   }
 
-  unsigned char ReadByte()
+  uint8_t ReadByte()
   {
     int byte = fgetc(m_File);
 
@@ -220,7 +220,7 @@ public:
       exception.SetDescription( oss.str().c_str() );
       throw exception;
       }
-    return static_cast< unsigned char >( byte );
+    return static_cast< uint8_t >( byte );
   }
 
   void ReadData(void *data, SizeType bytes)
@@ -865,7 +865,7 @@ VoxBoCUBImageIO
     }
   else if ( m_ComponentType == UCHAR )
     {
-    VoxBoCUBImageIOSwapHelper< unsigned char >::SwapIfNecessary(
+    VoxBoCUBImageIOSwapHelper< uint8_t >::SwapIfNecessary(
       buffer, numberOfBytes, m_ByteOrder);
     }
   else if ( m_ComponentType == SHORT )
@@ -875,7 +875,7 @@ VoxBoCUBImageIO
     }
   else if ( m_ComponentType == USHORT )
     {
-    VoxBoCUBImageIOSwapHelper< unsigned short >::SwapIfNecessary(
+    VoxBoCUBImageIOSwapHelper< uint16_t >::SwapIfNecessary(
       buffer, numberOfBytes, m_ByteOrder);
     }
   else if ( m_ComponentType == INT )

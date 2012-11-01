@@ -46,7 +46,7 @@ int itkHConvexConcaveImageFilterTest( int argc, char * argv[] )
 
   typedef float   InputPixelType;
   typedef float   OutputPixelType;
-  typedef unsigned char    WritePixelType;
+  typedef uint8_t    WritePixelType;
 
   typedef itk::Image< InputPixelType,  Dimension >   InputImageType;
   typedef itk::Image< OutputPixelType, Dimension >   OutputImageType;

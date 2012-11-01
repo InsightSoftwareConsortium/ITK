@@ -91,7 +91,7 @@ public:
   //      virtual void Read(void* buffer);
 
   /** Compute the size (in bytes) of the components of a pixel. For
-   * example, and RGB pixel of unsigned char would have a
+   * example, and RGB pixel of uint8_t would have a
    * component size of 1 byte. */
   // Implemented in superclass
   // virtual unsigned int GetComponentSize() const;

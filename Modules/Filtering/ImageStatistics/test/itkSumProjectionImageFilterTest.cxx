@@ -33,10 +33,10 @@ int itkSumProjectionImageFilterTest(int argc, char * argv[])
 
   const int dim = 3;
 
-  typedef unsigned char                     InputPixelType;
+  typedef uint8_t                     InputPixelType;
   typedef itk::Image< InputPixelType, dim > InputImageType;
 
-  typedef unsigned short                    OutpuPixelType;
+  typedef uint16_t                    OutpuPixelType;
   typedef itk::Image< OutpuPixelType, dim > OutputImageType;
 
   typedef itk::ImageFileReader< InputImageType > ReaderType;

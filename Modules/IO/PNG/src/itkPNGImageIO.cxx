@@ -84,7 +84,7 @@ bool PNGImageIO::CanReadFile(const char *file)
     {
     return false;
     }
-  unsigned char header[8];
+  uint8_t header[8];
   size_t temp = fread(header, 1, 8, pngfp.m_FilePointer);
   if( temp != 8 )
     {
@@ -145,7 +145,7 @@ void PNGImageIO::Read(void *buffer)
                        << itksys::SystemTools::GetLastSystemError() );
     return;
     }
-  unsigned char header[8];
+  uint8_t header[8];
   size_t temp = fread(header, 1, 8, fp);
   if( temp != 8 )
     {
@@ -259,7 +259,7 @@ void PNGImageIO::Read(void *buffer)
   png_read_update_info(png_ptr, info_ptr);
 
   SizeValueType  rowbytes = png_get_rowbytes(png_ptr, info_ptr);
-  unsigned char *tempImage = static_cast< unsigned char * >( buffer );
+  uint8_t *tempImage = static_cast< uint8_t * >( buffer );
   png_bytep *    row_pointers = new png_bytep[height];
   for ( unsigned int ui = 0; ui < height; ++ui )
     {
@@ -311,7 +311,7 @@ void PNGImageIO::ReadImageInformation()
     {
     return;
     }
-  unsigned char header[8];
+  uint8_t header[8];
   size_t temp = fread(header, 1, 8, fp);
   if( temp != 8 )
     {
@@ -500,7 +500,7 @@ void PNGImageIO::WriteSlice(const std::string & fileName, const void *buffer)
       //            of the Exception and prevent the catch() from recognizing
       // it.
       //            For details, see Bug #1872 in the bugtracker.
-      ::itk::ExceptionObject excp(__FILE__, __LINE__, "PNG supports unsigned char and unsigned short", ITK_LOCATION);
+      ::itk::ExceptionObject excp(__FILE__, __LINE__, "PNG supports uint8_t and uint16_t", ITK_LOCATION);
       throw excp;
       }
     }
@@ -608,11 +608,11 @@ void PNGImageIO::WriteSlice(const std::string & fileName, const void *buffer)
 
     {
     const int        rowInc = width * numComp * bitDepth / 8;
-    volatile const unsigned char *outPtr = ( (const unsigned char *)buffer );
+    volatile const uint8_t *outPtr = ( (const uint8_t *)buffer );
     for ( unsigned int ui = 0; ui < height; ui++ )
       {
       row_pointers[ui] = const_cast< png_byte * >( outPtr );
-      outPtr = const_cast< unsigned char * >( outPtr ) + rowInc;
+      outPtr = const_cast< uint8_t * >( outPtr ) + rowInc;
       }
     }
   png_write_image(png_ptr, row_pointers);

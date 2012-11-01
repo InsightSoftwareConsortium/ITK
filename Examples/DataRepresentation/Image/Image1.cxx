@@ -41,12 +41,12 @@ int main(int, char *[])
   // Then we must decide with what type to represent the pixels
   // and what the dimension of the image will be. With these two
   // parameters we can instantiate the image class. Here we create
-  // a 3D image with \code{unsigned short} pixel data.
+  // a 3D image with \code{uint16_t} pixel data.
   //
   // Software Guide : EndLatex
   //
   // Software Guide : BeginCodeSnippet
-  typedef itk::Image< unsigned short, 3 > ImageType;
+  typedef itk::Image< uint16_t, 3 > ImageType;
   // Software Guide : EndCodeSnippet
 
 

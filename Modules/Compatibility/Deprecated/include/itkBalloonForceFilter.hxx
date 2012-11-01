@@ -421,7 +421,7 @@ BalloonForceFilter< TInputMesh, TOutputMesh >
   IPixelType  x, y, z, f;
 
   float          dist = 0.0;
-  unsigned short label;
+  uint16_t label;
 
   InputPointsContainerPointer  Points = m_Locations->GetPoints();
   InputPointsContainerIterator points = Points->Begin();
@@ -448,7 +448,7 @@ BalloonForceFilter< TInputMesh, TOutputMesh >
     coord[0] = (int)x[0];
     coord[1] = (int)x[1];
 
-    label = (unsigned short)m_Potential->GetPixel(coord);
+    label = (uint16_t)m_Potential->GetPixel(coord);
     if ( label != m_ObjectLabel )
       {
       xs = ys = 0.0;
@@ -550,7 +550,7 @@ BalloonForceFilter< TInputMesh, TOutputMesh >
         break;
         }
 
-      label = (unsigned short)m_Potential->GetPixel(extend);
+      label = (uint16_t)m_Potential->GetPixel(extend);
       if ( label != m_ObjectLabel ) { break; }
 
       t += 1.0;

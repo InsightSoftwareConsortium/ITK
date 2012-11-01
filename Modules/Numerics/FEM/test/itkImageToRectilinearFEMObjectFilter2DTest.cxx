@@ -34,7 +34,7 @@ int itkImageToRectilinearFEMObjectFilter2DTest(int argc, char *argv[])
   //the initializaiton of the itk::FEMFactoryBase::GetFactory()
   itk::FEMFactoryBase::GetFactory()->RegisterDefaultTypes();
 
-  typedef itk::Image<unsigned char, 2>    ImageType;
+  typedef itk::Image<uint8_t, 2>    ImageType;
   typedef itk::ImageFileReader<ImageType> ImageFileReaderType;
   double tolerance = 0.0001;
 

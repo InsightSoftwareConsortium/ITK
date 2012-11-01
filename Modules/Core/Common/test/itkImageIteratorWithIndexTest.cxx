@@ -116,8 +116,8 @@ int itkImageIteratorWithIndexTest(int, char* [] )
     testPassed = false;
     }
 
-  std::cout << "Testing with Image< unsigned char, 3 > " << std::endl;
-  itkImageIteratorWithIndexTestIteratorTester< unsigned char > TesterUC( 10 );
+  std::cout << "Testing with Image< uint8_t, 3 > " << std::endl;
+  itkImageIteratorWithIndexTestIteratorTester< uint8_t > TesterUC( 10 );
   if( TesterUC.TestIterator() == false )
     {
     testPassed = false;
@@ -138,8 +138,8 @@ int itkImageIteratorWithIndexTest(int, char* [] )
     testPassed = false;
     }
 
-  std::cout << "Testing with Image< unsigned short, 3 > " << std::endl;
-  itkImageIteratorWithIndexTestIteratorTester< unsigned short > TesterUS( 10 );
+  std::cout << "Testing with Image< uint16_t, 3 > " << std::endl;
+  itkImageIteratorWithIndexTestIteratorTester< uint16_t > TesterUS( 10 );
   if( TesterUS.TestIterator() == false )
     {
     testPassed = false;
@@ -207,8 +207,8 @@ int itkImageIteratorWithIndexTest(int, char* [] )
     testPassed = false;
     }
 
-  std::cout << "Testing with Image< itk::Vector<unsigned char,4>, 3 > " << std::endl;
-  typedef itk::Vector<unsigned char,4> VUC;
+  std::cout << "Testing with Image< itk::Vector<uint8_t,4>, 3 > " << std::endl;
+  typedef itk::Vector<uint8_t,4> VUC;
   VUC vuc;
   vuc.Fill( 10 );
   itkImageIteratorWithIndexTestIteratorTester< VUC > TesterVUC( vuc );
@@ -235,8 +235,8 @@ int itkImageIteratorWithIndexTest(int, char* [] )
     testPassed = false;
     }
 
-  std::cout << "Testing with Image< itk::Vector<unsigned short,4>, 3 > " << std::endl;
-  typedef itk::Vector<unsigned short,4> VUS;
+  std::cout << "Testing with Image< itk::Vector<uint16_t,4>, 3 > " << std::endl;
+  typedef itk::Vector<uint16_t,4> VUS;
   VUS vus;
   vus.Fill( 10 );
   itkImageIteratorWithIndexTestIteratorTester< VUS > TesterVUS( vus );

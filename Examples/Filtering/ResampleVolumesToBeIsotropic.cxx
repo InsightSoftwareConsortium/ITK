@@ -184,7 +184,7 @@ int main( int argc, char * argv[] )
 // Software Guide : BeginCodeSnippet
   const     unsigned int    Dimension = 3;
 
-  typedef   unsigned short  InputPixelType;
+  typedef   uint16_t  InputPixelType;
   typedef   float           InternalPixelType;
 
   typedef itk::Image< InputPixelType,    Dimension >   InputImageType;
@@ -333,7 +333,7 @@ int main( int argc, char * argv[] )
 
 
 // Software Guide : BeginCodeSnippet
-  typedef   unsigned char   OutputPixelType;
+  typedef   uint8_t   OutputPixelType;
 
   typedef itk::Image< OutputPixelType,   Dimension >   OutputImageType;
 

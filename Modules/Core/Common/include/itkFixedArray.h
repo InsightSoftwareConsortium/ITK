@@ -188,8 +188,8 @@ public:
    * Visual C++. */
   reference operator[](short index)                { return m_InternalArray[index]; }
   const_reference operator[](short index) const { return m_InternalArray[index]; }
-  reference operator[](unsigned short index)       { return m_InternalArray[index]; }
-  const_reference operator[](unsigned short index) const { return m_InternalArray[index]; }
+  reference operator[](uint16_t index)       { return m_InternalArray[index]; }
+  const_reference operator[](uint16_t index) const { return m_InternalArray[index]; }
   reference operator[](int index)                  { return m_InternalArray[index]; }
   const_reference operator[](int index) const { return m_InternalArray[index]; }
   reference operator[](unsigned int index)         { return m_InternalArray[index]; }
@@ -204,9 +204,9 @@ public:
   const_reference operator[](unsigned long long index) const { return m_InternalArray[index]; }
 
   /** Set/Get element methods are more convenient in wrapping languages */
-  void SetElement(unsigned short index, const_reference value)
+  void SetElement(uint16_t index, const_reference value)
   { m_InternalArray[index] = value; }
-  const_reference GetElement(unsigned short index) const { return m_InternalArray[index]; }
+  const_reference GetElement(uint16_t index) const { return m_InternalArray[index]; }
 
   /** Return a pointer to the data. */
   ValueType * GetDataPointer()

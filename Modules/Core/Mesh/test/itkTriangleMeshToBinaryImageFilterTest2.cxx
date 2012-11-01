@@ -31,7 +31,7 @@ int itkTriangleMeshToBinaryImageFilterTest2( int argc, char * argv [] )
   typedef itk::Mesh<double,3,TriangleMeshTraits> TriangleMeshType;
   typedef itk::SimplexMesh<double,3, SimplexMeshTraits> SimplexMeshType;
 
-  typedef itk::Image<unsigned char, 3> ImageType;
+  typedef itk::Image<uint8_t, 3> ImageType;
   // declare triangle mesh source
   typedef itk::RegularSphereMeshSource<TriangleMeshType>  SphereMeshSourceType;
   typedef SphereMeshSourceType::PointType PointType;

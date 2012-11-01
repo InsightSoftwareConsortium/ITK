@@ -349,7 +349,7 @@ VoronoiSegmentationRGBImageFilter< TInputImage, TOutputImage >::TakeAPrior(const
     }
 
 /*  Sorting. */
-  unsigned char tmp[6] = { 0, 1, 2, 3, 4, 5 };
+  uint8_t tmp[6] = { 0, 1, 2, 3, 4, 5 };
   for ( unsigned j = 0; j < 3; j++ )
     {
     k = 0;
@@ -363,7 +363,7 @@ VoronoiSegmentationRGBImageFilter< TInputImage, TOutputImage >::TakeAPrior(const
     m_TestMean[j] = tmp[k];
     tmp[k] = tmp[5 - j];
     }
-  unsigned char tmp1[6] = { 0, 1, 2, 3, 4, 5 };
+  uint8_t tmp1[6] = { 0, 1, 2, 3, 4, 5 };
   for ( unsigned int j = 0; j < 3; j++ )
     {
     k = 0;

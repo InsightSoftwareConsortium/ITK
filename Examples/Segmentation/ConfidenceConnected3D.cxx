@@ -52,7 +52,7 @@ int main( int argc, char *argv[] )
   const     unsigned int    Dimension = 3;
   typedef itk::Image< InternalPixelType, Dimension >  InternalImageType;
 
-  typedef unsigned char                            OutputPixelType;
+  typedef uint8_t                            OutputPixelType;
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
 
   typedef itk::CastImageFilter< InternalImageType, OutputImageType >

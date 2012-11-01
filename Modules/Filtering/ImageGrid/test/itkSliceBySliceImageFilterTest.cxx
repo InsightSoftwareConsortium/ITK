@@ -28,7 +28,7 @@ void sliceCallBack(itk::Object* object, const itk::EventObject &, void*)
 {
   // the same typedefs than in the main function - should be done in a nicer way
   const int                 Dimension = 3;
-  typedef unsigned char     PixelType;
+  typedef uint8_t     PixelType;
 
   typedef itk::Image< PixelType, Dimension >                   ImageType;
   typedef itk::SliceBySliceImageFilter< ImageType, ImageType > FilterType;
@@ -58,7 +58,7 @@ int itkSliceBySliceImageFilterTest(int argc, char * argv[])
     }
 
   const int                 Dimension = 3;
-  typedef unsigned char     PixelType;
+  typedef uint8_t     PixelType;
 
   typedef itk::Image< PixelType, Dimension >      ImageType;
 

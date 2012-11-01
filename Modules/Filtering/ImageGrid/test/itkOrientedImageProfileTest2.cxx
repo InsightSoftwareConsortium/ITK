@@ -23,7 +23,7 @@ int itkOrientedImageProfileTest2( int, char *[] )
 {
 
   const unsigned int Dimension = 3;
-  typedef unsigned char PixelType;
+  typedef uint8_t PixelType;
 
   //
   //  Yes, on purpose we are using here the itk::Image, so we can compare it

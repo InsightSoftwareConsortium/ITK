@@ -179,7 +179,7 @@ int itkImageAdaptorInterpolateImageFunctionTest(int, char* [] )
   Iterator iter( image, region );
 
   IndexType index;
-  unsigned short value;
+  uint16_t value;
   InputPixelType pixel;
 
   for( ; !iter.IsAtEnd(); ++iter )

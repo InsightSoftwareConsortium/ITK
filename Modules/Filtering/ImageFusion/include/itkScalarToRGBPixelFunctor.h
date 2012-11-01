@@ -47,7 +47,7 @@ public:
   ScalarToRGBPixelFunctor();
   ~ScalarToRGBPixelFunctor() {}
 
-  typedef unsigned char                RGBComponentType;
+  typedef uint8_t                RGBComponentType;
   typedef RGBPixel< RGBComponentType > RGBPixelType;
   typedef TScalar                      ScalarType;
 

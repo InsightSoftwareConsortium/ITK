@@ -151,7 +151,7 @@ int itkMathRoundTest2( int, char *[] )
   bool ok = true;
 
   std::cout << "Testing char type" << std::endl;
-  ok &= TemplatedRoundTest<signed char>();
+  ok &= TemplatedRoundTest<int8_t>();
   std::cout << "Testing short type" << std::endl;
   ok &= TemplatedRoundTest<short>();
   std::cout << "Testing int type" << std::endl;

@@ -29,7 +29,7 @@
 
 
 const unsigned int Dimension = 3;
-typedef itk::Image<unsigned char, Dimension>            FileImageType;
+typedef itk::Image<uint8_t, Dimension>            FileImageType;
 typedef itk::Image<float, Dimension>                    ImageType;
 
 typedef itk::fem::Element3DC0LinearHexahedronMembrane   ElementType;

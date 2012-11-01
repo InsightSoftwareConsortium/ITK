@@ -168,7 +168,7 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
 
-  typedef itk::Image< unsigned char, Dimension >  WriteImageType;
+  typedef itk::Image< uint8_t, Dimension >  WriteImageType;
 
   typedef itk::RescaleIntensityImageFilter<
                                   OutputImageType,

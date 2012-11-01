@@ -58,21 +58,21 @@ VTKImageImport< TOutputImage >
     {
     m_ScalarTypeName = "short";
     }
-  else if ( typeid( ScalarType ) == typeid( unsigned short ) )
+  else if ( typeid( ScalarType ) == typeid( uint16_t ) )
     {
-    m_ScalarTypeName = "unsigned short";
+    m_ScalarTypeName = "uint16_t";
     }
   else if ( typeid( ScalarType ) == typeid( char ) )
     {
     m_ScalarTypeName = "char";
     }
-  else if ( typeid( ScalarType ) == typeid( signed char ) )
+  else if ( typeid( ScalarType ) == typeid( int8_t ) )
     {
-    m_ScalarTypeName = "signed char";
+    m_ScalarTypeName = "int8_t";
     }
-  else if ( typeid( ScalarType ) == typeid( unsigned char ) )
+  else if ( typeid( ScalarType ) == typeid( uint8_t ) )
     {
-    m_ScalarTypeName = "unsigned char";
+    m_ScalarTypeName = "uint8_t";
     }
   else
     {

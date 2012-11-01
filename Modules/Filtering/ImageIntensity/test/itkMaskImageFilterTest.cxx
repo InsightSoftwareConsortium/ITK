@@ -29,7 +29,7 @@ int itkMaskImageFilterTest(int, char* [] )
 
   // Declare the types of the images
   typedef itk::Image<float, myDimension>           myImageType1;
-  typedef itk::Image<unsigned short, myDimension>  myImageType2;
+  typedef itk::Image<uint16_t, myDimension>  myImageType2;
   typedef itk::Image<float, myDimension>           myImageType3;
 
   // Declare the type of the index to access images

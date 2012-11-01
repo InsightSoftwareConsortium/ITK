@@ -61,8 +61,8 @@
 class ThresholdingPixelAccessor
 {
 public:
-  typedef unsigned char      InternalType;
-  typedef unsigned char      ExternalType;
+  typedef uint8_t      InternalType;
+  typedef uint8_t      ExternalType;
 
   ThresholdingPixelAccessor() : m_Threshold(0) {};
 

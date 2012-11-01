@@ -362,7 +362,7 @@ int main( int argc, char * argv[] )
   //
   if (argc > 4)
     {
-    typedef unsigned char                CharPixelType;
+    typedef uint8_t                CharPixelType;
     typedef itk::Image<CharPixelType, 2> CharImageType;
 
     typedef itk::RescaleIntensityImageFilter< OutputImageType, CharImageType>

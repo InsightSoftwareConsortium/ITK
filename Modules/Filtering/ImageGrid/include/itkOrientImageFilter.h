@@ -81,7 +81,7 @@ namespace itk
  * #include "itkMetaDataObject.h"
  * #include "itkImage.h"
  * #include "itkOrientImageFilter.h"
- * typedef itk::Image<unsigned char,3> ImageType;
+ * typedef itk::Image<uint8_t,3> ImageType;
  * typedef itk::ImageFileReader< TstImageType > ImageReaderType;
  * ImageType::Pointer ReadAnalyzeFile(const char *path)
  * {
@@ -113,7 +113,7 @@ namespace itk
  * #include "itkAnalyzeImageIO.h"
  * #include "itkImage.h"
  * #include "itkOrientImageFilter.h"
- * typedef itk::Image<unsigned char,3> ImageType;
+ * typedef itk::Image<uint8_t,3> ImageType;
  * typedef itk::ImageFileReader< TstImageType > ImageReaderType;
  * ImageType::Pointer ReadAnalyzeFile(const char *path)
  * {

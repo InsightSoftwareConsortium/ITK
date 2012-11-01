@@ -30,7 +30,7 @@ int itkBilateralImageFilterTest2(int ac, char* av[] )
     return -1;
     }
 
-  typedef unsigned char PixelType;
+  typedef uint8_t PixelType;
   const unsigned int dimension = 2;
   typedef itk::Image<PixelType, dimension> myImage;
   itk::ImageFileReader<myImage>::Pointer input

@@ -101,8 +101,8 @@ int RegressionTestImage (const char *testImageFilename, const char *baselineImag
 {
   // Use the factory mechanism to read the test and baseline files and convert them to double
   typedef itk::Image<double,ITK_TEST_DIMENSION_MAX>           ImageType;
-  typedef itk::Image<unsigned char,ITK_TEST_DIMENSION_MAX>    OutputType;
-  typedef itk::Image<unsigned char,2>                         DiffOutputType;
+  typedef itk::Image<uint8_t,ITK_TEST_DIMENSION_MAX>    OutputType;
+  typedef itk::Image<uint8_t,2>                         DiffOutputType;
   typedef itk::ImageFileReader<ImageType>                     ReaderType;
 
   // Read the baseline file
@@ -170,8 +170,8 @@ int RegressionTestImage (const char *testImageFilename, const char *baselineImag
 
     RescaleType::Pointer rescale = RescaleType::New();
 
-    rescale->SetOutputMinimum(itk::NumericTraits<unsigned char>::NonpositiveMin());
-    rescale->SetOutputMaximum(itk::NumericTraits<unsigned char>::max());
+    rescale->SetOutputMinimum(itk::NumericTraits<uint8_t>::NonpositiveMin());
+    rescale->SetOutputMaximum(itk::NumericTraits<uint8_t>::max());
     rescale->SetInput(diff->GetOutput());
     rescale->UpdateLargestPossibleRegion();
 

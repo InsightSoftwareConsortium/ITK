@@ -124,7 +124,7 @@ public:
 
   typedef typename ImageType::PixelType                PixelType;
   typedef typename ImageType::OffsetType               OffsetType;
-  typedef VectorContainer< unsigned char, OffsetType > OffsetVector;
+  typedef VectorContainer< uint8_t, OffsetType > OffsetVector;
   typedef typename OffsetVector::Pointer               OffsetVectorPointer;
   typedef typename OffsetVector::ConstPointer          OffsetVectorConstPointer;
 
@@ -135,11 +135,11 @@ public:
   typedef HistogramToTextureFeaturesFilter< HistogramType >    TextureFeaturesFilterType;
 
   typedef short                                                  TextureFeatureName;
-  typedef VectorContainer< unsigned char, TextureFeatureName >   FeatureNameVector;
+  typedef VectorContainer< uint8_t, TextureFeatureName >   FeatureNameVector;
 
   typedef typename FeatureNameVector::Pointer      FeatureNameVectorPointer;
   typedef typename FeatureNameVector::ConstPointer FeatureNameVectorConstPointer;
-  typedef VectorContainer< unsigned char, double > FeatureValueVector;
+  typedef VectorContainer< uint8_t, double > FeatureValueVector;
   typedef typename FeatureValueVector::Pointer     FeatureValueVectorPointer;
 
   /** Smart Pointer type to a DataObject. */

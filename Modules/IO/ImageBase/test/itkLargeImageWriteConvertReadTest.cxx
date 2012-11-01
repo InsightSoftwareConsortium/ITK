@@ -28,9 +28,9 @@ int itkLargeImageWriteConvertReadTest(int ac, char* av[])
     std::cout << "usage: itkIOTests itkLargeImageWriteConvertReadTest outputFileName numberOfPixelsInOneDimension" << std::endl;
     return EXIT_FAILURE;
     }
-  typedef unsigned char                 OutputPixelType;
+  typedef uint8_t                 OutputPixelType;
   typedef itk::Image<OutputPixelType,2> OutputImageType;
-  typedef itk::Image<unsigned short,2>  InputImageType;
+  typedef itk::Image<uint16_t,2>  InputImageType;
 
   typedef itk::ImageFileWriter< OutputImageType > WriterType;
   typedef itk::ImageFileReader< InputImageType >  ReaderType;

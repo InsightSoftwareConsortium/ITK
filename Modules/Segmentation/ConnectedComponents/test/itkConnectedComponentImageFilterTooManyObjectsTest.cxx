@@ -22,7 +22,7 @@
 int itkConnectedComponentImageFilterTooManyObjectsTest(int itkNotUsed(argc), char*[] itkNotUsed(argv))
 {
 
-  typedef   unsigned char  PixelType;
+  typedef   uint8_t  PixelType;
   const     unsigned int   Dimension = 2;
   typedef itk::Image< PixelType, Dimension >  ImageType;
 

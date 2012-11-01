@@ -105,7 +105,7 @@ public:
   typedef typename InputMeshType::PixelType  PixelType;
 
   /** Image and Image iterator definition. */
-  typedef Image< unsigned char, 3 >                 PotentialImageType;
+  typedef Image< uint8_t, 3 >                 PotentialImageType;
   typedef ImageRegionIterator< PotentialImageType > PotentialIterator;
   typedef CovariantVector< PixelType, 3 >           GradientType;
   typedef Image< GradientType, 3 >                  GradientImageType;
@@ -150,8 +150,8 @@ public:
 
   itkSetMacro(PotentialMagnitude, PixelType);
   itkSetMacro(GradientMagnitude, PixelType);
-  itkSetMacro(PotentialOn, unsigned short);
-  itkSetMacro(ObjectLabel, unsigned char);
+  itkSetMacro(PotentialOn, uint16_t);
+  itkSetMacro(ObjectLabel, uint8_t);
 
   itkGetConstMacro(Normals, InputMeshPointer);
 
@@ -208,14 +208,14 @@ private:
   int m_StepThreshold;      /** This threshold decides when to stop the model.
                               */
 
-  unsigned short m_ModelXUpLimit;
-  unsigned short m_ModelXDownLimit;
-  unsigned short m_ModelYUpLimit;
-  unsigned short m_ModelYDownLimit;
-  unsigned short m_ModelZUpLimit;
-  unsigned short m_ModelZDownLimit;
-  unsigned short m_PotentialOn;
-  unsigned char  m_ObjectLabel;
+  uint16_t m_ModelXUpLimit;
+  uint16_t m_ModelXDownLimit;
+  uint16_t m_ModelYUpLimit;
+  uint16_t m_ModelYDownLimit;
+  uint16_t m_ModelZUpLimit;
+  uint16_t m_ModelZDownLimit;
+  uint16_t m_PotentialOn;
+  uint8_t  m_ObjectLabel;
   PixelType      m_GradientMagnitude;
   PixelType      m_PotentialMagnitude;
 

@@ -178,7 +178,7 @@ void
 FileFreeImageIO
 ::Read(void *buffer)
 {
-  memset(buffer, (unsigned char) 175, this->GetImageSizeInBytes());
+  memset(buffer, (uint8_t) 175, this->GetImageSizeInBytes());
 }
 
 bool

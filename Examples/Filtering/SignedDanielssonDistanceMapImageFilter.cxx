@@ -64,9 +64,9 @@ int main( int argc, char * argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef  unsigned char   InputPixelType;
+  typedef  uint8_t   InputPixelType;
   typedef  float           OutputPixelType;
-  typedef  unsigned short  VoronoiPixelType;
+  typedef  uint16_t  VoronoiPixelType;
   const unsigned int Dimension = 2;
 
   typedef itk::Image< InputPixelType,  Dimension >   InputImageType;

@@ -24,7 +24,7 @@
 int itkImageToVectorImageFilterTest(int argc, char *argv[] )
 {
 
-  typedef unsigned char PixelType;
+  typedef uint8_t PixelType;
 
   typedef itk::Image<PixelType,2>        ScalarImageType;
   typedef itk::VectorImage<PixelType,2>  VectorImageType;

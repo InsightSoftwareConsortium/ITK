@@ -62,7 +62,7 @@ int main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::PointSet< unsigned short, 3 > PointSetType;
+  typedef itk::PointSet< uint16_t, 3 > PointSetType;
   // Software Guide : EndCodeSnippet
 
 

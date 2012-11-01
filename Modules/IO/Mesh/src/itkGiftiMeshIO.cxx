@@ -902,8 +902,8 @@ GiftiMeshIO
           }
         case UCHAR:
           {
-          this->WriteCellsBuffer(static_cast< unsigned char * >( m_GiftiImage->darray[ii]->data ),
-                                 static_cast< unsigned char * >( buffer ),
+          this->WriteCellsBuffer(static_cast< uint8_t * >( m_GiftiImage->darray[ii]->data ),
+                                 static_cast< uint8_t * >( buffer ),
                                  TRIANGLE_CELL,
                                  3,
                                  this->m_NumberOfCells);
@@ -911,8 +911,8 @@ GiftiMeshIO
           }
         case USHORT:
           {
-          this->WriteCellsBuffer(static_cast< unsigned short * >( m_GiftiImage->darray[ii]->data ),
-                                 static_cast< unsigned short * >( buffer ),
+          this->WriteCellsBuffer(static_cast< uint16_t * >( m_GiftiImage->darray[ii]->data ),
+                                 static_cast< uint16_t * >( buffer ),
                                  TRIANGLE_CELL,
                                  3,
                                  this->m_NumberOfCells);
@@ -1470,7 +1470,7 @@ GiftiMeshIO
         {
         case UCHAR:
           {
-          ConvertBuffer(static_cast< unsigned char * >( buffer ),
+          ConvertBuffer(static_cast< uint8_t * >( buffer ),
                         static_cast< float * >( m_GiftiImage->darray[ii]->data ),
                         pointsBufferSize);
           break;
@@ -1482,7 +1482,7 @@ GiftiMeshIO
           }
         case USHORT:
           {
-          ConvertBuffer(static_cast< unsigned short * >( buffer ),
+          ConvertBuffer(static_cast< uint16_t * >( buffer ),
                         static_cast< float * >( m_GiftiImage->darray[ii]->data ),
                         pointsBufferSize);
           break;
@@ -1564,7 +1564,7 @@ GiftiMeshIO
         {
         case UCHAR:
           {
-          this->ReadCellsBuffer( static_cast< unsigned char * >( buffer ), static_cast< int32_t * >( m_GiftiImage->darray[ii]->data ) );
+          this->ReadCellsBuffer( static_cast< uint8_t * >( buffer ), static_cast< int32_t * >( m_GiftiImage->darray[ii]->data ) );
           break;
           }
         case CHAR:
@@ -1574,7 +1574,7 @@ GiftiMeshIO
           }
         case USHORT:
           {
-          this->ReadCellsBuffer( static_cast< unsigned short * >( buffer ), static_cast< int32_t * >( m_GiftiImage->darray[ii]->data ) );
+          this->ReadCellsBuffer( static_cast< uint16_t * >( buffer ), static_cast< int32_t * >( m_GiftiImage->darray[ii]->data ) );
           break;
           }
         case SHORT:
@@ -1656,7 +1656,7 @@ GiftiMeshIO
           {
           case UCHAR:
             {
-            ConvertBuffer(static_cast< unsigned char * >( buffer ),
+            ConvertBuffer(static_cast< uint8_t * >( buffer ),
                           static_cast< float * >( m_GiftiImage->darray[ii]->data ),
                           pointDataBufferSize);
             break;
@@ -1668,7 +1668,7 @@ GiftiMeshIO
             }
           case USHORT:
             {
-            ConvertBuffer(static_cast< unsigned short * >( buffer ),
+            ConvertBuffer(static_cast< uint16_t * >( buffer ),
                           static_cast< float * >( m_GiftiImage->darray[ii]->data ),
                           pointDataBufferSize);
             break;
@@ -1751,7 +1751,7 @@ GiftiMeshIO
           {
           case UCHAR:
             {
-            ConvertBuffer(static_cast< unsigned char * >( buffer ),
+            ConvertBuffer(static_cast< uint8_t * >( buffer ),
                           static_cast< int * >( m_GiftiImage->darray[ii]->data ),
                           pointDataBufferSize);
             break;
@@ -1763,7 +1763,7 @@ GiftiMeshIO
             }
           case USHORT:
             {
-            ConvertBuffer(static_cast< unsigned short * >( buffer ),
+            ConvertBuffer(static_cast< uint16_t * >( buffer ),
                           static_cast< int * >( m_GiftiImage->darray[ii]->data ),
                           pointDataBufferSize);
             break;
@@ -1855,7 +1855,7 @@ GiftiMeshIO
           {
           case UCHAR:
             {
-            ConvertBuffer(static_cast< unsigned char * >( buffer ),
+            ConvertBuffer(static_cast< uint8_t * >( buffer ),
                           static_cast< float * >( m_GiftiImage->darray[ii]->data ),
                           cellDataBufferSize);
             break;
@@ -1867,7 +1867,7 @@ GiftiMeshIO
             }
           case USHORT:
             {
-            ConvertBuffer(static_cast< unsigned short * >( buffer ),
+            ConvertBuffer(static_cast< uint16_t * >( buffer ),
                           static_cast< float * >( m_GiftiImage->darray[ii]->data ),
                           cellDataBufferSize);
             break;
@@ -1950,7 +1950,7 @@ GiftiMeshIO
           {
           case UCHAR:
             {
-            ConvertBuffer(static_cast< unsigned char * >( buffer ),
+            ConvertBuffer(static_cast< uint8_t * >( buffer ),
                           static_cast< int * >( m_GiftiImage->darray[ii]->data ),
                           cellDataBufferSize);
             break;
@@ -1962,7 +1962,7 @@ GiftiMeshIO
             }
           case USHORT:
             {
-            ConvertBuffer(static_cast< unsigned short * >( buffer ),
+            ConvertBuffer(static_cast< uint16_t * >( buffer ),
                           static_cast< int * >( m_GiftiImage->darray[ii]->data ),
                           cellDataBufferSize);
             break;

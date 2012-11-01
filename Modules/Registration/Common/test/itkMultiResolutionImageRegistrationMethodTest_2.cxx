@@ -263,7 +263,7 @@ int itkMultiResolutionImageRegistrationMethodTest_2(int, char* [] )
   SimpleMultiResolutionImageRegistrationUI2<RegistrationType>
     simpleUI( registration );
 
-  unsigned short numberOfLevels = 3;
+  uint16_t numberOfLevels = 3;
 
   itk::Array<unsigned int> niter( numberOfLevels );
   itk::Array<double>       rates( numberOfLevels );

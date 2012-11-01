@@ -64,7 +64,7 @@ void GenerateImage( typename TImage::Pointer ioImage )
 
 int vtkVisualize2DWhitakerLevelSetTest( int , char* [] )
 {
-  typedef unsigned char PixelType;
+  typedef uint8_t PixelType;
   const unsigned int Dimension = 2;
   typedef itk::Image< PixelType, Dimension > ImageType;
 

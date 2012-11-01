@@ -65,7 +65,7 @@ int itkMultiphaseDenseFiniteDifferenceImageFilterTest( int, char* [] )
 
   typedef itk::Image< double, Dimension >         LevelSetImageType;
   typedef itk::Image< float, Dimension >          FeatureImageType;
-  typedef itk::Image< unsigned char, Dimension >  OutputImageType;
+  typedef itk::Image< uint8_t, Dimension >  OutputImageType;
 
   typedef itk::ScalarChanAndVeseLevelSetFunctionData< LevelSetImageType, FeatureImageType >
     DataHelperType;

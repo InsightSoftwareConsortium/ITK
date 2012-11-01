@@ -29,11 +29,11 @@ int itkGrayscaleFunctionDilateImageFilterTest(int argc, char *argv[] )
   const unsigned int myDimension = 2;
 
   // Define the values of the input images
-  const unsigned short fgValue = 1;
-  const unsigned short bgValue = 0;
+  const uint16_t fgValue = 1;
+  const uint16_t bgValue = 0;
 
   // Declare the types of the images
-  typedef itk::Image<unsigned short, myDimension>  myImageType;
+  typedef itk::Image<uint16_t, myDimension>  myImageType;
 
   // Declare the type of the index to access images
   typedef itk::Index<myDimension>         myIndexType;
@@ -112,7 +112,7 @@ int itkGrayscaleFunctionDilateImageFilterTest(int argc, char *argv[] )
     }
 
   // Declare the type for the structuring element
-  typedef itk::BinaryBallStructuringElement<unsigned short, myDimension>
+  typedef itk::BinaryBallStructuringElement<uint16_t, myDimension>
     myKernelType;
 
   // Declare the type for the morphology Filter

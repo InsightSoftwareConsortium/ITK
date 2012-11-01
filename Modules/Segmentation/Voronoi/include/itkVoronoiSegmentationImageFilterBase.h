@@ -55,7 +55,7 @@ namespace itk
  * \ingroup HybridSegmentation
  * \ingroup ITKVoronoi
  */
-template< class TInputImage, class TOutputImage, class TBinaryPriorImage = Image< unsigned char, 2 > >
+template< class TInputImage, class TOutputImage, class TBinaryPriorImage = Image< uint8_t, 2 > >
 class ITK_EXPORT VoronoiSegmentationImageFilterBase:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
@@ -107,7 +107,7 @@ public:
   typedef std::vector< IndexType >                     IndexList;
 
   /** To output the drawing of Voronoi Diagram (VD) . */
-  typedef Image< unsigned char, 2 > VDImage;
+  typedef Image< uint8_t, 2 > VDImage;
   typedef typename VDImage::Pointer VDImagePointer;
 
   /** Set/Get the initial number of seeds for VD. */
@@ -198,8 +198,8 @@ public:
   { return m_WorkingVD->GetSeed(SeedID); }
 
   /** Draw the Voronoi Diagram structure. */
-  void DrawDiagram(VDImagePointer result, unsigned char incolor,
-                   unsigned char outcolor, unsigned char boundcolor);
+  void DrawDiagram(VDImagePointer result, uint8_t incolor,
+                   uint8_t outcolor, uint8_t boundcolor);
 
   void BeforeNextStep(void);
 
@@ -227,7 +227,7 @@ protected:
   int      m_NumberOfBoundary;
 
   std::vector< int >           m_NumberOfPixels;
-  std::vector< unsigned char > m_Label;
+  std::vector< uint8_t > m_Label;
 
   double m_MeanDeviation;
   bool   m_UseBackgroundInAPrior;
@@ -260,7 +260,7 @@ protected:
   void drawLine(PointType p1, PointType p2);
 
   // Draw the intermedia Voronoi Diagram structure.
-  void drawVDline(VDImagePointer result, PointType p1, PointType p2, unsigned char color);
+  void drawVDline(VDImagePointer result, PointType p1, PointType p2, uint8_t color);
 
 private:
   VoronoiSegmentationImageFilterBase(const Self &); //purposely not implemented

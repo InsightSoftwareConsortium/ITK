@@ -113,7 +113,7 @@ public:
   typedef typename ImageType::RegionType               RegionType;
   typedef typename ImageType::SizeType                 RadiusType;
   typedef typename ImageType::OffsetType               OffsetType;
-  typedef VectorContainer< unsigned char, OffsetType > OffsetVector;
+  typedef VectorContainer< uint8_t, OffsetType > OffsetVector;
   typedef typename OffsetVector::Pointer               OffsetVectorPointer;
   typedef typename OffsetVector::ConstPointer          OffsetVectorConstPointer;
 

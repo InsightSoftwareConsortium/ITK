@@ -34,7 +34,7 @@ IplImage* ConvertIplImageDataType(IplImage* in)
   int depth = 0;
 
   // Figure out the right output type
-  if (typeid(TPixelType) == typeid(unsigned char))
+  if (typeid(TPixelType) == typeid(uint8_t))
     {
     depth = IPL_DEPTH_8U;
     }
@@ -42,7 +42,7 @@ IplImage* ConvertIplImageDataType(IplImage* in)
     {
     depth = IPL_DEPTH_8S;
     }
-  else if (typeid(TPixelType) == typeid(unsigned short))
+  else if (typeid(TPixelType) == typeid(uint16_t))
     {
     depth = IPL_DEPTH_16U;
     }
@@ -169,8 +169,8 @@ int itkOpenCVImageBridgeTestTemplatedScalar(char* argv)
     }
 
   // Test number of channels after force3Channels (if type is supported for color images)
-  if (typeid(PixelType) == typeid(unsigned short) ||
-      typeid(PixelType) == typeid(unsigned char) ||
+  if (typeid(PixelType) == typeid(uint16_t) ||
+      typeid(PixelType) == typeid(uint8_t) ||
       typeid(PixelType) == typeid(float))
     {
     cvReleaseImage(&outIpl);
@@ -245,11 +245,11 @@ int itkOpenCVImageBridgeGrayScaleTest ( int argc, char *argv[] )
   //
   // Test for scalar types
   //
-  // Note: We don't test signed char because ITK seems to have trouble reading
+  // Note: We don't test int8_t because ITK seems to have trouble reading
   //       images with char pixels.
   //
   std::cout << "scalar" << std::endl;
-  if( itkRunScalarTest< unsigned char >( argv[1] ) == EXIT_FAILURE )
+  if( itkRunScalarTest< uint8_t >( argv[1] ) == EXIT_FAILURE )
     {
     return EXIT_FAILURE;
     }
@@ -257,7 +257,7 @@ int itkOpenCVImageBridgeGrayScaleTest ( int argc, char *argv[] )
     {
     return EXIT_FAILURE;
     }
-  if( itkRunScalarTest< unsigned short >( argv[1] ) == EXIT_FAILURE )
+  if( itkRunScalarTest< uint16_t >( argv[1] ) == EXIT_FAILURE )
     {
     return EXIT_FAILURE;
     }
@@ -271,7 +271,7 @@ int itkOpenCVImageBridgeGrayScaleTest ( int argc, char *argv[] )
     }
 
   std::cout << "scalar 513x512" << std::endl;
-  if( itkRunScalarTest< unsigned char >( argv[2] ) == EXIT_FAILURE )
+  if( itkRunScalarTest< uint8_t >( argv[2] ) == EXIT_FAILURE )
     {
     return EXIT_FAILURE;
     }
@@ -279,7 +279,7 @@ int itkOpenCVImageBridgeGrayScaleTest ( int argc, char *argv[] )
     {
     return EXIT_FAILURE;
     }
-  if( itkRunScalarTest< unsigned short >( argv[2] ) == EXIT_FAILURE )
+  if( itkRunScalarTest< uint16_t >( argv[2] ) == EXIT_FAILURE )
     {
     return EXIT_FAILURE;
     }

@@ -467,8 +467,8 @@ int RegressionTestImage(const char *testImageFilename,
   // Use the factory mechanism to read the test and baseline files and convert
   // them to double
   typedef itk::Image< double, ITK_TEST_DIMENSION_MAX >        ImageType;
-  typedef itk::Image< unsigned char, ITK_TEST_DIMENSION_MAX > OutputType;
-  typedef itk::Image< unsigned char, 2 >                      DiffOutputType;
+  typedef itk::Image< uint8_t, ITK_TEST_DIMENSION_MAX > OutputType;
+  typedef itk::Image< uint8_t, 2 >                      DiffOutputType;
   typedef itk::ImageFileReader< ImageType >                   ReaderType;
 
   // Read the baseline file
@@ -565,8 +565,8 @@ int RegressionTestImage(const char *testImageFilename,
     OutputType::SizeType size; size.Fill(0);
 
     RescaleType::Pointer rescale = RescaleType::New();
-    rescale->SetOutputMinimum( itk::NumericTraits< unsigned char >::NonpositiveMin() );
-    rescale->SetOutputMaximum( itk::NumericTraits< unsigned char >::max() );
+    rescale->SetOutputMinimum( itk::NumericTraits< uint8_t >::NonpositiveMin() );
+    rescale->SetOutputMaximum( itk::NumericTraits< uint8_t >::max() );
     rescale->SetInput( diff->GetOutput() );
     rescale->UpdateLargestPossibleRegion();
     size = rescale->GetOutput()->GetLargestPossibleRegion().GetSize();
@@ -757,13 +757,13 @@ int HashTestImage( const char *testImageFilename,
       testMD5 = ComputeHash< itk::VectorImage<char, ITK_TEST_DIMENSION_MAX> >( testImageFilename );
       break;
     case itk::ImageIOBase::UCHAR:
-      testMD5 = ComputeHash< itk::VectorImage<unsigned char, ITK_TEST_DIMENSION_MAX> >( testImageFilename );
+      testMD5 = ComputeHash< itk::VectorImage<uint8_t, ITK_TEST_DIMENSION_MAX> >( testImageFilename );
       break;
     case itk::ImageIOBase::SHORT:
       testMD5 = ComputeHash< itk::VectorImage<short, ITK_TEST_DIMENSION_MAX> >( testImageFilename );
       break;
     case itk::ImageIOBase::USHORT:
-      testMD5 = ComputeHash< itk::VectorImage<unsigned short, ITK_TEST_DIMENSION_MAX> >( testImageFilename );
+      testMD5 = ComputeHash< itk::VectorImage<uint16_t, ITK_TEST_DIMENSION_MAX> >( testImageFilename );
       break;
     case itk::ImageIOBase::INT:
       testMD5 = ComputeHash< itk::VectorImage<int, ITK_TEST_DIMENSION_MAX> >( testImageFilename );
@@ -816,7 +816,7 @@ int HashTestImage( const char *testImageFilename,
 
   typedef itk::Image< double, ITK_TEST_DIMENSION_MAX >                            ImageType;
   typedef itk::Image< double, 2 >                                                 SliceImageType;
-  typedef itk::Image< unsigned char, 2 >                                          OutputType;
+  typedef itk::Image< uint8_t, 2 >                                          OutputType;
   typedef itk::ImageFileReader< ImageType >                                       ReaderType;
   typedef itk::Testing::StretchIntensityImageFilter< SliceImageType, OutputType > RescaleType;
   typedef itk::Testing::ExtractSliceImageFilter< ImageType, SliceImageType >      ExtractType;
@@ -852,8 +852,8 @@ int HashTestImage( const char *testImageFilename,
   extract->SetExtractionRegion(region);
 
   RescaleType::Pointer rescale = RescaleType::New();
-  rescale->SetOutputMinimum( itk::NumericTraits< unsigned char >::NonpositiveMin() );
-  rescale->SetOutputMaximum( itk::NumericTraits< unsigned char >::max() );
+  rescale->SetOutputMinimum( itk::NumericTraits< uint8_t >::NonpositiveMin() );
+  rescale->SetOutputMaximum( itk::NumericTraits< uint8_t >::max() );
   rescale->SetInput( extract->GetOutput() );
 
   WriterType::Pointer writer = WriterType::New();

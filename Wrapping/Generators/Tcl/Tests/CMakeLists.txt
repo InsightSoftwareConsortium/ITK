@@ -136,7 +136,7 @@ endif()
 
 
 UNIQUE(types "${WRAP_ITK_SCALAR};UC")
-# signed char can't be used to store an image with values up to 255
+# int8_t can't be used to store an image with values up to 255
 list(REMOVE_ITEM types SC)
 foreach(TCL_TEST_IMAGE_DIMENSION ${ITK_WRAP_DIMS})
   foreach(TCL_TEST_PIXEL_TYPE ${types})

@@ -97,11 +97,11 @@ public:
 //
 // generate random pixels of various types
   static void
-  RandomPix(vnl_random &randgen,itk::RGBPixel<unsigned char> &pix)
+  RandomPix(vnl_random &randgen,itk::RGBPixel<uint8_t> &pix)
     {
       for(unsigned int i = 0; i < 3; i++)
         {
-        pix[i] = randgen.lrand32(itk::NumericTraits<unsigned char>::max());
+        pix[i] = randgen.lrand32(itk::NumericTraits<uint8_t>::max());
         }
     }
 

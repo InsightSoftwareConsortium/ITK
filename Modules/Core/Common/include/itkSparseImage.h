@@ -38,7 +38,7 @@ namespace itk
  * classes that process the SparseImage class such as
  * FiniteDifferenceSparseImageFilter. The node type must also have members
  * NodeType* Next and NodeType* Previous. A minimal node class which could
- * be used to create the sparse equivalent of an itk::Image<unsigned char, 2>
+ * be used to create the sparse equivalent of an itk::Image<uint8_t, 2>
  * is shown below:
  *
  * \code
@@ -47,7 +47,7 @@ namespace itk
  * NodeType* Next;
  * NodeType* Previous;
  * ImageType::IndexType m_Index;
- * unsigned char m_Data;
+ * uint8_t m_Data;
  * };
  * typedef itk::SparseImage<NodeType, 2> SparseImageType;
  * \endcode

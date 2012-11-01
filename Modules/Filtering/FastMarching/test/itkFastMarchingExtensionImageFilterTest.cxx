@@ -50,7 +50,7 @@ int itkFastMarchingExtensionImageFilterTest(int, char* [] )
   criterion->SetThreshold( 100. );
 
   typedef itk::FastMarchingExtensionImageFilterBase<
-      FloatImageType, FloatImageType, unsigned char, 1 >
+      FloatImageType, FloatImageType, uint8_t, 1 >
       MarcherType;
 
   MarcherType::Pointer marcher = MarcherType::New();

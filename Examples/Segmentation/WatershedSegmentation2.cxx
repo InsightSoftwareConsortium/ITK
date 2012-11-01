@@ -45,7 +45,7 @@ int main( int argc, char *argv[] )
     }
 
   typedef float                             InternalPixelType;
-  typedef itk::RGBPixel<unsigned char>      RGBPixelType;
+  typedef itk::RGBPixel<uint8_t>      RGBPixelType;
 
   const   unsigned int                      Dimension = 3;
 

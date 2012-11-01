@@ -36,9 +36,9 @@ int itkNoiseImageFilterTest(int ac, char* av[] )
     }
 
   itk::Size<2> radius;
-  typedef itk::Image<unsigned short, 2> myImageIn;
+  typedef itk::Image<uint16_t, 2> myImageIn;
   typedef itk::Image<float, 2> myImageOut;
-  typedef itk::Image<unsigned char, 2> myImageChar;
+  typedef itk::Image<uint8_t, 2> myImageChar;
   itk::ImageFileReader<myImageIn>::Pointer input
     = itk::ImageFileReader<myImageIn>::New();
   input->SetFileName(av[1]);

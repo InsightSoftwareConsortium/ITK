@@ -30,7 +30,7 @@ int itkBruker2DSEQImageIOTest( int argc, char * argv [] )
     return EXIT_FAILURE;
     }
 
-  typedef unsigned short                      PixelType;
+  typedef uint16_t                      PixelType;
   typedef itk::Image< PixelType, 2 >          ImageType;
 
   typedef itk::ImageFileReader< ImageType >   ReaderType;

@@ -169,7 +169,7 @@ private:
                    TrialPoint, InitialTrialPoint, OutsidePoint };
 
   /** LabelImage typedef support. */
-  typedef Image< unsigned char, itkGetStaticConstMacro(SetDimension) > LabelImageType;
+  typedef Image< uint8_t, itkGetStaticConstMacro(SetDimension) > LabelImageType;
 
   /** LabelImagePointer typedef support. */
   typedef typename LabelImageType::Pointer LabelImagePointer;

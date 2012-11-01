@@ -161,7 +161,7 @@ itkMetaImageIOMetaDataTest(int argc, char * argv [] )
   // the image data is irrelevant
   const int Dim(2);
 
-  typedef unsigned char                     PixelType;
+  typedef uint8_t                     PixelType;
   typedef itk::Image<PixelType,Dim>         ImageType;
   typedef itk::RandomImageSource<ImageType> SourceType;
 
@@ -220,7 +220,7 @@ itkMetaImageIOMetaDataTest(int argc, char * argv [] )
   {
   // Add short
   std::string key("unsigned_short"); unsigned value(8192);
-  itk::EncapsulateMetaData<unsigned short>(dict,key,value);
+  itk::EncapsulateMetaData<uint16_t>(dict,key,value);
   }
   {
   // Add char
@@ -291,7 +291,7 @@ itkMetaImageIOMetaDataTest(int argc, char * argv [] )
     {
     return 1; // error
     }
-  // Add unsigned char
+  // Add uint8_t
   if(!TestMatch<bool >(dict,"bool",true))
     {
     return 1; // error

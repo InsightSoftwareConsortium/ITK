@@ -34,7 +34,7 @@ int itkImageIODirection2DTest( int ac, char * av[] )
     }
 
   const unsigned int Dimension = 2;
-  typedef unsigned char PixelType;
+  typedef uint8_t PixelType;
 
   typedef itk::Image<PixelType, Dimension>    ImageType;
   typedef itk::ImageFileReader< ImageType >   ReaderType;

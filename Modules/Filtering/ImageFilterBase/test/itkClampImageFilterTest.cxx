@@ -132,9 +132,9 @@ bool TestClampFrom()
 {
   bool success =
     TestClampFromTo< TInputPixelType, char >() &&
-    TestClampFromTo< TInputPixelType, unsigned char >() &&
+    TestClampFromTo< TInputPixelType, uint8_t >() &&
     TestClampFromTo< TInputPixelType, short >() &&
-    TestClampFromTo< TInputPixelType, unsigned short >() &&
+    TestClampFromTo< TInputPixelType, uint16_t >() &&
     TestClampFromTo< TInputPixelType, int >() &&
     TestClampFromTo< TInputPixelType, unsigned int >() &&
     TestClampFromTo< TInputPixelType, long >() &&
@@ -154,9 +154,9 @@ int itkClampImageFilterTest( int, char* [] )
 
   bool success =
     TestClampFrom< char >() &&
-    TestClampFrom< unsigned char >() &&
+    TestClampFrom< uint8_t >() &&
     TestClampFrom< short >() &&
-    TestClampFrom< unsigned short >() &&
+    TestClampFrom< uint16_t >() &&
     TestClampFrom< int >() &&
     TestClampFrom< unsigned int >() &&
     TestClampFrom< long >() &&

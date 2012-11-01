@@ -41,7 +41,7 @@ public:
   typedef BMPImageIO                Self;
   typedef ImageIOBase               Superclass;
   typedef SmartPointer< Self >      Pointer;
-  typedef RGBPixel< unsigned char > RGBPixelType;
+  typedef RGBPixel< uint8_t > RGBPixelType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -87,7 +87,7 @@ private:
   /** This methods ensures that the endianness is respected */
   void Write32BitsInteger(unsigned int value);
 
-  void Write16BitsInteger(unsigned short value);
+  void Write16BitsInteger(uint16_t value);
 
   std::ifstream               m_Ifstream;
   std::ofstream               m_Ofstream;
@@ -95,7 +95,7 @@ private:
   bool                        m_FileLowerLeft;
   short                       m_Depth;
   bool                        m_Allow8BitBMP;
-  unsigned short              m_NumberOfColors;
+  uint16_t              m_NumberOfColors;
   unsigned int                m_ColorTableSize;
   long                        m_BMPCompression;
   unsigned long               m_BMPDataSize;

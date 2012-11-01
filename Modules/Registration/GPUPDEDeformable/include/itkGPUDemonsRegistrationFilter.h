@@ -212,21 +212,21 @@ private:
   {
     if( IsGPUAvailable() )
       {
-      OverrideDemonsRegistrationFilterTypeMacro(unsigned char, unsigned char, 1);
+      OverrideDemonsRegistrationFilterTypeMacro(uint8_t, uint8_t, 1);
       OverrideDemonsRegistrationFilterTypeMacro(char, char, 1);
       OverrideDemonsRegistrationFilterTypeMacro(float,float,1);
       OverrideDemonsRegistrationFilterTypeMacro(int,int,1);
       OverrideDemonsRegistrationFilterTypeMacro(unsigned int,unsigned int,1);
       OverrideDemonsRegistrationFilterTypeMacro(double,double,1);
 
-      OverrideDemonsRegistrationFilterTypeMacro(unsigned char, unsigned char, 2);
+      OverrideDemonsRegistrationFilterTypeMacro(uint8_t, uint8_t, 2);
       OverrideDemonsRegistrationFilterTypeMacro(char, char, 2);
       OverrideDemonsRegistrationFilterTypeMacro(float,float,2);
       OverrideDemonsRegistrationFilterTypeMacro(int,int,2);
       OverrideDemonsRegistrationFilterTypeMacro(unsigned int,unsigned int,2);
       OverrideDemonsRegistrationFilterTypeMacro(double,double,2);
 
-      OverrideDemonsRegistrationFilterTypeMacro(unsigned char, unsigned char, 3);
+      OverrideDemonsRegistrationFilterTypeMacro(uint8_t, uint8_t, 3);
       OverrideDemonsRegistrationFilterTypeMacro(char, char, 3);
       OverrideDemonsRegistrationFilterTypeMacro(float,float,3);
       OverrideDemonsRegistrationFilterTypeMacro(int,int,3);

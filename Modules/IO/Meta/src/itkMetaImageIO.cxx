@@ -572,9 +572,9 @@ MetaImageIO
     int ival=0;
     unsigned uval=0;
     short shval=0;
-    unsigned short ushval=0;
+    uint16_t ushval=0;
     char cval=0;
-    unsigned char ucval=0;
+    uint8_t ucval=0;
     bool bval=false;
     std::string value="";
     if(ExposeMetaData< std::string >(metaDict, *keyIt, value))
@@ -609,7 +609,7 @@ MetaImageIO
       {
       strs << shval;
       }
-    else if(ExposeMetaData<unsigned short>(metaDict,*keyIt,ushval))
+    else if(ExposeMetaData<uint16_t>(metaDict,*keyIt,ushval))
       {
       strs << ushval;
       }
@@ -617,7 +617,7 @@ MetaImageIO
       {
       strs << cval;
       }
-    else if(ExposeMetaData<unsigned char>(metaDict,*keyIt,ucval))
+    else if(ExposeMetaData<uint8_t>(metaDict,*keyIt,ucval))
       {
       strs << ucval;
       }

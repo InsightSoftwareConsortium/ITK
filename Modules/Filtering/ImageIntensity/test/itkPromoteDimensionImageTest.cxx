@@ -33,7 +33,7 @@ int itkPromoteDimensionImageTest(int argc, char* argv[])
   const char * inputFilename  = argv[1];
   const char * outputFilename = argv[2];
 
-  typedef unsigned char    CharPixelType;  //IO
+  typedef uint8_t    CharPixelType;  //IO
   typedef double          RealPixelType;  //Operations
 
   const    unsigned int    InDimension = 2;

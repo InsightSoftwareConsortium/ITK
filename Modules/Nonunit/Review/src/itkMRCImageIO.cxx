@@ -421,7 +421,7 @@ void MRCImageIO::UpdateHeaderFromImageIO(void)
                          this->GetComponentType() )
                       << std::endl
                       <<
-                      "Supported pixel types include unsigned byte, unsigned short, signed short, float, rgb unsigned char, float complex"
+                      "Supported pixel types include unsigned byte, uint16_t, int16_t, float, rgb uint8_t, float complex"
                       );
     }
 
@@ -471,8 +471,8 @@ void MRCImageIO
     {
     case 0:
       {
-      // scalar unsigned char
-      this->UpdateHeaderWithMinMaxMean( static_cast< const unsigned char * >( bufferBegin ) );
+      // scalar uint8_t
+      this->UpdateHeaderWithMinMaxMean( static_cast< const uint8_t * >( bufferBegin ) );
       break;
       }
     case 1:
@@ -511,13 +511,13 @@ void MRCImageIO
       }
     case 6:
       {
-      // scalar unsigned short
-      this->UpdateHeaderWithMinMaxMean( static_cast< const unsigned short * >( bufferBegin ) );
+      // scalar uint16_t
+      this->UpdateHeaderWithMinMaxMean( static_cast< const uint16_t * >( bufferBegin ) );
       break;
       }
     case 16:
       {
-      // RGB of unsigned char
+      // RGB of uint8_t
 
       // just set resonable values
       m_MRCHeader->m_Header.amin = 0.0f;

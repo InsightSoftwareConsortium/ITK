@@ -226,8 +226,8 @@ private:
   InputPixelType m_LowPoint;     /** the point give lowest value of H-1 in
                                    neighbor. */
 
-  unsigned short *m_Region;      /** for region erase. */
-  unsigned short *m_RegionCount; /** for region erase. */
+  uint16_t *m_Region;      /** for region erase. */
+  uint16_t *m_RegionCount; /** for region erase. */
 
   /** weights for different clique configuration. */
   double m_CliqueWeight_1;  /** weight for cliques that v/h smooth boundayr */

@@ -77,7 +77,7 @@ int itkResampleImageTest2(int argc, char * argv [] )
 
   const unsigned int NDimensions = 2;
 
-  typedef unsigned char                          PixelType;
+  typedef uint8_t                          PixelType;
   typedef itk::Image<PixelType, NDimensions>     ImageType;
   typedef ImageType::IndexType                   ImageIndexType;
   typedef ImageType::Pointer                     ImagePointerType;

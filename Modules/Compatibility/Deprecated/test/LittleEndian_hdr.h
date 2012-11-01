@@ -18,7 +18,7 @@
 #ifndef __LittleEndian_hdr_h
 #define __LittleEndian_hdr_h
 
-static unsigned char LittleEndian_hdr[] = {
+static uint8_t LittleEndian_hdr[] = {
   92, 1, 0, 0, 70, 76, 79, 65, 84, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 0, 114, 0,
   4, 0, 6, 0, 6, 0, 8, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0,

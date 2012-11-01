@@ -30,7 +30,7 @@ namespace itk
  * \ingroup ITKFEM
  */
 template< unsigned int NDimensions = 3,
-          typename PixelType = unsigned char,
+          typename PixelType = uint8_t,
           typename TMeshTraits = DefaultStaticMeshTraits< PixelType, NDimensions, NDimensions >
           >
 class FEMSpatialObjectWriter : public SpatialObjectWriter<NDimensions,PixelType,TMeshTraits>

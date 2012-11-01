@@ -43,7 +43,7 @@ int itkImageClassifierFilterTest(int argc, char* argv[] )
   const unsigned int ImageDimension = 2;
   typedef itk::Image< InputPixelType, ImageDimension > InputImageType;
 
-  typedef unsigned char OutputPixelType;
+  typedef uint8_t OutputPixelType;
 
   typedef itk::Image< OutputPixelType, ImageDimension > OutputImageType;
 

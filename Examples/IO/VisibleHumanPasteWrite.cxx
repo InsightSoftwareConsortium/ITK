@@ -49,8 +49,8 @@ int main(int argc, char *argv[])
   std::string inputImageFile = argv[1];
   std::string outputImageFile = argv[2];
 
-  typedef itk::RGBPixel<unsigned char> RGBPixelType;
-  typedef itk::Vector<unsigned char, 3> VRGBPixelType;
+  typedef itk::RGBPixel<uint8_t> RGBPixelType;
+  typedef itk::Vector<uint8_t, 3> VRGBPixelType;
   typedef itk::Image<RGBPixelType, 2> RGB2DImageType;
   typedef itk::Image<VRGBPixelType, 2> VRGB2DImageType;
 

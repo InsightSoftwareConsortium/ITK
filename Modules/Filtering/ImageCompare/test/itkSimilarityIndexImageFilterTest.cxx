@@ -21,7 +21,7 @@
 int itkSimilarityIndexImageFilterTest(int, char* [] )
 {
 
-  typedef unsigned char Pixel1Type;
+  typedef uint8_t Pixel1Type;
   typedef float Pixel2Type;
   enum { ImageDimension = 2 };
 

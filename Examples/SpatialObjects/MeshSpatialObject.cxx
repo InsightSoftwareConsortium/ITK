@@ -173,7 +173,7 @@ int main(int, char * [] )
   // First we define and instantiate the SpatialObjectToImageFilter.
   // Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
-  typedef itk::Image<unsigned char,3> ImageType;
+  typedef itk::Image<uint8_t,3> ImageType;
   typedef itk::GroupSpatialObject<3> GroupType;
   typedef itk::SpatialObjectToImageFilter< GroupType, ImageType >
     SpatialObjectToImageFilterType;

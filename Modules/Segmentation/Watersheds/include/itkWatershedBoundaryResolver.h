@@ -96,8 +96,8 @@ public:
 
   /**  Set/Get the face of the boundary object that we are going to
    *  resolve. */
-  itkSetMacro(Face, unsigned short);
-  itkGetConstMacro(Face, unsigned short);
+  itkSetMacro(Face, uint16_t);
+  itkGetConstMacro(Face, uint16_t);
 
   /** This method sets/gets the equivalency table used to store equivalencies
    *  among segments that are generated from the boundary resolution
@@ -133,7 +133,7 @@ protected:
   void operator=(const Self &) {}
   void PrintSelf(std::ostream & os, Indent indent) const;
 
-  unsigned short m_Face;
+  uint16_t m_Face;
   void GenerateOutputRequestedRegion(DataObject *output);
 };
 } // end namespace watershed

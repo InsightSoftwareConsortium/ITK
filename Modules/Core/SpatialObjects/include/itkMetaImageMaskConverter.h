@@ -35,12 +35,12 @@ namespace itk
  */
 template< unsigned int NDimensions = 3 >
 class ITK_EXPORT MetaImageMaskConverter :
-    public MetaImageConverter< NDimensions, unsigned char, ImageMaskSpatialObject< NDimensions > >
+    public MetaImageConverter< NDimensions, uint8_t, ImageMaskSpatialObject< NDimensions > >
 {
 public:
   /** Standard class typedefs */
   typedef MetaImageMaskConverter                           Self;
-  typedef MetaImageConverter< NDimensions, unsigned char > Superclass;
+  typedef MetaImageConverter< NDimensions, uint8_t > Superclass;
   typedef SmartPointer< Self >                             Pointer;
   typedef SmartPointer< const Self >                       ConstPointer;
 

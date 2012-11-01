@@ -209,7 +209,7 @@ VoronoiDiagram2DGenerator< TCoordRepType >::almostsame(CoordRepType p1, CoordRep
 }
 
 template< typename TCoordRepType >
-unsigned char
+uint8_t
 VoronoiDiagram2DGenerator< TCoordRepType >::Pointonbnd(int VertID)
 {
   PointType currVert = m_OutputVD->GetVertex(VertID);
@@ -287,8 +287,8 @@ VoronoiDiagram2DGenerator< TCoordRepType >::ConstructDiagram(void)
   EdgeInfo curr1;
   EdgeInfo curr2;
 
-  unsigned char                frontbnd;
-  unsigned char                backbnd;
+  uint8_t                frontbnd;
+  uint8_t                backbnd;
   std::vector< IdentifierType > cellPoints;
   for ( unsigned int i = 0; i < m_NumberOfSeeds; i++ )
     {
@@ -332,8 +332,8 @@ VoronoiDiagram2DGenerator< TCoordRepType >::ConstructDiagram(void)
         }
       else if ( ( frontbnd != 0 ) || ( backbnd != 0 ) )
         {
-        unsigned char cfrontbnd = Pointonbnd(curr[0]);
-        unsigned char cbackbnd = Pointonbnd(curr[1]);
+        uint8_t cfrontbnd = Pointonbnd(curr[0]);
+        uint8_t cbackbnd = Pointonbnd(curr[1]);
 
         if ( ( cfrontbnd == backbnd ) && ( backbnd ) )
           {

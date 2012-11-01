@@ -49,7 +49,7 @@ int itkBSplineTransformInitializerTest2( int argc, char * argv[] )
 
   const     unsigned int   ImageDimension = 2;
 
-  typedef   unsigned char                             PixelType;
+  typedef   uint8_t                             PixelType;
   typedef   itk::Image< PixelType, ImageDimension >   FixedImageType;
 
   typedef   itk::ImageFileReader< FixedImageType  >   FixedReaderType;

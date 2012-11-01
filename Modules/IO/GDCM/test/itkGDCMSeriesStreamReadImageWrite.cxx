@@ -52,7 +52,7 @@ int itkGDCMSeriesStreamReadImageWrite( int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-  typedef itk::Image<unsigned short,3>            ImageType;
+  typedef itk::Image<uint16_t,3>            ImageType;
   typedef itk::ImageSeriesReader< ImageType >     ReaderType;
   typedef itk::GDCMImageIO                        ImageIOType;
   typedef itk::GDCMSeriesFileNames                SeriesFileNames;

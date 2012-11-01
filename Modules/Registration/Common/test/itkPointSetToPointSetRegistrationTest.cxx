@@ -194,8 +194,8 @@ int itkPointSetToPointSetRegistrationTest(int, char* [] )
     }
 
   /** Test with the danielsson distance map */
-  typedef itk::Image<unsigned char,2>  BinaryImageType;
-  typedef itk::Image<unsigned short,2> ImageType;
+  typedef itk::Image<uint8_t,2>  BinaryImageType;
+  typedef itk::Image<uint16_t,2> ImageType;
 
   typedef itk::PointSetToImageFilter<FixedPointSetType,BinaryImageType> PSToImageFilterType;
   PSToImageFilterType::Pointer psToImageFilter = PSToImageFilterType::New();

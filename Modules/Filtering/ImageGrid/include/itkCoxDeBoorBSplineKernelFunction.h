@@ -125,7 +125,7 @@ private:
    * See, for example, L. Piegl, L. Tiller, "The NURBS Book,"
    * Springer 1997, p. 50.
    */
-  PolynomialType CoxDeBoor( const unsigned short, const VectorType,
+  PolynomialType CoxDeBoor( const uint16_t, const VectorType,
     const unsigned int, const unsigned int );
 
   MatrixType                       m_BSplineShapeFunctions;

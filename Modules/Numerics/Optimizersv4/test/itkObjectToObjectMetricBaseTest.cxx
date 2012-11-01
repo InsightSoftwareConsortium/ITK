@@ -92,7 +92,7 @@ private:
 
 int itkObjectToObjectMetricBaseTest(int ,char * [])
 {
-  typedef itk::Image< unsigned char, 3 >                       ImageType;
+  typedef itk::Image< uint8_t, 3 >                       ImageType;
   typedef ObjectToObjectMetricTestMetric<ImageType, ImageType> ObjectMetricType;
 
   ObjectMetricType::Pointer objectMetric = ObjectMetricType::New();

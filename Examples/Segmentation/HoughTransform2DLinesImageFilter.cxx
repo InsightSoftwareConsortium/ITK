@@ -64,7 +64,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef   unsigned char   PixelType;
+  typedef   uint8_t   PixelType;
   typedef   float           AccumulatorPixelType;
   const     unsigned int    Dimension = 2;
 
@@ -136,8 +136,8 @@ int main( int argc, char *argv[] )
 
   threshFilter->SetInput( gradFilter->GetOutput());
   threshFilter->SetOutsideValue(0);
-  unsigned char threshBelow = 0;
-  unsigned char threshAbove = 255;
+  uint8_t threshBelow = 0;
+  uint8_t threshAbove = 255;
   threshFilter->ThresholdOutside(threshBelow,threshAbove);
   threshFilter->Update();
   // Software Guide : EndCodeSnippet
@@ -207,7 +207,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef  unsigned char                            OutputPixelType;
+  typedef  uint8_t                            OutputPixelType;
   typedef  itk::Image< OutputPixelType, Dimension > OutputImageType;
 
   OutputImageType::Pointer  localOutputImage = OutputImageType::New();

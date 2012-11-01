@@ -300,7 +300,7 @@ int main( int argc, char *argv[] )
     }
 
   const    unsigned int    Dimension = 2;
-  typedef  unsigned short  PixelType;
+  typedef  uint16_t  PixelType;
 
   const std::string fixedImageFile  = argv[1];
   const std::string movingImageFile = argv[2];
@@ -629,7 +629,7 @@ int main( int argc, char *argv[] )
   resample->SetDefaultPixelValue( backgroundGrayLevel );
 
 
-  typedef  unsigned char  OutputPixelType;
+  typedef  uint8_t  OutputPixelType;
 
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
 

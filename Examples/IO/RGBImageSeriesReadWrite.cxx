@@ -64,7 +64,7 @@ int main( int argc, char ** argv )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::RGBPixel< unsigned char >        PixelType;
+  typedef itk::RGBPixel< uint8_t >        PixelType;
   const unsigned int Dimension = 3;
 
   typedef itk::Image< PixelType, Dimension >    ImageType;

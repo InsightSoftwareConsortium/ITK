@@ -64,7 +64,7 @@
 //
 //  It is desirable to perform the computation on the RGB image using
 //  \code{float} representation. However for input and output purposes
-//  \code{unsigned char} RGB components are commonly used. It is necessary to
+//  \code{uint8_t} RGB components are commonly used. It is necessary to
 //  cast the type of color components in the pipeline before writing them to
 //  a file. The \doxygen{VectorCastImageFilter} is used to achieve this goal.
 //
@@ -163,7 +163,7 @@ int main( int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The filter output is now cast to \code{unsigned char} RGB components by
+  //  The filter output is now cast to \code{uint8_t} RGB components by
   //  using the VectorCastImageFilter
   //
   //  \index{itk::VectorCastImageFilter!instantiation}
@@ -173,7 +173,7 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::RGBPixel< unsigned char >   WritePixelType;
+  typedef itk::RGBPixel< uint8_t >   WritePixelType;
   typedef itk::Image< WritePixelType, 2 >  WriteImageType;
   typedef itk::VectorCastImageFilter<
                 InputImageType, WriteImageType >  CasterType;

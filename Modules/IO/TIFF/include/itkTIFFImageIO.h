@@ -148,8 +148,8 @@ protected:
 
   unsigned int  GetFormat();
 
-  void GetColor(int index, unsigned short *red,
-                unsigned short *green, unsigned short *blue);
+  void GetColor(int index, uint16_t *red,
+                uint16_t *green, uint16_t *blue);
 
   // Check that tag t can be found
   bool  CanFindTIFFTag(unsigned int t);
@@ -170,9 +170,9 @@ private:
   TIFFImageIO(const Self &);    //purposely not implemented
   void operator=(const Self &); //purposely not implemented
 
-  unsigned short *m_ColorRed;
-  unsigned short *m_ColorGreen;
-  unsigned short *m_ColorBlue;
+  uint16_t *m_ColorRed;
+  uint16_t *m_ColorGreen;
+  uint16_t *m_ColorBlue;
   int             m_TotalColors;
   unsigned int    m_ImageFormat;
 };

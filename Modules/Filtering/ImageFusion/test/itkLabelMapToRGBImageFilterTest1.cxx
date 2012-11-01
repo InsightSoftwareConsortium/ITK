@@ -34,7 +34,7 @@ int itkLabelMapToRGBImageFilterTest1(int argc, char * argv[])
 
   const int dim = 2;
 
-  typedef itk::Image< unsigned char, dim > IType;
+  typedef itk::Image< uint8_t, dim > IType;
 
   typedef itk::ImageFileReader< IType > ReaderType;
   ReaderType::Pointer reader = ReaderType::New();
@@ -44,7 +44,7 @@ int itkLabelMapToRGBImageFilterTest1(int argc, char * argv[])
   ConverterType::Pointer converter = ConverterType::New();
   converter->SetInput( reader->GetOutput() );
 
-//  typedef itk::RGBPixel< unsigned char > RGBPixelType;
+//  typedef itk::RGBPixel< uint8_t > RGBPixelType;
 //  typedef itk::Image< RGBPixelType, dim > RGBImageType;
 
   typedef itk::LabelMapToRGBImageFilter< ConverterType::OutputImageType > ColorizerType;

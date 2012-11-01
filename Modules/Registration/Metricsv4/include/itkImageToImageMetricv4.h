@@ -46,7 +46,7 @@ namespace itk
  * VirtualImage type to define the virtual domain. The VirtualImage type
  * defaults to TFixedImage.
  * \note If TFixedImage is type VectorImage, then TVirtualImage must be set
- * separately to a non-VectorImage type, e.g. Image<unsigned char, dimension>.
+ * separately to a non-VectorImage type, e.g. Image<uint8_t, dimension>.
  *
  * If the user does not set the virtual domain explicitly,
  * then it is created during the call to \c Initialize from

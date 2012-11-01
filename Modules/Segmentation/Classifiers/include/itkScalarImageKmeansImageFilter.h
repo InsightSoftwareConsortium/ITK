@@ -40,7 +40,7 @@ namespace itk
  * classifier in order to define labels for every pixel in the image. The
  * filter is templated over the type of the input image. The output image is
  * predefined as having the same dimension of the input image and pixel type
- * unsigned char, under the assumption that the classifier will generate less
+ * uint8_t, under the assumption that the classifier will generate less
  * than 256 classes.
  *
  * You may want to look also at the RelabelImageFilter that may be used as a
@@ -60,7 +60,7 @@ namespace itk
  * \endwiki
  */
 template< class TInputImage,
-          class TOutputImage = Image< unsigned char, TInputImage::ImageDimension > >
+          class TOutputImage = Image< uint8_t, TInputImage::ImageDimension > >
 class ITK_EXPORT ScalarImageKmeansImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {

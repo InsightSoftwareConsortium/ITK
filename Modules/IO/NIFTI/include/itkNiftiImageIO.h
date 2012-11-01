@@ -25,10 +25,11 @@
 #ifndef __itkNiftiImageIO_h
 #define __itkNiftiImageIO_h
 
-
 #include <fstream>
-#include "itkImageIOBase.h"
 #include <nifti1_io.h>
+
+#include "itkImageIOBase.h"
+#include "itkIntTypes.h"
 
 namespace itk
 {
@@ -113,9 +114,9 @@ private:
 
   void  DefineHeaderObjectDataType();
 
-  void  SetNIfTIOrientationFromImageIO(unsigned short int origdims, unsigned short int dims);
+  void  SetNIfTIOrientationFromImageIO(uint16_t origdims, uint16_t dims);
 
-  void  SetImageIOOrientationFromNIfTI(unsigned short int dims);
+  void  SetImageIOOrientationFromNIfTI(uint16_t dims);
 
   void  SetImageIOMetadataFromNIfTI();
 

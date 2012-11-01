@@ -1102,10 +1102,10 @@ protected:
   {
     outputFile << numberOfPixelComponents << "\n";
     SizeValueType  numberOfElements = numberOfPixelComponents * numberOfPixels;
-    unsigned char *data = new unsigned char[numberOfElements];
+    uint8_t *data = new uint8_t[numberOfElements];
     for ( SizeValueType ii = 0; ii < numberOfElements; ++ii )
       {
-      data[ii] = static_cast< unsigned char >( buffer[ii] );
+      data[ii] = static_cast< uint8_t >( buffer[ii] );
       }
 
     outputFile.write(reinterpret_cast< char * >( data ), numberOfElements);

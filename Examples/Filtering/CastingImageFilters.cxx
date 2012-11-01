@@ -112,7 +112,7 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef   unsigned char    InputPixelType;
+  typedef   uint8_t    InputPixelType;
   typedef   float            OutputPixelType;
   // Software Guide : EndCodeSnippet
 

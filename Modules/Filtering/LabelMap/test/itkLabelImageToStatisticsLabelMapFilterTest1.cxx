@@ -38,7 +38,7 @@ int itkLabelImageToStatisticsLabelMapFilterTest1(int argc, char * argv[])
 
   const unsigned int dim = 2;
 
-  typedef itk::Image< unsigned char, dim > ImageType;
+  typedef itk::Image< uint8_t, dim > ImageType;
 
   //reading image to file
   typedef itk::ImageFileReader< ImageType > ReaderType;

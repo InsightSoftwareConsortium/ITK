@@ -34,7 +34,7 @@ int itkMorphologicalWatershedFromMarkersImageFilterTest(int argc, char * argv[])
     }
   const int dim = 2;
 
-  typedef unsigned char PType;
+  typedef uint8_t PType;
 
   typedef itk::Image< PType, dim > IType;
 
@@ -95,7 +95,7 @@ int itkMorphologicalWatershedFromMarkersImageFilterTest(int argc, char * argv[])
 
   if( argc > 6 )
     {
-    typedef itk::RGBPixel<unsigned char>   RGBPixelType;
+    typedef itk::RGBPixel<uint8_t>   RGBPixelType;
     typedef itk::Image<RGBPixelType, dim>  RGBImageType;
 
     typedef itk::LabelOverlayImageFilter<IType, IType, RGBImageType> OverlayType;

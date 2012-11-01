@@ -90,7 +90,7 @@ int itkMultiResolutionPyramidImageFilterTest(int argc, char* argv[] )
 //------------------------------------------------------------
 
   // Allocate Images
-  //typedef signed short PixelType;
+  //typedef int16_t PixelType;
   typedef float PixelType;
   typedef itk::Image<PixelType,3>           InputImageType;
   typedef itk::Image<float,3>               OutputImageType;

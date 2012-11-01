@@ -699,7 +699,7 @@ void JPEG2000ImageIO::Read(void *buffer)
       // tile ROI iteration
       for ( unsigned int k = 0; k < numberOfComponents; k++ )
         {
-        unsigned char *charBuffer = (unsigned char *)buffer;
+        uint8_t *charBuffer = (uint8_t *)buffer;
         charBuffer += k * sizePerComponentInBytes;
 
         charBuffer += initialStrideInBytes;
@@ -709,7 +709,7 @@ void JPEG2000ImageIO::Read(void *buffer)
           charBuffer += priorStrideInBytes;
           for ( SizeValueType j = 0; j < sizePerStrideXInBytes; j++ )
             {
-            *charBuffer = (unsigned char)( *l_data_ptr++ );
+            *charBuffer = (uint8_t)( *l_data_ptr++ );
             charBuffer += numberOfComponents;
             }
           charBuffer += postStrideInBytes;
@@ -810,7 +810,7 @@ JPEG2000ImageIO
       << this->GetFileName()
       << std::endl
       << "Reason: "
-      << "JPEG 2000 writer only supports unsigned char/unsigned short int" );
+      << "JPEG 2000 writer only supports uint8_t/uint16_t" );
     }
 
   if ( this->GetNumberOfComponents() != 1
@@ -1014,7 +1014,7 @@ JPEG2000ImageIO
   itkDebugMacro(<< " START COPY BUFFER");
   if ( this->GetComponentType() == UCHAR )
     {
-    unsigned char *charBuffer = (unsigned char *)buffer;
+    uint8_t *charBuffer = (uint8_t *)buffer;
     for ( SizeValueType j = 0; j < numberOfPixels; j++ )
       {
       for ( unsigned int k = 0; k < this->GetNumberOfComponents(); k++ )
@@ -1027,7 +1027,7 @@ JPEG2000ImageIO
 
   if ( this->GetComponentType() == USHORT )
     {
-    unsigned short *shortBuffer = (unsigned short *)buffer;
+    uint16_t *shortBuffer = (uint16_t *)buffer;
     for ( SizeValueType j = 0; j < numberOfPixels; j++ )
       {
       for ( unsigned int k = 0; k < this->GetNumberOfComponents(); k++ )

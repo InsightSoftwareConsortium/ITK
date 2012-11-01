@@ -37,7 +37,7 @@ int itkFFTShiftImageFilterTest(int argc, char * argv[])
 
   const int dim = 3;
 
-  typedef itk::RGBPixel< unsigned char > PType;
+  typedef itk::RGBPixel< uint8_t > PType;
   typedef itk::Image< PType, dim >       IType;
 
   typedef itk::ImageFileReader< IType > ReaderType;

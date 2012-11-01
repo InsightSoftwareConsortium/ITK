@@ -46,8 +46,8 @@ int itkThresholdMaximumConnectedComponentsImageFilterTest( int argc,
     }
 
 
-  typedef unsigned char InputPixelType;
-  typedef unsigned char OutputPixelType;
+  typedef uint8_t InputPixelType;
+  typedef uint8_t OutputPixelType;
   const   unsigned int Dimension = 2;
 
   typedef itk::Image< InputPixelType, Dimension >  InputImageType;

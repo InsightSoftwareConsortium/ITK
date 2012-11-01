@@ -27,7 +27,7 @@
 int itkLineIteratorTest(int argc, char*argv[])
 {
   const int Dimension = 2;
-  typedef unsigned char                    PixelType;
+  typedef uint8_t                    PixelType;
   typedef itk::Image<PixelType, Dimension> ImageType;
   typedef ImageType::RegionType::IndexType IndexType;
   typedef IndexType::IndexValueType        IndexValueType;

@@ -76,8 +76,8 @@ int main( int argc, char ** argv )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef signed short        InputPixelType;
-  typedef signed short        OutputPixelType;
+  typedef int16_t        InputPixelType;
+  typedef int16_t        OutputPixelType;
 
   typedef itk::Image< InputPixelType,  3 >    InputImageType;
   typedef itk::Image< OutputPixelType, 2 >    OutputImageType;

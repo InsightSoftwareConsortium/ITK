@@ -30,7 +30,7 @@ int itkImageFileWriterUpdateLargestPossibleRegionTest(int argc, char* argv[])
   // We remove the output file
   itksys::SystemTools::RemoveFile(argv[2]);
 
-  typedef unsigned char             PixelType;
+  typedef uint8_t             PixelType;
   typedef itk::Image<PixelType,2>   ImageType;
 
   typedef itk::ImageFileReader<ImageType>         ReaderType;

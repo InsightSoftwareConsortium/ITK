@@ -44,7 +44,7 @@ public:
   itkNewMacro(Self);
 
   /** The type of the input image.  */
-  typedef Image<unsigned short, 2> InputImageType;
+  typedef Image<uint16_t, 2> InputImageType;
 
   /** Set/Get the Tcl interpreter.  */
   void SetInterpreter(Tcl_Interp* interp);
@@ -82,7 +82,7 @@ protected:
 
   // The filter to scale the image to 256 shades of gray.
   typedef RescaleIntensityImageFilter<FlipFilter::OutputImageType,
-                                      itk::Image<unsigned char, 2> >
+                                      itk::Image<uint8_t, 2> >
           RescaleFilter;
   RescaleFilter::Pointer m_RescaleFilter;
 

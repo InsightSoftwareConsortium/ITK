@@ -38,7 +38,7 @@ int itkStreamingImageFilterTest3(int argc, char*argv [] )
    const std::string outputFilename = argv[2];
    unsigned int numberOfStreamDivisions = atoi(argv[3]);
 
-  typedef unsigned char              PixelType;
+  typedef uint8_t              PixelType;
   typedef itk::Image< PixelType, 2 > ImageType;
 
   typedef itk::ImageFileReader<ImageType> ReaderType;

@@ -113,7 +113,7 @@ BinaryDilateImageFilter< TInputImage, TOutputImage, TKernel >
   // Create the temp image for surface encoding
   // The temp image size is equal to the output requested region for thread
   // padded by max( connectivity neighborhood radius, SE kernel radius ).
-  typedef itk::Image< unsigned char, TInputImage::ImageDimension > TempImageType;
+  typedef itk::Image< uint8_t, TInputImage::ImageDimension > TempImageType;
   typename TempImageType::Pointer tmpImage = TempImageType::New();
 
   // Define regions of temp image
@@ -132,10 +132,10 @@ BinaryDilateImageFilter< TInputImage, TOutputImage, TKernel >
   //     one means pixel on but not treated
   //     two means border pixel
   //     three means inner pixel
-  static const unsigned char backgroundTag  = 0;
-  static const unsigned char onTag          = 1;
-  static const unsigned char borderTag      = 2;
-  static const unsigned char innerTag       = 3;
+  static const uint8_t backgroundTag  = 0;
+  static const uint8_t onTag          = 1;
+  static const uint8_t borderTag      = 2;
+  static const uint8_t innerTag       = 3;
 
   if ( this->m_BoundaryToForeground )
     {

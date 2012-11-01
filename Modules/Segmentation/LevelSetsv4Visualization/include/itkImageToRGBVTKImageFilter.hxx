@@ -101,7 +101,7 @@ ImageToRGBVTKImageFilter< TInputImage >
 #if VTK_MAJOR_VERSION <= 5
   m_Output->SetNumberOfScalarComponents( 3 );
 
-  // at first let's convert it to unsigned char
+  // at first let's convert it to uint8_t
   m_Output->SetScalarTypeToUnsignedChar();
   m_Output->AllocateScalars();
 #else

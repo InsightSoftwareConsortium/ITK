@@ -191,7 +191,7 @@ int itkImageToListSampleAdaptorTest2(int, char* [] )
   //
   // Test an RGB image
   //
-  typedef itk::RGBPixel< unsigned char > RGBPixelType;
+  typedef itk::RGBPixel< uint8_t > RGBPixelType;
 
   unsigned int rgbMeasurementVectorSize = 3;
 

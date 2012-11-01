@@ -32,7 +32,7 @@ int itkImageToListSampleFilterTest2(int, char* [] )
   const unsigned int ImageDimension = 3;
   typedef itk::Image< PixelType, ImageDimension > ImageType;
 
-  typedef itk::Image< unsigned char, ImageDimension > MaskImageType;
+  typedef itk::Image< uint8_t, ImageDimension > MaskImageType;
 
   ImageType::Pointer image = ImageType::New();
   ImageType::IndexType start;
@@ -79,7 +79,7 @@ int itkImageToListSampleFilterTest2(int, char* [] )
   mit.GoToBegin();
   while( !mit.IsAtEnd() )
     {
-    mit.Set((unsigned char)255);
+    mit.Set((uint8_t)255);
     ++mit;
     }
 

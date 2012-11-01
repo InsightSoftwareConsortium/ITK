@@ -66,7 +66,7 @@ int main( int argc, char *argv[] )
 // Software Guide : BeginCodeSnippet
   const unsigned int Dimension = 2;
 
-  typedef unsigned short                                       PixelType;
+  typedef uint16_t                                       PixelType;
   typedef itk::Image< PixelType, Dimension >                   ImageType;
   typedef itk::ImageRandomConstIteratorWithIndex< ImageType >  ConstIteratorType;
 // Software Guide : EndCodeSnippet

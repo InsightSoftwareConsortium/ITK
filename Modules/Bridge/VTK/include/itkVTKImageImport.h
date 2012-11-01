@@ -44,8 +44,8 @@ namespace itk
  * through the ITK pipeline are automatically propagated to the VTK pipeline.
  *
  * Note that the VTK images are assumed to be of 1, 2, or 3 dimensions.
- * Scalar value types can be one of: float, double, char, unsigned char,
- * short, unsigned short, int, unsigned int, long, unsigned long. The
+ * Scalar value types can be one of: float, double, char, uint8_t,
+ * short, uint16_t, int, unsigned int, long, unsigned long. The
  * images must have pixel types with one component.
  *
  * \ingroup IOFilters

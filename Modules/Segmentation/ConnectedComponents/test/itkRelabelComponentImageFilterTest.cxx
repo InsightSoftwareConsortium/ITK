@@ -36,9 +36,9 @@ int itkRelabelComponentImageFilterTest(int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-  typedef   unsigned short  InternalPixelType;
+  typedef   uint16_t  InternalPixelType;
   typedef   unsigned long   LabelPixelType;
-  typedef   unsigned char   WritePixelType;
+  typedef   uint8_t   WritePixelType;
   const     unsigned int    Dimension = 2;
 
   typedef itk::Image< InternalPixelType, Dimension >  InternalImageType;

@@ -43,7 +43,7 @@ int itkMINC2ImageIOTest( int ac, char* av[] )
 
   std::cerr << "This is a test for MINC2!!\n";
 
-  typedef unsigned short PixelType;
+  typedef uint16_t PixelType;
 
   typedef itk::Image<PixelType, 3> myImage;
   typedef itk::Image<float, 3>     ImageType;

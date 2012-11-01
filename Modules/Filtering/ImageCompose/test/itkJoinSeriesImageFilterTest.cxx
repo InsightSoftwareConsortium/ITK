@@ -38,7 +38,7 @@ int itkJoinSeriesImageFilterTest(int, char* [] )
 //   itk::OutputWindow::SetInstance( itk::FileOutputWindow::New() );
 
   const unsigned int streamDivisions = 2;
-  typedef unsigned char PixelType;
+  typedef uint8_t PixelType;
   typedef itk::Image< PixelType, 2 > InputImageType;
   // typedef itk::Image< PixelType, 3 > OutputImageType;
   typedef itk::Image< PixelType, 4 > OutputImageType;

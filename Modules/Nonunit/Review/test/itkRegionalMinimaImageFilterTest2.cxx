@@ -38,7 +38,7 @@ int itkRegionalMinimaImageFilterTest2(int argc, char * argv[])
     }
 
 
-  typedef unsigned char                PixelType;
+  typedef uint8_t                PixelType;
   typedef itk::Image< PixelType, dim > ImageType;
 
   typedef itk::ImageFileReader< ImageType > ReaderType;

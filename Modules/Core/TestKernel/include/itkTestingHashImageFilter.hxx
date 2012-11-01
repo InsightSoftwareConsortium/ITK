@@ -110,7 +110,7 @@ HashImageFilter<TImageType>::AfterThreadedGenerateData()
       Swapper::SwapRangeFromSystemToLittleEndian ( buffer, numberOfValues );
       }
 
-    itksysMD5_Append( md5, (unsigned char*)buffer, numberOfValues*sizeof(ValueType) );
+    itksysMD5_Append( md5, (uint8_t*)buffer, numberOfValues*sizeof(ValueType) );
 
     if ( Swapper::SystemIsBigEndian() )
       {

@@ -185,14 +185,14 @@ public:
 // as base class
 
 template<>
-class MorphologicalGradientHistogram<unsigned char>:
-  public VectorMorphologicalGradientHistogram<unsigned char>
+class MorphologicalGradientHistogram<uint8_t>:
+  public VectorMorphologicalGradientHistogram<uint8_t>
 {
 };
 
 template<>
-class MorphologicalGradientHistogram<signed char>:
-  public VectorMorphologicalGradientHistogram<signed char>
+class MorphologicalGradientHistogram<int8_t>:
+  public VectorMorphologicalGradientHistogram<int8_t>
 {
 };
 

@@ -29,7 +29,7 @@
 // tyepdefs used for registration
 const unsigned int ImageDimension = 3;
 const unsigned int ImageWidth = 16;
-typedef unsigned char                                 PixelType;
+typedef uint8_t                                 PixelType;
 typedef itk::Image<PixelType, ImageDimension>         testImageType;
 typedef itk::Vector<float, ImageDimension>            VectorType;
 typedef itk::Image<VectorType, ImageDimension>        FieldType;

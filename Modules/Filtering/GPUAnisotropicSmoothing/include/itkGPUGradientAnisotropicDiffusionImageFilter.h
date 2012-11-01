@@ -152,21 +152,21 @@ private:
   {
     if( IsGPUAvailable() )
       {
-      GradientAnisotropicDiffusionImageFilterTypeMacro(unsigned char, unsigned char, 1);
+      GradientAnisotropicDiffusionImageFilterTypeMacro(uint8_t, uint8_t, 1);
       GradientAnisotropicDiffusionImageFilterTypeMacro(char, char, 1);
       GradientAnisotropicDiffusionImageFilterTypeMacro(float,float,1);
       GradientAnisotropicDiffusionImageFilterTypeMacro(int,int,1);
       GradientAnisotropicDiffusionImageFilterTypeMacro(unsigned int,unsigned int,1);
       GradientAnisotropicDiffusionImageFilterTypeMacro(double,double,1);
 
-      GradientAnisotropicDiffusionImageFilterTypeMacro(unsigned char, unsigned char, 2);
+      GradientAnisotropicDiffusionImageFilterTypeMacro(uint8_t, uint8_t, 2);
       GradientAnisotropicDiffusionImageFilterTypeMacro(char, char, 2);
       GradientAnisotropicDiffusionImageFilterTypeMacro(float,float,2);
       GradientAnisotropicDiffusionImageFilterTypeMacro(int,int,2);
       GradientAnisotropicDiffusionImageFilterTypeMacro(unsigned int,unsigned int,2);
       GradientAnisotropicDiffusionImageFilterTypeMacro(double,double,2);
 
-      GradientAnisotropicDiffusionImageFilterTypeMacro(unsigned char, unsigned char, 3);
+      GradientAnisotropicDiffusionImageFilterTypeMacro(uint8_t, uint8_t, 3);
       GradientAnisotropicDiffusionImageFilterTypeMacro(char, char, 3);
       GradientAnisotropicDiffusionImageFilterTypeMacro(float,float,3);
       GradientAnisotropicDiffusionImageFilterTypeMacro(int,int,3);

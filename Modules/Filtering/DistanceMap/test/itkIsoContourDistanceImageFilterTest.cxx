@@ -65,7 +65,7 @@ int itkIsoContourDistanceImageFilterTest(int, char* [] )
   typedef float PixelType;
 
   typedef itk::Image<PixelType,ImageDimension>      ImageType;
-  typedef itk::Image<unsigned char,ImageDimension>  OutputImageType;
+  typedef itk::Image<uint8_t,ImageDimension>  OutputImageType;
   typedef ImageType::IndexType                      IndexType;
   typedef itk::Point<double,ImageDimension>         PointType;
 

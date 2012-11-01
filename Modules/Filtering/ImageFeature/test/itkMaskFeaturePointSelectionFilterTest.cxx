@@ -37,7 +37,7 @@ int itkMaskFeaturePointSelectionFilterTest( int argc, char * argv[] )
     return EXIT_FAILURE;
     }
 
-  typedef unsigned char                  InputPixelType;
+  typedef uint8_t                  InputPixelType;
   typedef itk::RGBPixel<InputPixelType>  OutputPixelType;
   typedef itk::Matrix< double, 3, 3 >    PointSetPixelType;
 

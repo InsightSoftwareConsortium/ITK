@@ -55,7 +55,7 @@ namespace itk
  * \endwiki
  */
 
-template< typename TComponent = unsigned short >
+template< typename TComponent = uint16_t >
 class RGBAPixel:public FixedArray< TComponent, 4 >
 {
 public:

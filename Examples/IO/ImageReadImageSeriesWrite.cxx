@@ -49,7 +49,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Image< unsigned char, 3 >      ImageType;
+  typedef itk::Image< uint8_t, 3 >      ImageType;
   typedef itk::ImageFileReader< ImageType >   ReaderType;
   // Software Guide : EndCodeSnippet
 
@@ -76,7 +76,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Image< unsigned char, 2 >     Image2DType;
+  typedef itk::Image< uint8_t, 2 >     Image2DType;
 
   typedef itk::ImageSeriesWriter< ImageType, Image2DType > WriterType;
 

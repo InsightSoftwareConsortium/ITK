@@ -760,9 +760,9 @@ private:
     static const IOComponentType CType = ctype;    \
   }
 
-MESHIOBASE_TYPEMAP(unsigned char, UCHAR);
+MESHIOBASE_TYPEMAP(uint8_t, UCHAR);
 MESHIOBASE_TYPEMAP(char, CHAR);
-MESHIOBASE_TYPEMAP(unsigned short, USHORT);
+MESHIOBASE_TYPEMAP(uint16_t, USHORT);
 MESHIOBASE_TYPEMAP(short, SHORT);
 MESHIOBASE_TYPEMAP(unsigned int, UINT);
 MESHIOBASE_TYPEMAP(int, INT);

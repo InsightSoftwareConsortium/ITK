@@ -24,7 +24,7 @@
 const unsigned int Dimension = 3;
 
 // Declare the types of the output images
-typedef itk::Image<unsigned short,   Dimension>   ImageType;
+typedef itk::Image<uint16_t,   Dimension>   ImageType;
 
 // Declare the type of the index,size and region to initialize images
 typedef ImageType::IndexType                     IndexType;
@@ -38,24 +38,24 @@ void CreateCubeConfig(
                   const unsigned int& StartX,
                   const unsigned int& StartY,
                   const unsigned int& StartZ,
-                  const unsigned char& value1,
-                  const unsigned char& value2,
-                  const unsigned char& value3,
-                  const unsigned char& value4,
-                  const unsigned char& value5,
-                  const unsigned char& value6,
-                  const unsigned char& value7,
-                  const unsigned char& value8 );
+                  const uint8_t& value1,
+                  const uint8_t& value2,
+                  const uint8_t& value3,
+                  const uint8_t& value4,
+                  const uint8_t& value5,
+                  const uint8_t& value6,
+                  const uint8_t& value7,
+                  const uint8_t& value8 );
 
 void Create16CubeConfig(
                   ImagePointerType image,
                   const unsigned int& StartX,
                   const unsigned int& StartY,
                   const unsigned int& StartZ,
-                  const unsigned char& value1,
-                  const unsigned char& value2,
-                  const unsigned char& value3,
-                  const unsigned char& value4 );
+                  const uint8_t& value1,
+                  const uint8_t& value2,
+                  const uint8_t& value3,
+                  const uint8_t& value4 );
 
 int itkBinaryMask3DMeshSourceTest(int argc, char *argv[] )
 {
@@ -86,7 +86,7 @@ int itkBinaryMask3DMeshSourceTest(int argc, char *argv[] )
 
   unsigned int i,j,k,l;
 
-  for( unsigned char counter = 0; counter < 18; counter++ )
+  for( uint8_t counter = 0; counter < 18; counter++ )
     {
     i = ( counter / 1 ) % 2; // 0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1.
     j = ( counter / 2 ) % 2; // 0,0,1,1,0,0,1,1,0,0,1,1,0,0,1,1.
@@ -136,14 +136,14 @@ void CreateCubeConfig(
                   const unsigned int& StartX,
                   const unsigned int& StartY,
                   const unsigned int& StartZ,
-                  const unsigned char& value1,
-                  const unsigned char& value2,
-                  const unsigned char& value3,
-                  const unsigned char& value4,
-                  const unsigned char& value5,
-                  const unsigned char& value6,
-                  const unsigned char& value7,
-                  const unsigned char& value8 )
+                  const uint8_t& value1,
+                  const uint8_t& value2,
+                  const uint8_t& value3,
+                  const uint8_t& value4,
+                  const uint8_t& value5,
+                  const uint8_t& value6,
+                  const uint8_t& value7,
+                  const uint8_t& value8 )
 {
   IndexType index;
 
@@ -203,10 +203,10 @@ void Create16CubeConfig(
                   const unsigned int& StartX,
                   const unsigned int& StartY,
                   const unsigned int& StartZ,
-                  const unsigned char& value1,
-                  const unsigned char& value2,
-                  const unsigned char& value3,
-                  const unsigned char& value4 )
+                  const uint8_t& value1,
+                  const uint8_t& value2,
+                  const uint8_t& value3,
+                  const uint8_t& value4 )
 {
   // Case 0
   CreateCubeConfig(

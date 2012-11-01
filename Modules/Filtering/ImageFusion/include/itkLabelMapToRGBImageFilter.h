@@ -39,7 +39,7 @@ namespace itk {
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKImageFusion
  */
-template<class TInputImage, class TOutputImage=Image< RGBPixel<unsigned char>, TInputImage::ImageDimension > >
+template<class TInputImage, class TOutputImage=Image< RGBPixel<uint8_t>, TInputImage::ImageDimension > >
 class ITK_EXPORT LabelMapToRGBImageFilter :
     public LabelMapFilter<TInputImage, TOutputImage>
 {

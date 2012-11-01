@@ -34,7 +34,7 @@ int itkPNGImageIOTest(int argc, char * argv[])
     }
 
   // We are converting read data into RGB pixel image
-  typedef itk::RGBPixel<unsigned char> RGBPixelType;
+  typedef itk::RGBPixel<uint8_t> RGBPixelType;
   typedef itk::Image<RGBPixelType,2>   RGBImageType;
 
   // Read in the image
@@ -65,9 +65,9 @@ int itkPNGImageIOTest(int argc, char * argv[])
   // - 2D degenerate image: The writer should write out the image.
   // - 1D image: The writer should write it out as a 2D image.
 
-  typedef itk::Image< unsigned short, 3 > ImageType3D;
-  typedef itk::Image< unsigned short, 2 > ImageType2D;
-  typedef itk::Image< unsigned short, 1 > ImageType1D;
+  typedef itk::Image< uint16_t, 3 > ImageType3D;
+  typedef itk::Image< uint16_t, 2 > ImageType2D;
+  typedef itk::Image< uint16_t, 1 > ImageType1D;
 
   //----------------------------------------------------------------//
   // 3D non-degenerate volume.

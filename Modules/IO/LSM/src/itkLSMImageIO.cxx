@@ -172,8 +172,8 @@ void LSMImageIO::ReadImageInformation()
   short tif_cz_lsminfo_size;
   void *praw = this->TIFFImageIO::ReadRawByteFromTag(TIF_CZ_LSMINFO, tif_cz_lsminfo_size);
   // FIXME byte swap
-  ByteSwapper< unsigned short >::SwapRangeFromSystemToLittleEndian(
-    reinterpret_cast< unsigned short * >( praw ), tif_cz_lsminfo_size / 2);
+  ByteSwapper< uint16_t >::SwapRangeFromSystemToLittleEndian(
+    reinterpret_cast< uint16_t * >( praw ), tif_cz_lsminfo_size / 2);
   const zeiss_info *zi = reinterpret_cast< zeiss_info * >( praw );
   if ( sizeof( *zi ) != TIF_CZ_LSMINFO_SIZE )
     {
@@ -242,7 +242,7 @@ void LSMImageIO::FillZeissStruct(char *cz)
 
 void LSMImageIO::Write(const void *buffer)
 {
-  unsigned char *outPtr = (unsigned char *)buffer;
+  uint8_t *outPtr = (uint8_t *)buffer;
 
   unsigned int width, height, page, pages = 1;
 
@@ -268,7 +268,7 @@ void LSMImageIO::Write(const void *buffer)
       break;
 
     default:
-      itkExceptionMacro(<< "TIFF supports unsigned char and unsigned short");
+      itkExceptionMacro(<< "TIFF supports uint8_t and uint16_t");
     }
 
   int predictor;
@@ -386,13 +386,13 @@ void LSMImageIO::Write(const void *buffer)
     switch ( this->GetComponentType() )
       {
       case UCHAR:
-        rowLength = sizeof( unsigned char );
+        rowLength = sizeof( uint8_t );
         break;
       case USHORT:
-        rowLength = sizeof( unsigned short );
+        rowLength = sizeof( uint16_t );
         break;
       default:
-        itkExceptionMacro(<< "TIFF supports unsigned char and unsigned short");
+        itkExceptionMacro(<< "TIFF supports uint8_t and uint16_t");
       }
 
     rowLength *= this->GetNumberOfComponents();
@@ -401,7 +401,7 @@ void LSMImageIO::Write(const void *buffer)
     int row = 0;
     for ( unsigned int idx2 = 0; idx2 < height; idx2++ )
       {
-      if ( TIFFWriteScanline(tif, const_cast< unsigned char * >( outPtr ), row, 0) < 0 )
+      if ( TIFFWriteScanline(tif, const_cast< uint8_t * >( outPtr ), row, 0) < 0 )
         {
         itkExceptionMacro(<< "TIFFImageIO: error out of disk space");
         break;

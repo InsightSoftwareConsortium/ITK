@@ -30,7 +30,7 @@
 
 int itkKappaStatisticImageToImageMetricTest(int, char* [] )
 {
-  typedef itk::Image< unsigned char, 2 >                                               UCharImage2DType;
+  typedef itk::Image< uint8_t, 2 >                                               UCharImage2DType;
   typedef itk::Image< double, 2 >                                                      DoubleImage2DType;
   typedef itk::KappaStatisticImageToImageMetric< UCharImage2DType, UCharImage2DType >  MetricType;
   typedef itk::ImageRegionIteratorWithIndex< UCharImage2DType >                        UCharIteratorType;

@@ -34,7 +34,7 @@ int itkMaximumProjectionImageFilterTest3(int argc, char * argv[])
 
   int dim = atoi(argv[1]);
 
-  typedef unsigned char PixelType;
+  typedef uint8_t PixelType;
 
   typedef itk::Image< PixelType, 3 > ImageType;
   typedef itk::Image< PixelType, 2 > Image2DType;

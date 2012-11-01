@@ -245,8 +245,8 @@ int itkCenteredAffineTransformTest(int, char *[])
             << std::endl;
   double spacing[3] = {1.0, 2.0, 3.0};
   double origin[3] = {4.0, 5.0, 6.0};
-  itk::Image<unsigned char, 3>::Pointer
-    image = itk::Image<unsigned char, 3>::New();
+  itk::Image<uint8_t, 3>::Pointer
+    image = itk::Image<uint8_t, 3>::New();
   image->SetOrigin(origin);
   image->SetSpacing(spacing);
 

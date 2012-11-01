@@ -29,7 +29,7 @@ int itkResampleImageTest6(int argc, char * argv [] )
   // Resample a Vector image
   const unsigned int NDimensions = 2;
 
-  typedef unsigned char                ValueType;
+  typedef uint8_t                ValueType;
 
   typedef itk::VectorImage<ValueType, 2 >    ImageType;
   typedef ImageType::PixelType               PixelType;

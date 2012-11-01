@@ -36,7 +36,7 @@ namespace itk
 
 template< unsigned int TDimension = 3 >
 class ITK_EXPORT ImageMaskSpatialObject:
-  public ImageSpatialObject< TDimension, unsigned char >
+  public ImageSpatialObject< TDimension, uint8_t >
 {
 public:
 

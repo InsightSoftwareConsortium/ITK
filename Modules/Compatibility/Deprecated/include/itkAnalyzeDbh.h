@@ -77,17 +77,17 @@ namespace itk
 enum DataTypeKeyValues  {
   ANALYZE_DT_UNKNOWN      =0,  /**< Deontes that the data type is unknon */
   ANALYZE_DT_BINARY       =1,  /**< Deontes that the data type is binary */
-  ANALYZE_DT_UNSIGNED_CHAR=2,  /**< Deontes that the data type is unsigned char */
-  ANALYZE_DT_SIGNED_SHORT =4,  /**< Deontes that the data type is signed short */
+  ANALYZE_DT_UNSIGNED_CHAR=2,  /**< Deontes that the data type is uint8_t */
+  ANALYZE_DT_SIGNED_SHORT =4,  /**< Deontes that the data type is int16_t */
   ANALYZE_DT_SIGNED_INT   =8,  /**< Deontes that the data type is signed int */
   ANALYZE_DT_FLOAT        =16, /**< Deontes that the data type is single precision floating point */
   ANALYZE_DT_COMPLEX      =32, /**< Deontes that the data type is pairs of single precision floating point numbers */
   ANALYZE_DT_DOUBLE       =64, /**< Deontes that the data type is double precision floating point */
-  ANALYZE_DT_RGB          =128,/**< Deontes that the data type is triples of unsigned char */
+  ANALYZE_DT_RGB          =128,/**< Deontes that the data type is triples of uint8_t */
   ANALYZE_DT_ALL          =255,/**< Deontes that the data type is unknon */
-  //Obsolete, using SPM, B2ANALYZE_DT_UNSIGNED_SHORT =6,  /**< Deontes that the data type is unsigned short in brains2 analyze extensions*/
+  //Obsolete, using SPM, B2ANALYZE_DT_UNSIGNED_SHORT =6,  /**< Deontes that the data type is uint16_t in brains2 analyze extensions*/
   //Obsolete, using SPM, B2ANALYZE_DT_UNSIGNED_INT   =12, /**< Deontes that the data type is unsigned int in brains2 analyze extensions*/
-  SPMANALYZE_DT_UNSIGNED_SHORT=132,/**< Deontes that the data type is unsigned short in SPM analyze extensions*/
+  SPMANALYZE_DT_UNSIGNED_SHORT=132,/**< Deontes that the data type is uint16_t in SPM analyze extensions*/
   SPMANALYZE_DT_UNSIGNED_INT  =136 /**< Deontes that the data type is unsigned int in SPM analyze extensions*/
 };
 

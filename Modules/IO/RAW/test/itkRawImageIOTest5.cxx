@@ -29,7 +29,7 @@ class RawImageReaderAndWriter
 {
 public:
 
-  typedef unsigned char PixelType;
+  typedef uint8_t PixelType;
 
   typedef itk::RawImageIO< PixelType, 2 > RawImageIOType;
 
@@ -228,11 +228,11 @@ int itkRawImageIOTest5(int argc, char*argv[])
 
 
   //
-  // Test the pixel type = "signed char"
+  // Test the pixel type = "int8_t"
   //
-  std::cout << "Testing for pixel type = signed char " << std::endl;
+  std::cout << "Testing for pixel type = int8_t " << std::endl;
 
-  RawImageReaderAndWriter< signed char >   tester2;
+  RawImageReaderAndWriter< int8_t >   tester2;
 
   filename = directory + "/RawImageIOTest5b.raw";
 
@@ -245,7 +245,7 @@ int itkRawImageIOTest5(int argc, char*argv[])
     }
   catch( itk::ExceptionObject & excp )
     {
-    std::cerr << "Exception caught while writing signed char type." << std::endl;
+    std::cerr << "Exception caught while writing int8_t type." << std::endl;
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
     }
@@ -257,14 +257,14 @@ int itkRawImageIOTest5(int argc, char*argv[])
     }
   catch( itk::ExceptionObject & excp )
     {
-    std::cerr << "Exception caught while reading signed char type." << std::endl;
+    std::cerr << "Exception caught while reading int8_t type." << std::endl;
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
     }
 
   if( tester2.GetError() )
     {
-    std::cerr << "Error while comparing the signed char type images." << std::endl;
+    std::cerr << "Error while comparing the int8_t type images." << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -273,11 +273,11 @@ int itkRawImageIOTest5(int argc, char*argv[])
 
 
   //
-  // Test the pixel type = "unsigned char"
+  // Test the pixel type = "uint8_t"
   //
-  std::cout << "Testing for pixel type = unsigned char " << std::endl;
+  std::cout << "Testing for pixel type = uint8_t " << std::endl;
 
-  RawImageReaderAndWriter< unsigned char >   tester3;
+  RawImageReaderAndWriter< uint8_t >   tester3;
 
 
   filename = directory + "/RawImageIOTest5c.raw";
@@ -291,7 +291,7 @@ int itkRawImageIOTest5(int argc, char*argv[])
     }
   catch( itk::ExceptionObject & excp )
     {
-    std::cerr << "Exception caught while writing unsigned char type." << std::endl;
+    std::cerr << "Exception caught while writing uint8_t type." << std::endl;
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
     }
@@ -303,14 +303,14 @@ int itkRawImageIOTest5(int argc, char*argv[])
     }
   catch( itk::ExceptionObject & excp )
     {
-    std::cerr << "Exception caught while reading unsigned char type." << std::endl;
+    std::cerr << "Exception caught while reading uint8_t type." << std::endl;
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
     }
 
   if( tester3.GetError() )
     {
-    std::cerr << "Error while comparing the unsigned char type images." << std::endl;
+    std::cerr << "Error while comparing the uint8_t type images." << std::endl;
     return EXIT_FAILURE;
     }
 

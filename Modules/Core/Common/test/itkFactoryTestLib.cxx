@@ -180,12 +180,12 @@ private:
   ImportImageContainerFactory()
     {
       OverrideTypeMacro(short);
-      OverrideTypeMacro(unsigned char);
+      OverrideTypeMacro(uint8_t);
       OverrideTypeMacro(float);
       OverrideTypeMacro(int);
       OverrideTypeMacro(double);
-      OverrideTypeMacro(itk::RGBPixel<unsigned char>);
-      OverrideTypeMacro(itk::RGBPixel<unsigned short>);
+      OverrideTypeMacro(itk::RGBPixel<uint8_t>);
+      OverrideTypeMacro(itk::RGBPixel<uint16_t>);
     }
 };
 

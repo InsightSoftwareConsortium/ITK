@@ -442,31 +442,31 @@ public:
 };
 
 template< >
-class MeasurementVectorPixelTraits< unsigned char >
+class MeasurementVectorPixelTraits< uint8_t >
 {
 public:
-  typedef FixedArray< unsigned char, 1 > MeasurementVectorType;
+  typedef FixedArray< uint8_t, 1 > MeasurementVectorType;
 };
 
 template< >
-class MeasurementVectorPixelTraits< signed char >
+class MeasurementVectorPixelTraits< int8_t >
 {
 public:
-  typedef FixedArray< signed char, 1 > MeasurementVectorType;
+  typedef FixedArray< int8_t, 1 > MeasurementVectorType;
 };
 
 template< >
-class MeasurementVectorPixelTraits< unsigned short >
+class MeasurementVectorPixelTraits< uint16_t >
 {
 public:
-  typedef FixedArray< unsigned short, 1 > MeasurementVectorType;
+  typedef FixedArray< uint16_t, 1 > MeasurementVectorType;
 };
 
 template< >
-class MeasurementVectorPixelTraits< signed short >
+class MeasurementVectorPixelTraits< int16_t >
 {
 public:
-  typedef FixedArray< signed short, 1 > MeasurementVectorType;
+  typedef FixedArray< int16_t, 1 > MeasurementVectorType;
 };
 
 template< >

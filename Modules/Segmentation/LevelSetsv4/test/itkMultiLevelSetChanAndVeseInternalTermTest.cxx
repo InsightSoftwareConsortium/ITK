@@ -25,7 +25,7 @@ int itkMultiLevelSetChanAndVeseInternalTermTest( int , char* [] )
 {
   const unsigned int Dimension = 2;
 
-  typedef unsigned char                                       InputPixelType;
+  typedef uint8_t                                       InputPixelType;
   typedef itk::Image< InputPixelType, Dimension >             InputImageType;
   typedef itk::ImageRegionIteratorWithIndex< InputImageType > InputIteratorType;
 

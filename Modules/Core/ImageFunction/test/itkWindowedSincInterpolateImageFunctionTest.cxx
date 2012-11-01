@@ -27,7 +27,7 @@ namespace SincInterpolate {
 enum{ ImageDimension = 3 };
 enum{ WindowRadius = 2 };
 
-typedef unsigned char        PixelType;
+typedef uint8_t        PixelType;
 typedef itk::Image<PixelType,ImageDimension> ImageType;
 typedef double CoordRepType;
 
@@ -164,7 +164,7 @@ int itkWindowedSincInterpolateImageFunctionTest(int, char* [] )
   Iterator iter( image, region );
 
   IndexType index;
-  unsigned short value;
+  uint16_t value;
   PixelType pixel;
 
   for( ; !iter.IsAtEnd(); ++iter )

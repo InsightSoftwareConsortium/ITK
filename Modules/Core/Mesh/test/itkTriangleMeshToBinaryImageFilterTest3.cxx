@@ -54,7 +54,7 @@ int itkTriangleMeshToBinaryImageFilterTest3( int argc, char * argv [] )
     return EXIT_FAILURE;
     }
 
-  typedef itk::Image<unsigned char, 3> ImageType;
+  typedef itk::Image<uint8_t, 3> ImageType;
 
   typedef itk::TriangleMeshToBinaryImageFilter< MeshType, ImageType >  TriangleImageType;
 

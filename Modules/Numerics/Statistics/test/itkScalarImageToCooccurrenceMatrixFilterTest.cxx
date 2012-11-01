@@ -34,7 +34,7 @@ int itkScalarImageToCooccurrenceMatrixFilterTest(int, char* [] )
   //------------------------------------------------------
   //Create a simple test images
   //------------------------------------------------------
-  typedef itk::Image<unsigned char, NDIMENSION> InputImageType;
+  typedef itk::Image<uint8_t, NDIMENSION> InputImageType;
 
   typedef itk::ImageRegionIterator< InputImageType > InputImageIterator;
 

@@ -64,14 +64,14 @@ int HDF5ReadWriteTest(const char *fileName)
   char metaDataChar('c');
   itk::EncapsulateMetaData<char>(metaDict,"TestChar",metaDataChar);
 
-  unsigned char metaDataUChar('u');
-  itk::EncapsulateMetaData<unsigned char>(metaDict,"TestUChar",metaDataUChar);
+  uint8_t metaDataUChar('u');
+  itk::EncapsulateMetaData<uint8_t>(metaDict,"TestUChar",metaDataUChar);
 
   short metaDataShort(1);
   itk::EncapsulateMetaData<short>(metaDict,"TestShort",metaDataShort);
 
-  unsigned short metaDataUShort(3);
-  itk::EncapsulateMetaData<unsigned short>(metaDict,"TestUShort",metaDataUShort);
+  uint16_t metaDataUShort(3);
+  itk::EncapsulateMetaData<uint16_t>(metaDict,"TestUShort",metaDataUShort);
 
   int metaDataInt(5);
   itk::EncapsulateMetaData<int>(metaDict,"TestInt",metaDataInt);
@@ -180,8 +180,8 @@ int HDF5ReadWriteTest(const char *fileName)
     success = EXIT_FAILURE;
     }
 
-  unsigned char metaDataUChar2(0);
-  if(!itk::ExposeMetaData<unsigned char>(metaDict2,"TestUChar",metaDataUChar2) ||
+  uint8_t metaDataUChar2(0);
+  if(!itk::ExposeMetaData<uint8_t>(metaDict2,"TestUChar",metaDataUChar2) ||
      metaDataUChar2 != metaDataUChar)
     {
     std::cerr << "Failure Reading metaData " << "TestUChar "
@@ -200,8 +200,8 @@ int HDF5ReadWriteTest(const char *fileName)
     success = EXIT_FAILURE;
     }
 
-  unsigned short metaDataUShort2(0);
-  if(!itk::ExposeMetaData<unsigned short>(metaDict2,"TestUShort",metaDataUShort2) ||
+  uint16_t metaDataUShort2(0);
+  if(!itk::ExposeMetaData<uint16_t>(metaDict2,"TestUShort",metaDataUShort2) ||
      metaDataUShort2 != metaDataUShort)
     {
     std::cerr << "Failure Reading metaData " << "TestUShort "
@@ -333,8 +333,8 @@ itkHDF5ImageIOTest(int ac, char * av [] )
   itk::ObjectFactoryBase::RegisterFactory(itk::HDF5ImageIOFactory::New() );
 
   int result(0);
-  result += HDF5ReadWriteTest<unsigned char>("UCharImage.hdf5");
+  result += HDF5ReadWriteTest<uint8_t>("UCharImage.hdf5");
   result += HDF5ReadWriteTest<float>("FloatImage.hdf5");
-  result += HDF5ReadWriteTest<itk::RGBPixel<unsigned char> >("RGBImage.hdf5");
+  result += HDF5ReadWriteTest<itk::RGBPixel<uint8_t> >("RGBImage.hdf5");
   return result != 0;
 }

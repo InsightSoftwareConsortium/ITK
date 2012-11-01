@@ -147,21 +147,21 @@ private:
   {
     if( IsGPUAvailable() )
       {
-      OverrideMeanFilterTypeMacro(unsigned char, unsigned char, 1);
+      OverrideMeanFilterTypeMacro(uint8_t, uint8_t, 1);
       OverrideMeanFilterTypeMacro(char, char, 1);
       OverrideMeanFilterTypeMacro(float,float,1);
       OverrideMeanFilterTypeMacro(int,int,1);
       OverrideMeanFilterTypeMacro(unsigned int,unsigned int,1);
       OverrideMeanFilterTypeMacro(double,double,1);
 
-      OverrideMeanFilterTypeMacro(unsigned char, unsigned char, 2);
+      OverrideMeanFilterTypeMacro(uint8_t, uint8_t, 2);
       OverrideMeanFilterTypeMacro(char, char, 2);
       OverrideMeanFilterTypeMacro(float,float,2);
       OverrideMeanFilterTypeMacro(int,int,2);
       OverrideMeanFilterTypeMacro(unsigned int,unsigned int,2);
       OverrideMeanFilterTypeMacro(double,double,2);
 
-      OverrideMeanFilterTypeMacro(unsigned char, unsigned char, 3);
+      OverrideMeanFilterTypeMacro(uint8_t, uint8_t, 3);
       OverrideMeanFilterTypeMacro(char, char, 3);
       OverrideMeanFilterTypeMacro(float,float,3);
       OverrideMeanFilterTypeMacro(int,int,3);

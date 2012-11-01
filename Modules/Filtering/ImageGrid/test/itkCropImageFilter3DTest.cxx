@@ -21,7 +21,7 @@
 
 int itkCropImageFilter3DTest(int, char* [] )
 {
-  typedef itk::Image<unsigned short,3> ImageType;
+  typedef itk::Image<uint16_t,3> ImageType;
 
   ImageType::RegionType region;
   const unsigned int dimSize(8);
@@ -34,7 +34,7 @@ int itkCropImageFilter3DTest(int, char* [] )
   image->Allocate();
 
   itk::ImageRegionIterator<ImageType> it(image,region);
-  for(unsigned short i = 0; !it.IsAtEnd(); ++it, ++i)
+  for(uint16_t i = 0; !it.IsAtEnd(); ++it, ++i)
     {
     it.Set(i);
     }

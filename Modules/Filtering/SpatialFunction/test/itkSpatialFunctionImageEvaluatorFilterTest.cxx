@@ -28,7 +28,7 @@ int itkSpatialFunctionImageEvaluatorFilterTest(int, char* [] )
   const unsigned int dim = 3;
 
   // Image typedef
-  typedef itk::Image< unsigned char, dim > ImageType;
+  typedef itk::Image< uint8_t, dim > ImageType;
 
   //-----------------Create a new input image--------------------
   // Image size and spacing parameters

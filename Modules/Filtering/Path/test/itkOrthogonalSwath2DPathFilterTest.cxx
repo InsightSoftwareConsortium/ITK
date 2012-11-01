@@ -34,7 +34,7 @@
 
 int itkOrthogonalSwath2DPathFilterTest(int, char*[])
 {
-  typedef itk::Image<unsigned char, 2>                ImageType;
+  typedef itk::Image<uint8_t, 2>                ImageType;
   typedef itk::Image<double, 2>                       FloatImageType;
   typedef itk::PolyLineParametricPath<2>              InPathType;
   typedef itk::ChainCodePath<2>                       ChainPathType;

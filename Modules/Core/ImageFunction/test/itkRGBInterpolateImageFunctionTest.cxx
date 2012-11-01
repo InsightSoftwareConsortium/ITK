@@ -25,7 +25,7 @@ namespace RGBInterpolate {
 
 enum{ ImageDimension = 3 };
 enum{ VectorDimension = 3 }; // RGB is a vector of dimension 3
-typedef itk::RGBPixel<unsigned short> PixelType;
+typedef itk::RGBPixel<uint16_t> PixelType;
 typedef itk::Image<PixelType,ImageDimension> ImageType;
 typedef double CoordRepType;
 typedef itk::VectorLinearInterpolateImageFunction<ImageType,CoordRepType> InterpolatorType;
@@ -195,7 +195,7 @@ int itkRGBInterpolateImageFunctionTest(int, char* [] )
   Iterator iter( image, region );
 
   IndexType index;
-  unsigned short value;
+  uint16_t value;
   PixelType pixel;
 
   for( ; !iter.IsAtEnd(); ++iter )

@@ -90,7 +90,7 @@ int main( int argc, char * argv [] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef unsigned char  MaskPixelType;
+  typedef uint8_t  MaskPixelType;
 
   typedef itk::Image< MaskPixelType, Dimension > MaskImageType;
   // Software Guide : EndCodeSnippet

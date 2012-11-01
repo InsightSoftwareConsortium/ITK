@@ -35,7 +35,7 @@ namespace itk
  */
 
 template< unsigned int TDimension = 3,
-          class TPixelType = unsigned char
+          class TPixelType = uint8_t
           >
 class ITK_EXPORT ImageSpatialObject:
   public SpatialObject< TDimension >
@@ -143,13 +143,13 @@ protected:
   {
     m_PixelType = "short";
   }
-  void InternalSetPixelType(const unsigned char *)
+  void InternalSetPixelType(const uint8_t *)
   {
-    m_PixelType = "unsigned char";
+    m_PixelType = "uint8_t";
   }
-  void InternalSetPixelType(const unsigned short *)
+  void InternalSetPixelType(const uint16_t *)
   {
-    m_PixelType = "unsigned short";
+    m_PixelType = "uint16_t";
   }
   void InternalSetPixelType(const float *)
   {

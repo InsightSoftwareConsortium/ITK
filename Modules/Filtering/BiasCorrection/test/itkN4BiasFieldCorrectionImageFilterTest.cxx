@@ -131,7 +131,7 @@ int N4( int argc, char *argv[] )
   inputImage->DisconnectPipeline();
 
   // handle the mask image
-  typedef itk::Image<unsigned char, ImageDimension> MaskImageType;
+  typedef itk::Image<uint8_t, ImageDimension> MaskImageType;
   typename MaskImageType::Pointer maskImage = NULL;
 
   if( argc > 6 )

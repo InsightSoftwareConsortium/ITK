@@ -53,7 +53,7 @@ ScalarToRGBPixelFunctor< TScalar >
   int          j;
 
   TScalar        buf = v;
-  unsigned char *bytes = (unsigned char *)( &buf );
+  uint8_t *bytes = (uint8_t *)( &buf );
 
   RGBPixelType ans;
 
@@ -62,7 +62,7 @@ ScalarToRGBPixelFunctor< TScalar >
     TScalar tmp;
     for ( j = sizeof( TScalar ) - 1, i = 0; j >= 0; j--, i++ )
       {
-      ( (unsigned char *)( &tmp ) )[i] = bytes[j];
+      ( (uint8_t *)( &tmp ) )[i] = bytes[j];
       }
     buf = tmp;
     }

@@ -116,8 +116,8 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef    unsigned char    InputPixelType;
-  typedef    unsigned char    OutputPixelType;
+  typedef    uint8_t    InputPixelType;
+  typedef    uint8_t    OutputPixelType;
 
   typedef itk::Image< InputPixelType,  2 >   InputImageType;
   typedef itk::Image< OutputPixelType, 2 >   OutputImageType;
@@ -216,7 +216,7 @@ int main( int argc, char * argv[] )
   //
   //  Software Guide : EndLatex
 
-  typedef unsigned char                          WritePixelType;
+  typedef uint8_t                          WritePixelType;
   typedef itk::Image< WritePixelType, 2 >        WriteImageType;
   typedef itk::RescaleIntensityImageFilter<
                OutputImageType, WriteImageType > RescaleFilterType;

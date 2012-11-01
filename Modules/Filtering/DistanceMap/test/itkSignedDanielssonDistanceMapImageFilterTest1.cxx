@@ -29,7 +29,7 @@ int itkSignedDanielssonDistanceMapImageFilterTest1( int argc, char * argv[] )
     }
 
   const   unsigned int    ImageDimension = 2;
-  typedef unsigned char   InputPixelType;
+  typedef uint8_t   InputPixelType;
   typedef float           OutputPixelType;
 
   typedef itk::Image<InputPixelType,  ImageDimension>  InputImageType;

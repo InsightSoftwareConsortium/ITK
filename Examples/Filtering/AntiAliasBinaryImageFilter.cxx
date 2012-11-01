@@ -77,7 +77,7 @@ int main(int argc, char* argv[])
     }
 
 
-  typedef unsigned char    CharPixelType;  //  IO
+  typedef uint8_t    CharPixelType;  //  IO
   typedef double           RealPixelType;  //  Operations
   const   unsigned int     Dimension = 3;
 

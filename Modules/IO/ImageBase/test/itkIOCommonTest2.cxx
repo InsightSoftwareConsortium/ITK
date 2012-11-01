@@ -26,9 +26,9 @@ int itkIOCommonTest2(int, char *[])
 // Test the atomic pixel type to string conversions
     {
     std::string unsignedCharPixelType = itk::IOCommon::AtomicPixelTypeToString(itk::IOCommon::ITK_UCHAR);
-    if ( unsignedCharPixelType.compare("unsigned char") != 0 )
+    if ( unsignedCharPixelType.compare("uint8_t") != 0 )
       {
-      std::cerr << "AtomicPixelTypeToString(ITK_UCHAR) should return 'unsigned char'";
+      std::cerr << "AtomicPixelTypeToString(ITK_UCHAR) should return 'uint8_t'";
       return EXIT_FAILURE;
       }
 
@@ -40,9 +40,9 @@ int itkIOCommonTest2(int, char *[])
       }
 
     std::string unsignedShortPixelType = itk::IOCommon::AtomicPixelTypeToString(itk::IOCommon::ITK_USHORT);
-    if ( unsignedShortPixelType.compare("unsigned short") != 0 )
+    if ( unsignedShortPixelType.compare("uint16_t") != 0 )
       {
-      std::cerr << "AtomicPixelTypeToString(ITK_USHORT) should return 'unsigned short";
+      std::cerr << "AtomicPixelTypeToString(ITK_USHORT) should return 'uint16_t";
       return EXIT_FAILURE;
       }
 
@@ -99,21 +99,21 @@ int itkIOCommonTest2(int, char *[])
 // Test the atomic pixel type size computation
     {
     unsigned int unsignedCharPixelTypeSize = itk::IOCommon::ComputeSizeOfAtomicPixelType(itk::IOCommon::ITK_UCHAR);
-    if ( unsignedCharPixelTypeSize !=  static_cast< unsigned char >( sizeof( unsigned char ) ) )
+    if ( unsignedCharPixelTypeSize !=  static_cast< uint8_t >( sizeof( uint8_t ) ) )
       {
       std::cerr << "ComputeSizeOfAtomicPixelType(ITK_UCHAR) is not returning the correct pixel size ";
       return EXIT_FAILURE;
       }
 
     unsigned int charPixelTypeSize = itk::IOCommon::ComputeSizeOfAtomicPixelType(itk::IOCommon::ITK_CHAR);
-    if ( charPixelTypeSize !=  static_cast< unsigned int >( sizeof( unsigned char ) ) )
+    if ( charPixelTypeSize !=  static_cast< unsigned int >( sizeof( uint8_t ) ) )
       {
       std::cerr << "ComputeSizeOfAtomicPixelType(ITK_CHAR) is not returning the correct pixel size ";
       return EXIT_FAILURE;
       }
 
     unsigned int unsignedShortPixelTypeSize = itk::IOCommon::ComputeSizeOfAtomicPixelType(itk::IOCommon::ITK_USHORT);
-    if ( unsignedShortPixelTypeSize !=  static_cast< unsigned int >( sizeof( unsigned short ) ) )
+    if ( unsignedShortPixelTypeSize !=  static_cast< unsigned int >( sizeof( uint16_t ) ) )
       {
       std::cerr << "ComputeSizeOfAtomicPixelType(ITK_USHORT) is not returning the correct pixel size ";
       return EXIT_FAILURE;

@@ -127,8 +127,8 @@ void TkImageViewer2D::Draw()
   delete [] cmd;
 
   // Copy the image data to the Tk photo.
-  unsigned char* buffer =
-    reinterpret_cast<unsigned char*>(image->GetBufferPointer());
+  uint8_t* buffer =
+    reinterpret_cast<uint8_t*>(image->GetBufferPointer());
 
   Tk_PhotoImageBlock block;
   block.pixelPtr = buffer;

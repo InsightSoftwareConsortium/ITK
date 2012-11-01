@@ -27,7 +27,7 @@
 // intensity in the image is not zero.
 //
 // The supported pixel types does not include \doxygen{RGBPixel}, \doxygen{RGBAPixel}, etc...
-// So far it only allows to manage images of simple types like unsigned short,
+// So far it only allows to manage images of simple types like uint16_t,
 // unsigned int, or \doxygen{Vector}.
 // Let's begin by including the appropriate header file.
 //

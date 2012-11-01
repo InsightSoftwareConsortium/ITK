@@ -219,13 +219,13 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //
   //  The mask in this case is read from a binary file using the
-  //  \code{ImageFileReader} instantiated for an \code{unsigned char} pixel
+  //  \code{ImageFileReader} instantiated for an \code{uint8_t} pixel
   //  type.
   //
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Image< unsigned char, Dimension >   ImageMaskType;
+  typedef itk::Image< uint8_t, Dimension >   ImageMaskType;
 
   typedef itk::ImageFileReader< ImageMaskType >    MaskReaderType;
   // Software Guide : EndCodeSnippet
@@ -385,7 +385,7 @@ int main( int argc, char *argv[] )
   resample->SetOutputDirection( fixedImage->GetDirection() );
   resample->SetDefaultPixelValue( 100 );
 
-  typedef  unsigned char  OutputPixelType;
+  typedef  uint8_t  OutputPixelType;
 
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
 

@@ -63,7 +63,7 @@ public:
   virtual void Read(void *buffer);
 
   /** Compute the size (in bytes) of the components of a pixel. For
-   * example, and RGB pixel of unsigned char would have a
+   * example, and RGB pixel of uint8_t would have a
    * component size of 1 byte. */
   // virtual unsigned int GetComponentSize() const;
 
@@ -122,10 +122,10 @@ protected:
   void ReadDataCallback(doublebyte group,
                         doublebyte element,
                         itkdicomparser::DICOMParser::VRTypes type,
-                        unsigned char *val,
+                        uint8_t *val,
                         quadbyte len);
 
-  unsigned char *m_ImageDataBuffer;
+  uint8_t *m_ImageDataBuffer;
 
 private:
   DICOMImageIO2(const Self &);  //purposely not implemented

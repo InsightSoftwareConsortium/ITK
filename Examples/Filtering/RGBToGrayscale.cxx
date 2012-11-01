@@ -56,9 +56,9 @@ int main( int argc, char * argv[] )
 
   const unsigned int Dimension = 2;
 
-  typedef   itk::RGBPixel< unsigned char >            InputPixelType;
+  typedef   itk::RGBPixel< uint8_t >            InputPixelType;
   typedef   itk::Image< InputPixelType, Dimension >   InputImageType;
-  typedef   itk::Image< unsigned char,  Dimension >   OutputImageType;
+  typedef   itk::Image< uint8_t,  Dimension >   OutputImageType;
 
 
   typedef itk::ImageFileReader< InputImageType >  ReaderType;

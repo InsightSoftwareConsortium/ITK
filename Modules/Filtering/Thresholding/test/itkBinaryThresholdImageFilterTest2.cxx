@@ -38,7 +38,7 @@ int itkBinaryThresholdImageFilterTest2(int ac, char* av[] )
   const unsigned int ImageDimension = 2;
 
   // Declare the types of the images
-  typedef itk::Image<unsigned char, ImageDimension>  ImageType;
+  typedef itk::Image<uint8_t, ImageDimension>  ImageType;
   typedef itk::Image<double, ImageDimension>  FloatImageType;
 
   // File reader and writer

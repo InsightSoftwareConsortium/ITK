@@ -111,7 +111,7 @@ int main( int argc, char *argv[] )
     }
 
   const    unsigned int    Dimension = 2;
-  typedef  unsigned short  PixelType;
+  typedef  uint16_t  PixelType;
 
   typedef itk::Image< PixelType, Dimension >  FixedImageType;
   typedef itk::Image< PixelType, Dimension >  MovingImageType;
@@ -324,7 +324,7 @@ int main( int argc, char *argv[] )
   resample->SetDefaultPixelValue( 100 );
 
 
-  typedef  unsigned char                           OutputPixelType;
+  typedef  uint8_t                           OutputPixelType;
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
   typedef itk::CastImageFilter<
                         FixedImageType,

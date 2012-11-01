@@ -37,7 +37,7 @@ int itkAnalyzeImageIOTest2(int ac, char* av[])
   char *arg1 = av[1];
   char *arg2 = av[2];
   int test_success = 0;
-  typedef itk::Image<signed short, 3>         ImageType;
+  typedef itk::Image<int16_t, 3>         ImageType;
   typedef ImageType::Pointer                  ImagePointer;
   typedef itk::ImageFileReader< ImageType >   ImageReaderType;
 

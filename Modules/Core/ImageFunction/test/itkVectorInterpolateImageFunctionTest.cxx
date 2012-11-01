@@ -22,7 +22,7 @@
 
 enum{ VectorDimension = 3 };
 enum{ ImageDimension = 3 };
-typedef itk::Vector<unsigned short,VectorDimension> PixelType;
+typedef itk::Vector<uint16_t,VectorDimension> PixelType;
 typedef itk::Image<PixelType,ImageDimension> ImageType;
 typedef double CoordRepType;
 typedef itk::VectorLinearInterpolateImageFunction<ImageType,CoordRepType> InterpolatorType;
@@ -181,7 +181,7 @@ int itkVectorInterpolateImageFunctionTest(int, char* [] )
   Iterator iter( image, region );
 
   IndexType index;
-  unsigned short value;
+  uint16_t value;
   PixelType pixel;
 
   for( ; !iter.IsAtEnd(); ++iter )

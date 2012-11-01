@@ -55,8 +55,8 @@ namespace itk
    *          uncompressed voxel data for the images in one of the several
    *          possible voxel formats:
    *             - 1 bit  packed binary (slices begin on byte boundaries)
-   *             - 8 bit  (unsigned char) gray scale unless .lkup file present
-   *             - 16 bit signed short
+   *             - 8 bit  (uint8_t) gray scale unless .lkup file present
+   *             - 16 bit int16_t
    *             - 32 bit signed integers or float
    *             - 24 bit RGB, 8 bits per channel
    *    - a header file  ([basename].hdr)

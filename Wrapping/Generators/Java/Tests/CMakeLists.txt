@@ -118,7 +118,7 @@ endmacro()
 
 #----------------
 UNIQUE(types "${WRAP_ITK_SCALAR};UC")
-# signed char can't be used to store an image with values up to 255
+# int8_t can't be used to store an image with values up to 255
 list(REMOVE_ITEM types SC)
 foreach(d ${ITK_WRAP_DIMS})
   foreach(t ${types})

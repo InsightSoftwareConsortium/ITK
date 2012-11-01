@@ -134,7 +134,7 @@ template< class TInput >
 class RescaleDynamicRangeFunctor
 {
 public:
-  typedef unsigned char OutputPixelType;
+  typedef uint8_t OutputPixelType;
   RescaleDynamicRangeFunctor() {};
   ~RescaleDynamicRangeFunctor() {};
   inline OutputPixelType operator()( const TInput &A )
@@ -312,7 +312,7 @@ public:
     //Write the joint histogram as outputFilename. Also intensity window
     //the image by lower and upper thresholds and rescale the image to
     //8 bits.
-    typedef itk::Image< unsigned char, Dimension > RescaledOutputImageType;
+    typedef itk::Image< uint8_t, Dimension > RescaledOutputImageType;
 
     typedef RescaleDynamicRangeFunctor<
                               OutputPixelType
@@ -473,7 +473,7 @@ int main( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-  typedef  unsigned char  PixelType;
+  typedef  uint8_t  PixelType;
 
   const unsigned int Dimension = 2;
 
@@ -680,7 +680,7 @@ int main( int argc, char *argv[] )
   resample->SetDefaultPixelValue( 100 );
 
 
-  typedef  unsigned char  OutputPixelType;
+  typedef  uint8_t  OutputPixelType;
 
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
 

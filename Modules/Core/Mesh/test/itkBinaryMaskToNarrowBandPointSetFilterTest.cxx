@@ -26,7 +26,7 @@ int itkBinaryMaskToNarrowBandPointSetFilterTest(int , char *[] )
 
   const unsigned int Dimension = 2;
 
-  typedef unsigned char  BinaryMaskPixelType;
+  typedef uint8_t  BinaryMaskPixelType;
 
   typedef itk::Image<
                         BinaryMaskPixelType,

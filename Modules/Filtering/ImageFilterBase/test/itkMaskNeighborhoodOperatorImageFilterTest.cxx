@@ -33,7 +33,7 @@ int itkMaskNeighborhoodOperatorImageFilterTest(int ac, char* av[] )
 
   const unsigned int Dimension = 2;
   typedef float PixelType;
-  typedef unsigned char OutputPixelType;
+  typedef uint8_t OutputPixelType;
 
   typedef itk::Image<PixelType, Dimension> InputImageType;
   typedef itk::Image<OutputPixelType, Dimension> OutputImageType;
@@ -44,7 +44,7 @@ int itkMaskNeighborhoodOperatorImageFilterTest(int ac, char* av[] )
   input->Update();
 
   // create a mask the size of the input file
-  typedef itk::Image<unsigned char, Dimension> MaskImageType;
+  typedef itk::Image<uint8_t, Dimension> MaskImageType;
   MaskImageType::Pointer mask1 = MaskImageType::New();
   MaskImageType::Pointer mask2 = MaskImageType::New();
   MaskImageType::RegionType region;

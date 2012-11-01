@@ -294,7 +294,7 @@ public:
   typedef std::vector< LayerPointerType > LayerListType;
 
   /** Type used for storing status information */
-  typedef signed char StatusType;
+  typedef int8_t StatusType;
 
   /** The type of the image used to index status information.  Necessary for
    *  the internals of the algorithm. */

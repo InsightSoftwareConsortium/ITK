@@ -23,5 +23,5 @@
 
 int itkNiftiImageIOTest10(int ac, char *av[])
 {
-  return RGBTest<itk::RGBAPixel<unsigned char> >(ac,av);
+  return RGBTest<itk::RGBAPixel<uint8_t> >(ac,av);
 }

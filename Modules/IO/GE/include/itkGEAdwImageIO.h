@@ -82,7 +82,7 @@ public:
   //      virtual void Read(void* buffer);
 
   /* * Compute the size (in bytes) of the components of a pixel. For
-       * example, and RGB pixel of unsigned char would have a
+       * example, and RGB pixel of uint8_t would have a
        * component size of 1 byte. */
   // Implemented in superclass
   //      virtual unsigned int GetComponentSize() const;
@@ -125,7 +125,7 @@ private:
     GE_ADW_SU_PRODID_LEN = 13,
     GE_ADW_EX_SUID = 116,   /**< Exam study ID - String */
     GE_ADW_EX_SUID_LEN = 4,
-    GE_ADW_EX_NO = 124,     /**< Exam Number - Unsigned short Int */
+    GE_ADW_EX_NO = 124,     /**< Exam Number - Unint16_t Int */
     GE_ADW_EX_NO_LEN = 2,
     GE_ADW_EX_HOSPNAME = 126,   /**< Hospital Name - String */
     GE_ADW_EX_HOSPNAME_LEN = 33,
@@ -210,7 +210,7 @@ private:
     GE_ADW_IM_SUID_LEN = 4,
     GE_ADW_IM_UNIQ = 2188,  /**< The make unique flag - Short Integer */
     GE_ADW_IM_UNIQ_LEN = 2,
-    GE_ADW_IM_EXNO = 2192,  /**< Exam number for this image - Unsigned short */
+    GE_ADW_IM_EXNO = 2192,  /**< Exam number for this image - Unint16_t */
     GE_ADW_IM_EXNO_LEN = 2,
     GE_ADW_IM_SENO = 2194,  /**< Series number for image - short integer */
     GE_ADW_IM_SENO_LEN = 2,

@@ -35,7 +35,7 @@ int itkGrayscaleMorphologicalClosingImageFilterTest2(int ac, char* av[] )
     }
 
   unsigned int const dim = 2;
-  typedef itk::Image<unsigned char, dim> ImageType;
+  typedef itk::Image<uint8_t, dim> ImageType;
 
   typedef itk::ImageFileReader<ImageType> ReaderType;
   ReaderType::Pointer reader  = ReaderType::New();

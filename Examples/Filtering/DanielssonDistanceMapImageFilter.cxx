@@ -76,8 +76,8 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef  unsigned char                   InputPixelType;
-  typedef  unsigned short                  OutputPixelType;
+  typedef  uint8_t                   InputPixelType;
+  typedef  uint16_t                  OutputPixelType;
   typedef itk::Image< InputPixelType,  2 > InputImageType;
   typedef itk::Image< OutputPixelType, 2 > OutputImageType;
   // Software Guide : EndCodeSnippet

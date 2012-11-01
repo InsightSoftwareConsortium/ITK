@@ -42,7 +42,7 @@ struct houghPoint
 int itkHoughTransform2DLinesImageTest(int, char* [])
 {
   /** Typedefs */
-  typedef   unsigned char                            PixelType;
+  typedef   uint8_t                            PixelType;
   typedef   double                                   HoughSpacePixelType;
   typedef   itk::Image< HoughSpacePixelType, 2>      HoughImageType;
   typedef   itk::Image< PixelType, 2>                ImageType;
@@ -118,8 +118,8 @@ int itkHoughTransform2DLinesImageTest(int, char* [])
   ThresholdFilterType::Pointer threshFilter = ThresholdFilterType::New();
   threshFilter->SetInput(gradFilter->GetOutput());
   threshFilter->SetOutsideValue(0);
-  unsigned char thresh_below = 10;
-  unsigned char thresh_above = 200;
+  uint8_t thresh_below = 10;
+  uint8_t thresh_above = 200;
   threshFilter->ThresholdOutside(thresh_below,thresh_above);
   threshFilter->Update();
 

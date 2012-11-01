@@ -365,9 +365,9 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
     // Now we are left with the lists of indices which must be
     // brought into the outermost layers.  Bring UpList into last inside layer
     // and DownList into last outside layer.
-    this->ProcessOutsideList (UpList[k], static_cast< signed char >(
+    this->ProcessOutsideList (UpList[k], static_cast< int8_t >(
                                 sparsePtr->m_Layers.size() ) - 2);
-    this->ProcessOutsideList (DownList[k], static_cast< signed char >(
+    this->ProcessOutsideList (DownList[k], static_cast< int8_t >(
                                 sparsePtr->m_Layers.size() ) - 1);
 
     // Finally, we update all of the layer values (excluding the active layer,

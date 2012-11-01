@@ -25,10 +25,10 @@
 
 // Set up typedefs for test
 const unsigned int Dimension =                   2;
-typedef unsigned char                            InputPixelType;
+typedef uint8_t                            InputPixelType;
 typedef itk::Image< InputPixelType, Dimension >  InputFrameType;
 typedef itk::VideoStream< InputFrameType >       InputVideoType;
-typedef unsigned char                            OutputPixelType;
+typedef uint8_t                            OutputPixelType;
 typedef itk::Image< OutputPixelType, Dimension > OutputFrameType;
 typedef itk::VideoStream< OutputFrameType >      OutputVideoType;
 typedef itk::SizeValueType                       SizeValueType;

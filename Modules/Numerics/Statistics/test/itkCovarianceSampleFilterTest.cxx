@@ -31,7 +31,7 @@ int itkCovarianceSampleFilterTest(int, char* [] )
 
   typedef itk::FixedArray< MeasurementType, MeasurementVectorSize > MeasurementVectorType;
   typedef itk::Image< MeasurementVectorType, 3 >                    ImageType;
-  typedef itk::Image< unsigned char, 3 >                            MaskImageType;
+  typedef itk::Image< uint8_t, 3 >                            MaskImageType;
 
   ImageType::Pointer image = ImageType::New();
   ImageType::RegionType region;

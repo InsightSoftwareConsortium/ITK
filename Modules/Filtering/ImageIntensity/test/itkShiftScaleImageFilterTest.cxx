@@ -28,7 +28,7 @@ int itkShiftScaleImageFilterTest(int, char* [] )
   std::cout << "itkShiftScaleImageFilterTest Start" << std::endl;
 
   typedef itk::Image<char,3> TestInputImage;
-  typedef itk::Image<unsigned char,3> TestOutputImage;
+  typedef itk::Image<uint8_t,3> TestOutputImage;
   typedef itk::NumericTraits<char>::RealType RealType;
 
   TestInputImage::Pointer    inputImage  = TestInputImage::New();

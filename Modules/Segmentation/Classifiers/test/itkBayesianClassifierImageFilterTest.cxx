@@ -38,14 +38,14 @@ int itkBayesianClassifierImageFilterTest(int argc, char* argv[] )
 
   // setup reader
   const unsigned int Dimension = 2;
-  typedef unsigned char                           InputPixelType;
+  typedef uint8_t                           InputPixelType;
   typedef itk::Image< InputPixelType, Dimension > InputImageType;
   typedef itk::ImageFileReader< InputImageType >  ReaderType;
 
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
-  typedef unsigned char  LabelType;
+  typedef uint8_t  LabelType;
   typedef float          PriorType;
   typedef float          PosteriorType;
 
@@ -120,7 +120,7 @@ int itkBayesianClassifierImageFilterTest(int argc, char* argv[] )
 
 
   typedef ClassifierFilterType::OutputImageType      ClassifierOutputImageType;
-  typedef itk::Image< unsigned char, Dimension >     OutputImageType;
+  typedef itk::Image< uint8_t, Dimension >     OutputImageType;
   typedef itk::RescaleIntensityImageFilter<
     ClassifierOutputImageType, OutputImageType >   RescalerType;
   RescalerType::Pointer rescaler = RescalerType::New();
@@ -173,7 +173,7 @@ int itkBayesianClassifierImageFilterTest(int argc, char* argv[] )
 //TestInitialLabelImageType must be the same as for TestPriorType
     {
     const unsigned int TestDimension = 2;
-    typedef unsigned char  TestLabelType;
+    typedef uint8_t  TestLabelType;
     typedef float          TestPosteriorType;
 
     typedef float                                            TestPriorType;
@@ -190,7 +190,7 @@ int itkBayesianClassifierImageFilterTest(int argc, char* argv[] )
 
     {
     const unsigned int TestDimension = 2;
-    typedef unsigned char  TestLabelType;
+    typedef uint8_t  TestLabelType;
     typedef float          TestPosteriorType;
 
     typedef float          TestPriorType;
@@ -207,7 +207,7 @@ int itkBayesianClassifierImageFilterTest(int argc, char* argv[] )
 
     {
     const unsigned int TestDimension = 2;
-    typedef unsigned char  TestLabelType;
+    typedef uint8_t  TestLabelType;
     typedef float          TestPosteriorType;
 
     typedef double          TestPriorType;

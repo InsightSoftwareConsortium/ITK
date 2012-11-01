@@ -23,7 +23,7 @@ int itkVectorMeanImageFunctionTest(int, char* [] )
 {
 
   const unsigned int Dimension = 3;
-  typedef unsigned char   PixelComponentType;
+  typedef uint8_t   PixelComponentType;
   const unsigned int VectorDimension = 4;
 
   typedef itk::FixedArray< PixelComponentType, VectorDimension > PixelType;

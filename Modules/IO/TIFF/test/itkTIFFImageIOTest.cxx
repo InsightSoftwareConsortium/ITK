@@ -130,14 +130,14 @@ int itkTIFFImageIOTest( int argc, char* argv[] )
 
   if (dimension == 2 && pixelType == 1)
     {
-    typedef itk::RGBPixel<unsigned char> PixelType;
+    typedef itk::RGBPixel<uint8_t> PixelType;
     itk::Image<PixelType, 2>::Pointer dummy;
     return DoIt<itk::Image<PixelType, 2> >( argc, argv, dummy);
 
     }
   else if (dimension == 2 && pixelType == 2)
     {
-    typedef itk::RGBPixel<unsigned short> PixelType;
+    typedef itk::RGBPixel<uint16_t> PixelType;
     itk::Image<PixelType, 2>::Pointer dummy;
     return DoIt<itk::Image<PixelType, 2> >( argc, argv, dummy);
     }
@@ -149,13 +149,13 @@ int itkTIFFImageIOTest( int argc, char* argv[] )
     }
   else if (dimension == 3 && pixelType == 1)
     {
-    itk::Image<unsigned char, 3>::Pointer dummy;
-    return DoIt<itk::Image<unsigned char, 3> >( argc, argv, dummy);
+    itk::Image<uint8_t, 3>::Pointer dummy;
+    return DoIt<itk::Image<uint8_t, 3> >( argc, argv, dummy);
     }
   else if (dimension == 3 && pixelType == 2)
     {
-    itk::Image<unsigned short, 3>::Pointer dummy;
-    return DoIt<itk::Image<unsigned short, 3> >( argc, argv, dummy);
+    itk::Image<uint16_t, 3>::Pointer dummy;
+    return DoIt<itk::Image<uint16_t, 3> >( argc, argv, dummy);
     }
   else if (dimension == 3 && pixelType == 3)
     {
@@ -169,13 +169,13 @@ int itkTIFFImageIOTest( int argc, char* argv[] )
     }
   else if (dimension == 4 && pixelType == 1)
     {
-    itk::Image<unsigned char, 4>::Pointer dummy;
-    return DoIt<itk::Image<unsigned char, 4> >( argc, argv, dummy);
+    itk::Image<uint8_t, 4>::Pointer dummy;
+    return DoIt<itk::Image<uint8_t, 4> >( argc, argv, dummy);
     }
   else if (dimension == 4 && pixelType == 2)
     {
-    itk::Image<unsigned short, 4>::Pointer dummy;
-    return DoIt<itk::Image<unsigned short, 4> >( argc, argv, dummy);
+    itk::Image<uint16_t, 4>::Pointer dummy;
+    return DoIt<itk::Image<uint16_t, 4> >( argc, argv, dummy);
     }
   else if (dimension == 4 && pixelType == 3)
     {

@@ -34,8 +34,8 @@ int itkVectorIndexSelectionCastImageFilterTest(int argc, char * argv [] )
     return EXIT_FAILURE;
     }
 
-  typedef unsigned short InputPixelType;
-  typedef unsigned short OutputPixelType;
+  typedef uint16_t InputPixelType;
+  typedef uint16_t OutputPixelType;
 
   const unsigned int ImageDimension = 2;
 

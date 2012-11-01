@@ -50,7 +50,7 @@ OpenCVImageBridge::IplImageToITKImage(const IplImage* in)
     {
     case (IPL_DEPTH_8U):
       {
-      ITKConvertIplImageBuffer< ImageType, unsigned char >( in, out.GetPointer(), IPL_DEPTH_8U );
+      ITKConvertIplImageBuffer< ImageType, uint8_t >( in, out.GetPointer(), IPL_DEPTH_8U );
       break;
       }
     case (IPL_DEPTH_8S):
@@ -60,7 +60,7 @@ OpenCVImageBridge::IplImageToITKImage(const IplImage* in)
       }
     case (IPL_DEPTH_16U):
       {
-      ITKConvertIplImageBuffer< ImageType, unsigned short >( in, out.GetPointer(), IPL_DEPTH_16U );
+      ITKConvertIplImageBuffer< ImageType, uint16_t >( in, out.GetPointer(), IPL_DEPTH_16U );
       break;
       }
     case (IPL_DEPTH_16S):
@@ -162,7 +162,7 @@ OpenCVImageBridge::ITKImageToIplImage(const TInputImageType* in, bool force3Chan
   // set the depth correctly based on input pixel type
   //
   unsigned int typeSize = 1;
-  if (typeid(ValueType) == typeid(unsigned char))
+  if (typeid(ValueType) == typeid(uint8_t))
     {
     out = cvCreateImage(cvSize(w,h), IPL_DEPTH_8U, outChannels);
     typeSize = IPL_DEPTH_8U/8;
@@ -176,7 +176,7 @@ OpenCVImageBridge::ITKImageToIplImage(const TInputImageType* in, bool force3Chan
     out = cvCreateImage(cvSize(w,h), IPL_DEPTH_8S, outChannels);
     typeSize = IPL_DEPTH_8U/8;
     }
-  else if (typeid(ValueType) == typeid(unsigned short))
+  else if (typeid(ValueType) == typeid(uint16_t))
     {
     out = cvCreateImage(cvSize(w,h), IPL_DEPTH_16U, outChannels);
     typeSize = IPL_DEPTH_16U/8;

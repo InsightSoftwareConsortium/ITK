@@ -80,11 +80,11 @@ MeshIOBase
   switch ( componentType )
     {
     case UCHAR:
-      return sizeof( unsigned char );
+      return sizeof( uint8_t );
     case CHAR:
       return sizeof( char );
     case USHORT:
-      return sizeof( unsigned short );
+      return sizeof( uint16_t );
     case SHORT:
       return sizeof( short );
     case UINT:

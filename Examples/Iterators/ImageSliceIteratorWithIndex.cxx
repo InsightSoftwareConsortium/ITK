@@ -120,14 +120,14 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginLatex
   //
-  // The pixel type is defined as \code{unsigned short}.  For this application,
+  // The pixel type is defined as \code{uint16_t}.  For this application,
   // we need two image types, a 3D image for the input, and a 2D image for the
   // intensity projection.
   //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef unsigned short              PixelType;
+  typedef uint16_t              PixelType;
   typedef itk::Image< PixelType, 2 >  ImageType2D;
   typedef itk::Image< PixelType, 3 >  ImageType3D;
   // Software Guide : EndCodeSnippet
@@ -257,7 +257,7 @@ int main( int argc, char *argv[] )
     {
     while ( ! outputIt.IsAtEndOfLine() )
       {
-      outputIt.Set( itk::NumericTraits<unsigned short>::NonpositiveMin() );
+      outputIt.Set( itk::NumericTraits<uint16_t>::NonpositiveMin() );
       ++outputIt;
       }
     outputIt.NextLine();

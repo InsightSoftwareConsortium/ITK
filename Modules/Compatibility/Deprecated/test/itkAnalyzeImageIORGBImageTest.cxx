@@ -29,7 +29,7 @@ int itkAnalyzeImageIORGBImageTest(int ac, char* av[])
     itksys::SystemTools::ChangeDirectory(testdir);
     }
   const unsigned int Dimension = 3;
-  typedef itk::RGBPixel<unsigned char>        RGBPixelType;
+  typedef itk::RGBPixel<uint8_t>        RGBPixelType;
   typedef itk::Image<RGBPixelType, Dimension> RGBImageType;
 
   RGBImageType::Pointer im(NewRGBImage<RGBImageType>());

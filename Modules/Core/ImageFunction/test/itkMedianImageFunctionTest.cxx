@@ -23,7 +23,7 @@ int itkMedianImageFunctionTest(int, char* [] )
 {
 
   const unsigned int Dimension = 3;
-  typedef unsigned char   PixelType;
+  typedef uint8_t   PixelType;
 
   typedef itk::Image< PixelType, Dimension >    ImageType;
   typedef itk::MedianImageFunction< ImageType > FunctionType;
@@ -103,7 +103,7 @@ int itkMedianImageFunctionTest(int, char* [] )
 
   // first, put something in the neighborhood outside the current
   // neighborhood that will change the median result
-  unsigned char voxelval(28);
+  uint8_t voxelval(28);
   ImageType::IndexType    index2;
   for(index2[0] = centerIndex-2; index2[0] < centerIndex+3; index2[0]++)
     {

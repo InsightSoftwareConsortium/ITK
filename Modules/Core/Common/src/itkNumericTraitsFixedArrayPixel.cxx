@@ -20,10 +20,10 @@
 namespace itk
 {
 itkStaticNumericTraitsGenericArrayDimensionsMacro(FixedArray, char);
-itkStaticNumericTraitsGenericArrayDimensionsMacro(FixedArray, unsigned char);
-itkStaticNumericTraitsGenericArrayDimensionsMacro(FixedArray, signed char);
+itkStaticNumericTraitsGenericArrayDimensionsMacro(FixedArray, uint8_t);
+itkStaticNumericTraitsGenericArrayDimensionsMacro(FixedArray, int8_t);
 itkStaticNumericTraitsGenericArrayDimensionsMacro(FixedArray, short);
-itkStaticNumericTraitsGenericArrayDimensionsMacro(FixedArray, unsigned short);
+itkStaticNumericTraitsGenericArrayDimensionsMacro(FixedArray, uint16_t);
 itkStaticNumericTraitsGenericArrayDimensionsMacro(FixedArray, int);
 itkStaticNumericTraitsGenericArrayDimensionsMacro(FixedArray, unsigned int);
 itkStaticNumericTraitsGenericArrayDimensionsMacro(FixedArray, long);

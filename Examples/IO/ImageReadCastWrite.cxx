@@ -69,7 +69,7 @@ int main( int argc, char ** argv )
 
   // Software Guide : BeginCodeSnippet
   typedef float               InputPixelType;
-  typedef unsigned char       OutputPixelType;
+  typedef uint8_t       OutputPixelType;
   const   unsigned int        Dimension = 2;
 
   typedef itk::Image< InputPixelType,  Dimension >    InputImageType;

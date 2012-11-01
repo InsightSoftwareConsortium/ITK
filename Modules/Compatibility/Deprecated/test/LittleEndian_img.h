@@ -18,7 +18,7 @@
 #ifndef __LittleEndian_img_h
 #define __LittleEndian_img_h
 
-const unsigned char LittleEndian_img[] = {
+const uint8_t LittleEndian_img[] = {
   0, 0, 16, 67, 0, 0, 16, 67, 0, 0, 16, 67, 0, 0, 128, 65, 0, 0, 128, 65,
   0, 0, 128, 65, 0, 0, 16, 67, 0, 0, 16, 67, 0, 0, 16, 67, 0, 0, 128, 65,
   0, 0, 128, 65, 0, 0, 128, 65, 0, 0, 16, 67, 0, 0, 16, 67, 0, 0, 16, 67,

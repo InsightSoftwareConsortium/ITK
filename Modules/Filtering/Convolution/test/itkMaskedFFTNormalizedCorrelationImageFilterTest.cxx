@@ -33,9 +33,9 @@ int itkMaskedFFTNormalizedCorrelationImageFilterTest(int argc, char * argv[] )
     return EXIT_FAILURE;
     }
 
-  typedef itk::Image< unsigned short, 2 >           InputImageType;
-  typedef itk::Image< unsigned char, 2 >            MaskImageType;
-  typedef itk::Image< unsigned char, 2 >            OutputImageType;
+  typedef itk::Image< uint16_t, 2 >           InputImageType;
+  typedef itk::Image< uint8_t, 2 >            MaskImageType;
+  typedef itk::Image< uint8_t, 2 >            OutputImageType;
   typedef itk::ImageFileReader< InputImageType >    ReaderType;
   typedef itk::ImageFileReader< MaskImageType >     MaskReaderType;
 

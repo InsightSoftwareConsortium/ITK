@@ -154,22 +154,22 @@ main( int argc, char **argv )
         {
         if(dim == 2)
           {
-          return ReadAnalyzeWriteNIfTI<itk::Image<itk::RGBPixel<unsigned char>,2> >(argv[1],argv[2]);
+          return ReadAnalyzeWriteNIfTI<itk::Image<itk::RGBPixel<uint8_t>,2> >(argv[1],argv[2]);
           }
         else
           {
-          return ReadAnalyzeWriteNIfTI<itk::Image<itk::RGBPixel<unsigned char>,3> >(argv[1],argv[2]);
+          return ReadAnalyzeWriteNIfTI<itk::Image<itk::RGBPixel<uint8_t>,3> >(argv[1],argv[2]);
           }
         }
       break;
     case itk::ImageIOBase::UCHAR:
       if(dim == 2)
         {
-        return ReadAnalyzeWriteNIfTI<itk::Image<unsigned char,2> >( argv[1],argv[2]);
+        return ReadAnalyzeWriteNIfTI<itk::Image<uint8_t,2> >( argv[1],argv[2]);
         }
       else
         {
-        return ReadAnalyzeWriteNIfTI<itk::Image<unsigned char,3> >( argv[1],argv[2]);
+        return ReadAnalyzeWriteNIfTI<itk::Image<uint8_t,3> >( argv[1],argv[2]);
         }
       break;
 // Software Guide : EndCodeSnippet
@@ -186,11 +186,11 @@ main( int argc, char **argv )
     case itk::ImageIOBase::USHORT:
       if(dim == 2)
         {
-        return ReadAnalyzeWriteNIfTI<itk::Image<unsigned short,2> >( argv[1],argv[2]);
+        return ReadAnalyzeWriteNIfTI<itk::Image<uint16_t,2> >( argv[1],argv[2]);
         }
       else
         {
-        return ReadAnalyzeWriteNIfTI<itk::Image<unsigned short,3> >( argv[1],argv[2]);
+        return ReadAnalyzeWriteNIfTI<itk::Image<uint16_t,3> >( argv[1],argv[2]);
         }
       break;
     case itk::ImageIOBase::INT:

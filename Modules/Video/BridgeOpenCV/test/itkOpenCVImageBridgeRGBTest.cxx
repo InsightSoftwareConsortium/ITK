@@ -92,7 +92,7 @@ IplImage* ConvertIplImageDataType(IplImage* in)
   int depth = 0;
 
   // Figure out the right output type
-  if (typeid(TPixelType) == typeid(unsigned char))
+  if (typeid(TPixelType) == typeid(uint8_t))
     {
     depth = IPL_DEPTH_8U;
     }
@@ -100,7 +100,7 @@ IplImage* ConvertIplImageDataType(IplImage* in)
     {
     depth = IPL_DEPTH_8S;
     }
-  else if (typeid(TPixelType) == typeid(unsigned short))
+  else if (typeid(TPixelType) == typeid(uint16_t))
     {
     depth = IPL_DEPTH_16U;
     }
@@ -282,16 +282,16 @@ int itkOpenCVImageBridgeRGBTest ( int argc, char *argv[] )
   //
   // Test for RGB types
   //
-  // Note: OpenCV only supports unsigned char, unsigned short, and float for
+  // Note: OpenCV only supports uint8_t, uint16_t, and float for
   // color conversion
   //
   std::cout << "rgb" << std::endl;
 
-  if( itkRunRGBTest< unsigned char >( argv[1], argv[2] ) == EXIT_FAILURE )
+  if( itkRunRGBTest< uint8_t >( argv[1], argv[2] ) == EXIT_FAILURE )
     {
     return EXIT_FAILURE;
     }
-  if( itkRunRGBTest< unsigned short >( argv[1], argv[2] ) == EXIT_FAILURE )
+  if( itkRunRGBTest< uint16_t >( argv[1], argv[2] ) == EXIT_FAILURE )
     {
     return EXIT_FAILURE;
     }
@@ -302,11 +302,11 @@ int itkOpenCVImageBridgeRGBTest ( int argc, char *argv[] )
 
    std::cout << "rgb 513x512" << std::endl;
 
-  if( itkRunRGBTest< unsigned char >( argv[3], argv[3] ) == EXIT_FAILURE )
+  if( itkRunRGBTest< uint8_t >( argv[3], argv[3] ) == EXIT_FAILURE )
     {
     return EXIT_FAILURE;
     }
-  if( itkRunRGBTest< unsigned short >( argv[3], argv[3] ) == EXIT_FAILURE )
+  if( itkRunRGBTest< uint16_t >( argv[3], argv[3] ) == EXIT_FAILURE )
     {
     return EXIT_FAILURE;
     }

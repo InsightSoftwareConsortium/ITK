@@ -36,8 +36,8 @@ int itkJPEG2000ImageIOTest02( int argc, char * argv[] )
 
 
   //  Image types are defined below.
-  typedef unsigned short int  InputPixelType;
-  typedef unsigned short int  OutputPixelType;
+  typedef uint16_t  InputPixelType;
+  typedef uint16_t  OutputPixelType;
   const   unsigned int        Dimension = 2;
 
   typedef itk::Image< InputPixelType,  Dimension >    InputImageType;

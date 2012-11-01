@@ -64,7 +64,7 @@ bool DICOMImageIO2::CanReadFile(const char *filename)
 void DICOMImageIO2::ReadDataCallback(doublebyte,
                                      doublebyte,
                                      itkdicomparser::DICOMParser::VRTypes,
-                                     unsigned char *val,
+                                     uint8_t *val,
                                      quadbyte len)
 {
   unsigned int imageBytes = static_cast< unsigned int >( this->GetImageSizeInBytes() );

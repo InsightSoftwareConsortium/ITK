@@ -23,7 +23,7 @@
 int itkPushPopTileImageFilterTest(int argc, char *argv[] )
 {
 
-  typedef itk::RGBPixel<unsigned char> PixelType;
+  typedef itk::RGBPixel<uint8_t> PixelType;
   enum { InputImageDimension = 2 };
   enum { OutputImageDimension = 2 };
 
@@ -51,8 +51,8 @@ int itkPushPopTileImageFilterTest(int argc, char *argv[] )
   TilerType::Pointer tiler4 = TilerType::New();
   TilerType::Pointer tiler = TilerType::New();
 
-  unsigned char yellow[3] = {255, 255, 127};
-  itk::RGBPixel<unsigned char> fillPixel = yellow;
+  uint8_t yellow[3] = {255, 255, 127};
+  itk::RGBPixel<uint8_t> fillPixel = yellow;
 
   tiler1->SetDefaultPixelValue(fillPixel);
   tiler1->SetLayout(layout);

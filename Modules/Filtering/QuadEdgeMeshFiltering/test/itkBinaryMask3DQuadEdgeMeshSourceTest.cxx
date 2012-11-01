@@ -30,7 +30,7 @@ int itkBinaryMask3DQuadEdgeMeshSourceTest(int, char *[])
   const unsigned int Dimension = 3;
 
   // Declare the types of the output images
-  typedef itk::Image<unsigned short,   Dimension>   ImageType;
+  typedef itk::Image<uint16_t,   Dimension>   ImageType;
 
   // Declare the type of the index,size and region to initialize images
   typedef itk::Index<Dimension>                     IndexType;

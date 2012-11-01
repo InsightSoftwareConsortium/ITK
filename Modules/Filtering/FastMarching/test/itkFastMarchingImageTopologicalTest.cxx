@@ -31,7 +31,7 @@ int FastMarchingImageFilter( unsigned int argc, char *argv[] )
 
   typedef itk::Image< InternalPixelType, VDimension > InternalImageType;
 
-  typedef unsigned char OutputPixelType;
+  typedef uint8_t OutputPixelType;
 
   typedef itk::Image<OutputPixelType, VDimension> OutputImageType;
 

@@ -27,7 +27,7 @@ namespace
 //
 // Analyze 7.5 header -- this describes the data below,
 // as an 6 x 6 x 8 image of float pixels
-const unsigned char LittleEndian_hdr[] =
+const uint8_t LittleEndian_hdr[] =
 {
   0x5c, 0x01, 0x00, 0x00, 0x46, 0x4c, 0x4f, 0x41, 0x54, 0x00,
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -68,7 +68,7 @@ const unsigned char LittleEndian_hdr[] =
 //
 // float data, represented as a char stream, in little-endian
 // order
-const unsigned char LittleEndian_img[] =
+const uint8_t LittleEndian_img[] =
 {
   0x00, 0x00, 0x10, 0x43, 0x00, 0x00, 0x10, 0x43, 0x00, 0x00,
   0x10, 0x43, 0x00, 0x00, 0x80, 0x41, 0x00, 0x00, 0x80, 0x41,
@@ -191,7 +191,7 @@ const unsigned char LittleEndian_img[] =
 /** WriteFile
  * Write out a char array as binary
  */
-int WriteFile(const std::string &name, const unsigned char *buf, size_t buflen)
+int WriteFile(const std::string &name, const uint8_t *buf, size_t buflen)
 {
   std::ofstream f(name.c_str(),std::ios::binary|std::ios::out);
   if(!f.is_open())

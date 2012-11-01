@@ -380,9 +380,9 @@ DoConvertBuffer(void* inputData, FrameOffsetType frameNumber)
     }
 
   if(0) {}
-  ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::UCHAR,unsigned char)
+  ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::UCHAR,uint8_t)
   ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::CHAR,char)
-  ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::USHORT,unsigned short)
+  ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::USHORT,uint16_t)
   ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::SHORT,short)
   ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::UINT,unsigned int)
   ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::INT,int)
@@ -402,9 +402,9 @@ DoConvertBuffer(void* inputData, FrameOffsetType frameNumber)
         << std::endl << "    "
         << m_VideoIO->GetComponentTypeAsString( m_VideoIO->GetComponentType() )
         << std::endl << "to one of: "
-        << std::endl << "    " << TYPENAME_VideoFileReader( unsigned char )
+        << std::endl << "    " << TYPENAME_VideoFileReader( uint8_t )
         << std::endl << "    " << TYPENAME_VideoFileReader( char )
-        << std::endl << "    " << TYPENAME_VideoFileReader( unsigned short )
+        << std::endl << "    " << TYPENAME_VideoFileReader( uint16_t )
         << std::endl << "    " << TYPENAME_VideoFileReader( short )
         << std::endl << "    " << TYPENAME_VideoFileReader( unsigned int )
         << std::endl << "    " << TYPENAME_VideoFileReader( int )

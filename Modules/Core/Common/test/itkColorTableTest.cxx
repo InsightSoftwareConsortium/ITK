@@ -50,9 +50,9 @@ template<class T> void ColorTableTest(const char *name)
 
 int itkColorTableTest(int, char* [] )
 {
-  ColorTableTest<unsigned char> ("unsigned char");
+  ColorTableTest<uint8_t> ("uint8_t");
   ColorTableTest<char>          ("char");
-  ColorTableTest<unsigned short>("unsigned short");
+  ColorTableTest<uint16_t>("uint16_t");
   ColorTableTest<short>         ("short");
   ColorTableTest<unsigned int>  ("unsigned int");
   ColorTableTest<int>           ("int");
@@ -62,11 +62,11 @@ int itkColorTableTest(int, char* [] )
   ColorTableTest<double>         ("double");
 
   // Find the closest color for a few colors
-  typedef itk::ColorTable<unsigned char> ColorTableType;
+  typedef itk::ColorTable<uint8_t> ColorTableType;
   ColorTableType::Pointer colors = ColorTableType::New();
 
   unsigned int id;
-  itk::RGBPixel<unsigned char> pixel;
+  itk::RGBPixel<uint8_t> pixel;
   colors->UseRandomColors(10000);
   pixel.Set(255, 0, 0);
   id = colors->GetClosestColorTableId(pixel[0], pixel[1], pixel[2]);

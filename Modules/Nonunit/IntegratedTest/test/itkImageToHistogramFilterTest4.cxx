@@ -42,11 +42,11 @@ int itkImageToHistogramFilterTest4Templated( int argc, char * argv [] )
     }
 
 
-  typedef unsigned char                                   PixelComponentType;
+  typedef uint8_t                                   PixelComponentType;
   const unsigned int                                      Dimension = 3;
   typedef itk::Vector< PixelComponentType, 2 >            VectorPixelType;
 
-  typedef itk::Image< unsigned char, Dimension >   ImageType;
+  typedef itk::Image< uint8_t, Dimension >   ImageType;
   typedef TVectorImage                             VectorImageType;
 
   typedef itk::ImageFileReader< ImageType >  ReaderType;
@@ -120,17 +120,17 @@ int itkImageToHistogramFilterTest4( int argc, char * argv [] )
     }
   else if( command == "RGBPixel" )
     {
-    typedef itk::Image<itk::RGBPixel<unsigned char>, 3> VectorImageType;
+    typedef itk::Image<itk::RGBPixel<uint8_t>, 3> VectorImageType;
     return itkImageToHistogramFilterTest4Templated< VectorImageType >( argc, argv );
     }
   else if( command == "RGBAPixel" )
     {
-    typedef itk::Image<itk::RGBAPixel<unsigned char>, 3> VectorImageType;
+    typedef itk::Image<itk::RGBAPixel<uint8_t>, 3> VectorImageType;
     return itkImageToHistogramFilterTest4Templated< VectorImageType >( argc, argv );
     }
   else if( command == "FixedArray" )
     {
-    typedef itk::Image<itk::FixedArray<unsigned char, 2>, 3> VectorImageType;
+    typedef itk::Image<itk::FixedArray<uint8_t, 2>, 3> VectorImageType;
     return itkImageToHistogramFilterTest4Templated< VectorImageType >( argc, argv );
     }
   else if( command == "complex" )
@@ -140,7 +140,7 @@ int itkImageToHistogramFilterTest4( int argc, char * argv [] )
     }
   else if( command == "VectorImage" )
     {
-    typedef itk::VectorImage<unsigned char, 3> VectorImageType;
+    typedef itk::VectorImage<uint8_t, 3> VectorImageType;
     return itkImageToHistogramFilterTest4Templated< VectorImageType >( argc, argv );
     }
   return EXIT_FAILURE;

@@ -30,7 +30,7 @@ int itkLSMImageIOTest(int argc, char* argv[])
     return EXIT_FAILURE;
     }
 
-  typedef itk::RGBPixel< unsigned char >   InputPixelType;
+  typedef itk::RGBPixel< uint8_t >   InputPixelType;
   typedef itk::Image< InputPixelType, 2 > InputImageType;
   typedef itk::ImageFileReader< InputImageType > ReaderType;
   typedef itk::LSMImageIO ImageIOType;

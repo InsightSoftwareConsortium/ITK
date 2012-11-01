@@ -197,7 +197,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Image< unsigned char, Dimension >   BinaryImageType;
+  typedef itk::Image< uint8_t, Dimension >   BinaryImageType;
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex

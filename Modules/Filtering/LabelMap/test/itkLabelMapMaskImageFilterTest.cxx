@@ -38,13 +38,13 @@ int itkLabelMapMaskImageFilterTest(int argc, char * argv[])
   const int dim = 3;
 
   // declare the input image type
-  typedef itk::Image< unsigned char, dim > ImageType;
+  typedef itk::Image< uint8_t, dim > ImageType;
 
   // and the label object type to use. The input image is a label image, so the
   // type of the label can be the same type than the pixel type. itk::LabelObject is
   // chosen, because only the mask feature is tested here, so we don't need any
   // attribute.
-  typedef itk::LabelObject< unsigned char, dim > LabelObjectType;
+  typedef itk::LabelObject< uint8_t, dim > LabelObjectType;
   typedef itk::LabelMap< LabelObjectType >       LabelMapType;
 
   // read the label image and the input image to be masked.

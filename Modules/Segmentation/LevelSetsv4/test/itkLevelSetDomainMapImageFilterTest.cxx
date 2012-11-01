@@ -26,7 +26,7 @@ int itkLevelSetDomainMapImageFilterTest( int, char* [] )
   typedef std::list<int>::const_iterator ListIteratorType;
 
   typedef itk::Image< ListPixelType, Dimension >   InputImageType;
-  typedef itk::Image< unsigned short, Dimension >  OutputImageType;
+  typedef itk::Image< uint16_t, Dimension >  OutputImageType;
 
   typedef itk::LevelSetDomainMapImageFilter< InputImageType, OutputImageType >
                                                   DomainMapImageFilterType;

@@ -28,7 +28,7 @@ TestDegenerateHeaderFiles()
     }
   std::string fname(AugmentName);
   fname += "LittleEndian.hdr";
-  typedef itk::Image<unsigned short,3> ImageType;
+  typedef itk::Image<uint16_t,3> ImageType;
   ImageType::Pointer img;
   std::fstream header(fname.c_str(),std::ios::binary | std::ios::in | std::ios::out);
   if(!header.is_open())

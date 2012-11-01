@@ -114,7 +114,7 @@ SpatialObjectToImageStatisticsCalculator< TInputImage, TInputSpatialObject, TSam
   // iterator
   if ( !strcmp(m_SpatialObject->GetTypeName(), "ImageMaskSpatialObject") )
     {
-    typedef Image< unsigned char, itkGetStaticConstMacro(ObjectDimension) >   MaskImageType;
+    typedef Image< uint8_t, itkGetStaticConstMacro(ObjectDimension) >   MaskImageType;
     typedef ImageMaskSpatialObject< itkGetStaticConstMacro(ObjectDimension) > MaskSOType;
 
     typename MaskSOType::Pointer maskSpatialObject = dynamic_cast< MaskSOType * >( m_SpatialObject.GetPointer() );

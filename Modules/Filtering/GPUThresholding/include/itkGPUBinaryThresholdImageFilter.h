@@ -196,22 +196,22 @@ private:
   {
     if( IsGPUAvailable() )
       {
-      OverrideThresholdFilterTypeMacro(unsigned char, unsigned char, 1);
+      OverrideThresholdFilterTypeMacro(uint8_t, uint8_t, 1);
       OverrideThresholdFilterTypeMacro(char, char, 1);
       OverrideThresholdFilterTypeMacro(float,float,1);
       OverrideThresholdFilterTypeMacro(int,int,1);
       OverrideThresholdFilterTypeMacro(unsigned int,unsigned int,1);
       OverrideThresholdFilterTypeMacro(double,double,1);
 
-      OverrideThresholdFilterTypeMacro(unsigned char, unsigned char, 2);
+      OverrideThresholdFilterTypeMacro(uint8_t, uint8_t, 2);
       OverrideThresholdFilterTypeMacro(char, char, 2);
       OverrideThresholdFilterTypeMacro(float,float,2);
       OverrideThresholdFilterTypeMacro(int,int,2);
       OverrideThresholdFilterTypeMacro(unsigned int,unsigned int,2);
       OverrideThresholdFilterTypeMacro(double,double,2);
 
-      OverrideThresholdFilterTypeMacro(unsigned char, unsigned char, 3);
-      OverrideThresholdFilterTypeMacro(unsigned short, unsigned short, 3);
+      OverrideThresholdFilterTypeMacro(uint8_t, uint8_t, 3);
+      OverrideThresholdFilterTypeMacro(uint16_t, uint16_t, 3);
       OverrideThresholdFilterTypeMacro(char, char, 3);
       OverrideThresholdFilterTypeMacro(float,float,3);
       OverrideThresholdFilterTypeMacro(int,int,3);

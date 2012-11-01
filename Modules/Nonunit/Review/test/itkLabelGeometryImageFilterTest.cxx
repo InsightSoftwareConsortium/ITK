@@ -25,9 +25,9 @@
 template < const unsigned int NDimension >
 int LabelGeometryImageFilterTest(const char * labelImageName,const char * outputImageName,const char * intensityImageName, const char * outputOrientedImagePath)
 {
-  typedef unsigned short   LabelPixelType;
-  typedef unsigned short   IntensityPixelType;
-  typedef unsigned char    UCharPixelType;
+  typedef uint16_t   LabelPixelType;
+  typedef uint16_t   IntensityPixelType;
+  typedef uint8_t    UCharPixelType;
 
   typedef itk::Image<LabelPixelType, NDimension>        LabelImageType;
   typedef itk::Image<IntensityPixelType, NDimension>    IntensityImageType;
@@ -119,7 +119,7 @@ int LabelGeometryImageFilterTest(const char * labelImageName,const char * output
   typedef itk::LabelGeometryImageFilter< UCharImageType, IntensityImageType > LabelGeometryType2;
   typename LabelGeometryType2::Pointer labelGeometryFilter2 = LabelGeometryType2::New();
 
-  // Convert the labeled image to unsigned char.
+  // Convert the labeled image to uint8_t.
   typedef itk::CastImageFilter< LabelImageType, UCharImageType > CastType;
   typename CastType::Pointer caster = CastType::New();
   caster->SetInput( relabeler->GetOutput() );

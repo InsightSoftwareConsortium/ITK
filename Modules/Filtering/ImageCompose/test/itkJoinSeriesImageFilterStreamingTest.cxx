@@ -25,8 +25,8 @@
 
 int itkJoinSeriesImageFilterStreamingTest(int argc, char* argv[] )
 {
-  typedef itk::Image< unsigned char, 3> ImageType;
-  typedef itk::Image< unsigned char, 2> SliceImageType;
+  typedef itk::Image< uint8_t, 3> ImageType;
+  typedef itk::Image< uint8_t, 2> SliceImageType;
 
   typedef itk::ImageFileReader<ImageType>                       ImageFileReaderType;
   typedef itk::ExtractImageFilter<ImageType,SliceImageType>     SliceExtractorFilterType;

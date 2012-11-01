@@ -44,7 +44,7 @@ int itkBSplineDownsampleImageFilterTest( int argc, char * argv [] )
     return EXIT_FAILURE;
     }
 
-  typedef unsigned char   PixelType;
+  typedef uint8_t   PixelType;
   const unsigned int      Dimension = 3;
 
   typedef itk::Image< PixelType, Dimension >   ImageType;

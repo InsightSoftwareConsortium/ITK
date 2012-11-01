@@ -62,7 +62,7 @@ int main( int argc, char * argv[] )
   typedef   itk::Vector< VectorComponentType, Dimension > VectorPixelType;
   typedef   itk::Image< VectorPixelType,  Dimension >     DisplacementFieldType;
 
-  typedef   unsigned char                         PixelType;
+  typedef   uint8_t                         PixelType;
   typedef   itk::Image< PixelType,  Dimension >   ImageType;
   // Software Guide : EndCodeSnippet
 

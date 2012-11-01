@@ -172,7 +172,7 @@ int itkLargeImageWriteReadTest(int ac, char* argv[])
     {
     const unsigned int Dimension = 2;
 
-    typedef unsigned short PixelType;
+    typedef uint16_t PixelType;
     typedef itk::Image< PixelType, Dimension> ImageType;
 
     ImageType::SizeType size;
@@ -186,7 +186,7 @@ int itkLargeImageWriteReadTest(int ac, char* argv[])
     {
     const unsigned int Dimension = 3;
 
-    typedef unsigned short PixelType;
+    typedef uint16_t PixelType;
     typedef itk::Image< PixelType, Dimension> ImageType;
 
     ImageType::SizeType size;

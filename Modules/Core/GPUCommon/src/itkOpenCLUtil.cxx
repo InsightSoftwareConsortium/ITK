@@ -370,11 +370,11 @@ bool IsGPUAvailable()
 std::string GetTypename(const std::type_info& intype)
 {
   std::string typestr;
-  if ( intype == typeid ( unsigned char ) ||
-       intype == typeid ( itk::Vector< unsigned char, 2 > ) ||
-       intype == typeid ( itk::Vector< unsigned char, 3 > ) )
+  if ( intype == typeid ( uint8_t ) ||
+       intype == typeid ( itk::Vector< uint8_t, 2 > ) ||
+       intype == typeid ( itk::Vector< uint8_t, 3 > ) )
     {
-    typestr = "unsigned char";
+    typestr = "uint8_t";
     }
   else if ( intype == typeid ( char ) ||
             intype == typeid ( itk::Vector< char, 2 > ) ||
@@ -475,7 +475,7 @@ void GetTypenameInString( const std::type_info& intype, std::ostringstream& ret 
 
 int GetPixelDimension( const std::type_info& intype )
 {
-  if ( intype == typeid ( unsigned char ) ||
+  if ( intype == typeid ( uint8_t ) ||
        intype == typeid ( char ) ||
        intype == typeid ( short ) ||
        intype == typeid ( int ) ||
@@ -485,7 +485,7 @@ int GetPixelDimension( const std::type_info& intype )
     {
     return 1;
     }
-  else if( intype == typeid ( itk::Vector< unsigned char, 2 > ) ||
+  else if( intype == typeid ( itk::Vector< uint8_t, 2 > ) ||
            intype == typeid ( itk::Vector< char, 2 > ) ||
            intype == typeid ( itk::Vector< short, 2 > ) ||
            intype == typeid ( itk::Vector< int, 2 > ) ||
@@ -495,7 +495,7 @@ int GetPixelDimension( const std::type_info& intype )
     {
     return 2;
     }
-  else if( intype == typeid ( itk::Vector< unsigned char, 3 > ) ||
+  else if( intype == typeid ( itk::Vector< uint8_t, 3 > ) ||
            intype == typeid ( itk::Vector< char, 3 > ) ||
            intype == typeid ( itk::Vector< short, 3 > ) ||
            intype == typeid ( itk::Vector< int, 3 > ) ||

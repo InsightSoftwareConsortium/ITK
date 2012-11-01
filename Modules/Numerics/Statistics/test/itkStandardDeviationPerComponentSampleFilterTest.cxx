@@ -32,7 +32,7 @@ int itkStandardDeviationPerComponentSampleFilterTest(int, char* [] )
 
   typedef itk::FixedArray< MeasurementType, MeasurementVectorSize > MeasurementVectorType;
   typedef itk::Image< MeasurementVectorType, MeasurementVectorSize > ImageType;
-  typedef itk::Image< unsigned char, MeasurementVectorSize >         MaskImageType;
+  typedef itk::Image< uint8_t, MeasurementVectorSize >         MaskImageType;
 
   ImageType::Pointer image = ImageType::New();
   ImageType::RegionType region;

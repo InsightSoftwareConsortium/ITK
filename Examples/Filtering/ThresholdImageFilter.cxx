@@ -123,7 +123,7 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef  unsigned char  PixelType;
+  typedef  uint8_t  PixelType;
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex

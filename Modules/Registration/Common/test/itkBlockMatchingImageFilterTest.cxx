@@ -46,7 +46,7 @@ int itkBlockMatchingImageFilterTest( int argc, char * argv[] )
 
   const double selectFraction = 0.01;
 
-  typedef unsigned char                  InputPixelType;
+  typedef uint8_t                  InputPixelType;
   typedef itk::RGBPixel<InputPixelType>  OutputPixelType;
   static const unsigned int Dimension = 3;
 

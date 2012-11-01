@@ -36,8 +36,8 @@ int itkOtsuMultipleThresholdsImageFilterTest(int argc, char* argv[] )
     }
 
   typedef  short          InputPixelType;
-  typedef  unsigned short InternalPixelType;
-  typedef  unsigned char  OutputPixelType;
+  typedef  uint16_t InternalPixelType;
+  typedef  uint8_t  OutputPixelType;
 
   typedef itk::Image< InputPixelType,  2 >   InputImageType;
   typedef itk::Image< InternalPixelType, 2>  InternalImageType;

@@ -38,10 +38,10 @@ int itkTobogganImageFilterTest(int ac, char* av[] )
     }
 
 
-  typedef unsigned char PixelType;
-  typedef itk::Image<unsigned char, 2> InputImageType;
+  typedef uint8_t PixelType;
+  typedef itk::Image<uint8_t, 2> InputImageType;
   typedef itk::Image<float, 2> FloatImageType;
-  typedef itk::Image<unsigned char, 2> OutputImageType;
+  typedef itk::Image<uint8_t, 2> OutputImageType;
   typedef itk::Image< itk::IdentifierType, 2> LongImageType;
 
 

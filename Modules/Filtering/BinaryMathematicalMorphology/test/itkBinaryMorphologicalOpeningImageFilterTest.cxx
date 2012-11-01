@@ -35,10 +35,10 @@ int itkBinaryMorphologicalOpeningImageFilterTest(int argc, char * argv[])
   const int dim = 2;
 
   // Verify that the input and output pixel types can be different
-  typedef unsigned short                      InputPixelType;
+  typedef uint16_t                      InputPixelType;
   typedef itk::Image< InputPixelType, dim >   InputImageType;
 
-  typedef unsigned char                       OutputPixelType;
+  typedef uint8_t                       OutputPixelType;
   typedef itk::Image< OutputPixelType, dim >  OutputImageType;
 
   typedef itk::ImageFileReader< InputImageType > ReaderType;

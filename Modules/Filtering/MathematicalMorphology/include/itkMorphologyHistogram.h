@@ -196,14 +196,14 @@ public:
 // as base class
 
 template< class TCompare >
-class MorphologyHistogram<unsigned char, TCompare>:
-  public VectorMorphologyHistogram<unsigned char, TCompare>
+class MorphologyHistogram<uint8_t, TCompare>:
+  public VectorMorphologyHistogram<uint8_t, TCompare>
 {
 };
 
 template< class TCompare >
-class MorphologyHistogram<signed char, TCompare>:
-  public VectorMorphologyHistogram<signed char, TCompare>
+class MorphologyHistogram<int8_t, TCompare>:
+  public VectorMorphologyHistogram<int8_t, TCompare>
 {
 };
 

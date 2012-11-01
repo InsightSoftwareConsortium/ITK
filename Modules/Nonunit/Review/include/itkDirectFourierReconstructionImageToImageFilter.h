@@ -89,11 +89,11 @@ public:
   /** OutputImagePointer */
   typedef typename OutputImageType::Pointer OutputImagePointer;
 
-  itkSetMacro(ZeroPadding, unsigned short int);
-  itkGetConstMacro(ZeroPadding, unsigned short int);
+  itkSetMacro(ZeroPadding, uint16_t);
+  itkGetConstMacro(ZeroPadding, uint16_t);
 
-  itkSetMacro(OverSampling, unsigned short int);
-  itkGetConstMacro(OverSampling, unsigned short int);
+  itkSetMacro(OverSampling, uint16_t);
+  itkGetConstMacro(OverSampling, uint16_t);
 
   itkSetMacro(Cutoff, double);
   itkGetConstMacro(Cutoff, double);
@@ -101,17 +101,17 @@ public:
   itkSetMacro(AlphaRange, double);
   itkGetConstMacro(AlphaRange, double);
 
-  itkSetMacro(AlphaDirection, unsigned short int);
-  itkGetConstMacro(AlphaDirection, unsigned short int);
+  itkSetMacro(AlphaDirection, uint16_t);
+  itkGetConstMacro(AlphaDirection, uint16_t);
 
-  itkSetMacro(ZDirection, unsigned short int);
-  itkGetConstMacro(ZDirection, unsigned short int);
+  itkSetMacro(ZDirection, uint16_t);
+  itkGetConstMacro(ZDirection, uint16_t);
 
-  itkSetMacro(RDirection, unsigned short int);
-  itkGetConstMacro(RDirection, unsigned short int);
+  itkSetMacro(RDirection, uint16_t);
+  itkGetConstMacro(RDirection, uint16_t);
 
-  itkSetMacro(RadialSplineOrder, unsigned short int);
-  itkGetConstMacro(RadialSplineOrder, unsigned short int);
+  itkSetMacro(RadialSplineOrder, uint16_t);
+  itkGetConstMacro(RadialSplineOrder, uint16_t);
 
 protected:
   /** Constructor */
@@ -159,19 +159,19 @@ private:
   /** 2D output slice iterator */
   typedef ImageRegionIteratorWithIndex< OutputSliceType > OutputSliceIteratorType;
 
-  unsigned short int m_ZeroPadding;       /**< n-fold zero-padding */
-  unsigned short int m_OverSampling;      /**< n-fold oversampling */
+  uint16_t m_ZeroPadding;       /**< n-fold zero-padding */
+  uint16_t m_OverSampling;      /**< n-fold oversampling */
 
   double m_Cutoff;                        /**< Radial lowpass cut-off frequency
                                             */
   double m_AlphaRange;                    /**< Covered angular range */
 
-  unsigned short int m_ZDirection;        /**< Axial index in the input image */
-  unsigned short int m_AlphaDirection;    /**< Angular index in the input image
+  uint16_t m_ZDirection;        /**< Axial index in the input image */
+  uint16_t m_AlphaDirection;    /**< Angular index in the input image
                                             */
-  unsigned short int m_RDirection;        /**< Radial index in the input image
+  uint16_t m_RDirection;        /**< Radial index in the input image
                                             */
-  unsigned short int m_RadialSplineOrder; /**< Spline order for the radial
+  uint16_t m_RadialSplineOrder; /**< Spline order for the radial
                                             BSpline interpolation  */
 
   double m_PI; /**< The constant pi....  */

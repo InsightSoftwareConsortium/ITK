@@ -166,14 +166,14 @@ int itkObjectFactoryTest2(int argc, char *argv[])
     }
 
   MakeImage(10, static_cast<short>(0));
-  MakeImage(10, static_cast<unsigned char>(0));
+  MakeImage(10, static_cast<uint8_t>(0));
   MakeImage(10, static_cast<int>(0));
   {
   MakeImage(10, static_cast<float>(0));
   MakeImage(10, static_cast<double>(0));
   }
-  itk::RGBPixel<unsigned char> rgbUC; rgbUC.Fill(0);
-  itk::RGBPixel<unsigned short> rgbUS; rgbUS.Fill(0);
+  itk::RGBPixel<uint8_t> rgbUC; rgbUC.Fill(0);
+  itk::RGBPixel<uint16_t> rgbUS; rgbUS.Fill(0);
   MakeImage(10, rgbUC);
   MakeImage(10, rgbUS);
 

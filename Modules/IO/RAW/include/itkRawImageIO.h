@@ -107,11 +107,11 @@ public:
   virtual void Read(void *buffer);
 
   /** Set/Get the Data mask. */
-  itkGetConstReferenceMacro(ImageMask, unsigned short);
+  itkGetConstReferenceMacro(ImageMask, uint16_t);
   void SetImageMask(unsigned long val)
   {
     if ( val == m_ImageMask ) { return; }
-    m_ImageMask = ( (unsigned short)( val ) );
+    m_ImageMask = ( (uint16_t)( val ) );
     this->Modified();
   }
 
@@ -150,7 +150,7 @@ private:
   unsigned long  m_FileDimensionality;
   bool           m_ManualHeaderSize;
   SizeValueType  m_HeaderSize;
-  unsigned short m_ImageMask;
+  uint16_t m_ImageMask;
 };
 
 template< class TPixel, unsigned int VImageDimension >

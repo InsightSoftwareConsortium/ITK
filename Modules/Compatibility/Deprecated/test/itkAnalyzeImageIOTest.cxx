@@ -133,9 +133,9 @@ int itkAnalyzeImageIOTest(int ac, char* av[])
       itksys::SystemTools::ChangeDirectory(testdir);
       }
 
-    if(ac2 > 1) //This is a mechanism for reading unsigned char images for testing.
+    if(ac2 > 1) //This is a mechanism for reading uint8_t images for testing.
       {
-      typedef itk::Image<unsigned char, 3> ImageType;
+      typedef itk::Image<uint8_t, 3> ImageType;
       ImageType::Pointer input;
       itk::ImageFileReader<ImageType>::Pointer imageReader =
         itk::ImageFileReader<ImageType>::New();
@@ -167,10 +167,10 @@ int itkAnalyzeImageIOTest(int ac, char* av[])
         std::cerr << "Error writing Analyze file type char" << std::endl;
         rval += cur_return;
         }
-      cur_return = MakeImage<unsigned char,3>(AugmentName);
+      cur_return = MakeImage<uint8_t,3>(AugmentName);
       if(cur_return != 0)
         {
-        std::cerr << "Error writing Analyze file type unsigned char" << std::endl;
+        std::cerr << "Error writing Analyze file type uint8_t" << std::endl;
         rval += cur_return;
         }
       cur_return = MakeImage<short,3>(AugmentName);
@@ -179,10 +179,10 @@ int itkAnalyzeImageIOTest(int ac, char* av[])
         std::cerr << "Error writing Analyze file type short" << std::endl;
         rval += cur_return;
         }
-      cur_return = MakeImage<unsigned short,3>(AugmentName);
+      cur_return = MakeImage<uint16_t,3>(AugmentName);
       if(cur_return != 0)
         {
-        std::cerr << "Error writing Analyze file type unsigned short" << std::endl;
+        std::cerr << "Error writing Analyze file type uint16_t" << std::endl;
         rval += cur_return;
         }
       cur_return = MakeImage<int,3>(AugmentName);
@@ -211,10 +211,10 @@ int itkAnalyzeImageIOTest(int ac, char* av[])
         std::cerr << "Error writing Analyze file type char" << std::endl;
         rval += cur_return;
         }
-      cur_return = MakeImage<unsigned char,2>(AugmentName);
+      cur_return = MakeImage<uint8_t,2>(AugmentName);
       if(cur_return != 0)
         {
-        std::cerr << "Error writing Analyze file type unsigned char" << std::endl;
+        std::cerr << "Error writing Analyze file type uint8_t" << std::endl;
         rval += cur_return;
         }
       cur_return = MakeImage<short,2>(AugmentName);
@@ -223,10 +223,10 @@ int itkAnalyzeImageIOTest(int ac, char* av[])
         std::cerr << "Error writing Analyze file type short" << std::endl;
         rval += cur_return;
         }
-      cur_return = MakeImage<unsigned short,2>(AugmentName);
+      cur_return = MakeImage<uint16_t,2>(AugmentName);
       if(cur_return != 0)
         {
-        std::cerr << "Error writing Analyze file type unsigned short" << std::endl;
+        std::cerr << "Error writing Analyze file type uint16_t" << std::endl;
         rval += cur_return;
         }
       cur_return = MakeImage<int,2>(AugmentName);

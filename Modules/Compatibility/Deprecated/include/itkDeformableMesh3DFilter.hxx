@@ -78,7 +78,7 @@ DeformableMesh3DFilter< TInputMesh, TOutputMesh >
   os << indent << "TimeStep = " << m_TimeStep << std::endl;
   os << indent << "PotentialOn = " << m_PotentialOn << std::endl;
   os << indent << "ObjectLabel = "
-     << static_cast< typename NumericTraits< unsigned char >::PrintType >( m_ObjectLabel )
+     << static_cast< typename NumericTraits< uint8_t >::PrintType >( m_ObjectLabel )
      << std::endl;
   os << indent << "StepThreshold = " << m_StepThreshold << std::endl;
   if ( m_Normals )

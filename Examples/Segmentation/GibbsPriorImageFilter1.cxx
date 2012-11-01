@@ -70,10 +70,10 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  const unsigned short NUMBANDS = 1;
-  const unsigned short NDIMENSION = 3;
+  const uint16_t NUMBANDS = 1;
+  const uint16_t NDIMENSION = 3;
 
-  typedef itk::Image<itk::Vector<unsigned short,NUMBANDS>,NDIMENSION> VecImageType;
+  typedef itk::Image<itk::Vector<uint16_t,NUMBANDS>,NDIMENSION> VecImageType;
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -82,12 +82,12 @@ int main( int argc, char *argv[] )
   //  segmentation that yields a sample of tissue from a region to be
   //  segmented, which will be combined to form the input for the
   //  isocontouring method. We define the pixel type of the output of the
-  //  Gibbs prior filter to be \code{unsigned short}.
+  //  Gibbs prior filter to be \code{uint16_t}.
   //
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Image< unsigned short, NDIMENSION > ClassImageType;
+  typedef itk::Image< uint16_t, NDIMENSION > ClassImageType;
   // Software Guide : EndCodeSnippet
 
 

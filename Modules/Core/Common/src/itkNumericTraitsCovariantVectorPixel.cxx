@@ -20,10 +20,10 @@
 namespace itk
 {
 itkStaticNumericTraitsGenericArrayDimensionsMacro(CovariantVector, char);
-itkStaticNumericTraitsGenericArrayDimensionsMacro(CovariantVector, unsigned char);
-itkStaticNumericTraitsGenericArrayDimensionsMacro(CovariantVector, signed char);
+itkStaticNumericTraitsGenericArrayDimensionsMacro(CovariantVector, uint8_t);
+itkStaticNumericTraitsGenericArrayDimensionsMacro(CovariantVector, int8_t);
 itkStaticNumericTraitsGenericArrayDimensionsMacro(CovariantVector, short);
-itkStaticNumericTraitsGenericArrayDimensionsMacro(CovariantVector, unsigned short);
+itkStaticNumericTraitsGenericArrayDimensionsMacro(CovariantVector, uint16_t);
 itkStaticNumericTraitsGenericArrayDimensionsMacro(CovariantVector, int);
 itkStaticNumericTraitsGenericArrayDimensionsMacro(CovariantVector, unsigned int);
 itkStaticNumericTraitsGenericArrayDimensionsMacro(CovariantVector, long);

@@ -34,7 +34,7 @@ int itkBinaryFillholeImageFilterTest1(int argc, char * argv[])
 
   const int dim = 2;
 
-  typedef itk::Image< unsigned char, dim > IType;
+  typedef itk::Image< uint8_t, dim > IType;
 
   typedef itk::ImageFileReader< IType > ReaderType;
   ReaderType::Pointer reader = ReaderType::New();

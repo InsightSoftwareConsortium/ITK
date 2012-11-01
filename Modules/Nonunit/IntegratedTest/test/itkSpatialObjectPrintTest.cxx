@@ -41,7 +41,7 @@ int itkSpatialObjectPrintTest(int , char* [])
     itk::GroupSpatialObject<3>::New();
   std::cout << "----------GroupSpatialObject " << GroupSpatialObjectObj;
 
-  typedef unsigned short Pixel;
+  typedef uint16_t Pixel;
   itk::ImageSpatialObject<3,Pixel>::Pointer ImageSpatialObjectObj =
     itk::ImageSpatialObject<3,Pixel>::New();
   std::cout << "----------ImageSpatialObject " << ImageSpatialObjectObj;

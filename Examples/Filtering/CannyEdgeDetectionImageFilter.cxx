@@ -82,7 +82,7 @@ int main(int argc, char* argv[])
   std::cout << "UpperThreshold = " << upperThreshold << std::endl;
   std::cout << "LowerThreshold = " << lowerThreshold << std::endl;
 
-  typedef unsigned char    CharPixelType;  //  IO
+  typedef uint8_t    CharPixelType;  //  IO
   typedef double           RealPixelType;  //  Operations
   const   unsigned int     Dimension = 2;
 

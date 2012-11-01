@@ -32,11 +32,11 @@ int itkLevelSetEquationPropagationTermTest( int argc, char* argv[] )
 
   const unsigned int Dimension = 2;
 
-  typedef unsigned short                                    InputPixelType;
+  typedef uint16_t                                    InputPixelType;
   typedef itk::Image< InputPixelType, Dimension >           InputImageType;
   typedef itk::IdentifierType                               IdentifierType;
 
-  typedef unsigned short                                    InputPixelType;
+  typedef uint16_t                                    InputPixelType;
   typedef itk::Image< InputPixelType, Dimension >           InputImageType;
 
   typedef float                                             PixelType;

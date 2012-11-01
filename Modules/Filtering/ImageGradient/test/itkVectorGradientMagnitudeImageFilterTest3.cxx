@@ -23,7 +23,7 @@
 
 int itkVectorGradientMagnitudeImageFilterTest3(int ac, char* av[] )
 {
-  typedef itk::RGBPixel<unsigned char> RGBPixelType;
+  typedef itk::RGBPixel<uint8_t> RGBPixelType;
   typedef itk::Image<RGBPixelType, 3>  RGBImageType;
 
   typedef itk::PipelineMonitorImageFilter<RGBImageType>                Monitor1Filter;

@@ -90,7 +90,7 @@ public:
   void SetRadius(const float newR);
 
   /** Get number of dimensions */
-  unsigned short int GetNumDimensions(void) const;
+  uint16_t GetNumDimensions(void) const;
 
   /** Copy one TubeSpatialObjectPoint to another */
   Self & operator=(const TubeSpatialObjectPoint & rhs);
@@ -105,7 +105,7 @@ protected:
   float m_R;
 
   /** number of dimensions */
-  unsigned short int m_NumDimensions;
+  uint16_t m_NumDimensions;
 
   /** Print the object */
   void PrintSelf(std::ostream & os, Indent indent) const;

@@ -29,8 +29,8 @@ int itkResampleImageTest5(int argc, char * argv [] )
   // Resample an RGB image
   const unsigned int NDimensions = 2;
 
-  typedef unsigned char                PixelType;
-  typedef itk::RGBPixel<unsigned char> RGBPixelType;
+  typedef uint8_t                PixelType;
+  typedef itk::RGBPixel<uint8_t> RGBPixelType;
   typedef itk::Image<RGBPixelType, 2 > ImageType;
 
   typedef ImageType::IndexType         ImageIndexType;

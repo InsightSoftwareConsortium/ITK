@@ -43,7 +43,7 @@ ImageToHistogramFilter< TImage >
 
   SimpleDataObjectDecorator<bool>::Pointer autoMinMax =
     SimpleDataObjectDecorator<bool>::New();
-  if( typeid(ValueType) == typeid(signed char) || typeid(ValueType) == typeid(unsigned char) )
+  if( typeid(ValueType) == typeid(int8_t) || typeid(ValueType) == typeid(uint8_t) )
     {
     autoMinMax->Set(false);
     }

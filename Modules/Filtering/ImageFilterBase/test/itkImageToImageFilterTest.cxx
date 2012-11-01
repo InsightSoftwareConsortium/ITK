@@ -41,8 +41,8 @@ int itkImageToImageFilterTest(int, char* [] )
 {
 
   const unsigned int      ImageDimension = 3;
-  typedef unsigned char   InputPixelType;
-  typedef signed short    OutputPixelType;
+  typedef uint8_t   InputPixelType;
+  typedef int16_t    OutputPixelType;
 
   typedef itk::Image< InputPixelType,  ImageDimension >  InputImageType;
   typedef itk::Image< OutputPixelType, ImageDimension >  OutputImageType;

@@ -33,7 +33,7 @@
 class ImageInfo
 {
 public:
-  typedef itk::Image<unsigned char, 2> ImageType;
+  typedef itk::Image<uint8_t, 2> ImageType;
 
   ImageInfo(ImageType *image, std::string description="")
   {
@@ -52,7 +52,7 @@ public:
 class RGBImageInfo
 {
 public:
-  typedef itk::Image<itk::RGBPixel<unsigned char>, 2> ImageType;
+  typedef itk::Image<itk::RGBPixel<uint8_t>, 2> ImageType;
   RGBImageInfo(ImageType *image, std::string description="")
   {
     m_Image = image;

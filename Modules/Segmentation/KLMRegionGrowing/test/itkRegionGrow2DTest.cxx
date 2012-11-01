@@ -216,7 +216,7 @@ unsigned int test_regiongrowKLM1D()
 
   // Manually create an image
 
-  typedef itk::Image<itk::Vector<unsigned char, NUMBANDS3>, NUMDIM1D> ImageType;
+  typedef itk::Image<itk::Vector<uint8_t, NUMBANDS3>, NUMDIM1D> ImageType;
   typedef itk::Image<itk::Vector<double, NUMBANDS3>, NUMDIM1D>        OutputImageType;
 
   ImageType::Pointer image  = ImageType::New();
@@ -246,8 +246,8 @@ unsigned int test_regiongrowKLM1D()
   unsigned int k = 0;
   while( !inIt.IsAtEnd() )
     {
-    pixelData[0] = static_cast<unsigned char>( k );
-    pixelData[1] = static_cast<unsigned char>( numPixels - k - 1 );
+    pixelData[0] = static_cast<uint8_t>( k );
+    pixelData[1] = static_cast<uint8_t>( numPixels - k - 1 );
     if( k < numPixelsHalf )
       {
       pixelData[2] = 47;
@@ -517,8 +517,8 @@ unsigned int test_regiongrowKLM1D()
   inIt.GoToBegin();
   while( !inIt.IsAtEnd() )
     {
-    pixelData[0] = static_cast<unsigned char>( k );
-    pixelData[1] = static_cast<unsigned char>( numPixels - k - 1 );
+    pixelData[0] = static_cast<uint8_t>( k );
+    pixelData[1] = static_cast<uint8_t>( numPixels - k - 1 );
     if( k < numPixelsQtr )
       {
       pixelData[2] = 127;

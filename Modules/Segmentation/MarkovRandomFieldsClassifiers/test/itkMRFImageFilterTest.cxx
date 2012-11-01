@@ -165,7 +165,7 @@ int itkMRFImageFilterTest(int, char* [] )
   //---------------------------------------------------------------
   //Generate the training data
   //---------------------------------------------------------------
-  typedef itk::Image<unsigned short,NDIMENSION> ClassImageType;
+  typedef itk::Image<uint16_t,NDIMENSION> ClassImageType;
   ClassImageType::Pointer classImage  = ClassImageType::New();
 
   ClassImageType::SizeType classImgSize = {{ IMGWIDTH , IMGHEIGHT, NFRAMES }};

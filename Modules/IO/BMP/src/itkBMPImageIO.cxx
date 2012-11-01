@@ -227,7 +227,7 @@ void BMPImageIO::Read(void *buffer)
         {
         unsigned long n = value[i];
         i++;
-        unsigned char valpix = value[i];
+        uint8_t valpix = value[i];
         for ( unsigned long j = 0; j < n; j++ )
           {
           RGBPixelType rbg;
@@ -289,7 +289,7 @@ void BMPImageIO::Read(void *buffer)
               }
             else
               {
-              unsigned char val = value[i];
+              uint8_t val = value[i];
               RGBPixelType  rbg;
               if ( val < m_ColorPalette.size() )
                 {
@@ -532,7 +532,7 @@ void BMPImageIO::ReadImageInformation()
       // Number of colors
       m_Ifstream.read( (char *)&itmp, 4 );
       ByteSwapper< int >::SwapFromSystemToLittleEndian(&itmp);
-      m_NumberOfColors = static_cast< unsigned short >( itmp );
+      m_NumberOfColors = static_cast< uint16_t >( itmp );
       // Number of important colors
       m_Ifstream.read( (char *)&itmp, 4 );
       }
@@ -553,7 +553,7 @@ void BMPImageIO::ReadImageInformation()
     {
     m_ColorTableSize = 0;
     }
-  unsigned char uctmp;
+  uint8_t uctmp;
   for ( unsigned long i = 0; i < m_ColorTableSize; i++ )
     {
     RGBPixelType p;
@@ -626,13 +626,13 @@ BMPImageIO
       {
       if ( m_ByteOrder == LittleEndian )
         {
-        ByteSwapper< unsigned char >::SwapRangeFromSystemToLittleEndian(
-          (unsigned char *)buffer, numberOfPixels);
+        ByteSwapper< uint8_t >::SwapRangeFromSystemToLittleEndian(
+          (uint8_t *)buffer, numberOfPixels);
         }
       else if ( m_ByteOrder == BigEndian )
         {
-        ByteSwapper< unsigned char >::SwapRangeFromSystemToBigEndian(
-          (unsigned char *)buffer, numberOfPixels);
+        ByteSwapper< uint8_t >::SwapRangeFromSystemToBigEndian(
+          (uint8_t *)buffer, numberOfPixels);
         }
       break;
       }
@@ -654,13 +654,13 @@ BMPImageIO
       {
       if ( m_ByteOrder == LittleEndian )
         {
-        ByteSwapper< unsigned short >::SwapRangeFromSystemToLittleEndian(
-          (unsigned short *)buffer, numberOfPixels);
+        ByteSwapper< uint16_t >::SwapRangeFromSystemToLittleEndian(
+          (uint16_t *)buffer, numberOfPixels);
         }
       else if ( m_ByteOrder == BigEndian )
         {
-        ByteSwapper< unsigned short >::SwapRangeFromSystemToBigEndian(
-          (unsigned short *)buffer, numberOfPixels);
+        ByteSwapper< uint16_t >::SwapRangeFromSystemToBigEndian(
+          (uint16_t *)buffer, numberOfPixels);
         }
       break;
       }
@@ -685,7 +685,7 @@ BMPImageIO
 
 void
 BMPImageIO
-::Write16BitsInteger(unsigned short value)
+::Write16BitsInteger(uint16_t value)
 {
   char tmp = static_cast<char>(value % 256);
   m_Ofstream.write( &tmp, sizeof( char ) );
@@ -712,7 +712,7 @@ BMPImageIO
 
   if ( this->GetComponentType() != UCHAR )
     {
-    itkExceptionMacro(<< "BMPImageIO supports unsigned char only");
+    itkExceptionMacro(<< "BMPImageIO supports uint8_t only");
     }
   if ( ( this->m_NumberOfComponents != 1 )
        && ( this->m_NumberOfComponents != 3 )
@@ -783,7 +783,7 @@ BMPImageIO
     }
   this->Write32BitsInteger(fileSize);
 
-  const unsigned short applicationReservedValue = 0;
+  const uint16_t applicationReservedValue = 0;
   this->Write16BitsInteger(applicationReservedValue);
   this->Write16BitsInteger(applicationReservedValue);
 
@@ -823,11 +823,11 @@ BMPImageIO
   this->Write32BitsInteger(static_cast<unsigned int>(m_Dimensions[1]));
 
   // Set `planes'=1 (mandatory)
-  const unsigned short numberOfColorPlanes = 1;
+  const uint16_t numberOfColorPlanes = 1;
   this->Write16BitsInteger(numberOfColorPlanes);
 
   // Set bits per pixel.
-  unsigned short numberOfBitsPerPixel = 0;
+  uint16_t numberOfBitsPerPixel = 0;
   switch ( bpp )
     {
     case 4:
@@ -879,7 +879,7 @@ BMPImageIO
     {
     for ( unsigned int n = 0; n < 256; n++ )
       {
-      char tmp2 = static_cast< unsigned char >( n );
+      char tmp2 = static_cast< uint8_t >( n );
       m_Ofstream.write( &tmp2, sizeof( char ) );
       m_Ofstream.write( &tmp2, sizeof( char ) );
       m_Ofstream.write( &tmp2, sizeof( char ) );

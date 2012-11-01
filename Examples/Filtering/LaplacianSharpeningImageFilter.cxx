@@ -33,7 +33,7 @@ int main(int argc, char* argv[])
   const char * inputFilename  = argv[1];
   const char * outputFilename = argv[2];
 
-  typedef unsigned char    CharPixelType;
+  typedef uint8_t    CharPixelType;
   const    unsigned int    Dimension = 2;
 
   typedef itk::Image<CharPixelType, Dimension>    CharImageType;
@@ -63,7 +63,7 @@ int main(int argc, char* argv[])
   //Sharpen with the laplacian
   lapFilter->SetInput( reader->GetOutput() );
 
-  // Rescale and cast to unsigned char
+  // Rescale and cast to uint8_t
   rescale->SetInput( lapFilter->GetOutput() );
   writer->SetInput( rescale->GetOutput() );
 

@@ -29,7 +29,7 @@ int itkAccumulateImageFilterTest(int argc, char *argv[] )
 
   typedef itk::Image<PixelType,ImageDimension> InputImageType;
   typedef itk::Image<PixelType,ImageDimension> OutputImageType;
-  typedef itk::Image<unsigned char,ImageDimension> WriteImageType;
+  typedef itk::Image<uint8_t,ImageDimension> WriteImageType;
   typedef itk::ImageSeriesReader< InputImageType > ReaderType ;
   typedef itk::AccumulateImageFilter<InputImageType,OutputImageType> AccumulaterType;
   typedef itk::ImageSeriesWriter<OutputImageType,WriteImageType> WriterType;

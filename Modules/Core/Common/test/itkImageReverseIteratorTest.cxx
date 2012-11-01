@@ -46,7 +46,7 @@ void TestConstPixelAccess(const itk::Image<T, VImageDimension> &in,
 int itkImageReverseIteratorTest(int, char* [] )
 {
 
-  typedef itk::Vector< unsigned short, 5 >   PixelType;
+  typedef itk::Vector< uint16_t, 5 >   PixelType;
   const unsigned int Dimension = 3;
 
   typedef itk::Image< PixelType, Dimension > ImageType;
@@ -178,8 +178,8 @@ int itkImageReverseIteratorTest(int, char* [] )
   for ( ; !it.IsAtEnd(); ++it)
     {
     --castBackReverseIt;
-    itk::Image<itk::Vector<unsigned short, 5>, 3>::IndexType index = it.GetIndex();
-    itk::Image<itk::Vector<unsigned short, 5>, 3>::IndexType rindex = castBackReverseIt.GetIndex();
+    itk::Image<itk::Vector<uint16_t, 5>, 3>::IndexType index = it.GetIndex();
+    itk::Image<itk::Vector<uint16_t, 5>, 3>::IndexType rindex = castBackReverseIt.GetIndex();
     for (unsigned int i=0; i < index.GetIndexDimension(); i++)
       {
       if (index[i] != rindex[i])

@@ -76,14 +76,14 @@ CoxDeBoorBSplineKernelFunction<VSplineOrder,TRealValueType>
 template<unsigned int VSplineOrder, typename TRealValueType>
 typename CoxDeBoorBSplineKernelFunction<VSplineOrder,TRealValueType>::PolynomialType
 CoxDeBoorBSplineKernelFunction<VSplineOrder,TRealValueType>
-::CoxDeBoor( const unsigned short order, const VectorType knots,
+::CoxDeBoor( const uint16_t order, const VectorType knots,
   const unsigned int whichBasisFunction, const unsigned int whichPiece )
 {
   VectorType tmp( 2 );
   PolynomialType poly1( NumericTraits< TRealValueType >::Zero );
   PolynomialType poly2( NumericTraits< TRealValueType >::Zero );
-  const unsigned short p = order - 1;
-  const unsigned short i = whichBasisFunction;
+  const uint16_t p = order - 1;
+  const uint16_t i = whichBasisFunction;
 
   if ( p == 0 && whichBasisFunction == whichPiece )
     {

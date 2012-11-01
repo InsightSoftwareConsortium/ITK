@@ -39,7 +39,7 @@ int itkLabelMapToLabelImageFilterTest(int argc, char * argv[])
   typedef LabelMapType::SizeType                 SizeType;
   typedef LabelMapType::LabelObjectVectorType    LabelObjectVectorType;
   typedef LabelMapType::LabelVectorType          LabelVectorType;
-  typedef itk::Image< unsigned char, dim >       ImageType;
+  typedef itk::Image< uint8_t, dim >       ImageType;
 
   typedef itk::LabelMapToLabelImageFilter<LabelMapType, ImageType> LabelMapToLabelImageFilterType;
 
@@ -83,7 +83,7 @@ int itkLabelMapToLabelImageFilterTest(int argc, char * argv[])
       IndexType index;
       index[0] = ctrI;
       index[1] = ctrJ;
-      unsigned char val;
+      uint8_t val;
       val = image->GetPixel(index);
       if ( (ctrI == 5) || (ctrJ==5) )
         {

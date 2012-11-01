@@ -24,7 +24,7 @@
 
 // tyepdefs used for registration
 const unsigned int ImageDimension = 2;
-typedef unsigned char                                    PixelType;
+typedef uint8_t                                    PixelType;
 typedef itk::Image<PixelType, ImageDimension>            ImageType;
 typedef itk::fem::Element2DC0LinearQuadrilateralMembrane ElementType;
 

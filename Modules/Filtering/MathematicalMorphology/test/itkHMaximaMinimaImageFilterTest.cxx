@@ -40,10 +40,10 @@ int itkHMaximaMinimaImageFilterTest( int argc, char * argv[] )
   //
   const unsigned int Dimension = 2;
 
-  typedef unsigned short   InputPixelType;
+  typedef uint16_t   InputPixelType;
   typedef short            InternalPixelType;
-  typedef unsigned char    OutputPixelType;
-  typedef unsigned char    WritePixelType;
+  typedef uint8_t    OutputPixelType;
+  typedef uint8_t    WritePixelType;
 
   typedef itk::Image< InputPixelType,  Dimension >    InputImageType;
   typedef itk::Image< InternalPixelType,  Dimension > InternalImageType;

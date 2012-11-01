@@ -22,8 +22,8 @@ int itkVoronoiSegmentationImageFilterTest(int, char* [] ){
   const int WIDTH = 256;
   const int HEIGHT = 256;
 
-  typedef itk::Image<unsigned short,2> UShortImage;
-  typedef itk::Image<unsigned char,2>  PriorImage;
+  typedef itk::Image<uint16_t,2> UShortImage;
+  typedef itk::Image<uint8_t,2>  PriorImage;
   typedef itk::VoronoiSegmentationImageFilter<UShortImage, UShortImage, PriorImage> VorSeg;
 
   VorSeg::Pointer testVorseg(VorSeg::New());
@@ -49,7 +49,7 @@ int itkVoronoiSegmentationImageFilterTest(int, char* [] ){
   // background: random field with mean: 500, std: 50
   std::cout << "Setting background random pattern image" << std::endl;
   while( !it.IsAtEnd()) {
-    it.Set((unsigned short)(vnl_sample_uniform(450,550)) );
+    it.Set((uint16_t)(vnl_sample_uniform(450,550)) );
     ++it;
   }
 
@@ -61,7 +61,7 @@ int itkVoronoiSegmentationImageFilterTest(int, char* [] ){
     index[0] = i;
     for (j = 30; j< 94; j++){
       index[1] = j;
-      inputIMG->SetPixel(index, (unsigned short)(vnl_sample_uniform(500,540)) );
+      inputIMG->SetPixel(index, (uint16_t)(vnl_sample_uniform(500,540)) );
     }
   }
 
@@ -69,12 +69,12 @@ int itkVoronoiSegmentationImageFilterTest(int, char* [] ){
     index[0] = i;
     for (j = 150; j< 214; j++){
       index[1] = j;
-      inputIMG->SetPixel(index, (unsigned short)(vnl_sample_uniform(500,540)) );
+      inputIMG->SetPixel(index, (uint16_t)(vnl_sample_uniform(500,540)) );
     }
   }
 
   int k;
-  unsigned short TestImg[65536];
+  uint16_t TestImg[65536];
 
   testVorseg->SetInput(inputIMG);
   testVorseg->SetMean(520);

@@ -197,9 +197,9 @@ vidl_itk_istream< TVideoStream >::format() const
       }
     }
 
-  // char / unsigned char
+  // char / uint8_t
   else if (typeid(PixelValueType) == typeid(char) ||
-           typeid(PixelValueType) == typeid(unsigned char))
+           typeid(PixelValueType) == typeid(uint8_t))
     {
     if (channels == 1)
       {
@@ -219,9 +219,9 @@ vidl_itk_istream< TVideoStream >::format() const
       }
     }
 
-  // short / unsigned short
+  // short / uint16_t
   else if (typeid(PixelValueType) == typeid(short) ||
-           typeid(PixelValueType) == typeid(unsigned short))
+           typeid(PixelValueType) == typeid(uint16_t))
     {
     if (channels == 1)
       {

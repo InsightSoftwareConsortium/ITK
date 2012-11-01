@@ -239,22 +239,22 @@ private:
     if( IsGPUAvailable() )
       {
       // 1/2/3D
-      OverrideImageTypeMacro(unsigned char, 1);
-      OverrideImageTypeMacro(signed char,  1);
+      OverrideImageTypeMacro(uint8_t, 1);
+      OverrideImageTypeMacro(int8_t,  1);
       OverrideImageTypeMacro(int, 1);
       OverrideImageTypeMacro(unsigned int, 1);
       OverrideImageTypeMacro(float, 1);
       OverrideImageTypeMacro(double, 1);
 
-      OverrideImageTypeMacro(unsigned char, 2);
-      OverrideImageTypeMacro(signed char, 2);
+      OverrideImageTypeMacro(uint8_t, 2);
+      OverrideImageTypeMacro(int8_t, 2);
       OverrideImageTypeMacro(int, 2);
       OverrideImageTypeMacro(unsigned int, 2);
       OverrideImageTypeMacro(float, 2);
       OverrideImageTypeMacro(double, 2);
 
-      OverrideImageTypeMacro(unsigned char, 3);
-      OverrideImageTypeMacro(signed char, 3);
+      OverrideImageTypeMacro(uint8_t, 3);
+      OverrideImageTypeMacro(int8_t, 3);
       OverrideImageTypeMacro(int, 3);
       OverrideImageTypeMacro(unsigned int, 3);
       OverrideImageTypeMacro(float, 3);

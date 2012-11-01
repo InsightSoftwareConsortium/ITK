@@ -36,7 +36,7 @@ namespace itk
  * generate the membership images or specify your own.
  *
  * \par
- * The output of the filter is a label map (an image of unsigned char's is the
+ * The output of the filter is a label map (an image of uint8_t's is the
  * default.) with pixel values indicating the classes they correspond to. Pixels
  * with intensity 0 belong to the 0th class, 1 belong to the 1st class etc....
  * The classification is done by applying a Maximum decision rule to the posterior
@@ -76,7 +76,7 @@ namespace itk
  * \ingroup ClassificationFilters
  * \ingroup ITKClassifiers
  */
-template< class TInputVectorImage, class TLabelsType = unsigned char,
+template< class TInputVectorImage, class TLabelsType = uint8_t,
           class TPosteriorsPrecisionType = double, class TPriorsPrecisionType = double >
 class ITK_EXPORT BayesianClassifierImageFilter:
   public ImageToImageFilter<

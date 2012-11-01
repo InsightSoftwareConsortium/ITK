@@ -25,7 +25,7 @@
 
 
 const unsigned int VDimension = 3;
-typedef unsigned char                     PixelType;
+typedef uint8_t                     PixelType;
 typedef itk::Image<PixelType,VDimension>  ImageType;
 typedef ImageType::Pointer                ImagePointer;
 typedef ImageType::SpacingType            SpacingType;
@@ -111,7 +111,7 @@ ActualTest(
   // NOTE ALEX: should we check it exists first?
   itksys::SystemTools::RemoveFile(outputFileName.c_str());
 
-  typedef unsigned char             PixelType;
+  typedef uint8_t             PixelType;
   typedef itk::Image<PixelType,3>   ImageType;
 
   typedef itk::ImageFileReader<ImageType>  ReaderType;

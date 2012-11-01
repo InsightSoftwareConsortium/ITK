@@ -71,7 +71,7 @@ FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
 
 
 template< class TInput, class TOutput >
-unsigned char
+uint8_t
 FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
 ::GetLabelValueForGivenNode( const NodeType& iNode ) const
 {

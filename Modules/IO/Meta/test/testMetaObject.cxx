@@ -183,9 +183,9 @@ int testMetaObject(int argc, char *argv[])
   delete [] inDataChar;
   delete [] outDataChar;
 
-  unsigned char* inDataUChar = new unsigned char[1];
+  uint8_t* inDataUChar = new uint8_t[1];
   inDataUChar[0]=1;
-  unsigned char* outDataUChar = new unsigned char[1];
+  uint8_t* outDataUChar = new uint8_t[1];
   if(!MET_ValueToValue(MET_UCHAR_ARRAY,inDataUChar,0,MET_UCHAR_ARRAY,outDataUChar))
     {
     std::cout << "MET_ValueToValue: FAIL" << std::endl;

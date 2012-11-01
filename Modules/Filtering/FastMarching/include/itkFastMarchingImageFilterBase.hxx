@@ -162,7 +162,7 @@ GetOutputValue( OutputImageType* oImage, const NodeType& iNode ) const
 
 // -----------------------------------------------------------------------------
 template< class TInput, class TOutput >
-unsigned char
+uint8_t
 FastMarchingImageFilterBase< TInput, TOutput >::
 GetLabelValueForGivenNode( const NodeType& iNode ) const
   {
@@ -189,7 +189,7 @@ UpdateNeighbors( OutputImageType* oImage, const NodeType& iNode )
   {
   NodeType neighIndex = iNode;
 
-  unsigned char label;
+  uint8_t label;
 
   typename NodeType::IndexValueType v, start, last;
 

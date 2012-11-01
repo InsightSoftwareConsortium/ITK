@@ -23,7 +23,7 @@
 int itkTileImageFilterTest(int argc, char *argv[] )
 {
 
-  typedef itk::RGBPixel<unsigned char> PixelType;
+  typedef itk::RGBPixel<uint8_t> PixelType;
   enum { InputImageDimension = 2 };
   enum { OutputImageDimension = 3 };
 
@@ -56,8 +56,8 @@ int itkTileImageFilterTest(int argc, char *argv[] )
     tiler->SetInput(f++,reader->GetOutput());
     }
   tiler->SetLayout(layout);
-  unsigned char yellow[3] = {255, 255, 127};
-  itk::RGBPixel<unsigned char> fillPixel = yellow;
+  uint8_t yellow[3] = {255, 255, 127};
+  itk::RGBPixel<uint8_t> fillPixel = yellow;
   tiler->SetDefaultPixelValue(fillPixel);
   tiler->Update();
   tiler->GetOutput()->Print(std::cout);

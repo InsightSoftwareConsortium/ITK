@@ -71,7 +71,7 @@ int main( int argc, char * argv[] )
 
 // Software Guide : BeginCodeSnippet
   const     unsigned int   Dimension = 2;
-  typedef   unsigned char  PixelType;
+  typedef   uint8_t  PixelType;
 
   typedef itk::Image< PixelType, Dimension >   ImageType;
 // Software Guide : EndCodeSnippet

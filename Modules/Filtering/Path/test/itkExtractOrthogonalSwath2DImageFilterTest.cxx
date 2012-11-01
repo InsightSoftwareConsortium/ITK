@@ -33,7 +33,7 @@ int itkExtractOrthogonalSwath2DImageFilterTest(int argc, char* argv[])
     return -1;
     }
 
-  typedef itk::Image<unsigned char, 2>         ImageType;
+  typedef itk::Image<uint8_t, 2>         ImageType;
   typedef itk::PolyLineParametricPath<2>       InPathType;
   typedef itk::ChainCodePath<2>                ChainPathType;
   typedef itk::FourierSeriesPath<2>            FSPathType;

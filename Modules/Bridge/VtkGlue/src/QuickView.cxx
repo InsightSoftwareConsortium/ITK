@@ -43,12 +43,12 @@
 #include "itkImageToVTKImageFilter.h"
 
 
-typedef itk::Image<itk::RGBPixel<unsigned char>, 2>  UnsignedCharRGBImageType;
+typedef itk::Image<itk::RGBPixel<uint8_t>, 2>  UnsignedCharRGBImageType;
 typedef itk::Image<itk::RGBPixel<float>, 2>          FloatRGBImageType;
 
-typedef itk::Image<unsigned char, 2>   UnsignedCharImageType;
+typedef itk::Image<uint8_t, 2>   UnsignedCharImageType;
 typedef itk::Image<char, 2>            CharImageType;
-typedef itk::Image<unsigned short, 2>  UnsignedShortImageType;
+typedef itk::Image<uint16_t, 2>  UnsignedShortImageType;
 typedef itk::Image<short, 2>           ShortImageType;
 typedef itk::Image<unsigned int, 2>    UnsignedIntImageType;
 typedef itk::Image<int, 2>             IntImageType;
@@ -241,9 +241,9 @@ void QuickView::Visualize(bool interact)
   double step = 1./(static_cast<double>(numberOfImages));
   std::vector<double*> viewports;
 
-  typedef itk::ImageToVTKImageFilter<itk::Image<unsigned char, 2> >
+  typedef itk::ImageToVTKImageFilter<itk::Image<uint8_t, 2> >
     ConnectorType;
-  typedef itk::ImageToVTKImageFilter<itk::Image<itk::RGBPixel<unsigned char>, 2> >
+  typedef itk::ImageToVTKImageFilter<itk::Image<itk::RGBPixel<uint8_t>, 2> >
     RGBConnectorType;
   std::vector<ConnectorType::Pointer>    connectors; // Force the connectors to persist (not lose scope) after each iteration of the loop
   std::vector<RGBConnectorType::Pointer> RGBconnectors; // Force the connectors to persist after each iteration of the loop

@@ -332,33 +332,33 @@ int itkVTKImageIO2Test(int argc, char* argv[])
   // test all usable pixel types
   //
 
-  // unsigned char (ascii)
-  if (!(VTKImageIOTester<unsigned char, 3>::Write( filePrefix, outputPath, true )))
+  // uint8_t (ascii)
+  if (!(VTKImageIOTester<uint8_t, 3>::Write( filePrefix, outputPath, true )))
     {
-    std::cout << "[FAILED] writing (unsigned char - ascii)" << std::endl;
+    std::cout << "[FAILED] writing (uint8_t - ascii)" << std::endl;
     return EXIT_FAILURE;
     }
-  std::cout << "[PASSED] writing (unsigned char - ascii)" << std::endl;
-  if (!(VTKImageIOTester<unsigned char, 3>::Read( filePrefix, outputPath, true )))
+  std::cout << "[PASSED] writing (uint8_t - ascii)" << std::endl;
+  if (!(VTKImageIOTester<uint8_t, 3>::Read( filePrefix, outputPath, true )))
     {
-    std::cout << "[FAILED] reading (unsigned char - ascii)" << std::endl;
+    std::cout << "[FAILED] reading (uint8_t - ascii)" << std::endl;
     return EXIT_FAILURE;
     }
-  std::cout << "[PASSED] reading (unsigned char - ascii)" << std::endl;
+  std::cout << "[PASSED] reading (uint8_t - ascii)" << std::endl;
 
-  // unsigned char (binary)
-  if (!(VTKImageIOTester<unsigned char, 3>::Write( filePrefix, outputPath, false )))
+  // uint8_t (binary)
+  if (!(VTKImageIOTester<uint8_t, 3>::Write( filePrefix, outputPath, false )))
     {
-    std::cout << "[FAILED] writing (unsigned char - binary)" << std::endl;
+    std::cout << "[FAILED] writing (uint8_t - binary)" << std::endl;
     return EXIT_FAILURE;
     }
-  std::cout << "[PASSED] writing (unsigned char - binary)" << std::endl;
-  if (!(VTKImageIOTester<unsigned char, 3>::Read( filePrefix, outputPath, false )))
+  std::cout << "[PASSED] writing (uint8_t - binary)" << std::endl;
+  if (!(VTKImageIOTester<uint8_t, 3>::Read( filePrefix, outputPath, false )))
     {
-    std::cout << "[FAILED] reading (unsigned char - binary)" << std::endl;
+    std::cout << "[FAILED] reading (uint8_t - binary)" << std::endl;
     return EXIT_FAILURE;
     }
-  std::cout << "[PASSED] reading (unsigned char - binary)" << std::endl;
+  std::cout << "[PASSED] reading (uint8_t - binary)" << std::endl;
 
   // char (ascii)
   if (!(VTKImageIOTester<char, 3>::Write( filePrefix, outputPath, true )))
@@ -388,33 +388,33 @@ int itkVTKImageIO2Test(int argc, char* argv[])
     }
   std::cout << "[PASSED] reading (char - binary)" << std::endl;
 
-  // unsigned short (ascii)
-  if (!(VTKImageIOTester<unsigned short, 3>::Write( filePrefix, outputPath, true )))
+  // uint16_t (ascii)
+  if (!(VTKImageIOTester<uint16_t, 3>::Write( filePrefix, outputPath, true )))
     {
-    std::cout << "[FAILED] writing (unsigned short - ascii)" << std::endl;
+    std::cout << "[FAILED] writing (uint16_t - ascii)" << std::endl;
     return EXIT_FAILURE;
     }
-  std::cout << "[PASSED] writing (unsigned short - ascii)" << std::endl;
-  if (!(VTKImageIOTester<unsigned short, 3>::Read( filePrefix, outputPath, true )))
+  std::cout << "[PASSED] writing (uint16_t - ascii)" << std::endl;
+  if (!(VTKImageIOTester<uint16_t, 3>::Read( filePrefix, outputPath, true )))
     {
-    std::cout << "[FAILED] reading (unsigned short - ascii)" << std::endl;
+    std::cout << "[FAILED] reading (uint16_t - ascii)" << std::endl;
     return EXIT_FAILURE;
     }
-  std::cout << "[PASSED] reading (unsigned short - ascii)" << std::endl;
+  std::cout << "[PASSED] reading (uint16_t - ascii)" << std::endl;
 
-  // unsigned short (binary)
-  if (!(VTKImageIOTester<unsigned short, 3>::Write( filePrefix, outputPath, false )))
+  // uint16_t (binary)
+  if (!(VTKImageIOTester<uint16_t, 3>::Write( filePrefix, outputPath, false )))
     {
-    std::cout << "[FAILED] writing (unsigned short - binary)" << std::endl;
+    std::cout << "[FAILED] writing (uint16_t - binary)" << std::endl;
     return EXIT_FAILURE;
     }
-  std::cout << "[PASSED] writing (unsigned short - binary)" << std::endl;
-  if (!(VTKImageIOTester<unsigned short, 3>::Read( filePrefix, outputPath, false )))
+  std::cout << "[PASSED] writing (uint16_t - binary)" << std::endl;
+  if (!(VTKImageIOTester<uint16_t, 3>::Read( filePrefix, outputPath, false )))
     {
-    std::cout << "[FAILED] reading (unsigned short - binary)" << std::endl;
+    std::cout << "[FAILED] reading (uint16_t - binary)" << std::endl;
     return EXIT_FAILURE;
     }
-  std::cout << "[PASSED] reading (unsigned short - binary)" << std::endl;
+  std::cout << "[PASSED] reading (uint16_t - binary)" << std::endl;
 
   // short (ascii)
   if (!(VTKImageIOTester<short, 3>::Write( filePrefix, outputPath, true )))
@@ -612,61 +612,61 @@ int itkVTKImageIO2Test(int argc, char* argv[])
     }
   std::cout << "[PASSED] reading (double - binary)" << std::endl;
 
-  // RGBPixel<unsigned char> - ascii
-  if (!(VTKImageIOTester< itk::RGBPixel<unsigned char>, 3>::Write( filePrefix, outputPath, true )))
+  // RGBPixel<uint8_t> - ascii
+  if (!(VTKImageIOTester< itk::RGBPixel<uint8_t>, 3>::Write( filePrefix, outputPath, true )))
     {
-    std::cout << "[FAILED] writing (RGBPixel<unsigned char> - ascii)" << std::endl;
+    std::cout << "[FAILED] writing (RGBPixel<uint8_t> - ascii)" << std::endl;
     return EXIT_FAILURE;
     }
-  std::cout << "[PASSED] writing (RGBPixel<unsigned char> - ascii)" << std::endl;
-  if (!(VTKImageIOTester< itk::RGBPixel<unsigned char>, 3>::Read( filePrefix, outputPath, true )))
+  std::cout << "[PASSED] writing (RGBPixel<uint8_t> - ascii)" << std::endl;
+  if (!(VTKImageIOTester< itk::RGBPixel<uint8_t>, 3>::Read( filePrefix, outputPath, true )))
     {
-    std::cout << "[FAILED] reading (RGBPixel<unsigned char> - ascii)" << std::endl;
+    std::cout << "[FAILED] reading (RGBPixel<uint8_t> - ascii)" << std::endl;
     return EXIT_FAILURE;
     }
-  std::cout << "[PASSED] reading (RGBPixel<unsigned char> - ascii)" << std::endl;
+  std::cout << "[PASSED] reading (RGBPixel<uint8_t> - ascii)" << std::endl;
 
-  // RGBPixel<unsigned char> - binary
-  if (!(VTKImageIOTester< itk::RGBPixel<unsigned char>, 3>::Write( filePrefix, outputPath, false )))
+  // RGBPixel<uint8_t> - binary
+  if (!(VTKImageIOTester< itk::RGBPixel<uint8_t>, 3>::Write( filePrefix, outputPath, false )))
     {
-    std::cout << "[FAILED] writing (RGBPixel<unsigned char> - binary)" << std::endl;
+    std::cout << "[FAILED] writing (RGBPixel<uint8_t> - binary)" << std::endl;
     return EXIT_FAILURE;
     }
-  std::cout << "[PASSED] writing (RGBPixel<unsigned char> - binary)" << std::endl;
-  if (!(VTKImageIOTester< itk::RGBPixel<unsigned char>, 3>::Read( filePrefix, outputPath, false )))
+  std::cout << "[PASSED] writing (RGBPixel<uint8_t> - binary)" << std::endl;
+  if (!(VTKImageIOTester< itk::RGBPixel<uint8_t>, 3>::Read( filePrefix, outputPath, false )))
     {
-    std::cout << "[FAILED] reading (RGBPixel<unsigned char> - binary)" << std::endl;
+    std::cout << "[FAILED] reading (RGBPixel<uint8_t> - binary)" << std::endl;
     return EXIT_FAILURE;
     }
-  std::cout << "[PASSED] reading (RGBPixel<unsigned char> - binary)" << std::endl;
+  std::cout << "[PASSED] reading (RGBPixel<uint8_t> - binary)" << std::endl;
 
-  // RGBAPixel<unsigned char> - ascii
-  if (!(VTKImageIOTester< itk::RGBAPixel<unsigned char>, 3>::Write( filePrefix, outputPath, true )))
+  // RGBAPixel<uint8_t> - ascii
+  if (!(VTKImageIOTester< itk::RGBAPixel<uint8_t>, 3>::Write( filePrefix, outputPath, true )))
     {
-    std::cout << "[FAILED] writing (RGBAPixel<unsigned char> - ascii)" << std::endl;
+    std::cout << "[FAILED] writing (RGBAPixel<uint8_t> - ascii)" << std::endl;
     return EXIT_FAILURE;
     }
-  std::cout << "[PASSED] writing (RGBAPixel<unsigned char> - ascii)" << std::endl;
-  if (!(VTKImageIOTester< itk::RGBAPixel<unsigned char>, 3>::Read( filePrefix, outputPath, true )))
+  std::cout << "[PASSED] writing (RGBAPixel<uint8_t> - ascii)" << std::endl;
+  if (!(VTKImageIOTester< itk::RGBAPixel<uint8_t>, 3>::Read( filePrefix, outputPath, true )))
     {
-    std::cout << "[FAILED] reading (RGBAPixel<unsigned char> - ascii)" << std::endl;
+    std::cout << "[FAILED] reading (RGBAPixel<uint8_t> - ascii)" << std::endl;
     return EXIT_FAILURE;
     }
-  std::cout << "[PASSED] reading (RGBAPixel<unsigned char> - ascii)" << std::endl;
+  std::cout << "[PASSED] reading (RGBAPixel<uint8_t> - ascii)" << std::endl;
 
-  // RGBAPixel<unsigned char> - binary
-  if (!(VTKImageIOTester< itk::RGBAPixel<unsigned char>, 3>::Write( filePrefix, outputPath, false )))
+  // RGBAPixel<uint8_t> - binary
+  if (!(VTKImageIOTester< itk::RGBAPixel<uint8_t>, 3>::Write( filePrefix, outputPath, false )))
     {
-    std::cout << "[FAILED] writing (RGBAPixel<unsigned char> - binary)" << std::endl;
+    std::cout << "[FAILED] writing (RGBAPixel<uint8_t> - binary)" << std::endl;
     return EXIT_FAILURE;
     }
-  std::cout << "[PASSED] writing (RGBAPixel<unsigned char> - binary)" << std::endl;
-  if (!(VTKImageIOTester< itk::RGBAPixel<unsigned char>, 3>::Read( filePrefix, outputPath, false )))
+  std::cout << "[PASSED] writing (RGBAPixel<uint8_t> - binary)" << std::endl;
+  if (!(VTKImageIOTester< itk::RGBAPixel<uint8_t>, 3>::Read( filePrefix, outputPath, false )))
     {
-    std::cout << "[FAILED] reading (RGBAPixel<unsigned char> - binary)" << std::endl;
+    std::cout << "[FAILED] reading (RGBAPixel<uint8_t> - binary)" << std::endl;
     return EXIT_FAILURE;
     }
-  std::cout << "[PASSED] reading (RGBAPixel<unsigned char> - binary)" << std::endl;
+  std::cout << "[PASSED] reading (RGBAPixel<uint8_t> - binary)" << std::endl;
 
   // Vector<int> - ascii
   if (!(VTKImageIOTester< itk::Vector<int, TEST_VECTOR_PIXEL_DIM>, 3 >::Write( filePrefix, outputPath, true )))

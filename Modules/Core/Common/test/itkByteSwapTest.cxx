@@ -25,8 +25,8 @@ int itkByteSwapTest ( int, char*[] )
 
   std::cout << "Starting test" << std::endl;
 
-  unsigned char uc = 'a', uc1 = 'a';
-  unsigned short us = 1, us1 = 1;
+  uint8_t uc = 'a', uc1 = 'a';
+  uint16_t us = 1, us1 = 1;
   unsigned int ui = 1, ui1 = 1;
   unsigned long ul = 1, ul1 = 1;
   float f = 1.0, f1 = 1.0;
@@ -46,35 +46,35 @@ int itkByteSwapTest ( int, char*[] )
 
   if ( itk::ByteSwapper<int>::SystemIsBigEndian() )
     {
-    itk::ByteSwapper<unsigned char>::SwapFromSystemToLittleEndian ( &uc );
-    itk::ByteSwapper<unsigned char>::SwapFromSystemToLittleEndian ( &uc );
+    itk::ByteSwapper<uint8_t>::SwapFromSystemToLittleEndian ( &uc );
+    itk::ByteSwapper<uint8_t>::SwapFromSystemToLittleEndian ( &uc );
     }
   else
     {
-    itk::ByteSwapper<unsigned char>::SwapFromSystemToBigEndian ( &uc );
-    itk::ByteSwapper<unsigned char>::SwapFromSystemToBigEndian ( &uc );
+    itk::ByteSwapper<uint8_t>::SwapFromSystemToBigEndian ( &uc );
+    itk::ByteSwapper<uint8_t>::SwapFromSystemToBigEndian ( &uc );
     }
   if ( uc != uc1 )
     {
     return EXIT_FAILURE;
     }
-  std::cout << "Passed unsigned char: " << uc << std::endl;
+  std::cout << "Passed uint8_t: " << uc << std::endl;
 
   if ( itk::ByteSwapper<int>::SystemIsBE() )
     {
-    itk::ByteSwapper<unsigned short>::SwapFromSystemToLittleEndian ( &us );
-    itk::ByteSwapper<unsigned short>::SwapFromSystemToLittleEndian ( &us );
+    itk::ByteSwapper<uint16_t>::SwapFromSystemToLittleEndian ( &us );
+    itk::ByteSwapper<uint16_t>::SwapFromSystemToLittleEndian ( &us );
     }
   else
     {
-    itk::ByteSwapper<unsigned short>::SwapFromSystemToBigEndian ( &us );
-    itk::ByteSwapper<unsigned short>::SwapFromSystemToBigEndian ( &us );
+    itk::ByteSwapper<uint16_t>::SwapFromSystemToBigEndian ( &us );
+    itk::ByteSwapper<uint16_t>::SwapFromSystemToBigEndian ( &us );
     }
   if ( us != us1 )
     {
     return EXIT_FAILURE;
     }
-  std::cout << "Passed unsigned short: " << us << std::endl;
+  std::cout << "Passed uint16_t: " << us << std::endl;
 
   if ( itk::ByteSwapper<int>::SystemIsBigEndian() )
     {

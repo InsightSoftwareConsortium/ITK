@@ -34,7 +34,7 @@ int itkJPEGImageIOTest( int ac, char* av[] )
 
   // ATTENTION THIS IS THE PIXEL TYPE FOR
   // THE RESULTING IMAGE
-  typedef unsigned char PixelType;
+  typedef uint8_t PixelType;
 
   typedef itk::Image<PixelType, 2> myImage;
 

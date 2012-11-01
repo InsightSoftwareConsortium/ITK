@@ -181,7 +181,7 @@ int main( int argc, char * argv[] )
   // Select the component to extract.
   component->SetIndex( 0 );
 
-  typedef unsigned char WritePixelType;
+  typedef uint8_t WritePixelType;
   typedef itk::Image< WritePixelType, 2 > WriteImageType;
   typedef itk::RescaleIntensityImageFilter<
                OutputImageType, WriteImageType > RescaleFilterType;

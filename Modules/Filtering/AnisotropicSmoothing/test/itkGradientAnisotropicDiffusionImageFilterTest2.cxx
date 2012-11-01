@@ -84,7 +84,7 @@ int itkGradientAnisotropicDiffusionImageFilterTest2(int ac, char* av[] )
 
   filter->SetInput(input->GetOutput());
 
-  typedef itk::Image<unsigned char, 2> myUCharImage;
+  typedef itk::Image<uint8_t, 2> myUCharImage;
   itk::CastImageFilter<myFloatImage, myUCharImage>::Pointer caster
     = itk::CastImageFilter<myFloatImage, myUCharImage>::New();
   caster->SetInput(filter->GetOutput());

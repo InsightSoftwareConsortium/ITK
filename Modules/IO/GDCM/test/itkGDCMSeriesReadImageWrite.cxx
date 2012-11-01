@@ -38,7 +38,7 @@ int itkGDCMSeriesReadImageWrite( int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-  typedef itk::Image<unsigned short,3>            ImageType;
+  typedef itk::Image<uint16_t,3>            ImageType;
   typedef itk::ImageSeriesReader< ImageType >     ReaderType;
   typedef itk::GDCMImageIO                        ImageIOType;
   typedef itk::GDCMSeriesFileNames                SeriesFileNames;
@@ -99,11 +99,11 @@ int itkGDCMSeriesReadImageWrite( int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-  // Writing image afer downscaling to 8bits (unsigned char)
+  // Writing image afer downscaling to 8bits (uint8_t)
 
-  typedef itk::Image< unsigned short, 3>            Image3DType;
-  typedef itk::Image< unsigned char,  3>            RescaleImageType;
-  typedef itk::Image< unsigned char,  2>            OutputImageType;
+  typedef itk::Image< uint16_t, 3>            Image3DType;
+  typedef itk::Image< uint8_t,  3>            RescaleImageType;
+  typedef itk::Image< uint8_t,  2>            OutputImageType;
   typedef itk::RescaleIntensityImageFilter<
                Image3DType, RescaleImageType > RescaleFilterType;
 

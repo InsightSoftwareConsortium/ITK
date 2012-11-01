@@ -228,7 +228,7 @@ int main( int argc, char *argv[] )
   //  process the final level set at the output of the
   //  GeodesicActiveContourLevelSetImageFilter.
   //
-  typedef unsigned char                            OutputPixelType;
+  typedef uint8_t                            OutputPixelType;
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
   typedef itk::BinaryThresholdImageFilter<
                         InternalImageType,

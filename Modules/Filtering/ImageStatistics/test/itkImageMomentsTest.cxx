@@ -19,7 +19,7 @@
 #include "itkImageMomentsCalculator.h"
 
 
-typedef unsigned short         PixelType;
+typedef uint16_t         PixelType;
 typedef itk::Vector<double,3>  VectorType;
 typedef itk::Matrix<double,3>  MatrixType;
 typedef itk::Image<PixelType, 3> ImageType;
@@ -47,7 +47,7 @@ itkImageMomentsTest( int itkNotUsed(argc), char * itkNotUsed(argv) [] )
     double spacing[3] = { 0.1,   0.05 , 0.025};
 
     /* Define positions of the test masses in index coordinates */
-    unsigned short mass = 1;           // Test mass
+    uint16_t mass = 1;           // Test mass
     itk::Index<3>::IndexValueType point[8][3] = {
   { 10+8, 20+12, 40+0},
   { 10-8, 20-12, 40-0},

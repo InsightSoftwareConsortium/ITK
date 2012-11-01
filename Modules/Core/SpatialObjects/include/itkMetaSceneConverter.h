@@ -39,7 +39,7 @@ namespace itk
  *  \ingroup ITKSpatialObjects
  */
 template< unsigned int NDimensions,
-          typename PixelType = unsigned char,
+          typename PixelType = uint8_t,
           typename TMeshTraits =
             DefaultStaticMeshTraits< PixelType, NDimensions, NDimensions >
           >

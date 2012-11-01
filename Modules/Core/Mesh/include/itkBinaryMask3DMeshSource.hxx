@@ -133,9 +133,9 @@ BinaryMask3DMeshSource< TInputImage, TOutputMesh >
 template< class TInputImage, class TOutputMesh >
 void
 BinaryMask3DMeshSource< TInputImage, TOutputMesh >
-::XFlip(unsigned char *x)
+::XFlip(uint8_t *x)
 {
-  unsigned char nodeindex;
+  uint8_t nodeindex;
 
   int i = 0;
 
@@ -186,9 +186,9 @@ BinaryMask3DMeshSource< TInputImage, TOutputMesh >
 template< class TInputImage, class TOutputMesh >
 void
 BinaryMask3DMeshSource< TInputImage, TOutputMesh >
-::YFlip(unsigned char *x)
+::YFlip(uint8_t *x)
 {
-  unsigned char nodeindex;
+  uint8_t nodeindex;
 
   int i = 0;
 
@@ -239,9 +239,9 @@ BinaryMask3DMeshSource< TInputImage, TOutputMesh >
 template< class TInputImage, class TOutputMesh >
 void
 BinaryMask3DMeshSource< TInputImage, TOutputMesh >
-::ZFlip(unsigned char *x)
+::ZFlip(uint8_t *x)
 {
-  unsigned char nodeindex;
+  uint8_t nodeindex;
 
   int i = 0;
 
@@ -292,9 +292,9 @@ BinaryMask3DMeshSource< TInputImage, TOutputMesh >
 template< class TInputImage, class TOutputMesh >
 void
 BinaryMask3DMeshSource< TInputImage, TOutputMesh >
-::XRotation(unsigned char *x)
+::XRotation(uint8_t *x)
 {
-  unsigned char nodeindex;
+  uint8_t nodeindex;
 
   int i = 0;
 
@@ -349,9 +349,9 @@ BinaryMask3DMeshSource< TInputImage, TOutputMesh >
 template< class TInputImage, class TOutputMesh >
 void
 BinaryMask3DMeshSource< TInputImage, TOutputMesh >
-::YRotation(unsigned char *x)
+::YRotation(uint8_t *x)
 {
-  unsigned char nodeindex;
+  uint8_t nodeindex;
 
   int i = 0;
 
@@ -406,9 +406,9 @@ BinaryMask3DMeshSource< TInputImage, TOutputMesh >
 template< class TInputImage, class TOutputMesh >
 void
 BinaryMask3DMeshSource< TInputImage, TOutputMesh >
-::ZRotation(unsigned char *x)
+::ZRotation(uint8_t *x)
 {
-  unsigned char nodeindex;
+  uint8_t nodeindex;
 
   int i = 0;
 
@@ -463,9 +463,9 @@ BinaryMask3DMeshSource< TInputImage, TOutputMesh >
 template< class TInputImage, class TOutputMesh >
 void
 BinaryMask3DMeshSource< TInputImage, TOutputMesh >
-::inverse(unsigned char *x)
+::inverse(uint8_t *x)
 {
-  unsigned char tmp;
+  uint8_t tmp;
 
   tmp = x[2];
   x[2] = x[1];
@@ -1104,7 +1104,7 @@ BinaryMask3DMeshSource< TInputImage, TOutputMesh >
     i++;
     }
 
-  unsigned char vertexindex;
+  uint8_t vertexindex;
 
   if ( m_CurrentRow )
     {
@@ -1195,7 +1195,7 @@ BinaryMask3DMeshSource< TInputImage, TOutputMesh >
 template< class TInputImage, class TOutputMesh >
 void
 BinaryMask3DMeshSource< TInputImage, TOutputMesh >
-::AddCells(unsigned char celltype, unsigned char celltran, int index)
+::AddCells(uint8_t celltype, uint8_t celltran, int index)
 {
 
   int             i;
@@ -1389,8 +1389,8 @@ BinaryMask3DMeshSource< TInputImage, TOutputMesh >
 
   typename TriCell::CellAutoPointer insertCell;
   typename OutputMeshType::PointIdentifier  tripoints[3];
-  unsigned char *tp;
-  tp = (unsigned char *)malloc( 3 * sizeof( unsigned char ) );
+  uint8_t *tp;
+  tp = (uint8_t *)malloc( 3 * sizeof( uint8_t ) );
 
   IdentifierType *tpl;
   tpl = (IdentifierType *)malloc( 3 * sizeof( IdentifierType ) );
@@ -2382,7 +2382,7 @@ template< class TInputImage, class TOutputMesh >
 void
 BinaryMask3DMeshSource< TInputImage, TOutputMesh >
 ::AddNodes(int index,
-           unsigned char *nodesid,
+           uint8_t *nodesid,
            IdentifierType *globalnodesid,
            IdentifierType **currentrowtmp,
            IdentifierType **currentframetmp)
@@ -2542,7 +2542,7 @@ BinaryMask3DMeshSource< TInputImage, TOutputMesh >
 template< class TInputImage, class TOutputMesh >
 void
 BinaryMask3DMeshSource< TInputImage, TOutputMesh >
-::CellTransfer(unsigned char *nodesid, unsigned char celltran)
+::CellTransfer(uint8_t *nodesid, uint8_t celltran)
 {
   if ( ( celltran & 1 ) != 0 )
     {
@@ -2667,7 +2667,7 @@ BinaryMask3DMeshSource< TInputImage, TOutputMesh >
 
   os << indent
      << "ObjectValue: "
-     << static_cast< NumericTraits< unsigned char >::PrintType >( m_ObjectValue )
+     << static_cast< NumericTraits< uint8_t >::PrintType >( m_ObjectValue )
      << std::endl;
 
   os << indent

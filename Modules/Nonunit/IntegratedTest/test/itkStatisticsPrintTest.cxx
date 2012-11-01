@@ -42,7 +42,7 @@ int itkStatisticsPrintTest(int , char* [])
 
   typedef itk::FixedArray< TMeasurementType, 2 >  TMeasurementVectorType;
   typedef itk::Image< TMeasurementVectorType, 3 > ImageType;
-  typedef itk::Image< unsigned char, 3>           ScalarImageType;
+  typedef itk::Image< uint8_t, 3>           ScalarImageType;
   typedef itk::PointSet< TMeasurementType, 2 >    PointSetType;
   typedef itk::Image< unsigned long , 3 >         OutputImageType;
 

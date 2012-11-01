@@ -33,9 +33,9 @@ int itkKappaSigmaThresholdImageFilterTest(int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-  typedef  unsigned char  InputPixelType;
-  typedef  unsigned char  MaskPixelType;
-  typedef  unsigned char  OutputPixelType;
+  typedef  uint8_t  InputPixelType;
+  typedef  uint8_t  MaskPixelType;
+  typedef  uint8_t  OutputPixelType;
 
   const unsigned int Dimension = 2;
 

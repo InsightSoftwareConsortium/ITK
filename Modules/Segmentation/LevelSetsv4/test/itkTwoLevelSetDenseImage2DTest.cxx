@@ -36,7 +36,7 @@ int itkTwoLevelSetDenseImage2DTest( int argc, char* argv[] )
 
   const unsigned int Dimension = 2;
 
-  typedef unsigned short                                      InputPixelType;
+  typedef uint16_t                                      InputPixelType;
   typedef itk::Image< InputPixelType, Dimension >             InputImageType;
   typedef itk::ImageRegionIteratorWithIndex< InputImageType > InputIteratorType;
   typedef itk::ImageFileReader< InputImageType >              ReaderType;

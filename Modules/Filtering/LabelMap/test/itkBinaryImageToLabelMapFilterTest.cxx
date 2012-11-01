@@ -39,8 +39,8 @@ int itkBinaryImageToLabelMapFilterTest( int argc, char * argv [] )
 
   const unsigned int Dimension = 3;
 
-  typedef unsigned char BinaryPixelType;
-  typedef unsigned char LabelPixelType;
+  typedef uint8_t BinaryPixelType;
+  typedef uint8_t LabelPixelType;
 
   typedef itk::Image< BinaryPixelType, Dimension > ImageType;
 

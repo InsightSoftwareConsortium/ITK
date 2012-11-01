@@ -24,7 +24,7 @@
 template<unsigned int Dimension>
 int itkEuclideanDistancePointSetMetricTestRun()
 {
-  typedef itk::PointSet<unsigned char, Dimension> PointSetType;
+  typedef itk::PointSet<uint8_t, Dimension> PointSetType;
 
   typedef typename PointSetType::PointType PointType;
 

@@ -69,7 +69,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef   unsigned char   PixelType;
+  typedef   uint8_t   PixelType;
   typedef   float           AccumulatorPixelType;
   const     unsigned int    Dimension = 2;
   typedef itk::Image< PixelType, Dimension >  ImageType;
@@ -186,7 +186,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef  unsigned char                            OutputPixelType;
+  typedef  uint8_t                            OutputPixelType;
   typedef  itk::Image< OutputPixelType, Dimension > OutputImageType;
 
   OutputImageType::Pointer  localOutputImage = OutputImageType::New();

@@ -31,8 +31,8 @@ int itkMatrixIndexSelectionImageFilterTest(int argc, char* argv[] )
     }
 
   const unsigned int Dimension = 2;
-  typedef itk::Matrix<unsigned short,Dimension,Dimension> PixelType;
-  typedef unsigned char OutputPixelType;
+  typedef itk::Matrix<uint16_t,Dimension,Dimension> PixelType;
+  typedef uint8_t OutputPixelType;
 
   typedef itk::Image<PixelType, Dimension> ImageType;
   typedef itk::Image<OutputPixelType, Dimension> OutputImageType;

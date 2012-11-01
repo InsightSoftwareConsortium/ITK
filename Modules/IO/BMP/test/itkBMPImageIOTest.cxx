@@ -34,7 +34,7 @@ int itkBMPImageIOTest( int ac, char* av[] )
 
   // ATTENTION THIS IS THE PIXEL TYPE FOR
   // THE RESULTING IMAGE
-  typedef itk::RGBPixel<unsigned char> PixelType;
+  typedef itk::RGBPixel<uint8_t> PixelType;
   typedef itk::Image<PixelType, 2> myImage;
 
   itk::ImageFileReader<myImage>::Pointer reader

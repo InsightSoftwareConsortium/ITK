@@ -524,9 +524,9 @@ ImageFileReader< TOutputImage, ConvertPixelTraits >
     }
 
   if(0) {}
-  ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::UCHAR,unsigned char)
+  ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::UCHAR,uint8_t)
   ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::CHAR,char)
-  ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::USHORT,unsigned short)
+  ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::USHORT,uint16_t)
   ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::SHORT,short)
   ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::UINT,unsigned int)
   ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::INT,int)
@@ -546,9 +546,9 @@ ImageFileReader< TOutputImage, ConvertPixelTraits >
         << std::endl << "    "
         << m_ImageIO->GetComponentTypeAsString( m_ImageIO->GetComponentType() )
         << std::endl << "to one of: "
-        << std::endl << "    " << TYPENAME( unsigned char )
+        << std::endl << "    " << TYPENAME( uint8_t )
         << std::endl << "    " << TYPENAME( char )
-        << std::endl << "    " << TYPENAME( unsigned short )
+        << std::endl << "    " << TYPENAME( uint16_t )
         << std::endl << "    " << TYPENAME( short )
         << std::endl << "    " << TYPENAME( unsigned int )
         << std::endl << "    " << TYPENAME( int )

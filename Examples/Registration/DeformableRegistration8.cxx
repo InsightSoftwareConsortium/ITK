@@ -128,7 +128,7 @@ int main( int argc, char *argv[] )
     }
 
   const    unsigned int    ImageDimension = 3;
-  typedef  signed short    PixelType;
+  typedef  int16_t    PixelType;
 
   typedef itk::Image< PixelType, ImageDimension >  FixedImageType;
   typedef itk::Image< PixelType, ImageDimension >  MovingImageType;
@@ -412,7 +412,7 @@ int main( int argc, char *argv[] )
   // such as 100 or 128.
   resample->SetDefaultPixelValue( 0 );
 
-  typedef  signed short  OutputPixelType;
+  typedef  int16_t  OutputPixelType;
 
   typedef itk::Image< OutputPixelType, ImageDimension > OutputImageType;
 

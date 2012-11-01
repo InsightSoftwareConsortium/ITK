@@ -39,7 +39,7 @@ int itkDifferenceOfGaussiansGradientTest(int, char* [] )
   const unsigned int dim = 3;
 
   // Image typedef
-  typedef itk::Image< unsigned char, dim > TImageType;
+  typedef itk::Image< uint8_t, dim > TImageType;
 
   //-----------------Create a new input image--------------------
   // Image size and spacing parameters
@@ -179,7 +179,7 @@ int itkDifferenceOfGaussiansGradientTest(int, char* [] )
 
   //-------------Test vector magnitude-------------
   typedef itk::VectorMagnitudeImageFilter<TDOGFilterType::TOutputImage,
-    itk::Image<unsigned char, dim> > VectorMagType;
+    itk::Image<uint8_t, dim> > VectorMagType;
 
   VectorMagType::Pointer vectorMagFilter = VectorMagType::New();
 

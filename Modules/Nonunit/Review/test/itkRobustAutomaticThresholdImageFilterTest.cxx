@@ -34,7 +34,7 @@ int itkRobustAutomaticThresholdImageFilterTest(int argc, char * argv[])
 
   const int dim = 2;
 
-  typedef unsigned short           PType;
+  typedef uint16_t           PType;
   typedef itk::Image< PType, dim > IType;
 
   typedef float                     RPType;

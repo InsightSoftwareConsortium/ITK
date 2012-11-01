@@ -259,7 +259,7 @@ protected:
   /** \brief Get the LabelType Value for a given node
     \param[in] iNode
     \return its label value  */
-  virtual unsigned char
+  virtual uint8_t
   GetLabelValueForGivenNode( const NodeType& iNode ) const = 0;
 
   /** \brief Set the Label Value for a given node

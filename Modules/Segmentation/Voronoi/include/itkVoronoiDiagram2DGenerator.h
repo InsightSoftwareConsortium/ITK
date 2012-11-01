@@ -209,7 +209,7 @@ public:
 
   bool almostsame(CoordRepType p1, CoordRepType p2);
 
-  unsigned char Pointonbnd(int VertID);
+  uint8_t Pointonbnd(int VertID);
 
   void GenerateVDFortune(void);
 

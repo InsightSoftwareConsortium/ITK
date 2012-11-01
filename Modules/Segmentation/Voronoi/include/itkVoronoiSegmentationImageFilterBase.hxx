@@ -997,8 +997,8 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
 template< class TInputImage, class TOutputImage, class TBinaryPriorImage >
 void
 VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage >
-::DrawDiagram(VDImagePointer result, unsigned char incolor,
-              unsigned char outcolor, unsigned char boundcolor)
+::DrawDiagram(VDImagePointer result, uint8_t incolor,
+              uint8_t outcolor, uint8_t boundcolor)
 {
   RegionType region = this->GetInput()->GetRequestedRegion();
 
@@ -1035,7 +1035,7 @@ template< class TInputImage, class TOutputImage, class TBinaryPriorImage >
 void
 VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage >
 ::drawVDline(VDImagePointer result, PointType p1, PointType p2,
-             unsigned char color)
+             uint8_t color)
 {
   int x1 = (int)( p1[0] + 0.5 );
   int x2 = (int)( p2[0] + 0.5 );

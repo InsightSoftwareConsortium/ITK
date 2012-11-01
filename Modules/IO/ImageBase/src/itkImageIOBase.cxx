@@ -171,11 +171,11 @@ const std::type_info & ImageIOBase::GetComponentTypeInfo() const
   switch ( m_ComponentType )
     {
     case UCHAR:
-      return typeid( unsigned char );
+      return typeid( uint8_t );
     case CHAR:
       return typeid( char );
     case USHORT:
-      return typeid( unsigned short );
+      return typeid( uint16_t );
     case SHORT:
       return typeid( short );
     case UINT:
@@ -339,11 +339,11 @@ unsigned int ImageIOBase::GetComponentSize() const
   switch ( m_ComponentType )
     {
     case UCHAR:
-      return sizeof( unsigned char );
+      return sizeof( uint8_t );
     case CHAR:
       return sizeof( char );
     case USHORT:
-      return sizeof( unsigned short );
+      return sizeof( uint16_t );
     case SHORT:
       return sizeof( short );
     case UINT:
@@ -579,7 +579,7 @@ void ImageIOBase::WriteBufferAsASCII(std::ostream & os, const void *buffer,
     {
     case UCHAR:
       {
-      typedef const unsigned char *Type;
+      typedef const uint8_t *Type;
       Type buf = reinterpret_cast< Type >( buffer );
       WriteBuffer(os, buf, numComp);
       }
@@ -594,7 +594,7 @@ void ImageIOBase::WriteBufferAsASCII(std::ostream & os, const void *buffer,
 
     case USHORT:
       {
-      typedef const unsigned short *Type;
+      typedef const uint16_t *Type;
       Type buf = reinterpret_cast< Type >( buffer );
       WriteBuffer(os, buf, numComp);
       }
@@ -682,7 +682,7 @@ void ImageIOBase::ReadBufferAsASCII(std::istream & is, void *buffer,
     {
     case UCHAR:
       {
-      unsigned char *buf = reinterpret_cast< unsigned char * >( buffer );
+      uint8_t *buf = reinterpret_cast< uint8_t * >( buffer );
       ReadBuffer(is, buf, numComp);
       }
       break;
@@ -695,7 +695,7 @@ void ImageIOBase::ReadBufferAsASCII(std::istream & is, void *buffer,
 
     case USHORT:
       {
-      unsigned short *buf = reinterpret_cast< unsigned short * >( buffer );
+      uint16_t *buf = reinterpret_cast< uint16_t * >( buffer );
       ReadBuffer(is, buf, numComp);
       }
       break;

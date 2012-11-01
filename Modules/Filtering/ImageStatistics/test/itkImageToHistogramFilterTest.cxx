@@ -25,7 +25,7 @@ int itkImageToHistogramFilterTest( int , char * [] )
 {
 
 
-  typedef unsigned char                         PixelComponentType;
+  typedef uint8_t                         PixelComponentType;
 
   typedef itk::RGBPixel< PixelComponentType >   RGBPixelType;
 

@@ -39,7 +39,7 @@ int itkAttributeRelabelLabelMapFilterTest1(int argc, char * argv[])
 
   const unsigned int dim = 3;
 
-  typedef unsigned char PixelType;
+  typedef uint8_t PixelType;
 
   typedef itk::Image< PixelType, dim > ImageType;
 

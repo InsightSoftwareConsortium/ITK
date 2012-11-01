@@ -214,8 +214,8 @@ class NumericTraits< bool > :public vcl_numeric_limits< bool >
 public:
   typedef bool                     ValueType;
   typedef bool                     PrintType;
-  typedef unsigned char            AbsType;
-  typedef unsigned char            AccumulateType;
+  typedef uint8_t            AbsType;
+  typedef uint8_t            AccumulateType;
   typedef double                   RealType;
   typedef RealType                 ScalarRealType;
   typedef float                    FloatType;
@@ -267,7 +267,7 @@ class NumericTraits< char > :public vcl_numeric_limits< char >
 public:
   typedef char                     ValueType;
   typedef int                      PrintType;
-  typedef unsigned char            AbsType;
+  typedef uint8_t            AbsType;
   typedef short                    AccumulateType;
   typedef double                   RealType;
   typedef RealType                 ScalarRealType;
@@ -315,32 +315,32 @@ public:
  * \ingroup ITKCommon
  */
 template< >
-class NumericTraits< signed char > :public vcl_numeric_limits< signed char >
+class NumericTraits< int8_t > :public vcl_numeric_limits< int8_t >
 {
 public:
-  typedef signed char              ValueType;
+  typedef int8_t              ValueType;
   typedef int                      PrintType;
-  typedef unsigned char            AbsType;
+  typedef uint8_t            AbsType;
   typedef short                    AccumulateType;
   typedef double                   RealType;
   typedef RealType                 ScalarRealType;
   typedef float                    FloatType;
   typedef FixedArray<ValueType, 1> MeasurementVectorType;
 
-  static const signed char ITKCommon_EXPORT Zero;
-  static const signed char ITKCommon_EXPORT One;
+  static const int8_t ITKCommon_EXPORT Zero;
+  static const int8_t ITKCommon_EXPORT One;
 
-  static signed char min() { return -128; }
-  static signed char max() { return 127; }
-  static signed char min(signed char) { return min(); }
-  static signed char max(signed char) { return max(); }
-  static signed char NonpositiveMin() { return min(); }
-  static bool IsPositive(signed char val) { return val > Zero; }
-  static bool IsNonpositive(signed char val) { return val <= Zero; }
-  static bool IsNegative(signed char val) { return val < Zero; }
-  static bool IsNonnegative(signed char val) { return val >= Zero; }
-  static signed char  ZeroValue() { return Zero; }
-  static signed char OneValue() { return One; }
+  static int8_t min() { return -128; }
+  static int8_t max() { return 127; }
+  static int8_t min(int8_t) { return min(); }
+  static int8_t max(int8_t) { return max(); }
+  static int8_t NonpositiveMin() { return min(); }
+  static bool IsPositive(int8_t val) { return val > Zero; }
+  static bool IsNonpositive(int8_t val) { return val <= Zero; }
+  static bool IsNegative(int8_t val) { return val < Zero; }
+  static bool IsNonnegative(int8_t val) { return val >= Zero; }
+  static int8_t  ZeroValue() { return Zero; }
+  static int8_t OneValue() { return One; }
   static unsigned int GetLength(const ValueType &) { return 1; }
   static unsigned int GetLength() { return 1; }
   static ValueType NonpositiveMin(const ValueType &) { return NonpositiveMin(); }
@@ -361,36 +361,36 @@ public:
   }
 };
 
-/** \class NumericTraits<unsigned char>
- * \brief Define traits for type unsigned char.
+/** \class NumericTraits<uint8_t>
+ * \brief Define traits for type uint8_t.
  * \ingroup DataRepresentation
  * \ingroup ITKCommon
  */
 template< >
-class NumericTraits< unsigned char > :public vcl_numeric_limits< unsigned char >
+class NumericTraits< uint8_t > :public vcl_numeric_limits< uint8_t >
 {
 public:
-  typedef unsigned char            ValueType;
+  typedef uint8_t            ValueType;
   typedef int                      PrintType;
-  typedef unsigned char            AbsType;
-  typedef unsigned short           AccumulateType;
+  typedef uint8_t            AbsType;
+  typedef uint16_t           AccumulateType;
   typedef double                   RealType;
   typedef RealType                 ScalarRealType;
   typedef float                    FloatType;
   typedef FixedArray<ValueType, 1> MeasurementVectorType;
 
-  static const unsigned char ITKCommon_EXPORT Zero;
-  static const unsigned char ITKCommon_EXPORT One;
+  static const uint8_t ITKCommon_EXPORT Zero;
+  static const uint8_t ITKCommon_EXPORT One;
 
   itkNUMERIC_TRAITS_MIN_MAX_MACRO();
 
-  static unsigned char NonpositiveMin() { return vcl_numeric_limits< ValueType >::min(); }
-  static bool IsPositive(unsigned char val) { return val != Zero; }
-  static bool IsNonpositive(unsigned char val) { return val == Zero; }
-  static bool IsNegative(unsigned char val) { return val ? false : false; }
-  static bool IsNonnegative(unsigned char val) { return val ? true : true; }
-  static unsigned char  ZeroValue() { return Zero; }
-  static unsigned char OneValue() { return One; }
+  static uint8_t NonpositiveMin() { return vcl_numeric_limits< ValueType >::min(); }
+  static bool IsPositive(uint8_t val) { return val != Zero; }
+  static bool IsNonpositive(uint8_t val) { return val == Zero; }
+  static bool IsNegative(uint8_t val) { return val ? false : false; }
+  static bool IsNonnegative(uint8_t val) { return val ? true : true; }
+  static uint8_t  ZeroValue() { return Zero; }
+  static uint8_t OneValue() { return One; }
   static unsigned int GetLength(const ValueType &) { return 1; }
   static unsigned int GetLength() { return 1; }
   static ValueType NonpositiveMin(const ValueType &) { return NonpositiveMin(); }
@@ -421,7 +421,7 @@ class NumericTraits< short > :public vcl_numeric_limits< short >
 public:
   typedef short                    ValueType;
   typedef short                    PrintType;
-  typedef unsigned short           AbsType;
+  typedef uint16_t           AbsType;
   typedef int                      AccumulateType;
   typedef double                   RealType;
   typedef RealType                 ScalarRealType;
@@ -459,35 +459,35 @@ public:
   }
 };
 
-/** \class NumericTraits<unsigned short>
- * \brief Define traits for type unsigned short.
+/** \class NumericTraits<uint16_t>
+ * \brief Define traits for type uint16_t.
  * \ingroup DataRepresentation
  * \ingroup ITKCommon
  */
 template< >
-class NumericTraits< unsigned short > :public vcl_numeric_limits< unsigned short >
+class NumericTraits< uint16_t > :public vcl_numeric_limits< uint16_t >
 {
 public:
-  typedef unsigned short           ValueType;
-  typedef unsigned short           PrintType;
-  typedef unsigned short           AbsType;
+  typedef uint16_t           ValueType;
+  typedef uint16_t           PrintType;
+  typedef uint16_t           AbsType;
   typedef unsigned int             AccumulateType;
   typedef double                   RealType;
   typedef RealType                 ScalarRealType;
   typedef float                    FloatType;
   typedef FixedArray<ValueType, 1> MeasurementVectorType;
 
-  static const unsigned short ITKCommon_EXPORT Zero;
-  static const unsigned short ITKCommon_EXPORT One;
+  static const uint16_t ITKCommon_EXPORT Zero;
+  static const uint16_t ITKCommon_EXPORT One;
 
   itkNUMERIC_TRAITS_MIN_MAX_MACRO();
-  static unsigned short NonpositiveMin() { return vcl_numeric_limits< ValueType >::min(); }
-  static bool IsPositive(unsigned short val) { return val != Zero; }
-  static bool IsNonpositive(unsigned short val) { return val == Zero; }
-  static bool IsNegative(unsigned short val) { return val ? false : false; }
-  static bool IsNonnegative(unsigned short val) { return val ? true : true; }
-  static unsigned short ZeroValue() { return Zero; }
-  static unsigned short OneValue() { return One; }
+  static uint16_t NonpositiveMin() { return vcl_numeric_limits< ValueType >::min(); }
+  static bool IsPositive(uint16_t val) { return val != Zero; }
+  static bool IsNonpositive(uint16_t val) { return val == Zero; }
+  static bool IsNegative(uint16_t val) { return val ? false : false; }
+  static bool IsNonnegative(uint16_t val) { return val ? true : true; }
+  static uint16_t ZeroValue() { return Zero; }
+  static uint16_t OneValue() { return One; }
   static unsigned int GetLength(const ValueType &) { return 1; }
   static unsigned int GetLength() { return 1; }
   static ValueType NonpositiveMin(const ValueType &) { return NonpositiveMin(); }

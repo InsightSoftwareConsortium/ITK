@@ -43,7 +43,7 @@ int itkScalarToRGBColormapImageFilterTest( int argc, char *argv[] )
   const unsigned int ImageDimension = 2;
 
   typedef unsigned int                    PixelType;
-  typedef itk::RGBPixel<unsigned char>    RGBPixelType;
+  typedef itk::RGBPixel<uint8_t>    RGBPixelType;
 
   typedef itk::Image<PixelType, ImageDimension>     ImageType;
   typedef itk::Image<float, ImageDimension>         RealImageType;
@@ -57,7 +57,7 @@ int itkScalarToRGBColormapImageFilterTest( int argc, char *argv[] )
 
   std::string colormapString( argv[3] );
 
-  typedef itk::VectorImage< unsigned char, ImageDimension> VectorImageType;
+  typedef itk::VectorImage< uint8_t, ImageDimension> VectorImageType;
   typedef itk::ScalarToRGBColormapImageFilter<ImageType, VectorImageType> VectorFilterType;
   VectorFilterType::Pointer vfilter = VectorFilterType::New();
 

@@ -63,7 +63,7 @@ int main( int argc, char ** argv )
   //  We read an image of \doxygen{CovariantVector} pixels and extract on of
   //  its components to generate a scalar image of a consistent pixel type.
   //  Then, we rescale the intensities of this scalar image and write it as a
-  //  image of \code{unsigned short} pixels.
+  //  image of \code{uint16_t} pixels.
   //
   //  Software Guide : EndLatex
 
@@ -74,7 +74,7 @@ int main( int argc, char ** argv )
   typedef itk::CovariantVector< ComponentType,
                                     Dimension  >      InputPixelType;
 
-  typedef unsigned short                              OutputPixelType;
+  typedef uint16_t                              OutputPixelType;
 
   typedef itk::Image< InputPixelType,      Dimension >    InputImageType;
   typedef itk::Image< ComponentType,       Dimension >    ComponentImageType;

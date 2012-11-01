@@ -34,9 +34,9 @@ int itkLabelToRGBImageFilterTest(int argc, char * argv[])
     return 1;
     }
 
-  typedef unsigned char                               PixelType;
+  typedef uint8_t                               PixelType;
   typedef itk::Image< PixelType, Dimension >          ImageType;
-  typedef itk::RGBPixel<unsigned char>                ColorPixelType;
+  typedef itk::RGBPixel<uint8_t>                ColorPixelType;
   typedef itk::Image< ColorPixelType, Dimension >     ColorImageType;
   typedef itk::ImageFileReader< ImageType >           ReaderType;
 

@@ -34,7 +34,7 @@ int itkAttributeLabelObjectAccessorsTest1(int argc, char * argv[])
 
   // declare the dimension used, and the type of the input image
   const int dim = 2;
-  typedef unsigned char            PType;
+  typedef uint8_t            PType;
   typedef itk::Image< PType, dim > IType;
 
   // The AttributeLabelObject class take 3 template parameters: the 2 ones

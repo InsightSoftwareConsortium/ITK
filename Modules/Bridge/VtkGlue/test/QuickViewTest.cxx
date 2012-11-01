@@ -120,10 +120,10 @@ template<class T> void ViewRGB(const char *name,
 
 int QuickViewTest (int argc, char *argv[])
 {
-  View("unsigned char", static_cast<unsigned char>(0), true);
-  View("unsigned char", static_cast<unsigned char>(0));
+  View("uint8_t", static_cast<uint8_t>(0), true);
+  View("uint8_t", static_cast<uint8_t>(0));
   View("char", char(0));
-  View("unsigned short", static_cast<unsigned short>(0));
+  View("uint16_t", static_cast<uint16_t>(0));
   View("short", short(0));
   View("unsigned int", static_cast<unsigned int>(0));
   View("int", int(0));
@@ -137,10 +137,10 @@ int QuickViewTest (int argc, char *argv[])
 
   if (argc > 1)
     {
-    View("unsigned char", static_cast<unsigned char>(0), false, argv[1]);
-    View("unsigned char", static_cast<unsigned char>(0), false, argv[1], std::string("tif"));
-    View("unsigned char", static_cast<unsigned char>(0), false, argv[1], std::string("jpg"));
-    View("unsigned char", static_cast<unsigned char>(0), false, argv[1], std::string("bmp"));
+    View("uint8_t", static_cast<uint8_t>(0), false, argv[1]);
+    View("uint8_t", static_cast<uint8_t>(0), false, argv[1], std::string("tif"));
+    View("uint8_t", static_cast<uint8_t>(0), false, argv[1], std::string("jpg"));
+    View("uint8_t", static_cast<uint8_t>(0), false, argv[1], std::string("bmp"));
     }
 
   return EXIT_SUCCESS;

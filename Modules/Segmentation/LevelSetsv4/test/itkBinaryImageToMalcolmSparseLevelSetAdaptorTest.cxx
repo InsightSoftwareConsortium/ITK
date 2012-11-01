@@ -30,7 +30,7 @@ int itkBinaryImageToMalcolmSparseLevelSetAdaptorTest( int argc, char* argv[] )
 
   const unsigned int Dimension = 2;
 
-  typedef unsigned char InputPixelType;
+  typedef uint8_t InputPixelType;
 
   typedef itk::Image< InputPixelType, Dimension > InputImageType;
   typedef itk::ImageFileReader< InputImageType >  InputReaderType;

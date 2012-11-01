@@ -54,7 +54,7 @@ int main( int argc, char * argv[] )
 
 // Software Guide : BeginCodeSnippet
   const   unsigned int      Dimension = 2;
-  typedef unsigned short    IOPixelType;
+  typedef uint16_t    IOPixelType;
   typedef float             WorkPixelType;
 
   typedef itk::Image< IOPixelType,  Dimension >  IOImageType;

@@ -175,7 +175,7 @@ void SimplexMeshAdaptTopologyFilter< TInputMesh, TOutputMesh >
       pointIds++;
       PointIdentifier lineOneSecondIdx = *pointIds;
 
-      unsigned short cnt = 0;
+      uint16_t cnt = 0;
 
       while ( cnt < poly->GetNumberOfPoints() / 2 - 1 )
         {

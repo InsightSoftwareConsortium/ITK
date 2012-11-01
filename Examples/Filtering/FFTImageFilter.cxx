@@ -205,7 +205,7 @@ int main( int argc, char * argv [] )
 // Software Guide : EndCodeSnippet
 
 
-  typedef unsigned char                           WritePixelType;
+  typedef uint8_t                           WritePixelType;
   typedef itk::Image< WritePixelType, Dimension > WriteImageType;
 
 

@@ -46,25 +46,25 @@ union Aligned4ByteUnion {
 
 struct bioradheader
 {
-  unsigned short nx, ny;               // 0   2*2  image width and height in
+  uint16_t nx, ny;               // 0   2*2  image width and height in
   // pixels
-  unsigned short npic;                 // 4   2    number of images in file
-  unsigned short ramp1_min, ramp1_max; // 6   2*2  LUT1 ramp min. and max.
+  uint16_t npic;                 // 4   2    number of images in file
+  uint16_t ramp1_min, ramp1_max; // 6   2*2  LUT1 ramp min. and max.
   char notes[4];                       // 10  4    no notes=0; has notes=non
   // zero
   short byte_format;                   // 14  2    bytes=TRUE(1); words=FALSE(0)
   short image_number;                  // 16  2    image number within file
   char filename[32];                   // 18  32   file name
   short merged;                        // 50  2    merged format
-  unsigned short color1;               // 52  2    LUT1 color status
-  unsigned short file_id;              // 54  2    valid .PIC file=12345
-  unsigned short ramp2_min, ramp2_max; // 56  2*2  LUT2 ramp min. and max.
-  unsigned short color2;               // 60  2    LUT2 color status
+  uint16_t color1;               // 52  2    LUT1 color status
+  uint16_t file_id;              // 54  2    valid .PIC file=12345
+  uint16_t ramp2_min, ramp2_max; // 56  2*2  LUT2 ramp min. and max.
+  uint16_t color2;               // 60  2    LUT2 color status
   short edited;                        // 62  2    image has been edited=TRUE(1)
   short lens;                          // 64  2    Integer part of lens
   // magnification
   char mag_factor[4];                  // 66  4    4 byte real mag. factor (old ver.)
-  unsigned char reserved[6];           // 70  6    NOT USED (old ver.=real lens mag.)
+  uint8_t reserved[6];           // 70  6    NOT USED (old ver.=real lens mag.)
 };
 
 typedef enum
@@ -227,10 +227,10 @@ bool BioRadImageIO::CanReadFile(const char *filename)
     }
 
   // Check to see if its a BioRad file
-  unsigned short file_id;
+  uint16_t file_id;
   file.seekg(BIORAD_FILE_ID_OFFSET, std::ios::beg);
   file.read( (char *)( &file_id ), 2 );
-  ByteSwapper< unsigned short >::SwapFromSystemToLittleEndian(&file_id);
+  ByteSwapper< uint16_t >::SwapFromSystemToLittleEndian(&file_id);
 
   itkDebugMacro(<< "Magic number: " << file_id);
 
@@ -255,8 +255,8 @@ void BioRadImageIO::Read(void *buffer)
   //byte swapping depending on pixel type:
   if ( this->GetComponentType() == USHORT )
     {
-    ByteSwapper< unsigned short >::SwapRangeFromSystemToLittleEndian(
-      reinterpret_cast< unsigned short * >( buffer ),
+    ByteSwapper< uint16_t >::SwapRangeFromSystemToLittleEndian(
+      reinterpret_cast< uint16_t * >( buffer ),
       static_cast< SizeValueType >( this->GetImageSizeInComponents() ) );
     }
 
@@ -283,15 +283,15 @@ void BioRadImageIO::InternalReadImageInformation(std::ifstream & file)
   file.read( (char *)p, BIORAD_HEADER_LENGTH );
 
   //byteswap header fields
-  ByteSwapper< unsigned short >::
+  ByteSwapper< uint16_t >::
     SwapFromSystemToLittleEndian( &h.nx);
-  ByteSwapper< unsigned short >::
+  ByteSwapper< uint16_t >::
     SwapFromSystemToLittleEndian( &h.ny);
-  ByteSwapper< unsigned short >::
+  ByteSwapper< uint16_t >::
     SwapFromSystemToLittleEndian( &h.npic);
-  ByteSwapper< unsigned short >::
+  ByteSwapper< uint16_t >::
     SwapFromSystemToLittleEndian( &h.ramp1_min);
-  ByteSwapper< unsigned short >::
+  ByteSwapper< uint16_t >::
     SwapFromSystemToLittleEndian( &h.ramp1_max);
   ByteSwapper< short >::
     SwapFromSystemToLittleEndian( &h.byte_format);
@@ -301,15 +301,15 @@ void BioRadImageIO::InternalReadImageInformation(std::ifstream & file)
     SwapFromSystemToLittleEndian( &h.image_number);
   ByteSwapper< short >::
     SwapFromSystemToLittleEndian( &h.merged);
-  ByteSwapper< unsigned short >::
+  ByteSwapper< uint16_t >::
     SwapFromSystemToLittleEndian( &h.color1);
-  ByteSwapper< unsigned short >::
+  ByteSwapper< uint16_t >::
     SwapFromSystemToLittleEndian( &h.file_id);
-  ByteSwapper< unsigned short >::
+  ByteSwapper< uint16_t >::
     SwapFromSystemToLittleEndian( &h.ramp2_min);
-  ByteSwapper< unsigned short >::
+  ByteSwapper< uint16_t >::
     SwapFromSystemToLittleEndian( &h.ramp2_max);
-  ByteSwapper< unsigned short >::
+  ByteSwapper< uint16_t >::
     SwapFromSystemToLittleEndian( &h.color2);
   ByteSwapper< short >::
     SwapFromSystemToLittleEndian( &h.edited);
@@ -550,8 +550,8 @@ void BioRadImageIO::Write(const void *buffer)
       return;
     }
   // write the actual header
-  ByteSwapper< unsigned short >::SwapRangeFromSystemToLittleEndian(
-    reinterpret_cast< unsigned short * >( p ), BIORAD_HEADER_LENGTH / 2);
+  ByteSwapper< uint16_t >::SwapRangeFromSystemToLittleEndian(
+    reinterpret_cast< uint16_t * >( p ), BIORAD_HEADER_LENGTH / 2);
   // To be able to deduce pixel spacing:
   Aligned4ByteUnion mag_factor;
   mag_factor.localFloatMagFactor = static_cast< float >( m_Spacing[0] );
@@ -578,8 +578,8 @@ void BioRadImageIO::Write(const void *buffer)
   memcpy(tempmemory, buffer, numberOfBytes);
   if ( this->GetComponentType() == USHORT )
     {
-    ByteSwapper< unsigned short >::SwapRangeFromSystemToBigEndian(
-      reinterpret_cast< unsigned short * >( tempmemory ), numberOfComponents);
+    ByteSwapper< uint16_t >::SwapRangeFromSystemToBigEndian(
+      reinterpret_cast< uint16_t * >( tempmemory ), numberOfComponents);
     }
 
   // Write the actual pixel data

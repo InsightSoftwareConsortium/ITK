@@ -33,8 +33,8 @@ int itkLabelMapToRGBImageFilterTest2(int argc, char * argv[])
 
   const int dim = 2;
 
-  typedef itk::Image< unsigned char, dim >       IType;
-  typedef itk::VectorImage< unsigned char, dim > OType;
+  typedef itk::Image< uint8_t, dim >       IType;
+  typedef itk::VectorImage< uint8_t, dim > OType;
 
   typedef itk::ImageFileReader< IType > ReaderType;
   ReaderType::Pointer reader = ReaderType::New();

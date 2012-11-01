@@ -67,9 +67,9 @@ int itkDOMTest6( int, char*[] )
 // test for basic data type
 void testStringToolsWithBasicType()
 {
-  // for unsigned char
+  // for uint8_t
     {
-    typedef unsigned char DataType;
+    typedef uint8_t DataType;
 
     std::string s;
 

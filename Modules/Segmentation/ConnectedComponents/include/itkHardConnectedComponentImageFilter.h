@@ -105,11 +105,11 @@ public:
   itkConceptMacro( IntConvertibleToOutputCheck,
                    ( Concept::Convertible< int, OutputPixelType > ) );
   itkConceptMacro( UnsignedShortConvertibleToOutputCheck,
-                   ( Concept::Convertible< unsigned short, OutputPixelType > ) );
+                   ( Concept::Convertible< uint16_t, OutputPixelType > ) );
   itkConceptMacro( OutputEqualityComparableCheck,
                    ( Concept::EqualityComparable< OutputPixelType > ) );
   itkConceptMacro( UnsignedCharConvertibleToOutputCheck,
-                   ( Concept::Convertible< unsigned char, OutputPixelType > ) );
+                   ( Concept::Convertible< uint8_t, OutputPixelType > ) );
   itkConceptMacro( OutputIncrementDecrementOperatorsCheck,
                    ( Concept::IncrementDecrementOperators< OutputPixelType > ) );
   /** End concept checking */

@@ -33,7 +33,7 @@ int itkDicomImageIODirection2DTest( int argc, char * argv[] )
     return EXIT_FAILURE;
     }
 
-  typedef signed short PixelType;
+  typedef int16_t PixelType;
 
   typedef itk::Image<PixelType, 2 >    Image2DType;
   typedef itk::Image<PixelType, 3 >    Image3DType;

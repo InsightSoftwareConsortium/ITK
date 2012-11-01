@@ -23,7 +23,7 @@
 
 int itkCompose2DCovariantVectorImageFilterTest(int , char * [])
 {
-  typedef unsigned char PixelType;
+  typedef uint8_t PixelType;
   typedef itk::Image< PixelType, 3 > InputImageType;
 
   typedef itk::CovariantVector<float, 2>    OutputPixelType;

@@ -264,7 +264,7 @@ FreeSurferAsciiMeshIO
     {
     case UCHAR:
       {
-      WritePoints(static_cast< unsigned char * >( buffer ), outputFile, itk::NumericTraits< unsigned char >::Zero);
+      WritePoints(static_cast< uint8_t * >( buffer ), outputFile, itk::NumericTraits< uint8_t >::Zero);
       break;
       }
     case CHAR:
@@ -275,7 +275,7 @@ FreeSurferAsciiMeshIO
       }
     case USHORT:
       {
-      WritePoints(static_cast< unsigned short * >( buffer ), outputFile, itk::NumericTraits< unsigned short >::Zero);
+      WritePoints(static_cast< uint16_t * >( buffer ), outputFile, itk::NumericTraits< uint16_t >::Zero);
 
       break;
       }
@@ -376,17 +376,17 @@ FreeSurferAsciiMeshIO
     {
     case UCHAR:
       {
-      WriteCells(static_cast< unsigned char * >( buffer ), outputFile);
+      WriteCells(static_cast< uint8_t * >( buffer ), outputFile);
       break;
       }
     case CHAR:
       {
-      WriteCells(static_cast< unsigned char * >( buffer ), outputFile);
+      WriteCells(static_cast< uint8_t * >( buffer ), outputFile);
       break;
       }
     case USHORT:
       {
-      WriteCells(static_cast< unsigned short * >( buffer ), outputFile);
+      WriteCells(static_cast< uint16_t * >( buffer ), outputFile);
       break;
       }
     case SHORT:

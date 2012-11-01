@@ -90,7 +90,7 @@ int main( int argc, char *argv[] )
     }
 
   const    unsigned int    Dimension = 2;
-  typedef  unsigned short  PixelType;
+  typedef  uint16_t  PixelType;
 
   typedef itk::Image< PixelType, Dimension >  FixedImageType;
   typedef itk::Image< PixelType, Dimension >  MovingImageType;
@@ -236,7 +236,7 @@ int main( int argc, char *argv[] )
   // Prepare a writer and caster filters to send the resampled moving image to
   // a file
   //
-  typedef  unsigned char  OutputPixelType;
+  typedef  uint8_t  OutputPixelType;
 
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
 

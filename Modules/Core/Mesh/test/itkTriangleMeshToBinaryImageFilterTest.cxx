@@ -58,7 +58,7 @@ int itkTriangleMeshToBinaryImageFilterTest(int argc, char * argv [] )
   std::cout << "and " << mySphereMeshSource->GetOutput()->GetNumberOfCells() << " cells." << std::endl;
 
   std::cout << "Sending triangle mesh to rasterization algorithm. " << std::endl;
-  typedef itk::Image<unsigned char,3> ImageType;
+  typedef itk::Image<uint8_t,3> ImageType;
 
   typedef itk::TriangleMeshToBinaryImageFilter<TriangleMeshType,ImageType> TriangleMeshToBinaryImageFilterType;
   TriangleMeshToBinaryImageFilterType::Pointer imageFilter = TriangleMeshToBinaryImageFilterType::New();

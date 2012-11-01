@@ -333,7 +333,7 @@ int itkTubeSpatialObjectTest(int, char * [] )
   std::cout<<"DerivativeAt()...";
   try
     {
-    tubeNet1->DerivativeAt(in,(unsigned short)1,derivative,true);
+    tubeNet1->DerivativeAt(in,(uint16_t)1,derivative,true);
     }
   catch(...)
     {

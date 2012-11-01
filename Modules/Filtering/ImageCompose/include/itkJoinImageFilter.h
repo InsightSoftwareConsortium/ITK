@@ -34,7 +34,7 @@ namespace Functor
  * the components of the other pixel. The output pixel type is an
  * itk::Vector. The ValueType of the vector is the smallest scalar
  * type that can represent the dynamic range of the both the input
- * pixel value types.  Hence, joining a char and unsigned char
+ * pixel value types.  Hence, joining a char and uint8_t
  * results in a short since that is the smallest datatype with a
  * large enough dynamic range.  To define a consistent behavior
  * across different architectures, the join of an int and an
@@ -179,7 +179,7 @@ struct MakeJoin {
  * image to the components of another image. The output image type is always
  * a itk::Vector image and the vector value type will the smallest type
  * that can represent the dynamic range of both the input value types.
- * Hence, joining an image of char and unsigned char results in an image
+ * Hence, joining an image of char and uint8_t results in an image
  * of shorts since that is the smallest datatype with a large enough
  * dynamic range.  To define a consistent behavior across different
  * architectures, the join of an int and an unsigned int is float. On a

@@ -111,7 +111,7 @@ int itkNarrowBandImageFilterBaseTest(int argc, char* argv[])
     }
 
   typedef float PixelType;
-  typedef unsigned char WriterPixelType;
+  typedef uint8_t WriterPixelType;
   const unsigned int ImageDimension = 2;
   typedef itk::Image<PixelType,ImageDimension> ImageType;
   typedef itk::Image<WriterPixelType,ImageDimension> WriterImageType;

@@ -33,9 +33,9 @@ int main(int argc, char *argv[])
 
   const unsigned int Dimension = 2;
 
-  typedef itk::Image< unsigned char, Dimension > ImageType;
-  typedef itk::Image< unsigned char, Dimension > OutputType;
-  typedef itk::Image< unsigned char, Dimension > DiffOutputType;
+  typedef itk::Image< uint8_t, Dimension > ImageType;
+  typedef itk::Image< uint8_t, Dimension > OutputType;
+  typedef itk::Image< uint8_t, Dimension > DiffOutputType;
 
   typedef itk::ImageFileReader< ImageType >      ReaderType;
   typedef itk::ImageFileWriter< OutputType >     WriterType;

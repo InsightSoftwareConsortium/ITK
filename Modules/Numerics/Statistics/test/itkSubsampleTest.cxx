@@ -49,7 +49,7 @@ int itkSubsampleTest(int, char* [] )
   typedef itk::FixedArray< FloatImage::PixelType, 1 > ArrayPixelType;
 
   typedef itk::Image< ArrayPixelType, 3 > ArrayPixelImageType;
-  typedef itk::Image< unsigned char, 3 >  MaskPixelImageType;
+  typedef itk::Image< uint8_t, 3 >  MaskPixelImageType;
 
   typedef itk::ComposeImageFilter< FloatImage, ArrayPixelImageType >
     ImageCastFilterType;

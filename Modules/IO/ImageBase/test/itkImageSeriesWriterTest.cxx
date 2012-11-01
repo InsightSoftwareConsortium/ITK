@@ -63,7 +63,7 @@ int itkImageSeriesWriterTest(int ac, char* av[])
     return EXIT_FAILURE;
     }
 
-  typedef unsigned char WritePixelType;
+  typedef uint8_t WritePixelType;
   typedef itk::Image< WritePixelType, 3 > RescaleImageType;
   typedef itk::Image< WritePixelType, 2 > OutputImageType;
 

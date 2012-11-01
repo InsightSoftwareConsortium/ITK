@@ -36,7 +36,7 @@ int itkDerivativeImageFilterTest(int argc, char *argv [] )
 
   // Test using an unsigned integral pixel type and generate a signed
   // integral pixel type
-  typedef   unsigned short  InputPixelType;
+  typedef   uint16_t  InputPixelType;
   typedef   short  OutputPixelType;
 
   const unsigned int Dimension = 2;
@@ -67,7 +67,7 @@ int itkDerivativeImageFilterTest(int argc, char *argv [] )
   filter->SetInput( reader->GetOutput() );
 
   // Write the output
-  typedef itk::Image< unsigned char, Dimension >  WriteImageType;
+  typedef itk::Image< uint8_t, Dimension >  WriteImageType;
 
   typedef itk::RescaleIntensityImageFilter<
                                   OutputImageType,

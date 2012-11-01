@@ -35,7 +35,7 @@ int TestUnknowMetaDataBug( const std::string &fname )
 
   try
     {
-    typedef unsigned short           PixelType;
+    typedef uint16_t           PixelType;
     typedef itk::Image<PixelType, 2> ImageType;
 
     ImageType::RegionType region;

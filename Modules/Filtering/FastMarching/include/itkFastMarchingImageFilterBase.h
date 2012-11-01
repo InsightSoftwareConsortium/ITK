@@ -118,7 +118,7 @@ public:
 
   itkStaticConstMacro( ImageDimension, unsigned int, Traits::ImageDimension );
 
-  typedef Image< unsigned char, ImageDimension >  LabelImageType;
+  typedef Image< uint8_t, ImageDimension >  LabelImageType;
   typedef typename LabelImageType::Pointer        LabelImagePointer;
 
   typedef Image< unsigned int, ImageDimension >
@@ -193,7 +193,7 @@ protected:
                                   const NodeType& iNode ) const;
 
   /** Returns the label value for a given node */
-  unsigned char
+  uint8_t
   GetLabelValueForGivenNode( const NodeType& iNode ) const;
 
   /** Set the label value for a given node */
@@ -238,8 +238,8 @@ protected:
   bool IsCriticalC3Configuration2D( const std::vector<bool>& ) const;
   bool IsCriticalC4Configuration2D( const std::vector<bool>& ) const;
 
-  Array<unsigned char>  m_RotationIndices[4];
-  Array<unsigned char>  m_ReflectionIndices[2];
+  Array<uint8_t>  m_RotationIndices[4];
+  Array<uint8_t>  m_ReflectionIndices[2];
 
   // Functions/data for the 3-D case
   void InitializeIndices3D();
@@ -247,8 +247,8 @@ protected:
   unsigned int IsCriticalC2Configuration3D( const std::vector<bool>& ) const;
   bool IsChangeWellComposed3D( const NodeType& ) const;
 
-  Array<unsigned char>                        m_C1Indices[12];
-  Array<unsigned char>                        m_C2Indices[8];
+  Array<uint8_t>                        m_C1Indices[12];
+  Array<uint8_t>                        m_C2Indices[8];
 
   // Functions for both 2D/3D cases
   bool DoesVoxelChangeViolateWellComposedness( const NodeType& ) const;

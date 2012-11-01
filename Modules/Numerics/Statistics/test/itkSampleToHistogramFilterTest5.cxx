@@ -41,7 +41,7 @@ int itkSampleToHistogramFilterTest5(int argc, char *argv[] )
   // SampleToHistogramFilter can be used for generating the
   // histogram of an image.
   //
-  typedef unsigned char  VMeasurementType;  // type for the samples
+  typedef uint8_t  VMeasurementType;  // type for the samples
   typedef float          HMeasurementType;  // type for the histogram
 
 

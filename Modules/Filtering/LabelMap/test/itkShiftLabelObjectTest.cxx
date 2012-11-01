@@ -38,7 +38,7 @@ int itkShiftLabelObjectTest(int argc, char * argv[])
   typedef LabelMapType::SizeType                 SizeType;
   typedef LabelMapType::LabelObjectVectorType    LabelObjectVectorType;
   typedef LabelMapType::LabelVectorType          LabelVectorType;
-  typedef itk::Image< unsigned char, dim >       ImageType;
+  typedef itk::Image< uint8_t, dim >       ImageType;
 
   typedef itk::LabelImageToLabelMapFilter<ImageType, LabelMapType> LabelImageToLabelMapFilterType;
 

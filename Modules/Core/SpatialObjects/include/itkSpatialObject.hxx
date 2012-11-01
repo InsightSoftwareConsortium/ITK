@@ -94,7 +94,7 @@ SpatialObject< TDimension >
     ExceptionObject e(__FILE__);
     e.SetLocation(
       "SpatialObject< TDimension >::DerivateAt(\
-                   const PointType, unsigned short, OutputVectorType & )"                                                 );
+                   const PointType, uint16_t, OutputVectorType & )"                                                 );
     e.SetDescription("This spatial object is not evaluable at the point");
     throw e;
     }
@@ -114,7 +114,7 @@ SpatialObject< TDimension >
     typename OutputVectorType::Iterator it_v1 = v1.Begin();
     typename OutputVectorType::Iterator it_v2 = v2.Begin();
 
-    for ( unsigned short i = 0; i < TDimension; i++, it++, it_v1++, it_v2++ )
+    for ( uint16_t i = 0; i < TDimension; i++, it++, it_v1++, it_v2++ )
       {
       p1 = point;
       p2 = point;

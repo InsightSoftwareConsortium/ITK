@@ -119,9 +119,9 @@ bool TestCastFrom()
 {
   bool success =
     TestCastFromTo< TInputPixelType, char >() &&
-    TestCastFromTo< TInputPixelType, unsigned char >() &&
+    TestCastFromTo< TInputPixelType, uint8_t >() &&
     TestCastFromTo< TInputPixelType, short >() &&
-    TestCastFromTo< TInputPixelType, unsigned short >() &&
+    TestCastFromTo< TInputPixelType, uint16_t >() &&
     TestCastFromTo< TInputPixelType, int >() &&
     TestCastFromTo< TInputPixelType, unsigned int >() &&
     TestCastFromTo< TInputPixelType, long >() &&
@@ -137,11 +137,11 @@ bool TestCastFrom()
 bool TestVectorImageCast()
 {
   // This function casts a VectorImage<float, 2>
-  // to a VectorImage<unsigned char, 2>
+  // to a VectorImage<uint8_t, 2>
   std::cout << "Casting from a VectorImage<float, 2> \
-                to VectorImage<unsigned char, 2> ..." << std::endl;
+                to VectorImage<uint8_t, 2> ..." << std::endl;
 
-  typedef itk::VectorImage<unsigned char, 2>  UnsignedCharVectorImageType;
+  typedef itk::VectorImage<uint8_t, 2>  UnsignedCharVectorImageType;
   typedef itk::VectorImage<float, 2>  FloatVectorImageType;
 
   // Create a 1x3 image of 2D vectors
@@ -185,9 +185,9 @@ bool TestVectorImageCast()
   bool success = true;
   while(!originalImageIterator.IsAtEnd())
     {
-    if(static_cast<unsigned char>(originalImageIterator.Get()[0]) !=
+    if(static_cast<uint8_t>(originalImageIterator.Get()[0]) !=
                                   castedImageIterator.Get()[0] ||
-       static_cast<unsigned char>(originalImageIterator.Get()[1]) !=
+       static_cast<uint8_t>(originalImageIterator.Get()[1]) !=
                                   castedImageIterator.Get()[1])
       {
       std::cerr << "Error in TestVectorImageCast!" << std::endl;
@@ -216,9 +216,9 @@ int itkCastImageFilterTest( int, char* [] )
 
   bool success =
     TestCastFrom< char >() &&
-    TestCastFrom< unsigned char >() &&
+    TestCastFrom< uint8_t >() &&
     TestCastFrom< short >() &&
-    TestCastFrom< unsigned short >() &&
+    TestCastFrom< uint16_t >() &&
     TestCastFrom< int >() &&
     TestCastFrom< unsigned int >() &&
     TestCastFrom< long >() &&

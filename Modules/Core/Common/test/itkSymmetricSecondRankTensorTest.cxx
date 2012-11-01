@@ -28,12 +28,12 @@ int itkSymmetricSecondRankTensorTest(int, char* [] )
   float val[6] = {1.8, 0.2, 0.5, 3.4, 2.0, 1.2};
 
   typedef itk::SymmetricSecondRankTensor<float,3>         Float3DTensorType;
-  typedef itk::SymmetricSecondRankTensor<unsigned char,3> Uchar3DTensorType;
+  typedef itk::SymmetricSecondRankTensor<uint8_t,3> Uchar3DTensorType;
 
   Float3DTensorType pixel(val);
 
-  unsigned char pixelInit0[6] = {255, 255, 255,128,34,17};
-  unsigned char pixelInit1[6] = {255, 255, 244,19,23,29};
+  uint8_t pixelInit0[6] = {255, 255, 255,128,34,17};
+  uint8_t pixelInit1[6] = {255, 255, 244,19,23,29};
 
   Uchar3DTensorType pixelArray[2];
   pixelArray[0] = pixelInit0;

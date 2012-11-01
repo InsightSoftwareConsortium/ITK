@@ -243,8 +243,8 @@ int itkCenteredTransformInitializerTest(int , char* [] )
   {
   // Create Images
 
-  typedef itk::Image<unsigned char, Dimension>     FixedImageType;
-  typedef itk::Image<unsigned char, Dimension>     MovingImageType;
+  typedef itk::Image<uint8_t, Dimension>     FixedImageType;
+  typedef itk::Image<uint8_t, Dimension>     MovingImageType;
 
   typedef FixedImageType::SizeType                 SizeType;
   typedef FixedImageType::SpacingType              SpacingType;
@@ -304,8 +304,8 @@ int itkCenteredTransformInitializerTest(int , char* [] )
   {
   // Create Images
 
-  typedef itk::Image<unsigned char, Dimension>     FixedImageType;
-  typedef itk::Image<unsigned char, Dimension>     MovingImageType;
+  typedef itk::Image<uint8_t, Dimension>     FixedImageType;
+  typedef itk::Image<uint8_t, Dimension>     MovingImageType;
 
   typedef FixedImageType::SizeType                 SizeType;
   typedef FixedImageType::SpacingType              SpacingType;

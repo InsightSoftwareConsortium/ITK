@@ -101,7 +101,7 @@ public:
   typedef typename NumericTraits< PixelValueType >::RealType RealValueType;
   typedef Array<PixelValueType>                              PixelArrayType;
   typedef Array<RealValueType>                               RealArrayType;
-  typedef Array<unsigned short>                              ShortArrayType;
+  typedef Array<uint16_t>                              ShortArrayType;
 
   /** Type definition for patch weights type. */
   typedef typename Superclass::ListAdaptorType         ListAdaptorType;

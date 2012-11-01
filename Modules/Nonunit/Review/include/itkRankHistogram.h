@@ -373,14 +373,14 @@ private:
 /** \cond HIDE_SPECIALIZATION_DOCUMENTATION */
 
 template<>
-class RankHistogram<unsigned char>:
-  public VectorRankHistogram<unsigned char>
+class RankHistogram<uint8_t>:
+  public VectorRankHistogram<uint8_t>
 {
 };
 
 template<>
-class RankHistogram<signed char>:
-  public VectorRankHistogram<signed char>
+class RankHistogram<int8_t>:
+  public VectorRankHistogram<int8_t>
 {
 };
 

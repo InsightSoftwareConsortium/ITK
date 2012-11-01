@@ -38,7 +38,7 @@ int itkGibbsTest(int, char*[] )
   const unsigned int NUM_CLASSES  = 3;
   const unsigned int MAX_NUM_ITER = 1;
 
-  const unsigned short TestingImage [400]={
+  const uint16_t TestingImage [400]={
   297,277,317,289,300,312,306,283,282,308,308,342,335,325,315,300,304,318,307,308,
 
   319,276,311,282,309,273,308,277,296,313,308,333,322,317,302,330,339,340,325,315,
@@ -80,7 +80,7 @@ int itkGibbsTest(int, char*[] )
   328,315,327,311,315,305,340,306,314,339,344,339,337,330,318,342,311,343,311,312
   };
 
-  typedef itk::Vector<unsigned short,NumberOfBands>  PixelType;
+  typedef itk::Vector<uint16_t,NumberOfBands>  PixelType;
   typedef itk::Image<PixelType,ImageDimension>       VecImageType;
 
   VecImageType::Pointer vecImage = VecImageType::New();
@@ -122,9 +122,9 @@ int itkGibbsTest(int, char*[] )
   int i = 0;
   while ( !outIt.IsAtEnd() )
     {
-    dblVec[0] = (unsigned short) TestingImage[i];
-//  dblVec[1] = (unsigned short) TestImage[i+65536];
-//  dblVec[2] = (unsigned short) TestImage[i+65536*2];
+    dblVec[0] = (uint16_t) TestingImage[i];
+//  dblVec[1] = (uint16_t) TestImage[i+65536];
+//  dblVec[2] = (uint16_t) TestImage[i+65536*2];
     outIt.Set(dblVec);
     ++outIt;
     i++;
@@ -133,7 +133,7 @@ int itkGibbsTest(int, char*[] )
   //---------------------------------------------------------------
   //Generate the training data
   //---------------------------------------------------------------
-  typedef itk::Image<unsigned short, ImageDimension > ClassImageType;
+  typedef itk::Image<uint16_t, ImageDimension > ClassImageType;
   ClassImageType::Pointer classImage  = ClassImageType::New();
 
   ClassImageType::SizeType classImgSize = {{ IMGWIDTH , IMGHEIGHT, NFRAMES} };

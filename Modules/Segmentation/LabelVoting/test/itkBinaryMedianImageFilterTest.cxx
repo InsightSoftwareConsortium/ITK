@@ -27,7 +27,7 @@ int itkBinaryMedianImageFilterTest(int, char* [] )
   itk::OutputWindow::SetInstance(itk::TextOutput::New());
 
 
-  typedef itk::Image<unsigned short,2> ImageType;
+  typedef itk::Image<uint16_t,2> ImageType;
 
   itk::RandomImageSource<ImageType>::Pointer random;
   random = itk::RandomImageSource<ImageType>::New();

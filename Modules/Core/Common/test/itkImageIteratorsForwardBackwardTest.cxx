@@ -27,7 +27,7 @@ int itkImageIteratorsForwardBackwardTest(int, char* [] )
 {
 
   std::cout << "Creating an image" << std::endl;
-  typedef itk::Image<unsigned short,3> ImageType;
+  typedef itk::Image<uint16_t,3> ImageType;
 
   ImageType::Pointer myImage = ImageType::New();
 

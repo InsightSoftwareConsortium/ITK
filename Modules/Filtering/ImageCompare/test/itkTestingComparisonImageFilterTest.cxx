@@ -39,8 +39,8 @@ int itkTestingComparisonImageFilterTest(int argc, char *argv [] )
 
   // Test using an unsigned integral pixel type and generate a signed
   // integral pixel type
-  typedef   signed   short  InputPixelType;
-  typedef   unsigned short  OutputPixelType;
+  typedef   int16_t  InputPixelType;
+  typedef   uint16_t  OutputPixelType;
 
   const unsigned int Dimension = 2;
 

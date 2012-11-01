@@ -78,13 +78,13 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef   unsigned char                         PixelComponentType;
+  typedef   uint8_t                         PixelComponentType;
   typedef   itk::RGBPixel< PixelComponentType >   InputPixelType;
   const     unsigned int    Dimension = 2;
   typedef itk::Image< InputPixelType, Dimension >  InputImageType;
   // Software Guide : EndCodeSnippet
 
-  typedef unsigned char                            OutputPixelType;
+  typedef uint8_t                            OutputPixelType;
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
 
 

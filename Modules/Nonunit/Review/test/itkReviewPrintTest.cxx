@@ -44,8 +44,8 @@ int main(int , char* [])
 {
   typedef itk::Image<float,2>           Input2DImageType;
   typedef itk::Image<float,2>           OutputType;
-  typedef itk::Image<unsigned char,2>   CharType;
-  typedef itk::RGBPixel<unsigned char>  RGBPixelType;
+  typedef itk::Image<uint8_t,2>   CharType;
+  typedef itk::RGBPixel<uint8_t>  RGBPixelType;
   typedef itk::Image< RGBPixelType, 2 > RGBImageType;
 
   typedef itk::Vector<float,2>      VectorType;
@@ -56,7 +56,7 @@ int main(int , char* [])
   typedef itk::Vector<double, 2> MeasurementVectorType;
   typedef itk::Vector<double, 1> TargetVectorType;
 
-  typedef unsigned short         PixelType;
+  typedef uint16_t         PixelType;
   typedef itk::Mesh< float, 3 >  MeshType;
 
   typedef itk::NumericTraits< PixelType >::RealType                 RealPixelType;

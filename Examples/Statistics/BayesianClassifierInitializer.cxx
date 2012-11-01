@@ -69,7 +69,7 @@ int main(int argc, char *argv[])
     return EXIT_FAILURE;
     }
 
-  typedef itk::Image< unsigned char, Dimension > ImageType;
+  typedef itk::Image< uint8_t, Dimension > ImageType;
   typedef itk::BayesianClassifierInitializationImageFilter< ImageType >
                                                 BayesianInitializerType;
   BayesianInitializerType::Pointer bayesianInitializer
@@ -153,7 +153,7 @@ int main(int argc, char *argv[])
       }
 
     // Write out the rescaled extracted component
-    typedef itk::Image< unsigned char, Dimension > OutputImageType;
+    typedef itk::Image< uint8_t, Dimension > OutputImageType;
     typedef itk::RescaleIntensityImageFilter<
       ExtractedComponentImageType, OutputImageType > RescalerType;
     RescalerType::Pointer rescaler = RescalerType::New();

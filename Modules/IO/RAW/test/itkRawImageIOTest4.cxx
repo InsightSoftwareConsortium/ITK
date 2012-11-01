@@ -118,7 +118,7 @@ int Read( const char *filename , bool ReadBigEndian, unsigned int dims[] )
 int itkRawImageIOTest4(int argc, char*argv[])
 {
 
-  typedef unsigned short PixelType;
+  typedef uint16_t PixelType;
   const unsigned int ImageDimension = 2;
 
   typedef itk::RawImageIO<PixelType,ImageDimension> IOType;

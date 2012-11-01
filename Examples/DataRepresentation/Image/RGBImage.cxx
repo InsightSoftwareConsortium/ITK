@@ -56,7 +56,7 @@ int main( int , char * argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::RGBPixel< unsigned char >    PixelType;
+  typedef itk::RGBPixel< uint8_t >    PixelType;
   // Software Guide : EndCodeSnippet
 
 

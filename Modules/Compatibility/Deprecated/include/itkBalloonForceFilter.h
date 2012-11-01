@@ -113,7 +113,7 @@ public:
   typedef typename InputMeshType::PointType IPixelType;
   typedef typename InputMeshType::PixelType PixelType;
 
-  typedef Image< unsigned short, 2 >            ImageType;
+  typedef Image< uint16_t, 2 >            ImageType;
   typedef CovariantVector< PixelType, 2 >       GradientType;
   typedef Image< GradientType, 2 >              GradientImageType;
   typedef typename InputMeshType::Pointer       InputMeshPointer;
@@ -254,7 +254,7 @@ private:
 
   // for Gibbs Prior Model parameters' recalculation
   ImagePointer   m_ImageOutput;
-  unsigned short m_ObjectLabel;
+  uint16_t m_ObjectLabel;
 
   typedef ImageType::SizeType ImageSizeType;
 };

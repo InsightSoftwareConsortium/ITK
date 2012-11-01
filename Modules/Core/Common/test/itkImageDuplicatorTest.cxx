@@ -138,7 +138,7 @@ int itkImageDuplicatorTest(int, char* [] )
 
   {
   /** Create an RGB image image */
-  typedef itk::Image<itk::RGBPixel<unsigned char>,3> RGBImageType;
+  typedef itk::Image<itk::RGBPixel<uint8_t>,3> RGBImageType;
   std::cout << "Creating simulated image: ";
   RGBImageType::Pointer m_RGBImage = RGBImageType::New();
   m_RGBImage->SetRegions( region );
@@ -147,13 +147,13 @@ int itkImageDuplicatorTest(int, char* [] )
   itk::ImageRegionIterator<RGBImageType> it3(m_RGBImage,region);
   it3.GoToBegin();
 
-  unsigned char r = 0;
-  unsigned char g = 1;
-  unsigned char b = 2;
+  uint8_t r = 0;
+  uint8_t g = 1;
+  uint8_t b = 2;
 
   while(!it3.IsAtEnd())
     {
-    itk::RGBPixel<unsigned char> pixel;
+    itk::RGBPixel<uint8_t> pixel;
     pixel.SetRed(r);
     pixel.SetGreen(g);
     pixel.SetBlue(b);
@@ -200,7 +200,7 @@ int itkImageDuplicatorTest(int, char* [] )
   while(!it4.IsAtEnd())
     {
 
-    itk::RGBPixel<unsigned char> pixel = it4.Get();
+    itk::RGBPixel<uint8_t> pixel = it4.Get();
     if(pixel.GetRed() != r)
       {
       std::cout << "Error: Pixel R value mismatched: " << (float)pixel.GetRed()  << " vs. " << (float)r << std::endl;

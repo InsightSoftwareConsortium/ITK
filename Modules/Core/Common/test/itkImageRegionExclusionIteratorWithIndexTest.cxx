@@ -28,7 +28,7 @@ static bool RunTest(const TRegion & region, const TRegion & exclusionRegion)
   const unsigned int ImageDimension = TRegion::ImageDimension;
 
   typedef itk::Index< ImageDimension >                  IndexPixelType;
-  typedef unsigned char                                 ValuePixelType;
+  typedef uint8_t                                 ValuePixelType;
 
   typedef itk::Image< IndexPixelType, ImageDimension >  IndexImageType;
   typedef itk::Image< ValuePixelType, ImageDimension >  ValueImageType;
@@ -50,8 +50,8 @@ static bool RunTest(const TRegion & region, const TRegion & exclusionRegion)
   typedef itk::ImageRegionIteratorWithIndex< ValueImageType >  ValueIteratorType;
   typedef itk::ImageRegionIteratorWithIndex< IndexImageType >  IndexIteratorType;
 
-  const unsigned char normalRegionValue    = 100;
-  const unsigned char exclusionRegionValue = 200;
+  const uint8_t normalRegionValue    = 100;
+  const uint8_t exclusionRegionValue = 200;
 
   // Initialize the Image
   IndexIteratorType ii( myIndexImage, region );

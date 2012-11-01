@@ -40,8 +40,8 @@ int itkChangeLabelLabelMapFilterTest( int argc, char * argv [] )
 
   const unsigned int Dimension = 2;
 
-  typedef unsigned char    ImagePixelType;
-  typedef unsigned char    LabelPixelType;
+  typedef uint8_t    ImagePixelType;
+  typedef uint8_t    LabelPixelType;
 
   typedef itk::Image< ImagePixelType, Dimension > ImageType;
 

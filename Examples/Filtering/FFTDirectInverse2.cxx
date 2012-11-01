@@ -63,8 +63,8 @@ int main( int argc, char * argv[] )
 
 // Software Guide : BeginCodeSnippet
   const unsigned int      Dimension = 2;
-  //  typedef unsigned char   OutputPixelType;
-  typedef unsigned short  OutputPixelType;
+  //  typedef uint8_t   OutputPixelType;
+  typedef uint16_t  OutputPixelType;
   typedef float           WorkPixelType;
 
   typedef itk::Image< WorkPixelType,  Dimension > InputImageType;

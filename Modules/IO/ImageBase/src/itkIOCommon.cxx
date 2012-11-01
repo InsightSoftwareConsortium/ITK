@@ -54,13 +54,13 @@ std::string IOCommon
   switch ( pixelType )
     {
     case ITK_UCHAR:
-      return "unsigned char";
+      return "uint8_t";
       break;
     case ITK_CHAR:
       return "char";
       break;
     case ITK_USHORT:
-      return "unsigned short";
+      return "uint16_t";
       break;
     case ITK_SHORT:
       return "short";
@@ -98,13 +98,13 @@ unsigned int IOCommon
       return static_cast< unsigned int >( sizeof( char ) );
       break;
     case ITK_UCHAR:
-      return static_cast< unsigned int >( sizeof( unsigned char ) );
+      return static_cast< unsigned int >( sizeof( uint8_t ) );
       break;
     case ITK_SHORT:
       return static_cast< unsigned int >( sizeof( short ) );
       break;
     case ITK_USHORT:
-      return static_cast< unsigned int >( sizeof( unsigned short ) );
+      return static_cast< unsigned int >( sizeof( uint16_t ) );
       break;
     case ITK_INT:
       return static_cast< unsigned int >( sizeof( int ) );

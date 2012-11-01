@@ -27,7 +27,7 @@ int itkJoinImageFilterTest(int, char* [] )
 
   // Declare the types of the images
   typedef itk::Image<char, myDimension>  myImageType1;
-  typedef itk::Image<itk::Vector<unsigned short, 2>, myDimension>  myImageType2;
+  typedef itk::Image<itk::Vector<uint16_t, 2>, myDimension>  myImageType2;
   typedef itk::Image<itk::RGBAPixel<short>, myDimension>  myImageType3;
 
   // Declare the type of the index to access images
@@ -98,11 +98,11 @@ int itkJoinImageFilterTest(int, char* [] )
   // Initialize the content of Image B
   std::cout << std::endl;
   std::cout << "Image #2 " << std::endl;
-  itk::Vector<unsigned short, 2> vec;
+  itk::Vector<uint16_t, 2> vec;
   while( !it2.IsAtEnd() )
   {
-  vec[0] = (unsigned short) vnl_sample_uniform(0, 32765);
-  vec[1] = (unsigned short) vnl_sample_uniform(0, 32765);
+  vec[0] = (uint16_t) vnl_sample_uniform(0, 32765);
+  vec[1] = (uint16_t) vnl_sample_uniform(0, 32765);
   it2.Set( vec );
   std::cout << it2.Get() << std::endl;
   ++it2;

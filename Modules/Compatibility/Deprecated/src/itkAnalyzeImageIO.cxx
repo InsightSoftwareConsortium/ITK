@@ -152,16 +152,16 @@ AnalyzeImageIO::SwapBytesIfNecessary(void *buffer,
                                                                 numberOfPixels );
         break;
       case UCHAR:
-        ByteSwapper< unsigned char >::SwapRangeFromSystemToLittleEndian
-          ( (unsigned char *)buffer, numberOfPixels );
+        ByteSwapper< uint8_t >::SwapRangeFromSystemToLittleEndian
+          ( (uint8_t *)buffer, numberOfPixels );
         break;
       case SHORT:
         ByteSwapper< short >::SwapRangeFromSystemToLittleEndian
           ( (short *)buffer, numberOfPixels );
         break;
       case USHORT:
-        ByteSwapper< unsigned short >::SwapRangeFromSystemToLittleEndian
-          ( (unsigned short *)buffer, numberOfPixels );
+        ByteSwapper< uint16_t >::SwapRangeFromSystemToLittleEndian
+          ( (uint16_t *)buffer, numberOfPixels );
         break;
       case INT:
         ByteSwapper< int >::SwapRangeFromSystemToLittleEndian
@@ -200,16 +200,16 @@ AnalyzeImageIO::SwapBytesIfNecessary(void *buffer,
                                                              numberOfPixels );
         break;
       case UCHAR:
-        ByteSwapper< unsigned char >::SwapRangeFromSystemToBigEndian
-          ( (unsigned char *)buffer, numberOfPixels );
+        ByteSwapper< uint8_t >::SwapRangeFromSystemToBigEndian
+          ( (uint8_t *)buffer, numberOfPixels );
         break;
       case SHORT:
         ByteSwapper< short >::SwapRangeFromSystemToBigEndian
           ( (short *)buffer, numberOfPixels );
         break;
       case USHORT:
-        ByteSwapper< unsigned short >::SwapRangeFromSystemToBigEndian
-          ( (unsigned short *)buffer, numberOfPixels );
+        ByteSwapper< uint16_t >::SwapRangeFromSystemToBigEndian
+          ( (uint16_t *)buffer, numberOfPixels );
         break;
       case INT:
         ByteSwapper< int >::SwapRangeFromSystemToBigEndian
@@ -433,7 +433,7 @@ AnalyzeImageIO::AnalyzeImageIO()
 
   // Analyze stuff
   //  memset sets the first n bytes in memory area s to the value of c
-  //  (cothis->m_Hdr.dime.dim[4]erted to an unsigned char).  It returns s.
+  //  (cothis->m_Hdr.dime.dim[4]erted to an uint8_t).  It returns s.
   //  void *memset (void *s, int c, size_t n);
   memset( &( this->m_Hdr ), 0, sizeof( struct dsr ) );
 
@@ -1168,7 +1168,7 @@ AnalyzeImageIO
     {
     if ( this->GetComponentType() != UCHAR )
       {
-      itkExceptionMacro(<< "Only unsigned char RGB files supported");
+      itkExceptionMacro(<< "Only uint8_t RGB files supported");
       }
     }
   else

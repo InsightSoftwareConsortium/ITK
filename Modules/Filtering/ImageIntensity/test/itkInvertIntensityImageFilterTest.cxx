@@ -34,7 +34,7 @@ int itkInvertIntensityImageFilterTest(int argc, char * argv[])
 
   const int dim = 2;
 
-  typedef unsigned char PType;
+  typedef uint8_t PType;
   typedef itk::Image< PType, dim > IType;
 
   typedef itk::ImageFileReader< IType > ReaderType;

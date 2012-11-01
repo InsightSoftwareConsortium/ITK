@@ -37,11 +37,11 @@ int itkMaskedImageToHistogramFilterTest1( int argc, char * argv [] )
     }
 
 
-  typedef unsigned char                                   PixelComponentType;
+  typedef uint8_t                                   PixelComponentType;
   const unsigned int                                      Dimension = 3;
   typedef itk::Vector< PixelComponentType, 2 >            VectorPixelType;
 
-  typedef itk::Image< unsigned char, Dimension >   ImageType;
+  typedef itk::Image< uint8_t, Dimension >   ImageType;
   typedef itk::Image< VectorPixelType, Dimension > VectorImageType;
 
   typedef itk::ImageFileReader< ImageType >  ReaderType;

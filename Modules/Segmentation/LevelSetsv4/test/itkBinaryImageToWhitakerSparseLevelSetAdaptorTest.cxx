@@ -30,7 +30,7 @@ int itkBinaryImageToWhitakerSparseLevelSetAdaptorTest( int argc, char* argv[] )
 
   const unsigned int Dimension = 2;
 
-  typedef unsigned char InputPixelType;
+  typedef uint8_t InputPixelType;
   typedef double        OutputPixelType;
 
   typedef itk::Image< InputPixelType, Dimension >     InputImageType;

@@ -36,7 +36,7 @@
 int main(int, char *[])
 {
   // First the image type should be declared
-  typedef itk::Image< unsigned short, 3 > ImageType;
+  typedef itk::Image< uint16_t, 3 > ImageType;
 
   // Then the image object can be created
   ImageType::Pointer image = ImageType::New();

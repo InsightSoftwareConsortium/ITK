@@ -176,7 +176,7 @@ int vtkVisualize2DCellsLevelSetLayersTest( int argc, char* argv[] )
   // Image Dimension
   const unsigned int Dimension = 2;
 
-  typedef unsigned char                            InputPixelType;
+  typedef uint8_t                            InputPixelType;
   typedef itk::Image< InputPixelType, Dimension >  InputImageType;
 
   // Read input image (to be processed).

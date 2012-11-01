@@ -70,7 +70,7 @@ int itkScalarImageKmeansImageFilter3DTest (int argc, char *argv[])
     exit(1);
     }
 
-  typedef signed short       PixelType;
+  typedef int16_t       PixelType;
   const unsigned int          Dimension = 3;
 
   typedef itk::Image<PixelType, Dimension > ImageType;
@@ -281,19 +281,19 @@ int itkScalarImageKmeansImageFilter3DTest (int argc, char *argv[])
   statisticsNonBrainFilter->Update();
 
   /* Background Tissues are Lower Label values */
-  unsigned char currentLabel = 0;
+  uint8_t currentLabel = 0;
   for (unsigned int i=1; i<256; i++)
     {
-    if ( statisticsNonBrainFilter->HasLabel( static_cast<unsigned char> ( i ) ) )
+    if ( statisticsNonBrainFilter->HasLabel( static_cast<uint8_t> ( i ) ) )
       {
       currentLabel++;
-      LabelImageType::RegionType labelRegion = statisticsNonBrainFilter->GetRegion( static_cast<unsigned char> ( i ) );
+      LabelImageType::RegionType labelRegion = statisticsNonBrainFilter->GetRegion( static_cast<uint8_t> ( i ) );
       itk::ImageRegionIterator<LabelImageType> it( kmeansNonBrainFilter->GetOutput(), labelRegion );
 
       it.GoToBegin();
       while( !it.IsAtEnd() )
         {
-        if ( it.Get() == static_cast<unsigned char> ( i ) )
+        if ( it.Get() == static_cast<uint8_t> ( i ) )
           {
           // Set Output Image
           kmeansLabelImage->SetPixel(it.GetIndex(), currentLabel);
@@ -312,16 +312,16 @@ int itkScalarImageKmeansImageFilter3DTest (int argc, char *argv[])
 
   for (unsigned int i=1; i<256; i++)
     {
-    if ( statisticsBrainFilter->HasLabel( static_cast<unsigned char> ( i ) ) )
+    if ( statisticsBrainFilter->HasLabel( static_cast<uint8_t> ( i ) ) )
       {
       currentLabel++;
-      LabelImageType::RegionType labelRegion = statisticsBrainFilter->GetRegion( static_cast<unsigned char> ( i ) );
+      LabelImageType::RegionType labelRegion = statisticsBrainFilter->GetRegion( static_cast<uint8_t> ( i ) );
       itk::ImageRegionIterator<LabelImageType> it( kmeansFilter->GetOutput(), labelRegion );
 
       it.GoToBegin();
       while( !it.IsAtEnd() )
         {
-        if ( it.Get() == static_cast<unsigned char> ( i ) )
+        if ( it.Get() == static_cast<uint8_t> ( i ) )
           {
           // Set Output Image
           kmeansLabelImage->SetPixel(it.GetIndex(), currentLabel);

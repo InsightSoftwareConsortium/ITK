@@ -70,8 +70,8 @@ int main( int argc, char ** argv )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef signed short        InputPixelType;
-  typedef signed short        OutputPixelType;
+  typedef int16_t        InputPixelType;
+  typedef int16_t        OutputPixelType;
   const   unsigned int        Dimension = 2;
 
   typedef itk::Image< InputPixelType,  Dimension >    InputImageType;

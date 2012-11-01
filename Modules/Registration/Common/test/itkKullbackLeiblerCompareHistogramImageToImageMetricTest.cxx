@@ -41,10 +41,10 @@ int itkKullbackLeiblerCompareHistogramImageToImageMetricTest(int, char* [] )
 //------------------------------------------------------------
 
   //Allocate Images
-  typedef itk::Image<unsigned char,2>           MovingImageType;
-  typedef itk::Image<unsigned char,2>           FixedImageType;
-  typedef itk::Image<unsigned char,2>           TrainingMovingImageType;
-  typedef itk::Image<unsigned char,2>           TrainingFixedImageType;
+  typedef itk::Image<uint8_t,2>           MovingImageType;
+  typedef itk::Image<uint8_t,2>           FixedImageType;
+  typedef itk::Image<uint8_t,2>           TrainingMovingImageType;
+  typedef itk::Image<uint8_t,2>           TrainingFixedImageType;
 
   enum { ImageDimension = MovingImageType::ImageDimension };
 
@@ -118,7 +118,7 @@ int itkKullbackLeiblerCompareHistogramImageToImageMetricTest(int, char* [] )
     d += displacement;
     const double x = d[0];
     const double y = d[1];
-    ri.Set( (unsigned char) ( mag * vcl_exp( - ( x*x + y*y )/(s*s) ) ) );
+    ri.Set( (uint8_t) ( mag * vcl_exp( - ( x*x + y*y )/(s*s) ) ) );
     ++ri;
     }
 
@@ -130,7 +130,7 @@ int itkKullbackLeiblerCompareHistogramImageToImageMetricTest(int, char* [] )
     d = p-center;
     const double x = d[0];
     const double y = d[1];
-    ti.Set( (unsigned char) ( mag * vcl_exp( - ( x*x + y*y )/(s*s) ) ) );
+    ti.Set( (uint8_t) ( mag * vcl_exp( - ( x*x + y*y )/(s*s) ) ) );
     ++ti;
     }
 
@@ -145,7 +145,7 @@ int itkKullbackLeiblerCompareHistogramImageToImageMetricTest(int, char* [] )
     //    d += displacement;
     const double x = d[0];
     const double y = d[1];
-    gri.Set( (unsigned char) (( mag * vcl_exp( - ( x*x + y*y )/(s*s) ) )  +
+    gri.Set( (uint8_t) (( mag * vcl_exp( - ( x*x + y*y )/(s*s) ) )  +
       vnl_sample_normal(0.0, noisemag)));
     ++gri;
     }
@@ -158,7 +158,7 @@ int itkKullbackLeiblerCompareHistogramImageToImageMetricTest(int, char* [] )
     d = p-center;
     const double x = d[0];
     const double y = d[1];
-    gti.Set( (unsigned char) (( mag * vcl_exp( - ( x*x + y*y )/(s*s) ) )  +
+    gti.Set( (uint8_t) (( mag * vcl_exp( - ( x*x + y*y )/(s*s) ) )  +
       vnl_sample_normal(0.0, noisemag)));
     ++gti;
     }

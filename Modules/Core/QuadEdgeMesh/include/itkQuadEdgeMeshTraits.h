@@ -59,7 +59,7 @@ public:
   typedef ::itk::IdentifierType   PointIdentifier;
   typedef ::itk::IdentifierType   CellIdentifier;
 
-  typedef unsigned char CellFeatureIdentifier; // made small in purpose
+  typedef uint8_t CellFeatureIdentifier; // made small in purpose
 
   typedef std::set< CellIdentifier > UsingCellsContainer;
   typedef std::set< CellIdentifier > PointCellLinksContainer;

@@ -41,7 +41,7 @@ int main( int argc, char ** argv )
     return -1;
     }
 
-  typedef unsigned char                     PixelType;
+  typedef uint8_t                     PixelType;
   typedef itk::Image< PixelType, 2 >        ImageType;
   typedef itk::ImageFileReader< ImageType > ReaderType;
 
@@ -147,7 +147,7 @@ int main( int argc, char ** argv )
 // Software Guide : BeginLatex
 //
 // The output image is written and visualized directly as a binary image of
-// \code{unsigned chars}.  Figure~\ref{fig:ShapedNeighborhoodExample2}
+// \code{uint8_ts}.  Figure~\ref{fig:ShapedNeighborhoodExample2}
 // illustrates some results of erosion and dilation on the image
 // \code{Examples/Data/BinaryImage.png}.  Applying erosion and dilation
 // in sequence effects the morphological operations of opening and closing.

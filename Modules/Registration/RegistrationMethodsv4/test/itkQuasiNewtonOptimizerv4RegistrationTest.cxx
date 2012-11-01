@@ -66,7 +66,7 @@ int itkQuasiNewtonOptimizerv4RegistrationTestMain(int argc, char *argv[])
   std::cout << " iterations "<< numberOfIterations
     << " displacementIterations " << numberOfDisplacementIterations << std::endl;
 
-  typedef double PixelType; //I assume png is unsigned short
+  typedef double PixelType; //I assume png is uint16_t
 
   typedef itk::Image< PixelType, Dimension >  FixedImageType;
   typedef itk::Image< PixelType, Dimension >  MovingImageType;
@@ -296,7 +296,7 @@ int itkQuasiNewtonOptimizerv4RegistrationTestMain(int argc, char *argv[])
 
   //write the warped image into a file
   //typedef double                                    OutputPixelType;
-  typedef unsigned short                            OutputPixelType;
+  typedef uint16_t                            OutputPixelType;
   typedef itk::Image< OutputPixelType, Dimension >  OutputImageType;
   typedef itk::CastImageFilter<
                         MovingImageType,

@@ -100,7 +100,7 @@ int itkBinaryThresholdSpatialFunctionTest( int, char *[])
    * the sphere.
    */
   // set up a dummy image
-  typedef itk::Image<unsigned char,Dimension> ImageType;
+  typedef itk::Image<uint8_t,Dimension> ImageType;
   ImageType::Pointer image = ImageType::New();
   ImageType::SizeType size;
   size.Fill( 10 );

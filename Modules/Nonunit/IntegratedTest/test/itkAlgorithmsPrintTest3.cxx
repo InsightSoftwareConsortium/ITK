@@ -37,8 +37,8 @@ int main(int , char* [])
 {
   typedef itk::Image<float,2> InputType;
   typedef itk::Image<float,2> OutputType;
-  typedef itk::Image<unsigned short,2> UShortImageType;
-  typedef itk::Image<unsigned char,2> CharType;
+  typedef itk::Image<uint16_t,2> UShortImageType;
+  typedef itk::Image<uint8_t,2> CharType;
 
   typedef itk::Mesh<double>  MeshType;
 

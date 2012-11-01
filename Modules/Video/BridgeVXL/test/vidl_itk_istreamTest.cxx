@@ -134,16 +134,16 @@ int vidl_itk_istreamTest ( int argc, char *argv[] )
   // Scalar types
   TemplatedTestMacro(bool, VIDL_PIXEL_FORMAT_MONO_1);
   TemplatedTestMacro(char, VIDL_PIXEL_FORMAT_MONO_8);
-  TemplatedTestMacro(unsigned char, VIDL_PIXEL_FORMAT_MONO_8);
+  TemplatedTestMacro(uint8_t, VIDL_PIXEL_FORMAT_MONO_8);
   TemplatedTestMacro(short, VIDL_PIXEL_FORMAT_MONO_16);
-  TemplatedTestMacro(unsigned short, VIDL_PIXEL_FORMAT_MONO_16);
+  TemplatedTestMacro(uint16_t, VIDL_PIXEL_FORMAT_MONO_16);
   TemplatedTestMacro(float, VIDL_PIXEL_FORMAT_MONO_F32);
 
   // RGB(A) types
   TemplatedTestMacro(itk::RGBPixel<char>, VIDL_PIXEL_FORMAT_RGB_24);
-  TemplatedTestMacro(itk::RGBPixel<unsigned char>, VIDL_PIXEL_FORMAT_RGB_24);
+  TemplatedTestMacro(itk::RGBPixel<uint8_t>, VIDL_PIXEL_FORMAT_RGB_24);
   TemplatedTestMacro(itk::RGBAPixel<char>, VIDL_PIXEL_FORMAT_RGBA_32);
-  TemplatedTestMacro(itk::RGBAPixel<unsigned char>, VIDL_PIXEL_FORMAT_RGBA_32);
+  TemplatedTestMacro(itk::RGBAPixel<uint8_t>, VIDL_PIXEL_FORMAT_RGBA_32);
   TemplatedTestMacro(itk::RGBPixel<float>, VIDL_PIXEL_FORMAT_RGB_F32);
 
   //

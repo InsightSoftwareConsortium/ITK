@@ -34,8 +34,8 @@ int main( int argc, char * argv[] )
     }
 
   const     unsigned int   Dimension = 2;
-  typedef   unsigned char  InputPixelType;
-  typedef   unsigned char  OutputPixelType;
+  typedef   uint8_t  InputPixelType;
+  typedef   uint8_t  OutputPixelType;
   typedef itk::Image< InputPixelType,  Dimension >   InputImageType;
   typedef itk::Image< OutputPixelType, Dimension >   OutputImageType;
 

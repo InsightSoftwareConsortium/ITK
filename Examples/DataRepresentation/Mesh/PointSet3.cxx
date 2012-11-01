@@ -44,7 +44,7 @@ int main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef unsigned short                PixelType;
+  typedef uint16_t                PixelType;
   typedef itk::PointSet< PixelType, 3 > PointSetType;
   // Software Guide : EndCodeSnippet
 

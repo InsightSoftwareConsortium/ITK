@@ -40,7 +40,7 @@ int main(int, char * [] )
 //
 // Software Guide : EndLatex
 // Software Guide : BeginCodeSnippet
-  typedef itk::Image<unsigned char,2> ImageType;
+  typedef itk::Image<uint8_t,2> ImageType;
   typedef itk::RandomImageSource<ImageType> RandomImageSourceType;
   RandomImageSourceType::Pointer randomImageSource = RandomImageSourceType::New();
   ImageType::SizeValueType size[2];

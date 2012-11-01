@@ -214,9 +214,9 @@ bool GDCMImageIO::CanReadFile(const char *filename)
   if(!dicomsig)
     {
     file.seekg(0,std::ios_base::beg);
-    unsigned short groupNo;
-    file.read(reinterpret_cast<char *>(&groupNo),sizeof(unsigned short));
-    ByteSwapper<unsigned short>::SwapFromSystemToLittleEndian(&groupNo);
+    uint16_t groupNo;
+    file.read(reinterpret_cast<char *>(&groupNo),sizeof(uint16_t));
+    ByteSwapper<uint16_t>::SwapFromSystemToLittleEndian(&groupNo);
     if(groupNo == 0x0002 || groupNo == 0x0008)
       {
       dicomsig = true;
@@ -355,7 +355,7 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream & file)
   switch ( outputpt )
     {
     case gdcm::PixelFormat::INT8:
-      m_ComponentType = ImageIOBase::CHAR; // Is it signed char ?
+      m_ComponentType = ImageIOBase::CHAR; // Is it int8_t ?
       break;
     case gdcm::PixelFormat::UINT8:
       m_ComponentType = ImageIOBase::UCHAR;
@@ -492,9 +492,9 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream & file)
           char *       bin = new char[encodedLengthEstimate];
           unsigned int encodedLengthActual = static_cast< unsigned int >(
             itksysBase64_Encode(
-              (const unsigned char *)bv->GetPointer(),
+              (const uint8_t *)bv->GetPointer(),
               static_cast< SizeValueType >( bv->GetLength() ),
-              (unsigned char *)bin,
+              (uint8_t *)bin,
               static_cast< int >( 0 ) ) );
           std::string encodedValue(bin, encodedLengthActual);
           EncapsulateMetaData< std::string >(dico, PrintAsPipeSeparatedString(tag), encodedValue);
@@ -644,9 +644,9 @@ void GDCMImageIO::Write(const void *buffer)
         uint8_t *    bin = new uint8_t[value.size()];
         unsigned int decodedLengthActual = static_cast< unsigned int >(
           itksysBase64_Decode(
-            (const unsigned char *)value.c_str(),
+            (const uint8_t *)value.c_str(),
             static_cast< SizeValueType >( 0 ),
-            (unsigned char *)bin,
+            (uint8_t *)bin,
             static_cast< SizeValueType >( value.size() ) ) );
         if ( /*tag.GetGroup() != 0 ||*/ tag.GetElement() != 0 ) // ?
           {
@@ -927,7 +927,7 @@ void GDCMImageIO::Write(const void *buffer)
   if( outpixeltype != gdcm::PixelFormat::UNKNOWN )
     {
     itkAssertInDebugAndIgnoreInReleaseMacro( m_RescaleIntercept != 0 || m_RescaleSlope != 1 );
-    // rescale from float to unsigned short
+    // rescale from float to uint16_t
     gdcm::Rescaler ir;
     ir.SetIntercept(m_RescaleIntercept);
     ir.SetSlope(m_RescaleSlope);

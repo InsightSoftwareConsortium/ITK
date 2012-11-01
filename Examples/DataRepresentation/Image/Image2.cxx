@@ -39,7 +39,7 @@ int main( int , char * argv[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef unsigned char          PixelType;
+  typedef uint8_t          PixelType;
   const unsigned int             Dimension = 3;
 
   typedef itk::Image< PixelType, Dimension >   ImageType;

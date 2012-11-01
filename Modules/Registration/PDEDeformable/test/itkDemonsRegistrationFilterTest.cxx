@@ -100,7 +100,7 @@ TImage *output )
 int itkDemonsRegistrationFilterTest(int, char* [] )
 {
 
-  typedef unsigned char PixelType;
+  typedef uint8_t PixelType;
   enum {ImageDimension = 2};
   typedef itk::Image<PixelType,ImageDimension>             ImageType;
   typedef itk::Vector<float,ImageDimension>                VectorType;

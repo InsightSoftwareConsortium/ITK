@@ -63,7 +63,7 @@ int itkAdaptiveHistogramEqualizationImageFilterTest( int argc, char * argv[] )
   //  execution of both filters.
   //
 
-  typedef unsigned char WritePixelType;
+  typedef uint8_t WritePixelType;
 
   typedef itk::Image< WritePixelType, 2 > WriteImageType;
 

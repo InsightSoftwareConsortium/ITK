@@ -33,15 +33,15 @@ int itkScalarConnectedComponentImageFilterTest(int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-  typedef   unsigned short  InternalPixelType;
+  typedef   uint16_t  InternalPixelType;
   typedef   bool            MaskPixelType;
   const     unsigned int    Dimension = 2;
 
   typedef itk::Image< InternalPixelType, Dimension >  InternalImageType;
   typedef itk::Image< MaskPixelType, Dimension >      MaskImageType;
-  typedef itk::Image<unsigned short,Dimension>        OutputImageType;
+  typedef itk::Image<uint16_t,Dimension>        OutputImageType;
 
-  typedef itk::RGBPixel<unsigned char>           RGBPixelType;
+  typedef itk::RGBPixel<uint8_t>           RGBPixelType;
   typedef itk::Image<RGBPixelType, Dimension>    RGBImageType;
 
   typedef itk::ImageFileReader< InternalImageType > ReaderType;
@@ -143,21 +143,21 @@ int itkScalarConnectedComponentImageFilterTest(int argc, char* argv[] )
   colored->SetRegions( filter->GetOutput()->GetBufferedRegion() );
   colored->Allocate();
 
-  unsigned short numObjects = relabel->GetNumberOfObjects();
+  uint16_t numObjects = relabel->GetNumberOfObjects();
 
   std::vector<RGBPixelType> colormap;
   RGBPixelType px;
   colormap.resize( numObjects+1 );
   itk::Statistics::MersenneTwisterRandomVariateGenerator::GetInstance()->SetSeed(1031571);
   itk::Statistics::MersenneTwisterRandomVariateGenerator::Pointer rvgen = itk::Statistics::MersenneTwisterRandomVariateGenerator::GetInstance();
-  for (unsigned short i=0; i < colormap.size(); ++i)
+  for (uint16_t i=0; i < colormap.size(); ++i)
     {
     px.SetRed(
-      static_cast<unsigned char>(255*rvgen->GetUniformVariate( 0.3333, 1.0 ) ));
+      static_cast<uint8_t>(255*rvgen->GetUniformVariate( 0.3333, 1.0 ) ));
     px.SetGreen(
-      static_cast<unsigned char>(255*rvgen->GetUniformVariate( 0.3333, 1.0 ) ));
+      static_cast<uint8_t>(255*rvgen->GetUniformVariate( 0.3333, 1.0 ) ));
     px.SetBlue(
-      static_cast<unsigned char>(255*rvgen->GetUniformVariate( 0.3333, 1.0 ) ));
+      static_cast<uint8_t>(255*rvgen->GetUniformVariate( 0.3333, 1.0 ) ));
     colormap[i] = px;
     }
 
@@ -170,7 +170,7 @@ int itkScalarConnectedComponentImageFilterTest(int argc, char* argv[] )
     {
     if (it.Get() == 0)
       {
-      cit.Set(RGBPixelType(static_cast<unsigned char>(0)));
+      cit.Set(RGBPixelType(static_cast<uint8_t>(0)));
       }
     else
       {

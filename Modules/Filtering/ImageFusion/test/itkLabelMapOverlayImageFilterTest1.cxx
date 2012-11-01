@@ -34,7 +34,7 @@ int itkLabelMapOverlayImageFilterTest1(int argc, char * argv[])
 
   const int dim = 2;
 
-  typedef itk::Image< unsigned char, dim > IType;
+  typedef itk::Image< uint8_t, dim > IType;
 
   typedef itk::ImageFileReader< IType > ReaderType;
   ReaderType::Pointer reader = ReaderType::New();
@@ -47,7 +47,7 @@ int itkLabelMapOverlayImageFilterTest1(int argc, char * argv[])
   ReaderType::Pointer reader2 = ReaderType::New();
   reader2->SetFileName( argv[2] );
 
-//  typedef itk::RGBPixel< unsigned char > RGBPixelType;
+//  typedef itk::RGBPixel< uint8_t > RGBPixelType;
 //  typedef itk::Image< RGBPixelType, dim > RGBImageType;
 
   typedef itk::LabelMapOverlayImageFilter< ConverterType::OutputImageType, IType > ColorizerType;

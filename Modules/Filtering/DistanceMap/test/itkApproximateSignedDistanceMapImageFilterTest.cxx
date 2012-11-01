@@ -56,7 +56,7 @@ int itkApproximateSignedDistanceMapImageFilterTest(int argc, char* argv[] )
   const unsigned int ImageDimension = 2;
   typedef unsigned int InputPixelType;
   typedef float OutputPixelType;
-  typedef unsigned char WriterPixelType;
+  typedef uint8_t WriterPixelType;
 
   typedef itk::Image<InputPixelType,ImageDimension> InputImageType;
   typedef itk::Image<OutputPixelType,ImageDimension> OutputImageType;

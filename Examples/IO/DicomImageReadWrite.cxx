@@ -62,7 +62,7 @@ int main( int argc, char* argv[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef signed short InputPixelType;
+  typedef int16_t InputPixelType;
   const unsigned int   InputDimension = 2;
 
   typedef itk::Image< InputPixelType, InputDimension > InputImageType;
@@ -186,14 +186,14 @@ int main( int argc, char* argv[] )
 //
 //  We will now rescale the image into a rescaled image one using the rescale
 //  intensity image filter. For this purpose we use a better suited pixel type:
-//  \code{unsigned char} instead of \code{signed short}.  The minimum and
+//  \code{uint8_t} instead of \code{int16_t}.  The minimum and
 //  maximum values of the output image are explicitly defined in the rescaling
 //  filter.
 //
 // Software Guide : EndLatex
 
 //  Software Guide : BeginCodeSnippet
-  typedef unsigned char WritePixelType;
+  typedef uint8_t WritePixelType;
 
   typedef itk::Image< WritePixelType, 2 > WriteImageType;
 
@@ -272,7 +272,7 @@ int main( int argc, char* argv[] )
 // specific information
 //
 // The GDCMImageIO object will automatically detect the pixel type, in this
-// case \code{unsigned char} and it will update the DICOM header information
+// case \code{uint8_t} and it will update the DICOM header information
 // accordingly.
 // \index{itk::ImageFileWriter!UseInputMetaDataDictionaryOff()}
 //

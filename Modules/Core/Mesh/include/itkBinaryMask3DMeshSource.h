@@ -165,38 +165,38 @@ private:
 
   void CreateMesh();
 
-  void XFlip(unsigned char *tp);     // 7 kinds of transformation
+  void XFlip(uint8_t *tp);     // 7 kinds of transformation
 
-  void YFlip(unsigned char *tp);
+  void YFlip(uint8_t *tp);
 
-  void ZFlip(unsigned char *tp);
+  void ZFlip(uint8_t *tp);
 
-  void XRotation(unsigned char *tp);
+  void XRotation(uint8_t *tp);
 
-  void YRotation(unsigned char *tp);
+  void YRotation(uint8_t *tp);
 
-  void ZRotation(unsigned char *tp);
+  void ZRotation(uint8_t *tp);
 
-  void inverse(unsigned char *tp);
+  void inverse(uint8_t *tp);
 
   void InitializeLUT(); // initialize the look up table before the mesh
                         // construction
 
-  void AddCells(unsigned char celltype, unsigned char celltran, int index);
+  void AddCells(uint8_t celltype, uint8_t celltran, int index);
 
   void AddNodes(int index,
-                unsigned char *nodesid,
+                uint8_t *nodesid,
                 IdentifierType *globalnodesid,
                 IdentifierType **currentrowtmp,
                 IdentifierType **currentframetmp);
 
-  void CellTransfer(unsigned char *nodesid, unsigned char celltran);
+  void CellTransfer(uint8_t *nodesid, uint8_t celltran);
 
   IdentifierType SearchThroughLastRow(int index, int start, int end);
 
   IdentifierType SearchThroughLastFrame(int index, int start, int end);
 
-  unsigned char m_LUT[256][2]; // the two lookup tables
+  uint8_t m_LUT[256][2]; // the two lookup tables
 
   IdentifierType m_LastVoxel[14];
   IdentifierType m_CurrentVoxel[14];
@@ -206,13 +206,13 @@ private:
   IdentifierType **m_CurrentRow;
   IdentifierType **m_CurrentFrame;
 
-  unsigned short m_CurrentRowIndex;
-  unsigned short m_CurrentFrameIndex;
-  unsigned short m_LastRowNum;
-  unsigned short m_LastFrameNum;
-  unsigned short m_CurrentRowNum;
-  unsigned short m_CurrentFrameNum;
-  unsigned char  m_AvailableNodes[14];
+  uint16_t m_CurrentRowIndex;
+  uint16_t m_CurrentFrameIndex;
+  uint16_t m_LastRowNum;
+  uint16_t m_LastFrameNum;
+  uint16_t m_CurrentRowNum;
+  uint16_t m_CurrentFrameNum;
+  uint8_t  m_AvailableNodes[14];
 
   double m_LocationOffset[14][3];
 
@@ -231,7 +231,7 @@ private:
   int m_LastVoxelIndex;
   int m_LastFrameIndex;
 
-  unsigned char  m_PointFound;
+  uint8_t  m_PointFound;
   InputPixelType m_ObjectValue;
 
   /** temporary variables used in CreateMesh to avoid thousands of

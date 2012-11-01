@@ -123,7 +123,7 @@ public:
     return m_Colors[p % m_Colors.size()];
   }
 
-  void AddColor(unsigned char r, unsigned char g, unsigned char b)
+  void AddColor(uint8_t r, uint8_t g, uint8_t b)
   {
     TRGBPixel rgbPixel;
     NumericTraits<TRGBPixel>::SetLength(rgbPixel, 3);

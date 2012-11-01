@@ -45,7 +45,7 @@ int itkGrayscaleFillholeImageFilterTest( int argc, char * argv[] )
 
   typedef short           InputPixelType;
   typedef short           OutputPixelType;
-  typedef unsigned char   WritePixelType;
+  typedef uint8_t   WritePixelType;
 
   typedef itk::Image< InputPixelType,  Dimension >   InputImageType;
   typedef itk::Image< OutputPixelType, Dimension >   OutputImageType;

@@ -27,7 +27,7 @@ int itkReflectImageFilterTest(int, char* [] )
   const unsigned int myDimension = 3;
 
   // Declare the types of the image
-  typedef itk::Image<unsigned short, myDimension>  myImageType;
+  typedef itk::Image<uint16_t, myDimension>  myImageType;
 
   // Declare the type of the Region
   typedef myImageType::RegionType       myRegionType;

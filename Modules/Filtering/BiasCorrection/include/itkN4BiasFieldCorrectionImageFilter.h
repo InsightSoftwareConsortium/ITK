@@ -88,7 +88,7 @@ namespace itk {
  */
 
 template<class TInputImage, class TMaskImage =
-  Image<unsigned char, TInputImage::ImageDimension>,
+  Image<uint8_t, TInputImage::ImageDimension>,
   class TOutputImage = TInputImage>
 class ITK_EXPORT N4BiasFieldCorrectionImageFilter :
   public ImageToImageFilter<TInputImage, TOutputImage>

@@ -144,7 +144,7 @@ int main( int argc, char *argv[] )
 
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Image< unsigned char, Dimension >   OutputImageType;
+  typedef itk::Image< uint8_t, Dimension >   OutputImageType;
   typedef itk::RescaleIntensityImageFilter< ImageAdaptorType,
                                             OutputImageType
                                                >   RescalerType;

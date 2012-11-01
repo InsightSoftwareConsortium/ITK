@@ -49,7 +49,7 @@ namespace itk
  * image type.  The pixel type of the input image is assumed to be a vector
  * (e.g., itk::Vector, itk::RGBPixel, itk::FixedArray).  The scalar type of the
  * vector components must be castable to floating point.  Instantiating with an
- * image of RGBPixel<unsigned short>, for example, is allowed, but the filter
+ * image of RGBPixel<uint16_t>, for example, is allowed, but the filter
  * will convert it to an image of Vector<float,3> for processing.
  *
  * The second template parameter, TRealType, can be optionally specified to

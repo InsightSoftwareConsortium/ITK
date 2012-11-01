@@ -543,13 +543,13 @@ void NiftiImageIO::Read(void *buffer)
         CastCopy< char >(_data, data, imageSizeInComponents);
         break;
       case UCHAR:
-        CastCopy< unsigned char >(_data, data, imageSizeInComponents);
+        CastCopy< uint8_t >(_data, data, imageSizeInComponents);
         break;
       case SHORT:
         CastCopy< short >(_data, data, imageSizeInComponents);
         break;
       case USHORT:
-        CastCopy< unsigned short >(_data, data, imageSizeInComponents);
+        CastCopy< uint16_t >(_data, data, imageSizeInComponents);
         break;
       case INT:
         CastCopy< int >(_data, data, imageSizeInComponents);
@@ -674,7 +674,7 @@ void NiftiImageIO::Read(void *buffer)
                         this->m_RescaleIntercept, numElts);
         break;
       case UCHAR:
-        RescaleFunction(static_cast< unsigned char * >( buffer ),
+        RescaleFunction(static_cast< uint8_t * >( buffer ),
                         this->m_RescaleSlope,
                         this->m_RescaleIntercept, numElts);
         break;
@@ -684,7 +684,7 @@ void NiftiImageIO::Read(void *buffer)
                         this->m_RescaleIntercept, numElts);
         break;
       case USHORT:
-        RescaleFunction(static_cast< unsigned short * >( buffer ),
+        RescaleFunction(static_cast< uint16_t * >( buffer ),
                         this->m_RescaleSlope,
                         this->m_RescaleIntercept, numElts);
         break;
@@ -1630,7 +1630,7 @@ void Normalize(std::vector< double > & x)
 }
 
 void
-NiftiImageIO::SetImageIOOrientationFromNIfTI(unsigned short int dims)
+NiftiImageIO::SetImageIOOrientationFromNIfTI(uint16_t dims)
 {
   typedef SpatialOrientationAdapter OrientAdapterType;
 
@@ -1745,7 +1745,7 @@ NiftiImageIO::SetImageIOOrientationFromNIfTI(unsigned short int dims)
 }
 
 void
-NiftiImageIO::SetNIfTIOrientationFromImageIO(unsigned short int origdims, unsigned short int dims)
+NiftiImageIO::SetNIfTIOrientationFromImageIO(uint16_t origdims, uint16_t dims)
 {
   //
   // use NIFTI method 2

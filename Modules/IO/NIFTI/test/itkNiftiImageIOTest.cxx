@@ -119,9 +119,9 @@ int itkNiftiImageIOTest(int ac, char* av[])
     itk::ObjectFactoryBase::RegisterFactory(itk::NiftiImageIOFactory::New() );
     firstTime = false;
     }
-  if(ac > 1) //This is a mechanism for reading unsigned char images for testing.
+  if(ac > 1) //This is a mechanism for reading uint8_t images for testing.
     {
-      typedef itk::Image<unsigned char, 3> ImageType;
+      typedef itk::Image<uint8_t, 3> ImageType;
       ImageType::Pointer input;
       for(int imagenameindex=1; imagenameindex < ac; imagenameindex++)
         {
@@ -146,10 +146,10 @@ int itkNiftiImageIOTest(int ac, char* av[])
           std::cerr << "Error writing Nifti file type char" << std::endl;
           rval += cur_return;
         }
-      cur_return = MakeNiftiImage<unsigned char>();
+      cur_return = MakeNiftiImage<uint8_t>();
       if(cur_return != 0)
         {
-          std::cerr << "Error writing Nifti file type unsigned char" << std::endl;
+          std::cerr << "Error writing Nifti file type uint8_t" << std::endl;
           rval += cur_return;
         }
       cur_return = MakeNiftiImage<short>();
@@ -158,10 +158,10 @@ int itkNiftiImageIOTest(int ac, char* av[])
           std::cerr << "Error writing Nifti file type short" << std::endl;
           rval += cur_return;
         }
-      cur_return = MakeNiftiImage<unsigned short>();
+      cur_return = MakeNiftiImage<uint16_t>();
       if(cur_return != 0)
         {
-          std::cerr << "Error writing Nifti file type unsigned short" << std::endl;
+          std::cerr << "Error writing Nifti file type uint16_t" << std::endl;
           rval += cur_return;
         }
       cur_return = MakeNiftiImage<int>();

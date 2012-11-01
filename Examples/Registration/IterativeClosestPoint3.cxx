@@ -197,7 +197,7 @@ int main(int argc, char * argv[] )
   //  filter expects an image as input.
   //
   //-------------------------------------------------
-  typedef itk::Image< unsigned char,  Dimension >  BinaryImageType;
+  typedef itk::Image< uint8_t,  Dimension >  BinaryImageType;
 
   typedef itk::PointSetToImageFilter<
                             PointSetType,
@@ -222,7 +222,7 @@ int main(int argc, char * argv[] )
   BinaryImageType::Pointer binaryImage = pointsToImageFilter->GetOutput();
 
 
-  typedef itk::Image< unsigned short, Dimension >  DistanceImageType;
+  typedef itk::Image< uint16_t, Dimension >  DistanceImageType;
 
   typedef itk::DanielssonDistanceMapImageFilter<
                                           BinaryImageType,

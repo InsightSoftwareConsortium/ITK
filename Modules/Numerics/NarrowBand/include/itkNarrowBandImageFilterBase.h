@@ -138,7 +138,7 @@ public:
 
   void InsertNarrowBandNode(const IndexType & index,
                             const PixelType & value,
-                            const signed char & nodestate)
+                            const int8_t & nodestate)
   {
     BandNodeType tmpnode;
 

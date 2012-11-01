@@ -66,7 +66,7 @@ int main( int argc, char ** argv )
   //
   //  We read an image of \doxygen{CovariantVector} pixels and compute pixel
   //  magnitude to produce an image where each pixel is of type
-  //  \code{unsigned short}. The components of the CovariantVector
+  //  \code{uint16_t}. The components of the CovariantVector
   //  are selected to be \code{float} here. Notice that a renormalization is
   //  required in order to map the dynamic range of the magnitude values into
   //  the range of the output pixel type.  The
@@ -82,7 +82,7 @@ int main( int argc, char ** argv )
                                     Dimension  >      InputPixelType;
 
   typedef float                                       MagnitudePixelType;
-  typedef unsigned short                              OutputPixelType;
+  typedef uint16_t                              OutputPixelType;
 
   typedef itk::Image< InputPixelType,      Dimension >    InputImageType;
   typedef itk::Image< MagnitudePixelType,  Dimension >    MagnitudeImageType;

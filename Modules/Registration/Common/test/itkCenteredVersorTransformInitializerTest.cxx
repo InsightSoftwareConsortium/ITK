@@ -35,10 +35,10 @@ int itkCenteredVersorTransformInitializerTest(int , char* [] )
   const unsigned int Dimension = 3;
 
   // Fixed Image Type
-  typedef itk::Image<unsigned char, Dimension>      FixedImageType;
+  typedef itk::Image<uint8_t, Dimension>      FixedImageType;
 
   // Moving Image Type
-  typedef itk::Image<unsigned char, Dimension>       MovingImageType;
+  typedef itk::Image<uint8_t, Dimension>       MovingImageType;
 
   // Size Type
   typedef FixedImageType::SizeType                 SizeType;

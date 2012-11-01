@@ -264,7 +264,7 @@ MersenneTwisterRandomVariateGenerator::hash(vcl_time_t t, vcl_clock_t c)
   static IntegerType differ = 0;  // guarantee time-based seeds will change
 
   IntegerType    h1 = 0;
-  unsigned char *p = (unsigned char *)&t;
+  uint8_t *p = (uint8_t *)&t;
 
   const unsigned int sizeOfT = static_cast< unsigned int >( sizeof(t) );
   for ( unsigned int i = 0; i < sizeOfT; ++i )
@@ -273,7 +273,7 @@ MersenneTwisterRandomVariateGenerator::hash(vcl_time_t t, vcl_clock_t c)
     h1 += p[i];
     }
   IntegerType h2 = 0;
-  p = (unsigned char *)&c;
+  p = (uint8_t *)&c;
 
   const unsigned int sizeOfC = static_cast< unsigned int >( sizeof(c) );
   for ( unsigned int j = 0; j < sizeOfC; ++j )

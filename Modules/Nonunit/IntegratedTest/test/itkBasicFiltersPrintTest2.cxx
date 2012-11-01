@@ -111,8 +111,8 @@ int itkBasicFiltersPrintTest2(int , char* [])
 {
   typedef itk::Image<float,2>         InputType;
   typedef itk::Image<float,2>         OutputType;
-  typedef itk::Image<unsigned char,2> CharType;
-  typedef itk::Image<unsigned char,3> CharType3D;
+  typedef itk::Image<uint8_t,2> CharType;
+  typedef itk::Image<uint8_t,3> CharType3D;
 
   typedef itk::Point<float,2>       MeshPixelType;
   typedef itk::Mesh<MeshPixelType>  MeshType;
@@ -135,7 +135,7 @@ int itkBasicFiltersPrintTest2(int , char* [])
   typedef itk::GaussianSpatialFunction<char,2> GaussianSpatialFunctionType;
 
   // Used for MaskImageFilter
-  typedef itk::Image<unsigned char,2> MaskImageType;
+  typedef itk::Image<uint8_t,2> MaskImageType;
 
   itk::ImageToParametricSpaceFilter<InputType,MeshType>::Pointer ImageToParametricSpaceFilterObj =
     itk::ImageToParametricSpaceFilter<InputType,MeshType>::New();

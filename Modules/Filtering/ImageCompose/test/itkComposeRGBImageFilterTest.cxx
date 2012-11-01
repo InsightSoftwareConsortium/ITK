@@ -24,10 +24,10 @@
 
 int itkComposeRGBImageFilterTest(int , char * [])
 {
-  typedef unsigned char PixelType;
+  typedef uint8_t PixelType;
   typedef itk::Image< PixelType, 3 > InputImageType;
 
-  typedef itk::RGBPixel<unsigned char>   RGBPixelType;
+  typedef itk::RGBPixel<uint8_t>   RGBPixelType;
   typedef itk::Image< RGBPixelType, 3 >  OutputImageType;
 
 

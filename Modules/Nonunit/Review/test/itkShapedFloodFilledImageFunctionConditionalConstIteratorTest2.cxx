@@ -29,7 +29,7 @@ int itkShapedFloodFilledImageFunctionConditionalConstIteratorTest2( int, char * 
   try
     {
     const unsigned int ImageDimension = 2;
-    typedef unsigned char PixelType;
+    typedef uint8_t PixelType;
 
     typedef itk::Image<PixelType, ImageDimension> ImageType;
     typedef ImageType::RegionType                 RegionType;
@@ -98,7 +98,7 @@ int itkShapedFloodFilledImageFunctionConditionalConstIteratorTest2( int, char * 
 
     shapedFloodIt.SetFullyConnected(false); // 4-connected, default
 
-    for (unsigned short i = 1; !floodIt.IsAtEnd(); ++floodIt,
+    for (uint16_t i = 1; !floodIt.IsAtEnd(); ++floodIt,
                                                    ++shapedFloodIt,
                                                    ++i)
       {

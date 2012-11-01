@@ -138,7 +138,7 @@ MaskFeaturePointSelectionFilter< TImage, TMask, TFeatures >
   PointDataContainerPointer pointData = PointDataContainer::New();
 
   // initialize selectionMap
-  typedef unsigned char                         MapPixelType;
+  typedef uint8_t                         MapPixelType;
   typedef Image< MapPixelType, ImageDimension>  SelectionMapType;
   typename SelectionMapType::Pointer selectionMap = SelectionMapType::New();
 

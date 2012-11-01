@@ -110,7 +110,7 @@ int itkGPUDemonsRegistrationFilterTest2(int argc, char* argv[] )
     std::cerr << " fixedImageFile warpedOutputImageFile" << std::endl;
     }
 
-//   typedef unsigned char PixelType;
+//   typedef uint8_t PixelType;
   typedef float PixelType;
   enum {ImageDimension = 2};
   typedef itk::GPUImage<PixelType,ImageDimension>             ImageType;

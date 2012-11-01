@@ -25,7 +25,7 @@
 
 
 typedef itk::Size<3>                               SizeType;
-typedef itk::Image<unsigned short, 3>              ImageType;
+typedef itk::Image<uint16_t, 3>              ImageType;
 typedef double                                     CoordRepType;
 typedef itk::LinearInterpolateImageFunction<ImageType,CoordRepType>  InterpolatorType;
 typedef InterpolatorType::IndexType                 IndexType;

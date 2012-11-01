@@ -28,7 +28,7 @@ int itkNearestNeighborExtrapolateImageFunctionTest( int, char *[])
 {
   typedef double CoordRep;
   const unsigned int ImageDimension = 2;
-  typedef unsigned char PixelType;
+  typedef uint8_t PixelType;
   const   unsigned int VectorDimension = 4;
   typedef itk::Vector< PixelType, VectorDimension > VectorPixelType;
   typedef itk::Image<PixelType,ImageDimension> ImageType;
@@ -50,7 +50,7 @@ int itkNearestNeighborExtrapolateImageFunctionTest( int, char *[])
   typedef itk::ImageRegionIterator<ImageType> Iterator;
   Iterator iter( image, imageRegion );
   iter.GoToBegin();
-  unsigned char counter = 0;
+  uint8_t counter = 0;
 
   while( !iter.IsAtEnd() )
     {

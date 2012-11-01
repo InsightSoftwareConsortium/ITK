@@ -363,7 +363,7 @@ FastMarchingImageFilter< TLevelSet, TSpeedImage >
   LevelSetImageType *output)
 {
   IndexType neighIndex = index;
-  unsigned char label;
+  uint8_t label;
 
   for ( unsigned int j = 0; j < SetDimension; j++ )
     {

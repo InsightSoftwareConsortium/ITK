@@ -75,7 +75,7 @@ public:
 };
 
 template< >
-class PixelTraits< signed char >
+class PixelTraits< int8_t >
 {
 public:
   itkStaticConstMacro(Dimension, unsigned int, 1);
@@ -83,11 +83,11 @@ public:
 };
 
 template< >
-class PixelTraits< unsigned char >
+class PixelTraits< uint8_t >
 {
 public:
   itkStaticConstMacro(Dimension, unsigned int, 1);
-  typedef unsigned char ValueType;
+  typedef uint8_t ValueType;
 };
 
 template< >
@@ -99,11 +99,11 @@ public:
 };
 
 template< >
-class PixelTraits< unsigned short >
+class PixelTraits< uint16_t >
 {
 public:
   itkStaticConstMacro(Dimension, unsigned int, 1);
-  typedef unsigned short ValueType;
+  typedef uint16_t ValueType;
 };
 
 template< >
@@ -163,7 +163,7 @@ public:
  * JoinTraits defines the value type needed to combine the specified
  * pixel types into a single vector.  The data type selected is the
  * smallest data type that can represent the dynamic range of both
- * input pixel types.  For example, if a char and unsigned short are
+ * input pixel types.  For example, if a char and uint16_t are
  * "joined", the resulting data type must be a vector of int.  In
  * some cases, like joining a unsigned int and a char, the join
  * value type is promoted all the way to a float.  This provides
@@ -202,10 +202,10 @@ public:
 };
 
 template< >
-class JoinTraits< bool, unsigned char >
+class JoinTraits< bool, uint8_t >
 {
 public:
-  typedef unsigned char ValueType;
+  typedef uint8_t ValueType;
 };
 
 template< >
@@ -216,10 +216,10 @@ public:
 };
 
 template< >
-class JoinTraits< bool, unsigned short >
+class JoinTraits< bool, uint16_t >
 {
 public:
-  typedef unsigned short ValueType;
+  typedef uint16_t ValueType;
 };
 
 template< >
@@ -283,7 +283,7 @@ public:
 };
 
 template< >
-class JoinTraits< char, unsigned char >
+class JoinTraits< char, uint8_t >
 {
 public:
   typedef short ValueType;
@@ -297,7 +297,7 @@ public:
 };
 
 template< >
-class JoinTraits< char, unsigned short >
+class JoinTraits< char, uint16_t >
 {
 public:
   typedef int ValueType;
@@ -346,82 +346,82 @@ public:
   typedef double ValueType;
 };
 
-/**  \class PixelTraits<unsigned char>
- * Specializations for unsigned char.
+/**  \class PixelTraits<uint8_t>
+ * Specializations for uint8_t.
  * \ingroup ITKCommon
  */
 template< >
-class JoinTraits< unsigned char, bool >
+class JoinTraits< uint8_t, bool >
 {
 public:
-  typedef unsigned char ValueType;
+  typedef uint8_t ValueType;
 };
 
 template< >
-class JoinTraits< unsigned char, char >
-{
-public:
-  typedef short ValueType;
-};
-
-template< >
-class JoinTraits< unsigned char, unsigned char >
-{
-public:
-  typedef unsigned char ValueType;
-};
-
-template< >
-class JoinTraits< unsigned char, short >
+class JoinTraits< uint8_t, char >
 {
 public:
   typedef short ValueType;
 };
 
 template< >
-class JoinTraits< unsigned char, unsigned short >
+class JoinTraits< uint8_t, uint8_t >
 {
 public:
-  typedef unsigned short ValueType;
+  typedef uint8_t ValueType;
 };
 
 template< >
-class JoinTraits< unsigned char, int >
+class JoinTraits< uint8_t, short >
+{
+public:
+  typedef short ValueType;
+};
+
+template< >
+class JoinTraits< uint8_t, uint16_t >
+{
+public:
+  typedef uint16_t ValueType;
+};
+
+template< >
+class JoinTraits< uint8_t, int >
 {
 public:
   typedef int ValueType;
 };
 
 template< >
-class JoinTraits< unsigned char, unsigned int >
+class JoinTraits< uint8_t, unsigned int >
 {
 public:
   typedef unsigned int ValueType;
 };
 
 template< >
-class JoinTraits< unsigned char, long >
+class JoinTraits< uint8_t, long >
 {
 public:
   typedef long ValueType;
 };
 
 template< >
-class JoinTraits< unsigned char, unsigned long >
+class JoinTraits< uint8_t, unsigned long >
 {
 public:
   typedef unsigned long ValueType;
 };
 
 template< >
-class JoinTraits< unsigned char, float >
+class JoinTraits< uint8_t, float >
 {
 public:
   typedef float ValueType;
 };
 
 template< >
-class JoinTraits< unsigned char, double >
+class JoinTraits< uint8_t, double >
 {
 public:
   typedef double ValueType;
@@ -446,7 +446,7 @@ public:
 };
 
 template< >
-class JoinTraits< short, unsigned char >
+class JoinTraits< short, uint8_t >
 {
 public:
   typedef short ValueType;
@@ -460,7 +460,7 @@ public:
 };
 
 template< >
-class JoinTraits< short, unsigned short >
+class JoinTraits< short, uint16_t >
 {
 public:
   typedef int ValueType;
@@ -509,82 +509,82 @@ public:
   typedef double ValueType;
 };
 
-/**  \class PixelTraits<unsigned short>
- * Specializations for unsigned short.
+/**  \class PixelTraits<uint16_t>
+ * Specializations for uint16_t.
  * \ingroup ITKCommon
  */
 template< >
-class JoinTraits< unsigned short, bool >
+class JoinTraits< uint16_t, bool >
 {
 public:
-  typedef unsigned short ValueType;
+  typedef uint16_t ValueType;
 };
 
 template< >
-class JoinTraits< unsigned short, char >
-{
-public:
-  typedef int ValueType;
-};
-
-template< >
-class JoinTraits< unsigned short, unsigned char >
-{
-public:
-  typedef unsigned short ValueType;
-};
-
-template< >
-class JoinTraits< unsigned short, short >
+class JoinTraits< uint16_t, char >
 {
 public:
   typedef int ValueType;
 };
 
 template< >
-class JoinTraits< unsigned short, unsigned short >
+class JoinTraits< uint16_t, uint8_t >
 {
 public:
-  typedef unsigned short ValueType;
+  typedef uint16_t ValueType;
 };
 
 template< >
-class JoinTraits< unsigned short, int >
+class JoinTraits< uint16_t, short >
 {
 public:
   typedef int ValueType;
 };
 
 template< >
-class JoinTraits< unsigned short, unsigned int >
+class JoinTraits< uint16_t, uint16_t >
+{
+public:
+  typedef uint16_t ValueType;
+};
+
+template< >
+class JoinTraits< uint16_t, int >
+{
+public:
+  typedef int ValueType;
+};
+
+template< >
+class JoinTraits< uint16_t, unsigned int >
 {
 public:
   typedef unsigned int ValueType;
 };
 
 template< >
-class JoinTraits< unsigned short, long >
+class JoinTraits< uint16_t, long >
 {
 public:
   typedef long ValueType;
 };
 
 template< >
-class JoinTraits< unsigned short, unsigned long >
+class JoinTraits< uint16_t, unsigned long >
 {
 public:
   typedef unsigned long ValueType;
 };
 
 template< >
-class JoinTraits< unsigned short, float >
+class JoinTraits< uint16_t, float >
 {
 public:
   typedef float ValueType;
 };
 
 template< >
-class JoinTraits< unsigned short, double >
+class JoinTraits< uint16_t, double >
 {
 public:
   typedef double ValueType;
@@ -609,7 +609,7 @@ public:
 };
 
 template< >
-class JoinTraits< int, unsigned char >
+class JoinTraits< int, uint8_t >
 {
 public:
   typedef int ValueType;
@@ -623,7 +623,7 @@ public:
 };
 
 template< >
-class JoinTraits< int, unsigned short >
+class JoinTraits< int, uint16_t >
 {
 public:
   typedef int ValueType;
@@ -692,7 +692,7 @@ public:
 };
 
 template< >
-class JoinTraits< unsigned int, unsigned char >
+class JoinTraits< unsigned int, uint8_t >
 {
 public:
   typedef unsigned int ValueType;
@@ -707,7 +707,7 @@ public:
 };
 
 template< >
-class JoinTraits< unsigned int, unsigned short >
+class JoinTraits< unsigned int, uint16_t >
 {
 public:
   typedef unsigned int ValueType;
@@ -775,7 +775,7 @@ public:
 };
 
 template< >
-class JoinTraits< long, unsigned char >
+class JoinTraits< long, uint8_t >
 {
 public:
   typedef long ValueType;
@@ -789,7 +789,7 @@ public:
 };
 
 template< >
-class JoinTraits< long, unsigned short >
+class JoinTraits< long, uint16_t >
 {
 public:
   typedef long ValueType;
@@ -856,7 +856,7 @@ public:
 };
 
 template< >
-class JoinTraits< unsigned long, unsigned char >
+class JoinTraits< unsigned long, uint8_t >
 {
 public:
   typedef unsigned long ValueType;
@@ -870,7 +870,7 @@ public:
 };
 
 template< >
-class JoinTraits< unsigned long, unsigned short >
+class JoinTraits< unsigned long, uint16_t >
 {
 public:
   typedef unsigned long ValueType;
@@ -937,7 +937,7 @@ public:
 };
 
 template< >
-class JoinTraits< float, unsigned char >
+class JoinTraits< float, uint8_t >
 {
 public:
   typedef float ValueType;
@@ -951,7 +951,7 @@ public:
 };
 
 template< >
-class JoinTraits< float, unsigned short >
+class JoinTraits< float, uint16_t >
 {
 public:
   typedef float ValueType;
@@ -1018,7 +1018,7 @@ public:
 };
 
 template< >
-class JoinTraits< double, unsigned char >
+class JoinTraits< double, uint8_t >
 {
 public:
   typedef double ValueType;
@@ -1032,7 +1032,7 @@ public:
 };
 
 template< >
-class JoinTraits< double, unsigned short >
+class JoinTraits< double, uint16_t >
 {
 public:
   typedef double ValueType;

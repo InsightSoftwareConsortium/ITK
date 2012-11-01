@@ -90,7 +90,7 @@ int itkLandmarkBasedTransformInitializerTest(int, char * [])
   // based alignment
   std::cout << "Testing Landmark alignment with VersorRigid3DTransform" << std::endl;
 
-  typedef  unsigned char  PixelType;
+  typedef  uint8_t  PixelType;
   const unsigned int Dimension = 3;
 
   typedef itk::Image< PixelType, Dimension >  FixedImageType;
@@ -196,7 +196,7 @@ int itkLandmarkBasedTransformInitializerTest(int, char * [])
   //Test landmark alignment using Rigid 2D transform in 2 dimensions
   std::cout << "Testing Landmark alignment with Rigid2DTransform" << std::endl;
 
-  typedef  unsigned char  PixelType;
+  typedef  uint8_t  PixelType;
   const unsigned int Dimension = 2;
 
   typedef itk::Image< PixelType, Dimension >  FixedImageType;
@@ -342,7 +342,7 @@ int itkLandmarkBasedTransformInitializerTest(int, char * [])
   }
 
   {
-  typedef unsigned char PixelType;
+  typedef uint8_t PixelType;
   const unsigned int Dimension = 3;
   typedef itk::Image<PixelType,Dimension> ImageType;
   ImageType::Pointer fixedImage   = ImageType::New();

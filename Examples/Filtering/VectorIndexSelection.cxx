@@ -40,8 +40,8 @@ int main( int argc, char * argv[] )
 
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::RGBPixel<unsigned char>  InputPixelType;
-  typedef unsigned char                 OutputPixelType;
+  typedef itk::RGBPixel<uint8_t>  InputPixelType;
+  typedef uint8_t                 OutputPixelType;
   const   unsigned int                  Dimension = 2;
 
   typedef itk::Image< InputPixelType,  Dimension >    InputImageType;

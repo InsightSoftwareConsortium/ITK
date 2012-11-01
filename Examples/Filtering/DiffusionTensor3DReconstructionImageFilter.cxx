@@ -78,8 +78,8 @@ int main( int argc, char *argv[] )
   bool readb0 = false;
   double b0 = 0;
 
-  typedef unsigned short                      PixelType;
-  typedef itk::VectorImage<unsigned short, 3> ImageType;
+  typedef uint16_t                      PixelType;
+  typedef itk::VectorImage<uint16_t, 3> ImageType;
 
   itk::ImageFileReader<ImageType>::Pointer reader
     = itk::ImageFileReader<ImageType>::New();

@@ -174,7 +174,7 @@ TubeSpatialObjectPoint< TPointDimension >
 }
 
 template< unsigned int TPointDimension >
-unsigned short int
+uint16_t
 TubeSpatialObjectPoint< TPointDimension >
 ::GetNumDimensions(void) const
 {

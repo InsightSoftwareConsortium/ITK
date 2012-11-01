@@ -276,7 +276,7 @@ NarrowBandImageFilterBase< TInputImage, TOutputImage >
                       ThreadIdType threadId)
 {
   //const int INNER_MASK = 2;
-  const signed char INNER_MASK = 2;
+  const int8_t INNER_MASK = 2;
 
   typename NarrowBandType::ConstIterator it;
   typename OutputImageType::Pointer image = this->GetOutput();

@@ -24,8 +24,8 @@
 
 int itkVectorGradientMagnitudeImageFilterTest1(int ac, char* av[] )
 {
-  typedef itk::RGBPixel<unsigned short> RGBPixelType;
-  typedef itk::Image<unsigned char, 2> CharImageType;
+  typedef itk::RGBPixel<uint16_t> RGBPixelType;
+  typedef itk::Image<uint8_t, 2> CharImageType;
   typedef itk::Image<RGBPixelType, 2> RGBImageType;
   typedef itk::VectorGradientMagnitudeImageFilter<RGBImageType> FilterType;
   typedef itk::ImageFileReader<RGBImageType> ReaderType;

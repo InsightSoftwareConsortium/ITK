@@ -29,7 +29,7 @@ int itkConstrainedValueDifferenceImageFilterTest(int, char* [] )
   // Declare the types of the images
   typedef itk::Image<float, myDimension>  myImageType1;
   typedef itk::Image<float, myDimension>  myImageType2;
-  typedef itk::Image<unsigned char, myDimension>  myImageType3;
+  typedef itk::Image<uint8_t, myDimension>  myImageType3;
 
   // Declare the type of the index to access images
   typedef itk::Index<myDimension>         myIndexType;

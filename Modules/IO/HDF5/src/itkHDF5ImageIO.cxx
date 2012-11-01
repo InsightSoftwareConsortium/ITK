@@ -88,7 +88,7 @@ GetH5TypeSpecialize(float,                  H5::PredType::NATIVE_FLOAT)
 GetH5TypeSpecialize(double,                 H5::PredType::NATIVE_DOUBLE)
 
 GetH5TypeSpecialize(char,                   H5::PredType::NATIVE_CHAR)
-GetH5TypeSpecialize(unsigned char,          H5::PredType::NATIVE_UCHAR)
+GetH5TypeSpecialize(uint8_t,          H5::PredType::NATIVE_UCHAR)
 
 GetH5TypeSpecialize(short int,              H5::PredType::NATIVE_SHORT)
 GetH5TypeSpecialize(short unsigned int,     H5::PredType::NATIVE_USHORT)
@@ -810,7 +810,7 @@ HDF5ImageIO
         }
       else if(metaDataType == H5::PredType::NATIVE_UCHAR)
         {
-        this->StoreMetaData<unsigned char>(&metaDict,
+        this->StoreMetaData<uint8_t>(&metaDict,
                                            localMetaDataName,
                                            name,
                                            metaDataDims);
@@ -824,7 +824,7 @@ HDF5ImageIO
         }
       else if(metaDataType == H5::PredType::NATIVE_USHORT)
         {
-        this->StoreMetaData<unsigned short>(&metaDict,
+        this->StoreMetaData<uint16_t>(&metaDict,
                                             localMetaDataName,
                                             name,
                                             metaDataDims);
@@ -1078,7 +1078,7 @@ HDF5ImageIO
         {
         continue;
         }
-      if(this->WriteMeta<unsigned char>(objName,metaObj))
+      if(this->WriteMeta<uint8_t>(objName,metaObj))
         {
         continue;
         }
@@ -1086,7 +1086,7 @@ HDF5ImageIO
         {
         continue;
         }
-      if(this->WriteMeta<unsigned short>(objName,metaObj))
+      if(this->WriteMeta<uint16_t>(objName,metaObj))
         {
         continue;
         }
@@ -1118,7 +1118,7 @@ HDF5ImageIO
         {
         continue;
         }
-      if(this->WriteMetaArray<unsigned char>(objName,metaObj))
+      if(this->WriteMetaArray<uint8_t>(objName,metaObj))
         {
         continue;
         }
@@ -1126,7 +1126,7 @@ HDF5ImageIO
         {
         continue;
         }
-      if(this->WriteMetaArray<unsigned short>(objName,metaObj))
+      if(this->WriteMetaArray<uint16_t>(objName,metaObj))
         {
         continue;
         }

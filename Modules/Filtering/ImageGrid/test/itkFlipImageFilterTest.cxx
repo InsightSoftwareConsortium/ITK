@@ -25,7 +25,7 @@ int itkFlipImageFilterTest(int, char* [] )
 
   itk::OutputWindow::SetInstance(itk::TextOutput::New());
 
-  typedef unsigned char PixelType;
+  typedef uint8_t PixelType;
   enum { ImageDimension = 3 };
   typedef itk::Image<PixelType,ImageDimension> ImageType;
   typedef itk::FlipImageFilter<ImageType> FlipperType;

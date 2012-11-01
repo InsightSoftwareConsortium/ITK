@@ -31,7 +31,7 @@ int itkFFTConvolutionImageFilterDeltaFunctionTest(int argc, char * argv[])
 
   const unsigned int ImageDimension = 2;
 
-  typedef unsigned char                            PixelType;
+  typedef uint8_t                            PixelType;
   typedef itk::Image< PixelType, ImageDimension >  ImageType;
   typedef itk::ImageFileReader< ImageType >        ReaderType;
 

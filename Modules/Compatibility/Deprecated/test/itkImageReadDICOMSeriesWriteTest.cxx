@@ -33,7 +33,7 @@ int itkImageReadDICOMSeriesWriteTest( int argc, char* argv[] )
     }
 
 
-  typedef signed short    PixelType;
+  typedef int16_t    PixelType;
   const unsigned int      Dimension = 3;
 
   typedef itk::Image< PixelType, Dimension >      ImageType;
@@ -65,7 +65,7 @@ int itkImageReadDICOMSeriesWriteTest( int argc, char* argv[] )
   itksys::SystemTools::MakeDirectory( outputDirectory );
 
 
-  typedef signed short    OutputPixelType;
+  typedef int16_t    OutputPixelType;
   const unsigned int      OutputDimension = 2;
 
   typedef itk::Image< OutputPixelType, OutputDimension >    Image2DType;

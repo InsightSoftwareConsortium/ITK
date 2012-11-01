@@ -57,8 +57,8 @@ int main(int argc, char *argv[])
   std::string visibleHumanPath = argv[1];
   std::string outputImageFile = argv[2];
 
-  typedef itk::RGBPixel<unsigned char> RGBPixelType;
-  typedef unsigned char                PixelType;
+  typedef itk::RGBPixel<uint8_t> RGBPixelType;
+  typedef uint8_t                PixelType;
   typedef itk::Image<PixelType, 3>     ImageType;
   typedef itk::Image<RGBPixelType, 3>  RGB3DImageType;
   typedef itk::Image<RGBPixelType, 2>  RGB2DImageType;

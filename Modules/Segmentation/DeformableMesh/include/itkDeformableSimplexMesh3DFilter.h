@@ -109,7 +109,7 @@ public:
   /** Image and Image iterator definition. */
   typedef CovariantVector< PixelType, 3 > GradientType;
   typedef Image< GradientType, 3 >        GradientImageType;
-  typedef Image< unsigned char, 3 >       BinaryOutput;
+  typedef Image< uint8_t, 3 >       BinaryOutput;
   typedef Image< float, 3 >               MagnitudeOutput;
 
   typedef typename GradientImageType::Pointer        GradientImagePointer;

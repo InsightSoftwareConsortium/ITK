@@ -30,7 +30,7 @@
 
 #define SPECIFIC_IMAGEIO_MODULE_TEST
 
-typedef itk::Image<signed short, 3> ImageType ;
+typedef itk::Image<int16_t, 3> ImageType ;
 typedef ImageType::Pointer ImagePointer ;
 typedef itk::ImageFileReader< ImageType > ImageReaderType ;
 typedef itk::ImageFileWriter< ImageType > ImageWriterType ;
