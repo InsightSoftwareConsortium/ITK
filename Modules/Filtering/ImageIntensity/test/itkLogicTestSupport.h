@@ -20,6 +20,8 @@
 #define _itk_LogicTestSupport_
 
 #include "itkImageRegionIteratorWithIndex.h"
+#include <functional>
+
 
 // templates for explicit checking of image results in logic
 // operations
