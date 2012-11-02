@@ -33,11 +33,15 @@ int itkMaskedFFTNormalizedCorrelationImageFilterTest(int argc, char * argv[] )
     return EXIT_FAILURE;
     }
 
-  typedef itk::Image<unsigned short, 2> InputImageType;
-  typedef itk::Image<unsigned char, 2 > OutputImageType;
+  typedef itk::Image< unsigned short, 2 >           InputImageType;
+  typedef itk::Image< unsigned char, 2 >            MaskImageType;
+  typedef itk::Image< unsigned char, 2 >            OutputImageType;
+  typedef itk::ImageFileReader< InputImageType >    ReaderType;
+  typedef itk::ImageFileReader< MaskImageType >     MaskReaderType;
+
   // We need the internal type to be either float or double since
   // the correlation image contains values between -1 and 1.
-  typedef itk::Image<double, 2> RealImageType;
+  typedef itk::Image< double, 2 > RealImageType;
 
   char * fixedImageFileName = argv[1];
   char * movingImageFileName = argv[2];
@@ -48,14 +52,13 @@ int itkMaskedFFTNormalizedCorrelationImageFilterTest(int argc, char * argv[] )
       requiredNumberOfOverlappingPixels = atoi(argv[4]);
     }
 
-  typedef itk::ImageFileReader< InputImageType > ReaderType;
   ReaderType::Pointer fixedImageReader = ReaderType::New();
   fixedImageReader->SetFileName( fixedImageFileName );
 
   ReaderType::Pointer movingImageReader = ReaderType::New();
   movingImageReader->SetFileName( movingImageFileName );
 
-  typedef itk::MaskedFFTNormalizedCorrelationImageFilter< InputImageType, RealImageType > FilterType;
+  typedef itk::MaskedFFTNormalizedCorrelationImageFilter< InputImageType, RealImageType, MaskImageType > FilterType;
   FilterType::Pointer filter = FilterType::New();
   filter->SetFixedImage( fixedImageReader->GetOutput() );
   filter->SetMovingImage( movingImageReader->GetOutput() );
@@ -66,7 +69,7 @@ int itkMaskedFFTNormalizedCorrelationImageFilterTest(int argc, char * argv[] )
   if( argc > 5 )
   {
     char * fixedMaskFileName = argv[5];
-    ReaderType::Pointer fixedMaskReader = ReaderType::New();
+    MaskReaderType::Pointer fixedMaskReader = MaskReaderType::New();
     fixedMaskReader->SetFileName(fixedMaskFileName);
     fixedMaskReader->Update();
     filter->SetFixedImageMask(fixedMaskReader->GetOutput());
@@ -75,7 +78,7 @@ int itkMaskedFFTNormalizedCorrelationImageFilterTest(int argc, char * argv[] )
   if( argc > 6 )
   {
     char * movingMaskFileName = argv[6];
-    ReaderType::Pointer movingMaskReader = ReaderType::New();
+    MaskReaderType::Pointer movingMaskReader = MaskReaderType::New();
     movingMaskReader->SetFileName(movingMaskFileName);
     movingMaskReader->Update();
     filter->SetMovingImageMask(movingMaskReader->GetOutput());
