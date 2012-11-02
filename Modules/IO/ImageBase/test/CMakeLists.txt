@@ -275,13 +275,6 @@ itk_add_test(NAME itkImageSeriesWriterTest
               ${DICOMSERIES_DIR} ${ITK_TEST_OUTPUT_DIR} png)
 
 if(ITK_BUILD_SHARED_LIBS)
-  itk_add_test(NAME itkIOPluginTest
-           COMMAND itkTestDriver  --add-before-env ITK_AUTOLOAD_PATH "${ITK_TEST_OUTPUT_DIR}/$<CONFIGURATION>"
-              "$<TARGET_FILE:ITKIOImageBaseTestDriver>" itkIOPluginTest
-             ${ITK_TEST_OUTPUT_DIR}
-             "FileFreeIO::Size=128,256:Spacing=.5,.8:Origin=5,6:Direction=-1,0,0,-1"
-             ${ITK_TEST_OUTPUT_DIR}/itkIOPluginTest.png
-    )
   ## Create a library to test ITK IO plugins
   set(FileFreeTest_Source itkFileFreeImageIO.cxx itkFileFreeImageIOFactory.cxx)
   add_library(FileFreeTestLib MODULE ${FileFreeTest_Source})
@@ -289,6 +282,14 @@ if(ITK_BUILD_SHARED_LIBS)
   target_link_libraries(FileFreeTestLib ${ITKIOImageBase_LIBRARIES})
   set_property(TARGET FileFreeTestLib PROPERTY LIBRARY_OUTPUT_DIRECTORY ${ITK_TEST_OUTPUT_DIR})
   add_dependencies(ITKIOImageBaseTestDriver FileFreeTestLib)
+
+  itk_add_test(NAME itkIOPluginTest
+           COMMAND itkTestDriver  --add-before-env ITK_AUTOLOAD_PATH "$<TARGET_FILE_DIR:FileFreeTestLib>"
+              "$<TARGET_FILE:ITKIOImageBaseTestDriver>" itkIOPluginTest
+             ${ITK_TEST_OUTPUT_DIR}
+             "FileFreeIO::Size=128,256:Spacing=.5,.8:Origin=5,6:Direction=-1,0,0,-1"
+             ${ITK_TEST_OUTPUT_DIR}/itkIOPluginTest.png
+    )
 endif()
 itk_add_test(NAME itkNoiseImageFilterTest
       COMMAND ITKIOImageBaseTestDriver
