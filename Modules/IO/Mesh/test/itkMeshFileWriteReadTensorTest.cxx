@@ -20,7 +20,7 @@
 #include "itkVTKPolyDataMeshIO.h"
 #include "itkSymmetricSecondRankTensor.h"
 
-int itkMeshFileWriteReadTensorTest( int argc, char** argv )
+int itkMeshFileWriteReadTensorTest( int argc, char* argv[] )
 {
   if( argc < 3 )
     {
