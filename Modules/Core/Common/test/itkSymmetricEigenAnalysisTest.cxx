@@ -195,6 +195,63 @@ int itkSymmetricEigenAnalysisTest(int, char* [] )
       }
     }
   }
+
+  {
+  // Test sorting when some eigenvalues are negative
+  std::cout << "Testing ComputeEigenValuesAndVectors() "
+    << "with SymmetricEigenAnalysis< itk::Matrix, itk::FixedArray, itk::Matrix >"
+    << std::endl;
+  typedef itk::Matrix< double, 3, 3 > InputMatrixType;
+  typedef itk::FixedArray< double, 3 > EigenValuesArrayType;
+  typedef itk::Matrix< double, 3, 3 > EigenVectorMatrixType;
+  typedef itk::SymmetricEigenAnalysis< InputMatrixType,
+      EigenValuesArrayType, EigenVectorMatrixType > SymmetricEigenAnalysisType;
+
+  double Sdata[9] = {
+    -3.0, 0.0, 0.0,
+     0.0, 5.0, 0.0,
+     0.0, 0.0, -1.0,
+  };
+
+  InputMatrixType S;
+
+  for(unsigned int row=0; row<3; row++)
+    {
+    for(unsigned int col=0; col<3; col++)
+      {
+      S(row,col) = Sdata[ row * 3 + col ];
+      }
+    }
+
+  EigenValuesArrayType eigenvalues;
+  EigenVectorMatrixType eigenvectors;
+  SymmetricEigenAnalysisType symmetricEigenSystem(3);
+  symmetricEigenSystem.SetOrderEigenMagnitudes(true);
+  symmetricEigenSystem.ComputeEigenValuesAndVectors(S, eigenvalues, eigenvectors );
+
+  std::cout << "EigenValues: " << eigenvalues << std::endl;
+  std::cout << "EigenVectors (each row is an an eigen vector): " << std::endl;
+  std::cout << eigenvectors << std::endl;
+
+  double eigvec3[3] = { 0.0, 1.0, 0.0};
+  double eigvals[3]= {-1.0, -3.0, 5.0};
+
+  double tolerance = 0.01;
+  for( unsigned int i=0; i<3; i++ )
+    {
+    if (vnl_math_abs( eigvals[i] - eigenvalues[i] ) > tolerance)
+      {
+      std::cout << "Eigen value computation failed" << std::endl;
+      return EXIT_FAILURE;
+      }
+
+     if (vnl_math_abs( eigvec3[i] - eigenvectors[2][i] ) > tolerance)
+      {
+      std::cout << "Eigen vector computation failed" << std::endl;
+      return EXIT_FAILURE;
+      }
+    }
+  }
   std::cout << "[TEST PASSED]" << std::endl;
 
 return EXIT_SUCCESS;
