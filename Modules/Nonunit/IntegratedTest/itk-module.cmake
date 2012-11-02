@@ -40,7 +40,6 @@ itk_module(ITKIntegratedTest
     ITKIOGIPL
     ITKIOIPL
     ITKIOJPEG
-    ITKIOLSM
     ITKIOMeta
     ITKIONIFTI
     ITKIONRRD

@@ -23,11 +23,15 @@
 #include "itkGiplImageIO.h"
 #include "itkImageFileReader.h"
 #include "itkJPEGImageIO.h"
-#include "itkLSMImageIO.h"
+#include "itk_tiff.h" // ITK_USE_SYSTEM_TIFF
+#ifndef ITK_USE_SYSTEM_TIFF
+#  include "itkLSMImageIO.h"
+#endif // ITK_USE_SYSTEM_TIFF
 #include "itkMetaImageIO.h"
 #include "itkPNGImageIO.h"
 #include "itkRawImageIO.h"
 #include "itkStimulateImageIO.h"
+#include "itkTIFFImageIO.h"
 #include "itkVTKImageIO.h"
 
 int itkIOPrintTest(int , char* [])
@@ -71,10 +75,12 @@ int itkIOPrintTest(int , char* [])
   reader->SetImageIO(JPEGio);
   std::cout << "---------------JPEG" << reader;
 
+#ifndef ITK_USE_SYSTEM_TIFF
   itk::LSMImageIO::Pointer LSMio;
   LSMio = itk::LSMImageIO::New();
   reader->SetImageIO(LSMio);
   std::cout << "---------------LSM" << reader;
+#endif
 
   itk::MetaImageIO::Pointer Metaio;
   Metaio = itk::MetaImageIO::New();
