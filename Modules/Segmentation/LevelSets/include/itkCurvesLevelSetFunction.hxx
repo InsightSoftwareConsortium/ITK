@@ -23,6 +23,7 @@
 #include "itkGradientRecursiveGaussianImageFilter.h"
 #include "itkGradientImageFilter.h"
 #include "itkVectorCastImageFilter.h"
+#include "itkImageAlgorithm.h"
 
 namespace itk
 {
@@ -43,15 +44,11 @@ void CurvesLevelSetFunction< TImageType, TFeatureImageType >
 ::CalculateSpeedImage()
 {
   /* copy the feature image into the speed image */
-  ImageRegionConstIterator< FeatureImageType >
-  fit( this->GetFeatureImage(), this->GetFeatureImage()->GetRequestedRegion() );
-  ImageRegionIterator< ImageType >
-  sit( this->GetSpeedImage(), this->GetFeatureImage()->GetRequestedRegion() );
+  ImageAlgorithm::Copy( this->GetFeatureImage(),
+                        this->GetSpeedImage(),
+                        this->GetFeatureImage()->GetRequestedRegion(),
+                        this->GetFeatureImage()->GetRequestedRegion() );
 
-  for ( fit.GoToBegin(), sit.GoToBegin(); !fit.IsAtEnd(); ++sit, ++fit )
-    {
-    sit.Set( static_cast< ScalarValueType >( fit.Get() ) );
-    }
 }
 
 template< class TImageType, class TFeatureImageType >

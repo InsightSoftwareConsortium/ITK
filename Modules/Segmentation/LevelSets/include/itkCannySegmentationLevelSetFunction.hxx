@@ -22,6 +22,7 @@
 #include "itkGradientImageFilter.h"
 #include "itkMultiplyImageFilter.h"
 #include "itkImageRegionIterator.h"
+#include "itkImageAlgorithm.h"
 
 namespace itk
 {
@@ -64,15 +65,11 @@ void CannySegmentationLevelSetFunction< TImageType, TFeatureImageType >
   multiply->Update();
 
 // Copy output to Advection Image
-  ImageRegionIterator< VectorImageType > it( this->GetAdvectionImage(),
-                                             this->GetAdvectionImage()->GetRequestedRegion() );
-  ImageRegionConstIterator< CovariantVectorImageType > it_a( multiply->GetOutput(),
-                                                             this->GetAdvectionImage()->GetRequestedRegion() );
+  ImageAlgorithm::Copy( multiply->GetOutput(),
+                        this->GetAdvectionImage(),
+                        this->GetAdvectionImage()->GetRequestedRegion(),
+                        this->GetAdvectionImage()->GetRequestedRegion() );
 
-  for (; !it.IsAtEnd(); ++it, ++it_a )
-    {
-    it.Set( it_a.Get() );
-    }
 }
 
 template< class TImageType, class TFeatureImageType >
