@@ -74,7 +74,11 @@ void
 InPlaceImageFilter< TInputImage, TOutputImage >
 ::InternalAllocateOutputs( const TrueType& )
 {
-  const InputImageType *inputPtr = this->GetInput(0);
+  // Use ProcessObject's GetInput method to get a DataObject pointer,
+  // then perform a dynamic_cast to the expected InputImageType. This
+  // may fail and that is an expected likely hood, if inputPtr is NULL
+  // then this filter will not run in-place.
+  const InputImageType *inputPtr = dynamic_cast<const InputImageType *>( this->ProcessObject::GetInput(0) );
   OutputImageType      *outputPtr = this->GetOutput();
 
   // if told to run in place and the types support it,
@@ -99,7 +103,8 @@ InPlaceImageFilter< TInputImage, TOutputImage >
     {
     rMatch = false;
     }
-  if ( this->GetInPlace() &&
+  if ( inputPtr != NULL &&
+       this->GetInPlace() &&
        this->CanRunInPlace() &&
        rMatch )
     {
