@@ -140,21 +140,6 @@ protected:
 };
 } // end namespace itk
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_ImageRegionIterator(_, EXPORT, TypeX, TypeY)                   \
-  namespace itk                                                                     \
-  {                                                                                 \
-  _( 1 ( class EXPORT ImageRegionIterator< ITK_TEMPLATE_1 TypeX > ) )               \
-  namespace Templates                                                               \
-  {                                                                                 \
-  typedef ImageRegionIterator< ITK_TEMPLATE_1 TypeX > ImageRegionIterator##TypeY; \
-  }                                                                                 \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-#include "Templates/itkImageRegionIterator+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkImageRegionIterator.hxx"
 #endif

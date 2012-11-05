@@ -187,10 +187,6 @@ private:
 
 } // end namespace itk
 
-#if ITK_TEMPLATE_EXPLICIT
-# include "Templates/itkTimeVaryingBSplineVelocityFieldTransform+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 # include "itkTimeVaryingBSplineVelocityFieldTransform.hxx"
 #endif

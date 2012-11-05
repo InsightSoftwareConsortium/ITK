@@ -250,25 +250,6 @@ private:
 };
 } // end namespace itk
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_CentralDifferenceImageFunction(_, EXPORT, TypeX, TypeY)     \
-  namespace itk                                                                  \
-  {                                                                              \
-  _( 2 ( class EXPORT CentralDifferenceImageFunction< ITK_TEMPLATE_2 TypeX > ) ) \
-  namespace Templates                                                            \
-  {                                                                              \
-  typedef CentralDifferenceImageFunction< ITK_TEMPLATE_2 TypeX >                 \
-  CentralDifferenceImageFunction##TypeY;                                       \
-  }                                                                              \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-// HACK:  template < class TInputImage, class TCoordRep >
-//    const unsigned int
-// CentralDifferenceImageFunction<TInputImage,TCoordRep>::ImageDimension;
-#include "Templates/itkCentralDifferenceImageFunction+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkCentralDifferenceImageFunction.hxx"
 #endif

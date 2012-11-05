@@ -87,7 +87,7 @@ public:
   typedef typename TOutputImage::RegionType OutputRegionType;
 
   /** Image dimension. */
-  itkStaticConstMacro(ImageDimension, unsigned int, ::itk::GetImageDimension< InputImageType >::ImageDimension);
+  itkStaticConstMacro(ImageDimension, unsigned int,  InputImageType ::ImageDimension);
 
   /** Types for Scales image */
   typedef float                                                            ScalesPixelType;

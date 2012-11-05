@@ -70,7 +70,7 @@ public:
 template< typename TInputImage,
           typename TOutputImage =
             Image< Vector< typename TInputImage::PixelType, 2 >,
-                   ::itk::GetImageDimension< TInputImage >::ImageDimension > >
+                   TInputImage::ImageDimension > >
 class ITK_EXPORT Compose2DVectorImageFilter:
   public
   BinaryFunctorImageFilter< TInputImage, TInputImage,

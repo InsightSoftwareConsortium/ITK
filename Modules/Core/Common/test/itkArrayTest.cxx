@@ -21,9 +21,7 @@
 #include "itkArray.h"
 
 // Explicit instantiation to make sure all methods are compiled.
-#ifndef ITK_EXPLICIT_INSTANTIATION
-  template class itk::Array<float>;
-#endif
+template class itk::Array<float>;
 
 int itkArrayTest(int, char* [] )
 {

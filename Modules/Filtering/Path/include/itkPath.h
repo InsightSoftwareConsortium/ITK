@@ -125,21 +125,6 @@ private:
 };
 } // namespace itk
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_Path(_, EXPORT, TypeX, TypeY)     \
-  namespace itk                                        \
-  {                                                    \
-  _( 3 ( class EXPORT Path< ITK_TEMPLATE_3 TypeX > ) ) \
-  namespace Templates                                  \
-  {                                                    \
-  typedef Path< ITK_TEMPLATE_3 TypeX > Path##TypeY;  \
-  }                                                    \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-#include "Templates/itkPath+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkPath.hxx"
 #endif

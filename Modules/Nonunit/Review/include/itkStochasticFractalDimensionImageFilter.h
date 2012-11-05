@@ -50,7 +50,7 @@ namespace itk
  * \ingroup ITKReview
  */
 template< class TInputImage, class TMaskImage = Image< unsigned char,
-                                                       ::itk::GetImageDimension< TInputImage >::ImageDimension >,
+                                                       TInputImage::ImageDimension >,
           class TOutputImage = TInputImage >
 class ITK_EXPORT StochasticFractalDimensionImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >

@@ -77,7 +77,7 @@ public:
 template< typename TInputImage,
           typename TOutputImage =
             Image< CovariantVector< typename TInputImage::PixelType, 3 >,
-                   ::itk::GetImageDimension< TInputImage >::ImageDimension > >
+                   TInputImage::ImageDimension > >
 class ITK_EXPORT Compose3DCovariantVectorImageFilter:
   public
   TernaryFunctorImageFilter< TInputImage, TInputImage,

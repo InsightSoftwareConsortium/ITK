@@ -52,7 +52,7 @@ template <typename TPixelType, unsigned int VImageDimension > class VectorImage;
  * \endwiki
  */
 template< class TImage, class TAccessor >
-class ITK_EXPORT ImageAdaptor:public ImageBase< ::itk::GetImageDimension< TImage >::ImageDimension >
+class ITK_EXPORT ImageAdaptor:public ImageBase< TImage::ImageDimension >
 {
 public:
   /** Dimension of the image.  This constant is used by functions that are
@@ -130,7 +130,7 @@ public:
    * typedef typename ImageAdaptorType::template Rebind< float >::Type OutputImageType;
    *
    */
-  template <class UPixelType, unsigned int UImageDimension = ::itk::GetImageDimension< TImage >::ImageDimension>
+  template <class UPixelType, unsigned int UImageDimension =  TImage::ImageDimension>
   struct Rebind
     {
       typedef itk::Image<UPixelType, UImageDimension>  Type;

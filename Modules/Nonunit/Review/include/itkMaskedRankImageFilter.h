@@ -62,7 +62,7 @@ namespace itk
  */
 
 template< class TInputImage, class TMaskImage, class TOutputImage, class TKernel =
-            FlatStructuringElement< ::itk::GetImageDimension< TInputImage >::ImageDimension > >
+            FlatStructuringElement< TInputImage::ImageDimension > >
 class ITK_EXPORT MaskedRankImageFilter:
   public MaskedMovingHistogramImageFilter< TInputImage, TMaskImage, TOutputImage, TKernel,
                                            Function::RankHistogram< typename TInputImage::PixelType > >

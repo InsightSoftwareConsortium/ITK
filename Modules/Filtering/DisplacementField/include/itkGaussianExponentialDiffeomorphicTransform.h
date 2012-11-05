@@ -138,10 +138,6 @@ private:
 
 } // end namespace itk
 
-#if ITK_TEMPLATE_EXPLICIT
-# include "Templates/itkGaussianExponentialDiffeomorphicTransform+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 # include "itkGaussianExponentialDiffeomorphicTransform.hxx"
 #endif

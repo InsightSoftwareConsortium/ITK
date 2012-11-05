@@ -330,22 +330,6 @@ private:
 };
 } // end namespace itk
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_MapContainer(_, EXPORT, TypeX, TypeY)     \
-  namespace itk                                                \
-  {                                                            \
-  _( 2 ( class EXPORT MapContainer< ITK_TEMPLATE_2 TypeX > ) ) \
-  namespace Templates                                          \
-  {                                                            \
-  typedef MapContainer< ITK_TEMPLATE_2 TypeX >                 \
-  MapContainer##TypeY;                                       \
-  }                                                            \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-#include "Templates/itkMapContainer+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkMapContainer.hxx"
 #endif

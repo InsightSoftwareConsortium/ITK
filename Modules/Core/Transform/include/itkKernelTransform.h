@@ -363,22 +363,6 @@ private:
 };
 } // end namespace itk
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_KernelTransform(_, EXPORT, TypeX, TypeY)     \
-  namespace itk                                                   \
-  {                                                               \
-  _( 2 ( class EXPORT KernelTransform<ITK_TEMPLATE_2 TypeX> ) ) \
-  namespace Templates                                             \
-  {                                                               \
-  typedef KernelTransform<ITK_TEMPLATE_2 TypeX>                 \
-  KernelTransform##TypeY;                                       \
-  }                                                               \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-#include "Templates/itkKernelTransform+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkKernelTransform.hxx"
 #endif

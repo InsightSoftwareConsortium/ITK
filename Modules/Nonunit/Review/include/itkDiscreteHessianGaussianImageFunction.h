@@ -45,7 +45,7 @@ namespace itk
 template< class TInputImage, class TOutput = double >
 class ITK_EXPORT DiscreteHessianGaussianImageFunction:
   public ImageFunction< TInputImage,
-                        SymmetricSecondRankTensor< TOutput, ::itk::GetImageDimension< TInputImage >::ImageDimension >,
+                        SymmetricSecondRankTensor< TOutput, TInputImage::ImageDimension >,
                         TOutput >
 {
 public:
@@ -55,7 +55,7 @@ public:
 
   /** Standard "Superclass" typedef */
   typedef ImageFunction< TInputImage,
-                         SymmetricSecondRankTensor< TOutput, ::itk::GetImageDimension< TInputImage >::ImageDimension >,
+                         SymmetricSecondRankTensor< TOutput, TInputImage::ImageDimension >,
                          TOutput > Superclass;
 
   /** Smart pointer typedef support */
@@ -82,7 +82,7 @@ public:
 
   /** Output type */
   typedef SymmetricSecondRankTensor< TOutput,
-                                     ::itk::GetImageDimension< TInputImage >::ImageDimension >  TensorType;
+                                     TInputImage::ImageDimension >  TensorType;
   typedef typename Superclass::OutputType OutputType;
 
   typedef FixedArray< double, itkGetStaticConstMacro(ImageDimension2) > VarianceArrayType;

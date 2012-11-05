@@ -140,22 +140,6 @@ public:
 } // end namespace itk
 #include "itkNumericTraitsDiffusionTensor3DPixel.h"
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_DiffusionTensor3D(_, EXPORT, TypeX, TypeY)     \
-  namespace itk                                                     \
-  {                                                                 \
-  _( 1 ( class EXPORT DiffusionTensor3D< ITK_TEMPLATE_1 TypeX > ) ) \
-  namespace Templates                                               \
-  {                                                                 \
-  typedef DiffusionTensor3D< ITK_TEMPLATE_1 TypeX >                 \
-  DiffusionTensor3D##TypeY;                                       \
-  }                                                                 \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-#include "Templates/itkDiffusionTensor3D+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkDiffusionTensor3D.hxx"
 #endif

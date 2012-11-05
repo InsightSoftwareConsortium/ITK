@@ -98,22 +98,6 @@ private:
 };
 } // end namespace itk
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_TorusInteriorExteriorSpatialFunction(_, EXPORT, TypeX, TypeY)     \
-  namespace itk                                                                        \
-  {                                                                                    \
-  _( 2 ( class EXPORT TorusInteriorExteriorSpatialFunction< ITK_TEMPLATE_2 TypeX > ) ) \
-  namespace Templates                                                                  \
-  {                                                                                    \
-  typedef TorusInteriorExteriorSpatialFunction< ITK_TEMPLATE_2 TypeX >                 \
-  TorusInteriorExteriorSpatialFunction##TypeY;                                       \
-  }                                                                                    \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-#include "Templates/itkTorusInteriorExteriorSpatialFunction+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkTorusInteriorExteriorSpatialFunction.hxx"
 #endif

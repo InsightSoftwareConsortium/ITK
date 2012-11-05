@@ -164,9 +164,9 @@ public:
   typedef typename Superclass::VirtualPointSetType        VirtualPointSetType;
 
   /* Image dimension accessors */
-  itkStaticConstMacro(VirtualImageDimension, ImageDimensionType, ::itk::GetImageDimension<TVirtualImage>::ImageDimension);
-  itkStaticConstMacro(FixedImageDimension, ImageDimensionType, ::itk::GetImageDimension<TFixedImage>::ImageDimension);
-  itkStaticConstMacro(MovingImageDimension, ImageDimensionType, ::itk::GetImageDimension<TMovingImage>::ImageDimension);
+  itkStaticConstMacro(VirtualImageDimension, ImageDimensionType, TVirtualImage::ImageDimension);
+  itkStaticConstMacro(FixedImageDimension, ImageDimensionType, TFixedImage::ImageDimension);
+  itkStaticConstMacro(MovingImageDimension, ImageDimensionType, TMovingImage::ImageDimension);
 
 protected:
   VanillaImageToImageMetricv4()

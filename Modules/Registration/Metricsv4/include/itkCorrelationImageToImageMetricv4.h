@@ -107,11 +107,11 @@ public:
 
   /* Image dimension accessors */
   itkStaticConstMacro(VirtualImageDimension, ImageDimensionType,
-      ::itk::GetImageDimension<TVirtualImage>::ImageDimension);
+      TVirtualImage::ImageDimension);
   itkStaticConstMacro(FixedImageDimension, ImageDimensionType,
-      ::itk::GetImageDimension<TFixedImage>::ImageDimension);
+      TFixedImage::ImageDimension);
   itkStaticConstMacro(MovingImageDimension, ImageDimensionType,
-      ::itk::GetImageDimension<TMovingImage>::ImageDimension);
+      TMovingImage::ImageDimension);
 
 
 protected:

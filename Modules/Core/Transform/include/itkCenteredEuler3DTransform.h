@@ -130,22 +130,6 @@ private:
 };                                        // class CenteredEuler3DTransform
 }  // namespace itk
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_CenteredEuler3DTransform(_, EXPORT, TypeX, TypeY)     \
-  namespace itk                                                            \
-  {                                                                        \
-  _( 1 ( class EXPORT CenteredEuler3DTransform<ITK_TEMPLATE_1 TypeX> ) ) \
-  namespace Templates                                                      \
-  {                                                                        \
-  typedef CenteredEuler3DTransform<ITK_TEMPLATE_1 TypeX>                 \
-  CenteredEuler3DTransform##TypeY;                                       \
-  }                                                                        \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-#include "Templates/itkCenteredEuler3DTransform+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkCenteredEuler3DTransform.hxx"
 #endif

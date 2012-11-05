@@ -269,22 +269,6 @@ ITKCommon_EXPORT void CrossProduct(CovariantVector< int, 3 >,
                                    const Vector< int, 3 > &);
 } // end namespace itk
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_CovariantVector(_, EXPORT, TypeX, TypeY)     \
-  namespace itk                                                   \
-  {                                                               \
-  _( 2 ( class EXPORT CovariantVector< ITK_TEMPLATE_2 TypeX > ) ) \
-  namespace Templates                                             \
-  {                                                               \
-  typedef CovariantVector< ITK_TEMPLATE_2 TypeX >                 \
-  CovariantVector##TypeY;                                       \
-  }                                                               \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-#include "Templates/itkCovariantVector+-.h"
-#endif
-
 //
 // Numeric traits must be included after (optionally) including the explicit
 // instantiations control of this class, in case the implicit instantiation

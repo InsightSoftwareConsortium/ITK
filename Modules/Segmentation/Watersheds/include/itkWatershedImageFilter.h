@@ -149,7 +149,7 @@ namespace itk
 template< class TInputImage >
 class ITK_EXPORT WatershedImageFilter:
   public ImageToImageFilter< TInputImage, Image< IdentifierType,
-                                                 ::itk::GetImageDimension< TInputImage >::ImageDimension > >
+                                                 TInputImage::ImageDimension > >
 {
 public:
   /** Standard "Self" typedef.   */

@@ -76,7 +76,7 @@ template< class TInputImage, class TProbabilityPrecisionType = float >
 class ITK_EXPORT BayesianClassifierInitializationImageFilter:
   public
   ImageToImageFilter< TInputImage, VectorImage< TProbabilityPrecisionType,
-                                                ::itk::GetImageDimension< TInputImage >::ImageDimension > >
+                                                TInputImage::ImageDimension > >
 {
 public:
   /** Standard class typedefs. */
@@ -86,7 +86,7 @@ public:
 
   /** Dimension of the input image */
   itkStaticConstMacro(Dimension, unsigned int,
-                      ::itk::GetImageDimension< InputImageType >::ImageDimension);
+                       InputImageType ::ImageDimension);
 
   typedef VectorImage< ProbabilityPrecisionType,
                        itkGetStaticConstMacro(Dimension) >                   OutputImageType;

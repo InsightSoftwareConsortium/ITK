@@ -137,9 +137,9 @@ public:
                                                       VirtualPointSetType;
 
   itkStaticConstMacro(VirtualImageDimension, ImageDimensionType,
-      ::itk::GetImageDimension<TVirtualImage>::ImageDimension);
+      TVirtualImage::ImageDimension);
   itkStaticConstMacro(MovingImageDimension, ImageDimensionType,
-      ::itk::GetImageDimension<TMovingImage>::ImageDimension);
+      TMovingImage::ImageDimension);
 
 protected:
   friend class ImageToImageTestGetValueAndDerivativeThreader<itk::ThreadedImageRegionPartitioner< VirtualImageDimension >, Superclass >;

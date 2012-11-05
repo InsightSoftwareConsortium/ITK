@@ -77,9 +77,9 @@ public:
 
   /** Convenient constants obtained from TMeshTraits template parameter. */
   itkStaticConstMacro(InputPointDimension, unsigned int,
-                      ::itk::GetMeshDimension< TInputMesh >::PointDimension);
+                      TInputMesh::PointDimension);
   itkStaticConstMacro(OutputPointDimension, unsigned int,
-                      ::itk::GetMeshDimension< TOutputMesh >::PointDimension);
+                      TOutputMesh::PointDimension);
 
   typedef typename InputMeshType::PointsContainer PointsContainer;
   typedef typename InputMeshType::CellsContainer  CellsContainer;

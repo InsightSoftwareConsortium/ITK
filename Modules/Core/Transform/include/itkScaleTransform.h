@@ -296,21 +296,6 @@ ScaleTransform<ScalarType, NDimensions>::BackTransform(const OutputCovariantVect
 
 }  // namespace itk
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_ScaleTransform(_, EXPORT, TypeX, TypeY)              \
-  namespace itk                                                           \
-  {                                                                       \
-  _( 2 ( class EXPORT ScaleTransform<ITK_TEMPLATE_2 TypeX> ) )          \
-  namespace Templates                                                     \
-  {                                                                       \
-  typedef ScaleTransform<ITK_TEMPLATE_2 TypeX> ScaleTransform##TypeY; \
-  }                                                                       \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-#include "Templates/itkScaleTransform+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkScaleTransform.hxx"
 #endif

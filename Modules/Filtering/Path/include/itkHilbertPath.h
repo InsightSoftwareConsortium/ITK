@@ -185,22 +185,6 @@ private:
 };
 } // end namespace itk
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_HilbertPath(_, EXPORT, TypeX, TypeY)     \
-  namespace itk                                                 \
-  {                                                             \
-  _( 1 ( class EXPORT HilbertPath< ITK_TEMPLATE_1 TypeX > ) ) \
-  namespace Templates                                           \
-  {                                                             \
-  typedef HilbertPath< ITK_TEMPLATE_1 TypeX >                 \
-  HilbertPath##TypeY;                                       \
-  }                                                             \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-#include "Templates/itkHilbertPath+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkHilbertPath.hxx"
 #endif

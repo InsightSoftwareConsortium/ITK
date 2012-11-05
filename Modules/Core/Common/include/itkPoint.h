@@ -312,25 +312,6 @@ public:
 };
 }  // end namespace itk
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_Point(_, EXPORT, TypeX, TypeY)                                  \
-  namespace itk                                                                      \
-  {                                                                                  \
-  _( 2 ( class EXPORT Point< ITK_TEMPLATE_2 TypeX > ) )                              \
-  _( 1 ( EXPORT std::ostream & operator<<(std::ostream &,                            \
-                                          const Point< ITK_TEMPLATE_2 TypeX > &) ) ) \
-  _( 1 ( EXPORT std::istream & operator>>(std::istream &,                            \
-                                          Point< ITK_TEMPLATE_2 TypeX > &) ) )       \
-  namespace Templates                                                                \
-  {                                                                                  \
-  typedef Point< ITK_TEMPLATE_2 TypeX > Point##TypeY;                              \
-  }                                                                                  \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-#include "Templates/itkPoint+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkPoint.hxx"
 #endif

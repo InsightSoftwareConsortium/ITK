@@ -254,28 +254,6 @@ private:
 }; // class Rigid3DPerspectiveTransform:
 }  // namespace itk
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_Rigid3DPerspectiveTransform(_, EXPORT, TypeX, TypeY)     \
-  namespace itk                                                               \
-  {                                                                           \
-  _( 1 ( class EXPORT Rigid3DPerspectiveTransform<ITK_TEMPLATE_1 TypeX> ) ) \
-  namespace Templates                                                         \
-  {                                                                           \
-  typedef Rigid3DPerspectiveTransform<ITK_TEMPLATE_1 TypeX>                 \
-  Rigid3DPerspectiveTransform##TypeY;                                       \
-  }                                                                           \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-// template < class TScalarType> const unsigned int
-// itk::Rigid3DPerspectiveTransform<TScalarType>::SpaceDimension;
-// template < class TScalarType> const unsigned int
-// itk::Rigid3DPerspectiveTransform<TScalarType>::InputSpaceDimension;
-// template < class TScalarType> const unsigned int
-// itk::Rigid3DPerspectiveTransform<TScalarType>::OutputSpaceDimension;
-#include "Templates/itkRigid3DPerspectiveTransform+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkRigid3DPerspectiveTransform.hxx"
 #endif

@@ -61,8 +61,7 @@ ScatterMatrixImageFunction< TInputImage, TCoordRep >
 
   typedef  typename NumericTraits< PixelComponentType >::RealType PixelComponentRealType;
 
-  const unsigned int VectorDimension =
-    ::itk::GetVectorDimension< PixelType >::VectorDimension;
+  const unsigned int VectorDimension = PixelType::Dimension;
 
   covariance = vnl_matrix< PixelComponentRealType >(VectorDimension, VectorDimension);
   covariance.fill(NumericTraits< PixelComponentRealType >::Zero);

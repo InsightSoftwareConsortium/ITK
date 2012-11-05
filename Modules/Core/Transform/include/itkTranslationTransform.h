@@ -270,21 +270,6 @@ TranslationTransform<TScalarType, NDimensions>::BackTransform(const OutputCovari
 
 }  // namespace itk
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_TranslationTransform(_, EXPORT, TypeX, TypeY)                    \
-  namespace itk                                                                       \
-  {                                                                                   \
-  _( 2 ( class EXPORT TranslationTransform<ITK_TEMPLATE_2 TypeX> ) )                \
-  namespace Templates                                                                 \
-  {                                                                                   \
-  typedef TranslationTransform<ITK_TEMPLATE_2 TypeX> TranslationTransform##TypeY; \
-  }                                                                                   \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-#include "Templates/itkTranslationTransform+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkTranslationTransform.hxx"
 #endif

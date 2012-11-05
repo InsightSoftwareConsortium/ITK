@@ -324,21 +324,6 @@ Rigid2DTransform<TScalarType>::BackTransform(const OutputCovariantVectorType & v
 
 }  // namespace itk
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_Rigid2DTransform(_, EXPORT, TypeX, TypeY)                \
-  namespace itk                                                               \
-  {                                                                           \
-  _( 1 ( class EXPORT Rigid2DTransform<ITK_TEMPLATE_1 TypeX> ) )            \
-  namespace Templates                                                         \
-  {                                                                           \
-  typedef Rigid2DTransform<ITK_TEMPLATE_1 TypeX> Rigid2DTransform##TypeY; \
-  }                                                                           \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-#include "Templates/itkRigid2DTransform+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkRigid2DTransform.hxx"
 #endif

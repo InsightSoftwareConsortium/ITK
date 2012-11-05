@@ -153,22 +153,6 @@ private:
 };
 } // end namespace itk
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_ChainCodePath(_, EXPORT, TypeX, TypeY)     \
-  namespace itk                                                 \
-  {                                                             \
-  _( 1 ( class EXPORT ChainCodePath< ITK_TEMPLATE_1 TypeX > ) ) \
-  namespace Templates                                           \
-  {                                                             \
-  typedef ChainCodePath< ITK_TEMPLATE_1 TypeX >                 \
-  ChainCodePath##TypeY;                                       \
-  }                                                             \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-#include "Templates/itkChainCodePath+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkChainCodePath.hxx"
 #endif

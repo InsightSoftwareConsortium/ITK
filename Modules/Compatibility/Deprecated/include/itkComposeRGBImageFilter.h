@@ -70,7 +70,7 @@ public:
 template< typename TInputImage,
           typename TOutputImage =
             Image< RGBPixel< typename TInputImage::PixelType >,
-                   ::itk::GetImageDimension< TInputImage >::ImageDimension > >
+                   TInputImage::ImageDimension > >
 class ITK_EXPORT ComposeRGBImageFilter:
   public
   TernaryFunctorImageFilter< TInputImage, TInputImage,

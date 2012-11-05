@@ -50,7 +50,7 @@ class Array1DToData;
  * \ingroup ITKRegistrationMethodsv4
  */
 template<typename TFixedImage, typename TMovingImage, typename TOutputTransform =
-  BSplineSmoothingOnUpdateDisplacementFieldTransform<double, GetImageDimension<TFixedImage>::ImageDimension> >
+  BSplineSmoothingOnUpdateDisplacementFieldTransform<double, TFixedImage::ImageDimension> >
 class ITK_EXPORT BSplineSyNImageRegistrationMethod
 : public SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
 {

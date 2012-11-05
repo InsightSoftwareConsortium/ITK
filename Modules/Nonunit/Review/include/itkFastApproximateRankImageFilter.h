@@ -45,17 +45,14 @@ template< class TInputImage, class TOutputImage >
 class ITK_EXPORT FastApproximateRankImageFilter:
   public MiniPipelineSeparableImageFilter< TInputImage, TOutputImage,
                                            RankImageFilter< TInputImage, TInputImage,
-                                                            FlatStructuringElement< ::itk::GetImageDimension<
-                                                                                      TInputImage >::ImageDimension > > >
+                                                            FlatStructuringElement< TInputImage::ImageDimension > > >
 {
 public:
   /** Standard class typedefs. */
   typedef FastApproximateRankImageFilter Self;
-  typedef MiniPipelineSeparableImageFilter< TInputImage, TOutputImage, RankImageFilter< TInputImage, TInputImage,
-                                                                                        FlatStructuringElement< ::itk::
-                                                                                                                GetImageDimension
-                                                                                                                <
-                                                                                                                  TInputImage >::ImageDimension > > > Superclass;
+  typedef MiniPipelineSeparableImageFilter< TInputImage, TOutputImage,
+          RankImageFilter< TInputImage, TInputImage,
+                      FlatStructuringElement< TInputImage::ImageDimension > > > Superclass;
 
   typedef SmartPointer< Self >       Pointer;
   typedef SmartPointer< const Self > ConstPointer;

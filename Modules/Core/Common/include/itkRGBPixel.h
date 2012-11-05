@@ -170,21 +170,6 @@ ITK_EXPORT std::istream & operator>>(std::istream & is,
                                      RGBPixel< TComponent > & c);
 } // end namespace itk
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_RGBPixel(_, EXPORT, TypeX, TypeY)        \
-  namespace itk                                               \
-  {                                                           \
-  _( 1 ( class EXPORT RGBPixel< ITK_TEMPLATE_1 TypeX > ) )    \
-  namespace Templates                                         \
-  {                                                           \
-  typedef RGBPixel< ITK_TEMPLATE_1 TypeX > RGBPixel##TypeY; \
-  }                                                           \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-#include "Templates/itkRGBPixel+-.h"
-#endif
-
 //
 // Numeric traits must be included after (optionally) including the explicit
 // instantiations control of this class, in case the implicit instantiation
@@ -194,6 +179,7 @@ ITK_EXPORT std::istream & operator>>(std::istream & is,
 // in case the .hxx requires to use NumericTraits.
 //
 #include "itkNumericTraitsRGBPixel.h"
+
 
 #if ITK_TEMPLATE_TXX
 #include "itkRGBPixel.hxx"

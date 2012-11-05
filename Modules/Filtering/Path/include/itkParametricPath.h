@@ -138,22 +138,6 @@ private:
 
 } // namespace itk
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_ParametricPath(_, EXPORT, TypeX, TypeY)     \
-  namespace itk                                                  \
-  {                                                              \
-  _( 1 ( class EXPORT ParametricPath< ITK_TEMPLATE_1 TypeX > ) ) \
-  namespace Templates                                            \
-  {                                                              \
-  typedef ParametricPath< ITK_TEMPLATE_1 TypeX >                 \
-  ParametricPath##TypeY;                                       \
-  }                                                              \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-#include "Templates/itkParametricPath+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkParametricPath.hxx"
 #endif

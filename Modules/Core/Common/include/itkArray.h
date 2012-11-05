@@ -178,23 +178,6 @@ std::ostream & operator<<(std::ostream & os, const Array< TValueType > & arr)
 }
 } // namespace itk
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_Array(_, EXPORT, TypeX, TypeY)                                  \
-  namespace itk                                                                      \
-  {                                                                                  \
-  _( 1 ( class EXPORT Array< ITK_TEMPLATE_1 TypeX > ) )                              \
-  _( 1 ( EXPORT std::ostream & operator<<(std::ostream &,                            \
-                                          const Array< ITK_TEMPLATE_1 TypeX > &) ) ) \
-  namespace Templates                                                                \
-  {                                                                                  \
-  typedef Array< ITK_TEMPLATE_1 TypeX > Array##TypeY;                              \
-  }                                                                                  \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-#include "Templates/itkArray+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkArray.hxx"
 #endif

@@ -62,11 +62,11 @@ public:
   /* Image dimension accessors */
   typedef unsigned int   ImageDimensionType;
   itkStaticConstMacro(FixedImageDimension, ImageDimensionType,
-      ::itk::GetImageDimension<FixedImageType>::ImageDimension);
+      FixedImageType::ImageDimension);
   itkStaticConstMacro(MovingImageDimension, ImageDimensionType,
-      ::itk::GetImageDimension<MovingImageType>::ImageDimension);
+      MovingImageType::ImageDimension);
   itkStaticConstMacro(VirtualImageDimension, ImageDimensionType,
-      ::itk::GetImageDimension<VirtualImageType>::ImageDimension);
+      VirtualImageType::ImageDimension);
 
   typedef   CovariantVector< CoordinateRepresentationType,
                              itkGetStaticConstMacro(FixedImageDimension) >

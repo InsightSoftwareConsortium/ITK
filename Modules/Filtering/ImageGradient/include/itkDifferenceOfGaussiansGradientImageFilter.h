@@ -34,8 +34,8 @@ namespace itk
 template< typename TInputImage, typename TDataType >
 class ITK_EXPORT DifferenceOfGaussiansGradientImageFilter:
   public ImageToImageFilter< TInputImage,
-                             Image< CovariantVector< TDataType, ::itk::GetImageDimension< TInputImage >::ImageDimension >,
-                                    ::itk::GetImageDimension< TInputImage >::ImageDimension > >
+                             Image< CovariantVector< TDataType, TInputImage::ImageDimension >,
+                                    TInputImage::ImageDimension > >
 {
 public:
   /** Number of dimensions. */

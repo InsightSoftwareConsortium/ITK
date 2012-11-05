@@ -124,22 +124,6 @@ private:
 };
 } // end namespace itk
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_FourierSeriesPath(_, EXPORT, TypeX, TypeY)     \
-  namespace itk                                                     \
-  {                                                                 \
-  _( 1 ( class EXPORT FourierSeriesPath< ITK_TEMPLATE_1 TypeX > ) ) \
-  namespace Templates                                               \
-  {                                                                 \
-  typedef FourierSeriesPath< ITK_TEMPLATE_1 TypeX >                 \
-  FourierSeriesPath##TypeY;                                       \
-  }                                                                 \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-#include "Templates/itkFourierSeriesPath+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkFourierSeriesPath.hxx"
 #endif

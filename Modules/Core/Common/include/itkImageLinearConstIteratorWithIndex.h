@@ -297,22 +297,6 @@ ImageLinearConstIteratorWithIndex< TImage >
 }
 } // end namespace itk
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_ImageLinearConstIteratorWithIndex(_, EXPORT, TypeX, TypeY)     \
-  namespace itk                                                                     \
-  {                                                                                 \
-  _( 1 ( class EXPORT ImageLinearConstIteratorWithIndex< ITK_TEMPLATE_1 TypeX > ) ) \
-  namespace Templates                                                               \
-  {                                                                                 \
-  typedef ImageLinearConstIteratorWithIndex< ITK_TEMPLATE_1 TypeX >                 \
-  ImageLinearConstIteratorWithIndex##TypeY;                                       \
-  }                                                                                 \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-#include "Templates/itkImageLinearConstIteratorWithIndex+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkImageLinearConstIteratorWithIndex.hxx"
 #endif

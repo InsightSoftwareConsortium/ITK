@@ -106,22 +106,6 @@ private:
 };
 } // namespace itk
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_BinaryCrossStructuringElement(_, EXPORT, TypeX, TypeY)     \
-  namespace itk                                                                 \
-  {                                                                             \
-  _( 2 ( class EXPORT BinaryCrossStructuringElement< ITK_TEMPLATE_2 TypeX > ) ) \
-  namespace Templates                                                           \
-  {                                                                             \
-  typedef BinaryCrossStructuringElement< ITK_TEMPLATE_2 TypeX >                 \
-  BinaryCrossStructuringElement##TypeY;                                       \
-  }                                                                             \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-#include "Templates/itkBinaryCrossStructuringElement+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkBinaryCrossStructuringElement.hxx"
 #endif

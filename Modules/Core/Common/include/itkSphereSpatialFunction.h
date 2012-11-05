@@ -81,22 +81,6 @@ private:
 };
 } // end namespace itk
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_SphereSpatialFunction(_, EXPORT, TypeX, TypeY)     \
-  namespace itk                                                         \
-  {                                                                     \
-  _( 2 ( class EXPORT SphereSpatialFunction< ITK_TEMPLATE_2 TypeX > ) ) \
-  namespace Templates                                                   \
-  {                                                                     \
-  typedef SphereSpatialFunction< ITK_TEMPLATE_2 TypeX >                 \
-  SphereSpatialFunction##TypeY;                                       \
-  }                                                                     \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-#include "Templates/itkSphereSpatialFunction+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkSphereSpatialFunction.hxx"
 #endif

@@ -127,22 +127,6 @@ private:
 };                                //class Euler2DTransform
 }  // namespace itk
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_Euler2DTransform(_, EXPORT, TypeX, TypeY)     \
-  namespace itk                                                    \
-  {                                                                \
-  _( 1 ( class EXPORT Euler2DTransform< ITK_TEMPLATE_1 TypeX > ) ) \
-  namespace Templates                                              \
-  {                                                                \
-  typedef Euler2DTransform< ITK_TEMPLATE_1 TypeX >                 \
-  Euler2DTransform##TypeY;                                       \
-  }                                                                \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-#include "Templates/itkEuler2DTransform+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkEuler2DTransform.hxx"
 #endif

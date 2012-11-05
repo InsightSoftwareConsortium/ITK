@@ -188,21 +188,6 @@ public:
 };
 } // end namespace itk
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_ImageRegionConstIteratorWithIndex(_, EXPORT, TypeX, TypeY)                                 \
-  namespace itk                                                                                                 \
-  {                                                                                                             \
-  _( 1 ( class EXPORT ImageRegionConstIteratorWithIndex< ITK_TEMPLATE_1 TypeX > ) )                             \
-  namespace Templates                                                                                           \
-  {                                                                                                             \
-  typedef ImageRegionConstIteratorWithIndex< ITK_TEMPLATE_1 TypeX > ImageRegionConstIteratorWithIndex##TypeY; \
-  }                                                                                                             \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-#include "Templates/itkImageRegionConstIteratorWithIndex+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkImageRegionConstIteratorWithIndex.hxx"
 #endif

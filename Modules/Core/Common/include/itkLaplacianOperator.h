@@ -134,22 +134,6 @@ private:
 };
 } // namespace itk
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_LaplacianOperator(_, EXPORT, TypeX, TypeY)     \
-  namespace itk                                                     \
-  {                                                                 \
-  _( 2 ( class EXPORT LaplacianOperator< ITK_TEMPLATE_2 TypeX > ) ) \
-  namespace Templates                                               \
-  {                                                                 \
-  typedef LaplacianOperator< ITK_TEMPLATE_2 TypeX >                 \
-  LaplacianOperator##TypeY;                                       \
-  }                                                                 \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-#include "Templates/itkLaplacianOperator+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkLaplacianOperator.hxx"
 #endif

@@ -170,22 +170,6 @@ private:
 }; // class ScaleSkewVersor3DTransform
 }  // namespace itk
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_ScaleSkewVersor3DTransform(_, EXPORT, TypeX, TypeY)     \
-  namespace itk                                                              \
-  {                                                                          \
-  _( 1 ( class EXPORT ScaleSkewVersor3DTransform<ITK_TEMPLATE_1 TypeX> ) ) \
-  namespace Templates                                                        \
-  {                                                                          \
-  typedef ScaleSkewVersor3DTransform<ITK_TEMPLATE_1 TypeX>                 \
-  ScaleSkewVersor3DTransform##TypeY;                                       \
-  }                                                                          \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-#include "Templates/itkScaleSkewVersor3DTransform+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkScaleSkewVersor3DTransform.hxx"
 #endif

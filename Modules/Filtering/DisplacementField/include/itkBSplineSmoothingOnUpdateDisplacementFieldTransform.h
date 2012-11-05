@@ -198,10 +198,6 @@ private:
 
 } // end namespace itk
 
-#if ITK_TEMPLATE_EXPLICIT
-# include "Templates/itkBSplineSmoothingOnUpdateDisplacementFieldTransform+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 # include "itkBSplineSmoothingOnUpdateDisplacementFieldTransform.hxx"
 #endif

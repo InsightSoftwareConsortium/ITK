@@ -115,22 +115,6 @@ protected:
 };
 } // end namespace itk
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_ImageLinearIteratorWithIndex(_, EXPORT, TypeX, TypeY)     \
-  namespace itk                                                                \
-  {                                                                            \
-  _( 1 ( class EXPORT ImageLinearIteratorWithIndex< ITK_TEMPLATE_1 TypeX > ) ) \
-  namespace Templates                                                          \
-  {                                                                            \
-  typedef ImageLinearIteratorWithIndex< ITK_TEMPLATE_1 TypeX >                 \
-  ImageLinearIteratorWithIndex##TypeY;                                       \
-  }                                                                            \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-#include "Templates/itkImageLinearIteratorWithIndex+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkImageLinearIteratorWithIndex.hxx"
 #endif

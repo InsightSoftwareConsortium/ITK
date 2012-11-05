@@ -132,25 +132,6 @@ private:
 };
 } // end namespace itk
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_BSplineInterpolationWeightFunction(_, EXPORT, TypeX, TypeY)                                  \
-  namespace itk                                                                                                   \
-  {                                                                                                               \
-  _( 3 ( class EXPORT BSplineInterpolationWeightFunction< ITK_TEMPLATE_3 TypeX > ) )                              \
-  namespace Templates                                                                                             \
-  {                                                                                                               \
-  typedef BSplineInterpolationWeightFunction< ITK_TEMPLATE_3 TypeX > BSplineInterpolationWeightFunction##TypeY; \
-  }                                                                                                               \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-//template < class TCoordRep, unsigned int VSpaceDimension, unsigned int
-// VSplineOrder>
-//  const unsigned int itk::BSplineInterpolationWeightFunction< TCoordRep,
-// VSpaceDimension, VSplineOrder >::SplineOrder;
-#include "Templates/itkBSplineInterpolationWeightFunction+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkBSplineInterpolationWeightFunction.hxx"
 #endif

@@ -311,21 +311,6 @@ private:
 };
 } // end namespace itk
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_ImageSource(_, EXPORT, TypeX, TypeY)           \
-  namespace itk                                                     \
-  {                                                                 \
-  _( 1 ( class EXPORT ImageSource< ITK_TEMPLATE_1 TypeX > ) )       \
-  namespace Templates                                               \
-  {                                                                 \
-  typedef ImageSource< ITK_TEMPLATE_1 TypeX > ImageSource##TypeY; \
-  }                                                                 \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-#include "Templates/itkImageSource+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkImageSource.hxx"
 #endif

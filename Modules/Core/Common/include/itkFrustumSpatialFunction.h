@@ -127,22 +127,6 @@ private:
 };
 } // end namespace itk
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_FrustumSpatialFunction(_, EXPORT, TypeX, TypeY)     \
-  namespace itk                                                          \
-  {                                                                      \
-  _( 2 ( class EXPORT FrustumSpatialFunction< ITK_TEMPLATE_2 TypeX > ) ) \
-  namespace Templates                                                    \
-  {                                                                      \
-  typedef FrustumSpatialFunction< ITK_TEMPLATE_2 TypeX >                 \
-  FrustumSpatialFunction##TypeY;                                       \
-  }                                                                      \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-#include "Templates/itkFrustumSpatialFunction+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkFrustumSpatialFunction.hxx"
 #endif

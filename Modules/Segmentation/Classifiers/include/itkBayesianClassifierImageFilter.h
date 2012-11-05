@@ -81,16 +81,14 @@ template< class TInputVectorImage, class TLabelsType = unsigned char,
 class ITK_EXPORT BayesianClassifierImageFilter:
   public ImageToImageFilter<
     TInputVectorImage, Image< TLabelsType,
-                              ::itk::GetImageDimension< TInputVectorImage >::ImageDimension > >
+                               TInputVectorImage ::ImageDimension > >
 {
 public:
   /** Standard class typedefs. */
   typedef BayesianClassifierImageFilter Self;
   typedef ImageToImageFilter<
     TInputVectorImage,
-    Image< TLabelsType,
-           ::itk::GetImageDimension<
-             TInputVectorImage >::ImageDimension > > Superclass;
+    Image< TLabelsType, TInputVectorImage::ImageDimension > > Superclass;
 
   typedef SmartPointer< Self >       Pointer;
   typedef SmartPointer< const Self > ConstPointer;
@@ -106,7 +104,7 @@ public:
 
   /** Dimension of the input image */
   itkStaticConstMacro(Dimension, unsigned int,
-                      ::itk::GetImageDimension< InputImageType >::ImageDimension);
+                       InputImageType ::ImageDimension);
 
   typedef Image< TLabelsType,
                  itkGetStaticConstMacro(Dimension) >        OutputImageType;

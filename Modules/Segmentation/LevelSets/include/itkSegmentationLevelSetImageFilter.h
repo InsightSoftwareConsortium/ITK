@@ -144,7 +144,7 @@ template< class TInputImage,
           class TOutputPixelType = float >
 class ITK_EXPORT SegmentationLevelSetImageFilter:
   public SparseFieldLevelSetImageFilter< TInputImage, Image< TOutputPixelType,
-                                                             ::itk::GetImageDimension< TInputImage >::ImageDimension > >
+                                                             TInputImage::ImageDimension > >
 {
 public:
   /** Inherited typedef from the superclass. Needs to be placed before the next macro. */

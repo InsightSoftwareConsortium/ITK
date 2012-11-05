@@ -360,30 +360,6 @@ private:
 }; // class BSplineDeformableTransform
 }  // namespace itk
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_BSplineDeformableTransform(_, EXPORT, TypeX, TypeY)     \
-  namespace itk                                                              \
-  {                                                                          \
-  _( 3 ( class EXPORT BSplineDeformableTransform<ITK_TEMPLATE_3 TypeX> ) ) \
-  namespace Templates                                                        \
-  {                                                                          \
-  typedef BSplineDeformableTransform<ITK_TEMPLATE_3 TypeX>                 \
-  BSplineDeformableTransform##TypeY;                                       \
-  }                                                                          \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-// template < class TScalarType, unsigned int NDimensions, unsigned int
-// VSplineOrder >
-//   const unsigned int itk::BSplineDeformableTransform<TScalarType,
-// NDimensions, VSplineOrder >::SpaceDimension;
-// template < class TScalarType, unsigned int NDimensions, unsigned int
-// VSplineOrder >
-//   const unsigned int itk::BSplineDeformableTransform<TScalarType,
-// NDimensions, VSplineOrder >::SplineOrder;
-#include "Templates/itkBSplineDeformableTransform+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkBSplineDeformableTransform.hxx"
 #endif

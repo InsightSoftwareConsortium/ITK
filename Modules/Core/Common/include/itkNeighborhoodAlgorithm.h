@@ -82,7 +82,7 @@ struct ITK_EXPORT ImageBoundaryFacesCalculator {
  */
 template< class TImage >
 struct ITK_EXPORT CalculateOutputWrapOffsetModifiers {
-  typedef Offset< ::itk::GetImageDimension< TImage >::ImageDimension > OffsetType;
+  typedef Offset< TImage::ImageDimension > OffsetType;
   OffsetType operator()(TImage *, TImage *) const;
 };
 } // end namespace NeighborhoodAlgorithm

@@ -37,7 +37,7 @@ namespace itk
 template< class TInputImage, class TOutput = double >
 class ITK_EXPORT GaussianDerivativeImageFunction:
   public ImageFunction< TInputImage,
-                        Vector< TOutput, ::itk::GetImageDimension< TInputImage >::ImageDimension >,
+                        Vector< TOutput, TInputImage::ImageDimension >,
                         TOutput >
 {
 public:
@@ -47,7 +47,7 @@ public:
 
   /** Standard "Superclass" typedef */
   typedef ImageFunction< TInputImage,
-                         Vector< TOutput, ::itk::GetImageDimension< TInputImage >::ImageDimension >,
+                         Vector< TOutput, TInputImage::ImageDimension >,
                          TOutput > Superclass;
 
   /** Smart pointer typedef support. */
@@ -162,21 +162,6 @@ private:
   GaussianFunctionPointer           m_GaussianFunction;
 };
 } // namespace itk
-
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_GaussianDerivativeImageFunction(_, EXPORT, TypeX, TypeY)                                \
-  namespace itk                                                                                              \
-  {                                                                                                          \
-  _( 2 ( class EXPORT GaussianDerivativeImageFunction< ITK_TEMPLATE_2 TypeX > ) )                            \
-  namespace Templates                                                                                        \
-  {                                                                                                          \
-  typedef GaussianDerivativeImageFunction< ITK_TEMPLATE_2 TypeX >  GaussianDerivativeImageFunction##TypeY; \
-  }                                                                                                          \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-#include "Templates/itkGaussianDerivativeImageFunction+-.h"
-#endif
 
 #if ITK_TEMPLATE_TXX
 #include "itkGaussianDerivativeImageFunction.hxx"

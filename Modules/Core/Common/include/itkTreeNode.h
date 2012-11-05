@@ -131,22 +131,6 @@ private:
 };
 } // end namespace itk
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_TreeNode(_, EXPORT, TypeX, TypeY)     \
-  namespace itk                                            \
-  {                                                        \
-  _( 1 ( class EXPORT TreeNode< ITK_TEMPLATE_1 TypeX > ) ) \
-  namespace Templates                                      \
-  {                                                        \
-  typedef TreeNode< ITK_TEMPLATE_1 TypeX >                 \
-  TreeNode##TypeY;                                       \
-  }                                                        \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-#include "Templates/itkTreeNode+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkTreeNode.hxx"
 #endif

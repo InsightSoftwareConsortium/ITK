@@ -35,16 +35,6 @@
 
 namespace itk
 {
-/**
- * Due to a bug in MSVC, an enum value cannot be accessed out of a template
- * parameter until the template class opens.  In order for templated classes
- * to access the dimension of an image template parameter in defining their
- * own dimension, this class is needed as a work-around.
- */
-template< typename TPointSet >
-struct GetPointSetDimension {
-  itkStaticConstMacro(PointDimension, unsigned int,  TPointSet::PointDimension);
-};
 
 /** \class PointSet
  * \brief A superclass of the N-dimensional mesh structure;
@@ -244,22 +234,6 @@ private:
   void operator=(const Self &); //purposely not implemented
 };                              // End Class: PointSet
 } // end namespace itk
-
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_PointSet(_, EXPORT, TypeX, TypeY)     \
-  namespace itk                                            \
-  {                                                        \
-  _( 2 ( class EXPORT PointSet< ITK_TEMPLATE_2 TypeX > ) ) \
-  namespace Templates                                      \
-  {                                                        \
-  typedef PointSet< ITK_TEMPLATE_2 TypeX >                 \
-  PointSet##TypeY;                                       \
-  }                                                        \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-#include "Templates/itkPointSet+-.h"
-#endif
 
 #if ITK_TEMPLATE_TXX
 #include "itkPointSet.hxx"

@@ -115,22 +115,6 @@ private:
 };
 } // end namespace itk
 
-// Define instantiation macro for this template.
-#define ITK_TEMPLATE_FiniteCylinderSpatialFunction(_, EXPORT, TypeX, TypeY)     \
-  namespace itk                                                                 \
-  {                                                                             \
-  _( 2 ( class EXPORT FiniteCylinderSpatialFunction< ITK_TEMPLATE_2 TypeX > ) ) \
-  namespace Templates                                                           \
-  {                                                                             \
-  typedef FiniteCylinderSpatialFunction< ITK_TEMPLATE_2 TypeX >                 \
-  FiniteCylinderSpatialFunction##TypeY;                                       \
-  }                                                                             \
-  }
-
-#if ITK_TEMPLATE_EXPLICIT
-#include "Templates/itkFiniteCylinderSpatialFunction+-.h"
-#endif
-
 #if ITK_TEMPLATE_TXX
 #include "itkFiniteCylinderSpatialFunction.hxx"
 #endif

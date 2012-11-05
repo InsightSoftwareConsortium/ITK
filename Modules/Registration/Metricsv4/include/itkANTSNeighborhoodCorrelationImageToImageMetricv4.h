@@ -150,13 +150,13 @@ public:
 
   /* Image dimension accessors */
   itkStaticConstMacro(FixedImageDimension, ImageDimensionType,
-      ::itk::GetImageDimension<FixedImageType>::ImageDimension);
+      FixedImageType::ImageDimension);
 
   itkStaticConstMacro(MovingImageDimension, ImageDimensionType,
-        ::itk::GetImageDimension<MovingImageType>::ImageDimension);
+        MovingImageType::ImageDimension);
 
   itkStaticConstMacro(VirtualImageDimension, ImageDimensionType,
-        ::itk::GetImageDimension<VirtualImageType>::ImageDimension);
+        VirtualImageType::ImageDimension);
 
   // Set the radius of the neighborhood window centered at each pixel.
   // See the note above about using a radius less than 2.
