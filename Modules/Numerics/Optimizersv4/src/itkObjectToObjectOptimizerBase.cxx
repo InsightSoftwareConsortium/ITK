@@ -31,6 +31,7 @@ ObjectToObjectOptimizerBase
   // valgrind warning.
   this->m_NumberOfThreads = MultiThreader::GetGlobalDefaultNumberOfThreads();
   this->m_ScalesAreIdentity = false;
+  this->m_WeightsAreIdentity = true;
 }
 
 //-------------------------------------------------------------------
@@ -50,7 +51,20 @@ ObjectToObjectOptimizerBase
     {
     os << indent << "m_Scales: " << this->m_Scales << std::endl;
     }
+  else
+    {
+    os << indent << "m_Scales is unset." << std::endl;
+    }
   os << indent << "m_ScalesAreIdentity: " << this->GetScalesAreIdentity() << std::endl;
+  if( this->m_Weights.Size() > 0 )
+    {
+    os << indent << "m_Weights: " << this->m_Weights << std::endl;
+    }
+  else
+    {
+    os << indent << "m_Weights is unset. Treated as identity." << std::endl;
+    }
+  os << indent << "m_WeightsAreIdentity: " << this->GetWeightsAreIdentity() << std::endl;
   os << indent << "Metric: " << std::endl;
   m_Metric->Print( os, indent.GetNextIndent() );
 }
@@ -74,7 +88,7 @@ ObjectToObjectOptimizerBase
 //-------------------------------------------------------------------
 void
 ObjectToObjectOptimizerBase
-::StartOptimization()
+::StartOptimization( bool itkNotUsed(doOnlyInitialization) )
 {
   /* Validate some settings */
   if( this->m_Metric.IsNull() )
@@ -107,8 +121,7 @@ ObjectToObjectOptimizerBase
       /* Check if the scales are identity. Consider to be identity if
        * within a tolerance, to allow for automatically estimated scales
        * that may not be exactly 1.0 when in priciniple they should be. */
-      ValueType difference =
-        vcl_fabs( NumericTraits<ValueType>::OneValue() - this->m_Scales[i] );
+      ValueType difference = vcl_fabs( NumericTraits<ValueType>::OneValue() - this->m_Scales[i] );
       ValueType tolerance = static_cast<ValueType>( 0.01 );
       if( difference > tolerance  )
         {
@@ -119,12 +132,40 @@ ObjectToObjectOptimizerBase
     }
   else
     {
+    //Initialize scales to identity
     m_Scales.SetSize( this->m_Metric->GetNumberOfLocalParameters() );
     m_Scales.Fill( NumericTraits<ValueType>::OneValue() );
     this->m_ScalesAreIdentity = true;
     }
 
-
+  /* Verify m_Weights. */
+  typedef ScalesType::ValueType     ValueType;
+  if( this->m_Weights.Size() > 0 )
+    {
+    if( this->m_Weights.Size() != this->m_Metric->GetNumberOfLocalParameters() )
+      {
+      itkExceptionMacro("Size of weights (" << this->m_Weights.Size()
+                        << ") must equal number of local parameters (" << this->m_Metric->GetNumberOfLocalParameters() << ").");
+      }
+    /* Check if they are identity within tolerance. */
+    typedef ScalesType::size_type     SizeType;
+    this->m_WeightsAreIdentity = true;
+    for( SizeType i=0; i < this->m_Weights.Size(); i++ )
+      {
+      ValueType difference = vcl_fabs( NumericTraits<ValueType>::OneValue() - this->m_Weights[i] );
+      ValueType tolerance = static_cast<ValueType>( 1e-4 );
+      if( difference > tolerance  )
+        {
+        this->m_WeightsAreIdentity = false;
+        break;
+        }
+      }
+    }
+  else
+    {
+    // Set weights to identity. But leave the array empty.
+    this->m_WeightsAreIdentity = true;
+    }
 }
 
 //-------------------------------------------------------------------

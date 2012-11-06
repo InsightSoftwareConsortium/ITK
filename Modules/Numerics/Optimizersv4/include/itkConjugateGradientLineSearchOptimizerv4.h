@@ -69,7 +69,7 @@ public:
   /** Type for the convergence checker */
   typedef itk::Function::WindowConvergenceMonitoringFunction<double> ConvergenceMonitoringType;
 
-  virtual void StartOptimization();
+  virtual void StartOptimization( bool doOnlyInitialization = false );
 
 protected:
 

@@ -85,7 +85,7 @@ GradientDescentOptimizerv4
  */
 void
 GradientDescentOptimizerv4
-::StartOptimization()
+::StartOptimization( bool doOnlyInitialization )
 {
   itkDebugMacro("StartOptimization");
 
@@ -116,7 +116,7 @@ GradientDescentOptimizerv4
   this->m_ConvergenceMonitoring->SetWindowSize( this->m_ConvergenceWindowSize );
 
   /* Must call the superclass version for basic validation and setup */
-  Superclass::StartOptimization();
+  Superclass::StartOptimization( doOnlyInitialization );
 
   if( this->m_ReturnBestParametersAndValue )
     {
@@ -126,7 +126,10 @@ GradientDescentOptimizerv4
 
   this->m_CurrentIteration = 0;
 
-  this->ResumeOptimization();
+  if( ! doOnlyInitialization )
+    {
+    this->ResumeOptimization();
+    }
 }
 
 /**
@@ -263,13 +266,31 @@ GradientDescentOptimizerv4
 }
 
 /**
- * Modify the gradient by scales over a given index range.
+ * Modify the gradient by scales and weights over a given index range.
  */
 void
 GradientDescentOptimizerv4
 ::ModifyGradientByScalesOverSubRange( const IndexRangeType& subrange )
 {
   const ScalesType& scales = this->GetScales();
+  const ScalesType& weights = this->GetWeights();
+
+  ScalesType factor( scales.Size() );
+
+  if( this->GetWeightsAreIdentity() )
+    {
+    for( SizeValueType i=0; i < factor.Size(); i++ )
+      {
+      factor[i] = NumericTraits<ScalesType::ValueType>::OneValue() / scales[i];
+      }
+    }
+  else
+    {
+    for( SizeValueType i=0; i < factor.Size(); i++ )
+      {
+      factor[i] = weights[i] / scales[i];
+      }
+    }
 
   /* Loop over the range. It is inclusive. */
   for ( IndexValueType j = subrange[0]; j <= subrange[1]; j++ )
@@ -279,8 +300,8 @@ GradientDescentOptimizerv4
     // Take the modulo of the index to handle gradients from transforms
     // with local support. The gradient array stores the gradient of local
     // parameters at each local index with linear packing.
-    IndexValueType scalesIndex = j % scales.Size();
-    this->m_Gradient[j] = this->m_Gradient[j] / scales[scalesIndex];
+    IndexValueType index = j % scales.Size();
+    this->m_Gradient[j] = this->m_Gradient[j] * factor[index];
     }
 }
 

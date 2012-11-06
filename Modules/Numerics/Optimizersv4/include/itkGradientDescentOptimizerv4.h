@@ -205,7 +205,7 @@ public:
   itkBooleanMacro(ReturnBestParametersAndValue);
 
   /** Start and run the optimization */
-  virtual void StartOptimization();
+  virtual void StartOptimization( bool doOnlyInitialization = false );
 
   virtual void StopOptimization(void);
 

@@ -110,10 +110,10 @@ public:
                 GradientDescentOptimizerBasev4);
 
   /* Provide an override for the pure virtual StartOptimization */
-  void StartOptimization()
+  void StartOptimization( bool doOnlyInitialization = false )
     {
-    Superclass::StartOptimization();
-    std::cout << "StartOptimization called." << std::endl;
+    Superclass::StartOptimization( doOnlyInitialization );
+    std::cout << "StartOptimization called. doOnlyInitialization: " << doOnlyInitialization << std::endl;
     }
 
   void ResumeOptimization()

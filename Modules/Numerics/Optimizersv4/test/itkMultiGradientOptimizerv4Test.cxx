@@ -256,8 +256,7 @@ private:
  *  we expect an average result with solution @ (1.5,-1.5)
  */
 ///////////////////////////////////////////////////////////
-int MultiGradientOptimizerv4RunTest(
-  itk::MultiGradientOptimizerv4::Pointer & itkOptimizer )
+int MultiGradientOptimizerv4RunTest( itk::MultiGradientOptimizerv4::Pointer & itkOptimizer )
 {
   try
     {
@@ -308,7 +307,6 @@ int itkMultiGradientOptimizerv4Test(int, char* [] )
 
   typedef  itk::MultiGradientOptimizerv4  OptimizerType;
 
-  typedef OptimizerType::ScalesType                             ScalesType;
   typedef MultiGradientOptimizerv4TestMetric::ParametersType    ParametersType;
   typedef MultiGradientOptimizerv4TestMetric::ParametersPointer ParametersPointer;
 
@@ -319,8 +317,6 @@ int itkMultiGradientOptimizerv4Test(int, char* [] )
   MultiGradientOptimizerv4TestMetric::Pointer metric = MultiGradientOptimizerv4TestMetric::New();
   MultiGradientOptimizerv4TestMetric2::Pointer metric2 = MultiGradientOptimizerv4TestMetric2::New();
   const unsigned int spaceDimension = 2;
-  ScalesType scales( spaceDimension );
-  scales.Fill(1);
   itkOptimizer->SetMetric( metric );
   itkOptimizer->SetNumberOfIterations( 50 );
 
@@ -331,7 +327,6 @@ int itkMultiGradientOptimizerv4Test(int, char* [] )
   locoptimizer->SetLearningRate( 1.e-1);
   locoptimizer->SetNumberOfIterations( 25 );
   locoptimizer->SetMetric( metric );
-  locoptimizer->SetScales(scales);
   locoptimizer->SetNumberOfIterations( 1 );
   optimizersList.push_back( locoptimizer );
 
@@ -340,7 +335,6 @@ int itkMultiGradientOptimizerv4Test(int, char* [] )
   locoptimizer2->SetLearningRate( 1.e-1);
   locoptimizer2->SetNumberOfIterations( 25 );
   locoptimizer2->SetMetric( metric2 );
-  locoptimizer2->SetScales(scales);
   locoptimizer->SetNumberOfIterations( 1 );
   optimizersList.push_back( locoptimizer2 );
 

@@ -50,7 +50,7 @@ QuasiNewtonOptimizerv4
 
 void
 QuasiNewtonOptimizerv4
-::StartOptimization()
+::StartOptimization( bool doOnlyInitialization )
 {
   itkDebugMacro("StartOptimization");
 
@@ -81,8 +81,9 @@ QuasiNewtonOptimizerv4
       }
     }
 
-  /* Must call the superclass version for basic validation and setup */
-  Superclass::StartOptimization();
+  /* Must call the superclass version for basic validation, setup,
+   * and to start the optimization loop. */
+  Superclass::StartOptimization( doOnlyInitialization );
 }
 
 void
