@@ -224,7 +224,7 @@ private:
 }; // class Similarity2DTransform
 }  // namespace itk
 
-#if ITK_TEMPLATE_TXX
+#ifndef ITK_MANUAL_INSTANTIATION
 #include "itkSimilarity2DTransform.hxx"
 #endif
 

@@ -124,7 +124,7 @@ private:
 };                                      // class VersorRigid3DTransform
 }  // namespace itk
 
-#if ITK_TEMPLATE_TXX
+#ifndef ITK_MANUAL_INSTANTIATION
 #include "itkVersorRigid3DTransform.hxx"
 #endif
 

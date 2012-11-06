@@ -95,7 +95,7 @@ std::ostream & operator<<(std::ostream & os, const Array2D< TValueType > & arr)
 }
 } // namespace itk
 
-#if ITK_TEMPLATE_TXX
+#ifndef ITK_MANUAL_INSTANTIATION
 #include "itkArray2D.hxx"
 #endif
 

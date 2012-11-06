@@ -518,7 +518,7 @@ std::ostream & operator<<(std::ostream & os, const VariableLengthVector< TValueT
 
 #include "itkNumericTraitsVariableLengthVectorPixel.h"
 
-#if ITK_TEMPLATE_TXX
+#ifndef ITK_MANUAL_INSTANTIATION
 #include "itkVariableLengthVector.hxx"
 #endif
 

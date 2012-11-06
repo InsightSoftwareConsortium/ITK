@@ -324,7 +324,7 @@ Rigid2DTransform<TScalarType>::BackTransform(const OutputCovariantVectorType & v
 
 }  // namespace itk
 
-#if ITK_TEMPLATE_TXX
+#ifndef ITK_MANUAL_INSTANTIATION
 #include "itkRigid2DTransform.hxx"
 #endif
 

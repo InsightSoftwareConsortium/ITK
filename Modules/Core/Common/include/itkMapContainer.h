@@ -330,7 +330,7 @@ private:
 };
 } // end namespace itk
 
-#if ITK_TEMPLATE_TXX
+#ifndef ITK_MANUAL_INSTANTIATION
 #include "itkMapContainer.hxx"
 #endif
 

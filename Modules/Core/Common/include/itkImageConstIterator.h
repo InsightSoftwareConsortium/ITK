@@ -381,7 +381,7 @@ protected: //made protected so other iterators can access
 };
 } // end namespace itk
 
-#if ITK_TEMPLATE_TXX
+#ifndef ITK_MANUAL_INSTANTIATION
 #include "itkImageConstIterator.hxx"
 #endif
 

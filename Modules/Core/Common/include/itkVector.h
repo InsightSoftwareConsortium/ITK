@@ -271,7 +271,7 @@ ITKCommon_EXPORT Vector< int, 3 > CrossProduct(const Vector< int, 3 > &,
                                                const Vector< int, 3 > &);
 } // end namespace itk
 
-#if ITK_TEMPLATE_TXX
+#ifndef ITK_MANUAL_INSTANTIATION
 #include "itkVector.hxx"
 #endif
 
