@@ -413,7 +413,7 @@ operator-(const ConstNeighborhoodIteratorWithOnlyIndex< TImage > & it,
 }
 } // namespace itk
 
-#if ITK_TEMPLATE_TXX
+#ifndef ITK_MANUAL_INSTANTIATION
 #include "itkConstNeighborhoodIteratorWithOnlyIndex.hxx"
 #endif
 

@@ -188,7 +188,7 @@ private:
 };
 } // namespace itk
 
-#if ITK_TEMPLATE_TXX
+#ifndef ITK_MANUAL_INSTANTIATION
 #include "itkGaussianOperator.hxx"
 #endif
 

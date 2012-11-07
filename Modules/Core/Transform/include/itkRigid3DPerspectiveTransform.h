@@ -254,7 +254,7 @@ private:
 }; // class Rigid3DPerspectiveTransform:
 }  // namespace itk
 
-#if ITK_TEMPLATE_TXX
+#ifndef ITK_MANUAL_INSTANTIATION
 #include "itkRigid3DPerspectiveTransform.hxx"
 #endif
 

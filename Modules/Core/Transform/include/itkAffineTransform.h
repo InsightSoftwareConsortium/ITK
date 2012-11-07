@@ -397,7 +397,7 @@ AffineTransform< TScalarType, NDimensions >::BackTransform(const OutputPointType
 #endif
 }  // namespace itk
 
-#if ITK_TEMPLATE_TXX
+#ifndef ITK_MANUAL_INSTANTIATION
 #include "itkAffineTransform.hxx"
 #endif
 

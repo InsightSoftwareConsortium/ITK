@@ -178,7 +178,7 @@ private:
 };
 } // end namespace
 
-#if ITK_TEMPLATE_TXX
+#ifndef ITK_MANUAL_INSTANTIATION
 #include "itkSegmentationLevelSetFunction.hxx"
 #endif
 

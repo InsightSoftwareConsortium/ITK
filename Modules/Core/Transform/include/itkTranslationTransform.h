@@ -270,7 +270,7 @@ TranslationTransform<TScalarType, NDimensions>::BackTransform(const OutputCovari
 
 }  // namespace itk
 
-#if ITK_TEMPLATE_TXX
+#ifndef ITK_MANUAL_INSTANTIATION
 #include "itkTranslationTransform.hxx"
 #endif
 

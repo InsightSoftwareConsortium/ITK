@@ -569,7 +569,7 @@ operator-(const ConstNeighborhoodIterator< TImage > & it,
 }
 } // namespace itk
 
-#if ITK_TEMPLATE_TXX
+#ifndef ITK_MANUAL_INSTANTIATION
 #include "itkConstNeighborhoodIterator.hxx"
 #endif
 

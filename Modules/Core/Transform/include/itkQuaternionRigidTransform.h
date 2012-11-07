@@ -154,7 +154,7 @@ private:
 }; // class QuaternionRigidTransform
 }  // namespace itk
 
-#if ITK_TEMPLATE_TXX
+#ifndef ITK_MANUAL_INSTANTIATION
 #include "itkQuaternionRigidTransform.hxx"
 #endif
 

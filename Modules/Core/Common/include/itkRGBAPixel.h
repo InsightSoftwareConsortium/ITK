@@ -180,7 +180,7 @@ ITK_EXPORT std::istream & operator>>(std::istream & is,
 //
 #include "itkNumericTraitsRGBAPixel.h"
 
-#if ITK_TEMPLATE_TXX
+#ifndef ITK_MANUAL_INSTANTIATION
 #include "itkRGBAPixel.hxx"
 #endif
 

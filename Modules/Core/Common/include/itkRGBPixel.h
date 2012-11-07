@@ -181,7 +181,7 @@ ITK_EXPORT std::istream & operator>>(std::istream & is,
 #include "itkNumericTraitsRGBPixel.h"
 
 
-#if ITK_TEMPLATE_TXX
+#ifndef ITK_MANUAL_INSTANTIATION
 #include "itkRGBPixel.hxx"
 #endif
 

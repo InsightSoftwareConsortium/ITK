@@ -360,7 +360,7 @@ private:
 }; // class BSplineDeformableTransform
 }  // namespace itk
 
-#if ITK_TEMPLATE_TXX
+#ifndef ITK_MANUAL_INSTANTIATION
 #include "itkBSplineDeformableTransform.hxx"
 #endif
 

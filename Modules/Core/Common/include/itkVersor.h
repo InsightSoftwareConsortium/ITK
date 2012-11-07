@@ -288,7 +288,7 @@ ITK_EXPORT std::istream & operator>>(std::istream & is,
                                      Versor< T > & v);
 } // end namespace itk
 
-#if ITK_TEMPLATE_TXX
+#ifndef ITK_MANUAL_INSTANTIATION
 #include "itkVersor.hxx"
 #endif
 
