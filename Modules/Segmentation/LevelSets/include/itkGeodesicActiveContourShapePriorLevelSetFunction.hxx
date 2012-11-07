@@ -20,6 +20,7 @@
 
 #include "itkGeodesicActiveContourShapePriorLevelSetFunction.h"
 #include "itkGradientRecursiveGaussianImageFilter.h"
+#include "itkImageAlgorithm.h"
 
 namespace itk
 {
@@ -32,15 +33,10 @@ GeodesicActiveContourShapePriorLevelSetFunction< TImageType, TFeatureImageType >
 ::CalculateSpeedImage()
 {
   /* copy the feature image into the speed image */
-  ImageRegionConstIterator< FeatureImageType >
-  fit( this->GetFeatureImage(), this->GetFeatureImage()->GetRequestedRegion() );
-  ImageRegionIterator< ImageType >
-  sit( this->GetSpeedImage(), this->GetFeatureImage()->GetRequestedRegion() );
-
-  for ( fit.GoToBegin(), sit.GoToBegin(); !fit.IsAtEnd(); ++sit, ++fit )
-    {
-    sit.Set( static_cast< ScalarValueType >( fit.Get() ) );
-    }
+  ImageAlgorithm::Copy( this->GetFeatureImage(),
+                        this->GetSpeedImage(),
+                        this->GetFeatureImage()->GetRequestedRegion(),
+                        this->GetFeatureImage()->GetRequestedRegion() );
 }
 
 /**
