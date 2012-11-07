@@ -4,6 +4,7 @@ itkGDCMImageIOTest.cxx
 itkGDCMImageIOTest2.cxx
 itkGDCMSeriesReadImageWrite.cxx
 itkGDCMSeriesStreamReadImageWrite.cxx
+itkGDCMImagePositionPatientTest.cxx
 )
 
 CreateTestDriver(ITKIOGDCM  "${ITKIOGDCM-Test_LIBRARIES}" "${ITKIOGDCMTests}")
@@ -44,3 +45,7 @@ itk_add_test(NAME itkGDCMSeriesStreamReadImageWrite2
       COMMAND ITKIOGDCMTestDriver itkGDCMSeriesStreamReadImageWrite
               ${DICOMSERIES_DIR} ${ITK_TEST_OUTPUT_DIR}/itkGDCMSeriesStreamReadImageWrite2.mhd 0.859375 0.85939 1.60016 1)
 set_property(TEST itkGDCMSeriesStreamReadImageWrite2 APPEND PROPERTY DEPENDS ITKData)
+
+itk_add_test(NAME itkGDCMImagePositionPatientTest
+      COMMAND ITKIOGDCMTestDriver itkGDCMImagePositionPatientTest
+              ${ITK_TEST_OUTPUT_DIR})

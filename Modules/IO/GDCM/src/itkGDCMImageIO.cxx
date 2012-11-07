@@ -737,15 +737,30 @@ void GDCMImageIO::Write(const void *buffer)
     {
     image.SetSpacing(2, m_Spacing[2]);
     }
-  image.SetOrigin(0, m_Origin[0]);
-  image.SetOrigin(1, m_Origin[1]);
-  if ( m_Origin.size() == 3 )
+  // Set the origin (image position patient)
+  // If the meta dictionary contains the tag "0020 0032", use it
+  std::string tempString;
+  const bool hasIPP = ExposeMetaData<std::string>(dict,"0020|0032",tempString);
+  if( hasIPP)
     {
-    image.SetOrigin(2, m_Origin[2]);
+    double origin3D[3];
+    sscanf(tempString.c_str(), "%lf\\%lf\\%lf", &(origin3D[0]), &(origin3D[1]), &(origin3D[2]) );
+    image.SetOrigin(0, origin3D[0]);
+    image.SetOrigin(1, origin3D[1]);
+    image.SetOrigin(2, origin3D[2]);
     }
   else
     {
-    image.SetOrigin(2, 0);
+    image.SetOrigin(0, m_Origin[0]);
+    image.SetOrigin(1, m_Origin[1]);
+    if ( m_Origin.size() == 3 )
+      {
+      image.SetOrigin(2, m_Origin[2]);
+      }
+    else
+      {
+      image.SetOrigin(2, 0);
+      }
     }
   if ( m_NumberOfDimensions > 2 && m_Dimensions[2] != 1 )
     {
