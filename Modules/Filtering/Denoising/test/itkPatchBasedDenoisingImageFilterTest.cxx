@@ -117,20 +117,6 @@ int doDenoising(const std::string inputFileName, const std::string outputFileNam
   // Gaussian sampler, etc.
   filter->SetSampler(sampler);
 
-  typename itk::StdStreamLogOutput::Pointer coutstream = itk::StdStreamLogOutput::New();
-  coutstream->SetStream(std::cout);
-  typename FilterType::LoggerPointer logger = FilterType::LoggerType::New();
-  logger->SetName("PatchBasedDenoiser");
-  logger->SetPriorityLevel(itk::LoggerBase::WARNING);
-  logger->SetLevelForFlushing(itk::LoggerBase::WARNING);
-  logger->SetTimeStampFormat(itk::LoggerBase::HUMANREADABLE);
-  logger->SetHumanReadableFormat("%k:%M:%S");
-  logger->AddLogOutput(coutstream);
-  logger->Write(itk::LoggerBase::DEBUG, "Created Logger\n");
-  logger->Flush();
-  //
-  filter->SetLogger(logger);
-
   // automatic estimation of the kernel bandwidth
   filter->DoKernelBandwidthEstimationOn();
   // update bandwidth every 'n' iterations

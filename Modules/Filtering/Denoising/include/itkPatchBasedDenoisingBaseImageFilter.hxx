@@ -137,12 +137,8 @@ PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
       // Find the optimal kernel bandwidth parameter.
       this->ComputeKernelBandwidthUpdate();
     }
-    {
-      std::ostringstream msg;
-      msg << "Computing Image Update iteration " << m_ElapsedIterations+1
-          << " of " << m_NumberOfIterations << std::endl;
-      m_Logger->Write(itk::LoggerBase::INFO, msg.str());
-    }
+    itkDebugMacro( << "Computing Image Update iteration " << m_ElapsedIterations+1
+                   << " of " << m_NumberOfIterations );
 
     // Update the image intensities to denoise the image.
     this->ComputeImageUpdate();

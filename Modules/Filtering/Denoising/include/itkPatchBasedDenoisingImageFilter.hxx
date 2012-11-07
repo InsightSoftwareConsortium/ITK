@@ -204,23 +204,17 @@ PatchBasedDenoisingImageFilter<TInputImage,TOutputImage>
   inputRequestedRegion = inputPtr->GetRequestedRegion();
   // pad the input requested region by the operator radius
   inputRequestedRegion.PadByRadius( voxelNeighborhoodSize );
-  {
-    std::ostringstream msg;
-    msg << "Padding inputRequestedRegion by " << voxelNeighborhoodSize << "\n"
-        << "inputRequestedRegion: "           << inputRequestedRegion  << "\n"
-        << "largestPossibleRegion: "          << inputPtr->GetLargestPossibleRegion() << "\n";
-    this->m_Logger->Write(itk::LoggerBase::INFO, msg.str());
-  }
+
+  itkDebugMacro( << "Padding inputRequestedRegion by " << voxelNeighborhoodSize << "\n"
+                 << "inputRequestedRegion: "           << inputRequestedRegion  << "\n"
+                 << "largestPossibleRegion: "          << inputPtr->GetLargestPossibleRegion() );
+
   // crop the input requested region at the input's largest possible region
   if ( inputRequestedRegion.Crop(inputPtr->GetLargestPossibleRegion()) )
   {
-    {
-      std::ostringstream msg;
-      msg << "Cropped inputRequestedRegion to: " << inputRequestedRegion << "\n";
-      this->m_Logger->Write(itk::LoggerBase::INFO, msg.str());
-    }
-    inputPtr->SetRequestedRegion( inputRequestedRegion );
-    return;
+  itkDebugMacro( << "Cropped inputRequestedRegion to: " << inputRequestedRegion );
+  inputPtr->SetRequestedRegion( inputRequestedRegion );
+  return;
   }
   else
   {
@@ -258,7 +252,7 @@ void
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 ::Initialize()
 {
-  this->m_Logger->Write(itk::LoggerBase::DEBUG, "In Initialize...\n");
+  itkDebugMacro( <<"In Initialize..." );
 
   typename InputImageType::IndexType requiredIndex;
   requiredIndex.Fill(0);
@@ -294,12 +288,9 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   // For automatic sigma estimation, can't use more than 100% of pixels.
   m_SigmaUpdateDecimationFactor
     = vnl_math_max(m_SigmaUpdateDecimationFactor, 1u);
-  {
-    std::ostringstream msg;
-    msg << "m_FractionPixelsForSigmaUpdate: " << m_FractionPixelsForSigmaUpdate << ", "
-        << "m_SigmaUpdateDecimationFactor: "  << m_SigmaUpdateDecimationFactor << "\n";
-    this->m_Logger->Write(itk::LoggerBase::INFO, msg.str());
-  }
+
+  itkDebugMacro(  <<"m_FractionPixelsForSigmaUpdate: " << m_FractionPixelsForSigmaUpdate << ", "
+                  << "m_SigmaUpdateDecimationFactor: "  << m_SigmaUpdateDecimationFactor );
 
   // Get the number of components per pixel in the input image.
   m_NumPixelComponents = this->GetInput()->GetNumberOfComponentsPerPixel();
@@ -394,19 +385,16 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
       }
     }
   }
-  {
-    std::ostringstream msg;
-    msg << "Image Intensity range: ["
-        << m_ImageMin << ","
-        << m_ImageMax << "], "
-        << "IntensityRescaleInvFactor: "
-        << m_IntensityRescaleInvFactor << " , "
-        << "SigmaMultiplicationFactor: "
-        << m_SigmaMultiplicationFactor << " , "
-        << "GaussianKernelSigma initialized to: "
-        << m_GaussianKernelSigma << std::endl;
-      this->m_Logger->Write(itk::LoggerBase::INFO, msg.str());
-  }
+
+  itkDebugMacro( << "Image Intensity range: ["
+                 << m_ImageMin << ","
+                 << m_ImageMax << "], "
+                 << "IntensityRescaleInvFactor: "
+                 << m_IntensityRescaleInvFactor << " , "
+                 << "SigmaMultiplicationFactor: "
+                 << m_SigmaMultiplicationFactor << " , "
+                 << "GaussianKernelSigma initialized to: "
+                 << m_GaussianKernelSigma );
 
   if (!this->m_NoiseSigmaIsSet)
   {
@@ -491,8 +479,7 @@ void
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 ::InitializePatchWeights()
 {
-  this->m_Logger->Write(itk::LoggerBase::DEBUG,
-                        "InitializePatchWeights called ...\n");
+  itkDebugMacro( <<"InitializePatchWeights called ..." );
 
   if (m_UseSmoothDiscPatchWeights)
   {
@@ -514,8 +501,7 @@ void
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 ::InitializePatchWeightsSmoothDisc()
 {
-  this->m_Logger->Write(itk::LoggerBase::DEBUG,
-                        "InitializePatchWeightsSmoothDisc called ...\n");
+  itkDebugMacro( <<"InitializePatchWeightsSmoothDisc called ..." );
 
   typedef itk::Image<float,ImageDimension> WeightsImageType;
   typedef float                            DistanceType;
@@ -632,11 +618,8 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
       = vnl_math_max ( static_cast<float>(0), // ensure weight >= 0
                        vnl_math_min ( static_cast<float>(1), // ensure weight <= 1
                                       vwIt.Get() ) );
-    {
-      std::ostringstream msg;
-      msg << "patchWeights[ " << pos << " ]: " << patchWeights[pos] << std::endl;
-      this->m_Logger->Write(itk::LoggerBase::INFO, msg.str());
-    }
+    itkDebugMacro( "patchWeights[ " << pos << " ]: " << patchWeights[pos] );
+
   } // end for each element in the patch
   if (patchWeights[(this->GetPatchLengthInVoxels() - 1)/2] != 1.0)
   {
@@ -697,7 +680,7 @@ void
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 ::DispatchedRiemannianMinMax(const TInputImageType* img)
 {
-  this->m_Logger->Write(itk::LoggerBase::DEBUG, "DispatchRiemannianMinMax...\n");
+  itkDebugMacro( "DispatchRiemannianMinMax..." );
 
   // Set up for multithreaded processing.
   ThreadFilterStruct str;
@@ -824,17 +807,13 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
     threadData.validNorms[0] = 1;
     threadData.minNorm[0] = vcl_sqrt(minNorm[0]);
     threadData.maxNorm[0] = vcl_sqrt(maxNorm[0]);
-    {
-      std::ostringstream msg;
-      msg << "threadData minNorm: " << minNorm[0]
-          << ", maxNorm: " << maxNorm[0]
-          << std::endl;
-      this->m_Logger->Write(itk::LoggerBase::DEBUG, msg.str());
-    }
+
+    itkDebugMacro( <<"threadData minNorm: " << minNorm[0]
+                   << ", maxNorm: " << maxNorm[0] );
   }
   else
   {
-    this->m_Logger->Write(itk::LoggerBase::DEBUG, "no pixels in this region");
+  itkDebugMacro( <<"no pixels in this region" );
   }
   return threadData;
 }
@@ -854,15 +833,10 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
     {
       if (m_ThreadData[threadNum].validNorms[ic] > 0)
       {
-        {
-          std::ostringstream msg;
-          msg << "\nm_ThreadData[" << threadNum << "].minNorm[" << ic
-              << "]: " << m_ThreadData[threadNum].minNorm[ic]
-              << "\nm_ThreadData[" << threadNum << "].maxNorm[" << ic
-              << "]: " << m_ThreadData[threadNum].maxNorm[ic]
-              << std::endl;
-          this->m_Logger->Write(itk::LoggerBase::DEBUG, msg.str());
-        }
+      itkDebugMacro( "m_ThreadData[" << threadNum << "].minNorm[" << ic
+                     << "]: " << m_ThreadData[threadNum].minNorm[ic]
+                     << "\nm_ThreadData[" << threadNum << "].maxNorm[" << ic
+                     << "]: " << m_ThreadData[threadNum].maxNorm[ic] );
         if (m_ThreadData[threadNum].minNorm[ic] < m_ImageMin[ic])
         {
           m_ImageMin[ic] = m_ThreadData[threadNum].minNorm[ic];
@@ -874,13 +848,10 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
       }
     }
   }
-  {
-    std::ostringstream msg;
-    msg << "image min resolved to: " << m_ImageMin
-        << ", image max resolved to: " << m_ImageMax
-        << std::endl;
-    this->m_Logger->Write(itk::LoggerBase::DEBUG, msg.str());
-  }
+
+  itkDebugMacro( << "image min resolved to: " << m_ImageMin
+                 << ", image max resolved to: " << m_ImageMax );
+
 }
 
 template <class TInputImage, class TOutputImage>
@@ -1384,7 +1355,7 @@ void
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 ::InitializeIteration()
 {
-  this->m_Logger->Write(itk::LoggerBase::DEBUG, "Initializing Iteration now...\n");
+  itkDebugMacro( "Initializing Iteration now..." );
 
   const PatchRadiusType radius = this->GetPatchRadiusInVoxels();
 
@@ -1425,7 +1396,7 @@ void
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 ::ApplyUpdate()
 {
-  this->m_Logger->Write(itk::LoggerBase::DEBUG, "ApplyUpdate...\n");
+  itkDebugMacro( << "ApplyUpdate..." );
 
   // Set up for multithreaded processing.
   ThreadFilterStruct str;
@@ -1512,12 +1483,8 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   // perform Newton-Raphson optimization to find the optimal kernel sigma
   for (unsigned int i = 0; i < MaxSigmaUpdateIterations; ++i)
   {
-    {
-      std::ostringstream msg;
-      msg << "Computing iteration " << i
-          << " of kernel sigma update" << std::endl;
-      this->m_Logger->Write(itk::LoggerBase::INFO, msg.str());
-    }
+  itkDebugMacro( "Computing iteration " << i
+                 << " of kernel sigma update" );
 
     // multi-threaded computation of the first and second derivatives
     // of the entropy with respect to sigma
@@ -1527,14 +1494,9 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
     // appropriately update sigma after checks to prevent divergence or invalid sigma values
     sigmaUpdate = this->ResolveSigmaUpdate();
 
-    {
-      std::ostringstream msg;
-      msg << "sigmaUpdate: " << sigmaUpdate
-          << ", m_GaussianKernelSigma: " << m_GaussianKernelSigma
-          << ", m_SigmaUpdateConvergenceTolerance: " << m_SigmaUpdateConvergenceTolerance
-          << std::endl;
-      this->m_Logger->Write(itk::LoggerBase::DEBUG, msg.str());
-    }
+    itkDebugMacro( "sigmaUpdate: " << sigmaUpdate
+                   << ", m_GaussianKernelSigma: " << m_GaussianKernelSigma
+                   << ", m_SigmaUpdateConvergenceTolerance: " << m_SigmaUpdateConvergenceTolerance );
 
     // check for convergence
     bool all_converged = true;
@@ -1747,16 +1709,13 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
     }
     else
     {
-      std::ostringstream msg;
-      InputImagePatchIterator queryIt = sampler->GetSample()->GetMeasurementVector(currentPatchId)[0];
-      msg << "unexpected index for current patch, search results are empty."
-          << "\ncurrent patch id: " << currentPatchId
-          << "\ncurrent patch index: " << nIndex
-          << "\nindex calculated by searcher: "
-          << queryIt.GetIndex(queryIt.GetCenterNeighborhoodIndex())
-          << "\npatch accessed by searcher: ";
-      queryIt.Print(msg);
-      this->m_Logger->Write(itk::LoggerBase::WARNING, msg.str());
+    InputImagePatchIterator queryIt = sampler->GetSample()->GetMeasurementVector(currentPatchId)[0];
+    itkDebugMacro( << "unexpected index for current patch, search results are empty."
+                   << "\ncurrent patch id: " << currentPatchId
+                   << "\ncurrent patch index: " << nIndex
+                   << "\nindex calculated by searcher: "
+                   << queryIt.GetIndex(queryIt.GetCenterNeighborhoodIndex())
+                   << "\npatch accessed by searcher: " );
     }
 
     RealType centerPatchDifference;
@@ -1939,13 +1898,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
       continue;
     }
 
-    {
-      std::ostringstream msg;
-      msg << "Resolving sigma update for pixel component " << ic
-          << std::endl;
-      this->m_Logger->Write(itk::LoggerBase::INFO, msg.str());
-    }
-
+    itkDebugMacro( << "Resolving sigma update for pixel component " << ic );
 
     // accumulate the first and second derivatives from all the threads
     const RealValueType kernelSigma = m_GaussianKernelSigma[ic];
@@ -1962,21 +1915,16 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
     }
     firstDerivative /= static_cast<RealValueType>(m_TotalNumberPixels);
     secondDerivative /= static_cast<RealValueType>(m_TotalNumberPixels);
-    {
-      std::ostringstream msg;
-      msg << "first deriv: " << firstDerivative
-          << ", second deriv: " << secondDerivative
-          << ", old sigma: " << kernelSigma
-          << std::endl;
-      this->m_Logger->Write(itk::LoggerBase::INFO, msg.str());
-    }
+
+    itkDebugMacro(  << "first deriv: " << firstDerivative
+                   << ", second deriv: " << secondDerivative
+                   << ", old sigma: " << kernelSigma );
 
     // if second derivative is zero or negative, compute update using gradient descent
     if ( (vnl_math_abs(secondDerivative) == NumericTraits<RealValueType>::Zero) ||
          (secondDerivative < 0) )
     {
-      this->m_Logger->Write(itk::LoggerBase::INFO,
-                            "** Second derivative NOT POSITIVE \n");
+    itkDebugMacro( << "** Second derivative NOT POSITIVE" );
       sigmaUpdate[ic] = -vnl_math_sgn(firstDerivative) * kernelSigma * 0.3;
     }
     else
@@ -1984,47 +1932,34 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
       // compute update using Newton-Raphson
       sigmaUpdate[ic] = -firstDerivative / secondDerivative;
     }
-    {
-      std::ostringstream msg;
-      msg << "update: " << sigmaUpdate[ic] << std::endl;
-      this->m_Logger->Write(itk::LoggerBase::INFO, msg.str());
-    }
+
+    itkDebugMacro( << "update: " << sigmaUpdate[ic] );
 
 
     // avoid very large updates to prevent instabilities in Newton-Raphson
     if (vnl_math_abs(sigmaUpdate[ic]) > kernelSigma * 0.3)
     {
-      this->m_Logger->Write(itk::LoggerBase::INFO,
-                            "** Restricting large updates \n");
+    itkDebugMacro( << "** Restricting large updates \n");
       sigmaUpdate[ic] = vnl_math_sgn(sigmaUpdate[ic]) * kernelSigma * 0.3;
-      {
-        std::ostringstream msg;
-        msg << "update: " << sigmaUpdate[ic] << std::endl;
-        this->m_Logger->Write(itk::LoggerBase::INFO, msg.str());
-      }
+
+      itkDebugMacro( << "update: " << sigmaUpdate[ic] );
     }
 
 
     // keep the updated sigma from being too close to zero
     if (kernelSigma + sigmaUpdate[ic] < m_MinSigma)
     {
-      this->m_Logger->Write(itk::LoggerBase::INFO,
-                            "** TOO SMALL SIGMA: adjusting sigma\n");
+      itkDebugMacro( << "** TOO SMALL SIGMA: adjusting sigma" );
       m_GaussianKernelSigma[ic] = (kernelSigma + m_MinSigma) / 2.0;
-      {
-        std::ostringstream msg;
-        msg << "new sigma: " << m_GaussianKernelSigma[ic] << std::endl;
-        this->m_Logger->Write(itk::LoggerBase::INFO, msg.str());
-      }
+
+      itkDebugMacro( << "new sigma: " << m_GaussianKernelSigma[ic] );
     }
     else
     {
       m_GaussianKernelSigma[ic] = kernelSigma + sigmaUpdate[ic];
-      {
-        std::ostringstream msg;
-        msg << "new sigma: " << m_GaussianKernelSigma[ic] << std::endl;
-        this->m_Logger->Write(itk::LoggerBase::INFO, msg.str());
-      }
+
+      itkDebugMacro( << "new sigma: " << m_GaussianKernelSigma[ic] );
+
     }
   } // end for each independent pixel component
 
