@@ -22,8 +22,6 @@
 #include "itkArray.h"
 #include "itkSample.h"
 #include "itkNumericTraits.h"
-#include "itkLoggerThreadWrapper.h"
-#include "itkLogger.h"
 #include "itkZeroFluxNeumannBoundaryCondition.h"
 #include "itkImageToNeighborhoodSampleAdaptor.h"
 #include "itkConstNeighborhoodIterator.h"
@@ -120,9 +118,6 @@ public ImageToImageFilter<TInputImage, TOutputImage>
   typedef typename OutputImageType::PixelType          OutputPixelType;
   typedef OutputPixelType                              PixelType;
   typedef typename NumericTraits<PixelType>::ValueType PixelValueType;
-
-  typedef itk::LoggerThreadWrapper<itk::Logger> LoggerType;
-  typedef typename LoggerType::Pointer          LoggerPointer;
 
   /** Type definition for selecting the noise model. */
   typedef enum { GAUSSIAN = 0, RICIAN = 1, POISSON = 2 } NoiseModelType;
@@ -246,10 +241,6 @@ public ImageToImageFilter<TInputImage, TOutputImage>
   itkGetConstReferenceMacro(ManualReinitialization, bool);
   itkBooleanMacro(ManualReinitialization);
 
-  /** Set/Get the logger */
-  itkSetObjectMacro(Logger, LoggerType);
-  itkGetObjectMacro(Logger, LoggerType);
-
  protected:
   PatchBasedDenoisingBaseImageFilter();
   ~PatchBasedDenoisingBaseImageFilter();
@@ -328,9 +319,6 @@ public ImageToImageFilter<TInputImage, TOutputImage>
   /** Indicates whether the filter automatically resets to UNINITIALIZED state
       after completing, or whether filter must be manually reset */
   bool m_ManualReinitialization;
-
-  /** Logger for logging messages especially from multiple threads */
-  LoggerPointer m_Logger;
 
   /** cache input and output pointer to get rid of thousands of calls
    * to GetInput and GetOutput.
