@@ -41,7 +41,6 @@ itk_module(ITKReview
     ITKIOGIPL
     ITKIOIPL
     ITKIOJPEG
-    ITKIOLSM
     ITKIOMeta
     ITKIONIFTI
     ITKIONRRD

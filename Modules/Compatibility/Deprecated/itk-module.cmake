@@ -47,7 +47,6 @@ itk_module(ITKDeprecated
     ITKIOGIPL
     ITKIOIPL
     ITKIOJPEG
-    ITKIOLSM
     ITKIOMeta
     ITKIONIFTI
     ITKIONRRD
@@ -128,7 +127,6 @@ itk_module(ITKDeprecated
     ITKIOGIPL
     ITKIOIPL
     ITKIOJPEG
-    ITKIOLSM
     ITKIOMeta
     ITKIONIFTI
     ITKIONRRD
