@@ -61,9 +61,9 @@ namespace itk
 
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT PatchBasedDenoisingImageFilter :
-public PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
+  public PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
 {
- public:
+public:
   /** Standard class typedefs. */
   typedef PatchBasedDenoisingImageFilter                                Self;
   typedef PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage> Superclass;
@@ -78,19 +78,19 @@ public PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
   itkTypeMacro(PatchBasedDenoisingImageFilter, ImageToImageFilter);
 
   /** Type definition for the input image. */
-  typedef typename Superclass::InputImageType   InputImageType;
-  typedef typename Superclass::OutputImageType  OutputImageType;
+  typedef typename Superclass::InputImageType  InputImageType;
+  typedef typename Superclass::OutputImageType OutputImageType;
 
   /** Image dimension, assumed to be the same for input and output data*/
   itkStaticConstMacro(ImageDimension, unsigned int,
                       Superclass::ImageDimension);
 
   /** Type definition for the input image region and size type. */
-  typedef typename InputImageType::RegionType           InputImageRegionType;
+  typedef typename InputImageType::RegionType InputImageRegionType;
 
   /** Type definition for the input image region iterator */
-  typedef ImageRegionIterator<OutputImageType>          OutputImageRegionIteratorType;
-  typedef ImageRegionConstIterator<InputImageType>      InputImageRegionConstIteratorType;
+  typedef ImageRegionIterator<OutputImageType>     OutputImageRegionIteratorType;
+  typedef ImageRegionConstIterator<InputImageType> InputImageRegionConstIteratorType;
 
   /** Type definition for the input and output pixel types.
       Output pixel type will be used in computations. */
@@ -112,7 +112,7 @@ public PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
 
   /** Type definitions for delegate classes. */
   typedef itk::Statistics::RegionConstrainedSubsampler<
-    PatchSampleType, InputImageRegionType >            BaseSamplerType;
+      PatchSampleType, InputImageRegionType >            BaseSamplerType;
   typedef typename BaseSamplerType::Pointer            BaseSamplerPointer;
   typedef typename BaseSamplerType::InstanceIdentifier InstanceIdentifier;
 
@@ -127,18 +127,17 @@ public PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
   typedef std::vector<EigenVectorsMatrixType*> EigenVectorsCacheType;
 
   struct ThreadDataStruct
-  {
-    ShortArrayType        validDerivatives;
-    RealArrayType         entropyFirstDerivative;
-    RealArrayType         entropySecondDerivative;
-    ShortArrayType        validNorms;
-    RealArrayType         minNorm;
-    RealArrayType         maxNorm;
-    BaseSamplerPointer    sampler;
-    EigenValuesCacheType  eigenValsCache;
+    {
+    ShortArrayType validDerivatives;
+    RealArrayType entropyFirstDerivative;
+    RealArrayType entropySecondDerivative;
+    ShortArrayType validNorms;
+    RealArrayType minNorm;
+    RealArrayType maxNorm;
+    BaseSamplerPointer sampler;
+    EigenValuesCacheType eigenValsCache;
     EigenVectorsCacheType eigenVecsCache;
-  };
-
+    };
 
   /** Set/Get flag indicating whether smooth-disc patch weights should be used.
    *  If this flag is true, the smooth-disc patch weights will override any
@@ -147,7 +146,6 @@ public PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
   itkSetMacro(UseSmoothDiscPatchWeights, bool);
   itkBooleanMacro(UseSmoothDiscPatchWeights);
   itkGetConstMacro(UseSmoothDiscPatchWeights, bool);
-
 
   /** Set/Get initial sigma estimate.
    * To prevent the class from automatically modifying this estimate,
@@ -163,7 +161,8 @@ public PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
   itkSetClampMacro(FractionPixelsForSigmaUpdate, double, 0.01, 1.0);
   itkGetConstReferenceMacro(FractionPixelsForSigmaUpdate, double);
 
-  /** Set/Get flag indicating whether conditional derivatives should be used estimating sigma. */
+  /** Set/Get flag indicating whether conditional derivatives should be used
+    estimating sigma. */
   itkSetMacro(ComputeConditionalDerivatives, bool);
   itkBooleanMacro(ComputeConditionalDerivatives);
   itkGetConstMacro(ComputeConditionalDerivatives, bool);
@@ -201,14 +200,14 @@ public PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
    * Used by the noise model where appropriate, defaults to 5% of the image intensity range
    */
   void SetNoiseSigma(const RealType& sigma);
-  itkGetConstMacro(NoiseSigma, RealType);
 
+  itkGetConstMacro(NoiseSigma, RealType);
 
   /** Set/Get the class used for creating a subsample of patches. */
   itkSetObjectMacro(Sampler, BaseSamplerType);
   itkGetObjectMacro(Sampler, BaseSamplerType);
 
- protected:
+protected:
   PatchBasedDenoisingImageFilter();
   ~PatchBasedDenoisingImageFilter();
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
@@ -230,9 +229,9 @@ public PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
    * is ignored.
   */
   template< typename T>
-    typename EnableIfC<
-      IsSame<T, typename NumericTraits<T>::ValueType>::Value,
-      T >::Type
+  typename EnableIfC<
+    IsSame<T, typename NumericTraits<T>::ValueType>::Value,
+    T >::Type
   GetComponent(const T pix,
                unsigned int itkNotUsed( idx ) ) const
   {
@@ -244,10 +243,11 @@ public PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
     // types.
     return pix;
   }
+
   template< typename T>
-    typename DisableIfC<
-      IsSame<T, typename NumericTraits<T>::ValueType>::Value,
-       typename NumericTraits<T>::ValueType>::Type
+  typename DisableIfC<
+    IsSame<T, typename NumericTraits<T>::ValueType>::Value,
+    typename NumericTraits<T>::ValueType>::Type
   GetComponent(const T& pix,
                unsigned int idx ) const
   {
@@ -256,50 +256,55 @@ public PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
 
   /** \brief A method to generically set a component */
   template< typename T >
-    void
+  void
   SetComponent( T &pix,
                 unsigned int itkNotUsed( idx ),
-                typename EnableIfC< IsSame<T, typename NumericTraits<T>::ValueType>::Value, RealValueType>::Type val) const
+                typename EnableIfC< IsSame<T,
+                                           typename NumericTraits<T>::ValueType>::Value, RealValueType>::Type val) const
   {
     pix = val;
   }
+
   template< typename T >
-    void
+  void
   SetComponent( T &pix,
                 unsigned int idx,
-                typename DisableIfC< IsSame<T, typename NumericTraits<T>::ValueType>::Value, RealValueType>::Type val) const
+                typename DisableIfC< IsSame<T,
+                                            typename NumericTraits<T>::ValueType>::Value,
+                                     RealValueType>::Type val) const
   {
     pix[idx] =  val;
   }
 
-
-  /** Compute the Minimum and Maximum pixel in the image for each independent component */
+  /** Compute the Minimum and Maximum pixel in the image for each independent
+    component */
 
   void ComputeMinMax(const Image< DiffusionTensor3D<PixelValueType> , ImageDimension>* img)
   {
     if (this->m_ComponentSpace == Superclass::RIEMANNIAN)
-    {
+      {
       DispatchedRiemannianMinMax(img);
-    }
+      }
     else
-    {
+      {
       DispatchedArrayMinMax(img);
-    }
+      }
   }
 
   template< typename TImageType>
-    typename EnableIfC<
-      IsSame<typename TImageType::PixelType, typename NumericTraits<typename TImageType::PixelType>::ValueType>::Value
-      >::Type
-    ComputeMinMax(const TImageType* img)
+  typename EnableIfC<
+    IsSame<typename TImageType::PixelType, typename NumericTraits<typename TImageType::PixelType>::ValueType>::Value
+    >::Type
+  ComputeMinMax(const TImageType* img)
   {
     DispatchedMinMax(img);
   }
- template< typename TImageType>
-    typename DisableIfC<
-      IsSame<typename TImageType::PixelType, typename NumericTraits<typename TImageType::PixelType>::ValueType>::Value
-      >::Type
-   ComputeMinMax(const TImageType* img)
+
+  template< typename TImageType>
+  typename DisableIfC<
+    IsSame<typename TImageType::PixelType, typename NumericTraits<typename TImageType::PixelType>::ValueType>::Value
+    >::Type
+  ComputeMinMax(const TImageType* img)
   {
     DispatchedArrayMinMax(img);
   }
@@ -322,20 +327,21 @@ public PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
                                                RealType& diff, RealArrayType& norm)
   {
     if (this->m_ComponentSpace == Superclass::RIEMANNIAN)
-    {
+      {
       ComputeLogMapAndWeightedSquaredGeodesicDifference(a, b, weight,
                                                         useCachedComputations, cacheIndex,
                                                         eigenValsCache, eigenVecsCache,
                                                         diff, norm);
-    }
+      }
     else
-    {
+      {
       ComputeSignedEuclideanDifferenceAndWeightedSquaredNorm(a, b, weight,
                                                              useCachedComputations, cacheIndex,
                                                              eigenValsCache, eigenVecsCache,
                                                              diff, norm);
-    }
+      }
   }
+
   template <class PixelT>
   void ComputeDifferenceAndWeightedSquaredNorm(const PixelT& a,
                                                const PixelT& b,
@@ -359,21 +365,21 @@ public PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
                      const RealType& b)
   {
     if (this->m_ComponentSpace == Superclass::RIEMANNIAN)
-    {
+      {
       return this->AddExponentialMapUpdate(a, b);
-    }
+      }
     else
-    {
+      {
       return this->AddEuclideanUpdate(a, b);
-    }
+      }
   }
+
   template <class RealT>
   RealType AddUpdate(const RealT& a,
                      const RealType& b)
   {
     return this->AddEuclideanUpdate(a, b);
   }
-
 
   virtual void EnforceConstraints();
 
@@ -382,35 +388,41 @@ public PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
   virtual void InitializeKernelSigma();
 
   virtual void InitializePatchWeights();
+
   virtual void InitializePatchWeightsSmoothDisc();
 
   virtual void InitializeIteration();
 
-  virtual void ComputeKernelBandwidthUpdate(); // derived from base class; define here
+  virtual void ComputeKernelBandwidthUpdate(); // derived from base class;
+
+  // define here
+
   virtual ThreadDataStruct ThreadedComputeSigmaUpdate(const InputImageRegionType& regionToProcess,
                                                       const int itkNotUsed(threadId),
                                                       ThreadDataStruct threadData);
+
   virtual RealArrayType ResolveSigmaUpdate();
 
-
   virtual void ComputeImageUpdate();
+
   virtual ThreadDataStruct ThreadedComputeImageUpdate(const InputImageRegionType& regionToProcess,
                                                       const int threadId,
                                                       ThreadDataStruct threadData);
+
   virtual RealType ComputeGradientJointEntropy(InstanceIdentifier id,
                                                typename ListAdaptorType::Pointer& inList,
                                                BaseSamplerPointer& sampler,
                                                ThreadDataStruct& threadData);
 
-
   virtual void ApplyUpdate();
-  virtual void ThreadedApplyUpdate(const InputImageRegionType& regionToProcess,
-                                   const int itkNotUsed(threadId));
 
+  virtual void ThreadedApplyUpdate(const InputImageRegionType& regionToProcess,
+                                   const int itkNotUsed(threadId) );
 
   virtual void PostProcessOutput();
 
   virtual void SetThreadData(int threadId, const ThreadDataStruct& data);
+
   virtual ThreadDataStruct GetThreadData(int threadId);
 
   std::vector<ThreadDataStruct> m_ThreadData;
@@ -418,38 +430,38 @@ public PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
   /** The buffer that holds the updates for an iteration of the algorithm. */
   typename OutputImageType::Pointer m_UpdateBuffer;
 
-  unsigned int     m_NumPixelComponents;
-  unsigned int     m_NumIndependentComponents;
-  unsigned int     m_TotalNumberPixels;
+  unsigned int m_NumPixelComponents;
+  unsigned int m_NumIndependentComponents;
+  unsigned int m_TotalNumberPixels;
   //
-  bool             m_UseSmoothDiscPatchWeights;
+  bool m_UseSmoothDiscPatchWeights;
   //
-  bool             m_UseFastTensorComputations;
+  bool m_UseFastTensorComputations;
   //
-  RealArrayType    m_GaussianKernelSigma;
-  RealArrayType    m_IntensityRescaleInvFactor;
-  PixelType        m_ZeroPixel;
-  PixelArrayType   m_ImageMin;
-  PixelArrayType   m_ImageMax;
-  double           m_FractionPixelsForSigmaUpdate;
-  bool             m_ComputeConditionalDerivatives;
-  double           m_MinSigma;
-  double           m_MinProbability;
-  unsigned int     m_SigmaUpdateDecimationFactor;
-  double           m_SigmaUpdateConvergenceTolerance;
-  ShortArrayType   m_SigmaConverged;
-  double           m_SigmaMultiplicationFactor;
+  RealArrayType  m_GaussianKernelSigma;
+  RealArrayType  m_IntensityRescaleInvFactor;
+  PixelType      m_ZeroPixel;
+  PixelArrayType m_ImageMin;
+  PixelArrayType m_ImageMax;
+  double         m_FractionPixelsForSigmaUpdate;
+  bool           m_ComputeConditionalDerivatives;
+  double         m_MinSigma;
+  double         m_MinProbability;
+  unsigned int   m_SigmaUpdateDecimationFactor;
+  double         m_SigmaUpdateConvergenceTolerance;
+  ShortArrayType m_SigmaConverged;
+  double         m_SigmaMultiplicationFactor;
   //
-  RealType         m_NoiseSigma;
-  RealType         m_NoiseSigmaSquared;
-  bool             m_NoiseSigmaIsSet;
+  RealType m_NoiseSigma;
+  RealType m_NoiseSigmaSquared;
+  bool     m_NoiseSigmaIsSet;
   //
-  BaseSamplerPointer                m_Sampler;
+  BaseSamplerPointer m_Sampler;
   typename ListAdaptorType::Pointer m_SearchSpaceList;
 
- private:
+private:
   PatchBasedDenoisingImageFilter(const Self&); // purposely not implemented
-  void operator=(const Self&); // purposely not implemented
+  void operator=(const Self&);                 // purposely not implemented
 
   /** This callback method uses ImageSource::SplitRequestedRegion to acquire an
    * output region that it passes to ComputeSigma for processing. */
@@ -472,8 +484,9 @@ public PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
   template <typename TInputImageType>
   void DispatchedVectorMinMax(const TInputImageType* img);
 
-    template <typename TInputImageType>
+  template <typename TInputImageType>
   void DispatchedRiemannianMinMax(const TInputImageType* img);
+
   /** This callback method uses ImageSource::SplitRequestedRegion to acquire a
    * region which it then passes to ThreadedRiemannianMinMax for processing. */
   static ITK_THREAD_RETURN_TYPE RiemannianMinMaxThreaderCallback( void *arg );
@@ -484,7 +497,6 @@ public PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
                                             ThreadDataStruct threadData);
 
   virtual void ResolveRiemannianMinMax();
-
 
   void ComputeSignedEuclideanDifferenceAndWeightedSquaredNorm(const PixelType& a, const PixelType& b,
                                                               const RealArrayType& weight,
@@ -503,23 +515,25 @@ public PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
                                                          EigenValuesCacheType& eigenValsCache,
                                                          EigenVectorsCacheType& eigenVecsCache,
                                                          RealType& symMatrixLogMap, RealArrayType& geodesicDist);
+
   template <typename TensorValueT>
   void Compute3x3EigenAnalysis(const DiffusionTensor3D<TensorValueT>& spdMatrix,
                                FixedArray< TensorValueT, 3 >&  eigenVals,
                                Matrix< TensorValueT, 3, 3 >& eigenVecs);
 
   RealType AddEuclideanUpdate(const RealType& a, const RealType& b);
+
   /** Returns the Exp map */
   RealType AddExponentialMapUpdate(const DiffusionTensor3D<RealValueType>& spdMatrix,
                                    const DiffusionTensor3D<RealValueType>& symMatrix);
 
   struct ThreadFilterStruct
-  {
+    {
     PatchBasedDenoisingImageFilter *Filter;
-    InputImageType                 *Img;
-  };
+    InputImageType *Img;
+    };
 
- }; // end class PatchBasedDenoisingImageFilter
+};  // end class PatchBasedDenoisingImageFilter
 
 } // end namespace itk
 
