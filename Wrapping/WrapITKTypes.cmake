@@ -191,7 +191,12 @@ WRAP_TYPE("itk::Image" "I")
     endforeach()
 
     # FixedArray types required by level set filters
-    ADD_TEMPLATE("${ITKM_FAF${d}}${d}"  "${ITKT_FAF${d}},${d}")
+    if(ITK_WRAP_float)
+      ADD_TEMPLATE("${ITKM_FAF${d}}${d}"  "${ITKT_FAF${d}},${d}")
+    endif()
+    if(ITK_WRAP_double)
+      ADD_TEMPLATE("${ITKM_FAD${d}}${d}"  "${ITKT_FAD${d}},${d}")
+    endif()
 
     # Offset, used by Danielsson's filter
     ADD_TEMPLATE("${ITKM_O${d}}${d}"  "${ITKT_O${d}},${d}")
