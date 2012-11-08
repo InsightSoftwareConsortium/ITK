@@ -3,6 +3,28 @@
 // index types into a class that can
 // be compiled independant of the main
 // body of code
+#include "itkSize.h"
+template class itk::Size<1u>;
+template class itk::Size<2u>;
+template class itk::Size<3u>;
+template class itk::Size<4u>;
+template class itk::Size<5u>;
+template class itk::Size<6u>;
+
+#include "itkOffset.h"
+template class itk::Offset<1u>;
+template class itk::Offset<2u>;
+template class itk::Offset<3u>;
+template class itk::Offset<4u>;
+template class itk::Offset<5u>;
+template class itk::Offset<6u>;
+template class itk::Functor::OffsetLexicographicCompare<1u>;
+template class itk::Functor::OffsetLexicographicCompare<2u>;
+template class itk::Functor::OffsetLexicographicCompare<3u>;
+template class itk::Functor::OffsetLexicographicCompare<4u>;
+template class itk::Functor::OffsetLexicographicCompare<5u>;
+template class itk::Functor::OffsetLexicographicCompare<6u>;
+
 #include "itkFixedArray.h"
 template class itk::FixedArray<uint8_t,1u>;
 template class itk::FixedArray<uint8_t,2u>;
