@@ -110,6 +110,7 @@ public:
   void SetFirstHiddenTransferFunction(TransferFunctionInterfaceType* f);
   void SetSecondHiddenTransferFunction(TransferFunctionInterfaceType* f);
   void SetOutputTransferFunction(TransferFunctionInterfaceType* f);
+
 protected:
 
   TwoHiddenLayerBackPropagationNeuralNetwork();

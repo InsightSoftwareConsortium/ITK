@@ -299,6 +299,7 @@ public:
 #endif
   /** End concept checking */
 #endif
+
 protected:
   KLMRegionGrowImageFilter();
   ~KLMRegionGrowImageFilter();

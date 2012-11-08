@@ -200,6 +200,7 @@ public:
                    ( Concept::HasNumericTraits< TOutputPixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   ~NarrowBandThresholdSegmentationLevelSetImageFilter() {}
   NarrowBandThresholdSegmentationLevelSetImageFilter();

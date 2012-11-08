@@ -221,6 +221,7 @@ public:
    */
   itkSetClampMacro( Stiffness, double, 0.0, NumericTraits<double>::max() );
   itkGetConstMacro(Stiffness, double);
+
 protected:
   KernelTransform();
   virtual ~KernelTransform();
@@ -259,6 +260,7 @@ public:
 
   /** Column matrix typedef. */
   typedef vnl_matrix_fixed<TScalarType, NDimensions, 1> ColumnMatrixType;
+
 protected:
   /** Compute G(x)
    * This is essentially the kernel of the transform.
@@ -355,6 +357,7 @@ protected:
 
   /** The list of target landmarks, denoted 'q'. */
   PointSetPointer m_TargetLandmarks;
+
 private:
 
   KernelTransform(const Self &); // purposely not implemented

@@ -217,11 +217,13 @@ public:
 
       }
     }
+
 protected:
   CommandIterationUpdateAmoeba()
   {
     m_IterationNumber=0;
   }
+
 private:
   unsigned long m_IterationNumber;
 };

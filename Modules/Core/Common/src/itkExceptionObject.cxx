@@ -47,6 +47,7 @@ protected:
     m_What += m_Description;
     m_WhatPointer = m_What.c_str();
     }
+
 private:
   void operator=(const ExceptionData &); //purposely not implemented
 

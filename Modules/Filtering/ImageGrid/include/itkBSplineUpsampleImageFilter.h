@@ -122,6 +122,7 @@ public:
                    ( Concept::Convertible< double, typename TOutputImage::PixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
 
   void GenerateData();

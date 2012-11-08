@@ -139,6 +139,7 @@ public:
   class ConstIterator
   {
     friend class ImageToListSampleAdaptor;
+
 public:
 
     ConstIterator(const ImageToListSampleAdaptor *adaptor)
@@ -204,6 +205,7 @@ protected:
 
     // This method is purposely not implemented
     ConstIterator();
+
 private:
     ImageConstIteratorType        m_Iter;
     mutable MeasurementVectorType m_MeasurementVectorCache;
@@ -217,6 +219,7 @@ private:
   class Iterator:public ConstIterator
   {
     friend class ImageToListSampleAdaptor;
+
 public:
 
     Iterator(Self *adaptor):ConstIterator(adaptor)

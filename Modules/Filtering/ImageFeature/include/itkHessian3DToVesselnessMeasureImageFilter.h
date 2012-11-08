@@ -127,6 +127,7 @@ public:
                    ( Concept::Convertible< double, OutputPixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   Hessian3DToVesselnessMeasureImageFilter();
   ~Hessian3DToVesselnessMeasureImageFilter() {}

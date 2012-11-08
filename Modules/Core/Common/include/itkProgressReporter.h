@@ -105,6 +105,7 @@ protected:
   SizeValueType  m_PixelsBeforeUpdate;
   float          m_InitialProgress;
   float          m_ProgressWeight;
+
 private:
   ProgressReporter(); //purposely not implemented
 };

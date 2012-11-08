@@ -98,6 +98,7 @@ public:
   itkSetMacro(ForceAlgorithm, bool);
   itkGetConstReferenceMacro(ForceAlgorithm, bool);
   itkBooleanMacro(ForceAlgorithm);
+
 protected:
   BlackTopHatImageFilter();
   ~BlackTopHatImageFilter() {}

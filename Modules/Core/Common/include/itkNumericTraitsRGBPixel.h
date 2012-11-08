@@ -49,6 +49,7 @@ private:
   typedef typename NumericTraits< T >::FloatType      ElementFloatType;
   typedef typename NumericTraits< T >::PrintType      ElementPrintType;
   typedef typename NumericTraits< T >::RealType       ElementRealType;
+
 public:
 
   /** Return the type of the native component type. */

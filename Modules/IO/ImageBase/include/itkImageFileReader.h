@@ -153,6 +153,7 @@ public:
   itkSetMacro(UseStreaming, bool);
   itkGetConstReferenceMacro(UseStreaming, bool);
   itkBooleanMacro(UseStreaming);
+
 protected:
   ImageFileReader();
   ~ImageFileReader();
@@ -177,6 +178,7 @@ protected:
                                // ImageIO is user specified
 
   bool m_UseStreaming;
+
 private:
   ImageFileReader(const Self &); //purposely not implemented
   void operator=(const Self &);  //purposely not implemented

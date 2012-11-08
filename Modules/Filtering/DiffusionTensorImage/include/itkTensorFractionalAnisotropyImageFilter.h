@@ -108,9 +108,11 @@ public:
                    ( Concept::HasNumericTraits< InputValueType > ) );
   /** End concept checking */
 #endif
+
 protected:
   TensorFractionalAnisotropyImageFilter() {}
   virtual ~TensorFractionalAnisotropyImageFilter() {}
+
 private:
   TensorFractionalAnisotropyImageFilter(const Self &); //purposely not
                                                        // implemented

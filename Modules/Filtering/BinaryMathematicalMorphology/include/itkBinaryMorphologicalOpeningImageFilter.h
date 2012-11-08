@@ -93,6 +93,7 @@ public:
 
   /** Set the value in eroded part of the image. Defaults to zero */
   itkGetConstMacro(BackgroundValue, PixelType);
+
 protected:
   BinaryMorphologicalOpeningImageFilter();
   ~BinaryMorphologicalOpeningImageFilter() {}

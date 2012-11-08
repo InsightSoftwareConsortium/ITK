@@ -223,6 +223,7 @@ public:
                    ( Concept::Convertible< InputImagePixelType, OutputImagePixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   ExtractSliceImageFilter();
   ~ExtractSliceImageFilter() {}
@@ -264,6 +265,7 @@ protected:
   InputImageRegionType m_ExtractionRegion;
 
   OutputImageRegionType m_OutputImageRegion;
+
 private:
   ExtractSliceImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);     //purposely not implemented

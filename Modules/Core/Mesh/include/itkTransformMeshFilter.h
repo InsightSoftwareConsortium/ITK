@@ -71,6 +71,7 @@ public:
 
   /** Get transform. */
   itkGetObjectMacro(Transform, TransformType);
+
 protected:
   TransformMeshFilter();
   ~TransformMeshFilter() {}
@@ -81,6 +82,7 @@ protected:
 
   /** Transform to apply to all the mesh points. */
   typename TransformType::Pointer m_Transform;
+
 private:
   TransformMeshFilter(const TransformMeshFilter &); //purposely not implemented
   void operator=(const TransformMeshFilter &);      //purposely not implemented

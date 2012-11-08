@@ -119,6 +119,7 @@ public:
                    ( Concept::HasNumericTraits< typename VectorType::ValueType > ) );
   /** End concept checking */
 #endif
+
 protected:
   PolylineMaskImageFilter();
   virtual ~PolylineMaskImageFilter() {}

@@ -77,6 +77,7 @@ public:
   itkGetConstMacro(Sigma, ArrayType);
   itkSetMacro(Mean, ArrayType);
   itkGetConstMacro(Mean, ArrayType);
+
 protected:
   GaussianSpatialFunction();
   virtual ~GaussianSpatialFunction();

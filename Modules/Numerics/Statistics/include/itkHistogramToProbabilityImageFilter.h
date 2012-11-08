@@ -106,9 +106,11 @@ public:
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
+
 protected:
   HistogramToProbabilityImageFilter() {}
   virtual ~HistogramToProbabilityImageFilter() {}
+
 private:
   HistogramToProbabilityImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);                    //purposely not implemented

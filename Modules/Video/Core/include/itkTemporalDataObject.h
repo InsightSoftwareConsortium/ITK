@@ -112,6 +112,7 @@ protected:
   TemporalRegionType m_BufferedTemporalRegion;
 
   TemporalUnitType m_TemporalUnit;
+
 private:
 
   TemporalDataObject(const Self &); //purposely not implemented

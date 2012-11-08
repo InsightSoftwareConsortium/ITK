@@ -85,6 +85,7 @@ public:
    * 3 points and a material.
    */
   Element2DC0LinearTriangularStrain(NodeIDType n1_, NodeIDType n2_, NodeIDType n3_, Material::ConstPointer p_);
+
 protected:
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
 

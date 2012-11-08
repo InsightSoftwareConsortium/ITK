@@ -62,12 +62,14 @@ public:
   /** Save the template parameters. */
   typedef TElementIdentifier ElementIdentifier;
   typedef TElement           Element;
+
 private:
   /** Quick access to the STL vector type that was inherited. */
   typedef std::vector< Element >              VectorType;
   typedef typename VectorType::size_type      size_type;
   typedef typename VectorType::iterator       VectorIterator;
   typedef typename VectorType::const_iterator VectorConstIterator;
+
 protected:
   /** Provide pass-through constructors corresponding to all the STL
    * vector constructors.  These are for internal use only since this is also
@@ -83,6 +85,7 @@ protected:
   template< typename TInputIterator >
   VectorContainer(TInputIterator first, TInputIterator last):
     Object(), VectorType(first, last) {}
+
 public:
 
   /** This type is provided to Adapt this container as an STL container */
@@ -182,6 +185,7 @@ public:
 
     /** Get the value at this iterator's location in the VectorContainer.   */
     Element & Value(void) const { return *m_Iter; }
+
 private:
     size_type      m_Pos;
     VectorIterator m_Iter;
@@ -216,6 +220,7 @@ public:
     ElementIdentifier Index(void) const { return static_cast< ElementIdentifier >( m_Pos ); }
     /** Get the value at this iterator's location in the VectorContainer.   */
     const Element & Value(void) const { return *m_Iter; }
+
 private:
     size_type           m_Pos;
     VectorConstIterator m_Iter;

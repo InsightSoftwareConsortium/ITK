@@ -102,6 +102,7 @@ public:
 
   /** Interpolation modes. */
   enum InterpolationModeType { NearestNeighbourInterpolation, LinearInterpolation };
+
 public:
 
   /** Evaluate the function at specified point. */
@@ -193,6 +194,7 @@ public:
    * evaluating the function. This method MUST be called after any
    * changes to function parameters. */
   virtual void Initialize() { RecomputeGaussianKernel(); }
+
 protected:
 
   DiscreteGaussianDerivativeImageFunction();

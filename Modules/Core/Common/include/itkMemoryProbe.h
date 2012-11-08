@@ -49,6 +49,7 @@ public:
 
   /** Type for measuring the average memory. */
   typedef double MeanMemoryLoadType;
+
 protected:
   virtual MemoryLoadType GetInstantValue(void) const;
 

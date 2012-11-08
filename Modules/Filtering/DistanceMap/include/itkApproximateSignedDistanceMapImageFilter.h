@@ -124,6 +124,7 @@ public:
                    ( Concept::EqualityComparable< typename InputImageType::PixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   ApproximateSignedDistanceMapImageFilter();
   virtual ~ApproximateSignedDistanceMapImageFilter() {}

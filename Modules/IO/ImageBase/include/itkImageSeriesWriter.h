@@ -195,6 +195,7 @@ public:
   itkSetMacro(UseCompression, bool);
   itkGetConstReferenceMacro(UseCompression, bool);
   itkBooleanMacro(UseCompression);
+
 protected:
   ImageSeriesWriter();
   ~ImageSeriesWriter();
@@ -211,6 +212,7 @@ protected:
 
   //track whether the ImageIO is user specified
   bool m_UserSpecifiedImageIO;
+
 private:
   ImageSeriesWriter(const Self &); //purposely not implemented
   void operator=(const Self &);    //purposely not implemented

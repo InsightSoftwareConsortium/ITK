@@ -85,6 +85,7 @@ public:
                    ( Concept::Convertible< InputPixelType, typename NumericTraits<OutputPixelType>::ValueType > ) );
   /** End concept checking */
 #endif
+
 protected:
   ComposeImageFilter();
 

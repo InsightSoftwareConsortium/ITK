@@ -129,6 +129,7 @@ public:
   itkConceptMacro( DoubleConvertibleToOutputCheck, ( Concept::Convertible< double, OutputPixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   HessianToObjectnessMeasureImageFilter();
   ~HessianToObjectnessMeasureImageFilter() {}

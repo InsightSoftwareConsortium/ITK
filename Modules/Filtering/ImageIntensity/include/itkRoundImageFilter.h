@@ -89,6 +89,7 @@ public:
 protected:
   RoundImageFilter() {}
   virtual ~RoundImageFilter() {}
+
 private:
   RoundImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);  //purposely not implemented

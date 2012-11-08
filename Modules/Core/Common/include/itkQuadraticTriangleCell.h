@@ -113,9 +113,11 @@ public:
   }
 
   ~QuadraticTriangleCell() {}
+
 protected:
   /** Store the number of points needed for a triangle. */
   PointIdentifier m_PointIds[NumberOfPoints];
+
 private:
   QuadraticTriangleCell(const Self &); //purposely not implemented
   void operator=(const Self &);        //purposely not implemented

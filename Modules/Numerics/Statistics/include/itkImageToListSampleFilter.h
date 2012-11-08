@@ -110,6 +110,7 @@ public:
    * to the list sample. */
   itkSetMacro(MaskValue, MaskPixelType);
   itkGetConstMacro(MaskValue, MaskPixelType);
+
 protected:
   ImageToListSampleFilter();
   virtual ~ImageToListSampleFilter() {}

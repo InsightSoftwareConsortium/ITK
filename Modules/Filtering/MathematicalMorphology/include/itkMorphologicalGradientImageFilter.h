@@ -123,6 +123,7 @@ public:
     ANCHOR = 2,
     VHGW = 3
     } AlgorithmChoice;
+
 protected:
   MorphologicalGradientImageFilter();
   ~MorphologicalGradientImageFilter() {}

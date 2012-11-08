@@ -210,7 +210,6 @@ public:
 
   itkGetConstMacro(BufferedRegion, RegionType);
 
-
 protected:
   LevelSetBase();
   virtual ~LevelSetBase() {}

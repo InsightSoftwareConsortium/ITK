@@ -83,6 +83,7 @@ public:
   SecondaryNodeListIterator m_SecondaryListIterator;
 
   typename TStructureType::NodeListType::iterator m_NodeListIterator;
+
 protected:
 
   /** Is the iterator at the end of its walk? */

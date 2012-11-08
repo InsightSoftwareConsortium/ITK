@@ -169,6 +169,7 @@ public:
                    ( Concept::HasNumericTraits< InputPixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
 
   ContourExtractor2DImageFilter();

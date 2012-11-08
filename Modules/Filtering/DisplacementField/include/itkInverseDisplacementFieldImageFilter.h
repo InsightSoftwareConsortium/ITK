@@ -173,6 +173,7 @@ public:
                    ( Concept::HasNumericTraits< OutputPixelComponentType > ) );
   /** End concept checking */
 #endif
+
 protected:
   InverseDisplacementFieldImageFilter();
   ~InverseDisplacementFieldImageFilter() {}

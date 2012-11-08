@@ -87,6 +87,7 @@ public:
 protected:
   SpatialObjectFactoryBase();
   virtual ~SpatialObjectFactoryBase();
+
 private:
   SpatialObjectFactoryBase(const Self &); //purposely not implemented
   void operator=(const Self &);           //purposely not implemented

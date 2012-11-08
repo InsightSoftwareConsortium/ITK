@@ -142,6 +142,7 @@ public:
                    ( Concept::HasNumericTraits< InputImagePixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   ValuedRegionalExtremaImageFilter();
   ~ValuedRegionalExtremaImageFilter() {}

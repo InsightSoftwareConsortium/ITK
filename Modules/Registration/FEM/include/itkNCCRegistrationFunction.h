@@ -159,6 +159,7 @@ protected:
   struct GlobalDataStruct {
     FixedImageNeighborhoodIteratorType m_FixedImageIterator;
   };
+
 private:
   NCCRegistrationFunction(const Self &); //purposely not implemented
   void operator=(const Self &);          //purposely not implemented

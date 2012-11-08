@@ -83,6 +83,7 @@ public:
   // Line Cell Id in Mesh Cell Container
   // used to go up to LineCell level
   typedef TFRef LineCellIdentifier;
+
 public:
 
   /** Iterator types. */
@@ -106,6 +107,7 @@ public:
 
   /** QE macros. */
   itkQEAccessorsMacro(Superclass, Self, DualType);
+
 public:
   /** Memory creation methods. */
   GeometricalQuadEdge();
@@ -235,9 +237,11 @@ public:
 
   inline void SetIdent(const LineCellIdentifier & User_Value) { this->m_LineCellIdent = User_Value; }
   inline LineCellIdentifier GetIdent() { return ( this->m_LineCellIdent ); }
+
 public:
   // Reserved OriginRefType designated to represent the absence of Origin
   static const OriginRefType m_NoPoint;
+
 protected:
   OriginRefType      m_Origin;    // Geometrical information
   PrimalDataType     m_Data;      // User data associated to this edge.

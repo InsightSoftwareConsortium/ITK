@@ -99,7 +99,6 @@ public:
   itkGetConstReferenceMacro(FullyConnected, bool);
   itkBooleanMacro(FullyConnected);
 
-
 protected:
   BinaryOpeningByReconstructionImageFilter();
   ~BinaryOpeningByReconstructionImageFilter() {};

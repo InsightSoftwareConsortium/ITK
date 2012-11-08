@@ -46,6 +46,7 @@ class ITK_EXPORT Genome
 public:
   typedef   std::string                    GeneIdType;
   typedef   std::map< GeneIdType, double > MapType;
+
 public:
   Genome();
   virtual ~Genome();

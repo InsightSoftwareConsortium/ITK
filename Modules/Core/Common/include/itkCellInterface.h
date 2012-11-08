@@ -187,6 +187,7 @@ public:
     typedef typename VisitorType::Pointer VisitorPointer;
     typedef typename std::map< int, VisitorPointer >::value_type
     VisitorPointerValueType;
+
 public:
     VisitorType * GetVisitor(int id)
     {
@@ -221,6 +222,7 @@ public:
     }
 
     virtual ~MultiVisitor() {}
+
 protected:
     VisitorPointer m_Visitors[LAST_ITK_CELL];      // fixed array set to the
                                                    // size
@@ -428,6 +430,7 @@ protected:
 
   /** Standard part of every itk Object. */
   itkTypeMacro(CellInterface, LightObject);
+
 public:
   CellInterface() {}
   virtual ~CellInterface() {}
@@ -435,9 +438,11 @@ public:
 
   /** Get the geometric position of a point. */
 //  bool GetPointPosition(PointsContainer*, int localId, Point*)=0;
+
 protected:
   /** Store the set of cells using this boundary. */
   UsingCellsContainer m_UsingCells;
+
 private:
   CellInterface(const Self &);  //purposely not implemented
   void operator=(const Self &); //purposely not implemented

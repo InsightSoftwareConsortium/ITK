@@ -250,9 +250,11 @@ public:
                                              typename PixelTraits< typename TInputImage2::PixelType >::ValueType > ) );
   /** End concept checking */
 #endif
+
 protected:
   JoinImageFilter() {}
   virtual ~JoinImageFilter() {}
+
 private:
   JoinImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);  //purposely not implemented

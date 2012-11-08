@@ -131,9 +131,11 @@ public:
                    ( Concept::LessThanComparable< double, typename TOutputImage::PixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   ConstrainedValueAdditionImageFilter() {}
   virtual ~ConstrainedValueAdditionImageFilter() {}
+
 private:
   ConstrainedValueAdditionImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);                      //purposely not implemented

@@ -123,6 +123,7 @@ public:
                    ( Concept::IsFloatingPoint< OutputPixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   LaplacianImageFilter()
   {
@@ -139,6 +140,7 @@ protected:
   void GenerateData();
 
   void PrintSelf(std::ostream &, Indent) const;
+
 private:
   LaplacianImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);       //purposely not implemented

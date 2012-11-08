@@ -118,9 +118,11 @@ public:
                    ( Concept::HasNumericTraits< typename TInputImage::PixelType::ValueType > ) );
   /** End concept checking */
 #endif
+
 protected:
   MatrixIndexSelectionImageFilter() {}
   virtual ~MatrixIndexSelectionImageFilter() {}
+
 private:
   MatrixIndexSelectionImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);                  //purposely not implemented

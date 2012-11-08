@@ -143,6 +143,7 @@ public:
   class ConstIterator
   {
     friend class MembershipSample;
+
 public:
 
     ConstIterator(const Self *sample)
@@ -220,6 +221,7 @@ protected:
   class Iterator:public ConstIterator
   {
     friend class MembershipSample;
+
 public:
 
     Iterator(Self *sample):ConstIterator(sample)
@@ -247,6 +249,7 @@ protected:
              InstanceIdentifier iid):
       ConstIterator(memberSample, iid)
     {}
+
 private:
   };
 

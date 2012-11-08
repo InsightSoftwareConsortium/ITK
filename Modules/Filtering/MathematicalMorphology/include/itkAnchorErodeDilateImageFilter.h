@@ -76,6 +76,7 @@ public:
   /** Set/Get the boundary value. */
   itkSetMacro(Boundary, InputImagePixelType);
   itkGetConstMacro(Boundary, InputImagePixelType);
+
 protected:
   AnchorErodeDilateImageFilter();
   ~AnchorErodeDilateImageFilter() {}
@@ -87,6 +88,7 @@ protected:
 
   // should be set by the meta filter
   InputImagePixelType m_Boundary;
+
 private:
   AnchorErodeDilateImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);               //purposely not implemented

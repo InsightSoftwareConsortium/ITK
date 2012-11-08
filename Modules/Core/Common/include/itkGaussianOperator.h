@@ -169,6 +169,7 @@ protected:
   /** Arranges coefficients spatially in the memory buffer. */
   void Fill(const CoefficientVector & coeff)
   {    this->FillCenteredDirectional(coeff);  }
+
 private:
   /** Desired variance of the discrete Gaussian function. */
   double m_Variance;

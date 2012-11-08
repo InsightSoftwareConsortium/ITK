@@ -126,6 +126,7 @@ protected:
                         quadbyte len);
 
   unsigned char *m_ImageDataBuffer;
+
 private:
   DICOMImageIO2(const Self &);  //purposely not implemented
   void operator=(const Self &); //purposely not implemented

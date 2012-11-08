@@ -174,11 +174,13 @@ public:
   typedef  itk::Command                               Superclass;
   typedef itk::SmartPointer<Self>                     Pointer;
   itkNewMacro( Self );
+
 protected:
   CommandIterationUpdateLevenbergMarquardt()
   {
     m_IterationNumber=0;
   }
+
 public:
   typedef itk::LevenbergMarquardtOptimizer   OptimizerType;
   typedef   const OptimizerType   *          OptimizerPointer;
@@ -205,6 +207,7 @@ public:
         }
 
     }
+
 private:
   unsigned long m_IterationNumber;
 

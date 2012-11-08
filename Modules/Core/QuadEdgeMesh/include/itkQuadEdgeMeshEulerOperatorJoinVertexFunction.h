@@ -97,6 +97,7 @@ public:
 
   itkGetConstMacro(OldPointID, PointIdentifier);
   itkGetConstMacro(EdgeStatus, EdgeStatusType);
+
 protected:
   QuadEdgeMeshEulerOperatorJoinVertexFunction();
   ~QuadEdgeMeshEulerOperatorJoinVertexFunction() {}

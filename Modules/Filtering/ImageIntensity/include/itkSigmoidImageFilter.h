@@ -215,9 +215,11 @@ public:
                    ( Concept::AdditiveOperators< OutputPixelType, OutputPixelType, double > ) );
   /** End concept checking */
 #endif
+
 protected:
   SigmoidImageFilter() {}
   virtual ~SigmoidImageFilter() {}
+
 private:
   SigmoidImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);     //purposely not implemented

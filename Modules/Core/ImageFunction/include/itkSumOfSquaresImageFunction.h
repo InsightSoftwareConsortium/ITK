@@ -121,6 +121,7 @@ public:
   }
 
   itkGetConstReferenceMacro(NeighborhoodSize, unsigned int);
+
 protected:
   SumOfSquaresImageFunction();
   ~SumOfSquaresImageFunction(){}

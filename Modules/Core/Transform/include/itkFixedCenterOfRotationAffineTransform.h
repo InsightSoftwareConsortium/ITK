@@ -96,6 +96,7 @@ public:
   /** Get offset of the transform. */
   const OffsetType & GetOffsetComponent(void) const
   { return this->GetTranslation(); }
+
 protected:
   /** Construct an FixedCenterOfRotationAffineTransform object */
   FixedCenterOfRotationAffineTransform(const MatrixType & matrix,
@@ -106,6 +107,7 @@ protected:
 
   /** Destroy an FixedCenterOfRotationAffineTransform object   */
   virtual ~FixedCenterOfRotationAffineTransform();
+
 private:
   FixedCenterOfRotationAffineTransform(const Self & other);
   const Self & operator=(const Self &);

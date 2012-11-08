@@ -45,6 +45,7 @@ public:
 
   /** Method for creation through the object factory */
   itkNewMacro(Self);
+
 protected:
   FEMSpatialObjectReader(const Self &); //purposely not implemented
   void operator=(const Self &);      //purposely not implemented

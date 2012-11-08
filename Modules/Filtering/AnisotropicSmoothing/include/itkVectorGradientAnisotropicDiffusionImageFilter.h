@@ -91,6 +91,7 @@ public:
                    ( Concept::HasNumericTraits< typename TOutputImage::PixelType::ValueType > ) );
   /** End concept checking */
 #endif
+
 protected:
   VectorGradientAnisotropicDiffusionImageFilter()
   {
@@ -100,6 +101,7 @@ protected:
   }
 
   ~VectorGradientAnisotropicDiffusionImageFilter() {}
+
 private:
   VectorGradientAnisotropicDiffusionImageFilter(const Self &); //purposely not
                                                                // implemented

@@ -55,6 +55,7 @@ public:
      ,m_MemoryAllocatedByAllocator(false)
     {
     }
+
 protected:
   TElement* AllocateElements(ElementIdentifier size) const
     {

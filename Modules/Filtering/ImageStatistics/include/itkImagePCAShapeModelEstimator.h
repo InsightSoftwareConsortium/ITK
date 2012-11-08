@@ -137,6 +137,7 @@ public:
 
   /** Get the eigen values */
   itkGetConstMacro(EigenValues, VectorOfDoubleType);
+
 protected:
   ImagePCAShapeModelEstimator();
   ~ImagePCAShapeModelEstimator();

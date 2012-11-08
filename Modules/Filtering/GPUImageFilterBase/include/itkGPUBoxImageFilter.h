@@ -68,6 +68,7 @@ public:
   /** n-dimensional Kernel radius. */
   typedef typename CPUSuperclass::SizeType       RadiusType;
   typedef typename InputImageType::SizeValueType RadiusValueType;
+
 protected:
   GPUBoxImageFilter() {
   }

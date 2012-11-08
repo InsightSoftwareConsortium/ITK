@@ -64,6 +64,7 @@ public:
   /** Get and set the radius of the sphere */
   itkGetConstMacro(Radius, double);
   itkSetMacro(Radius, double);
+
 protected:
   SphereSpatialFunction();
   virtual ~SphereSpatialFunction();

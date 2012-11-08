@@ -181,6 +181,7 @@ public:
 
   itkSetMacro(ReinitializeCounter, unsigned int);
   itkGetMacro(ReinitializeCounter, unsigned int);
+
 protected:
   MultiphaseDenseFiniteDifferenceImageFilter()
   {
@@ -207,6 +208,7 @@ protected:
 
   unsigned int m_ReinitializeCounter;  // FIXME: Should this be a boolean ?
   // unsigned int m_UpdateCounter;        // FIXME: Should this be a boolean ?
+
 private:
   MultiphaseDenseFiniteDifferenceImageFilter(const Self &);
   void operator=(const Self &); //purposely not implemented

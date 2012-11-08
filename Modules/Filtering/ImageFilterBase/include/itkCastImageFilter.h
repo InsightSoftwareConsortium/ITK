@@ -118,6 +118,7 @@ public:
                                            typename TOutputImage::PixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   CastImageFilter() {}
   virtual ~CastImageFilter() {}

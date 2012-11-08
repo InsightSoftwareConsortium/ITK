@@ -158,6 +158,7 @@ public:
                    ( Concept::Comparable< InputPixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   ChangeLabelImageFilter();
   virtual ~ChangeLabelImageFilter() {}

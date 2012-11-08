@@ -187,6 +187,7 @@ protected:
 
   RadiusType m_Radius;
   PixelRealType m_ScaleCoefficients[ImageDimension];
+
 private:
   FiniteDifferenceFunction(const Self &); //purposely not implemented
   void operator=(const Self &);           //purposely not implemented

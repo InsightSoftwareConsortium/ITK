@@ -110,6 +110,7 @@ public:
    *  The default value is 1. */
   itkSetMacro(IsInsidePrecision, double);
   itkGetMacro(IsInsidePrecision, double);
+
 protected:
 
   MeshPointer m_Mesh;

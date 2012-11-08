@@ -135,6 +135,7 @@ public:
    */
   itkSetMacro(SplineOrder, unsigned int);
   itkGetConstReferenceMacro(SplineOrder, unsigned int);
+
 protected:
 
   /**

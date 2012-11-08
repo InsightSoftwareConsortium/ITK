@@ -113,6 +113,7 @@ public:
                    ( Concept::HasNumericTraits< VectorComponentType > ) );
   /** End concept checking */
 #endif
+
 protected:
   EigenAnalysis2DImageFilter();
   virtual ~EigenAnalysis2DImageFilter() {}

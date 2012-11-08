@@ -38,7 +38,6 @@ namespace itk
 template< class TElement >
 class ITK_EXPORT RingBuffer : public Object
 {
-
 public:
 
   /**-TYPEDEFS---------------------------------------------------------------*/
@@ -108,6 +107,7 @@ protected:
 
   /** Vector of pointers to elements */
   std::vector<ElementPointer> m_PointerVector;
+
 private:
   RingBuffer(const Self &);     // purposely not implemented
   void operator=(const Self &); // purposely not implemented

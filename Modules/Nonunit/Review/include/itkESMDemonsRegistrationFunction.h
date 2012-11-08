@@ -214,6 +214,7 @@ public:
   { m_UseGradientType = gtype; }
   virtual GradientType GetUseGradientType() const
   { return m_UseGradientType; }
+
 protected:
   ESMDemonsRegistrationFunction();
   ~ESMDemonsRegistrationFunction() {}
@@ -229,6 +230,7 @@ protected:
     SizeValueType m_NumberOfPixelsProcessed;
     double m_SumOfSquaredChange;
   };
+
 private:
   ESMDemonsRegistrationFunction(const Self &); //purposely not implemented
   void operator=(const Self &);                //purposely not implemented

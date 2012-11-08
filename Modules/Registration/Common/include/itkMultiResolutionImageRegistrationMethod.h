@@ -249,6 +249,7 @@ protected:
 
   /** Set the current level to be processed */
   itkSetMacro(CurrentLevel, SizeValueType);
+
 private:
   MultiResolutionImageRegistrationMethod(const Self &); //purposely not
                                                         // implemented

@@ -143,6 +143,7 @@ protected:
   double m_OriginalStart[3];
   // complex type images, composed of complex numbers
   int m_Complex;
+
 private:
   MINC2ImageIO(const Self &);   //purposely not implemented
   void operator=(const Self &); //purposely not implemented

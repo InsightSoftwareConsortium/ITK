@@ -124,6 +124,7 @@ protected:
   NeighborhoodSizeValueType m_Stride[ImageDimension];
 
   static double m_MIN_NORM;
+
 private:
   GPUGradientNDAnisotropicDiffusionFunction(const Self &); //purposely not
                                                            // implemented

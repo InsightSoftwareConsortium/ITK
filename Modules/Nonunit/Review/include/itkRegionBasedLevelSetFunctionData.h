@@ -136,9 +136,11 @@ public:
   InputImagePointer m_HeavisideFunctionOfLevelSetImage;
   InputIndexType    m_Start;
   InputIndexType    m_End;
+
 protected:
   RegionBasedLevelSetFunctionData();
   virtual ~RegionBasedLevelSetFunctionData() {}
+
 private:
   RegionBasedLevelSetFunctionData(const Self &); //purposely not implemented
   void operator=(const Self &);                  //purposely not implemented

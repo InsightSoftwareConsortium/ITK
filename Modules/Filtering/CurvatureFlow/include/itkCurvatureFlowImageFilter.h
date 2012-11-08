@@ -154,6 +154,7 @@ public:
                    ( Concept::AdditiveOperators< PixelType, double > ) );
   /** End concept checking */
 #endif
+
 protected:
   CurvatureFlowImageFilter();
   ~CurvatureFlowImageFilter() {}

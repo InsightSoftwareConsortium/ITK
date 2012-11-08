@@ -147,6 +147,7 @@ public:
   void SetMinNorm(float ts = 1.0) { m_Minnorm = ts; }
 
   void SetDoInverse(bool b = false) { m_DoInverse = b; }
+
 protected:
   MIRegistrationFunction();
   ~MIRegistrationFunction() {}
@@ -163,6 +164,7 @@ protected:
 
   /** The global timestep. */
   TimeStepType m_TimeStep;
+
 private:
   MIRegistrationFunction(const Self &); //purposely not implemented
   void operator=(const Self &);         //purposely not implemented

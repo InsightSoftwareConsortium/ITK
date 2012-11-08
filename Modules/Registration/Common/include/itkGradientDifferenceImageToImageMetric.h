@@ -142,6 +142,7 @@ public:
    * differences in the GetDerivative() method */
   itkSetMacro(DerivativeDelta, double);
   itkGetConstReferenceMacro(DerivativeDelta, double);
+
 protected:
   GradientDifferenceImageToImageMetric();
   virtual ~GradientDifferenceImageToImageMetric() {}
@@ -162,6 +163,7 @@ protected:
 
   typedef NeighborhoodOperatorImageFilter<
     MovedGradientImageType, MovedGradientImageType > MovedSobelFilter;
+
 private:
   GradientDifferenceImageToImageMetric(const Self &); //purposely not
                                                       // implemented

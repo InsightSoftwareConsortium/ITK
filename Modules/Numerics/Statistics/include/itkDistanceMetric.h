@@ -128,6 +128,7 @@ public:
 
   /** Get method for the length of the measurement vector */
   itkGetConstMacro(MeasurementVectorSize, MeasurementVectorSizeType);
+
 protected:
   DistanceMetric();
   virtual ~DistanceMetric() {}

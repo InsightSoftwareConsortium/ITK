@@ -172,6 +172,7 @@ protected:
 
   typedef typename MultiplyByConstantType::Pointer MultiplyByConstantPointer;
   typedef typename AdderType::Pointer              AdderPointer;
+
 private:
   FastSymmetricForcesDemonsRegistrationFilter(const Self &); //purposely not
                                                              // implemented

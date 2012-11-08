@@ -68,6 +68,7 @@ public:
    * without streaming */
   void Update()
   { this->GenerateData(); }
+
 protected:
   HistogramAlgorithmBase();
   virtual ~HistogramAlgorithmBase() {}

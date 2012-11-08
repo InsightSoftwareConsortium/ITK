@@ -132,6 +132,7 @@ public:
                    ( Concept::Signed< OutputPixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   NormalizedCorrelationImageFilter() {}
   virtual ~NormalizedCorrelationImageFilter() {}
@@ -161,6 +162,7 @@ protected:
   /** Standard PrintSelf method */
   void PrintSelf(std::ostream & os, Indent indent) const
   {  Superclass::PrintSelf(os, indent); }
+
 private:
   NormalizedCorrelationImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);                   //purposely not implemented

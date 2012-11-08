@@ -192,6 +192,7 @@ public:
   itkSetMacro(UseInputMetaDataDictionary, bool);
   itkGetConstReferenceMacro(UseInputMetaDataDictionary, bool);
   itkBooleanMacro(UseInputMetaDataDictionary);
+
 protected:
   ImageFileWriter();
   ~ImageFileWriter();

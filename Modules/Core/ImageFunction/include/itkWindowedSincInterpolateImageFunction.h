@@ -40,6 +40,7 @@ class CosineWindowFunction
 public:
   inline TOutput operator()(const TInput & A) const
   { return (TOutput)vcl_cos(A * m_Factor); }
+
 private:
   /** Equal to \f$ \frac{\pi}{2 m} \f$ */
   static const double m_Factor;
@@ -59,6 +60,7 @@ class HammingWindowFunction
 public:
   inline TOutput operator()(const TInput & A) const
   { return (TOutput)0.54 + 0.46 * vcl_cos(A * m_Factor); }
+
 private:
   /** Equal to \f$ \frac{\pi}{m} \f$ */
   static const double m_Factor;
@@ -78,6 +80,7 @@ class WelchWindowFunction
 public:
   inline TOutput operator()(const TInput & A) const
   { return (TOutput)( 1.0 - A * m_Factor * A ); }
+
 private:
   /** Equal to \f$ \frac{1}{m^2} \f$ */
   static const double m_Factor;

@@ -136,9 +136,11 @@ public:
                    ( Concept::HasNumericTraits< typename TInputImage::PixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   NaryMaximumImageFilter() {}
   virtual ~NaryMaximumImageFilter() {}
+
 private:
   NaryMaximumImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);         //purposely not implemented

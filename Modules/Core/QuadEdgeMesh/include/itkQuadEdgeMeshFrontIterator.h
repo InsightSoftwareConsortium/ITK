@@ -95,6 +95,7 @@ public:
   // Template types
   typedef TMesh MeshType;
   typedef TQE   QEType;
+
 protected:
   // Mesh types
   typedef typename MeshType::CoordRepType CoordRepType;
@@ -125,6 +126,7 @@ public:
     { return ( m_Edge != r.m_Edge ); }
     bool operator<(const FrontAtom & r) const
     { return ( m_Cost < r.m_Cost ); }
+
 public:
     QEType *     m_Edge;
     CoordRepType m_Cost;
@@ -142,6 +144,7 @@ public:
    */
   typedef MapContainer< QEOriginType, bool >       IsVisitedContainerType;
   typedef typename IsVisitedContainerType::Pointer IsVisitedPointerType;
+
 public:
   /** Object creation methods. */
   QuadEdgeMeshFrontBaseIterator(MeshType *mesh  = (MeshType *)0,
@@ -186,6 +189,7 @@ public:
   Self & operator++(int) { return ( this->operator++() ); }
 
   MeshType * GetMesh() const { return this->m_Mesh; }
+
 protected:
   /** Find a default seed by taking any edge (with proper type) in
    *  the current mesh.
@@ -196,6 +200,7 @@ protected:
    *  to the "topological metric" i.e. all edges have unit length.
    */
   virtual CoordRepType GetCost(QEType *edge){ (void)edge; return ( 1 ); }
+
 protected:
   /** Mesh on which we propagate the front */
   MeshType *m_Mesh;
@@ -227,6 +232,7 @@ public:
   typedef QuadEdgeMeshFrontBaseIterator< TMesh, TQE > Superclass;
   typedef typename Superclass::MeshType               MeshType;
   typedef typename Superclass::QEType                 QEType;
+
 public:
   /** Object creation methods. */
   QuadEdgeMeshFrontIterator(MeshType *mesh = (MeshType *)0,
@@ -254,6 +260,7 @@ public:
   typedef typename Superclass::QEType                   QEType;
   typedef typename Superclass::MeshType                 MeshType;
   typedef QuadEdgeMeshFrontIterator< MeshType, QEType > NoConstType;
+
 public:
   /** Object creation methods. */
   QuadEdgeMeshConstFrontIterator(const MeshType *mesh = (MeshType *)0,

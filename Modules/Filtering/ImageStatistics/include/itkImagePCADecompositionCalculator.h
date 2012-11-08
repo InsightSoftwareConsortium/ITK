@@ -125,6 +125,7 @@ public:
 
   /** Return the projection of the image. */
   itkGetConstMacro(Projection, BasisVectorType);
+
 protected:
   ImagePCADecompositionCalculator();
   virtual ~ImagePCADecompositionCalculator() {}

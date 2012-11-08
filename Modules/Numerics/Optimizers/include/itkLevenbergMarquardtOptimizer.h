@@ -78,6 +78,7 @@ protected:
   virtual ~LevenbergMarquardtOptimizer();
 
   typedef Superclass::CostFunctionAdaptorType CostFunctionAdaptorType;
+
 private:
   LevenbergMarquardtOptimizer(const Self &); //purposely not implemented
   void operator=(const Self &);              //purposely not implemented

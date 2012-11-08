@@ -142,9 +142,11 @@ public:
                                                  typename TOutputImage::PixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   AddImageFilter() {}
   virtual ~AddImageFilter() {}
+
 private:
   AddImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &); //purposely not implemented

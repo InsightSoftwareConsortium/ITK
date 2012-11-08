@@ -58,6 +58,7 @@ public:
    * Array class that holds special pointers to objects of all Material classes
    */
   typedef FEMPArray<Self> ArrayType;
+
 protected:
 
   virtual void PrintSelf(std::ostream& os, Indent indent) const;

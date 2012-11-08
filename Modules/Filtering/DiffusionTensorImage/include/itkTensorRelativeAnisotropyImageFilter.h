@@ -107,9 +107,11 @@ public:
                    ( Concept::HasNumericTraits< InputValueType > ) );
   /** End concept checking */
 #endif
+
 protected:
   TensorRelativeAnisotropyImageFilter() {}
   virtual ~TensorRelativeAnisotropyImageFilter() {}
+
 private:
   TensorRelativeAnisotropyImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);                      //purposely not implemented

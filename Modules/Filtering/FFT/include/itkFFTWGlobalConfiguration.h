@@ -217,6 +217,7 @@ public:
     bool GetUseFamilyID() const { return this->m_UseFamilyID; }
     bool GetUseModelID() const { return this->m_UseModelID; }
     bool GetUseSteppingCode() const { return this->m_UseSteppingCode; }
+
 private:
     bool m_UseOSName;
     bool m_UseOSRelease;

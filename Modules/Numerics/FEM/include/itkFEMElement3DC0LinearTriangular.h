@@ -122,6 +122,7 @@ public:
    * of numerical integration.
    */
   static const unsigned int Nip[6];
+
 protected:
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
 

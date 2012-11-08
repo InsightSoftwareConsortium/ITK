@@ -108,6 +108,7 @@ public:
 
   itkSetMacro(DoubleMax, double);
   itkGetConstMacro(DoubleMax, double);
+
 protected:
   MahalanobisDistanceMetric(void);
   virtual ~MahalanobisDistanceMetric(void) {}

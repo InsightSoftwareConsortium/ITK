@@ -150,6 +150,7 @@ public:
                    ( Concept::AdditiveOperators< OperatorValueType > ) );
   /** End concept checking */
 #endif
+
 protected:
   NeighborhoodOperatorImageFilter()
   { m_BoundsCondition = static_cast< ImageBoundaryConditionPointerType >( &m_DefaultBoundaryCondition ); }
@@ -171,6 +172,7 @@ protected:
 
   void PrintSelf(std::ostream & os, Indent indent) const
   {  Superclass::PrintSelf(os, indent); }
+
 private:
   NeighborhoodOperatorImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);                  //purposely not implemented

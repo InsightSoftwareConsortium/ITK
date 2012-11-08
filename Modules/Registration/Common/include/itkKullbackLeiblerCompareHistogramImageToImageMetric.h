@@ -145,6 +145,7 @@ protected:
   virtual MeasureType EvaluateMeasure(HistogramType & histogram) const;
 
   double m_Epsilon;
+
 private:
   // Purposely not implemented.
   KullbackLeiblerCompareHistogramImageToImageMetric(Self const &);

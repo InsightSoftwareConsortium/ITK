@@ -64,6 +64,7 @@ public:
   /** Set the direction in which to reflect the data. */
   itkSetMacro(MaximallyConnected, bool)
   itkBooleanMacro(MaximallyConnected)
+
 protected:
   PathToChainCodePathFilter();
   virtual ~PathToChainCodePathFilter() {}

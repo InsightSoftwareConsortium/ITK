@@ -64,6 +64,7 @@ public:
 protected:
   OverUnderColormapFunction() {}
   ~OverUnderColormapFunction() {}
+
 private:
   OverUnderColormapFunction(const Self &); //purposely not implemented
   void operator=(const Self &);           //purposely not implemented

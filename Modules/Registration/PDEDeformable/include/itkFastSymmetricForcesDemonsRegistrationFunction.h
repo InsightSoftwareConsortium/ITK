@@ -194,6 +194,7 @@ protected:
     SizeValueType m_NumberOfPixelsProcessed;
     double m_SumOfSquaredChange;
   };
+
 private:
   FastSymmetricForcesDemonsRegistrationFunction(const Self &); //purposely not
                                                                // implemented

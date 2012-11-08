@@ -118,6 +118,7 @@ public:
                    ( Concept::Convertible< InputImagePixelType, OutputImagePixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   ClosingByReconstructionImageFilter();
   ~ClosingByReconstructionImageFilter() {}

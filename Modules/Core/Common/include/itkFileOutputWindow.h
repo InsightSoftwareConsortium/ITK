@@ -71,6 +71,7 @@ public:
   itkSetMacro(Append, bool);
   itkGetConstMacro(Append, bool);
   itkBooleanMacro(Append);
+
 protected:
   FileOutputWindow();
   virtual ~FileOutputWindow();
@@ -84,6 +85,7 @@ protected:
 
   bool m_Flush;
   bool m_Append;
+
 private:
   FileOutputWindow(const Self &); //purposely not implemented
   void operator=(const Self &);   //purposely not implemented

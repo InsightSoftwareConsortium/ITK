@@ -92,6 +92,7 @@ public:
   itkNewMacro(Self);
 
   itkTypeMacro(DummyVideoToVideoFilter, VideoToVideoFilter);
+
 protected:
 
   /** Constructor */

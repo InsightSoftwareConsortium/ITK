@@ -264,6 +264,7 @@ public:
                    ( Concept::SameDimension< itkGetStaticConstMacro(InputImageDimension), 3 > ) );
   /** End concept checking */
 #endif
+
 protected:
   OrientImageFilter();
   ~OrientImageFilter() {}

@@ -124,7 +124,6 @@ protected:
   RegionType m_SampleRegion;
   bool       m_SampleRegionInitialized;
 
-
 private:
   RegionConstrainedSubsampler(const Self&); // purposely not implemented
   void operator=(const Self&); // purposely not implemented

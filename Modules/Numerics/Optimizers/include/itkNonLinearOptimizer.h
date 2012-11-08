@@ -50,9 +50,11 @@ public:
   /**  Types inherited from the superclass */
   typedef Superclass::ParametersType ParametersType;
   typedef Superclass::ScalesType     ScalesType;
+
 protected:
   NonLinearOptimizer() {}
   virtual ~NonLinearOptimizer() {}
+
 private:
   NonLinearOptimizer(const Self &); //purposely not implemented
   void operator=(const Self &);     //purposely not implemented

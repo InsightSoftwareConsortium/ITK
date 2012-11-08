@@ -99,8 +99,10 @@ public:
   typedef  itk::Command                       Superclass;
   typedef itk::SmartPointer<Self>             Pointer;
   itkNewMacro( Self );
+
 protected:
   OnePlusOneCommandIterationUpdate() { m_LastMetricValue = 0.0; };
+
 public:
   typedef itk::OnePlusOneEvolutionaryOptimizer     OptimizerType;
   typedef   const OptimizerType *                  OptimizerPointer;
@@ -128,6 +130,7 @@ public:
         m_LastMetricValue = currentValue;
         }
     }
+
 private:
   double m_LastMetricValue;
 };

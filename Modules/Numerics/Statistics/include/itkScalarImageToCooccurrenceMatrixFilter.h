@@ -167,6 +167,7 @@ public:
     object. Defaults to one. */
   itkSetMacro(InsidePixelValue, PixelType);
   itkGetConstMacro(InsidePixelValue, PixelType);
+
 protected:
   ScalarImageToCooccurrenceMatrixFilter();
   virtual ~ScalarImageToCooccurrenceMatrixFilter() {}

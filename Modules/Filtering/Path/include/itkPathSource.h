@@ -179,6 +179,7 @@ protected:
 
   // Inherit ProcessObject::PrepareOutputs(), which calls Initialize()
   // (Image replaces w/ empty function)
+
 private:
   PathSource(const Self &);     //purposely not implemented
   void operator=(const Self &); //purposely not implemented

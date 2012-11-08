@@ -202,6 +202,7 @@ protected:
     SizeValueType m_NumberOfPixelsProcessed;
     double m_SumOfSquaredChange;
   };
+
 private:
   DemonsRegistrationFunction(const Self &); //purposely not implemented
   void operator=(const Self &);             //purposely not implemented

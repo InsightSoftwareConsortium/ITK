@@ -332,6 +332,7 @@ protected:
   NodeContainerPointer     m_NodeContainer;
   LoadContainerPointer     m_LoadContainer;
   MaterialContainerPointer m_MaterialContainer;
+
 private:
   FEMObject(const Self &);      // purposely not implemented
   void operator=(const Self &); // purposely not implemented

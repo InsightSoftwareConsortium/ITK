@@ -90,9 +90,11 @@ public:
                    ( Concept::Convertible< InputPixelValueType, OutputPixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   ComplexToPhaseImageFilter() {}
   virtual ~ComplexToPhaseImageFilter() {}
+
 private:
   ComplexToPhaseImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);            //purposely not implemented

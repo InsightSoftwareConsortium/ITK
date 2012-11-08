@@ -109,6 +109,7 @@ public:
    */
   itkSetMacro(Level, InputImagePixelType);
   itkGetConstMacro(Level, InputImagePixelType);
+
 protected:
   MorphologicalWatershedImageFilter();
   ~MorphologicalWatershedImageFilter() {}

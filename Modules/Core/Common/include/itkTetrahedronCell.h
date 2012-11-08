@@ -110,6 +110,7 @@ public:
                                 CoordRepType[],
                                 double *,
                                 InterpolationWeightType *);
+
 public:
   TetrahedronCell()
   {
@@ -120,9 +121,11 @@ public:
   }
 
   ~TetrahedronCell() {}
+
 protected:
   /** Store the number of points needed for a tetrahedron. */
   PointIdentifier m_PointIds[NumberOfPoints];
+
 private:
   TetrahedronCell(const Self &); //purposely not implemented
   void operator=(const Self &);  //purposely not implemented

@@ -104,6 +104,7 @@ protected:
 
   typename FilterType::Pointer m_Filters[ImageDimension];
   typename CastType::Pointer m_Cast;
+
 private:
   MiniPipelineSeparableImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);                   //purposely not implemented

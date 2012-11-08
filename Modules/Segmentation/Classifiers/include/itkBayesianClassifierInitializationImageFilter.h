@@ -159,6 +159,7 @@ public:
                    ( Concept::AdditiveOperators< double, InputPixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   BayesianClassifierInitializationImageFilter();
   virtual ~BayesianClassifierInitializationImageFilter() {}

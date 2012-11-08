@@ -52,6 +52,7 @@ public:
   TestImage()
     {
     }
+
 private:
   TestImage(const TestImage&);
   void operator=(const TestImage&);
@@ -80,6 +81,7 @@ public:
   TestImage2()
     {
     }
+
 private:
   TestImage2(const TestImage2&);
   void operator=(const TestImage2&);

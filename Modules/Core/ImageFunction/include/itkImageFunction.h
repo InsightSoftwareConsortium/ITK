@@ -206,6 +206,7 @@ public:
 
   itkGetConstReferenceMacro(StartContinuousIndex, ContinuousIndexType);
   itkGetConstReferenceMacro(EndContinuousIndex, ContinuousIndexType);
+
 protected:
   ImageFunction();
   ~ImageFunction() {}
@@ -220,6 +221,7 @@ protected:
 
   ContinuousIndexType m_StartContinuousIndex;
   ContinuousIndexType m_EndContinuousIndex;
+
 private:
   ImageFunction(const Self &);  //purposely not implemented
   void operator=(const Self &); //purposely not implemented

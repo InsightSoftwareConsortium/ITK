@@ -168,7 +168,6 @@ public:
 
   void Initialize(void) throw ( itk::ExceptionObject );
 
-
 protected:
   ANTSNeighborhoodCorrelationImageToImageMetricv4();
   virtual ~ANTSNeighborhoodCorrelationImageToImageMetricv4();

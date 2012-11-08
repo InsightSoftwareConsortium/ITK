@@ -121,6 +121,7 @@ public:
    * ForegroundValue in the superclass. */
   InputPixelType GetDilateValue() const
   { return this->GetForegroundValue(); }
+
 protected:
   BinaryDilateImageFilter();
   virtual ~BinaryDilateImageFilter(){}
@@ -130,6 +131,7 @@ protected:
 
   // type inherited from the superclass
   typedef typename Superclass::NeighborIndexContainer NeighborIndexContainer;
+
 private:
   BinaryDilateImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);          //purposely not implemented

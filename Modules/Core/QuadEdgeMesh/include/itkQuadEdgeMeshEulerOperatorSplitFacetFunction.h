@@ -59,6 +59,7 @@ public:
 protected:
   QuadEdgeMeshEulerOperatorSplitFacetFunction(){}
   ~QuadEdgeMeshEulerOperatorSplitFacetFunction(){}
+
 private:
   QuadEdgeMeshEulerOperatorSplitFacetFunction(const Self &); //purposely not
                                                              // implemented

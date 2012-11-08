@@ -84,6 +84,7 @@ public:
     (Concept::OStreamWritable<InputImagePixelType>));*/
 /** End concept checking */
 #endif
+
 protected:
   StatisticsKeepNObjectsLabelMapFilter();
   ~StatisticsKeepNObjectsLabelMapFilter() {}

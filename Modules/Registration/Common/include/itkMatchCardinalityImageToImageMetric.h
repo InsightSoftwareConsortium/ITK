@@ -126,6 +126,7 @@ public:
   /** Return the multithreader used by this class. */
   MultiThreader * GetMultiThreader()
   { return m_Threader; }
+
 protected:
   MatchCardinalityImageToImageMetric();
   virtual ~MatchCardinalityImageToImageMetric() {}
@@ -164,6 +165,7 @@ protected:
   struct ThreadStruct {
     Pointer Metric;
   };
+
 private:
   MatchCardinalityImageToImageMetric(const Self &); //purposely not implemented
   void operator=(const Self &);                     //purposely not implemented

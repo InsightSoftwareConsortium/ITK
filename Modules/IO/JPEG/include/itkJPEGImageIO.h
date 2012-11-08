@@ -94,6 +94,7 @@ protected:
   int m_Quality;
   /** Default = true*/
   bool m_Progressive;
+
 private:
   JPEGImageIO(const Self &);    //purposely not implemented
   void operator=(const Self &); //purposely not implemented

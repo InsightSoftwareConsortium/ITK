@@ -192,6 +192,7 @@ public:
   itkSetClampMacro( LabelOffset, OutputPixelType, NumericTraits< OutputPixelType >::Zero,
                     NumericTraits< OutputPixelType >::max() );
   itkGetConstMacro(LabelOffset, OutputPixelType);
+
 protected:
   ThresholdLabelerImageFilter();
   virtual ~ThresholdLabelerImageFilter() {}

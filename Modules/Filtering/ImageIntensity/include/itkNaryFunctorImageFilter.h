@@ -102,6 +102,7 @@ public:
                    ( Concept::HasZero< OutputImagePixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   NaryFunctorImageFilter();
   virtual ~NaryFunctorImageFilter() {}

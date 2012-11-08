@@ -149,6 +149,7 @@ public:
                    ( Concept::SameDimension< itkGetStaticConstMacro(InputImageDimension),
                                              itkGetStaticConstMacro(OutputImageDimension) > ) );
 #endif
+
 protected:
   BinaryImageToLabelMapFilter();
   virtual ~BinaryImageToLabelMapFilter() {}
@@ -173,6 +174,7 @@ protected:
    * EnlargeOutputRequestedRegion().
    * \sa ProcessObject::EnlargeOutputRequestedRegion() */
   void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) );
+
 private:
   BinaryImageToLabelMapFilter(const Self &); //purposely not implemented
   void operator=(const Self &);              //purposely not implemented

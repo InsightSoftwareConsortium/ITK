@@ -194,6 +194,7 @@ protected:
   bool                m_UserSpecifiedMeshIO; // keep track whether the MeshIO is
                                              // user specified
   std::string m_FileName;                    // The file to be read
+
 private:
   MeshFileReader(const Self &); // purposely not implemented
   void operator=(const Self &); // purposely not implemented

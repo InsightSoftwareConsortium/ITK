@@ -136,6 +136,7 @@ public:
   /** Set/Get Size */
   itkSetMacro(Size, SizeType);
   itkGetConstMacro(Size, SizeType);
+
 protected:
   PointSetToImageFilter();
   ~PointSetToImageFilter();

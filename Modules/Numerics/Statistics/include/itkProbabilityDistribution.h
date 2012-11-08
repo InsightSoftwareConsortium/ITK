@@ -162,6 +162,7 @@ protected:
   }
 
   ParametersType m_Parameters;
+
 private:
   ProbabilityDistribution(const Self &); //purposely not implemented
   void operator=(const Self &);          //purposely not implemented

@@ -120,6 +120,7 @@ public:
                    ( Concept::EqualityComparable< InputImagePixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   OpeningByReconstructionImageFilter();
   ~OpeningByReconstructionImageFilter() {}

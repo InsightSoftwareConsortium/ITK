@@ -84,6 +84,7 @@ public:
   /** Set/Get the name of the file where data are written. */
   itkSetStringMacro(FileName);
   itkGetStringMacro(FileName);
+
 protected:
   VTKPolyDataWriter();
   virtual ~VTKPolyDataWriter();

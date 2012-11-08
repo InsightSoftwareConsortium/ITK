@@ -33,7 +33,6 @@ namespace Statistics
 template<class ScalarType>
 class SigmoidTransferFunction : public TransferFunctionBase<ScalarType>
 {
-
 public:
 
   /** Standard class typedefs. */

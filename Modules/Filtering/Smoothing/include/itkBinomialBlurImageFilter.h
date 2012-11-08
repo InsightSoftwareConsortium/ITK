@@ -100,6 +100,7 @@ public:
                    ( Concept::Convertible< double, PixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   BinomialBlurImageFilter();
   virtual ~BinomialBlurImageFilter() {}

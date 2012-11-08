@@ -148,6 +148,7 @@ public:
                    ( Concept::Convertible< MarkerImagePixelType, OutputImagePixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   GrayscaleGeodesicDilateImageFilter();
   ~GrayscaleGeodesicDilateImageFilter() {}

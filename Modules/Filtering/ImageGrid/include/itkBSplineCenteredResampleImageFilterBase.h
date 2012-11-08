@@ -83,6 +83,7 @@ public:
 
   /** OutputImageIterator typedef support. */
   typedef typename Superclass::OutputImageIterator OutputImageIterator;
+
 protected:
 
   virtual void InitializePyramidSplineFilter(int SplineOrder);

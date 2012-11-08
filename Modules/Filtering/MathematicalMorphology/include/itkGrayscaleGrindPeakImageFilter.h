@@ -118,6 +118,7 @@ public:
                    ( Concept::OStreamWritable< InputImagePixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   GrayscaleGrindPeakImageFilter();
   ~GrayscaleGrindPeakImageFilter() {}

@@ -91,9 +91,11 @@ public:
                    ( Concept::HasNumericTraits< typename TInputImage::PixelType::ComponentType > ) );
   /** End concept checking */
 #endif
+
 protected:
   RGBToLuminanceImageFilter() {}
   virtual ~RGBToLuminanceImageFilter() {}
+
 private:
   RGBToLuminanceImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);            //purposely not implemented

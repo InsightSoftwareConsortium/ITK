@@ -127,6 +127,7 @@ public:
                    ( Concept::HasNumericTraits< InputImagePixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   RegionalMaximaImageFilter();
   ~RegionalMaximaImageFilter() {}

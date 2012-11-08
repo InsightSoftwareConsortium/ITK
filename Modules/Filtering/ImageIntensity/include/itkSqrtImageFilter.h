@@ -94,9 +94,11 @@ public:
                    ( Concept::Convertible< double, typename TOutputImage::PixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   SqrtImageFilter() {}
   virtual ~SqrtImageFilter() {}
+
 private:
   SqrtImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);  //purposely not implemented

@@ -38,6 +38,7 @@ class ITKCommon_EXPORT TetrahedronCellTopology
 public:
   TetrahedronCellTopology();
   virtual ~TetrahedronCellTopology();
+
 protected:
   /** Tetrahedron topology data. */
   static const int m_Edges[6][2];

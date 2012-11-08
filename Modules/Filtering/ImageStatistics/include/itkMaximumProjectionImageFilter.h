@@ -101,9 +101,11 @@ public:
                    ( Concept::HasNumericTraits< InputPixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   MaximumProjectionImageFilter() {}
   virtual ~MaximumProjectionImageFilter() {}
+
 private:
   MaximumProjectionImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);               //purposely not implemented

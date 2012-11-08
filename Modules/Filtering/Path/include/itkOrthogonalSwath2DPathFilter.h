@@ -86,6 +86,7 @@ public:
   typedef typename InputPathType::IndexType  IndexType;
   typedef typename InputPathType::OffsetType OffsetType;
   typedef typename ImageType::SizeType       SizeType;
+
 protected:
   OrthogonalSwath2DPathFilter();
   virtual ~OrthogonalSwath2DPathFilter();

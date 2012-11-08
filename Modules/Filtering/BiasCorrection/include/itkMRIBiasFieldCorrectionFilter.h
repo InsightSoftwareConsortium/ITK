@@ -145,6 +145,7 @@ protected:
 
   /** Destructor: */
   virtual ~MRIBiasEnergyFunction();
+
 private:
 
   /** Bias field object pointer. */

@@ -127,6 +127,7 @@ public:
                    ( Concept::Convertible< double, typename TOutputImage::PixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
 
   void GenerateData();
@@ -135,6 +136,7 @@ protected:
 
   BSplineDownsampleImageFilter();
   virtual ~BSplineDownsampleImageFilter() {}
+
 private:
   BSplineDownsampleImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);               //purposely not implemented

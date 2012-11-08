@@ -92,9 +92,11 @@ public:
                    ( Concept::HasNumericTraits< typename TInputImage::PixelType::ValueType > ) );
   /** End concept checking */
 #endif
+
 protected:
   EdgePotentialImageFilter() {}
   virtual ~EdgePotentialImageFilter() {}
+
 private:
   EdgePotentialImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);           //purposely not implemented

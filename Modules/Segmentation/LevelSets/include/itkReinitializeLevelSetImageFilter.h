@@ -129,6 +129,7 @@ public:
                    ( Concept::OStreamWritable< PixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   ReinitializeLevelSetImageFilter();
   ~ReinitializeLevelSetImageFilter(){}
@@ -153,6 +154,7 @@ protected:
 
   void SetOutputNarrowBand(NodeContainer *ptr)
   { m_OutputNarrowBand = ptr; }
+
 private:
   ReinitializeLevelSetImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);                  //purposely not implemented

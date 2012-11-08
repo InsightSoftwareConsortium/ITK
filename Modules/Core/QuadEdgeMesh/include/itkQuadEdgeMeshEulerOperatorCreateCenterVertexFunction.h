@@ -70,6 +70,7 @@ protected:
   }
 
   ~QuadEdgeMeshEulerOperatorCreateCenterVertexFunction() {}
+
 private:
   QuadEdgeMeshEulerOperatorCreateCenterVertexFunction(const Self &);
   //purposely not implemented

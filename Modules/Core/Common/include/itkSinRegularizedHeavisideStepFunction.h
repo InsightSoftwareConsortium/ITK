@@ -76,6 +76,7 @@ public:
 protected:
   SinRegularizedHeavisideStepFunction();
   ~SinRegularizedHeavisideStepFunction();
+
 private:
   SinRegularizedHeavisideStepFunction(const Self &); //purposely not implemented
   void operator=(const Self &);                      //purposely not implemented

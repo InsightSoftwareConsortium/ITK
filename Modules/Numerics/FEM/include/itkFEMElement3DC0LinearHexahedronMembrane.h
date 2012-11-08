@@ -72,6 +72,7 @@ public:
    * an array of 8 points and a material.
    */
   Element3DC0LinearHexahedronMembrane(NodeIDType ns_[], Material::ConstPointer p_);
+
 protected:
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
 

@@ -237,6 +237,7 @@ protected:
 
   /* GPU kernel handle for GPUComputeUpdate */
   int m_ComputeUpdateGPUKernelHandle;
+
 private:
   GPUDemonsRegistrationFunction(const Self &); //purposely not implemented
   void operator=(const Self &);                //purposely not implemented

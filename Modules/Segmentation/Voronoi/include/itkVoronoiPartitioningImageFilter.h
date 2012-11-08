@@ -89,6 +89,7 @@ public:
                    ( Concept::Convertible< int, OutputPixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   VoronoiPartitioningImageFilter();
   ~VoronoiPartitioningImageFilter();
@@ -105,6 +106,7 @@ protected:
 
   // Threshold for homogeneity criterion
   double m_SigmaThreshold;
+
 private:
   VoronoiPartitioningImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);                 //purposely not implemented

@@ -131,6 +131,7 @@ public:
   itkSetMacro(ContainerManageMemory, bool);
   itkGetConstMacro(ContainerManageMemory, bool);
   itkBooleanMacro(ContainerManageMemory);
+
 protected:
   ImportImageContainer();
   virtual ~ImportImageContainer();
@@ -165,6 +166,7 @@ protected:
    * and m_Capacity members. It should typically be used only to override
    * AllocateElements and DeallocateManagedMemory. */
   void SetImportPointer(TElement *ptr){ m_ImportPointer = ptr; }
+
 private:
   ImportImageContainer(const Self &); //purposely not implemented
   void operator=(const Self &);       //purposely not implemented

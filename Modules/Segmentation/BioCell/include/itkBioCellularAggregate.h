@@ -108,6 +108,7 @@ public:
   typedef typename SubstrateType::Pointer          SubstratePointer;
   typedef ImagePixelType                           SubstrateValueType;
   typedef std::vector< SubstratePointer >          SubstratesVector;
+
 public:
   unsigned int GetNumberOfCells(void) const;
 

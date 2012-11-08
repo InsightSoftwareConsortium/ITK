@@ -238,6 +238,7 @@ protected:
   struct ThreadStruct {
     Pointer Filter;
   };
+
 private:
   ImageTransformer(const Self &);    //purposely not implemented
   void operator=(const Self &); //purposely not implemented

@@ -92,6 +92,7 @@ public:
   /** Manhattan radius used for evaluating the fractal dimension. */
   itkSetMacro(NeighborhoodRadius, RadiusType);
   itkGetConstMacro(NeighborhoodRadius, RadiusType);
+
 protected:
   StochasticFractalDimensionImageFilter();
   ~StochasticFractalDimensionImageFilter();

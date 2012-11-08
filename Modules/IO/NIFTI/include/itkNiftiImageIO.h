@@ -100,12 +100,14 @@ public:
     */
   itkSetMacro(LegacyAnalyze75Mode, bool);
   itkGetConstMacro(LegacyAnalyze75Mode, bool);
+
 protected:
   NiftiImageIO();
   ~NiftiImageIO();
   void PrintSelf(std::ostream & os, Indent indent) const;
 
   virtual bool GetUseLegacyModeForTwoFileWriting(void) const { return false; }
+
 private:
   bool  MustRescale();
 

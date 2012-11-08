@@ -87,7 +87,6 @@ public:
     return SpaceDimension;
     }
 
-
 private:
 
 

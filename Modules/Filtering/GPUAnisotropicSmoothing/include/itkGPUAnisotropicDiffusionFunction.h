@@ -147,6 +147,7 @@ protected:
 
   // GPU Kernel Handles
   int m_AverageGradientMagnitudeSquaredGPUKernelHandle;
+
 private:
   GPUAnisotropicDiffusionFunction(const Self &); //purposely not implemented
   void operator=(const Self &);                  //purposely not implemented

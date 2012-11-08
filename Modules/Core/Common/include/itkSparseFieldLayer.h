@@ -76,6 +76,7 @@ public:
   { m_Pointer = p; }
 
   ~ConstSparseFieldLayerIterator() {}
+
 protected:
   TNodeType *m_Pointer;
 };

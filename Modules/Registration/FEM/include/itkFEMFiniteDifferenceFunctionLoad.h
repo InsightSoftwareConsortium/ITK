@@ -305,6 +305,7 @@ public:
   virtual void ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe);
 
 protected:
+
 private:
   FiniteDifferenceFunctionLoad(); // cannot be private until we always use smart pointers
 

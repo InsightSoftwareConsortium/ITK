@@ -66,6 +66,7 @@ public:
    * is the function should be overloaded in any derived classes for the user
    * to access the various methods supported by the method. */
   virtual void ApplySegmentationBorder(){}
+
 protected:
   SegmentationBorder();
   ~SegmentationBorder();

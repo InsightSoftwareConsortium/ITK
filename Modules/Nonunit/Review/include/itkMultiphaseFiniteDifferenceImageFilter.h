@@ -508,6 +508,7 @@ protected:
   /** This method is called after the solution has been generated to allow
    * subclasses to apply some further processing to the output. */
   virtual void PostProcessOutput() {}
+
 private:
   MultiphaseFiniteDifferenceImageFilter(const Self &);
   //purposely not implemented

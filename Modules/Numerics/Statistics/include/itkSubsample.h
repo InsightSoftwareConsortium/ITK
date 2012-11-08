@@ -121,6 +121,7 @@ public:
   class ConstIterator
   {
     friend class Subsample;
+
 public:
 
     ConstIterator(const Self *sample)
@@ -190,12 +191,14 @@ protected:
     // Pointer to Subsample object
     const Self *   m_Subsample;
     const TSample *m_Sample;
+
 private:
   };
 
   class Iterator:public ConstIterator
   {
     friend class Subsample;
+
 public:
 
     Iterator(Self *sample):ConstIterator(sample)
@@ -225,6 +228,7 @@ protected:
              Self *classSample):
       ConstIterator(iter, classSample)
     {}
+
 private:
   };
 

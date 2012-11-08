@@ -113,9 +113,11 @@ public:
                    ( Concept::Convertible< double, typename TOutputImage::PixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   AsinImageFilter() {}
   virtual ~AsinImageFilter() {}
+
 private:
   AsinImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);  //purposely not implemented

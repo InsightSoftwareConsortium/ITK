@@ -205,7 +205,6 @@ public:
   itkGetConstReferenceMacro(CollectPoints, bool);
   itkBooleanMacro(CollectPoints);
 
-
 protected:
 
   /** \brief Constructor */

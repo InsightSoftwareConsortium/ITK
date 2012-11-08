@@ -323,6 +323,7 @@ public:
                    ( Concept::OStreamWritable< typename TOutputImage::PixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   MultiphaseSparseFiniteDifferenceImageFilter();
   ~MultiphaseSparseFiniteDifferenceImageFilter()
@@ -525,6 +526,7 @@ protected:
       default this is turned on. Subclasses which do not sample propagation
       (speed), advection, or curvature terms should turn this flag off. */
   bool m_InterpolateSurfaceLocation;
+
 private:
   MultiphaseSparseFiniteDifferenceImageFilter(const Self &);
   void operator=(const Self &);      //purposely not implemented

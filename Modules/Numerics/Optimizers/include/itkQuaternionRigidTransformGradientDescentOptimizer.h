@@ -75,6 +75,7 @@ public:
 protected:
   QuaternionRigidTransformGradientDescentOptimizer() {}
   virtual ~QuaternionRigidTransformGradientDescentOptimizer() {}
+
 private:
   //purposely not implemented
   QuaternionRigidTransformGradientDescentOptimizer(const Self &);

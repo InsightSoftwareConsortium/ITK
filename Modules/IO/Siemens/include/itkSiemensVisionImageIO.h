@@ -107,6 +107,7 @@ public:
    * that the IORegions has been set properly. */
   // Implemented in superclass
   //      virtual void Write(const void* buffer);
+
 protected:
   SiemensVisionImageIO();
   ~SiemensVisionImageIO();

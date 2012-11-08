@@ -115,6 +115,7 @@ public:
                    ( Concept::OStreamWritable< OutputPixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   OtsuMultipleThresholdsImageFilter();
   ~OtsuMultipleThresholdsImageFilter(){}

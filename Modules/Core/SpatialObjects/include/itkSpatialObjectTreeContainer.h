@@ -72,6 +72,7 @@ public:
 
   bool SetRoot(typename Superclass::TreeNodeType *node)
   { return Superclass::SetRoot(node); }
+
 protected:
 
   SpatialObjectTreeContainer();

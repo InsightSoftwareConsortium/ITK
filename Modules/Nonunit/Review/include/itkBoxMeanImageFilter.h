@@ -82,6 +82,7 @@ public:
 
   /** End concept checking */
 #endif
+
 protected:
   BoxMeanImageFilter();
   ~BoxMeanImageFilter() {}

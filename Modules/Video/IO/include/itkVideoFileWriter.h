@@ -142,6 +142,7 @@ protected:
   std::vector<SizeValueType>   m_Dimensions;
   SizeValueType                m_NumberOfComponents;
   ImageIOBase::IOComponentType m_ComponentType;
+
 private:
   VideoFileWriter(const Self &); // purposely not implemented
   void operator=(const Self &);  // purposely not implemented

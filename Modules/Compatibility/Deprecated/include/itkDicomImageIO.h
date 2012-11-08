@@ -46,6 +46,7 @@ public:
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(DicomImageIO, Superclass);
+
 protected:
   DicomImageIO()
   {

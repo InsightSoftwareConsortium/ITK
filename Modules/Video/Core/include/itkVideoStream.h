@@ -298,6 +298,7 @@ protected:
   SpacingMapType       m_SpacingCache;
   DirectionMapType     m_DirectionCache;
   PointMapType         m_OriginCache;
+
 private:
 
   VideoStream(const Self &);    //purposely not implemented

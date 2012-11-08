@@ -52,7 +52,6 @@ public:
 protected:
   CommandIterationUpdate() {};
 
-
 public:
   typedef itk::RegularStepGradientDescentOptimizer  OptimizerType;
   typedef const OptimizerType *                     OptimizerPointer;

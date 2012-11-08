@@ -112,6 +112,7 @@ public:
                    ( Concept::HasNumericTraits< typename TOutputImage::PixelType::ValueType > ) );
   /** End concept checking */
 #endif
+
 protected:
   GradientVectorFlowImageFilter();
   ~GradientVectorFlowImageFilter() {}

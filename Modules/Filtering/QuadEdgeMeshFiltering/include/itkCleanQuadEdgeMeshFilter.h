@@ -101,6 +101,7 @@ public:
 
   itkSetMacro(AbsoluteTolerance, InputCoordRepType);
   itkSetMacro(RelativeTolerance, InputCoordRepType);
+
 protected:
   CleanQuadEdgeMeshFilter()
   {

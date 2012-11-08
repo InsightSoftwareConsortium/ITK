@@ -202,6 +202,7 @@ public:
                                                 PriorsPixelType, PosteriorsPixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
 
   BayesianClassifierImageFilter();

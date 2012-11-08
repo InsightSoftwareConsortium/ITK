@@ -65,6 +65,7 @@ public:
 protected:
   FunctionBase(){}
   ~FunctionBase(){}
+
 private:
   FunctionBase(const Self &);   //purposely not implemented
   void operator=(const Self &); //purposely not implemented

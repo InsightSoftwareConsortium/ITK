@@ -59,6 +59,7 @@ public:
 protected:
   JPEGImageIOFactory();
   ~JPEGImageIOFactory();
+
 private:
   JPEGImageIOFactory(const Self &); //purposely not implemented
   void operator=(const Self &);     //purposely not implemented

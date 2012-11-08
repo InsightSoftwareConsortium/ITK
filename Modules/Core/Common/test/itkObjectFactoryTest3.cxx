@@ -25,6 +25,7 @@ public:
   typedef itk::Object                   Superclass;
   typedef itk::SmartPointer<Self>       Pointer;
   typedef itk::SmartPointer<const Self> ConstPointer;
+
 protected:
   FakeObject3() {}
   ~FakeObject3() {}

@@ -276,6 +276,7 @@ public:
                    ( Concept::OStreamWritable< TensorPixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   DiffusionTensor3DReconstructionImageFilter();
   ~DiffusionTensor3DReconstructionImageFilter() {}
@@ -295,6 +296,7 @@ protected:
     GradientIsInManyImages,
     Else
     } GradientImageTypeEnumeration;
+
 private:
 
   /* Tensor basis coeffs */

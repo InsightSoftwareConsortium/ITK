@@ -120,6 +120,7 @@ public:
 
   //
   //--------------------------------------------------------------------------
+
 protected:
   ExtractOrthogonalSwath2DImageFilter()
   {
@@ -151,6 +152,7 @@ protected:
 
   //
   //--------------------------------------------------------------------------
+
 private:
   ExtractOrthogonalSwath2DImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);                      //purposely not implemented

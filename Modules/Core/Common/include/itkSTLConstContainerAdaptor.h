@@ -51,6 +51,7 @@ public:
 
   typedef const typename AdapteeType::Element          ElementType;
   typedef const typename AdapteeType::STLContainerType TargetType;
+
 private:
 
   AdapteeType & m_AdapteeRef;

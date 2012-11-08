@@ -118,6 +118,7 @@ public:
 
   /** Return the container of Vertices as a const object. */
   itkGetConstObjectMacro(VertexList, VertexListType);
+
 protected:
   PolyLineParametricPath();
   ~PolyLineParametricPath(){}

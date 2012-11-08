@@ -120,9 +120,11 @@ public:
   /** Begin concept checking */
   /** End concept checking */
 #endif
+
 protected:
   PowImageFilter() {}
   // virtual ~PowImageFilter() {} default implementation OK
+
 private:
   PowImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &); //purposely not implemented

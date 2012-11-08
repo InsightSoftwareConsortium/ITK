@@ -191,6 +191,7 @@ public:
 
     typename IndexListType::value_type GetNeighborhoodIndex() const
     { return *m_ListIterator; }
+
 protected:
 
     Self *m_NeighborhoodIterator;

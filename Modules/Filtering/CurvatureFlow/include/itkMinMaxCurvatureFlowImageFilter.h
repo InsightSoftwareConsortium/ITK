@@ -132,6 +132,7 @@ public:
                                                  typename TOutputImage::PixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   MinMaxCurvatureFlowImageFilter();
   ~MinMaxCurvatureFlowImageFilter() {}

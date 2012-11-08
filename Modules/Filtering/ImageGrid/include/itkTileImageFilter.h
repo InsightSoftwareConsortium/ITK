@@ -126,6 +126,7 @@ public:
                    ( Concept::OStreamWritable< OutputPixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   TileImageFilter();
   // ~TileImageFilter(){} default implementation ok

@@ -169,6 +169,7 @@ public:
   itkSetMacro(LoadPrivateTags, bool);
   itkGetConstMacro(LoadPrivateTags, bool);
   itkBooleanMacro(LoadPrivateTags);
+
 protected:
   GDCMSeriesFileNames();
   ~GDCMSeriesFileNames();

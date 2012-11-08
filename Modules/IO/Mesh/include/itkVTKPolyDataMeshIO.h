@@ -102,6 +102,7 @@ public:
   virtual void WriteCellData(void *buffer);
 
   virtual void Write();
+
 protected:
   VTKPolyDataMeshIO();
   virtual ~VTKPolyDataMeshIO() {}

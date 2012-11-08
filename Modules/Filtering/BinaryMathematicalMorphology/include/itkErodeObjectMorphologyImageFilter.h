@@ -103,6 +103,7 @@ public:
                    ( Concept::GreaterThanComparable< KernelPixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   ErodeObjectMorphologyImageFilter();
   ~ErodeObjectMorphologyImageFilter() {}

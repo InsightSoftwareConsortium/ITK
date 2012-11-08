@@ -104,6 +104,7 @@ public:
 protected:
   TransformBase() {}
   virtual ~TransformBase() {}
+
 private:
   TransformBase(const Self &);  //purposely not implemented
   void operator=(const Self &); //purposely not implemented

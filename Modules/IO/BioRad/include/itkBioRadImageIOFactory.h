@@ -68,6 +68,7 @@ public:
 protected:
   BioRadImageIOFactory();
   ~BioRadImageIOFactory();
+
 private:
   BioRadImageIOFactory(const Self &); //purposely not implemented
   void operator=(const Self &);       //purposely not implemented

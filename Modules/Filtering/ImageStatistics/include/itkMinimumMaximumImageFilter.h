@@ -110,6 +110,7 @@ public:
                    ( Concept::OStreamWritable< PixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   MinimumMaximumImageFilter();
   virtual ~MinimumMaximumImageFilter() {}

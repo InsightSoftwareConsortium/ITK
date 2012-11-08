@@ -105,6 +105,7 @@ public:
   /** Set the vector. \sa GetVector */
   void SetVector(const VectorType & vec)
   { m_Vector = vec; }
+
 private:
   TScalar    m_Scalar;
   VectorType m_Vector;

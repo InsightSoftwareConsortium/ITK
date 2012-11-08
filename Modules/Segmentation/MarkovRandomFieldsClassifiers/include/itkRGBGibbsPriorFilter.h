@@ -158,6 +158,7 @@ public:
 
   /** Specify the type of matrix to use. */
   typedef vnl_matrix< double > MatrixType;
+
 protected:
   RGBGibbsPriorFilter();
   ~RGBGibbsPriorFilter();
@@ -182,7 +183,6 @@ protected:
                    ( Concept::SameDimension< itkGetStaticConstMacro(InputImageType::ImageDimension), 3 > ) );
   /** End concept checking */
 #endif
-
 
 private:
   RGBGibbsPriorFilter(const Self &);

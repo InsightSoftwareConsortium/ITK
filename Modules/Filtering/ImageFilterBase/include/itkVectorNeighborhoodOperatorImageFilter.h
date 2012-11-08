@@ -131,6 +131,7 @@ public:
                    ( Concept::HasNumericTraits< typename TOutputImage::PixelType::ValueType > ) );
   /** End concept checking */
 #endif
+
 protected:
   VectorNeighborhoodOperatorImageFilter() {}
   virtual ~VectorNeighborhoodOperatorImageFilter() {}
@@ -150,6 +151,7 @@ protected:
 
   void PrintSelf(std::ostream & os, Indent indent) const
   { Superclass::PrintSelf(os, indent);  }
+
 private:
   VectorNeighborhoodOperatorImageFilter(const Self &); //purposely not
                                                        // implemented

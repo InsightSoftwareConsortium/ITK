@@ -63,7 +63,6 @@ public:
 
   virtual void ComputeParameters() {}
 
-
 protected:
   ScalarChanAndVeseLevelSetFunctionTest2Helper() {}
   ~ScalarChanAndVeseLevelSetFunctionTest2Helper() {}

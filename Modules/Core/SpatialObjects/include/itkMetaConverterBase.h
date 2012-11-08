@@ -71,11 +71,13 @@ public:
    */
   void SetWriteImagesInSeparateFile(bool writeImagesInSeparateFile);
   bool GetWriteImagesInSeparateFile();
+
 protected:
   /** Creator for specific metaObject, defined in subclass */
   virtual MetaObjectType *CreateMetaObject() = 0;
   MetaConverterBase() : m_WriteImagesInSeparateFile(false)
     {}
+
 private:
   bool m_WriteImagesInSeparateFile;
 };

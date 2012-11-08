@@ -157,6 +157,7 @@ protected:
   struct GlobalDataStruct {
     FixedImageNeighborhoodIteratorType m_FixedImageIterator;
   };
+
 private:
   MeanSquareRegistrationFunction(const Self &); //purposely not implemented
   void operator=(const Self &);                 //purposely not implemented

@@ -259,7 +259,6 @@ protected:
   MapContainerType          m_Container;
   InputImagePointer         m_Input;
 
-
 private:
   LevelSetEquationContainer( const Self& ); // purposely not implemented
   void operator = ( const Self& ); // purposely not implemented

@@ -291,6 +291,7 @@ protected:
   { Superclass::PushBackInput(input); }
   void PushFrontInput(const DataObject *input)
   { Superclass::PushFrontInput(input); }
+
 private:
   ImageToImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);     //purposely not implemented

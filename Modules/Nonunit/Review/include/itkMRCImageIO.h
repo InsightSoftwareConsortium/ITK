@@ -103,6 +103,7 @@ public:
    * ITK_MRCHHeader. (remember to fix class doc too)
    */
   static const char *m_MetaDataHeaderName;
+
 protected:
   MRCImageIO();
   // ~MRCImageIO(); // default works

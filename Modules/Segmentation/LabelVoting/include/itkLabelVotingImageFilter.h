@@ -160,6 +160,7 @@ public:
                    ( Concept::OStreamWritable< OutputPixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   LabelVotingImageFilter() { this->m_HasLabelForUndecidedPixels = false; }
   virtual ~LabelVotingImageFilter() {}

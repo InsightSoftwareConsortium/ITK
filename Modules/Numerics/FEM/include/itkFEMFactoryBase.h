@@ -103,6 +103,7 @@ public:
 protected:
   FEMFactoryBase();
   virtual ~FEMFactoryBase();
+
 private:
   FEMFactoryBase(const Self &); // purposely not implemented
   void operator=(const Self &); // purposely not implemented

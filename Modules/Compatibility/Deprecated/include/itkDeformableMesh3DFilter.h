@@ -154,6 +154,7 @@ public:
   itkSetMacro(ObjectLabel, unsigned char);
 
   itkGetConstMacro(Normals, InputMeshPointer);
+
 protected:
   DeformableMesh3DFilter();
   ~DeformableMesh3DFilter();

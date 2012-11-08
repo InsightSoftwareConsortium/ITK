@@ -173,6 +173,7 @@ public:
                    ( Concept::HasNumericTraits< OutputPixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   /** Constructor.  Default value for DomainSigma is 4. Default value
    * RangeSigma is 50. */

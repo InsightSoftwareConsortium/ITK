@@ -86,6 +86,7 @@ public:
     ValueType & operator*() const { return *( m_Iterator - 1 ); }
     bool operator!=(const ReverseIterator & rit) const { return m_Iterator != rit.m_Iterator; }
     bool operator==(const ReverseIterator & rit) const { return m_Iterator == rit.m_Iterator; }
+
 private:
     Iterator m_Iterator;
     friend class ConstReverseIterator;
@@ -108,6 +109,7 @@ public:
     const ValueType & operator*() const { return *( m_Iterator - 1 ); }
     bool operator!=(const ConstReverseIterator & rit) const { return m_Iterator != rit.m_Iterator; }
     bool operator==(const ConstReverseIterator & rit) const { return m_Iterator == rit.m_Iterator; }
+
 private:
     ConstIterator m_Iterator;
   };
@@ -125,6 +127,7 @@ private:
   typedef const ValueType & const_reference;
 
   typedef unsigned int SizeType;
+
 public:
   /** Constructors */
   FixedArray();
@@ -240,6 +243,7 @@ public:
 private:
   /** Internal C array representation. */
   CArray m_InternalArray;
+
 public:
 
   static FixedArray Filled(const ValueType &);

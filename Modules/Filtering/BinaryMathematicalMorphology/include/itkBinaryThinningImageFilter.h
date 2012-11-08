@@ -127,6 +127,7 @@ public:
                    ( Concept::SameType< PixelType, typename TOutputImage::PixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   BinaryThinningImageFilter();
   virtual ~BinaryThinningImageFilter() {}

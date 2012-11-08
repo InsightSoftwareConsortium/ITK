@@ -68,6 +68,7 @@ public:
 
   typedef typename Superclass::FixedOutputPointType     FixedOutputPointType;
   typedef typename Superclass::MovingOutputPointType    MovingOutputPointType;
+
 protected:
   CorrelationImageToImageMetricv4HelperThreader() {}
 
@@ -113,7 +114,6 @@ protected:
   {
     return false;
   }
-
 
 private:
   CorrelationImageToImageMetricv4HelperThreader( const Self & ); // purposely not implemented

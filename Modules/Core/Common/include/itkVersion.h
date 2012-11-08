@@ -85,6 +85,7 @@ public:
 protected:
   Version();
   ~Version();
+
 private:
   Version(const Self &);        //purposely not implemented
   void operator=(const Self &); //purposely not implemented

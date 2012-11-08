@@ -78,7 +78,6 @@ public:
    */
   static const ImagePointer GetImageFromArray( PyObject *obj );
 
-
 protected:
   typedef enum PyArray_TYPES PyArrayType;
   static PyArrayType GetPyType(void);

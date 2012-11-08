@@ -103,9 +103,11 @@ public:
                    ( Concept::Convertible< InputImagePixelType, OutputImagePixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   PolylineMask2DImageFilter();
   virtual ~PolylineMask2DImageFilter() {}
+
 private:
   PolylineMask2DImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);            //purposely not implemented

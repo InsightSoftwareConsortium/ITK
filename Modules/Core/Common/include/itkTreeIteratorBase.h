@@ -189,6 +189,7 @@ public:
   }
 
   virtual ~TreeIteratorBase() {}
+
 protected:
 
   /** Constructors */

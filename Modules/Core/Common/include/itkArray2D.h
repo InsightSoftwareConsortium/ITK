@@ -49,6 +49,7 @@ public:
   typedef TValueType               ValueType;
   typedef Array2D                  Self;
   typedef vnl_matrix< TValueType > VnlMatrixType;
+
 public:
 
   Array2D();

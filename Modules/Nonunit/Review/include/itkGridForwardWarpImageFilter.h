@@ -113,6 +113,7 @@ public:
                    ( Concept::HasNumericTraits< typename TDisplacementField::PixelType::ValueType > ) );
   /** End concept checking */
 #endif
+
 protected:
   GridForwardWarpImageFilter();
   ~GridForwardWarpImageFilter() {}

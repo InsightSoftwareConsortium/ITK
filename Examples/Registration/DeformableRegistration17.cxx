@@ -116,6 +116,7 @@ public:
   typedef  itk::Command             Superclass;
   typedef  itk::SmartPointer<Self>  Pointer;
   itkNewMacro( Self );
+
 protected:
   CommandIterationUpdate() {};
 

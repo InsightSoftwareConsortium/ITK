@@ -213,6 +213,7 @@ public:
   {
     return true;
   }
+
 protected:
   /** Construct an ScaleTransform object. */
   ScaleTransform();

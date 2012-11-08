@@ -188,6 +188,7 @@ protected:
   bool m_ComputeGradient;
 
   GradientImagePointer m_GradientImage;
+
 private:
   PointSetToImageMetric(const Self &); //purposely not implemented
   void operator=(const Self &);        //purposely not implemented

@@ -78,6 +78,7 @@ public:
    * Some data that this load defines.
    */
   TClass data;
+
 private:
 
 };

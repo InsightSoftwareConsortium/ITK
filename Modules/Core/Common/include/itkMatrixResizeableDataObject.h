@@ -49,6 +49,7 @@ public:
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(MatrixResizeableDataObject, DataObject);
+
 protected:
 
   /** Default Constructor. */

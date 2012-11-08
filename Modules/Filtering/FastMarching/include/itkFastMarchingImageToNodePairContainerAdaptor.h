@@ -118,7 +118,6 @@ public:
   /** \brief Perform the conversion. */
   void Update();
 
-
 protected:
 
   /** \brief Constructor */
@@ -146,7 +145,6 @@ protected:
   void
   SetPointsFromImage( const ImageType* image, const LabelType& iLabel,
     const OutputPixelType& iValue );
-
 
 private:
 

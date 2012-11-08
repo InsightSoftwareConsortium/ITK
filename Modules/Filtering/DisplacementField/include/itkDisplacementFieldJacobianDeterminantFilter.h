@@ -242,6 +242,7 @@ protected:
   /** Pre-compute 0.5*m_DerivativeWeights since that is the only thing used in
     the computations. */
   WeightsType m_HalfDerivativeWeights;
+
 private:
   bool m_UseImageSpacing;
 

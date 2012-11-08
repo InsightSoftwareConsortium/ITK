@@ -119,6 +119,7 @@ public:
 protected:
   CurvatureNDAnisotropicDiffusionFunction();
   ~CurvatureNDAnisotropicDiffusionFunction() {}
+
 private:
   CurvatureNDAnisotropicDiffusionFunction(const Self &); //purposely not
                                                          // implemented

@@ -149,6 +149,7 @@ public:
    *  the ValueAt() function instead of IsInside() */
   itkSetMacro(UseObjectValue, bool);
   itkGetConstMacro(UseObjectValue, bool);
+
 protected:
   SpatialObjectToImageFilter();
   ~SpatialObjectToImageFilter();

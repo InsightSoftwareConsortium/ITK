@@ -153,6 +153,7 @@ public:
    */
   itkSetMacro(BackgroundValue, InputPixelType);
   itkGetConstReferenceMacro(BackgroundValue, InputPixelType);
+
 protected:
 
   SignedMaurerDistanceMapImageFilter();

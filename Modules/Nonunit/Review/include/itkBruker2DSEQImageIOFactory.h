@@ -66,6 +66,7 @@ public:
 protected:
   Bruker2DSEQImageIOFactory();
   virtual ~Bruker2DSEQImageIOFactory();
+
 private:
   Bruker2DSEQImageIOFactory(const Self &); //purposely not implemented
   void operator=(const Self &);            //purposely not implemented

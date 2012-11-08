@@ -64,6 +64,7 @@ public:
   typedef typename InputImageType::ConstPointer InputImageConstPointer;
   typedef typename InputImageType::RegionType   InputImageRegionType;
   typedef typename InputImageType::PixelType    InputImagePixelType;
+
 protected:
   GPUInPlaceImageFilter();
   ~GPUInPlaceImageFilter();

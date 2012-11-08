@@ -111,7 +111,6 @@ protected:
 
   void PrintSelf(std::ostream & os, Indent indent) const;
 
-
 private:
   JPEG2000ImageIO(const Self &); //purposely not implemented
   void operator=(const Self &);  //purposely not implemented

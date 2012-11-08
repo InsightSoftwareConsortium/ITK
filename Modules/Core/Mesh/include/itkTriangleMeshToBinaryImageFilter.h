@@ -199,6 +199,7 @@ public:
   /* Set the tolerance for doing spatial searches of the polydata. */
   itkSetMacro(Tolerance, double);
   itkGetConstMacro(Tolerance, double);
+
 protected:
   TriangleMeshToBinaryImageFilter();
   ~TriangleMeshToBinaryImageFilter();

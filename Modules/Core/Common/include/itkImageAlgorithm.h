@@ -115,7 +115,6 @@ struct ImageAlgorithm
 
 /** \endcond */
 
-
 private:
 
   /** This is an optimized method which requires the input and

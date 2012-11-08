@@ -78,11 +78,13 @@ public:
   StringType GetName(void) const;
 
   unsigned long GetMTime(void){ return m_MTime; }
+
 protected:
 
   void PrintSelf(std::ostream & os, Indent indent) const;
 
   void Modified(void){ m_MTime++; }
+
 private:
   SpatialObjectProperty(const Self &); //purposely not implemented
   void operator=(const Self &);        //purposely not implemented

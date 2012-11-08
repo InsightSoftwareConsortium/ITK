@@ -106,9 +106,11 @@ public:
                    ( Concept::Convertible< double, typename TOutputImage::PixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   AtanImageFilter() {}
   virtual ~AtanImageFilter() {}
+
 private:
   AtanImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);  //purposely not implemented

@@ -91,6 +91,7 @@ public:
   itkSetMacro(CalculateImaginaryPart, bool);
   itkGetConstReferenceMacro(CalculateImaginaryPart, bool);
   itkBooleanMacro(CalculateImaginaryPart);
+
 protected:
   GaborImageSource();
   // ~GaborImageSource(); default implementation ok

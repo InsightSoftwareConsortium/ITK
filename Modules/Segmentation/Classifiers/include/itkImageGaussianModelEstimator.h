@@ -117,6 +117,7 @@ public:
 
   /** Get the training image. */
   itkGetConstMacro(TrainingImage, TrainingImagePointer);
+
 protected:
   ImageGaussianModelEstimator();
   ~ImageGaussianModelEstimator();

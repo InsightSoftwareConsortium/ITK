@@ -100,7 +100,6 @@ protected:
   /** Reads the file */
   void GenerateData();
 
-
 private:
   VTKTetrahedralMeshReader(const Self&); // purposely not implemented
   void operator=(const Self&); // purposely not implemented

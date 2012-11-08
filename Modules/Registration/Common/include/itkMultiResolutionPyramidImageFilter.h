@@ -216,6 +216,7 @@ public:
                    ( Concept::HasNumericTraits< typename TOutputImage::PixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   MultiResolutionPyramidImageFilter();
   ~MultiResolutionPyramidImageFilter() {}
@@ -230,6 +231,7 @@ protected:
   ScheduleType m_Schedule;
 
   bool m_UseShrinkImageFilter;
+
 private:
   MultiResolutionPyramidImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);                    //purposely not implemented

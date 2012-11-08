@@ -58,6 +58,7 @@ public:
   /** Begin concept checking */
   /** End concept checking */
 #endif
+
 public:
   QuadEdgeMeshPoint();
   virtual ~QuadEdgeMeshPoint() {}

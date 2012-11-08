@@ -114,6 +114,7 @@ public:
                    ( Concept::OStreamWritable< InputImagePixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   HMinimaImageFilter();
   ~HMinimaImageFilter() {}

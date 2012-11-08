@@ -79,7 +79,6 @@ public:
   
   typedef typename itk::ContinuousIndex< MovingPointValueType, MovingImageType::ImageDimension >         MovingContinuousIndexType;
 
-
 protected:
   RegistrationParameterScalesFromIndexShift();
   ~RegistrationParameterScalesFromIndexShift(){};

@@ -65,6 +65,7 @@ public:
 protected:
   MINC2ImageIOFactory();
   ~MINC2ImageIOFactory();
+
 private:
   MINC2ImageIOFactory(const Self &); //purposely not implemented
   void operator=(const Self &);      //purposely not implemented

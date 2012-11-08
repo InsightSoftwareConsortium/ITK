@@ -338,6 +338,7 @@ protected:
 
   /** Laplacean smoothing term */
   ScalarValueType m_LaplacianSmoothingWeight;
+
 private:
   LevelSetFunction(const Self &); //purposely not implemented
   void operator=(const Self &);   //purposely not implemented

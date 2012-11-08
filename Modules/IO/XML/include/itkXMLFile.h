@@ -75,6 +75,7 @@ protected:
   void parse(void);
 
   std::string m_Filename;
+
 private:
   XMLReaderBase(const Self &);  //purposely not implemented
   void operator=(const Self &); //purposely not implemented
@@ -101,11 +102,13 @@ public:
   /** Get the output object, after an XML File has been successfully parsed.
    */
   T * GetOutputObject(void) { return m_OutputObject; }
+
 protected:
   XMLReader() {}
   virtual ~XMLReader() {}
 
   T *m_OutputObject;
+
 private:
   XMLReader(const Self &);      //purposely not implemented
   void operator=(const Self &); //purposely not implemented
@@ -185,6 +188,7 @@ public:
 protected:
   T          *m_InputObject;    // object to write out to an XML file
   std::string m_Filename;       // name of file to write.
+
 private:
   XMLWriterBase(const Self &);  //purposely not implemented
   void operator=(const Self &); //purposely not implemented

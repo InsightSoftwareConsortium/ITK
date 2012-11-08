@@ -122,7 +122,6 @@ public:
   /** Set the update map for all points in the zero layer */
   void SetUpdate( const LevelSetLayerType& iUpdate );
 
-
 protected:
   UpdateWhitakerSparseLevelSet();
   virtual ~UpdateWhitakerSparseLevelSet();

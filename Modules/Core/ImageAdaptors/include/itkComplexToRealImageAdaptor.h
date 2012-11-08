@@ -89,9 +89,11 @@ public:
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ComplexToRealImageAdaptor, ImageAdaptor);
+
 protected:
   ComplexToRealImageAdaptor() {}
   virtual ~ComplexToRealImageAdaptor() {}
+
 private:
   ComplexToRealImageAdaptor(const Self &); //purposely not implemented
   void operator=(const Self &);            //purposely not implemented

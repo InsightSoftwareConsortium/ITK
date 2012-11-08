@@ -233,7 +233,6 @@ public:
   itkLegacyMacro(const MatrixType & GetRotationMatrix() const);
 #endif
 
-
 protected:
   Rigid2DTransform(unsigned int outputSpaceDimension, unsigned int parametersDimension);
   Rigid2DTransform(unsigned int parametersDimension);
@@ -262,6 +261,7 @@ protected:
   {
     m_Angle = angle;
   }
+
 private:
   Rigid2DTransform(const Self &); // purposely not implemented
   void operator=(const Self &);   // purposely not implemented

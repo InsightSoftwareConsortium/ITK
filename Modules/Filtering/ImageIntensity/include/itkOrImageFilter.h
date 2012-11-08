@@ -116,9 +116,11 @@ public:
                                                 typename TOutputImage::PixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   OrImageFilter() {}
   virtual ~OrImageFilter() {}
+
 private:
   OrImageFilter(const Self &);  //purposely not implemented
   void operator=(const Self &); //purposely not implemented

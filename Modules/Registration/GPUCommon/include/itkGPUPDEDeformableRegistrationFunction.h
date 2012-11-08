@@ -169,6 +169,7 @@ protected:
   bool m_NormalizeGradient;
 
   mutable double m_GradientStep;
+
 private:
   GPUPDEDeformableRegistrationFunction(const Self &); // purposely not
                                                       // implemented

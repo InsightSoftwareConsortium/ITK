@@ -96,6 +96,7 @@ public:
 
   /** Set the inclusion strategy to intersect */
   void SetIntersectInclusionStrategy() { m_InclusionStrategy = 3; }
+
 protected: //made protected so other iterators can access
 
   /** How the pixel (index) is examined in order to decide whether or not

@@ -155,6 +155,7 @@ public:
    * a relevant value only during the filter update.
    */
   itkGetConstMacro(SliceIndex, IndexValueType);
+
 protected:
   SliceBySliceImageFilter();
   ~SliceBySliceImageFilter() {}

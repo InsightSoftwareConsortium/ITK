@@ -160,6 +160,7 @@ public:
 
   itkSetMacro(UseClusterLabels, bool);
   itkGetConstMacro(UseClusterLabels, bool);
+
 protected:
   KdTreeBasedKmeansEstimator();
   virtual ~KdTreeBasedKmeansEstimator() {}

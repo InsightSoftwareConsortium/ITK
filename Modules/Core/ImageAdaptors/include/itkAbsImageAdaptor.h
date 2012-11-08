@@ -92,9 +92,11 @@ public:
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(AbsImageAdaptor, ImageAdaptor);
+
 protected:
   AbsImageAdaptor() {}
   virtual ~AbsImageAdaptor() {}
+
 private:
   AbsImageAdaptor(const Self &); //purposely not implemented
   void operator=(const Self &);  //purposely not implemented

@@ -648,6 +648,7 @@ protected:
 
   /** Time when GenerateOutputInformation was last called. */
   TimeStamp m_OutputInformationMTime;
+
 private:
   ProcessObject(const Self &);  //purposely not implemented
   void operator=(const Self &); //purposely not implemented

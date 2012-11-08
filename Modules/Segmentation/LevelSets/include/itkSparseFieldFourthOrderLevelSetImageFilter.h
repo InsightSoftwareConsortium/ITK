@@ -282,6 +282,7 @@ public:
                    ( Concept::HasNumericTraits< ValueType > ) );
   /** End concept checking */
 #endif
+
 protected:
   SparseFieldFourthOrderLevelSetImageFilter();
   ~SparseFieldFourthOrderLevelSetImageFilter() {}

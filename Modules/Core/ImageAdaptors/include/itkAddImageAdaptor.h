@@ -62,9 +62,11 @@ public:
   /** Get the value to be added to image pixels */
   PixelType GetValue() const
   { return this->GetPixelAccessor().GetValue(); }
+
 protected:
   AddImageAdaptor() {}
   virtual ~AddImageAdaptor() {}
+
 private:
   AddImageAdaptor(const Self &); //purposely not implemented
   void operator=(const Self &);  //purposely not implemented

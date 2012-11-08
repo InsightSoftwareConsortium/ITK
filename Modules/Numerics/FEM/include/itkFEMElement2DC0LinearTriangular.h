@@ -111,6 +111,7 @@ public:
    * of numerical integration.
    */
   static const unsigned int Nip[6];
+
 protected:
   virtual void PopulateEdgeIds(void);
 

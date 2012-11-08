@@ -100,6 +100,7 @@ public:
                    ( Concept::GreaterThanComparable< KernelPixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   BasicErodeImageFilter();
   ~BasicErodeImageFilter() {}

@@ -89,6 +89,7 @@ public:
    * axis. */
   itkSetMacro(Scale,  VectorType);
   itkGetConstMacro(Scale,  VectorType);
+
 protected:
   RegularSphereMeshSource();
   ~RegularSphereMeshSource() {}
@@ -108,6 +109,7 @@ protected:
 
   /** model scales */
   VectorType m_Scale;
+
 private:
   RegularSphereMeshSource(const Self &); //purposely not implemented
   void operator=(const Self &);          //purposely not implemented

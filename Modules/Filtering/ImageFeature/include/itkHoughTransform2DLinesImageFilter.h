@@ -156,6 +156,7 @@ public:
                    ( Concept::AdditiveOperators< TOutputPixelType, int > ) );
   /** End concept checking */
 #endif
+
 protected:
 
   HoughTransform2DLinesImageFilter();

@@ -255,6 +255,7 @@ public:
                    ( Concept::LessThanComparable< ScalarType > ) );
   /** End concept checking */
 #endif
+
 protected:
   WatershedImageFilter();
   virtual ~WatershedImageFilter() {}

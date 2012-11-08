@@ -86,6 +86,7 @@ public:
    * inversely proportional to the sampling factor.*/
   itkSetMacro(SamplingFactor, unsigned int);
   itkGetConstMacro(SamplingFactor, unsigned int);
+
 protected:
   SpatialObjectToPointSetFilter();
   ~SpatialObjectToPointSetFilter();

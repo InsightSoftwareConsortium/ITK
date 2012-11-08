@@ -132,6 +132,7 @@ public:
   /** Get macro to get the length of the measurement vectors that are being
    * held in the 'sample' that is passed to this class */
   itkGetConstMacro(MeasurementVectorSize, unsigned int);
+
 protected:
   /** Constructor */
   KdTreeGenerator();

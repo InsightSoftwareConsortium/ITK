@@ -86,6 +86,7 @@ public:
                    ( Concept::HasNumericTraits< typename TOutputImage::PixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   CurvatureAnisotropicDiffusionImageFilter()
   {

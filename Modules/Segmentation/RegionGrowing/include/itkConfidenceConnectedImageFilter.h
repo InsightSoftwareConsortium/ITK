@@ -144,6 +144,7 @@ public:
                    ( Concept::HasNumericTraits< OutputImagePixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   ConfidenceConnectedImageFilter();
   ~ConfidenceConnectedImageFilter(){}

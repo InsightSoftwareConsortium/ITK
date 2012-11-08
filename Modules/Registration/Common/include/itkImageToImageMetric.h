@@ -340,6 +340,7 @@ public:
     }
 
     ~FixedImageSamplePoint() {}
+
 public:
     FixedImagePointType point;
     double              value;

@@ -63,6 +63,7 @@ public:
 protected:
   AutumnColormapFunction() {}
   ~AutumnColormapFunction() {}
+
 private:
   AutumnColormapFunction(const Self &); //purposely not implemented
   void operator=(const Self &);        //purposely not implemented

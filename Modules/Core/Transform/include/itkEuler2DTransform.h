@@ -114,6 +114,7 @@ public:
    */
   void ComputeAngleFromMatrix()
   { this->ComputeMatrixParameters(); }
+
 protected:
   Euler2DTransform(unsigned int parametersDimension);
   Euler2DTransform();

@@ -82,6 +82,7 @@ public:
 protected:
   NthElementImageAdaptor() {}
   virtual ~NthElementImageAdaptor() {}
+
 private:
   NthElementImageAdaptor(const Self &); //purposely not implemented
   void operator=(const Self &);         //purposely not implemented

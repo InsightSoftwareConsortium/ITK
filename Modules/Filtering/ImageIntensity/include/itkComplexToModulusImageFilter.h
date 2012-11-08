@@ -91,9 +91,11 @@ public:
                    ( Concept::MultiplyOperator< InputPixelValueType > ) );
   /** End concept checking */
 #endif
+
 protected:
   ComplexToModulusImageFilter() {}
   virtual ~ComplexToModulusImageFilter() {}
+
 private:
   ComplexToModulusImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);              //purposely not implemented

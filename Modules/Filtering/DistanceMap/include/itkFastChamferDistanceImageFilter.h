@@ -144,6 +144,7 @@ public:
                    ( Concept::LessThanComparable< float, PixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   FastChamferDistanceImageFilter();
   virtual ~FastChamferDistanceImageFilter() {}

@@ -62,9 +62,11 @@ public:
   /** Save the template parameters. */
   typedef TElementIdentifier ElementIdentifier;
   typedef TElement           Element;
+
 private:
   /** Quick access to the STL valarray type that was inherited. */
   typedef std::valarray< Element > ValarrayType;
+
 protected:
   /** Provide pass-through constructors corresponding to all the STL
    * valarray constructors.  These are for internal use only since
@@ -78,6 +80,7 @@ protected:
     ValarrayType(n, x) {}
   ValarrayImageContainer(const Self & r):
     ValarrayType(r) {}
+
 public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -131,6 +134,7 @@ public:
   /** Tell the container to release any of its allocated memory. */
   void Fill(const TElement & value)
   { this->ValarrayType::operator=(value); }
+
 public:
   /** PrintSelf routine. Normally this is a protected internal method. It is
    * made public here so that Image can call this method.  Users should not

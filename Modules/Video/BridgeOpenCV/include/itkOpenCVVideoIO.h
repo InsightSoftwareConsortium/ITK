@@ -139,7 +139,6 @@ protected:
   /** Open the writer iff the reader is not open */
   void OpenWriter();
 
-
 private:
   OpenCVVideoIO(const Self &);     //purposely not implemented
   void operator=(const Self &); //purposely not implemented

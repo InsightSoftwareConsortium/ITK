@@ -180,6 +180,7 @@ public:
   itkConceptMacro( OutputHasPixelTraitsCheck, ( Concept::HasPixelTraits< OutputPixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   GradientRecursiveGaussianImageFilter();
   virtual ~GradientRecursiveGaussianImageFilter() {}

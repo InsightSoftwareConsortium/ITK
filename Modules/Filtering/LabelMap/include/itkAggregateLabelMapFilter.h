@@ -78,6 +78,7 @@ public:
     (Concept::OStreamWritable<InputImagePixelType>));*/
 /** End concept checking */
 #endif
+
 protected:
   AggregateLabelMapFilter() {}
   ~AggregateLabelMapFilter() {}

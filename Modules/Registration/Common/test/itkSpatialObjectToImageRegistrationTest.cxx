@@ -33,7 +33,6 @@ namespace itk
 template < class TOptimizer >
 class IterationCallback : public Command
 {
-
 public:
   typedef IterationCallback   Self;
   typedef itk::Command  Superclass;

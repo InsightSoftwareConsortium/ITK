@@ -62,6 +62,7 @@ public:
 
   /** Get the list of transform */
   TransformListType * GetTransformList() { return &m_TransformList; }
+
 protected:
   TransformIOBase::Pointer m_TransformIO;
   TransformFileReader(const Self &); //purposely not implemented

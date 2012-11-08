@@ -469,6 +469,7 @@ public:
                    ( Concept::HasNumericTraits< TOutputPixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   virtual ~SegmentationLevelSetImageFilter() {}
   SegmentationLevelSetImageFilter();
@@ -497,6 +498,7 @@ protected:
    *  be explicitly set or GenerateSpeedImage() and/or GenerateAdvectionImage()
    *  called directly before updating the filter */
   bool m_AutoGenerateSpeedAdvection;
+
 private:
   SegmentationLevelSetImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);                  //purposely not implemented

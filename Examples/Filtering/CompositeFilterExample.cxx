@@ -120,6 +120,7 @@ protected:
 //  Software Guide : EndLatex
 
 //  Software Guide : BeginCodeSnippet
+
 protected:
 
   typedef ThresholdImageFilter< TImageType >                     ThresholdType;

@@ -78,6 +78,7 @@ public:
   /** Image related typedefs. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension);
+
 protected:
   MovingHistogramErodeImageFilter()
   {
@@ -85,6 +86,7 @@ protected:
   }
 
   ~MovingHistogramErodeImageFilter() {}
+
 private:
   MovingHistogramErodeImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);                  //purposely not implemented

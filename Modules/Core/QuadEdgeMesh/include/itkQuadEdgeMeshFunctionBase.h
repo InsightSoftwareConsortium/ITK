@@ -82,6 +82,7 @@ public:
   //  {
   //  return( (OutputType) 0 );
   //  }
+
 protected:
   QuadEdgeMeshFunctionBase()
   {
@@ -89,6 +90,7 @@ protected:
   }
 
   ~QuadEdgeMeshFunctionBase(){}
+
 private:
   QuadEdgeMeshFunctionBase(const Self &); //purposely not implemented
   void operator=(const Self &);           //purposely not implemented

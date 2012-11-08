@@ -159,6 +159,7 @@ public:
   vnl_vector<Element::Float> & GetRightHandSideArray();
 
 //  friend class Solver;
+
 protected:
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
 

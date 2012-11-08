@@ -132,6 +132,7 @@ private:
   void operator=(const Self &);                          //purposely not
 
   // implemented
+
 protected:
   DerivativeType m_Gradient;
   DerivativeType m_PreviousGradient;

@@ -33,6 +33,7 @@ class XMLFilterWatcher:public SimpleFilterWatcher
 public:
   XMLFilterWatcher(ProcessObject *o, const char *comment = ""):
     SimpleFilterWatcher(o, comment) {}
+
 protected:
 
   /** Callback method to show the ProgressEvent */

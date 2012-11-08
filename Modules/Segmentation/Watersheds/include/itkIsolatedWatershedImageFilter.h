@@ -109,6 +109,7 @@ public:
 
   /** Get value that isolates the two seeds. */
   itkGetConstMacro(IsolatedValue, double);
+
 protected:
   IsolatedWatershedImageFilter();
   ~IsolatedWatershedImageFilter(){}

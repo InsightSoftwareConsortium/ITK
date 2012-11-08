@@ -157,7 +157,6 @@ public:
     return static_cast<InputImageType*>(const_cast<DataObject *>(this->ProcessObject::GetInput(1)));
     }
 
-
 protected:
   BinaryReconstructionByDilationImageFilter();
   ~BinaryReconstructionByDilationImageFilter() {};
@@ -174,7 +173,6 @@ protected:
   /** Single-threaded version of GenerateData.  This filter delegates
    * to GrayscaleGeodesicErodeImageFilter. */
   void GenerateData();
-
 
 private:
   BinaryReconstructionByDilationImageFilter(const Self&); //purposely not implemented

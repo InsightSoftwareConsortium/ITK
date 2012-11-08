@@ -152,7 +152,6 @@ protected:
   /** Decide whether or not the pixel format is supported as is (mono, RGB, RGBA) */
   bool PixelFormatSupported(vidl_pixel_format fmt);
 
-
 private:
   VXLVideoIO(const Self &);     //purposely not implemented
   void operator=(const Self &); //purposely not implemented

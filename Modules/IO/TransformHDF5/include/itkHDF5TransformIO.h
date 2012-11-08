@@ -76,6 +76,7 @@ public:
 protected:
   HDF5TransformIO();
   virtual ~HDF5TransformIO();
+
 private:
   /** Read a parameter array from the file location name */
   ParametersType ReadParameters(const std::string &DataSetName);

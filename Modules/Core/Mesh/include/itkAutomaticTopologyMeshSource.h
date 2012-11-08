@@ -379,12 +379,14 @@ public:
       return ( identifierArray1 == identifierArray2 );
     }
   };
+
 protected:
   AutomaticTopologyMeshSource();
   ~AutomaticTopologyMeshSource();
 
   void GenerateData() {}  // GenerateData is a no-op, since the entries
                           // are controlled manually
+
 private:
   AutomaticTopologyMeshSource(const Self &);  //purposely not implemented
   void operator=(const Self &);               //purposely not implemented

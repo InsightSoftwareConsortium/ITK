@@ -119,6 +119,7 @@ public:
 
   /** Get the maximum possible pixel value. */
   itkGetConstMacro(Max, OutputImagePixelType);
+
 protected:
   RandomImageSource();
   ~RandomImageSource();

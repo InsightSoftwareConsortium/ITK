@@ -152,6 +152,7 @@ protected:
 
   bool GetLastPointIsInside() const
   { return m_LastPointIsInside; }
+
 private:
   LevelSetNeighborhoodExtractor(const Self &); //purposely not implemented
   void operator=(const Self &);                //purposely not implemented

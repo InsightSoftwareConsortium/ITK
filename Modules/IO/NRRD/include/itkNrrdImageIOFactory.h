@@ -58,6 +58,7 @@ public:
 protected:
   NrrdImageIOFactory();
   ~NrrdImageIOFactory();
+
 private:
   NrrdImageIOFactory(const Self &); //purposely not implemented
   void operator=(const Self &);     //purposely not implemented

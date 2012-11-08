@@ -82,6 +82,7 @@ public:
                    ( Concept::HasNumericTraits< TDataType > ) );
   /** End concept checking */
 #endif
+
 protected:
   DifferenceOfGaussiansGradientImageFilter();
   virtual ~DifferenceOfGaussiansGradientImageFilter() {}

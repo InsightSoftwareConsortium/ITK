@@ -48,8 +48,10 @@ public:
   typedef  itk::Command            Superclass;
   typedef itk::SmartPointer<Self>  Pointer;
   itkNewMacro( Self );
+
 protected:
   CommandProgressUpdate() {};
+
 public:
   void Execute(itk::Object *caller, const itk::EventObject & event)
     {

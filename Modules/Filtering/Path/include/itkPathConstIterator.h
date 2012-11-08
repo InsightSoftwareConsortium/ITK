@@ -194,6 +194,7 @@ public:
 
   /** Default Destructor. */
   virtual ~PathConstIterator() {}
+
 protected: //made protected so other iterators can access
   // This "constant" is initialized in the constructor
   OffsetType m_ZeroOffset;  // = 0 for all dimensions

@@ -58,6 +58,7 @@ public:
 protected:
   GDCMImageIOFactory();
   ~GDCMImageIOFactory();
+
 private:
   GDCMImageIOFactory(const Self &); //purposely not implemented
   void operator=(const Self &);     //purposely not implemented

@@ -198,6 +198,7 @@ public:
     (Concept::OStreamWritable<OutputPixelType>));
   /** End concept checking */
 #endif
+
 protected:
   HistogramThresholdImageFilter();
   ~HistogramThresholdImageFilter(){};

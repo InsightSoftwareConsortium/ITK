@@ -115,7 +115,6 @@ protected:
 
   void GenerateData();
 
-
 private:
   NormalizeToConstantImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&);                 //purposely not implemented

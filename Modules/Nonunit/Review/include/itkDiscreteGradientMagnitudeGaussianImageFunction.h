@@ -105,6 +105,7 @@ public:
 
   /** Interpolation modes */
   enum InterpolationModeType { NearestNeighbourInterpolation, LinearInterpolation };
+
 public:
 
   /** Evalutate the  in the given dimension at specified point */
@@ -179,6 +180,7 @@ public:
   /** Initialize the Gaussian kernel. Call this method before evaluating the function.
    * This method MUST be called after any changes to function parameters. */
   virtual void Initialize() { RecomputeGaussianKernel(); }
+
 protected:
 
   DiscreteGradientMagnitudeGaussianImageFunction();
@@ -193,6 +195,7 @@ protected:
 
   // void RecomputeContinuousGaussianKernel(
   //        const double* offset) const;
+
 private:
 
   /** Desired variance of the discrete Gaussian function */

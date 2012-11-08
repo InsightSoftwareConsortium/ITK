@@ -138,6 +138,7 @@ public:
 protected:
   UnconstrainedRegionBasedLevelSetFunctionSharedData():Superclass(){}
   ~UnconstrainedRegionBasedLevelSetFunctionSharedData(){}
+
 private:
   UnconstrainedRegionBasedLevelSetFunctionSharedData(const Self &); //purposely
                                                                     // not

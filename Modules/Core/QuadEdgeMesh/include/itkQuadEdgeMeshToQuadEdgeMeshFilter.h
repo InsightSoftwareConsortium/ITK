@@ -95,9 +95,11 @@ public:
 
   typedef typename OutputMeshType::PointDataContainer OutputPointDataContainer;
   typedef typename OutputMeshType::CellDataContainer  OutputCellDataContainer;
+
 public:
   itkNewMacro(Self);
   itkTypeMacro(QuadEdgeMeshToQuadEdgeMeshFilter, MeshToMeshFilter);
+
 protected:
   QuadEdgeMeshToQuadEdgeMeshFilter();
   virtual ~QuadEdgeMeshToQuadEdgeMeshFilter() {}

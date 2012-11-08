@@ -92,6 +92,7 @@ public:
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(BSplineCenteredL2ResampleImageFilterBase, BSplineCenteredResampleImageFilterBase);
+
 protected:
 
   virtual void InitializePyramidSplineFilter(int SplineOrder);

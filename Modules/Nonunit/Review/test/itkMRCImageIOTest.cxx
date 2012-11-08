@@ -27,7 +27,6 @@ static unsigned int m_CallNumber = 0;
 template <typename TImageType>
 class MRCImageIOTester
 {
-
 public:
   virtual int Test(int argc, char* argv[] );
 

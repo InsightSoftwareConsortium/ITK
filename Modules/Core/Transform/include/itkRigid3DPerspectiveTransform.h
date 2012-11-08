@@ -225,6 +225,7 @@ public:
   /** Set the center of Rotation */
   itkSetMacro(CenterOfRotation, InputPointType);
   itkGetConstReferenceMacro(CenterOfRotation, InputPointType);
+
 protected:
   Rigid3DPerspectiveTransform();
   ~Rigid3DPerspectiveTransform();

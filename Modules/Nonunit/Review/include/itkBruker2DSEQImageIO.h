@@ -175,7 +175,6 @@ public:
     return;
   }
 
-
 protected:
   Bruker2DSEQImageIO();
   ~Bruker2DSEQImageIO();

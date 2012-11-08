@@ -48,6 +48,7 @@ public:
 protected:
   RandomVariateGeneratorBase() {}
   virtual ~RandomVariateGeneratorBase() {}
+
 private:
 };  // end of class
 } // end of namespace Statistics

@@ -86,9 +86,11 @@ public:
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ExpImageAdaptor, ImageAdaptor);
+
 protected:
   ExpImageAdaptor() {}
   virtual ~ExpImageAdaptor() {}
+
 private:
   ExpImageAdaptor(const Self &); //purposely not implemented
   void operator=(const Self &);  //purposely not implemented

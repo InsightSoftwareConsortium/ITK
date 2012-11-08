@@ -222,6 +222,7 @@ protected:
     double m_SumOfSquaredChange;
     double m_MaxL1Norm;
   };
+
 private:
   LevelSetMotionRegistrationFunction(const Self &); //purposely not implemented
   void operator=(const Self &);                     //purposely not implemented

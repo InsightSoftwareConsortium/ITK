@@ -315,6 +315,7 @@ public:
                    ( Concept::SameDimension< InputImageDimension, ClassifiedImageDimension > ) );
   /** End concept checking */
 #endif
+
 protected:
   MRFImageFilter();
   ~MRFImageFilter();

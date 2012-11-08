@@ -59,6 +59,7 @@ public:
 protected:
   TransformIOFactory();
   ~TransformIOFactory();
+
 private:
   TransformIOFactory(const Self &); //purposely not implemented
   void operator=(const Self &);     //purposely not implemented

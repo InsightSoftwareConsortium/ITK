@@ -553,6 +553,7 @@ protected:
 #endif
 
   mutable DirectionChangeMatrix m_DirectionChange;
+
 private:
   Transform(const Self &);      // purposely not implemented
   void operator=(const Self &); // purposely not implemented

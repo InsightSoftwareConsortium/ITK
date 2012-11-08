@@ -124,6 +124,7 @@ public:
 
   /** Get a reference to the TimeProbe */
   TimeProbe & GetTimeProbe() { return m_TimeProbe; }
+
 protected:
 
   /** Callback method to show the ProgressEvent */

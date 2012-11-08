@@ -59,6 +59,7 @@ public:
   /** Save the template parameters. */
   typedef TElementIdentifier ElementIdentifier;
   typedef TElement           Element;
+
 private:
   MapContainer(const Self &);   //purposely not implemented
   void operator=(const Self &); //purposely not implemented
@@ -68,6 +69,7 @@ private:
   typedef typename MapType::iterator             MapIterator;
   typedef typename MapType::const_iterator       MapConstIterator;
   typedef typename MapType::key_compare          MapKeyCompareType;
+
 public:
   /** Provide pass-through constructors corresponding to all the STL
    * map constructors.  These are for internal use only since this is also
@@ -174,6 +176,7 @@ public:
 
     /** Get the value at this iterator's location in the MapContainer.   */
     Element & Value(void) { return m_Iter->second; }
+
 private:
     MapIterator m_Iter;
     friend class ConstIterator;
@@ -207,6 +210,7 @@ public:
 
     /** Get the value at this iterator's location in the MapContainer.   */
     const Element & Value(void) const { return m_Iter->second; }
+
 private:
     MapConstIterator m_Iter;
     friend class Iterator;

@@ -143,9 +143,11 @@ public:
 
   /** End concept checking */
 #endif
+
 protected:
   StandardDeviationProjectionImageFilter() {}
   virtual ~StandardDeviationProjectionImageFilter() {}
+
 private:
   //purposely not implemented
   StandardDeviationProjectionImageFilter(const Self &);

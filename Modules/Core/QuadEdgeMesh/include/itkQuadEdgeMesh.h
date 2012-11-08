@@ -236,6 +236,7 @@ public:
 
   /** Reserved CellIdentifier designated to represent the absence of Face */
   static const CellIdentifier m_NoFace;
+
 public:
 
   /** Basic Object interface. */
@@ -246,6 +247,7 @@ public:
   /** FrontIterator definitions */
   itkQEDefineFrontIteratorMethodsMacro(Self);
 #endif
+
 public:
 
   // Multithreading framework: not tested yet.
@@ -491,6 +493,7 @@ public:
 
   CellIdentifier GetNumberOfFaces() const { return ( m_NumberOfFaces ); }
   CellIdentifier GetNumberOfEdges() const { return ( m_NumberOfEdges ); }
+
 protected:
   /** Constructor and Destructor. */
   QuadEdgeMesh();
@@ -500,12 +503,14 @@ protected:
   virtual void ClearCellsContainer();
 
   CellsContainerPointer m_EdgeCellsContainer;
+
 private:
   QuadEdgeMesh(const Self &);     //purposely not implemented
   void operator=(const Self &);   //purposely not implemented
 
   CellIdentifier m_NumberOfFaces;
   CellIdentifier m_NumberOfEdges;
+
 protected:
   FreePointIndexesType m_FreePointIndexes;
   FreeCellIndexesType  m_FreeCellIndexes;

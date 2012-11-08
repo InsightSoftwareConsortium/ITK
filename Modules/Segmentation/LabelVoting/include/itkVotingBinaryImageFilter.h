@@ -120,6 +120,7 @@ public:
                    ( Concept::OStreamWritable< InputPixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   VotingBinaryImageFilter();
   virtual ~VotingBinaryImageFilter() {}

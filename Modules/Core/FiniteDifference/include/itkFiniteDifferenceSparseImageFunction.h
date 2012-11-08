@@ -106,6 +106,7 @@ public:
    *  itself. Therefore, this function will have to know about the NodeType it
    *  is dealing with. This function does nothing by default. */
   virtual void PrecomputeSparseUpdate(NeighborhoodType &) const {}
+
 protected:
   FiniteDifferenceSparseImageFunction() {}
   ~FiniteDifferenceSparseImageFunction() {}

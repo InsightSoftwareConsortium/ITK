@@ -231,6 +231,7 @@ public:
    * after all iterations have taken place. */
   itkGetConstMacro(SortEdgeLists, bool);
   itkSetMacro(SortEdgeLists, bool);
+
 protected:
   /** Structure storing information about image flat regions.
    * Flat regions are connected pixels of the same value.  */
@@ -359,6 +360,7 @@ protected:
   /** Holds generalized connectivity information for connected component
    * labeling and gradient descent analysis in pixel neighborhoods.  */
   connectivity_t m_Connectivity;
+
 private:
   /** Helper, debug method.   */
   //  void PrintFlatRegions(flat_region_table_t &t);

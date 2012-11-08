@@ -138,6 +138,7 @@ public:
                    ( Concept::SameDimension< ImageDimension, OutputImageDimension > ) );
   /** End concept checking */
 #endif
+
 protected:
   ShrinkImageFilter();
   ~ShrinkImageFilter() {}

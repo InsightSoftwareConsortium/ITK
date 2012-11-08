@@ -219,6 +219,7 @@ public:
                    ( Concept::IsFloatingPoint< OutputImagePixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   CannyEdgeDetectionImageFilter();
   void PrintSelf(std::ostream & os, Indent indent) const;
@@ -229,6 +230,7 @@ protected:
   GaussianImageFilterType;
   typedef MultiplyImageFilter< OutputImageType,
                                OutputImageType, OutputImageType >       MultiplyImageFilterType;
+
 private:
   CannyEdgeDetectionImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &); //purposely not implemented

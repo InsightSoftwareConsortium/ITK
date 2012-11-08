@@ -107,6 +107,7 @@ public:
   itkSetMacro(Average, bool);
   itkGetConstMacro(Average, bool);
   itkBooleanMacro(Average);
+
 protected:
   AccumulateImageFilter();
   virtual ~AccumulateImageFilter() {}

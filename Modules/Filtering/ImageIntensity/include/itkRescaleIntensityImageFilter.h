@@ -182,9 +182,11 @@ public:
                    ( Concept::AdditiveOperators< RealType > ) );
   /** End concept checking */
 #endif
+
 protected:
   RescaleIntensityImageFilter();
   virtual ~RescaleIntensityImageFilter() {}
+
 private:
   RescaleIntensityImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);              //purposely not implemented

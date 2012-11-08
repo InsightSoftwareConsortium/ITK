@@ -159,6 +159,7 @@ public:
     */
   float GetDerivativeSigma() const
   { return m_GeodesicActiveContourFunction->GetDerivativeSigma(); }
+
 protected:
   ~GeodesicActiveContourShapePriorLevelSetImageFilter() {}
   GeodesicActiveContourShapePriorLevelSetImageFilter();

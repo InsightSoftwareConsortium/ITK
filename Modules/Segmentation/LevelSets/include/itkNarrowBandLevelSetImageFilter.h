@@ -353,6 +353,7 @@ public:
                    ( Concept::HasNumericTraits< typename TOutputImage::PixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   virtual ~NarrowBandLevelSetImageFilter() {}
   NarrowBandLevelSetImageFilter();
@@ -394,6 +395,7 @@ protected:
   typename IsoFilterType::Pointer m_IsoFilter;
 
   typename ChamferFilterType::Pointer m_ChamferFilter;
+
 private:
   SegmentationFunctionType *m_SegmentationFunction;
 };

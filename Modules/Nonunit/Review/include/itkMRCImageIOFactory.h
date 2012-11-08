@@ -75,6 +75,7 @@ public:
 protected:
   MRCImageIOFactory();
   ~MRCImageIOFactory();
+
 private:
   MRCImageIOFactory(const Self &); //purposely not implemented
   void operator=(const Self &);    //purposely not implemented

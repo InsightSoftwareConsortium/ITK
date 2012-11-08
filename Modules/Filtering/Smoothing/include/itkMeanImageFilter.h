@@ -87,6 +87,7 @@ public:
                    ( Concept::HasNumericTraits< InputPixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   MeanImageFilter();
   virtual ~MeanImageFilter() {}

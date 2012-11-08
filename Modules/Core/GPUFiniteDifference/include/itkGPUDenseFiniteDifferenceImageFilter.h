@@ -132,6 +132,7 @@ protected:
 
   /* GPU kernel handle for GPUApplyUpdate */
   int m_ApplyUpdateGPUKernelHandle;
+
 private:
   GPUDenseFiniteDifferenceImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);                      //purposely not implemented

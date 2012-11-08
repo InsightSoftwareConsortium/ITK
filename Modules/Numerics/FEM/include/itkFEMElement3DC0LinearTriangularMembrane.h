@@ -66,6 +66,7 @@ public:
    * 3 points and a material.
    */
   Element3DC0LinearTriangularMembrane(NodeIDType n1_, NodeIDType n2_, NodeIDType n3_, Material::ConstPointer p_);
+
 protected:
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
 

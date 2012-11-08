@@ -35,7 +35,6 @@ public:
 
   typedef itk::Image< PixelType, 2 > ImageType;
 
-
 public:
 
   RawImageReaderAndWriter()

@@ -146,6 +146,7 @@ public:
   typedef typename OutputImageType::Pointer    OutputImagePointer;
   typedef typename OutputImageType::RegionType OutputImageRegionType;
   typedef typename OutputImageType::PixelType  OutputImagePixelType;
+
 protected:
   ThresholdMaximumConnectedComponentsImageFilter();
   ~ThresholdMaximumConnectedComponentsImageFilter() {}

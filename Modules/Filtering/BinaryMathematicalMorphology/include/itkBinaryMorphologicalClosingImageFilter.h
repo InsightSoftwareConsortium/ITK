@@ -94,6 +94,7 @@ public:
   itkSetMacro(SafeBorder, bool);
   itkGetConstReferenceMacro(SafeBorder, bool);
   itkBooleanMacro(SafeBorder);
+
 protected:
   BinaryMorphologicalClosingImageFilter();
   ~BinaryMorphologicalClosingImageFilter() {}

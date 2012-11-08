@@ -311,6 +311,7 @@ public:
   itkSetMacro(UseImageDirection, bool);
   itkGetConstMacro(UseImageDirection, bool);
   itkBooleanMacro(UseImageDirection);
+
 protected:
 
   /** The following methods take working space (evaluateIndex, weights, weightsDerivative)
@@ -363,6 +364,7 @@ protected:
 
   // Spline coefficients
   typename CoefficientImageType::ConstPointer m_Coefficients;
+
 private:
   BSplineInterpolateImageFunction(const Self &); //purposely not implemented
   void operator=(const Self &);                  //purposely not implemented

@@ -30,6 +30,7 @@ public:
     }
   float GetValue() const { return m_Value; }
   void SetValue(float val) { m_Value = val; }
+
 protected:
   virtual void M_SetupReadFields(void)
     {
@@ -62,6 +63,7 @@ protected:
         }
       return true;
     }
+
 private:
   float m_Value;
 };
@@ -92,6 +94,7 @@ public:
     {
       return this->m_Value;
     }
+
 protected:
   DummySpatialObject() : m_Value(0.0)
     {
@@ -103,6 +106,7 @@ protected:
       this->GetProperty()->SetAlpha(1);
     }
   ~DummySpatialObject() {}
+
 private:
   DummySpatialObject(const Self &); //purposely not implemented
   void operator=(const Self &);     //purposely not implemented

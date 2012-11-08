@@ -175,6 +175,7 @@ public:
                    ( Concept::SameDimension< ImageDimension, PixelDimension > ) );
   /** End concept checking */
 #endif
+
 protected:
   TransformToDeformationFieldSource(void);
   ~TransformToDeformationFieldSource(void) {}

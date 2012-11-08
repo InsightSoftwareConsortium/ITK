@@ -88,9 +88,11 @@ public:
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(AcosImageAdaptor, ImageAdaptor);
+
 protected:
   AcosImageAdaptor() {}
   virtual ~AcosImageAdaptor() {}
+
 private:
   AcosImageAdaptor(const Self &); //purposely not implemented
   void operator=(const Self &);   //purposely not implemented

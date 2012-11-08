@@ -51,6 +51,7 @@ public:
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
+
 public:
   /** Determine if a file can be read */
   virtual int CanReadFile(const char *name);
@@ -109,6 +110,7 @@ public:
 protected:
   PolygonGroupSpatialObjectXMLFileWriter() {}
   virtual ~PolygonGroupSpatialObjectXMLFileWriter() {}
+
 private:
   PolygonGroupSpatialObjectXMLFileWriter(const Self &); //purposely not
                                                         // implemented

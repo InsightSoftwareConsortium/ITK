@@ -76,6 +76,7 @@ public:
 protected:
   VersorTransformOptimizer() {}
   virtual ~VersorTransformOptimizer() {}
+
 private:
   VersorTransformOptimizer(const Self &); //purposely not implemented
   void operator=(const Self &);           //purposely not implemented

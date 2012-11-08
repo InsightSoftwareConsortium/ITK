@@ -91,6 +91,7 @@ public:
   itkSetMacro(CalculateImaginaryPart, bool);
   itkGetConstMacro(CalculateImaginaryPart, bool);
   itkBooleanMacro(CalculateImaginaryPart);
+
 protected:
   GaborKernelFunction()
     {

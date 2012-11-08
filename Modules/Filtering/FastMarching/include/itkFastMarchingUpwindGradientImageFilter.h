@@ -185,6 +185,7 @@ public:
                    ( Concept::DivisionAndAssignOperators< typename TLevelSet::PixelType, double > ) );
   /** End concept checking */
 #endif
+
 protected:
   FastMarchingUpwindGradientImageFilter();
   ~FastMarchingUpwindGradientImageFilter(){}

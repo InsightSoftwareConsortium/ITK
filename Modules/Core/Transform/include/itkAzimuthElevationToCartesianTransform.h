@@ -194,6 +194,7 @@ public:
 
   /**  Set the distance to add to the radius. */
   itkSetMacro(FirstSampleDistance, double);
+
 protected:
   /** Create an AzimuthElevationToCartesianTransform object. */
   AzimuthElevationToCartesianTransform();

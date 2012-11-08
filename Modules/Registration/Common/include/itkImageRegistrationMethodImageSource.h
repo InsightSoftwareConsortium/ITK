@@ -157,7 +157,6 @@ ImageRegistrationMethodImageSource()
   m_Parameters[1] = 3.0;
 }
 
-
 private:
 
   typename FixedImageType::Pointer     m_FixedImage;

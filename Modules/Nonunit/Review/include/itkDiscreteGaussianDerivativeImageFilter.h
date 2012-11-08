@@ -182,6 +182,7 @@ public:
                    ( Concept::HasNumericTraits< OutputPixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
 
   DiscreteGaussianDerivativeImageFilter()

@@ -149,6 +149,7 @@ public:
   //( Concept::HasNumericTraits< PixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   SmoothingRecursiveGaussianImageFilter();
   virtual ~SmoothingRecursiveGaussianImageFilter() {}

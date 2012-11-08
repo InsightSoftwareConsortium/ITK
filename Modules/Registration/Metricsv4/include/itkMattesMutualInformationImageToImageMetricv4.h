@@ -186,7 +186,6 @@ public:
     return this->m_ThreaderJointPDFDerivatives[0];
     }
 
-
 protected:
   MattesMutualInformationImageToImageMetricv4();
   virtual ~MattesMutualInformationImageToImageMetricv4();

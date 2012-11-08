@@ -87,6 +87,7 @@ public:
    * data, but it will NOT support ImageAdaptors. */
   PixelType & Value(void)
   { return *( const_cast< InternalPixelType * >( this->m_Position ) ); }
+
 protected:
   /** the construction from a const iterator is declared protected
       in order to enforce const correctness. */

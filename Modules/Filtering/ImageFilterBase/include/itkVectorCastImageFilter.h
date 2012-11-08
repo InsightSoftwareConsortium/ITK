@@ -107,9 +107,11 @@ public:
                                            typename TOutputImage::PixelType::ValueType > ) );
   /** End concept checking */
 #endif
+
 protected:
   VectorCastImageFilter() {}
   virtual ~VectorCastImageFilter() {}
+
 private:
   VectorCastImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);        //purposely not implemented

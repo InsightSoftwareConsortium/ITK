@@ -110,6 +110,7 @@ public:
   typedef typename TOutputMesh::CellAutoPointer       OutputCellAutoPointer;
   typedef          itk::LineCell< OutputCellType >    OutputLineType;
   typedef          itk::PolygonCell< OutputCellType > OutputPolygonType;
+
 protected:
 
   TriangleMeshToSimplexMeshFilter();

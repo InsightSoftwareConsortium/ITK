@@ -123,6 +123,7 @@ public:
                    ( Concept::HasNumericTraits< InputImage1PixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   DirectedHausdorffDistanceImageFilter();
   ~DirectedHausdorffDistanceImageFilter(){}

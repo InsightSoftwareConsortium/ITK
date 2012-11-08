@@ -126,9 +126,11 @@ public:
                    ( Concept::HasZero< typename TInputImage::PixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   NaryAddImageFilter() {}
   virtual ~NaryAddImageFilter() {}
+
 private:
   NaryAddImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);     //purposely not implemented

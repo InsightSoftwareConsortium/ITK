@@ -59,6 +59,7 @@ public:
 protected:
   PNGImageIOFactory();
   ~PNGImageIOFactory();
+
 private:
   PNGImageIOFactory(const Self &); //purposely not implemented
   void operator=(const Self &);    //purposely not implemented

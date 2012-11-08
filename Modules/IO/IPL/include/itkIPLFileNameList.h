@@ -95,6 +95,7 @@ public:
   IPLGetMacro(ImageNumber, int);
   IPLSetMacro(Data, void *);
   IPLGetMacro(Data, const void *);
+
 private:
   std::string m_ImageFileName;
   float       m_SliceLocation;
@@ -270,6 +271,7 @@ public:
   IPLSetMacro(Key2, int);
   IPLGetMacro(Key2, int);
   IPLSetMacro(SortOrder, int);
+
 private:
   ListType m_List;
   int      m_XDim;

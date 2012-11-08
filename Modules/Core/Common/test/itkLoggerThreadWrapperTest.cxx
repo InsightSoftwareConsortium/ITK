@@ -117,6 +117,7 @@ public:
     itkLogMacroStatic( tester, FATAL, "FATAL message by itkLogMacroStatic\n" );
     itkLogMacroStatic( tester, MUSTFLUSH, "MUSTFLUSH message by itkLogMacroStatic\n" );
     }
+
 private:
   itk::LoggerBase* m_Logger;
 };

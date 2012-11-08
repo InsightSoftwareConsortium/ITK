@@ -82,6 +82,7 @@ public:
 
   Region() {}
   virtual ~Region() {}
+
 protected:
   /** Methods invoked by Print() to print information about the object
    * including superclasses. Typically not called by the user (use Print()

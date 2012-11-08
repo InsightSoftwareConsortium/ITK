@@ -221,6 +221,7 @@ public:
                    ( Concept::HasNumericTraits< InputPixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   STAPLEImageFilter()
   {
@@ -234,6 +235,7 @@ protected:
   void GenerateData();
 
   void PrintSelf(std::ostream &, Indent) const;
+
 private:
   STAPLEImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);    //purposely not implemented

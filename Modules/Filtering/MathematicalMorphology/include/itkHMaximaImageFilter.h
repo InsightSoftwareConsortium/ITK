@@ -116,6 +116,7 @@ public:
                    ( Concept::OStreamWritable< InputImagePixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   HMaximaImageFilter();
   ~HMaximaImageFilter() {}

@@ -78,6 +78,7 @@ public:
 protected:
   VersorRigid3DTransformOptimizer() {}
   virtual ~VersorRigid3DTransformOptimizer() {}
+
 private:
   VersorRigid3DTransformOptimizer(const Self &); //purposely not implemented
   void operator=(const Self &);                  //purposely not implemented

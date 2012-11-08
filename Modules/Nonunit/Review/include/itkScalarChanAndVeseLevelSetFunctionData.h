@@ -102,6 +102,7 @@ public:
   double m_ForegroundConstantValues;
   double m_WeightedSumOfPixelValuesInsideLevelSet;
   double m_WeightedSumOfPixelValuesOutsideLevelSet;
+
 protected:
   ScalarChanAndVeseLevelSetFunctionData():Superclass()
   {
@@ -112,6 +113,7 @@ protected:
   }
 
   virtual ~ScalarChanAndVeseLevelSetFunctionData() {}
+
 private:
   ScalarChanAndVeseLevelSetFunctionData(const Self &); //purposely not
                                                        // implemented

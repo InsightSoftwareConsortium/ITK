@@ -191,6 +191,7 @@ public:
     return m_Pointer;
     }
 */
+
 private:
 
   /** Exchange the content of two AutoPointers */

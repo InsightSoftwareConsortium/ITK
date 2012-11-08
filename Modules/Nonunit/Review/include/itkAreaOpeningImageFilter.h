@@ -101,6 +101,7 @@ public:
   itkSetMacro(UseImageSpacing, bool);
   itkGetConstReferenceMacro(UseImageSpacing, bool);
   itkBooleanMacro(UseImageSpacing);
+
 protected:
   AreaOpeningImageFilter()
   {

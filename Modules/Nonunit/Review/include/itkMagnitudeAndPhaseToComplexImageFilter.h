@@ -126,9 +126,11 @@ public:
                    ( Concept::Convertible< double, OutputPixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   MagnitudeAndPhaseToComplexImageFilter() {}
   virtual ~MagnitudeAndPhaseToComplexImageFilter() {}
+
 private:
   MagnitudeAndPhaseToComplexImageFilter(const Self &); //purposely not
                                                        // implemented

@@ -125,6 +125,7 @@ public:
   }
 
 protected:
+
 private:
   double m_Opacity;
   TLabel m_BackgroundValue;

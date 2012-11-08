@@ -166,6 +166,7 @@ public:
 
   /** Get the current parameters. */
   itkGetConstReferenceMacro(CurrentParameters, ParametersType);
+
 protected:
   virtual ~ShapePriorSegmentationLevelSetImageFilter() {}
   ShapePriorSegmentationLevelSetImageFilter();

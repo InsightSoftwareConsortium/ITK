@@ -100,9 +100,11 @@ public:
                    ( Concept::GreaterThanComparable< InputPixelType, InputPixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   AbsImageFilter() {}
   virtual ~AbsImageFilter() {}
+
 private:
   AbsImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &); //purposely not implemented

@@ -167,6 +167,7 @@ protected:
   bool m_ReverseOrdering;
 
   AttributeType m_Attribute;
+
 private:
   ShapeOpeningLabelMapFilter(const Self &); //purposely not implemented
   void operator=(const Self &);             //purposely not implemented

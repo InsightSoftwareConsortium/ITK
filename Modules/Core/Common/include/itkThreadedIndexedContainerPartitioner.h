@@ -73,6 +73,7 @@ public:
                            const ThreadIdType requestedTotal,
                            const DomainType& completeIndexRange,
                            DomainType& subdomain) const;
+
 protected:
   ThreadedIndexedContainerPartitioner();
   virtual ~ThreadedIndexedContainerPartitioner();

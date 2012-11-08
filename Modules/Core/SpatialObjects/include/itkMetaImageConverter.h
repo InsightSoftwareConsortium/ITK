@@ -67,6 +67,7 @@ public:
 
   /** Convert the SpatialObject to MetaObject */
   virtual MetaObjectType *SpatialObjectToMetaObject(const SpatialObjectType *spatialObject);
+
 protected:
   /** Create the specific MetaObject for this class */
   virtual MetaObjectType *CreateMetaObject();

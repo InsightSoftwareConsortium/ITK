@@ -61,6 +61,7 @@ public:
 protected:
   QuadEdgeMeshZipMeshFunction(){}
   ~QuadEdgeMeshZipMeshFunction(){}
+
 private:
   QuadEdgeMeshZipMeshFunction(const Self &); //purposely not implemented
   void operator=(const Self &);              //purposely not implemented

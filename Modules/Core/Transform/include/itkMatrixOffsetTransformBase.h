@@ -433,13 +433,16 @@ public:
   }
 
 #if !defined(ITK_LEGACY_REMOVE)
+
 public:
 #else
+
 protected:
 #endif
   /** \deprecated Use GetInverse for public API instead.
    * Method will eventually be made a protected member function */
   const InverseMatrixType & GetInverseMatrix(void) const;
+
 protected:
   /** Construct an MatrixOffsetTransformBase object
    *
@@ -505,6 +508,7 @@ protected:
   {
     m_Center = center;
   }
+
 private:
 
   MatrixOffsetTransformBase(const Self & other);

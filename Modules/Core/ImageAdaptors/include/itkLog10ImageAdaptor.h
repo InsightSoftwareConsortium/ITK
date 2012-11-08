@@ -87,9 +87,11 @@ public:
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(Log10ImageAdaptor, ImageAdaptor);
+
 protected:
   Log10ImageAdaptor() {}
   virtual ~Log10ImageAdaptor() {}
+
 private:
   Log10ImageAdaptor(const Self &); //purposely not implemented
   void operator=(const Self &);    //purposely not implemented

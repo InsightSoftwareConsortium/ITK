@@ -103,6 +103,7 @@ public:
    * produce the eigen vectors and values. */
   void Update()
   { this->GenerateData(); }
+
 protected:
   SymmetricEigenSystem();
   virtual ~SymmetricEigenSystem();

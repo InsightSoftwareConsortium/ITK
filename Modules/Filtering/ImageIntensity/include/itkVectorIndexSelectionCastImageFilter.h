@@ -127,6 +127,7 @@ public:
                    ( Concept::HasNumericTraits< typename TInputImage::PixelType::ValueType > ) );
   /** End concept checking */
 #endif
+
 protected:
   VectorIndexSelectionCastImageFilter() {}
   virtual ~VectorIndexSelectionCastImageFilter() {}

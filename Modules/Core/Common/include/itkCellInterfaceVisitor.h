@@ -70,6 +70,7 @@ public:
 protected:
   CellInterfaceVisitor() {}
   ~CellInterfaceVisitor() {}
+
 private:
   CellInterfaceVisitor(const Self &); //purposely not implemented
   void operator=(const Self &);       //purposely not implemented
@@ -137,6 +138,7 @@ public:
 protected:
   CellInterfaceVisitorImplementation() {}
   ~CellInterfaceVisitorImplementation() {}
+
 private:
   CellInterfaceVisitorImplementation(const Self &); //purposely not implemented
   void operator=(const Self &);                     //purposely not implemented

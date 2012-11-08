@@ -163,6 +163,7 @@ protected:
   void operator=(const Self &);                                 //purposely not
 
   // implemented
+
 private:
   ThresholdFunctionPointer m_ThresholdFunction;
 };

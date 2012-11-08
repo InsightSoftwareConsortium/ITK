@@ -202,6 +202,7 @@ public:
                    ( Concept::OStreamWritable< OutputPixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   BinaryThresholdImageFilter();
   virtual ~BinaryThresholdImageFilter() {}

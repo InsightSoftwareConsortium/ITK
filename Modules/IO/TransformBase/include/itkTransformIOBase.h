@@ -87,6 +87,7 @@ public:
   itkSetMacro(AppendMode, bool);
   itkGetConstMacro(AppendMode, bool);
   itkBooleanMacro(AppendMode);
+
 protected:
   TransformIOBase();
   virtual ~TransformIOBase();

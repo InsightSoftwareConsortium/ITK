@@ -94,6 +94,7 @@ public:
   itkTypeMacro(DelaunayConformingQuadEdgeMeshFilter, QuadEdgeMeshToQuadEdgeMeshFilter);
 
   itkGetConstMacro(NumberOfEdgeFlips, SizeValueType);
+
 public:
   typedef std::list< OutputEdgeCellType * >         OutputEdgeCellListType;
   typedef typename OutputEdgeCellListType::iterator OutputEdgeCellListIterator;

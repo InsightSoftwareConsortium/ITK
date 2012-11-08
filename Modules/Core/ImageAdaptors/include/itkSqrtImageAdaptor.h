@@ -86,9 +86,11 @@ public:
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(SqrtImageAdaptor, ImageAdaptor);
+
 protected:
   SqrtImageAdaptor() {}
   virtual ~SqrtImageAdaptor() {}
+
 private:
   SqrtImageAdaptor(const Self &); //purposely not implemented
   void operator=(const Self &);   //purposely not implemented

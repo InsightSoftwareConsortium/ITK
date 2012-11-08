@@ -94,9 +94,11 @@ public:
   /** Runtime information support. */
   itkTypeMacro(TernaryMagnitudeSquaredImageFilter,
                TernaryFunctorImageFilter);
+
 protected:
   TernaryMagnitudeSquaredImageFilter() {}
   virtual ~TernaryMagnitudeSquaredImageFilter() {}
+
 private:
   TernaryMagnitudeSquaredImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);                     //purposely not implemented

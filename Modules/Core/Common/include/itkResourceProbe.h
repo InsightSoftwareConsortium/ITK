@@ -43,6 +43,7 @@ public:
   /** Type for counting how many times the probe has been started and stopped.
     */
   typedef  SizeValueType  CountType;
+
 public:
 
   /** Constructor */

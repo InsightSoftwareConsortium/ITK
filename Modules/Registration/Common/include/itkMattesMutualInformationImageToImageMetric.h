@@ -247,6 +247,7 @@ public:
       }
     return this->m_PerThread[0].JointPDFDerivatives;
     }
+
 protected:
 
   MattesMutualInformationImageToImageMetric();

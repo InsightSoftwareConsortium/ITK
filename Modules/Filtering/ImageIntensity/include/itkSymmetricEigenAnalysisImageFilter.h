@@ -178,9 +178,11 @@ public:
                    ( Concept::HasNumericTraits< InputValueType > ) );
   /** End concept checking */
 #endif
+
 protected:
   SymmetricEigenAnalysisImageFilter() {}
   virtual ~SymmetricEigenAnalysisImageFilter() {}
+
 private:
   SymmetricEigenAnalysisImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);                    //purposely not implemented

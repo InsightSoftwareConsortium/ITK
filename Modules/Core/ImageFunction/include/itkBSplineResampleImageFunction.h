@@ -88,6 +88,7 @@ public:
 protected:
   BSplineResampleImageFunction() {}
   virtual ~BSplineResampleImageFunction() {}
+
 private:
   BSplineResampleImageFunction(const Self &); //purposely not implemented
 };
