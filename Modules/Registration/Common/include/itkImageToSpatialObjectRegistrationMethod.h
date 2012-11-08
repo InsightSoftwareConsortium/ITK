@@ -210,6 +210,7 @@ protected:
 
   ParametersType m_InitialTransformParameters;
   ParametersType m_LastTransformParameters;
+
 private:
   ImageToSpatialObjectRegistrationMethod(const Self &); //purposely not
                                                         // implemented

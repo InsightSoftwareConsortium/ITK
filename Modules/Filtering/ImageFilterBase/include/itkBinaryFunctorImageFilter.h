@@ -167,6 +167,7 @@ public:
                                              itkGetStaticConstMacro(OutputImageDimension) > ) );
   /** End concept checking */
 #endif
+
 protected:
   BinaryFunctorImageFilter();
   virtual ~BinaryFunctorImageFilter() {}

@@ -254,6 +254,7 @@ public:
 
   /** Copy constructor. */
   Matrix(const Self & matrix):m_Matrix(matrix.m_Matrix) {}
+
 private:
   InternalMatrixType m_Matrix;
 };

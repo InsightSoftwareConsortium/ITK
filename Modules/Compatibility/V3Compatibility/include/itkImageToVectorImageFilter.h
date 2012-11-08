@@ -88,6 +88,7 @@ public:
   // Check if the pixeltype is a scalar, (native pixel type).
   /** End concept checking */
 #endif
+
 protected:
   ImageToVectorImageFilter();
 

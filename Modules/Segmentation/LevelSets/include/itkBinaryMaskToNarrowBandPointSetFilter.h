@@ -135,6 +135,7 @@ public:
       the full narrow band will be double of this value. */
   itkSetMacro(BandWidth, float);
   itkGetConstMacro(BandWidth, float);
+
 protected:
   BinaryMaskToNarrowBandPointSetFilter();
   ~BinaryMaskToNarrowBandPointSetFilter();

@@ -206,6 +206,7 @@ public:
                    ( Concept::HasNumericTraits< PixelComponentType > ) );
   /** End concept checking */
 #endif
+
 protected:
   VectorResampleImageFilter();
   ~VectorResampleImageFilter() {}

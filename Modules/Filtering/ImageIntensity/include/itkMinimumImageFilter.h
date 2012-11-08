@@ -110,9 +110,11 @@ public:
                                                   typename TInputImage2::PixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   MinimumImageFilter() {}
   virtual ~MinimumImageFilter() {}
+
 private:
   MinimumImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);     //purposely not implemented

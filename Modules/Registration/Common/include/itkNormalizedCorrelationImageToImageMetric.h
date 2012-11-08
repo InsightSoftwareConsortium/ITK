@@ -91,6 +91,7 @@ public:
   itkSetMacro(SubtractMean, bool);
   itkGetConstReferenceMacro(SubtractMean, bool);
   itkBooleanMacro(SubtractMean);
+
 protected:
   NormalizedCorrelationImageToImageMetric();
   virtual ~NormalizedCorrelationImageToImageMetric() {}

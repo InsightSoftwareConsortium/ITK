@@ -151,6 +151,7 @@ public:
                    ( Concept::HasPixelTraits< OutputPixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
 
   HessianRecursiveGaussianImageFilter();

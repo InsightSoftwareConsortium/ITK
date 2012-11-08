@@ -88,7 +88,6 @@ public:
     this->SetAttribute( LabelObjectType::GetAttributeFromName( s ) );
     }
 
-
 protected:
   ShapePositionLabelMapFilter();
   ~ShapePositionLabelMapFilter() {};

@@ -84,6 +84,7 @@ public:
 
   typedef QuadEdgeMeshEulerOperatorJoinVertexFunction< OutputMeshType, OutputQEType > OperatorType;
   typedef typename OperatorType::Pointer                                              OperatorPointer;
+
 protected:
 
   EdgeDecimationQuadEdgeMeshFilter();

@@ -322,6 +322,7 @@ public:
                    ( Concept::OStreamWritable< typename TOutputImage::PixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   SparseFieldLevelSetImageFilter();
   ~SparseFieldLevelSetImageFilter();
@@ -492,6 +493,7 @@ protected:
 
   const InputImageType *m_InputImage;
   OutputImageType      *m_OutputImage;
+
 private:
   SparseFieldLevelSetImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);                 //purposely not implemented

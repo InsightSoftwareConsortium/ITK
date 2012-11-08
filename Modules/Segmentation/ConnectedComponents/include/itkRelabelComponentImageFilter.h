@@ -237,6 +237,7 @@ public:
                    ( Concept::SameDimension< InputImageDimension, ImageDimension > ) );
   /** End concept checking */
 #endif
+
 protected:
 
   RelabelComponentImageFilter():
@@ -291,6 +292,7 @@ public:
         }
     }
   };
+
 private:
   RelabelComponentImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &); //purposely not implemented

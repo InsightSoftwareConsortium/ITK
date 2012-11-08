@@ -240,6 +240,7 @@ class SimpleImageToSpatialObjectMetric :
   public itk::ImageToSpatialObjectMetric<TFixedImage,TMovingSpatialObject>
 {
 //  Software Guide : EndCodeSnippet
+
 public:
   /** Standard class typedefs. */
   typedef SimpleImageToSpatialObjectMetric  Self;

@@ -101,6 +101,7 @@ public:
 
   /** Destructor */
   virtual ~ConditionalConstIterator();
+
 protected: //made protected so other iterators can access
   /** Smart pointer to the source image. */
   //SmartPointer<const ImageType> m_Image;

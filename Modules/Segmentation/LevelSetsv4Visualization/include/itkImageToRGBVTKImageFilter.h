@@ -69,6 +69,7 @@ public:
 protected:
   ImageToRGBVTKImageFilter();
   virtual ~ImageToRGBVTKImageFilter();
+
 private:
   ImageToRGBVTKImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);        //purposely not implemented

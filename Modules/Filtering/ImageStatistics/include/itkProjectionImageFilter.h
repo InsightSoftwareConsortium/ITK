@@ -101,6 +101,7 @@ public:
    * before the update of the filter. Defaults to the last dimension. */
   itkSetMacro(ProjectionDimension, unsigned int);
   itkGetConstReferenceMacro(ProjectionDimension, unsigned int);
+
 protected:
   ProjectionImageFilter();
   virtual ~ProjectionImageFilter() {}

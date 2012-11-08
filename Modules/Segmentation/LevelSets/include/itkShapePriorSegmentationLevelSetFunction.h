@@ -135,6 +135,7 @@ public:
   /** Release the global data structure. */
   virtual void ReleaseGlobalDataPointer(void *GlobalData) const
   { delete (ShapePriorGlobalDataStruct *)GlobalData; }
+
 protected:
   ShapePriorSegmentationLevelSetFunction();
   virtual ~ShapePriorSegmentationLevelSetFunction() {}

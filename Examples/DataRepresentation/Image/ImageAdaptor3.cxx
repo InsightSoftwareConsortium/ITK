@@ -82,6 +82,7 @@ public:
     {
     m_Index = index;
     }
+
 private:
   unsigned int m_Index;
 };

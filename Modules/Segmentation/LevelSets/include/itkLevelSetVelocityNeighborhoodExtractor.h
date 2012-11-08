@@ -122,6 +122,7 @@ public:
   /** Get the container of auxiliary values associate with the outside
    *  points. */
   itkGetObjectMacro(AuxOutsideValues, AuxValueContainer);
+
 protected:
   LevelSetVelocityNeighborhoodExtractor();
   ~LevelSetVelocityNeighborhoodExtractor(){}

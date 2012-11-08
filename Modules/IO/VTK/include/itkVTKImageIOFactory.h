@@ -68,6 +68,7 @@ public:
 protected:
   VTKImageIOFactory();
   ~VTKImageIOFactory();
+
 private:
   VTKImageIOFactory(const Self &); //purposely not implemented
   void operator=(const Self &);    //purposely not implemented

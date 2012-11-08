@@ -92,9 +92,11 @@ public:
                    ( Concept::Convertible< double, typename TOutputImage::PixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   TanImageFilter() {}
   virtual ~TanImageFilter() {}
+
 private:
   TanImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &); //purposely not implemented

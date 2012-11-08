@@ -60,6 +60,7 @@ public:
 protected:
   TxtTransformIO();
   virtual ~TxtTransformIO();
+
 private:
   /** trim spaces and newlines from start and end of a string */
   std::string trim(std::string const & source, char const *delims = " \t\r\n");

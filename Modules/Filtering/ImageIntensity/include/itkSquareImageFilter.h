@@ -93,9 +93,11 @@ public:
                    ( Concept::MultiplyOperator< typename NumericTraits< typename TInputImage::PixelType >::RealType > ) );
   /** End concept checking */
 #endif
+
 protected:
   SquareImageFilter() {}
   virtual ~SquareImageFilter() {}
+
 private:
   SquareImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);    //purposely not implemented

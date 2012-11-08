@@ -85,6 +85,7 @@ public:
   itkGetConstReferenceMacro(CachedValue, MeasureType);
   itkGetConstReferenceMacro(CachedDerivative, DerivativeType);
   itkGetConstReferenceMacro(CachedCurrentPosition, ParametersType);
+
 protected:
   MultipleValuedNonLinearVnlOptimizer();
   virtual ~MultipleValuedNonLinearVnlOptimizer();
@@ -108,6 +109,7 @@ protected:
    * the limitation of VNL optimizers not offering callbacks for every
    * iteration */
   typedef ReceptorMemberCommand< Self > CommandType;
+
 private:
   MultipleValuedNonLinearVnlOptimizer(const Self &); //purposely not implemented
   void operator=(const Self &);                      //purposely not implemented

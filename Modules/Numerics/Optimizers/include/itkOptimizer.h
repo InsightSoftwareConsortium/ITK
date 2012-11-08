@@ -96,6 +96,7 @@ protected:
   // have fast access.  This is important when optimizing high-dimensional
   // spaces, e.g. bspline transforms.
   ParametersType m_CurrentPosition;
+
 private:
   Optimizer(const Self &);      //purposely not implemented
   void operator=(const Self &); //purposely not implemented

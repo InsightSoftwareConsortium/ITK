@@ -54,6 +54,7 @@ public:
   typedef typename CriterionType::PriorityQueueWrapperType PriorityQueueItemType;
 
   itkSetObjectMacro(Criterion, CriterionType);
+
 protected:
   DecimationQuadEdgeMeshFilter()
   {

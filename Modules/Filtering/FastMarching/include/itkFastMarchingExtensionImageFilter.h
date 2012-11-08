@@ -128,6 +128,7 @@ public:
                    ( Concept::HasNumericTraits< TAuxValue > ) );
   /** End concept checking */
 #endif
+
 protected:
   FastMarchingExtensionImageFilter();
   ~FastMarchingExtensionImageFilter(){}

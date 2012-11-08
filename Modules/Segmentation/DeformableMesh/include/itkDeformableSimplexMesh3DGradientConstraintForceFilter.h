@@ -145,6 +145,7 @@ public:
    * Set Original image
    */
   itkSetConstObjectMacro(Image, OriginalImageType);
+
 protected:
   DeformableSimplexMesh3DGradientConstraintForceFilter();
   ~DeformableSimplexMesh3DGradientConstraintForceFilter();
@@ -161,6 +162,7 @@ protected:
    * Range of search for Bresenham algorithm (normal line at each vertex)
    */
   int m_Range;
+
 private:
   double NextVoxel(const double *pp, int *ic, double *x, double *y, double *z);
 

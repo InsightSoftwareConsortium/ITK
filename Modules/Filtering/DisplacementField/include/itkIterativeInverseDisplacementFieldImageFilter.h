@@ -107,6 +107,7 @@ public:
                    ( Concept::HasNumericTraits< OutputImageValueType > ) );
   /** End concept checking */
 #endif
+
 protected:
   IterativeInverseDisplacementFieldImageFilter();
   ~IterativeInverseDisplacementFieldImageFilter() {}
@@ -119,6 +120,7 @@ protected:
 
   double m_StopValue;
   double m_Time;
+
 private:
   IterativeInverseDisplacementFieldImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);                              //purposely not implemented

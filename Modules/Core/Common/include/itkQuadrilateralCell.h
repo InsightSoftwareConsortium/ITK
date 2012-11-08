@@ -115,6 +115,7 @@ public:
   }
 
   ~QuadrilateralCell() {}
+
 protected:
   /** Store the number of points needed for a quadrilateral. */
   PointIdentifier m_PointIds[NumberOfPoints];
@@ -123,6 +124,7 @@ protected:
   void InterpolationFunctions(CoordRepType pcoords[2], InterpolationWeightType sf[4]);
   void EvaluateLocation(int &itkNotUsed(subId), PointsContainer * points, CoordRepType pcoords[2],
                         CoordRepType x[2], InterpolationWeightType * weights);
+
 private:
   QuadrilateralCell(const Self &); //purposely not implemented
   void operator=(const Self &);    //purposely not implemented

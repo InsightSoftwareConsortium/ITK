@@ -82,6 +82,7 @@ public:
   SpatialFunctionDataObjectType;
   typedef typename SpatialFunctionDataObjectType::Pointer
   SpatialFunctionDataObjectPointer;
+
 protected:
   InteriorExteriorMeshFilter();
   ~InteriorExteriorMeshFilter() {}
@@ -92,6 +93,7 @@ protected:
 
   /** Transform applied to all the mesh points. */
   typename SpatialFunctionType::Pointer m_SpatialFunction;
+
 private:
   InteriorExteriorMeshFilter(const InteriorExteriorMeshFilter &); //purposely
                                                                   // not

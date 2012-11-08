@@ -95,6 +95,7 @@ public:
 
   ImageType * GetCannyImage()
   { return m_Canny->GetOutput(); }
+
 protected:
   CannySegmentationLevelSetFunction()
   {

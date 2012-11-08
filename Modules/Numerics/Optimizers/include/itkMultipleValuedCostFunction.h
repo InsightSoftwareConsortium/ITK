@@ -75,6 +75,7 @@ public:
 protected:
   MultipleValuedCostFunction() {}
   virtual ~MultipleValuedCostFunction() {}
+
 private:
   MultipleValuedCostFunction(const Self &); //purposely not implemented
   void operator=(const Self &);             //purposely not implemented

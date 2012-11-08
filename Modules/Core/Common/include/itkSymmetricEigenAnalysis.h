@@ -174,6 +174,7 @@ public:
   /** Get Matrix dimension, Will be 0 unless explicitly set by a
    * call to SetDimension. */
   unsigned int GetDimension() const { return m_Dimension; }
+
 private:
   unsigned int        m_Dimension;
   unsigned int        m_Order;

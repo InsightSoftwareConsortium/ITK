@@ -91,6 +91,7 @@ public:
                                 CoordRepType[],
                                 double *,
                                 InterpolationWeightType *);
+
 public:
   VertexCell()
   {
@@ -101,11 +102,13 @@ public:
   }
 
   ~VertexCell() {}
+
 protected:
   /**
    * Store the number of points needed for a vertex.
    */
   PointIdentifier m_PointIds[NumberOfPoints];
+
 private:
   VertexCell(const Self &);     //purposely not implemented
   void operator=(const Self &); //purposely not implemented

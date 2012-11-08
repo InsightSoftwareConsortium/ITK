@@ -91,6 +91,7 @@ public:
    */
   itkSetMacro(TransformDirection, TransformDirectionType);
   itkGetConstMacro(TransformDirection, TransformDirectionType);
+
 protected:
   FFTComplexToComplexImageFilter() {}
   virtual ~FFTComplexToComplexImageFilter(){}

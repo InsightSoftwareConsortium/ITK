@@ -132,6 +132,7 @@ public:
   }
 
   itkGetConstMacro(FixedAverageGradientMagnitude, double);
+
 protected:
   AnisotropicDiffusionImageFilter();
   ~AnisotropicDiffusionImageFilter() {}
@@ -145,6 +146,7 @@ protected:
   virtual void InitializeIteration();
 
   bool m_GradientMagnitudeIsFixed;
+
 private:
   AnisotropicDiffusionImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);                  //purposely not implemented

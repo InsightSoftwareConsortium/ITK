@@ -61,6 +61,7 @@ public:
 protected:
   DICOMImageIO2Factory();
   ~DICOMImageIO2Factory();
+
 private:
   DICOMImageIO2Factory(const Self &); //purposely not implemented
   void operator=(const Self &);       //purposely not implemented

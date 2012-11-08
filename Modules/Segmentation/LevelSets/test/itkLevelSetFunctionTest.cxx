@@ -170,7 +170,6 @@ public:
         ->SetDistanceTransform(im);
     }
 
-
 protected:
   ~MorphFilter() {}
   MorphFilter()

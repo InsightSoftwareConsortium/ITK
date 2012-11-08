@@ -85,6 +85,7 @@ public:
                                        NodeIDType n3_,
                                        NodeIDType n4_,
                                        Material::ConstPointer p_);
+
 protected:
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
 

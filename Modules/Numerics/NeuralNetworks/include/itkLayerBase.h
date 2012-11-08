@@ -37,7 +37,6 @@ namespace Statistics
 template<class TMeasurementVector, class TTargetVector>
 class LayerBase : public LightProcessObject
 {
-
 public:
   typedef LayerBase                Self;
   typedef LightProcessObject       Superclass;

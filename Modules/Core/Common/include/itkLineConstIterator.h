@@ -145,6 +145,7 @@ public:
 
   /** Default Destructor. */
   virtual ~LineConstIterator() {}
+
 protected: //made protected so other iterators can access
   /** Smart pointer to the source image. */
   typename ImageType::ConstWeakPointer m_Image;

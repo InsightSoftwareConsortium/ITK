@@ -167,6 +167,7 @@ public:
                    ( Concept::SameDimension< ImageDimension, PixelDimension > ) );
   /** End concept checking */
 #endif
+
 protected:
   TransformToDisplacementFieldSource(void);
   ~TransformToDisplacementFieldSource(void) {}

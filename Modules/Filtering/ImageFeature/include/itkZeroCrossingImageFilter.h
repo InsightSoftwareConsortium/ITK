@@ -126,6 +126,7 @@ public:
                    ( Concept::OStreamWritable< OutputImagePixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   ZeroCrossingImageFilter()
   {
@@ -152,6 +153,7 @@ protected:
    */
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
                             ThreadIdType threadId);
+
 private:
   ZeroCrossingImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &); //purposely not implemented

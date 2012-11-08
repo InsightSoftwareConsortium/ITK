@@ -93,6 +93,7 @@ public:
   itkSetMacro(ComputeRotation, bool);
   itkGetMacro(ComputeRotation, bool);
   itkBooleanMacro(ComputeRotation);
+
 protected:
   CenteredVersorTransformInitializer();
   ~CenteredVersorTransformInitializer(){}

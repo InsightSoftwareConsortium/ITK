@@ -62,6 +62,7 @@ public:
   /** Type definitions for the training image. */
   typedef          TInputImage          InputImageType;
   typedef typename TInputImage::Pointer InputImagePointer;
+
 protected:
   ImageShapeModelEstimatorBase();
   ~ImageShapeModelEstimatorBase();

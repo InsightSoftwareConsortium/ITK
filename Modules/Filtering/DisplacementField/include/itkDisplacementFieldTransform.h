@@ -419,6 +419,7 @@ protected:
   /** Create an identity jacobian for use in
    * ComputeJacobianWithRespectToParameters. */
   JacobianType m_IdentityJacobian;
+
 private:
   DisplacementFieldTransform( const Self & ); // purposely not implemented
   void operator=( const Self & );             // purposely not implemented

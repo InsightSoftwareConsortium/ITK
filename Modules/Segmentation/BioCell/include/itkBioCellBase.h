@@ -58,6 +58,7 @@ public:
     Gap0,
     Apop
   };
+
 protected:
   CellBase();
   virtual ~CellBase();
@@ -122,6 +123,7 @@ protected:
   static double DefaultRadius;
   static double GrowthRadiusLimit;
   static double GrowthRadiusIncrement;
+
 public:
 
   virtual bool MarkedForRemoval(void) const;

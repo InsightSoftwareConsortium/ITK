@@ -153,6 +153,7 @@ public:
                    ( Concept::HasNumericTraits< typename TInputImage::PixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   InterpolateImagePointsFilter();
   // ~InterpolateImagePointsFilter(){} default implemnetation ok

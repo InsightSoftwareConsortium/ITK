@@ -126,9 +126,11 @@ public:
                    ( Concept::GreaterThanComparable< double, typename TOutputImage::PixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   ConstrainedValueDifferenceImageFilter() {}
   virtual ~ConstrainedValueDifferenceImageFilter() {}
+
 private:
   ConstrainedValueDifferenceImageFilter(const Self &); //purposely not
                                                        // implemented

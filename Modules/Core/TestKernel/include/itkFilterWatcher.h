@@ -126,6 +126,7 @@ public:
   void QuietOff() {m_Quiet = false;}
   void TestAbortOn() {m_TestAbort = true;}
   void TestAbortOff() {m_TestAbort = false;}
+
 protected:
   clock_t m_Start;
   clock_t m_End;
@@ -136,6 +137,7 @@ protected:
 
   std::string                 m_Comment;
   itk::ProcessObject::Pointer m_Process;
+
 private:
   FilterWatcher(); // Purposely not implemented
 };

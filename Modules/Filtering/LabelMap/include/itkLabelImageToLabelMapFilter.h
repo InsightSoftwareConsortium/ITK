@@ -97,6 +97,7 @@ public:
   itkConceptMacro( SameDimensionCheck,
                    ( Concept::SameDimension< InputImageDimension, OutputImageDimension > ) );
 #endif
+
 protected:
   LabelImageToLabelMapFilter();
   ~LabelImageToLabelMapFilter() {}

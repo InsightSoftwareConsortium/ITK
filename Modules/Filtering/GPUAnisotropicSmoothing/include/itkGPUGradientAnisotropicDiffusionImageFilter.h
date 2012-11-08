@@ -74,6 +74,7 @@ public:
                    ( Concept::HasNumericTraits< typename UpdateBufferType::PixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   GPUGradientAnisotropicDiffusionImageFilter()
   {
@@ -85,6 +86,7 @@ protected:
 
   ~GPUGradientAnisotropicDiffusionImageFilter() {
   }
+
 private:
   GPUGradientAnisotropicDiffusionImageFilter(const Self &); //purposely not
                                                             // implemented

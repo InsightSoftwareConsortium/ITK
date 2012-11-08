@@ -184,6 +184,7 @@ protected:
   TimeStampFormatType m_TimeStampFormat;
 
   std::string m_HumanReadableFormat;
+
 private:
 
   std::string m_Name;

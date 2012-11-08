@@ -148,6 +148,7 @@ public:
                    ( Concept::IsFloatingPoint< InputImagePixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   ZeroCrossingBasedEdgeDetectionImageFilter()
   {

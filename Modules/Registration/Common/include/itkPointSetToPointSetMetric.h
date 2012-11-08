@@ -136,6 +136,7 @@ protected:
   MovingPointSetConstPointer m_MovingPointSet;
 
   mutable TransformPointer m_Transform;
+
 private:
   PointSetToPointSetMetric(const Self &); //purposely not implemented
   void operator=(const Self &);           //purposely not implemented

@@ -72,6 +72,7 @@ public:
   typedef typename HistogramType::AbsoluteFrequencyType HistogramFrequencyType;
   typedef typename HistogramType::Iterator              HistogramIteratorType;
   typedef typename HistogramType::MeasurementVectorType HistogramMeasurementVectorType;
+
 protected:
   /** Constructor is protected to ensure that \c New() function is used to
       create instances. */

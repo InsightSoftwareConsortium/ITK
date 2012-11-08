@@ -69,6 +69,7 @@ protected:
   GPUScalarAnisotropicDiffusionFunction();
   ~GPUScalarAnisotropicDiffusionFunction() {
   }
+
 private:
   GPUScalarAnisotropicDiffusionFunction(const Self &); //purposely not
                                                        // implemented

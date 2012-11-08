@@ -159,6 +159,7 @@ public:
                    ( Concept::OStreamWritable< typename TInputImage::PixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   AntiAliasBinaryImageFilter();
   ~AntiAliasBinaryImageFilter() {}

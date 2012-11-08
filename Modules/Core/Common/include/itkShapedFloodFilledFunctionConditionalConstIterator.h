@@ -223,6 +223,7 @@ public:
   {
     return m_Seeds;
   }
+
 protected: //made protected so other iterators can access
   /** Smart pointer to the function we're evaluating */
   SmartPointer< FunctionType > m_Function;

@@ -75,6 +75,7 @@ public:
   /** Set/Get the major radius of the torus. */
   itkGetConstMacro(MinorRadius, double);
   itkSetMacro(MinorRadius, double);
+
 protected:
   TorusInteriorExteriorSpatialFunction();
   virtual ~TorusInteriorExteriorSpatialFunction();

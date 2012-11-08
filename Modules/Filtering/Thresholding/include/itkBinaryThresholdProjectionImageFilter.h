@@ -144,6 +144,7 @@ public:
                    ( Concept::HasNumericTraits< InputPixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   BinaryThresholdProjectionImageFilter()
   {
@@ -195,6 +196,7 @@ protected:
 
   /** Pixel value for input Threshold */
   InputPixelType m_ThresholdValue;
+
 private:
   //purposely not implemented
   BinaryThresholdProjectionImageFilter(const Self &);

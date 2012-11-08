@@ -75,6 +75,7 @@ public:
    * possible (input->NumberOfSteps()/2) will be calculated, but at least 2
    * harmonics will always be calculated.*/
   itkSetMacro(NumberOfHarmonics, unsigned int)
+
 protected:
   ChainCodeToFourierSeriesPathFilter();
   virtual ~ChainCodeToFourierSeriesPathFilter() {}

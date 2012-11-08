@@ -97,6 +97,7 @@ public:
                    ( Concept::SameDimension< InputImageDimension, OutputImageDimension > ) );
   /** End concept checking */
 #endif
+
 protected:
   CropImageFilter()
   {

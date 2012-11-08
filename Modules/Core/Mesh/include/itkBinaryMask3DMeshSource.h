@@ -156,6 +156,7 @@ protected:
   RegionType m_RegionOfInterest;
 
   virtual void GenerateOutputInformation(){}  // do nothing
+
 private:
   BinaryMask3DMeshSource(const Self &); //purposely not implemented
   void operator=(const Self &);         //purposely not implemented

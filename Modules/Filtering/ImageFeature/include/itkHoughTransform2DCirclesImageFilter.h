@@ -159,6 +159,7 @@ public:
                    ( Concept::DivisionOperators< TOutputPixelType, int > ) );
   /** End concept checking */
 #endif
+
 protected:
 
   HoughTransform2DCirclesImageFilter();
@@ -176,6 +177,7 @@ protected:
    * EnlargeOutputRequestedRegion.
    * \sa ProcessObject::EnlargeOutputRequestedRegion() */
   void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) );
+
 private:
 
   HoughTransform2DCirclesImageFilter(const Self &);

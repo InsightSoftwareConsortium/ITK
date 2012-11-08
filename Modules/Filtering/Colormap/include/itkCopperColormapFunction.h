@@ -63,6 +63,7 @@ public:
 protected:
   CopperColormapFunction() {}
   ~CopperColormapFunction() {}
+
 private:
   CopperColormapFunction(const Self &); //purposely not implemented
   void operator=(const Self &);        //purposely not implemented

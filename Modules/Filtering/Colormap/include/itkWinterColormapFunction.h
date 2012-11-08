@@ -64,6 +64,7 @@ public:
 protected:
   WinterColormapFunction() {}
   ~WinterColormapFunction() {}
+
 private:
   WinterColormapFunction(const Self &); //purposely not implemented
   void operator=(const Self &);        //purposely not implemented

@@ -97,6 +97,7 @@ public:
   /** Returns the time step. */
   TimeStepType GetTimeStep() const
   { return m_TimeStep; }
+
 protected:
   NormalVectorFunctionBase();
   ~NormalVectorFunctionBase() {}

@@ -113,9 +113,11 @@ public:
                    ( Concept::NotOperator< typename TInputImage::PixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   NotImageFilter() {}
   virtual ~NotImageFilter() {}
+
 private:
   NotImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &); //purposely not implemented

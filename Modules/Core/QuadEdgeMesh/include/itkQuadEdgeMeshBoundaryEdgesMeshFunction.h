@@ -62,6 +62,7 @@ public:
 
 protected:
   QuadEdgeMeshBoundaryEdgesMeshFunction() {}
+
 private:
   QuadEdgeMeshBoundaryEdgesMeshFunction(const Self &); //purposely not
                                                        // implemented

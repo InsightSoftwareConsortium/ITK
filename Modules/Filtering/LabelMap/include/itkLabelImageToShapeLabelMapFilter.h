@@ -122,6 +122,7 @@ public:
   itkSetMacro(ComputePerimeter, bool);
   itkGetConstReferenceMacro(ComputePerimeter, bool);
   itkBooleanMacro(ComputePerimeter);
+
 protected:
   LabelImageToShapeLabelMapFilter();
   ~LabelImageToShapeLabelMapFilter() {}

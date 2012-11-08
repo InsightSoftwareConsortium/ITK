@@ -63,6 +63,7 @@ public:
   /** Set the direction in which to reflect the data. */
   itkGetConstMacro(AveragedOutDimension, unsigned int);
   itkSetMacro(AveragedOutDimension, unsigned int);
+
 protected:
   GetAverageSliceImageFilter();
   virtual ~GetAverageSliceImageFilter() {}

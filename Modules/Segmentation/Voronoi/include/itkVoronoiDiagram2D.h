@@ -255,6 +255,7 @@ public:
   }
 
   int GetEdgeLineID(int id){ return m_EdgeList[id].m_LineID; }
+
 protected:
   VoronoiDiagram2D();
   ~VoronoiDiagram2D();

@@ -24,6 +24,7 @@ template <class T>
 class victor
 {
   T data[256];
+
 public:
   victor() {}
   T &operator[](unsigned i) { return data[i]; }

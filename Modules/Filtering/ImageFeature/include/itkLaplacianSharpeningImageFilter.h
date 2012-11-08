@@ -120,6 +120,7 @@ protected:
   void GenerateData();
 
   void PrintSelf(std::ostream &, Indent) const;
+
 private:
   LaplacianSharpeningImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);                 //purposely not implemented

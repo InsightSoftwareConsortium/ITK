@@ -172,6 +172,7 @@ protected:
 
   /** Return the computed area. */
   itkGetConstMacro(Area, double);
+
 protected:
   SimplexMeshVolumeCalculator();
   virtual ~SimplexMeshVolumeCalculator();

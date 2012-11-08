@@ -93,6 +93,7 @@ protected:
                              ThreadIdType threadId);
 
   InputImagePixelType m_Boundary1, m_Boundary2;
+
 private:
   AnchorOpenCloseImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);             //purposely not implemented

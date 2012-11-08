@@ -328,6 +328,7 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const;
 
   virtual ~VectorImage() {}
+
 private:
   VectorImage(const Self &);    // purposely not implementated
   void operator=(const Self &); //purposely not implemented

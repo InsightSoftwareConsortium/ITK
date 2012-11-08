@@ -65,6 +65,7 @@ public:
 protected:
   VoxBoCUBImageIOFactory();
   ~VoxBoCUBImageIOFactory();
+
 private:
   VoxBoCUBImageIOFactory(const Self &); //purposely not implemented
   void operator=(const Self &);         //purposely not implemented

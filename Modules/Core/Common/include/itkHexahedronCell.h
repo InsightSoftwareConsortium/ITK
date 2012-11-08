@@ -116,6 +116,7 @@ public:
 
   /** Visitor interface */
   itkCellVisitMacro(Superclass::HEXAHEDRON_CELL);
+
 protected:
   /** Store the number of points needed for a hexahedron. */
   PointIdentifier m_PointIds[NumberOfPoints];
@@ -124,6 +125,7 @@ protected:
   void InterpolationFunctions(CoordRepType pcoords[3], InterpolationWeightType sf[8]);
   void EvaluateLocation(int &itkNotUsed(subId), PointsContainer * points, CoordRepType pcoords[3],
                         CoordRepType x[3], InterpolationWeightType * weights);
+
 public:
   HexahedronCell()
   {
@@ -134,6 +136,7 @@ public:
   }
 
   ~HexahedronCell() {}
+
 private:
   HexahedronCell(const Self &); //purposely not implemented
   void operator=(const Self &); //purposely not implemented

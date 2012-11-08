@@ -68,6 +68,7 @@ public:
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ParametricSpaceToImageSpaceMeshFilter, MeshToMeshFilter);
+
 protected:
   ParametricSpaceToImageSpaceMeshFilter();
   ~ParametricSpaceToImageSpaceMeshFilter() {}

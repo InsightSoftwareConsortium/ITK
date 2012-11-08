@@ -103,6 +103,7 @@ public:
                    ( Concept::OStreamWritable< PixelType > ) );
   /** Begin concept checking */
 #endif
+
 protected:
   TwoOutputExampleImageFilter();
   ~TwoOutputExampleImageFilter() {}

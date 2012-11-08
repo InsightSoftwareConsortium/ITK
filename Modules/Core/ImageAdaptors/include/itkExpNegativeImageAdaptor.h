@@ -86,9 +86,11 @@ public:
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ExpNegativeImageAdaptor, ImageAdaptor);
+
 protected:
   ExpNegativeImageAdaptor() {}
   virtual ~ExpNegativeImageAdaptor() {}
+
 private:
   ExpNegativeImageAdaptor(const Self &); //purposely not implemented
   void operator=(const Self &);          //purposely not implemented

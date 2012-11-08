@@ -110,6 +110,7 @@ public:
   /** Set/Get direction along the gradient to search. */
   itkGetConstMacro(Polarity, bool);
   itkSetMacro(Polarity, bool);
+
 protected:
   ConicShellInteriorExteriorSpatialFunction();
   virtual ~ConicShellInteriorExteriorSpatialFunction();

@@ -115,6 +115,7 @@ protected:
 
   itkGetConstMacro(ZeroOffset, OffsetType);
   itkGetConstMacro(ZeroIndex, IndexType);
+
 private:
   Path(const Self &);           //purposely not implemented
   void operator=(const Self &); //purposely not implemented

@@ -151,6 +151,7 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const;
 
   typedef Superclass::CostFunctionAdaptorType CostFunctionAdaptorType;
+
 private:
   /**Check that the settings are valid. If not throw an exception.*/
   void ValidateSettings();

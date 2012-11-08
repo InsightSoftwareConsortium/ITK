@@ -135,6 +135,7 @@ public:
   itkSetMacro(UseInternalCopy, bool);
   itkGetConstReferenceMacro(UseInternalCopy, bool);
   itkBooleanMacro(UseInternalCopy);
+
 protected:
   ReconstructionImageFilter();
   ~ReconstructionImageFilter() {}
@@ -154,6 +155,7 @@ protected:
    * the value of the border - used in boundary condition.
    */
   typename TInputImage::PixelType m_MarkerValue;
+
 private:
   ReconstructionImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);            //purposely not implemented

@@ -118,6 +118,7 @@ public:
   itkSetMacro(Complement, bool);
   itkBooleanMacro(Complement);
   itkGetConstMacro(Complement, bool);
+
 protected:
   KappaStatisticImageToImageMetric();
   virtual ~KappaStatisticImageToImageMetric() {}

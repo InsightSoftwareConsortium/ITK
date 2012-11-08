@@ -103,6 +103,7 @@ protected:
   SizeValueType m_NumberOfElements;
 
   MeasureType m_MeasureBound;
+
 private:
   QuadEdgeMeshDecimationCriterion(const Self &);
   void operator=(const Self &);
@@ -152,6 +153,7 @@ public:
 protected:
   NumberOfPointsCriterion() {}
   ~NumberOfPointsCriterion() {}
+
 private:
   NumberOfPointsCriterion(const Self &);
   void operator=(const Self &);
@@ -202,6 +204,7 @@ public:
 protected:
   NumberOfFacesCriterion() {}
   ~NumberOfFacesCriterion() {}
+
 private:
   NumberOfFacesCriterion(const Self &);
   void operator=(const Self &);
@@ -252,6 +255,7 @@ public:
 protected:
   MaxMeasureBoundCriterion():Superclass() {}
   ~MaxMeasureBoundCriterion() {}
+
 private:
   MaxMeasureBoundCriterion(const Self &);
   void operator=(const Self &);
@@ -302,6 +306,7 @@ public:
 protected:
   MinMeasureBoundCriterion() {}
   ~MinMeasureBoundCriterion() {}
+
 private:
   MinMeasureBoundCriterion(const Self &);
   void operator=(const Self &);

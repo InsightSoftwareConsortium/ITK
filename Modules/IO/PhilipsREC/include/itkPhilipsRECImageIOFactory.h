@@ -70,6 +70,7 @@ public:
 protected:
   PhilipsRECImageIOFactory();
   ~PhilipsRECImageIOFactory();
+
 private:
   PhilipsRECImageIOFactory(const Self &); //purposely not implemented
   void operator=(const Self &);           //purposely not implemented

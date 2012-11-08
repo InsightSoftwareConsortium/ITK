@@ -69,6 +69,7 @@ public:
 protected:
   ScalarAnisotropicDiffusionFunction() {}
   ~ScalarAnisotropicDiffusionFunction() {}
+
 private:
   ScalarAnisotropicDiffusionFunction(const Self &); //purposely not implemented
   void operator=(const Self &);                     //purposely not implemented

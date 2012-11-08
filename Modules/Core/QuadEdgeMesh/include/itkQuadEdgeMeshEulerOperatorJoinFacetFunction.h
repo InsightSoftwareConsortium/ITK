@@ -56,6 +56,7 @@ public:
 protected:
   QuadEdgeMeshEulerOperatorJoinFacetFunction(){}
   ~QuadEdgeMeshEulerOperatorJoinFacetFunction(){}
+
 private:
   QuadEdgeMeshEulerOperatorJoinFacetFunction(const Self &); //purposely not
                                                             // implemented

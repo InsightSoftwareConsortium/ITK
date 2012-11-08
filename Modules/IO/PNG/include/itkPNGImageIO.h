@@ -89,6 +89,7 @@ protected:
   /** Determines the level of compression for written files.
    *  Range 0-9; 0 = none, 9 = maximum , default = 4 */
   int m_CompressionLevel;
+
 private:
   PNGImageIO(const Self &);     //purposely not implemented
   void operator=(const Self &); //purposely not implemented

@@ -249,6 +249,7 @@ protected:
   unsigned int m_DifferenceMatrixIndex;
   unsigned int m_SumMatrixIndex;
   unsigned int m_DiffMatrixBySolutionTMinus1Index;
+
 private:
   SolverCrankNicolson(const Self &); // purposely not implemented
   void operator=(const Self &);      // purposely not implemented

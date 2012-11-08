@@ -119,9 +119,9 @@ std::list<TestData*>                 InternalList;// used to delete the pointer 
 typedef itk::TreeContainer<NodeType> TreeType;
 
 class TreeChangeListener : public itk::Command {
-
 protected:
   TreeChangeListener(){};
+
 public:
 
   typedef TreeChangeListener             Self;

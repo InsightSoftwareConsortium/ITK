@@ -84,6 +84,7 @@ public:
   typedef typename Superclass::OutputVectorType          OutputVectorType;
   typedef typename Superclass::InputCovariantVectorType  InputCovariantVectorType;
   typedef typename Superclass::OutputCovariantVectorType OutputCovariantVectorType;
+
 protected:
   ElasticBodySplineKernelTransform();
   virtual ~ElasticBodySplineKernelTransform();
@@ -107,6 +108,7 @@ protected:
    * \f$ \alpha = 12 ( 1 - \nu ) - 1\f$
    */
   TScalarType m_Alpha;
+
 private:
   ElasticBodySplineKernelTransform(const Self &); //purposely not implemented
   void operator=(const Self &);                   //purposely not implemented

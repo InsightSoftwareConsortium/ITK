@@ -120,6 +120,7 @@ public:
 
   /** Get Gradient condition. */
   itkGetConstReferenceMacro(Gradient, DerivativeType);
+
 protected:
   GradientDescentOptimizer();
   virtual ~GradientDescentOptimizer() {}
@@ -131,6 +132,7 @@ protected:
   bool m_Maximize;
 
   double m_LearningRate;
+
 private:
   GradientDescentOptimizer(const Self &); //purposely not implemented
   void operator=(const Self &);           //purposely not implemented

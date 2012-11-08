@@ -137,10 +137,10 @@ public:
   //  Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
+
 protected:
   CommandIterationUpdate() {};
 // Software Guide : EndCodeSnippet
-
 
 public:
   //  Software Guide : BeginLatex

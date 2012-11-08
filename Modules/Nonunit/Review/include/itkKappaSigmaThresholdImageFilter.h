@@ -163,6 +163,7 @@ protected:
                       TInputImage::ImageDimension);
   itkStaticConstMacro(OutputImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
+
 private:
   KappaSigmaThresholdImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);                 //purposely not implemented

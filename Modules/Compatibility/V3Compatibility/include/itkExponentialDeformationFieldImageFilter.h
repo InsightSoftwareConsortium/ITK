@@ -135,6 +135,7 @@ public:
                    ( Concept::SameDimension< ImageDimension, OutputPixelDimension > ) );
   /** End concept checking */
 #endif
+
 protected:
   ExponentialDeformationFieldImageFilter();
   virtual ~ExponentialDeformationFieldImageFilter() {}
@@ -172,6 +173,7 @@ protected:
   typedef typename FieldInterpolatorType::Pointer    FieldInterpolatorPointer;
   typedef typename FieldInterpolatorType::OutputType FieldInterpolatorOutputType;
   typedef typename AdderType::Pointer                AdderPointer;
+
 private:
   ExponentialDeformationFieldImageFilter(const Self &); //purposely not
                                                         // implemented

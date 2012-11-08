@@ -82,6 +82,7 @@ public:
 
   itkSetMacro(Squareness1, double);
   itkSetMacro(Squareness2, double);
+
 protected:
   SphereMeshSource();
   ~SphereMeshSource() {}
@@ -102,6 +103,7 @@ protected:
   /** model squareness */
   double m_Squareness1;
   double m_Squareness2;
+
 private:
   SphereMeshSource(const Self &); //purposely not implemented
   void operator=(const Self &);   //purposely not implemented

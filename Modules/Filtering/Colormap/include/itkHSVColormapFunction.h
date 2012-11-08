@@ -64,6 +64,7 @@ public:
 protected:
   HSVColormapFunction() {}
   ~HSVColormapFunction() {}
+
 private:
   HSVColormapFunction(const Self &); //purposely not implemented
   void operator=(const Self &);     //purposely not implemented

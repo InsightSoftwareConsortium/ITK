@@ -203,6 +203,7 @@ public:
   enum { MRCHEADER_MAP_X = 1,
          MRCHEADER_MAP_Y = 2,
          MRCHEADER_MAP_Z = 3 };
+
 public:
 
   /** Method for creation through the object factory. */
@@ -253,6 +254,7 @@ public:
   /** Public avaiable data : FIXME : NO MEMBER VARIABLES SHOULD BE PUBLIC. */
   Header m_Header;                    // FIXME : This should be private and
                                       // should have Get/Set Methods.
+
 protected:
 
   MRCHeaderObject(void);

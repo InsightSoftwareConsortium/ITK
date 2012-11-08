@@ -130,6 +130,7 @@ public:
   itkGetConstMacro(UnsharpMaskingFlag, bool);
   itkSetMacro(UnsharpMaskingWeight, NodeValueType);
   itkGetConstMacro(UnsharpMaskingWeight, NodeValueType);
+
 protected:
   ImplicitManifoldNormalVectorFilter();
   ~ImplicitManifoldNormalVectorFilter() {}

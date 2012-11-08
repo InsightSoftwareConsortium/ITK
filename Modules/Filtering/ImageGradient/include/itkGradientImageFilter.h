@@ -143,6 +143,7 @@ public:
   itkSetMacro(UseImageDirection, bool);
   itkGetConstMacro(UseImageDirection, bool);
   itkBooleanMacro(UseImageDirection);
+
 protected:
   GradientImageFilter();
   virtual ~GradientImageFilter();

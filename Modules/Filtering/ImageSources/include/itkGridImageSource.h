@@ -112,6 +112,7 @@ public:
 
   itkSetMacro(Scale, RealType);
   itkGetConstReferenceMacro(Scale, RealType);
+
 protected:
   GridImageSource();
   // ~GridImageSource(){} default implementation ok

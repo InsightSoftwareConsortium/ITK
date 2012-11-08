@@ -133,6 +133,7 @@ public:
 
   /** Convenience method for debugging.   */
   //  void PrintHashTable();
+
 protected:
   EquivalencyTable()  {}
   virtual ~EquivalencyTable() {}

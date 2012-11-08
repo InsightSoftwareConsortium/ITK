@@ -259,6 +259,7 @@ public:
                    ( Concept::HasNumericTraits< RealType > ) );
   /** End concept checking */
 #endif
+
 protected:
   VectorGradientMagnitudeImageFilter();
   virtual ~VectorGradientMagnitudeImageFilter() {}
@@ -468,6 +469,7 @@ protected:
       square root */
   WeightsType m_ComponentWeights;
   WeightsType m_SqrtComponentWeights;
+
 private:
   bool m_UseImageSpacing;
   bool m_UsePrincipleComponents;

@@ -198,6 +198,7 @@ public:
 
   /** current iteration number */
   itkGetConstMacro(Step, int);
+
 protected:
   DeformableSimplexMesh3DFilter();
   ~DeformableSimplexMesh3DFilter();

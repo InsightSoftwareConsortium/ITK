@@ -64,6 +64,7 @@ public:
 protected:
   Command();
   ~Command();
+
 private:
   Command(const Self &);        //purposely not implemented
   void operator=(const Self &); //purposely not implemented
@@ -140,6 +141,7 @@ protected:
   TConstMemberFunctionPointer m_ConstMemberFunction;
   MemberCommand():m_MemberFunction(0), m_ConstMemberFunction(0) {}
   virtual ~MemberCommand(){}
+
 private:
   MemberCommand(const Self &);  //purposely not implemented
   void operator=(const Self &); //purposely not implemented
@@ -203,6 +205,7 @@ protected:
   TMemberFunctionPointer m_MemberFunction;
   ReceptorMemberCommand():m_MemberFunction(0) {}
   virtual ~ReceptorMemberCommand() {}
+
 private:
   ReceptorMemberCommand(const Self &); //purposely not implemented
   void operator=(const Self &);        //purposely not implemented
@@ -264,6 +267,7 @@ protected:
   TMemberFunctionPointer m_MemberFunction;
   SimpleMemberCommand():m_MemberFunction(0) {}
   virtual ~SimpleMemberCommand() {}
+
 private:
   SimpleMemberCommand(const Self &); //purposely not implemented
   void operator=(const Self &);      //purposely not implemented
@@ -325,6 +329,7 @@ protected:
   TMemberFunctionPointer m_MemberFunction;
   SimpleConstMemberCommand():m_MemberFunction(0) {}
   virtual ~SimpleConstMemberCommand() {}
+
 private:
   SimpleConstMemberCommand(const Self &); //purposely not implemented
   void operator=(const Self &);           //purposely not implemented

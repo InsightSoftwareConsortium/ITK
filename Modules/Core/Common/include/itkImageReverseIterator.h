@@ -105,6 +105,7 @@ public:
    * data, but it will NOT support ImageAdaptors. */
   PixelType & Value(void)
   { return *( this->m_Buffer + this->m_Offset ); }
+
 protected:
   /** the construction from a const iterator is declared protected
       in order to enforce const correctness. */

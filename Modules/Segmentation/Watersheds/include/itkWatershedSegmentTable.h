@@ -208,6 +208,7 @@ protected:
   HashMapType m_HashMap;
 
   ScalarType m_MaximumDepth;
+
 private:
   void operator=(const Self &) {}
 };

@@ -165,6 +165,7 @@ public:
 
   /** Set/Get the Transform. */
   itkSetObjectMacro(Transform, TransformType);
+
 protected:
 
   ImageToSpatialObjectMetric();

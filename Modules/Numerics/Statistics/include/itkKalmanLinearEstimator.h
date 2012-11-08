@@ -110,6 +110,7 @@ public:
    * \sa Variance */
   const MatrixType & GetVariance(void) const
   { return m_Variance; }
+
 private:
   /** This methods performs the update of the parameter's covariance matrix.
    * It is called by updateWithNewMeasure() method. Users are not expected to

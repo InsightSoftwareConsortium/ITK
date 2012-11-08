@@ -41,7 +41,6 @@ namespace itk
 template < unsigned int TDimension = 3>
 class ITK_EXPORT FEMObjectSpatialObject : public SpatialObject< TDimension >
 {
-
 public:
 
   typedef FEMObjectSpatialObject< TDimension > Self;

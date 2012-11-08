@@ -165,6 +165,7 @@ protected:
   TIFFReaderInternal *m_InternalImage;
 
   int m_Compression;
+
 private:
   TIFFImageIO(const Self &);    //purposely not implemented
   void operator=(const Self &); //purposely not implemented

@@ -132,9 +132,11 @@ public:
   }
 
   ~PolygonCell() {}
+
 protected:
   std::vector< EdgeInfo >        m_Edges;
   std::vector< PointIdentifier > m_PointIds;
+
 private:
   PolygonCell(const Self &);    //purposely not implemented
   void operator=(const Self &); //purposely not implemented

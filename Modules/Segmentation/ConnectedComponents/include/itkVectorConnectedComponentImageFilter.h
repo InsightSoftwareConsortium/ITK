@@ -131,9 +131,11 @@ public:
                    ( Concept::IsFloatingPoint< InputValueType > ) );
   /** End concept checking */
 #endif
+
 protected:
   VectorConnectedComponentImageFilter() {}
   virtual ~VectorConnectedComponentImageFilter() {}
+
 private:
   VectorConnectedComponentImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);                      //purposely not implemented

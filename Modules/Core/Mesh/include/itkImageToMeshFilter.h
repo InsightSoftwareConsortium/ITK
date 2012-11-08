@@ -85,6 +85,7 @@ public:
 protected:
   ImageToMeshFilter();
   ~ImageToMeshFilter();
+
 private:
   ImageToMeshFilter(const ImageToMeshFilter &); //purposely not implemented
   void operator=(const ImageToMeshFilter &);    //purposely not implemented

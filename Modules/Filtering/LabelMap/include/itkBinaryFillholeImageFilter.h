@@ -102,7 +102,6 @@ public:
    * maximum value of InputPixelType. */
   itkGetMacro(ForegroundValue, InputImagePixelType);
 
-
 protected:
   BinaryFillholeImageFilter();
   ~BinaryFillholeImageFilter() {};
@@ -119,7 +118,6 @@ protected:
   /** Single-threaded version of GenerateData.  This filter delegates
    * to GrayscaleGeodesicErodeImageFilter. */
   void GenerateData();
-
 
 private:
   BinaryFillholeImageFilter(const Self&); //purposely not implemented

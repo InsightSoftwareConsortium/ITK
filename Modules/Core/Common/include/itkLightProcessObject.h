@@ -120,6 +120,7 @@ protected:
 
   /** This method causes the filter to generate its output. */
   virtual void GenerateData() {}
+
 private:
   LightProcessObject(const Self &); //purposely not implemented
   void operator=(const Self &);     //purposely not implemented

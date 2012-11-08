@@ -44,6 +44,7 @@ class ITK_EXPORT GPUDataManager : public Object   //DataObject//
 {
   /** allow GPUKernelManager to access GPU buffer pointer */
   friend class GPUKernelManager;
+
 public:
 
   typedef GPUDataManager           Self;
@@ -119,6 +120,7 @@ protected:
   GPUDataManager();
   virtual ~GPUDataManager();
   virtual void PrintSelf(std::ostream & os, Indent indent) const;
+
 private:
 
   GPUDataManager(const Self&);   //purposely not implemented

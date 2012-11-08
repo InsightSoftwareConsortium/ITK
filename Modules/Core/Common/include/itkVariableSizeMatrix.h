@@ -207,6 +207,7 @@ public:
 
   /** Set the matrix size. Old data lost. Returns true if size changed. */
   inline bool SetSize(unsigned int r, unsigned int c) { return m_Matrix.set_size(r, c); }
+
 private:
   InternalMatrixType m_Matrix;
 };

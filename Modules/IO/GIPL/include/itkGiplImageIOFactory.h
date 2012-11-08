@@ -58,6 +58,7 @@ public:
 protected:
   GiplImageIOFactory();
   ~GiplImageIOFactory();
+
 private:
   GiplImageIOFactory(const Self &); //purposely not implemented
   void operator=(const Self &);     //purposely not implemented

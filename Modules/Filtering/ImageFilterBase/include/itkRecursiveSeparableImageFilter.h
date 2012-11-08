@@ -162,6 +162,7 @@ protected:
   ScalarRealType m_BM2;
   ScalarRealType m_BM3;
   ScalarRealType m_BM4;
+
 private:
   RecursiveSeparableImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);                //purposely not implemented

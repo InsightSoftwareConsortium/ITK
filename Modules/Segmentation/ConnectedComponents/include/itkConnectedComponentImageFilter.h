@@ -154,6 +154,7 @@ public:
    */
   itkSetMacro(BackgroundValue, OutputImagePixelType);
   itkGetConstMacro(BackgroundValue, OutputImagePixelType);
+
 protected:
   ConnectedComponentImageFilter()
   {
@@ -186,6 +187,7 @@ protected:
   void EnlargeOutputRequestedRegion( DataObject * itkNotUsed(output) );
 
   bool m_FullyConnected;
+
 private:
   ConnectedComponentImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &); //purposely not implemented

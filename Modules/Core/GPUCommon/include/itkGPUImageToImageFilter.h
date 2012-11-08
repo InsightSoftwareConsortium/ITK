@@ -94,6 +94,7 @@ protected:
   // GPU kernel handle - kernel should be defined in specific filter (not in the
   // base class)
   //int m_KernelHandle;
+
 private:
   GPUImageToImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);        //purposely not implemented

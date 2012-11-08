@@ -83,12 +83,14 @@ public:
   /** Get the contained object */
   virtual T * Get() { return m_Component.get(); }
   virtual const T * Get() const { return m_Component.get(); }
+
 protected:
   AutoPointerDataObjectDecorator();
   ~AutoPointerDataObjectDecorator();
   virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
 protected:
+
 private:
   AutoPointerDataObjectDecorator(const Self &); //purposely not implemented
   void operator=(const Self &);                 //purposely not implemented

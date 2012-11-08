@@ -122,6 +122,7 @@ public:
    * ForegroundValue in the superclass. */
   InputPixelType GetErodeValue() const
   { return this->GetForegroundValue(); }
+
 protected:
   BinaryErodeImageFilter();
   virtual ~BinaryErodeImageFilter(){}
@@ -131,6 +132,7 @@ protected:
 
   // type inherited from the superclass
   typedef typename Superclass::NeighborIndexContainer NeighborIndexContainer;
+
 private:
   BinaryErodeImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);         //purposely not implemented

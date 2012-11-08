@@ -58,6 +58,7 @@ public:
 protected:
   MetaImageIOFactory();
   ~MetaImageIOFactory();
+
 private:
   MetaImageIOFactory(const Self &); //purposely not implemented
   void operator=(const Self &);     //purposely not implemented

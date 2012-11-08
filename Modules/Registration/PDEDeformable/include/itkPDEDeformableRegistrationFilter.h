@@ -232,6 +232,7 @@ public:
    * \sa GaussianOperator. */
   itkSetMacro(MaximumKernelWidth, unsigned int);
   itkGetConstMacro(MaximumKernelWidth, unsigned int);
+
 protected:
   PDEDeformableRegistrationFilter();
   ~PDEDeformableRegistrationFilter() {}
@@ -308,6 +309,7 @@ private:
   /** Temporary displacement field use for smoothing the
    * the displacement field. */
   DisplacementFieldPointer m_TempField;
+
 private:
   /** Maximum error for Gaussian operator approximation. */
   double m_MaximumError;

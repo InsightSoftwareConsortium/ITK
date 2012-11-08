@@ -71,6 +71,7 @@ public:
   virtual OutputType Evaluate(QEType *h);
 
   // itkGetConstMacro( EdgeStatus, EdgeStatusType );
+
 protected:
   QuadEdgeMeshEulerOperatorFlipEdgeFunction();
   ~QuadEdgeMeshEulerOperatorFlipEdgeFunction(){}

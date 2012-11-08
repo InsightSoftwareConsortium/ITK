@@ -191,6 +191,7 @@ protected:
   ~RawImageIOFactory() {}
   typedef RawImageIO< TPixel, VImageDimension > myProductType;
   const myProductType *m_MyProduct;
+
 private:
   RawImageIOFactory(const Self &); //purposely not implemented
   void operator=(const Self &);    //purposely not implemented

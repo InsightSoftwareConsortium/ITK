@@ -131,6 +131,7 @@ public:
 
   /** Method for creation through the object factory */
   itkNewMacro(Self);
+
 protected:
   ~ShapeDetectionLevelSetImageFilter() {}
   ShapeDetectionLevelSetImageFilter();

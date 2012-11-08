@@ -150,6 +150,7 @@ public:
                    ( Concept::IncrementDecrementOperators< OutputPixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   ConnectedComponentFunctorImageFilter() {}
   virtual ~ConnectedComponentFunctorImageFilter() {}

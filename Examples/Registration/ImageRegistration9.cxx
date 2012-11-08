@@ -80,8 +80,10 @@ public:
   typedef  itk::Command             Superclass;
   typedef itk::SmartPointer<Self>   Pointer;
   itkNewMacro( Self );
+
 protected:
   CommandIterationUpdate() {};
+
 public:
   typedef itk::RegularStepGradientDescentOptimizer OptimizerType;
   typedef   const OptimizerType *                  OptimizerPointer;

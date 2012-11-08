@@ -106,6 +106,7 @@ public:
   itkSetMacro(UseLookupTable, bool);
   itkGetConstMacro(UseLookupTable, bool);
   itkBooleanMacro(UseLookupTable);
+
 protected:
   AdaptiveHistogramEqualizationImageFilter()
   {

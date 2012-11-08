@@ -129,9 +129,11 @@ public:
                    ( Concept::HasNumericTraits< InputPixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   InvertIntensityImageFilter();
   virtual ~InvertIntensityImageFilter() {}
+
 private:
   InvertIntensityImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);             //purposely not implemented

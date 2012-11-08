@@ -82,6 +82,7 @@ public:
 
   itkSetMacro(RelaxationFactor, OutputCoordType);
   itkGetConstMacro(RelaxationFactor, OutputCoordType);
+
 protected:
   SmoothingQuadEdgeMeshFilter();
   ~SmoothingQuadEdgeMeshFilter();

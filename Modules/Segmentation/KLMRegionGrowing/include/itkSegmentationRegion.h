@@ -74,6 +74,7 @@ public:
   /** Set/Get the area of the region. */
   itkSetMacro(RegionArea, double);
   itkGetConstReferenceMacro(RegionArea, double);
+
 protected:
   SegmentationRegion();
   ~SegmentationRegion();

@@ -127,6 +127,7 @@ public:
   itkSetMacro(SafeBorder, bool);
   itkGetConstReferenceMacro(SafeBorder, bool);
   itkBooleanMacro(SafeBorder);
+
 protected:
   GrayscaleMorphologicalOpeningImageFilter();
   ~GrayscaleMorphologicalOpeningImageFilter() {}

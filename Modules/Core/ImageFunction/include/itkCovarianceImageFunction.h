@@ -114,6 +114,7 @@ public:
       statistics are evaluated */
   itkSetMacro(NeighborhoodRadius, unsigned int);
   itkGetConstReferenceMacro(NeighborhoodRadius, unsigned int);
+
 protected:
   CovarianceImageFunction();
   ~CovarianceImageFunction(){}

@@ -59,6 +59,7 @@ public:
 protected:
   OpenCVVideoIOFactory();
   ~OpenCVVideoIOFactory();
+
 private:
   OpenCVVideoIOFactory(const Self &); //purposely not implemented
   void operator=(const Self &);    //purposely not implemented

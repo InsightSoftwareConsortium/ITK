@@ -96,6 +96,7 @@ public:
   itkSetMacro(PromptUser, bool);
   itkGetConstMacro(PromptUser, bool);
   itkBooleanMacro(PromptUser);
+
 protected:
   OutputWindow();
   virtual ~OutputWindow();

@@ -88,9 +88,11 @@ public:
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(TanImageAdaptor, ImageAdaptor);
+
 protected:
   TanImageAdaptor() {}
   virtual ~TanImageAdaptor() {}
+
 private:
   TanImageAdaptor(const Self &); //purposely not implemented
   void operator=(const Self &);  //purposely not implemented

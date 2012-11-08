@@ -225,6 +225,7 @@ private:
   /** Temporary deformation field use for smoothing the
    * the deformation field. */
   DisplacementFieldPointer m_TempField;
+
 private:
   /** Memory buffer for smoothing kernels of the displacement field. */
   int                              m_SmoothingKernelSizes[ImageDimension];

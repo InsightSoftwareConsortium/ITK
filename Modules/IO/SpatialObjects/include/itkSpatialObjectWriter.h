@@ -88,6 +88,7 @@ public:
   void RegisterMetaConverter(const char *metaTypeName,
                              const char *spatialObjectTypeName,
                              MetaConverterBaseType *converter);
+
 protected:
   SpatialObjectWriter(const Self &); //purposely not implemented
   void operator=(const Self &);      //purposely not implemented
@@ -98,6 +99,7 @@ protected:
 
   SpatialObjectWriter();
   virtual ~SpatialObjectWriter();
+
 private:
 
   SpatialObjectPointer m_SpatialObject;

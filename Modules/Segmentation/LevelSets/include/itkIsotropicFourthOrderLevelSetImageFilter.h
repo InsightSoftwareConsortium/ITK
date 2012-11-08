@@ -101,6 +101,7 @@ public:
 
   itkGetConstMacro(MaxFilterIteration, unsigned int);
   itkSetMacro(MaxFilterIteration, unsigned int);
+
 protected:
   IsotropicFourthOrderLevelSetImageFilter();
   ~IsotropicFourthOrderLevelSetImageFilter() {}

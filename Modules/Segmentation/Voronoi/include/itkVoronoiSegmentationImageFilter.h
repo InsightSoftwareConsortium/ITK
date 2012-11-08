@@ -121,6 +121,7 @@ public:
                    ( Concept::Convertible< int, typename TOutputImage::PixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   VoronoiSegmentationImageFilter();
   ~VoronoiSegmentationImageFilter();

@@ -157,11 +157,13 @@ public:
   void SetInnerRadius(const float& val) { m_InnerRadius = val; }
 
   float GetInnerRadius() const { return m_InnerRadius; }
+
 protected:
   NarrowBand() : m_TotalRadius( 0.0 ), m_InnerRadius( 0.0 ) {}
 
   float m_TotalRadius;
   float m_InnerRadius;
+
 private:
   NarrowBand(const Self &);     //purposely not implemented
   void operator=(const Self &); //purposely not implemented

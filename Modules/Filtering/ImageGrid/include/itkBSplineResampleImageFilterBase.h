@@ -129,6 +129,7 @@ public:
 
   /** Get the spline order */
   itkGetConstMacro(SplineOrder, int);
+
 protected:
   /** Reduces an N-dimension image by a factor of 2 in each dimension. */
   void ReduceNDImage(OutputImageIterator & OutItr);
@@ -166,6 +167,7 @@ protected:
 
   std::vector< double >       m_G;        // downsampling filter coefficients
   std::vector< double >       m_H;        // upsampling filter coefficients
+
 private:
 
   // Resizes m_Scratch Variable based on image sizes

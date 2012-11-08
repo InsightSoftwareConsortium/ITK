@@ -152,6 +152,7 @@ public:
   /** Specify callback data. */
   itkSetMacro2(CallbackUserData, void *);
   itkGetConstMacro(CallbackUserData, void *);
+
 protected:
   VTKImageImport();
   ~VTKImageImport() {}

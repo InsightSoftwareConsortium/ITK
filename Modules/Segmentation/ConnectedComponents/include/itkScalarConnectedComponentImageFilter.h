@@ -149,9 +149,11 @@ public:
                    ( Concept::IncrementDecrementOperators< typename TOutputImage::PixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   ScalarConnectedComponentImageFilter() {}
   virtual ~ScalarConnectedComponentImageFilter() {}
+
 private:
   ScalarConnectedComponentImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);                      //purposely not implemented

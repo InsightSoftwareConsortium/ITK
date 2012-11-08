@@ -108,6 +108,7 @@ public:
   double GetGradientStep() const { return m_GradientStep; }
   void SetNormalizeGradient(bool e) { m_NormalizeGradient = e; }
   bool GetNormalizeGradient() const { return m_NormalizeGradient; }
+
 protected:
   PDEDeformableRegistrationFunction()
   {
@@ -144,6 +145,7 @@ protected:
   bool m_NormalizeGradient;
 
   mutable double m_GradientStep;
+
 private:
   PDEDeformableRegistrationFunction(const Self &); //purposely not implemented
   void operator=(const Self &);                    //purposely not implemented

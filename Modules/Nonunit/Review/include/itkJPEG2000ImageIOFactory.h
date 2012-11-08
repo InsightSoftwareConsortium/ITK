@@ -71,6 +71,7 @@ public:
 protected:
   JPEG2000ImageIOFactory();
   ~JPEG2000ImageIOFactory();
+
 private:
   JPEG2000ImageIOFactory(const Self &); //purposely not implemented
   void operator=(const Self &);         //purposely not implemented

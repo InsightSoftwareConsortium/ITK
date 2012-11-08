@@ -102,7 +102,6 @@ public:
   /** Graft data object as level set object */
   virtual void Graft( const DataObject* data );
 
-
 protected:
   LevelSetQuadEdgeMesh();
   virtual ~LevelSetQuadEdgeMesh();

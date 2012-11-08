@@ -102,6 +102,7 @@ public:
                               char *name = NULL);
 
   ScenePointer CreateSpatialObjectScene(MetaScene *scene);
+
 private:
 
   typedef itk::SpatialObject< NDimensions >         SpatialObjectType;

@@ -83,6 +83,7 @@ protected:
  */
   virtual ~MetaDataObjectBase();
   MetaDataObjectBase();
+
 private:
   //void * operator new(size_t nothing) {};//purposefully not implemented
   MetaDataObjectBase(const Self &); //purposely not implemented

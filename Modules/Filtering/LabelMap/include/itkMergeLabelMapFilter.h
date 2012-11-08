@@ -102,6 +102,7 @@ public:
   /** Set/Get the method used to merge the label maps */
   itkSetMacro(Method, MethodChoice);
   itkGetConstReferenceMacro(Method, MethodChoice);
+
 protected:
   MergeLabelMapFilter();
   ~MergeLabelMapFilter() {}

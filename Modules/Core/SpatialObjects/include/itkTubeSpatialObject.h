@@ -170,6 +170,7 @@ protected:
   /** TimeStamps */
   mutable ModifiedTimeType m_OldMTime;
   mutable ModifiedTimeType m_IndexToWorldTransformMTime;
+
 private:
   TubeSpatialObject(const Self &); //purposely not implemented
   void operator=(const Self &);    //purposely not implemented

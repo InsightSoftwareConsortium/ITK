@@ -88,9 +88,11 @@ public:
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(RGBToLuminanceImageAdaptor, ImageAdaptor);
+
 protected:
   RGBToLuminanceImageAdaptor() {}
   virtual ~RGBToLuminanceImageAdaptor() {}
+
 private:
   RGBToLuminanceImageAdaptor(const Self &); //purposely not implemented
   void operator=(const Self &);             //purposely not implemented

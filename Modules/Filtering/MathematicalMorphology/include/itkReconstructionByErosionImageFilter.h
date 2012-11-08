@@ -101,6 +101,7 @@ public:
   /** Runtime information support. */
   itkTypeMacro(ReconstructionByErosionImageFilter,
                ReconstructionImageFilter);
+
 protected:
   ReconstructionByErosionImageFilter()
   {
@@ -108,6 +109,7 @@ protected:
   }
 
   virtual ~ReconstructionByErosionImageFilter() {}
+
 private:
   ReconstructionByErosionImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);                     //purposely not implemented

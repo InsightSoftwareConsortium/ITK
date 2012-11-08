@@ -105,7 +105,6 @@ protected:
    * to GrayscaleGeodesicErodeImageFilter. */
   void GenerateData();
 
-
 private:
   LabelMapToAttributeImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented

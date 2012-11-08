@@ -137,6 +137,7 @@ public:
                    ( Concept::OStreamWritable< InputPixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   VotingBinaryIterativeHoleFillingImageFilter();
   virtual ~VotingBinaryIterativeHoleFillingImageFilter() {}

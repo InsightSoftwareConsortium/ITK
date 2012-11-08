@@ -101,6 +101,7 @@ protected:
   ~VectorNearestNeighborInterpolateImageFunction(){}
   void PrintSelf(std::ostream & os, Indent indent) const
   { Superclass::PrintSelf(os, indent); }
+
 private:
   VectorNearestNeighborInterpolateImageFunction(const Self &); //purposely not
                                                                // implemented

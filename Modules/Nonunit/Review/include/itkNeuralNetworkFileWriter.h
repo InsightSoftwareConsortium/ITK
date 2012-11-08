@@ -123,6 +123,7 @@ public:
   typedef enum { IGNORE = 0, ASCII = 1, BINARY = 2 } NetworkWriteWeightsType;
   itkSetEnumMacro(WriteWeightValuesType, NetworkWriteWeightsType);
   itkGetEnumMacro(WriteWeightValuesType, NetworkWriteWeightsType);
+
 protected:
   NeuralNetworkFileWriter();
   ~NeuralNetworkFileWriter();

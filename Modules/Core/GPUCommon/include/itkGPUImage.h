@@ -181,6 +181,7 @@ public:
 protected:
   GPUImage();
   virtual ~GPUImage();
+
 private:
 
   // functions that are purposely not implemented

@@ -111,9 +111,11 @@ public:
                    ( Concept::HasNumericTraits< typename TInputImage::PixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   Compose3DCovariantVectorImageFilter() {}
   virtual ~Compose3DCovariantVectorImageFilter() {}
+
 private:
   Compose3DCovariantVectorImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);                      //purposely not implemented

@@ -141,6 +141,7 @@ public:
 
   /** No edges to populate in this class */
   virtual void PopulateEdgeIds(void) { /* empty */ }
+
 protected:
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
 

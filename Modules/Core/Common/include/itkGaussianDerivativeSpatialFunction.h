@@ -87,6 +87,7 @@ public:
   itkGetConstMacro(Mean, ArrayType);
   itkSetMacro(Direction, unsigned int);
   itkGetConstMacro(Direction, unsigned int);
+
 protected:
   GaussianDerivativeSpatialFunction();
   virtual ~GaussianDerivativeSpatialFunction();

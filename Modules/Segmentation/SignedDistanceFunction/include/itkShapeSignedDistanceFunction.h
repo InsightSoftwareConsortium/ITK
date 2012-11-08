@@ -101,6 +101,7 @@ public:
    Evaluate() to allow the class to validate any inputs. */
   virtual void Initialize()
   throw ( ExceptionObject ) {}
+
 protected:
 
   ShapeSignedDistanceFunction() {}
@@ -114,6 +115,7 @@ protected:
   }
 
   ParametersType m_Parameters;
+
 private:
   ShapeSignedDistanceFunction(const Self &); //purposely not implemented
   void operator=(const Self &);              //purposely not implemented

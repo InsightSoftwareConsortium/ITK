@@ -103,6 +103,7 @@ public:
   const Self & operator=(const VnlVectorType & rhs);
 
   virtual ~OptimizerParameters();
+
 private:
    OptimizerParametersHelperType*           m_Helper;
 };

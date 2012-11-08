@@ -82,6 +82,7 @@ public:
   typedef typename Superclass::OutputVectorType          OutputVectorType;
   typedef typename Superclass::InputCovariantVectorType  InputCovariantVectorType;
   typedef typename Superclass::OutputCovariantVectorType OutputCovariantVectorType;
+
 protected:
   ElasticBodyReciprocalSplineKernelTransform();
   virtual ~ElasticBodyReciprocalSplineKernelTransform();
@@ -102,6 +103,7 @@ protected:
 
   /** alpha, Poisson's ratio */
   TScalarType m_Alpha;
+
 private:
   ElasticBodyReciprocalSplineKernelTransform(const Self &); //purposely not
                                                             // implemented

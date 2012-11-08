@@ -95,9 +95,11 @@ public:
                    ( Concept::Convertible< double, typename TOutputImage::PixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   Log10ImageFilter() {}
   virtual ~Log10ImageFilter() {}
+
 private:
   Log10ImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);   //purposely not implemented

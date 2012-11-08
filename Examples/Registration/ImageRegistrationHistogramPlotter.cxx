@@ -369,6 +369,7 @@ public:
 
 
 // Software Guide : BeginCodeSnippet
+
 private:
   MetricPointer                   m_Metric;
   HistogramToImageFilterPointer   m_Filter;
@@ -386,11 +387,13 @@ public:
   typedef  itk::Command             Superclass;
   typedef  itk::SmartPointer<Self>  Pointer;
   itkNewMacro( Self );
+
 protected:
   CommandIterationUpdate()
     {
     m_WriteHistogramsAfterEveryIteration = false;
     }
+
 public:
 
   typedef   itk::RegularStepGradientDescentOptimizer     OptimizerType;

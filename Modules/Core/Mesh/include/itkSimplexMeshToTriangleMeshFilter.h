@@ -157,6 +157,7 @@ protected:
   typedef typename SimplexVisitorInterfaceType::Pointer SimplexVisitorInterfacePointer;
   typedef typename SimplexCellType::MultiVisitor        CellMultiVisitorType;
   typedef typename CellMultiVisitorType::Pointer        CellMultiVisitorPointer;
+
 protected:
 
   SimplexMeshToTriangleMeshFilter();

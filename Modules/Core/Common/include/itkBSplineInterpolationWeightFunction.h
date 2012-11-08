@@ -103,6 +103,7 @@ public:
 
   /** Get number of weights. */
   itkGetConstMacro(NumberOfWeights, unsigned long);
+
 protected:
   BSplineInterpolationWeightFunction();
   ~BSplineInterpolationWeightFunction() {}

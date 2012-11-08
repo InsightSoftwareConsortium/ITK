@@ -517,6 +517,7 @@ public:
     this->SetPixelType(ImageIOBase::OFFSET);
     this->SetComponentType(ImageIOBase::LONG);
   }
+
 protected:
   ImageIOBase();
   ~ImageIOBase();

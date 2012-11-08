@@ -111,6 +111,7 @@ public:
                    ( Concept::HasNumericTraits< OutputImageValueType > ) );
   /** End concept checking */
 #endif
+
 protected:
   IterativeInverseDeformationFieldImageFilter();
   ~IterativeInverseDeformationFieldImageFilter() {}
@@ -123,6 +124,7 @@ protected:
 
   double m_StopValue;
   double m_Time;
+
 private:
   IterativeInverseDeformationFieldImageFilter(const Self &); //purposely not
                                                              // implemented

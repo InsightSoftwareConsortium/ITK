@@ -114,6 +114,7 @@ protected:
 
   /** Destroy an CenteredAffineTransform object */
   virtual ~CenteredAffineTransform();
+
 private:
   CenteredAffineTransform(const Self & other);
   const Self & operator=(const Self &);

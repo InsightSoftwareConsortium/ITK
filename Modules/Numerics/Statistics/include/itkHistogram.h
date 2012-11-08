@@ -488,6 +488,7 @@ protected:
 
   // The number of bins for each dimension
   SizeType m_Size;
+
 private:
   Histogram(const Self &);      //purposely not implemented
   void operator=(const Self &); //purposely not implemented

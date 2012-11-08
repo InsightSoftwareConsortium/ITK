@@ -60,6 +60,7 @@ public:
    * Inherited from the superclass. */
   typedef typename GPUSuperclass::PixelType    PixelType;
   typedef typename GPUSuperclass::TimeStepType TimeStepType;
+
 protected:
   GPUAnisotropicDiffusionImageFilter() {
   }

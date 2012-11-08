@@ -88,12 +88,14 @@ public:
   typedef typename QEType::PrimalDataType    PrimalDataType;
   typedef typename QEType::DualDataType      DualDataType;
   typedef typename QEType::DualType          QEDual;
+
 public:
   /** Standard part of every itk Object. */
   itkTypeMacro(QuadEdgeMeshLineCell, TCellInterface);
 
   // accessor to the new QEGeom link that replaces now inheritance.
   QEType * GetQEGeom() const { return ( m_QuadEdgeGeom ); }
+
 public:
   /** Object memory management methods. */
   QuadEdgeMeshLineCell();

@@ -84,6 +84,7 @@ public:
   /** Set the internal spatial function. */
   void SetFunction(FunctionType *PixelFunction)
   { m_PixelFunction = PixelFunction; }
+
 protected:
   SpatialFunctionImageEvaluatorFilter();
   virtual ~SpatialFunctionImageEvaluatorFilter() {}

@@ -113,6 +113,7 @@ public:
                    ( Concept::Convertible< typename TInputImage::PixelType, PixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   DenseFiniteDifferenceImageFilter()
   { m_UpdateBuffer = UpdateBufferType::New(); }

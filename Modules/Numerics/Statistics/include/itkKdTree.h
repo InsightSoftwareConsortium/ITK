@@ -216,6 +216,7 @@ struct KdTreeNonterminalNode:public KdTreeNode<TSample>
   {
     this->m_InstanceIdentifier = valueId;
   }
+
 private:
 
   unsigned int           m_PartitionDimension;

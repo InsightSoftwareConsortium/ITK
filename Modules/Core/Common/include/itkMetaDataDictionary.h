@@ -110,6 +110,7 @@ public:
   ConstIterator  Find(const std::string & key) const;
 
 #endif
+
 private:
   MetaDataDictionaryMapType *m_Dictionary;
 };

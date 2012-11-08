@@ -148,6 +148,7 @@ public:
                    ( Concept::HasNumericTraits< TOutputPixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   ~NarrowBandCurvesLevelSetImageFilter() {}
   NarrowBandCurvesLevelSetImageFilter();

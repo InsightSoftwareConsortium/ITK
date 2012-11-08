@@ -464,6 +464,7 @@ public:
                    ( Concept::HasNumericTraits< PixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   LabelGeometryImageFilter();
   ~LabelGeometryImageFilter(){}

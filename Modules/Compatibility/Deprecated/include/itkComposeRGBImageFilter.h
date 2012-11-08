@@ -97,9 +97,11 @@ public:
   /** Runtime information support. */
   itkTypeMacro(ComposeRGBImageFilter,
                TernaryFunctorImageFilter);
+
 protected:
   ComposeRGBImageFilter() {}
   virtual ~ComposeRGBImageFilter() {}
+
 private:
   ComposeRGBImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);        //purposely not implemented

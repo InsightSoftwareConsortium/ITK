@@ -102,6 +102,7 @@ public:
   }
 
   virtual ~DefaultVectorPixelAccessor() {}
+
 private:
   VectorLengthType m_VectorLength;
   VectorLengthType m_OffsetMultiplier;

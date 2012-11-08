@@ -92,6 +92,7 @@ protected:
 
   SpatialObjectReader();
   virtual ~SpatialObjectReader();
+
 private:
 
   ScenePointer m_Scene;

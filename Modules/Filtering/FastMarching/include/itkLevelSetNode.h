@@ -108,6 +108,7 @@ public:
 
   /** Copy constructor */
   LevelSetNode(const Self & node):m_Value(node.m_Value), m_Index(node.m_Index) {}
+
 private:
   PixelType m_Value;
   IndexType m_Index;

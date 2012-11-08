@@ -164,6 +164,7 @@ public:
                    ( Concept::HasNumericTraits< OutputValueType > ) );
   /** End concept checking */
 #endif
+
 protected:
 
   VectorExpandImageFilter();

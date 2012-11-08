@@ -111,9 +111,11 @@ public:
                    ( Concept::HasNumericTraits< InputPixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   SumProjectionImageFilter() {}
   virtual ~SumProjectionImageFilter() {}
+
 private:
   SumProjectionImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);           //purposely not implemented

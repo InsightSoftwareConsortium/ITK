@@ -86,6 +86,7 @@ public:
 protected:
   TransformFactoryBase();
   virtual ~TransformFactoryBase();
+
 private:
   TransformFactoryBase(const Self &); //purposely not implemented
   void operator=(const Self &);       //purposely not implemented

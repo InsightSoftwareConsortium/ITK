@@ -296,7 +296,6 @@ public:
     return iter;
     }
 
-
 protected:
   ImageToNeighborhoodSampleAdaptor();
   virtual ~ImageToNeighborhoodSampleAdaptor() {}

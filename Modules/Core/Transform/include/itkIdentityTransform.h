@@ -230,6 +230,7 @@ public:
   virtual void SetParameters(const ParametersType &)
   {
   }
+
 protected:
   IdentityTransform() : Transform<TScalarType, NDimensions, NDimensions>(0),
     m_IdentityJacobian(NDimensions, 0)
@@ -242,6 +243,7 @@ protected:
   virtual ~IdentityTransform()
   {
   }
+
 private:
   IdentityTransform(const Self &); // purposely not implemented
   void operator=(const Self &);    // purposely not implemented

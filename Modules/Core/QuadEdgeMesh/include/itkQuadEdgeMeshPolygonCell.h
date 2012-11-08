@@ -89,6 +89,7 @@ public:
   typedef typename QuadEdgeType::PrimalDataType    PrimalDataType;
   typedef typename QuadEdgeType::DualDataType      DualDataType;
   typedef typename QuadEdgeType::DualType          QEDual;
+
 public:
   /** Standard part of every itk Object. */
   itkTypeMacro(QuadEdgeMeshPolygonCell, TCellInterface);
@@ -239,6 +240,7 @@ public:
 protected:
   typedef std::vector< PointIdentifier > PointIDListType;
   mutable PointIDListType m_PointIds;
+
 private:
   QuadEdgeMeshPolygonCell(const Self &); // Not impl.
   void operator=(const Self &);          // Not impl.

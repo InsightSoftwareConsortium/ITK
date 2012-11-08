@@ -39,9 +39,11 @@ public:
 
   virtual void DisplayText(const char *s)
   { std::cout << s << std::endl; }
+
 protected:
   TextOutput();
   virtual ~TextOutput();
+
 private:
   TextOutput(const Self &);     //purposely not implemented
   void operator=(const Self &); //purposely not implemented

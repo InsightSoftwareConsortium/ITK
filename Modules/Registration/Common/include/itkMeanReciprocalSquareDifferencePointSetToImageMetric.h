@@ -95,6 +95,7 @@ public:
      */
   itkSetMacro(Lambda, double);
   itkGetConstMacro(Lambda, double);
+
 protected:
   MeanReciprocalSquareDifferencePointSetToImageMetric();
   virtual ~MeanReciprocalSquareDifferencePointSetToImageMetric() {}

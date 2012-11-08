@@ -104,9 +104,11 @@ public:
                    ( Concept::HasNumericTraits< typename TInputImage::PixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   Compose2DVectorImageFilter() {}
   virtual ~Compose2DVectorImageFilter() {}
+
 private:
   Compose2DVectorImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);             //purposely not implemented

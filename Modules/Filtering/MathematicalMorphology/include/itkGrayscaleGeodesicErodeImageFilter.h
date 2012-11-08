@@ -149,6 +149,7 @@ public:
                    ( Concept::Convertible< MarkerImagePixelType, OutputImagePixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   GrayscaleGeodesicErodeImageFilter();
   ~GrayscaleGeodesicErodeImageFilter() {}

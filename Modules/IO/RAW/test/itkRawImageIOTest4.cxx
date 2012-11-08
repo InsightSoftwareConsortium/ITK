@@ -29,7 +29,6 @@
 template< typename TImageType >
 class RawImageIOReadFileTester
 {
-
 public:
 // Only single method of this class
 int Read( const char *filename , bool ReadBigEndian, unsigned int dims[] )

@@ -159,6 +159,7 @@ protected:
   FixedArray< int, itkGetStaticConstMacro(ImageDimension) > m_Axes;
 
   SizeValueType m_PixelsPerTranslation;
+
 private:
   MovingHistogramImageFilterBase(const Self &); //purposely not implemented
   void operator=(const Self &);                 //purposely not implemented

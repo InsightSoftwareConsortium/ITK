@@ -49,6 +49,7 @@ public:
   /** Cost function typedefs. */
   typedef Superclass::CostFunctionType CostFunctionType;
   typedef CostFunctionType::Pointer    CostFunctionPointer;
+
 protected:
   RegularStepGradientDescentOptimizer() {}
   virtual ~RegularStepGradientDescentOptimizer() {}

@@ -182,6 +182,7 @@ public:
 protected:
   VectorImageToImageAdaptor() {}
   virtual ~VectorImageToImageAdaptor() {}
+
 private:
   VectorImageToImageAdaptor(const Self &); //purposely not implemented
   void operator=(const Self &);            //purposely not implemented

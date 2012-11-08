@@ -63,6 +63,7 @@ public:
 protected:
   CoolColormapFunction() {}
   ~CoolColormapFunction() {}
+
 private:
   CoolColormapFunction(const Self &); //purposely not implemented
   void operator=(const Self &);      //purposely not implemented

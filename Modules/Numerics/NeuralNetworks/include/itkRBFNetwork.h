@@ -123,6 +123,7 @@ public:
 #endif
   void SetFirstHiddenTransferFunction(TransferFunctionInterfaceType* f);
   void SetOutputTransferFunction(TransferFunctionInterfaceType* f);
+
 protected:
 
   RBFNetwork();

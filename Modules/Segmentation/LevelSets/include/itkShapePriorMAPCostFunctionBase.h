@@ -148,6 +148,7 @@ protected:
   NodeContainerPointer m_ActiveRegion;
 
   FeatureImagePointer m_FeatureImage;
+
 private:
   ShapePriorMAPCostFunctionBase(const Self &); //purposely not implemented
   void operator=(const Self &);                //purposely not implemented

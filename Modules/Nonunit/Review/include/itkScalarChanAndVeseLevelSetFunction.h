@@ -130,6 +130,7 @@ public:
   typedef typename Superclass::ListPixelConstIterator ListPixelConstIterator;
   typedef typename Superclass::ListPixelIterator      ListPixelIterator;
   typedef typename Superclass::ListImageType          ListImageType;
+
 protected:
   ScalarChanAndVeseLevelSetFunction():Superclass() {}
   ~ScalarChanAndVeseLevelSetFunction(){}

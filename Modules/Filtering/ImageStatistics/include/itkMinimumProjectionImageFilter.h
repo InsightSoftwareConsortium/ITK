@@ -102,9 +102,11 @@ public:
                    ( Concept::HasNumericTraits< InputPixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   MinimumProjectionImageFilter() {}
   virtual ~MinimumProjectionImageFilter() {}
+
 private:
   MinimumProjectionImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);               //purposely not implemented

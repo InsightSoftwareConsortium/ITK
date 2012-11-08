@@ -120,6 +120,7 @@ public:
                    ( Concept::HasNumericTraits< InputImage2PixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   SimilarityIndexImageFilter();
   ~SimilarityIndexImageFilter(){}

@@ -164,7 +164,6 @@ protected:
 
   void InitializeOutput( OutputMeshType* oMesh );
 
-
 private:
   FastMarchingQuadEdgeMeshFilterBase( const Self& );
   void operator = ( const Self& );

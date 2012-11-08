@@ -148,6 +148,7 @@ public:
   //                  ( Concept::AdditiveOperators< OperatorValueType > ) );
   /** End concept checking */
 #endif
+
 protected:
   GPUNeighborhoodOperatorImageFilter();
   virtual ~GPUNeighborhoodOperatorImageFilter() {
@@ -173,6 +174,7 @@ protected:
   {
     GPUSuperclass::PrintSelf(os, indent);
   }
+
 private:
   GPUNeighborhoodOperatorImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);                     //purposely not implemented

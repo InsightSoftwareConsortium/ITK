@@ -85,6 +85,7 @@ public:
       }
     CallbackTypeProxy(DoubleCallbackType d, FloatCallbackType f):
       m_DoubleCallback(d), m_FloatCallback(f) {}
+
 private:
     DoubleCallbackType m_DoubleCallback;
     FloatCallbackType  m_FloatCallback;

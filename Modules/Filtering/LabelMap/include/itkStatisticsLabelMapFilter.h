@@ -129,6 +129,7 @@ public:
    */
   itkSetMacro(NumberOfBins, unsigned int);
   itkGetConstReferenceMacro(NumberOfBins, unsigned int);
+
 protected:
   StatisticsLabelMapFilter();
   ~StatisticsLabelMapFilter() {}

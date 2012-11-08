@@ -98,6 +98,7 @@ public:
   /** The output region to use */
   itkSetMacro(Region, OutputImageRegionType);
   itkGetConstReferenceMacro(Region, OutputImageRegionType);
+
 protected:
   ChangeRegionLabelMapFilter() {}
   ~ChangeRegionLabelMapFilter() {}

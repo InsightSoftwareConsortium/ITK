@@ -94,6 +94,7 @@ public:
                    ( Concept::LessThanComparable< InputPixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   MedianImageFilter();
   virtual ~MedianImageFilter() {}

@@ -296,6 +296,7 @@ public:
    * produce the speed image used as the level set function's Advection field
    * term.  See LevelSetFunction for more information. */
   virtual void CalculateAdvectionImage() {}
+
 protected:
 
   RegionBasedLevelSetFunction();
@@ -415,6 +416,7 @@ protected:
 
   /** Zero vector constant. */
   static VectorType m_ZeroVectorConstant;
+
 private:
   RegionBasedLevelSetFunction(const Self &); //purposely not implemented
   void operator=(const Self &);              //purposely not implemented

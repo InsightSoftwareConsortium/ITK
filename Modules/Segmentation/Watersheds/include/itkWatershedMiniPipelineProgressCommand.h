@@ -61,6 +61,7 @@ public:
    * observing */
   itkSetMacro(NumberOfFilters, double);
   itkGetConstMacro(NumberOfFilters, double);
+
 protected:
   WatershedMiniPipelineProgressCommand():m_Count(0.0), m_Filter(NULL),
     m_NumberOfFilters(1.0) {}

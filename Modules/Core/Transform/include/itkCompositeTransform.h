@@ -514,6 +514,7 @@ protected:
 
   mutable TransformQueueType            m_TransformsToOptimizeQueue;
   mutable TransformsToOptimizeFlagsType m_TransformsToOptimizeFlags;
+
 private:
   CompositeTransform( const Self & ); // purposely not implemented
   void operator=( const Self & );     // purposely not implemented

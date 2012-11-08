@@ -81,7 +81,6 @@ public:
   /** This call delegate the update to the importer */
   void Update();
 
-
 protected:
   ImageToVTKImageFilter();
   virtual ~ImageToVTKImageFilter();

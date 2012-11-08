@@ -140,6 +140,7 @@ public:
   /** Multiplies all of the coefficients of the kernel by a single scalar value.
     */
   void ScaleCoefficients(PixelRealType);
+
 protected:
   /** Typedef support  for coefficient vector type.  Necessary
    * to fix bug in the microsoft VC++ compiler. */

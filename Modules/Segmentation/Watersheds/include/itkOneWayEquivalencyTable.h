@@ -122,6 +122,7 @@ public:
 
   /** Convenience method for debugging.   */
   //  void PrintHashTable();
+
 protected:
   OneWayEquivalencyTable()  {}
   virtual ~OneWayEquivalencyTable() {}

@@ -130,6 +130,7 @@ public:
   /** Get() access to the moments calculators */
   itkGetConstObjectMacro(FixedCalculator,  FixedImageCalculatorType);
   itkGetConstObjectMacro(MovingCalculator, MovingImageCalculatorType);
+
 protected:
   CenteredTransformInitializer();
   ~CenteredTransformInitializer(){}
@@ -137,6 +138,7 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const;
 
   itkGetObjectMacro(Transform, TransformType);
+
 private:
   CenteredTransformInitializer(const Self &); //purposely not implemented
   void operator=(const Self &);               //purposely not implemented

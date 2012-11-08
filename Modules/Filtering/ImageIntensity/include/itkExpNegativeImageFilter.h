@@ -127,9 +127,11 @@ public:
                    ( Concept::Convertible< double, typename TOutputImage::PixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   ExpNegativeImageFilter() {}
   virtual ~ExpNegativeImageFilter() {}
+
 private:
   ExpNegativeImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);         //purposely not implemented

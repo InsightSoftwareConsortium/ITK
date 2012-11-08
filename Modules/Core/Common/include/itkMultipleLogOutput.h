@@ -50,6 +50,7 @@ public:
 
   itkTypeMacro(MultipleLogOutput, LogOutput);
   itkNewMacro(MultipleLogOutput);
+
 public:
 
   /** Register a additional output stream into the list of LogOutputs to write
@@ -75,6 +76,7 @@ protected:
 
   /** Destructor */
   virtual ~MultipleLogOutput();
+
 private:
   MultipleLogOutput(const Self &); //purposely not implemented
   void operator=(const Self &);    //purposely not implemented

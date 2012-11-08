@@ -98,6 +98,7 @@ public:
   /** Image dimension. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TImage::ImageDimension);
+
 protected:
   ScalarImageToCooccurrenceListSampleFilter();
   virtual ~ScalarImageToCooccurrenceListSampleFilter() {}

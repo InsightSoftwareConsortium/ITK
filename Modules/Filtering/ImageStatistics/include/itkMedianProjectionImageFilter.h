@@ -106,9 +106,11 @@ public:
   /** Begin concept checking */
   /** End concept checking */
 #endif
+
 protected:
   MedianProjectionImageFilter() {}
   virtual ~MedianProjectionImageFilter() {}
+
 private:
   MedianProjectionImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);              //purposely not implemented

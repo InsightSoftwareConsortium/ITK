@@ -161,9 +161,11 @@ public:
                                                 RealType, RealType > ) );
   /** End concept checking */
 #endif
+
 protected:
   WeightedAddImageFilter() {}
   virtual ~WeightedAddImageFilter() {}
+
 private:
   WeightedAddImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);         //purposely not implemented

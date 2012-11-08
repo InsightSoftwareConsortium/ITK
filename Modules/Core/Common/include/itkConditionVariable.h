@@ -84,6 +84,7 @@ public:
 protected:
   ConditionVariable();
   ~ConditionVariable();
+
 private:
   ConditionVariable(const Self & other);
   const Self & operator=(const Self &);

@@ -74,6 +74,7 @@ protected:
   }
 
   ~QuadEdgeMeshEulerOperatorSplitVertexFunction(){}
+
 private:
   QuadEdgeMeshEulerOperatorSplitVertexFunction(const Self &); //purposely not
                                                               // implemented

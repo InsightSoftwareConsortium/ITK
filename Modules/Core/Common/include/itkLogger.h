@@ -46,6 +46,7 @@ public:
 
   /** New macro for creation of through a Smart Pointer */
   itkNewMacro(Self);
+
 protected:
 
   /** Constructor */
@@ -53,6 +54,7 @@ protected:
 
   /** Destructor */
   virtual ~Logger() {}
+
 private:
   Logger(const Self &);         //purposely not implemented
   void operator=(const Self &); //purposely not implemented

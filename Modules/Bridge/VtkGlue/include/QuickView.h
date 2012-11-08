@@ -104,7 +104,6 @@ public:
  */
 class QuickView
 {
-
 public:
   QuickView()
   {

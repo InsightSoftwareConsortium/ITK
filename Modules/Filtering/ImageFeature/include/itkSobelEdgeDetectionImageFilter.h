@@ -119,6 +119,7 @@ public:
 
   /** End concept checking */
 #endif
+
 protected:
   SobelEdgeDetectionImageFilter() {}
   virtual ~SobelEdgeDetectionImageFilter() {}
@@ -136,6 +137,7 @@ protected:
   {
     Superclass::PrintSelf(os, indent);
   }
+
 private:
   SobelEdgeDetectionImageFilter(const Self &); //purposely not implemented
   void operator=(const Self&); //purposely not implemented

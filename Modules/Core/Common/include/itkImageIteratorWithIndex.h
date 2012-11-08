@@ -121,6 +121,7 @@ public:
    * data, but it will NOT support ImageAdaptors. */
   PixelType & Value(void)
   { return *( const_cast< InternalPixelType * >( this->m_Position ) ); }
+
 protected:
 
   /** This constructor is declared protected in order to enforce

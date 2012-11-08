@@ -133,6 +133,7 @@ public:
                            const ThreadIdType requestedTotal,
                            const DomainType& completeDomain,
                            DomainType& subdomain) const;
+
 protected:
   ThreadedIteratorRangePartitioner();
   virtual ~ThreadedIteratorRangePartitioner();

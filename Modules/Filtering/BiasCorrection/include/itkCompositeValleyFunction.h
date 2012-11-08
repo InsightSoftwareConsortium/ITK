@@ -86,6 +86,7 @@ public:
   /** Set/Get the standard deviation of the function. */
   void SetSigma(double sigma) { m_Sigma = sigma; }
   double GetSigma() { return m_Sigma; }
+
 private:
   double m_Mean;
   double m_Sigma;

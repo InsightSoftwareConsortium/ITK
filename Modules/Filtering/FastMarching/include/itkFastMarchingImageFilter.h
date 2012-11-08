@@ -140,6 +140,7 @@ public:
     void SetAxis(int axis) { m_Axis = axis; }
     const AxisNodeType & operator=(const NodeType & node)
     { this->NodeType::operator=(node); return *this; }
+
 private:
     int m_Axis;
   };
@@ -327,6 +328,7 @@ private:
                    ( Concept::OStreamWritable< PixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   FastMarchingImageFilter();
   ~FastMarchingImageFilter(){}
@@ -363,6 +365,7 @@ protected:
 
   itkGetConstReferenceMacro(StartIndex, LevelSetIndexType);
   itkGetConstReferenceMacro(LastIndex, LevelSetIndexType);
+
 private:
   FastMarchingImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);          //purposely not implemented

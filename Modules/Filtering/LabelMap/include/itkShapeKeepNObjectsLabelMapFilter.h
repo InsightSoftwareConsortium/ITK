@@ -177,6 +177,7 @@ protected:
 
   SizeValueType m_NumberOfObjects;
   AttributeType m_Attribute;
+
 private:
   ShapeKeepNObjectsLabelMapFilter(const Self &); //purposely not implemented
   void operator=(const Self &);                  //purposely not implemented

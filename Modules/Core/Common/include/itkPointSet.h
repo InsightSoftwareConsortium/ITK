@@ -135,6 +135,7 @@ public:
   /** Get the maximum number of regions that this data can be
    * separated into. */
   itkGetConstMacro(MaximumNumberOfRegions, RegionType);
+
 protected:
   /** An object containing points used by the mesh.  Individual points are
    * accessed through point identifiers. */
@@ -208,6 +209,7 @@ public:
   virtual void SetBufferedRegion(const RegionType & region);
 
   itkGetConstMacro(BufferedRegion, RegionType);
+
 protected:
   /** Constructor for use by New() method. */
   PointSet();
@@ -229,6 +231,7 @@ protected:
   RegionType m_RequestedNumberOfRegions;
   RegionType m_BufferedRegion;
   RegionType m_RequestedRegion;
+
 private:
   PointSet(const Self &);       //purposely not implemented
   void operator=(const Self &); //purposely not implemented

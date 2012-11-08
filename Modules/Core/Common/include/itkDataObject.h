@@ -118,6 +118,7 @@ public:
 
   /** Standard type macro */
   itkTypeMacro(InvalidRequestedRegionError, DataObjectError);
+
 protected:
   /** Print exception information.  This method can be overridden by
    * specific exception subtypes.  The default is to print out the
@@ -476,6 +477,7 @@ public:
    * object is actually of the same type as the class on which the Graft()
    * method was invoked. */
   virtual void Graft(const DataObject *) {}
+
 protected:
   DataObject();
   ~DataObject();

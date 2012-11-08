@@ -107,6 +107,7 @@ public:
                    ( Concept::OStreamWritable< OutputImagePixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   ConstantPadImageFilter();
   ~ConstantPadImageFilter() {}

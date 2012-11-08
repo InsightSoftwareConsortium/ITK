@@ -81,6 +81,7 @@ public:
   /** Set array with number of checks to make per image dimension */
   itkSetMacro(CheckerPattern, PatternArrayType);
   itkGetConstReferenceMacro(CheckerPattern, PatternArrayType);
+
 protected:
   CheckerBoardImageFilter();
   ~CheckerBoardImageFilter() {}

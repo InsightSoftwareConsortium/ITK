@@ -102,6 +102,7 @@ public:
     OperatorInvRnext = 11,
     OperatorInvDnext = 12
     };
+
 public:
 // Object creation methods.
   QuadEdgeMeshBaseIterator(QuadEdgeType *e,
@@ -246,6 +247,7 @@ public:
   typedef QuadEdgeMeshIterator                  Self;
   typedef QuadEdgeMeshBaseIterator< TQuadEdge > Superclass;
   typedef TQuadEdge                             QuadEdgeType;
+
 public:
   /** Object creation methods. */
   QuadEdgeMeshIterator(QuadEdgeType *e = (QuadEdgeType *)0,
@@ -276,6 +278,7 @@ public:
 
   /** Geometric value type. */
   typedef typename QuadEdgeType::OriginRefType OriginRefType;
+
 public:
   QuadEdgeMeshIteratorGeom(QuadEdgeType *e = (QuadEdgeType *)0,
                            int op = Superclass::OperatorOnext,
@@ -300,6 +303,7 @@ public:
   typedef QuadEdgeMeshBaseIterator< TQuadEdge > Superclass;
   typedef QuadEdgeMeshIterator< TQuadEdge >     NoConstType;
   typedef TQuadEdge                             QuadEdgeType;
+
 public:
   /** Object creation methods. */
   QuadEdgeMeshConstIterator(const QuadEdgeType *e = (QuadEdgeType *)0,
@@ -340,6 +344,7 @@ public:
 
   /** Geometric value type. */
   typedef typename QuadEdgeType::OriginRefType OriginRefType;
+
 public:
   QuadEdgeMeshConstIteratorGeom(const QuadEdgeType *e = (QuadEdgeType *)0,
                                 int op = Superclass::OperatorOnext,

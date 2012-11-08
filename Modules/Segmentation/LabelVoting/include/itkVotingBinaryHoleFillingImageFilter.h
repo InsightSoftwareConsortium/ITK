@@ -94,6 +94,7 @@ public:
                    ( Concept::Convertible< unsigned int, InputPixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   VotingBinaryHoleFillingImageFilter();
   virtual ~VotingBinaryHoleFillingImageFilter() {}

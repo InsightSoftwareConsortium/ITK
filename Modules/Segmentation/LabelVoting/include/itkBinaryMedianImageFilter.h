@@ -119,6 +119,7 @@ public:
                    ( Concept::OStreamWritable< typename TInputImage::PixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   BinaryMedianImageFilter();
   virtual ~BinaryMedianImageFilter() {}

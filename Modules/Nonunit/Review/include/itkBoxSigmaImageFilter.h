@@ -79,6 +79,7 @@ public:
 
   /** End concept checking */
 #endif
+
 protected:
   BoxSigmaImageFilter();
   ~BoxSigmaImageFilter() {}

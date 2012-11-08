@@ -261,6 +261,7 @@ public:
 
     double Get()
     { return m_MultivariateLegendrePolynomial->Evaluate(m_Index); }
+
 private:
     MultivariateLegendrePolynomial *m_MultivariateLegendrePolynomial;
     unsigned int                    m_Dimension;

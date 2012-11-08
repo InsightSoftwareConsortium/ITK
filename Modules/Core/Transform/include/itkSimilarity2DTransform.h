@@ -216,6 +216,7 @@ protected:
   {
     m_Scale = scale;
   }
+
 private:
   Similarity2DTransform(const Self &); // purposely not implemented
   void operator=(const Self &);        // purposely not implemented

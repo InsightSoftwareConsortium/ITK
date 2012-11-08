@@ -149,6 +149,7 @@ public:
                    ( Concept::OStreamWritable< OutputPixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   MaskNeighborhoodOperatorImageFilter():m_DefaultValue(NumericTraits< OutputPixelType >::Zero),
     m_UseDefaultValue(true) {}

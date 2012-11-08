@@ -96,6 +96,7 @@ public:
 protected:
   CustomColormapFunction() {}
   ~CustomColormapFunction() {}
+
 private:
   CustomColormapFunction(const Self &); //purposely not implemented
   void operator=(const Self &);        //purposely not implemented

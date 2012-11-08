@@ -53,6 +53,7 @@ public:
   /** Convenient typedefs. */
   typedef float          ImagePixelType;
   typedef ImagePixelType SubstrateValueType;
+
 public:
   virtual void Add(CellBase *cellA, CellBase *cellB, double perturbationLength);
 

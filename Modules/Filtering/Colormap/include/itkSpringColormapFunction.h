@@ -64,6 +64,7 @@ public:
 protected:
   SpringColormapFunction() {}
   ~SpringColormapFunction() {}
+
 private:
   SpringColormapFunction(const Self &); //purposely not implemented
   void operator=(const Self &);        //purposely not implemented

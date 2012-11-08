@@ -123,6 +123,7 @@ public:
   /**  Get the direction of the image
    * \sa SetDirection */
   itkGetConstReferenceMacro(Direction, DirectionType);
+
 protected:
   ImportImageFilter();
   ~ImportImageFilter();

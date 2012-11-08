@@ -108,7 +108,6 @@ public:
   /** Set the value in eroded part of the image. Defaults to zero */
   itkGetMacro(BackgroundValue, InputImagePixelType);
 
-
 protected:
   BinaryGrindPeakImageFilter();
   ~BinaryGrindPeakImageFilter() {};
@@ -125,7 +124,6 @@ protected:
   /** Single-threaded version of GenerateData.  This filter delegates
    * to GrayscaleGeodesicErodeImageFilter. */
   void GenerateData();
-
 
 private:
   BinaryGrindPeakImageFilter(const Self&); //purposely not implemented

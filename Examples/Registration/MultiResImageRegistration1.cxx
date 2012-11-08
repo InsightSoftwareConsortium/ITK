@@ -133,11 +133,13 @@ class RegistrationInterfaceCommand : public itk::Command
   //
   // Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
+
 public:
   typedef  RegistrationInterfaceCommand   Self;
   typedef  itk::Command                   Superclass;
   typedef  itk::SmartPointer<Self>        Pointer;
   itkNewMacro( Self );
+
 protected:
   RegistrationInterfaceCommand() {};
   // Software Guide : EndCodeSnippet
@@ -149,6 +151,7 @@ protected:
   //
   // Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
+
 public:
   typedef   TRegistration                              RegistrationType;
   typedef   RegistrationType *                         RegistrationPointer;
@@ -254,8 +257,10 @@ public:
   typedef  itk::Command             Superclass;
   typedef  itk::SmartPointer<Self>  Pointer;
   itkNewMacro( Self );
+
 protected:
   CommandIterationUpdate() {};
+
 public:
   typedef   itk::RegularStepGradientDescentOptimizer  OptimizerType;
   typedef   const OptimizerType *                     OptimizerPointer;

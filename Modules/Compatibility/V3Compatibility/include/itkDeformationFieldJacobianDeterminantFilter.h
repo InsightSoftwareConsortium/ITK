@@ -139,6 +139,7 @@ public:
 protected:
   DeformationFieldJacobianDeterminantFilter();
   virtual ~DeformationFieldJacobianDeterminantFilter() {}
+
 private:
   DeformationFieldJacobianDeterminantFilter(const Self &); //purposely not
                                                            // implemented

@@ -155,6 +155,7 @@ protected:
     Rigid2Dtransfrom,
     Else
     } InputTransformType;
+
 private:
   LandmarkBasedTransformInitializer(const Self &); //purposely not implemented
   void operator=(const Self &);                    //purposely not implemented

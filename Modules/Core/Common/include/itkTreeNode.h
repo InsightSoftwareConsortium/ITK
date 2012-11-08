@@ -116,6 +116,7 @@ public:
 
   /** Set the data of the node */
   //virtual void SetData(TValueType data) {m_Data = data;}
+
 protected:
 
   TreeNode();
@@ -125,6 +126,7 @@ protected:
   Self *m_Parent;
 
   ChildrenListType m_Children;
+
 private:
   TreeNode(const Self &);       //purposely not implemented
   void operator=(const Self &); //purposely not implemented

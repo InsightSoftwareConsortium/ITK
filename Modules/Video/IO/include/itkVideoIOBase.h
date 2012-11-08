@@ -47,7 +47,6 @@ namespace itk
  */
 class ITK_EXPORT VideoIOBase : public ImageIOBase
 {
-
 public:
   /** Standard class typedefs. */
   typedef VideoIOBase          Self;

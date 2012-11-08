@@ -78,6 +78,7 @@ public:
   /** Set/Get the name of the PointDataName where data are written. */
   itkSetStringMacro(PointDataName);
   itkGetStringMacro(PointDataName);
+
 protected:
   QuadEdgeMeshScalarDataVTKPolyDataWriter();
   ~QuadEdgeMeshScalarDataVTKPolyDataWriter();

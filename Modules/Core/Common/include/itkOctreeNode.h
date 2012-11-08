@@ -101,6 +101,7 @@ public:
   }
 
 protected:
+
 private:
   /**
    * Removes all children from this node down, and sets the value

@@ -69,6 +69,7 @@ public:
    * an array of 4 points and a material.
    */
   Element3DC0LinearTetrahedronStrain(NodeIDType ns_[], Material::ConstPointer p_);
+
 protected:
   virtual void PrintSelf(std::ostream& os, Indent indent) const;
 

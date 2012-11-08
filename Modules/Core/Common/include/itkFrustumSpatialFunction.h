@@ -95,6 +95,7 @@ public:
 
   /** Set macro to set the plane in which the frustum should rotate */
   itkSetMacro(RotationPlane, FrustumRotationPlaneType);
+
 protected:
   FrustumSpatialFunction();
   virtual ~FrustumSpatialFunction();

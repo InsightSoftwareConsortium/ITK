@@ -72,6 +72,7 @@ public:
                                          char *name = NULL) const;
 
 #endif
+
 protected:
 
   /** Constructor */
@@ -81,6 +82,7 @@ protected:
 
   TransformPointer m_NodeToParentNodeTransform;
   TransformPointer m_NodeToWorldTransform;
+
 private:
 
   SpatialObjectTreeNode(const Self &); //purposely not implemented

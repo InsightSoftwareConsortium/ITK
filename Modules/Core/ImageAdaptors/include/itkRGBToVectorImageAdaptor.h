@@ -64,9 +64,11 @@ public:
   typedef typename Superclass::PixelContainer             PixelContainer;
   typedef typename Superclass::PixelContainerPointer      PixelContainerPointer;
   typedef typename Superclass::PixelContainerConstPointer PixelContainerConstPointer;
+
 protected:
   RGBToVectorImageAdaptor() {}
   virtual ~RGBToVectorImageAdaptor() {}
+
 private:
   RGBToVectorImageAdaptor(const Self &); //purposely not implemented
   void operator=(const Self &);          //purposely not implemented

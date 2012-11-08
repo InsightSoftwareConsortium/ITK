@@ -89,6 +89,7 @@ protected:
 
   TransformFileWriter();
   virtual ~TransformFileWriter();
+
 private:
   void OpenStream(std::ofstream & out, bool binary);
 

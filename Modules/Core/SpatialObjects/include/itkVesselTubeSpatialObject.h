@@ -66,6 +66,7 @@ public:
 
   /** Method for creation through the object factory. */
   itkTypeMacro(VesselTubeSpatialObject, TubeSpatialObject);
+
 protected:
 
   VesselTubeSpatialObject();

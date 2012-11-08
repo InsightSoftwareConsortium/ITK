@@ -127,9 +127,11 @@ public:
     m_PointIds( NumberOfPoints, NumericTraits< PointIdentifier >::max() )
   {}
   ~TriangleCell() {}
+
 protected:
   /** Store the number of points needed for a triangle. */
   std::vector< PointIdentifier > m_PointIds;
+
 private:
   TriangleCell(const Self &);   //purposely not implemented
   void operator=(const Self &); //purposely not implemented

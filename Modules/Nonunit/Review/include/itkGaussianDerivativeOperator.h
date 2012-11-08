@@ -169,6 +169,7 @@ protected:
   /** Arranges coefficients spatially in the memory buffer. */
   void Fill(const CoefficientVector & coeff)
   { this->FillCenteredDirectional(coeff); }
+
 private:
 
   /* methods for generations of the coeeficients for a gaussian

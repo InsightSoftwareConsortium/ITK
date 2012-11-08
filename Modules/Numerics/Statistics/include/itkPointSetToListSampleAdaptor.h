@@ -110,6 +110,7 @@ public:
   class ConstIterator
   {
     friend class PointSetToListSampleAdaptor;
+
 public:
 
     ConstIterator(const PointSetToListSampleAdaptor *adaptor)
@@ -174,6 +175,7 @@ protected:
 
     // This method is purposely not implemented
     ConstIterator();
+
 private:
     PointsContainerConstIteratorType m_Iter;
     InstanceIdentifier               m_InstanceIdentifier;
@@ -185,6 +187,7 @@ private:
   class Iterator:public ConstIterator
   {
     friend class PointSetToListSampleAdaptor;
+
 public:
 
     Iterator(Self *adaptor):ConstIterator(adaptor)

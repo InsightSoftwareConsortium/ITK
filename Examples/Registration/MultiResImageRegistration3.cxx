@@ -38,12 +38,12 @@
 template <typename TRegistration>
 class RegistrationInterfaceCommand : public itk::Command
 {
-
 public:
   typedef  RegistrationInterfaceCommand   Self;
   typedef  itk::Command                   Superclass;
   typedef  itk::SmartPointer<Self>        Pointer;
   itkNewMacro( Self );
+
 protected:
   RegistrationInterfaceCommand() {};
 
@@ -97,8 +97,10 @@ public:
   typedef  itk::Command             Superclass;
   typedef  itk::SmartPointer<Self>  Pointer;
   itkNewMacro( Self );
+
 protected:
   CommandIterationUpdate() {};
+
 public:
   typedef   itk::RegularStepGradientDescentOptimizer OptimizerType;
   typedef   const OptimizerType *                    OptimizerPointer;

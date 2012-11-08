@@ -548,6 +548,7 @@ public:
 
 
 // HELPER FUNCTIONS
+
 protected:
   FEMRegistrationFilter();
   ~FEMRegistrationFilter();

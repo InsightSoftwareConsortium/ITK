@@ -92,6 +92,7 @@ public:
   }
 
   itkGetConstMacro(Rank, float);
+
 protected:
   FastApproximateRankImageFilter()
   {

@@ -103,7 +103,6 @@ public:
     return SpaceDimension;
     }
 
-
 private:
 
 

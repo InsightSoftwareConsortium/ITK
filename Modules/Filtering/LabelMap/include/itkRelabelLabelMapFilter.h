@@ -82,6 +82,7 @@ public:
     (Concept::OStreamWritable<InputImagePixelType>));*/
 /** End concept checking */
 #endif
+
 protected:
   RelabelLabelMapFilter()
     {

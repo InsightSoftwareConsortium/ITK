@@ -477,6 +477,7 @@ protected:
    * Function used to prepare primary matrix for numerical solving
    */
   /* void (*m_PrimarySolutionSetupFunction)(LinearSystemWrapper *lsw); */
+
 private:
 
   /**

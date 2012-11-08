@@ -120,6 +120,7 @@ protected:
   /** Arranges coefficients spatially in the memory buffer. */
   void Fill(const CoefficientVector & coeff)
   {   Superclass::FillCenteredDirectional(coeff);  }
+
 private:
   /** Order of the derivative. */
   unsigned int m_Order;

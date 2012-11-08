@@ -131,6 +131,7 @@ public:
                    ( Concept::SameDimension< Input1ImageDimension, OutputImageDimension > ) );
   /** End concept checking */
 #endif
+
 protected:
   TernaryFunctorImageFilter();
   virtual ~TernaryFunctorImageFilter() {}

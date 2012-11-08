@@ -79,6 +79,7 @@ public:
     {
     m_Threshold = vpa.m_Threshold;
     }
+
 private:
   InternalType m_Threshold;
 };

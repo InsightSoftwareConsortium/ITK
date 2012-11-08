@@ -120,7 +120,6 @@ public:
    * NumericTraits<PixelType>::NonpositiveMin(). */
   itkGetConstMacro(BackgroundValue, PixelType);
 
-
 protected:
   BinaryNotImageFilter()
     {

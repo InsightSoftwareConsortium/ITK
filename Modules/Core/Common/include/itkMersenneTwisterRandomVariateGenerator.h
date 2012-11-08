@@ -199,6 +199,7 @@ public:
   void save( IntegerType* saveArray ) const;  // to array of size SAVE
   void load( IntegerType *const loadArray );  // from such array
   */
+
 protected:
   inline MersenneTwisterRandomVariateGenerator();
   virtual ~MersenneTwisterRandomVariateGenerator() {}

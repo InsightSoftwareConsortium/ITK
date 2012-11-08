@@ -179,6 +179,7 @@ public:
    */
   itkSetMacro(NumberOfBins, unsigned int);
   itkGetConstReferenceMacro(NumberOfBins, unsigned int);
+
 protected:
   BinaryImageToStatisticsLabelMapFilter();
   ~BinaryImageToStatisticsLabelMapFilter() {}

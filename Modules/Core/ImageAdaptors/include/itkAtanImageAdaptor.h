@@ -92,9 +92,11 @@ public:
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
+
 protected:
   AtanImageAdaptor() {}
   virtual ~AtanImageAdaptor() {}
+
 private:
   AtanImageAdaptor(const Self &); //purposely not implemented
   void operator=(const Self &);   //purposely not implemented

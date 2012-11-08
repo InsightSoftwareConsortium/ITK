@@ -153,6 +153,7 @@ protected:
   ParametersType m_MinimumMetricValuePosition;
 
   ParametersType m_MaximumMetricValuePosition;
+
 private:
   //purposely not implemented
   ExhaustiveOptimizer(const Self &);

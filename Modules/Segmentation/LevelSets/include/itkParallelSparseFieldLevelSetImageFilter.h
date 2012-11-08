@@ -337,6 +337,7 @@ public:
                    ( Concept::OStreamWritable< PixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   ParallelSparseFieldLevelSetImageFilter();
   ~ParallelSparseFieldLevelSetImageFilter() {}
@@ -770,6 +771,7 @@ protected:
       default this is turned on. Subclasses which do not sample propagation
       (speed), advection, or curvature terms should turn this flag off. */
   bool m_InterpolateSurfaceLocation;
+
 private:
 
   ParallelSparseFieldLevelSetImageFilter(const Self &); // purposely not

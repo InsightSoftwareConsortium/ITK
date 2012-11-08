@@ -229,6 +229,7 @@ public:
 
   /** End concept checking */
 #endif
+
 protected:
   DiscreteGaussianImageFilter()
   {

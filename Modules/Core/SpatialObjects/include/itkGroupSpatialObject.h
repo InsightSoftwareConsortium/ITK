@@ -57,6 +57,7 @@ public:
 
   /**  */
   bool ComputeLocalBoundingBox() const { return false; }
+
 protected:
   GroupSpatialObject(const Self &); //purposely not implemented
   void operator=(const Self &);     //purposely not implemented

@@ -59,6 +59,7 @@ public:
 protected:
   TIFFImageIOFactory();
   ~TIFFImageIOFactory();
+
 private:
   TIFFImageIOFactory(const Self &); //purposely not implemented
   void operator=(const Self &);     //purposely not implemented

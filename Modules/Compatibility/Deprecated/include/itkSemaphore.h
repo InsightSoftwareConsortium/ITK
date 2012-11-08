@@ -144,6 +144,7 @@ protected:
     {
     return std::string(this->m_Pad1)+"-"+std::string(this->m_Pad2);
     }
+
 private:
 
 #ifdef ITK_USE_UNIX_IPC_SEMAPHORES

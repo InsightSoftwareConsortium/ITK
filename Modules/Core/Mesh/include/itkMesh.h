@@ -249,6 +249,7 @@ public:
   BoundaryAssignmentsContainerPointer;
   typedef std::vector< BoundaryAssignmentsContainerPointer >
   BoundaryAssignmentsContainerVector;
+
 protected:
 
   /** Holds cells used by the mesh.  Individual cells are accessed
@@ -276,6 +277,7 @@ protected:
    *  used to access the data stored by a particular boundary through the
    *  containers in the BoundaryData vector.  */
   BoundaryAssignmentsContainerVector m_BoundaryAssignmentsContainers;
+
 public:
   /** Mesh-level operation interface. */
   CellIdentifier GetNumberOfCells() const;
@@ -431,6 +433,7 @@ public:
       will be erased with an improper method.  */
   itkSetMacro(CellsAllocationMethod, CellsAllocationMethodType);
   itkGetConstReferenceMacro(CellsAllocationMethod, CellsAllocationMethodType);
+
 protected:
   /** Constructor for use by New() method. */
   Mesh();

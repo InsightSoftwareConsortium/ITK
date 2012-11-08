@@ -48,6 +48,7 @@ public:
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(UnaryCorrespondenceMatrix, DataObject);
+
 protected:
 
   /** Default Constructor. */

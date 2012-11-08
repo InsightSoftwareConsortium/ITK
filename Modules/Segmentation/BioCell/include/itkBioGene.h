@@ -53,6 +53,7 @@ public:
   }                                             ControlDomainType;
 
   typedef   std::vector< ControlDomainType > GeneControlDomainsType;
+
 public:
   Gene();
   virtual ~Gene();

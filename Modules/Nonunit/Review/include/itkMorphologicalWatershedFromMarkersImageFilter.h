@@ -156,6 +156,7 @@ public:
   itkSetMacro(MarkWatershedLine, bool);
   itkGetConstReferenceMacro(MarkWatershedLine, bool);
   itkBooleanMacro(MarkWatershedLine);
+
 protected:
   MorphologicalWatershedFromMarkersImageFilter();
   ~MorphologicalWatershedFromMarkersImageFilter() {}

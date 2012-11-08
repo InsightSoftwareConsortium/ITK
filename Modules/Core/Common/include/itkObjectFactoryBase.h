@@ -187,6 +187,7 @@ public:
     bool m_EnabledFlag;
     CreateObjectFunctionBase::Pointer m_CreateObject;
   };
+
 protected:
   virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
@@ -210,6 +211,7 @@ protected:
 
   ObjectFactoryBase();
   virtual ~ObjectFactoryBase();
+
 private:
   OverRideMap *m_OverrideMap;
 

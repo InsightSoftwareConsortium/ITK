@@ -222,6 +222,7 @@ protected:
   { return m_KernelCCVector.end(); }
 
   bool m_BoundaryToForeground;
+
 private:
   BinaryMorphologyImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);              //purposely not implemented

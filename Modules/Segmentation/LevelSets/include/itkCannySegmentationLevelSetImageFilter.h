@@ -184,9 +184,11 @@ public:
                    ( Concept::HasNumericTraits< TOutputPixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   ~CannySegmentationLevelSetImageFilter() {}
   CannySegmentationLevelSetImageFilter();
+
 private:
   CannySegmentationLevelSetImageFilter(const Self &); //purposely not
                                                       // implemented

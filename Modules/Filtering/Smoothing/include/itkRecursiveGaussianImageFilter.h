@@ -168,7 +168,6 @@ protected:
    * that sigma is greater than zero. */
   virtual void VerifyPreconditions();
 
-
 private:
   RecursiveGaussianImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);               //purposely not implemented

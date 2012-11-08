@@ -61,9 +61,11 @@ public:
 
   // cppcheck-suppress uninitVar
   TreeChangeEvent(const Self & s):itk::ModifiedEvent(s) {}
+
 protected:
 
   const TreeIteratorBase< TTreeType > *m_ChangePosition;
+
 private:
   void operator=(const Self &);
 };
@@ -92,6 +94,7 @@ public:
   virtual::itk::EventObject * MakeObject() const { return new Self(*this->m_ChangePosition); }
 
   TreeNodeChangeEvent(const Self & s):TreeChangeEvent< TTreeType >(s) {}
+
 private:
   void operator=(const Self &);
 };
@@ -126,6 +129,7 @@ public:
   virtual::itk::EventObject * MakeObject() const { return new Self(*this->m_ChangePosition); }
 
   TreeAddEvent(const Self & s):TreeChangeEvent< TTreeType >(s) {}
+
 private:
   void operator=(const Self &);
 };
@@ -160,6 +164,7 @@ public:
   virtual::itk::EventObject * MakeObject() const { return new Self(*this->m_ChangePosition); }
 
   TreeRemoveEvent(const Self & s):TreeChangeEvent< TTreeType >(s) {}
+
 private:
   void operator=(const Self &);
 };
@@ -188,6 +193,7 @@ public:
   virtual::itk::EventObject * MakeObject() const { return new Self(*this->m_ChangePosition); }
 
   TreePruneEvent(const Self & s):TreeRemoveEvent< TTreeType >(s) {}
+
 private:
   void operator=(const Self &);
 };

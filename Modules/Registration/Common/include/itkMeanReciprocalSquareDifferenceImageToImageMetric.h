@@ -95,6 +95,7 @@ public:
    * computation of the metric derivative using the finite differences method. */
   itkGetConstMacro(Delta, double);
   itkSetMacro(Delta, double);
+
 protected:
   MeanReciprocalSquareDifferenceImageToImageMetric();
   virtual ~MeanReciprocalSquareDifferenceImageToImageMetric() {}

@@ -35,7 +35,6 @@ public:
 
   typedef Image3DType::DirectionType    Direction3DType;
 
-
 public:
   AnalyzeIODirectionHelper()
   {

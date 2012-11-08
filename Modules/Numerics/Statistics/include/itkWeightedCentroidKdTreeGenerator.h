@@ -86,6 +86,7 @@ public:
   typedef typename Superclass::SubsamplePointer      SubsamplePointer;
   typedef typename Superclass::KdTreeType            KdTreeType;
   typedef typename Superclass::KdTreeNodeType        KdTreeNodeType;
+
 protected:
   /** Constructor */
   WeightedCentroidKdTreeGenerator();

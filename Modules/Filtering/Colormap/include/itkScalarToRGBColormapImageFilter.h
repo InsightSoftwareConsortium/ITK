@@ -125,6 +125,7 @@ public:
   itkSetMacro(UseInputImageExtremaForScaling, bool);
   itkGetConstMacro(UseInputImageExtremaForScaling, bool);
   itkBooleanMacro(UseInputImageExtremaForScaling);
+
 protected:
   ScalarToRGBColormapImageFilter();
   virtual ~ScalarToRGBColormapImageFilter() {}

@@ -113,7 +113,6 @@ public:
   itkStaticConstMacro(MovingImageDimension, ImageDimensionType,
       TMovingImage::ImageDimension);
 
-
 protected:
   CorrelationImageToImageMetricv4();
   virtual ~CorrelationImageToImageMetricv4();

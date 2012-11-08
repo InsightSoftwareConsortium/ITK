@@ -43,6 +43,7 @@ public:
     {
     itkExceptionMacro( << "This is never called." );
     }
+
 private:
   Rigid3DTransformSurrogate() {}
   ~Rigid3DTransformSurrogate() {}

@@ -77,8 +77,10 @@ public:
   typedef  itk::Command             Superclass;
   typedef  itk::SmartPointer<Self>  Pointer;
   itkNewMacro( Self );
+
 protected:
   CommandIterationUpdate(): m_CumulativeIterationIndex(0) {};
+
 public:
   typedef   itk::RegularStepGradientDescentOptimizer  OptimizerType;
   typedef   const OptimizerType *                     OptimizerPointer;
@@ -101,6 +103,7 @@ public:
     std::cout << optimizer->GetCurrentPosition() << "  " <<
       m_CumulativeIterationIndex++ << std::endl;
     }
+
 private:
   unsigned int m_CumulativeIterationIndex;
 };
@@ -117,8 +120,10 @@ public:
   typedef  itk::Command                   Superclass;
   typedef  itk::SmartPointer<Self>        Pointer;
   itkNewMacro( Self );
+
 protected:
   RegistrationInterfaceCommand() {};
+
 public:
   typedef   TRegistration                              RegistrationType;
   typedef   RegistrationType *                         RegistrationPointer;

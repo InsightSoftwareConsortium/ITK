@@ -87,6 +87,7 @@ public:
   itkSetMacro(ChangeBackgroundValue, bool);
   itkGetConstMacro(ChangeBackgroundValue, bool);
   itkBooleanMacro(ChangeBackgroundValue);
+
 protected:
   ShiftScaleLabelMapFilter();
   ~ShiftScaleLabelMapFilter() {}
@@ -99,6 +100,7 @@ protected:
   double m_Scale;
 
   bool m_ChangeBackgroundValue;
+
 private:
   ShiftScaleLabelMapFilter(const Self &); //purposely not implemented
   void operator=(const Self &);           //purposely not implemented

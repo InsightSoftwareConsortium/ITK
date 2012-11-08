@@ -121,6 +121,7 @@ public:
                    ( Concept::LessThanComparable< PixelType, int > ) );
   /** End concept checking */
 #endif
+
 protected:
   BinaryPruningImageFilter();
   virtual ~BinaryPruningImageFilter() {}

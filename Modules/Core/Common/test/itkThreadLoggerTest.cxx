@@ -50,6 +50,7 @@ public:
     itkLogMacroStatic( tester, FATAL, "FATAL message by itkLogMacroStatic\n" );
     itkLogMacroStatic( tester, MUSTFLUSH, "MUSTFLUSH message by itkLogMacroStatic\n" );
   }
+
 private:
   itk::Logger* m_Logger;
 };

@@ -156,6 +156,7 @@ public:
   itkSetMacro(UseImageSpacing, bool);
   itkGetConstMacro(UseImageSpacing, bool);
   itkBooleanMacro(UseImageSpacing);
+
 protected:
   GaussianBlurImageFunction();
   GaussianBlurImageFunction(const Self &);

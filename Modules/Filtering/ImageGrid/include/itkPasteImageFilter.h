@@ -158,6 +158,7 @@ protected:
   SourceImageRegionType m_SourceRegion;
 
   InputImageIndexType m_DestinationIndex;
+
 private:
   PasteImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);   //purposely not implemented

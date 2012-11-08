@@ -65,6 +65,7 @@ public:
    ** this will throw an exception
    */
   void SetTransformList(TransformType *transform,TransformListType &transformList);
+
 private:
   ConstTransformListType m_TransformList;
 

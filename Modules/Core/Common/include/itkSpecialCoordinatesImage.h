@@ -278,11 +278,13 @@ public:
                       const IndexType & index,
                       Point<TCoordRep, VImageDimension>& point ) const = 0;
   */
+
 protected:
   SpecialCoordinatesImage();
   void PrintSelf(std::ostream & os, Indent indent) const;
 
   virtual ~SpecialCoordinatesImage() {}
+
 private:
   SpecialCoordinatesImage(const Self &); //purposely not implemented
   void operator=(const Self &);          //purposely not implemented

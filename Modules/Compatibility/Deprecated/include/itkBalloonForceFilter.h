@@ -183,6 +183,7 @@ public:
   itkGetConstMacro(Displacements, InputMeshPointer);
   itkGetConstMacro(Derives, InputMeshPointer);
   itkGetConstMacro(Forces, InputMeshPointer);
+
 protected:
   BalloonForceFilter();
   ~BalloonForceFilter();

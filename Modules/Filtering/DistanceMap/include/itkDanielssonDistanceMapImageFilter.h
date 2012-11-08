@@ -203,6 +203,7 @@ public:
                                            OutputPixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   DanielssonDistanceMapImageFilter();
   virtual ~DanielssonDistanceMapImageFilter() {}

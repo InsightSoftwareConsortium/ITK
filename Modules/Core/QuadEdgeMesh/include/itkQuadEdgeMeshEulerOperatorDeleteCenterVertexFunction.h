@@ -65,6 +65,7 @@ public:
 protected:
   QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction(){}
   ~QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction(){}
+
 private:
   QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction(const Self &);
   //purposely not implemented

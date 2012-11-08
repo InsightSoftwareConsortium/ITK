@@ -124,6 +124,7 @@ public:
 
   itkSetMacro (Weight, WeightType);
   itkGetConstMacro (Weight, WeightType);
+
 protected:
   NormalQuadEdgeMeshFilter();
   ~NormalQuadEdgeMeshFilter();

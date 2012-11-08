@@ -123,6 +123,7 @@ public:
   /** Set growth strategy to linear */
   void SetGrowthStrategyToLinear()
   { this->SetGrowthStrategy(LINEAR_GROWTH); }
+
 protected:
   ObjectStore();
   ~ObjectStore();
@@ -145,6 +146,7 @@ protected:
     ObjectType *Begin;
     SizeValueType Size;
   };
+
 private:
   ObjectStore(const Self &);    //purposely not implemented
   void operator=(const Self &); //purposely not implemented

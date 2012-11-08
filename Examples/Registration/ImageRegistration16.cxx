@@ -49,11 +49,13 @@ public:
   typedef  itk::Command             Superclass;
   typedef itk::SmartPointer<Self>   Pointer;
   itkNewMacro( Self );
+
 protected:
   CommandIterationUpdate()
     {
     m_IterationNumber=0;
     }
+
 public:
   typedef itk::AmoebaOptimizer         OptimizerType;
   typedef   const OptimizerType   *    OptimizerPointer;
@@ -75,6 +77,7 @@ public:
     std::cout << optimizer->GetCachedValue() << "   ";
     std::cout << optimizer->GetCachedCurrentPosition() << std::endl;
     }
+
 private:
   unsigned long m_IterationNumber;
 };

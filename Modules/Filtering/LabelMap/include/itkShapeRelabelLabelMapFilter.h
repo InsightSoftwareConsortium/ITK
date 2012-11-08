@@ -171,6 +171,7 @@ protected:
   bool m_ReverseOrdering;
 
   AttributeType m_Attribute;
+
 private:
   ShapeRelabelLabelMapFilter(const Self &); //purposely not implemented
   void operator=(const Self &);             //purposely not implemented

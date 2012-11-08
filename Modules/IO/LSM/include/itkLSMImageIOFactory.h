@@ -68,6 +68,7 @@ public:
 protected:
   LSMImageIOFactory();
   ~LSMImageIOFactory();
+
 private:
   LSMImageIOFactory(const Self &); //purposely not implemented
   void operator=(const Self &);    //purposely not implemented

@@ -111,6 +111,7 @@ public:
 
   itkSetMacro(PrecomputeFlag, bool);
   itkGetConstMacro(PrecomputeFlag, bool);
+
 protected:
   FiniteDifferenceSparseImageFilter();
   ~FiniteDifferenceSparseImageFilter() {}
@@ -129,6 +130,7 @@ protected:
    * values. Default is no constraint. */
   virtual NodeDataType DataConstraint(const NodeDataType & data) const
   { return data; }
+
 private:
   /** The type of region used in multithreading. */
   struct ThreadRegionType {
@@ -137,6 +139,7 @@ private:
     // this is one past the last element
     typename NodeListType::Iterator last;
   };
+
 protected:
   /** This function returns a single region for use in multi-threading. */
   ThreadIdType GetSplitRegion(ThreadIdType i, ThreadIdType num, ThreadRegionType & splitRegion);
@@ -181,6 +184,7 @@ protected:
     std::vector< TimeStepType > TimeStepList;
     std::vector< bool > ValidTimeStepList;
   };
+
 private:
   /** Flag to let the class know whether or not to call PrecalculateChange. */
   bool m_PrecomputeFlag;

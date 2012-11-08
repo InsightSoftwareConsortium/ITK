@@ -153,6 +153,7 @@ public:
   /** This destructor is not virtual for performance reasons. However, this
    * means that subclasses cannot allocate memory. */
   ~Array();
+
 private:
 
   bool m_LetArrayManageMemory;

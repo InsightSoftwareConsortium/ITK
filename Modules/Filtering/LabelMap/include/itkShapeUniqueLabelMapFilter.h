@@ -315,6 +315,7 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const;
 
   AttributeType m_Attribute;
+
 private:
   ShapeUniqueLabelMapFilter(const Self &); //purposely not implemented
   void operator=(const Self &);            //purposely not implemented

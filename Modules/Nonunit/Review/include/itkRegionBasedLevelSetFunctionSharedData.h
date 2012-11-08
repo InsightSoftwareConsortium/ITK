@@ -173,9 +173,11 @@ public:
   unsigned int     m_NumberOfNeighbors;
   ListImagePointer m_NearestNeighborListImage;
   KdTreePointer    m_KdTree;
+
 protected:
   RegionBasedLevelSetFunctionSharedData():m_NumberOfNeighbors(6), m_KdTree(0){}
   ~RegionBasedLevelSetFunctionSharedData(){}
+
 private:
   RegionBasedLevelSetFunctionSharedData(const Self &); //purposely not
                                                        // implemented

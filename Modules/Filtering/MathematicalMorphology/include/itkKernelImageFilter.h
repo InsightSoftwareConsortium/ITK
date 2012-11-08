@@ -100,6 +100,7 @@ protected:
 
   /** kernel or structuring element to use. */
   KernelType m_Kernel;
+
 private:
   KernelImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);    //purposely not implemented

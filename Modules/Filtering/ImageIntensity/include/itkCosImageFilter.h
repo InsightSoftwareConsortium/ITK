@@ -107,9 +107,11 @@ public:
                    ( Concept::Convertible< double, typename TOutputImage::PixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   CosImageFilter() {}
   virtual ~CosImageFilter() {}
+
 private:
   CosImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &); //purposely not implemented

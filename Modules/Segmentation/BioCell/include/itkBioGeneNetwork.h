@@ -40,6 +40,7 @@ class ITK_EXPORT GeneNetwork
 public:
   typedef   std::vector< float > ProteomeType;
   typedef   std::vector< float > DomainsType;
+
 public:
   GeneNetwork();
   virtual ~GeneNetwork();

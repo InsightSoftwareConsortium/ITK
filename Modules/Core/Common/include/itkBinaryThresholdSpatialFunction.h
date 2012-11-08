@@ -97,6 +97,7 @@ protected:
   FunctionOutputType m_UpperThreshold;
 
   typename FunctionType::Pointer m_Function;
+
 private:
   BinaryThresholdSpatialFunction(const Self &); //purposely not implemented
   void operator=(const Self &);                 //purposely not implemented

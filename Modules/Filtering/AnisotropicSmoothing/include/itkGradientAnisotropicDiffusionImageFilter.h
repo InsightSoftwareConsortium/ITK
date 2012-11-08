@@ -77,6 +77,7 @@ public:
                    ( Concept::HasNumericTraits< typename UpdateBufferType::PixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   GradientAnisotropicDiffusionImageFilter()
   {
@@ -86,6 +87,7 @@ protected:
   }
 
   ~GradientAnisotropicDiffusionImageFilter() {}
+
 private:
   GradientAnisotropicDiffusionImageFilter(const Self &); //purposely not
                                                          // implemented

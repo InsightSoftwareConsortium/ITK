@@ -103,6 +103,7 @@ public:
                    ( Concept::MultiplyOperator< RealType > ) );
   /** End concept checking */
 #endif
+
 protected:
   ShiftScaleImageFilter();
   ~ShiftScaleImageFilter();

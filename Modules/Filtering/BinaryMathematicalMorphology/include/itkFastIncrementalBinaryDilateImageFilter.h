@@ -80,9 +80,11 @@ public:
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(FastIncrementalBinaryDilateImageFilter, ImageToImageFilter);
+
 protected:
   FastIncrementalBinaryDilateImageFilter() {}
   virtual ~FastIncrementalBinaryDilateImageFilter(){}
+
 private:
   FastIncrementalBinaryDilateImageFilter(const Self &); //purposely not
                                                         // implemented

@@ -153,6 +153,7 @@ public:
   itkSetMacro(UseStreaming, bool);
   itkGetConstReferenceMacro(UseStreaming, bool);
   itkBooleanMacro(UseStreaming);
+
 protected:
   ImageSeriesReader():m_ImageIO(0), m_ReverseOrder(false),
     m_UseStreaming(true), m_MetaDataDictionaryArrayUpdate(true) {}
@@ -183,6 +184,7 @@ protected:
   DictionaryArrayType m_MetaDataDictionaryArray;
 
   bool m_UseStreaming;
+
 private:
   ImageSeriesReader(const Self &); //purposely not implemented
   void operator=(const Self &);    //purposely not implemented

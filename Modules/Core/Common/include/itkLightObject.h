@@ -156,6 +156,7 @@ protected:
 
   /** Mutex lock to protect modification to the reference count */
   mutable SimpleFastMutexLock m_ReferenceCountLock;
+
 private:
   LightObject(const Self &);    //purposely not implemented
   void operator=(const Self &); //purposely not implemented

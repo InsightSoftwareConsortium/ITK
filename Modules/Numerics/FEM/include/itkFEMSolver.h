@@ -415,6 +415,7 @@ protected:
   InterpolationGridPointerType m_InterpolationGrid;
 
   FEMObjectPointer m_FEMObject;
+
 private:
   Solver(const Self &);         // purposely not implemented
   void operator=(const Self &); // purposely not implemented

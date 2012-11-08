@@ -159,6 +159,7 @@ protected:
 
   // Type of connectivity to use.
   ConnectivityEnumType m_Connectivity;
+
 private:
   ConnectedThresholdImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);                //purposely not implemented

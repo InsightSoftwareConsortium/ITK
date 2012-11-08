@@ -106,6 +106,7 @@ public:
 protected:
   /** Store number of points needed for a line segment. */
   PointIdentifier m_PointIds[NumberOfPoints];
+
 private:
   QuadraticEdgeCell(const Self &); //purposely not implemented
   void operator=(const Self &);    //purposely not implemented

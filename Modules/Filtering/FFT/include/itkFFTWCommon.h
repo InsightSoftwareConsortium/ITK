@@ -49,6 +49,7 @@ template< typename TPixel >
 class Proxy
 {
   // empty -- only double and float specializations work
+
 protected:
   Proxy() {};
   ~Proxy() {};

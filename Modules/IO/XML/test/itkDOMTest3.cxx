@@ -19,6 +19,7 @@
 /*
 itkDOMTest4 depends on function itk::DOMNode::GetPath() to check whether a returned
 node is correct or not, so we need to make sure that GetPath() is working correctly. This
+
 program validates the GetPath() function using the following XML file:
 <ITK>/Testing/Data/Input/XML/test.xml,
 so it is important to supply the correct input during the testing process.

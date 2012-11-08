@@ -103,6 +103,7 @@ public:
   /** Runtime information support. */
   itkTypeMacro(ReconstructionByDilationImageFilter,
                ReconstructionImageFilter);
+
 protected:
   ReconstructionByDilationImageFilter()
   {
@@ -110,6 +111,7 @@ protected:
   }
 
   virtual ~ReconstructionByDilationImageFilter() {}
+
 private:
   //purposely not implemented
   ReconstructionByDilationImageFilter(const Self &);

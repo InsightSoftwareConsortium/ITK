@@ -112,6 +112,7 @@ public:
                    ( Concept::MultiplyOperator< RealType > ) );
   /** End concept checking */
 #endif
+
 protected:
   ShiftScaleInPlaceImageFilter();
   ~ShiftScaleInPlaceImageFilter();

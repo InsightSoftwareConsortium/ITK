@@ -122,9 +122,11 @@ public:
                    ( Concept::HasNumericTraits< InputPixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   MeanProjectionImageFilter() {}
   virtual ~MeanProjectionImageFilter() {}
+
 private:
   MeanProjectionImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);            //purposely not implemented

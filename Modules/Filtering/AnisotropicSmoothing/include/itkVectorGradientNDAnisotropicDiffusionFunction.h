@@ -91,6 +91,7 @@ public:
 protected:
   VectorGradientNDAnisotropicDiffusionFunction();
   ~VectorGradientNDAnisotropicDiffusionFunction() {}
+
 private:
   VectorGradientNDAnisotropicDiffusionFunction(const Self &); //purposely not
                                                               // implemented

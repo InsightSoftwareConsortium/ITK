@@ -61,6 +61,7 @@ public:
 
   typedef typename HistogramType::Pointer      HistogramPointer;
   typedef typename HistogramType::ConstPointer HistogramConstPointer;
+
 public:
 
   /** Triggers the Computation of the histogram */

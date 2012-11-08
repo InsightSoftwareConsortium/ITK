@@ -145,6 +145,7 @@ public:
    * \warning this is only used when streaming is on. */
   itkSetMacro(SubSamplingFactor, unsigned int);
   itkGetConstMacro(SubSamplingFactor, unsigned int);
+
 protected:
   MetaImageIO();
   ~MetaImageIO();

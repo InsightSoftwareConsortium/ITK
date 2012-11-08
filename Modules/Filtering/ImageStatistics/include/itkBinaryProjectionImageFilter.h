@@ -150,6 +150,7 @@ public:
                    ( Concept::HasNumericTraits< InputPixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   BinaryProjectionImageFilter()
   {
@@ -192,6 +193,7 @@ protected:
 
   /** Pixel value for background */
   OutputPixelType m_BackgroundValue;
+
 private:
   BinaryProjectionImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);              //purposely not implemented

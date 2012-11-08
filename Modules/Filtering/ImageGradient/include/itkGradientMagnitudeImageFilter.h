@@ -106,6 +106,7 @@ public:
                    ( Concept::HasNumericTraits< InputPixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   GradientMagnitudeImageFilter()
   {
@@ -129,6 +130,7 @@ protected:
                             ThreadIdType threadId);
 
   void PrintSelf(std::ostream &, Indent) const;
+
 private:
   GradientMagnitudeImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);               //purposely not implemented

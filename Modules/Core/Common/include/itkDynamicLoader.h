@@ -79,6 +79,7 @@ public:
 protected:
   DynamicLoader();
   ~DynamicLoader();
+
 private:
   DynamicLoader(const Self &);  //purposely not implemented
   void operator=(const Self &); //purposely not implemented

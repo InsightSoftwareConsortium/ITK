@@ -87,9 +87,11 @@ public:
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(SinImageAdaptor, ImageAdaptor);
+
 protected:
   SinImageAdaptor() {}
   virtual ~SinImageAdaptor() {}
+
 private:
   SinImageAdaptor(const Self &); //purposely not implemented
   void operator=(const Self &);  //purposely not implemented

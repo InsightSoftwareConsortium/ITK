@@ -243,6 +243,7 @@ public:
   itkGetConstMacro(SelectionMethod, int);
 
   itkGetConstMacro(ModifiedCount, int);
+
 protected:
 
   SimplexMeshAdaptTopologyFilter();

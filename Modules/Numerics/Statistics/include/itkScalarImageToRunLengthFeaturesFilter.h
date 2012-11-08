@@ -192,6 +192,7 @@ public:
   itkGetConstMacro(FastCalculations, bool);
   itkSetMacro(FastCalculations, bool);
   itkBooleanMacro(FastCalculations);
+
 protected:
   ScalarImageToRunLengthFeaturesFilter();
   virtual ~ScalarImageToRunLengthFeaturesFilter() {}

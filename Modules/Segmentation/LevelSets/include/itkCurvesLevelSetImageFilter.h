@@ -142,6 +142,7 @@ public:
                    ( Concept::HasNumericTraits< TOutputPixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   ~CurvesLevelSetImageFilter() {}
   CurvesLevelSetImageFilter();

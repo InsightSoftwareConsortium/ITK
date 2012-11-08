@@ -59,6 +59,7 @@ public:
 protected:
   FileListVideoIOFactory();
   ~FileListVideoIOFactory();
+
 private:
   FileListVideoIOFactory(const Self &); //purposely not implemented
   void operator=(const Self &);         //purposely not implemented

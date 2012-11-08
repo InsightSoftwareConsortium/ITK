@@ -264,9 +264,11 @@ public:
    * false if the map based algorithm is used */
   static bool GetUseVectorBasedAlgorithm()
   { return Function::MorphologicalGradientHistogram< typename TInputImage::PixelType >::UseVectorBasedAlgorithm(); }
+
 protected:
   MovingHistogramMorphologicalGradientImageFilter() {}
   ~MovingHistogramMorphologicalGradientImageFilter() {}
+
 private:
   MovingHistogramMorphologicalGradientImageFilter(const Self &); //purposely not
                                                                  // implemented

@@ -65,6 +65,7 @@ public:
                    ( Concept::HasPixelTraits< OutputImagePixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   ScalarToArrayCastImageFilter();
   virtual ~ScalarToArrayCastImageFilter() {}

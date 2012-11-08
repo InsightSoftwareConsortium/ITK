@@ -290,6 +290,7 @@ protected:
   std::string m_FrameOfReferenceInstanceUID;
 
   bool m_KeepOriginalUID;
+
 private:
   GDCMImageIO(const Self &);    //purposely not implemented
   void operator=(const Self &); //purposely not implemented

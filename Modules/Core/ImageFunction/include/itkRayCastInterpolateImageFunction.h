@@ -186,6 +186,7 @@ protected:
 
   /// Pointer to the interpolator
   InterpolatorPointer m_Interpolator;
+
 private:
   RayCastInterpolateImageFunction(const Self &); //purposely not implemented
   void operator=(const Self &);                  //purposely not implemented

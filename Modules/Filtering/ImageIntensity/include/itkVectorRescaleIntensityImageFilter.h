@@ -151,9 +151,11 @@ public:
                    ( Concept::HasNumericTraits< OutputValueType > ) );
   /** End concept checking */
 #endif
+
 protected:
   VectorRescaleIntensityImageFilter();
   virtual ~VectorRescaleIntensityImageFilter() {}
+
 private:
   VectorRescaleIntensityImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);                    //purposely not implemented

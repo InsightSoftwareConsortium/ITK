@@ -104,6 +104,7 @@ public:
   itkSetMacro(ComputeSquaredDistance, bool);
   itkGetConstMacro(ComputeSquaredDistance, bool);
   itkBooleanMacro(ComputeSquaredDistance);
+
 protected:
   EuclideanDistancePointMetric();
   virtual ~EuclideanDistancePointMetric() {}

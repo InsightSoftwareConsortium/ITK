@@ -138,6 +138,7 @@ protected:
   /** Flag to indicate whether to report the last frame as the last IFrame. On
    * by default */
   bool m_IFrameSafe;
+
 private:
   VideoFileReader(const Self &); // purposely not implemented
   void operator=(const Self &);  // purposely not implemented

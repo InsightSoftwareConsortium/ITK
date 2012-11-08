@@ -134,6 +134,7 @@ public:
    */
   itkSetMacro(Lambda, AttributeType);
   itkGetConstMacro(Lambda, AttributeType);
+
 protected:
   AttributeMorphologyBaseImageFilter()
   {
@@ -163,6 +164,7 @@ protected:
   void EnlargeOutputRequestedRegion( DataObject * itkNotUsed(output) );
 
   AttributeType m_AttributeValuePerPixel;
+
 private:
 
   bool          m_FullyConnected;

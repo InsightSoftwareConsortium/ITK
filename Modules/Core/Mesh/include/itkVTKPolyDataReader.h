@@ -90,6 +90,7 @@ public:
 
   /** Get the file header line */
   itkGetStringMacro(Header);
+
 protected:
   VTKPolyDataReader();
   ~VTKPolyDataReader() {}
@@ -99,6 +100,7 @@ protected:
   void GenerateData();
 
   /** Filename to read */
+
 private:
   VTKPolyDataReader(const Self &); // purposely not implemented
   void operator=(const Self &);    // purposely not implemented

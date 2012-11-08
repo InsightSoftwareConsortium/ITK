@@ -97,6 +97,7 @@ public:
 
   /** LabelMapFilter will produce the entire output. */
   void EnlargeOutputRequestedRegion( DataObject * itkNotUsed(output) );
+
 protected:
   LabelMapFilter();
   ~LabelMapFilter();

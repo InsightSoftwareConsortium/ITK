@@ -89,6 +89,7 @@ public:
                    ( Concept::HasNumericTraits< InputImagePixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   ValuedRegionalMinimaImageFilter()
   {
@@ -96,6 +97,7 @@ protected:
   }
 
   virtual ~ValuedRegionalMinimaImageFilter() {}
+
 private:
   ValuedRegionalMinimaImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);                  //purposely not implemented

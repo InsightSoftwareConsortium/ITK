@@ -88,6 +88,7 @@ public:
 
   itkSetMacro(Kappa, double);
   itkGetConstMacro(Kappa, double);
+
 protected:
   DeformableSimplexMesh3DBalloonForceFilter();
   ~DeformableSimplexMesh3DBalloonForceFilter();

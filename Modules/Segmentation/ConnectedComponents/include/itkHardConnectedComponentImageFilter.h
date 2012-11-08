@@ -114,6 +114,7 @@ public:
                    ( Concept::IncrementDecrementOperators< OutputPixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   HardConnectedComponentImageFilter() {}
   virtual ~HardConnectedComponentImageFilter() {}

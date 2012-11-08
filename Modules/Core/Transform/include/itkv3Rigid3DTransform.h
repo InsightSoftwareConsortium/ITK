@@ -119,6 +119,7 @@ virtual InverseTransformBasePointer GetInverseTransform() const
   Pointer inv = New();
   return this->GetInverse(inv) ? inv.GetPointer() : NULL;
   }
+
 protected:
   Rigid3DTransform()
   {

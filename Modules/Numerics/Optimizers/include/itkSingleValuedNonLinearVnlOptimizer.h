@@ -86,6 +86,7 @@ public:
   itkGetConstReferenceMacro(CachedValue, MeasureType);
   itkGetConstReferenceMacro(CachedDerivative, DerivativeType);
   itkGetConstReferenceMacro(CachedCurrentPosition, ParametersType);
+
 protected:
   SingleValuedNonLinearVnlOptimizer();
   virtual ~SingleValuedNonLinearVnlOptimizer();

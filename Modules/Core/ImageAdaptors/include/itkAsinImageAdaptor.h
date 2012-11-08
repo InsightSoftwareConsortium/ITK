@@ -89,9 +89,11 @@ public:
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
+
 protected:
   AsinImageAdaptor() {}
   virtual ~AsinImageAdaptor() {}
+
 private:
   AsinImageAdaptor(const Self &); //purposely not implemented
   void operator=(const Self &);   //purposely not implemented

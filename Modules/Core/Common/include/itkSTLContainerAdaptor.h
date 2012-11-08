@@ -48,6 +48,7 @@ public:
 
   typedef typename AdapteeType::Element          ElementType;
   typedef typename AdapteeType::STLContainerType TargetType;
+
 private:
 
   AdapteeType & m_AdapteeRef;

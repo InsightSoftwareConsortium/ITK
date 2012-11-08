@@ -161,6 +161,7 @@ public:
                    ( Concept::SameType< InputPixelType, OutputPixelType > ) );
   /** End concept checking */
 #endif
+
 protected:
   HistogramMatchingImageFilter();
   ~HistogramMatchingImageFilter() {}

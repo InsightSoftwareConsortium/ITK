@@ -93,6 +93,7 @@ public:
    * false if the map based algorithm is used */
   static bool GetUseVectorBasedAlgorithm()
   { return THistogram::UseVectorBasedAlgorithm(); }
+
 protected:
   MovingHistogramMorphologyImageFilter();
   ~MovingHistogramMorphologyImageFilter() {}
@@ -107,6 +108,7 @@ protected:
   virtual void ConfigureHistogram(THistogram & histogram);
 
   PixelType m_Boundary;
+
 private:
   MovingHistogramMorphologyImageFilter(const Self &); //purposely not
                                                       // implemented

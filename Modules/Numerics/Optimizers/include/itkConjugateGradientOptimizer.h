@@ -75,6 +75,7 @@ protected:
   virtual ~ConjugateGradientOptimizer();
 
   typedef Superclass::CostFunctionAdaptorType CostFunctionAdaptorType;
+
 private:
   ConjugateGradientOptimizer(const Self &); //purposely not implemented
   void operator=(const Self &);             //purposely not implemented

@@ -127,6 +127,7 @@ public:
   class ConstIterator
   {
     friend class ListSample;
+
 public:
 
     ConstIterator(const ListSample *sample)
@@ -191,6 +192,7 @@ protected:
 
     // This method is purposely not implemented
     ConstIterator();
+
 private:
     typedef typename InternalDataContainerType::const_iterator InternalIterator;
     InternalIterator   m_Iter;
@@ -204,6 +206,7 @@ private:
   class Iterator:public ConstIterator
   {
     friend class ListSample;
+
 public:
 
     Iterator(Self *sample):ConstIterator(sample)
