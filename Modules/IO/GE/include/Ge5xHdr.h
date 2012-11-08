@@ -71,7 +71,7 @@ typedef struct GE_5x_ImgHdr {
   int GENESIS_IH_img_top_offset;
   int GENESIS_IH_img_bot_offset;
   short GENESIS_IH_img_version;
-  uint16_t GENESIS_IH_img_checksum;
+  unsigned short GENESIS_IH_img_checksum;
   int GENESIS_IH_img_p_id;
   int GENESIS_IH_img_l_id;
   int GENESIS_IH_img_p_unpack;
