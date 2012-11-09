@@ -95,14 +95,15 @@ PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
 ::GenerateData()
 {
   if (this->GetState() == UNINITIALIZED)
-  {
+    {
     // Allocate the output image
     this->AllocateOutputs();
 
     this->m_InputImage = this->GetInput();
     this->m_OutputImage = this->GetOutput();
     // Copy the input image to the output image.
-    // Algorithms will operate directly on the output image and the update buffer.
+    // Algorithms will operate directly on the output image and the update
+    // buffer.
     this->CopyInputToOutput();
 
     // Initialize patch weights.
@@ -118,25 +119,25 @@ PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
 
     this->SetStateToInitialized();
     m_ElapsedIterations = 0;
-  }
+    }
 
   // Iterative Patch-Based Denoising Algorithm
 
   // Any pre-processing of the input can be done here.
   this->PreProcessInput();
 
-  while ( ! this->Halt() )
-  {
+  while ( !this->Halt() )
+    {
     // An optional method for precalculating global values,
     // or otherwise setting up for the next iteration.
     this->InitializeIteration();
 
-    if ((m_DoKernelBandwidthEstimation) &&
-        (m_ElapsedIterations % m_KernelBandwidthUpdateFrequency == 0))
-    {
+    if ( (m_DoKernelBandwidthEstimation) &&
+         (m_ElapsedIterations % m_KernelBandwidthUpdateFrequency == 0) )
+      {
       // Find the optimal kernel bandwidth parameter.
       this->ComputeKernelBandwidthUpdate();
-    }
+      }
     itkDebugMacro( << "Computing Image Update iteration " << m_ElapsedIterations+1
                    << " of " << m_NumberOfIterations );
 
@@ -150,18 +151,18 @@ PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
     // Invoke the iteration event.
     this->InvokeEvent( IterationEvent() );
     if( this->GetAbortGenerateData() )
-    {
+      {
       this->InvokeEvent( IterationEvent() );
       this->ResetPipeline();
       throw ProcessAborted(__FILE__,__LINE__);
+      }
     }
-  }
 
   if (m_ManualReinitialization == false)
-  {
+    {
     // Reset the state once execution is completed.
     this->SetStateToUninitialized();
-  }
+    }
 
   // Any post-processing of the solution can be done here.
   this->PostProcessOutput();
@@ -174,8 +175,9 @@ PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
 {
   // Default patch weights of all unity.
   PatchWeightsType patchWeights;
+
   // Allocate patch weights.
-  patchWeights.SetSize(this->GetPatchLengthInVoxels());
+  patchWeights.SetSize(this->GetPatchLengthInVoxels() );
   // Assign default patch weights of all unity => rectangular patch.
   patchWeights.Fill(1.0);
   this->SetPatchWeights(patchWeights);
@@ -190,15 +192,15 @@ PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
                          "Unexpected patch size encountered while setting patch weights" );
 
   // Allocate patch weights.
-  m_PatchWeights.SetSize (this->GetPatchLengthInVoxels());
+  m_PatchWeights.SetSize (this->GetPatchLengthInVoxels() );
 
   // Copy weights to m_PatchWeights
   for (unsigned int pos = 0; pos < this->GetPatchLengthInVoxels(); ++pos)
-  {
+    {
     itkAssertOrThrowMacro( (weights[pos] >= 0.0f) && (weights[pos] <= 1.0f),
                            "Patch weights must be in the range [0,1]" );
     m_PatchWeights[pos] = weights[pos];
-  }
+    }
 }
 
 template <class TInputImage, class TOutputImage>
@@ -215,11 +217,12 @@ PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
 ::GetPatchLengthInVoxels() const
 {
   const PatchRadiusType diameter = this->GetPatchDiameterInVoxels();
+
   typename PatchRadiusType::SizeValueType length = 1;
   for (unsigned int dim = 0; dim < ImageDimension; ++dim)
-  {
+    {
     length *= diameter[dim];
-  }
+    }
   return length;
 }
 
@@ -230,6 +233,7 @@ PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
 {
   PatchRadiusType one;
   PatchRadiusType two;
+
   one.Fill(1);
   two.Fill(2);
   const PatchRadiusType radius = this->GetPatchRadiusInVoxels();
@@ -253,9 +257,9 @@ PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
   PatchRadiusType radius;
   radius.Fill(m_PatchRadius);
   for (unsigned int dim = 0; dim < ImageDimension; ++dim)
-  {
+    {
     radius[dim] = vnl_math_ceil (radius[dim] / spacing[dim]);
-  }
+    }
   return radius;
 }
 
@@ -265,20 +269,20 @@ PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
 ::Halt()
 {
   if (m_NumberOfIterations != 0)
-  {
+    {
     this->UpdateProgress( static_cast<float>( this->GetElapsedIterations() ) /
                           static_cast<float>( m_NumberOfIterations ) );
-  }
+    }
 
   // Check and indicate whether to continue iterations or stop.
   if (this->GetElapsedIterations() >= m_NumberOfIterations)
-  {
+    {
     return true;
-  }
+    }
   else
-  {
+    {
     return false;
-  }
+    }
 }
 
 template <class TInputImage, class TOutputImage>
@@ -287,6 +291,7 @@ PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
+
   os << indent << "ElapsedIterations: "
      << m_ElapsedIterations << std::endl;
   os << indent << "NumberOfIterations: "
@@ -294,27 +299,27 @@ PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
   os << indent << "KernelBandwidthUpdateFrequency: "
      << m_KernelBandwidthUpdateFrequency << std::endl;
   if (m_NoiseModel == Self::GAUSSIAN)
-  {
+    {
     os << indent << "NoiseModel: GAUSSIAN" << std::endl;
-  }
+    }
   else if (m_NoiseModel == Self::RICIAN)
-  {
+    {
     os << indent << "NoiseModel: RICIAN" << std::endl;
-  }
+    }
   else if (m_NoiseModel == Self::POISSON)
-  {
+    {
     os << indent << "NoiseModel: POISSON" << std::endl;
-  }
+    }
   else {}
 
   if (m_ComponentSpace == Self::EUCLIDEAN)
-  {
+    {
     os << indent << "ComponentSpace: EUCLIDEAN" << std::endl;
-  }
+    }
   else if (m_ComponentSpace == Self::RIEMANNIAN)
-  {
+    {
     os << indent << "ComponentSpace: RIEMANNIAN" << std::endl;
-  }
+    }
   else {}
 
   os << indent << "State: "
@@ -324,6 +329,6 @@ PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
   os << std::endl;
 }
 
-}// end namespace itk
+} // end namespace itk
 
 #endif
