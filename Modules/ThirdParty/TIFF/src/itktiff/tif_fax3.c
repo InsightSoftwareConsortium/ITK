@@ -1,4 +1,4 @@
-/* $Id: tif_fax3.c,v 1.72 2010-06-09 17:17:13 bfriesen Exp $ */
+/* $Id: tif_fax3.c,v 1.74 2012-06-21 02:01:31 fwarmerdam Exp $ */
 
 /*
  * Copyright (c) 1990-1997 Sam Leffler
@@ -526,6 +526,7 @@ Fax3SetupState(TIFF* tif)
                  "for Group 3/4 run arrays");
   if (dsp->runs == NULL)
     return (0);
+  memset( dsp->runs, 0, TIFFSafeMultiply(uint32,nruns,2)*sizeof(uint32));
   dsp->curruns = dsp->runs;
   if (needsRefLine)
     dsp->refruns = dsp->runs + nruns;
