@@ -143,6 +143,12 @@ public:
 
   virtual void PopFrontInput();
 
+  /** get/set the Coordinate tolerance */
+  itkSetMacro(CoordinateTolerance,double);
+  itkGetMacro(CoordinateTolerance,double);
+  /** get/set the direction tolerance */
+  itkSetMacro(DirectionTolerance,double);
+  itkGetMacro(DirectionTolerance,double);
 protected:
   ImageToImageFilter();
   ~ImageToImageFilter();
@@ -295,6 +301,11 @@ protected:
 private:
   ImageToImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);     //purposely not implemented
+  /**
+   *  Tolerances for checking whether images into the same space.
+   */
+  double m_CoordinateTolerance;
+  double m_DirectionTolerance;
 };
 } // end namespace itk
 
