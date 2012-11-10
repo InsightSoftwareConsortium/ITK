@@ -742,7 +742,7 @@ macro(itk_wrap_image_filter_types)
   set(last_arg "${arg${last_arg_number}}")
   if("${last_arg}" MATCHES "^[0-9]")
     # We have a dimensionality condition
-    itk_wrap_filter_dims(dims ${last_arg})
+    itk_wrap_filter_dims(dims "${last_arg}")
     DECREMENT(last_arg_number ${last_arg_number})
   else()
     set(dims ${ITK_WRAP_DIMS})
