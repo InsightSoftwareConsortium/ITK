@@ -53,7 +53,7 @@ public:
   {
     TxtTransformIOFactory::Pointer metaFactory = TxtTransformIOFactory::New();
 
-    ObjectFactoryBase::RegisterFactory(metaFactory);
+    ObjectFactoryBase::RegisterFactoryInternal(metaFactory);
   }
 
 protected:
