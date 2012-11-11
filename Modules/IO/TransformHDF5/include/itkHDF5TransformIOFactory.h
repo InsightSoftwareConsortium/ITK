@@ -54,7 +54,7 @@ public:
   {
     HDF5TransformIOFactory::Pointer metaFactory = HDF5TransformIOFactory::New();
 
-    ObjectFactoryBase::RegisterFactory(metaFactory);
+    ObjectFactoryBase::RegisterFactoryInternal(metaFactory);
   }
 
 protected:

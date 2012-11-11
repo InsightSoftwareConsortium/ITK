@@ -55,7 +55,7 @@ public:
     MatlabTransformIOFactory::Pointer metaFactory =
       MatlabTransformIOFactory::New();
 
-    ObjectFactoryBase::RegisterFactory(metaFactory);
+    ObjectFactoryBase::RegisterFactoryInternal(metaFactory);
   }
 
 protected:

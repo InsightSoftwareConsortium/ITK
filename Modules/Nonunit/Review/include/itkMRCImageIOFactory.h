@@ -69,7 +69,7 @@ public:
   {
     MRCImageIOFactory::Pointer vtkFactory = MRCImageIOFactory::New();
 
-    ObjectFactoryBase::RegisterFactory(vtkFactory);
+    ObjectFactoryBase::RegisterFactoryInternal(vtkFactory);
   }
 
 protected:
