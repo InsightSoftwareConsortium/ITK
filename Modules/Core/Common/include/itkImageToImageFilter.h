@@ -64,6 +64,28 @@ namespace itk
  * convention, such implementations should call the Superclass' method
  * first.
  *
+ * All inputs to ImageToImageFilter (if there is more than one) are
+ * checked in the VerifyInputInformation method to verify that they
+ * occupy the same physical space.  If the input images are in the
+ * same physical space, then the location of each voxel is identical,
+ * and the filter can operate voxel-by-voxel in index space.  Some
+ * filters -- registration filters, for example -- will violate this
+ * precondition, in which case they should redefine
+ * VerifyInputInformation to relax or eliminate this requirement.
+ *
+ * Access methods -- Set/GetCoordinateTolerance and
+ * Set/GetDirectionTolerance -- are provided for cases where the
+ * default spatial-congruency tolerances are too fine, and images that
+ * are almost in the same space should be regard as being in the same
+ * space. This has come up, for example when comparing different
+ * on-disk image formats with differing digits of precision in the
+ * position, spacing, and orientation.
+ *
+ * The default precision for spatial comparison is 1.0e-6 * voxelSpacing
+ * for coordinates (i.e. the coordinates must be the same to within
+ * one part per million). For the direction cosines the values must be
+ * within an absolute tolerance of 1.0e-6.
+ *
  * \ingroup ImageFilters
  * \ingroup ITKCommon
  *
@@ -143,10 +165,18 @@ public:
 
   virtual void PopFrontInput();
 
-  /** get/set the Coordinate tolerance */
+  /** get/set the Coordinate tolerance
+   *  This tolerance is used when comparing the space defined
+   *  by the input images.  With ITK 4.x a requirement has
+   *  been added that both input images be congruent in space.
+   */
   itkSetMacro(CoordinateTolerance,double);
   itkGetMacro(CoordinateTolerance,double);
-  /** get/set the direction tolerance */
+  /** get/set the direction tolerance
+   *  This tolerance is used to make sure that all input
+   *  images are oriented the same before performing the filter's
+   *  transformations.
+   */
   itkSetMacro(DirectionTolerance,double);
   itkGetMacro(DirectionTolerance,double);
 protected:
@@ -302,7 +332,8 @@ private:
   ImageToImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);     //purposely not implemented
   /**
-   *  Tolerances for checking whether images into the same space.
+   *  Tolerances for checking whether input images are defined to
+   *  occupy the same physical space.
    */
   double m_CoordinateTolerance;
   double m_DirectionTolerance;
