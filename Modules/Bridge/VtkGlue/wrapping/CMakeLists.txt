@@ -8,5 +8,5 @@ itk_wrap_module(ITKVtkGlue)
 itk_end_wrap_module()
 
 if(ITK_WRAP_PYTHON)
-  target_link_libraries(ITKVtkGluePython vtkImagingPythonD)
+  target_link_libraries(ITKVtkGluePython vtkImagingPythonD vtkPythonCore)
 endif()

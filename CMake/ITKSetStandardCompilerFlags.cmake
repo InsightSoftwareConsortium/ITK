@@ -154,7 +154,7 @@ macro(check_compiler_platform_flags)
          # code results in objects with number of sections exceeding object file
          # format.
          # see http://msdn.microsoft.com/en-us/library/ms173499.aspx
-         if(CMAKE_CL_64 OR CMAKE_COMPILER_2005)
+         if(MSVC_VERSION GREATER 1310)
            set(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} /bigobj")
          endif()
        endif()
