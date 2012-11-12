@@ -43,21 +43,27 @@ typename FiniteCylinderSpatialFunction< VDimension, TInput >::OutputType
 FiniteCylinderSpatialFunction< VDimension, TInput >
 ::Evaluate(const InputType & position) const
 {
-  double halfAxisLength = 0.5 * m_AxisLength;
+  const double halfAxisLength = 0.5 * m_AxisLength;
 
   Vector< double, VDimension > orientationVector;
   Vector< double, VDimension > pointVector;
   Vector< double, VDimension > medialAxisVector;
 
-  for ( unsigned int i = 0; i < VDimension; i++ )
+  double norm = 0.0;
+  for(unsigned int i = 0; i < VDimension; ++i)
     {
     pointVector[i] = position[i] - m_Center[i];
+    norm += m_Orientation[i] * m_Orientation[i];
     }
-
-  //take square root to normalize the orientation vector
-  medialAxisVector[0] = vcl_sqrt(m_Orientation[0]);
-  medialAxisVector[1] = vcl_sqrt(m_Orientation[1]);
-  medialAxisVector[2] = vcl_sqrt(m_Orientation[2]);
+  norm = vcl_sqrt(norm);
+  if(norm == 0.0) // avoid divide by zero
+    {
+    itkExceptionMacro(<< "Degenerate orientation vector " << m_Orientation)
+    }
+  for(unsigned int i = 0; i < VDimension; ++i)
+    {
+    medialAxisVector[i] = m_Orientation[i] / norm;
+    }
 
   //if length_test is less than the length of the cylinder (half actually,
   // because its length from the center), than
