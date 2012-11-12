@@ -380,7 +380,7 @@ macro(itk_end_wrap_module_python)
   set(_swig_depend)
   if(NOT ITK_USE_SYSTEM_SWIG)
     # The ExternalProject SWIG install.
-    set(_swig_depend swig-install)
+    set(_swig_depend swig)
   endif()
   add_custom_command(
     OUTPUT ${cpp_file} ${python_file}
@@ -515,7 +515,7 @@ macro(itk_end_wrap_submodule_python group_name)
 
   if(NOT ITK_USE_SYSTEM_SWIG)
     # The ExternalProject SWIG install.
-    set(_swig_depend swig-install)
+    set(_swig_depend swig)
   endif()
   add_custom_command(
     OUTPUT ${cpp_file} ${python_file}
