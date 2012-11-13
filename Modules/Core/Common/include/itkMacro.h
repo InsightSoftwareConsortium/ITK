@@ -846,6 +846,13 @@ itkTypeMacro(newexcp, parentexcp);                                              
     " instead.")
 #endif
 
+#if defined ( ITK_LEGACY_REMOVE )
+#define ITK_TEMPLATE_TXX  "error ITK_TEMPLATE_TXX is no longer a supported identifier, you should replace with ITK_MANUAL_INSTANTIATION as a replacement"
+#else
+#define ITK_TEMPLATE_TXX 1
+#endif
+
+
 // Most modern x86 CPUs have 64 byte aligned blocks which are used for
 // the cache lines. By aligning multi-threaded structures with the
 // cache lines, false shared can be reduced, and performance
