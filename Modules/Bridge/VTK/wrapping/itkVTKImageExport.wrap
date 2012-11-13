@@ -2,7 +2,7 @@ itk_wrap_simple_class("itk::VTKImageExportBase" POINTER)
 
 itk_wrap_class("itk::VTKImageExport" POINTER)
   UNIQUE(types "${WRAP_ITK_SCALAR};UC;UL")
-  itk_wrap_filter_dims(dims "2;3")
+  itk_wrap_filter_dims(dims "1;2;3")
 
   foreach(t ${types})
     foreach(d ${dims})
