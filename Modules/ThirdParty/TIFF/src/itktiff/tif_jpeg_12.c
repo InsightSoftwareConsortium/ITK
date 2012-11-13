@@ -17,7 +17,7 @@ int TIFFReInitJPEG_12( TIFF *tif, int scheme, int is_encode )
     assert(scheme == COMPRESSION_JPEG);
 
     sp = JState(tif);
-    sp->tif = tif;				/* back link */
+    sp->tif = tif;        /* back link */
 
     /*
      * Override parent get/set field methods.
@@ -44,7 +44,7 @@ int TIFFReInitJPEG_12( TIFF *tif, int scheme, int is_encode )
     tif->tif_cleanup = JPEGCleanup;
     tif->tif_defstripsize = JPEGDefaultStripSize;
     tif->tif_deftilesize = JPEGDefaultTileSize;
-    tif->tif_flags |= TIFF_NOBITREV;	/* no bit reversal, please */
+    tif->tif_flags |= TIFF_NOBITREV;  /* no bit reversal, please */
 
     sp->cinfo_initialized = FALSE;
 

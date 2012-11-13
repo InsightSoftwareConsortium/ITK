@@ -169,7 +169,7 @@ ThunderDecodeRow(TIFF* tif, uint8* buf, tmsize_t occ, uint16 s)
 {
   static const char module[] = "ThunderDecodeRow";
   uint8* row = buf;
-  
+
   (void) s;
   if (occ % tif->tif_scanlinesize)
   {
