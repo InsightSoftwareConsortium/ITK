@@ -15,7 +15,12 @@ set(swigwin_md5  4ab8064b1a8894c8577ef9d0fb2523c8)
 if(WIN32)
   set(swig_ep "${CMAKE_CURRENT_BINARY_DIR}/swigwin-${swig_version}/swig.exe")
 else()
-  set(swig_ep "${CMAKE_CURRENT_BINARY_DIR}/swig/bin/swig")
+    # follow the standard EP_PREFIX locations
+    set ( swig_binary_dir ${CMAKE_CURRENT_BINARY_DIR}/swig-prefix/src/swig-build )
+    set ( swig_source_dir ${CMAKE_CURRENT_BINARY_DIR}/swig-prefix/src/swig )
+    set ( swig_install_dir ${CMAKE_CURRENT_BINARY_DIR}/swig )
+
+  set(swig_ep "${swig_install_dir}/bin/swig")
 endif()
 
 if(ITK_USE_SYSTEM_SWIG)
@@ -37,7 +42,6 @@ else()
       CONFIGURE_COMMAND ""
       BUILD_COMMAND ""
       INSTALL_COMMAND ""
-      STEP_TARGETS install
       )
     set(SWIG_DIR ${CMAKE_CURRENT_BINARY_DIR}/swigwin-${swig_version})
     set(SWIG_VERSION "${swig_version}")
@@ -46,17 +50,15 @@ else()
     ExternalProject_add(PCRE
     URL http://downloads.sourceforge.net/project/pcre/pcre/8.12/pcre-8.12.tar.gz
     URL_MD5 fa69e4c5d8971544acd71d1f10d59193
-    PREFIX PCRE
     CONFIGURE_COMMAND ../PCRE/configure --prefix=${CMAKE_CURRENT_BINARY_DIR}/PCRE --enable-shared=no
     )
     ExternalProject_add(swig
     URL http://prdownloads.sourceforge.net/swig/swig-${swig_version}.tar.gz
     URL_MD5 ${swig_md5}
-    PREFIX swig
     CONFIGURE_COMMAND ../swig/configure --prefix=${CMAKE_CURRENT_BINARY_DIR}/swig
     --with-pcre-prefix=${CMAKE_CURRENT_BINARY_DIR}/PCRE
     DEPENDS PCRE
-    STEP_TARGETS install
+
     )
     set(SWIG_DIR ${CMAKE_CURRENT_BINARY_DIR}/swig/share/swig/${swig_version} CACHE FILEPATH "swig directory." FORCE)
   endif()

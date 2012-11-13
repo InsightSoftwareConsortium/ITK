@@ -316,6 +316,13 @@ macro(itk_end_wrap_submodule_java group_name)
     set(WRAP_ITK_SWIG_ARGS_JAVA "" CACHE STRING "Extra user-defined swig arguments to be to the swig executable.")
   endif()
 
+  set(_swig_depend)
+  if(NOT ITK_USE_SYSTEM_SWIG)
+    # The ExternalProject SWIG install.
+    set(_swig_depend swig)
+  endif()
+
+
   add_custom_command(
     OUTPUT ${cpp_file} ${java_file}
     COMMAND ${swig_command} -c++ -java -O -features autodoc=1
@@ -339,7 +346,7 @@ macro(itk_end_wrap_submodule_java group_name)
     -outdir ${java_package_path}
     ${interface_file}
     WORKING_DIRECTORY ${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/java
-    DEPENDS ${java_package_path}/dummy ${DEPS} ${interface_file} ${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/java/${base_name}_ext.i ${ITK_WRAP_JAVA_SOURCE_DIR}/java.i ${SWIG_EXECUTABLE}
+    DEPENDS ${java_package_path}/dummy ${DEPS} ${interface_file} ${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/java/${base_name}_ext.i ${ITK_WRAP_JAVA_SOURCE_DIR}/java.i ${_swig_depend}
     COMMENT "Generating Java wrap files for class ${java_package_name}.${group_name}"
   )
   # ${ITK_WRAP_JAVA_LIBRARY_DEPS}
