@@ -55,7 +55,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   m_ComputeConditionalDerivatives   = false;
   m_FractionPixelsForSigmaUpdate    = 0.20;
   m_SigmaUpdateDecimationFactor     = static_cast<unsigned int>
-    (vnl_math_rnd(1.0 / m_FractionPixelsForSigmaUpdate) );
+    (Math::Round<double>(1.0 / m_FractionPixelsForSigmaUpdate) );
   // desired accuracy of Newton-Raphson sigma estimation
   m_SigmaUpdateConvergenceTolerance = 0.01;
   m_SigmaMultiplicationFactor       = 1.0;
@@ -285,12 +285,12 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   // For automatic sigma estimation, select every 'k'th pixel.
   m_SigmaUpdateDecimationFactor
     = static_cast<unsigned int>
-      (vnl_math_rnd(1.0 / m_FractionPixelsForSigmaUpdate) );
+      (Math::Round<double>(1.0 / m_FractionPixelsForSigmaUpdate) );
   // For automatic sigma estimation, use at least 1% of pixels.
   m_SigmaUpdateDecimationFactor
     = vnl_math_min(m_SigmaUpdateDecimationFactor,
                    static_cast<unsigned int>
-                   (vnl_math_rnd(m_TotalNumberPixels / 100.0) ) );
+                   (Math::Round<double>(m_TotalNumberPixels / 100.0) ) );
   // For automatic sigma estimation, can't use more than 100% of pixels.
   m_SigmaUpdateDecimationFactor
     = vnl_math_max(m_SigmaUpdateDecimationFactor, 1u);
@@ -553,10 +553,10 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
         {
         distanceVector[d]
           = static_cast<DistanceType> (pos            /
-                                       vnl_math_rnd (pow(static_cast<double>(physicalDiameter),static_cast<int>(d) ) ) )
+                                       static_cast<unsigned int> (Math::Round<double> (pow(static_cast<double>(physicalDiameter),static_cast<int>(d) ) ) ) )
             - static_cast<DistanceType> (centerPosition /
-                                         vnl_math_rnd (pow(static_cast<double>(physicalDiameter),
-                                                           static_cast<int>(d) ) ) );
+                                         static_cast<unsigned int> (Math::Round<double> (pow(static_cast<double>(physicalDiameter),
+                                                           static_cast<int>(d) ) ) ) );
         }
       }
     const float distanceFromCenter = distanceVector.GetNorm();

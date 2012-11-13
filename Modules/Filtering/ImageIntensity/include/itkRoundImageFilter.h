@@ -55,7 +55,7 @@ public:
 /** \class RoundImageFilter
  * \brief Rounds the value of each pixel.
  *
- * The computations are performed using vnl_math_rnd(x).
+ * The computations are performed using itk::Math::Round(x).
  *
  * \ingroup IntensityImageFilters
  * \ingroup MultiThreaded
