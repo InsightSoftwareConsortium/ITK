@@ -56,7 +56,16 @@ public:
   itkNewMacro(Self);
   itkTypeMacro(GPUImageDataManager, GPUDataManager);
 
+  static const unsigned int        ImageDimension = ImageType::ImageDimension;
+
+  itkGetObjectMacro(GPUBufferedRegionIndex, GPUDataManager);
+  itkGetObjectMacro(GPUBufferedRegionSize, GPUDataManager);
+
   void SetImagePointer( typename ImageType::Pointer img );
+  ImageType *GetImagePointer()
+    {
+    return this->m_Image.GetPointer();
+    }
 
   /** actual GPU->CPU memory copy takes place here */
   virtual void MakeCPUBufferUpToDate();
@@ -75,7 +84,12 @@ private:
   GPUImageDataManager(const Self&);   //purposely not implemented
   void operator=(const Self&);
 
-  typename ImageType::Pointer m_Image;
+  typename ImageType::Pointer       m_Image;
+  int                               m_BufferedRegionIndex[ImageType::ImageDimension];
+  int                               m_BufferedRegionSize[ImageType::ImageDimension];
+  typename GPUDataManager::Pointer  m_GPUBufferedRegionIndex;
+  typename GPUDataManager::Pointer  m_GPUBufferedRegionSize;
+
 };
 
 } // namespace itk

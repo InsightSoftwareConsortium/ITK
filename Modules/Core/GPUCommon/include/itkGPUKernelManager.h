@@ -76,6 +76,50 @@ public:
 
   bool SetKernelArgWithImage(int kernelIdx, cl_uint argIdx, GPUDataManager::Pointer manager);
 
+  /** Pass to GPU both the pixel buffer and the buffered region. */
+  //template< class TGPUImageDataManager >
+  //bool SetKernelArgWithImageAndBufferedRegion(int kernelIdx, cl_uint &argIdx,
+  //  typename TGPUImageDataManager::Pointer manager);
+  template< class TGPUImageDataManager >
+  bool SetKernelArgWithImageAndBufferedRegion(
+    int kernelIdx, cl_uint &argIdx,
+    TGPUImageDataManager *manager)
+  {
+    if(kernelIdx < 0 || kernelIdx >= (int)m_KernelContainer.size() ) return false;
+
+    cl_int errid;
+
+    errid = clSetKernelArg(m_KernelContainer[kernelIdx], argIdx, sizeof(cl_mem),
+      manager->GetGPUBufferPointer() );
+    OpenCLCheckError(errid, __FILE__, __LINE__, ITK_LOCATION);
+
+    m_KernelArgumentReady[kernelIdx][argIdx].m_IsReady = true;
+    m_KernelArgumentReady[kernelIdx][argIdx].m_GPUDataManager = manager;
+    argIdx++;
+
+    //this->SetKernelArg(kernelIdx, argIdx++, sizeof(int), &(TGPUImageDataManager::ImageDimension) );
+
+    //the starting index for the buffered region
+    errid = clSetKernelArg(m_KernelContainer[kernelIdx], argIdx, sizeof(cl_mem),
+      manager->GetGPUBufferedRegionIndex()->GetGPUBufferPointer() );
+    OpenCLCheckError(errid, __FILE__, __LINE__, ITK_LOCATION);
+
+    m_KernelArgumentReady[kernelIdx][argIdx].m_IsReady = true;
+    m_KernelArgumentReady[kernelIdx][argIdx].m_GPUDataManager = manager->GetGPUBufferedRegionIndex();
+    argIdx++;
+
+    //the size for the buffered region
+    errid = clSetKernelArg(m_KernelContainer[kernelIdx], argIdx, sizeof(cl_mem),
+      manager->GetGPUBufferedRegionSize()->GetGPUBufferPointer() );
+    OpenCLCheckError(errid, __FILE__, __LINE__, ITK_LOCATION);
+
+    m_KernelArgumentReady[kernelIdx][argIdx].m_IsReady = true;
+    m_KernelArgumentReady[kernelIdx][argIdx].m_GPUDataManager = manager->GetGPUBufferedRegionSize();
+    argIdx++;
+
+    return true;
+  }
+
   bool LaunchKernel(int kernelIdx, int dim, size_t *globalWorkSize, size_t *localWorkSize);
 
   bool LaunchKernel1D(int kernelIdx, size_t globalWorkSize, size_t localWorkSize);

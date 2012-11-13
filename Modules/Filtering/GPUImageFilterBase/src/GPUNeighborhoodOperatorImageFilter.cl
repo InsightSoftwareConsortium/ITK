@@ -22,15 +22,21 @@
 
 #ifdef DIM_1
 __kernel void NeighborOperatorFilter(const __global INTYPE* in,
+                                     __constant int *inIndex,
+                                     __constant int *inSize,
                                      __global OUTTYPE* out,
+                                     __constant int *outIndex,
+                                     __constant int *outSize,
                                      __constant OPTYPE* op,
-                                     int radiusx, int width)
+                                     int radiusx
+                                     )
 {
   int gix = get_global_id(0);
+  int inGix = gix + outIndex[0] - inIndex[0]; //index conversion
   OPTYPE sum = 0;
   unsigned int opIdx = 0;
 
-  if(gix < width)
+  if(gix < outSize[0])
   {
     /*
     // Clamping boundary condition
@@ -42,10 +48,11 @@ __kernel void NeighborOperatorFilter(const __global INTYPE* in,
     */
 
     // Zero-flux boundary condition
-    for(int x = gix-radiusx; x <= gix+radiusx; x++)
+    for(int x = inGix-radiusx; x <= inGix+radiusx; x++)
     {
-      unsigned int cidx = (unsigned int)(min(max(0, x),width-1));
+      unsigned int cidx = (unsigned int)(min(max(0, x),inSize[0]-1));
       sum += (OPTYPE)in[cidx] * (OPTYPE)op[opIdx];
+      opIdx++;
     }
 
     out[gix] = (OUTTYPE)(sum);
@@ -55,18 +62,24 @@ __kernel void NeighborOperatorFilter(const __global INTYPE* in,
 
 #ifdef DIM_2
 __kernel void NeighborOperatorFilter(const __global INTYPE* in,
+                                     __constant int *inIndex,
+                                     __constant int *inSize,
                                      __global OUTTYPE* out,
+                                     __constant int *outIndex,
+                                     __constant int *outSize,
                                      __constant OPTYPE* op,
-                                     int radiusx, int radiusy,
-                                     int width, int height)
+                                     int radiusx, int radiusy
+                                     )
 {
   int gix = get_global_id(0);
   int giy = get_global_id(1);
-  unsigned int gidx = width*giy + gix;
+  int inGix = gix + outIndex[0] - inIndex[0]; //index conversion
+  int inGiy = giy + outIndex[1] - inIndex[1]; //index conversion
+  unsigned int gidx = outSize[0]*giy + gix;
   OPTYPE sum = 0;
   unsigned int opIdx = 0;
 
-  if(gix < width && giy < height)
+  if(gix < outSize[0] && giy < outSize[1])
   {
     /*
     // Clamping boundary condition
@@ -83,12 +96,12 @@ __kernel void NeighborOperatorFilter(const __global INTYPE* in,
     */
 
     // Zero-flux boundary condition
-    for(int y = giy-radiusy; y <= giy+radiusy; y++)
+    for(int y = inGiy-radiusy; y <= inGiy+radiusy; y++)
     {
-      unsigned int yid = (unsigned int)(min(max(0, y),height-1));
-      for(int x = gix-radiusx; x <= gix+radiusx; x++)
+      unsigned int yid = (unsigned int)(min(max(0, y),inSize[1]-1));
+      for(int x = inGix-radiusx; x <= inGix+radiusx; x++)
       {
-        unsigned int cidx = width*yid + (unsigned int)(min(max(0, x),width-1));
+        unsigned int cidx = inSize[0]*yid + (unsigned int)(min(max(0, x),inSize[0]-1));
 
         sum += (OPTYPE)in[cidx] * (OPTYPE)op[opIdx];
 
@@ -103,15 +116,22 @@ __kernel void NeighborOperatorFilter(const __global INTYPE* in,
 
 #ifdef DIM_3
 __kernel void NeighborOperatorFilter(const __global INTYPE* in,
+                                     __constant int *inIndex,
+                                     __constant int *inSize,
                                      __global OUTTYPE* out,
+                                     __constant int *outIndex,
+                                     __constant int *outSize,
                                      __constant OPTYPE* op,
-                                     int radiusx, int radiusy, int radiusz,
-                                     int width, int height, int depth)
+                                     int radiusx, int radiusy, int radiusz
+                                     )
 {
   int gix = get_global_id(0);
   int giy = get_global_id(1);
   int giz = get_global_id(2);
-  unsigned int gidx = width*(giz*height + giy) + gix;
+  int inGix = gix + outIndex[0] - inIndex[0]; //index conversion
+  int inGiy = giy + outIndex[1] - inIndex[1]; //index conversion
+  int inGiz = giz + outIndex[2] - inIndex[2]; //index conversion
+  unsigned int gidx = outSize[0]*(giz*outSize[1] + giy) + gix;
   OPTYPE sum = 0;
   unsigned int opIdx = 0;
 
@@ -120,9 +140,9 @@ __kernel void NeighborOperatorFilter(const __global INTYPE* in,
      execution on Apple OpenCL 1.0 (such Macbook Pro with NVIDIA 9600M
      GT). Therefore, we flattened conditional statements. */
   bool isValid = true;
-  if(gix < 0 || gix >= width) isValid = false;
-  if(giy < 0 || giy >= height) isValid = false;
-  if(giz < 0 || giz >= depth) isValid = false;
+  if(gix < 0 || gix >= outSize[0]) isValid = false;
+  if(giy < 0 || giy >= outSize[1]) isValid = false;
+  if(giz < 0 || giz >= outSize[2]) isValid = false;
 
   if( isValid )
   {
@@ -144,15 +164,15 @@ __kernel void NeighborOperatorFilter(const __global INTYPE* in,
     */
 
     // Zero-flux boundary condition
-    for(int z = giz-radiusz; z <= giz+radiusz; z++)
+    for(int z = inGiz-radiusz; z <= inGiz+radiusz; z++)
     {
-      unsigned int zid = (unsigned int)(min(max(0, z),depth-1));
-      for(int y = giy-radiusy; y <= giy+radiusy; y++)
+      unsigned int zid = (unsigned int)(min(max(0, z),inSize[2]-1));
+      for(int y = inGiy-radiusy; y <= inGiy+radiusy; y++)
       {
-        unsigned int yid = (unsigned int)(min(max(0, y),height-1));
-        for(int x = gix-radiusx; x <= gix+radiusx; x++)
+        unsigned int yid = (unsigned int)(min(max(0, y),inSize[1]-1));
+        for(int x = inGix-radiusx; x <= inGix+radiusx; x++)
         {
-          unsigned int cidx = width*(zid*height + yid) + (unsigned int)(min(max(0, x),width-1));
+          unsigned int cidx = inSize[0]*(zid*inSize[1] + yid) + (unsigned int)(min(max(0, x),inSize[0]-1));
           sum += (OPTYPE)(in[cidx]) * op[opIdx];
           opIdx++;
         }
