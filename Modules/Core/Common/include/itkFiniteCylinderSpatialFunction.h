@@ -75,7 +75,7 @@ public:
   /** Set the orientation vectors (must be orthogonal) of the ellipsoid axes.
    * Must be normalized!!!!! */
   itkGetConstMacro(Orientation, InputType);
-  itkSetMacro(Orientation, InputType);
+  virtual void SetOrientation(const InputType _Orientation);
 
   /** Evaluates the function at a given position. */
   OutputType Evaluate(const InputType & position) const;
@@ -112,6 +112,7 @@ private:
 
   /** The orientation vectors (must be orthogonal) of the ellipsoid axes. */
   InputType m_Orientation;
+  InputType m_NormalizedOrientation;
 };
 } // end namespace itk
 
