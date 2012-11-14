@@ -738,8 +738,8 @@ void VXLVideoIO::ResetMembers()
   this->m_VIDLFrame = 0;
   this->m_VIDLFrame = 0;
   this->m_Encoder = vidl_ffmpeg_ostream_params::DEFAULT;
-  this->m_Reader = 0;
-  this->m_Writer = 0;
+  this->m_Reader = NULL;
+  this->m_Writer = NULL;
   this->m_WriterOpen = false;
   this->m_ReaderOpen = false;
   this->m_FramesPerSecond = 0;
