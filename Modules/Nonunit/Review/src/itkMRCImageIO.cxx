@@ -375,7 +375,7 @@ void MRCImageIO::UpdateHeaderFromImageIO(void)
   header.mz = header.nz = (  this->GetNumberOfDimensions() >= 3 ) ? m_Dimensions[2] : 1;
 
   header.mode = -1;
-  if ( this->GetPixelType() == SCALAR )
+  if ( this->GetNumberOfComponents() == 1 )
     {
     if ( this->GetComponentType() == UCHAR )
       {
@@ -394,27 +394,25 @@ void MRCImageIO::UpdateHeaderFromImageIO(void)
       header.mode = MRCHeaderObject::MRCHEADER_MODE_UINT16;
       }
     }
-  else if ( this->GetPixelType() == COMPLEX )
+  else if ( this->GetNumberOfComponents() == 2 &&
+            this->GetPixelType() == COMPLEX )
     {
-    // ITK does not support short complex well
-    // but if we have gotten this far, it's done
-    if ( this->GetComponentType() == SHORT )
+    if ( this->GetComponentType() == FLOAT )
+      {
+      header.mode = MRCHeaderObject::MRCHEADER_MODE_COMPLEX_FLOAT;
+      }
+      // ITK does not support short complex well
+      // but if we have gotten this far, it's done
+    else if ( this->GetComponentType() == SHORT )
       {
       header.mode = MRCHeaderObject::MRCHEADER_MODE_COMPLEX_INT16;
       }
-    else
+    }
+    else if (  this->GetNumberOfComponents() == 3
+               && this->GetComponentType() == UCHAR )
       {
-      if ( this->GetComponentType() == FLOAT )
-        {
-        header.mode = MRCHeaderObject::MRCHEADER_MODE_COMPLEX_FLOAT;
-        }
+      header.mode = MRCHeaderObject::MRCHEADER_MODE_RGB_BYTE;
       }
-    }
-  else if ( this->GetPixelType() == RGB
-            && this->GetComponentType() == UCHAR )
-    {
-    header.mode = MRCHeaderObject::MRCHEADER_MODE_RGB_BYTE;
-    }
 
   if ( header.mode == -1 )
     {

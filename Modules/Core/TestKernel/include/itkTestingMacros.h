@@ -71,7 +71,9 @@
     if( !(_TEST_EXPECT_EQUAL_result) )                                  \
     {                                                                   \
     std::cerr << "Error in " << #lh << " == " << #rh << std::endl;      \
-    std::cerr << "Expression is not equal" << std::endl;               \
+    std::cerr << "\tlh: " << (lh) << std::endl;                         \
+    std::cerr << "\trh: " << (rh) << std::endl;                         \
+    std::cerr << "Expression is not equal" << std::endl;                \
     return EXIT_FAILURE;                                                \
     }                                                                   \
   }
