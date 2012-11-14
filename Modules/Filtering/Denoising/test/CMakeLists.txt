@@ -12,7 +12,7 @@ itk_add_test(NAME itkPatchBasedDenoisingImageFilterTest0
     itkPatchBasedDenoisingImageFilterTest
       DATA{Input/noisy_checkerboard.mha}
       ${ITK_TEST_OUTPUT_DIR}/PatchBasedDenoisingImageFilterTest0.mha
-      2 1 10 5)
+      2 1 2 2 200)
 itk_add_test(NAME itkPatchBasedDenoisingImageFilterTestGaussian
       COMMAND ITKDenoisingTestDriver
     --compare DATA{Baseline/PatchBasedDenoisingImageFilterTestGaussian.mha}
@@ -20,7 +20,7 @@ itk_add_test(NAME itkPatchBasedDenoisingImageFilterTestGaussian
     itkPatchBasedDenoisingImageFilterTest
       DATA{Input/checkerboard_noise10Gaussian.mha}
       ${ITK_TEST_OUTPUT_DIR}/PatchBasedDenoisingImageFilterTestGaussian.mha
-      2 1 20 6 1000 1 GAUSSIAN 0.1)
+      2 1 2 2 200 1 GAUSSIAN 0.1)
 itk_add_test(NAME itkPatchBasedDenoisingImageFilterTestRician
       COMMAND ITKDenoisingTestDriver
     --compare DATA{Baseline/PatchBasedDenoisingImageFilterTestRician.mha}
@@ -28,7 +28,7 @@ itk_add_test(NAME itkPatchBasedDenoisingImageFilterTestRician
     itkPatchBasedDenoisingImageFilterTest
       DATA{Input/checkerboard_noise10Rician.mha}
       ${ITK_TEST_OUTPUT_DIR}/PatchBasedDenoisingImageFilterTestRician.mha
-      2 1 20 6 1000 1 RICIAN 0.1)
+      2 1 2 2 200 1 RICIAN 0.1)
 itk_add_test(NAME itkPatchBasedDenoisingImageFilterTestPoisson
       COMMAND ITKDenoisingTestDriver
     --compare DATA{Baseline/PatchBasedDenoisingImageFilterTestPoisson.mha}
@@ -36,7 +36,7 @@ itk_add_test(NAME itkPatchBasedDenoisingImageFilterTestPoisson
     itkPatchBasedDenoisingImageFilterTest
       DATA{Input/checkerboard_noise10Poisson.mha}
       ${ITK_TEST_OUTPUT_DIR}/PatchBasedDenoisingImageFilterTestPoisson.mha
-      2 1 20 6 1000 1 POISSON 0.1)
+      2 1 2 2 200 1 POISSON 0.1)
 itk_add_test(NAME itkPatchBasedDenoisingImageFilterTestTensors
       COMMAND ITKDenoisingTestDriver
     --compare
@@ -45,4 +45,4 @@ itk_add_test(NAME itkPatchBasedDenoisingImageFilterTestTensors
     itkPatchBasedDenoisingImageFilterTest
       DATA{Input/noisyDiffusionTensors.nrrd}
       ${ITK_TEST_OUTPUT_DIR}/PatchBasedDenoisingImageFilterTestTensors.nrrd
-      2 6 10 7 200 2)
+      2 6 2 2 100 2)
