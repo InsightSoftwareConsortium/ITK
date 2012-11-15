@@ -43,6 +43,48 @@ JoinSeriesImageFilter< TInputImage, TOutputImage >
   os << indent << "Origin: " << m_Origin << std::endl;
 }
 
+template< class TInputImage, class TOutputImage >
+void
+JoinSeriesImageFilter< TInputImage, TOutputImage >
+::VerifyInputInformation()
+{
+
+  Superclass::VerifyInputInformation();
+
+  // Verify that all input have the same number of components
+
+  typename InputImageType::ConstPointer image = this->GetInput();
+
+   if( image.IsNull() )
+     {
+     itkExceptionMacro( << "Input not set as expected!" );
+     }
+
+   const unsigned int numComponents = image->GetNumberOfComponentsPerPixel();
+
+  for( IndexValueType idx = 1; idx < this->GetNumberOfInputs(); ++idx )
+    {
+    image = this->GetInput(idx);
+
+    // if the input was not set it could still be null
+    if( image.IsNull() )
+      {
+      // an invalid requested region exception will be generated later.
+      continue;
+      }
+
+
+    if( numComponents != image->GetNumberOfComponentsPerPixel() )
+      {
+      itkExceptionMacro( << "Primary input has " << numComponents << " numberOfComponents "
+                         << "but input " << idx << " has "
+                         << image->GetNumberOfComponentsPerPixel() << "!" );
+      }
+
+    }
+
+}
+
 /**
  * \sa UnaryFunctorImageFilter::GenerateOutputInformation()
  */
@@ -146,6 +188,13 @@ JoinSeriesImageFilter< TInputImage, TOutputImage >
     itkExceptionMacro( << "itk::JoinSeriesImageFilter::GenerateOutputInformation "
                        << "cannot cast input to "
                        << typeid( ImageBase< InputImageDimension > * ).name() );
+    }
+
+  // Support VectorImages by setting number of components on output.
+  const unsigned int numComponents = inputPtr->GetNumberOfComponentsPerPixel();
+  if ( numComponents != outputPtr->GetNumberOfComponentsPerPixel() )
+    {
+    outputPtr->SetNumberOfComponentsPerPixel( numComponents );
     }
 }
 
