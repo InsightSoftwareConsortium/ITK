@@ -23,6 +23,8 @@
 #include "fftw3.h"
 #endif
 
+#include "itkMutexLockHolder.h"
+
 #if !defined(FFTW_WISDOM_ONLY)
 // FFTW_WISDOM_ONLY is a "beyond guru" option that is only available in fftw 3.2.2
 // to be compatible with all the fftw 3.x API, we need to define this away here:
@@ -118,7 +120,7 @@ public:
                                int threads=1,
                                bool canDestroyInput=false)
   {
-    FFTWGlobalConfiguration::Lock();
+    MutexLockHolder< FFTWGlobalConfiguration::MutexType > lock( FFTWGlobalConfiguration::GetLockMutex() );
     fftwf_plan_with_nthreads(threads);
     // don't add FFTW_WISDOM_ONLY if the plan rigor is FFTW_ESTIMATE
     // because FFTW_ESTIMATE guarantee to not destroy the input
@@ -152,7 +154,6 @@ public:
         }
       FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
       }
-    FFTWGlobalConfiguration::Unlock();
     assert( plan != NULL );
     return plan;
   }
@@ -210,7 +211,8 @@ public:
                                int threads=1,
                                bool canDestroyInput=false)
   {
-    FFTWGlobalConfiguration::Lock();
+    //
+    MutexLockHolder< FFTWGlobalConfiguration::MutexType > lock( FFTWGlobalConfiguration::GetLockMutex() );
     fftwf_plan_with_nthreads(threads);
     // don't add FFTW_WISDOM_ONLY if the plan rigor is FFTW_ESTIMATE
     // because FFTW_ESTIMATE guarantee to not destroy the input
@@ -244,7 +246,6 @@ public:
         }
       FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
       }
-    FFTWGlobalConfiguration::Unlock();
     assert( plan != NULL );
     return plan;
   }
@@ -305,7 +306,7 @@ public:
                                int threads=1,
                                bool canDestroyInput=false)
   {
-    FFTWGlobalConfiguration::Lock();
+    MutexLockHolder< FFTWGlobalConfiguration::MutexType > lock( FFTWGlobalConfiguration::GetLockMutex() );
     fftwf_plan_with_nthreads(threads);
     // don't add FFTW_WISDOM_ONLY if the plan rigor is FFTW_ESTIMATE
     // because FFTW_ESTIMATE guarantee to not destroy the input
@@ -339,7 +340,6 @@ public:
         }
       FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
       }
-    FFTWGlobalConfiguration::Unlock();
     assert( plan != NULL );
     return plan;
   }
@@ -351,6 +351,7 @@ public:
   }
   static void DestroyPlan(PlanType p)
   {
+    MutexLockHolder< FFTWGlobalConfiguration::MutexType > lock( FFTWGlobalConfiguration::GetLockMutex() );
     fftwf_destroy_plan(p);
   }
 };
@@ -420,7 +421,7 @@ public:
                                int threads=1,
                                bool canDestroyInput=false)
   {
-    FFTWGlobalConfiguration::Lock();
+    MutexLockHolder< FFTWGlobalConfiguration::MutexType > lock( FFTWGlobalConfiguration::GetLockMutex() );
     fftw_plan_with_nthreads(threads);
     // don't add FFTW_WISDOM_ONLY if the plan rigor is FFTW_ESTIMATE
     // because FFTW_ESTIMATE guarantee to not destroy the input
@@ -454,7 +455,6 @@ public:
         }
       FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
       }
-    FFTWGlobalConfiguration::Unlock();
     assert( plan != NULL );
     return plan;
   }
@@ -512,7 +512,7 @@ public:
                                int threads=1,
                                bool canDestroyInput=false)
   {
-    FFTWGlobalConfiguration::Lock();
+    MutexLockHolder< FFTWGlobalConfiguration::MutexType > lock( FFTWGlobalConfiguration::GetLockMutex() );
     fftw_plan_with_nthreads(threads);
     // don't add FFTW_WISDOM_ONLY if the plan rigor is FFTW_ESTIMATE
     // because FFTW_ESTIMATE guarantee to not destroy the input
@@ -546,7 +546,6 @@ public:
         }
       FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
       }
-    FFTWGlobalConfiguration::Unlock();
     assert( plan != NULL );
     return plan;
   }
@@ -607,7 +606,7 @@ public:
                                int threads=1,
                                bool canDestroyInput=false)
   {
-    FFTWGlobalConfiguration::Lock();
+    MutexLockHolder< FFTWGlobalConfiguration::MutexType > lock( FFTWGlobalConfiguration::GetLockMutex() );
     fftw_plan_with_nthreads(threads);
     // don't add FFTW_WISDOM_ONLY if the plan rigor is FFTW_ESTIMATE
     // because FFTW_ESTIMATE guarantee to not destroy the input
@@ -641,7 +640,6 @@ public:
         }
       FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
       }
-    FFTWGlobalConfiguration::Unlock();
     assert( plan != NULL );
     return plan;
   }
@@ -653,6 +651,7 @@ public:
   }
   static void DestroyPlan(PlanType p)
   {
+    MutexLockHolder< FFTWGlobalConfiguration::MutexType > lock( FFTWGlobalConfiguration::GetLockMutex() );
     fftw_destroy_plan(p);
   }
 };

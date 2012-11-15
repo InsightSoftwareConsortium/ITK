@@ -259,15 +259,16 @@ public:
   typedef Object                     Superclass;
   typedef SmartPointer< Self >       Pointer;
   typedef SmartPointer< const Self > ConstPointer;
+  typedef SimpleFastMutexLock        MutexType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(FFTWGlobalConfiguration, Object);
 
-  /** Lock() must be run before the call to any FFTW unsafe method,
-   * and followed immediately by a call to Unlock()
-   */
-  static void Lock();
-  static void Unlock();
+  /** Get the mutex that protects calls to FFTW functions. */
+  static SimpleFastMutexLock & GetLockMutex()
+  {
+    return GetInstance()->m_Lock;
+  }
 
   /** Set/Get wether a new wisdom is available compared to the
    * initial state. If a new wisdom is available, the wisdoms

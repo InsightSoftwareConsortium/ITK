@@ -464,21 +464,6 @@ FFTWGlobalConfiguration
   return ret;
 }
 
-
-void
-FFTWGlobalConfiguration
-::Lock()
-{
-  GetInstance()->m_Lock.Lock();
-}
-
-void
-FFTWGlobalConfiguration
-::Unlock()
-{
-  GetInstance()->m_Lock.Unlock();
-}
-
 }//end namespace itk
 
 #endif
