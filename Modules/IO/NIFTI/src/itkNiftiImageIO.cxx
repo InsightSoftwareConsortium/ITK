@@ -604,10 +604,10 @@ void NiftiImageIO::Read(void *buffer)
     // vec x y z t l m o
     const char *       niftibuf = (const char *)data;
     char *             itkbuf = (char *)buffer;
-    const unsigned int rowdist = this->m_NiftiImage->dim[1];
-    const unsigned int slicedist = rowdist * this->m_NiftiImage->dim[2];
-    const unsigned int volumedist = slicedist * this->m_NiftiImage->dim[3];
-    const unsigned int seriesdist = volumedist * this->m_NiftiImage->dim[4];
+    const size_t rowdist = this->m_NiftiImage->dim[1];
+    const size_t slicedist = rowdist * this->m_NiftiImage->dim[2];
+    const size_t volumedist = slicedist * this->m_NiftiImage->dim[3];
+    const size_t seriesdist = volumedist * this->m_NiftiImage->dim[4];
     //
     // as per ITK bug 0007485
     // NIfTI is lower triangular, ITK is upper triangular.
@@ -636,9 +636,9 @@ void NiftiImageIO::Read(void *buffer)
             {
             for ( unsigned int c = 0; c < numComponents; c++ )
               {
-              const unsigned int nifti_index =
+              const size_t nifti_index =
                 ( c * seriesdist + volumedist * t + slicedist * z + rowdist * y + x ) * pixelSize;
-              const unsigned int itk_index =
+              const size_t itk_index =
                 ( ( volumedist * t + slicedist * z + rowdist * y + x ) * numComponents + vecOrder[c] ) * pixelSize;
               for( unsigned int b = 0; b < pixelSize; ++b )
                 {
@@ -1874,12 +1874,12 @@ NiftiImageIO
         this->m_NiftiImage->dim[i] = 1;
         }
       }
-    const unsigned numVoxels =
-      this->m_NiftiImage->dim[1]
-      * this->m_NiftiImage->dim[2]
-      * this->m_NiftiImage->dim[3]
-      * this->m_NiftiImage->dim[4];
-    const unsigned buffer_size =
+    const size_t numVoxels =
+      size_t(this->m_NiftiImage->dim[1])
+      * size_t(this->m_NiftiImage->dim[2])
+      * size_t(this->m_NiftiImage->dim[3])
+      * size_t(this->m_NiftiImage->dim[4]);
+    const size_t buffer_size =
       numVoxels
       * numComponents //Number of componenets
       * this->m_NiftiImage->nbyper;
@@ -1888,10 +1888,10 @@ NiftiImageIO
     const char *const itkbuf = (const char *)buffer;
     // Data must be rearranged to meet nifti organzation.
     // nifti_layout[vec][t][z][y][x] = itk_layout[t][z][y][z][vec]
-    const unsigned int rowdist = m_NiftiImage->dim[1];
-    const unsigned int slicedist = rowdist * m_NiftiImage->dim[2];
-    const unsigned int volumedist = slicedist * m_NiftiImage->dim[3];
-    const unsigned int seriesdist = volumedist * m_NiftiImage->dim[4];
+    const size_t rowdist = m_NiftiImage->dim[1];
+    const size_t slicedist = rowdist * m_NiftiImage->dim[2];
+    const size_t volumedist = slicedist * m_NiftiImage->dim[3];
+    const size_t seriesdist = volumedist * m_NiftiImage->dim[4];
     //
     // as per ITK bug 0007485
     // NIfTI is lower triangular, ITK is upper triangular.
@@ -1926,9 +1926,9 @@ NiftiImageIO
             {
             for ( unsigned int c = 0; c < numComponents; c++ )
               {
-              const unsigned int nifti_index =
+              const size_t nifti_index =
                 ( c * seriesdist + volumedist * t + slicedist * z + rowdist * y + x ) * this->m_NiftiImage->nbyper;
-              const unsigned int itk_index =
+              const size_t itk_index =
                 ( ( volumedist * t + slicedist * z + rowdist * y
                     + x ) * numComponents + vecOrder[c] ) * this->m_NiftiImage->nbyper;
 
