@@ -74,9 +74,8 @@ public:
       Here we prefer float in order to save memory.  */
 
   typedef float InternalRealType;
-  typedef Image<
-    InternalRealType,
-    TInputImage::ImageDimension > RealImageType;
+  typedef Image<InternalRealType, TInputImage::ImageDimension >
+                RealImageType;
 
   /**  Output Image Nth Element Adaptor
    *  This adaptor allows to use conventional scalar

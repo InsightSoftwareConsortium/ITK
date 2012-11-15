@@ -82,7 +82,8 @@ public:
 
   /** Output type */
   typedef SymmetricSecondRankTensor< TOutput,
-                                     TInputImage::ImageDimension >  TensorType;
+                                     TInputImage::ImageDimension >
+                                          TensorType;
   typedef typename Superclass::OutputType OutputType;
 
   typedef FixedArray< double, itkGetStaticConstMacro(ImageDimension2) > VarianceArrayType;
