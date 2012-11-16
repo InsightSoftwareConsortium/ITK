@@ -173,8 +173,10 @@ public:
 
   /** Define the data type and the vector of data type used in calculations. */
   typedef TRealType                                                                         RealType;
-  typedef Vector< TRealType, InputPixelType::Dimension > RealVectorType;
-  typedef Image< RealVectorType, TInputImage::ImageDimension >  RealVectorImageType;
+  typedef Vector< TRealType, InputPixelType::Dimension >
+                      RealVectorType;
+  typedef Image< RealVectorType, TInputImage::ImageDimension >
+                      RealVectorImageType;
 
   /** Type of the iterator that will be used to move through the image.  Also
       the type which will be passed to the evaluate function */
