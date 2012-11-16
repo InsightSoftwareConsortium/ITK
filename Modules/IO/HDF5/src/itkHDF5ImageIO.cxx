@@ -676,11 +676,6 @@ HDF5ImageIO
     std::string groupName(ImageGroup);
     //H5::Group imageGroup(this->m_H5File->openGroup(groupName));
     groupName += "/0";
-    //H5::Group instanceGroup(this->m_H5File->openGroup(groupName));
-    std::string OriginName(groupName);
-    OriginName += Origin;
-    this->m_Origin =
-      this->ReadVector<double>(OriginName);
 
     std::string DirectionsName(groupName);
     DirectionsName += Directions;
@@ -690,6 +685,11 @@ HDF5ImageIO
 
     int numDims = directions.size();
     this->SetNumberOfDimensions(numDims);
+
+    //H5::Group instanceGroup(this->m_H5File->openGroup(groupName));
+    std::string OriginName(groupName);
+    OriginName += Origin;
+    this->m_Origin = this->ReadVector<double>(OriginName);
 
     for(int i = 0; i < numDims; i++)
       {

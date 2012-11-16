@@ -52,6 +52,9 @@ int HDF5ReadWriteTest(const char *fileName)
   mat[0][1] = -0.5;
   mat[1][0] = 0.5;
   im->SetDirection(mat);
+
+  // set origin
+  im->SetOrigin(origin);
   //
   // add some unique metadata
   itk::MetaDataDictionary & metaDict(im->GetMetaDataDictionary());
