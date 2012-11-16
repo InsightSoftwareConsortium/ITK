@@ -1,0 +1,3 @@
+project(ITKIODCMTK)
+set(ITKIODCMTK_LIBRARIES ITKIODCMTK)
+itk_module_impl()
