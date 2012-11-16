@@ -98,6 +98,13 @@ protected:
   ~JoinSeriesImageFilter() {}
   void PrintSelf(std::ostream & os, Indent indent) const;
 
+  /** Override VeriyInputInformation() to add the additional check
+   * that all inputs have the same number of components.
+   *
+   * \sa ProcessObject::VerifyInputInformation
+   */
+  virtual void VerifyInputInformation();
+
   /** Overrides GenerateOutputInformation() in order to produce
    * an image which has a different information than the first input.
    * \sa ProcessObject::GenerateOutputInformaton() */
