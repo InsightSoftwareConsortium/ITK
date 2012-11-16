@@ -27,16 +27,50 @@ template< unsigned int VDimension, typename TInput >
 FiniteCylinderSpatialFunction< VDimension, TInput >
 ::FiniteCylinderSpatialFunction()
 {
-  m_Orientation.Fill(1.0f);
+  // a normalized {1,1,...1} vector is
+  // { 1.0 / sqrt( VDmim ), ... }
+  const double orientationVal = 1.0 / vcl_sqrt(static_cast<double>(VDimension));
+  m_Orientation.Fill(orientationVal);
+  m_NormalizedOrientation.Fill(orientationVal);
   m_AxisLength = 1.0f; // Length of cylinder axis.
   m_Radius = 1.0f;     // Radius of cylinder.
-  m_Center.Fill(0.0f); // Origin of cylinder
+  m_Center.Fill(0.0f); // Origin of cylinder}
 }
 
 template< unsigned int VDimension, typename TInput >
 FiniteCylinderSpatialFunction< VDimension, TInput >
 ::~FiniteCylinderSpatialFunction()
 {}
+
+template< unsigned int VDimension, typename TInput >
+void
+FiniteCylinderSpatialFunction< VDimension, TInput >
+::SetOrientation(const InputType _Orientation)
+{
+  itkDebugMacro("setting Orientation to " << _Orientation);
+  if(this->m_Orientation != _Orientation)
+    {
+    this->m_Orientation = _Orientation;
+    //
+    // save normalizedOrientation, so it doesn't need to be recomputed
+    // in every call of Evaluate.
+    double norm = 0.0;
+    for(unsigned int i = 0; i < VDimension; ++i)
+      {
+      norm += this->m_Orientation[i] * this->m_Orientation[i];
+      }
+    norm = vcl_sqrt(norm);
+    if(norm == 0.0) // avoid divide by zero
+      {
+      itkExceptionMacro(<< "Degenerate orientation vector " << this->m_Orientation);
+      }
+    for(unsigned int i = 0; i < VDimension; ++i)
+      {
+      this->m_NormalizedOrientation[i] = this->m_Orientation[i] / norm;
+      }
+    this->Modified();
+    }
+}
 
 template< unsigned int VDimension, typename TInput >
 typename FiniteCylinderSpatialFunction< VDimension, TInput >::OutputType
@@ -49,20 +83,13 @@ FiniteCylinderSpatialFunction< VDimension, TInput >
   Vector< double, VDimension > pointVector;
   Vector< double, VDimension > medialAxisVector;
 
-  double norm = 0.0;
   for(unsigned int i = 0; i < VDimension; ++i)
     {
     pointVector[i] = position[i] - m_Center[i];
-    norm += m_Orientation[i] * m_Orientation[i];
-    }
-  norm = vcl_sqrt(norm);
-  if(norm == 0.0) // avoid divide by zero
-    {
-    itkExceptionMacro(<< "Degenerate orientation vector " << m_Orientation)
     }
   for(unsigned int i = 0; i < VDimension; ++i)
     {
-    medialAxisVector[i] = m_Orientation[i] / norm;
+    medialAxisVector[i] = m_NormalizedOrientation[i];
     }
 
   //if length_test is less than the length of the cylinder (half actually,
@@ -93,6 +120,12 @@ void FiniteCylinderSpatialFunction< VDimension, TInput >
   for ( i = 0; i < VDimension; i++ )
     {
     os << indent << indent <<  m_Orientation[i] << " ";
+    }
+  os << std::endl;
+  os << indent << "Normalized Orientation: " << std::endl;
+  for ( i = 0; i < VDimension; i++ )
+    {
+    os << indent << indent <<  m_NormalizedOrientation[i] << " ";
     }
   os << std::endl;
 }
