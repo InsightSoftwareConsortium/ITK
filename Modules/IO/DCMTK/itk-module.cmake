@@ -1,7 +1,7 @@
 set(DOCUMENTATION "This module contains the third party <a
 href=\"http://dicom.offis.de/dcmtk/\">DCMTK</a> DCMTK is a collection of libraries and applications implementing large parts the DICOM standard.")
 
-if(MSVC)
+if(WIN32)
   set(ITKIODCMTK_EXCLUDE_FROM_ALL "EXCLUDE_FROM_ALL")
 else()
   set(ITKIODCMTK_EXCLUDE_FROM_ALL "")
