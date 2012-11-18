@@ -24,6 +24,8 @@
 #include "itkCovariantVector.h"
 #include "itkDefaultConvertPixelTraits.h"
 #include "itkProgressAccumulator.h"
+#include "itkImageRegionIterator.h"
+#include "itkVectorImage.h"
 #include <vector>
 
 namespace itk
@@ -38,17 +40,6 @@ namespace itk
  * This filter supports both scalar and vector pixel types
  * within the input image, including VectorImage type.
  *
- * Developer note - speed performance:
- * The abstractions needed in GenerateData() to accomodate
- * vector-pixel types incur a performance penalty for the
- * scalar-pixel case, when compared with previous scalar-only
- * versions of the code. On MacOS (2.4GHz Core 2 Duo, gcc 4.2)
- * the penalty is about 3%. In order to recover this loss,
- * the previous scalar-only code could be restored in a
- * method that is called in the scalar-pixel case,
- * using template-specialization. See itkCentralDifferenceImageFunciton
- * for an example of how this may be done.
- *
  * \ingroup GradientFilters
  * \ingroup SingelThreaded
  * \ingroup ITKImageGradient
@@ -57,9 +48,6 @@ namespace itk
  * \wikiexample{EdgesAndGradients/GradientRecursiveGaussianImageFilter,Compute the gradient of an image by convolution with the first derivative of a Gaussian}
  * \endwiki
  */
-// NOTE that the typename macro has to be used here in lieu
-// of "typename" because VC++ doesn't like the typename keyword
-// on the defaults of template parameters
 template< typename TInputImage,
           typename TOutputImage = Image< CovariantVector<
                                            typename NumericTraits< typename TInputImage::PixelType >::RealType,
@@ -100,6 +88,7 @@ public:
   typedef Image< InternalRealType,
                  itkGetStaticConstMacro(ImageDimension) >   RealImageType;
 
+
   /**  Output Image Nth Element Adaptor
    *  This adaptor allows to use conventional scalar
    *  smoothing filters to compute each one of the
@@ -131,10 +120,11 @@ public:
   typedef typename TOutputImage::Pointer OutputImagePointer;
 
   /** Type of the output Image */
-  typedef TOutputImage                                       OutputImageType;
-  typedef typename          OutputImageType::PixelType       OutputPixelType;
-
-  typedef typename DefaultConvertPixelTraits< OutputPixelType >::ComponentType OutputComponentType;
+  typedef TOutputImage                                         OutputImageType;
+  typedef typename          OutputImageType::PixelType         OutputPixelType;
+  typedef typename NumericTraits< OutputPixelType >::ValueType OutputComponentType;
+  typedef CovariantVector< OutputComponentType, ImageDimension >
+    CovariantVectorType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -176,8 +166,8 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro( InputHasNumericTraitsCheck, ( Concept::HasNumericTraits< PixelType > ) );
-  itkConceptMacro( OutputHasPixelTraitsCheck, ( Concept::HasPixelTraits< OutputPixelType > ) );
+  itkConceptMacro( InputHasNumericTraitsCheck,
+                   ( Concept::HasNumericTraits< PixelType > ) );
   /** End concept checking */
 #endif
 
@@ -192,7 +182,56 @@ protected:
   // Override since the filter produces the entire dataset
   void EnlargeOutputRequestedRegion(DataObject *output);
 
+  void GenerateOutputInformation();
+
 private:
+
+  template <class TValueType>
+  void TransformOutputPixel( ImageRegionIterator< VectorImage<TValueType, ImageDimension> > &it )
+  {
+    // To transform Variable length vector we need to convert to and
+    // fro the CovariantVectorType
+    const CovariantVectorType gradient( it.Get().GetDataPointer() );
+    CovariantVectorType physicalGradient;
+    it.GetImage()->TransformLocalVectorToPhysicalVector(gradient, physicalGradient );
+    it.Set( OutputPixelType( physicalGradient.GetDataPointer(), ImageDimension, false ) );
+  }
+
+  template <class T >
+  void TransformOutputPixel( ImageRegionIterator< T > &it )
+  {
+    OutputPixelType correctedGradient;
+    const OutputPixelType & gradient = it.Get();
+
+    const unsigned int nComponents = NumericTraits<OutputPixelType>::GetLength( gradient )/ImageDimension;
+
+    for (unsigned int nc = 0; nc < nComponents; nc++ )
+      {
+      GradientVectorType componentGradient;
+      GradientVectorType correctedComponentGradient;
+      for (unsigned int dim = 0; dim < ImageDimension; dim++ )
+        {
+        componentGradient[dim] = DefaultConvertPixelTraits<OutputPixelType>::GetNthComponent( nc*ImageDimension+dim, gradient );
+        }
+      it.GetImage()->TransformLocalVectorToPhysicalVector(componentGradient, correctedComponentGradient );
+      for (unsigned int dim = 0; dim < ImageDimension; dim++ )
+        {
+        DefaultConvertPixelTraits<OutputPixelType>::SetNthComponent( nc*ImageDimension+dim, correctedGradient,
+                                                                     correctedComponentGradient[dim] );
+        }
+      it.Set(correctedGradient);
+      }
+  }
+
+  template <template<class, unsigned int> class P, class T, unsigned int N>
+    void TransformOutputPixel( ImageRegionIterator< Image< P<T,N>, N > > &it )
+  {
+    const OutputPixelType gradient = it.Get();
+    // This uses the more efficient set by reference method
+    it.GetImage()->TransformLocalVectorToPhysicalVector(gradient, it.Value() );
+  }
+
+
   GradientRecursiveGaussianImageFilter(const Self &); //purposely not
                                                       // implemented
   void operator=(const Self &);                       //purposely not

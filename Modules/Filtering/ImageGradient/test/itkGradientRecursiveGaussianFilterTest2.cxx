@@ -125,16 +125,6 @@ int itkGradientRecursiveGaussianFilterTest2(int, char* [] )
   myOutputIteratorType itg( outputImage,
                             outputImage->GetRequestedRegion() );
 
-  //  Print the content of the result image
-  std::cout << " Result " << std::endl;
-  itg.GoToBegin();
-  while( !itg.IsAtEnd() )
-    {
-    std::cout << itg.Get();
-    ++itg;
-    }
-
-
   // All objects should be automatically destroyed at this point
   return EXIT_SUCCESS;
 
