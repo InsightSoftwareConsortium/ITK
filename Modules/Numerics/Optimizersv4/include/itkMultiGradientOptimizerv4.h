@@ -34,6 +34,9 @@ namespace itk
  *    params_{new} = params_{old} + \frac{1}{N_{Metrics}} * ( \sum_i w_i Grad(Metric_i) )
  *  \f]
  *
+ *  \note The scales, learning rates and weights options must be set individually for each sub-optimizer,
+ *  and have no effect when set on this class.
+ *
  *  The test for this class illustrates the expected behavior.
  *
  * \ingroup ITKOptimizersv4
@@ -96,7 +99,7 @@ public:
   itkGetConstMacro(CurrentIteration, SizeValueType);
 
   /** Begin the optimization */
-  virtual void StartOptimization(void);
+  virtual void StartOptimization( bool doOnlyInitialization = false );
 
   /** Stop optimization. The object is left in a state so the
    * optimization can be resumed by calling ResumeOptimization. */

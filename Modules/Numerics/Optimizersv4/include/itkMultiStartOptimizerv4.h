@@ -106,7 +106,7 @@ public:
   void InstantiateLocalOptimizer(void);
 
   /** Begin the optimization */
-  virtual void StartOptimization(void);
+  virtual void StartOptimization( bool doOnlyInitialization = false );
 
   /** Stop optimization. The object is left in a state so the
    * optimization can be resumed by calling ResumeOptimization. */

@@ -129,7 +129,7 @@ MultiStartOptimizerv4
  */
 void
 MultiStartOptimizerv4
-::StartOptimization()
+::StartOptimization( bool doOnlyInitialization )
 {
   itkDebugMacro("StartOptimization");
 
@@ -141,14 +141,17 @@ MultiStartOptimizerv4
   /* Must call the superclass version for basic validation and setup */
   if ( this->m_NumberOfIterations > static_cast<SizeValueType>(0) )
     {
-    Superclass::StartOptimization();
+    Superclass::StartOptimization( doOnlyInitialization );
     }
 
   this->m_CurrentIteration = static_cast<SizeValueType>(0);
 
-  if ( this->m_NumberOfIterations > static_cast<SizeValueType>(0) )
+  if( ! doOnlyInitialization )
     {
-    this->ResumeOptimization();
+    if ( this->m_NumberOfIterations > static_cast<SizeValueType>(0) )
+      {
+      this->ResumeOptimization();
+      }
     }
 }
 

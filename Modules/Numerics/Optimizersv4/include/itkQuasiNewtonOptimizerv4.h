@@ -82,7 +82,7 @@ public:
   typedef std::vector<HessianType>                    HessianArrayType;
 
   /** Start and run the optimization */
-  virtual void StartOptimization();
+  virtual void StartOptimization( bool doOnlyInitialization = false );
 
   /** Set the maximum tolerable number of iteration without any progress */
   itkSetMacro(MaximumIterationsWithoutProgress, SizeValueType);

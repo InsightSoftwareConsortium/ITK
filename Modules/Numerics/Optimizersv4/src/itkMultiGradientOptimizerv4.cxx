@@ -107,40 +107,44 @@ MultiGradientOptimizerv4
  */
 void
 MultiGradientOptimizerv4
-::StartOptimization()
+::StartOptimization( bool doOnlyInitialization )
 {
   itkDebugMacro("StartOptimization");
-  SizeValueType maxopt=this->m_OptimizersList.size();
-  if ( maxopt == NumericTraits<SizeValueType>::Zero )
+  SizeValueType maxOpt=this->m_OptimizersList.size();
+  if ( maxOpt == NumericTraits<SizeValueType>::Zero )
     {
     itkExceptionMacro(" No optimizers are set.");
     }
-  if ( ! this->m_Metric ) this->m_Metric = this->m_OptimizersList[0]->GetMetric();
+  if ( ! this->m_Metric )
+    {
+    this->m_Metric = this->m_OptimizersList[0]->GetMetric();
+    }
   this->m_MetricValuesList.clear();
   this->m_MinimumMetricValue = this->m_MaximumMetricValue;
-  const ParametersType & testparamsarethesameobject = this->m_OptimizersList[0]->GetCurrentPosition();
+  const ParametersType & testParamsAreTheSameObject = this->m_OptimizersList[0]->GetCurrentPosition();
   this->m_MetricValuesList.push_back( this->m_MaximumMetricValue );
-  for ( SizeValueType whichoptimizer = 1; whichoptimizer < maxopt; whichoptimizer++ )
+  /* Initialize the optimizer, but don't run it. */
+  this->m_OptimizersList[0]->StartOptimization( true /* doOnlyInitialization */ );
+
+  for ( SizeValueType whichOptimizer = 1; whichOptimizer < maxOpt; whichOptimizer++ )
     {
     this->m_MetricValuesList.push_back(this->m_MaximumMetricValue);
-    const ParametersType & compareparams = this->m_OptimizersList[whichoptimizer]->GetCurrentPosition();
-    if ( &compareparams != &testparamsarethesameobject )
+    const ParametersType & compareParams = this->m_OptimizersList[whichOptimizer]->GetCurrentPosition();
+    if ( &compareParams != &testParamsAreTheSameObject )
       {
       itkExceptionMacro(" Parameter objects are not identical across all optimizers/metrics.");
       }
-    }
-
-  /* Must call the superclass version for basic validation and setup */
-  if ( this->m_NumberOfIterations > static_cast<SizeValueType>(0) )
-    {
-    Superclass::StartOptimization();
+    /* Initialize the optimizer, but don't run it. */
+    this->m_OptimizersList[whichOptimizer]->StartOptimization( true /* doOnlyInitialization */ );
     }
 
   this->m_CurrentIteration = static_cast<SizeValueType>(0);
 
+  /* Must call the superclass version for basic validation and setup,
+   * and to start the optimization loop. */
   if ( this->m_NumberOfIterations > static_cast<SizeValueType>(0) )
     {
-    this->ResumeOptimization();
+    Superclass::StartOptimization( doOnlyInitialization );
     }
 }
 
@@ -159,36 +163,38 @@ MultiGradientOptimizerv4
   while( ! this->m_Stop )
     {
     /* Compute metric value/derivative. */
-    SizeValueType maxopt = this->m_OptimizersList.size();
+
+    SizeValueType maxOpt = this->m_OptimizersList.size();
     /** we rely on learning rate or parameter scale estimator to do the weighting */
-    InternalComputationValueType combinefunction = 1.0/(double)maxopt;
-    itkDebugMacro(" nopt " << maxopt);
-    for (SizeValueType whichoptimizer = 0; whichoptimizer < maxopt; whichoptimizer++ )
+    InternalComputationValueType combinefunction = NumericTraits<InternalComputationValueType>::OneValue() / static_cast<InternalComputationValueType>(maxOpt);
+    itkDebugMacro(" nopt " << maxOpt);
+
+    for (SizeValueType whichOptimizer = 0; whichOptimizer < maxOpt; whichOptimizer++ )
       {
-      this->m_OptimizersList[whichoptimizer]->GetMetric()->GetValueAndDerivative(
-        const_cast<double&>( this->m_OptimizersList[whichoptimizer]->GetCurrentMetricValue() ),
-        const_cast<DerivativeType&>( this->m_OptimizersList[whichoptimizer]->GetGradient() ) );
-      itkDebugMacro(" got-deriv " << whichoptimizer);
-      if ( this->m_Gradient.Size() != this->m_OptimizersList[whichoptimizer]->GetGradient().Size() )
+      this->m_OptimizersList[whichOptimizer]->GetMetric()->GetValueAndDerivative(
+        const_cast<MeasureType&>( this->m_OptimizersList[whichOptimizer]->GetCurrentMetricValue() ),
+        const_cast<DerivativeType&>( this->m_OptimizersList[whichOptimizer]->GetGradient() ) );
+      itkDebugMacro(" got-deriv " << whichOptimizer);
+      if ( this->m_Gradient.Size() != this->m_OptimizersList[whichOptimizer]->GetGradient().Size() )
         {
-        this->m_Gradient.SetSize( this->m_OptimizersList[whichoptimizer]->GetGradient().Size() );
+        this->m_Gradient.SetSize( this->m_OptimizersList[whichOptimizer]->GetGradient().Size() );
         itkDebugMacro(" resized ");
         }
 
-      /* Modify the gradient by scales and learning rate */
-      this->m_OptimizersList[whichoptimizer]->ModifyGradientByScales();
-      this->m_OptimizersList[whichoptimizer]->EstimateLearningRate();
-      this->m_OptimizersList[whichoptimizer]->ModifyGradientByLearningRate();
+      /* Modify the gradient by scales, weights and learning rate */
+      this->m_OptimizersList[whichOptimizer]->ModifyGradientByScales();
+      this->m_OptimizersList[whichOptimizer]->EstimateLearningRate();
+      this->m_OptimizersList[whichOptimizer]->ModifyGradientByLearningRate();
 
       itkDebugMacro(" mod-grad ");
       /** combine the gradients */
-      if ( whichoptimizer == 0 )
+      if ( whichOptimizer == 0 )
         {
         this->m_Gradient.Fill(0);
         }
-      this->m_Gradient = this->m_Gradient + this->m_OptimizersList[whichoptimizer]->GetGradient() * combinefunction;
+      this->m_Gradient = this->m_Gradient + this->m_OptimizersList[whichOptimizer]->GetGradient() * combinefunction;
       itkDebugMacro(" add-grad ");
-      this->m_MetricValuesList[whichoptimizer] = this->m_OptimizersList[whichoptimizer]->GetCurrentMetricValue();
+      this->m_MetricValuesList[whichOptimizer] = this->m_OptimizersList[whichOptimizer]->GetCurrentMetricValue();
       }//endfor
 
     /* Check if optimization has been stopped externally.
@@ -217,9 +223,7 @@ MultiGradientOptimizerv4
     this->m_CurrentIteration++;
     if ( this->m_CurrentIteration >= this->m_NumberOfIterations )
       {
-      this->m_StopConditionDescription << "Maximum number of iterations ("
-                               << this->m_NumberOfIterations
-                               << ") exceeded.";
+      this->m_StopConditionDescription << "Maximum number of iterations (" << this->m_NumberOfIterations << ") exceeded.";
       this->m_StopCondition = MAXIMUM_NUMBER_OF_ITERATIONS;
       this->StopOptimization();
       break;

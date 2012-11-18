@@ -49,13 +49,13 @@ ConjugateGradientLineSearchOptimizerv4
 
 void
 ConjugateGradientLineSearchOptimizerv4
-::StartOptimization(void)
- {
+::StartOptimization( bool doOnlyInitialization)
+{
   this->m_ConjugateGradient.SetSize( this->m_Metric->GetNumberOfParameters() );
   this->m_ConjugateGradient.Fill( itk::NumericTraits< InternalComputationValueType >::Zero );
   this->m_LastGradient.SetSize( this->m_Metric->GetNumberOfParameters() );
   this->m_LastGradient.Fill( itk::NumericTraits< InternalComputationValueType >::Zero );
-  Superclass::StartOptimization();
+  Superclass::StartOptimization( doOnlyInitialization );
 }
 
 /**

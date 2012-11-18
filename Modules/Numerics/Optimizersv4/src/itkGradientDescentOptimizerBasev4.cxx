@@ -79,7 +79,7 @@ void
 GradientDescentOptimizerBasev4
 ::ModifyGradientByScales()
 {
-  if ( this->m_ScalesAreIdentity )
+  if ( this->GetScalesAreIdentity() && this->GetWeightsAreIdentity() )
     {
     return;
     }

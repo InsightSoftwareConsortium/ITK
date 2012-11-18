@@ -104,10 +104,10 @@ public:
   itkTypeMacro(ObjectToObjectOptimizerBaseTestOptimizer, ObjectToObjectOptimizerBase);
 
   /* Provide initialization for this class */
-  void StartOptimization()
+  void StartOptimization( bool doOnlyInitialization = false )
     {
-    Superclass::StartOptimization();
-    std::cout << "StartOptimization called from derived class." << std::endl;
+    Superclass::StartOptimization( doOnlyInitialization );
+    std::cout << "StartOptimization called from derived class. doOnlyInitialization: " << doOnlyInitialization << std::endl;
     }
 
 };
@@ -135,12 +135,12 @@ int itkObjectToObjectOptimizerBaseTest(int , char* [])
   std::cout << "value: " << optimizer->GetCurrentMetricValue() << std::endl;
 
   /* Test set/get of scales */
-  ObjectToObjectOptimizerBaseTestOptimizer::NumberOfParametersType
-    scalesSize = metric->GetNumberOfLocalParameters();
-  ObjectToObjectOptimizerBaseTestOptimizer::ScalesType scales(scalesSize);
+  ObjectToObjectOptimizerBaseTestOptimizer::NumberOfParametersType scalesSize = metric->GetNumberOfLocalParameters();
+  typedef ObjectToObjectOptimizerBaseTestOptimizer::ScalesType ScalesType;
+  ScalesType scales(scalesSize);
   scales.Fill(3.19);
   optimizer->SetScales( scales );
-  const ObjectToObjectOptimizerBaseTestOptimizer::ScalesType& scalesReturn = optimizer->GetScales();
+  const ScalesType& scalesReturn = optimizer->GetScales();
   if( scalesReturn != scales )
     {
     std::cerr << "Set/GetScales failed." << std::endl;
@@ -166,6 +166,45 @@ int itkObjectToObjectOptimizerBaseTest(int , char* [])
   if( ! optimizer->GetScalesAreIdentity() )
     {
     std::cerr << "Expected GetScalesAreIdentity to return true." << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  /* Test that weights are init'ed by default to identity */
+  ObjectToObjectOptimizerBaseTestOptimizer::NumberOfParametersType weightsSize = metric->GetNumberOfLocalParameters();
+  TRY_EXPECT_NO_EXCEPTION( optimizer->StartOptimization() );
+  ScalesType weightsReturn = optimizer->GetWeights();
+  if( weightsReturn.Size() != 0 || ! optimizer->GetWeightsAreIdentity() )
+    {
+    std::cerr << "Expected returned weights to be empty, and flag set to idenity. But got: " << weightsReturn
+              << ", GetWeightsAreIdentity: " <<  optimizer->GetWeightsAreIdentity() << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  /* Test set/get of weights */
+  ScalesType weights(weightsSize);
+  weights.Fill(3.19);
+  optimizer->SetWeights( weights );
+  weightsReturn = optimizer->GetWeights();
+  if( weightsReturn != weights )
+    {
+    std::cerr << "Set/GetWeights failed." << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  /* Test with incorrectly-sized weights. Expect exception */
+  weights.SetSize(weightsSize+1);
+  optimizer->SetWeights( weights );
+  TRY_EXPECT_EXCEPTION( optimizer->StartOptimization() );
+
+  /* Test with weights close to identity, within tolerance.
+   * The flag indicating identity weights should be set. */
+  weights.SetSize(weightsSize);
+  weights.Fill( 0.99999 );
+  optimizer->SetWeights( weights );
+  TRY_EXPECT_NO_EXCEPTION( optimizer->StartOptimization() );
+  if( ! optimizer->GetWeightsAreIdentity() )
+    {
+    std::cerr << "Expected GetWeightsAreIdentity to return true." << std::endl;
     return EXIT_FAILURE;
     }
 
