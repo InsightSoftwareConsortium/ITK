@@ -22,6 +22,7 @@
 #include "itkImageRegistrationMethodv4.h"
 #include "itkSyNImageRegistrationMethod.h"
 
+#include "itkAffineTransform.h"
 #include "itkANTSNeighborhoodCorrelationImageToImageMetricv4.h"
 #include "itkCompositeTransform.h"
 #include "itkDisplacementFieldTransformParametersAdaptor.h"
@@ -70,7 +71,7 @@ int PerformDisplacementFieldImageRegistration( int itkNotUsed( argc ), char *arg
 {
   const unsigned int ImageDimension = TDimension;
 
-  typedef float                                 PixelType;
+  typedef double                                PixelType;
   typedef itk::Image<PixelType, ImageDimension> FixedImageType;
   typedef itk::Image<PixelType, ImageDimension> MovingImageType;
 
@@ -90,7 +91,8 @@ int PerformDisplacementFieldImageRegistration( int itkNotUsed( argc ), char *arg
   movingImage->Update();
   movingImage->DisconnectPipeline();
 
-  typedef itk::ImageRegistrationMethodv4<FixedImageType, MovingImageType> AffineRegistrationType;
+  typedef itk::AffineTransform<double, ImageDimension> AffineTransformType;
+  typedef itk::ImageRegistrationMethodv4<FixedImageType, MovingImageType, AffineTransformType> AffineRegistrationType;
   typename AffineRegistrationType::Pointer affineSimple = AffineRegistrationType::New();
   affineSimple->SetFixedImage( fixedImage );
   affineSimple->SetMovingImage( movingImage );

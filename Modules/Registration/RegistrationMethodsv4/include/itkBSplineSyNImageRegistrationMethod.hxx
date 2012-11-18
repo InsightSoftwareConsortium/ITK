@@ -81,7 +81,7 @@ BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
   typedef DisplacementFieldTransform<RealType, ImageDimension> DisplacementFieldTransformType;
   const DisplacementVectorType zeroVector( 0.0 );
   typedef ImageDuplicator<DisplacementFieldType> DisplacementFieldDuplicatorType;
-  typename VirtualImageType::ConstPointer virtualDomainImage = this->m_Metric->GetVirtualImage();
+  typename VirtualImageType::ConstPointer virtualDomainImage = dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() )->GetVirtualImage();
 
   // Monitor the convergence
   typedef itk::Function::WindowConvergenceMonitoringFunction<double> ConvergenceMonitoringType;
@@ -120,7 +120,7 @@ BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
       typedef ResampleImageFilter<MovingImageType, MovingImageType> MovingResamplerType;
       typename MovingResamplerType::Pointer movingResampler = MovingResamplerType::New();
       movingResampler->SetTransform( movingComposite );
-      movingResampler->SetInput( this->m_MovingSmoothImage );
+      movingResampler->SetInput( this->m_MovingSmoothImages[0] );
       movingResampler->SetSize( virtualDomainImage->GetRequestedRegion().GetSize() );
       movingResampler->SetOutputOrigin( virtualDomainImage->GetOrigin() );
       movingResampler->SetOutputSpacing( virtualDomainImage->GetSpacing() );
@@ -131,7 +131,7 @@ BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
       typedef ResampleImageFilter<FixedImageType, FixedImageType> FixedResamplerType;
       typename FixedResamplerType::Pointer fixedResampler = FixedResamplerType::New();
       fixedResampler->SetTransform( fixedComposite );
-      fixedResampler->SetInput( this->m_FixedSmoothImage );
+      fixedResampler->SetInput( this->m_FixedSmoothImages[0] );
       fixedResampler->SetSize( virtualDomainImage->GetRequestedRegion().GetSize() );
       fixedResampler->SetOutputOrigin( virtualDomainImage->GetOrigin() );
       fixedResampler->SetOutputSpacing( virtualDomainImage->GetSpacing() );
@@ -155,10 +155,10 @@ BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
       }
     else
       {
-      fixedToMiddleSmoothUpdateField = this->ComputeUpdateField( this->m_FixedSmoothImage, fixedComposite,
-        this->m_MovingSmoothImage, movingComposite, movingMetricValue );
-      movingToMiddleSmoothUpdateField = this->ComputeUpdateField( this->m_MovingSmoothImage, movingComposite,
-        this->m_FixedSmoothImage, fixedComposite, fixedMetricValue );
+      fixedToMiddleSmoothUpdateField = this->ComputeUpdateField( this->m_FixedSmoothImages[0], fixedComposite,
+        this->m_MovingSmoothImages[0], movingComposite, movingMetricValue );
+      movingToMiddleSmoothUpdateField = this->ComputeUpdateField( this->m_MovingSmoothImages[0], movingComposite,
+        this->m_FixedSmoothImages[0], fixedComposite, fixedMetricValue );
       }
     if ( this->m_AverageMidPointGradients )
       {
@@ -223,17 +223,17 @@ typename BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTra
 BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
 ::ComputeUpdateField( const FixedImageType * fixedImage, const TransformBaseType * fixedTransform, const MovingImageType * movingImage, const TransformBaseType * movingTransform, MeasureType & value )
 {
-  typename VirtualImageType::ConstPointer virtualDomainImage = this->m_Metric->GetVirtualImage();
+  typename VirtualImageType::ConstPointer virtualDomainImage =  dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() )->GetVirtualImage();
 
   // pre calculate the voxel distance to be used in properly scaling the gradient.
 
-  this->m_Metric->SetFixedImage( fixedImage );
-  this->m_Metric->SetFixedTransform( const_cast<TransformBaseType *>( fixedTransform ) );
-  this->m_Metric->SetMovingImage( movingImage );
-  this->m_Metric->SetMovingTransform( const_cast<TransformBaseType *>( movingTransform ) );
+  dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() )->SetFixedImage( fixedImage );
+  dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() )->SetFixedTransform( const_cast<TransformBaseType *>( fixedTransform ) );
+  dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() )->SetMovingImage( movingImage );
+  dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() )->SetMovingTransform( const_cast<TransformBaseType *>( movingTransform ) );
   this->m_Metric->Initialize();
 
-  typedef typename MetricType::DerivativeType MetricDerivativeType;
+  typedef typename ImageMetricType::DerivativeType MetricDerivativeType;
   const typename MetricDerivativeType::SizeValueType metricDerivativeSize = virtualDomainImage->GetLargestPossibleRegion().GetNumberOfPixels() * ImageDimension;
   MetricDerivativeType metricDerivative( metricDerivativeSize );
 

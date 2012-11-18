@@ -89,9 +89,9 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TOu
 
   const typename TimeVaryingVelocityFieldType::SpacingType velocityFieldSpacing = velocityField->GetSpacing();
 
-  typename VirtualImageType::ConstPointer virtualDomainImage = this->m_Metric->GetVirtualImage();
+  typename VirtualImageType::ConstPointer virtualDomainImage = dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() )->GetVirtualImage();
 
-  typedef typename MetricType::DerivativeType MetricDerivativeType;
+  typedef typename ImageMetricType::DerivativeType MetricDerivativeType;
   const typename MetricDerivativeType::SizeValueType metricDerivativeSize = virtualDomainImage->GetLargestPossibleRegion().GetNumberOfPixels() * ImageDimension;
   MetricDerivativeType metricDerivative( metricDerivativeSize );
 
@@ -179,7 +179,7 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TOu
       typedef itk::ResampleImageFilter<MovingImageType, VirtualImageType> MovingImageResampleFilterType;
       typename MovingImageResampleFilterType::Pointer movingImageResampler = MovingImageResampleFilterType::New();
       movingImageResampler->SetTransform( this->m_CompositeTransform );
-      movingImageResampler->SetInput( this->m_MovingSmoothImage );
+      movingImageResampler->SetInput( this->m_MovingSmoothImages[0] );
       movingImageResampler->SetSize( virtualDomainImage->GetLargestPossibleRegion().GetSize() );
       movingImageResampler->SetOutputOrigin( virtualDomainImage->GetOrigin() );
       movingImageResampler->SetOutputSpacing( virtualDomainImage->GetSpacing() );
@@ -190,7 +190,7 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TOu
       typedef itk::ResampleImageFilter<FixedImageType, VirtualImageType> FixedImageResampleFilterType;
       typename FixedImageResampleFilterType::Pointer fixedImageResampler = FixedImageResampleFilterType::New();
       fixedImageResampler->SetTransform( fixedDisplacementFieldTransform );
-      fixedImageResampler->SetInput( this->m_FixedSmoothImage );
+      fixedImageResampler->SetInput( this->m_FixedSmoothImages[0] );
       fixedImageResampler->SetSize( virtualDomainImage->GetLargestPossibleRegion().GetSize() );
       fixedImageResampler->SetOutputOrigin( virtualDomainImage->GetOrigin() );
       fixedImageResampler->SetOutputSpacing( virtualDomainImage->GetSpacing() );
@@ -198,11 +198,11 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TOu
       fixedImageResampler->SetDefaultPixelValue( 0 );
       fixedImageResampler->Update();
 
-      this->m_Metric->SetFixedImage( fixedImageResampler->GetOutput() );
-      this->m_Metric->SetFixedTransform( identityTransform );
-      this->m_Metric->SetMovingImage( movingImageResampler->GetOutput() );
-      this->m_Metric->SetMovingTransform( identityDisplacementFieldTransform );
-      this->m_Metric->Initialize();
+      dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() )->SetFixedImage( fixedImageResampler->GetOutput() );
+      dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() )->SetFixedTransform( identityTransform );
+      dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() )->SetMovingImage( movingImageResampler->GetOutput() );
+      dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() )->SetMovingTransform( identityDisplacementFieldTransform );
+      this->m_Metric.GetPointer()->Initialize();
 
       metricDerivative.Fill( NumericTraits<typename MetricDerivativeType::ValueType>::Zero );
       this->m_Metric->GetValueAndDerivative( value, metricDerivative );

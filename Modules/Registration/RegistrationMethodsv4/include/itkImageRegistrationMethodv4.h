@@ -20,12 +20,12 @@
 
 #include "itkProcessObject.h"
 
-#include "itkAffineTransform.h"
 #include "itkCompositeTransform.h"
 #include "itkDataObjectDecorator.h"
+#include "itkObjectToObjectMetricBase.h"
+#include "itkObjectToObjectMultiMetricv4.h"
 #include "itkObjectToObjectOptimizerBase.h"
 #include "itkImageToImageMetricv4.h"
-#include "itkInterpolateImageFunction.h"
 #include "itkTransform.h"
 #include "itkTransformParametersAdaptor.h"
 
@@ -77,16 +77,14 @@ namespace itk
  * given stage so typical use will be to assign the base adaptor class to
  * level 0 of all stages but we leave that open to the user.
  *
- * Output: The output is the updated transform which has been added to the
- * composite transform.
+ * Output: The output is the updated transform.
  *
  * \author Nick Tustison
  * \author Brian Avants
  *
  * \ingroup ITKRegistrationMethodsv4
  */
-template<typename TFixedImage, typename TMovingImage, typename TOutputTransform =
-  AffineTransform<double, TFixedImage::ImageDimension> >
+template<typename TFixedImage, typename TMovingImage, typename TOutputTransform>
 class ITK_EXPORT ImageRegistrationMethodv4
 :public ProcessObject
 {
@@ -109,12 +107,18 @@ public:
   /** Input typedefs for the images and transforms. */
   typedef TFixedImage                                                 FixedImageType;
   typedef typename FixedImageType::Pointer                            FixedImagePointer;
+  typedef std::vector<FixedImagePointer>                              FixedImagesContainerType;
   typedef TMovingImage                                                MovingImageType;
   typedef typename MovingImageType::Pointer                           MovingImagePointer;
+  typedef std::vector<MovingImagePointer>                             MovingImagesContainerType;
 
   /** Metric and transform typedefs */
-  typedef ImageToImageMetricv4<FixedImageType, MovingImageType>       MetricType;
+  typedef ObjectToObjectMetricBase                                    MetricType;
   typedef typename MetricType::Pointer                                MetricPointer;
+
+  typedef ObjectToObjectMultiMetricv4<ImageDimension, ImageDimension> MultiMetricType;
+  typedef ImageToImageMetricv4<FixedImageType, MovingImageType>       ImageMetricType;
+  typedef typename ImageMetricType::VirtualImageType                  VirtualImageType;
 
   typedef TOutputTransform                                            OutputTransformType;
   typedef typename OutputTransformType::Pointer                       OutputTransformPointer;
@@ -140,12 +144,6 @@ public:
   typedef Array<RealType>                                             SmoothingSigmasArrayType;
   typedef Array<RealType>                                             MetricSamplingPercentageArrayType;
 
-  /** Interpolator typedefs */
-  typedef InterpolateImageFunction<FixedImageType, RealType>          FixedInterpolatorType;
-  typedef typename FixedInterpolatorType::Pointer                     FixedInterpolatorPointer;
-  typedef InterpolateImageFunction<MovingImageType, RealType>         MovingInterpolatorType;
-  typedef typename MovingInterpolatorType::Pointer                    MovingInterpolatorPointer;
-
   /** Transform adaptor typedefs */
   typedef TransformParametersAdaptor<OutputTransformType>             TransformParametersAdaptorType;
   typedef typename TransformParametersAdaptorType::Pointer            TransformParametersAdaptorPointer;
@@ -158,31 +156,35 @@ public:
   /** enum type for metric sampling strategy */
   enum MetricSamplingStrategyType { NONE, REGULAR, RANDOM };
 
-  typedef typename MetricType::FixedSampledPointSetType               MetricSamplePointSetType;
+  typedef typename ImageMetricType::FixedSampledPointSetType          MetricSamplePointSetType;
 
-  /** Set/Get the fixed image. */
-  itkSetInputMacro( FixedImage, FixedImageType );
-  itkGetInputMacro( FixedImage, FixedImageType );
+  /** Set/get the fixed images. */
+  virtual void SetFixedImage( const FixedImageType *image )
+    {
+    this->SetFixedImage( 0, image );
+    }
+  virtual const FixedImageType * GetFixedImage() const
+    {
+    return this->GetFixedImage( 0 );
+    }
+  virtual void SetFixedImage( SizeValueType, const FixedImageType * );
+  virtual const FixedImageType * GetFixedImage( SizeValueType ) const;
 
-  /** Set/Get the moving image. */
-  itkSetInputMacro( MovingImage, MovingImageType );
-  itkGetInputMacro( MovingImage, MovingImageType );
+  /** Set the moving images. */
+  virtual void SetMovingImage( const MovingImageType *image )
+    {
+    this->SetMovingImage( 0, image );
+    }
+  virtual const MovingImageType * GetMovingImage() const
+    {
+    return this->GetMovingImage( 0 );
+    }
+  virtual void SetMovingImage( SizeValueType, const MovingImageType * );
+  virtual const MovingImageType * GetMovingImage( SizeValueType ) const;
 
-  /** Set/Get the initial fixed transform. */
-  itkSetObjectMacro( FixedInitialTransform, InitialTransformType );
-  itkGetConstObjectMacro( FixedInitialTransform, InitialTransformType );
-
-  /** Set/Get the initial moving transform. */
-  itkSetObjectMacro( MovingInitialTransform, InitialTransformType );
-  itkGetConstObjectMacro( MovingInitialTransform, InitialTransformType );
-
-  /** Set/Get the fixed interpolator. */
-  itkSetObjectMacro( FixedInterpolator, FixedInterpolatorType );
-  itkGetConstObjectMacro( FixedInterpolator, FixedInterpolatorType );
-
-  /** Set/Get the moving interpolator. */
-  itkSetObjectMacro( MovingInterpolator, MovingInterpolatorType );
-  itkGetConstObjectMacro( MovingInterpolator, MovingInterpolatorType );
+  /** Set/Get the optimizer. */
+  itkSetObjectMacro( Optimizer, OptimizerType );
+  itkGetObjectMacro( Optimizer, OptimizerType );
 
   /** Set/Get the metric. */
   itkSetObjectMacro( Metric, MetricType );
@@ -199,9 +201,13 @@ public:
   itkSetMacro( MetricSamplingPercentagePerLevel, MetricSamplingPercentageArrayType );
   itkGetConstMacro( MetricSamplingPercentagePerLevel, MetricSamplingPercentageArrayType );
 
-  /** Set/Get the optimizer. */
-  itkSetObjectMacro( Optimizer, OptimizerType );
-  itkGetObjectMacro( Optimizer, OptimizerType );
+  /** Set/Get the initial fixed transform. */
+  itkSetObjectMacro( FixedInitialTransform, InitialTransformType );
+  itkGetConstObjectMacro( FixedInitialTransform, InitialTransformType );
+
+  /** Set/Get the initial moving transform. */
+  itkSetObjectMacro( MovingInitialTransform, InitialTransformType );
+  itkGetConstObjectMacro( MovingInitialTransform, InitialTransformType );
 
   /** Set/Get the transform adaptors. */
   void SetTransformParametersAdaptorsPerLevel( TransformParametersAdaptorsContainerType & );
@@ -304,14 +310,10 @@ protected:
   RealType                                                        m_CurrentConvergenceValue;
   bool                                                            m_IsConverged;
 
-  MovingImagePointer                                              m_MovingSmoothImage;
-  FixedImagePointer                                               m_FixedSmoothImage;
-
-  InitialTransformPointer                                         m_MovingInitialTransform;
-  InitialTransformPointer                                         m_FixedInitialTransform;
-
-  FixedInterpolatorPointer                                        m_FixedInterpolator;
-  MovingInterpolatorPointer                                       m_MovingInterpolator;
+  FixedImagesContainerType                                        m_FixedSmoothImages;
+  MovingImagesContainerType                                       m_MovingSmoothImages;
+  SizeValueType                                                   m_NumberOfFixedImages;
+  SizeValueType                                                   m_NumberOfMovingImages;
 
   OptimizerPointer                                                m_Optimizer;
 
@@ -322,6 +324,9 @@ protected:
   ShrinkFactorsArrayType                                          m_ShrinkFactorsPerLevel;
   SmoothingSigmasArrayType                                        m_SmoothingSigmasPerLevel;
   bool                                                            m_SmoothingSigmasAreSpecifiedInPhysicalUnits;
+
+  InitialTransformPointer                                         m_MovingInitialTransform;
+  InitialTransformPointer                                         m_FixedInitialTransform;
 
   TransformParametersAdaptorsContainerType                        m_TransformParametersAdaptorsPerLevel;
 

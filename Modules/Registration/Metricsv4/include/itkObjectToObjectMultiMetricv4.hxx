@@ -88,6 +88,22 @@ ObjectToObjectMultiMetricv4<TFixedDimension, TMovingDimension, TVirtualImage>
 template<unsigned int TFixedDimension, unsigned int TMovingDimension, class TVirtualImage>
 void
 ObjectToObjectMultiMetricv4<TFixedDimension, TMovingDimension, TVirtualImage>
+::SetFixedTransform( FixedTransformType * transform )
+{
+  if( this->GetNumberOfMetrics() == 0 )
+    {
+    itkExceptionMacro("No metrics are assigned. Cannot assign transform.");
+    }
+  Superclass::SetFixedTransform( transform );
+  for (SizeValueType j = 0; j < this->GetNumberOfMetrics(); j++)
+    {
+    this->m_MetricQueue[j]->SetFixedTransform( transform );
+    }
+}
+
+template<unsigned int TFixedDimension, unsigned int TMovingDimension, class TVirtualImage>
+void
+ObjectToObjectMultiMetricv4<TFixedDimension, TMovingDimension, TVirtualImage>
 ::Initialize() throw ( ExceptionObject )
 {
   if( this->GetNumberOfMetrics() == 0 )

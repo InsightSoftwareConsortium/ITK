@@ -21,6 +21,7 @@
 
 #include "itkImageRegistrationMethodv4.h"
 
+#include "itkAffineTransform.h"
 #include "itkANTSNeighborhoodCorrelationImageToImageMetricv4.h"
 #include "itkComposeDisplacementFieldsImageFilter.h"
 #include "itkGaussianExponentialDiffeomorphicTransform.h"
@@ -108,7 +109,7 @@ int PerformExpImageRegistration( int argc, char *argv[] )
     exit( 1 );
     }
 
-  typedef float                                  PixelType;
+  typedef double                                 PixelType;
   typedef itk::Image<PixelType, VImageDimension> FixedImageType;
   typedef itk::Image<PixelType, VImageDimension> MovingImageType;
 
@@ -128,7 +129,8 @@ int PerformExpImageRegistration( int argc, char *argv[] )
   movingImage->Update();
   movingImage->DisconnectPipeline();
 
-  typedef itk::ImageRegistrationMethodv4<FixedImageType, MovingImageType> AffineRegistrationType;
+  typedef itk::AffineTransform<double, VImageDimension> AffineTransformType;
+  typedef itk::ImageRegistrationMethodv4<FixedImageType, MovingImageType, AffineTransformType> AffineRegistrationType;
   typedef itk::GradientDescentOptimizerv4 GradientDescentOptimizerv4Type;
   typename AffineRegistrationType::Pointer affineSimple = AffineRegistrationType::New();
   affineSimple->SetFixedImage( fixedImage );

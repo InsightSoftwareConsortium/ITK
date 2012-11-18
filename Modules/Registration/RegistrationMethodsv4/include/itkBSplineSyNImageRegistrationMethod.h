@@ -77,10 +77,10 @@ public:
   typedef typename MovingImageType::Pointer                           MovingImagePointer;
 
   /** Metric and transform typedefs */
-  typedef typename Superclass::MetricType                             MetricType;
-  typedef typename MetricType::Pointer                                MetricPointer;
-  typedef typename MetricType::VirtualImageType                       VirtualImageType;
-  typedef typename MetricType::MeasureType                            MeasureType;
+  typedef typename Superclass::ImageMetricType                        ImageMetricType;
+  typedef typename ImageMetricType::Pointer                           ImageMetricPointer;
+  typedef typename ImageMetricType::VirtualImageType                  VirtualImageType;
+  typedef typename ImageMetricType::MeasureType                       MeasureType;
 
   typedef typename Superclass::NumberOfIterationsArrayType            NumberOfIterationsArrayType;
 

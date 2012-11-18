@@ -24,9 +24,9 @@
 #include "itkGradientDescentOptimizerv4.h"
 #include "itkImageRandomConstIteratorWithIndex.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
+#include "itkImageToImageMetricv4.h"
 #include "itkIterationReporter.h"
-#include "itkJointHistogramMutualInformationImageToImageMetricv4.h"
-#include "itkLinearInterpolateImageFunction.h"
+#include "itkMattesMutualInformationImageToImageMetricv4.h"
 #include "itkMersenneTwisterRandomVariateGenerator.h"
 #include "itkRegistrationParameterScalesFromPhysicalShift.h"
 #include "itkShrinkImageFilter.h"
@@ -40,13 +40,15 @@ template<typename TFixedImage, typename TMovingImage, typename TTransform>
 ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
 ::ImageRegistrationMethodv4()
 {
-  this->SetNumberOfRequiredOutputs( 2 );
+  this->SetNumberOfRequiredOutputs( 1 );
 
   this->m_CurrentLevel = 0;
   this->m_CurrentIteration = 0;
   this->m_CurrentMetricValue = 0.0;
   this->m_CurrentConvergenceValue = 0.0;
   this->m_IsConverged = false;
+  this->m_NumberOfFixedImages = 0;
+  this->m_NumberOfMovingImages = 0;
 
   this->m_CompositeTransform = CompositeTransformType::New();
 
@@ -58,24 +60,16 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
   typename IdentityTransformType::Pointer defaultMovingInitialTransform = IdentityTransformType::New();
   this->m_MovingInitialTransform = defaultMovingInitialTransform;
 
-  typedef LinearInterpolateImageFunction<FixedImageType, RealType> DefaultFixedInterpolatorType;
-  typename DefaultFixedInterpolatorType::Pointer fixedInterpolator = DefaultFixedInterpolatorType::New();
-  this->m_FixedInterpolator = fixedInterpolator;
-
-  typedef LinearInterpolateImageFunction<MovingImageType, RealType> DefaultMovingInterpolatorType;
-  typename DefaultMovingInterpolatorType::Pointer movingInterpolator = DefaultMovingInterpolatorType::New();
-  this->m_MovingInterpolator = movingInterpolator;
-
-  typedef JointHistogramMutualInformationImageToImageMetricv4<FixedImageType, MovingImageType> MetricForStageOneType;
-  typename MetricForStageOneType::Pointer mutualInformationMetric = MetricForStageOneType::New();
+  typedef MattesMutualInformationImageToImageMetricv4<FixedImageType, MovingImageType> DefaultMetricType;
+  typename DefaultMetricType::Pointer mutualInformationMetric = DefaultMetricType::New();
   mutualInformationMetric->SetNumberOfHistogramBins( 20 );
   mutualInformationMetric->SetUseMovingImageGradientFilter( false );
   mutualInformationMetric->SetUseFixedImageGradientFilter( false );
   mutualInformationMetric->SetUseFixedSampledPointSet( false );
   this->m_Metric = mutualInformationMetric;
 
-  typedef RegistrationParameterScalesFromPhysicalShift<MetricType> ScalesEstimatorForAffineTransformType;
-  typename ScalesEstimatorForAffineTransformType::Pointer scalesEstimator = ScalesEstimatorForAffineTransformType::New();
+  typedef RegistrationParameterScalesFromPhysicalShift<DefaultMetricType> DefaultScalesEstimatorType;
+  typename DefaultScalesEstimatorType::Pointer scalesEstimator = DefaultScalesEstimatorType::New();
   scalesEstimator->SetMetric( mutualInformationMetric );
   scalesEstimator->SetTransformForward( true );
 
@@ -86,7 +80,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
   optimizer->SetScalesEstimator( scalesEstimator );
   this->m_Optimizer = optimizer;
 
-  // By default we set up an affine transform for a 3-level image registration.
+  // By default we set up a 3-level image registration.
 
   m_NumberOfLevels = 0;
   this->SetNumberOfLevels( 3 );
@@ -120,6 +114,60 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
 {
 }
 
+template<typename TFixedImage, typename TMovingImage, typename TTransform>
+void
+ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
+::SetFixedImage( SizeValueType index, const FixedImageType *image )
+{
+  itkDebugMacro( "setting fixed image input " << index << " to " << image );
+  if( image != static_cast<FixedImageType *>( this->ProcessObject::GetInput( 2 * index ) ) )
+    {
+    if( !this->ProcessObject::GetInput( 2 * index ) )
+      {
+      this->m_NumberOfFixedImages++;
+      }
+    this->ProcessObject::SetNthInput( 2 * index, const_cast<FixedImageType *>( image ) );
+    this->Modified();
+    }
+}
+
+template<typename TFixedImage, typename TMovingImage, typename TTransform>
+const typename ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>::FixedImageType *
+ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
+::GetFixedImage( SizeValueType index ) const
+{
+  itkDebugMacro( "returning fixed image input " << index << " of "
+                                    << static_cast<const FixedImageType *>( this->ProcessObject::GetInput( 2 * index ) ) );
+  return static_cast<const FixedImageType *>( this->ProcessObject::GetInput( 2 * index ) );
+}
+
+template<typename TFixedImage, typename TMovingImage, typename TTransform>
+void
+ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
+::SetMovingImage( SizeValueType index, const MovingImageType *image )
+{
+  itkDebugMacro( "setting moving image input " << index << " to " << image );
+  if( image != static_cast<MovingImageType *>( this->ProcessObject::GetInput( 2 * index + 1 ) ) )
+    {
+    if( !this->ProcessObject::GetInput( 2 * index + 1 ) )
+      {
+      this->m_NumberOfMovingImages++;
+      }
+    this->ProcessObject::SetNthInput( 2 * index + 1, const_cast<MovingImageType *>( image ) );
+    this->Modified();
+    }
+}
+
+template<typename TFixedImage, typename TMovingImage, typename TTransform>
+const typename ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>::MovingImageType *
+ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
+::GetMovingImage( SizeValueType index ) const
+{
+  itkDebugMacro( "returning moving image input " << index << " of "
+                                    << static_cast<const MovingImageType *>( this->ProcessObject::GetInput( 2 * index + 1 ) ) );
+  return static_cast<const MovingImageType *>( this->ProcessObject::GetInput( 2 * index + 1 ) );
+}
+
 /*
  * Initialize by setting the interconnects between components.
  */
@@ -130,17 +178,42 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
 {
   // Sanity checks
 
+  if( this->m_NumberOfFixedImages != this->m_NumberOfMovingImages )
+    {
+    itkExceptionMacro( "The number of fixed and moving images is not equal." );
+    }
+
+  SizeValueType numberOfImagePairs = static_cast<unsigned int>( 0.5 * this->GetNumberOfInputs() );
+
+  if( numberOfImagePairs == 0 )
+    {
+    itkExceptionMacro( "There are no input images." );
+    }
+
+  if( numberOfImagePairs > 1 )
+    {
+    // If more than one image pair is set, we assume that the multi-metric
+    // is being used.  We check to see if the number of image pairs is equal
+    // to the number of metrics in the multi-metric.
+
+    typename MultiMetricType::Pointer multiMetric = dynamic_cast<MultiMetricType *>( this->m_Metric.GetPointer() );
+    if( multiMetric )
+      {
+      SizeValueType numberOfMetrics = multiMetric->GetNumberOfMetrics();
+      if( numberOfMetrics != numberOfImagePairs )
+        {
+        itkExceptionMacro( "Mismatch between number of image pairs and the number of metrics." );
+        }
+      }
+    else
+      {
+      itkExceptionMacro( "There is more than one image pair.  Need to use a MultiMetricType." );
+      }
+    }
+
   if ( !this->m_Optimizer )
     {
     itkExceptionMacro( "The optimizer is not present." );
-    }
-  if ( !this->m_FixedInterpolator )
-    {
-    itkExceptionMacro( "The fixed image interpolator is not present." );
-    }
-  if ( !this->m_MovingInterpolator )
-    {
-    itkExceptionMacro( "The moving image interpolator is not present." );
     }
   if ( !this->m_Metric )
     {
@@ -167,52 +240,6 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
     this->m_TransformParametersAdaptorsPerLevel[level]->AdaptTransformParameters();
     }
 
-  // At each resolution, we can
-  //   1. subsample the reference domain (typically the fixed image) and/or
-  //   2. smooth the fixed and moving images.
-
-  typedef ShrinkImageFilter<FixedImageType, FixedImageType> ShrinkFilterType;
-  typename ShrinkFilterType::Pointer shrinkFilter = ShrinkFilterType::New();
-  shrinkFilter->SetShrinkFactors( this->m_ShrinkFactorsPerLevel[level] );
-  shrinkFilter->SetInput( this->GetFixedImage() );
-  shrinkFilter->Update();
-
-  typedef DiscreteGaussianImageFilter<FixedImageType, FixedImageType> FixedImageSmoothingFilterType;
-  typename FixedImageSmoothingFilterType::Pointer fixedImageSmoothingFilter = FixedImageSmoothingFilterType::New();
-  if( this->m_SmoothingSigmasAreSpecifiedInPhysicalUnits == true )
-    {
-    fixedImageSmoothingFilter->SetUseImageSpacingOn();
-    }
-  else
-    {
-    fixedImageSmoothingFilter->SetUseImageSpacingOff();
-    }
-  fixedImageSmoothingFilter->SetVariance( vnl_math_sqr( this->m_SmoothingSigmasPerLevel[level] ) );
-  fixedImageSmoothingFilter->SetMaximumError( 0.01 );
-  fixedImageSmoothingFilter->SetInput( this->GetFixedImage() );
-
-  this->m_FixedSmoothImage = fixedImageSmoothingFilter->GetOutput();
-  this->m_FixedSmoothImage->Update();
-  this->m_FixedSmoothImage->DisconnectPipeline();
-
-  typedef DiscreteGaussianImageFilter<MovingImageType, MovingImageType> MovingImageSmoothingFilterType;
-  typename MovingImageSmoothingFilterType::Pointer movingImageSmoothingFilter = MovingImageSmoothingFilterType::New();
-  if( this->m_SmoothingSigmasAreSpecifiedInPhysicalUnits == true )
-    {
-    movingImageSmoothingFilter->SetUseImageSpacingOn();
-    }
-  else
-    {
-    movingImageSmoothingFilter->SetUseImageSpacingOff();
-    }
-  movingImageSmoothingFilter->SetVariance( vnl_math_sqr( this->m_SmoothingSigmasPerLevel[level] ) );
-  movingImageSmoothingFilter->SetMaximumError( 0.01 );
-  movingImageSmoothingFilter->SetInput( this->GetMovingImage() );
-
-  this->m_MovingSmoothImage = movingImageSmoothingFilter->GetOutput();
-  this->m_MovingSmoothImage->Update();
-  this->m_MovingSmoothImage->DisconnectPipeline();
-
   // Set-up the composite transform at initialization
   if( level == 0 )
     {
@@ -229,16 +256,85 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
     }
   this->m_CompositeTransform->SetOnlyMostRecentTransformToOptimizeOn();
 
+  // At each resolution and for each image pair, we can
+  //   1. subsample the reference domain (typically the fixed image) and/or
+  //   2. smooth the fixed and moving images.
 
-  // Update the image metric
+  typedef ShrinkImageFilter<FixedImageType, VirtualImageType> ShrinkFilterType;
+  typename ShrinkFilterType::Pointer shrinkFilter = ShrinkFilterType::New();
+  shrinkFilter->SetShrinkFactors( this->m_ShrinkFactorsPerLevel[level] );
+  shrinkFilter->SetInput( this->GetFixedImage( 0 ) );
+  shrinkFilter->Update();
 
-  this->m_Metric->SetFixedTransform( this->m_FixedInitialTransform );
-  this->m_Metric->SetMovingTransform( this->m_CompositeTransform );
-  this->m_Metric->SetFixedInterpolator( this->m_FixedInterpolator );
-  this->m_Metric->SetMovingInterpolator( this->m_MovingInterpolator );
-  this->m_Metric->SetFixedImage( this->m_FixedSmoothImage );
-  this->m_Metric->SetMovingImage( this->m_MovingSmoothImage );
-  this->m_Metric->SetVirtualDomainFromImage( shrinkFilter->GetOutput() );
+  typename MultiMetricType::Pointer multiMetric2 = dynamic_cast<MultiMetricType *>( this->m_Metric.GetPointer() );
+  if( multiMetric2 )
+    {
+    multiMetric2->SetFixedTransform( this->m_FixedInitialTransform );
+    multiMetric2->SetMovingTransform( this->m_CompositeTransform );
+    multiMetric2->SetVirtualDomainFromImage( shrinkFilter->GetOutput() );
+    }
+  else
+    {
+    dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() )->SetFixedTransform( this->m_FixedInitialTransform );
+    dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() )->SetMovingTransform( this->m_CompositeTransform );
+    dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() )->SetVirtualDomainFromImage( shrinkFilter->GetOutput() );
+    }
+
+  this->m_FixedSmoothImages.clear();
+  this->m_MovingSmoothImages.clear();
+
+  for( unsigned int n = 0; n < numberOfImagePairs; n++ )
+    {
+    typedef DiscreteGaussianImageFilter<FixedImageType, FixedImageType> FixedImageSmoothingFilterType;
+    typename FixedImageSmoothingFilterType::Pointer fixedImageSmoothingFilter = FixedImageSmoothingFilterType::New();
+    if( this->m_SmoothingSigmasAreSpecifiedInPhysicalUnits == true )
+      {
+      fixedImageSmoothingFilter->SetUseImageSpacingOn();
+      }
+    else
+      {
+      fixedImageSmoothingFilter->SetUseImageSpacingOff();
+      }
+    fixedImageSmoothingFilter->SetVariance( vnl_math_sqr( this->m_SmoothingSigmasPerLevel[level] ) );
+    fixedImageSmoothingFilter->SetMaximumError( 0.01 );
+    fixedImageSmoothingFilter->SetInput( this->GetFixedImage( n ) );
+
+    this->m_FixedSmoothImages.push_back( fixedImageSmoothingFilter->GetOutput() );
+    this->m_FixedSmoothImages[n]->Update();
+    this->m_FixedSmoothImages[n]->DisconnectPipeline();
+
+    typedef DiscreteGaussianImageFilter<MovingImageType, MovingImageType> MovingImageSmoothingFilterType;
+    typename MovingImageSmoothingFilterType::Pointer movingImageSmoothingFilter = MovingImageSmoothingFilterType::New();
+    if( this->m_SmoothingSigmasAreSpecifiedInPhysicalUnits == true )
+      {
+      movingImageSmoothingFilter->SetUseImageSpacingOn();
+      }
+    else
+      {
+      movingImageSmoothingFilter->SetUseImageSpacingOff();
+      }
+    movingImageSmoothingFilter->SetVariance( vnl_math_sqr( this->m_SmoothingSigmasPerLevel[level] ) );
+    movingImageSmoothingFilter->SetMaximumError( 0.01 );
+    movingImageSmoothingFilter->SetInput( this->GetMovingImage( n ) );
+
+    this->m_MovingSmoothImages.push_back( movingImageSmoothingFilter->GetOutput() );
+    this->m_MovingSmoothImages[n]->Update();
+    this->m_MovingSmoothImages[n]->DisconnectPipeline();
+
+    // Update the image metric
+
+    typename MultiMetricType::Pointer multiMetric3 = dynamic_cast<MultiMetricType *>( this->m_Metric.GetPointer() );
+    if( multiMetric3 )
+      {
+      dynamic_cast<ImageMetricType *>( multiMetric3->GetMetricQueue()[n].GetPointer() )->SetFixedImage( this->m_FixedSmoothImages[n] );
+      dynamic_cast<ImageMetricType *>( multiMetric3->GetMetricQueue()[n].GetPointer() )->SetMovingImage( this->m_MovingSmoothImages[n] );
+      }
+    else
+      {
+      dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() )->SetFixedImage( this->m_FixedSmoothImages[n] );
+      dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() )->SetMovingImage( this->m_MovingSmoothImages[n] );
+      }
+    }
 
   if( this->m_MetricSamplingStrategy != NONE )
     {
@@ -272,6 +368,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
     this->InitializeRegistrationAtEachLevel( this->m_CurrentLevel );
 
     this->m_Metric->Initialize();
+
     this->m_Optimizer->StartOptimization();
     }
 }
@@ -351,78 +448,106 @@ void
 ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
 ::SetMetricSamplePoints()
 {
-  typename MetricSamplePointSetType::Pointer samplePointSet = MetricSamplePointSetType::New();
-  samplePointSet->Initialize();
+  SizeValueType numberOfLocalMetrics = 1;
 
-  typedef typename MetricSamplePointSetType::PointType SamplePointType;
+  typename MultiMetricType::Pointer multiMetric = dynamic_cast<MultiMetricType *>( this->m_Metric.GetPointer() );
+  if( multiMetric )
+    {
+    numberOfLocalMetrics = multiMetric->GetNumberOfMetrics();
+    }
 
-  typedef typename MetricType::VirtualImageType         VirtualDomainImageType;
+  typedef typename ImageMetricType::VirtualImageType    VirtualDomainImageType;
   typedef typename VirtualDomainImageType::RegionType   VirtualDomainRegionType;
-  const VirtualDomainImageType * virtualImage = this->m_Metric->GetVirtualImage();
+  const VirtualDomainImageType * virtualImage;
+  if( numberOfLocalMetrics == 1 )
+    {
+    virtualImage = dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() )->GetVirtualImage();
+    }
+  else
+    {
+    virtualImage = dynamic_cast<ImageMetricType *>( multiMetric->GetMetricQueue()[0].GetPointer() )->GetVirtualImage();
+    }
   const VirtualDomainRegionType & virtualDomainRegion = virtualImage->GetRequestedRegion();
   const typename VirtualDomainImageType::SpacingType oneThirdVirtualSpacing = virtualImage->GetSpacing() / 3.0;
 
-  typedef typename Statistics::MersenneTwisterRandomVariateGenerator RandomizerType;
-  typename RandomizerType::Pointer randomizer = RandomizerType::New();
-  randomizer->SetSeed( 1234 );
-
-  unsigned long index = 0;
-
-  switch( this->m_MetricSamplingStrategy )
+  for( unsigned int n = 0; n < numberOfLocalMetrics; n++ )
     {
-    case REGULAR:
+    typename MetricSamplePointSetType::Pointer samplePointSet = MetricSamplePointSetType::New();
+    samplePointSet->Initialize();
+
+    typedef typename MetricSamplePointSetType::PointType SamplePointType;
+
+    typedef typename Statistics::MersenneTwisterRandomVariateGenerator RandomizerType;
+    typename RandomizerType::Pointer randomizer = RandomizerType::New();
+    randomizer->SetSeed( 1234 );
+
+    unsigned long index = 0;
+
+    switch( this->m_MetricSamplingStrategy )
       {
-      const unsigned long sampleCount = static_cast<unsigned long>( vcl_ceil( 1.0 / this->m_MetricSamplingPercentagePerLevel[this->m_CurrentLevel] ) );
-      unsigned long count = sampleCount; //Start at sampleCount to keep behavior backwards identical, using first element.
-      ImageRegionConstIteratorWithIndex<VirtualDomainImageType> It( virtualImage, virtualDomainRegion );
-      for( It.GoToBegin(); !It.IsAtEnd(); ++It )
+      case REGULAR:
         {
-        if( count == sampleCount )
+        const unsigned long sampleCount = static_cast<unsigned long>( vcl_ceil( 1.0 / this->m_MetricSamplingPercentagePerLevel[this->m_CurrentLevel] ) );
+        unsigned long count = sampleCount; //Start at sampleCount to keep behavior backwards identical, using first element.
+        ImageRegionConstIteratorWithIndex<VirtualDomainImageType> It( virtualImage, virtualDomainRegion );
+        for( It.GoToBegin(); !It.IsAtEnd(); ++It )
           {
-          count=0; //Reset counter
+          if( count == sampleCount )
+            {
+            count=0; //Reset counter
+            SamplePointType point;
+            virtualImage->TransformIndexToPhysicalPoint( It.GetIndex(), point );
+
+            // randomly perturb the point within a voxel (approximately)
+            for( unsigned int d = 0; d < ImageDimension; d++ )
+              {
+              point[d] += randomizer->GetNormalVariate() * oneThirdVirtualSpacing[d];
+              }
+            samplePointSet->SetPoint( index, point );
+            ++index;
+            }
+          ++count;
+          }
+        break;
+        }
+      case RANDOM:
+        {
+        const unsigned long totalVirtualDomainVoxels = virtualDomainRegion.GetNumberOfPixels();
+        const unsigned long sampleCount = static_cast<unsigned long>( static_cast<float>( totalVirtualDomainVoxels ) * this->m_MetricSamplingPercentagePerLevel[this->m_CurrentLevel] );
+        ImageRandomConstIteratorWithIndex<VirtualDomainImageType> ItR( virtualImage, virtualDomainRegion );
+        ItR.SetNumberOfSamples( sampleCount );
+        for( ItR.GoToBegin(); !ItR.IsAtEnd(); ++ItR )
+          {
           SamplePointType point;
-          virtualImage->TransformIndexToPhysicalPoint( It.GetIndex(), point );
+          virtualImage->TransformIndexToPhysicalPoint( ItR.GetIndex(), point );
 
           // randomly perturb the point within a voxel (approximately)
-          for( unsigned int d = 0; d < ImageDimension; d++ )
+          for ( unsigned int d = 0; d < ImageDimension; d++ )
             {
             point[d] += randomizer->GetNormalVariate() * oneThirdVirtualSpacing[d];
             }
           samplePointSet->SetPoint( index, point );
           ++index;
           }
-        ++count;
+        break;
         }
-      break;
-      }
-    case RANDOM:
-      {
-      const unsigned long totalVirtualDomainVoxels = virtualDomainRegion.GetNumberOfPixels();
-      const unsigned long sampleCount = static_cast<unsigned long>( static_cast<float>( totalVirtualDomainVoxels ) * this->m_MetricSamplingPercentagePerLevel[this->m_CurrentLevel] );
-      ImageRandomConstIteratorWithIndex<VirtualDomainImageType> ItR( virtualImage, virtualDomainRegion );
-      ItR.SetNumberOfSamples( sampleCount );
-      for( ItR.GoToBegin(); !ItR.IsAtEnd(); ++ItR )
+      default:
         {
-        SamplePointType point;
-        virtualImage->TransformIndexToPhysicalPoint( ItR.GetIndex(), point );
-
-        // randomly perturb the point within a voxel (approximately)
-        for ( unsigned int d = 0; d < ImageDimension; d++ )
-          {
-          point[d] += randomizer->GetNormalVariate() * oneThirdVirtualSpacing[d];
-          }
-        samplePointSet->SetPoint( index, point );
-        ++index;
+        itkExceptionMacro( "Invalid sampling strategy requested." );
         }
-      break;
       }
-    default:
+
+    if( numberOfLocalMetrics == 1 )
       {
-      itkExceptionMacro( "Invalid sampling strategy requested." );
+      dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() )->SetFixedSampledPointSet( samplePointSet );
+      dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() )->SetUseFixedSampledPointSet( true );
+      }
+    else
+      {
+      dynamic_cast<ImageMetricType *>( multiMetric->GetMetricQueue()[n].GetPointer() )->SetFixedSampledPointSet( samplePointSet );
+      dynamic_cast<ImageMetricType *>( multiMetric->GetMetricQueue()[n].GetPointer() )->SetUseFixedSampledPointSet( true );
       }
     }
-  this->m_Metric->SetFixedSampledPointSet( samplePointSet );
-  this->m_Metric->SetUseFixedSampledPointSet( true );
 }
 
 /*
@@ -434,11 +559,6 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
 ::PrintSelf( std::ostream & os, Indent indent ) const
 {
   Superclass::PrintSelf( os, indent );
-
-  os << indent << "Moving interpolator:" << std::endl;
-  this->m_MovingInterpolator->Print( std::cout, indent );
-  os << indent << "Fixed interpolator:" << std::endl;
-  this->m_FixedInterpolator->Print( std::cout, indent );
 
   os << "Number of levels = " << this->m_NumberOfLevels << std::endl;
 
