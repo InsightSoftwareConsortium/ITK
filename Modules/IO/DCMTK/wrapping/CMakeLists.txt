@@ -1,8 +1,3 @@
-WRAP_LIBRARY(ITKIODCMTK)
-
-set(WRAPPER_LIBRARY_DEPENDS ITKIOBase)
-
-set(WRAPPER_LIBRARY_LINK_LIBRARIES ${ITK_LIBRARIES})
-
-AUTO_INCLUDE_MODULES()
-END_WRAP_LIBRARY()
+itk_wrap_module(ITKIODCMTK)
+itk_auto_load_submodules()
+itk_end_wrap_module()
