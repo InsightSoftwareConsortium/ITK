@@ -101,14 +101,14 @@ namespace itk
  * on the dimensionality of the image and the order of the equation.  Typical
  * values are less than 0.250.  A stable value for most 2 and 3d functions is
  * 0.125.  In general, you should keep the time step below
- * \f$(PixelSpacing)/2^(N+1)\f$, where \f$N\f$ is * the number of image
+ * \f$(PixelSpacing)/2^{N+1}\f$, where \f$N\f$ is the number of image
  * dimensions.  A filter will automatically attempt to constrain its time step
  * to a stable  value and generate a run-time warning if the time step is set
  * too high.
  *
  * \par Conductance Parameter
  * The conductance parameter controls the sensitivity of the conductance term
- * in the basic anisotropic diffusion equation.  It affect the conductance term
+ * in the basic anisotropic diffusion equation.  It affects the conductance term
  * in different ways depending on the particular variation on the basic
  * equation. As a general rule, the lower the value, the more strongly the
  * diffusion equation preserves image features (such as high gradients or
@@ -119,7 +119,7 @@ namespace itk
  * set and the number or iterations you perform.
  *
  * \par References
- * Pietro Perona and Jalhandra Malik, ``Scale-space and edge detection using
+ * Pietro Perona and Jitendra Malik, ``Scale-space and edge detection using
  * anisotropic diffusion,'' IEEE Transactions on Pattern Analysis Machine
  * Intelligence, vol. 12, pp. 629-639, 1990.
  *
