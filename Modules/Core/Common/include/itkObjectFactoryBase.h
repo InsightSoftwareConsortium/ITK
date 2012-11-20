@@ -87,6 +87,9 @@ public:
   /** Register a factory so it can be used to create itk objects.
    *  This method is intended to be called only for built-in default
    *  factories, not for loadable factories.
+   *
+   * Factories that are registered with this method will be
+   * regisistered after ReHash.
    */
   static void RegisterFactoryInternal(ObjectFactoryBase *);
 
@@ -222,17 +225,19 @@ private:
   static void InitializeFactoryList();
 
   /** Initialize the static members of ObjectFactoryBase.
-   *  RegisterDefaults() and InitializeFactoryList() are called here. */
+   *  RegisterInternal() and InitializeFactoryList() are called here. */
   static void Initialize();
 
   /** Register default factories which are not loaded at run time. */
-  static void RegisterDefaults();
+  static void RegisterInternal();
 
   /** Load dynamic factories from the ITK_AUTOLOAD_PATH */
   static void LoadDynamicFactories();
 
   /** Load all dynamic libraries in the given path */
   static void LoadLibrariesInPath(const char *);
+
+  static void DeleteNonInternalFactory(  ObjectFactoryBase * );
 
   /** Member variables for a factory set by the base class
    * at load or register time */

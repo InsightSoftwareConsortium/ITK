@@ -104,12 +104,15 @@ inline std::ostream & operator<<(std::ostream & os, EventObject & e)
   return os;
 }
 
+
+#define ITKEvent_EXPORT ITKCommon_EXPORT
+
 /**
  *  Macro for creating new Events
  */
 #define itkEventMacro(classname, super)                              \
   /** \class classname */                                            \
-  class ITK_ABI_EXPORT classname:public super                        \
+  class ITKEvent_EXPORT classname:public super                       \
   {                                                                  \
 public:                                                              \
     typedef classname Self;                                          \
@@ -149,6 +152,10 @@ itkEventMacro(GradientEvaluationIterationEvent, IterationEvent)
 itkEventMacro(FunctionAndGradientEvaluationIterationEvent, IterationEvent)
 
 itkEventMacro(UserEvent, AnyEvent)
+
+#undef ITKEvent_EXPORT
+#define ITKEvent_EXPORT ITK_ABI_EXPORT
+
 } // end namespace itk
 
 #endif

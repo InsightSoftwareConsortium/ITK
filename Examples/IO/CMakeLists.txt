@@ -84,6 +84,9 @@ target_link_libraries(CovariantVectorImageWrite  ${ITK_LIBRARIES})
 add_executable(ImageReadExtractWrite ImageReadExtractWrite.cxx )
 target_link_libraries(ImageReadExtractWrite  ${ITK_LIBRARIES})
 
+add_executable(IOPlugin IOPlugin.cxx)
+target_link_libraries(IOPlugin  ${ITK_LIBRARIES})
+
 if(BUILD_TESTING)
   add_subdirectory(test)
 endif()
