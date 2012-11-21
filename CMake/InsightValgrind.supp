@@ -1710,3 +1710,93 @@
    fun:Py_Main
    fun:(below main)
 }
+{
+   NRDD String SSE42 1
+   Memcheck:Addr8
+   fun:__strspn_sse42
+   fun:itk_airStrtok
+   ...
+   fun:itk_nrrdRead
+}
+{
+   NRDD String SSE42 2
+   Memcheck:Value8
+   fun:__strspn_sse42
+   fun:itk_airStrtok
+   ...
+   fun:itk_nrrdRead
+}
+{
+   NRDD String SSE42 3
+   Memcheck:Cond
+   fun:__strspn_sse42
+   fun:itk_airStrtok
+   ...
+   fun:itk_nrrdRead
+}
+{
+   NRDD String 1
+   Memcheck:Value8
+   fun:itk_airStrtok
+   fun:itk_airStrntok
+   fun:itk__nrrdSpaceVectorParse
+   ...
+   fun:itk_nrrdRead
+}
+{
+   NRDD String 2
+   Memcheck:Value8
+   fun:strcspn
+   fun:itk_airStrtok
+   fun:itk_airStrntok
+   fun:itk__nrrdSpaceVectorParse
+   ...
+   fun:itk_nrrdRead
+}
+{
+   NRDD String 3
+   Memcheck:Cond
+   fun:itk_airStrntok
+   fun:itk__nrrdSpaceVectorParse
+   ...
+   fun:itk_nrrdRead
+}
+{
+   NRDD String 4
+   Memcheck:Cond
+   fun:itk_airStrlen
+   fun:itk_airStrtok
+   fun:itk_airStrntok
+   fun:itk__nrrdSpaceVectorParse
+   ...
+   fun:itk_nrrdRead
+}
+{
+   NRDD String 5
+   Memcheck:Value8
+   fun:strlen
+   fun:itk_airStrlen
+   fun:itk_airStrtok
+   fun:itk_airStrntok
+   fun:itk__nrrdSpaceVectorParse
+   ...
+   fun:itk_nrrdRead
+}
+{
+   NRRD Direction 1
+   Memcheck:Cond
+   ...
+   fun:_nrrdReadNrrdParse_space_directions
+   fun:_nrrdFormatNRRD_read
+   fun:itk__nrrdRead
+   fun:itk_nrrdRead
+}
+{
+   NRRD Direction 2
+   Memcheck:Value8
+   ...
+   fun:_nrrdReadNrrdParse_space_directions
+   fun:_nrrdFormatNRRD_read
+   fun:itk__nrrdRead
+   fun:itk_nrrdRead
+}
