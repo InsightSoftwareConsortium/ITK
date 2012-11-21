@@ -18,12 +18,50 @@
 #ifndef __itkModulusImageFilter_h
 #define __itkModulusImageFilter_h
 
-#include "itkUnaryFunctorImageFilter.h"
+#include "itkBinaryFunctorImageFilter.h"
 
 namespace itk
 {
 namespace Functor
 {
+
+/** \class Modulus
+ *
+ * \ingroup ITKImageIntensity
+ */
+template< class TInput1, class TInput2, class TOutput >
+class Modulus
+{
+public:
+  Modulus() {  }
+  ~Modulus() {}
+
+  bool operator!=(const Modulus &) const
+  {
+    return false;
+  }
+
+  bool operator==(const Modulus & other) const
+  {
+    return !( *this != other );
+  }
+
+ inline TOutput operator()(const TInput1 & A, const TInput2 & B) const
+  {
+    TOutput result = static_cast< TOutput >( A % B );
+
+    return result;
+  }
+
+};
+
+/** \class ModulusTransform
+ *
+ * \deprecated The two template parametered ModulusTransform functor
+ * is depricated. Please use the version with 3 template parameters.
+ *
+ * \ingroup ITKImageIntensity
+ */
 template< typename TInput, typename  TOutput >
 class ModulusTransform
 {
@@ -33,29 +71,30 @@ public:
   void SetDividend(TOutput dividend) { m_Dividend = dividend; }
 
   bool operator!=(const ModulusTransform & other) const
-  {
-    if ( m_Dividend != other.m_Dividend )
-      {
-      return true;
-      }
-    return false;
-  }
+    {
+      if ( m_Dividend != other.m_Dividend )
+        {
+        return true;
+        }
+      return false;
+    }
 
   bool operator==(const ModulusTransform & other) const
-  {
-    return !( *this != other );
-  }
+    {
+      return !( *this != other );
+    }
 
   inline TOutput operator()(const TInput & x) const
-  {
-    TOutput result = static_cast< TOutput >( x % m_Dividend );
+    {
+      TOutput result = static_cast< TOutput >( x % m_Dividend );
 
-    return result;
-  }
+      return result;
+    }
 
 private:
   TInput m_Dividend;
 };
+
 }  // end namespace functor
 
 /** \class ModulusImageFilter
@@ -69,29 +108,29 @@ private:
  *
  * \ingroup ITKImageIntensity
  */
-template< typename  TInputImage, typename  TOutputImage = TInputImage >
+template< typename  TInputImage1, class TInputImage2 = TInputImage1, class TOutputImage = TInputImage1 >
 class ITK_EXPORT ModulusImageFilter:
   public
-  UnaryFunctorImageFilter< TInputImage, TOutputImage,
-                           Functor::ModulusTransform<
-                             typename TInputImage::PixelType,
-                             typename TOutputImage::PixelType >   >
+  BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage,
+                            Functor::Modulus<
+                              typename TInputImage1::PixelType,
+                              typename TInputImage2::PixelType,
+                              typename TOutputImage::PixelType >   >
 {
 public:
   /** Standard class typedefs. */
   typedef ModulusImageFilter Self;
-  typedef UnaryFunctorImageFilter<
-    TInputImage, TOutputImage,
-    Functor::ModulusTransform<
-      typename TInputImage::PixelType,
-      typename TOutputImage::PixelType > >  Superclass;
+  typedef BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage,
+                            Functor::Modulus<
+                              typename TInputImage1::PixelType,
+                              typename TInputImage2::PixelType,
+                              typename TOutputImage::PixelType > > Superclass;
 
   typedef SmartPointer< Self >       Pointer;
   typedef SmartPointer< const Self > ConstPointer;
 
-  typedef typename TOutputImage::PixelType                   OutputPixelType;
-  typedef typename TInputImage::PixelType                    InputPixelType;
-  typedef typename NumericTraits< InputPixelType >::RealType RealType;
+  typedef typename TOutputImage::PixelType                    OutputPixelType;
+  typedef typename TInputImage1::PixelType                    InputPixelType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -101,14 +140,9 @@ public:
                UnaryFunctorImageFilter);
 
   /** Set/Get the dividend */
-  itkSetMacro(Dividend, InputPixelType);
-  itkGetConstReferenceMacro(Dividend, InputPixelType);
+  virtual void SetDividend( InputPixelType _arg ) { this->SetConstant2(_arg); }
+  virtual const InputPixelType &GetDividend () const { return this->GetConstant2(); }
 
-  /** Print internal ivars */
-  void PrintSelf(std::ostream & os, Indent indent) const;
-
-  /** Process to execute before entering the multithreaded section */
-  void BeforeThreadedGenerateData(void);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
@@ -125,7 +159,6 @@ private:
   ModulusImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);     //purposely not implemented
 
-  InputPixelType m_Dividend;
 };
 } // end namespace itk
 
