@@ -90,7 +90,9 @@ set(CTEST_CUSTOM_WARNING_EXCEPTION
   ".*include.opencv2.*warning.*"
   ".*core.vidl.*warning.*"
   ".*core.vnl.vnl_matrix_fixed.h.*warning.*"
-
+  # DCMTK
+  "Note: checking out.*"
+  "-- Warning: SNDFILE support will be disabled because libsndfile was not found.*"
 
   # Ignore clang's summary warning, assuming prior text has matched some
   # other warning expression:
