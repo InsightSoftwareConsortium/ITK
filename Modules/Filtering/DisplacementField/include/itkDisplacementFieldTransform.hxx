@@ -643,11 +643,19 @@ DisplacementFieldTransform<TScalar, NDimensions>
     std::cout << indent << "Displacement Field: " << std::endl;
     std::cout << indent << indent << this->m_DisplacementField << std::endl;
     }
+  else
+    {
+    std::cout << "Displacement field not set." << std::endl;
+    }
 
   if( this->m_InverseDisplacementField )
     {
     std::cout << indent << "Inverse Displacement Field: " << std::endl;
     std::cout << indent << indent << this->m_InverseDisplacementField << std::endl;
+    }
+  else
+    {
+    std::cout << "Inverse Displacement field not set." << std::endl;
     }
 }
 

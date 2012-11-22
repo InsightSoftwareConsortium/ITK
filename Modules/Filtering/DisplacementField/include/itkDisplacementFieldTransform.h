@@ -187,7 +187,8 @@ public:
    * container. */
   virtual void SetDisplacementField( DisplacementFieldType* field );
 
-  /** Get/Set the inverse displacement field. */
+  /** Get/Set the inverse displacement field. This must be supplied by the user for
+   * GetInverse() to work. */
   itkGetObjectMacro( InverseDisplacementField, DisplacementFieldType );
   virtual void SetInverseDisplacementField( DisplacementFieldType * inverseDisplacementField );
 
@@ -381,10 +382,12 @@ public:
 
   virtual void UpdateTransformParameters( const DerivativeType & update, ScalarType factor = 1.0 );
 
-  /** Return an inverse of this transform. */
+  /** Return an inverse of this transform.
+   * Note that the inverse displacement field must be set by the user. */
   bool GetInverse( Self *inverse ) const;
 
-  /** Return an inverse of this transform. */
+  /** Return an inverse of this transform.
+   * Note that the inverse displacement field must be set by the user. */
   virtual InverseTransformBasePointer GetInverseTransform() const;
 
   /** This transform is not linear. */
@@ -450,7 +453,7 @@ private:
 
 } // end namespace itk
 
-#if ITK_TEMPLATE_TXX
+#ifndef ITK_MANUAL_INSTANTIATION
 #include "itkDisplacementFieldTransform.hxx"
 #endif
 
