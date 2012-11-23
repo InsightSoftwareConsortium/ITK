@@ -61,9 +61,9 @@ namespace itk
   * which can optionally be set from this class. That is, each component's images or point sets,
   * fixed transforms and options must be set independently. The only methods in this metric for setting
   * up the component metrics is SetMovingTransform(). The corresponding
-  * Set accesor is also available. When SetMovingTransform() is not used
-  * this metric's m_MovingTransform member is assigned to the
-  * moving transform assigned to the first component metric.
+  * Set accesor is also available. When Set{Fixed/Moving}Transform() is not used
+  * this metric's m_{Fixed/Moving}Transform member is assigned to the
+  * fixed/moving transform assigned to the first component metric.
   *
   * Each component will be initialized by this metric in the call to Initialize().
   *
@@ -116,6 +116,7 @@ public:
   typedef typename Superclass::NumberOfParametersType       NumberOfParametersType;
   typedef typename Superclass::CoordinateRepresentationType CoordinateRepresentationType;
   typedef typename Superclass::MovingTransformType          MovingTransformType;
+  typedef typename Superclass::FixedTransformType           FixedTransformType;
 
   /** typedefs related to the metric queue */
   typedef Superclass                               MetricType;
@@ -141,8 +142,11 @@ public:
 
   void Initialize(void) throw ( itk::ExceptionObject );
 
-  /** Set each of the component metrics to use this transform. */
+  /** Set each of the component metrics to use this moving transform. */
   virtual void SetMovingTransform( MovingTransformType * );
+
+  /** Set each of the component metrics to use this fixed transform. */
+  virtual void SetFixedTransform( FixedTransformType * );
 
   /** Evaluate the metrics and return the value of only the *first* metric.
    * \sa GetValueArray

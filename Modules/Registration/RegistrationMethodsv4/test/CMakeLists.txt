@@ -1,6 +1,7 @@
 itk_module_test()
 set(ITKRegistrationMethodsv4Tests
 itkSimpleImageRegistrationTest.cxx
+itkSimpleImageRegistrationTest2.cxx
 itkExponentialImageRegistrationTest.cxx
 itkBSplineExponentialImageRegistrationTest.cxx
 itkTimeVaryingBSplineVelocityFieldImageRegistrationTest.cxx
@@ -31,6 +32,17 @@ itk_add_test(NAME itkSimpleImageRegistrationTest
               ${TEMP}/itkSimpleImageRegistrationTestNew.nii.gz
               100 # number of affine iterations
               10 # number of deformable iterations
+              )
+
+itk_add_test(NAME itkSimpleImageRegistrationTest2
+      COMMAND ITKRegistrationMethodsv4TestDriver
+      --with-threads 1
+              itkSimpleImageRegistrationTest2
+              2 # number of dimensions
+              DATA{Input/r16slice_rigid.nii.gz}
+              DATA{Input/r64slice.nii.gz}
+              ${TEMP}/itkSimpleImageRegistrationTest2New.nii.gz
+              100 # number of affine iterations
               )
 
 itk_add_test(NAME itkExponentialImageRegistrationTest
