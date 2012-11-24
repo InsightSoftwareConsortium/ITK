@@ -140,6 +140,10 @@ void usage()
   std::cerr << "      Add a VALUE to the variable name in the environment using the provided separator." << std::endl;
   std::cerr << "      This option can be used several times." << std::endl;
   std::cerr << std::endl;
+  std::cerr << "  --remove-env NAME" << std::endl;
+  std::cerr << "      Remove the variable name from the environment." << std::endl;
+  std::cerr << "      This option can be used several times." << std::endl;
+  std::cerr << std::endl;
   std::cerr << "  --compare TEST BASELINE" << std::endl;
   std::cerr << "      Compare the TEST image to the BASELINE one." << std::endl;
   std::cerr << "      This option can be used several times." << std::endl;
@@ -288,7 +292,7 @@ int ProcessArguments(int *ac, ArgumentStringType *av, ProcessedOutputType * proc
       }
     else if ( !skip && strcmp((*av)[i], "--with-threads") == 0 )
       {
-      if ( i + 1 >= *ac )
+      if ( i + 2 >= *ac )
         {
         usage();
         return 1;
@@ -311,7 +315,7 @@ int ProcessArguments(int *ac, ArgumentStringType *av, ProcessedOutputType * proc
       }
     else if ( !skip && strcmp((*av)[i], "--compareNumberOfPixelsTolerance") == 0 )
       {
-      if ( i + 1 >= *ac )
+      if ( i + 2 >= *ac )
         {
         usage();
         return 1;
@@ -333,7 +337,7 @@ int ProcessArguments(int *ac, ArgumentStringType *av, ProcessedOutputType * proc
       }
     else if ( !skip && strcmp((*av)[i], "--compareIntensityTolerance") == 0 )
       {
-      if ( i + 1 >= *ac )
+      if ( i + 2 >= *ac )
         {
         usage();
         return 1;
@@ -344,7 +348,7 @@ int ProcessArguments(int *ac, ArgumentStringType *av, ProcessedOutputType * proc
       }
     else if ( !skip && strcmp((*av)[i], "--add-before-libpath") == 0 )
       {
-      if ( i + 1 >= *ac )
+      if ( i + 2 >= *ac )
         {
         usage();
         return 1;
@@ -358,7 +362,7 @@ int ProcessArguments(int *ac, ArgumentStringType *av, ProcessedOutputType * proc
       }
     else if ( !skip && strcmp((*av)[i], "--add-before-env") == 0 )
       {
-      if ( i + 1 >= *ac )
+      if ( i + 3 >= *ac )
         {
         usage();
         return 1;
@@ -373,7 +377,7 @@ int ProcessArguments(int *ac, ArgumentStringType *av, ProcessedOutputType * proc
       }
     else if ( !skip && strcmp((*av)[i], "--add-before-env-with-sep") == 0 )
       {
-      if ( i + 1 >= *ac )
+      if ( i + 4 >= *ac )
         {
         usage();
         return 1;
@@ -386,6 +390,19 @@ int ProcessArguments(int *ac, ArgumentStringType *av, ProcessedOutputType * proc
         }
       (*av) += 4;
       *ac -= 4;
+      }
+    else if ( !skip && strcmp((*av)[i], "--remove-env") == 0 )
+      {
+      if ( i + 2 >= *ac )
+        {
+        usage();
+        return 1;
+        }
+
+      itksys::SystemTools::UnPutEnv( (*av)[i+1] );
+
+      (*av) += 2;
+      *ac -= 2;
       }
     else if ( !skip && strcmp((*av)[i], "--full-output") == 0 )
       {
