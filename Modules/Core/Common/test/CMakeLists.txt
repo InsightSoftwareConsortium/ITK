@@ -323,13 +323,19 @@ endif()
 itk_add_test(NAME itkMetaDataDictionaryTest COMMAND ITKCommon2TestDriver itkMetaDataDictionaryTest)
 itk_add_test(NAME itkMultiThreaderTest COMMAND ITKCommon2TestDriver itkMultiThreaderTest)
 
-itk_add_test(NAME itkMultiThreaderEnvTest88 COMMAND ITKCommon2TestDriver itkMultiThreaderEnvTest 88)
+itk_add_test(NAME itkMultiThreaderEnvTest88 COMMAND
+  ITKCommon2TestDriver
+    --remove-env "ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS"
+    itkMultiThreaderEnvTest 88)
 set_tests_properties(itkMultiThreaderEnvTest88 PROPERTIES ENVIRONMENT "NSLOTS=88")
 
 itk_add_test(NAME itkMultiThreaderEnvTest43 COMMAND ITKCommon2TestDriver itkMultiThreaderEnvTest 43)
 set_tests_properties(itkMultiThreaderEnvTest43 PROPERTIES ENVIRONMENT "ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=43")
 
-itk_add_test(NAME itkMultiThreaderEnvTest123 COMMAND ITKCommon2TestDriver itkMultiThreaderEnvTest 123)
+itk_add_test(NAME itkMultiThreaderEnvTest123 COMMAND
+  ITKCommon2TestDriver
+    --remove-env "ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS"
+    itkMultiThreaderEnvTest 123)
 set_tests_properties(itkMultiThreaderEnvTest123 PROPERTIES ENVIRONMENT "NSLOTS=9;FIRST_IGNORED=13;LAST_RESPECTED=123;ITK_NUMBER_OF_THREADS_ENV_LIST=FIRST_IGNORED:LAST_RESPECTED")
 
 itk_add_test(NAME itkNeighborhoodAlgorithmTest COMMAND ITKCommon1TestDriver itkNeighborhoodAlgorithmTest)
