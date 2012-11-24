@@ -120,8 +120,9 @@ public:
   /** Metric and transform typedefs */
   typedef typename Superclass::ImageMetricType                        ImageMetricType;
   typedef typename ImageMetricType::Pointer                           ImageMetricPointer;
-  typedef typename ImageMetricType::VirtualImageType                       VirtualImageType;
-  typedef typename ImageMetricType::MeasureType                            MeasureType;
+  typedef typename ImageMetricType::VirtualImageType                  VirtualImageType;
+  typedef typename ImageMetricType::MeasureType                       MeasureType;
+  typedef typename Superclass::MultiMetricType                        MultiMetricType;
 
   typedef TOutputTransform                                            OutputTransformType;
   typedef typename OutputTransformType::Pointer                       OutputTransformPointer;

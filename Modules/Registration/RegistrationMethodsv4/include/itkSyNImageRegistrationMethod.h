@@ -90,17 +90,20 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro( SyNImageRegistrationMethod, SimpleImageRegistrationMethod );
 
-  /** Input typedefs for the images and transforms. */
+  /** Input typedefs for the images. */
   typedef TFixedImage                                                 FixedImageType;
   typedef typename FixedImageType::Pointer                            FixedImagePointer;
+  typedef typename Superclass::FixedImagesContainerType               FixedImagesContainerType;
   typedef TMovingImage                                                MovingImageType;
   typedef typename MovingImageType::Pointer                           MovingImagePointer;
+  typedef typename Superclass::MovingImagesContainerType              MovingImagesContainerType;
 
   /** Metric and transform typedefs */
   typedef typename Superclass::ImageMetricType                        ImageMetricType;
   typedef typename ImageMetricType::Pointer                           ImageMetricPointer;
   typedef typename ImageMetricType::VirtualImageType                  VirtualImageType;
   typedef typename ImageMetricType::MeasureType                       MeasureType;
+  typedef typename Superclass::MultiMetricType                        MultiMetricType;
 
   typedef TOutputTransform                                            OutputTransformType;
   typedef typename OutputTransformType::Pointer                       OutputTransformPointer;
@@ -179,7 +182,7 @@ protected:
    */
   virtual void InitializeRegistrationAtEachLevel( const SizeValueType );
 
-  virtual DisplacementFieldPointer ComputeUpdateField( const TFixedImage *, const TransformBaseType *, const TMovingImage *, const TransformBaseType *, MeasureType & );
+  virtual DisplacementFieldPointer ComputeUpdateField( const FixedImagesContainerType, const TransformBaseType *, const MovingImagesContainerType, const TransformBaseType *, MeasureType & );
   virtual DisplacementFieldPointer GaussianSmoothDisplacementField( const DisplacementFieldType *, const RealType );
   virtual DisplacementFieldPointer InvertDisplacementField( const DisplacementFieldType *, const DisplacementFieldType * = NULL );
 

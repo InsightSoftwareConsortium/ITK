@@ -272,6 +272,10 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
     multiMetric2->SetFixedTransform( this->m_FixedInitialTransform );
     multiMetric2->SetMovingTransform( this->m_CompositeTransform );
     multiMetric2->SetVirtualDomainFromImage( shrinkFilter->GetOutput() );
+    for( unsigned int n = 0; n < multiMetric2->GetNumberOfMetrics(); n++ )
+      {
+      dynamic_cast<ImageMetricType *>( multiMetric2->GetMetricQueue()[n].GetPointer() )->SetVirtualDomainFromImage( shrinkFilter->GetOutput() );
+      }
     }
   else
     {
