@@ -29,7 +29,7 @@ if(ITK_VISIBLEHUMAN_DATA_ROOT)
   set_tests_properties(
     VisibleHumanStreamReadWriteTest
     PROPERTIES
-    RUN_SERIAL 1
+    LABELS BigIO
     )
   set_tests_properties(
     VisibleHumanPasteWriteTest

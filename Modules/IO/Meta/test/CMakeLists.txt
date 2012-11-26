@@ -158,7 +158,8 @@ if( "${ITK_COMPUTER_MEMORY_SIZE}" GREATER 5 )
                        itkLargeMetaImageWriteReadTest2
                        itkLargeMetaImageWriteReadTest3
                        PROPERTIES
-                       RUN_SERIAL 1
+                       LABELS BigIO
+                       RESOURCE_LOCK MEMORY_SIZE
                       )
 endif()
 
@@ -173,7 +174,8 @@ if( "${ITK_COMPUTER_MEMORY_SIZE}" GREATER 12 )
   # Due to the large memory requirements this tests must be run one by one
   set_tests_properties(itkLargeMetaImageWriteReadTest4
     PROPERTIES
-    RUN_SERIAL 1
+    LABELS BigIO
+    RESOURCE_LOCK MEMORY_SIZE
     )
 
 endif()

@@ -818,7 +818,7 @@ set_tests_properties(
   DeformableRegistration8Test9
   DeformableRegistration8Test10
   PROPERTIES
-  RUN_SERIAL 1
+  RESOURCE_LOCK MEMORY_SIZE
   )
 
 if( "${ITK_COMPUTER_MEMORY_SIZE}" GREATER 16 )
@@ -851,12 +851,12 @@ itk_add_test(NAME DeformableRegistration8Test12 COMMAND ${ITK_TEST_DRIVER}
 )
 set_property(TEST DeformableRegistration8Test12 PROPERTY DEPENDS BSplineWarping2Test)
 
-# Due to the large memory requirements this tests must be run one by one
+# Due to the large memory requirements this tests lock the memory size resource
   set_tests_properties(
     DeformableRegistration8Test11
     DeformableRegistration8Test12
     PROPERTIES
-    RUN_SERIAL 1
+    RESOURCE_LOCK MEMORY_SIZE
     )
 endif()
 

@@ -135,7 +135,8 @@ if( "${ITK_COMPUTER_MEMORY_SIZE}" GREATER 5 )
                        itkLargeTIFFImageWriteReadTest2
                        itkLargeTIFFImageWriteReadTest3
                        PROPERTIES
-                       RUN_SERIAL 1
+                       LABELS BigIO
+                       RESOURCE_LOCK MEMORY_SIZE
                       )
 endif()
 
@@ -148,10 +149,11 @@ if(ITK_BUG_2822_IS_FIXED)
       COMMAND ITKIOTIFFTestDriver
     itkLargeTIFFImageWriteReadTest ${ITK_TEST_OUTPUT_DIR}/LargeImage04.tif  70000L )
 
-  # Due to the large memory requirements this tests must be run one by one
+  # Due to the large memory requirements this tests must lock the memory size resource
   set_tests_properties(itkLargeTIFFImageWriteReadTest4
     PROPERTIES
-    RUN_SERIAL 1
+    LABELS BigIO
+    RESOURCE_LOCK MEMORY_SIZE
     )
 endif()
 

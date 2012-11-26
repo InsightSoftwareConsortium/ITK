@@ -73,9 +73,3 @@ itk_add_test(NAME itkNiftiDimensionLimitsTest
       COMMAND ITKIONIFTITestDriver itkNiftiImageIOTest11 ${ITK_TEST_OUTPUT_DIR} SizeFailure.nii.gz )
 itk_add_test(NAME itkNiftiReadAnalyzeTest
       COMMAND ITKIONIFTITestDriver itkNiftiReadAnalyzeTest ${ITK_TEST_OUTPUT_DIR} )
-
-
-if( "${ITK_COMPUTER_MEMORY_SIZE}" GREATER 12 )
-  itk_add_test(NAME itkNiftiBigVectorImageTest
-    COMMAND ITKIONIFTITestDriver itkNiftiImageIOTest12  ${ITK_TEST_OUTPUT_DIR} BigVectorImage.nii )
-endif()
