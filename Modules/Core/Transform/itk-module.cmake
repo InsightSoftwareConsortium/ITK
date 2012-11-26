@@ -15,6 +15,7 @@ itk_module(ITKTransform
     ITKImageFunction
     ITKImageGrid
     ITKSpatialObjects
+    ITKDisplacementField
   DESCRIPTION
     "${DOCUMENTATION}"
 )

@@ -116,8 +116,7 @@ int itkCompositeTransformTest(int, char *[] )
   /* Test that we have an empty the queue */
   if( compositeTransform->GetNumberOfTransforms() != 0 )
     {
-    std::cout << "Failed. Expected GetNumberOfTransforms to return 0."
-              << std::endl;
+    std::cout << "Failed. Expected GetNumberOfTransforms to return 0." << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -144,18 +143,19 @@ int itkCompositeTransformTest(int, char *[] )
     return EXIT_FAILURE;
     }
 
-  std::cout << "Composite Transform:" << std::endl << compositeTransform;
+  //std::cout << "Composite Transform:" << std::endl << compositeTransform;
 
   /* Retrieve the transform and check that it's the same */
+  std::cout << "Retrieve 1st transform." << std::endl;
   AffineType::ConstPointer affineGet;
-  affineGet = dynamic_cast<AffineType const *>
-    ( compositeTransform->GetNthTransform(0).GetPointer() );
+  affineGet = dynamic_cast<AffineType const *>( compositeTransform->GetNthTransform(0).GetPointer() );
   if( affineGet.IsNull() )
     {
     std::cout << "Failed retrieving transform from queue." << std::endl;
     return EXIT_FAILURE;
     }
 
+  std::cout << "Retrieve matrix and offset. " << std::endl;
   Matrix2Type matrix2Get = affineGet->GetMatrix();
   Vector2Type vector2Get = affineGet->GetOffset();
   if( !testMatrix(matrix2, matrix2Get) || !testVectorArray(vector2, vector2Get ) )
@@ -166,11 +166,11 @@ int itkCompositeTransformTest(int, char *[] )
 
   /* Get parameters with single transform.
    * Should be same as GetParameters from affine transform. */
+  std::cout << "Get Parameters: " << std::endl;
   CompositeType::ParametersType parametersTest, parametersTruth;
   parametersTest = compositeTransform->GetParameters();
   parametersTruth = affine->GetParameters();
-  std::cout << "Get Parameters: " << std::endl
-            << "affine parametersTruth: " << std::endl << parametersTruth
+  std::cout << "affine parametersTruth: " << std::endl << parametersTruth
             << std::endl
             << "parametersTest from Composite: " << std::endl << parametersTest
             << std::endl;
@@ -274,7 +274,7 @@ int itkCompositeTransformTest(int, char *[] )
   CompositeType::OutputPointType inverseTruth, inverseOutput;
   if( !compositeTransform->GetInverse( inverseTransform ) )
     {
-    std::cout << "Expected GetInverse() to succeed." << std::endl;
+    std::cout << "ERROR: GetInverse() failed." << std::endl;
     return EXIT_FAILURE;
     }
   inverseTruth = inputPoint;
@@ -449,25 +449,25 @@ int itkCompositeTransformTest(int, char *[] )
 
   /* Get inverse transform again, but using other accessor. */
   CompositeType::ConstPointer inverseTransform2;
-  inverseTransform2 = dynamic_cast<const CompositeType *>
-    ( compositeTransform->GetInverseTransform().GetPointer() );
+  std::cout << "Call GetInverseTransform():" << std::endl;
+  inverseTransform2 = dynamic_cast<const CompositeType *>( compositeTransform->GetInverseTransform().GetPointer() );
   if( !inverseTransform2 )
     {
     std::cout << "Failed calling GetInverseTransform()." << std::endl;
     return EXIT_FAILURE;
     }
+  std::cout << "Transform point: " << std::endl;
   inverseOutput = inverseTransform2->TransformPoint( compositeTruth );
   if( !testPoint( inverseOutput, inverseTruth ) )
     {
-    std::cout << "Failed transform point with two-component inverse composite transform (2)."
-              << std::endl;
+    std::cout << "Failed transform point with two-component inverse composite transform (2)." << std::endl;
     return EXIT_FAILURE;
     }
 
   /* Test IsLinear() by calling on each sub transform */
+  std::cout << "Test IsLinear" << std::endl;
   bool allAreLinear = true;
-  for( unsigned int n = 0;
-       n < compositeTransform->GetNumberOfTransforms(); n++ )
+  for( unsigned int n = 0; n < compositeTransform->GetNumberOfTransforms(); n++ )
     {
     if( !compositeTransform->GetNthTransform( n )->IsLinear() )
       {
@@ -476,12 +476,12 @@ int itkCompositeTransformTest(int, char *[] )
     }
   if( compositeTransform->IsLinear() != allAreLinear )
     {
-    std::cout << "compositeTransform returned unexpected value for IsLinear()."
-    " Expected " << allAreLinear << std::endl;
+    std::cout << "compositeTransform returned unexpected value for IsLinear(). Expected " << allAreLinear << std::endl;
     return EXIT_FAILURE;
     }
 
   /* Test GetNumberOfParameters */
+  std::cout << "GetNumberOfParameters: " << std::endl;
   unsigned int affineParamsN = affine->GetNumberOfParameters();
   unsigned int affine2ParamsN = affine2->GetNumberOfParameters();
   unsigned int nParameters = compositeTransform->GetNumberOfParameters();
@@ -785,6 +785,40 @@ int itkCompositeTransformTest(int, char *[] )
       }
     }
 
+  /* Test RemoveTransform */
+  bool opt1 = compositeTransform->GetTransformsToOptimizeFlags()[0];
+  bool opt2 = compositeTransform->GetTransformsToOptimizeFlags()[1];
+  compositeTransform->RemoveTransform();
+  if( compositeTransform->GetNumberOfTransforms() != 2 )
+    {
+    std::cout << "ERROR: expected 2 transforms, got " << compositeTransform->GetNumberOfTransforms() << std::endl;
+    return EXIT_FAILURE;
+    }
+  if( compositeTransform->GetNthTransform( 0 ) != affine )
+    {
+    std::cout << "ERROR: 1st transform is not affine" << std::endl;
+    return EXIT_FAILURE;
+    }
+  if( compositeTransform->GetNthTransform( 1 ) != affine2 )
+    {
+    std::cout << "ERROR: 2nd transform is not affine2" << std::endl;
+    return EXIT_FAILURE;
+    }
+  if( compositeTransform->GetTransformsToOptimizeFlags().size() != 2 )
+    {
+    std::cout << "ERROR: TransformsToOptimizeQueue is not length 2. It is " << compositeTransform->GetTransformsToOptimizeFlags().size() << std::endl;
+    return EXIT_FAILURE;
+    }
+  if( compositeTransform->GetNthTransformToOptimize(0) != opt1 )
+    {
+    std::cout << "ERROR: TransformsToOptimizeFlags[0] is not " << opt1 << std::endl;
+    return EXIT_FAILURE;
+    }
+  if( compositeTransform->GetNthTransformToOptimize(1) != opt2 )
+    {
+    std::cout << "ERROR: TransformsToOptimizeFlags[1] is not " << opt2 << std::endl;
+    return EXIT_FAILURE;
+    }
 
   /*
    * Test flattening transform queue in the case of nested composite

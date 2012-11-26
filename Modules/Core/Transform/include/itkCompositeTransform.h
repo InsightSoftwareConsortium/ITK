@@ -18,7 +18,7 @@
 #ifndef __itkCompositeTransform_h
 #define __itkCompositeTransform_h
 
-#include "itkTransform.h"
+#include "itkMultiTransformBase.h"
 
 #include <deque>
 
@@ -28,14 +28,16 @@ namespace itk
 /** \class CompositeTransform
  * \brief This class contains a list of transforms and concatenates them by composition.
  *
- * This class concatenates transforms by means of composition:
- *    \f$ T_1 o T_0 = T_1(T_0(x)) \f$
+ * This class concatenates transforms in \b reverse \b queue order by means of composition:
+ *    \f$ T_0 o T_1 = T_0(T_1(x)) \f$
  * Transforms are stored in a container (queue), in the following order:
  *    \f$ T_0, T_1, ... , T_N-1 \f$
  * Transforms are added via a single method, AddTransform(). This adds the
  * transforms to the back of the queue. A single method for adding transforms
  * is meant to simplify the interface and prevent errors.
  * One use of the class is to optimize only a subset of included transforms.
+ *
+ * The sub transforms are the same dimensionality as this class.
  *
  * Example:
  * A user wants to optimize two Affine transforms together, then add a
@@ -53,7 +55,7 @@ namespace itk
  * queue, designating if each transform is to be used for optimization. Note
  * that all transforms in the queue are applied in TransformPoint, regardless
  * of these flags states'. The methods GetParameters, SetParameters,
- * ComputeJacobianWithRespectToParameters, ComputeJacobianWithRespectToPosition,
+ * ComputeJacobianWithRespectToParameters, GetTransformCategory,
  * GetFixedParameters, and SetFixedParameters all query these
  * flags and include only those transforms whose corresponding flag is set.
  * Their input or output is a concatenated array of all transforms set for use
@@ -79,35 +81,19 @@ namespace itk
  * sub transform and adding them to a composite transform in reverse order.
  * The m_TransformsToOptimizeFlags is copied in reverse for the inverse.
  *
- * TODO
- *
- * Interface Issues/Comments
- * x The PushFrontTransform and PushBackTransform methods are protected to
- *   force the user to use the AddTransform method, forcing the order of
- *   transforms. Are there use cases where the user would *need* to insert
- *   transforms at the front of the queue? Or at arbitrary positions?
- *
- * GetParameters efficiency optimization
- *  Can we optimize this to only query the sub-transforms when the params
- *  in the sub transforms have changed since the previous call? Can't use
- *  Modified time b/c that will get updated in sub-transforms with every
- *  call to SetParameters. Is this worth worrying about? i.e. how much time
- *  will it take in the overall registration process? Probably very little.
- *
- *
  * \ingroup ITKTransform
  */
 template
 <class TScalar = double, unsigned int NDimensions = 3>
 class ITK_EXPORT CompositeTransform :
-  public Transform<TScalar, NDimensions, NDimensions>
+  public MultiTransformBase<TScalar, NDimensions>
 {
 public:
   /** Standard class typedefs. */
-  typedef CompositeTransform                           Self;
-  typedef Transform<TScalar, NDimensions, NDimensions> Superclass;
-  typedef SmartPointer<Self>                           Pointer;
-  typedef SmartPointer<const Self>                     ConstPointer;
+  typedef CompositeTransform                                    Self;
+  typedef MultiTransformBase<TScalar, NDimensions, NDimensions> Superclass;
+  typedef SmartPointer<Self>                                    Pointer;
+  typedef SmartPointer<const Self>                              ConstPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro( CompositeTransform, Transform );
@@ -115,137 +101,88 @@ public:
   /** New macro for creation of through a Smart Pointer */
   itkNewMacro( Self );
 
-  /** Component transform type **/
-  typedef Superclass                   TransformType;
-  typedef typename Superclass::Pointer TransformTypePointer;
+  /** Sub transform type **/
+  typedef typename Superclass::TransformType                TransformType;
+  typedef typename Superclass::TransformTypePointer         TransformTypePointer;
   /** InverseTransform type. */
-  typedef typename Superclass::InverseTransformBasePointer
-  InverseTransformBasePointer;
+  typedef typename Superclass::InverseTransformBasePointer  InverseTransformBasePointer;
   /** Scalar type. */
-  typedef typename Superclass::ScalarType ScalarType;
+  typedef typename Superclass::ScalarType                 ScalarType;
   /** Parameters type. */
-  typedef typename Superclass::ParametersType      ParametersType;
-  typedef typename Superclass::ParametersValueType ParametersValueType;
+  typedef typename Superclass::ParametersType             ParametersType;
+  typedef typename Superclass::ParametersValueType        ParametersValueType;
   /** Derivative type */
-  typedef typename Superclass::DerivativeType DerivativeType;
+  typedef typename Superclass::DerivativeType             DerivativeType;
   /** Jacobian type. */
-  typedef typename Superclass::JacobianType JacobianType;
+  typedef typename Superclass::JacobianType               JacobianType;
   /** Transform category type. */
-  typedef typename Superclass::TransformCategoryType TransformCategoryType;
+  typedef typename Superclass::TransformCategoryType      TransformCategoryType;
   /** Standard coordinate point type for this class. */
-  typedef typename Superclass::InputPointType  InputPointType;
-  typedef typename Superclass::OutputPointType OutputPointType;
+  typedef typename Superclass::InputPointType             InputPointType;
+  typedef typename Superclass::OutputPointType            OutputPointType;
   /** Standard vector type for this class. */
-  typedef typename Superclass::InputVectorType  InputVectorType;
-  typedef typename Superclass::OutputVectorType OutputVectorType;
+  typedef typename Superclass::InputVectorType            InputVectorType;
+  typedef typename Superclass::OutputVectorType           OutputVectorType;
   /** Standard covariant vector type for this class */
-  typedef typename Superclass::InputCovariantVectorType
-  InputCovariantVectorType;
-  typedef typename Superclass::OutputCovariantVectorType
-  OutputCovariantVectorType;
+  typedef typename Superclass::InputCovariantVectorType   InputCovariantVectorType;
+  typedef typename Superclass::OutputCovariantVectorType  OutputCovariantVectorType;
   /** Standard vnl_vector type for this class. */
-  typedef typename Superclass::InputVnlVectorType  InputVnlVectorType;
-  typedef typename Superclass::OutputVnlVectorType OutputVnlVectorType;
+  typedef typename Superclass::InputVnlVectorType         InputVnlVectorType;
+  typedef typename Superclass::OutputVnlVectorType        OutputVnlVectorType;
   /** Standard Vectorpixel type for this class */
-  typedef typename Superclass::InputVectorPixelType  InputVectorPixelType;
-  typedef typename Superclass::OutputVectorPixelType OutputVectorPixelType;
+  typedef typename Superclass::InputVectorPixelType       InputVectorPixelType;
+  typedef typename Superclass::OutputVectorPixelType      OutputVectorPixelType;
   /** Standard DiffusionTensor3D typedef for this class */
   typedef typename Superclass::InputDiffusionTensor3DType  InputDiffusionTensor3DType;
   typedef typename Superclass::OutputDiffusionTensor3DType OutputDiffusionTensor3DType;
   /** Standard SymmetricSecondRankTensor typedef for this class */
-  typedef typename Superclass::InputSymmetricSecondRankTensorType
-    InputSymmetricSecondRankTensorType;
-  typedef typename Superclass::OutputSymmetricSecondRankTensorType
-    OutputSymmetricSecondRankTensorType;
+  typedef typename Superclass::InputSymmetricSecondRankTensorType   InputSymmetricSecondRankTensorType;
+  typedef typename Superclass::OutputSymmetricSecondRankTensorType  OutputSymmetricSecondRankTensorType;
+
   /** Transform queue type */
-  typedef std::deque<TransformTypePointer> TransformQueueType;
-  /** Optimization flags queue type */
-  typedef std::deque<bool> TransformsToOptimizeFlagsType;
+  typedef typename Superclass::TransformQueueType         TransformQueueType;
 
   /** The number of parameters defininig this transform. */
-  typedef typename Superclass::NumberOfParametersType NumberOfParametersType;
+  typedef typename Superclass::NumberOfParametersType     NumberOfParametersType;
+
+  /** Optimization flags queue type */
+  typedef std::deque<bool>                                TransformsToOptimizeFlagsType;
 
   /** Dimension of the domain spaces. */
   itkStaticConstMacro( InputDimension, unsigned int, NDimensions );
   itkStaticConstMacro( OutputDimension, unsigned int, NDimensions );
 
-  /** Functionality for sub transforms */
-
-  /** Add transforms to the queue, as stack. Only allow one method for simplicity.
-   *  Most-recently added transform is always at back of queue, index N-1.
-   */
-  void AddTransform( TransformType *t  )
-  {
-    this->PushBackTransform( t ); /* Also adds to TransformsToOptimize list */
-  }
-
-  /** Same as AddTransform */
-  void AppendTransform( TransformType *t  )
-  {
-    this->PushBackTransform( t ); /* Also adds to TransformsToOptimize list */
-  }
-
-  /** Add transform to the front of the stack */
-  void PrependTransform( TransformType *t  )
-  {
-    this->PushFrontTransform( t ); /* Also adds to TransformsToOptimize list */
-  }
-
-  void RemoveTransform()
-  {
-    this->PopBackTransform(); /* Also removes to TransformsToOptimize list */
-  }
-
-  /** See transforms at the front and the back of the queue */
-  const
-  TransformTypePointer GetFrontTransform()
-  {
-    return this->m_TransformQueue.front();
-  }
-
-  const
-  TransformTypePointer GetBackTransform()
-  {
-    return this->m_TransformQueue.back();
-  }
-
-  const
-  TransformTypePointer GetNthTransform( size_t n ) const
-  {
-    return this->m_TransformQueue[n];
-  }
-
   /** Active Transform state manipulation */
 
-  void SetNthTransformToOptimize( size_t i, bool state )
+  virtual void SetNthTransformToOptimize( SizeValueType i, bool state )
   {
     this->m_TransformsToOptimizeFlags.at(i) = state;
     this->Modified();
   }
 
-  void SetNthTransformToOptimizeOn( size_t i )
+  virtual void SetNthTransformToOptimizeOn( SizeValueType i )
   {
     this->SetNthTransformToOptimize( i, true );
   }
 
-  void SetNthTransformToOptimizeOff( size_t i )
+  virtual void SetNthTransformToOptimizeOff( SizeValueType i )
   {
     this->SetNthTransformToOptimize( i, false );
   }
 
-  void SetAllTransformsToOptimize( bool state )
+  virtual void SetAllTransformsToOptimize( bool state )
   {
     this->m_TransformsToOptimizeFlags.assign(
       this->m_TransformsToOptimizeFlags.size(), state );
     this->Modified();
   }
 
-  void SetAllTransformsToOptimizeOn()
+  virtual void SetAllTransformsToOptimizeOn()
   {
     this->SetAllTransformsToOptimize( true );
   }
 
-  void SetAllTransformsToOptimizeOff()
+  virtual void SetAllTransformsToOptimizeOff()
   {
     this->SetAllTransformsToOptimize( false );
   }
@@ -253,7 +190,7 @@ public:
   /* With AddTransform() as the only way to add a transform, we
    * can have this method to easily allow user to optimize only
    * the transform added most recenlty. */
-  void SetOnlyMostRecentTransformToOptimizeOn()
+  virtual void SetOnlyMostRecentTransformToOptimizeOn()
   {
     this->SetAllTransformsToOptimize( false );
     this->SetNthTransformToOptimizeOn( this->GetNumberOfTransforms() - 1 );
@@ -263,42 +200,28 @@ public:
   /* NOTE: ambiguous function name here - are we getting if the Nth transform
       is set to be optimized, or the Nth of the transforms that are set to be
       optimized? */
-  bool GetNthTransformToOptimize( size_t i ) const
+  virtual bool GetNthTransformToOptimize( SizeValueType i ) const
   {
     return this->m_TransformsToOptimizeFlags.at(i);
   }
 
-  /** Access transform queue */
-  const TransformQueueType & GetTransformQueue() const
-  {
-    return this->m_TransformQueue;
-  }
-
   /** Access optimize flags */
-  const TransformsToOptimizeFlagsType & GetTransformsToOptimizeFlags() const
+  virtual const TransformsToOptimizeFlagsType & GetTransformsToOptimizeFlags() const
   {
     return this->m_TransformsToOptimizeFlags;
   }
 
-  /** Misc. functionality */
-  bool IsTransformQueueEmpty() const
+  virtual void ClearTransformQueue()
   {
-    return this->m_TransformQueue.empty();
-  }
-
-  size_t GetNumberOfTransforms() const
-  {
-    return this->m_TransformQueue.size();
-  }
-
-  void ClearTransformQueue()
-  {
-    this->m_TransformQueue.clear();
+    Superclass::ClearTransformQueue();
     this->m_TransformsToOptimizeFlags.clear();
-    this->Modified();
   }
 
-  /** Return an inverse of this transform. */
+  /** Returns a boolean indicating whether it is possible or not to compute the
+   * inverse of this current Transform. If it is possible, then the inverse of
+   * the transform is returned in the inverseTransform variable passed by the user.
+   * The inverse consists of the inverse of each sub-transform, in the \b reverse order
+   * of the forward transforms. */
   bool GetInverse( Self *inverse ) const;
 
   virtual InverseTransformBasePointer GetInverseTransform() const;
@@ -319,15 +242,6 @@ public:
   */
   virtual OutputPointType TransformPoint( const InputPointType & inputPoint ) const;
 
-  /* Note: why was the 'isInsideTransformRegion' flag used below?
-  {
-    bool isInside = true;
-
-    return this->TransformPoint( inputPoint, isInside );
-  }
-  virtual OutputPointType TransformPoint( const InputPointType& thisPoint,
-                                          bool &isInsideTransformRegion ) const;
-  */
   /**  Method to transform a vector. */
   using Superclass::TransformVector;
   virtual OutputVectorType TransformVector(const InputVectorType &) const;
@@ -389,27 +303,34 @@ public:
     const InputVectorPixelType & inputTensor,
     const InputPointType & inputPoint ) const;
 
-  // For the transform category, we only want to look at the
-  // transform currently being optimized.
+  /** Special handling for composite transform. If all transforms
+   * are linear, then return category Linear. Otherwise if all
+   * transforms set to optimize are DisplacementFields, then
+   * return DisplacementField category. */
   virtual TransformCategoryType GetTransformCategory() const;
-
-  // If all transforms are linear, then the composite is linear.
-  virtual bool IsLinear() const;
 
   /** Get/Set Parameter functions work on the current list of transforms
       that are set to be optimized (active) using the
       'Set[Nth|All]TransformToOptimze' routines.
       The parameter data from each active transform is
-      concatenated into a single ParametersType object. */
+      concatenated into a single ParametersType object.
+      \note The sub-transforms are read in \b reverse queue order,
+      so the returned array is ordered in the same way. That is,
+      the last sub-transform to be added is returned first in the
+      parameter array. This is the opposite of what's done in the
+      parent MultiTransformBase class. */
   virtual const ParametersType & GetParameters(void) const;
 
-  /* SetParameters only for transforms that are set to be optimized */
+  /* SetParameters only for transforms that are set to be optimized
+   * See GetParameters() for parameter ordering. */
   virtual void  SetParameters(const ParametersType & p);
 
-  /* GetFixedParameters only for transforms that are set to be optimized */
+  /* GetFixedParameters only for transforms that are set to be optimized
+   * See GetParameters() for parameter ordering. */
   virtual const ParametersType & GetFixedParameters(void) const;
 
-  /* SetFixedParameters only for transforms that are set to be optimized */
+  /* SetFixedParameters only for transforms that are set to be optimized.
+   * See GetParameters() for parameter ordering. */
   virtual void  SetFixedParameters(const ParametersType & fixedParameters);
 
   /* Get total number of parameters for transforms that are set to be
@@ -424,20 +345,8 @@ public:
    * to be optimized */
   virtual NumberOfParametersType GetNumberOfFixedParameters(void) const;
 
-  /* Prepare the transform for use, e.g. in registration framework.
-   * Must be called before registration to optimize parameter storage
-   * for more efficient operation, particularly with high-dimensionality
-   * sub-transforms. */
-  // virtual void PrepareForUse(void);
-
   /** Update the transform's parameters by the values in \c update.
-   * We assume \c update is of the same length as Parameters. Throw
-   * exception otherwise.
-   * \c factor is a scalar multiplier for each value in update.
-   * SetParameters is called on each sub-transform, to allow transforms
-   * to perform any required operations on the update parameters, typically
-   * a converion to member variables for use in TransformPoint.
-   */
+   * See GetParameters() for parameter ordering. */
   virtual void UpdateTransformParameters( const DerivativeType & update, ScalarType  factor = 1.0 );
 
   /**
@@ -451,13 +360,6 @@ public:
    */
   virtual void ComputeJacobianWithRespectToParameters(const InputPointType  & p, JacobianType & j) const;
 
-  virtual void ComputeJacobianWithRespectToPosition(const InputPointType &,
-                                                    JacobianType &) const
-  {
-    itkExceptionMacro( "ComputeJacobianWithRespectToPosition not yet implemented "
-                       "for " << this->GetNameOfClass() );
-  }
-
 protected:
   CompositeTransform();
   virtual ~CompositeTransform();
@@ -466,48 +368,31 @@ protected:
   /** Clone the current transform */
   virtual typename LightObject::Pointer InternalClone() const;
 
-  void PushFrontTransform( TransformTypePointer t  )
+  virtual void PushFrontTransform( TransformTypePointer t  )
   {
-    this->m_TransformQueue.push_front( t );
+    Superclass::PushFrontTransform( t );
     /* Add element to list of flags, and set true by default */
     this->m_TransformsToOptimizeFlags.push_front( true );
-    this->Modified();
   }
 
-  void PushBackTransform( TransformTypePointer t  )
+  virtual void PushBackTransform( TransformTypePointer t  )
   {
-    this->m_TransformQueue.push_back( t );
+    Superclass::PushBackTransform( t );
     /* Add element to list of flags, and set true by default */
     this->m_TransformsToOptimizeFlags.push_back( true );
-    this->Modified();
   }
 
-  void PopFrontTransform()
+  virtual void PopFrontTransform()
   {
-    this->m_TransformQueue.pop_front();
+    Superclass::PopFrontTransform();
     this->m_TransformsToOptimizeFlags.pop_front();
-    this->Modified();
   }
 
-  void PopBackTransform()
+  virtual void PopBackTransform()
   {
-    this->m_TransformQueue.pop_back();
+    Superclass::PopBackTransform();
     this->m_TransformsToOptimizeFlags.pop_back();
-    this->Modified();
   }
-
-  /** Unify the parameter memory be copying all sub-transform parameters
-   * into a single memory block, and redirecting sub-transform's parameter
-   * memory to point within this block.
-   * \warning This will temporarily use twice the memory of all
-   * sub-transform. */
-  // void UnifyParameterMemory(void);
-
-  /** Temporary to save time return number of local parameters */
-  mutable NumberOfParametersType m_NumberOfLocalParameters;
-
-  /** Transform container object. */
-  mutable TransformQueueType m_TransformQueue;
 
   /** Get a list of transforms to optimize. Helper function. */
   TransformQueueType & GetTransformsToOptimizeQueue() const;
@@ -520,7 +405,6 @@ private:
   void operator=( const Self & );     // purposely not implemented
 
   mutable ModifiedTimeType m_PreviousTransformsToOptimizeUpdateTime;
-  mutable ModifiedTimeType m_LocalParametersUpdateTime;
 
 };
 

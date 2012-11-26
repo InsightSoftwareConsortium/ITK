@@ -372,16 +372,13 @@ public:
     return m_FixedParameters;
   }
 
-  /** Update the transform's parameters by the adding values in \c update
-   * to current parameter values.
-   * We assume \c update is of the same length as Parameters. Throw
-   * exception otherwise.
-   * \c factor is a scalar multiplier for each value in update.
-   * SetParameters is called at the end of this method, to allow transforms
-   * to perform any required operations on the update parameters, typically
-   * a converion to member variables for use in TransformPoint.
-   * Derived classes should override to provide specialized behavior.
-   */
+  /** Update the transform's parameters by the values in \c update.
+   * \param update must be of the same length as returned by
+   * GetNumberOfParameters(). Throw an exception otherwise.
+   * \param factor is a scalar multiplier for each value in \c update.
+   * SetParameters is called at the end of this method, to allow the transform
+   * to perform any required operations on the updated parameters - typically
+   * a conversion to member variables for use in TransformPoint. */
   virtual void UpdateTransformParameters( const DerivativeType & update, TScalarType factor = 1.0 );
 
   /** Return the number of local parameters that completely defines the

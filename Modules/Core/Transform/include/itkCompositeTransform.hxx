@@ -29,11 +29,8 @@ namespace itk
  */
 template
 <class TScalar, unsigned int NDimensions>
-CompositeTransform<TScalar, NDimensions>::CompositeTransform() : Superclass( 0 )
+CompositeTransform<TScalar, NDimensions>::CompositeTransform()
 {
-  this->m_NumberOfLocalParameters = itk::NumericTraits< NumberOfParametersType >::Zero;
-  this->m_LocalParametersUpdateTime = itk::NumericTraits< ModifiedTimeType >::Zero;
-  this->m_TransformQueue.clear();
   this->m_TransformsToOptimizeFlags.clear();
   this->m_TransformsToOptimizeQueue.clear();
   this->m_PreviousTransformsToOptimizeUpdateTime = 0;
@@ -85,31 +82,6 @@ CompositeTransform<TScalar, NDimensions>
     {
     return Self::UnknownTransformCategory;
     }
-}
-
-/**
- * Are all the transforms linear?
- */
-
-template
-<class TScalar, unsigned int NDimensions>
-bool
-CompositeTransform<TScalar, NDimensions>
-::IsLinear() const
-{
-  bool isLinearTransform = true;
-  typename TransformQueueType::const_iterator it;
-  for( it = this->m_TransformQueue.begin();
-       it != this->m_TransformQueue.end(); ++it )
-    {
-    if( (*it)->GetTransformCategory() != Self::Linear )
-      {
-      isLinearTransform = false;
-      break;
-      }
-    }
-
-  return isLinearTransform;
 }
 
 /**
@@ -638,11 +610,9 @@ CompositeTransform<TScalar, NDimensions>
   typename TransformQueueType::const_iterator it;
 
   inverse->ClearTransformQueue();
-  for( it = this->m_TransformQueue.begin();
-       it != this->m_TransformQueue.end(); ++it )
+  for( it = this->m_TransformQueue.begin(); it != this->m_TransformQueue.end(); ++it )
     {
-    TransformTypePointer inverseTransform = dynamic_cast<Superclass *>(
-        ( ( *it )->GetInverseTransform() ).GetPointer() );
+    TransformTypePointer inverseTransform = dynamic_cast<TransformType *>( ( ( *it )->GetInverseTransform() ).GetPointer() );
     if( !inverseTransform )
       {
       inverse->ClearTransformQueue();
@@ -650,16 +620,14 @@ CompositeTransform<TScalar, NDimensions>
       }
     else
       {
-      /* This also sets TransformToOptimizeFlags list, but it's reset below. */
+      /* Push to front to reverse the transform order */
       inverse->PushFrontTransform( inverseTransform );
       }
     }
 
   /* Copy the optimization flags */
   inverse->m_TransformsToOptimizeFlags.clear();
-  for( TransformsToOptimizeFlagsType::iterator
-       ofit = this->m_TransformsToOptimizeFlags.begin();
-       ofit != this->m_TransformsToOptimizeFlags.end(); ofit++ )
+  for( TransformsToOptimizeFlagsType::iterator ofit = this->m_TransformsToOptimizeFlags.begin(); ofit != this->m_TransformsToOptimizeFlags.end(); ofit++ )
     {
     inverse->m_TransformsToOptimizeFlags.push_front( *ofit );
     }
@@ -677,6 +645,7 @@ typename CompositeTransform<TScalar, NDimensions>
 CompositeTransform<TScalar, NDimensions>
 ::GetInverseTransform() const
 {
+  /* This method can't be defined in Superclass because of the call to New() */
   Pointer inverseTransform = New();
 
   if( this->GetInverse( inverseTransform ) )
@@ -1018,8 +987,7 @@ CompositeTransform<TScalar, NDimensions>
 
   const TransformType * transform;
 
-  for( signed long tind = (signed long) this->GetNumberOfTransforms() - 1;
-       tind >= 0; tind-- )
+  for( signed long tind = (signed long) this->GetNumberOfTransforms() - 1; tind >= 0; tind-- )
     {
     if( this->GetNthTransformToOptimize( tind ) )
       {
@@ -1044,16 +1012,12 @@ CompositeTransform<TScalar, NDimensions>
 
   /* Returns to total number of *local* params in all transforms currently
    * set to be used for optimized.
-   * NOTE: We might want to optimize this only to store the result and
-   * only re-calc when the composite object has been modified.
-   * However, it seems that number of parameter might change for dense
-   * field transfroms (deformation, bspline) during processing and
-   * we wouldn't know that in this class, so this is safest. */
+   * Note that unlike in GetNumberOfParameters(), we don't expect the
+   * number of local parameters to possibly change. */
   NumberOfParametersType result = NumericTraits< NumberOfParametersType >::Zero;
   const TransformType * transform;
 
-  for( signed long tind = (signed long) this->GetNumberOfTransforms() - 1;
-       tind >= 0; tind-- )
+  for( signed long tind = (signed long) this->GetNumberOfTransforms() - 1; tind >= 0; tind-- )
     {
     if( this->GetNthTransformToOptimize( tind ) )
       {
@@ -1110,8 +1074,7 @@ CompositeTransform<TScalar, NDimensions>
   if( update.Size() != numberOfParameters )
     {
     itkExceptionMacro("Parameter update size, " << update.Size() << ", must "
-                      " be same as transform parameter size, "
-                                                << numberOfParameters << std::endl);
+                      " be same as transform parameter size, " << numberOfParameters << std::endl);
     }
 
   NumberOfParametersType offset = NumericTraits< NumberOfParametersType >::Zero;
@@ -1155,7 +1118,7 @@ typename CompositeTransform<TScalar, NDimensions>::TransformQueueType
       /* Return them in the same order as they're found in the main list */
       if( this->GetNthTransformToOptimize( n ) )
         {
-        this->m_TransformsToOptimizeQueue.push_back( m_TransformQueue[n] );
+        this->m_TransformsToOptimizeQueue.push_back( this->GetNthTransform(n) );
         }
       }
     this->m_PreviousTransformsToOptimizeUpdateTime = this->GetMTime();
@@ -1220,14 +1183,12 @@ CompositeTransform<TScalarType, NDimensions>
 {
   Superclass::PrintSelf( os, indent );
 
-  if( this->m_TransformQueue.empty() )
+  if( this->GetNumberOfTransforms() == 0 )
     {
-    os << indent << "Transform queue is empty." << std::endl;
     return;
     }
 
-  os << indent << "TransformsToOptimizeFlags, begin() to end(): "
-     << std::endl << indent << indent;
+  os << indent << "TransformsToOptimizeFlags, begin() to end(): " << std::endl << indent << indent;
   for(  TransformsToOptimizeFlagsType::iterator
         it = this->m_TransformsToOptimizeFlags.begin();
         it != this->m_TransformsToOptimizeFlags.end(); it++ )
@@ -1236,27 +1197,16 @@ CompositeTransform<TScalarType, NDimensions>
     }
   os << std::endl;
 
-  os << indent <<  "Transforms in queue, from begin to end:" << std::endl;
-  typename TransformQueueType::const_iterator cit;
-  for( cit = this->m_TransformQueue.begin();
-       cit != this->m_TransformQueue.end(); ++cit )
-    {
-    os << indent << ">>>>>>>>>" << std::endl;
-    (*cit)->Print( os, indent );
-    }
-  os << indent <<  "End of Transforms." << std::endl << "<<<<<<<<<<" << std::endl;
-
   os << indent <<  "TransformsToOptimize in queue, from begin to end:" << std::endl;
+  typename TransformQueueType::const_iterator cit;
   for( cit = this->m_TransformsToOptimizeQueue.begin();
        cit != this->m_TransformsToOptimizeQueue.end(); ++cit )
     {
     os << indent << ">>>>>>>>>" << std::endl;
     (*cit)->Print( os, indent );
     }
-  os << indent <<  "End of Transforms." << std::endl << "<<<<<<<<<<" << std::endl;
+  os << indent <<  "End of TransformsToOptimizeQueue." << std::endl << "<<<<<<<<<<" << std::endl;
 
-  os << indent << "PreviousTransformsToOptimizeUpdateTime: "
-     <<  m_PreviousTransformsToOptimizeUpdateTime << std::endl;
   os << indent <<  "End of CompositeTransform." << std::endl << "<<<<<<<<<<" << std::endl;
 }
 
@@ -1275,9 +1225,7 @@ CompositeTransform<TScalarType, NDimensions>
     dynamic_cast<Self *>(loPtr.GetPointer());
   if(clone.IsNull())
     {
-    itkExceptionMacro(<< "downcast to type "
-                      << this->GetNameOfClass()
-                      << " failed.");
+    itkExceptionMacro(<< "downcast to type " << this->GetNameOfClass() << " failed.");
     }
 
   typename TransformQueueType::iterator tqIt =
