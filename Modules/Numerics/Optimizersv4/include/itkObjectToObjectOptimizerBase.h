@@ -144,10 +144,10 @@ public:
   const ParametersType & GetCurrentPosition();
 
   /** Run the optimization.
-   * \param doOnlyInitialization. This is default by true. It should only be
+   * \param doOnlyInitialization This is false by default. It should only be
    * set to true for special cases when the class should be initialized to
    * perform optimization, but no optimization should be run. For example,
-   * itkMultiGradientOptimizerv4 needs to use this.
+   * itkMultiGradientOptimizerv4 needs to do this.
    * \note Derived classes must override and call this superclass method, then
    * perform any additional initialization before performing optimization. */
   virtual void StartOptimization( bool doOnlyInitialization = false );
