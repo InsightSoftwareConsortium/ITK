@@ -21,6 +21,7 @@
 #include "itkTimeVaryingBSplineVelocityFieldImageRegistrationMethod.h"
 
 #include "itkBSplineScatteredDataPointSetToImageFilter.h"
+#include "itkConstNeighborhoodIterator.h"
 #include "itkDisplacementFieldTransform.h"
 #include "itkImageDuplicator.h"
 #include "itkImportImageFilter.h"
@@ -29,8 +30,6 @@
 #include "itkStatisticsImageFilter.h"
 #include "itkVectorMagnitudeImageFilter.h"
 #include "itkWindowConvergenceMonitoringFunction.h"
-
-#include "itkImageFileWriter.h"
 
 namespace itk
 {
@@ -41,7 +40,7 @@ template<typename TFixedImage, typename TMovingImage, typename TTransform>
 TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage, TTransform>
 ::TimeVaryingBSplineVelocityFieldImageRegistrationMethod() :
   m_LearningRate( 0.25 ),
-  m_ConvergenceThreshold( 1.0e-6 ),
+  m_ConvergenceThreshold( 1.0e-7 ),
   m_ConvergenceWindowSize( 10 ),
   m_NumberOfTimePointSamples( 4 )
 {
@@ -185,15 +184,15 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
       // Get the fixed transform.  We need to duplicate the resulting
       // displacement field since it will be overwritten when we integrate
       // the velocity field to get the moving image transform.
-      this->m_OutputTransform->SetLowerTimeBound( t );
-      this->m_OutputTransform->SetUpperTimeBound( 0.0 );
-      this->m_OutputTransform->SetNumberOfIntegrationSteps( numberOfIntegrationSteps );
       if( timePoint == 0 )
         {
         this->m_OutputTransform->GetDisplacementField()->FillBuffer( zeroVector );
         }
       else
         {
+        this->m_OutputTransform->SetLowerTimeBound( t );
+        this->m_OutputTransform->SetUpperTimeBound( 0.0 );
+        this->m_OutputTransform->SetNumberOfIntegrationSteps( numberOfIntegrationSteps );
         this->m_OutputTransform->IntegrateVelocityField();
         }
 
@@ -205,15 +204,15 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
       fixedDisplacementFieldTransform->SetDisplacementField( fieldDuplicator->GetOutput() );
 
       // Get the moving transform
-      this->m_OutputTransform->SetLowerTimeBound( t );
-      this->m_OutputTransform->SetUpperTimeBound( 1.0 );
-      this->m_OutputTransform->SetNumberOfIntegrationSteps( numberOfIntegrationSteps );
       if( timePoint == this->m_NumberOfTimePointSamples - 1 )
         {
         this->m_OutputTransform->GetDisplacementField()->FillBuffer( zeroVector );
         }
       else
         {
+        this->m_OutputTransform->SetLowerTimeBound( t );
+        this->m_OutputTransform->SetUpperTimeBound( 1.0 );
+        this->m_OutputTransform->SetNumberOfIntegrationSteps( numberOfIntegrationSteps );
         this->m_OutputTransform->IntegrateVelocityField();
         }
 
@@ -276,7 +275,7 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
         dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() )->SetFixedTransform( identityTransform );
         dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() )->SetMovingTransform( identityDisplacementFieldTransform );
         }
-      this->m_Metric.GetPointer()->Initialize();
+      this->m_Metric->Initialize();
 
       metricDerivative.Fill( NumericTraits<typename MetricDerivativeType::ValueType>::Zero );
       this->m_Metric->GetValueAndDerivative( value, metricDerivative );
@@ -324,6 +323,10 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
       stats->Update();
 
       RealType maxNorm = stats->GetMaximum();
+      if( maxNorm <= 0.0 )
+        {
+        maxNorm = 1.0;
+        }
       RealType scale = 1.0 / maxNorm;
       metricDerivative *= scale;
 
@@ -556,7 +559,7 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
 {
   Superclass::PrintSelf( os, indent );
 
-  os << indent << "Number of this->m_CurrentIterations: " << this->m_NumberOfIterationsPerLevel << std::endl;
+  os << indent << "Number of Iterations: " << this->m_NumberOfIterationsPerLevel << std::endl;
   os << indent << "Learning rate: " << this->m_LearningRate << std::endl;
   os << indent << "Convergence threshold: " << this->m_ConvergenceThreshold << std::endl;
   os << indent << "Convergence window size: " << this->m_ConvergenceWindowSize << std::endl;

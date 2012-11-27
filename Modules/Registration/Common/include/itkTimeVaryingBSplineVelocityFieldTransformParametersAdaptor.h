@@ -27,10 +27,11 @@ namespace itk
  * definition.
  *
  * The fixed parameters store the following information:
- * field size
- * field origin
- * field spacing
- * field direction
+ * \li B-spline mesh size
+ * \li field origin
+ * \li domain spacing
+ * \li domain size  (note that domain_spacing * (domain_size - 1) = physical dimensions of transform domain)
+ * \li field direction
  * During multiresolution image registration it is often desired to also increase
  * the displacement field resolution for greater flexibility in optimizing the
  * transform.  As defined in the base class, the user can change the resolution via
@@ -47,11 +48,12 @@ namespace itk
  * be done as follows:
  *
  *   \code
- *   transformAdaptor->SetTransform( transform );
- *   transformAdaptor->SetRequiredOrigin( displacementField->GetOrigin() );
- *   transformAdaptor->SetRequiredDirection( displacementField->GetDirection() );
- *   transformAdaptor->SetRequiredSize( requiredSize );
- *   transformAdaptor->SetRequiredSpacing( requiredSpacing );
+ *   transformAdaptor->SetRequiredTransformDomainOrigin( displacementField->GetOrigin() );
+ *   transformAdaptor->SetRequiredTransformDomainDirection( displacementField->GetDirection() );
+ *   transformAdaptor->SetRequiredTransformDomainSize( requiredSize );
+ *   transformAdaptor->SetRequiredTransformDomainSpacing( requiredSpacing );
+ *   transformAdaptor->SetRequiredTransformDomainMeshSize( requiredMeshSize );
+ *   transformAdaptor->SetSplineOrder( transform->GetSplineOrder() );
  *   transformAdaptor->AdaptTransformParameters();
  *   \endcode
  *
@@ -92,15 +94,20 @@ public:
   typedef typename TimeVaryingVelocityFieldControlPointLatticeType::IndexType       IndexType;
   typedef typename TimeVaryingVelocityFieldControlPointLatticeType::PixelType       VectorType;
   typedef typename TimeVaryingVelocityFieldControlPointLatticeType::PointType       OriginType;
-  typedef typename TimeVaryingVelocityFieldControlPointLatticeType::SpacingType     PhysicalDimensionsType;
+  typedef typename TimeVaryingVelocityFieldControlPointLatticeType::SpacingType     SpacingType;
   typedef typename TimeVaryingVelocityFieldControlPointLatticeType::SizeType        SizeType;
   typedef typename TimeVaryingVelocityFieldControlPointLatticeType::SizeValueType   SizeValueType;
   typedef typename TimeVaryingVelocityFieldControlPointLatticeType::SizeType        MeshSizeType;
   typedef typename TimeVaryingVelocityFieldControlPointLatticeType::DirectionType   DirectionType;
-  typedef typename TimeVaryingVelocityFieldControlPointLatticeType::SpacingType     SpacingType;
 
   /** Dimension of parameters. */
   itkStaticConstMacro( TotalDimension, unsigned int, TransformType::Dimension + 1 );
+
+  /** Set spline order (usually from transform) */
+  itkSetMacro( SplineOrder, SizeValueType );
+
+  /** Get spline order (usually from transform) */
+  itkGetConstMacro( SplineOrder, SizeValueType );
 
   /** Alternative method for setting the required mesh size. */
   void SetRequiredTransformDomainMeshSize( const MeshSizeType & );
@@ -108,11 +115,17 @@ public:
   /** Get the required mesh size. */
   itkGetConstReferenceMacro( RequiredTransformDomainMeshSize, MeshSizeType );
 
-  /** Alternative method for setting the required mesh size. */
-  void SetRequiredTransformDomainPhysicalDimensions( const PhysicalDimensionsType & );
+  /** Alternative method for setting the required sampled size. */
+  void SetRequiredTransformDomainSize( const SizeType & );
 
-  /** Get the required physical dimensions. */
-  itkGetConstReferenceMacro( RequiredTransformDomainPhysicalDimensions, PhysicalDimensionsType );
+  /** Get the required domain size. */
+  itkGetConstReferenceMacro( RequiredTransformDomainSize, SizeType );
+
+  /** Alternative method for setting the required sampled spacing. */
+  void SetRequiredTransformDomainSpacing( const SpacingType & );
+
+  /** Get the required domain spacing. */
+  itkGetConstReferenceMacro( RequiredTransformDomainSpacing, SpacingType );
 
   /** Alternative method for setting the required origin. */
   void SetRequiredTransformDomainOrigin( const OriginType & );
@@ -143,7 +156,9 @@ public:
     SpacingType requiredLatticeSpacing;
     for( SizeValueType i = 0; i < TotalDimension; i++ )
       {
-      requiredLatticeSpacing[i] = this->m_RequiredFixedParameters[2 * TotalDimension + i];
+      RealType domainPhysicalDimensions = static_cast<RealType>( this->m_RequiredTransformDomainSize[i] - 1.0 ) *
+        this->m_RequiredTransformDomainSpacing[i];
+      requiredLatticeSpacing[i] = domainPhysicalDimensions / static_cast<RealType>( this->m_RequiredTransformDomainMeshSize[i] );
       }
     return requiredLatticeSpacing;
     }
@@ -162,15 +177,7 @@ public:
   /** Get the required control point lattice direction. */
   const DirectionType GetRequiredControlPointLatticeDirection() const
     {
-    DirectionType requiredLatticeDirection;
-    for( SizeValueType i = 0; i < TotalDimension; i++ )
-      {
-      for( SizeValueType j = 0; j < TotalDimension; j++ )
-        {
-        requiredLatticeDirection[i][j] = this->m_RequiredFixedParameters[3 * TotalDimension + ( i * TotalDimension + j )];
-        }
-      }
-    return requiredLatticeDirection;
+    return this->m_RequiredTransformDomainDirection;
     }
 
   /** Initialize the transform using the specified fixed parameters */
@@ -194,7 +201,10 @@ private:
   MeshSizeType                               m_RequiredTransformDomainMeshSize;
   OriginType                                 m_RequiredTransformDomainOrigin;
   DirectionType                              m_RequiredTransformDomainDirection;
-  PhysicalDimensionsType                     m_RequiredTransformDomainPhysicalDimensions;
+  SpacingType                                m_RequiredTransformDomainSpacing;
+  SizeType                                   m_RequiredTransformDomainSize;
+
+  SizeValueType                              m_SplineOrder;
 
 }; //class TimeVaryingBSplineVelocityFieldTransformParametersAdaptor
 }  // namespace itk

@@ -250,6 +250,7 @@ int PerformTimeVaryingVelocityFieldImageRegistration( int argc, char *argv[] )
   typename OutputTransformType::Pointer outputTransform = const_cast<OutputTransformType *>( velocityFieldRegistration->GetOutput()->Get() );
 
   velocityFieldRegistration->SetFixedImage( fixedImage );
+  velocityFieldRegistration->SetMovingInitialTransform( compositeTransform );
   velocityFieldRegistration->SetMovingImage( movingImage );
   velocityFieldRegistration->SetNumberOfLevels( 3 );
   velocityFieldRegistration->SetMetric( correlationMetric );
@@ -263,6 +264,7 @@ int PerformTimeVaryingVelocityFieldImageRegistration( int argc, char *argv[] )
   outputTransform->SetVelocityField( velocityField );
   outputTransform->SetLowerTimeBound( 0.0 );
   outputTransform->SetUpperTimeBound( 1.0 );
+  outputTransform->IntegrateVelocityField();
 
   typename VelocityFieldRegistrationType::ShrinkFactorsArrayType numberOfIterationsPerLevel;
   numberOfIterationsPerLevel.SetSize( 3 );

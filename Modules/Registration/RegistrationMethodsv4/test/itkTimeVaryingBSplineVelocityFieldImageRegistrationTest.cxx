@@ -247,19 +247,22 @@ int PerformTimeVaryingBSplineVelocityFieldImageRegistration( int argc, char *arg
 
   typename TimeVaryingVelocityFieldControlPointLatticeType::SizeType transformDomainMeshSize;
   typename TimeVaryingVelocityFieldControlPointLatticeType::PointType transformDomainOrigin;
-  typename TimeVaryingVelocityFieldControlPointLatticeType::SpacingType transformDomainPhysicalDimensions;
+  typename TimeVaryingVelocityFieldControlPointLatticeType::SpacingType transformDomainSpacing;
+  typename TimeVaryingVelocityFieldControlPointLatticeType::SizeType transformDomainSize;
   typename TimeVaryingVelocityFieldControlPointLatticeType::DirectionType transformDomainDirection;
 
   transformDomainDirection.SetIdentity();
   transformDomainOrigin.Fill( 0.0 );
   transformDomainMeshSize.Fill( 4 );
-  transformDomainPhysicalDimensions.Fill( 1.0 );
+  transformDomainSpacing.Fill( 1.0 );
+  transformDomainSize.Fill( 10 );
 
   for( unsigned int i = 0; i < ImageDimension; i++ )
     {
     transformDomainOrigin[i] = fixedImageOrigin[i];
     transformDomainMeshSize[i] = 3;
-    transformDomainPhysicalDimensions[i] = static_cast<double>( fixedImageSize[i] - 1 ) * fixedImageSpacing[i];
+    transformDomainSpacing[i] = fixedImageSpacing[i];
+    transformDomainSize[i] = fixedImageSize[i];
     for( unsigned int j = 0; j < ImageDimension; j++ )
       {
       transformDomainDirection[i][j] = fixedImageDirection[i][j];
@@ -270,9 +273,10 @@ int PerformTimeVaryingBSplineVelocityFieldImageRegistration( int argc, char *arg
 
   typedef itk::TimeVaryingBSplineVelocityFieldTransformParametersAdaptor<TransformType> VelocityFieldTransformAdaptorType;
   typename VelocityFieldTransformAdaptorType::Pointer initialFieldTransformAdaptor = VelocityFieldTransformAdaptorType::New();
-  initialFieldTransformAdaptor->SetTransform( outputTransform );
+  initialFieldTransformAdaptor->SetSplineOrder( outputTransform->GetSplineOrder() );
   initialFieldTransformAdaptor->SetRequiredTransformDomainOrigin( transformDomainOrigin );
-  initialFieldTransformAdaptor->SetRequiredTransformDomainPhysicalDimensions( transformDomainPhysicalDimensions );
+  initialFieldTransformAdaptor->SetRequiredTransformDomainSpacing( transformDomainSpacing );
+  initialFieldTransformAdaptor->SetRequiredTransformDomainSize( transformDomainSize );
   initialFieldTransformAdaptor->SetRequiredTransformDomainMeshSize( transformDomainMeshSize );
   initialFieldTransformAdaptor->SetRequiredTransformDomainDirection( transformDomainDirection );
 
@@ -285,49 +289,78 @@ int PerformTimeVaryingBSplineVelocityFieldImageRegistration( int argc, char *arg
   velocityFieldLattice->Allocate();
   velocityFieldLattice->FillBuffer( zeroVector );
 
-  typename TransformType::VelocityFieldPointType        sampledVelocityFieldOrigin;
-  typename TransformType::VelocityFieldSpacingType      sampledVelocityFieldSpacing;
-  typename TransformType::VelocityFieldSizeType         sampledVelocityFieldSize;
-  typename TransformType::VelocityFieldDirectionType    sampledVelocityFieldDirection;
+  typename TransformType::VelocityFieldPointType        velocityFieldOrigin;
+  typename TransformType::VelocityFieldSpacingType      velocityFieldSpacing;
+  typename TransformType::VelocityFieldSizeType         velocityFieldSize;
+  typename TransformType::VelocityFieldDirectionType    velocityFieldDirection;
 
-  sampledVelocityFieldOrigin.Fill( 0.0 );
-  sampledVelocityFieldSpacing.Fill( 1.0 );
-  sampledVelocityFieldSize.Fill( velocityFieldRegistration->GetNumberOfTimePointSamples() );
-  sampledVelocityFieldDirection.SetIdentity();
+  velocityFieldOrigin.Fill( 0.0 );
+  velocityFieldSpacing.Fill( 1.0 );
+  velocityFieldSize.Fill( velocityFieldRegistration->GetNumberOfTimePointSamples() );
+  velocityFieldDirection.SetIdentity();
 
   for( unsigned int i = 0; i < ImageDimension; i++ )
     {
-    sampledVelocityFieldOrigin[i] = fixedImage->GetOrigin()[i];
-    sampledVelocityFieldSpacing[i] = fixedImage->GetSpacing()[i];
-    sampledVelocityFieldSize[i] = fixedImage->GetRequestedRegion().GetSize()[i];
+    velocityFieldOrigin[i] = fixedImage->GetOrigin()[i];
+    velocityFieldSpacing[i] = fixedImage->GetSpacing()[i];
+    velocityFieldSize[i] = fixedImage->GetRequestedRegion().GetSize()[i];
     for( unsigned int j = 0; j < ImageDimension; j++ )
       {
-      sampledVelocityFieldDirection[i][j] = fixedImage->GetDirection()[i][j];
+      velocityFieldDirection[i][j] = fixedImage->GetDirection()[i][j];
       }
     }
 
   outputTransform->SetTimeVaryingVelocityFieldControlPointLattice( velocityFieldLattice );
-  outputTransform->SetVelocityFieldOrigin( sampledVelocityFieldOrigin );
-  outputTransform->SetVelocityFieldDirection( sampledVelocityFieldDirection );
-  outputTransform->SetVelocityFieldSpacing( sampledVelocityFieldSpacing );
-  outputTransform->SetVelocityFieldSize( sampledVelocityFieldSize );
+  outputTransform->SetVelocityFieldOrigin( velocityFieldOrigin );
+  outputTransform->SetVelocityFieldDirection( velocityFieldDirection );
+  outputTransform->SetVelocityFieldSpacing( velocityFieldSpacing );
+  outputTransform->SetVelocityFieldSize( velocityFieldSize );
   outputTransform->IntegrateVelocityField();
 
   typename VelocityFieldRegistrationType::TransformParametersAdaptorsContainerType adaptors;
+
   for( unsigned int level = 0; level < shrinkFactorsPerLevel.Size(); level++ )
     {
+    typedef itk::ShrinkImageFilter<FixedImageType, FixedImageType> ShrinkFilterType;
+    typename ShrinkFilterType::Pointer shrinkFilter = ShrinkFilterType::New();
+    shrinkFilter->SetShrinkFactors( shrinkFactorsPerLevel[level] );
+    shrinkFilter->SetInput( fixedImage );
+    shrinkFilter->Update();
+
+    // Although we shrink the images for the given levels,
+    // we keep the size in time the same
+
+    velocityFieldSize.Fill( 10 );
+    velocityFieldOrigin.Fill( 0.0 );
+    velocityFieldSpacing.Fill( 1.0 );
+    velocityFieldDirection.SetIdentity();
+
+    fixedImageSize = shrinkFilter->GetOutput()->GetBufferedRegion().GetSize();
+    fixedImageOrigin = shrinkFilter->GetOutput()->GetOrigin();
+    fixedImageSpacing = shrinkFilter->GetOutput()->GetSpacing();
+    fixedImageDirection = shrinkFilter->GetOutput()->GetDirection();
 
     for( unsigned int i = 0; i < ImageDimension; i++ )
       {
+      velocityFieldSize[i] = fixedImageSize[i];
+      velocityFieldOrigin[i] = fixedImageOrigin[i];
+      velocityFieldSpacing[i] = fixedImageSpacing[i];
+
       transformDomainMeshSize[i] <<= 1;
+
+      for( unsigned int j = 0; j < ImageDimension; j++ )
+        {
+        velocityFieldDirection[i][j] = fixedImageDirection[i][j];
+        }
       }
 
     typename VelocityFieldTransformAdaptorType::Pointer fieldTransformAdaptor = VelocityFieldTransformAdaptorType::New();
-    fieldTransformAdaptor->SetTransform( outputTransform );
-    fieldTransformAdaptor->SetRequiredTransformDomainOrigin( transformDomainOrigin );
+    fieldTransformAdaptor->SetSplineOrder( outputTransform->GetSplineOrder() );
+    fieldTransformAdaptor->SetRequiredTransformDomainSpacing( velocityFieldSpacing );
+    fieldTransformAdaptor->SetRequiredTransformDomainSize( velocityFieldSize );
+    fieldTransformAdaptor->SetRequiredTransformDomainDirection( velocityFieldDirection );
+    fieldTransformAdaptor->SetRequiredTransformDomainOrigin( velocityFieldOrigin );
     fieldTransformAdaptor->SetRequiredTransformDomainMeshSize( transformDomainMeshSize );
-    fieldTransformAdaptor->SetRequiredTransformDomainDirection( transformDomainDirection );
-    fieldTransformAdaptor->SetRequiredTransformDomainPhysicalDimensions( transformDomainPhysicalDimensions );
 
     adaptors.push_back( fieldTransformAdaptor.GetPointer() );
     }
