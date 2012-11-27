@@ -60,69 +60,67 @@ void
 TimeVaryingBSplineVelocityFieldTransform<TScalar, NDimensions>
 ::IntegrateVelocityField()
 {
-  if( this->GetVelocityField() )
-    {
-    typedef BSplineControlPointImageFilter<VelocityFieldType, VelocityFieldType> BSplineFilterType;
-
-    typename BSplineFilterType::ArrayType closeDimensions;
-    closeDimensions.Fill( 0 );
-    if( this->m_TemporalPeriodicity )
-      {
-      closeDimensions[NDimensions] = 1;
-      }
-
-    typename BSplineFilterType::Pointer bspliner = BSplineFilterType::New();
-    bspliner->SetInput( this->GetTimeVaryingVelocityFieldControlPointLattice() );
-    bspliner->SetSplineOrder( this->m_SplineOrder );
-    bspliner->SetSpacing( this->m_VelocityFieldSpacing );
-    bspliner->SetSize( this->m_VelocityFieldSize );
-    bspliner->SetDirection( this->m_VelocityFieldDirection );
-    bspliner->SetOrigin( this->m_VelocityFieldOrigin );
-    bspliner->SetCloseDimension( closeDimensions );
-    bspliner->Update();
-
-    typedef TimeVaryingVelocityFieldIntegrationImageFilter<VelocityFieldType, DisplacementFieldType> IntegratorType;
-
-    typename IntegratorType::Pointer integrator = IntegratorType::New();
-    integrator->SetInput( bspliner->GetOutput() );
-    integrator->SetLowerTimeBound( this->GetLowerTimeBound() );
-    integrator->SetUpperTimeBound( this->GetUpperTimeBound() );
-
-    if( this->GetVelocityFieldInterpolator() )
-      {
-      integrator->SetVelocityFieldInterpolator( this->GetVelocityFieldInterpolator() );
-      }
-
-    integrator->SetNumberOfIntegrationSteps( this->GetNumberOfIntegrationSteps() );
-    integrator->Update();
-
-    typename DisplacementFieldType::Pointer displacementField = integrator->GetOutput();
-    displacementField->DisconnectPipeline();
-
-    this->SetDisplacementField( displacementField );
-    this->GetInterpolator()->SetInputImage( displacementField );
-
-    typename IntegratorType::Pointer inverseIntegrator = IntegratorType::New();
-    inverseIntegrator->SetInput( bspliner->GetOutput() );
-    inverseIntegrator->SetLowerTimeBound( this->GetUpperTimeBound() );
-    inverseIntegrator->SetUpperTimeBound( this->GetLowerTimeBound() );
-    if( this->GetVelocityFieldInterpolator() )
-      {
-      inverseIntegrator->SetVelocityFieldInterpolator( this->GetVelocityFieldInterpolator() );
-      }
-
-    inverseIntegrator->SetNumberOfIntegrationSteps( this->GetNumberOfIntegrationSteps() );
-    inverseIntegrator->Update();
-
-    typename DisplacementFieldType::Pointer inverseDisplacementField = inverseIntegrator->GetOutput();
-    inverseDisplacementField->DisconnectPipeline();
-
-    this->SetInverseDisplacementField( inverseDisplacementField );
-    }
-  else
+  if( !this->GetVelocityField() )
     {
     itkExceptionMacro( "The B-spline velocity field does not exist." );
     }
+
+  typedef BSplineControlPointImageFilter<VelocityFieldType, VelocityFieldType> BSplineFilterType;
+
+  typename BSplineFilterType::ArrayType closeDimensions;
+  closeDimensions.Fill( 0 );
+  if( this->m_TemporalPeriodicity )
+    {
+    closeDimensions[NDimensions] = 1;
+    }
+
+  typename BSplineFilterType::Pointer bspliner = BSplineFilterType::New();
+  bspliner->SetInput( this->GetTimeVaryingVelocityFieldControlPointLattice() );
+  bspliner->SetSplineOrder( this->m_SplineOrder );
+  bspliner->SetSpacing( this->m_VelocityFieldSpacing );
+  bspliner->SetSize( this->m_VelocityFieldSize );
+  bspliner->SetDirection( this->m_VelocityFieldDirection );
+  bspliner->SetOrigin( this->m_VelocityFieldOrigin );
+  bspliner->SetCloseDimension( closeDimensions );
+  bspliner->Update();
+
+  typedef TimeVaryingVelocityFieldIntegrationImageFilter<VelocityFieldType, DisplacementFieldType> IntegratorType;
+
+  typename IntegratorType::Pointer integrator = IntegratorType::New();
+  integrator->SetInput( bspliner->GetOutput() );
+  integrator->SetLowerTimeBound( this->GetLowerTimeBound() );
+  integrator->SetUpperTimeBound( this->GetUpperTimeBound() );
+
+  if( this->GetVelocityFieldInterpolator() )
+    {
+    integrator->SetVelocityFieldInterpolator( this->GetVelocityFieldInterpolator() );
+    }
+
+  integrator->SetNumberOfIntegrationSteps( this->GetNumberOfIntegrationSteps() );
+  integrator->Update();
+
+  typename DisplacementFieldType::Pointer displacementField = integrator->GetOutput();
+  displacementField->DisconnectPipeline();
+
+  this->SetDisplacementField( displacementField );
+  this->GetInterpolator()->SetInputImage( displacementField );
+
+  typename IntegratorType::Pointer inverseIntegrator = IntegratorType::New();
+  inverseIntegrator->SetInput( bspliner->GetOutput() );
+  inverseIntegrator->SetLowerTimeBound( this->GetUpperTimeBound() );
+  inverseIntegrator->SetUpperTimeBound( this->GetLowerTimeBound() );
+  if( this->GetVelocityFieldInterpolator() )
+    {
+    inverseIntegrator->SetVelocityFieldInterpolator( this->GetVelocityFieldInterpolator() );
+    }
+
+  inverseIntegrator->SetNumberOfIntegrationSteps( this->GetNumberOfIntegrationSteps() );
+  inverseIntegrator->Update();
+
+  typename DisplacementFieldType::Pointer inverseDisplacementField = inverseIntegrator->GetOutput();
+  inverseDisplacementField->DisconnectPipeline();
+
+  this->SetInverseDisplacementField( inverseDisplacementField );
 }
 
 template<class TScalar, unsigned int NDimensions>

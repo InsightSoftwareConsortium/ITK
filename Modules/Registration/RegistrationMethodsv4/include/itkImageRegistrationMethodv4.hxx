@@ -82,7 +82,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
 
   // By default we set up a 3-level image registration.
 
-  m_NumberOfLevels = 0;
+  this->m_NumberOfLevels = 0;
   this->SetNumberOfLevels( 3 );
 
   this->m_OutputTransform = OutputTransformType::New();

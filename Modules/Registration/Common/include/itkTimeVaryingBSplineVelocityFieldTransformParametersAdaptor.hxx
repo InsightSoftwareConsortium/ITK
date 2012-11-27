@@ -34,12 +34,15 @@ template<class TTransform>
 TimeVaryingBSplineVelocityFieldTransformParametersAdaptor<TTransform>
 ::TimeVaryingBSplineVelocityFieldTransformParametersAdaptor()
 {
-  this->m_RequiredFixedParameters.SetSize( TotalDimension * ( TotalDimension + 3 ) );
+  this->m_RequiredFixedParameters.SetSize( TotalDimension * ( TotalDimension + 4 ) );
 
   this->m_RequiredTransformDomainOrigin.Fill( 0.0 );
   this->m_RequiredTransformDomainDirection.SetIdentity();
-  this->m_RequiredTransformDomainPhysicalDimensions.Fill( 1.0 );
+  this->m_RequiredTransformDomainSize.Fill( 1.0 );
+  this->m_RequiredTransformDomainSpacing.Fill( 0.0 );
   this->m_RequiredTransformDomainMeshSize.Fill( 1 );
+
+  this->m_SplineOrder = 3;
 
   this->UpdateRequiredFixedParameters();
 }
@@ -68,12 +71,27 @@ TimeVaryingBSplineVelocityFieldTransformParametersAdaptor<TTransform>
 template<class TTransform>
 void
 TimeVaryingBSplineVelocityFieldTransformParametersAdaptor<TTransform>
-::SetRequiredTransformDomainPhysicalDimensions( const PhysicalDimensionsType & dimensions )
+::SetRequiredTransformDomainSize( const SizeType & size )
 {
-  if( dimensions != this->m_RequiredTransformDomainPhysicalDimensions )
+  if( size != this->m_RequiredTransformDomainSize )
     {
-    itkDebugMacro( "Setting m_RequiredTransformDomainPhysicalDimensions to " << dimensions );
-    this->m_RequiredTransformDomainPhysicalDimensions = dimensions;
+    itkDebugMacro( "Setting m_RequiredTransformDomainSize to " << size );
+    this->m_RequiredTransformDomainSize = size;
+    this->UpdateRequiredFixedParameters();
+
+    this->Modified();
+    }
+}
+
+template<class TTransform>
+void
+TimeVaryingBSplineVelocityFieldTransformParametersAdaptor<TTransform>
+::SetRequiredTransformDomainSpacing( const SpacingType & spacing )
+{
+  if( spacing != this->m_RequiredTransformDomainSpacing )
+    {
+    itkDebugMacro( "Setting m_RequiredTransformDomainSpacing to " << spacing );
+    this->m_RequiredTransformDomainSpacing = spacing;
     this->UpdateRequiredFixedParameters();
 
     this->Modified();
@@ -115,31 +133,28 @@ void
 TimeVaryingBSplineVelocityFieldTransformParametersAdaptor<TTransform>
 ::UpdateRequiredFixedParameters()
 {
-  if( !this->m_Transform )
-    {
-    return;
-    }
-
   // Fixed parameters store the following information:
   //  grid size
   //  grid origin
-  //  grid spacing
+  //  transform domain sampled size
+  //  transform domain sampled spacing
   //  grid direction
-  //  The size of these is equal to the TotalDimension
 
   // set the grid size parameters
   for( SizeValueType i = 0; i < TotalDimension; i++ )
     {
-    this->m_RequiredFixedParameters[i] = this->m_RequiredTransformDomainMeshSize[i] + this->m_Transform->GetSplineOrder();
+    this->m_RequiredFixedParameters[i] = this->m_RequiredTransformDomainMeshSize[i] + this->m_SplineOrder;
     }
 
   // Set the origin parameters
   OriginType origin;
   for( SizeValueType i = 0; i < TotalDimension; i++ )
     {
-    ParametersValueType gridSpacing = this->m_RequiredTransformDomainPhysicalDimensions[i] /
+    RealType domainPhysicalDimensions = ( this->m_RequiredTransformDomainSize[i] - 1.0 ) * this->m_RequiredTransformDomainSpacing[i];
+
+    ParametersValueType gridSpacing = domainPhysicalDimensions /
       static_cast<ParametersValueType>( this->m_RequiredTransformDomainMeshSize[i] );
-    origin[i] = -0.5 * gridSpacing * ( this->m_Transform->GetSplineOrder() - 1 );
+    origin[i] = -0.5 * gridSpacing * ( this->m_SplineOrder - 1 );
     }
   origin = this->m_RequiredTransformDomainDirection * origin;
   for( SizeValueType i = 0; i < TotalDimension; i++ )
@@ -148,13 +163,18 @@ TimeVaryingBSplineVelocityFieldTransformParametersAdaptor<TTransform>
       origin[i] + this->m_RequiredTransformDomainOrigin[i] );
     }
 
-  // Set the spacing parameters
+  // Set the domain sampled size parameters
   for( SizeValueType i = 0; i < TotalDimension; i++ )
     {
-    ParametersValueType gridSpacing = this->m_RequiredTransformDomainPhysicalDimensions[i] /
-      static_cast<ParametersValueType>( this->m_RequiredTransformDomainMeshSize[i] );
     this->m_RequiredFixedParameters[2 * TotalDimension + i] =
-      static_cast<ParametersValueType>( gridSpacing );
+      static_cast<SizeValueType>( this->m_RequiredTransformDomainSize[i] );
+    }
+
+  // Set the domain sampled spacing parameters
+  for( SizeValueType i = 0; i < TotalDimension; i++ )
+    {
+    this->m_RequiredFixedParameters[3 * TotalDimension + i] =
+      static_cast<ParametersValueType>( this->m_RequiredTransformDomainSpacing[i] );
     }
 
   // Set the direction parameters
@@ -162,7 +182,7 @@ TimeVaryingBSplineVelocityFieldTransformParametersAdaptor<TTransform>
     {
     for( SizeValueType dj = 0; dj < TotalDimension; dj++ )
       {
-      this->m_RequiredFixedParameters[3 * TotalDimension + ( di * TotalDimension + dj )] =
+      this->m_RequiredFixedParameters[4 * TotalDimension + ( di * TotalDimension + dj )] =
         static_cast<ParametersValueType>( this->m_RequiredTransformDomainDirection[di][dj] );
       }
     }
@@ -181,7 +201,7 @@ TimeVaryingBSplineVelocityFieldTransformParametersAdaptor<TTransform>
     for( SizeValueType dj = 0; dj < TotalDimension; dj++ )
       {
       this->m_RequiredTransformDomainDirection[di][dj] =
-        this->m_RequiredFixedParameters[3 * TotalDimension + ( di * TotalDimension + dj )];
+        this->m_RequiredFixedParameters[4 * TotalDimension + ( di * TotalDimension + dj )];
       }
     }
 
@@ -189,28 +209,36 @@ TimeVaryingBSplineVelocityFieldTransformParametersAdaptor<TTransform>
   for( SizeValueType i = 0; i < TotalDimension; i++ )
     {
     this->m_RequiredTransformDomainMeshSize[i] =
-      static_cast<SizeValueType>( this->m_RequiredFixedParameters[i] ) - this->m_Transform->GetSplineOrder();
-    }
-
-  // Set the physical dimensions parameters
-  for( SizeValueType i = 0; i < TotalDimension; i++ )
-    {
-    ParametersValueType gridSpacing = this->m_RequiredFixedParameters[2 * TotalDimension + i];
-    this->m_RequiredTransformDomainPhysicalDimensions[i] = gridSpacing *
-      static_cast<ParametersValueType>( this->m_RequiredTransformDomainMeshSize[i] );
+      static_cast<SizeValueType>( this->m_RequiredFixedParameters[i] ) - this->m_SplineOrder;
     }
 
   // Set the origin parameters
   OriginType origin;
   for( SizeValueType i = 0; i < TotalDimension; i++ )
     {
-    ParametersValueType gridSpacing = this->m_RequiredFixedParameters[2 * TotalDimension + i];
-    origin[i] = 0.5 * gridSpacing * ( this->m_Transform->GetSplineOrder() - 1 );
+    RealType domainPhysicalDimensions = static_cast<RealType>( this->m_RequiredTransformDomainSize[i] - 1.0 ) *
+      this->m_RequiredTransformDomainSpacing[i];
+    RealType gridSpacing = domainPhysicalDimensions / static_cast<RealType>( this->m_RequiredTransformDomainMeshSize[i] );
+    origin[i] = 0.5 * gridSpacing * ( this->m_SplineOrder - 1 );
     }
   origin = this->m_RequiredTransformDomainDirection * origin;
   for( SizeValueType i = 0; i < TotalDimension; i++ )
     {
     this->m_RequiredTransformDomainOrigin[i] = origin[i] + this->m_RequiredFixedParameters[TotalDimension + i];
+    }
+
+  // Set the domain sampled size parameters
+  for( SizeValueType i = 0; i < TotalDimension; i++ )
+    {
+    this->m_RequiredTransformDomainSize[i] =
+      static_cast<SizeValueType>( this->m_RequiredFixedParameters[2 * TotalDimension + i] );
+    }
+
+  // Set the domain sampled spacing parameters
+  for( SizeValueType i = 0; i < TotalDimension; i++ )
+    {
+    this->m_RequiredTransformDomainSpacing[i] =
+      static_cast<ParametersValueType>( this->m_RequiredFixedParameters[3 * TotalDimension + i] );
     }
 }
 
@@ -302,6 +330,13 @@ TimeVaryingBSplineVelocityFieldTransformParametersAdaptor<TTransform>
     }
 
   this->m_Transform->SetTimeVaryingVelocityFieldControlPointLattice( requiredLattice );
+  this->m_Transform->SetVelocityFieldOrigin( this->m_RequiredTransformDomainOrigin );
+  this->m_Transform->SetVelocityFieldSpacing( this->m_RequiredTransformDomainSpacing );
+  this->m_Transform->SetVelocityFieldSize( this->m_RequiredTransformDomainSize );
+  this->m_Transform->SetVelocityFieldDirection( this->m_RequiredTransformDomainDirection );
+  this->m_Transform->SetLowerTimeBound( 0.0 );
+  this->m_Transform->SetUpperTimeBound( 1.0 );
+  this->m_Transform->IntegrateVelocityField();
 }
 
 template<class TTransform>
@@ -312,9 +347,10 @@ TimeVaryingBSplineVelocityFieldTransformParametersAdaptor<TTransform>
   Superclass::PrintSelf( os, indent );
 
   os << "Required transform domain origin: " << this->m_RequiredTransformDomainOrigin << std::endl;
-  os << "Required transform domain direction: " << this->m_RequiredTransformDomainDirection << std::endl;
-  os << "Required transform domain physical dimensions: " << this->m_RequiredTransformDomainPhysicalDimensions << std::endl;
   os << "Required transform domain mesh size: " << this->m_RequiredTransformDomainMeshSize << std::endl;
+  os << "Required transform domain sampled size: " << this->m_RequiredTransformDomainSize << std::endl;
+  os << "Required transform domain sampled spacing: " << this->m_RequiredTransformDomainSpacing << std::endl;
+  os << "Required transform domain direction: " << this->m_RequiredTransformDomainDirection << std::endl;
 }
 
 }  // namespace itk

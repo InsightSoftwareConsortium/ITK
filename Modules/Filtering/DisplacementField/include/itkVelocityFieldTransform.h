@@ -149,7 +149,7 @@ public:
    * Set the lower time bound defining the integration domain of the transform.
    * We assume that the total possible time domain is [0,1]
    */
-  itkSetClampMacro( LowerTimeBound, ScalarType, 0, 1 );
+  itkSetClampMacro( LowerTimeBound, ScalarType, 0.0, 1.0 );
 
   /**
    * Get the lower time bound defining the integration domain of the transform.
@@ -161,7 +161,7 @@ public:
    * Set the upper time bound defining the integration domain of the transform.
    * We assume that the total possible time domain is [0,1]
    */
-  itkSetClampMacro( UpperTimeBound, ScalarType, 0, 1 );
+  itkSetClampMacro( UpperTimeBound, ScalarType, 0.0, 1.0 );
 
   /**
    * Get the upper time bound defining the integration domain of the transform.
