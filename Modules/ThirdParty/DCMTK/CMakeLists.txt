@@ -172,7 +172,7 @@ endforeach()
     string(REPLACE ";" ":::" DCMTK${libdep}_INCLUDE_DIRS "${ITK${libdep}_INCLUDE_DIRS}")
   endforeach()
 
-  set(DCMTK_GIT_REPOSITORY "git://git.dcmtk.org/dcmtk.git")
+  set(DCMTK_GIT_REPOSITORY "http://git.dcmtk.org/dcmtk.git")
   set(DCMTK_GIT_TAG GIT_TAG ab844899a92f46e2d880c38c85ce098933533aef)
 
   set(DCMTK_EP_FLAGS

@@ -28,6 +28,10 @@ die() {
   exit 1
 }
 
+egrep-q() {
+  egrep "$@" >/dev/null 2>/dev/null
+}
+
 # Make sure we are inside the repository.
 cd "$(echo "$0"|sed 's/[^/]*$//')"/..
 
@@ -80,8 +84,8 @@ echo -e "Git version $git_version is OK.\n"
 
 # add an "upstream" remote to make easier to maintain a fork outside of itk.org,
 # with an origin which is not itk.org
-if [ "`git config remote.origin.url`" != "git://itk.org/ITK.git" ]; then
-  echo "We advise setting git://itk.org/ITK.git as your origin.
+if ! git config remote.origin.url | egrep-q "://itk.org/ITK.git"; then
+  echo "We advise setting http://itk.org/ITK.git as your origin.
 
 If you choose not to do that, then other instructions will not work as expected."
 
@@ -92,13 +96,13 @@ If you choose not to do that, then other instructions will not work as expected.
 
 Please run the following to correct the origin url:
 
-git remote set-url origin git://itk.org/ITK.git
+git remote set-url origin http://itk.org/ITK.git
 "
     exit 1
   else
     echo "Setting up upstream remote to the itk.org repository..."
     if ! git config remote.upstream.url > /dev/null ; then
-      git remote add upstream git://itk.org/ITK.git
+      git remote add upstream http://itk.org/ITK.git
       git remote set-url --push upstream git@itk.org:ITK.git
       echo "Done"
     else

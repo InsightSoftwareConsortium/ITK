@@ -39,7 +39,7 @@ if git config remote.stage.url >/dev/null; then
   echo "Topic stage remote was already configured."
 else
   echo "Configuring the topic stage remote..."
-  git remote add stage git://itk.org/stage/ITK.git || \
+  git remote add stage http://itk.org/stage/ITK.git || \
     die "Could not add the topic stage remote."
   git config remote.stage.pushurl git@itk.org:stage/ITK.git
 fi
@@ -48,7 +48,7 @@ read -ep "Do you want to test push access itk.org? [y/N]: " access
 if [ "$access" == "y" ] || [ "$access" == "Y" ]; then
 
   echo "Configuring push urls..."
-  if [ "`git config remote.origin.url`" == "git://itk.org/ITK.git" ]; then
+  if ! git config remote.origin.url | egrep-q "://itk.org/ITK.git"; then
     git config remote.origin.pushurl git@itk.org:ITK.git
   fi
 
