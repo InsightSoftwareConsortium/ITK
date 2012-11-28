@@ -350,7 +350,7 @@ itk_add_test(NAME itkSampleToHistogramFilterTest2
 itk_add_test(NAME itkSampleToHistogramFilterTest3
       COMMAND ITKStatisticsTestDriver itkSampleToHistogramFilterTest3)
 # There is a bug in VS2008, Release build that causes this test to fail.
-if(NOT "${CMAKE_CXX_COMPILER}" STREQUAL "cl")
+if(NOT MSVC90)
 itk_add_test(NAME itkSampleToHistogramFilterTest4
       COMMAND ITKStatisticsTestDriver itkSampleToHistogramFilterTest4)
 endif()
