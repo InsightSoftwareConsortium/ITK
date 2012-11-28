@@ -247,7 +247,13 @@ TimeVaryingVelocityFieldIntegrationImageFilter
 
   RealType intervalTimePoint = ( timePoint + 1.0 ) / static_cast<RealType>( this->m_NumberOfTimePoints );
 
-  PointType spatialPoint = startingSpatialPoint + displacement;
+  /** Windows not registering + operation so use a loop explicitly */
+  PointType spatialPoint = startingSpatialPoint;
+  for( unsigned int d = 0; d < InputImageDimension; d++ )
+    {
+    spatialPoint[d] += displacement[d];
+    }
+
   for( unsigned int n = 0; n < this->m_NumberOfIntegrationSteps; n++ )
     {
     typename TimeVaryingVelocityFieldType::PointType x1;
