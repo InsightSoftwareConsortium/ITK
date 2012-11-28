@@ -5,7 +5,7 @@ Project(WindowsDCMTK)
 
 include(ExternalProject)
 
-set(DCMTK_GIT_REPOSITORY "git://git.dcmtk.org/dcmtk.git")
+set(DCMTK_GIT_REPOSITORY "http://git.dcmtk.org/dcmtk.git")
 set(DCMTK_GIT_TAG GIT_TAG ae6c35ba5f7c8d0dd06a2eb36714e47badf91f1f)
 
 if(MSVC)
