@@ -46,7 +46,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(DCMTKImageIO, Superclass);
+  itkTypeMacro(DCMTKImageIO, ImageIOBase);
 
   /** */
   void SetDicomImagePointer( DicomImage* UserProvided)
