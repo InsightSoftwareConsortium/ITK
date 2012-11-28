@@ -278,7 +278,7 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
       typedef ResampleImageFilter<MovingImageType, MovingImageType> MovingResamplerType;
       typename MovingResamplerType::Pointer movingResampler = MovingResamplerType::New();
       movingResampler->SetTransform( movingTransform );
-      movingResampler->SetInput( this->m_MovingSmoothImages[n] );
+      movingResampler->SetInput( movingImages[n] );
       movingResampler->SetSize( virtualDomainImage->GetRequestedRegion().GetSize() );
       movingResampler->SetOutputOrigin( virtualDomainImage->GetOrigin() );
       movingResampler->SetOutputSpacing( virtualDomainImage->GetSpacing() );
@@ -289,7 +289,7 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
       typedef ResampleImageFilter<FixedImageType, FixedImageType> FixedResamplerType;
       typename FixedResamplerType::Pointer fixedResampler = FixedResamplerType::New();
       fixedResampler->SetTransform( fixedTransform );
-      fixedResampler->SetInput( this->m_FixedSmoothImages[n] );
+      fixedResampler->SetInput( fixedImages[n] );
       fixedResampler->SetSize( virtualDomainImage->GetRequestedRegion().GetSize() );
       fixedResampler->SetOutputOrigin( virtualDomainImage->GetOrigin() );
       fixedResampler->SetOutputSpacing( virtualDomainImage->GetSpacing() );
