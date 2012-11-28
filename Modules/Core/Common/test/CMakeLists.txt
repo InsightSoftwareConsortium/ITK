@@ -410,6 +410,7 @@ itk_add_test(NAME itkConstantBoundaryConditionTest COMMAND ITKCommon2TestDriver 
    itkMemoryProbesCollecterBaseTest)
 if( "${ITK_COMPUTER_MEMORY_SIZE}" GREATER 4 )
   itk_add_test(NAME itkImageFillBufferTest4.1 COMMAND ITKCommon2TestDriver itkImageFillBufferTest 4.1)
+  set_tests_properties( itkImageFillBufferTest4.1 PROPERTIES RESOURCE_LOCK MEMORY_SIZE )
 endif()
 
 itk_add_test(NAME itkImageAlgorithmCopyTest COMMAND ITKCommon2TestDriver itkImageAlgorithmCopyTest )
