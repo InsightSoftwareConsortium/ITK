@@ -162,4 +162,12 @@ MetaDataDictionary
 {
   return m_Dictionary->find(key);
 }
+
+void
+MetaDataDictionary
+::Clear()
+{
+  this->m_Dictionary->clear();
+}
+
 } // namespace

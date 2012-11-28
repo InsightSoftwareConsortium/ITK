@@ -745,7 +745,8 @@ HDF5ImageIO
     //
     // read out metadata
     MetaDataDictionary & metaDict = this->GetMetaDataDictionary();
-
+    // Necessary to clear dict if ImageIO object is re-used
+    metaDict.Clear();
     std::string MetaDataGroupName(groupName);
     MetaDataGroupName += MetaDataName;
     MetaDataGroupName += "/";

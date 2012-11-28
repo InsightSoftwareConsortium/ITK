@@ -3,6 +3,7 @@ set(ITKIOGDCMTests
 itkGDCMImageIOTest.cxx
 itkGDCMImageIOTest2.cxx
 itkGDCMSeriesReadImageWrite.cxx
+itkGDCMSeriesMissingDicomTagTest.cxx
 itkGDCMSeriesStreamReadImageWrite.cxx
 itkGDCMImagePositionPatientTest.cxx
 )
@@ -52,3 +53,12 @@ set_property(TEST itkGDCMSeriesStreamReadImageWrite2 APPEND PROPERTY DEPENDS ITK
 itk_add_test(NAME itkGDCMImagePositionPatientTest
       COMMAND ITKIOGDCMTestDriver itkGDCMImagePositionPatientTest
               ${ITK_TEST_OUTPUT_DIR})
+
+ExternalData_expand_arguments(ITKData VAR_IMAGE0075_2 DATA{${ITK_DATA_ROOT}/Input/DicomSeries2/Image0075.dcm})
+ExternalData_expand_arguments(ITKData VAR_IMAGE0076_2 DATA{${ITK_DATA_ROOT}/Input/DicomSeries2/Image0076-missingTag.dcm})
+get_filename_component(DICOMSERIES2_DIR ${VAR_IMAGE0075_2} PATH)
+
+itk_add_test(NAME itkGDCMSeriesMissingDicomTagTest
+  COMMAND ITKIOGDCMTestDriver itkGDCMSeriesMissingDicomTagTest ${DICOMSERIES2_DIR})
+
+set_property(TEST itkGDCMSeriesMissingDicomTagTest APPEND PROPERTY DEPENDS ITKData)

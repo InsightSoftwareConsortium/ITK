@@ -110,6 +110,8 @@ public:
   ConstIterator  Find(const std::string & key) const;
 
 #endif
+  /** remove all MetaObjects from dictionary */
+  void Clear();
 
 private:
   MetaDataDictionaryMapType *m_Dictionary;

@@ -552,6 +552,8 @@ void NrrdImageIO::ReadImageInformation()
     char *               keyPtr = NULL;
     char *               valPtr = NULL;
     MetaDataDictionary & thisDic = this->GetMetaDataDictionary();
+    // Necessary to clear dict if ImageIO object is re-used
+    thisDic.Clear();
     std::string          classname( this->GetNameOfClass() );
     EncapsulateMetaData< std::string >(thisDic, ITK_InputFilterName, classname);
     for ( unsigned int kvpi = 0; kvpi < nrrdKeyValueSize(nrrd); kvpi++ )

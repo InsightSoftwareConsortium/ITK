@@ -453,6 +453,10 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream & file)
   //Now copying the gdcm dictionary to the itk dictionary:
   MetaDataDictionary & dico = this->GetMetaDataDictionary();
 
+  // in the case of re-use by ImageSeriesReader, clear the dictionary
+  // before populating it.
+  dico.Clear();
+
   gdcm::StringFilter sf;
   sf.SetFile(f);
   gdcm::DataSet::ConstIterator it = ds.Begin();
