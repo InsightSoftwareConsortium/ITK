@@ -1,0 +1,182 @@
+#
+# This Valgrind suppression file has been developed for:
+# Red Hat Enterprise Linux Server release 6.3 (Santiago)
+# gcc (GCC) 4.4.6 20120305 (Red Hat 4.4.6-4)
+#
+# And should be maintained for The RHEL 6 linux distribution only.
+#
+{
+   NRDD String SSE42 1
+   Memcheck:Addr8
+   fun:__strspn_sse42
+   fun:itk_airStrtok
+   ...
+   fun:itk_nrrdRead
+}
+{
+   NRDD String SSE42 2
+   Memcheck:Value8
+   fun:__strspn_sse42
+   fun:itk_airStrtok
+
+   ...
+   fun:itk_nrrdRead
+}
+{
+   NRDD String SSE42 3
+   Memcheck:Cond
+   fun:__strspn_sse42
+   fun:itk_airStrtok
+   ...
+   fun:itk_nrrdRead
+}
+{
+   NRDD String 1
+   Memcheck:Value8
+   fun:itk_airStrtok
+   fun:itk_airStrntok
+   fun:itk__nrrdSpaceVectorParse
+   ...
+   fun:itk_nrrdRead
+}
+{
+   NRDD String 2
+   Memcheck:Value8
+   fun:strcspn
+   fun:itk_airStrtok
+   fun:itk_airStrntok
+   fun:itk__nrrdSpaceVectorParse
+   ...
+   fun:itk_nrrdRead
+}
+{
+   NRDD String 3
+   Memcheck:Cond
+   fun:itk_airStrntok
+   fun:itk__nrrdSpaceVectorParse
+   ...
+   fun:itk_nrrdRead
+}
+{
+   NRDD String 4
+   Memcheck:Cond
+   fun:itk_airStrlen
+   fun:itk_airStrtok
+   fun:itk_airStrntok
+   fun:itk__nrrdSpaceVectorParse
+   ...
+   fun:itk_nrrdRead
+}
+{
+   NRDD String 5
+   Memcheck:Value8
+   fun:strlen
+   fun:itk_airStrlen
+   fun:itk_airStrtok
+   fun:itk_airStrntok
+   fun:itk__nrrdSpaceVectorParse
+   ...
+   fun:itk_nrrdRead
+}
+{
+   NRRD Direction 1
+   Memcheck:Cond
+   ...
+   fun:_nrrdReadNrrdParse_space_directions
+   fun:_nrrdFormatNRRD_read
+   fun:itk__nrrdRead
+   fun:itk_nrrdRead
+}
+{
+   NRRD Direction 2
+   Memcheck:Value8
+   ...
+   fun:_nrrdReadNrrdParse_space_directions
+   fun:_nrrdFormatNRRD_read
+   fun:itk__nrrdRead
+   fun:itk_nrrdRead
+}
+{
+   NRRD Dimension 1
+   Memcheck:Cond
+   ...
+   fun:_nrrdReadNrrdParse_dimension
+   fun:_nrrdFormatNRRD_read
+   fun:itk__nrrdRead
+   fun:itk_nrrdRead
+}
+{
+   NRRD Dimension 2
+   Memcheck:Value8
+   ...
+   fun:_nrrdReadNrrdParse_dimension
+   fun:_nrrdFormatNRRD_read
+   fun:itk__nrrdRead
+   fun:itk_nrrdRead
+}
+{
+   NRRD ReadNrrdParseField
+   Memcheck:Cond
+   fun:__strspn_sse42
+   fun:itk__nrrdReadNrrdParseField
+   ...
+   fun:itk__nrrdRead
+   fun:itk_nrrdRead
+}
+{
+   NRRD ReadNrrdParse 1
+   Memcheck:Cond
+   ...
+   fun:itk_airEnumVal
+   fun:_nrrdReadNrrdParse_type
+   ...
+   fun:itk__nrrdRead
+   fun:itk_nrrdRead
+}
+{
+   NRRD ReadNrrdParse 2
+   Memcheck:Value8
+   ...
+   fun:itk_airStrdup
+   fun:itk_airEnumVal
+   fun:_nrrdReadNrrdParse_type
+   ...
+   fun:itk__nrrdRead
+   fun:itk_nrrdRead
+}
+{
+   NRRD EncodingAscii 1
+   Memcheck:Cond
+   fun:__strspn_sse42
+   fun:_nrrdEncodingAscii_read
+   ...
+   fun:itk__nrrdRead
+   fun:itk_nrrdRead
+}
+{
+   NRRD EncodingAscii 2
+   Memcheck:Cond
+   ...
+   fun:itk_airSingleSscanf
+   fun:_nrrdEncodingAscii_read
+   ...
+   fun:itk_nrrdRead
+   fun:itk_nrrdLoad
+}
+{
+   NRRD EncodingAscii 3
+   Memcheck:Value8
+   ...
+   fun:itk_airSingleSscanf
+   fun:_nrrdEncodingAscii_read
+   ...
+   fun:itk_nrrdRead
+   fun:itk_nrrdLoad
+}
+{
+   dlopen
+   Memcheck:Leak
+   fun:calloc
+   fun:_dlerror_run
+   fun:dlopen@@GLIBC_2.?.?
+}
