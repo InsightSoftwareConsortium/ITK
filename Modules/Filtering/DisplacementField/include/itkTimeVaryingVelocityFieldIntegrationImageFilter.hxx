@@ -249,7 +249,7 @@ TimeVaryingVelocityFieldIntegrationImageFilter
 
   /** Windows not registering + operation so use a loop explicitly */
   PointType spatialPoint = startingSpatialPoint;
-  for( unsigned int d = 0; d < InputImageDimension; d++ )
+  for( unsigned int d = 0; d < OutputImageDimension; d++ )
     {
     spatialPoint[d] += displacement[d];
     }
