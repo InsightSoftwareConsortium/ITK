@@ -110,8 +110,6 @@ public:
   typedef QuadEdgeMeshBoundaryEdgesMeshFunction< InputMeshType > BoundaryRepresentativeEdgesType;
   typedef typename BoundaryRepresentativeEdgesType::Pointer      BoundaryRepresentativeEdgesPointer;
 
-public:
-
   enum BorderTransformType {
     SQUARE_BORDER_TRANSFORM = 0,
     DISK_BORDER_TRANSFORM
@@ -138,11 +136,9 @@ public:
   InputVectorPointType GetBorder();
 
 protected:
-  /** \brief Constructor */
   BorderQuadEdgeMeshFilter();
 
-  /** \brief Destructor */
-  ~BorderQuadEdgeMeshFilter() {}
+  virtual ~BorderQuadEdgeMeshFilter() {}
 
   void PrintSelf(std::ostream & os, Indent indent) const;
 
@@ -172,13 +168,13 @@ protected:
   void ArcLengthSquareTransform();
 
 private:
-  /** Not implemented */
-  BorderQuadEdgeMeshFilter(const Self &);
-
-  /** Not implemented */
-  void operator=(const Self &);
+  BorderQuadEdgeMeshFilter(const Self &); //purposely not implemented
+  void operator=(const Self &); //purposely ont implemented
 };
-}
+} // end namespace itk
+
+#ifndef ITK_MANUAL_INSTANTIATION
 #include "itkBorderQuadEdgeMeshFilter.hxx"
+#endif
 
 #endif
