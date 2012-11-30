@@ -66,7 +66,7 @@ class vnl_lsqr
   double get_resid_norm_estimate() const { return resid_norm_estimate_; }
 
   //: Get the return code for the last minimization
-  inline int return_code() const { return return_code_; }
+  inline long return_code() const { return return_code_; }
 
  protected:
   vnl_linear_system* ls_;

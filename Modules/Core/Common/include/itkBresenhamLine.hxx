@@ -69,7 +69,7 @@ typename BresenhamLine< VDimension >::OffsetArray BresenhamLine< VDimension >
   unsigned int   maxDistanceDimension = 0;
   for ( unsigned i = 0; i < VDimension; i++ )
     {
-    IndexValueType distance = vnl_math_abs(LastIndex[i]);
+    IndexValueType distance = static_cast<long>(vnl_math_abs(LastIndex[i]));
     if ( distance > maxDistance )
       {
       maxDistance = distance;
@@ -124,7 +124,7 @@ typename BresenhamLine< VDimension >::IndexArray BresenhamLine< VDimension >
     point1[i] = p1[i];
     }
 
-  const unsigned int distance = itk::Math::RoundHalfIntegerToEven<unsigned int, float>( point0.EuclideanDistanceTo(point1) );
+  const unsigned int distance = itk::Math::RoundHalfIntegerToEven<unsigned int, double>( point0.EuclideanDistanceTo(point1) );
   OffsetArray offsets = this->BuildLine(point1-point0, distance);
 
   IndexArray indices(offsets.size());

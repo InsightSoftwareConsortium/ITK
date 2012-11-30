@@ -135,7 +135,7 @@ StreamingImageFilter< TInputImage, TOutputImage >
   /**
    * Make sure we have the necessary inputs
    */
-  unsigned int ninputs = this->GetNumberOfValidRequiredInputs();
+  const itk::ProcessObject::DataObjectPointerArraySizeType &ninputs = this->GetNumberOfValidRequiredInputs();
   if ( ninputs < this->GetNumberOfRequiredInputs() )
     {
     itkExceptionMacro(
@@ -186,9 +186,9 @@ StreamingImageFilter< TInputImage, TOutputImage >
    * Loop over the number of pieces, execute the upstream pipeline on each
    * piece, and copy the results into the output image.
    */
-  unsigned int         piece;
   InputImageRegionType streamRegion;
-  for ( piece = 0;
+  unsigned int         piece=0;
+  for ( ;
         piece < numDivisions && !this->GetAbortGenerateData();
         piece++ )
     {
@@ -206,7 +206,7 @@ StreamingImageFilter< TInputImage, TOutputImage >
     ImageAlgorithm::Copy( inputPtr, outputPtr, streamRegion, streamRegion );
 
 
-    this->UpdateProgress( (float)piece / numDivisions );
+    this->UpdateProgress( static_cast<float>(piece) / static_cast<float>(numDivisions) );
     }
 
   /**

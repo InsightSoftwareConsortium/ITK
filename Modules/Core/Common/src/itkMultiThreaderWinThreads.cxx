@@ -113,7 +113,7 @@ void MultiThreader::MultipleMethodExecute()
     }
 }
 
-int MultiThreader::SpawnThread(ThreadFunctionType f, void *UserData)
+ThreadIdType MultiThreader::SpawnThread(ThreadFunctionType f, void *UserData)
 {
   ThreadIdType id = 0;
 

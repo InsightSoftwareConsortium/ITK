@@ -676,7 +676,7 @@ void GDCMImageIO::Write(const void *buffer)
 #if GDCM_MAJOR_VERSION == 2 && GDCM_MINOR_VERSION <= 12
           // This will not work in the vast majority of cases but to get at
           // least something working in GDCM 2.0.12
-          de.SetByteValue( value.c_str(), value.size() );
+          de.SetByteValue( value.c_str(), static_cast<uint32_t>(value.size()) );
 #else
           std::string si = sf.FromString( tag, value.c_str(), value.size() );
           de.SetByteValue( si.c_str(), si.size() );
@@ -732,8 +732,8 @@ void GDCMImageIO::Write(const void *buffer)
   gdcm::SmartPointer< gdcm::Image > simage = new gdcm::Image;
   gdcm::Image &                     image = *simage;
   image.SetNumberOfDimensions(2);   // good default
-  image.SetDimension(0, m_Dimensions[0]);
-  image.SetDimension(1, m_Dimensions[1]);
+  image.SetDimension(0, static_cast<unsigned int>(m_Dimensions[0]));
+  image.SetDimension(1, static_cast<unsigned int>(m_Dimensions[1]));
   //image.SetDimension(2, m_Dimensions[2] );
   image.SetSpacing(0, m_Spacing[0]);
   image.SetSpacing(1, m_Spacing[1]);
@@ -770,7 +770,7 @@ void GDCMImageIO::Write(const void *buffer)
     {
     // resize num of dim to 3:
     image.SetNumberOfDimensions(3);
-    image.SetDimension(2, m_Dimensions[2]);
+    image.SetDimension(2, static_cast<unsigned int>(m_Dimensions[2]));
     }
 
   // Do the direction now:
@@ -883,7 +883,7 @@ void GDCMImageIO::Write(const void *buffer)
     {
     itkExceptionMacro(<< "DICOM does not support this component type");
     }
-  pixeltype.SetSamplesPerPixel( this->GetNumberOfComponents() );
+  pixeltype.SetSamplesPerPixel( static_cast<short unsigned int>( this->GetNumberOfComponents() ) );
 
   // Compute the outpixeltype
   gdcm::PixelFormat outpixeltype = gdcm::PixelFormat::UNKNOWN;
@@ -891,10 +891,10 @@ void GDCMImageIO::Write(const void *buffer)
     {
     if ( bitsAllocated != "" && bitsStored != "" && highBit != "" && pixelRep != "" )
       {
-      outpixeltype.SetBitsAllocated( atoi( bitsAllocated.c_str() ) );
-      outpixeltype.SetBitsStored( atoi( bitsStored.c_str() ) );
-      outpixeltype.SetHighBit( atoi( highBit.c_str() ) );
-      outpixeltype.SetPixelRepresentation( atoi( pixelRep.c_str() ) );
+      outpixeltype.SetBitsAllocated( static_cast<unsigned short int>(atoi( bitsAllocated.c_str() ) ));
+      outpixeltype.SetBitsStored( static_cast<unsigned short int>(atoi( bitsStored.c_str() )) );
+      outpixeltype.SetHighBit( static_cast<unsigned short int>(atoi( highBit.c_str()) ) );
+      outpixeltype.SetPixelRepresentation( static_cast<unsigned short int>(atoi( pixelRep.c_str() )) );
       if ( this->GetNumberOfComponents() != 1 )
         {
         itkExceptionMacro(<< "Sorry Dave I can't do that");
@@ -932,19 +932,19 @@ void GDCMImageIO::Write(const void *buffer)
     ir.SetIntercept(m_RescaleIntercept);
     ir.SetSlope(m_RescaleSlope);
     ir.SetPixelFormat(pixeltype);
-    ir.SetMinMaxForPixelType( outpixeltype.GetMin(), outpixeltype.GetMax() );
+    ir.SetMinMaxForPixelType( static_cast<double>(outpixeltype.GetMin()), static_cast<double>(outpixeltype.GetMax()) );
     image.SetIntercept(m_RescaleIntercept);
     image.SetSlope(m_RescaleSlope);
     char *copy = new char[len];
     ir.InverseRescale(copy, (char *)buffer, numberOfBytes);
-    pixeldata.SetByteValue(copy, len);
+    pixeldata.SetByteValue(copy, static_cast<uint32_t>(len));
     delete[] copy;
     }
   else
     {
     itkAssertInDebugAndIgnoreInReleaseMacro(len == numberOfBytes);
     // only do a straight copy:
-    pixeldata.SetByteValue( (char *)buffer, numberOfBytes );
+    pixeldata.SetByteValue( (char *)buffer, static_cast<unsigned int>(numberOfBytes) );
     }
   image.SetDataElement(pixeldata);
 
@@ -995,21 +995,21 @@ void GDCMImageIO::Write(const void *buffer)
     const char *studyuid = m_StudyInstanceUID.c_str();
       {
       gdcm::DataElement de( gdcm::Tag(0x0020, 0x000d) ); // Study
-      de.SetByteValue( studyuid, strlen(studyuid) );
+      de.SetByteValue( studyuid, static_cast<unsigned int>(strlen(studyuid)) );
       de.SetVR( gdcm::Attribute< 0x0020, 0x000d >::GetVR() );
       header.Insert(de);
       }
     const char *seriesuid = m_SeriesInstanceUID.c_str();
       {
       gdcm::DataElement de( gdcm::Tag(0x0020, 0x000e) ); // Series
-      de.SetByteValue( seriesuid, strlen(seriesuid) );
+      de.SetByteValue( seriesuid, static_cast<unsigned int>(strlen(seriesuid)) );
       de.SetVR( gdcm::Attribute< 0x0020, 0x000e >::GetVR() );
       header.Insert(de);
       }
     const char *frameofreferenceuid = m_FrameOfReferenceInstanceUID.c_str();
       {
       gdcm::DataElement de( gdcm::Tag(0x0020, 0x0052) ); // Frame of Reference
-      de.SetByteValue( frameofreferenceuid, strlen(frameofreferenceuid) );
+      de.SetByteValue( frameofreferenceuid, static_cast<unsigned int>(strlen( frameofreferenceuid)) );
       de.SetVR( gdcm::Attribute< 0x0020, 0x0052 >::GetVR() );
       header.Insert(de);
       }

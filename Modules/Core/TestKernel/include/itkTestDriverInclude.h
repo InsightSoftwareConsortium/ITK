@@ -40,6 +40,7 @@
 
 #include "itkWin32Header.h"
 #include <map>
+#include <algorithm>
 #include <string>
 #include <iostream>
 #include <fstream>
@@ -187,6 +188,10 @@ void usage()
   std::cerr << std::endl;
 }
 
+static char my_to_lower(const char c)
+{
+  return static_cast<char>( ::tolower(c));
+}
 
 int ProcessArguments(int *ac, ArgumentStringType *av, ProcessedOutputType * processedOutput = NULL )
 {
@@ -231,10 +236,7 @@ int ProcessArguments(int *ac, ArgumentStringType *av, ProcessedOutputType * proc
       std::string md5hash0 =  (*av)[i + 2];
 
      // convert hash to all lowercase letters
-     for( std::string::iterator iter = md5hash0.begin(); iter != md5hash0.end(); ++iter )
-       {
-       *iter = tolower(*iter);
-       }
+     std::transform(md5hash0.begin(), md5hash0.end(), md5hash0.begin(), my_to_lower );
 
      // chech that the hash is of expected format
      if ( md5hash0.size() != 32 ||
@@ -255,10 +257,7 @@ int ProcessArguments(int *ac, ArgumentStringType *av, ProcessedOutputType * proc
        std::string md5hashN = (*av)[i];
 
        // convert hash to all lowercase letters
-       for( std::string::iterator iter = md5hashN.begin(); iter != md5hashN.end(); ++iter )
-         {
-         *iter = tolower(*iter);
-         }
+       std::transform(md5hashN.begin(), md5hashN.end(), md5hashN.begin(), my_to_lower );
 
        // check if the next argument is a hash
        if ( md5hashN.size() != 32 ||
@@ -700,7 +699,7 @@ int RegressionTestImage(const char *testImageFilename,
     std::cout << testName.str();
     std::cout << "</DartMeasurementFile>" << std::endl;
     }
-  return ( status > numberOfPixelsTolerance ) ? status : 0;
+  return ( status > numberOfPixelsTolerance ) ? static_cast<int>(status) : 0;
 }
 
 template< typename TImageType >

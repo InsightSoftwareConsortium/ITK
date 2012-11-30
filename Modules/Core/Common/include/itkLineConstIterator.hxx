@@ -26,7 +26,6 @@ template< class TImage >
 LineConstIterator< TImage >
 ::LineConstIterator(const ImageType *imagePtr, const IndexType & firstIndex, const IndexType & lastIndex)
 {
-  unsigned int i;
 
   m_Image = imagePtr;
 
@@ -34,14 +33,14 @@ LineConstIterator< TImage >
   m_LastIndex = lastIndex;
 
   IndexType difference;
-  for ( i = 0; i < TImage::ImageDimension; ++i )
+  for ( unsigned int i = 0; i < TImage::ImageDimension; ++i )
     {
     difference[i] = lastIndex[i] - firstIndex[i];
     }
 
   IndexValueType maxDistance = 0;
-  int            maxDistanceDimension = 0;
-  for ( i = 0; i < TImage::ImageDimension; ++i )
+  unsigned int maxDistanceDimension = 0;
+  for ( unsigned int i = 0; i < TImage::ImageDimension; ++i )
     {
     IndexValueType distance = vnl_math_abs(difference[i]);
     if ( distance > maxDistance )
@@ -67,7 +66,7 @@ LineConstIterator< TImage >
   // to be incremented and keep the remaining indices to be same as
   // LastIndex. Then in the test for IsAtEnd, we just check the
   // MainDirection component of the index.
-  for ( i = 0; i < TImage::ImageDimension; ++i )
+  for ( unsigned int i = 0; i < TImage::ImageDimension; ++i )
     {
     if ( i == m_MainDirection )
       {

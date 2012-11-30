@@ -116,7 +116,7 @@ public:
    * SetDimensions() is used prior to writing the data. */
   virtual void SetDimensions(unsigned int i, unsigned int dim);
 
-  virtual unsigned int GetDimensions(unsigned int i) const
+  virtual itk::SizeValueType GetDimensions(unsigned int i) const
   { return m_Dimensions[i]; }
 
   /** Set/Get the image origin on a axis-by-axis basis. The SetOrigin() method

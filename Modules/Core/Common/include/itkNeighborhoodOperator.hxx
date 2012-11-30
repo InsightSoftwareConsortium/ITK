@@ -111,18 +111,14 @@ void
 NeighborhoodOperator< TPixel, VDimension, TAllocator >
 ::FillCenteredDirectional(const CoefficientVector & coeff)
 {
-  unsigned int                      i;
-  unsigned long                     start;
-  std::slice *                      temp_slice;
-  CoefficientVector::const_iterator it;
-
   // Initialize all coefficients to zero
   this->InitializeToZero();
 
   // Collect slice information
+  unsigned long start=0;
   const unsigned long stride = this->GetStride(m_Direction);
   const unsigned long size   = this->GetSize(m_Direction);
-  for ( i = 0, start = 0; i < VDimension; ++i )
+  for ( unsigned int i = 0; i < VDimension; ++i )
     {
     if ( i != m_Direction )
       {
@@ -134,6 +130,8 @@ NeighborhoodOperator< TPixel, VDimension, TAllocator >
   const int sizediff = ( (int)size - (int)coeff.size() ) >> 1;
 
   // Create a slice iterator centered in the neighborhood.
+  std::slice *                      temp_slice;
+  typename CoefficientVector::const_iterator it;
   if ( sizediff >= 0 )
     {
     temp_slice = new std::slice(start + sizediff * stride, coeff.size(),

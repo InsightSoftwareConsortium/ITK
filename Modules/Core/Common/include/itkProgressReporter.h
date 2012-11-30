@@ -82,7 +82,7 @@ public:
       if ( m_ThreadId == 0 )
         {
         m_Filter->UpdateProgress(
-          m_CurrentPixel * m_InverseNumberOfPixels * m_ProgressWeight + m_InitialProgress);
+          static_cast<float>(m_CurrentPixel) * m_InverseNumberOfPixels * m_ProgressWeight + m_InitialProgress);
         }
       // all threads needs to check the abort flag
       if ( m_Filter->GetAbortGenerateData() )

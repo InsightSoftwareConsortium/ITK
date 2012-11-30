@@ -44,15 +44,12 @@ void
 AnnulusOperator< TPixel, TDimension, TAllocator >
 ::Fill(const CoefficientVector & coeff)
 {
-  typename Superclass::CoefficientVector::const_iterator it;
-
-  std::slice *temp_slice;
-  temp_slice = new std::slice(0, coeff.size(), 1);
+  std::slice *temp_slice = new std::slice(0, coeff.size(), 1);
 
   typename Self::SliceIteratorType data(this, *temp_slice);
   delete temp_slice;
 
-  it = coeff.begin();
+  typename Superclass::CoefficientVector::const_iterator it = coeff.begin();
 
   // Copy the coefficients into the neighborhood
   for ( data = data.Begin(); data < data.End(); ++data, ++it )
@@ -112,8 +109,7 @@ AnnulusOperator< TPixel, TDimension, TAllocator >
   double       sumNotExteriorSq = 0.0;
   unsigned int countNotExterior = 0;
 
-  unsigned int w;
-  w = this->Size();
+  const typename SizeType::SizeValueType w = this->Size();
 
   std::vector< bool > outside(w);
   CoefficientVector   coeffP(w);
@@ -170,7 +166,7 @@ AnnulusOperator< TPixel, TDimension, TAllocator >
     double num = static_cast< double >( countNotExterior );
     double mean = sumNotExterior / num;
     double var = ( sumNotExteriorSq - ( sumNotExterior * sumNotExterior / num ) )
-                 / ( num - 1.0 );
+      / ( num - 1.0 );
     double std = vcl_sqrt(var);
 
     // convert std to a scaling factor k such that
@@ -196,6 +192,7 @@ AnnulusOperator< TPixel, TDimension, TAllocator >
 
   return coeffP;
 }
+
 } // namespace itk
 
 #endif

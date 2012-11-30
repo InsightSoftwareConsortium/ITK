@@ -269,12 +269,10 @@ void
 ByteSwapper< T >
 ::Swap2(void *pin)
 {
-  unsigned short h1, h2;
-  short *        p = reinterpret_cast< short * >( pin );
-
-  h1 = static_cast< unsigned short >( *p ) << 8;
-  h2 = static_cast< unsigned short >( *p ) >> 8;
-  *p = (short)h1 | h2;
+  unsigned short *      p = reinterpret_cast< unsigned short * >( pin );
+  const unsigned short h1 = (*p) << static_cast<short unsigned int>(8);
+  const unsigned short h2 = (*p) >> static_cast<short unsigned int>(8);
+  *p = h1 | h2;
 }
 
 // Swap bunch of bytes. Num is the number of two byte words to swap.
@@ -283,13 +281,10 @@ void
 ByteSwapper< T >
 ::Swap2Range(void *ptr, BufferSizeType num)
 {
-  char           one_byte;
-  char *         pos = reinterpret_cast< char * >( ptr );
-  BufferSizeType i;
-
-  for ( i = 0; i < num; i++ )
+  char * pos = reinterpret_cast< char * >( ptr );
+  for ( BufferSizeType i = 0; i < num; i++ )
     {
-    one_byte = pos[0];
+    const char one_byte = pos[0];
     pos[0] = pos[1];
     pos[1] = one_byte;
     pos = pos + 2;
@@ -302,31 +297,25 @@ void
 ByteSwapper< T >
 ::SwapWrite2Range(void *ptr, BufferSizeType num, OStreamType *fp)
 {
-  char           one_byte;
-  char *         pos;
-  BufferSizeType i;
-  char *         cpy;
   BufferSizeType chunkSize = 1000000;
-
   if ( num < chunkSize )
     {
     chunkSize = num;
     }
-  cpy = new char[chunkSize * 2];
-
+  char * cpy = new char[chunkSize * 2];
   while ( num )
     {
     memcpy(cpy, ptr, chunkSize * 2);
 
-    pos = cpy;
-    for ( i = 0; i < chunkSize; i++ )
+    char * pos = cpy;
+    for ( BufferSizeType i = 0; i < chunkSize; i++ )
       {
-      one_byte = pos[0];
+      const char one_byte = pos[0];
       pos[0] = pos[1];
       pos[1] = one_byte;
       pos = pos + 2;
       }
-    fp->write( (char *)cpy, 2 * chunkSize );
+    fp->write( (char *)cpy, static_cast<std::streamsize>(2 * chunkSize) );
     ptr = (char *)ptr + chunkSize * 2;
     num -= chunkSize;
     if ( num < chunkSize )
@@ -386,26 +375,22 @@ void
 ByteSwapper< T >
 ::SwapWrite4Range(void *ptr, BufferSizeType num, OStreamType *fp)
 {
-  char           one_byte;
-  char *         pos;
-  BufferSizeType i;
-  char *         cpy;
   BufferSizeType chunkSize = 1000000;
 
   if ( num < chunkSize )
     {
     chunkSize = num;
     }
-  cpy = new char[chunkSize * 4];
+  char * cpy = new char[chunkSize * 4];
 
   while ( num )
     {
     memcpy(cpy, ptr, chunkSize * 4);
 
-    pos = cpy;
-    for ( i = 0; i < chunkSize; i++ )
+    char * pos = cpy;
+    for ( BufferSizeType i = 0; i < chunkSize; i++ )
       {
-      one_byte = pos[0];
+      char one_byte = pos[0];
       pos[0] = pos[3];
       pos[3] = one_byte;
 
@@ -414,7 +399,7 @@ ByteSwapper< T >
       pos[2] = one_byte;
       pos = pos + 4;
       }
-    fp->write( (char *)cpy, 4 * chunkSize );
+    fp->write( (char *)cpy, static_cast<std::streamsize>(4 * chunkSize) );
     ptr  = (char *)ptr + chunkSize * 4;
     num -= chunkSize;
     if ( num < chunkSize )
@@ -490,26 +475,21 @@ void
 ByteSwapper< T >
 ::SwapWrite8Range(void *ptr, BufferSizeType num, OStreamType *fp)
 {
-  char           one_byte;
-  char *         pos;
-  BufferSizeType i;
-  char *         cpy;
   BufferSizeType chunkSize = 1000000;
-
   if ( num < chunkSize )
     {
     chunkSize = num;
     }
-  cpy = new char[chunkSize * 8];
+  char * cpy = new char[chunkSize * 8];
 
   while ( num )
     {
     memcpy(cpy, ptr, chunkSize * 8);
 
-    pos = cpy;
-    for ( i = 0; i < chunkSize; i++ )
+    char * pos = cpy;
+    for ( BufferSizeType i = 0; i < chunkSize; i++ )
       {
-      one_byte    = pos[0];
+      char one_byte = pos[0];
       pos[0] = pos[7];
       pos[7] = one_byte;
 
@@ -526,7 +506,7 @@ ByteSwapper< T >
       pos[4] = one_byte;
       pos = pos + 8;
       }
-    fp->write( (char *)cpy, 8 * chunkSize );
+    fp->write( (char *)cpy, static_cast<std::streamsize>(8 * chunkSize) );
     ptr  = (char *)ptr + chunkSize * 8;
     num -= chunkSize;
     if ( num < chunkSize )

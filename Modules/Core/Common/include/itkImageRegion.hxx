@@ -279,7 +279,7 @@ ImageRegion< VImageDimension >
 template< unsigned int VImageDimension >
 typename ImageRegion< VImageDimension >::SliceRegion
 ImageRegion< VImageDimension >
-::Slice(const unsigned long dim) const
+::Slice(const unsigned int dim) const
 {
   if ( dim >= VImageDimension )
     {

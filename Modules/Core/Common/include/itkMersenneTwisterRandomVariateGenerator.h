@@ -234,9 +234,9 @@ protected:
   /* Reload array with N new values */
   void reload();
 
-  IntegerType hiBit(const IntegerType & u) const { return u & 0x80000000UL; }
-  IntegerType loBit(const IntegerType & u) const { return u & 0x00000001UL; }
-  IntegerType loBits(const IntegerType & u) const { return u & 0x7fffffffUL; }
+  IntegerType hiBit(const IntegerType & u) const { return u & 0x80000000; }
+  IntegerType loBit(const IntegerType & u) const { return u & 0x00000001; }
+  IntegerType loBits(const IntegerType & u) const { return u & 0x7fffffff; }
   IntegerType mixBits(const IntegerType & u, const IntegerType & v) const
   {
     return hiBit(u) | loBits(v);
@@ -244,7 +244,7 @@ protected:
 
   IntegerType twist(const IntegerType & m, const IntegerType & s0, const IntegerType & s1) const
   {
-    return m ^ ( mixBits(s0, s1) >> 1 ) ^ ( -loBit(s1) & 0x9908b0dfUL );
+    return m ^ ( mixBits(s0, s1) >> 1 ) ^ ( -loBit(s1) & 0x9908b0df );
   }
 
   static IntegerType hash(vcl_time_t t, vcl_clock_t c);
@@ -414,8 +414,8 @@ MersenneTwisterRandomVariateGenerator::GetIntegerVariate()
   register IntegerType s1;
   s1 = *pNext++;
   s1 ^= ( s1 >> 11 );
-  s1 ^= ( s1 <<  7 ) & 0x9d2c5680UL;
-  s1 ^= ( s1 << 15 ) & 0xefc60000UL;
+  s1 ^= ( s1 <<  7 ) & 0x9d2c5680;
+  s1 ^= ( s1 << 15 ) & 0xefc60000;
   return ( s1 ^ ( s1 >> 18 ) );
 }
 

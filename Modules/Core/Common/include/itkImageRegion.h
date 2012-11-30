@@ -154,16 +154,16 @@ public:
 
   /** Convenience methods to get and set the size of the particular dimension i.
     */
-  void SetSize(unsigned long i, SizeValueType sze)
+  void SetSize(unsigned int i, SizeValueType sze)
   { m_Size[i] = sze; }
-  SizeValueType GetSize(unsigned long i) const
+  SizeValueType GetSize(unsigned int i) const
   { return m_Size[i]; }
 
   /** Convenience methods to get and set the index of the particular dimension
     i. */
-  void SetIndex(unsigned long i, IndexValueType sze)
+  void SetIndex(unsigned int i, IndexValueType sze)
   { m_Index[i] = sze; }
-  IndexValueType GetIndex(unsigned long i) const
+  IndexValueType GetIndex(unsigned int i) const
   { return m_Index[i]; }
 
   /** Get index defining the upper corner of the region. */
@@ -305,7 +305,7 @@ public:
   /** Slice a region, producing a region that is one dimension lower
    * than the current region. Parameter "dim" specifies which dimension
    * to remove. */
-  SliceRegion Slice(const unsigned long dim) const;
+  SliceRegion Slice(const unsigned int dim) const;
 
 protected:
   /** Methods invoked by Print() to print information about the object

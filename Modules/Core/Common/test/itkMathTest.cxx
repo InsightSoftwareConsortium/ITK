@@ -395,10 +395,10 @@ int main( int, char *[] )
   // directly.  As a result of our naughtiness, the maxAbsoluteDifference
   // tolerance has to be increased for the comparison to work.  Now our
   // comparison is dependent on the magnitude of the values.
-  floatRepresentationdx2.asFloat = 67329.234 - 67329.242;
+  floatRepresentationdx2.asFloat = 67329.234f - 67329.242f;
   std::cout << "floatRepresentationdx2.asFloat: " << floatRepresentationdx2.asFloat << std::endl;
   std::cout << "floatRepresentationdx2.asInt:   " << floatRepresentationdx2.asInt << std::endl;
-  if( itk::Math::FloatAlmostEqual( floatRepresentationdx1.asFloat, floatRepresentationdx2.asFloat, 4, 0.1l) )
+  if( itk::Math::FloatAlmostEqual( floatRepresentationdx1.asFloat, floatRepresentationdx2.asFloat, 4, 0.1f ) )
     {
     std::cout << "floatRepresentationdx1 is almost equal to floatRepresentationdx2\n" << std::endl;
     }
@@ -408,10 +408,10 @@ int main( int, char *[] )
     return EXIT_FAILURE;
     }
 
-  floatRepresentationdx1.asFloat = 1e-8;
+  floatRepresentationdx1.asFloat = 1e-8f;
   std::cout << "floatRepresentationdx1.asFloat: " << floatRepresentationdx1.asFloat << std::endl;
   std::cout << "floatRepresentationdx1.asInt:   " << floatRepresentationdx1.asInt << std::endl;
-  floatRepresentationdx2.asFloat = -1e-8;
+  floatRepresentationdx2.asFloat = -1e-8f;
   std::cout << "floatRepresentationdx2.asFloat: " << floatRepresentationdx2.asFloat << std::endl;
   std::cout << "floatRepresentationdx2.asInt:   " << floatRepresentationdx2.asInt << std::endl;
   std::cout << "Distance: " << itk::Math::FloatDifferenceULP( floatRepresentationdx1.asFloat, floatRepresentationdx2.asFloat ) << std::endl;
@@ -426,10 +426,10 @@ int main( int, char *[] )
     std::cout << "Got the expected FloatDifferenceULP sign.\n" << std::endl;
     }
 
-  floatRepresentationdx1.asFloat = -1e-8;
+  floatRepresentationdx1.asFloat = -1e-8f;
   std::cout << "floatRepresentationdx1.asFloat: " << floatRepresentationdx1.asFloat << std::endl;
   std::cout << "floatRepresentationdx1.asInt:   " << floatRepresentationdx1.asInt << std::endl;
-  floatRepresentationdx2.asFloat = 1e-8;
+  floatRepresentationdx2.asFloat = 1e-8f;
   std::cout << "floatRepresentationdx2.asFloat: " << floatRepresentationdx2.asFloat << std::endl;
   std::cout << "floatRepresentationdx2.asInt:   " << floatRepresentationdx2.asInt << std::endl;
   std::cout << "Distance: " << itk::Math::FloatDifferenceULP( floatRepresentationdx1.asFloat, floatRepresentationdx2.asFloat ) << std::endl;

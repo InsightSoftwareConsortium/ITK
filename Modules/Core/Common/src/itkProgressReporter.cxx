@@ -31,20 +31,10 @@ ProgressReporter::ProgressReporter(ProcessObject *filter, ThreadIdType threadId,
   m_InitialProgress(initialProgress),
   m_ProgressWeight(progressWeight)
 {
-  float numPixels = numberOfPixels;
-  float numUpdates = numberOfUpdates;
-
   // Make sure we have at least one pixel.
-  if ( numPixels < 1 )
-    {
-    numPixels = 1;
-    }
-
+  const float numPixels = (numberOfPixels > 0) ? static_cast<float>(numberOfPixels) : 1.0F;
   // We cannot update more times than there are pixels.
-  if ( numUpdates > numPixels )
-    {
-    numUpdates = numPixels;
-    }
+  const float numUpdates = (numberOfUpdates>numberOfPixels) ? numPixels : static_cast<float>(numberOfUpdates);
 
   // Calculate the interval for updates.
   m_PixelsPerUpdate = static_cast< SizeValueType >( numPixels / numUpdates );

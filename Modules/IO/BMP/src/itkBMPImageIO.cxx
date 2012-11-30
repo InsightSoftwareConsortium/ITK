@@ -221,8 +221,8 @@ void BMPImageIO::Read(void *buffer)
       m_Ifstream.seekg(m_BitMapOffset, std::ios::beg);
       m_Ifstream.read( (char *)value, m_BMPDataSize );
 
-      unsigned int posLine = 0;
-      unsigned int line = m_Dimensions[1] - 1;
+      SizeValueType posLine = 0;
+      SizeValueType line = m_Dimensions[1] - 1;
       for ( unsigned int i = 0; i < m_BMPDataSize; i++ )
         {
         unsigned long n = value[i];
@@ -509,7 +509,7 @@ void BMPImageIO::ReadImageInformation()
       m_Ifstream.read( (char *)&tmp, 4 );
       // Number of colors
       m_Ifstream.read( (char *)&tmp, 4 );
-      m_NumberOfColors = tmp;
+      m_NumberOfColors = static_cast< unsigned short >( tmp );
       // Number of important colors
       m_Ifstream.read( (char *)&tmp, 4 );
       }
@@ -673,9 +673,7 @@ void
 BMPImageIO
 ::Write32BitsInteger(unsigned int value)
 {
-  char tmp;
-
-  tmp = value % 256;
+  char tmp = static_cast<char>(value % 256);
   m_Ofstream.write( &tmp, sizeof( char ) );
   tmp = static_cast< char >( ( value % 65536L ) / 256 );
   m_Ofstream.write( &tmp, sizeof( char ) );
@@ -689,9 +687,7 @@ void
 BMPImageIO
 ::Write16BitsInteger(unsigned short value)
 {
-  char tmp;
-
-  tmp = value % 256;
+  char tmp = static_cast<char>(value % 256);
   m_Ofstream.write( &tmp, sizeof( char ) );
   tmp = static_cast< char >( ( value % 65536L ) / 256 );
   m_Ofstream.write( &tmp, sizeof( char ) );
@@ -821,10 +817,10 @@ BMPImageIO
   this->Write32BitsInteger(bitmapHeaderSize);
 
   // image width
-  this->Write32BitsInteger(m_Dimensions[0]);
+  this->Write32BitsInteger(static_cast<unsigned int>(m_Dimensions[0]));
 
   // image height -ve means top to bottom
-  this->Write32BitsInteger(m_Dimensions[1]);
+  this->Write32BitsInteger(static_cast<unsigned int>(m_Dimensions[1]));
 
   // Set `planes'=1 (mandatory)
   const unsigned short numberOfColorPlanes = 1;

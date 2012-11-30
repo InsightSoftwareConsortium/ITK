@@ -252,11 +252,11 @@ ColorTable< TPixel >
       }
     TPixel g = static_cast<TPixel>((( i + 1 ) / ( n / 2.0 + 1 )) * scale + shift);
     TPixel b = static_cast<TPixel>((( i + 1 ) / ( n / 2.0 + 1 )) * scale + shift);
-    m_Color[(int)(i + n / 2.0 )].Set(r,g,b);
+    m_Color[(size_t)(i + n / 2.0 )].Set(r,g,b);
     std::ostringstream name;
     name << "Heat" << std::fixed << std::setprecision(2)
          << ( i + n / 2.0 ) / (float)n;
-    m_ColorName[static_cast<int>(( i + n / 2.0 ))] = name.str();
+    m_ColorName[static_cast<size_t>(( i + n / 2.0 ))] = name.str();
     }
 }
 

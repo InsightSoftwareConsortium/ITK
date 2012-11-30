@@ -57,7 +57,8 @@ class vnl_real_polynomial
   vnl_real_polynomial(double a): coeffs_(1u, a) {}
 
   //: Initialize polynomial of a given degree.
-  vnl_real_polynomial(int d): coeffs_(d+1) { assert (d>=0); }
+  vnl_real_polynomial(int d): coeffs_(static_cast<unsigned int>(d)+1u) { assert (d>=0); }
+  vnl_real_polynomial(unsigned int d): coeffs_(d+1u) { }
 
   //: comparison operator
   bool operator==(vnl_real_polynomial const& p) const { return p.coefficients() == coeffs_; }

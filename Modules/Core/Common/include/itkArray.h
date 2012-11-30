@@ -47,15 +47,15 @@ namespace itk
  * \ingroup ITKCommon
  */
 template< typename TValueType >
-class Array:public vnl_vector< TValueType >
+class Array : public vnl_vector< TValueType >
 {
 public:
 
   /** The element type stored at each location in the Array. */
-  typedef TValueType                                   ValueType;
-  typedef Array                                        Self;
-  typedef vnl_vector< TValueType >                     VnlVectorType;
-  typedef typename vnl_vector< TValueType>::size_type  SizeValueType;
+  typedef TValueType                                  ValueType;
+  typedef Array                                       Self;
+  typedef vnl_vector< TValueType >                    VnlVectorType;
+  typedef typename vnl_vector< TValueType>::size_type SizeValueType;
 
 public:
 
@@ -100,7 +100,10 @@ public:
   }
 
   /** Set the all the elements of the array to the specified value */
-  void Fill(TValueType const & v) { this->fill(v); }
+  void Fill(TValueType const & v)
+    {
+    this->fill(v);
+    }
 
   /** Copy opertor */
   const Self & operator=(const Self & rhs);
@@ -162,17 +165,16 @@ private:
 template< typename TValueType >
 std::ostream & operator<<(std::ostream & os, const Array< TValueType > & arr)
 {
-  const unsigned int length = arr.size();
-  const signed int   last   = (unsigned int)length - 1;
-
   os << "[";
-  for ( signed int i = 0; i < last; ++i )
-    {
-    os << arr[i] << ", ";
-    }
+  const unsigned int length = arr.size();
   if ( length >= 1 )
     {
-    os << arr[last];
+    const unsigned int   last   = length - 1;
+    for ( unsigned int i = 0; i < last; ++i )
+      {
+      os << arr[i] << ", ";
+      }
+      os << arr[last];
     }
   os << "]";
   return os;

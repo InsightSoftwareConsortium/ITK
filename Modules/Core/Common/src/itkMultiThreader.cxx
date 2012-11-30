@@ -156,7 +156,7 @@ ThreadIdType MultiThreader::GetGlobalDefaultNumberOfThreads()
     if ( itksys::SystemTools::GetEnv(lit->c_str(), itkGlobalDefaultNumberOfThreadsEnv) )
       {
       m_GlobalDefaultNumberOfThreads =
-        atoi( itkGlobalDefaultNumberOfThreadsEnv.c_str() );
+        static_cast<ThreadIdType>( atoi( itkGlobalDefaultNumberOfThreadsEnv.c_str() ) );
       }
     }
 
