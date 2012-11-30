@@ -740,6 +740,8 @@ void PhilipsRECImageIO::ReadImageInformation()
   //Get Dictionary Information
   //Important hk fields.
   MetaDataDictionary & thisDic = this->GetMetaDataDictionary();
+  // Necessary to clear dict if ImageIO object is re-used
+  metaDict->Clear();
   std::string          classname( this->GetNameOfClass() );
   EncapsulateMetaData< std::string >(thisDic, ITK_InputFilterName, classname);
 

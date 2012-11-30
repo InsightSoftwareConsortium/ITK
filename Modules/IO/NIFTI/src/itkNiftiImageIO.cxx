@@ -767,6 +767,8 @@ void NiftiImageIO::SetImageIOMetadataFromNIfTI()
     {
     // Encapsulate as many header information as possible.
     MetaDataDictionary & thisDic = this->GetMetaDataDictionary();
+    // Necessary to clear dict if ImageIO object is re-used
+    thisDic.Clear();
 
     std::ostringstream dim_info;
     dim_info << header->dim_info;
