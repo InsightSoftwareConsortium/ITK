@@ -111,6 +111,7 @@ public:
 
   /** Set if image spacing should be used in computing distances. */
   itkSetMacro(UseImageSpacing, bool);
+  itkGetConstMacro( UseImageSpacing, bool );
 
   /** Return the computed Hausdorff distance. */
   itkGetConstMacro(HausdorffDistance, RealType);

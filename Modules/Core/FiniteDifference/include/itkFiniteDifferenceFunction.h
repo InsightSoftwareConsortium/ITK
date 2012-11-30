@@ -150,6 +150,9 @@ public:
    * spacing into account. */
   void SetScaleCoefficients(PixelRealType vals[ImageDimension]);
 
+  /** Returns the current scale coefficients. */
+  void GetScaleCoefficients(PixelRealType vals[ImageDimension]) const;
+
   /** Compute the scales that weight the neighborhood during difference operations
    * to properly account for spacing and neighborhood radius
    */

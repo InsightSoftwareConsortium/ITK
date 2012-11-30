@@ -76,6 +76,10 @@ public:
   const RadiusValueType & GetRadiusValueType() const
   { return m_StencilRadius; }
 
+  /** Convenience function for symmetry with SetStencilRadius. */
+  const RadiusValueType & GetStencilRadius() const
+  { return GetRadiusValueType(); }
+
   /** This method computes the solution update for each pixel that does not
    * lie on a the data set boundary. */
   virtual PixelType ComputeUpdate(const NeighborhoodType & neighborhood,

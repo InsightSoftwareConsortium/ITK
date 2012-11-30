@@ -70,7 +70,9 @@ public:
 
   /** Set and get macros. */
   itkSetMacro(DifferenceTolerance, double);
+  itkGetMacro(DifferenceTolerance, double);
   itkSetMacro(Verbose, bool);
+  itkGetMacro(Verbose, bool);
   itkGetMacro(ComputedMean, double);
   itkGetMacro(ComputedStandardDeviation, double);
   itkGetMacro(UpperAsymptote, double);

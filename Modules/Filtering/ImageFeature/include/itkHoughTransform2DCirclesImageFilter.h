@@ -107,9 +107,11 @@ public:
 
   /** Set the minimum radiu value the filter should look for */
   itkSetMacro(MinimumRadius, double);
+  itkGetConstMacro(MinimumRadius, double);
 
   /** Set the maximum radius value the filter should look for */
   itkSetMacro(MaximumRadius, double);
+  itkGetConstMacro(MaximumRadius, double);
 
   /** Set the threshold above which the filter should consider
       the point as a valid point */

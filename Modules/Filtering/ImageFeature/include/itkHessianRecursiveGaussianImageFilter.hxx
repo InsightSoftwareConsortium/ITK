@@ -103,6 +103,18 @@ HessianRecursiveGaussianImageFilter< TInputImage, TOutputImage >
 }
 
 /**
+ * Get value of Sigma
+ */
+template< typename TInputImage, typename TOutputImage >
+typename HessianRecursiveGaussianImageFilter< TInputImage, TOutputImage >
+::RealType
+ HessianRecursiveGaussianImageFilter< TInputImage, TOutputImage >
+::GetSigma() const
+{
+  return m_DerivativeFilterA->GetSigma();
+}
+
+/**
  * Set Normalize Across Scale Space
  */
 template< typename TInputImage, typename TOutputImage >

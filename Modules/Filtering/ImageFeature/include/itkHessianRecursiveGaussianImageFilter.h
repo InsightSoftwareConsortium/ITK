@@ -127,6 +127,7 @@ public:
 
   /** Set Sigma value. Sigma is measured in the units of image spacing.  */
   void SetSigma(RealType sigma);
+  RealType GetSigma() const;
 
   /** Define which normalization factor will be used for the Gaussian
    *  \sa  RecursiveGaussianImageFilter::SetNormalizeAcrossScale

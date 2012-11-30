@@ -81,6 +81,17 @@ LaplacianRecursiveGaussianImageFilter< TInputImage, TOutputImage >
 }
 
 /**
+ * Get value of Sigma
+ */
+template< typename TInputImage, typename TOutputImage >
+typename LaplacianRecursiveGaussianImageFilter< TInputImage, TOutputImage >::RealType
+LaplacianRecursiveGaussianImageFilter< TInputImage, TOutputImage >
+::GetSigma() const
+{
+  return m_DerivativeFilter->GetSigma();
+}
+
+/**
  * Set Normalize Across Scale Space
  */
 template< typename TInputImage, typename TOutputImage >

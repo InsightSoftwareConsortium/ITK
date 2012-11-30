@@ -64,6 +64,10 @@ public:
   {
     m_Calculator.SetDimension(n);
   }
+  unsigned int GetDimension() const
+  {
+    return m_Calculator.GetDimension();
+  }
 
   /** Typdedefs to order eigen values.
    * OrderByValue:      lambda_1 < lambda_2 < ....
@@ -170,6 +174,10 @@ public:
   void SetDimension(unsigned int p)
   {
     this->GetFunctor().SetDimension(p);
+  }
+  unsigned int GetDimension() const
+  {
+    return this->GetFunctor().GetDimension();
   }
 
 #ifdef ITK_USE_CONCEPT_CHECKING

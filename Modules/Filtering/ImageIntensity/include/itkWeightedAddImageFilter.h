@@ -149,6 +149,12 @@ public:
     this->Modified();
   }
 
+  /** Returns the current alpha value setting */
+  RealType GetAlpha() const
+  {
+    return this->GetFunctor().GetAlpha();
+  }
+
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
   itkConceptMacro( Input1HasNumericTraitsCheck,

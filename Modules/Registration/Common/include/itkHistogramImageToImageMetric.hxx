@@ -54,12 +54,28 @@ void HistogramImageToImageMetric< TFixedImage, TMovingImage >
 }
 
 template< class TFixedImage, class TMovingImage >
+const typename HistogramImageToImageMetric< TFixedImage, TMovingImage >::MeasurementVectorType &
+HistogramImageToImageMetric< TFixedImage, TMovingImage >
+::GetUpperBound() const
+{
+  return m_UpperBound;
+}
+
+template< class TFixedImage, class TMovingImage >
 void HistogramImageToImageMetric< TFixedImage, TMovingImage >
 ::SetLowerBound(const MeasurementVectorType & bounds)
 {
   m_LowerBound = bounds;
   m_LowerBoundSetByUser = true;
   this->Modified();
+}
+
+template< class TFixedImage, class TMovingImage >
+const typename HistogramImageToImageMetric< TFixedImage, TMovingImage >::MeasurementVectorType &
+HistogramImageToImageMetric< TFixedImage, TMovingImage >
+::GetLowerBound() const
+{
+  return m_LowerBound;
 }
 
 template< class TFixedImage, class TMovingImage >
