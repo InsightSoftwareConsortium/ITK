@@ -20,9 +20,9 @@
 
 #include "itkPoint.h"
 #include "itkCovariantVector.h"
-#include "vnl/vnl_matrix_fixed.h"
-#include "vnl/algo/vnl_matrix_inverse.h"
+#include "vnl/vnl_matrix_fixed.txx" // Get the templates
 #include "vnl/vnl_transpose.h"
+#include "vnl/algo/vnl_matrix_inverse.h"
 #include "vnl/vnl_matrix.h"
 #include "vnl/algo/vnl_determinant.h"
 
