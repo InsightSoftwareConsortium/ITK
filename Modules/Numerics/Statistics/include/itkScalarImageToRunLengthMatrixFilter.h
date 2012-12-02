@@ -171,7 +171,7 @@ public:
   /**
    * Get the current offset(s).
    */
-  itkGetConstObjectMacro( Offsets, OffsetVector );
+  itkGetModifiableObjectMacro(Offsets, OffsetVector );
 
   /** Set number of histogram bins along each axis */
   itkSetMacro( NumberOfBinsPerAxis, unsigned int );

@@ -82,16 +82,11 @@ public:
   itkGetStringMacro(FileName);
 
   /**
-   * The output DOM object will be created automatically, but the user
+   * Get/Set The output DOM object will be created automatically, but the user
    * can appoint a user DOM object as the output by calling this function.
    */
   itkSetObjectMacro( Output, OutputType );
-
-  /** Get the output DOM object for full access. */
-  itkGetObjectMacro( Output, OutputType );
-
-  /** Get the output DOM object for read-only access. */
-  itkGetConstObjectMacro( Output, OutputType );
+  itkGetModifiableObjectMacro(Output, OutputType );
 
   /**
    * Function called by Update() or end-users to generate the output DOM object

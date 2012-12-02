@@ -91,10 +91,14 @@ public:
   itkTypeMacro(ImageGaussianModelEstimator, ImageModelEstimatorBase);
 
   /** Type definition for the input image. */
-  typedef typename TInputImage::Pointer InputImagePointer;
+  typedef TInputImage                        InputImageType;
+  typedef typename TInputImage::Pointer      InputImagePointer;
+  typedef typename TInputImage::ConstPointer InputImageConstPointer;
 
   /** Type definitions for the training image. */
-  typedef typename TTrainingImage::Pointer TrainingImagePointer;
+  typedef TTrainingImage                        TrainingImageType;
+  typedef typename TTrainingImage::Pointer      TrainingImagePointer;
+  typedef typename TTrainingImage::ConstPointer TrainingImageConstPointer;
 
   /** Type definition for the vector associated with
    * input image pixel type. */
@@ -105,18 +109,18 @@ public:
   typedef typename TTrainingImage::PixelType TrainingImagePixelType;
 
   /** Type definitions for the iterators for the input and training images. */
-  typedef ImageRegionIterator< TInputImage >    InputImageIterator;
-  typedef ImageRegionIterator< TTrainingImage > TrainingImageIterator;
+  typedef ImageRegionIterator< TInputImage >         InputImageIterator;
+  typedef ImageRegionConstIterator< TInputImage >    InputImageConstIterator;
+  typedef ImageRegionIterator< TTrainingImage >      TrainingImageIterator;
+  typedef ImageRegionConstIterator< TTrainingImage > TrainingImageConstIterator;
 
   /** Type definitions for the membership function . */
   typedef TMembershipFunction                   MembershipFunctionType;
   typedef typename TMembershipFunction::Pointer MembershipFunctionPointer;
 
-  /** Set the training image. */
-  itkSetMacro(TrainingImage, TrainingImagePointer);
-
-  /** Get the training image. */
-  itkGetConstMacro(TrainingImage, TrainingImagePointer);
+  /** Get/Set the training image. */
+  itkSetObjectMacro(TrainingImage, TrainingImageType);
+  itkGetModifiableObjectMacro(TrainingImage, TrainingImageType);
 
 protected:
   ImageGaussianModelEstimator();

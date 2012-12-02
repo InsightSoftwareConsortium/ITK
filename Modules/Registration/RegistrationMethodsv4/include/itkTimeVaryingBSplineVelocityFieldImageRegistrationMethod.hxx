@@ -78,7 +78,7 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
   // This transform gets used for the moving image
   typename DisplacementFieldDuplicatorType::Pointer fieldDuplicatorIdentity = DisplacementFieldDuplicatorType::New();
 
-  TimeVaryingVelocityFieldControlPointLatticePointer velocityFieldLattice = this->m_OutputTransform->GetVelocityField();
+  TimeVaryingVelocityFieldControlPointLatticePointer velocityFieldLattice = this->m_OutputTransform->GetModifiableVelocityField();
 
   SizeValueType numberOfIntegrationSteps = this->m_NumberOfTimePointSamples + 2;
 
@@ -199,7 +199,7 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
       // the velocity field to get the moving image transform.
       if( timePoint == 0 )
         {
-        this->m_OutputTransform->GetDisplacementField()->FillBuffer( zeroVector );
+        this->m_OutputTransform->GetModifiableDisplacementField()->FillBuffer( zeroVector );
         }
       else
         {
@@ -219,7 +219,7 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
       // Get the moving transform
       if( timePoint == this->m_NumberOfTimePointSamples - 1 )
         {
-        this->m_OutputTransform->GetDisplacementField()->FillBuffer( zeroVector );
+        this->m_OutputTransform->GetModifiableDisplacementField()->FillBuffer( zeroVector );
         }
       else
         {
@@ -230,7 +230,7 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
         }
 
       typename DisplacementFieldTransformType::Pointer movingDisplacementFieldTransform = DisplacementFieldTransformType::New();
-      movingDisplacementFieldTransform->SetDisplacementField( this->m_OutputTransform->GetDisplacementField() );
+      movingDisplacementFieldTransform->SetDisplacementField( this->m_OutputTransform->GetModifiableDisplacementField() );
 
       this->m_CompositeTransform->AddTransform( movingDisplacementFieldTransform );
       this->m_CompositeTransform->SetOnlyMostRecentTransformToOptimizeOn();

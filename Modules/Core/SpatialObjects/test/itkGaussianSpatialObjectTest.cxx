@@ -100,12 +100,12 @@ int itkGaussianSpatialObjectTest(int, char* [])
   GaussianType::TransformType::OffsetType offset;
   offset.Fill(10);
 
-  myGaussian->GetObjectToWorldTransform()->SetOffset(offset);
+  myGaussian->GetModifiableObjectToWorldTransform()->SetOffset(offset);
   myGaussian->ComputeObjectToParentTransform();
 
   GaussianType::TransformType::OffsetType offset2;
   offset2.Fill(15);
-  myGaussian2->GetObjectToWorldTransform()->SetOffset(offset2);
+  myGaussian2->GetModifiableObjectToWorldTransform()->SetOffset(offset2);
   myGaussian2->ComputeObjectToParentTransform();
 
   GaussianType::TransformType::OffsetType offset3;

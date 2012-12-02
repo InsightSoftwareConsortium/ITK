@@ -141,7 +141,7 @@ LevelSetEvolution< TEquationContainer, LevelSetDenseImage< TImage > >
   while( this->m_LevelSetContainerIteratorToProcessWhenThreading != this->m_LevelSetContainer->End() )
     {
     typename LevelSetType::Pointer levelSet = this->m_LevelSetContainerIteratorToProcessWhenThreading->GetLevelSet();
-    typename LevelSetImageType::Pointer levelSetImage = levelSet->GetImage();
+    typename LevelSetImageType::ConstPointer levelSetImage = levelSet->GetImage();
     this->m_SplitLevelSetUpdateLevelSetsThreader->Execute( this, levelSetImage->GetRequestedRegion() );
 
     ++(this->m_LevelSetContainerIteratorToProcessWhenThreading);
@@ -168,7 +168,7 @@ LevelSetEvolution< TEquationContainer, LevelSetDenseImage< TImage > >
 
   while( it != this->m_LevelSetContainer->End() )
     {
-    typename LevelSetImageType::Pointer image = it->GetLevelSet()->GetImage();
+    typename LevelSetImageType::Pointer image = it->GetLevelSet()->GetModifiableImage();
 
     ThresholdFilterPointer thresh = ThresholdFilterType::New();
     thresh->SetLowerThreshold( NumericTraits< LevelSetOutputType >::NonpositiveMin() );

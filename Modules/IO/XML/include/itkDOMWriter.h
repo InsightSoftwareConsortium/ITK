@@ -125,11 +125,9 @@ private:
   DOMWriter(const Self &); //purposely not implemented
   void operator=(const Self &); //purposely not implemented
 
-  /** Set the intermediate DOM object. */
+  /** Get/Set the intermediate DOM object. */
   itkSetObjectMacro( IntermediateDOM, DOMNodeType );
-
-  /** Get the intermediate DOM object. */
-  itkGetObjectMacro( IntermediateDOM, DOMNodeType );
+  itkGetModifiableObjectMacro(IntermediateDOM, DOMNodeType );
 
   /** Variable to hold the output XML file name. */
   std::string m_FileName;

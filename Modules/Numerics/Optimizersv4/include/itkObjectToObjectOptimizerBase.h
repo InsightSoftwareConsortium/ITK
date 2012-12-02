@@ -96,8 +96,8 @@ public:
   typedef MetricType::InternalComputationValueType  InternalComputationValueType;
 
   /** Accessors for Metric */
-  itkGetObjectMacro( Metric, MetricType );
   itkSetObjectMacro( Metric, MetricType );
+  itkGetModifiableObjectMacro(Metric, MetricType );
 
   /** Accessor for metric value. Returns the value
    *  stored in m_CurrentMetricValue from the most recent

@@ -99,7 +99,7 @@ public:
 
   /** This method can be used to get the data frame object once the data from
   * the file has been parsed. */
-  itkGetObjectMacro(Array2DDataObject,Array2DDataObjectType);
+  itkGetModifiableObjectMacro(Array2DDataObject, Array2DDataObjectType);
 
   /** Parses the data from the file. Gets all the fields and parses row and
   * column headers, if any, into std::vectors of strings and parses the numeric

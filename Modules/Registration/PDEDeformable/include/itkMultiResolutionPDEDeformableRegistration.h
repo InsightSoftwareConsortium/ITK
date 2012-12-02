@@ -197,23 +197,17 @@ public:
    */
   virtual std::vector< SmartPointer< DataObject > >::size_type GetNumberOfValidRequiredInputs() const;
 
-  /** Set the internal registrator. */
+  /** Get/Set the internal registrator. */
   itkSetObjectMacro(RegistrationFilter, RegistrationType);
+  itkGetModifiableObjectMacro(RegistrationFilter, RegistrationType);
 
-  /** Get the internal registrator. */
-  itkGetObjectMacro(RegistrationFilter, RegistrationType);
-
-  /** Set the fixed image pyramid. */
+  /** Get/Set the fixed image pyramid. */
   itkSetObjectMacro(FixedImagePyramid, FixedImagePyramidType);
+  itkGetModifiableObjectMacro(FixedImagePyramid, FixedImagePyramidType);
 
-  /** Get the fixed image pyramid. */
-  itkGetObjectMacro(FixedImagePyramid, FixedImagePyramidType);
-
-  /** Set the moving image pyramid. */
+  /** Get/Set the moving image pyramid. */
   itkSetObjectMacro(MovingImagePyramid, MovingImagePyramidType);
-
-  /** Get the moving image pyramid. */
-  itkGetObjectMacro(MovingImagePyramid, MovingImagePyramidType);
+  itkGetModifiableObjectMacro(MovingImagePyramid, MovingImagePyramidType);
 
   /** Set number of multi-resolution levels. */
   virtual void SetNumberOfLevels(unsigned int num);
@@ -224,11 +218,9 @@ public:
   /** Get the current resolution level being processed. */
   itkGetConstReferenceMacro(CurrentLevel, unsigned int);
 
-  /** Set the moving image pyramid. */
+  /** Get/Set the moving image pyramid. */
   itkSetObjectMacro(FieldExpander, FieldExpanderType);
-
-  /** Get the moving image pyramid. */
-  itkGetObjectMacro(FieldExpander, FieldExpanderType);
+  itkGetModifiableObjectMacro(FieldExpander, FieldExpanderType);
 
   /** Set number of iterations per multi-resolution levels. */
   itkSetMacro(NumberOfIterations, NumberOfIterationsType);

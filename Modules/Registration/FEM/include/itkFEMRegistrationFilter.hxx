@@ -1234,7 +1234,7 @@ template <class TMovingImage, class TFixedImage, class TFemObject>
 Element::Float FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::EvaluateResidual(SolverType *mySolver,
                                                                                               Float t)
 {
-  Float SimE = m_Load->EvaluateMetricGivenSolution(mySolver->GetOutput()->GetElementContainer(), t);
+  Float SimE = m_Load->EvaluateMetricGivenSolution(mySolver->GetOutput()->GetModifiableElementContainer(), t);
   Float maxsim = 1.0;
   for( unsigned int i = 0; i < ImageDimension; i++ )
     {

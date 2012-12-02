@@ -124,16 +124,15 @@ public:
 
   /** Set/Get the shape signed distance function. */
   virtual void SetShapeFunction(ShapeFunctionType *s);
-
-  itkGetObjectMacro(ShapeFunction, ShapeFunctionType);
+  itkGetModifiableObjectMacro(ShapeFunction, ShapeFunctionType);
 
   /** Set/Get the shape prior MAP cost function. */
   itkSetObjectMacro(CostFunction, CostFunctionType);
-  itkGetObjectMacro(CostFunction, CostFunctionType);
+  itkGetModifiableObjectMacro(CostFunction, CostFunctionType);
 
   /** Set/Get the optimizer. */
   itkSetObjectMacro(Optimizer, OptimizerType);
-  itkGetObjectMacro(Optimizer, OptimizerType);
+  itkGetModifiableObjectMacro(Optimizer, OptimizerType);
 
   /** Set/Get the initial parameters. These are the initial parameters applied
    * to the ShapeFunction. The user should refer to the documentation of

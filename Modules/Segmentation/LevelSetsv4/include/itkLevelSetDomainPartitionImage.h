@@ -71,10 +71,10 @@ public:
   /** Set the input image that will be used to compute an image with the list
    * of level sets domain overlaps. */
   itkSetConstObjectMacro( Image, ImageType );
-  itkGetConstObjectMacro( Image, ImageType );
+  itkGetConstObjectMacro(Image, ImageType );
 
   /** Get the image with the list of level set domains. */
-  itkGetConstObjectMacro( ListDomain, ListImageType );
+  itkGetModifiableObjectMacro(ListDomain, ListImageType );
 
 protected:
   LevelSetDomainPartitionImage();

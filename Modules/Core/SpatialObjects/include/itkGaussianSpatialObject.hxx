@@ -238,18 +238,18 @@ GaussianSpatialObject< TDimension >
   ellipse->GetIndexToObjectTransform()->SetOffset(
     this->GetIndexToObjectTransform()->GetOffset() );
 
-  ellipse->GetObjectToWorldTransform()->SetCenter(
+  ellipse->GetModifiableObjectToWorldTransform()->SetCenter(
     this->GetObjectToWorldTransform()->GetCenter() );
-  ellipse->GetObjectToWorldTransform()->SetMatrix(
+  ellipse->GetModifiableObjectToWorldTransform()->SetMatrix(
     this->GetObjectToWorldTransform()->GetMatrix() );
-  ellipse->GetObjectToWorldTransform()->SetOffset(
+  ellipse->GetModifiableObjectToWorldTransform()->SetOffset(
     this->GetObjectToWorldTransform()->GetOffset() );
 
-  ellipse->GetIndexToWorldTransform()->SetCenter(
+  ellipse->GetModifiableIndexToWorldTransform()->SetCenter(
     this->GetIndexToWorldTransform()->GetCenter() );
-  ellipse->GetIndexToWorldTransform()->SetMatrix(
+  ellipse->GetModifiableIndexToWorldTransform()->SetMatrix(
     this->GetIndexToWorldTransform()->GetMatrix() );
-  ellipse->GetIndexToWorldTransform()->SetOffset(
+  ellipse->GetModifiableIndexToWorldTransform()->SetOffset(
     this->GetIndexToWorldTransform()->GetOffset() );
 
   return ellipse;

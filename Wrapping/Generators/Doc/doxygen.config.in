@@ -368,7 +368,6 @@ PREDEFINED  =  "itkNotUsed(x)="\
                   virtual void Set##name (type _arg);" \
                "itkSetObjectMacro(name,type)= \
                   virtual void Set##name (type* _arg);" \
-               "itkGetObjectMacro(name,type)= \
                   virtual type* Get##name ();" \
                "itkSetConstObjectMacro(name,type)= \
                   virtual void Set##name ( const type* _arg);" \

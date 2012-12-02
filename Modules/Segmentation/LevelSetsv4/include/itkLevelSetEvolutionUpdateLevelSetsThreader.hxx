@@ -58,8 +58,8 @@ LevelSetEvolutionUpdateLevelSetsThreader< LevelSetDenseImage< TImage >, Threaded
   typename LevelSetType::Pointer levelSet = levelSetContainerIt->GetLevelSet();
   typename LevelSetType::Pointer levelSetUpdate = levelSetUpdateContainerIt->GetLevelSet();
 
-  typename LevelSetImageType::Pointer levelSetImage = levelSet->GetImage();
-  typename LevelSetImageType::Pointer levelSetUpdateImage = levelSetUpdate->GetImage();
+  typename LevelSetImageType::Pointer levelSetImage = levelSet->GetModifiableImage();
+  typename LevelSetImageType::ConstPointer levelSetUpdateImage = levelSetUpdate->GetImage();
 
   ImageRegionIterator< LevelSetImageType > levelSetImageIt( levelSetImage, imageSubRegion );
   ImageRegionConstIterator< LevelSetImageType > levelSetUpdateImageIt( levelSetUpdateImage, imageSubRegion );

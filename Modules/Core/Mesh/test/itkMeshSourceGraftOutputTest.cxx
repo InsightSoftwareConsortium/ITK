@@ -50,11 +50,9 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(MeshSourceGraftOutputFilter,MeshToMeshFilter);
 
-  /** Set transform. */
+  /** Get/Set transform. */
   itkSetObjectMacro(Transform, TransformType);
-
-  /** Get transform. */
-  itkGetObjectMacro(Transform,TransformType);
+  itkGetModifiableObjectMacro(Transform, TransformType);
 
 protected:
   MeshSourceGraftOutputFilter();

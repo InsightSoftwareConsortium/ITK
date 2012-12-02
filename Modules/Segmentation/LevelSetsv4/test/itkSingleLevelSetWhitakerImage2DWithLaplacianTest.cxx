@@ -118,7 +118,7 @@ int itkSingleLevelSetWhitakerImage2DWithLaplacianTest( int argc, char* argv[] )
   adaptor->Initialize();
   std::cout << "Finished converting to sparse format" << std::endl;
 
-  SparseLevelSetType::Pointer level_set = adaptor->GetLevelSet();
+  SparseLevelSetType::Pointer level_set = adaptor->GetModifiableLevelSet();
 
   // Define the Heaviside function
   HeavisideFunctionBaseType::Pointer heaviside = HeavisideFunctionBaseType::New();

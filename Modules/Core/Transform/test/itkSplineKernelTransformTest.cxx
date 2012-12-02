@@ -198,7 +198,7 @@ int itkSplineKernelTransformTest(int , char* [] )
       }
     }
     { //Just for code coverage
-    TPSTransform2DType::VectorSetType::Pointer tempDisplacements=tps2D->GetDisplacements();
+    TPSTransform2DType::VectorSetType::ConstPointer tempDisplacements=tps2D->GetDisplacements();
 
       {
       TPSTransform2DType::InputVectorType  testVector;
@@ -343,25 +343,24 @@ int itkSplineKernelTransformTest(int , char* [] )
   PointType3D targetPoint3D;
   PointType3D mappedPoint3D;
 
-  EBSTransform3DType::Pointer ebs3D = EBSTransform3DType::New();
-  TPSTransform3DType::Pointer tps3D = TPSTransform3DType::New();
-
-
   // Reserve memory for the number of points
-  ebs3D->GetTargetLandmarks()->GetPoints()->Reserve( 8 );
-  tps3D->GetTargetLandmarks()->GetPoints()->Reserve( 8 );
-  ebs3D->GetSourceLandmarks()->GetPoints()->Reserve( 8 );
-  tps3D->GetSourceLandmarks()->GetPoints()->Reserve( 8 );
+  EBSTransform3DType::Pointer ebs3D = EBSTransform3DType::New();
+  ebs3D->GetModifiableTargetLandmarks()->GetPoints()->Reserve( 8 );
+  ebs3D->GetModifiableSourceLandmarks()->GetPoints()->Reserve( 8 );
+
+  TPSTransform3DType::Pointer tps3D = TPSTransform3DType::New();
+  tps3D->GetModifiableTargetLandmarks()->GetPoints()->Reserve( 8 );
+  tps3D->GetModifiableSourceLandmarks()->GetPoints()->Reserve( 8 );
 
 
   // Create landmark sets
-  Points3DIteratorType ebs3Ds = ebs3D->GetSourceLandmarks()->GetPoints()->Begin();
-  Points3DIteratorType ebs3Dt = ebs3D->GetTargetLandmarks()->GetPoints()->Begin();
-  Points3DIteratorType tps3Ds = tps3D->GetSourceLandmarks()->GetPoints()->Begin();
-  Points3DIteratorType tps3Dt = tps3D->GetTargetLandmarks()->GetPoints()->Begin();
+  Points3DIteratorType ebs3Ds = ebs3D->GetModifiableSourceLandmarks()->GetPoints()->Begin();
+  Points3DIteratorType ebs3Dt = ebs3D->GetModifiableTargetLandmarks()->GetPoints()->Begin();
+  Points3DIteratorType tps3Ds = tps3D->GetModifiableSourceLandmarks()->GetPoints()->Begin();
+  Points3DIteratorType tps3Dt = tps3D->GetModifiableTargetLandmarks()->GetPoints()->Begin();
 
-  Points3DIteratorType ebs3DsEnd  = ebs3D->GetSourceLandmarks()->GetPoints()->End();
-  Points3DIteratorType tps3DsEnd  = tps3D->GetSourceLandmarks()->GetPoints()->End();
+  Points3DIteratorType ebs3DsEnd  = ebs3D->GetModifiableSourceLandmarks()->GetPoints()->End();
+  Points3DIteratorType tps3DsEnd  = tps3D->GetModifiableSourceLandmarks()->GetPoints()->End();
 
   for (i = 0; i < 2; i++)
     {
@@ -394,9 +393,9 @@ int itkSplineKernelTransformTest(int , char* [] )
   ebs3D->SetAlpha( 12.0 * ( 1 -  0.25) - 1.0 );
   ebs3D->ComputeWMatrix();
 
-  ebs3Ds     = ebs3D->GetSourceLandmarks()->GetPoints()->Begin();
-  ebs3Dt     = ebs3D->GetTargetLandmarks()->GetPoints()->Begin();
-  ebs3DsEnd  = ebs3D->GetSourceLandmarks()->GetPoints()->End();
+  ebs3Ds     = ebs3D->GetModifiableSourceLandmarks()->GetPoints()->Begin();
+  ebs3Dt     = ebs3D->GetModifiableTargetLandmarks()->GetPoints()->Begin();
+  ebs3DsEnd  = ebs3D->GetModifiableSourceLandmarks()->GetPoints()->End();
 
   while( ebs3Ds != ebs3DsEnd )
   {
@@ -420,9 +419,9 @@ int itkSplineKernelTransformTest(int , char* [] )
 
   tps3D->ComputeWMatrix();
 
-  tps3Ds = tps3D->GetSourceLandmarks()->GetPoints()->Begin();
-  tps3Dt = tps3D->GetTargetLandmarks()->GetPoints()->Begin();
-  tps3DsEnd  = tps3D->GetSourceLandmarks()->GetPoints()->End();
+  tps3Ds = tps3D->GetModifiableSourceLandmarks()->GetPoints()->Begin();
+  tps3Dt = tps3D->GetModifiableTargetLandmarks()->GetPoints()->Begin();
+  tps3DsEnd  = tps3D->GetModifiableSourceLandmarks()->GetPoints()->End();
 
   while( tps3Ds != tps3DsEnd )
   {
@@ -473,20 +472,20 @@ int itkSplineKernelTransformTest(int , char* [] )
   TPSTransform4DType::Pointer tps4D = TPSTransform4DType::New();
 
   // Reserve memory for the number of points
-  ebs4D->GetTargetLandmarks()->GetPoints()->Reserve( 16 );
-  tps4D->GetTargetLandmarks()->GetPoints()->Reserve( 16 );
+  ebs4D->GetModifiableTargetLandmarks()->GetPoints()->Reserve( 16 );
+  tps4D->GetModifiableTargetLandmarks()->GetPoints()->Reserve( 16 );
 
-  ebs4D->GetSourceLandmarks()->GetPoints()->Reserve( 16 );
-  tps4D->GetSourceLandmarks()->GetPoints()->Reserve( 16 );
+  ebs4D->GetModifiableSourceLandmarks()->GetPoints()->Reserve( 16 );
+  tps4D->GetModifiableSourceLandmarks()->GetPoints()->Reserve( 16 );
 
   // Create landmark sets
-  Points4DIteratorType ebs4Ds = ebs4D->GetSourceLandmarks()->GetPoints()->Begin();
-  Points4DIteratorType ebs4Dt = ebs4D->GetTargetLandmarks()->GetPoints()->Begin();
-  Points4DIteratorType tps4Ds = tps4D->GetSourceLandmarks()->GetPoints()->Begin();
-  Points4DIteratorType tps4Dt = tps4D->GetTargetLandmarks()->GetPoints()->Begin();
+  Points4DIteratorType ebs4Ds = ebs4D->GetModifiableSourceLandmarks()->GetPoints()->Begin();
+  Points4DIteratorType ebs4Dt = ebs4D->GetModifiableTargetLandmarks()->GetPoints()->Begin();
+  Points4DIteratorType tps4Ds = tps4D->GetModifiableSourceLandmarks()->GetPoints()->Begin();
+  Points4DIteratorType tps4Dt = tps4D->GetModifiableTargetLandmarks()->GetPoints()->Begin();
 
-  Points4DIteratorType ebs4DsEnd  = ebs4D->GetSourceLandmarks()->GetPoints()->End();
-  Points4DIteratorType tps4DsEnd  = tps4D->GetSourceLandmarks()->GetPoints()->End();
+  Points4DIteratorType ebs4DsEnd  = ebs4D->GetModifiableSourceLandmarks()->GetPoints()->End();
+  Points4DIteratorType tps4DsEnd  = tps4D->GetModifiableSourceLandmarks()->GetPoints()->End();
 
   for (i = 0; i < 2; i++)
     {
@@ -521,9 +520,9 @@ int itkSplineKernelTransformTest(int , char* [] )
   ebs4D->SetAlpha( 12.0 * ( 1 -  0.25) - 1.0 );
   ebs4D->ComputeWMatrix();
 
-  ebs4Ds = ebs4D->GetSourceLandmarks()->GetPoints()->Begin();
-  ebs4Dt = ebs4D->GetTargetLandmarks()->GetPoints()->Begin();
-  ebs4DsEnd  = ebs4D->GetSourceLandmarks()->GetPoints()->End();
+  ebs4Ds = ebs4D->GetModifiableSourceLandmarks()->GetPoints()->Begin();
+  ebs4Dt = ebs4D->GetModifiableTargetLandmarks()->GetPoints()->Begin();
+  ebs4DsEnd  = ebs4D->GetModifiableSourceLandmarks()->GetPoints()->End();
 
   while( ebs4Ds != ebs4DsEnd )
   {
@@ -544,9 +543,9 @@ int itkSplineKernelTransformTest(int , char* [] )
   std::cout << "TPS 4D Test:" << std::endl;
   tps4D->ComputeWMatrix();
 
-  tps4Ds = tps4D->GetSourceLandmarks()->GetPoints()->Begin();
-  tps4Dt = tps4D->GetTargetLandmarks()->GetPoints()->Begin();
-  tps4DsEnd  = tps4D->GetSourceLandmarks()->GetPoints()->End();
+  tps4Ds = tps4D->GetModifiableSourceLandmarks()->GetPoints()->Begin();
+  tps4Dt = tps4D->GetModifiableTargetLandmarks()->GetPoints()->Begin();
+  tps4DsEnd  = tps4D->GetModifiableSourceLandmarks()->GetPoints()->End();
   while( tps4Ds != tps4DsEnd )
   {
     sourcePoint4D = tps4Ds.Value();

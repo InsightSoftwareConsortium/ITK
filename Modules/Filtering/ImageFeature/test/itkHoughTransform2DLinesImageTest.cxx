@@ -156,14 +156,14 @@ int itkHoughTransform2DLinesImageTest(int, char* [])
   houghFilter->Update();
   houghFilter->Simplify();
 
-  HoughImageType::Pointer m_SimplifyAccumulator = houghFilter->GetSimplifyAccumulator();
-  HoughImageType::Pointer m_Accumulator = houghFilter->GetOutput();
+  HoughImageType::ConstPointer SimplifyAccumulator = houghFilter->GetSimplifyAccumulator();
+  HoughImageType::Pointer Accumulator = houghFilter->GetOutput();
 
   /** Blur the accumulator in order to find the maximum */
   HoughImageType::Pointer m_PostProcessImage = HoughImageType::New();
   typedef itk::DiscreteGaussianImageFilter<HoughImageType,HoughImageType> GaussianFilterType;
   GaussianFilterType::Pointer gaussianFilter = GaussianFilterType::New();
-  gaussianFilter->SetInput(m_Accumulator);
+  gaussianFilter->SetInput(Accumulator);
   double variance[2];
   variance[0]=10;
   variance[1]=10;
@@ -214,11 +214,11 @@ int itkHoughTransform2DLinesImageTest(int, char* [])
               && ((m_Index[1]<=500) && (m_Index[1]>=0))
             )
             {
-              m_Accumulator->SetPixel(m_Index,0);
+              Accumulator->SetPixel(m_Index,0);
             }
           }
         }
-        minMaxCalculator->SetImage(m_Accumulator);
+        minMaxCalculator->SetImage(Accumulator);
         minMaxCalculator->ComputeMaximum();
         max = minMaxCalculator->GetMaximum();
 

@@ -141,7 +141,7 @@ GradientDescentOptimizerv4
 {
   if( this->m_ReturnBestParametersAndValue )
     {
-    this->GetMetric()->SetParameters( this->m_BestParameters );
+    this->m_Metric->SetParameters( this->m_BestParameters );
     this->m_CurrentMetricValue = this->m_CurrentBestValue;
     }
   Superclass::StopOptimization();

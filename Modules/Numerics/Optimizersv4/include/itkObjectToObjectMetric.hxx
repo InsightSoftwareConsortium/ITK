@@ -448,7 +448,7 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage>
                       "or a CompositeTransform with DisplacementFieldTransform as the last to have been added." );
     }
   typedef typename MovingDisplacementFieldTransformType::DisplacementFieldType FieldType;
-  typename FieldType::Pointer field = displacementTransform->GetDisplacementField();
+  typename FieldType::ConstPointer field = displacementTransform->GetDisplacementField();
   typename FieldType::RegionType fieldRegion = field->GetBufferedRegion();
   VirtualRegionType virtualRegion = this->GetVirtualRegion();
   if( virtualRegion.GetSize() != fieldRegion.GetSize() || virtualRegion.GetIndex() != fieldRegion.GetIndex() )

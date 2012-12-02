@@ -113,7 +113,7 @@ int itkVectorImageReadWriteTest(int argc, char * argv [])
     return EXIT_FAILURE;
     }
 
-  itk::ImageIOBase::Pointer io = reader->GetImageIO();
+  itk::ImageIOBase::Pointer io = reader->GetModifiableImageIO();
 
 
   std::cout << "ImageIO Pixel Information: "

@@ -52,7 +52,7 @@ void
 GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TScalar, NDimensions>
 ::UpdateTransformParameters( const DerivativeType & update, ScalarType factor )
 {
-  TimeVaryingVelocityFieldPointer velocityField = this->GetVelocityField();
+  TimeVaryingVelocityFieldPointer velocityField = this->GetModifiableVelocityField();
 
   const typename VelocityFieldType::RegionType & bufferedRegion = velocityField->GetBufferedRegion();
   const SizeValueType numberOfPixels = bufferedRegion.GetNumberOfPixels();

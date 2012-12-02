@@ -87,10 +87,8 @@ public:
   /** Index typedef support. */
   typedef Index< itkGetStaticConstMacro(SetDimension) > IndexType;
 
-  /** Set the input level set. */
+  /** Get/Set the input level set. */
   itkSetConstObjectMacro(InputLevelSet, LevelSetImageType);
-
-  /** Get the input level set. */
   itkGetConstObjectMacro(InputLevelSet, LevelSetImageType);
 
   /** Set the value of the level set to be located. Default is 0. */
@@ -116,8 +114,7 @@ public:
   /** Set/Get the input narrowband. A narrowband is represented as
    * a VectorContainer of LevelSetNodes. */
   void SetInputNarrowBand(NodeContainer *ptr);
-
-  itkGetObjectMacro(InputNarrowBand, NodeContainer);
+  itkGetModifiableObjectMacro(InputNarrowBand, NodeContainer);
 
   /** Get the container of inside points. The inside points are
    * stored in a VectorContainer of LevelSetNodes. */

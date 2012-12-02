@@ -111,7 +111,7 @@ public:
   itkTypeMacro(ParameterizationQuadEdgeMeshFilter, QuadEdgeMeshToQuadEdgeMeshFilter);
 
   itkSetObjectMacro(BorderTransform, MeshBorderTransform);
-  itkGetObjectMacro(BorderTransform, MeshBorderTransform);
+  itkGetModifiableObjectMacro(BorderTransform, MeshBorderTransform);
 
 protected:
 

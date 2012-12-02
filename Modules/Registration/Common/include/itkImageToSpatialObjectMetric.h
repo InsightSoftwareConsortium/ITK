@@ -132,23 +132,19 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageToSpatialObjectMetric, Object);
 
-  /** Connect the FixedImage. */
+  /** Get/Set the FixedImage. */
   itkSetConstObjectMacro(FixedImage, FixedImageType);
-
-  /** Get the FixedImage. */
   itkGetConstObjectMacro(FixedImage, FixedImageType);
 
-  /** Connect the MovingSpatialObject */
+  /** Get/Set the MovingSpatialObject */
   itkSetConstObjectMacro(MovingSpatialObject, MovingSpatialObjectType);
-
-  /** Get the MovingSpatialObject. */
   itkGetConstObjectMacro(MovingSpatialObject, MovingSpatialObjectType);
 
   /** Connect the Interpolator. */
   itkSetObjectMacro(Interpolator, InterpolatorType);
 
   /** Get the Interpolator. */
-  itkGetObjectMacro(Interpolator, InterpolatorType);
+  itkGetModifiableObjectMacro(Interpolator, InterpolatorType);
 
   /** Get Value and Derivatives for MultipleValuedOptimizers */
   virtual void GetValueAndDerivative(const ParametersType & parameters,

@@ -63,7 +63,7 @@ public:
   itkSetObjectMacro(MiniPipelineFilter, ProcessObject);
 
   /** Set the mini-pipeline filter */
-  itkGetConstObjectMacro(MiniPipelineFilter, ProcessObject);
+  itkGetModifiableObjectMacro(MiniPipelineFilter, ProcessObject);
 
   /**
    * Register a filter with the progress accumulator and specify the

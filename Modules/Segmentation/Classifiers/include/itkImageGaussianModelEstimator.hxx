@@ -83,7 +83,7 @@ ImageGaussianModelEstimator< TInputImage, TMembershipFunction, TTrainingImage >
 ::EstimateModels()
 {
   //Do some error checking
-  InputImagePointer inputImage = this->GetInputImage();
+  InputImageConstPointer inputImage = this->GetInputImage();
 
   // Check if the training and input image dimensions are the same
   if ( (int)(TInputImage::ImageDimension) != (int)(TTrainingImage::ImageDimension) )
@@ -91,15 +91,12 @@ ImageGaussianModelEstimator< TInputImage, TMembershipFunction, TTrainingImage >
     throw ExceptionObject(__FILE__, __LINE__, "Training and input image dimensions are not the same.", ITK_LOCATION);
     }
 
-  InputImageSizeType
-  inputImageSize = inputImage->GetBufferedRegion().GetSize();
+  InputImageSizeType inputImageSize = inputImage->GetBufferedRegion().GetSize();
+
+  TrainingImageConstPointer trainingImage = this->GetTrainingImage();
 
   typedef InputImageSizeType TrainingImageSizeType;
-
-  TrainingImagePointer trainingImage = this->GetTrainingImage();
-
-  TrainingImageSizeType
-  trainingImageSize = trainingImage->GetBufferedRegion().GetSize();
+  TrainingImageSizeType trainingImageSize = trainingImage->GetBufferedRegion().GetSize();
 
   // Check if size of the two inputs are the same
   for ( unsigned int i = 0; i < TInputImage::ImageDimension; i++ )
@@ -160,17 +157,16 @@ ImageGaussianModelEstimator< TInputImage, TMembershipFunction, TTrainingImage >
 ::EstimateGaussianModelParameters()
 {
   // Set the iterators and the pixel type definition for the input image
-  InputImagePointer  inputImage = this->GetInputImage();
-  InputImageIterator inIt( inputImage, inputImage->GetBufferedRegion() );
+  InputImageConstPointer  inputImage = this->GetInputImage();
+  InputImageConstIterator inIt( inputImage, inputImage->GetBufferedRegion() );
 
   //-------------------------------------------------------------------
 
   //-------------------------------------------------------------------
   // Set the iterators and the pixel type definition for the training image
-  TrainingImagePointer trainingImage = this->GetTrainingImage();
+  TrainingImageConstPointer trainingImage = this->GetTrainingImage();
 
-  TrainingImageIterator
-  trainingImageIt( trainingImage, trainingImage->GetBufferedRegion() );
+  TrainingImageConstIterator trainingImageIt( trainingImage, trainingImage->GetBufferedRegion() );
 
   //-------------------------------------------------------------------
 

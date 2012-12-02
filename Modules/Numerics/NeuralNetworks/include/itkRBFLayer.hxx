@@ -225,13 +225,13 @@ RBFLayer<TMeasurementVector,TTargetVector>
     {
     typename TransferFunctionInterfaceType::Pointer transferfunction;
 
-    inputfunction = this->GetNodeInputFunction();
-    transferfunction = this->GetActivationFunction();
-    inputweightset = this->GetInputWeightSet();
+    inputfunction = this->GetModifiableNodeInputFunction();
+    transferfunction = this->GetModifiableActivationFunction();
+    inputweightset = this->GetModifiableInputWeightSet();
     ValueType * inputvalues = inputweightset->GetOutputValues();
 
-    int rows = this->m_NumberOfNodes;
-    int cols = this->m_InputWeightSet->GetNumberOfInputNodes();
+    const int rows = this->m_NumberOfNodes;
+    const int cols = this->m_InputWeightSet->GetNumberOfInputNodes();
     vnl_matrix<ValueType> inputmatrix;
     inputmatrix.set_size(rows, cols);
     inputmatrix.copy_in(inputvalues);
@@ -248,8 +248,8 @@ RBFLayer<TMeasurementVector,TTargetVector>
     }
   else
     {
-    inputweightset = this->GetInputWeightSet();
-    inputfunction = this->GetNodeInputFunction();
+    inputweightset = this->GetModifiableInputWeightSet();
+    inputfunction = this->GetModifiableNodeInputFunction();
 
     vnl_vector<ValueType> temp;
     ValueType * inputvalues = inputweightset->GetInputValues();
@@ -328,8 +328,7 @@ void
 RBFLayer<TMeasurementVector,TTargetVector>
 ::ForwardPropagate(TMeasurementVector samplevector)
 {
-  typename TransferFunctionInterfaceType::Pointer transferfunction;
-  transferfunction = this->GetActivationFunction();
+  typename TransferFunctionInterfaceType::Pointer transferfunction = this->GetModifiableActivationFunction();
 
   for (unsigned int i = 0; i < samplevector.Size(); i++)
     {
@@ -365,12 +364,10 @@ void
 RBFLayer<TMeasurementVector,TTargetVector>
 ::BackwardPropagate()
 {
-  unsigned int num_nodes = this->GetNumberOfNodes();
+  const unsigned int num_nodes = this->GetNumberOfNodes();
 
-  typename Superclass::WeightSetType::Pointer outputweightset;
-  typename Superclass::WeightSetType::Pointer inputweightset;
-  outputweightset = Superclass::GetOutputWeightSet();
-  inputweightset = Superclass::GetInputWeightSet();
+  typename Superclass::WeightSetType::Pointer outputweightset = Superclass::GetModifiableOutputWeightSet();
+  typename Superclass::WeightSetType::Pointer inputweightset = Superclass::GetModifiableInputWeightSet();
 
   vnl_vector<ValueType> OutputLayerInput(outputweightset->GetInputValues(),num_nodes);
 
@@ -378,8 +375,8 @@ RBFLayer<TMeasurementVector,TTargetVector>
   ValueType * deltavalues = outputweightset->GetDeltaValues();
   ValueType * weightvalues = outputweightset->GetWeightValues();
 
-  unsigned int cols = num_nodes;
-  unsigned int rows = outputweightset->GetNumberOfOutputNodes();
+  const unsigned int cols = num_nodes;
+  const unsigned int rows = outputweightset->GetNumberOfOutputNodes();
 
   vnl_matrix<ValueType> weightmatrix(weightvalues, rows, cols);
 

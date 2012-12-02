@@ -127,8 +127,7 @@ public:
     m_FactorySpecifiedMeshIO = false;
     m_UserSpecifiedMeshIO = true;
   }
-
-  itkGetObjectMacro(MeshIO, MeshIOBase);
+  itkGetModifiableObjectMacro(MeshIO, MeshIOBase);
 
   void SetFileTypeAsASCII(){m_FileTypeIsBINARY = false; }
   void SetFileTypeAsBINARY(){m_FileTypeIsBINARY = true; }

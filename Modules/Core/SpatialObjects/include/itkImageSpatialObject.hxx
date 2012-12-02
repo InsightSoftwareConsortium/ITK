@@ -298,8 +298,8 @@ ImageSpatialObject< TDimension,  PixelType >
       }
     }
 
-  this->GetIndexToObjectTransform()->SetMatrix(indexToObjectMatrix);
-  this->GetIndexToObjectTransform()->SetOffset(offset);
+  this->GetModifiableIndexToObjectTransform()->SetMatrix(indexToObjectMatrix);
+  this->GetModifiableIndexToObjectTransform()->SetOffset(offset);
 
   this->ComputeObjectToParentTransform();
 

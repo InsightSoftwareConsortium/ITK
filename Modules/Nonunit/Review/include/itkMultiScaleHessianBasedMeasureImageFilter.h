@@ -127,7 +127,7 @@ public:
    Hessian input image and produces enhanced output scalar image. The filter must derive from
    itk::ImageToImage filter */
   itkSetObjectMacro(HessianToMeasureFilter, HessianToMeasureFilterType);
-  itkGetObjectMacro(HessianToMeasureFilter, HessianToMeasureFilterType);
+  itkGetModifiableObjectMacro(HessianToMeasureFilter, HessianToMeasureFilterType);
 
   /** Methods to turn on/off flag to inform the filter that the Hessian-based measure
    is non-negative (classical measures like Sato's and Frangi's are), hence it has a minimum

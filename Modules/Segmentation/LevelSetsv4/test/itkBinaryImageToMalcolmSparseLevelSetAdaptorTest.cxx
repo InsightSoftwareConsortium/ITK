@@ -58,7 +58,7 @@ int itkBinaryImageToMalcolmSparseLevelSetAdaptorTest( int argc, char* argv[] )
   adaptor->Initialize();
   std::cout << "Finished converting to sparse format" << std::endl;
 
-  LevelSetType::Pointer sparseLevelSet = adaptor->GetLevelSet();
+  LevelSetType::Pointer sparseLevelSet = adaptor->GetModifiableLevelSet();
 
   typedef BinaryToSparseAdaptorType::LevelSetOutputType LevelSetOutputType;
 

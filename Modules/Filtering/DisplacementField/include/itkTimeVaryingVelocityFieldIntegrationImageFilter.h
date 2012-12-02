@@ -93,33 +93,22 @@ public:
   typedef VectorInterpolateImageFunction<DisplacementFieldType, RealType>   DisplacementFieldInterpolatorType;
   typedef typename DisplacementFieldInterpolatorType::Pointer               DisplacementFieldInterpolatorPointer;
 
-  /** Set the time-varying velocity field interpolator.  Default = linear. */
+  /** Get/Set the time-varying velocity field interpolator.  Default = linear. */
   itkSetObjectMacro( VelocityFieldInterpolator, VelocityFieldInterpolatorType );
-
-  /** Get the time-varying velocity field interpolator.  Default = linear. */
-  itkGetObjectMacro( VelocityFieldInterpolator, VelocityFieldInterpolatorType );
+  itkGetModifiableObjectMacro(VelocityFieldInterpolator, VelocityFieldInterpolatorType );
 
   /**
-   * Set the deformation field interpolator for the initial diffeomorphism
+   * Get/Set the deformation field interpolator for the initial diffeomorphism
    * (if set).  Default = linear.
    */
   itkSetObjectMacro( DisplacementFieldInterpolator, DisplacementFieldInterpolatorType );
+  itkGetModifiableObjectMacro(DisplacementFieldInterpolator, DisplacementFieldInterpolatorType );
 
   /**
-   * Get the deformation field interpolator for the initial diffeomorphism
-   * (if set).  Default = linear.
-   */
-  itkGetObjectMacro( DisplacementFieldInterpolator, DisplacementFieldInterpolatorType );
-
-  /**
-   * Set the initial diffeomorphism
+   * Get/Set the initial diffeomorphism
    */
   itkSetObjectMacro( InitialDiffeomorphism, DisplacementFieldType );
-
-  /**
-   * Get the initial diffeomorphism
-   */
-  itkGetObjectMacro( InitialDiffeomorphism, DisplacementFieldType );
+  itkGetModifiableObjectMacro(InitialDiffeomorphism, DisplacementFieldType );
 
   /**
    * Set the lower time bound defining the integration domain of the transform.

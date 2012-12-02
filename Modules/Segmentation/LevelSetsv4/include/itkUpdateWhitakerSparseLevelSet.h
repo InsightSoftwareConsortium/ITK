@@ -95,14 +95,14 @@ public:
   typedef LabelMapToLabelImageFilter< LevelSetLabelMapType, LabelImageType >  LabelMapToLabelImageFilterType;
   typedef LabelImageToLabelMapFilter< LabelImageType, LevelSetLabelMapType >  LabelImageToLabelMapFilterType;
 
-  itkGetObjectMacro( OutputLevelSet, LevelSetType );
+  itkGetModifiableObjectMacro(OutputLevelSet, LevelSetType );
 
   /** Update function for initializing and computing the output level set */
   void Update();
 
   /** Set/Get the sparse levet set image */
   itkSetObjectMacro( InputLevelSet, LevelSetType );
-  itkGetObjectMacro( InputLevelSet, LevelSetType );
+  itkGetModifiableObjectMacro(InputLevelSet, LevelSetType );
 
   /** Set/Get the TimeStep for the update */
   itkSetMacro( TimeStep, LevelSetOutputType );
@@ -113,7 +113,7 @@ public:
 
   /** Set/Get the Equation container for computing the update */
   itkSetObjectMacro( EquationContainer, EquationContainerType );
-  itkGetObjectMacro( EquationContainer, EquationContainerType );
+  itkGetModifiableObjectMacro(EquationContainer, EquationContainerType );
 
   /** Set/Get the current level set id */
   itkSetMacro( CurrentLevelSetId, IdentifierType );

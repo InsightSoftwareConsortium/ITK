@@ -45,7 +45,7 @@ SpatialObjectTreeContainer< TDimension >::SetRoot(const SpatialObjectPointer ele
 
   if ( element->GetTreeNode() )
     {
-    this->m_Root = element->GetTreeNode();
+    this->m_Root = element->GetModifiableTreeNode();
     }
   else
     {

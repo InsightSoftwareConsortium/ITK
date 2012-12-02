@@ -201,6 +201,8 @@ int itkScalarToRGBColormapImageFilterTest( int argc, char *argv[] )
     // Get blue values
     std::getline( str, line );
     std::istringstream issb( line );
+    colormap->SetMinimumRGBComponentValue( 0 );
+    colormap->SetMaximumRGBComponentValue( 255 );
     while ( issb >> value )
       {
       channel.push_back( value );
@@ -210,10 +212,6 @@ int itkScalarToRGBColormapImageFilterTest( int argc, char *argv[] )
     rgbfilter->SetColormap( colormap );
     vfilter->SetColormap( vcolormap );
     }
-
-  rgbfilter->GetColormap()->SetMinimumRGBComponentValue( 0 );
-  rgbfilter->GetColormap()->SetMaximumRGBComponentValue( 255 );
-
 
   typedef itk::Testing::HashImageFilter<RGBImageType> RGBHasher;
   RGBHasher::Pointer rgbhasher = RGBHasher::New();

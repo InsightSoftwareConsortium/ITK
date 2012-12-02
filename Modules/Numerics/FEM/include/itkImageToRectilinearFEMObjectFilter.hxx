@@ -175,9 +175,9 @@ ImageToRectilinearFEMObjectFilter<TInputImage>
   this->m_NumberOfElements[1] = size[1] / m_PixelsPerElement[1];
 
   FEMObjectPointer femObject = this->GetOutput();
-  femObject->GetLoadContainer()->Initialize();
-  femObject->GetElementContainer()->Initialize();
-  femObject->GetNodeContainer()->Initialize();
+  femObject->GetModifiableLoadContainer()->Initialize();
+  femObject->GetModifiableElementContainer()->Initialize();
+  femObject->GetModifiableNodeContainer()->Initialize();
 
   // Create nodes
   Element::Node::Pointer  n;
@@ -247,9 +247,9 @@ ImageToRectilinearFEMObjectFilter<TInputImage>
   this->m_NumberOfElements[2] = size[2] / m_PixelsPerElement[2];
 
   FEMObjectPointer femObject = this->GetOutput();
-  femObject->GetLoadContainer()->Initialize();
-  femObject->GetElementContainer()->Initialize();
-  femObject->GetNodeContainer()->Initialize();
+  femObject->GetModifiableLoadContainer()->Initialize();
+  femObject->GetModifiableElementContainer()->Initialize();
+  femObject->GetModifiableNodeContainer()->Initialize();
 
   if ( this->m_Material )
     {

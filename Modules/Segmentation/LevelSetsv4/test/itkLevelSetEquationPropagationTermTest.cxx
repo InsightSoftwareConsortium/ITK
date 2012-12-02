@@ -108,7 +108,7 @@ int itkLevelSetEquationPropagationTermTest( int argc, char* argv[] )
   adaptor->Initialize();
   std::cout << "Finished converting to sparse format" << std::endl;
 
-  SparseLevelSetType::Pointer level_set = adaptor->GetLevelSet();
+  SparseLevelSetType::Pointer level_set = adaptor->GetModifiableLevelSet();
 
   IdListType list_ids;
   list_ids.push_back( 1 );
@@ -169,7 +169,7 @@ int itkLevelSetEquationPropagationTermTest( int argc, char* argv[] )
 
   iIt.GoToBegin();
 
-  itk::ImageRegionIteratorWithIndex< PropagationTermType::PropagationImageType > pIt(
+  itk::ImageRegionConstIteratorWithIndex< PropagationTermType::PropagationImageType > pIt(
     term->GetPropagationImage(), term->GetPropagationImage()->GetLargestPossibleRegion() );
   pIt.GoToBegin();
 

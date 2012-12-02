@@ -329,7 +329,7 @@ ObjectToObjectMultiMetricv4<TFixedDimension, TMovingDimension, TVirtualImage>
 template<unsigned int TFixedDimension, unsigned int TMovingDimension, class TVirtualImage>
 const typename ObjectToObjectMultiMetricv4<TFixedDimension, TMovingDimension, TVirtualImage>::MetricQueueType &
 ObjectToObjectMultiMetricv4<TFixedDimension, TMovingDimension, TVirtualImage>
-::GetMetricQueue()
+::GetMetricQueue() const
 {
   return this->m_MetricQueue;
 }

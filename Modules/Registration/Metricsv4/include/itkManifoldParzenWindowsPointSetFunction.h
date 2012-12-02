@@ -81,6 +81,7 @@ public:
   typedef typename Statistics::
     GaussianMembershipFunction<PointType>                  GaussianType;
   typedef typename GaussianType::Pointer                   GaussianPointer;
+  typedef typename GaussianType::ConstPointer              GaussianConstPointer;
   typedef std::vector<GaussianPointer>                     GaussianContainerType;
   typedef typename GaussianType::CovarianceMatrixType      CovarianceMatrixType;
 
@@ -172,10 +173,10 @@ public:
   virtual TOutput Evaluate( const InputPointType & ) const;
 
   /** Get Gaussian corresponding to a specific point */
-  GaussianPointer GetGaussian( PointIdentifier );
+  GaussianConstPointer GetGaussian( PointIdentifier ) const ;
 
   /** Get the points locator describing the point set neighborhood */
-  itkGetConstObjectMacro( PointsLocator, PointsLocatorType );
+  itkGetModifiableObjectMacro(PointsLocator, PointsLocatorType );
 
 protected:
   ManifoldParzenWindowsPointSetFunction();

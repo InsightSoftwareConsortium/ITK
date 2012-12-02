@@ -65,7 +65,7 @@ int itkBinaryImageToWhitakerSparseLevelSetAdaptorTest( int argc, char* argv[] )
   std::cout << "Finished converting to sparse format" << std::endl;
 
   typedef LevelSetType::LayerIdType             LayerIdType;
-  LevelSetType::Pointer sparseLevelSet = adaptor->GetLevelSet();
+  LevelSetType::Pointer sparseLevelSet = adaptor->GetModifiableLevelSet();
 
   typedef itk::Image< OutputPixelType, Dimension >    OutputImageType;
   OutputImageType::Pointer output = OutputImageType::New();

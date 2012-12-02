@@ -213,7 +213,7 @@ public:
     // Software Guide : EndLatex
     // Software Guide : BeginCodeSnippet
     OptimizerPointer optimizer = dynamic_cast< OptimizerPointer >(
-                       registration->GetOptimizer() );
+                       registration->GetModifiableOptimizer() );
 
     std::cout << "-------------------------------------" << std::endl;
     std::cout << "MultiResolution Level : "

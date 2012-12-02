@@ -119,22 +119,20 @@ void
 DOMReader<TOutput>::Update()
 {
   // create the intermediate DOM object if it is not set
-  DOMNodeType* domobj = this->GetIntermediateDOM();
-  if ( domobj == NULL )
+  if ( this->m_IntermediateDOM.IsNull() )
     {
     DOMNodePointer node = DOMNodeType::New();
-    domobj = (DOMNodeType*)node;
-    this->SetIntermediateDOM( domobj );
+    this->SetIntermediateDOM( node.GetPointer() );
     }
 
   FancyString fn( this->m_FileName );
 
   // remove previous data from the DOM object
-  domobj->RemoveAllAttributesAndChildren();
+  this->m_IntermediateDOM->RemoveAllAttributesAndChildren();
 
   // read the input XML file and update the DOM object
   typename DOMNodeXMLReader::Pointer reader = DOMNodeXMLReader::New();
-  reader->SetOutput( domobj );
+  reader->SetOutput( this->m_IntermediateDOM );
   reader->SetFileName( fn );
   reader->Update();
 
@@ -143,7 +141,7 @@ DOMReader<TOutput>::Update()
   FancyString sNewWorkingDir = itksys::SystemTools::GetFilenamePath( fn );
   itksys::SystemTools::ChangeDirectory( sNewWorkingDir );
 
-  this->Update( domobj );
+  this->Update( this->m_IntermediateDOM );
 
   // change the WD back to the previously saved
   itksys::SystemTools::ChangeDirectory( sOldWorkingDir );

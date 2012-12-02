@@ -107,7 +107,7 @@ public:
    * Set/Get the colormap object.
    */
   itkSetObjectMacro(Colormap, ColormapType);
-  itkGetObjectMacro(Colormap, ColormapType);
+  itkGetModifiableObjectMacro(Colormap, ColormapType);
 
   /**
    * Enum type that provides for an easy interface to existing colormaps.

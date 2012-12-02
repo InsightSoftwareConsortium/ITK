@@ -151,8 +151,7 @@ public:
   * to use to read a particular file in case the factory mechanism will
   * not work properly (e.g., unknown or unusual extension). */
   void  SetMeshIO(MeshIOBase *meshIO);
-
-  itkGetObjectMacro(MeshIO, MeshIOBase);
+  itkGetModifiableObjectMacro(MeshIO, MeshIOBase);
 
   /** Prepare the allocation of the output mesh during the first back
    * propagation of the pipeline. */

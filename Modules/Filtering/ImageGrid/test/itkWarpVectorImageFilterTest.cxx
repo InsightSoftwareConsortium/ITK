@@ -340,7 +340,7 @@ int itkWarpVectorImageFilterTest(int, char* [] )
   // Exercise error handling
 
   typedef WarperType::InterpolatorType InterpolatorType;
-  InterpolatorType::Pointer interp = warper->GetInterpolator();
+  InterpolatorType::Pointer interp = warper->GetModifiableInterpolator();
 
   try
     {

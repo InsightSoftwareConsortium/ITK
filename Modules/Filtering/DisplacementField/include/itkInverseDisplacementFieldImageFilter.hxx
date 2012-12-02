@@ -195,8 +195,8 @@ InverseDisplacementFieldImageFilter< TInputImage, TOutputImage >
 
   itkDebugMacro(<< "Number of Landmarks created = " <<  numberOfLandmarks);
 
-  m_KernelTransform->GetTargetLandmarks()->SetPoints(target);
-  m_KernelTransform->GetSourceLandmarks()->SetPoints(source);
+  m_KernelTransform->GetModifiableTargetLandmarks()->SetPoints(target);
+  m_KernelTransform->GetModifiableSourceLandmarks()->SetPoints(source);
 
   itkDebugMacro(<< "Before ComputeWMatrix() ");
 

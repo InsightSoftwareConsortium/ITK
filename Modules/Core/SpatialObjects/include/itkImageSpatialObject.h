@@ -116,8 +116,7 @@ public:
 
   /** Set/Get the interpolator */
   void SetInterpolator(InterpolatorType *interpolator);
-
-  itkGetObjectMacro(Interpolator, InterpolatorType);
+  itkGetModifiableObjectMacro(Interpolator, InterpolatorType);
 
 protected:
   ImageSpatialObject(const Self &); //purposely not implemented

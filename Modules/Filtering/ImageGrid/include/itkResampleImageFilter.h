@@ -174,7 +174,7 @@ public:
   typedef typename TOutputImage::PointType     OriginPointType;
   typedef typename TOutputImage::DirectionType DirectionType;
 
-  /** Set the coordinate transformation.
+  /** Get/Set the coordinate transformation.
    * Set the coordinate transform to use for resampling.  Note that this must
    * be in physical coordinates and it is the output-to-input transform, NOT
    * the input-to-output transform that you might naively expect.  By default
@@ -182,11 +182,9 @@ public:
    * transform here, before attempting to run the filter, if you do not want to
    * use the default Identity transform. */
   itkSetConstObjectMacro(Transform, TransformType);
-
-  /** Get a pointer to the coordinate transform. */
   itkGetConstObjectMacro(Transform, TransformType);
 
-  /** Set the interpolator function.  The default is
+  /** Get/Set the interpolator function.  The default is
    * LinearInterpolateImageFunction<InputImageType,
    * TInterpolatorPrecisionType>. Some
    * other options are NearestNeighborInterpolateImageFunction
@@ -194,29 +192,21 @@ public:
    * possible pixel values), and BSplineInterpolateImageFunction
    * (which provides a higher order of interpolation).  */
   itkSetObjectMacro(Interpolator, InterpolatorType);
+  itkGetModifiableObjectMacro(Interpolator, InterpolatorType);
 
-  /** Get a pointer to the interpolator function. */
-  itkGetConstObjectMacro(Interpolator, InterpolatorType);
-
-  /** Set the extrapolator function.  The default behavior when sampling outside
+  /** Get/Set the extrapolator function.  The default behavior when sampling outside
    * of the input image is to use the DefaultPixelValue.  Some other options
    * include NearestNeighborExtrapolateImageFunction. */
   itkSetObjectMacro(Extrapolator, ExtrapolatorType);
+  itkGetModifiableObjectMacro(Extrapolator, ExtrapolatorType);
 
-  /** Get a pointer to the extrapolator function. */
-  itkGetConstObjectMacro(Extrapolator, ExtrapolatorType);
-
-  /** Set the size of the output image. */
+  /** Get/Set the size of the output image. */
   itkSetMacro(Size, SizeType);
-
-  /** Get the size of the output image. */
   itkGetConstReferenceMacro(Size, SizeType);
 
-  /** Set the pixel value when a transformed pixel is outside of the
+  /** Get/Set the pixel value when a transformed pixel is outside of the
    * image.  The default default pixel value is 0. */
   itkSetMacro(DefaultPixelValue, PixelType);
-
-  /** Get the pixel value when a transformed pixel is outside of the image */
   itkGetConstReferenceMacro(DefaultPixelValue, PixelType);
 
   /** Set the output image spacing. */

@@ -114,8 +114,8 @@ DeformationFieldSource< TOutputImage >
     const_cast< LandmarkContainer * >(
       m_TargetLandmarks.GetPointer() );
 
-  m_KernelTransform->GetTargetLandmarks()->SetPoints(targets);
-  m_KernelTransform->GetSourceLandmarks()->SetPoints(sources);
+  m_KernelTransform->GetModifiableTargetLandmarks()->SetPoints(targets);
+  m_KernelTransform->GetModifiableSourceLandmarks()->SetPoints(sources);
 
   itkDebugMacro(<< "Before ComputeWMatrix() ");
 

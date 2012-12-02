@@ -110,19 +110,19 @@ public:
   typedef ImageVectorOptimizerParametersHelper<ScalarType, Dimension, VelocityFieldDimension>
     OptimizerParametersHelperType;
 
-  /** Get/Set the velocity field. */
-  itkGetObjectMacro( VelocityField, VelocityFieldType );
-  /** Set the displacement field. Create special set accessor to update
+  /** Get/Set the velocity field.
+   * Set the displacement field. Create special set accessor to update
    * interpolator and assign displacement field to transform parameters
    * container. */
   virtual void SetVelocityField( VelocityFieldType * );
+  itkGetModifiableObjectMacro(VelocityField, VelocityFieldType );
 
   virtual void SetFixedParameters( const ParametersType & );
 
-  /** Get/Set the interpolator. */
-  itkGetObjectMacro( VelocityFieldInterpolator, VelocityFieldInterpolatorType );
-  /* Create out own set accessor that assigns the velocity field */
+  /** Get/Set the interpolator.
+   * Create out own set accessor that assigns the velocity field */
   virtual void SetVelocityFieldInterpolator( VelocityFieldInterpolatorType * );
+  itkGetModifiableObjectMacro(VelocityFieldInterpolator, VelocityFieldInterpolatorType );
 
   /** Get the modification time of velocity field */
   itkGetConstReferenceMacro( VelocityFieldSetTime, unsigned long );

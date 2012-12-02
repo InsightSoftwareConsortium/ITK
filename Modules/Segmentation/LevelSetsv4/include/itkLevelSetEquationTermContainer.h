@@ -81,13 +81,13 @@ public:
 
   /** Set/Get the input image to be segmented. */
   itkSetObjectMacro( Input, InputImageType );
-  itkGetObjectMacro( Input, InputImageType );
+  itkGetModifiableObjectMacro(Input, InputImageType );
 
   itkSetMacro( CurrentLevelSetId, LevelSetIdentifierType );
   itkGetMacro( CurrentLevelSetId, LevelSetIdentifierType );
 
   itkSetObjectMacro( LevelSetContainer, LevelSetContainerType );
-  itkGetObjectMacro( LevelSetContainer, LevelSetContainerType );
+  itkGetModifiableObjectMacro(LevelSetContainer, LevelSetContainerType );
 
   /** Add a term to the end of the container  */
   void PushTerm( TermType* iTerm );

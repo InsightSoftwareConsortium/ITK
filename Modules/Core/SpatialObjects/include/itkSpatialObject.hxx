@@ -120,7 +120,7 @@ SpatialObject< TDimension >
       p2 = point;
 
       // should get the spacing from the transform
-      const double *spacing = this->GetIndexToObjectTransform()->GetScale();
+      const double *spacing = this->GetModifiableIndexToObjectTransform()->GetScale();
       p1[i] -= spacing[i];
       p2[i] += spacing[i];
 
@@ -270,7 +270,7 @@ void
 SpatialObject< TDimension >
 ::AddSpatialObject(Self *pointer)
 {
-  m_TreeNode->AddChild( pointer->GetTreeNode() );
+  m_TreeNode->AddChild( pointer->GetModifiableTreeNode() );
   m_InternalChildrenList.push_back(pointer);
   this->Modified();
 }
@@ -281,7 +281,7 @@ void
 SpatialObject< TDimension >
 ::RemoveSpatialObject(Self *pointer)
 {
-  if ( m_TreeNode->Remove( pointer->GetTreeNode() ) )
+  if ( m_TreeNode->Remove( pointer->GetModifiableTreeNode() ) )
     {
     typename ChildrenListType::iterator pos;
     pos = std::find(m_InternalChildrenList.begin(),
@@ -401,14 +401,6 @@ SpatialObject< TDimension >
            m_TreeNode.GetPointer() )->GetNodeToParentNodeTransform();
 }
 
-/** Get the local transformation */
-template< unsigned int TDimension >
-typename SpatialObject< TDimension >::TransformType *
-SpatialObject< TDimension >
-::GetIndexToObjectTransform(void)
-{
-  return m_AffineGeometryFrame->GetIndexToObjectTransform();
-}
 
 /** Get the local transformation (const) */
 template< unsigned int TDimension >
@@ -451,7 +443,7 @@ SpatialObject< TDimension >
       }
     }
 
-  m_AffineGeometryFrame->GetObjectToNodeTransform()->SetIdentity();
+  m_AffineGeometryFrame->GetModifiableObjectToNodeTransform()->SetIdentity();
   static_cast< TreeNodeType * >( m_TreeNode.GetPointer() )
   ->GetNodeToParentNodeTransform()
   ->SetCenter( m_ObjectToParentTransform->GetCenter() );
@@ -634,7 +626,7 @@ SpatialObject< TDimension >
   while ( it != itEnd )
     {
     static_cast< TreeNodeType * >(
-      m_TreeNode.GetPointer() )->AddChild( ( *it )->GetTreeNode() );
+      m_TreeNode.GetPointer() )->AddChild( ( *it )->GetModifiableTreeNode() );
     it++;
     }
 }

@@ -105,10 +105,10 @@ public:
 
   /** Set/Get the input speed or feature image */
   itkSetObjectMacro( Input, InputImageType );
-  itkGetConstObjectMacro( Input, InputImageType );
+  itkGetModifiableObjectMacro(Input, InputImageType );
 
   itkSetObjectMacro( LevelSetContainer, LevelSetContainerType );
-  itkGetObjectMacro( LevelSetContainer, LevelSetContainerType );
+  itkGetModifiableObjectMacro(LevelSetContainer, LevelSetContainerType );
 
 protected:
   typedef std::map< LevelSetIdentifierType, TermContainerPointer >  MapContainerType;
