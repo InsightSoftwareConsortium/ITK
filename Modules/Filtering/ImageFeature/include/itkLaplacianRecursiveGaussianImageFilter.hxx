@@ -126,6 +126,13 @@ LaplacianRecursiveGaussianImageFilter< TInputImage, TOutputImage >
 {
   itkDebugMacro(<< "LaplacianRecursiveGaussianImageFilter generating data ");
 
+  // Set the number of threads on all the filters
+  for ( unsigned int i = 0; i < ImageDimension - 1; i++ )
+    {
+      m_SmoothingFilters[i]->SetNumberOfThreads(this->GetNumberOfThreads());
+    }
+  m_DerivativeFilter->SetNumberOfThreads(this->GetNumberOfThreads());
+
   // Create a process accumulator for tracking the progress of minipipeline
   ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
@@ -159,6 +166,7 @@ LaplacianRecursiveGaussianImageFilter< TInputImage, TOutputImage >
   // it may perform no operation if the two images types are the same
   typedef itk::CastImageFilter< CumulativeImageType, OutputImageType > CastFilterType;
   typename CastFilterType::Pointer caster = CastFilterType::New();
+    caster->SetNumberOfThreads(this->GetNumberOfThreads());
 
   // If the last filter is running in-place then this bulk data is not
   // needed, release it to save memory
@@ -180,6 +188,7 @@ LaplacianRecursiveGaussianImageFilter< TInputImage, TOutputImage >
   // this function!
   typedef itk::BinaryFunctorImageFilter< CumulativeImageType, RealImageType, CumulativeImageType, AddMultConstFunctor > AddFilterType;
   typename AddFilterType::Pointer addFilter = AddFilterType::New();
+  addFilter->SetNumberOfThreads(this->GetNumberOfThreads());
 
   // register with progress accumulator
   progress->RegisterInternalFilter( addFilter,   1.0 / numberOfFilters );

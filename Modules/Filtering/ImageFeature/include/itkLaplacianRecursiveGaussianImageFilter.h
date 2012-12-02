@@ -32,7 +32,7 @@ namespace itk
  * This filter is implemented using the recursive gaussian filters.
  *
  * \ingroup GradientFilters
- * \ingroup SingelThreaded
+ * \ingroup MultiThreaded
  * \ingroup ITKImageFeature
  *
  * \wiki
