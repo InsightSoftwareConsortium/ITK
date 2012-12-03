@@ -31,8 +31,8 @@ template
 <class TScalar, unsigned int NDimensions, unsigned int NSubDimensions>
 MultiTransform<TScalar, NDimensions, NSubDimensions>::MultiTransform() : Superclass( 0 )
 {
-  this->m_NumberOfLocalParameters = itk::NumericTraits< NumberOfParametersType >::Zero;
-  this->m_LocalParametersUpdateTime = itk::NumericTraits< ModifiedTimeType >::Zero;
+  this->m_NumberOfLocalParameters = NumericTraits< NumberOfParametersType >::Zero;
+  this->m_LocalParametersUpdateTime = NumericTraits< ModifiedTimeType >::Zero;
   this->m_TransformQueue.clear();
 }
 
@@ -121,7 +121,7 @@ const typename MultiTransform<TScalar, NDimensions, NSubDimensions>::ParametersT
             subParameters.data_block(),
             subParameters.Size() * sizeof( ParametersValueType ) );
     offset += subParameters.Size();
-    it++;
+    ++it;
     }
   while( it != transforms.end() );
 
@@ -170,7 +170,7 @@ MultiTransform<TScalar, NDimensions, NSubDimensions>
       }
       /* Call SetParameters explicitly to include anything extra it does */
     (*it)->SetParameters(subParameters);
-    it++;
+    ++it;
     }
   while( it != transforms.end() );
 
@@ -200,7 +200,7 @@ const typename MultiTransform<TScalar, NDimensions, NSubDimensions>::ParametersT
             subFixedParameters.data_block(),
             subFixedParameters.Size() * sizeof( ParametersValueType ) );
     offset += subFixedParameters.Size();
-    it++;
+    ++it;
     }
   while( it != transforms.end() );
 
@@ -241,7 +241,7 @@ MultiTransform<TScalar, NDimensions, NSubDimensions>
     /* Call SetParameters explicitly to include anything extra it does */
     (*it)->SetFixedParameters(subFixedParameters);
     offset += subFixedParameters.Size();
-    it++;
+    ++it;
     }
   while( it != transforms.end() );
 
