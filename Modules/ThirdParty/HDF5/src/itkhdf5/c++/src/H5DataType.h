@@ -110,7 +110,7 @@ class H5_DLLCPP DataType : public H5Object {
 	DataSpace getRegion(void *ref, H5R_type_t ref_type = H5R_DATASET_REGION) const;
 
 	///\brief Returns this class name
-	virtual H5std_string fromClass () const { return("DataType"); }
+	virtual H5std_string fromClass () const;
 
 	// Creates a copy of an existing DataType using its id
 	DataType( const hid_t type_id );

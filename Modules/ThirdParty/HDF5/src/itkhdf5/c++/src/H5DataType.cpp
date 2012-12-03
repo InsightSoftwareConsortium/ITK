@@ -724,6 +724,13 @@ DataSpace DataType::getRegion(void *ref, H5R_type_t ref_type) const
    }
 }
 
+///\brief Returns this class name
+H5std_string DataType::fromClass () const
+{
+return("DataType");
+}
+
+
 //--------------------------------------------------------------------------
 // Function:    DataType::getId
 // Purpose:     Get the id of this attribute
