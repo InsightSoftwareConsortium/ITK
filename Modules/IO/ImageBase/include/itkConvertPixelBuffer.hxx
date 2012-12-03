@@ -242,6 +242,14 @@ ConvertPixelBuffer< InputPixelType, OutputPixelType, OutputConvertTraits >
                               int inputNumberOfComponents,
                               OutputPixelType *outputData, size_t size)
 {
+  //
+  // To be backwards campatible, if the output pixel type
+  // isn't a short or char type, don't fix the problem.
+  double maxAlpha(Self::MaxAlpha(*inputData));
+  if(sizeof(*outputData) > 2)
+    {
+    maxAlpha = 1.0;
+    }
   // 2 components assumed intensity and alpha
   if ( inputNumberOfComponents == 2 )
     {
@@ -250,7 +258,8 @@ ConvertPixelBuffer< InputPixelType, OutputPixelType, OutputConvertTraits >
       {
       OutputComponentType val =
         static_cast< OutputComponentType >( *inputData )
-        * static_cast< OutputComponentType >( *( inputData + 1 ) );
+        * static_cast< OutputComponentType >( *( inputData + 1 )
+                                              / maxAlpha);
       inputData += 2;
       OutputConvertTraits::SetNthComponent(0, *outputData++, val);
       }
@@ -268,15 +277,15 @@ ConvertPixelBuffer< InputPixelType, OutputPixelType, OutputConvertTraits >
     while ( inputData != endInput )
       {
       double tempval =
-        (
-          ( 2125.0 * static_cast< double >( *inputData )
-            + 7154.0 * static_cast< double >( *( inputData + 1 ) )
-            + 0721.0 * static_cast< double >( *( inputData + 2 ) ) ) / 10000.0
-        ) * static_cast< double >( *( inputData + 3 ) );
-      inputData += 4;
-      OutputComponentType val = static_cast< OutputComponentType >( tempval );
-      OutputConvertTraits::SetNthComponent(0, *outputData++, val);
-      inputData += diff;
+        ((2125.0 * static_cast< double >( *inputData )
+          + 7154.0 * static_cast< double >( *( inputData + 1 ) )
+          + 0721.0 * static_cast< double >( *( inputData + 2 ) ) ) / 10000.0)
+        * static_cast< double >(*( inputData + 3 ))
+        / maxAlpha;
+    inputData += 4;
+    OutputComponentType val = static_cast< OutputComponentType >( tempval );
+    OutputConvertTraits::SetNthComponent(0, *outputData++, val);
+    inputData += diff;
       }
     }
 }
