@@ -27,7 +27,7 @@ namespace itk
  * \brief Deformable transform using a BSpline representation
  *
  * This class encapsulates a deformable transform of points from one
- * N-dimensional one space to another N-dimensional space.
+ * N-dimensional space to another N-dimensional space.
  * The deformation field is modelled using B-splines.
  * A deformation is defined on a sparse regular grid of control points
  * \f$ \vec{\lambda}_j \f$ and is varied by defining a deformation
@@ -45,7 +45,7 @@ namespace itk
  * such that the transformed point is given by:
  * \f[ \vec{y} = B(\vec{x}) + D(\vec{x}) \f]
  *
- * The parameters for this transform is N x N-D grid of spline coefficients.
+ * The parameters for this transform is an N x N-D grid of spline coefficients.
  * The user specifies the parameters as one flat array: each N-D grid
  * is represented by an array in the same way an N-D image is represented
  * in the buffer; the N arrays are then concatentated together on form
