@@ -120,10 +120,16 @@ $(NEED_PRIV_HDRS):
          | cat preamble.c - \
          | perl unteem.pl \
          | grep -v HAS_BEEN_INCLUDED > $(notdir $@)
+ifeq (undefined,$(origin ITK_NRRDIO))
 $(NRRDIO_H): $(NEED_PUB_HDRS)
 	cat preamble.c $(notdir $(NEED_PUB_HDRS)) > $(NRRDIO_H)
-	$(if $(ITK_NRRDIO),,grep -v cmakedefine NrrdIO.h.in > NrrdIO.h)
 	rm -f $(notdir $(NEED_PUB_HDRS))
+else
+$(NRRDIO_H): $(NEED_PUB_HDRS)
+	cat preamble.c $(notdir $(NEED_PUB_HDRS)) > $(NRRDIO_H)
+	grep -v cmakedefine NrrdIO.h.in > NrrdIO.h
+	rm -f $(notdir $(NEED_PUB_HDRS))
+endif
 
 ### NrrdIO_Srcs.txt is a list of all the source files that must be
 ### compiled together to create libNrrdIO

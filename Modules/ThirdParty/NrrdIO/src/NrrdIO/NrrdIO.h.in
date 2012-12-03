@@ -2013,8 +2013,7 @@ NRRDIO_EXPORT int nrrdSpaceSet(Nrrd *nrrd, int space);
 NRRDIO_EXPORT int nrrdSpaceDimensionSet(Nrrd *nrrd, unsigned int spaceDim);
 NRRDIO_EXPORT unsigned int nrrdSpaceOriginGet(const Nrrd *nrrd,
                                             double vector[NRRD_SPACE_DIM_MAX]);
-NRRDIO_EXPORT int nrrdSpaceOriginSet(Nrrd *nrrd,
-                                   double vector[NRRD_SPACE_DIM_MAX]);
+NRRDIO_EXPORT int nrrdSpaceOriginSet(Nrrd *nrrd, const double *vector);
 NRRDIO_EXPORT int nrrdOriginCalculate(const Nrrd *nrrd,
                                     unsigned int *axisIdx,
                                     unsigned int axisIdxNum,

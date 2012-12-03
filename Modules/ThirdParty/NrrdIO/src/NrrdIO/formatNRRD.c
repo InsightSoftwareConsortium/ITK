@@ -686,7 +686,7 @@ _nrrdFormatNRRD_write(FILE *file, const Nrrd *nrrd, NrrdIoState *nio) {
   for (ii=1; ii<=NRRD_FIELD_MAX; ii++) {
     if (_nrrdFieldInteresting(nrrd, nio, ii)) {
       if (file) {
-        _nrrdFprintFieldInfo (file, "", nrrd, nio, ii);
+        _nrrdFprintFieldInfo(file, "", nrrd, nio, ii);
       } else if (nio->headerStringWrite) {
         _nrrdSprintFieldInfo(&strptr, "", nrrd, nio, ii);
         if (strptr) {
