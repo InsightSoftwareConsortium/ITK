@@ -18,7 +18,7 @@
 #ifndef __itkCompositeTransform_h
 #define __itkCompositeTransform_h
 
-#include "itkMultiTransformBase.h"
+#include "itkMultiTransform.h"
 
 #include <deque>
 
@@ -86,14 +86,14 @@ namespace itk
 template
 <class TScalar = double, unsigned int NDimensions = 3>
 class ITK_EXPORT CompositeTransform :
-  public MultiTransformBase<TScalar, NDimensions>
+  public MultiTransform<TScalar, NDimensions>
 {
 public:
   /** Standard class typedefs. */
-  typedef CompositeTransform                                    Self;
-  typedef MultiTransformBase<TScalar, NDimensions, NDimensions> Superclass;
-  typedef SmartPointer<Self>                                    Pointer;
-  typedef SmartPointer<const Self>                              ConstPointer;
+  typedef CompositeTransform                                  Self;
+  typedef MultiTransform<TScalar, NDimensions, NDimensions>   Superclass;
+  typedef SmartPointer<Self>                                  Pointer;
+  typedef SmartPointer<const Self>                            ConstPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro( CompositeTransform, Transform );
@@ -318,7 +318,7 @@ public:
       so the returned array is ordered in the same way. That is,
       the last sub-transform to be added is returned first in the
       parameter array. This is the opposite of what's done in the
-      parent MultiTransformBase class. */
+      parent MultiTransform class. */
   virtual const ParametersType & GetParameters(void) const;
 
   /* SetParameters only for transforms that are set to be optimized

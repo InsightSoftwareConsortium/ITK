@@ -19,7 +19,7 @@
 #include <iostream>
 
 #include "itkAffineTransform.h"
-#include "itkMultiTransformBase.h"
+#include "itkMultiTransform.h"
 #include "itkTranslationTransform.h"
 #include "itkTestingMacros.h"
 #include "itkDisplacementFieldTransform.h"
@@ -101,22 +101,22 @@ bool testVectorArray( const TVector & v1, const TVector & v2 )
 
 /******/
 
-const unsigned int itkMultiTransformBaseTestNDimensions = 2;
+const unsigned int itkMultiTransformTestNDimensions = 2;
 
 template
-<class TScalar = double, unsigned int NDimensions = itkMultiTransformBaseTestNDimensions>
-class MultiTransformBaseTestTransform :
-  public itk::MultiTransformBase<TScalar, NDimensions>
+<class TScalar = double, unsigned int NDimensions = itkMultiTransformTestNDimensions>
+class MultiTransformTestTransform :
+  public itk::MultiTransform<TScalar, NDimensions>
 {
 public:
   /** Standard class typedefs. */
-  typedef MultiTransformBaseTestTransform                             Self;
-  typedef itk::MultiTransformBase<TScalar, NDimensions, NDimensions>  Superclass;
-  typedef itk::SmartPointer<Self>                                     Pointer;
-  typedef itk::SmartPointer<const Self>                               ConstPointer;
+  typedef MultiTransformTestTransform                             Self;
+  typedef itk::MultiTransform<TScalar, NDimensions, NDimensions>  Superclass;
+  typedef itk::SmartPointer<Self>                                 Pointer;
+  typedef itk::SmartPointer<const Self>                           ConstPointer;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( MultiTransformBaseTestTransform, MultiTransformBase );
+  itkTypeMacro( MultiTransformTestTransform, MultiTransform );
 
   /** New macro for creation of through a Smart Pointer */
   itkNewMacro( Self );
@@ -133,25 +133,25 @@ public:
   }
 
 protected:
-  MultiTransformBaseTestTransform(){};
-  virtual ~MultiTransformBaseTestTransform(){};
+  MultiTransformTestTransform(){};
+  virtual ~MultiTransformTestTransform(){};
 
 private:
-  MultiTransformBaseTestTransform( const Self & ); // purposely not implemented
+  MultiTransformTestTransform( const Self & ); // purposely not implemented
   void operator=( const Self & );     // purposely not implemented
 
 };
 
 /******/
 
-int itkMultiTransformBaseTest(int, char *[] )
+int itkMultiTransformTest(int, char *[] )
 {
-  const unsigned int NDimensions = itkMultiTransformBaseTestNDimensions;
+  const unsigned int NDimensions = itkMultiTransformTestNDimensions;
 
   /* Create multi-transform */
-  typedef MultiTransformBaseTestTransform<double, NDimensions>  MultiTransformType;
-  typedef MultiTransformType::Superclass                        Superclass;
-  typedef Superclass::ScalarType                                ScalarType;
+  typedef MultiTransformTestTransform<double, NDimensions>  MultiTransformType;
+  typedef MultiTransformType::Superclass                    Superclass;
+  typedef Superclass::ScalarType                            ScalarType;
 
   MultiTransformType::Pointer multiTransform = MultiTransformType::New();
 
