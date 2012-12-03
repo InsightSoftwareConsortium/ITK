@@ -171,6 +171,11 @@ public:
     this->Modified();
   }
 
+  double GetAlpha() const
+  {
+    return this->GetFunctor().GetAlpha();
+  }
+
   void SetBeta(double beta)
   {
     if ( beta == this->GetFunctor().GetBeta() )
@@ -179,6 +184,11 @@ public:
       }
     this->GetFunctor().SetBeta(beta);
     this->Modified();
+  }
+
+  double GetBeta() const
+  {
+    return this->GetFunctor().GetBeta();
   }
 
   void SetOutputMinimum(OutputPixelType min)
@@ -191,6 +201,11 @@ public:
     this->Modified();
   }
 
+  OutputPixelType GetOutputMinimum() const
+  {
+    return this->GetFunctor().GetOutputMinimum();
+  }
+
   void SetOutputMaximum(OutputPixelType max)
   {
     if ( max == this->GetFunctor().GetOutputMaximum() )
@@ -199,6 +214,11 @@ public:
       }
     this->GetFunctor().SetOutputMaximum(max);
     this->Modified();
+  }
+
+  OutputPixelType GetOutputMaximum() const
+  {
+    return this->GetFunctor().GetOutputMaximum();
   }
 
 #ifdef ITK_USE_CONCEPT_CHECKING

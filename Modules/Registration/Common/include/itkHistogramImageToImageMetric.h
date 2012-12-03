@@ -147,10 +147,16 @@ public:
     * a particular range of intensities that correspond to features of interest. */
   void SetLowerBound(const MeasurementVectorType & bound);
 
+  /** Returns the current state of m_LowerBound. */
+  const MeasurementVectorType & GetLowerBound() const;
+
   /** Set the upper bounds of the intensities to be considered for computing
     * the histogram. This option allows to focus the computation of the Metric in
     * a particular range of intensities that correspond to features of interest.  */
   void SetUpperBound(const MeasurementVectorType & bound);
+
+  /** Returns the current state of m_UpperBound. */
+  const MeasurementVectorType & GetUpperBound() const;
 
 protected:
   /** Constructor is protected to ensure that \c New() function is used to

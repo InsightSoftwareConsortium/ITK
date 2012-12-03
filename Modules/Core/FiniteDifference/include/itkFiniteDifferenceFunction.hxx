@@ -61,6 +61,17 @@ SetScaleCoefficients(PixelRealType vals[ImageDimension])
 
 template< class TImageType >
 void
+FiniteDifferenceFunction< TImageType >::
+GetScaleCoefficients(PixelRealType vals[ImageDimension]) const
+{
+  for ( unsigned int i = 0; i < ImageDimension; i++ )
+    {
+    vals[i] = m_ScaleCoefficients[i];
+    }
+}
+
+template< class TImageType >
+void
 FiniteDifferenceFunction< TImageType >::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);

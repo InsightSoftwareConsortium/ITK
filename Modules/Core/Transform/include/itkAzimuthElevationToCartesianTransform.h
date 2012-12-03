@@ -176,24 +176,30 @@ public:
    *  cartesian space is symmetric about the z axis.  Therefore, the line
    *  defined by azimuth/2,elevation/2 = z-axis. */
   itkSetMacro(MaxAzimuth, long);
+  itkGetConstMacro(MaxAzimuth, long);
 
   /**  Set the maximum elevation
    *  The maximum azimuth and elevation can be set so that the resulting
    *  cartesian space is symmetric about the z axis.  Therefore, the line
    *  defined by azimuth/2,elevation/2 = z-axis. */
   itkSetMacro(MaxElevation, long);
+  itkGetConstMacro(MaxElevation, long);
 
   /**  Set the number of cartesian units between each unit along the R . */
   itkSetMacro(RadiusSampleSize, double);
+  itkGetConstMacro(RadiusSampleSize, double);
 
   /**  Set the number of degrees between each azimuth unit. */
   itkSetMacro(AzimuthAngularSeparation, double);
+  itkGetConstMacro(AzimuthAngularSeparation, double);
 
   /**  Set the number of degrees between each elevation unit. */
   itkSetMacro(ElevationAngularSeparation, double);
+  itkGetConstMacro(ElevationAngularSeparation, double);
 
   /**  Set the distance to add to the radius. */
   itkSetMacro(FirstSampleDistance, double);
+  itkGetConstMacro(FirstSampleDistance, double);
 
 protected:
   /** Create an AzimuthElevationToCartesianTransform object. */

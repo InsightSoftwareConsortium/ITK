@@ -118,6 +118,10 @@ public:
     this->GetFunctor().SetFactor(factor);
     this->Modified();
   }
+  double GetFactor() const
+  {
+    return this->GetFunctor().GetFactor();
+  }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */

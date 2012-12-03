@@ -93,6 +93,18 @@ GradientRecursiveGaussianImageFilter< TInputImage, TOutputImage >
 }
 
 /**
+ * Get value of Sigma
+ */
+template< typename TInputImage, typename TOutputImage >
+typename GradientRecursiveGaussianImageFilter< TInputImage, TOutputImage >
+::RealType
+GradientRecursiveGaussianImageFilter< TInputImage, TOutputImage >
+::GetSigma() const
+{
+  return m_DerivativeFilter->GetSigma();
+}
+
+/**
  * Set Normalize Across Scale Space
  */
 template< typename TInputImage, typename TOutputImage >

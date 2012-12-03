@@ -79,11 +79,13 @@ public:
    *  possible). All pixels connected to this seed will be replaced
    *  with ReplaceValue1. */
   itkSetMacro(Seed1, IndexType);
+  itkGetConstMacro(Seed1, IndexType);
 
   /** Set seed point 2. This seed will be isolated from Seed1 (if
    *  possible). All pixels connected to this seed will be replaced
    *  with ReplaceValue2. */
   itkSetMacro(Seed2, IndexType);
+  itkGetConstMacro(Seed2, IndexType);
 
   /** Set/Get the Watershed threshold. The default is 0. */
   itkSetMacro(Threshold, double);
