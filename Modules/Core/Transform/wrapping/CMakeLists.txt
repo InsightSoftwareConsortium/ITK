@@ -1,10 +1,12 @@
 itk_wrap_module(ITKTransform)
 
 set(WRAPPER_LIBRARY_GROUPS
+  itkCompositeTransform
   itkTransformBase
   itkMatrixOffsetTransformBase
   itkEuler2DTransform
   itkEuler3DTransform
+  itkMultiTransform
   itkVersorTransform
   itkVersorRigid3DTransform
   itkSimilarity2DTransform
