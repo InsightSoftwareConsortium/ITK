@@ -261,7 +261,7 @@ _nrrdFieldValidInText[NRRD_FIELD_MAX+1] = {
   0, /* nrrdField_encoding */
   0, /* nrrdField_line_skip */
   0, /* nrrdField_byte_skip */
-  0, /* nrrdField_keyvalue */
+  1, /* nrrdField_keyvalue */
   0, /* nrrdField_sample_units */
   0, /* nrrdField_space_units */
   0, /* nrrdField_space_origin */

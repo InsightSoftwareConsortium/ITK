@@ -947,7 +947,7 @@ _nrrdReadNrrdParse_keyvalue(FILE *file, Nrrd *nrrd,
 
   AIR_UNUSED(file);
   /* we know this will find something */
-  line = airStrdup(nio->line);
+  line = airStrdup(nio->line + nio->pos);
   if (!line) {
     biffMaybeAddf(useBiff, NRRD, "%s: can't allocate parse line", me);
     return 1;

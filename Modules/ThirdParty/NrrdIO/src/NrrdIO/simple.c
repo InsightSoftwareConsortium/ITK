@@ -141,7 +141,8 @@ nrrdSpaceDimensionSet(Nrrd *nrrd, unsigned int spaceDim) {
 **
 ** retrieves the spaceOrigin from given nrrd, and returns spaceDim
 ** Indices 0 through spaceDim-1 are set in given vector[] to coords
-** of space origin, and all further indices are set to NaN
+** of space origin, and all further indices are set to NaN. That is,
+** this really does write to all NRRD_SPACE_DIM_MAX elements of vector[]
 */
 unsigned int
 nrrdSpaceOriginGet(const Nrrd *nrrd,
@@ -166,13 +167,13 @@ nrrdSpaceOriginGet(const Nrrd *nrrd,
 ******** nrrdSpaceOriginSet
 **
 ** convenience function for setting spaceOrigin.
-** Note: space (or spaceDim) must be already set
+** Note: space (or spaceDim) must be already set.
+** The given "vector" is only read for spaceDim elements
 **
 ** returns 1 if there were problems, 0 otherwise
 */
 int
-nrrdSpaceOriginSet(Nrrd *nrrd,
-                   double vector[NRRD_SPACE_DIM_MAX]) {
+nrrdSpaceOriginSet(Nrrd *nrrd, const double *vector) {
   static const char me[]="nrrdSpaceOriginSet";
   unsigned int sdi;
 

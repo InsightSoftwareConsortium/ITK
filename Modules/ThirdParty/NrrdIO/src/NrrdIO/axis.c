@@ -321,6 +321,10 @@ nrrdAxisInfoCopy(Nrrd *nout, const Nrrd *nin, const int *axmap, int bitflag) {
 **           nrrdAxisInfoKind: int*
 **          nrrdAxisInfoLabel: char**
 **          nrrdAxisInfoUnits: char**
+**
+** Note that in the case of nrrdAxisInfoSpaceDirection, we only access
+** spaceDim elements of info.V[ai] (so caller can allocate it for less
+** than NRRD_SPACE_DIM_MAX if they know what they're doing)
 */
 void
 nrrdAxisInfoSet_nva(Nrrd *nrrd, int axInfo, const void *_info) {

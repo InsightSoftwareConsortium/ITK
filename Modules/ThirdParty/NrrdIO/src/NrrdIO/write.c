@@ -425,9 +425,20 @@ _nrrdSprintFieldInfo(char **strP, const char *prefix,
          && AIR_IN_OP(nrrdField_unknown, field, nrrdField_last) )) {
     return;
   }
-  if (!_nrrdFieldInteresting(nrrd, nio, field)) {
-    *strP = airStrdup("");
-  }
+  /* As of Sun Dec  2 01:57:48 CST 2012 (revision 5832) the only
+     places where this function is called is when it has been guarded
+     by "if (_nrrdFieldInteresting())" (except for in formatText.c when
+     its called on the dimension field, which is always interesting).
+     So, the following:
+
+     if (!_nrrdFieldInteresting(nrrd, nio, field)) {
+       *strP = airStrdup("");
+     }
+
+     was redundant and confusingly created the appearance of a memory
+     leak waiting to happen.  We now let the default switch statement
+     set *strP to NULL (all the other cases set it), to smoke out
+     errors in how this function is called */
 
   fs = airEnumStr(nrrdField, field);
   fslen = strlen(prefix) + strlen(fs) + strlen(": ") + 1;
@@ -732,6 +743,7 @@ _nrrdSprintFieldInfo(char **strP, const char *prefix,
     break;
   default:
     fprintf(stderr, "%s: CONFUSION: field %d unrecognized\n", me, field);
+    *strP = NULL;
     break;
   }
 
