@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMultiTransformBase_h
-#define __itkMultiTransformBase_h
+#ifndef __itkMultiTransform_h
+#define __itkMultiTransform_h
 
 #include "itkTransform.h"
 
@@ -25,7 +25,7 @@
 namespace itk
 {
 
-/** \class MultiTransformBase
+/** \class MultiTransform
  * \brief This abstract class contains a list of transforms and provides basic methods.
  *
  * This abstract base class is used by classes that operate on a list of
@@ -61,18 +61,18 @@ namespace itk
  */
 template
 <class TScalar = double, unsigned int NDimensions = 3, unsigned int NSubDimensions = NDimensions>
-class ITK_EXPORT MultiTransformBase :
+class ITK_EXPORT MultiTransform :
   public Transform<TScalar, NDimensions, NDimensions>
 {
 public:
   /** Standard class typedefs. */
-  typedef MultiTransformBase                           Self;
+  typedef MultiTransform                               Self;
   typedef Transform<TScalar, NDimensions, NDimensions> Superclass;
   typedef SmartPointer<Self>                           Pointer;
   typedef SmartPointer<const Self>                     ConstPointer;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( MultiTransformBase, Transform );
+  itkTypeMacro( MultiTransform, Transform );
 
   /** Sub transform type **/
   typedef Transform<TScalar, NSubDimensions, NSubDimensions > TransformType;
@@ -264,8 +264,8 @@ public:
 //  virtual void FlattenTransformQueue();
 
 protected:
-  MultiTransformBase();
-  virtual ~MultiTransformBase();
+  MultiTransform();
+  virtual ~MultiTransform();
   void PrintSelf( std::ostream& os, Indent indent ) const;
 
   virtual void PushFrontTransform( TransformTypePointer t  )
@@ -300,7 +300,7 @@ protected:
   mutable ModifiedTimeType        m_LocalParametersUpdateTime;
 
 private:
-  MultiTransformBase( const Self & ); // purposely not implemented
+  MultiTransform( const Self & ); // purposely not implemented
   void operator=( const Self & );     // purposely not implemented
 
 };
@@ -308,7 +308,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMultiTransformBase.hxx"
+#include "itkMultiTransform.hxx"
 #endif
 
-#endif // __itkMultiTransformBase_h
+#endif // __itkMultiTransform_h
