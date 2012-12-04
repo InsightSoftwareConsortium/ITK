@@ -7,7 +7,7 @@ set(WRAPPER_LIBRARY_GROUPS
   itkQuadEdgeMeshTraits
   itkQuadEdgeCellTraitsInfo
   itkQuadEdgeMeshLineCell
-  ITKQuadEdgeMeshBase
+  itkQuadEdgeMeshBase
   # itkQuadEdgeMesh
   itkQuadEdgeMeshToQuadEdgeMeshFilter
 )

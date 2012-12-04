@@ -3,7 +3,11 @@ itk_wrap_include("itkMapContainer.h")
 
 itk_wrap_class("itk::BoundingBox" POINTER)
   foreach(d ${ITK_WRAP_DIMS})
-    itk_wrap_template("${ITKM_UL}${d}${ITKM_D}VC${ITKM_UL}${ITKM_PD${d}}" "${ITKT_UL},${d},${ITKT_D}, itk::VectorContainer< ${ITKT_UL}, ${ITKT_PD${d}} >")
-    itk_wrap_template("${ITKM_UL}${d}${ITKM_D}MC${ITKM_UL}${ITKM_PD${d}}" "${ITKT_UL},${d},${ITKT_D}, itk::MapContainer< ${ITKT_UL}, ${ITKT_PD${d}} >")
+    foreach(t ${WRAP_ITK_REAL})
+      itk_wrap_template("${ITKM_UL}${d}${ITKM_${t}}VC${ITKM_UL}${ITKM_P${t}${d}}"
+        "${ITKT_UL},${d},${ITKT_${t}}, itk::VectorContainer< ${ITKT_UL}, ${ITKT_P${t}${d}} >")
+      itk_wrap_template("${ITKM_UL}${d}${ITKM_${t}}MC${ITKM_UL}${ITKM_P${t}${d}}"
+        "${ITKT_UL},${d},${ITKT_${t}}, itk::MapContainer< ${ITKT_UL}, ${ITKT_P${t}${d}} >")
+    endforeach(t)
   endforeach(d)
 itk_end_wrap_class()

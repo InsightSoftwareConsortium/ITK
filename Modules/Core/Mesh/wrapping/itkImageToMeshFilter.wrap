@@ -1,10 +1,9 @@
 itk_wrap_include("itkMesh.h")
-# itk_wrap_include("itkQuadEdgeMeshTraits.h")
 
 itk_wrap_class("itk::ImageToMeshFilter" POINTER)
   foreach(d ${ITK_WRAP_DIMS})
-    foreach(t ${WRAP_ITK_INT})
-#      itk_wrap_template("${ITKM_I${t}${d}}MD${d}Q" "${ITKT_I${t}${d}}, itk::Mesh< ${ITKT_D},${d},itk::QuadEdgeMeshTraits< ${ITKT_D},${d},${ITKT_B},${ITKT_B},${ITKT_F},${ITKT_F} > >")
+    foreach(t ${WRAP_ITK_REAL})
+      itk_wrap_template("${ITKM_I${t}${d}}M${ITKM_D}${d}ST${ITKM_D}${d}${d}${ITKM_D}" "${ITKT_I${t}${d}}, itk::Mesh< ${ITKT_D},${d},itk::DefaultStaticMeshTraits< ${ITKT_D},${d},${d},${ITKT_D} > >")
     endforeach(t)
   endforeach(d)
 itk_end_wrap_class()
