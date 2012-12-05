@@ -31,7 +31,7 @@ namespace itk
  * prescribes where in the first input to start pasting data from the
  * second input.  The SetSourceRegion method prescribes the section of
  * the second image to paste into the first. If the output requested
- * region does not have include the SourceRegion after it has been
+ * region does not include the SourceRegion after it has been
  * repositioned to DestinationIndex, then the output will just be
  * a copy of the input.
  *
