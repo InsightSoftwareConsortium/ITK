@@ -37,19 +37,6 @@ QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 template< class TInputMesh, class TOutputMesh >
 void
 QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
-::CopyMeshToMesh(const TInputMesh *in, TOutputMesh *out)
-{
-  CopyMeshToMeshPoints(in, out);
-  CopyMeshToMeshEdgeCells(in, out);
-  CopyMeshToMeshCells(in, out);
-  CopyMeshToMeshPointData(in, out);
-  CopyMeshToMeshCellData(in, out);
-}
-
-// ---------------------------------------------------------------------
-template< class TInputMesh, class TOutputMesh >
-void
-QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 ::CopyInputMeshToOutputMesh()
 {
   this->CopyInputMeshToOutputMeshGeometry();

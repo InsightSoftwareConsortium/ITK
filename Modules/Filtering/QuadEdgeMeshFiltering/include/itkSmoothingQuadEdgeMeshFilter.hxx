@@ -86,7 +86,7 @@ void SmoothingQuadEdgeMeshFilter< TInputMesh, TOutputMesh >::GenerateData()
       }
     else
       {
-      this->CopyMeshToMesh(this->GetInput(), mesh);
+      CopyMeshToMesh(this->GetInput(), mesh.GetPointer());
       }
     }
 

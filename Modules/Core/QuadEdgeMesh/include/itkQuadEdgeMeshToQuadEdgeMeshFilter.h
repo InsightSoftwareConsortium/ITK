@@ -104,8 +104,6 @@ protected:
   QuadEdgeMeshToQuadEdgeMeshFilter();
   virtual ~QuadEdgeMeshToQuadEdgeMeshFilter() {}
 
-  virtual void CopyMeshToMesh(const TInputMesh *in, TOutputMesh *out);
-
   virtual void CopyInputMeshToOutputMesh();
 
   virtual void CopyInputMeshToOutputMeshGeometry();
@@ -132,6 +130,15 @@ private:
 // These functions should be templated here in order to
 // facilitate their reuse in multiple scenarios.
 //
+template< class TInputMesh, class TOutputMesh >
+void CopyMeshToMesh(const TInputMesh *in, TOutputMesh *out)
+{
+  CopyMeshToMeshPoints(in, out);
+  CopyMeshToMeshEdgeCells(in, out);
+  CopyMeshToMeshCells(in, out);
+  CopyMeshToMeshPointData(in, out);
+  CopyMeshToMeshCellData(in, out);
+}
 
 // ---------------------------------------------------------------------
 template< class TInputMesh, class TOutputMesh >
