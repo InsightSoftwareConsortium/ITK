@@ -28,7 +28,7 @@ ENDIF(CMAKE_COMPILER_IS_GNUCXX)
 ADD_LIBRARY(vnl_io ${vnl_io_sources} )
 TARGET_LINK_LIBRARIES( vnl_io vnl vsl )
 
-INSTALL_TARGETS(/lib vnl_io)
+INSTALL(TARGETS vnl_io DESTINATION lib)
 INSTALL_NOBASE_HEADER_FILES(/include/vxl/core/vnl/io ${vnl_io_sources})
 
 IF(BUILD_TESTING)

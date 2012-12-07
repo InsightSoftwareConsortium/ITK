@@ -52,7 +52,7 @@ MACRO(GENERATE_TEST_DRIVER LIB SOURCES)
   TARGET_LINK_LIBRARIES(${LIB}_test_driver ${ARGN})
 
   SET(tests_to_run ${test_driver_sources})
-  REMOVE(tests_to_run ${LIB}_test_driver.cxx)
+  LIST(REMOVE_ITEM tests_to_run ${LIB}_test_driver.cxx)
 
   FOREACH(test ${tests_to_run})
     GET_FILENAME_COMPONENT(test_name ${test} NAME_WE)
