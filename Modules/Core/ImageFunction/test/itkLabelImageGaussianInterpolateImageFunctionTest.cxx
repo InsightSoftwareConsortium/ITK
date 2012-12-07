@@ -79,9 +79,9 @@ int itkLabelImageGaussianInterpolateImageFunctionTest( int , char*[] )
        {  7,  7,  7}
    };
 
-   for (unsigned int y = 0; y < small_ySize; y++)
+   for (itk::IndexValueType y = 0; y < small_ySize; y++)
      {
-     for (unsigned int x = 0; x < small_xSize; x++)
+     for (itk::IndexValueType x = 0; x < small_xSize; x++)
        {
        const IndexType index = { { x, y } };
        const PixelType value = valarray[x][y];
@@ -199,9 +199,9 @@ At: [5, 4] computed value =  17 known_value = 17
        { default_background_value,default_background_value,default_background_value,default_background_value,default_background_value }
    };
 
-   for (unsigned int y = 0; y < large_ySize; y++)
+   for (itk::IndexValueType y = 0; y < large_ySize; y++)
      {
-     for (unsigned int x = 0; x < large_xSize; x++)
+     for (itk::IndexValueType x = 0; x < large_xSize; x++)
        {
        const IndexType index = { { x, y } };
        const PixelType known_value = valarray[x][y];
