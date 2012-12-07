@@ -93,6 +93,9 @@ set(CTEST_CUSTOM_WARNING_EXCEPTION
   # DCMTK
   "Note: checking out.*"
   "-- Warning: SNDFILE support will be disabled because libsndfile was not found.*"
+  # FFTW ExternalProject
+  ".*fftw[fd]/src/fftw[fd]./*"
+  "libtool: install: warning: relinking libfftw3f?_threads.la"
 
   # Ignore clang's summary warning, assuming prior text has matched some
   # other warning expression:
