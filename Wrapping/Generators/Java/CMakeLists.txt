@@ -36,7 +36,7 @@ set(ITK_WRAP_JAVA_CORE_PACKAGE_NAME "org.itk" CACHE INTERNAL "")
 set(ITK_WRAP_JAVA_CORE_PACKAGE_PATH "org/itk" CACHE INTERNAL "") #TODO: this should be automated
 
 # TODO: iterators are not supported by java
-remove(JAVA_ITK_MODULES "${WRAP_ITK_MODULES}" Iterators)
+list(REMOVE_ITEM JAVA_ITK_MODULES "${WRAP_ITK_MODULES}" Iterators)
 
 ###############################################################################
 # Install java stuff for external projects
