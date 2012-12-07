@@ -42,11 +42,12 @@ CONFIGURE_FILE(${VXL_CMAKE_DIR}/VXLConfig_export.cmake.in
                ${vxl_BINARY_DIR}/config/cmake/export/VXLConfig.cmake
                @ONLY IMMEDIATE)
 
-INSTALL_FILES(/share/vxl/cmake FILES 
+INSTALL(FILES
   ${vxl_BINARY_DIR}/config/cmake/export/VXLConfig.cmake
   ${vxl_BINARY_DIR}/VXLBuildSettings.cmake
   ${vxl_BINARY_DIR}/VXLLibraryDepends.cmake
   ${VXL_CMAKE_DIR}/VXLStandardOptions.cmake
   ${VXL_CMAKE_DIR}/UseVXL.cmake
   ${VXL_CMAKE_DIR}/UseVGUI.cmake
+  DESTINATION share/vxl/cmake
 )

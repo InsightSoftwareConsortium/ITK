@@ -12,7 +12,7 @@ AUX_SOURCE_DIRECTORY(Templates vnl_xio_sources)
 ADD_LIBRARY(vnl_xio ${vnl_xio_sources} )
 TARGET_LINK_LIBRARIES( vnl_xio vnl vsl )
 
-INSTALL_TARGETS(/lib vnl_xio)
+INSTALL(TARGETS vnl_xio DESTINATION lib)
 INSTALL_NOBASE_HEADER_FILES(/include/vxl/core/vnl/xio ${vnl_xio_sources})
 
 #IF(BUILD_TESTING)

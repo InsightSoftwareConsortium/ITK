@@ -18,7 +18,7 @@ endif()
 # install devel files
 if(INSTALL_DEVEL_FILES)
   foreach(f itkImageToVTKImageFilter.h itkImageToVTKImageFilter.txx itkVTKImageToImageFilter.h itkVTKImageToImageFilter.txx)
-    install_files(/include/InsightToolkit/BasicFilters FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/${f})
+    install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/${f} DESTINATION include/InsightToolkit/BasicFilters)
   endforeach()
 endif()
 
