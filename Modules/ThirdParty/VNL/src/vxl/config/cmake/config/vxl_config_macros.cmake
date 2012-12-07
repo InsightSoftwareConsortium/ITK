@@ -34,9 +34,9 @@ MACRO(PERFORM_CMAKE_TEST FILE TEST)
     ELSE(${TEST})
       MESSAGE(STATUS "Performing Test ${TEST} - Failed")
       SET(${TEST} 0 CACHE INTERNAL "Test ${FUNCTION}")
-      WRITE_FILE(${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeError.log
+      FILE(APPEND ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeError.log
                  "Performing Test ${TEST} failed with the following output:\n"
-                 "${OUTPUT}\n" APPEND)
+                 "${OUTPUT}\n")
     ENDIF(${TEST})
   ELSE("${TEST}" MATCHES "^${TEST}$")
     # Have result
@@ -84,9 +84,9 @@ MACRO(PERFORM_CMAKE_TEST_CUSTOM DIR TEST)
     ELSE(${TEST})
       MESSAGE(STATUS "Performing Test ${TEST} - Failed")
       SET(${TEST} 0 CACHE INTERNAL "Test ${FUNCTION}")
-      WRITE_FILE(${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeError.log
+      FILE(APPEND ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeError.log
                  "Performing Test ${TEST} failed with the following output:\n"
-                 "${OUTPUT}\n" APPEND)
+                 "${OUTPUT}\n")
     ENDIF(${TEST})
   ENDIF("${TEST}" MATCHES "^${TEST}$")
   FILE(REMOVE_RECURSE ${CMAKE_BINARY_DIR}/config/${DIR})
@@ -123,22 +123,22 @@ MACRO(PERFORM_CMAKE_TEST_RUN FILE TEST)
       IF(${TEST})
         MESSAGE(STATUS "Performing Test ${TEST} - Failed")
         SET(${TEST} 0 CACHE INTERNAL "Test ${FUNCTION} (failed to run)")
-        WRITE_FILE(${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeError.log
+        FILE(APPEND ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeError.log
                    "Performing Test ${TEST} failed with the following output:\n"
-                   "${OUTPUT}\n" APPEND)
+                   "${OUTPUT}\n")
       ELSE(${TEST})
         SET(${TEST} 1 CACHE INTERNAL "VXL test ${FUNCTION} (successful run)")
         MESSAGE(STATUS "Performing Test ${TEST} - Success")
-        WRITE_FILE(${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeError.log
+        FILE(APPEND ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeError.log
                    "Performing Test ${TEST} succeeded with the following output:\n"
-                   "${OUTPUT}\n" APPEND)
+                   "${OUTPUT}\n")
       ENDIF(${TEST})
     ELSE(${TEST}_COMPILED)
       MESSAGE(STATUS "Performing Try-Run Test ${TEST} - Test Compilation Failed")
       SET(${TEST} 0 CACHE INTERNAL "Test ${FUNCTION} (failed to compile)")
-      WRITE_FILE(${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeError.log
+      FILE(APPEND ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeError.log
                  "Performing Try-Run Test ${TEST} failed to compile with the following output:\n"
-                 "${OUTPUT}\n" APPEND)
+                 "${OUTPUT}\n")
     ENDIF(${TEST}_COMPILED)
   ELSE("${TEST}" MATCHES "^${TEST}$")
     # Have result
@@ -294,7 +294,7 @@ MACRO( DETERMINE_TYPE VAR INTEGRAL_TYPE SIZE TYPE_LIST )
       # Write the config to a file instead of passing on the command
       # line to avoid issues with spaces. (In "long double", for
       # example)
-      WRITE_FILE( ${CMAKE_BINARY_DIR}/CMakeTmp/config.h "#define THE_TYPE ${TYPE}\n#define THE_SIZE ${SIZE}\n#define INTEGRAL_TYPE ${INTEGRAL_TYPE}" )
+      FILE(WRITE ${CMAKE_BINARY_DIR}/CMakeTmp/config.h "#define THE_TYPE ${TYPE}\n#define THE_SIZE ${SIZE}\n#define INTEGRAL_TYPE ${INTEGRAL_TYPE}")
       SET( MACRO_DETERMINE_TYPE_FLAGS "-DVXL_HAS_TYPE_OF_SIZE" )
       MESSAGE( STATUS "${MSG} [Checking ${TYPE}...]" )
       TRY_COMPILE(COMPILE_RESULT
@@ -308,9 +308,8 @@ MACRO( DETERMINE_TYPE VAR INTEGRAL_TYPE SIZE TYPE_LIST )
         SET( VXL_${VAR} ${TYPE} )
         SET( VXL_HAS_${VAR} 1 )
       ELSE( COMPILE_RESULT )
-        WRITE_FILE( ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeError.log 
-          "${MSG} Failed to compile with the following output:\n(FLAGS=${MACRO_DETERMINE_TYPE_FLAGS})\n${OUTPUT}\n"
-          APPEND )
+        FILE(APPEND ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeError.log
+          "${MSG} Failed to compile with the following output:\n(FLAGS=${MACRO_DETERMINE_TYPE_FLAGS})\n${OUTPUT}\n")
       ENDIF( COMPILE_RESULT )
     ENDFOREACH( TYPE )
     IF( VXL_HAS_${VAR} )
