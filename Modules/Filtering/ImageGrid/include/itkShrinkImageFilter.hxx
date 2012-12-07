@@ -95,6 +95,22 @@ ShrinkImageFilter< TInputImage, TOutputImage >
     }
 }
 
+
+template< class TInputImage, class TOutputImage >
+void
+ShrinkImageFilter< TInputImage, TOutputImage >
+::SetShrinkFactor(unsigned int i, unsigned int factor)
+{
+  if ( m_ShrinkFactors[i] == factor )
+    {
+    return;
+    }
+
+  this->Modified();
+  m_ShrinkFactors[i] = factor;
+}
+
+
 /**
  *
  */
