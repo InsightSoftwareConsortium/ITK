@@ -27,6 +27,7 @@
 #ifndef _TIFF_
 #define  _TIFF_
 
+#include "itk_tiff_mangle.h"
 #include "tif_config.h"
 
 /*
