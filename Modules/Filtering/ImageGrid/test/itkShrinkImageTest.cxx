@@ -67,7 +67,10 @@ int itkShrinkImageTest(int, char* [] )
   shrink->SetNumberOfThreads(4);
 
   unsigned int factors[2] = { 2, 3 };
-  shrink->SetShrinkFactors(factors);
+  shrink->SetShrinkFactors( 3 );
+  shrink->SetShrinkFactor( 0, factors[0] );
+  shrink->SetShrinkFactor( 1, factors[1] );
+
   shrink->UpdateLargestPossibleRegion();
 
   std::cout << "Input spacing: " << if2->GetSpacing()[0] << ", "
