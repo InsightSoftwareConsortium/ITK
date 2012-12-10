@@ -47,10 +47,15 @@ public:
   }
 
  inline TOutput operator()(const TInput1 & A, const TInput2 & B) const
-  {
-    TOutput result = static_cast< TOutput >( A % B );
-
-    return result;
+ {
+   if ( B != NumericTraits<TInput2>::Zero )
+     {
+     return static_cast< TOutput >( A % B );
+     }
+   else
+     {
+     return NumericTraits< TOutput >::max( static_cast<TOutput>(A) );
+     }
   }
 
 };
@@ -101,6 +106,8 @@ private:
  * \brief Computes the modulus (x % dividend) pixel-wise
  *
  * The input pixel type must support the c++ modulus operator (%).
+ *
+ * If the dividend is zero, the maximum value will be returned.
  *
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *
