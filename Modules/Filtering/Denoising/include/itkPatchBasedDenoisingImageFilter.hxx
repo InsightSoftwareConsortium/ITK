@@ -519,45 +519,48 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   // patch size in physical space
   const unsigned int physicalDiameter= 2 * patchRadius + 1;
 
+  // really we just want to handle relative anisotropies,
+  // so base resampling on the deviation from the max spacing
+  // in the input image.
+  typename WeightsImageType::SpacingType physicalSpacing;
+  typename WeightsImageType::SpacingValueType maxSpacing;
+  physicalSpacing = this->m_InputImage->GetSpacing();
+  maxSpacing = physicalSpacing[0];
+  for (unsigned int sp = 1; sp < physicalSpacing.Size(); ++sp)
+    {
+    if (physicalSpacing[sp] > maxSpacing)
+      {
+      maxSpacing = physicalSpacing[sp];
+      }
+    }
+  physicalSpacing.Fill(maxSpacing);
+
   // allocate the patch weights (mask) as an image
   // this is in physical space
   typename WeightsImageType::SizeType physicalSize;
   physicalSize.Fill(physicalDiameter);
   typename WeightsImageType::RegionType physicalRegion(physicalSize);
-  typename WeightsImageType::SpacingType physicalSpacing;
-  physicalSpacing.Fill(1);
   typename WeightsImageType::Pointer physicalWeightsImage = WeightsImageType::New();
   physicalWeightsImage->SetRegions(physicalRegion);
   physicalWeightsImage->SetSpacing(physicalSpacing);
   physicalWeightsImage->Allocate();
   physicalWeightsImage->FillBuffer(1.0);
 
-  const unsigned int physicalLength = physicalRegion.GetNumberOfPixels();
-  const unsigned int centerPosition = (physicalLength - 1) / 2;
+  typename WeightsImageType::IndexType centerIndex;
+  centerIndex.Fill(patchRadius);
 
-  ImageRegionIterator<WeightsImageType> pwIt(physicalWeightsImage, physicalRegion);
+  ImageRegionIteratorWithIndex<WeightsImageType> pwIt(physicalWeightsImage, physicalRegion);
   unsigned int                          pos = 0;
-  for ( pwIt.GoToBegin(), pos = 0; !pwIt.IsAtEnd(); ++pwIt, ++pos )
+  for ( pwIt.GoToBegin(); !pwIt.IsAtEnd(); ++pwIt )
     {
+    typename WeightsImageType::IndexType curIndex;
+    curIndex = pwIt.GetIndex();
     // compute distances of each pixel from center pixel
     Vector <DistanceType, ImageDimension> distanceVector;
     for (unsigned int d = 0; d < ImageDimension; d++)
       {
-      if (d == 0)
-        {
-        distanceVector[d]
-          = static_cast<DistanceType> (pos            % physicalDiameter)
-            - static_cast<DistanceType> (centerPosition % physicalDiameter);
-        }
-      else
-        {
-        distanceVector[d]
-          = static_cast<DistanceType> (pos            /
-                                       static_cast<unsigned int> (Math::Round<double> (pow(static_cast<double>(physicalDiameter),static_cast<int>(d) ) ) ) )
-            - static_cast<DistanceType> (centerPosition /
-                                         static_cast<unsigned int> (Math::Round<double> (pow(static_cast<double>(physicalDiameter),
-                                                           static_cast<int>(d) ) ) ) );
-        }
+      distanceVector[d] = static_cast<DistanceType> (curIndex[d])
+                          - static_cast<DistanceType> (centerIndex[d]);
       }
     const float distanceFromCenter = distanceVector.GetNorm();
 
@@ -634,11 +637,23 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
     itkDebugMacro( "patchWeights[ " << pos << " ]: " << patchWeights[pos] );
 
     } // end for each element in the patch
-  if (patchWeights[(this->GetPatchLengthInVoxels() - 1)/2] != 1.0)
+
+  typename PatchWeightsType::ValueType centerWeight = patchWeights[(this->GetPatchLengthInVoxels() - 1)/2];
+  if ( centerWeight != 1.0)
     {
-    itkExceptionMacro (<< "Center pixel's weight ("
-                       << patchWeights[(this->GetPatchLengthInVoxels() - 1)/2]
-                       << ") must be equal to 1.0 ");
+    if (centerWeight <= 0.0)
+      {
+      itkExceptionMacro (<< "Center pixel's weight ("
+                         << patchWeights[(this->GetPatchLengthInVoxels() - 1)/2]
+                         << ") must be greater than 0.0 ");
+      }
+
+    // Normalize to the center weight to guarantee that the center weight == 1.0
+    typename PatchWeightsType::SizeValueType pSize = patchWeights.Size();
+    for ( pos = 0; pos < pSize; ++pos )
+      {
+      patchWeights[pos] = patchWeights[pos] / centerWeight;
+      }
     }
 
   //
