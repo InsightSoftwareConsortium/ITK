@@ -32,10 +32,18 @@ template<class TFilter>
 class CommandIterationUpdate : public itk::Command
 {
 public:
-  typedef CommandIterationUpdate   Self;
-  typedef itk::Command             Superclass;
-  typedef itk::SmartPointer<Self>  Pointer;
+  typedef CommandIterationUpdate                                          Self;
+  typedef itk::Command                                                    Superclass;
+  typedef itk::SmartPointer<Self>                                         Pointer;
   itkNewMacro( Self );
+
+  typedef typename TFilter::FixedImageType                                FixedImageType;
+  itkStaticConstMacro( ImageDimension, unsigned int, FixedImageType::ImageDimension ); /** ImageDimension constants */
+
+  typedef itk::ShrinkImageFilter<FixedImageType, FixedImageType>          ShrinkFilterType;
+  typedef typename TFilter::OutputTransformType::ScalarType               RealType;
+  typedef itk::DisplacementFieldTransform<RealType, ImageDimension>       DisplacementFieldTransformType;
+  typedef typename DisplacementFieldTransformType::DisplacementFieldType  DisplacementFieldType;
 
 protected:
   CommandIterationUpdate() {};
@@ -63,6 +71,29 @@ public:
     std::cout << "    shrink factor = " << shrinkFactors[currentLevel] << std::endl;
     std::cout << "    smoothing variance = " << smoothingSigmas[currentLevel] << std::endl;
     std::cout << "    required fixed parameters = " << adaptors[currentLevel]->GetRequiredFixedParameters() << std::endl;
+
+    /*
+    testing "itkGetConstObjectMacro" at each iteration
+    */
+    typename ShrinkFilterType::Pointer shrinkFilter = ShrinkFilterType::New();
+    shrinkFilter->SetShrinkFactors( shrinkFactors[currentLevel] );
+    shrinkFilter->SetInput( filter->GetFixedImage() );
+    shrinkFilter->Update();
+
+    const typename FixedImageType::SizeType ImageSize = shrinkFilter->GetOutput()->GetBufferedRegion().GetSize();
+
+    const typename DisplacementFieldType::SizeType FixedDisplacementFieldSize = const_cast<DisplacementFieldTransformType *>( filter->GetFixedToMiddleTransform() )->GetDisplacementField()->GetBufferedRegion().GetSize();
+
+    const typename DisplacementFieldType::SizeType MovingDisplacementFieldSize = const_cast<DisplacementFieldTransformType *>( filter->GetMovingToMiddleTransform() )->GetDisplacementField()->GetBufferedRegion().GetSize();
+
+    if( ( FixedDisplacementFieldSize == ImageSize ) && ( MovingDisplacementFieldSize == ImageSize ) )
+      {
+      std::cout << " *Filter returns its internal transforms properly*" << std::endl;
+      }
+    else
+      {
+      itkExceptionMacro( "Internal transforms should be consistent with input image size at each iteration." );
+      }
     }
 };
 
@@ -111,10 +142,6 @@ int PerformDisplacementFieldImageRegistration( int itkNotUsed( argc ), char *arg
   GradientDescentOptimizerv4Type * optimizer = reinterpret_cast<GradientDescentOptimizerv4Type *>(
     const_cast<typename AffineRegistrationType::OptimizerType *>( affineSimple->GetOptimizer() ) );
   optimizer->SetNumberOfIterations( 100 );
-
-  typedef CommandIterationUpdate<AffineRegistrationType> AffineCommandType;
-  typename AffineCommandType::Pointer affineObserver = AffineCommandType::New();
-  affineSimple->AddObserver( itk::IterationEvent(), affineObserver );
 
   try
     {
@@ -260,6 +287,10 @@ int PerformDisplacementFieldImageRegistration( int itkNotUsed( argc ), char *arg
   displacementFieldRegistration->SetTransformParametersAdaptorsPerLevel( adaptors );
   displacementFieldRegistration->SetGaussianSmoothingVarianceForTheUpdateField( varianceForUpdateField );
   displacementFieldRegistration->SetGaussianSmoothingVarianceForTheTotalField( varianceForTotalField );
+
+  typedef CommandIterationUpdate<DisplacementFieldRegistrationType> DisplacementFieldCommandType;
+  typename DisplacementFieldCommandType::Pointer DisplacementFieldObserver = DisplacementFieldCommandType::New();
+  displacementFieldRegistration->AddObserver( itk::IterationEvent(), DisplacementFieldObserver );
 
   try
     {
