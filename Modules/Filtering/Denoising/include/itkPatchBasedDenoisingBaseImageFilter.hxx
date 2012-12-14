@@ -254,11 +254,20 @@ PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
     }
   const typename InputImageType::SpacingType &spacing =
     this->m_InputImage->GetSpacing();
+  typename InputImageType::SpacingValueType maxSpacing;
+  maxSpacing = spacing[0];
+  for (unsigned int dim = 1; dim < ImageDimension; ++dim)
+    {
+    if (spacing[dim] > maxSpacing)
+      {
+      maxSpacing = spacing[dim];
+      }
+    }
   PatchRadiusType radius;
   radius.Fill(m_PatchRadius);
   for (unsigned int dim = 0; dim < ImageDimension; ++dim)
     {
-    radius[dim] = vnl_math_ceil (radius[dim] / spacing[dim]);
+    radius[dim] = vnl_math_ceil (maxSpacing * radius[dim] / spacing[dim]);
     }
   return radius;
 }
