@@ -14,6 +14,23 @@ if(ITK_WRAP_PYTHON)
   endif()
 endif()
 
+if(ITK_BUILD_SHARED_LIBS)
+  itk_add_test( NAME ExampleIOPluginTest
+    COMMAND itkTestDriver  --add-before-env ITK_AUTOLOAD_PATH "$<TARGET_FILE_DIR:FileFreeTestLib>"
+      "$<TARGET_FILE:IOPlugin>"
+      "FileFreeIO::Size=128,256:Spacing=.5,.8:Origin=5,6:Direction=-1,0,0,-1"
+      ${ITK_TEST_OUTPUT_DIR}ExampleIOPluginTest.png
+      )
+  itk_add_test( NAME ExampleIOPluginTest2
+    COMMAND itkTestDriver
+      "$<TARGET_FILE:IOPlugin>"
+      "FileFreeIO::Size=128,256:Spacing=.5,.8:Origin=5,6:Direction=-1,0,0,-1"
+      "${ITK_TEST_OUTPUT_DIR}ExampleIOPluginTest.png"
+      "$<TARGET_FILE_DIR:FileFreeTestLib>"
+      )
+
+endif()
+
 if(ITK_VISIBLEHUMAN_DATA_ROOT)
   itk_add_test(NAME VisibleHumanStreamReadWriteTest
     COMMAND ${ITK_TEST_DRIVER}
