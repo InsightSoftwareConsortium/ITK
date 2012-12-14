@@ -79,7 +79,7 @@ protected:
    * \return measure value, here the squared edge length
    */
   inline MeasureType MeasureEdge(OutputQEType *iEdge)
-  {
+    {
     OutputPointIdentifier id_org = iEdge->GetOrigin();
     OutputPointIdentifier id_dest = iEdge->GetDestination();
 
@@ -87,7 +87,7 @@ protected:
     OutputPointType dest = this->m_OutputMesh->GetPoint(id_dest);
 
     return static_cast< MeasureType >( org.SquaredEuclideanDistanceTo(dest) );
-  }
+    }
 
   /**
    * \brief Calculate the position of the remaining vertex from collapsing
@@ -98,9 +98,9 @@ protected:
   OutputPointType Relocate(OutputQEType *iEdge);
 
 private:
-
   SquaredEdgeLengthDecimationQuadEdgeMeshFilter(const Self &); // purposely not implemented
   void operator=(const Self &); // purposely not implemented
+
 };
 }
 

@@ -384,14 +384,13 @@ protected:
 
   /** \brief Compute the laplacian term
       \return \f$ \Delta \phi - \div(\frac{\nabla \phi}{|\nabla \phi|}) \f$
-      \verbatim For details see
-  \@inproceedings{bb30335,
-  AUTHOR = "Li, C.M. and Xu, C.Y. and Gui, C. and Fox, M.D.",
-  TITLE = "Level Set Evolution without Re-Initialization: A New Variational Formulation",
-  BOOKTITLE = CVPR05,
-  YEAR = "2005",
-  PAGES = "I: 430-436"}
-  \endverbatim  */
+      For details see
+
+      \par REFERENCE
+      Li, C.M. and Xu, C.Y. and Gui, C. and Fox, M.D.
+      "Level Set Evolution without Re-Initialization: A New Variational Formulation",
+      CVPR05. 2005. pp. 430-436.
+  */
 
   /** \brief Compute the laplacian
   \return \f$ \Delta \phi \f$ */
