@@ -99,8 +99,10 @@ GetH5TypeSpecialize(unsigned int,           H5::PredType::NATIVE_UINT)
 GetH5TypeSpecialize(long int,               H5::PredType::NATIVE_LONG)
 GetH5TypeSpecialize(long unsigned int,      H5::PredType::NATIVE_ULONG)
 
-//HACK:  DO NOT SUBMIT GetH5TypeSpecialize(long long int,          H5::PredType::NATIVE_LLONG)
-//HACK:  DO NOT SUBMIT GetH5TypeSpecialize(unsigned long long int, H5::PredType::NATIVE_ULLONG)
+#if !defined(_MSC_VER) || defined(ITK_USE_64BITS_IDS) && ((ULLONG_MAX != ULONG_MAX) || (LLONG_MAX != LONG_MAX))
+GetH5TypeSpecialize(long long int,          H5::PredType::NATIVE_LLONG)
+GetH5TypeSpecialize(unsigned long long int, H5::PredType::NATIVE_ULLONG)
+#endif
 
 /* The following types are not implmented.  This comment serves
  * to indicate that the full complement of possible H5::PredType
