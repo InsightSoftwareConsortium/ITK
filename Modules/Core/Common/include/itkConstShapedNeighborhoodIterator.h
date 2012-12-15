@@ -258,8 +258,12 @@ protected:
   using Superclass::operator==;
   using Superclass::operator!=;
   using Superclass::operator<;
+  using Superclass::operator>;
+  using Superclass::operator>=;
   using Superclass::operator<=;
   using Superclass::operator[];
+  using Superclass::GetElement;
+  using Superclass::SetLocation;
   using Superclass::GetCenterPointer;
   using Superclass::GetCenterPixel;
   using Superclass::OverrideBoundaryCondition;
