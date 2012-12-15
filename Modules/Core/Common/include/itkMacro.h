@@ -793,11 +793,7 @@ itkTypeMacro(newexcp, parentexcp);                                              
 //   // @deprecated Replaced by MyOtherMethod() as of ITK 2.0.
 //   itkLegacyMacro(void MyMethod());
 #if defined( ITK_LEGACY_REMOVE )
-// Remove legacy methods completely.  Put a bogus declaration in
-// place to avoid stray semicolons because this is an error for some
-// compilers.  Using a class forward declaration allows any number
-// of repeats in any context without generating unique names.
-#define itkLegacyMacro(method) class itkLegacyMethodRemoved /* no ';' */
+#define itkLegacyMacro(method) /* no ';' */
 #elif defined( ITK_LEGACY_SILENT ) || defined( ITK_LEGACY_TEST ) || defined( CSWIG )
 // Provide legacy methods with no warnings.
 #define itkLegacyMacro(method) method
