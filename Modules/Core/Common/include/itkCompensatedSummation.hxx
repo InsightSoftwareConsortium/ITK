@@ -29,7 +29,7 @@ void ITKCommon_EXPORT CompensatedSummationAddElement( double& compensation, doub
 #ifndef __itkCompensatedSummation_cxx
 // We try the looser pragma guards if we don't have an explicit instantiation.
 #ifdef __INTEL_COMPILER
-#pragma optimize("", "off")
+#pragma optimize("", off)
 #endif // __INTEL_COMPILER
 #ifdef _MSC_VER
 #pragma float_control(push)
@@ -49,7 +49,7 @@ void CompensatedSummationAddElement( TFloat& compensation, TFloat& sum, const TF
 }
 #ifndef __itkCompensatedSummation_cxx
 #ifdef __INTEL_COMPILER
-#pragma optimize("", "on")
+#pragma optimize("", on)
 #endif // __INTEL_COMPILER
 #ifdef _MSC_VER
 #pragma float_control(pop)
