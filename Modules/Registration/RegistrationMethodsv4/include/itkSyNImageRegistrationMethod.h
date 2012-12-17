@@ -165,6 +165,10 @@ public:
   itkSetMacro( GaussianSmoothingVarianceForTheTotalField, RealType );
   itkGetConstReferenceMacro( GaussianSmoothingVarianceForTheTotalField, RealType );
 
+  /** Get the FixedToMiddle and MovingToMidle transform to track the registration procedure at each iteration. */
+  itkGetConstObjectMacro( FixedToMiddleTransform, OutputTransformType);
+  itkGetConstObjectMacro( MovingToMiddleTransform, OutputTransformType);
+
 protected:
   SyNImageRegistrationMethod();
   virtual ~SyNImageRegistrationMethod();
