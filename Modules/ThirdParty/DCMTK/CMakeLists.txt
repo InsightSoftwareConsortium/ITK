@@ -173,9 +173,13 @@ endforeach()
   endforeach()
 
   set(DCMTK_GIT_REPOSITORY "http://git.dcmtk.org/dcmtk.git")
-  set(DCMTK_GIT_TAG GIT_TAG ab844899a92f46e2d880c38c85ce098933533aef)
+  # DCMTK tag brought up to Dec 4 2012 version, to pick
+  # up fix for CMakeLists that was causing Windows builds to
+  # fail
+  set(DCMTK_GIT_TAG "148fc86171e0bee332a5fabd36d213f76e775a8b")
 
   set(DCMTK_EP_FLAGS
+    -DDCMTK_FORCE_FPIC_ON_UNIX:BOOL=ON
     -DDCMTK_WITH_OPENSSL:BOOL=OFF
     -DDCMTK_WITH_PNG:BOOL=OFF
     -DDCMTK_WITH_XML:BOOL=OFF
