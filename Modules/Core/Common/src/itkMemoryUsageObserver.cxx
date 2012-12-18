@@ -443,11 +443,10 @@ SysResourceMemoryUsageObserver::GetMemoryUsage()
   // Maybe use getrusage() ??
   rusage resourceInfo;
 
-  int who = RUSAGE_SELF;
-
+  const int who = RUSAGE_SELF;
   if ( getrusage(who, &resourceInfo) == 0 )
     {
-    return resourceInfo.ru_ixrss;
+    return static_cast<MemoryUsageObserverBase::MemoryLoadType> (resourceInfo.ru_ixrss);
     }
 
   return 0;

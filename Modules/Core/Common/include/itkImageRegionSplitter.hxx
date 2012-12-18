@@ -31,11 +31,10 @@ unsigned int
 ImageRegionSplitter< VImageDimension >
 ::GetNumberOfSplits(const RegionType & region, unsigned int requestedNumber)
 {
-  int              splitAxis;
   const SizeType & regionSize = region.GetSize();
 
   // split on the outermost dimension available
-  splitAxis = VImageDimension - 1;
+  int splitAxis = VImageDimension - 1;
   while ( regionSize[splitAxis] == 1 )
     {
     --splitAxis;
@@ -47,9 +46,9 @@ ImageRegionSplitter< VImageDimension >
     }
 
   // determine the actual number of pieces that will be generated
-  SizeValueType range = regionSize[splitAxis];
-  int           valuesPerPiece = Math::Ceil< int >(range / (double)requestedNumber);
-  int           maxPieceUsed = Math::Ceil< int >(range / (double)valuesPerPiece) - 1;
+  const SizeValueType range = regionSize[splitAxis];
+  const unsigned int valuesPerPiece = Math::Ceil< unsigned int >(range / (double)requestedNumber);
+  const unsigned int maxPieceUsed = Math::Ceil< unsigned int >(range / (double)valuesPerPiece) - 1;
 
   return maxPieceUsed + 1;
 }

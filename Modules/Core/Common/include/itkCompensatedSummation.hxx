@@ -44,8 +44,8 @@ void CompensatedSummationAddElement( TFloat& compensation, TFloat& sum, const TF
   const AccumulateType compensatedInput = static_cast< AccumulateType >( element - compensation );
   const AccumulateType tempSum          = sum + compensatedInput;
   // Warning: watch out for the compiler optimizing this out!
-  compensation = (tempSum - sum) - compensatedInput;
-  sum = tempSum;
+  compensation = static_cast<TFloat>( (tempSum - sum) - compensatedInput);
+  sum = static_cast<TFloat>( tempSum );
 }
 #ifndef __itkCompensatedSummation_cxx
 #ifdef __INTEL_COMPILER

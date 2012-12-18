@@ -253,7 +253,7 @@ ITKCommon_EXPORT std::istream & operator>>(std::istream & in, VMMapRecord & reco
       }
     if ( bracket.length() > 1 )
       { //bracket contains the size, ie "[1024K]"
-      record.m_Tokens["Size"] = atoi( bracket.substr(1, bracket.length() - 3).c_str() );
+      record.m_Tokens["Size"] = static_cast<itk::SizeValueType>( atoi( bracket.substr(1, bracket.length() - 3).c_str() ) );
       }
     else
       {

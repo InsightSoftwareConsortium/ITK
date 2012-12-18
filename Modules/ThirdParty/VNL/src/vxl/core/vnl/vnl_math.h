@@ -538,15 +538,15 @@ inline int vnl_math_ceil(double x)
 // abs
 inline bool               vnl_math_abs(bool x)               { return x; }
 inline unsigned char      vnl_math_abs(unsigned char x)      { return x; }
-inline unsigned char      vnl_math_abs(signed char x)        { return x < 0 ? static_cast<unsigned char>(-x) : x; }
+inline unsigned char      vnl_math_abs(signed char x)        { return x < 0 ? static_cast<unsigned char>(-x) : static_cast<unsigned char>(x); }
 inline unsigned char      vnl_math_abs(char x)               { return static_cast<unsigned char>(x); }
-inline unsigned short     vnl_math_abs(short x)              { return x < 0 ? static_cast<unsigned short>(-x) : x; }
+inline unsigned short     vnl_math_abs(short x)              { return x < 0 ? static_cast<unsigned short>(-x) : static_cast<unsigned short>(x); }
 inline unsigned short     vnl_math_abs(unsigned short x)     { return x; }
-inline unsigned int       vnl_math_abs(int x)                { return x < 0 ? -x : x; }
+inline unsigned int       vnl_math_abs(int x)                { return x < 0 ? static_cast<unsigned int>(-x) : static_cast<unsigned int>(x); }
 inline unsigned int       vnl_math_abs(unsigned int x)       { return x; }
-inline unsigned long      vnl_math_abs(long x)               { return x < 0L ? -x : x; }
+inline unsigned long      vnl_math_abs(long x)               { return x < 0L ? static_cast<unsigned long>(-x) : static_cast<unsigned long>(x); }
 inline unsigned long      vnl_math_abs(unsigned long x)      { return x; }
-inline unsigned long long vnl_math_abs(long long x)          { return x < 0LL ? -x : x; }
+inline unsigned long long vnl_math_abs(long long x)          { return x < 0LL ? static_cast<unsigned long long>(-x) : static_cast<unsigned long long>(x); }
 inline unsigned long long vnl_math_abs(unsigned long long x) { return x; }
 inline float              vnl_math_abs(float x)              { return x < 0.0f ? -x : x; }
 inline double             vnl_math_abs(double x)             { return x < 0.0 ? -x : x; }
@@ -609,13 +609,13 @@ inline int vnl_math_sgn0(float x)       { return (x>=0)?1:-1; }
 inline int vnl_math_sgn0(double x)      { return (x>=0)?1:-1; }
 
 // squared_magnitude
-inline unsigned int       vnl_math_squared_magnitude(char               x) { return int(x)*int(x); }
-inline unsigned int       vnl_math_squared_magnitude(unsigned char      x) { return int(x)*int(x); }
-inline unsigned int       vnl_math_squared_magnitude(int                x) { return x*x; }
+inline unsigned int       vnl_math_squared_magnitude(char               x) { return static_cast<unsigned int>(int(x)*int(x)); }
+inline unsigned int       vnl_math_squared_magnitude(unsigned char      x) { return static_cast<unsigned int>(int(x)*int(x)); }
+inline unsigned int       vnl_math_squared_magnitude(int                x) { return static_cast<unsigned int>(x*x); }
 inline unsigned int       vnl_math_squared_magnitude(unsigned int       x) { return x*x; }
-inline unsigned long      vnl_math_squared_magnitude(long               x) { return x*x; }
+inline unsigned long      vnl_math_squared_magnitude(long               x) { return static_cast<unsigned long>(x*x); }
 inline unsigned long      vnl_math_squared_magnitude(unsigned long      x) { return x*x; }
-inline unsigned long long vnl_math_squared_magnitude(long long          x) { return x*x; }
+inline unsigned long long vnl_math_squared_magnitude(long long          x) { return static_cast<unsigned long long>(x*x); }
 inline unsigned long long vnl_math_squared_magnitude(unsigned long long x) { return x*x; }
 inline float              vnl_math_squared_magnitude(float              x) { return x*x; }
 inline double             vnl_math_squared_magnitude(double             x) { return x*x; }

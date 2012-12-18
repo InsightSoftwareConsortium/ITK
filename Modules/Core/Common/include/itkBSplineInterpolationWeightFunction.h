@@ -102,7 +102,7 @@ public:
   itkGetConstMacro(SupportSize, SizeType);
 
   /** Get number of weights. */
-  itkGetConstMacro(NumberOfWeights, unsigned long);
+  itkGetConstMacro(NumberOfWeights, unsigned int);
 
 protected:
   BSplineInterpolationWeightFunction();
@@ -114,13 +114,13 @@ private:
   void operator=(const Self &);                     //purposely not implemented
 
   /** Number of weights. */
-  unsigned long m_NumberOfWeights;
+  unsigned int m_NumberOfWeights;
 
   /** Size of support region. */
   SizeType m_SupportSize;
 
   /** Lookup table type. */
-  typedef Array2D< unsigned long > TableType;
+  typedef Array2D< unsigned int > TableType;
 
   /** Table mapping linear offset to indices. */
   TableType m_OffsetToIndexTable;

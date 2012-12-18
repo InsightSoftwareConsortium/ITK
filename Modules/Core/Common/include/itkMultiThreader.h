@@ -115,7 +115,7 @@ public:
   /** Create a new thread for the given function. Return a thread id
      * which is a number between 0 and ITK_MAX_THREADS - 1. This
    * id should be used to kill the thread at a later time. */
-  int SpawnThread(ThreadFunctionType, void *data);
+  ThreadIdType SpawnThread(ThreadFunctionType, void *data);
 
   /** Terminate the thread that was created with a SpawnThreadExecute() */
   void TerminateThread(ThreadIdType thread_id);

@@ -273,10 +273,10 @@ void
 ProcessObject
 ::PushFrontInput(const DataObject *input)
 {
-  int nb = static_cast<int>(this->GetNumberOfIndexedInputs());
-  for( int i = nb-1; i >= 0; i-- )
+  const DataObjectPointerArraySizeType nb = this->GetNumberOfIndexedInputs();
+  for( DataObjectPointerArraySizeType i = nb; i > 0; i-- )
     {
-    this->SetNthInput( i+1, this->GetInput(i) );
+    this->SetNthInput( i, this->GetInput(i-1) );
     }
   this->SetNthInput( 0, const_cast< DataObject * >( input ) );
 }

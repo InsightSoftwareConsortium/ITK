@@ -7,7 +7,8 @@
 
 void test_real_polynomial()
 {
-  vnl_real_polynomial f1(3),f2(4);
+  vnl_real_polynomial f1(3u);
+  vnl_real_polynomial f2(4); //Test initialization with signed value.
 
   for (int i=0;i<=f1.degree();++i) f1[i]=i+1; // f1 = X^3 +2 X^2 +3 X + 4
   f1.print(vcl_cout); vcl_cout << vcl_endl;
@@ -58,7 +59,7 @@ void test_real_polynomial()
 
   TEST_NEAR("RMS difference(f1,f2)",vnl_rms_difference(f1,f1,0,1),0.0,1e-9);
 
-  vnl_real_polynomial f6(1); //f6 = X + 1
+  vnl_real_polynomial f6(1u); //f6 = X + 1
   f6[0] = f6[1] = 1;
   { vcl_stringstream testStream;
     f6.print(testStream);
@@ -68,7 +69,7 @@ void test_real_polynomial()
              << "Expected:\t\"" << expected << '"' << vcl_endl;
   }
 
-  vnl_real_polynomial f7(1); //f7 = X - 1
+  vnl_real_polynomial f7(1u); //f7 = X - 1
   f7[0] = 1;
   f7[1] = -1;
   { vcl_stringstream testStream;
@@ -79,7 +80,7 @@ void test_real_polynomial()
              << "Expected:\t\"" << expected << '"' << vcl_endl;
   }
 
-  vnl_real_polynomial f8(1); //f8 = 0
+  vnl_real_polynomial f8(1u); //f8 = 0
   f8[0] = 0;
   f8[1] = 0;
   { vcl_stringstream testStream;

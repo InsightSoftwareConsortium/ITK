@@ -46,9 +46,9 @@ OctreeNode & OctreeNode::GetChild(const enum LeafIdentifier ChildID)
   return *m_Branch->GetLeaf(ChildID);
 }
 
-int OctreeNode::GetColor(void) const
+long int OctreeNode::GetColor(void) const
 {
-  const int x = reinterpret_cast< const char * >( m_Branch ) - m_Parent->GetColorTable();
+  const long int x = reinterpret_cast< const char * >( m_Branch ) - m_Parent->GetColorTable();
 
   //
   // you'll want to indicate that the branch

@@ -41,8 +41,7 @@ ThreadedIndexedContainerPartitioner
   // overallIndexRange is expected to be inclusive
 
   // determine the actual number of pieces that will be generated
-  IndexRangeType::IndexValueType count =
-    completeIndexRange[1] - completeIndexRange[0] + 1;
+  const double count = static_cast<double>( completeIndexRange[1] - completeIndexRange[0] + 1 );
   ThreadIdType valuesPerThread =
     Math::Ceil<ThreadIdType>( count/static_cast<double>(requestedTotal) );
   ThreadIdType maxThreadIdUsed =

@@ -101,9 +101,9 @@ double vnl_real_polynomial::evaluate_integral(double x1, double x2) const
 vnl_real_polynomial operator+(const vnl_real_polynomial& f1, const vnl_real_polynomial& f2)
 {
   // Degree of result is highest of the two inputs
-  int d1=f1.degree();
-  int d2=f2.degree();
-  int d = d1;
+  const unsigned int d1=f1.degree();
+  const unsigned int d2=f2.degree();
+  unsigned int d = d1;
   if (d2>d) d=d2;
 
   vnl_real_polynomial sum(d);
@@ -123,9 +123,9 @@ vnl_real_polynomial operator+(const vnl_real_polynomial& f1, const vnl_real_poly
 vnl_real_polynomial operator-(const vnl_real_polynomial& f1, const vnl_real_polynomial& f2)
 {
   // Degree of result is highest of the two inputs
-  int d1=f1.degree();
-  int d2=f2.degree();
-  int d = d1;
+  const unsigned int d1=f1.degree();
+  const unsigned int d2=f2.degree();
+  unsigned int d = d1;
   if (d2>d) d=d2;
 
   vnl_real_polynomial sum(d);
@@ -144,9 +144,9 @@ vnl_real_polynomial operator-(const vnl_real_polynomial& f1, const vnl_real_poly
 //: Returns polynomial which is product of two polynomials f1(x)*f2(x)
 vnl_real_polynomial operator*(const vnl_real_polynomial& f1, const vnl_real_polynomial& f2)
 {
-  int d1=f1.degree();
-  int d2=f2.degree();
-  int d = d1+d2;
+  const unsigned int d1=f1.degree();
+  const unsigned int d2=f2.degree();
+  const unsigned int d = d1+d2;
 
   vnl_real_polynomial sum(d);
   sum.coefficients().fill(0.0);

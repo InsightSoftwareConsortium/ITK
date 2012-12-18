@@ -139,7 +139,7 @@ http://www.gnu.org/software/libc/manual/html_node/Control-Functions.html
 - Function: int fegetexcept (int excepts)
 
 The function returns a bitmask of all currently enabled
-exceptions.  It returns -1 in case of failure.
+exceptions.  It returns static_cast<fexcept_t>(-1) in case of failure.
 
 The excepts argument appears in other functions in fenv.h,
 and corresponds to the FE_xxx exception flag constants.  It
@@ -152,70 +152,72 @@ to suggest that it's the mask corresponding to bits in
 excepts that is returned.
 */
 
-static int
-feenableexcept (unsigned int excepts)
+static fexcept_t
+feenableexcept (const fexcept_t excepts)
 {
-  static fenv_t fenv;
-  unsigned int new_excepts = (excepts & FE_ALL_EXCEPT) >> FE_EXCEPT_SHIFT;
-  unsigned int old_excepts;  // all previous masks
+  const fexcept_t new_excepts = (excepts & FE_ALL_EXCEPT) >> FE_EXCEPT_SHIFT;
 
-  if ( fegetenv (&fenv) ) return -1;
-  old_excepts = (fenv & FM_ALL_EXCEPT) << FE_EXCEPT_SHIFT;
+  static fenv_t fenv;
+  if ( fegetenv (&fenv) ) return static_cast<fexcept_t>(-1);
+
+  // all previous masks
+  const fexcept_t old_excepts = (fenv & FM_ALL_EXCEPT) << FE_EXCEPT_SHIFT;
 
   fenv = (fenv & ~new_excepts) | new_excepts;
-  return ( fesetenv (&fenv) ? -1 : old_excepts );
+  return ( fesetenv (&fenv) ? static_cast<fexcept_t>(-1) : old_excepts );
 }
 
-static int
-fedisableexcept (unsigned int excepts)
+static fexcept_t
+fedisableexcept (const fexcept_t excepts)
 {
-  static fenv_t fenv;
-  unsigned int still_on = ~( (excepts & FE_ALL_EXCEPT) >> FE_EXCEPT_SHIFT );
-  unsigned int old_excepts;  // previous masks
+  const fexcept_t still_on = ~( (excepts & FE_ALL_EXCEPT) >> FE_EXCEPT_SHIFT );
 
-  if ( fegetenv (&fenv) ) return -1;
-  old_excepts = (fenv & FM_ALL_EXCEPT) << FE_EXCEPT_SHIFT;
+  static fenv_t fenv;
+  if ( fegetenv (&fenv) ) return static_cast<fexcept_t>(-1);
+
+  // previous masks
+  const fexcept_t old_excepts = (fenv & FM_ALL_EXCEPT) << FE_EXCEPT_SHIFT;
 
   fenv &= still_on;
-  return ( fesetenv (&fenv) ? -1 : old_excepts );
+  return ( fesetenv (&fenv) ? static_cast<fexcept_t>(-1) : old_excepts );
 }
 
 #elif DEFINED_INTEL
 
-static int
-feenableexcept (unsigned int excepts)
+static fexcept_t
+feenableexcept (const fexcept_t excepts)
 {
-  static fenv_t fenv;
-  unsigned int new_excepts = excepts & FE_ALL_EXCEPT;
+  const fexcept_t new_excepts = excepts & FE_ALL_EXCEPT;
 
-  if ( fegetenv (&fenv) ) return -1;
+  static fenv_t fenv;
+  if ( fegetenv (&fenv) ) return static_cast<fexcept_t>(-1);
 
   // previous masks
-  unsigned int old_excepts = fenv.__control & FE_ALL_EXCEPT;
+  const fexcept_t old_excepts = fenv.__control & FE_ALL_EXCEPT;
 
   // unmask
-  fenv.__control &= ~new_excepts;
+  fenv.__control &= static_cast<fexcept_t>(~new_excepts);
   fenv.__mxcsr   &= ~(new_excepts << 7);
 
-  return ( fesetenv (&fenv) ? -1 : static_cast< int >( old_excepts ) );
+  return ( fesetenv (&fenv) ? static_cast<fexcept_t>(-1) : old_excepts );
 }
 
-static int
-fedisableexcept (unsigned int excepts)
+static fexcept_t
+fedisableexcept (const fexcept_t excepts)
 {
-  static fenv_t fenv;
-  unsigned int new_excepts = excepts & FE_ALL_EXCEPT;
+  const fexcept_t new_excepts = excepts & FE_ALL_EXCEPT;
 
-  if ( fegetenv (&fenv) ) return -1;
+  static fenv_t fenv;
+  if ( fegetenv (&fenv) ) return static_cast<fexcept_t>(-1);
 
   // all previous masks
-  unsigned int old_excepts = fenv.__control & FE_ALL_EXCEPT;
+  fexcept_t old_excepts = fenv.__control & FE_ALL_EXCEPT;
 
   // mask
   fenv.__control |= new_excepts;
   fenv.__mxcsr   |= new_excepts << 7;
 
-  return ( fesetenv (&fenv) ? -1 : static_cast< int >( old_excepts ) );
+  return ( fesetenv (&fenv) ? static_cast<fexcept_t>(-1) : old_excepts );
 }
 
 #else

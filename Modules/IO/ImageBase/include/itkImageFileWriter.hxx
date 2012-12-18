@@ -349,7 +349,7 @@ ImageFileWriter< TInputImage >
     // write the data
     this->GenerateData();
 
-    this->UpdateProgress( (float)( piece + 1 ) / numDivisions );
+    this->UpdateProgress( static_cast<float>( piece + 1 ) / static_cast<float>( numDivisions ) );
     }
 
   // Notify end event observers

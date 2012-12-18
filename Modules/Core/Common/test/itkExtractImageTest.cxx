@@ -107,7 +107,6 @@ int itkExtractImageTest(int, char* [] )
   ShortImage::IndexType  index = {{0, 0}};
   ShortImage::SizeType   size = {{8, 12}};
   ShortImage::RegionType region;
-  int row, column;
   region.SetSize( size );
   region.SetIndex( index );
   if2->SetLargestPossibleRegion( region );
@@ -156,7 +155,6 @@ int itkExtractImageTest(int, char* [] )
 
 
   ShortImage::RegionType requestedRegion;
-  bool passed;
 
   // CASE 1
   extractIndex[0] = 1; extractIndex[1] = 2;
@@ -170,7 +168,7 @@ int itkExtractImageTest(int, char* [] )
   itk::ImageRegionIterator<ShortImage>
     iteratorIn1(extract->GetOutput(), requestedRegion);
 
-  passed = true;
+  bool passed = true;
   size = requestedRegion.GetSize();
   index = requestedRegion.GetIndex();
 
@@ -184,8 +182,8 @@ int itkExtractImageTest(int, char* [] )
 
       for (; !iteratorIn1.IsAtEnd(); ++iteratorIn1)
         {
-          row = iteratorIn1.GetIndex()[0];
-          column = iteratorIn1.GetIndex()[1];
+          const ShortImage::IndexType::IndexValueType &row = iteratorIn1.GetIndex()[0];
+          const ShortImage::IndexType::IndexValueType &column = iteratorIn1.GetIndex()[1];
           if ((row < 0) || (row>7) || (column < 0) || (column > 11)) {
             if ( iteratorIn1.Get() != 13 )
               {
@@ -259,8 +257,8 @@ int itkExtractImageTest(int, char* [] )
         } else {
           for (; !iteratorIn2.IsAtEnd(); ++iteratorIn2)
             {
-              row = iteratorIn2.GetIndex()[0];
-              column = iteratorIn2.GetIndex()[1];
+              const ShortImage::IndexType::IndexValueType &row = iteratorIn2.GetIndex()[0];
+              const ShortImage::IndexType::IndexValueType &column = iteratorIn2.GetIndex()[1];
               if ((row < 0) || (row>7) || (column < 0) || (column > 11)) {
                 if ( iteratorIn2.Get() != 13 )
                   {

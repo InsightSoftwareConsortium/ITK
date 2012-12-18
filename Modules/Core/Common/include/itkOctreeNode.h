@@ -68,11 +68,11 @@ public:
   /** @} */
   /**
    * Determines the color value of the specified Child for this OctreeNode
-   * \return A value between 0 and 255 to indicate the color of the Desired child.
    * \pre Must determine that the specified node is colored (Use IsNodeColored()
    * member function.  Behavior is undefined when the child is another Octree.
+   * \return A value between 0 and 255 to indicate the color of the Desired child.
    */
-  int GetColor(void) const;
+  long int GetColor(void) const;
 
   /**
    * Sets the color value of the specified Child for this OctreeNode

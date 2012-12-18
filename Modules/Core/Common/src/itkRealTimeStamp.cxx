@@ -23,7 +23,14 @@
 // remainder of microseconds will be kept. It also ensures that if the number
 // of microseconds is negative, then we decrement the number of seconds and
 // assign to the microseconds variable the complement that is a positive number.
-#define CARRY_UNITS_OVER( seconds, micro_seconds ) \
+#define CARRY_UNITS_OVER_UNSIGNED( seconds, micro_seconds ) \
+if ( micro_seconds > 1000000L ) \
+  { \
+  seconds += 1; \
+  micro_seconds -= 1000000L; \
+  } \
+
+#define CARRY_UNITS_OVER_SIGNED( seconds, micro_seconds ) \
 if ( micro_seconds > 1000000L ) \
   { \
   seconds += 1; \
@@ -157,13 +164,12 @@ RealTimeStamp::GetTimeInDays() const
 RealTimeInterval
 RealTimeStamp::operator-( const Self & other ) const
 {
-  SecondsDifferenceType      seconds       = this->m_Seconds      - other.m_Seconds;
+  SecondsDifferenceType      seconds       = this->m_Seconds - other.m_Seconds;
   MicroSecondsDifferenceType micro_seconds = this->m_MicroSeconds - other.m_MicroSeconds;
 
   ALIGN_THE_ARROW_OF_TIME( seconds, micro_seconds );
 
   RealTimeInterval difference;
-
   difference.m_Seconds = seconds;
   difference.m_MicroSeconds = micro_seconds;
 
@@ -177,21 +183,13 @@ RealTimeStamp::operator-( const Self & other ) const
 RealTimeStamp
 RealTimeStamp::operator+( const RealTimeInterval & difference ) const
 {
-  SecondsDifferenceType seconds = this->m_Seconds + difference.m_Seconds;
-
-  if( seconds < 0 )
-    {
-    itkGenericExceptionMacro("RealTimeStamp can't go before the origin of time");
-    }
-
-  MicroSecondsDifferenceType micro_seconds = this->m_MicroSeconds + difference.m_MicroSeconds;
-
-  CARRY_UNITS_OVER( seconds, micro_seconds );
+  SecondsCounterType seconds = this->m_Seconds + difference.m_Seconds;
+  MicroSecondsCounterType micro_seconds = this->m_MicroSeconds + difference.m_MicroSeconds;
+  CARRY_UNITS_OVER_UNSIGNED( seconds, micro_seconds );
 
   Self result;
-
-  result.m_Seconds      = static_cast< SecondsCounterType >( seconds );
-  result.m_MicroSeconds = static_cast< MicroSecondsCounterType >( micro_seconds );
+  result.m_Seconds      = seconds;
+  result.m_MicroSeconds = micro_seconds;
 
   return result;
 }
@@ -212,7 +210,7 @@ RealTimeStamp::operator-( const RealTimeInterval & difference ) const
 
   MicroSecondsDifferenceType micro_seconds = this->m_MicroSeconds - difference.m_MicroSeconds;
 
-  CARRY_UNITS_OVER( seconds, micro_seconds );
+  CARRY_UNITS_OVER_SIGNED( seconds, micro_seconds );
 
   Self result;
 
@@ -235,9 +233,9 @@ RealTimeStamp::operator+=( const RealTimeInterval & difference )
     itkGenericExceptionMacro("RealTimeStamp can't go before the origin of time");
     }
 
-  MicroSecondsDifferenceType micro_seconds = this->m_MicroSeconds + difference.m_MicroSeconds;
+  MicroSecondsCounterType micro_seconds = this->m_MicroSeconds + difference.m_MicroSeconds;
 
-  CARRY_UNITS_OVER( seconds, micro_seconds );
+  CARRY_UNITS_OVER_UNSIGNED( seconds, micro_seconds );
 
   this->m_Seconds      = static_cast< SecondsCounterType >( seconds );
   this->m_MicroSeconds = static_cast< MicroSecondsCounterType >( micro_seconds );
@@ -260,7 +258,7 @@ RealTimeStamp::operator-=( const RealTimeInterval & difference )
 
   MicroSecondsDifferenceType micro_seconds = this->m_MicroSeconds - difference.m_MicroSeconds;
 
-  CARRY_UNITS_OVER( seconds, micro_seconds );
+  CARRY_UNITS_OVER_SIGNED( seconds, micro_seconds );
 
   this->m_Seconds      = static_cast< SecondsCounterType >( seconds );
   this->m_MicroSeconds = static_cast< MicroSecondsCounterType >( micro_seconds );

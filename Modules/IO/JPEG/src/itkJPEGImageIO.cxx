@@ -448,7 +448,6 @@ void JPEGImageIO::WriteSlice(std::string & fileName, const void *buffer)
     }
 
   // Call the correct templated function for the output
-  unsigned int ui;
 
   // overriding jpeg_error_mgr so we don't exit when an error happens
   // Create the jpeg compression object and error handler
@@ -474,9 +473,8 @@ void JPEGImageIO::WriteSlice(std::string & fileName, const void *buffer)
   jpeg_stdio_dest(&cinfo, fp);
 
   // set the information about image
-  unsigned int width, height;
-  width =  m_Dimensions[0];
-  height = m_Dimensions[1];
+  const SizeValueType width =  m_Dimensions[0];
+  const SizeValueType height = m_Dimensions[1];
 
   // The JPEG standard only supports images up to 64K*64K due to 16-bit fields
   // in SOF markers.
@@ -489,7 +487,7 @@ void JPEGImageIO::WriteSlice(std::string & fileName, const void *buffer)
     }
 
   cinfo.input_components = this->GetNumberOfComponents();
-  unsigned int numComp = this->GetNumberOfComponents();
+  const unsigned int numComp = this->GetNumberOfComponents();
 
   // Maximum number of components (color channels) allowed in JPEG image.
   // JPEG spec set this to 255. However ijg default it to 10.
@@ -532,8 +530,8 @@ void JPEGImageIO::WriteSlice(std::string & fileName, const void *buffer)
 
   // write the data. in jpeg, the first row is the top row of the image
   JSAMPROW *row_pointers = new JSAMPROW[height];
-  int       rowInc = numComp * width;
-  for ( ui = 0; ui < height; ui++ )
+  const int rowInc = numComp * width;
+  for ( unsigned int ui = 0; ui < height; ui++ )
     {
     row_pointers[ui] = const_cast< JSAMPROW >( outPtr );
     outPtr = const_cast< JSAMPLE * >( outPtr ) + rowInc;
