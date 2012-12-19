@@ -54,7 +54,7 @@ set( ITK_DOXYGEN_INPUT ${DOXYGEN_INCLUDE_DIRS} )
 SET( ITK_DOXYGEN_DIAGRAMS YES )
 
 option( ITK_DOXYGEN_HTML "Doxygen will generate HTML Output" ON )
-option( ITK_DOXYGEN_DOCSET "Doxygen will generate additional index files for XCode 3" OFF )
+option( ITK_DOXYGEN_DOCSET "Doxygen will generate additional index files for Xcode 3" OFF )
 option( ITK_DOXYGEN_CHM "Doxygen will generate Microsoft HTML help" OFF )
 option( ITK_DOXYGEN_QHP "Doxygen will generate Qt Compressed Help" OFF )
 option( ITK_DOXYGEN_ECLIPSEHELP "Doxygen will generate Eclipse help plugin" OFF )
