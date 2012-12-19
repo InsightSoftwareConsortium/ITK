@@ -84,6 +84,8 @@ public:
   typedef typename ImageMetricType::VirtualImageType                  VirtualImageType;
   typedef typename ImageMetricType::MeasureType                       MeasureType;
   typedef typename Superclass::MultiMetricType                        MultiMetricType;
+  typedef typename ImageMetricType::FixedImageMaskType                FixedImageMaskType;
+  typedef typename ImageMetricType::MovingImageMaskType               MovingImageMaskType;
 
   typedef typename Superclass::NumberOfIterationsArrayType            NumberOfIterationsArrayType;
 
@@ -115,8 +117,9 @@ protected:
 
   virtual void InitializeRegistrationAtEachLevel( const SizeValueType );
 
-  virtual DisplacementFieldPointer ComputeUpdateField( const FixedImagesContainerType, const TransformBaseType *, const MovingImagesContainerType, const TransformBaseType *, MeasureType & );
-  virtual DisplacementFieldPointer BSplineSmoothDisplacementField( const DisplacementFieldType *, const ArrayType & );
+  virtual DisplacementFieldPointer ComputeUpdateField( const FixedImagesContainerType, const TransformBaseType *,
+    const MovingImagesContainerType, const TransformBaseType *, const FixedImageMaskType *, MeasureType & );
+  virtual DisplacementFieldPointer BSplineSmoothDisplacementField( const DisplacementFieldType *, const ArrayType &, const FixedImageMaskType * );
 
 private:
   BSplineSyNImageRegistrationMethod( const Self & );   //purposely not implemented

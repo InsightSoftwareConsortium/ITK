@@ -47,12 +47,20 @@ int itkDisplacementFieldToBSplineImageFilterTest( int, char * [] )
   field->FillBuffer( ones );
 
   typedef itk::DisplacementFieldToBSplineImageFilter<DisplacementFieldType> BSplineFilterType;
+  typedef BSplineFilterType::RealImageType                                  RealImageType;
+
+  RealImageType::Pointer confidenceImage = RealImageType::New();
+  confidenceImage->CopyInformation( field );
+  confidenceImage->SetRegions( size );
+  confidenceImage->Allocate();
+  confidenceImage->FillBuffer( 1.0 );
 
   BSplineFilterType::ArrayType numberOfControlPoints;
   numberOfControlPoints.Fill( 4 );
 
   BSplineFilterType::Pointer bspliner = BSplineFilterType::New();
   bspliner->SetDisplacementField( field );
+  bspliner->SetConfidenceImage( confidenceImage );
   bspliner->SetNumberOfControlPoints( numberOfControlPoints );
   bspliner->SetSplineOrder( 3 );
   bspliner->SetNumberOfFittingLevels( 8 );

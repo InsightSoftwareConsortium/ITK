@@ -24,6 +24,7 @@
 #include "itkConstNeighborhoodIterator.h"
 #include "itkDisplacementFieldTransform.h"
 #include "itkImageDuplicator.h"
+#include "itkImageMaskSpatialObject.h"
 #include "itkImportImageFilter.h"
 #include "itkPointSet.h"
 #include "itkResampleImageFilter.h"
@@ -103,14 +104,18 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
   sampledVelocityFieldDirection.SetIdentity();
 
   typename VirtualImageType::ConstPointer virtualDomainImage;
+  typename FixedImageMaskType::ConstPointer fixedImageMask;
+
   typename MultiMetricType::Pointer multiMetric = dynamic_cast<MultiMetricType *>( this->m_Metric.GetPointer() );
   if( multiMetric )
     {
     virtualDomainImage = dynamic_cast<ImageMetricType *>( multiMetric->GetMetricQueue()[0].GetPointer() )->GetVirtualImage();
+    fixedImageMask = dynamic_cast<ImageMetricType *>( multiMetric->GetMetricQueue()[0].GetPointer() )->GetFixedImageMask();
     }
   else
     {
     virtualDomainImage = dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() )->GetVirtualImage();
+    fixedImageMask = dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() )->GetFixedImageMask();
     }
 
   typedef typename ImageMetricType::DerivativeType MetricDerivativeType;
@@ -362,6 +367,14 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
     const typename VirtualImageType::IndexType virtualDomainIndex = virtualDomainImage->GetLargestPossibleRegion().GetIndex();
     const typename VirtualImageType::SizeType virtualDomainSize = virtualDomainImage->GetLargestPossibleRegion().GetSize();
 
+    typedef ImageMaskSpatialObject<ImageDimension>          ImageMaskSpatialObjectType;
+    typedef typename ImageMaskSpatialObjectType::ImageType  MaskImageType;
+    typename MaskImageType::ConstPointer maskImage = NULL;
+    if( fixedImageMask )
+      {
+      maskImage = dynamic_cast<ImageMaskSpatialObjectType *>( const_cast<FixedImageMaskType *>( fixedImageMask.GetPointer() ) )->GetImage();
+      }
+
     ImageRegionConstIteratorWithIndex<TimeVaryingVelocityFieldType> It( velocityFieldImporter->GetOutput(), velocityFieldImporter->GetOutput()->GetBufferedRegion() );
     for( It.GoToBegin(); !It.IsAtEnd(); ++It )
       {
@@ -370,6 +383,24 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
       DisplacementVectorType data = It.Get();
 
       typename WeightsContainerType::Element weight = 1.0;
+
+      if( maskImage )
+        {
+        typename MaskImageType::IndexType maskIndex;
+        for( unsigned int d = 0; d < ImageDimension; d++ )
+          {
+          maskIndex[d] = index[d];
+          }
+        typename MaskImageType::PixelType maskPixelValue = maskImage->GetPixel( maskIndex );
+        if( maskPixelValue <= 0 )
+           {
+           continue;
+           }
+        else
+          {
+          weight = static_cast<typename WeightsContainerType::Element>( maskPixelValue );
+          }
+        }
 
       bool isOnBoundary = false;
       for( unsigned int d = 0; d < ImageDimension; d++ )
