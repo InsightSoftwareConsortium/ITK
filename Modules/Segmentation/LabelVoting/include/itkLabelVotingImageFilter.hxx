@@ -71,7 +71,8 @@ LabelVotingImageFilter< TInputImage, TOutputImage >
   Superclass::BeforeThreadedGenerateData();
 
   // determine the maximum label in all input images
-  this->m_TotalLabelCount = this->ComputeMaximumInputValue() + 1;
+  this->m_TotalLabelCount =
+    static_cast<size_t>(this->ComputeMaximumInputValue()) + 1;
 
   if ( !this->m_HasLabelForUndecidedPixels )
     {
