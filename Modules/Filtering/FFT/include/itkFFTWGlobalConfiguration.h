@@ -20,8 +20,8 @@
 
 #include "itkObject.h"
 //NOTE:  Need to have at least one itk include before
-//       the next defines in order to have USE_FFTWF,USE_FFTWD defined
-#if defined(USE_FFTWF) || defined(USE_FFTWD)
+//       the next defines in order to have ITK_USE_FFTWF,ITK_USE_FFTWD defined
+#if defined(ITK_USE_FFTWF) || defined(ITK_USE_FFTWD)
 
 #include "itkSimpleFastMutexLock.h"
 

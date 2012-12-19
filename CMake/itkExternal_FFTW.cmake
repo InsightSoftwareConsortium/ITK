@@ -35,7 +35,7 @@ message("${msg}")
 
 ## Perhaps in the future a set of TryCompiles could be used here.
 set(FFTW_OPTIMIZATION_CONFIGURATION "" CACHE INTERNAL "architecture flags: --enable-sse --enable-sse2 --enable-altivec --enable-mips-ps --enable-cell")
-if(USE_SYSTEM_FFTW)
+if(ITK_USE_SYSTEM_FFTW)
   find_package( FFTW )
   link_directories(${FFTW_LIBDIR})
 else()
@@ -47,7 +47,7 @@ else()
 
   if(WIN32 AND NOT MINGW)
     message("Can't build fftw as external project on Windows")
-    message(ERROR "install fftw and use USE_SYSTEM_FFTW")
+    message(ERROR "install fftw and use ITK_USE_SYSTEM_FFTW")
   else()
     #
     # fftw limitation -- can't be built in
@@ -61,7 +61,7 @@ else()
     if(BUILD_SHARED_LIBS)
       set(FFTW_SHARED_FLAG --enable-shared)
     endif()
-    if(USE_FFTWF)
+    if(ITK_USE_FFTWF)
       ExternalProject_add(fftwf
         PREFIX fftwf
         URL "http://www.fftw.org/fftw-3.3.2.tar.gz"
@@ -77,7 +77,7 @@ else()
         )
     endif()
 
-    if(USE_FFTWD)
+    if(ITK_USE_FFTWD)
       ExternalProject_add(fftwd
         PREFIX fftwd
         URL "http://www.fftw.org/fftw-3.3.2.tar.gz"

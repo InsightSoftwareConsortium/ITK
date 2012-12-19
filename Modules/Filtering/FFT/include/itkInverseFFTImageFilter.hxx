@@ -21,7 +21,7 @@
 
 #include "itkVnlInverseFFTImageFilter.h"
 
-#if defined( USE_FFTWD ) || defined( USE_FFTWF )
+#if defined( ITK_USE_FFTWD ) || defined( ITK_USE_FFTWF )
 #include "itkFFTWInverseFFTImageFilter.h"
 #endif
 
@@ -39,7 +39,7 @@ struct Dispatch_Inverse_New
     }
 };
 
-#ifdef USE_FFTWD
+#ifdef ITK_USE_FFTWD
 template < typename TSelfPointer, class TInputImage, class TOutputImage >
 struct Dispatch_Inverse_New< TSelfPointer, TInputImage, TOutputImage, double >
 {
@@ -51,7 +51,7 @@ struct Dispatch_Inverse_New< TSelfPointer, TInputImage, TOutputImage, double >
 };
 #endif
 
-#ifdef USE_FFTWF
+#ifdef ITK_USE_FFTWF
 template< typename TSelfPointer, class TInputImage, class TOutputImage >
 struct Dispatch_Inverse_New< TSelfPointer, TInputImage, TOutputImage, float >
 {

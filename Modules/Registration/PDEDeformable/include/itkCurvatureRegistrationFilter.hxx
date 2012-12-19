@@ -17,7 +17,7 @@
  *=========================================================================*/
 #ifndef __itkCurvatureRegistrationFilter_hxx
 #define __itkCurvatureRegistrationFilter_hxx
-#if defined( USE_FFTWF ) || defined( USE_FFTWD )
+#if defined( ITK_USE_FFTWF ) || defined( ITK_USE_FFTWD )
 #include "itkCurvatureRegistrationFilter.h"
 
 #include "itkImageRegionIterator.h"
@@ -304,5 +304,5 @@ CurvatureRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField, TIma
 }
 } // end namespace itk
 
-#endif //defined(USE_FFTWF) || defined(USE_FFTWD)
+#endif //defined(ITK_USE_FFTWF) || defined(ITK_USE_FFTWD)
 #endif

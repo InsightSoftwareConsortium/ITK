@@ -19,7 +19,7 @@
 
 #include "itkFFTTest.h"
 
-#if defined(USE_FFTWD)
+#if defined(ITK_USE_FFTWD)
 int itkFFTWD_FFTTest(int, char *[])
 {
   typedef itk::Image< double, 1>               ImageD1;

@@ -19,7 +19,7 @@
 
 #include "itkRealFFTTest.h"
 
-#if defined(USE_FFTWD)
+#if defined(ITK_USE_FFTWD)
 // Compare FFT using VNL and FFTW Libraries. The test is performed for
 // two 3D arrays, one of them having the same dimension(4,4,4) and the
 // other having different dimensions (3,4,5). Images are created with

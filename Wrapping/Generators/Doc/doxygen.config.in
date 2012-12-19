@@ -454,7 +454,7 @@ PREDEFINED  =  "itkNotUsed(x)="\
                "VCL_USE_NATIVE_STL=1" "VCL_USE_NATIVE_COMPLEX=1"        \
                "VCL_HAS_BOOL=1" "VXL_BIG_ENDIAN=1" "VXL_LITTLE_ENDIAN=0"\
                "VNL_DLL_DATA=" "size_t=vcl_size_t"                      \
-               "USE_FFTWD" "USE_FFTWF"
+               "ITK_USE_FFTWD" "ITK_USE_FFTWF"
 
 # If the EXPAND_ONLY_PREDEF and MACRO_EXPANSION tags are both set to YES
 # then the macro expansion is limited to the macros specified with the

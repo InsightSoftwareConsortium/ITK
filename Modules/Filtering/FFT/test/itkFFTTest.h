@@ -25,7 +25,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkVnlForwardFFTImageFilter.h"
 #include "itkVnlInverseFFTImageFilter.h"
-#if defined(USE_FFTWF) || defined(USE_FFTWD)
+#if defined(ITK_USE_FFTWF) || defined(ITK_USE_FFTWD)
 #include "itkFFTWInverseFFTImageFilter.h"
 #include "itkFFTWForwardFFTImageFilter.h"
 #endif

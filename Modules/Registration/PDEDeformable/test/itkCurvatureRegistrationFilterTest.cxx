@@ -18,7 +18,7 @@
 
 #include "itkConfigure.h"
 
-#if defined(USE_FFTWD)
+#if defined(ITK_USE_FFTWD)
 
 #include "itkCurvatureRegistrationFilter.h"
 #include "itkFastSymmetricForcesDemonsRegistrationFunction.h"

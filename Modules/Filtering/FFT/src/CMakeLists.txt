@@ -3,12 +3,12 @@ itkFFTWGlobalConfiguration.cxx
 )
 
 # this library is only needed if FFTW is used
-if( USE_FFTWF OR USE_FFTWD )
+if( ITK_USE_FFTWF OR ITK_USE_FFTWD )
   add_library(ITKFFT ${ITKFFT_SRC})
   target_link_libraries(ITKFFT  ${ITKCommon_LIBRARIES})
 
-  if(USE_FFTWD)
-    if(USE_SYSTEM_FFTW)
+  if(ITK_USE_FFTWD)
+    if(ITK_USE_SYSTEM_FFTW)
       target_link_libraries(ITKFFT ${FFTWD_LIB})
       if(FFTWD_THREADS_LIB)
         target_link_libraries(ITKFFT ${FFTWD_THREADS_LIB})
@@ -19,8 +19,8 @@ if( USE_FFTWF OR USE_FFTWD )
     endif()
   endif()
 
-  if(USE_FFTWF)
-    if(USE_SYSTEM_FFTW)
+  if(ITK_USE_FFTWF)
+    if(ITK_USE_SYSTEM_FFTW)
       target_link_libraries(ITKFFT ${FFTWF_LIB})
       if(FFTWF_THREADS_LIB)
         target_link_libraries(ITKFFT ${FFTWF_THREADS_LIB})
