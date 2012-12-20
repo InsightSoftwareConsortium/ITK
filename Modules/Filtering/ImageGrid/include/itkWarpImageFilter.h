@@ -259,11 +259,12 @@ protected:
                             ThreadIdType threadId);
 
   /** Override VeriyInputInformation() since this filter's inputs do
-   * not need to occoupy the same physical space.
+   * not need to occoupy the same physical space. But check the that
+   * deformation field has the same number of components as dimensions
    *
    * \sa ProcessObject::VerifyInputInformation
    */
-  virtual void VerifyInputInformation() {}
+  virtual void VerifyInputInformation();
 
 private:
   WarpImageFilter(const Self &); //purposely not implemented
@@ -272,7 +273,7 @@ private:
   /** This function should be in an interpolator but none of the ITK
    * interpolators at this point handle edge conditions properly
    */
-  DisplacementType EvaluateDisplacementAtPhysicalPoint(const PointType & p);
+  void EvaluateDisplacementAtPhysicalPoint(const PointType & p, DisplacementType &output);
 
   PixelType     m_EdgePaddingValue;
   SpacingType   m_OutputSpacing;
