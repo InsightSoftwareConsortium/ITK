@@ -67,26 +67,24 @@ if(ITK_USE_SYSTEM_DCMTK)
   itk_module_impl()
 
 else(ITK_USE_SYSTEM_DCMTK)
-  #
-  # this is a first guess, I presume that
-  # on windows the library name is dependent on
-  # whether it's debug or release.
-  #
-  # also, .lib won't be right for shared libs.
-  if(NOT WIN32 OR MINGW)
+  if(NOT WIN32)
     set(lib_prefix lib)
     if(BUILD_SHARED_LIBS)
-      if(APPLE)
-        set(lib_suffix .dylib)
-      else()
-        set(lib_suffix .so)
-      endif()
+      set(lib_suffix "${CMAKE_SHARED_LIBRARY_SUFFIX}")
+      set(lib_prefix "${CMAKE_SHARED_LIBRARY_PREFIX}")
     else()
-      set(lib_suffix .a)
+      set(lib_suffix "${CMAKE_STATIC_LIBRARY_SUFFIX}")
+      set(lib_prefix "${CMAKE_STATIC_LIBRARY_PREFIX}")
     endif()
   else()
     set(lib_prefix "")
-    set(lib_suffix .lib)
+    if(BUILD_SHARED_LIBS)
+      set(lib_suffix "${CMAKE_IMPORT_LIBRARY_SUFFIX}")
+      set(lib_prefix "${CMAKE_IMPORT_LIBRARY_PREFIX}")
+    else()
+      set(lib_suffix "${CMAKE_STATIC_LIBRARY_SUFFIX}")
+      set(lib_prefix "${CMAKE_IMPORT_LIBRARY_PREFIX}")
+    endif()
   endif()
 
   set(DCMTK_EPNAME ITKDCMTK_ExtProject)
