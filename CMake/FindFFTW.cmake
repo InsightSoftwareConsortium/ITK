@@ -4,12 +4,12 @@
 ## One for each type.  I.e. libfftw.a-->double, libfftwf.a-->float
 
 ## The following logic belongs in the individual package
-## mark_as_advanced(USE_FFTWD)
-## option(USE_FFTWD "Use double precision FFTW if found" ON)
-## mark_as_advanced(USE_FFTWF)
-## option(USE_FFTWF "Use single precision FFTW if found" ON)
+## mark_as_advanced(ITK_USE_FFTWD)
+## option(ITK_USE_FFTWD "Use double precision FFTW if found" ON)
+## mark_as_advanced(ITK_USE_FFTWF)
+## option(ITK_USE_FFTWF "Use single precision FFTW if found" ON)
 
-if(USE_FFTWD OR USE_FFTWF)
+if(ITK_USE_FFTWD OR ITK_USE_FFTWF)
 
   set(FFTW_INC_SEARCHPATH
     /sw/include
@@ -37,7 +37,7 @@ if(USE_FFTWD OR USE_FFTWF)
     /usr/local/lib/fftw
   )
 
-  if(USE_FFTWD)
+  if(ITK_USE_FFTWD)
     mark_as_advanced(FFTWD_LIB)
     find_library(FFTWD_LIB fftw3 ${FFTW_LIB_SEARCHPATH}) #Double Precision Lib
     find_library(FFTWD_THREADS_LIB fftw3_threads ${FFTW_LIB_SEARCHPATH}) #Double Precision Lib only if compiled with threads support
@@ -51,7 +51,7 @@ if(USE_FFTWD OR USE_FFTWF)
     endif()
   endif()
 
-  if(USE_FFTWF)
+  if(ITK_USE_FFTWF)
     mark_as_advanced(FFTWF_LIB)
     find_library(FFTWF_LIB fftw3f ${FFTW_LIB_SEARCHPATH}) #Single Precision Lib
     find_library(FFTWF_THREADS_LIB fftw3f_threads ${FFTW_LIB_SEARCHPATH}) #Single Precision Lib only if compiled with threads support

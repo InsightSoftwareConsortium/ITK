@@ -97,7 +97,7 @@ if(ITK_USE_MINC2 AND MINC2_FOUND)
 endif()
 
 
-if( USE_FFTWD OR USE_FFTWF )
+if( ITK_USE_FFTWD OR ITK_USE_FFTWF )
   set( ITKReviewTests
     ${ITKReviewTests}
     itkFFTComplexToComplexImageFilterTest01.cxx

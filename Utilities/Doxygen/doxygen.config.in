@@ -1611,8 +1611,8 @@ PREDEFINED             = "itkNotUsed(x)=" \
                          "VXL_LITTLE_ENDIAN=0" \
                          "VNL_DLL_DATA=" \
                          "size_t=vcl_size_t" \
-                         "USE_FFTWD" \
-                         "USE_FFTWF" \
+                         "ITK_USE_FFTWD" \
+                         "ITK_USE_FFTWF" \
                          "ITK_USE_CONCEPT_CHECKING" \
                          "__itkMacro_h" \
                          "ITK_LEGACY_REMOVE"

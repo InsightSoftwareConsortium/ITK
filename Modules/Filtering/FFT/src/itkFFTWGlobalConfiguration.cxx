@@ -16,7 +16,7 @@
  *
  *=========================================================================*/
 #include "itkFFTWGlobalConfiguration.h"
-#if defined(USE_FFTWF) || defined(USE_FFTWD)
+#if defined(ITK_USE_FFTWF) || defined(ITK_USE_FFTWD)
 #include "itksys/SystemTools.hxx"
 #ifdef _WIN32
         #include <Windows.h>
@@ -159,7 +159,7 @@ FFTWGlobalConfiguration
       }
     }
 
-#if defined(USE_FFTWF)
+#if defined(ITK_USE_FFTWF)
   //TODO:  Investigate if this is really a warnable situation.
   //       fftw should work just fine without threads
   if( !fftwf_init_threads() )
@@ -167,7 +167,7 @@ FFTWGlobalConfiguration
     itkWarningMacro( "Warning: Unable to initialize the FFTWF thread support" );
     }
 #endif
-#if defined(USE_FFTWD)
+#if defined(ITK_USE_FFTWD)
   if( !fftw_init_threads() )
     {
     itkWarningMacro( "Warning: Unable to initialize the FFTWD thread support" );
@@ -227,11 +227,11 @@ FFTWGlobalConfiguration
   if( this->m_ReadWisdomCache )
     {
     std::string cachePath = m_WisdomFilenameGenerator->GenerateWisdomFilename(m_WisdomCacheBase);
-#if defined(USE_FFTWF)
+#if defined(ITK_USE_FFTWF)
     fftwf_import_system_wisdom();
     ImportWisdomFileFloat(cachePath+"f");
 #endif
-#if defined(USE_FFTWD)
+#if defined(ITK_USE_FFTWD)
     fftw_import_system_wisdom();
     ImportWisdomFileDouble(cachePath);
 #endif
@@ -247,14 +247,14 @@ FFTWGlobalConfiguration
   if( this->m_WriteWisdomCache && this->m_NewWisdomAvailable )
     {
        std::string cachePath = m_WisdomFilenameGenerator->GenerateWisdomFilename(m_WisdomCacheBase);
-#if defined(USE_FFTWF)
+#if defined(ITK_USE_FFTWF)
       {
       // import the wisdom files again to be sure to not erase the wisdom saved in another process
       ImportWisdomFileFloat(cachePath+"f");
       ExportWisdomFileFloat(cachePath+"f");
       }
 #endif
-#if defined(USE_FFTWD)
+#if defined(ITK_USE_FFTWD)
       {
       // import the wisdom files again to be sure to not erase the wisdom saved in another process
       ImportWisdomFileDouble(cachePath);
@@ -262,11 +262,11 @@ FFTWGlobalConfiguration
       }
 #endif
     }
-#if defined(USE_FFTWF)
+#if defined(ITK_USE_FFTWF)
   fftwf_cleanup_threads();
   fftwf_cleanup();
 #endif
-#if defined(USE_FFTWD)
+#if defined(ITK_USE_FFTWD)
   fftw_cleanup_threads();
   fftw_cleanup();
 #endif
@@ -321,13 +321,13 @@ FFTWGlobalConfiguration
 bool
 FFTWGlobalConfiguration
 ::ImportWisdomFileFloat( const std::string &
-#if defined(USE_FFTWF) //Only define if USE_FFTWF, to avoid compiler warning
+#if defined(ITK_USE_FFTWF) //Only define if ITK_USE_FFTWF, to avoid compiler warning
   path
 #endif
   )
 {
   bool ret = false;
-#if defined(USE_FFTWF)
+#if defined(ITK_USE_FFTWF)
 #ifdef _WIN32
   FILE *f;
   int  fd;
@@ -356,13 +356,13 @@ FFTWGlobalConfiguration
 bool
 FFTWGlobalConfiguration
 ::ImportWisdomFileDouble( const std::string &
-#if defined(USE_FFTWD) //Only define if USE_FFTWD, to avoid compiler warning
+#if defined(ITK_USE_FFTWD) //Only define if ITK_USE_FFTWD, to avoid compiler warning
   path
 #endif
 )
 {
   bool ret = false;
-#if defined(USE_FFTWD)
+#if defined(ITK_USE_FFTWD)
 #ifdef _WIN32
   FILE *f;
   int  fd;
@@ -391,19 +391,20 @@ FFTWGlobalConfiguration
 bool
 FFTWGlobalConfiguration
 ::ExportWisdomFileFloat( const std::string &
-#if defined(USE_FFTWF) //Only define if USE_FFTWF, to avoid compiler warning
+#if defined(ITK_USE_FFTWF) //Only define if ITK_USE_FFTWF, to avoid compiler warning
   path
 #endif
 )
 {
   bool ret = false;
+
+#if defined(ITK_USE_FFTWF)
     {
     //If necessary, make a directory for writing the file.
     const std::string directoryName=itksys::SystemTools::GetParentDirectory(path.c_str());
     itksys::SystemTools::MakeDirectory(directoryName.c_str());
     }
 
-#if defined(USE_FFTWF)
 #ifdef _WIN32
   int  fd;
   if ( !_sopen_s( &fd, path.c_str(), _O_RDONLY, _SH_DENYNO, _S_IREAD))
@@ -432,13 +433,13 @@ FFTWGlobalConfiguration
 bool
 FFTWGlobalConfiguration
 ::ExportWisdomFileDouble( const std::string &
-#if defined(USE_FFTWD) //Only define if USE_FFTWD, to avoid compiler warning
+#if defined(ITK_USE_FFTWD) //Only define if ITK_USE_FFTWD, to avoid compiler warning
   path
 #endif
 )
 {
   bool ret = false;
-#if defined(USE_FFTWD)
+#if defined(ITK_USE_FFTWD)
 #ifdef _WIN32
   FILE *f;
   int  fd;

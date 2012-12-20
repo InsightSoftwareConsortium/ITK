@@ -33,13 +33,13 @@
 
 #include "itkFFTComplexToComplexImageFilter.h"
 
-#if defined( USE_FFTWD ) || defined( USE_FFTWF )
+#if defined( ITK_USE_FFTWD ) || defined( ITK_USE_FFTWF )
 #include "itkFFTWComplexToComplexImageFilter.h"
 #endif
 
 namespace itk
 {
-#if defined( USE_FFTWD ) || defined( USE_FFTWF )
+#if defined( ITK_USE_FFTWD ) || defined( ITK_USE_FFTWF )
 template< class TImage >
 class FFTWComplexToComplexImageFilter;
 #endif
@@ -51,7 +51,7 @@ FFTComplexToComplexImageFilter< TImage >
 {
   Pointer smartPtr = ::itk::ObjectFactory< Self >::Create();
 
-#ifdef USE_FFTWD
+#ifdef ITK_USE_FFTWD
   if ( smartPtr.IsNull() )
     {
     if ( typeid( typename ImageType::PixelType::value_type ) == typeid( double ) )
@@ -61,7 +61,7 @@ FFTComplexToComplexImageFilter< TImage >
       }
     }
 #endif
-#ifdef USE_FFTWF
+#ifdef ITK_USE_FFTWF
   if ( smartPtr.IsNull() )
     {
     if ( typeid( typename ImageType::PixelType::value_type ) == typeid( float ) )

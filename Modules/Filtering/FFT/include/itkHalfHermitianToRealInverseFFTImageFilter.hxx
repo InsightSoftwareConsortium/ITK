@@ -20,7 +20,7 @@
 
 #include "itkVnlHalfHermitianToRealInverseFFTImageFilter.h"
 
-#if defined( USE_FFTWD ) || defined( USE_FFTWF )
+#if defined( ITK_USE_FFTWD ) || defined( ITK_USE_FFTWF )
 #include "itkFFTWHalfHermitianToRealInverseFFTImageFilter.h"
 #endif
 
@@ -38,7 +38,7 @@ struct Dispatch_C2R_New
     }
 };
 
-#ifdef USE_FFTWD
+#ifdef ITK_USE_FFTWD
 template < typename TSelfPointer, class TInputImage, class TOutputImage >
 struct Dispatch_C2R_New< TSelfPointer, TInputImage, TOutputImage, double >
 {
@@ -50,7 +50,7 @@ struct Dispatch_C2R_New< TSelfPointer, TInputImage, TOutputImage, double >
 };
 #endif
 
-#ifdef USE_FFTWF
+#ifdef ITK_USE_FFTWF
 template< typename TSelfPointer, class TInputImage, class TOutputImage >
 struct Dispatch_C2R_New< TSelfPointer, TInputImage, TOutputImage, float >
 {

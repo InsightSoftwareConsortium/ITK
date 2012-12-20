@@ -30,8 +30,8 @@
 namespace itk
 {
 /** TODO:  There should be compile time type checks so that
-           if only USE_FFTWF is defined, then only floats are valid.
-           and if USE_FFTWD is defined, then only doubles are valid.
+           if only ITK_USE_FFTWF is defined, then only floats are valid.
+           and if ITK_USE_FFTWD is defined, then only doubles are valid.
 */
 
 template< class TInputImage, class TOutputImage >

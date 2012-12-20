@@ -50,7 +50,7 @@ int itkFFTComplexToComplexImageFilterTest01( int argc, char * argv[] )
     }
 
   const unsigned int                              Dimension = 2;
-#if defined(USE_FFTWF) && !defined(USE_FFTWD)
+#if defined(ITK_USE_FFTWF) && !defined(ITK_USE_FFTWD)
   typedef float                                   PixelComponentType;
 #else
   typedef double                                  PixelComponentType;

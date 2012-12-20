@@ -19,7 +19,7 @@
 #include "itkConfigure.h"
 
 
-#ifndef USE_FFTWD
+#ifndef ITK_USE_FFTWD
 #error "This program needs single precision FFTWD to work."
 #endif
 

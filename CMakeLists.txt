@@ -217,20 +217,35 @@ endif()
 #-----------------------------------------------------------------------------
 # Manage FFT v3 Options
 #
-# USE_FFTWD -- use double precision fftw
-option(USE_FFTWD "Use double precision fftw if found" OFF)
-mark_as_advanced(USE_FFTWD)
+# ITK_USE_FFTWD -- use double precision fftw
+if(DEFINED USE_FFTWD)
+  set(ITK_USE_FFTWD_DEFAULT ${USE_FFTWD})
+else()
+  set(ITK_USE_FFTWD_DEFAULT OFF)
+endif()
+option(ITK_USE_FFTWD "Use double precision fftw if found" ${ITK_USE_FFTWD_DEFAULT})
+mark_as_advanced(ITK_USE_FFTWD)
 #
-# USE_FFTWF -- use single precision fftw
-option(USE_FFTWF "Use single precision fftw if found" OFF)
-mark_as_advanced(USE_FFTWF)
+# ITK_USE_FFTWF -- use single precision fftw
+if(DEFINED USE_FFTWF)
+  set(ITK_USE_FFTWF_DEFAULT ${USE_FFTWF})
+else()
+  set(ITK_USE_FFTWF_DEFAULT OFF)
+endif()
+option(ITK_USE_FFTWF "Use single precision fftw if found" ${ITK_USE_FFTWF_DEFAULT})
+mark_as_advanced(ITK_USE_FFTWF)
 
-# USE_SYSTEM_FFTW -- locate a readybuilt fftw installation
-option(USE_SYSTEM_FFTW "Use an installed version of fftw" OFF)
-mark_as_advanced(USE_SYSTEM_FFTW)
+# ITK_USE_SYSTEM_FFTW -- locate a readybuilt fftw installation
+if(DEFINED USE_SYSTEM_FFTW)
+  set(ITK_USE_SYSTEM_FFTW_DEFAULT ${USE_SYSTEM_FFTW})
+else()
+  set(ITK_USE_SYSTEM_FFTW_DEFAULT OFF)
+endif()
+option(ITK_USE_SYSTEM_FFTW "Use an installed version of fftw" ${ITK_USE_SYSTEM_FFTW_DEFAULT})
+mark_as_advanced(ITK_USE_SYSTEM_FFTW)
 
 
-if( USE_FFTWD OR USE_FFTWF )
+if( ITK_USE_FFTWD OR ITK_USE_FFTWF )
   include(itkExternal_FFTW)
 endif()
 

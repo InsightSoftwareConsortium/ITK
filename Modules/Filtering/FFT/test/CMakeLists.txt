@@ -8,7 +8,7 @@ itkVnlRealFFTTest.cxx
 itkForwardInverseFFTImageFilterTest.cxx
 )
 
-if (USE_FFTWF)
+if (ITK_USE_FFTWF)
   set( ITKFFTTests ${ITKFFTTests}
     itkFFTWF_FFTTest.cxx
     itkFFTWF_RealFFTTest.cxx
@@ -17,7 +17,7 @@ if (USE_FFTWF)
 )
 endif()
 
-if (USE_FFTWD)
+if (ITK_USE_FFTWD)
   set( ITKFFTTests ${ITKFFTTests}
     itkFFTWD_FFTTest.cxx
     itkFFTWD_RealFFTTest.cxx
@@ -41,7 +41,7 @@ itk_add_test(NAME itkVnlRealFFTTest
     itkVnlRealFFTTest)
 set_tests_properties(itkVnlRealFFTTest PROPERTIES ATTACHED_FILES_ON_FAIL ${TEMP}/itkVnlRealFFTTest.txt)
 
-if(USE_FFTWF)
+if(ITK_USE_FFTWF)
   itk_add_test(NAME itkFFTWF_FFTTest
     COMMAND ITKFFTTestDriver itkFFTWF_FFTTest ${ITK_TEST_OUTPUT_DIR} )
   itk_add_test(NAME itkFFTWF_RealFFTTest
@@ -54,7 +54,7 @@ if(USE_FFTWF)
     "ITK_FFTW_READ_WISDOM_CACHE=oN;ITK_FFTW_WRITE_WISDOM_CACHE=oN;ITK_FFTW_WISDOM_CACHE_FILE=${ITK_TEST_OUTPUT_DIR}/.wisdom_from_ITK_FFTW_WISDOM_CACHE_FILE;ITK_FFTW_PLAN_RIGOR=FFTW_EXHAUSTIVE")
 endif()
 
-if(USE_FFTWD)
+if(ITK_USE_FFTWD)
   itk_add_test(NAME itkFFTWD_FFTTest
     COMMAND ITKFFTTestDriver itkFFTWD_FFTTest ${ITK_TEST_OUTPUT_DIR} )
   itk_add_test(NAME itkFFTWD_RealFFTTest

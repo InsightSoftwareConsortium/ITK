@@ -20,7 +20,7 @@
 #include "itkVnlRealToHalfHermitianForwardFFTImageFilter.h"
 #include "itkVnlHalfHermitianToRealInverseFFTImageFilter.h"
 
-#if defined(USE_FFTWF) || defined(USE_FFTWD)
+#if defined(ITK_USE_FFTWF) || defined(ITK_USE_FFTWD)
 #include "itkFFTWForwardFFTImageFilter.h"
 #include "itkFFTWInverseFFTImageFilter.h"
 #include "itkFFTWRealToHalfHermitianForwardFFTImageFilter.h"
@@ -73,7 +73,7 @@ int itkForwardInverseFFTImageFilterTest(int argc, char* argv[])
     std::cout << "Test passed for DoubleVnlFullFFTType" << std::endl;
     }
 
-#if defined(USE_FFTWF)
+#if defined(ITK_USE_FFTWF)
   typedef itk::FFTWForwardFFTImageFilter< FloatImageType >
     FloatFFTWFullFFTType;
   typedef itk::FFTWInverseFFTImageFilter< FloatFFTWFullFFTType::OutputImageType >
@@ -89,7 +89,7 @@ int itkForwardInverseFFTImageFilterTest(int argc, char* argv[])
     }
 #endif
 
-#if defined(USE_FFTWD)
+#if defined(ITK_USE_FFTWD)
   typedef itk::FFTWForwardFFTImageFilter< DoubleImageType >
     DoubleFFTWFullFFTType;
   typedef itk::FFTWInverseFFTImageFilter< DoubleFFTWFullFFTType::OutputImageType >
@@ -135,7 +135,7 @@ int itkForwardInverseFFTImageFilterTest(int argc, char* argv[])
     std::cout << "Test passed for DoubleVnlHalfFFTType" << std::endl;
     }
 
-#if defined(USE_FFTWF)
+#if defined(ITK_USE_FFTWF)
   typedef itk::FFTWRealToHalfHermitianForwardFFTImageFilter< FloatImageType >
     FloatFFTWHalfFFTType;
   typedef itk::FFTWHalfHermitianToRealInverseFFTImageFilter< FloatFFTWHalfFFTType::OutputImageType >
@@ -151,7 +151,7 @@ int itkForwardInverseFFTImageFilterTest(int argc, char* argv[])
     }
 #endif
 
-#if defined(USE_FFTWD)
+#if defined(ITK_USE_FFTWD)
   typedef itk::FFTWRealToHalfHermitianForwardFFTImageFilter< DoubleImageType >
     DoubleFFTWHalfFFTType;
   typedef itk::FFTWHalfHermitianToRealInverseFFTImageFilter< DoubleFFTWHalfFFTType::OutputImageType >
