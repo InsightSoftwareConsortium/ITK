@@ -19,7 +19,7 @@
 #define __itkWindowedSincInterpolateImageFunction_h
 
 #include "itkConstNeighborhoodIterator.h"
-#include "itkConstantBoundaryCondition.h"
+#include "itkZeroFluxNeumannBoundaryCondition.h"
 #include "itkInterpolateImageFunction.h"
 
 namespace itk
@@ -253,7 +253,7 @@ template<
   class TInputImage,
   unsigned int VRadius,
   class TWindowFunction = Function::HammingWindowFunction< VRadius >,
-  class TBoundaryCondition = ConstantBoundaryCondition< TInputImage >,
+  class TBoundaryCondition = ZeroFluxNeumannBoundaryCondition< TInputImage, TInputImage >,
   class TCoordRep = double >
 class ITK_EXPORT WindowedSincInterpolateImageFunction:
   public InterpolateImageFunction< TInputImage, TCoordRep >

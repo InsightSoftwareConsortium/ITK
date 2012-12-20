@@ -19,6 +19,7 @@
 #include <iostream>
 #include "itkImage.h"
 #include "itkWindowedSincInterpolateImageFunction.h"
+#include "itkConstantBoundaryCondition.h"
 #include "itkImageRegionIteratorWithIndex.h"
 
 namespace SincInterpolate {

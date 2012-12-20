@@ -37,6 +37,7 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkResampleImageFilter.h"
+#include "itkConstantBoundaryCondition.h"
 #include "itkWindowedSincInterpolateImageFunction.h"
 
 
@@ -219,4 +220,3 @@ int main( int argc, char * argv[] )
 
   return EXIT_SUCCESS;
 }
-
