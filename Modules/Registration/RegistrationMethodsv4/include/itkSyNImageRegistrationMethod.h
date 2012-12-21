@@ -104,6 +104,8 @@ public:
   typedef typename ImageMetricType::VirtualImageType                  VirtualImageType;
   typedef typename ImageMetricType::MeasureType                       MeasureType;
   typedef typename Superclass::MultiMetricType                        MultiMetricType;
+  typedef typename ImageMetricType::FixedImageMaskType                FixedImageMaskType;
+  typedef typename ImageMetricType::MovingImageMaskType               MovingImageMaskType;
 
   typedef TOutputTransform                                            OutputTransformType;
   typedef typename OutputTransformType::Pointer                       OutputTransformPointer;
@@ -186,7 +188,8 @@ protected:
    */
   virtual void InitializeRegistrationAtEachLevel( const SizeValueType );
 
-  virtual DisplacementFieldPointer ComputeUpdateField( const FixedImagesContainerType, const TransformBaseType *, const MovingImagesContainerType, const TransformBaseType *, MeasureType & );
+  virtual DisplacementFieldPointer ComputeUpdateField( const FixedImagesContainerType, const TransformBaseType *,
+    const MovingImagesContainerType, const TransformBaseType *, const FixedImageMaskType *, MeasureType & );
   virtual DisplacementFieldPointer GaussianSmoothDisplacementField( const DisplacementFieldType *, const RealType );
   virtual DisplacementFieldPointer InvertDisplacementField( const DisplacementFieldType *, const DisplacementFieldType * = NULL );
 

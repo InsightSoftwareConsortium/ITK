@@ -71,6 +71,9 @@ public:
   typedef typename OutputFieldType::SizeType      SizeType;
   typedef typename OutputFieldType::DirectionType DirectionType;
 
+  typedef typename VectorType::RealValueType      RealType;
+  typedef Image<RealType, ImageDimension>         RealImageType;
+
   /** B-spline smoothing filter argument typedefs */
   typedef PointSet<VectorType, ImageDimension>    PointSetType;
 
@@ -101,6 +104,25 @@ public:
   const DisplacementFieldControlPointLatticeType * GetDisplacementFieldControlPointLattice() const
     {
     return this->m_DisplacementFieldControlPointLattice;
+    }
+
+  /**
+   * Set confidence image function.  If a confidence image is specified,
+   * estimation of the displacement field weights the contribution of each voxel
+   * according the value of the corresponding voxel in the confidence image.
+   */
+  void SetConfidenceImage( const RealImageType *image )
+    {
+    this->SetNthInput( 1, const_cast<RealImageType *>( image ) );
+    }
+  void SetInput1( const RealImageType *image ) { this->SetConfidenceImage( image ); }
+
+  /**
+   * Get confidence image function.
+   */
+  const RealImageType* GetConfidenceImage() const
+    {
+    return static_cast<const RealImageType*>( this->ProcessObject::GetInput( 1 ) );
     }
 
   /**

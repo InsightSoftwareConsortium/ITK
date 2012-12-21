@@ -43,10 +43,11 @@ class Array1DToData;
  *
  * This derived class from the SimpleImageRegistrationMethod class
  * is specialized to handle time-varying velocity field transforms
- * of which there are currently 2:
+ * of which there are currently 3:
  *
  * -# TimeVaryingDisplacementFieldTransform
  * -# GaussianSmoothingOnUpdateTimeVaryingDisplacementFieldTransform
+ * -# BSplineSmoothingOnUpdateTimeVaryingDisplacementFieldTransform
  *
  * The latter is derived from the former and performs an optional
  * spatial and temporal smoothing on the update and total velocity
@@ -69,12 +70,12 @@ class Array1DToData;
  * this can be described as
  *
  * \f[
- * v_{total} = G_1( v_{total} + \lambda * G_2( v_{update} ) )
+ * v_{total} = B_1( v_{total} + \lambda * B_2( v_{update} ) )
  * \f]
  * where
 
- * \f$ G_1 = \f$ gaussian smoothing on the total field
- * \f$ G_2 = \f$ gaussian smoothing on the update field
+ * \f$ B_1 = \f$ bspline smoothing on the total field
+ * \f$ B_2 = \f$ bspline smoothing on the update field
  * \f$ \lambda = \f$ learning rate
  * \f$ v_{update} = \f$ the normalized velocity field where we
  * normalize the velocity field at each time point
@@ -121,6 +122,8 @@ public:
   typedef typename ImageMetricType::VirtualImageType                  VirtualImageType;
   typedef typename ImageMetricType::MeasureType                       MeasureType;
   typedef typename Superclass::MultiMetricType                        MultiMetricType;
+  typedef typename ImageMetricType::FixedImageMaskType                FixedImageMaskType;
+  typedef typename ImageMetricType::MovingImageMaskType               MovingImageMaskType;
 
   typedef TOutputTransform                                                                     OutputTransformType;
   typedef typename OutputTransformType::Pointer                                                OutputTransformPointer;

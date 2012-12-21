@@ -22,6 +22,7 @@
 
 #include "itkComposeDisplacementFieldsImageFilter.h"
 #include "itkGaussianOperator.h"
+#include "itkImageMaskSpatialObject.h"
 #include "itkImportImageFilter.h"
 #include "itkInvertDisplacementFieldImageFilter.h"
 #include "itkIterationReporter.h"
@@ -172,9 +173,9 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
     MeasureType movingMetricValue = 0.0;
 
     DisplacementFieldPointer fixedToMiddleSmoothUpdateField = this->ComputeUpdateField(
-      this->m_FixedSmoothImages, fixedComposite, this->m_MovingSmoothImages, movingComposite, movingMetricValue );
+      this->m_FixedSmoothImages, fixedComposite, this->m_MovingSmoothImages, movingComposite, NULL, movingMetricValue );
     DisplacementFieldPointer movingToMiddleSmoothUpdateField = this->ComputeUpdateField(
-      this->m_MovingSmoothImages, movingComposite, this->m_FixedSmoothImages, fixedComposite, fixedMetricValue );
+      this->m_MovingSmoothImages, movingComposite, this->m_FixedSmoothImages, fixedComposite, NULL, fixedMetricValue );
 
     if ( this->m_AverageMidPointGradients )
       {
@@ -236,7 +237,7 @@ template<typename TFixedImage, typename TMovingImage, typename TOutputTransform>
 typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>::DisplacementFieldPointer
 SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
 ::ComputeUpdateField( const FixedImagesContainerType fixedImages, const TransformBaseType * fixedTransform, const MovingImagesContainerType movingImages,
-  const TransformBaseType * movingTransform, MeasureType & value )
+  const TransformBaseType * movingTransform, const FixedImageMaskType * itkNotUsed( mask ), MeasureType & value )
 {
   // pre calculate the voxel distance to be used in properly scaling the gradient.
 
