@@ -15,34 +15,49 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkMINC2ImageIOFactory.h"
-#include "itkCreateObjectFunction.h"
-#include "itkMINC2ImageIO.h"
+#include "itkMINCImageIOFactory.h"
+#include "itkMINCImageIO.h"
 #include "itkVersion.h"
 
 namespace itk
 {
-MINC2ImageIOFactory::MINC2ImageIOFactory()
+MINCImageIOFactory::MINCImageIOFactory()
 {
   this->RegisterOverride( "itkImageIOBase",
-                          "itkMINC2ImageIO",
-                          "MINC2 Image IO",
+                          "itkMINCImageIO",
+                          "MINC Image IO",
                           1,
-                          CreateObjectFunction< MINC2ImageIO >::New() );
+                          CreateObjectFunction< MINCImageIO >::New() );
 }
 
-MINC2ImageIOFactory::~MINC2ImageIOFactory()
-{}
+MINCImageIOFactory::~MINCImageIOFactory()
+{
+}
 
 const char *
-MINC2ImageIOFactory::GetITKSourceVersion(void) const
+MINCImageIOFactory::GetITKSourceVersion() const
 {
   return ITK_SOURCE_VERSION;
 }
 
 const char *
-MINC2ImageIOFactory::GetDescription(void) const
+MINCImageIOFactory::GetDescription() const
 {
-  return "MINC2 ImageIO Factory, allows the loading of MINC2 images into insight";
+  return "MINC ImageIO Factory, allows the loading of MINC images into insight";
 }
+
+// Undocumented API used to register during static initialization.
+// DO NOT CALL DIRECTLY.
+
+static bool MINCImageIOFactoryHasBeenRegistered;
+
+void MINCImageIOFactoryRegister__Private(void)
+{
+  if( !MINCImageIOFactoryHasBeenRegistered )
+    {
+    MINCImageIOFactoryHasBeenRegistered = true;
+    MINCImageIOFactory::RegisterOneFactory();
+    }
+}
+
 } // end namespace itk

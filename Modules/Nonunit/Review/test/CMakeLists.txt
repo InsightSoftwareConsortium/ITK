@@ -92,10 +92,6 @@ set(BASELINE_ROOT ${ITK_DATA_ROOT}/Baseline)
 set(TEMP ${ITK_TEST_OUTPUT_DIR})
 
 
-if(ITK_USE_MINC2 AND MINC2_FOUND)
-  set(ITKReviewTests ${ITKReviewTests} itkMINC2ImageIOTest.cxx)
-endif()
-
 
 if( ITK_USE_FFTWD OR ITK_USE_FFTWF )
   set( ITKReviewTests

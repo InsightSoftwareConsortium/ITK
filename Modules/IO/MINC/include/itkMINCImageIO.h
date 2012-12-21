@@ -18,35 +18,37 @@
 /**
  *         The specification for this file format is taken from the
  *         web site http://www.bic.mni.mcgill.ca/ServicesSoftware/MINC
+ * \author Vladimir S. FONOV
+ *         Brain Imaging Center, Montreal Neurological Institute, McGill University, Montreal Canada 2012
  * \author Leila Baghdadi
  *         Mouse Imaging Centre, Toronto, Canada 2005.
  */
 
-#ifndef __itkMINC2ImageIO_h
-#define __itkMINC2ImageIO_h
-
+#ifndef __itkMINCImageIO_h
+#define __itkMINCImageIO_h
 
 #include "itkImageIOBase.h"
 
 #include "itkMatrix.h"
 
-extern "C" {
-#include <minc2.h>
-}
+#include <itk_minc2.h>
 
 namespace itk
 {
-/** \class MINC2ImageIO
+/** \class MINCImageIO
  *
  * \author Leila Baghdadi
- * \brief Class that defines how to read MINC2 file format. Note,like
- * ITK, MINC2 is N dimensional and dimensions can be submitted in any
- * arbitrary order. Here we make sure the dimensions are ordered as
- * xspace, yspace, zspace, time and vector_dimension and so on or
- * xfrequencey, yfrequency, zfrequency, tfrequency and
- * vector_dimension and so on
- * NOTE** This class only reads the regularly sampled dimensions as I
- * am not sure how to deal with "iregularly sampled" dimensions yet!
+ * \brief Class that defines how to read MINC file format.
+ *
+ * \ingroup ITKIOMINC
+ *
+ * Note, like ITK, MINC is N dimensional and dimensions
+ * can be submitted in any arbitrary order. Here we make sure the
+ * dimensions are ordered as xspace, yspace, zspace, time and
+ * vector_dimension and so on or xfrequencey, yfrequency, zfrequency,
+ * tfrequency and vector_dimension and so on NOTE** This class only
+ * reads the regularly sampled dimensions as I am not sure how to deal
+ * with "iregularly sampled" dimensions yet!
  *
  * This code was contributed in the Insight Journal paper:
  * "MINC2.0 IO Support for ITK"
@@ -56,13 +58,12 @@ namespace itk
  *
  * \ingroup IOFilters
  *
- * \ingroup ITKReview
  */
-class ITK_EXPORT MINC2ImageIO:public ImageIOBase
+class ITK_EXPORT MINCImageIO : public ImageIOBase
 {
 public:
   /** Standard class typedefs. */
-  typedef MINC2ImageIO          Self;
+  typedef MINCImageIO           Self;
   typedef ImageIOBase           Superclass;
   typedef SmartPointer< Self >  Pointer;
   typedef Matrix< float, 3, 3 > MatrixType;
@@ -70,7 +71,18 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MINC2ImageIO, ImageIOBase);
+  itkTypeMacro(MINCImageIO, Superclass);
+
+  /** Right now MINC supports up to 3D with multiple components */
+  virtual bool SupportsDimension(unsigned long dim)
+  {
+    return dim<4;
+  }
+
+  /** Set/Get the level of compression for the output images.
+   *  0-9; 0 = none, 9 = maximum. */
+  itkSetMacro(CompressionLevel, int);
+  itkGetConstMacro(CompressionLevel, int);
 
   /*-------- This part of the interface deals with reading data. ------ */
 
@@ -98,64 +110,50 @@ public:
    * that the IORegion has been set properly. */
   virtual void Write(const void *buffer);
 
-  char * GetDimensionOrder() { return m_DimensionOrder; }
-  void SetDimensionOrder(char *dimorder) { m_DimensionOrder = dimorder; }
-
-  void XYZFromDirectionCosines(midimhandle_t *hdims, int *dim_indices, unsigned int *number_of_components);
-
 protected:
-  MINC2ImageIO();
-  ~MINC2ImageIO();
+  MINCImageIO();
+  ~MINCImageIO();
   void PrintSelf(std::ostream & os, Indent indent) const;
 
   void WriteSlice(std::string & fileName, const void *buffer);
 
-  // Num. dimensions in base class (c.f. GetNumberOfDimensions); why keep a
-  // second copy here?
-  unsigned int m_NDims;
+  int  m_NDims; /*Number of dimensions*/
 
-  char **m_DimensionName;
-  virtual void SetDimensionName(unsigned int i, char *name);
+  // dimension size and start and step, in FILE ORDER!
 
-  virtual char * GetDimensionName(unsigned int i){ return m_DimensionName[i]; }
+  const char   **m_DimensionName;
+  misize_t      *m_DimensionSize;
+  double        *m_DimensionStart;
+  double        *m_DimensionStep;
+  int            m_DimensionIndices[5];
+  midimhandle_t *m_MincFileDims;
+  midimhandle_t *m_MincApparentDims;
+  mitype_t       m_Volume_type;
+  miclass_t      m_Volume_class;
+  int            m_CompressionLevel;
 
-  char *m_DimensionOrder;
+  // MINC2 volume handle , currently opened
+  mihandle_t     m_Volume;
 
-  // shift and scale parameter (god help me with slice scaling!!)
-  double m_Shift;
-  double m_Scale;
-
-  // dimension size and start and step
-  unsigned int *m_DimensionSize;
-  double       *m_DimensionStart;
-  double       *m_DimensionStep;
-
-  MatrixType m_DirectionCosines;
-
-  int *m_DimensionIndices;
-
-  // Description:
-  // Check the DimensionOrder and adjust according to what
-  // dimensions the user has actually specified via
-  // SetDimensionOrder()
-  int CheckDimensionOrder(char *userdimorder);
-
-  double m_OriginalStart[3];
+  MatrixType     m_DirectionCosines;
   // complex type images, composed of complex numbers
-  int m_Complex;
+  //int m_Complex;
+
+  // will assign m_NDims and allocate all internal buffers to hold the
+  // information
+  void AllocateDimensions(int nDims);
+
+  // cleanup internal buffers
+  void CleanupDimensions(void);
+
+  // close existing volume, cleanup internal structures
+  void CloseVolume(void);
 
 private:
-  MINC2ImageIO(const Self &);   //purposely not implemented
+  MINCImageIO(const Self &);    //purposely not implemented
   void operator=(const Self &); //purposely not implemented
 
-  // Description
-  // Get slice scaling from local slice scaling
-  void SetSliceScalingFromLocalScaling(mihandle_t volume);
-
-  // Description
-  // Get slice scaling from global slice scaling
-  void SetSliceScalingFromGlobalScaling(mihandle_t volume);
 };
 } // end namespace itk
 
-#endif // __itkMINC2ImageIO_h
+#endif // __itkMINCImageIO_h
