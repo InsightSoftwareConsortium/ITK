@@ -197,7 +197,7 @@ macro(check_compiler_platform_flags)
        OUTPUT_VARIABLE _version ERROR_VARIABLE _version)
 
      # -fopenmp breaks compiling the HDF5 library in shared library mode
-     # on the OS X platform -- at least with gcc 4.2 from XCode.
+     # on the OS X platform -- at least with gcc 4.2 from Xcode.
      set(compile_flag_lists CMAKE_C_FLAGS CMAKE_CXX_FLAGS
        CMAKE_C_FLAGS_DEBUG CMAKE_C_FLAGS_MINSIZEREL
        CMAKE_C_FLAGS_RELEASE CMAKE_C_FLAGS_RELWITHDEBINFO
