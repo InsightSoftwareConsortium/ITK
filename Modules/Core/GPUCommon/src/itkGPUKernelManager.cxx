@@ -50,7 +50,7 @@ bool GPUKernelManager::LoadProgramFromFile(const char* filename, const char* cPr
   if(pFileStream == 0)
     {
     itkWarningMacro("Cannot open OpenCL source file");
-    return NULL;
+    return false;
     }
 #endif
 
