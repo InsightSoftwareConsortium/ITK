@@ -18,6 +18,7 @@
 
 #include "itkImage.h"
 #include "itkRGBPixel.h"
+#include "itkTextOutput.h" // Needed to see warnings
 
 typedef itk::ImportImageContainer<unsigned long,short>::Pointer myPointer;
 bool TestNew2(myPointer v, const char* expectedClassName)
@@ -37,7 +38,7 @@ bool TestNew2(myPointer v, const char* expectedClassName)
 template<class T>
 void MakeImage(const int count, T pixel)
 {
-  typedef itk::Image<T, 3>      ImageType;
+  typedef itk::Image<T, 3>               ImageType;
   typedef typename ImageType::IndexType  IndexType;
   typedef typename ImageType::RegionType RegionType;
   typedef typename ImageType::SizeType   SizeType;
@@ -86,14 +87,34 @@ int itkObjectFactoryTest2(int argc, char *argv[])
   itk::ObjectFactoryBase::UnRegisterAllFactories();
   if (argc < 2)
     {
-    std::cout << "Usage: " << argv[0] << " FactoryPath" << std::endl;
+    std::cout << "Usage: " << argv[0] << " FactoryPath [FactoryPath [FactoryPath ..." << std::endl;
     return EXIT_FAILURE;
     }
 
-  std::string myenv = std::string("ITK_AUTOLOAD_PATH=") + std::string(argv[1]) + std::string("/");
-#ifdef CMAKE_INTDIR
-  myenv += std::string(CMAKE_INTDIR);
+  // This is needed on WIndows to see warnings in the test output
+  itk::OutputWindow::SetInstance(itk::TextOutput::New());
+
+  // Build up a path from the argumentes
+#ifdef _WIN32
+  std::string pathSeparator = ";";
+#else
+  std::string pathSeparator = ":";
 #endif
+  std::string path = "";
+  for (int ac = 1; ac < argc -1; ac++)
+    {
+    path += argv[ac];
+#ifdef CMAKE_INTDIR
+    path += std::string("/") + std::string(CMAKE_INTDIR);
+#endif
+    path += pathSeparator;
+    }
+  path += argv[argc - 1];
+#ifdef CMAKE_INTDIR
+    path += std::string("/") + std::string(CMAKE_INTDIR);
+#endif
+
+  std::string myenv = std::string("ITK_AUTOLOAD_PATH=") + path;
   std::cout << myenv << std::endl;
   putenv (const_cast<char *>(myenv.c_str()));
   itk::ObjectFactoryBase::ReHash();
@@ -162,4 +183,3 @@ int itkObjectFactoryTest2(int argc, char *argv[])
 
   return status;
 }
-

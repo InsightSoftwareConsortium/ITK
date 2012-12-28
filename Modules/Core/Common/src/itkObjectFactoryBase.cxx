@@ -261,7 +261,6 @@ ObjectFactoryBase
     {
     return;
     }
-
   if ( LoadPath.size() == 0 )
     {
     return;
@@ -499,6 +498,20 @@ ObjectFactoryBase
     {
     const char nonDynamicName[] = "Non-Dynamicaly loaded factory";
     factory->m_LibraryPath = nonDynamicName;
+    }
+  else
+    {
+    // Factories must only be loaded once
+    for ( std::list< ObjectFactoryBase * >::iterator i =
+            ObjectFactoryBasePrivate::m_RegisteredFactories->begin();
+          i != ObjectFactoryBasePrivate::m_RegisteredFactories->end(); ++i )
+      {
+      if ((*i)->m_LibraryPath == factory->m_LibraryPath)
+        {
+        itkGenericOutputMacro(<< factory->m_LibraryPath << " is already loaded");
+        return;
+        }
+      }
     }
   if ( strcmp( factory->GetITKSourceVersion(),
                Version::GetITKSourceVersion() ) != 0 )

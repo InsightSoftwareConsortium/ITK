@@ -350,7 +350,8 @@ itk_add_test(NAME itkOctreeTest COMMAND ITKCommon2TestDriver itkOctreeTest)
 
 
 if(ITK_BUILD_SHARED_LIBS)
-itk_add_test(NAME itkObjectFactoryTest2 COMMAND ITKCommon2TestDriver itkObjectFactoryTest2 ${ITK_TEST_OUTPUT_DIR})
+  itk_add_test(NAME itkObjectFactoryTest2 COMMAND ITKCommon2TestDriver itkObjectFactoryTest2 ${ITK_TEST_OUTPUT_DIR} ${ITK_TEST_OUTPUT_DIR})
+
 set_tests_properties(itkObjectFactoryTest2 PROPERTIES RUN_SERIAL 1)
 endif()
 
