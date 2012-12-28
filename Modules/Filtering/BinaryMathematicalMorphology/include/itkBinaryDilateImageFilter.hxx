@@ -292,7 +292,7 @@ BinaryDilateImageFilter< TInputImage, TOutputImage, TKernel >
               {
               // Check if it is an inner or border neighbour pixel
               // Get index of current neighbour pixel
-              IndexType neighbIndex = nit.GetIndex(i);
+              const IndexType & neighbIndex = nit.GetIndex(i);
 
               // Force location of neighbour iterator
               nnit += neighbIndex - nnit.GetIndex();
@@ -312,8 +312,7 @@ BinaryDilateImageFilter< TInputImage, TOutputImage, TKernel >
 
               if ( bIsOnBorder )
                 {
-                // neighbour pixel is a border pixel
-                // mark it
+                // neighbour pixel is a border pixel mark it
                 bool status;
                 nit.SetPixel(i, borderTag, status);
 
@@ -325,14 +324,13 @@ BinaryDilateImageFilter< TInputImage, TOutputImage, TKernel >
                   propagQueue.push(neighbIndex);
 
                   // paint the structuring element
-                  typename NeighborIndexContainer::const_iterator itIndex;
-                  NeighborIndexContainer & indexDifferenceSet =
-                    this->GetDifferenceSet(i);
-                  for ( itIndex = indexDifferenceSet.begin();
-                        itIndex != indexDifferenceSet.end();
-                        ++itIndex )
+                  NeighborIndexContainer & indexDifferenceSet = this->GetDifferenceSet(i);
+
+                  const typename NeighborIndexContainer::const_iterator staticEndIt=indexDifferenceSet.end();
+                  for ( typename NeighborIndexContainer::const_iterator itIndex = indexDifferenceSet.begin();
+                        itIndex != staticEndIt; ++itIndex )
                     {
-                    IndexType idx = neighbIndex + *itIndex;
+                    const IndexType idx( neighbIndex + *itIndex );
                     if ( outputRegion.IsInside(idx) )
                       {
                       output->SetPixel( idx, static_cast< OutputPixelType >( foregroundValue ) );
