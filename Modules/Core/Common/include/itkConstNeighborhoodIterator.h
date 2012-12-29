@@ -159,6 +159,9 @@ public:
   virtual IndexType GetIndex(void) const
   { return m_Loop;  }
 
+  inline IndexType GetFastIndexPlusOffset(const OffsetType & o) const
+    { return m_Loop + o; }
+
   /** Virtual function that "dereferences" a ConstNeighborhoodIterator,
    * returning a Neighborhood of pixel values. */
   virtual NeighborhoodType GetNeighborhood() const;
@@ -395,7 +398,11 @@ public:
    * completely within region boundaries.
    * \param offset - per-dimension offsets for index n to nearest boundary index,
    * calculate only when the neighborhood is not completely within region boundaries. */
-  bool IndexInBounds(NeighborIndexType n, OffsetType & internalIndex, OffsetType & offset ) const;
+  bool IndexInBounds(const NeighborIndexType n, OffsetType & internalIndex, OffsetType & offset ) const;
+
+  /** Returns true if the neighborhood index is within region boundaries,
+   * false otherwise. */
+  bool IndexInBounds(const NeighborIndexType n ) const;
 
   /** Allows a user to override the internal boundary condition. Care should
    * be taken to ensure that the overriding boundary condition is a persistent
@@ -540,19 +547,16 @@ protected:
 template< typename TImage >
 inline ConstNeighborhoodIterator< TImage >
 operator+(const ConstNeighborhoodIterator< TImage > & it,
-          const typename ConstNeighborhoodIterator< TImage >
-          ::OffsetType & ind)
+          const typename ConstNeighborhoodIterator< TImage >::OffsetType & ind)
 {
-  ConstNeighborhoodIterator< TImage > ret;
-  ret = it;
+  ConstNeighborhoodIterator< TImage > ret ( it );
   ret += ind;
   return ret;
 }
 
 template< typename TImage >
 inline ConstNeighborhoodIterator< TImage >
-operator+(const typename ConstNeighborhoodIterator< TImage >
-          ::OffsetType & ind,
+operator+(const typename ConstNeighborhoodIterator< TImage >::OffsetType & ind,
           const ConstNeighborhoodIterator< TImage > & it)
 {  return ( it + ind ); }
 
@@ -562,8 +566,7 @@ operator-(const ConstNeighborhoodIterator< TImage > & it,
           const typename ConstNeighborhoodIterator< TImage >
           ::OffsetType & ind)
 {
-  ConstNeighborhoodIterator< TImage > ret;
-  ret = it;
+  ConstNeighborhoodIterator< TImage > ret(it);
   ret -= ind;
   return ret;
 }

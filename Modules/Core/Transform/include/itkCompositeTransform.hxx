@@ -85,19 +85,17 @@ typename CompositeTransform<TScalar, NDimensions>
 CompositeTransform<TScalar, NDimensions>
 ::TransformPoint( const InputPointType& inputPoint ) const
 {
-  OutputPointType outputPoint( inputPoint );
 
-  typename TransformQueueType::const_iterator it;
   /* Apply in reverse queue order.  */
-  it = this->m_TransformQueue.end();
-
+  typename TransformQueueType::const_iterator it( this->m_TransformQueue.end() );
+  const typename TransformQueueType::const_iterator beginit( this->m_TransformQueue.begin() );
+  OutputPointType outputPoint( inputPoint );
   do
     {
     it--;
     outputPoint = (*it)->TransformPoint( outputPoint );
     }
-  while( it != this->m_TransformQueue.begin() );
-
+  while( it != beginit );
   return outputPoint;
 }
 

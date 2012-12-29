@@ -52,15 +52,13 @@ ConstNeighborhoodIteratorWithOnlyIndex< TImage >
 template< typename TImage >
 bool
 ConstNeighborhoodIteratorWithOnlyIndex< TImage >
-::IndexInBounds(NeighborIndexType n, OffsetType & internalIndex, OffsetType & offset ) const
+::IndexInBounds(const NeighborIndexType n, OffsetType & internalIndex, OffsetType & offset ) const
 {
   if ( !m_NeedToUseBoundaryCondition )
     {
     return true;
     }
-
-  // Is this whole neighborhood in bounds?
-  if ( this->InBounds() )
+  else if ( this->InBounds() ) // Is this whole neighborhood in bounds?
     {
     return true;
     }
@@ -79,7 +77,7 @@ ConstNeighborhoodIteratorWithOnlyIndex< TImage >
       else  // part of this dimension spills out of bounds
         {
         // Calculate overlap for this dimension
-        OffsetValueType   OverlapLow = m_InnerBoundsLow[i] - m_Loop[i];
+        const OffsetValueType   OverlapLow = m_InnerBoundsLow[i] - m_Loop[i];
         if ( internalIndex[i] < OverlapLow )
           {
           flag = false;
@@ -87,8 +85,7 @@ ConstNeighborhoodIteratorWithOnlyIndex< TImage >
           }
         else
           {
-          OffsetValueType OverlapHigh;
-          OverlapHigh = static_cast< OffsetValueType >( this->GetSize(i) - ( ( m_Loop[i] + 2 ) - m_InnerBoundsHigh[i] ) );
+          const OffsetValueType OverlapHigh = static_cast< OffsetValueType >( this->GetSize(i) - ( ( m_Loop[i] + 2 ) - m_InnerBoundsHigh[i] ) );
           if ( OverlapHigh < internalIndex[i] )
             {
             flag = false;
@@ -101,7 +98,6 @@ ConstNeighborhoodIteratorWithOnlyIndex< TImage >
           }
         }
       }
-
     return flag;
     }
 }
@@ -112,10 +108,8 @@ ConstNeighborhoodIteratorWithOnlyIndex< TImage >
 ::ComputeInternalIndex(NeighborIndexType n) const
 {
   OffsetType    ans;
-  long          D = (long)Dimension;
-  unsigned long r;
-
-  r = (unsigned long)n;
+  const long D = (long)Dimension;
+  unsigned long r = (unsigned long)n;
   for ( long i = D - 1; i >= 0; --i )
     {
     ans[i] = static_cast< OffsetValueType >( r / this->GetStride(i) );
@@ -129,9 +123,8 @@ typename ConstNeighborhoodIteratorWithOnlyIndex< TImage >::RegionType
 ConstNeighborhoodIteratorWithOnlyIndex< TImage >
 ::GetBoundingBoxAsImageRegion() const
 {
+  const IndexValueType zero = NumericTraits< IndexValueType >::ZeroValue();
   RegionType ans;
-
-  IndexValueType zero = NumericTraits< IndexValueType >::ZeroValue();
   ans.SetIndex( this->GetIndex(zero) );
   ans.SetSize( this->GetSize() );
 

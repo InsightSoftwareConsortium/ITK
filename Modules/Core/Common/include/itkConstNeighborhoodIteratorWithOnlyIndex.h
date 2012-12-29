@@ -291,7 +291,7 @@ public:
    * completely within region boundaries.
    * \param offset - per-dimension offsets for index n to nearest boundary index,
    * calculate only when the neighborhood is not completely within region boundaries. */
-  bool IndexInBounds(NeighborIndexType n, OffsetType & internalIndex, OffsetType & offset ) const;
+  bool IndexInBounds(const NeighborIndexType n, OffsetType & internalIndex, OffsetType & offset ) const;
 
   /** */
   void NeedToUseBoundaryConditionOn()
