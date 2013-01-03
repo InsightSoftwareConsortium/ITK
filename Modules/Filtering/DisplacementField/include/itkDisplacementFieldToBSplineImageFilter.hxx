@@ -104,18 +104,6 @@ DisplacementFieldToBSplineImageFilter<TInputImage, TOutputImage>
     {
     typename DisplacementFieldType::IndexType index = It.GetIndex();
 
-    typename WeightsContainerType::Element weight = 1.0;
-
-    if( confidenceImage && confidenceImage->GetPixel( index ) <= 0.0 )
-      {
-      continue;
-      }
-
-    if( confidenceImage && confidenceImage->GetPixel( index ) > 0.0 )
-      {
-      weight = static_cast<typename WeightsContainerType::Element>( confidenceImage->GetPixel( index ) );
-      }
-
     bool isOnStationaryBoundary = false;
     if( this->m_EnforceStationaryBoundary )
       {
@@ -127,6 +115,18 @@ DisplacementFieldToBSplineImageFilter<TInputImage, TOutputImage>
           break;
           }
         }
+      }
+
+    if( confidenceImage && confidenceImage->GetPixel( index ) <= 0.0 && !isOnStationaryBoundary )
+      {
+      continue;
+      }
+
+    typename WeightsContainerType::Element weight = 1.0;
+
+    if( confidenceImage && confidenceImage->GetPixel( index ) > 0.0 )
+      {
+      weight = static_cast<typename WeightsContainerType::Element>( confidenceImage->GetPixel( index ) );
       }
 
     VectorType data;

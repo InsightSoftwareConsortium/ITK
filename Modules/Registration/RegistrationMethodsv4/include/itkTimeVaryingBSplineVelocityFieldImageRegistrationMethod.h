@@ -21,6 +21,7 @@
 #include "itkImageRegistrationMethodv4.h"
 
 #include "itkBSplineScatteredDataPointSetToImageFilter.h"
+#include "itkImageMaskSpatialObject.h"
 #include "itkTimeVaryingBSplineVelocityFieldTransform.h"
 
 namespace itk
@@ -124,6 +125,8 @@ public:
   typedef typename Superclass::MultiMetricType                        MultiMetricType;
   typedef typename ImageMetricType::FixedImageMaskType                FixedImageMaskType;
   typedef typename ImageMetricType::MovingImageMaskType               MovingImageMaskType;
+  typedef ImageMaskSpatialObject<ImageDimension>                      ImageMaskSpatialObjectType;
+  typedef typename ImageMaskSpatialObjectType::ImageType              MaskImageType;
 
   typedef TOutputTransform                                                                     OutputTransformType;
   typedef typename OutputTransformType::Pointer                                                OutputTransformPointer;
@@ -143,6 +146,13 @@ public:
   typedef typename DecoratedOutputTransformType::Pointer              DecoratedOutputTransformPointer;
 
   typedef Array<SizeValueType>                                        NumberOfIterationsArrayType;
+
+  typedef PointSet<DisplacementVectorType, ImageDimension + 1>                                  PointSetType;
+  typedef BSplineScatteredDataPointSetToImageFilter<PointSetType, TimeVaryingVelocityFieldType> BSplineFilterType;
+  typedef typename BSplineFilterType::WeightsContainerType                                      WeightsContainerType;
+  typedef typename WeightsContainerType::Element                                                WeightsElementType;
+  typedef Image<WeightsElementType, ImageDimension>                                             WeightedMaskImageType;
+  typedef Image<WeightsElementType, ImageDimension + 1>                                         TimeVaryingWeightedMaskImageType;
 
   /** Set/Get the learning rate. */
   itkSetMacro( LearningRate, RealType );

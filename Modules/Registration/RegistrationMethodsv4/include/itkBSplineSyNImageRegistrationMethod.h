@@ -21,6 +21,7 @@
 #include "itkSyNImageRegistrationMethod.h"
 
 #include "itkBSplineSmoothingOnUpdateDisplacementFieldTransform.h"
+#include "itkImageMaskSpatialObject.h"
 
 namespace itk
 {
@@ -101,6 +102,10 @@ public:
   typedef DisplacementFieldToBSplineImageFilter
     <DisplacementFieldType, DisplacementFieldType>                    BSplineFilterType;
   typedef typename BSplineFilterType::ArrayType                       ArrayType;
+  typedef typename BSplineFilterType::RealImageType                   WeightedMaskImageType;
+
+  typedef ImageMaskSpatialObject<ImageDimension>                      ImageMaskSpatialObjectType;
+  typedef typename ImageMaskSpatialObjectType::ImageType              MaskImageType;
 
   typedef typename Superclass::CompositeTransformType                 CompositeTransformType;
   typedef typename CompositeTransformType::TransformType              TransformBaseType;
@@ -119,7 +124,7 @@ protected:
 
   virtual DisplacementFieldPointer ComputeUpdateField( const FixedImagesContainerType, const TransformBaseType *,
     const MovingImagesContainerType, const TransformBaseType *, const FixedImageMaskType *, MeasureType & );
-  virtual DisplacementFieldPointer BSplineSmoothDisplacementField( const DisplacementFieldType *, const ArrayType &, const FixedImageMaskType * );
+  virtual DisplacementFieldPointer BSplineSmoothDisplacementField( const DisplacementFieldType *, const ArrayType &, const WeightedMaskImageType * );
 
 private:
   BSplineSyNImageRegistrationMethod( const Self & );   //purposely not implemented
