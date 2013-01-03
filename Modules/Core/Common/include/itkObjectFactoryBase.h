@@ -116,9 +116,12 @@ public:
    * itk::ObjectFactoryBase::RegisterFactory( newFactory3, INSERT_AT_BACK );
    * itk::ObjectFactoryBase::RegisterFactory( newFactory4, INSERT_AT_POSITION, 5 );
    *
-   * If the position value is out of range, an exception will be thrown.
+   * If the position value is out of range, an exception will be
+   * thrown.
+   * Returns true if the factory was successfully registered.
+   * Returns false if factory is already loaded.
    */
-  static void RegisterFactory(ObjectFactoryBase *,
+  static bool RegisterFactory(ObjectFactoryBase *,
     InsertionPositionType where=INSERT_AT_BACK, size_t position = 0);
 
   /** Remove a factory from the list of registered factories. */
