@@ -413,7 +413,10 @@ ObjectFactoryBase
           newfactory->m_LibraryHandle = (void *)lib;
           newfactory->m_LibraryPath = fullpath;
           newfactory->m_LibraryDate = 0; // unused for now...
-          ObjectFactoryBase::RegisterFactory(newfactory);
+          if (!ObjectFactoryBase::RegisterFactory(newfactory))
+            {
+            DynamicLoader::CloseLibrary(lib);
+            }
           }
         else
           {
@@ -490,7 +493,7 @@ ObjectFactoryBase
 /**
  * Add a factory to the registered list
  */
-void
+bool
 ObjectFactoryBase
 ::RegisterFactory(ObjectFactoryBase *factory, InsertionPositionType where, size_t position)
 {
@@ -509,7 +512,7 @@ ObjectFactoryBase
       if ((*i)->m_LibraryPath == factory->m_LibraryPath)
         {
         itkGenericOutputMacro(<< factory->m_LibraryPath << " is already loaded");
-        return;
+        return false;
         }
       }
     }
@@ -580,6 +583,7 @@ ObjectFactoryBase
       }
     }
   factory->Register();
+  return true;
 }
 
 /**
