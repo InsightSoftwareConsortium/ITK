@@ -414,7 +414,10 @@ ObjectFactoryBase
           newfactory->m_LibraryHandle = (void *)lib;
           newfactory->m_LibraryPath = fullpath;
           newfactory->m_LibraryDate = 0; // unused for now...
-          ObjectFactoryBase::RegisterFactory(newfactory);
+          if (!ObjectFactoryBase::RegisterFactory(newfactory))
+            {
+            DynamicLoader::CloseLibrary(lib);
+            }
           }
         else
           {
@@ -491,7 +494,7 @@ ObjectFactoryBase
 /**
  * Add a factory to the registered list
  */
-void
+bool
 ObjectFactoryBase
 ::RegisterFactory(ObjectFactoryBase *factory, InsertionPositionType where, size_t position)
 {
@@ -499,6 +502,20 @@ ObjectFactoryBase
     {
     const char nonDynamicName[] = "Non-Dynamicaly loaded factory";
     factory->m_LibraryPath = nonDynamicName;
+    }
+  else
+    {
+    // Factories must only be loaded once
+    for ( std::list< ObjectFactoryBase * >::iterator i =
+            ObjectFactoryBasePrivate::m_RegisteredFactories->begin();
+          i != ObjectFactoryBasePrivate::m_RegisteredFactories->end(); ++i )
+      {
+      if ((*i)->m_LibraryPath == factory->m_LibraryPath)
+        {
+        itkGenericOutputMacro(<< factory->m_LibraryPath << " is already loaded");
+        return false;
+        }
+      }
     }
   if ( strcmp( factory->GetITKSourceVersion(),
                Version::GetITKSourceVersion() ) != 0 )
@@ -567,6 +584,7 @@ ObjectFactoryBase
       }
     }
   factory->Register();
+  return true;
 }
 
 /**
