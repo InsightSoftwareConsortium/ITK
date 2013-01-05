@@ -20,11 +20,9 @@
 
 #include "itkTimeVaryingBSplineVelocityFieldImageRegistrationMethod.h"
 
-#include "itkBSplineScatteredDataPointSetToImageFilter.h"
 #include "itkConstNeighborhoodIterator.h"
 #include "itkDisplacementFieldTransform.h"
 #include "itkImageDuplicator.h"
-#include "itkImageMaskSpatialObject.h"
 #include "itkImportImageFilter.h"
 #include "itkPointSet.h"
 #include "itkResampleImageFilter.h"
@@ -139,6 +137,19 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
   this->m_OutputTransform->SetVelocityFieldSize( sampledVelocityFieldSize );
   this->m_OutputTransform->IntegrateVelocityField();
 
+  typename TimeVaryingWeightedMaskImageType::Pointer timeVaryingFixedWeightedMaskImage = NULL;
+  if( fixedImageMask )
+    {
+    timeVaryingFixedWeightedMaskImage = TimeVaryingWeightedMaskImageType::New();
+    timeVaryingFixedWeightedMaskImage->SetOrigin( sampledVelocityFieldOrigin );
+    timeVaryingFixedWeightedMaskImage->SetDirection( sampledVelocityFieldDirection );
+    timeVaryingFixedWeightedMaskImage->SetSpacing( sampledVelocityFieldSpacing );
+    timeVaryingFixedWeightedMaskImage->SetRegions( sampledVelocityFieldSize );
+    timeVaryingFixedWeightedMaskImage->SetNumberOfComponentsPerPixel( 1 );
+    timeVaryingFixedWeightedMaskImage->Allocate();
+    timeVaryingFixedWeightedMaskImage->FillBuffer( 0.0 );
+    }
+
   // Warp the moving image based on the composite transform (not including the current
   // time varying velocity field transform to be optimized).
 
@@ -167,14 +178,11 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
     MeasureType value = NumericTraits<MeasureType>::Zero;
     this->m_CurrentMetricValue = NumericTraits<MeasureType>::Zero;
 
-    typedef PointSet<DisplacementVectorType, ImageDimension + 1> PointSetType;
     typename PointSetType::Pointer velocityFieldPoints = PointSetType::New();
     velocityFieldPoints->Initialize();
 
-    typedef BSplineScatteredDataPointSetToImageFilter<PointSetType, TimeVaryingVelocityFieldType> BSplineFilterType;
-    typedef typename BSplineFilterType::WeightsContainerType WeightsContainerType;
     typename WeightsContainerType::Pointer velocityFieldWeights = WeightsContainerType::New();
-    const typename WeightsContainerType::Element boundaryWeight = 1.0e10;
+    const WeightsElementType boundaryWeight = 1.0e10;
 
     IdentifierType numberOfVelocityFieldPoints = NumericTraits<IdentifierType>::Zero;
 
@@ -267,6 +275,37 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
           {
           dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() )->SetFixedImage( fixedResampler->GetOutput() );
           dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() )->SetMovingImage( movingResampler->GetOutput() );
+          }
+        }
+
+      if( fixedImageMask )
+        {
+        typedef ResampleImageFilter<MaskImageType, WeightedMaskImageType> FixedMaskResamplerType;
+        typename FixedMaskResamplerType::Pointer fixedMaskResampler = FixedMaskResamplerType::New();
+        fixedMaskResampler->SetTransform( fixedDisplacementFieldTransform );
+        fixedMaskResampler->SetInput( dynamic_cast<ImageMaskSpatialObjectType *>( const_cast<FixedImageMaskType *>( fixedImageMask.GetPointer() ) )->GetImage() );
+        fixedMaskResampler->SetSize( virtualDomainImage->GetRequestedRegion().GetSize() );
+        fixedMaskResampler->SetOutputOrigin( virtualDomainImage->GetOrigin() );
+        fixedMaskResampler->SetOutputSpacing( virtualDomainImage->GetSpacing() );
+        fixedMaskResampler->SetOutputDirection( virtualDomainImage->GetDirection() );
+        fixedMaskResampler->SetDefaultPixelValue( 0 );
+        fixedMaskResampler->Update();
+
+        ImageRegionIteratorWithIndex<WeightedMaskImageType> ItFM( fixedMaskResampler->GetOutput(), fixedMaskResampler->GetOutput()->GetRequestedRegion() );
+        for( ItFM.GoToBegin(); !ItFM.IsAtEnd(); ++ItFM )
+          {
+          typename WeightedMaskImageType::PixelType weight = ItFM.Get();
+          if( weight > 0.0 )
+            {
+            typename WeightedMaskImageType::IndexType index = ItFM.GetIndex();
+            typename TimeVaryingWeightedMaskImageType::IndexType indexT;
+            for( unsigned int d = 0; d < ImageDimension; d++ )
+              {
+              indexT[d] = index[d];
+              }
+            indexT[ImageDimension] = timePoint;
+            timeVaryingFixedWeightedMaskImage->SetPixel( indexT, weight );
+            }
           }
         }
 
@@ -367,8 +406,6 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
     const typename VirtualImageType::IndexType virtualDomainIndex = virtualDomainImage->GetLargestPossibleRegion().GetIndex();
     const typename VirtualImageType::SizeType virtualDomainSize = virtualDomainImage->GetLargestPossibleRegion().GetSize();
 
-    typedef ImageMaskSpatialObject<ImageDimension>          ImageMaskSpatialObjectType;
-    typedef typename ImageMaskSpatialObjectType::ImageType  MaskImageType;
     typename MaskImageType::ConstPointer maskImage = NULL;
     if( fixedImageMask )
       {
@@ -382,23 +419,18 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
 
       DisplacementVectorType data = It.Get();
 
-      typename WeightsContainerType::Element weight = 1.0;
+      WeightsElementType weight = 1.0;
 
-      if( maskImage )
+      if( timeVaryingFixedWeightedMaskImage )
         {
-        typename MaskImageType::IndexType maskIndex;
-        for( unsigned int d = 0; d < ImageDimension; d++ )
-          {
-          maskIndex[d] = index[d];
-          }
-        typename MaskImageType::PixelType maskPixelValue = maskImage->GetPixel( maskIndex );
+        typename TimeVaryingWeightedMaskImageType::PixelType maskPixelValue = timeVaryingFixedWeightedMaskImage->GetPixel( index );
         if( maskPixelValue <= 0 )
            {
            continue;
            }
         else
           {
-          weight = static_cast<typename WeightsContainerType::Element>( maskPixelValue );
+          weight = static_cast<WeightsElementType>( maskPixelValue );
           }
         }
 
@@ -452,7 +484,6 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
     velocityFieldSpacing[ImageDimension] = 0.1;
     velocityFieldSize[ImageDimension] = 11;
 
-    typedef BSplineScatteredDataPointSetToImageFilter<PointSetType, TimeVaryingVelocityFieldType> BSplineFilterType;
     typename BSplineFilterType::Pointer bspliner = BSplineFilterType::New();
 
     typename BSplineFilterType::ArrayType numberOfControlPoints;
