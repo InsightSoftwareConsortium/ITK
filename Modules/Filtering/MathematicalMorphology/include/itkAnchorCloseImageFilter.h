@@ -19,6 +19,7 @@
 #define __itkAnchorCloseImageFilter_h
 
 #include "itkAnchorOpenCloseImageFilter.h"
+#include <functional>
 
 namespace itk
 {
