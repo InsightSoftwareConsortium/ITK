@@ -97,8 +97,7 @@ for f in sys.argv:
     if os.path.isfile(f):
         allIncludes.update(FindIncludes(f))
     else:
-        print program + ": " + f + " does not exist"
-        exit(1)
+        print program + ": " + f + " is a directory and is ignored"
 
 # Build a set that contains all modules referenced in command line files
 allModules = set()
