@@ -106,6 +106,8 @@ public:
   typedef typename InputImageType::ConstPointer InputImagePointer;
   typedef typename OutputImageType::Pointer     OutputImagePointer;
 
+  typedef unsigned long                         LabelCountType;
+
   /** Superclass typedefs. */
   typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
 
@@ -183,7 +185,7 @@ private:
 
   OutputPixelType m_LabelForUndecidedPixels;
   bool            m_HasLabelForUndecidedPixels;
-  InputPixelType  m_TotalLabelCount;
+  size_t          m_TotalLabelCount;
 };
 } // end namespace itk
 
