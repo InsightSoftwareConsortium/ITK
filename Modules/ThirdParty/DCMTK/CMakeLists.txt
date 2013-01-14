@@ -170,11 +170,7 @@ endforeach()
     string(REPLACE ";" ":::" DCMTK${libdep}_INCLUDE_DIRS "${ITK${libdep}_INCLUDE_DIRS}")
   endforeach()
 
-  set(DCMTK_GIT_REPOSITORY "http://git.dcmtk.org/dcmtk.git")
-  # DCMTK tag brought up to Dec 4 2012 version, to pick
-  # up fix for CMakeLists that was causing Windows builds to
-  # fail
-  set(DCMTK_GIT_TAG "148fc86171e0bee332a5fabd36d213f76e775a8b")
+  include(${CMAKE_CURRENT_LIST_DIR}/DCMTKGitTag.cmake)
 
   set(DCMTK_EP_FLAGS
     -DDCMTK_FORCE_FPIC_ON_UNIX:BOOL=ON
