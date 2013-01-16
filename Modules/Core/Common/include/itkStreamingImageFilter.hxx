@@ -188,9 +188,9 @@ StreamingImageFilter< TInputImage, TOutputImage >
    */
   InputImageRegionType streamRegion;
   unsigned int         piece=0;
-  for ( ;
-        piece < numDivisions && !this->GetAbortGenerateData();
-        piece++ )
+  for (;
+       piece < numDivisions && !this->GetAbortGenerateData();
+       piece++ )
     {
     streamRegion = m_RegionSplitter->GetSplit(piece, numDivisions,
                                               outputRegion);

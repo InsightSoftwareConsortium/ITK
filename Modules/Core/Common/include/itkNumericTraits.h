@@ -278,7 +278,7 @@ public:
   static const char ITKCommon_EXPORT One;
 
   static char min() { return char(255) < char(0) ? char(-128) : char(0); }
-  static char max() { return char(255) < char(0) ? char(127) : char(255) ; }
+  static char max() { return char(255) < char(0) ? char(127) : char(255); }
 
   static char min(char) { return min(); }
   static char max(char) { return max(); }
