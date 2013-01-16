@@ -31,7 +31,8 @@ namespace itk
  * set non-zero pixels of two images using the following formula:
  * \f[ H(A,B) = \max(h(A,B),h(B,A)) \f]
  * where
- * \f[ h(A,B) = \max_{a \in A} \min_{b \in B} \| a - b\| \f] is the directed
+ * \f[ h(A,B) = \mathrm{mean}_{a \in A} \min_{b \in B} \| a - b\| \f] is the dir
+ected
  * Mean distance
  * and \f$A\f$ and \f$B\f$ are respectively the set of non-zero pixels
  * in the first and second input images.
