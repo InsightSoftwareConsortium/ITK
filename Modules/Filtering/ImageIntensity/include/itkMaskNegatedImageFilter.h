@@ -36,7 +36,11 @@ class MaskNegatedInput
 public:
   typedef typename NumericTraits< TInput >::AccumulateType AccumulatorType;
 
-  MaskNegatedInput():m_OutsideValue(NumericTraits< TOutput >::Zero) {}
+  MaskNegatedInput()
+    : m_OutsideValue(NumericTraits< TOutput >::Zero)
+    , m_MaskingValue(NumericTraits< TMask >::ZeroValue())
+  {
+  }
   ~MaskNegatedInput() {}
   bool operator!=(const MaskNegatedInput &) const
   {
@@ -50,7 +54,7 @@ public:
 
   inline TOutput operator()(const TInput & A, const TMask & B) const
   {
-    if ( B != NumericTraits< TMask >::ZeroValue() )
+    if ( B != m_MaskingValue )
       {
       return m_OutsideValue;
       }
@@ -72,8 +76,20 @@ public:
     return m_OutsideValue;
   }
 
+  /** Method to explicitly set the masking value of the mask */
+  void SetMaskingValue(const TMask & maskingValue)
+  {
+    m_MaskingValue = maskingValue;
+  }
+
+  /** Method to get the outside value of the mask */
+  const TMask & GetMaskingValue() const
+  {
+    return m_MaskingValue;
+  }
 private:
   TOutput m_OutsideValue;
+  TMask m_MaskingValue;
 };
 }
 /** \class MaskNegatedImageFilter
@@ -155,6 +171,22 @@ public:
   const typename TOutputImage::PixelType & GetOutsideValue() const
   {
     return this->GetFunctor().GetOutsideValue();
+  }
+
+  /** Method to explicitly set the masking value of the mask. Defaults to 0 */
+  void SetMaskingValue(const typename TMaskImage::PixelType & maskingValue)
+  {
+    if ( this->GetMaskingValue() != maskingValue )
+      {
+      this->GetFunctor().SetMaskingValue(maskingValue);
+      this->Modified();
+      }
+  }
+
+  /** Method to get the masking value of the mask. */
+  const typename TMaskImage::PixelType & GetMaskingValue() const
+  {
+    return this->GetFunctor().GetMaskingValue();
   }
 
   /** Set/Get the mask image. Pixels set to zero in the mask image will retain
