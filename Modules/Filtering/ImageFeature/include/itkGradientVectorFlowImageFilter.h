@@ -35,6 +35,12 @@ namespace itk
  * force and make external force derived from the gradient work effectively in the
  * framework of deformable model.
  *
+ * This implementation of GVF closely follows this paper:
+ * http://ww.vavlab.ee.boun.edu.tr/courses/574/materialx/Active%20Contours/xu_GVF.pdf
+ *
+ * dx and dy are assumed to be 1 and the CFL restriction for convergence
+ * has been modified for multi-dimensional images
+ *
  * \ingroup ImageFilters
  * \ingroup ImageSegmentation
  * \ingroup ITKImageFeature
@@ -120,10 +126,16 @@ protected:
 
   virtual void GenerateData();
 
+  /** Precompute m_BImage and m_CImage[i] and allocate memory for all the various internal images */
   void InitInterImage();
 
+  /**
+   *  Convenience function to split the m_IntermediateImage into its component
+   *  images (m_InternalImages[i]
+   */
   void UpdateInterImage();
 
+  /** Calculate the next timestep and update the appropriate images */
   void UpdatePixels();
 
 private:
@@ -131,7 +143,7 @@ private:
   void operator=(const Self &); //purposely not implemented
 
   // parameters;
-  double m_TimeStep;                               //the timestep of each
+  double m_TimeStep;                               // the timestep of each
                                                    // iteration
   double m_Steps[Superclass::InputImageDimension]; // set to be 1 in all
                                                    // directions in most cases

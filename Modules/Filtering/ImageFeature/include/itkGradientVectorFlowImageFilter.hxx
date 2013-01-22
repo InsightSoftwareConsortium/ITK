@@ -19,7 +19,6 @@
 #define __itkGradientVectorFlowImageFilter_hxx
 #include "itkGradientVectorFlowImageFilter.h"
 
-
 namespace itk
 {
 template< class TInputImage, class TOutputImage, class TInternalPixel >
@@ -50,7 +49,16 @@ GradientVectorFlowImageFilter< TInputImage, TOutputImage, TInternalPixel >
 
   this->InitInterImage();
 
-  m_TimeStep = 0.2 / m_NoiseLevel;
+/*
+ * According to Courant-Friedrichs-Lewy restriction (Eqn 18). However, the paper
+ * assumes 2D images which leads to a too-large timestep for 3D images.
+ *
+ * CMax appears to be 2 * Dim since we are using laplacian operator which expands the front in
+ * both directions of each dimension.
+ *
+ * See wikipedia article on Courant-Friedrichs-Lewy for more information.
+ */
+  m_TimeStep = 1/(std::pow(2.0, ImageDimension) * m_NoiseLevel);
 
   int i = 0;
 
@@ -62,6 +70,17 @@ GradientVectorFlowImageFilter< TInputImage, TOutputImage, TInternalPixel >
     }
 }
 
+
+/*
+ *  Precompute B(x, y), C1(x, y), C2(x, y).. etc. These images do not
+ *  change throughout the course of the computation.
+ *
+ *  The intermediate image represents the image of the current time step.
+ *
+ *  The internal images are simply the intermediate image split into its
+ *  component images. (Useful for calculating laplacian image in each direction
+ *  later)
+ */
 template< class TInputImage, class TOutputImage, class TInternalPixel >
 void
 GradientVectorFlowImageFilter< TInputImage, TOutputImage, TInternalPixel >
@@ -115,8 +134,13 @@ GradientVectorFlowImageFilter< TInputImage, TOutputImage, TInternalPixel >
 
     while ( !inputIt.IsAtEnd() )
       {
-      intermediateIt.Set( inputIt.Get() );
-      internalIt.Set(inputIt.Get()[i]);
+      intermediateIt.Set( inputIt.Get() ); /*  Set the intermediate image to the
+                                            *  input image (gradient image) initially
+                                            */
+      internalIt.Set(inputIt.Get()[i]);    /*  Set the internal images to the
+                                            *  respective direction of the input
+                                            *  image initially
+                                            */
       ++internalIt;
       ++intermediateIt;
       ++inputIt;
@@ -133,17 +157,18 @@ GradientVectorFlowImageFilter< TInputImage, TOutputImage, TInternalPixel >
   CIt.GoToBegin();
   inputIt.GoToBegin();
 
+/* Calculate b(x, y), c1(x, y), c2(x, y), etc.... (eqn 15) */
   while ( !inputIt.IsAtEnd() )
     {
     b = 0.0;
     m_vec = inputIt.Get();
     for ( i = 0; i < ImageDimension; i++ )
       {
-      b = b + m_vec[i] * m_vec[i];
+      b = b + m_vec[i] * m_vec[i]; /*  b = fx^2 + fy^2 ... */
       }
     for ( i = 0; i < ImageDimension; i++ )
       {
-      c_vec[i] =  b * m_vec[i];
+      c_vec[i] =  b * m_vec[i]; /* c1 = b * fx, c2 = b * fy ... */
       }
     BIt.Set(b);
     CIt.Set(c_vec);
@@ -154,6 +179,10 @@ GradientVectorFlowImageFilter< TInputImage, TOutputImage, TInternalPixel >
     }
 }
 
+/*
+ * Splits the intermediate image (image of vectors) into multiple
+ * internal images (image of pixels)
+ */
 template< class TInputImage, class TOutputImage, class TInternalPixel >
 void
 GradientVectorFlowImageFilter< TInputImage, TOutputImage, TInternalPixel >
@@ -180,6 +209,9 @@ GradientVectorFlowImageFilter< TInputImage, TOutputImage, TInternalPixel >
     }
 }
 
+/*
+ * Calculates the next timestep
+ */
 template< class TInputImage, class TOutputImage, class TInternalPixel >
 void
 GradientVectorFlowImageFilter< TInputImage, TOutputImage, TInternalPixel >
@@ -217,7 +249,8 @@ GradientVectorFlowImageFilter< TInputImage, TOutputImage, TInternalPixel >
 
     for ( i = 0; i < ImageDimension; i++ )
       {
-      m_vec[i] = ( 1 - b * m_TimeStep ) * intermediateIt.Get()[i] + c_vec[i] * m_TimeStep;
+      m_vec[i] = ( 1 - b * m_TimeStep ) * intermediateIt.Get()[i] + c_vec[i] *
+      m_TimeStep; // first and third term of eqn 16
       }
     outputIt.Set(m_vec);
     ++intermediateIt;
