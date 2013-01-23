@@ -223,10 +223,10 @@ GradientVectorFlowImageFilter< TInputImage, TOutputImage, TInternalPixel >
   InputImageIterator intermediateIt( m_IntermediateImage,
                                      m_IntermediateImage->GetBufferedRegion() );
 
-  InputImageIterator CIt( m_CImage,
+  InputImageConstIterator CIt( m_CImage,
                           m_CImage->GetBufferedRegion() );
 
-  InternalImageIterator BIt( m_BImage,
+  InternalImageConstIterator BIt( m_BImage,
                              m_BImage->GetBufferedRegion() );
 
   PixelType m_vec, c_vec;

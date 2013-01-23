@@ -78,7 +78,7 @@ public:
   /** Image and Image iterator definition. */
 //  typedef ImageRegionConstIterator<InputImageType> InputImageConstIterator;
   typedef ImageRegionIterator< InputImageType >               InputImageIterator;
-  typedef ImageRegionConstIteratorWithIndex< InputImageType > InputImageConstIterator;
+  typedef ImageRegionConstIterator< InputImageType >          InputImageConstIterator;
   typedef ImageRegionIterator< OutputImageType >              OutputImageIterator;
 
   /** Image dimension. */
@@ -91,6 +91,7 @@ public:
   typedef itk::Image< InternalPixelType, itkGetStaticConstMacro(ImageDimension) > InternalImageType;
   typedef typename InternalImageType::Pointer                                     InternalImagePointer;
   typedef ImageRegionIterator< InternalImageType >                                InternalImageIterator;
+  typedef ImageRegionConstIterator< InternalImageType >                           InternalImageConstIterator;
 
   typedef LaplacianImageFilter< InternalImageType, InternalImageType > LaplacianFilterType;
   typedef typename LaplacianFilterType::Pointer                        LaplacianFilterPointer;
