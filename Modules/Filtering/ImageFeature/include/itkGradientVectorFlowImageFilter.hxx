@@ -18,6 +18,7 @@
 #ifndef __itkGradientVectorFlowImageFilter_hxx
 #define __itkGradientVectorFlowImageFilter_hxx
 #include "itkGradientVectorFlowImageFilter.h"
+#include "itkImageAlgorithm.h"
 
 namespace itk
 {
@@ -123,29 +124,12 @@ GradientVectorFlowImageFilter< TInputImage, TOutputImage, TInternalPixel >
   InputImageIterator intermediateIt( m_IntermediateImage,
                                      m_IntermediateImage->GetBufferedRegion() );
 
-  for ( i = 0; i < ImageDimension; i++ )
-    {
-    InternalImageIterator internalIt( m_InternalImages[i],
-                                      m_InternalImages[i]->GetBufferedRegion() );
-    internalIt.GoToBegin();
+  itk::ImageAlgorithm::Copy(this->GetInput(),
+                            m_IntermediateImage.GetPointer(),
+                            this->GetInput()->GetLargestPossibleRegion(),
+                            m_IntermediateImage->GetLargestPossibleRegion() );
 
-    inputIt.GoToBegin();
-    intermediateIt.GoToBegin();
-
-    while ( !inputIt.IsAtEnd() )
-      {
-      intermediateIt.Set( inputIt.Get() ); /*  Set the intermediate image to the
-                                            *  input image (gradient image) initially
-                                            */
-      internalIt.Set(inputIt.Get()[i]);    /*  Set the internal images to the
-                                            *  respective direction of the input
-                                            *  image initially
-                                            */
-      ++internalIt;
-      ++intermediateIt;
-      ++inputIt;
-      }
-    }
+  UpdateInterImage();
 
   InternalImageIterator BIt( m_BImage,
                              m_BImage->GetBufferedRegion() );
@@ -203,6 +187,7 @@ GradientVectorFlowImageFilter< TInputImage, TOutputImage, TInternalPixel >
     while ( !intermediateIt.IsAtEnd() )
       {
       internalIt.Set(intermediateIt.Get()[i]);
+
       ++internalIt;
       ++intermediateIt;
       }
@@ -244,9 +229,9 @@ GradientVectorFlowImageFilter< TInputImage, TOutputImage, TInternalPixel >
     PixelType m_vec;
     for ( unsigned int i = 0; i < ImageDimension; i++ )
       {
-      const double first_term = alpha * intermediateIt.Get[i]; //term1, eqn 16
-      const double third_term = c_vec[i] * m_TimeStep;         //term3, eqn 16
-      m_vec[i] = first_term + third_term; 					   //we will add 2nd term later
+      const double first_term = alpha * intermediateIt.Get()[i]; //term1, eqn 16
+      const double third_term = c_vec[i] * m_TimeStep;           //term3, eqn 16
+      m_vec[i] = first_term + third_term;                        //we will add 2nd term later
       }
     outputIt.Set(m_vec);
     ++intermediateIt;
