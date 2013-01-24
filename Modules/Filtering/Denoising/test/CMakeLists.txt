@@ -1,10 +1,19 @@
 itk_module_test()
 set(ITKDenoisingTests
 itkPatchBasedDenoisingImageFilterTest.cxx
+itkPatchBasedDenoisingImageFilterDefaultTest.cxx
 )
 
 CreateTestDriver(ITKDenoising  "${ITKDenoising-Test_LIBRARIES}" "${ITKDenoisingTests}")
 
+itk_add_test(NAME itkPatchBasedDenoisingImageFilterDefaultTest
+      COMMAND ITKDenoisingTestDriver
+    --compare DATA{Baseline/PatchBasedDenoisingImageFilterDefaultTest.mha}
+              ${ITK_TEST_OUTPUT_DIR}/PatchBasedDenoisingImageFilterDefaultTest.mha
+    itkPatchBasedDenoisingImageFilterDefaultTest
+      DATA{Input/noisy_checkerboard.mha}
+      ${ITK_TEST_OUTPUT_DIR}/PatchBasedDenoisingImageFilterDefaultTest.mha
+      2)
 itk_add_test(NAME itkPatchBasedDenoisingImageFilterTest0
       COMMAND ITKDenoisingTestDriver
     --compare DATA{Baseline/PatchBasedDenoisingImageFilterTest0.mha}

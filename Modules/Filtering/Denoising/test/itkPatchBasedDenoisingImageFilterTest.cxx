@@ -34,8 +34,8 @@
 template <class ImageT>
 int doDenoising(const std::string inputFileName, const std::string outputFileName,
                 const int numIterations, const int numThreads,
-                const int numToSample, const float sigmaMultiplicationFactor,
-                const std::string noiseModel, const float fidelityWeight)
+                const int numToSample, const float kernelBandwidthMultiplicationFactor,
+                const std::string noiseModel, const float noiseModelFidelityWeight)
 {
   typedef itk::ImageFileReader< ImageT > ReaderType;
 
@@ -91,13 +91,17 @@ int doDenoising(const std::string inputFileName, const std::string outputFileNam
   {
     filter->SetNoiseModel(FilterType::POISSON);
   }
+  else
+  {
+    filter->SetNoiseModel(FilterType::NOMODEL);
+  }
   // stepsize or weight for smoothing term
   // Large stepsizes may cause instabilities.
   filter->SetSmoothingWeight(1);
   // stepsize or weight for fidelity term
   // use a positive weight to prevent oversmoothing
   // (penalizes deviations from noisy data based on a noise model)
-  filter->SetFidelityWeight(fidelityWeight);
+  filter->SetNoiseModelFidelityWeight(noiseModelFidelityWeight);
 
   // number of iterations over the image of denoising
   filter->SetNumberOfIterations(numIterations);
@@ -118,13 +122,13 @@ int doDenoising(const std::string inputFileName, const std::string outputFileNam
   filter->SetSampler(sampler);
 
   // automatic estimation of the kernel bandwidth
-  filter->DoKernelBandwidthEstimationOn();
+  filter->KernelBandwidthEstimationOn();
   // update bandwidth every 'n' iterations
   filter->SetKernelBandwidthUpdateFrequency(3);
   // use 33% of the pixels for the sigma update calculation
-  filter->SetFractionPixelsForSigmaUpdate(0.20);
+  filter->SetKernelBandwidthFractionPixelsForEstimation(0.20);
   // multiplication factor modifying the automatically-estimated kernel sigma
-  filter->SetSigmaMultiplicationFactor(sigmaMultiplicationFactor);
+  filter->SetKernelBandwidthMultiplicationFactor(kernelBandwidthMultiplicationFactor);
 
   // manually-selected Gaussian kernel sigma
   // filter->DoKernelBandwidthEstimationOff();
@@ -181,8 +185,8 @@ int itkPatchBasedDenoisingImageFilterTest( int argc, char * argv [] )
               << " inputImageFileName outputImageFileName"
               << " numDimensions numComponents"
               << " [numIterations] [numThreads]"
-              << " [numPatchesToSample] [sigmaMultiplicationFactor]"
-              << " [noiseModel] [fidelityWeight]"
+              << " [numPatchesToSample] [kernelBandwidthMultiplicationFactor]"
+              << " [noiseModel] [noiseModelFidelityWeight]"
               << std::endl;
     return EXIT_FAILURE;
   }
@@ -213,20 +217,21 @@ int itkPatchBasedDenoisingImageFilterTest( int argc, char * argv [] )
     numToSample = atoi(argv[7]);
   }
 
-  float sigmaMultFactor = 1;
+  float kernelBandwidthMultFactor = 1;
   if (argc > 8)
   {
-    sigmaMultFactor = atof(argv[8]);
+    kernelBandwidthMultFactor = atof(argv[8]);
   }
 
   std::vector< std::string > modelChoices;
   modelChoices.push_back("GAUSSIAN");
   modelChoices.push_back("RICIAN");
   modelChoices.push_back("POISSON");
+  modelChoices.push_back("NOMODEL");
   std::string noiseModel;
   noiseModel = modelChoices[0];
 
-  float fidelityWeight = 0.0;
+  float noiseModelFidelityWeight = 0.0;
   if (argc > 9)
   {
     noiseModel = argv[9];
@@ -249,11 +254,11 @@ int itkPatchBasedDenoisingImageFilterTest( int argc, char * argv [] )
     }
     if (argc > 10)
     {
-      fidelityWeight = atof(argv[10]);
+      noiseModelFidelityWeight = atof(argv[10]);
     }
     else
     {
-      std::cerr << "Must also specify a fidelity weight when a noise model is specified."
+      std::cerr << "Must also specify a noise model fidelity weight when a noise model is specified."
                 << std::endl;
       return EXIT_FAILURE;
     }
@@ -288,72 +293,72 @@ int itkPatchBasedDenoisingImageFilterTest( int argc, char * argv [] )
     {
     return doDenoising<OneComponent2DImage>(inFileName, outFileName,
                                             numIterations, numThreads,
-                                            numToSample, sigmaMultFactor,
-                                            noiseModel, fidelityWeight);
+                                            numToSample, kernelBandwidthMultFactor,
+                                            noiseModel, noiseModelFidelityWeight);
   }
 //   else if (numComponents == 2 && numDimensions == 2)
 //   {
 //     return doDenoising<TwoComponent2DImage>(inFileName, outFileName,
 //                                             numIterations, numThreads,
-//                                             numToSample, sigmaMultFactor,
-//                                             noiseModel, fidelityWeight);
+//                                             numToSample, kernelBandwidthMultFactor,
+//                                             noiseModel, noiseModelFidelityWeight);
 //   }
   else if (numComponents == 3 && numDimensions == 2)
   {
     return doDenoising<ThreeComponent2DImage>(inFileName, outFileName,
                                               numIterations, numThreads,
-                                              numToSample, sigmaMultFactor,
-                                              noiseModel, fidelityWeight);
+                                              numToSample, kernelBandwidthMultFactor,
+                                              noiseModel, noiseModelFidelityWeight);
   }
   else if (numComponents == 4 && numDimensions == 2)
   {
     return doDenoising<FourComponent2DImage>(inFileName, outFileName,
                                              numIterations, numThreads,
-                                             numToSample, sigmaMultFactor,
-                                             noiseModel, fidelityWeight);
+                                             numToSample, kernelBandwidthMultFactor,
+                                             noiseModel, noiseModelFidelityWeight);
   }
   else if (numComponents == 6 && numDimensions == 2)
   {
     return doDenoising<SixComponent2DImage>(inFileName, outFileName,
                                             numIterations, numThreads,
-                                            numToSample, sigmaMultFactor,
-                                            noiseModel, fidelityWeight);
+                                            numToSample, kernelBandwidthMultFactor,
+                                            noiseModel, noiseModelFidelityWeight);
   }
   //
   else if (numComponents == 1 && numDimensions == 3)
   {
     return doDenoising<OneComponent3DImage>(inFileName, outFileName,
                                             numIterations, numThreads,
-                                            numToSample, sigmaMultFactor,
-                                            noiseModel, fidelityWeight);
+                                            numToSample, kernelBandwidthMultFactor,
+                                            noiseModel, noiseModelFidelityWeight);
   }
 //   else if (numComponents == 2 && numDimensions == 3)
 //   {
 //     return doDenoising<TwoComponent3DImage>(inFileName, outFileName,
 //                                             numIterations, numThreads,
-//                                             numToSample, sigmaMultFactor,
-//                                             noiseModel, fidelityWeight);
+//                                             numToSample, kernelBandwidthMultFactor,
+//                                             noiseModel, noiseModelFidelityWeight);
 //   }
   else if (numComponents == 3 && numDimensions == 3)
   {
     return doDenoising<ThreeComponent3DImage>(inFileName, outFileName,
                                               numIterations, numThreads,
-                                              numToSample, sigmaMultFactor,
-                                              noiseModel, fidelityWeight);
+                                              numToSample, kernelBandwidthMultFactor,
+                                              noiseModel, noiseModelFidelityWeight);
   }
   else if (numComponents == 4 && numDimensions == 3)
   {
     return doDenoising<FourComponent3DImage>(inFileName, outFileName,
                                              numIterations, numThreads,
-                                             numToSample, sigmaMultFactor,
-                                             noiseModel, fidelityWeight);
+                                             numToSample, kernelBandwidthMultFactor,
+                                             noiseModel, noiseModelFidelityWeight);
   }
   else if (numComponents == 6 && numDimensions == 3)
   {
     return doDenoising<SixComponent3DImage>(inFileName, outFileName,
                                             numIterations, numThreads,
-                                            numToSample, sigmaMultFactor,
-                                            noiseModel, fidelityWeight);
+                                            numToSample, kernelBandwidthMultFactor,
+                                            noiseModel, noiseModelFidelityWeight);
   }
   else
   {

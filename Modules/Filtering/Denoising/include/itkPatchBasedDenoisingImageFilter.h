@@ -147,19 +147,19 @@ public:
   itkBooleanMacro(UseSmoothDiscPatchWeights);
   itkGetConstMacro(UseSmoothDiscPatchWeights, bool);
 
-  /** Set/Get initial sigma estimate.
+  /** Set/Get initial kernel bandwidth estimate.
    * To prevent the class from automatically modifying this estimate,
-   * set DoKernelBandwidthEstimation to false in the base class.
+   * set KernelBandwidthEstimation to false in the base class.
    */
-  itkSetMacro(GaussianKernelSigma, RealArrayType);
-  itkGetConstMacro(GaussianKernelSigma, RealArrayType);
+  void SetKernelBandwidthSigma(const RealArrayType& kernelSigma);
+  itkGetConstMacro(KernelBandwidthSigma, RealArrayType);
 
-  /** Set/Get the fraction of the image to use for sigma estimation.
+  /** Set/Get the fraction of the image to use for kernel bandwidth sigma estimation.
    *  To reduce the computational burden for computing sigma,
    *  a small random fraction of the image pixels can be used.
    */
-  itkSetClampMacro(FractionPixelsForSigmaUpdate, double, 0.01, 1.0);
-  itkGetConstReferenceMacro(FractionPixelsForSigmaUpdate, double);
+  itkSetClampMacro(KernelBandwidthFractionPixelsForEstimation, double, 0.01, 1.0);
+  itkGetConstReferenceMacro(KernelBandwidthFractionPixelsForEstimation, double);
 
   /** Set/Get flag indicating whether conditional derivatives should be used
     estimating sigma. */
@@ -188,13 +188,14 @@ public:
   itkStaticConstMacro(MaxSigmaUpdateIterations, unsigned int,
                       20);
 
-  /** Set/Get the sigma multiplication factor used to modify the automatically-estimated sigma.
-   *  At times, it may be desirable to modify the value of the automatically-estimated sigma.
-   *  Typically, this number isn't very far from 1.
-   *  Note: This is used only when DoKernelBandwidthEstimation is True/On.
+  /** Set/Get the kernel bandwidth sigma multiplication factor used to modify the
+   *  automatically-estimated kernel bandwidth sigma. At times, it may be desirable
+   *  to modify the value of the automatically-estimated sigma.  Typically, this number
+   *  isn't very far from 1.
+   *  Note: This is used only when KernelBandwidthEstimation is True/On.
    */
-  itkSetClampMacro(SigmaMultiplicationFactor, double, 0.01, 100);
-  itkGetConstReferenceMacro(SigmaMultiplicationFactor, double);
+  itkSetClampMacro(KernelBandwidthMultiplicationFactor, double, 0.01, 100);
+  itkGetConstReferenceMacro(KernelBandwidthMultiplicationFactor, double);
 
   /** Set/Get the noise sigma.
    * Used by the noise model where appropriate, defaults to 5% of the image intensity range
@@ -438,19 +439,20 @@ protected:
   //
   bool m_UseFastTensorComputations;
   //
-  RealArrayType  m_GaussianKernelSigma;
+  RealArrayType  m_KernelBandwidthSigma;
+  bool           m_KernelBandwidthSigmaIsSet;
   RealArrayType  m_IntensityRescaleInvFactor;
   PixelType      m_ZeroPixel;
   PixelArrayType m_ImageMin;
   PixelArrayType m_ImageMax;
-  double         m_FractionPixelsForSigmaUpdate;
+  double         m_KernelBandwidthFractionPixelsForEstimation;
   bool           m_ComputeConditionalDerivatives;
   double         m_MinSigma;
   double         m_MinProbability;
   unsigned int   m_SigmaUpdateDecimationFactor;
   double         m_SigmaUpdateConvergenceTolerance;
   ShortArrayType m_SigmaConverged;
-  double         m_SigmaMultiplicationFactor;
+  double         m_KernelBandwidthMultiplicationFactor;
   //
   RealType m_NoiseSigma;
   RealType m_NoiseSigmaSquared;
