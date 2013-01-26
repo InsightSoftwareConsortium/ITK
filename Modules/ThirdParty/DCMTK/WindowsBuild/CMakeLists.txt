@@ -3,10 +3,10 @@
 cmake_minimum_required(VERSION 2.8)
 Project(WindowsDCMTK)
 
+include(${CMAKE_CURRENT_LIST_DIR}/../DCMTKGitTag.cmake)
+
 include(ExternalProject)
 
-set(DCMTK_GIT_REPOSITORY "http://git.dcmtk.org/dcmtk.git")
-set(DCMTK_GIT_TAG GIT_TAG ae6c35ba5f7c8d0dd06a2eb36714e47badf91f1f)
 
 if(MSVC)
   list(APPEND DCMTK_EP_FLAGS -DDCMTK_OVERWRITE_WIN32_COMPILER_FLAGS:BOOL=OFF)
