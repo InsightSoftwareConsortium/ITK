@@ -137,6 +137,140 @@ int itkThresholdImageFilterTest(int, char* [] )
     }
   itk::OutputWindow::GetInstance()->DisplayText( "End of Test #3 -----------------------------------");
 
+  // Test #4, threshold values
+  itk::OutputWindow::GetInstance()->DisplayText( "Test #4: threshold values  -----------------" );
+    {
+    typedef itk::Image<int,1> IntImage1DType;
+    IntImage1DType::Pointer input = IntImage1DType::New();
+    IntImage1DType::SpacingValueType inputSpacing[1] = {0.7};
+    input->SetSpacing( inputSpacing );
+    IntImage1DType::PointValueType inputOrigin[1] = {15};
+    input->SetOrigin(inputOrigin);
+    IntImage1DType::SizeValueType inputSize = 1;
+    IntImage1DType::RegionType inputRegion;
+    inputRegion.SetSize(0, inputSize);
+    input->SetRegions(inputRegion);
+    input->Allocate();
+    int inputValue = 0;
+    input->FillBuffer(inputValue);
+
+    itk::ThresholdImageFilter<IntImage1DType>::Pointer threshold;
+    threshold = itk::ThresholdImageFilter<IntImage1DType>::New();
+    threshold->SetInput(input);
+    int outsideValue = 99;
+    threshold->SetOutsideValue(outsideValue);
+    IntImage1DType::IndexType index;
+    index.Fill(0);
+
+    int outputValue;
+    // Above -1
+    threshold->ThresholdAbove(-1);
+    threshold->Update();
+    outputValue = threshold->GetOutput()->GetPixel(index);
+    if ( outputValue != outsideValue)
+      {
+      os = new itksys_ios::ostringstream;
+      *os << "Filter above failed:"
+          << " lower: " << threshold->GetLower()
+          << " upper: " << threshold->GetUpper()
+          << " output: " << outputValue;
+      itk::OutputWindow::GetInstance()->DisplayText( os->str().c_str() );
+      return EXIT_FAILURE;
+      }
+
+    // Above 1
+    threshold->ThresholdAbove(1);
+    threshold->Update();
+    outputValue = threshold->GetOutput()->GetPixel(index);
+    if ( outputValue != inputValue)
+      {
+      os = new itksys_ios::ostringstream;
+      *os << "Filter above failed:"
+          << " lower: " << threshold->GetLower()
+          << " upper: " << threshold->GetUpper()
+          << " output: " << outputValue;
+      itk::OutputWindow::GetInstance()->DisplayText( os->str().c_str() );
+      return EXIT_FAILURE;
+      }
+
+    // Below -1
+    threshold->ThresholdBelow(-1);
+    threshold->Update();
+    outputValue = threshold->GetOutput()->GetPixel(index);
+    if ( outputValue != inputValue)
+      {
+      os = new itksys_ios::ostringstream;
+      *os << "Filter below failed:"
+          << " lower: " << threshold->GetLower()
+          << " upper: " << threshold->GetUpper()
+          << " output: " << outputValue;
+      itk::OutputWindow::GetInstance()->DisplayText( os->str().c_str() );
+      return EXIT_FAILURE;
+      }
+
+    // Below 1
+    threshold->ThresholdBelow(1);
+    threshold->Update();
+    outputValue = threshold->GetOutput()->GetPixel(index);
+    if ( outputValue != outsideValue)
+      {
+      os = new itksys_ios::ostringstream;
+      *os << "Filter below failed:"
+          << " lower: " << threshold->GetLower()
+          << " upper: " << threshold->GetUpper()
+          << " output: " << outputValue;
+      itk::OutputWindow::GetInstance()->DisplayText( os->str().c_str() );
+      return EXIT_FAILURE;
+      }
+
+    // Outside [-1 1]
+    threshold->ThresholdOutside(-1, 1);
+    threshold->Update();
+    outputValue = threshold->GetOutput()->GetPixel(index);
+    if ( outputValue != inputValue)
+      {
+      os = new itksys_ios::ostringstream;
+      *os << "Filter outside failed:"
+          << " lower: " << threshold->GetLower()
+          << " upper: " << threshold->GetUpper()
+          << " output: " << outputValue;
+      itk::OutputWindow::GetInstance()->DisplayText( os->str().c_str() );
+      return EXIT_FAILURE;
+      }
+
+    // Outside [0, 2]
+    threshold->ThresholdOutside(0, 2);
+    threshold->Update();
+    outputValue = threshold->GetOutput()->GetPixel(index);
+    if ( outputValue != inputValue)
+      {
+      os = new itksys_ios::ostringstream;
+      *os << "Filter outside failed:"
+          << " lower: " << threshold->GetLower()
+          << " upper: " << threshold->GetUpper()
+          << " output: " << outputValue;
+      itk::OutputWindow::GetInstance()->DisplayText( os->str().c_str() );
+      return EXIT_FAILURE;
+      }
+
+    // Outside [1, 3]
+    threshold->ThresholdOutside(1, 3);
+    threshold->Update();
+    outputValue = threshold->GetOutput()->GetPixel(index);
+    if ( outputValue != outsideValue)
+      {
+      os = new itksys_ios::ostringstream;
+      *os << "Filter above failed:"
+          << " lower: " << threshold->GetLower()
+          << " upper: " << threshold->GetUpper()
+          << " output: " << outputValue;
+      itk::OutputWindow::GetInstance()->DisplayText( os->str().c_str() );
+      return EXIT_FAILURE;
+      }
+
+    }
+  itk::OutputWindow::GetInstance()->DisplayText( "End of Test #4 -----------------------------------");
+
   return EXIT_SUCCESS;
 }
 
