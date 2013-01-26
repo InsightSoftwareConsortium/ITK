@@ -96,7 +96,6 @@ private:
 }
 /** \class MaskImageFilter
  * \brief Mask an image with a mask.
- * image with the mask.
  *
  * This class is templated over the types of the
  * input image type, the mask image type and the type of the output image.
