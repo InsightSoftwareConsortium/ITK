@@ -28,6 +28,7 @@
 #include "itkGaussianOperator.h"
 #include "itkImageAlgorithm.h"
 #include "itkVectorImageToImageAdaptor.h"
+#include "itkSpatialNeighborSubsampler.h"
 
 namespace itk
 {
@@ -45,22 +46,23 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   //
   m_UseFastTensorComputations = true;
 
-  // by default, turn on automatic kerel-sigma estimation
-  this->DoKernelBandwidthEstimationOn();
+  // by default, turn off automatic kernel bandwidth sigma estimation
+  this->KernelBandwidthEstimationOff();
   // minimum probability, used to avoid divide by zero
   m_MinProbability = NumericTraits<RealValueType>::min() * 100;
   // minimum sigma allowed, used to avoid divide by zero
   m_MinSigma       = NumericTraits<RealValueType>::min() * 100;
 
   m_ComputeConditionalDerivatives   = false;
-  m_FractionPixelsForSigmaUpdate    = 0.20;
+  m_KernelBandwidthFractionPixelsForEstimation    = 0.20;
   m_SigmaUpdateDecimationFactor     = static_cast<unsigned int>
-    (Math::Round<double>(1.0 / m_FractionPixelsForSigmaUpdate) );
+    (Math::Round<double>(1.0 / m_KernelBandwidthFractionPixelsForEstimation) );
   // desired accuracy of Newton-Raphson sigma estimation
-  m_SigmaUpdateConvergenceTolerance = 0.01;
-  m_SigmaMultiplicationFactor       = 1.0;
+  m_SigmaUpdateConvergenceTolerance     = 0.01;
+  m_KernelBandwidthMultiplicationFactor = 1.0;
 
-  m_NoiseSigmaIsSet = false;
+  m_NoiseSigmaIsSet           = false;
+  m_KernelBandwidthSigmaIsSet = false;
 
   m_TotalNumberPixels  = 0;       // won't be valid until an image is provided
   m_Sampler            = 0;       // won't be valid until a sampler is provided
@@ -149,6 +151,15 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   m_NoiseSigma = sigma;
   m_NoiseSigmaSquared = sigma * sigma;
   m_NoiseSigmaIsSet = true;
+}
+
+template <class TInputImage, class TOutputImage>
+void
+PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
+::SetKernelBandwidthSigma(const RealArrayType& kernelSigma)
+{
+  m_KernelBandwidthSigma = kernelSigma;
+  m_KernelBandwidthSigmaIsSet = true;
 }
 
 template <class TInputImage, class TOutputImage>
@@ -285,7 +296,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   // For automatic sigma estimation, select every 'k'th pixel.
   m_SigmaUpdateDecimationFactor
     = static_cast<unsigned int>
-      (Math::Round<double>(1.0 / m_FractionPixelsForSigmaUpdate) );
+      (Math::Round<double>(1.0 / m_KernelBandwidthFractionPixelsForEstimation) );
   // For automatic sigma estimation, use at least 1% of pixels.
   m_SigmaUpdateDecimationFactor
     = vnl_math_min(m_SigmaUpdateDecimationFactor,
@@ -295,7 +306,8 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   m_SigmaUpdateDecimationFactor
     = vnl_math_max(m_SigmaUpdateDecimationFactor, 1u);
 
-  itkDebugMacro(  <<"m_FractionPixelsForSigmaUpdate: " << m_FractionPixelsForSigmaUpdate << ", "
+  itkDebugMacro(  <<"m_KernelBandwidthFractionPixelsForEstimation: "
+                  << m_KernelBandwidthFractionPixelsForEstimation << ", "
                   << "m_SigmaUpdateDecimationFactor: "  << m_SigmaUpdateDecimationFactor );
 
   // Get the number of components per pixel in the input image.
@@ -370,10 +382,10 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
     m_IntensityRescaleInvFactor[ic] = 100.0 / (max - min);
     }
 
-  if (this->GetDoKernelBandwidthEstimation() )
+  if (!this->m_KernelBandwidthSigmaIsSet )
     {
     // kernel sigma initialization for automatic sigma estimation
-    m_GaussianKernelSigma.SetSize(m_NumIndependentComponents);
+    m_KernelBandwidthSigma.SetSize(m_NumIndependentComponents);
     this->InitializeKernelSigma();
     }
   else
@@ -383,10 +395,10 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
     for (unsigned int ic = 0; ic < m_NumIndependentComponents; ++ic)
       {
       // check that the set kernel sigma is valid
-      if (m_GaussianKernelSigma[ic] <= m_MinSigma)
+      if (m_KernelBandwidthSigma[ic] <= m_MinSigma)
         {
         itkExceptionMacro (<< "Gaussian kernel sigma ("
-                           << m_GaussianKernelSigma[ic]
+                           << m_KernelBandwidthSigma[ic]
                            << ") must be larger than "
                            << m_MinSigma);
         }
@@ -398,10 +410,10 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
                  << m_ImageMax << "], "
                  << "IntensityRescaleInvFactor: "
                  << m_IntensityRescaleInvFactor << " , "
-                 << "SigmaMultiplicationFactor: "
-                 << m_SigmaMultiplicationFactor << " , "
-                 << "GaussianKernelSigma initialized to: "
-                 << m_GaussianKernelSigma );
+                 << "KernelBandwidthMultiplicationFactor: "
+                 << m_KernelBandwidthMultiplicationFactor << " , "
+                 << "KernelBandwidthSigma initialized to: "
+                 << m_KernelBandwidthSigma );
 
   if (!this->m_NoiseSigmaIsSet)
     {
@@ -427,8 +439,12 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 
   if (m_Sampler.IsNull() )
     {
-    itkExceptionMacro
-      (<< "Please supply a subsampling strategy that derives from itkRegionConstrainedSubsampler");
+    typedef itk::Statistics::SpatialNeighborSubsampler< PatchSampleType, InputImageRegionType >
+    SamplerType;
+    typename SamplerType::Pointer defaultSampler = SamplerType::New();
+
+    defaultSampler->SetRadius(25);
+    SetSampler(defaultSampler);
     }
 }
 
@@ -471,12 +487,12 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   // so make sure the computation is disabled
   if ( this->m_ComponentSpace == Superclass::RIEMANNIAN )
     {
-    if (this->GetFidelityWeight() > 0)
+    if (this->GetNoiseModelFidelityWeight() > 0)
       {
       itkWarningMacro( << "Noise model is undefined for RIEMANNIAN case, "
                        << "disabling noise model by setting fidelity weight "
                        << "to zero." );
-      this->SetFidelityWeight(0.0);
+      this->SetNoiseModelFidelityWeight(0.0);
       }
     }
 }
@@ -1397,9 +1413,9 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 {
   for (unsigned int ic = 0; ic < m_NumIndependentComponents; ++ic)
     {
-    // initialize kernel sigma to 10% of the intensity range.
-    // if the range is 100, the initial sigma will be 10.
-    m_GaussianKernelSigma[ic] = 10.0 * m_SigmaMultiplicationFactor / m_IntensityRescaleInvFactor[ic];
+    // initialize kernel sigma to 30% of the intensity range.
+    // if the range is 100, the initial sigma will be 30.
+    m_KernelBandwidthSigma[ic] = 30.0 * m_KernelBandwidthMultiplicationFactor / m_IntensityRescaleInvFactor[ic];
     }
 }
 
@@ -1528,10 +1544,10 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   // afterwards
   for (unsigned int ic = 0; ic < m_NumIndependentComponents; ++ic)
     {
-    RealValueType scaledVal = m_GaussianKernelSigma[ic];
-    scaledVal /= m_SigmaMultiplicationFactor;
+    RealValueType scaledVal = m_KernelBandwidthSigma[ic];
+    scaledVal /= m_KernelBandwidthMultiplicationFactor;
     scaledVal *= m_IntensityRescaleInvFactor[ic];
-    m_GaussianKernelSigma[ic] = scaledVal;
+    m_KernelBandwidthSigma[ic] = scaledVal;
     }
 
   RealArrayType sigmaUpdate;
@@ -1552,7 +1568,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
     sigmaUpdate = this->ResolveSigmaUpdate();
 
     itkDebugMacro( "sigmaUpdate: " << sigmaUpdate
-                                   << ", m_GaussianKernelSigma: " << m_GaussianKernelSigma
+                                   << ", m_KernelBandwidthSigma: " << m_KernelBandwidthSigma
                                    << ", m_SigmaUpdateConvergenceTolerance: " << m_SigmaUpdateConvergenceTolerance );
 
     // check for convergence
@@ -1562,7 +1578,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
       if (!m_SigmaConverged[ic])
         {
         if (vnl_math_abs(sigmaUpdate[ic]) <
-            m_GaussianKernelSigma[ic] * m_SigmaUpdateConvergenceTolerance)
+            m_KernelBandwidthSigma[ic] * m_SigmaUpdateConvergenceTolerance)
           {
           m_SigmaConverged[ic] = 1;
           }
@@ -1582,10 +1598,10 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   // put the multiplication factor back in
   for (unsigned int ic = 0; ic < m_NumIndependentComponents; ++ic)
     {
-    RealValueType scaledVal = m_GaussianKernelSigma[ic];
+    RealValueType scaledVal = m_KernelBandwidthSigma[ic];
     scaledVal /= m_IntensityRescaleInvFactor[ic];
-    scaledVal *= m_SigmaMultiplicationFactor;
-    m_GaussianKernelSigma[ic] = scaledVal;
+    scaledVal *= m_KernelBandwidthMultiplicationFactor;
+    m_KernelBandwidthSigma[ic] = scaledVal;
     }
 }
 
@@ -1847,7 +1863,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
         {
         squaredNorm[ic] += centerPatchSquaredNorm[ic];
 
-        const RealValueType sigmaKernel = m_GaussianKernelSigma[ic];
+        const RealValueType sigmaKernel = m_KernelBandwidthSigma[ic];
         const RealValueType distanceJointEntropy = vcl_sqrt(squaredNorm[ic]);
 
         const RealValueType gaussianJointEntropy
@@ -1969,7 +1985,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
     itkDebugMacro( << "Resolving sigma update for pixel component " << ic );
 
     // accumulate the first and second derivatives from all the threads
-    const RealValueType kernelSigma = m_GaussianKernelSigma[ic];
+    const RealValueType kernelSigma = m_KernelBandwidthSigma[ic];
     RealValueType       firstDerivative = 0;
     RealValueType       secondDerivative = 0;
     const unsigned int  numThreads = m_ThreadData.size();
@@ -2017,15 +2033,15 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
     if (kernelSigma + sigmaUpdate[ic] < m_MinSigma)
       {
       itkDebugMacro( << "** TOO SMALL SIGMA: adjusting sigma" );
-      m_GaussianKernelSigma[ic] = (kernelSigma + m_MinSigma) / 2.0;
+      m_KernelBandwidthSigma[ic] = (kernelSigma + m_MinSigma) / 2.0;
 
-      itkDebugMacro( << "new sigma: " << m_GaussianKernelSigma[ic] );
+      itkDebugMacro( << "new sigma: " << m_KernelBandwidthSigma[ic] );
       }
     else
       {
-      m_GaussianKernelSigma[ic] = kernelSigma + sigmaUpdate[ic];
+      m_KernelBandwidthSigma[ic] = kernelSigma + sigmaUpdate[ic];
 
-      itkDebugMacro( << "new sigma: " << m_GaussianKernelSigma[ic] );
+      itkDebugMacro( << "new sigma: " << m_KernelBandwidthSigma[ic] );
 
       }
     } // end for each independent pixel component
@@ -2175,7 +2191,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
         result = AddUpdate(result,  gradientJointEntropy * (smoothingWeight * stepSizeSmoothing) );
         } // end if smoothingWeight > 0
 
-      const double fidelityWeight = this->GetFidelityWeight();
+      const double fidelityWeight = this->GetNoiseModelFidelityWeight();
       if (fidelityWeight > 0)
         {
         // We should never have fidelity weight > 0 in the non-Euclidean case
@@ -2184,6 +2200,11 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
         const PixelType out = outputIt.Get();
         switch (this->GetNoiseModel() )
           {
+          case Superclass::NOMODEL:
+            {
+            // do nothing
+            break;
+            }
           case Superclass::GAUSSIAN:
             {
             for (unsigned int pc = 0; pc < m_NumPixelComponents; ++pc)
@@ -2484,7 +2505,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
     RealValueType gaussianJointEntropy = NumericTraits<RealValueType>::Zero;
     for (unsigned int ic = 0; ic < m_NumIndependentComponents; ++ic)
       {
-      RealValueType kernelSigma = m_GaussianKernelSigma[ic];
+      RealValueType kernelSigma = m_KernelBandwidthSigma[ic];
 
       distanceJointEntropy += squaredNorm[ic] / vnl_math_sqr(kernelSigma);
 
@@ -2538,15 +2559,15 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   //
   os << indent << "Smoothing weight: "
      << this->GetSmoothingWeight() << std::endl;
-  os << indent << "Fidelity weight: "
-     << this->GetFidelityWeight() << std::endl;
+  os << indent << "Noise model fidelity weight: "
+     << this->GetNoiseModelFidelityWeight() << std::endl;
   //
-  os << indent << "Gaussian kernel sigma: "
-     << m_GaussianKernelSigma << std::endl;
+  os << indent << "Kernel bandwidth sigma: "
+     << m_KernelBandwidthSigma << std::endl;
   os << indent << "Compute conditional derivatives: "
      << m_ComputeConditionalDerivatives << std::endl;
-  os << indent << "FractionPixelsForSigmaUpdate: "
-     << m_FractionPixelsForSigmaUpdate << std::endl;
+  os << indent << "KernelBandwidthFractionPixelsForEstimation: "
+     << m_KernelBandwidthFractionPixelsForEstimation << std::endl;
   os << indent << "SigmaUpdateDecimationFactor: "
      << m_SigmaUpdateDecimationFactor << std::endl;
   os << indent << "Min probability: "
@@ -2555,8 +2576,8 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
      << m_MinSigma       << std::endl;
   os << indent << "Sigma update convergence tolerance: "
      << m_SigmaUpdateConvergenceTolerance << std::endl;
-  os << indent << "SigmaMultiplicationFactor: "
-     << m_SigmaMultiplicationFactor << std::endl;
+  os << indent << "KernelBandwidthMultiplicationFactor: "
+     << m_KernelBandwidthMultiplicationFactor << std::endl;
 
   if (m_Sampler)
     {

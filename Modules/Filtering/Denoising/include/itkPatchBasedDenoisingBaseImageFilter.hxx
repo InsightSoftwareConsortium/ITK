@@ -33,18 +33,18 @@ PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
   m_PatchRadius = 4;
 
   // Default strategy for kernel-bandwidth estimation
-  m_DoKernelBandwidthEstimation = true;
+  m_KernelBandwidthEstimation = false;
   m_KernelBandwidthUpdateFrequency = 3;
 
   // Default for number of denoising iterations to perform
-  m_NumberOfIterations      = 5;
+  m_NumberOfIterations      = 1;
   m_ElapsedIterations       = 0;
 
   // Default noise model.
-  m_NoiseModel = GAUSSIAN;
+  m_NoiseModel                = NOMODEL;
   // Default weights for the smoothing and fidelity terms.
-  m_SmoothingWeight = 1.0;
-  m_FidelityWeight  = 0.0;
+  m_SmoothingWeight           = 1.0;
+  m_NoiseModelFidelityWeight  = 0.0;
 
   // Default to setting component space
   // based on pixel type
@@ -53,7 +53,8 @@ PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
 
   m_ManualReinitialization  = false;
   m_State                   = UNINITIALIZED;
-  m_InputImage = 0;
+
+  m_InputImage  = 0;
   m_OutputImage = 0;
 }
 
@@ -132,7 +133,7 @@ PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
     // or otherwise setting up for the next iteration.
     this->InitializeIteration();
 
-    if ( (m_DoKernelBandwidthEstimation) &&
+    if ( (m_KernelBandwidthEstimation) &&
          (m_ElapsedIterations % m_KernelBandwidthUpdateFrequency == 0) )
       {
       // Find the optimal kernel bandwidth parameter.

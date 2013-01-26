@@ -81,7 +81,8 @@ namespace itk
  *
  * To prevent oversmoothing, this class provides the framework for including a data-fidelity term
  * based on the knowledge of the noise model. The intensity updates are then treated as the sum of
- * (1) the weighted smoothing updates and (2) the weighted fidelity updates that prevent large
+ * (1) the weighted smoothing updates (weighted by SmoothingWeight) and
+ * (2) the weighted fidelity updates (weighted by NoiseModelFidelityWeight) that prevent large
  * deviations of the denoised image from the noisy data.
  *
  * \ingroup Filtering
@@ -120,7 +121,7 @@ public:
   typedef typename NumericTraits<PixelType>::ValueType PixelValueType;
 
   /** Type definition for selecting the noise model. */
-  typedef enum { GAUSSIAN = 0, RICIAN = 1, POISSON = 2 } NoiseModelType;
+  typedef enum { NOMODEL = 0, GAUSSIAN = 1, RICIAN = 2, POISSON = 3 } NoiseModelType;
 
   /** Type definition to determine which space to do calculations in. */
   /** TODO add comment about why no noise model can be used for RIEMANNIAN space
@@ -166,8 +167,8 @@ public:
   PatchWeightsType GetPatchWeights() const;
 
   /** Set/Get the noise model type.
-   * Defaults to GAUSSIAN.
-   * To use the noise model during denoising, FidelityWeight must be positive.
+   * Defaults to NOMODEL.
+   * To use the noise model during denoising, NoiseModelFidelityWeight must be positive.
    */
   itkSetMacro(NoiseModel, NoiseModelType);
   itkGetConstMacro(NoiseModel, NoiseModelType);
@@ -183,16 +184,16 @@ public:
    *  This option is used when a noise model is specified.
    *  This weight controls the balance between the smoothing and the closeness to the noisy data.
    */
-  itkSetClampMacro(FidelityWeight, double, 0.0, 1.0);
-  itkGetConstMacro(FidelityWeight, double);
+  itkSetClampMacro(NoiseModelFidelityWeight, double, 0.0, 1.0);
+  itkGetConstMacro(NoiseModelFidelityWeight, double);
 
   /** Set/Get flag indicating whether kernel-bandwidth should be estimated
    *  automatically from the image data.
-   *  Defaults to true.
+   *  Defaults to false.
    */
-  itkSetMacro(DoKernelBandwidthEstimation, bool);
-  itkBooleanMacro(DoKernelBandwidthEstimation);
-  itkGetConstMacro(DoKernelBandwidthEstimation, bool);
+  itkSetMacro(KernelBandwidthEstimation, bool);
+  itkBooleanMacro(KernelBandwidthEstimation);
+  itkGetConstMacro(KernelBandwidthEstimation, bool);
 
   /** Set/Get the update frequency for the kernel bandwidth estimation.
    *  An optimal bandwidth will be re-estimated
@@ -205,7 +206,7 @@ public:
 
   /** Set/Get the number of denoising iterations to perform.
    *  Must be a positive integer.
-   *  Defaults to 5.
+   *  Defaults to 1.
    */
   itkSetClampMacro(NumberOfIterations, unsigned int, 1, NumericTraits<unsigned int>::max() );
   itkGetConstReferenceMacro(NumberOfIterations, unsigned int);
@@ -310,7 +311,7 @@ protected:
   PatchWeightsType m_PatchWeights;
 
   /** Parameters that define the strategy for kernel-bandwidth estimation. */
-  bool         m_DoKernelBandwidthEstimation;
+  bool         m_KernelBandwidthEstimation;
   unsigned int m_KernelBandwidthUpdateFrequency;
 
   /** Parameters that define the total number of denoising iterations to perform
@@ -321,7 +322,7 @@ protected:
   /** Parameters defining the usage of a specific noise model, if desired. */
   NoiseModelType m_NoiseModel;
   double         m_SmoothingWeight;
-  double         m_FidelityWeight;
+  double         m_NoiseModelFidelityWeight;
 
   /** Parameter indicating whether components should be treated as if they are in
       Euclidean space regardless of pixel type. */
