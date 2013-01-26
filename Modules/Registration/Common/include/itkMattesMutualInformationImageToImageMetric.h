@@ -176,8 +176,9 @@ public:
   /**  Get the value and derivatives for single valued optimizers. */
   void GetValueAndDerivative(const ParametersType & parameters, MeasureType & Value, DerivativeType & Derivative) const;
 
-  /** Number of bins to used in the histogram. Typical value is
-   * 50. The minimum value is 5 due to the padding required by the Parzen
+/** Number of bins to used in the histogram.
+  * According to Mattes et al the optimum value is 50.
+   * The minimum value is 5 due to the padding required by the Parzen
    * windowing with a cubic-BSpline kernel. Note that even if the metric
    * is used on binary images, the number of bins should at least be
    * equal to five. */
