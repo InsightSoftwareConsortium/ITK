@@ -91,13 +91,9 @@ if(CPPCHECK_EXECUTABLE)
       set(CPPCHECK_TEMPLATE_ARG --template vs)
       set(CPPCHECK_FAIL_REGULAR_EXPRESSION "[(]error[)]")
       set(CPPCHECK_WARN_REGULAR_EXPRESSION "[(]style[)]")
-    elseif(CMAKE_COMPILER_IS_GNUCXX)
-      set(CPPCHECK_TEMPLATE_ARG --template gcc)
-      set(CPPCHECK_FAIL_REGULAR_EXPRESSION " error: ")
-      set(CPPCHECK_WARN_REGULAR_EXPRESSION " style: ")
     else()
-      message(STATUS
-        "Warning: FindCppcheck doesn't know how to format error messages for your compiler!")
+      ## This is about the IDE, not the compiler for formatting support.  Many IDE's
+      ## support the gcc style error messages.
       set(CPPCHECK_TEMPLATE_ARG --template gcc)
       set(CPPCHECK_FAIL_REGULAR_EXPRESSION " error: ")
       set(CPPCHECK_WARN_REGULAR_EXPRESSION " style: ")
