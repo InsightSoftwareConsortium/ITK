@@ -214,27 +214,6 @@ endforeach()
     DEPENDS ${JPEG_DEPENDENCY} ${TIFF_DEPENDENCY} ${ICONV_DEPENDENCY}
     )
 
-  #
-  # there are a few things that require patching:
-  # 1. Modern TIFF lib versions depend on jpeg
-  # 2. FindPackage can't use ITK-built versions of tiff and zlib -- so
-  #    get rid of FIND_PACKAGE commands for those libraries, and pass in
-  #    relevant CMake variables.
-  # 3. replace zlib.h and tiff.h with itk_ versions
-  # 4. Turn off building dcmtk apps
-  set(dcmtkPatchScript ${CMAKE_CURRENT_LIST_DIR}/CMake/dcmtkPatchScript.cmake)
-
-  ExternalProject_Add_Step(${DCMTK_EPNAME} fixGenerateConfig
-    COMMENT "Add JPEG library to dependencies"
-    DEPENDEES download
-    DEPENDERS configure
-    COMMAND ${CMAKE_COMMAND}
-    -DdcmtkSource=<SOURCE_DIR>
-    -DITK_USE_SYSTEM_ZLIB=${ITK_USE_SYSTEM_ZLIB}
-    -DITK_USE_SYSTEM_TIFF=${ITK_USE_SYSTEM_TIFF}
-    -P ${dcmtkPatchScript}
-    )
-
   # build the list of libraries upon which DCMTK depends
   set(ITKDCMTK_LIBDEP "")
   foreach(lib ITKJPEG_LIBRARIES ITKTIFF_LIBRARIES
