@@ -24,8 +24,9 @@
 // define this symbol in order to get the prototype for the
 // routine. This needs to be done before we load any system headers.
 #ifdef ITK_USE_WIN32_THREADS
-#undef _WIN32_WINNT
+#ifndef _WIN32_WINNT
 #define _WIN32_WINNT 0x0400
+#endif
 #endif
 
 #if defined(ITK_USE_PTHREADS)
