@@ -98,7 +98,7 @@ itk_add_test(NAME itkDerivativeImageFilterTest2y
     itkDerivativeImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkDerivativeImageFilterTest2y.png 2 1)
 itk_add_test(NAME itkLaplacianRecursiveGaussianImageFilterTest
       COMMAND ITKImageFeatureTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/LaplacianRecursiveGaussianImageFilterTest.png}
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/LaplacianRecursiveGaussianImageFilterTest.png,:}
               ${ITK_TEST_OUTPUT_DIR}/LaplacianRecursiveGaussianImageFilterTest.png
     itkLaplacianRecursiveGaussianImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/LaplacianRecursiveGaussianImageFilterTest.png)
 itk_add_test(NAME itkMaskFeaturePointSelectionFilterTest
