@@ -33,18 +33,11 @@
 # Upgraded for GDCM by Mathieu Malaterre.
 # Modified for EasyViz by Thomas Sondergaard.
 #
-
+if(NOT DCMTK_DIR)
+  set(DCMTK_DIR "" CACHE PATH "Directory where DCMTK lib/include files can be found")
+endif()
 # prefer DCMTK_DIR over default system paths like /usr/lib
 set(CMAKE_PREFIX_PATH ${DCMTK_DIR}/lib ${CMAKE_PREFIX_PATH}) # this is given to FIND_LIBRARY or FIND_PATH
-
-if(NOT DCMTK_FOUND AND NOT DCMTK_DIR)
-  set(DCMTK_DIR
-    "/usr/include/dcmtk/"
-    CACHE
-    PATH
-    "Root of DCMTK source tree (optional).")
-  mark_as_advanced(DCMTK_DIR)
-endif()
 
 # Find all libraries, store debug and release separately
 foreach(lib
@@ -90,7 +83,6 @@ foreach(lib
     ${DCMTK_DIR}/dcmjpeg/lib${lib}/Debug
     NO_DEFAULT_PATH
     )
-
   mark_as_advanced(DCMTK_${lib}_LIBRARY_RELEASE)
   mark_as_advanced(DCMTK_${lib}_LIBRARY_DEBUG)
 
@@ -119,22 +111,17 @@ if(CMAKE_THREAD_LIBS_INIT)
 endif()
 
 #
-# SPECIFIC CASE FOR DCMTK BUILD DIR
+# SPECIFIC CASE FOR DCMTK BUILD DIR as DCMTK_DIR
 # (as opposed to a DCMTK install dir)
-#
-# the header files are in the source directory,
-# but we don't know how to find the source directory
-# without peeking at the CMakeDirectoryInformation.cmake.
-# once we know where the source is, we can add it to the
-# paths searched for include files
-find_file(CMakeDirInfoFile
-  CMakeDirectoryInformation.cmake
-  PATHS ${DCMTK_DIR}/config/CMakeFiles
-  NO_DEFAULT_PATH
-)
-if(EXISTS ${CMakeDirInfoFile})
-  include(${CMakeDirInfoFile})
-  set(DCMTK_SOURCE_DIR ${CMAKE_RELATIVE_PATH_TOP_SOURCE})
+# Have to find the source directory.
+if(EXISTS ${DCMTK_DIR}/CMakeCache.txt)
+          load_cache(${DCMTK_DIR} READ_WITH_PREFIX "EXT"
+          DCMTK_SOURCE_DIR)
+  if(NOT EXISTS ${EXTDCMTK_SOURCE_DIR})
+    message(FATAL_ERROR
+      "DCMTK build directory references
+nonexistant DCMTK source directory ${EXTDCMTK_SOURCE_DIR}")
+  endif()
 endif()
 
 set(DCMTK_config_TEST_HEADER osconfig.h)
@@ -152,6 +139,8 @@ set(DCMTK_ofstd_TEST_HEADER ofstdinc.h)
 set(DCMTK_oflog_TEST_HEADER oflog.h)
 set(DCMTK_dcmjpls_TEST_HEADER djlsutil.h)
 
+set(DCMTK_INCLUDE_DIR_NAMES)
+
 foreach(dir
     config
     dcmdata
@@ -167,6 +156,10 @@ foreach(dir
     dcmtls
     ofstd
     oflog)
+  if(EXTDCMTK_SOURCE_DIR)
+    set(SOURCE_DIR_PATH
+      ${EXTDCMTK_SOURCE_DIR}/${dir}/include/dcmtk/${dir})
+  endif()
   find_path(DCMTK_${dir}_INCLUDE_DIR
     ${DCMTK_${dir}_TEST_HEADER}
     PATHS
@@ -175,24 +168,22 @@ foreach(dir
     ${DCMTK_DIR}/include/dcmtk/${dir}
     ${DCMTK_DIR}/${dir}/include/dcmtk/${dir}
     ${DCMTK_DIR}/include/${dir}
-    ${DCMTK_SOURCE_DIR}/${dir}/include/dcmtk/${dir}
+    ${SOURCE_DIR_PATH}
     )
 
   mark_as_advanced(DCMTK_${dir}_INCLUDE_DIR)
+  list(APPEND DCMTK_INCLUDE_DIR_NAMES DCMTK_${dir}_INCLUDE_DIR)
 
   if(DCMTK_${dir}_INCLUDE_DIR)
-    message("DCMTK_${dir}_INCLUDE_DIR=${DCMTK_${dir}_INCLUDE_DIR}")
+    # add the 'include' path so eg
+    #include "dcmtk/dcmimgle/dcmimage.h"
+    # works
+    get_filename_component(_include ${DCMTK_${dir}_INCLUDE_DIR} PATH)
+    get_filename_component(_include ${_include} PATH)
     list(APPEND
       DCMTK_INCLUDE_DIRS
-      ${DCMTK_${dir}_INCLUDE_DIR})
-    if(EXISTS ${CMakeDirInfoFile})
-      # to handle full path includes eg
-      # include "dcmtk/dcmimgle/dcmimage.h"
-      get_filename_component(dir2 ${DCMTK_${dir}_INCLUDE_DIR} PATH)
-      get_filename_component(dir2 ${dir2} PATH)
-      message("Adding ${dir2}")
-      list(APPEND DCMTK_INCLUDE_DIRS ${dir2})
-    endif()
+      ${DCMTK_${dir}_INCLUDE_DIR}
+      ${_include})
   endif()
 endforeach()
 
@@ -213,3 +204,7 @@ endif()
 
 # Compatibility: This variable is deprecated
 set(DCMTK_INCLUDE_DIR ${DCMTK_INCLUDE_DIRS})
+
+find_package_handle_standard_args(DCMTK
+  REQUIRED_VARS ${DCMTK_INCLUDE_DIR_NAMES} DCMTK_LIBRARIES
+  FAIL_MESSAGE "Please set DCMTK_DIR and re-run configure" )
