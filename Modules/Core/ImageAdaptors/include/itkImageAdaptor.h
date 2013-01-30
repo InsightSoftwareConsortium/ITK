@@ -133,7 +133,7 @@ public:
   template <class UPixelType, unsigned int UImageDimension =  TImage::ImageDimension>
   struct Rebind
     {
-      typedef itk::Image<UPixelType, UImageDimension>  Type;
+      typedef Image<UPixelType, UImageDimension>  Type;
     };
 
 
@@ -408,7 +408,7 @@ private:
   // a specialized method to update PixelAccessors for VectorImages,
   // to have the correct vector length of the image.
   template< class TPixelType >
-    void UpdateAccessor( typename itk::VectorImage< TPixelType, ImageDimension > * itkNotUsed( dummy ) )
+    void UpdateAccessor( typename ::itk::VectorImage< TPixelType, ImageDimension > * itkNotUsed( dummy ) )
   {
     this->m_PixelAccessor.SetVectorLength( this->m_Image->GetNumberOfComponentsPerPixel() );
   }

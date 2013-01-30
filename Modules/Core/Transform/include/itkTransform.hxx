@@ -415,7 +415,7 @@ Transform<TScalarType, NInputDimensions, NOutputDimensions>
   ev2 = ev2 - ev1 * dp;
   ev2.Normalize();
 
-  itk::CrossHelper< Vector<TScalarType,3> > vectorCross;
+  CrossHelper< Vector<TScalarType,3> > vectorCross;
   ev3 = vectorCross( ev1, ev2 );
 
   // Outer product matrices

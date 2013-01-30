@@ -142,10 +142,10 @@ protected:
 
     typedef typename TInputImage::PixelType PixelType;
 
-    typedef typename itk::NumericTraits< PixelType >::RealType
+    typedef typename NumericTraits< PixelType >::RealType
     PixelRealType;
 
-    typedef typename itk::NumericTraits< PixelType >::ScalarRealType
+    typedef typename NumericTraits< PixelType >::ScalarRealType
     PixelScalarRealType;
 
     const unsigned int numberOfCompileTimeComponents =
