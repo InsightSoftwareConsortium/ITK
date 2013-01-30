@@ -35,7 +35,7 @@ itk_add_test(NAME itkThresholdSegmentationLevelSetImageFilterTest
       COMMAND ITKLevelSetsTestDriver itkThresholdSegmentationLevelSetImageFilterTest)
 itk_add_test(NAME itkVectorThresholdSegmentationLevelSetImageFilterTest
       COMMAND ITKLevelSetsTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/Algorithms/VectorThresholdSegmentationLevelSetImageFilterTest.png}
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/Algorithms/VectorThresholdSegmentationLevelSetImageFilterTest.png,:}
               ${ITK_TEST_OUTPUT_DIR}/VectorThresholdSegmentationLevelSetImageFilterTest.png
     --compareNumberOfPixelsTolerance 55
     itkVectorThresholdSegmentationLevelSetImageFilterTest DATA{${ITK_DATA_ROOT}/Input/VisibleWomanEyeSliceInitialLevelSet.png} DATA{${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png} ${ITK_TEST_OUTPUT_DIR}/VectorThresholdSegmentationLevelSetImageFilterTest.png 5.0 50)

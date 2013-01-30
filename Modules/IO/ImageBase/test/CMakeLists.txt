@@ -253,17 +253,11 @@ itk_add_test(NAME itkImageIODirection3DTest09
 itk_add_test(NAME itkImageIOFileNameExtensionsTests
       COMMAND ITKIOImageBaseTestDriver itkImageIOFileNameExtensionsTests)
 
-## Construct the DICOMSERIES_DIR from external data, and set up the proper dependancies.
-ExternalData_expand_arguments(ITKData VAR_IMAGE0075 DATA{${ITK_DATA_ROOT}/Input/DicomSeries/Image0075.dcm})
-ExternalData_expand_arguments(ITKData VAR_IMAGE0076 DATA{${ITK_DATA_ROOT}/Input/DicomSeries/Image0076.dcm})
-ExternalData_expand_arguments(ITKData VAR_IMAGE0077 DATA{${ITK_DATA_ROOT}/Input/DicomSeries/Image0077.dcm})
-get_filename_component(DICOMSERIES_DIR ${VAR_IMAGE0075} PATH)
-
 itk_add_test(NAME itkImageSeriesReaderDimensionsTest1
       COMMAND ITKIOImageBaseTestDriver itkImageSeriesReaderDimensionsTest
-              ${VAR_IMAGE0075}
-              ${VAR_IMAGE0076}
-              ${VAR_IMAGE0077})
+              DATA{${ITK_DATA_ROOT}/Input/DicomSeries/Image0075.dcm}
+              DATA{${ITK_DATA_ROOT}/Input/DicomSeries/Image0076.dcm}
+              DATA{${ITK_DATA_ROOT}/Input/DicomSeries/Image0077.dcm})
 
 set_property(TEST itkImageSeriesReaderDimensionsTest1 APPEND PROPERTY DEPENDS ITK_Data)
 
@@ -284,7 +278,8 @@ itk_add_test(NAME itkImageSeriesReaderVectorImageTest2
    DATA{${ITK_DATA_ROOT}/Input/48BitTestImage.tif} DATA{${ITK_DATA_ROOT}/Input/48BitTestImage.tif} )
 itk_add_test(NAME itkImageSeriesWriterTest
       COMMAND ITKIOImageBaseTestDriver itkImageSeriesWriterTest
-              ${DICOMSERIES_DIR} ${ITK_TEST_OUTPUT_DIR} png)
+              DATA{${ITK_DATA_ROOT}/Input/DicomSeries/,REGEX:Image[0-9]+.dcm}
+              ${ITK_TEST_OUTPUT_DIR} png)
 
 if(ITK_BUILD_SHARED_LIBS)
   ## Create a library to test ITK IO plugins

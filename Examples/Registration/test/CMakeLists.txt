@@ -158,7 +158,7 @@ itk_add_test(NAME ImageRegistration9Test COMMAND ${ITK_TEST_DRIVER}
 )
 
 itk_add_test(NAME ImageRegistration10Test COMMAND ${ITK_TEST_DRIVER}
-  --compare DATA{${BASELINE}/ImageRegistration10TestPixelCentered.png}
+  --compare DATA{${BASELINE}/ImageRegistration10TestPixelCentered.png,:}
             ${TEMP}/ImageRegistration10TestPixelCentered.png
   $<TARGET_FILE:ImageRegistration10>
         DATA{${ITK_SOURCE_DIR}/Testing/Data/Baseline/Segmentation/WatershedSegmentation1Test1.png}
@@ -223,7 +223,7 @@ itk_add_test(NAME ImageRegistration13Test5 COMMAND ${ITK_TEST_DRIVER}
 )
 
 itk_add_test(NAME ImageRegistration14Test COMMAND ${ITK_TEST_DRIVER}
-  --compare DATA{${BASELINE}/ImageRegistration14Test.png}
+  --compare DATA{${BASELINE}/ImageRegistration14Test.png,:}
             ${TEMP}/ImageRegistration14Test.png
   --compareNumberOfPixelsTolerance 2000
   $<TARGET_FILE:ImageRegistration14>
@@ -261,7 +261,7 @@ itk_add_test(NAME ImageRegistration16Test2 COMMAND ${ITK_TEST_DRIVER}
 )
 
 itk_add_test(NAME ImageRegistration17Test COMMAND ${ITK_TEST_DRIVER}
-  --compare DATA{${BASELINE}/ImageRegistration17TestPixelCentered.png}
+  --compare DATA{${BASELINE}/ImageRegistration17TestPixelCentered.png,:}
             ${TEMP}/ImageRegistration17TestPixelCentered.png
   --compareNumberOfPixelsTolerance 5
   $<TARGET_FILE:ImageRegistration17>
@@ -285,7 +285,7 @@ itk_add_test(NAME ImageRegistration19Test COMMAND ImageRegistration19
 )
 
 itk_add_test(NAME MultiResImageRegistration1Test COMMAND ${ITK_TEST_DRIVER}
-  --compare DATA{${BASELINE}/MultiResImageRegistration1Test.png}
+  --compare DATA{${BASELINE}/MultiResImageRegistration1Test.png,:}
             ${TEMP}/MultiResImageRegistration1Test.png
   --compareNumberOfPixelsTolerance 100
   $<TARGET_FILE:MultiResImageRegistration1>
@@ -297,7 +297,7 @@ itk_add_test(NAME MultiResImageRegistration1Test COMMAND ${ITK_TEST_DRIVER}
 )
 
 itk_add_test(NAME MultiResImageRegistration1Test2 COMMAND ${ITK_TEST_DRIVER}
-  --compare DATA{${BASELINE}/MultiResImageRegistration1Test.png}
+  --compare DATA{${BASELINE}/MultiResImageRegistration1Test.png,:}
             ${TEMP}/MultiResImageRegistration1Test2.png
   --compareNumberOfPixelsTolerance 100
   $<TARGET_FILE:MultiResImageRegistration1>
@@ -311,7 +311,7 @@ itk_add_test(NAME MultiResImageRegistration1Test2 COMMAND ${ITK_TEST_DRIVER}
 
 
 itk_add_test(NAME MultiResImageRegistration2Test COMMAND ${ITK_TEST_DRIVER}
-  --compare DATA{${BASELINE}/MultiResImageRegistration2Test.png}
+  --compare DATA{${BASELINE}/MultiResImageRegistration2Test.png,:}
             ${TEMP}/MultiResImageRegistration2Test.png
   --compareNumberOfPixelsTolerance 10000
   $<TARGET_FILE:MultiResImageRegistration2>
@@ -324,7 +324,7 @@ itk_add_test(NAME MultiResImageRegistration2Test COMMAND ${ITK_TEST_DRIVER}
 
 
 itk_add_test(NAME MultiResImageRegistration2Test2 COMMAND ${ITK_TEST_DRIVER}
-  --compare DATA{${BASELINE}/MultiResImageRegistration2Test.png}
+  --compare DATA{${BASELINE}/MultiResImageRegistration2Test.png,:}
             ${TEMP}/MultiResImageRegistration2Test2.png
   --compareNumberOfPixelsTolerance 10000
   $<TARGET_FILE:MultiResImageRegistration2>
@@ -347,7 +347,7 @@ itk_add_test(NAME DeformableRegistration2Test COMMAND ${ITK_TEST_DRIVER}
 )
 
 itk_add_test(NAME DeformableRegistration3Test COMMAND ${ITK_TEST_DRIVER}
-  --compare DATA{${BASELINE}/DeformableRegistration3Test.png}
+  --compare DATA{${BASELINE}/DeformableRegistration3Test.png,:}
             ${TEMP}/DeformableRegistration3Test.png
   --compareNumberOfPixelsTolerance 100
   $<TARGET_FILE:DeformableRegistration3>
@@ -367,7 +367,7 @@ itk_add_test(NAME DeformableRegistration3Test COMMAND ${ITK_TEST_DRIVER}
 #)
 
 itk_add_test(NAME DeformableRegistration5Test COMMAND ${ITK_TEST_DRIVER}
-  --compare DATA{${BASELINE}/DeformableRegistration5Test.png}
+  --compare DATA{${BASELINE}/DeformableRegistration5Test.png,:}
             ${TEMP}/DeformableRegistration5Test.png
   --compareNumberOfPixelsTolerance 5
   $<TARGET_FILE:DeformableRegistration5>

@@ -38,3 +38,8 @@ list(APPEND ExternalData_URL_TEMPLATES
 # Tell ExternalData commands to transform raw files to content links.
 # TODO: Condition this feature on presence of our pre-commit hook.
 set(ExternalData_LINK_CONTENT MD5)
+
+# Match series of the form <base>.<ext>, <base>.<n>.<ext> such that <base> may
+# end in a (test) number that is not part of any series numbering.
+set(ExternalData_SERIES_PARSE "()(\\.[^./]*)$")
+set(ExternalData_SERIES_MATCH "(\\.[0-9]+)?")
