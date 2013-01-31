@@ -91,7 +91,7 @@ SpatialObject< TDimension >
 {
   if ( !IsEvaluableAt(point, depth, name) )
     {
-    itk::ExceptionObject e(__FILE__);
+    ExceptionObject e(__FILE__);
     e.SetLocation(
       "SpatialObject< TDimension >::DerivateAt(\
                    const PointType, unsigned short, OutputVectorType & )"                                                 );
@@ -129,7 +129,7 @@ SpatialObject< TDimension >
         DerivativeAt(p1, order - 1, v1, depth, name);
         DerivativeAt(p2, order - 1, v2, depth, name);
         }
-      catch ( itk::ExceptionObject e )
+      catch ( ExceptionObject e )
         {
         throw e;
         }
@@ -583,7 +583,7 @@ SpatialObject< TDimension >
     }
 
   typename BoundingBoxType::PointType pnt;
-  pnt.Fill(itk::NumericTraits< typename
+  pnt.Fill(NumericTraits< typename
                                BoundingBoxType::PointType::ValueType >::Zero);
   m_Bounds->SetMinimum(pnt);
   m_Bounds->SetMaximum(pnt);
