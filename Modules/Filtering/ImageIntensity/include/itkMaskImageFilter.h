@@ -104,7 +104,7 @@ private:
   }
 
   TOutput m_OutsideValue;
-  TMask m_MaskingValue;
+  TMask   m_MaskingValue;
 };
 }
 /** \class MaskImageFilter
