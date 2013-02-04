@@ -36,6 +36,26 @@ itk_add_test(NAME itkMetaImageIOTest
     --compare DATA{${ITK_DATA_ROOT}/Baseline/IO/HeadMRVolume.mhd,HeadMRVolume.raw}
               ${ITK_TEST_OUTPUT_DIR}/HeadMRVolume.mhd
     itkMetaImageIOTest DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw} ${ITK_TEST_OUTPUT_DIR}/HeadMRVolume.mhd)
+itk_add_test(NAME itkMetaImageIOTestList
+      COMMAND ITKIOMetaTestDriver
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/IO/SmallRampVolume.mhd,SmallRampVolume.raw}
+              ${ITK_TEST_OUTPUT_DIR}/itkMetaImageIOTestList.mhd
+      itkMetaImageIOTest DATA{${ITK_DATA_ROOT}/Input/MetaIO/SmallRampVolumeList.mhd,SmallRampVolume01.tif,SmallRampVolume02.tif,SmallRampVolume03.tif,SmallRampVolume04.tif,SmallRampVolume05.tif,SmallRampVolume06.tif} ${ITK_TEST_OUTPUT_DIR}/itkMetaImageIOTestList.mhd)
+itk_add_test(NAME itkMetaImageIOTestListWithFilenameSpaces
+      COMMAND ITKIOMetaTestDriver
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/IO/SmallRampVolume.mhd,SmallRampVolume.raw}
+              ${ITK_TEST_OUTPUT_DIR}/itkMetaImageIOTestListWithFilenameSpaces.mhd
+     itkMetaImageIOTest DATA{${ITK_DATA_ROOT}/Input/MetaIO/Small\ Ramp\ Volume\ List.mhd,Small\ Ramp\ Volume\ 01.tif,Small\ Ramp\ Volume\ 02.tif,Small\ Ramp\ Volume\ 03.tif,Small\ Ramp\ Volume\ 04.tif,Small\ Ramp\ Volume\ 05.tif,Small\ Ramp\ Volume\ 06.tif} ${ITK_TEST_OUTPUT_DIR}/itkMetaImageIOTestListWithFilenameSpaces.mhd)
+itk_add_test(NAME itkMetaImageIOTestRegEx
+      COMMAND ITKIOMetaTestDriver
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/IO/SmallRampVolume.mhd,SmallRampVolume.raw}
+              ${ITK_TEST_OUTPUT_DIR}/itkMetaImageIOTestRegEx.mhd
+     itkMetaImageIOTest DATA{${ITK_DATA_ROOT}/Input/MetaIO/SmallRampVolumeRegEx.mhd,SmallRampVolume01.tif,SmallRampVolume02.tif,SmallRampVolume03.tif,SmallRampVolume04.tif,SmallRampVolume05.tif,SmallRampVolume06.tif} ${ITK_TEST_OUTPUT_DIR}/itkMetaImageIOTestRegEx.mhd)
+itk_add_test(NAME itkMetaImageIOTestRegExWithFilenameSpaces
+      COMMAND ITKIOMetaTestDriver
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/IO/SmallRampVolume.mhd,SmallRampVolume.raw}
+              ${ITK_TEST_OUTPUT_DIR}/itkMetaImageIOTestRegExWithFilenameSpaces.mhd
+     itkMetaImageIOTest DATA{${ITK_DATA_ROOT}/Input/MetaIO/Small\ Ramp\ Volume\ Reg\ Ex.mhd,Small\ Ramp\ Volume\ 01.tif,Small\ Ramp\ Volume\ 02.tif,Small\ Ramp\ Volume\ 03.tif,Small\ Ramp\ Volume\ 04.tif,Small\ Ramp\ Volume\ 05.tif,Small\ Ramp\ Volume\ 06.tif} ${ITK_TEST_OUTPUT_DIR}/itkMetaImageIOTestRegExWithFilenameSpaces.mhd)
 itk_add_test(NAME itkMetaImageIOTest2
       COMMAND ITKIOMetaTestDriver itkMetaImageIOTest2
       ${ITK_TEST_OUTPUT_DIR}/itkMetaImageIOTest2.mha)
