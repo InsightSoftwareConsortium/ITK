@@ -49,7 +49,7 @@ int itkBilateralImageFilterTest2(int ac, char* av[] )
   // when the original signal to noise level is 5
   filter->SetDomainSigma( 4.0 );
   filter->SetRangeSigma( 50.0 );
-
+  filter->SetDomainMu(2.5);
 
   // Test itkSetVectorMacro
   double domainSigma[dimension];
@@ -75,6 +75,8 @@ int itkBilateralImageFilterTest2(int ac, char* av[] )
   std::cout << "filter->GetFilterDimensionality(): " << filterDimensionality2 << std::endl;
   unsigned long numberOfRangeGaussianSamples2 = filter->GetNumberOfRangeGaussianSamples();
   std::cout << "filter->GetNumberOfRangeGaussianSamples(): " << numberOfRangeGaussianSamples2 << std::endl;
+  double domainMu = filter->GetDomainMu();
+  std::cout << "filter->GetDomainMu(): " << domainMu << std::endl;
 
   try
     {
