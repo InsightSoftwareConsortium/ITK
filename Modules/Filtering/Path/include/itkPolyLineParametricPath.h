@@ -119,6 +119,17 @@ public:
   /** Return the container of Vertices as a const object. */
   itkGetConstObjectMacro(VertexList, VertexListType);
 
+  /** This function overrides the superclass IncrementInput and calculates
+   *  the next pixel along the path to visit by using the instantaneous
+   *  partial derivatives to calculate the timestep needed to move along the
+   *  path by one pixel */
+  virtual OffsetType IncrementInput(InputType & input) const;
+
+  /** This function overrides the superclass EvaluateDerivative and instead
+   *  calculates the instantaneous derivative of input by taking the index
+   *  of the previous and next integral timepoints and subtracting them */
+  virtual VectorType EvaluateDerivative(const InputType & input) const;
+
 protected:
   PolyLineParametricPath();
   ~PolyLineParametricPath(){}

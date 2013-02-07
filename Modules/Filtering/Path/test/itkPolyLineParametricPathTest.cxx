@@ -84,6 +84,35 @@ int itkPolyLineParametricPathTest(int, char* [])
   offset = path->IncrementInput( input );
   std::cout << "Incrementing the input from 0.5 to " << input << ":  " << offset << std::endl;
 
+  //Test a degenerate path
+  std::cout << "Generating degenerate path" << std::endl;
+  PathType::Pointer path2 = PathType::New();
+
+  //Add a bunch of points closely spaced together
+  for (double k = 0; k < 10; k+=0.1)
+    {
+      v.Fill(k);
+      path2->AddVertex(v);
+    }
+
+  //Add a point that is very far away from the first points
+  v.Fill(100);
+  path2->AddVertex(v);
+  PathType::InputType path2Input = path2->StartOfInput();
+
+  PathType::OffsetType zeroOffset;
+  zeroOffset.Fill(0);
+
+  std::cout << "Starting degenerate path test" << std::endl;
+  while (true)
+    {
+    offset = path2->IncrementInput(path2Input);
+    if (offset == zeroOffset)
+      {
+      break;
+      }
+    }
+
   if (passed)
     {
     std::cout << "PolyLineParametricPath tests passed" << std::endl;
