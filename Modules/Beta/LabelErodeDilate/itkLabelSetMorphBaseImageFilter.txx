@@ -1,0 +1,214 @@
+#ifndef __itkLabelSetMorphBaseImageFilter_txx
+#define __itkLabelSetMorphBaseImageFilter_txx
+
+#include "itkLabelSetMorphBaseImageFilter.h"
+#include "itkImageRegionConstIterator.h"
+#include "itkImageRegionIterator.h"
+
+
+#include "itkImageLinearIteratorWithIndex.h"
+#include "itkImageLinearConstIteratorWithIndex.h"
+
+#include "itkLabelSetUtils.h"
+
+#include "ioutils.h"
+
+namespace itk
+{
+
+template <typename TInputImage, bool doDilate, typename TOutputImage>
+LabelSetMorphBaseImageFilter<TInputImage, doDilate, TOutputImage>
+::LabelSetMorphBaseImageFilter()
+{
+  this->SetNumberOfRequiredOutputs( 1 );
+  this->SetNumberOfRequiredInputs( 1 );
+// needs to be selected according to erosion/dilation
+
+  m_DistanceImage = DistanceImageType::New();
+
+  if (doDilate)
+    {
+    m_Extreme = NumericTraits<PixelType>::NonpositiveMin();
+    m_MagnitudeSign = 1;
+    }
+  else
+    {
+    m_Extreme = NumericTraits<PixelType>::max();
+    m_MagnitudeSign = -1;
+    }
+  m_UseImageSpacing = false;
+  
+  this->SetRadius(1);
+}
+
+template <typename TInputImage, bool doDilate, typename TOutputImage>
+int
+LabelSetMorphBaseImageFilter<TInputImage, doDilate,TOutputImage>
+::SplitRequestedRegion(int i, int num, OutputImageRegionType& splitRegion)
+{
+  // Get the output pointer
+  OutputImageType * outputPtr = this->GetOutput();
+  const typename TOutputImage::SizeType& requestedRegionSize 
+    = outputPtr->GetRequestedRegion().GetSize();
+
+  int splitAxis;
+  typename TOutputImage::IndexType splitIndex;
+  typename TOutputImage::SizeType splitSize;
+
+  // Initialize the splitRegion to the output requested region
+  splitRegion = outputPtr->GetRequestedRegion();
+  splitIndex = splitRegion.GetIndex();
+  splitSize = splitRegion.GetSize();
+
+  // split on the outermost dimension available
+  // and avoid the current dimension
+  splitAxis = outputPtr->GetImageDimension() - 1;
+  while (requestedRegionSize[splitAxis] == 1 || splitAxis == (int)m_CurrentDimension)
+    {
+    --splitAxis;
+    if (splitAxis < 0)
+      { // cannot split
+      itkDebugMacro("  Cannot Split");
+      return 1;
+      }
+    }
+
+  // determine the actual number of pieces that will be generated
+  typename TOutputImage::SizeType::SizeValueType range = requestedRegionSize[splitAxis];
+  int valuesPerThread = (int)::ceil(range/(double)num);
+  int maxThreadIdUsed = (int)::ceil(range/(double)valuesPerThread) - 1;
+
+  // Split the region
+  if (i < maxThreadIdUsed)
+    {
+    splitIndex[splitAxis] += i*valuesPerThread;
+    splitSize[splitAxis] = valuesPerThread;
+    }
+  if (i == maxThreadIdUsed)
+    {
+    splitIndex[splitAxis] += i*valuesPerThread;
+    // last thread needs to process the "rest" dimension being split
+    splitSize[splitAxis] = splitSize[splitAxis] - i*valuesPerThread;
+    }
+  
+  // set the split region ivars
+  splitRegion.SetIndex( splitIndex );
+  splitRegion.SetSize( splitSize );
+
+  itkDebugMacro("  Split Piece: " << splitRegion );
+
+  return maxThreadIdUsed + 1;
+}
+
+template <typename TInputImage, bool doDilate, typename TOutputImage>
+void
+LabelSetMorphBaseImageFilter<TInputImage, doDilate, TOutputImage>
+::SetRadius( ScalarRealType radius )
+{
+  RadiusType s;
+  s.Fill(radius);
+  this->SetRadius( s );
+}
+
+
+template <typename TInputImage, bool doDilate, typename TOutputImage>
+void
+LabelSetMorphBaseImageFilter<TInputImage, doDilate, TOutputImage>
+::EnlargeOutputRequestedRegion(DataObject *output)
+{
+  TOutputImage *out = dynamic_cast<TOutputImage*>(output);
+
+  if (out)
+    {
+    out->SetRequestedRegion( out->GetLargestPossibleRegion() );
+    }
+}
+
+template <typename TInputImage, bool doDilate, typename TOutputImage >
+void
+LabelSetMorphBaseImageFilter<TInputImage, doDilate, TOutputImage >
+::GenerateData(void)
+{
+
+  typename TInputImage::ConstPointer   inputImage(    this->GetInput ()   );
+  typename TOutputImage::Pointer       outputImage(   this->GetOutput()        );
+
+  this->AllocateOutputs();
+
+  m_DistanceImage->SetBufferedRegion(outputImage->GetRequestedRegion());
+  m_DistanceImage->Allocate();
+  m_DistanceImage->FillBuffer(0);
+  m_DistanceImage->CopyInformation(inputImage);
+
+  // set up the scaling parameter
+  if (this->GetUseImageSpacing())
+    {
+    // radius is in mm
+    for (unsigned P=0;P<InputImageType::ImageDimension;P++)
+      {
+      m_Scale[P] = 0.5*m_Radius[P] * m_Radius[P];
+      }
+    }
+  else
+    {
+    // radius is in pixels
+    RadiusType R;
+    // this gives us a little bit of a margin 
+    for (unsigned P=0;P<InputImageType::ImageDimension;P++)
+      {
+      m_Scale[P] = (0.5*m_Radius[P] * m_Radius[P]+1);
+      }
+    }
+  
+  m_FirstPassDone = false;
+
+
+  // Set up the multithreaded processing
+  typename ImageSource< TOutputImage >::ThreadStruct str;
+  str.Filter = this;
+  this->GetMultiThreader()->SetNumberOfThreads(this->GetNumberOfThreads());
+  this->GetMultiThreader()->SetSingleMethod(this->ThreaderCallback, &str);
+  
+  // multithread the execution
+  for( unsigned int d=0; d<ImageDimension; d++ )
+    {
+    m_CurrentDimension = d;
+    this->GetMultiThreader()->SingleMethodExecute();
+    if (this->m_Scale[m_CurrentDimension] > 0)
+      {
+      // needs to be set outside the multithreaded code
+      // first pass is completed as soon as we hit a structuring
+      // element dimension that is non zero.
+      m_FirstPassDone = true;
+      }
+    }
+
+}
+
+
+template <typename TInputImage, bool doDilate, typename TOutputImage>
+void
+LabelSetMorphBaseImageFilter<TInputImage, doDilate, TOutputImage>
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os,indent);
+  if (m_UseImageSpacing)
+    {
+    os << "Scale in world units: " << m_Radius << std::endl;
+    }
+  else
+    {
+    os << "Scale in voxels: " << m_Radius << std::endl;
+    }
+}
+
+template <typename TInputImage, bool doDilate, typename TOutputImage>
+void
+LabelSetMorphBaseImageFilter<TInputImage, doDilate, TOutputImage>
+::writeDist(std::string fname) 
+{
+  writeIm<DistanceImageType>(m_DistanceImage, fname);
+}
+
+} // namespace itk
+#endif

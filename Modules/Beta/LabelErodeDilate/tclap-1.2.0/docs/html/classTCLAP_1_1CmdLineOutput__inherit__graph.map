@@ -1,0 +1,4 @@
+base referer
+rect $classTCLAP_1_1DocBookOutput.html 7,83 172,107
+rect $classTCLAP_1_1StdOutput.html 196,83 327,107
+rect $classTCLAP_1_1ZshCompletionOutput.html 351,83 551,107
