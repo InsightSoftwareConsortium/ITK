@@ -77,7 +77,10 @@ transform. Efficient and readily parallelizable distance transform
 algorithms can, in turn, be based on erosions and dilations by
 parabolic structuring elements. The classes outlined in this article
 extend the contact point algorithm used for parabolic erosions and
-dilations to facilitate operations on label images. A more complete discussion is available in \cite{beare2011parallel}.
+dilations to facilitate operations on label images. A more complete
+discussion is available in \cite{beare2011parallel}. The classes
+introduced here are able to separate touching labels during erosion
+and split touching labels at the midpoint during dilation.
 
 \section{The classes}
 The {\em itk::LabelSetDilateImageFilter} and {\em
@@ -100,7 +103,33 @@ erosion via binary erosion and masking.
 \section{Sample results}
 Label images occur in many situations. This is an example of a brain
 atlas in which different labels represent different anatomical
-regions. Examples of 2D processing (operations applied to a single slice of the atlas) are shown in Figure \ref{}. Examples of a 3D processing are shown in Figures \ref{}.
+regions. Examples of 2D processing (operations applied to a single slice of the atlas) are shown in Figure \ref{2d}. Examples of a 3D processing are shown in Figures \ref{fig:3dorig} to \ref{fig:3ddil}.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[scale=0.75]{axial_color}
+\includegraphics[scale=0.75]{laberode2d_color}
+\includegraphics[scale=0.75]{labdilate2d_color}
+\caption{Original, eroded and dilated atlases - a single slice with 2d circular structuring elements.\label{fig:2d}}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[scale=0.15]{atlas_orig}
+\caption{Axial, sagittal and coronal slices through a labelled brain atlas.\label{fig:3dorig}}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[scale=0.15]{atlas_erode_color}
+\caption{Atlas in Figure \ref{fig:3dorig} after applying 3d labelled erosion. \label{fig:3dero}}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[scale=0.15]{atlas_dilate_color}
+\caption{Atlas in Figure \ref{fig:3dorig} after applying 3d labelled dilation. \label{fig:3ddil}}
+\end{figure}
 
 
 \section{Alternative approaches to label dilation}
