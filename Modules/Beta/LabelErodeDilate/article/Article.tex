@@ -110,7 +110,7 @@ regions. Examples of 2D processing (operations applied to a single slice of the 
 \includegraphics[scale=0.75]{axial_color}
 \includegraphics[scale=0.75]{laberode2d_color}
 \includegraphics[scale=0.75]{labdilate2d_color}
-\caption{Original, eroded and dilated atlases - a single slice with 2d circular structuring elements.\label{fig:2d}}
+\caption{Original, eroded and dilated atlases - a single slice with a 2d circular structuring element.\label{fig:2d}}
 \end{figure}
 
 \begin{figure}[htbp]
@@ -133,11 +133,16 @@ regions. Examples of 2D processing (operations applied to a single slice of the 
 
 
 \section{Alternative approaches to label dilation}
-As advised on the ITK mailing list, label dilation can be implemented via distance transforms and watershed transforms. Pseudo code courtesy of Bradely Lowekamp:
+As advised on the ITK mailing list, label dilation can be implemented
+via distance transforms and watershed transforms. SimpleITK python code courtesy of Bradely Lowekamp:
 
+\lstset{language=Python}
 \begin{lstlisting}
 def MultilabelDilation(img, radius=1,kernel=sitk.BinaryDilateImageFilter.Ball):
-    distImg = sitk.SignedMaurerDistanceMap(img != 0, insideIsPositive=False, squaredDistance=False, useImageSpacing=False)
+    distImg = sitk.SignedMaurerDistanceMap(img != 0,
+                                           insideIsPositive=False, 
+                                           squaredDistance=False, 
+                                           useImageSpacing=False)
     dilatImg = sitk.BinaryDilate(img!=0, radius, kernel)
     wsImg = sitk.MorphologicalWatershedFromMarkers(distImg, img)
     return dilatImg*wsImg
