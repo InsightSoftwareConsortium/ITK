@@ -43,7 +43,7 @@ colorlinks,linkcolor={blue},citecolor={blue},urlcolor={blue},
 
 % At minimum, give your name and an email address.  You can include a
 % snail-mail address if you like.
-\author{Richard Beare{$^1$} \small{and} Paul Jackway{$^2$}}
+\author{Richard Beare{$^1$} {\small and} Paul Jackway{$^2$}}
 \authoraddress{Richard.Beare@monash.edu\\Department of Medicine\\Monash University\\Melbourne\\Australia{$^1$}\\CSIRO Mathematics Informatics and Statistics\\Dutton Park\\Queensland\\Australia{$2$}}
 
 \begin{document}
@@ -98,9 +98,13 @@ labels. If this is not the desired behaviour, then implement label
 erosion via binary erosion and masking.
 
 \section{Sample results}
+Label images occur in many situations. This is an example of a brain
+atlas in which different labels represent different anatomical
+regions. Examples of 2D processing (operations applied to a single slice of the atlas) are shown in Figure \ref{}. Examples of a 3D processing are shown in Figures \ref{}.
+
 
 \section{Alternative approaches to label dilation}
-As advised on the ITK mailing list, label dilation can be implemented via distance transforms and watershed transforms. Pseudo code (courtesy of Bradely Lowekamp)
+As advised on the ITK mailing list, label dilation can be implemented via distance transforms and watershed transforms. Pseudo code courtesy of Bradely Lowekamp:
 
 \begin{lstlisting}
 def MultilabelDilation(img, radius=1,kernel=sitk.BinaryDilateImageFilter.Ball):
