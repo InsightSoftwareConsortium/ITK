@@ -95,6 +95,10 @@ Examples of use are available with the package.
 
 Please note that these are specialised classes which cannot use
 arbitrary structuring elements.
+
+The code from this contribution is also available at
+\url{https://github.com/richardbeare/LabelErodeDilate}.
+
 \subsection{Notes for label erosion}
 The class provided for label erosion {\bf will separate} touching
 labels. If this is not the desired behaviour, then implement label
@@ -103,7 +107,7 @@ erosion via binary erosion and masking.
 \section{Sample results}
 Label images occur in many situations. This is an example of a brain
 atlas in which different labels represent different anatomical
-regions. Examples of 2D processing (operations applied to a single slice of the atlas) are shown in Figure \ref{2d}. Examples of a 3D processing are shown in Figures \ref{fig:3dorig} to \ref{fig:3ddil}.
+regions. Examples of 2D processing (operations applied to a single slice of the atlas) are shown in Figure \ref{fig:2d}. Examples of a 3D processing are shown in Figures \ref{fig:3dorig} to \ref{fig:3ddil}.
 
 \begin{figure}[htbp]
 \centering
@@ -150,6 +154,11 @@ def MultilabelDilation(img, radius=1,kernel=sitk.BinaryDilateImageFilter.Ball):
 
 The specialised method should be significantly faster than this approach - perhaps a concientious reviewer can verify?
 
+\section{Conclusion}
+This article provides two classes for erosions and dilations of label
+images using algorithms developed in a previously published
+work. These methods use parallel, scan-line base algorithms that offer
+very fast operations.
 \bibliographystyle{plain}
 \bibliography{local,InsightJournal}
 \nocite{ITKSoftwareGuide}
