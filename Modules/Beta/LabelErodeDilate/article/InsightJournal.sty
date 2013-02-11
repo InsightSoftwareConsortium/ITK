@@ -1,0 +1,1123 @@
+%
+% Insight.sty for the Insight docummentation  [works only with with Latex2e]
+%
+
+\NeedsTeXFormat{LaTeX2e}[1995/12/01]
+\ProvidesPackage{InsightJournal}
+             [1998/01/11 LaTeX package (Insight markup)]
+
+\RequirePackage{longtable}
+\RequirePackage{graphics}
+%\RequirePackage{picins}
+\RequirePackage{floatflt}
+\RequirePackage{url}
+\RequirePackage{amsmath}
+\RequirePackage{pslatex}
+\RequirePackage{verbatim}
+
+
+% Uncomment these two lines to ignore the paper size and make the page 
+% size more like a typical published manual.
+%\renewcommand{\paperheight}{9.25in}
+%\renewcommand{\paperwidth}{7.5in}   % typical squarish manual
+%\renewcommand{\paperwidth}{7in}     % O'Reilly ``Programmming Insight''
+
+% These packages can be used to add marginal annotations which indicate
+% index entries and labels; useful for reviewing this messy documentation!
+%
+%\RequirePackage{showkeys}
+%\RequirePackage{showidx}
+
+% for PDF output, use maximal compression & a lot of other stuff
+% (test for PDF recommended by Tanmoy Bhattacharya <tanmoy@qcd.lanl.gov>)
+%
+\newif\ifitk@doing@page@targets
+\itk@doing@page@targetsfalse
+
+\ifx\pdfoutput\undefined\else\ifcase\pdfoutput
+\else
+  \input{pdfcolor}
+  \let\itk@LinkColor=\NavyBlue
+  \let\itk@NormalColor=\Black
+  \pdfcompresslevel=9
+  \pdfpagewidth=\paperwidth    % page width of PDF output
+  \pdfpageheight=\paperheight  % page height of PDF output
+  %
+  % Pad the number with '0' to 3 digits wide so no page name is a prefix
+  % of any other.
+  %
+  \newcommand{\itk@targetno}[1]{\ifnum#1<100 0\fi\ifnum#1<10 0\fi#1}
+  \newcommand{\itk@pageno}{\itk@targetno\thepage}
+  %
+  % This definition allows the entries in the page-view of the ToC to be
+  % active links.  Some work, some don't.
+  %
+  \let\itk@OldContentsline=\contentsline
+  %
+  % Macro that takes two args: the name to link to and the content of
+  % the link.  This takes care of the PDF magic, getting the colors
+  % the same for each link, and avoids having lots of garbage all over 
+  % this style file.
+  \newcommand{\itk@linkToName}[2]{%
+    \pdfannotlink attr{/Border [0 0 0]} goto name{#1}%
+      \itk@LinkColor#2\itk@NormalColor%
+    \pdfendlink%
+  }    
+  % Compute the padded page number separately since we end up with a pair of
+  % \relax tokens; this gets the right string computed and works.
+  \renewcommand{\contentsline}[3]{%
+    \def\my@pageno{\itk@targetno{#3}}%
+    \itk@OldContentsline{#1}{\itk@linkToName{page\my@pageno}{#2}}{#3}%
+  }
+  \AtEndDocument{
+    \InputIfFileExists{\jobname.bkm}{\pdfcatalog{/PageMode /UseOutlines}}{}
+  }
+  \newcommand{\itk@target}[1]{%
+    \ifitk@doing@page@targets%
+      {\pdfdest name{#1} xyz}%
+    \fi%
+  }
+  \let\itk@OldLabel=\label
+  \renewcommand{\label}[1]{%
+    \itk@OldLabel{#1}%
+    \itk@target{label-#1}%
+  }
+  % This stuff adds a page# destination to every PDF page, where # is three
+  % digits wide, padded with leading zeros.  This doesn't really help with
+  % the frontmatter, but does fine with the body.
+  %
+  % This is *heavily* based on the hyperref package.
+  %
+  \def\@begindvi{%
+    \unvbox \@begindvibox
+    \@hyperfixhead
+  }
+  \def\@hyperfixhead{%
+   \let\H@old@thehead\@thehead
+       \global\def\@foo{\itk@target{page\itk@pageno}}%
+     \expandafter\ifx\expandafter\@empty\H@old@thehead
+       \def\H@old@thehead{\hfil}\fi
+    \def\@thehead{\@foo\relax\H@old@thehead}%
+  }
+\fi\fi
+
+% Increase printable page size (copied from fullpage.sty)
+\topmargin 0.25in
+\advance \topmargin by -\headheight
+\advance \topmargin by -\headsep
+
+% attempt to work a little better for A4 users
+\textheight \paperheight
+\advance\textheight by -2in
+
+\oddsidemargin 20pt
+\evensidemargin -20pt
+\marginparwidth 0.25in
+
+\textwidth \paperwidth
+\advance\textwidth by -2in
+
+
+% Style parameters and macros used by most documents here
+\raggedbottom
+\sloppy
+\parindent = 0mm
+\parskip = 2mm
+\hbadness = 5000                % don't print trivial gripes
+
+\pagestyle{empty}               % start this way; change for
+\pagenumbering{roman}           % ToC & chapters
+
+% Use this to set the font family for headers and other decor:
+\newcommand{\itk@HeaderFamily}{\sffamily}
+
+% Redefine the 'normal' header/footer style when using "fancyhdr" package:
+\@ifundefined{fancyhf}{}{
+  % Use \pagestyle{normal} as the primary pagestyle for text.
+  \fancypagestyle{normal}{
+    \fancyhf{}
+    \fancyhead[LE,RO]{{\itk@HeaderFamily\thepage}}
+    \fancyhead[LO]{{\itk@HeaderFamily\nouppercase{\rightmark}}}
+    \fancyhead[RE]{{\itk@HeaderFamily\nouppercase{\leftmark}}}
+    \renewcommand{\headrulewidth}{0.4pt}
+    \renewcommand{\footrulewidth}{0pt}
+  }
+  % Update the plain style so we get the page number & footer line,
+  % but not a chapter or section title.  This is to keep the first
+  % page of a chapter and the blank page between chapters `clean.'
+  \fancypagestyle{plain}{
+    \fancyhf{}
+    \renewcommand{\headrulewidth}{0pt}
+    \renewcommand{\footrulewidth}{0pt}
+  }
+  % Redefine \cleardoublepage so that the blank page between chapters
+  % gets the plain style and not the fancy style.  This is described
+  % in the documentation for the fancyhdr package by Piet von Oostrum.
+  \@ifundefined{chapter}{}{
+    \renewcommand{\cleardoublepage}{
+      \clearpage\if@openright \ifodd\c@page\else
+      \hbox{}
+      \thispagestyle{plain}
+      \newpage
+      \if@twocolumn\hbox{}\newpage\fi\fi\fi
+    }
+  }
+}
+
+
+
+% This does a similar thing for the {alltt} environment:
+\RequirePackage{alltt}
+\let\itk@OldAllTT=\alltt
+\let\itk@OldEndAllTT=\endalltt
+
+\renewcommand{\alltt}{%
+  \setlength{\parindent}{1cm}%
+  % Calculate the text width for the minipage:
+  \setlength{\itk@codewidth}{\linewidth}%
+  \addtolength{\itk@codewidth}{-\parindent}%
+  %
+  \par\indent%
+  \begin{minipage}[t]{\itk@codewidth}%
+    \small%
+    \itk@OldAllTT%
+}
+\renewcommand{\endalltt}{%
+    \itk@OldEndAllTT%
+  \end{minipage}%
+}
+
+
+\newcommand{\itk@modulebadkey}{{--just-some-junk--}}
+
+
+%%  Lots of index-entry generation support.
+
+% Command to wrap around stuff that refers to function / module /
+% attribute names  in the index.  Default behavior: like \code{}.  To
+% just keep the index entries in the roman font, uncomment the second
+% definition; it matches O'Reilly style more.
+%
+\newcommand{\itk@idxcode}[1]{\texttt{#1}}
+%\renewcommand{\itk@idxcode}[1]{#1}
+
+% Command to generate two index entries (using subentries)
+\newcommand{\indexii}[2]{\index{#1!#2}\index{#2!#1}}
+
+% And three entries (using only one level of subentries)
+\newcommand{\indexiii}[3]{\index{#1!#2 #3}\index{#2!#3, #1}\index{#3!#1 #2}}
+
+% And four (again, using only one level of subentries)
+\newcommand{\indexiv}[4]{
+\index{#1!#2 #3 #4}
+\index{#2!#3 #4, #1}
+\index{#3!#4, #1 #2}
+\index{#4!#1 #2 #3}
+}
+
+% Command to generate a reference to a function, statement, keyword,
+% operator.
+\newcommand{\kwindex}[1]{\indexii{keyword}{#1@{\itk@idxcode{#1}}}}
+\newcommand{\stindex}[1]{\indexii{statement}{#1@{\itk@idxcode{#1}}}}
+\newcommand{\opindex}[1]{\indexii{operator}{#1@{\itk@idxcode{#1}}}}
+\newcommand{\exindex}[1]{\indexii{exception}{#1@{\itk@idxcode{#1}}}}
+\newcommand{\obindex}[1]{\indexii{object}{#1}}
+\newcommand{\bifuncindex}[1]{%
+  \index{#1@{\itk@idxcode{#1()}} (built-in function)}}
+
+% Add an index entry for a module
+\newcommand{\itk@refmodule}[2]{\index{#1@{\itk@idxcode{#1}} (#2module)}}
+\newcommand{\refmodindex}[1]{\itk@refmodule{#1}{}}
+\newcommand{\refbimodindex}[1]{\itk@refmodule{#1}{built-in }}
+\newcommand{\refexmodindex}[1]{\itk@refmodule{#1}{extension }}
+\newcommand{\refstmodindex}[1]{\itk@refmodule{#1}{standard }}
+
+% Refer to a module's documentation using a hyperlink of the module's
+% name, at least if we're building PDF:
+\@ifundefined{pdfannotlink}{%
+  \newcommand{\refmodule}[2][\itk@modulebadkey]{\module{#2}}
+}{%
+  \newcommand{\refmodule}[2][\itk@modulebadkey]{%
+    \ifx\itk@modulebadkey#1\def\itk@modulekey{#2}\else\def\itk@modulekey{#1}\fi%
+    \itk@linkToName{label-module-\itk@modulekey}{\module{#2}}%
+  }
+}
+
+% support for the module index
+\newif\ifitk@UseModuleIndex
+\itk@UseModuleIndexfalse
+
+\newcommand{\makemodindex}{
+  \newwrite\modindexfile
+  \openout\modindexfile=mod\jobname.idx
+  \itk@UseModuleIndextrue
+}
+
+% Add the defining entry for a module
+\newcommand{\itk@modindex}[2]{%
+  \renewcommand{\itk@thismodule}{#1}
+  \setindexsubitem{(in module #1)}%
+  \index{#1@{\itk@idxcode{#1}} (#2module)|textbf}%
+  \ifitk@UseModuleIndex%
+    \@ifundefined{itk@modplat@\itk@thismodulekey}{
+      \write\modindexfile{\protect\indexentry{#1@{\texttt{#1}}}{\thepage}}%
+    }{\write\modindexfile{\protect\indexentry{#1@{\texttt{#1} %
+        \emph{(\itk@platformof[\itk@thismodulekey]{})}}}{\thepage}}%
+    }
+  \fi%
+}
+
+% *** XXX *** THE NEXT FOUR MACROS ARE NOW OBSOLETE !!! ***
+
+% built-in & Insight modules in the main distribution
+\newcommand{\bimodindex}[1]{\itk@modindex{#1}{built-in }%
+  \typeout{*** MACRO bimodindex IS OBSOLETE -- USE declaremodule INSTEAD!}}
+\newcommand{\stmodindex}[1]{\itk@modindex{#1}{standard }%
+  \typeout{*** MACRO stmodindex IS OBSOLETE -- USE declaremodule INSTEAD!}}
+
+% Insight & extension modules outside the main distribution
+\newcommand{\modindex}[1]{\itk@modindex{#1}{}%
+  \typeout{*** MACRO modindex IS OBSOLETE -- USE declaremodule INSTEAD!}}
+\newcommand{\exmodindex}[1]{\itk@modindex{#1}{extension }%
+  \typeout{*** MACRO exmodindex IS OBSOLETE -- USE declaremodule INSTEAD!}}
+
+% Additional string for an index entry
+\newif\ifitk@usingsubitem\itk@usingsubitemfalse
+\newcommand{\itk@indexsubitem}{}
+\newcommand{\setindexsubitem}[1]{\renewcommand{\itk@indexsubitem}{ #1}%
+                                 \itk@usingsubitemtrue}
+\newcommand{\ttindex}[1]{%
+  \ifitk@usingsubitem
+    \index{#1@{\itk@idxcode{#1}}\itk@indexsubitem}%
+  \else%
+    \index{#1@{\itk@idxcode{#1}}}%
+  \fi%
+}
+\newcommand{\withsubitem}[2]{%
+  \begingroup%
+    \def\ttindex##1{\index{##1@{\itk@idxcode{##1}} #1}}%
+    #2%
+  \endgroup%
+}
+
+
+% Module synopsis processing -----------------------------------------------
+%
+\newcommand{\itk@thisclass}{}
+\newcommand{\itk@thismodule}{}
+\newcommand{\itk@thismodulekey}{}
+\newcommand{\itk@thismoduletype}{}
+
+\newcommand{\itk@standardIndexModule}[1]{\itk@modindex{#1}{standard }}
+\newcommand{\itk@builtinIndexModule}[1]{\itk@modindex{#1}{built-in }}
+\newcommand{\itk@extensionIndexModule}[1]{\itk@modindex{#1}{extension }}
+\newcommand{\itk@IndexModule}[1]{\itk@modindex{#1}{}}
+
+\newif\ifitk@HaveModSynopsis       \itk@HaveModSynopsisfalse
+\newif\ifitk@ModSynopsisFileIsOpen \itk@ModSynopsisFileIsOpenfalse
+\newif\ifitk@HaveModPlatform       \itk@HaveModPlatformfalse
+
+% \declaremodule[key]{type}{name}
+\newcommand{\declaremodule}[3][\itk@modulebadkey]{
+  \itk@openModSynopsisFile
+  \renewcommand{\itk@thismoduletype}{#2}
+  \ifx\itk@modulebadkey#1
+    \renewcommand{\itk@thismodulekey}{#3}
+  \else
+    \renewcommand{\itk@thismodulekey}{#1}
+  \fi
+  \@ifundefined{itk@#2IndexModule}{%
+    \typeout{*** MACRO declaremodule called with unknown module type: `#2'}
+    \itk@IndexModule{#3}%
+  }{%
+    \csname itk@#2IndexModule\endcsname{#3}%
+  }
+  \label{module-\itk@thismodulekey}
+}
+\newif\ifitk@ModPlatformFileIsOpen \itk@ModPlatformFileIsOpenfalse
+\newcommand{\itk@ModPlatformFilename}{\jobname.pla}
+\newcommand{\platform}[1]{
+  \ifitk@ModPlatformFileIsOpen\else
+    \newwrite\itk@ModPlatformFile
+    \openout\itk@ModPlatformFile=\itk@ModPlatformFilename
+    \itk@ModPlatformFileIsOpentrue
+  \fi
+}
+\InputIfFileExists{\jobname.pla}{}{}
+\newcommand{\itk@platformof}[2][\itk@modulebadkey]{%
+  \ifx\itk@modulebadkey#1 \def\itk@key{#2}%
+  \else \def\itk@key{#1}%
+  \fi%
+  \csname itk@modplat@\itk@key\endcsname%
+}
+\newcommand{\ignorePlatformAnnotation}[1]{}
+
+% \moduleauthor{name}{email}
+\newcommand{\moduleauthor}[2]{}
+
+% \sectionauthor{name}{email}
+\newcommand{\sectionauthor}[2]{}
+
+
+\newcommand{\itk@defsynopsis}{Module has no synopsis.}
+\newcommand{\itk@modulesynopsis}{\itk@defsynopsis}
+\newcommand{\modulesynopsis}[1]{
+  \itk@HaveModSynopsistrue
+  \renewcommand{\itk@modulesynopsis}{#1}
+}
+
+% define the file
+\newwrite\itk@ModSynopsisFile
+
+% hacked from \addtocontents from latex.ltx:
+\long\def\itk@writeModSynopsisFile#1{%
+  \protected@write\itk@ModSynopsisFile%
+      {\let\label\@gobble \let\index\@gobble \let\glossary\@gobble}%
+      {\string#1}%
+}
+\newcommand{\itk@closeModSynopsisFile}{
+  \ifitk@ModSynopsisFileIsOpen
+    \closeout\itk@ModSynopsisFile
+    \itk@ModSynopsisFileIsOpenfalse
+  \fi
+}
+\newcommand{\itk@openModSynopsisFile}{
+  \ifitk@ModSynopsisFileIsOpen\else
+    \openout\itk@ModSynopsisFile=\itk@ModSynopsisFilename
+    \itk@ModSynopsisFileIsOpentrue
+  \fi
+}
+
+\newcommand{\itk@ProcessModSynopsis}{
+  \ifitk@HaveModSynopsis
+    \itk@writeModSynopsisFile{\modulesynopsis%
+      {\itk@thismodulekey}{\itk@thismodule}%
+      {\itk@thismoduletype}{\itk@modulesynopsis}}%
+    \itk@HaveModSynopsisfalse
+  \fi
+  \renewcommand{\itk@modulesynopsis}{\itk@defsynopsis}
+}
+\AtEndDocument{\itk@ProcessModSynopsis\itk@closeModSynopsisFile}
+
+
+\long\def\itk@writeModPlatformFile#1{%
+  \protected@write\itk@ModPlatformFile%
+    {\let\label\@gobble \let\index\@gobble \let\glossary\@gobble}%
+    {\string#1}%
+}
+
+
+\newcommand{\localmoduletable}{
+  \IfFileExists{\itk@ModSynopsisFilename}{
+    \begin{synopsistable}
+      \input{\itk@ModSynopsisFilename}
+    \end{synopsistable}
+  }{}
+}
+
+\@ifundefined{pdfoutput}{
+  \newcommand{\itk@ModSynopsisSummary}[4]{\bfcode{#2} & #4\\}
+}{
+  \newcommand{\itk@ModSynopsisSummary}[4]{%
+    \itk@linkToName{label-module-#1}{\bfcode{#2}} & #4\\
+  }
+}
+\newenvironment{synopsistable}{
+  % key, name, type, synopsis
+  \let\modulesynopsis=\itk@ModSynopsisSummary
+  \begin{tabular}{ll}
+}{
+  \end{tabular}
+}
+%
+% --------------------------------------------------------------------------
+
+
+\newcommand{\itk@reset}{
+  \itk@usingsubitemfalse
+  \itk@ProcessModSynopsis
+  \renewcommand{\itk@thisclass}{}
+  \renewcommand{\itk@thismodule}{}
+  \renewcommand{\itk@thismodulekey}{}
+  \renewcommand{\itk@thismoduletype}{}
+}
+
+% Augment the sectioning commands used to get our own font family in place,
+% and reset some internal data items:
+\renewcommand{\section}{\itk@reset%
+                        \@startsection{section}{1}{\z@}%
+                                    {-3.5ex \@plus -1ex \@minus -.2ex}%
+                                    {2.3ex \@plus.2ex}%
+                                    {\reset@font\Large\itk@HeaderFamily}}
+\renewcommand{\subsection}{\@startsection{subsection}{2}{\z@}%
+                                    {-3.25ex\@plus -1ex \@minus -.2ex}%
+                                    {1.5ex \@plus .2ex}%
+                                    {\reset@font\large\itk@HeaderFamily}}
+\renewcommand{\subsubsection}{\@startsection{subsubsection}{3}{\z@}%
+                                    {-3.25ex\@plus -1ex \@minus -.2ex}%
+                                    {1.5ex \@plus .2ex}%
+                                    {\reset@font\normalsize\itk@HeaderFamily}}
+\renewcommand{\paragraph}{\@startsection{paragraph}{4}{\z@}%
+                                    {3.25ex \@plus1ex \@minus.2ex}%
+                                    {-1em}%
+                                    {\reset@font\normalsize\itk@HeaderFamily}}
+\renewcommand{\subparagraph}{\@startsection{subparagraph}{5}{\parindent}%
+                                    {3.25ex \@plus1ex \@minus .2ex}%
+                                    {-1em}%
+                                    {\reset@font\normalsize\itk@HeaderFamily}}
+
+
+% This gets the underscores closer to the right width; the only change
+% from standard LaTeX is the width specified.
+
+\DeclareTextCommandDefault{\textunderscore}{%
+  \leavevmode \kern.06em\vbox{\hrule\@width.55em}}
+
+% Now for a lot of semantically-loaded environments that do a ton of magical
+% things to get the right formatting and index entries for the stuff in
+% Insight modules and C API.
+
+
+% {fulllineitems} is used in one place in libregex.tex, but is really for
+% internal use in this file.
+%
+\newcommand{\itk@itemnewline}[1]{%
+  \@tempdima\linewidth%
+  \advance\@tempdima \leftmargin\makebox[\@tempdima][l]{#1}%
+}
+
+\newenvironment{fulllineitems}{
+  \begin{list}{}{\labelwidth \leftmargin \labelsep 0pt
+                 \rightmargin 0pt \topsep -\parskip \partopsep \parskip
+                 \itemsep -\parsep
+                 \let\makelabel=\itk@itemnewline}
+}{\end{list}}
+
+% \optional is mostly for use in the arguments parameters to the various
+% {*desc} environments defined below, but may be used elsewhere.  Known to
+% be used in the debugger chapter.
+%
+% Typical usage:
+%
+%     \begin{funcdesc}{myfunc}{reqparm\optional{, optparm}}
+%                                    ^^^       ^^^
+%                          No space here       No space here
+%
+% When a function has multiple optional parameters, \optional should be
+% nested, not chained.  This is right:
+%
+%     \begin{funcdesc}{myfunc}{\optional{parm1\optional{, parm2}}}
+%
+\let\itk@badkey=\@undefined
+
+\newcommand{\optional}[1]{%
+  {\textnormal{\Large[}}{#1}\hspace{0.5mm}{\textnormal{\Large]}}}
+
+% This can be used when a function or method accepts an varying number 
+% of arguments, such as by using the *args syntax in the parameter list.
+\newcommand{\itk@moreargs}{...}
+
+% This can be used when you don't want to document the parameters to a 
+% function or method, but simply state that it's an alias for
+% something else.
+\newcommand{\itk@unspecified}{...}
+
+% C functions ------------------------------------------------------------
+% \begin{cfuncdesc}[refcount]{type}{name}{arglist}
+% Note that the [refcount] slot should only be filled in by
+% tools/anno-api.py; it pulls the value from the refcounts database.
+\newenvironment{cfuncdesc}[4][\itk@badkey]{
+  \begin{fulllineitems}
+    \item[\code{#2 \bfcode{#3}(\itk@varvars{#4})}\index{#3@{\itk@idxcode{#3()}}}]
+    \ifx#1\@undefined\else%
+      \emph{Return value: \textbf{#1}.}\\
+    \fi
+}{\end{fulllineitems}}
+
+% C variables ------------------------------------------------------------
+% \begin{cvardesc}{type}{name}
+\newenvironment{cvardesc}[2]{
+  \begin{fulllineitems}
+    \item[\code{#1 \bfcode{#2}}\index{#2@{\itk@idxcode{#2}}}]
+}{\end{fulllineitems}}
+
+% C data types -----------------------------------------------------------
+% \begin{ctypedesc}[index name]{typedef name}
+\newenvironment{ctypedesc}[2][\itk@badkey]{
+  \begin{fulllineitems}
+    \item[\bfcode{#2}%
+    \ifx#1\@undefined%
+      \index{#2@{\itk@idxcode{#2}} (C type)}
+    \else%
+      \index{#2@{\itk@idxcode{#1}} (C type)}
+    \fi]
+}{\end{fulllineitems}}
+
+% Funky macros -----------------------------------------------------------
+% \begin{csimplemacro}{name}
+% -- "simple" because it has no args; NOT for constant definitions!
+\newenvironment{csimplemacrodesc}[1]{
+  \begin{fulllineitems}
+    \item[\bfcode{#1}\index{#1@{\itk@idxcode{#1}} (macro)}]
+}{\end{fulllineitems}}
+
+% simple functions (not methods) -----------------------------------------
+% \begin{funcdesc}{name}{args}
+\newcommand{\funcline}[2]{%
+  \funclineni{#1}{#2}%
+  \index{#1@{\itk@idxcode{#1()}} (in module \itk@thismodule)}}
+\newenvironment{funcdesc}[2]{
+  \begin{fulllineitems}
+    \funcline{#1}{#2}
+}{\end{fulllineitems}}
+
+% similar to {funcdesc}, but doesn't add to the index
+\newcommand{\funclineni}[2]{\item[\code{\bfcode{#1}(\itk@varvars{#2})}]}
+\newenvironment{funcdescni}[2]{
+  \begin{fulllineitems}
+    \funclineni{#1}{#2}
+}{\end{fulllineitems}}
+
+% classes ----------------------------------------------------------------
+% \begin{classdesc}{name}{constructor args}
+\newenvironment{classdesc}[2]{
+  % Using \renewcommand doesn't work for this, for unknown reasons:
+  \global\def\itk@thisclass{#1}
+  \begin{fulllineitems}
+    \item[\strong{class }\code{\bfcode{#1}(\itk@varvars{#2})}%
+      \index{#1@{\itk@idxcode{#1}} (class in \itk@thismodule)}]
+}{\end{fulllineitems}}
+
+% \begin{classdesc*}{name}
+\newenvironment{classdesc*}[1]{
+  % Using \renewcommand doesn't work for this, for unknown reasons:
+  \global\def\itk@thisclass{#1}
+  \begin{fulllineitems}
+    \item[\strong{class }\code{\bfcode{#1}}%
+      \index{#1@{\itk@idxcode{#1}} (class in \itk@thismodule)}]
+}{\end{fulllineitems}}
+
+% \begin{excclassdesc}{name}{constructor args}
+% but indexes as an exception
+\newenvironment{excclassdesc}[2]{
+  % Using \renewcommand doesn't work for this, for unknown reasons:
+  \global\def\itk@thisclass{#1}
+  \begin{fulllineitems}
+    \item[\strong{exception }\code{\bfcode{#1}(\itk@varvars{#2})}%
+      \index{#1@{\itk@idxcode{#1}} (exception in \itk@thismodule)}]
+}{\end{fulllineitems}}
+
+% There is no corresponding {excclassdesc*} environment.  To describe
+% a class exception without parameters, use the {excdesc} environment.
+
+
+\let\itk@classbadkey=\@undefined
+
+% object method ----------------------------------------------------------
+% \begin{methoddesc}[classname]{methodname}{args}
+\newcommand{\methodline}[3][\@undefined]{
+  \methodlineni{#2}{#3}
+  \ifx#1\@undefined
+    \index{#2@{\itk@idxcode{#2()}} (\itk@thisclass\ method)}
+  \else
+    \index{#2@{\itk@idxcode{#2()}} (#1 method)}
+  \fi
+}
+\newenvironment{methoddesc}[3][\@undefined]{
+  \begin{fulllineitems}
+    \ifx#1\@undefined
+      \methodline{#2}{#3}
+    \else
+      \def\itk@thisclass{#1}
+      \methodline{#2}{#3}
+    \fi
+}{\end{fulllineitems}}
+
+% similar to {methoddesc}, but doesn't add to the index
+% (never actually uses the optional argument)
+\newcommand{\methodlineni}[3][\itk@classbadkey]{%
+  \item[\code{\bfcode{#2}(\itk@varvars{#3})}]}
+\newenvironment{methoddescni}[3][\itk@classbadkey]{
+  \begin{fulllineitems}
+    \methodlineni{#2}{#3}
+}{\end{fulllineitems}}
+
+% object data attribute --------------------------------------------------
+% \begin{memberdesc}[classname]{membername}
+\newcommand{\memberline}[2][\itk@classbadkey]{%
+  \ifx#1\@undefined
+    \memberlineni{#2}
+    \index{#2@{\itk@idxcode{#2}} (\itk@thisclass\ attribute)}
+  \else
+    \memberlineni{#2}
+    \index{#2@{\itk@idxcode{#2}} (#1 attribute)}
+  \fi
+}
+\newenvironment{memberdesc}[2][\itk@classbadkey]{
+  \begin{fulllineitems}
+    \ifx#1\@undefined
+      \memberline{#2}
+    \else
+      \def\itk@thisclass{#1}
+      \memberline{#2}
+    \fi
+}{\end{fulllineitems}}
+
+% similar to {memberdesc}, but doesn't add to the index
+% (never actually uses the optional argument)
+\newcommand{\memberlineni}[2][\itk@classbadkey]{\item[\bfcode{#2}]}
+\newenvironment{memberdescni}[2][\itk@classbadkey]{
+  \begin{fulllineitems}
+    \memberlineni{#2}
+}{\end{fulllineitems}}
+
+% For exceptions: --------------------------------------------------------
+% \begin{excdesc}{name}
+%  -- for constructor information, use excclassdesc instead
+\newenvironment{excdesc}[1]{
+  \begin{fulllineitems}
+    \item[\strong{exception }\bfcode{#1}%
+          \index{#1@{\itk@idxcode{#1}} (exception in \itk@thismodule)}]
+}{\end{fulllineitems}}
+
+% Module data or constants: ----------------------------------------------
+% \begin{datadesc}{name}
+\newcommand{\dataline}[1]{%
+  \datalineni{#1}\index{#1@{\itk@idxcode{#1}} (data in \itk@thismodule)}}
+\newenvironment{datadesc}[1]{
+  \begin{fulllineitems}
+    \dataline{#1}
+}{\end{fulllineitems}}
+
+% similar to {datadesc}, but doesn't add to the index
+\newcommand{\datalineni}[1]{\item[\bfcode{#1}]\nopagebreak}
+\newenvironment{datadescni}[1]{
+  \begin{fulllineitems}
+    \datalineni{#1}
+}{\end{fulllineitems}}
+
+% bytecode instruction ---------------------------------------------------
+% \begin{opcodedesc}{name}{var}
+% -- {var} may be {}
+\newenvironment{opcodedesc}[2]{
+  \begin{fulllineitems}
+    \item[\bfcode{#1}\quad\var{#2}]
+}{\end{fulllineitems}}
+
+
+\newcommand{\nodename}[1]{\label{#1}}
+
+% For these commands, use \command{} to get the typography right, not 
+% {\command}.  This works better with the texinfo translation.
+\newcommand{\ABC}{{\sc abc}}
+\newcommand{\UNIX}{{\sc Unix}}
+\newcommand{\POSIX}{POSIX}
+\newcommand{\ASCII}{{\sc ascii}}
+\newcommand{\Cpp}{C\protect\raisebox{.18ex}{++}}
+\newcommand{\C}{C}
+\newcommand{\EOF}{{\sc eof}}
+\newcommand{\NULL}{\constant{NULL}}
+\newcommand{\infinity}{\ensuremath{\infty}}
+\newcommand{\plusminus}{\ensuremath{\pm}}
+\newcommand{\menuselection}[1]{{\def\sub{ \ensuremath{>} }#1}}
+
+% Also for consistency: spell Insight "Insight", not "insight"!
+
+% code is the most difficult one...
+\newcommand{\code}[1]{\textrm{\@vobeyspaces\@noligs\def\{{\char`\{}\def\}{\char`\}}\def\~{\char`\~}\def\^{\char`\^}\def\e{\char`\\}\def\${\char`\$}\def\#{\char`\#}\def\&{\char`\&}\def\%{\char`\%}%
+\texttt{#1}}}
+
+\newcommand{\bfcode}[1]{\code{\bfseries#1}} % bold-faced code font
+\newcommand{\kbd}[1]{\code{#1}}
+\newcommand{\samp}[1]{`\code{#1}'}
+% This weird definition of \var{} allows it to always appear in roman
+% italics, and won't get funky in code fragments when we play around
+% with fonts.  This also works directly in math mode.
+\newcommand{\var}[1]{%
+  \ifmmode%
+    \hbox{\normalsize\textrm{\textit{#1\/}}}%
+  \else%
+    \normalsize\textrm{\textit{#1\/}}%
+  \fi%
+}
+\renewcommand{\emph}[1]{{\em #1}}
+\newcommand{\dfn}[1]{\emph{#1}}
+\newcommand{\strong}[1]{{\bf #1}}
+% let's experiment with a new font:
+\newcommand{\file}[1]{`{\small\textsf{#1}}'}
+\newcommand{\filenq}[1]{{\small\textsf{#1}}}
+
+% Use this def/redef approach for \url{} since hyperref defined this already,
+% but only if we actually used hyperref:
+\@ifundefined{pdfannotlink}{
+  \newcommand{\itk@url}[1]{\mbox{\small\textsf{#1}}}
+}{
+  \newcommand{\itk@url}[1]{{%
+    \pdfannotlink attr{/Border [0 0 0]} user{/S /URI /URI (#1)}%
+    \itk@LinkColor%                              color of the link text
+    \mbox{\small\textsf{#1}}%
+    \itk@NormalColor%                    Turn it back off; these are declarative
+    \pdfendlink}%                       and don't appear bound to the current
+  }%                                    formatting "box".
+}
+\let\url=\itk@url
+\newcommand{\email}[1]{{\small\textsf{#1}}}
+\newcommand{\newsgroup}[1]{{\small\textsf{#1}}}
+
+\newcommand{\itk@varvars}[1]{{%
+  {\let\unspecified=\itk@unspecified%
+   \let\moreargs=\itk@moreargs%
+   \var{#1}}}}
+
+% I'd really like to get rid of this!
+\newif\iftexi\texifalse
+
+% This is used to get l2h to put the copyright and abstract on
+% a separate HTML page.
+\newif\ifhtml\htmlfalse
+
+
+% These should be used for all references to identifiers which are
+% used to refer to instances of specific language constructs.  See the
+% names for specific semantic assignments.
+%
+% For now, don't do anything really fancy with them; just use them as
+% logical markup.  This might change in the future.
+%
+\newcommand{\module}[1]{\texttt{#1}}
+\newcommand{\keyword}[1]{\texttt{#1}}
+\newcommand{\exception}[1]{\texttt{#1}}
+\newcommand{\class}[1]{\texttt{#1}}
+\newcommand{\function}[1]{\texttt{#1}}
+\newcommand{\member}[1]{\texttt{#1}}
+\newcommand{\method}[1]{\texttt{#1}}
+
+\newcommand{\pytype}[1]{#1}             % built-in Insight type
+
+\newcommand{\cfunction}[1]{\texttt{#1}}
+\newcommand{\ctype}[1]{\texttt{#1}}     % C struct or typedef name
+\newcommand{\cdata}[1]{\texttt{#1}}     % C variable, typically global
+
+\newcommand{\mimetype}[1]{{\small\textsf{#1}}}
+% The \! is a "negative thin space" in math mode.
+\newcommand{\regexp}[1]{%
+  {\tiny$^{^\lceil}\!\!$%
+   {\normalsize\code{#1}}%
+   $\!\rfloor\!$%
+  }}
+\newcommand{\envvar}[1]{%
+  #1%
+  \index{#1@{#1}}%
+  \index{environment variables!{#1}}%
+}
+\newcommand{\makevar}[1]{#1}            % variable in a Makefile
+\newcommand{\character}[1]{\samp{#1}}
+
+% constants defined in Insight modules or C headers, not language constants:
+\newcommand{\constant}[1]{\code{#1}}    % manifest constant, not syntactic
+
+\newcommand{\manpage}[2]{{\emph{#1}(#2)}}
+\newcommand{\pep}[1]{PEP #1\index{Insight Enhancement Proposals!PEP #1}}
+\newcommand{\rfc}[1]{RFC #1\index{RFC!RFC #1}}
+\newcommand{\program}[1]{\strong{#1}}
+\newcommand{\programopt}[1]{\strong{#1}}
+% Note that \longprogramopt provides the '--'!
+\newcommand{\longprogramopt}[1]{\strong{-{}-#1}}
+% \ulink{link text}{URL}
+\newcommand{\ulink}[2]{#1}
+
+% cited titles:  \citetitle{Title of Work}
+%       online:  \citetitle[url-to-resource]{Title of Work}
+\newcommand{\citetitle}[2][URL]{\emph{#2}}
+
+
+\newenvironment{productionlist}[1][\itk@badkey]{
+  \def\optional##1{{\Large[}##1{\Large]}}
+  \def\production##1##2{\code{##1}&::=&\code{##2}\\}
+  \def\orgroup##1{{\def\or{\textbar\ }##1}}
+  \def\token##1{##1}
+  \begin{center}
+    \begin{tabular}{lcl}
+}{%
+    \end{tabular}
+  \end{center}
+}
+
+% Deprecation stuff.
+% Should be extended to allow an index / list of deprecated stuff.  But
+% there's a lot of stuff that needs to be done to make that automatable.
+%
+% First parameter is the release number that deprecates the feature, the
+% second is the action the should be taken by users of the feature.
+%
+% Example:
+%  \deprecated{1.5.1}{Use \method{frobnicate()} instead.}
+%
+\newcommand{\deprecated}[2]{%
+  \strong{Deprecated since release #1.}  #2\par}
+
+% New stuff.
+% This should be used to mark things which have been added to the
+% development tree but that aren't in the release, but are documented.
+% This allows release of documentation that already includes updated
+% descriptions.  Place at end of descriptor environment.
+%
+% Example:
+%  \versionadded{1.5.2}
+%  \versionchanged[short explanation]{2.0}
+%
+\newcommand{\versionadded}[2][\itk@badkey]{%
+  \ifx#1\@undefined%
+    {  New in version #2.  }%
+  \else%
+    {  New in version #2:\ #1.  }%
+  \fi%
+}
+\newcommand{\versionchanged}[2][\itk@badkey]{%
+  \ifx#1\@undefined%
+    {  Changed in version #2.  }%
+  \else%
+    {  Changed in version #2:\ #1.  }%
+  \fi%
+}
+
+
+% Tables.
+%
+\newenvironment{tableii}[4]{%
+  \begin{center}%
+    \def\lineii##1##2{\csname#2\endcsname{##1}&##2\\}%
+    \begin{tabular}{#1}\strong{#3}&\strong{#4} \\* \hline%
+}{%
+    \end{tabular}%
+  \end{center}%
+}
+
+\newenvironment{longtableii}[4]{%
+  \begin{center}%
+    \def\lineii##1##2{\csname#2\endcsname{##1}&##2\\}%
+    \begin{longtable}[c]{#1}\strong{#3}&\strong{#4} \\* \hline\endhead%
+}{%
+    \end{longtable}%
+  \end{center}%
+}
+
+\newenvironment{tableiii}[5]{%
+  \begin{center}%
+    \def\lineiii##1##2##3{\csname#2\endcsname{##1}&##2&##3\\}%
+    \begin{tabular}{#1}\strong{#3}&\strong{#4}&\strong{#5} \\%
+      \hline%
+}{%
+    \end{tabular}%
+  \end{center}%
+}
+
+\newenvironment{longtableiii}[5]{%
+  \begin{center}%
+    \def\lineiii##1##2##3{\csname#2\endcsname{##1}&##2&##3\\}%
+    \begin{longtable}[c]{#1}\strong{#3}&\strong{#4}&\strong{#5} \\%
+      \hline\endhead%
+}{%
+    \end{longtable}%
+  \end{center}%
+}
+
+\newenvironment{tableiv}[6]{%
+  \begin{center}%
+    \def\lineiv##1##2##3##4{\csname#2\endcsname{##1}&##2&##3&##4\\}%
+    \begin{tabular}{#1}\strong{#3}&\strong{#4}&\strong{#5}&\strong{#6} \\%
+      \hline%
+}{%
+    \end{tabular}%
+  \end{center}%
+}
+
+\newenvironment{longtableiv}[6]{%
+  \begin{center}%
+    \def\lineiv##1##2##3##4{\csname#2\endcsname{##1}&##2&##3&##4\\}%
+    \begin{longtable}[c]{#1}\strong{#3}&\strong{#4}&\strong{#5}&\strong{#6}%
+      \\%
+      \hline\endhead%
+}{%
+    \end{longtable}%
+  \end{center}%
+}
+
+\newenvironment{tablev}[7]{%
+  \begin{center}%
+    \def\linev##1##2##3##4##5{\csname#2\endcsname{##1}&##2&##3&##4&##5\\}%
+    \begin{tabular}{#1}\strong{#3}&\strong{#4}&\strong{#5}&\strong{#6}&\strong{#7} \\%
+      \hline%
+}{%
+    \end{tabular}%
+  \end{center}%
+}
+
+\newenvironment{longtablev}[7]{%
+  \begin{center}%
+    \def\linev##1##2##3##4##5{\csname#2\endcsname{##1}&##2&##3&##4&##5\\}%
+    \begin{longtable}[c]{#1}\strong{#3}&\strong{#4}&\strong{#5}&\strong{#6}&\strong{#7}%
+      \\%
+      \hline\endhead%
+}{%
+    \end{longtable}%
+  \end{center}%
+}
+
+% Cross-referencing (AMK, new impl. FLD)
+% Sample usage:
+%  \begin{seealso}
+%    \seemodule{rand}{Uniform random number generator.}; % Module xref
+%    \seetext{\emph{Encyclopedia Britannica}}.           % Ref to a book
+% 
+%    % A funky case: module name contains '_'; have to supply an optional key
+%    \seemodule[copyreg]{copy_reg}{Interface constructor registration for
+%                                  \module{pickle}.}
+%  \end{seealso}
+%
+% Note that the last parameter for \seemodule and \seetext should be complete
+% sentences and be terminated with the proper punctuation.
+
+\@ifundefined{pdfannotlink}{%
+  \newcommand{\itk@seemodule}[3][\itk@modulebadkey]{%
+    \par%
+    \ifx\itk@modulebadkey#1\def\itk@modulekey{#2}\else\def\itk@modulekey{#1}\fi%
+    \begin{fulllineitems}
+      \item[Module \module{#2} (section \ref{module-\itk@modulekey}):]
+      #3
+    \end{fulllineitems}
+  }
+}{\newcommand{\itk@seemodule}[3][\itk@modulebadkey]{%
+    \par%
+    \ifx\itk@modulebadkey#1\def\itk@modulekey{#2}\else\def\itk@modulekey{#1}\fi%
+    \begin{fulllineitems}
+      \item[\itk@linkToName{label-module-\itk@modulekey}{Module \module{#2}}
+            (section \ref{module-\itk@modulekey}):]
+      #3
+    \end{fulllineitems}
+  }
+}
+% \seetitle[url]{title}{why it's interesting}
+\newcommand{\itk@seetitle}[3][\itk@modulebadkey]{%
+  \par
+  \begin{fulllineitems}
+    \item[\citetitle{#2}]
+    \ifx\itk@modulebadkey#1\else
+      \item[{\small{(\url{#1})}}]
+    \fi
+    #3
+  \end{fulllineitems}
+}
+% \seepep{number}{title}{why it's interesting}
+\newcommand{\itk@seepep}[3]{%
+  \par%
+  \begin{fulllineitems}
+    \item[\pep{#1}, ``\emph{#2}'']
+    #3
+  \end{fulllineitems}
+}
+% \seerfc{number}{title}{why it's interesting}
+\newcommand{\itk@seerfc}[3]{%
+  \par%
+  \begin{fulllineitems}
+    \item[\rfc{#1}, ``\emph{#2}'']
+    #3
+  \end{fulllineitems}
+}
+% \seeurl{url}{why it's interesting}
+\newcommand{\itk@seeurl}[2]{%
+  \par%
+  \begin{fulllineitems}
+    \item[\url{#1}]
+    #2
+  \end{fulllineitems}
+}
+\newenvironment{seealso}[0]{
+  \par
+  \strong{See Also:}\par
+  \def\seetext##1{\par{##1}}
+  \let\seemodule=\itk@seemodule
+  \let\seepep=\itk@seepep
+  \let\seerfc=\itk@seerfc
+  \let\seetitle=\itk@seetitle
+  \let\seeurl=\itk@seeurl
+}{\par}
+
+
+% Allow the Insight release number to be specified independently of the
+% \date{}.  This allows the date to reflect the document's date and
+% release to specify the Insight release that is documented.
+%
+\newcommand{\itk@release}{}
+\newcommand{\version}{}
+\newcommand{\shortversion}{}
+\newcommand{\releaseinfo}{}
+\newcommand{\releasename}{Release}
+\newcommand{\release}[1]{%
+  \renewcommand{\itk@release}{\releasename\space\version}%
+  \renewcommand{\version}{#1}}
+\newcommand{\setshortversion}[1]{%
+  \renewcommand{\shortversion}{#1}}
+\newcommand{\setreleaseinfo}[1]{%
+  \renewcommand{\releaseinfo}{#1}}
+
+% Allow specification of the author's address separately from the
+% author's name.  This can be used to format them differently, which
+% is a good thing.
+%
+\newcommand{\itk@authoraddress}{}
+\newcommand{\authoraddress}[1]{\renewcommand{\itk@authoraddress}{#1}}
+\let\developersaddress=\authoraddress
+\let\developer=\author
+\let\developers=\author
+
+% This sets up the fancy chapter headings that make the documents look
+% at least a little better than the usual LaTeX output.
+%
+\@ifundefined{ChTitleVar}{}{
+  \ChNameVar{\raggedleft\normalsize\itk@HeaderFamily}
+  \ChNumVar{\raggedleft \bfseries\Large\itk@HeaderFamily}
+  \ChTitleVar{\raggedleft \rm\Huge\itk@HeaderFamily}
+  % This creates chapter heads without the leading \vspace*{}:
+  \def\@makechapterhead#1{%
+    {\parindent \z@ \raggedright \normalfont
+      \ifnum \c@secnumdepth >\m@ne
+        \DOCH
+      \fi
+      \interlinepenalty\@M
+      \DOTI{#1}
+    }
+  }
+}
+
+
+% Definition lists; requested by AMK for HOWTO documents.  Probably useful
+% elsewhere as well, so keep in in the general style support.
+%
+\newenvironment{definitions}{%
+  \begin{description}%
+  \def\term##1{\item[##1]\mbox{}\\*[0mm]}
+}{%
+  \end{description}%
+}
+
+% Tell TeX about pathological hyphenation cases:
+\hyphenation{Base-HTTP-Re-quest-Hand-ler}
+
+
+%
+%  Commands for adding the link reference to the URL in the Insight Journal
+%
+\newcommand{\urlhandle}[1]{
+\url{http://hdl.handle.net/10380/#1}}  
+
+\newcommand{\IJhandle}[1]{
+Latest version available at the \href{http://www.insight-journal.org}{Insight Journal} [\urlhandle{#1}]\\
+Distributed under \href{http://creativecommons.org/licenses/by/3.0/us/}{Creative Commons Attribution License}}
+
+\newcommand{\IJhandlefooter}[1]{
+\fancyfoot[CO,CE]{
+  \IJhandle{#1} }}
+
+\newcommand{\IJhandlenote}[1]{
+  \fbox{ \parbox[t][1.5cm][t]{\textwidth}{\center{\IJhandle{#1}}} }}

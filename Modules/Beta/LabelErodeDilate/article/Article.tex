@@ -1,0 +1,120 @@
+%
+% Complete documentation on the extended LaTeX markup used for Insight
+% documentation is available in ``Documenting Insight'', which is part
+% of the standard documentation for Insight.  It may be found online
+% at:
+%
+%     http://www.itk.org/
+
+\documentclass{InsightArticle}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%  hyperref should be the last package to be loaded.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[dvips,
+bookmarks,
+bookmarksopen,
+backref,
+colorlinks,linkcolor={blue},citecolor={blue},urlcolor={blue},
+]{hyperref}
+% to be able to use options in graphics
+\usepackage{graphicx}
+% for pseudo code
+\usepackage{listings}
+% subfigures
+\usepackage{subfigure}
+
+
+%  This is a template for Papers to the Insight Journal. 
+%  It is comparable to a technical report format.
+
+% The title should be descriptive enough for people to be able to find
+% the relevant document. 
+\title{Parallel algorithms for erosion and dilation of label images.}
+
+\newcommand{\IJhandlerIDnumber}{999}
+
+% Increment the release number whenever significant changes are made.
+% The author and/or editor can define 'significant' however they like.
+\release{0.00}
+
+% At minimum, give your name and an email address.  You can include a
+% snail-mail address if you like.
+\author{Richard Beare{$^1$} \small{and} Paul Jackway{$^2$}}
+\authoraddress{Richard.Beare@monash.edu\\Department of Medicine\\Monash University\\Melbourne\\Australia{$^1$}\\CSIRO Mathematics Informatics and Statistics\\Dutton Park\\Queensland\\Australia{$2$}}
+
+\begin{document}
+
+\IJhandlefooter{\IJhandlerIDnumber}
+
+\maketitle
+
+\ifhtml
+\chapter*{Front Matter\label{front}}
+\fi
+
+
+\begin{abstract}
+\noindent
+It is sometimes useful to be able to apply binary morphological
+operations, such as erosions and dilations, to labelled images in a
+fashion that preserves the labels. This article introduces a
+specialised class implementing parallel methods described in
+\cite{beare2011parallel} that provide very fast dilations by circles
+and spheres of arbitary size.
+\end{abstract}
+
+\tableofcontents
+
+\section{Introduction}
+The link between Euclidean distance transforms and binary
+morphological operations is well known - erosions and dilations by
+circles and spheres can be performed by thresholding the distance
+transform. Efficient and readily parallelizable distance transform
+algorithms can, in turn, be based on erosions and dilations by
+parabolic structuring elements. The classes outlined in this article
+extend the contact point algorithm used for parabolic erosions and
+dilations to facilitate operations on label images. A more complete discussion is available in \cite{beare2011parallel}.
+
+\section{The classes}
+The {\em itk::LabelSetDilateImageFilter} and {\em
+  itk::LabelSetErodeImageFilter} implement dilation and erosion of
+label images. They share a common parent class. The methods controlling class behaviour are:
+\begin{itemize}
+\item {\em UseImageSpacing}: Defines whether the radius refers to voxels or world dimensions. Default is false, meaning radius is in voxels.
+\item {\em Set/GetRadius}: Set the size of the dilation or erosion. There are versions to set the size in all directions to be the same, corresponding to a circular or spherical structuring element, and independently, corresponding to an ellipsoid structuring element (with axes parallel to image axes).
+\end{itemize}
+
+Examples of use are available with the package.
+
+Please note that these are specialised classes which cannot use
+arbitrary structuring elements.
+\subsection{Notes for label erosion}
+The class provided for label erosion {\bf will separate} touching
+labels. If this is not the desired behaviour, then implement label
+erosion via binary erosion and masking.
+
+\section{Sample results}
+
+\section{Alternative approaches to label dilation}
+As advised on the ITK mailing list, label dilation can be implemented via distance transforms and watershed transforms. Pseudo code (courtesy of Bradely Lowekamp)
+
+\begin{lstlisting}
+def MultilabelDilation(img, radius=1,kernel=sitk.BinaryDilateImageFilter.Ball):
+    distImg = sitk.SignedMaurerDistanceMap(img != 0, insideIsPositive=False, squaredDistance=False, useImageSpacing=False)
+    dilatImg = sitk.BinaryDilate(img!=0, radius, kernel)
+    wsImg = sitk.MorphologicalWatershedFromMarkers(distImg, img)
+    return dilatImg*wsImg
+\end{lstlisting}
+
+The specialised method should be significantly faster than this approach - perhaps a concientious reviewer can verify?
+
+\bibliographystyle{plain}
+\bibliography{local,InsightJournal}
+\nocite{ITKSoftwareGuide}
+
+\end{document}
+

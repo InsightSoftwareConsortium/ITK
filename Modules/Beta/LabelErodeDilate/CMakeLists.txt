@@ -86,19 +86,24 @@ ENDIF(BUILD_TESTING)
 
 
 ADD_TEST(testLabelErode3d labelSetsErode  -i 
-${BRAIN_ATLAS} -o laberode3d.mha -r 5
+${BRAIN_ATLAS} -o laberode3d.nii.gz -r 5
+--compare laberode3d.nii.gz ${CMAKE_CURRENT_SOURCE_DIR}/images/baseline/laberode3d.nii.gz
 )
 
 ADD_TEST(testLabelDilate3d labelSetsDilate  -i 
-${BRAIN_ATLAS} -o labdilate3d.mha -r 5
+${BRAIN_ATLAS} -o labdilate3d.nii.gz -r 5
+--compare labdilate3d.nii.gz ${CMAKE_CURRENT_SOURCE_DIR}/images/baseline/labdilate3d.nii.gz
 )
 
 ADD_TEST(testLabelErode2d labelSetsErode  -i 
 ${BRAIN_SLICE} -o laberode2d.png -r 2
+--compare laberode2d.png  ${CMAKE_CURRENT_SOURCE_DIR}/images/baseline/laberode2d.png
+
 )
 
 ADD_TEST(testLabelDilate2d labelSetsDilate  -i 
 ${BRAIN_SLICE} -o labdilate2d.png -r 5
+--compare labdilate2d.png  ${CMAKE_CURRENT_SOURCE_DIR}/images/baseline/labdilate2d.png
 )
 
  
