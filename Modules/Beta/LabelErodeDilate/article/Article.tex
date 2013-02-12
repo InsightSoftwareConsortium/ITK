@@ -35,7 +35,7 @@ colorlinks,linkcolor={blue},citecolor={blue},urlcolor={blue},
 % the relevant document. 
 \title{Parallel algorithms for erosion and dilation of label images.}
 
-\newcommand{\IJhandlerIDnumber}{999}
+\newcommand{\IJhandlerIDnumber}{3399}
 
 % Increment the release number whenever significant changes are made.
 % The author and/or editor can define 'significant' however they like.
@@ -44,7 +44,7 @@ colorlinks,linkcolor={blue},citecolor={blue},urlcolor={blue},
 % At minimum, give your name and an email address.  You can include a
 % snail-mail address if you like.
 \author{Richard Beare{$^1$} {\small and} Paul Jackway{$^2$}}
-\authoraddress{Richard.Beare@monash.edu\\Department of Medicine\\Monash University\\Melbourne\\Australia{$^1$}\\CSIRO Mathematics Informatics and Statistics\\Dutton Park\\Queensland\\Australia{$2$}}
+\authoraddress{Richard.Beare@monash.edu\\Department of Medicine\\Monash University\\Melbourne\\Australia{$^1$}\\CSIRO Mathematics Informatics and Statistics\\Dutton Park\\Queensland\\Australia{$^2$}}
 
 \begin{document}
 
@@ -64,7 +64,8 @@ operations, such as erosions and dilations, to labelled images in a
 fashion that preserves the labels. This article introduces a
 specialised class implementing parallel methods described in
 \cite{beare2011parallel} that provide very fast dilations by circles
-and spheres of arbitary size.
+and spheres of arbitary size. Comparisons with other implementations
+using currently available building blocks are also made.
 \end{abstract}
 \IJhandlenote{\IJhandlerIDnumber}
 \tableofcontents
@@ -152,17 +153,18 @@ implementation and performance results show that it is indeed much
 faster than versions that can be built using existing tools. It also
 scales moderately well with increased execution threads. The execution
 times and speedups for a 12 core Intel(R) Xeon(R) CPU X5650 @ 2.67GHz
-are shown in Figures \ref{fig:exec} and \ref{fig:speedup}. None of the
-methods have a significant dependence on dilation size, as the
-structuring element is not explicit. Speedup at 8 cores for the Maurer
-method is 1.86 while versus 4.71 for the parabolic method. The lack of
-scalability of the Maurer method is likely to be largely caused by the
-watershed step, which is not parallel. The Danielsson approach is much
-slower, despite avoiding the need for an explicit watershed
-transform. There is some redundancy in the Maurer approach, as a
-signed distance transform is computed by not used. In the single
-threaded the specialised version is 7 times faster than the Mauer
-approach and 180 times faster than the Danielsson-based method.
+on a $182 \times 218 \times 182$ brain atlas are shown in Figures
+\ref{fig:exec}. None of the methods have a
+significant dependence on dilation size, as the structuring element is
+not explicit. Speedup at 8 cores for the Maurer method is 1.86
+versus 4.71 for the parabolic method. The lack of scalability of the
+Maurer method is likely to be largely caused by the watershed step,
+which is not parallel. The Danielsson approach is much slower, despite
+avoiding the need for an explicit watershed transform. There is some
+redundancy in the Maurer approach, as a signed distance transform is
+computed by not used. In the single threaded the specialised version
+is 7 times faster than the Mauer approach and 180 times faster than
+the Danielsson-based method.
 
 \begin{figure}[htbp]
 \centering
