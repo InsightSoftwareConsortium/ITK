@@ -10,6 +10,11 @@ INCLUDE(IJMacros.txt)
 
 CMAKE_MINIMUM_REQUIRED(VERSION 2.4)
 
+if(COMMAND cmake_policy)
+           cmake_policy(SET CMP0003 NEW)
+endif(COMMAND cmake_policy)
+
+
 #The following lines are required to use Dart
 ENABLE_TESTING()
 INCLUDE(Dart)
@@ -20,9 +25,11 @@ SET(TEST_COMMAND ${ITK_TEST_DRIVER} --add-before-env PATH ${CMAKE_CURRENT_BINARY
 #examples include: ITK, VTK, JPEG, PNG, OpenGL, ZLIB, Perl, Java
 #If you're not sure what name to use, look in the Modules directory of your
 #cmake install and check that a file named Find(Package).cmake exists
+
 SET(Required_Packages
-  ITK
+ITK4
 )
+
 
 INCLUDE_DIRECTORIES(
   ${CMAKE_CURRENT_SOURCE_DIR}

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-REP=10
+REP=5
 
 echo "parabolic label dilate" > para.log
 echo "danielsson method" > danielsson.log
@@ -16,5 +16,13 @@ for th in 1 4 8 12 ; do
         ./labelSetsDilateDanielssonPerf $OPTIONS >> danielsson.log
 
     done
+
+done
+
+for i in para.log danielsson.log maurerws.log ; do
+  hd=$(grep "^Iterations" $i | head -1)
+  echo $hd > ${i/log/csv}
+  ## get lines starting with iterations
+  grep "^$REP" $i >> ${i/log/csv}
 
 done

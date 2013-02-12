@@ -66,7 +66,7 @@ specialised class implementing parallel methods described in
 \cite{beare2011parallel} that provide very fast dilations by circles
 and spheres of arbitary size.
 \end{abstract}
-
+\IJhandlenote{\IJhandlerIDnumber}
 \tableofcontents
 
 \section{Introduction}
@@ -133,9 +133,10 @@ dilation which is then used to mask the Voronoi tesselation. This
 version is called {\em multilabelDilationDanielsson}. The Danielsson
 filter is slower than the Maurer filter, but this approach avoids the
 watershed transform step as the information provided by the Voronoi
-map is removes the need for the watershed.
+map is removes the need for the watershed. Comparisons of performance
+are below.
 
-\section{Dilations via distance maps versus binary dilation}
+\subsection{Dilations via distance maps versus binary dilation}
 There are subtle differences between the effective structuring element
 produced when thresholding distance maps versus those provided by the
 {\em BinaryBallStructuringElement}. The latter is a Bresenham circle
