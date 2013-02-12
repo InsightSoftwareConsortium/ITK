@@ -148,15 +148,35 @@ radius is included, resulting in a slightly smaller structuring
 element.
 \section{Performance}
 The specialised version was developed due to ease of parallel
-implementation. It seemed fast but wasn't formally compared to
-algorithms above. Table below ..
+implementation and performance results show that it is indeed much
+faster than versions that can be built using existing tools. It also
+scales moderately well with increased execution threads. The execution
+times and speedups for a 12 core Intel(R) Xeon(R) CPU X5650 @ 2.67GHz
+are shown in Figures \ref{fig:exec} and \ref{fig:speedup}. None of the
+methods have a significant dependence on dilation size, as the
+structuring element is not explicit. Speedup at 8 cores for the Maurer
+method is 1.86 while versus 4.71 for the parabolic method. The lack of
+scalability of the Maurer method is likely to be largely caused by the
+watershed step, which is not parallel. The Danielsson approach is much
+slower, despite avoiding the need for an explicit watershed
+transform. There is some redundancy in the Maurer approach, as a
+signed distance transform is computed by not used. In the single
+threaded the specialised version is 7 times faster than the Mauer
+approach and 180 times faster than the Danielsson-based method.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[scale=0.35]{exectimes}
+\includegraphics[scale=0.35]{speedups}
+\caption{Execution times and speedups for all methods.\label{fig:exec}}
+\end{figure}
 
 
 \section{Sample results}
 Label images occur in many situations. This is an example of a brain
 atlas in which different labels represent different anatomical
 regions. Examples of 2D processing (operations applied to a single
-slice of the atlas) are shown in Figure \ref{2d}. Examples of a 3D
+slice of the atlas) are shown in Figure \ref{fig:2d}. Examples of a 3D
 processing are shown in Figures \ref{fig:3dorig} to \ref{fig:3ddil}.
 
 \begin{figure}[htbp]
