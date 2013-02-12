@@ -3,18 +3,7 @@
 
 #include <itkMaskImageFilter.h>
 #include "itkLabelSetDilateImageFilter.h"
-
-// Aidan's trick
-#include <itkSmartPointer.h>
-namespace itk
-{
-    template <typename T>
-    class Instance : public T::Pointer {
-    public:
-        Instance() : SmartPointer<T>( T::New() ) {}
-    };
-}
-
+#include "itkinstance.h"
 
 
 typedef class CmdLineType
@@ -57,16 +46,15 @@ void ParseCmdLine(int argc, char* argv[],
 }
 
 template <class MaskPixType, int dim>
-void doErode(const CmdLineType &CmdLineObj)
+void doDilate(const CmdLineType &CmdLineObj)
 {
   typedef typename itk::Image<MaskPixType, dim> MaskImType;
 
   // load
   typename MaskImType::Pointer mask = readIm<MaskImType>(CmdLineObj.InputIm);
 
-  // apply mask to size
 
-  // Label erosion
+  // Label dilation
   itk::Instance< itk::LabelSetDilateImageFilter<MaskImType, MaskImType> > Dilate;
   Dilate->SetInput(mask);
   Dilate->SetRadius(CmdLineObj.radius);
@@ -97,10 +85,10 @@ int main(int argc, char * argv[])
   switch (dim1)
     {
     case 2:
-      doErode<unsigned char, 2>(CmdLineObj);
+      doDilate<unsigned char, 2>(CmdLineObj);
       break;
     case 3:
-      doErode<unsigned char, 3>(CmdLineObj);
+      doDilate<unsigned char, 3>(CmdLineObj);
       break;
     default:
       std::cerr << "Unsupported dimension" << std::endl;

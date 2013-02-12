@@ -69,7 +69,7 @@ void ParseCmdLine(int argc, char* argv[],
 }
 
 template <class MaskPixType, int dim>
-void doErode(const CmdLineType &CmdLineObj)
+void doDilate(const CmdLineType &CmdLineObj)
 {
   typedef typename itk::Image<MaskPixType, dim> MaskImType;
   itk::MultiThreader::SetGlobalMaximumNumberOfThreads(CmdLineObj.threads);
@@ -120,10 +120,10 @@ int main(int argc, char * argv[])
   switch (dim1)
     {
     case 2:
-      doErode<unsigned char, 2>(CmdLineObj);
+      doDilate<unsigned char, 2>(CmdLineObj);
       break;
     case 3:
-      doErode<unsigned char, 3>(CmdLineObj);
+      doDilate<unsigned char, 3>(CmdLineObj);
       break;
     default:
       std::cerr << "Unsupported dimension" << std::endl;
