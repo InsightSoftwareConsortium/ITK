@@ -55,6 +55,11 @@
 \RequirePackage{fancyhdr}\typeout{Using fancier footers than usual.}
 
 
+% Adding the package ifpdf in order to deal with the cases where 
+% pdflatex is used instead of latex.
+\RequirePackage{ifpdf}\typeout{Using ifpdf for the template}
+
+
 % Required package:
 %
 % This gives us all the Insight-specific markup that we really want.
@@ -87,16 +92,20 @@
 %
 \renewcommand{\maketitle}{
   \itk@doHorizontalRule
-  \@ifundefined{pdfinfo}{}{{
-    % This \def is required to deal with multi-line authors; it
-    % changes \\ to ', ' (comma-space), making it pass muster for
-    % generating document info in the PDF file.
-    \def\\{, }
-%     \pdfinfo{
-%       /Author (\@author)
-%       /Title (\@title)
-%     }
-  }}
+  \ifpdf
+    \@ifundefined{pdfinfo}{}{{
+      % This \def is required to deal with multi-line authors; it
+      % changes \\ to ', ' (comma-space), making it pass muster for
+      % generating document info in the PDF file.
+      \def\\{, }
+        \pdfinfo{
+          /Author (\@author)
+          /Title (\@title)
+        }
+    }}
+  \else
+     % else nothing
+  \fi
   \begin{flushright}
     {\rm\Huge\itk@HeaderFamily \@title} \par
     {\em\large\itk@HeaderFamily \itk@release} \par
