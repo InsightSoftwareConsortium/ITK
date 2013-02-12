@@ -69,7 +69,7 @@ ENDIF(BUILD_WRAPPERS)
 IF(BUILD_TESTING)
 
 FOREACH(CurrentExe labelSetsErode labelSetsPerf
-labelSetsDilatePerf  labelSetsDilate )
+labelSetsDilatePerf labelSetsDilateWSPerf labelSetsDilateDanielssonPerf labelSetsDilate labelSetsDilateWS labelSetsDilateDanielsson)
 ADD_EXECUTABLE(${CurrentExe} ${CurrentExe}.cxx)
 TARGET_LINK_LIBRARIES(${CurrentExe} ${Libraries})
 ENDFOREACH(CurrentExe)
