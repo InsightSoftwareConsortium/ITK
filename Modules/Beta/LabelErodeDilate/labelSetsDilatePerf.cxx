@@ -84,6 +84,7 @@ void doDilate(const CmdLineType &CmdLineObj)
   itk::Instance< itk::LabelSetDilateImageFilter<MaskImType, MaskImType> > Dilate;
   Dilate->SetInput(mask);
   Dilate->SetRadius(CmdLineObj.radius);
+  Dilate->SetUseImageSpacing(true);
 
   std::cout << "Iterations,lab_dilate_timed,radius,threads" << std::endl;
   for (int r = 0; r < CmdLineObj.repetitions; r++)

@@ -58,9 +58,12 @@ void doDilate(const CmdLineType &CmdLineObj)
   itk::Instance< itk::LabelSetDilateImageFilter<MaskImType, MaskImType> > Dilate;
   Dilate->SetInput(mask);
   Dilate->SetRadius(CmdLineObj.radius);
+  Dilate->SetUseImageSpacing(true);
+
 
   writeIm<MaskImType>(Dilate->GetOutput(), CmdLineObj.OutputIm);
-  //Erode->writeDist("/tmp/dist.mhd");
+
+  Dilate->writeDist("/tmp/dist.mhd");
 
 }
 

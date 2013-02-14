@@ -171,6 +171,7 @@ LabelSetMorphBaseImageFilter<TInputImage, doDilate, TOutputImage >
   
   // multithread the execution
   for( unsigned int d=0; d<ImageDimension; d++ )
+//  for( unsigned int d=0; d<ImageDimension - 1; d++ )
     {
     m_CurrentDimension = d;
     this->GetMultiThreader()->SingleMethodExecute();

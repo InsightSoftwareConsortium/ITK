@@ -173,6 +173,7 @@ void DoLineLabelProp(LineBufferType &LineBuf, LineBufferType &tmpLineBuf,
     }
   // positive half of parabola
   koffset = newcontact = 0;
+#if 1
   for (long pos = LineLength - 1; pos >= 0; pos--)
     {
     RealType BaseVal = (RealType)m_Extreme; // the base value for comparison
@@ -191,6 +192,13 @@ void DoLineLabelProp(LineBufferType &LineBuf, LineBufferType &tmpLineBuf,
     LabelBuf[pos] = BaseLab;
     koffset = newcontact + 1;
     }
+#else
+  for (long pos = LineLength - 1; pos >= 0; pos--)
+    {
+    LineBuf[pos] = tmpLineBuf[pos];
+    }
+
+#endif
 }
 
 template <class TInIter, class TOutDistIter, class TOutLabIter, class RealType>
