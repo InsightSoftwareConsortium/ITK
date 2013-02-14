@@ -59,10 +59,13 @@ int itkBilateralImageFilterTest3(int ac, char* av[] )
     // the edges are preserved better.
     filter1->SetDomainSigma( 4.0 );
     filter1->SetRangeSigma( 20.0 );
+    filter1->SetDomainMu( 2.5 );
     filter2->SetDomainSigma( 4.0 );
     filter2->SetRangeSigma( 20.0 );
+    filter2->SetDomainMu( 2.5 );
     filter3->SetDomainSigma( 4.0 );
     filter3->SetRangeSigma( 20.0 );
+    filter3->SetDomainMu( 2.5 );
 
   try
     {
