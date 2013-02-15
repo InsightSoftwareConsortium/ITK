@@ -64,7 +64,6 @@ LabelSetDilateImageFilter<TInputImage, TOutputImage>
   typename TInputImage::ConstPointer   inputImage(    this->GetInput ()   );
   typename TOutputImage::Pointer       outputImage(   this->GetOutput()        );
 
-  
   outputImage->SetBufferedRegion( outputImage->GetRequestedRegion() );
   outputImage->Allocate();
   RegionType region = outputRegionForThread;
@@ -77,7 +76,7 @@ LabelSetDilateImageFilter<TInputImage, TOutputImage>
   InputDistIteratorType inputDistIterator(this->m_DistanceImage, region);
   OutputDistIteratorType outputDistIterator(this->m_DistanceImage, region);
 
-  // setup the progress reporting 
+  // setup the progress reporting
   // deal with the first dimension - this should be copied to the
   // output if the scale is 0
 
@@ -90,38 +89,36 @@ LabelSetDilateImageFilter<TInputImage, TOutputImage>
     unsigned long LineLength = region.GetSize()[this->m_CurrentDimension];
     RealType image_scale = this->GetInput()->GetSpacing()[this->m_CurrentDimension];
     //bool lastpass = (m_CurrentDimension == ImageDimension - 1);
-    
+
     if (!this->m_FirstPassDone)
       {
       LabSet::doOneDimensionDilateFirstPass<InputConstIteratorType,OutputDistIteratorType, OutputIteratorType,
-					    RealType>(inputIterator, outputDistIterator, outputIterator,
-						      *progress, LineLength, 
-						      this->m_CurrentDimension,
-						      this->m_MagnitudeSign, 
-						      this->m_UseImageSpacing,
-						      this->m_Extreme,
-						      image_scale,
-						      this->m_Scale[this->m_CurrentDimension]);
+                                            RealType>(inputIterator, outputDistIterator, outputIterator,
+                                                      *progress, LineLength,
+                                                      this->m_CurrentDimension,
+                                                      this->m_MagnitudeSign,
+                                                      this->m_UseImageSpacing,
+                                                      this->m_Extreme,
+                                                      image_scale,
+                                                      this->m_Scale[this->m_CurrentDimension]);
       }
     else
       {
-#if 1
-      LabSet::doOneDimensionDilate<InputConstIteratorType, 
-				   InputDistIteratorType,
-				   OutputIteratorType,
-				   OutputDistIteratorType,
-				   RealType>(inputIteratorStage2, 
-					     inputDistIterator,
-					     outputDistIterator, 
-					     outputIterator,
-					     *progress, LineLength, 
-					     this->m_CurrentDimension,
-					     this->m_MagnitudeSign, 
-					     this->m_UseImageSpacing,
-					     this->m_Extreme,
-					     image_scale,
-					     this->m_Scale[this->m_CurrentDimension]);
-#endif
+      LabSet::doOneDimensionDilate<InputConstIteratorType,
+                                   InputDistIteratorType,
+                                   OutputIteratorType,
+                                   OutputDistIteratorType,
+                                   RealType>(inputIteratorStage2,
+                                             inputDistIterator,
+                                             outputDistIterator,
+                                             outputIterator,
+                                             *progress, LineLength,
+                                             this->m_CurrentDimension,
+                                             this->m_MagnitudeSign,
+                                             this->m_UseImageSpacing,
+                                             this->m_Extreme,
+                                             image_scale,
+                                             this->m_Scale[this->m_CurrentDimension]);
       }
     }
 }

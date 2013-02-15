@@ -63,7 +63,7 @@ void doDilate(const CmdLineType &CmdLineObj)
 
   writeIm<MaskImType>(Dilate->GetOutput(), CmdLineObj.OutputIm);
 
-  Dilate->writeDist("/tmp/dist.mhd");
+  Dilate->writeDist("/tmp/dist.nii.gz");
 
 }
 

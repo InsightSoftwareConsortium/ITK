@@ -8,8 +8,8 @@
 namespace itk {
 namespace LabSet {
 template <class LineBufferType, class RealType>
-void DoLineErodeFirstPass(LineBufferType &LineBuf, RealType leftend, RealType rightend, 
-			  const RealType magnitude)
+void DoLineErodeFirstPass(LineBufferType &LineBuf, RealType leftend, RealType rightend,
+                          const RealType magnitude)
 {
   // This is the first pass algorithm. We can write down the values
   // because we know the inputs are binary
@@ -29,10 +29,10 @@ void DoLineErodeFirstPass(LineBufferType &LineBuf, RealType leftend, RealType ri
 }
 
 template <class LineBufferType, class LabLineBufferType, class RealType>
-void DoLineDilateFirstPass(LineBufferType &LineBuf, LineBufferType &tmpLineBuf, 
-			   LabLineBufferType &LabBuf, 
-			   LabLineBufferType &NewLabBuf,
-			   const RealType magnitude)
+void DoLineDilateFirstPass(LineBufferType &LineBuf, LineBufferType &tmpLineBuf,
+                           LabLineBufferType &LabBuf,
+                           LabLineBufferType &NewLabBuf,
+                           const RealType magnitude)
 {
   // need to propagate the labels here
   const long LineLength = LineBuf.size();
@@ -93,8 +93,8 @@ void DoLineDilateFirstPass(LineBufferType &LineBuf, LineBufferType &tmpLineBuf,
 
 
 template <class LineBufferType, class RealType, bool doDilate>
-void DoLine(LineBufferType &LineBuf, LineBufferType &tmpLineBuf, 
-	    const RealType magnitude, const RealType m_Extreme)
+void DoLine(LineBufferType &LineBuf, LineBufferType &tmpLineBuf,
+            const RealType magnitude, const RealType m_Extreme)
 {
   // contact point algorithm
   long koffset = 0, newcontact=0;  // how far away the search starts.
@@ -104,17 +104,17 @@ void DoLine(LineBufferType &LineBuf, LineBufferType &tmpLineBuf,
   for (long pos = 0; pos < LineLength; pos++)
     {
     RealType BaseVal = (RealType)m_Extreme; // the base value for
-					    // comparison
+                                            // comparison
     for (long krange = koffset; krange <= 0; krange++)
       {
       // difference needs to be paramaterised
       RealType T = LineBuf[pos + krange] - magnitude * krange * krange;
       // switch on template parameter - hopefully gets optimized away.
       if (doDilate ? (T >= BaseVal) : (T <= BaseVal) )
-	{
-	BaseVal = T;
-	newcontact = krange;
-	}
+        {
+        BaseVal = T;
+        newcontact = krange;
+        }
       }
     tmpLineBuf[pos] = BaseVal;
     koffset = newcontact - 1;
@@ -128,10 +128,10 @@ void DoLine(LineBufferType &LineBuf, LineBufferType &tmpLineBuf,
       {
       RealType T = tmpLineBuf[pos + krange] - magnitude * krange * krange;
       if (doDilate ? (T >= BaseVal) : (T <= BaseVal))
-	{
-	BaseVal = T;
-	newcontact = krange;
-	}
+        {
+        BaseVal = T;
+        newcontact = krange;
+        }
       }
     LineBuf[pos] = BaseVal;
     koffset = newcontact + 1;
@@ -140,8 +140,8 @@ void DoLine(LineBufferType &LineBuf, LineBufferType &tmpLineBuf,
 
 template <class LineBufferType, class LabBufferType, class RealType, bool doDilate>
 void DoLineLabelProp(LineBufferType &LineBuf, LineBufferType &tmpLineBuf,
-		     LabBufferType &LabelBuf,
-		     const RealType magnitude, const RealType m_Extreme)
+                     LabBufferType &LabelBuf, LabBufferType &tmpLabelBuf,
+                     const RealType magnitude, const RealType m_Extreme)
 {
   // contact point algorithm
   long koffset = 0, newcontact=0;  // how far away the search starts.
@@ -153,40 +153,41 @@ void DoLineLabelProp(LineBufferType &LineBuf, LineBufferType &tmpLineBuf,
   for (long pos = 0; pos < LineLength; pos++)
     {
     RealType BaseVal = (RealType)m_Extreme; // the base value for
-					    // comparison
-    LabelType BaseLab = 0;
+                                            // comparison
+    LabelType BaseLab = LabelBuf[pos];
     for (long krange = koffset; krange <= 0; krange++)
       {
       // difference needs to be paramaterised
       RealType T = LineBuf[pos + krange] - magnitude * krange * krange;
       // switch on template parameter - hopefully gets optimized away.
       if (doDilate ? (T >= BaseVal) : (T <= BaseVal) )
-	{
-	BaseVal = T;
-	newcontact = krange;
-	BaseLab = LabelBuf[pos+krange];
-	}
+        {
+        BaseVal = T;
+        newcontact = krange;
+        BaseLab = LabelBuf[pos+krange];
+        }
       }
     tmpLineBuf[pos] = BaseVal;
-    LabelBuf[pos] = BaseLab;
+    tmpLabelBuf[pos] = BaseLab;
     koffset = newcontact - 1;
     }
   // positive half of parabola
   koffset = newcontact = 0;
-#if 1
+#if 0
   for (long pos = LineLength - 1; pos >= 0; pos--)
     {
     RealType BaseVal = (RealType)m_Extreme; // the base value for comparison
-    LabelType BaseLab = 0;
+    // initialize the label to the previously pro
+    LabelType BaseLab = tmpLabelBuf[pos];
     for (long krange = koffset; krange >= 0; krange--)
       {
       RealType T = tmpLineBuf[pos + krange] - magnitude * krange * krange;
       if (doDilate ? (T >= BaseVal) : (T <= BaseVal))
-	{
-	BaseVal = T;
-	newcontact = krange;
-	BaseLab = LabelBuf[pos+krange];
-	}
+        {
+        BaseVal = T;
+        newcontact = krange;
+        BaseLab = tmpLabelBuf[pos+krange];
+        }
       }
     LineBuf[pos] = BaseVal;
     LabelBuf[pos] = BaseLab;
@@ -196,23 +197,24 @@ void DoLineLabelProp(LineBufferType &LineBuf, LineBufferType &tmpLineBuf,
   for (long pos = LineLength - 1; pos >= 0; pos--)
     {
     LineBuf[pos] = tmpLineBuf[pos];
+    LabelBuf[pos] = tmpLabelBuf[pos];
     }
 
 #endif
 }
 
 template <class TInIter, class TOutDistIter, class TOutLabIter, class RealType>
-void doOneDimensionErodeFirstPass(TInIter &inputIterator, TOutDistIter &outputIterator, 
-				  TOutLabIter &outputLabIterator,
-				  ProgressReporter &progress,
-				  const unsigned LineLength, 
-				  const unsigned direction,
-				  const int m_MagnitudeSign,
-				  const bool m_UseImageSpacing,
-				  const RealType m_Extreme,
-				  const RealType image_scale,
-				  const RealType Sigma,
-				  const bool lastpass)
+void doOneDimensionErodeFirstPass(TInIter &inputIterator, TOutDistIter &outputIterator,
+                                  TOutLabIter &outputLabIterator,
+                                  ProgressReporter &progress,
+                                  const unsigned LineLength,
+                                  const unsigned direction,
+                                  const int m_MagnitudeSign,
+                                  const bool m_UseImageSpacing,
+                                  const RealType m_Extreme,
+                                  const RealType image_scale,
+                                  const RealType Sigma,
+                                  const bool lastpass)
 {
   // specialised version for binary erosion during first pass. We can
   // compute the results directly because the inputs are flat.
@@ -245,15 +247,15 @@ void doOneDimensionErodeFirstPass(TInIter &inputIterator, TOutDistIter &outputIt
 
     // copy the scanline to a buffer
     while( !inputIterator.IsAtEndOfLine() )
-	{
-	LabBuf[i]      = (inputIterator.Get());
-	if (LabBuf[i])
-	  {
-	  LineBuf[i] = 1.0;
-	  }
-	++i;
-	++inputIterator;
-	}
+        {
+        LabBuf[i]      = (inputIterator.Get());
+        if (LabBuf[i])
+          {
+          LineBuf[i] = 1.0;
+          }
+        ++i;
+        ++inputIterator;
+        }
     // runlength encode the line buffer (could be integrated with extraction)
 
 
@@ -265,20 +267,20 @@ void doOneDimensionErodeFirstPass(TInIter &inputIterator, TOutDistIter &outputIt
       {
       RealType val = LabBuf[idx];
       if (val != 0)
-	{
-	// found a run
-	firsts.push_back(idx);
-	unsigned idxend = idx;
-	for (;idxend < LineLength; idxend++)
-	  {
-	  if (val != LabBuf[idxend])
-	    {
-	    break;
-	    }
-	  }
-	lasts.push_back(idxend-1);
-	idx=idxend-1;
-	}
+        {
+        // found a run
+        firsts.push_back(idx);
+        unsigned idxend = idx;
+        for (;idxend < LineLength; idxend++)
+          {
+          if (val != LabBuf[idxend])
+            {
+            break;
+            }
+          }
+        lasts.push_back(idxend-1);
+        idx=idxend-1;
+        }
       }
 
     for (unsigned R=0; R < firsts.size(); R++)
@@ -311,16 +313,16 @@ void doOneDimensionErodeFirstPass(TInIter &inputIterator, TOutDistIter &outputIt
       // using a one dimensional SE
       unsigned j2 = 0;
       while (!outputLabIterator.IsAtEndOfLine())
-       	{
-       	typename TInIter::PixelType val = 0;
-       	if (LineBuf[j2] == 1)
-       	  {
-       	  val=LabBuf[j2];
-       	  }
-       	outputLabIterator.Set(val);
-       	++outputLabIterator;
-       	++j2;
-	}
+        {
+        typename TInIter::PixelType val = 0;
+        if (LineBuf[j2] == 1)
+          {
+          val=LabBuf[j2];
+          }
+        outputLabIterator.Set(val);
+        ++outputLabIterator;
+        ++j2;
+        }
       outputLabIterator.NextLine();
       }
 
@@ -332,16 +334,16 @@ void doOneDimensionErodeFirstPass(TInIter &inputIterator, TOutDistIter &outputIt
 }
 
 template <class TInIter, class TOutDistIter, class TOutLabIter, class RealType>
-void doOneDimensionDilateFirstPass(TInIter &inputIterator, TOutDistIter &outputIterator, 
-				  TOutLabIter &outputLabIterator,
-				  ProgressReporter &progress,
-				  const unsigned LineLength, 
-				  const unsigned direction,
-				  const int m_MagnitudeSign,
-				  const bool m_UseImageSpacing,
-				  const RealType m_Extreme,
-				  const RealType image_scale,
-				  const RealType Sigma)
+void doOneDimensionDilateFirstPass(TInIter &inputIterator, TOutDistIter &outputIterator,
+                                  TOutLabIter &outputLabIterator,
+                                  ProgressReporter &progress,
+                                  const unsigned LineLength,
+                                  const unsigned direction,
+                                  const int m_MagnitudeSign,
+                                  const bool m_UseImageSpacing,
+                                  const RealType m_Extreme,
+                                  const RealType image_scale,
+                                  const RealType Sigma)
 {
   // specialised version for binary erosion during first pass. We can
   // compute the results directly because the inputs are flat.
@@ -379,13 +381,13 @@ void doOneDimensionDilateFirstPass(TInIter &inputIterator, TOutDistIter &outputI
       {
       LabBuf[i]      = (inputIterator.Get());
       if (LabBuf[i])
-	{
-	LineBuf[i] = 1.0;
-	}
-      else 
-	{
-	LineBuf[i] = 0;
-	}
+        {
+        LineBuf[i] = 1.0;
+        }
+      else
+        {
+        LineBuf[i] = 0;
+        }
       ++i;
       ++inputIterator;
       }
@@ -414,17 +416,17 @@ void doOneDimensionDilateFirstPass(TInIter &inputIterator, TOutDistIter &outputI
 
 
 template <class TInIter, class TDistIter, class TOutLabIter, class TOutDistIter, class RealType>
-void doOneDimensionErode(TInIter &inputIterator, TDistIter &inputDistIterator, 
-			 TOutDistIter &outputDistIterator, TOutLabIter &outputLabIterator,
-			 ProgressReporter &progress,
-			 const unsigned LineLength, 
-			 const unsigned direction,
-			 const int m_MagnitudeSign,
-			 const bool m_UseImageSpacing,
-			 const RealType m_Extreme,
-			 const RealType image_scale,
-			 const RealType Sigma,
-			 const bool lastpass)
+void doOneDimensionErode(TInIter &inputIterator, TDistIter &inputDistIterator,
+                         TOutDistIter &outputDistIterator, TOutLabIter &outputLabIterator,
+                         ProgressReporter &progress,
+                         const unsigned LineLength,
+                         const unsigned direction,
+                         const int m_MagnitudeSign,
+                         const bool m_UseImageSpacing,
+                         const RealType m_Extreme,
+                         const RealType image_scale,
+                         const RealType Sigma,
+                         const bool lastpass)
 {
   // traditional erosion - can't optimise the same way as the first pass
   typedef typename itk::Array<RealType> LineBufferType;
@@ -460,13 +462,13 @@ void doOneDimensionErode(TInIter &inputIterator, TDistIter &inputDistIterator,
 
     // copy the scanline to a buffer
     while( !inputIterator.IsAtEndOfLine() )
-	{
-	LineBuf[i] = static_cast<RealType>(inputDistIterator.Get());
-	LabBuf[i]  = inputIterator.Get();
-	++i;
-	++inputDistIterator;
-	++inputIterator;
-	}
+        {
+        LineBuf[i] = static_cast<RealType>(inputDistIterator.Get());
+        LabBuf[i]  = inputIterator.Get();
+        ++i;
+        ++inputDistIterator;
+        ++inputIterator;
+        }
     // runlength encode the line buffer (could be integrated with extraction)
     typedef std::vector<unsigned> EndType;
     EndType firsts;
@@ -475,20 +477,20 @@ void doOneDimensionErode(TInIter &inputIterator, TDistIter &inputDistIterator,
       {
       RealType val = LabBuf[idx];
       if (val != 0)
-	{
-	// found a run
-	firsts.push_back(idx);
-	unsigned idxend = idx;
-	for (;idxend < LineLength; idxend++)
-	  {
-	  if (val != LabBuf[idxend])
-	    {
-	    break;
-	    }
-	  }
-	lasts.push_back(idxend-1);
-	idx=idxend-1;
-	}
+        {
+        // found a run
+        firsts.push_back(idx);
+        unsigned idxend = idx;
+        for (;idxend < LineLength; idxend++)
+          {
+          if (val != LabBuf[idxend])
+            {
+            break;
+            }
+          }
+        lasts.push_back(idxend-1);
+        idx=idxend-1;
+        }
       }
 
     for (unsigned R=0; R < firsts.size(); R++)
@@ -527,16 +529,16 @@ void doOneDimensionErode(TInIter &inputIterator, TDistIter &inputDistIterator,
       {
       unsigned j2 = 0;
       while (!outputLabIterator.IsAtEndOfLine())
-	{
-	typename TInIter::PixelType val = 0;
-	if (LineBuf[j2] == 1)
-	  {
-	  val=LabBuf[j2];
-	  }
-	outputLabIterator.Set(val);
-	++outputLabIterator;
-	++j2;
-	}
+        {
+        typename TInIter::PixelType val = 0;
+        if (LineBuf[j2] == 1)
+          {
+          val=LabBuf[j2];
+          }
+        outputLabIterator.Set(val);
+        ++outputLabIterator;
+        ++j2;
+        }
       outputLabIterator.NextLine();
       }
     // now onto the next line
@@ -548,16 +550,16 @@ void doOneDimensionErode(TInIter &inputIterator, TDistIter &inputDistIterator,
 }
 
 template <class TInIter, class TDistIter, class TOutLabIter, class TOutDistIter, class RealType>
-void doOneDimensionDilate(TInIter &inputIterator, TDistIter &inputDistIterator, 
-			  TOutDistIter &outputDistIterator, TOutLabIter &outputLabIterator,
-			  ProgressReporter &progress,
-			  const unsigned LineLength, 
-			  const unsigned direction,
-			  const int m_MagnitudeSign,
-			  const bool m_UseImageSpacing,
-			  const RealType m_Extreme,
-			  const RealType image_scale,
-			  const RealType Sigma)
+void doOneDimensionDilate(TInIter &inputIterator, TDistIter &inputDistIterator,
+                          TOutDistIter &outputDistIterator, TOutLabIter &outputLabIterator,
+                          ProgressReporter &progress,
+                          const unsigned LineLength,
+                          const unsigned direction,
+                          const int m_MagnitudeSign,
+                          const bool m_UseImageSpacing,
+                          const RealType m_Extreme,
+                          const RealType image_scale,
+                          const RealType Sigma)
 {
   // specialised version for binary erosion during first pass. We can
   // compute the results directly because the inputs are flat.
@@ -574,6 +576,7 @@ void doOneDimensionDilate(TInIter &inputIterator, TDistIter &inputDistIterator,
   LabelBufferType LabBuf(LineLength);
   LineBufferType tmpLineBuf(LineLength);
   LabelBufferType newLabBuf(LineLength);
+  LabelBufferType tmpLabBuf(LineLength);
 
   inputIterator.SetDirection(direction);
   inputDistIterator.SetDirection(direction);
@@ -602,7 +605,7 @@ void doOneDimensionDilate(TInIter &inputIterator, TDistIter &inputDistIterator,
       ++inputDistIterator;
       }
 
-    DoLineLabelProp<LineBufferType, LabelBufferType, RealType, true>(LineBuf, tmpLineBuf, LabBuf, magnitude, m_Extreme);
+    DoLineLabelProp<LineBufferType, LabelBufferType, RealType, true>(LineBuf, tmpLineBuf, LabBuf, tmpLabBuf, magnitude, m_Extreme);
     // copy the line buffer back to the image
     unsigned j = 0;
     while( !outputDistIterator.IsAtEndOfLine() )

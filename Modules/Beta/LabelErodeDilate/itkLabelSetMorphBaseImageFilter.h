@@ -44,6 +44,9 @@ public:
   typedef typename TOutputImage::PixelType  OutputPixelType;
   typedef typename NumericTraits<PixelType>::ScalarRealType ScalarRealType;
 
+  typedef typename OutputImageType::IndexType       OutputIndexType;
+  typedef typename OutputImageType::IndexValueType  OutputIndexValueType;
+
   /** Smart pointer typedef support.  */
   typedef typename TInputImage::Pointer  InputImagePointer;
   typedef typename TInputImage::ConstPointer  InputImageConstPointer;
@@ -88,7 +91,7 @@ protected:
   LabelSetMorphBaseImageFilter();
   virtual ~LabelSetMorphBaseImageFilter() {};
 
-  int SplitRequestedRegion(int i, int num, OutputImageRegionType& splitRegion);
+  unsigned int SplitRequestedRegion(unsigned int i, unsigned int num, OutputImageRegionType& splitRegion);
   virtual void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, ThreadIdType threadId){};
   void GenerateData( void );
 
