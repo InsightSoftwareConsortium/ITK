@@ -1164,6 +1164,7 @@ void GDCMImageIO::GetScanOptions(char *name)
   ExposeMetaData< std::string >(dict, "0018|0022", m_ScanOptions);
   strcpy ( name, m_ScanOptions.c_str() );
 }
+#endif
 
 bool GDCMImageIO::GetValueFromTag(const std::string & tag, std::string & value)
 {
@@ -1187,7 +1188,6 @@ bool GDCMImageIO::GetLabelFromTag(const std::string & tag,
     }
   return false;
 }
-#endif
 
 void GDCMImageIO::PrintSelf(std::ostream & os, Indent indent) const
 {
