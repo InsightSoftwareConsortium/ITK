@@ -30,13 +30,15 @@ class OctreeBase;
  * \class OctreeNode
  * \brief A data structure representing a node in an Octree.
  *
- * OctreeNode data structure,  OctreeNodes have two states: 1) They are a Colored node and the
- * m_Branch is a sentinal value indicating the color, or 2) they are a branch node, and m_Branch
- * is a dynamically allocated array of 8 pointers to OctreeNodes.  In the second state, the 8 child
- * OctreeNodes are instantiated by the parent node.
+ * OctreeNode is the basic building block of an octree. It is rarely used by
+ * itself, and commonly used by the Octree class.
+ *
+ * OctreeNodes have two states: 1) They are a Colored node and the m_Branch is
+ * a sentinal value indicating the color, or 2) they are a branch node, and
+ * m_Branch is a dynamically allocated array of 8 pointers to OctreeNodes. In
+ * the second state, the 8 child OctreeNodes are instantiated by the parent node.
+ *
  * \author Hans J. Johnson
- * This class is the basic building block of an octree.  It is rarely used by itself, and commonly
- * used by the Octree class.
  * \todo FIXME copy & paste documentation in all methods.
  * \ingroup ITKCommon
  */
@@ -49,6 +51,7 @@ public:
    * with values of 0.
    */
   OctreeNode(void);
+
   /**
    * Default destructor
    */
@@ -64,8 +67,9 @@ public:
   OctreeNode & GetChild(const enum LeafIdentifier ChildID) const;
 
   OctreeNode & GetChild(const enum LeafIdentifier ChildID);
+  /** @}
+  */
 
-  /** @} */
   /**
    * Determines the color value of the specified Child for this OctreeNode
    * \pre Must determine that the specified node is colored (Use IsNodeColored()

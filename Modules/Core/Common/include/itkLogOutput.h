@@ -27,7 +27,7 @@
 namespace itk
 {
 /** \class LogOutput
- *  \brief Represents an output stream.
+ * \brief Represents an output stream.
  *
  *  \author Hee-Su Kim, Compute Science Dept. Kyungpook National University,
  *                      ISIS Center, Georgetown University.

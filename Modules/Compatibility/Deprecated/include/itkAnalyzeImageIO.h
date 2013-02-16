@@ -186,16 +186,16 @@ private:
   void SwapBytesIfNecessary(void *buffer, SizeType numberOfPixels);
 
 /**
- * \author Hans J. Johnson
  * Performs byte swapping of the Analyze Image header if necessary.
+ * \author Hans J. Johnson
  * \param imageheader An Analyze 7.5 compliant image header.
  * \return void
  */
   void SwapHeaderBytesIfNecessary(struct dsr *const imageheader);
 
 /**
- * \author Hans J. Johnson
  * Defines the header object data type feilds according to Analyze v7.5 specifications
+ * \author Hans J. Johnson
  * \return nothing
  */
   void  DefineHeaderObjectDataType(void);
@@ -215,9 +215,9 @@ private:
     unsigned int zsize;
   };
 /**
- * \author Kent Williams
  * Get values needed to re-orient image data to
  * Coronal scan order
+ * \author Kent Williams
  * \param dim - structure to fill in
  * \return nothing
  */
@@ -226,8 +226,8 @@ private:
   ipl_dimensions m_OldDim, m_NewDim;
 #endif
 /**
- * \author Hans J. Johnson
  * Check the endedness of the header file.
+ * \author Hans J. Johnson
  * \param temphdr - a reference to the header structure
  * \return The endedness of the file
  */

@@ -61,7 +61,7 @@ public:
  * http://hdl.handle.net/1926/584  or
  * http://www.insight-journal.org/browse/publication/176
  *
- *\sa LabelObject, ShapeLabelObject, StatisticsLabelObject
+ * \sa LabelObject, ShapeLabelObject, StatisticsLabelObject
  *
  * \ingroup DataRepresentation
  * \ingroup ITKLabelMap

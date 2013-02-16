@@ -86,52 +86,51 @@ public:
   itkTypeMacro(MetaDataObject, MetaDataObjectBase);
 
   /**
-   * \author Hans J. Johnson
    * Default constructor with no initialization.
+   * \author Hans J. Johnson
    */
   MetaDataObject(void);
-  /** \author Hans J. Johnson
+  /**
    * Default virtual Destructor
+   * \author Hans J. Johnson
    */
   virtual ~MetaDataObject(void);
   /**
-   * \author Hans J. Johnson
    * Initializer constructor that sets m_MetaDataObjectValue to InitializerValue
+   * \author Hans J. Johnson
    */
   MetaDataObject(const MetaDataObjectType InitializerValue);
   /**
-   * \author Hans J. Johnson
    * Copy constructor that sets m_MetaDataObjectValue to TemplateObject.m_MetaDataObjectValue
+   * \author Hans J. Johnson
    */
   MetaDataObject(const MetaDataObject< MetaDataObjectType > & TemplateObject);
   /**
-   * \author Hans J. Johnson
-   *
    * The definition of this function is necessary to fulfill
    * the interface of the MetaDataObjectBase
+   * \author Hans J. Johnson
    * \return A pointer to a const char array containing the unique type name.
    */
   virtual const char * GetMetaDataObjectTypeName(void) const;
 
   /**
-   * \author Hans J. Johnson
-   *
    * The definition of this function is necessary to fulfill
    * the interface of the MetaDataObjectBase
+   * \author Hans J. Johnson
    * \return A constant reference to a std::type_info object
    */
   virtual const std::type_info & GetMetaDataObjectTypeInfo(void) const;
 
   /**
-   * \author Hans J. Johnson
    * Function to return the stored value of type MetaDataObjectType.
+   * \author Hans J. Johnson
    * \return a constant reference to a MetaDataObjectType
    */
   const MetaDataObjectType & GetMetaDataObjectValue(void) const;
 
   /**
-   * \author Hans J. Johnson
    * Function to set the stored value of type MetaDataObjectType.
+   * \author Hans J. Johnson
    * \param NewValue A constant reference to at MetaDataObjectType.
    */
   void SetMetaDataObjectValue(const MetaDataObjectType & NewValue);
@@ -143,12 +142,13 @@ public:
   virtual void Print(std::ostream & os) const;
 
 private:
-  //This is made private to force the use of the
+  // This is made private to force the use of the
   // MetaDataObject<MetaDataObjectType>::New() operator!
   //void * operator new(SizeValueType nothing) {};//purposefully not implemented
+
   /**
-   * \author Hans J. Johnson
    * A variable to store this derived type.
+   * \author Hans J. Johnson
    */
   MetaDataObjectType m_MetaDataObjectValue;
 };
