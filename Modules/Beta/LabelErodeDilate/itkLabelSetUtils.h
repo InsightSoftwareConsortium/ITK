@@ -173,7 +173,7 @@ void DoLineLabelProp(LineBufferType &LineBuf, LineBufferType &tmpLineBuf,
     }
   // positive half of parabola
   koffset = newcontact = 0;
-#if 0
+#if 1
   for (long pos = LineLength - 1; pos >= 0; pos--)
     {
     RealType BaseVal = (RealType)m_Extreme; // the base value for comparison
@@ -347,6 +347,7 @@ void doOneDimensionDilateFirstPass(TInIter &inputIterator, TOutDistIter &outputI
 {
   // specialised version for binary erosion during first pass. We can
   // compute the results directly because the inputs are flat.
+
   typedef typename itk::Array<RealType> LineBufferType;
   typedef typename itk::Array<typename TInIter::PixelType> LabelBufferType;
   RealType iscale = 1.0;
@@ -355,7 +356,8 @@ void doOneDimensionDilateFirstPass(TInIter &inputIterator, TOutDistIter &outputI
     iscale = image_scale;
     }
   // restructure equation to reduce numerical error
-  const RealType magnitude = (m_MagnitudeSign * iscale * iscale)/(2.0 * Sigma);
+  //const RealType magnitude = (m_MagnitudeSign * iscale * iscale)/(2.0 * Sigma);
+  const RealType magnitude = (m_MagnitudeSign * iscale * iscale)/(2.0);
   LineBufferType LineBuf(LineLength);
   LabelBufferType LabBuf(LineLength);
   LineBufferType tmpLineBuf(LineLength);
@@ -368,6 +370,7 @@ void doOneDimensionDilateFirstPass(TInIter &inputIterator, TOutDistIter &outputI
   inputIterator.GoToBegin();
   outputIterator.GoToBegin();
   outputLabIterator.GoToBegin();
+
 
   while( !inputIterator.IsAtEnd() && !outputIterator.IsAtEnd() )
     {
@@ -382,7 +385,7 @@ void doOneDimensionDilateFirstPass(TInIter &inputIterator, TOutDistIter &outputI
       LabBuf[i]      = (inputIterator.Get());
       if (LabBuf[i])
         {
-        LineBuf[i] = 1.0;
+        LineBuf[i] = Sigma;
         }
       else
         {
@@ -571,7 +574,8 @@ void doOneDimensionDilate(TInIter &inputIterator, TDistIter &inputDistIterator,
     iscale = image_scale;
     }
   // restructure equation to reduce numerical error
-  const RealType magnitude = (m_MagnitudeSign * iscale * iscale)/(2.0 * Sigma);
+//  const RealType magnitude = (m_MagnitudeSign * iscale * iscale)/(2.0 * Sigma);
+  const RealType magnitude = (m_MagnitudeSign * iscale * iscale)/(2.0 );
   LineBufferType LineBuf(LineLength);
   LabelBufferType LabBuf(LineLength);
   LineBufferType tmpLineBuf(LineLength);

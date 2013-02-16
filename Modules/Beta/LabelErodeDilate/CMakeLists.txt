@@ -51,7 +51,7 @@ ${ITK_LIBRARIES}
 # install devel files
 OPTION(INSTALL_DEVEL_FILES "Install C++ headers" ON)
 IF(INSTALL_DEVEL_FILES)
-FILE(GLOB develFiles *.h *.txx) 
+FILE(GLOB develFiles *.h *.txx)
 FOREACH(f ${develFiles})
   INSTALL_FILES(/include/InsightToolkit/BasicFilters FILES ${f})
 ENDFOREACH(f)
@@ -64,13 +64,13 @@ OPTION(BUILD_WRAPPERS "Wrap library" OFF)
 IF(BUILD_WRAPPERS)
    SUBDIRS(Wrapping)
 ENDIF(BUILD_WRAPPERS)
-   
-   
+
+
 
 #the following block of code is an example of how to build an executable in
 #cmake.  Unmodified, it will add an executable called "MyExe" to the project.
 #MyExe will be built using the files MyClass.h and MyClass.cxx, and it will
-#be linked to all the libraries you specified above. 
+#be linked to all the libraries you specified above.
 #You can build more than one executable per project
 
 IF(BUILD_TESTING)
@@ -92,30 +92,33 @@ ENDIF(BUILD_TESTING)
 # ADD_TEST(Testname ExecutableToRun arg1 arg2 arg3)
 
 
-ADD_TEST(testLabelErode3d ${TEST_COMMAND} labelSetsErode  -i 
+ADD_TEST(testLabelErode3d ${TEST_COMMAND} labelSetsErode  -i
 ${BRAIN_ATLAS} -o laberode3d.nii.gz -r 2
 --compare laberode3d.nii.gz ${CMAKE_CURRENT_SOURCE_DIR}/images/baseline/laberode3d.nii.gz
 )
 
-ADD_TEST(testLabelDilate3d ${TEST_COMMAND} labelSetsDilate  -i 
+ADD_TEST(testLabelDilate3d ${TEST_COMMAND} labelSetsDilate  -i
 ${BRAIN_ATLAS} -o labdilate3d.nii.gz -r 5
 --compare labdilate3d.nii.gz ${CMAKE_CURRENT_SOURCE_DIR}/images/baseline/labdilate3d.nii.gz
 )
 
-ADD_TEST(testLabelErode2d ${TEST_COMMAND} labelSetsErode  -i 
+ADD_TEST(testLabelErode2d ${TEST_COMMAND} labelSetsErode  -i
 ${BRAIN_SLICE} -o laberode2d.png -r 2
 --compare laberode2d.png  ${CMAKE_CURRENT_SOURCE_DIR}/images/baseline/laberode2d.png
 
 )
 
-ADD_TEST(testLabelDilate2d ${TEST_COMMAND} labelSetsDilate  -i 
+ADD_TEST(testLabelDilate2d ${TEST_COMMAND} labelSetsDilate  -i
 ${BRAIN_SLICE} -o labdilate2d.png -r 5
 --compare labdilate2d.png  ${CMAKE_CURRENT_SOURCE_DIR}/images/baseline/labdilate2d.png
 )
 
- 
+ADD_TEST(threadDilateTest  ${TEST_COMMAND} ${CMAKE_COMMAND} -DTESTIMAGE=${CMAKE_CURRENT_SOURCE_DIR}/BugsFromDzenan/vCenters10.mha -P ${CMAKE_CURRENT_SOURCE_DIR}/threadtest.cmake
+--compare dil_4.mha dil_1.mha)
 
- 
 
 
- 
+
+
+
+
