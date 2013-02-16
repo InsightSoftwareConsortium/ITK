@@ -53,17 +53,13 @@ void doDilate(const CmdLineType &CmdLineObj)
   // load
   typename MaskImType::Pointer mask = readIm<MaskImType>(CmdLineObj.InputIm);
 
-
   // Label dilation
   itk::Instance< itk::LabelSetDilateImageFilter<MaskImType, MaskImType> > Dilate;
   Dilate->SetInput(mask);
   Dilate->SetRadius(CmdLineObj.radius);
   Dilate->SetUseImageSpacing(true);
 
-
   writeIm<MaskImType>(Dilate->GetOutput(), CmdLineObj.OutputIm);
-
-  Dilate->writeDist("/tmp/dist.nii.gz");
 
 }
 

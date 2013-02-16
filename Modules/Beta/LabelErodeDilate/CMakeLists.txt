@@ -3,6 +3,7 @@ PROJECT(LabelErodeDilate)
 
 # set the name of the input image used to run the test
 SET(BRAIN_ATLAS ${CMAKE_CURRENT_SOURCE_DIR}/images/HarvardOxford-cort-maxprob-thr50-1mm.nii.gz)
+SET(POINTIM ${CMAKE_CURRENT_SOURCE_DIR}/BugsFromDzenan/vCenters10.mha)
 SET(BRAIN_SLICE ${CMAKE_CURRENT_SOURCE_DIR}/images/axial.png)
 
 #include some macros from another file...
@@ -100,6 +101,11 @@ ${BRAIN_ATLAS} -o laberode3d.nii.gz -r 2
 ADD_TEST(testLabelDilate3d ${TEST_COMMAND} labelSetsDilate  -i
 ${BRAIN_ATLAS} -o labdilate3d.nii.gz -r 5
 --compare labdilate3d.nii.gz ${CMAKE_CURRENT_SOURCE_DIR}/images/baseline/labdilate3d.nii.gz
+)
+
+ADD_TEST(testLabelDilate3dDez ${TEST_COMMAND} labelSetsDilate  -i
+${POINTIM} -o labdilate3d_dez.nii.gz -r 50
+--compare labdilate3d_dez.nii.gz ${CMAKE_CURRENT_SOURCE_DIR}/images/baseline/labdilate3d_dez.nii.gz
 )
 
 ADD_TEST(testLabelErode2d ${TEST_COMMAND} labelSetsErode  -i

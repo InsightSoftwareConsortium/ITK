@@ -73,7 +73,7 @@ int main(int argc, char * argv[])
   ParseCmdLine(argc, argv, CmdLineObj);
 
   itk::ImageIOBase::IOComponentType ComponentType;
-  itk::MultiThreader::SetGlobalMaximumNumberOfThreads(1);
+  //itk::MultiThreader::SetGlobalMaximumNumberOfThreads(1);
 
   if (!readImageInfo(CmdLineObj.InputIm, &ComponentType, &dim1))
     {

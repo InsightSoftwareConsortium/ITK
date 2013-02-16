@@ -42,7 +42,7 @@ typename LabelImageType::Pointer multilabelDilation(typename LabelImageType::Poi
   Dilate->SetInsideValue(1);
   Dilate->SetOutsideValue(0);
 
-  writeIm<InternalImageType>(dm->GetOutput(), "/tmp/maurer.nii.gz");
+  //writeIm<InternalImageType>(dm->GetOutput(), "/tmp/maurer.nii.gz");
 
   typedef typename itk::MorphologicalWatershedFromMarkersImageFilter<InternalImageType, LabelImageType> morphoWSfMType;
   typename morphoWSfMType::Pointer ws=morphoWSfMType::New();
@@ -89,7 +89,7 @@ typename LabelImageType::Pointer multilabelDilationDanielsson(typename LabelImag
   Thresh->SetInsideValue(1);
   Thresh->SetOutsideValue(0);
 
-  writeIm<InternalImageType>(dm->GetOutput(), "/tmp/dan.nii.gz");
+  //writeIm<InternalImageType>(dm->GetOutput(), "/tmp/dan.nii.gz");
   typedef typename itk::MaskImageFilter<LabelImageType, MaskImageType> MaskType;
   typename MaskType::Pointer mask=MaskType::New();
   mask->SetInput1(dm->GetVoronoiMap());
