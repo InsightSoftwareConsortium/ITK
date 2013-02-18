@@ -1,16 +1,18 @@
+// tool to report the location and values of non zero voxels so we can
+// check differences between versions
+
+#include "itkinstance.h"
+
 #include "tclap/CmdLine.h"
 #include "ioutils.h"
 
-#include <itkMaskImageFilter.h>
-#include "itkLabelSetDilateImageFilter.h"
-#include "itkinstance.h"
+#include "itkImageRegionIterator.h"
 
 
 typedef class CmdLineType
 {
 public:
-  std::string InputIm, OutputIm;
-  float radius;
+  std::string InputIm;
 } CmdLineType;
 
 void ParseCmdLine(int argc, char* argv[],
@@ -26,18 +28,10 @@ void ParseCmdLine(int argc, char* argv[],
     ValueArg<std::string> inArg("i","input","input image (label mask)",true,"result","string");
     cmd.add( inArg );
 
-    ValueArg<std::string> outArg("o","output","output image", true,"","string");
-    cmd.add( outArg );
-
-    ValueArg<float> radArg("r","radius","erosion radius", true, -1.0,"float");
-    cmd.add( radArg );
-
     // Parse the args.
     cmd.parse( argc, argv );
 
     CmdLineObj.InputIm = inArg.getValue();
-    CmdLineObj.OutputIm = outArg.getValue();
-    CmdLineObj.radius = radArg.getValue();
     }
   catch (ArgException &e)  // catch any exceptions
     {
@@ -45,25 +39,33 @@ void ParseCmdLine(int argc, char* argv[],
     }
 }
 
-template <class MaskPixType, int dim>
-void doDilate(const CmdLineType &CmdLineObj)
+template < class PixType, int dim>
+void doSearch(const CmdLineType &CmdLineObj)
 {
-  typedef typename itk::Image<MaskPixType, dim> MaskImType;
+  typedef typename itk::Image<PixType, dim> MaskImType;
 
   // load
   typename MaskImType::Pointer mask = readIm<MaskImType>(CmdLineObj.InputIm);
+  typedef typename itk::ImageRegionIterator<MaskImType> IterType;
 
-  // Label dilation
-  itk::Instance< itk::LabelSetDilateImageFilter<MaskImType, MaskImType> > Dilate;
-  Dilate->SetInput(mask);
-  Dilate->SetRadius(CmdLineObj.radius);
-  Dilate->SetUseImageSpacing(true);
-  writeIm<MaskImType>(Dilate->GetOutput(), CmdLineObj.OutputIm);
-  //Dilate->writeDist("/tmp/pdist.nii.gz");
+  IterType iter(mask, mask->GetLargestPossibleRegion());
+
+  for (iter.GoToBegin(); !iter.IsAtEnd(); ++iter)
+    {
+    PixType Val = iter.Get();
+    if (Val)
+      {
+      typename MaskImType::IndexType pos = iter.GetIndex();
+      typename MaskImType::PointType wc;
+      mask->TransformIndexToPhysicalPoint(pos, wc);
+      std::cout << Val ;
+      for (unsigned i=0; i< dim; i++)
+        std::cout << "," << std::setprecision(10) << wc[i];
+      std::cout << std::endl;
+      }
+    }
 
 }
-
-/////////////////////////////////
 
 int main(int argc, char * argv[])
 {
@@ -84,10 +86,10 @@ int main(int argc, char * argv[])
   switch (dim1)
     {
     case 2:
-      doDilate<unsigned char, 2>(CmdLineObj);
+      doSearch<int, 2>(CmdLineObj);
       break;
     case 3:
-      doDilate<unsigned char, 3>(CmdLineObj);
+      doSearch<int, 3>(CmdLineObj);
       break;
     default:
       std::cerr << "Unsupported dimension" << std::endl;
