@@ -30,9 +30,31 @@
 
 #include "itkProcessObject.h"
 #include "itkImage.h"
+#include "itkImageRegionSplitterBase.h"
 
 namespace itk
 {
+
+/** \class ImageSourceCommon
+ * \brief Secondary bass class of ImageSource common between templates
+ *
+ * This class provides common non-templated code which can be compiled
+ * and used by all templated versions of ImageSource.
+ *
+ * This class must be inherited privately, and light-weight adapting
+ * of methods is required for virtual methods or non-private methods
+ * for the ImageSource interface.
+ *
+ * \ingroup ITKCommon
+ */
+struct ITKCommon_EXPORT ImageSourceCommon
+{
+  /**
+   * Provide access to a common static object for image region splitting
+   */
+  static  const ImageRegionSplitterBase*  GetGlobalDefaultSplitter(void);
+};
+
 /** \class ImageSource
  *  \brief Base class for all process objects that output image data.
  *
@@ -61,7 +83,8 @@ namespace itk
  * \endwiki
  */
 template< class TOutputImage >
-class ITK_EXPORT ImageSource:public ProcessObject
+class ITK_EXPORT ImageSource
+  : public ProcessObject, private ImageSourceCommon
 {
 public:
   /** Standard class typedefs. */
@@ -232,7 +255,7 @@ protected:
 
   /** If an imaging filter can be implemented as a multithreaded
    * algorithm, the filter will provide an implementation of
-   * ThreadedGenerateData().  This superclass will automatically split
+   * ThreadedGenerateData(). This superclass will automatically split
    * the output image into a number of pieces, spawn multiple threads,
    * and call ThreadedGenerateData() in each thread. Prior to spawning
    * threads, the BeforeThreadedGenerateData() method is called. After
@@ -287,11 +310,42 @@ protected:
    * a ThreadedGenerateData() method and NOT a GenerateData() method. */
   virtual void AfterThreadedGenerateData() {}
 
+  /** \brief Returns the default image region splitter
+   *
+   * This is an adapter function from the private common base class to
+   * the interface of this class.
+   */
+  static const ImageRegionSplitterBase* GetGlobalDefaultSplitter()
+  {
+    return ImageSourceCommon::GetGlobalDefaultSplitter();
+  }
+
+  /** \brief Get the image splitter to split the image for multi-threading.
+   *
+   * The Splitter object divides the image into regions for threading
+   * or streaming. The algorithms on how to split an images are
+   * separated into class so that they can be easily be reused. When
+   * deriving from this class to write a filter consideration to the
+   * algorithm used to divide the image should be made. If a change is
+   * desired this method should be overridden to return the
+   * appropriate object.
+   */
+  virtual const ImageRegionSplitterBase* GetImageRegionSplitter(void) const;
+
   /** Split the output's RequestedRegion into "num" pieces, returning
-   * region "i" as "splitRegion". This method is called "num" times. The
-   * regions must not overlap. The method returns the number of pieces that
+   * region "i" as "splitRegion". This method is called concurrently
+   * "num" times. The  regions must not overlap. The method returns the number of pieces that
    * the routine is capable of splitting the output RequestedRegion,
-   * i.e. return value is less than or equal to "num". */
+   * i.e. return value is less than or equal to "num".
+   *
+   * To override the algorithm used split the image this method should
+   * no longer be overridden. It stead the algorithm should be
+   * implemented in a ImageRegionSplitter class, and the
+   * GetImageRegionSplitter should overridden to return the splitter
+   * object with the desired algorithm.
+   *
+   * \sa GetImageRegionSplitter
+   **/
   virtual
   unsigned int SplitRequestedRegion(unsigned int i, unsigned int num, OutputImageRegionType & splitRegion);
 

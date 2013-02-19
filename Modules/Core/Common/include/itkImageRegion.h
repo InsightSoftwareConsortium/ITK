@@ -140,8 +140,8 @@ public:
   { m_Index = index; }
 
   /** Get index defining the corner of the region. */
-  const IndexType & GetIndex() const
-  { return m_Index; }
+  const IndexType & GetIndex() const { return m_Index; }
+  IndexType & GetModifiableIndex() { return m_Index; }
 
   /** Set the size of the region. This plus the index determines the
    * rectangular shape, or extent, of the region. */
@@ -149,8 +149,8 @@ public:
   { m_Size = size; }
 
   /** Get the size of the region. */
-  const SizeType & GetSize() const
-  { return m_Size; }
+  const SizeType & GetSize() const { return m_Size; }
+  SizeType & GetModifiableSize() { return m_Size; }
 
   /** Convenience methods to get and set the size of the particular dimension i.
     */
