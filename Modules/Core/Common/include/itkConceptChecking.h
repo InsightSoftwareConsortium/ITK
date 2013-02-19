@@ -435,7 +435,7 @@ struct DivisionAndAssignOperators {
 /** Concept requiring T1 to have operators &, |, and ^ in the form
     T1 op T2 = T3.  */
 template< typename T1, typename T2 = T1, typename T3 = T1 >
-struct LogicalOperators {
+struct BitwiseOperators {
   struct Constraints {
     void constraints()
     {
