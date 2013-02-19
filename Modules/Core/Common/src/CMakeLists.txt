@@ -38,6 +38,7 @@ itkRegion.cxx
 itkImageSource.cxx
 itkImageRegionSplitterBase.cxx
 itkImageRegionSplitterSlowDimension.cxx
+itkImageRegionSplitterDirection.cxx
 itkFastMutexLock.cxx
 itkVersion.cxx
 itkNumericTraitsRGBAPixel.cxx
