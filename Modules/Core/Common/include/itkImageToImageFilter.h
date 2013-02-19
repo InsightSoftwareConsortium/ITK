@@ -172,6 +172,7 @@ public:
    */
   itkSetMacro(CoordinateTolerance,double);
   itkGetMacro(CoordinateTolerance,double);
+
   /** get/set the direction tolerance
    *  This tolerance is used to make sure that all input
    *  images are oriented the same before performing the filter's
@@ -179,6 +180,7 @@ public:
    */
   itkSetMacro(DirectionTolerance,double);
   itkGetMacro(DirectionTolerance,double);
+
 protected:
   ImageToImageFilter();
   ~ImageToImageFilter();

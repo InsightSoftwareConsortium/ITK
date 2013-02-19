@@ -27,6 +27,10 @@ namespace itk
  * \brief BSplineTransformInitializer is a helper class intended to
  * initialize the control point grid such that it has a physically consistent
  * definition.
+ * It sets the transform domain origin, physical dimensions and direction from
+ * information obtained from the image. It also sets the mesh size if asked
+ * to do so by calling SetTransformDomainMeshSize() before calling
+ * InitializeTransform().
  *
  * \author Luis Ibanez
  * \author Nick Tustison

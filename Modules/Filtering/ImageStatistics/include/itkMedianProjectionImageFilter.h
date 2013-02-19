@@ -33,7 +33,6 @@ namespace itk
  * The original paper can be found at
  *      http://hdl.handle.net/1926/164
  *
- *
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction,
  * INRA de Jouy-en-Josas, France.
  *

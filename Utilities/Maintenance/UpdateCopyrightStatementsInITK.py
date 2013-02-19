@@ -19,6 +19,7 @@
 
 #
 # \author Hans J. Johnson
+#
 # This script is designed to help change the copyright notices in all ITK files to a common format.
 # For files that are .h, .cxx, .hxx, .c, if there is no other copyright information, add the itkCopyright.
 import re

@@ -35,6 +35,7 @@ int itkBilateralImageFilterTest(int, char* [] )
         filter = itk::BilateralImageFilter<ImageType,
         ImageType>::New();
       filter->SetDomainSigma(2.0);
+      filter->SetDomainMu(2.5);
       filter->SetRangeSigma(35.0f);
 
       // Run Test
