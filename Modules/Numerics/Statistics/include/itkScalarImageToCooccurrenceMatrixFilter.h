@@ -84,7 +84,7 @@ namespace Statistics
  * \sa HistogramToTextureFeaturesFilter
  * \sa ScalarImageTextureCalculator
  *
- * \author  Zachary Pincus and Glenn Pierce
+ * \author Zachary Pincus and Glenn Pierce
  *
  * \ingroup ITKStatistics
  */

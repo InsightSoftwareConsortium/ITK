@@ -27,13 +27,11 @@ namespace itk
  * \brief Binary projection
  *
  * This class was contributed to the Insight Journal by Gaetan Lehmann.
- * the original paper can be found at
+ * The original paper can be found at
  *   http://hdl.handle.net/1926/164
- *
  *
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction,
  *  INRA de Jouy-en-Josas, France.
- *
  *
  * \sa ProjectionImageFilter
  * \sa MedianProjectionImageFilter
