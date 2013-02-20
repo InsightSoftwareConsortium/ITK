@@ -19,7 +19,7 @@
 #define __itkImageRegionSplitter_h
 
 #include "itkImageRegion.h"
-#include "itkObjectFactory.h"
+#include "itkImageRegionSplitterBase.h"
 
 namespace itk
 {
@@ -60,12 +60,12 @@ namespace itk
  */
 
 template< unsigned int VImageDimension >
-class ITK_EXPORT ImageRegionSplitter:public Object
+class ITK_EXPORT ImageRegionSplitter:public ImageRegionSplitterBase
 {
 public:
   /** Standard class typedefs. */
   typedef ImageRegionSplitter        Self;
-  typedef Object                     Superclass;
+  typedef ImageRegionSplitterBase    Superclass;
   typedef SmartPointer< Self >       Pointer;
   typedef SmartPointer< const Self > ConstPointer;
 
@@ -101,6 +101,7 @@ public:
   virtual unsigned int GetNumberOfSplits(const RegionType & region,
                                          unsigned int requestedNumber);
 
+
   /** Get a region definition that represents the ith piece a specified region.
    * The "numberOfPieces" must be equal to what
    * GetNumberOfSplits() returns. */
@@ -110,6 +111,50 @@ public:
 protected:
   ImageRegionSplitter() {}
   ~ImageRegionSplitter() {}
+
+  virtual unsigned int GetNumberOfSplitsInternal(unsigned int,
+                                         const IndexValueType regionIndex[],
+                                         const SizeValueType regionSize[],
+                                         unsigned int requestedNumber) const
+  {
+    // this function adapts the legecy method, defined in this class
+    // be used by the ImageRegionSplitterBase.
+    IndexType idx;
+    idx.SetIndex( regionIndex );
+    SizeType sz;
+    sz.SetSize( regionSize );
+    RegionType region = RegionType(idx, sz);
+
+    Self *nonconst_this = const_cast<Self*>(this);
+    return nonconst_this->GetNumberOfSplits(region, requestedNumber);
+
+  }
+
+  virtual unsigned int GetSplitInternal(unsigned int dim,
+                                unsigned int i,
+                                unsigned int numberOfPieces,
+                                IndexValueType regionIndex[],
+                                SizeValueType regionSize[]) const
+  {
+    // this function adapts the legecy method, defined in this class
+    // be used by the ImageRegionSplitterBase.
+    IndexType idx;
+    idx.SetIndex( regionIndex );
+    SizeType sz;
+    sz.SetSize( regionSize );
+    RegionType region = RegionType(idx, sz);
+
+    Self *nonconst_this = const_cast<Self*>(this);
+    region = nonconst_this->GetSplit(i, numberOfPieces, region);
+
+    for (unsigned int d = 0; d < dim; ++d)
+      {
+      regionIndex[d] = region.GetIndex(d);
+      regionSize[d] = region.GetSize(d);
+      }
+    return numberOfPieces;
+  }
+
   void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:

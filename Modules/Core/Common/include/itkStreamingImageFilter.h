@@ -19,7 +19,7 @@
 #define __itkStreamingImageFilter_h
 
 #include "itkImageToImageFilter.h"
-#include "itkImageRegionSplitter.h"
+#include "itkImageRegionSplitterBase.h"
 
 namespace itk
 {
@@ -75,8 +75,7 @@ public:
                       OutputImageType::ImageDimension);
 
   /** SmartPointer to a region splitting object */
-  typedef ImageRegionSplitter< itkGetStaticConstMacro(InputImageDimension) >
-  SplitterType;
+  typedef ImageRegionSplitterBase        SplitterType;
   typedef typename SplitterType::Pointer RegionSplitterPointer;
 
   /** Set the number of pieces to divide the input.  The upstream pipeline
