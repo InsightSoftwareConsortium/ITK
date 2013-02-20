@@ -27,7 +27,7 @@ namespace Functor
 {
 /**
  * \class XOR
- * \brief
+ * \brief bitwise XOR fucntor
  * \ingroup ITKImageIntensity
  */
 template< class TInput1, class TInput2 = TInput1, class TOutput = TInput1 >
@@ -53,13 +53,13 @@ public:
 };
 }
 /** \class XorImageFilter
- * \brief Computes the XOR logical operator pixel-wise between two images.
+ * \brief Computes the XOR bitwise operator pixel-wise between two images.
  *
  * This class is templated over the types of the two
  * input images and the type of the output image.
  * Numeric conversions (castings) are done by the C++ defaults.
  *
- * Since the logical XOR operation is only defined in C++ for integer
+ * Since the bitwise XOR operation is only defined in C++ for integer
  * types, the images passed to this filter must comply with the requirement
  * of using integer pixel type.
  *
@@ -111,8 +111,8 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro( Input1Input2OutputLogicalOperatorsCheck,
-                   ( Concept::LogicalOperators< typename TInputImage1::PixelType,
+  itkConceptMacro( Input1Input2OutputBitwiseOperatorsCheck,
+                   ( Concept::BitwiseOperators< typename TInputImage1::PixelType,
                                                 typename TInputImage2::PixelType,
                                                 typename TOutputImage::PixelType > ) );
   /** End concept checking */
