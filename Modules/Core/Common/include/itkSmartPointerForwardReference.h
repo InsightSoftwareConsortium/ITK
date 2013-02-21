@@ -98,7 +98,7 @@ public:
   T * Print(std::ostream & os) const;
 
 private:
-  /** The pointer to the object referrred to by this smart pointer. */
+  /** The pointer to the object referred to by this smart pointer. */
   T *m_Pointer;
 
   void Register();

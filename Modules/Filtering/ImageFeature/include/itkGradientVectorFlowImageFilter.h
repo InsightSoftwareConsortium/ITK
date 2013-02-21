@@ -76,7 +76,6 @@ public:
   typedef typename OutputImageType::RegionType RegionType;
 
   /** Image and Image iterator definition. */
-//  typedef ImageRegionConstIterator<InputImageType> InputImageConstIterator;
   typedef ImageRegionIterator< InputImageType >               InputImageIterator;
   typedef ImageRegionConstIterator< InputImageType >          InputImageConstIterator;
   typedef ImageRegionIterator< OutputImageType >              OutputImageIterator;

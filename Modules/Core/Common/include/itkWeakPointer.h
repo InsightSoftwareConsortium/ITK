@@ -123,7 +123,7 @@ public:
   }
 
 private:
-  /** The pointer to the object referrred to by this smart pointer. */
+  /** The pointer to the object referred to by this smart pointer. */
   ObjectType *m_Pointer;
 };
 
