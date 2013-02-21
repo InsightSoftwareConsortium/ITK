@@ -9,7 +9,7 @@ namespace itk {
 namespace LabSet {
 template <class LineBufferType, class RealType>
 void DoLineErodeFirstPass(LineBufferType &LineBuf, RealType leftend, RealType rightend,
-                          const RealType magnitude)
+                          const RealType magnitude, const RealType Sigma)
 {
   // This is the first pass algorithm. We can write down the values
   // because we know the inputs are binary
@@ -24,7 +24,8 @@ void DoLineErodeFirstPass(LineBufferType &LineBuf, RealType leftend, RealType ri
     left = leftend - magnitude * (pos+1) * (pos+1);
     right = rightend - magnitude * offset * offset;
     // note hard coded value here - could be a parameter
-    LineBuf[pos] = std::min(std::min(left, right), itk::NumericTraits<RealType>::One);
+//    LineBuf[pos] = std::min(std::min(left, right), itk::NumericTraits<RealType>::One);
+    LineBuf[pos] = std::min(std::min(left, right), Sigma);
     }
 }
 
@@ -226,7 +227,8 @@ void doOneDimensionErodeFirstPass(TInIter &inputIterator, TOutDistIter &outputIt
     iscale = image_scale;
     }
   // restructure equation to reduce numerical error
-  const RealType magnitude = (m_MagnitudeSign * iscale * iscale)/(2.0 * Sigma);
+//  const RealType magnitude = (m_MagnitudeSign * iscale * iscale)/(2.0 * Sigma);
+  const RealType magnitude = (m_MagnitudeSign * iscale * iscale)/(2.0);
   LineBufferType LineBuf(LineLength);
   LabelBufferType LabBuf(LineLength);
 
@@ -292,10 +294,10 @@ void doOneDimensionErodeFirstPass(TInIter &inputIterator, TOutDistIter &outputIt
       // if one end of the run touches the image edge, then we leave
       // the value as 1
       RealType leftend=0,rightend=0;
-      if (first == 0) leftend=1;
-      if (last == LineLength - 1) rightend = 1;
+      if (first == 0) leftend=Sigma;
+      if (last == LineLength - 1) rightend = Sigma;
 
-      DoLineErodeFirstPass<LineBufferType, RealType>(ShortLineBuf, leftend, rightend, magnitude);
+      DoLineErodeFirstPass<LineBufferType, RealType>(ShortLineBuf, leftend, rightend, magnitude, Sigma);
       // copy the segment back into the full line buffer
       std::copy(ShortLineBuf.begin(), ShortLineBuf.end(), &(LineBuf[first]));
       }
@@ -315,7 +317,7 @@ void doOneDimensionErodeFirstPass(TInIter &inputIterator, TOutDistIter &outputIt
       while (!outputLabIterator.IsAtEndOfLine())
         {
         typename TInIter::PixelType val = 0;
-        if (LineBuf[j2] == 1)
+        if (LineBuf[j2] == Sigma)
           {
           val=LabBuf[j2];
           }
@@ -440,7 +442,8 @@ void doOneDimensionErode(TInIter &inputIterator, TDistIter &inputDistIterator,
     iscale = image_scale;
     }
   // restructure equation to reduce numerical error
-  const RealType magnitude = (m_MagnitudeSign * iscale * iscale)/(2.0 * Sigma);
+//  const RealType magnitude = (m_MagnitudeSign * iscale * iscale)/(2.0 * Sigma);
+  const RealType magnitude = (m_MagnitudeSign * iscale * iscale)/(2.0);
   LineBufferType LineBuf(LineLength);
 //  LineBufferType tmpLineBuf(LineLength);
   LabelBufferType LabBuf(LineLength);
@@ -507,8 +510,8 @@ void doOneDimensionErode(TInIter &inputIterator, TDistIter &inputDistIterator,
       // if one end of the run touches the image edge, then we leave
       // the value as 1
       RealType leftend=0,rightend=0;
-      if (first == 0) leftend=1;
-      if (last == LineLength - 1) rightend = 1;
+      if (first == 0) leftend=Sigma;
+      if (last == LineLength - 1) rightend = Sigma;
 
       ShortLineBuf[0]=leftend;
       ShortLineBuf[SLL+1]=rightend;
@@ -534,7 +537,7 @@ void doOneDimensionErode(TInIter &inputIterator, TDistIter &inputDistIterator,
       while (!outputLabIterator.IsAtEndOfLine())
         {
         typename TInIter::PixelType val = 0;
-        if (LineBuf[j2] == 1)
+        if (LineBuf[j2] == Sigma)
           {
           val=LabBuf[j2];
           }
@@ -603,7 +606,7 @@ void doOneDimensionDilate(TInIter &inputIterator, TDistIter &inputDistIterator,
     while( !inputDistIterator.IsAtEndOfLine() )
       {
       LineBuf[i] = inputDistIterator.Get();
-      LabBuf[i]      = (inputIterator.Get());
+      LabBuf[i]  = inputIterator.Get();
       ++i;
       ++inputIterator;
       ++inputDistIterator;
