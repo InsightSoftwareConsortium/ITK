@@ -91,8 +91,8 @@ data_refs() {
   git rev-list "$@" |
   git diff-tree --no-commit-id --root -c -r --diff-filter=AM --stdin |
   egrep '\.(md5)$' |
-  awk '{print $4 " " $6}' |
-  while read obj file; do
+  #     read :srcmode dstmode srcobj dstobj status file
+  while read  _       _       _      obj    _      file; do
     # Identify the hash algorithm used.
     case "$file" in
       *.md5) algo=MD5 ; validate="^[0-9a-fA-F]{32}$" ;;
