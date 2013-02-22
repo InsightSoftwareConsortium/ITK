@@ -149,11 +149,10 @@ public:
     }
 
   void SetInputFilter( InputFilterType * filter );
-  itkGetObjectMacro( InputFilter, InputFilterType );
+  itkGetModifiableObjectMacro(InputFilter, InputFilterType );
 
   void SetOutputFilter( OutputFilterType * filter );
-  itkGetObjectMacro( OutputFilter, OutputFilterType );
-
+  itkGetModifiableObjectMacro(OutputFilter, OutputFilterType );
 
   /** If KeepLabels is set to true, the filter will do its best to reuse the labels
    * of the input objects in the output ones. However, this is possible only if the

@@ -38,7 +38,7 @@ void sliceCallBack(itk::Object* object, const itk::EventObject &, void*)
   // real stuff begins here
   // get the slice by slice filter and the median filter
   FilterType * filter = dynamic_cast< FilterType * >( object );
-  MedianType * median = dynamic_cast< MedianType * >( filter->GetInputFilter() );
+  MedianType * median = dynamic_cast< MedianType * >( filter->GetModifiableInputFilter() );
 
   // std::cout << "callback! slice: " << filter->GetSliceIndex() << std::endl;
 

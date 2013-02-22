@@ -342,9 +342,9 @@ int itkWarpImageFilterTest(int, char* [] )
 
   // Exercise error handling
 
-  typedef WarperType::InterpolatorType InterpolatorType;
-  InterpolatorType::Pointer interp = warper->GetInterpolator();
 
+ typedef WarperType::InterpolatorType InterpolatorType;
+ InterpolatorType::Pointer interp =  warper->GetModifiableInterpolator();
   try
     {
     std::cout << "Setting interpolator to NULL" << std::endl;

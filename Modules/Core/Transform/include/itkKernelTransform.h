@@ -122,21 +122,17 @@ public:
   typedef itk::VectorContainer<SizeValueType, InputVectorType> VectorSetType;
   typedef typename VectorSetType::Pointer                      VectorSetPointer;
 
-  /** Get the source landmarks list, which we will denote \f$ p \f$. */
-  itkGetObjectMacro(SourceLandmarks, PointSetType);
-
-  /** Set the source landmarks list. */
+  /** Get/Set the source landmarks list, which we will denote \f$ p \f$. */
+  itkGetModifiableObjectMacro(SourceLandmarks, PointSetType); //NOTE: This is used to circumvent the SetTargetLandmarks
   virtual void SetSourceLandmarks(PointSetType *);
 
   /** Get the target landmarks list, which we will denote  \f$ q \f$. */
-  itkGetObjectMacro(TargetLandmarks, PointSetType);
-
-  /** Set the target landmarks list. */
+  itkGetModifiableObjectMacro(TargetLandmarks, PointSetType); //NOTE: This is used to circumvent the SetTargetLandmarks
   virtual void SetTargetLandmarks(PointSetType *);
 
   /** Get the displacements list, which we will denote \f$ d \f$,
    * where \f$ d_i = q_i - p_i \f$. */
-  itkGetObjectMacro(Displacements, VectorSetType);
+  itkGetModifiableObjectMacro(Displacements, VectorSetType);
 
   /** Compute W matrix. */
   void ComputeWMatrix(void);

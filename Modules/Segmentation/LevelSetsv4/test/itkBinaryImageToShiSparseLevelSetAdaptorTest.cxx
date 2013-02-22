@@ -61,7 +61,7 @@ int itkBinaryImageToShiSparseLevelSetAdaptorTest( int argc, char* argv[] )
 
   typedef LevelSetType::LayerIdType             LayerIdType;
 
-  LevelSetType::Pointer sparseLevelSet = adaptor->GetLevelSet();
+  LevelSetType::Pointer sparseLevelSet = adaptor->GetModifiableLevelSet();
 
   typedef BinaryToSparseAdaptorType::LevelSetOutputType LevelSetOutputType;
 

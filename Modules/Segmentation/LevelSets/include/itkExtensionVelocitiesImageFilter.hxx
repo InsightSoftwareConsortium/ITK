@@ -194,7 +194,7 @@ ExtensionVelocitiesImageFilter< TLevelSet, TAuxValue, VAuxDimension >
 
   // march outward
   m_Marcher->SetTrialPoints( m_Locator->GetOutsidePoints() );
-  m_Marcher->SetAuxiliaryTrialValues( m_Locator->GetAuxOutsideValues() );
+  m_Marcher->SetAuxiliaryTrialValues( m_Locator->GetModifiableAuxOutsideValues() );
   m_Marcher->Update();
 
   tempIt = IteratorType( tempLevelSet,
@@ -246,7 +246,7 @@ ExtensionVelocitiesImageFilter< TLevelSet, TAuxValue, VAuxDimension >
 
   // march inward
   m_Marcher->SetTrialPoints( m_Locator->GetInsidePoints() );
-  m_Marcher->SetAuxiliaryTrialValues( m_Locator->GetAuxInsideValues() );
+  m_Marcher->SetAuxiliaryTrialValues( m_Locator->GetModifiableAuxInsideValues() );
   m_Marcher->Update();
 
   inputIt.GoToBegin();
@@ -406,7 +406,7 @@ ExtensionVelocitiesImageFilter< TLevelSet, TAuxValue, VAuxDimension >
   m_Marcher->SetStoppingValue(stoppingValue);
   m_Marcher->CollectPointsOn();
   m_Marcher->SetTrialPoints( m_Locator->GetOutsidePoints() );
-  m_Marcher->SetAuxiliaryTrialValues( m_Locator->GetAuxOutsideValues() );
+  m_Marcher->SetAuxiliaryTrialValues( m_Locator->GetModifiableAuxOutsideValues() );
   m_Marcher->Update();
 
   NodeContainerPointer procPoints = m_Marcher->GetProcessedPoints();
@@ -444,7 +444,7 @@ ExtensionVelocitiesImageFilter< TLevelSet, TAuxValue, VAuxDimension >
 
   // march inward
   m_Marcher->SetTrialPoints( m_Locator->GetInsidePoints() );
-  m_Marcher->SetAuxiliaryTrialValues( m_Locator->GetAuxInsideValues() );
+  m_Marcher->SetAuxiliaryTrialValues( m_Locator->GetModifiableAuxInsideValues() );
   m_Marcher->Update();
 
   procPoints = m_Marcher->GetProcessedPoints();

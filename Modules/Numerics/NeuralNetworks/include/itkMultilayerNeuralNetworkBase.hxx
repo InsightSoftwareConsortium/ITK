@@ -158,7 +158,7 @@ MultilayerNeuralNetworkBase<TMeasurementVector,TTargetVector,TLearningLayer>
     {
     i--;
     m_LearningFunction->Learn(this->m_Layers[i],m_LearningRate);
-    this->m_Layers[i]->GetInputWeightSet()->UpdateWeights(m_LearningRate);
+    this->m_Layers[i]->GetModifiableInputWeightSet()->UpdateWeights(m_LearningRate);
     }
 }
 

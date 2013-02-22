@@ -271,7 +271,7 @@ test(char *INfilename, char *OUTfilename, bool IsBinary)
   if( itksys::SystemTools::GetFilenameLastExtension(INfilename) ==
       itksys::SystemTools::GetFilenameLastExtension(OUTfilename) )
     {
-    writer->SetMeshIO(reader->GetMeshIO());
+    writer->SetMeshIO(reader->GetModifiableMeshIO());
     }
   writer->SetFileName(OUTfilename);
   writer->SetInput( reader->GetOutput() );

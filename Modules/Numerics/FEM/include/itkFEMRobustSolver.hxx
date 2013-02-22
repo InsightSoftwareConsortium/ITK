@@ -109,7 +109,7 @@ RobustSolver<VDimension>
    * Record the element, in which the landmark is located, and the shape function
    * value.
    */
-  LoadContainerType *container = this->m_FEMObject->GetLoadContainer();
+  LoadContainerType *container = this->m_FEMObject->GetModifiableLoadContainer();
 
   if(!container)
     {
@@ -165,7 +165,7 @@ RobustSolver<VDimension>
       }
     else
       {
-      landmark->AssignToElement(this->m_FEMObject->GetElementContainer() );
+      landmark->AssignToElement(this->m_FEMObject->GetModifiableElementContainer() );
       Element::ConstPointer ep = landmark->GetElement(0);
       VectorType localPos = landmark->GetPoint();
       landmark->SetShape(ep->ShapeFunctions(localPos));
@@ -326,7 +326,7 @@ RobustSolver<VDimension>
 
   const double lambda = this->m_ToleranceToLargestDisplacement;
 
-  LoadContainerType *container = this->m_FEMObject->GetLoadContainer();
+  LoadContainerType *container = this->m_FEMObject->GetModifiableLoadContainer();
 
   if(!container)
     {
@@ -401,7 +401,7 @@ RobustSolver<VDimension>
 {
   // Compute landmark tensor weighted by a structure tensor if exists
 
-  LoadContainerType *container = this->m_FEMObject->GetLoadContainer();
+  LoadContainerType *container = this->m_FEMObject->GetModifiableLoadContainer();
 
   if(!container)
     {
@@ -473,7 +473,7 @@ RobustSolver<VDimension>
 
   typedef std::vector<Load::Pointer> LoadVectorType;
 
-  LoadContainerType *container = this->m_FEMObject->GetLoadContainer();
+  LoadContainerType *container = this->m_FEMObject->GetModifiableLoadContainer();
 
   if(!container)
     {
@@ -501,7 +501,7 @@ RobustSolver<VDimension>
 
   typedef std::vector<Load::Pointer> LoadVectorType;
 
-  LoadContainerType *container = this->m_FEMObject->GetLoadContainer();
+  LoadContainerType *container = this->m_FEMObject->GetModifiableLoadContainer();
 
   if(!container)
     {
@@ -537,7 +537,7 @@ RobustSolver<VDimension>
 
   typedef std::vector<Load::Pointer> LoadVectorType;
 
-  LoadContainerType *container = this->m_FEMObject->GetLoadContainer();
+  LoadContainerType *container = this->m_FEMObject->GetModifiableLoadContainer();
 
   if(!container)
     {
@@ -566,7 +566,7 @@ RobustSolver<VDimension>
 
   LoadIdentifier numToRemoveLoads = NumericTraits< LoadIdentifier >::Zero;
 
-  LoadContainerType * container = this->m_FEMObject->GetLoadContainer();
+  LoadContainerType * container = this->m_FEMObject->GetModifiableLoadContainer();
 
   if(!container)
     {
@@ -695,7 +695,7 @@ RobustSolver<VDimension>
 
   const double pointTensorPonderation = this->GetLandmarkTensorPonderation();
 
-  LoadContainerType *container = this->m_FEMObject->GetLoadContainer();
+  LoadContainerType *container = this->m_FEMObject->GetModifiableLoadContainer();
 
   if(!container)
     {
@@ -784,7 +784,7 @@ RobustSolver<VDimension>
 
   itkDebugMacro("Removing unselected blocks contribution, " << "pointTensorPonderation is " << pointTensorPonderation);
 
-  LoadContainerType *container = this->m_FEMObject->GetLoadContainer();
+  LoadContainerType *container = this->m_FEMObject->GetModifiableLoadContainer();
 
   if(!container)
     {
@@ -903,7 +903,7 @@ RobustSolver<VDimension>
 
   this->m_ls->InitializeVector(m_LandmarkForceIndex);
 
-  LoadContainerType *container = this->m_FEMObject->GetLoadContainer();
+  LoadContainerType *container = this->m_FEMObject->GetModifiableLoadContainer();
 
   if(!container)
     {

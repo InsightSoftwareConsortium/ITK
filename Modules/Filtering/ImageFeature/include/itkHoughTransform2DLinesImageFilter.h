@@ -128,7 +128,7 @@ public:
   void Simplify(void);
 
   /** Get the Simplified accumulator */
-  itkGetObjectMacro(SimplifyAccumulator, OutputImageType);
+  itkGetModifiableObjectMacro(SimplifyAccumulator, OutputImageType);
 
   /** Get the list of lines. This recomputes the lines */
   LinesListType & GetLines(unsigned int n = 0);

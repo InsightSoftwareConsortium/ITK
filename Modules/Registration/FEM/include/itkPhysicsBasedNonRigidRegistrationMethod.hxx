@@ -107,7 +107,7 @@ PhysicsBasedNonRigidRegistrationMethod<TFixedImage, TMovingImage, TMaskImage, TM
   this->m_FEMFilter->SetOrigin( fixedImage->GetOrigin() );
   this->m_FEMFilter->SetSize( fixedImage->GetLargestPossibleRegion().GetSize() );
 
-  typename FEMFilterType::FEMSolverType * femSolver = this->m_FEMFilter->GetFEMSolver();
+  typename FEMFilterType::FEMSolverType * femSolver = this->m_FEMFilter->GetModifiableFEMSolver();
   femSolver->SetApproximationSteps( this->m_ApproximationSteps );
   femSolver->SetOutlierRejectionSteps( this->m_OutlierRejectionSteps );
 

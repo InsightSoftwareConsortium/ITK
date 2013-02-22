@@ -184,11 +184,11 @@ public:
 
   /** Set/Get the optimizer. */
   itkSetObjectMacro( Optimizer, OptimizerType );
-  itkGetObjectMacro( Optimizer, OptimizerType );
+  itkGetModifiableObjectMacro(Optimizer, OptimizerType );
 
   /** Set/Get the metric. */
   itkSetObjectMacro( Metric, MetricType );
-  itkGetObjectMacro( Metric, MetricType );
+  itkGetModifiableObjectMacro(Metric, MetricType );
 
   /** Set/Get the metric sampling strategy. */
   itkSetMacro( MetricSamplingStrategy, MetricSamplingStrategyType );
@@ -203,11 +203,11 @@ public:
 
   /** Set/Get the initial fixed transform. */
   itkSetObjectMacro( FixedInitialTransform, InitialTransformType );
-  itkGetConstObjectMacro( FixedInitialTransform, InitialTransformType );
+  itkGetModifiableObjectMacro(FixedInitialTransform, InitialTransformType );
 
   /** Set/Get the initial moving transform. */
   itkSetObjectMacro( MovingInitialTransform, InitialTransformType );
-  itkGetConstObjectMacro( MovingInitialTransform, InitialTransformType );
+  itkGetModifiableObjectMacro(MovingInitialTransform, InitialTransformType );
 
   /** Set/Get the transform adaptors. */
   void SetTransformParametersAdaptorsPerLevel( TransformParametersAdaptorsContainerType & );

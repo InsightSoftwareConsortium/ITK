@@ -144,7 +144,7 @@ typename CSVArray2DFileReader<TData>::Array2DDataObjectPointer
 CSVArray2DFileReader<TData>
 ::GetOutput()
 {
-  return this->GetArray2DDataObject();
+  return this->GetModifiableArray2DDataObject();
 }
 
 

@@ -133,8 +133,7 @@ public:
       }
     m_FactorySpecifiedImageIO = false;
   }
-
-  itkGetObjectMacro(ImageIO, ImageIOBase);
+  itkGetModifiableObjectMacro(ImageIO, ImageIOBase);
 
   /** A special version of the Update() method for writers.  It
    * invokes start and end events and handles releasing data. It

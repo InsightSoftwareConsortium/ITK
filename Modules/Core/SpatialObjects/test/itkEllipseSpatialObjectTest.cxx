@@ -97,12 +97,12 @@ int itkEllipseSpatialObjectTest(int, char* [])
   EllipseType::TransformType::OffsetType offset;
   offset.Fill(10);
 
-  myEllipse->GetObjectToWorldTransform()->SetOffset(offset);
+  myEllipse->GetModifiableObjectToWorldTransform()->SetOffset(offset);
   myEllipse->ComputeObjectToParentTransform();
 
   EllipseType::TransformType::OffsetType offset2;
   offset2.Fill(15);
-  myEllipse2->GetObjectToWorldTransform()->SetOffset(offset2);
+  myEllipse2->GetModifiableObjectToWorldTransform()->SetOffset(offset2);
   myEllipse2->ComputeObjectToParentTransform();
 
   EllipseType::TransformType::OffsetType offset3;

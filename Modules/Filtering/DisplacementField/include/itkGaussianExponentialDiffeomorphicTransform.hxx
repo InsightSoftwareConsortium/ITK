@@ -57,7 +57,7 @@ GaussianExponentialDiffeomorphicTransform<TScalar, NDimensions>
     smoothUpdateField = false;
     }
 
-  ConstantVelocityFieldPointer velocityField = this->GetConstantVelocityField();
+  ConstantVelocityFieldPointer velocityField = this->GetModifiableConstantVelocityField();
   if( !velocityField )
     {
     itkExceptionMacro( "The velocity field has not been set." );

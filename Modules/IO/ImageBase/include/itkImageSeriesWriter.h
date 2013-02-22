@@ -122,7 +122,7 @@ public:
    * when the factory mechanism may not work (e.g., for raw files or
    * for non-standard file suffix). */
   itkSetObjectMacro(ImageIO, ImageIOBase);
-  itkGetObjectMacro(ImageIO, ImageIOBase);
+  itkGetModifiableObjectMacro(ImageIO, ImageIOBase);
 
   /** A special version of the Update() method for writers.  It
    * invokes start and end events and handles releasing data. It

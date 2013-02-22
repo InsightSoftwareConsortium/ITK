@@ -51,7 +51,7 @@ CenteredVersorTransformInitializer< TFixedImage, TMovingImage >
 
     MovingMatrixType rotationMatrix = movingPrincipalAxis * fixedPrincipalAxis.GetInverse();
 
-    this->GetTransform()->SetMatrix(rotationMatrix);
+    this->GetModifiableTransform()->SetMatrix(rotationMatrix);
     }
 }
 

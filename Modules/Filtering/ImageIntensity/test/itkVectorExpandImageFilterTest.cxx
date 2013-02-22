@@ -227,7 +227,7 @@ int itkVectorExpandImageFilterTest(int, char* [] )
   expander2->SetInput( caster->GetOutput() );
   expander2->SetExpandFactors( expander->GetExpandFactors() );
 //TEST_RMV20100728   expander2->SetEdgePaddingValue( expander->GetEdgePaddingValue() );
-  expander2->SetInterpolator( expander->GetInterpolator() );
+  expander2->SetInterpolator( expander->GetModifiableInterpolator() );
 
   typedef itk::StreamingImageFilter<ImageType,ImageType> StreamerType;
   StreamerType::Pointer streamer = StreamerType::New();

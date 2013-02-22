@@ -60,7 +60,7 @@ void LevelSetEquationChanAndVeseExternalTerm< TInput, TLevelSetContainer >
     {
     if(this->m_DomainMapImageFilter == 0)
       {
-      this->m_DomainMapImageFilter = this->m_LevelSetContainer->GetDomainMapFilter();
+      this->m_DomainMapImageFilter = this->m_LevelSetContainer->GetModifiableDomainMapFilter();
       this->m_CacheImage = this->m_DomainMapImageFilter->GetOutput();
       }
     const LevelSetIdentifierType id = this->m_CacheImage->GetPixel( iP );

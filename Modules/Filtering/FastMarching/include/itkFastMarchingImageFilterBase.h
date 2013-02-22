@@ -128,8 +128,7 @@ public:
   typedef NeighborhoodIterator<LabelImageType> NeighborhoodIteratorType;
   typedef typename NeighborhoodIteratorType::RadiusType NeighborhoodRadiusType;
 
-  itkGetObjectMacro( LabelImage, LabelImageType );
-
+  itkGetModifiableObjectMacro(LabelImage, LabelImageType );
 
   /** The output largeset possible, spacing and origin is computed as follows.
    * If the speed image is NULL or if the OverrideOutputInformation is true,

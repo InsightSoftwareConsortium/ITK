@@ -86,21 +86,17 @@ public:
 
   //itkSetObjectMacro(InputWeightSet, WeightSetInterfaceType);
   void SetInputWeightSet(WeightSetInterfaceType*);
-  itkGetObjectMacro(InputWeightSet, WeightSetInterfaceType);
-  itkGetConstObjectMacro(InputWeightSet, WeightSetInterfaceType);
+  itkGetModifiableObjectMacro(InputWeightSet, WeightSetInterfaceType);
 
   //itkSetObjectMacro(OutputWeightSet, WeightSetInterfaceType);
   void SetOutputWeightSet(WeightSetInterfaceType*);
-  itkGetObjectMacro(OutputWeightSet, WeightSetInterfaceType);
-  itkGetConstObjectMacro(OutputWeightSet, WeightSetInterfaceType);
+  itkGetModifiableObjectMacro(OutputWeightSet, WeightSetInterfaceType);
 
   void SetNodeInputFunction(InputFunctionInterfaceType* f);
-  itkGetObjectMacro(NodeInputFunction, InputFunctionInterfaceType);
-  itkGetConstObjectMacro(NodeInputFunction, InputFunctionInterfaceType);
+  itkGetModifiableObjectMacro(NodeInputFunction, InputFunctionInterfaceType);
 
   void SetTransferFunction(TransferFunctionInterfaceType* f);
-  itkGetObjectMacro(ActivationFunction, TransferFunctionInterfaceType);
-  itkGetConstObjectMacro(ActivationFunction, TransferFunctionInterfaceType);
+  itkGetModifiableObjectMacro(ActivationFunction, TransferFunctionInterfaceType);
 
   virtual ValueType Activation(ValueType) = 0;
   virtual ValueType DActivation(ValueType) = 0;

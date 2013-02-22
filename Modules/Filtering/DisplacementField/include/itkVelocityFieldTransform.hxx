@@ -303,7 +303,7 @@ VelocityFieldTransform<TScalar, NDimensions>
   typename DisplacementFieldType::ConstPointer dispField = nonConstThis->GetDisplacementField();
   typename DisplacementFieldType::Pointer cloneDispField =
     this->CopyDisplacementField(dispField.GetPointer());
-  rval->GetInterpolator()->SetInputImage( cloneDispField );
+  rval->GetModifiableInterpolator()->SetInputImage( cloneDispField );
   rval->SetDisplacementField( cloneDispField );
 
   // now do the inverse -- it actually gets created as a side effect?

@@ -117,7 +117,7 @@ MultiGradientOptimizerv4
     }
   if ( ! this->m_Metric )
     {
-    this->m_Metric = this->m_OptimizersList[0]->GetMetric();
+    this->m_Metric = this->m_OptimizersList[0]->GetModifiableMetric();
     }
   this->m_MetricValuesList.clear();
   this->m_MinimumMetricValue = this->m_MaximumMetricValue;
@@ -208,7 +208,7 @@ MultiGradientOptimizerv4
       {
       /* Pass combined gradient to transforms and let them update */
       itkDebugMacro(" combine-grad ");
-      this->m_OptimizersList[0]->GetMetric()->UpdateTransformParameters( this->m_Gradient );
+      this->m_OptimizersList[0]->GetModifiableMetric()->UpdateTransformParameters( this->m_Gradient );
       }
     catch ( ExceptionObject & err )
       {

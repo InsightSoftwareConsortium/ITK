@@ -136,8 +136,7 @@ public:
    * input image.  */
   virtual void SetMembershipFunctions(MembershipFunctionContainerType
                                       *densityFunctionContainer);
-
-  itkGetObjectMacro(MembershipFunctionContainer, MembershipFunctionContainerType);
+  itkGetModifiableObjectMacro(MembershipFunctionContainer, MembershipFunctionContainerType);
 
   /** Set/Get methods for the number of classes. The user must supply this. */
   itkSetMacro(NumberOfClasses, unsigned int);

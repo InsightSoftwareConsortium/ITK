@@ -524,7 +524,7 @@ public:
   itkSetObjectMacro( Interpolator, InterpolatorType );
 
   /** Get a pointer to the interpolator function. */
-  itkGetObjectMacro( Interpolator, InterpolatorType );
+  itkGetModifiableObjectMacro( Interpolator, InterpolatorType );
 
   /** Set the Gaussian smoothing standard deviations for the
    * displacement field. The values are set with respect to pixel
@@ -605,8 +605,8 @@ protected:
   Float GoldenSection(SolverType *mySolver, Float tol = 0.01, unsigned int MaxIters = 25);
 
   /** Get/Set the solver's current load. */
-  itkGetConstObjectMacro( Load, ImageMetricLoadType );
   itkSetObjectMacro( Load, ImageMetricLoadType );
+  itkGetModifiableObjectMacro(Load, ImageMetricLoadType );
 
   /** Smooth the current displacement field */
   void SmoothDisplacementField();

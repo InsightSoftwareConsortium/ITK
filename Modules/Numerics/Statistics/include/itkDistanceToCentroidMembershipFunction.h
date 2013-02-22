@@ -79,12 +79,11 @@ public:
   itkSetObjectMacro(DistanceMetric, DistanceMetricType);
 
   /** Get the DistanceMetric used by the MembershipFunction */
-  itkGetConstObjectMacro(DistanceMetric, DistanceMetricType);
+  itkGetModifiableObjectMacro(DistanceMetric, DistanceMetricType);
 
   /** Get the DistanceMetric used by the MembershipFunction. This is
    * a non-const version that allows you to configure the distance
    * function directly. */
-  itkGetObjectMacro(DistanceMetric, DistanceMetricType);
 
   /** Set the centroid of the class (propagated to the DistanceMetric) */
   void SetCentroid(const CentroidType & centroid);

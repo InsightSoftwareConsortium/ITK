@@ -78,8 +78,8 @@ int itkDisplacementFieldTransformCloneTest(int, char *[])
     {
     std::cerr << "fixed parameters of clone do not match original." << std::endl;
     }
-  FieldType::Pointer originalField = displacementTransform->GetDisplacementField();
-  FieldType::Pointer cloneField = displacementTransformClone->GetDisplacementField();
+  FieldType::ConstPointer originalField = displacementTransform->GetDisplacementField();
+  FieldType::ConstPointer cloneField = displacementTransformClone->GetDisplacementField();
 
   itk::ImageRegionConstIterator<FieldType> originalIt(originalField,originalField->GetLargestPossibleRegion());
   itk::ImageRegionConstIterator<FieldType> cloneIt(cloneField,cloneField->GetLargestPossibleRegion());

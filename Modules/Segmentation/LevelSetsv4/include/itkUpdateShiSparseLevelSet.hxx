@@ -55,7 +55,7 @@ UpdateShiSparseLevelSet< VDimension, TEquationContainer >
   this->m_OutputLevelSet->SetLayer( LevelSetType::MinusOneLayer(), this->m_InputLevelSet->GetLayer( LevelSetType::MinusOneLayer() ) );
   this->m_OutputLevelSet->SetLayer( LevelSetType::PlusOneLayer(), this->m_InputLevelSet->GetLayer( LevelSetType::PlusOneLayer() ) );
 
-  this->m_OutputLevelSet->SetLabelMap( this->m_InputLevelSet->GetLabelMap() );
+  this->m_OutputLevelSet->SetLabelMap( this->m_InputLevelSet->GetModifiableLabelMap() );
 
   typedef LabelMapToLabelImageFilter<LevelSetLabelMapType, LabelImageType> LabelMapToLabelImageFilterType;
   typename LabelMapToLabelImageFilterType::Pointer labelMapToLabelImageFilter = LabelMapToLabelImageFilterType::New();
@@ -188,7 +188,7 @@ UpdateShiSparseLevelSet< VDimension, TEquationContainer >
   labelImageToLabelMapFilter->SetBackgroundValue( LevelSetType::PlusThreeLayer() );
   labelImageToLabelMapFilter->Update();
 
-  LevelSetLabelMapPointer outputLabelMap = this->m_OutputLevelSet->GetLabelMap( );
+  LevelSetLabelMapPointer outputLabelMap = this->m_OutputLevelSet->GetModifiableLabelMap( );
   outputLabelMap->Graft( labelImageToLabelMapFilter->GetOutput() );
 }
 

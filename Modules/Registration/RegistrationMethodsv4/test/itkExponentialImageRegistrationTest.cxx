@@ -60,7 +60,7 @@ public:
     typename TFilter::SmoothingSigmasArrayType smoothingSigmas = filter->GetSmoothingSigmasPerLevel();
     typename TFilter::TransformParametersAdaptorsContainerType adaptors = filter->GetTransformParametersAdaptorsPerLevel();
 
-    typename itk::ObjectToObjectOptimizerBase::Pointer optimizerBase = (const_cast<TFilter*>(filter))->GetOptimizer();
+    typename itk::ObjectToObjectOptimizerBase::Pointer optimizerBase = (const_cast<TFilter*>(filter))->GetModifiableOptimizer();
     typedef itk::GradientDescentOptimizerv4 GradientDescentOptimizerv4Type;
     typename GradientDescentOptimizerv4Type::Pointer optimizer = dynamic_cast<GradientDescentOptimizerv4Type *>(optimizerBase.GetPointer());
     if( !optimizer )
@@ -149,7 +149,7 @@ int PerformExpImageRegistration( int argc, char *argv[] )
 
   typedef itk::GradientDescentOptimizerv4 GradientDescentOptimizerv4Type;
   typename GradientDescentOptimizerv4Type::Pointer affineOptimizer =
-    dynamic_cast<GradientDescentOptimizerv4Type * >( affineSimple->GetOptimizer() );
+    dynamic_cast<GradientDescentOptimizerv4Type * >( affineSimple->GetModifiableOptimizer() );
   if( !affineOptimizer )
     {
     itkGenericExceptionMacro( "Error dynamic_cast failed" );
@@ -164,7 +164,7 @@ int PerformExpImageRegistration( int argc, char *argv[] )
 
   {
   typedef itk::ImageToImageMetricv4<FixedImageType, MovingImageType> ImageMetricType;
-  typename ImageMetricType::Pointer imageMetric = dynamic_cast<ImageMetricType*>( affineSimple->GetMetric() );
+  typename ImageMetricType::Pointer imageMetric = dynamic_cast<ImageMetricType*>( affineSimple->GetModifiableMetric() );
   //imageMetric->SetUseFloatingPointCorrection(true);
   imageMetric->SetFloatingPointCorrectionResolution(1e4);
   }
@@ -182,7 +182,7 @@ int PerformExpImageRegistration( int argc, char *argv[] )
 
   {
   typedef itk::ImageToImageMetricv4<FixedImageType, MovingImageType> ImageMetricType;
-  typename ImageMetricType::Pointer imageMetric = dynamic_cast<ImageMetricType*>( affineOptimizer->GetMetric() );
+  typename ImageMetricType::Pointer imageMetric = dynamic_cast<ImageMetricType*>( affineOptimizer->GetModifiableMetric() );
   std::cout << "Affine parameters after registration: " << std::endl
             << affineOptimizer->GetCurrentPosition() << std::endl
             << "Last LearningRate: " << affineOptimizer->GetLearningRate() << std::endl

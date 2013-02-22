@@ -39,10 +39,8 @@ void
 RBFBackPropagationLearningFunction<LayerType,TTargetVector>
 ::Learn(LayerType* layer,ValueType lr)
 {
-  typename LayerType::WeightSetType::Pointer outputweightset;
-  typename LayerType::WeightSetType::Pointer inputweightset;
-  outputweightset = layer->GetOutputWeightSet();
-  inputweightset = layer->GetInputWeightSet();
+  typename LayerType::WeightSetType::Pointer outputweightset = layer->GetModifiableOutputWeightSet();
+  typename LayerType::WeightSetType::Pointer inputweightset = layer->GetModifiableInputWeightSet();
 
   typedef typename LayerType::InputVectorType  InputVectorType;
   typedef typename LayerType::OutputVectorType OutputVectorType;

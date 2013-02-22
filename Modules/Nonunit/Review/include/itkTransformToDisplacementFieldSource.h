@@ -98,7 +98,7 @@ public:
   /** Typedefs for base image. */
   typedef ImageBase< itkGetStaticConstMacro(ImageDimension) > ImageBaseType;
 
-  /** Set the coordinate transformation.
+  /** Get/Set the coordinate transformation.
    * Set the coordinate transform to use for resampling.  Note that this must
    * be in physical coordinates and it is the output-to-input transform, NOT
    * the input-to-output transform that you might naively expect.  By default
@@ -106,8 +106,6 @@ public:
    * transform here, before attempting to run the filter, if you do not want to
    * use the default Identity transform. */
   itkSetConstObjectMacro(Transform, TransformType);
-
-  /** Get a pointer to the coordinate transform. */
   itkGetConstObjectMacro(Transform, TransformType);
 
   /** Set the size of the output image. */

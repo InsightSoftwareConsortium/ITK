@@ -219,16 +219,14 @@ public:
 
   /** Helper functions */
   itkSetConstObjectMacro(ConfidencePointSet, ConfidencePointSetType);
-  itkGetConstObjectMacro(ConfidencePointSet, ConfidencePointSetType);
 
   itkSetConstObjectMacro(TensorPointSet, TensorPointSetType);
-  itkGetConstObjectMacro(TensorPointSet, TensorPointSetType);
 
   itkSetObjectMacro(Mesh, MeshType);
-  itkGetObjectMacro(Mesh, MeshType);
+  itkGetModifiableObjectMacro(Mesh, MeshType);
 
   itkSetObjectMacro(FEMSolver, FEMSolverType);
-  itkGetObjectMacro(FEMSolver, FEMSolverType);
+  itkGetModifiableObjectMacro(FEMSolver, FEMSolverType);
 
   /** Get/Set the number of voxels/pixels in each dimension used during the mesh generation */
   itkGetConstReferenceMacro(PixelsPerElement, ContinuousIndexType);

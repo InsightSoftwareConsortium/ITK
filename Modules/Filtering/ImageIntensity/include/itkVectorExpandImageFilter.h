@@ -117,11 +117,9 @@ public:
   typedef typename InterpolatorType::Pointer                                   InterpolatorPointer;
   typedef VectorLinearInterpolateImageFunction< InputImageType, CoordRepType > DefaultInterpolatorType;
 
-  /** Set the interpolator function. */
+  /** Get/Set the interpolator function. */
   itkSetObjectMacro(Interpolator, InterpolatorType);
-
-  /** Get a pointer to the interpolator function. */
-  itkGetObjectMacro(Interpolator, InterpolatorType);
+  itkGetModifiableObjectMacro(Interpolator, InterpolatorType);
 
   /** Set the expand factors. Values are clamped to
    * a minimum value of 1. Default is 1 for all dimensions. */

@@ -55,11 +55,11 @@ public:
   typedef SpatialObject< itkGetStaticConstMacro(ObjectDimension) >
   InternalSpatialObjectType;
 
-  /** Set the input SpatialObject. */
+  /** Get/Set the input SpatialObject. */
   itkSetConstObjectMacro(Input, SpatialObjectType);
 
-  /** Get the output SpatialObject. */
-  itkGetObjectMacro(Output, SpatialObjectType);
+  /** Get/Set the output SpatialObject. */
+  itkGetModifiableObjectMacro(Output, SpatialObjectType);
 
   /** Compute of the input SpatialObject. */
   void Update(void);

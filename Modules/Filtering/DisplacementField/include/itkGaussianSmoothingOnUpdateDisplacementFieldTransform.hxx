@@ -51,7 +51,7 @@ void
 GaussianSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
 ::UpdateTransformParameters( const DerivativeType & update, ScalarType factor)
 {
-  DisplacementFieldPointer displacementField = this->GetDisplacementField();
+  DisplacementFieldPointer displacementField = this->GetModifiableDisplacementField();
 
   const typename DisplacementFieldType::RegionType & bufferedRegion = displacementField->GetBufferedRegion();
   const SizeValueType numberOfPixels = bufferedRegion.GetNumberOfPixels();

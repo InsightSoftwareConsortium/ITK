@@ -118,7 +118,7 @@ int itkLevelSetEquationTermContainerTest( int argc, char* argv[] )
   adaptor->Initialize();
   std::cout << "Finished converting to sparse format" << std::endl;
 
-  SparseLevelSetType::Pointer level_set = adaptor->GetLevelSet();
+  SparseLevelSetType::Pointer level_set = adaptor->GetModifiableLevelSet();
 
   IdListType list_ids;
   list_ids.push_back( 1 );

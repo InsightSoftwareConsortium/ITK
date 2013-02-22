@@ -89,7 +89,7 @@ int itkFEMRobustSolverTest(int, char *[])
   FEMObjectType::Pointer femObject = FEMObjectType::New();
 
   /** initialize material */
-  MaterialContainerType *materialContainer = femObject->GetMaterialContainer();
+  MaterialContainerType *materialContainer = femObject->GetModifiableMaterialContainer();
 
   if(!materialContainer)
     {
@@ -109,7 +109,7 @@ int itkFEMRobustSolverTest(int, char *[])
   itk::FEMFactoryBase::GetFactory()->RegisterDefaultTypes();
 
   /** initialize nodes */
-  NodeContainerType *nodeContainer = femObject->GetNodeContainer();
+  NodeContainerType *nodeContainer = femObject->GetModifiableNodeContainer();
 
   if(!nodeContainer)
     {
@@ -143,7 +143,7 @@ int itkFEMRobustSolverTest(int, char *[])
     }
 
   /** initialize elements */
-  ElementContainerType *elementContainer = femObject->GetElementContainer();
+  ElementContainerType *elementContainer = femObject->GetModifiableElementContainer();
 
   if(!elementContainer)
     {
@@ -181,7 +181,7 @@ int itkFEMRobustSolverTest(int, char *[])
     }
 
   /** initialize loads */
-  LoadContainerType *loadContainer = femObject->GetLoadContainer();
+  LoadContainerType *loadContainer = femObject->GetModifiableLoadContainer();
 
   if(!loadContainer)
     {

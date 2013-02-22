@@ -76,7 +76,7 @@ int itkAffineGeometryFrameTest(int, char* [])
   std::cout << "Testing GetIndexToObjectTransform()->SetOffset()/...->GetOffset(): ";
   AffineGeometryFrameType::TransformType::OffsetType offset;
   offset.Fill(10);
-  geometryFrame1->GetIndexToObjectTransform()->SetOffset(offset);
+  geometryFrame1->GetModifiableIndexToObjectTransform()->SetOffset(offset);
   AffineGeometryFrameType::TransformType::OffsetType diff;
   diff = geometryFrame1->GetIndexToObjectTransform()->GetOffset()-offset;
   if(diff.GetNorm()!=0)
@@ -146,7 +146,7 @@ int itkAffineGeometryFrameTest(int, char* [])
 
   std::cout << "Testing independency of IndexToObjectTransform of original and cloned geometry-frame: ";
   offset.Fill(15);
-  geometryFrame1->GetIndexToObjectTransform()->SetOffset(offset);
+  geometryFrame1->GetModifiableIndexToObjectTransform()->SetOffset(offset);
   diff = clonedGeometryFrame1->GetIndexToObjectTransform()->GetOffset()-offset;
   if(diff.GetNorm()==0)
     {
@@ -156,7 +156,7 @@ int itkAffineGeometryFrameTest(int, char* [])
   std::cout<<"[PASSED]"<<std::endl;
 
   std::cout << "Testing independency of ObjectToNodeTransform of original and cloned geometry-frame: ";
-  geometryFrame1->GetObjectToNodeTransform()->SetOffset(offset);
+  geometryFrame1->GetModifiableObjectToNodeTransform()->SetOffset(offset);
   diff = clonedGeometryFrame1->GetObjectToNodeTransform()->GetOffset()-offset;
   if(diff.GetNorm()==0)
     {

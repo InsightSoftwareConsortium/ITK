@@ -323,7 +323,7 @@ void
 FEMScatteredDataPointSetToImageFilter<TInputPointSet, TInputMesh, TOutputImage, TInputConfidencePointSet, TInputTensorPointSet>
 ::InitializeMaterials(FEMObjectType * femObject)
 {
-  MaterialContainerType *materialContainer = femObject->GetMaterialContainer();
+  MaterialContainerType *materialContainer = femObject->GetModifiableMaterialContainer();
 
   if(!materialContainer)
     {
@@ -341,7 +341,7 @@ void
 FEMScatteredDataPointSetToImageFilter<TInputPointSet, TInputMesh, TOutputImage, TInputConfidencePointSet, TInputTensorPointSet>
 ::InitializeNodes(FEMObjectType * femObject)
 {
-  NodeContainerType *nodeContainer = femObject->GetNodeContainer();
+  NodeContainerType *nodeContainer = femObject->GetModifiableNodeContainer();
 
   if(!nodeContainer)
     {
@@ -378,7 +378,7 @@ void
 FEMScatteredDataPointSetToImageFilter<TInputPointSet, TInputMesh, TOutputImage, TInputConfidencePointSet, TInputTensorPointSet>
 ::InitializeElements(FEMObjectType * femObject)
 {
-  ElementContainerType *elementContainer = femObject->GetElementContainer();
+  ElementContainerType *elementContainer = femObject->GetModifiableElementContainer();
 
   if(!elementContainer)
     {
@@ -520,7 +520,7 @@ void
 FEMScatteredDataPointSetToImageFilter<TInputPointSet, TInputMesh, TOutputImage, TInputConfidencePointSet, TInputTensorPointSet>
 ::InitializeLoads(FEMObjectType * femObject)
 {
-  LoadContainerType *loadContainer = femObject->GetLoadContainer();
+  LoadContainerType *loadContainer = femObject->GetModifiableLoadContainer();
 
   if(!loadContainer)
     {

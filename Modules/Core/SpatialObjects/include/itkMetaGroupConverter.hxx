@@ -57,7 +57,7 @@ MetaGroupConverter< NDimensions >
     {
     spacing[i] = group->ElementSpacing()[i];
     }
-  groupSO->GetIndexToObjectTransform()->SetScaleComponent(spacing);
+  groupSO->GetModifiableIndexToObjectTransform()->SetScaleComponent(spacing);
   groupSO->GetProperty()->SetName( group->Name() );
   groupSO->GetProperty()->SetRed(group->Color()[0]);
   groupSO->GetProperty()->SetGreen(group->Color()[1]);

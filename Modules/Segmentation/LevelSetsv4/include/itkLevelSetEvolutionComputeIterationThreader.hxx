@@ -57,7 +57,7 @@ LevelSetEvolutionComputeIterationThreader< LevelSetDenseImage< TImage >, Threade
       {
       //! \todo Fix me for string identifiers
       LevelSetType * levelSetUpdate = this->m_Associate->m_UpdateBuffer->GetLevelSet( *idListIt - 1 );
-      levelSetUpdateImages[idListIdx] = levelSetUpdate->GetImage();
+      levelSetUpdateImages[idListIdx] = levelSetUpdate->GetModifiableImage();
       termContainers[idListIdx] = this->m_Associate->m_EquationContainer->GetEquation( *idListIt - 1 );
       ++idListIt;
       ++idListIdx;
@@ -82,7 +82,7 @@ LevelSetEvolutionComputeIterationThreader< LevelSetDenseImage< TImage >, Threade
     // set.
     typename LevelSetContainerType::ConstIterator levelSetUpdateContainerIt = this->m_Associate->m_UpdateBuffer->Begin();
     typename LevelSetType::Pointer levelSetUpdate = levelSetUpdateContainerIt->GetLevelSet();
-    typename LevelSetImageType::Pointer levelSetUpdateImage = levelSetUpdate->GetImage();
+    typename LevelSetImageType::Pointer levelSetUpdateImage = levelSetUpdate->GetModifiableImage();
 
     typename EquationContainerType::Iterator equationContainerIt = this->m_Associate->m_EquationContainer->Begin();
     typename TermContainerType::Pointer termContainer = equationContainerIt->GetEquation();
@@ -141,7 +141,7 @@ LevelSetEvolutionComputeIterationThreader<
         termContainer->ComputeRequiredData( it.GetIndex(), characteristics );
         LevelSetOutputRealType tempUpdate = termContainer->Evaluate( it.GetIndex(), characteristics );
 
-        LevelSetImageType * levelSetImage = levelSetUpdate->GetImage();
+        LevelSetImageType * levelSetImage = levelSetUpdate->GetModifiableImage();
         levelSetImage->SetPixel( it.GetIndex(), tempUpdate );
         }
       ++it;

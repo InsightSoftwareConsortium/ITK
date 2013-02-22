@@ -114,13 +114,11 @@ public:
   typedef typename TOutputImage::SpacingType SpacingType;
   typedef typename TOutputImage::PointType   OriginPointType;
 
-  /** Set the coordinate transformation.
+  /** Get/Set the coordinate transformation.
    * Set the KernelBase spline used for resampling the displacement grid.
    * */
   itkSetObjectMacro(KernelTransform, KernelTransformType);
-
-  /** Get a pointer to the coordinate transform. */
-  itkGetObjectMacro(KernelTransform, KernelTransformType);
+  itkGetModifiableObjectMacro(KernelTransform, KernelTransformType);
 
   /** Set the size of the output image. */
   itkSetMacro(Size, SizeType);

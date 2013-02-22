@@ -173,7 +173,7 @@ public:
   MeasureType GetWeightedValue() const;
 
   /** Get the metrics queue */
-  const MetricQueueType & GetMetricQueue();
+  const MetricQueueType & GetMetricQueue() const;
 
   virtual bool SupportsArbitraryVirtualDomainSamples( void ) const;
 
