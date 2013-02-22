@@ -137,6 +137,14 @@ watershed transform step as the information provided by the Voronoi
 map is removes the need for the watershed. Comparisons of performance
 are below.
 
+\subsection{Problems with the watershed approach}
+It turns out that the distance transform followed by watershed
+transform approach to label dilation only works reliably for smaller
+dilations, say 10. For larger dilations there is a chance of regions
+leaking across borders and becoming incorrect. Leaks of this kind
+result from the nature of propagation in the border zone combined with
+tied distance values. 
+
 \subsection{Dilations via distance maps versus binary dilation}
 There are subtle differences between the effective structuring element
 produced when thresholding distance maps versus those provided by the
@@ -146,7 +154,25 @@ specified radius is included in the structuring elements. Distance
 maps, on the other hand, typically compute distances to voxel
 centres. Thus any voxel whos centre is closer than the specified
 radius is included, resulting in a slightly smaller structuring
-element.
+element. 
+
+In addition, the parabolic dilation used in the LabelDilate tool
+treats voxels with centres exactly the dilation radius from the seed
+as ``outside''. This results from the optimized use of the contact
+point algorithm to avoid computation of a complete distance
+transform. There may be some fudge factors that can be added to avoid
+this behaviour, which will be investigated in the future.
+
+\subsection{Other differences}
+There are minor differences in results obtained from the Danielsson
+approach and the new approach discussed here. Some of those
+differences are along boundaries. My investigations suggest that the
+Danielsson approach is wrong in these cases. Explicit calculation of
+the distance between the locations of seeds and differences in
+labelling indicate that the points are incorrectly labelled by the
+Danielsson approach. The {\em reportNonZero} tool and {\em check.R}
+functions were used to investigate these problems.
+
 \section{Performance}
 The specialised version was developed due to ease of parallel
 implementation and performance results show that it is indeed much
