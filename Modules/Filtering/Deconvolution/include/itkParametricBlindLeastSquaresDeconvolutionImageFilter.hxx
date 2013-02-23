@@ -80,7 +80,7 @@ ParametricBlindLeastSquaresDeconvolutionImageFilter< TInputImage, TKernelImage, 
   typename DuplicatorType::Pointer duplicator = DuplicatorType::New();
   duplicator->SetInputImage( m_TransformedInput );
   duplicator->Update();
-  m_TransformedCurrentEstimate = duplicator->GetOutput();
+  m_TransformedCurrentEstimate = duplicator->GetModifiableOutput();
   m_TransformedCurrentEstimate->DisconnectPipeline();
 
   // Computes the difference between convolution of estimate with

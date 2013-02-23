@@ -146,7 +146,7 @@ GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TScalar, NDimensions>
   duplicator->SetInputImage( field );
   duplicator->Update();
 
-  TimeVaryingVelocityFieldPointer smoothField = duplicator->GetOutput();
+  TimeVaryingVelocityFieldPointer smoothField = duplicator->GetModifiableOutput();
 
   typedef VectorNeighborhoodOperatorImageFilter<VelocityFieldType, VelocityFieldType> SmootherType;
   typename SmootherType::Pointer smoother = SmootherType::New();

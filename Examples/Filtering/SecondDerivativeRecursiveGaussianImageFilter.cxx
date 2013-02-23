@@ -116,7 +116,7 @@ int main(int argc, char * argv [] )
   gc->Update();
   duplicator->Update();
 
-  ImageType::Pointer Izz = duplicator->GetOutput();
+  ImageType::Pointer Izz = duplicator->GetModifiableOutput();
 
   writer->SetInput( Izz );
   outputFileName = outputPrefix + "-Izz.mhd";
@@ -129,7 +129,7 @@ int main(int argc, char * argv [] )
   gc->Update();
   duplicator->Update();
 
-  ImageType::Pointer Iyy = duplicator->GetOutput();
+  ImageType::Pointer Iyy = duplicator->GetModifiableOutput();
 
   writer->SetInput( Iyy );
   outputFileName = outputPrefix + "-Iyy.mhd";
@@ -143,7 +143,7 @@ int main(int argc, char * argv [] )
   gc->Update();
   duplicator->Update();
 
-  ImageType::Pointer Ixx = duplicator->GetOutput();
+  ImageType::Pointer Ixx = duplicator->GetModifiableOutput();
 
   writer->SetInput( Ixx );
   outputFileName = outputPrefix + "-Ixx.mhd";
@@ -162,7 +162,7 @@ int main(int argc, char * argv [] )
   gc->Update();
   duplicator->Update();
 
-  ImageType::Pointer Iyz = duplicator->GetOutput();
+  ImageType::Pointer Iyz = duplicator->GetModifiableOutput();
 
   writer->SetInput( Iyz );
   outputFileName = outputPrefix + "-Iyz.mhd";
@@ -181,7 +181,7 @@ int main(int argc, char * argv [] )
   gc->Update();
   duplicator->Update();
 
-  ImageType::Pointer Ixz = duplicator->GetOutput();
+  ImageType::Pointer Ixz = duplicator->GetModifiableOutput();
 
   writer->SetInput( Ixz );
   outputFileName = outputPrefix + "-Ixz.mhd";
@@ -199,7 +199,7 @@ int main(int argc, char * argv [] )
   gc->Update();
   duplicator->Update();
 
-  ImageType::Pointer Ixy = duplicator->GetOutput();
+  ImageType::Pointer Ixy = duplicator->GetModifiableOutput();
 
   writer->SetInput( Ixy );
   outputFileName = outputPrefix + "-Ixy.mhd";

@@ -389,7 +389,7 @@ BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
   duplicator->SetInputImage( field );
   duplicator->Update();
 
-  DisplacementFieldPointer smoothField = duplicator->GetOutput();
+  DisplacementFieldPointer smoothField = duplicator->GetModifiableOutput();
 
   for( unsigned int d = 0; d < numberOfControlPoints.Size(); d++ )
     {

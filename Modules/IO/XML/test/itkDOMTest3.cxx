@@ -41,15 +41,12 @@ int itkDOMTest3( int argc, char* argv[] )
   try
     {
     // read the DOM object from the input XML file
-    itk::DOMNode::Pointer dom;
     itk::DOMNodeXMLReader::Pointer reader = itk::DOMNodeXMLReader::New();
     reader->SetFileName( argv[1] );
     reader->Update();
-    dom = reader->GetOutput();
+    itk::DOMNode::Pointer dom = reader->GetModifiableOutput();
 
-    itk::DOMNode* node = 0;
-
-    node = dom->GetChild(0);
+    itk::DOMNode* node = dom->GetChild(0);
     if ( !node )
       {
       throw "testing failed";
