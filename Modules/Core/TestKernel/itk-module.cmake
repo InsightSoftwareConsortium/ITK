@@ -27,6 +27,7 @@ itk_module(ITKTestKernel
     ITKIOTIFF
     ITKIOVTK
     ITKKWSys
+    ITKDoubleConversion
   DESCRIPTION
     "${DOCUMENTATION}"
 )

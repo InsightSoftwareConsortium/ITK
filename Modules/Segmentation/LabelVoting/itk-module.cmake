@@ -11,6 +11,7 @@ itk_module(ITKLabelVoting
   TEST_DEPENDS
     ITKTestKernel
     ITKMetaIO
+    ITKDoubleConversion
   DESCRIPTION
     "${DOCUMENTATION}"
 )
