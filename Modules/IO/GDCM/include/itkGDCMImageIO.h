@@ -152,6 +152,13 @@ public:
   itkGetConstMacro(KeepOriginalUID, bool);
   itkBooleanMacro(KeepOriginalUID);
 
+  /** Parse and load any private tags in the DICOM file. Loading DICOM
+   * files is faster when private tags are not needed. Default is false.
+   */
+  itkSetMacro(LoadPrivateTags, bool);
+  itkGetConstMacro(LoadPrivateTags, bool);
+  itkBooleanMacro(LoadPrivateTags);
+
 #if defined( ITKIO_DEPRECATED_GDCM1_API )
   /** Convenience methods to query patient information and scanner
    * information. These methods are here for compatibility with the
@@ -228,16 +235,6 @@ public:
   virtual void LoadSequencesOn () {}
   virtual void LoadSequencesOff () {}
 
-  /** Parse any private tags in the DICOM file. Defaults to the value
-   * of LoadPrivateTagsDefault. Loading DICOM files is faster when
-   * private tags are not needed.
-   * \warning this is a GDCM 1.x only option, no effect on GDCM 2.x
-   */
-  virtual void SetLoadPrivateTags( const bool ) {}
-  virtual bool GetLoadPrivateTags() const { return true; }
-  virtual void LoadPrivateTagsOn () {}
-  virtual void LoadPrivateTagsOff () {}
-
   /** Global method to define the default value for
    * LoadSequences. When instances of GDCMImageIO are created, the
    * ivar LoadSequences is initialized to the value of
@@ -290,6 +287,8 @@ protected:
   std::string m_FrameOfReferenceInstanceUID;
 
   bool m_KeepOriginalUID;
+
+  bool m_LoadPrivateTags;
 
 private:
   GDCMImageIO(const Self &);    //purposely not implemented

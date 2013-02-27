@@ -83,6 +83,8 @@ GDCMImageIO::GDCMImageIO()
 
   m_KeepOriginalUID = false;
 
+  m_LoadPrivateTags = false;
+
   m_InternalComponentType = UNKNOWNCOMPONENTTYPE;
 
   // by default assume that images will be 2D.
@@ -479,7 +481,7 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream & file)
        * Old behavior was to skip SQ, Pixel Data element. I decided that it is not safe to mime64
        * VR::UN element. There used to be a bug in gdcm 1.2.0 and VR:UN element.
        */
-      if ( tag.IsPublic() && vr != gdcm::VR::SQ
+      if ( (m_LoadPrivateTags || tag.IsPublic()) && vr != gdcm::VR::SQ
            && tag != gdcm::Tag(0x7fe0, 0x0010) /* && vr != gdcm::VR::UN*/ )
         {
         const gdcm::ByteValue *bv = ref.GetByteValue();
@@ -505,7 +507,7 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream & file)
     else /* if ( vr & gdcm::VR::VRASCII ) */
       {
       // Only copying field from the public DICOM dictionary
-      if ( tag.IsPublic() )
+      if ( m_LoadPrivateTags || tag.IsPublic() )
         {
         EncapsulateMetaData< std::string >( dico, PrintAsPipeSeparatedString(tag), sf.ToString(tag) );
         }
@@ -1197,6 +1199,7 @@ void GDCMImageIO::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "RescaleSlope: " << m_RescaleSlope << std::endl;
   os << indent << "RescaleIntercept: " << m_RescaleIntercept << std::endl;
   os << indent << "KeepOriginalUID:" << ( m_KeepOriginalUID ? "On" : "Off" ) << std::endl;
+  os << indent << "LoadPrivateTags:" << ( m_LoadPrivateTags ? "On" : "Off" ) << std::endl;
   os << indent << "UIDPrefix: " << m_UIDPrefix << std::endl;
   os << indent << "StudyInstanceUID: " << m_StudyInstanceUID << std::endl;
   os << indent << "SeriesInstanceUID: " << m_SeriesInstanceUID << std::endl;
