@@ -124,26 +124,25 @@ ImageFileWriter< TInputImage >
     }
 
 #if !defined(SPECIFIC_IMAGEIO_MODULE_TEST)
-  if ( m_ImageIO.IsNull() ) //try creating via factory
+  if ( m_ImageIO.IsNull() ||
+       ( m_FactorySpecifiedImageIO && !m_ImageIO->CanWriteFile( m_FileName.c_str() ) ) )
     {
-    itkDebugMacro(<< "Attempting factory creation of ImageIO for file: "
-                  << m_FileName);
-    m_ImageIO = ImageIOFactory::CreateImageIO(m_FileName.c_str(),
-                                              ImageIOFactory::WriteMode);
-    m_FactorySpecifiedImageIO = true;
-    }
-  else
-    {
-    if ( m_FactorySpecifiedImageIO && !m_ImageIO->CanWriteFile( m_FileName.c_str() ) )
+    //try creating via factory
+    if ( m_ImageIO.IsNull() )
+      {
+      itkDebugMacro(<< "Attempting factory creation of ImageIO for file: "
+                    << m_FileName);
+      }
+    else // ( m_FactorySpecifiedImageIO && !m_ImageIO->CanWriteFile( m_FileName.c_str() )
       {
       itkDebugMacro(<< "ImageIO exists but doesn't know how to write file:"
                     << m_FileName);
       itkDebugMacro(<< "Attempting creation of ImageIO with a factory for file:"
                     << m_FileName);
-      m_ImageIO = ImageIOFactory::CreateImageIO(m_FileName.c_str(),
-                                                ImageIOFactory::WriteMode);
-      m_FactorySpecifiedImageIO = true;
       }
+    m_ImageIO = ImageIOFactory::CreateImageIO(m_FileName.c_str(),
+                                              ImageIOFactory::WriteMode);
+    m_FactorySpecifiedImageIO = true;
     }
 #endif
 
