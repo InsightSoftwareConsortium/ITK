@@ -154,7 +154,7 @@ GaussianExponentialDiffeomorphicTransform<TScalar, NDimensions>
   duplicator->SetInputImage( field );
   duplicator->Update();
 
-  ConstantVelocityFieldPointer smoothField = duplicator->GetOutput();
+  ConstantVelocityFieldPointer smoothField = duplicator->GetModifiableOutput();
 
   typename GaussianSmoothingSmootherType::Pointer smoother = GaussianSmoothingSmootherType::New();
 

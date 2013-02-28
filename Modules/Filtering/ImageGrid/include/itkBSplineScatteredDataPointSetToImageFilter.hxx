@@ -416,7 +416,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
       ImageDuplicatorType::New();
     duplicator->SetInputImage( this->m_PsiLattice );
     duplicator->Update();
-    this->m_PhiLattice = duplicator->GetOutput();
+    this->m_PhiLattice = duplicator->GetModifiableOutput();
 
     this->UpdatePointSet();
     }
@@ -725,7 +725,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
   duplicator->SetInputImage( this->m_PhiLattice );
   duplicator->Update();
 
-  collapsedPhiLattices[ImageDimension] = duplicator->GetOutput();
+  collapsedPhiLattices[ImageDimension] = duplicator->GetModifiableOutput();
 
   ArrayType totalNumberOfSpans;
   for( unsigned int i = 0; i < ImageDimension; i++ )
@@ -1031,7 +1031,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
   typename ImageDuplicatorType::Pointer duplicator = ImageDuplicatorType::New();
   duplicator->SetInputImage( refinedLattice );
   duplicator->Update();
-  this->m_PsiLattice = duplicator->GetOutput();
+  this->m_PsiLattice = duplicator->GetModifiableOutput();
 }
 
 template<class TInputPointSet, class TOutputImage>

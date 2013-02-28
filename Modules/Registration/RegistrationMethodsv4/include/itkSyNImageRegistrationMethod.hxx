@@ -430,7 +430,7 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
   duplicator->SetInputImage( field );
   duplicator->Update();
 
-  DisplacementFieldPointer smoothField = duplicator->GetOutput();
+  DisplacementFieldPointer smoothField = duplicator->GetModifiableOutput();
 
   if( variance <= 0.0 )
     {

@@ -114,7 +114,7 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
   duplicator->SetInputImage( logInputImage );
   duplicator->Update();
 
-  RealImagePointer logUncorrectedImage = duplicator->GetOutput();
+  RealImagePointer logUncorrectedImage = duplicator->GetModifiableOutput();
 
   // Provide an initial log bias field of zeros
 

@@ -37,7 +37,7 @@ namespace itk
  *     DuplicatorType::Pointer duplicator = DuplicatorType::New();
  *     duplicator->SetInputImage(image);
  *     duplicator->Update();
- *     ImageType::Pointer clonedImage = duplicator->GetOutput();
+ *     ImageType::Pointer clonedImage = duplicator->GetModifiableOutput();
  * \endcode
  *
  * Note that the Update() method must be called explicitly in the filter

@@ -1024,11 +1024,12 @@ TTarget itkDynamicCastInDebugMode(TSource x)
 // In the future, the itkGetObjectMacro will be deprecated with the ITK_LEGACY_REMOVE
 // flag.  For now, this very advanced feature is only available
 // through manual setting of a compiler define -DITK_FUTURE_LEGACY_REMOVE
+// ("/DITK_FUTURE_LEGACY_REMOVE /EHsc" with Visual Studio)
 // to ease the transition from the historical GetObjectMacro to the GetModifiableObjectMacro
-#  define itkGetObjectMacro(name, type)                                              \
-  virtual type * Get##name ()                                                        \
-    {                                                                                \
-    #error "itkGetObjectMacro should be replaced with itkGetModifiableObjectMacro."  \
+#  define itkGetObjectMacro(name, type)                                                         \
+  virtual type * Get##name ()                                                                   \
+    {                                                                                           \
+    purposeful_error("itkGetObjectMacro should be replaced with itkGetModifiableObjectMacro."); \
     }
 
 #  define itkGetModifiableObjectMacro(name, type)     \

@@ -156,7 +156,7 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TOu
       fieldDuplicator->Update();
 
       typename DisplacementFieldTransformType::Pointer fixedDisplacementFieldTransform = DisplacementFieldTransformType::New();
-      fixedDisplacementFieldTransform->SetDisplacementField( fieldDuplicator->GetOutput() );
+      fixedDisplacementFieldTransform->SetDisplacementField( fieldDuplicator->GetModifiableOutput() );
 
       // Get the moving transform
       if( timePoint == numberOfTimePoints - 1 )
@@ -180,8 +180,8 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TOu
         {
         fieldDuplicatorIdentity->SetInputImage( movingDisplacementFieldTransform->GetDisplacementField() );
         fieldDuplicatorIdentity->Update();
-        fieldDuplicatorIdentity->GetOutput()->FillBuffer( zeroVector );
-        identityDisplacementFieldTransform->SetDisplacementField( fieldDuplicatorIdentity->GetOutput() );
+        fieldDuplicatorIdentity->GetModifiableOutput()->FillBuffer( zeroVector );
+        identityDisplacementFieldTransform->SetDisplacementField( fieldDuplicatorIdentity->GetModifiableOutput() );
         }
 
       for( unsigned int n = 0; n < this->m_MovingSmoothImages.size(); n++ )
