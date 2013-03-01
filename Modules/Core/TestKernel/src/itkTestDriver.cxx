@@ -264,9 +264,7 @@ int main(int ac, char *av[])
 
   ProcessedOutputType po;
 
-  int result = 0;
-
-  result = ProcessArguments(&ac, &av, &po);
+  int result = ProcessArguments(&ac, &av, &po);
 
   if( result )
     {

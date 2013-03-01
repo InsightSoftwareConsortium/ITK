@@ -44,7 +44,7 @@ int itkIOPluginTest(int argc, char *argv[])
     itk::ObjectFactoryBase::GetRegisteredFactories();
 
   std::cout << "----- Registered factories -----" << std::endl;
-  if (factories.size() > 0)
+  if (!factories.empty())
     {
     for ( std::list<itk::ObjectFactoryBase*>::iterator
             f = factories.begin();

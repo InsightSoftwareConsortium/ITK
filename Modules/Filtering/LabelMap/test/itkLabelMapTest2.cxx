@@ -50,8 +50,7 @@ int itkLabelMapTest2(int argc, char * argv[])
   RegionType regionIn;
   regionIn.SetSize(sizeIn);
 
-  RegionType regionOut;
-  regionOut = map->GetRequestedRegion();
+  RegionType regionOut = map->GetRequestedRegion();
   map->Initialize();
 
   IndexType index;

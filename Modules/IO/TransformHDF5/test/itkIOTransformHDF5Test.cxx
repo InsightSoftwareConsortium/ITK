@@ -89,7 +89,7 @@ static int oneTest(const char *goodname,const char *badname)
     while ( lit != list->end() )
       {
       (*lit)->Print ( std::cout );
-      lit++;
+      ++lit;
       }
     }
   catch( itk::ExceptionObject & excp )
@@ -203,7 +203,7 @@ secondTest()
     while ( lit != list->end() )
       {
       (*lit)->Print ( std::cout );
-      lit++;
+      ++lit;
       }
     }
   catch( itk::ExceptionObject & excp )

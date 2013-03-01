@@ -55,8 +55,7 @@ TransformIOBase::CreateTransform(TransformPointer & ptr,
         << "transform with TransformFactory" << std::endl;
     msg << "Currently registered Transforms: " << std::endl;
     std::list< std::string >           names = theFactory->GetClassOverrideWithNames();
-    std::list< std::string >::iterator it;
-    for ( it = names.begin(); it != names.end(); it++ )
+    for ( std::list< std::string >::iterator it = names.begin(); it != names.end(); ++it )
       {
       msg << "\t\"" << *it << "\"" << std::endl;
       }

@@ -492,11 +492,10 @@ int PhilipsPAR::GetPARVersion(std::string parFile)
   //read version number of Philips research tools
   //Research tools are used to extract data from database; data formats differ
   //considerably between versions. Handles V3, V4, V4.1, and V4.2
-  std::string currentLine = "";
   int         ResToolsVersion = RESEARCH_IMAGE_EXPORT_TOOL_UNKNOWN;
 
   // Character index 61 on line 8 should be 'V'.
-  currentLine = this->GetLineNumber(parFile, 8);
+  std::string currentLine = this->GetLineNumber(parFile, 8);
   if ( ( currentLine.length() >= 63 )
        && ( currentLine[61] == 'V' ) )
     {

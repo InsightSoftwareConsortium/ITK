@@ -74,7 +74,7 @@ int testMetaSurface(int argc, char * argv[])
       std::cout << (*it)->m_V[d] << " ";
     }
     std::cout << std::endl;
-    it++;
+    ++it;
   }
 
   delete surface;
@@ -122,7 +122,7 @@ int testMetaSurface(int argc, char * argv[])
       std::cout << (*it)->m_V[d] << " ";
     }
     std::cout << std::endl;
-    it++;
+    ++it;
   }
 
   delete surfaceBin;

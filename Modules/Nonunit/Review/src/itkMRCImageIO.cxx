@@ -250,7 +250,6 @@ void MRCImageIO::InternalReadImageInformation(std::ifstream & file)
       }
 
     delete[] buffer;
-    buffer = 0;
 
     buffer = new char[m_MRCHeader->GetExtendedHeaderSize()];
     if ( !this->ReadBufferAsBinary( file, static_cast< void * >( buffer ),  m_MRCHeader->GetExtendedHeaderSize() ) )

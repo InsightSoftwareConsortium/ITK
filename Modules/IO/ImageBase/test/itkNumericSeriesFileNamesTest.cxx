@@ -33,7 +33,7 @@ int itkNumericSeriesFileNamesTest(int, char* [])
 
   for (nit = names.begin();
        nit != names.end();
-       nit++)
+       ++nit)
     {
     // Check for filename truncation
     if (itksys::SystemTools::GetFilenameLastExtension(*nit) != ".png")

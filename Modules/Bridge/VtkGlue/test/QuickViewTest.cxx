@@ -24,8 +24,8 @@
 
 template<class T> void View(const char *name, T,
                             bool sharedCamera=false,
-                            const std::string snapshotPath = "",
-                            const std::string ext = "png")
+                            const std::string & snapshotPath = "",
+                            const std::string & ext = "png")
 {
   typedef itk::Image<T, 2 >                 ImageType;
   typedef itk::RandomImageSource<ImageType> SourceType;
@@ -65,8 +65,8 @@ template<class T> void View(const char *name, T,
 template<class T> void ViewRGB(const char *name,
                                T,
                                bool sharedCamera=false,
-                               const std::string snapshotPath = "",
-                               const std::string ext = "png")
+                               const std::string & snapshotPath = "",
+                               const std::string & ext = "png")
 {
   typedef itk::RGBPixel<T>                        ColorPixelType;
   typedef itk::Image<T, 2 >                       ScalarImageType;

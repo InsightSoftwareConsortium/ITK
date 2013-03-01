@@ -196,7 +196,7 @@ DICOMSeriesFileNames
 
   // Scan the header of each file
   FileNamesArrayType::iterator iter;
-  for ( iter = filenames.begin(); iter != filenames.end(); iter++ )
+  for ( iter = filenames.begin(); iter != filenames.end(); ++iter )
     {
     const char *fn = ( *iter ).c_str();
     m_Parser.OpenFile(fn);

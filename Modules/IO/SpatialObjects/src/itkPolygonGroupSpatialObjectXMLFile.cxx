@@ -266,11 +266,11 @@ PolygonGroupSpatialObjectXMLFileWriter::WriteFile()
       output << curpoint[0] << " " << curpoint[1] << " "  << curpoint[2];
       WriteEndElement("POINT", output);
       output << std::endl;
-      pointIt++;
+      ++pointIt;
       }
     WriteEndElement("POLYGON", output);
     output << std::endl;
-    it++;
+    ++it;
     }
   WriteEndElement("POLYGONGROUP", output);
   output << std::endl;

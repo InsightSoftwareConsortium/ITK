@@ -825,7 +825,6 @@ int itkVectorImageTest( int, char* argv[] )
 
       sNit.SetLocation( location );
       ShapedNeighborhoodIteratorType::Iterator shit = sNit.Begin();
-      shit = sNit.Begin();
       p[0] = p[3] = 10; p[1] = p[4] = 20; p[2] = p[5] = 30;
       shit.Set( p );
       index[0]=location[0]-1; index[1]=location[1]-1; index[2]=location[2]-1;

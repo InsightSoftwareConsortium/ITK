@@ -97,7 +97,7 @@ ProcessObject
   // when the process object is deleted.  However, the data object's source
   // will still point back to the now nonexistent process object if we do not
   // clean things up now.
-  for ( DataObjectPointerMap::iterator it = m_Outputs.begin(); it != m_Outputs.end(); it++ )
+  for ( DataObjectPointerMap::iterator it = m_Outputs.begin(); it != m_Outputs.end(); ++it )
     {
     if ( it->second )
       {
@@ -548,7 +548,7 @@ ProcessObject
 ::GetOutputNames() const
 {
   NameArray res(m_Outputs.size());
-  for ( DataObjectPointerMap::const_iterator it = m_Outputs.begin(); it != m_Outputs.end(); it++ )
+  for ( DataObjectPointerMap::const_iterator it = m_Outputs.begin(); it != m_Outputs.end(); ++it )
     {
     res.push_back( it->first );
     }
@@ -562,7 +562,7 @@ ProcessObject
 // {
 //   ConstDataObjectPointerArray res;
 //   res.reserve(m_Outputs.size());
-//   for ( DataObjectPointerMap::const_iterator it = m_Outputs.begin(); it != m_Outputs.end(); it++ )
+//   for ( DataObjectPointerMap::const_iterator it = m_Outputs.begin(); it != m_Outputs.end(); ++it )
 //     {
 //     res.push_back( it->second.GetPointer() );
 //     }
@@ -575,7 +575,7 @@ ProcessObject
 {
   DataObjectPointerArray res;
   res.reserve(m_Outputs.size());
-  for ( DataObjectPointerMap::iterator it = m_Outputs.begin(); it != m_Outputs.end(); it++ )
+  for ( DataObjectPointerMap::iterator it = m_Outputs.begin(); it != m_Outputs.end(); ++it )
     {
     res.push_back( it->second.GetPointer() );
     }
@@ -721,7 +721,7 @@ ProcessObject
 ::GetInputNames() const
 {
   NameArray res(m_Inputs.size());
-  for ( DataObjectPointerMap::const_iterator it = m_Inputs.begin(); it != m_Inputs.end(); it++ )
+  for ( DataObjectPointerMap::const_iterator it = m_Inputs.begin(); it != m_Inputs.end(); ++it )
     {
     res.push_back( it->first );
     }
@@ -776,7 +776,7 @@ ProcessObject
 ::SetRequiredInputNames( const NameArray & names )
 {
   m_RequiredInputNames.clear();
-  for ( NameArray::const_iterator it = names.begin(); it != names.end(); it++ )
+  for ( NameArray::const_iterator it = names.begin(); it != names.end(); ++it )
     {
     this->AddRequiredInputName( *it );
     }
@@ -789,7 +789,7 @@ ProcessObject
 {
   NameArray res;
   res.reserve(m_RequiredInputNames.size());
-  for ( NameSet::const_iterator it = m_RequiredInputNames.begin(); it != m_RequiredInputNames.end(); it++ )
+  for ( NameSet::const_iterator it = m_RequiredInputNames.begin(); it != m_RequiredInputNames.end(); ++it )
     {
     res.push_back( *it );
     }
@@ -802,7 +802,7 @@ ProcessObject
 // {
 //   ConstDataObjectPointerArray res;
 //   res.reserve(m_Inputs.size());
-//   for ( DataObjectPointerMap::const_iterator it = m_Inputs.begin(); it != m_Inputs.end(); it++ )
+//   for ( DataObjectPointerMap::const_iterator it = m_Inputs.begin(); it != m_Inputs.end(); ++it )
 //     {
 //     res.push_back( it->second.GetPointer() );
 //     }
@@ -815,7 +815,7 @@ ProcessObject
 {
   DataObjectPointerArray res;
   res.reserve(m_Inputs.size());
-  for ( DataObjectPointerMap::iterator it = m_Inputs.begin(); it != m_Inputs.end(); it++ )
+  for ( DataObjectPointerMap::iterator it = m_Inputs.begin(); it != m_Inputs.end(); ++it )
     {
     res.push_back( it->second.GetPointer() );
     }
@@ -1020,7 +1020,7 @@ void
 ProcessObject
 ::SetReleaseDataFlag(bool val)
 {
-  for ( DataObjectPointerMap::iterator it=m_Outputs.begin(); it != m_Outputs.end(); it++ )
+  for ( DataObjectPointerMap::iterator it=m_Outputs.begin(); it != m_Outputs.end(); ++it )
     {
     if ( it->second )
       {
@@ -1042,7 +1042,7 @@ ProcessObject
   if ( !m_Inputs.empty() )
     {
     os << indent << "Inputs: " << std::endl;
-    for ( DataObjectPointerMap::const_iterator it = m_Inputs.begin(); it != m_Inputs.end(); it++ )
+    for ( DataObjectPointerMap::const_iterator it = m_Inputs.begin(); it != m_Inputs.end(); ++it )
       {
       std::string req = "";
       if( this->IsRequiredInputName( it->first ) )
@@ -1060,7 +1060,7 @@ ProcessObject
   if( !m_RequiredInputNames.empty() )
     {
     os << indent << "Required Input Names: ";
-    for( NameSet::const_iterator it = m_RequiredInputNames.begin(); it != m_RequiredInputNames.end(); it++ )
+    for( NameSet::const_iterator it = m_RequiredInputNames.begin(); it != m_RequiredInputNames.end(); ++it )
       {
       if( it != m_RequiredInputNames.begin() )
         {
@@ -1078,7 +1078,7 @@ ProcessObject
   if ( !m_Outputs.empty() )
     {
     os << indent << "Outputs: " << std::endl;
-    for ( DataObjectPointerMap::const_iterator it = m_Outputs.begin(); it != m_Outputs.end(); it++ )
+    for ( DataObjectPointerMap::const_iterator it = m_Outputs.begin(); it != m_Outputs.end(); ++it )
       {
       os << indent2 << it->first << ": (" << it->second.GetPointer() << ")" << std::endl;
       }
@@ -1159,7 +1159,7 @@ ProcessObject
   //
   // Loop through the inputs
   //
-  for ( DataObjectPointerMap::iterator it=m_Inputs.begin(); it != m_Inputs.end(); it++ )
+  for ( DataObjectPointerMap::iterator it=m_Inputs.begin(); it != m_Inputs.end(); ++it )
     {
     if ( it->second )
       {
@@ -1258,7 +1258,7 @@ ProcessObject
   /**
    * Loop through the inputs
    */
-  for ( DataObjectPointerMap::iterator it=m_Inputs.begin(); it != m_Inputs.end(); it++ )
+  for ( DataObjectPointerMap::iterator it=m_Inputs.begin(); it != m_Inputs.end(); ++it )
     {
     if ( it->second )
       {
@@ -1303,7 +1303,7 @@ ProcessObject
    */
   if ( t1 > m_OutputInformationMTime.GetMTime() )
     {
-    for ( DataObjectPointerMap::iterator it=m_Outputs.begin(); it != m_Outputs.end(); it++ )
+    for ( DataObjectPointerMap::iterator it=m_Outputs.begin(); it != m_Outputs.end(); ++it )
       {
       output = it->second;
       if ( output )
@@ -1379,7 +1379,7 @@ ProcessObject
    * through all the inputs.
    */
   m_Updating = true;
-  for ( DataObjectPointerMap::iterator it=m_Inputs.begin(); it != m_Inputs.end(); it++ )
+  for ( DataObjectPointerMap::iterator it=m_Inputs.begin(); it != m_Inputs.end(); ++it )
     {
     if ( it->second )
       {
@@ -1398,7 +1398,7 @@ void
 ProcessObject
 ::GenerateInputRequestedRegion()
 {
-  for ( DataObjectPointerMap::iterator it=m_Inputs.begin(); it != m_Inputs.end(); it++ )
+  for ( DataObjectPointerMap::iterator it=m_Inputs.begin(); it != m_Inputs.end(); ++it )
     {
     if ( it->second )
       {
@@ -1414,7 +1414,7 @@ void
 ProcessObject
 ::GenerateOutputRequestedRegion(DataObject *output)
 {
-  for ( DataObjectPointerMap::iterator it=m_Outputs.begin(); it != m_Outputs.end(); it++ )
+  for ( DataObjectPointerMap::iterator it=m_Outputs.begin(); it != m_Outputs.end(); ++it )
     {
     if ( it->second && it->second != output )
       {
@@ -1432,7 +1432,7 @@ ProcessObject
 {
   if ( this->GetReleaseDataBeforeUpdateFlag() )
     {
-    for ( DataObjectPointerMap::iterator it=m_Outputs.begin(); it != m_Outputs.end(); it++ )
+    for ( DataObjectPointerMap::iterator it=m_Outputs.begin(); it != m_Outputs.end(); ++it )
       {
       if ( it->second )
         {
@@ -1449,7 +1449,7 @@ void
 ProcessObject
 ::ReleaseInputs()
 {
-  for ( DataObjectPointerMap::iterator it=m_Inputs.begin(); it != m_Inputs.end(); it++ )
+  for ( DataObjectPointerMap::iterator it=m_Inputs.begin(); it != m_Inputs.end(); ++it )
     {
     if ( it->second )
       {
@@ -1497,7 +1497,7 @@ ProcessObject
     }
   else
     {
-    for ( DataObjectPointerMap::iterator it=m_Inputs.begin(); it != m_Inputs.end(); it++ )
+    for ( DataObjectPointerMap::iterator it=m_Inputs.begin(); it != m_Inputs.end(); ++it )
       {
       if ( it->second )
         {
@@ -1538,7 +1538,7 @@ ProcessObject
     this->InvokeEvent( AbortEvent() );
     this->ResetPipeline();
     this->RestoreInputReleaseDataFlags();
-    throw excp;
+    throw &excp;
     }
   catch (...)
     {
@@ -1565,7 +1565,7 @@ ProcessObject
   /**
    * Now we have to mark the data as up to date.
    */
-  for ( DataObjectPointerMap::iterator it=m_Outputs.begin(); it != m_Outputs.end(); it++ )
+  for ( DataObjectPointerMap::iterator it=m_Outputs.begin(); it != m_Outputs.end(); ++it )
     {
     if ( it->second )
       {
@@ -1595,7 +1595,7 @@ ProcessObject
 ::CacheInputReleaseDataFlags()
 {
   m_CachedInputReleaseDataFlags.clear();
-  for ( DataObjectPointerMap::iterator it = m_Inputs.begin(); it != m_Inputs.end(); it++ )
+  for ( DataObjectPointerMap::iterator it = m_Inputs.begin(); it != m_Inputs.end(); ++it )
     {
     if ( it->second )
       {
@@ -1616,7 +1616,7 @@ void
 ProcessObject
 ::RestoreInputReleaseDataFlags()
 {
-  for ( DataObjectPointerMap::iterator it = m_Inputs.begin(); it != m_Inputs.end(); it++ )
+  for ( DataObjectPointerMap::iterator it = m_Inputs.begin(); it != m_Inputs.end(); ++it )
     {
     if ( it->second )
       {
@@ -1637,7 +1637,7 @@ ProcessObject
 
   if ( input )
     {
-    for ( DataObjectPointerMap::iterator it=m_Outputs.begin(); it != m_Outputs.end(); it++ )
+    for ( DataObjectPointerMap::iterator it=m_Outputs.begin(); it != m_Outputs.end(); ++it )
       {
       if ( it->second )
         {

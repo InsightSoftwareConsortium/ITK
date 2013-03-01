@@ -82,7 +82,7 @@ int itkTransformCloneTest(int, char *[])
     std::cerr << "Failed to downcast return value from Clone to "
               << "AffineTransform, reported type is "
               << clonePtr->GetTransformTypeAsString()
-              << std::cerr;
+              << std::endl;
     return EXIT_FAILURE;
     }
   const AffineTransformType::MatrixType &cloneMatrix =

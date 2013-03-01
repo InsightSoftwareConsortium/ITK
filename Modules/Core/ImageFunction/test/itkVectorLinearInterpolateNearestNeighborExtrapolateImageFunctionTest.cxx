@@ -46,8 +46,6 @@ bool itkNotUsed( isInside ),
 OutputType trueValue )
 {
 
-  int k;
-
   std::cout << " Point: " << point;
 
   bool bvalue = interp->IsInsideBuffer( point );
@@ -61,6 +59,7 @@ OutputType trueValue )
 
   if( bvalue )
     {
+    int k;
     OutputType value = interp->Evaluate( point );
     std::cout << " Value: ";
     for( k = 0; k < VectorDimension - 1; k++ )
@@ -107,8 +106,6 @@ bool isInside,
 OutputType trueValue )
 {
 
-  int k;
-
   std::cout << " Index: " << index;
 
   bool bvalue = interp->IsInsideBuffer( index );
@@ -122,6 +119,7 @@ OutputType trueValue )
 
   if( isInside )
     {
+    int k;
     OutputType value = interp->EvaluateAtContinuousIndex( index );
     std::cout << " Value: ";
     for( k = 0; k < VectorDimension - 1; k++ )

@@ -21,13 +21,11 @@ namespace itk
 {
 bool EquivalencyTable::Add(unsigned long a, unsigned long b)
 {
-  unsigned long temp;
-
   std::pair< Iterator, bool > result;
   if ( a == b ) { return false; }
   else if ( a < b )
     {  // swap a, b
-    temp = a;
+    unsigned long temp = a;
     a = b;
     b = temp;
     }
@@ -43,13 +41,11 @@ bool EquivalencyTable::Add(unsigned long a, unsigned long b)
 
 bool EquivalencyTable::AddAndFlatten(unsigned long a, unsigned long b)
 {
-  unsigned long temp;
-
   std::pair< Iterator, bool > result;
   if ( a == b ) { return false; }
   else if ( a < b )
     {  // swap a, b
-    temp = a;
+    unsigned long temp = a;
     a = b;
     b = temp;
     }

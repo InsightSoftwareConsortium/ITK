@@ -887,8 +887,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
     if ( index != std::string::npos )
       {
       std::string tempString = RECO_image_type;
-      std::string recoType = "";
-      recoType = readFileBufferString.substr( index + tempString.length() );
+      std::string recoType = readFileBufferString.substr( index + tempString.length() );
       if ( recoType.find(MAGNITUDE_IMAGE) != std::string::npos )
         {
         EncapsulateMetaData< std::string >(
@@ -1377,7 +1376,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
       tempString = acqpFileString.substr( index + tempString.length() );
       // MS VC++ cannot handle commas, so replace with spaces.
       for ( std::string::iterator iter = tempString.begin();
-            iter != tempString.end(); iter++ )
+            iter != tempString.end(); ++iter )
         {
         if ( *iter == ',' )
           {

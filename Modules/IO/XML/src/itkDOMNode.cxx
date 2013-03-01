@@ -112,7 +112,7 @@ DOMNode::RemoveAttribute( const std::string& key )
     }
 
   // remove it from the ordered container first
-  for ( OrderedAttributesContainer::iterator j = this->m_OrderedAttributes.begin(); j != this->m_OrderedAttributes.end(); j++ )
+  for ( OrderedAttributesContainer::iterator j = this->m_OrderedAttributes.begin(); j != this->m_OrderedAttributes.end(); ++j )
     {
     if ( (*j)->first == key )
       {
@@ -134,14 +134,14 @@ DOMNode::GetAllAttributes( AttributesListType& output, bool keepOriginalOrder ) 
 {
   if ( keepOriginalOrder )
     {
-    for ( OrderedAttributesContainer::const_iterator i = this->m_OrderedAttributes.begin(); i != this->m_OrderedAttributes.end(); i++ )
+    for ( OrderedAttributesContainer::const_iterator i = this->m_OrderedAttributes.begin(); i != this->m_OrderedAttributes.end(); ++i )
       {
       output.push_back( *(*i) );
       }
     }
   else
     {
-    for ( AttributesContainer::const_iterator i = this->m_Attributes.begin(); i != this->m_Attributes.end(); i++ )
+    for ( AttributesContainer::const_iterator i = this->m_Attributes.begin(); i != this->m_Attributes.end(); ++i )
       {
       output.push_back( *i );
       }

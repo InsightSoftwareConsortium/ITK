@@ -75,8 +75,8 @@ int itkPriorityQueueTest( int, char * [] )
       return EXIT_FAILURE;
       }
     min_priority_queue->Pop();
-    it++;
-    i--;
+    ++it;
+    --i;
     }
   std::cout <<"OK" <<std::endl;
 

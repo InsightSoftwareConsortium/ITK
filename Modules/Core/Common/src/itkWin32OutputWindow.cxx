@@ -103,7 +103,6 @@ Win32OutputWindow
   const char *NewLinePos = text;
   while ( NewLinePos )
     {
-    int len;
     /** Find the next new line in text */
     NewLinePos = strchr(text, '\n');
     /** if no new line is found then just add the text */
@@ -115,7 +114,7 @@ Win32OutputWindow
      *  and add the buffer with a control new line */
     else
       {
-      len = NewLinePos - text;
+      int len = NewLinePos - text;
       strncpy(buffer, text, len);
       buffer[len] = 0;
       text = NewLinePos + 1;

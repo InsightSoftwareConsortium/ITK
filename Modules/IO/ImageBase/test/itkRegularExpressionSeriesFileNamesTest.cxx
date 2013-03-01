@@ -40,7 +40,7 @@ int itkRegularExpressionSeriesFileNamesTest(int ac, char* av[])
   std::cout << "Normal Sort--------" << std::endl;
   for (nit = names.begin();
        nit != names.end();
-       nit++)
+       ++nit)
     {
     std::cout << "File: " << (*nit).c_str() << std::endl;
     }
@@ -53,7 +53,7 @@ int itkRegularExpressionSeriesFileNamesTest(int ac, char* av[])
   std::cout << "Numeric Sort--------" << std::endl;
   for (nit = names.begin();
        nit != names.end();
-       nit++)
+       ++nit)
     {
     std::cout << "File: " << (*nit).c_str() << std::endl;
     }
@@ -68,7 +68,7 @@ int itkRegularExpressionSeriesFileNamesTest(int ac, char* av[])
   std::cout << "Numeric sort on only files with numbers in the names--------" << std::endl;
   for (nit = names.begin();
        nit != names.end();
-       nit++)
+       ++nit)
     {
     std::cout << "File: " << (*nit).c_str() << std::endl;
     }
@@ -85,7 +85,7 @@ int itkRegularExpressionSeriesFileNamesTest(int ac, char* av[])
   std::cout << "Numeric sort on only files with numbers in the names.  Sort on the first set of numbers.--------" << std::endl;
   for (nit = names.begin();
        nit != names.end();
-       nit++)
+       ++nit)
     {
     std::cout << "File: " << (*nit).c_str() << std::endl;
     }
@@ -99,7 +99,7 @@ int itkRegularExpressionSeriesFileNamesTest(int ac, char* av[])
   std::cout << "Numeric sort on only files with numbers in the names.  Sort on the second set of numbers.--------" << std::endl;
   for (nit = names.begin();
        nit != names.end();
-       nit++)
+       ++nit)
     {
     std::cout << "File: " << (*nit).c_str() << std::endl;
     }

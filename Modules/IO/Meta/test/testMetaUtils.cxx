@@ -175,7 +175,7 @@ int testMetaUtils(int argc, char * argv[])
   fout.flush();
 
   std::vector<MET_FieldRecordType *>::iterator fieldIter;
-  for(fieldIter=mFields.begin(); fieldIter != mFields.end(); fieldIter++)
+  for(fieldIter=mFields.begin(); fieldIter != mFields.end(); ++fieldIter)
     {
     delete *fieldIter;
     }
@@ -224,7 +224,7 @@ int testMetaUtils(int argc, char * argv[])
     std::cout << "nDims not defined" << std::endl;
 
   double eSize[2];
-  fieldIter++;
+  ++fieldIter;
   if((*fieldIter)->defined)
     {
     eSize[0] = (*fieldIter)->value[0];
@@ -239,7 +239,7 @@ int testMetaUtils(int argc, char * argv[])
 
   int nNames=0;
   char **names=NULL;
-  fieldIter++;
+  ++fieldIter;
   if((*fieldIter)->defined)
     {
     MET_StringToWordArray((char *)((*fieldIter)->value), &nNames, &names);
@@ -260,7 +260,7 @@ int testMetaUtils(int argc, char * argv[])
     }
   delete [] names;
 
-  for(fieldIter=mFields.begin(); fieldIter != mFields.end(); fieldIter++)
+  for(fieldIter=mFields.begin(); fieldIter != mFields.end(); ++fieldIter)
     {
     delete *fieldIter;
     }

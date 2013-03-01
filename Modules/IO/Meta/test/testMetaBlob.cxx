@@ -80,7 +80,7 @@ int testMetaBlob(int argc, char * argv[])
     }
 
     std::cout << std::endl;
-    it++;
+    ++it;
   }
 
   std::cout << "done" << std::endl;
