@@ -46,10 +46,10 @@ namespace itk
  * \sa Index
  * \sa Size
  * \sa MeshRegion
- * \ingroup ITKIOImageBase
+ * \ingroup ITKCommon
  */
 
-class ITK_EXPORT ImageIORegion:public Region
+class ITKCommon_EXPORT ImageIORegion:public Region
 {
 public:
   /** Standard class typedefs. */
@@ -110,6 +110,7 @@ public:
 
   /** Get index defining the corner of the region. */
   const IndexType & GetIndex() const;
+  IndexType & GetModifiableIndex();
 
   /** Set the size of the region. This plus the index determines the
    * rectangular shape, or extent, of the region. */
@@ -117,6 +118,7 @@ public:
 
   /** Get the size of the region. */
   const SizeType & GetSize() const;
+  SizeType & GetModifiableSize();
 
   /** Convenience methods to get the size of the image in a particular
    * coordinate direction i. Do not try to access image sizes beyond the
@@ -159,13 +161,13 @@ private:
 };
 
 // Declare operator<<
-extern ITK_EXPORT std::ostream & operator<<(std::ostream & os, const ImageIORegion & region);
+extern ITKCommon_EXPORT std::ostream & operator<<(std::ostream & os, const ImageIORegion & region);
 
 /** \class ImageIORegionAdaptor
  * \brief Helper class for converting ImageRegions into ImageIORegions and back.
  *
  *
- * \ingroup ITKIOImageBase
+ * \ingroup ITKCommon
  */
 template< unsigned int VDimension >
 class ImageIORegionAdaptor

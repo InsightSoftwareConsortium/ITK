@@ -83,6 +83,14 @@ ImageIORegion
   return m_Index;
 }
 
+ImageIORegion::IndexType &
+ImageIORegion
+::GetModifiableIndex()
+{
+  return m_Index;
+}
+
+
 /** Set the size of the region. This plus the index determines the
  * rectangular shape, or extent, of the region. */
 void
@@ -96,6 +104,13 @@ ImageIORegion
 const ImageIORegion::SizeType &
 ImageIORegion
 ::GetSize() const
+{
+  return m_Size;
+}
+
+ImageIORegion::SizeType &
+ImageIORegion
+::GetModifiableSize()
 {
   return m_Size;
 }

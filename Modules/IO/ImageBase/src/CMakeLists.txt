@@ -1,5 +1,4 @@
 set(ITKIOImageBase_SRC
-itkImageIORegion.cxx
 itkArchetypeSeriesFileNames.cxx
 itkImageIOFactory.cxx
 itkIOCommon.cxx
