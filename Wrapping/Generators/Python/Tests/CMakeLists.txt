@@ -38,9 +38,10 @@ add_python_test(PythonImageIOCoverage ${CMAKE_CURRENT_SOURCE_DIR}/wrappingCovera
 add_python_test(PythonOptimizerCoverage ${CMAKE_CURRENT_SOURCE_DIR}/wrappingCoverage.py -b Optimizer ${ITK_INCLUDE_DIRS})
 add_python_test(PythonTransformCoverage ${CMAKE_CURRENT_SOURCE_DIR}/wrappingCoverage.py -b Transform -e ${CMAKE_CURRENT_SOURCE_DIR}/exclude-transform.txt ${ITK_INCLUDE_DIRS})
 
-add_python_test(PythonFindEmptyClasses ${CMAKE_CURRENT_SOURCE_DIR}/findEmptyClasses.py)
-
-add_python_test(PythonGetNameOfClass ${CMAKE_CURRENT_SOURCE_DIR}/getNameOfClass.py)
+# These two tests can use up all of system memory when the are executed.
+# TODO: find the root cause and re-enable them.  See ITK-3006 on issues.itk.org.
+#add_python_test(PythonFindEmptyClasses ${CMAKE_CURRENT_SOURCE_DIR}/findEmptyClasses.py)
+#add_python_test(PythonGetNameOfClass ${CMAKE_CURRENT_SOURCE_DIR}/getNameOfClass.py)
 
 add_python_test(PythonTiming ${CMAKE_CURRENT_SOURCE_DIR}/timing.py)
 

@@ -1,14 +1,13 @@
 itk_wrap_include("set")
 
+# double is always needed by KernelTransform
+UNIQUE(real_types "${WRAP_ITK_REAL};D")
 itk_wrap_class("itk::VectorContainer" POINTER)
   foreach(d ${ITK_WRAP_DIMS})
-    # double is always needed by KernelTransform
-    itk_wrap_template("${ITKM_UL}${ITKM_VD${d}}" "${ITKT_UL},${ITKT_VD${d}}")
-    itk_wrap_template("${ITKM_UL}${ITKM_PD${d}}" "${ITKT_UL},${ITKT_PD${d}}")
-    if(WRAP_ITK_float)
-      itk_wrap_template("${ITKM_UL}${ITKM_VF${d}}" "${ITKT_UL},${ITKT_VF${d}}")
-      itk_wrap_template("${ITKM_UL}${ITKM_PF${d}}" "${ITKT_UL},${ITKT_PF${d}}")
-    endif()
+    foreach(t ${real_types})
+      itk_wrap_template("${ITKM_UL}${ITKM_V${t}${d}}" "${ITKT_UL},${ITKT_V${t}${d}}")
+      itk_wrap_template("${ITKM_UL}${ITKM_P${t}${d}}" "${ITKT_UL},${ITKT_P${t}${d}}")
+    endforeach(t)
   endforeach(d)
   foreach(d ${ITK_WRAP_DIMS})
     itk_wrap_template("${ITKM_UC}${ITKM_O${d}}"  "${ITKT_UC},${ITKT_O${d}}")

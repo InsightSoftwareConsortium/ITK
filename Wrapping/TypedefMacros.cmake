@@ -314,8 +314,8 @@ macro(itk_wrap_class class)
   # itk_wrap_include should be manually called from the wrap_*.cmake file that calls
   # this macro.
   # Lastly, this class takes an optional 'wrap method' parameter. Valid values are:
-  # POINTER, POINTER_WITH_SUPERCLASS, POINTER_WITH_2_SUPERCLASSES, FORCE_INSTANTIATE
-  # and SELF.
+  # POINTER POINTER_WITH_SUPERCLASS POINTER_WITH_2_SUPERCLASSES EXPLICIT_SPECIALIZATION
+  # POINTER_WITH_EXPLICIT_SPECIALIZATION ENUM AUTOPOINTER
   #
   # Global vars used: none
   # Global vars modified: WRAPPER_INCLUDE_FILES
@@ -357,7 +357,8 @@ macro(itk_wrap_named_class class swig_name)
   # in SWIG (with template definitions providing additional mangled suffixes to this name)
   #
   # Lastly, this class takes an optional 'wrap method' parameter. Valid values are:
-  # POINTER and POINTER_WITH_SUPERCLASS.
+  # POINTER POINTER_WITH_SUPERCLASS POINTER_WITH_2_SUPERCLASSES EXPLICIT_SPECIALIZATION
+  # POINTER_WITH_EXPLICIT_SPECIALIZATION ENUM AUTOPOINTER
   # If no parameter is given, the class is simply wrapped as-is. If the parameter
   # is "POINTER" then the class is wrapped and so is the SmartPointer template type
   # that is typedef'd as class::Pointer.
