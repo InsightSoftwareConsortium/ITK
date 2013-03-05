@@ -32,8 +32,11 @@ namespace
 class ShowProgressPDEObject
 {
 public:
-  ShowProgressPDEObject(itk::ProcessObject* o)
-    {m_Process = o; m_Prefix="";}
+  ShowProgressPDEObject(itk::ProcessObject* o) :
+    m_Process(o),
+    m_Prefix("")
+    {
+    }
   void ShowProgress()
     {
     std::cout <<  m_Prefix;

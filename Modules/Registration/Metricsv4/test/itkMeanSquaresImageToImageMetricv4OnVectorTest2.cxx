@@ -151,6 +151,7 @@ int itkMeanSquaresImageToImageMetricv4OnVectorTest2(int, char ** const)
 
   VectorMetricType::MeasureType     vectorMeasure = 0.0;
   VectorMetricType::DerivativeType  vectorDerivative;
+  vectorDerivative.Fill(0);
 
   itkMeanSquaresImageToImageMetricv4OnVectorTest2Run<VectorMetricType>( vectorMeasure, vectorDerivative );
   std::cout << "vectorMeasure: " << vectorMeasure << " vectorDerivative: " << vectorDerivative << std::endl;
@@ -161,6 +162,7 @@ int itkMeanSquaresImageToImageMetricv4OnVectorTest2(int, char ** const)
 
   ScalarMetricType::MeasureType     scalarMeasure = 0.0;
   ScalarMetricType::DerivativeType  scalarDerivative;
+  scalarDerivative.Fill(0);
 
   itkMeanSquaresImageToImageMetricv4OnVectorTest2Run<ScalarMetricType>( scalarMeasure, scalarDerivative );
   std::cout << "scalarMeasure: " << scalarMeasure << " scalarDerivative: " << scalarDerivative << std::endl;

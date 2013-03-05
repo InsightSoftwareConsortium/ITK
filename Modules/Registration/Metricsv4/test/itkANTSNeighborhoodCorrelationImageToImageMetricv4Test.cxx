@@ -208,9 +208,8 @@ int itkANTSNeighborhoodCorrelationImageToImageMetricv4Test( int, char ** const )
     }
 
   VectorType zero;
-  float def_value = 2.5;
+  float def_value = -0.5;
 
-  def_value = -0.5;
   zero.Fill(def_value);
   FieldType::Pointer field = FieldType::New();
   field->SetRegions(fixedImage->GetLargestPossibleRegion());

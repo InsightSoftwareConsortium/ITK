@@ -181,7 +181,7 @@ public:
           {
           value += this->m_FixedImage->GetPixel(index);
           }
-        it++;
+        ++it;
         }
       return value;
     }
