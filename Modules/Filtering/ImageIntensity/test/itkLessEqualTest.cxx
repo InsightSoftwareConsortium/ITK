@@ -116,7 +116,6 @@ int itkLessEqualTest(int, char* [] )
     ++it2;
   }
 
-  int status1, status2, status3;
   {
   // Create a logic Filter
   myFilterTypePointer filter = myFilterType::New();
@@ -138,12 +137,8 @@ int itkLessEqualTest(int, char* [] )
   PixelType FG = filter->GetFunctor().GetForegroundValue();
   PixelType BG = filter->GetFunctor().GetBackgroundValue();
 
-  status1 = checkImOnImRes < myImageType1, myImageType2, myImageType3,
-                             std::less_equal<myImageType1::PixelType>
-                             >
-    ( inputImageA, inputImageB, outputImage, FG, BG);
-
-
+  int status1 = checkImOnImRes < myImageType1, myImageType2, myImageType3, std::less_equal<myImageType1::PixelType> >
+                             (inputImageA, inputImageB, outputImage, FG, BG);
   if (status1 == EXIT_FAILURE)
     {
     return(EXIT_FAILURE);
@@ -152,13 +147,11 @@ int itkLessEqualTest(int, char* [] )
     {
     std::cout << "Step 1 passed" << std::endl;
     }
-
   }
 
   {
   // Create a logic Filter
   myFilterTypePointer filter = myFilterType::New();
-
 
   // Connect the input images
   filter->SetInput1( inputImageA );
@@ -174,12 +167,8 @@ int itkLessEqualTest(int, char* [] )
   PixelType FG = filter->GetFunctor().GetForegroundValue();
   PixelType BG = filter->GetFunctor().GetBackgroundValue();
   PixelType C = filter->GetConstant2();
-  status2 = checkImOnConstRes < myImageType1, PixelType,
-                                myImageType3,
-                                std::less_equal<PixelType>
-                                >
-    (inputImageA, C, outputImage, FG, BG);
-
+  int status2 = checkImOnConstRes < myImageType1, PixelType, myImageType3, std::less_equal<PixelType> >
+                                (inputImageA, C, outputImage, FG, BG);
   if (status2 == EXIT_FAILURE)
     {
     return(EXIT_FAILURE);
@@ -194,9 +183,7 @@ int itkLessEqualTest(int, char* [] )
   // Create a logic Filter
   myFilterTypePointer filter = myFilterType::New();
 
-
   // Connect the input images
-
   filter->SetFunctor(filter->GetFunctor());
 
   // Get the Smart Pointer to the Filter Output
@@ -207,12 +194,8 @@ int itkLessEqualTest(int, char* [] )
   PixelType FG = filter->GetFunctor().GetForegroundValue();
   PixelType BG = filter->GetFunctor().GetBackgroundValue();
 
-  status3 = checkConstOnImRes < PixelType, myImageType2,
-                                myImageType3,
-                                std::less_equal<PixelType>
-                                >
-    (filter->GetConstant1(),  inputImageB, outputImage, FG, BG);
-
+  int status3 = checkConstOnImRes < PixelType, myImageType2,myImageType3, std::less_equal<PixelType> >
+                                (filter->GetConstant1(),  inputImageB, outputImage, FG, BG);
   if (status3 == EXIT_FAILURE)
     {
     return(EXIT_FAILURE);
@@ -224,5 +207,4 @@ int itkLessEqualTest(int, char* [] )
   }
   // All objects should be automatically destroyed at this point
   return EXIT_SUCCESS;
-
 }

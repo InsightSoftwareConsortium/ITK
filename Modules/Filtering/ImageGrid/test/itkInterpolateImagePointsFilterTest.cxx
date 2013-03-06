@@ -176,8 +176,7 @@ int test3DInterpolateImagePointsFilter()
   std::cout << "Testing 3D InterpolateImagePointsFilter.\n " ;
 
   // Initialize input image
-  ImageTypePtr3D image = ImageType3D::New();
-  image = set3DData();
+  ImageTypePtr3D image = set3DData();
 
   // Initialize InterpolateImagePointsFilter and set input image
   InterpolatorType3D::Pointer resamp = InterpolatorType3D::New();
@@ -347,13 +346,7 @@ ImageTypePtr3D set3DData()
   pSource->SetSigma( sigma );
 
   // Get the output of the source
-  ImageTypePtr3D pImage = ImageType3D::New();
-  //ImageType3D::RegionType region;
-  //region.SetSize( sizeImage );
-  //pImage->SetLargestPossibleRegion( region );
-  //pImage->SetBufferedRegion( region );
-  //pImage->Allocate();
-  pImage = pSource->GetOutput();
+  ImageTypePtr3D pImage = pSource->GetOutput();
 
   // Run the pipeline
   pSource->Update();

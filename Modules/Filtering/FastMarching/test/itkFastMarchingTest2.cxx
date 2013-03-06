@@ -175,8 +175,6 @@ int itkFastMarchingTest2(int, char* [] )
   bool passed = true;
   for(; !iterator.IsAtEnd(); ++iterator )
     {
-    double distance;
-
     FloatImage::IndexType tempIndex = iterator.GetIndex();
     float outputValue = (float) iterator.Get();
 
@@ -184,7 +182,7 @@ int itkFastMarchingTest2(int, char* [] )
         ( ( tempIndex[1] > 22 ) && ( tempIndex [1] < 42 ) && ( tempIndex[0] > 27 ) && ( tempIndex[0] < 37 ) ) )
       {
       tempIndex -= offset0;
-      distance = 0.0;
+      double distance = 0.0;
       for ( int j = 0; j < 2; j++ )
         {
           distance += tempIndex[j] * tempIndex[j];
