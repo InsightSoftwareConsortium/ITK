@@ -107,7 +107,12 @@ CalculateOrientedImage(
   typename TransformType::Pointer transform = TransformType::New();
   typename TransformType::MatrixType rotationMatrix(vnl_RotationMatrix);
   typename TransformType::CenterType center;
-  center = labelGeometry.m_Centroid;
+  typename TGenericImage::PointType origin;
+  for( unsigned int i = 0; i < TLabelImage::ImageDimension; i++ )
+  {
+    center[i] = labelGeometry.m_Centroid[i] * filter->GetInput()->GetSpacing()[i];
+    origin[i] = labelGeometry.m_OrientedBoundingBoxOrigin[i] * filter->GetInput()->GetSpacing()[i];
+  }
   typename TransformType::OutputVectorType translation;
   translation.Fill(0);
   transform->SetCenter(center);
@@ -132,7 +137,7 @@ CalculateOrientedImage(
   resampler->SetTransform(transform);
   resampler->SetSize(boundingBoxSize);
   resampler->SetOutputSpacing( filter->GetInput()->GetSpacing() );
-  resampler->SetOutputOrigin(labelGeometry.m_OrientedBoundingBoxOrigin);
+  resampler->SetOutputOrigin( origin );
 
   if ( useLabelImage )
     {
