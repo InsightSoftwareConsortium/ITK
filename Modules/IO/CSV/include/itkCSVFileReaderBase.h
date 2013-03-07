@@ -135,18 +135,15 @@ public:
   {
     TData value;
     std::istringstream isstream(str);
-    isstream >> value;
 
-    size_t isstreamtellg = static_cast<size_t>(isstream.tellg() );
-
-    if (!isstream.fail() || isstreamtellg == str.length() )
-      {
-      return value;
-      }
-    else
-      {
+    if ((isstream >> value).fail() || !(isstream >> std::ws).eof())
+    {
       return vcl_numeric_limits<TData>::quiet_NaN();
-      }
+    }
+    else
+    {
+      return value;
+    }
   }
 
   /** This method must be defined in derived classes to parse the entire
