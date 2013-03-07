@@ -98,12 +98,12 @@ public:
 #if ! defined ( ITK_FUTURE_LEGACY_REMOVE )
   typename VelocityFieldType::Pointer GetTimeVaryingVelocityField()
     {
-    return this->GetModifiableVelocityField().GetPointer();
+    return this->GetModifiableVelocityField();
     }
 #endif
   typename VelocityFieldType::Pointer GetModifiableTimeVaryingVelocityField()
     {
-    return this->GetModifiableVelocityField().GetPointer();
+    return this->GetModifiableVelocityField();
     }
   typename VelocityFieldType::ConstPointer GetTimeVaryingVelocityField() const
     {
