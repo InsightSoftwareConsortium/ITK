@@ -34,7 +34,6 @@ int itkGDCMImagePositionPatientTest( int argc, char* argv[] )
       " OutputTestDirectory" << std::endl;
     return EXIT_FAILURE;
     }
-  std::string directory(argv[1]);
 
   typedef itk::Image<short,3>                 Image3DType;
   typedef itk::Image<short,2>                 Image2DType;

@@ -1369,9 +1369,9 @@ void MINC2ImageIO::XYZFromDirectionCosines(midimhandle_t *hdims, int *dim_indice
   // then largest y component (2 dimension) --> yspace
   // last remaining dimension xspace.
 
-  int temp;
   if ( counter == 3 ) // three spatial dimensions
     {
+    int temp;
     if ( ( dircos[2][0] >= dircos[2][1] ) && ( dircos[2][0] >= dircos[2][2] ) )
       {
       // index 0 is the z dimension

@@ -34,7 +34,7 @@ METHODDEF(void) itk_jpeg_error_exit (j_common_ptr cinfo)
   {
   /* cinfo->err really points to a itk_jpeg_error_mgr struct, so coerce pointer
     */
-  itk_jpeg_error_mgr *myerr = (itk_jpeg_error_mgr *)cinfo->err;
+  itk_jpeg_error_mgr *myerr = reinterpret_cast<itk_jpeg_error_mgr *>(cinfo->err);
 
   /* Always display the message. */
   /* We could postpone this until after returning, if we chose. */

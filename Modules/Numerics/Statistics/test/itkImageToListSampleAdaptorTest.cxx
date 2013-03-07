@@ -23,8 +23,6 @@ int itkImageToListSampleAdaptorTest(int, char* [] )
 {
   std::cout << "ImageToListSampleAdaptor Test \n \n";
 
-  std::string whereFail = "";
-
   typedef itk::Image< float, 3 > FloatImage;
 
   // Now generate a random image

@@ -23,7 +23,6 @@
 int itkCovarianceSampleFilterTest(int, char* [] )
 {
   std::cout << "CovarianceSampleFilter Test \n \n";
-  std::string whereFail = "";
 
   // Now generate an image
   enum { MeasurementVectorSize = 3 };

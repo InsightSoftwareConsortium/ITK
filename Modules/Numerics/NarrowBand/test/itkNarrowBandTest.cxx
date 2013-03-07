@@ -67,7 +67,7 @@ int itkNarrowBandTest (int, char*[])
   regionitType regionsitend = regions.end();
   std::cout<<"Number of regions: "<<regions.size()<<std::endl;
   i = 0;
-  for(; regionsit != regionsitend ; regionsit++)
+  for(; regionsit != regionsitend ; ++regionsit)
   {
     std::cout<<"Region "<<i<<std::endl;
     for( ; regions[i].Begin != regions[i].End; regions[i].Begin++)

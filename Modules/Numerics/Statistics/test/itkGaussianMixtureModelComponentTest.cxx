@@ -42,25 +42,9 @@ int itkGaussianMixtureModelComponentTest(int argc, char* argv[] )
   int dataSize = 2000;
   typedef itk::Array< double > ParametersType;
   unsigned int numberOfClasses = 2;
-  std::vector< ParametersType > trueParameters(numberOfClasses);
+
   ParametersType params(6);
-  params[0] = 99.261;
-  params[1] = 100.078;
-  params[2] = 814.95741;
-  params[3] = 38.40308;
-  params[4] = 38.40308;
-  params[5] = 817.64446;
-  trueParameters[0] = params;
 
-  params[0] = 200.1;
-  params[1] = 201.3;
-  params[2] = 859.785295;
-  params[3] = -3.617316;
-  params[4] = -3.617316;
-  params[5] = 848.991508;
-  trueParameters[1] = params;
-
-  // only the means are altered
   std::vector< ParametersType > initialParameters(numberOfClasses);
   params[0] = 80.0;
   params[1] = 80.0;

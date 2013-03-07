@@ -24,7 +24,6 @@
 int itkStandardDeviationPerComponentSampleFilterTest(int, char* [] )
 {
   std::cout << "StandardDeviationPerComponentSampleFilter Test \n \n";
-  std::string whereFail = "";
 
   // Now generate an image
   enum { MeasurementVectorSize = 3 };

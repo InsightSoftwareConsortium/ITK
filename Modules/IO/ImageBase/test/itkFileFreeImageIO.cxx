@@ -38,7 +38,6 @@ bool
 FileFreeImageIO
 ::CanReadFile(const char* filename)
 {
-  std::string fileDescription(filename);
   itksys::RegularExpression findPrefix("^FileFreeIO::");
   if (findPrefix.find(filename))
     {
@@ -65,7 +64,6 @@ FileFreeImageIO
   std::vector<double> spacingVector;
   std::vector<double> originVector;
   std::vector<std::vector<double> > directionVector;
-  std::string fileDescription(this->GetFileName());
 
   itksys::RegularExpression findSize("Size=([^:$]*)");
 

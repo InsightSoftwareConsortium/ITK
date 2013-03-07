@@ -76,7 +76,7 @@ bool LoadLandmark::AssignToElement(Element::ArrayType::Pointer elements)
   // Compute & store the local coordinates of the undeformed point and
   // the pointer to the element
   for( Element::ArrayType::const_iterator n = elements->begin();
-       n != elements->end() && !isFound; n++ )
+       n != elements->end() && !isFound; ++n )
     {
     if( ( *n )->GetLocalFromGlobalCoordinates(m_Source, this->m_Point) )
       {

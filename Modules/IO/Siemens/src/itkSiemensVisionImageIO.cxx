@@ -81,8 +81,7 @@ GEImageHeader * SiemensVisionImageIO::ReadHeader(const char *FileNameToRead)
 
 #define GE_PROD_STR    "SIEMENS"
 #define TEMPLEN 2048
-  char tmpStr[TEMPLEN], tmpStr2[TEMPLEN],
-       tmpStr3[TEMPLEN], tmpStr4[TEMPLEN];
+  char tmpStr[TEMPLEN], tmpStr2[TEMPLEN], tmpStr3[TEMPLEN];
   GEImageHeader *hdr = new GEImageHeader;
   if ( hdr == 0 )
     {
@@ -197,25 +196,22 @@ GEImageHeader * SiemensVisionImageIO::ReadHeader(const char *FileNameToRead)
   this->GetStringAt(f, TEXT_ANGLE_FLAG1, tmpStr, TEXT_ANGLE_FLAG1_LEN);
   tmpStr[TEXT_ANGLE_FLAG1_LEN] = '\0';
 
-  this->GetStringAt(f, TEXT_ANGLE_FLAG2, tmpStr2, TEXT_ANGLE_FLAG2_LEN);
-  tmpStr2[TEXT_ANGLE_FLAG2_LEN] = '\0';
+  this->GetStringAt(f, TEXT_ANGLE_FLAG3, tmpStr2, TEXT_ANGLE_FLAG3_LEN);
+  tmpStr2[TEXT_ANGLE_FLAG3_LEN] = '\0';
 
-  this->GetStringAt(f, TEXT_ANGLE_FLAG3, tmpStr3, TEXT_ANGLE_FLAG3_LEN);
-  tmpStr3[TEXT_ANGLE_FLAG3_LEN] = '\0';
-
-  this->GetStringAt(f, TEXT_ANGLE, tmpStr4, TEXT_ANGLE_LEN);
-  tmpStr4[TEXT_ANGLE_LEN] = '\0';
+  this->GetStringAt(f, TEXT_ANGLE, tmpStr3, TEXT_ANGLE_LEN);
+  tmpStr3[TEXT_ANGLE_LEN] = '\0';
 
   if ( strcmp(tmpStr, "Cor") == 0 )
     {
-    if ( vcl_fabs( atof(tmpStr4) ) <= 45.0 )
+    if ( vcl_fabs( atof(tmpStr3) ) <= 45.0 )
       {
       //hdr->imagePlane = itk::IOCommon::ITK_ANALYZE_ORIENTATION_IRP_CORONAL;
       hdr->coordinateOrientation = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RSP;
       }
     else
       {
-      if ( strcmp(tmpStr3, "Sag") == 0 )
+      if ( strcmp(tmpStr2, "Sag") == 0 )
         {
         //hdr->imagePlane =
         // itk::SpatialOrientation::ITK_ANALYZE_ORIENTATION_IRP_SAGITTAL;
@@ -231,7 +227,7 @@ GEImageHeader * SiemensVisionImageIO::ReadHeader(const char *FileNameToRead)
     }
   else if ( strcmp(tmpStr, "Sag") == 0 )
     {
-    if ( vcl_fabs( atof(tmpStr4) ) <= 45.0 )
+    if ( vcl_fabs( atof(tmpStr3) ) <= 45.0 )
       {
       //hdr->imagePlane =
       // itk::SpatialOrientation::ITK_ANALYZE_ORIENTATION_IRP_SAGITTAL;
@@ -239,7 +235,7 @@ GEImageHeader * SiemensVisionImageIO::ReadHeader(const char *FileNameToRead)
       }
     else
       {
-      if ( strcmp(tmpStr3, "Cor") == 0 )
+      if ( strcmp(tmpStr2, "Cor") == 0 )
         {
         //hdr->imagePlane =
         // itk::SpatialOrientation::ITK_ANALYZE_ORIENTATION_IRP_CORONAL;
@@ -255,7 +251,7 @@ GEImageHeader * SiemensVisionImageIO::ReadHeader(const char *FileNameToRead)
     }
   else
     {
-    if ( vcl_fabs( atof(tmpStr4) ) <= 45.0 )
+    if ( vcl_fabs( atof(tmpStr3) ) <= 45.0 )
       {
       //hdr->imagePlane =
       // itk::SpatialOrientation::ITK_ANALYZE_ORIENTATION_IRP_TRANSVERSE;
@@ -263,7 +259,7 @@ GEImageHeader * SiemensVisionImageIO::ReadHeader(const char *FileNameToRead)
       }
     else
       {
-      if ( strcmp(tmpStr3, "Cor") == 0 )
+      if ( strcmp(tmpStr2, "Cor") == 0 )
         {
         //hdr->imagePlane =
         // itk::SpatialOrientation::ITK_ANALYZE_ORIENTATION_IRP_CORONAL;

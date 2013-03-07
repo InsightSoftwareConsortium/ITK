@@ -602,7 +602,7 @@ void PhilipsRECImageIO::ReadImageInformation()
     }
   catch ( itk::ExceptionObject & err )
     {
-    throw err;
+    throw & err;
     }
   if ( par.problemreading )
     {

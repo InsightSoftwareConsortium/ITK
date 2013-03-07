@@ -687,6 +687,7 @@ void JPEG2000ImageIO::Read(void *buffer)
       itkDebugMacro(<< "priorStrideInBytes:      " << priorStrideInBytes);
       itkDebugMacro(<< "postStrideInBytes:       " << postStrideInBytes);
 
+
       //TODO: Read the void buffer within the tile ROI. How do we specify the
       // tile ROI iteration
       for ( unsigned int k = 0; k < numberOfComponents; k++ )

@@ -216,7 +216,7 @@ MultiGradientOptimizerv4
       this->m_StopConditionDescription << "UpdateTransformParameters error";
       this->StopOptimization();
       // Pass exception to caller
-      throw err;
+      throw;
       }
     this->InvokeEvent( IterationEvent() );
     /* Update and check iteration count */
