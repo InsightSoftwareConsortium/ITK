@@ -71,7 +71,7 @@ protected:
   ~PyCommand();
   void PyExecute();
   PyCommand(const Self&);     // Not implemented.
-  void operator=(const Self&); // Not implemented.
+  PyCommand & operator=(const Self&); // Not implemented.
 
 private:
   PyObject *m_Object;

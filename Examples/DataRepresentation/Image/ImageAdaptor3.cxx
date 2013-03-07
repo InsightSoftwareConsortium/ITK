@@ -60,7 +60,8 @@
 //
 //  Software Guide : EndLatex
 
-
+namespace itk
+{
 // Software Guide : BeginCodeSnippet
 class VectorPixelAccessor
 {
@@ -70,9 +71,10 @@ public:
 
   VectorPixelAccessor() : m_Index(0) {}
 
-  void operator=( const VectorPixelAccessor & vpa )
+  VectorPixelAccessor & operator=( const VectorPixelAccessor & vpa )
     {
       m_Index = vpa.m_Index;
+      return *this;
     }
   ExternalType Get( const InternalType & input ) const
     {
@@ -87,7 +89,7 @@ private:
   unsigned int m_Index;
 };
 // Software Guide : EndCodeSnippet
-
+}
 
 //  Software Guide : BeginLatex
 //
@@ -150,7 +152,7 @@ int main( int argc, char *argv[] )
 
 // Software Guide : BeginCodeSnippet
   typedef itk::ImageAdaptor<  VectorImageType,
-                              VectorPixelAccessor > ImageAdaptorType;
+                              itk::VectorPixelAccessor > ImageAdaptorType;
 
   ImageAdaptorType::Pointer adaptor = ImageAdaptorType::New();
 // Software Guide : EndCodeSnippet
@@ -167,7 +169,7 @@ int main( int argc, char *argv[] )
 
 
 // Software Guide : BeginCodeSnippet
-  VectorPixelAccessor  accessor;
+  itk::VectorPixelAccessor  accessor;
   accessor.SetIndex( atoi( argv[3] ) );
   adaptor->SetPixelAccessor( accessor );
 // Software Guide : EndCodeSnippet

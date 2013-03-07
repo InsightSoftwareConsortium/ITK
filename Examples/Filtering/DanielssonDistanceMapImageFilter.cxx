@@ -255,7 +255,7 @@ int main( int argc, char * argv[] )
     {
     offsetWriter->Update();
     }
-  catch( itk::ExceptionObject exp )
+  catch( itk::ExceptionObject & exp )
     {
     std::cerr << "Exception caught !" << std::endl;
     std::cerr <<     exp    << std::endl;
