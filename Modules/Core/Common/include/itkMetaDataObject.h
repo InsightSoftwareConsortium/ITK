@@ -186,21 +186,22 @@ inline void EncapsulateMetaData(MetaDataDictionary & Dictionary, const char *key
  * \param outval -- where to store value found in table.
  */
 template< class T >
-inline bool ExposeMetaData(MetaDataDictionary & Dictionary, const std::string key, T & outval)
+inline bool ExposeMetaData(const MetaDataDictionary & Dictionary, const std::string key, T & outval)
 {
   if ( !Dictionary.HasKey(key) )
     {
     return false;
     }
 
-  MetaDataObjectBase::Pointer baseObjectSmartPointer = Dictionary[key];
+  const MetaDataObjectBase::ConstPointer baseObjectSmartPointer = Dictionary[key];
 
-  if ( strcmp( typeid( T ).name(), baseObjectSmartPointer->GetMetaDataObjectTypeName() ) != 0 )
+  if ( baseObjectSmartPointer.IsNull() || strcmp( typeid( T ).name(), baseObjectSmartPointer->GetMetaDataObjectTypeName() ) != 0 )
     {
     return false;
     }
     {
-    if ( MetaDataObject< T > *TempMetaDataObject = dynamic_cast< MetaDataObject< T > * >( Dictionary[key].GetPointer() ) )
+    MetaDataObject< T > const * const TempMetaDataObject = dynamic_cast< MetaDataObject< T > const * >( baseObjectSmartPointer.GetPointer() );
+    if ( TempMetaDataObject != NULL )
       {
       outval = TempMetaDataObject->GetMetaDataObjectValue();
       }
@@ -210,33 +211,6 @@ inline bool ExposeMetaData(MetaDataDictionary & Dictionary, const std::string ke
       }
     }
   return true;
-}
-
-// This should not change the behavior, it just adds an extra level of complexity
-// to using the ExposeMetaData with const char * keys.
-template< class T >
-inline bool ExposeMetaData(MetaDataDictionary & Dictionary, const char *const key, T & outval)
-{
-  return ExposeMetaData(Dictionary, std::string(key), outval);
-}
-
-// const versions of ExposeMetaData just to make life easier for enduser
-// programmers, and to maintain backwards compatibility.
-// The other option is to cast away constness in the main function.
-template< class T >
-inline bool ExposeMetaData(const MetaDataDictionary & Dictionary, const std::string key, T & outval)
-{
-  MetaDataDictionary NonConstVersion = Dictionary;
-
-  return ExposeMetaData(NonConstVersion, key, outval);
-}
-
-template< class T >
-inline bool ExposeMetaData(const MetaDataDictionary & Dictionary, const char *const key, T & outval)
-{
-  MetaDataDictionary NonConstVersion = Dictionary;
-
-  return ExposeMetaData(Dictionary, std::string(key), outval);
 }
 } // end namespace itk
 

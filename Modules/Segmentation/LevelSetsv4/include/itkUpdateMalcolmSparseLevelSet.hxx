@@ -50,7 +50,7 @@ UpdateMalcolmSparseLevelSet< VDimension, TEquationContainer >
     }
 
   this->m_OutputLevelSet->SetLayer( LevelSetType::ZeroLayer(), this->m_InputLevelSet->GetLayer( LevelSetType::ZeroLayer() ) );
-  this->m_OutputLevelSet->SetLabelMap( this->m_InputLevelSet->GetLabelMap() );
+  this->m_OutputLevelSet->SetLabelMap( this->m_InputLevelSet->GetModifiableLabelMap() );
 
   typedef LabelMapToLabelImageFilter<LevelSetLabelMapType, LabelImageType> LabelMapToLabelImageFilterType;
   typename LabelMapToLabelImageFilterType::Pointer labelMapToLabelImageFilter = LabelMapToLabelImageFilterType::New();
@@ -118,7 +118,7 @@ UpdateMalcolmSparseLevelSet< VDimension, TEquationContainer >
   labelImageToLabelMapFilter->SetBackgroundValue( LevelSetType::PlusOneLayer() );
   labelImageToLabelMapFilter->Update();
 
-  LevelSetLabelMapPointer outputLabelMap = this->m_OutputLevelSet->GetLabelMap( );
+  LevelSetLabelMapPointer outputLabelMap = this->m_OutputLevelSet->GetModifiableLabelMap( );
   outputLabelMap->Graft( labelImageToLabelMapFilter->GetOutput() );
 }
 

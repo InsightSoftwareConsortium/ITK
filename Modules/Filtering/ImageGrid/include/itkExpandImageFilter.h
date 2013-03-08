@@ -101,11 +101,9 @@ public:
   typedef LinearInterpolateImageFunction< InputImageType, CoordRepType >
   DefaultInterpolatorType;
 
-  /** Set the interpolator function. */
+  /** Get/Set the interpolator function. */
   itkSetObjectMacro(Interpolator, InterpolatorType);
-
-  /** Get a pointer to the interpolator function. */
-  itkGetObjectMacro(Interpolator, InterpolatorType);
+  itkGetModifiableObjectMacro(Interpolator, InterpolatorType);
 
   /** The type of the expand factors representation */
   typedef FixedArray< unsigned int, ImageDimension > ExpandFactorsType;

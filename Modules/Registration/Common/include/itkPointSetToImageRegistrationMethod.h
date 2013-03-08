@@ -122,19 +122,19 @@ public:
 
   /** Set/Get the Optimizer. */
   itkSetObjectMacro(Optimizer,  OptimizerType);
-  itkGetObjectMacro(Optimizer,  OptimizerType);
+  itkGetModifiableObjectMacro(Optimizer, OptimizerType);
 
   /** Set/Get the Metric. */
   itkSetObjectMacro(Metric, MetricType);
-  itkGetObjectMacro(Metric, MetricType);
+  itkGetModifiableObjectMacro(Metric, MetricType);
 
   /** Set/Get the Transfrom. */
   itkSetObjectMacro(Transform, TransformType);
-  itkGetObjectMacro(Transform, TransformType);
+  itkGetModifiableObjectMacro(Transform, TransformType);
 
   /** Set/Get the Interpolator. */
   itkSetObjectMacro(Interpolator, InterpolatorType);
-  itkGetObjectMacro(Interpolator, InterpolatorType);
+  itkGetModifiableObjectMacro(Interpolator, InterpolatorType);
 
   /** Set/Get the initial transformation parameters. */
   virtual void SetInitialTransformParameters(const ParametersType & param);

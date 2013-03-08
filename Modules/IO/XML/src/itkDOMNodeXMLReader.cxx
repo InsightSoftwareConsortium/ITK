@@ -63,15 +63,12 @@ DOMNodeXMLReader::DOMNodeXMLReader() : m_Context(NULL)
 void
 DOMNodeXMLReader::Update( std::istream& is )
 {
-  OutputType* output = this->GetOutput();
-  if ( output == NULL )
+  if ( m_Output.IsNull() )
     {
-    OutputPointer object = OutputType::New();
-    output = (OutputType*)object;
-    this->SetOutput( output );
+    OutputType::Pointer temp = OutputType::New();
+    this->SetOutput( temp );
     }
-
-  output->RemoveAllAttributesAndChildren();
+  m_Output->RemoveAllAttributesAndChildren();
   this->m_Context = NULL;
 
   is >> std::noskipws;
@@ -136,7 +133,7 @@ DOMNodeXMLReader::StartElement( const char* name, const char** atts )
     }
   else
     {
-    node = this->GetOutput();
+    node = this->m_Output;
     }
 
   node->SetName( name );

@@ -170,7 +170,7 @@ int itkChangeInformationImageFilterTest(int, char* [] )
 
 
   // Test GetObjectMacro
-  ImageType * referenceImage2 = filter->GetReferenceImage();
+  const ImageType * referenceImage2 = filter->GetReferenceImage();
   std::cout << "filter->GetReferenceImage(): " << referenceImage2 << std::endl;
 
   // Test GetMacros

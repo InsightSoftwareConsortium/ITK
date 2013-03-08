@@ -81,11 +81,9 @@ public:
   /** Get the output XML filename. */
   itkGetStringMacro(FileName);
 
-  /** Set the input DOM object to be written. */
+  /** Get/Set the input DOM object to be written. */
   itkSetConstObjectMacro( Input, InputType );
-
-  /** Get the input DOM object to be written. */
-  itkGetConstObjectMacro( Input, InputType );
+  itkGetConstObjectMacro(Input, InputType );
 
   /**
    * Function called by Update() or end-users to write the input DOM object

@@ -82,7 +82,7 @@ public:
 
   /** Set/Get the underlying function. */
   itkSetObjectMacro(Function, FunctionType);
-  itkGetConstObjectMacro(Function, FunctionType);
+  itkGetModifiableObjectMacro(Function, FunctionType);
 
   /** Evaluate the function at a given position. */
   virtual OutputType Evaluate(const InputType & point) const;

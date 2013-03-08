@@ -76,10 +76,10 @@ void UpdateWhitakerSparseLevelSet< VDimension, TLevelSetValueType, TEquationCont
   this->m_OutputLevelSet->SetLayer( LevelSetType::PlusOneLayer(), this->m_InputLevelSet->GetLayer( LevelSetType::PlusOneLayer() ) );
   this->m_OutputLevelSet->SetLayer( LevelSetType::PlusTwoLayer(), this->m_InputLevelSet->GetLayer( LevelSetType::PlusTwoLayer() ) );
 
-  this->m_OutputLevelSet->SetLabelMap( this->m_InputLevelSet->GetLabelMap() );
+  this->m_OutputLevelSet->SetLabelMap( this->m_InputLevelSet->GetModifiableLabelMap() );
 
   typename LabelMapToLabelImageFilterType::Pointer labelMapToLabelImageFilter = LabelMapToLabelImageFilterType::New();
-  labelMapToLabelImageFilter->SetInput( this->m_InputLevelSet->GetLabelMap() );
+  labelMapToLabelImageFilter->SetInput( this->m_InputLevelSet->GetModifiableLabelMap() );
   labelMapToLabelImageFilter->Update();
 
   this->m_InternalImage = labelMapToLabelImageFilter->GetOutput();
@@ -201,7 +201,7 @@ void UpdateWhitakerSparseLevelSet< VDimension, TLevelSetValueType, TEquationCont
   labelImageToLabelMapFilter->SetBackgroundValue( LevelSetType::PlusThreeLayer() );
   labelImageToLabelMapFilter->Update();
 
-  this->m_OutputLevelSet->GetLabelMap( )->Graft( labelImageToLabelMapFilter->GetOutput() );
+  this->m_OutputLevelSet->GetModifiableLabelMap( )->Graft( labelImageToLabelMapFilter->GetOutput() );
   this->m_TempPhi.clear();
 }
 

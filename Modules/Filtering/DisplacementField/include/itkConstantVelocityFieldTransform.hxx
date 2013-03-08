@@ -265,7 +265,7 @@ ConstantVelocityFieldTransform<TScalar, NDimensions>
   typedef ExponentialDisplacementFieldImageFilter<ConstantVelocityFieldType, ConstantVelocityFieldType>
     ExponentiatorType;
 
-  ConstantVelocityFieldPointer constantVelocityField = this->GetConstantVelocityField();
+  ConstantVelocityFieldPointer constantVelocityField = this->GetModifiableConstantVelocityField();
 
   typename ExponentiatorType::Pointer exponentiator = ExponentiatorType::New();
   exponentiator->SetInput( constantVelocityField );
@@ -371,7 +371,7 @@ ConstantVelocityFieldTransform<TScalar, NDimensions>
   typename DisplacementFieldType::ConstPointer dispField = nonConstThis->GetDisplacementField();
   typename DisplacementFieldType::Pointer cloneDispField =
     this->CopyDisplacementField(dispField.GetPointer());
-  rval->GetInterpolator()->SetInputImage( cloneDispField );
+  rval->GetModifiableInterpolator()->SetInputImage( cloneDispField );
   rval->SetDisplacementField( cloneDispField );
 
   // now do the inverse -- it actually gets created as a side effect?

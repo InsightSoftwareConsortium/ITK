@@ -57,7 +57,7 @@ public:
 
   /** Set/Get the filter to call Update() on. */
   itkSetObjectMacro( FilterToUpdate, FilterToUpdateType );
-  itkGetConstObjectMacro( FilterToUpdate, FilterToUpdateType );
+  itkGetModifiableObjectMacro(FilterToUpdate, FilterToUpdateType );
 
   /** Set/Get the period that Update() is called on the FilterToUpdate.  It is
    * in units of iterations. */

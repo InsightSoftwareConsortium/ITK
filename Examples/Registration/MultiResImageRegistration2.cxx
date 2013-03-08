@@ -138,7 +138,7 @@ public:
     RegistrationPointer registration =
                         dynamic_cast<RegistrationPointer>( object );
     OptimizerPointer optimizer = dynamic_cast< OptimizerPointer >(
-                       registration->GetOptimizer() );
+                       registration->GetModifiableOptimizer() );
 
     std::cout << "-------------------------------------" << std::endl;
     std::cout << "MultiResolution Level : "

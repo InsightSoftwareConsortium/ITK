@@ -145,11 +145,11 @@ public:
 
   /** Set/Get the Optimizer. */
   itkSetObjectMacro(Optimizer,  OptimizerType);
-  itkGetObjectMacro(Optimizer,  OptimizerType);
+  itkGetModifiableObjectMacro(Optimizer, OptimizerType);
 
   /** Set/Get the Metric. */
   itkSetObjectMacro(Metric, MetricType);
-  itkGetObjectMacro(Metric, MetricType);
+  itkGetModifiableObjectMacro(Metric, MetricType);
 
   /** Set/Get the Metric. */
   itkSetMacro(FixedImageRegion, FixedImageRegionType);
@@ -157,19 +157,19 @@ public:
 
   /** Set/Get the Transfrom. */
   itkSetObjectMacro(Transform, TransformType);
-  itkGetObjectMacro(Transform, TransformType);
+  itkGetModifiableObjectMacro(Transform, TransformType);
 
   /** Set/Get the Interpolator. */
   itkSetObjectMacro(Interpolator, InterpolatorType);
-  itkGetObjectMacro(Interpolator, InterpolatorType);
+  itkGetModifiableObjectMacro(Interpolator, InterpolatorType);
 
   /** Set/Get the Fixed image pyramid. */
   itkSetObjectMacro(FixedImagePyramid, FixedImagePyramidType);
-  itkGetObjectMacro(FixedImagePyramid, FixedImagePyramidType);
+  itkGetModifiableObjectMacro(FixedImagePyramid, FixedImagePyramidType);
 
   /** Set/Get the Moving image pyramid. */
   itkSetObjectMacro(MovingImagePyramid, MovingImagePyramidType);
-  itkGetObjectMacro(MovingImagePyramid, MovingImagePyramidType);
+  itkGetModifiableObjectMacro(MovingImagePyramid, MovingImagePyramidType);
 
   /** Set/Get the schedules . */
   void SetSchedules(const ScheduleType & fixedSchedule,

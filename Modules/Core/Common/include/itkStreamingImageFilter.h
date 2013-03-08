@@ -87,11 +87,9 @@ public:
    * will be executed this many times. */
   itkGetConstReferenceMacro(NumberOfStreamDivisions, unsigned int);
 
-  /** Set the helper class for dividing the input into chunks. */
+  /** Get/Set the helper class for dividing the input into chunks. */
   itkSetObjectMacro(RegionSplitter, SplitterType);
-
-  /** Get the helper class for dividing the input into chunks. */
-  itkGetObjectMacro(RegionSplitter, SplitterType);
+  itkGetModifiableObjectMacro(RegionSplitter, SplitterType);
 
   /** Override UpdateOutputData() from ProcessObject to divide upstream
    * updates into pieces. This filter does not have a GenerateData()

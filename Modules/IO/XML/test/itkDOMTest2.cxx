@@ -42,11 +42,10 @@ int itkDOMTest2( int argc, char* argv[] )
   try
     {
     // read a DOM object from an XML file
-    itk::DOMNode::Pointer dom;
     itk::DOMNodeXMLReader::Pointer reader = itk::DOMNodeXMLReader::New();
     reader->SetFileName( argv[1] );
     reader->Update();
-    dom = reader->GetOutput();
+    itk::DOMNode::Pointer dom = reader->GetModifiableOutput();
 
     // write a DOM object to an XML file
     itk::DOMNodeXMLWriter::Pointer writer = itk::DOMNodeXMLWriter::New();

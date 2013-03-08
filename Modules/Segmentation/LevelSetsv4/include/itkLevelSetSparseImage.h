@@ -94,7 +94,7 @@ public:
 
   /** Set/Get the label map for computing the sparse representation */
   virtual void SetLabelMap( LabelMapType* iLabelMap );
-  itkGetObjectMacro( LabelMap, LabelMapType );
+  itkGetModifiableObjectMacro(LabelMap, LabelMapType );
 
   /** Graft data object as level set object */
   virtual void Graft( const DataObject* data );

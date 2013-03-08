@@ -118,22 +118,19 @@ public:
   typedef typename TOutputImage::PointType     OriginPointType;
   typedef typename TOutputImage::DirectionType DirectionType;
 
-  /** Set the coordinate transformation.
+  /** Get/Set the coordinate transformation.
    * Set the coordinate transform to use for resampling.  Note that this
    * must be in index coordinates and is the output-to-input transform,
    * NOT the input-to-output transform that you might naively expect.
    * The default is itk::AffineTransform<TInterpolatorPrecisionType, ImageDimension>. */
   itkSetConstObjectMacro(Transform, TransformType);
 
-  /** Get a pointer to the coordinate transform. */
-  itkGetConstObjectMacro(Transform, TransformType);
-
   /** Set the interpolator function.  The default is
    * itk::VectorLinearInterpolateImageFunction<InputImageType, TInterpolatorPrecisionType>.  */
   itkSetObjectMacro(Interpolator, InterpolatorType);
 
   /** Get a pointer to the interpolator function. */
-  itkGetConstObjectMacro(Interpolator, InterpolatorType);
+  itkGetModifiableObjectMacro(Interpolator, InterpolatorType);
 
   /** Set the size of the output image. */
   itkSetMacro(Size, SizeType);

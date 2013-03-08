@@ -92,7 +92,7 @@ public:
 
   /** Set/get the parametric kernel source. */
   void SetKernelSource(KernelSourceType * kernelSource);
-  itkGetConstObjectMacro(KernelSource, KernelSourceType);
+  itkGetModifiableObjectMacro(KernelSource, KernelSourceType);
 
   /** Set/get the scale factor (also known as learning rate) for the
    * image intensity gradient descent. */

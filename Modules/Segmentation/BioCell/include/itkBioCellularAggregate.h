@@ -118,8 +118,7 @@ public:
 
   void SetGrowthRadiusIncrement(double value);
 
-  itkGetObjectMacro(Mesh, MeshType);
-  itkGetConstObjectMacro(Mesh, MeshType);
+  itkGetModifiableObjectMacro(Mesh, MeshType);
 
   virtual void AdvanceTimeStep(void);
 

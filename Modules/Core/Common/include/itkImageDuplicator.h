@@ -37,7 +37,7 @@ namespace itk
  *     DuplicatorType::Pointer duplicator = DuplicatorType::New();
  *     duplicator->SetInputImage(image);
  *     duplicator->Update();
- *     ImageType::Pointer clonedImage = duplicator->GetOutput();
+ *     ImageType::Pointer clonedImage = duplicator->GetModifiableOutput();
  * \endcode
  *
  * Note that the Update() method must be called explicitly in the filter
@@ -75,11 +75,10 @@ public:
 
   itkStaticConstMacro(ImageDimension, unsigned int, ImageType::ImageDimension);
 
-  /** Set the input image. */
   itkSetConstObjectMacro(InputImage, ImageType);
 
-  /** Get the output image. */
-  itkGetObjectMacro(Output, ImageType);
+  /** Get/Set the input image. */
+  itkGetModifiableObjectMacro(Output, ImageType);
 
   /** Compute of the input image. */
   void Update(void);

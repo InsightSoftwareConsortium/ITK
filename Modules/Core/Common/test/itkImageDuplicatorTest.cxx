@@ -70,7 +70,7 @@ int itkImageDuplicatorTest(int, char* [] )
 
   duplicator->SetInputImage(shift->GetOutput());
   duplicator->Update();
-  ImageType::Pointer ImageCopy = duplicator->GetOutput();
+  ImageType::Pointer ImageCopy = duplicator->GetModifiableOutput();
 
 
   itk::ImageRegionIterator<ImageType> it2(ImageCopy,ImageCopy->GetLargestPossibleRegion());
@@ -95,7 +95,7 @@ int itkImageDuplicatorTest(int, char* [] )
   shift->SetShift(1);
   shift->Update(); // need to update before duplicator
   duplicator->Update();
-  ImageCopy = duplicator->GetOutput();
+  ImageCopy = duplicator->GetModifiableOutput();
 
   itk::ImageRegionIterator<ImageType> it2b(ImageCopy,ImageCopy->GetLargestPossibleRegion());
   it2b.GoToBegin();
@@ -117,7 +117,7 @@ int itkImageDuplicatorTest(int, char* [] )
   std::cout << "Rerunning duplicator with no changes: ";
   shift->Update(); // need to update before duplicator
   duplicator->Update();
-  ImageCopy = duplicator->GetOutput();
+  ImageCopy = duplicator->GetModifiableOutput();
 
   itk::ImageRegionIterator<ImageType> it2c(ImageCopy,ImageCopy->GetLargestPossibleRegion());
   it2c.GoToBegin();
@@ -187,7 +187,7 @@ int itkImageDuplicatorTest(int, char* [] )
 
   RGBduplicator->SetInputImage(m_RGBImage);
   RGBduplicator->Update();
-  RGBImageType::Pointer RGBImageCopy = RGBduplicator->GetOutput();
+  RGBImageType::Pointer RGBImageCopy = RGBduplicator->GetModifiableOutput();
 
 
   itk::ImageRegionIterator<RGBImageType> it4(RGBImageCopy,RGBImageCopy->GetLargestPossibleRegion());
@@ -259,7 +259,7 @@ int itkImageDuplicatorTest(int, char* [] )
 
   Vectorduplicator->SetInputImage(vectorImage);
   Vectorduplicator->Update();
-  VectorImageType::Pointer vectorImageCopy = Vectorduplicator->GetOutput();
+  VectorImageType::Pointer vectorImageCopy = Vectorduplicator->GetModifiableOutput();
 
   itk::ImageRegionIterator<VectorImageType> it3(vectorImage,vectorImage->GetLargestPossibleRegion());
   itk::ImageRegionIterator<VectorImageType> it4(vectorImageCopy,vectorImageCopy->GetLargestPossibleRegion());

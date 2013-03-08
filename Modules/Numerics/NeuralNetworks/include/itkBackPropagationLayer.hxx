@@ -128,17 +128,13 @@ void
 BackPropagationLayer<TMeasurementVector,TTargetVector>
 ::ForwardPropagate()
 {
-  typename Superclass::WeightSetType::Pointer inputweightset;
-  typename Superclass::InputFunctionInterfaceType::Pointer inputfunction;
-  typename Superclass::TransferFunctionInterfaceType::Pointer transferfunction;
-
-  inputfunction = this->GetNodeInputFunction();
-  transferfunction = this->GetActivationFunction();
-  inputweightset = this->GetInputWeightSet();
+  typename Superclass::InputFunctionInterfaceType::Pointer inputfunction = this->GetModifiableNodeInputFunction();
+  typename Superclass::TransferFunctionInterfaceType::Pointer transferfunction = this->GetModifiableActivationFunction();
+  typename Superclass::WeightSetType::Pointer inputweightset = this->GetModifiableInputWeightSet();
 
   //API change WeightSets are just containers
-  int wcols = inputweightset->GetNumberOfInputNodes();
-  int wrows = inputweightset->GetNumberOfOutputNodes();
+  const int wcols = inputweightset->GetNumberOfInputNodes();
+  const int wrows = inputweightset->GetNumberOfOutputNodes();
   ValueType * inputvalues = inputweightset->GetInputValues();
 
   vnl_vector<ValueType> prevlayeroutputvector;
@@ -152,8 +148,8 @@ BackPropagationLayer<TMeasurementVector,TTargetVector>
   ValueType * weightvalues = inputweightset->GetWeightValues();
   vnl_matrix<ValueType> weightmatrix(weightvalues,wrows, wcols);
 
-  unsigned int rows = this->m_NumberOfNodes;
-  unsigned int cols = this->m_InputWeightSet->GetNumberOfInputNodes();
+  const unsigned int rows = this->m_NumberOfNodes;
+  const unsigned int cols = this->m_InputWeightSet->GetNumberOfInputNodes();
   vnl_matrix<ValueType> inputmatrix;
   inputmatrix.set_size(rows, cols);
   inputmatrix=weightmatrix*PrevLayerOutput;
@@ -174,8 +170,7 @@ void
 BackPropagationLayer<TMeasurementVector,TTargetVector>
 ::ForwardPropagate(TMeasurementVector samplevector)
 {
-  typename Superclass::TransferFunctionInterfaceType::Pointer transferfunction;
-  transferfunction = this->GetActivationFunction();
+  typename Superclass::TransferFunctionInterfaceType::ConstPointer transferfunction = this->GetActivationFunction();
 
   for (unsigned int i = 0; i < samplevector.Size(); i++)
     {
@@ -189,10 +184,8 @@ void
 BackPropagationLayer<TMeasurementVector,TTargetVector>
 ::BackwardPropagate(InternalVectorType errors)
 {
-  int num_nodes = this->GetNumberOfNodes();
-  typename Superclass::WeightSetType::Pointer inputweightset;
-
-  inputweightset = Superclass::GetInputWeightSet();
+  const int num_nodes = this->GetNumberOfNodes();
+  typename Superclass::WeightSetType::Pointer inputweightset = Superclass::GetModifiableInputWeightSet();
 
   for (unsigned int i = 0; i < errors.Size(); i++)
     {
@@ -253,19 +246,16 @@ BackPropagationLayer<TMeasurementVector,TTargetVector>
 {
   unsigned int num_nodes = this->GetNumberOfNodes();
 
-  typename Superclass::WeightSetType::Pointer outputweightset;
-  typename Superclass::WeightSetType::Pointer inputweightset;
-  outputweightset = Superclass::GetOutputWeightSet();
-  inputweightset = Superclass::GetInputWeightSet();
+  typename Superclass::WeightSetType::Pointer outputweightset = Superclass::GetModifiableOutputWeightSet();
+  typename Superclass::WeightSetType::Pointer inputweightset = Superclass::GetModifiableInputWeightSet();
 
   vnl_vector<ValueType> OutputLayerInput(outputweightset->GetInputValues(),num_nodes);
 
+  const ValueType * deltavalues = outputweightset->GetDeltaValues();
+  const ValueType * weightvalues = outputweightset->GetWeightValues();
 
-  ValueType * deltavalues = outputweightset->GetDeltaValues();
-  ValueType * weightvalues = outputweightset->GetWeightValues();
-
-  unsigned int cols = num_nodes;
-  unsigned int rows = outputweightset->GetNumberOfOutputNodes();
+  const unsigned int cols = num_nodes;
+  const unsigned int rows = outputweightset->GetNumberOfOutputNodes();
 
   vnl_matrix<ValueType> weightmatrix(weightvalues, rows, cols);
 

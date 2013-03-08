@@ -143,7 +143,7 @@ int itkHoughTransform2DCirclesImageTest(int, char* [])
   houghFilter->Update();
   HoughImageType::Pointer m_Accumulator= houghFilter->GetOutput();
 
-  HoughImageType::Pointer m_RadiusImage= houghFilter->GetRadiusImage();
+  HoughImageType::ConstPointer m_RadiusImage= houghFilter->GetRadiusImage();
 
   /** Blur the accumulator in order to find the maximum */
   HoughImageType::Pointer m_PostProcessImage = HoughImageType::New();

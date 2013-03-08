@@ -155,7 +155,7 @@ public:
     return m_DataManager->GetCurrentCommandQueueID();
   }
 
-  itkGetObjectMacro(DataManager, GPUImageDataManager< GPUImage >);
+  itkGetModifiableObjectMacro(DataManager, GPUImageDataManager< GPUImage >);
 
   GPUDataManager::Pointer GetGPUDataManager() const;
 

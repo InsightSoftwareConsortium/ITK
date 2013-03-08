@@ -27,7 +27,7 @@ namespace Functor
 {
 /**
  * \class NOT
- * \brief
+ * \brief Unary logical NOT functor
  * \ingroup ITKImageIntensity
  */
 template< class TInput, class TOutput = TInput >
@@ -59,9 +59,10 @@ public:
  * input image and the type of the output image.
  * Numeric conversions (castings) are done by the C++ defaults.
  *
- * Since the logical NOT operation is only defined in C++ for integer
- * types, the images passed to this filter must comply with the requirement
- * of using integer pixel type.
+ * Since the logical NOT operation is operates only on boolean types,
+ * the input type must be implicitly convertible to bool, which is
+ * only defined in C++ for integer types, the images passed to this
+ * filter must comply with the requirement of using integer pixel type.
  *
  * The total operation over one pixel will be
  *
@@ -69,7 +70,7 @@ public:
  *  output_pixel = static_cast<OutputPixelType>( !input_pixel )
  * \endcode
  *
- * Where "!" is the unary NOT operator in C++.
+ * Where "!" is the unary Logical NOT operator in C++.
  *
  * \ingroup IntensityImageFilters
  * \ingroup MultiThreaded
@@ -108,6 +109,9 @@ public:
   /** Begin concept checking */
   itkConceptMacro( InputConvertibleToOutputCheck,
                    ( Concept::Convertible< typename TInputImage::PixelType,
+                                           bool > ) );
+  itkConceptMacro( OutputConvertibleToOutputCheck,
+                   ( Concept::Convertible< bool,
                                            typename TOutputImage::PixelType > ) );
   itkConceptMacro( InputNotOperatorCheck,
                    ( Concept::NotOperator< typename TInputImage::PixelType > ) );

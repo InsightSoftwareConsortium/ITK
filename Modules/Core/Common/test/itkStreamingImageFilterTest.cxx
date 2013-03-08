@@ -78,7 +78,7 @@ int itkStreamingImageFilterTest(int, char* [] )
             << streamer->GetOutput()->GetSpacing()[1] << std::endl;
 
 
-  // Test itkGetConstReferenceMacro and itkGetObjectMacro
+  // Test itkGetConstReferenceMacro and itkGetModifiableObjectMacro
   const unsigned int & value = streamer->GetNumberOfStreamDivisions();
   std::cout << "streamer->GetNumberOfStreamDivisions(): " << value << std::endl;
   streamer->GetRegionSplitter();

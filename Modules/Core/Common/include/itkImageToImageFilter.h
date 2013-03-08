@@ -171,7 +171,7 @@ public:
    *  been added that both input images be congruent in space.
    */
   itkSetMacro(CoordinateTolerance,double);
-  itkGetMacro(CoordinateTolerance,double);
+  itkGetConstMacro(CoordinateTolerance,double);
 
   /** get/set the direction tolerance
    *  This tolerance is used to make sure that all input
@@ -179,7 +179,7 @@ public:
    *  transformations.
    */
   itkSetMacro(DirectionTolerance,double);
-  itkGetMacro(DirectionTolerance,double);
+  itkGetConstMacro(DirectionTolerance,double);
 
 protected:
   ImageToImageFilter();

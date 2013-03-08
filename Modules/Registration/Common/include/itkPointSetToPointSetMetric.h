@@ -96,23 +96,19 @@ public:
   /**  Type of the parameters. */
   typedef Superclass::ParametersType ParametersType;
 
-  /** Connect the Fixed Pointset.  */
+  /** Get/Set the Fixed Pointset.  */
   itkSetConstObjectMacro(FixedPointSet, FixedPointSetType);
-
-  /** Get the Fixed Pointset. */
   itkGetConstObjectMacro(FixedPointSet, FixedPointSetType);
 
-  /** Connect the Moving Pointset.  */
+  /** Get/Set the Moving Pointset.  */
   itkSetConstObjectMacro(MovingPointSet, MovingPointSetType);
-
-  /** Get the Moving Pointset. */
   itkGetConstObjectMacro(MovingPointSet, MovingPointSetType);
 
   /** Connect the Transform. */
   itkSetObjectMacro(Transform, TransformType);
 
   /** Get a pointer to the Transform.  */
-  itkGetObjectMacro(Transform, TransformType);
+  itkGetModifiableObjectMacro(Transform, TransformType);
 
   /** Set the parameters defining the Transform. */
   void SetTransformParameters(const ParametersType & parameters) const;

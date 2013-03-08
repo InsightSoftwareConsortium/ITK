@@ -60,7 +60,7 @@ public:
     typename TFilter::SmoothingSigmasArrayType smoothingSigmas = filter->GetSmoothingSigmasPerLevel();
     typename TFilter::TransformParametersAdaptorsContainerType adaptors = filter->GetTransformParametersAdaptorsPerLevel();
 
-    typename itk::ObjectToObjectOptimizerBase::Pointer optimizerBase = (const_cast<TFilter*>(filter))->GetOptimizer();
+    typename itk::ObjectToObjectOptimizerBase::Pointer optimizerBase = (const_cast<TFilter*>(filter))->GetModifiableOptimizer();
     typedef itk::GradientDescentOptimizerv4 GradientDescentOptimizerv4Type;
     typename GradientDescentOptimizerv4Type::Pointer optimizer = dynamic_cast<GradientDescentOptimizerv4Type *>(optimizerBase.GetPointer());
     if( !optimizer )
@@ -192,7 +192,7 @@ int PerformSimpleImageRegistration2( int argc, char *argv[] )
 
   typedef itk::GradientDescentOptimizerv4 GradientDescentOptimizerv4Type;
   typename GradientDescentOptimizerv4Type::Pointer affineOptimizer =
-    dynamic_cast<GradientDescentOptimizerv4Type * >( affineSimple->GetOptimizer() );
+    dynamic_cast<GradientDescentOptimizerv4Type * >( affineSimple->GetModifiableOptimizer() );
   if( !affineOptimizer )
     {
     itkGenericExceptionMacro( "Error dynamic_cast failed" );

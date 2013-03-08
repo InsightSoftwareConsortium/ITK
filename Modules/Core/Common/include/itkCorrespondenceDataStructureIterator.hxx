@@ -64,29 +64,7 @@ CorrespondenceDataStructureIterator< TStructureType >
 
   if ( m_CorrespondingListIterator == m_CorrespondingListPointer->end() )
     {
-    m_SecondaryListIterator++;
-    if ( m_SecondaryListIterator != m_SecondaryListPointer->end() )
-      {
-      m_CorrespondingListPointer = &( *m_SecondaryListIterator );
-      m_CorrespondingListIterator = m_CorrespondingListPointer->begin();
-      }
-    else if ( m_SecondaryListIterator == m_SecondaryListPointer->end() )
-      {
-      m_NodeListIterator++;
-
-      if ( m_NodeListIterator != m_NodeListPointer->end() )
-        {
-        m_SecondaryListPointer = &( *m_NodeListIterator );
-        m_SecondaryListIterator = m_SecondaryListPointer->begin();
-
-        m_CorrespondingListPointer = &( *m_SecondaryListIterator );
-        m_CorrespondingListIterator = m_CorrespondingListPointer->begin();
-        }
-      else if ( m_NodeListIterator == m_NodeListPointer->end() )
-        {
-        m_IsAtEnd = true;
-        }
-      }
+      this->GoToNextBaseGroup();
     }
 }
 

@@ -58,7 +58,7 @@ LevelSetEquationContainer< TTermContainer >
     this->m_Container[iId] = iEquation;
     if( iEquation->GetInput() )
       {
-      this->m_Input = iEquation->GetInput();
+      this->m_Input = iEquation->GetModifiableInput();
       }
     this->Modified();
     }

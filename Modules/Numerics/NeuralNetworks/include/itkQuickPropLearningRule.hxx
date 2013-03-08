@@ -44,8 +44,7 @@ void
 QuickPropLearningRule<LayerType,TTargetVector>
 ::Learn(LayerType* layer, ValueType itkNotUsed(lr))
 {
-  typename LayerType::WeightSetType::Pointer inputweightset;
-  inputweightset = layer->GetInputWeightSet();
+  typename LayerType::WeightSetType::Pointer inputweightset = layer->GetModifiableInputWeightSet();
 
   //For Quickprop
   typename LayerType::ValuePointer DWvalues_m_1 = inputweightset->GetPrevDWValues();

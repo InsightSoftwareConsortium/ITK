@@ -97,8 +97,8 @@ ScalarToRGBColormapImageFilter< TInputImage, TOutputImage >
         }
       }
 
-    this->GetColormap()->SetMinimumInputValue(minimumValue);
-    this->GetColormap()->SetMaximumInputValue(maximumValue);
+    this->m_Colormap->SetMinimumInputValue(minimumValue);
+    this->m_Colormap->SetMaximumInputValue(maximumValue);
     }
 }
 

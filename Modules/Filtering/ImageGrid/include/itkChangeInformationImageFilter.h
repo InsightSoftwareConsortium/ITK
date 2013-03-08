@@ -109,7 +109,7 @@ public:
       }
   }
 
-  itkGetObjectMacro(ReferenceImage, TInputImage);
+  itkGetModifiableObjectMacro(ReferenceImage, TInputImage);
 
   itkSetMacro(UseReferenceImage, bool);
   itkBooleanMacro(UseReferenceImage);

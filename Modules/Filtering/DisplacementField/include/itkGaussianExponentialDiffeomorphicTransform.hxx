@@ -57,7 +57,7 @@ GaussianExponentialDiffeomorphicTransform<TScalar, NDimensions>
     smoothUpdateField = false;
     }
 
-  ConstantVelocityFieldPointer velocityField = this->GetConstantVelocityField();
+  ConstantVelocityFieldPointer velocityField = this->GetModifiableConstantVelocityField();
   if( !velocityField )
     {
     itkExceptionMacro( "The velocity field has not been set." );
@@ -154,7 +154,7 @@ GaussianExponentialDiffeomorphicTransform<TScalar, NDimensions>
   duplicator->SetInputImage( field );
   duplicator->Update();
 
-  ConstantVelocityFieldPointer smoothField = duplicator->GetOutput();
+  ConstantVelocityFieldPointer smoothField = duplicator->GetModifiableOutput();
 
   typename GaussianSmoothingSmootherType::Pointer smoother = GaussianSmoothingSmootherType::New();
 

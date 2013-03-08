@@ -230,7 +230,7 @@ int itkMutualInformationMetricTest(int, char* [] )
 
   metric->Print( std::cout );
 
-  itk::KernelFunctionBase<double>::Pointer theKernel = metric->GetKernelFunction();
+  itk::KernelFunctionBase<double>::Pointer theKernel = metric->GetModifiableKernelFunction();
   metric->SetKernelFunction( theKernel );
   theKernel->Print( std::cout );
 

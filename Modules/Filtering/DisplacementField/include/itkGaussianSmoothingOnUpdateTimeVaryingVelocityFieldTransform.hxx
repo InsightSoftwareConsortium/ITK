@@ -52,7 +52,7 @@ void
 GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TScalar, NDimensions>
 ::UpdateTransformParameters( const DerivativeType & update, ScalarType factor )
 {
-  TimeVaryingVelocityFieldPointer velocityField = this->GetVelocityField();
+  TimeVaryingVelocityFieldPointer velocityField = this->GetModifiableVelocityField();
 
   const typename VelocityFieldType::RegionType & bufferedRegion = velocityField->GetBufferedRegion();
   const SizeValueType numberOfPixels = bufferedRegion.GetNumberOfPixels();
@@ -146,7 +146,7 @@ GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TScalar, NDimensions>
   duplicator->SetInputImage( field );
   duplicator->Update();
 
-  TimeVaryingVelocityFieldPointer smoothField = duplicator->GetOutput();
+  TimeVaryingVelocityFieldPointer smoothField = duplicator->GetModifiableOutput();
 
   typedef VectorNeighborhoodOperatorImageFilter<VelocityFieldType, VelocityFieldType> SmootherType;
   typename SmootherType::Pointer smoother = SmootherType::New();

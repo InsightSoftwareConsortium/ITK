@@ -63,7 +63,7 @@ public:
 
   /** Set the filter to use in the interal pipeline */
   itkSetObjectMacro(ImageFilter, ImageFilterType);
-  itkGetObjectMacro(ImageFilter, ImageFilterType);
+  itkGetModifiableObjectMacro(ImageFilter, ImageFilterType);
 
 protected:
 

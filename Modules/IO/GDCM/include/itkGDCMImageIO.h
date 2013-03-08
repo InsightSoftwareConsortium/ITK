@@ -190,6 +190,7 @@ public:
   void GetModel(char *model);
 
   void GetScanOptions(char *options);
+#endif
 
   /** More general method to retrieve an arbitrary DICOM value based
    * on a DICOM Tag (eg "0123|4567").
@@ -206,7 +207,6 @@ public:
    * tagkey is returned in the variable labelId. */
   static bool GetLabelFromTag(const std::string & tag,
                               std::string & labelId);
-#endif
 
 #if defined( ITKIO_DEPRECATED_GDCM1_API )
   /** A DICOM file can contains multiple binary stream that can be very long

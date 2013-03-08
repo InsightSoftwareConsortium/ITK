@@ -112,7 +112,7 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
                           "or a CompositeTransform with DisplacementFieldTransform as the last to have been added." );
         }
       typedef typename DisplacementFieldTransformType::DisplacementFieldType DisplacementFieldType;
-      typename DisplacementFieldType::Pointer field = displacementTransform->GetDisplacementField();
+      typename DisplacementFieldType::ConstPointer field = displacementTransform->GetDisplacementField();
       this->SetVirtualDomain( field->GetSpacing(), field->GetOrigin(), field->GetDirection(), field->GetBufferedRegion() );
       }
     }
@@ -443,7 +443,7 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
 template<class TFixedPointSet, class TMovingPointSet>
 const typename PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>::VirtualPointSetType *
 PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
-::GetVirtualTransformedPointSet()
+::GetVirtualTransformedPointSet( void ) const
 {
   // First make sure the virtual point set is current.
   this->TransformFixedAndCreateVirtualPointSet();

@@ -486,26 +486,8 @@ ByteSwapper< T >
     {
     memcpy(cpy, ptr, chunkSize * 8);
 
-    char * pos = cpy;
-    for ( BufferSizeType i = 0; i < chunkSize; i++ )
-      {
-      char one_byte = pos[0];
-      pos[0] = pos[7];
-      pos[7] = one_byte;
+    ByteSwapper< T >::Swap8Range( (void *)cpy, chunkSize );
 
-      one_byte    = pos[1];
-      pos[1] = pos[6];
-      pos[6] = one_byte;
-
-      one_byte    = pos[2];
-      pos[2] = pos[5];
-      pos[5] = one_byte;
-
-      one_byte    = pos[3];
-      pos[3] = pos[4];
-      pos[4] = one_byte;
-      pos = pos + 8;
-      }
     fp->write( (char *)cpy, static_cast<std::streamsize>(8 * chunkSize) );
     ptr  = (char *)ptr + chunkSize * 8;
     num -= chunkSize;

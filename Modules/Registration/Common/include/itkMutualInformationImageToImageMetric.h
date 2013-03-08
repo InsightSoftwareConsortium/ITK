@@ -176,7 +176,7 @@ public:
   /** Set/Get the kernel function. This is used to calculate the joint
    * probability distribution. Default is the GaussianKernelFunction. */
   itkSetObjectMacro(KernelFunction, KernelFunctionType);
-  itkGetObjectMacro(KernelFunction, KernelFunctionType);
+  itkGetModifiableObjectMacro(KernelFunction, KernelFunctionType);
 
   /** Reinitialize the seed of the random number generator that selects the
    * sample of pixels used for estimating the image histograms and the joint

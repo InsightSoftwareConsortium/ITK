@@ -126,7 +126,7 @@ public:
   /** Get the time-varying velocity field control point lattice. */
   typename VelocityFieldType::Pointer GetTimeVaryingVelocityFieldControlPointLattice()
     {
-    return this->GetVelocityField();
+    return this->GetModifiableVelocityField();
     }
 
   /** Set the time-varying velocity field control point lattice.  */
