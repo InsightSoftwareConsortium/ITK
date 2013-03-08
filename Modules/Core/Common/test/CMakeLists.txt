@@ -165,6 +165,7 @@ itkConstNeighborhoodIteratorWithOnlyIndexTest.cxx
 itkImageToImageToleranceTest.cxx
 itkImageRegionSplitterSlowDimensionTest.cxx
 itkImageRegionSplitterDirectionTest.cxx
+itkImageRegionSplitterMultidimensionalTest.cxx
 )
 
 CreateTestDriver(ITKCommon1 "${ITKCommon_LIBRARIES}" "${ITKCommon1Tests}")
@@ -471,3 +472,4 @@ itk_add_test(NAME itkImageToImageToleranceTest COMMAND
 
 itk_add_test(NAME itkRegionSplitterSlowDimensionTest COMMAND ITKCommon2TestDriver itkImageRegionSplitterSlowDimensionTest)
 itk_add_test(NAME itkRegionSplitterDirectionTest COMMAND ITKCommon2TestDriver itkImageRegionSplitterDirectionTest)
+itk_add_test(NAME itkRegionSplitterMultidimensionalTest COMMAND ITKCommon2TestDriver itkImageRegionSplitterMultidimensionalTest)
