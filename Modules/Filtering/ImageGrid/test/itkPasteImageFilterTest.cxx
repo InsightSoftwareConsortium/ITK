@@ -19,7 +19,7 @@
 #include <fstream>
 #include "itkPasteImageFilter.h"
 #include "itkStreamingImageFilter.h"
-#include "itkImageRegionMultidimensionalSplitter.h"
+#include "itkImageRegionSplitterMultidimensional.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
@@ -70,7 +70,7 @@ int itkPasteImageFilterTest(int ac, char* av[] )
 
 
   // We'll tie this to a streamer to really exercise the paste code
-  typedef itk::ImageRegionMultidimensionalSplitter<2> SplitterType;
+  typedef itk::ImageRegionSplitterMultidimensional SplitterType;
   SplitterType::Pointer splitter = SplitterType::New();
   //splitter->DebugOn();
 

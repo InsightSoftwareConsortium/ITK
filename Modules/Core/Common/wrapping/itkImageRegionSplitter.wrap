@@ -1,5 +1,0 @@
-itk_wrap_class("itk::ImageRegionSplitter" POINTER)
-  foreach(d ${ITK_WRAP_DIMS})
-    itk_wrap_template("${d}" "${d}")
-  endforeach(d)
-itk_end_wrap_class()

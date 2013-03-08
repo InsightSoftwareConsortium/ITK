@@ -21,7 +21,7 @@
 #include "itkImageFileWriter.h"
 #include "itkShiftScaleImageFilter.h"
 #include "itkStreamingImageFilter.h"
-#include "itkImageRegionSplitterMultidimensional.h"
+#include "itkImageRegionMultidimensionalSplitter.h"
 #include "itkPipelineMonitorImageFilter.h"
 
 
@@ -54,8 +54,8 @@ int itkStreamingImageFilterTest3(int argc, char*argv [] )
   monitor = itk::PipelineMonitorImageFilter<ImageType>::New();
   monitor->SetInput( filter->GetOutput() );
 
-  itk::ImageRegionSplitterMultidimensional::Pointer splitter;
-  splitter = itk::ImageRegionSplitterMultidimensional::New();
+  itk::ImageRegionMultidimensionalSplitter<2>::Pointer splitter;
+  splitter = itk::ImageRegionMultidimensionalSplitter<2>::New();
 
   itk::StreamingImageFilter<ImageType, ImageType>::Pointer streamer;
   streamer = itk::StreamingImageFilter<ImageType, ImageType>::New();

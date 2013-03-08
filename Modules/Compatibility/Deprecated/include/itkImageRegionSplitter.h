@@ -52,11 +52,17 @@ namespace itk
  * Other ImageRegionSplitter subclasses could divide an image into
  * more uniform shaped regions instead of slabs.
  *
- * \sa ImageRegionMultidimensionalSplitter
+ * \deprecated The new class ImageRegionSplitterSlowDimension can be
+ * used as a drop in replacement for functionality as it
+ * implements the same algorithm. The ImageRegionSplitterBase is now
+ * the abstract base class for all image splitter. New splitting
+ * object should be derived from that class.
  *
- * \ingroup ITKSystemObjects
- * \ingroup DataProcessing
- * \ingroup ITKCommon
+ * \sa ImageRegionSplitterSlowDimension
+ * \sa ImageRegionSplitterBase
+
+ *
+ * \ingroup ITKDeprecated
  */
 
 template< unsigned int VImageDimension >

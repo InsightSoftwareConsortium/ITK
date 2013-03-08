@@ -50,9 +50,11 @@ namespace itk
  * ImageRegionSplitter). In other words, it splits every dimension of the
  * region to form ND rectangular prisms.
  *
- * \ingroup ITKSystemObjects
- * \ingroup DataProcessing
- * \ingroup ITKCommon
+ * \deprecated The new class ImageRegionSplitterMultidimensional can be
+ * used as a drop in replacement for the same functionality as it
+ * implements the same algorithm.
+ *
+ * \ingroup ITKDeprecated
  */
 
 template< unsigned int VImageDimension >
