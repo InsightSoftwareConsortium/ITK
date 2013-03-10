@@ -55,14 +55,23 @@ endif()
 #
 # if DCMTK is built elsewhere
 if(ITK_USE_SYSTEM_DCMTK)
-
-  find_package(DCMTK REQUIRED)
-
   # assign includes to std module var
   set(ITKDCMTK_SYSTEM_INCLUDE_DIRS ${DCMTK_INCLUDE_DIRS})
 
   # Module standard library var
   set(ITKDCMTK_LIBRARIES ${DCMTK_LIBRARIES})
+
+  # When this module is loaded by an app, load DCMTK too.
+  set(ITKDCMTK_EXPORT_CODE_INSTALL "
+set(DCMTK_DIR \"${DCMTK_DIR}\")
+find_package(DCMTK NO_MODULE REQUIRED)
+")
+  set(ITKDCMTK_EXPORT_CODE_BUILD "
+if(NOT ITK_BINARY_DIR)
+  set(DCMTK_DIR \"${DCMTK_DIR}\")
+  find_package(DCMTK NO_MODULE REQUIRED)
+endif()
+")
 
   itk_module_impl()
 
