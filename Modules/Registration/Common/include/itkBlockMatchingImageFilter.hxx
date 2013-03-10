@@ -257,8 +257,9 @@ BlockMatchingImageFilter< TFixedImage, TMovingImage, TFeatures, TDisplacements, 
   for ( SizeValueType idx = first, last = first + count; idx < last; idx++ )
     {
     FeaturePointsPhysicalCoordinates originalLocation = featurePoints->GetPoint( idx );
-    ImageIndexType index;
-    fixedImage->TransformPhysicalPointToIndex( originalLocation, index );
+    ImageIndexType fixedIndex,floatIndex;
+    fixedImage->TransformPhysicalPointToIndex(    originalLocation, fixedIndex );
+    floatingImage->TransformPhysicalPointToIndex( originalLocation, floatIndex );
 
     // the block is selected for a minimum similarity metric
     SimilaritiesValue  similarity = NumericTraits< SimilaritiesValue >::Zero;
@@ -267,9 +268,9 @@ BlockMatchingImageFilter< TFixedImage, TMovingImage, TFeatures, TDisplacements, 
     DisplacementsVector displacement;
 
     // set centers of window and center regions to current location
-    ImageIndexType start = index - this->m_SearchRadius;
+    ImageIndexType start = fixedIndex - this->m_SearchRadius;
     window.SetIndex( start );
-    center.SetIndex( index );
+    center.SetIndex( floatIndex );
 
     // iterate over neighborhoods in region window, for each neighborhood: iterate over voxels in blockRadius
     ConstNeighborhoodIterator< FixedImageType > windowIterator( m_BlockRadius, fixedImage, window );
