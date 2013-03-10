@@ -121,6 +121,10 @@ public:
   itkSetMacro(BlockRadius, SizeType);
   itkGetConstReferenceMacro(BlockRadius, SizeType);
 
+  /** set/get half size of the block for the connectivity */
+  itkSetMacro(ConnectivityRadius, SizeType);
+  itkGetConstReferenceMacro(ConnectivityRadius, SizeType);
+
   /** enable/disable tensor computations */
   itkSetMacro(ComputeStructureTensors, bool);
   itkGetMacro(ComputeStructureTensors, bool);
@@ -162,6 +166,7 @@ private:
   unsigned                   m_NonConnectivity;
   std::vector< OffsetType >  m_NonConnectivityOffsets;
   SizeType                   m_BlockRadius;
+  SizeType                   m_ConnectivityRadius;
   double                     m_SelectFraction;
   bool                       m_ComputeStructureTensors;
 };

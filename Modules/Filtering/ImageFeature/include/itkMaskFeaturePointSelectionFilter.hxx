@@ -38,6 +38,7 @@ MaskFeaturePointSelectionFilter< TImage, TMask, TFeatures >
   m_NonConnectivity = Self::VERTEX_CONNECTIVITY;
   m_SelectFraction = 0.1;
   m_BlockRadius.Fill( 2 );
+  m_ConnectivityRadius.Fill( 1 );
   m_ComputeStructureTensors = true;
 }
 
@@ -70,6 +71,7 @@ MaskFeaturePointSelectionFilter< TImage, TMask, TFeatures >
     }
   os << std::endl
      << indent << "m_BlockRadius: " << m_BlockRadius << std::endl
+     << indent << "m_ConnectivityRadius: " << m_ConnectivityRadius << std::endl
      << indent << "m_ComputeStructureTensors: " << ( m_ComputeStructureTensors ? "yes" : "no" ) << std::endl
      << indent << "m_SelectFraction: " << m_SelectFraction << std::endl;
 }
@@ -84,7 +86,7 @@ MaskFeaturePointSelectionFilter< TImage, TMask, TFeatures >
     m_NonConnectivityOffsets.clear();
     // use Neighbourhood to compute all offsets in radius 1
     Neighborhood< unsigned, ImageDimension> neighborhood;
-    neighborhood.SetRadius( NumericTraits< SizeValueType >::One );
+    neighborhood.SetRadius( m_ConnectivityRadius );
     for ( SizeValueType i = 0, n = neighborhood.Size(); i < n; i++ )
       {
       OffsetType off = neighborhood.GetOffset( i );
