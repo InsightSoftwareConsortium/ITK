@@ -116,7 +116,6 @@ int itkGreaterEqualTest(int, char* [] )
     ++it2;
   }
 
-  int status1, status2, status3;
   {
   // Create a logic Filter
   myFilterTypePointer filter = myFilterType::New();
@@ -131,19 +130,14 @@ int itkGreaterEqualTest(int, char* [] )
   // Get the Smart Pointer to the Filter Output
   myImageType3Pointer outputImage = filter->GetOutput();
 
-
   // Execute the filter
   filter->Update();
   filter->SetFunctor(filter->GetFunctor());
   PixelType FG = filter->GetFunctor().GetForegroundValue();
   PixelType BG = filter->GetFunctor().GetBackgroundValue();
 
-  status1 = checkImOnImRes < myImageType1, myImageType2, myImageType3,
-                             std::greater_equal<myImageType1::PixelType>
-                             >
-    ( inputImageA, inputImageB, outputImage, FG, BG);
-
-
+  int status1 = checkImOnImRes < myImageType1, myImageType2, myImageType3, std::greater_equal<myImageType1::PixelType> >
+                             (inputImageA, inputImageB, outputImage, FG, BG);
   if (status1 == EXIT_FAILURE)
     {
     return(EXIT_FAILURE);
@@ -173,12 +167,8 @@ int itkGreaterEqualTest(int, char* [] )
   PixelType FG = filter->GetFunctor().GetForegroundValue();
   PixelType BG = filter->GetFunctor().GetBackgroundValue();
   PixelType C = filter->GetConstant2();
-  status2 = checkImOnConstRes < myImageType1, PixelType,
-                                myImageType3,
-                                std::greater_equal<PixelType>
-                                >
-    (inputImageA, C, outputImage, FG, BG);
-
+  int status2 = checkImOnConstRes < myImageType1, PixelType, myImageType3, std::greater_equal<PixelType> >
+                                (inputImageA, C, outputImage, FG, BG);
   if (status2 == EXIT_FAILURE)
     {
     return(EXIT_FAILURE);
@@ -206,12 +196,8 @@ int itkGreaterEqualTest(int, char* [] )
   PixelType FG = filter->GetFunctor().GetForegroundValue();
   PixelType BG = filter->GetFunctor().GetBackgroundValue();
 
-  status3 = checkConstOnImRes < PixelType, myImageType2,
-                                myImageType3,
-                                std::greater_equal<PixelType>
-                                >
-    (filter->GetConstant1(),  inputImageB, outputImage, FG, BG);
-
+  int status3 = checkConstOnImRes < PixelType, myImageType2, myImageType3, std::greater_equal<PixelType> >
+                                (filter->GetConstant1(),  inputImageB, outputImage, FG, BG);
   if (status3 == EXIT_FAILURE)
     {
     return(EXIT_FAILURE);

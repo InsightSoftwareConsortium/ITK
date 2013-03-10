@@ -160,7 +160,6 @@ int itkHoughTransform2DLinesImageTest(int, char* [])
   HoughImageType::Pointer Accumulator = houghFilter->GetOutput();
 
   /** Blur the accumulator in order to find the maximum */
-  HoughImageType::Pointer m_PostProcessImage = HoughImageType::New();
   typedef itk::DiscreteGaussianImageFilter<HoughImageType,HoughImageType> GaussianFilterType;
   GaussianFilterType::Pointer gaussianFilter = GaussianFilterType::New();
   gaussianFilter->SetInput(Accumulator);
@@ -170,13 +169,13 @@ int itkHoughTransform2DLinesImageTest(int, char* [])
   gaussianFilter->SetVariance(variance);
   gaussianFilter->SetMaximumError(.01f);
   gaussianFilter->Update();
-  m_PostProcessImage = gaussianFilter->GetOutput();
+  HoughImageType::Pointer PostProcessImage = gaussianFilter->GetOutput();
 
   typedef itk::MinimumMaximumImageCalculator<HoughImageType> MinMaxCalculatorType;
   MinMaxCalculatorType::Pointer minMaxCalculator = MinMaxCalculatorType::New();
 
   itk::ImageRegionIterator<HoughImageType> it_output(m_HoughSpaceImage,m_HoughSpaceImage->GetLargestPossibleRegion());
-  itk::ImageRegionIterator<HoughImageType> it_input(m_PostProcessImage,m_PostProcessImage->GetLargestPossibleRegion());
+  itk::ImageRegionIterator<HoughImageType> it_input(PostProcessImage,PostProcessImage->GetLargestPossibleRegion());
 
   /** Set the number of lines we are looking for. */
   unsigned int m_NumberOfLines=1;
@@ -189,7 +188,7 @@ int itkHoughTransform2DLinesImageTest(int, char* [])
 
   /** Find maxima */
   do{
-    minMaxCalculator->SetImage(m_PostProcessImage);
+    minMaxCalculator->SetImage(PostProcessImage);
     minMaxCalculator->ComputeMaximum();
     HoughImageType::PixelType  max = minMaxCalculator->GetMaximum();
 
@@ -246,7 +245,7 @@ int itkHoughTransform2DLinesImageTest(int, char* [])
       std::cout << "Failure" << std::endl;
       return EXIT_FAILURE;
       }
-    it_list++;
+    ++it_list;
     }
 
   std::cout << "Printing Hough Fiter information:" << std::endl;

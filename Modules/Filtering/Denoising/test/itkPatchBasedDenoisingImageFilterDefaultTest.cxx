@@ -26,7 +26,7 @@
 #include "itkPatchBasedDenoisingImageFilter.h"
 
 template <class ImageT>
-int doDenoising(const std::string inputFileName, const std::string outputFileName)
+int doDenoising(const std::string & inputFileName, const std::string & outputFileName)
 {
   typedef itk::ImageFileReader< ImageT > ReaderType;
 

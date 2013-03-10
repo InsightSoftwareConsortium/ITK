@@ -176,7 +176,7 @@ int itkConvolutionImageFilterTest(int argc, char * argv[])
               << std::endl;
     return EXIT_FAILURE;
     }
-  catch ( itk::ExceptionObject e )
+  catch ( itk::ExceptionObject & e )
     {
     std::cout << "Caught expected exception when kernel is larger than the input image."
               << std::endl;
@@ -197,7 +197,7 @@ int itkConvolutionImageFilterTest(int argc, char * argv[])
               << "possible region." << std::endl;
     return EXIT_FAILURE;
     }
-  catch ( itk::ExceptionObject e )
+  catch ( itk::ExceptionObject & e )
     {
     std::cout << "Caught expected exception when request region is outside the largest "
               << "possible region." << std::endl;

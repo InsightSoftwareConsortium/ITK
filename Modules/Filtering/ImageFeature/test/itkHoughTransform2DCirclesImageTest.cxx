@@ -146,7 +146,6 @@ int itkHoughTransform2DCirclesImageTest(int, char* [])
   HoughImageType::ConstPointer m_RadiusImage= houghFilter->GetRadiusImage();
 
   /** Blur the accumulator in order to find the maximum */
-  HoughImageType::Pointer m_PostProcessImage = HoughImageType::New();
   typedef itk::DiscreteGaussianImageFilter<HoughImageType,HoughImageType> GaussianFilterType;
   GaussianFilterType::Pointer gaussianFilter = GaussianFilterType::New();
   gaussianFilter->SetInput(m_Accumulator);
@@ -156,13 +155,13 @@ int itkHoughTransform2DCirclesImageTest(int, char* [])
   gaussianFilter->SetVariance(variance);
   gaussianFilter->SetMaximumError(.01f);
   gaussianFilter->Update();
-  m_PostProcessImage = gaussianFilter->GetOutput();
+  HoughImageType::Pointer PostProcessImage = gaussianFilter->GetOutput();
 
   typedef itk::MinimumMaximumImageCalculator<HoughImageType> MinMaxCalculatorType;
   MinMaxCalculatorType::Pointer minMaxCalculator = MinMaxCalculatorType::New();
 
   itk::ImageRegionIterator<ImageType> it_output(m_HoughSpaceImage,m_HoughSpaceImage->GetLargestPossibleRegion());
-  itk::ImageRegionIterator<HoughImageType> it_input(m_PostProcessImage,m_PostProcessImage->GetLargestPossibleRegion());
+  itk::ImageRegionIterator<HoughImageType> it_input(PostProcessImage,PostProcessImage->GetLargestPossibleRegion());
 
  /** Set the number of circles we are looking for. */
   unsigned int numberOfCircles = 3;
@@ -176,7 +175,7 @@ int itkHoughTransform2DCirclesImageTest(int, char* [])
   double radius_result[3];
   unsigned int circles=0;
   do{
-  minMaxCalculator->SetImage(m_PostProcessImage);
+  minMaxCalculator->SetImage(PostProcessImage);
   minMaxCalculator->ComputeMaximum();
   HoughImageType::PixelType   max = minMaxCalculator->GetMaximum();
 
@@ -203,11 +202,11 @@ int itkHoughTransform2DCirclesImageTest(int, char* [])
         {
           index[0] = (long int)(it_output.GetIndex()[0] + length * vcl_cos(angle));
           index[1] = (long int)(it_output.GetIndex()[1] + length * vcl_sin(angle));
-          m_PostProcessImage->SetPixel(index,0);
+          PostProcessImage->SetPixel(index,0);
         }
       }
 
-      minMaxCalculator->SetImage(m_PostProcessImage);
+      minMaxCalculator->SetImage(PostProcessImage);
       minMaxCalculator->ComputeMaximum();
       max = minMaxCalculator->GetMaximum();
 
