@@ -116,11 +116,9 @@ int itkEqualTest(int, char* [] )
     ++it2;
     }
 
-  int status1, status2, status3;
   {
   // Create a logic Filter
   myFilterTypePointer filter = myFilterType::New();
-
 
   // Connect the input images
   filter->SetInput1( inputImageA );
@@ -131,7 +129,6 @@ int itkEqualTest(int, char* [] )
   // Get the Smart Pointer to the Filter Output
   myImageType3Pointer outputImage = filter->GetOutput();
 
-
   // Execute the filter
   filter->Update();
   filter->SetFunctor(filter->GetFunctor());
@@ -140,11 +137,8 @@ int itkEqualTest(int, char* [] )
   PixelType FG = filter->GetFunctor().GetForegroundValue();
   PixelType BG = filter->GetFunctor().GetBackgroundValue();
 
-  status1 = checkImOnImRes < myImageType1, myImageType2, myImageType3,
-                             std::equal_to<myImageType1::PixelType>
-                             >
-    ( inputImageA, inputImageB, outputImage, FG, BG);
-
+  int status1 = checkImOnImRes < myImageType1, myImageType2, myImageType3, std::equal_to<myImageType1::PixelType> >
+                             (inputImageA, inputImageB, outputImage, FG, BG);
   if (status1 == EXIT_FAILURE)
     {
     return(EXIT_FAILURE);
@@ -158,7 +152,6 @@ int itkEqualTest(int, char* [] )
   {
   // Create a logic Filter
   myFilterTypePointer filter = myFilterType::New();
-
 
   // Connect the input images
   filter->SetInput1( inputImageA );
@@ -174,11 +167,8 @@ int itkEqualTest(int, char* [] )
   PixelType FG = filter->GetFunctor().GetForegroundValue();
   PixelType BG = filter->GetFunctor().GetBackgroundValue();
   PixelType C = filter->GetConstant2();
-  status2 = checkImOnConstRes < myImageType1, PixelType,
-                                myImageType3,
-                                std::equal_to<PixelType>
-                                >
-    (inputImageA, C, outputImage, FG, BG);
+  int status2 = checkImOnConstRes < myImageType1, PixelType, myImageType3, std::equal_to<PixelType> >
+                                (inputImageA, C, outputImage, FG, BG);
   if (status2 == EXIT_FAILURE)
     {
     return(EXIT_FAILURE);
@@ -207,12 +197,8 @@ int itkEqualTest(int, char* [] )
   PixelType FG = filter->GetFunctor().GetForegroundValue();
   PixelType BG = filter->GetFunctor().GetBackgroundValue();
 
-  status3 = checkConstOnImRes < PixelType, myImageType2,
-                                myImageType3,
-                                std::equal_to<PixelType>
-                                >
-    (filter->GetConstant1(),  inputImageB, outputImage, FG, BG);
-
+  int status3 = checkConstOnImRes < PixelType, myImageType2, myImageType3, std::equal_to<PixelType> >
+                                (filter->GetConstant1(),  inputImageB, outputImage, FG, BG);
   if (status3 == EXIT_FAILURE)
     {
     return(EXIT_FAILURE);

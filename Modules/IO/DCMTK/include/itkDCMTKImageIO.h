@@ -22,7 +22,8 @@
 #include <fstream>
 #include <stdio.h>
 #include "itkImageIOBase.h"
-#include "dcmtk/dcmimgle/dcmimage.h"
+
+class DicomImage;
 
 namespace itk
 {

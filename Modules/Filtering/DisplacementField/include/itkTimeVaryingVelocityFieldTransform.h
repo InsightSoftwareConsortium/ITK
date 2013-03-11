@@ -95,7 +95,17 @@ public:
   typedef typename Transform<TScalar,NDimensions,NDimensions>::Pointer TransformPointer;
 
   /** Get the time-varying velocity field. */
+#if ! defined ( ITK_FUTURE_LEGACY_REMOVE )
   typename VelocityFieldType::Pointer GetTimeVaryingVelocityField()
+    {
+    return this->GetModifiableVelocityField();
+    }
+#endif
+  typename VelocityFieldType::Pointer GetModifiableTimeVaryingVelocityField()
+    {
+    return this->GetModifiableVelocityField();
+    }
+  typename VelocityFieldType::ConstPointer GetTimeVaryingVelocityField() const
     {
     return this->GetVelocityField();
     }

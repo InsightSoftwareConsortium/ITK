@@ -71,6 +71,8 @@ public:
 
   itkNewMacro( Self );
 
+  ProcessingPauseCommand(){}
+
   virtual void Execute( const itk::Object* caller, const itk::EventObject& event )
     {
     this->Execute( const_cast< itk::Object* >( caller ), event );
@@ -107,6 +109,8 @@ class KeypressPauseCommand: public vtkCommand
 {
 public:
   typedef itk::VTKVisualizeImageLevelSetIsoValues< InputImageType, LevelSetType > VisualizationType;
+
+  KeypressPauseCommand(){}
 
   static KeypressPauseCommand * New()
     {
@@ -151,10 +155,9 @@ public:
       }
     else if( vtkCommand::KeyPressEvent == eventId )
       {
-      bool weArePaused = false;
       this->m_NeedToPauseInformation->m_Mutex.Lock();
       std::cout << "Got a keypress event..." << std::endl;
-      weArePaused = this->m_NeedToPauseInformation->m_NeedToPause;
+      bool weArePaused = this->m_NeedToPauseInformation->m_NeedToPause;
       if( weArePaused )
         {
         this->m_NeedToPauseInformation->m_NeedToPause = false;
@@ -323,6 +326,8 @@ ITK_THREAD_RETURN_TYPE visualizationThreadRunner( void * threadInfo )
 class ExitOnTimer: public vtkCommand
 {
 public:
+  ExitOnTimer(){}
+
   static ExitOnTimer * New()
     {
     return new ExitOnTimer;

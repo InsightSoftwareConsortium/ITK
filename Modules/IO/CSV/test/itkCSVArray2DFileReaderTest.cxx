@@ -395,7 +395,7 @@ int itkCSVArray2DFileReaderTest (int argc, char *argv[])
    }
  catch (itk::ExceptionObject & exp)
    {
-   std::cerr << "Exception caught!" << std::endl;
+   std::cerr << "Expected Exception caught!" << std::endl;
    std::cerr << exp << std::endl;
    }
 

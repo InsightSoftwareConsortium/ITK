@@ -366,13 +366,6 @@ int itkMRFImageFilterTest(int, char* [] )
   //Print the mrf labelled image
   ClassImageIterator labeloutIt( outClassImage, outClassImage->GetBufferedRegion() );
 
-  int sumtmp =0;
-  while( !labeloutIt.IsAtEnd() )
-    {
-    sumtmp += (int)  labeloutIt.Get();
-    ++labeloutIt;
-    }
-
   //---------------------------------------------------------------------
   // Set up the neighborhood iterators and the valid neighborhoods
   // for iteration

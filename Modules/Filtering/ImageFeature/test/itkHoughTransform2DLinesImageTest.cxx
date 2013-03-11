@@ -169,13 +169,13 @@ int itkHoughTransform2DLinesImageTest(int, char* [])
   gaussianFilter->SetVariance(variance);
   gaussianFilter->SetMaximumError(.01f);
   gaussianFilter->Update();
-  HoughImageType::Pointer m_PostProcessImage = gaussianFilter->GetOutput();
+  HoughImageType::Pointer postProcessImage = gaussianFilter->GetOutput();
 
   typedef itk::MinimumMaximumImageCalculator<HoughImageType> MinMaxCalculatorType;
   MinMaxCalculatorType::Pointer minMaxCalculator = MinMaxCalculatorType::New();
 
   itk::ImageRegionIterator<HoughImageType> it_output(m_HoughSpaceImage,m_HoughSpaceImage->GetLargestPossibleRegion());
-  itk::ImageRegionIterator<HoughImageType> it_input(m_PostProcessImage,m_PostProcessImage->GetLargestPossibleRegion());
+  itk::ImageRegionIterator<HoughImageType> it_input(postProcessImage,postProcessImage->GetLargestPossibleRegion());
 
   /** Set the number of lines we are looking for. */
   unsigned int m_NumberOfLines=1;
@@ -188,7 +188,7 @@ int itkHoughTransform2DLinesImageTest(int, char* [])
 
   /** Find maxima */
   do{
-    minMaxCalculator->SetImage(m_PostProcessImage);
+    minMaxCalculator->SetImage(postProcessImage);
     minMaxCalculator->ComputeMaximum();
     HoughImageType::PixelType  max = minMaxCalculator->GetMaximum();
 

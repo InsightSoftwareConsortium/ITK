@@ -33,11 +33,29 @@
 # Upgraded for GDCM by Mathieu Malaterre.
 # Modified for EasyViz by Thomas Sondergaard.
 #
-if(NOT DCMTK_DIR)
-  set(DCMTK_DIR "" CACHE PATH "Directory where DCMTK lib/include files can be found")
+
+#
+# First, try to use NO_MODULE
+set(_DCMTK_REQUIRED)
+set(_DCMTK_QUIET)
+if(DCMTK_FIND_QUIETLY)
+  set(_DCMTK_QUIET QUIET)
 endif()
+if(DCMTK_FIND_REQUIRED)
+  set(_DCMTK_REQUIRED REQUIRED)
+endif()
+find_package(DCMTK ${_DCMTK_REQUIRED} ${_DCMTK_QUIET} NO_MODULE)
+if(DCMTK_FOUND
+    AND NOT "SHRDLU" STREQUAL "SHRDLU${DCMTK_LIBRARIES}"
+    AND NOT "SHRDLU" STREQUAL "SHRDLU${DCMTK_INCLUDE_DIRS}")
+  return()
+endif()
+
 # prefer DCMTK_DIR over default system paths like /usr/lib
-set(CMAKE_PREFIX_PATH ${DCMTK_DIR}/lib ${CMAKE_PREFIX_PATH}) # this is given to FIND_LIBRARY or FIND_PATH
+if(DCMTK_DIR)
+  set(CMAKE_PREFIX_PATH ${DCMTK_DIR}/lib ${CMAKE_PREFIX_PATH}) # this is given to FIND_LIBRARY or FIND_PATH
+endif()
+
 
 # Find all libraries, store debug and release separately
 foreach(lib
