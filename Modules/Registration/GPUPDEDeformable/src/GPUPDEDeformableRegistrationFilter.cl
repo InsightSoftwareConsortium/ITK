@@ -29,7 +29,7 @@
 //  1 (fast y) : y/z/x
 //  2 (fast z) : z/x/y
 int GetImageOffset(int order,
-                    __constant int size[MAXDIM],
+                    __constant int * size,
                     int index[MAXDIM])
 {
   int idx;
