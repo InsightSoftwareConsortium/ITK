@@ -98,6 +98,7 @@ public:
     {
     m_TestDomainThreader = TestDomainThreader::New();
     m_ClassDescriptor    = "enclosing class";
+    m_UncompensatedSumOfThreads = 0.0;
     }
 
   double GetCompensatedSumOfThreads()

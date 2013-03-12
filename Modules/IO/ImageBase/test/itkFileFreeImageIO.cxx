@@ -122,7 +122,7 @@ FileFreeImageIO
         }
       }
     }
-  if (originVector.size() == 0)
+  if (originVector.empty())
     {
     for (std::vector<std::string>::size_type i = 0; i < sizeVector.size(); i++)
       {
@@ -130,7 +130,7 @@ FileFreeImageIO
       }
     }
 
-  if (spacingVector.size() == 0)
+  if (spacingVector.empty())
     {
     for (std::vector<std::string>::size_type i = 0; i < sizeVector.size(); i++)
       {
@@ -138,7 +138,7 @@ FileFreeImageIO
       }
     }
 
-  if (directionVector.size() == 0)
+  if (directionVector.empty())
     {
     directionVector.resize(sizeVector.size());
     for (std::vector<std::string>::size_type i = 0; i < sizeVector.size(); i++)

@@ -173,7 +173,7 @@ public:
   virtual TOutput Evaluate( const InputPointType & ) const;
 
   /** Get Gaussian corresponding to a specific point */
-  GaussianConstPointer GetGaussian( PointIdentifier ) const ;
+  GaussianConstPointer GetGaussian( PointIdentifier ) const;
 
   /** Get the points locator describing the point set neighborhood */
   itkGetModifiableObjectMacro(PointsLocator, PointsLocatorType );

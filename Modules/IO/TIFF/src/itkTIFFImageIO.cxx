@@ -1965,12 +1965,11 @@ bool TIFFImageIO::CanFindTIFFTag(unsigned int t)
 
   ttag_t           tag = t;     // 32bits integer
 #ifdef TIFF_INT64_T // detect if libtiff4
-  const TIFFField *fld = NULL;
+  const TIFFField *fld = TIFFFieldWithTag(m_InternalImage->m_Image, tag);
 #else
-  const TIFFFieldInfo *fld = NULL;
+  const TIFFFieldInfo *fld = TIFFFieldWithTag(m_InternalImage->m_Image, tag);
 #endif
 
-  fld = TIFFFieldWithTag(m_InternalImage->m_Image, tag);
   if ( fld == NULL )
     {
     return false;

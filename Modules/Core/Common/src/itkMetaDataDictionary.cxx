@@ -54,7 +54,7 @@ MetaDataDictionary
 {
   for ( MetaDataDictionaryMapType::const_iterator it = m_Dictionary->begin();
         it != m_Dictionary->end();
-        it++ )
+        ++it )
     {
     os << ( *it ).first <<  "  ";
     ( *it ).second->Print(os);

@@ -107,11 +107,11 @@ int testMetaTube(int argc, char * argv[])
       {
         std::cout << (*it2)->m_X[0]
         << " " << (*it2)->m_X[1] << " " << (*it2)->m_X[2] << std::endl;
-        it2++;
+        ++it2;
       }
     }
 
-    it++;
+    ++it;
   }
 
   std::cout << "done" << std::endl;

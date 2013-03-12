@@ -385,13 +385,13 @@ bool GPUKernelManager::LaunchKernel2D(int kernelIdx,
     return false;
     }
 
-  size_t gws[2], lws[2];
-
+  size_t gws[2];
   gws[0] = globalWorkSizeX;
   gws[1] = globalWorkSizeY;
 
-  lws[0] = localWorkSizeX;
-  lws[1] = localWorkSizeY;
+//  size_t lws[2];
+//  lws[0] = localWorkSizeX;
+//  lws[1] = localWorkSizeY;
 
   cl_int errid;
   // TODO should we allow the user to determine localWorkSize?
@@ -423,15 +423,15 @@ bool GPUKernelManager::LaunchKernel3D(int kernelIdx,
     return false;
     }
 
-  size_t gws[3], lws[3];
-
+  size_t gws[3];
   gws[0] = globalWorkSizeX;
   gws[1] = globalWorkSizeY;
   gws[2] = globalWorkSizeZ;
 
-  lws[0] = localWorkSizeX;
-  lws[1] = localWorkSizeY;
-  lws[2] = localWorkSizeZ;
+//  size_t lws[3];
+//  lws[0] = localWorkSizeX;
+//  lws[1] = localWorkSizeY;
+//  lws[2] = localWorkSizeZ;
 
   cl_int errid;
   // TODO should we allow the user to determine localWorkSize?

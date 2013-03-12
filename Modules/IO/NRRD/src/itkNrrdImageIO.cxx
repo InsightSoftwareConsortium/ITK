@@ -953,7 +953,7 @@ void NrrdImageIO::Write(const void *buffer)
   std::vector< std::string >                 keys = thisDic.GetKeys();
   std::vector< std::string >::const_iterator keyIt;
   const char *                               keyField, *field;
-  for ( keyIt = keys.begin(); keyIt != keys.end(); keyIt++ )
+  for ( keyIt = keys.begin(); keyIt != keys.end(); ++keyIt )
     {
     if ( !strncmp( KEY_PREFIX, ( *keyIt ).c_str(), strlen(KEY_PREFIX) ) )
       {

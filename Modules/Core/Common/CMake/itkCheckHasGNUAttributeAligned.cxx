@@ -24,6 +24,8 @@ struct B
 template <typename T>
 class foo
 {
+  foo(){}
+
   struct A
   {
     char a;

@@ -125,7 +125,7 @@ MatlabTransformIO::Write()
     vnl_matlab_write( out, TempArray.begin(), TempArray.size(), xfrmType.c_str() );
     TempArray = ( *it )->GetFixedParameters();
     vnl_matlab_write(out, TempArray.begin(), TempArray.size(), "fixed");
-    it++;
+    ++it;
     }
   out.close();
 }

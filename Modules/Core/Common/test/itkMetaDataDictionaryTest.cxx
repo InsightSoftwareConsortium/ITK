@@ -93,6 +93,7 @@ int itkMetaDataDictionaryTest(int , char * [])
     {
     std::cerr << "Exception Thrown." << std::endl;
     std::cerr << excp << std::endl;
+    delete [] StrandedMemory;
     return EXIT_FAILURE;
     }
 

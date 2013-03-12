@@ -90,7 +90,7 @@ ITKCommon_EXPORT std::istream &  operator>>(std::istream & in, SmapsRecord & rec
       lastPos = in.tellg();
       }
     }
-  catch ( ExceptionObject excp )
+  catch ( ExceptionObject & excp )
     {
     record.Reset();
     // propagate the exception
@@ -147,7 +147,7 @@ ITKCommon_EXPORT std::istream & operator>>(std::istream & in, VMMapSummaryRecord
                                << ", bad right bracket: " << bracket);
       }
     }
-  catch ( ExceptionObject excp )
+  catch ( ExceptionObject & excp )
     {
     record.Reset();
     // propagate the exception
@@ -271,7 +271,7 @@ ITKCommon_EXPORT std::istream & operator>>(std::istream & in, VMMapRecord & reco
                                << ", bad end of line: " << line);
       }
     }
-  catch ( ExceptionObject excp )
+  catch ( ExceptionObject & excp )
     {
     record.Reset();
     // propagate the exception
@@ -384,7 +384,7 @@ ITK_EXPORT std::istream & operator>>(std::istream & smapsStream, SmapsData_2_6 &
       record = new SmapsRecord;
       }
     }
-  catch ( ExceptionObject excp )
+  catch ( ExceptionObject & excp )
     {
     // in case of error, erase the records.
     data.Reset();
@@ -507,7 +507,7 @@ ITK_EXPORT std::istream & operator>>(std::istream & stream, VMMapData_10_2 & dat
         }
       }
     }
-  catch ( ExceptionObject excp )
+  catch ( ExceptionObject & excp )
     {
     // in case of error, erase the records.
     data.Reset();

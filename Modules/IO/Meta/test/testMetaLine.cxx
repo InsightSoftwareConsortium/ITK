@@ -96,7 +96,7 @@ int testMetaLine(int argc, char * argv[])
       std::cout << (*it)->m_V[1][d] << " ";
     }
     std::cout << std::endl;
-    it++;
+    ++it;
   }
 
   delete Line;

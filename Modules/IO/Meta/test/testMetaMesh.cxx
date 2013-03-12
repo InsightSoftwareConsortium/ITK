@@ -44,7 +44,7 @@ bool TestingMetaMesh(MetaMesh* _mesh)
       std::cout << "[FAILED]" << std::endl;
       return EXIT_FAILURE;
       }
-    it2++;
+    ++it2;
     }
   std::cout << "[PASSED]" << std::endl;
 
@@ -72,7 +72,7 @@ bool TestingMetaMesh(MetaMesh* _mesh)
         return EXIT_FAILURE;
         }
       }
-      it3++;
+      ++it3;
     }
   it3 = _mesh->GetCells(MET_TRIANGLE_CELL).begin();
   for(j=0;j< static_cast<int>(_mesh->GetCells(MET_TRIANGLE_CELL).size());j++)
@@ -94,7 +94,7 @@ bool TestingMetaMesh(MetaMesh* _mesh)
         return EXIT_FAILURE;
         }
       }
-    it3++;
+    ++it3;
     }
   std::cout << "[PASSED]" << std::endl;
 
@@ -118,9 +118,9 @@ bool TestingMetaMesh(MetaMesh* _mesh)
         std::cout << "[FAILED]" << std::endl;
         return EXIT_FAILURE;
         }
-      it_link2++;
+      ++it_link2;
       }
-    it_link++;
+    ++it_link;
     }
   std::cout << "[PASSED]" << std::endl;
 
@@ -136,7 +136,7 @@ bool TestingMetaMesh(MetaMesh* _mesh)
       std::cout << "[FAILED]" << std::endl;
       return EXIT_FAILURE;
       }
-    it_pd++;
+    ++it_pd;
     }
   std::cout << "[PASSED]" << std::endl;
 
@@ -154,7 +154,7 @@ bool TestingMetaMesh(MetaMesh* _mesh)
       return EXIT_FAILURE;
       }
     f += (float)0.2;
-    it_cd++;
+    ++it_cd;
    }
  std::cout << "[PASSED]" << std::endl;
  return EXIT_SUCCESS;
@@ -270,7 +270,7 @@ int testMetaMesh(int argc, char * argv[])
         }
       (mesh2)->PrintInfo();
       }
-    it++;
+    ++it;
     }
 
   // Now testing Binary mesh
@@ -301,7 +301,7 @@ int testMetaMesh(int argc, char * argv[])
         }
       (mesh2)->PrintInfo();
       }
-    it++;
+    ++it;
     }
   std::cout << "[DONE]" << std::endl;
   return EXIT_SUCCESS;

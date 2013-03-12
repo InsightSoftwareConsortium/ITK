@@ -141,14 +141,12 @@ ArchetypeSeriesFileNames
   std::string           regExpString = "([0-9]+)";
   IntVectorType         numGroupStart;
   IntVectorType         numGroupLength;
-  int                   sIndex;
-  std::string::iterator sit;
-  for ( sit = fileName.begin(); sit < fileName.end(); sit++ )
+  for ( std::string::iterator sit = fileName.begin(); sit < fileName.end(); ++sit )
     {
     // If the element is a number, find its starting index and length.
     if ( ( *sit ) >= '0' && ( *sit ) <= '9' )
       {
-      sIndex = static_cast< int >( sit - fileName.begin() );
+      int sIndex = static_cast< int >( sit - fileName.begin() );
       numGroupStart.push_back(sIndex);
 
       // Loop to one past the end of the group of numbers.

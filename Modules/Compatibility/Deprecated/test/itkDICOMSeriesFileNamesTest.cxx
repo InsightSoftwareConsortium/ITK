@@ -47,7 +47,7 @@ int itkDICOMSeriesFileNamesTest(int ac, char* av[])
     names = fit->GetFileNames( *sit );
     for (nit = names.begin();
          nit != names.end();
-         nit++)
+         ++nit)
       {
       std::cout << "\t\tFile: " << (*nit).c_str() << std::endl;
       }
@@ -59,7 +59,7 @@ int itkDICOMSeriesFileNamesTest(int ac, char* av[])
     names = fit->GetFileNames( *sit );
     for (nit = names.begin();
          nit != names.end();
-         nit++)
+         ++nit)
       {
       std::cout << "\t\tFile: " << (*nit).c_str() << std::endl;
       }
@@ -70,7 +70,7 @@ int itkDICOMSeriesFileNamesTest(int ac, char* av[])
     names = fit->GetFileNames( *sit );
     for (nit = names.begin();
          nit != names.end();
-         nit++)
+         ++nit)
       {
       std::cout << "\t\tFile: " << (*nit).c_str() << std::endl;
       }
@@ -82,7 +82,7 @@ int itkDICOMSeriesFileNamesTest(int ac, char* av[])
     names = fit->GetFileNames( *sit );
     for (nit = names.begin();
          nit != names.end();
-         nit++)
+         ++nit)
       {
       std::cout << "\t\tFile: " << (*nit).c_str() << std::endl;
       }
@@ -92,7 +92,7 @@ int itkDICOMSeriesFileNamesTest(int ac, char* av[])
     names = fit->GetFileNames( *sit );
     for (nit = names.begin();
          nit != names.end();
-         nit++)
+         ++nit)
       {
       std::cout << "\t\tFile: " << (*nit).c_str() << std::endl;
       }

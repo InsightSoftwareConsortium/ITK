@@ -380,7 +380,7 @@ int main( int argc, char * argv [] )
     totalWeight += *wcIt;
     }
   for(std::vector< double >::iterator wIt = weights.begin();
-      wIt != weights.end(); wIt++ )
+      wIt != weights.end(); ++wIt )
     {
     *wIt = static_cast< double > ( (*wIt) * meanDistance / (2 * totalWeight));
     }

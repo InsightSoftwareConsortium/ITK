@@ -152,8 +152,7 @@ int itkCSVFileReaderWriterTest_Func(int argc, char *argv[], bool headers)
   reader->Print(std::cout);
 
   typedef itk::CSVArray2DDataObject<double> DataFrameObjectType;
-  DataFrameObjectType::Pointer dfo = DataFrameObjectType::New();
-  dfo = reader->GetOutput();
+  DataFrameObjectType::Pointer dfo = reader->GetOutput();
   MatrixType test_matrix = dfo->GetMatrix();
 
   std::cout << "Actual array: " << std::endl;

@@ -261,7 +261,7 @@ int itkCenteredEuler3DTransformTest(int, char *[] )
       eulerTransform->SetParameters( minusParameters );
       minusPoint = eulerTransform->TransformPoint( pInit );
 
-      if( k < 3 && k > 5 ) // Jacobian is approx as identity for center of rotation
+      if( k < 3 || k > 5 ) // Jacobian is approx as identity for center of rotation
         {
         for( unsigned int j = 0; j < 3; j++ )
           {

@@ -62,7 +62,7 @@ int main( int argc, char *argv[] )
   const unsigned int numFactories = factories.size();
 
   std::cout << "----- Registered factories -----" << std::endl;
-  if (factories.size() > 0)
+  if (!factories.empty())
     {
     for ( std::list<itk::ObjectFactoryBase*>::iterator
             f = factories.begin();
@@ -144,7 +144,7 @@ int main( int argc, char *argv[] )
 
   std::cout << "----- Registered factories -----" << std::endl;
 
-  if (factories.size() > 0)
+  if (!factories.empty())
     {
     for ( std::list<itk::ObjectFactoryBase*>::iterator
             f = factories.begin();

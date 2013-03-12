@@ -20,10 +20,10 @@
 #include <cstring>
 #include "itksys/SystemTools.hxx"
 
-bool CheckFileNameParsing(const std::string fileName,
-                          const std::string correctNameOnly,
-                          const std::string correctExtension,
-                          const std::string correctPath)
+bool CheckFileNameParsing(const std::string & fileName,
+                          const std::string & correctNameOnly,
+                          const std::string & correctExtension,
+                          const std::string & correctPath)
 {
   // the current kwsys way...
   std::cout << "(kwsys) Extracting...file name...";
