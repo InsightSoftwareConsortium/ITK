@@ -311,12 +311,6 @@ void GDCMImageIO::Read(void *pointer)
 #endif
 }
 
-// TODO: this function was not part of gdcm::Tag API as of gdcm 2.0.10:
-static std::string PrintAsPipeSeparatedString(const gdcm::Tag & tag)
-{
-  std::string ret = tag.PrintAsPipeSeparatedString();
-  return ret;
-}
 
 void GDCMImageIO::InternalReadImageInformation(std::ifstream & file)
 {
@@ -499,7 +493,7 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream & file)
               (unsigned char *)bin,
               static_cast< int >( 0 ) ) );
           std::string encodedValue(bin, encodedLengthActual);
-          EncapsulateMetaData< std::string >(dico, PrintAsPipeSeparatedString(tag), encodedValue);
+          EncapsulateMetaData< std::string >(dico, tag.PrintAsPipeSeparatedString(), encodedValue);
           delete[] bin;
           }
         }
@@ -509,7 +503,7 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream & file)
       // Only copying field from the public DICOM dictionary
       if ( m_LoadPrivateTags || tag.IsPublic() )
         {
-        EncapsulateMetaData< std::string >( dico, PrintAsPipeSeparatedString(tag), sf.ToString(tag) );
+        EncapsulateMetaData< std::string >( dico, tag.PrintAsPipeSeparatedString(), sf.ToString(tag) );
         }
       }
     }
