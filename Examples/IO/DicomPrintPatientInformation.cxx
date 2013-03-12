@@ -29,28 +29,13 @@
 
 std::string FindDicomTag( const std::string & entryId, const itk::GDCMImageIO::Pointer dicomIO )
 {
-  typedef itk::MetaDataDictionary   DictionaryType;
-  const  DictionaryType & dictionary = dicomIO->GetMetaDataDictionary();
-  DictionaryType::ConstIterator tagItr = dictionary.Find( entryId );
-
-  if( tagItr == dictionary.End() )
+  std::string tagvalue;
+  bool found = dicomIO->GetValueFromTag(entryId, tagvalue);
+  if ( !found )
     {
-    return "NOT FOUND";
+    tagvalue = "NOT FOUND";
     }
-
-  typedef itk::MetaDataObject< std::string > MetaDataStringType;
-
-  MetaDataStringType::ConstPointer entryvalue = dynamic_cast<const MetaDataStringType *>( tagItr->second.GetPointer() );
-
-  if( entryvalue )
-    {
-    std::string tagvalue = entryvalue->GetMetaDataObjectValue();
-    return tagvalue;
-    }
-  else
-    {
-    return "NOT FOUND";
-    }
+  return tagvalue;
 }
 
 
@@ -70,9 +55,7 @@ int main( int argc, char* argv[] )
 
   ReaderType::Pointer reader = ReaderType::New();
 
-  typedef itk::GDCMImageIO       ImageIOType;
-  ImageIOType::Pointer dicomIO = ImageIOType::New();
-  dicomIO->SetMaxSizeLoadEntry(0xffff);
+  itk::GDCMImageIO::Pointer dicomIO = itk::GDCMImageIO::New();
 
   reader->SetFileName( argv[1] );
   reader->SetImageIO( dicomIO );

@@ -36,7 +36,7 @@ int itkGDCMImageIOTest(int ac, char* av[])
     }
 
 
-  typedef short InputPixelType;
+  typedef short                                   InputPixelType;
   typedef itk::Image< InputPixelType, 2 >         InputImageType;
   typedef itk::ImageFileReader< InputImageType >  ReaderType;
 
@@ -75,8 +75,6 @@ int itkGDCMImageIOTest(int ac, char* av[])
     << gdcmImageIO->GetFrameOfReferenceInstanceUID() << std::endl;
   std::cout << "KeepOriginalUID: "
     << gdcmImageIO->GetKeepOriginalUID() << std::endl;
-  std::cout << "LoadSequences: "
-    << gdcmImageIO->GetLoadSequences() << std::endl;
   std::cout << "LoadPrivateTags: "
     << gdcmImageIO->GetLoadPrivateTags() << std::endl;
   std::cout << "CompressionType: "
@@ -155,4 +153,3 @@ int itkGDCMImageIOTest(int ac, char* av[])
   return EXIT_SUCCESS;
 
 }
-
