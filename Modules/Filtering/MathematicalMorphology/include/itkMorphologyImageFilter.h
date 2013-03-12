@@ -61,8 +61,8 @@ namespace itk
  *
  * \sa BinaryErodeImageFilter
  * \sa BinaryDilateImageFilter
- * \sa GrayScaleErodeImageFilter
- * \sa GrayScaleDilateImageFilter
+ * \sa GrayscaleErodeImageFilter
+ * \sa GrayscaleDilateImageFilter
  * \sa NeighborhoodIterator
  * \sa Neighborhood
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
