@@ -58,12 +58,12 @@ namespace itk
  * that operates using a smart neighborhood operator for edge faces and
  * one that operates using a standard neighboorhood operator..
  *
- * \sa ErodeObjectMorphologicalImageFilter
- * \sa DilateObjectMorphologicalImageFilter
+ * \sa ErodeObjectMorphologyImageFilter
+ * \sa DilateObjectMorphologyImageFilter
  * \sa BinaryErodeImageFilter
  * \sa BinaryDilateImageFilter
- * \sa GrayScaleErodeImageFilter
- * \sa GrayScaleDilateImageFilter
+ * \sa GrayscaleErodeImageFilter
+ * \sa GrayscaleDilateImageFilter
  * \sa NeighborhoodIterator
  * \sa Neighborhood
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
