@@ -28,7 +28,7 @@
 
 namespace itk
 {
-/** \class JointHistogramMutualInformationImageToImageMetric
+/** \class JointHistogramMutualInformationImageToImageMetricv4
  * \brief Computes the mutual information between two images to be
  * registered using the method of Mattes et al.
  *
