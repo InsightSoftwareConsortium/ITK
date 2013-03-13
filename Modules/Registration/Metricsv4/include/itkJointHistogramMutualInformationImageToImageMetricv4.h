@@ -30,7 +30,7 @@ namespace itk
 {
 /** \class JointHistogramMutualInformationImageToImageMetric
  * \brief Computes the mutual information between two images to be
- * registered using the method of Mattes et al.
+ * registered using the method referenced below.
  *
  * References:
  * [1] "Optimization of Mutual Information for MultiResolution Image
