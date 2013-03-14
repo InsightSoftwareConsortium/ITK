@@ -53,10 +53,6 @@
 
 #include "gdcmGlobal.h"
 
-#if GDCM_MAJOR_VERSION < 2
-#include "gdcmDictSet.h"
-#endif
-
 // Software Guide : BeginLatex
 // Software Guide : EndLatex
 
@@ -85,15 +81,10 @@ int main( int argc, char* argv[] )
 
   if( argc == 3 )
     {
-#if GDCM_MAJOR_VERSION < 2
-    // shared lib is loaded so dictionary should have been initialized
-    gdcm::Global::GetDicts()->GetDefaultPubDict()->AddDict(argv[2]);
-#else
-    // Newer API, specify a path where XML dicts can be found (Part 3/4 & 6)
+    // Specify a path where XML dicts can be found (Part 3/4 & 6)
     gdcm::Global::GetInstance().Prepend( itksys::SystemTools::GetFilenamePath(argv[2]).c_str() );
     // Load them !
     gdcm::Global::GetInstance().LoadResourcesFiles();
-#endif
     }
 
   // Software Guide : BeginLatex
@@ -120,16 +111,6 @@ int main( int argc, char* argv[] )
   typedef itk::GDCMImageIO       ImageIOType;
   ImageIOType::Pointer dicomIO = ImageIOType::New();
   // Software Guide : EndCodeSnippet
-
-  // Software Guide : BeginLatex
-  //
-  // Here we override the gdcm default value of 0xfff with a value of 0xffff
-  // to allow the loading of long binary stream in the DICOM file.
-  // This is particularly useful when reading the private tag: 0029,1010
-  // from Siemens as it allows to completely specify the imaging parameters
-  //
-  // Software Guide : EndLatex
-  dicomIO->SetMaxSizeLoadEntry(0xffff);
 
   // Software Guide : BeginLatex
   //
