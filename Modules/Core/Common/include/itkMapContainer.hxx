@@ -112,7 +112,7 @@ bool
 MapContainer< TElementIdentifier, TElement >
 ::IndexExists(ElementIdentifier id) const
 {
-  return ( this->MapType::count(id) > 0 );
+  return ( this->MapType::find(id) != this->MapType::end() );
 }
 
 /**
