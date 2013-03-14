@@ -35,6 +35,8 @@ RecursiveSeparableImageFilter< TInputImage, TOutputImage >
   this->SetNumberOfRequiredInputs(1);
 
   this->InPlaceOff();
+
+  m_ImageRegionSplitter = ImageRegionSplitterDirection::New();
 }
 
 /**
@@ -181,64 +183,13 @@ RecursiveSeparableImageFilter< TInputImage, TOutputImage >
     }
 }
 
+
 template< typename TInputImage, typename TOutputImage >
-unsigned int
+const ImageRegionSplitterBase*
 RecursiveSeparableImageFilter< TInputImage, TOutputImage >
-::SplitRequestedRegion(unsigned int i, unsigned int num, OutputImageRegionType & splitRegion)
+::GetImageRegionSplitter(void) const
 {
-  // Get the output pointer
-  OutputImageType *outputPtr = this->GetOutput();
-
-  const typename TOutputImage::SizeType & requestedRegionSize =
-    outputPtr->GetRequestedRegion().GetSize();
-
-  int splitAxis;
-  typename TOutputImage::IndexType splitIndex;
-  typename TOutputImage::SizeType splitSize;
-
-  // Initialize the splitRegion to the output requested region
-  splitRegion = outputPtr->GetRequestedRegion();
-  splitIndex = splitRegion.GetIndex();
-  splitSize = splitRegion.GetSize();
-
-  // split on the outermost dimension available
-  // and avoid the current dimension
-  splitAxis = outputPtr->GetImageDimension() - 1;
-  while ( requestedRegionSize[splitAxis] == 1 || splitAxis == (int)m_Direction )
-    {
-    --splitAxis;
-    if ( splitAxis < 0 )
-      { // cannot split
-      itkDebugMacro("  Cannot Split");
-      return 1;
-      }
-    }
-
-  // determine the actual number of pieces that will be generated
-  typename TOutputImage::SizeType::SizeValueType range = requestedRegionSize[splitAxis];
-  unsigned int valuesPerThread = (unsigned int)vcl_ceil(range / (double)num);
-  unsigned int maxThreadIdUsed = (unsigned int)vcl_ceil(range / (double)valuesPerThread) - 1;
-
-  // Split the region
-  if ( i < maxThreadIdUsed )
-    {
-    splitIndex[splitAxis] += i * valuesPerThread;
-    splitSize[splitAxis] = valuesPerThread;
-    }
-  if ( i == maxThreadIdUsed )
-    {
-    splitIndex[splitAxis] += i * valuesPerThread;
-    // last thread needs to process the "rest" dimension being split
-    splitSize[splitAxis] = splitSize[splitAxis] - i * valuesPerThread;
-    }
-
-  // set the split region ivars
-  splitRegion.SetIndex(splitIndex);
-  splitRegion.SetSize(splitSize);
-
-  itkDebugMacro("  Split Piece: " << splitRegion);
-
-  return maxThreadIdUsed + 1;
+  return this->m_ImageRegionSplitter;
 }
 
 template< typename TInputImage, typename TOutputImage >
@@ -260,6 +211,9 @@ RecursiveSeparableImageFilter< TInputImage, TOutputImage >
 
   const typename InputImageType::SpacingType & pixelSize =
     inputImage->GetSpacing();
+
+
+  this->m_ImageRegionSplitter->SetDirection(m_Direction);
 
   this->SetUp(pixelSize[m_Direction]);
 

@@ -20,6 +20,7 @@
 
 #include "itkInPlaceImageFilter.h"
 #include "itkNumericTraits.h"
+#include "itkImageRegionSplitterDirection.h"
 
 namespace itk
 {
@@ -103,7 +104,8 @@ protected:
 
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId);
 
-  unsigned int SplitRequestedRegion(unsigned int i, unsigned int num, OutputImageRegionType & splitRegion);
+
+  virtual const ImageRegionSplitterBase* GetImageRegionSplitter(void) const;
 
   /** RecursiveSeparableImageFilter needs all of the input only in the
    *  "Direction" dimension. Therefore we enlarge the output's
@@ -170,6 +172,8 @@ private:
   /** Direction in which the filter is to be applied
    * this should be in the range [0,ImageDimension-1]. */
   unsigned int m_Direction;
+
+  ImageRegionSplitterDirection::Pointer m_ImageRegionSplitter;
 };
 } // end namespace itk
 

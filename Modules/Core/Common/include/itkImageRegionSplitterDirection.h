@@ -1,0 +1,81 @@
+/*=========================================================================
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
+#ifndef __itkImageRegionSplitterDirection_h
+#define __itkImageRegionSplitterDirection_h
+
+#include "itkImageRegionSplitterBase.h"
+
+namespace itk
+{
+/** \class ImageRegionSplitterDirection
+ *
+ * Splits an Image region along the slowest axis not in the specified
+ * direction. This splitter can be used with image algorithms which
+ * operate in a specific direction, where the image should not be
+ * split along that dimension.
+ *
+ * \ingroup ITKCommon
+ */
+class ITKCommon_EXPORT ImageRegionSplitterDirection
+  :public ImageRegionSplitterBase
+{
+public:
+  /** Standard class typedefs. */
+  typedef ImageRegionSplitterDirection Self;
+  typedef Object                       Superclass;
+  typedef SmartPointer< Self >         Pointer;
+  typedef SmartPointer< const Self >   ConstPointer;
+
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
+
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(ImageRegionSplitterDirection, Object);
+
+  /** Get the direction in which not to split the image. */
+  itkGetConstMacro(Direction, unsigned int);
+  itkSetMacro(Direction, unsigned int);
+
+
+protected:
+
+  ImageRegionSplitterDirection();
+
+
+  virtual unsigned int GetNumberOfSplitsInternal(unsigned int dim,
+                                                 const IndexValueType regionIndex[],
+                                                 const SizeValueType regionSize[],
+                                                 unsigned int requestedNumber) const;
+
+  virtual unsigned int GetSplitInternal(unsigned int dim,
+                                        unsigned int i,
+                                        unsigned int numberOfPieces,
+                                        IndexValueType regionIndex[],
+                                        SizeValueType regionSize[]) const;
+
+  void PrintSelf(std::ostream & os, Indent indent) const;
+
+private:
+  ImageRegionSplitterDirection(const ImageRegionSplitterDirection &); //purposely not implemented
+  void operator=(const ImageRegionSplitterDirection &);      //purposely not implemented
+
+  unsigned int m_Direction;
+};
+} // end namespace itk
+
+#endif

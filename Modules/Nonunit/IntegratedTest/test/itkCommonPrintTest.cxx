@@ -290,10 +290,6 @@ int itkCommonPrintTest(int , char* [])
     itk::ImageRegionMultidimensionalSplitter<3>::New();
   std::cout << "------------ImageRegionMultidimensionalSplitter" << ImageRegionMultidimensionalSplitterObj;
 
-  itk::ImageRegionSplitter<3>::Pointer ImageRegionSplitterObj =
-    itk::ImageRegionSplitter<3>::New();
-  std::cout << "------------ImageRegionSplitter" << ImageRegionSplitterObj;
-
   itk::ImportImageContainer<unsigned long,PointType>::Pointer ImportImageContainerObj =
     itk::ImportImageContainer<unsigned long,PointType>::New();
   std::cout << "------------ImportImageContainer" << ImportImageContainerObj;
