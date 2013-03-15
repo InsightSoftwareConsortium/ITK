@@ -41,9 +41,11 @@ commit messages of the branch for details:
  git log
 
 Write a script similar to those in the commit messages but updated
-for the new upstream version to be extracted.  Then run the following
-commands to commit the new version.  Substitute the appropriate date
-and version number:
+for the new upstream version to be extracted.  Run the script in
+a completely separate directory of your choosing and move the content
+left in the "-reduced" subdirectory to the current vxl-tmp directory
+by hand. Then run the following commands to commit the new version.
+Substitute the appropriate date and version number:
 
  cd /path/to/top/of/src/ITK/vxl-tmp
  git add -u
