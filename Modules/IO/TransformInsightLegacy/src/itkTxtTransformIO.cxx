@@ -22,7 +22,7 @@
 #include "itkTransformFileReader.h"
 #include "itkCompositeTransform.h"
 #include "itkCompositeTransformIOHelper.h"
-
+#include "DoubleToString.h"
 namespace itk
 {
 TxtTransformIO::TxtTransformIO()
@@ -269,6 +269,21 @@ TxtTransformIO::Read()
     }
 }
 
+namespace {
+void print_vector(std::ofstream& s, vnl_vector<double> const &v)
+{
+  DoubleToString convert;
+  for (unsigned i = 0; i+1 < v.size(); ++i)
+    {
+    s << convert(v[i]) << ' ';
+    }
+  if (v.size() > 0)
+    {
+    s << convert(v[v.size()-1]);
+    }
+}
+}
+
 void
 TxtTransformIO::Write()
 {
@@ -316,9 +331,13 @@ TxtTransformIO::Write()
     else
       {
       TempArray = ( *it )->GetParameters();
-      out << "Parameters: " << TempArray << std::endl;
+      out << "Parameters: ";// << TempArray << std::endl;
+      print_vector(out,TempArray);
+      out << std::endl;
       TempArray = ( *it )->GetFixedParameters();
-      out << "FixedParameters: " << TempArray << std::endl;
+      out << "FixedParameters: ";// << TempArray << std::endl;
+      print_vector(out,TempArray);
+      out << std::endl;
       }
     }
   out.close();

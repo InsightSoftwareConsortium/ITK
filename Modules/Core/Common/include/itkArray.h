@@ -179,6 +179,8 @@ std::ostream & operator<<(std::ostream & os, const Array< TValueType > & arr)
   os << "]";
   return os;
 }
+template<> std::ostream & operator<< <double> (std::ostream & os, const Array< double > & arr);
+template<> std::ostream & operator<< <float> (std::ostream & os, const Array< float > & arr);
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

@@ -10,6 +10,7 @@ itk_module(ITKCommon
   DEPENDS
     ITKVNLInstantiation
     ITKKWSys
+    ITKDoubleConversion
   TEST_DEPENDS
     ITKTestKernel
     ITKMesh

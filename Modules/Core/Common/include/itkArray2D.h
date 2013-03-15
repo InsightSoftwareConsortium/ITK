@@ -94,6 +94,10 @@ std::ostream & operator<<(std::ostream & os, const Array2D< TValueType > & arr)
 
   return os;
 }
+
+template<> std::ostream & operator<<(std::ostream & os, const Array2D< float > & arr);
+template<> std::ostream & operator<<(std::ostream & os, const Array2D< double > & arr);
+
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
