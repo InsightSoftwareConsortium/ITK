@@ -95,8 +95,13 @@ std::ostream & operator<<(std::ostream & os, const Array2D< TValueType > & arr)
   return os;
 }
 
+// declaration of specilization
 template<> std::ostream & operator<<(std::ostream & os, const Array2D< float > & arr);
 template<> std::ostream & operator<<(std::ostream & os, const Array2D< double > & arr);
+
+// export specification for explicit instantiation
+template ITKCommon_EXPORT std::ostream & operator<<(std::ostream & os, const Array2D< float > & arr);
+template ITKCommon_EXPORT std::ostream & operator<<(std::ostream & os, const Array2D< double > & arr);
 
 } // namespace itk
 
