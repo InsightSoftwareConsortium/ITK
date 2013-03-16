@@ -230,7 +230,12 @@ ImageSource< TOutputImage >
   ThreadStruct str;
   str.Filter = this;
 
-  this->GetMultiThreader()->SetNumberOfThreads( this->GetNumberOfThreads() );
+  // Get the output pointer
+  const OutputImageType *outputPtr = this->GetOutput();
+  const ImageRegionSplitterBase * splitter = this->GetImageRegionSplitter();
+  const unsigned int validThreads = splitter->GetNumberOfSplits( outputPtr->GetRequestedRegion(), this->GetNumberOfThreads() );
+
+  this->GetMultiThreader()->SetNumberOfThreads( validThreads );
   this->GetMultiThreader()->SetSingleMethod(this->ThreaderCallback, &str);
 
   // multithread the execution
