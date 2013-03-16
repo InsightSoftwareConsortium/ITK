@@ -31,6 +31,7 @@
 #include "itkVariableLengthVector.h"
 #include "itkVariableSizeMatrix.h"
 #include "itkVector.h"
+#include "itkNumberToString.h"
 
 #include <string>
 #include <complex>
@@ -557,11 +558,12 @@ protected:
   template< class T >
   void WriteBufferAsAscii(T *buffer, std::ofstream & outputFile, SizeValueType numberOfLines, SizeValueType numberOfComponents)
   {
+    NumberToString<T> convert;
     for ( SizeValueType ii = 0; ii < numberOfLines; ii++ )
       {
       for ( SizeValueType jj = 0; jj < numberOfComponents; jj++ )
         {
-        outputFile << buffer[ii * numberOfComponents + jj] << "  ";
+        outputFile << convert(buffer[ii * numberOfComponents + jj]) << "  ";
         }
       outputFile << '\n';
       }

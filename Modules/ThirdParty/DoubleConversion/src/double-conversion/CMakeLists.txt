@@ -9,7 +9,6 @@ set(headers
   ieee.h
   strtod.h
   utils.h
-  DoubleToString.h
   )
 
 add_library(itkdouble-conversion

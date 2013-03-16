@@ -17,14 +17,14 @@
  *=========================================================================*/
 #include "itkArray.h"
 #include "itkArray2D.h"
-#include "DoubleToString.h"
+#include "itkNumberToString.h"
 namespace itk
 {
 
 template<>
 std::ostream & operator<< <double> (std::ostream & os, const Array< double > & arr)
 {
-  DoubleToString convert;
+  NumberToString<double> convert;
   os << "[";
   const unsigned int length = arr.size();
   if ( length >= 1 )
@@ -43,7 +43,7 @@ std::ostream & operator<< <double> (std::ostream & os, const Array< double > & a
 template<>
 std::ostream & operator<< <float> (std::ostream & os, const Array< float > & arr)
 {
-  DoubleToString convert;
+  NumberToString<float> convert;
   os << "[";
   const unsigned int length = arr.size();
   if ( length >= 1 )
@@ -51,9 +51,9 @@ std::ostream & operator<< <float> (std::ostream & os, const Array< float > & arr
     const unsigned int   last   = length - 1;
     for ( unsigned int i = 0; i < last; ++i )
       {
-      os << convert(arr[i]) << ", ";
+      os << convert(static_cast<float>(arr[i])) << ", ";
       }
-    os << convert(arr[last]);
+    os << convert(static_cast<float>(arr[last]));
     }
   os << "]";
   return os;
@@ -62,7 +62,7 @@ std::ostream & operator<< <float> (std::ostream & os, const Array< float > & arr
 template<>
 std::ostream & operator<< <double> (std::ostream & os, const Array2D< double > & arr)
 {
-  DoubleToString convert;
+  NumberToString<double> convert;
   const unsigned int numberOfRows    = arr.rows();
   const unsigned int numberOfColumns = arr.cols();
 
@@ -87,7 +87,7 @@ std::ostream & operator<< <double> (std::ostream & os, const Array2D< double > &
 template<>
 std::ostream & operator<< <float> (std::ostream & os, const Array2D< float > & arr)
 {
-  DoubleToString convert;
+  NumberToString<float> convert;
   const unsigned int numberOfRows    = arr.rows();
   const unsigned int numberOfColumns = arr.cols();
 

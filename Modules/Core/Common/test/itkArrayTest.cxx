@@ -19,6 +19,7 @@
 #include <iostream>
 
 #include "itkArray.h"
+#include "itkNumericTraits.h"
 
 // Explicit instantiation to make sure all methods are compiled.
 template class itk::Array<float>;
@@ -42,7 +43,11 @@ int itkArrayTest(int, char* [] )
   //
   FloatArrayType myOwnBoss;
   myOwnBoss.SetSize( 5 );
-  myOwnBoss.Fill( 2.0 );
+  myOwnBoss.Fill( 2.0 + 1.0f / 3.0f);
+  myOwnBoss[0] = 2.0f / 3.0f;
+  myOwnBoss[1] = itk::NumericTraits<float>::max();
+  myOwnBoss[2] = itk::NumericTraits<float>::min();
+  myOwnBoss[3] = 1.0f;
 
   //
   // Create an itk::Array which does not manage its own memory
@@ -106,6 +111,19 @@ int itkArrayTest(int, char* [] )
 
   // Make a copy of the array which is not managing its own memory.
   FloatArrayType copy(objectToCopy);
+
+  // DO a double
+  //
+  // Create an itk::Array which manages its own memory
+  //
+  DoubleArrayType myOwnDouble;
+  myOwnDouble.SetSize( 5 );
+  myOwnDouble.Fill( 2.0 + 1.0 / 3.0);
+  myOwnDouble[0] = 2.0 / 3.0;
+  myOwnDouble[1] = itk::NumericTraits<double>::max();
+  myOwnDouble[2] = itk::NumericTraits<double>::min();
+  myOwnDouble[3] = 1.0;
+  std::cout << myOwnDouble << std::endl;
 
   delete [] data;
 
