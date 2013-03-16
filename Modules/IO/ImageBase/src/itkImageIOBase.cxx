@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkImageIOBase.h"
+#include "itkImageRegionSplitterSlowDimension.h"
 
 namespace itk
 {
@@ -754,30 +755,22 @@ void ImageIOBase::ReadBufferAsASCII(std::istream & is, void *buffer,
     }
 }
 
+namespace
+{
+ImageRegionSplitterBase::Pointer ioDefaultSplitter = ImageRegionSplitterSlowDimension::New().GetPointer();
+}
+
+const ImageRegionSplitterBase*
+ImageIOBase::GetImageRegionSplitter(void) const{
+  return ioDefaultSplitter;
+}
+
 unsigned int
 ImageIOBase::GetActualNumberOfSplitsForWritingCanStreamWrite(unsigned int numberOfRequestedSplits,
                                                              const ImageIORegion & pasteRegion) const
 {
-  // Code from ImageRegionSplitter:GetNumberOfSplits
-  const ImageIORegion::SizeType & regionSize = pasteRegion.GetSize();
-
-  // split on the outermost dimension available
-  size_t splitAxis = pasteRegion.GetImageDimension() - 1;
-  while ( regionSize[splitAxis] == 1 )
-    {
-    if ( splitAxis == 0 )
-      { // cannot split
-      itkDebugMacro("  Cannot Split");
-      return 1;
-      }
-    --splitAxis;
-    }
-
-  // determine the actual number of pieces that will be generated
-  const ImageIORegion::SizeType::value_type range = regionSize[splitAxis];
-  const unsigned int valuesPerPiece = Math::Ceil< unsigned int >( static_cast<double>(range) / static_cast<double>(numberOfRequestedSplits) );
-  const unsigned int maxPieceUsed = Math::Ceil< unsigned int >( static_cast<double>(range) / static_cast<double>(valuesPerPiece) );
-  return maxPieceUsed;
+  const ImageRegionSplitterBase* splitter = this->GetImageRegionSplitter();
+  return splitter->GetNumberOfSplits(pasteRegion, numberOfRequestedSplits);
 }
 
 unsigned int
@@ -807,47 +800,9 @@ ImageIOBase::GetSplitRegionForWritingCanStreamWrite(unsigned int ithPiece,
                                                     const ImageIORegion & pasteRegion) const
 {
   ImageIORegion splitRegion = pasteRegion;
-  const ImageIORegion::SizeType  regionSize = pasteRegion.GetSize();
 
-  // split on the outermost dimension available
-  unsigned int splitAxis = pasteRegion.GetImageDimension() - 1;
-  while ( regionSize[splitAxis] == 1 )
-    {
-    if ( splitAxis == 0 )
-      { // cannot split
-      itkDebugMacro("  Cannot Split");
-      return splitRegion;
-      }
-    --splitAxis;
-    }
-
-  // determine the actual number of pieces that will be generated
-  const ImageIORegion::SizeType::value_type range = regionSize[splitAxis];
-  const unsigned int valuesPerPiece = Math::Ceil< unsigned int >(static_cast<double>(range) / static_cast<double>(numberOfActualSplits));
-  const unsigned int maxPieceUsed = Math::Ceil< unsigned int >(static_cast<double>(range) / static_cast<double>(valuesPerPiece)) - 1;
-
-  // Initialize the splitRegion to the requested region
-  ImageIORegion::IndexType splitIndex = splitRegion.GetIndex();
-  ImageIORegion::SizeType  splitSize = splitRegion.GetSize();
-
-  // Split the region
-  if ( ithPiece < maxPieceUsed )
-    {
-    splitIndex[splitAxis] += ithPiece * valuesPerPiece;
-    splitSize[splitAxis] = valuesPerPiece;
-    }
-  if ( ithPiece == maxPieceUsed )
-    {
-    splitIndex[splitAxis] += ithPiece * valuesPerPiece;
-    // last piece needs to process the "rest" dimension being split
-    splitSize[splitAxis] = splitSize[splitAxis] - ithPiece * valuesPerPiece;
-    }
-
-  // set the split region ivars
-  splitRegion.SetIndex(splitIndex);
-  splitRegion.SetSize(splitSize);
-
-  itkDebugMacro("  Split Piece: " << splitRegion);
+  const ImageRegionSplitterBase* splitter = this->GetImageRegionSplitter();
+  splitter->GetSplit( ithPiece, numberOfActualSplits, splitRegion );
 
   return splitRegion;
 }

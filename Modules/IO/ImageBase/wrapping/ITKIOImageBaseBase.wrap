@@ -2,7 +2,6 @@
 # non templated IO classes and factories
 itk_wrap_simple_class("itk::ImageIOBase" POINTER)
 itk_wrap_simple_class("itk::StreamingImageIOBase" POINTER)
-itk_wrap_simple_class("itk::ImageIORegion")
 itk_wrap_simple_class("itk::ImageIOFactory")
 
 # *SeriesFileNames

@@ -29,6 +29,7 @@
 #include "itkCovariantVector.h"
 #include "itkSymmetricSecondRankTensor.h"
 #include "itkDiffusionTensor3D.h"
+#include "itkImageRegionSplitterBase.h"
 
 #include "vnl/vnl_vector.h"
 
@@ -522,6 +523,8 @@ protected:
   ImageIOBase();
   ~ImageIOBase();
   void PrintSelf(std::ostream & os, Indent indent) const;
+
+  virtual const ImageRegionSplitterBase* GetImageRegionSplitter(void) const;
 
   /** Used internally to keep track of the type of the pixel. */
   IOPixelType m_PixelType;
