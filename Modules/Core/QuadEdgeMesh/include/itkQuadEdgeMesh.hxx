@@ -1102,7 +1102,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
   typename QEPrimal::IteratorGeom       it  = e->BeginGeomLnext();
   const typename QEPrimal::IteratorGeom end = e->EndGeomLnext();
 
-  for ( ; it != end; ++it )
+  for (; it != end; ++it )
     {
     it.Value()->UnsetLeft();
     }
