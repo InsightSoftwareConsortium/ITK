@@ -25,6 +25,7 @@ namespace itk
 ImageRegionSplitterDirection
 ::ImageRegionSplitterDirection()
 {
+  this->m_Direction = 0;
 }
 
 void
