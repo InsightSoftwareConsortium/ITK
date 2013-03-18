@@ -1089,6 +1089,15 @@ void AnalyzeImageIO::ReadImageInformation()
     case itk::AnalyzeImageIO::ITK_ANALYZE_ORIENTATION_RIP_CORONAL:
       coord_orient = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP;
       break;
+    case itk::AnalyzeImageIO::ITK_ANALYZE_ORIENTATION_RAI_TRANSVERSE_FLIPPED:
+      coord_orient = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RAI;
+      break;
+    case itk::AnalyzeImageIO::ITK_ANALYZE_ORIENTATION_PIL_SAGITTAL_FLIPPED:
+      coord_orient = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIL;
+      break;
+    case itk::AnalyzeImageIO::ITK_ANALYZE_ORIENTATION_RSP_CORONAL_FLIPPED:
+      coord_orient = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RSP;
+      break;
     default:
       coord_orient = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP;
       itkWarningMacro( "Unknown orientation in file " << m_FileName );
