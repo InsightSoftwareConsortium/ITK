@@ -47,7 +47,10 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageRegionSplitterDirection, Object);
 
-  /** Get the direction in which not to split the image. */
+  /** Get the direction in which not to split the image.*
+   *
+   * Defaults to 0.
+   */
   itkGetConstMacro(Direction, unsigned int);
   itkSetMacro(Direction, unsigned int);
 
