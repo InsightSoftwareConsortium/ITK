@@ -21,6 +21,7 @@
 #include "itkCommand.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageAlgorithm.h"
+#include "itkImageRegionSplitter.h"
 
 namespace itk
 {
@@ -156,7 +157,7 @@ StreamingImageFilter< TInputImage, TOutputImage >
    * Allocate the output buffer.
    */
   OutputImageType      *outputPtr = this->GetOutput(0);
-  OutputImageRegionType outputRegion = outputPtr->GetRequestedRegion();
+  const OutputImageRegionType outputRegion = outputPtr->GetRequestedRegion();
   outputPtr->SetBufferedRegion(outputRegion);
   outputPtr->Allocate();
 
@@ -186,14 +187,13 @@ StreamingImageFilter< TInputImage, TOutputImage >
    * Loop over the number of pieces, execute the upstream pipeline on each
    * piece, and copy the results into the output image.
    */
-  InputImageRegionType streamRegion;
   unsigned int         piece=0;
   for (;
        piece < numDivisions && !this->GetAbortGenerateData();
        piece++ )
     {
-    streamRegion = m_RegionSplitter->GetSplit(piece, numDivisions,
-                                              outputRegion);
+    InputImageRegionType streamRegion = outputRegion;
+    m_RegionSplitter->GetSplit(piece, numDivisions, streamRegion);
 
     inputPtr->SetRequestedRegion(streamRegion);
     inputPtr->PropagateRequestedRegion();
