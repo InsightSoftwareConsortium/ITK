@@ -41,7 +41,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template< typename TValueType >
-class Array2D:public vnl_matrix< TValueType >
+class Array2D: public vnl_matrix< TValueType >
 {
 public:
 
@@ -49,8 +49,6 @@ public:
   typedef TValueType               ValueType;
   typedef Array2D                  Self;
   typedef vnl_matrix< TValueType > VnlMatrixType;
-
-public:
 
   Array2D();
   Array2D(unsigned int rows, unsigned int cols);
@@ -95,13 +93,9 @@ std::ostream & operator<<(std::ostream & os, const Array2D< TValueType > & arr)
   return os;
 }
 
-// declaration of specilization
-template<> std::ostream & operator<<(std::ostream & os, const Array2D< float > & arr);
-template<> std::ostream & operator<<(std::ostream & os, const Array2D< double > & arr);
-
-// export specification for explicit instantiation
-template ITKCommon_EXPORT std::ostream & operator<<(std::ostream & os, const Array2D< float > & arr);
-template ITKCommon_EXPORT std::ostream & operator<<(std::ostream & os, const Array2D< double > & arr);
+// declaration of specialization
+template<> ITKCommon_EXPORT std::ostream & operator<<(std::ostream & os, const Array2D< float > & arr);
+template<> ITKCommon_EXPORT std::ostream & operator<<(std::ostream & os, const Array2D< double > & arr);
 
 } // namespace itk
 
