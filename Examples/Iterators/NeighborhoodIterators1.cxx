@@ -237,9 +237,9 @@ int main( int argc, char ** argv )
   // \code{Examples/Data/BrainT1Slice.png}.
   //
   // \begin{figure} \centering
-  // \includegraphics[width=0.3\textwidth]{BrainT1Slice.eps}
-  // \includegraphics[width=0.3\textwidth]{NeighborhoodIterators1a.eps}
-  // \includegraphics[width=0.3\textwidth]{NeighborhoodIterators1b.eps}
+  // \includegraphics[width=0.3\textwidth]{BrainT1Slice}
+  // \includegraphics[width=0.3\textwidth]{NeighborhoodIterators1a}
+  // \includegraphics[width=0.3\textwidth]{NeighborhoodIterators1b}
   // \itkcaption[Sobel edge detection results]{Applying the Sobel operator in
   // different orientations to an MRI image (left) produces $x$ (center) and $y$
   // (right) derivative images.}

@@ -19,8 +19,8 @@
 //  Software Guide : BeginCommandLineArgs
 //    INPUTS:  RatLungSlice1.mha
 //    INPUTS:  RatLungSlice2.mha
-//    OUTPUTS:  DeformableRegistration2Output.mha
-//    OUTPUTS: DeformableRegistration2Field.mha
+//    ARGUMENTS: DeformableRegistration2Output.mha
+//    ARGUMENTS: DeformableRegistration2Field.mha
 //  Software Guide : EndCommandLineArgs
 
 
@@ -373,8 +373,8 @@ int main( int argc, char *argv[] )
   // \end{itemize}
   //
   // \begin{figure} \center
-  // \includegraphics[width=0.44\textwidth]{DeformableRegistration2CheckerboardBefore.eps}
-  // \includegraphics[width=0.44\textwidth]{DeformableRegistration2CheckerboardAfter.eps}
+  // \includegraphics[width=0.44\textwidth]{DeformableRegistration2CheckerboardBefore}
+  // \includegraphics[width=0.44\textwidth]{DeformableRegistration2CheckerboardAfter}
   // \itkcaption[Demon's deformable registration output]{Checkerboard comparisons
   // before and after demons-based deformable registration.}
   // \label{fig:DeformableRegistration2Output}

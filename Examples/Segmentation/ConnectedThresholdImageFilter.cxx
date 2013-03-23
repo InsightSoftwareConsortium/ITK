@@ -331,10 +331,10 @@ int main( int argc, char *argv[])
   //  \end{table}
   //
   // \begin{figure} \center
-  // \includegraphics[width=0.24\textwidth]{BrainProtonDensitySlice.eps}
-  // \includegraphics[width=0.24\textwidth]{ConnectedThresholdOutput1.eps}
-  // \includegraphics[width=0.24\textwidth]{ConnectedThresholdOutput2.eps}
-  // \includegraphics[width=0.24\textwidth]{ConnectedThresholdOutput3.eps}
+  // \includegraphics[width=0.24\textwidth]{BrainProtonDensitySlice}
+  // \includegraphics[width=0.24\textwidth]{ConnectedThresholdOutput1}
+  // \includegraphics[width=0.24\textwidth]{ConnectedThresholdOutput2}
+  // \includegraphics[width=0.24\textwidth]{ConnectedThresholdOutput3}
   // \itkcaption[ConnectedThreshold segmentation results]{Segmentation results
   // for the ConnectedThreshold filter for various seed points.}
   // \label{fig:ConnectedThresholdOutput}

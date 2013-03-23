@@ -139,14 +139,9 @@ int main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  double origin[ Dimension ];
-  origin[0] = 0.0;    // X coordinate
-  origin[1] = 0.0;    // Y coordinate
-  origin[2] = 0.0;    // Z coordinate
-
+  const double origin[ Dimension ] = { 0.0, 0.0, 0.0 };
   importFilter->SetOrigin( origin );
   // Software Guide : EndCodeSnippet
-
 
   //  Software Guide : BeginLatex
   //
@@ -155,14 +150,10 @@ int main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  double spacing[ Dimension ];
-  spacing[0] = 1.0;    // along X direction
-  spacing[1] = 1.0;    // along Y direction
-  spacing[2] = 1.0;    // along Z direction
-
+  // spacing isotropic volumes to 1.0
+  const double spacing[ Dimension ] =  { 1.0, 1.0, 1.0 };
   importFilter->SetSpacing( spacing );
   // Software Guide : EndCodeSnippet
-
 
   //  Software Guide : BeginLatex
   //

@@ -18,7 +18,7 @@
 
 //  Software Guide : BeginCommandLineArgs
 //    INPUTS:  {BrainProtonDensitySlice.png}
-//    OUTPUTS: {DerivativeImageFilterFloatOutput.mhd}
+//    ARGUMENTS: {DerivativeImageFilterFloatOutput.mhd}
 //    OUTPUTS: {DerivativeImageFilterOutput.png}
 //    ARGUMENTS:    1 0
 //  Software Guide : EndCommandLineArgs
@@ -153,8 +153,8 @@ int main( int argc, char * argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySlice.eps}
-  // \includegraphics[width=0.44\textwidth]{DerivativeImageFilterOutput.eps}
+  // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySlice}
+  // \includegraphics[width=0.44\textwidth]{DerivativeImageFilterOutput}
   // \itkcaption[Effect of the Derivative filter.]{Effect of the Derivative filter
   // on a slice from a MRI proton density brain image.}
   // \label{fig:DerivativeImageFilterOutput}

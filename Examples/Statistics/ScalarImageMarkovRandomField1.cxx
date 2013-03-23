@@ -21,7 +21,6 @@
 //    INPUTS:  {BrainT1Slice_labelled.png}
 //    OUTPUTS: {ScalarImageMarkovRandomField1Output.png}
 //    ARGUMENTS:    50 3 3 14.8 91.6 134.9
-//    NORMALIZE_EPS_OUTPUT_OF: {ScalarImageMarkovRandomField1Output.png}
 //  Software Guide : EndCommandLineArgs
 
 // Software Guide : BeginLatex
@@ -474,7 +473,7 @@ int main( int argc, char * argv [] )
   //  Software Guide : BeginLatex
   //
   // \begin{figure} \center
-  // \includegraphics[width=0.44\textwidth]{ScalarImageMarkovRandomField1Output.eps}
+  // \includegraphics[width=0.44\textwidth]{ScalarImageMarkovRandomField1Output}
   // \itkcaption[Output of the ScalarImageMarkovRandomField]{Effect of the
   // MRF filter on a T1 slice of the brain.}
   // \label{fig:ScalarImageMarkovRandomFieldInputOutput}

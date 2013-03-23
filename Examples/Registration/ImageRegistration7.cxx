@@ -424,8 +424,8 @@ int main( int argc, char *argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceBorder20.eps}
-  // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceR10X13Y17S12.eps}
+  // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceBorder20}
+  // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceR10X13Y17S12}
   // \itkcaption[Fixed and Moving image registered with
   // CenteredSimilarity2DTransform]{Fixed and Moving image provided as input to the
   // registration method using the Similarity2D transform.}
@@ -435,9 +435,9 @@ int main( int argc, char *argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=0.32\textwidth]{ImageRegistration7Output.eps}
-  // \includegraphics[width=0.32\textwidth]{ImageRegistration7DifferenceBefore.eps}
-  // \includegraphics[width=0.32\textwidth]{ImageRegistration7DifferenceAfter.eps}
+  // \includegraphics[width=0.32\textwidth]{ImageRegistration7Output}
+  // \includegraphics[width=0.32\textwidth]{ImageRegistration7DifferenceBefore}
+  // \includegraphics[width=0.32\textwidth]{ImageRegistration7DifferenceAfter}
   // \itkcaption[Output of the CenteredSimilarity2DTransform registration]{Resampled
   // moving image (left). Differences between fixed and
   // moving images, before (center) and after (right) registration with the
@@ -451,10 +451,10 @@ int main( int argc, char *argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[height=0.32\textwidth]{ImageRegistration7TraceMetric.eps}
-  // \includegraphics[height=0.32\textwidth]{ImageRegistration7TraceAngle.eps}
-  // \includegraphics[height=0.32\textwidth]{ImageRegistration7TraceScale.eps}
-  // \includegraphics[height=0.32\textwidth]{ImageRegistration7TraceTranslations.eps}
+  // \includegraphics[height=0.32\textwidth]{ImageRegistration7TraceMetric}
+  // \includegraphics[height=0.32\textwidth]{ImageRegistration7TraceAngle}
+  // \includegraphics[height=0.32\textwidth]{ImageRegistration7TraceScale}
+  // \includegraphics[height=0.32\textwidth]{ImageRegistration7TraceTranslations}
   // \itkcaption[CenteredSimilarity2DTransform registration plots]{Plots of the Metric,
   // rotation angle and translations during
   // the registration using

@@ -90,10 +90,7 @@ int itkImageAdaptorPipeLineTest(int, char* [] )
   region.SetIndex( start );
   region.SetSize( size );
 
-  float spacing[3];
-  spacing[0] = 1.0;
-  spacing[1] = 1.0;
-  spacing[2] = 1.0;
+  const float spacing[3] = { 1.0, 1.0, 1.0 };
 
   //-------------------------------------------------------------
   //                 Create and Initialize the RGBPixel image

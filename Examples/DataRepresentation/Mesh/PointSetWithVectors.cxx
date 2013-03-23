@@ -45,7 +45,7 @@ int main(int, char *[])
   //
   //  \begin{floatingfigure}[rlp]{6cm}
   //    \centering
-  //    \includegraphics[width=4cm]{PointSetWithVectors.eps}
+  //    \includegraphics[width=4cm]{PointSetWithVectors}
   //    \caption[PointSet with Vectors as PixelType]{Vectors as PixelType.\label{fig:PointSetWithVectors}}
   //  \end{floatingfigure}
   //

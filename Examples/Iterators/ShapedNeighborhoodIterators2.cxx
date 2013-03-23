@@ -153,11 +153,11 @@ int main( int argc, char ** argv )
 // in sequence effects the morphological operations of opening and closing.
 //
 // \begin{figure} \centering
-// \includegraphics[width=0.18\textwidth]{BinaryImage.eps}
-// \includegraphics[width=0.18\textwidth]{ShapedNeighborhoodIterators1a.eps}
-// \includegraphics[width=0.18\textwidth]{ShapedNeighborhoodIterators1b.eps}
-// \includegraphics[width=0.18\textwidth]{ShapedNeighborhoodIterators1c.eps}
-// \includegraphics[width=0.18\textwidth]{ShapedNeighborhoodIterators1d.eps}
+// \includegraphics[width=0.18\textwidth]{BinaryImage}
+// \includegraphics[width=0.18\textwidth]{ShapedNeighborhoodIterators1a}
+// \includegraphics[width=0.18\textwidth]{ShapedNeighborhoodIterators1b}
+// \includegraphics[width=0.18\textwidth]{ShapedNeighborhoodIterators1c}
+// \includegraphics[width=0.18\textwidth]{ShapedNeighborhoodIterators1d}
 // \itkcaption[Binary image morphology]{The effects of morphological operations
 // on a binary image using a circular structuring element of size 4.  From left
 // to right are the original image, erosion, dilation, opening, and closing.

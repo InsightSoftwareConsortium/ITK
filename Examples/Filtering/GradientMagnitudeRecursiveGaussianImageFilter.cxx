@@ -230,8 +230,8 @@ int main( int argc, char * argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=0.44\textwidth]{GradientMagnitudeRecursiveGaussianImageFilterOutput3.eps}
-  // \includegraphics[width=0.44\textwidth]{GradientMagnitudeRecursiveGaussianImageFilterOutput5.eps}
+  // \includegraphics[width=0.44\textwidth]{GradientMagnitudeRecursiveGaussianImageFilterOutput3}
+  // \includegraphics[width=0.44\textwidth]{GradientMagnitudeRecursiveGaussianImageFilterOutput5}
   // \itkcaption[GradientMagnitudeRecursiveGaussianImageFilter output]{Effect of
   // the GradientMagnitudeRecursiveGaussianImageFilter on a slice from a MRI
   // proton density image of the brain.}

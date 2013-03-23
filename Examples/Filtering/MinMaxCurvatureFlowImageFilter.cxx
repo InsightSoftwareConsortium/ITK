@@ -27,7 +27,7 @@
 //
 // \begin{figure}
 // \center
-// \includegraphics[width=0.5\textwidth]{MinMaxCurvatureFlowFunctionDiagram.eps}
+// \includegraphics[width=0.5\textwidth]{MinMaxCurvatureFlowFunctionDiagram}
 // \itkcaption[MinMaxCurvatureFlow computation]{Elements involved in the
 //  computation of min-max curvature flow.}
 // \label{fig:MinMaxCurvatureFlowFunctionDiagram}
@@ -237,8 +237,8 @@ int main( int argc, char * argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySlice.eps}
-  // \includegraphics[width=0.44\textwidth]{MinMaxCurvatureFlowImageFilterOutput.eps}
+  // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySlice}
+  // \includegraphics[width=0.44\textwidth]{MinMaxCurvatureFlowImageFilterOutput}
   // \itkcaption[MinMaxCurvatureFlowImageFilter output]{Effect of the
   // MinMaxCurvatureFlowImageFilter on a slice from a MRI proton density image
   // of the brain.}

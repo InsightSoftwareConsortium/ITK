@@ -192,8 +192,8 @@ int main( int argc, char * argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=0.32\textwidth]{Circle.eps}
-  // \includegraphics[width=0.32\textwidth]{SignedDanielssonDistanceMapImageFilterOutput.eps}
+  // \includegraphics[width=0.32\textwidth]{Circle}
+  // \includegraphics[width=0.32\textwidth]{SignedDanielssonDistanceMapImageFilterOutput}
   // \itkcaption[SignedDanielssonDistanceMapImageFilter
   // output]{SignedDanielssonDistanceMapImageFilter applied on a binary circle image.
   // The intensity has been rescaled for purposes of display.}

@@ -212,10 +212,10 @@ int main( int argc, char * argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=0.44\textwidth]{BinaryThresholdImageFilterOutput.eps}
-  // \includegraphics[width=0.44\textwidth]{VotingBinaryHoleFillingImageFilterOutput1.eps}
-  // \includegraphics[width=0.44\textwidth]{VotingBinaryHoleFillingImageFilterOutput2.eps}
-  // \includegraphics[width=0.44\textwidth]{VotingBinaryHoleFillingImageFilterOutput3.eps}
+  // \includegraphics[width=0.44\textwidth]{BinaryThresholdImageFilterOutput}
+  // \includegraphics[width=0.44\textwidth]{VotingBinaryHoleFillingImageFilterOutput1}
+  // \includegraphics[width=0.44\textwidth]{VotingBinaryHoleFillingImageFilterOutput2}
+  // \includegraphics[width=0.44\textwidth]{VotingBinaryHoleFillingImageFilterOutput3}
   // \itkcaption[Effect of the VotingBinaryHoleFilling filter.]{Effect of the
   // VotingBinaryHoleFillingImageFilter on a slice from a MRI proton density brain image
   // that has been thresholded in order to produce a binary image. The output

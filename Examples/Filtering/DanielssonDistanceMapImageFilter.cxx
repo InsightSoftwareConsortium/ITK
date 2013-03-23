@@ -20,7 +20,7 @@
 //    INPUTS:  {FivePoints.png}
 //    OUTPUTS: {DanielssonDistanceMapImageFilterOutput1.png}
 //    OUTPUTS: {DanielssonDistanceMapImageFilterOutput2.png}
-//    OUTPUTS: {DanielssonDistanceMapImageFilterOutput3.mhd}
+//    ARGUMENTS: {DanielssonDistanceMapImageFilterOutput3.mhd}
 //  Software Guide : EndCommandLineArgs
 
 // Software Guide : BeginLatex
@@ -157,9 +157,9 @@ int main( int argc, char * argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=0.32\textwidth]{FivePoints.eps}
-  // \includegraphics[width=0.32\textwidth]{DanielssonDistanceMapImageFilterOutput1.eps}
-  // \includegraphics[width=0.32\textwidth]{DanielssonDistanceMapImageFilterOutput2.eps}
+  // \includegraphics[width=0.32\textwidth]{FivePoints}
+  // \includegraphics[width=0.32\textwidth]{DanielssonDistanceMapImageFilterOutput1}
+  // \includegraphics[width=0.32\textwidth]{DanielssonDistanceMapImageFilterOutput2}
   // \itkcaption[DanielssonDistanceMapImageFilter
   // output]{DanielssonDistanceMapImageFilter output. Set of pixels, distance
   // map and Voronoi partition.}

@@ -165,8 +165,8 @@ int main( int argc, char * argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=0.44\textwidth]{BinaryThresholdImageFilterOutput.eps}
-  // \includegraphics[width=0.44\textwidth]{BinaryMedianImageFilterOutput.eps}
+  // \includegraphics[width=0.44\textwidth]{BinaryThresholdImageFilterOutput}
+  // \includegraphics[width=0.44\textwidth]{BinaryMedianImageFilterOutput}
   // \itkcaption[Effect of the BinaryMedian filter.]{Effect of the
   // BinaryMedianImageFilter on a slice from a MRI proton density brain image
   // that has been thresholded in order to produce a binary image.}

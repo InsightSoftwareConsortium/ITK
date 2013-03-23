@@ -250,10 +250,10 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //
   // \begin{figure} \center
-  // \includegraphics[width=0.24\textwidth]{VisibleWomanEyeSlice.eps}
-  // \includegraphics[width=0.24\textwidth]{VisibleWomanEyeSliceRedComponent.eps}
-  // \includegraphics[width=0.24\textwidth]{VisibleWomanEyeSliceGreenComponent.eps}
-  // \includegraphics[width=0.24\textwidth]{VisibleWomanEyeSliceBlueComponent.eps}
+  // \includegraphics[width=0.24\textwidth]{VisibleWomanEyeSlice}
+  // \includegraphics[width=0.24\textwidth]{VisibleWomanEyeSliceRedComponent}
+  // \includegraphics[width=0.24\textwidth]{VisibleWomanEyeSliceGreenComponent}
+  // \includegraphics[width=0.24\textwidth]{VisibleWomanEyeSliceBlueComponent}
   // \itkcaption[Image Adaptor to RGB Image]{Using
   // ImageAdaptor to extract the components of an RGB image. The
   // image on the left is a subregion of the Visible Woman cryogenic data set.

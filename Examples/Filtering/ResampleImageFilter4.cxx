@@ -148,8 +148,8 @@ int main( int argc, char * argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceBorder20.eps}
-  // \includegraphics[width=0.44\textwidth]{ResampleImageFilterOutput10.eps}
+  // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceBorder20}
+  // \includegraphics[width=0.44\textwidth]{ResampleImageFilterOutput10}
   // \itkcaption[Effect of the Resample filter rotating an image]{Effect of the
   // resample filter rotating an image.}
   // \label{fig:ResampleImageFilterOutput10}

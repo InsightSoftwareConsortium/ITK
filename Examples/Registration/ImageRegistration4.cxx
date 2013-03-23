@@ -412,9 +412,9 @@ int main( int argc, char *argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=0.32\textwidth]{ImageRegistration4Output.eps}
-  // \includegraphics[width=0.32\textwidth]{ImageRegistration4CheckerboardBefore.eps}
-  // \includegraphics[width=0.32\textwidth]{ImageRegistration4CheckerboardAfter.eps}
+  // \includegraphics[width=0.32\textwidth]{ImageRegistration4Output}
+  // \includegraphics[width=0.32\textwidth]{ImageRegistration4CheckerboardBefore}
+  // \includegraphics[width=0.32\textwidth]{ImageRegistration4CheckerboardAfter}
   // \itkcaption[MattesMutualInformationImageToImageMetric output images]{The mapped
   // moving image (left) and the composition of fixed and moving images before
   // (center) and after (right) registration with Mattes mutual information.}
@@ -470,9 +470,9 @@ int main( int argc, char *argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=0.44\textwidth]{ImageRegistration4TraceTranslations.eps}
-  // \includegraphics[width=0.44\textwidth]{ImageRegistration4TraceTranslations2.eps}
-  // \includegraphics[width=0.6\textwidth]{ImageRegistration4TraceMetric.eps}
+  // \includegraphics[width=0.44\textwidth]{ImageRegistration4TraceTranslations}
+  // \includegraphics[width=0.44\textwidth]{ImageRegistration4TraceTranslations2}
+  // \includegraphics[width=0.6\textwidth]{ImageRegistration4TraceMetric}
   // \itkcaption[MattesMutualInformationImageToImageMetric output plots]{Sequence
   // of translations and metric values at each iteration of the optimizer.}
   // \label{fig:ImageRegistration4TraceTranslations}
@@ -514,7 +514,7 @@ int main( int argc, char *argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=0.8\textwidth]{ImageRegistration4TraceTranslationsNumberOfBins.eps}
+  // \includegraphics[width=0.8\textwidth]{ImageRegistration4TraceTranslationsNumberOfBins}
   // \itkcaption[MattesMutualInformationImageToImageMetric number of
   // bins]{Sensitivity of the optimization path to the number of Bins used for
   // estimating the value of Mutual Information with Mattes et al. approach.}

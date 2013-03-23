@@ -271,9 +271,9 @@ int main( int argc, char * argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=0.32\textwidth]{BinaryThresholdImageFilterOutput.eps}
-  // \includegraphics[width=0.32\textwidth]{MathematicalMorphologyBinaryErosionOutput.eps}
-  // \includegraphics[width=0.32\textwidth]{MathematicalMorphologyBinaryDilationOutput.eps}
+  // \includegraphics[width=0.32\textwidth]{BinaryThresholdImageFilterOutput}
+  // \includegraphics[width=0.32\textwidth]{MathematicalMorphologyBinaryErosionOutput}
+  // \includegraphics[width=0.32\textwidth]{MathematicalMorphologyBinaryDilationOutput}
   // \itkcaption[Effect of erosion and dilation in a binary image.]{Effect of
   // erosion and dilation in a binary image.}
   // \label{fig:MathematicalMorphologyBinaryFilters}

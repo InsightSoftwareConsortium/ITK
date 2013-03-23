@@ -156,8 +156,8 @@ int main( int argc, char * argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySlice.eps}
-  // \includegraphics[width=0.44\textwidth]{FlipImageFilterOutput.eps}
+  // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySlice}
+  // \includegraphics[width=0.44\textwidth]{FlipImageFilterOutput}
   // \itkcaption[Effect of the MedianImageFilter]{Effect of the FlipImageFilter on a slice
   // from a MRI proton density brain image.}
   // \label{fig:FlipImageFilterOutput}

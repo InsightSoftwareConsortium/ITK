@@ -228,9 +228,9 @@ int main( int argc, char * argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=0.32\textwidth]{BrainProtonDensitySlice.eps}
-  // \includegraphics[width=0.32\textwidth]{MathematicalMorphologyGrayscaleErosionOutput.eps}
-  // \includegraphics[width=0.32\textwidth]{MathematicalMorphologyGrayscaleDilationOutput.eps}
+  // \includegraphics[width=0.32\textwidth]{BrainProtonDensitySlice}
+  // \includegraphics[width=0.32\textwidth]{MathematicalMorphologyGrayscaleErosionOutput}
+  // \includegraphics[width=0.32\textwidth]{MathematicalMorphologyGrayscaleDilationOutput}
   // \itkcaption[Effect of erosion and dilation in a grayscale image.]{Effect of
   // erosion and dilation in a grayscale image.}
   // \label{fig:MathematicalMorphologyGrayscaleFilters}

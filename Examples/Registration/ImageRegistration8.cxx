@@ -19,9 +19,9 @@
 //  Software Guide : BeginCommandLineArgs
 //    INPUTS: brainweb1e1a10f20.mha
 //    INPUTS: brainweb1e1a10f20Rot10Tx15.mha
-//    OUTPUTS: ImageRegistration8Output.mhd
-//    OUTPUTS: ImageRegistration8DifferenceBefore.mhd
-//    OUTPUTS: ImageRegistration8DifferenceAfter.mhd
+//    ARGUMENTS: ImageRegistration8Output.mhd
+//    ARGUMENTS: ImageRegistration8DifferenceBefore.mhd
+//    ARGUMENTS: ImageRegistration8DifferenceAfter.mhd
 //    OUTPUTS: {ImageRegistration8Output.png}
 //    OUTPUTS: {ImageRegistration8DifferenceBefore.png}
 //    OUTPUTS: {ImageRegistration8DifferenceAfter.png}
@@ -428,8 +428,8 @@ int main( int argc, char *argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceBorder20.eps}
-  // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceR10X13Y17.eps}
+  // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceBorder20}
+  // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceR10X13Y17}
   // \itkcaption[CenteredTransformInitializer input images]{Fixed and moving image
   // provided as input to the registration method using
   // CenteredTransformInitializer.}
@@ -439,9 +439,9 @@ int main( int argc, char *argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=0.32\textwidth]{ImageRegistration8Output.eps}
-  // \includegraphics[width=0.32\textwidth]{ImageRegistration8DifferenceBefore.eps}
-  // \includegraphics[width=0.32\textwidth]{ImageRegistration8DifferenceAfter.eps}
+  // \includegraphics[width=0.32\textwidth]{ImageRegistration8Output}
+  // \includegraphics[width=0.32\textwidth]{ImageRegistration8DifferenceBefore}
+  // \includegraphics[width=0.32\textwidth]{ImageRegistration8DifferenceAfter}
   // \itkcaption[CenteredTransformInitializer output images]{Resampled moving
   // image (left). Differences between fixed and moving images, before (center)
   // and after (right) registration with the
@@ -465,9 +465,9 @@ int main( int argc, char *argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[height=0.32\textwidth]{ImageRegistration8TraceMetric.eps}
-  // \includegraphics[height=0.32\textwidth]{ImageRegistration8TraceAngle.eps}
-  // \includegraphics[height=0.32\textwidth]{ImageRegistration8TraceTranslations.eps}
+  // \includegraphics[height=0.32\textwidth]{ImageRegistration8TraceMetric}
+  // \includegraphics[height=0.32\textwidth]{ImageRegistration8TraceAngle}
+  // \includegraphics[height=0.32\textwidth]{ImageRegistration8TraceTranslations}
   // \itkcaption[CenteredTransformInitializer output plots]{Plots of the metric,
   // rotation angle, center of rotation and translations during the
   // registration using CenteredTransformInitializer.}

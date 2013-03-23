@@ -454,8 +454,8 @@ int main( int argc, char *argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceBorder20.eps}
-  // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceRotated10.eps}
+  // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceBorder20}
+  // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceRotated10}
   // \itkcaption[Rigid2D Registration input images]{Fixed and moving images
   // are provided as input to the registration method using the CenteredRigid2D
   // transform.}
@@ -465,9 +465,9 @@ int main( int argc, char *argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=0.32\textwidth]{ImageRegistration5Output.eps}
-  // \includegraphics[width=0.32\textwidth]{ImageRegistration5DifferenceBefore.eps}
-  // \includegraphics[width=0.32\textwidth]{ImageRegistration5DifferenceAfter.eps}
+  // \includegraphics[width=0.32\textwidth]{ImageRegistration5Output}
+  // \includegraphics[width=0.32\textwidth]{ImageRegistration5DifferenceBefore}
+  // \includegraphics[width=0.32\textwidth]{ImageRegistration5DifferenceAfter}
   // \itkcaption[Rigid2D Registration output images]{Resampled moving image
   // (left). Differences between the fixed and moving images, before (center)
   // and after (right) registration using the CenteredRigid2D transform.}
@@ -483,9 +483,9 @@ int main( int argc, char *argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[height=0.32\textwidth]{ImageRegistration5TraceMetric1.eps}
-  // \includegraphics[height=0.32\textwidth]{ImageRegistration5TraceAngle1.eps}
-  // \includegraphics[height=0.32\textwidth]{ImageRegistration5TraceTranslations1.eps}
+  // \includegraphics[height=0.32\textwidth]{ImageRegistration5TraceMetric1}
+  // \includegraphics[height=0.32\textwidth]{ImageRegistration5TraceAngle1}
+  // \includegraphics[height=0.32\textwidth]{ImageRegistration5TraceTranslations1}
   // \itkcaption[Rigid2D Registration output plots]{Metric values, rotation
   // angle and translations during registration with the CenteredRigid2D
   // transform.}
@@ -647,8 +647,8 @@ int main( int argc, char *argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceBorder20.eps}
-  // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceR10X13Y17.eps}
+  // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceBorder20}
+  // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceR10X13Y17}
   // \itkcaption[Rigid2D Registration input images]{Fixed and moving images
   // provided as input to the registration method using the CenteredRigid2D
   // transform.}
@@ -658,9 +658,9 @@ int main( int argc, char *argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=0.32\textwidth]{ImageRegistration5Output2.eps}
-  // \includegraphics[width=0.32\textwidth]{ImageRegistration5DifferenceBefore2.eps}
-  // \includegraphics[width=0.32\textwidth]{ImageRegistration5DifferenceAfter2.eps}
+  // \includegraphics[width=0.32\textwidth]{ImageRegistration5Output2}
+  // \includegraphics[width=0.32\textwidth]{ImageRegistration5DifferenceBefore2}
+  // \includegraphics[width=0.32\textwidth]{ImageRegistration5DifferenceAfter2}
   // \itkcaption[Rigid2D Registration output images]{Resampled moving image
   // (left). Differences between the fixed and moving images, before (center)
   // and after (right) registration with the CenteredRigid2D transform.}
@@ -673,9 +673,9 @@ int main( int argc, char *argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[height=0.32\textwidth]{ImageRegistration5TraceMetric2.eps}
-  // \includegraphics[height=0.32\textwidth]{ImageRegistration5TraceAngle2.eps}
-  // \includegraphics[height=0.32\textwidth]{ImageRegistration5TraceTranslations2.eps}
+  // \includegraphics[height=0.32\textwidth]{ImageRegistration5TraceMetric2}
+  // \includegraphics[height=0.32\textwidth]{ImageRegistration5TraceAngle2}
+  // \includegraphics[height=0.32\textwidth]{ImageRegistration5TraceTranslations2}
   // \itkcaption[Rigid2D Registration output plots]{Metric values, rotation
   // angle and translations during the registration using the CenteredRigid2D
   // transform on an image with rotation and translation mis-registration.}

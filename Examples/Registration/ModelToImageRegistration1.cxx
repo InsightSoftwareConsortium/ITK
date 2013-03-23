@@ -917,8 +917,8 @@ int main( int argc, char *argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[height=0.44\textwidth]{ModelToImageRegistrationTraceAngle.eps}
-  // \includegraphics[height=0.44\textwidth]{ModelToImageRegistrationTraceTranslations.eps}
+  // \includegraphics[height=0.44\textwidth]{ModelToImageRegistrationTraceAngle}
+  // \includegraphics[height=0.44\textwidth]{ModelToImageRegistrationTraceTranslations}
   // \itkcaption[SpatialObject to Image Registration results]{Plots of the
   // angle and translation parameters for a registration process between an
   // spatial object and an image.}
