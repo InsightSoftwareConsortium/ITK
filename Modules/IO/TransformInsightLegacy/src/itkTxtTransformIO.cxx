@@ -22,7 +22,7 @@
 #include "itkTransformFileReader.h"
 #include "itkCompositeTransform.h"
 #include "itkCompositeTransformIOHelper.h"
-#include "DoubleToString.h"
+#include "itkNumberToString.h"
 namespace itk
 {
 TxtTransformIO::TxtTransformIO()
@@ -272,7 +272,7 @@ TxtTransformIO::Read()
 namespace {
 void print_vector(std::ofstream& s, vnl_vector<double> const &v)
 {
-  DoubleToString convert;
+  NumberToString<double> convert;
   for (unsigned i = 0; i+1 < v.size(); ++i)
     {
     s << convert(v[i]) << ' ';

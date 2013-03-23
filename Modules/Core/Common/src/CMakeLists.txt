@@ -76,6 +76,7 @@ itkXMLFileOutputWindow.cxx
 itkStoppingCriterionBase.cxx
 itkCompensatedSummation.cxx
 itkArrayOutputSpecialization.cxx
+itkNumberToString.cxx
 )
 
 if(WIN32)
