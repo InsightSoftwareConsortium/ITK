@@ -456,15 +456,8 @@ public:
    * Get/Set the Metric used to define correspondence between
    * images/
    */
-  MetricBaseTypePointer GetMetric()
-  {
-    return m_Metric;
-  }
-
-  void SetMetric(MetricBaseTypePointer MP)
-  {
-    m_Metric = MP;
-  }
+  itkGetModifiableObjectMacro(Metric, MetricBaseType);
+  itkSetObjectMacro(Metric, MetricBaseType);
 
   /**
    * Select the matric used for image correspondence.
