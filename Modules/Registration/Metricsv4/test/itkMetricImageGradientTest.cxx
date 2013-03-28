@@ -347,10 +347,9 @@ double itkMetricImageGradientTestRunTest( unsigned int imageSize, typename TTran
 
       double norm1 = p1.two_norm();
       double norm2 = p2.two_norm();
-      double correlation = 0.0;
       if ( norm1 > 0 && norm2 > 0 )
         {
-        correlation = dot_product( p2, p1 ) / ( norm1 * norm2 );
+        double correlation = dot_product( p2, p1 ) / ( norm1 * norm2 );
         sumc += correlation;
         }
 

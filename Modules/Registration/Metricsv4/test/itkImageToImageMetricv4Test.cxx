@@ -693,7 +693,7 @@ int itkImageToImageMetricv4Test(int, char ** const)
   metric->SetFloatingPointCorrectionResolution( 1 );
 
   //exercise PrintSelf
-  std::cout << std::endl << "PrintSelf: " << std::cout;
+  std::cout << std::endl << "PrintSelf: " << std::endl;
   metric->Print( std::cout );
 
   itk::Object::SetGlobalWarningDisplay( origGlobalWarningValue );
