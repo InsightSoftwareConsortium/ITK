@@ -283,7 +283,7 @@ int main( int argc, char* argv[] )
     {
     writer->Update();
     }
-  catch ( itk::ExceptionObject e )
+  catch ( itk::ExceptionObject & e )
     {
     std::cerr << "Error: " << e << std::endl;
     }

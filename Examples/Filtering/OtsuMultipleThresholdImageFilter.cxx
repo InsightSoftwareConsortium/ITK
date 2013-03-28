@@ -167,8 +167,6 @@ int main( int argc, char * argv[] )
   InputPixelType lowerThreshold = 0;
   InputPixelType upperThreshold;
 
-  std::string format = argv[2];
-
   char outputFilename[1000];
   outputFile = outputFileBase + "%03d.";
   outputFile += argv[3];   // filename extension

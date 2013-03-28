@@ -61,7 +61,7 @@ protected:
   TclCommand();
   ~TclCommand() {}
   TclCommand(const Self&);     // Not implemented.
-  void operator=(const Self&); // Not implemented.
+  TclCommand & operator=(const Self&); // Not implemented.
 
   void TclExecute() const;
 

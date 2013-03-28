@@ -398,8 +398,8 @@ int main( int argc, char *argv[] )
   FixedImageReaderType::Pointer  fixedImageReader  = FixedImageReaderType::New();
   MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
 
-  fixedImageReader->SetFileName(  argv[1] );
-  movingImageReader->SetFileName( argv[2] );
+  fixedImageReader->SetFileName(  fixedImageFile );
+  movingImageReader->SetFileName( movingImageFile );
 
 
   //  Software Guide : BeginLatex
@@ -644,7 +644,7 @@ int main( int argc, char *argv[] )
   CastFilterType::Pointer  caster =  CastFilterType::New();
 
 
-  writer->SetFileName( argv[3] );
+  writer->SetFileName( outImagefile );
 
 
   caster->SetInput( resample->GetOutput() );
