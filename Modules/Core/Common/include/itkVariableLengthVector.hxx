@@ -268,14 +268,13 @@ const VariableLengthVector< TValueType > &
 VariableLengthVector< TValueType >
 ::operator=(const Self & v)
 {
-  if ( this == &v )
+  if ( this != &v )
     {
-    return *this;
-    }
-  this->SetSize( v.Size() );
-  for ( ElementIdentifier i = 0; i < v.Size(); i++ )
-    {
-    this->m_Data[i] = v[i];
+    this->SetSize( v.Size() );
+    for ( ElementIdentifier i = 0; i < v.Size(); i++ )
+      {
+      this->m_Data[i] = v[i];
+      }
     }
   return *this;
 }

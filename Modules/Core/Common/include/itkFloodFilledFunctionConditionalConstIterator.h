@@ -118,18 +118,21 @@ public:
    * reference counted. */
   Self & operator=(const Self & it)
   {
-    this->m_Image = it.m_Image;     // copy the smart pointer
-    this->m_Region = it.m_Region;
-    this->m_Function = it.m_Function;
-    this->m_TemporaryPointer = it.m_TemporaryPointer;
-    this->m_Seeds = it.m_Seeds;
-    this->m_ImageOrigin = it.m_ImageOrigin;
-    this->m_ImageSpacing = it.m_ImageSpacing;
-    this->m_ImageRegion = it.m_ImageRegion;
-    this->m_IndexStack = it.m_IndexStack;
-    this->m_LocationVector = it.m_LocationVector;
-    this->m_FoundUncheckedNeighbor = it.m_FoundUncheckedNeighbor;
-    this->m_IsValidIndex = it.m_IsValidIndex;
+    if(this != &it)
+      {
+      this->m_Image = it.m_Image;     // copy the smart pointer
+      this->m_Region = it.m_Region;
+      this->m_Function = it.m_Function;
+      this->m_TemporaryPointer = it.m_TemporaryPointer;
+      this->m_Seeds = it.m_Seeds;
+      this->m_ImageOrigin = it.m_ImageOrigin;
+      this->m_ImageSpacing = it.m_ImageSpacing;
+      this->m_ImageRegion = it.m_ImageRegion;
+      this->m_IndexStack = it.m_IndexStack;
+      this->m_LocationVector = it.m_LocationVector;
+      this->m_FoundUncheckedNeighbor = it.m_FoundUncheckedNeighbor;
+      this->m_IsValidIndex = it.m_IsValidIndex;
+      }
     return *this;
   }
 

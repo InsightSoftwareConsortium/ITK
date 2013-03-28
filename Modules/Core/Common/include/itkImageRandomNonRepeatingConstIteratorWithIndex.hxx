@@ -55,17 +55,20 @@ ImageRandomNonRepeatingConstIteratorWithIndex< TImage > &
 ImageRandomNonRepeatingConstIteratorWithIndex< TImage >
 ::operator=(const Self & it)
 {
-  this->ImageConstIteratorWithIndex< TImage >::operator=(it);
-  if(m_Permutation)
+  if(this != &it)
     {
-    memcpy( m_Permutation, it.m_Permutation, sizeof( *m_Permutation ) );
-    }
-  else
-    {
-    m_NumberOfPixelsInRegion   = it.GetRegion().GetNumberOfPixels();
-    m_NumberOfSamplesRequested = 0L;
-    m_NumberOfSamplesDone      = 0L;
-    m_Permutation = new RandomPermutation(m_NumberOfPixelsInRegion);
+    this->ImageConstIteratorWithIndex< TImage >::operator=(it);
+    if(m_Permutation)
+      {
+      memcpy( m_Permutation, it.m_Permutation, sizeof( *m_Permutation ) );
+      }
+    else
+      {
+      m_NumberOfPixelsInRegion   = it.GetRegion().GetNumberOfPixels();
+      m_NumberOfSamplesRequested = 0L;
+      m_NumberOfSamplesDone      = 0L;
+      m_Permutation = new RandomPermutation(m_NumberOfPixelsInRegion);
+      }
     }
   return *this;
 }

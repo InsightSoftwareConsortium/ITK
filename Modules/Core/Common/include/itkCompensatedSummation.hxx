@@ -73,17 +73,16 @@ CompensatedSummation< TFloat >
 }
 
 template < class TFloat >
-void
+typename CompensatedSummation<TFloat>::Self &
 CompensatedSummation< TFloat >
 ::operator=( const Self & rhs )
 {
-  if ( this == &rhs )
+  if ( this != &rhs )
     {
-    return;
+    this->m_Sum = rhs.m_Sum;
+    this->m_Compensation = rhs.m_Compensation;
     }
-
-  this->m_Sum = rhs.m_Sum;
-  this->m_Compensation = rhs.m_Compensation;
+  return *this;
 }
 
 template < class TFloat >

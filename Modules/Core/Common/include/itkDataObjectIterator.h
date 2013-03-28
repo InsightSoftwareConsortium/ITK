@@ -44,9 +44,12 @@ public:
 
   DataObjectIterator & operator=(const DataObjectIterator & iter)
   {
-    m_Iterator = iter.m_Iterator;
-    m_Begin = iter.m_Begin;
-    m_End = iter.m_End;
+    if(this != &iter)
+      {
+      m_Iterator = iter.m_Iterator;
+      m_Begin = iter.m_Begin;
+      m_End = iter.m_End;
+      }
     return *this;
   }
 

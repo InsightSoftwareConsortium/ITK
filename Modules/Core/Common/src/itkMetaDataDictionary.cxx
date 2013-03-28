@@ -42,10 +42,14 @@ MetaDataDictionary
   *m_Dictionary = *( old.m_Dictionary );
 }
 
-void MetaDataDictionary
+MetaDataDictionary & MetaDataDictionary
 ::operator=(const MetaDataDictionary & old)
 {
-  *m_Dictionary = *( old.m_Dictionary );
+  if(this != &old)
+    {
+    *m_Dictionary = *( old.m_Dictionary );
+    }
+  return *this;
 }
 
 void

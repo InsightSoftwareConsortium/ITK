@@ -151,17 +151,18 @@ const typename Array< TValueType >
 Array< TValueType >
 ::operator=(const Self & rhs)
 {
-  if ( this == &rhs ) { return *this; }
+  if ( this != &rhs )
+    {
 
-  // Set the size the same as rhs.
-  // The SetSize method takes care of who is responsible
-  // for memory management
-  //
-  this->SetSize( rhs.GetSize() );
+    // Set the size the same as rhs.
+    // The SetSize method takes care of who is responsible
+    // for memory management
+    //
+    this->SetSize( rhs.GetSize() );
 
-  // Call the superclass implementation
-  this->VnlVectorType::operator=(rhs);
-
+    // Call the superclass implementation
+    this->VnlVectorType::operator=(rhs);
+    }
   return *this;
 }
 
@@ -171,17 +172,18 @@ const typename Array< TValueType >
 Array< TValueType >
 ::operator=(const VnlVectorType & rhs)
 {
-  if ( this == &rhs ) { return *this; }
+  if ( this != &rhs )
+    {
 
-  // Set the size the same as rhs.
-  // The SetSize method takes care of who is responsible
-  // for memory management
-  //
-  this->SetSize( rhs.size() );
+    // Set the size the same as rhs.
+    // The SetSize method takes care of who is responsible
+    // for memory management
+    //
+    this->SetSize( rhs.size() );
 
-  // Call the superclass implementation
-  this->VnlVectorType::operator=(rhs);
-
+    // Call the superclass implementation
+    this->VnlVectorType::operator=(rhs);
+    }
   return *this;
 }
 } // namespace itk

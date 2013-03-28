@@ -282,27 +282,29 @@ ConstNeighborhoodIteratorWithOnlyIndex< TImage > &
 ConstNeighborhoodIteratorWithOnlyIndex< TImage >
 ::operator=(const Self & orig)
 {
-  Superclass::operator=(orig);
-
-  m_Bound        = orig.m_Bound;
-  m_ConstImage   = orig.m_ConstImage;
-  m_EndIndex     = orig.m_EndIndex;
-  m_Loop         = orig.m_Loop;
-  m_Region       = orig.m_Region;
-  m_BeginIndex = orig.m_BeginIndex;
-
-  m_NeedToUseBoundaryCondition = orig.m_NeedToUseBoundaryCondition;
-
-  m_InnerBoundsLow  = orig.m_InnerBoundsLow;
-  m_InnerBoundsHigh = orig.m_InnerBoundsHigh;
-
-  for ( DimensionValueType i = 0; i < Dimension; ++i )
+  if(this != &orig)
     {
-    m_InBounds[i] = orig.m_InBounds[i];
-    }
-  m_IsInBoundsValid = orig.m_IsInBoundsValid;
-  m_IsInBounds = orig.m_IsInBounds;
+    Superclass::operator=(orig);
 
+    m_Bound        = orig.m_Bound;
+    m_ConstImage   = orig.m_ConstImage;
+    m_EndIndex     = orig.m_EndIndex;
+    m_Loop         = orig.m_Loop;
+    m_Region       = orig.m_Region;
+    m_BeginIndex = orig.m_BeginIndex;
+
+    m_NeedToUseBoundaryCondition = orig.m_NeedToUseBoundaryCondition;
+
+    m_InnerBoundsLow  = orig.m_InnerBoundsLow;
+    m_InnerBoundsHigh = orig.m_InnerBoundsHigh;
+
+    for ( DimensionValueType i = 0; i < Dimension; ++i )
+      {
+      m_InBounds[i] = orig.m_InBounds[i];
+      }
+    m_IsInBoundsValid = orig.m_IsInBoundsValid;
+    m_IsInBounds = orig.m_IsInBounds;
+    }
   return *this;
 }
 
@@ -541,7 +543,6 @@ ConstNeighborhoodIteratorWithOnlyIndex< TImage >
 
   // Update loop counter values
   m_Loop -= idx;
-
   return *this;
 }
 } // namespace itk

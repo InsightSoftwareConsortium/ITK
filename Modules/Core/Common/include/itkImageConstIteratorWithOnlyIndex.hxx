@@ -90,17 +90,19 @@ ImageConstIteratorWithOnlyIndex< TImage > &
 ImageConstIteratorWithOnlyIndex< TImage >
 ::operator=(const Self & it)
 {
-  m_Image = it.m_Image;     // copy the smart pointer
+  if(this != *it)
+    {
+    m_Image = it.m_Image;     // copy the smart pointer
 
-  m_BeginIndex        = it.m_BeginIndex;
-  m_EndIndex          = it.m_EndIndex;
-  m_PositionIndex     = it.m_PositionIndex;
-  m_Region            = it.m_Region;
+    m_BeginIndex        = it.m_BeginIndex;
+    m_EndIndex          = it.m_EndIndex;
+    m_PositionIndex     = it.m_PositionIndex;
+    m_Region            = it.m_Region;
 
-  memcpy( m_OffsetTable, it.m_OffsetTable, sizeof( m_OffsetTable ) );
+    memcpy( m_OffsetTable, it.m_OffsetTable, sizeof( m_OffsetTable ) );
 
-  m_Remaining   = it.m_Remaining;
-
+    m_Remaining   = it.m_Remaining;
+    }
   return *this;
 }
 

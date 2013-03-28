@@ -88,20 +88,22 @@ LineConstIterator< TImage > &
 LineConstIterator< TImage >
 ::operator=(const Self & it)
 {
-  m_Image  = it.m_Image;  // copy the smart pointer
-  m_Region = it.m_Region;
-  m_IsAtEnd = it.m_IsAtEnd;
-  m_CurrentImageIndex   = it.m_CurrentImageIndex;
-  m_StartIndex = it.m_StartIndex;
-  m_LastIndex = it.m_LastIndex;
-  m_EndIndex = it.m_EndIndex;
-  m_MainDirection = it.m_MainDirection;
-  m_AccumulateError = it.m_AccumulateError;
-  m_IncrementError = it.m_IncrementError;
-  m_MaximalError = it.m_MaximalError;
-  m_OverflowIncrement = it.m_OverflowIncrement;
-  m_ReduceErrorAfterIncrement = it.m_ReduceErrorAfterIncrement;
-
+  if(this != &it)
+    {
+    m_Image  = it.m_Image;  // copy the smart pointer
+    m_Region = it.m_Region;
+    m_IsAtEnd = it.m_IsAtEnd;
+    m_CurrentImageIndex   = it.m_CurrentImageIndex;
+    m_StartIndex = it.m_StartIndex;
+    m_LastIndex = it.m_LastIndex;
+    m_EndIndex = it.m_EndIndex;
+    m_MainDirection = it.m_MainDirection;
+    m_AccumulateError = it.m_AccumulateError;
+    m_IncrementError = it.m_IncrementError;
+    m_MaximalError = it.m_MaximalError;
+    m_OverflowIncrement = it.m_OverflowIncrement;
+    m_ReduceErrorAfterIncrement = it.m_ReduceErrorAfterIncrement;
+    }
   return *this;
 }
 

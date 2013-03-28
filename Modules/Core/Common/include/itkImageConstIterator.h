@@ -180,17 +180,19 @@ public:
    * reference counted. */
   Self & operator=(const Self & it)
   {
-    m_Image = it.m_Image;     // copy the smart pointer
-    m_Region = it.m_Region;
+    if(this != &it)
+      {
+      m_Image = it.m_Image;     // copy the smart pointer
+      m_Region = it.m_Region;
 
-    m_Buffer = it.m_Buffer;
-    m_Offset = it.m_Offset;
-    m_BeginOffset = it.m_BeginOffset;
-    m_EndOffset = it.m_EndOffset;
-    m_PixelAccessor = it.m_PixelAccessor;
-    m_PixelAccessorFunctor = it.m_PixelAccessorFunctor;
-    m_PixelAccessorFunctor.SetBegin(m_Buffer);
-
+      m_Buffer = it.m_Buffer;
+      m_Offset = it.m_Offset;
+      m_BeginOffset = it.m_BeginOffset;
+      m_EndOffset = it.m_EndOffset;
+      m_PixelAccessor = it.m_PixelAccessor;
+      m_PixelAccessorFunctor = it.m_PixelAccessorFunctor;
+      m_PixelAccessorFunctor.SetBegin(m_Buffer);
+      }
     return *this;
   }
 

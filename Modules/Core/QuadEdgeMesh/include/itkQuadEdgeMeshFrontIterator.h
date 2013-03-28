@@ -154,12 +154,15 @@ public:
 
   Self & operator=(const Self & r)
   {
-    m_Mesh  = r.m_Mesh;
-    m_Start = r.m_Start;
-    m_Seed  = r.m_Seed;
-    m_Front = r.m_Front;
-    m_IsPointVisited = r.m_IsPointVisited;
-    m_CurrentEdge = r.m_CurrentEdge;
+    if(this != &r)
+      {
+      m_Mesh  = r.m_Mesh;
+      m_Start = r.m_Start;
+      m_Seed  = r.m_Seed;
+      m_Front = r.m_Front;
+      m_IsPointVisited = r.m_IsPointVisited;
+      m_CurrentEdge = r.m_CurrentEdge;
+      }
     return ( *this );
   }
 

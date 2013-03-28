@@ -69,10 +69,13 @@ public:
   /** operator = */
   const Self & operator=(const Self & iterator)
   {
-    this->Superclass::operator=(iterator);
-    m_StartLevel = iterator.m_StartLevel;
-    m_EndLevel = iterator.m_EndLevel;
-    m_Queue = iterator.m_Queue;
+    if(this != &iterator)
+      {
+      this->Superclass::operator=(iterator);
+      m_StartLevel = iterator.m_StartLevel;
+      m_EndLevel = iterator.m_EndLevel;
+      m_Queue = iterator.m_Queue;
+      }
     return *this;
   }
 

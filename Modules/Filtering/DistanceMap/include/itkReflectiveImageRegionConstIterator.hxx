@@ -75,14 +75,16 @@ ReflectiveImageRegionConstIterator< TImage > &
 ReflectiveImageRegionConstIterator< TImage >
 ::operator=(const Self & it)
 {
-  this->ImageConstIteratorWithIndex< TImage >::operator=(it);
-
-  for( unsigned int dim = 0; dim < TImage::ImageDimension; dim++ )
+  if(this != &it)
     {
-    m_BeginOffset[dim] = it.m_BeginOffset[dim];
-    m_EndOffset[dim] = it.m_EndOffset[dim];
-    }
+    this->ImageConstIteratorWithIndex< TImage >::operator=(it);
 
+    for( unsigned int dim = 0; dim < TImage::ImageDimension; dim++ )
+      {
+      m_BeginOffset[dim] = it.m_BeginOffset[dim];
+      m_EndOffset[dim] = it.m_EndOffset[dim];
+      }
+    }
   return *this;
 }
 

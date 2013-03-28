@@ -125,6 +125,7 @@ public:
     }
 
     virtual ~ConstIterator() {}
+
     const ConstIterator & operator=(const ConstIterator & o)
     {
       m_NeighborhoodIterator = o.m_NeighborhoodIterator;
@@ -281,13 +282,16 @@ protected:
   /** Assignment operator */
   Self & operator=(const Self & orig)
   {
-    Superclass::operator=(orig);
-    m_ActiveIndexList = orig.m_ActiveIndexList;
-    m_CenterIsActive = orig.m_CenterIsActive;
+    if(this != &orig)
+      {
+      Superclass::operator=(orig);
+      m_ActiveIndexList = orig.m_ActiveIndexList;
+      m_CenterIsActive = orig.m_CenterIsActive;
 
-    // Reset begin and end pointers
-    m_ConstBeginIterator.GoToBegin();
-    m_ConstEndIterator.GoToBegin();
+      // Reset begin and end pointers
+      m_ConstBeginIterator.GoToBegin();
+      m_ConstEndIterator.GoToBegin();
+      }
     return *this;
   }
 

@@ -171,15 +171,18 @@ public:
   /** Assignment operator */
   Self & operator=(const Self & other)
   {
-    Superclass::operator=(other);
-    m_InnerRadius = other.m_InnerRadius;
-    m_Thickness = other.m_Thickness;
-    m_Spacing = other.m_Spacing;
-    m_InteriorValue = other.m_InteriorValue;
-    m_AnnulusValue = other.m_AnnulusValue;
-    m_ExteriorValue = other.m_ExteriorValue;
-    m_Normalize = other.m_Normalize;
-    m_BrightCenter = other.m_BrightCenter;
+    if(this != &other)
+      {
+      Superclass::operator=(other);
+      m_InnerRadius = other.m_InnerRadius;
+      m_Thickness = other.m_Thickness;
+      m_Spacing = other.m_Spacing;
+      m_InteriorValue = other.m_InteriorValue;
+      m_AnnulusValue = other.m_AnnulusValue;
+      m_ExteriorValue = other.m_ExteriorValue;
+      m_Normalize = other.m_Normalize;
+      m_BrightCenter = other.m_BrightCenter;
+      }
     return *this;
   }
 

@@ -80,6 +80,7 @@ ImageIteratorWithIndex< TImage >
   this->ImageConstIteratorWithIndex< TImage >::operator=(it);
   return *this;
 }
+
 } // end namespace itk
 
 #endif

@@ -72,12 +72,14 @@ FixedArray< TValueType, VLength > &
 FixedArray< TValueType, VLength >
 ::operator=(const ValueType r[VLength])
 {
-  if ( r == m_InternalArray ) { return *this; }
-  ConstIterator input = r;
-  Iterator      i = this->Begin();
-  while ( i != this->End() )
+  if ( r != m_InternalArray )
     {
-    *i++ = *input++;
+    ConstIterator input = r;
+    Iterator      i = this->Begin();
+    while ( i != this->End() )
+      {
+      *i++ = *input++;
+      }
     }
   return *this;
 }

@@ -61,7 +61,7 @@ public:
   // Copy Constructor
   MetaDataDictionary(const MetaDataDictionary &);
   // operator =
-  void operator=(const MetaDataDictionary &);
+  MetaDataDictionary & operator=(const MetaDataDictionary &);
 
   // Destructor
   virtual ~MetaDataDictionary();
