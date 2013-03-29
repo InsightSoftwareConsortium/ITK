@@ -110,7 +110,6 @@ LSMImageIO::~LSMImageIO()
 // LSM image file.
 bool LSMImageIO::CanReadFile(const char *filename)
 {
-  std::ifstream file;
   std::string   fname(filename);
 
   if ( fname == "" )

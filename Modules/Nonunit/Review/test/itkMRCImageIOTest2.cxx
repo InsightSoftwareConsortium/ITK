@@ -27,7 +27,7 @@
 namespace {
 
 template <typename TImageType>
-bool Test( const std::string &inFileName, const std::string &outFileName, const std::string md5 )
+bool Test( const std::string &inFileName, const std::string &outFileName, const std::string &md5 )
 {
   typedef TImageType                       ImageType;
   typedef itk::ImageFileReader<ImageType>  ImageFileReaderType;

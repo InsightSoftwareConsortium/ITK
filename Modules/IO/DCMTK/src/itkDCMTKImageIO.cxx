@@ -332,7 +332,6 @@ void DCMTKImageIO::ReadImageInformation()
       // hack, supposedly Luminence/Alpha
       this->SetNumberOfComponents(2);
       this->m_PixelType = VECTOR; break;
-      break;
     case 3:
       this->m_PixelType = RGB; break;
     case 4:

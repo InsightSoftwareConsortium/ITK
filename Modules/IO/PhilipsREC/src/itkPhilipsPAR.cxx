@@ -199,7 +199,6 @@ struct image_info_defV4 {
   int diffusion_b_value_number;
   int gradient_orientation_number;
   int contrast_type;
-  int diffusion_anisotropy_type;
   float diffusion_ap;
   float diffusion_fh;
   float diffusion_rl;
@@ -537,7 +536,7 @@ std::string PhilipsPAR::GetGeneralInfoString(std::string file, int lineNum)
   std::string::size_type index;
   std::string            outString = "";
 
-  if ( ( lineNum < 12 ) && ( lineNum > 51 ) )
+  if ( ( lineNum < 12 ) || ( lineNum > 51 ) )
     {
     return outString;
     }
@@ -556,7 +555,6 @@ std::string PhilipsPAR::GetGeneralInfoString(std::string file, int lineNum)
 // Originally adapted from r2agui.m
 void PhilipsPAR::ReadPAR(std::string parFile, struct par_parameter *pPar)
 {
-  std::string        temp = "";
   std::istringstream inString;
 
   if ( pPar == NULL )
@@ -1423,11 +1421,11 @@ void PhilipsPAR::ReadPAR(std::string parFile, struct par_parameter *pPar)
           tempInfo1 = GetImageInformationDefinitionV4(parFile, lineIncrement, this);
           while ( !tempInfo1.problemreading && tempInfo1.slice )
             {
-            int isUnique = 1;
             // This if statement applies to just the first slice.
             if ( slice == tempInfo1.slice )
               {
               // Find unique image types in REC.
+              int isUnique = 1;
               for ( int i = 0; i < pPar->num_image_types; i++ )
                 {
                 if ( pPar->image_types[i] == tempInfo1.image_type_mr )
@@ -2188,8 +2186,6 @@ bool PhilipsPAR::GetDiffusionGradientOrientationAndBValues(std::string parFile,
                                                            PhilipsPAR::PARDiffusionValuesContainer *gradientValues,
                                                            PhilipsPAR::PARBValuesContainer *bValues)
 {
-  int gradientDirectionCount = 0;
-
   gradientValues->resize(0); // Reset to zero size.
   bValues->resize(0);
   struct par_parameter tempPar;
@@ -2228,6 +2224,7 @@ bool PhilipsPAR::GetDiffusionGradientOrientationAndBValues(std::string parFile,
 
     // Can use either version 4.1 or 4.2 GetImageInformationDefinition
     // function.
+    int gradientDirectionCount = 0;
     tempInfo = GetImageInformationDefinitionV41(parFile, lineIncrement, this);
     while ( !tempInfo.problemreading && tempInfo.slice
             && ( gradientDirectionCount < tempPar.max_num_grad_orient ) )
@@ -2254,8 +2251,6 @@ bool PhilipsPAR::GetDiffusionGradientOrientationAndBValues(std::string parFile,
 bool PhilipsPAR::GetLabelTypesASL(std::string parFile,
                                   PhilipsPAR::PARLabelTypesASLContainer *labelTypes)
 {
-  int aslLabelCount = 0;
-
   labelTypes->resize(0); // Reset to zero size.
   struct par_parameter tempPar;
   int                  ResToolsVersion;
@@ -2285,6 +2280,7 @@ bool PhilipsPAR::GetLabelTypesASL(std::string parFile,
       return true;
       }
 
+    int aslLabelCount = 0;
     tempInfo = GetImageInformationDefinitionV42(parFile, lineIncrement, this);
     while ( !tempInfo.problemreading && tempInfo.slice
             && ( aslLabelCount < tempPar.num_label_types ) )

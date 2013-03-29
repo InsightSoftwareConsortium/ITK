@@ -702,7 +702,6 @@ void NrrdImageIO::ReadImageInformation()
 void NrrdImageIO::Read(void *buffer)
 {
   Nrrd *       nrrd = nrrdNew();
-  unsigned int baseDim;
   bool         nrrdAllocated;
 
   // NOTE the main reason the logic becomes complicated here is that
@@ -722,6 +721,7 @@ void NrrdImageIO::Read(void *buffer)
     // the nrrd knows the allocated data size (the axes may actually be out
     // of order in the case of non-scalar data.  Internal to nrrdLoad(), the
     // given buffer will be re-used, instead of allocating new data.
+    unsigned int baseDim;
     nrrdAllocated = false;
     nrrd->data = buffer;
     nrrd->type = this->ITKToNrrdComponentType(this->m_ComponentType);

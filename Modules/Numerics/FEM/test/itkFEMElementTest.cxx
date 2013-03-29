@@ -546,7 +546,7 @@ void PrintNodalCoordinates(itk::fem::Solver & S, int w, char comment)
   // for ( itk::fem::Solver::NodeArray::iterator n = S.node.begin(); n !=
   // S.node.end(); n++) {
   for( itk::fem::Solver::NodeArray::iterator n = S.GetNodeArray().begin();
-       n != S.GetNodeArray().end(); n++ )
+       n != S.GetNodeArray().end(); ++n )
     {
     // changes made - kiran
     if( IDL_OUTPUT )
@@ -585,7 +585,7 @@ void PrintU(itk::fem::Solver & S, int s, char comment)
   // changes made - kiran
   // for( ::itk::fem::Solver::NodeArray::iterator n = S.node.begin();
   // n!=S.node.end(); n++) {
-  for( ::itk::fem::Solver::NodeArray::iterator n = S.GetNodeArray().begin(); n != S.GetNodeArray().end(); n++ )
+  for( ::itk::fem::Solver::NodeArray::iterator n = S.GetNodeArray().begin(); n != S.GetNodeArray().end(); ++n )
     {
     // changes made - kiran
     if( IDL_OUTPUT )
@@ -633,7 +633,7 @@ bool CheckDisplacements(itk::fem::Solver & S, int s, char comment, double *expec
   bool foundError = false;
 
   std::cout << std::endl << comment << "NodeArray: " << std::endl;
-  for( ::itk::fem::Solver::NodeArray::iterator n = S.GetNodeArray().begin(); n != S.GetNodeArray().end(); n++ )
+  for( ::itk::fem::Solver::NodeArray::iterator n = S.GetNodeArray().begin(); n != S.GetNodeArray().end(); ++n )
     {
     for( unsigned int d = 0, dof;
          ( dof = ( *n )->GetDegreeOfFreedom(d) ) != ::itk::fem::Element::InvalidDegreeOfFreedomID;

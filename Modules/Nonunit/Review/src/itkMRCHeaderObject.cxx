@@ -128,24 +128,12 @@ bool MRCHeaderObject::SetHeader(const Header *buffer)
   if ( this->m_Header.nreal & 512 ) { extendedHeaderBytes += 4; }
   if ( this->m_Header.nreal & 1024 ) { extendedHeaderBytes += 2; }
 
-  if ( extendedHeaderBytes != SizeValueType(this->m_Header.nint) )
-    {
-    // FEI/Agard format
+  this->m_ExtendedHeaderSize = this->m_Header.next;
 
-    // let up hope that this is the correct value or 0
-    this->m_ExtendedHeaderSize = this->m_Header.next;
-    }
-  else
-    {
-    // Serial EM format
-
-    // let up hope that this is the correct value or 0
-    this->m_ExtendedHeaderSize = this->m_Header.next;
-    }
 
   // check to make sure the data makes sense
   if ( this->m_Header.nx <= 0 || this->m_Header.ny <= 0 || this->m_Header.nz <= 0
-       || ( this->m_Header.nx > 65535 || this->m_Header.ny > 65535 || this->m_Header.ny > 65535 )
+       || ( this->m_Header.nx > 65535 || this->m_Header.ny > 65535 || this->m_Header.nz > 65535 )
        || this->m_Header.mapc < MRCHEADER_MAP_X || this->m_Header.mapc > MRCHEADER_MAP_Z
        || this->m_Header.mapr < MRCHEADER_MAP_X || this->m_Header.mapr > MRCHEADER_MAP_Z
        || this->m_Header.maps < MRCHEADER_MAP_X || this->m_Header.maps > MRCHEADER_MAP_Z

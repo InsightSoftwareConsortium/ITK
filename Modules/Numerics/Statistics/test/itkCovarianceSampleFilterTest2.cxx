@@ -22,7 +22,6 @@
 int itkCovarianceSampleFilterTest2(int, char* [] )
 {
   std::cout << "CovarianceSampleFilter test \n \n";
-  std::string failureMeassage= "";
 
   const unsigned int                  MeasurementVectorSize = 3;
   const unsigned int                  numberOfMeasurementVectors = 3;

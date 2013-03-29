@@ -103,7 +103,6 @@ FreeSurferBinaryMeshIO
   OpenFile();
 
   // Define required variables
-  const unsigned int numberOfCellPoints = 3;
   const unsigned int fileTypeIdLength = 3;
   unsigned char      fileTypeId[fileTypeIdLength];
   this->m_FileType = BINARY;
@@ -124,6 +123,7 @@ FreeSurferBinaryMeshIO
   // If input file is freesurfer binary surface file
   if ( m_FileTypeIdentifier == ( -2 & 0x00ffffff ) )
     {
+    const unsigned int numberOfCellPoints = 3;
     // Read input commend
     char byte;
 

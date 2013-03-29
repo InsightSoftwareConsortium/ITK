@@ -386,7 +386,7 @@ bool videosMatch(char* file1, char* file2)
       {
       vxlIO->ReadImageInformation();
       }
-    catch (itk::ExceptionObject e)
+    catch (itk::ExceptionObject & e)
       {
       std::cerr << "Could not read information from the camera" << std::endl;
       ret = EXIT_FAILURE;
@@ -403,7 +403,7 @@ bool videosMatch(char* file1, char* file2)
       {
       vxlIO->Read(reinterpret_cast<void*>(camBuffer));
       }
-    catch (itk::ExceptionObject e)
+    catch (itk::ExceptionObject & e)
       {
       std::cerr << "Could not read from the camera" << std::endl;
       ret = EXIT_FAILURE;

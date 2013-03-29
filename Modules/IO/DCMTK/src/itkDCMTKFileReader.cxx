@@ -197,7 +197,6 @@ DCMTKSequence
     {
     return EXIT_SUCCESS;
     }
-  std::string val;
   if(this->GetElementOB(group,element,target,throwException) != EXIT_SUCCESS)
     {
     return EXIT_FAILURE;
@@ -809,7 +808,6 @@ DCMTKFileReader
     {
     return EXIT_SUCCESS;
     }
-  std::string val;
   if(this->GetElementOB(group,element,target,throwException) != EXIT_SUCCESS)
     {
     return EXIT_FAILURE;

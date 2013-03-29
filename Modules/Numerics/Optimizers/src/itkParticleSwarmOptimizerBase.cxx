@@ -71,7 +71,7 @@ ParticleSwarmOptimizerBase
     const unsigned int n = initialSwarm[0].m_CurrentParameters.GetSize();
     //check that the dimensions of the swarm data are consistent
     for( SwarmType::const_iterator it = initialSwarm.begin();
-      it != initialSwarm_END; it++ )
+      it != initialSwarm_END; ++it )
       {
       if( (*it).m_CurrentParameters.GetSize() != n ||
         (*it).m_CurrentVelocity.GetSize() != n ||
@@ -173,7 +173,7 @@ ParticleSwarmOptimizerBase
   ParameterBoundsType::const_iterator it, end;
   end = this->m_ParameterBounds.end();
   os<<indent<<"Parameter bounds: [";
-  for( it=this->m_ParameterBounds.begin(); it != end; it++ )
+  for( it=this->m_ParameterBounds.begin(); it != end; ++it )
     os<<" ["<<(*it).first<<", "<<(*it).second<<"]";
   os<<" ]\n";
   os<<indent<<"Parameters' convergence tolerance: "<<this->m_ParametersConvergenceTolerance;
@@ -200,7 +200,7 @@ ParticleSwarmOptimizerBase
   std::vector<ParticleData>::const_iterator it, end;
   end = this->m_Particles.end();
   os<<indent<<"[\n";
-  for( it = this->m_Particles.begin(); it != end; it++ )
+  for( it = this->m_Particles.begin(); it != end; ++it )
     {
     const ParticleData & p = *it;
     os<<indent;
@@ -376,7 +376,7 @@ ParticleSwarmOptimizerBase
       itkExceptionMacro(<<"cost function and particle data dimensions mismatch")
       }
     std::vector<ParticleData>::iterator it, end = this->m_Particles.end();
-    for( it=this->m_Particles.begin(); it != end; it++ )
+    for( it=this->m_Particles.begin(); it != end; ++it )
       {
       ParticleData &p = (*it);
       for( i=0; i<n; i++ )

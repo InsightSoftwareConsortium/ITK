@@ -23,7 +23,6 @@
 int itkSubsampleTest3(int, char* [] )
 {
   std::cout << "MeanSampleFilter test \n \n";
-  std::string failureMeassage= "";
 
   const unsigned int                  MeasurementVectorSize = 2;
   const unsigned int                  numberOfMeasurementVectors = 5;

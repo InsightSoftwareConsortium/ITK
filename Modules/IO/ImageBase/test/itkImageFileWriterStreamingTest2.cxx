@@ -359,7 +359,6 @@ int itkImageFileWriterStreamingTest2(int argc, char* argv[])
 
 
   reader->Modified();
-  thrownException = false;
   ////////////////////////////////////////////////
   // test when regions aren't matching
   ImageType::RegionType halfLargestRegion;

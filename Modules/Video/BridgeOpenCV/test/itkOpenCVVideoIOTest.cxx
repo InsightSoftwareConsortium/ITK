@@ -386,7 +386,7 @@ int test_OpenCVVideoIO( char* input, char* nonVideoInput, char* output, char* ca
       {
       opencvIO->ReadImageInformation();
       }
-    catch( itk::ExceptionObject e )
+    catch( itk::ExceptionObject & e )
       {
       std::cerr << "Could not read information from the camera" << std::endl;
       ret = EXIT_FAILURE;
@@ -401,7 +401,7 @@ int test_OpenCVVideoIO( char* input, char* nonVideoInput, char* output, char* ca
       {
       opencvIO->Read(reinterpret_cast<void *>(camBuffer) );
       }
-    catch( itk::ExceptionObject e )
+    catch( itk::ExceptionObject & e )
       {
       std::cerr << "Could not read from the camera" << std::endl;
       ret = EXIT_FAILURE;

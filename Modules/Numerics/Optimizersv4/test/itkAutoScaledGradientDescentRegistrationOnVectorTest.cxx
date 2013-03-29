@@ -229,15 +229,14 @@ int itkAutoScaledGradientDescentRegistrationOnVectorTest(int argc, char ** const
     }
 
   const unsigned int Dimension = 2;
-  int ret1 = EXIT_SUCCESS, ret2 = EXIT_SUCCESS;
 
   std::cout << std::endl << "Optimizing translation transform with shift scales" << std::endl;
   typedef itk::TranslationTransform<double, Dimension> TranslationTransformType;
-  ret1 = itkAutoScaledGradientDescentRegistrationOnVectorTestTemplated<TranslationTransformType>(numberOfIterations, shiftOfStep, "shift");
+  int ret1 = itkAutoScaledGradientDescentRegistrationOnVectorTestTemplated<TranslationTransformType>(numberOfIterations, shiftOfStep, "shift");
 
   std::cout << std::endl << "Optimizing translation transform with Jacobian scales" << std::endl;
   typedef itk::TranslationTransform<double, Dimension> TranslationTransformType;
-  ret2 = itkAutoScaledGradientDescentRegistrationOnVectorTestTemplated<TranslationTransformType>(numberOfIterations, 0.0, "jacobian");
+  int ret2 = itkAutoScaledGradientDescentRegistrationOnVectorTestTemplated<TranslationTransformType>(numberOfIterations, 0.0, "jacobian");
 
   if ( ret1 == EXIT_SUCCESS && ret2 == EXIT_SUCCESS )
     {

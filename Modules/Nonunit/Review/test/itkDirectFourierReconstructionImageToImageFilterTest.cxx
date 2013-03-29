@@ -151,7 +151,7 @@ int itkDirectFourierReconstructionImageToImageFilterTest (int argc, char * argv[
     {
     writer->Update();
     }
-  catch ( itk::ExceptionObject err )
+  catch ( itk::ExceptionObject & err )
     {
     std::cerr << "An error occurred somewhere:" << std::endl;
     std::cerr << err << std::endl;

@@ -22,8 +22,6 @@ int itkVectorContainerToListSampleAdaptorTest(int, char* [] )
 {
   std::cout << "VectorContainerToListSampleAdaptor Test \n \n";
 
-  std::string whereFail = "";
-
   typedef itk::Vector< double, 5 >   VectorType;
 
   typedef itk::VectorContainer< unsigned int, VectorType > ContainerType;

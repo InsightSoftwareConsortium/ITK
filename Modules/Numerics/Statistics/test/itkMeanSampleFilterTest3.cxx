@@ -23,7 +23,6 @@
 int itkMeanSampleFilterTest3(int, char* [] )
 {
   std::cout << "CovarianceSampleFilter test \n \n";
-  std::string failureMeassage= "";
 
   typedef double                      MeasurementType;
   const unsigned int                  MeasurementVectorSize = 3;

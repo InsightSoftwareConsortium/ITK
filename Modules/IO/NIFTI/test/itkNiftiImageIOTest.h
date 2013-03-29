@@ -286,13 +286,10 @@ TestImageOfSymMats(const std::string &fname)
                 {
                 _index[0] = k;
                 PixelType pixel;
-                float lowrange(100.00),highrange(200.00);
                 for(unsigned int q = 0; q < pixel.Size(); q++)
                   {
                   //pixel[q] = randgen.drand32(lowrange,highrange);
                   pixel[q] = incr_value++;
-                  lowrange += 100.0;
-                  highrange += 100.0;
                   }
                 for(unsigned int q = 0; q < VDimension; q++)
                   {

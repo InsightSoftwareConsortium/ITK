@@ -273,7 +273,7 @@ int itkScalarImageToCooccurrenceMatrixFilterTest(int, char* [] )
 
     if ( filter2->GetNumberOfBinsPerAxis() != 2 )
       {
-      std::cerr << "GetNumberOfBinsPerAxis() is not returning the expected value" << std::cout;
+      std::cerr << "GetNumberOfBinsPerAxis() is not returning the expected value" << std::endl;
       passed = false;
       }
 

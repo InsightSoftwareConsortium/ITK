@@ -170,7 +170,7 @@ int itkFEMSolverHyperbolicTest(int ac, char* av[])
     {
     SpatialReader->Update();
     }
-  catch (::itk::fem::FEMException e)
+  catch (::itk::fem::FEMException & e)
     {
     std::cout<<"Error reading FEM problem: "<< av[1] <<"!\n";
     e.Print(std::cout);

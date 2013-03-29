@@ -272,22 +272,22 @@ HDF5TransformIO::Read()
     transformGroup.close();
     }
   // catch failure caused by the H5File operations
-  catch( H5::FileIException error )
+  catch( H5::FileIException & error )
     {
     itkExceptionMacro(<< error.getCDetailMsg());
     }
   // catch failure caused by the DataSet operations
-  catch( H5::DataSetIException error )
+  catch( H5::DataSetIException & error )
     {
     itkExceptionMacro(<< error.getCDetailMsg());
     }
   // catch failure caused by the DataSpace operations
-  catch( H5::DataSpaceIException error )
+  catch( H5::DataSpaceIException & error )
     {
     itkExceptionMacro(<< error.getCDetailMsg());
     }
   // catch failure caused by the DataSpace operations
-  catch( H5::DataTypeIException error )
+  catch( H5::DataTypeIException & error )
     {
     itkExceptionMacro(<< error.getCDetailMsg());
     }
@@ -377,22 +377,22 @@ HDF5TransformIO
       }
     }
   // catch failure caused by the H5File operations
-  catch( H5::FileIException error )
+  catch( H5::FileIException & error )
     {
     itkExceptionMacro(<< error.getCDetailMsg());
     }
   // catch failure caused by the DataSet operations
-  catch( H5::DataSetIException error )
+  catch( H5::DataSetIException & error )
     {
     itkExceptionMacro(<< error.getCDetailMsg());
     }
   // catch failure caused by the DataSpace operations
-  catch( H5::DataSpaceIException error )
+  catch( H5::DataSpaceIException & error )
     {
     itkExceptionMacro(<< error.getCDetailMsg());
     }
   // catch failure caused by the DataSpace operations
-  catch( H5::DataTypeIException error )
+  catch( H5::DataTypeIException & error )
     {
     itkExceptionMacro(<< error.getCDetailMsg());
     }

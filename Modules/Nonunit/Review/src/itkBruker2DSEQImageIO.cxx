@@ -1030,9 +1030,6 @@ void Bruker2DSEQImageIO::ReadImageInformation()
   acqp_InputStream.imbue( std::locale::classic() );
   while ( !acqp_InputStream.eof() )
     {
-    int numEchoes = 0;
-    int numRepetitions = 0;
-    int numInversionTimes = 0;
     acqp_InputStream.getline( readFileBuffer, sizeof( readFileBuffer ) );
 
     acqpFileString = readFileBuffer;
@@ -1218,6 +1215,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
     index = acqpFileString.find(ACQ_echo_time);
     if ( index != std::string::npos )
       {
+      int numEchoes = 0;
       std::string        tempString = ACQ_echo_time;
       std::istringstream echoTimeString( acqpFileString.substr(
                                            index + tempString.length() ) );
@@ -1269,6 +1267,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
     index = acqpFileString.find(ACQ_repetition_time);
     if ( index != std::string::npos )
       {
+      int numRepetitions = 0;
       std::string        tempString = ACQ_repetition_time;
       std::istringstream reptitionTimeString( acqpFileString.substr(
                                                 index + tempString.length() ) );
@@ -1320,6 +1319,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
     index = acqpFileString.find(ACQ_inversion_time);
     if ( index != std::string::npos )
       {
+      int numInversionTimes = 0;
       std::string        tempString = ACQ_inversion_time;
       std::istringstream inversionTimeString( acqpFileString.substr(
                                                 index + tempString.length() ) );

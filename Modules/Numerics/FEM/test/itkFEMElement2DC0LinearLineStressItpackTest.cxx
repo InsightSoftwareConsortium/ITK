@@ -32,7 +32,7 @@ int itkFEMElement2DC0LinearQuadrilateralStrainItpackTest(int argc, char *argv[])
   typedef itk::fem::Solver<2> SolverType;
   typedef SolverType *        SolverPointerType;
   SolverPointerType m_Solver = new SolverType;
-  std::ifstream     fileInput;
+  // std::ifstream     fileInput;
 
   itk::fem::LinearSystemWrapperItpack WrapperItpack;
   WrapperItpack.SetMaximumNonZeroValuesInMatrix(100);
@@ -47,12 +47,12 @@ int itkFEMElement2DC0LinearQuadrilateralStrainItpackTest(int argc, char *argv[])
   // m_Solver->AssembleF();
   // m_Solver->Solve();
   return EXIT_FAILURE;
-  float soln[8];
-  for( int i = 0; i < 8; i++ )
-    {
-    soln[i] = m_Solver->GetSolution(i);
-    }
+  // float soln[8];
+  // for( int i = 0; i < 8; i++ )
+  //   {
+  //   soln[i] = m_Solver->GetSolution(i);
+  //   }
 
-  std::cout << "Test PASSED!" << std::endl;
-  return EXIT_SUCCESS;
+  // std::cout << "Test PASSED!" << std::endl;
+  // return EXIT_SUCCESS;
 }

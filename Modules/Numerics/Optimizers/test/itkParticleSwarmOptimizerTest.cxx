@@ -392,7 +392,6 @@ int PSOTest3()
     initialParameters[1] = 50;
     itkOptimizer->SetInitialPosition( initialParameters );
     itkOptimizer->StartOptimization();
-    finalParameters = itkOptimizer->GetCurrentPosition();
 
               //check why we stopped and see if the optimization succeeded
     std::cout<<"Reason for stopping optimization:\n";
@@ -422,7 +421,6 @@ int PSOTest3()
 
     itkOptimizer->ClearSwarm();
     itkOptimizer->StartOptimization();
-    finalParameters = itkOptimizer->GetCurrentPosition();
 
               //check why we stopped and see if the optimization succeeded
     std::cout<<"Reason for stopping optimization:\n";
@@ -459,7 +457,6 @@ int PSOTest3()
 
     itkOptimizer->ClearSwarm();
     itkOptimizer->StartOptimization();
-    finalParameters = itkOptimizer->GetCurrentPosition();
 
     //check why we stopped and see if the optimization succeeded
     std::cout<<"Reason for stopping optimization:\n";

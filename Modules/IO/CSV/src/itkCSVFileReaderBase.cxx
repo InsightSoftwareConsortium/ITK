@@ -218,12 +218,12 @@ CSVFileReaderBase
    *  beginning of this->m_Line. */
 
   std::string empty;
-  bool OnANewLine = false;
-  bool OnColumnHeadersLine = false;
   // Check that we are not at the end of the file
   itkDebugMacro( << "m_Line: " << m_Line );
   if ( !this->m_InputStream.eof() )
     {
+    bool OnANewLine = false;
+    bool OnColumnHeadersLine = false;
     if ( this->m_Line.empty() )
       {
       std::getline(this->m_InputStream,this->m_Line);
