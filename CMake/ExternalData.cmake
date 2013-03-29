@@ -172,7 +172,8 @@
 #=============================================================================
 
 function(ExternalData_add_test target)
-  ExternalData_expand_arguments("${target}" testArgs ${ARGN})
+  # Expand all arguments as a single string to preserve escaped semicolons.
+  ExternalData_expand_arguments("${target}" testArgs "${ARGN}")
   add_test(${testArgs})
 endfunction()
 
@@ -207,7 +208,7 @@ function(ExternalData_add_target target)
                                  -DExternalData_ACTION=local
                                  -DExternalData_CONFIG=${config}
                                  -P ${_ExternalData_SELF}
-        DEPENDS "${name}"
+        MAIN_DEPENDENCY "${name}"
         )
       list(APPEND files "${file}")
     endif()
@@ -238,7 +239,7 @@ function(ExternalData_add_target target)
                                  -DExternalData_CONFIG=${config}
                                  -P ${_ExternalData_SELF}
         # Update whenever the object hash changes.
-        DEPENDS "${name}${ext}"
+        MAIN_DEPENDENCY "${name}${ext}"
         )
       list(APPEND files "${file}${stamp}")
     endif()
@@ -250,13 +251,17 @@ endfunction()
 
 function(ExternalData_expand_arguments target outArgsVar)
   # Replace DATA{} references with real arguments.
-  set(data_regex "DATA{([^{}\r\n]*)}")
+  set(data_regex "DATA{([^;{}\r\n]*)}")
   set(other_regex "([^D]|D[^A]|DA[^T]|DAT[^A]|DATA[^{])+|.")
   set(outArgs "")
+  # This list expansion un-escapes semicolons in list element values so we
+  # must re-escape them below anywhere a new list expansion will occur.
   foreach(arg IN LISTS ARGN)
     if("x${arg}" MATCHES "${data_regex}")
+      # Re-escape in-value semicolons before expansion in foreach below.
+      string(REPLACE ";" "\\;" tmp "${arg}")
       # Split argument into DATA{}-pieces and other pieces.
-      string(REGEX MATCHALL "${data_regex}|${other_regex}" pieces "${arg}")
+      string(REGEX MATCHALL "${data_regex}|${other_regex}" pieces "${tmp}")
       # Compose output argument with DATA{}-pieces replaced.
       set(outArg "")
       foreach(piece IN LISTS pieces)
@@ -270,11 +275,13 @@ function(ExternalData_expand_arguments target outArgsVar)
           set(outArg "${outArg}${piece}")
         endif()
       endforeach()
-      list(APPEND outArgs "${outArg}")
     else()
       # No replacements needed in this argument.
-      list(APPEND outArgs "${arg}")
+      set(outArg "${arg}")
     endif()
+    # Re-escape in-value semicolons in resulting list.
+    string(REPLACE ";" "\\;" outArg "${outArg}")
+    list(APPEND outArgs "${outArg}")
   endforeach()
   set("${outArgsVar}" "${outArgs}" PARENT_SCOPE)
 endfunction()
@@ -282,18 +289,19 @@ endfunction()
 #-----------------------------------------------------------------------------
 # Private helper interface
 
+set(_ExternalData_REGEX_ALGO "MD5")
+set(_ExternalData_REGEX_EXT "md5")
 set(_ExternalData_SELF "${CMAKE_CURRENT_LIST_FILE}")
 get_filename_component(_ExternalData_SELF_DIR "${_ExternalData_SELF}" PATH)
 
 function(_ExternalData_compute_hash var_hash algo file)
-  if("${algo}" STREQUAL "MD5")
-    # TODO: Errors
+  if("${algo}" MATCHES "^${_ExternalData_REGEX_ALGO}$")
+    # TODO: Require CMake 2.8.7 to support other hashes with file(${algo} ...)
     execute_process(COMMAND "${CMAKE_COMMAND}" -E md5sum "${file}"
       OUTPUT_VARIABLE output)
     string(SUBSTRING "${output}" 0 32 hash)
     set("${var_hash}" "${hash}" PARENT_SCOPE)
   else()
-    # TODO: Other hashes.
     message(FATAL_ERROR "Hash algorithm ${algo} unimplemented.")
   endif()
 endfunction()
@@ -322,7 +330,7 @@ function(_ExternalData_atomic_write file content)
 endfunction()
 
 function(_ExternalData_link_content name var_ext)
-  if("${ExternalData_LINK_CONTENT}" MATCHES "^(MD5)$")
+  if("${ExternalData_LINK_CONTENT}" MATCHES "^(${_ExternalData_REGEX_ALGO})$")
     set(algo "${ExternalData_LINK_CONTENT}")
   else()
     message(FATAL_ERROR
@@ -332,7 +340,7 @@ function(_ExternalData_link_content name var_ext)
   _ExternalData_compute_hash(hash "${algo}" "${name}")
   get_filename_component(dir "${name}" PATH)
   set(staged "${dir}/.ExternalData_${algo}_${hash}")
-  set(ext ".md5")
+  string(TOLOWER ".${algo}" ext)
   _ExternalData_atomic_write("${name}${ext}" "${hash}\n")
   file(RENAME "${name}" "${staged}")
   set("${var_ext}" "${ext}" PARENT_SCOPE)
@@ -561,7 +569,7 @@ endmacro()
 function(_ExternalData_arg_find_files pattern regex)
   file(GLOB globbed RELATIVE "${top_src}" "${top_src}/${pattern}*")
   foreach(entry IN LISTS globbed)
-    if("x${entry}" MATCHES "^x(.*)(\\.md5)$")
+    if("x${entry}" MATCHES "^x(.*)(\\.(${_ExternalData_REGEX_EXT}))$")
       set(relname "${CMAKE_MATCH_1}")
       set(alg "${CMAKE_MATCH_2}")
     else()
@@ -748,8 +756,8 @@ if("${ExternalData_ACTION}" STREQUAL "fetch")
   file(READ "${name}${ext}" hash)
   string(STRIP "${hash}" hash)
 
-  if("${ext}" STREQUAL ".md5")
-    set(algo "MD5")
+  if("${ext}" MATCHES "^\\.(${_ExternalData_REGEX_EXT})$")
+    string(TOUPPER "${CMAKE_MATCH_1}" algo)
   else()
     message(FATAL_ERROR "Unknown hash algorithm extension \"${ext}\"")
   endif()
