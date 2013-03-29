@@ -127,14 +127,13 @@ int main( int argc, char * argv[] )
   //
   //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
-  double spacing[ Dimension ];
-  spacing[0] = 1.0; // pixel spacing in millimeters along X
-  spacing[1] = 1.0; // pixel spacing in millimeters along Y
-
-  filter->SetOutputSpacing( spacing );
-  // Software Guide : EndCodeSnippet
-
+    {
+    // Software Guide : BeginCodeSnippet
+    // pixel spacing in millimeters along X & Y
+    const double spacing[ Dimension ] = { 1.0, 1.0 };
+    filter->SetOutputSpacing( spacing );
+    // Software Guide : EndCodeSnippet
+    }
 
   //  Software Guide : BeginLatex
   //
@@ -159,19 +158,19 @@ int main( int argc, char * argv[] )
   //
   //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
-  double origin[ Dimension ];
-  origin[0] = 30.0;  // X space coordinate of origin
-  origin[1] = 40.0;  // Y space coordinate of origin
-  filter->SetOutputOrigin( origin );
-  // Software Guide : EndCodeSnippet
+    {
+    // Software Guide : BeginCodeSnippet
+    // space coordinate of origin
+    const double origin[ Dimension ] = { 30.0, 40.0 };
+    filter->SetOutputOrigin( origin );
+    // Software Guide : EndCodeSnippet
+    }
 
 
   InputImageType::SizeType   size;
 
   size[0] = 300;  // number of pixels along X
   size[1] = 300;  // number of pixels along Y
-
   filter->SetSize( size );
 
   filter->SetInput( reader->GetOutput() );
@@ -206,7 +205,7 @@ int main( int argc, char * argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=\textwidth]{ResampleImageFilterTransformComposition1.eps}
+  // \includegraphics[width=\textwidth]{ResampleImageFilterTransformComposition1}
   // \itkcaption[ResampleImageFilter selecting the origin of the output
   // image]{ResampleImageFilter selecting the origin of the output image.}
   // \label{fig:ResampleImageFilterTransformComposition1}
@@ -244,11 +243,13 @@ int main( int argc, char * argv[] )
   //
   //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
-  origin[0] = 60.0;  // X space coordinate of origin
-  origin[1] = 30.0;  // Y space coordinate of origin
-  filter->SetOutputOrigin( origin );
-  // Software Guide : EndCodeSnippet
+    {
+    // Software Guide : BeginCodeSnippet
+    // space coordinate of origin
+    const double origin[ Dimension ] = { 60.0, 30.0 };
+    filter->SetOutputOrigin( origin );
+    // Software Guide : EndCodeSnippet
+    }
 
 
   if( exampleAction == 1 )
@@ -262,7 +263,7 @@ int main( int argc, char * argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=\textwidth]{ResampleImageFilterTransformComposition2.eps}
+  // \includegraphics[width=\textwidth]{ResampleImageFilterTransformComposition2}
   // \itkcaption[ResampleImageFilter selecting the origin of the output
   // image]{ResampleImageFilter selecting the origin of the output image.}
   // \label{fig:ResampleImageFilterTransformComposition2}
@@ -289,7 +290,7 @@ int main( int argc, char * argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=\textwidth]{ResampleImageFilterTransformComposition3.eps}
+  // \includegraphics[width=\textwidth]{ResampleImageFilterTransformComposition3}
   // \itkcaption[ResampleImageFilter selecting the origin of the input
   // image]{Effect of selecting the origin of the input
   // image with ResampleImageFilter.} \label{fig:ResampleImageFilterTransformComposition3}
@@ -319,12 +320,13 @@ int main( int argc, char * argv[] )
   //
   //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
-  origin[0] = 0.0;  // X space coordinate of origin
-  origin[1] = 0.0;  // Y space coordinate of origin
-  filter->SetOutputOrigin( origin );
-  // Software Guide : EndCodeSnippet
-
+    {
+    // Software Guide : BeginCodeSnippet
+    // space coordinate of origin
+    const double origin[ Dimension ] = { 0.0, 0.0 };
+    filter->SetOutputOrigin( origin );
+    // Software Guide : EndCodeSnippet
+    }
 
   //  Software Guide : BeginLatex
   //
@@ -334,12 +336,13 @@ int main( int argc, char * argv[] )
   //
   //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
-  spacing[0] = 2.0; // pixel spacing in millimeters along X
-  spacing[1] = 3.0; // pixel spacing in millimeters along Y
-  filter->SetOutputSpacing( spacing );
-  // Software Guide : EndCodeSnippet
-
+    {
+    // Software Guide : BeginCodeSnippet
+    // pixel spacing in millimeters
+    const double spacing[ Dimension ] = { 2.0, 3.0 };
+    filter->SetOutputSpacing( spacing );
+    // Software Guide : EndCodeSnippet
+    }
 
   //  Software Guide : BeginLatex
   //
@@ -382,9 +385,9 @@ int main( int argc, char * argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=0.32\textwidth]{BrainProtonDensitySlice.eps}
-  // \includegraphics[width=0.32\textwidth]{ResampleImageFilterOutput7.eps}
-  // \includegraphics[width=0.32\textwidth]{ResampleImageFilterOutput7b.eps}
+  // \includegraphics[width=0.32\textwidth]{BrainProtonDensitySlice}
+  // \includegraphics[width=0.32\textwidth]{ResampleImageFilterOutput7}
+  // \includegraphics[width=0.32\textwidth]{ResampleImageFilterOutput7b}
   // \itkcaption[ResampleImageFilter use of naive viewers]{Resampling with
   // different spacing seen by a naive viewer (center) and a correct viewer
   // (right), input image (left).}
@@ -394,7 +397,7 @@ int main( int argc, char * argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=\textwidth]{ResampleImageFilterTransformComposition4.eps}
+  // \includegraphics[width=\textwidth]{ResampleImageFilterTransformComposition4}
   // \itkcaption[ResampleImageFilter and output image spacing]{Effect of selecting
   // the spacing on the output image.}
   // \label{fig:ResampleImageFilterTransformComposition4}
@@ -421,8 +424,8 @@ int main( int argc, char * argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=0.42\textwidth]{BrainProtonDensitySlice2x3.eps}
-  // \includegraphics[width=0.42\textwidth]{BrainProtonDensitySlice2x3b.eps}
+  // \includegraphics[width=0.42\textwidth]{BrainProtonDensitySlice2x3}
+  // \includegraphics[width=0.42\textwidth]{BrainProtonDensitySlice2x3b}
   // \itkcaption[ResampleImageFilter naive viewers]{Input image with $2 \times
   //  3 \mbox{mm}$ spacing as seen with a naive viewer (left) and a correct
   //  viewer (right).\label{fig:ResampleImageFilterInput2}}
@@ -454,11 +457,13 @@ int main( int argc, char * argv[] )
   //
   //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
-  origin[0] = 25.0;  // X space coordinate of origin
-  origin[1] = 35.0;  // Y space coordinate of origin
-  filter->SetOutputOrigin( origin );
-  // Software Guide : EndCodeSnippet
+    {
+    // Software Guide : BeginCodeSnippet
+    // space coordinate of origin
+    const double origin[ Dimension ] = { 25.0, 35.0 };
+    filter->SetOutputOrigin( origin );
+    // Software Guide : EndCodeSnippet
+    }
 
   //  Software Guide : BeginLatex
   //
@@ -482,12 +487,12 @@ int main( int argc, char * argv[] )
   //
   //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
-  spacing[0] = 4.0; // pixel spacing in millimeters along X
-  spacing[1] = 4.5; // pixel spacing in millimeters along Y
-  filter->SetOutputSpacing( spacing );
-  // Software Guide : EndCodeSnippet
-
+    {
+    // Software Guide : BeginCodeSnippet
+    const double spacing[ Dimension ] = { 4.0, 4.5 };
+    filter->SetOutputSpacing( spacing );
+    // Software Guide : EndCodeSnippet
+    }
 
   if( exampleAction == 4 )
     {
@@ -514,7 +519,7 @@ int main( int argc, char * argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=\textwidth]{ResampleImageFilterTransformComposition5.eps}
+  // \includegraphics[width=\textwidth]{ResampleImageFilterTransformComposition5}
   // \itkcaption[ResampleImageFilter with non-unit spacing]{Effect of non-unit
   // spacing on the input and output images.}
   // \label{fig:ResampleImageFilterTransformComposition5}

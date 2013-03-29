@@ -18,7 +18,7 @@
 
 //  Software Guide : BeginCommandLineArgs
 //  INPUTS:  {brainweb165a10f17.mha}
-//  OUTPUTS: {WhiteMatterSegmentation.mhd}
+//  ARGUMENTS: {WhiteMatterSegmentation.mhd}
 //  Software Guide : EndCommandLineArgs
 
 

@@ -61,7 +61,7 @@ itk_add_test(NAME FastMarchingLeftVentricleTest COMMAND ${ITK_TEST_DRIVER}
   $<TARGET_FILE:FastMarchingImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/FastMarchingLeftVentricleTest.png
-        81 114 1.0 -0.5 3.0 100 100
+        81 114 1.0 -0.5 3.0 100 100 debug1.png debug2.png debug3.png
 )
 
 itk_add_test(NAME FastMarchingRightVentricleTest COMMAND ${ITK_TEST_DRIVER}
@@ -70,7 +70,7 @@ itk_add_test(NAME FastMarchingRightVentricleTest COMMAND ${ITK_TEST_DRIVER}
   $<TARGET_FILE:FastMarchingImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/FastMarchingRightVentricleTest.png
-        99 114 1.0 -0.5 3.0 100 100
+        99 114 1.0 -0.5 3.0 100 100 debug1.png debug2.png debug3.png
 )
 
 itk_add_test(NAME FastMarchingWhiteMatterTest COMMAND ${ITK_TEST_DRIVER}
@@ -79,7 +79,7 @@ itk_add_test(NAME FastMarchingWhiteMatterTest COMMAND ${ITK_TEST_DRIVER}
   $<TARGET_FILE:FastMarchingImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/FastMarchingWhiteMatterTest.png
-        56 92 1.0 -0.3 2.0 200 100
+        56 92 1.0 -0.3 2.0 200 100 debug1.png debug2.png debug3.png
 )
 
 itk_add_test(NAME FastMarchingGrayMatterTest COMMAND ${ITK_TEST_DRIVER}
@@ -88,7 +88,7 @@ itk_add_test(NAME FastMarchingGrayMatterTest COMMAND ${ITK_TEST_DRIVER}
   $<TARGET_FILE:FastMarchingImageFilter>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${TEMP}/FastMarchingGrayMatterTest.png
-        40 90 .5 -0.3 2.0 200 100
+        40 90 .5 -0.3 2.0 200 100 debug1.png debug2.png debug3.png
 )
 
 itk_add_test(NAME GeodesicActiveContourLeftVentricleTest COMMAND ${ITK_TEST_DRIVER}

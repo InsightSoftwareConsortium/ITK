@@ -202,8 +202,8 @@ int main( int argc, char * argv[] )
 //
 // \begin{figure}
 // \center
-// \includegraphics[height=0.33\textwidth]{MeanSquaresMetricPlot1.eps}
-// \includegraphics[height=0.33\textwidth]{MeanSquaresMetricPlot2.eps}
+// \includegraphics[height=0.33\textwidth]{MeanSquaresMetricPlot1}
+// \includegraphics[height=0.33\textwidth]{MeanSquaresMetricPlot2}
 // \itkcaption[Mean Squares Metric Plots]{Plots of the Mean Squares Metric for
 // an image compared to itself under multiple translations.}
 // \label{fig:MeanSquaresMetricPlot}

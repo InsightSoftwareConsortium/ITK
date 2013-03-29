@@ -20,24 +20,33 @@
 //    INPUTS:  {BrainProtonDensitySlice.png}
 //    OUTPUTS: {FastMarchingImageFilterOutput5.png}
 //    ARGUMENTS:    81 114 1.0  -0.5  3.0   100 100
+//    OUTPUTS: {FastMarchingFilterOutput1.png}
+//    OUTPUTS: {FastMarchingFilterOutput2.png}
+//    OUTPUTS: {FastMarchingFilterOutput3.png}
 //  Software Guide : EndCommandLineArgs
 //  Software Guide : BeginCommandLineArgs
 //    INPUTS:  {BrainProtonDensitySlice.png}
 //    OUTPUTS: {FastMarchingImageFilterOutput6.png}
 //    ARGUMENTS:    99 114 1.0  -0.5  3.0   100 100
+//    OUTPUTS: {FastMarchingFilterOutput1.png}
+//    OUTPUTS: {FastMarchingFilterOutput2.png}
+//    OUTPUTS: {FastMarchingFilterOutput3.png}
 //  Software Guide : EndCommandLineArgs
 //  Software Guide : BeginCommandLineArgs
 //    INPUTS:  {BrainProtonDensitySlice.png}
 //    OUTPUTS: {FastMarchingImageFilterOutput7.png}
 //    ARGUMENTS:    56 92 1.0  -0.3  2.0   200 100
+//    OUTPUTS: {FastMarchingFilterOutput1.png}
+//    OUTPUTS: {FastMarchingFilterOutput2.png}
+//    OUTPUTS: {FastMarchingFilterOutput3.png}
 //  Software Guide : EndCommandLineArgs
 //  Software Guide : BeginCommandLineArgs
 //    INPUTS:  {BrainProtonDensitySlice.png}
 //    OUTPUTS: {FastMarchingImageFilterOutput8.png}
+//    ARGUMENTS:    40 90 0.5  -0.3  2.0   200 100
 //    OUTPUTS: {FastMarchingFilterOutput1.png}
 //    OUTPUTS: {FastMarchingFilterOutput2.png}
 //    OUTPUTS: {FastMarchingFilterOutput3.png}
-//    ARGUMENTS:    40 90 0.5  -0.3  2.0   200 100
 //  Software Guide : EndCommandLineArgs
 
 // Software Guide : BeginLatex
@@ -67,7 +76,7 @@
 // arrive at the pixel location.
 //
 // \begin{figure} \center
-// \includegraphics[width=\textwidth]{FastMarchingCollaborationDiagram1.eps}
+// \includegraphics[width=\textwidth]{FastMarchingCollaborationDiagram1}
 // \itkcaption[FastMarchingImageFilter collaboration diagram]{Collaboration
 // diagram of the FastMarchingImageFilter applied to a segmentation task.}
 // \label{fig:FastMarchingCollaborationDiagram}
@@ -167,18 +176,28 @@
 //
 #include "itkRescaleIntensityImageFilter.h"
 
+static void PrintCommandLineUsage( const int argc, const char * const argv[] )
+{
+  std::cerr << "Missing Parameters " << std::endl;
+  std::cerr << "Usage: " << argv[0];
+  std::cerr << " inputImage  outputImage seedX seedY";
+  std::cerr << " Sigma SigmoidAlpha SigmoidBeta TimeThreshold StoppingValue";
+  std::cerr << " smoothingOutputImage gradientMagnitudeOutputImage sigmoidOutputImage" << std::endl;
+
+  for(int qq=0; qq< argc; ++qq)
+    {
+    std::cout << "argv[" << qq << "] = " << argv[qq] << std::endl;
+    }
+  return;
+}
 
 int main( int argc, char *argv[] )
 {
-  if( argc < 10 )
+  if( argc != 13 )
     {
-    std::cerr << "Missing Parameters " << std::endl;
-    std::cerr << "Usage: " << argv[0];
-    std::cerr << " inputImage  outputImage seedX seedY";
-    std::cerr << " Sigma SigmoidAlpha SigmoidBeta TimeThreshold StoppingValue" << std::endl;
-    return 1;
+    PrintCommandLineUsage(argc, argv);
+    return EXIT_FAILURE;
     }
-
 
   //  Software Guide : BeginLatex
   //
@@ -551,49 +570,66 @@ int main( int argc, char *argv[] )
 
 
   //  Here we configure all the writers required to see the intermediate
-  //  outputs of the pipeline. This is added here only for
-  //  pedagogical/debugging purposes. These intermediate output are normaly not
-  //  required. Only the output of the final thresholding filter should be
-  //  relevant.  Observing intermediate output is helpful in the process of
-  //  fine tuning the parameters of filters in the pipeline.
+  //  outputs of the pipeline. This is added here for providing better
+  //  the necessary images needed when generating the ITKSoftwareGuide
+  //  These intermediate output are normaly not required. Only the output
+  //  of the final thresholding filter should be relevant.  Observing
+  //  intermediate output is helpful in the process of fine tuning the
+  //  parameters of filters in the pipeline.
   //
-  CastFilterType::Pointer caster1 = CastFilterType::New();
-  CastFilterType::Pointer caster2 = CastFilterType::New();
-  CastFilterType::Pointer caster3 = CastFilterType::New();
-  CastFilterType::Pointer caster4 = CastFilterType::New();
+  try
+    {
+    CastFilterType::Pointer caster1 = CastFilterType::New();
+    WriterType::Pointer writer1 = WriterType::New();
+    caster1->SetInput( smoothing->GetOutput() );
+    writer1->SetInput( caster1->GetOutput() );
+    writer1->SetFileName(argv[10]);
+    caster1->SetOutputMinimum(   0 );
+    caster1->SetOutputMaximum( 255 );
+    writer1->Update();
+    }
+  catch( itk::ExceptionObject & err )
+    {
+    std::cout << "ExceptionObject caught !" << std::endl;
+    std::cout << err << std::endl;
+    return EXIT_FAILURE;
+    }
 
-  WriterType::Pointer writer1 = WriterType::New();
-  WriterType::Pointer writer2 = WriterType::New();
-  WriterType::Pointer writer3 = WriterType::New();
-  WriterType::Pointer writer4 = WriterType::New();
+  try
+    {
+    CastFilterType::Pointer caster2 = CastFilterType::New();
+    WriterType::Pointer writer2 = WriterType::New();
+    caster2->SetInput( gradientMagnitude->GetOutput() );
+    writer2->SetInput( caster2->GetOutput() );
+    writer2->SetFileName(argv[11]);
+    caster2->SetOutputMinimum(   0 );
+    caster2->SetOutputMaximum( 255 );
+    writer2->Update();
+    }
+  catch( itk::ExceptionObject & err )
+    {
+    std::cout << "ExceptionObject caught !" << std::endl;
+    std::cout << err << std::endl;
+    return EXIT_FAILURE;
+    }
 
-  caster1->SetInput( smoothing->GetOutput() );
-  writer1->SetInput( caster1->GetOutput() );
-  writer1->SetFileName("FastMarchingFilterOutput1.png");
-  caster1->SetOutputMinimum(   0 );
-  caster1->SetOutputMaximum( 255 );
-  writer1->Update();
-
-  caster2->SetInput( gradientMagnitude->GetOutput() );
-  writer2->SetInput( caster2->GetOutput() );
-  writer2->SetFileName("FastMarchingFilterOutput2.png");
-  caster2->SetOutputMinimum(   0 );
-  caster2->SetOutputMaximum( 255 );
-  writer2->Update();
-
-  caster3->SetInput( sigmoid->GetOutput() );
-  writer3->SetInput( caster3->GetOutput() );
-  writer3->SetFileName("FastMarchingFilterOutput3.png");
-  caster3->SetOutputMinimum(   0 );
-  caster3->SetOutputMaximum( 255 );
-  writer3->Update();
-
-  caster4->SetInput( fastMarching->GetOutput() );
-  writer4->SetInput( caster4->GetOutput() );
-  writer4->SetFileName("FastMarchingFilterOutput4.png");
-  caster4->SetOutputMinimum(   0 );
-  caster4->SetOutputMaximum( 255 );
-
+  try
+    {
+    CastFilterType::Pointer caster3 = CastFilterType::New();
+    WriterType::Pointer writer3 = WriterType::New();
+    caster3->SetInput( sigmoid->GetOutput() );
+    writer3->SetInput( caster3->GetOutput() );
+    writer3->SetFileName(argv[12]);
+    caster3->SetOutputMinimum(   0 );
+    caster3->SetOutputMaximum( 255 );
+    writer3->Update();
+    }
+  catch( itk::ExceptionObject & err )
+    {
+    std::cout << "ExceptionObject caught !" << std::endl;
+    std::cout << err << std::endl;
+    return EXIT_FAILURE;
+    }
 
   //  Software Guide : BeginLatex
   //
@@ -653,8 +689,23 @@ int main( int argc, char *argv[] )
     }
   // Software Guide : EndCodeSnippet
 
-
-  writer4->Update();
+  try
+    {
+    CastFilterType::Pointer caster4 = CastFilterType::New();
+    WriterType::Pointer writer4 = WriterType::New();
+    caster4->SetInput( fastMarching->GetOutput() );
+    writer4->SetInput( caster4->GetOutput() );
+    writer4->SetFileName("FastMarchingFilterOutput4.png");
+    caster4->SetOutputMinimum(   0 );
+    caster4->SetOutputMaximum( 255 );
+    writer4->Update();
+    }
+  catch( itk::ExceptionObject & err )
+    {
+    std::cout << "ExceptionObject caught !" << std::endl;
+    std::cout << err << std::endl;
+    return EXIT_FAILURE;
+    }
 
 
   // The following writer type is used to save the output of the
@@ -716,10 +767,10 @@ int main( int argc, char *argv[] )
   //  FastMarchingImageFilter.
   //
   // \begin{figure} \center
-  // \includegraphics[height=0.40\textheight]{BrainProtonDensitySlice.eps}
-  // \includegraphics[height=0.40\textheight]{FastMarchingFilterOutput1.eps}
-  // \includegraphics[height=0.40\textheight]{FastMarchingFilterOutput2.eps}
-  // \includegraphics[height=0.40\textheight]{FastMarchingFilterOutput3.eps}
+  // \includegraphics[height=0.40\textheight]{BrainProtonDensitySlice}
+  // \includegraphics[height=0.40\textheight]{FastMarchingFilterOutput1}
+  // \includegraphics[height=0.40\textheight]{FastMarchingFilterOutput2}
+  // \includegraphics[height=0.40\textheight]{FastMarchingFilterOutput3}
   // \itkcaption[FastMarchingImageFilter intermediate output]{Images generated by
   // the segmentation process based on the FastMarchingImageFilter. From left
   // to right and top to bottom: input image to be segmented, image smoothed with an
@@ -741,10 +792,10 @@ int main( int argc, char *argv[] )
   //  basic example.
   //
   // \begin{figure} \center
-  // \includegraphics[width=0.24\textwidth]{FastMarchingImageFilterOutput5.eps}
-  // \includegraphics[width=0.24\textwidth]{FastMarchingImageFilterOutput6.eps}
-  // \includegraphics[width=0.24\textwidth]{FastMarchingImageFilterOutput7.eps}
-  // \includegraphics[width=0.24\textwidth]{FastMarchingImageFilterOutput8.eps}
+  // \includegraphics[width=0.24\textwidth]{FastMarchingImageFilterOutput5}
+  // \includegraphics[width=0.24\textwidth]{FastMarchingImageFilterOutput6}
+  // \includegraphics[width=0.24\textwidth]{FastMarchingImageFilterOutput7}
+  // \includegraphics[width=0.24\textwidth]{FastMarchingImageFilterOutput8}
   // \itkcaption[FastMarchingImageFilter segmentations]{Images generated by the
   // segmentation process based on the FastMarchingImageFilter. From left to
   // right: segmentation of the left ventricle, segmentation of the right
@@ -754,6 +805,5 @@ int main( int argc, char *argv[] )
   // \end{figure}
   //
   //  Software Guide : EndLatex
-
   return 0;
 }

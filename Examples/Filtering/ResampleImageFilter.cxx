@@ -243,16 +243,12 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  double spacing[ Dimension ];
-  spacing[0] = 1.0; // pixel spacing in millimeters along X
-  spacing[1] = 1.0; // pixel spacing in millimeters along Y
-
+  // pixel spacing in millimeters along X and Y
+  const double spacing[ Dimension ] = { 1.0, 1.0 };
   filter->SetOutputSpacing( spacing );
 
-  double origin[ Dimension ];
-  origin[0] = 0.0;  // X space coordinate of origin
-  origin[1] = 0.0;  // Y space coordinate of origin
-
+  // Physical space coordinate of origin for X and Y
+  const double origin[ Dimension ] = { 0.0, 0.0 };
   filter->SetOutputOrigin( origin );
   // Software Guide : EndCodeSnippet
 
@@ -307,15 +303,15 @@ int main( int argc, char * argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySlice.eps}
-  // \includegraphics[width=0.44\textwidth]{ResampleImageFilterOutput1.eps}
+  // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySlice}
+  // \includegraphics[width=0.44\textwidth]{ResampleImageFilterOutput1}
   // \itkcaption[Effect of the Resample filter]{Effect of the resample filter.}
   // \label{fig:ResampleImageFilterOutput1}
   // \end{figure}
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=\textwidth]{ResampleImageFilterOutput1Analysis.eps}
+  // \includegraphics[width=\textwidth]{ResampleImageFilterOutput1Analysis}
   // \itkcaption[Analysis of resampling in common coordinate system]{Analysis of
   // the resample image done in a common coordinate system.}
   // \label{fig:ResampleImageFilterOutput1Analysis}
@@ -371,8 +367,8 @@ int main( int argc, char * argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySlice.eps}
-  // \includegraphics[width=0.44\textwidth]{ResampleImageFilterOutput2.eps}
+  // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySlice}
+  // \includegraphics[width=0.44\textwidth]{ResampleImageFilterOutput2}
   // \itkcaption[ResampleImageFilter with a translation by
   // $(-30,-50)$]{ResampleImageFilter with a translation by $(-30,-50)$.}
   // \label{fig:ResampleImageFilterOutput2}
@@ -380,7 +376,7 @@ int main( int argc, char * argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=\textwidth]{ResampleImageFilterOutput2Analysis.eps}
+  // \includegraphics[width=\textwidth]{ResampleImageFilterOutput2Analysis}
   // \itkcaption[ResampleImageFilter. Analysis of a translation by
   // $(-30,-50)$]{ResampleImageFilter. Analysis of a translation by
   // $(-30,-50)$.}
@@ -430,7 +426,7 @@ int main( int argc, char * argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=\textwidth]{ResampleImageFilterOutput3Analysis.eps}
+  // \includegraphics[width=\textwidth]{ResampleImageFilterOutput3Analysis}
   // \itkcaption[ResampleImageFilter highlighting image
   // borders]{ResampleImageFilter highlighting image borders with
   // SetDefaultPixelValue().}

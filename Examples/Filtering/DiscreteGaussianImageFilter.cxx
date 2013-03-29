@@ -26,7 +26,7 @@
 //
 //  \begin{floatingfigure}[rlp]{6cm}
 //    \centering
-//    \includegraphics[width=6cm]{DiscreteGaussian.eps}
+//    \includegraphics[width=6cm]{DiscreteGaussian}
 //    \caption[DiscreteGaussianImageFilter Gaussian diagram.]
 //            {Discretized Gaussian.\label{fig:DiscretizedGaussian}}
 //  \end{floatingfigure}
@@ -208,8 +208,8 @@ int main( int argc, char * argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySlice.eps}
-  // \includegraphics[width=0.44\textwidth]{DiscreteGaussianImageFilterOutput.eps}
+  // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySlice}
+  // \includegraphics[width=0.44\textwidth]{DiscreteGaussianImageFilterOutput}
   // \itkcaption[DiscreteGaussianImageFilter output]{Effect of the
   // DiscreteGaussianImageFilter on a slice from a MRI proton density image of
   // the brain.}

@@ -308,7 +308,7 @@ int main( int argc, char *argv[] )
   //
   // \begin{figure}
   // \centering
-  // \includegraphics[width=0.4\textwidth]{ImageSliceIteratorWithIndexOutput.eps}
+  // \includegraphics[width=0.4\textwidth]{ImageSliceIteratorWithIndexOutput}
   // \itkcaption[Maximum intensity projection using ImageSliceIteratorWithIndex]{The
   // maximum intensity projection through three slices of a volume.}
   // \protect\label{fig:ImageSliceIteratorWithIndexOutput}

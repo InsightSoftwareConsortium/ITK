@@ -192,9 +192,9 @@ int main( int argc, char ** argv )
 // additive noise is visible as the small perturbations in the paths.
 //
 // \begin{figure} \centering
-// \includegraphics[width=0.3\textwidth]{NeighborhoodIterators6a.eps}
-// \includegraphics[width=0.3\textwidth]{NeighborhoodIterators6b.eps}
-// \includegraphics[width=0.3\textwidth]{NeighborhoodIterators6c.eps}
+// \includegraphics[width=0.3\textwidth]{NeighborhoodIterators6a}
+// \includegraphics[width=0.3\textwidth]{NeighborhoodIterators6b}
+// \includegraphics[width=0.3\textwidth]{NeighborhoodIterators6c}
 // \itkcaption[Finding local minima]{Paths traversed by the neighborhood
 // iterator from different seed points to the local minimum.
 // The true minimum is at the center

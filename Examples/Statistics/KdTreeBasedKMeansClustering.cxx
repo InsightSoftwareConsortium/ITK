@@ -163,7 +163,7 @@ int main()
   //
   // \begin{figure}
   //   \center
-  //   \includegraphics[width=0.8\textwidth]{TwoNormalDensityFunctionPlot.eps}
+  //   \includegraphics[width=0.8\textwidth]{TwoNormalDensityFunctionPlot}
   //   \itkcaption[Two normal distributions plot]{Two normal distributions' probability density plot
   // (The means are 100 and 200, and the standard deviation is 30 )}
   //  \protect\label{fig:TwoNormalDensityFunctionPlot}

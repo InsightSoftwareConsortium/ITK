@@ -141,7 +141,7 @@ int main( int argc, char * argv [] )
   //  Software Guide : BeginLatex
   //
   // \begin{figure} \center
-  // \includegraphics[width=0.44\textwidth]{BrainT1Slice.eps}
+  // \includegraphics[width=0.44\textwidth]{BrainT1Slice}
   // \itkcaption[Output of the ScalarImageKmeansModelEstimator]{Test image for the
   // KMeans model estimator.}
   // \label{fig:ScalarImageKmeansModelEstimatorTestImage}

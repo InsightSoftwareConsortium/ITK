@@ -18,7 +18,7 @@
 
 //  Software Guide : BeginCommandLineArgs
 //    INPUTS:  {GradientRecursiveGaussianImageFilterTest.mha}
-//    OUTPUTS: {GradientVectorFlowImageFilterOutput.mha}
+//    ARGUMENTS: {GradientVectorFlowImageFilterOutput.mha}
 //    ARGUMENTS:    5 2000.0
 //  Software Guide : EndCommandLineArgs
 

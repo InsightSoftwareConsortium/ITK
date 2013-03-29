@@ -503,8 +503,8 @@ int main( int argc, char *argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceBorder20.eps}
-  // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceShifted13x17y.eps}
+  // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceBorder20}
+  // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceShifted13x17y}
   // \itkcaption[Fixed and Moving images in registration framework]{Fixed and
   // Moving image provided as input to the registration method.}
   // \label{fig:FixedMovingImageRegistration1}
@@ -598,9 +598,9 @@ int main( int argc, char *argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=0.32\textwidth]{ImageRegistration1Output.eps}
-  // \includegraphics[width=0.32\textwidth]{ImageRegistration1DifferenceBefore.eps}
-  // \includegraphics[width=0.32\textwidth]{ImageRegistration1DifferenceAfter.eps}
+  // \includegraphics[width=0.32\textwidth]{ImageRegistration1Output}
+  // \includegraphics[width=0.32\textwidth]{ImageRegistration1DifferenceBefore}
+  // \includegraphics[width=0.32\textwidth]{ImageRegistration1DifferenceAfter}
   // \itkcaption[HelloWorld registration output images]{Mapped moving image and its
   // difference with the fixed image before and after registration}
   // \label{fig:ImageRegistration1Output}
@@ -662,7 +662,7 @@ int main( int argc, char *argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=\textwidth]{ImageRegistration1Pipeline.eps}
+  // \includegraphics[width=\textwidth]{ImageRegistration1Pipeline}
   // \itkcaption[Pipeline structure of the registration example]{Pipeline
   // structure of the registration example.}
   // \label{fig:ImageRegistration1Pipeline}
@@ -810,8 +810,8 @@ int main( int argc, char *argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[height=0.44\textwidth]{ImageRegistration1TraceTranslations.eps}
-  // \includegraphics[height=0.44\textwidth]{ImageRegistration1TraceMetric.eps}
+  // \includegraphics[height=0.44\textwidth]{ImageRegistration1TraceTranslations}
+  // \includegraphics[height=0.44\textwidth]{ImageRegistration1TraceMetric}
   // \itkcaption[Trace of translations and metrics during registration]{The sequence
   // of translations and metric values at each iteration of the optimizer.}
   // \label{fig:ImageRegistration1Trace}

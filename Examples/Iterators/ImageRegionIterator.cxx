@@ -255,8 +255,8 @@ int main( int argc, char *argv[] )
   //
   // \begin{figure}
   // \centering
-  // \includegraphics[width=0.4\textwidth]{FatMRISlice.eps}
-  // \includegraphics[width=0.3\textwidth]{ImageRegionIteratorOutput.eps}
+  // \includegraphics[width=0.4\textwidth]{FatMRISlice}
+  // \includegraphics[width=0.3\textwidth]{ImageRegionIteratorOutput}
   // \itkcaption[Copying an image subregion using ImageRegionIterator]{Cropping a
   // region from an image.  The original image is shown at left.  The image on
   // the right is the result of applying the ImageRegionIterator example code.}

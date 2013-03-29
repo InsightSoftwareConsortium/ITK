@@ -471,8 +471,8 @@ int main( int argc, char *argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceBorder20.eps}
-  // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceR10X13Y17.eps}
+  // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceBorder20}
+  // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceR10X13Y17}
   // \itkcaption[AffineTransform registration]{Fixed and moving images
   // provided as input to the registration method using the AffineTransform.}
   // \label{fig:FixedMovingImageRegistration9}
@@ -481,9 +481,9 @@ int main( int argc, char *argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=0.32\textwidth]{ImageRegistration9Output.eps}
-  // \includegraphics[width=0.32\textwidth]{ImageRegistration9DifferenceBefore.eps}
-  // \includegraphics[width=0.32\textwidth]{ImageRegistration9DifferenceAfter.eps}
+  // \includegraphics[width=0.32\textwidth]{ImageRegistration9Output}
+  // \includegraphics[width=0.32\textwidth]{ImageRegistration9DifferenceBefore}
+  // \includegraphics[width=0.32\textwidth]{ImageRegistration9DifferenceAfter}
   // \itkcaption[AffineTransform output images]{The resampled moving image
   // (left), and the difference between the fixed and moving images before (center)
   // and after (right) registration with the
@@ -498,9 +498,9 @@ int main( int argc, char *argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[height=0.32\textwidth]{ImageRegistration9TraceMetric.eps}
-  // \includegraphics[height=0.32\textwidth]{ImageRegistration9TraceAngle.eps}
-  // \includegraphics[height=0.32\textwidth]{ImageRegistration9TraceTranslations.eps}
+  // \includegraphics[height=0.32\textwidth]{ImageRegistration9TraceMetric}
+  // \includegraphics[height=0.32\textwidth]{ImageRegistration9TraceAngle}
+  // \includegraphics[height=0.32\textwidth]{ImageRegistration9TraceTranslations}
   // \itkcaption[AffineTransform output plots]{Metric values,
   // rotation angle and translations during the registration using the
   // AffineTransform transform.}

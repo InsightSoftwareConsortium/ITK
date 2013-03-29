@@ -723,8 +723,8 @@ int main( int argc, char *argv[] )
 // after registration.
 // \begin{figure}
 // \center
-// \includegraphics[width=0.44\textwidth]{JointEntropyHistogramPriorToRegistration.eps}
-// \includegraphics[width=0.44\textwidth]{JointEntropyHistogramAfterRegistration.eps}
+// \includegraphics[width=0.44\textwidth]{JointEntropyHistogramPriorToRegistration}
+// \includegraphics[width=0.44\textwidth]{JointEntropyHistogramAfterRegistration}
 // \itkcaption[Multi-modality joint histograms]{Joint entropy histograms before and
 // after registration. The final transform was within half a pixel of true misalignment.}
 // \label{fig:JointEntropyHistograms}

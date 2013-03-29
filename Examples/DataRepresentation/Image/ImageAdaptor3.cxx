@@ -227,9 +227,9 @@ int main( int argc, char *argv[] )
   //  Software Guide : BeginLatex
   //
   // \begin{figure} \center
-  // \includegraphics[width=0.32\textwidth]{BrainProtonDensitySlice.eps}
-  // \includegraphics[width=0.32\textwidth]{ImageAdaptorToVectorImageComponentX.eps}
-  // \includegraphics[width=0.32\textwidth]{ImageAdaptorToVectorImageComponentY.eps}
+  // \includegraphics[width=0.32\textwidth]{BrainProtonDensitySlice}
+  // \includegraphics[width=0.32\textwidth]{ImageAdaptorToVectorImageComponentX}
+  // \includegraphics[width=0.32\textwidth]{ImageAdaptorToVectorImageComponentY}
   // \itkcaption[Image Adaptor to Vector Image]{Using
   // ImageAdaptor to access components of a vector
   // image. The input image on the left was passed through a gradient image

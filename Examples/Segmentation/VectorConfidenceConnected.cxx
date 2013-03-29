@@ -277,10 +277,10 @@ int main( int argc, char *argv[] )
   //  \end{center}
   //
   // \begin{figure} \center
-  // \includegraphics[width=0.24\textwidth]{VisibleWomanEyeSlice.eps}
-  // \includegraphics[width=0.24\textwidth]{VectorConfidenceConnectedOutput1.eps}
-  // \includegraphics[width=0.24\textwidth]{VectorConfidenceConnectedOutput2.eps}
-  // \includegraphics[width=0.24\textwidth]{VectorConfidenceConnectedOutput3.eps}
+  // \includegraphics[width=0.24\textwidth]{VisibleWomanEyeSlice}
+  // \includegraphics[width=0.24\textwidth]{VectorConfidenceConnectedOutput1}
+  // \includegraphics[width=0.24\textwidth]{VectorConfidenceConnectedOutput2}
+  // \includegraphics[width=0.24\textwidth]{VectorConfidenceConnectedOutput3}
   // \itkcaption[VectorConfidenceConnected segmentation results]{Segmentation results of
   // the VectorConfidenceConnected filter for various seed points.}
   // \label{fig:VectorConfidenceConnectedOutput}

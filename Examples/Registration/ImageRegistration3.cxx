@@ -361,7 +361,7 @@ int main( int argc, char *argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=\textwidth]{ImageRegistration3Observer.eps}
+  // \includegraphics[width=\textwidth]{ImageRegistration3Observer}
   // \itkcaption[Command/Observer and the Registration Framework]{Interaction
   // between the Command/Observer and the Registration Method.}
   // \label{fig:ImageRegistration3Observer}

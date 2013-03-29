@@ -197,8 +197,8 @@ int main( int argc, char * argv[] )
   //  Software Guide : BeginLatex
   //
   // \begin{figure} \center
-  // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySlice.eps}
-  // \includegraphics[width=0.44\textwidth]{GradientAnisotropicDiffusionImageFilterOutput.eps}
+  // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySlice}
+  // \includegraphics[width=0.44\textwidth]{GradientAnisotropicDiffusionImageFilterOutput}
   // \itkcaption[GradientAnisotropicDiffusionImageFilter output]{Effect of the
   // GradientAnisotropicDiffusionImageFilter on a slice from a MRI Proton
   // Density image  of the brain.}

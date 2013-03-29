@@ -208,8 +208,8 @@ int main( int argc, char * argv[] )
   //  Software Guide : BeginLatex
   //
   // \begin{figure} \center
-  // \includegraphics[width=0.44\textwidth]{VectorGradientAnisotropicDiffusionImageFilterInput.eps}
-  // \includegraphics[width=0.44\textwidth]{VectorGradientAnisotropicDiffusionImageFilterOutput.eps}
+  // \includegraphics[width=0.44\textwidth]{VectorGradientAnisotropicDiffusionImageFilterInput}
+  // \includegraphics[width=0.44\textwidth]{VectorGradientAnisotropicDiffusionImageFilterOutput}
   // \itkcaption[VectorGradientAnisotropicDiffusionImageFilter output]{Effect of
   // the VectorGradientAnisotropicDiffusionImageFilter on the $X$ component of
   // the gradient from a MRI proton density brain image.}

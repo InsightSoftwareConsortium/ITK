@@ -297,10 +297,10 @@ int main( int argc, char *argv[] )
   //  \end{center}
   //
   // \begin{figure} \center
-  // \includegraphics[width=0.24\textwidth]{BrainProtonDensitySlice.eps}
-  // \includegraphics[width=0.24\textwidth]{NeighborhoodConnectedImageFilterOutput1.eps}
-  // \includegraphics[width=0.24\textwidth]{NeighborhoodConnectedImageFilterOutput2.eps}
-  // \includegraphics[width=0.24\textwidth]{NeighborhoodConnectedImageFilterOutput3.eps}
+  // \includegraphics[width=0.24\textwidth]{BrainProtonDensitySlice}
+  // \includegraphics[width=0.24\textwidth]{NeighborhoodConnectedImageFilterOutput1}
+  // \includegraphics[width=0.24\textwidth]{NeighborhoodConnectedImageFilterOutput2}
+  // \includegraphics[width=0.24\textwidth]{NeighborhoodConnectedImageFilterOutput3}
   // \itkcaption[NeighborhoodConnected segmentation results ]{Segmentation results
   // of the NeighborhoodConnectedImageFilter for various seed points.}
   // \label{fig:NeighborhoodConnectedImageFilterOutput}

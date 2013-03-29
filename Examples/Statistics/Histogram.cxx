@@ -38,7 +38,7 @@
 //
 // \begin{figure}
 // \centering
-// \includegraphics[width=0.4\textwidth]{Histogram.eps}
+// \includegraphics[width=0.4\textwidth]{Histogram}
 // \itkcaption[Histogram]{Conceptual histogram data structure.}
 // \protect\label{fig:StatHistogram}
 // \end{figure}

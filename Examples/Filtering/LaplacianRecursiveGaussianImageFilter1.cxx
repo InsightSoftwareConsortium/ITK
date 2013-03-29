@@ -340,8 +340,8 @@ int main( int argc, char * argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=0.44\textwidth]{LaplacianRecursiveGaussianImageFilterOutput3.eps}
-  // \includegraphics[width=0.44\textwidth]{LaplacianRecursiveGaussianImageFilterOutput5.eps}
+  // \includegraphics[width=0.44\textwidth]{LaplacianRecursiveGaussianImageFilterOutput3}
+  // \includegraphics[width=0.44\textwidth]{LaplacianRecursiveGaussianImageFilterOutput5}
   // \itkcaption[Output of the LaplacianRecursiveGaussianImageFilter.]{Effect of the
   // LaplacianRecursiveGaussianImageFilter on a slice from a MRI proton density image
   // of the brain.}

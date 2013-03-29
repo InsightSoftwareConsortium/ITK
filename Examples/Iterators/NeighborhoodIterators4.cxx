@@ -184,10 +184,10 @@ int main( int argc, char ** argv )
 //
 // \begin{figure}
 // \centering
-// \includegraphics[width=0.23\textwidth]{NeighborhoodIterators4a.eps}
-// \includegraphics[width=0.23\textwidth]{NeighborhoodIterators4b.eps}
-// \includegraphics[width=0.23\textwidth]{NeighborhoodIterators4c.eps}
-// \includegraphics[width=0.23\textwidth]{NeighborhoodIterators4d.eps}
+// \includegraphics[width=0.23\textwidth]{NeighborhoodIterators4a}
+// \includegraphics[width=0.23\textwidth]{NeighborhoodIterators4b}
+// \includegraphics[width=0.23\textwidth]{NeighborhoodIterators4c}
+// \includegraphics[width=0.23\textwidth]{NeighborhoodIterators4d}
 // \itkcaption[Gaussian blurring by convolution filtering]{Results of
 // convolution filtering with a Gaussian kernel of increasing standard
 // deviation $\sigma$ (from left to right, $\sigma = 0$, $\sigma = 1$, $\sigma

@@ -56,7 +56,7 @@
 // in Figure~\ref{fig:GeodesicActiveContourShapePriorCollaborationDiagram}.
 //
 // \begin{figure} \center
-// \includegraphics[width=\textwidth]{GeodesicActiveContourShapePriorCollaborationDiagram.eps}
+// \includegraphics[width=\textwidth]{GeodesicActiveContourShapePriorCollaborationDiagram}
 // \itkcaption[GeodesicActiveContourShapePriorLevelSetImageFilter collaboration
 // diagram]{Collaboration diagram for the GeodesicActiveContourShapePriorLevelSetImageFilter
 // applied to a segmentation task.}
@@ -988,8 +988,8 @@ int main( int argc, char *argv[] )
   //
   //
   // \begin{figure} \center
-  // \includegraphics[width=0.30\textwidth]{BrainMidSagittalSlice.eps}
-  // \includegraphics[width=0.30\textwidth]{GeodesicActiveContourShapePriorImageFilterOutput5.eps}
+  // \includegraphics[width=0.30\textwidth]{BrainMidSagittalSlice}
+  // \includegraphics[width=0.30\textwidth]{GeodesicActiveContourShapePriorImageFilterOutput5}
   // \itkcaption[GeodesicActiveContourShapePriorImageFilter input image and initial model]{
   // The input image to the GeodesicActiveContourShapePriorLevelSetImageFilter is a
   // synthesized MR-T1 mid-sagittal slice ($217 \times 180$ pixels, $1 \times 1$ mm spacing)
@@ -1004,15 +1004,15 @@ int main( int argc, char *argv[] )
   // \center
   // \begin{tabular}{cccc}
   // & $-3\sigma$ & mean & $+3\sigma$ \\ mode 0: &
-  // \includegraphics[width=0.10\textwidth]{CorpusCallosumModeMinus0.eps} &
-  // \includegraphics[width=0.10\textwidth]{CorpusCallosumMeanShape.eps} &
-  // \includegraphics[width=0.10\textwidth]{CorpusCallosumModePlus0.eps} \\ mode 1: &
-  // \includegraphics[width=0.10\textwidth]{CorpusCallosumModeMinus1.eps} &
-  // \includegraphics[width=0.10\textwidth]{CorpusCallosumMeanShape.eps} &
-  // \includegraphics[width=0.10\textwidth]{CorpusCallosumModePlus1.eps} \\ mode 2: &
-  // \includegraphics[width=0.10\textwidth]{CorpusCallosumModeMinus2.eps} &
-  // \includegraphics[width=0.10\textwidth]{CorpusCallosumMeanShape.eps} &
-  // \includegraphics[width=0.10\textwidth]{CorpusCallosumModePlus2.eps} \\ \end{tabular}
+  // \includegraphics[width=0.10\textwidth]{CorpusCallosumModeMinus0} &
+  // \includegraphics[width=0.10\textwidth]{CorpusCallosumMeanShape} &
+  // \includegraphics[width=0.10\textwidth]{CorpusCallosumModePlus0} \\ mode 1: &
+  // \includegraphics[width=0.10\textwidth]{CorpusCallosumModeMinus1} &
+  // \includegraphics[width=0.10\textwidth]{CorpusCallosumMeanShape} &
+  // \includegraphics[width=0.10\textwidth]{CorpusCallosumModePlus1} \\ mode 2: &
+  // \includegraphics[width=0.10\textwidth]{CorpusCallosumModeMinus2} &
+  // \includegraphics[width=0.10\textwidth]{CorpusCallosumMeanShape} &
+  // \includegraphics[width=0.10\textwidth]{CorpusCallosumModePlus2} \\ \end{tabular}
   // \itkcaption[Corpus callosum PCA modes]{First three PCA modes of a low-resolution
   // ($58 \times 31$ pixels, $2 \times 2$ mm spacing) corpus callosum model used in the
   // shape guided geodesic active contours example.}
@@ -1060,9 +1060,9 @@ int main( int argc, char *argv[] )
   //
   //
   // \begin{figure} \center
-  // \includegraphics[width=0.30\textwidth]{GeodesicActiveContourShapePriorImageFilterOutput1.eps}
-  // \includegraphics[width=0.30\textwidth]{GeodesicActiveContourShapePriorImageFilterOutput2.eps}
-  // \includegraphics[width=0.30\textwidth]{GeodesicActiveContourShapePriorImageFilterOutput6.eps}
+  // \includegraphics[width=0.30\textwidth]{GeodesicActiveContourShapePriorImageFilterOutput1}
+  // \includegraphics[width=0.30\textwidth]{GeodesicActiveContourShapePriorImageFilterOutput2}
+  // \includegraphics[width=0.30\textwidth]{GeodesicActiveContourShapePriorImageFilterOutput6}
   // \itkcaption[GeodesicActiveContourShapePriorImageFilter segmentations]{Corpus callosum
   // segmentation using geodesic active contours without (left) and with (center) shape guidance.
   // The image on the right represents the best-fit shape at the end of the segmentation process.}

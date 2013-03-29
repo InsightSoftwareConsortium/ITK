@@ -202,8 +202,8 @@ int main( int argc, char * argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=0.44\textwidth]{LaplacianRecursiveGaussianImageFilter2Output3.eps}
-  // \includegraphics[width=0.44\textwidth]{LaplacianRecursiveGaussianImageFilter2Output5.eps}
+  // \includegraphics[width=0.44\textwidth]{LaplacianRecursiveGaussianImageFilter2Output3}
+  // \includegraphics[width=0.44\textwidth]{LaplacianRecursiveGaussianImageFilter2Output5}
   // \itkcaption[Output of the LaplacianRecursiveGaussianImageFilter.]{Effect of the
   // LaplacianRecursiveGaussianImageFilter on a slice from a MRI proton density image
   // of the brain.}

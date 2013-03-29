@@ -26,7 +26,7 @@
 //
 //  \begin{floatingfigure}[rlp]{6cm}
 //    \centering
-//    \includegraphics[width=7cm]{BinaryThresholdTransferFunction.eps}
+//    \includegraphics[width=7cm]{BinaryThresholdTransferFunction}
 //    \caption[BinaryThresholdImageFilter transfer function]
 //            {Transfer function of the BinaryThresholdImageFilter.
 //            \label{fig:BinaryThresholdTransferFunction}}
@@ -229,8 +229,8 @@ int main( int argc, char * argv[] )
   //
   // \begin{figure}
   // \center
-  // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySlice.eps}
-  // \includegraphics[width=0.44\textwidth]{BinaryThresholdImageFilterOutput.eps}
+  // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySlice}
+  // \includegraphics[width=0.44\textwidth]{BinaryThresholdImageFilterOutput}
   // \itkcaption[BinaryThresholdImageFilter output]{Effect of the BinaryThresholdImageFilter on a slice from a MRI
   // proton density image  of the brain.}
   // \label{fig:BinaryThresholdImageFilterInputOutput}
