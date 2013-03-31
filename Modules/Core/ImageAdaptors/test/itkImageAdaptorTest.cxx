@@ -47,8 +47,6 @@ typedef itk::ImageRegionIteratorWithIndex< myImageType >       myIteratorType;
 
 typedef itk::ImageRegionIteratorWithIndex< myRedAdaptorType >  myRedIteratorType;
 
-
-
 //-------------------------
 //
 //   Main code
@@ -102,8 +100,6 @@ int itkImageAdaptorTest(int, char* []) {
     std::cout << c.GetBlue()  << std::endl;
     ++it1;
     }
-
-
 
   myRedAdaptorType::Pointer myAdaptor = myRedAdaptorType::New();
   myAdaptor->SetImage( myImage );
@@ -312,6 +308,3 @@ int itkImageAdaptorTest(int, char* []) {
 
   return EXIT_SUCCESS;
 }
-
-
-

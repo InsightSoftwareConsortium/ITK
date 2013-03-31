@@ -27,9 +27,8 @@ int itkScatterMatrixImageFunctionTest(int, char* [] )
   const unsigned int VectorDimension = 4;
 
   typedef itk::FixedArray< PixelComponentType, VectorDimension > PixelType;
-
-  typedef itk::Image< PixelType, Dimension > ImageType;
-  typedef itk::ScatterMatrixImageFunction< ImageType > FunctionType;
+  typedef itk::Image< PixelType, Dimension >                     ImageType;
+  typedef itk::ScatterMatrixImageFunction< ImageType >           FunctionType;
 
   // Create and allocate the image
   ImageType::Pointer      image = ImageType::New();
@@ -118,4 +117,3 @@ int itkScatterMatrixImageFunctionTest(int, char* [] )
   return EXIT_SUCCESS;
 
 }
-

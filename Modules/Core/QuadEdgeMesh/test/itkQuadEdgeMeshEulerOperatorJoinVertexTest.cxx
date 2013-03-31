@@ -16,8 +16,6 @@
  *
  *=========================================================================*/
 
-
-
 #include "itkQuadEdgeMeshEulerOperatorJoinVertexFunction.h"
 #include "itkQuadEdgeMeshEulerOperatorsTestHelper.h"
 
@@ -294,9 +292,6 @@ int itkQuadEdgeMeshEulerOperatorJoinVertexTest( int argc, char * argv[] )
     }
 
   /*
-
-
-
   std::cout << "     " << "Test Topological Changes";
   MeshType::Pointer topoTest = MeshType::New( );
   MeshType::PointType pts2[4];

@@ -72,6 +72,3 @@ int itkEventObjectTest(int, char* [] )
   return EXIT_SUCCESS;
 
 }
-
-
-

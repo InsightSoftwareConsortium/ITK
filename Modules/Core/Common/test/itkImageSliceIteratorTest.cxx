@@ -20,9 +20,6 @@
 
 #include "itkImageSliceIteratorWithIndex.h"
 
-
-
-
 int itkImageSliceIteratorTest(int, char* [] )
 {
   std::cout << "Creating an image of indices" << std::endl;
@@ -149,9 +146,6 @@ int itkImageSliceIteratorTest(int, char* [] )
   }
   std::cout << "  Done !" << std::endl;
 
-
-
-
   // Verification
   std::cout << "Verifying iterator in reverse direction... ";
 
@@ -184,8 +178,6 @@ int itkImageSliceIteratorTest(int, char* [] )
   }
 
   std::cout << "   Done ! " << std::endl;
-
-
 
   // Verification
   std::cout << "Verifying const iterator in reverse direction... ";
@@ -302,9 +294,6 @@ int itkImageSliceIteratorTest(int, char* [] )
   }
   std::cout << "  Done !" << std::endl;
 
-
-
-
   // Verification
   std::cout << "Verifying iterator in reverse direction... ";
 
@@ -337,8 +326,6 @@ int itkImageSliceIteratorTest(int, char* [] )
   }
 
   std::cout << "   Done ! " << std::endl;
-
-
 
   // Verification
   std::cout << "Verifying const iterator in reverse direction... ";
@@ -373,8 +360,6 @@ int itkImageSliceIteratorTest(int, char* [] )
   std::cout << "   Done ! " << std::endl;
 
   }
-
-
 
   std::cout << "Test passed" << std::endl;
 

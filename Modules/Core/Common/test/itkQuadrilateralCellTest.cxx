@@ -28,8 +28,8 @@ int itkQuadrilateralCellTest(int, char* [] )
    * Define a mesh type that stores a PixelType of "int".  Use the defaults for
    * the other template parameters.
    */
-  typedef itk::Mesh<int>  MeshType;
-  typedef MeshType::CellTraits  CellTraits;
+  typedef itk::Mesh<int>       MeshType;
+  typedef MeshType::CellTraits CellTraits;
 
   /**
    * Define a few cell types which uses a PixelType of "int".  Again,
@@ -41,9 +41,9 @@ int itkQuadrilateralCellTest(int, char* [] )
 
   class QuadrilateralHelper : public QuadrilateralCellType
     {
-    typedef QuadrilateralCellType  Superclass;
-    typedef Superclass::CoordRepType CoordRepType;
-    typedef Superclass::PointsContainer PointsContainer;
+    typedef QuadrilateralCellType               Superclass;
+    typedef Superclass::CoordRepType            CoordRepType;
+    typedef Superclass::PointsContainer         PointsContainer;
     typedef Superclass::InterpolationWeightType InterpolationWeightType;
 
     public:
@@ -96,7 +96,7 @@ int itkQuadrilateralCellTest(int, char* [] )
    * Note that the constructor for Point is public, and takes an array
    * of coordinates for the point.
    */
-  for(unsigned int i=0; i < numberOfPoints ; ++i)
+  for(unsigned int i=0; i < numberOfPoints; ++i)
     {
     mesh->SetPoint(i, PointType( testPointCoords[i] ) );
     }

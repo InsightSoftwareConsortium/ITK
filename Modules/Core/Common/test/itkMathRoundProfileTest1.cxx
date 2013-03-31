@@ -21,7 +21,7 @@
 
 int itkMathRoundTestHelperFunction( double x )
 {
-  x+=0.5;
+  x += 0.5;
   return static_cast<int>(x>=0.?x:(x==static_cast<int>(x)?x:x-1.));
 }
 
@@ -32,7 +32,7 @@ int itkMathRoundTestHelperFunction( double x )
       }                                       \
     else                                      \
       {                                       \
-      if( (x+0.5)==static_cast<int>(x+0.5) )  \
+      if( (x+0.5) == static_cast<int>(x+0.5) )  \
         {                                     \
         y = static_cast< int >( x + 0.5 );    \
         }                                     \

@@ -69,12 +69,7 @@ int itkLightObjectTest(int, char* [] )
     std::cout << "reference count is:  " << counts3 << std::endl;
     }
 
-
-
   std::cout << "Test PASSED !" << std::endl;
 
   return EXIT_SUCCESS;
 }
-
-
-

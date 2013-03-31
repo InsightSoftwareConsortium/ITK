@@ -58,9 +58,6 @@ bool SetAndVerifyNumberOfThreads( int value, itk::MultiThreader * threader )
         "Range error in NumberOfThreads");
 }
 
-
-
-
 int itkMultiThreaderTest(int argc, char* argv[])
 {
   // Choose a number of threads.

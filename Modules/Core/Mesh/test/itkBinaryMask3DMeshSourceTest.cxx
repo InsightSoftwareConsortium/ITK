@@ -60,9 +60,9 @@ void Create16CubeConfig(
 int itkBinaryMask3DMeshSourceTest(int argc, char *argv[] )
 {
   // Declare the type of the Mesh
-  typedef itk::Mesh<double>                         MeshType;
-  typedef MeshType::PointType                       PointType;
-  typedef itk::BinaryMask3DMeshSource< ImageType, MeshType >   MeshSourceType;
+  typedef itk::Mesh<double>                                  MeshType;
+  typedef MeshType::PointType                                PointType;
+  typedef itk::BinaryMask3DMeshSource< ImageType, MeshType > MeshSourceType;
 
   const PixelType backgroundValue = 0;
   const PixelType internalValue   = 1;
@@ -196,17 +196,15 @@ void CreateCubeConfig(
   image->SetPixel( index, value8 );
 }
 
-
-
 void Create16CubeConfig(
-                  ImagePointerType image,
-                  const unsigned int& StartX,
-                  const unsigned int& StartY,
-                  const unsigned int& StartZ,
-                  const unsigned char& value1,
-                  const unsigned char& value2,
-                  const unsigned char& value3,
-                  const unsigned char& value4 )
+  ImagePointerType image,
+  const unsigned int& StartX,
+  const unsigned int& StartY,
+  const unsigned int& StartZ,
+  const unsigned char& value1,
+  const unsigned char& value2,
+  const unsigned char& value3,
+  const unsigned char& value4 )
 {
   // Case 0
   CreateCubeConfig(

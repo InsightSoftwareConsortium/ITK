@@ -205,7 +205,4 @@ int itkVectorTest(int, char* [] )
     std::cout << "Vector test failed." << std::endl;
     return EXIT_FAILURE;
     }
-
-
-
 }

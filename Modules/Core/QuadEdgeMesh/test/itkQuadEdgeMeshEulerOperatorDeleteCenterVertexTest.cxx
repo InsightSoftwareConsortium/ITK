@@ -16,8 +16,6 @@
  *
  *=========================================================================*/
 
-
-
 #include "itkQuadEdgeMeshEulerOperatorDeleteCenterVertexFunction.h"
 #include "itkQuadEdgeMeshEulerOperatorCreateCenterVertexFunction.h"
 #include "itkQuadEdgeMeshEulerOperatorsTestHelper.h"

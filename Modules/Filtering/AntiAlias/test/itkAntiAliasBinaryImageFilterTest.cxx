@@ -77,9 +77,9 @@ void evaluate_function(itk::Image<char, 3> *im,
 
 int itkAntiAliasBinaryImageFilterTest(int , char * [] )
 {
-  typedef char InputDataType;
+  typedef char                         InputDataType;
   typedef itk::Image<InputDataType, 3> BinaryImageType;
-  typedef itk::Image<float, 3> RealImageType;
+  typedef itk::Image<float, 3>         RealImageType;
 
 
   itk::AntiAliasBinaryImageFilter<BinaryImageType, RealImageType>::Pointer

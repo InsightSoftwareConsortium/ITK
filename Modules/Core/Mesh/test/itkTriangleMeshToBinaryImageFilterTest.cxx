@@ -33,12 +33,12 @@ int itkTriangleMeshToBinaryImageFilterTest(int argc, char * argv [] )
 {
   // Declare the type of the input and output mesh
   typedef itk::DefaultDynamicMeshTraits<double, 3, 3> TriangleMeshTraits;
-  typedef itk::Mesh<double,3, TriangleMeshTraits> TriangleMeshType;
+  typedef itk::Mesh<double,3, TriangleMeshTraits>     TriangleMeshType;
 
   // declare triangle mesh source
   typedef itk::RegularSphereMeshSource<TriangleMeshType>  SphereMeshSourceType;
-  typedef SphereMeshSourceType::PointType PointType;
-  typedef SphereMeshSourceType::VectorType VectorType;
+  typedef SphereMeshSourceType::PointType                 PointType;
+  typedef SphereMeshSourceType::VectorType                VectorType;
 
   SphereMeshSourceType::Pointer  mySphereMeshSource = SphereMeshSourceType::New();
   PointType center;

@@ -28,8 +28,6 @@ namespace itkMeshTestTypes {
   // this namespace helps to isolate the types defined blow
   // when all the code is included in the test driver.
 
-
-
 /**
  * Some typedefs to make things easier.
  */
@@ -38,7 +36,7 @@ namespace itkMeshTestTypes {
  * Define a mesh type that stores a PixelType of "int".  Use the defaults
  * for the other template parameters.
  */
-typedef itk::Mesh<int>  MeshType;
+typedef itk::Mesh<int>        MeshType;
 typedef MeshType::CellTraits  CellTraits;
 
 
@@ -53,8 +51,6 @@ typedef itk::TetrahedronCell<CellInterfaceType>         TetraCellType;
 typedef itk::HexahedronCell<CellInterfaceType>          HexaCellType;
 typedef itk::QuadraticEdgeCell<CellInterfaceType>       QuadraticEdgeCellType;
 typedef itk::QuadraticTriangleCell<CellInterfaceType>   QuadraticTriangleCellType;
-
-
 
 /**
  * Typedef the generic cell type for the mesh.  It is an abstract class,
@@ -119,9 +115,9 @@ public:
 
   CountClass* m_CountClass;
   VisitCells()
-    {
-      m_CountClass = 0;
-    };
+  {
+    m_CountClass = 0;
+  }
 };
 
 typedef itk::CellInterfaceVisitorImplementation<
@@ -181,7 +177,7 @@ int itkMeshTest(int, char* [] )
    * Note that the constructor for Point is public, and takes an array
    * of coordinates for the point.
    */
-  for(int i=0; i < 8 ; ++i)
+  for(int i=0; i < 8; ++i)
     {
     mesh->SetPoint(i, PointType(testPointCoords[i]));
     }
@@ -657,4 +653,3 @@ int itkMeshTest(int, char* [] )
 
   return EXIT_SUCCESS;
 }
-

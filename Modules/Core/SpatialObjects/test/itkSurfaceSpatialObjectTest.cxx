@@ -82,21 +82,21 @@ int itkSurfaceSpatialObjectTest(int, char* [])
 
   i=0;
   while(it != Surface->GetPoints().end())
-  {
-    for(unsigned int d=0;d<3;d++)
     {
-      if((*it).GetPosition()[d]!=i+d)
+    for(unsigned int d=0;d<3;d++)
       {
+      if((*it).GetPosition()[d] != i+d)
+        {
         std::cout<<"[FAILED]"<<std::endl;
         return EXIT_FAILURE;
-      }
+        }
 
-      if((*it).GetNormal()[d]!=d)
-      {
+      if((*it).GetNormal()[d] != d)
+        {
         std::cout<<"[FAILED]"<<std::endl;
         return EXIT_FAILURE;
+        }
       }
-    }
     it++;
     i++;
   }
@@ -150,8 +150,6 @@ int itkSurfaceSpatialObjectTest(int, char* [])
      return EXIT_FAILURE;
   }
   std::cout<<"[PASSED]"<<std::endl;
-
-
 
   return EXIT_SUCCESS;
 

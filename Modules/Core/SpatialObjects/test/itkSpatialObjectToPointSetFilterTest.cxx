@@ -24,10 +24,10 @@ int itkSpatialObjectToPointSetFilterTest(int, char* [] )
 {
   // Typedefs
   typedef itk::TubeSpatialObject<2> TubeType;
-  typedef TubeType::Pointer TubePointer;
-  typedef itk::PointSet<float,2> PointSetType;
-  typedef TubeType::PointListType TubePointListType;
-  typedef TubeType::TubePointType TubePointType;
+  typedef TubeType::Pointer         TubePointer;
+  typedef itk::PointSet<float,2>    PointSetType;
+  typedef TubeType::PointListType   TubePointListType;
+  typedef TubeType::TubePointType   TubePointType;
 
   TubePointer tube1 = TubeType::New();
   TubePointListType list;
@@ -86,13 +86,13 @@ int itkSpatialObjectToPointSetFilterTest(int, char* [] )
   std::cout << "[PASSED]" << std::endl;
 
   // Create a group spatial object
-  typedef itk::PointBasedSpatialObject<3>  Group3DType;
-  typedef itk::TubeSpatialObject<3>   Tube3DType;
-  typedef Tube3DType::PointListType   Tube3DPointListType;
-  typedef Tube3DType::TubePointType   Tube3DPointType;
-  typedef itk::LineSpatialObject<3>   Line3DType;
-  typedef Line3DType::PointListType   Line3DPointListType;
-  typedef Line3DType::LinePointType   Line3DPointType;
+  typedef itk::PointBasedSpatialObject<3> Group3DType;
+  typedef itk::TubeSpatialObject<3>       Tube3DType;
+  typedef Tube3DType::PointListType       Tube3DPointListType;
+  typedef Tube3DType::TubePointType       Tube3DPointType;
+  typedef itk::LineSpatialObject<3>       Line3DType;
+  typedef Line3DType::PointListType       Line3DPointListType;
+  typedef Line3DType::LinePointType       Line3DPointType;
 
   Group3DType::Pointer group3D = Group3DType::New();
 

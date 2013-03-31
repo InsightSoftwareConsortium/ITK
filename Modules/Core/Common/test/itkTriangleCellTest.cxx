@@ -30,7 +30,7 @@ int itkTriangleCellTest(int, char* [] )
    * Define a mesh type that stores a PixelType of "int".  Use the defaults for
    * the other template parameters.
    */
-  typedef itk::Mesh<int>  MeshType;
+  typedef itk::Mesh<int>        MeshType;
   typedef MeshType::CellTraits  CellTraits;
 
   /**
@@ -43,9 +43,9 @@ int itkTriangleCellTest(int, char* [] )
 
   class TriangleHelper : public TriangleCellType
     {
-    typedef TriangleCellType  Superclass;
-    typedef Superclass::CoordRepType CoordRepType;
-    typedef Superclass::PointsContainer PointsContainer;
+    typedef TriangleCellType                    Superclass;
+    typedef Superclass::CoordRepType            CoordRepType;
+    typedef Superclass::PointsContainer         PointsContainer;
     typedef Superclass::InterpolationWeightType InterpolationWeightType;
 
     public:
@@ -97,7 +97,7 @@ int itkTriangleCellTest(int, char* [] )
    * Note that the constructor for Point is public, and takes an array
    * of coordinates for the point.
    */
-  for(unsigned int i=0; i < numberOfPoints ; ++i)
+  for(unsigned int i=0; i < numberOfPoints; ++i)
     {
     mesh->SetPoint(i, PointType( testPointCoords[i] ) );
     }
@@ -147,8 +147,6 @@ int itkTriangleCellTest(int, char* [] )
     return EXIT_FAILURE;
     }
   }
-
-
 
   //
   // Exercise the EvaluatePosition() method of the TriangleCell
@@ -344,8 +342,6 @@ int itkTriangleCellTest(int, char* [] )
   //
   // NOTE: Outside points don't get their weights computed.
   //
-
-
 
   return EXIT_SUCCESS;
 }

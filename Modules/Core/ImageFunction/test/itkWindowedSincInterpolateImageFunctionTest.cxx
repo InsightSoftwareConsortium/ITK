@@ -27,13 +27,11 @@ namespace SincInterpolate {
 enum{ ImageDimension = 3 };
 enum{ WindowRadius = 2 };
 
-typedef unsigned char        PixelType;
-typedef itk::Image<PixelType,ImageDimension> ImageType;
-typedef double CoordRepType;
-
-typedef itk::Function::HammingWindowFunction<2>  WindowFunctionType;
-
-typedef itk::ConstantBoundaryCondition< ImageType >  BoundaryConditionType;
+typedef unsigned char                               PixelType;
+typedef itk::Image<PixelType,ImageDimension>        ImageType;
+typedef double                                      CoordRepType;
+typedef itk::Function::HammingWindowFunction<2>     WindowFunctionType;
+typedef itk::ConstantBoundaryCondition< ImageType > BoundaryConditionType;
 
 typedef itk::WindowedSincInterpolateImageFunction<
                                           ImageType,2,
@@ -41,10 +39,10 @@ typedef itk::WindowedSincInterpolateImageFunction<
                                           BoundaryConditionType,
                                           CoordRepType           > InterpolatorType;
 
-typedef InterpolatorType::IndexType  IndexType;
-typedef InterpolatorType::PointType  PointType;
+typedef InterpolatorType::IndexType           IndexType;
+typedef InterpolatorType::PointType           PointType;
 typedef InterpolatorType::ContinuousIndexType ContinuousIndexType;
-typedef InterpolatorType::OutputType OutputType;
+typedef InterpolatorType::OutputType          OutputType;
 
 
 /**
@@ -167,7 +165,7 @@ int itkWindowedSincInterpolateImageFunctionTest(int, char* [] )
   unsigned short value;
   PixelType pixel;
 
-  for( ; !iter.IsAtEnd(); ++iter )
+  for(; !iter.IsAtEnd(); ++iter )
     {
     index = iter.GetIndex();
     value = 0;
@@ -291,4 +289,3 @@ int itkWindowedSincInterpolateImageFunctionTest(int, char* [] )
 
 
 }
-

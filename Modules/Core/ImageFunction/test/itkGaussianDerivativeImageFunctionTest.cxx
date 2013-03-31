@@ -21,8 +21,8 @@
 int itkGaussianDerivativeImageFunctionTest(int, char* [] )
 {
   const unsigned int Dimension = 2;
-  typedef float  PixelType;
-  typedef itk::Image< PixelType, Dimension > ImageType;
+  typedef float                                             PixelType;
+  typedef itk::Image< PixelType, Dimension >                ImageType;
   typedef itk::GaussianDerivativeImageFunction< ImageType > DoGFunctionType;
 
   // Create and allocate the image
@@ -206,4 +206,3 @@ int itkGaussianDerivativeImageFunctionTest(int, char* [] )
   std::cout << "GaussianDerivativeImageFunctionTest: [DONE] " << std::endl;
   return EXIT_SUCCESS;
 }
-

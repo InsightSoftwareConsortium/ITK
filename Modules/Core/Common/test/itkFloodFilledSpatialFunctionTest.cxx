@@ -85,7 +85,7 @@ int itkFloodFilledSpatialFunctionTest(int, char* [])
 
     // Create and initialize a spatial function
     typedef itk::SphereSpatialFunction<dim> FunctionType;
-    typedef FunctionType::InputType FunctionPositionType;
+    typedef FunctionType::InputType         FunctionPositionType;
 
     FunctionType::Pointer spatialFunc = FunctionType::New();
     spatialFunc->SetRadius( 1.0 );

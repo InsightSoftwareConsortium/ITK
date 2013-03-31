@@ -35,7 +35,7 @@ int itkExtractMeshConnectedRegionsTest(int, char* [])
   typedef itk::Mesh< int >  MeshType;
 
   typedef itk::ConnectedRegionsMeshFilter<MeshType,MeshType> ConnectFilterType;
-  typedef itk::Point<float,3> PointType;
+  typedef itk::Point<float,3>                                PointType;
 
   // Define a simple mesh of three connected pieces. The mesh consists
   // of several different cell types.

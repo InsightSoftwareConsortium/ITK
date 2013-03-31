@@ -42,7 +42,7 @@
 #include "itksys/ios/sstream"
 
 /**
- * An example filter.
+ * \class An example filter.
  */
 template <typename TInputImage, typename TOutputImage>
 class ITK_EXPORT ExampleImageFilter:
@@ -62,10 +62,10 @@ public:
   /**
    * Smart pointer typedef support
    */
-  typedef itk::SmartPointer<Self> Pointer;
+  typedef itk::SmartPointer<Self>       Pointer;
   typedef itk::SmartPointer<const Self> ConstPointer;
 
-  typedef TInputImage InputImageType;
+  typedef TInputImage  InputImageType;
   typedef TOutputImage OutputImageType;
   enum { ImageDimension = InputImageType::ImageDimension };
 

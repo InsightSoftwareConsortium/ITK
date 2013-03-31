@@ -23,7 +23,7 @@
 
 int itkImportContainerTest(int , char * [] )
 {
-  typedef float PixelType;
+  typedef float                                               PixelType;
   typedef itk::ImportImageContainer<unsigned long, PixelType> ContainerType;
 
   itk::OutputWindow::SetInstance(itk::TextOutput::New());

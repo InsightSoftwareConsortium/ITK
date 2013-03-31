@@ -29,14 +29,14 @@ int itkTriangleMeshToSimplexMeshFilter2Test(int , char *[] )
   // Declare the type of the input and output mesh
   typedef itk::DefaultDynamicMeshTraits<double, 3, 3, double, double, double> MeshTraits;
 
-  typedef itk::Mesh<double,3,MeshTraits> TriangleMeshType;
+  typedef itk::Mesh<double,3,MeshTraits>        TriangleMeshType;
   typedef itk::SimplexMesh<double,3,MeshTraits> SimplexMeshType;
 
 
   // declare triangle mesh source
   typedef itk::RegularSphereMeshSource<TriangleMeshType>  SphereMeshSourceType;
-  typedef SphereMeshSourceType::PointType PointType;
-  typedef SphereMeshSourceType::VectorType VectorType;
+  typedef SphereMeshSourceType::PointType                 PointType;
+  typedef SphereMeshSourceType::VectorType                VectorType;
 
   // Declare the type of the gradient image
   typedef itk::TriangleMeshToSimplexMeshFilter<TriangleMeshType, SimplexMeshType>  SimplexFilterType;
@@ -80,10 +80,6 @@ int itkTriangleMeshToSimplexMeshFilter2Test(int , char *[] )
     std::cout << ", Elapsed time (for getting neighbors): " << timeProbe.GetMean() << std::endl;
     delete neighbors;
     }
-
-
-
-//  std::cout << "Simplex Mesh: " << simplexMesh << std::endl;
 
   std::cout << "[TEST DONE]" << std::endl;
   return EXIT_SUCCESS;

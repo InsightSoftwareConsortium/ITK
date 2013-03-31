@@ -21,8 +21,6 @@
 #include "itkStdStreamLogOutput.h"
 #include "itkLogger.h"
 
-
-
 class LogTester
 {
 public:
@@ -50,8 +48,6 @@ public:
 private:
   itk::Logger* m_Logger;
 };
-
-
 
 int itkLoggerTest( int argc, char *argv [] )
 {
@@ -156,5 +152,3 @@ int itkLoggerTest( int argc, char *argv [] )
   std::cout << "[PASSED]" << std::endl;
   return EXIT_SUCCESS;
 }
-
-

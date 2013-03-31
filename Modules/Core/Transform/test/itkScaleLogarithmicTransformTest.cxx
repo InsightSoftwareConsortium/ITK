@@ -20,9 +20,6 @@
 
 #include "itkScaleLogarithmicTransform.h"
 
-
-
-
 int itkScaleLogarithmicTransformTest(int ,char * [] )
 {
 
@@ -61,8 +58,6 @@ int itkScaleLogarithmicTransformTest(int ,char * [] )
       return EXIT_FAILURE;
     }
   }
-
-
 
   /* Create a Scale transform */
   {
@@ -283,12 +278,7 @@ int itkScaleLogarithmicTransformTest(int ,char * [] )
       }
 
     }
-
-
-
   }
-
-
 
   return EXIT_SUCCESS;
 

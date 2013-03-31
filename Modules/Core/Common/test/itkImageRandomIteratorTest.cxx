@@ -21,9 +21,6 @@
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkImageRandomIteratorWithIndex.h"
 
-
-
-
 int itkImageRandomIteratorTest(int, char* [] )
 {
   std::cout << "Creating an image of indices" << std::endl;
@@ -127,8 +124,6 @@ int itkImageRandomIteratorTest(int, char* [] )
   }
   std::cout << "   Done ! " << std::endl;
 
-
-
   // Verification
   std::cout << "Verifying iterator in reverse direction... " << std::endl;
   std::cout << "Should be a random walk too (a different one)" << std::endl;
@@ -156,8 +151,6 @@ int itkImageRandomIteratorTest(int, char* [] )
   }
   std::cout << index0 << std::endl; // print the value at the beginning index
   std::cout << "   Done ! " << std::endl;
-
-
 
   // Verification
   std::cout << "Verifying const iterator in reverse direction... ";
@@ -262,8 +255,6 @@ int itkImageRandomIteratorTest(int, char* [] )
     std::cout << "   Done ! " << std::endl;
   }
 
-
-
   // Verification of the Const Iterator in a subregion of the image
   {
     std::cout << "Verifying Const Iterator in a Region smaller than the whole image... "
@@ -316,9 +307,6 @@ int itkImageRandomIteratorTest(int, char* [] )
 
   std::cout << "Test passed" << std::endl;
 
-
-
-
-    return EXIT_SUCCESS;
+  return EXIT_SUCCESS;
 
   }

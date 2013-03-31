@@ -153,8 +153,6 @@ int itkSplineKernelTransformTest(int , char* [] )
     }
   std::cout << std::endl;
 
-
-
   std::cout << "TPS 2D Test:" << std::endl;
   tps2D->SetSourceLandmarks( sourceLandmarks2D );
   tps2D->SetTargetLandmarks( targetLandmarks2D );
@@ -386,8 +384,6 @@ int itkSplineKernelTransformTest(int , char* [] )
       }
     }
 
-
-
   std::cout << "EBS 3D Test:" << std::endl;
   // Poisson's ration = 0.25, Alpha = 12.0 * ( 1 - \nu ) - 1
   ebs3D->SetAlpha( 12.0 * ( 1 -  0.25) - 1.0 );
@@ -412,8 +408,6 @@ int itkSplineKernelTransformTest(int , char* [] )
     ebs3Dt++;
   }
   std::cout << std::endl;
-
-
 
   std::cout << "TPS 3D Test:" << std::endl;
 

@@ -81,8 +81,6 @@ int itkTimeStampTest(int, char*[])
     // been used
     std::vector<bool> istimestamped( numberOfThreads );
 
-
-
     // Call Modified once  on any object to make it up-to-date
     multithreader->Modified();
 
@@ -116,7 +114,7 @@ int itkTimeStampTest(int, char*[])
         }
 
       bool iter_success =
-             ( ((max_mtime-prev_mtime )==numberOfThreads) &&
+             ( ((max_mtime-prev_mtime ) == numberOfThreads) &&
                (min_mtime==prev_mtime+1) );
 
       if ( iter_success )

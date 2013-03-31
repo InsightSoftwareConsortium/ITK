@@ -26,9 +26,6 @@
 #include "itkVectorContainer.h"
 #include <iostream>
 
-
-
-
 //-------------------------
 //
 //   Main code
@@ -201,8 +198,6 @@ int itkPointGeometryTest(int, char* [] )
     }
     std::cout << "Test for Barycentric combination PASSED" << std::endl;
   }
-
-
 
   // Test the Barycentric combination
   {

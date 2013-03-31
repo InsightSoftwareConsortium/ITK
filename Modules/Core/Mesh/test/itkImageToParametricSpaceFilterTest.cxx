@@ -184,7 +184,3 @@ int itkImageToParametricSpaceFilterTest(int, char* [] )
   return EXIT_SUCCESS;
 
 }
-
-
-
-

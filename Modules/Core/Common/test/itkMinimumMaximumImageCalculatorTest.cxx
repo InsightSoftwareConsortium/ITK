@@ -83,11 +83,11 @@ itkMinimumMaximumImageCalculatorTest(int ,char *[] )
     std::cout << "Its index position is : " << calculator->GetIndexOfMinimum() << std::endl;
 
     if(minimumResult != minimum)
-    {
-       std::cout << "Minimum Value is wrong : " << minimumResult ;
-       std::cout << " != " << minimum << std::endl;
-       flag = 1;
-    }
+      {
+      std::cout << "Minimum Value is wrong : " << minimumResult;
+      std::cout << " != " << minimum << std::endl;
+      flag = 1;
+      }
 
     // Return maximum of intensity
     short maximumResult = calculator->GetMaximum();
@@ -95,20 +95,22 @@ itkMinimumMaximumImageCalculatorTest(int ,char *[] )
     std::cout << "Its index position is : " << calculator->GetIndexOfMaximum() << std::endl;
 
     if(maximumResult != maximum)
-    {
-       std::cout << "Maximum Value is wrong : " << maximumResult ;
-       std::cout << " != " << maximum << std::endl;
-       flag = 2;
-    }
+      {
+      std::cout << "Maximum Value is wrong : " << maximumResult;
+      std::cout << " != " << maximum << std::endl;
+      flag = 2;
+      }
 
 
     // Return results of test
-    if (flag != 0) {
-        std::cout << "*** Some tests failed" << std::endl;
-        return flag; }
-    else {
-        std::cout << "All tests successfully passed" << std::endl;
-        return EXIT_SUCCESS; }
-
+    if (flag != 0)
+      {
+      std::cout << "*** Some tests failed" << std::endl;
+      return flag;
+      }
+    else
+      {
+      std::cout << "All tests successfully passed" << std::endl;
+      return EXIT_SUCCESS;
+      }
 }
-

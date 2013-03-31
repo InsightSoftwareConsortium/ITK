@@ -30,8 +30,8 @@ int itkNearestNeighborExtrapolateImageFunctionTest( int, char *[])
   const unsigned int ImageDimension = 2;
   typedef unsigned char PixelType;
   const   unsigned int VectorDimension = 4;
-  typedef itk::Vector< PixelType, VectorDimension > VectorPixelType;
-  typedef itk::Image<PixelType,ImageDimension> ImageType;
+  typedef itk::Vector< PixelType, VectorDimension >     VectorPixelType;
+  typedef itk::Image<PixelType,ImageDimension>          ImageType;
   typedef itk::Image< VectorPixelType, ImageDimension > VectorImageType;
 
   ImageType::SizeType imageSize;
@@ -167,5 +167,3 @@ int itkNearestNeighborExtrapolateImageFunctionTest( int, char *[])
 
   return EXIT_SUCCESS;
 }
-
-

@@ -160,5 +160,3 @@ int itkSmartPointerTest(int, char* [] )
   std::cout <<"end first test" << std::endl << std::endl;
   return EXIT_SUCCESS;
 }
-
-

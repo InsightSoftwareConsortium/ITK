@@ -85,7 +85,7 @@ int itkBlobSpatialObjectTest(int, char* [])
   {
     for(unsigned int d=0;d<3;d++)
     {
-      if((*it).GetPosition()[d]!=i+d)
+      if((*it).GetPosition()[d] != i+d)
       {
         std::cout<<"[FAILED]"<<std::endl;
         return EXIT_FAILURE;
@@ -127,24 +127,24 @@ int itkBlobSpatialObjectTest(int, char* [])
   {
     for(unsigned int d=0;d<3;d++)
     {
-      if((*it).GetBlue()!=i)
+      if((*it).GetBlue() != i)
       {
         std::cout<<"[FAILED]"<<std::endl;
         return EXIT_FAILURE;
       }
-      if((*it).GetGreen()!=i+1)
-      {
-        std::cout<<"[FAILED]"<<std::endl;
-        return EXIT_FAILURE;
-      }
-
-      if((*it).GetRed()!=i+2)
+      if((*it).GetGreen() != i+1)
       {
         std::cout<<"[FAILED]"<<std::endl;
         return EXIT_FAILURE;
       }
 
-      if((*it).GetAlpha()!=i+3)
+      if((*it).GetRed() != i+2)
+      {
+        std::cout<<"[FAILED]"<<std::endl;
+        return EXIT_FAILURE;
+      }
+
+      if((*it).GetAlpha() != i+3)
       {
         std::cout<<"[FAILED]"<<std::endl;
         return EXIT_FAILURE;

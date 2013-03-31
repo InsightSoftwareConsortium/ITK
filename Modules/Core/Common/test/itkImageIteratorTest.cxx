@@ -86,7 +86,7 @@ int itkImageIteratorTest(int, char* [] )
   (*o3)[regionEndIndex3D] = (*o3)[regionStartIndex3D];
   TestConstPixelAccess(*o3, *o3);
 
-  typedef itk::Vector< unsigned short, 5 >  VectorPixelType;
+  typedef itk::Vector< unsigned short, 5 >               VectorPixelType;
   typedef itk::Image< VectorPixelType, ImageDimension >  VectorImageType;
 
   typedef itk::ImageIterator<      VectorImageType >  VectorImageIterator;

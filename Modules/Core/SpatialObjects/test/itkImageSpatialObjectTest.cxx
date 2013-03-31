@@ -35,13 +35,13 @@ int itkImageSpatialObjectTest(int, char* [])
 {
   #define NDimensions 3
 
-  typedef double ScalarType;
-  typedef unsigned short Pixel;
-  typedef itk::Image<Pixel,NDimensions> ImageType;
+  typedef double                                     ScalarType;
+  typedef unsigned short                             Pixel;
+  typedef itk::Image<Pixel,NDimensions>              ImageType;
   typedef itk::ImageSpatialObject<NDimensions,Pixel> ImageSpatialObject;
-  typedef ImageSpatialObject::BoundingBoxType BoundingBox;
-  typedef itk::ImageRegionIterator<ImageType> Iterator;
-  typedef itk::Point<ScalarType,NDimensions> Point;
+  typedef ImageSpatialObject::BoundingBoxType        BoundingBox;
+  typedef itk::ImageRegionIterator<ImageType>        Iterator;
+  typedef itk::Point<ScalarType,NDimensions>         Point;
 
   ImageType::Pointer image = ImageType::New();
   ImageType::SizeType size = {{ 10, 10, 10 }};

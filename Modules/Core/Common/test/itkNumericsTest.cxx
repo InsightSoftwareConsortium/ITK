@@ -19,8 +19,6 @@
 
 #include "vnl/algo/vnl_svd.h"
 
-
-
 template <typename T>
 void print_vnl_matrix(T& mat)
 {
@@ -32,7 +30,6 @@ void print_vnl_matrix(T& mat)
     std::cout << std::endl;
     }
 }
-
 
 template <class D>  // D is often double or float
 vnl_matrix<D> solve_with_warning(vnl_matrix<D>const& M,

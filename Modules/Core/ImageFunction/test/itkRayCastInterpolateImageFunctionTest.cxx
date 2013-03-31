@@ -115,8 +115,6 @@ itkRayCastInterpolateImageFunctionTest(
 
     interp->SetInterpolator( auxInterpolator );
 
-
-
     /* Exercise the SetThreshold() method */
     interp->SetThreshold( 1.0 );
 
@@ -133,14 +131,3 @@ itkRayCastInterpolateImageFunctionTest(
 
     return EXIT_SUCCESS;
 }
-
-
-
-
-
-
-
-
-
-
-

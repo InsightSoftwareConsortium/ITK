@@ -93,8 +93,6 @@ int itkTimeProbesTest(int, char* [] )
   }
   collector.Stop("Loop1");
 
-
-
   collector.Start("Loop2"); // label that identify the range of the probe
 
   // Do other slow stuff here...
@@ -118,7 +116,7 @@ int itkTimeProbesTest(int, char* [] )
 
   Image3DType::PointType point3D;
 
-  typedef itk::ImageRegion< 3 >  Region3DType;
+  typedef itk::ImageRegion< 3 >   Region3DType;
   typedef Region3DType::IndexType Index3DType;
   typedef Region3DType::SizeType  Size3DType;
   Region3DType region3D;

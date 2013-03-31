@@ -163,7 +163,7 @@ void BypassNoAdaptorSupportModifyVectors(itk::Image<itk::Vector<float, 3>, 3> *i
 
 int itkAdaptorComparisonTest(int, char * [] )
 {
-  typedef itk::Image<float, 3> ScalarImageType;
+  typedef itk::Image<float, 3>                 ScalarImageType;
   typedef itk::Image<itk::Vector<float, 3>, 3> VectorImageType;
 
   clock_t start, stop, no_adaptor_comp, adaptor_comp;

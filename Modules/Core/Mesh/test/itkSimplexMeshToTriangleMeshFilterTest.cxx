@@ -24,16 +24,18 @@ int itkSimplexMeshToTriangleMeshFilterTest( int , char * [] )
 {
 
   // Declare the type of the input and output mesh
-  typedef itk::DefaultStaticMeshTraits<double, 3, 3, double, double, double> TriangleMeshTraits;
-  typedef itk::DefaultStaticMeshTraits<double, 3, 3, double, double, double> SimplexMeshTraits;
-  typedef itk::Mesh<double,3,TriangleMeshTraits> TriangleMeshType;
+  typedef itk::DefaultStaticMeshTraits<double, 3, 3, double, double, double>
+                                                        TriangleMeshTraits;
+  typedef itk::DefaultStaticMeshTraits<double, 3, 3, double, double, double>
+                                                        SimplexMeshTraits;
+  typedef itk::Mesh<double,3,TriangleMeshTraits>        TriangleMeshType;
   typedef itk::SimplexMesh<double,3, SimplexMeshTraits> SimplexMeshType;
 
 
   // declare triangle mesh source
-  typedef itk::RegularSphereMeshSource<TriangleMeshType>  SphereMeshSourceType;
-  typedef SphereMeshSourceType::PointType PointType;
-  typedef SphereMeshSourceType::VectorType VectorType;
+  typedef itk::RegularSphereMeshSource<TriangleMeshType> SphereMeshSourceType;
+  typedef SphereMeshSourceType::PointType                PointType;
+  typedef SphereMeshSourceType::VectorType               VectorType;
 
   // Declare the type of the gradient image
   typedef itk::TriangleMeshToSimplexMeshFilter<TriangleMeshType, SimplexMeshType>  SimplexFilterType;

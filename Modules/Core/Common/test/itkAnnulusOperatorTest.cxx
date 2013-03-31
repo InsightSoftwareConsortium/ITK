@@ -21,7 +21,7 @@
 int itkAnnulusOperatorTest(int, char* [] )
 {
   const unsigned int Dimension = 2;
-  typedef float  PixelType;
+  typedef float                                        PixelType;
   typedef itk::AnnulusOperator< PixelType, Dimension > OperatorType;
 
 
@@ -218,4 +218,3 @@ int itkAnnulusOperatorTest(int, char* [] )
 
   return EXIT_SUCCESS;
 }
-

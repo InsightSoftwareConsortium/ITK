@@ -112,9 +112,6 @@ int itkBoundingBoxTest (int, char*[])
   std::cout << "Null GetCenter test passed" <<std::endl;
   }
 
-
-
-
   itk::NumericTraits<double>::AccumulateType diagonal;
   diagonal = myBox->GetDiagonalLength2();
   if ( diagonal != 81.0 )
@@ -189,8 +186,6 @@ int itkBoundingBoxTest (int, char*[])
     }
   std::cout << "[PASSED]" << std::endl;
 
-
-
   // Testing the DeepCopy method
   {
   const double tolerance = 1e-10;
@@ -209,11 +204,6 @@ int itkBoundingBoxTest (int, char*[])
     }
   }
 
-
-
-
-
   std::cout << "BoundingBox test PASSED ! " << std::endl;
   return EXIT_SUCCESS;
 }
-

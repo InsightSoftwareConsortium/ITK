@@ -44,7 +44,7 @@ int main(int,char *[])
   std::cout << "ExtendedProcessorName:        "
             << mySys.GetExtendedProcessorName() << std::endl;
   std::cout << "DoesCPUSupportCPUID:          "
-            << mySys.DoesCPUSupportCPUID() << std::endl;;
+            << mySys.DoesCPUSupportCPUID() << std::endl;
   std::cout << "ProcessorSerialNumber:        "
             << mySys.GetProcessorSerialNumber() << std::endl;
   std::cout << "ProcessorCacheSize:           "

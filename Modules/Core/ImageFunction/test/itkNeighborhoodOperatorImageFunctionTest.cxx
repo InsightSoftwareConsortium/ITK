@@ -25,10 +25,11 @@ int itkNeighborhoodOperatorImageFunctionTest(int, char* [] )
 {
 
   const unsigned int Dimension = 3;
-  typedef float  PixelType;
-  typedef itk::Image< PixelType, Dimension > ImageType;
+  typedef float                                   PixelType;
+  typedef itk::Image< PixelType, Dimension >      ImageType;
   typedef itk::GaussianOperator<PixelType,3>      NeighborhoodOperatorType;
-  typedef itk::NeighborhoodOperatorImageFunction< ImageType,PixelType> FunctionType;
+  typedef itk::NeighborhoodOperatorImageFunction< ImageType,PixelType>
+                                                  FunctionType;
 
   // Create and allocate the image
   ImageType::Pointer      image = ImageType::New();
@@ -78,8 +79,6 @@ int itkNeighborhoodOperatorImageFunctionTest(int, char* [] )
     }
   std::cout << "[PASSED] " << std::endl;
 
-
-
   std::cout << "EvaluateAtContinuousIndex: ";
 
   FunctionType::ContinuousIndexType continuousIndex;
@@ -107,4 +106,3 @@ int itkNeighborhoodOperatorImageFunctionTest(int, char* [] )
   return EXIT_SUCCESS;
 
 }
-
