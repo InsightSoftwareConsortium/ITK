@@ -20,14 +20,14 @@
 
 int itkOtsuMultipleThresholdsCalculatorTest(int, char*[])
 {
-  typedef float MeasurementType ;
-  typedef itk::Statistics::Histogram< MeasurementType > HistogramType ;
-  HistogramType::Pointer histogram = HistogramType::New() ;
+  typedef float                                         MeasurementType;
+  typedef itk::Statistics::Histogram< MeasurementType > HistogramType;
+  HistogramType::Pointer histogram = HistogramType::New();
 
   // initialize histogram
   HistogramType::SizeType size;
-  HistogramType::MeasurementVectorType lowerBound ;
-  HistogramType::MeasurementVectorType upperBound ;
+  HistogramType::MeasurementVectorType lowerBound;
+  HistogramType::MeasurementVectorType upperBound;
   lowerBound.SetSize(1);
   upperBound.SetSize(1);
   histogram->SetMeasurementVectorSize(1);
@@ -36,7 +36,7 @@ int itkOtsuMultipleThresholdsCalculatorTest(int, char*[])
   upperBound[0] = 64.0;
   size.Fill(64);
 
-  histogram->Initialize(size, lowerBound, upperBound ) ;
+  histogram->Initialize(size, lowerBound, upperBound );
 
   // create vector of values.
   typedef std::vector<MeasurementType> ValuesVectorType;

@@ -26,7 +26,7 @@ int itkNotImageFilterTest(int, char* [] )
   const unsigned int myDimension = 3;
 
   // Declare the types of the images
-  typedef bool myPixelType;
+  typedef bool                                  myPixelType;
   typedef itk::Image<myPixelType, myDimension>  myImageType1;
   typedef itk::Image<myPixelType, myDimension>  myImageType3;
 
@@ -123,7 +123,3 @@ int itkNotImageFilterTest(int, char* [] )
   return EXIT_SUCCESS;
 
 }
-
-
-
-

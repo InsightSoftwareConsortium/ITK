@@ -162,7 +162,3 @@ int itkTernaryMagnitudeSquaredImageFilterTest(int, char* [] )
   return EXIT_SUCCESS;
 
 }
-
-
-
-

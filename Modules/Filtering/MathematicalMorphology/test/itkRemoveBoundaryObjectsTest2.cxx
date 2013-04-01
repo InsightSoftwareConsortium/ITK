@@ -51,7 +51,7 @@ int itkRemoveBoundaryObjectsTest2( int argc, char * argv[] )
 
 
   // readers/writers
-  typedef itk::ImageFileReader< InputImageType  >  ReaderType;
+  typedef itk::ImageFileReader< InputImageType  > ReaderType;
   typedef itk::ImageFileWriter< WriteImageType >  WriterType;
 
   // define the fillhole filter

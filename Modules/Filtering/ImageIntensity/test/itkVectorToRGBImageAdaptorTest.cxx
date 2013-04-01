@@ -29,9 +29,6 @@
 #include "itkVectorToRGBImageAdaptor.h"
 #include "itkImageRegionIteratorWithIndex.h"
 
-
-
-
 //-------------------------
 //
 //   Main code
@@ -53,15 +50,10 @@ typedef itk::Vector< ValueType,
 
 const unsigned int ImageDimension = 2;
 
-typedef itk::Image< VectorPixelType, ImageDimension >  ImageType;
-
-typedef itk::VectorToRGBImageAdaptor< ImageType >   ImageAdaptorType;
-
-typedef itk::ImageRegionIteratorWithIndex< ImageType >       IteratorType;
-
-typedef itk::ImageRegionIteratorWithIndex< ImageAdaptorType >  RGBIteratorType;
-
-
+typedef itk::Image< VectorPixelType, ImageDimension >         ImageType;
+typedef itk::VectorToRGBImageAdaptor< ImageType >             ImageAdaptorType;
+typedef itk::ImageRegionIteratorWithIndex< ImageType >        IteratorType;
+typedef itk::ImageRegionIteratorWithIndex< ImageAdaptorType > RGBIteratorType;
 
   ImageType::SizeType size;
   size[0] = 2;
@@ -111,8 +103,6 @@ typedef itk::ImageRegionIteratorWithIndex< ImageAdaptorType >  RGBIteratorType;
     ++it1;
   }
 
-
-
   ImageAdaptorType::Pointer adaptor = ImageAdaptorType::New();
   adaptor->SetImage( image );
 
@@ -152,6 +142,3 @@ typedef itk::ImageRegionIteratorWithIndex< ImageAdaptorType >  RGBIteratorType;
 
   return EXIT_SUCCESS;
 }
-
-
-

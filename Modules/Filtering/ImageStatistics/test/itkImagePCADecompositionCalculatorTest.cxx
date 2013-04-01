@@ -315,8 +315,6 @@ int itkImagePCADecompositionCalculatorTest(int, char* [] )
   std::cout << "The projection of [0 3 3 0] is [" << proj4 << "]" << std::endl;
   std::cout << "this should be approx [3.5574 -2.3119]" << std::endl;
 
-
-
   // Print the basis and projections: now the new basis
   std::cout << std::endl;
   std::cout << "Now the basis of projection is: " << std::endl;
@@ -346,8 +344,6 @@ int itkImagePCADecompositionCalculatorTest(int, char* [] )
   std::cout << "The projection of [0 3 3 0] is (mean of zero set) [" << proj4_3 << "]" << std::endl;
   std::cout << "this should be approx [2.1213 2.1213 3.000]" << std::endl;
 
-
-
   //Test for the eigen values for the test case precomputed using Matlab
   std::cout << "" << std::endl;
   if( proj3[0] < -1.54 && proj3[0] > -1.55 && proj4[1] < -2.31 && proj4[1] > -2.32 &&
@@ -361,4 +357,3 @@ int itkImagePCADecompositionCalculatorTest(int, char* [] )
   std::cerr << "The project is out of the range of Matlab precomputed values" << std::endl;
   return EXIT_FAILURE;
 }
-

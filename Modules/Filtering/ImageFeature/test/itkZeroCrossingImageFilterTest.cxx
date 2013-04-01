@@ -40,8 +40,8 @@ int itkZeroCrossingImageFilterTest(int, char * [] )
       std::cout << "filter: " << filter;
       // Run Test
       itk::Size<2> sz;
-      sz[0] = 100 ;
-      sz[1] = 100 ;
+      sz[0] = 100;
+      sz[1] = 100;
 
       itk::NullImageToImageFilterDriver< ImageType, ImageType > test1;
       test1.SetImageSize(sz);

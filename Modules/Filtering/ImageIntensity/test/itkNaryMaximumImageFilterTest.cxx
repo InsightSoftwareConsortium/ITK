@@ -50,9 +50,6 @@ typedef itk::NaryMaximumImageFilter<
                               InputImageType,
                               OutputImageType  >  FilterType;
 
-
-
-
 // Function for image initialization
 void InitializeImage( InputImageType * image, double value   )
 {
@@ -89,8 +86,6 @@ void InitializeImage( InputImageType * image, double value   )
 
 
 }
-
-
 
 // Function for image printing
 void PrintImage( InputImageType * image, const char *)
@@ -193,7 +188,3 @@ int itkNaryMaximumImageFilterTest(int, char* [] )
   return EXIT_SUCCESS;
 
 }
-
-
-
-

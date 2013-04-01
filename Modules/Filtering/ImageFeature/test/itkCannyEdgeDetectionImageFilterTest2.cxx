@@ -36,8 +36,8 @@ int itkCannyEdgeDetectionImageFilterTest2(int argc, char * argv[] )
     }
 
   const unsigned int dimension = 2;
-  typedef float PixelType;
-  typedef itk::Image<float, dimension> InputImage;
+  typedef float                                PixelType;
+  typedef itk::Image<float, dimension>         InputImage;
   typedef itk::Image<unsigned char, dimension> OutputImage;
 
   itk::ImageFileReader<InputImage>::Pointer input
@@ -95,9 +95,6 @@ int itkCannyEdgeDetectionImageFilterTest2(int argc, char * argv[] )
       (&err)->Print(std::cerr);
       return EXIT_FAILURE;
     }
-
-
-
 
   return EXIT_SUCCESS;
 }

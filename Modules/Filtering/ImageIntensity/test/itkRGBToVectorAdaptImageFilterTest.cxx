@@ -59,8 +59,6 @@ int itkRGBToVectorAdaptImageFilterTest(int, char* [] ) {
 
   typedef itk::ImageRegionIteratorWithIndex< myImageType >  myVectorIteratorType;
 
-
-
   RGBImageType::SizeType size;
   size[0] = 100;
   size[1] = 100;
@@ -149,6 +147,3 @@ int itkRGBToVectorAdaptImageFilterTest(int, char* [] ) {
     return EXIT_FAILURE;
     }
 }
-
-
-

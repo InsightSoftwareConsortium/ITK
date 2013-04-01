@@ -34,9 +34,9 @@ int itkRegionOfInterestImageFilterTest(int, char* [] )
                                       ImageType  > FilterType;
 
 
-  typedef ImageType::RegionType   RegionType;
-  typedef ImageType::SizeType     SizeType;
-  typedef ImageType::IndexType    IndexType;
+  typedef ImageType::RegionType    RegionType;
+  typedef ImageType::SizeType      SizeType;
+  typedef ImageType::IndexType     IndexType;
   typedef ImageType::DirectionType DirectionType;
 
   typedef itk::ImageRegionIterator<
@@ -142,7 +142,3 @@ int itkRegionOfInterestImageFilterTest(int, char* [] )
   return EXIT_SUCCESS;
 
 }
-
-
-
-

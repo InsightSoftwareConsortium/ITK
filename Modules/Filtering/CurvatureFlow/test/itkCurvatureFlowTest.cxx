@@ -49,10 +49,10 @@ template <class TImageType>
 class DummyFunction : public FiniteDifferenceFunction<TImageType>
 {
 public:
-  typedef DummyFunction Self;
+  typedef DummyFunction                        Self;
   typedef FiniteDifferenceFunction<TImageType> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef SmartPointer<Self>                   Pointer;
+  typedef SmartPointer<const Self>             ConstPointer;
   itkNewMacro(Self);
   typedef typename Superclass::NeighborhoodType NeighborhoodType;
   typedef typename Superclass::FloatOffsetType  FloatOffsetType;

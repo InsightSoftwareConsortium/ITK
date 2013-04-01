@@ -27,10 +27,10 @@ int itkChangeLabelImageFilterTest(int, char* [] )
   const unsigned int ImageDimension = 3;
 
   // Declare the types of the images
-  typedef itk::Image<unsigned short, ImageDimension>  InputImageType;
+  typedef itk::Image<unsigned short, ImageDimension> InputImageType;
   typedef itk::Image<unsigned char, ImageDimension>  OutputImageType;
-  typedef InputImageType::PixelType InputPixelType;
-  typedef OutputImageType::PixelType OutputPixelType;
+  typedef InputImageType::PixelType                  InputPixelType;
+  typedef OutputImageType::PixelType                 OutputPixelType;
 
   // Declare iterator type
   typedef itk::ImageRegionIteratorWithIndex<
@@ -173,8 +173,6 @@ int itkChangeLabelImageFilterTest(int, char* [] )
     ++ota;
     ++ita;
   }
-
-
 
   if ( pass )
     {

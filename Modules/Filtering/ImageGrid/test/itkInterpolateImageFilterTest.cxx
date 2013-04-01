@@ -23,9 +23,9 @@
 int itkInterpolateImageFilterTest(int, char* [] )
 {
   enum { ImageDimension = 2 };
-  typedef unsigned long InputPixelType;
-  typedef unsigned long OutputPixelType;
-  typedef itk::Image<InputPixelType,ImageDimension> InputImageType;
+  typedef unsigned long                              InputPixelType;
+  typedef unsigned long                              OutputPixelType;
+  typedef itk::Image<InputPixelType,ImageDimension>  InputImageType;
   typedef itk::Image<OutputPixelType,ImageDimension> OutputImageType;
 
   // fill images
@@ -135,5 +135,3 @@ int itkInterpolateImageFilterTest(int, char* [] )
   return EXIT_SUCCESS;
 
 }
-
-

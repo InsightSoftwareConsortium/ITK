@@ -26,14 +26,15 @@ int itkResampleImageTest(int, char* [] )
 
   const unsigned int NDimensions = 2;
 
-  typedef float                  PixelType;
-  typedef itk::Image<PixelType, NDimensions>     ImageType;
+  typedef float                               PixelType;
+  typedef itk::Image<PixelType, NDimensions>  ImageType;
   typedef ImageType::IndexType                ImageIndexType;
   typedef ImageType::Pointer                  ImagePointerType;
   typedef ImageType::RegionType               ImageRegionType;
   typedef ImageType::SizeType                 ImageSizeType;
-  typedef double                  CoordRepType;
-  typedef itk::AffineTransform<CoordRepType,NDimensions>   AffineTransformType;
+  typedef double                              CoordRepType;
+
+  typedef itk::AffineTransform<CoordRepType,NDimensions>               AffineTransformType;
   typedef itk::LinearInterpolateImageFunction<ImageType,CoordRepType>  InterpolatorType;
 
 

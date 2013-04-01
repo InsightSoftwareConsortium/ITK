@@ -32,8 +32,6 @@
 #include "itkBSplineUpsampleImageFilter.h"
 #include "itkFilterWatcher.h"
 
-
-
 typedef double InputPixelType;
 typedef int    IntInputPixelType;
 
@@ -41,14 +39,14 @@ typedef int    IntInputPixelType;
 enum { ImageDimension2D = 2 };
 
 typedef itk::Image< InputPixelType, ImageDimension2D > ImageType2D;
-typedef ImageType2D::Pointer ImageTypePtr2D;
-typedef ImageType2D::SizeType SizeType2D;
-typedef itk::ImageRegionIterator<ImageType2D>  InputIterator;
+typedef ImageType2D::Pointer                           ImageTypePtr2D;
+typedef ImageType2D::SizeType                          SizeType2D;
+typedef itk::ImageRegionIterator<ImageType2D>          InputIterator;
 
 typedef itk::Image< IntInputPixelType, ImageDimension2D > IntImageType2D;
-typedef IntImageType2D::Pointer IntImageTypePtr2D;
-typedef IntImageType2D::SizeType IntSizeType2D;
-typedef itk::ImageRegionIterator<IntImageType2D>  IntInputIterator;
+typedef IntImageType2D::Pointer                           IntImageTypePtr2D;
+typedef IntImageType2D::SizeType                          IntSizeType2D;
+typedef itk::ImageRegionIterator<IntImageType2D>          IntInputIterator;
 
 void set2DData(ImageType2D::Pointer);
 
@@ -60,7 +58,7 @@ void PrintImageData(ImageTypePtr2D imgPtr)
   int dim = ImageType2D::ImageDimension;
 
   std::cout << "Spacing: " << std::endl;
-  for (int n = 0; n < dim ; n++)
+  for (int n = 0; n < dim; n++)
     {
     std::cout << imgPtr->GetSpacing()[n] << ", ";
     }
@@ -71,14 +69,14 @@ void PrintImageData(ImageTypePtr2D imgPtr)
   SizeType2D size = imgPtr->GetLargestPossibleRegion().GetSize();
 
   std::cout << "Data: " <<std::endl;
-  for (int n=0; n < dim - 1 ; n++)
+  for (int n=0; n < dim - 1; n++)
     {
     for (unsigned int jj=0; jj < size[n + 1]; jj++)
       {
 
       while ( !outIt.IsAtEndOfLine() )
         {
-        std::cout << outIt.Get() << ", " ;
+        std::cout << outIt.Get() << ", ";
         ++outIt;
         }
        outIt.NextLine();

@@ -22,9 +22,9 @@
 int
 itkMinimumMaximumImageFilterTest(int , char *[] )
 {
-  typedef itk::Size<3>                                  SizeType;
-  typedef itk::Image<float, 3>                  ImageType;
-  typedef itk::MinimumMaximumImageFilter<ImageType>  MinMaxFilterType;
+  typedef itk::Size<3>                              SizeType;
+  typedef itk::Image<float, 3>                      ImageType;
+  typedef itk::MinimumMaximumImageFilter<ImageType> MinMaxFilterType;
 
   /* Define the image size and physical coordinates */
   SizeType size = {{20, 20, 20}};
@@ -87,7 +87,7 @@ itkMinimumMaximumImageFilterTest(int , char *[] )
 
   if(minimumResult != minimum)
     {
-    std::cout << "Minimum Value is wrong : " << minimumResult ;
+    std::cout << "Minimum Value is wrong : " << minimumResult;
     std::cout << " != " << minimum << std::endl;
     flag = 1;
     }
@@ -98,7 +98,7 @@ itkMinimumMaximumImageFilterTest(int , char *[] )
 
   if(maximumResult != maximum)
     {
-    std::cout << "Maximum Value is wrong : " << maximumResult ;
+    std::cout << "Maximum Value is wrong : " << maximumResult;
     std::cout << " != " << maximum << std::endl;
     flag = 2;
     }
@@ -115,4 +115,3 @@ itkMinimumMaximumImageFilterTest(int , char *[] )
     return EXIT_SUCCESS;
     }
 }
-

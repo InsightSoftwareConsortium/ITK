@@ -102,8 +102,6 @@ int itkPathFunctionsTest(int, char*[])
 
   itk::MakeFourierSeriesPathTraceChainCode( *path, *chainPath, 2 );
 
-
-
   // Test the iterator
   std::cout << "Creating an iterator to trace the FourierSeriesPath" << std::endl;
   IterType iter(image, path);

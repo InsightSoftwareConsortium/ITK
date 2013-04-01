@@ -61,16 +61,17 @@ public:
 
 protected:
   std::vector< std::string > m_Files;
-  std::string m_OutputFile;
+  std::string                m_OutputFile;
 };
 
 template< unsigned int VDimension>
 class Stapler : public StaplerBase
 {
 public:
-  typedef itk::Image< double, VDimension > OutputImageType;
+  typedef itk::Image< double, VDimension >         OutputImageType;
   typedef itk::Image< unsigned short, VDimension > InputImageType;
-  typedef itk::STAPLEImageFilter<InputImageType, OutputImageType> StapleFilterType;
+  typedef itk::STAPLEImageFilter<InputImageType, OutputImageType>
+                                                   StapleFilterType;
 
   Stapler()
   {
@@ -221,4 +222,3 @@ int itkSTAPLEImageFilterTest( int argc, char * argv[])
 
   return EXIT_SUCCESS;
 }
-

@@ -24,12 +24,12 @@ int itkOrthogonallyCorrected2DParametricPathTest(int, char*[])
 {
   typedef  itk::OrthogonallyCorrected2DParametricPath   PathType;
   typedef  itk::PolyLineParametricPath<2>               OriginalPathType;
-  typedef  PathType::InputType          InputType;
-  typedef  PathType::IndexType          IndexType;
-  typedef  PathType::OffsetType         OffsetType;
-  typedef  OriginalPathType::VertexType VertexType;
-  typedef  PathType::OrthogonalCorrectionTableType OrthogonalCorrectionTableType;
-  typedef  PathType::OrthogonalCorrectionTablePointer OrthogonalCorrectionTablePointer;
+  typedef  PathType::InputType                          InputType;
+  typedef  PathType::IndexType                          IndexType;
+  typedef  PathType::OffsetType                         OffsetType;
+  typedef  OriginalPathType::VertexType                 VertexType;
+  typedef  PathType::OrthogonalCorrectionTableType      OrthogonalCorrectionTableType;
+  typedef  PathType::OrthogonalCorrectionTablePointer   OrthogonalCorrectionTablePointer;
 
   bool passed = true;
 
@@ -64,8 +64,6 @@ int itkOrthogonallyCorrected2DParametricPathTest(int, char*[])
   PathType::Pointer path = PathType::New();
   path->SetOriginalPath(originalPath);
   path->SetOrthogonalCorrectionTable(correctionTable);
-
-
 
   // Test the corrected path
 

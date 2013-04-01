@@ -40,7 +40,7 @@ int itkVectorIndexSelectionCastImageFilterTest(int argc, char * argv [] )
   const unsigned int ImageDimension = 2;
 
   typedef itk::VectorImage< InputPixelType, ImageDimension > InputImageType;
-  typedef itk::Image< OutputPixelType, ImageDimension  > OutputImageType;
+  typedef itk::Image< OutputPixelType, ImageDimension  >     OutputImageType;
 
   typedef itk::ImageFileReader< InputImageType  > ReaderType;
   typedef itk::ImageFileWriter< OutputImageType > WriterType;
@@ -108,4 +108,3 @@ int itkVectorIndexSelectionCastImageFilterTest(int argc, char * argv [] )
   return EXIT_SUCCESS;
 
 }
-

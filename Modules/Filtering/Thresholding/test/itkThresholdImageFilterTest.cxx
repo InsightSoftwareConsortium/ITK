@@ -273,6 +273,3 @@ int itkThresholdImageFilterTest(int, char* [] )
 
   return EXIT_SUCCESS;
 }
-
-
-

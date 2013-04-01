@@ -45,10 +45,8 @@ typedef itk::ImageRegionIteratorWithIndex< myVectorImageType >  myVectorIterator
 
 typedef itk::NthElementPixelAccessor<float, itk::Vector<float, 3> > myAccessorType;
 
-typedef itk::Image< float,   2 > myImageType;
-typedef itk::ImageRegionIteratorWithIndex< myImageType >  myIteratorType;
-
-
+typedef itk::Image< float,   2 >                         myImageType;
+typedef itk::ImageRegionIteratorWithIndex< myImageType > myIteratorType;
 
 //-------------------------
 //
@@ -200,6 +198,3 @@ int itkAdaptImageFilterTest2(int, char* [] ) {
     return EXIT_FAILURE;
     }
 }
-
-
-

@@ -90,6 +90,3 @@ int itkMeanImageFilterTest(int, char* [] )
 
   return EXIT_SUCCESS;
 }
-
-
-

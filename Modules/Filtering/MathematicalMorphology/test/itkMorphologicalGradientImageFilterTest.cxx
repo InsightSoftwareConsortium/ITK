@@ -33,7 +33,7 @@ int itkMorphologicalGradientImageFilterTest(int argc, char * argv[])
 
   const int dim = 2;
 
-  typedef unsigned char PType;
+  typedef unsigned char            PType;
   typedef itk::Image< PType, dim > IType;
 
   typedef itk::ImageFileReader< IType > ReaderType;
@@ -70,4 +70,3 @@ int itkMorphologicalGradientImageFilterTest(int argc, char * argv[])
 
   return EXIT_SUCCESS;
 }
-

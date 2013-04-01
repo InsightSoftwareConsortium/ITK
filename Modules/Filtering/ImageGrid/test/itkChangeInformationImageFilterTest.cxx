@@ -21,7 +21,7 @@
 
 const unsigned int ImageDimension = 3;
 typedef itk::Image<float, ImageDimension>  ImageType;
-typedef ImageType::Pointer ImagePointer;
+typedef ImageType::Pointer                 ImagePointer;
 
 void PrintInformation(ImagePointer image1, ImagePointer image2)
 {
@@ -93,7 +93,7 @@ void PrintInformation3(ImagePointer image1, ImagePointer image2, ImagePointer im
 int itkChangeInformationImageFilterTest(int, char* [] )
 {
   typedef itk::ChangeInformationImageFilter<ImageType> FilterType;
-  typedef itk::FixedArray<double,ImageDimension> ArrayType;
+  typedef itk::FixedArray<double,ImageDimension>       ArrayType;
 
   ImageType::Pointer inputImage  = ImageType::New();
   ImageType::Pointer referenceImage  = ImageType::New();
@@ -112,9 +112,8 @@ int itkChangeInformationImageFilterTest(int, char* [] )
   direction[1][2] = 0.0;
   direction[2][2] = 1.0;
 
-  typedef itk::ImageRegion<ImageDimension> RegionType;
-  typedef itk::Size<ImageDimension> SizeType;
-  //typedef itk::ImageRegion<ImageDimension> RegionType;
+  typedef itk::ImageRegion<ImageDimension>   RegionType;
+  typedef itk::Size<ImageDimension>          SizeType;
 
   SizeType size; size.Fill(20);
 
@@ -206,73 +205,71 @@ int itkChangeInformationImageFilterTest(int, char* [] )
   const itk::OffsetValueType * outputOffset = filter->GetOutputOffset().m_Offset;
   std::cout << "filter->GetOutputOffset(): " << outputOffset << std::endl;
 
-
-
   // Catch any exceptions
   try
     {
     std::cout << "-----------filter: " << filter << std::endl;
     filter->Update();
-    std::cout << "-----------Default behavior: "<< std::endl;;
+    std::cout << "-----------Default behavior: "<< std::endl;
     PrintInformation (inputImage, filter->GetOutput());
 
     filter->ChangeAll();
     filter->ChangeRegionOff();
     filter->Update();
-    std::cout << "-----------ChangeAll(), ChangeRegionOff(): " << std::endl;;
+    std::cout << "-----------ChangeAll(), ChangeRegionOff(): " << std::endl;
     PrintInformation (inputImage, filter->GetOutput());
 
     filter->CenterImageOn();
     filter->Update();
-    std::cout << "-----------CenterImageOn(): " << std::endl;;
+    std::cout << "-----------CenterImageOn(): " << std::endl;
     PrintInformation (inputImage, filter->GetOutput());
 
     filter->CenterImageOn();
     filter->ChangeSpacingOff();
     filter->Update();
-    std::cout << "-----------CenterImageOn(), ChangeSpacingOff(): " << std::endl;;
+    std::cout << "-----------CenterImageOn(), ChangeSpacingOff(): " << std::endl;
     PrintInformation (inputImage, filter->GetOutput());
 
     filter->CenterImageOn();
     filter->ChangeSpacingOn();
     filter->ChangeOriginOff();
     filter->Update();
-    std::cout << "-----------CenterImageOn(), ChangeOriginOff(): " << std::endl;;
+    std::cout << "-----------CenterImageOn(), ChangeOriginOff(): " << std::endl;
     PrintInformation (inputImage, filter->GetOutput());
 
     filter->CenterImageOff();
     filter->ChangeNone();
     filter->Update();
-    std::cout << "-----------ChangeNone(): " << std::endl;;
+    std::cout << "-----------ChangeNone(): " << std::endl;
     PrintInformation (inputImage, filter->GetOutput());
 
     filter->CenterImageOff();
     filter->UseReferenceImageOn();
     filter->Update();
-    std::cout << "-----------ChangeNone(), UseReferenceOn(): " << std::endl;;
+    std::cout << "-----------ChangeNone(), UseReferenceOn(): " << std::endl;
     PrintInformation3 (inputImage, filter->GetOutput(), referenceImage);
 
     filter->ChangeOriginOn();
     filter->Update();
-    std::cout << "-----------ChangeOriginOn(), UseReferenceOn(): " << std::endl;;
+    std::cout << "-----------ChangeOriginOn(), UseReferenceOn(): " << std::endl;
     PrintInformation3 (inputImage, filter->GetOutput(), referenceImage);
 
     filter->ChangeOriginOff();
     filter->ChangeSpacingOn();
     filter->Update();
-    std::cout << "-----------ChangeSpacingOn(), UseReferenceOn(): " << std::endl;;
+    std::cout << "-----------ChangeSpacingOn(), UseReferenceOn(): " << std::endl;
     PrintInformation3 (inputImage, filter->GetOutput(), referenceImage);
 
     filter->ChangeOriginOff();
     filter->ChangeSpacingOff();
     filter->ChangeDirectionOn();
     filter->Update();
-    std::cout << "-----------ChangeDirectionOn(), UseReferenceOn(): " << std::endl;;
+    std::cout << "-----------ChangeDirectionOn(), UseReferenceOn(): " << std::endl;
     PrintInformation3 (inputImage, filter->GetOutput(), referenceImage);
 
     filter->ChangeAll();
     filter->UpdateLargestPossibleRegion();
-    std::cout << "-----------ChangeAll(), UseReferenceOn(): " << std::endl;;
+    std::cout << "-----------ChangeAll(), UseReferenceOn(): " << std::endl;
     PrintInformation3 (inputImage, filter->GetOutput(), referenceImage);
 
     }
@@ -283,4 +280,3 @@ int itkChangeInformationImageFilterTest(int, char* [] )
     }
   return EXIT_SUCCESS;
 }
-

@@ -52,8 +52,10 @@ int runGPUNeighborhoodOperatorImageFilterTest(const std::string& inFile, const s
   writer->SetFileName( outFile );
 
   typedef OutputPixelType    RealOutputPixelType;
-  typedef itk::Image< OutputPixelType, VImageDimension >      RealOutputImageType;
-  typedef itk::NumericTraits<RealOutputPixelType>::ValueType RealOutputPixelValueType;
+  typedef itk::Image< OutputPixelType, VImageDimension >
+                             RealOutputImageType;
+  typedef itk::NumericTraits<RealOutputPixelType>::ValueType
+                             RealOutputPixelValueType;
 
   typedef itk::NeighborhoodOperatorImageFilter< InputImageType, OutputImageType, RealOutputPixelValueType > NeighborhoodFilterType;
   typedef itk::GPUNeighborhoodOperatorImageFilter< InputImageType, OutputImageType, RealOutputPixelValueType > GPUNeighborhoodFilterType;

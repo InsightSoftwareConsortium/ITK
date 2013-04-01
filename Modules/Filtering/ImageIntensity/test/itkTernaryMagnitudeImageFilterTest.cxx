@@ -162,7 +162,3 @@ int itkTernaryMagnitudeImageFilterTest(int, char* [] )
   return EXIT_SUCCESS;
 
 }
-
-
-
-

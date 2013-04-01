@@ -152,4 +152,3 @@ int itkHessian3DToVesselnessMeasureImageFilterTest(int, char* [] )
   return EXIT_SUCCESS;
 
 }
-

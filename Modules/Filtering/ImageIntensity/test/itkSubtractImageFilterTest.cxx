@@ -140,7 +140,3 @@ int itkSubtractImageFilterTest(int, char* [] )
   return EXIT_SUCCESS;
 
 }
-
-
-
-

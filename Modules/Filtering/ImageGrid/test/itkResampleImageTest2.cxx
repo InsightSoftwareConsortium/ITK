@@ -84,7 +84,9 @@ int itkResampleImageTest2(int argc, char * argv [] )
   typedef ImageType::RegionType                  ImageRegionType;
   typedef ImageType::SizeType                    ImageSizeType;
   typedef double                                 CoordRepType;
-  typedef itk::AffineTransform<CoordRepType,NDimensions>   AffineTransformType;
+
+  typedef itk::AffineTransform<CoordRepType,NDimensions>
+                                                 AffineTransformType;
   typedef NonlinearAffineTransform<CoordRepType,NDimensions>
                                                  NonlinearAffineTransformType;
   typedef itk::LinearInterpolateImageFunction<ImageType,CoordRepType>

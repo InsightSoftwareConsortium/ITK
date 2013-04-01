@@ -32,12 +32,12 @@ int itkOpeningByReconstructionImageFilterTest(int argc, char* argv [] )
   }
 
   const int Dimension = 2;
-  typedef unsigned char PixelType;
-  typedef itk::Image< PixelType, Dimension >   InputImageType;
-  typedef itk::Image< PixelType, Dimension >   OutputImageType;
+  typedef unsigned char                      PixelType;
+  typedef itk::Image< PixelType, Dimension > InputImageType;
+  typedef itk::Image< PixelType, Dimension > OutputImageType;
 
-  typedef itk::ImageFileReader< InputImageType >   ReaderType;
-  typedef itk::ImageFileWriter< OutputImageType >  WriterType;
+  typedef itk::ImageFileReader< InputImageType >  ReaderType;
+  typedef itk::ImageFileWriter< OutputImageType > WriterType;
 
   // Declare the type of the Structuring element to be used
   typedef itk::BinaryBallStructuringElement<
@@ -116,7 +116,3 @@ int itkOpeningByReconstructionImageFilterTest(int argc, char* argv [] )
   return EXIT_SUCCESS;
 
 }
-
-
-
-

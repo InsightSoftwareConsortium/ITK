@@ -43,7 +43,7 @@ int itkPromoteDimensionImageTest(int argc, char* argv[])
   typedef itk::Image<CharPixelType, OutDimension>   OutCharImageType;
   typedef itk::Image<RealPixelType, InDimension>    RealImageType;
 
-  typedef itk::ImageFileReader< InCharImageType >  ReaderType;
+  typedef itk::ImageFileReader< InCharImageType >   ReaderType;
   typedef itk::ImageFileWriter< OutCharImageType >  WriterType;
 
   typedef itk::CastImageFilter<InCharImageType, RealImageType> CastToRealFilterType;

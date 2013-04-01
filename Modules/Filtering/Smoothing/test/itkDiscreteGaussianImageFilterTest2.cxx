@@ -1,4 +1,4 @@
- /*=========================================================================
+/*=========================================================================
  *
  *  Copyright Insight Software Consortium
  *
@@ -14,12 +14,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  *
- *
- *  Test modified DiscreteGaussianImageFilter
- *       working with Image< Vector<T, n>, d>
- *
  *=========================================================================*/
-
 #include <iostream>
 
 #include "itkDiscreteGaussianImageFilter.h"

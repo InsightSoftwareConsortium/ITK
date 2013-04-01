@@ -54,9 +54,9 @@ int itkDoubleThresholdImageFilterTest( int argc, char * argv[] )
 
   // readers/writers
   typedef itk::ImageFileReader< InputImageType  >  ReaderType;
-  typedef itk::ImageFileWriter< WriteImageType >  WriterType;
+  typedef itk::ImageFileWriter< WriteImageType >   WriterType;
   typedef itk::RescaleIntensityImageFilter<OutputImageType, WriteImageType>
-    RescaleType;
+                                                   RescaleType;
 
   // define the fillhole filter
   typedef itk::DoubleThresholdImageFilter<

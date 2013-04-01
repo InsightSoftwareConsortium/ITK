@@ -44,20 +44,19 @@ int itkHConvexConcaveImageFilterTest( int argc, char * argv[] )
   //
   const unsigned int Dimension = 2;
 
-  typedef float   InputPixelType;
-  typedef float   OutputPixelType;
-  typedef unsigned char    WritePixelType;
+  typedef float         InputPixelType;
+  typedef float         OutputPixelType;
+  typedef unsigned char WritePixelType;
 
-  typedef itk::Image< InputPixelType,  Dimension >   InputImageType;
-  typedef itk::Image< OutputPixelType, Dimension >   OutputImageType;
-  typedef itk::Image< WritePixelType, Dimension >    WriteImageType;
-
+  typedef itk::Image< InputPixelType,  Dimension > InputImageType;
+  typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
+  typedef itk::Image< WritePixelType, Dimension >  WriteImageType;
 
   // readers/writers
-  typedef itk::ImageFileReader< InputImageType  >  ReaderType;
+  typedef itk::ImageFileReader< InputImageType  > ReaderType;
   typedef itk::ImageFileWriter< WriteImageType >  WriterType;
   typedef itk::RescaleIntensityImageFilter<OutputImageType, WriteImageType>
-    RescaleType;
+                                                  RescaleType;
 
   // define the hconvex/hconcave filter
   typedef itk::HConvexImageFilter<

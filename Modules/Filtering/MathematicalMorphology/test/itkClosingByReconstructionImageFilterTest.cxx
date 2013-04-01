@@ -33,9 +33,9 @@ int itkClosingByReconstructionImageFilterTest(int argc, char* argv [] )
   }
 
   const int Dimension = 2;
-  typedef unsigned char PixelType;
-  typedef itk::Image< PixelType, Dimension >   InputImageType;
-  typedef itk::Image< PixelType, Dimension >   OutputImageType;
+  typedef unsigned char                      PixelType;
+  typedef itk::Image< PixelType, Dimension > InputImageType;
+  typedef itk::Image< PixelType, Dimension > OutputImageType;
 
   typedef itk::ImageFileReader< InputImageType >   ReaderType;
   typedef itk::ImageFileWriter< OutputImageType >  WriterType;
@@ -113,7 +113,3 @@ int itkClosingByReconstructionImageFilterTest(int argc, char* argv [] )
   return EXIT_SUCCESS;
 
 }
-
-
-
-

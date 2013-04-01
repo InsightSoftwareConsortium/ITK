@@ -38,26 +38,24 @@ int itkImageAdaptorNthElementTest(int, char* [] )
   //-------------------------------------------------------------
 
   // Float Image typedefs
-  typedef   float                                       myFloatPixelType;
-  typedef   itk::Image<myFloatPixelType, 3>     myFloatImageType;
+  typedef   float                            myFloatPixelType;
+  typedef   itk::Image<myFloatPixelType, 3>  myFloatImageType;
 
-  typedef   myFloatImageType::SizeType                  mySizeType;
-  typedef   myFloatImageType::IndexType                 myIndexType;
-  typedef   myFloatImageType::RegionType                myRegionType;
+  typedef   myFloatImageType::SizeType       mySizeType;
+  typedef   myFloatImageType::IndexType      myIndexType;
+  typedef   myFloatImageType::RegionType     myRegionType;
 
 
   // RGBPixel Image typedefs
-  typedef   itk::Vector<myFloatPixelType,3>             myContainerPixelType;
+  typedef   itk::Vector<myFloatPixelType,3>     myContainerPixelType;
   typedef   itk::Image<
-                       myContainerPixelType, 3>    myContainerPixelImageType;
-
+                       myContainerPixelType, 3> myContainerPixelImageType;
 
 
   typedef   itk::NthElementImageAdaptor< myContainerPixelImageType,
-                                         myFloatPixelType >        myAdaptorType;
-
+                                         myFloatPixelType > myAdaptorType;
   typedef itk::ImageRegionIteratorWithIndex<
-                                   myFloatImageType > myFloatIteratorType;
+                                   myFloatImageType >       myFloatIteratorType;
 
 
   typedef itk::ImageRegionIteratorWithIndex<
@@ -193,9 +191,6 @@ int itkImageAdaptorNthElementTest(int, char* [] )
 
   myAdaptor->SetImage( myContainerPixelImage );
 
-
-
-
   //-------------------------------------------------------------
   //         Create the filter and connect the inputs
   //-------------------------------------------------------------
@@ -205,8 +200,6 @@ int itkImageAdaptorNthElementTest(int, char* [] )
   filter->SetInput1( myAdaptor );
   filter->SetInput2( myFloatImage );
 
-
-
   //-------------------------------------------------------------
   //      Set the requested region of  the Output image
   //-------------------------------------------------------------
@@ -215,8 +208,6 @@ int itkImageAdaptorNthElementTest(int, char* [] )
   myFloatOutputImage->SetSpacing( spacing );
 
   std::cout << "Float Output Image Initializaed" << std::endl;
-
-
 
   //-------------------------------------------------------------
   //         Force the execution of the filter
@@ -258,8 +249,6 @@ int itkImageAdaptorNthElementTest(int, char* [] )
     ++ito;
   }
 
-
-
   //-------------------------------------------------------------
   //         Force the execution of the filter
   //-------------------------------------------------------------
@@ -286,8 +275,6 @@ int itkImageAdaptorNthElementTest(int, char* [] )
     std::cout <<  ito.Get() << std::endl;
     ++ito;
   }
-
-
 
   //-------------------------------------------------------------
   //         Force the execution of the filter
@@ -316,11 +303,6 @@ int itkImageAdaptorNthElementTest(int, char* [] )
     ++ito;
   }
 
-
-
   return EXIT_SUCCESS;
 
 }
-
-
-

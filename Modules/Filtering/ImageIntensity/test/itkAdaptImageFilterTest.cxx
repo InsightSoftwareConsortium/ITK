@@ -43,17 +43,15 @@
 //-------------------------------------
 //     Typedefs for convenience
 //-------------------------------------
-typedef itk::Image< itk::RGBPixel<float>,   2 > myRGBImageType;
-typedef itk::ImageRegionIteratorWithIndex< myRGBImageType >  myRGBIteratorType;
+typedef itk::Image< itk::RGBPixel<float>,   2 >             myRGBImageType;
+typedef itk::ImageRegionIteratorWithIndex< myRGBImageType > myRGBIteratorType;
 
-typedef itk::RedPixelAccessor<float> myRedAccessorType;
+typedef itk::RedPixelAccessor<float>   myRedAccessorType;
 typedef itk::GreenPixelAccessor<float> myGreenAccessorType;
-typedef itk::BluePixelAccessor<float> myBlueAccessorType;
+typedef itk::BluePixelAccessor<float>  myBlueAccessorType;
 
-typedef itk::Image< float,   2 > myImageType;
-typedef itk::ImageRegionIteratorWithIndex< myImageType >  myIteratorType;
-
-
+typedef itk::Image< float,   2 >                         myImageType;
+typedef itk::ImageRegionIteratorWithIndex< myImageType > myIteratorType;
 
 //-------------------------
 //
@@ -199,6 +197,3 @@ int itkAdaptImageFilterTest(int, char* [] ) {
     return EXIT_FAILURE;
     }
 }
-
-
-

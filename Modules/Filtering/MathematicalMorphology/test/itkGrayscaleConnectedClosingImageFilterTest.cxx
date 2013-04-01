@@ -52,7 +52,7 @@ int itkGrayscaleConnectedClosingImageFilterTest( int argc, char * argv[] )
 
 
   // readers/writers
-  typedef itk::ImageFileReader< InputImageType  >  ReaderType;
+  typedef itk::ImageFileReader< InputImageType  > ReaderType;
   typedef itk::ImageFileWriter< WriteImageType >  WriterType;
 
   // define the connected closing filter
@@ -87,4 +87,3 @@ int itkGrayscaleConnectedClosingImageFilterTest( int argc, char * argv[] )
 
   return EXIT_SUCCESS;
 }
-

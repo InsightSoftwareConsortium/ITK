@@ -114,7 +114,12 @@ int itkIntensityWindowingImageFilterTest(int, char* [] )
 
   filter->SetWindowLevel( window, level  );
 
-  std::cout << "Window:level = " << filter->GetWindow() << ":" << filter->GetLevel() << ", equivalent window minimum:maximum = " << filter->GetWindowMinimum()  << ":" << filter->GetWindowMaximum() << std::endl;
+  std::cout << "Window:level = "
+            << filter->GetWindow() << ":"
+            << filter->GetLevel()
+            << ", equivalent window minimum:maximum = "
+            << filter->GetWindowMinimum()
+            << ":" << filter->GetWindowMaximum() << std::endl;
 
   try
     {

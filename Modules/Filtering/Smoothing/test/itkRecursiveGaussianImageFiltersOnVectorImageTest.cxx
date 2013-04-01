@@ -29,9 +29,9 @@ int itkRecursiveGaussianImageFiltersOnVectorImageTest(int, char* [] )
   const double       tolerance = 0.001;
 
   const unsigned int NumberOfComponents = 4;
-  typedef double PixelComponentType;
-  typedef itk::VectorImage< PixelComponentType, Dimension >  ImageType;
-  typedef ImageType::PixelType  PixelType;
+  typedef double                                              PixelComponentType;
+  typedef itk::VectorImage< PixelComponentType, Dimension >   ImageType;
+  typedef ImageType::PixelType                                PixelType;
   typedef itk::ImageLinearIteratorWithIndex< ImageType >      IteratorType;
   typedef itk::ImageLinearConstIteratorWithIndex< ImageType > ConstIteratorType;
 

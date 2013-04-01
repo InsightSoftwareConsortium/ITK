@@ -27,13 +27,13 @@
 int itkHessianRecursiveGaussianFilterScaleSpaceTest(int, char* [] )
 {
   const unsigned int Dimension = 3;
-  typedef double PixelType;
+  typedef double                          PixelType;
   typedef itk::Image<PixelType,Dimension> ImageType;
-  typedef itk::Index<Dimension> IndexType;
-  typedef itk::Size<Dimension> SizeType;
-  typedef itk::ImageRegion<Dimension> RegionType;
-  typedef ImageType::PointType PointType;
-  typedef ImageType::SpacingType SpacingType;
+  typedef itk::Index<Dimension>           IndexType;
+  typedef itk::Size<Dimension>            SizeType;
+  typedef itk::ImageRegion<Dimension>     RegionType;
+  typedef ImageType::PointType            PointType;
+  typedef ImageType::SpacingType          SpacingType;
 
   ImageType::Pointer inputImage = ImageType::New();
 

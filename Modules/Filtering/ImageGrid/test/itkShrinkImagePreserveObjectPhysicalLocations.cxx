@@ -112,7 +112,7 @@ TImageType::PointType ComputeCG(TImageType::Pointer img)
   while( !it.IsAtEnd() )
     {
     const double value = it.Value();
-    sumMass+=value;
+    sumMass += value;
     TImageType::IndexType indexPosition = it.GetIndex();
     TImageType::PointType physicalPosition;
     img->TransformIndexToPhysicalPoint(indexPosition, physicalPosition);

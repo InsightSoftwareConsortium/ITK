@@ -182,7 +182,3 @@ int itkGrayscaleFunctionErodeImageFilterTest(int argc, char* argv[] )
   return EXIT_SUCCESS;
 
 }
-
-
-
-
