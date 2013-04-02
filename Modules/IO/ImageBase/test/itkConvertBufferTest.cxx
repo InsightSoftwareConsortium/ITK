@@ -90,17 +90,17 @@ int itkConvertBufferTest(int, char* [])
   std::cerr << "int array   : ";
   for(i =0; i < arraySize; ++i)
     {
-    std::cerr << iarray[i] << " " ;
+    std::cerr << iarray[i] << " ";
     }
   std::cerr << "\nfloat array  : ";
   for(i =0; i < arraySize; ++i)
     {
-    std::cerr << farray[i] << " " ;
+    std::cerr << farray[i] << " ";
     }
   std::cerr << "\ndouble array : ";
   for(i =0; i < arraySize; ++i)
     {
-    std::cerr << darray[i] << " " ;
+    std::cerr << darray[i] << " ";
     }
   std::cerr << "\n";
   return EXIT_SUCCESS;

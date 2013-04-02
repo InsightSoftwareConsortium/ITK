@@ -32,7 +32,7 @@ int itkNrrdCovariantVectorImageReadWriteTest( int ac, char* av[] )
     }
 
   typedef itk::CovariantVector<float, 4> PixelType;
-  typedef itk::Image<PixelType, 3> myImage;
+  typedef itk::Image<PixelType, 3>       myImage;
 
   typedef itk::ImageFileReader<myImage>  ReaderType;
 

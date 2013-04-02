@@ -33,7 +33,7 @@ int itkMeshFileWriteReadTensorTest( int argc, char* argv[] )
   const char * outputMesh2D = argv[1];
   const char * outputMesh3D = argv[2];
 
-  typedef float TensorElementType;
+  typedef float                                               TensorElementType;
   typedef itk::SymmetricSecondRankTensor<TensorElementType,2> Tensor2dType;
   typedef itk::SymmetricSecondRankTensor<TensorElementType,3> Tensor3dType;
 

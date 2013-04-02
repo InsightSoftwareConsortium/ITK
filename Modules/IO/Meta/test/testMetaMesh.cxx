@@ -106,7 +106,7 @@ bool TestingMetaMesh(MetaMesh* _mesh)
     {
     if((*it_link)->m_Id != j)
       {
-      std::cout << "CellLink ID = " << (*it_link)->m_Id << " : " ;
+      std::cout << "CellLink ID = " << (*it_link)->m_Id << " : ";
       std::cout << "[FAILED]" << std::endl;
       return EXIT_FAILURE;
       }
@@ -235,7 +235,7 @@ int testMetaMesh(int argc, char * argv[])
     MeshData<float>* cd = new MeshData<float>();
     cd->m_Id = i;
     cd->m_Data = f;
-    f+=(float)(0.2);
+    f += (float)(0.2);
     mesh->GetCellData().push_back(cd);
     }
   std::cout << "[PASSED]" << std::endl;

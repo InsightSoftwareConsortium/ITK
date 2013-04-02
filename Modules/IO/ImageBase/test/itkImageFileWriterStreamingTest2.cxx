@@ -114,9 +114,9 @@ int itkImageFileWriterStreamingTest2(int argc, char* argv[])
     }
 
   if (!SameImage( argv[1], argv[2]))
+    {
     return EXIT_FAILURE;
-
-
+    }
 
   reader->Modified();
   // get the size of the image
@@ -259,10 +259,9 @@ int itkImageFileWriterStreamingTest2(int argc, char* argv[])
     }
 
   if (!SameImage( argv[1], argv[2]))
+    {
     return EXIT_FAILURE;
-
-
-
+    }
 
   reader->Modified();
   ////////////////////////////////////////////////
@@ -295,9 +294,9 @@ int itkImageFileWriterStreamingTest2(int argc, char* argv[])
     }
 
   if (!SameImage( argv[1], argv[2]))
+    {
     return EXIT_FAILURE;
-
-
+    }
 
   reader->Modified();
   bool thrownException = false;
@@ -354,9 +353,9 @@ int itkImageFileWriterStreamingTest2(int argc, char* argv[])
     }
 
   if (!thrownException)
+    {
     return EXIT_FAILURE;
-
-
+    }
 
   reader->Modified();
   ////////////////////////////////////////////////

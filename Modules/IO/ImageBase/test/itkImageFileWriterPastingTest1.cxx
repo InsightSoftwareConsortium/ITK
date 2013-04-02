@@ -32,9 +32,9 @@ int itkImageFileWriterPastingTest1(int argc, char* argv[])
   itksys::SystemTools::RemoveFile(argv[2]);
 
   typedef unsigned char            PixelType;
-  typedef itk::Image<PixelType,3>   ImageType;
+  typedef itk::Image<PixelType,3>  ImageType;
 
-  typedef itk::ImageFileReader<ImageType>         ReaderType;
+  typedef itk::ImageFileReader<ImageType>    ReaderType;
   typedef itk::ImageFileWriter< ImageType >  WriterType;
 
   ReaderType::Pointer reader = ReaderType::New();

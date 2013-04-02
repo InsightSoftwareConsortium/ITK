@@ -88,6 +88,3 @@ int itkStimulateImageIOTest(int argc, char* argv[] )
     }
   return EXIT_SUCCESS;
 }
-
-
-

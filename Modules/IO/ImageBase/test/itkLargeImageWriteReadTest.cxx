@@ -26,14 +26,14 @@ namespace {
 template <typename TImageType>
 int ActualTest( std::string filename, typename TImageType::SizeType size )
 {
-  typedef TImageType ImageType;
+  typedef TImageType                    ImageType;
   typedef typename ImageType::PixelType PixelType;
 
 
   typedef itk::ImageFileWriter< ImageType >   WriterType;
   typedef itk::ImageFileReader< ImageType >   ReaderType;
 
-  typedef itk::ImageRegionIterator< ImageType >  IteratorType;
+  typedef itk::ImageRegionIterator< ImageType >       IteratorType;
   typedef itk::ImageRegionConstIterator< ImageType >  ConstIteratorType;
 
   typename ImageType::RegionType region;
@@ -172,7 +172,7 @@ int itkLargeImageWriteReadTest(int ac, char* argv[])
     {
     const unsigned int Dimension = 2;
 
-    typedef unsigned short PixelType;
+    typedef unsigned short                    PixelType;
     typedef itk::Image< PixelType, Dimension> ImageType;
 
     ImageType::SizeType size;
@@ -186,7 +186,7 @@ int itkLargeImageWriteReadTest(int ac, char* argv[])
     {
     const unsigned int Dimension = 3;
 
-    typedef unsigned short PixelType;
+    typedef unsigned short                    PixelType;
     typedef itk::Image< PixelType, Dimension> ImageType;
 
     ImageType::SizeType size;

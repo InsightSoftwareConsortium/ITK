@@ -32,7 +32,7 @@ int itkNrrdDiffusionTensor3DImageReadWriteTest( int ac, char* av[] )
     }
 
   typedef itk::DiffusionTensor3D<float> PixelType;
-  typedef itk::Image<PixelType, 3> myImage;
+  typedef itk::Image<PixelType, 3>      myImage;
 
   typedef itk::ImageFileReader<myImage>  ReaderType;
 

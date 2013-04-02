@@ -36,8 +36,8 @@ int Read( const char *filename , bool ReadBigEndian, unsigned int dims[] )
 
     const unsigned int ImageDimension = TImageType::ImageDimension;
 
-    typedef typename TImageType::PixelType   PixelType;
-    typedef itk::ImageFileReader<TImageType> ReaderType;
+    typedef typename TImageType::PixelType            PixelType;
+    typedef itk::ImageFileReader<TImageType>          ReaderType;
     typedef itk::RawImageIO<PixelType,ImageDimension> IOType;
 
     typename IOType::Pointer io = IOType::New();
@@ -107,14 +107,6 @@ int Read( const char *filename , bool ReadBigEndian, unsigned int dims[] )
 
 };
 
-
-
-
-
-
-
-
-
 int itkRawImageIOTest4(int argc, char*argv[])
 {
 
@@ -122,12 +114,12 @@ int itkRawImageIOTest4(int argc, char*argv[])
   const unsigned int ImageDimension = 2;
 
   typedef itk::RawImageIO<PixelType,ImageDimension> IOType;
-  typedef itk::Image<PixelType,ImageDimension> ImageType;
+  typedef itk::Image<PixelType,ImageDimension>      ImageType;
 
   unsigned int dims[ImageDimension] = { 5, 5 };
 
   typedef itk::PixelTraits< PixelType >::ValueType ComponentType;
-  typedef itk::ByteSwapper< ComponentType >              ByteSwapperType;
+  typedef itk::ByteSwapper< ComponentType >        ByteSwapperType;
 
   PixelType value = itk::NumericTraits< PixelType >::Zero;
   unsigned int numberOfPixels = dims[0] * dims[1];
@@ -172,9 +164,6 @@ int itkRawImageIOTest4(int argc, char*argv[])
     return EXIT_FAILURE;
     }
 
-
-
-
   // Create the LittleEndian binary file
   std::ofstream outputFile2(argv[2], std::ios::out);
   outputFile2.close();
@@ -208,8 +197,6 @@ int itkRawImageIOTest4(int argc, char*argv[])
     std::cerr << "itkRawImageIOTest4:Error writing the test file" << std::endl;
     return EXIT_FAILURE;
     }
-
-
 
   RawImageIOReadFileTester<ImageType>  readTester;
 
@@ -247,5 +234,3 @@ int itkRawImageIOTest4(int argc, char*argv[])
   return EXIT_SUCCESS;
 
 }
-
-

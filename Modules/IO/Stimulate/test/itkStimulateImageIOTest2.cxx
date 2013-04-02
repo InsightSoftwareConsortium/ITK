@@ -33,7 +33,7 @@ int itkStimulateImageIOTest2( int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-  typedef float PixelType;
+  typedef float                    PixelType;
   typedef itk::Image<PixelType, 3> myImage;
 
   itk::StimulateImageIO::Pointer io;

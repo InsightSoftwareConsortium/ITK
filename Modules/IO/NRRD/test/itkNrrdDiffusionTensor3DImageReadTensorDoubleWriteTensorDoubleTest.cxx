@@ -32,9 +32,9 @@ int itkNrrdDiffusionTensor3DImageReadTensorDoubleWriteTensorDoubleTest( int ac, 
     }
 
   typedef itk::DiffusionTensor3D<double> InPixelType;
-  typedef itk::DiffusionTensor3D<float> OutPixelType;
-  typedef itk::Image<InPixelType, 3> InImage;
-  typedef itk::Image<OutPixelType, 3> OutImage;
+  typedef itk::DiffusionTensor3D<float>  OutPixelType;
+  typedef itk::Image<InPixelType, 3>     InImage;
+  typedef itk::Image<OutPixelType, 3>    OutImage;
 
   typedef itk::ImageFileReader<InImage>  ReaderType;
 

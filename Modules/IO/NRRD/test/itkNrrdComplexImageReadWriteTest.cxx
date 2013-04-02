@@ -31,7 +31,7 @@ int itkNrrdComplexImageReadWriteTest( int ac, char* av[] )
     return EXIT_FAILURE;
     }
 
-  typedef std::complex<float> PixelType;
+  typedef std::complex<float>      PixelType;
   typedef itk::Image<PixelType, 2> myImage;
 
   typedef itk::ImageFileReader<myImage>  ReaderType;

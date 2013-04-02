@@ -77,8 +77,6 @@ int itkImageSeriesReaderDimensionsTest(int ac, char* av[])
     return EXIT_FAILURE;
     }
 
-
-
   std::cout << "testing reading a single 2D image to 4D" << std::endl;
    try
     {
@@ -123,8 +121,6 @@ int itkImageSeriesReaderDimensionsTest(int ac, char* av[])
     return EXIT_FAILURE;
     }
 
-
-
   std::cout << "testing reading a series of 2D images to 4D" << std::endl;
    try
     {
@@ -139,8 +135,6 @@ int itkImageSeriesReaderDimensionsTest(int ac, char* av[])
     return EXIT_FAILURE;
     }
 
-
-
   std::cout << "testing reading a series of 2D images to 5D" << std::endl;
    try
     {
@@ -154,8 +148,6 @@ int itkImageSeriesReaderDimensionsTest(int ac, char* av[])
     std::cout << ex;
     return EXIT_FAILURE;
     }
-
-
 
   return EXIT_SUCCESS;
 

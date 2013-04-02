@@ -195,4 +195,3 @@ int itkTIFFImageIOTest( int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 }
-
