@@ -52,9 +52,6 @@ int itkBioGeneTest( int, char * [] )
    // affinity 0.05, and having another domain that will
    // bind to "SH3" domains with affinity 0.08.
 
-
-
-
    // Testing method for adding a control domain
    cdk2.AddGeneControlDomain( "SMAD", true );
    cdk2.AddGeneControlDomain( "Arm", false );
@@ -73,14 +70,3 @@ int itkBioGeneTest( int, char * [] )
    std::cout << "Test Passed !" << std::endl;
    return EXIT_SUCCESS;
 }
-
-
-
-
-
-
-
-
-
-
-

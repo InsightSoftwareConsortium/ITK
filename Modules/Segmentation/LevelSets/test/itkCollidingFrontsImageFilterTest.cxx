@@ -29,7 +29,7 @@ int itkCollidingFrontsImageFilterTest(int argc, char* argv[] )
   typedef unsigned char   PixelType;
   typedef float           InternalPixelType;
 
-  typedef itk::Image<PixelType,ImageDimension> ImageType;
+  typedef itk::Image<PixelType,ImageDimension>         ImageType;
   typedef itk::Image<InternalPixelType,ImageDimension> InternalImageType;
 
   //setup uniform image
@@ -109,7 +109,7 @@ int itkCollidingFrontsImageFilterTest(int argc, char* argv[] )
 
   bool passed = true;
 
-  for ( ; !iterator.IsAtEnd(); ++iterator )
+  for (; !iterator.IsAtEnd(); ++iterator )
     {
     InternalImageType::IndexType tempIndex;
     tempIndex = iterator.GetIndex();
@@ -187,4 +187,3 @@ int itkCollidingFrontsImageFilterTest(int argc, char* argv[] )
   return EXIT_SUCCESS;
 
 }
-

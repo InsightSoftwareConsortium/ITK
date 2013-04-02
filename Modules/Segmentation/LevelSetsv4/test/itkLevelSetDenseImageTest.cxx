@@ -71,8 +71,8 @@ int itkLevelSetDenseImageTest( int , char* [] )
 
   typedef float PixelType;
 
-  typedef itk::Image< PixelType, Dimension >        ImageType;
-  typedef itk::LevelSetDenseImage< ImageType >  LevelSetType;
+  typedef itk::Image< PixelType, Dimension >   ImageType;
+  typedef itk::LevelSetDenseImage< ImageType > LevelSetType;
 
   ImageType::IndexType index;
   index[0] = 0;

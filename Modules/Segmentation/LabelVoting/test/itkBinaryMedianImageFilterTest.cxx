@@ -114,6 +114,3 @@ int itkBinaryMedianImageFilterTest(int, char* [] )
 
   return EXIT_SUCCESS;
 }
-
-
-

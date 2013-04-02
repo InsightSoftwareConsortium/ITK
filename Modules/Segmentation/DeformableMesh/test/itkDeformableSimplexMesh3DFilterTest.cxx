@@ -55,9 +55,9 @@ int itkDeformableSimplexMesh3DFilterTest(int , char * [] )
 
 
   // declare triangle mesh source
-  typedef itk::RegularSphereMeshSource<TriangleMeshType>  SphereMeshSourceType;
-  typedef SphereMeshSourceType::PointType PointType;
-  typedef SphereMeshSourceType::VectorType VectorType;
+  typedef itk::RegularSphereMeshSource<TriangleMeshType> SphereMeshSourceType;
+  typedef SphereMeshSourceType::PointType                PointType;
+  typedef SphereMeshSourceType::VectorType               VectorType;
 
    // declare the triangle to simplex mesh filter
   typedef itk::TriangleMeshToSimplexMeshFilter<TriangleMeshType, SimplexMeshType> SimplexFilterType;
@@ -158,7 +158,7 @@ int itkDeformableSimplexMesh3DFilterTest(int , char * [] )
 
   const unsigned int numberOfCycles = 100;
 
-  for (unsigned int i=0 ; i < numberOfCycles; i++)
+  for (unsigned int i = 0; i < numberOfCycles; i++)
     {
     // must disconnect the pipeline
     simplexMesh->DisconnectPipeline();

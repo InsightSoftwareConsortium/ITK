@@ -29,7 +29,7 @@ int itkIsolatedWatershedImageFilterTest(int ac, char* av[] )
     return EXIT_FAILURE;
     }
 
-  typedef unsigned char PixelType;
+  typedef unsigned char            PixelType;
   typedef itk::Image<PixelType, 2> myImage;
   itk::ImageFileReader<myImage>::Pointer input
     = itk::ImageFileReader<myImage>::New();

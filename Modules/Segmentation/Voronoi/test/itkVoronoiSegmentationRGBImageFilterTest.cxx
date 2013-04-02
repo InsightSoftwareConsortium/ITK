@@ -22,12 +22,13 @@
 #include <iostream>
 
 // typedefs for all functions
-typedef itk::RGBPixel<unsigned char> PixelType;
-typedef itk::Image<PixelType,2> ImageType;
-typedef itk::Image<unsigned char,2> SegmentationType;
+typedef itk::RGBPixel<unsigned char>    PixelType;
+typedef itk::Image<PixelType,2>         ImageType;
+typedef itk::Image<unsigned char,2>     SegmentationType;
 typedef itk::ImageFileReader<ImageType> ReaderType;
-typedef itk::VoronoiSegmentationRGBImageFilter<ImageType, SegmentationType> FilterType;
-typedef FilterType::BinaryObjectImage BinaryObjectImage;
+typedef itk::VoronoiSegmentationRGBImageFilter<ImageType, SegmentationType>
+                                        FilterType;
+typedef FilterType::BinaryObjectImage   BinaryObjectImage;
 
 namespace VoronoiSegRGBTest
 {

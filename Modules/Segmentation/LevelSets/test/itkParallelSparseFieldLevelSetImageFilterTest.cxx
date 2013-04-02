@@ -49,7 +49,7 @@ float sphere(unsigned int x, unsigned int y, unsigned int z)
   dis
     = (x - (float)WIDTH /2.0)*(x - (float)WIDTH /2.0)
     + (y - (float)HEIGHT/2.0)*(y - (float)HEIGHT/2.0)
-    + (z - (float)DEPTH /2.0)*(z - (float)DEPTH /2.0) ;
+    + (z - (float)DEPTH /2.0)*(z - (float)DEPTH /2.0);
   dis = RADIUS - vcl_sqrt(dis);
   return(-dis);
 }
@@ -110,13 +110,13 @@ public:
   typedef MorphFunction Self;
 
   typedef ::itk::LevelSetFunction< ::itk::Image<float, 3> > Superclass;
-  typedef Superclass::RadiusType RadiusType;
-  typedef Superclass::GlobalDataStruct GlobalDataStruct;
+  typedef Superclass::RadiusType                            RadiusType;
+  typedef Superclass::GlobalDataStruct                      GlobalDataStruct;
 
   /**
    * Smart pointer support for this class.
    */
-  typedef ::itk::SmartPointer<Self> Pointer;
+  typedef ::itk::SmartPointer<Self>       Pointer;
   typedef ::itk::SmartPointer<const Self> ConstPointer;
 
   /**
@@ -161,7 +161,7 @@ public:
   /**
    * Smart pointer support for this class.
    */
-  typedef ::itk::SmartPointer<Self> Pointer;
+  typedef ::itk::SmartPointer<Self>       Pointer;
   typedef ::itk::SmartPointer<const Self> ConstPointer;
 
   /**

@@ -34,7 +34,7 @@ int itkConnectedThresholdImageFilterTest(int ac, char* av[] )
     return -1;
     }
 
-  typedef unsigned char PixelType;
+  typedef unsigned char            PixelType;
   typedef itk::Image<PixelType, 2> myImage;
 
   itk::ImageFileReader<myImage>::Pointer input

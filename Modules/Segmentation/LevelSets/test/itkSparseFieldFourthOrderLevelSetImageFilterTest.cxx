@@ -85,9 +85,10 @@ class ITK_EXPORT IsotropicDiffusionLevelSetFilter
 public:
   typedef IsotropicDiffusionLevelSetFilter Self;
   typedef SparseFieldFourthOrderLevelSetImageFilter <TInputImage,
-                                                     TOutputImage> Superclass;
-  typedef SmartPointer<Self> Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+                                                     TOutputImage>
+                                           Superclass;
+  typedef SmartPointer<Self>               Pointer;
+  typedef SmartPointer<const Self>         ConstPointer;
 
   itkTypeMacro(IsotropicDiffusionLevelSetFilter,SparseFieldFourthOrderLevelSetImageFilter);
   itkNewMacro (Self);
@@ -120,8 +121,14 @@ protected:
 
   virtual bool Halt ()
   {
-    if (this->GetElapsedIterations()==50) return true;
-    else return false;
+    if (this->GetElapsedIterations() == 50)
+      {
+      return true;
+      }
+    else
+      {
+      return false;
+      }
   }
 };
 

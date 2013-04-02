@@ -154,8 +154,8 @@ int itkKmeansModelEstimatorTest(int, char* [] )
   namespace stat = itk::Statistics;
 
   typedef stat::DistanceToCentroidMembershipFunction< VecImagePixelType >
-    MembershipFunctionType ;
-  typedef MembershipFunctionType::Pointer MembershipFunctionPointer ;
+                                          MembershipFunctionType;
+  typedef MembershipFunctionType::Pointer MembershipFunctionPointer;
 
   typedef std::vector< MembershipFunctionPointer >
     MembershipFunctionPointerVector;

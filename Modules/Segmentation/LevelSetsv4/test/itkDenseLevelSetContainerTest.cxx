@@ -22,8 +22,8 @@ int itkDenseLevelSetContainerTest( int , char* [] )
 {
   const unsigned int Dimension = 2;
 
-  typedef itk::Image< float, Dimension >            ImageType;
-  typedef itk::LevelSetDenseImage< ImageType >  LevelSetType;
+  typedef itk::Image< float, Dimension >       ImageType;
+  typedef itk::LevelSetDenseImage< ImageType > LevelSetType;
 
   typedef std::string NameType;
 

@@ -37,14 +37,14 @@ int itkConnectedComponentImageFilterTest(int argc, char* argv[] )
   typedef   unsigned short  InternalPixelType;
   const     unsigned int    Dimension = 2;
 
-  typedef itk::Image< InternalPixelType, Dimension >  InternalImageType;
-  typedef itk::Image<unsigned short,Dimension> OutputImageType;
+  typedef itk::Image< InternalPixelType, Dimension > InternalImageType;
+  typedef itk::Image<unsigned short,Dimension>       OutputImageType;
 
-  typedef itk::RGBPixel<unsigned char>   RGBPixelType;
+  typedef itk::RGBPixel<unsigned char>           RGBPixelType;
   typedef itk::Image<RGBPixelType, Dimension>    RGBImageType;
 
   typedef itk::ImageFileReader< InternalImageType > ReaderType;
-  typedef itk::ImageFileWriter<  RGBImageType  > WriterType;
+  typedef itk::ImageFileWriter<  RGBImageType  >    WriterType;
 
 
   typedef itk::BinaryThresholdImageFilter< InternalImageType, InternalImageType > ThresholdFilterType;

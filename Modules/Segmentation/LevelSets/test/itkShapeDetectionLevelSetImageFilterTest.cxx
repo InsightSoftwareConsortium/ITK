@@ -36,7 +36,7 @@ int itkShapeDetectionLevelSetImageFilterTest(int, char* [] )
   typedef unsigned char   PixelType;
   typedef float           InternalPixelType;
 
-  typedef itk::Image<PixelType,ImageDimension> ImageType;
+  typedef itk::Image<PixelType,ImageDimension>         ImageType;
   typedef itk::Image<InternalPixelType,ImageDimension> InternalImageType;
 
   ImageType::SizeType imageSize;
@@ -250,7 +250,4 @@ int itkShapeDetectionLevelSetImageFilterTest(int, char* [] )
     std::cout << "Caught unknown exception" << std::endl;
     return EXIT_FAILURE;
     }
-
-
-
 }

@@ -97,13 +97,13 @@ public:
   typedef MorphFunction Self;
 
   typedef ::itk::LevelSetFunction< ::itk::Image<float, 2> > Superclass;
-  typedef Superclass::RadiusType RadiusType;
-  typedef Superclass::GlobalDataStruct GlobalDataStruct;
+  typedef Superclass::RadiusType                            RadiusType;
+  typedef Superclass::GlobalDataStruct                      GlobalDataStruct;
 
    /**
    * Smart pointer support for this class.
    */
-  typedef ::itk::SmartPointer<Self> Pointer;
+  typedef ::itk::SmartPointer<Self>       Pointer;
   typedef ::itk::SmartPointer<const Self> ConstPointer;
 
   /**
@@ -149,7 +149,7 @@ public:
   /**
    * Smart pointer support for this class.
    */
-  typedef ::itk::SmartPointer<Self> Pointer;
+  typedef ::itk::SmartPointer<Self>       Pointer;
   typedef ::itk::SmartPointer<const Self> ConstPointer;
 
   /**

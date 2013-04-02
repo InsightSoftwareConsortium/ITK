@@ -117,4 +117,3 @@ int itkVoronoiSegmentationImageFilterTest(int, char* [] ){
   std::cout<<"Test Succeed!"<<std::endl;
   return EXIT_SUCCESS;
 }
-

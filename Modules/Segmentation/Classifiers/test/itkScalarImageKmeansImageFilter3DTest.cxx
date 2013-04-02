@@ -176,7 +176,7 @@ int itkScalarImageKmeansImageFilter3DTest (int argc, char *argv[])
   /* The Scalar Image Kmeans Image Filter will find a code image in 3 classes
      for the interior of the mask, plus a code for the exterior of the mask. */
   typedef itk::ScalarImageKmeansImageFilter< ImageType > KMeansFilterType;
-  typedef KMeansFilterType::RealPixelType RealPixelType;
+  typedef KMeansFilterType::RealPixelType                RealPixelType;
   KMeansFilterType::Pointer kmeansFilter = KMeansFilterType::New();
   kmeansFilter->SetInput( clippedBrainT1Pointer );
 
@@ -214,7 +214,7 @@ int itkScalarImageKmeansImageFilter3DTest (int argc, char *argv[])
 
   unsigned int numberOfClasses = estimatedMeans.Size();
 
-  for ( unsigned int i = 0 ; i < numberOfClasses ; ++i )
+  for ( unsigned int i = 0; i < numberOfClasses; ++i )
     {
     std::cout << "Brain cluster[" << i << "] ";
     std::cout << "    estimated mean : " << estimatedMeans[i] << std::endl;
@@ -239,8 +239,6 @@ int itkScalarImageKmeansImageFilter3DTest (int argc, char *argv[])
   kmeansNonBrainFilter->AddClassWithInitialMean( fatInitialMean );
   kmeansNonBrainFilter->SetUseNonContiguousLabels( useNonContiguousLabels );
 
-
-
   std::cout << "kmeansNonBrainFilter->Update " << std::endl;
   try
     {
@@ -257,7 +255,7 @@ int itkScalarImageKmeansImageFilter3DTest (int argc, char *argv[])
 
   numberOfClasses = estimatedMeans.Size();
 
-  for ( unsigned int i = 0 ; i < numberOfClasses ; ++i )
+  for ( unsigned int i = 0; i < numberOfClasses; ++i )
     {
     std::cout << "Background cluster[" << i << "] ";
     std::cout << "    estimated mean : " << estimatedMeans[i] << std::endl;

@@ -38,12 +38,12 @@ int itkVectorConnectedComponentImageFilterTest(int argc, char* argv[] )
 
   const unsigned int Dimension = 2;
   typedef itk::Vector<float,Dimension> PixelType;
-  typedef unsigned long OutputPixelType;
-  typedef unsigned char LabelPixelType;
+  typedef unsigned long                OutputPixelType;
+  typedef unsigned char                LabelPixelType;
 
-  typedef itk::Image<PixelType, Dimension> ImageType;
+  typedef itk::Image<PixelType, Dimension>       ImageType;
   typedef itk::Image<OutputPixelType, Dimension> OutputImageType;
-  typedef itk::Image<LabelPixelType, Dimension> LabelImageType;
+  typedef itk::Image<LabelPixelType, Dimension>  LabelImageType;
 
   // create an image of vectors
   ImageType::Pointer image = ImageType::New();

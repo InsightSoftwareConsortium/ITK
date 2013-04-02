@@ -27,12 +27,12 @@ template <class TImageType>
 class NormalBandNode
 {
 public:
-  typedef TImageType LevelSetImageType;
+  typedef TImageType                              LevelSetImageType;
   typedef typename LevelSetImageType::PixelType   NodeValueType;
   typedef typename LevelSetImageType::IndexType   IndexType;
   typedef Vector <NodeValueType,
                   TImageType::ImageDimension>
-  NodeDataType;
+                                                  NodeDataType;
 
   NodeDataType m_Data, m_InputData, m_Update;
   NodeDataType
@@ -48,12 +48,13 @@ public:
 
 int itkImplicitManifoldNormalVectorFilterTest(int, char* [] )
 {
-  typedef itk::Image  <float, 2> InputImageType;
+  typedef itk::Image  <float, 2>               InputImageType;
   typedef itk::NormalBandNode <InputImageType> NodeType;
-  typedef itk::SparseImage <NodeType, 2> OutputImageType;
+  typedef itk::SparseImage <NodeType, 2>       OutputImageType;
   typedef itk::ImplicitManifoldNormalVectorFilter<InputImageType,
-    OutputImageType> FilterType;
-  typedef itk::NormalVectorDiffusionFunction<OutputImageType> FunctionType;
+    OutputImageType>                           FilterType;
+  typedef itk::NormalVectorDiffusionFunction<OutputImageType>
+                                               FunctionType;
 
   InputImageType::Pointer im_init = InputImageType::New();
   InputImageType::RegionType r;

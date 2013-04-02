@@ -29,14 +29,3 @@ int itkBioGeneNetworkTest( int, char * [] )
    std::cout << "Test Passed !" << std::endl;
    return EXIT_SUCCESS;
 }
-
-
-
-
-
-
-
-
-
-
-
