@@ -210,13 +210,13 @@ MultiGradientOptimizerv4
       itkDebugMacro(" combine-grad ");
       this->m_OptimizersList[0]->GetModifiableMetric()->UpdateTransformParameters( this->m_Gradient );
       }
-    catch ( ExceptionObject & err )
+    catch ( ExceptionObject & )
       {
       this->m_StopCondition = UPDATE_PARAMETERS_ERROR;
       this->m_StopConditionDescription << "UpdateTransformParameters error";
       this->StopOptimization();
       // Pass exception to caller
-      throw;
+      throw ;
       }
     this->InvokeEvent( IterationEvent() );
     /* Update and check iteration count */

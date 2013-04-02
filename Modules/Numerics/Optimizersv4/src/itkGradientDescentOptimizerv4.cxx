@@ -168,7 +168,7 @@ GradientDescentOptimizerv4
        * proper size, no new allocation is done. */
       this->m_Metric->GetValueAndDerivative( this->m_CurrentMetricValue, this->m_Gradient );
       }
-    catch ( ExceptionObject & err )
+    catch ( ExceptionObject &  )
       {
       this->m_StopCondition = COSTFUNCTION_ERROR;
       this->m_StopConditionDescription << "Metric error during optimization";
@@ -252,7 +252,7 @@ GradientDescentOptimizerv4
     /* Pass graident to transform and let it do its own updating */
     this->m_Metric->UpdateTransformParameters( this->m_Gradient );
     }
-  catch ( ExceptionObject & err )
+  catch ( ExceptionObject & )
     {
     this->m_StopCondition = UPDATE_PARAMETERS_ERROR;
     this->m_StopConditionDescription << "UpdateTransformParameters error";

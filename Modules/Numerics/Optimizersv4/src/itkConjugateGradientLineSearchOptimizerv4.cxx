@@ -102,7 +102,7 @@ ConjugateGradientLineSearchOptimizerv4
     /* Pass graident to transform and let it do its own updating. */
     this->m_Metric->UpdateTransformParameters( this->m_Gradient );
     }
-  catch ( ExceptionObject & err )
+  catch ( ExceptionObject & )
     {
     this->m_StopCondition = UPDATE_PARAMETERS_ERROR;
     this->m_StopConditionDescription << "UpdateTransformParameters error";
