@@ -29,10 +29,11 @@ int itkMultiLevelSetChanAndVeseInternalTermTest( int , char* [] )
   typedef itk::Image< InputPixelType, Dimension >             InputImageType;
   typedef itk::ImageRegionIteratorWithIndex< InputImageType > InputIteratorType;
 
-  typedef float                                          PixelType;
-  typedef itk::Image< PixelType, Dimension >             ImageType;
-  typedef itk::LevelSetDenseImage< ImageType >       LevelSetType;
-  typedef LevelSetType::OutputRealType                   LevelSetOutputRealType;
+  typedef float                                PixelType;
+  typedef itk::Image< PixelType, Dimension >   ImageType;
+  typedef itk::LevelSetDenseImage< ImageType > LevelSetType;
+  typedef LevelSetType::OutputRealType         LevelSetOutputRealType;
+
   typedef itk::ImageRegionIteratorWithIndex< ImageType > IteratorType;
   typedef itk::IdentifierType                            IdentifierType;
   typedef std::list< IdentifierType >                    IdListType;

@@ -25,7 +25,7 @@ int itkMultiLevelSetDenseImageTest( int , char* [] )
 
   typedef float                                          PixelType;
   typedef itk::Image< PixelType, Dimension >             ImageType;
-  typedef itk::LevelSetDenseImage< ImageType >       LevelSetType;
+  typedef itk::LevelSetDenseImage< ImageType >           LevelSetType;
   typedef itk::ImageRegionIteratorWithIndex< ImageType > IteratorType;
   typedef std::list< itk::IdentifierType >               IdListType;
   typedef itk::Image< IdListType, Dimension >            IdListImageType;

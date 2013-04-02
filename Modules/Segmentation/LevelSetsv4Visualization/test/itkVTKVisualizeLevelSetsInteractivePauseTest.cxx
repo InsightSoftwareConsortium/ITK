@@ -42,7 +42,7 @@ typedef unsigned char                                    InputPixelType;
 typedef itk::Image< InputPixelType, Dimension >          InputImageType;
 typedef float                                            LevelSetPixelType;
 typedef itk::Image< LevelSetPixelType, Dimension >       LevelSetImageType;
-typedef itk::LevelSetDenseImage< LevelSetImageType > LevelSetType;
+typedef itk::LevelSetDenseImage< LevelSetImageType >     LevelSetType;
 
 struct NeedToPauseInformation
 {

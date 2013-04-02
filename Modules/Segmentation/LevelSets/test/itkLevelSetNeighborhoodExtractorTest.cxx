@@ -22,7 +22,7 @@
 int itkLevelSetNeighborhoodExtractorTest(int, char* [] )
 {
   const unsigned int ImageDimension = 2;
-  typedef float PixelType;
+  typedef float                                PixelType;
   typedef itk::Image<PixelType,ImageDimension> ImageType;
 
   // Create an input image using fastmarching
@@ -66,7 +66,7 @@ int itkLevelSetNeighborhoodExtractorTest(int, char* [] )
   std::cout << "Inside Points" << std::endl;
   iter    = extractor->GetInsidePoints()->Begin();
   iterEnd = extractor->GetInsidePoints()->End();
-  for( ; iter != iterEnd; iter++ )
+  for(; iter != iterEnd; iter++ )
     {
     std::cout << iter.Value().GetIndex() << " ";
     std::cout << iter.Value().GetValue() << std::endl;
@@ -75,7 +75,7 @@ int itkLevelSetNeighborhoodExtractorTest(int, char* [] )
   std::cout << "Outside Points" << std::endl;
   iter    = extractor->GetOutsidePoints()->Begin();
   iterEnd = extractor->GetOutsidePoints()->End();
-  for( ; iter != iterEnd; iter++ )
+  for(; iter != iterEnd; iter++ )
     {
     std::cout << iter.Value().GetIndex() << " ";
     std::cout << iter.Value().GetValue() << std::endl;

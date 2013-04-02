@@ -22,7 +22,7 @@
 namespace LSIFTN {
 
 typedef itk::Image<float, 3> ImageType;
-typedef itk::Image<char, 3> SeedImageType;
+typedef itk::Image<char, 3>  SeedImageType;
 
 const int V_WIDTH  = 64;
 const int V_HEIGHT = 64;
@@ -51,8 +51,6 @@ float sphere2(float x, float y, float z)
       /((0.2f*V_DEPTH)*(0.2f*V_DEPTH));
     return(1.0f-dis);
 }
-
-
 
 void evaluate_float_function(itk::Image<float, 3> *im,
           float (*f)(float, float, float) )
@@ -111,10 +109,10 @@ class RMSCommand : public Command
 {
 public:
   /** Smart pointer declaration methods */
-  typedef RMSCommand Self;
-  typedef Command Superclass;
-  typedef itk::SmartPointer<Self>  Pointer;
-  typedef itk::SmartPointer<const Self>  ConstPointer;
+  typedef RMSCommand                    Self;
+  typedef Command                       Superclass;
+  typedef itk::SmartPointer<Self>       Pointer;
+  typedef itk::SmartPointer<const Self> ConstPointer;
   itkTypeMacro( RMSCommand, Command );
   itkNewMacro(Self);
 

@@ -20,8 +20,8 @@
 
 namespace NBTS {
 
- typedef itk::Image<float, 3> ImageType;
-typedef itk::Image<char, 3> SeedImageType;
+typedef itk::Image<float, 3> ImageType;
+typedef itk::Image<char, 3>  SeedImageType;
 
 const int V_WIDTH  = 64;
 const int V_HEIGHT = 64;
@@ -71,10 +71,10 @@ class NBRMSCommand : public Command
 {
 public:
   /** Smart pointer declaration methods */
-  typedef NBRMSCommand Self;
-  typedef Command Superclass;
-  typedef itk::SmartPointer<Self>  Pointer;
-  typedef itk::SmartPointer<const Self>  ConstPointer;
+  typedef NBRMSCommand                  Self;
+  typedef Command                       Superclass;
+  typedef itk::SmartPointer<Self>       Pointer;
+  typedef itk::SmartPointer<const Self> ConstPointer;
   itkTypeMacro( NBRMSCommand, Command );
   itkNewMacro(Self);
 
@@ -132,8 +132,8 @@ int itkNarrowBandThresholdSegmentationLevelSetImageFilterTest(int, char * [] )
             val = 0;
             for (i = 0; i < 3; ++i)
               {
-                if (idx[i] < 32) val+=idx[i];
-                else val += 64 - idx[i];
+              if (idx[i] < 32) val += idx[i];
+              else val += 64 - idx[i];
               }
             inputImage->SetPixel(idx, val);
           }
@@ -213,4 +213,3 @@ int itkNarrowBandThresholdSegmentationLevelSetImageFilterTest(int, char * [] )
     }
   return EXIT_SUCCESS;
 }
-

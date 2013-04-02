@@ -41,12 +41,12 @@ int itkRelabelComponentImageFilterTest(int argc, char* argv[] )
   typedef   unsigned char   WritePixelType;
   const     unsigned int    Dimension = 2;
 
-  typedef itk::Image< InternalPixelType, Dimension >  InternalImageType;
-  typedef itk::Image< LabelPixelType, Dimension>   LabelImageType;
-  typedef itk::Image<WritePixelType, Dimension> WriteImageType;
+  typedef itk::Image< InternalPixelType, Dimension > InternalImageType;
+  typedef itk::Image< LabelPixelType, Dimension>     LabelImageType;
+  typedef itk::Image<WritePixelType, Dimension>      WriteImageType;
 
   typedef itk::ImageFileReader< InternalImageType > ReaderType;
-  typedef itk::ImageFileWriter<  WriteImageType  > WriterType;
+  typedef itk::ImageFileWriter<  WriteImageType  >  WriterType;
 
 
   typedef itk::ChangeInformationImageFilter<InternalImageType> ChangeFilterType;

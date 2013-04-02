@@ -55,11 +55,11 @@ int itkSampleClassifierFilterTest2( int, char * [] )
   typedef FilterType::MembershipFunctionVectorType             MembershipFunctionVectorType;
 
   typedef itk::Statistics::GaussianMembershipFunction< MeasurementVectorType >
-                                                               MembershipFunctionType;
-  typedef MembershipFunctionType::MeanVectorType                     MeanVectorType;
-  typedef MembershipFunctionType::CovarianceMatrixType               CovarianceMatrixType;
+                                                       MembershipFunctionType;
+  typedef MembershipFunctionType::MeanVectorType       MeanVectorType;
+  typedef MembershipFunctionType::CovarianceMatrixType CovarianceMatrixType;
 
-  typedef MembershipFunctionType::Pointer                      MembershipFunctionPointer;
+  typedef MembershipFunctionType::Pointer              MembershipFunctionPointer;
 
   ClassLabelVectorObjectType::Pointer  classLabelsObject = ClassLabelVectorObjectType::New();
   filter->SetClassLabels( classLabelsObject );

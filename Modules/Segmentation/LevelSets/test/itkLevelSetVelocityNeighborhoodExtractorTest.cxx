@@ -22,9 +22,9 @@
 int itkLevelSetVelocityNeighborhoodExtractorTest(int, char* [] )
 {
   const unsigned int ImageDimension = 2;
-  typedef float PixelType;
+  typedef float                                PixelType;
   typedef itk::Image<PixelType,ImageDimension> ImageType;
-  typedef double AuxValueType;
+  typedef double                               AuxValueType;
 
   // Create an input image using fastmarching
   typedef itk::FastMarchingImageFilter<ImageType> SourceType;
@@ -91,7 +91,7 @@ int itkLevelSetVelocityNeighborhoodExtractorTest(int, char* [] )
   iterEnd  = extractor->GetInsidePoints()->End();
   aIter    = extractor->GetAuxInsideValues()->Begin();
   aIterEnd = extractor->GetAuxInsideValues()->End();
-  for( ; iter != iterEnd; iter++, aIter++ )
+  for(; iter != iterEnd; iter++, aIter++ )
     {
     std::cout << iter.Value().GetIndex() << " ";
     std::cout << iter.Value().GetValue() << " ";
@@ -104,7 +104,7 @@ int itkLevelSetVelocityNeighborhoodExtractorTest(int, char* [] )
   aIter    = extractor->GetAuxOutsideValues()->Begin();
   aIterEnd = extractor->GetAuxOutsideValues()->End();
 
-  for( ; iter != iterEnd; iter++, aIter++ )
+  for(; iter != iterEnd; iter++, aIter++ )
     {
     std::cout << iter.Value().GetIndex() << " ";
     std::cout << iter.Value().GetValue() << " ";

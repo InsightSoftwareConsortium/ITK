@@ -38,7 +38,7 @@ int itkCurvesLevelSetImageFilterTest(int, char* [] )
   typedef unsigned char   PixelType;
   typedef float           InternalPixelType;
 
-  typedef itk::Image<PixelType,ImageDimension> ImageType;
+  typedef itk::Image<PixelType,ImageDimension>         ImageType;
   typedef itk::Image<InternalPixelType,ImageDimension> InternalImageType;
 
   ImageType::SizeType imageSize;

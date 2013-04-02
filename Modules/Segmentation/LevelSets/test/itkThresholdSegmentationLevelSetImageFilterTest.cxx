@@ -21,7 +21,7 @@
 namespace TSIFTN {
 
 typedef itk::Image<float, 3> ImageType;
-typedef itk::Image<char, 3> SeedImageType;
+typedef itk::Image<char, 3>  SeedImageType;
 
 const int V_WIDTH  = 64;
 const int V_HEIGHT = 64;
@@ -71,10 +71,10 @@ class RMSCommand : public Command
 {
 public:
   /** Smart pointer declaration methods */
-  typedef RMSCommand Self;
-  typedef Command Superclass;
-  typedef itk::SmartPointer<Self>  Pointer;
-  typedef itk::SmartPointer<const Self>  ConstPointer;
+  typedef RMSCommand                    Self;
+  typedef Command                       Superclass;
+  typedef itk::SmartPointer<Self>       Pointer;
+  typedef itk::SmartPointer<const Self> ConstPointer;
   itkTypeMacro( RMSCommand, Command );
   itkNewMacro(Self);
 
@@ -105,10 +105,10 @@ class TSIFTNProgressCommand : public Command
 {
 public:
   /** Smart pointer declaration methods */
-  typedef TSIFTNProgressCommand Self;
-  typedef Command Superclass;
-  typedef itk::SmartPointer<Self>  Pointer;
-  typedef itk::SmartPointer<const Self>  ConstPointer;
+  typedef TSIFTNProgressCommand         Self;
+  typedef Command                       Superclass;
+  typedef itk::SmartPointer<Self>       Pointer;
+  typedef itk::SmartPointer<const Self> ConstPointer;
   itkTypeMacro( TSIFTNProgressCommand, Command );
   itkNewMacro(Self);
 
@@ -166,8 +166,8 @@ int itkThresholdSegmentationLevelSetImageFilterTest(int, char * [] )
             val = 0;
             for (i = 0; i < 3; ++i)
               {
-                if (idx[i] < 32) val+=idx[i];
-                else val += 64 - idx[i];
+              if (idx[i] < 32) val += idx[i];
+              else val += 64 - idx[i];
               }
             inputImage->SetPixel(idx, val);
           }

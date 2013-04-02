@@ -126,6 +126,3 @@ int itkVotingBinaryIterativeHoleFillingImageFilterTest(int, char* [] )
   voting->Print( std::cout );
   return EXIT_SUCCESS;
 }
-
-
-

@@ -69,8 +69,8 @@ int itkReinitializeLevelSetImageFilterTest(int, char* [] )
   typedef float PixelType;
 
   typedef itk::Image<PixelType,ImageDimension> ImageType;
-  typedef ImageType::IndexType IndexType;
-  typedef itk::Point<double,ImageDimension> PointType;
+  typedef ImageType::IndexType                 IndexType;
+  typedef itk::Point<double,ImageDimension>    PointType;
 
   // Fill an input image with simple signed distance function
   ImageType::Pointer image = ImageType::New();
@@ -229,4 +229,3 @@ int itkReinitializeLevelSetImageFilterTest(int, char* [] )
   return EXIT_SUCCESS;
 
 }
-

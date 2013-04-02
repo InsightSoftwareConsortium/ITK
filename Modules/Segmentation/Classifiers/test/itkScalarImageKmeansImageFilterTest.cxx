@@ -100,7 +100,7 @@ int itkScalarImageKmeansImageFilterTest(int argc, char* argv [] )
 
   const unsigned int numberOfClasses = estimatedMeans.Size();
 
-  for ( unsigned int i = 0 ; i < numberOfClasses ; ++i )
+  for ( unsigned int i = 0; i < numberOfClasses; ++i )
     {
     std::cout << "cluster[" << i << "] ";
     std::cout << "    estimated mean : " << estimatedMeans[i] << std::endl;
@@ -117,17 +117,10 @@ int itkScalarImageKmeansImageFilterTest(int argc, char* argv [] )
 
   relabeler->SetInput( kmeansFilter->GetOutput() );
 
-
-
-
   typedef itk::ImageFileWriter< OutputImageType > WriterType;
-
   WriterType::Pointer writer = WriterType::New();
-
   writer->SetInput( relabeler->GetOutput() );
-
   writer->SetFileName( argv[2] );
-
 
   try
     {
@@ -159,6 +152,3 @@ int itkScalarImageKmeansImageFilterTest(int argc, char* argv [] )
 
   return EXIT_SUCCESS;
 }
-
-
-

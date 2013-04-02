@@ -48,15 +48,15 @@ template<typename TImage>
 class SimpleTestFilter : public DenseFiniteDifferenceImageFilter< TImage, TImage >
 {
 public:
-  typedef SimpleTestFilter Self;
-  typedef SmartPointer<Self> Pointer;
+  typedef SimpleTestFilter         Self;
+  typedef SmartPointer<Self>       Pointer;
   typedef SmartPointer<const Self> ConstPointer;
   itkTypeMacro( SimpleTestFilter, DenseFiniteDifferenceImageFilter );
   itkNewMacro( Self );
   itkSetMacro( NumberOfIterations, IdentifierType );
   typedef ShapePriorSegmentationLevelSetFunction<TImage,TImage> ShapePriorFunctionType;
   ShapePriorFunctionType * GetShapePriorFunction()
-    { return m_ShapePriorFunction; };
+    { return m_ShapePriorFunction; }
 
 protected:
   SimpleTestFilter()
@@ -78,7 +78,7 @@ protected:
     }
 
 private:
-  unsigned int m_NumberOfIterations;
+  unsigned int                             m_NumberOfIterations;
   typename ShapePriorFunctionType::Pointer m_ShapePriorFunction;
 
   virtual bool Halt()

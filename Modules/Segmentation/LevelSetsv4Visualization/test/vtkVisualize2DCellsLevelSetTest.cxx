@@ -192,9 +192,9 @@ int vtkVisualize2DCellsLevelSetTest( int argc, char* argv[] )
   std::string levelSetRepresentation = argv[3];
   if( levelSetRepresentation.compare( "Dense" ) == 0 )
     {
-    typedef float                                             LevelSetPixelType;
-    typedef itk::Image< LevelSetPixelType, Dimension >        LevelSetImageType;
-    typedef itk::LevelSetDenseImage< LevelSetImageType >  LevelSetType;
+    typedef float                                        LevelSetPixelType;
+    typedef itk::Image< LevelSetPixelType, Dimension >   LevelSetImageType;
+    typedef itk::LevelSetDenseImage< LevelSetImageType > LevelSetType;
     try
       {
       visualizeLevelSet< InputImageType, LevelSetType >( input, numberOfIterations, argv[4] );

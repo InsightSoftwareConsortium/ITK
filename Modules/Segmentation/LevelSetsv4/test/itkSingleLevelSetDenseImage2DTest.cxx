@@ -44,7 +44,7 @@ int itkSingleLevelSetDenseImage2DTest( int argc, char* argv[] )
 
   typedef float                                          PixelType;
   typedef itk::Image< PixelType, Dimension >             ImageType;
-  typedef itk::LevelSetDenseImage< ImageType >       LevelSetType;
+  typedef itk::LevelSetDenseImage< ImageType >           LevelSetType;
   typedef LevelSetType::OutputRealType                   LevelSetOutputRealType;
   typedef itk::ImageRegionIteratorWithIndex< ImageType > IteratorType;
 

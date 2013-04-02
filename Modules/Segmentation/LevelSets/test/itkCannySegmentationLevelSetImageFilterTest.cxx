@@ -52,8 +52,6 @@ float sphere2(float x, float y, float z)
     return(1.0f-dis);
 }
 
-
-
 void evaluate_float_function(itk::Image<float, 3> *im,
           float (*f)(float, float, float) )
 {
