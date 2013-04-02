@@ -41,20 +41,14 @@ typedef itk::ImageRegion<myDimension>        myRegionType;
 
 
 // Declare Iterator types apropriated for each image
-typedef itk::ImageRegionIteratorWithIndex<myImageType>  myIteratorType;
-typedef itk::ImageRegionIteratorWithIndex<myVectorImageType>  myVectorIteratorType;
+typedef itk::ImageRegionIteratorWithIndex<myImageType>       myIteratorType;
+typedef itk::ImageRegionIteratorWithIndex<myVectorImageType> myVectorIteratorType;
 
 
 // Declare the Filter
 typedef itk::EigenAnalysis2DImageFilter< myImageType,
                                          myImageType,
                                          myVectorImageType >  myFilterType;
-
-
-
-
-
-
 
 // Function for image initialization
 void InitializeImage( myImageType * image, double value   )
@@ -90,8 +84,6 @@ void InitializeImage( myImageType * image, double value   )
     }
 
 }
-
-
 
 // Function for image printing
 void PrintImage( myImageType * image, const char *text )
@@ -138,10 +130,6 @@ void PrintImage( myVectorImageType * image, const char *text )
 
 }
 
-
-
-
-
 int itkEigenAnalysis2DImageFilterTest(int, char* [] )
 {
   // Create the images
@@ -184,7 +172,3 @@ int itkEigenAnalysis2DImageFilterTest(int, char* [] )
   return EXIT_SUCCESS;
 
 }
-
-
-
-

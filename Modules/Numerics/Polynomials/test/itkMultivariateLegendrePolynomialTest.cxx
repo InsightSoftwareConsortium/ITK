@@ -36,59 +36,56 @@ int itkMultivariateLegendrePolynomialTest(int , char* [] )
   const unsigned int degree    = 3;
 
   PolynomialType::DomainSizeType domainSize(dimension);
-  domainSize[0] = 2 ;
-  domainSize[1] = 2 ;
-  domainSize[2] = 2 ;
+  domainSize[0] = 2;
+  domainSize[1] = 2;
+  domainSize[2] = 2;
 
   PolynomialType polynomial( dimension, degree, domainSize );
 
   if ( polynomial.GetDimension() != dimension )
     {
-    std::cout << "Test fails: GetDimension()" << std::endl ;
-    return EXIT_FAILURE ;
+    std::cout << "Test fails: GetDimension()" << std::endl;
+    return EXIT_FAILURE;
     }
 
   if ( polynomial.GetDegree() != degree )
     {
-    std::cout << "Test fails: GetDegree()" << std::endl ;
-    return EXIT_FAILURE ;
+    std::cout << "Test fails: GetDegree()" << std::endl;
+    return EXIT_FAILURE;
     }
 
   if ( polynomial.GetDomainSize() != domainSize )
     {
-    std::cout << "Test fails: GetDomainSize()" << std::endl ;
-    return EXIT_FAILURE ;
+    std::cout << "Test fails: GetDomainSize()" << std::endl;
+    return EXIT_FAILURE;
     }
 
   if ( polynomial.GetNumberOfCoefficients() != 20 )
     {
-    std::cout << "Test fails: GetNumberOfCoefficients()" << std::endl ;
-    return EXIT_FAILURE ;
+    std::cout << "Test fails: GetNumberOfCoefficients()" << std::endl;
+    return EXIT_FAILURE;
     }
 
-  PolynomialType::CoefficientArrayType  coefficients(20) ;
+  PolynomialType::CoefficientArrayType  coefficients(20);
 
-  std::fill(coefficients.begin(), coefficients.end(), 0.1) ;
+  std::fill(coefficients.begin(), coefficients.end(), 0.1);
 
   try
     {
-    polynomial.SetCoefficients( coefficients ) ;
+    polynomial.SetCoefficients( coefficients );
     }
   catch ( ... )
     {
     }
 
-  PolynomialType::SimpleForwardIterator bIter( &polynomial ) ;
-  bIter.Begin() ;
+  PolynomialType::SimpleForwardIterator bIter( &polynomial );
+  bIter.Begin();
   while (!bIter.IsAtEnd())
     {
-    bIter.Get() ;
-    ++bIter ;
+    bIter.Get();
+    ++bIter;
     }
 
   std::cout << "Test succeeded." << std::endl;
-  return EXIT_SUCCESS ;
+  return EXIT_SUCCESS;
 }
-
-
-

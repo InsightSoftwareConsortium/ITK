@@ -41,12 +41,14 @@ int itkUniformRandomSpatialNeighborSubsamplerTest(int argc, char* argv[] )
   typedef FloatImage::RegionType RegionType;
   typedef FloatImage::IndexType  IndexType;
   typedef FloatImage::SizeType   SizeType;
-  typedef itk::ZeroFluxNeumannBoundaryCondition< FloatImage > BoundaryCondition;
+  typedef itk::ZeroFluxNeumannBoundaryCondition< FloatImage >
+                                 BoundaryCondition;
   typedef itk::Statistics::ImageToNeighborhoodSampleAdaptor< FloatImage, BoundaryCondition >
-    AdaptorType;
+                                 AdaptorType;
   typedef itk::Statistics::UniformRandomSpatialNeighborSubsampler< AdaptorType, RegionType >
-    SamplerType;
-  typedef itk::ImageFileWriter< FloatImage > WriterType;
+                                 SamplerType;
+  typedef itk::ImageFileWriter< FloatImage >
+                                 WriterType;
 
   FloatImage::Pointer inImage = FloatImage::New();
   SizeType sz;

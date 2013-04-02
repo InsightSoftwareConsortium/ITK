@@ -33,9 +33,9 @@ namespace itk
      typedef NbTestClass Self;
 
      typedef NarrowBandImageFilterBase<TInputImageType, TOutputImageType> Superclass;
-     typedef SmartPointer<Self> Pointer;
+     typedef SmartPointer<Self>       Pointer;
      typedef SmartPointer<const Self> ConstPointer;
-     typedef TOutputImageType ImageType;
+     typedef TOutputImageType         ImageType;
 
     /** Standard method for creation through object factory. */
         itkNewMacro(Self);
@@ -57,8 +57,14 @@ namespace itk
 
     virtual bool Halt ()
     {
-      if (this->GetElapsedIterations()==20) return true;
-      else return false;
+      if (this->GetElapsedIterations() == 20)
+        {
+        return true;
+        }
+      else
+        {
+        return false;
+        }
     }
 
     virtual void CreateNarrowBand()
@@ -110,12 +116,12 @@ int itkNarrowBandImageFilterBaseTest(int argc, char* argv[])
     return EXIT_FAILURE;
     }
 
-  typedef float PixelType;
+  typedef float         PixelType;
   typedef unsigned char WriterPixelType;
   const unsigned int ImageDimension = 2;
-  typedef itk::Image<PixelType,ImageDimension> ImageType;
+  typedef itk::Image<PixelType,ImageDimension>       ImageType;
   typedef itk::Image<WriterPixelType,ImageDimension> WriterImageType;
-  typedef itk::Point<double,ImageDimension> PointType;
+  typedef itk::Point<double,ImageDimension>          PointType;
 
   ImageType::SizeType size = {{64,64}};
   ImageType::IndexType index = {{0,0}};

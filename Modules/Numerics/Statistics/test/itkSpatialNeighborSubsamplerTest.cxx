@@ -67,12 +67,14 @@ int itkSpatialNeighborSubsamplerTest(int, char * [] )
   typedef ImageType::RegionType      RegionType;
   typedef ImageType::IndexType       IndexType;
   typedef ImageType::SizeType        SizeType;
-  typedef itk::ZeroFluxNeumannBoundaryCondition< ImageType > BoundaryCondition;
+  typedef itk::ZeroFluxNeumannBoundaryCondition< ImageType >
+                                     BoundaryCondition;
   typedef itk::Statistics::ImageToNeighborhoodSampleAdaptor< ImageType, BoundaryCondition >
-    AdaptorType;
+                                     AdaptorType;
   typedef itk::Statistics::SpatialNeighborSubsampler< AdaptorType, RegionType >
-    SamplerType;
-  typedef itk::ImageRegionConstIteratorWithIndex< ImageType > IteratorType;
+                                     SamplerType;
+  typedef itk::ImageRegionConstIteratorWithIndex< ImageType >
+                                     IteratorType;
 
   ImageType::Pointer inImage = ImageType::New();
   SizeType sz;

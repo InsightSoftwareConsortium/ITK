@@ -21,6 +21,7 @@
 #include <iostream>
 
 /**
+ * \class A cost function
  *  The objectif function is the quadratic form:
  *
  *  1/2 x^T A x - b^T x
@@ -56,7 +57,7 @@ public:
   typedef vnl_vector<double>                      VectorType;
   typedef vnl_matrix<double>                      MatrixType;
 
-  typedef double MeasureType ;
+  typedef double MeasureType;
 
   LBFGSCostFunction()
   {
@@ -67,7 +68,7 @@ public:
     double x = position[0];
     double y = position[1];
 
-    std::cout << "GetValue ( " ;
+    std::cout << "GetValue ( ";
     std::cout << x << " , " << y;
     std::cout << ") = ";
 
@@ -84,14 +85,14 @@ public:
     double x = position[0];
     double y = position[1];
 
-    std::cout << "GetDerivative ( " ;
+    std::cout << "GetDerivative ( ";
     std::cout << x << " , " << y;
     std::cout << ") = ";
 
     derivative = DerivativeType(SpaceDimension);
     derivative[0] = 3*x + 2*y -2;
     derivative[1] = 2*x + 6*y +8;
-    std::cout << "(" ;
+    std::cout << "(";
     std::cout << derivative[0] <<" , ";
     std::cout << derivative[1] << ")" << std::endl;
   }
@@ -112,7 +113,7 @@ int itkLBFGSOptimizerTest(int, char* [] )
 {
   std::cout << "LBFGS Optimizer Test \n \n";
 
-  typedef  itk::LBFGSOptimizer  OptimizerType;
+  typedef  itk::LBFGSOptimizer                   OptimizerType;
   typedef  OptimizerType::InternalOptimizerType  vnlOptimizerType;
 
   // Declaration of a itkOptimizer

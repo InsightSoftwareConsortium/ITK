@@ -31,11 +31,12 @@
 
 #define ROUND(x) (floor(x+0.5))
 
-typedef itk::Array<double> MeasurementVectorType;
-typedef itk::Array<double> TargetVectorType;
-typedef itk::Statistics::ListSample<TargetVectorType> TargetType;
+typedef itk::Array<double>                                 MeasurementVectorType;
+typedef itk::Array<double>                                 TargetVectorType;
+typedef itk::Statistics::ListSample<TargetVectorType>      TargetType;
 typedef itk::Statistics::ListSample<MeasurementVectorType> SampleType;
-typedef itk::Statistics::OneHiddenLayerBackPropagationNeuralNetwork<MeasurementVectorType, TargetVectorType> OneHiddenLayerBackPropagationNeuralNetworkType;
+typedef itk::Statistics::OneHiddenLayerBackPropagationNeuralNetwork<MeasurementVectorType, TargetVectorType>
+                                                           OneHiddenLayerBackPropagationNeuralNetworkType;
 
 
 static int TestNetwork(SampleType::Pointer TestSample, TargetType::Pointer TestTargets,
@@ -46,8 +47,8 @@ static int TestNetwork(SampleType::Pointer TestSample, TargetType::Pointer TestT
   std::cout << "Network Simulation" << std::endl;
   SampleType::ConstIterator iter1 = TestSample->Begin();
   TargetType::ConstIterator iter2 = TestTargets->Begin();
-  unsigned int error1 = 0 ;
-  unsigned int error2 = 0 ;
+  unsigned int error1 = 0;
+  unsigned int error2 = 0;
   int flag;
   std::ofstream outfile;
   outfile.open("out1.txt",std::ios::out);
@@ -78,7 +79,7 @@ static int TestNetwork(SampleType::Pointer TestSample, TargetType::Pointer TestT
     }
 
   std::cout << "Among "<<TestSample->Size()<<" measurement vectors, " << error1 + error2
-    << " vectors are misclassified." << std::endl ;
+    << " vectors are misclassified." << std::endl;
   std::cout<<"Network Weights and Biases after Training= "<<std::endl;
   std::cout << OneHiddenLayerNetwork << std::endl;
   if (double(error1 / 10) > 2 || double(error2 / 10) > 2)
@@ -95,7 +96,7 @@ NNetClassifierTest1(int argc, char* argv[])
   if (argc < 3)
     {
     std::cout << "Usage: " << argv[0]
-              << " InputTrainingFile(.txt) InputTestFile(.txt)" << std::endl ;
+              << " InputTrainingFile(.txt) InputTestFile(.txt)" << std::endl;
     return EXIT_FAILURE;
     }
 

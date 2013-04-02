@@ -29,7 +29,7 @@ QPropXORTest1(int argc, char* argv[])
   if (argc < 2)
     {
     std::cout << "Usage: " << argv[0]
-              << " InputFile(.txt)" << std::endl ;
+              << " InputFile(.txt)" << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -41,10 +41,10 @@ QPropXORTest1(int argc, char* argv[])
 
   srand(time(0));
 
-  typedef itk::Array<double> MeasurementVectorType;
-  typedef itk::Array<double> TargetVectorType;
+  typedef itk::Array<double>                                 MeasurementVectorType;
+  typedef itk::Array<double>                                 TargetVectorType;
   typedef itk::Statistics::ListSample<MeasurementVectorType> SampleType;
-  typedef itk::Statistics::ListSample<TargetVectorType> TargetType;
+  typedef itk::Statistics::ListSample<TargetVectorType>      TargetType;
 
   typedef itk::Statistics::BatchSupervisedTrainingFunction<SampleType, TargetType, double> TrainingFcnType;
 
@@ -114,8 +114,8 @@ QPropXORTest1(int argc, char* argv[])
   TargetType::ConstIterator iter2 = targets->Begin();
 
 
-  unsigned int error1 = 0 ;
-  unsigned int error2 = 0 ;
+  unsigned int error1 = 0;
+  unsigned int error2 = 0;
   int flag;
   int train_flag=1;
   long num_iterations =0;
@@ -135,7 +135,7 @@ QPropXORTest1(int argc, char* argv[])
     //train the network
     net1->InitializeWeights();
     trainingfcn->Train(net1, sample, targets);
-    num_iterations+=50;
+    num_iterations += 50;
     iter1 = sample->Begin();
     iter2 = targets->Begin();
     error1=0;
@@ -168,7 +168,7 @@ QPropXORTest1(int argc, char* argv[])
       ++iter2;
       }
     //check for convergence
-    if((error1+error2)==0 || num_iterations > max_iterations)
+    if((error1+error2) == 0 || num_iterations > max_iterations)
       {//Done training
       train_flag=0;
       }
@@ -176,7 +176,7 @@ QPropXORTest1(int argc, char* argv[])
 
   std::cout<<"Number of Epochs = "<<num_iterations<<std::endl;
   std::cout << "Among 4 measurement vectors, " << error1 + error2
-    << " vectors are misclassified." << std::endl ;
+    << " vectors are misclassified." << std::endl;
   std::cout<<"Network Weights and Biases after Training= "<<std::endl;
 
   std::cout << net1 << std::endl;

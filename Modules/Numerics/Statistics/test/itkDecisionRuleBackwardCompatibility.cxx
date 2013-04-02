@@ -31,14 +31,14 @@ int itkDecisionRuleBackwardCompatibilityTest(int, char* [] )
   // MinimumDecisionRule used to just be in the itk namespace. Now it
   // is in the itk::Statistics namespace. Test backward compatibility
   // of the symbol in the old namespace.
-  typedef itk::MinimumDecisionRul MinimumDecisionRuleType;
-  typedef itk::MaximumDecisionRul MaximumDecisionRuleType;
+  typedef itk::MinimumDecisionRul      MinimumDecisionRuleType;
+  typedef itk::MaximumDecisionRul      MaximumDecisionRuleType;
   typedef itk::MaximumRatioDecisionRul MaximumRationDecisionRuleType;
 
   // MinimumDecisionRule2 has been renamed to MinimumDecisionRule.Test
   // backward compatibility of the old symbol name.
-  typedef itk::Statistics::MinimumDecisionRule2 MinimumDecisionRuleType2;
-  typedef itk::Statistics::MaximumDecisionRule2 MaximumDecisionRuleType2;
+  typedef itk::Statistics::MinimumDecisionRule2      MinimumDecisionRuleType2;
+  typedef itk::Statistics::MaximumDecisionRule2      MaximumDecisionRuleType2;
   typedef itk::Statistics::MaximumRatioDecisionRule2 MaximumRatioDecisionRuleType2;
 
   return EXIT_SUCCESS;
