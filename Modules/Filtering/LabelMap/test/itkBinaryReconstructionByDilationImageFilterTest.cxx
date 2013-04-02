@@ -59,7 +59,9 @@ int itkBinaryReconstructionByDilationImageFilterTest(int argc, char * argv[])
   TEST_SET_GET_VALUE( bg , reconstruction->GetBackgroundValue() );
 
   reconstruction->SetMaskImage( reader->GetOutput() );
+  reconstruction->SetInput( "MaskImage", reader->GetOutput() );
   reconstruction->SetMarkerImage( reader2->GetOutput() );
+  reconstruction->SetInput( "MarkerImage", reader2->GetOutput() );
 
   itk::SimpleFilterWatcher watcher(reconstruction, "filter");
 

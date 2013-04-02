@@ -31,7 +31,42 @@ BinaryReconstructionByDilationImageFilter<TInputImage>
   m_BackgroundValue = NumericTraits<OutputImagePixelType>::NonpositiveMin();
   m_ForegroundValue = NumericTraits<OutputImagePixelType>::max();
   m_FullyConnected = false;
-  this->SetNumberOfRequiredInputs(2);
+  this->SetPrimaryInputName( "MarkerImage" );
+  this->AddRequiredInputName( "MaskImage" );
+}
+
+template<class TInputImage>
+void
+BinaryReconstructionByDilationImageFilter<TInputImage>
+::SetMarkerImage( const InputImageType * input )
+{
+  // Process object is not const-correct, so the const casting is required.
+  this->ProcessObject::SetInput( "MarkerImage", const_cast< InputImageType * >( input ));
+}
+
+template<class TInputImage>
+typename BinaryReconstructionByDilationImageFilter<TInputImage>::InputImageType *
+BinaryReconstructionByDilationImageFilter<TInputImage>
+::GetMarkerImage()
+{
+  return static_cast<InputImageType*>(const_cast<DataObject *>(this->ProcessObject::GetInput( "MarkerImage" )));
+}
+
+template<class TInputImage>
+void
+BinaryReconstructionByDilationImageFilter<TInputImage>
+::SetMaskImage( const InputImageType * input )
+{
+  // Process object is not const-correct, so the const casting is required.
+  this->ProcessObject::SetInput( "MaskImage", const_cast< InputImageType * >( input ));
+}
+
+template<class TInputImage>
+typename BinaryReconstructionByDilationImageFilter<TInputImage>::InputImageType *
+BinaryReconstructionByDilationImageFilter<TInputImage>
+::GetMaskImage()
+{
+  return static_cast<InputImageType*>(const_cast<DataObject *>(this->ProcessObject::GetInput( "MaskImage" )));
 }
 
 template<class TInputImage>
