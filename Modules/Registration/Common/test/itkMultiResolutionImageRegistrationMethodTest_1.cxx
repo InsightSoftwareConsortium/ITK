@@ -145,7 +145,7 @@ int itkMultiResolutionImageRegistrationMethodTest_1(int, char* [] )
 
 
   typedef itk::ImageRegionIterator<MovingImageType> MovingImageIterator;
-  typedef itk::ImageRegionIterator<FixedImageType> FixedImageIterator;
+  typedef itk::ImageRegionIterator<FixedImageType>  FixedImageIterator;
 
   itk::Point<double,dimension> center;
   for ( j = 0; j < dimension; j++ )

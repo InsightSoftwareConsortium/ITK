@@ -149,9 +149,6 @@ int itkImageRegistrationMethodTest_6(int argc, char* argv[] )
     gradientTolerance = atof( argv[5] );
     std::cout << "gradientTolerance = " << gradientTolerance << std::endl;
     }
-
-
-
   for( unsigned int i=0; i<dimension; i++)
     {
     scales[ i + dimension * dimension ] = translationScale;
@@ -189,9 +186,6 @@ int itkImageRegistrationMethodTest_6(int argc, char* argv[] )
   // We know that for the Affine transform the Translation parameters are at
   // the end of the list of parameters.
   const unsigned int offsetOrder = finalParameters.Size()-actualParameters.Size();
-
-
-
   const double tolerance = 1.0;  // equivalent to 1 pixel.
 
   for(unsigned int i=0; i<numbeOfParameters; i++)

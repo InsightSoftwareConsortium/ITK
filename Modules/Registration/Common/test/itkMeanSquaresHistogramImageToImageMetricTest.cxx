@@ -39,9 +39,9 @@ int itkMeanSquaresHistogramImageToImageMetricTest(int , char* [])
 
     // Declare Gaussian Sources
     typedef itk::GaussianImageSource<MovingImageType> MovingImageSourceType;
-    typedef itk::GaussianImageSource<FixedImageType> FixedImageSourceType;
-    typedef MovingImageSourceType::Pointer MovingImageSourcePointer;
-    typedef FixedImageSourceType::Pointer FixedImageSourcePointer;
+    typedef itk::GaussianImageSource<FixedImageType>  FixedImageSourceType;
+    typedef MovingImageSourceType::Pointer            MovingImageSourcePointer;
+    typedef FixedImageSourceType::Pointer             FixedImageSourcePointer;
 
     // Note: the following declarations are classical arrays
     FixedImageType::SizeValueType fixedImageSize[] = {100,  100};
@@ -78,9 +78,9 @@ int itkMeanSquaresHistogramImageToImageMetricTest(int , char* [])
 
     // Set up the metric.
     typedef itk::MeanSquaresHistogramImageToImageMetric<FixedImageType,
-      MovingImageType> MetricType;
-    typedef MetricType::TransformType TransformBaseType;
-    typedef MetricType::ScalesType ScalesType;
+      MovingImageType>                        MetricType;
+    typedef MetricType::TransformType         TransformBaseType;
+    typedef MetricType::ScalesType            ScalesType;
     typedef TransformBaseType::ParametersType ParametersType;
 
     MetricType::Pointer metric = MetricType::New();

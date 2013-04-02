@@ -182,7 +182,7 @@ void PopulateImage( itk::SmartPointer< TImage > image )
   image->Allocate();
   image->FillBuffer( 0 );
 
-  typedef TImage ImageType;
+  typedef TImage                         ImageType;
   typedef typename ImageType::RegionType RegionType;
   typedef typename ImageType::SizeType   SizeType;
   typedef typename ImageType::IndexType  IndexType;

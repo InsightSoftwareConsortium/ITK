@@ -38,9 +38,9 @@ int itkCompareHistogramImageToImageMetricTest(int , char* [])
 
     // Declare Gaussian Sources
     typedef itk::GaussianImageSource<MovingImageType> MovingImageSourceType;
-    typedef itk::GaussianImageSource<FixedImageType> FixedImageSourceType;
-    typedef MovingImageSourceType::Pointer MovingImageSourcePointer;
-    typedef FixedImageSourceType::Pointer FixedImageSourcePointer;
+    typedef itk::GaussianImageSource<FixedImageType>  FixedImageSourceType;
+    typedef MovingImageSourceType::Pointer            MovingImageSourcePointer;
+    typedef FixedImageSourceType::Pointer             FixedImageSourcePointer;
 
     // Note: the following declarations are classical arrays
     FixedImageType::SizeValueType fixedImageSize[] = {100,  100};
@@ -80,8 +80,8 @@ int itkCompareHistogramImageToImageMetricTest(int , char* [])
                                                        FixedImageType,
                                                        MovingImageType
                                                                > MetricType;
-    typedef MetricType::TransformType TransformBaseType;
-    typedef MetricType::ScalesType ScalesType;
+    typedef MetricType::TransformType         TransformBaseType;
+    typedef MetricType::ScalesType            ScalesType;
     typedef TransformBaseType::ParametersType ParametersType;
 
     MetricType::Pointer metric = MetricType::New();

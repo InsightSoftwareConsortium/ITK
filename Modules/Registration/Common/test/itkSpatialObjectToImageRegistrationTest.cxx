@@ -29,14 +29,14 @@
 namespace itk
 {
 
-/** Iteration callback */
+/** \class Iteration callback */
 template < class TOptimizer >
 class IterationCallback : public Command
 {
 public:
-  typedef IterationCallback   Self;
-  typedef itk::Command  Superclass;
-  typedef itk::SmartPointer<Self>  Pointer;
+  typedef IterationCallback              Self;
+  typedef itk::Command                   Superclass;
+  typedef itk::SmartPointer<Self>        Pointer;
   typedef itk::SmartPointer<const Self>  ConstPointer;
 
   itkTypeMacro( IterationCallback, Superclass );
@@ -90,7 +90,7 @@ protected:
 
 };
 
-/** Cost Function */
+/** \class Cost Function */
 template <typename TFixedImage, typename TMovingSpatialObject>
 class SimpleImageToSpatialObjectMetric : public ImageToSpatialObjectMetric<TFixedImage,TMovingSpatialObject>
 {
@@ -99,13 +99,13 @@ public:
   /** Standard class typedefs. */
   typedef SimpleImageToSpatialObjectMetric  Self;
   typedef ImageToSpatialObjectMetric<TFixedImage,TMovingSpatialObject>
-  Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+                                            Superclass;
+  typedef SmartPointer<Self>                Pointer;
+  typedef SmartPointer<const Self>          ConstPointer;
 
-  typedef Point<double,2>   PointType;
-  typedef std::list<PointType> PointListType;
-  typedef TMovingSpatialObject MovingSpatialObjectType;
+  typedef Point<double,2>                     PointType;
+  typedef std::list<PointType>                PointListType;
+  typedef TMovingSpatialObject                MovingSpatialObjectType;
   typedef typename Superclass::ParametersType ParametersType;
   typedef typename Superclass::DerivativeType DerivativeType;
   typedef typename Superclass::MeasureType    MeasureType;
@@ -385,7 +385,7 @@ int itkSpatialObjectToImageRegistrationTest(int, char* [] )
 
   optimizer->SetNormalVariateGenerator(generator);
   optimizer->Initialize( 1.02, 1.1 );
-  optimizer->SetEpsilon( 0.01 ) ;
+  optimizer->SetEpsilon( 0.01 );
   optimizer->SetMaximumIteration( 500 );
 
   typedef itk::IterationCallback<OptimizerType> IterationCallbackType;

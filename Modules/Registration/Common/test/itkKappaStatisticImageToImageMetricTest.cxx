@@ -90,7 +90,7 @@ int itkKappaStatisticImageToImageMetricTest(int, char* [] )
   std::cout << "Test [Set,Get]ForegroundValue method..." << std::endl;
 
   metric->SetForegroundValue(255);
-  if (metric->GetForegroundValue()!=255)
+  if (metric->GetForegroundValue() != 255)
     {
     std::cerr << "Error!" << std::endl;
     return EXIT_FAILURE;

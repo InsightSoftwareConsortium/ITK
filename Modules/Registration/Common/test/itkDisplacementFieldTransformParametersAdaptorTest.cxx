@@ -66,7 +66,7 @@ int itkDisplacementFieldTransformParametersAdaptorTest(int, char * [] )
   /**
    * Instantiate a transform
    */
-  std::cout << "Initialize transform." << std::endl;;
+  std::cout << "Initialize transform." << std::endl;
 
   TransformType::Pointer transform = TransformType::New();
   transform->SetDisplacementField( displacementField );
@@ -84,7 +84,7 @@ int itkDisplacementFieldTransformParametersAdaptorTest(int, char * [] )
    *   the size and decrease the spacing.
    */
 
-  std::cout << "Instantiate adaptor." << std::endl;;
+  std::cout << "Instantiate adaptor." << std::endl;
 
   SpacingType requiredSpacing;
   requiredSpacing.Fill( 0.6 );

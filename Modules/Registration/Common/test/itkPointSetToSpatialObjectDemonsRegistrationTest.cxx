@@ -79,4 +79,3 @@ int itkPointSetToSpatialObjectDemonsRegistrationTest(int, char* [] )
   return EXIT_SUCCESS;
 
 }
-

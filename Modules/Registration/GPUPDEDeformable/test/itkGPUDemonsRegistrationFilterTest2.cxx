@@ -114,12 +114,12 @@ int itkGPUDemonsRegistrationFilterTest2(int argc, char* argv[] )
   typedef float PixelType;
   enum {ImageDimension = 2};
   typedef itk::GPUImage<PixelType,ImageDimension>             ImageType;
-  typedef itk::Vector<float,ImageDimension>                VectorType;
+  typedef itk::Vector<float,ImageDimension>                   VectorType;
   typedef itk::GPUImage<VectorType,ImageDimension>            FieldType;
   typedef itk::GPUImage<VectorType::ValueType,ImageDimension> FloatImageType;
-  typedef ImageType::IndexType                             IndexType;
-  typedef ImageType::SizeType                              SizeType;
-  typedef ImageType::RegionType                            RegionType;
+  typedef ImageType::IndexType                                IndexType;
+  typedef ImageType::SizeType                                 SizeType;
+  typedef ImageType::RegionType                               RegionType;
 
   //--------------------------------------------------------
   std::cout << "Generate input images and initial deformation field";
