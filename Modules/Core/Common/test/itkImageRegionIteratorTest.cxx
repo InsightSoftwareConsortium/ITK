@@ -100,7 +100,7 @@ int itkImageRegionIteratorTest(int, char* [] )
   itk::ImageRegionIterator<itk::Image<itk::Vector<unsigned short, 5>, 3> > it(o3, region);
 
   std::cout << "Simple iterator loop: ";
-  for ( ; !it.IsAtEnd(); ++it)
+  for (; !it.IsAtEnd(); ++it)
     {
     itk::Image<itk::Vector<unsigned short, 5>, 3>::IndexType index = it.GetIndex();
     std::cout << index << std::endl;
@@ -112,7 +112,7 @@ int itkImageRegionIteratorTest(int, char* [] )
   itk::ImageRegionConstIterator<itk::Image<itk::Vector<unsigned short, 5>, 3> > cit(o3, region);
 
   std::cout << "Simple const iterator loop: ";
-  for ( ; !cit.IsAtEnd(); ++cit)
+  for (; !cit.IsAtEnd(); ++cit)
     {
     itk::Image<itk::Vector<unsigned short, 5>, 3>::IndexType index = cit.GetIndex();
     std::cout << index << std::endl;

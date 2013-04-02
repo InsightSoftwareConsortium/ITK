@@ -31,8 +31,8 @@ int itkImportImageTest(int, char* [] )
     }
 
   // typdefs to simplify the syntax
-  typedef itk::ImportImageFilter<short, 2>          ImportImageFilter;
-  typedef itk::Image<short, 2>   ShortImage;
+  typedef itk::ImportImageFilter<short, 2> ImportImageFilter;
+  typedef itk::Image<short, 2>             ShortImage;
 
   // Create an ImportImageFilter filter
   ImportImageFilter::Pointer import;
@@ -62,8 +62,6 @@ int itkImportImageTest(int, char* [] )
     std::cerr << "Exception detected: "  << e.GetDescription();
     return EXIT_FAILURE;
     }
-
-
 
   // Test the SetVectorMacros and GetVectorMacros
   const double data[2] = {1.0,1.0};
@@ -98,8 +96,7 @@ int itkImportImageTest(int, char* [] )
   for (; !iterator2.IsAtEnd(); ++iterator2)
     {
     std::cout << "Pixel " << iterator2.GetIndex() << " = " << iterator2.Get() << std::endl;
-    if ( iterator2.Get() !=
-         itk::Math::RoundHalfIntegerUp<short>(
+    if (iterator2.Get() != itk::Math::RoundHalfIntegerUp<short>(
             static_cast<float>( (shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[0] +
                                  shrink->GetShrinkFactors()[0]/2) +
             (region.GetSize()[0] * ((shrink->GetShrinkFactors()[1]/2) +

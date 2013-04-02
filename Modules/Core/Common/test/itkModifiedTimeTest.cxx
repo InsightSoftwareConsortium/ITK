@@ -22,9 +22,10 @@
 int itkModifiedTimeTest( int, char* [] )
 {
 
-  typedef itk::Point< double, 3 > Point;
+  typedef itk::Point< double, 3 >                          Point;
   typedef itk::VectorContainer< unsigned long int, Point > PointsContainer;
-  typedef itk::BoundingBox< unsigned long int, 3, double, PointsContainer > BoundingBox;
+  typedef itk::BoundingBox< unsigned long int, 3, double, PointsContainer >
+                                                           BoundingBox;
 
   Point p,q,r;
 

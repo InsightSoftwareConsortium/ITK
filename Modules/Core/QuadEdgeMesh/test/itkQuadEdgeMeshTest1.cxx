@@ -36,8 +36,6 @@ int itkQuadEdgeMeshTest1( int , char* [] )
   mesh->GetCellBoundaryFeatureNeighbors( 0, 0, 0, 0 );
   mesh->GetCellNeighbors( 0, 0 );
 
-
-
   // test ComputeNumberOfPoints( ) failsafe
     {
     if( mesh->ComputeNumberOfPoints( ) )

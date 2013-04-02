@@ -126,4 +126,3 @@ int itkRegularSphereMeshSourceTest(int, char* [] )
   return EXIT_SUCCESS;
 
 }
-

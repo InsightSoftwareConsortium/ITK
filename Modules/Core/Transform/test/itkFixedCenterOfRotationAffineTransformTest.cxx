@@ -23,7 +23,8 @@
 
 int itkFixedCenterOfRotationAffineTransformTest(int, char *[])
 {
-  typedef itk::FixedCenterOfRotationAffineTransform<double,2> FCoRAffine2DType;
+  typedef itk::FixedCenterOfRotationAffineTransform<double,2>
+                                            FCoRAffine2DType;
   typedef itk::AffineTransform<double,2>    FAffine2DType;
   FCoRAffine2DType::MatrixType              matrix2;
   FAffine2DType::Pointer                    inverse2;

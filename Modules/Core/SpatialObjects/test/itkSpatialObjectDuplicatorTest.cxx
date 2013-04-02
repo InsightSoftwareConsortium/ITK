@@ -128,7 +128,7 @@ int itkSpatialObjectDuplicatorTest(int, char* [])
       {
       for(unsigned int d=0;d<3;d++)
         {
-        if((*jdti).GetPosition()[d]!=value * dtiTube_copy->GetId())
+        if((*jdti).GetPosition()[d] != value * dtiTube_copy->GetId())
           {
           std::cout<<" [FAILED] (Position is: " << (*jdti).GetPosition()[d] << " expected : "<< value * dtiTube_copy->GetId()<< " ) " <<std::endl;
           return EXIT_FAILURE;
@@ -141,50 +141,50 @@ int itkSpatialObjectDuplicatorTest(int, char* [])
           return EXIT_FAILURE;
           }
 
-        if((*jdti).GetGreen()!=value+1)
+        if((*jdti).GetGreen() != value+1)
           {
           std::cout<<" [FAILED] : Green : found " << ( *jdti).GetGreen() << " instead of " << value+1 <<std::endl;
           return EXIT_FAILURE;
           }
 
-        if((*jdti).GetBlue()!=value+2)
+        if((*jdti).GetBlue() != value+2)
           {
           std::cout<<"[FAILED] : Blue : found " << ( *jdti).GetBlue() << " instead of " << value+2 <<std::endl;
           return EXIT_FAILURE;
           }
 
-        if((*jdti).GetAlpha()!=value+3)
+        if((*jdti).GetAlpha() != value+3)
           {
           std::cout<<" [FAILED] : Alpha : found " << ( *jdti).GetAlpha() << " instead of " << value+3 <<std::endl;
           return EXIT_FAILURE;
           }
 
-        if((*jdti).GetField(DTITubePointType::FA)!=value)
+        if((*jdti).GetField(DTITubePointType::FA) != value)
           {
           std::cout<<" [FAILED] : FA : found " << ( *jdti).GetField("FA") << " instead of " << value <<std::endl;
           return EXIT_FAILURE;
           }
-        if((*jdti).GetField(DTITubePointType::ADC)!=value*2)
+        if((*jdti).GetField(DTITubePointType::ADC) != value*2)
           {
           std::cout<<" [FAILED] : ADC : found " << ( *jdti).GetField("ADC") << " instead of " << value*2 <<std::endl;
           return EXIT_FAILURE;
           }
-        if((*jdti).GetField(DTITubePointType::GA)!=value*3)
+        if((*jdti).GetField(DTITubePointType::GA) != value*3)
           {
           std::cout<<" [FAILED] : GA : found " << ( *jdti).GetField("FA") << " instead of " << value*3 <<std::endl;
           return EXIT_FAILURE;
           }
-        if((*jdti).GetField("Lambda1")!=value*4)
+        if((*jdti).GetField("Lambda1") != value*4)
           {
           std::cout<<" [FAILED] : GetLambda1 : found " << ( *jdti).GetField("Lambda1") << " instead of " << value*4 <<std::endl;
           return EXIT_FAILURE;
           }
-        if((*jdti).GetField("Lambda2")!=value*5)
+        if((*jdti).GetField("Lambda2") != value*5)
           {
           std::cout<<" [FAILED] : GetLambda2 : found " << ( *jdti).GetField("Lambda2") << " instead of " << value*5 <<std::endl;
           return EXIT_FAILURE;
           }
-        if((*jdti).GetField("Lambda3")!=value*6)
+        if((*jdti).GetField("Lambda3") != value*6)
           {
           std::cout<<" [FAILED] : GetLambda3 : found " << ( *jdti).GetField("Lambda3") << " instead of " << value*6 <<std::endl;
           return EXIT_FAILURE;
@@ -192,7 +192,7 @@ int itkSpatialObjectDuplicatorTest(int, char* [])
         int ind;
         for(ind=0;ind<6;ind++)
           {
-          if((*jdti).GetTensorMatrix()[ind]!=ind)
+          if((*jdti).GetTensorMatrix()[ind] != ind)
             {
             std::cout<<" [FAILED] : GetTensorMatrix : found " << ( *jdti).GetTensorMatrix()[ind] << " instead of " << ind <<std::endl;
             return EXIT_FAILURE;

@@ -29,10 +29,7 @@ typedef   itk::Vector<float,3>    VectorType;
 
 typedef itk::MapContainer< unsigned long,
                            PointType >     ContainerType;
-
-typedef ContainerType::Pointer    ContainerPointer;
-
-
+typedef ContainerType::Pointer             ContainerPointer;
 
 int itkMapContainerTest(int, char* [] )
 {
@@ -81,4 +78,3 @@ int itkMapContainerTest(int, char* [] )
   return EXIT_SUCCESS;
 
 }
-

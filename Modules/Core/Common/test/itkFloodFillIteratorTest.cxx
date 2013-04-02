@@ -78,7 +78,7 @@ int itkFloodFillIteratorTest(int, char* [] )
   //---------Create and initialize a spatial function-----------
 
   typedef itk::SphereSpatialFunction<dim> TFunctionType;
-  typedef TFunctionType::InputType TFunctionPositionType;
+  typedef TFunctionType::InputType        TFunctionPositionType;
 
   // Create and initialize a new sphere function
 
@@ -103,7 +103,7 @@ int itkFloodFillIteratorTest(int, char* [] )
   TItType sfi = TItType(sourceImage, spatialFunc, seedPos);
 
   // Iterate through the entire image and set interior pixels to 255
-  for( ; !( sfi.IsAtEnd() ); ++sfi)
+  for(; !( sfi.IsAtEnd() ); ++sfi)
     {
 
     std::cout << sfi.GetIndex() << ": " << sfi.Get() << std::endl;

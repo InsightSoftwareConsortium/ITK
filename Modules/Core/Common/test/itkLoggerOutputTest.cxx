@@ -81,5 +81,3 @@ int itkLoggerOutputTest( int argc, char *argv [] )
   std::cout << "[PASSED]" << std::endl;
   return EXIT_SUCCESS;
 }
-
-

@@ -85,10 +85,10 @@ int itkBoxSpatialObjectTest( int argc, char *argv[] )
   std::cout << box2->GetBoundingBox()->GetBounds() << std::endl;
   BoxType::BoundingBoxType * boundingBox = box1->GetBoundingBox();
 
-  if(     (boundingBox->GetBounds()[0]!= 29)
-      ||  (boundingBox->GetBounds()[1]!= 59)
-      ||  (boundingBox->GetBounds()[2]!= 29)
-      ||  (boundingBox->GetBounds()[3]!= 59) )
+  if(     (boundingBox->GetBounds()[0] != 29)
+      ||  (boundingBox->GetBounds()[1] != 59)
+      ||  (boundingBox->GetBounds()[2] != 29)
+      ||  (boundingBox->GetBounds()[3] != 59) )
     {
     std::cout << "[FAILED] Test returned" << std::endl;
     std::cout << box1->GetBoundingBox()->GetBounds() << std::endl;

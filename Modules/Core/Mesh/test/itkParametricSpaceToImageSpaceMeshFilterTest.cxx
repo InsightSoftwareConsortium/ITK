@@ -40,7 +40,3 @@ int itkParametricSpaceToImageSpaceMeshFilterTest(int, char* [] )
     }
   return EXIT_SUCCESS;
 }
-
-
-
-

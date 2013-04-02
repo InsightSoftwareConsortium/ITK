@@ -41,8 +41,6 @@ int itkVectorGeometryTest(int, char* [] )
   //  Vector type
   typedef    itk::Vector< ValueType, N >    VectorType;
 
-
-
 /*
   VectorType vv;
   vv = 0, 2, 4;
@@ -53,8 +51,6 @@ int itkVectorGeometryTest(int, char* [] )
     return EXIT_FAILURE;
     }
   */
-
-
 
   VectorType va;
   va[0] = 1.0;

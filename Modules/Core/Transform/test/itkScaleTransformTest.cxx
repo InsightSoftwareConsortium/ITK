@@ -20,9 +20,6 @@
 
 #include "itkScaleTransform.h"
 
-
-
-
 int itkScaleTransformTest(int ,char * [] )
 {
 
@@ -61,8 +58,6 @@ int itkScaleTransformTest(int ,char * [] )
       return EXIT_FAILURE;
     }
   }
-
-
 
   /* Create a Scale transform */
   {
@@ -255,8 +250,6 @@ int itkScaleTransformTest(int ,char * [] )
 
 
   }
-
-
 
   return EXIT_SUCCESS;
 

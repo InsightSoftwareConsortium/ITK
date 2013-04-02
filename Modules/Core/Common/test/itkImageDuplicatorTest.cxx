@@ -241,8 +241,8 @@ int itkImageDuplicatorTest(int, char* [] )
   {
   const unsigned int Dimension    = 3;
   const unsigned int VectorLength = 2 * Dimension;
-  typedef float PixelType;
-  typedef itk::VectorImage< PixelType, Dimension >   VectorImageType;
+  typedef float                                    PixelType;
+  typedef itk::VectorImage< PixelType, Dimension > VectorImageType;
 
   VectorImageType::Pointer vectorImage = VectorImageType::New();
   itk::VariableLengthVector< PixelType > f( VectorLength );

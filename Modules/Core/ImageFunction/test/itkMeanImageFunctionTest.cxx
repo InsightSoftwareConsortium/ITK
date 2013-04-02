@@ -25,7 +25,7 @@ int itkMeanImageFunctionTest(int, char* [] )
   const unsigned int Dimension = 3;
   typedef unsigned char   PixelType;
 
-  typedef itk::Image< PixelType, Dimension > ImageType;
+  typedef itk::Image< PixelType, Dimension >  ImageType;
   typedef itk::MeanImageFunction< ImageType > FunctionType;
 
   // Create and allocate the image
@@ -102,4 +102,3 @@ int itkMeanImageFunctionTest(int, char* [] )
   return EXIT_SUCCESS;
 
 }
-

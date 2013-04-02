@@ -54,10 +54,10 @@ template<class KernelType> int TestKernelTransform(const char *name, KernelType 
   sourceLandmarks->GetPoints()->Reserve( 4 );
 
   // Generate some random coordinates
-  typedef itk::PointSet<float>  PointSet;
-  typedef typename PointSet::PointType PointType;
+  typedef itk::PointSet<float>              PointSet;
+  typedef typename PointSet::PointType      PointType;
   typename KernelPointSetType::CoordRepType randomCoords[3];
-  for(int i=0; i < 4 ; ++i)
+  for(int i=0; i < 4; ++i)
     {
     randomCoords[0] = (typename KernelPointSetType::CoordRepType)
       vnl_sample_uniform((double)-1.0,(double)1.0);
@@ -139,8 +139,6 @@ int itkTransformsSetParametersTest( int , char *[] )
   else
     std::cout << "FAIL" << std::endl;
 
-
-
   std::cout << "CenteredEuler3DTransform->SetParameters() - " << std::flush;
   typedef itk::CenteredEuler3DTransform< double > CenteredEuler3D;
   CenteredEuler3D::Pointer centeredEuler3D =
@@ -155,8 +153,6 @@ int itkTransformsSetParametersTest( int , char *[] )
     std::cout << "PASS" << std::endl;
   else
     std::cout << "FAIL" << std::endl;
-
-
 
   std::cout << "CenteredRigid2DTransform->SetParameters() - " << std::flush;
   typedef itk::CenteredRigid2DTransform< double > CenteredRigid2D;
@@ -173,8 +169,6 @@ int itkTransformsSetParametersTest( int , char *[] )
   else
     std::cout << "FAIL" << std::endl;
 
-
-
   std::cout << "CenteredSimilarity2DTransform->SetParameters() - " << std::flush;
   typedef itk::CenteredSimilarity2DTransform< double > CenteredSimilarity2D;
   CenteredSimilarity2D::Pointer centeredSimilarity2D =
@@ -189,8 +183,6 @@ int itkTransformsSetParametersTest( int , char *[] )
     std::cout << "PASS" << std::endl;
   else
     std::cout << "FAIL" << std::endl;
-
-
 
   std::cout << "Euler2DTransform->SetParameters() - " << std::flush;
   typedef itk::Euler2DTransform< double > Euler2D;
@@ -207,8 +199,6 @@ int itkTransformsSetParametersTest( int , char *[] )
   else
     std::cout << "FAIL" << std::endl;
 
-
-
   std::cout << "Euler3DTransform->SetParameters() - " << std::flush;
   typedef itk::Euler3DTransform< double > Euler3D;
   Euler3D::Pointer euler3D =
@@ -223,8 +213,6 @@ int itkTransformsSetParametersTest( int , char *[] )
     std::cout << "PASS" << std::endl;
   else
     std::cout << "FAIL" << std::endl;
-
-
 
   std::cout << "FixedCenteredAffineTransform->SetParameters() - " << std::flush;
   typedef itk::FixedCenterOfRotationAffineTransform< double, 3 > FixedCenteredAffine;
@@ -257,8 +245,6 @@ int itkTransformsSetParametersTest( int , char *[] )
   else
     std::cout << "FAIL" << std::endl;
 
-
-
   std::cout << "Rigid2DTransform->SetParameters() - " << std::flush;
   typedef itk::Rigid2DTransform< double > Rigid2D;
   Rigid2D::Pointer rigid2D =
@@ -290,8 +276,6 @@ int itkTransformsSetParametersTest( int , char *[] )
   else
     std::cout << "FAIL" << std::endl;
 
-
-
   std::cout << "ScalableAffineTransform->SetParameters() - " << std::flush;
   typedef itk::ScalableAffineTransform< double, 3 > ScalableAffine;
   ScalableAffine::Pointer scalableAffine =
@@ -306,8 +290,6 @@ int itkTransformsSetParametersTest( int , char *[] )
     std::cout << "PASS" << std::endl;
   else
     std::cout << "FAIL" << std::endl;
-
-
 
   std::cout << "ScaleLogarithmicTransform->SetParameters() - " << std::flush;
   typedef itk::ScaleLogarithmicTransform< double, 3 > ScaleLogarithmic;
@@ -324,8 +306,6 @@ int itkTransformsSetParametersTest( int , char *[] )
   else
     std::cout << "FAIL" << std::endl;
 
-
-
   std::cout << "ScaleSkewVersor3DTransform->SetParameters() - " << std::flush;
   typedef itk::ScaleSkewVersor3DTransform< double > ScaleSkewVersor3D;
   ScaleSkewVersor3D::Pointer scaleSkewVersor3D =
@@ -340,8 +320,6 @@ int itkTransformsSetParametersTest( int , char *[] )
     std::cout << "PASS" << std::endl;
   else
     std::cout << "FAIL" << std::endl;
-
-
 
   std::cout << "ScaleTransform->SetParameters() - " << std::flush;
   typedef itk::ScaleTransform< double, 3 > Scale;
@@ -358,8 +336,6 @@ int itkTransformsSetParametersTest( int , char *[] )
   else
     std::cout << "FAIL" << std::endl;
 
-
-
   std::cout << "Similarity2DTransform->SetParameters() - " << std::flush;
   typedef itk::Similarity2DTransform< double > Similarity2D;
   Similarity2D::Pointer similarity2D =
@@ -374,8 +350,6 @@ int itkTransformsSetParametersTest( int , char *[] )
     std::cout << "PASS" << std::endl;
   else
     std::cout << "FAIL" << std::endl;
-
-
 
   std::cout << "Similarity3DTransform->SetParameters() - " << std::flush;
   typedef itk::Similarity3DTransform< double > Similarity3D;
@@ -392,8 +366,6 @@ int itkTransformsSetParametersTest( int , char *[] )
   else
     std::cout << "FAIL" << std::endl;
 
-
-
   std::cout << "TranslationTransform->SetParameters() - " << std::flush;
   typedef itk::TranslationTransform< double, 3 > Translation;
   Translation::Pointer translation =
@@ -409,8 +381,6 @@ int itkTransformsSetParametersTest( int , char *[] )
   else
     std::cout << "FAIL" << std::endl;
 
-
-
   std::cout << "VersorTransform->SetParameters() - " << std::flush;
   typedef itk::VersorTransform< double > Versor;
   Versor::Pointer versor =
@@ -425,8 +395,6 @@ int itkTransformsSetParametersTest( int , char *[] )
     std::cout << "PASS" << std::endl;
   else
     std::cout << "FAIL" << std::endl;
-
-
 
   std::cout << "AzimuthElevationToCartesianTransform->SetParameters() - "
             << std::flush;
@@ -475,8 +443,6 @@ int itkTransformsSetParametersTest( int , char *[] )
 //     std::cout << "PASS" << std::endl;
 //   else
 //     std::cout << "FAIL" << std::endl;
-
-
 
   TestKernelTransform
     ("ElasticBodyReciprocalSplineKernelTransform->SetParameters() -",

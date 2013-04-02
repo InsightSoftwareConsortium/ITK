@@ -66,7 +66,7 @@ bool testVectorImageAdaptor( typename TAdaptor::Pointer & vectorImageAdaptor,
   vectorImageAdaptor->SetImage( vectorImage );
   vectorImageAdaptor->Update();
 
-  if(   (vectorImageAdaptor->GetPixel(index) !=  vectorImage->GetPixel( index )[componentToExtract])
+  if(   (vectorImageAdaptor->GetPixel(index) != vectorImage->GetPixel( index )[componentToExtract])
      || (vectorImage->GetPixel( index )[componentToExtract] != componentToExtract ))
     {
     std::cerr << "[FAILED]" << std::endl;
@@ -132,12 +132,11 @@ int itkVectorImageTest( int, char* argv[] )
   //
   // Three images.. for crude timing analysis.
 
-  typedef itk::Image< itk::VariableLengthVector< PixelType >, Dimension > VariableLengthVectorImageType;
+  typedef itk::Image< itk::VariableLengthVector< PixelType >, Dimension >
+                                                     VariableLengthVectorImageType;
   typedef itk::Image< itk::FixedArray< PixelType, VectorLength >,
-                                      Dimension > FixedArrayImageType;
+                                      Dimension >    FixedArrayImageType;
   typedef itk::VectorImage< PixelType, Dimension >   VectorImageType;
-
-
 
   // Using image of VariableLengthVector< PixelType >
   {
@@ -632,8 +631,10 @@ int itkVectorImageTest( int, char* argv[] )
       }
     cNit.GoToBegin();
     unsigned int numPixelsTraversed = 1;
-    for (unsigned int i = 0 ; i < Dimension; i++)
-      { numPixelsTraversed *= size[i]; }
+    for (unsigned int i = 0; i < Dimension; i++)
+      {
+      numPixelsTraversed *= size[i];
+      }
     while (! cNit.IsAtEnd())
       {
       ++cNit;
@@ -667,8 +668,6 @@ int itkVectorImageTest( int, char* argv[] )
       std::cerr << "  GetNeighborhood() on ConstNeighborhoodIterator [FAILED]" << std::endl;
       failed = true;
       }
-
-
 
     //
     // 2. Test NeighborhoodIterator on VectorImage
@@ -783,7 +782,7 @@ int itkVectorImageTest( int, char* argv[] )
             std::cerr << "GetNeighborhoodOffset() on ConstShapedNeighborhoodIterato [FAILED]"
                                                                                 << std::endl;
             }
-          if( (ci.Get()[0]!=0) || (ci.Get()[1]!=1) || (ci.Get()[2]!=2) )
+          if( (ci.Get()[0] != 0) || (ci.Get()[1] != 1) || (ci.Get()[2] != 2) )
             {
             failed=true;
             std::cerr

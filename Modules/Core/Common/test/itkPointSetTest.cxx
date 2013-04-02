@@ -26,7 +26,7 @@
  * for the other template parameters.
  */
 typedef itk::PointSet<int>  PointSet;
-typedef PointSet::PointType  PointType;
+typedef PointSet::PointType PointType;
 
 /**
  * The point set that is created consists of a 100 random points.
@@ -53,7 +53,7 @@ int itkPointSetTest(int, char* [] )
 
   try
     {
-    for(int i=0; i < 100 ; ++i)
+    for(int i=0; i < 100; ++i)
       {
       testPointCoords[0] = (PointSet::CoordRepType)
         vnl_sample_uniform((double)-1.0,(double)1.0);
@@ -71,4 +71,3 @@ int itkPointSetTest(int, char* [] )
     }
   return EXIT_SUCCESS;
 }
-

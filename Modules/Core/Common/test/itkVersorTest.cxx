@@ -151,8 +151,6 @@ int RotationMatrixToVersorTest(void)
   return errorCount;
 }
 
-
-
 //-------------------------
 //
 //   Main code
@@ -699,6 +697,3 @@ int itkVersorTest(int, char* [] )
   return EXIT_SUCCESS;
 
 }
-
-
-

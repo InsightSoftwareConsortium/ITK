@@ -24,11 +24,11 @@ int itkPhasedArray3DSpecialCoordinatesImageTest(int, char* [] )
   bool passed = true;
 
   typedef itk::PhasedArray3DSpecialCoordinatesImage<float> Image;
-  typedef Image::RegionType RegionType;
-  typedef Image::SizeType SizeType;
-  typedef Image::PointType PointType;
-  typedef Image::IndexType IndexType;
-  typedef itk::ContinuousIndex<double,3> ContinuousIndexType;
+  typedef Image::RegionType                                RegionType;
+  typedef Image::SizeType                                  SizeType;
+  typedef Image::PointType                                 PointType;
+  typedef Image::IndexType                                 IndexType;
+  typedef itk::ContinuousIndex<double,3>                   ContinuousIndexType;
 
   Image::Pointer image = Image::New();
   //image->DebugOn();

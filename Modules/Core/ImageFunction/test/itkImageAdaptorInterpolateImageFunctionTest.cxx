@@ -51,11 +51,10 @@ typedef double CoordRepType;
 typedef itk::LinearInterpolateImageFunction<
                                   ImageAdaptorType,
                                   CoordRepType  > InterpolatorType;
-
-typedef InterpolatorType::IndexType  IndexType;
-typedef InterpolatorType::PointType  PointType;
-typedef InterpolatorType::ContinuousIndexType ContinuousIndexType;
-typedef InterpolatorType::OutputType OutputType;
+typedef InterpolatorType::IndexType               IndexType;
+typedef InterpolatorType::PointType               PointType;
+typedef InterpolatorType::ContinuousIndexType     ContinuousIndexType;
+typedef InterpolatorType::OutputType              OutputType;
 
 
 /**
@@ -182,7 +181,7 @@ int itkImageAdaptorInterpolateImageFunctionTest(int, char* [] )
   unsigned short value;
   InputPixelType pixel;
 
-  for( ; !iter.IsAtEnd(); ++iter )
+  for(; !iter.IsAtEnd(); ++iter )
     {
     index = iter.GetIndex();
     value = 0;
@@ -345,4 +344,3 @@ int itkImageAdaptorInterpolateImageFunctionTest(int, char* [] )
 
   return EXIT_SUCCESS;
 }
-

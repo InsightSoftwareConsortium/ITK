@@ -34,11 +34,11 @@ int itkBSplineInterpolationWeightFunctionTest(int, char* [] )
   std::cout << " and SplineOrder= " << SplineOrder << "  ";
 
   typedef itk::BSplineInterpolationWeightFunction<CoordRepType,
-    SpaceDimension, SplineOrder> FunctionType;
+    SpaceDimension, SplineOrder>            FunctionType;
   typedef FunctionType::ContinuousIndexType ContinuousIndexType;
-  typedef FunctionType::IndexType IndexType;
-  typedef FunctionType::WeightsType WeightsType;
-  typedef FunctionType::SizeType SizeType;
+  typedef FunctionType::IndexType           IndexType;
+  typedef FunctionType::WeightsType         WeightsType;
+  typedef FunctionType::SizeType            SizeType;
 
   FunctionType::Pointer function = FunctionType::New();
 
@@ -126,11 +126,11 @@ int itkBSplineInterpolationWeightFunctionTest(int, char* [] )
   std::cout << " and SplineOrder= " << SplineOrder << "  ";
 
   typedef itk::BSplineInterpolationWeightFunction<CoordRepType,
-    SpaceDimension, SplineOrder> FunctionType;
+    SpaceDimension, SplineOrder>            FunctionType;
   typedef FunctionType::ContinuousIndexType ContinuousIndexType;
-  typedef FunctionType::IndexType IndexType;
-  typedef FunctionType::WeightsType WeightsType;
-  typedef FunctionType::SizeType SizeType;
+  typedef FunctionType::IndexType           IndexType;
+  typedef FunctionType::WeightsType         WeightsType;
+  typedef FunctionType::SizeType            SizeType;
 
   FunctionType::Pointer function = FunctionType::New();
 
@@ -218,11 +218,11 @@ int itkBSplineInterpolationWeightFunctionTest(int, char* [] )
   std::cout << " and SplineOrder= " << SplineOrder << "  ";
 
   typedef itk::BSplineInterpolationWeightFunction<CoordRepType,
-    SpaceDimension, SplineOrder> FunctionType;
+    SpaceDimension, SplineOrder>            FunctionType;
   typedef FunctionType::ContinuousIndexType ContinuousIndexType;
-  typedef FunctionType::IndexType IndexType;
-  typedef FunctionType::WeightsType WeightsType;
-  typedef FunctionType::SizeType SizeType;
+  typedef FunctionType::IndexType           IndexType;
+  typedef FunctionType::WeightsType         WeightsType;
+  typedef FunctionType::SizeType            SizeType;
 
   FunctionType::Pointer function = FunctionType::New();
   function->Print( std::cout );

@@ -28,8 +28,8 @@
  * Define a mesh type that stores a PixelType of "int".  Use the defaults
  * for the other template parameters.
  */
-typedef itk::Mesh<int>  MeshType;
-typedef MeshType::CellTraits  CellTraits;
+typedef itk::Mesh<int>                        MeshType;
+typedef MeshType::CellTraits                  CellTraits;
 typedef itk::CellInterface< int, CellTraits > CellInterfaceType;
 
 /**

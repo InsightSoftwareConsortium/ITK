@@ -37,11 +37,11 @@ int itkSceneSpatialObjectTest(int, char* [])
   SceneSpatialObject->AddSpatialObject(ellipse1);
   SceneSpatialObject->AddSpatialObject(ellipse2);
 
-  if(SceneSpatialObject->GetNumberOfObjects() !=2 )
-  {
+  if(SceneSpatialObject->GetNumberOfObjects() != 2 )
+    {
     std::cout << "[FAILURE]" << std::endl;
     return EXIT_FAILURE;
-  }
+    }
 
   std::cout << "[PASSED]" << std::endl;
 

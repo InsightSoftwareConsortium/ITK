@@ -28,7 +28,7 @@ int itkVectorMeanImageFunctionTest(int, char* [] )
 
   typedef itk::FixedArray< PixelComponentType, VectorDimension > PixelType;
 
-  typedef itk::Image< PixelType, Dimension > ImageType;
+  typedef itk::Image< PixelType, Dimension >        ImageType;
   typedef itk::VectorMeanImageFunction< ImageType > FunctionType;
 
   // Create and allocate the image
@@ -113,4 +113,3 @@ int itkVectorMeanImageFunctionTest(int, char* [] )
   return EXIT_SUCCESS;
 
 }
-

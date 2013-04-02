@@ -40,7 +40,7 @@ int itkImageRandomIteratorTest2( int argc, char * argv [] )
   typedef unsigned long  PixelType;
 
   typedef itk::Image< PixelType, ImageDimension >  ImageType;
-  typedef itk::ImageFileWriter< ImageType > WriterType;
+  typedef itk::ImageFileWriter< ImageType >        WriterType;
 
   ImageType::Pointer image = ImageType::New();
 

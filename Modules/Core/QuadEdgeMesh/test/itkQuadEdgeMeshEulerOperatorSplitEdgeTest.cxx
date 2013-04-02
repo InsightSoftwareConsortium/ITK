@@ -16,8 +16,6 @@
  *
  *=========================================================================*/
 
-
-
 #include "itkQuadEdgeMeshEulerOperatorSplitEdgeFunction.h"
 #include "itkQuadEdgeMeshEulerOperatorsTestHelper.h"
 

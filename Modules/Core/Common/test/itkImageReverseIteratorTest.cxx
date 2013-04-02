@@ -102,7 +102,7 @@ int itkImageReverseIteratorTest(int, char* [] )
   // Iterate over a region using a simple for loop
   itk::ImageRegionIterator< ImageType > it(o3, region);
 
-  for ( ; !it.IsAtEnd(); ++it)
+  for (; !it.IsAtEnd(); ++it)
     {
     ImageType::IndexType index = it.GetIndex();
     std::cout << "Simple iterator loop: ";
@@ -134,7 +134,7 @@ int itkImageReverseIteratorTest(int, char* [] )
   // Iterate over a region backwards using a reverse iterator
   itk::ImageRegionReverseIterator< ImageType > reverseIt(o3, region);
 
-  for ( ; !reverseIt.IsAtEnd(); ++reverseIt)
+  for (; !reverseIt.IsAtEnd(); ++reverseIt)
     {
     ImageType::IndexType index = reverseIt.GetIndex();
     std::cout << "Reverse iterator: ";
@@ -175,7 +175,7 @@ int itkImageReverseIteratorTest(int, char* [] )
   castBackReverseIt.GoToEnd();
   int status = 0;
   std::cout << "It and Reverse check: ";
-  for ( ; !it.IsAtEnd(); ++it)
+  for (; !it.IsAtEnd(); ++it)
     {
     --castBackReverseIt;
     itk::Image<itk::Vector<unsigned short, 5>, 3>::IndexType index = it.GetIndex();

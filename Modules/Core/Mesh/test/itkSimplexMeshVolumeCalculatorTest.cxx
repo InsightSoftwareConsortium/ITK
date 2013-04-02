@@ -28,14 +28,14 @@ int itkSimplexMeshVolumeCalculatorTest(int , char *[] )
   // Declare the type of the input and output mesh
   typedef itk::DefaultDynamicMeshTraits<double, 3, 3, double, double, double> MeshTraits;
 
-  typedef itk::Mesh<double,3,MeshTraits> TriangleMeshType;
+  typedef itk::Mesh<double,3,MeshTraits>        TriangleMeshType;
   typedef itk::SimplexMesh<double,3,MeshTraits> SimplexMeshType;
 
 
   // declare triangle mesh source
-  typedef itk::RegularSphereMeshSource<TriangleMeshType>  SphereMeshSourceType;
-  typedef SphereMeshSourceType::PointType PointType;
-  typedef SphereMeshSourceType::VectorType VectorType;
+  typedef itk::RegularSphereMeshSource<TriangleMeshType> SphereMeshSourceType;
+  typedef SphereMeshSourceType::PointType                PointType;
+  typedef SphereMeshSourceType::VectorType               VectorType;
 
   // Declare the type of the gradient image
   typedef itk::TriangleMeshToSimplexMeshFilter<TriangleMeshType, SimplexMeshType>  SimplexFilterType;
@@ -92,7 +92,3 @@ int itkSimplexMeshVolumeCalculatorTest(int , char *[] )
   return EXIT_SUCCESS;
 
 }
-
-
-
-

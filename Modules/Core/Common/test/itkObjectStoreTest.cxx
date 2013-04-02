@@ -75,4 +75,3 @@ int itkObjectStoreTest( int , char * [] )
 
   return EXIT_SUCCESS;
 }
-

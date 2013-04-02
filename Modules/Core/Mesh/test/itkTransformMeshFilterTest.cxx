@@ -161,7 +161,3 @@ int itkTransformMeshFilterTest(int, char* [] )
   return EXIT_SUCCESS;
 
 }
-
-
-
-

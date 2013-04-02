@@ -166,3 +166,6 @@ vtkVisualize2DWhitakerLevelSetTest.cxx Namespace Disable
 vtkVisualize2DCellsLevelSetLayersTest.cxx Namespace Disable
 itkLevelSetContainer.h Comments Disable
 itkHistogramThresholdCalculator.h InternalVariables Disable
+itkFilterDispatchTest.cxx Template Disable
+itkNumericsTest.cxx Template Disable
+itkSparseImageTest.cxx InternalVariables Disable

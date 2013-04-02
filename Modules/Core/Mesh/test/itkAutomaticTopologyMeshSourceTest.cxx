@@ -266,7 +266,7 @@ itkAutomaticTopologyMeshSourceTest(int, char* [] )
       typedef CellType::PointIdConstIterator PointIdIterator;
       PointIdIterator pointIter = cell->PointIdsBegin();
       PointIdIterator pointsEnd = cell->PointIdsEnd();
-      for( ; pointIter != pointsEnd; ++pointIter )
+      for(; pointIter != pointsEnd; ++pointIter )
         {
         std::cout << *pointIter << " ";
         }
@@ -355,4 +355,3 @@ itkAutomaticTopologyMeshSourceTest(int, char* [] )
   return EXIT_SUCCESS;
 
 }
-

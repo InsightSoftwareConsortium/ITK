@@ -19,8 +19,6 @@
 #include <iostream>
 #include "itkVector.h"
 
-
-
 int itkDataTypeTest(int, char* [] )
 {
   int status = 0;

@@ -32,7 +32,7 @@ int itkEllipseSpatialObjectTest(int, char* [])
 
   EllipseType::ArrayType radius;
 
-  for(unsigned int i = 0; i<4 ;i++)
+  for(unsigned int i = 0; i < 4; i++)
   {
     radius[i] = i;
   }
@@ -41,7 +41,7 @@ int itkEllipseSpatialObjectTest(int, char* [])
 
   myEllipse->SetRadius(radius);
   EllipseType::ArrayType radius2 = myEllipse->GetRadius();
-  for(unsigned int i = 0; i<4 ;i++)
+  for(unsigned int i = 0; i<4;i++)
   {
     if(radius2[i]!=i)
     {
@@ -54,7 +54,7 @@ int itkEllipseSpatialObjectTest(int, char* [])
   myEllipse->SetRadius(3);
  EllipseType::ArrayType radius3 = myEllipse->GetRadius();
   std::cout << "Testing Global radii : ";
-  for(unsigned int i = 0; i<4 ;i++)
+  for(unsigned int i = 0; i<4;i++)
   {
     if(radius3[i]!=3)
     {

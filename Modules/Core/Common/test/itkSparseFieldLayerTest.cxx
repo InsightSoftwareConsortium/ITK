@@ -37,7 +37,7 @@ int itkSparseFieldLayerTest(int , char *[] )
   itk::SparseFieldLayer<node_type>::Pointer layer
     = itk::SparseFieldLayer<node_type>::New();
 
-  for (j = 0 ; j < 2 ; j++)
+  for (j = 0; j < 2; j++)
     {
       std::cout << "---------------" << std::endl;
       for (i = 0; i < 4000; i++)

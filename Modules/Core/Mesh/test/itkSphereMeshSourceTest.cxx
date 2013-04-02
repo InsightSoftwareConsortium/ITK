@@ -21,7 +21,7 @@
 
 int itkSphereMeshSourceTest(int, char* [] ){
 
-  typedef itk::Point<float,3>  fPointType;
+  typedef itk::Point<float,3>                       fPointType;
   typedef itk::SphereMeshSource<itk::Mesh<float> >  fSphereMeshSourceType;
   fSphereMeshSourceType::Pointer  mySphereMeshSource = fSphereMeshSourceType::New();
   fPointType center; center.Fill(0);
@@ -56,4 +56,3 @@ int itkSphereMeshSourceTest(int, char* [] ){
   return EXIT_SUCCESS;
 
 }
-

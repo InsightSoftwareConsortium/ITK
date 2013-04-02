@@ -25,15 +25,15 @@
 int itkTriangleMeshToSimplexMeshFilterTest(int , char * [] )
 {
   // Declare the type of the input and output mesh
-  typedef itk::DefaultDynamicMeshTraits<double, 3, 3> TriangleMeshTraits;
-  typedef itk::DefaultDynamicMeshTraits<double, 3, 3> SimplexMeshTraits;
-  typedef itk::Mesh<double,3, TriangleMeshTraits> TriangleMeshType;
+  typedef itk::DefaultDynamicMeshTraits<double, 3, 3>   TriangleMeshTraits;
+  typedef itk::DefaultDynamicMeshTraits<double, 3, 3>   SimplexMeshTraits;
+  typedef itk::Mesh<double,3, TriangleMeshTraits>       TriangleMeshType;
   typedef itk::SimplexMesh<double,3, SimplexMeshTraits> SimplexMeshType;
 
   // declare triangle mesh source
-  typedef itk::RegularSphereMeshSource<TriangleMeshType>  SphereMeshSourceType;
-  typedef SphereMeshSourceType::PointType PointType;
-  typedef SphereMeshSourceType::VectorType VectorType;
+  typedef itk::RegularSphereMeshSource<TriangleMeshType> SphereMeshSourceType;
+  typedef SphereMeshSourceType::PointType                PointType;
+  typedef SphereMeshSourceType::VectorType               VectorType;
 
   // declare the triangle to simplex mesh filter
   typedef itk::TriangleMeshToSimplexMeshFilter<TriangleMeshType, SimplexMeshType> SimplexFilterType;
@@ -61,7 +61,3 @@ int itkTriangleMeshToSimplexMeshFilterTest(int , char * [] )
   std::cout << "[TEST DONE]" << std::endl;
   return EXIT_SUCCESS;
 }
-
-
-
-

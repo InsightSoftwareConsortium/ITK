@@ -27,7 +27,7 @@ static float testPoints[11][2] =
   };
 
 typedef itk::PolygonGroupSpatialObject<3> PolygonGroup3DType;
-typedef PolygonGroup3DType::Pointer PolygonGroup3DPointer;
+typedef PolygonGroup3DType::Pointer       PolygonGroup3DPointer;
 
 int
 buildPolygonGroup(PolygonGroup3DPointer &PolygonGroup)

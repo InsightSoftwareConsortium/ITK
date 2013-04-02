@@ -85,31 +85,31 @@ int itkLineSpatialObjectTest(int, char* [])
 
   i=0;
   while(it != Line->GetPoints().end())
-  {
-    for(unsigned int d=0;d<3;d++)
     {
-      if((*it).GetPosition()[d]!=i+d)
+    for(unsigned int d=0;d<3;d++)
       {
+      if((*it).GetPosition()[d] != i+d)
+        {
         std::cout<<"[FAILED]"<<std::endl;
         return EXIT_FAILURE;
-      }
+        }
 
-      if(((*it).GetNormal(0))[d]!=d)
-      {
+      if(((*it).GetNormal(0))[d] != d)
+        {
         std::cout<<"[FAILED]"<<std::endl;
         return EXIT_FAILURE;
-      }
+        }
 
-      if(((*it).GetNormal(1))[d]!=2*d)
-      {
+      if(((*it).GetNormal(1))[d] != 2*d)
+        {
         std::cout<<"[FAILED]"<<std::endl;
         return EXIT_FAILURE;
-      }
+        }
 
-    }
+      }
     it++;
     i++;
-  }
+    }
 
   std::cout<<"[PASSED]"<<std::endl;
 

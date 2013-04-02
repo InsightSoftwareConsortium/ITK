@@ -94,7 +94,7 @@ int itkFixedArrayTest2(int, char* [] )
     {
     for (unsigned int j=0;j<nelements;++j)
       {
-      acc2+=vec2[j][0];
+      acc2 += vec2[j][0];
       }
     }
 

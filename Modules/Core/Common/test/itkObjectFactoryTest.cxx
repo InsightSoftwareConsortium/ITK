@@ -259,4 +259,3 @@ int itkObjectFactoryTest(int, char *[])
 
   return status;
 }
-

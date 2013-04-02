@@ -26,9 +26,9 @@ public:
 
   itk::Barrier::Pointer m_FirstBarrier;
   itk::Barrier::Pointer m_SecondBarrier;
-  unsigned int m_Counter[3];
-  unsigned int m_NumberOfIterations;
-  bool m_TestFailure;
+  unsigned int          m_Counter[3];
+  unsigned int          m_NumberOfIterations;
+  bool                  m_TestFailure;
 
   BarrierTestUserData( unsigned int number_of_threads)
   {

@@ -34,7 +34,7 @@ protected:
 class TestFactory3 : public itk::ObjectFactoryBase
 {
 public:
-  typedef TestFactory3                   Self;
+  typedef TestFactory3                  Self;
   typedef itk::ObjectFactoryBase        Superclass;
   typedef itk::SmartPointer<Self>       Pointer;
   typedef itk::SmartPointer<const Self> ConstPointer;

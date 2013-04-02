@@ -59,8 +59,6 @@ int itkRigid3DPerspectiveTransformTest(int ,char * [] )
     }
   }
 
-
-
   /* Create a Rigid 3D transform with translation */
   {
     TransformType::Pointer  translation = TransformType::New();

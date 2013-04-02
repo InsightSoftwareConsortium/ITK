@@ -20,9 +20,6 @@
 
 #include "itkImageRegionIteratorWithIndex.h"
 
-
-
-
 int itkImageIteratorsForwardBackwardTest(int, char* [] )
 {
 
@@ -122,8 +119,6 @@ int itkImageIteratorsForwardBackwardTest(int, char* [] )
 
   std::cout << "      PASSED !" << std::endl;
 
-
-
   // Verification
   ConstIteratorType cot( myImage, region );
   std::cout << "Const Iterator: Verifying the data forwards... ";
@@ -175,9 +170,6 @@ int itkImageIteratorsForwardBackwardTest(int, char* [] )
   }
 
   std::cout << "      PASSED !" << std::endl;
-
-
-
 
   std::cout << std::endl << "Test passed" << std::endl;
 

@@ -30,9 +30,9 @@ int itkSymmetricEigenAnalysisTest(int, char* [] )
   std::cout << "Testing ComputeEigenValuesAndVectors() "
     << "with SymmetricEigenAnalysis< vnl_matrix, itk::FixedArray, itk::Matrix >"
     << std::endl;
-  typedef vnl_matrix< double > InputMatrixType;
-  typedef itk::FixedArray< double, 6 > EigenValuesArrayType;
-  typedef itk::Matrix< double, 6, 6 > EigenVectorMatrixType;
+  typedef vnl_matrix< double >                      InputMatrixType;
+  typedef itk::FixedArray< double, 6 >              EigenValuesArrayType;
+  typedef itk::Matrix< double, 6, 6 >               EigenVectorMatrixType;
   typedef itk::SymmetricEigenAnalysis< InputMatrixType,
       EigenValuesArrayType, EigenVectorMatrixType > SymmetricEigenAnalysisType;
 
@@ -81,9 +81,9 @@ int itkSymmetricEigenAnalysisTest(int, char* [] )
   std::cout << "Testing ComputeEigenValuesAndVectors() "
     << "with SymmetricEigenAnalysis< itk::Matrix, itk::FixedArray, itk::Matrix >"
     << std::endl;
-  typedef itk::Matrix< double, 6, 6 > InputMatrixType;
-  typedef itk::FixedArray< double, 6 > EigenValuesArrayType;
-  typedef itk::Matrix< double, 6, 6 > EigenVectorMatrixType;
+  typedef itk::Matrix< double, 6, 6 >               InputMatrixType;
+  typedef itk::FixedArray< double, 6 >              EigenValuesArrayType;
+  typedef itk::Matrix< double, 6, 6 >               EigenVectorMatrixType;
   typedef itk::SymmetricEigenAnalysis< InputMatrixType,
       EigenValuesArrayType, EigenVectorMatrixType > SymmetricEigenAnalysisType;
 
@@ -142,10 +142,10 @@ int itkSymmetricEigenAnalysisTest(int, char* [] )
     << "with SymmetricEigenAnalysis< itk::SymmetricSecondRankTensor, itk::FixedArray, itk::Matrix >"
     << std::endl;
   typedef itk::SymmetricSecondRankTensor< double, 6 > InputMatrixType;
-  typedef itk::FixedArray< double, 6 > EigenValuesArrayType;
-  typedef itk::Matrix< double, 6, 6 > EigenVectorMatrixType;
+  typedef itk::FixedArray< double, 6 >                EigenValuesArrayType;
+  typedef itk::Matrix< double, 6, 6 >                 EigenVectorMatrixType;
   typedef itk::SymmetricEigenAnalysis< InputMatrixType,
-      EigenValuesArrayType, EigenVectorMatrixType > SymmetricEigenAnalysisType;
+      EigenValuesArrayType, EigenVectorMatrixType >   SymmetricEigenAnalysisType;
 
   double Sdata[36] = {
    30.0000,   -3.4273,   13.9254,   13.7049,   -2.4446,   20.2380,
@@ -201,9 +201,9 @@ int itkSymmetricEigenAnalysisTest(int, char* [] )
   std::cout << "Testing ComputeEigenValuesAndVectors() "
     << "with SymmetricEigenAnalysis< itk::Matrix, itk::FixedArray, itk::Matrix >"
     << std::endl;
-  typedef itk::Matrix< double, 3, 3 > InputMatrixType;
-  typedef itk::FixedArray< double, 3 > EigenValuesArrayType;
-  typedef itk::Matrix< double, 3, 3 > EigenVectorMatrixType;
+  typedef itk::Matrix< double, 3, 3 >               InputMatrixType;
+  typedef itk::FixedArray< double, 3 >              EigenValuesArrayType;
+  typedef itk::Matrix< double, 3, 3 >               EigenVectorMatrixType;
   typedef itk::SymmetricEigenAnalysis< InputMatrixType,
       EigenValuesArrayType, EigenVectorMatrixType > SymmetricEigenAnalysisType;
 
@@ -257,6 +257,3 @@ int itkSymmetricEigenAnalysisTest(int, char* [] )
 return EXIT_SUCCESS;
 
 }
-
-
-

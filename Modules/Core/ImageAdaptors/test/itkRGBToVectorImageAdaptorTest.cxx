@@ -28,36 +28,32 @@
 #include "itkRGBToVectorImageAdaptor.h"
 #include "itkImageRegionIteratorWithIndex.h"
 
-
-
-
 //-------------------------
 //
 //   Main code
 //
 //-------------------------
-int itkRGBToVectorImageAdaptorTest(int, char* [] ) {
+int itkRGBToVectorImageAdaptorTest(int, char* [] )
+{
 
 
 //-------------------------------------
 //     Typedefs for convenience
 //-------------------------------------
 
-typedef float  ComponentType;
+  typedef float  ComponentType;
 
-typedef itk::RGBPixel< ComponentType >   RGBPixelType;
+  typedef itk::RGBPixel< ComponentType >   RGBPixelType;
 
-const unsigned int ImageDimension = 2;
+  const unsigned int ImageDimension = 2;
 
-typedef itk::Image< RGBPixelType, ImageDimension >  ImageType;
+  typedef itk::Image< RGBPixelType, ImageDimension >  ImageType;
 
-typedef itk::RGBToVectorImageAdaptor< ImageType >   ImageAdaptorType;
+  typedef itk::RGBToVectorImageAdaptor< ImageType >   ImageAdaptorType;
 
-typedef itk::ImageRegionIteratorWithIndex< ImageType >       IteratorType;
+  typedef itk::ImageRegionIteratorWithIndex< ImageType >       IteratorType;
 
-typedef itk::ImageRegionIteratorWithIndex< ImageAdaptorType >  RedIteratorType;
-
-
+  typedef itk::ImageRegionIteratorWithIndex< ImageAdaptorType >  RedIteratorType;
 
   ImageType::SizeType size;
   size[0] = 2;
@@ -107,8 +103,6 @@ typedef itk::ImageRegionIteratorWithIndex< ImageAdaptorType >  RedIteratorType;
     ++it1;
   }
 
-
-
   ImageAdaptorType::Pointer adaptor = ImageAdaptorType::New();
   adaptor->SetImage( image );
 
@@ -148,6 +142,3 @@ typedef itk::ImageRegionIteratorWithIndex< ImageAdaptorType >  RedIteratorType;
 
   return EXIT_SUCCESS;
 }
-
-
-

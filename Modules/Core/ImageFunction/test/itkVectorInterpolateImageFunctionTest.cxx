@@ -23,15 +23,14 @@
 enum{ VectorDimension = 3 };
 enum{ ImageDimension = 3 };
 typedef itk::Vector<unsigned short,VectorDimension> PixelType;
-typedef itk::Image<PixelType,ImageDimension> ImageType;
-typedef double CoordRepType;
-typedef itk::VectorLinearInterpolateImageFunction<ImageType,CoordRepType> InterpolatorType;
-typedef InterpolatorType::IndexType  IndexType;
-typedef InterpolatorType::PointType  PointType;
-typedef InterpolatorType::ContinuousIndexType ContinuousIndexType;
-typedef InterpolatorType::OutputType OutputType;
-
-
+typedef itk::Image<PixelType,ImageDimension>        ImageType;
+typedef double                                      CoordRepType;
+typedef itk::VectorLinearInterpolateImageFunction<ImageType,CoordRepType>\
+                                                    InterpolatorType;
+typedef InterpolatorType::IndexType                 IndexType;
+typedef InterpolatorType::PointType                 PointType;
+typedef InterpolatorType::ContinuousIndexType       ContinuousIndexType;
+typedef InterpolatorType::OutputType                OutputType;
 
 /**
  * Test a geometric point. Returns true if test has passed,
@@ -182,7 +181,7 @@ int itkVectorInterpolateImageFunctionTest(int, char* [] )
   unsigned short value;
   PixelType pixel;
 
-  for( ; !iter.IsAtEnd(); ++iter )
+  for(; !iter.IsAtEnd(); ++iter )
     {
     index = iter.GetIndex();
     value = 0;
@@ -325,4 +324,3 @@ int itkVectorInterpolateImageFunctionTest(int, char* [] )
 
   return EXIT_SUCCESS;
 }
-

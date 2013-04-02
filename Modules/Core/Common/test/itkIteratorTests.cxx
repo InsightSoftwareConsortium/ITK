@@ -129,7 +129,7 @@ int itkIteratorTests(int, char* [] )
   scalar = 5;
 
   i = 0;
-  for ( ; !it.IsAtEnd(); ++it)
+  for (; !it.IsAtEnd(); ++it)
     {
     it.Set( scalar );
     ++i;
@@ -151,7 +151,7 @@ int itkIteratorTests(int, char* [] )
   itk::ImageRegionIteratorWithIndex<ScalarImage> it2(o3, region);
 
   i = 0;
-  for ( ; !it2.IsAtEnd(); ++it2)
+  for (; !it2.IsAtEnd(); ++it2)
     {
     it2.Set( scalar );
     ++i;

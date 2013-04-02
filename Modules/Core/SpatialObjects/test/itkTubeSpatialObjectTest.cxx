@@ -419,11 +419,11 @@ int itkTubeSpatialObjectTest(int, char * [] )
   std::cout << "Set/GetParentPoint: ";
 
   tube->SetParentPoint(1);
-  if(tube->GetParentPoint() !=1)
-  {
+  if(tube->GetParentPoint() != 1)
+    {
     std::cout << "[FAILED]" << std::endl;
     return EXIT_FAILURE;
-  }
+    }
   std::cout << "[PASSED]" << std::endl;
 
 

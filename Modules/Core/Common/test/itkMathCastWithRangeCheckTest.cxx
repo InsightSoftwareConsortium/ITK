@@ -40,7 +40,10 @@ bool DoCastWithRangeCheckTestVerify( const T2 value, const T1 = 0 )
     // value should match
     if ( double(ret) != double(value) )
       {
-      std::cout << "casting error with input value: " << static_cast<typename itk::NumericTraits<T2>::PrintType>(value) << " output value: " << static_cast<typename itk::NumericTraits<T1>::PrintType>(ret) << std::endl;
+      std::cout << "casting error with input value: "
+                << static_cast<typename itk::NumericTraits<T2>::PrintType>(value)
+                << " output value: "
+                << static_cast<typename itk::NumericTraits<T1>::PrintType>(ret) << std::endl;
       return false;
       }
     }
@@ -66,7 +69,7 @@ bool DoCastWithRangeCheckTestExulstive( const T1* = 0, const T2* = 0 )
 {
   // test convert T2 to T1
   bool pass = true;
-  for ( T2 i = itk::NumericTraits<T2>::NonpositiveMin();  i !=  itk::NumericTraits<T2>::max(); ++i )
+  for (T2 i = itk::NumericTraits<T2>::NonpositiveMin(); i != itk::NumericTraits<T2>::max(); ++i )
     {
     pass &= DoCastWithRangeCheckTestVerify<T1, T2>( i );
     }

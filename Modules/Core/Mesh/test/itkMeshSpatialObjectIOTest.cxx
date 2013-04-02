@@ -48,7 +48,7 @@ int itkMeshSpatialObjectIOTest(int argc, char* argv[])
 
   unsigned int i;
   unsigned int j;
-  for(i=0; i < 8 ; ++i)
+  for(i=0; i < 8; ++i)
     {
     mesh->SetPoint(i, PointType(testPointCoords[i]));
     }
@@ -206,7 +206,7 @@ int itkMeshSpatialObjectIOTest(int argc, char* argv[])
     if((*it_cells)->Index() != j)
       {
       std::cout<<" [FAILED]"<<std::endl;
-      std::cout << (*it_cells)->Index() << " v.s " << j << std::endl;;
+      std::cout << (*it_cells)->Index() << " v.s " << j << std::endl;
       return EXIT_FAILURE;
       }
 
@@ -240,7 +240,7 @@ int itkMeshSpatialObjectIOTest(int argc, char* argv[])
     if((*it_celllinks)->Index() != j)
       {
       std::cout<<" [FAILED]"<<std::endl;
-      std::cout << "Index = " << (*it_celllinks)->Index() << " v.s " << j << std::endl;;
+      std::cout << "Index = " << (*it_celllinks)->Index() << " v.s " << j << std::endl;
       return EXIT_FAILURE;
       }
 
@@ -251,7 +251,7 @@ int itkMeshSpatialObjectIOTest(int argc, char* argv[])
       if( (*it) != i)
         {
         std::cout<<" [FAILED]"<<std::endl;
-        std::cout << (*it) << " v.s " << i << std::endl;;
+        std::cout << (*it) << " v.s " << i << std::endl;
         return EXIT_FAILURE;
         }
       i++;
@@ -278,13 +278,13 @@ int itkMeshSpatialObjectIOTest(int argc, char* argv[])
       if((*it_pd)->Index() != j)
         {
         std::cout<<" [FAILED]"<<std::endl;
-        std::cout << "Index = " << (*it_pd)->Index() << " v.s " << j << std::endl;;
+        std::cout << "Index = " << (*it_pd)->Index() << " v.s " << j << std::endl;
         return EXIT_FAILURE;
         }
       if(vcl_fabs((*it_pd)->Value()-data)>0.001)
         {
         std::cout<<" [FAILED]"<<std::endl;
-        std::cout << "value = " << (*it_pd)->Value() << " v.s " << data << std::endl;;
+        std::cout << "value = " << (*it_pd)->Value() << " v.s " << data << std::endl;
         return EXIT_FAILURE;
         }
       data += float(0.1);
@@ -316,13 +316,13 @@ int itkMeshSpatialObjectIOTest(int argc, char* argv[])
       if((*it_pc)->Index() != j)
         {
         std::cout<<" [FAILED]"<<std::endl;
-        std::cout << "Index = " << (*it_pc)->Index() << " v.s " << j << std::endl;;
+        std::cout << "Index = " << (*it_pc)->Index() << " v.s " << j << std::endl;
         return EXIT_FAILURE;
         }
       if(vcl_fabs((*it_pc)->Value()-data)>0.001)
         {
         std::cout<<" [FAILED]"<<std::endl;
-        std::cout << "value = " << (*it_pc)->Value() << " v.s " << data << std::endl;;
+        std::cout << "value = " << (*it_pc)->Value() << " v.s " << data << std::endl;
         return EXIT_FAILURE;
         }
       data -= float(0.2);

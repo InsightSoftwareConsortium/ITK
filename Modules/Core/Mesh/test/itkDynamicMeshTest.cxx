@@ -64,8 +64,6 @@ typedef MeshType::PointDataContainer    PointDataContainer;
 typedef PointsContainer::Iterator       PointsIterator;
 typedef PointDataContainer::Iterator    CellsIterator;
 
-
-
 int itkDynamicMeshTest(int, char* [] )
 {
 
