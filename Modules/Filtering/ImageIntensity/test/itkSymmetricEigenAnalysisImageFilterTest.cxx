@@ -101,9 +101,6 @@ int itkSymmetricEigenAnalysisImageFilterTest(int, char* [] )
                                      myInputImageType,
                                      myOutputImageType
                                                >  myFilterType;
-
-
-
   // Create a  Filter
   myFilterType::Pointer filter = myFilterType::New();
   filter->SetDimension( myTensorType::Dimension );
@@ -144,7 +141,3 @@ int itkSymmetricEigenAnalysisImageFilterTest(int, char* [] )
   return EXIT_SUCCESS;
 
 }
-
-
-
-

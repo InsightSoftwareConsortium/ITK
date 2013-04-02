@@ -19,11 +19,9 @@
 #include <iostream>
 #include "itkComposeImageFilter.h"
 
-
-
 int itkCompose2DCovariantVectorImageFilterTest(int , char * [])
 {
-  typedef unsigned char PixelType;
+  typedef unsigned char              PixelType;
   typedef itk::Image< PixelType, 3 > InputImageType;
 
   typedef itk::CovariantVector<float, 2>    OutputPixelType;
@@ -118,4 +116,3 @@ int itkCompose2DCovariantVectorImageFilterTest(int , char * [])
   return EXIT_SUCCESS;
 
 }
-

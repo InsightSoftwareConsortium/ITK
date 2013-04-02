@@ -27,14 +27,12 @@ int itkEdgePotentialImageFilterTest(int, char* [] )
 
   // Declare the types of the images
   typedef itk::CovariantVector<double,ImageDimension> VectorType;
-  typedef itk::Image<VectorType, ImageDimension>  InputImageType;
-  typedef itk::Image<float, ImageDimension>  OutputImageType;
-
+  typedef itk::Image<VectorType, ImageDimension>      InputImageType;
+  typedef itk::Image<float, ImageDimension>           OutputImageType;
 
   // Declare Iterator types apropriated for each image
   typedef itk::ImageRegionIterator<InputImageType>  InputIteratorType;
-
-  typedef itk::ImageRegionIterator<OutputImageType>  OutputIteratorType;
+  typedef itk::ImageRegionIterator<OutputImageType> OutputIteratorType;
 
 
   // Declare the type of the index to access images

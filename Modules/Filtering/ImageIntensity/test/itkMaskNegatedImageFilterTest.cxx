@@ -27,9 +27,9 @@ int itkMaskNegatedImageFilterTest(int, char* [] )
   const unsigned int myDimension = 3;
 
   // Declare the types of the images
-  typedef itk::Image<float, myDimension>  InputImageType;
+  typedef itk::Image<float, myDimension>           InputImageType;
   typedef itk::Image<unsigned short, myDimension>  MaskImageType;
-  typedef itk::Image<float, myDimension>  OutputImageType;
+  typedef itk::Image<float, myDimension>           OutputImageType;
 
   // Declare the type of the index to access images
   typedef itk::Index<myDimension>         myIndexType;
@@ -74,8 +74,8 @@ int itkMaskNegatedImageFilterTest(int, char* [] )
 
   // Declare Iterator types apropriated for each image
   typedef itk::ImageRegionIteratorWithIndex<InputImageType>  InputIteratorType;
-  typedef itk::ImageRegionIteratorWithIndex<MaskImageType>  MaskIteratorType;
-  typedef itk::ImageRegionIteratorWithIndex<OutputImageType>  OutputIteratorType;
+  typedef itk::ImageRegionIteratorWithIndex<MaskImageType>   MaskIteratorType;
+  typedef itk::ImageRegionIteratorWithIndex<OutputImageType> OutputIteratorType;
 
   // Create one iterator for Image A (this is a light object)
   InputIteratorType inputIterator( inputImage, inputImage->GetBufferedRegion() );

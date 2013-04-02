@@ -182,7 +182,3 @@ int itkGrayscaleFunctionDilateImageFilterTest(int argc, char *argv[] )
   return EXIT_SUCCESS;
 
 }
-
-
-
-

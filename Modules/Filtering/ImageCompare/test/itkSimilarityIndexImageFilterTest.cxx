@@ -22,7 +22,7 @@ int itkSimilarityIndexImageFilterTest(int, char* [] )
 {
 
   typedef unsigned char Pixel1Type;
-  typedef float Pixel2Type;
+  typedef float         Pixel2Type;
   enum { ImageDimension = 2 };
 
   typedef itk::Image<Pixel1Type,ImageDimension> Image1Type;

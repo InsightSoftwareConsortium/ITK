@@ -23,7 +23,7 @@ int itkHausdorffDistanceImageFilterTest(int, char* [] )
 {
 
   typedef unsigned int Pixel1Type;
-  typedef float Pixel2Type;
+  typedef float        Pixel2Type;
   enum { ImageDimension = 3 };
 
   typedef itk::Image<Pixel1Type,ImageDimension> Image1Type;

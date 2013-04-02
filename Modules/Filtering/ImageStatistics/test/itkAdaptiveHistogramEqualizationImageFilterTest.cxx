@@ -39,9 +39,9 @@ int itkAdaptiveHistogramEqualizationImageFilterTest( int argc, char * argv[] )
 
   typedef itk::Image< InputPixelType,  ImageDimension >   InputImageType;
   typedef itk::Image< OutputPixelType, ImageDimension >   OutputImageType;
-  typedef itk::ImageFileReader< InputImageType >  ReaderType;
+  typedef itk::ImageFileReader< InputImageType >          ReaderType;
   typedef itk::AdaptiveHistogramEqualizationImageFilter<
-               InputImageType >  FilterType;
+               InputImageType >                           FilterType;
 
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );

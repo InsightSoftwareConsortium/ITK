@@ -200,7 +200,7 @@ int itkBSplineScatteredDataPointSetToImageFilterTest4( int, char * [] )
 
   transform->SetCoefficientImages( coefficientImages );
 
-  typedef TransformType::InputPointType InputPointType;
+  typedef TransformType::InputPointType  InputPointType;
   typedef TransformType::OutputPointType OutputPointType;
 
   InputPointType inputPoint;

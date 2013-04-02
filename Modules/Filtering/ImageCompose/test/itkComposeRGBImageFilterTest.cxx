@@ -20,11 +20,9 @@
 #include "itkRGBPixel.h"
 #include "itkComposeImageFilter.h"
 
-
-
 int itkComposeRGBImageFilterTest(int , char * [])
 {
-  typedef unsigned char PixelType;
+  typedef unsigned char              PixelType;
   typedef itk::Image< PixelType, 3 > InputImageType;
 
   typedef itk::RGBPixel<unsigned char>   RGBPixelType;
@@ -131,4 +129,3 @@ int itkComposeRGBImageFilterTest(int , char * [])
   return EXIT_SUCCESS;
 
 }
-

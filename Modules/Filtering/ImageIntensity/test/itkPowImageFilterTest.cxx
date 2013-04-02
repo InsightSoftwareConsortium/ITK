@@ -39,7 +39,7 @@ int itkPowImageFilterTest(int, char* [] )
   itk::PowImageFilter<myImageType2, myImageType3>::New();
 
 
-  typedef itk::Size<1> SizeType;
+  typedef itk::Size<1>  SizeType;
   typedef itk::Index<1> IndexType;
 
   ImageType::Pointer inputImageA  = ImageType::New();

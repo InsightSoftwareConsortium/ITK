@@ -27,11 +27,11 @@ int itkPushPopTileImageFilterTest(int argc, char *argv[] )
   enum { InputImageDimension = 2 };
   enum { OutputImageDimension = 2 };
 
-  typedef itk::Image<PixelType,InputImageDimension> InputImageType;
-  typedef itk::Image<PixelType,OutputImageDimension> OutputImageType;
-  typedef itk::ImageFileReader< InputImageType > ImageReaderType ;
+  typedef itk::Image<PixelType,InputImageDimension>            InputImageType;
+  typedef itk::Image<PixelType,OutputImageDimension>           OutputImageType;
+  typedef itk::ImageFileReader< InputImageType >               ImageReaderType;
   typedef itk::TileImageFilter<InputImageType,OutputImageType> TilerType;
-  typedef itk::ImageFileWriter<OutputImageType> WriterType;
+  typedef itk::ImageFileWriter<OutputImageType>                WriterType;
 
   if (argc != 6)
     {

@@ -142,7 +142,7 @@ bool TestVectorImageCast()
                 to VectorImage<unsigned char, 2> ..." << std::endl;
 
   typedef itk::VectorImage<unsigned char, 2>  UnsignedCharVectorImageType;
-  typedef itk::VectorImage<float, 2>  FloatVectorImageType;
+  typedef itk::VectorImage<float, 2>          FloatVectorImageType;
 
   // Create a 1x3 image of 2D vectors
   FloatVectorImageType::Pointer image = FloatVectorImageType::New();

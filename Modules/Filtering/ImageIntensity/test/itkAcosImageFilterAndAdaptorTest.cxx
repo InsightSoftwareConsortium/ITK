@@ -31,16 +31,12 @@ int itkAcosImageFilterAndAdaptorTest(int, char* [] )
   typedef itk::Image<float, ImageDimension>  InputImageType;
   typedef itk::Image<float, ImageDimension>  OutputImageType;
 
-
-
   // Declare Iterator types apropriated for each image
   typedef itk::ImageRegionIteratorWithIndex<
                                   InputImageType>  InputIteratorType;
 
   typedef itk::ImageRegionIteratorWithIndex<
                                   OutputImageType>  OutputIteratorType;
-
-
 
   // Declare the type of the index to access images
   typedef itk::Index<ImageDimension>         IndexType;
@@ -133,8 +129,6 @@ int itkAcosImageFilterAndAdaptorTest(int, char* [] )
     ++ot;
     ++it;
     }
-
-
 
   //---------------------------------------
   // This section tests for AcosImageAdaptor

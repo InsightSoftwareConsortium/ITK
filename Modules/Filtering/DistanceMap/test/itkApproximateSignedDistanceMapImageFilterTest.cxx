@@ -43,8 +43,6 @@ SimpleSignedDistance( const TPoint & p )
 
 }
 
-
-
 int itkApproximateSignedDistanceMapImageFilterTest(int argc, char* argv[] )
 {
   if(argc < 2)
@@ -54,15 +52,15 @@ int itkApproximateSignedDistanceMapImageFilterTest(int argc, char* argv[] )
     }
 
   const unsigned int ImageDimension = 2;
-  typedef unsigned int InputPixelType;
-  typedef float OutputPixelType;
+  typedef unsigned int  InputPixelType;
+  typedef float         OutputPixelType;
   typedef unsigned char WriterPixelType;
 
-  typedef itk::Image<InputPixelType,ImageDimension> InputImageType;
+  typedef itk::Image<InputPixelType,ImageDimension>  InputImageType;
   typedef itk::Image<OutputPixelType,ImageDimension> OutputImageType;
   typedef itk::Image<WriterPixelType,ImageDimension> WriterImageType;
-  typedef InputImageType::IndexType IndexType;
-  typedef itk::Point<double,ImageDimension> PointType;
+  typedef InputImageType::IndexType                  IndexType;
+  typedef itk::Point<double,ImageDimension>          PointType;
 
   // Make a binary input image based on the signed distance function
   // using the inside and outside values

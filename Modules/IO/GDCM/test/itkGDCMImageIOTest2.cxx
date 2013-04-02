@@ -33,7 +33,7 @@ int itkGDCMImageIOTest2(int argc, char *argv[] )
     }
   const char *input = argv[1];
   const char *output = argv[2];
-  typedef itk::Image<unsigned char,3> ImageType;
+  typedef itk::Image<unsigned char,3>     ImageType;
   typedef itk::ImageFileReader<ImageType> ReaderType;
   typedef itk::ImageFileWriter<ImageType> WriterType;
 
@@ -160,5 +160,3 @@ int itkGDCMImageIOTest2(int argc, char *argv[] )
 
   return EXIT_SUCCESS;
 }
-
-

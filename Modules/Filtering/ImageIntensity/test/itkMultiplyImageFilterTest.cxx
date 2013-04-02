@@ -148,7 +148,3 @@ int itkMultiplyImageFilterTest(int, char* [])
   return EXIT_SUCCESS;
 
 }
-
-
-
-

@@ -20,7 +20,7 @@
 
 typedef itk::Image<std::string,3> ImageType;
 
-typedef itk::OrientImageFilter<ImageType,ImageType> OrientImageFilterType;
+typedef itk::OrientImageFilter<ImageType,ImageType>  OrientImageFilterType;
 typedef OrientImageFilterType::PermuteOrderArrayType PermuteOrderArrayType;
 
 static void PrintImg(ImageType::Pointer img,

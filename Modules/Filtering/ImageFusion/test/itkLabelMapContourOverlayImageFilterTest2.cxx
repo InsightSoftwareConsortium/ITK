@@ -33,7 +33,7 @@ int itkLabelMapContourOverlayImageFilterTest2(int argc, char * argv[])
 
   const int dim = 2;
 
-  typedef itk::Image< unsigned char, dim > IType;
+  typedef itk::Image< unsigned char, dim >       IType;
   typedef itk::VectorImage< unsigned char, dim > OType;
 
   typedef itk::ImageFileReader< IType > ReaderType;

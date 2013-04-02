@@ -99,7 +99,3 @@ int itkGrayscaleMorphologicalClosingImageFilterTest(int argc, char* argv [] )
   return EXIT_SUCCESS;
 
 }
-
-
-
-

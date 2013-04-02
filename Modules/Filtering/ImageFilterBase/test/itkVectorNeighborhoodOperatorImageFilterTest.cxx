@@ -28,8 +28,8 @@ char * itkNotUsed(argv) [] )
 {
   try
     {
-      typedef  itk::Vector<double, 2> VectorType;
-      typedef  VectorType::ValueType  ScalarValueType;
+      typedef  itk::Vector<double, 2>    VectorType;
+      typedef  VectorType::ValueType     ScalarValueType;
       typedef  itk::Image<VectorType, 3> ImageType;
       // Set up operator
       itk::DerivativeOperator<ScalarValueType, 3> oper;

@@ -27,8 +27,8 @@ int itkConstrainedValueAdditionImageFilterTest(int, char* [] )
   const unsigned int myDimension = 3;
 
   // Declare the types of the images
-  typedef itk::Image<float, myDimension>  myImageType1;
-  typedef itk::Image<float, myDimension>  myImageType2;
+  typedef itk::Image<float, myDimension>          myImageType1;
+  typedef itk::Image<float, myDimension>          myImageType2;
   typedef itk::Image<unsigned char, myDimension>  myImageType3;
 
   // Declare the type of the index to access images
@@ -143,7 +143,3 @@ int itkConstrainedValueAdditionImageFilterTest(int, char* [] )
   return EXIT_SUCCESS;
 
 }
-
-
-
-

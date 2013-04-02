@@ -42,8 +42,8 @@ int itkRecursiveGaussianImageFiltersOnTensorsTest(int, char* [] )
   tensor1(2,1) =  0.0; // overrides (1,2)
   tensor1(2,2) = 1.0;
 
-  typedef Double3DTensorType PixelType;
-  typedef itk::Image< PixelType, Dimension >  ImageType;
+  typedef Double3DTensorType                                  PixelType;
+  typedef itk::Image< PixelType, Dimension >                  ImageType;
   typedef itk::ImageLinearIteratorWithIndex< ImageType >      IteratorType;
   typedef itk::ImageLinearConstIteratorWithIndex< ImageType > ConstIteratorType;
 

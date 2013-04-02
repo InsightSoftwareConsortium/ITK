@@ -67,8 +67,6 @@ int itkOrthogonalSwath2DPathFilterTest(int, char*[])
   typedef itk::PathToImageFilter< OutputPathType, ImageType >         Output2FilterType;
   typedef itk::RescaleIntensityImageFilter<FloatImageType,ImageType>  Output3FilterType;
 
-
-
   // Setup the path
   std::cout << "Making a square Path with v0 at (24,24) -> (24,104) -> (104,104) -> (104,24)" << std::endl;
   InPathType::Pointer inPath;
@@ -95,8 +93,6 @@ int itkOrthogonalSwath2DPathFilterTest(int, char*[])
   PathFilter2Type::Pointer pathFilter2 = PathFilter2Type::New();
   pathFilter2->SetInput(pathFilter1->GetOutput());
   pathFilter2->SetNumberOfHarmonics(7); // make a nice, round, path for the swath
-
-
 
   // Setup the image
   std::cout << "Making a 64x64 black square centered in a 128x128 white image"<<std::endl;
@@ -165,8 +161,6 @@ int itkOrthogonalSwath2DPathFilterTest(int, char*[])
   meritFilter->SetInput( swathFilter->GetOutput() );
   meritFilter->SetOrder( 1 ); // first partial derivative
   meritFilter->SetDirection( 1 ); // d/dy
-
-
 
   // Setup the test filter
   std::cerr << "Creating the test filter" << std::endl;

@@ -37,7 +37,7 @@ int itkDerivativeImageFilterTest(int argc, char *argv [] )
   // Test using an unsigned integral pixel type and generate a signed
   // integral pixel type
   typedef   unsigned short  InputPixelType;
-  typedef   short  OutputPixelType;
+  typedef   short           OutputPixelType;
 
   const unsigned int Dimension = 2;
 

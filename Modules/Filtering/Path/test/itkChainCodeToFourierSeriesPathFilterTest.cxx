@@ -91,8 +91,6 @@ int itkChainCodeToFourierSeriesPathFilterTest(int, char*[])
     passed = false;
     }
 
-
-
   if (passed)
     {
     std::cout << "PathToFourierSeriesPathFilter tests passed" << std::endl;

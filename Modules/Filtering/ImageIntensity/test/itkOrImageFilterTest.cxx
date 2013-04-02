@@ -27,7 +27,7 @@ int itkOrImageFilterTest(int, char* [] )
   const unsigned int myDimension = 3;
 
   // Declare the types of the images
-  typedef unsigned char myPixelType;
+  typedef unsigned char                         myPixelType;
   typedef itk::Image<myPixelType, myDimension>  myImageType1;
   typedef itk::Image<myPixelType, myDimension>  myImageType2;
   typedef itk::Image<myPixelType, myDimension>  myImageType3;
@@ -152,7 +152,3 @@ int itkOrImageFilterTest(int, char* [] )
   return EXIT_SUCCESS;
 
 }
-
-
-
-

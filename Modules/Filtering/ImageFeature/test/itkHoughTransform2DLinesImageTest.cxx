@@ -198,7 +198,7 @@ int itkHoughTransform2DLinesImageTest(int, char* [])
       {
         houghPoint m_HoughPoint;
         m_HoughPoint.radius = it_input.GetIndex()[0];
-        m_HoughPoint.angle  = ((it_input.GetIndex()[1])*2*nPI/houghFilter->GetAngleResolution())-nPI ;
+        m_HoughPoint.angle  = ((it_input.GetIndex()[1])*2*nPI/houghFilter->GetAngleResolution())-nPI;
 
         m_LinesList.push_back(m_HoughPoint);
 

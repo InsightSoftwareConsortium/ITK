@@ -31,16 +31,11 @@ int itkAtanImageFilterAndAdaptorTest(int, char* [] )
   typedef itk::Image<float, ImageDimension>  InputImageType;
   typedef itk::Image<float, ImageDimension>  OutputImageType;
 
-
-
   // Declare Iterator types apropriated for each image
   typedef itk::ImageRegionIteratorWithIndex<
                                   InputImageType>  InputIteratorType;
-
   typedef itk::ImageRegionIteratorWithIndex<
-                                  OutputImageType>  OutputIteratorType;
-
-
+                                  OutputImageType> OutputIteratorType;
 
   // Declare the type of the index to access images
   typedef itk::Index<ImageDimension>         IndexType;
@@ -135,8 +130,6 @@ int itkAtanImageFilterAndAdaptorTest(int, char* [] )
     ++it;
     }
 
-
-
   //---------------------------------------
   // This section tests for AtanImageAdaptor
   //---------------------------------------
@@ -187,12 +180,6 @@ int itkAtanImageFilterAndAdaptorTest(int, char* [] )
     ++dt;
     }
 
-
-
   return EXIT_SUCCESS;
 
 }
-
-
-
-

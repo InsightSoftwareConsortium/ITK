@@ -146,7 +146,3 @@ int itkMinimumImageFilterTest(int, char* [] )
   return EXIT_SUCCESS;
 
 }
-
-
-
-

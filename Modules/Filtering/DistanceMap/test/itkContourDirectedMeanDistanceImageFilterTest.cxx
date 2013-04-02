@@ -23,7 +23,7 @@ int itkContourDirectedMeanDistanceImageFilterTest(int, char* [] )
 {
 
   typedef unsigned int Pixel1Type;
-  typedef float Pixel2Type;
+  typedef float        Pixel2Type;
 
   const unsigned int ImageDimension = 3;
 

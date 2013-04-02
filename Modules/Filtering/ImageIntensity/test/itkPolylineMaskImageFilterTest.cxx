@@ -146,7 +146,7 @@ int itkPolylineMaskImageFilterTest(int , char * [] )
                            inputVectorType,
                            outputImageType  >     inputFilterType;
 
-  typedef inputFilterType::PointType PointType;
+  typedef inputFilterType::PointType          PointType;
   typedef inputFilterType::ProjPlanePointType ProjPlanePointType;
 
   std::cout<< "Generating the filter....................." << std::endl;

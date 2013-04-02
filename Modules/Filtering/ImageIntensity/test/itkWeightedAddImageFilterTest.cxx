@@ -150,7 +150,3 @@ int itkWeightedAddImageFilterTest(int, char* [] )
   return EXIT_SUCCESS;
 
 }
-
-
-
-

@@ -152,7 +152,3 @@ int itkDivideImageFilterTest2(int, char* [] )
   return EXIT_SUCCESS;
 
 }
-
-
-
-

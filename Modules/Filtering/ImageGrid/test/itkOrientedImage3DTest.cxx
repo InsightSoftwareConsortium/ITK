@@ -39,7 +39,7 @@ int itkOrientedImage3DTest( int ac, char * av[] )
   const unsigned int Dimension = 3;
   typedef unsigned char PixelType;
 
-  typedef itk::Image<PixelType, Dimension>    ImageType;
+  typedef itk::Image<PixelType, Dimension>            ImageType;
   typedef itk::ImageFileReader< ImageType >           ReaderType;
 
   typedef ImageType::IndexType                        IndexType;

@@ -246,7 +246,3 @@ int itkNaryAddImageFilterTest(int, char* [] )
   return EXIT_SUCCESS;
 
 }
-
-
-
-

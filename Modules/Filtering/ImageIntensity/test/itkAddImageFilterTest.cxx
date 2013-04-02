@@ -148,7 +148,3 @@ int itkAddImageFilterTest(int, char* [] )
   return EXIT_SUCCESS;
 
 }
-
-
-
-

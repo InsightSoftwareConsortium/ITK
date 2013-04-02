@@ -32,8 +32,6 @@
 
 #include "itkGaussianImageSource.h"
 
-
-
   typedef double InputPixelType;
   typedef double CoordValueType;
 
@@ -42,13 +40,14 @@
   enum { ImageDimension2D = 2 };
 
   typedef itk::Image< InputPixelType, ImageDimension2D > ImageType2D;
-  typedef ImageType2D::Pointer ImageType2DPointer;
-  typedef ImageType2D::SizeType ImageType2DSizeType;
-  typedef itk::InterpolateImagePointsFilter<ImageType2D,ImageType2D,CoordValueType> InterpolatorType2D;
+  typedef ImageType2D::Pointer                           ImageType2DPointer;
+  typedef ImageType2D::SizeType                          ImageType2DSizeType;
+  typedef itk::InterpolateImagePointsFilter<ImageType2D,ImageType2D,CoordValueType>
+                                                          InterpolatorType2D;
 
   typedef itk::Image< CoordValueType, ImageDimension2D > CoordImageType2D;
-  typedef CoordImageType2D::Pointer CoordImageType2DPointer;
-  typedef CoordImageType2D::SizeType CoordImage2DSizeType;
+  typedef CoordImageType2D::Pointer                      CoordImageType2DPointer;
+  typedef CoordImageType2D::SizeType                     CoordImage2DSizeType;
 
   void set2DInterpolateImagePointsFilterData(ImageType2D::Pointer);
 
@@ -56,15 +55,16 @@
   enum { ImageDimension3D = 3 };
 
   typedef itk::Image< InputPixelType, ImageDimension3D > ImageType3D;
-  typedef ImageType3D::Pointer ImageTypePtr3D;
-  typedef ImageType3D::SizeType SizeType3D;
-  typedef ImageType3D::IndexType IndexType3D;
-  typedef itk::InterpolateImagePointsFilter<ImageType3D,ImageType3D,CoordValueType> InterpolatorType3D;
+  typedef ImageType3D::Pointer                           ImageTypePtr3D;
+  typedef ImageType3D::SizeType                          SizeType3D;
+  typedef ImageType3D::IndexType                         IndexType3D;
+  typedef itk::InterpolateImagePointsFilter<ImageType3D,ImageType3D,CoordValueType>
+                                                          InterpolatorType3D;
 
   typedef itk::Image< CoordValueType, ImageDimension3D > CoordImageType3D;
-  typedef CoordImageType3D::Pointer CoordImageType3DPointer;
-  typedef CoordImageType3D::SizeType CoordSizeType3D;
-  typedef CoordImageType3D::IndexType CoordIndexType3D;
+  typedef CoordImageType3D::Pointer                      CoordImageType3DPointer;
+  typedef CoordImageType3D::SizeType                     CoordSizeType3D;
+  typedef CoordImageType3D::IndexType                    CoordIndexType3D;
 
   ImageTypePtr3D set3DData();
 
@@ -76,7 +76,7 @@ int test2DInterpolateImagePointsFilter()
 {
   int flag = 0;
 
-  std::cout << "Testing 2D InterpolateImagePointsFilter at sample index locations.\n " ;
+  std::cout << "Testing 2D InterpolateImagePointsFilter at sample index locations.\n ";
 
   // Initialize input image
   ImageType2DPointer image = ImageType2D::New();
@@ -173,7 +173,7 @@ int test3DInterpolateImagePointsFilter()
 {
   int flag = 0;
 
-  std::cout << "Testing 3D InterpolateImagePointsFilter.\n " ;
+  std::cout << "Testing 3D InterpolateImagePointsFilter.\n ";
 
   // Initialize input image
   ImageTypePtr3D image = set3DData();
@@ -215,7 +215,7 @@ int test3DInterpolateImagePointsFilter()
           }
         }
       }
-    for (unsigned int i = 0 ; i < ImageDimension3D; i++)
+    for (unsigned int i = 0; i < ImageDimension3D; i++)
       {
       resamp->SetInterpolationCoordinate(coord[i],i);
       }
@@ -230,8 +230,8 @@ int test3DInterpolateImagePointsFilter()
 
   // Calculate rmse
   // First set up iterators
-  typedef itk::ImageRegionIterator<ImageType3D>  InputIterator;
-  typedef itk::ImageRegionIterator<CoordImageType3D>  OutputIterator;
+  typedef itk::ImageRegionIterator<ImageType3D>      InputIterator;
+  typedef itk::ImageRegionIterator<CoordImageType3D> OutputIterator;
   InputIterator inIter(image,region);
   OutputIterator outIter(outputImage,region);
   double rmse;
@@ -246,7 +246,7 @@ int test3DInterpolateImagePointsFilter()
   rmse = vcl_sqrt( (rmse / size[0] / size[1] / size[2] ) );
 
   // Write home and let mom & dad know how we're doing.
-  std::cout << "rmse of image is " << rmse << "\n " ;
+  std::cout << "rmse of image is " << rmse << "\n ";
   if (rmse > 1e-7)
     {
     std::cout << "*** Error: rmse is larger than expected." << std::endl;
@@ -281,8 +281,6 @@ itkInterpolateImagePointsFilterTest( int, char * [] )
     return EXIT_SUCCESS; }
 
 }
-
-
 
 void set2DInterpolateImagePointsFilterData(ImageType2D::Pointer imgPtr)
 {
@@ -354,6 +352,3 @@ ImageTypePtr3D set3DData()
 
 
 }
-
-
-
