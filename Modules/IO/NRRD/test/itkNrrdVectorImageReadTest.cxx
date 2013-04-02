@@ -30,7 +30,7 @@ int itkNrrdVectorImageReadTest( int ac, char* av[] )
     return EXIT_FAILURE;
     }
 
-  typedef itk::Vector<float, 4> PixelType;
+  typedef itk::Vector<float, 4>    PixelType;
   typedef itk::Image<PixelType, 3> myImage;
 
   typedef itk::ImageFileReader<myImage>  ReaderType;

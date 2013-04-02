@@ -30,10 +30,10 @@
 
 #define SPECIFIC_IMAGEIO_MODULE_TEST
 
-typedef itk::Image<signed short, 3> ImageType ;
-typedef ImageType::Pointer ImagePointer ;
-typedef itk::ImageFileReader< ImageType > ImageReaderType ;
-typedef itk::ImageFileWriter< ImageType > ImageWriterType ;
+typedef itk::Image<signed short, 3>       ImageType;
+typedef ImageType::Pointer                ImagePointer;
+typedef itk::ImageFileReader< ImageType > ImageReaderType;
+typedef itk::ImageFileWriter< ImageType > ImageWriterType;
 
 int itkGEImageIOFactoryTest(int ac, char * av[])
 {
@@ -52,14 +52,14 @@ int itkGEImageIOFactoryTest(int ac, char * av[])
     }
   char *filename = *++av;
 
-  ImagePointer input ;
-  ImageReaderType::Pointer imageReader = ImageReaderType::New() ;
+  ImagePointer input;
+  ImageReaderType::Pointer imageReader = ImageReaderType::New();
 
   try
     {
     imageReader->SetFileName(filename);
-    imageReader->Update() ;
-    input = imageReader->GetOutput() ;
+    imageReader->Update();
+    input = imageReader->GetOutput();
     }
   catch (itk::ExceptionObject &e)
     {
@@ -110,15 +110,15 @@ int itkGEImageIOTest(int ac, char * av[])
       return EXIT_FAILURE;
     }
 
-  ImagePointer input ;
-  ImageReaderType::Pointer imageReader = ImageReaderType::New() ;
+  ImagePointer input;
+  ImageReaderType::Pointer imageReader = ImageReaderType::New();
 
   try
     {
       imageReader->SetImageIO(io);
-      imageReader->SetFileName(filename.c_str()) ;
-      imageReader->Update() ;
-      input = imageReader->GetOutput() ;
+      imageReader->SetFileName(filename.c_str());
+      imageReader->Update();
+      input = imageReader->GetOutput();
     }
   catch (itk::ExceptionObject &e)
     {

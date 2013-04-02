@@ -52,11 +52,11 @@ int itkImageFileWriterStreamingTest1(int argc, char* argv[])
     }
 
 
-  typedef unsigned char            PixelType;
+  typedef unsigned char             PixelType;
   typedef itk::Image<PixelType,3>   ImageType;
 
-  typedef itk::ImageFileReader<ImageType>         ReaderType;
-  typedef itk::ImageFileWriter< ImageType >  WriterType;
+  typedef itk::ImageFileReader<ImageType>   ReaderType;
+  typedef itk::ImageFileWriter< ImageType > WriterType;
 
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );

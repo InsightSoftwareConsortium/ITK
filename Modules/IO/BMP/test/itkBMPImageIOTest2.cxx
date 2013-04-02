@@ -36,8 +36,7 @@ int itkBMPImageIOTest2( int ac, char* av[] )
   // THE RESULTING IMAGE
   typedef itk::RGBAPixel<unsigned char> PixelType;
   typedef itk::Image<PixelType, 2>      myImage;
-
-  typedef itk::ImageFileReader<myImage>   ReaderType;
+  typedef itk::ImageFileReader<myImage> ReaderType;
 
   ReaderType::Pointer reader = ReaderType::New();
 

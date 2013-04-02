@@ -164,9 +164,6 @@ private:
 
 };
 
-
-
-
 int itkRawImageIOTest5(int argc, char*argv[])
 {
 
@@ -224,9 +221,6 @@ int itkRawImageIOTest5(int argc, char*argv[])
     return EXIT_FAILURE;
     }
 
-
-
-
   //
   // Test the pixel type = "signed char"
   //
@@ -267,10 +261,6 @@ int itkRawImageIOTest5(int argc, char*argv[])
     std::cerr << "Error while comparing the signed char type images." << std::endl;
     return EXIT_FAILURE;
     }
-
-
-
-
 
   //
   // Test the pixel type = "unsigned char"
@@ -314,15 +304,8 @@ int itkRawImageIOTest5(int argc, char*argv[])
     return EXIT_FAILURE;
     }
 
-
-
-
-
-
   std::cout << "Test PASSED !!" << std::endl << std::endl;
 
   return EXIT_SUCCESS;
 
 }
-
-

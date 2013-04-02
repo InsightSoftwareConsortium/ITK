@@ -71,7 +71,7 @@ int itkImageFileWriterPastingTest2(int argc, char* argv[])
     }
 
 
-  typedef itk::ImageFileReader<ImageType>         ReaderType;
+  typedef itk::ImageFileReader<ImageType>    ReaderType;
   typedef itk::ImageFileWriter< ImageType >  WriterType;
 
   ReaderType::Pointer reader = ReaderType::New();

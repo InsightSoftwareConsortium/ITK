@@ -29,7 +29,7 @@ int itkReadWriteImageWithDictionaryTest(int argc, char* argv[])
     return EXIT_FAILURE;
     }
 
-  typedef itk::Image< unsigned char, 3 > ImageType;
+  typedef itk::Image< unsigned char, 3 >    ImageType;
   typedef itk::ImageFileReader< ImageType > ReaderType;
   typedef itk::ImageFileWriter< ImageType > WriterType;
 

@@ -35,6 +35,7 @@ int itkImageFileReaderDimensionsTest(int argc, char* argv[])
   typedef itk::Image<short, 3> Image3DType;
   typedef itk::Image<short, 4> Image4DType;
   typedef itk::Image<char, 2>  CharImage2DType;
+
   typedef itk::ImageFileReader<Image2DType>     Reader2DType;
   typedef itk::ImageFileReader<Image3DType>     Reader3DType;
   typedef itk::ImageFileReader<Image4DType>     Reader4DType;
@@ -202,8 +203,6 @@ int itkImageFileReaderDimensionsTest(int argc, char* argv[])
     std::cout << ex;
     return EXIT_FAILURE;
     }
-
-
 
   return EXIT_SUCCESS;
 

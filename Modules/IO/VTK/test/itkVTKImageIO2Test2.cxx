@@ -23,9 +23,6 @@
 #include "itkPipelineMonitorImageFilter.h"
 #include "itkStreamingImageFilter.h"
 
-
-
-
 int itkVTKImageIO2Test2(int argc, char* argv[])
 {
   //

@@ -62,8 +62,6 @@ bool SameRegionImage( ImageConstPointer test, ImageConstPointer baseline )
    return true;
 }
 
-
-
 }
 
 int itkImageFileReaderStreamingTest2(int argc, char* argv[])

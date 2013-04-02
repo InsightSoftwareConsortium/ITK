@@ -137,6 +137,3 @@ int itkRawImageIOTest(int argc, char* argv[])
   std::cerr << "Test PASSED ! " << std::endl;
   return EXIT_SUCCESS;
 }
-
-
-

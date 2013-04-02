@@ -33,7 +33,7 @@ int itkImageSeriesWriterTest(int ac, char* av[])
     return EXIT_FAILURE;
   }
 
-  typedef itk::Image<short,3> ImageNDType;
+  typedef itk::Image<short,3>                 ImageNDType;
   typedef itk::ImageSeriesReader<ImageNDType> ReaderType;
 
   itk::GDCMImageIO::Pointer io = itk::GDCMImageIO::New();
@@ -63,7 +63,7 @@ int itkImageSeriesWriterTest(int ac, char* av[])
     return EXIT_FAILURE;
     }
 
-  typedef unsigned char WritePixelType;
+  typedef unsigned char                   WritePixelType;
   typedef itk::Image< WritePixelType, 3 > RescaleImageType;
   typedef itk::Image< WritePixelType, 2 > OutputImageType;
 

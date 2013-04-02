@@ -34,7 +34,7 @@ int itkNrrdRGBAImageReadWriteTest( int ac, char* av[] )
     }
 
   typedef itk::RGBAPixel<unsigned char> PixelType;
-  typedef itk::Image<PixelType, 2> myImage;
+  typedef itk::Image<PixelType, 2>      myImage;
 
   itk::ImageFileReader<myImage>::Pointer reader
                                   = itk::ImageFileReader<myImage>::New();
