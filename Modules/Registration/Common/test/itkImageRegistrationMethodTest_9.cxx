@@ -52,13 +52,13 @@ int itkImageRegistrationMethodTest_9(int argc, char* argv[] )
   typedef itk::testhelper::ImageRegistrationMethodImageSource<
                                   FixedImageType::PixelType,
                                   MovingImageType::PixelType,
-                                  dimension >         ImageSourceType;
+                                  dimension >            ImageSourceType;
   // Transform Type
   typedef itk::TranslationTransform< double, dimension > TransformType;
-  typedef TransformType::ParametersType             ParametersType;
+  typedef TransformType::ParametersType                  ParametersType;
 
   // Optimizer Type
-  typedef itk::ConjugateGradientOptimizer         OptimizerType;
+  typedef itk::ConjugateGradientOptimizer                OptimizerType;
 
   // Metric Type
   typedef itk::MeanSquaresImageToImageMetric<
@@ -127,9 +127,6 @@ int itkImageRegistrationMethodTest_9(int argc, char* argv[] )
     translationScale = atof( argv[2] );
     std::cout << "translationScale = " << translationScale << std::endl;
     }
-
-
-
 
   for( unsigned int i=0; i<dimension; i++)
     {

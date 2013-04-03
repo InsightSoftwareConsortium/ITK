@@ -147,9 +147,6 @@ int itkCenteredVersorTransformInitializerTest(int , char* [] )
     ++mi;
     }
 
-
-
-
   TransformType::Pointer transform = TransformType::New();
   transform->SetIdentity();
 
@@ -176,8 +173,8 @@ int itkCenteredVersorTransformInitializerTest(int , char* [] )
 
   for(unsigned int j=0; j < Dimension; j++ )
     {
-    fixedCenter[j]  = fixedOrigin[j]  + size[j] * spacing[j] / 2.0 ;
-    movingCenter[j] = movingOrigin[j] + size[j] * spacing[j] / 2.0 ;
+    fixedCenter[j]  = fixedOrigin[j]  + size[j] * spacing[j] / 2.0;
+    movingCenter[j] = movingOrigin[j] + size[j] * spacing[j] / 2.0;
     }
 
   TransformType::InputVectorType relativeCenter = movingCenter - fixedCenter;
@@ -229,11 +226,7 @@ int itkCenteredVersorTransformInitializerTest(int , char* [] )
       break;
       }
     }
-
-
   }
-
-
 
   if( !pass )
     {

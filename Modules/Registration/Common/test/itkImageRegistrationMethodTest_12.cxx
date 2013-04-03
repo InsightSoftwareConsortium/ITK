@@ -54,10 +54,10 @@ int itkImageRegistrationMethodTest_12(int argc, char* argv[] )
                                   dimension >         ImageSourceType;
   // Transform Type
   typedef itk::TranslationTransform< double, dimension > TransformType;
-  typedef TransformType::ParametersType             ParametersType;
+  typedef TransformType::ParametersType                  ParametersType;
 
   // Optimizer Type
-  typedef itk::RegularStepGradientDescentOptimizer                  OptimizerType;
+  typedef itk::RegularStepGradientDescentOptimizer       OptimizerType;
 
   // Metric Type
   typedef itk::MeanReciprocalSquareDifferenceImageToImageMetric<
@@ -150,9 +150,6 @@ int itkImageRegistrationMethodTest_12(int argc, char* argv[] )
     gradientTolerance = atof( argv[5] );
     std::cout << "gradientTolerance = " << gradientTolerance << std::endl;
     }
-
-
-
 
   for( unsigned int i=0; i<dimension; i++)
     {

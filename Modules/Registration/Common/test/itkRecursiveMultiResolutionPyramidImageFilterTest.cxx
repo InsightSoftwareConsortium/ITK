@@ -69,9 +69,9 @@ int itkRecursiveMultiResolutionPyramidImageFilterTest(int argc, char* argv[] )
 //------------------------------------------------------------
 
   // Allocate Images
-  typedef signed short PixelType;
-  typedef itk::Image<PixelType,3>           InputImageType;
-  typedef itk::Image<float,3>               OutputImageType;
+  typedef signed short             PixelType;
+  typedef itk::Image<PixelType,3>  InputImageType;
+  typedef itk::Image<float,3>      OutputImageType;
   enum { ImageDimension = InputImageType::ImageDimension };
   bool useShrinkFilter(false);
   if(argc > 1)
@@ -143,7 +143,7 @@ int itkRecursiveMultiResolutionPyramidImageFilterTest(int argc, char* argv[] )
   * Setup a multi-resolution pyramid
   */
   typedef itk::RecursiveMultiResolutionPyramidImageFilter<InputImageType,OutputImageType>
-    PyramidType;
+                                    PyramidType;
   typedef PyramidType::ScheduleType ScheduleType;
   PyramidType::Pointer pyramid = PyramidType::New();
   pyramid->SetUseShrinkImageFilter(useShrinkFilter);
@@ -346,5 +346,3 @@ int itkRecursiveMultiResolutionPyramidImageFilterTest(int argc, char* argv[] )
   return EXIT_SUCCESS;
 
 }
-
-

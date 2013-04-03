@@ -148,7 +148,7 @@ int itkMultiResolutionImageRegistrationMethodTest_2(int, char* [] )
 
 
   typedef itk::ImageRegionIterator<MovingImageType> MovingImageIterator;
-  typedef itk::ImageRegionIterator<FixedImageType> FixedImageIterator;
+  typedef itk::ImageRegionIterator<FixedImageType>  FixedImageIterator;
 
   itk::Point<double,dimension> center;
   for ( j = 0; j < dimension; j++ )
@@ -308,7 +308,7 @@ int itkMultiResolutionImageRegistrationMethodTest_2(int, char* [] )
   trueParameters[2] =   vcl_sin( angle / 2.0 );
   trueParameters[3] =   vcl_cos( angle / 2.0 );
   trueParameters[4] = -1.0 * ( displacement[0] * vcl_cos(angle) -
-                               displacement[1] * vcl_sin(angle) ) ;
+                               displacement[1] * vcl_sin(angle) );
   trueParameters[5] = -1.0 * ( displacement[0] * vcl_sin(angle) +
                                displacement[1] * vcl_cos(angle) );
   trueParameters[6] = -1.0 * displacement[2];

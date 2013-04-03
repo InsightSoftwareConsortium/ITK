@@ -49,7 +49,7 @@ bool DoRegistration ()
 
   // Transform Type
   typedef itk::AffineTransform< double, dimension > TransformType;
-  typedef typename TransformType::ParametersType             ParametersType;
+  typedef typename TransformType::ParametersType    ParametersType;
 
   typedef typename FixedImageType::PixelType     FixedImagePixelType;
   typedef typename MovingImageType::PixelType    MovingImagePixelType;
@@ -58,13 +58,13 @@ bool DoRegistration ()
   typedef itk::testhelper::ImageRegistrationMethodImageSource<
                                   FixedImagePixelType,
                                   MovingImagePixelType,
-                                  dimension >         ImageSourceType;
+                                  dimension >       ImageSourceType;
   // Transform Type
   typedef itk::AffineTransform< double, dimension > TransformType;
-  typedef typename TransformType::ParametersType             ParametersType;
+  typedef typename TransformType::ParametersType    ParametersType;
 
   // Optimizer Type
-  typedef itk::GradientDescentOptimizer                  OptimizerType;
+  typedef itk::GradientDescentOptimizer             OptimizerType;
 
   // Metric Type
   typedef itk::MeanSquaresImageToImageMetric<
@@ -165,9 +165,6 @@ bool DoRegistration ()
   // We know that for the Affine transform the Translation parameters are at
   // the end of the list of parameters.
   const unsigned int offsetOrder = finalParameters.Size()-actualParameters.Size();
-
-
-
   const double tolerance = 1.0;  // equivalent to 1 pixel.
 
   for(unsigned int i=0; i<numbeOfParameters; i++)
@@ -214,4 +211,3 @@ int itkImageRegistrationMethodTest_16(int itkNotUsed(argc), char*[] itkNotUsed(a
 
   return EXIT_SUCCESS;
 }
-

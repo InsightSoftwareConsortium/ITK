@@ -247,3 +247,4 @@
 @ITK_SOURCE_DIR@/Modules/Segmentation/*/test/*.cxx
 @ITK_SOURCE_DIR@/Modules/IO/*/test/*.cxx
 @ITK_SOURCE_DIR@/Modules/Numerics/*/test/*.cxx
+@ITK_SOURCE_DIR@/Modules/Registration/*/test/*.cxx

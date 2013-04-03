@@ -149,14 +149,10 @@ int itkPointSetToImageRegistrationTest_1(int, char* [] )
 
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
 
-
-
   // Optimizer Type
   typedef itk::RegularStepGradientDescentOptimizer       OptimizerType;
 
   OptimizerType::Pointer      optimizer     = OptimizerType::New();
-
-
 
   // Registration Method
   typedef itk::PointSetToImageRegistrationMethod<
@@ -200,10 +196,6 @@ int itkPointSetToImageRegistrationTest_1(int, char* [] )
   transform->SetIdentity();
   registration->SetInitialTransformParameters( transform->GetParameters() );
 
-
-
-
-
   //------------------------------------------------------
   // Connect all the components required for Registration
   //------------------------------------------------------
@@ -213,9 +205,6 @@ int itkPointSetToImageRegistrationTest_1(int, char* [] )
   registration->SetFixedPointSet( fixedPointSet );
   registration->SetMovingImage(   movingImage   );
   registration->SetInterpolator(  interpolator  );
-
-
-
 
 //------------------------------------------------------------
 // Set up transform parameters

@@ -150,9 +150,6 @@ int itkImageRegistrationMethodTest_5_Func( int argc,
     learningRate = atof( argv[3] );
     std::cout << "learningRate = " << learningRate << std::endl;
     }
-
-
-
   for( unsigned int i=0; i<dimension; i++)
     {
     scales[ i + dimension * dimension ] = translationScale;
@@ -188,9 +185,6 @@ int itkImageRegistrationMethodTest_5_Func( int argc,
   // We know that for the Affine transform the Translation parameters are at
   // the end of the list of parameters.
   const unsigned int offsetOrder = finalParameters.Size()-actualParameters.Size();
-
-
-
   const double tolerance = 1.0;  // equivalent to 1 pixel.
 
   for(unsigned int i=0; i<numbeOfParameters; i++)
@@ -234,4 +228,3 @@ int itkImageRegistrationMethodTest_5( int argc, char* argv[] )
   return EXIT_SUCCESS;
 
 }
-

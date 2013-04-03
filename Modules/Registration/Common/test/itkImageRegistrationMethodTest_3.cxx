@@ -51,10 +51,10 @@ int itkImageRegistrationMethodTest_3(int argc, char* argv[] )
   typedef itk::testhelper::ImageRegistrationMethodImageSource<
                                   FixedImageType::PixelType,
                                   MovingImageType::PixelType,
-                                  dimension >         ImageSourceType;
+                                  dimension >            ImageSourceType;
   // Transform Type
   typedef itk::TranslationTransform< double, dimension > TransformType;
-  typedef TransformType::ParametersType             ParametersType;
+  typedef TransformType::ParametersType                  ParametersType;
 
   // Optimizer Type
   typedef itk::GradientDescentOptimizer                  OptimizerType;
@@ -140,8 +140,6 @@ int itkImageRegistrationMethodTest_3(int argc, char* argv[] )
     learningRate = atof( argv[3] );
     std::cout << "learningRate = " << learningRate << std::endl;
     }
-
-
 
   for( unsigned int i=0; i<dimension; i++)
     {

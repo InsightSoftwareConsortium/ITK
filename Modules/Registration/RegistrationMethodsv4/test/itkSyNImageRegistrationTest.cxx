@@ -82,9 +82,11 @@ public:
 
     const typename FixedImageType::SizeType ImageSize = shrinkFilter->GetOutput()->GetBufferedRegion().GetSize();
 
-    const typename DisplacementFieldType::SizeType FixedDisplacementFieldSize = const_cast<DisplacementFieldTransformType *>( filter->GetFixedToMiddleTransform() )->GetDisplacementField()->GetBufferedRegion().GetSize();
+    const typename DisplacementFieldType::SizeType FixedDisplacementFieldSize =
+      const_cast<DisplacementFieldTransformType *>( filter->GetFixedToMiddleTransform() )->GetDisplacementField()->GetBufferedRegion().GetSize();
 
-    const typename DisplacementFieldType::SizeType MovingDisplacementFieldSize = const_cast<DisplacementFieldTransformType *>( filter->GetMovingToMiddleTransform() )->GetDisplacementField()->GetBufferedRegion().GetSize();
+    const typename DisplacementFieldType::SizeType MovingDisplacementFieldSize =
+      const_cast<DisplacementFieldTransformType *>( filter->GetMovingToMiddleTransform() )->GetDisplacementField()->GetBufferedRegion().GetSize();
 
     if( ( FixedDisplacementFieldSize == ImageSize ) && ( MovingDisplacementFieldSize == ImageSize ) )
       {
