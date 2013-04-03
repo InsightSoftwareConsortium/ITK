@@ -89,10 +89,7 @@ PathConstIterator< TImage, TPath >
 ::operator++()
 {
   // We need to modify m_CurrentPathPosition, m_CurrentImageIndex, m_IsAtEnd
-  OffsetType offset;
-
-  offset = m_Path->IncrementInput(m_CurrentPathPosition);
-
+  const OffsetType offset = m_Path->IncrementInput(m_CurrentPathPosition);
   if ( m_ZeroOffset == offset )
     {
     // We tried to go past the end (and we are still there)
