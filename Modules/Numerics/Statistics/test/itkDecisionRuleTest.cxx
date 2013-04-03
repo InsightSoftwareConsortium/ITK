@@ -38,7 +38,7 @@ public:
   itkNewMacro(Self);
 
   /** Types for discriminant values and vectors. */
-  typedef Superclass::MembershipValueType MembershipValueType;
+  typedef Superclass::MembershipValueType  MembershipValueType;
   typedef Superclass::MembershipVectorType MembershipVectorType;
 
   /** Types for class identifiers. */

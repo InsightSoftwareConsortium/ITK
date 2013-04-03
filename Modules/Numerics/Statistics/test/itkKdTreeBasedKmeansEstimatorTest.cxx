@@ -19,8 +19,6 @@
 
 #include <fstream>
 
-
-
 #include "itkPointSetToListSampleAdaptor.h"
 #include "itkWeightedCentroidKdTreeGenerator.h"
 #include "itkKdTreeBasedKmeansEstimator.h"

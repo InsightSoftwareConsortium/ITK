@@ -33,7 +33,7 @@ RBFTest1(int argc, char* argv[])
   if (argc < 3)
     {
     std::cout << "Usage: " << argv[0]
-              << " InputTrainingFile(.txt) InputTestFile(.txt)" << std::endl ;
+              << " InputTrainingFile(.txt) InputTestFile(.txt)" << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -45,7 +45,7 @@ RBFTest1(int argc, char* argv[])
   typedef itk::Array<double> TargetVectorType;
 
   typedef itk::Statistics::ListSample<MeasurementVectorType> SampleType;
-  typedef itk::Statistics::ListSample<TargetVectorType> TargetType;
+  typedef itk::Statistics::ListSample<TargetVectorType>      TargetType;
 
   typedef itk::Statistics::EuclideanDistanceMetric<MeasurementVectorType> DistanceMetricType;
 
@@ -141,7 +141,7 @@ RBFTest1(int argc, char* argv[])
   treeGenerator->SetBucketSize( 16 );
   treeGenerator->Update();
 
-  typedef TreeGeneratorType::KdTreeType TreeType;
+  typedef TreeGeneratorType::KdTreeType                         TreeType;
   typedef itk::Statistics::KdTreeBasedKmeansEstimator<TreeType> EstimatorType;
   EstimatorType::Pointer estimator = EstimatorType::New();
 
@@ -206,8 +206,8 @@ RBFTest1(int argc, char* argv[])
   std::cout << "Network Simulation" << std::endl;
   SampleType::ConstIterator iter1 = testsample->Begin();
   TargetType::ConstIterator iter2 = testtargets->Begin();
-  unsigned int error1 = 0 ;
-  unsigned int error2 = 0 ;
+  unsigned int error1 = 0;
+  unsigned int error2 = 0;
   int flag;
   int class_id;
   std::ofstream outfile;
@@ -255,7 +255,7 @@ RBFTest1(int argc, char* argv[])
     count++;
     }
   std::cout << "Among "<<num_test<<" measurement vectors, " << error1 + error2
-    << " vectors are misclassified." << std::endl ;
+    << " vectors are misclassified." << std::endl;
   std::cout << "Network Weights = " << std::endl;
   std::cout << net1 << std::endl;
   std::cout << error1 << " " << error2 <<std::endl;

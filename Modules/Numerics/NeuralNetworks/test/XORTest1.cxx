@@ -29,11 +29,11 @@ XORTest1(int argc, char* argv[])
   if (argc < 2)
     {
     std::cout << "Usage: " << argv[0]
-              << " InputTrainingFile(.txt)" << std::endl ;
+              << " InputTrainingFile(.txt)" << std::endl;
     return EXIT_FAILURE;
     }
 
-  char* dataFileName = argv[1] ;
+  char* dataFileName = argv[1];
 
 
   unsigned int num_input_nodes = 2;
@@ -44,8 +44,8 @@ XORTest1(int argc, char* argv[])
   typedef itk::Array<double> TargetVectorType;
 
   typedef itk::Statistics::ListSample<MeasurementVectorType> SampleType;
-  typedef itk::Statistics::ListSample<TargetVectorType> TargetType;
-  typedef itk::Statistics::BatchSupervisedTrainingFunction<SampleType, TargetType, double> TrainingFcnType;
+  typedef itk::Statistics::ListSample<TargetVectorType>      TargetType;
+  typedef itk::Statistics::BatchSupervisedTrainingFunction<SampleType, TargetType, double>                                                  TrainingFcnType;
 
   MeasurementVectorType mv;
   mv.SetSize(num_input_nodes);
@@ -108,8 +108,8 @@ XORTest1(int argc, char* argv[])
 
   SampleType::ConstIterator iter1 = sample->Begin();
   TargetType::ConstIterator iter2 = targets->Begin();
-  unsigned int error1 = 0 ;
-  unsigned int error2 = 0 ;
+  unsigned int error1 = 0;
+  unsigned int error2 = 0;
   int flag;
   std::ofstream outfile;
   outfile.open("out1.txt",std::ios::out);
@@ -150,7 +150,7 @@ XORTest1(int argc, char* argv[])
     }
 
   std::cout << "Among 4 measurement vectors, " << error1 + error2
-            << " vectors are misclassified." << std::endl ;
+            << " vectors are misclassified." << std::endl;
   std::cout<<"Network Weights and Biases after Training= "<<std::endl;
   std::cout << net1 << std::endl;
 

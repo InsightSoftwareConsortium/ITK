@@ -27,11 +27,11 @@ int itkMinimumDecisionRuleTest(int,char *[] )
   std::cout << "==================================" << std::endl;
   std::cout << "Testing MinimumDecionRule " << std::endl << std::endl;
 
-  typedef itk::Statistics::MinimumDecisionRule  DecisionRuleType ;
+  typedef itk::Statistics::MinimumDecisionRule  DecisionRuleType;
   DecisionRuleType::Pointer decisionRule = DecisionRuleType::New();
 
-  DecisionRuleType::MembershipVectorType discriminantScores ;
-  discriminantScores.resize( 3 ) ;
+  DecisionRuleType::MembershipVectorType discriminantScores;
+  discriminantScores.resize( 3 );
 
   discriminantScores[0] = 0.0;
   discriminantScores[1] = 1.0;
