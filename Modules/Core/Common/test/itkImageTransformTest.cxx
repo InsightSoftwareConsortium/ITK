@@ -21,24 +21,24 @@
 #include <iostream>
 #include <fstream>
 
-template <unsigned int Dimension>
+template <unsigned int TDimension>
 void TestTransform()
 {
-  typedef itk::Image<float,Dimension>         ImageType;
+  typedef itk::Image<float,TDimension>         ImageType;
 
   typename ImageType::Pointer image =         ImageType::New();
   typename ImageType::Pointer orientedImage = ImageType::New();
 
   typename ImageType::PointType origin;
 
-  for (unsigned int i=0; i < Dimension; i++)
+  for (unsigned int i=0; i < TDimension; i++)
     {
     origin[i] = static_cast<double>(i*100);
     }
   image->SetOrigin(origin);
   orientedImage->SetOrigin(origin);
 
-  typedef itk::ImageRegion< Dimension >  RegionType;
+  typedef itk::ImageRegion< TDimension > RegionType;
   typedef typename RegionType::IndexType IndexType;
   typedef typename RegionType::SizeType  SizeType;
 

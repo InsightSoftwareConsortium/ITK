@@ -37,14 +37,14 @@ int itkMaximumRatioDecisionRuleTest(int,char *[] )
   discriminantScores[1] = 0.5;
   discriminantScores[2] = 0.2;
 
-  DecisionRuleType::PriorProbabilityVectorType aPrioris ;
-  aPrioris.resize(3) ;
+  DecisionRuleType::PriorProbabilityVectorType aPrioris;
+  aPrioris.resize(3);
 
-  aPrioris[0] = 0.2 ;
-  aPrioris[1] = 0.1 ;
-  aPrioris[2] = 0.6 ;
+  aPrioris[0] = 0.2;
+  aPrioris[1] = 0.1;
+  aPrioris[2] = 0.6;
 
-  decisionRule->SetPriorProbabilities( aPrioris ) ;
+  decisionRule->SetPriorProbabilities( aPrioris );
 
   if ( decisionRule->Evaluate( discriminantScores ) != 2 )
     {
