@@ -69,13 +69,13 @@ MakeCheckerboard()
   return image;
 }
 
-template <long unsigned int imageIndexSpaceSize>
+template <long unsigned int TImageIndexSpaceSize>
 typename DisplacementFieldType::Pointer MakeDisplacementField(void)
 {
   typedef itk::ImageRegionIterator<DisplacementFieldType> IteratorType;
-  const DisplacementFieldType::SizeType size = {{imageIndexSpaceSize,imageIndexSpaceSize,imageIndexSpaceSize}};
+  const DisplacementFieldType::SizeType size = {{TImageIndexSpaceSize,TImageIndexSpaceSize,TImageIndexSpaceSize}};
   DisplacementFieldType::SpacingType spacing;
-  spacing[0] = spacing[1] = spacing[2] = 16.0/(double)imageIndexSpaceSize;
+  spacing[0] = spacing[1] = spacing[2] = 16.0/(double)TImageIndexSpaceSize;
   DisplacementFieldType::IndexType index = {{0,0,0}};
   DisplacementFieldType::RegionType region;
   region.SetSize(size);

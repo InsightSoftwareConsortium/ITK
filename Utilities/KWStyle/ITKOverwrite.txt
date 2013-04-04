@@ -166,10 +166,8 @@ vtkVisualize2DWhitakerLevelSetTest.cxx Namespace Disable
 vtkVisualize2DCellsLevelSetLayersTest.cxx Namespace Disable
 itkLevelSetContainer.h Comments Disable
 itkHistogramThresholdCalculator.h InternalVariables Disable
-<<<<<<< HEAD
 itkFilterDispatchTest.cxx Template Disable
 itkNumericsTest.cxx Template Disable
 itkSparseImageTest.cxx InternalVariables Disable
-=======
 itkImplicitManifoldNormalVectorFilterTest.cxx InternalVariables Disable
->>>>>>> STYLE: Apply kwstyle to Modules/Segmentation tests
+itkCyclicReferences Namespace Disable
