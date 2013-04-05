@@ -41,7 +41,7 @@ itk_add_test(NAME itkChainCodeToFourierSeriesPathFilterTest
       COMMAND ITKPathTestDriver itkChainCodeToFourierSeriesPathFilterTest)
 itk_add_test(NAME itkExtractOrthogonalSwath2DImageFilterTest
       COMMAND ITKPathTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/ExtractOrthogonalSwath2DImageFilterTest.png}
+    --compare DATA{Baseline/ExtractOrthogonalSwath2DImageFilterTest.png}
               ${ITK_TEST_OUTPUT_DIR}/ExtractOrthogonalSwath2DImageFilterTest.png
     itkExtractOrthogonalSwath2DImageFilterTest ${ITK_TEST_OUTPUT_DIR}/ExtractOrthogonalSwath2DImageFilterTest.png)
 itk_add_test(NAME itkOrthogonalSwath2DPathFilterTest
