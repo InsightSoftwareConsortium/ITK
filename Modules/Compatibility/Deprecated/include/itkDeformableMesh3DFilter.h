@@ -158,8 +158,8 @@ public:
 protected:
   DeformableMesh3DFilter();
   ~DeformableMesh3DFilter();
-  DeformableMesh3DFilter(const Self &) {}
-  void operator=(const Self &) {}
+  DeformableMesh3DFilter(const Self &); // purposely not implemented
+  void operator=(const Self &);         // purposely not implemented
   void PrintSelf(std::ostream & os, Indent indent) const;
 
   virtual void GenerateData();

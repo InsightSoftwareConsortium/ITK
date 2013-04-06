@@ -121,7 +121,10 @@ public:
   template< typename TCoordRepB >
   Self & operator=(const DiffusionTensor3D< TCoordRepB > & pa)
   {
-    SymmetricSecondRankTensor< TComponent, 3 >::operator=(pa);
+    if(this != &pa)
+      {
+      SymmetricSecondRankTensor< TComponent, 3 >::operator=(pa);
+      }
     return *this;
   }
 

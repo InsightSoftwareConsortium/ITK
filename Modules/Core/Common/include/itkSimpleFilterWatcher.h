@@ -79,7 +79,7 @@ public:
   SimpleFilterWatcher();
 
   /** operator=  */
-  void operator=(const SimpleFilterWatcher &);
+  SimpleFilterWatcher & operator=(const SimpleFilterWatcher &);
 
   /** Destructor. */
   virtual ~SimpleFilterWatcher();

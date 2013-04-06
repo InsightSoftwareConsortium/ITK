@@ -106,12 +106,8 @@ OptimizerParameters< TValueType >
 ::operator=(const Self & rhs)
 {
   //Note: there's no need to copy the OptimizerParametersHelper.
-
-  if ( this == &rhs ) { return *this; }
-
   // Call the superclass implementation.
   this->ArrayType::operator=(rhs);
-
   return *this;
 }
 
@@ -121,11 +117,8 @@ const typename OptimizerParameters< TValueType >
 OptimizerParameters< TValueType >
 ::operator=(const ArrayType & rhs)
 {
-  if ( this == &rhs ) { return *this; }
-
   // Call the superclass implementation
   this->ArrayType::operator=(rhs);
-
   return *this;
 }
 
@@ -135,11 +128,8 @@ const typename OptimizerParameters< TValueType >
 OptimizerParameters< TValueType >
 ::operator=(const VnlVectorType & rhs)
 {
-  if ( this == &rhs ) { return *this; }
-
   // Call the superclass implementation
   this->ArrayType::operator=(rhs);
-
   return *this;
 }
 

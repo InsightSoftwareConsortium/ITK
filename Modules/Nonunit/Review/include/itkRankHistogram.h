@@ -82,16 +82,19 @@ public:
 
   RankHistogram & operator=( const RankHistogram & hist )
   {
-    m_Map = hist.m_Map;
-    m_Rank = hist.m_Rank;
-    m_Below = hist.m_Below;
-    m_Entries = hist.m_Entries;
-    m_InitVal = hist.m_InitVal;
-    m_RankValue = hist.m_RankValue;
-    m_Initialized = hist.m_Initialized;
-    if ( m_Initialized )
+    if(this != &hist)
       {
-      m_RankIt = m_Map.find(m_RankValue);
+      m_Map = hist.m_Map;
+      m_Rank = hist.m_Rank;
+      m_Below = hist.m_Below;
+      m_Entries = hist.m_Entries;
+      m_InitVal = hist.m_InitVal;
+      m_RankValue = hist.m_RankValue;
+      m_Initialized = hist.m_Initialized;
+      if ( m_Initialized )
+        {
+        m_RankIt = m_Map.find(m_RankValue);
+        }
       }
     return *this;
   }

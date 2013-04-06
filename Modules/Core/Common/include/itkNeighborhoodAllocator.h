@@ -85,12 +85,15 @@ public:
   /** Assignment operator. */
   const Self & operator=(const Self & other)
   {
-    this->set_size(other.m_ElementCount);
-    for ( unsigned int i = 0; i < other.m_ElementCount; ++i )
+    if(this != &other)
       {
-      this->operator[](i) = other[i];
+      this->set_size(other.m_ElementCount);
+      for ( unsigned int i = 0; i < other.m_ElementCount; ++i )
+        {
+        this->operator[](i) = other[i];
+        }
+      m_ElementCount = other.m_ElementCount;
       }
-    m_ElementCount = other.m_ElementCount;
     return *this;
   }
 

@@ -136,10 +136,13 @@ typename ContourSpatialObjectPoint< TPointDimension >::Self &
 ContourSpatialObjectPoint< TPointDimension >
 ::operator=(const ContourSpatialObjectPoint & rhs)
 {
-  this->m_ID = rhs.GetID();
-  this->m_X = rhs.GetPosition();
-  this->m_Normal = rhs.GetNormal();
-  this->m_PickedPoint = rhs.GetPickedPoint();
+  if(this != &rhs)
+    {
+    this->m_ID = rhs.GetID();
+    this->m_X = rhs.GetPosition();
+    this->m_Normal = rhs.GetNormal();
+    this->m_PickedPoint = rhs.GetPickedPoint();
+    }
   return *this;
 }
 } // end namespace itk

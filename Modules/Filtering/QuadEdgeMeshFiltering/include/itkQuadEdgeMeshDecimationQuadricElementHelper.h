@@ -201,7 +201,10 @@ public:
   // operators
   Self & operator=(const Self & iRight)
   {
-    this->m_Coefficients = iRight.m_Coefficients;
+    if(this != &iRight)
+      {
+      this->m_Coefficients = iRight.m_Coefficients;
+      }
     return *this;
   }
 

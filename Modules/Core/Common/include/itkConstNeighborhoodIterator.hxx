@@ -447,42 +447,44 @@ ConstNeighborhoodIterator< TImage, TBoundaryCondition > &
 ConstNeighborhoodIterator< TImage, TBoundaryCondition >
 ::operator=(const Self & orig)
 {
-  Superclass::operator=(orig);
-
-  m_Bound        = orig.m_Bound;
-  m_Begin        = orig.m_Begin;
-  m_ConstImage   = orig.m_ConstImage;
-  m_End          = orig.m_End;
-  m_EndIndex     = orig.m_EndIndex;
-  m_Loop         = orig.m_Loop;
-  m_Region       = orig.m_Region;
-  m_BeginIndex = orig.m_BeginIndex;
-  m_WrapOffset = orig.m_WrapOffset;
-
-  m_InternalBoundaryCondition = orig.m_InternalBoundaryCondition;
-  m_NeedToUseBoundaryCondition = orig.m_NeedToUseBoundaryCondition;
-
-  m_InnerBoundsLow  = orig.m_InnerBoundsLow;
-  m_InnerBoundsHigh = orig.m_InnerBoundsHigh;
-
-  for ( DimensionValueType i = 0; i < Dimension; ++i )
+  if(this != &orig)
     {
-    m_InBounds[i] = orig.m_InBounds[i];
-    }
-  m_IsInBoundsValid = orig.m_IsInBoundsValid;
-  m_IsInBounds = orig.m_IsInBounds;
+    Superclass::operator=(orig);
 
-  // Check to see if the default boundary conditions
-  // have been overridden.
-  if ( orig.m_BoundaryCondition ==
-       static_cast< ImageBoundaryConditionConstPointerType >(
-         &orig.m_InternalBoundaryCondition ) )
-    {
-    this->ResetBoundaryCondition();
-    }
-  else { m_BoundaryCondition = orig.m_BoundaryCondition; }
-  m_NeighborhoodAccessorFunctor = orig.m_NeighborhoodAccessorFunctor;
+    m_Bound        = orig.m_Bound;
+    m_Begin        = orig.m_Begin;
+    m_ConstImage   = orig.m_ConstImage;
+    m_End          = orig.m_End;
+    m_EndIndex     = orig.m_EndIndex;
+    m_Loop         = orig.m_Loop;
+    m_Region       = orig.m_Region;
+    m_BeginIndex = orig.m_BeginIndex;
+    m_WrapOffset = orig.m_WrapOffset;
 
+    m_InternalBoundaryCondition = orig.m_InternalBoundaryCondition;
+    m_NeedToUseBoundaryCondition = orig.m_NeedToUseBoundaryCondition;
+
+    m_InnerBoundsLow  = orig.m_InnerBoundsLow;
+    m_InnerBoundsHigh = orig.m_InnerBoundsHigh;
+
+    for ( DimensionValueType i = 0; i < Dimension; ++i )
+      {
+      m_InBounds[i] = orig.m_InBounds[i];
+      }
+    m_IsInBoundsValid = orig.m_IsInBoundsValid;
+    m_IsInBounds = orig.m_IsInBounds;
+
+    // Check to see if the default boundary conditions
+    // have been overridden.
+    if ( orig.m_BoundaryCondition ==
+         static_cast< ImageBoundaryConditionConstPointerType >(
+           &orig.m_InternalBoundaryCondition ) )
+      {
+      this->ResetBoundaryCondition();
+      }
+    else { m_BoundaryCondition = orig.m_BoundaryCondition; }
+    m_NeighborhoodAccessorFunctor = orig.m_NeighborhoodAccessorFunctor;
+    }
   return *this;
 }
 

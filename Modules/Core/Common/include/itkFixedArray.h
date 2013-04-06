@@ -163,12 +163,14 @@ public:
   template< class TFixedArrayValueType >
   FixedArray & operator=(const FixedArray< TFixedArrayValueType, VLength > & r)
   {
-    if ( (void *)r.Begin() == (void *)m_InternalArray ) { return *this; }
-    typename FixedArray< TFixedArrayValueType, VLength >::ConstIterator input = r.Begin();
-    Iterator i = this->Begin();
-    while ( i != this->End() )
+    if ( (void *)r.Begin() != (void *)m_InternalArray )
       {
-      *i++ = static_cast< TValueType >( *input++ );
+      typename FixedArray< TFixedArrayValueType, VLength >::ConstIterator input = r.Begin();
+      Iterator i = this->Begin();
+      while ( i != this->End() )
+        {
+        *i++ = static_cast< TValueType >( *input++ );
+        }
       }
     return *this;
   }

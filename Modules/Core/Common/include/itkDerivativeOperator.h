@@ -87,8 +87,11 @@ public:
   /** Assignment operator */
   Self & operator=(const Self & other)
   {
-    Superclass::operator=(other);
-    m_Order = other.m_Order;
+    if(this != &other)
+      {
+      Superclass::operator=(other);
+      m_Order = other.m_Order;
+      }
     return *this;
   }
 

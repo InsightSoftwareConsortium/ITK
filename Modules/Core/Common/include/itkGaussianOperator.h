@@ -87,10 +87,13 @@ public:
   /** Assignment operator */
   Self & operator=(const Self & other)
   {
-    Superclass::operator=(other);
-    m_Variance = other.m_Variance;
-    m_MaximumError = other.m_MaximumError;
-    m_MaximumKernelWidth = other.m_MaximumKernelWidth;
+    if(this != &other)
+      {
+      Superclass::operator=(other);
+      m_Variance = other.m_Variance;
+      m_MaximumError = other.m_MaximumError;
+      m_MaximumKernelWidth = other.m_MaximumKernelWidth;
+      }
     return *this;
   }
 

@@ -115,10 +115,13 @@ public:
 
   Self & operator=(const Self & r)
   {
-    m_StartEdge = r.m_StartEdge;
-    m_Iterator = r.m_Iterator;
-    m_OpType = r.m_OpType;
-    m_Start = r.m_Start;
+    if(this != &r)
+      {
+      m_StartEdge = r.m_StartEdge;
+      m_Iterator = r.m_Iterator;
+      m_OpType = r.m_OpType;
+      m_Start = r.m_Start;
+      }
     return ( *this );
   }
 

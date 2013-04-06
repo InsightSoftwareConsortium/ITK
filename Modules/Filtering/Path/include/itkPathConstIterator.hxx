@@ -47,15 +47,18 @@ PathConstIterator< TImage, TPath > &
 PathConstIterator< TImage, TPath >
 ::operator=(const Self & it)
 {
-  m_Image  = it.m_Image;  // copy the smart pointer
-  m_Path   = it.m_Path;   // copy the smart pointer
-  m_Region = it.m_Region;
-  m_ImageOrigin  = it.m_ImageOrigin;
-  m_ImageSpacing = it.m_ImageSpacing;
-  m_ImageSize    = it.m_ImageSize;
-  m_CurrentPathPosition = it.m_CurrentPathPosition;
-  m_CurrentImageIndex   = it.m_CurrentImageIndex;
-  m_VisitStartIndexAsLastIndexIfClosed = it.m_VisitStartIndexAsLastIndexIfClosed;
+  if(this != &it)
+    {
+    m_Image  = it.m_Image;  // copy the smart pointer
+    m_Path   = it.m_Path;   // copy the smart pointer
+    m_Region = it.m_Region;
+    m_ImageOrigin  = it.m_ImageOrigin;
+    m_ImageSpacing = it.m_ImageSpacing;
+    m_ImageSize    = it.m_ImageSize;
+    m_CurrentPathPosition = it.m_CurrentPathPosition;
+    m_CurrentImageIndex   = it.m_CurrentImageIndex;
+    m_VisitStartIndexAsLastIndexIfClosed = it.m_VisitStartIndexAsLastIndexIfClosed;
+    }
   return *this;
 }
 

@@ -173,21 +173,24 @@ typename VesselTubeSpatialObjectPoint< TPointDimension >::Self &
 VesselTubeSpatialObjectPoint< TPointDimension >
 ::operator=(const VesselTubeSpatialObjectPoint & rhs)
 {
-  this->m_ID = rhs.m_ID;
-  this->m_R = rhs.m_R;
-  m_Medialness = rhs.m_Medialness;
-  m_Ridgeness = rhs.m_Ridgeness;
-  m_Branchness = rhs.m_Branchness;
-  m_Mark = rhs.m_Mark;
-  this->m_NumDimensions = rhs.m_NumDimensions;
-  this->m_X = rhs.m_X;
-  this->m_T = rhs.m_T;
-  this->m_Normal1 = rhs.m_Normal1;
-  this->m_Normal2 = rhs.m_Normal2;
-  m_Alpha1 = rhs.m_Alpha1;
-  m_Alpha2 = rhs.m_Alpha2;
-  m_Alpha3 = rhs.m_Alpha3;
-  this->m_Color = rhs.m_Color;
+  if(this != &rhs)
+    {
+    this->m_ID = rhs.m_ID;
+    this->m_R = rhs.m_R;
+    m_Medialness = rhs.m_Medialness;
+    m_Ridgeness = rhs.m_Ridgeness;
+    m_Branchness = rhs.m_Branchness;
+    m_Mark = rhs.m_Mark;
+    this->m_NumDimensions = rhs.m_NumDimensions;
+    this->m_X = rhs.m_X;
+    this->m_T = rhs.m_T;
+    this->m_Normal1 = rhs.m_Normal1;
+    this->m_Normal2 = rhs.m_Normal2;
+    m_Alpha1 = rhs.m_Alpha1;
+    m_Alpha2 = rhs.m_Alpha2;
+    m_Alpha3 = rhs.m_Alpha3;
+    this->m_Color = rhs.m_Color;
+    }
   return *this;
 }
 } // end namespace itk
