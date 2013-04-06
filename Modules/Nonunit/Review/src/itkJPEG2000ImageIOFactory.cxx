@@ -44,16 +44,4 @@ JPEG2000ImageIOFactory::GetDescription() const
 {
   return "JPEG2000 ImageIO Factory, allows the loading of JPEG2000 images into insight";
 }
-
-//
-// Entry point function for ITK to invoke, in order to create a new instance of
-// a factory.
-//
-extern "C"
-ITK_ABI_EXPORT
-itk::ObjectFactoryBase * itkLoad()
-  {
-  std::cout << "Calling JPEG2000ImageIO itkLoad()" << std::endl;
-  return itk::JPEG2000ImageIOFactory::FactoryNew();
-  }
 } // end namespace itk
