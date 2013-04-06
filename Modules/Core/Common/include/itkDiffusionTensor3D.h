@@ -121,6 +121,10 @@ public:
   template< typename TCoordRepB >
   Self & operator=(const DiffusionTensor3D< TCoordRepB > & pa)
   {
+    //NOTE (this != &pa ) because they are different pointer types
+    //if this templated function is called
+    // ComponentType 'itk::DiffusionTensor3D<double> *'
+    // TCoordRepB   'const DiffusionTensor3D<float> *')
     SymmetricSecondRankTensor< TComponent, 3 >::operator=(pa);
     return *this;
   }
