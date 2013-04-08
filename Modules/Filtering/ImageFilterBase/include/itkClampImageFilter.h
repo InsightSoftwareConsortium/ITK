@@ -19,15 +19,105 @@
 #define __itkClampImageFilter_h
 
 #include "itkUnaryFunctorImageFilter.h"
-#include "itkProgressReporter.h"
 
 namespace itk
 {
 
+namespace Functor
+{
+
+/** \class Clamp
+ *
+ * \brief Functor used to clamp a value to a specified range.
+ *
+ * Default range corresponds to the range supported by the
+ * output type.
+ *
+ * It is templated over an input and an output-type in order
+ * to be able to cast the output value.
+ *
+ * \ingroup ITKImageIntensity
+ * \ingroup ITKImageFilterBase
+ */
+template< class TInput, class TOutput = TInput >
+class Clamp
+{
+public:
+
+  typedef Clamp   Self;
+
+  typedef TInput  InputType;
+  typedef TOutput OutputType;
+
+  /** Creates the functor and initializes the bounds to the
+   * output-type limits.
+   */
+  Clamp();
+
+  ~Clamp();
+
+  OutputType GetLowerBound() const;
+  OutputType GetUpperBound() const;
+
+  /** Set the bounds of the range in which the data will be clamped.
+   * If the lower-bound is greater than the upper-bound,
+   * an itk::ExceptionObject will be thrown.
+   */
+  void SetBounds( const OutputType lowerBound, const OutputType upperBound);
+
+  bool operator!=( const Self & other ) const;
+  bool operator==( const Self & other ) const;
+
+  OutputType operator()( const InputType & A ) const;
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+  itkConceptMacro(InputConvertibleToOutputCheck,
+    (Concept::Convertible< InputType, OutputType >));
+  itkConceptMacro(InputConvertibleToDoubleCheck,
+    (Concept::Convertible< InputType, double > ));
+  itkConceptMacro(DoubleLessThanComparableToOutputCheck,
+    (Concept::LessThanComparable< double, OutputType > ));
+  itkConceptMacro(DoubleGreaterThanComparableToOutputCheck,
+    (Concept::GreaterThanComparable< double, OutputType > ));
+#endif
+
+private:
+  OutputType m_LowerBound;
+  OutputType m_UpperBound;
+};
+
+
+template< class TInput, class TOutput >
+inline
+typename Clamp< TInput, TOutput >::OutputType
+Clamp< TInput, TOutput >
+::operator()( const InputType & A ) const
+  {
+  const double dA = static_cast< double >( A );
+
+  if ( dA < m_LowerBound )
+    {
+    return m_LowerBound;
+    }
+
+  if ( dA > m_UpperBound )
+    {
+    return m_UpperBound;
+    }
+
+  return static_cast< OutputType >( A );
+  }
+
+} // end namespace Functor
+
+
 /** \class ClampImageFilter
  *
  * \brief Casts input pixels to output pixel type and clamps the
- * output pixel values to the range supported by the output pixel type.
+ * output pixel values to a specified range.
+ *
+ * Default range corresponds to the range supported by the
+ * pixel type of the output image.
  *
  * This filter is templated over the input image type
  * and the output image type.
@@ -45,64 +135,26 @@ namespace itk
  * \wikiexample{ImageProcessing/ClampImageFilter,Cast an image from one type to another but clamp to the output value range}
  * \endwiki
  */
-namespace Functor {
-
-template< class TInput, class TOutput>
-class Clamp
-{
-public:
-  Clamp() {};
-  virtual ~Clamp() {};
-  bool operator!=( const Clamp & ) const
-  {
-    return false;
-  }
-  bool operator==( const Clamp & other ) const
-  {
-    return !(*this != other);
-  }
-  inline TOutput operator()( const TInput & A ) const
-  {
-    double dA = static_cast< double >( A );
-    double typeMin =
-      static_cast< double >( NumericTraits< TOutput >::NonpositiveMin() );
-    double typeMax =
-      static_cast< double >( NumericTraits< TOutput >::max() );
-
-    if ( dA < typeMin )
-      {
-      return NumericTraits< TOutput >::NonpositiveMin();
-      }
-
-    if ( dA > typeMax )
-      {
-      return NumericTraits< TOutput >::max();
-      }
-
-    return static_cast< TOutput >( A );
-  }
-};
-}
 
 template <class TInputImage, class TOutputImage>
 class ITK_EXPORT ClampImageFilter :
-    public
-UnaryFunctorImageFilter<TInputImage,TOutputImage,
-                        Functor::Clamp<
-  typename TInputImage::PixelType,
-  typename TOutputImage::PixelType > >
+  public UnaryFunctorImageFilter< TInputImage,TOutputImage,
+                                  Functor::Clamp< typename TInputImage::PixelType,
+                                                  typename TOutputImage::PixelType > >
 {
 public:
   /** Standard class typedefs. */
   typedef ClampImageFilter               Self;
   typedef UnaryFunctorImageFilter< TInputImage, TOutputImage,
-                        Functor::Clamp<
-                          typename TInputImage::PixelType,
-                          typename TOutputImage::PixelType > >
-                                        Superclass;
+                                   Functor::Clamp< typename TInputImage::PixelType,
+                                                   typename TOutputImage::PixelType > >
+                                         Superclass;
 
-  typedef SmartPointer< Self >          Pointer;
-  typedef SmartPointer< const Self >    ConstPointer;
+  typedef SmartPointer< Self >           Pointer;
+  typedef SmartPointer< const Self >     ConstPointer;
+
+  typedef typename TInputImage::PixelType  InputPixelType;
+  typedef typename TOutputImage::PixelType OutputPixelType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -110,36 +162,22 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(ClampImageFilter, UnaryFunctorImageFilter);
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
-  itkConceptMacro(InputConvertibleToOutputCheck,
-    (Concept::Convertible< typename TInputImage::PixelType,
-                           typename TOutputImage::PixelType >));
-  itkConceptMacro(InputConvertibleToDoubleCheck,
-    (Concept::Convertible< typename TInputImage::PixelType,
-                           double > ));
-  itkConceptMacro(OutputConvertibleToDoubleCheck,
-    (Concept::Convertible< typename TOutputImage::PixelType,
-                           double > ));
-  /** End concept checking */
-#endif
+  OutputPixelType GetLowerBound() const;
+  OutputPixelType GetUpperBound() const;
+
+  /** Set the bounds of the range in which the data will be clamped.
+   * If the lower-bound is greater than the upper-bound,
+   * an itk::ExceptionObject will be thrown.
+   */
+  void SetBounds(const OutputPixelType lowerBound, const OutputPixelType upperBound);
 
 protected:
-  ClampImageFilter() {}
+  ClampImageFilter();
   virtual ~ClampImageFilter() {}
 
-  void GenerateData()
-    {
-    if( this->GetInPlace() && this->CanRunInPlace() )
-      {
-      // Nothing to do, so avoid iterating over all the pixels for
-      // nothing! Allocate the output, generate a fake progress and exit.
-      this->AllocateOutputs();
-      ProgressReporter progress(this, 0, 1);
-      return;
-      }
-    Superclass::GenerateData();
-    }
+  void GenerateData();
+
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
   ClampImageFilter(const Self&); //purposely not implemented
@@ -147,7 +185,10 @@ private:
 
 };
 
-
 } // end namespace itk
+
+#ifndef ITK_MANUAL_INSTANTIATION
+#include "itkClampImageFilter.hxx"
+#endif
 
 #endif
