@@ -19,7 +19,7 @@
 #include <iostream>
 #include "itkShrinkImageFilter.h"
 #include "itkStreamingImageFilter.h"
-#include "itkImageRegionSplitterMultidimensional.h"
+#include "itkImageRegionMultidimensionalSplitter.h"
 #include "itkXMLFileOutputWindow.h"
 #include "itkPipelineMonitorImageFilter.h"
 
@@ -66,8 +66,8 @@ int itkStreamingImageFilterTest2(int, char* [] )
   shrink->SetShrinkFactors(factors);
   shrink->DebugOn();
 
-  itk::ImageRegionSplitterMultidimensional::Pointer splitter;
-  splitter = itk::ImageRegionSplitterMultidimensional::New();
+  itk::ImageRegionMultidimensionalSplitter<2>::Pointer splitter;
+  splitter = itk::ImageRegionMultidimensionalSplitter<2>::New();
   splitter->DebugOn();
 
   // monitor what's going on

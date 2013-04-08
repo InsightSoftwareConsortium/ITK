@@ -21,7 +21,7 @@
 #include "itkCommand.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageAlgorithm.h"
-#include "itkImageRegionSplitter.h"
+#include "itkImageRegionSplitterSlowDimension.h"
 
 namespace itk
 {
@@ -36,7 +36,7 @@ StreamingImageFilter< TInputImage, TOutputImage >
   m_NumberOfStreamDivisions = 10;
 
   // create default region splitter
-  m_RegionSplitter = ImageRegionSplitter< InputImageDimension >::New();
+  m_RegionSplitter = ImageRegionSplitterSlowDimension::New();
 }
 
 /**

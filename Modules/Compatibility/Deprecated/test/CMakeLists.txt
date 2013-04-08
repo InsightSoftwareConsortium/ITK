@@ -8,6 +8,9 @@ itkNonUniformBSplineTest.cxx
 itkReflectImageFilterTest.cxx
 itkShiftScaleInPlaceImageFilterTest.cxx
 itkTwoOutputExampleImageFilterTest.cxx
+itkStreamingImageFilterTest.cxx
+itkStreamingImageFilterTest2.cxx
+itkStreamingImageFilterTest3.cxx
 )
 
 # For itkTestDriverIncludeDeprecatedIOFactories.h.
@@ -29,7 +32,17 @@ itk_add_test(NAME itkShiftScaleInPlaceImageFilterTest
       COMMAND ITKDeprecatedTestDriver itkShiftScaleInPlaceImageFilterTest)
 itk_add_test(NAME itkTwoOutputExampleImageFilterTest
       COMMAND ITKDeprecatedTestDriver itkTwoOutputExampleImageFilterTest)
-
+itk_add_test(NAME itkDeprecatedStreamingImageFilterTest COMMAND ITKDeprecatedTestDriver itkStreamingImageFilterTest)
+itk_add_test(NAME itkDeprecatedStreamingImageFilterTest2 COMMAND ITKDeprecatedTestDriver itkStreamingImageFilterTest2)
+itk_add_test(NAME itkDeprecatedStreamingImageFilterTest3_1 COMMAND ITKDeprecatedTestDriver
+    --compare DATA{${ITK_DATA_ROOT}/Input/CellsFluorescence1.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkStreamingImageFilterTest3_1.png
+    itkStreamingImageFilterTest3 DATA{${ITK_DATA_ROOT}/Input/CellsFluorescence1.png} ${ITK_TEST_OUTPUT_DIR}/itkStreamingImageFilterTest3_1.png 10)
+itk_add_test(NAME itkDeprecatedStreamingImageFilterTest3_2
+      COMMAND ITKDeprecatedTestDriver
+    --compare DATA{${ITK_DATA_ROOT}/Input/CellsFluorescence1.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkStreamingImageFilterTest3_2.png
+    itkStreamingImageFilterTest3 DATA{${ITK_DATA_ROOT}/Input/CellsFluorescence1.png} ${ITK_TEST_OUTPUT_DIR}/itkStreamingImageFilterTest3_2.png 1000)
 
 create_test_sourcelist(DeprecatedIOTests  DeprecatedIOTestDriver.cxx
         itkDICOMImageIO2Test.cxx

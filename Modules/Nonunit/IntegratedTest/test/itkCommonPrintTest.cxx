@@ -45,7 +45,7 @@
 #include "itkGaussianDerivativeImageFunction.h"
 #include "itkGaussianKernelFunction.h"
 #include "itkIdentityTransform.h"
-#include "itkImageRegionMultidimensionalSplitter.h"
+#include "itkImageRegionSplitterMultidimensional.h"
 #include "itkKLMSegmentationRegion.h"
 #include "itkLevelSetFunction.h"
 #include "itkLightProcessObject.h"
@@ -286,9 +286,9 @@ int itkCommonPrintTest(int , char* [])
     itk::ImageBase<3>::New();
   std::cout << "------------ImageBase" << ImageBaseObj;
 
-  itk::ImageRegionMultidimensionalSplitter<3>::Pointer ImageRegionMultidimensionalSplitterObj =
-    itk::ImageRegionMultidimensionalSplitter<3>::New();
-  std::cout << "------------ImageRegionMultidimensionalSplitter" << ImageRegionMultidimensionalSplitterObj;
+  itk::ImageRegionSplitterMultidimensional::Pointer ImageRegionSplitterMultidimensionalObj =
+    itk::ImageRegionSplitterMultidimensional::New();
+  std::cout << "------------ImageRegionSplitterMultidimensional" << ImageRegionSplitterMultidimensionalObj;
 
   itk::ImportImageContainer<unsigned long,PointType>::Pointer ImportImageContainerObj =
     itk::ImportImageContainer<unsigned long,PointType>::New();

@@ -19,17 +19,11 @@
 #include <iostream>
 #include "itkShrinkImageFilter.h"
 #include "itkStreamingImageFilter.h"
-#include "itkImageRegionSplitterMultidimensional.h"
-#include "itkXMLFileOutputWindow.h"
 #include "itkPipelineMonitorImageFilter.h"
 
-
-int itkStreamingImageFilterTest2(int, char* [] )
+int itkStreamingImageFilterTest(int, char* [] )
 {
-
-  const unsigned int numberOfStreamDivisions = 25;
-  itk::XMLFileOutputWindow::Pointer logger = itk::XMLFileOutputWindow::New();
-  logger->SetInstance(logger);
+  const unsigned int numberOfStreamDivisions = 4;
 
   // typedefs to simplify the syntax
   typedef itk::Image<short, 2>   ShortImage;
@@ -39,7 +33,7 @@ int itkStreamingImageFilterTest2(int, char* [] )
 
   // fill in an image
   ShortImage::IndexType  index = {{0, 0}};
-  ShortImage::SizeType   size = {{42, 64}};
+  ShortImage::SizeType   size = {{80, 122}};
   ShortImage::RegionType region;
   region.SetSize( size );
   region.SetIndex( index );
@@ -62,13 +56,9 @@ int itkStreamingImageFilterTest2(int, char* [] )
   shrink = itk::ShrinkImageFilter< ShortImage, ShortImage >::New();
   shrink->SetInput( if2 );
 
-  unsigned int factors[2] = { 2, 3 };
+  unsigned int factors[2] = { 3, 5 };
   shrink->SetShrinkFactors(factors);
-  shrink->DebugOn();
-
-  itk::ImageRegionSplitterMultidimensional::Pointer splitter;
-  splitter = itk::ImageRegionSplitterMultidimensional::New();
-  splitter->DebugOn();
+  // shrink->DebugOn();
 
   // monitor what's going on
   itk::PipelineMonitorImageFilter<ShortImage>::Pointer monitor;
@@ -79,7 +69,6 @@ int itkStreamingImageFilterTest2(int, char* [] )
   streamer = itk::StreamingImageFilter<ShortImage, ShortImage>::New();
   streamer->SetInput( monitor->GetOutput() );
   streamer->SetNumberOfStreamDivisions( numberOfStreamDivisions );
-  streamer->SetRegionSplitter( splitter );
   streamer->Update();
 
   std::cout << "Input spacing: " << if2->GetSpacing()[0] << ", "
@@ -89,9 +78,15 @@ int itkStreamingImageFilterTest2(int, char* [] )
             << streamer->GetOutput()->GetSpacing()[1] << std::endl;
 
 
+  // Test itkGetConstReferenceMacro and itkGetModifiableObjectMacro
+  const unsigned int & value = streamer->GetNumberOfStreamDivisions();
+  std::cout << "streamer->GetNumberOfStreamDivisions(): " << value << std::endl;
+  streamer->GetRegionSplitter();
+  //SplitterType * streamer->GetRegionSplitter();
+
   // check if the pipeline executed as expected
-  if (monitor->GetNumberOfUpdates() != numberOfStreamDivisions ||
-      monitor->GetOutputRequestedRegions().size() != numberOfStreamDivisions)
+  if (monitor->GetNumberOfUpdates() != value ||
+      monitor->GetOutputRequestedRegions().size() != value)
     {
     std::cout << monitor;
     std::cout << "ImageStreaming Filter test failed because pipeline didn't execute as expected." << std::endl;
@@ -108,6 +103,7 @@ int itkStreamingImageFilterTest2(int, char* [] )
 
   itk::ImageRegionIterator<ShortImage>
     iterator2(streamer->GetOutput(), requestedRegion);
+  std::cout << "requestedRegion: " << requestedRegion;
 
   // If size is not a multiple of the shrink factors, then adjust the
   // row/col indices
@@ -133,12 +129,12 @@ int itkStreamingImageFilterTest2(int, char* [] )
   bool passed = true;
   for (; !iterator2.IsAtEnd(); ++iterator2)
     {
-    short col = itk::Math::RoundHalfIntegerUp<short>( static_cast<float> (shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[0] +
-                                                                   (shrink->GetShrinkFactors()[0] ) / 2.0 ) );
+    short col = (shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[0] +
+                 (shrink->GetShrinkFactors()[0] - 1) / 2);
     col += colOffset;
 
-    short row =  itk::Math::RoundHalfIntegerUp<short>( static_cast<float> (shrink->GetShrinkFactors()[1] * iterator2.GetIndex()[1] +
-                                                                    (shrink->GetShrinkFactors()[1] ) / 2.0 ) );
+    short row = (shrink->GetShrinkFactors()[1] * iterator2.GetIndex()[1] +
+                 (shrink->GetShrinkFactors()[1] - 1) / 2);
     row += rowOffset;
     short trueValue = col + region.GetSize()[0] * row;
 
@@ -155,15 +151,7 @@ int itkStreamingImageFilterTest2(int, char* [] )
   if (passed)
     {
     std::cout << "ImageStreamingFilter test passed." << std::endl;
-    try
-      {
-      return EXIT_SUCCESS;
-      }
-    catch (...)
-      {
-      std::cout << "Caught an exception on exit" << std::endl;
-      return EXIT_FAILURE;
-      }
+    return EXIT_SUCCESS;
     }
   else
     {
