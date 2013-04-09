@@ -21,6 +21,7 @@
 #include "itkInPlaceLabelMapFilter.h"
 #include "itkLabelObject.h"
 #include "itkShapeLabelObjectAccessors.h"
+#include "itkProgressReporter.h"
 
 namespace itk
 {
