@@ -19,6 +19,7 @@
 #include "itkConstSliceIterator.h"
 #include "itkImageRegionIterator.h"
 #include "itkNeighborhoodIterator.h"
+#include "itkStdAlgorithm.h"
 #include <iostream>
 
 template< class T, unsigned int N >
@@ -80,9 +81,9 @@ void PrintRegion(itk::SmartPointer< itk::Image<T, VDimension> > I)
   long rsz[VDimension];
   long Location[VDimension];
 
-  memcpy(rsz, I->GetRequestedRegion().GetSize().m_Size,
-         sizeof(unsigned long) * VDimension);
-  memset(Location, 0, sizeof(unsigned long) * VDimension);
+  itk::algorithm::copy_n(I->GetRequestedRegion().GetSize().m_Size, VDimension, rsz);
+  std::fill_n(Location, VDimension, 0);
+
   for (iDim = 0; iDim < VDimension; ++iDim)
     {
     std::cout << "iDim = " << iDim << std::endl;

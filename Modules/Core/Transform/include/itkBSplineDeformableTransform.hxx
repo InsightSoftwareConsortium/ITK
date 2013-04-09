@@ -23,6 +23,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkIdentityTransform.h"
+#include "itkStdAlgorithm.h"
 
 namespace itk
 {
@@ -415,8 +416,7 @@ BSplineDeformableTransform<TScalarType, NDimensions, VSplineOrder>
         images[j]->GetBufferPointer();
 
       ParametersValueType *dataPointer = this->m_InternalParametersBuffer.data_block();
-      ::memcpy( dataPointer,
-              baseImagePointer, sizeof( ParametersValueType ) * numberOfPixels );
+      itk::algorithm::copy_n(baseImagePointer, numberOfPixels,  dataPointer);
       }
     this->SetParameters( this->m_InternalParametersBuffer );
     }

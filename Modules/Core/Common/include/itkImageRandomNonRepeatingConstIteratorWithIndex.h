@@ -84,6 +84,18 @@ public:
     this->Shuffle();
   }
 
+  RandomPermutation &operator=(const RandomPermutation &it)
+    {
+      if(m_Permutation != 0)
+        {
+        delete [] m_Permutation;
+        }
+      m_Size = it.m_Size;
+      m_Permutation = new NodeOfPermutation[m_Size];
+      m_Generator = it.m_Generator;
+      return *this;
+    }
+
   void Dump()
   {
     for ( SizeValueType i = 0; i < m_Size; i++ )

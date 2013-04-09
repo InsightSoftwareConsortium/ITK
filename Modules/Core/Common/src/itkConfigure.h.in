@@ -75,6 +75,8 @@
 #cmakedefine ITK_HAS_CPP11_ALIGNAS
 // defined if the compiler support GNU's __attribute__(( algined(x) )) extension
 #cmakedefine ITK_HAS_GNU_ATTRIBUTE_ALIGNED
+// defined if the STL implementation includes std::copy_n
+#cmakedefine ITK_HAS_STD_COPY_N
 
 /*
  * Every exception may define a string with the function name for each

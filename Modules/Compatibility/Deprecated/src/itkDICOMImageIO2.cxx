@@ -21,6 +21,7 @@
 #include "itkMetaDataObject.h"
 
 #include <iostream>
+#include "itkStdAlgorithm.h"
 
 namespace itk
 {
@@ -77,7 +78,7 @@ void DICOMImageIO2::ReadDataCallback(doublebyte,
     {
     imageBytes = len;
     }
-  memcpy(m_ImageDataBuffer, val, imageBytes);
+  itk::algorithm::copy_n(val, imageBytes, m_ImageDataBuffer);
 }
 
 void DICOMImageIO2::Read(void *buffer)
