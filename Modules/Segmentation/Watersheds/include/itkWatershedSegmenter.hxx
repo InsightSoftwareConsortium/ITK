@@ -28,11 +28,6 @@ namespace itk
 {
 namespace watershed
 {
-template< class TInputImage >
-IdentifierType Segmenter< TInputImage >::NULL_LABEL = 0;
-
-template< class TInputImage >
-short Segmenter< TInputImage >::NULL_FLOW = -1;
 
 /*
   ----------------------------------------------------------------------------

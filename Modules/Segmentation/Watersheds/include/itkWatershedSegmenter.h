@@ -123,10 +123,10 @@ public:
   typedef typename BoundaryType::Pointer     BoundaryTypePointer;
 
   /** A constant used in the labeling algorithm.  */
-  static IdentifierType NULL_LABEL;
+  itkStaticConstMacro(NULL_LABEL, unsigned long, 0);
 
   /** A constant used in the labeling algorithm.  */
-  static short NULL_FLOW;
+  itkStaticConstMacro(NULL_FLOW, unsigned long, -1);
 
   /** Get/Set the input image.   */
   InputImageType * GetInputImage(void)
