@@ -23,6 +23,7 @@
 
 namespace itk
 {
+/* Necessary forward declaration see below for definition */
 /** \class LBFGSBOptimizerHelper
  * \brief Wrapper helper around vnl_lbfgsb.
  *
@@ -109,13 +110,11 @@ public:
 
   /** Set the lower bound value for each variable. */
   virtual void SetLowerBound(const BoundValueType & value);
-
-  virtual const BoundValueType & GetLowerBound();
+  itkGetConstReferenceMacro(LowerBound,BoundValueType);
 
   /** Set the upper bound value for each variable. */
   virtual void SetUpperBound(const BoundValueType & value);
-
-  virtual const BoundValueType & GetUpperBound();
+  itkGetConstReferenceMacro(UpperBound,BoundValueType);
 
   /** Set the boundary condition for each variable, where
    * select[i] = 0 if x[i] is unbounded,
@@ -124,8 +123,7 @@ public:
    *           = 3 if x[1] has only an upper bound
    */
   virtual void SetBoundSelection(const BoundSelectionType & select);
-
-  virtual const BoundSelectionType & GetBoundSelection();
+  itkGetConstReferenceMacro(BoundSelection,BoundSelectionType);
 
   /** Set/Get the CostFunctionConvergenceFactor. Algorithm terminates
    * when the reduction in cost function is less than factor * epsmcj
@@ -194,22 +192,20 @@ private:
   // counts, etc.
   friend class LBFGSBOptimizerHelper;
 
-  bool                       m_Trace;
-  bool                       m_OptimizerInitialized;
-  InternalOptimizerType *    m_VnlOptimizer;
-  mutable std::ostringstream m_StopConditionDescription;
-  BoundValueType             m_LowerBound;
-  BoundValueType             m_UpperBound;
-  BoundSelectionType         m_BoundSelection;
-
+  bool         m_Trace;
+  bool         m_OptimizerInitialized;
   double       m_CostFunctionConvergenceFactor;
   double       m_ProjectedGradientTolerance;
   unsigned int m_MaximumNumberOfIterations;
   unsigned int m_MaximumNumberOfEvaluations;
   unsigned int m_MaximumNumberOfCorrections;
-
   unsigned int m_CurrentIteration;
   double       m_InfinityNormOfProjectedGradient;
+
+  InternalOptimizerType * m_VnlOptimizer;
+  BoundValueType          m_LowerBound;
+  BoundValueType          m_UpperBound;
+  BoundSelectionType      m_BoundSelection;
 };
 } // end namespace itk
 
