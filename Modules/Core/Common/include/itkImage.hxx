@@ -30,6 +30,7 @@
 
 #include "itkImage.h"
 #include "itkProcessObject.h"
+#include <algorithm>
 
 namespace itk
 {
@@ -84,10 +85,8 @@ Image< TPixel, VImageDimension >
   const SizeValueType numberOfPixels =
     this->GetBufferedRegion().GetNumberOfPixels();
 
-  for ( SizeValueType i = 0; i < numberOfPixels; i++ )
-    {
-    ( *m_Buffer )[i] = value;
-    }
+  std::fill_n( &( *m_Buffer )[0], numberOfPixels, value );
+
 }
 
 template< class TPixel, unsigned int VImageDimension >
