@@ -1,7 +1,7 @@
 # Create source code, compile and link a test driver
 # Two variables must be defined before including this file.
 #   KIT should define a unique name for the test driver.
-#   KitTests should contain a list of test file names without a .cxx suffix.
+#   KitTests should contain a list of test file names.
 # Arguments - Input
 #   KIT - the name of the test directory
 #   KIT_LIBS - a list of libraries needed to link the test driver
