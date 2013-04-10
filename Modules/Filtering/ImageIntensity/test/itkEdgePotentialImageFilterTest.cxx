@@ -18,6 +18,7 @@
 
 #include "itkEdgePotentialImageFilter.h"
 #include "itkFilterWatcher.h"
+#include "itkImageRegionIterator.h"
 
 int itkEdgePotentialImageFilterTest(int, char* [] )
 {

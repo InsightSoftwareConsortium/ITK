@@ -70,6 +70,7 @@ itkBSplineKernelFunctionTest.cxx
 itkArrayTest.cxx
 itkImageIteratorTest.cxx
 itkImageRegionIteratorTest.cxx
+itkImageScanlineIteratorTest1.cxx
 itkCrossHelperTest.cxx
 itkImageIteratorWithIndexTest.cxx
 itkDirectoryTest.cxx
@@ -272,6 +273,7 @@ itk_add_test(NAME itkCrossHelperTest COMMAND ITKCommon1TestDriver itkCrossHelper
 itk_add_test(NAME itkImageIteratorTest COMMAND ITKCommon1TestDriver itkImageIteratorTest)
 itk_add_test(NAME itkImageIteratorWithIndexTest COMMAND ITKCommon1TestDriver itkImageIteratorWithIndexTest)
 itk_add_test(NAME itkImageRegionIteratorTest COMMAND ITKCommon1TestDriver itkImageRegionIteratorTest)
+itk_add_test(NAME itkImageScanlineIteratorTest1 COMMAND ITKCommon1TestDriver itkImageScanlineIteratorTest1)
 itk_add_test(NAME itkImageRegionTest COMMAND ITKCommon1TestDriver itkImageRegionTest)
 itk_add_test(NAME itkImageRegionExclusionIteratorWithIndexTest COMMAND ITKCommon2TestDriver itkImageRegionExclusionIteratorWithIndexTest)
 itk_add_test(NAME itkImageReverseIteratorTest COMMAND ITKCommon1TestDriver itkImageReverseIteratorTest)

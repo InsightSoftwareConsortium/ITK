@@ -19,7 +19,7 @@
 #define __itkUnaryFunctorImageFilter_hxx
 
 #include "itkUnaryFunctorImageFilter.h"
-#include "itkImageRegionIterator.h"
+#include "itkImageScanlineIterator.h"
 #include "itkProgressReporter.h"
 
 namespace itk
@@ -151,8 +151,8 @@ UnaryFunctorImageFilter< TInputImage, TOutputImage, TFunction >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
                        ThreadIdType threadId)
 {
-  InputImagePointer  inputPtr = this->GetInput();
-  OutputImagePointer outputPtr = this->GetOutput(0);
+  const TInputImage *inputPtr = this->GetInput();
+  TOutputImage *outputPtr = this->GetOutput(0);
 
   // Define the portion of the input to walk for this thread, using
   // the CallCopyOutputRegionToInputRegion method allows for the input
@@ -162,19 +162,26 @@ UnaryFunctorImageFilter< TInputImage, TOutputImage, TFunction >
   this->CallCopyOutputRegionToInputRegion(inputRegionForThread, outputRegionForThread);
 
   // Define the iterators
-  ImageRegionConstIterator< TInputImage > inputIt(inputPtr, inputRegionForThread);
-  ImageRegionIterator< TOutputImage >     outputIt(outputPtr, outputRegionForThread);
-
-  ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
+  ImageScanlineConstIterator< TInputImage > inputIt(inputPtr, inputRegionForThread);
+  ImageScanlineIterator< TOutputImage > outputIt(outputPtr, outputRegionForThread);
 
   inputIt.GoToBegin();
   outputIt.GoToBegin();
 
+  const size_t numberOfLinesToProcess = outputRegionForThread.GetNumberOfPixels() / outputRegionForThread.GetSize(0);
+  ProgressReporter progress( this, threadId, numberOfLinesToProcess );
+
+
   while ( !inputIt.IsAtEnd() )
     {
-    outputIt.Set( m_Functor( inputIt.Get() ) );
-    ++inputIt;
-    ++outputIt;
+    while ( !inputIt.IsAtEndOfLine() )
+      {
+      outputIt.Set( m_Functor( inputIt.Get() ) );
+      ++inputIt;
+      ++outputIt;
+      }
+    inputIt.NextLine();
+    outputIt.NextLine();
     progress.CompletedPixel();  // potential exception thrown here
     }
 }
