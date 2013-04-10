@@ -93,8 +93,7 @@ vnl_vector<T>::vnl_vector (unsigned len, T const& value)
 {
   vnl_vector_construct_hack();
   vnl_vector_alloc_blah(len);
-  for (unsigned i = 0; i < len; i ++)           // For each element
-    this->data[i] = value;                      // Assign initial value
+  vcl_fill_n( this->data, len, value );
 }
 
 //: Creates a vector of specified length and initialize first n elements with values. O(n).
@@ -156,8 +155,7 @@ vnl_vector<T>::vnl_vector (vnl_vector<T> const& v)
 {
   vnl_vector_construct_hack();
   vnl_vector_alloc_blah(v.num_elmts);
-  for (unsigned i = 0; i < v.num_elmts; i ++)   // For each element in v
-    this->data[i] = v.data[i];                  // Copy value
+  vcl_copy( v.data, v.data + v.num_elmts, this->data );
 }
 
 //: Creates a vector from a block array of data, stored row-wise.
@@ -168,8 +166,7 @@ vnl_vector<T>::vnl_vector (T const* datablck, unsigned len)
 {
   vnl_vector_construct_hack();
   vnl_vector_alloc_blah(len);
-  for (unsigned i = 0; i < len; ++i)    // Copy data from datablck
-    this->data[i] = datablck[i];
+  vcl_copy( datablck, datablck + len, this->data );
 }
 
 //------------------------------------------------------------
@@ -356,8 +353,7 @@ template<class T>
 vnl_vector<T>&
 vnl_vector<T>::fill (T const& value)
 {
-  for (unsigned i = 0; i < this->num_elmts; i++)
-    this->data[i] = value;
+  vcl_fill_n( this->data, this->num_elmts, value );
   return *this;
 }
 
@@ -367,8 +363,7 @@ template<class T>
 vnl_vector<T>&
 vnl_vector<T>::copy_in (T const *ptr)
 {
-  for (unsigned i = 0; i < num_elmts; ++i)
-    data[i] = ptr[i];
+  vcl_copy( ptr, ptr + this->num_elmts, this->data );
   return *this;
 }
 
@@ -377,8 +372,7 @@ vnl_vector<T>::copy_in (T const *ptr)
 template<class T>
 void vnl_vector<T>::copy_out (T *ptr) const
 {
-  for (unsigned i = 0; i < num_elmts; ++i)
-    ptr[i] = data[i];
+  vcl_copy( this->data, this->data + this->num_elmts, ptr );
 }
 
 //: Copies rhs vector into lhs vector. O(n).
@@ -391,8 +385,7 @@ vnl_vector<T>& vnl_vector<T>::operator= (vnl_vector<T> const& rhs)
     if (rhs.data) {
       if (this->num_elmts != rhs.num_elmts)
         this->set_size(rhs.size());
-      for (unsigned i = 0; i < this->num_elmts; i++)
-        this->data[i] = rhs.data[i];
+      vcl_copy( rhs.data, rhs.data + this->num_elmts, this->data );
     }
     else {
       // rhs is default-constructed.
@@ -575,6 +568,7 @@ vnl_vector<T>& vnl_vector<T>::update (vnl_vector<T> const& v, unsigned start)
   if ( stop > this->num_elmts)
     vnl_error_vector_dimension ("update", stop-start, v.size());
 #endif
+  //vcl_copy_n( v.data, stop - start, this->data + start );
   for (unsigned i = start; i < stop; i++)
     this->data[i] = v.data[i-start];
   return *this;
@@ -592,6 +586,7 @@ vnl_vector<T> vnl_vector<T>::extract (unsigned len, unsigned start) const
     vnl_error_vector_dimension ("extract", stop-start, len);
 #endif
   vnl_vector<T> result(len);
+  //vcl_copy_n( this->data + start, len, result.data );
   for (unsigned i = 0; i < len; i++)
     result.data[i] = data[start+i];
   return result;
