@@ -178,15 +178,18 @@ InverseDisplacementFieldImageFilter< TInputImage, TOutputImage >
   while ( !ot.IsAtEnd() )
     {
     value = ot.Get();
-    sampledInput->TransformIndexToPhysicalPoint(ot.GetIndex(), sourcePoint);
 
-    source->InsertElement(landmarkId,  sourcePoint);
+    // Here we try to evaluate the inverse transform, so points from
+    // input displacement field are actually the target points
+    sampledInput->TransformIndexToPhysicalPoint(ot.GetIndex(), targetPoint);
+
+    target->InsertElement(landmarkId,  targetPoint);
 
     for ( unsigned int i = 0; i < ImageDimension; i++ )
       {
-      targetPoint[i] = -value[i];
+      sourcePoint[i] = targetPoint[i] + value[i];
       }
-    target->InsertElement(landmarkId, targetPoint);    // revert direction of
+    source->InsertElement(landmarkId, sourcePoint);    // revert direction of
                                                        // displacement
 
     ++landmarkId;
@@ -262,7 +265,7 @@ InverseDisplacementFieldImageFilter< TInputImage, TOutputImage >
 
     for ( unsigned int i = 0; i < ImageDimension; i++ )
       {
-      inverseDisplacement[i] = interpolation[i];
+      inverseDisplacement[i] = interpolation[i] - outputPoint[i];
       }
 
     outIt.Set(inverseDisplacement);   // set inverse displacement.
@@ -355,6 +358,7 @@ InverseDisplacementFieldImageFilter< TInputImage, TOutputImage >
 
   return latestTime;
 }
+
 } // end namespace itk
 
 #endif
