@@ -82,12 +82,12 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension);
 
-  typedef AttributeLabelObject< SizeValueType, ImageDimension, bool>                       LabelObjectType;
-  typedef typename itk::LabelMap< LabelObjectType >                                        LabelMapType;
-  typedef typename itk::BinaryImageToLabelMapFilter< InputImageType, LabelMapType >        LabelizerType;
-  typedef typename itk::BinaryReconstructionLabelMapFilter< LabelMapType, InputImageType > ReconstructionType;
-  typedef typename itk::AttributeOpeningLabelMapFilter< LabelMapType >                     OpeningType;
-  typedef typename itk::LabelMapToBinaryImageFilter< LabelMapType, OutputImageType >       BinarizerType;
+  typedef AttributeLabelObject< SizeValueType, ImageDimension, bool>         LabelObjectType;
+  typedef LabelMap< LabelObjectType >                                        LabelMapType;
+  typedef BinaryImageToLabelMapFilter< InputImageType, LabelMapType >        LabelizerType;
+  typedef BinaryReconstructionLabelMapFilter< LabelMapType, InputImageType > ReconstructionType;
+  typedef AttributeOpeningLabelMapFilter< LabelMapType >                     OpeningType;
+  typedef LabelMapToBinaryImageFilter< LabelMapType, OutputImageType >       BinarizerType;
 
   /** Standard New method. */
   itkNewMacro(Self);
@@ -132,30 +132,16 @@ public:
   itkGetConstMacro(ForegroundValue, OutputImagePixelType);
 
    /** Set the marker image */
-  void SetMarkerImage(InputImageType *input)
-    {
-    // Process object is not const-correct so the const casting is required.
-    this->SetNthInput( 0, const_cast<InputImageType *>(input) );
-    }
+  void SetMarkerImage( const InputImageType *input );
 
   /** Get the marker image */
-  InputImageType * GetMarkerImage()
-    {
-    return static_cast<InputImageType*>(const_cast<DataObject *>(this->ProcessObject::GetInput(0)));
-    }
+  InputImageType * GetMarkerImage();
 
    /** Set the mask image */
-  void SetMaskImage( const InputImageType *input)
-    {
-    // Process object is not const-correct so the const casting is required.
-    this->SetNthInput( 1, const_cast<InputImageType *>(input) );
-    }
+  void SetMaskImage( const InputImageType *input );
 
   /** Get the mask image */
-  InputImageType * GetMaskImage()
-    {
-    return static_cast<InputImageType*>(const_cast<DataObject *>(this->ProcessObject::GetInput(1)));
-    }
+  InputImageType * GetMaskImage();
 
 protected:
   BinaryReconstructionByDilationImageFilter();
