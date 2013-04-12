@@ -20,7 +20,7 @@
 
 #include "itkNeighborhood.h"
 #include "itkNumericTraits.h"
-#include <cstring>
+#include "itkStdAlgorithm.h"
 
 namespace itk
 {
@@ -91,7 +91,7 @@ void
 Neighborhood< TPixel, VDimension, TContainer >
 ::SetRadius(const SizeType & r)
 {
-  memcpy(m_Radius.m_Size, r.m_Size, sizeof( const SizeValueType ) * VDimension);
+  itk::algorithm::copy_n(r.m_Size, VDimension, m_Radius.m_Size);
   this->SetSize();
 
   SizeValueType cumul = NumericTraits< SizeValueType >::One;
@@ -112,7 +112,7 @@ Neighborhood< TPixel, VDimension, TContainer >
   m_Radius     = other.m_Radius;
   m_Size       = other.m_Size;
   m_DataBuffer = other.m_DataBuffer;
-  ::memcpy(m_StrideTable, other.m_StrideTable, sizeof( OffsetValueType ) * VDimension);
+  itk::algorithm::copy_n(other.m_StrideTable, VDimension, m_StrideTable);
   m_OffsetTable = other.m_OffsetTable;
 }
 
@@ -126,7 +126,7 @@ Neighborhood< TPixel, VDimension, TContainer >
     m_Radius     = other.m_Radius;
     m_Size       = other.m_Size;
     m_DataBuffer = other.m_DataBuffer;
-    ::memcpy(m_StrideTable, other.m_StrideTable, sizeof( OffsetValueType ) * VDimension);
+    itk::algorithm::copy_n(other.m_StrideTable, VDimension, m_StrideTable);
     m_OffsetTable = other.m_OffsetTable;
     }
   return *this;

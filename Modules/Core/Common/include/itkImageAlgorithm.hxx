@@ -21,6 +21,7 @@
 #include "itkImageAlgorithm.h"
 
 #include "itkImageRegionIterator.h"
+#include "itkStdAlgorithm.h"
 
 namespace itk
 {
@@ -111,7 +112,7 @@ void ImageAlgorithm::DispatchedCopy( const TImageType *inImage, TImageType *outI
     const char *inBuffer = static_cast<const char*>(in) + inOffset;
     char* outBuffer = static_cast<char*>(out) + outOffset;
 
-    memcpy( outBuffer, inBuffer, sizeOfChunk );
+    itk::algorithm::copy_n(inBuffer, sizeOfChunk ,  outBuffer);
 
     if ( movingDirection == _RegionType::ImageDimension )
       {

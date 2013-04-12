@@ -25,8 +25,7 @@
 #include "vnl/vnl_vector.h"
 #include "itkOffset.h"
 #include <vector>
-#include <cstdlib>
-#include <cstring>
+#include "itkStdAlgorithm.h"
 
 namespace itk
 {
@@ -191,8 +190,7 @@ public:
   void SetRadius(const SizeValueType *rad)
   {
     SizeType s;
-
-    memcpy(s.m_Size, rad, sizeof( SizeValueType ) * VDimension);
+    itk::algorithm::copy_n(rad, VDimension,s.m_Size);
     this->SetRadius(s);
   }
 

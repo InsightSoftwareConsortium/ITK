@@ -19,7 +19,7 @@
 #define __itkImageConstIteratorWithIndex_hxx
 
 #include "itkImageConstIteratorWithIndex.h"
-#include <cstring>
+#include "itkStdAlgorithm.h"
 
 namespace itk
 {
@@ -50,7 +50,7 @@ ImageConstIteratorWithIndex< TImage >
   m_EndIndex          = it.m_EndIndex;
   m_Region            = it.m_Region;
 
-  memcpy( m_OffsetTable, it.m_OffsetTable, sizeof( m_OffsetTable ) );
+  itk::algorithm::copy_n(it.m_OffsetTable, ImageDimension + 1, m_OffsetTable);
 
   m_Position    = it.m_Position;
   m_Begin       = it.m_Begin;
@@ -85,7 +85,7 @@ ImageConstIteratorWithIndex< TImage >
                            "Region " << m_Region << " is outside of buffered region " << bufferedRegion );
     }
 
-  memcpy( m_OffsetTable, m_Image->GetOffsetTable(), sizeof( m_OffsetTable ) );
+  itk::algorithm::copy_n(m_Image->GetOffsetTable(), ImageDimension + 1 ,  m_OffsetTable);
 
   // Compute the start position
   OffsetValueType offs =  m_Image->ComputeOffset(m_BeginIndex);
@@ -131,7 +131,7 @@ ImageConstIteratorWithIndex< TImage >
     m_PositionIndex     = it.m_PositionIndex;
     m_Region            = it.m_Region;
 
-    memcpy( m_OffsetTable, it.m_OffsetTable, sizeof( m_OffsetTable ) );
+    itk::algorithm::copy_n(it.m_OffsetTable, ImageDimension + 1 ,  m_OffsetTable);
 
     m_Position    = it.m_Position;
     m_Begin       = it.m_Begin;

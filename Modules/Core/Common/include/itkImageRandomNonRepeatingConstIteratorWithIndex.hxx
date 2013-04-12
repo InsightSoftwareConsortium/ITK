@@ -60,7 +60,7 @@ ImageRandomNonRepeatingConstIteratorWithIndex< TImage >
     this->ImageConstIteratorWithIndex< TImage >::operator=(it);
     if(m_Permutation)
       {
-      memcpy( m_Permutation, it.m_Permutation, sizeof( *m_Permutation ) );
+      *m_Permutation = *(it.m_Permutation);
       }
     else
       {

@@ -19,6 +19,7 @@
 #define __itkImageDuplicator_hxx
 
 #include "itkImageDuplicator.h"
+#include "itkStdAlgorithm.h"
 
 namespace itk
 {
@@ -75,10 +76,8 @@ ImageDuplicator< TInputImage >
   // use for allocating internal buffers.
   typedef typename TInputImage::InternalPixelType   InternalPixelType;
 
-  const SizeValueType sizeOfComponentInBytes = sizeof( InternalPixelType );
-  const SizeValueType sizeInNumberOfBytes = sizeInNumberOfComponents * sizeOfComponentInBytes;
-
-  memcpy( m_Output->GetBufferPointer(), m_InputImage->GetBufferPointer(), sizeInNumberOfBytes );
+  itk::algorithm::copy_n(m_InputImage->GetBufferPointer(),sizeInNumberOfComponents,
+              m_Output->GetBufferPointer());
 }
 
 template< class TInputImage >

@@ -21,7 +21,7 @@
 #include "itkTubeSpatialObjectPoint.h"
 #include "itkDiffusionTensor3D.h"
 #include "vnl/vnl_vector_fixed.h"
-
+#include "itkStdAlgorithm.h"
 namespace itk
 {
 /** \class DTITubeSpatialObjectPoint
