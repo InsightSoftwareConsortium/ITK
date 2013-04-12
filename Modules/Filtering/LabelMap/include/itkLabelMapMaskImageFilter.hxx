@@ -280,7 +280,7 @@ void
 LabelMapMaskImageFilter<TInputImage, TOutputImage>
 ::ThreadedGenerateData( const OutputImageRegionType& outputRegionForThread, ThreadIdType threadId )
 {
-  ProgressReporter progress( this, 0, 1 );
+  ProgressReporter progress( this, threadId, 1 );
   OutputImageType * output = this->GetOutput();
   InputImageType * input = const_cast<InputImageType *>(this->GetInput());
   const OutputImageType * input2 = this->GetFeatureImage();
