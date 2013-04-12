@@ -268,7 +268,8 @@ void GDCMImageIO::Read(void *pointer)
     image = icpc.GetOutput();
     }
 
-  if ( image.GetPhotometricInterpretation() == gdcm::PhotometricInterpretation::PALETTE_COLOR )
+  gdcm::PhotometricInterpretation pi = image.GetPhotometricInterpretation();
+  if ( pi == gdcm::PhotometricInterpretation::PALETTE_COLOR )
     {
     gdcm::ImageApplyLookupTable ialut;
     ialut.SetInput(image);
@@ -284,7 +285,14 @@ void GDCMImageIO::Read(void *pointer)
     }
 
   const gdcm::PixelFormat & pixeltype = image.GetPixelFormat();
-  itkAssertInDebugAndIgnoreInReleaseMacro( pixeltype_debug == pixeltype );
+#ifndef NDEBUG
+  // ImageApplyLookupTable is meant to change the pixel type for PALETTE_COLOR images
+  // (from single values to triple values per pixel)
+  if ( pi != gdcm::PhotometricInterpretation::PALETTE_COLOR )
+    {
+    itkAssertInDebugAndIgnoreInReleaseMacro( pixeltype_debug == pixeltype );
+    }
+#endif
 
   if ( m_RescaleSlope != 1.0 || m_RescaleIntercept != 0.0 )
     {
