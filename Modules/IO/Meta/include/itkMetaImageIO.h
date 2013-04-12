@@ -30,6 +30,9 @@ namespace itk
  *
  *  \brief Read MetaImage file format.
  *
+ *  For a detailed description of using this format, please see
+ *  http://www.itk.org/Wiki/ITK/MetaIO/Documentation
+ *
  *  \ingroup IOFilters
  * \ingroup ITKIOMeta
  */
