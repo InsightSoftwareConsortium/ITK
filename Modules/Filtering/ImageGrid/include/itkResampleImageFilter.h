@@ -82,8 +82,9 @@ namespace itk
  */
 template< class TInputImage,
           class TOutputImage,
-          class TInterpolatorPrecisionType = double >
-class ITK_EXPORT ResampleImageFilter:
+          class TInterpolatorPrecisionType = double,
+          class TTransformPrecisionType = double>
+class ITK_EXPORT ResampleImageFilter :
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
@@ -118,7 +119,7 @@ public:
   /**
    *  Transform typedef.
    */
-  typedef Transform< TInterpolatorPrecisionType,
+  typedef Transform< TTransformPrecisionType,
                      itkGetStaticConstMacro(ImageDimension),
                      itkGetStaticConstMacro(ImageDimension) >       TransformType;
   typedef typename TransformType::ConstPointer TransformPointerType;
@@ -130,9 +131,9 @@ public:
 
   typedef typename InterpolatorType::OutputType InterpolatorOutputType;
 
-  typedef DefaultConvertPixelTraits< InterpolatorOutputType >        InterpolatorConvertType;
+  typedef DefaultConvertPixelTraits< InterpolatorOutputType > InterpolatorConvertType;
 
-  typedef typename InterpolatorConvertType::ComponentType            ComponentType;
+  typedef typename InterpolatorConvertType::ComponentType ComponentType;
 
   typedef LinearInterpolateImageFunction< InputImageType,
                                           TInterpolatorPrecisionType >   LinearInterpolatorType;
@@ -163,8 +164,8 @@ public:
   typedef typename PixelConvertType::ComponentType PixelComponentType;
 
   /** Input pixel continuous index typdef */
-  typedef ContinuousIndex< TInterpolatorPrecisionType, ImageDimension >
-                                           ContinuousInputIndexType;
+  typedef ContinuousIndex< TTransformPrecisionType, ImageDimension >
+  ContinuousInputIndexType;
 
   /** Typedef to describe the output image region type. */
   typedef typename TOutputImage::RegionType OutputImageRegionType;
@@ -284,16 +285,17 @@ public:
 
 protected:
   ResampleImageFilter();
-  ~ResampleImageFilter() {}
+  ~ResampleImageFilter() {
+  }
   void PrintSelf(std::ostream & os, Indent indent) const;
-
 
   /** Override VeriyInputInformation() since this filter's inputs do
    * not need to occoupy the same physical space.
    *
    * \sa ProcessObject::VerifyInputInformation
    */
-  virtual void VerifyInputInformation() {}
+  virtual void VerifyInputInformation() {
+  }
 
   /** ResampleImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a ThreadedGenerateData()
@@ -305,20 +307,20 @@ protected:
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData() */
   virtual void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            ThreadIdType threadId);
+                                    ThreadIdType threadId);
 
   /** Default implementation for resampling that works for any
    * transformation type. */
   virtual void NonlinearThreadedGenerateData(const OutputImageRegionType &
-                                     outputRegionForThread,
-                                     ThreadIdType threadId);
+                                             outputRegionForThread,
+                                             ThreadIdType threadId);
 
   /** Implementation for resampling that works for with linear
    *  transformation types.
    */
   virtual void LinearThreadedGenerateData(const OutputImageRegionType &
-                                  outputRegionForThread,
-                                  ThreadIdType threadId);
+                                          outputRegionForThread,
+                                          ThreadIdType threadId);
 
   virtual PixelType CastPixelWithBoundsChecking( const InterpolatorOutputType value,
                                                  const ComponentType minComponent,
@@ -328,19 +330,19 @@ private:
   ResampleImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);      //purposely not implemented
 
-  SizeType                m_Size;      // Size of the output image
-  TransformPointerType    m_Transform;         // Transform
-  InterpolatorPointerType m_Interpolator;      // Image function for
-                                               // interpolation
-  ExtrapolatorPointerType m_Extrapolator;      // Image function for
-                                               // extrapolation
-  PixelType m_DefaultPixelValue;               // default pixel value
-                                               // if the point is
-                                               // outside the image
-  SpacingType     m_OutputSpacing;             // output image spacing
-  OriginPointType m_OutputOrigin;              // output image origin
-  DirectionType   m_OutputDirection;           // output image direction cosines
-  IndexType       m_OutputStartIndex;          // output image start index
+  SizeType                m_Size;         // Size of the output image
+  TransformPointerType    m_Transform;    // Transform
+  InterpolatorPointerType m_Interpolator; // Image function for
+                                          // interpolation
+  ExtrapolatorPointerType m_Extrapolator; // Image function for
+                                          // extrapolation
+  PixelType m_DefaultPixelValue;          // default pixel value
+                                          // if the point is
+                                          // outside the image
+  SpacingType     m_OutputSpacing;        // output image spacing
+  OriginPointType m_OutputOrigin;         // output image origin
+  DirectionType   m_OutputDirection;      // output image direction cosines
+  IndexType       m_OutputStartIndex;     // output image start index
   bool            m_UseReferenceImage;
 
 };
