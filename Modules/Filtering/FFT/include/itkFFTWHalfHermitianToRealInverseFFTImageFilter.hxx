@@ -22,7 +22,6 @@
 #include "itkHalfHermitianToRealInverseFFTImageFilter.hxx"
 #include "itkImageRegionIterator.h"
 #include "itkProgressReporter.h"
-#include "itkStdAlgorithm.h"
 
 namespace itk
 {
@@ -100,7 +99,12 @@ FFTWHalfHermitianToRealInverseFFTImageFilter< TInputImage, TOutputImage >
                                       !m_CanUseDestructiveAlgorithm );
   if( !m_CanUseDestructiveAlgorithm )
     {
-    itk::algorithm::copy_n(inputPtr->GetBufferPointer(), totalInputSize,  in);
+    // complex<double> and double[2] types are compatible memory layouts.
+    // The reinterpret_cast is used here to
+    // make the "C" fftw libary compatible with the c++ complex<double>.
+    itk::algorithm::copy_n(
+      inputPtr->GetBufferPointer(),
+      totalInputSize,  reinterpret_cast< typename InputImageType::PixelType * > (in) );
     }
   FFTWProxyType::Execute( plan );
 
