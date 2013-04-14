@@ -54,22 +54,19 @@ Array< TValue >
 /** Constructor with user specified data */
 template< typename TValue >
 Array< TValue >
-::Array(ValueType *datain, SizeValueType sz, bool LetArrayManageMemory)
+::Array(ValueType *datain, SizeValueType sz, bool LetArrayManageMemory):
+  vnl_vector< TValue >( datain, sz),
+  m_LetArrayManageMemory(LetArrayManageMemory)
 {
-  vnl_vector< TValue >::data = datain;
-  vnl_vector< TValue >::num_elmts = sz;
-  m_LetArrayManageMemory = LetArrayManageMemory;
 }
 
-/** Constructor with user specified data */
+/** Constructor with user specified const data */
 template< typename TValue >
 Array< TValue >
-::Array(const ValueType *datain, SizeValueType sz, bool LetArrayManageMemory)
+::Array(const ValueType *datain, SizeValueType sz, bool LetArrayManageMemory):
+  vnl_vector< TValue >( datain, sz),
+  m_LetArrayManageMemory(LetArrayManageMemory)
 {
-  vnl_vector< TValue >::data = const_cast< TValue * >( datain );
-  // Argh!! Discard constness WRONG.!!
-  vnl_vector< TValue >::num_elmts = sz;
-  m_LetArrayManageMemory = LetArrayManageMemory;
 }
 
 /** Destructor */

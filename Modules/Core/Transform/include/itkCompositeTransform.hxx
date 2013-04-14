@@ -1075,7 +1075,7 @@ CompositeTransform<TScalar, NDimensions>
        * to the subregion corresponding to the individual subtransform.
        * This simply creates an Array object with data pointer, no
        * memory is allocated or copied. */
-      DerivativeType subUpdate( &( (update.data_block() )[offset]),
+      const DerivativeType subUpdate( &( (update.data_block() )[offset]),
                                 subtransform->GetNumberOfParameters(), false );
       /* This call will also call SetParameters, so don't need to call it
        * expliclity here. */
