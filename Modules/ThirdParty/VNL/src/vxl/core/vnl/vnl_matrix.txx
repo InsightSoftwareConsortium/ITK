@@ -153,9 +153,7 @@ vnl_matrix<T>::vnl_matrix (unsigned rowz, unsigned colz, T const& value)
 {
   vnl_matrix_construct_hack();
   vnl_matrix_alloc_blah();
-  for (unsigned int i = 0; i < rowz; ++ i)
-    for (unsigned int j = 0; j < colz; ++ j)
-      this->data[i][j] = value;
+  vcl_fill_n( this->data[0], rowz * colz, value );
 }
 
 //: r rows, c cols, special type.  Currently implements "identity" and "null".
@@ -173,9 +171,7 @@ vnl_matrix<T>::vnl_matrix(unsigned r, unsigned c, vnl_matrix_type t)
         this->data[i][j] = (i==j) ? T(1) : T(0);
     break;
    case vnl_matrix_null:
-    for (unsigned int i = 0; i < r; ++ i)
-      for (unsigned int j = 0; j < c; ++ j)
-        this->data[i][j] = T(0);
+    vcl_fill_n( this->data[0], r * c, T(0) );
     break;
    default:
     assert(false);
@@ -194,9 +190,7 @@ vnl_matrix<T>::vnl_matrix (unsigned rowz, unsigned colz, unsigned n, T const val
   vnl_matrix_alloc_blah();
   if (n > rowz*colz)
     n = rowz*colz;
-  T *dst = this->data[0];
-  for (unsigned k=0; k<n; ++k)
-    dst[k] = values[k];
+  vcl_copy( values, values + n, this->data[0] );
 }
 #endif
 
@@ -209,10 +203,7 @@ vnl_matrix<T>::vnl_matrix (T const* datablck, unsigned rowz, unsigned colz)
 {
   vnl_matrix_construct_hack();
   vnl_matrix_alloc_blah();
-  unsigned int n = rowz*colz;
-  T *dst = this->data[0];
-  for (unsigned int k=0; k<n; ++k)
-    dst[k] = datablck[k];
+  vcl_copy( datablck, datablck + rowz * colz, this->data[0] );
 }
 
 
@@ -226,11 +217,8 @@ vnl_matrix<T>::vnl_matrix (vnl_matrix<T> const& from)
   vnl_matrix_construct_hack();
   if (from.data) {
     vnl_matrix_alloc_blah();
-    unsigned int n = this->num_rows * this->num_cols;
-    T *dst = this->data[0];
     T const *src = from.data[0];
-    for (unsigned int k=0; k<n; ++k)
-      dst[k] = src[k];
+    vcl_copy( src, src + this->num_rows * this->num_cols, this->data[0] );
   }
   else {
     num_rows = 0;
@@ -438,9 +426,9 @@ bool vnl_matrix<T>::set_size (unsigned rowz, unsigned colz)
 template <class T>
 vnl_matrix<T>& vnl_matrix<T>::fill (T const& value)
 {
-  for (unsigned int i = 0; i < this->num_rows; i++)
-    for (unsigned int j = 0; j < this->num_cols; j++)
-      this->data[i][j] = value;
+  // not safe if data == NULL, due to data[0] call
+  if (data)
+    vcl_fill_n( this->data[0], this->num_rows * this->num_cols, value );
   return *this;
 }
 
@@ -475,10 +463,7 @@ vnl_matrix<T>& vnl_matrix<T>::set_diagonal(vnl_vector<T> const& diag)
 template <class T>
 vnl_matrix<T>& vnl_matrix<T>::operator= (T const& value)
 {
-  for (unsigned i = 0; i < this->num_rows; i++)    // For each row in Matrix
-    for (unsigned j = 0; j < this->num_cols; j++)  // For each column in Matrix
-      this->data[i][j] = value;                 // Assign value
-  return *this;                                 // Return Matrix reference
+  return this->fill( value );
 }
 #endif // 0
 
@@ -492,9 +477,7 @@ vnl_matrix<T>& vnl_matrix<T>::operator= (vnl_matrix<T> const& rhs)
   if (this != &rhs) { // make sure *this != m
     if (rhs.data) {
       this->set_size(rhs.num_rows, rhs.num_cols);
-      for (unsigned int i = 0; i < this->num_rows; i++)
-        for (unsigned int j = 0; j < this->num_cols; j++)
-          this->data[i][j] = rhs.data[i][j];
+      vcl_copy( rhs.data[0], rhs.data[0] + this->num_rows * this->num_cols, this->data[0] );
     }
     else {
       // rhs is default-constructed.
@@ -896,10 +879,7 @@ vnl_matrix<T> element_quotient (vnl_matrix<T> const& m1,
 template <class T>
 vnl_matrix<T>& vnl_matrix<T>::copy_in(T const *p)
 {
-  T* dp = this->data[0];
-  unsigned int n = this->num_rows * this->num_cols;
-  while (n--)
-    *dp++ = *p++;
+  vcl_copy( p, p + this->num_rows * this->num_cols, this->data[0] );
   return *this;
 }
 
@@ -908,10 +888,7 @@ vnl_matrix<T>& vnl_matrix<T>::copy_in(T const *p)
 template <class T>
 void vnl_matrix<T>::copy_out(T *p) const
 {
-  T* dp = this->data[0];
-  unsigned int n = this->num_rows * this->num_cols;
-  while (n--)
-    *p++ = *dp++;
+  vcl_copy( this->data[0], this->data[0] + this->num_rows * this->num_cols, p );
 }
 
 //: Fill this matrix with a matrix having 1s on the main diagonal and 0s elsewhere.
