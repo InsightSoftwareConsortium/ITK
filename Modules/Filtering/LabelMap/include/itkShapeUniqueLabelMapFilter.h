@@ -20,6 +20,7 @@
 
 #include "itkInPlaceLabelMapFilter.h"
 #include "itkShapeLabelObjectAccessors.h"
+#include "itkProgressReporter.h"
 #include <queue>
 
 namespace itk
