@@ -1070,14 +1070,16 @@ void
 QuadEdgeMesh< TPixel, VDimension, TTraits >
 ::DeleteFace(FaceRefType faceToDelete)
 {
-  if ( !this->GetCells()->IndexExists(faceToDelete) )
+  CellsContainerPointer cells = this->GetCells();
+  CellType* c;
+
+  if( !cells->GetElementIfIndexExists( faceToDelete, &c ) )
     {
     itkDebugMacro("No such face in container");
     return;
     }
 
-  PolygonCellType *cellToDelete = dynamic_cast< PolygonCellType * >
-                                  ( this->GetCells()->GetElement(faceToDelete) );
+  PolygonCellType *cellToDelete = dynamic_cast< PolygonCellType * >( c );
   if ( !cellToDelete )
     {
     itkDebugMacro("This Id does not correspond to a face (should be an edge)");
@@ -1102,12 +1104,13 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
   typename QEPrimal::IteratorGeom       it  = e->BeginGeomLnext();
   const typename QEPrimal::IteratorGeom end = e->EndGeomLnext();
 
-  for (; it != end; ++it )
+  while( it != end )
     {
     it.Value()->UnsetLeft();
+    ++it;
     }
 
-  this->GetCells()->DeleteIndex(faceToDelete);
+  cells->DeleteIndex(faceToDelete);
   delete cellToDelete;
 
   --m_NumberOfFaces;
@@ -1141,14 +1144,15 @@ typename QuadEdgeMesh< TPixel, VDimension, TTraits >::QEPrimal *
 QuadEdgeMesh< TPixel, VDimension, TTraits >
 ::GetEdge(const CellIdentifier & eid) const
 {
-  if ( !this->GetEdgeCells()->IndexExists(eid) )
+  CellType* c;
+
+  if( !this->GetEdgeCells()->GetElementIfIndexExists( eid, &c ) )
     {
     itkDebugMacro("No such edge in container");
     return ( (QEPrimal *)0 );
     }
 
-  EdgeCellType *e = dynamic_cast< EdgeCellType * >(
-    this->GetEdgeCells()->GetElement(eid) );
+  EdgeCellType *e = dynamic_cast< EdgeCellType * >( c );
   return ( e->GetQEGeom() );
 }
 

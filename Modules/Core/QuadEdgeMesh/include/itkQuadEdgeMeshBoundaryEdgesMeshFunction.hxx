@@ -31,12 +31,12 @@ const
   // Push on a list all the non internal edges:
   typedef typename MeshType::CellsContainerConstIterator
   CellsContainerConstIterator;
-  EdgeListType boundaryList;
+  std::set< QEPrimal* > boundaryList;
 
   CellsContainerConstIterator cellIterator = mesh.GetEdgeCells()->Begin();
   CellsContainerConstIterator cellEnd      = mesh.GetEdgeCells()->End();
 
-  for (; cellIterator != cellEnd; ++cellIterator )
+  while( cellIterator != cellEnd )
     {
     if ( EdgeCellType * cell =
            dynamic_cast< EdgeCellType * >( cellIterator.Value() ) )
@@ -44,9 +44,10 @@ const
       QEPrimal *edge = cell->GetQEGeom();
       if ( !edge->IsInternal() )
         {
-        boundaryList.push_front(edge);
+        boundaryList.insert(edge);
         }
       }
+    ++cellIterator;
     }
 
   OutputType ResultList = new EdgeListType;
@@ -55,8 +56,9 @@ const
     // Pop the first edge of list and make sure it has no face
     // on it's left [because we want to follow the boundary with
     // GeometricalQuadEdge::Lnext()]:
-    QEPrimal *bdryEdge = boundaryList.front();
-    boundaryList.pop_front();
+    typename std::set< QEPrimal* >::iterator b = boundaryList.begin();
+    QEPrimal *bdryEdge = *b;
+    boundaryList.erase( b );
     if ( bdryEdge->IsLeftSet() )
       {
       bdryEdge = bdryEdge->GetSym();
@@ -74,13 +76,28 @@ const
 
     // Follow, with Lnext(), the boundary while removing edges
     // from boundary list:
-    typename QEPrimal::IteratorGeom it = bdryEdge->BeginGeomLnext();
-    for (; it != bdryEdge->EndGeomLnext(); it++ )
+    typename QEPrimal::IteratorGeom bIt   = bdryEdge->BeginGeomLnext();
+    typename QEPrimal::IteratorGeom bEnd  = bdryEdge->EndGeomLnext();
+
+    while( bIt != bEnd )
       {
       // Only one of the following will be effective (but we have
       // no way to know which one):
-      boundaryList.remove( it.Value() );
-      boundaryList.remove( it.Value()->GetSym() );
+      b = boundaryList.find( bIt.Value() );
+
+      if( b != boundaryList.end() )
+        {
+        boundaryList.erase( b );
+        }
+
+      b = boundaryList.find( bIt.Value()->GetSym() );
+
+      if( b != boundaryList.end() )
+        {
+        boundaryList.erase( b );
+        }
+
+      ++bIt;
       }
     }
 
