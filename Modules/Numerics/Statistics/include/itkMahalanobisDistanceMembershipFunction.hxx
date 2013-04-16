@@ -126,6 +126,7 @@ MahalanobisDistanceMembershipFunction< TVector >
     // below NumericTraits<double>::max()
     const double aLargeDouble = vcl_pow(NumericTraits<double>::max(), 1.0/3.0)
       / (double) this->GetMeasurementVectorSize();
+    m_InverseCovariance.SetSize(this->GetMeasurementVectorSize(), this->GetMeasurementVectorSize());
     m_InverseCovariance.SetIdentity();
     m_InverseCovariance *= aLargeDouble;
     }
