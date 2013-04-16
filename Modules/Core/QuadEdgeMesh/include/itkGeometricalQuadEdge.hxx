@@ -317,8 +317,10 @@ GeometricalQuadEdge< TVRef, TFRef, TPrimalData, TDualData, PrimalDual >::GetNext
     }
 
   // Ok, no more special cases
-  IteratorGeom it = edgeTest->BeginGeomOnext();
-  while ( it != edgeTest->EndGeomOnext() )
+  IteratorGeom it   = edgeTest->BeginGeomOnext();
+  IteratorGeom end  = edgeTest->EndGeomOnext();
+
+  while ( it != end )
     {
     if ( !it.Value()->IsLeftSet() )
       {
