@@ -19,6 +19,7 @@ message("${msg}")
     set(OPENMP_FLAG "")
 #--endif()
 
+# from FFTW's configure command:
 #--Some influential environment variables:
 #--  CC          C compiler command
 #--  CFLAGS      C compiler flags
@@ -27,11 +28,6 @@ message("${msg}")
 #--  LIBS        libraries to pass to the linker, e.g. -l<library>
 #--  CPPFLAGS    C/C++/Objective C preprocessor flags, e.g. -I<include dir> if
 #--              you have headers in a nonstandard directory <include dir>
-#-- set(ENV{CC}       "${CMAKE_C_COMPILER}")
-#-- set(ENV{CFLAGS}   "${CMAKE_C_FLAGS} ${OPENMP_FLAG}")
-#-- set(ENV{LDFLAGS}  "${CMAKE_C_FLAGS} ${OPENMP_FLAG}")
-#-- set(ENV{LIBS}     "${CMAKE_EXE_LINKER_FLAGS} ${OPENMP_FLAG}")
-#-- set(ENV{CPPFLAGS} "${CMAKE_C_FLAGS} ${OPENMP_FLAG}")
 
 ## Perhaps in the future a set of TryCompiles could be used here.
 set(FFTW_OPTIMIZATION_CONFIGURATION "" CACHE INTERNAL "architecture flags: --enable-sse --enable-sse2 --enable-altivec --enable-mips-ps --enable-cell")
@@ -39,11 +35,6 @@ if(ITK_USE_SYSTEM_FFTW)
   find_package( FFTW )
   link_directories(${FFTW_LIBDIR})
 else()
-  set(FFTW_COMPILER_FLAGS
-    CC=${CMAKE_C_COMPILER}
-    CXX=${CMAKE_CXX_COMPILER}
-    CFLAGS=${CMAKE_C_FLAGS}
-    CXXFLAGS=${CMAKE_CXX_FLAGS})
 
   if(WIN32 AND NOT MINGW)
     message("Can't build fftw as external project on Windows")
@@ -61,19 +52,27 @@ else()
     if(BUILD_SHARED_LIBS)
       set(FFTW_SHARED_FLAG --enable-shared)
     endif()
+
     if(ITK_USE_FFTWF)
       ExternalProject_add(fftwf
         PREFIX fftwf
         URL "http://www.fftw.org/fftw-3.3.2.tar.gz"
         URL_MD5 6977ee770ed68c85698c7168ffa6e178
-        CONFIGURE_COMMAND ${ITK_BINARY_DIR}/fftwf/src/fftwf/configure
-        ${FFTW_SHARED_FLAG}
-        ${FFTW_OPTIMIZATION_CONFIGURATION}
-        ${FFTW_THREADS_CONFIGURATION}
-        --disable-fortran
-        --enable-float
-        --prefix=${ITK_BINARY_DIR}/fftw
-        ${FFTW_COMPILER_FLAGS}
+        CONFIGURE_COMMAND
+          env
+            "CC=${CMAKE_C_COMPILER} ${CMAKE_C_COMPILER_ARG1}"
+            "CFLAGS=${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_RELEASE}"
+            "LDFLAGS=$ENV{LDFLAGS}"
+            "LIBS=$ENV{LIBS}"
+            "CPP=$ENV{CPP}"
+            "CPPFLAGS=$ENV{CPPFLAGS}"
+          ${ITK_BINARY_DIR}/fftwf/src/fftwf/configure
+            ${FFTW_SHARED_FLAG}
+            ${FFTW_OPTIMIZATION_CONFIGURATION}
+            ${FFTW_THREADS_CONFIGURATION}
+            --disable-fortran
+            --enable-float
+            --prefix=${ITK_BINARY_DIR}/fftw
         )
     endif()
 
@@ -82,14 +81,21 @@ else()
         PREFIX fftwd
         URL "http://www.fftw.org/fftw-3.3.2.tar.gz"
         URL_MD5 6977ee770ed68c85698c7168ffa6e178
-        CONFIGURE_COMMAND ${ITK_BINARY_DIR}/fftwd/src/fftwd/configure
-        ${FFTW_SHARED_FLAG}
-        ${FFTW_OPTIMIZATION_CONFIGURATION}
-        ${FFTW_THREADS_CONFIGURATION}
-        --disable-fortran
-        --disable-float
-        --prefix=${ITK_BINARY_DIR}/fftw
-        ${FFTW_COMPILER_FLAGS}
+        CONFIGURE_COMMAND
+          env
+           "CC=${CMAKE_C_COMPILER} ${CMAKE_C_COMPILER_ARG1}"
+           "CFLAGS=${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_RELEASE}"
+           "LDFLAGS=$ENV{LDFLAGS}"
+           "LIBS=$ENV{LIBS}"
+           "CPP=$ENV{CPP}"
+           "CPPFLAGS=$ENV{CPPFLAGS}"
+          ${ITK_BINARY_DIR}/fftwd/src/fftwd/configure
+            ${FFTW_SHARED_FLAG}
+            ${FFTW_OPTIMIZATION_CONFIGURATION}
+            ${FFTW_THREADS_CONFIGURATION}
+            --disable-fortran
+            --disable-float
+            --prefix=${ITK_BINARY_DIR}/fftw
         )
     endif()
     set(FFTW_INCLUDE_PATH ${ITK_BINARY_DIR}/fftw/include)

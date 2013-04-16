@@ -46,17 +46,85 @@ else()
     set(SWIG_DIR ${CMAKE_CURRENT_BINARY_DIR}/swigwin-${swig_version})
     set(SWIG_VERSION "${swig_version}")
   else()
+    # From PCR configure
+    # Some influential environment variables:
+    #  CC          C compiler command
+    #  CFLAGS      C compiler flags
+    #  LDFLAGS     linker flags, e.g. -L<lib dir> if you have libraries in a
+    #              nonstandard directory <lib dir>
+    #  LIBS        libraries to pass to the linker, e.g. -l<library>
+    #  CPPFLAGS    (Objective) C/C++ preprocessor flags, e.g. -I<include dir> if
+    #              you have headers in a nonstandard directory <include dir>
+    #  CXX         C++ compiler command
+    #  CXXFLAGS    C++ compiler flags
+    #  CPP         C preprocessor
+    #  CXXCPP      C++ preprocessor
+
     # build swig as an external project
     ExternalProject_add(PCRE
     URL http://downloads.sourceforge.net/project/pcre/pcre/8.12/pcre-8.12.tar.gz
     URL_MD5 fa69e4c5d8971544acd71d1f10d59193
-    CONFIGURE_COMMAND ../PCRE/configure --prefix=${CMAKE_CURRENT_BINARY_DIR}/PCRE --enable-shared=no
+    CONFIGURE_COMMAND
+      env
+        "CC=${CMAKE_C_COMPILER} ${CMAKE_C_COMPILER_ARG1}"
+        "CFLAGS=${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_RELEASE}"
+        "LDFLAGS=$ENV{LDFLAGS}"
+        "LIBS=$ENV{LIBS}"
+        "CPPFLAGS=$ENV{CPPFLAGS}"
+        "CXX=${CMAKE_CXX_COMPILER} ${CMAKE_CXX_COMPILER_ARG1}"
+        "CXXFLAGS=${CMAKE_CXX_FLAGS} ${CMAKE_CXX_FLAGS_RELEASE}"
+        "CPP=$ENV{CPP}"
+        "CXXPP=$ENV{CXXPP}"
+      ../PCRE/configure
+      --prefix=${CMAKE_CURRENT_BINARY_DIR}/PCRE
+      --enable-shared=no
     )
+
+    # swig uses bison find it by cmake and pass it down
+    find_package ( BISON )
+    set ( BISON_FLAGS "" CACHE STRING "Flags used by bison" )
+    mark_as_advanced ( BISON_FLAGS )
+
+
+    # From SWIG configure
+    # Some influential environment variables:
+    #  CC          C compiler command
+    #  CFLAGS      C compiler flags
+    #  LDFLAGS     linker flags, e.g. -L<lib dir> if you have libraries in a
+    #              nonstandard directory <lib dir>
+    #  LIBS        libraries to pass to the linker, e.g. -l<library>
+    #  CPPFLAGS    (Objective) C/C++ preprocessor flags, e.g. -I<include dir> if
+    #              you have headers in a nonstandard directory <include dir>
+    #  CXX         C++ compiler command
+    #  CXXFLAGS    C++ compiler flags
+    #  CPP         C preprocessor
+    #  PCRE_CONFIG config script used for pcre
+    #  PCRE_CFLAGS CFLAGS used for pcre
+    #  PCRE_LIBS   LIBS used for pcre
+    #  YACC        The `Yet Another C Compiler' implementation to use. Defaults to
+    #              the first program found out of: `bison -y', `byacc', `yacc'.
+    #  YFLAGS      The list of arguments that will be passed by default to $YACC.
+    #              This script will default YFLAGS to the empty string to avoid a
+    #              default value of `-d' given by some make applications.
+
     ExternalProject_add(swig
     URL http://prdownloads.sourceforge.net/swig/swig-${swig_version}.tar.gz
     URL_MD5 ${swig_md5}
-    CONFIGURE_COMMAND ../swig/configure --prefix=${CMAKE_CURRENT_BINARY_DIR}/swig
-    --with-pcre-prefix=${CMAKE_CURRENT_BINARY_DIR}/PCRE
+    CONFIGURE_COMMAND
+      env
+        "CC=${CMAKE_C_COMPILER} ${CMAKE_C_COMPILER_ARG1}"
+        "CFLAGS=${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_RELEASE}"
+        "LDFLAGS=$ENV{LDFLAGS}"
+        "LIBS=$ENV{LIBS}"
+        "CPPFLAGS=$ENV{CPPFLAGS}"
+        "CXX=${CMAKE_CXX_COMPILER} ${CMAKE_CXX_COMPILER_ARG1}"
+        "CXXFLAGS=${CMAKE_CXX_FLAGS} ${CMAKE_CXX_FLAGS_RELEASE}"
+        "CPP=$ENV{CPP}"
+        "YACC=${BISON_EXECUTABLE}"
+        "YFLAGS=${BISON_FLAGS}"
+      ../swig/configure
+        --prefix=${CMAKE_CURRENT_BINARY_DIR}/swig
+        --with-pcre-prefix=${CMAKE_CURRENT_BINARY_DIR}/PCRE
     DEPENDS PCRE
 
     )
