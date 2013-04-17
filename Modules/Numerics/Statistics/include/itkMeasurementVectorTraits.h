@@ -498,6 +498,20 @@ public:
 };
 
 template< >
+class MeasurementVectorPixelTraits< unsigned long long >
+{
+public:
+  typedef FixedArray< unsigned long long, 1 > MeasurementVectorType;
+};
+
+template< >
+class MeasurementVectorPixelTraits< signed long long >
+{
+public:
+  typedef FixedArray< signed long long, 1 > MeasurementVectorType;
+};
+
+template< >
 class MeasurementVectorPixelTraits< float >
 {
 public:
