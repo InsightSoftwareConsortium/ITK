@@ -107,7 +107,7 @@ class vnl_numeric_traits<char>
   static const char maxval VCL_STATIC_CONST_INIT_INT_DECL(127);
 #endif
 #else
-  static const char maxval VCL_STATIC_CONST_INIT_INT_DECL(char(255)<char(0)?char(127):char(255));
+  static const char maxval VCL_STATIC_CONST_INIT_INT_DECL(char(255)<0?127:255);
 #endif
   //: Return value of abs()
   typedef unsigned char abs_t;
@@ -306,7 +306,7 @@ VCL_DEFINE_SPECIALIZATION
 class vnl_numeric_traits<unsigned long const> : public vnl_numeric_traits<unsigned long> {};
 #endif
 
-#ifdef _WIN64
+#if defined(_WIN64) && !VCL_HAS_LONG_LONG
 VCL_DEFINE_SPECIALIZATION
 class vnl_numeric_traits<size_t>
 {
@@ -329,10 +329,9 @@ class vnl_numeric_traits<size_t>
 VCL_DEFINE_SPECIALIZATION
 class vnl_numeric_traits<size_t const> : public vnl_numeric_traits<size_t> {};
 #endif
+#endif
 
-#endif   // _WIN64
-
-#ifdef _WIN64
+#if VCL_HAS_LONG_LONG
 VCL_DEFINE_SPECIALIZATION
 class vnl_numeric_traits<long long>
 {
@@ -342,7 +341,7 @@ class vnl_numeric_traits<long long>
   //: Multiplicative identity
   static const long long one VCL_STATIC_CONST_INIT_INT_DECL(1);
   //: Maximum value which this type can assume
-  static const long long maxval; // = 0x7fffffff;
+  static const long long maxval;
   //: Return value of abs()
   typedef unsigned long long abs_t;
   //: Name of a type twice as long as this one for accumulators and products.
@@ -356,7 +355,29 @@ VCL_DEFINE_SPECIALIZATION
 class vnl_numeric_traits<long long const> : public vnl_numeric_traits<long long> {};
 #endif
 
-#endif   // _WIN64
+VCL_DEFINE_SPECIALIZATION
+class vnl_numeric_traits<unsigned long long>
+{
+ public:
+  //: Additive identity
+  static const unsigned long long zero VCL_STATIC_CONST_INIT_INT_DECL(0);
+  //: Multiplicative identity
+  static const unsigned long long one VCL_STATIC_CONST_INIT_INT_DECL(1);
+  //: Maximum value which this type can assume
+  static const unsigned long long maxval;
+  //: Return value of abs()
+  typedef unsigned long long abs_t;
+  //: Name of a type twice as long as this one for accumulators and products.
+  typedef unsigned long long double_t;
+  //: Name of type which results from multiplying this type with a double
+  typedef double real_t;
+};
+
+#if !VCL_CANNOT_SPECIALIZE_CV
+VCL_DEFINE_SPECIALIZATION
+class vnl_numeric_traits<unsigned long long const> : public vnl_numeric_traits<unsigned long long> {};
+#endif
+#endif
 
 VCL_DEFINE_SPECIALIZATION
 class vnl_numeric_traits<float>

@@ -49,6 +49,7 @@ INCLUDE (${vxl_SOURCE_DIR}/config/cmake/config/vxl_config_macros.cmake)
 #
 
 PERFORM_CMAKE_TEST(vxl_platform_tests.cxx VCL_HAS_BOOL)
+PERFORM_CMAKE_TEST(vxl_platform_tests.cxx VCL_HAS_LONG_LONG)
 PERFORM_CMAKE_TEST(vxl_platform_tests.cxx VCL_HAS_TYPENAME)
 PERFORM_CMAKE_TEST(vxl_platform_tests.cxx VCL_HAS_EXPORT)
 PERFORM_CMAKE_TEST(vxl_platform_tests.cxx VCL_HAS_MUTABLE)

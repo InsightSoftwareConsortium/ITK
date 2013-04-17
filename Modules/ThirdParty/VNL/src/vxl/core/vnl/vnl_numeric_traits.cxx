@@ -36,6 +36,10 @@ const int vnl_numeric_traits<int>::zero VCL_STATIC_CONST_INIT_INT_DEFN(0);
 const unsigned int vnl_numeric_traits<unsigned int>::zero VCL_STATIC_CONST_INIT_INT_DEFN(0);
 const long vnl_numeric_traits<long>::zero VCL_STATIC_CONST_INIT_INT_DEFN(0);
 const unsigned long vnl_numeric_traits<unsigned long>::zero VCL_STATIC_CONST_INIT_INT_DEFN(0);
+#if VCL_HAS_LONG_LONG
+const long long vnl_numeric_traits<long long>::zero VCL_STATIC_CONST_INIT_INT_DEFN(0);
+const unsigned long long vnl_numeric_traits<unsigned long long>::zero VCL_STATIC_CONST_INIT_INT_DEFN(0);
+#endif
 #endif
 
 #if !VCL_STATIC_CONST_INIT_INT_NO_DEFN
@@ -49,6 +53,10 @@ const int vnl_numeric_traits<int>::one VCL_STATIC_CONST_INIT_INT_DEFN(1);
 const unsigned int vnl_numeric_traits<unsigned int>::one VCL_STATIC_CONST_INIT_INT_DEFN(1);
 const long vnl_numeric_traits<long>::one VCL_STATIC_CONST_INIT_INT_DEFN(1);
 const unsigned long vnl_numeric_traits<unsigned long>::one VCL_STATIC_CONST_INIT_INT_DEFN(1);
+#if VCL_HAS_LONG_LONG
+const long long vnl_numeric_traits<long long>::one VCL_STATIC_CONST_INIT_INT_DEFN(1);
+const unsigned long long vnl_numeric_traits<unsigned long long>::one VCL_STATIC_CONST_INIT_INT_DEFN(1);
+#endif
 #endif
 
 #if !VCL_STATIC_CONST_INIT_INT_NO_DEFN
@@ -65,6 +73,10 @@ const int vnl_numeric_traits<int>::maxval = sizeof(int)==4?s32:s16;
 const unsigned int vnl_numeric_traits<unsigned int>::maxval = sizeof(unsigned int)==4?u32:u16;
 const long vnl_numeric_traits<long>::maxval = sizeof(long)==8?s64:s32;
 const unsigned long vnl_numeric_traits<unsigned long>::maxval = sizeof(unsigned long)==8?u64:u32;
+#if VCL_HAS_LONG_LONG
+const long long vnl_numeric_traits<long long>::maxval = sizeof(long long)==8?s64:s32;
+const unsigned long long vnl_numeric_traits<unsigned long long>::maxval = sizeof(unsigned long long)==8?u64:u32;
+#endif
 
 #if !VCL_STATIC_CONST_INIT_FLOAT_NO_DEFN
 const float vnl_numeric_traits<float>::zero VCL_STATIC_CONST_INIT_FLOAT_DEFN(0.0F);
