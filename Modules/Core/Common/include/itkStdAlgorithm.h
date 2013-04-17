@@ -23,6 +23,14 @@ namespace itk
 {
 namespace algorithm
 {
+// add test to make sure compiler version matches configured
+// detection of ITK_HAS_STD_COPY_N
+#if defined(ITK_HAS_STD_COPY_N)
+#if defined(__cplusplus) && (__cplusplus <= 199711L)
+#error ITK built with C++11, current source file is not.
+#endif
+#endif
+
 /** if the STL library includes std::copy_n it is preferable over
  *  std::copy in many cases.
  *  It is not a standard part of STL, if it is missing, use

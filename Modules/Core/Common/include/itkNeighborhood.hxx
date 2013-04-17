@@ -91,7 +91,7 @@ void
 Neighborhood< TPixel, VDimension, TContainer >
 ::SetRadius(const SizeType & r)
 {
-  itk::algorithm::copy_n(r.m_Size, VDimension, m_Radius.m_Size);
+  this->m_Radius = r;
   this->SetSize();
 
   SizeValueType cumul = NumericTraits< SizeValueType >::One;
