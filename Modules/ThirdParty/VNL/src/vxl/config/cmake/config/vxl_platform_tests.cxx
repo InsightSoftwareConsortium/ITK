@@ -9,6 +9,15 @@ int main() { return 0; }
 
 //-------------------------------------
 
+#ifdef VCL_HAS_LONG_LONG
+
+void function(int i, void *ptr, long long v) {}
+
+int main() { return 0; }
+#endif // VCL_HAS_LONG_LONG
+
+//-------------------------------------
+
 #ifdef VCL_HAS_TYPENAME
 
 template <typename T>
