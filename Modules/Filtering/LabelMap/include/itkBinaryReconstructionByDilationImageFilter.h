@@ -132,16 +132,30 @@ public:
   itkGetConstMacro(ForegroundValue, OutputImagePixelType);
 
    /** Set the marker image */
-  void SetMarkerImage( const InputImageType *input );
+  void SetMarkerImage(InputImageType *input)
+    {
+    // Process object is not const-correct so the const casting is required.
+    this->SetNthInput( 0, const_cast<InputImageType *>(input) );
+    }
 
   /** Get the marker image */
-  InputImageType * GetMarkerImage();
+  InputImageType * GetMarkerImage()
+    {
+    return static_cast<InputImageType*>(const_cast<DataObject *>(this->ProcessObject::GetInput(0)));
+    }
 
    /** Set the mask image */
-  void SetMaskImage( const InputImageType *input );
+  void SetMaskImage( const InputImageType *input)
+    {
+    // Process object is not const-correct so the const casting is required.
+    this->SetNthInput( 1, const_cast<InputImageType *>(input) );
+    }
 
   /** Get the mask image */
-  InputImageType * GetMaskImage();
+  InputImageType * GetMaskImage()
+    {
+    return static_cast<InputImageType*>(const_cast<DataObject *>(this->ProcessObject::GetInput(1)));
+    }
 
 protected:
   BinaryReconstructionByDilationImageFilter();
