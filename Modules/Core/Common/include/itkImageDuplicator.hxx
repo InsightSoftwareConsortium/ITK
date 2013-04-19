@@ -19,7 +19,7 @@
 #define __itkImageDuplicator_hxx
 
 #include "itkImageDuplicator.h"
-#include "itkStdAlgorithm.h"
+#include "itkImageAlgorithm.h"
 
 namespace itk
 {
@@ -64,20 +64,8 @@ ImageDuplicator< TInputImage >
   m_Output->SetRequestedRegion( m_InputImage->GetRequestedRegion() );
   m_Output->SetBufferedRegion( m_InputImage->GetBufferedRegion() );
   m_Output->Allocate();
-
-  // Do the copy
-  typedef typename TInputImage::PixelContainer   PixelContainer;
-  const PixelContainer * pixelContainer = m_InputImage->GetPixelContainer();
-
-  // This is the number of pixels times the number of components per pixel
-  const SizeValueType sizeInNumberOfComponents = pixelContainer->Size();
-
-  // This must be the internal pixel type, which is the one that we actually
-  // use for allocating internal buffers.
-  typedef typename TInputImage::InternalPixelType   InternalPixelType;
-
-  itk::algorithm::copy_n(m_InputImage->GetBufferPointer(),sizeInNumberOfComponents,
-              m_Output->GetBufferPointer());
+  typename ImageType::RegionType region = m_InputImage->GetLargestPossibleRegion();
+  ImageAlgorithm::Copy(m_InputImage.GetPointer(),m_Output.GetPointer(),region,region);
 }
 
 template< class TInputImage >
