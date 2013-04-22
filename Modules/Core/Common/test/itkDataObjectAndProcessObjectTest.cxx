@@ -347,5 +347,53 @@ int itkDataObjectAndProcessObjectTest(int, char* [] )
   TEST_EXPECT_EQUAL( 1, process->GetNumberOfValidRequiredInputs() );
   TRY_EXPECT_NO_EXCEPTION(process->VerifyPreconditions() );
 
+  // testing SetNumberOfIndexedInputs
+  process = itk::TestProcessObject::New();
+  process->SetNumberOfIndexedInputs( 1 );
+  TEST_SET_GET_VALUE( 0, process->GetNumberOfIndexedInputs() );
+  TEST_SET_GET_NULL_VALUE( process->GetPrimaryInput() );
+
+  process->SetPrimaryInput( input0 );
+  TEST_SET_GET_VALUE( 1, process->GetNumberOfIndexedInputs() );
+  TEST_SET_GET_VALUE( input0, process->GetPrimaryInput() );
+
+  process->SetNumberOfIndexedInputs( 0 );
+  TEST_SET_GET_VALUE( 0, process->GetNumberOfIndexedInputs() );
+  TEST_SET_GET_NULL_VALUE( process->GetPrimaryInput() );
+
+   process->SetNumberOfIndexedInputs( 2 );
+   TEST_SET_GET_VALUE( 2, process->GetNumberOfIndexedInputs() );
+   TEST_SET_GET_NULL_VALUE( process->GetPrimaryInput() );
+   process->SetNthInput( 1, input1 );
+   TEST_SET_GET_VALUE( input1, process->GetInput(1) );
+
+   process->SetNumberOfIndexedInputs( 1 );
+   TEST_SET_GET_VALUE( 0, process->GetNumberOfIndexedInputs() );
+   TEST_SET_GET_NULL_VALUE( process->GetPrimaryInput() );
+
+   // testing RemoveInput
+   process = itk::TestProcessObject::New();
+   process->SetNumberOfIndexedInputs( 2 );
+   process->SetPrimaryInput( input0 );
+   TEST_SET_GET_VALUE( 2, process->GetNumberOfIndexedInputs() );
+   process->RemoveInput( "Primary" );
+   TEST_SET_GET_NULL_VALUE( process->GetPrimaryInput() );
+   TEST_SET_GET_VALUE( 2, process->GetNumberOfIndexedInputs() );
+
+   process->AddRequiredInputName("Req");
+   process->SetInput( "Req", input0 );
+   TEST_SET_GET_VALUE( input0, process->GetInput("Req") );
+   process->RemoveInput( "Req" );
+   TEST_SET_GET_NULL_VALUE( process->GetInput("Req") );
+   TEST_EXPECT_TRUE( process->IsRequiredInputName("Req") );
+
+   process->RemoveInput( 99 );
+   TEST_SET_GET_NULL_VALUE( process->GetInput("Req") );
+   TEST_EXPECT_TRUE( process->IsRequiredInputName("Req") );
+   TEST_SET_GET_VALUE( 2, process->GetNumberOfIndexedInputs() );
+
+   process->RemoveInput( 1 );
+   TEST_SET_GET_VALUE( 0, process->GetNumberOfIndexedInputs() );
+
   return (EXIT_SUCCESS);
 }
