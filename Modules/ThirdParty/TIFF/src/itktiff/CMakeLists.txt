@@ -153,20 +153,6 @@ if(NOT ITK_INSTALL_NO_LIBRARIES)
     )
 endif(NOT ITK_INSTALL_NO_LIBRARIES)
 
-if(NOT ITK_INSTALL_NO_DEVELOPMENT)
-  install(FILES
-    ${ITK3P_TIFF_BINARY_DIR}/tiffDllConfig.h
-    ${ITK3P_TIFF_BINARY_DIR}/tif_config.h
-    ${ITK3P_TIFF_SOURCE_DIR}/tiffvers.h
-    ${ITK3P_TIFF_SOURCE_DIR}/itk_tiff_mangle.h
-    ${ITK3P_TIFF_SOURCE_DIR}/tiff.h
-    ${ITK3P_TIFF_SOURCE_DIR}/tif_dir.h
-    ${ITK3P_TIFF_SOURCE_DIR}/tiffio.h
-    ${ITK3P_TIFF_SOURCE_DIR}/tconf.h
-    DESTINATION ${ITK3P_INSTALL_INCLUDE_DIR}/itktiff # itk_tiff.h #include "itktiff/tiff.h"
-    COMPONENT Development)
-endif(NOT ITK_INSTALL_NO_DEVELOPMENT)
-
 if(CMAKE_COMPILER_IS_GNUCXX)
   set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fno-strict-aliasing")
 endif(CMAKE_COMPILER_IS_GNUCXX)

@@ -21,8 +21,6 @@
 #include "itkImageIOBase.h"
 #include <fstream>
 
-#include "itk_tiff.h"
-
 namespace itk
 {
 //BTX
