@@ -695,15 +695,13 @@ ProcessObject
     DataObjectPointerMap::iterator it = this->m_Inputs.find( this->m_PrimaryInputName );
     if( it != m_Inputs.end() )
       {
-      this->m_Inputs[key] = it->second;
       this->RemoveRequiredInputName( this->m_PrimaryInputName );
-      this->m_RequiredInputNames.insert( key );
+      this->m_Inputs[key] = it->second;
       }
-    else
-      {
-      this->AddRequiredInputName( key );
-      }
-    this->m_PrimaryInputName = key;
+
+    m_PrimaryInputName = key;
+    this->AddRequiredInputName( m_PrimaryInputName );
+
     this->Modified();
     }
 }
@@ -1185,6 +1183,21 @@ ProcessObject
       {
       itkExceptionMacro(<< "Input " << *it << " is required but not set.");
       }
+    }
+
+  /**
+   * Verify the require named inputs.
+   */
+  NameSet::const_iterator i = m_RequiredInputNames.begin();
+  while (i != m_RequiredInputNames.end())
+    {
+    if ( this->GetInput(*i) == NULL )
+      {
+      itkExceptionMacro( << "Required Input " << *i << "is not specified!"
+                         << " The required inputs are expected to be the first inputs.");
+
+      }
+    ++i;
     }
 
   /**

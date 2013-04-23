@@ -100,6 +100,7 @@ public:
   using Superclass::RemoveRequiredInputName;
   using Superclass::IsRequiredInputName;
   using Superclass::SetRequiredInputNames;
+  using Superclass::VerifyPreconditions;
 #if !defined(ITK_LEGACY_REMOVE)
   using Superclass::SetNumberOfInputs;
   using Superclass::SetNumberOfOutputs;
@@ -327,6 +328,21 @@ int itkDataObjectAndProcessObjectTest(int, char* [] )
   process->SetPrimaryOutputName( "Outy" );
   const std::string primaryOutputName = process->GetPrimaryOutputName();
   TEST_EXPECT_EQUAL( "Outy", primaryOutputName );
+
+  process = itk::TestProcessObject::New();
+  process->SetPrimaryInputName("Image1");
+  process->Print(std::cout);
+  TEST_EXPECT_EQUAL( 1, process->GetNumberOfRequiredInputs() );
+  process->AddRequiredInputName("Image2");
+  TEST_EXPECT_EQUAL( 1, process->GetNumberOfRequiredInputs() );
+  TEST_EXPECT_EQUAL( 0, process->GetNumberOfValidRequiredInputs() );
+  TRY_EXPECT_EXCEPTION( process->VerifyPreconditions() );
+  process->SetInput( "Image1", input0 );
+  TEST_EXPECT_EQUAL( 1, process->GetNumberOfValidRequiredInputs() );
+  TRY_EXPECT_EXCEPTION( process->VerifyPreconditions() );
+  process->SetInput( "Image2", input0 );
+  TEST_EXPECT_EQUAL( 1, process->GetNumberOfValidRequiredInputs() );
+  TRY_EXPECT_NO_EXCEPTION(process->VerifyPreconditions() );
 
   return (EXIT_SUCCESS);
 }
