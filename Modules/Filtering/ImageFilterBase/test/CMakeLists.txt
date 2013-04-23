@@ -5,7 +5,6 @@ itkImageToImageFilterTest.cxx
 itkVectorNeighborhoodOperatorImageFilterTest.cxx
 itkMaskNeighborhoodOperatorImageFilterTest.cxx
 itkCastImageFilterTest.cxx
-itkClampImageFilterTest.cxx
 )
 
 # Disable optimization on the tests below to avoid possible
@@ -16,7 +15,6 @@ itkClampImageFilterTest.cxx
 if (DEFINED ITK_CXX_DISABLE_OPTIMIZATION_FLAG)
   set_source_files_properties(
     itkCastImageFilterTest.cxx
-    itkClampImageFilterTest.cxx
     PROPERTIES COMPILE_FLAGS ${ITK_CXX_DISABLE_OPTIMIZATION_FLAG}
   )
 endif()
@@ -37,5 +35,3 @@ itk_add_test(NAME itkMaskNeighborhoodOperatorImageFilterTest
     itkMaskNeighborhoodOperatorImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/MaskNeighborhoodOperatorImageFilterTest.png)
 itk_add_test(NAME itkCastImageFilterTest
       COMMAND ITKImageFilterBaseTestDriver itkCastImageFilterTest)
-itk_add_test(NAME itkClampImageFilterTest
-      COMMAND ITKImageFilterBaseTestDriver itkClampImageFilterTest)
