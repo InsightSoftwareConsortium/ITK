@@ -138,6 +138,23 @@ public:
   typedef unsigned long ValueType;
 };
 
+
+template< >
+class PixelTraits< long long >
+{
+public:
+  itkStaticConstMacro(Dimension, unsigned int, 1);
+  typedef long long ValueType;
+};
+
+template< >
+class PixelTraits< unsigned long long >
+{
+public:
+  itkStaticConstMacro(Dimension, unsigned int, 1);
+  typedef unsigned long long ValueType;
+};
+
 template< >
 class PixelTraits< float >
 {
@@ -250,6 +267,21 @@ public:
   typedef unsigned long ValueType;
 };
 
+
+template< >
+class JoinTraits< bool, long long >
+{
+public:
+  typedef long long ValueType;
+};
+
+template< >
+class JoinTraits< bool, unsigned long long >
+{
+public:
+  typedef unsigned long long ValueType;
+};
+
 template< >
 class JoinTraits< bool, float >
 {
@@ -333,6 +365,20 @@ public:
 };
 
 template< >
+class JoinTraits< char, long long >
+{
+public:
+  typedef long long ValueType;
+};
+
+template< >
+class JoinTraits< char, unsigned long long >
+{
+public:
+  typedef double ValueType;
+};
+
+template< >
 class JoinTraits< char, float >
 {
 public:
@@ -411,6 +457,20 @@ class JoinTraits< unsigned char, unsigned long >
 {
 public:
   typedef unsigned long ValueType;
+};
+
+template< >
+class JoinTraits< unsigned char, long long >
+{
+public:
+  typedef long long ValueType;
+};
+
+template< >
+class JoinTraits< unsigned char, unsigned long long >
+{
+public:
+  typedef unsigned long long ValueType;
 };
 
 template< >
@@ -496,6 +556,20 @@ public:
 };
 
 template< >
+class JoinTraits< short, long long >
+{
+public:
+  typedef long long ValueType;
+};
+
+template< >
+class JoinTraits< short, unsigned long long >
+{
+public:
+  typedef double ValueType;
+};
+
+template< >
 class JoinTraits< short, float >
 {
 public:
@@ -574,6 +648,20 @@ class JoinTraits< unsigned short, unsigned long >
 {
 public:
   typedef unsigned long ValueType;
+};
+
+template< >
+class JoinTraits< unsigned short, long long >
+{
+public:
+  typedef long long ValueType;
+};
+
+template< >
+class JoinTraits< unsigned short, unsigned long long >
+{
+public:
+  typedef unsigned long long ValueType;
 };
 
 template< >
@@ -656,6 +744,20 @@ class JoinTraits< int, unsigned long >
 {
 public:
   typedef float ValueType;
+};
+
+template< >
+class JoinTraits< int, long long >
+{
+public:
+  typedef long long ValueType;
+};
+
+template< >
+class JoinTraits< int, unsigned long long >
+{
+public:
+  typedef double ValueType;
 };
 
 template< >
@@ -743,6 +845,20 @@ public:
 };
 
 template< >
+class JoinTraits< unsigned int, long long >
+{
+public:
+  typedef long long ValueType;
+};
+
+template< >
+class JoinTraits< unsigned int, unsigned long long >
+{
+public:
+  typedef unsigned long long ValueType;
+};
+
+template< >
 class JoinTraits< unsigned int, float >
 {
 public:
@@ -821,6 +937,21 @@ class JoinTraits< long, unsigned long >
 {
 public:
   typedef float ValueType;
+};
+
+
+template< >
+class JoinTraits< long, long long >
+{
+public:
+  typedef long long ValueType;
+};
+
+template< >
+class JoinTraits< long, unsigned long long >
+{
+public:
+  typedef double ValueType;
 };
 
 template< >
@@ -905,6 +1036,20 @@ public:
 };
 
 template< >
+class JoinTraits< unsigned long, long long >
+{
+public:
+  typedef double ValueType;
+};
+
+template< >
+class JoinTraits< unsigned long, unsigned long long >
+{
+public:
+  typedef unsigned long long ValueType;
+};
+
+template< >
 class JoinTraits< unsigned long, float >
 {
 public:
@@ -917,6 +1062,198 @@ class JoinTraits< unsigned long, double >
 public:
   typedef double ValueType;
 };
+
+
+/** \class PixelTraits<long long>
+ * Specializations for long long.
+ * \ingroup ITKCommon
+ */
+template< >
+class JoinTraits< long long, bool >
+{
+public:
+  typedef long long ValueType;
+};
+
+template< >
+class JoinTraits< long long, char >
+{
+public:
+  typedef long long ValueType;
+};
+
+template< >
+class JoinTraits< long long, unsigned char >
+{
+public:
+  typedef long long ValueType;
+};
+
+template< >
+class JoinTraits< long long, short >
+{
+public:
+  typedef long long ValueType;
+};
+
+template< >
+class JoinTraits< long long, unsigned short >
+{
+public:
+  typedef long long ValueType;
+};
+
+template< >
+class JoinTraits< long long, int >
+{
+public:
+  typedef long long ValueType;
+};
+
+template< >
+class JoinTraits< long long, unsigned int >
+{
+public:
+  typedef long long ValueType;
+};
+
+template< >
+class JoinTraits< long long, long >
+{
+public:
+  typedef long long ValueType;
+};
+
+template< >
+class JoinTraits< long long, unsigned long >
+{
+public:
+  typedef double ValueType;
+};
+
+template< >
+class JoinTraits< long long, long long >
+{
+public:
+  typedef long long ValueType;
+};
+
+template< >
+class JoinTraits< long long, unsigned long long >
+{
+public:
+  typedef double ValueType;
+};
+
+template< >
+class JoinTraits< long long, float >
+{
+public:
+  typedef double ValueType;
+};
+
+template< >
+class JoinTraits< long long, double >
+{
+public:
+  typedef double ValueType;
+};
+
+/** \class PixelTraits<unsigned long long>
+ * Specializations for unsigned long long.
+ * \ingroup ITKCommon
+ */
+template< >
+class JoinTraits< unsigned long long, bool >
+{
+public:
+  typedef unsigned long long ValueType;
+};
+
+template< >
+class JoinTraits< unsigned long long, char >
+{
+public:
+  typedef double ValueType;
+};
+
+template< >
+class JoinTraits< unsigned long long, unsigned char >
+{
+public:
+  typedef unsigned long long ValueType;
+};
+
+template< >
+class JoinTraits< unsigned long long, short >
+{
+public:
+  typedef double ValueType;
+};
+
+template< >
+class JoinTraits< unsigned long long, unsigned short >
+{
+public:
+  typedef unsigned long long ValueType;
+};
+
+template< >
+class JoinTraits< unsigned long long, int >
+{
+public:
+  typedef double ValueType;
+};
+
+template< >
+class JoinTraits< unsigned long long, unsigned int >
+{
+public:
+  typedef unsigned long long ValueType;
+};
+
+template< >
+class JoinTraits< unsigned long long, long >
+{
+public:
+  typedef double ValueType;
+};
+
+template< >
+class JoinTraits< unsigned long long, unsigned long >
+{
+public:
+  typedef unsigned long long ValueType;
+};
+
+template< >
+class JoinTraits< unsigned long long, long long >
+{
+public:
+  typedef double ValueType;
+};
+
+template< >
+class JoinTraits< unsigned long long, unsigned long long >
+{
+public:
+  typedef unsigned long long ValueType;
+};
+
+template< >
+class JoinTraits< unsigned long long, float >
+{
+public:
+  typedef double ValueType;
+};
+
+template< >
+class JoinTraits< unsigned long long, double >
+{
+public:
+  typedef double ValueType;
+};
+
 
 /**  \class PixelTraits<float>
  * Specializations for float.
@@ -983,6 +1320,20 @@ class JoinTraits< float, unsigned long >
 {
 public:
   typedef float ValueType;
+};
+
+template< >
+class JoinTraits< float, long long >
+{
+public:
+  typedef double ValueType;
+};
+
+template< >
+class JoinTraits< float, unsigned long long >
+{
+public:
+  typedef double ValueType;
 };
 
 template< >
@@ -1061,6 +1412,20 @@ public:
 
 template< >
 class JoinTraits< double, unsigned long >
+{
+public:
+  typedef double ValueType;
+};
+
+template< >
+class JoinTraits< double, long long >
+{
+public:
+  typedef double ValueType;
+};
+
+template< >
+class JoinTraits< double, unsigned long long >
 {
 public:
   typedef double ValueType;
