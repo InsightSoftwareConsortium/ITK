@@ -49,6 +49,7 @@ RandomImageSource< TOutputImage >
     m_Spacing[i] = 1.0;
     m_Origin[i] = 0.0;
     }
+  m_Direction.SetIdentity();
 
   m_Min = NumericTraits< OutputImagePixelType >::NonpositiveMin();
   m_Max = NumericTraits< OutputImagePixelType >::max();
@@ -230,6 +231,7 @@ RandomImageSource< TOutputImage >
 
   output->SetSpacing(m_Spacing);
   output->SetOrigin(m_Origin);
+  output->SetDirection(m_Direction);
 }
 
 //----------------------------------------------------------------------------

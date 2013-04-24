@@ -76,6 +76,7 @@ public:
   typedef typename TOutputImage::SizeType         SizeType;
   typedef typename TOutputImage::IndexType        IndexType;
   typedef typename TOutputImage::SpacingType      SpacingType;
+  typedef typename TOutputImage::DirectionType    DirectionType;
   typedef typename TOutputImage::PointType        PointType;
   typedef typename SizeType::SizeValueType        SizeValueType;
   typedef SizeValueType                           SizeValueArrayType[TOutputImage::ImageDimension];
@@ -101,6 +102,9 @@ public:
   virtual void SetOrigin(PointValueArrayType originArray);
 
   virtual const PointValueType * GetOrigin() const;
+
+  itkSetMacro(Direction, DirectionType);
+  itkGetMacro(Direction, DirectionType);
 
   /** Set the minimum possible pixel value. By default, it is
    * NumericTraits<TOutputImage::PixelType>::min(). */
@@ -135,9 +139,10 @@ private:
   RandomImageSource(const RandomImageSource &); //purposely not implemented
   void operator=(const RandomImageSource &);    //purposely not implemented
 
-  SizeType    m_Size;       //size of the output image
-  SpacingType m_Spacing;    //spacing
-  PointType   m_Origin;     //origin
+  SizeType      m_Size;      //size of the output image
+  SpacingType   m_Spacing;   //spacing
+  PointType     m_Origin;    //origin
+  DirectionType m_Direction; //direction
 
   typename TOutputImage::PixelType m_Min; //minimum possible value
   typename TOutputImage::PixelType m_Max; //maximum possible value
