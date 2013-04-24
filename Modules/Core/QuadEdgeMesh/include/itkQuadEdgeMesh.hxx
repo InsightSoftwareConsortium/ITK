@@ -721,8 +721,13 @@ typename QuadEdgeMesh< TPixel, VDimension, TTraits >::QEPrimal *
 QuadEdgeMesh< TPixel, VDimension, TTraits >
 ::AddEdgeWithSecurePointList(const PointIdentifier & orgPid, const PointIdentifier & destPid)
 {
-  QEPrimal *eOrigin     = this->GetPoint(orgPid).GetEdge();
-  QEPrimal *eDestination = this->GetPoint(destPid).GetEdge();
+  PointsContainerPointer points = this->GetPoints();
+
+  PointType& pOrigin       = points->ElementAt(orgPid);
+  PointType& pDestination  = points->ElementAt(destPid);
+
+  QEPrimal *eOrigin       = pOrigin.GetEdge();
+  QEPrimal *eDestination  = pDestination.GetEdge();
 
   // Ok, there's room and the points exist
   EdgeCellType *newEdge = new EdgeCellType();
@@ -733,9 +738,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
 
   if ( !eOrigin )
     {
-    PointType pOrigin = this->GetPoint(orgPid);
     pOrigin.SetEdge(newEdgeGeom);
-    this->SetPoint(orgPid, pOrigin);
     }
   else
     {
@@ -744,9 +747,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
 
   if ( !eDestination )
     {
-    PointType pDestination = this->GetPoint(destPid);
     pDestination.SetEdge( newEdgeGeom->GetSym() );
-    this->SetPoint(destPid, pDestination);
     }
   else
     {
@@ -811,8 +812,10 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
   const PointIdentifier & orgPid  = e->GetOrigin();
   const PointIdentifier & destPid = e->GetDestination();
 
+  PointsContainerPointer points = this->GetPoints();
+
   // Check if the Origin point's edge ring entry should be changed
-  PointType pOrigin = this->GetPoint(orgPid);
+  PointType& pOrigin = points->ElementAt(orgPid);
 
   if ( pOrigin.GetEdge() == e )
     {
@@ -824,12 +827,10 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
       {
       pOrigin.SetEdge( (QEPrimal *)0 );
       }
-
-    this->SetPoint(orgPid, pOrigin);
     }
 
   // Same for the Destination point
-  PointType pDestination = this->GetPoint(destPid);
+  PointType& pDestination = points->ElementAt(destPid);
 
   if ( pDestination.GetEdge() == e->GetSym() )
     {
@@ -841,8 +842,6 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
       {
       pDestination.SetEdge( (QEPrimal *)0 );
       }
-
-    this->SetPoint(destPid, pDestination);
     }
 
   // This container serves to avoid the MS .net bug when
@@ -954,6 +953,9 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
     }
   const PointIdentifier & orgPid  = e->GetOrigin();
   const PointIdentifier & destPid = e->GetDestination();
+
+  PointsContainerPointer points = this->GetPoints();
+
   if ( orgPid != e->m_NoPoint &&  destPid != e->m_NoPoint )
     {
     // ------------------------------------------------------------------
@@ -964,7 +966,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
     // trying to delete. When this is the case shift the Origin edge entry
     // to another edge and when no other edge is available leave it
     // to NULL.
-    PointType pOrigin = this->GetPoint(orgPid);
+    PointType& pOrigin = points->ElementAt(orgPid);
 
     if ( pOrigin.GetEdge() == e )
       {
@@ -976,12 +978,10 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
         {
         pOrigin.SetEdge( (QEPrimal *)0 );
         }
-
-      this->SetPoint(orgPid, pOrigin);
       }
 
     // Same thing for the Destination point:
-    PointType pDestination = this->GetPoint(destPid);
+    PointType& pDestination = points->ElementAt(destPid);
 
     if ( pDestination.GetEdge() == e->GetSym() )
       {
@@ -993,8 +993,6 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
         {
         pDestination.SetEdge( (QEPrimal *)0 );
         }
-
-      this->SetPoint(destPid, pDestination);
       }
     // ------------------------------------------------------------------
     // Second we need to destroy the adjacent faces (both GetLeft()
