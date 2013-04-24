@@ -32,6 +32,7 @@
 #include "itkDomainThreader.h"
 #include "itkMultiThreader.h"
 #include "itkObjectFactory.h"
+#include "itkNumericTraits.h"
 #include <vector>
 #include <map>
 #include <set>
@@ -557,6 +558,7 @@ protected:
   itkGetConstReferenceMacro(NumberOfRequiredOutputs, DataObjectPointerArraySizeType);
 
   bool AddRequiredInputName( const DataObjectIdentifierType & );
+  bool AddRequiredInputName( const DataObjectIdentifierType &, DataObjectPointerArraySizeType idx );
   bool RemoveRequiredInputName( const DataObjectIdentifierType & );
   bool IsRequiredInputName( const DataObjectIdentifierType & ) const;
   void SetRequiredInputNames( const NameArray & );
