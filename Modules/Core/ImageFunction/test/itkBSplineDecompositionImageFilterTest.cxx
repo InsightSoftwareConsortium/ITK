@@ -25,12 +25,10 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-
-#include "itkBSplineResampleImageFunction.h"
-#include "itkRandomImageSource.h"
 #include "itkFilterWatcher.h"
-
 #include "vnl/vnl_sample.h"
+#include "makeRandomImageBsplineInterpolator.h"
+
 
 /** Note:  This is the same test used for the itkBSplineResampleImageFunctionTest
   *        It is duplicated here because it excercises the itkBSplineDecompositionFilter
@@ -39,88 +37,63 @@
 
 int itkBSplineDecompositionImageFilterTest(int, char* [] )
 {
-
   const unsigned int ImageDimension = 2;
-  typedef float                                  PixelType;
-  typedef   itk::Image<PixelType,ImageDimension> ImageType;
+  typedef float                                PixelType;
+  typedef itk::Image<PixelType,ImageDimension> ImageType;
+  typedef itk::BSplineInterpolateImageFunction<ImageType,double, double> BSplineInterpolatorFunctionType;
 
   const unsigned int SplineOrder = 3;
-
-  /** Generate a random input image and connect to BSpline decomposition filter */
-  typedef ImageType::SpacingType  SpacingType;
-  typedef ImageType::PointType    PointType;
-  typedef ImageType::SizeType     SizeType;
-
-  SpacingType    spacing;
-  PointType      origin;
-  SizeType       size;
-
-  spacing.Fill( 2.0 );
-  origin.Fill ( 10.0 );
-  size.Fill( 32 );
-
-  typedef itk::RandomImageSource<ImageType> SourceType;
-  SourceType::Pointer source = SourceType::New();
-
-  source->SetSize( size );
-  source->SetSpacing( spacing );
-  source->SetOrigin( origin );
-
-  source->SetMin( 0.0 );
-  source->SetMax( 10.0 );
+  BSplineInterpolatorFunctionType::Pointer interpolator = makeRandomImageInterpolator<BSplineInterpolatorFunctionType>(SplineOrder);
+  ImageType::ConstPointer randImage = interpolator->GetInputImage();
 
   typedef itk::BSplineDecompositionImageFilter<ImageType,ImageType> FilterType;
   FilterType::Pointer filter = FilterType::New();
-  FilterWatcher watcher(filter);
+  FilterWatcher watcher(filter,"filter");
 
-  filter->SetSplineOrder( SplineOrder );
-  filter->SetInput( source->GetOutput() );
+  filter->SetSplineOrder( interpolator->GetSplineOrder() );
+  filter->SetInput( randImage );
   filter->Update();
 
   filter->Print( std::cout );
 
   /** Set up a BSplineResampleImageFunction. */
-  typedef itk::BSplineResampleImageFunction<ImageType,double>
-    ResampleFunctionType;
+  typedef itk::BSplineResampleImageFunction<ImageType,double> ResampleFunctionType;
   ResampleFunctionType::Pointer resample = ResampleFunctionType::New();
 
-  resample->SetSplineOrder( SplineOrder );
+  resample->SetSplineOrder( interpolator->GetSplineOrder());
   resample->SetInputImage( filter->GetOutput() );
 
-  /** Set up a BSplineInterpolateImageFunction for comparison. */
-  typedef itk::BSplineInterpolateImageFunction<ImageType,double>
-    InterpolateFunctionType;
-  InterpolateFunctionType::Pointer interpolate = InterpolateFunctionType::New();
-
-  interpolate->SetSplineOrder( SplineOrder );
-  interpolate->SetInputImage( source->GetOutput() );
-
   /** Compare 10 values at random points. */
-  ResampleFunctionType::PointType point;
-  double minValue = origin[0];
-  double maxValue = origin[0] + spacing[0] * static_cast<double>(size[0] - 1);
+
+  ImageType::IndexType Last;
+  Last.Fill(0);
+  Last[0]=randImage->GetLargestPossibleRegion().GetSize()[0]-1;
+  ImageType::PointType LastPhysicalLocation;
+  randImage->TransformIndexToPhysicalPoint(Last,LastPhysicalLocation);
+
+  const double minValue = randImage->GetOrigin()[0];
+  const double maxValue = LastPhysicalLocation[0];
 
   for ( unsigned int k = 0; k < 10; k ++ )
     {
-
+    ResampleFunctionType::PointType point;
     for ( unsigned int j = 0; j < ImageDimension; j++ )
       {
       point[j] = vnl_sample_uniform( minValue, maxValue );
       }
 
-    double f = resample->Evaluate( point );
-    double g = interpolate->Evaluate( point );
+    const double f = resample->Evaluate( point );
+    const double g = interpolator->Evaluate( point );
 
     if ( vnl_math_abs( f - g ) > 1e-5 )
       {
       std::cout << "Resample and Interpolated point are different." << std::endl;
       std::cout << " point: " << point << std::endl;
       std::cout << " resample: " << resample->Evaluate( point ) << std::endl;
-      std::cout << " interpolate: " << interpolate->Evaluate( point ) << std::endl;
+      std::cout << " interpolator: " << interpolator->Evaluate( point ) << std::endl;
       std::cout << " Test failed. " << std::endl;
       return EXIT_FAILURE;
       }
-
     }
 
   /** Instantiation test with a std::complex pixel */
@@ -134,5 +107,4 @@ int itkBSplineDecompositionImageFilterTest(int, char* [] )
     }
 
   return EXIT_SUCCESS;
-
 }

@@ -842,6 +842,14 @@ BSplineInterpolateImageFunction< TImageType, TCoordRep, TCoefficientType >
     // take spacing into account
     derivativeValue[n] /= this->GetInputImage()->GetSpacing()[n];
     }
+
+  if ( this->m_UseImageDirection )
+    {
+    CovariantVectorType orientedDerivative;
+    this->GetInputImage()->TransformLocalVectorToPhysicalVector(derivativeValue, orientedDerivative);
+    derivativeValue = orientedDerivative;
+    }
+
 }
 
 template< class TImageType, class TCoordRep, class TCoefficientType >

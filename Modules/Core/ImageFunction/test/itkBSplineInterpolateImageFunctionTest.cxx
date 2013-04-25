@@ -30,6 +30,8 @@
 
 #include "itkBSplineInterpolateImageFunction.h"
 
+#include "makeRandomImageBsplineInterpolator.h"
+
 
   typedef double InputPixelType;
   typedef double CoordRepType;
@@ -579,6 +581,45 @@ int testInteger3DSpline()
   return (flag);
 }
 
+//Test to verify that EvaluateDerivativeAtContinuousIndex and EvaluateValueAndDerivativeAtContinuousIndex
+//produce identical results.
+int testEvaluateValueAndDerivative(void)
+{
+  const unsigned int ImageDimension = 2;
+  typedef float                                  PixelType;
+  typedef   itk::Image<PixelType,ImageDimension> ImageType;
+  typedef itk::BSplineInterpolateImageFunction<ImageType,double, double> BSplineInterpolatorFunctionType;
+
+  const unsigned int SplineOrder = 3;
+  BSplineInterpolatorFunctionType::Pointer interpolator = makeRandomImageInterpolator<BSplineInterpolatorFunctionType>(SplineOrder);
+
+  /** Test the EvaluateDerivative and EvaluateValueAndDerivative functions **/
+  typedef BSplineInterpolatorFunctionType::ContinuousIndexType ContinuousIndexType;
+  ContinuousIndexType x;
+  x[0] = 15.1;
+  x[1] = 15.2;
+
+  typedef BSplineInterpolatorFunctionType::CovariantVectorType CovariantVectorType;
+  const CovariantVectorType dx_1 = interpolator->EvaluateDerivativeAtContinuousIndex( x );
+  CovariantVectorType dx_2;
+
+  BSplineInterpolatorFunctionType::OutputType value;
+  interpolator->EvaluateValueAndDerivativeAtContinuousIndex( x, value, dx_2 );
+
+  for(unsigned int i = 0 ; i < ImageDimension; ++i)
+    {
+    std::cout << std::scientific << value << std::endl;
+    std::cout << std::scientific << "EvaluateDerivative:         " << dx_1 << std::endl;
+    std::cout << std::scientific << "EvaluateValueAndDerivative: " << dx_2 << std::endl;
+    if( vnl_math_abs( dx_1[i] - dx_2[i] ) >  1e-5 )
+      {
+      std::cout << "[ERROR]" << dx_1[i] << " != " << dx_2[i] << std::endl;
+      return EXIT_FAILURE;
+      }
+    }
+  return EXIT_SUCCESS;
+}
+
 int
 itkBSplineInterpolateImageFunctionTest(
     int itkNotUsed(argc),
@@ -597,6 +638,8 @@ itkBSplineInterpolateImageFunctionTest(
   flag += test3DSplineDerivative();
 
   flag += testInteger3DSpline();
+
+  flag += testEvaluateValueAndDerivative();
 
   /* Return results of test */
   if (flag != 0) {
