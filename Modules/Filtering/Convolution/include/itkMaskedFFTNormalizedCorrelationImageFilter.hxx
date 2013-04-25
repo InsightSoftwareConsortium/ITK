@@ -209,16 +209,22 @@ void MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskI
   RealImagePointer NCC = this->ElementQuotient<RealImageType>(numerator,denominator);
   numerator = NULL; // No longer needed
 
-  // Given the numberOfOverlapvoxels, we can check that the m_RequiredNumberOfOverlappingPixels is not set higher than
+  // Given the numberOfOverlapPixels, we can check that the m_RequiredNumberOfOverlappingPixels is not set higher than
   // the actual maximum overlap voxels.  If it is, we set m_RequiredNumberOfOverlappingPixels to be this maximum.
   typedef itk::MinimumMaximumImageCalculator<RealImageType> CalculatorType;
   typename CalculatorType::Pointer calculator = CalculatorType::New();
   calculator->SetImage(numberOfOverlapPixels);
   calculator->ComputeMaximum();
-  if( m_RequiredNumberOfOverlappingPixels > calculator->GetMaximum() )
+  m_MaximumNumberOfOverlappingPixels = calculator->GetMaximum();
+  if( m_RequiredNumberOfOverlappingPixels > m_MaximumNumberOfOverlappingPixels )
   {
-    m_RequiredNumberOfOverlappingPixels = (SizeValueType)calculator->GetMaximum();
+    m_RequiredNumberOfOverlappingPixels = (SizeValueType)m_MaximumNumberOfOverlappingPixels;
   }
+
+  // The user can either specify the required number of overlapping pixels or the required fraction of overlapping pixels (or both).
+  // Here, we calculate the number of required pixels resulting from both of these methods and choose the one that gives the largest number of pixels.
+  // These both default to 0 so that if a user only sets one, the other is ignored.
+  SizeValueType requiredNumberOfOverlappingPixels = vnl_math_max((SizeValueType)(m_RequiredFractionOfOverlappingPixels*m_MaximumNumberOfOverlappingPixels), m_RequiredNumberOfOverlappingPixels);
 
   // The correlation must be between -1 and 1 by definition.  But
   // numerical errors can cause the values to be large values (for
@@ -227,7 +233,7 @@ void MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskI
   // Also, zero-out the correlation values that arise from too few voxels since they are statistically unreliable.
   typedef itk::TernaryFunctorImageFilter< RealImageType,RealImageType,RealImageType,RealImageType,Functor::PostProcessCorrelation<RealPixelType> > PostProcessType;
   typename PostProcessType::Pointer postProcessor = PostProcessType::New();
-  postProcessor->GetFunctor().SetRequiredNumberOfOverlappingPixels( m_RequiredNumberOfOverlappingPixels );
+  postProcessor->GetFunctor().SetRequiredNumberOfOverlappingPixels( requiredNumberOfOverlappingPixels );
   postProcessor->GetFunctor().SetPrecisionTolerance( precisionTolerance );
   postProcessor->SetInput1( NCC );
   postProcessor->SetInput2( denominator );

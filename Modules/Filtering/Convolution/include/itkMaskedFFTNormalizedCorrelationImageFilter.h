@@ -60,12 +60,35 @@ namespace itk
  * movingMask can either not be set or can be set to an image of ones.
  *
  * Optional parameters:
- * The RequiredNumberOfOverlappingPixels enables the user to specify how many voxels
- * of the two images must overlap; any location in the correlation map that results
+ * The RequiredNumberOfOverlappingPixels enables the user to specify the minimum number of voxels
+ * of the two masks that must overlap; any location in the correlation map that results
  * from fewer than this number of voxels will be set to zero.
  * Larger values zero-out pixels on a larger border around the correlation image.
  * Thus, larger values remove less stable computations but also limit the capture range.
  * If RequiredNumberOfOverlappingPixels is set to 0, the default, no zeroing will take place.
+ *
+ * The RequiredFractionOfOverlappingPixels enables the user to specify a fraction of the maximum
+ * number of overlapping pixels that need to overlap; any location in the correlation map that
+ * results from fewer than the product of this fraction and the internally computed maximum
+ * number of overlapping pixels will be set to zero.
+ * The value ranges between 0.0 and 1.0.
+ * This is very useful when the user does does not know beforehand the maximum number of pixels
+ * of the masks that will overlap.
+ * For example, when the masks have strange shapes, it is difficult to predict
+ * how the correlation of the masks will interact and what the maximum overlap will be.
+ * It is also useful when the mask shapes or sizes change because it is relative to the internally
+ * computed maximum of the overlap.
+ * Larger values zero-out pixels on a larger border around the correlation image.
+ * Thus, larger values remove less stable computations but also limit the capture range.
+ * Experiments have shown that a value between 0.1 and 0.6 works well for images with significant
+ * overlap and between 0.05 and 0.1 for images with little overlap (such as in stitching applications).
+ * If RequiredFractionOfOverlappingPixels is set to 0, the default, no zeroing will take place.
+ *
+ * The user can either specify RequiredNumberOfOverlappingPixels or RequiredFractionOfOverlappingPixels
+ * (or both or none).
+ * Internally, the number of required pixels resulting from both of these methods is calculated
+ * and the one that gives the largest number of pixels is chosen.
+ * Since these both default to 0, if a user only sets one, the other is ignored.
  *
  * Image size:
  * fixedImage and movingImage need not be the same size, but fixedMask
@@ -140,6 +163,7 @@ public:
   typedef typename InputImageType::Pointer          InputImagePointer;
   typedef typename InputImageType::ConstPointer     InputImageConstPointer;
   typedef typename InputImageType::SizeType         InputSizeType;
+  typedef typename itk::SizeValueType               SizeValueType;
 
   typedef TOutputImage                              OutputImageType;
   typedef typename OutputImageType::Pointer         OutputImagePointer;
@@ -198,9 +222,22 @@ public:
       return itkDynamicCastInDebugMode<MaskImageType * >(const_cast<DataObject *>(this->ProcessObject::GetInput(3)));
     }
 
-  /** Set and get the required percentage of overlapping pixels */
+  /** Set and get the required number of overlapping pixels */
   itkSetMacro(RequiredNumberOfOverlappingPixels,SizeValueType);
   itkGetMacro(RequiredNumberOfOverlappingPixels,SizeValueType);
+
+  /** Set and get the required fraction of overlapping pixels */
+  itkGetMacro(RequiredFractionOfOverlappingPixels,RealPixelType);
+  void SetRequiredFractionOfOverlappingPixels(RealPixelType requiredFractionOfOverlappingPixels)
+  {
+    // The fraction must be between 0 and 1.
+    requiredFractionOfOverlappingPixels = (requiredFractionOfOverlappingPixels < 0.0) ? 0.0 : requiredFractionOfOverlappingPixels;
+    requiredFractionOfOverlappingPixels = (requiredFractionOfOverlappingPixels > 1.0) ? 1.0 : requiredFractionOfOverlappingPixels;
+    m_RequiredFractionOfOverlappingPixels = requiredFractionOfOverlappingPixels;
+  }
+
+  /** Get the maximum number of overlapping pixels. */
+  itkGetMacro(MaximumNumberOfOverlappingPixels,SizeValueType);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
@@ -214,6 +251,8 @@ protected:
   {
     this->SetNumberOfRequiredInputs(2);
     m_RequiredNumberOfOverlappingPixels = 0;
+    m_RequiredFractionOfOverlappingPixels = 0;
+    m_MaximumNumberOfOverlappingPixels = 0;
   }
   virtual ~MaskedFFTNormalizedCorrelationImageFilter() {}
   void PrintSelf(std::ostream& os, Indent indent) const;
@@ -286,6 +325,12 @@ private:
    * Thus, larger values remove less stable computations but also limit the capture range.
    * The default is set to 0. */
   SizeValueType m_RequiredNumberOfOverlappingPixels;
+  /** Similar to m_RequiredNumberOfOverlappingPixels except that the m_RequiredFractionOfOverlappingPixels is multiplied by the
+   * m_MaximumNumberOfOverlappingPixels to determine the requiredNumberOfOverlappingPixels.
+   * The default is 0. */
+  RealPixelType m_RequiredFractionOfOverlappingPixels;
+  /** This is computed internally */
+  SizeValueType m_MaximumNumberOfOverlappingPixels;
 };
 } // end namespace itk
 
