@@ -21,7 +21,6 @@
 #include "itkSize.h"
 
 #include <memory>
-#include "itkStdAlgorithm.h"
 
 namespace itk
 {
@@ -184,7 +183,9 @@ public:
    * \sa GetOffset() */
   void SetOffset(const OffsetValueType val[VOffsetDimension])
   {
-    itk::algorithm::copy_n(val, VOffsetDimension, m_Offset);
+    std::copy(val,
+              val+VOffsetDimension,
+              m_Offset);
   }
 
   /** Return a basis vector of the form [0, ..., 0, 1, 0, ... 0] where the "1"

@@ -19,7 +19,6 @@
 #define __itkVariableLengthVector_hxx
 
 #include "itkNumericTraitsVariableLengthVectorPixel.h"
-#include "itkStdAlgorithm.h"
 #include "vnl/vnl_math.h"
 #include <cstring>
 #include <cstdlib>
@@ -101,7 +100,9 @@ void VariableLengthVector< TValueType >
       {
       TValueType *temp = this->AllocateElements(size);
       // only copy the portion of the data used in the old buffer
-      itk::algorithm::copy_n(m_Data, m_NumElements, temp);
+      std::copy(m_Data,
+                m_Data+m_NumElements,
+                temp);
       if ( m_LetArrayManageMemory )
         {
         delete[] m_Data;
@@ -234,12 +235,16 @@ void VariableLengthVector< TValueType >
   if ( sz > m_NumElements )
     {
     // only copy the portion of the data used in the old buffer
-    itk::algorithm::copy_n(m_Data, m_NumElements,  temp);
+    std::copy(m_Data,
+              m_Data+m_NumElements,
+              temp);
     }
   else
     {
     // only copy elements 0...size-1
-    itk::algorithm::copy_n(m_Data, sz,  temp);
+    std::copy(m_Data,
+              m_Data+sz,
+              temp);
     }
 
   if ( m_LetArrayManageMemory )

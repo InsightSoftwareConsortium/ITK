@@ -60,10 +60,6 @@ try_compile( ITK_HAS_GNU_ATTRIBUTE_ALIGNED
   ${ITK_BINARY_DIR}/CMakeTmp
   ${CMAKE_CURRENT_SOURCE_DIR}/CMake/itkCheckHasGNUAttributeAligned.cxx )
 
-try_compile( ITK_HAS_STD_COPY_N
-  ${ITK_BINARY_DIR}/CMakeTmp
-  ${CMAKE_CURRENT_SOURCE_DIR}/CMake/itkCheckHasStdCopyN.cxx )
-
 configure_file(src/itkConfigure.h.in itkConfigure.h)
 
 set(ITKCommon_INCLUDE_DIRS

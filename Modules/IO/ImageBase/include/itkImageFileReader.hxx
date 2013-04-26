@@ -26,7 +26,6 @@
 #include "itkVectorImage.h"
 
 #include "itksys/SystemTools.hxx"
-#include "itkStdAlgorithm.h"
 #include <fstream>
 
 namespace itk
@@ -435,8 +434,9 @@ void ImageFileReader< TOutputImage, ConvertPixelTraits >
 
       // we use std::copy here as it should be optimized to memcpy for
       // plain old data, but still is oop
-      itk::algorithm::copy_n(reinterpret_cast< const OutputImagePixelType * >( loadBuffer ),
-                             output->GetBufferedRegion().GetNumberOfPixels(), outputBuffer);
+      std::copy(reinterpret_cast< const OutputImagePixelType * >( loadBuffer ),
+                             reinterpret_cast< const OutputImagePixelType * >( loadBuffer ) + output->GetBufferedRegion().GetNumberOfPixels(),
+                             outputBuffer);
       }
     else
       {

@@ -20,7 +20,6 @@
 
 #include "itkNeighborhood.h"
 #include "itkNumericTraits.h"
-#include "itkStdAlgorithm.h"
 
 namespace itk
 {
@@ -112,7 +111,9 @@ Neighborhood< TPixel, VDimension, TContainer >
   m_Radius     = other.m_Radius;
   m_Size       = other.m_Size;
   m_DataBuffer = other.m_DataBuffer;
-  itk::algorithm::copy_n(other.m_StrideTable, VDimension, m_StrideTable);
+  std::copy(other.m_StrideTable,
+            other.m_StrideTable+VDimension,
+            m_StrideTable);
   m_OffsetTable = other.m_OffsetTable;
 }
 
@@ -126,7 +127,9 @@ Neighborhood< TPixel, VDimension, TContainer >
     m_Radius     = other.m_Radius;
     m_Size       = other.m_Size;
     m_DataBuffer = other.m_DataBuffer;
-    itk::algorithm::copy_n(other.m_StrideTable, VDimension, m_StrideTable);
+    std::copy(other.m_StrideTable,
+              other.m_StrideTable+VDimension,
+              m_StrideTable);
     m_OffsetTable = other.m_OffsetTable;
     }
   return *this;
