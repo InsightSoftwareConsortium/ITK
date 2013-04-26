@@ -21,6 +21,7 @@
 #include "itkImageToImageFilter.h"
 #include "itkNumericTraits.h"
 #include "itkArray.h"
+#include "itkCompensatedSummation.h"
 
 namespace itk
 {
@@ -35,12 +36,20 @@ namespace itk
  * in the first and second input images. It identifies the point \f$ a \in A \f$
  * that is farthest from any point of \f$B\f$ and measures the distance from \f$a\f$
  * to the nearest neighbor in \f$B\f$. Note that this function is not
- * is not symmetric and hence is not a true distance.
+ * symmetric and hence is not a true distance.
  *
- * In particular, this filter uses the DanielssonDistanceMapImageFilter inside to
+ * In particular, this filter uses the SignedMaurerDistanceMapImageFilter inside to
  * compute distance map from all non-zero pixels in the second image. It then
- * find the largest distance (in pixels) within the set of all non-zero pixels in the first
- * image.
+ * finds the largest distance (in pixels) within the set of all non-zero pixels in the first
+ * image.  The largest distance is returned by the method GetDirectedHausdorffDistance().
+ *
+ * In addition, this filter computes the average Hausdorff distance.
+ * This average is defined as the average of all minimum distances with any negative
+ * distances set to 0 since they indicate overlapping regions.
+ * By definition, the distance map computes the minimum distances.
+ * However, since this filter is computed using a signed distance transform, the negative
+ * distance values are first set to 0 before calculating the average.
+ * The average distance is returned by the method GetAverageHausdorffDistance().
  *
  * Use HausdorffDistanceImageFilter to compute the full Hausdorff distance.
  *
@@ -53,7 +62,7 @@ namespace itk
  * This filter is templated over the two input image type. It assume
  * both image have the same number of dimensions.
  *
- * \sa DanielssonDistanceMapImageFilter
+ * \sa MaurerDistanceMapImageFilter
  * \sa HausdorffDistanceImageFilter
  *
  * \ingroup MultiThreaded
@@ -153,20 +162,21 @@ protected:
   void EnlargeOutputRequestedRegion(DataObject *data);
 
 private:
-  DirectedHausdorffDistanceImageFilter(const Self &); //purposely not
-                                                      // implemented
-  void operator=(const Self &);                       //purposely not
-
-  // implemented
+  DirectedHausdorffDistanceImageFilter(const Self &); //purposely not implemented
+  void operator=(const Self &);                       //purposely not implemented
 
   typedef Image< RealType, itkGetStaticConstMacro(ImageDimension) > DistanceMapType;
   typedef typename DistanceMapType::Pointer                         DistanceMapPointer;
+
 
   DistanceMapPointer      m_DistanceMap;
 
   Array< RealType >       m_MaxDistance;
   Array< IdentifierType > m_PixelCount;
-  Array< RealType >       m_Sum;
+
+  typedef itk::CompensatedSummation< RealType > CompensatedSummationType;
+  std::vector< CompensatedSummationType >       m_Sum;
+
   RealType                m_DirectedHausdorffDistance;
   RealType                m_AverageHausdorffDistance;
   bool                    m_UseImageSpacing;

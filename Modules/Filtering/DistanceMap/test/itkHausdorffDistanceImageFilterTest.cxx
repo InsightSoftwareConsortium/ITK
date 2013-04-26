@@ -76,7 +76,7 @@ int itkHausdorffDistanceImageFilterTest(int, char* [] )
     ++it2;
     }
 
-
+  int exit_status=EXIT_SUCCESS; //If no failures detected, then EXIT_SUCCESS
   // compute the directed Hausdorff distance h(image1,image2)
   {
   typedef itk::DirectedHausdorffDistanceImageFilter<Image1Type,Image2Type> FilterType;
@@ -88,26 +88,22 @@ int itkHausdorffDistanceImageFilterTest(int, char* [] )
   filter->Update();
   filter->Print( std::cout );
 
-
   // check results
-
-  FilterType::RealType trueDistance = 10 *
-    vcl_sqrt( static_cast<double>(ImageDimension) );
-  FilterType::RealType distance = filter->GetDirectedHausdorffDistance();
+  const FilterType::RealType trueDistance = 10 * vcl_sqrt( static_cast<double>(ImageDimension) );
+  const FilterType::RealType distance = filter->GetDirectedHausdorffDistance();
 
   std::cout << " True distance: " << trueDistance << std::endl;
   std::cout << " Computed computed: " << distance << std::endl;
   std::cout << " Average distance: " << filter->GetAverageHausdorffDistance() << std::endl;
-
   if ( vnl_math_abs( trueDistance - distance ) > 0.1 )
     {
     std::cout << "Test failed. " << std::endl;
-    return EXIT_FAILURE;
+    exit_status = EXIT_FAILURE;
     }
   if ( vnl_math_abs( 6.5 - filter->GetAverageHausdorffDistance() ) > 0.1 )
     {
     std::cout << "Test failed, average distance too great. " << std::endl;
-    return EXIT_FAILURE;
+    exit_status = EXIT_FAILURE;
     }
   }
 
@@ -120,11 +116,9 @@ int itkHausdorffDistanceImageFilterTest(int, char* [] )
   filter->SetInput2( image1 );
   filter->Update();
 
-
   // check results
-  FilterType::RealType trueDistance = 5 *
-    vcl_sqrt( static_cast<double>(ImageDimension) );
-  FilterType::RealType distance = filter->GetDirectedHausdorffDistance();
+  const FilterType::RealType trueDistance = 5 * vcl_sqrt( static_cast<double>(ImageDimension) );
+  const FilterType::RealType distance = filter->GetDirectedHausdorffDistance();
 
   std::cout << " True distance: " << trueDistance << std::endl;
   std::cout << " Computed computed: " << distance << std::endl;
@@ -133,15 +127,14 @@ int itkHausdorffDistanceImageFilterTest(int, char* [] )
   if ( vnl_math_abs( trueDistance - distance ) > 0.1 )
     {
     std::cout << "Test failed. " << std::endl;
-    return EXIT_FAILURE;
+    exit_status = EXIT_FAILURE;
     }
   if ( vnl_math_abs( 2.5 - filter->GetAverageHausdorffDistance() ) > 0.1 )
     {
     std::cout << "Test failed, average distance too great. " << std::endl;
-    return EXIT_FAILURE;
+    exit_status = EXIT_FAILURE;
     }
   }
-
 
   // compute the Hausdorff distance H(image1,image2)
   {
@@ -152,11 +145,9 @@ int itkHausdorffDistanceImageFilterTest(int, char* [] )
   filter->SetInput2( image2 );
   filter->Update();
 
-
   // check results
-  FilterType::RealType trueDistance = 10 *
-    vcl_sqrt( static_cast<double>(ImageDimension) );
-  FilterType::RealType distance = filter->GetHausdorffDistance();
+  const FilterType::RealType trueDistance = 10 * vcl_sqrt( static_cast<double>(ImageDimension) );
+  const FilterType::RealType distance = filter->GetHausdorffDistance();
 
   std::cout << " True distance: " << trueDistance << std::endl;
   std::cout << " Computed computed: " << distance << std::endl;
@@ -165,12 +156,12 @@ int itkHausdorffDistanceImageFilterTest(int, char* [] )
   if ( vnl_math_abs( trueDistance - distance ) > 0.1 )
     {
     std::cout << "Test failed. " << std::endl;
-    return EXIT_FAILURE;
+    exit_status = EXIT_FAILURE;
     }
   if ( vnl_math_abs( 4.5 - filter->GetAverageHausdorffDistance() ) > 0.1 )
     {
     std::cout << "Test failed, average distance too great. " << std::endl;
-    return EXIT_FAILURE;
+    exit_status = EXIT_FAILURE;
     }
   }
 
@@ -183,11 +174,9 @@ int itkHausdorffDistanceImageFilterTest(int, char* [] )
   filter->SetInput2( image1 );
   filter->Update();
 
-
   // check results
-  FilterType::RealType trueDistance = 10 *
-    vcl_sqrt( static_cast<double>(ImageDimension) );
-  FilterType::RealType distance = filter->GetHausdorffDistance();
+  const FilterType::RealType trueDistance = 10 * vcl_sqrt( static_cast<double>(ImageDimension) );
+  const FilterType::RealType distance = filter->GetHausdorffDistance();
 
   std::cout << " True distance: " << trueDistance << std::endl;
   std::cout << " Computed computed: " << distance << std::endl;
@@ -196,12 +185,12 @@ int itkHausdorffDistanceImageFilterTest(int, char* [] )
   if ( vnl_math_abs( trueDistance - distance ) > 0.1 )
     {
     std::cout << "Test failed. " << std::endl;
-    return EXIT_FAILURE;
+    exit_status = EXIT_FAILURE;
     }
   if ( vnl_math_abs( 4.5 - filter->GetAverageHausdorffDistance() ) > 0.1 )
     {
     std::cout << "Test failed, average distance too great. " << std::endl;
-    return EXIT_FAILURE;
+    exit_status = EXIT_FAILURE;
     }
   }
 
@@ -226,10 +215,9 @@ int itkHausdorffDistanceImageFilterTest(int, char* [] )
   filter->Update();
 
   // check results
-  FilterType::RealType trueDistance = 10 *
-    vcl_sqrt( spacing1[0]*spacing1[0]+spacing1[1]*spacing1[1]+spacing1[2]*spacing1[2]);
-  FilterType::RealType trueAverageDistance = 4.5 * spacing1[0];
-  FilterType::RealType distance = filter->GetHausdorffDistance();
+  const FilterType::RealType trueDistance = 10 * vcl_sqrt( spacing1[0]*spacing1[0]+spacing1[1]*spacing1[1]+spacing1[2]*spacing1[2]);
+  const FilterType::RealType trueAverageDistance = 4.5 * spacing1[0];
+  const FilterType::RealType distance = filter->GetHausdorffDistance();
 
   std::cout << " True distance: " << trueDistance << std::endl;
   std::cout << " Computed computed: " << distance << std::endl;
@@ -238,16 +226,23 @@ int itkHausdorffDistanceImageFilterTest(int, char* [] )
   if ( vnl_math_abs( trueDistance - distance ) > 0.1 )
     {
     std::cout << "Test failed. " << std::endl;
-    return EXIT_FAILURE;
+    exit_status = EXIT_FAILURE;
     }
   if ( vnl_math_abs( trueAverageDistance - filter->GetAverageHausdorffDistance() ) > 0.1 )
     {
     std::cout << "Test failed, average distance too great. " << std::endl;
-    return EXIT_FAILURE;
+    exit_status = EXIT_FAILURE;
     }
   }
 
-  std::cout << "Test passed. " << std::endl;
-  return EXIT_SUCCESS;
+  if ( exit_status == EXIT_SUCCESS )
+    {
+    std::cout << "All Test passed. " << std::endl;
+    }
+  else
+    {
+    std::cout << "All Test failed. " << std::endl;
+    }
+  return exit_status;
 
 }

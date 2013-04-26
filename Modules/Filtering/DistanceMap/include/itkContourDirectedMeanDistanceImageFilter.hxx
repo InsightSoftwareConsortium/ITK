@@ -25,7 +25,7 @@
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkOffset.h"
 #include "itkImageRegionIterator.h"
-#include "itkSignedDanielssonDistanceMapImageFilter.h"
+#include "itkSignedMaurerDistanceMapImageFilter.h"
 #include "itkProgressReporter.h"
 
 namespace itk
@@ -139,13 +139,14 @@ ContourDirectedMeanDistanceImageFilter< TInputImage1, TInputImage2 >
   m_MeanDistance.Fill(NumericTraits< RealType >::Zero);
   m_Count.Fill(0);
 
-  // Compute SignedDanielsson distance from non-zero pixels in the second image
-  typedef SignedDanielssonDistanceMapImageFilter< InputImage2Type, DistanceMapType >
+  // Compute Signed distance from non-zero pixels in the second image
+  typedef SignedMaurerDistanceMapImageFilter< InputImage2Type, DistanceMapType >
   FilterType;
 
   typename FilterType::Pointer filter = FilterType::New();
 
   filter->SetInput( this->GetInput2() );
+  filter->SetSquaredDistance(false);
   filter->SetUseImageSpacing(m_UseImageSpacing);
   filter->Update();
 
