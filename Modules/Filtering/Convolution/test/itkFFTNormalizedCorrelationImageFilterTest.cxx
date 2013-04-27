@@ -30,7 +30,7 @@ int itkFFTNormalizedCorrelationImageFilterTest(int argc, char * argv[] )
   if( argc < 4 )
     {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << " fixedImageName movingImageName outputImageName [requiredNumberOfOverlappingPixels]" << std::endl;
+    std::cerr << argv[0] << " fixedImageName movingImageName outputImageName [requiredFractionOfOverlappingPixels]" << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -39,15 +39,16 @@ int itkFFTNormalizedCorrelationImageFilterTest(int argc, char * argv[] )
   // We need the internal type to be either float or double since
   // the correlation image contains values between -1 and 1.
   typedef itk::Image<double, 2> RealImageType;
+  typedef itk::FFTNormalizedCorrelationImageFilter< InputImageType, RealImageType > FilterType;
 
   char * fixedImageFileName = argv[1];
   char * movingImageFileName = argv[2];
   const char * outputImageFileName = argv[3];
-
-  itk::SizeValueType requiredNumberOfOverlappingPixels = 0;
+  FilterType::SizeValueType requiredNumberOfOverlappingPixels = 0;
+  FilterType::RealPixelType requiredFractionOfOverlappingPixels = 0;
   if( argc > 4 )
     {
-      requiredNumberOfOverlappingPixels = atoi(argv[4]);
+    requiredFractionOfOverlappingPixels = atof(argv[4]);
     }
 
   typedef itk::ImageFileReader< InputImageType > ReaderType;
@@ -57,13 +58,13 @@ int itkFFTNormalizedCorrelationImageFilterTest(int argc, char * argv[] )
   ReaderType::Pointer movingImageReader = ReaderType::New();
   movingImageReader->SetFileName( movingImageFileName );
 
-  typedef itk::FFTNormalizedCorrelationImageFilter< InputImageType, RealImageType > FilterType;
   FilterType::Pointer filter = FilterType::New();
   filter->SetFixedImage( fixedImageReader->GetOutput() );
   filter->SetMovingImage( movingImageReader->GetOutput() );
   // Larger values zero-out pixels on a larger border around the correlation image.
   // Thus, larger values remove less stable computations but also limit the capture range.
   filter->SetRequiredNumberOfOverlappingPixels( requiredNumberOfOverlappingPixels );
+  filter->SetRequiredFractionOfOverlappingPixels( requiredFractionOfOverlappingPixels );
 
   // Shift the correlation values so they can be written out as a png.
   // The original range is [-1,1], and the new range is [0,255].
@@ -94,6 +95,10 @@ int itkFFTNormalizedCorrelationImageFilterTest(int argc, char * argv[] )
     std::cerr << "Exception catched !" << std::endl;
     std::cerr << excep << std::endl;
     }
+
+  std::cout << "Maximum overlapping pixels: " << filter->GetMaximumNumberOfOverlappingPixels() << std::endl;
+  std::cout << "Required fraction of overlapping pixels: " << filter->GetRequiredFractionOfOverlappingPixels() << std::endl;
+  std::cout << "Required number of overlapping pixels: " << filter->GetRequiredNumberOfOverlappingPixels() << std::endl;
 
   return EXIT_SUCCESS;
 }
