@@ -56,13 +56,13 @@ public:
       { return; }
 
     unsigned int currentLevel = filter->GetCurrentLevel();
-    typename TFilter::ShrinkFactorsArrayType shrinkFactors = filter->GetShrinkFactorsPerLevel();
+    typename TFilter::ShrinkFactorsPerDimensionContainerType shrinkFactors = filter->GetShrinkFactorsPerDimension( currentLevel );
     typename TFilter::SmoothingSigmasArrayType smoothingSigmas = filter->GetSmoothingSigmasPerLevel();
     typename TFilter::TransformParametersAdaptorsContainerType adaptors = filter->GetTransformParametersAdaptorsPerLevel();
 
     std::cout << "  Current level = " << currentLevel << std::endl;
-    std::cout << "    shrink factor = " << shrinkFactors[currentLevel] << std::endl;
-    std::cout << "    smoothing variance = " << smoothingSigmas[currentLevel] << std::endl;
+    std::cout << "    shrink factor = " << shrinkFactors << std::endl;
+    std::cout << "    smoothing sigma = " << smoothingSigmas[currentLevel] << std::endl;
     std::cout << "    required fixed parameters = " << adaptors[currentLevel]->GetRequiredFixedParameters() << std::endl;
     }
 };
