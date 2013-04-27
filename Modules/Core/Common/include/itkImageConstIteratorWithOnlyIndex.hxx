@@ -19,7 +19,6 @@
 #define __itkImageConstIteratorWithOnlyIndex_hxx
 
 #include "itkImageConstIteratorWithOnlyIndex.h"
-#include "itkStdAlgorithm.h"
 
 namespace itk
 {
@@ -47,7 +46,9 @@ ImageConstIteratorWithOnlyIndex< TImage >
   m_EndIndex          = it.m_EndIndex;
   m_Region            = it.m_Region;
 
-  itk::algorithm::copy_n(it.m_OffsetTable, ImageDimension + 1,  m_OffsetTable);
+  std::copy(it.m_OffsetTable,
+            it.m_OffsetTable+ImageDimension + 1,
+            m_OffsetTable);
 
   m_Remaining   = it.m_Remaining;
 }
@@ -65,7 +66,9 @@ ImageConstIteratorWithOnlyIndex< TImage >
   m_PositionIndex     = m_BeginIndex;
   m_Region            = region;
 
-  itk::algorithm::copy_n(m_Image->GetOffsetTable(), ImageDimension + 1,  m_OffsetTable);
+  std::copy(m_Image->GetOffsetTable(),
+            m_Image->GetOffsetTable()+ImageDimension + 1,
+            m_OffsetTable);
 
   // Compute the end offset
   m_Remaining = false;
@@ -99,7 +102,9 @@ ImageConstIteratorWithOnlyIndex< TImage >
     m_PositionIndex     = it.m_PositionIndex;
     m_Region            = it.m_Region;
 
-    itk::algorithm::copy_n(it.m_OffsetTable, ImageDimension + 1,  m_OffsetTable);
+    std::copy(it.m_OffsetTable,
+              it.m_OffsetTable+ImageDimension + 1,
+              m_OffsetTable);
 
     m_Remaining   = it.m_Remaining;
     }

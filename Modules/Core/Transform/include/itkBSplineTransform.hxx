@@ -23,7 +23,6 @@
 #include "itkContinuousIndex.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
-#include "itkStdAlgorithm.h"
 
 namespace itk
 {
@@ -419,7 +418,9 @@ BSplineTransform<TScalarType, NDimensions, VSplineOrder>
       const ParametersValueType * const baseImagePointer = images[j]->GetBufferPointer();
 
       ParametersValueType *dataPointer = this->m_InternalParametersBuffer.data_block();
-      itk::algorithm::copy_n(baseImagePointer, numberOfPixels,  dataPointer + j * numberOfPixels);
+      std::copy(baseImagePointer,
+                baseImagePointer+numberOfPixels,
+                dataPointer + j * numberOfPixels);
 
       this->m_CoefficientImages[j]->CopyInformation( images[j] );
       this->m_CoefficientImages[j]->SetRegions( images[j]->GetLargestPossibleRegion() );

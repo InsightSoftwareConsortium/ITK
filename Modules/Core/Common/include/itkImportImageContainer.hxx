@@ -29,7 +29,6 @@
 #define __itkImportImageContainer_hxx
 
 #include "itkImportImageContainer.h"
-#include "itkStdAlgorithm.h"
 
 namespace itk
 {
@@ -68,7 +67,9 @@ ImportImageContainer< TElementIdentifier, TElement >
       {
       TElement *temp = this->AllocateElements(size);
       // only copy the portion of the data used in the old buffer
-      itk::algorithm::copy_n(m_ImportPointer,m_Size,temp);
+      std::copy(m_ImportPointer,
+                m_ImportPointer+m_Size,
+                temp);
 
       DeallocateManagedMemory();
 
@@ -109,7 +110,9 @@ ImportImageContainer< TElementIdentifier, TElement >
       {
       const TElementIdentifier size = m_Size;
       TElement *               temp = this->AllocateElements(size);
-      itk::algorithm::copy_n(m_ImportPointer, m_Size, temp);
+      std::copy(m_ImportPointer,
+                m_ImportPointer+m_Size,
+                temp);
 
       DeallocateManagedMemory();
 

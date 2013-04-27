@@ -20,7 +20,6 @@
 
 #include "itkMacro.h"
 #include "itkIntTypes.h"
-#include "itkStdAlgorithm.h"
 
 namespace itk
 {
@@ -168,7 +167,9 @@ public:
    * memory that is the appropriate size. \sa GetSize */
   void SetSize(const SizeValueType val[VDimension])
   {
-    itk::algorithm::copy_n(val, VDimension, m_Size);
+    std::copy(val,
+              val+VDimension,
+              m_Size);
   }
 
   /** Set an element of the Size.

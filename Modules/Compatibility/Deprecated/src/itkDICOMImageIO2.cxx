@@ -21,7 +21,6 @@
 #include "itkMetaDataObject.h"
 
 #include <iostream>
-#include "itkStdAlgorithm.h"
 
 namespace itk
 {

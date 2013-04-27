@@ -23,7 +23,6 @@
 #include "itkMath.h"
 
 #include <memory>
-#include "itkStdAlgorithm.h"
 
 namespace itk
 {
@@ -242,7 +241,9 @@ public:
    * \sa GetIndex() */
   void SetIndex(const IndexValueType val[VIndexDimension])
   {
-    itk::algorithm::copy_n(val, VIndexDimension, m_Index);
+    std::copy(val,
+              val+VIndexDimension,
+              m_Index);
   }
 
   /** Sets the value of one of the elements in the index.

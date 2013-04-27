@@ -19,7 +19,6 @@
 #define __itkCompositeTransform_hxx
 
 #include "itkCompositeTransform.h"
-#include "itkStdAlgorithm.h"
 
 namespace itk
 {
@@ -808,8 +807,9 @@ const typename CompositeTransform<TScalar, NDimensions>::ParametersType
       it--;
       const ParametersType & subParameters = (*it)->GetParameters();
       /* use vnl_vector data_block() to get data ptr */
-      itk::algorithm::copy_n(subParameters.data_block(), subParameters.Size(),
-                             &(this->m_Parameters.data_block() )[offset]);
+      std::copy(subParameters.data_block(),
+                subParameters.data_block()+subParameters.Size(),
+                &(this->m_Parameters.data_block() )[offset]);
       offset += subParameters.Size();
 
       }
@@ -879,8 +879,9 @@ CompositeTransform<TScalar, NDimensions>
         {
         /* New parameter data, so copy it in */
         /* Use vnl_vector data_block() to get data ptr */
-        itk::algorithm::copy_n(&(inputParameters.data_block() )[offset], subParameters.Size(),
-                               subParameters.data_block());
+        std::copy(&(inputParameters.data_block() )[offset],
+                  &(inputParameters.data_block() )[offset]+subParameters.Size(),
+                  subParameters.data_block());
         /* Call SetParameters explicitly to include anything extra it does */
         (*it)->SetParameters(subParameters);
         offset += subParameters.Size();
@@ -912,8 +913,9 @@ const typename CompositeTransform<TScalar, NDimensions>::ParametersType
     it--;
     const ParametersType & subFixedParameters = (*it)->GetFixedParameters();
     /* use vnl_vector data_block() to get data ptr */
-    itk::algorithm::copy_n(subFixedParameters.data_block(), subFixedParameters.Size(),
-                           &(this->m_FixedParameters.data_block() )[offset]);
+    std::copy(subFixedParameters.data_block(),
+              subFixedParameters.data_block()+subFixedParameters.Size(),
+              &(this->m_FixedParameters.data_block() )[offset]);
     offset += subFixedParameters.Size();
     }
   while( it != transforms.begin() );
@@ -952,8 +954,9 @@ CompositeTransform<TScalar, NDimensions>
     ParametersType & subFixedParameters =
       const_cast<ParametersType &>( (*it)->GetFixedParameters() );
     /* Use vnl_vector data_block() to get data ptr */
-    itk::algorithm::copy_n(&(this->m_FixedParameters.data_block() )[offset], subFixedParameters.Size(),
-                           subFixedParameters.data_block());
+    std::copy(&(this->m_FixedParameters.data_block() )[offset],
+              &(this->m_FixedParameters.data_block() )[offset]+subFixedParameters.Size(),
+              subFixedParameters.data_block());
     /* Call SetParameters explicitly to include anything extra it does */
     (*it)->SetFixedParameters(subFixedParameters);
     offset += subFixedParameters.Size();
