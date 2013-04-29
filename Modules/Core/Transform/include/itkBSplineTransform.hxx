@@ -21,7 +21,7 @@
 #include "itkBSplineTransform.h"
 
 #include "itkContinuousIndex.h"
-#include "itkImageRegionIterator.h"
+#include "itkImageScanlineConstIterator.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 
 namespace itk
@@ -531,7 +531,7 @@ BSplineTransform<TScalarType, NDimensions, VSplineOrder>
 
     outputPoint.Fill( NumericTraits<ScalarType>::Zero );
 
-    typedef ImageRegionConstIterator<ImageType> IteratorType;
+    typedef ImageScanlineConstIterator<ImageType> IteratorType;
     IteratorType               coeffIterator[SpaceDimension];
     unsigned long              counter = 0;
     const ParametersValueType *basePointer =
@@ -544,22 +544,30 @@ BSplineTransform<TScalarType, NDimensions, VSplineOrder>
 
     while( !coeffIterator[0].IsAtEnd() )
       {
-      // multiply weigth with coefficient
-      for( unsigned int j = 0; j < SpaceDimension; j++ )
-        {
-        outputPoint[j] += static_cast<ScalarType>(
-            weights[counter] * coeffIterator[j].Get() );
-        }
+       while( !coeffIterator[0].IsAtEndOfLine() )
+         {
+         // multiply weigth with coefficient
+         for( unsigned int j = 0; j < SpaceDimension; j++ )
+           {
+           outputPoint[j] += static_cast<ScalarType>(
+             weights[counter] * coeffIterator[j].Get() );
+           }
 
-      // populate the indices array
-      indices[counter] = &( coeffIterator[0].Value() ) - basePointer;
+         // populate the indices array
+         indices[counter] = &( coeffIterator[0].Value() ) - basePointer;
 
-      // go to next coefficient in the support region
-      ++counter;
-      for( unsigned int j = 0; j < SpaceDimension; j++ )
-        {
-        ++( coeffIterator[j] );
-        }
+         // go to next coefficient in the support region
+         ++counter;
+         for( unsigned int j = 0; j < SpaceDimension; j++ )
+           {
+           ++( coeffIterator[j] );
+           }
+         } // end scanline
+
+       for( unsigned int j = 0; j < SpaceDimension; j++ )
+         {
+         coeffIterator[j].NextLine();
+         }
       }
     // return results
     for( unsigned int j = 0; j < SpaceDimension; j++ )

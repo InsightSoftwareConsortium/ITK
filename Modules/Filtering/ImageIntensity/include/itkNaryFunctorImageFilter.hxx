@@ -19,7 +19,7 @@
 #define __itkNaryFunctorImageFilter_hxx
 
 #include "itkNaryFunctorImageFilter.h"
-#include "itkImageRegionIterator.h"
+#include "itkImageScanlineIterator.h"
 #include "itkProgressReporter.h"
 
 namespace itk
@@ -49,8 +49,8 @@ NaryFunctorImageFilter< TInputImage, TOutputImage, TFunction >
   const unsigned int numberOfInputImages =
     static_cast< unsigned int >( this->GetNumberOfIndexedInputs() );
 
-  typedef ImageRegionConstIterator< TInputImage > ImageRegionConstIteratorType;
-  std::vector< ImageRegionConstIteratorType * > inputItrVector;
+  typedef ImageScanlineConstIterator< TInputImage > ImageScanlineConstIteratorType;
+  std::vector< ImageScanlineConstIteratorType * >   inputItrVector;
   inputItrVector.reserve(numberOfInputImages);
 
   // support progress methods/callbacks.
@@ -62,11 +62,12 @@ NaryFunctorImageFilter< TInputImage, TOutputImage, TFunction >
 
     if ( inputPtr )
       {
-      inputItrVector.push_back( new ImageRegionConstIteratorType(inputPtr, outputRegionForThread) );
+      inputItrVector.push_back( new ImageScanlineConstIteratorType(inputPtr, outputRegionForThread) );
       }
     }
-  ProgressReporter progress( this, threadId,
-                             outputRegionForThread.GetNumberOfPixels() );
+
+  const size_t numberOfLinesToProcess = outputRegionForThread.GetNumberOfPixels() / outputRegionForThread.GetSize(0);
+  ProgressReporter progress( this, threadId, numberOfLinesToProcess );
 
   const unsigned int numberOfValidInputImages = inputItrVector.size();
 
@@ -79,28 +80,39 @@ NaryFunctorImageFilter< TInputImage, TOutputImage, TFunction >
 
   NaryArrayType naryInputArray(numberOfValidInputImages);
 
-  OutputImagePointer                  outputPtr = this->GetOutput(0);
-  ImageRegionIterator< TOutputImage > outputIt(outputPtr, outputRegionForThread);
+  OutputImagePointer                    outputPtr = this->GetOutput(0);
+  ImageScanlineIterator< TOutputImage > outputIt(outputPtr, outputRegionForThread);
 
-  typename std::vector< ImageRegionConstIteratorType * >::iterator regionIterators;
-  const typename std::vector< ImageRegionConstIteratorType * >::const_iterator regionItEnd =
+  typename std::vector< ImageScanlineConstIteratorType * >::iterator regionIterators;
+  const typename std::vector< ImageScanlineConstIteratorType * >::const_iterator regionItEnd =
     inputItrVector.end();
 
   typename NaryArrayType::iterator arrayIt;
 
   while ( !outputIt.IsAtEnd() )
     {
-    arrayIt = naryInputArray.begin();
-    regionIterators = inputItrVector.begin();
-    while ( regionIterators != regionItEnd )
-      {
-      *arrayIt++ = ( *regionIterators )->Get();
-      ++( *( *regionIterators ) );
-      ++regionIterators;
-      }
-    outputIt.Set( m_Functor(naryInputArray) );
-    ++outputIt;
-    progress.CompletedPixel();
+     while ( !outputIt.IsAtEndOfLine() )
+       {
+       arrayIt = naryInputArray.begin();
+       regionIterators = inputItrVector.begin();
+       while ( regionIterators != regionItEnd )
+         {
+         *arrayIt++ = ( *regionIterators )->Get();
+         ++( *( *regionIterators ) );
+         ++regionIterators;
+         }
+       outputIt.Set( m_Functor(naryInputArray) );
+       ++outputIt;
+       }
+
+     regionIterators = inputItrVector.begin();
+     while ( regionIterators != regionItEnd )
+       {
+       ( *regionIterators )->NextLine();
+       ++regionIterators;
+       }
+     outputIt.NextLine();
+     progress.CompletedPixel(); // potential exception thrown here
     }
 
   // Free memory

@@ -19,7 +19,7 @@
 #define __itkTernaryFunctorImageFilter_hxx
 
 #include "itkTernaryFunctorImageFilter.h"
-#include "itkImageRegionIterator.h"
+#include "itkImageScanlineIterator.h"
 #include "itkProgressReporter.h"
 
 namespace itk
@@ -120,25 +120,29 @@ TernaryFunctorImageFilter< TInputImage1, TInputImage2, TInputImage3, TOutputImag
     dynamic_cast< const TInputImage3 * >( ( ProcessObject::GetInput(2) ) );
   OutputImagePointer outputPtr = this->GetOutput(0);
 
-  ImageRegionConstIterator< TInputImage1 > inputIt1(inputPtr1, outputRegionForThread);
-  ImageRegionConstIterator< TInputImage2 > inputIt2(inputPtr2, outputRegionForThread);
-  ImageRegionConstIterator< TInputImage3 > inputIt3(inputPtr3, outputRegionForThread);
-  ImageRegionIterator< TOutputImage >      outputIt(outputPtr, outputRegionForThread);
 
-  ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
+  ImageScanlineConstIterator< TInputImage1 > inputIt1(inputPtr1, outputRegionForThread);
+  ImageScanlineConstIterator< TInputImage2 > inputIt2(inputPtr2, outputRegionForThread);
+  ImageScanlineConstIterator< TInputImage3 > inputIt3(inputPtr3, outputRegionForThread);
+  ImageScanlineIterator< TOutputImage >      outputIt(outputPtr, outputRegionForThread);
 
-  inputIt1.GoToBegin();
-  inputIt2.GoToBegin();
-  inputIt3.GoToBegin();
-  outputIt.GoToBegin();
+  const size_t numberOfLinesToProcess = outputRegionForThread.GetNumberOfPixels() / outputRegionForThread.GetSize(0);
+  ProgressReporter progress( this, threadId, numberOfLinesToProcess );
 
   while ( !inputIt1.IsAtEnd() )
     {
-    outputIt.Set( m_Functor( inputIt1.Get(), inputIt2.Get(), inputIt3.Get() ) );
-    ++inputIt1;
-    ++inputIt2;
-    ++inputIt3;
-    ++outputIt;
+    while ( !inputIt1.IsAtEndOfLine() )
+      {
+      outputIt.Set( m_Functor( inputIt1.Get(), inputIt2.Get(), inputIt3.Get() ) );
+      ++inputIt1;
+      ++inputIt2;
+      ++inputIt3;
+      ++outputIt;
+      }
+      inputIt1.NextLine();
+      inputIt2.NextLine();
+      inputIt3.NextLine();
+      outputIt.NextLine();
     progress.CompletedPixel(); // potential exception thrown here
     }
 }

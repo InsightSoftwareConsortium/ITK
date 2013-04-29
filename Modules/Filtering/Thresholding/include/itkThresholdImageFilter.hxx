@@ -29,7 +29,7 @@
 #define __itkThresholdImageFilter_hxx
 
 #include "itkThresholdImageFilter.h"
-#include "itkImageRegionIterator.h"
+#include "itkImageScanlineIterator.h"
 #include "itkNumericTraits.h"
 #include "itkObjectFactory.h"
 #include "itkProgressReporter.h"
@@ -142,31 +142,37 @@ ThresholdImageFilter< TImage >
 
   // Define/declare an iterator that will walk the output region for this
   // thread.
-  typedef ImageRegionConstIterator< TImage > InputIterator;
-  typedef ImageRegionIterator< TImage >      OutputIterator;
+  typedef ImageScanlineConstIterator< TImage > InputIterator;
+  typedef ImageScanlineIterator< TImage >      OutputIterator;
 
   InputIterator  inIt(inputPtr, outputRegionForThread);
   OutputIterator outIt(outputPtr, outputRegionForThread);
 
   // support progress methods/callbacks
-  ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
+  const size_t numberOfLinesToProcess = outputRegionForThread.GetNumberOfPixels() / outputRegionForThread.GetSize(0);
+  ProgressReporter progress( this, threadId, numberOfLinesToProcess );
 
   // walk the regions, threshold each pixel
   while ( !outIt.IsAtEnd() )
     {
-    const PixelType value = inIt.Get();
-    if ( m_Lower <= value && value <= m_Upper )
+    while ( !outIt.IsAtEndOfLine() )
       {
-      // pixel passes to output unchanged and is replaced by m_OutsideValue in
-      // the inverse output image
-      outIt.Set( inIt.Get() );
+      const PixelType value = inIt.Get();
+      if ( m_Lower <= value && value <= m_Upper )
+        {
+        // pixel passes to output unchanged and is replaced by m_OutsideValue in
+        // the inverse output image
+        outIt.Set( inIt.Get() );
+        }
+      else
+        {
+        outIt.Set(m_OutsideValue);
+        }
+      ++inIt;
+      ++outIt;
       }
-    else
-      {
-      outIt.Set(m_OutsideValue);
-      }
-    ++inIt;
-    ++outIt;
+    inIt.NextLine();
+    outIt.NextLine();
     progress.CompletedPixel();
     }
 }

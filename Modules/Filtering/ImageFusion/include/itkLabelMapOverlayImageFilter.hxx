@@ -21,8 +21,7 @@
 #include "itkLabelMapOverlayImageFilter.h"
 #include "itkNumericTraits.h"
 #include "itkProgressReporter.h"
-#include "itkImageRegionConstIterator.h"
-#include "itkImageRegionIterator.h"
+#include "itkImageScanlineIterator.h"
 
 namespace itk {
 
@@ -96,14 +95,19 @@ LabelMapOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
   function.SetBackgroundValue( input->GetBackgroundValue() );
   function.SetOpacity( m_Opacity );
 
-  ImageRegionConstIterator< FeatureImageType > featureIt( input2, outputRegionForThread );
-  ImageRegionIterator< OutputImageType > outputIt( output, outputRegionForThread );
+  ImageScanlineConstIterator< FeatureImageType > featureIt( input2, outputRegionForThread );
+  ImageScanlineIterator< OutputImageType > outputIt( output, outputRegionForThread );
 
-  for ( featureIt.GoToBegin(), outputIt.GoToBegin();
-        !featureIt.IsAtEnd();
-        ++featureIt, ++outputIt )
+  while ( !featureIt.IsAtEnd() )
     {
-    outputIt.Set( function( featureIt.Get(), input->GetBackgroundValue() ) );
+    while ( !featureIt.IsAtEndOfLine() )
+      {
+      outputIt.Set( function( featureIt.Get(), input->GetBackgroundValue() ) );
+      ++featureIt;
+      ++outputIt;
+      }
+    featureIt.NextLine();
+    outputIt.NextLine();
     }
 
   // wait for the other threads to complete that part

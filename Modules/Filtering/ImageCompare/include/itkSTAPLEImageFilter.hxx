@@ -19,7 +19,7 @@
 #define __itkSTAPLEImageFilter_hxx
 #include "itkSTAPLEImageFilter.h"
 
-#include "itkImageRegionIterator.h"
+#include "itkImageScanlineIterator.h"
 
 namespace itk
 {
@@ -42,8 +42,8 @@ STAPLEImageFilter< TInputImage, TOutputImage >
 {
   const double epsilon = 1.0e-10;
 
-  typedef ImageRegionConstIterator< TInputImage > IteratorType;
-  typedef ImageRegionIterator< TOutputImage >     FuzzyIteratorType;
+  typedef ImageScanlineConstIterator< TInputImage > IteratorType;
+  typedef ImageScanlineIterator< TOutputImage >     FuzzyIteratorType;
 
   const double min_rms_error = 1.0e-14; // 7 digits of precision
 
@@ -55,11 +55,7 @@ STAPLEImageFilter< TInputImage, TOutputImage >
   typename TOutputImage::Pointer W = this->GetOutput();
 
   // Initialize the output to all 0's
-  FuzzyIteratorType out = FuzzyIteratorType( W, W->GetRequestedRegion() );
-  for ( out.GoToBegin(); !out.IsAtEnd(); ++out )
-    {
-    out.Set(0.0);
-    }
+  W->FillBuffer( 0.0 );
 
   // Record the number of input files.
   number_of_input_files = this->GetNumberOfIndexedInputs();
@@ -81,6 +77,7 @@ STAPLEImageFilter< TInputImage, TOutputImage >
   // Come up with an initial Wi which is simply the average of
   // all the segmentations.
   IteratorType in;
+  FuzzyIteratorType out;
   for ( i = 0; i < number_of_input_files; ++i )
     {
     if ( this->GetInput(i)->GetRequestedRegion() != W->GetRequestedRegion() )
@@ -91,24 +88,37 @@ STAPLEImageFilter< TInputImage, TOutputImage >
     in  = IteratorType( this->GetInput(i), W->GetRequestedRegion() );
     out = FuzzyIteratorType( W, W->GetRequestedRegion() );
 
-    for ( in.GoToBegin(), out.GoToBegin(); !in.IsAtEnd(); ++in, ++out )
+    while ( !in.IsAtEnd() )
       {
-      if ( in.Get() > m_ForegroundValue - epsilon && in.Get()
-           < m_ForegroundValue + epsilon )
+      while ( !in.IsAtEndOfLine() )
         {
-        out.Set(out.Get() + 1.0);
-        }
-      }
-    }  // end for
+        if ( in.Get() > m_ForegroundValue - epsilon && in.Get()
+             < m_ForegroundValue + epsilon )
+          {
+          out.Set(out.Get() + 1.0);
+          }
+        ++in;
+        ++out;
+        } // end scanline
+      in.NextLine();
+      out.NextLine();
+      }  // end while
+    }
 
   // Divide sum by num of files, calculate the estimate of g_t
   double N = 0.0;
   double g_t = 0.0;
-  for ( out.GoToBegin(); !out.IsAtEnd(); ++out )
+  out.GoToBegin();
+  while ( !out.IsAtEnd() )
     {
-    out.Set( out.Get() / static_cast< double >( number_of_input_files ) );
-    g_t += out.Get();
-    N = N + 1.0;
+    while ( !out.IsAtEndOfLine() )
+      {
+      out.Set( out.Get() / static_cast< double >( number_of_input_files ) );
+      g_t += out.Get();
+      N = N + 1.0;
+      ++out;
+      } // end of scanline
+    out.NextLine();
     }
   g_t = ( g_t / N ) * m_ConfidenceWeight;
 
@@ -125,19 +135,25 @@ STAPLEImageFilter< TInputImage, TOutputImage >
       p_num = p_denom = q_num = q_denom = 0.0;
 
       // Sensitivity and specificity of this user
-      for ( in.GoToBegin(), out.GoToBegin(); !in.IsAtEnd(); ++in, ++out )
+      while ( !in.IsAtEnd() )
         {
-        if ( in.Get() > m_ForegroundValue - epsilon
-             && in.Get() < m_ForegroundValue + epsilon ) // Dij == 1
+        while ( !in.IsAtEndOfLine() )
           {
-          p_num += out.Get(); // out.Get() := Wi
-          }
-        else //        if (in.Get() != m_ForegroundValue) // Dij == 0
-          {
-          q_num += ( 1.0 - out.Get() ); // out.Get() := Wi
-          }
-        p_denom += out.Get();
-        q_denom += ( 1.0 - out.Get() );
+          if ( in.Get() > m_ForegroundValue - epsilon
+               && in.Get() < m_ForegroundValue + epsilon ) // Dij == 1
+            {
+            p_num += out.Get(); // out.Get() := Wi
+            }
+          else //        if (in.Get() != m_ForegroundValue) // Dij == 0
+            {
+            q_num += ( 1.0 - out.Get() ); // out.Get() := Wi
+            }
+          p_denom += out.Get();
+          q_denom += ( 1.0 - out.Get() );
+          ++in;
+          ++out;
+          } // end of scanline
+        in.NextLine();
         }
 
       p[i] = p_num / p_denom;
@@ -157,28 +173,32 @@ STAPLEImageFilter< TInputImage, TOutputImage >
 
     out = FuzzyIteratorType( W, W->GetRequestedRegion() );
 
-    for ( out.GoToBegin(); !out.IsAtEnd(); ++out )
+    out.GoToBegin();
+    while ( !out.IsAtEnd())
       {
-      alpha1 = beta1 = 1.0;
-      for ( i = 0; i < number_of_input_files; ++i )
+      while ( !out.IsAtEndOfLine() )
         {
-        if ( D_it[i].Get() > m_ForegroundValue - epsilon && D_it[i].Get() < m_ForegroundValue + epsilon ) //
-                                                                                                          // Dij
-                                                                                                          // ==
-                                                                                                          // 1
+        alpha1 = beta1 = 1.0;
+        for ( i = 0; i < number_of_input_files; ++i )
           {
-          alpha1 = alpha1 * p[i];
-          beta1  = beta1 * ( 1.0 - q[i] );
+          if ( D_it[i].Get() > m_ForegroundValue - epsilon && D_it[i].Get() < m_ForegroundValue + epsilon )
+            // Dij == 1
+            {
+            alpha1 = alpha1 * p[i];
+            beta1  = beta1 * ( 1.0 - q[i] );
+            }
+          else //Dij == 0
+            {
+            alpha1 = alpha1 * ( 1.0 - p[i] );
+            beta1  = beta1  * q[i];
+            }
+          ++D_it[i];
           }
-        else //Dij == 0
-          {
-          alpha1 = alpha1 * ( 1.0 - p[i] );
-          beta1  = beta1  * q[i];
-          }
-        ++D_it[i];
-        }
-      out.Set( g_t * alpha1
-               / ( g_t * alpha1  + ( 1.0 - g_t ) * beta1 ) );
+        out.Set( g_t * alpha1
+                 / ( g_t * alpha1  + ( 1.0 - g_t ) * beta1 ) );
+        ++out;
+        } // end scanline
+      out.NextLine();
       }
 
     this->InvokeEvent( IterationEvent() );
