@@ -56,7 +56,7 @@ public:
       { return; }
 
     unsigned int currentLevel = filter->GetCurrentLevel();
-    typename TFilter::ShrinkFactorsArrayType shrinkFactors = filter->GetShrinkFactorsPerLevel();
+    typename TFilter::ShrinkFactorsPerDimensionContainerType shrinkFactors = filter->GetShrinkFactorsPerDimension( currentLevel );
     typename TFilter::SmoothingSigmasArrayType smoothingSigmas = filter->GetSmoothingSigmasPerLevel();
     typename TFilter::TransformParametersAdaptorsContainerType adaptors = filter->GetTransformParametersAdaptorsPerLevel();
 
@@ -78,7 +78,7 @@ public:
 
     //debug:
     std::cout << "  CL Current level:           " << currentLevel << std::endl;
-    std::cout << "   SF Shrink factor:          " << shrinkFactors[currentLevel] << std::endl;
+    std::cout << "   SF Shrink factor:          " << shrinkFactors << std::endl;
     std::cout << "   SS Smoothing sigma:        " << smoothingSigmas[currentLevel] << std::endl;
     std::cout << "   RFP Required fixed params: " << adaptors[currentLevel]->GetRequiredFixedParameters() << std::endl;
     std::cout << "   LR Final learning rate:    " << optimizer->GetLearningRate() << std::endl;

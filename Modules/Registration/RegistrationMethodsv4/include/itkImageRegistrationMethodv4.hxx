@@ -29,7 +29,6 @@
 #include "itkMattesMutualInformationImageToImageMetricv4.h"
 #include "itkMersenneTwisterRandomVariateGenerator.h"
 #include "itkRegistrationParameterScalesFromPhysicalShift.h"
-#include "itkShrinkImageFilter.h"
 
 namespace itk
 {
@@ -80,21 +79,25 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
   optimizer->SetScalesEstimator( scalesEstimator );
   this->m_Optimizer = optimizer;
 
-  // By default we set up a 3-level image registration.
-
-  this->m_NumberOfLevels = 0;
-  this->SetNumberOfLevels( 3 );
-
   this->m_OutputTransform = OutputTransformType::New();
 
   DecoratedOutputTransformPointer transformDecorator = DecoratedOutputTransformType::New().GetPointer();
   transformDecorator->Set( this->m_OutputTransform );
   this->ProcessObject::SetNthOutput( 0, transformDecorator );
 
-  this->m_ShrinkFactorsPerLevel.SetSize( this->m_NumberOfLevels );
-  this->m_ShrinkFactorsPerLevel[0] = 2;
-  this->m_ShrinkFactorsPerLevel[1] = 1;
-  this->m_ShrinkFactorsPerLevel[2] = 1;
+  // By default we set up a 3-level image registration.
+
+  this->m_NumberOfLevels = 0;
+  this->SetNumberOfLevels( 3 );
+
+  this->m_ShrinkFactorsPerLevel.resize( this->m_NumberOfLevels );
+  ShrinkFactorsPerDimensionContainerType shrinkFactors;
+  shrinkFactors.Fill( 2 );
+  this->m_ShrinkFactorsPerLevel[0] = shrinkFactors;
+  shrinkFactors.Fill( 1 );
+  this->m_ShrinkFactorsPerLevel[1] = shrinkFactors;
+  shrinkFactors.Fill( 1 );
+  this->m_ShrinkFactorsPerLevel[2] = shrinkFactors;
 
   this->m_SmoothingSigmasPerLevel.SetSize( this->m_NumberOfLevels );
   this->m_SmoothingSigmasPerLevel[0] = 2;
@@ -260,7 +263,6 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
   //   1. subsample the reference domain (typically the fixed image) and/or
   //   2. smooth the fixed and moving images.
 
-  typedef ShrinkImageFilter<FixedImageType, VirtualImageType> ShrinkFilterType;
   typename ShrinkFilterType::Pointer shrinkFilter = ShrinkFilterType::New();
   shrinkFilter->SetShrinkFactors( this->m_ShrinkFactorsPerLevel[level] );
   shrinkFilter->SetInput( this->GetFixedImage( 0 ) );
@@ -431,8 +433,12 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
       this->m_TransformParametersAdaptorsPerLevel.push_back( transformParametersAdaptor.GetPointer() );
       }
 
-    this->m_ShrinkFactorsPerLevel.SetSize( this->m_NumberOfLevels );
-    this->m_ShrinkFactorsPerLevel.Fill( 1 );
+    for( unsigned int level = 0; level < this->m_NumberOfLevels; ++level )
+      {
+      ShrinkFactorsPerDimensionContainerType shrinkFactors;
+      shrinkFactors.Fill( 1 );
+      this->SetShrinkFactorsPerDimension( level, shrinkFactors );
+      }
 
     this->m_SmoothingSigmasPerLevel.SetSize( this->m_NumberOfLevels );
     this->m_SmoothingSigmasPerLevel.Fill( 1.0 );
@@ -566,7 +572,11 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
 
   os << "Number of levels = " << this->m_NumberOfLevels << std::endl;
 
-  os << indent << "Shrink factors: " << this->m_ShrinkFactorsPerLevel << std::endl;
+  for( unsigned int level = 0; level < this->m_NumberOfLevels; ++level )
+    {
+    os << indent << "Shrink factors (level " << level << "): "
+       << this->m_ShrinkFactorsPerLevel[level] << std::endl;
+    }
   os << indent << "Smoothing sigmas: " << this->m_SmoothingSigmasPerLevel << std::endl;
 
   if( this->m_SmoothingSigmasAreSpecifiedInPhysicalUnits == true )

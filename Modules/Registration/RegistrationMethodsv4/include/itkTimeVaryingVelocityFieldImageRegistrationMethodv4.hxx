@@ -383,7 +383,6 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TOu
   Superclass::PrintSelf( os, indent );
 
   os << indent << "Number of levels: " << this->m_NumberOfLevels << std::endl;
-  os << indent << "Shrink factors: " << this->m_ShrinkFactorsPerLevel << std::endl;
   os << indent << "Smoothing sigmas: " << this->m_SmoothingSigmasPerLevel << std::endl;
   os << indent << "Number of iterations: " << this->m_NumberOfIterationsPerLevel << std::endl;
   os << indent << "Convergence threshold: " << this->m_ConvergenceThreshold << std::endl;

@@ -26,6 +26,7 @@
 #include "itkObjectToObjectMultiMetricv4.h"
 #include "itkObjectToObjectOptimizerBase.h"
 #include "itkImageToImageMetricv4.h"
+#include "itkShrinkImageFilter.h"
 #include "itkTransform.h"
 #include "itkTransformParametersAdaptor.h"
 
@@ -139,8 +140,11 @@ public:
   typedef DataObjectDecorator<OutputTransformType>                    DecoratedOutputTransformType;
   typedef typename DecoratedOutputTransformType::Pointer              DecoratedOutputTransformPointer;
 
-  /** array typedef **/
+  typedef ShrinkImageFilter<FixedImageType, VirtualImageType>         ShrinkFilterType;
+  typedef typename ShrinkFilterType::ShrinkFactorsType                ShrinkFactorsPerDimensionContainerType;
+
   typedef Array<SizeValueType>                                        ShrinkFactorsArrayType;
+
   typedef Array<RealType>                                             SmoothingSigmasArrayType;
   typedef Array<RealType>                                             MetricSamplingPercentageArrayType;
 
@@ -224,12 +228,46 @@ public:
   itkGetConstMacro( NumberOfLevels, SizeValueType );
 
   /**
-   * Set/Get the shrink factors for each level. At each resolution level, the
-   * \c itkShrinkImageFilter is called.  For a 256x256 image, a shrink factor
-   * of 2 reduces the image to 128x128.
+   * Set the shrink factors for each level where each level has a constant
+   * shrink factor for each dimension.  For example, input to the function
+   * of factors = [4,2,1] will shrink the image in every dimension by 4
+   * the first level, then by 2 at the second level, then the original resolution
+   * for the final level (uses the \c itkShrinkImageFilter).
    */
-  itkSetMacro( ShrinkFactorsPerLevel, ShrinkFactorsArrayType );
-  itkGetConstMacro( ShrinkFactorsPerLevel, ShrinkFactorsArrayType );
+  void SetShrinkFactorsPerLevel( ShrinkFactorsArrayType factors )
+    {
+    for( unsigned int level = 0; level < factors.Size(); ++level )
+      {
+      ShrinkFactorsPerDimensionContainerType shrinkFactors;
+      shrinkFactors.Fill( factors[level] );
+      this->SetShrinkFactorsPerDimension( level, shrinkFactors );
+      }
+    }
+
+  /**
+   * Get the shrink factors for a specific level.
+   */
+  ShrinkFactorsPerDimensionContainerType GetShrinkFactorsPerDimension( const unsigned int level ) const
+    {
+    if( level >= this->m_ShrinkFactorsPerLevel.size() )
+      {
+      itkExceptionMacro( "Requesting level greater than the number of levels." );
+      }
+    return this->m_ShrinkFactorsPerLevel[level];
+    }
+
+  /**
+   * Set the shrink factors for a specific level for each dimension.
+   */
+  void SetShrinkFactorsPerDimension( unsigned int level, ShrinkFactorsPerDimensionContainerType factors )
+    {
+    if( level >= this->m_ShrinkFactorsPerLevel.size() )
+      {
+      this->m_ShrinkFactorsPerLevel.resize( level + 1 );
+      }
+    this->m_ShrinkFactorsPerLevel[level] = factors;
+    this->Modified();
+    }
 
   /**
    * Set/Get the smoothing sigmas for each level.  At each resolution level, a gaussian smoothing
@@ -321,7 +359,7 @@ protected:
   MetricSamplingStrategyType                                      m_MetricSamplingStrategy;
   MetricSamplingPercentageArrayType                               m_MetricSamplingPercentagePerLevel;
 
-  ShrinkFactorsArrayType                                          m_ShrinkFactorsPerLevel;
+  std::vector<ShrinkFactorsPerDimensionContainerType>             m_ShrinkFactorsPerLevel;
   SmoothingSigmasArrayType                                        m_SmoothingSigmasPerLevel;
   bool                                                            m_SmoothingSigmasAreSpecifiedInPhysicalUnits;
 
