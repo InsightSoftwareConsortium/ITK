@@ -19,8 +19,9 @@
 #define __itkBinaryFunctorImageFilter_hxx
 
 #include "itkBinaryFunctorImageFilter.h"
-#include "itkImageRegionIterator.h"
+#include "itkImageScanlineIterator.h"
 #include "itkProgressReporter.h"
+
 
 namespace itk
 {
@@ -208,67 +209,88 @@ BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage, TFunction >
   // We use dynamic_cast since inputs are stored as DataObjects.  The
   // ImageToImageFilter::GetInput(int) always returns a pointer to a
   // TInputImage1 so it cannot be used for the second input.
-  Input1ImagePointer inputPtr1 =
+  const TInputImage1 *inputPtr1 =
     dynamic_cast< const TInputImage1 * >( ProcessObject::GetInput(0) );
-  Input2ImagePointer inputPtr2 =
+  const TInputImage2 *inputPtr2 =
     dynamic_cast< const TInputImage2 * >( ProcessObject::GetInput(1) );
-  OutputImagePointer outputPtr = this->GetOutput(0);
+  TOutputImage *outputPtr = this->GetOutput(0);
+
+  const size_t numberOfLinesToProcess = outputRegionForThread.GetNumberOfPixels() / outputRegionForThread.GetSize(0);
 
   if( inputPtr1 && inputPtr2 )
     {
-    ImageRegionConstIterator< TInputImage1 > inputIt1(inputPtr1, outputRegionForThread);
-    ImageRegionConstIterator< TInputImage2 > inputIt2(inputPtr2, outputRegionForThread);
-
-    ImageRegionIterator< TOutputImage > outputIt(outputPtr, outputRegionForThread);
-
-    ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
+    ImageScanlineConstIterator< TInputImage1 > inputIt1(inputPtr1, outputRegionForThread);
+    ImageScanlineConstIterator< TInputImage2 > inputIt2(inputPtr2, outputRegionForThread);
+    ImageScanlineIterator< TOutputImage > outputIt(outputPtr, outputRegionForThread);
 
     inputIt1.GoToBegin();
     inputIt2.GoToBegin();
     outputIt.GoToBegin();
 
+    ProgressReporter progress( this, threadId, numberOfLinesToProcess );
+
+
     while ( !inputIt1.IsAtEnd() )
       {
-      outputIt.Set( m_Functor( inputIt1.Get(), inputIt2.Get() ) );
-      ++inputIt2;
-      ++inputIt1;
-      ++outputIt;
+      while ( !inputIt1.IsAtEndOfLine() )
+        {
+        outputIt.Set( m_Functor( inputIt1.Get(), inputIt2.Get() ) );
+        ++inputIt2;
+        ++inputIt1;
+        ++outputIt;
+        }
+
+      inputIt1.NextLine();
+      inputIt2.NextLine();
+      outputIt.NextLine();
       progress.CompletedPixel(); // potential exception thrown here
       }
     }
   else if( inputPtr1 )
     {
-    ImageRegionConstIterator< TInputImage1 > inputIt1(inputPtr1, outputRegionForThread);
-    ImageRegionIterator< TOutputImage > outputIt(outputPtr, outputRegionForThread);
-    const Input2ImagePixelType & input2Value = this->GetConstant2();
-    ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
+    ImageScanlineConstIterator< TInputImage1 > inputIt1(inputPtr1, outputRegionForThread);
+    ImageScanlineIterator< TOutputImage > outputIt(outputPtr, outputRegionForThread);
 
     inputIt1.GoToBegin();
     outputIt.GoToBegin();
 
+    const Input2ImagePixelType & input2Value = this->GetConstant2();
+    ProgressReporter progress( this, threadId, numberOfLinesToProcess );
+
     while ( !inputIt1.IsAtEnd() )
       {
-      outputIt.Set( m_Functor( inputIt1.Get(), input2Value ) );
-      ++inputIt1;
-      ++outputIt;
+      while ( !inputIt1.IsAtEndOfLine() )
+        {
+        outputIt.Set( m_Functor( inputIt1.Get(), input2Value ) );
+        ++inputIt1;
+        ++outputIt;
+        }
+      inputIt1.NextLine();
+      outputIt.NextLine();
       progress.CompletedPixel(); // potential exception thrown here
       }
     }
   else if( inputPtr2 )
     {
-    ImageRegionConstIterator< TInputImage2 > inputIt2(inputPtr2, outputRegionForThread);
-    ImageRegionIterator< TOutputImage > outputIt(outputPtr, outputRegionForThread);
-    const Input1ImagePixelType & input1Value = this->GetConstant1();
-    ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
+    ImageScanlineConstIterator< TInputImage2 > inputIt2(inputPtr2, outputRegionForThread);
+    ImageScanlineIterator< TOutputImage > outputIt(outputPtr, outputRegionForThread);
 
     inputIt2.GoToBegin();
     outputIt.GoToBegin();
+    const Input1ImagePixelType & input1Value = this->GetConstant1();
+    ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
+
 
     while ( !inputIt2.IsAtEnd() )
       {
-      outputIt.Set( m_Functor( input1Value, inputIt2.Get() ) );
-      ++inputIt2;
-      ++outputIt;
+      while ( !inputIt2.IsAtEndOfLine() )
+        {
+        outputIt.Set( m_Functor( input1Value, inputIt2.Get() ) );
+        ++inputIt2;
+        ++outputIt;
+        }
+      inputIt2.NextLine();
+      outputIt.NextLine();
       progress.CompletedPixel(); // potential exception thrown here
       }
     }

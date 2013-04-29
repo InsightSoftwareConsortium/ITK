@@ -59,14 +59,14 @@ ImageRegionConstIterator< TImage >
 
   // if the iterator is outside the region (but not past region end) then
   // we need to wrap around the region
-  unsigned int dim = 0;
+  unsigned int d = 0;
   if ( !done )
     {
-    while ( ( ( dim + 1 ) < ImageIteratorDimension )
-            && ( ind[dim] > startIndex[dim] +  static_cast< IndexValueType >( size[dim] ) - 1 ) )
+    while ( ( ( d + 1 ) < ImageIteratorDimension )
+            &&  static_cast< SizeValueType >( ind[d] - startIndex[d] ) >= size[d] )
       {
-      ind[dim] = startIndex[dim];
-      ind[++dim]++;
+      ind[d] = startIndex[d];
+      ind[++d]++;
       }
     }
   this->m_Offset = this->m_Image->ComputeOffset(ind);

@@ -19,6 +19,7 @@
 #include "itkJoinImageFilter.h"
 #include "itkRGBAPixel.h"
 #include "vnl/vnl_sample.h"
+#include "itkImageRegionIterator.h"
 
 int itkJoinImageFilterTest(int, char* [] )
 {

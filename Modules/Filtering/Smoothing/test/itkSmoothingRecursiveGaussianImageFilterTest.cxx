@@ -18,6 +18,7 @@
 
 #include "itkSmoothingRecursiveGaussianImageFilter.h"
 #include "itkFilterWatcher.h"
+#include "itkImageRegionConstIterator.h"
 
 namespace
 {

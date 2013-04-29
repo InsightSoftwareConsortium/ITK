@@ -17,7 +17,7 @@
  *=========================================================================*/
 
 #include "itkVectorMagnitudeImageFilter.h"
-
+#include "itkImageRegionIterator.h"
 
 int itkVectorMagnitudeImageFilterTest(int, char* [] )
 {
