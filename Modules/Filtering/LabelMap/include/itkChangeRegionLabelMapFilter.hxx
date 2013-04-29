@@ -28,7 +28,7 @@
 #ifndef __itkChangeRegionLabelMapFilter_hxx
 #define __itkChangeRegionLabelMapFilter_hxx
 #include "itkChangeRegionLabelMapFilter.h"
-
+#include "itkProgressReporter.h"
 /*
  *
  * This code was contributed in the Insight Journal paper:
