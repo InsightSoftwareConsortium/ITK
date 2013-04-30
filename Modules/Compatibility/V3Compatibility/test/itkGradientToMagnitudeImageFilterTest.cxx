@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkGradientToMagnitudeImageFilter.h"
+#include "itkImageRegionIterator.h"
 
 
 int itkGradientToMagnitudeImageFilterTest(int, char* [] )
