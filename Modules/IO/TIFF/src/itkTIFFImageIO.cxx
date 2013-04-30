@@ -21,6 +21,9 @@
 
 #include <sys/stat.h>
 
+#include "itk_tiff.h"
+
+
 namespace itk
 {
 class TIFFReaderInternal
