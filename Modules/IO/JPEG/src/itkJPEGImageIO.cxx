@@ -365,6 +365,24 @@ void JPEGImageIO::ReadImageInformation()
       break;
     }
 
+  // If we have some spacing information we use it
+  if ( cinfo.density_unit > 0
+       && cinfo.X_density > 0
+       && cinfo.Y_density > 0
+       )
+    {
+    if ( cinfo.density_unit == 1 ) // inches
+      {
+      m_Spacing[0] = 25.4 / cinfo.X_density;
+      m_Spacing[1] = 25.4 / cinfo.Y_density;
+      }
+    else if ( cinfo.density_unit == 2 ) // cm
+      {
+      m_Spacing[0] = 10.0 / cinfo.X_density;
+      m_Spacing[1] = 10.0 / cinfo.Y_density;
+      }
+    }
+
   // close the file
   jpeg_destroy_decompress(&cinfo);
 
@@ -521,6 +539,33 @@ void JPEGImageIO::WriteSlice(std::string & fileName, const void *buffer)
   if ( m_Progressive )
     {
     jpeg_simple_progression(&cinfo);
+    }
+
+  if ( m_Spacing[0] > 0 && m_Spacing[1] > 0 )
+    {
+    // store the spacing information as pixels per inch or cm, depending on which option
+    // retains as much precision as possible
+    std::vector< UINT16 > densityPerInch( 2 );
+    densityPerInch[0] = static_cast<UINT16>(25.4/m_Spacing[0] + 0.5);
+    densityPerInch[1] = static_cast<UINT16>(25.4/m_Spacing[1] + 0.5);
+
+    std::vector< UINT16 > densityPerCm( 2 );
+    densityPerCm[0] = static_cast<UINT16>(10.0/m_Spacing[0] + 0.5);
+    densityPerCm[1] = static_cast<UINT16>(10.0/m_Spacing[1] + 0.5);
+
+    if (std::abs(25.4/m_Spacing[0] - densityPerInch[0]) + std::abs(25.4/m_Spacing[1] - densityPerInch[1])
+      <= std::abs(10.0/m_Spacing[0] - densityPerCm[0]) + std::abs(10.0/m_Spacing[1] - densityPerCm[1]))
+      {
+      cinfo.density_unit = 1;
+      cinfo.X_density = densityPerInch[0];
+      cinfo.Y_density = densityPerInch[1];
+      }
+    else
+      {
+      cinfo.density_unit = 0;
+      cinfo.X_density = densityPerCm[0];
+      cinfo.Y_density = densityPerCm[1];
+      }
     }
 
   // start compression
