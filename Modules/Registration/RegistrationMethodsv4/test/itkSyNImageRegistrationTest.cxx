@@ -76,7 +76,7 @@ public:
     testing "itkGetConstObjectMacro" at each iteration
     */
     typename ShrinkFilterType::Pointer shrinkFilter = ShrinkFilterType::New();
-    shrinkFilter->SetShrinkFactors( shrinkFactors[currentLevel] );
+    shrinkFilter->SetShrinkFactors( shrinkFactors );
     shrinkFilter->SetInput( filter->GetFixedImage() );
     shrinkFilter->Update();
 
@@ -94,7 +94,9 @@ public:
       }
     else
       {
-      itkExceptionMacro( "Internal transforms should be consistent with input image size at each iteration." );
+      itkExceptionMacro( "Internal transforms should be consistent with input image size at each iteration.  "
+         << "Image size = " << ImageSize << ".  Fixed field size = " << FixedDisplacementFieldSize
+         << ".  Moving field size = " << MovingDisplacementFieldSize << "." );
       }
     }
 };
@@ -245,7 +247,6 @@ int PerformDisplacementFieldImageRegistration( int itkNotUsed( argc ), char *arg
   smoothingSigmasPerLevel[0] = 2;
   smoothingSigmasPerLevel[1] = 1;
   smoothingSigmasPerLevel[2] = 0;
-
 
   for( unsigned int level = 0; level < numberOfLevels; level++ )
     {
