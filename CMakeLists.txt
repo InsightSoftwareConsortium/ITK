@@ -1,10 +1,12 @@
-cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
+cmake_minimum_required(VERSION 2.8.4 FATAL_ERROR)
 include(CMakeDependentOption)
 #
 # use ExternalProject
 include(ExternalProject)
 
-if(WIN32 OR NOT EXISTS /dev/urandom)
+if(WIN32)
+  cmake_minimum_required(VERSION 2.8.8)
+elseif(NOT EXISTS /dev/urandom)
   cmake_minimum_required(VERSION 2.8.5)
 endif()
 
