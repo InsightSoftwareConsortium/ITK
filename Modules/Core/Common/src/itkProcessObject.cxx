@@ -547,7 +547,8 @@ ProcessObject::NameArray
 ProcessObject
 ::GetOutputNames() const
 {
-  NameArray res(m_Outputs.size());
+  NameArray res;
+  res.reserve(m_Outputs.size());
   for ( DataObjectPointerMap::const_iterator it = m_Outputs.begin(); it != m_Outputs.end(); ++it )
     {
     res.push_back( it->first );
@@ -718,7 +719,8 @@ ProcessObject::NameArray
 ProcessObject
 ::GetInputNames() const
 {
-  NameArray res(m_Inputs.size());
+  NameArray res;
+  res.reserve(m_Inputs.size());
   for ( DataObjectPointerMap::const_iterator it = m_Inputs.begin(); it != m_Inputs.end(); ++it )
     {
     res.push_back( it->first );
