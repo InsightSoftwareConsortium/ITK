@@ -20,39 +20,74 @@
 
 #include "itkSignedDanielssonDistanceMapImageFilter.h"
 
-int itkSignedDanielssonDistanceMapImageFilterTest1( int argc, char * argv[] )
+// Convenience function to template over dimension and avoid code duplication.
+template< unsigned int ImageDimension>
+int itkSignedDanielssonDistanceMapImageFilterTest1( char * argv[] )
 {
-  if(argc < 3)
-    {
-    std::cerr << "Usage: " << argv[0] << " InputImage OutputImage\n";
-    return -1;
-    }
-
-  const   unsigned int    ImageDimension = 2;
   typedef unsigned char   InputPixelType;
   typedef float           OutputPixelType;
 
   typedef itk::Image<InputPixelType,  ImageDimension>  InputImageType;
   typedef itk::Image<OutputPixelType, ImageDimension>  OutputImageType;
+  typedef itk::ImageFileReader<InputImageType>         ReaderType;
+  typedef itk::ImageFileWriter<OutputImageType>        WriterType;
 
-  typedef itk::ImageFileReader<InputImageType>    ReaderType;
-  typedef itk::ImageFileWriter<OutputImageType>   WriterType;
-
-  ReaderType::Pointer reader = ReaderType::New();
+  typename ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(argv[1]);
   reader->Update();
 
-  typedef itk::SignedDanielssonDistanceMapImageFilter <InputImageType, OutputImageType>  FilterType;
-  FilterType::Pointer filter = FilterType::New();
+  typedef itk::SignedDanielssonDistanceMapImageFilter
+  <InputImageType, OutputImageType>  FilterType;
+
+  typename FilterType::Pointer filter = FilterType::New();
   filter->SetInput( reader->GetOutput() );
+  filter->SetSquaredDistance( false );
+  filter->SetUseImageSpacing( true  );
+  filter->SetInsideIsPositive( false );
   filter->Update();
   filter->Print(std::cout);
 
-  WriterType::Pointer writer = WriterType::New();
+  typename WriterType::Pointer writer = WriterType::New();
   writer->SetInput( filter->GetOutput() );
   writer->SetFileName( argv[2] );
   writer->UseCompressionOn();
   writer->Update();
 
   return EXIT_SUCCESS;
+}
+
+int itkSignedDanielssonDistanceMapImageFilterTest1( int argc, char * argv[] )
+{
+  if( argc < 3 )
+  {
+    std::cerr << "Usage: " << argv[0] << " InputImage OutputImage [ImageDimension]\n";
+    return EXIT_FAILURE;
+  }
+
+  // Default value for ImageDimension
+  int ImageDimension = 3;
+  if( argc == 4 )
+  {
+    ImageDimension = atoi(argv[3]);
+  }
+
+  int result;
+  if( ImageDimension == 2 )
+  {
+    result = itkSignedDanielssonDistanceMapImageFilterTest1<2>( argv );
+  }
+  else if( ImageDimension == 3 )
+  {
+    result = itkSignedDanielssonDistanceMapImageFilterTest1<3>( argv );
+  }
+  else if( ImageDimension == 4 )
+  {
+    result = itkSignedDanielssonDistanceMapImageFilterTest1<4>( argv );
+  }
+  else
+  {
+    result = EXIT_FAILURE;
+  }
+
+  return result;
 }
