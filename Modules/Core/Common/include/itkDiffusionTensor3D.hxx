@@ -137,9 +137,18 @@ DiffusionTensor3D< T >
     {
     const RealValueType trace = this->GetTrace();
     const RealValueType anisotropy = 3.0 * isp - trace * trace;
-    const RealValueType fractionalAnisotropy =
-      static_cast< RealValueType >( vcl_sqrt( anisotropy / ( 2.0 * isp ) ) );
-    return fractionalAnisotropy;
+    // sometimes anisotropy has been reported to be a small negative
+    // number, and then vcl_sqrt returns NaN.  If it is a small
+    // negative number, the obvious thing is to round to zero. If
+    // it is a larger negative number, I'm not sure what the proper
+    // result would be.  In either case, returning zero makes as much
+    // sense in those cases as any other number.
+    if(anisotropy > 0.0)
+      {
+      const RealValueType fractionalAnisotropy =
+        static_cast< RealValueType >( vcl_sqrt( anisotropy / ( 2.0 * isp ) ) );
+      return fractionalAnisotropy;
+      }
     }
 
   return 0.0;
