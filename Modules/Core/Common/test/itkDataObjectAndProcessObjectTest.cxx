@@ -266,6 +266,9 @@ int itkDataObjectAndProcessObjectTest(int, char* [] )
 
   process->Print(std::cout);
   process->SetInput( "Primary", input0 );
+  names = process->GetInputNames();
+  TEST_SET_GET_VALUE( 1, names.size() );
+
   TEST_SET_GET( input0, process->GetPrimaryInput() );
   TEST_SET_GET( input0, process->GetInput(0) );
   TEST_SET_GET( input0, process->GetInput("Primary") );
