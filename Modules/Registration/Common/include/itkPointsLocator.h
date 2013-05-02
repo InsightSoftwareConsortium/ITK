@@ -38,9 +38,8 @@ namespace itk
  *
  * \ingroup ITKRegistrationCommon
  */
-template<typename TPointIdentifier = IdentifierType, int VPointDimension = 3,
-  typename TCoordRep = float, typename TPointsContainer =
-  VectorContainer<TPointIdentifier, Point<TCoordRep, VPointDimension> >
+template<
+  typename TPointsContainer = VectorContainer< IdentifierType, Point< float, 3 > >
   >
 class ITK_EXPORT PointsLocator : public Object
 {
@@ -58,16 +57,14 @@ public:
   itkTypeMacro( PointsLocator, Object );
 
   /** Hold on to the type information specified by the template parameters. */
-  typedef TPointIdentifier                       PointIdentifier;
-  typedef TCoordRep                              CoordRepType;
-  typedef TPointsContainer                       PointsContainer;
-  typedef typename PointsContainer::Pointer      PointsContainerPointer;
-  typedef typename PointsContainer::ConstPointer PointsContainerConstPointer;
-
-  typedef Point<CoordRepType, VPointDimension>   PointType;
+  typedef TPointsContainer                            PointsContainer;
+  typedef typename PointsContainer::Pointer           PointsContainerPointer;
+  typedef typename PointsContainer::ConstPointer      PointsContainerConstPointer;
+  typedef typename PointsContainer::ElementIdentifier PointIdentifier;
+  typedef typename PointsContainer::Element           PointType;
 
   /** Hold on to the dimensions specified by the template parameters. */
-  itkStaticConstMacro( PointDimension, unsigned int,  VPointDimension );
+  itkStaticConstMacro( PointDimension, unsigned int, PointType::PointDimension );
 
   /** Convenient typedefs. */
   typedef typename PointsContainer::ConstIterator PointsContainerConstIterator;

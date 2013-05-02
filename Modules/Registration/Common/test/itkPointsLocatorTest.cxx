@@ -17,9 +17,10 @@
  *=========================================================================*/
 
 #include "itkPointsLocator.h"
+#include "itkMapContainer.h"
 
-
-int itkPointsLocatorTest( int, char*[] )
+template< typename TPointsContainer >
+int testPointsLocatorTest()
 {
   /**
    * Create the point set through its object factory.
@@ -28,13 +29,12 @@ int itkPointsLocatorTest( int, char*[] )
 
   typedef itk::Point<float, PointDimension> PointType;
 
-  typedef itk::VectorContainer<unsigned int, PointType> PointsContainerType;
-  PointsContainerType::Pointer points = PointsContainerType::New();
+  typedef TPointsContainer PointsContainerType;
+  typename PointsContainerType::Pointer points = PointsContainerType::New();
   points->Initialize();
 
-  typedef itk::PointsLocator<unsigned int, PointDimension, float,
-    PointsContainerType> PointsLocatorType;
-  PointsLocatorType::Pointer pointsLocator = PointsLocatorType::New();
+  typedef itk::PointsLocator<PointsContainerType> PointsLocatorType;
+  typename PointsLocatorType::Pointer pointsLocator = PointsLocatorType::New();
 
   /**
    * Create a simple point set structure that will create a non-degenerate
@@ -62,7 +62,7 @@ int itkPointsLocatorTest( int, char*[] )
   coords[1] = 50;
   coords[2] = 50;
 
-  PointsLocatorType::PointIdentifier pointId =
+  typename PointsLocatorType::PointIdentifier pointId =
     pointsLocator->FindClosestPoint( coords );
   if( pointId != 49 )
     {
@@ -70,7 +70,7 @@ int itkPointsLocatorTest( int, char*[] )
     return EXIT_FAILURE;
     }
 
-  PointsLocatorType::NeighborsIdentifierType neighborhood;
+  typename PointsLocatorType::NeighborsIdentifierType neighborhood;
 
   std::cout << "Test:  FindClosestNPoints()" << std::endl;
 
@@ -109,6 +109,34 @@ int itkPointsLocatorTest( int, char*[] )
     std::cerr << "Error with Search() 2" << std::endl;
     return EXIT_FAILURE;
     }
+
+  return EXIT_SUCCESS;
+}
+
+int itkPointsLocatorTest( int, char* [] )
+{
+  const unsigned int PointDimension = 3;
+  typedef itk::Point<float, PointDimension> PointType;
+
+  typedef itk::VectorContainer<unsigned int, PointType> VectorContainerType;
+  typedef itk::MapContainer< unsigned int, PointType > MapContainerType;
+
+  std::cout << "VectorContainerType" << std::endl;
+  if( testPointsLocatorTest< VectorContainerType >() == EXIT_FAILURE )
+    {
+    std::cerr << "### FAILURE" << std::endl;
+    return EXIT_FAILURE;
+    }
+  std::cout << "--- SUCCESS" << std::endl;
+  std::cout << std::endl;
+
+  std::cout << "MapContainerType" << std::endl;
+  if( testPointsLocatorTest< MapContainerType >() == EXIT_FAILURE )
+    {
+    std::cerr << "### FAILURE" << std::endl;
+    return EXIT_FAILURE;
+    }
+  std::cout << "--- SUCCESS" << std::endl;
 
   return EXIT_SUCCESS;
 }

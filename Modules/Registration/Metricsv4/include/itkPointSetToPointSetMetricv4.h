@@ -147,8 +147,8 @@ public:
   typedef typename PointsContainer::ElementIdentifier  PointIdentifier;
 
   /** Typedef for points locator class to speed up finding neighboring points */
-  typedef PointsLocator<PointIdentifier, itkGetStaticConstMacro( PointDimension ), CoordRepType, PointsContainer> PointsLocatorType;
-  typedef typename PointsLocatorType::NeighborsIdentifierType    NeighborsIdentifierType;
+  typedef PointsLocator< PointsContainer>                     PointsLocatorType;
+  typedef typename PointsLocatorType::NeighborsIdentifierType NeighborsIdentifierType;
 
   typedef PointSet<FixedPixelType, itkGetStaticConstMacro( PointDimension )>    FixedTransformedPointSetType;
   typedef PointSet<MovingPixelType, itkGetStaticConstMacro( PointDimension )>   MovingTransformedPointSetType;

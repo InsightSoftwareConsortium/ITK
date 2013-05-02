@@ -22,26 +22,23 @@
 namespace itk
 {
 
-template<typename TPointIdentifier, int VPointDimension,
-  typename TCoordRep, typename TPointsContainer>
-PointsLocator<TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer>
+template<typename TPointsContainer>
+PointsLocator<TPointsContainer>
 ::PointsLocator()
 {
   this->m_SampleAdaptor = SampleAdaptorType::New();
   this->m_KdTreeGenerator = TreeGeneratorType::New();
 }
 
-template<typename TPointIdentifier, int VPointDimension,
-  typename TCoordRep, typename TPointsContainer>
-PointsLocator<TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer>
+template<typename TPointsContainer>
+PointsLocator<TPointsContainer>
 ::~PointsLocator()
 {
 }
 
-template<typename TPointIdentifier, int VPointDimension,
-  typename TCoordRep, typename TPointsContainer>
+template<typename TPointsContainer>
 void
-PointsLocator<TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer>
+PointsLocator<TPointsContainer>
 ::Initialize()
 {
   if( !this->m_Points )
@@ -70,11 +67,10 @@ PointsLocator<TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer>
   this->m_Tree = this->m_KdTreeGenerator->GetOutput();
 }
 
-template<typename TPointIdentifier, int VPointDimension,
-  typename TCoordRep, typename TPointsContainer>
-typename PointsLocator<TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer>
+template<typename TPointsContainer>
+typename PointsLocator<TPointsContainer>
 ::PointIdentifier
-PointsLocator<TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer>
+PointsLocator<TPointsContainer>
 ::FindClosestPoint( const PointType &query ) const
 {
   NeighborsIdentifierType identifiers;
@@ -83,10 +79,10 @@ PointsLocator<TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer>
   return identifiers[0];
 }
 
-template<typename TPointIdentifier, int VPointDimension,
-  typename TCoordRep, typename TPointsContainer>
+template<
+  typename TPointsContainer>
 void
-PointsLocator<TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer>
+PointsLocator<TPointsContainer>
 ::Search( const PointType &query, unsigned int numberOfNeighborsRequested,
   NeighborsIdentifierType &identifiers ) const
 {
@@ -101,10 +97,10 @@ PointsLocator<TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer>
   this->m_Tree->Search( query, N, identifiers );
 }
 
-template<typename TPointIdentifier, int VPointDimension,
-  typename TCoordRep, typename TPointsContainer>
+template<
+  typename TPointsContainer>
 void
-PointsLocator<TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer>
+PointsLocator<TPointsContainer>
 ::FindClosestNPoints( const PointType &query, unsigned int
   numberOfNeighborsRequested, NeighborsIdentifierType &identifiers ) const
 {
@@ -119,20 +115,20 @@ PointsLocator<TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer>
   this->m_Tree->Search( query, N, identifiers );
 }
 
-template<typename TPointIdentifier, int VPointDimension,
-  typename TCoordRep, typename TPointsContainer>
+template<
+  typename TPointsContainer>
 void
-PointsLocator<TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer>
+PointsLocator<TPointsContainer>
 ::Search( const PointType &query, double radius,
   NeighborsIdentifierType &identifiers ) const
 {
   this->m_Tree->Search( query, radius, identifiers );
 }
 
-template<typename TPointIdentifier, int VPointDimension,
-  typename TCoordRep, typename TPointsContainer>
+template<
+  typename TPointsContainer>
 void
-PointsLocator<TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer>
+PointsLocator<TPointsContainer>
 ::FindPointsWithinRadius( const PointType &query, double radius,
   NeighborsIdentifierType &identifiers ) const
 {
@@ -142,10 +138,10 @@ PointsLocator<TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer>
 /**
  * Print out internals
  */
-template<typename TPointIdentifier, int VPointDimension,
-  typename TCoordRep, typename TPointsContainer>
+template<
+  typename TPointsContainer>
 void
-PointsLocator<TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer>
+PointsLocator<TPointsContainer>
 ::PrintSelf( std::ostream& os, Indent indent ) const
 {
   Superclass::PrintSelf( os, indent );
