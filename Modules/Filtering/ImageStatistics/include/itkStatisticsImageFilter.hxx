@@ -19,7 +19,8 @@
 #define __itkStatisticsImageFilter_hxx
 #include "itkStatisticsImageFilter.h"
 
-#include "itkImageRegionIterator.h"
+
+#include "itkImageScanlineIterator.h"
 #include "itkProgressReporter.h"
 
 namespace itk
@@ -312,29 +313,34 @@ StatisticsImageFilter< TInputImage >
   PixelType min = NumericTraits< PixelType >::max();
   PixelType max = NumericTraits< PixelType >::NonpositiveMin();
 
-  ImageRegionConstIterator< TInputImage > it (this->GetInput(), outputRegionForThread);
+  ImageScanlineConstIterator< TInputImage > it (this->GetInput(),  outputRegionForThread);
 
   // support progress methods/callbacks
-  ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
+  const size_t numberOfLinesToProcess = outputRegionForThread.GetNumberOfPixels() / outputRegionForThread.GetSize(0);
+  ProgressReporter progress( this, threadId, numberOfLinesToProcess );
 
   // do the work
   while ( !it.IsAtEnd() )
     {
-    value = it.Get();
-    realValue = static_cast< RealType >( value );
-    if ( value < min )
+    while ( !it.IsAtEndOfLine() )
       {
-      min = value;
-      }
-    if ( value > max )
-      {
-      max  = value;
-      }
+      value = it.Get();
+      realValue = static_cast< RealType >( value );
+      if ( value < min )
+        {
+        min = value;
+        }
+      if ( value > max )
+        {
+        max  = value;
+        }
 
-    sum += realValue;
-    sumOfSquares += ( realValue * realValue );
-    ++count;
-    ++it;
+      sum += realValue;
+      sumOfSquares += ( realValue * realValue );
+      ++count;
+      ++it;
+      }
+    it.NextLine();
     progress.CompletedPixel();
     }
 

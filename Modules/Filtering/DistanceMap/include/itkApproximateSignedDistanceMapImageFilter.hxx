@@ -21,7 +21,7 @@
 #include "itkApproximateSignedDistanceMapImageFilter.h"
 
 #include "itkNumericTraits.h"
-#include "itkImageRegionIterator.h"
+#include "itkImageScanlineIterator.h"
 #include "itkProgressAccumulator.h"
 #include "vcl_cmath.h"
 
@@ -115,12 +115,15 @@ ApproximateSignedDistanceMapImageFilter< TInputImage, TOutputImage >
   // flip the sign of the output image.
   if ( m_InsideValue > m_OutsideValue )
     {
-    ImageRegionIterator< OutputImageType > ot( output, oRegion );
-    ot.GoToBegin();
+    ImageScanlineIterator< OutputImageType > ot( output, oRegion );
     while ( !ot.IsAtEnd() )
       {
-      ot.Set(ot.Get() * -1);
-      ++ot;
+      while ( !ot.IsAtEndOfLine() )
+        {
+        ot.Set(ot.Get() * -1);
+        ++ot;
+        }
+      ot.NextLine();
       }
     }
 }

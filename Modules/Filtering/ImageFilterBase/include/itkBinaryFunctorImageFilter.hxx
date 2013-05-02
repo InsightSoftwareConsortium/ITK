@@ -223,9 +223,6 @@ BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage, TFunction >
     ImageScanlineConstIterator< TInputImage2 > inputIt2(inputPtr2, outputRegionForThread);
     ImageScanlineIterator< TOutputImage > outputIt(outputPtr, outputRegionForThread);
 
-    inputIt1.GoToBegin();
-    inputIt2.GoToBegin();
-    outputIt.GoToBegin();
 
     ProgressReporter progress( this, threadId, numberOfLinesToProcess );
 
@@ -251,9 +248,6 @@ BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage, TFunction >
     ImageScanlineConstIterator< TInputImage1 > inputIt1(inputPtr1, outputRegionForThread);
     ImageScanlineIterator< TOutputImage > outputIt(outputPtr, outputRegionForThread);
 
-    inputIt1.GoToBegin();
-    outputIt.GoToBegin();
-
     const Input2ImagePixelType & input2Value = this->GetConstant2();
     ProgressReporter progress( this, threadId, numberOfLinesToProcess );
 
@@ -275,8 +269,6 @@ BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage, TFunction >
     ImageScanlineConstIterator< TInputImage2 > inputIt2(inputPtr2, outputRegionForThread);
     ImageScanlineIterator< TOutputImage > outputIt(outputPtr, outputRegionForThread);
 
-    inputIt2.GoToBegin();
-    outputIt.GoToBegin();
     const Input1ImagePixelType & input1Value = this->GetConstant1();
     ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
 

@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkNaryAddImageFilter.h"
+#include "itkImageRegionIterator.h"
 #include <iostream>
 
 
