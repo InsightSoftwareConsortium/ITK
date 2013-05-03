@@ -113,23 +113,23 @@ LabelVotingImageFilter< TInputImage, TOutputImage >
   for ( out.GoToBegin(); !out.IsAtEnd(); ++out )
     {
     // reset number of votes per label for all labels
-    for ( InputPixelType l = 0; l < this->m_TotalLabelCount; ++l )
-      {
-      votesByLabel[l] = 0;
-      }
+    std::fill_n( votesByLabel, this->m_TotalLabelCount, 0 );
 
     // count number of votes for the labels
     for ( unsigned int i = 0; i < numberOfInputFiles; ++i )
       {
       const InputPixelType label = it[i].Get();
-      ++votesByLabel[label];
+      if ( NumericTraits<InputPixelType>::IsNonnegative( label ) )
+        {
+        ++votesByLabel[label];
+        }
       ++( it[i] );
       }
 
     // determine the label with the most votes for this pixel
     out.Set(0);
     unsigned int maxVotes = votesByLabel[0];
-    for ( InputPixelType l = 1; l < this->m_TotalLabelCount; ++l )
+    for ( InputPixelType l = 1; size_t(l) < this->m_TotalLabelCount; ++l )
       {
       if ( votesByLabel[l] > maxVotes )
         {

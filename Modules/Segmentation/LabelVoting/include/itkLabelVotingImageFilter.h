@@ -150,8 +150,8 @@ public:
                    ( Concept::Convertible< int, InputPixelType > ) );
   itkConceptMacro( SameDimensionCheck,
                    ( Concept::SameDimension< InputImageDimension, ImageDimension > ) );
-  itkConceptMacro( InputConvertibleToUnsignedIntCheck,
-                   ( Concept::Convertible< InputPixelType, unsigned int > ) );
+  itkConceptMacro( InputUnsignedIntCheck,
+                   ( Concept::IsUnsignedInteger< InputPixelType > ) );
   itkConceptMacro( IntConvertibleToOutputPixelType,
                    ( Concept::Convertible< int, OutputPixelType > ) );
   itkConceptMacro( InputPlusIntCheck,
