@@ -154,6 +154,7 @@ STAPLEImageFilter< TInputImage, TOutputImage >
           ++out;
           } // end of scanline
         in.NextLine();
+        out.NextLine();
         }
 
       p[i] = p_num / p_denom;
@@ -198,6 +199,10 @@ STAPLEImageFilter< TInputImage, TOutputImage >
                  / ( g_t * alpha1  + ( 1.0 - g_t ) * beta1 ) );
         ++out;
         } // end scanline
+      for ( i = 0; i < number_of_input_files; ++i )
+        {
+        D_it[i].NextLine();
+        }
       out.NextLine();
       }
 
