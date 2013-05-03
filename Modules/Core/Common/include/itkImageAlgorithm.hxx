@@ -21,6 +21,8 @@
 #include "itkImageAlgorithm.h"
 
 #include "itkImageRegionIterator.h"
+#include "itkImageScanlineIterator.h"
+
 
 namespace itk
 {
@@ -31,6 +33,25 @@ void ImageAlgorithm::DispatchedCopy( const InputImageType *inImage, OutputImageT
                                      const typename OutputImageType::RegionType &outRegion,
                                      FalseType )
 {
+  if ( inRegion.GetSize()[0] == outRegion.GetSize()[0] )
+    {
+    itk::ImageScanlineConstIterator<InputImageType> it( inImage, inRegion );
+    itk::ImageScanlineIterator<OutputImageType> ot( outImage, outRegion );
+
+    while( !it.IsAtEnd() )
+      {
+      while( !it.IsAtEndOfLine() )
+        {
+        ot.Set( static_cast< typename OutputImageType::PixelType >( it.Get() ) );
+        ++ot;
+        ++it;
+        }
+      ot.NextLine();
+      it.NextLine();
+      }
+    return;
+    }
+
   itk::ImageRegionConstIterator<InputImageType> it( inImage, inRegion );
   itk::ImageRegionIterator<OutputImageType> ot( outImage, outRegion );
 
