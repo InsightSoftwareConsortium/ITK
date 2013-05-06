@@ -1,3 +1,0 @@
-%init %{
-  import_array();
-%}

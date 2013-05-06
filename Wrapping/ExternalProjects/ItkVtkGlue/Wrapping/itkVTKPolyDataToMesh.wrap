@@ -1,8 +1,0 @@
-itk_wrap_include("itkDefaultStaticMeshTraits.h")
-
-itk_wrap_class("itk::VTKPolyDataToMesh" POINTER)
-  itk_wrap_filter_dims(d3 3)
-  foreach(d ${d3})
-    itk_wrap_template("M${ITKM_D}${d}S" "itk::Mesh< ${ITKT_D},${d},itk::DefaultStaticMeshTraits< ${ITKT_D},${d},${d},${ITKT_D} > >")
-  endforeach(d)
-itk_end_wrap_class()

@@ -1,4 +1,0 @@
-itk_wrap_class("itk::PyBuffer")
-  UNIQUE(types "${WRAP_ITK_SCALAR};UC")
-  itk_wrap_image_filter("${types}" 1)
-itk_end_wrap_class()
