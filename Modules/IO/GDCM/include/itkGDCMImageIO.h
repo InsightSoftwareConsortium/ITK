@@ -200,9 +200,7 @@ public:
 #endif
 
   /** More general method to retrieve an arbitrary DICOM value based
-   * on a DICOM Tag (eg "0123|4567").
-   * WARNING: You need to use the lower case for hex 0x[a-f], for instance:
-   * "0020|000d" instead of "0020|000D" (the latter won't work)
+   * on a DICOM Tag (eg "0123|45ef").
    */
   bool GetValueFromTag(const std::string & tag, std::string & value);
 
