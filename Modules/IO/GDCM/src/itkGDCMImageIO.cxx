@@ -437,11 +437,18 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream & file)
   rowDirection[0] = dircos[0];
   rowDirection[1] = dircos[1];
   rowDirection[2] = dircos[2];
+
   columnDirection[0] = dircos[3];
   columnDirection[1] = dircos[4];
   columnDirection[2] = dircos[5];
 
   vnl_vector< double > sliceDirection = vnl_cross_3d(rowDirection, columnDirection);
+
+  // orthogonalize
+  sliceDirection.normalize();
+  rowDirection = vnl_cross_3d(columnDirection,sliceDirection).normalize();
+  columnDirection = vnl_cross_3d(sliceDirection,rowDirection);
+
   this->SetDirection(0, rowDirection);
   this->SetDirection(1, columnDirection);
   this->SetDirection(2, sliceDirection);

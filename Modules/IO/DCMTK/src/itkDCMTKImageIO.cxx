@@ -22,6 +22,7 @@
 #include "itksys/SystemTools.hxx"
 #include "itkDCMTKFileReader.h"
 #include <iostream>
+#include "vnl/vnl_cross.h"
 
 #include "dcmtk/dcmimgle/dcmimage.h"
 #include "dcmtk/dcmjpeg/djdecode.h"
@@ -268,13 +269,18 @@ void DCMTKImageIO::ReadImageInformation()
   this->m_Dimensions[1] = columns;
   this->m_Dimensions[2] = reader.GetFrameCount();
 
-  vnl_vector<double> dir1(3),dir2(3),dir3(3);
-  reader.GetDirCosines(dir1,dir2,dir3);
-  this->SetDirection(0,dir1);
-  this->SetDirection(1,dir2);
+  vnl_vector<double> rowDirection(3),columnDirection(3),sliceDirection(3);
+  reader.GetDirCosines(rowDirection,columnDirection,sliceDirection);
+  // orthogonalize
+  sliceDirection.normalize();
+  rowDirection = vnl_cross_3d(columnDirection,sliceDirection).normalize();
+  columnDirection.normalize();
+
+  this->SetDirection(0,rowDirection);
+  this->SetDirection(1,columnDirection);
   if(this->m_NumberOfDimensions > 2 && this->m_Dimensions[2] != 1)
     {
-    this->SetDirection(2,dir3);
+    this->SetDirection(2,sliceDirection);
     }
   // get slope and intercept
   reader.GetSlopeIntercept(this->m_RescaleSlope,this->m_RescaleIntercept);

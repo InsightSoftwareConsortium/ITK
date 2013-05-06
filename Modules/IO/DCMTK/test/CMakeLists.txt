@@ -3,6 +3,7 @@ set(ITKIODCMTKTests
   itkDCMTKImageIOTest.cxx
   itkDCMTKSeriesReadImageWrite.cxx
   itkDCMTKSeriesStreamReadImageWrite.cxx
+  itkDCMTKImageIOOrthoDirTest.cxx
 )
 
 
@@ -48,6 +49,10 @@ itk_add_test(NAME itkDCMTKSeriesStreamReadImageWrite1
   DATA{${ITK_DATA_ROOT}/Input/DicomSeries/,REGEX:Image[0-9]+.dcm}
   ${ITK_TEST_OUTPUT_DIR}/itkDCMTKSeriesStreamReadImageWrite1.mhd
   0.859375 0.85939 1.60016 0)
+
+itk_add_test(NAME itkDCMTKImageIOOrthoDirTest
+  COMMAND ITKIODCMTKTestDriver itkDCMTKImageIOOrthoDirTest
+  DATA{${ITK_DATA_ROOT}/Input/OrthogonalDirectionsTest.dcm})
 
 #
 # this test depends on being able to get the ExternalData infrastructure
