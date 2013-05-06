@@ -60,11 +60,12 @@ namespace itk
  * the \b Primary output play a special role: they drive the pipeline.
  *
  * In addition to the reference by name, it is possible to access the
- * inputs and outputs with an index. The index is mapped internally to
- * a name built as "IndexedDataObject" followed by the index.
- * The indexed input or output 0 is mapped to the Primary input or output.
- * The name of the Primary input or output defaults to "Primary", but
- * this can be changed  with SetPrimaryInputName and
+ * inputs and outputs with an index. The index by default is mapped
+ * internally to the name of a '_' followed by the index number. This
+ * default name can be changed with the AddRequiredInputName
+ * method. The indexed input or output 0 is mapped to the Primary
+ * input or output. The name of the  Primary input or output defaults
+ * to "Primary", but this can be changed  with SetPrimaryInputName and
  * SetPrimaryOutputName.
  *
  * For complicated filters which have optional, or varied required
