@@ -72,11 +72,8 @@ public:
   typedef TCoordRep                                        CoordRepType;
 
   /** Typedef for points locator class to speed up finding neighboring points */
-  typedef PointsLocator<PointIdentifier,
-    itkGetStaticConstMacro( PointDimension ),
-    CoordRepType, PointsContainer>                     PointsLocatorType;
-  typedef typename PointsLocatorType::
-    NeighborsIdentifierType                            NeighborsIdentifierType;
+  typedef PointsLocator< PointsContainer>                       PointsLocatorType;
+  typedef typename PointsLocatorType::NeighborsIdentifierType   NeighborsIdentifierType;
 
   typedef typename Statistics::
     GaussianMembershipFunction<PointType>                  GaussianType;
