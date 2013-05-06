@@ -32,6 +32,7 @@
 #include "itkDomainThreader.h"
 #include "itkMultiThreader.h"
 #include "itkObjectFactory.h"
+#include "itkNumericTraits.h"
 #include <vector>
 #include <map>
 #include <set>
@@ -160,8 +161,7 @@ public:
    * the input vector, not the number of inputs that have valid
    * DataObject's assigned. Use GetNumberOfValidRequiredInputs() to
    * determine how many inputs are non-null. */
-  DataObjectPointerArraySizeType GetNumberOfInputs() const
-  { return m_Inputs.size(); }
+  DataObjectPointerArraySizeType GetNumberOfInputs() const;
 
   DataObjectPointerArraySizeType GetNumberOfOutputs() const
   { return m_Outputs.size(); }
@@ -422,8 +422,10 @@ protected:
   const DataObject * GetInput(const DataObjectIdentifierType & key) const;
 
   /** Method used internally for getting an indexed input. */
-  DataObject * GetInput(DataObjectPointerArraySizeType);
-  const DataObject * GetInput(DataObjectPointerArraySizeType idx) const;
+  DataObject * GetInput(DataObjectPointerArraySizeType idx)
+  { return idx < m_IndexedInputs.size() ? m_IndexedInputs[idx]->second : NULL; }
+  const DataObject * GetInput(DataObjectPointerArraySizeType idx) const
+  { return idx < m_IndexedInputs.size() ? m_IndexedInputs[idx]->second : NULL; }
 
   /** Set an input */
   virtual void SetInput(const DataObjectIdentifierType & key, DataObject *input);
@@ -444,12 +446,15 @@ protected:
   itkLegacyMacro(virtual void RemoveInput(DataObject *input));
 
   /** Return the main input */
-  DataObject * GetPrimaryInput();
-  const DataObject * GetPrimaryInput() const;
+  DataObject * GetPrimaryInput()
+  { return m_IndexedInputs[0]->second; }
+  const DataObject * GetPrimaryInput() const
+  { return m_IndexedInputs[0]->second; }
 
   /** Set/Get the name associated with the Primary output.  Defaults to "Primary". */
   virtual void SetPrimaryInputName(const DataObjectIdentifierType & key);
-  itkGetStringMacro(PrimaryInputName);
+  virtual const char *GetPrimaryInputName( void ) const
+  { return this->m_IndexedInputs[0]->first.c_str(); }
 
   /** Set the main input */
   virtual void SetPrimaryInput(DataObject *input);
@@ -553,6 +558,7 @@ protected:
   itkGetConstReferenceMacro(NumberOfRequiredOutputs, DataObjectPointerArraySizeType);
 
   bool AddRequiredInputName( const DataObjectIdentifierType & );
+  bool AddRequiredInputName( const DataObjectIdentifierType &, DataObjectPointerArraySizeType idx );
   bool RemoveRequiredInputName( const DataObjectIdentifierType & );
   bool IsRequiredInputName( const DataObjectIdentifierType & ) const;
   void SetRequiredInputNames( const NameArray & );
@@ -676,14 +682,16 @@ private:
   /** STL map to store the named inputs and outputs */
   typedef std::map< DataObjectIdentifierType, DataObjectPointer, NameComparator > DataObjectPointerMap;
 
+
   /** Named input and outputs containers */
   DataObjectPointerMap   m_Inputs;
   DataObjectPointerMap   m_Outputs;
 
+  std::vector< DataObjectPointerMap::iterator > m_IndexedInputs;
+
   /** An array that caches the ReleaseDataFlags of the inputs */
   std::map< DataObjectIdentifierType, bool > m_CachedInputReleaseDataFlags;
 
-  DataObjectPointerArraySizeType  m_NumberOfIndexedInputs;
   DataObjectPointerArraySizeType  m_NumberOfIndexedOutputs;
 
   DataObjectPointerArraySizeType  m_NumberOfRequiredInputs;
@@ -695,8 +703,7 @@ private:
   /** The required inputs */
   NameSet m_RequiredInputNames;
 
-  /** The name associated with the Primary input or output.  Defaults to "Primary". */
-  DataObjectIdentifierType m_PrimaryInputName;
+  /** The name associated with the Primary output.  Defaults to "Primary". */
   DataObjectIdentifierType m_PrimaryOutputName;
 
   /** These support the progress method and aborting filter execution. */

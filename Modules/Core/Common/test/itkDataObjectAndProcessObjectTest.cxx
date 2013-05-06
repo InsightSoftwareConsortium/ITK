@@ -274,17 +274,21 @@ int itkDataObjectAndProcessObjectTest(int, char* [] )
   TEST_SET_GET( input0, process->GetInput("Primary") );
   TEST_SET_GET_VALUE( 1, process->GetNumberOfIndexedInputs() );
   process->SetPrimaryInput( NULL );
+
   TEST_SET_GET_NULL_VALUE( process->GetPrimaryInput() );
   TEST_SET_GET_NULL_VALUE( process->GetInput(0) );
   TEST_SET_GET_NULL_VALUE( process->GetInput("Primary") );
   process->SetNthInput( 0, input0 );
+
   TEST_SET_GET( input0, process->GetPrimaryInput() );
   TEST_SET_GET( input0, process->GetInput(0) );
   TEST_SET_GET( input0, process->GetInput("Primary") );
   process->SetPrimaryInputName("First");
+
   TEST_SET_GET( input0, process->GetPrimaryInput() );
   TEST_SET_GET( input0, process->GetInput(0) );
   TEST_SET_GET( input0, process->GetInput("First") );
+
 
   process->SetNthInput( 1, input1 );
   TEST_SET_GET( input1, process->GetInput(1) );
@@ -334,6 +338,7 @@ int itkDataObjectAndProcessObjectTest(int, char* [] )
 
   process = itk::TestProcessObject::New();
   process->SetPrimaryInputName("Image1");
+  TRY_EXPECT_EXCEPTION( process->AddRequiredInputName( "" ) );
   process->Print(std::cout);
   TEST_EXPECT_EQUAL( 1, process->GetNumberOfRequiredInputs() );
   process->AddRequiredInputName("Image2");
@@ -342,10 +347,81 @@ int itkDataObjectAndProcessObjectTest(int, char* [] )
   TRY_EXPECT_EXCEPTION( process->VerifyPreconditions() );
   process->SetInput( "Image1", input0 );
   TEST_EXPECT_EQUAL( 1, process->GetNumberOfValidRequiredInputs() );
+
   TRY_EXPECT_EXCEPTION( process->VerifyPreconditions() );
   process->SetInput( "Image2", input0 );
   TEST_EXPECT_EQUAL( 1, process->GetNumberOfValidRequiredInputs() );
   TRY_EXPECT_NO_EXCEPTION(process->VerifyPreconditions() );
+
+  process->SetInput( "Image2", NULL );
+  process->AddInput( input0 );
+  TRY_EXPECT_EXCEPTION(process->VerifyPreconditions() );
+
+  process = itk::TestProcessObject::New();
+  process->SetNumberOfRequiredInputs(2);
+  process->SetPrimaryInputName("Image1");
+  process->AddRequiredInputName("Image2");
+  TEST_EXPECT_EQUAL( 2, process->GetNumberOfRequiredInputs() );
+  TEST_EXPECT_EQUAL( 0, process->GetNumberOfValidRequiredInputs() );
+  process->SetInput( "Image1", input0 );
+  TEST_EXPECT_EQUAL( 1, process->GetNumberOfValidRequiredInputs() );
+  process->SetInput( "Image2", input0 );
+  process->RemoveRequiredInputName( "Image2" );
+
+  TRY_EXPECT_EXCEPTION( process->AddRequiredInputName( "", 1 ) );
+  process->AddRequiredInputName("Image2", 1 );
+  process->Print(std::cout);
+  TEST_EXPECT_EQUAL( 2, process->GetNumberOfRequiredInputs() );
+  TEST_EXPECT_EQUAL( 2, process->GetNumberOfValidRequiredInputs() );
+  TRY_EXPECT_NO_EXCEPTION(process->VerifyPreconditions() );
+
+  // testing SetNumberOfIndexedInputs
+  process = itk::TestProcessObject::New();
+  process->SetNumberOfIndexedInputs( 1 );
+  TEST_SET_GET_VALUE( 0, process->GetNumberOfIndexedInputs() );
+  TEST_SET_GET_NULL_VALUE( process->GetPrimaryInput() );
+
+  process->SetPrimaryInput( input0 );
+  TEST_SET_GET_VALUE( 1, process->GetNumberOfIndexedInputs() );
+  TEST_SET_GET_VALUE( input0, process->GetPrimaryInput() );
+
+  process->SetNumberOfIndexedInputs( 0 );
+  TEST_SET_GET_VALUE( 0, process->GetNumberOfIndexedInputs() );
+  TEST_SET_GET_NULL_VALUE( process->GetPrimaryInput() );
+
+   process->SetNumberOfIndexedInputs( 2 );
+   TEST_SET_GET_VALUE( 2, process->GetNumberOfIndexedInputs() );
+   TEST_SET_GET_NULL_VALUE( process->GetPrimaryInput() );
+   process->SetNthInput( 1, input1 );
+   TEST_SET_GET_VALUE( input1, process->GetInput(1) );
+
+   process->SetNumberOfIndexedInputs( 1 );
+   TEST_SET_GET_VALUE( 0, process->GetNumberOfIndexedInputs() );
+   TEST_SET_GET_NULL_VALUE( process->GetPrimaryInput() );
+
+   // testing RemoveInput
+   process = itk::TestProcessObject::New();
+   process->SetNumberOfIndexedInputs( 2 );
+   process->SetPrimaryInput( input0 );
+   TEST_SET_GET_VALUE( 2, process->GetNumberOfIndexedInputs() );
+   process->RemoveInput( "Primary" );
+   TEST_SET_GET_NULL_VALUE( process->GetPrimaryInput() );
+   TEST_SET_GET_VALUE( 2, process->GetNumberOfIndexedInputs() );
+
+   process->AddRequiredInputName("Req");
+   process->SetInput( "Req", input0 );
+   TEST_SET_GET_VALUE( input0, process->GetInput("Req") );
+   process->RemoveInput( "Req" );
+   TEST_SET_GET_NULL_VALUE( process->GetInput("Req") );
+   TEST_EXPECT_TRUE( process->IsRequiredInputName("Req") );
+
+   process->RemoveInput( 99 );
+   TEST_SET_GET_NULL_VALUE( process->GetInput("Req") );
+   TEST_EXPECT_TRUE( process->IsRequiredInputName("Req") );
+   TEST_SET_GET_VALUE( 2, process->GetNumberOfIndexedInputs() );
+
+   process->RemoveInput( 1 );
+   TEST_SET_GET_VALUE( 0, process->GetNumberOfIndexedInputs() );
 
   return (EXIT_SUCCESS);
 }
