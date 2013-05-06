@@ -90,6 +90,7 @@ ENDIF(NOT ITK_INSTALL_NO_LIBRARIES)
 
 if(NOT ITK_INSTALL_NO_DEVELOPMENT)
   install(FILES
+    ${ITK3P_OpenJPEG_BINARY_DIR}/openjpegDllConfig.h
     ${ITK3P_OpenJPEG_SOURCE_DIR}/openjpeg.h
     DESTINATION ${ITK3P_INSTALL_INCLUDE_DIR} # TODO: itk_openjpeg.h #include "itkopenjpeg/openjpeg.h"
     COMPONENT Development
