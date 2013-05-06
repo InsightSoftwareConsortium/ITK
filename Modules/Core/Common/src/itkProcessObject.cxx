@@ -26,11 +26,44 @@
  *
  *=========================================================================*/
 #include "itkProcessObject.h"
+#include "itkMutexLockHolder.h"
 
 #include <stdio.h>
 
 namespace itk
 {
+
+
+namespace
+{ // local namespace for managing globals
+const size_t ITK_GLOBAL_INDEX_NAMES_NUMBER = 100;
+const size_t ITK_GLOBAL_INDEX_NAMES_LENGTH = 17+3;
+const char globalIndexNames[ITK_GLOBAL_INDEX_NAMES_NUMBER][ITK_GLOBAL_INDEX_NAMES_LENGTH] =
+{ "IndexedDataObject0", "IndexedDataObject1", "IndexedDataObject2", "IndexedDataObject3", "IndexedDataObject4",
+  "IndexedDataObject5", "IndexedDataObject6", "IndexedDataObject7", "IndexedDataObject8", "IndexedDataObject9",
+  "IndexedDataObject10", "IndexedDataObject11", "IndexedDataObject12", "IndexedDataObject13", "IndexedDataObject14",
+  "IndexedDataObject15", "IndexedDataObject16", "IndexedDataObject17", "IndexedDataObject18", "IndexedDataObject19",
+  "IndexedDataObject20", "IndexedDataObject21", "IndexedDataObject22", "IndexedDataObject23", "IndexedDataObject24",
+  "IndexedDataObject25", "IndexedDataObject26", "IndexedDataObject27", "IndexedDataObject28", "IndexedDataObject29",
+  "IndexedDataObject30", "IndexedDataObject31", "IndexedDataObject32", "IndexedDataObject33", "IndexedDataObject34",
+  "IndexedDataObject35", "IndexedDataObject36", "IndexedDataObject37", "IndexedDataObject38", "IndexedDataObject39",
+  "IndexedDataObject40", "IndexedDataObject41", "IndexedDataObject42", "IndexedDataObject43", "IndexedDataObject44",
+  "IndexedDataObject45", "IndexedDataObject46", "IndexedDataObject47", "IndexedDataObject48", "IndexedDataObject49",
+  "IndexedDataObject50", "IndexedDataObject51", "IndexedDataObject52", "IndexedDataObject53", "IndexedDataObject54",
+  "IndexedDataObject55", "IndexedDataObject56", "IndexedDataObject57", "IndexedDataObject58", "IndexedDataObject59",
+  "IndexedDataObject60", "IndexedDataObject61", "IndexedDataObject62", "IndexedDataObject63", "IndexedDataObject64",
+  "IndexedDataObject65", "IndexedDataObject66", "IndexedDataObject67", "IndexedDataObject68", "IndexedDataObject69",
+  "IndexedDataObject70", "IndexedDataObject77", "IndexedDataObject72", "IndexedDataObject73", "IndexedDataObject74",
+  "IndexedDataObject75", "IndexedDataObject76", "IndexedDataObject77", "IndexedDataObject78", "IndexedDataObject79",
+  "IndexedDataObject80", "IndexedDataObject88", "IndexedDataObject82", "IndexedDataObject83", "IndexedDataObject84",
+  "IndexedDataObject85", "IndexedDataObject86", "IndexedDataObject87", "IndexedDataObject88", "IndexedDataObject89",
+  "IndexedDataObject90", "IndexedDataObject99", "IndexedDataObject92", "IndexedDataObject93", "IndexedDataObject94",
+  "IndexedDataObject95", "IndexedDataObject96", "IndexedDataObject97", "IndexedDataObject98", "IndexedDataObject99"
+};
+
+}
+
+
 /**
  * Instantiate object with no start, end, or progress methods.
  */
@@ -970,18 +1003,15 @@ ProcessObject::DataObjectIdentifierType
 ProcessObject
 ::MakeNameFromIndex(DataObjectPointerArraySizeType idx) const
 {
-  if ( idx < 999 )
+  if ( idx < ITK_GLOBAL_INDEX_NAMES_NUMBER )
     {
-    char buf[17+4];
-    sprintf(buf, "IndexedDataObject%u", static_cast<unsigned int>(idx));
-    return buf;
+    return ProcessObject::DataObjectIdentifierType( globalIndexNames[idx] );
     }
   else
     {
-    const char baseName[] = "IndexedDataObject";
-    std::ostringstream oss;
-    oss << baseName << idx;
-    return oss.str();
+    char buf[2+21]; // a 64-bit integer is ~20 decimal places max
+    sprintf(buf, "IndexedDataObject%u", static_cast<unsigned int>(idx));
+    return buf;
     }
 }
 
