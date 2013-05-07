@@ -1630,7 +1630,8 @@ PREDEFINED             = "itkNotUsed(x)=" \
                          "itkSetClampMacro(name,type,min,max)=                   virtual void Set##name (type _arg);" \
                          "itkSetObjectMacro(name,type)=                   virtual void Set##name (type* _arg);" \
                          "itkSetConstObjectMacro(name,type)=                   virtual void Set##name ( const type* _arg);" \
-                         "itkGetConstObjectMacro(name,type)=                   virtual const type* Get##name ();" \
+                         "itkGetConstObjectMacro(name,type)=      virtual const type* Get##name () const;" \
+                         "itkGetModifiableObjectMacro(name,type)= virtual type* GetModifiable##name ();  virtual const type* Get##name () const;" \
                          "itkGetConstReferenceMacro(name,type)=                   virtual const type& Get##name ();" \
                          "itkSetEnumMacro(name,type)=                   virtual void Set##name (const type _arg);" \
                          "itkGetEnumMacro(name,type)=                   virtual type Get##name () const;" \
