@@ -31,7 +31,42 @@ BinaryReconstructionByErosionImageFilter<TInputImage>
   m_BackgroundValue = NumericTraits<OutputImagePixelType>::NonpositiveMin();
   m_ForegroundValue = NumericTraits<OutputImagePixelType>::max();
   m_FullyConnected = false;
-  this->SetNumberOfRequiredInputs(2);
+  this->SetPrimaryInputName( "MarkerImage" );
+  this->AddRequiredInputName( "MaskImage", 1 );
+}
+
+template<class TInputImage>
+void
+BinaryReconstructionByErosionImageFilter<TInputImage>
+::SetMarkerImage( const InputImageType * input )
+{
+  // Process object is not const-correct, so the const casting is required.
+  this->ProcessObject::SetInput( "MarkerImage", const_cast< InputImageType * >( input ));
+}
+
+template<class TInputImage>
+typename BinaryReconstructionByErosionImageFilter<TInputImage>::InputImageType *
+BinaryReconstructionByErosionImageFilter<TInputImage>
+::GetMarkerImage()
+{
+  return static_cast<InputImageType*>(const_cast<DataObject *>(this->ProcessObject::GetInput( "MarkerImage" )));
+}
+
+template<class TInputImage>
+void
+BinaryReconstructionByErosionImageFilter<TInputImage>
+::SetMaskImage( const InputImageType * input )
+{
+  // Process object is not const-correct, so the const casting is required.
+  this->ProcessObject::SetInput( "MaskImage", const_cast< InputImageType * >( input ));
+}
+
+template<class TInputImage>
+typename BinaryReconstructionByErosionImageFilter<TInputImage>::InputImageType *
+BinaryReconstructionByErosionImageFilter<TInputImage>
+::GetMaskImage()
+{
+  return static_cast<InputImageType*>(const_cast<DataObject *>(this->ProcessObject::GetInput( "MaskImage" )));
 }
 
 template<class TInputImage>

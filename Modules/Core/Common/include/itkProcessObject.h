@@ -63,13 +63,16 @@ namespace itk
  * inputs and outputs with an index. The index is mapped internally to
  * a name built as "IndexedDataObject" followed by the index.
  * The indexed input or output 0 is mapped to the Primary input or output.
- * The name of the Primary input or output is "Primary", but this can be changed
- * with SetPrimaryInputName and SetPrimaryOutputName.
+ * The name of the Primary input or output defaults to "Primary", but
+ * this can be changed  with SetPrimaryInputName and
+ * SetPrimaryOutputName.
  *
- * The inputs and outputs shouldn't be accessed by index in most cases.
- * Using the name is most of the time a better solution. The access
- * by index should be used only when the number of input or output of
- * a filter is decided at run time.
+ * For complicated filters which have optional, or varied required
+ * inputs, named input access is preferred. However, indexed input
+ * access provides constant time access to input and output
+ * DataObjects, and so are more efficient. A name can also be
+ * associated with an indexed input. Neither type of input or output
+ * should be accessed in a tight loop.
  *
  * ProcessObject invokes the following events:
  * Command::StartEvent, Command::EndEvent
@@ -157,10 +160,12 @@ public:
 
   typedef DataObjectPointerArray::size_type DataObjectPointerArraySizeType;
 
-  /** Get the size of the input container.  This is merely the size of
-   * the input vector, not the number of inputs that have valid
-   * DataObject's assigned. Use GetNumberOfValidRequiredInputs() to
-   * determine how many inputs are non-null. */
+  /** Get the size of the input container. This is not the number of
+   * inputs that have valid  DataObject's assigned. If the Primary
+   * input is NULL it is not counted. Use
+   * GetNumberOfValidRequiredInputs() to determine how many inputs are
+   * non-null.
+   */
   DataObjectPointerArraySizeType GetNumberOfInputs() const;
 
   DataObjectPointerArraySizeType GetNumberOfOutputs() const
@@ -201,7 +206,7 @@ public:
 
   /** Return an array with all the outputs of this process object.
    * This is useful for tracing forward in the pipeline to contruct
-   * graphs etc.  */
+   * graphs etc. */
   DataObjectPointerArray GetIndexedOutputs();
   // ConstDataObjectPointerArray GetIndexedOutputs() const;
   DataObjectPointerArraySizeType GetNumberOfIndexedOutputs() const;
@@ -417,11 +422,16 @@ protected:
 
   void PrintSelf(std::ostream & os, Indent indent) const;
 
-  /** Return an input */
+  //
+  // Input Methods
+  //
+
+  /** Return an input, NULL is returned if out of bounds or not set. */
   DataObject * GetInput(const DataObjectIdentifierType & key);
   const DataObject * GetInput(const DataObjectIdentifierType & key) const;
 
-  /** Method used internally for getting an indexed input. */
+  /** Method used internally for getting an indexed input.
+   */
   DataObject * GetInput(DataObjectPointerArraySizeType idx)
   { return idx < m_IndexedInputs.size() ? m_IndexedInputs[idx]->second : NULL; }
   const DataObject * GetInput(DataObjectPointerArraySizeType idx) const
@@ -434,16 +444,27 @@ protected:
    * Subclasses make use of them for setting input. */
   virtual void SetNthInput(DataObjectPointerArraySizeType num, DataObject *input);
 
-  /** Remove an input */
-  virtual void RemoveInput(const DataObjectIdentifierType & key);
+  /** Sets first NULL indexed input, appends to the end otherwise */
+  virtual void AddInput(DataObject *input);
 
-  /** Remove an indexed input */
-  virtual void RemoveInput(DataObjectPointerArraySizeType);
+  /** Push/Pop an indexed input of this process object. These methods allow a
+   * filter to model its input vector as a queue or stack.  These
+   * routines may not be appropriate for all filters, especially
+   * filters with different types of inputs.  These routines follow
+   * the semantics of STL. */
+  virtual void PushBackInput(const DataObject *input);
+  virtual void PopBackInput();
+  virtual void PushFrontInput(const DataObject *input);
+  virtual void PopFrontInput();
 
-  /** Remove an indexed input.
-   *\deprecated use RemoveInput(unsigned int) instead
+  /** \brief Remove an input.
+   *
+   *  If the input is the last indexed input the number of indexed
+   *  inputs will be reduced by one. Otherwise, if the input is
+   *  required or an index it will be set to NULL.
    */
-  itkLegacyMacro(virtual void RemoveInput(DataObject *input));
+  virtual void RemoveInput(const DataObjectIdentifierType & key);
+  virtual void RemoveInput(DataObjectPointerArraySizeType);
 
   /** Return the main input */
   DataObject * GetPrimaryInput()
@@ -458,6 +479,33 @@ protected:
 
   /** Set the main input */
   virtual void SetPrimaryInput(DataObject *input);
+
+  /** Define the number of indexed inputs defined for this
+   * process. The new indexed inputs are considered to be NULL. If the
+   * size is a reduction then those elements are removed.
+   */
+  void SetNumberOfIndexedInputs(DataObjectPointerArraySizeType num);
+
+  /** Set the number of required \b indexed inputs. If an input is
+   * index by name only as is not associated with an index it is not
+   * considered this count. In this class' VerifyPreconditions(), the
+   * is check that GetNumberOfValidRequiredInputs() is at least this
+   * value.
+   */
+  virtual void SetNumberOfRequiredInputs(DataObjectPointerArraySizeType);
+  itkGetConstReferenceMacro(NumberOfRequiredInputs, DataObjectPointerArraySizeType);
+
+  /** Methods to add/remove and query the set of required inputs by name.
+   */
+  bool AddRequiredInputName( const DataObjectIdentifierType & );
+  bool AddRequiredInputName( const DataObjectIdentifierType &, DataObjectPointerArraySizeType idx );
+  bool RemoveRequiredInputName( const DataObjectIdentifierType & );
+  bool IsRequiredInputName( const DataObjectIdentifierType & ) const;
+  void SetRequiredInputNames( const NameArray & );
+
+  //
+  // Output Methods
+  //
 
   /** Return an output */
   DataObject * GetOutput(const DataObjectIdentifierType & key);
@@ -477,9 +525,6 @@ protected:
   /** Remove an output */
   virtual void RemoveOutput(const DataObjectIdentifierType & key);
 
-  /** \deprecated use RemoveOutput(unsigned int) instead */
-  itkLegacyMacro(virtual void RemoveOutput(DataObject *output));
-
   /** Return the main output */
   DataObject * GetPrimaryOutput();
   const DataObject * GetPrimaryOutput() const;
@@ -487,12 +532,45 @@ protected:
   /** Set the main output */
   virtual void SetPrimaryOutput(DataObject *output);
 
+  /** Protected methods for setting outputs.
+   * Subclasses make use of them for getting output. */
+  virtual void SetNthOutput(DataObjectPointerArraySizeType num, DataObject *output);
+
+  virtual void AddOutput(DataObject *output);
+
+  virtual void RemoveOutput(DataObjectPointerArraySizeType idx);
+
+  itkSetMacro(NumberOfRequiredOutputs, DataObjectPointerArraySizeType);
+  itkGetConstReferenceMacro(NumberOfRequiredOutputs, DataObjectPointerArraySizeType);
+
+  /** Called to allocate the output array.  Copies old outputs. */
+  void SetNumberOfIndexedOutputs(DataObjectPointerArraySizeType num);
+
+
   DataObjectIdentifierType MakeNameFromInputIndex( DataObjectPointerArraySizeType idx ) const;
   DataObjectIdentifierType MakeNameFromOutputIndex( DataObjectPointerArraySizeType idx ) const;
   DataObjectPointerArraySizeType MakeIndexFromInputName( const DataObjectIdentifierType & name ) const;
   DataObjectPointerArraySizeType MakeIndexFromOutputName( const DataObjectIdentifierType & name ) const;
   bool IsIndexedInputName( const DataObjectIdentifierType & ) const;
   bool IsIndexedOutputName( const DataObjectIdentifierType & ) const;
+
+  /** \deprecated use RemoveOutput(unsigned int) instead */
+  itkLegacyMacro(virtual void RemoveOutput(DataObject *output));
+
+  /** \deprecated use SetNumberOfIndexedInputs() instead */
+  itkLegacyMacro(void SetNumberOfOutputs(DataObjectPointerArraySizeType num));
+
+  /** Remove an indexed input.
+   *\deprecated use RemoveInput(unsigned int) instead
+   */
+  itkLegacyMacro(virtual void RemoveInput(DataObject *input));
+
+  /** \deprecated use SetNumberOfIndexedInputs() instead */
+  itkLegacyMacro(void SetNumberOfInputs(DataObjectPointerArraySizeType num));
+
+  //
+  // Pipeline Methods
+  //
 
   /** \brief Verifies that the process object has been configured
    * correctly, that all required inputs are set, and needed parameters
@@ -518,56 +596,6 @@ protected:
    *
    */
   virtual void VerifyInputInformation();
-
-  virtual void AddInput(DataObject *input);
-
-  /** Set the number of required \b indexed inputs.   If an input is added with
-   *    AddRequiredInputName
-   * it should not be considered in this count.
-   * */
-  virtual void SetNumberOfRequiredInputs(DataObjectPointerArraySizeType);
-  itkGetConstReferenceMacro(NumberOfRequiredInputs, DataObjectPointerArraySizeType);
-
-  /** Push/Pop an indexed input of this process object. These methods allow a
-   * filter to model its input vector as a queue or stack.  These
-   * routines may not be appropriate for all filters, especially
-   * filters with different types of inputs.  These routines follow
-   * the semantics of STL. */
-  virtual void PushBackInput(const DataObject *input);
-  virtual void PopBackInput();
-  virtual void PushFrontInput(const DataObject *input);
-  virtual void PopFrontInput();
-
-  /** Define the number of indexed inputs defined for this process. The new indexed inputs are
-   * considered to be NULL.
-   */
-  void SetNumberOfIndexedInputs(DataObjectPointerArraySizeType num);
-
-  /** \deprecated use SetNumberOfIndexedInputs() instead */
-  itkLegacyMacro(void SetNumberOfInputs(DataObjectPointerArraySizeType num));
-
-  /** Protected methods for setting outputs.
-   * Subclasses make use of them for getting output. */
-  virtual void SetNthOutput(DataObjectPointerArraySizeType num, DataObject *output);
-
-  virtual void AddOutput(DataObject *output);
-
-  virtual void RemoveOutput(DataObjectPointerArraySizeType idx);
-
-  itkSetMacro(NumberOfRequiredOutputs, DataObjectPointerArraySizeType);
-  itkGetConstReferenceMacro(NumberOfRequiredOutputs, DataObjectPointerArraySizeType);
-
-  bool AddRequiredInputName( const DataObjectIdentifierType & );
-  bool AddRequiredInputName( const DataObjectIdentifierType &, DataObjectPointerArraySizeType idx );
-  bool RemoveRequiredInputName( const DataObjectIdentifierType & );
-  bool IsRequiredInputName( const DataObjectIdentifierType & ) const;
-  void SetRequiredInputNames( const NameArray & );
-
-  /** Called to allocate the output array.  Copies old outputs. */
-  void SetNumberOfIndexedOutputs(DataObjectPointerArraySizeType num);
-
-  /** \deprecated use SetNumberOfIndexedInputs() instead */
-  itkLegacyMacro(void SetNumberOfOutputs(DataObjectPointerArraySizeType num));
 
   /** What is the input requested region that is required to produce the
    * output requested region? By default, the largest possible region is
