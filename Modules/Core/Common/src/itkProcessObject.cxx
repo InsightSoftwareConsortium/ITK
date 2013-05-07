@@ -794,7 +794,7 @@ ProcessObject
     }
 
   // note: insert will not change value if it's already there.
-  m_Inputs.insert( DataObjectPointerMap::value_type(name, NULL) ).first;
+  m_Inputs.insert( DataObjectPointerMap::value_type(name, NULL) );
 
   if( name == m_IndexedInputs[0]->first && m_NumberOfRequiredInputs == 0 )
     {
