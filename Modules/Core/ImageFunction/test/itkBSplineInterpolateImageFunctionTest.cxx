@@ -606,7 +606,7 @@ int testEvaluateValueAndDerivative(void)
   BSplineInterpolatorFunctionType::OutputType value;
   interpolator->EvaluateValueAndDerivativeAtContinuousIndex( x, value, dx_2 );
 
-  for(unsigned int i = 0 ; i < ImageDimension; ++i)
+  for( unsigned int i = 0; i < ImageDimension; ++i )
     {
     std::cout << std::scientific << value << std::endl;
     std::cout << std::scientific << "EvaluateDerivative:         " << dx_1 << std::endl;

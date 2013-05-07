@@ -170,4 +170,3 @@ int itkInverseDisplacementFieldImageFilterTest( int argc, char * argv[] )
   return EXIT_SUCCESS;
 
 }
-

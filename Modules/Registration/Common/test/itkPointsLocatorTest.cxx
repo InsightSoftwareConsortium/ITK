@@ -119,7 +119,7 @@ int itkPointsLocatorTest( int, char* [] )
   typedef itk::Point<float, PointDimension> PointType;
 
   typedef itk::VectorContainer<unsigned int, PointType> VectorContainerType;
-  typedef itk::MapContainer< unsigned int, PointType > MapContainerType;
+  typedef itk::MapContainer< unsigned int, PointType >  MapContainerType;
 
   std::cout << "VectorContainerType" << std::endl;
   if( testPointsLocatorTest< VectorContainerType >() == EXIT_FAILURE )
