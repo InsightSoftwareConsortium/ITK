@@ -20,9 +20,42 @@
 
 #include "itkUnaryFunctorImageFilter.h"
 #include "itkProgressReporter.h"
+#include "itkImageAlgorithm.h"
 
 namespace itk
 {
+namespace Functor
+{
+/** \class Cast
+ *
+ *  \deprecated This functor is no longer used by the CastImageFilter.
+ * \ingroup ITKImageFilterBase
+ */
+
+template< class TInput, class TOutput >
+class Cast
+{
+public:
+  Cast() {}
+  virtual ~Cast() {}
+  bool operator!=(const Cast &) const
+  {
+    return false;
+  }
+
+  bool operator==(const Cast & other) const
+  {
+    return !( *this != other );
+  }
+
+  inline TOutput operator()(const TInput & A) const
+  {
+    return static_cast< TOutput >( A );
+  }
+};
+}
+
+
 /** \class CastImageFilter
  *
  * \brief Casts input pixels to output pixel type.
@@ -60,38 +93,12 @@ namespace itk
  * \wikiexample{ImageProcessing/CastImageFilter,Cast an image from one type to another}
  * \endwiki
  */
-namespace Functor
-{
-template< class TInput, class TOutput >
-class Cast
-{
-public:
-  Cast() {}
-  virtual ~Cast() {}
-  bool operator!=(const Cast &) const
-  {
-    return false;
-  }
-
-  bool operator==(const Cast & other) const
-  {
-    return !( *this != other );
-  }
-
-  inline TOutput operator()(const TInput & A) const
-  {
-    return static_cast< TOutput >( A );
-  }
-};
-}
-
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT CastImageFilter:
-  public
-  UnaryFunctorImageFilter< TInputImage, TOutputImage,
-                           Functor::Cast<
-                             typename TInputImage::PixelType,
-                             typename TOutputImage::PixelType > >
+    public UnaryFunctorImageFilter< TInputImage, TOutputImage,
+                                    Functor::Cast<
+                                      typename TInputImage::PixelType,
+                                      typename TOutputImage::PixelType > >
 {
 public:
   /** Standard class typedefs. */
@@ -104,6 +111,9 @@ public:
 
   typedef SmartPointer< Self >       Pointer;
   typedef SmartPointer< const Self > ConstPointer;
+
+
+  typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -120,21 +130,12 @@ public:
 #endif
 
 protected:
-  CastImageFilter() {}
-  virtual ~CastImageFilter() {}
+  CastImageFilter();
+  // virtual ~CastImageFilter() {} default OK
 
-  void GenerateData()
-  {
-    if ( this->GetInPlace() && this->CanRunInPlace() )
-      {
-      // nothing to do, so avoid iterating over all the pixels
-      // for nothing! Allocate the output, generate a fake progress and exit
-      this->AllocateOutputs();
-      ProgressReporter progress(this, 0, 1);
-      return;
-      }
-    Superclass::GenerateData();
-  }
+  void GenerateData();
+
+  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId);
 
 private:
   CastImageFilter(const Self &); //purposely not implemented
@@ -142,4 +143,9 @@ private:
 };
 } // end namespace itk
 
+#endif
+
+
+#ifndef ITK_MANUAL_INSTANTIATION
+#include "itkCastImageFilter.hxx"
 #endif
