@@ -94,7 +94,6 @@ public:
   using Superclass::ReleaseInputs;
   using Superclass::CacheInputReleaseDataFlags;
   using Superclass::RestoreInputReleaseDataFlags;
-  using Superclass::NameComparator;
   using Superclass::GetRequiredInputNames;
   using Superclass::AddRequiredInputName;
   using Superclass::RemoveRequiredInputName;
@@ -111,13 +110,6 @@ public:
 
 int itkDataObjectAndProcessObjectTest(int, char* [] )
 {
-  itk::TestProcessObject::NameComparator comparator;
-  TEST_SET_GET_VALUE( true, comparator("Primary", "Foo") );
-  TEST_SET_GET_VALUE( false, comparator("Primary", "Primary") );
-  TEST_SET_GET_VALUE( false, comparator("Foo", "Primary") );
-  TEST_SET_GET_VALUE( false, comparator("Foo", "Bar") );
-  TEST_SET_GET_VALUE( false, comparator("Foo", "Foo") );
-  TEST_SET_GET_VALUE( true, comparator("Bar", "Foo") );
 
   // create a TestProcessObject
   itk::TestProcessObject::Pointer process = itk::TestProcessObject::New();
