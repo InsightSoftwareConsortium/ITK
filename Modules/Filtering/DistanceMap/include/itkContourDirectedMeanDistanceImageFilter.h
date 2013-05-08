@@ -43,8 +43,6 @@ namespace itk
  * It then computes the mean distance (in pixels) within the boundary pixels
  *  of non-zero regions in the first image.
  *
- * Use MeanDistanceImageFilter to compute the full Mean distance.
- *
  * This filter requires the largest possible region of the first image and the
  * same corresponding region in the second image. It behaves as filter with
  * two input and one output. Thus it can be inserted in a pipeline with other
@@ -54,7 +52,6 @@ namespace itk
  * both image have the same number of dimensions.
  *
  * \sa SignedMaurerDistanceMapImageFilter
- * \sa MeanDistanceImageFilter
  *
  * \ingroup MultiThreaded
  *
