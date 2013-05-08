@@ -17,4 +17,10 @@ itk_wrap_class("itk::PointSet" POINTER)
     itk_wrap_template("${ITKM_PD${d}}${d}ST${ITKM_D}${d}${d}${ITKM_D}${ITKM_D}"
       "${ITKT_PD${d}},${d},itk::DefaultStaticMeshTraits< ${ITKT_D},${d},${d},${ITKT_D},${ITKT_D},${ITKT_D} >")
   endforeach(d)
+  foreach(d ${ITK_WRAP_DIMS})
+    # Also wrap the point set type needed for the kernel transforms,
+    # which may be a bug in ITK but they're needed currently.
+    itk_wrap_template("M${ITKM_D}${d}${d}STM${ITKM_D}${d}${d}${d}${d}${ITKM_F}${ITKM_F}M${ITKM_D}${d}${d}"
+      "itk::Matrix <${ITKT_D},${d},${d}>,${d},itk::DefaultStaticMeshTraits< itk::Matrix <${ITKT_D},${d},${d}>,${d},${d},${ITKT_F},${ITKT_F},itk::Matrix <${ITKT_D},${d},${d}> >")
+  endforeach(d)
 itk_end_wrap_class()
