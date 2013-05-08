@@ -37,28 +37,18 @@ namespace itk
 namespace
 { // local namespace for managing globals
 const size_t ITK_GLOBAL_INDEX_NAMES_NUMBER = 100;
-const size_t ITK_GLOBAL_INDEX_NAMES_LENGTH = 17+3;
+const size_t ITK_GLOBAL_INDEX_NAMES_LENGTH = 4;
 const char globalIndexNames[ITK_GLOBAL_INDEX_NAMES_NUMBER][ITK_GLOBAL_INDEX_NAMES_LENGTH] =
-{ "IndexedDataObject0", "IndexedDataObject1", "IndexedDataObject2", "IndexedDataObject3", "IndexedDataObject4",
-  "IndexedDataObject5", "IndexedDataObject6", "IndexedDataObject7", "IndexedDataObject8", "IndexedDataObject9",
-  "IndexedDataObject10", "IndexedDataObject11", "IndexedDataObject12", "IndexedDataObject13", "IndexedDataObject14",
-  "IndexedDataObject15", "IndexedDataObject16", "IndexedDataObject17", "IndexedDataObject18", "IndexedDataObject19",
-  "IndexedDataObject20", "IndexedDataObject21", "IndexedDataObject22", "IndexedDataObject23", "IndexedDataObject24",
-  "IndexedDataObject25", "IndexedDataObject26", "IndexedDataObject27", "IndexedDataObject28", "IndexedDataObject29",
-  "IndexedDataObject30", "IndexedDataObject31", "IndexedDataObject32", "IndexedDataObject33", "IndexedDataObject34",
-  "IndexedDataObject35", "IndexedDataObject36", "IndexedDataObject37", "IndexedDataObject38", "IndexedDataObject39",
-  "IndexedDataObject40", "IndexedDataObject41", "IndexedDataObject42", "IndexedDataObject43", "IndexedDataObject44",
-  "IndexedDataObject45", "IndexedDataObject46", "IndexedDataObject47", "IndexedDataObject48", "IndexedDataObject49",
-  "IndexedDataObject50", "IndexedDataObject51", "IndexedDataObject52", "IndexedDataObject53", "IndexedDataObject54",
-  "IndexedDataObject55", "IndexedDataObject56", "IndexedDataObject57", "IndexedDataObject58", "IndexedDataObject59",
-  "IndexedDataObject60", "IndexedDataObject61", "IndexedDataObject62", "IndexedDataObject63", "IndexedDataObject64",
-  "IndexedDataObject65", "IndexedDataObject66", "IndexedDataObject67", "IndexedDataObject68", "IndexedDataObject69",
-  "IndexedDataObject70", "IndexedDataObject77", "IndexedDataObject72", "IndexedDataObject73", "IndexedDataObject74",
-  "IndexedDataObject75", "IndexedDataObject76", "IndexedDataObject77", "IndexedDataObject78", "IndexedDataObject79",
-  "IndexedDataObject80", "IndexedDataObject88", "IndexedDataObject82", "IndexedDataObject83", "IndexedDataObject84",
-  "IndexedDataObject85", "IndexedDataObject86", "IndexedDataObject87", "IndexedDataObject88", "IndexedDataObject89",
-  "IndexedDataObject90", "IndexedDataObject99", "IndexedDataObject92", "IndexedDataObject93", "IndexedDataObject94",
-  "IndexedDataObject95", "IndexedDataObject96", "IndexedDataObject97", "IndexedDataObject98", "IndexedDataObject99"
+{ "_0", "_1", "_2", "_3", "_4", "_5", "_6", "_7", "_8", "_9",
+  "_10", "_11", "_12", "_13", "_14", "_15", "_16", "_17", "_18", "_19",
+  "_20", "_21", "_22", "_23", "_24", "_25", "_26", "_27", "_28", "_29",
+  "_30", "_31", "_32", "_33", "_34", "_35", "_36", "_37", "_38", "_39",
+  "_40", "_41", "_42", "_43", "_44", "_45", "_46", "_47", "_48", "_49",
+  "_50", "_51", "_52", "_53", "_54", "_55", "_56", "_57", "_58", "_59",
+  "_60", "_61", "_62", "_63", "_64", "_65", "_66", "_67", "_68", "_69",
+  "_70", "_77", "_72", "_73", "_74", "_75", "_76", "_77", "_78", "_79",
+  "_80", "_88", "_82", "_83", "_84", "_85", "_86", "_87", "_88", "_89",
+  "_90", "_99", "_92", "_93", "_94", "_95", "_96", "_97", "_98", "_99"
 };
 
 }
@@ -1010,7 +1000,7 @@ ProcessObject
   else
     {
     char buf[2+21]; // a 64-bit integer is ~20 decimal places max
-    sprintf(buf, "IndexedDataObject%u", static_cast<unsigned int>(idx));
+    sprintf(buf, "_%u", static_cast<unsigned int>(idx));
     return buf;
     }
 }
@@ -1043,7 +1033,7 @@ ProcessObject::DataObjectPointerArraySizeType
 ProcessObject
 ::MakeIndexFromName(const DataObjectIdentifierType & name) const
 {
-  DataObjectIdentifierType baseName = "IndexedDataObject";
+  DataObjectIdentifierType baseName = "_";
   DataObjectPointerArraySizeType baseSize = baseName.size();
   if( name.size() <= baseSize || name.substr(0, baseSize) != baseName )
     {
@@ -1094,7 +1084,7 @@ bool
 ProcessObject
 ::IsIndexedName(const DataObjectIdentifierType & name) const
 {
-  DataObjectIdentifierType baseName = "IndexedDataObject";
+  DataObjectIdentifierType baseName = "_";
   DataObjectPointerArraySizeType baseSize = baseName.size();
   if( name.size() <= baseSize || name.substr(0, baseSize) != baseName )
     {
