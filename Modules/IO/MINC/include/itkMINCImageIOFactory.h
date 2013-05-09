@@ -62,13 +62,7 @@ public:
   {
     MINCImageIOFactory::Pointer MINCFactory = MINCImageIOFactory::New();
 
-    //ObjectFactoryBase::RegisterFactoryInternal(MINCFactory);
-    ObjectFactoryBase::RegisterFactory(MINCFactory,ObjectFactoryBase::INSERT_AT_FRONT); //MINC
-                                                                                        // factory
-                                                                                        // should
-                                                                                        // be
-                                                                                        // before
-                                                                                        // HDF5
+    ObjectFactoryBase::RegisterFactoryInternal(MINCFactory);
   }
 
 protected:

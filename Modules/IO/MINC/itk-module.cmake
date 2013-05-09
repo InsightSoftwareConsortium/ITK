@@ -13,4 +13,5 @@ itk_module(ITKIOMINC
     ITKDisplacementField
   DESCRIPTION
     "${DOCUMENTATION}"
+  EXCLUDE_FROM_ALL
 )
