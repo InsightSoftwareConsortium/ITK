@@ -72,7 +72,7 @@ ProcessObject
   m_Progress = 0.0f;
   m_Updating = false;
 
-  DataObjectPointerMap::value_type p("Primary", NULL);
+  DataObjectPointerMap::value_type p("Primary", DataObjectPointer() );
   m_IndexedInputs.push_back( m_Inputs.insert(p).first );
 
   m_Threader = MultiThreader::New();
@@ -164,7 +164,7 @@ ProcessObject
       {
       for ( DataObjectPointerArraySizeType i = m_IndexedInputs.size(); i < num; ++i)
         {
-        DataObjectPointerMap::value_type p(this->MakeNameFromInputIndex( i ), NULL);
+        DataObjectPointerMap::value_type p(this->MakeNameFromInputIndex( i ), DataObjectPointer() );
         // note: insert will not change value if it's already there.
         m_IndexedInputs.push_back ( m_Inputs.insert(p).first );
         }
@@ -784,7 +784,7 @@ ProcessObject
     }
 
   // note: insert will not change value if it's already there.
-  m_Inputs.insert( DataObjectPointerMap::value_type(name, NULL) );
+  m_Inputs.insert( DataObjectPointerMap::value_type(name, DataObjectPointer() ) );
 
   if( name == m_IndexedInputs[0]->first && m_NumberOfRequiredInputs == 0 )
     {
@@ -809,7 +809,7 @@ ProcessObject
     return false;
     }
 
-  DataObjectPointerMap::value_type p(name, NULL);
+  DataObjectPointerMap::value_type p(name, DataObjectPointer() );
   // note: insert will not change value if it's already there.
   DataObjectPointerMap::iterator it = m_Inputs.insert(p).first;
 
