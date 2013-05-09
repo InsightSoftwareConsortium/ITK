@@ -644,6 +644,37 @@ HDF5ImageIO
     {
     return false;
     }
+
+  //Do not read if it is a MINC file.
+  std::string filename(FileNameToRead);
+  std::string::size_type mncPos = filename.rfind(".mnc");
+  if ( (mncPos != std::string::npos)
+       && (mncPos == filename.length() - 4) )
+    {
+    return false;
+    }
+
+  mncPos = filename.rfind(".MNC");
+  if ( (mncPos != std::string::npos)
+       && (mncPos == filename.length() - 4) )
+    {
+    return false;
+    }
+
+  mncPos = filename.rfind(".mnc2");
+  if ( (mncPos != std::string::npos)
+       && (mncPos == filename.length() - 5) )
+    {
+    return false;
+    }
+
+  mncPos = filename.rfind(".MNC2");
+  if ( (mncPos != std::string::npos)
+       && (mncPos == filename.length() - 5) )
+    {
+    return false;
+    }
+
   // call standard method to determine HDF-ness
   bool rval;
   // HDF5 is so exception happy, we have to worry about
