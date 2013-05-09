@@ -169,8 +169,7 @@ public:
    */
   DataObjectPointerArraySizeType GetNumberOfInputs() const;
 
-  DataObjectPointerArraySizeType GetNumberOfOutputs() const
-  { return m_Outputs.size(); }
+  DataObjectPointerArraySizeType GetNumberOfOutputs() const;
 
   /** Return a array with the names of the outputs of this process object.
    * The names are ordered lexicographically, and match the order of the
@@ -514,7 +513,8 @@ protected:
 
   /** Set/Get the name associated with the Primary output.  Defaults to "Primary". */
   virtual void SetPrimaryOutputName(const DataObjectIdentifierType & key);
-  itkGetStringMacro(PrimaryOutputName);
+  virtual const char *GetPrimaryOutputName( void ) const
+  { return this->m_IndexedOutputs[0]->first.c_str(); }
 
   /** Method used internally for getting an indexed output. */
   DataObject * GetOutput(DataObjectPointerArraySizeType idx);
@@ -527,8 +527,10 @@ protected:
   virtual void RemoveOutput(const DataObjectIdentifierType & key);
 
   /** Return the main output */
-  DataObject * GetPrimaryOutput();
-  const DataObject * GetPrimaryOutput() const;
+  DataObject * GetPrimaryOutput()
+  { return m_IndexedOutputs[0]->second; }
+  const DataObject * GetPrimaryOutput() const
+  { return m_IndexedOutputs[0]->second; }
 
   /** Set the main output */
   virtual void SetPrimaryOutput(DataObject *output);
@@ -701,11 +703,10 @@ private:
   DataObjectPointerMap   m_Outputs;
 
   std::vector< DataObjectPointerMap::iterator > m_IndexedInputs;
+  std::vector< DataObjectPointerMap::iterator > m_IndexedOutputs;
 
   /** An array that caches the ReleaseDataFlags of the inputs */
   std::map< DataObjectIdentifierType, bool > m_CachedInputReleaseDataFlags;
-
-  DataObjectPointerArraySizeType  m_NumberOfIndexedOutputs;
 
   DataObjectPointerArraySizeType  m_NumberOfRequiredInputs;
   DataObjectPointerArraySizeType  m_NumberOfRequiredOutputs;
@@ -715,9 +716,6 @@ private:
 
   /** The required inputs */
   NameSet m_RequiredInputNames;
-
-  /** The name associated with the Primary  output.  Defaults to "Primary". */
-  DataObjectIdentifierType m_PrimaryOutputName;
 
   /** These support the progress method and aborting filter execution. */
   bool  m_AbortGenerateData;
