@@ -63,34 +63,33 @@ void ImageAlgorithm::DispatchedCopy( const InputImageType *inImage, OutputImageT
     }
 }
 
-
-template<typename TImageType >
-void ImageAlgorithm::DispatchedCopy( const TImageType *inImage, TImageType *outImage,
-                                     const typename TImageType::RegionType &inRegion,
-                                     const typename TImageType::RegionType &outRegion,
+template<typename InputImageType, typename OutputImageType>
+void ImageAlgorithm::DispatchedCopy( const InputImageType *inImage,
+                                     OutputImageType *outImage,
+                                     const typename InputImageType::RegionType &inRegion,
+                                     const typename OutputImageType::RegionType &outRegion,
                                      TrueType )
 {
-  typedef typename TImageType::RegionType _RegionType;
-  typedef typename TImageType::IndexType  _IndexType;
+  typedef typename InputImageType::RegionType _RegionType;
+  typedef typename InputImageType::IndexType  _IndexType;
 
+  // Get the number of bytes of each pixel in the buffer.
+  const size_t NumberOfInternalComponents = ImageAlgorithm::PixelSize<InputImageType>::Get( inImage );
 
   // We wish to copy whole lines, otherwise just use the basic implementation.
-  if ( inRegion.GetSize()[0] != outRegion.GetSize()[0] )
+  // Check that the number of internal components match
+  if ( inRegion.GetSize()[0] != outRegion.GetSize()[0]
+       || NumberOfInternalComponents != ImageAlgorithm::PixelSize<OutputImageType>::Get( outImage ) )
     {
-    ImageAlgorithm::DispatchedCopy<TImageType, TImageType>( inImage, outImage, inRegion, outRegion );
+    ImageAlgorithm::DispatchedCopy<InputImageType, OutputImageType>( inImage, outImage, inRegion, outRegion );
     return;
     }
 
-  // Get the number of bytes of each pixel in the buffer.
-  size_t PixelSize = ImageAlgorithm::PixelSize<TImageType>::Get( inImage );
-
-  const void *in = inImage->GetBufferPointer();
-  void *out = outImage->GetBufferPointer();
+  const typename InputImageType::InternalPixelType *in = inImage->GetBufferPointer();
+  typename OutputImageType::InternalPixelType *out = outImage->GetBufferPointer();
 
   const _RegionType &inBufferedRegion = inImage->GetBufferedRegion();
   const _RegionType &outBufferedRegion = outImage->GetBufferedRegion();
-
-  ImageRegionConstIterator<TImageType> it( inImage, inRegion );
 
   // Compute the number of continuous pixel which can be copied.
   size_t numberOfPixel = 1;
@@ -107,14 +106,14 @@ void ImageAlgorithm::DispatchedCopy( const TImageType *inImage, TImageType *outI
           && outRegion.GetSize( movingDirection - 1 ) == outBufferedRegion.GetSize( movingDirection - 1 )
           && inBufferedRegion.GetSize(movingDirection - 1) == outBufferedRegion.GetSize(movingDirection - 1) );
 
-  const size_t sizeOfChunk = numberOfPixel*PixelSize;
+  const size_t sizeOfChunkInInternalComponents = numberOfPixel*NumberOfInternalComponents;
 
   _IndexType inCurrentIndex = inRegion.GetIndex();
   _IndexType outCurrentIndex = outRegion.GetIndex();
 
   while ( inRegion.IsInside( inCurrentIndex ) )
     {
-    size_t inOffset = 0; // in bytes
+    size_t inOffset = 0; // in pixels
     size_t outOffset = 0;
 
     size_t inSubDimensionQuantity = 1; // in pixels
@@ -122,18 +121,18 @@ void ImageAlgorithm::DispatchedCopy( const TImageType *inImage, TImageType *outI
 
     for (unsigned int i = 0; i < _RegionType::ImageDimension; ++i )
       {
-      inOffset += inSubDimensionQuantity*PixelSize*static_cast<size_t>( inCurrentIndex[i] - inBufferedRegion.GetIndex(i) );
+      inOffset += inSubDimensionQuantity*static_cast<size_t>( inCurrentIndex[i] - inBufferedRegion.GetIndex(i) );
       inSubDimensionQuantity *= inBufferedRegion.GetSize(i);
 
-      outOffset += outSubDimensionQuantity*PixelSize*static_cast<size_t>( outCurrentIndex[i] - outBufferedRegion.GetIndex(i) );
+      outOffset += outSubDimensionQuantity*static_cast<size_t>( outCurrentIndex[i] - outBufferedRegion.GetIndex(i) );
       outSubDimensionQuantity *= outBufferedRegion.GetSize(i);
       }
 
-    const char *inBuffer = static_cast<const char*>(in) + inOffset;
-    char* outBuffer = static_cast<char*>(out) + outOffset;
+    const typename InputImageType::InternalPixelType* inBuffer = in + inOffset*NumberOfInternalComponents;
+    typename OutputImageType::InternalPixelType* outBuffer = out + outOffset*NumberOfInternalComponents;
 
     std::copy(inBuffer,
-              inBuffer+sizeOfChunk ,
+              inBuffer+sizeOfChunkInInternalComponents ,
               outBuffer);
 
     if ( movingDirection == _RegionType::ImageDimension )

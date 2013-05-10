@@ -85,30 +85,41 @@ struct ImageAlgorithm
   }
 
 /** \cond HIDE_SPECIALIZATION_DOCUMENTATION */
-  template<class TPixel, unsigned int VImageDimension>
-  static void Copy( const Image<TPixel, VImageDimension> * inImage,
-                               Image<TPixel, VImageDimension> * outImage,
-                               const typename Image<TPixel, VImageDimension>::RegionType &inRegion,
-                               const typename Image<TPixel, VImageDimension>::RegionType &outRegion )
+  template<class TPixel1, class TPixel2, unsigned int VImageDimension>
+  static void Copy( const Image<TPixel1, VImageDimension> * inImage,
+                               Image<TPixel2, VImageDimension> * outImage,
+                               const typename Image<TPixel1, VImageDimension>::RegionType &inRegion,
+                               const typename Image<TPixel2, VImageDimension>::RegionType &outRegion )
   {
-    typedef Image<TPixel, VImageDimension> _ImageType;
+    typedef Image<TPixel1, VImageDimension> _ImageType1;
+    typedef Image<TPixel2, VImageDimension> _ImageType2;
     ImageAlgorithm::DispatchedCopy( inImage, outImage, inRegion, outRegion
 #if defined(ITK_HAS_STLTR1_TR1_TYPE_TRAITS) || defined(ITK_HAS_STLTR1_TYPE_TRAITS)
-                                    , std::tr1::is_pod<typename _ImageType::InternalPixelType>()
+                                    , std::tr1::is_convertible<typename _ImageType1::PixelType,
+                                                               typename _ImageType2::PixelType>()
+#else
+                                    // note the above trait is
+                                    // primarily used to get a better
+                                    // error message
+                                    , TrueType()
 #endif
       );
   }
 
-  template<class TPixel, unsigned int VImageDimension>
-  static void Copy( const VectorImage<TPixel, VImageDimension> * inImage,
-                               VectorImage<TPixel, VImageDimension> * outImage,
-                               const typename VectorImage<TPixel, VImageDimension>::RegionType &inRegion,
-                               const typename VectorImage<TPixel, VImageDimension>::RegionType &outRegion )
+  template<class TPixel1, class TPixel2, unsigned int VImageDimension>
+  static void Copy( const VectorImage<TPixel1, VImageDimension> * inImage,
+                               VectorImage<TPixel2, VImageDimension> * outImage,
+                               const typename VectorImage<TPixel1, VImageDimension>::RegionType &inRegion,
+                               const typename VectorImage<TPixel2, VImageDimension>::RegionType &outRegion )
   {
-    typedef Image<TPixel, VImageDimension> _ImageType;
+    typedef VectorImage<TPixel1, VImageDimension> _ImageType1;
+    typedef VectorImage<TPixel2, VImageDimension> _ImageType2;
     ImageAlgorithm::DispatchedCopy( inImage, outImage, inRegion, outRegion
 #if defined(ITK_HAS_STLTR1_TR1_TYPE_TRAITS) || defined(ITK_HAS_STLTR1_TYPE_TRAITS)
-                                    , std::tr1::is_pod<typename _ImageType::InternalPixelType>()
+                                    , std::tr1::is_convertible<typename _ImageType1::PixelType,
+                                                               typename _ImageType2::PixelType>()
+#else
+                                    , TrueType()
 #endif
       );
   }
@@ -121,27 +132,27 @@ private:
    * output images to be the same, and the pixel being POD (Plain Old
    * Data).
    */
-  template<typename ImageType>
-  static void DispatchedCopy( const ImageType *inImage, ImageType *outImage,
-                              const typename ImageType::RegionType &inRegion,
-                              const typename ImageType::RegionType &outRegion, TrueType isPod );
+  template<typename InputImageType, typename OutputImageType>
+  static void DispatchedCopy( const InputImageType *inImage, OutputImageType *outImage,
+                              const typename InputImageType::RegionType &inRegion,
+                              const typename OutputImageType::RegionType &outRegion, TrueType isSpecialized );
 
   /** this is the reference image iterator implementation */
   template<typename InputImageType, typename OutputImageType>
   static void DispatchedCopy( const InputImageType *inImage, OutputImageType *outImage,
                               const typename InputImageType::RegionType &inRegion,
-                              const typename OutputImageType::RegionType &outRegion, FalseType isPod = FalseType() );
+                              const typename OutputImageType::RegionType &outRegion, FalseType isSpecialized = FalseType() );
 
 
-  /** A utility class which is used to obtain the number of bytes used
-   * per-pixel on an image.
+  /** A utility class to get the number of internal pixels to make up
+   * a pixel.
    */
   template <typename TImageType>
   struct PixelSize
   {
     static size_t Get( const TImageType *)
     {
-      return sizeof( typename TImageType::PixelType );
+      return 1;
     }
   };
 
@@ -153,8 +164,7 @@ private:
     static size_t Get( const  ImageType * i )
     {
       const size_t vectorLength = ImageType::AccessorFunctorType::GetVectorLength(i);
-      const size_t componentSize = sizeof(TPixelType);
-      return vectorLength*componentSize;
+      return vectorLength;
     }
   };
 /** \endcond */
