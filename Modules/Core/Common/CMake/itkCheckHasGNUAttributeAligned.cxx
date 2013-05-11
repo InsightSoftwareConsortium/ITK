@@ -24,7 +24,7 @@ struct B
 template <typename T>
 class foo
 {
-  foo(){}
+  // NOTE: implicit constructor is required for this test
 
   struct A
   {
