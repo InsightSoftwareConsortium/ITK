@@ -62,8 +62,7 @@ ProcessObject
   m_Inputs(),
   m_Outputs(),
   m_CachedInputReleaseDataFlags(),
-  m_RequiredInputNames(),
-  m_PrimaryOutputName( "Primary" )
+  m_RequiredInputNames()
 {
   m_NumberOfRequiredInputs = 0;
   m_NumberOfRequiredOutputs = 0;
@@ -74,13 +73,13 @@ ProcessObject
 
   DataObjectPointerMap::value_type p("Primary", DataObjectPointer() );
   m_IndexedInputs.push_back( m_Inputs.insert(p).first );
+  m_IndexedOutputs.push_back( m_Outputs.insert(p).first );
 
   m_Threader = MultiThreader::New();
   m_NumberOfThreads = m_Threader->GetNumberOfThreads();
 
   m_ReleaseDataBeforeUpdateFlag = true;
 
-  m_NumberOfIndexedOutputs = 0;
 }
 
 /**
@@ -152,8 +151,9 @@ ProcessObject
            i<this->GetNumberOfIndexedInputs(); ++i )
         {
         m_Inputs.erase( m_IndexedInputs[i]->first );
-        m_IndexedInputs.pop_back();
         }
+      m_IndexedInputs.resize(std::max<DataObjectPointerArraySizeType>(num, 1) );
+
 
       if (num < 1 )
         {
@@ -380,8 +380,31 @@ void
 ProcessObject
 ::RemoveOutput(const DataObjectIdentifierType & key)
 {
-  // find the input in the list of inputs
+  // if primary or required set to null
+  if ( key == m_IndexedOutputs[0]->first )
+    {
+    this->SetOutput( key, NULL );
+    return;
+    }
+
+  // set indexed output to null, remove if last
+  for ( DataObjectPointerArraySizeType i = 1; i <  m_IndexedOutputs.size(); ++i )
+    {
+    if ( m_IndexedOutputs[i]->first == key )
+      {
+      this->SetNthOutput(i, NULL);
+      if ( i == m_IndexedOutputs.size() - 1 )
+        {
+        // remove the last indexed input
+        this->SetNumberOfIndexedOutputs( this->GetNumberOfIndexedOutputs() -1 );
+        }
+      return;
+      }
+    }
+
+
   DataObjectPointerMap::iterator it = m_Outputs.find(key);
+
   if ( it != m_Outputs.end() )
     {
     // let the output know we no longer want to associate with the object
@@ -481,7 +504,7 @@ ProcessObject
     {
     this->SetNumberOfIndexedOutputs(idx + 1);
     }
-  this->SetOutput( this->MakeNameFromOutputIndex(idx), output );
+  this->SetOutput( m_IndexedOutputs[idx]->first, output );
 }
 
 /**
@@ -512,14 +535,45 @@ ProcessObject
 {
   if( this->GetNumberOfIndexedOutputs() != num )
     {
-    // remove the extra outputs
-    for( DataObjectPointerArraySizeType i=num; i<this->GetNumberOfIndexedOutputs(); i++ )
+    if ( num < this->GetNumberOfIndexedOutputs() )
       {
-      this->RemoveOutput( this->MakeNameFromOutputIndex( i ) );
+      // NB: The primary output must never be removed from the map, or
+      // the indexed inputs array!
+
+      // remove the extra outputs
+      for( DataObjectPointerArraySizeType i=std::max<DataObjectPointerArraySizeType>(num, 1);
+           i<this->GetNumberOfIndexedOutputs(); ++i )
+        {
+        // an output should never be NULL
+        itkAssertInDebugAndIgnoreInReleaseMacro( m_IndexedOutputs[i]->second );
+
+        // let the output know we no longer want to associate with the
+        // object
+        m_IndexedOutputs[i]->second->DisconnectSource( this,  m_IndexedOutputs[i]->first );
+
+        m_Outputs.erase( m_IndexedOutputs[i]->first );
+        }
+
+      m_IndexedOutputs.resize( std::max<DataObjectPointerArraySizeType>(num, 1) );
+
+      if (num < 1 )
+        {
+        m_IndexedOutputs[0]->second = NULL;
+        }
       }
-    m_NumberOfIndexedOutputs = num;
+    else
+      {
+      for ( DataObjectPointerArraySizeType i = m_IndexedOutputs.size(); i < num; ++i)
+        {
+        DataObjectPointerMap::value_type p(this->MakeNameFromOutputIndex( i ), DataObjectPointer() );
+        // note: insert will not change value if it's already there.
+        m_IndexedOutputs.push_back ( m_Outputs.insert(p).first );
+        }
+      }
+
     this->Modified();
     }
+
 }
 
 /**
@@ -556,54 +610,42 @@ DataObject *
 ProcessObject
 ::GetOutput(DataObjectPointerArraySizeType i)
 {
-  return this->GetOutput( this->MakeNameFromOutputIndex(i) );
+  return m_IndexedOutputs[i]->second;
 }
 
 const DataObject *
 ProcessObject
 ::GetOutput(DataObjectPointerArraySizeType i) const
 {
-  return this->GetOutput( this->MakeNameFromOutputIndex(i) );
-}
-
-const DataObject *
-ProcessObject
-::GetPrimaryOutput() const
-{
-  return this->GetOutput(this->m_PrimaryOutputName);
-}
-
-DataObject *
-ProcessObject
-::GetPrimaryOutput()
-{
-  return this->GetOutput(this->m_PrimaryOutputName);
+  return m_IndexedOutputs[i]->second;
 }
 
 void
 ProcessObject
 ::SetPrimaryOutput(DataObject * object)
 {
-  this->SetOutput(this->m_PrimaryOutputName, object);
+  this->SetOutput(m_IndexedOutputs[0]->first, object);
 }
 
 void
 ProcessObject
 ::SetPrimaryOutputName(const DataObjectIdentifierType & key)
 {
-  if( key != this->m_PrimaryOutputName )
+  if( key != this->m_IndexedOutputs[0]->first )
     {
-    DataObjectPointerMap::iterator it = m_Outputs.find( this->m_PrimaryOutputName );
-    if ( it != m_Outputs.end() )
+
+    DataObjectPointerMap::value_type p(key, DataObjectPointer() );
+
+    // note: insert will not change value if it's already there.
+    DataObjectPointerMap::iterator it = this->m_Outputs.insert( p ).first;
+
+    if ( it->second.IsNull() )
       {
-      this->m_Outputs[key] = it->second;
-      this->m_Outputs.erase( this->m_PrimaryOutputName );
+      it->second = this->m_IndexedOutputs[0]->second;
+      m_Outputs.erase(this->m_IndexedOutputs[0]);
       }
-    else
-      {
-      this->m_Outputs[key] = NULL;
-      }
-    this->m_PrimaryOutputName = key;
+    this->m_IndexedOutputs[0] = it;
+
     this->Modified();
     }
 }
@@ -624,7 +666,12 @@ ProcessObject
   res.reserve(m_Outputs.size());
   for ( DataObjectPointerMap::const_iterator it = m_Outputs.begin(); it != m_Outputs.end(); ++it )
     {
-    res.push_back( it->first );
+    // only include the primary if it's required or set
+    if ( it->first != m_IndexedOutputs[0]->first
+         || it->second.IsNotNull() )
+      {
+      res.push_back( it->first );
+      }
     }
 
   return res;
@@ -651,24 +698,41 @@ ProcessObject
   res.reserve(m_Outputs.size());
   for ( DataObjectPointerMap::iterator it = m_Outputs.begin(); it != m_Outputs.end(); ++it )
     {
-    res.push_back( it->second.GetPointer() );
+    // only include the primary if it's required or set
+    if ( it->first != m_IndexedOutputs[0]->first
+         || it->second.IsNotNull() )
+      {
+      res.push_back( it->second.GetPointer() );
+      }
     }
   return res;
 }
 
 ProcessObject::DataObjectPointerArraySizeType
 ProcessObject
+::GetNumberOfOutputs() const
+{
+  // only include the primary if it's required or set
+  if ( m_IndexedOutputs[0]->second.IsNotNull() )
+    {
+    return m_Outputs.size();
+    }
+  return m_Outputs.size() - 1;
+}
+
+ProcessObject::DataObjectPointerArraySizeType
+ProcessObject
 ::GetNumberOfIndexedOutputs() const
 {
-  if( m_NumberOfIndexedOutputs > 0 )
+  // this first element should always contain the primary output's
+  // name, if this is not true there is an internal logic error.
+  itkAssertInDebugAndIgnoreInReleaseMacro( m_IndexedOutputs.size() >= 1 );
+
+  if( m_IndexedOutputs.size() > 1 )
     {
-    return m_NumberOfIndexedOutputs;
+    return m_IndexedOutputs.size();
     }
-  if( this->GetPrimaryOutput() )
-    {
-    return 1;
-    }
-  return 0;
+  return this->GetPrimaryOutput() != NULL;
 }
 
 // ProcessObject::ConstDataObjectPointerArray
@@ -984,7 +1048,7 @@ ProcessObject
 {
   if( idx == 0 )
     {
-    return this->m_PrimaryOutputName;
+    return this->m_IndexedOutputs[0]->first;
     }
   return this->MakeNameFromIndex(idx);
 }
@@ -1021,7 +1085,7 @@ ProcessObject::DataObjectPointerArraySizeType
 ProcessObject
 ::MakeIndexFromOutputName(const DataObjectIdentifierType & name) const
 {
-  if( name == this->m_PrimaryOutputName )
+  if( name == this->m_IndexedOutputs[0]->first )
     {
     itkDebugMacro("MakeIndexFromName("<<name<<") -> 0");
     return 0;
@@ -1073,11 +1137,18 @@ bool
 ProcessObject
 ::IsIndexedOutputName(const DataObjectIdentifierType & name) const
 {
-  if( name == this->m_PrimaryOutputName )
+  if( name == m_IndexedOutputs[0]->first )
     {
     return true;
     }
-  return this->IsIndexedName( name );
+  for (  DataObjectPointerArraySizeType i = 0; i < m_IndexedOutputs.size(); ++i)
+    {
+    if ( m_IndexedOutputs[i]->first == name )
+      {
+      return true;
+      }
+    }
+  return false;
 }
 
 bool
@@ -1193,6 +1264,8 @@ ProcessObject
     {
     os << indent << "No Required Input Names" << std::endl;
     }
+  os << indent << "NumberOfRequiredInputs: "
+     << m_NumberOfRequiredInputs << std::endl;
 
   if ( !m_Outputs.empty() )
     {
@@ -1206,11 +1279,15 @@ ProcessObject
     {
     os << indent << "No Outputs\n";
     }
+  os << indent << "Indexed Outputs: " << std::endl;
+  idx = 0;
+  for ( std::vector< DataObjectPointerMap::iterator >::const_iterator it = m_IndexedOutputs.begin();
+        it != m_IndexedOutputs.end();
+        ++it, ++idx)
+    {
+    os << indent2 << idx << ": " << (*it)->first  << " (" << (*it)->second.GetPointer() << ")"<< std::endl;
+    }
 
-  os << indent << "NumberOfRequiredInputs: "
-     << m_NumberOfRequiredInputs << std::endl;
-  os << indent << "NumberOfIndexedOutputs: "
-     << m_NumberOfIndexedOutputs << std::endl;
   os << indent << "NumberOfRequiredOutputs: "
      << m_NumberOfRequiredOutputs << std::endl;
 
