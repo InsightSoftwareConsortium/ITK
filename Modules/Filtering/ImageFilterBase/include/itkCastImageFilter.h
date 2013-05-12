@@ -20,7 +20,7 @@
 
 #include "itkUnaryFunctorImageFilter.h"
 #include "itkProgressReporter.h"
-#include "itkImageAlgorithm.h"
+
 
 namespace itk
 {
