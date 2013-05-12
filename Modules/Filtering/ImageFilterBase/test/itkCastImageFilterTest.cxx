@@ -16,11 +16,12 @@
  *
  *=========================================================================*/
 
-#include <iostream>
+
 
 #include "itkCastImageFilter.h"
 #include "itkRandomImageSource.h"
 #include "itkVectorImage.h"
+#include <iostream>
 
 // Better name demanging for gcc
 #if __GNUC__ > 3 || ( __GNUC__ == 3 && __GNUC_MINOR__ > 0 )

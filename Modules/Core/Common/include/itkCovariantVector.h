@@ -18,9 +18,9 @@
 #ifndef __itkCovariantVector_h
 #define __itkCovariantVector_h
 
-#include "vnl/vnl_vector_ref.h"
 #include "itkIndent.h"
 #include "itkVector.h"
+#include "vnl/vnl_vector_ref.h"
 
 namespace itk
 {
