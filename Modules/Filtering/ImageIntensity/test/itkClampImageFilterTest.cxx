@@ -139,8 +139,13 @@ bool TestClampFrom()
     TestClampFromTo< TInputPixelType, unsigned int >() &&
     TestClampFromTo< TInputPixelType, long >() &&
     TestClampFromTo< TInputPixelType, unsigned long >() &&
+// Visual Studio has a false failure in due to
+// imprecise integer to double conversion. It causes the comparison
+// dInValue > expectedMax to pass when it should fail.
+#ifndef _MSC_VER
     TestClampFromTo< TInputPixelType, long long >() &&
     TestClampFromTo< TInputPixelType, unsigned long long >() &&
+#endif
     TestClampFromTo< TInputPixelType, float >() &&
     TestClampFromTo< TInputPixelType, double >();
 
