@@ -193,6 +193,7 @@ public:
   {
     itkExceptionMacro( "TransformVector(const InputVectorType &)"
                        "is unimplemented for " << this->GetNameOfClass() );
+    return OutputVectorType();
   }
 
   /** Method to transform a vector at a given location.
@@ -208,6 +209,7 @@ public:
   {
     itkExceptionMacro( "TransformVector( const InputVnlVectorType & ) is "
                        "unimplemented for " << this->GetNameOfClass() );
+    return OutputVnlVectorType();
   }
 
   /** Method to transform a vnl_vector, at a point.
@@ -224,6 +226,7 @@ public:
   {
     itkExceptionMacro( "TransformVector( const InputVectorPixelType & ) is "
                        "unimplemented for " << this->GetNameOfClass() );
+    return OutputVectorPixelType();
   }
 
   /** Method to transform a vector stored in a VectorImage, at a point.
@@ -239,6 +242,7 @@ public:
   {
     itkExceptionMacro( "TransformCovariantVector( const InputCovariantVectorType & ) is "
                        "unimplemented for " << this->GetNameOfClass() );
+    return OutputCovariantVectorType();
   }
   /** Method to transform a CovariantVector, using a point. Global transforms
    * can ignore the \c point parameter. Local transforms (e.g. deformation
@@ -256,6 +260,7 @@ public:
   {
     itkExceptionMacro( "TransformCovariantVector(const InputVectorPixelType &)"
                        "is unimplemented for " << this->GetNameOfClass() );
+    return OutputVectorPixelType();
   }
 
   /** Method to transform a CovariantVector, using a point. Global transforms
@@ -275,6 +280,7 @@ public:
     itkExceptionMacro(
       "TransformDiffusionTensor3D( const InputDiffusionTensor3DType & ) is "
       "unimplemented for " << this->GetNameOfClass() );
+    return OutputDiffusionTensor3DType();
   }
 
   /** Method to transform a diffusion tensor at a point. Global transforms
@@ -293,6 +299,7 @@ public:
     itkExceptionMacro(
       "TransformDiffusionTensor( const InputVectorPixelType & ) is "
       "unimplemented for " << this->GetNameOfClass() );
+    return OutputVectorPixelType();
   }
 
   virtual OutputVectorPixelType TransformDiffusionTensor3D(
@@ -315,6 +322,7 @@ public:
     itkExceptionMacro(
       "TransformSymmetricSecondRankTensor( const InputSymmetricSecondRankTensorType & ) is "
       "unimplemented for " << this->GetNameOfClass() );
+    return OutputSymmetricSecondRankTensorType();
   }
 
   /** Method to transform a ssr tensor stored in a VectorImage */
@@ -324,6 +332,7 @@ public:
     itkExceptionMacro(
       "TransformSymmetricSecondRankTensor( const InputVectorPixelType & ) is "
       "unimplemented for " << this->GetNameOfClass() );
+    return OutputVectorPixelType();
   }
 
   /** Method to transform a diffusion tensor stored in a VectorImage, at
@@ -500,6 +509,7 @@ public:
     itkExceptionMacro(
       "ComputeJacobianWithRespectToParamters( InputPointType, JacobianType"
       " is unimplemented for " << this->GetNameOfClass() );
+    return;
   }
 
 
@@ -513,6 +523,7 @@ public:
     itkExceptionMacro(
       "ComputeJacobianWithRespectToPosition( InputPointType, JacobianType"
       " is unimplemented for " << this->GetNameOfClass() );
+    return;
   }
 
 
