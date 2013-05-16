@@ -18,11 +18,12 @@
 #ifndef __itkMatrixOffsetTransformBase_h
 #define __itkMatrixOffsetTransformBase_h
 
-#include <iostream>
 
+#include "itkMacro.h"
 #include "itkMatrix.h"
 #include "itkTransform.h"
-#include "itkMacro.h"
+
+#include <iostream>
 
 namespace itk
 {

@@ -18,6 +18,7 @@
 #ifndef __itkLightObject_h
 #define __itkLightObject_h
 
+#include "itkMacro.h"
 #include "itkSmartPointer.h"
 #include "itkTimeStamp.h"
 #include "itkIndent.h"

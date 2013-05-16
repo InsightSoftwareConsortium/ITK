@@ -18,7 +18,7 @@
 #ifndef __itkIntTypes_h
 #define __itkIntTypes_h
 
-#include "itkConfigure.h"
+#include "itkMacro.h"
 
 #if defined( ITK_HAVE_STDINT_H )
 #include <stdint.h>

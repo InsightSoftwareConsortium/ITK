@@ -16,13 +16,14 @@
  *
  *=========================================================================*/
 
-#include <fstream>
+
 #include "itkCastImageFilter.h"
 #include "itkGradientAnisotropicDiffusionImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkChangeInformationImageFilter.h"
 #include "itkTestingComparisonImageFilter.h"
+#include <fstream>
 
 typedef float                    PixelType;
 typedef itk::Image<PixelType, 2> myFloatImage;
