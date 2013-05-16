@@ -154,7 +154,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  ConnectedFilterType::Pointer neighborhoodConnected = ConnectedFilterType::New();
+  ConnectedFilterType::Pointer neighborhoodConnected
+                                                 = ConnectedFilterType::New();
   // Software Guide : EndCodeSnippet
 
 

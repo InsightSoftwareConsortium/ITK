@@ -297,8 +297,8 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::DistanceToCentroidMembershipFunction< MeasurementVectorType >
-    MembershipFunctionType;
+  typedef itk::Statistics::DistanceToCentroidMembershipFunction<
+                                MeasurementVectorType > MembershipFunctionType;
   typedef itk::Statistics::MinimumDecisionRule DecisionRuleType;
   DecisionRuleType::Pointer decisionRule = DecisionRuleType::New();
 
@@ -357,8 +357,10 @@ int main()
   int index = 0;
   for ( unsigned int i = 0 ; i < 2 ; i++ )
     {
-    MembershipFunctionType::Pointer membershipFunction = MembershipFunctionType::New();
-    MembershipFunctionType::CentroidType centroid( sample->GetMeasurementVectorSize() );
+    MembershipFunctionType::Pointer membershipFunction
+                                               = MembershipFunctionType::New();
+    MembershipFunctionType::CentroidType centroid(
+                                          sample->GetMeasurementVectorSize() );
     for ( unsigned int j = 0 ; j < sample->GetMeasurementVectorSize(); j++ )
       {
       centroid[j] = estimatedMeans[index++];
@@ -381,7 +383,8 @@ int main()
   // Software Guide : BeginCodeSnippet
   const ClassifierType::MembershipSampleType* membershipSample =
     classifier->GetOutput();
-  ClassifierType::MembershipSampleType::ConstIterator iter = membershipSample->Begin();
+  ClassifierType::MembershipSampleType::ConstIterator iter
+                                                   = membershipSample->Begin();
 
   while ( iter != membershipSample->End() )
     {

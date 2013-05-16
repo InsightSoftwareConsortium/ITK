@@ -117,8 +117,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::IsolatedConnectedImageFilter<InternalImageType, InternalImageType>
-    ConnectedFilterType;
+  typedef itk::IsolatedConnectedImageFilter<InternalImageType,
+                                       InternalImageType> ConnectedFilterType;
   // Software Guide : EndCodeSnippet
 
 

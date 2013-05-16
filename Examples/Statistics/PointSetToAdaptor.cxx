@@ -107,7 +107,8 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::PointSetToListSampleAdaptor< ArrayPointSetType > SampleType ;
+  typedef itk::Statistics::PointSetToListSampleAdaptor<
+                                               ArrayPointSetType > SampleType ;
   SampleType::Pointer sample = SampleType::New() ;
   // Software Guide : EndCodeSnippet
 

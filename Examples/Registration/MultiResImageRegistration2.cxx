@@ -284,19 +284,15 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   typedef itk::CenteredTransformInitializer<
-                                    TransformType,
-                                    FixedImageType,
-                                    MovingImageType >  TransformInitializerType;
-
-  TransformInitializerType::Pointer initializer = TransformInitializerType::New();
-
+            TransformType, FixedImageType,
+            MovingImageType >  TransformInitializerType;
+  TransformInitializerType::Pointer initializer
+                                            = TransformInitializerType::New();
   initializer->SetTransform(   transform );
   initializer->SetFixedImage(  fixedImageReader->GetOutput() );
   initializer->SetMovingImage( movingImageReader->GetOutput() );
-
   initializer->MomentsOn();
   initializer->InitializeTransform();
-
   registration->SetInitialTransformParameters( transform->GetParameters() );
   // Software Guide : EndCodeSnippet
 

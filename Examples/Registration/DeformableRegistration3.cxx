@@ -138,8 +138,9 @@ int main( int argc, char *argv[] )
   typedef itk::CastImageFilter< MovingImageType,
                                 InternalImageType >  MovingImageCasterType;
 
-  FixedImageCasterType::Pointer fixedImageCaster   = FixedImageCasterType::New();
-  MovingImageCasterType::Pointer movingImageCaster = MovingImageCasterType::New();
+  FixedImageCasterType::Pointer fixedImageCaster = FixedImageCasterType::New();
+  MovingImageCasterType::Pointer movingImageCaster
+                                                = MovingImageCasterType::New();
 
   fixedImageCaster->SetInput( fixedImageReader->GetOutput() );
   movingImageCaster->SetInput( movingImageReader->GetOutput() );
@@ -233,7 +234,7 @@ int main( int argc, char *argv[] )
   typedef itk::SymmetricForcesDemonsRegistrationFilter<
                                 InternalImageType,
                                 InternalImageType,
-                                DisplacementFieldType>   RegistrationFilterType;
+                                DisplacementFieldType> RegistrationFilterType;
   RegistrationFilterType::Pointer filter = RegistrationFilterType::New();
   // Software Guide : EndCodeSnippet
 

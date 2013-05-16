@@ -227,8 +227,10 @@ public:
       }
     else
       {
-      optimizer->SetMaximumStepLength( optimizer->GetMaximumStepLength() / 4.0 );
-      optimizer->SetMinimumStepLength( optimizer->GetMinimumStepLength() / 10.0 );
+      optimizer->SetMaximumStepLength(
+                                   optimizer->GetMaximumStepLength() * 0.25 );
+      optimizer->SetMinimumStepLength(
+                                    optimizer->GetMinimumStepLength() * 0.1 );
       }
   }
   // Software Guide : EndCodeSnippet
@@ -362,11 +364,9 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
   typedef itk::MultiResolutionPyramidImageFilter<
-                                    InternalImageType,
-                                    InternalImageType >   FixedImagePyramidType;
+            InternalImageType, InternalImageType >   FixedImagePyramidType;
   typedef itk::MultiResolutionPyramidImageFilter<
-                                    InternalImageType,
-                                    InternalImageType >   MovingImagePyramidType;
+            InternalImageType, InternalImageType >   MovingImagePyramidType;
   // Software Guide: EndCodeSnippet
 
 
@@ -411,9 +411,9 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
   typedef itk::CastImageFilter<
-                        FixedImageType, InternalImageType > FixedCastFilterType;
+            FixedImageType, InternalImageType >  FixedCastFilterType;
   typedef itk::CastImageFilter<
-                        MovingImageType, InternalImageType > MovingCastFilterType;
+            MovingImageType, InternalImageType > MovingCastFilterType;
 
   FixedCastFilterType::Pointer fixedCaster   = FixedCastFilterType::New();
   MovingCastFilterType::Pointer movingCaster = MovingCastFilterType::New();

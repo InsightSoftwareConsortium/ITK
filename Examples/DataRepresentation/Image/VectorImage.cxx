@@ -43,7 +43,6 @@
 #include "itkVector.h"
 // Software Guide : EndCodeSnippet
 
-
 #include "itkImage.h"
 
 int main(int, char *[])
@@ -71,16 +70,8 @@ int main(int, char *[])
   ImageType::Pointer image = ImageType::New();
 
   // The image region should be initialized
-  ImageType::IndexType start;
-  ImageType::SizeType  size;
-
-  size[0]  = 200;  // size along X
-  size[1]  = 200;  // size along Y
-  size[2]  = 200;  // size along Z
-
-  start[0] =   0;  // first index on X
-  start[1] =   0;  // first index on Y
-  start[2] =   0;  // first index on Z
+  const ImageType::IndexType start = {{0,0,0}}; //First index at {X,Y,Z}
+  const ImageType::SizeType  size = {{200,200,200}}; //Size of {X,Y,Z}
 
   ImageType::RegionType region;
   region.SetSize( size );
@@ -101,12 +92,7 @@ int main(int, char *[])
   // vector value.
   image->FillBuffer( initialValue );
 
-  ImageType::IndexType pixelIndex;
-
-  pixelIndex[0] = 27;   // x position
-  pixelIndex[1] = 29;   // y position
-  pixelIndex[2] = 37;   // z position
-
+  const ImageType::IndexType pixelIndex = {{27,29,37}}; //Position {X,Y,Z}
 
   // Software Guide : BeginLatex
   //
@@ -118,12 +104,10 @@ int main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   ImageType::PixelType   pixelValue;
-
   pixelValue[0] =  1.345;   // x component
   pixelValue[1] =  6.841;   // y component
   pixelValue[2] =  3.295;   // x component
   // Software Guide : EndCodeSnippet
-
 
   // Software Guide : BeginLatex
   //
@@ -136,7 +120,6 @@ int main(int, char *[])
   image->SetPixel(   pixelIndex,   pixelValue  );
   // Software Guide : EndCodeSnippet
 
-
   // The GetPixel method can also be used to read Vectors
   // pixels from the image
   ImageType::PixelType value = image->GetPixel( pixelIndex );
@@ -148,5 +131,5 @@ int main(int, char *[])
   // implementing interactions with a graphical user interface such as
   // querying pixel value by clicking with the mouse.
 
-  return 0;
+  return EXIT_SUCCESS;
 }

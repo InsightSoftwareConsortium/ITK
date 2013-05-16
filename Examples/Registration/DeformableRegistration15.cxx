@@ -629,16 +629,16 @@ int main( int argc, char *argv[] )
   std::cout << "Starting Registration with high resolution transform" << std::endl;
 
   // Software Guide : BeginCodeSnippet
-  registration->SetInitialTransformParameters( bsplineTransformFine->GetParameters() );
+  registration->SetInitialTransformParameters(
+                                      bsplineTransformFine->GetParameters() );
   registration->SetTransform( bsplineTransformFine );
-
   //
   // The BSpline transform at fine scale has a very large number of parameters,
-  // we use therefore a much larger number of samples to run this stage. In this
-  // case, however, the number of transform parameters is closer to the number
-  // of pixels in the image. Therefore we use the geometric mean of the two numbers
-  // to ensure that the number of samples is larger than the number of transform
-  // parameters and smaller than the number of samples.
+  // we use therefore a much larger number of samples to run this stage. In
+  // this case, however, the number of transform parameters is closer to the
+  // number of pixels in the image. Therefore we use the geometric mean of the
+  // two numbers to ensure that the number of samples is larger than the number
+  // of transform parameters and smaller than the number of samples.
   //
   // Regulating the number of samples in the Metric is equivalent to performing
   // multi-resolution registration because it is indeed a sub-sampling of the
@@ -647,17 +647,13 @@ int main( int argc, char *argv[] )
      static_cast<unsigned long>(
        vcl_sqrt( static_cast<double>( numberOfBSplineParameters ) *
                  static_cast<double>( numberOfPixels ) ) );
-
   metric->SetNumberOfSpatialSamples( numberOfSamples );
-
 
   try
     {
     memorymeter.Start( "Deformable Registration Fine" );
     chronometer.Start( "Deformable Registration Fine" );
-
     registration->Update();
-
     chronometer.Stop( "Deformable Registration Fine" );
     memorymeter.Stop( "Deformable Registration Fine" );
     }
@@ -668,7 +664,6 @@ int main( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
   // Software Guide : EndCodeSnippet
-
 
   std::cout << "Deformable Registration Fine Grid completed" << std::endl;
   std::cout << std::endl;

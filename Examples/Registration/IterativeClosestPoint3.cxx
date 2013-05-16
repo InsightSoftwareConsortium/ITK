@@ -39,7 +39,6 @@
 #include <iostream>
 #include <fstream>
 
-
 int main(int argc, char * argv[] )
 {
 
@@ -68,7 +67,6 @@ int main(int argc, char * argv[] )
 
   PointType fixedPoint;
   PointType movingPoint;
-
 
   // Read the file containing coordinates of fixed points.
   std::ifstream   fixedFile;
@@ -114,7 +112,6 @@ int main(int argc, char * argv[] )
   std::cout << "Number of moving Points = "
       << movingPointSet->GetNumberOfPoints() << std::endl;
 
-
 //-----------------------------------------------------------
 // Set up  the Metric
 //-----------------------------------------------------------
@@ -129,7 +126,6 @@ int main(int argc, char * argv[] )
 
   MetricType::Pointer  metric = MetricType::New();
 
-
 //-----------------------------------------------------------
 // Set up a Transform
 //-----------------------------------------------------------
@@ -137,7 +133,6 @@ int main(int argc, char * argv[] )
   typedef itk::TranslationTransform< double, Dimension >      TransformType;
 
   TransformType::Pointer transform = TransformType::New();
-
 
   // Optimizer Type
   typedef itk::LevenbergMarquardtOptimizer OptimizerType;
@@ -151,19 +146,16 @@ int main(int argc, char * argv[] )
                                             PointSetType >
                                                     RegistrationType;
 
-
   RegistrationType::Pointer   registration  = RegistrationType::New();
 
   // Scale the translation components of the Transform in the Optimizer
   OptimizerType::ScalesType scales( transform->GetNumberOfParameters() );
   scales.Fill( 0.01 );
 
-
-  unsigned long   numberOfIterations =  100;
-  double          gradientTolerance  =  1e-5;    // convergence criterion
-  double          valueTolerance     =  1e-5;    // convergence criterion
-  double          epsilonFunction    =  1e-6;   // convergence criterion
-
+  const unsigned long numberOfIterations =  100;
+  const double        gradientTolerance  =  1e-5;    // convergence criterion
+  const double        valueTolerance     =  1e-5;    // convergence criterion
+  const double        epsilonFunction    =  1e-6;   // convergence criterion
 
   optimizer->SetScales( scales );
   optimizer->SetNumberOfIterations( numberOfIterations );
@@ -185,7 +177,6 @@ int main(int argc, char * argv[] )
   registration->SetTransform(     transform     );
   registration->SetFixedPointSet( fixedPointSet );
   registration->SetMovingPointSet(   movingPointSet   );
-
 
   //------------------------------------------------------
   // Prepare the Distance Map in order to accelerate
@@ -216,27 +207,17 @@ int main(int argc, char * argv[] )
 
   pointsToImageFilter->SetSpacing( spacing );
   pointsToImageFilter->SetOrigin( origin   );
-
   pointsToImageFilter->Update();
-
   BinaryImageType::Pointer binaryImage = pointsToImageFilter->GetOutput();
 
-
   typedef itk::Image< unsigned short, Dimension >  DistanceImageType;
-
   typedef itk::DanielssonDistanceMapImageFilter<
-                                          BinaryImageType,
-                                          DistanceImageType> DistanceFilterType;
+            BinaryImageType, DistanceImageType> DistanceFilterType;
 
   DistanceFilterType::Pointer distanceFilter = DistanceFilterType::New();
-
   distanceFilter->SetInput( binaryImage );
-
   distanceFilter->Update();
-
   metric->SetDistanceMap( distanceFilter->GetOutput() );
-
-
   try
     {
     registration->Update();

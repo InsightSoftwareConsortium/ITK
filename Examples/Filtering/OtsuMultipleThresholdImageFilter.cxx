@@ -66,17 +66,16 @@ int main( int argc, char * argv[] )
 
   // Software Guide : BeginCodeSnippet
   typedef itk::Statistics::ScalarImageToHistogramGenerator<
-  InputImageType >
-    ScalarImageToHistogramGeneratorType;
+                         InputImageType > ScalarImageToHistogramGeneratorType;
 
-  typedef ScalarImageToHistogramGeneratorType::HistogramType    HistogramType;
+  typedef ScalarImageToHistogramGeneratorType::HistogramType HistogramType;
 
-  typedef itk::OtsuMultipleThresholdsCalculator< HistogramType >   CalculatorType;
+  typedef itk::OtsuMultipleThresholdsCalculator< HistogramType >
+                                                               CalculatorType;
   // Software Guide : EndCodeSnippet
 
   typedef itk::ImageFileReader< InputImageType >  ReaderType;
   typedef itk::ImageFileWriter< OutputImageType >  WriterType;
-
 
   // Software Guide : BeginLatex
   //
@@ -93,8 +92,8 @@ int main( int argc, char * argv[] )
   //Create using static New() method
 
   // Software Guide : BeginCodeSnippet
-  ScalarImageToHistogramGeneratorType::Pointer scalarImageToHistogramGenerator =
-    ScalarImageToHistogramGeneratorType::New();
+  ScalarImageToHistogramGeneratorType::Pointer scalarImageToHistogramGenerator
+    = ScalarImageToHistogramGeneratorType::New();
 
   CalculatorType::Pointer calculator = CalculatorType::New();
   FilterType::Pointer filter = FilterType::New();
@@ -124,7 +123,8 @@ int main( int argc, char * argv[] )
   // Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
   scalarImageToHistogramGenerator->SetInput( reader->GetOutput() );
-  calculator->SetInputHistogram( scalarImageToHistogramGenerator->GetOutput() );
+  calculator->SetInputHistogram(
+                               scalarImageToHistogramGenerator->GetOutput() );
   filter->SetInput( reader->GetOutput() );
   writer->SetInput( filter->GetOutput() );
   // Software Guide : EndCodeSnippet
@@ -178,7 +178,8 @@ int main( int argc, char * argv[] )
     std::cout << "OtsuThreshold["
               << (int)(itNum - thresholdVector.begin())
               << "] = "
-              << static_cast<itk::NumericTraits<CalculatorType::MeasurementType>::PrintType>(*itNum)
+              << static_cast<itk::NumericTraits<
+                          CalculatorType::MeasurementType>::PrintType>(*itNum)
               << std::endl;
     // Software Guide : EndCodeSnippet
 
@@ -222,7 +223,6 @@ int main( int argc, char * argv[] )
     {
     std::cerr << "Exception thrown " << excp << std::endl;
     }
-
 
   return EXIT_SUCCESS;
 }

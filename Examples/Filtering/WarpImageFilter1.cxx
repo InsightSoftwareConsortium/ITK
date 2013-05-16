@@ -58,12 +58,12 @@ int main( int argc, char * argv[] )
   // \end{equation}
   // Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
-  typedef   float                                         VectorComponentType;
-  typedef   itk::Vector< VectorComponentType, Dimension > VectorPixelType;
-  typedef   itk::Image< VectorPixelType,  Dimension >     DisplacementFieldType;
+  typedef float                                         VectorComponentType;
+  typedef itk::Vector< VectorComponentType, Dimension > VectorPixelType;
+  typedef itk::Image< VectorPixelType,  Dimension >     DisplacementFieldType;
 
-  typedef   unsigned char                         PixelType;
-  typedef   itk::Image< PixelType,  Dimension >   ImageType;
+  typedef unsigned char                         PixelType;
+  typedef itk::Image< PixelType,  Dimension >   ImageType;
   // Software Guide : EndCodeSnippet
 
 
@@ -89,12 +89,13 @@ int main( int argc, char * argv[] )
   fieldReader->SetFileName( argv[2] );
   fieldReader->Update();
 
-  DisplacementFieldType::ConstPointer deformationField = fieldReader->GetOutput();
+  DisplacementFieldType::ConstPointer deformationField =
+                                                      fieldReader->GetOutput();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
-  // The \doxygen{WarpImageFilter} is templated over the input image type, output
-  // image type and the deformation field type.
+  // The \doxygen{WarpImageFilter} is templated over the input image type,
+  // output image type and the deformation field type.
   // Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
   typedef itk::WarpImageFilter< ImageType,

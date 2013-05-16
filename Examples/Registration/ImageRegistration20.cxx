@@ -210,17 +210,16 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   typedef itk::CenteredTransformInitializer<
-                                    TransformType,
-                                    FixedImageType,
-                                    MovingImageType >  TransformInitializerType;
-  TransformInitializerType::Pointer initializer = TransformInitializerType::New();
+            TransformType, FixedImageType,
+            MovingImageType >  TransformInitializerType;
+  TransformInitializerType::Pointer initializer
+                                             = TransformInitializerType::New();
   initializer->SetTransform(   transform );
   initializer->SetFixedImage(  fixedImageReader->GetOutput() );
   initializer->SetMovingImage( movingImageReader->GetOutput() );
   initializer->MomentsOn();
   initializer->InitializeTransform();
   // Software Guide : EndCodeSnippet
-
 
   //  Software Guide : BeginLatex
   //
@@ -246,18 +245,15 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex
 
-
   double translationScale = 1.0 / 1000.0;
   if( argc > 8 )
     {
     translationScale = atof( argv[8] );
     }
 
-
   // Software Guide : BeginCodeSnippet
   typedef OptimizerType::ScalesType       OptimizerScalesType;
   OptimizerScalesType optimizerScales( transform->GetNumberOfParameters() );
-
   optimizerScales[0] =  1.0;
   optimizerScales[1] =  1.0;
   optimizerScales[2] =  1.0;
@@ -270,10 +266,8 @@ int main( int argc, char *argv[] )
   optimizerScales[9]  =  translationScale;
   optimizerScales[10] =  translationScale;
   optimizerScales[11] =  translationScale;
-
   optimizer->SetScales( optimizerScales );
   // Software Guide : EndCodeSnippet
-
 
   //  Software Guide : BeginLatex
   //
@@ -287,27 +281,20 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   double steplength = 0.1;
-
   if( argc > 6 )
     {
     steplength = atof( argv[6] );
     }
-
-
   unsigned int maxNumberOfIterations = 300;
-
   if( argc > 7 )
     {
     maxNumberOfIterations = atoi( argv[7] );
     }
-
-
   // Software Guide : BeginCodeSnippet
   optimizer->SetMaximumStepLength( steplength );
   optimizer->SetMinimumStepLength( 0.0001 );
   optimizer->SetNumberOfIterations( maxNumberOfIterations );
   // Software Guide : EndCodeSnippet
-
 
   //  Software Guide : BeginLatex
   //
@@ -322,12 +309,10 @@ int main( int argc, char *argv[] )
   optimizer->MinimizeOn();
   // Software Guide : EndCodeSnippet
 
-
   // Create the Command observer and register it with the optimizer.
   //
   CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
   optimizer->AddObserver( itk::IterationEvent(), observer );
-
 
   //  Software Guide : BeginLatex
   //
@@ -352,7 +337,6 @@ int main( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
   // Software Guide : EndCodeSnippet
-
 
   //  Software Guide : BeginLatex
   //

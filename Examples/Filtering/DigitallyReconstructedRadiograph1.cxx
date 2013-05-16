@@ -513,17 +513,15 @@ int main( int argc, char *argv[] )
   if (verbose)
     {
     std::cout << "Image size: "
-              << imSize[0] << ", " << imSize[1] << ", " << imSize[2] << std::endl
-              << "   resolution: "
-              << imRes[0] << ", " << imRes[1] << ", " << imRes[2] << std::endl
-              << "   origin: "
-              << imOrigin[0] << ", " << imOrigin[1] << ", " << imOrigin[2] << std::endl
-              << "   center: "
-              << center[0] << ", " << center[1] << ", " << center[2] << std::endl
-              << "Transform: " << transform << std::endl;
+       << imSize[0] << ", " << imSize[1] << ", " << imSize[2]
+       << std::endl << "   resolution: "
+       << imRes[0] << ", " << imRes[1] << ", " << imRes[2]
+       << std::endl << "   origin: "
+       << imOrigin[0] << ", " << imOrigin[1] << ", " << imOrigin[2]
+       << std::endl << "   center: "
+       << center[0] << ", " << center[1] << ", " << center[2]
+       << std::endl << "Transform: " << transform << std::endl;
     }
-
-
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
@@ -537,10 +535,9 @@ int main( int argc, char *argv[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::RayCastInterpolateImageFunction<InputImageType,double> InterpolatorType;
-
+  typedef itk::RayCastInterpolateImageFunction<InputImageType,double>
+                                                             InterpolatorType;
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
-
   interpolator->SetTransform(transform);
 // Software Guide : EndCodeSnippet
 

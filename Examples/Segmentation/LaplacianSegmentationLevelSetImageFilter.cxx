@@ -163,9 +163,9 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   typedef itk::LaplacianSegmentationLevelSetImageFilter< InternalImageType,
-               InternalImageType > LaplacianSegmentationLevelSetImageFilterType;
-  LaplacianSegmentationLevelSetImageFilterType::Pointer laplacianSegmentation =
-                LaplacianSegmentationLevelSetImageFilterType::New();
+            InternalImageType > LaplacianSegmentationLevelSetImageFilterType;
+  LaplacianSegmentationLevelSetImageFilterType::Pointer laplacianSegmentation
+            = LaplacianSegmentationLevelSetImageFilterType::New();
   // Software Guide : EndCodeSnippet
 
 

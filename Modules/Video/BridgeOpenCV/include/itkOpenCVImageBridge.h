@@ -187,8 +187,7 @@ private:
 
     static void Padding( const ImageType* in, IplImage* out )
     {
-      typename ImageType::IndexType pixelIndex;
-      pixelIndex.Fill( 0 );
+      typename ImageType::IndexType pixelIndex = {{0,0}};
 
       for( int r=0;r < out->height; r++ )
         {

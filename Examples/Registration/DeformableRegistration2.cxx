@@ -140,8 +140,9 @@ int main( int argc, char *argv[] )
   typedef itk::CastImageFilter< MovingImageType,
                                 InternalImageType >  MovingImageCasterType;
 
-  FixedImageCasterType::Pointer fixedImageCaster   = FixedImageCasterType::New();
-  MovingImageCasterType::Pointer movingImageCaster = MovingImageCasterType::New();
+  FixedImageCasterType::Pointer fixedImageCaster = FixedImageCasterType::New();
+  MovingImageCasterType::Pointer movingImageCaster
+                                                = MovingImageCasterType::New();
 
   fixedImageCaster->SetInput( fixedImageReader->GetOutput() );
   movingImageCaster->SetInput( movingImageReader->GetOutput() );
@@ -157,10 +158,11 @@ int main( int argc, char *argv[] )
   //
   // \index{itk::HistogramMatchingImageFilter}
   //
-  // The basic idea is to match the histograms of the two images at a user-specified number of quantile values. For robustness, the histograms are
-  // matched so that the background pixels are excluded from both histograms.
-  // For MR images, a simple procedure is to exclude all gray values that are
-  // smaller than the mean gray value of the image.
+  // The basic idea is to match the histograms of the two images at a
+  // user-specified number of quantile values. For robustness, the histograms
+  // are matched so that the background pixels are excluded from both
+  // histograms.  For MR images, a simple procedure is to exclude all gray
+  // values that are smaller than the mean gray value of the image.
   //
   // Software Guide : EndLatex
 
@@ -235,7 +237,7 @@ int main( int argc, char *argv[] )
   typedef itk::DemonsRegistrationFilter<
                                 InternalImageType,
                                 InternalImageType,
-                                DisplacementFieldType>   RegistrationFilterType;
+                                DisplacementFieldType> RegistrationFilterType;
   RegistrationFilterType::Pointer filter = RegistrationFilterType::New();
   // Software Guide : EndCodeSnippet
 

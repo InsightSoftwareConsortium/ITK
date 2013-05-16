@@ -383,7 +383,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  FastMarchingFilterType::Pointer  fastMarching = FastMarchingFilterType::New();
+  FastMarchingFilterType::Pointer  fastMarching
+                                              = FastMarchingFilterType::New();
   // Software Guide : EndCodeSnippet
 
 

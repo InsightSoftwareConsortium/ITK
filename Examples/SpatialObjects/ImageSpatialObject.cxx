@@ -119,8 +119,8 @@ int main( int , char *[] )
 // Software Guide : BeginCodeSnippet
   double returnedValue;
   imageSO->ValueAt(insidePoint,returnedValue);
-
-  std::cout << "ValueAt(" << insidePoint << ") = " << returnedValue << std::endl;
+  std::cout << "ValueAt(" << insidePoint << ") = " << returnedValue
+            << std::endl;
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex

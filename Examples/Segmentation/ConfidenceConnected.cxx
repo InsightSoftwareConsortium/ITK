@@ -180,8 +180,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::ConfidenceConnectedImageFilter<InternalImageType, InternalImageType>
-    ConnectedFilterType;
+  typedef itk::ConfidenceConnectedImageFilter<
+            InternalImageType, InternalImageType> ConnectedFilterType;
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -192,7 +192,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  ConnectedFilterType::Pointer confidenceConnected = ConnectedFilterType::New();
+  ConnectedFilterType::Pointer confidenceConnected
+                                                 = ConnectedFilterType::New();
   // Software Guide : EndCodeSnippet
 
 

@@ -118,8 +118,8 @@ int main( int,  char *[])
   typedef itk::Vector< double, measurementVectorLength > MeasurementVectorType;
   typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType;
   SampleType::Pointer sample = SampleType::New();
-  sample->SetMeasurementVectorSize( measurementVectorLength ); // length of measurement
-                                                               // vectors in the sample.
+  // length of measurement vectors in the sample.
+  sample->SetMeasurementVectorSize( measurementVectorLength );
 
   typedef itk::Statistics::Subsample< SampleType > ClassSampleType;
   std::vector< ClassSampleType::Pointer > classSamples;
@@ -267,7 +267,8 @@ int main( int,  char *[])
   classifier->SetInput( sample );
   classifier->SetNumberOfClasses( 2 );
 
-  typedef ClassifierType::ClassLabelVectorObjectType ClassLabelVectorObjectType;
+  typedef ClassifierType::ClassLabelVectorObjectType
+                                               ClassLabelVectorObjectType;
   typedef ClassifierType::ClassLabelVectorType ClassLabelVectorType;
 
   ClassLabelVectorObjectType::Pointer classLabelVectorObject =
@@ -340,8 +341,10 @@ int main( int,  char *[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  const ClassifierType::MembershipSampleType* membershipSample = classifier->GetOutput();
-  ClassifierType::MembershipSampleType::ConstIterator iter = membershipSample->Begin();
+  const ClassifierType::MembershipSampleType* membershipSample
+    = classifier->GetOutput();
+  ClassifierType::MembershipSampleType::ConstIterator iter
+    = membershipSample->Begin();
 
   while ( iter != membershipSample->End() )
     {

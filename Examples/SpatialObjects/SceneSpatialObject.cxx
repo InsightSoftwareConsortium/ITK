@@ -100,7 +100,8 @@ int main( int , char *[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  std::cout << "Object in the SceneSpatialObject with an ID == 2: " << std::endl;
+  std::cout << "Object in the SceneSpatialObject with an ID == 2: "
+            << std::endl;
   scene->GetObjectById(2)->Print(std::cout);
 // Software Guide : EndCodeSnippet
 

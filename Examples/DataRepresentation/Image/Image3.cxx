@@ -42,16 +42,8 @@ int main(int, char *[])
   ImageType::Pointer image = ImageType::New();
 
   // The image region should be initialized
-  ImageType::IndexType start;
-  ImageType::SizeType  size;
-
-  size[0]  = 200;  // size along X
-  size[1]  = 200;  // size along Y
-  size[2]  = 200;  // size along Z
-
-  start[0] =   0;  // first index on X
-  start[1] =   0;  // first index on Y
-  start[2] =   0;  // first index on Z
+  const ImageType::SizeType  size  = {{ 200, 200, 200}}; //Size along {X,Y,Z}
+  const ImageType::IndexType start = {{ 0, 0, 0 }}; // First index on {X,Y,Z}
 
   ImageType::RegionType region;
   region.SetSize( size );
@@ -89,11 +81,7 @@ int main(int, char *[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  ImageType::IndexType pixelIndex;
-
-  pixelIndex[0] = 27;   // x position
-  pixelIndex[1] = 29;   // y position
-  pixelIndex[2] = 37;   // z position
+  const ImageType::IndexType pixelIndex = {{27,29,37}}; // Position of {X,Y,Z}
   // Software Guide : EndCodeSnippet
 
 

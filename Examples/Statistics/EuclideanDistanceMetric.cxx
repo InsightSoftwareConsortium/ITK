@@ -84,8 +84,9 @@ int main(int, char*[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  // The Distance metric does not know about the length of the measurement vectors.
-  // We must set it explicitly using the \code{SetMeasurementVectorSize()} method.
+  // The Distance metric does not know about the length of the measurement
+  // vectors.  We must set it explicitly using the
+  // \code{SetMeasurementVectorSize()} method.
   // Software Guide : EndCodeSnippet
   distanceMetric->SetMeasurementVectorSize( 2 );
 

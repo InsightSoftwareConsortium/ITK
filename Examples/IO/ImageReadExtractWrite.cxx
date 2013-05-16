@@ -148,7 +148,8 @@ int main( int argc, char ** argv )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::ExtractImageFilter< InputImageType, OutputImageType > FilterType;
+  typedef itk::ExtractImageFilter< InputImageType,
+                                   OutputImageType > FilterType;
   FilterType::Pointer filter = FilterType::New();
   filter->InPlaceOn();
   filter->SetDirectionCollapseToSubmatrix();

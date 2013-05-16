@@ -151,9 +151,10 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   std::cout << "Computing Hough Map" << std::endl;
   typedef itk::HoughTransform2DLinesImageFilter<AccumulatorPixelType,
-               AccumulatorPixelType>  HoughTransformFilterType;
+                              AccumulatorPixelType>  HoughTransformFilterType;
 
-  HoughTransformFilterType::Pointer houghFilter = HoughTransformFilterType::New();
+  HoughTransformFilterType::Pointer houghFilter
+                                            = HoughTransformFilterType::New();
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex

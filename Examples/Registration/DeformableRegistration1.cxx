@@ -88,7 +88,8 @@ typedef itk::fem::FEMObject<3>                          FEMObject3DType;
 
 
 //  Software Guide : BeginCodeSnippet
-typedef itk::fem::FEMRegistrationFilter<ImageType,ImageType,FEMObjectType> RegistrationType;
+typedef itk::fem::FEMRegistrationFilter<ImageType,ImageType,FEMObjectType>
+                                                             RegistrationType;
 //  Software Guide : EndCodeSnippet
 
 
@@ -98,7 +99,8 @@ int main(int argc, char *argv[])
   if ( argc < 2 )
   {
     std::cout << "Image file names missing" << std::endl;
-    std::cout << "Usage: " << argv[0] << " fixedImageFile movingImageFile" << std::endl;
+    std::cout << "Usage: " << argv[0] << " fixedImageFile movingImageFile"
+              << std::endl;
     return EXIT_FAILURE;
   }
   else
@@ -259,12 +261,13 @@ int main(int argc, char *argv[])
   itk::fem::MaterialLinearElasticity::Pointer m;
   m = itk::fem::MaterialLinearElasticity::New();
   m->SetGlobalNumber(0);
-  m->SetYoungsModulus(registrationFilter->GetElasticity()); // Young's modulus of the membrane
-  m->SetCrossSectionalArea(1.0);                            // Cross-sectional area
-  m->SetThickness(1.0);                                     // Thickness
-  m->SetMomentOfInertia(1.0);                               // Moment of inertia
-  m->SetPoissonsRatio(0.);                                  // Poisson's ratio -- DONT CHOOSE 1.0!!
-  m->SetDensityHeatProduct(1.0);                            // Density-Heat capacity product
+  // Young's modulus of the membrane
+  m->SetYoungsModulus(registrationFilter->GetElasticity());
+  m->SetCrossSectionalArea(1.0);  // Cross-sectional area
+  m->SetThickness(1.0);           // Thickness
+  m->SetMomentOfInertia(1.0);     // Moment of inertia
+  m->SetPoissonsRatio(0.);        // Poisson's ratio -- DONT CHOOSE 1.0!!
+  m->SetDensityHeatProduct(1.0);  // Density-Heat capacity product
 
   // Create the element type
   ElementType::Pointer e1=ElementType::New();

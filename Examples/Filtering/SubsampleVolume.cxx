@@ -273,10 +273,8 @@ int main( int argc, char * argv[] )
 
 // Software Guide : BeginCodeSnippet
   typedef itk::LinearInterpolateImageFunction<
-                                   InternalImageType, double >  InterpolatorType;
-
+                           InternalImageType, double > InterpolatorType;
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
-
   resampler->SetInterpolator( interpolator );
 // Software Guide : EndCodeSnippet
 

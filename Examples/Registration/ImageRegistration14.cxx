@@ -99,7 +99,8 @@ int main( int argc, char *argv[] )
     std::cerr << " fixedImageFile  movingImageFile ";
     std::cerr << "outputImagefile [numberOfHistogramBins] ";
     std::cerr << "[initialRadius] [epsilon]" << std::endl;
-    std::cerr << "[initialAngle(radians)] [initialTx] [initialTy]" << std::endl;
+    std::cerr << "[initialAngle(radians)] [initialTx] [initialTy]"
+              << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -143,7 +144,8 @@ int main( int argc, char *argv[] )
   if( argc > 4 )
     {
     numberOfHistogramBins = atoi( argv[4] );
-    std::cout << "Using " << numberOfHistogramBins << " Histogram bins" << std::endl;
+    std::cout << "Using " << numberOfHistogramBins << " Histogram bins"
+              << std::endl;
     }
 
   MetricType::HistogramType::SizeType histogramSize;
@@ -165,65 +167,50 @@ int main( int argc, char *argv[] )
   typedef itk::ImageFileReader< FixedImageType  > FixedImageReaderType;
   typedef itk::ImageFileReader< MovingImageType > MovingImageReaderType;
 
-  FixedImageReaderType::Pointer  fixedImageReader  = FixedImageReaderType::New();
-  MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
+  FixedImageReaderType::Pointer fixedImageReader = FixedImageReaderType::New();
+  MovingImageReaderType::Pointer movingImageReader
+                                                = MovingImageReaderType::New();
 
   fixedImageReader->SetFileName(  argv[1] );
   movingImageReader->SetFileName( argv[2] );
 
-  registration->SetFixedImage(    fixedImageReader->GetOutput()    );
-  registration->SetMovingImage(   movingImageReader->GetOutput()   );
-
+  registration->SetFixedImage(  fixedImageReader->GetOutput()  );
+  registration->SetMovingImage( movingImageReader->GetOutput() );
   fixedImageReader->Update();
   movingImageReader->Update();
 
   FixedImageType::ConstPointer fixedImage = fixedImageReader->GetOutput();
-
   registration->SetFixedImageRegion( fixedImage->GetBufferedRegion() );
 
-
   typedef itk::CenteredTransformInitializer<
-                                    TransformType,
-                                    FixedImageType,
-                                    MovingImageType >  TransformInitializerType;
-  TransformInitializerType::Pointer initializer = TransformInitializerType::New();
-
+            TransformType, FixedImageType,
+            MovingImageType >  TransformInitializerType;
+  TransformInitializerType::Pointer initializer
+                                            = TransformInitializerType::New();
   initializer->SetTransform(   transform );
   initializer->SetFixedImage(  fixedImageReader->GetOutput() );
   initializer->SetMovingImage( movingImageReader->GetOutput() );
   initializer->GeometryOn();
   initializer->InitializeTransform();
 
-
-  typedef RegistrationType::ParametersType ParametersType;
-
-
   double initialAngle = 0.0;
-
   if( argc > 7 )
     {
     initialAngle = atof( argv[7] );
     }
-
   transform->SetAngle( initialAngle );
-
-  TransformType::OutputVectorType initialTranslation;
-
-  initialTranslation = transform->GetTranslation();
-
+  TransformType::OutputVectorType initialTranslation
+                                                 = transform->GetTranslation();
   if( argc > 9 )
     {
     initialTranslation[0] += atof( argv[8] );
     initialTranslation[1] += atof( argv[9] );
     }
-
   transform->SetTranslation( initialTranslation );
 
-
+  typedef RegistrationType::ParametersType ParametersType;
   ParametersType initialParameters =  transform->GetParameters();
-
   registration->SetInitialTransformParameters( initialParameters );
-
   std::cout << "Initial transform parameters = ";
   std::cout << initialParameters << std::endl;
 
@@ -231,9 +218,7 @@ int main( int argc, char *argv[] )
   OptimizerScalesType optimizerScales( transform->GetNumberOfParameters() );
 
   FixedImageType::RegionType region = fixedImage->GetLargestPossibleRegion();
-
   FixedImageType::SizeType size = region.GetSize();
-
   FixedImageType::SpacingType spacing = fixedImage->GetSpacing();
 
   optimizerScales[0] = 1.0 / 0.1;  // make angle move slowly
@@ -241,48 +226,35 @@ int main( int argc, char *argv[] )
   optimizerScales[2] = 10000.0;    // prevent the center from moving
   optimizerScales[3] = 1.0 / ( 0.1 * size[0] * spacing[0] );
   optimizerScales[4] = 1.0 / ( 0.1 * size[1] * spacing[1] );
-
   std::cout << "optimizerScales = " << optimizerScales << std::endl;
-
   optimizer->SetScales( optimizerScales );
 
-
   typedef itk::Statistics::NormalVariateGenerator  GeneratorType;
-
   GeneratorType::Pointer generator = GeneratorType::New();
   generator->Initialize(12345);
-
   optimizer->MaximizeOn();
-
   optimizer->SetNormalVariateGenerator( generator );
 
   double initialRadius = 0.05;
-
   if( argc > 5 )
     {
     initialRadius = atof( argv[5] );
     std::cout << "Using initial radius = " << initialRadius << std::endl;
     }
   optimizer->Initialize( initialRadius );
-
   double epsilon = 0.001;
-
   if( argc > 6 )
     {
     epsilon = atof( argv[6] );
     std::cout << "Using epsilon = " << epsilon << std::endl;
     }
   optimizer->SetEpsilon( epsilon );
-
   optimizer->SetMaximumIteration( 2000 );
-
 
   // Create the Command observer and register it with the optimizer.
   //
   CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
   optimizer->AddObserver( itk::IterationEvent(), observer );
-
-
   try
     {
     registration->Update();
@@ -298,26 +270,19 @@ int main( int argc, char *argv[] )
     }
 
   typedef RegistrationType::ParametersType ParametersType;
-
   ParametersType finalParameters = registration->GetLastTransformParameters();
-
   const double finalAngle           = finalParameters[0];
   const double finalRotationCenterX = finalParameters[1];
   const double finalRotationCenterY = finalParameters[2];
   const double finalTranslationX    = finalParameters[3];
   const double finalTranslationY    = finalParameters[4];
 
-  unsigned int numberOfIterations = optimizer->GetCurrentIteration();
-
-  double bestValue = optimizer->GetValue();
-
+  const unsigned int numberOfIterations = optimizer->GetCurrentIteration();
+  const double bestValue = optimizer->GetValue();
 
   // Print out results
-  //
-
   const double finalAngleInDegrees = finalAngle * 180.0 / vnl_math::pi;
-
-  std::cout << "Result = " << std::endl;
+  std::cout << " Result = " << std::endl;
   std::cout << " Angle (radians) " << finalAngle  << std::endl;
   std::cout << " Angle (degrees) " << finalAngleInDegrees  << std::endl;
   std::cout << " Center X      = " << finalRotationCenterX  << std::endl;
@@ -327,40 +292,28 @@ int main( int argc, char *argv[] )
   std::cout << " Iterations    = " << numberOfIterations << std::endl;
   std::cout << " Metric value  = " << bestValue          << std::endl;
 
-
   typedef itk::ResampleImageFilter<
-                            MovingImageType,
-                            FixedImageType >    ResampleFilterType;
-
+            MovingImageType, FixedImageType > ResampleFilterType;
   TransformType::Pointer finalTransform = TransformType::New();
-
   finalTransform->SetParameters( finalParameters );
   finalTransform->SetFixedParameters( transform->GetFixedParameters() );
 
   ResampleFilterType::Pointer resample = ResampleFilterType::New();
-
   resample->SetTransform( finalTransform );
   resample->SetInput( movingImageReader->GetOutput() );
-
   resample->SetSize(    fixedImage->GetLargestPossibleRegion().GetSize() );
   resample->SetOutputOrigin(  fixedImage->GetOrigin() );
   resample->SetOutputSpacing( fixedImage->GetSpacing() );
   resample->SetOutputDirection( fixedImage->GetDirection() );
   resample->SetDefaultPixelValue( 100 );
 
-
   typedef itk::Image< PixelType, Dimension > OutputImageType;
-
   typedef itk::ImageFileWriter< OutputImageType >  WriterType;
 
-  WriterType::Pointer      writer =  WriterType::New();
-
+  WriterType::Pointer writer =  WriterType::New();
   writer->SetFileName( argv[3] );
-
   writer->SetInput( resample->GetOutput() );
   writer->Update();
-
   // Software Guide : EndCodeSnippet
-
   return EXIT_SUCCESS;
 }

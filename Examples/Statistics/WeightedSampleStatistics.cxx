@@ -210,8 +210,9 @@ int main()
   std::cout << weightedCovarianceAlgorithm->GetCovarianceMatrix();
 
   std::cout << "Sample weighted mean (from WeightedCovarainceSampleFilter) = "
-            << std::endl << weightedCovarianceAlgorithm->GetMean() << std::endl;
+            << std::endl << weightedCovarianceAlgorithm->GetMean()
+            << std::endl;
   // Software Guide : EndCodeSnippet
 
-  return 0;
+  return EXIT_SUCCESS;
 }

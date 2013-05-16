@@ -139,7 +139,7 @@ int main(int, char *[])
 
 
   // Software Guide : BeginCodeSnippet
-  typedef  PointSetType::PointDataContainer::ConstIterator     PointDataIterator;
+  typedef  PointSetType::PointDataContainer::ConstIterator PointDataIterator;
   PointDataIterator pixelIterator = pointSet->GetPointData()->Begin();
   PointDataIterator pixelEnd      = pointSet->GetPointData()->End();
   while( pixelIterator != pixelEnd )

@@ -52,7 +52,8 @@ int main( int argc, char * argv[] )
     {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
-    std::cerr << " landmarksFile fixedImage outputDisplacementField" << std::endl;
+    std::cerr << " landmarksFile fixedImage outputDisplacementField"
+              << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -101,24 +102,23 @@ int main( int argc, char * argv[] )
 
   //  Create source and target landmarks.
   //
-  typedef FilterType::LandmarkContainerPointer   LandmarkContainerPointer;
-  typedef FilterType::LandmarkContainer          LandmarkContainerType;
-  typedef FilterType::LandmarkPointType          LandmarkPointType;
+  typedef FilterType::LandmarkContainerPointer LandmarkContainerPointer;
+  typedef FilterType::LandmarkContainer        LandmarkContainerType;
+  typedef FilterType::LandmarkPointType        LandmarkPointType;
 
-  LandmarkContainerType::Pointer sourceLandmarks = LandmarkContainerType::New();
-  LandmarkContainerType::Pointer targetLandmarks = LandmarkContainerType::New();
-
-  LandmarkPointType sourcePoint;
-  LandmarkPointType targetPoint;
-
+  LandmarkContainerType::Pointer sourceLandmarks
+                                               = LandmarkContainerType::New();
+  LandmarkContainerType::Pointer targetLandmarks
+                                               = LandmarkContainerType::New();
   std::ifstream pointsFile;
   pointsFile.open( argv[1] );
 
-  unsigned int pointId = 0;
-
+  LandmarkPointType sourcePoint;
   pointsFile >> sourcePoint;
+  LandmarkPointType targetPoint;
   pointsFile >> targetPoint;
 
+  unsigned int pointId = 0;
   while( !pointsFile.fail() )
     {
     sourceLandmarks->InsertElement( pointId, sourcePoint );
@@ -127,12 +127,8 @@ int main( int argc, char * argv[] )
 
     pointsFile >> sourcePoint;
     pointsFile >> targetPoint;
-
     }
-
   pointsFile.close();
-
-
   filter->SetSourceLandmarks( sourceLandmarks.GetPointer() );
   filter->SetTargetLandmarks( targetLandmarks.GetPointer() );
 
@@ -151,13 +147,9 @@ int main( int argc, char * argv[] )
   typedef itk::ImageFileWriter<  DisplacementFieldType  > WriterType;
 
   WriterType::Pointer writer = WriterType::New();
-
   writer->SetInput (  filter->GetOutput() );
-
   writer->SetFileName( argv[3] );
-
   filter->Print( std::cout );
-
   try
     {
     writer->Update();
@@ -168,9 +160,6 @@ int main( int argc, char * argv[] )
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
     }
-
   return EXIT_SUCCESS;
-
 //  Software Guide : EndLatex
-
 }

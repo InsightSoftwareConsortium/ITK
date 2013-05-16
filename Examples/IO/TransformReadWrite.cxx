@@ -172,10 +172,12 @@ int main(int itkNotUsed(ac), char* itkNotUsed(av)[])
   // how to do the proper casting of the resulting transform.
   // Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
-  itk::TransformFileReader::TransformListType::const_iterator it = transforms->begin();
+  itk::TransformFileReader::TransformListType::const_iterator it
+    = transforms->begin();
   if(!strcmp((*it)->GetNameOfClass(),"AffineTransform"))
     {
-    AffineTransformType::Pointer affine_read = static_cast<AffineTransformType*>((*it).GetPointer());
+    AffineTransformType::Pointer affine_read
+      = static_cast<AffineTransformType*>((*it).GetPointer());
     affine_read->Print(std::cout);
     }
 
@@ -183,7 +185,8 @@ int main(int itkNotUsed(ac), char* itkNotUsed(av)[])
 
   if(!strcmp((*it)->GetNameOfClass(),"BSplineTransform"))
     {
-    BSplineTransformType::Pointer bspline_read = static_cast<BSplineTransformType*>((*it).GetPointer());
+    BSplineTransformType::Pointer bspline_read
+      = static_cast<BSplineTransformType*>((*it).GetPointer());
     bspline_read->Print(std::cout);
     }
   //  Software Guide : EndCodeSnippet

@@ -307,11 +307,11 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef  itk::GeodesicActiveContourShapePriorLevelSetImageFilter<
-                              InternalImageType,
-                              InternalImageType >   GeodesicActiveContourFilterType;
+  typedef itk::GeodesicActiveContourShapePriorLevelSetImageFilter<
+            InternalImageType, InternalImageType >
+                                              GeodesicActiveContourFilterType;
   GeodesicActiveContourFilterType::Pointer geodesicActiveContour =
-                                     GeodesicActiveContourFilterType::New();
+                                       GeodesicActiveContourFilterType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -869,7 +869,8 @@ int main( int argc, char *argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  ShapeFunctionType::ParametersType parameters( shape->GetNumberOfParameters() );
+  ShapeFunctionType::ParametersType parameters(
+                                             shape->GetNumberOfParameters() );
   parameters.Fill( 0.0 );
   parameters[numberOfPCAModes + 1] = atof( argv[16] ); // startX
   parameters[numberOfPCAModes + 2] = atof( argv[17] ); // startY
