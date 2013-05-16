@@ -735,6 +735,27 @@ struct IsInteger {
   itkConceptConstraintsMacro();
 };
 
+
+/** Concept requiring T to be an unsigned integer. */
+template< typename T >
+struct IsUnsignedInteger {
+  typedef IsUnsignedInteger Self;
+  itkStaticConstMacro(Unsigned, bool, !NumericTraits< T >::is_signed);
+  struct Constraints {
+    typedef Detail::UniqueType_bool< true >                             TrueT;
+    typedef Detail::UniqueType_bool< itkGetStaticConstMacro(Unsigned) > UnsignedT;
+    void constraints()
+    {
+      UnsignedT a = TrueT();
+
+      Detail::IgnoreUnusedVariable(a);
+    }
+  };
+
+  itkConceptConstraintsMacro();
+};
+
+
 /** Concept requiring T to be non-integer. */
 template< typename T >
 struct IsNonInteger {
