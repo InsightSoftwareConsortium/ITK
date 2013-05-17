@@ -244,7 +244,7 @@ protected:
 
   IntegerType twist(const IntegerType & m, const IntegerType & s0, const IntegerType & s1) const
   {
-    return m ^ ( mixBits(s0, s1) >> 1 ) ^ ( -loBit(s1) & 0x9908b0df );
+    return m ^ ( mixBits(s0, s1) >> 1 ) ^ ( -static_cast<int32_t>(loBit(s1)) & 0x9908b0df );
   }
 
   static IntegerType hash(vcl_time_t t, vcl_clock_t c);
