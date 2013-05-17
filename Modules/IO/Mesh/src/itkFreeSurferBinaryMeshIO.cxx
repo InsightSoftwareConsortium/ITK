@@ -307,23 +307,8 @@ FreeSurferBinaryMeshIO
 
   if ( this->m_UpdatePoints && this->m_UpdateCells )
     {
-    itk::uint32_t MAGIC_NUMBER = 16777214;
-    char *        pv = reinterpret_cast< char * >( &MAGIC_NUMBER );
-    char          buffer[3];
-
-    if ( itk::ByteSwapper< itk::uint32_t >::SystemIsBigEndian() )
-      {
-      buffer[0] = pv[0];
-      buffer[1] = pv[1];
-      buffer[2] = pv[2];
-      }
-    else
-      {
-      buffer[0] = pv[2];
-      buffer[1] = pv[1];
-      buffer[2] = pv[0];
-      }
-
+    // MAGIC_NUMBER = 16777214 ( little endian )
+    const char  buffer[3] = { 0xFF, 0xFF, 0xFE};
     outputFile.write(buffer, 3);
 
     std::string creator = "Created by ITK  \n\n";
