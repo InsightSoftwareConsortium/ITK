@@ -152,13 +152,8 @@ protected:
   // Check that tag t can be found
   bool  CanFindTIFFTag(unsigned int t);
 
-// This method, used obtaining the data from custom tags, requires the
-// "private" libtiff tif_def.h, which is not installed in a system
-// installation.
-#ifndef ITK_USE_SYSTEM_TIFF
   // Read and returns the raw bytes of tag t
   void * ReadRawByteFromTag(unsigned int t, unsigned int & value_count);
-#endif // ITK_USE_SYSTEM_TIFF
 
   TIFFReaderInternal *m_InternalImage;
 

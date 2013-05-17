@@ -1997,8 +1997,6 @@ bool TIFFImageIO::CanFindTIFFTag(unsigned int t)
   return true;
 }
 
-
-#ifndef ITK_USE_SYSTEM_TIFF
 void * TIFFImageIO::ReadRawByteFromTag(unsigned int t, unsigned int & value_count)
 {
   // m_InternalImage needs to be valid
@@ -2053,6 +2051,5 @@ void * TIFFImageIO::ReadRawByteFromTag(unsigned int t, unsigned int & value_coun
 
   return raw_data;
 }
-#endif // ITK_USE_SYSTEM_TIFF
 
 } // end namespace itk
