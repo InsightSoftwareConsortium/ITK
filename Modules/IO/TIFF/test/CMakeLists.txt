@@ -143,7 +143,6 @@ endif()
 
 if( "${ITK_COMPUTER_MEMORY_SIZE}" GREATER 12 )
 
-if(ITK_BUG_2822_IS_FIXED)
   # Image of 9.12 Gigabytes (pixels size is 16bits)
   itk_add_test(NAME itkLargeTIFFImageWriteReadTest4
       COMMAND ITKIOTIFFTestDriver
@@ -155,6 +154,5 @@ if(ITK_BUG_2822_IS_FIXED)
     LABELS BigIO
     RESOURCE_LOCK MEMORY_SIZE
     )
-endif()
 
 endif()

@@ -42,27 +42,27 @@ public:
   bool           m_IsOpen;
   uint32_t       m_Width;
   uint32_t       m_Height;
-  unsigned short m_NumberOfPages;
-  unsigned short m_CurrentPage;
-  unsigned short m_SamplesPerPixel;
-  unsigned short m_Compression;
-  unsigned short m_BitsPerSample;
-  unsigned short m_Photometrics;
+  uint16_t       m_NumberOfPages;
+  uint16_t       m_CurrentPage;
+  uint16_t       m_SamplesPerPixel;
+  uint16_t       m_Compression;
+  uint16_t       m_BitsPerSample;
+  uint16_t       m_Photometrics;
   bool           m_HasValidPhotometricInterpretation;
-  unsigned short m_PlanarConfig;
-  unsigned short m_Orientation;
+  uint16_t       m_PlanarConfig;
+  uint16_t       m_Orientation;
   uint32         m_TileDepth;
-  unsigned int   m_TileRows;
-  unsigned int   m_TileColumns;
-  unsigned int   m_TileWidth;
-  unsigned int   m_TileHeight;
+  uint32_t       m_TileRows;
+  uint32_t       m_TileColumns;
+  uint32_t       m_TileWidth;
+  uint32_t       m_TileHeight;
   uint32_t       m_NumberOfTiles;
-  unsigned int   m_SubFiles;
-  unsigned int   m_IgnoredSubFiles;
-  unsigned int   m_ResolutionUnit;
+  uint32_t       m_SubFiles;
+  uint32_t       m_IgnoredSubFiles;
+  uint16_t       m_ResolutionUnit;
   float          m_XResolution;
   float          m_YResolution;
-  short          m_SampleFormat;
+  uint16_t       m_SampleFormat;
 };
 
 int TIFFReaderInternal::Open(const char *filename)
@@ -309,14 +309,14 @@ void TIFFImageIO::ReadTwoSamplesPerPixelImage(void *out,
   int      row;
   tdata_t  buf = _TIFFmalloc(isize);
 
-  int inc = 1;
+  size_t inc = 1;
 
   if ( m_ComponentType == UCHAR )
     {
     unsigned char *image;
     if ( m_InternalImage->m_PlanarConfig == PLANARCONFIG_CONTIG )
       {
-      for ( row = 0; row < (int)height; row++ )
+      for ( row = 0; row < (int)height; ++row )
         {
         if ( TIFFReadScanline(m_InternalImage->m_Image, buf, row, 0) <= 0 )
           {
@@ -326,7 +326,7 @@ void TIFFImageIO::ReadTwoSamplesPerPixelImage(void *out,
 
         if ( m_InternalImage->m_Orientation == ORIENTATION_TOPLEFT )
           {
-          image = reinterpret_cast< unsigned char * >( out ) + row * width * inc;
+          image = reinterpret_cast< unsigned char * >( out ) + (size_t) (row) * width * inc;
           }
         else
           {
@@ -350,7 +350,7 @@ void TIFFImageIO::ReadTwoSamplesPerPixelImage(void *out,
       TIFFGetField(m_InternalImage->m_Image, TIFFTAG_SAMPLESPERPIXEL, &nsamples);
       for ( s = 0; s < nsamples; s++ )
         {
-        for ( row = 0; row < (int)height; row++ )
+        for ( row = 0; row < (int)height; ++row )
           {
           if ( TIFFReadScanline(m_InternalImage->m_Image, buf, row, s) <= 0 )
             {
@@ -362,7 +362,7 @@ void TIFFImageIO::ReadTwoSamplesPerPixelImage(void *out,
 
           if ( m_InternalImage->m_Orientation == ORIENTATION_TOPLEFT )
             {
-            image = reinterpret_cast< unsigned char * >( out ) + row * width * inc;
+            image = reinterpret_cast< unsigned char * >( out ) + (size_t)(row) * width * inc;
             }
           else
             {
@@ -388,7 +388,7 @@ void TIFFImageIO::ReadTwoSamplesPerPixelImage(void *out,
     unsigned short *image;
     if ( m_InternalImage->m_PlanarConfig == PLANARCONFIG_CONTIG )
       {
-      for ( row = 0; row < (int)height; row++ )
+      for ( row = 0; row < (int)height; ++row )
         {
         if ( TIFFReadScanline(m_InternalImage->m_Image, buf, row, 0) <= 0 )
           {
@@ -398,7 +398,7 @@ void TIFFImageIO::ReadTwoSamplesPerPixelImage(void *out,
 
         if ( m_InternalImage->m_Orientation == ORIENTATION_TOPLEFT )
           {
-          image = reinterpret_cast< unsigned short * >( out ) + row * width * inc;
+          image = reinterpret_cast< unsigned short * >( out ) + (size_t) (row) * width * inc;
           }
         else
           {
@@ -421,7 +421,7 @@ void TIFFImageIO::ReadTwoSamplesPerPixelImage(void *out,
       TIFFGetField(m_InternalImage->m_Image, TIFFTAG_SAMPLESPERPIXEL, &nsamples);
       for ( s = 0; s < nsamples; s++ )
         {
-        for ( row = 0; row < (int)height; row++ )
+        for ( row = 0; row < (int)height; ++row )
           {
           if ( TIFFReadScanline(m_InternalImage->m_Image, buf, row, s) <= 0 )
             {
@@ -431,7 +431,7 @@ void TIFFImageIO::ReadTwoSamplesPerPixelImage(void *out,
 
           if ( m_InternalImage->m_Orientation == ORIENTATION_TOPLEFT )
             {
-            image = reinterpret_cast< unsigned short * >( out ) + row * width * inc;
+            image = reinterpret_cast< unsigned short * >( out ) + (size_t) (row) * width * inc;
             }
           else
             {
@@ -466,7 +466,8 @@ void TIFFImageIO::ReadGenericImage(void *out,
   tsize_t cc;
 #endif
 
-  int      row, inc;
+  int      row;
+  size_t   inc;
   tdata_t  buf = _TIFFmalloc(isize);
 
   // It is necessary to re-initialize the colors for eachread so
@@ -501,7 +502,7 @@ void TIFFImageIO::ReadGenericImage(void *out,
     unsigned char *image;
     if ( m_InternalImage->m_PlanarConfig == PLANARCONFIG_CONTIG )
       {
-      for ( row = 0; row < (int)height; row++ )
+      for ( row = 0; row < (int)height; ++row )
         {
         if ( TIFFReadScanline(m_InternalImage->m_Image, buf, row, 0) <= 0 )
           {
@@ -511,7 +512,7 @@ void TIFFImageIO::ReadGenericImage(void *out,
 
         if ( m_InternalImage->m_Orientation == ORIENTATION_TOPLEFT )
           {
-          image = reinterpret_cast< unsigned char * >( out ) + row * width * inc;
+          image = reinterpret_cast< unsigned char * >( out ) + (size_t) (row) * width * inc;
           }
         else
           {
@@ -535,7 +536,7 @@ void TIFFImageIO::ReadGenericImage(void *out,
       TIFFGetField(m_InternalImage->m_Image, TIFFTAG_SAMPLESPERPIXEL, &nsamples);
       for ( s = 0; s < nsamples; s++ )
         {
-        for ( row = 0; row < (int)height; row++ )
+        for ( row = 0; row < (int)height; ++row )
           {
           if ( TIFFReadScanline(m_InternalImage->m_Image, buf, row, s) <= 0 )
             {
@@ -546,7 +547,7 @@ void TIFFImageIO::ReadGenericImage(void *out,
           inc = 3;
           if ( m_InternalImage->m_Orientation == ORIENTATION_TOPLEFT )
             {
-            image = reinterpret_cast< unsigned char * >( out ) + row * width * inc;
+            image = reinterpret_cast< unsigned char * >( out ) + (size_t) (row) * width * inc;
             }
           else
             {
@@ -570,7 +571,7 @@ void TIFFImageIO::ReadGenericImage(void *out,
     char *image;
     if ( m_InternalImage->m_PlanarConfig == PLANARCONFIG_CONTIG )
       {
-      for ( row = 0; row < (int)height; row++ )
+      for ( row = 0; row < (int)height; ++row )
         {
         if ( TIFFReadScanline(m_InternalImage->m_Image, buf, row, 0) <= 0 )
           {
@@ -580,7 +581,7 @@ void TIFFImageIO::ReadGenericImage(void *out,
 
         if ( m_InternalImage->m_Orientation == ORIENTATION_TOPLEFT )
           {
-          image = reinterpret_cast< char * >( out ) + row * width * inc;
+          image = reinterpret_cast< char * >( out ) + (size_t) (row) * width * inc;
           }
         else
           {
@@ -604,7 +605,7 @@ void TIFFImageIO::ReadGenericImage(void *out,
       TIFFGetField(m_InternalImage->m_Image, TIFFTAG_SAMPLESPERPIXEL, &nsamples);
       for ( s = 0; s < nsamples; s++ )
         {
-        for ( row = 0; row < (int)height; row++ )
+        for ( row = 0; row < (int)height; ++row )
           {
           if ( TIFFReadScanline(m_InternalImage->m_Image, buf, row, s) <= 0 )
             {
@@ -615,7 +616,7 @@ void TIFFImageIO::ReadGenericImage(void *out,
           inc = 3;
           if ( m_InternalImage->m_Orientation == ORIENTATION_TOPLEFT )
             {
-            image = reinterpret_cast< char * >( out ) + row * width * inc;
+            image = reinterpret_cast< char * >( out ) + (size_t) (row) * width * inc;
             }
           else
             {
@@ -640,7 +641,7 @@ void TIFFImageIO::ReadGenericImage(void *out,
     unsigned short *image;
     if ( m_InternalImage->m_PlanarConfig == PLANARCONFIG_CONTIG )
       {
-      for ( row = 0; row < (int)height; row++ )
+      for ( row = 0; row < (int)height; ++row )
         {
         if ( TIFFReadScanline(m_InternalImage->m_Image, buf, row, 0) <= 0 )
           {
@@ -650,7 +651,7 @@ void TIFFImageIO::ReadGenericImage(void *out,
 
         if ( m_InternalImage->m_Orientation == ORIENTATION_TOPLEFT )
           {
-          image = reinterpret_cast< unsigned short * >( out ) + row * width * inc;
+          image = reinterpret_cast< unsigned short * >( out ) + (size_t) (row) * width * inc;
           }
         else
           {
@@ -673,7 +674,7 @@ void TIFFImageIO::ReadGenericImage(void *out,
       TIFFGetField(m_InternalImage->m_Image, TIFFTAG_SAMPLESPERPIXEL, &nsamples);
       for ( s = 0; s < nsamples; s++ )
         {
-        for ( row = 0; row < (int)height; row++ )
+        for ( row = 0; row < (int)height; ++row )
           {
           if ( TIFFReadScanline(m_InternalImage->m_Image, buf, row, s) <= 0 )
             {
@@ -683,7 +684,7 @@ void TIFFImageIO::ReadGenericImage(void *out,
 
           if ( m_InternalImage->m_Orientation == ORIENTATION_TOPLEFT )
             {
-            image = reinterpret_cast< unsigned short * >( out ) + row * width * inc;
+            image = reinterpret_cast< unsigned short * >( out ) + (size_t) (row) * width * inc;
             }
           else
             {
@@ -708,7 +709,7 @@ void TIFFImageIO::ReadGenericImage(void *out,
     short *image;
     if ( m_InternalImage->m_PlanarConfig == PLANARCONFIG_CONTIG )
       {
-      for ( row = 0; row < (int)height; row++ )
+      for ( row = 0; row < (int)height; ++row )
         {
         if ( TIFFReadScanline(m_InternalImage->m_Image, buf, row, 0) <= 0 )
           {
@@ -718,7 +719,7 @@ void TIFFImageIO::ReadGenericImage(void *out,
 
         if ( m_InternalImage->m_Orientation == ORIENTATION_TOPLEFT )
           {
-          image = reinterpret_cast< short * >( out ) + row * width * inc;
+          image = reinterpret_cast< short * >( out ) + (size_t) (row) * width * inc;
           }
         else
           {
@@ -741,7 +742,7 @@ void TIFFImageIO::ReadGenericImage(void *out,
       TIFFGetField(m_InternalImage->m_Image, TIFFTAG_SAMPLESPERPIXEL, &nsamples);
       for ( s = 0; s < nsamples; s++ )
         {
-        for ( row = 0; row < (int)height; row++ )
+        for ( row = 0; row < (int)height; ++row )
           {
           if ( TIFFReadScanline(m_InternalImage->m_Image, buf, row, s) <= 0 )
             {
@@ -751,7 +752,7 @@ void TIFFImageIO::ReadGenericImage(void *out,
 
           if ( m_InternalImage->m_Orientation == ORIENTATION_TOPLEFT )
             {
-            image = reinterpret_cast< short * >( out ) + row * width * inc;
+            image = reinterpret_cast< short * >( out ) + (size_t) (row) * width * inc;
             }
           else
             {
@@ -775,7 +776,7 @@ void TIFFImageIO::ReadGenericImage(void *out,
     float *image;
     if ( m_InternalImage->m_PlanarConfig == PLANARCONFIG_CONTIG )
       {
-      for ( row = 0; row < (int)height; row++ )
+      for ( row = 0; row < (int)height; ++row )
         {
         if ( TIFFReadScanline(m_InternalImage->m_Image, buf, row, 0) <= 0 )
           {
@@ -785,7 +786,7 @@ void TIFFImageIO::ReadGenericImage(void *out,
 
         if ( m_InternalImage->m_Orientation == ORIENTATION_TOPLEFT )
           {
-          image = reinterpret_cast< float * >( out ) + row * width * inc;
+          image = reinterpret_cast< float * >( out ) + (size_t) (row) * width * inc;
           }
         else
           {
@@ -808,7 +809,7 @@ void TIFFImageIO::ReadGenericImage(void *out,
       TIFFGetField(m_InternalImage->m_Image, TIFFTAG_SAMPLESPERPIXEL, &nsamples);
       for ( s = 0; s < nsamples; s++ )
         {
-        for ( row = 0; row < (int)height; row++ )
+        for ( row = 0; row < (int)height; ++row )
           {
           if ( TIFFReadScanline(m_InternalImage->m_Image, buf, row, s) <= 0 )
             {
@@ -818,7 +819,7 @@ void TIFFImageIO::ReadGenericImage(void *out,
 
           if ( m_InternalImage->m_Orientation == ORIENTATION_TOPLEFT )
             {
-            image = reinterpret_cast< float * >( out ) + row * width * inc;
+            image = reinterpret_cast< float * >( out ) + (size_t) (row) * width * inc;
             }
           else
             {
@@ -1560,6 +1561,8 @@ void TIFFImageIO::ReadImageInformation()
       }
     }
 
+  std::cout << "Spacing: " << m_Spacing[0] << " " << m_Spacing[1] << std::endl;
+
   m_Origin[0] = 0.0;
   m_Origin[1] = 0.0;
 
@@ -1761,7 +1764,7 @@ void TIFFImageIO::InternalWrite(const void *buffer)
         << "TIFF supports unsigned/signed char, unsigned/signed short, and float");
     }
 
-  int predictor;
+  uint16_t predictor;
 
   const char *mode = "w";
 
@@ -1946,7 +1949,7 @@ void TIFFImageIO::InternalWrite(const void *buffer)
         break;
         }
       outPtr += rowLength;
-      row++;
+      ++row;
       }
 
     if ( m_NumberOfDimensions == 3 )
