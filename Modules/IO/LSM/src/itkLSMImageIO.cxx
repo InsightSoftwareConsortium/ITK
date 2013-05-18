@@ -252,9 +252,9 @@ void LSMImageIO::Write(const void *buffer)
     pages = m_Dimensions[2];
     }
 
-  int    scomponents = this->GetNumberOfComponents();
-  double resolution = -1;
-  int    bps;
+  uint16_t    scomponents = this->GetNumberOfComponents();
+  float resolution = -1;
+  uint16_t    bps;
 
   switch ( this->GetComponentType() )
     {
@@ -270,7 +270,7 @@ void LSMImageIO::Write(const void *buffer)
       itkExceptionMacro(<< "TIFF supports unsigned char and unsigned short");
     }
 
-  int predictor;
+  uint16_t predictor;
 
   TIFF *tif = TIFFOpen(m_FileName.c_str(), "w");
   if ( !tif )
@@ -321,7 +321,7 @@ void LSMImageIO::Write(const void *buffer)
       delete[] sample_info;
       }
 
-    int compression;
+    uint16_t compression;
 
     if ( m_UseCompression )
       {

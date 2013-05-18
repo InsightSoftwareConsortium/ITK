@@ -1992,6 +1992,7 @@ void * TIFFImageIO::ReadRawByteFromTag(unsigned int t, short & value_count)
   ttag_t           tag = t;
   void *           raw_data = NULL;
   const TIFFField *fld = TIFFFieldWithTag(m_InternalImage->m_Image, tag);
+
   if ( fld == NULL )
     {
     itkExceptionMacro(<< "fld is NULL");
@@ -1999,9 +2000,14 @@ void * TIFFImageIO::ReadRawByteFromTag(unsigned int t, short & value_count)
     }
   else
     {
+
     if ( fld->field_passcount )
       {
-      if ( TIFFGetField(m_InternalImage->m_Image, tag, &value_count, &raw_data) != 1 )
+      // GetField used va_list for variable number of arguments,
+      // passing value_count ( a reference to a parameter ), is causing
+      // errors on some platforms. Just use a stack variable.
+      uint16_t cnt;
+      if ( TIFFGetField(m_InternalImage->m_Image, tag, &cnt, &raw_data) != 1 )
         {
         itkExceptionMacro(<< "Tag cannot be found");
         return NULL;
@@ -2014,6 +2020,7 @@ void * TIFFImageIO::ReadRawByteFromTag(unsigned int t, short & value_count)
           return NULL;
           }
         }
+      value_count = cnt;
       }
     }
   return raw_data;
