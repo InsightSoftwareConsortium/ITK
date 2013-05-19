@@ -37,7 +37,6 @@
 //
 // Software Guide : EndLatex
 
-
 #include "itkKdTree.h"
 #include "itkKdTreeBasedKmeansEstimator.h"
 #include "itkWeightedCentroidKdTreeGenerator.h"
@@ -55,7 +54,6 @@ int main( int argc, char * argv [] )
     std::cerr << "Usage :  " << argv[0] << "  inputImageFileName " << std::endl;
     return -1;
     }
-
 
   typedef unsigned char       PixelType;
   const unsigned int          Dimension = 2;
@@ -80,7 +78,6 @@ int main( int argc, char * argv [] )
     }
 
 
-
   // Software Guide : BeginCodeSnippet
 
   // Create a List from the scalar image
@@ -91,22 +88,17 @@ int main( int argc, char * argv [] )
   adaptor->SetImage(  reader->GetOutput() );
 
 
-
   // Define the Measurement vector type from the AdaptorType
   typedef AdaptorType::MeasurementVectorType  MeasurementVectorType;
 
-
   // Create the K-d tree structure
   typedef itk::Statistics::WeightedCentroidKdTreeGenerator<
-                                                      AdaptorType >
-                                                              TreeGeneratorType;
-
+                                      AdaptorType > TreeGeneratorType;
   TreeGeneratorType::Pointer treeGenerator = TreeGeneratorType::New();
 
   treeGenerator->SetSample( adaptor );
   treeGenerator->SetBucketSize( 16 );
   treeGenerator->Update();
-
 
 
   typedef TreeGeneratorType::KdTreeType TreeType;
@@ -152,9 +144,5 @@ int main( int argc, char * argv [] )
   //
   //  Software Guide : EndLatex
 
-
   return EXIT_SUCCESS;
-
 }
-
-

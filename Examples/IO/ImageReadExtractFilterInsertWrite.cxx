@@ -141,7 +141,8 @@ int main( int argc, char ** argv )
   //
   //  Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
-  typedef itk::ExtractImageFilter< InputImageType, MiddleImageType > ExtractFilterType;
+  typedef itk::ExtractImageFilter< InputImageType, MiddleImageType >
+    ExtractFilterType;
   ExtractFilterType::Pointer extractFilter = ExtractFilterType::New();
   extractFilter->SetDirectionCollapseToSubmatrix();
   // Software Guide : EndCodeSnippet
@@ -224,11 +225,13 @@ int main( int argc, char ** argv )
   extractFilter->SetExtractionRegion( desiredRegion );
   // Software Guide : EndCodeSnippet
   // Software Guide : BeginCodeSnippet
-  typedef itk::PasteImageFilter< MiddleImageType, OutputImageType > PasteFilterType;
+  typedef itk::PasteImageFilter< MiddleImageType,
+                                 OutputImageType > PasteFilterType;
   PasteFilterType::Pointer pasteFilter = PasteFilterType::New();
   // Software Guide : EndCodeSnippet
   // Software Guide : BeginCodeSnippet
-  typedef itk::MedianImageFilter< MiddleImageType, MiddleImageType > MedianFilterType;
+  typedef itk::MedianImageFilter< MiddleImageType,
+                                  MiddleImageType > MedianFilterType;
   MedianFilterType::Pointer medianFilter = MedianFilterType::New();
   // Software Guide : EndCodeSnippet
   //  Software Guide : BeginLatex

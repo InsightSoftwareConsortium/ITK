@@ -132,8 +132,9 @@ int main( int argc, char *argv[] )
   typedef itk::Image< RGBPixelType, Dimension > ImageType;
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::ImageLinearIteratorWithIndex< ImageType >       IteratorType;
-  typedef itk::ImageLinearConstIteratorWithIndex< ImageType >  ConstIteratorType;
+  typedef itk::ImageLinearIteratorWithIndex< ImageType >      IteratorType;
+  typedef itk::ImageLinearConstIteratorWithIndex<
+                                             ImageType > ConstIteratorType;
 // Software Guide : EndCodeSnippet
 
   typedef itk::ImageFileReader< ImageType > ReaderType;

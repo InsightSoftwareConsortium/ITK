@@ -277,9 +277,10 @@ int main( int argc, char *argv[] )
 
 
   // Software Guide : BeginCodeSnippet
-  OptimizerType::BoundSelectionType boundSelect( transform->GetNumberOfParameters() );
-  OptimizerType::BoundValueType upperBound( transform->GetNumberOfParameters() );
-  OptimizerType::BoundValueType lowerBound( transform->GetNumberOfParameters() );
+  const unsigned int numParameters = transform->GetNumberOfParameters();
+  OptimizerType::BoundSelectionType boundSelect( numParameters );
+  OptimizerType::BoundValueType upperBound( numParameters );
+  OptimizerType::BoundValueType lowerBound( numParameters );
 
   boundSelect.Fill( 0 );
   upperBound.Fill( 0.0 );
@@ -312,11 +313,10 @@ int main( int argc, char *argv[] )
   metric->SetNumberOfHistogramBins( 50 );
 
   const unsigned int numberOfSamples =
-    static_cast<unsigned int>( fixedRegion.GetNumberOfPixels() * 20.0 / 100.0 );
+    static_cast<unsigned int>( fixedRegion.GetNumberOfPixels() * 0.2F );
 
   metric->SetNumberOfSpatialSamples( numberOfSamples );
   // Software Guide : EndCodeSnippet
-
 
   //  Software Guide : BeginLatex
   //

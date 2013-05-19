@@ -430,12 +430,13 @@ public:
       // Software Guide : EndLatex
 
       // Software Guide : BeginCodeSnippet
-      m_JointHistogramWriter.WriteHistogramFile( m_InitialHistogramFile.c_str() );
+      m_JointHistogramWriter.WriteHistogramFile( m_InitialHistogramFile );
       // Software Guide : EndCodeSnippet
       }
     if( m_WriteHistogramsAfterEveryIteration )
       {
-      m_JointHistogramWriter.WriteHistogramFile( optimizer->GetCurrentIteration() );
+      m_JointHistogramWriter.WriteHistogramFile(
+                                           optimizer->GetCurrentIteration() );
       }
     }
 

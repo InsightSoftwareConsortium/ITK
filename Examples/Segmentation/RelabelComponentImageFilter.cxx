@@ -126,15 +126,13 @@ int main( int argc, char * argv[] )
   //
   // Software Guide : EndLatex
 
-
   // Software Guide : BeginCodeSnippet
   typedef std::vector< itk::SizeValueType > SizesInPixelsType;
-
-  const SizesInPixelsType &  sizesInPixels = relabeler->GetSizeOfObjectsInPixels();
+  const SizesInPixelsType & sizesInPixels
+                                      = relabeler->GetSizeOfObjectsInPixels();
 
   SizesInPixelsType::const_iterator sizeItr = sizesInPixels.begin();
   SizesInPixelsType::const_iterator sizeEnd = sizesInPixels.end();
-
   std::cout << "Number of pixels per class " << std::endl;
   unsigned int kclass = 0;
   while( sizeItr != sizeEnd )
@@ -147,11 +145,13 @@ int main( int argc, char * argv[] )
 
   // Software Guide : BeginCodeSnippet
   typedef std::vector< float > SizesInPhysicalUnitsType;
+  const SizesInPhysicalUnitsType sizesInUnits
+                               = relabeler->GetSizeOfObjectsInPhysicalUnits();
 
-  const SizesInPhysicalUnitsType  sizesInUnits = relabeler->GetSizeOfObjectsInPhysicalUnits();
-
-  SizesInPhysicalUnitsType::const_iterator physicalSizeItr = sizesInUnits.begin();
-  SizesInPhysicalUnitsType::const_iterator physicalSizeEnd = sizesInUnits.end();
+  SizesInPhysicalUnitsType::const_iterator physicalSizeItr
+                                                       = sizesInUnits.begin();
+  SizesInPhysicalUnitsType::const_iterator physicalSizeEnd
+                                                         = sizesInUnits.end();
 
   std::cout << "Area in Physical Units per class " << std::endl;
   unsigned int jclass = 0;

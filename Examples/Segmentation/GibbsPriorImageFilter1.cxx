@@ -73,7 +73,8 @@ int main( int argc, char *argv[] )
   const unsigned short NUMBANDS = 1;
   const unsigned short NDIMENSION = 3;
 
-  typedef itk::Image<itk::Vector<unsigned short,NUMBANDS>,NDIMENSION> VecImageType;
+  typedef itk::Image<itk::Vector<unsigned short,NUMBANDS>,
+                                                     NDIMENSION> VecImageType;
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -220,7 +221,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::ImageClassifierBase< VecImageType, ClassImageType > ClassifierType;
+  typedef itk::ImageClassifierBase< VecImageType,
+                                    ClassImageType > ClassifierType;
   typedef itk::ClassifierBase<VecImageType>::Pointer ClassifierBasePointer;
 
   typedef ClassifierType::Pointer ClassifierPointer;

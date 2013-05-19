@@ -116,7 +116,8 @@ int main( int , char *[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-   SurfaceType::PointListType::const_iterator it = Surface->GetPoints().begin();
+   SurfaceType::PointListType::const_iterator it
+                                               = Surface->GetPoints().begin();
    while(it != Surface->GetPoints().end())
      {
      std::cout << "Position = " << (*it).GetPosition() << std::endl;

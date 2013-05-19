@@ -96,7 +96,8 @@ int main( int , char *[] )
   unsigned int nPoints = landmark->GetPoints().size();
   std::cout << "Number of Points in the landmark: " << nPoints << std::endl;
 
-  LandmarkType::PointListType::const_iterator it = landmark->GetPoints().begin();
+  LandmarkType::PointListType::const_iterator it
+                                              = landmark->GetPoints().begin();
   while(it != landmark->GetPoints().end())
     {
     std::cout << "Position: " << (*it).GetPosition() << std::endl;

@@ -96,7 +96,8 @@ int main( int argc, char *argv[] )
     std::cerr << "Usage: " << argv[0];
     std::cerr << " fixedImageFile  movingImageFile ";
     std::cerr << "outputImagefile [numberOfHistogramBins] ";
-    std::cerr << "[initialRadius] [epsilon] [initialTx] [initialTy]" << std::endl;
+    std::cerr << "[initialRadius] [epsilon] [initialTx] [initialTy]"
+              << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -140,7 +141,8 @@ int main( int argc, char *argv[] )
   if( argc > 4 )
     {
     numberOfHistogramBins = atoi( argv[4] );
-    std::cout << "Using " << numberOfHistogramBins << " Histogram bins" << std::endl;
+    std::cout << "Using " << numberOfHistogramBins << " Histogram bins"
+              << std::endl;
     }
   MetricType::HistogramType::SizeType histogramSize;
   histogramSize.SetSize(2);
@@ -161,8 +163,9 @@ int main( int argc, char *argv[] )
   typedef itk::ImageFileReader< FixedImageType  > FixedImageReaderType;
   typedef itk::ImageFileReader< MovingImageType > MovingImageReaderType;
 
-  FixedImageReaderType::Pointer  fixedImageReader  = FixedImageReaderType::New();
-  MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
+  FixedImageReaderType::Pointer fixedImageReader = FixedImageReaderType::New();
+  MovingImageReaderType::Pointer movingImageReader
+                                                = MovingImageReaderType::New();
 
   fixedImageReader->SetFileName(  argv[1] );
   movingImageReader->SetFileName( argv[2] );
@@ -174,16 +177,11 @@ int main( int argc, char *argv[] )
   movingImageReader->Update();
 
   FixedImageType::ConstPointer fixedImage = fixedImageReader->GetOutput();
-
   registration->SetFixedImageRegion( fixedImage->GetBufferedRegion() );
 
-
   transform->SetIdentity();
-
   typedef RegistrationType::ParametersType ParametersType;
-
   ParametersType initialParameters =  transform->GetParameters();
-
   initialParameters[0] = 0.0;
   initialParameters[1] = 0.0;
 
@@ -192,7 +190,6 @@ int main( int argc, char *argv[] )
     initialParameters[0] = atof( argv[7] );
     initialParameters[1] = atof( argv[8] );
     }
-
   registration->SetInitialTransformParameters( initialParameters  );
 
   std::cout << "Initial transform parameters = ";
@@ -202,52 +199,39 @@ int main( int argc, char *argv[] )
   OptimizerScalesType optimizerScales( transform->GetNumberOfParameters() );
 
   FixedImageType::RegionType region = fixedImage->GetLargestPossibleRegion();
-
   FixedImageType::SizeType size = region.GetSize();
-
   FixedImageType::SpacingType spacing = fixedImage->GetSpacing();
 
   optimizerScales[0] = 1.0 / ( 0.1 * size[0] * spacing[0] );
   optimizerScales[1] = 1.0 / ( 0.1 * size[1] * spacing[1] );
-
   optimizer->SetScales( optimizerScales );
 
   typedef itk::Statistics::NormalVariateGenerator  GeneratorType;
-
   GeneratorType::Pointer generator = GeneratorType::New();
   generator->Initialize(12345);
 
   optimizer->MaximizeOn();
-
   optimizer->SetNormalVariateGenerator( generator );
-
   double initialRadius = 0.01;
-
   if( argc > 5 )
     {
     initialRadius = atof( argv[5] );
     std::cout << "Using initial radius = " << initialRadius << std::endl;
     }
   optimizer->Initialize( initialRadius );
-
   double epsilon = 0.001;
-
   if( argc > 6 )
     {
     epsilon = atof( argv[6] );
     std::cout << "Using epsilon = " << epsilon << std::endl;
     }
   optimizer->SetEpsilon( epsilon );
-
   optimizer->SetMaximumIteration( 2000 );
-
 
   // Create the Command observer and register it with the optimizer.
   //
   CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
   optimizer->AddObserver( itk::IterationEvent(), observer );
-
-
   try
     {
     registration->Update();
@@ -262,32 +246,23 @@ int main( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-
   ParametersType finalParameters = registration->GetLastTransformParameters();
-
   const double finalTranslationX    = finalParameters[0];
   const double finalTranslationY    = finalParameters[1];
-
   unsigned int numberOfIterations = optimizer->GetCurrentIteration();
-
-  double bestValue = optimizer->GetValue();
-
+  const double bestValue = optimizer->GetValue();
 
   // Print out results
-  //
   std::cout << "Result = " << std::endl;
   std::cout << " Translation X = " << finalTranslationX  << std::endl;
   std::cout << " Translation Y = " << finalTranslationY  << std::endl;
   std::cout << " Iterations    = " << numberOfIterations << std::endl;
   std::cout << " Metric value  = " << bestValue          << std::endl;
 
-
   typedef itk::ResampleImageFilter<
-                            MovingImageType,
-                            FixedImageType >    ResampleFilterType;
+            MovingImageType, FixedImageType >    ResampleFilterType;
 
   TransformType::Pointer finalTransform = TransformType::New();
-
   finalTransform->SetParameters( finalParameters );
   finalTransform->SetFixedParameters( transform->GetFixedParameters() );
 
@@ -295,27 +270,19 @@ int main( int argc, char *argv[] )
 
   resample->SetTransform( finalTransform );
   resample->SetInput( movingImageReader->GetOutput() );
-
-
   resample->SetSize(    fixedImage->GetLargestPossibleRegion().GetSize() );
   resample->SetOutputOrigin(  fixedImage->GetOrigin() );
   resample->SetOutputSpacing( fixedImage->GetSpacing() );
   resample->SetOutputDirection( fixedImage->GetDirection() );
   resample->SetDefaultPixelValue( 100 );
 
-
   typedef itk::Image< PixelType, Dimension > OutputImageType;
-
   typedef itk::ImageFileWriter< OutputImageType >  WriterType;
 
   WriterType::Pointer      writer =  WriterType::New();
-
   writer->SetFileName( argv[3] );
-
   writer->SetInput( resample->GetOutput() );
   writer->Update();
-
   // Software Guide : EndCodeSnippet
-
   return EXIT_SUCCESS;
 }

@@ -340,20 +340,20 @@ int main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   typedef itk::CellInterfaceVisitorImplementation<
-      PixelType, MeshType::CellTraits, VertexType, CustomVertexVisitor
-                                                 > VertexVisitorInterfaceType;
+      PixelType, MeshType::CellTraits, VertexType,
+      CustomVertexVisitor > VertexVisitorInterfaceType;
 
   typedef itk::CellInterfaceVisitorImplementation<
-      PixelType, MeshType::CellTraits, LineType, CustomLineVisitor
-                                                 > LineVisitorInterfaceType;
+      PixelType, MeshType::CellTraits, LineType,
+      CustomLineVisitor > LineVisitorInterfaceType;
 
   typedef itk::CellInterfaceVisitorImplementation<
-      PixelType, MeshType::CellTraits, TriangleType, CustomTriangleVisitor
-                                                 > TriangleVisitorInterfaceType;
+      PixelType, MeshType::CellTraits, TriangleType,
+      CustomTriangleVisitor > TriangleVisitorInterfaceType;
 
   typedef itk::CellInterfaceVisitorImplementation<
-      PixelType, MeshType::CellTraits, TetrahedronType, CustomTetrahedronVisitor
-                                                 > TetrahedronVisitorInterfaceType;
+      PixelType, MeshType::CellTraits, TetrahedronType,
+      CustomTetrahedronVisitor > TetrahedronVisitorInterfaceType;
   // Software Guide : EndCodeSnippet
 
 

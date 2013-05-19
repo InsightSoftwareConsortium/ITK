@@ -68,7 +68,8 @@ int main()
   typedef int MeasurementType;
   const unsigned int MeasurementVectorLength = 2;
   typedef itk::Vector< MeasurementType , MeasurementVectorLength >
-                                                               MeasurementVectorType;
+                                                        MeasurementVectorType;
+
   typedef itk::Statistics::ListSample< MeasurementVectorType > ListSampleType;
   ListSampleType::Pointer listSample = ListSampleType::New();
   listSample->SetMeasurementVectorSize( MeasurementVectorLength );

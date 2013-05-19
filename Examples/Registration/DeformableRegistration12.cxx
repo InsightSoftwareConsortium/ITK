@@ -273,8 +273,10 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   OptimizerType::BoundSelectionType boundSelect(
     transform->GetNumberOfParameters() );
-  OptimizerType::BoundValueType upperBound( transform->GetNumberOfParameters() );
-  OptimizerType::BoundValueType lowerBound( transform->GetNumberOfParameters() );
+  OptimizerType::BoundValueType upperBound(
+                                         transform->GetNumberOfParameters() );
+  OptimizerType::BoundValueType lowerBound(
+                                         transform->GetNumberOfParameters() );
 
   boundSelect.Fill( 0 );
   upperBound.Fill( 0.0 );

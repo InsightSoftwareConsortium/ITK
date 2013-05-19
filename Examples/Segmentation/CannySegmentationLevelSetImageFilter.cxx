@@ -349,7 +349,8 @@ int main( int argc, char *argv[] )
     //  Software Guide : BeginCodeSnippet
     cannySegmentation->GenerateSpeedImage();
 
-    typedef CannySegmentationLevelSetImageFilterType::SpeedImageType SpeedImageType;
+    typedef CannySegmentationLevelSetImageFilterType::SpeedImageType
+                                                               SpeedImageType;
     typedef itk::ImageFileWriter<SpeedImageType>   SpeedWriterType;
     SpeedWriterType::Pointer speedWriter = SpeedWriterType::New();
 

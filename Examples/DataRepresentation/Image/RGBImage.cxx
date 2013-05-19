@@ -42,7 +42,6 @@
 #include "itkRGBPixel.h"
 // Software Guide : EndCodeSnippet
 
-
 int main( int , char * argv[] )
 {
   // Software Guide : BeginLatex
@@ -59,7 +58,6 @@ int main( int , char * argv[] )
   typedef itk::RGBPixel< unsigned char >    PixelType;
   // Software Guide : EndCodeSnippet
 
-
   // Software Guide : BeginLatex
   //
   // The type is then used as the pixel template parameter of the image.
@@ -69,7 +67,6 @@ int main( int , char * argv[] )
   // Software Guide : BeginCodeSnippet
   typedef itk::Image< PixelType, 3 >   ImageType;
   // Software Guide : EndCodeSnippet
-
 
   // Software Guide : BeginLatex
   //
@@ -85,20 +82,13 @@ int main( int , char * argv[] )
   typedef itk::ImageFileReader< ImageType >  ReaderType;
   // Software Guide : EndCodeSnippet
 
-
   ReaderType::Pointer reader = ReaderType::New();
-  const char * filename = argv[1];
+  const char * const filename = argv[1];
   reader->SetFileName( filename );
   reader->Update();
 
   ImageType::Pointer image = reader->GetOutput();
-
-  ImageType::IndexType pixelIndex;
-
-  pixelIndex[0] = 25;
-  pixelIndex[1] = 35;
-  pixelIndex[2] =  0;
-
+  const ImageType::IndexType pixelIndex = {{25,35,0}};
 
   // Software Guide : BeginLatex
   //
@@ -133,8 +123,8 @@ int main( int , char * argv[] )
 
   // Software Guide : BeginLatex
   //
-  // The subindex notation can also be used since the \doxygen{RGBPixel} inherits the
-  // \code{[]} operator from the \doxygen{FixedArray} class.
+  // The subindex notation can also be used since the \doxygen{RGBPixel}
+  // inherits the \code{[]} operator from the \doxygen{FixedArray} class.
   //
   // Software Guide : EndLatex
 
@@ -162,5 +152,5 @@ int main( int , char * argv[] )
   // querying pixel value by clicking with the mouse.
   //
 
-  return 0;
+  return EXIT_SUCCESS;
 }

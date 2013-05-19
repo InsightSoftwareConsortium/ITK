@@ -130,7 +130,8 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::ImageToListSampleAdaptor< ArrayImageType > SampleType;
+  typedef itk::Statistics::ImageToListSampleAdaptor<
+                                                  ArrayImageType > SampleType;
   SampleType::Pointer sample = SampleType::New();
   // Software Guide : EndCodeSnippet
 

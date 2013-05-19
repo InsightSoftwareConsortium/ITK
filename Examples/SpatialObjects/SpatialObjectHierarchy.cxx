@@ -88,7 +88,8 @@ int main( int , char *[] )
   SpatialObjectType::ChildrenListType * childrenList = object1->GetChildren();
   std::cout << "object1 has " << childrenList->size() << " child" << std::endl;
 
-  SpatialObjectType::ChildrenListType::const_iterator it = childrenList->begin();
+  SpatialObjectType::ChildrenListType::const_iterator it
+                                                      = childrenList->begin();
   while(it != childrenList->end())
     {
     std::cout << "Name of the child of the object 1: ";

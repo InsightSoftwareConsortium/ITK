@@ -120,7 +120,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  ConnectedFilterType::Pointer confidenceConnected = ConnectedFilterType::New();
+  ConnectedFilterType::Pointer confidenceConnected
+                                                 = ConnectedFilterType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -311,7 +312,8 @@ int main( int argc, char *argv[] )
 
   typedef ConnectedFilterType::CovarianceMatrixType   CovarianceMatrixType;
 
-  const CovarianceMatrixType & covariance = confidenceConnected->GetCovariance();
+  const CovarianceMatrixType & covariance
+                                       = confidenceConnected->GetCovariance();
 
   std::cout << "Covariance matrix = " << std::endl;
   std::cout << covariance << std::endl;

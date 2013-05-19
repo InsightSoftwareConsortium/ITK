@@ -76,7 +76,8 @@ public:
     m_Threshold = threshold;
     }
 
-  ThresholdingPixelAccessor & operator=( const ThresholdingPixelAccessor & vpa )
+  ThresholdingPixelAccessor &
+    operator=( const ThresholdingPixelAccessor & vpa )
     {
     m_Threshold = vpa.m_Threshold;
     return *this;
@@ -143,8 +144,8 @@ int main( int argc, char *argv[] )
 
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::ImageAdaptor<  ImageType,
-                              itk::ThresholdingPixelAccessor > ImageAdaptorType;
+  typedef itk::ImageAdaptor< ImageType,
+                             itk::ThresholdingPixelAccessor > ImageAdaptorType;
 
   ImageAdaptorType::Pointer adaptor = ImageAdaptorType::New();
 // Software Guide : EndCodeSnippet

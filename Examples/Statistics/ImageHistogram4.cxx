@@ -287,7 +287,8 @@ int main( int argc, char * argv [] )
       {
       HistogramType::IndexType index;
       index = histogram->GetIndex(itr.GetInstanceIdentifier());
-      std::cout << "Index = " << index << ", Frequency = " << frequency << std::endl;
+      std::cout << "Index = " << index << ", Frequency = " << frequency
+                << std::endl;
       }
     ++itr;
     }

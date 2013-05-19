@@ -103,7 +103,8 @@ int main(int argc, char* argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::CastImageFilter< CharImageType, RealImageType> CastToRealFilterType;
+  typedef itk::CastImageFilter< CharImageType, RealImageType>
+                                                         CastToRealFilterType;
   // Software Guide : EndCodeSnippet
 
   typedef itk::RescaleIntensityImageFilter<RealImageType, CharImageType > RescaleFilter;

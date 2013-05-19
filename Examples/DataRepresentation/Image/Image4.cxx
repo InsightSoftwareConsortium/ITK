@@ -57,25 +57,15 @@
 //
 // Software Guide : EndLatex
 
-
 #include "itkImage.h"
 
 int main(int, char *[])
 {
   typedef itk::Image< unsigned short, 3 > ImageType;
-
   ImageType::Pointer image = ImageType::New();
 
-  ImageType::IndexType start;
-  ImageType::SizeType  size;
-
-  size[0]  = 200;  // size along X
-  size[1]  = 200;  // size along Y
-  size[2]  = 200;  // size along Z
-
-  start[0] =   0;  // first index on X
-  start[1] =   0;  // first index on Y
-  start[2] =   0;  // first index on Z
+  const ImageType::SizeType  size  = {{ 200, 200, 200}}; //Size along {X,Y,Z}
+  const ImageType::IndexType start = {{ 0, 0, 0 }}; // First index on {X,Y,Z}
 
   ImageType::RegionType region;
   region.SetSize( size );
@@ -109,7 +99,6 @@ int main(int, char *[])
   spacing[2] = 1.20; // spacing along Z
   // Software Guide : EndCodeSnippet
 
-
   // Software Guide : BeginLatex
   //
   // The array can be assigned to the image using
@@ -122,7 +111,6 @@ int main(int, char *[])
   // Software Guide : BeginCodeSnippet
   image->SetSpacing( spacing );
   // Software Guide : EndCodeSnippet
-
 
   //  Software Guide : BeginLatex
   //
@@ -140,7 +128,6 @@ int main(int, char *[])
   std::cout << "Spacing = ";
   std::cout << sp[0] << ", " << sp[1] << ", " << sp[2] << std::endl;
   // Software Guide : EndCodeSnippet
-
 
   // Software Guide : BeginLatex
   //
@@ -163,15 +150,11 @@ int main(int, char *[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
+  // coordinates of the center of the first pixel in N-D
   ImageType::PointType origin;
-
-  origin[0] = 0.0;  // coordinates of the
-  origin[1] = 0.0;  // first pixel in N-D
-  origin[2] = 0.0;
-
+  origin.Fill(0.0);
   image->SetOrigin( origin );
   // Software Guide : EndCodeSnippet
-
 
   //  Software Guide : BeginLatex
   //
@@ -189,7 +172,6 @@ int main(int, char *[])
   std::cout << "Origin = ";
   std::cout << orgn[0] << ", " << orgn[1] << ", " << orgn[2] << std::endl;
   // Software Guide : EndCodeSnippet
-
 
   // Software Guide : BeginLatex
   //
@@ -210,7 +192,6 @@ int main(int, char *[])
   typedef itk::Point< double, ImageType::ImageDimension > PointType;
   // Software Guide : EndCodeSnippet
 
-
   // Software Guide : BeginLatex
   //
   // The Point class, like an \doxygen{Index}, is a relatively small and
@@ -228,12 +209,10 @@ int main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   PointType point;
-
   point[0] = 1.45;    // x coordinate
   point[1] = 7.21;    // y coordinate
   point[2] = 9.28;    // z coordinate
   // Software Guide : EndCodeSnippet
-
 
   // Software Guide : BeginLatex
   //
@@ -248,7 +227,6 @@ int main(int, char *[])
   // Software Guide : BeginCodeSnippet
   ImageType::IndexType pixelIndex;
   // Software Guide : EndCodeSnippet
-
 
   // Software Guide : BeginLatex
   //
@@ -269,17 +247,13 @@ int main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   bool isInside = image->TransformPhysicalPointToIndex( point, pixelIndex );
-
   if ( isInside )
     {
     ImageType::PixelType pixelValue = image->GetPixel( pixelIndex );
-
     pixelValue += 5;
-
     image->SetPixel( pixelIndex, pixelValue );
     }
   // Software Guide : EndCodeSnippet
-
 
   // Software Guide : BeginLatex
   //
@@ -288,6 +262,5 @@ int main(int, char *[])
   // used when massive access to pixel data is required.
   //
   // Software Guide : EndLatex
-
-  return 0;
+  return EXIT_SUCCESS;
 }

@@ -100,7 +100,8 @@ int main(int argc, char* argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::CastImageFilter< CharImageType, RealImageType> CastToRealFilterType;
+  typedef itk::CastImageFilter< CharImageType,
+          RealImageType> CastToRealFilterType;
   // Software Guide : EndCodeSnippet
 
   typedef itk::RescaleIntensityImageFilter<RealImageType, CharImageType > RescaleFilter;
@@ -172,8 +173,8 @@ int main(int argc, char* argv[])
     std::cout << err << std::endl;
     return EXIT_FAILURE;
     }
-
-  std::cout << "Completed in " << antiAliasFilter->GetNumberOfIterations() << std::endl;
+  std::cout << "Completed in "
+    << antiAliasFilter->GetNumberOfIterations() << std::endl;
 
   // Software Guide : EndCodeSnippet
 

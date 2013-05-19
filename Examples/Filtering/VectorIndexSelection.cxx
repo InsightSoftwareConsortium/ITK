@@ -51,7 +51,8 @@ int main( int argc, char * argv[] )
 
   // Software Guide : BeginCodeSnippet
   typedef itk::ImageFileReader< InputImageType  >  ReaderType;
-  typedef itk::VectorIndexSelectionCastImageFilter< InputImageType, OutputImageType  >  FilterType;
+  typedef itk::VectorIndexSelectionCastImageFilter< InputImageType,
+                                                OutputImageType  >  FilterType;
   typedef itk::ImageFileWriter< OutputImageType >  WriterType;
   // Software Guide : EndCodeSnippet
 
