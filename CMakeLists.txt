@@ -669,6 +669,10 @@ set(ITK_DIR "${ITK_BINARY_DIR}")
 
 include(Wrapping/itkWrapSetup.cmake)
 if(ITK_WRAPPING)
+  if(ITK_USE_64BITS_IDS AND WIN32)
+    message(FATAL_ERROR "WRAPPING with ITK_USE_64BITS_IDS is not supported on Windows.
+Please turn of ITK_USE_64BITS_IDS.")
+  endif()
   add_subdirectory(Wrapping)
 endif()
 
