@@ -19,6 +19,7 @@
 #include "itkImage.h"
 #include "itkLandweberDeconvolutionImageFilter.h"
 #include "itkProjectedIterativeDeconvolutionImageFilter.h"
+#include "itkSimpleFilterWatcher.h"
 
 int itkProjectedIterativeDeconvolutionImageFilterTest(int, char* [])
 {
@@ -37,6 +38,8 @@ int itkProjectedIterativeDeconvolutionImageFilterTest(int, char* [])
   ProjectedDeconvolutionFilterType::Pointer deconvolutionFilter =
     ProjectedDeconvolutionFilterType::New();
   deconvolutionFilter->Print( std::cout );
+
+  itk::SimpleFilterWatcher watcher(deconvolutionFilter);
 
   return EXIT_SUCCESS;
 }

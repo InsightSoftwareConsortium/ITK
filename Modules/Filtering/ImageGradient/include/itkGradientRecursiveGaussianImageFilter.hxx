@@ -174,7 +174,6 @@ GradientRecursiveGaussianImageFilter< TInputImage, TOutputImage >
   // Create a process accumulator for tracking the progress of this
   // minipipeline
   ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
-
   progress->SetMiniPipelineFilter(this);
 
   // Compute the contribution of each filter to the total progress.
@@ -187,7 +186,6 @@ GradientRecursiveGaussianImageFilter< TInputImage, TOutputImage >
     }
 
   progress->RegisterInternalFilter(m_DerivativeFilter, weight);
-  progress->ResetProgress();
 
   const typename TInputImage::ConstPointer inputImage( this->GetInput() );
   typename TOutputImage::Pointer           outputImage( this->GetOutput() );
@@ -250,8 +248,6 @@ GradientRecursiveGaussianImageFilter< TInputImage, TOutputImage >
         {
         m_DerivativeFilter->UpdateLargestPossibleRegion();
         }
-
-      progress->ResetFilterProgressAndKeepAccumulatedProgress();
 
       // Copy the results to the corresponding component
       // on the output image of vectors

@@ -63,8 +63,6 @@ ProjectedIterativeDeconvolutionImageFilter< TSuperclass >
   m_ProjectionFilter->UpdateLargestPossibleRegion();
   this->m_CurrentEstimate = m_ProjectionFilter->GetOutput();
   this->m_CurrentEstimate->DisconnectPipeline();
-
-  progress->ResetFilterProgressAndKeepAccumulatedProgress();
 }
 
 } // end namespace itk

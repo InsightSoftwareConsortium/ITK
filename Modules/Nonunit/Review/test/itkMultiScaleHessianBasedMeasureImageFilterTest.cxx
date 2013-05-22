@@ -20,6 +20,7 @@
 #include "itkMultiScaleHessianBasedMeasureImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
+#include "itkSimpleFilterWatcher.h"
 
 int itkMultiScaleHessianBasedMeasureImageFilterTest( int argc, char *argv[] )
 {
@@ -82,6 +83,8 @@ int itkMultiScaleHessianBasedMeasureImageFilterTest( int argc, char *argv[] )
   multiScaleEnhancementFilter->SetInput(imageReader->GetOutput());
   multiScaleEnhancementFilter->SetHessianToMeasureFilter( objectnessFilter );
   multiScaleEnhancementFilter->SetSigmaStepMethodToLogarithmic();
+
+  itk::SimpleFilterWatcher watcher(multiScaleEnhancementFilter);
 
   const double tolerance = 0.01;
 

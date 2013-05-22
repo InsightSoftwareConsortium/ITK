@@ -133,8 +133,6 @@ RichardsonLucyDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage,
   // Store the current estimate
   this->m_CurrentEstimate = m_MultiplyFilter->GetOutput();
   this->m_CurrentEstimate->DisconnectPipeline();
-
-  progress->ResetFilterProgressAndKeepAccumulatedProgress();
 }
 
 template< class TInputImage, class TKernelImage, class TOutputImage, class TInternalPrecision >

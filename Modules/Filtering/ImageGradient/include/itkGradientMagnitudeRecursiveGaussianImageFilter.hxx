@@ -256,8 +256,6 @@ GradientMagnitudeRecursiveGaussianImageFilter< TInputImage, TOutputImage >
     // and user the result as the cumulative image
     cumulativeImage = m_SqrSpacingFilter->GetOutput();
     cumulativeImage->DisconnectPipeline();
-
-    progress->ResetFilterProgressAndKeepAccumulatedProgress();
     }
   m_SqrtFilter->SetInput(cumulativeImage);
   m_SqrtFilter->GraftOutput( this->GetOutput() );
