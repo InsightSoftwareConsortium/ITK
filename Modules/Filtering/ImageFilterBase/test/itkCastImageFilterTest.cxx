@@ -16,8 +16,6 @@
  *
  *=========================================================================*/
 
-
-
 #include "itkCastImageFilter.h"
 #include "itkRandomImageSource.h"
 #include "itkVectorImage.h"
