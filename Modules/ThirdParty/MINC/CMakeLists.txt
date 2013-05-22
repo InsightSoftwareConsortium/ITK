@@ -110,7 +110,7 @@ endif()
   endforeach()
 
   set(MINC_GIT_REPOSITORY "https://github.com/BIC-MNI/libminc.git")
-  set(MINC_GIT_TAG "0b02cdcee006d5271599f94b621bf4d34eb56b90")
+  set(MINC_GIT_TAG "45a9645745a770ceb116992170a632806ca4c67a")
   set(MINC_HDF5_ARGS )
   if(NOT ITK_USE_SYSTEM_HDF5)
     set(MINC_HDF5_ARGS  "-DHDF5_INCLUDE_DIR:PATH=${ITKHDF5_SOURCE_DIR}/src/itkhdf5:::${ITKHDF5_BINARY_DIR}/src")
