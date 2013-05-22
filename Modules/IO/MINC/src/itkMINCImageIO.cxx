@@ -933,13 +933,13 @@ void MINCImageIO::WriteImageInformation(void)
     }
 
   //allocating dimensions
-  vnl_matrix< double > dircosmatrix(3, 3);
+  vnl_matrix< double > dircosmatrix(nDims, nDims);
   dircosmatrix.set_identity();
-  vnl_vector<double> origin(3);
+  vnl_vector<double> origin(nDims);
 
   for (unsigned int i = 0; i < nDims; i++ )
     {
-    for (unsigned int j = 0; j < 3; j++ )
+    for (unsigned int j = 0; j < nDims; j++ )
       {
       dircosmatrix[i][j] = this->GetDirection(i)[j];
       }
@@ -951,11 +951,19 @@ void MINCImageIO::WriteImageInformation(void)
 
   for (unsigned int i = 0; i < nDims; i++ )
     {
-    unsigned int    j=i+(nComp>1 ? 1 : 0);
+    unsigned int j=i+(nComp>1 ? 1 : 0);
     double dir_cos[3];
-    for(int k=0; k<3; k++)
-      dir_cos[k]=dircosmatrix[i][k];
-
+    for(unsigned int k=0; k<3; k++)
+      {
+      if(k<nDims)
+        {
+        dir_cos[k]=dircosmatrix[i][k];
+        }
+      else
+        {
+        dir_cos[k]=0.0;
+        }
+      }
     miset_dimension_separation(this->m_MincApparentDims[minc_dimensions-j-1],this->GetSpacing(i) );
     miset_dimension_start(this->m_MincApparentDims[minc_dimensions-j-1],origin[i]);
     miset_dimension_cosines(this->m_MincApparentDims[minc_dimensions-j-1],dir_cos);
