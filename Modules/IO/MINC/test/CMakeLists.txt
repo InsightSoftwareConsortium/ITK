@@ -11,6 +11,7 @@ set(ITKIOMINCTests
    itkMINCImageIOTest.cxx
    itkMINCImageIOTest2.cxx
    itkMINCImageIOTest4.cxx
+   itkMINCImageIOTest_2D.cxx
    itkMINCImageIOTest_4D.cxx
    itkMINCImageIOTest_Labels.cxx
   )
@@ -18,7 +19,6 @@ set(ITKIOMINCTests
 set(ITKIOTransformMINCTests
     itkIOTransformMINCTest.cxx
  )
-
 
 CreateTestDriver(ITKIOMINC "${ITKIOMINC-Test_LIBRARIES}" "${ITKIOMINCTests}")
 
@@ -44,8 +44,8 @@ itk_add_test(NAME itkMINCImageIOTest3
 
 itk_add_test(NAME itkMINCImageIOTest4
   COMMAND ITKIOMINCTestDriver
---compare DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd}
-                ${ITK_TEST_OUTPUT_DIR}/HeadMRVolume.mnc
+      --compare DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd}
+               ${ITK_TEST_OUTPUT_DIR}/HeadMRVolume.mnc
   itkMINCImageIOTest4
       DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd} ${ITK_TEST_OUTPUT_DIR}/HeadMRVolume.mnc)
 
@@ -63,6 +63,14 @@ itk_add_test(NAME itkMINCImageIOTest6
                 ${ITK_TEST_OUTPUT_DIR}/t1_z+_float_yxz_nonorm.mnc
   itkMINCImageIOTest4
       DATA{Input/t1_z+_float_yxz_nonorm.mnc} ${ITK_TEST_OUTPUT_DIR}/t1_z+_float_yxz_nonorm.mnc)
+
+itk_add_test(NAME itkMINCImageIOTest_2D
+  COMMAND ITKIOMINCTestDriver
+      --compare DATA{${ITK_DATA_ROOT}/Input/cthead1.tif}
+                ${ITK_TEST_OUTPUT_DIR}/cthead1.mnc
+  itkMINCImageIOTest_2D
+      DATA{${ITK_DATA_ROOT}/Input/cthead1.tif} ${ITK_TEST_OUTPUT_DIR}/cthead1.mnc)
+
 
 itk_add_test(NAME itkMINCImageIOTest_4D
   COMMAND ITKIOMINCTestDriver

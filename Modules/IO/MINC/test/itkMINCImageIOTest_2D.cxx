@@ -26,10 +26,8 @@
 
 #include "itkImageMomentsCalculator.h"
 
-template<class ImageType> int test_image_moments(const char *input_image,const char *output_image,double total, double mx,double my,double mz,double epsilon)
+template<class ImageType> int test_image_moments(const char *input_image,const char *output_image,double total, double mx,double my,double epsilon)
 {
-  //itk::MINCImageIO::Pointer mincIO1 = itk::MINCImageIO::New();
-
   typedef itk::ImageFileReader< ImageType > ReaderType;
 
   typedef itk::ImageFileWriter< ImageType > WriterType;
@@ -39,8 +37,6 @@ template<class ImageType> int test_image_moments(const char *input_image,const c
   typename ReaderType::Pointer reader = ReaderType::New();
 
   typename MomentsCalculatorType::Pointer calculator=MomentsCalculatorType::New();
-
-  //reader->SetImageIO( mincIO1 );
 
   reader->SetFileName( input_image );
 
@@ -68,11 +64,6 @@ template<class ImageType> int test_image_moments(const char *input_image,const c
       std::cerr<<"Total my mismatch:"<<calculator->GetCenterOfGravity()[1]<<std::endl;
       return EXIT_FAILURE;
       }
-    if(fabs(calculator->GetCenterOfGravity()[2]-mz)>epsilon)
-      {
-      std::cerr<<"Total mz mismatch:"<<calculator->GetCenterOfGravity()[2]<<std::endl;
-      return EXIT_FAILURE;
-      }
     }
 
   if( output_image )
@@ -86,14 +77,14 @@ template<class ImageType> int test_image_moments(const char *input_image,const c
 }
 
 
-int itkMINCImageIOTest4( int argc, char * argv [] )
+int itkMINCImageIOTest_2D( int argc, char * argv [] )
 {
 
   if ( argc < 3 )
     {
     std::cerr << "Missing Arguments " << std::endl;
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << " inputfile outputfile [sum mx my mz ]" << std::endl;
+    std::cerr << argv[0] << " inputfile outputfile [sum mx my ]" << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -103,7 +94,6 @@ int itkMINCImageIOTest4( int argc, char * argv [] )
   double total = 0.0;
   double mx = 0.0;
   double my = 0.0;
-  double mz = 0.0;
 
   itk::MINCImageIOFactory::RegisterOneFactory();
 
@@ -114,13 +104,12 @@ int itkMINCImageIOTest4( int argc, char * argv [] )
         total=atof( argv[3] );
         mx=atof( argv[4] );
         my=atof( argv[5] );
-        mz=atof( argv[6] );
         }
-        else
+      else
         {
         std::cerr << "Incorrecte number of additional arguments " << std::endl;
         std::cerr << "Usage: " << std::endl;
-        std::cerr << argv[0] << " inputfile outputfile [sum mx my mz ]" << std::endl;
+        std::cerr << argv[0] << " inputfile outputfile [sum mx my ]" << std::endl;
         return EXIT_FAILURE;
         }
     }
@@ -131,14 +120,14 @@ int itkMINCImageIOTest4( int argc, char * argv [] )
     {
       int ret=EXIT_SUCCESS;
 
-      if( test_image_moments<itk::Image< double, 3 > >(input,NULL,total,mx,my,mz,epsilon) != EXIT_SUCCESS )
+      if( test_image_moments<itk::Image< double, 2 > >(input,NULL,total,mx,my,epsilon) != EXIT_SUCCESS )
         {
-          ret=EXIT_FAILURE;
+        ret=EXIT_FAILURE;
         }
       // write out only float image
-      if( test_image_moments<itk::Image< float, 3 > >(input,output,total,mx,my,mz,epsilon) != EXIT_SUCCESS )
+      if( test_image_moments<itk::Image< float, 2 > >(input,output,total,mx,my,epsilon) != EXIT_SUCCESS )
         {
-          ret=EXIT_FAILURE;
+        ret=EXIT_FAILURE;
         }
       return ret;
     }
@@ -147,7 +136,6 @@ int itkMINCImageIOTest4( int argc, char * argv [] )
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
     }
-
 
   return EXIT_SUCCESS;
 }
