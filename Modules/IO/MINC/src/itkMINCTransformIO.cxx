@@ -189,10 +189,12 @@ void MINCTransformIO::WriteOneTransform(const int transformIndex,
     if(transformType.find("AffineTransform") != std::string::npos && curTransform->GetNumberOfParameters() == 12)
     {
       VIO_Transform lin;
+      memset(&lin,0,sizeof(VIO_Transform));
       for(int j=0;j<3;j++)
         for(int i=0;i<4;i++)
           Transform_elem(lin,j,i)=curTransform->GetParameters()[i+j*4];
       xfm.push_back(VIO_General_transform());
+      memset(&xfm[xfm.size()-1],0,sizeof(VIO_General_transform));
       create_linear_transform(&xfm[xfm.size()-1],&lin );
     } else if(transformType.find("DisplacementFieldTransform_double_3_3") != std::string::npos && curTransform->GetFixedParameters().Size() == 18) {
       bool _inverse_grid=false;
@@ -329,11 +331,7 @@ void MINCTransformIO::Write()
 
   VIO_Status wrt=output_transform_file((char*)(xfm_filename.c_str()),(char*)"ITK-XFM writer",&transform);
 
-  if(xfm.size()>1)
-    {
-    delete_general_transform(&transform);
-    }
-  delete_general_transform(&xfm[0]);
+  delete_general_transform(&transform);
 
   if(wrt!=VIO_OK)
     {

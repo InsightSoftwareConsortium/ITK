@@ -47,7 +47,7 @@ double abs_diff(const itk::Vector<double> &pix1,const itk::Vector<double> &pix2)
   return diff;
 }
 
-static int oneTest(const char *goodname,const char *gridname)
+static int oneTest(const char *linear_transform, const char *nonlinear_transform)
 {
   unsigned int i;
   double tolerance=1e-5;
@@ -81,8 +81,8 @@ static int oneTest(const char *goodname,const char *gridname)
   writer = itk::TransformFileWriter::New();
   writer->AddTransform(affine);
 
-  writer->SetFileName( goodname );
-  reader->SetFileName( goodname );
+  writer->SetFileName( linear_transform );
+  reader->SetFileName( linear_transform );
 
   // Testing writing std::cout << "Testing write : ";
   affine->Print ( std::cout );
@@ -163,21 +163,21 @@ static int oneTest(const char *goodname,const char *gridname)
 
   disp->Print ( std::cout );
 
-  itk::TransformFileWriter::Pointer gridwriter;
-  itk::TransformFileReader::Pointer gridreader;
+  itk::TransformFileWriter::Pointer nlwriter;
+  itk::TransformFileReader::Pointer nlreader;
 
-  gridreader = itk::TransformFileReader::New();
-  gridwriter = itk::TransformFileWriter::New();
-  gridwriter->AddTransform(disp);
-  gridwriter->SetFileName(gridname);
-  gridreader->SetFileName(gridname);
+  nlreader = itk::TransformFileReader::New();
+  nlwriter = itk::TransformFileWriter::New();
+  nlwriter->AddTransform(disp);
+  nlwriter->SetFileName(nonlinear_transform);
+  nlreader->SetFileName(nonlinear_transform);
 
   // Testing writing
   std::cout << "Testing write of non linear transform : " << std::endl;
 
   try
   {
-    gridwriter->Update();
+    nlwriter->Update();
   }
   catch( itk::ExceptionObject & excp )
   {
@@ -191,7 +191,7 @@ static int oneTest(const char *goodname,const char *gridname)
   std::cout << "Testing read of non linear transform : " << std::endl;
   try
     {
-    gridreader->Update();
+    nlreader->Update();
     }
   catch( itk::ExceptionObject & excp )
     {
@@ -203,7 +203,7 @@ static int oneTest(const char *goodname,const char *gridname)
   std::cout << "[PASSED]" << std::endl;
 
   std::cout << "Comparing of non linear transform : " << std::endl;
-  itk::TransformFileReader::TransformListType list=*gridreader->GetTransformList();
+  itk::TransformFileReader::TransformListType list=*nlreader->GetTransformList();
   std::cout<<"Read :"<<list.size()<<" transformations"<<std::endl;
 
   if(list.front()->GetTransformTypeAsString() != "DisplacementFieldTransform_double_3_3")
@@ -224,7 +224,7 @@ static int oneTest(const char *goodname,const char *gridname)
         std::cout << "Original Pixel (" << it.Value()
                   << ") doesn't match read-in Pixel ("
                   << it2.Value() << " ) " << std::endl
-                  << " in "<< gridname  << std::endl;
+                  << " in "<< nonlinear_transform  << std::endl;
         return EXIT_FAILURE;
         }
       }
@@ -236,7 +236,7 @@ static int oneTest(const char *goodname,const char *gridname)
         std::cout << "Original Pixel (" << it.Value()
                   << ") doesn't match read-in Pixel ("
                   << it2.Value() << " ) "
-                  << " in "<< gridname <<std::endl;
+                  << " in "<< nonlinear_transform <<std::endl;
         return EXIT_FAILURE;
         }
       }
