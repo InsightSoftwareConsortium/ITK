@@ -263,7 +263,7 @@ void VTKImageIO::InternalReadImageInformation(std::ifstream & file)
       readAttribute = true;
 
       unsigned int numComp = 1;
-      sscanf(line, "%*s %*s %d", &numComp);
+      sscanf(line, "%*s %*s %u", &numComp);
       if ( numComp == 1 )
         {
         this->SetPixelType(SCALAR);
@@ -300,7 +300,7 @@ void VTKImageIO::InternalReadImageInformation(std::ifstream & file)
       char pixelType[256];
       unsigned int  numComp = 1;
       // numComp is optional
-      sscanf(line, "%*s %*s %s %d", pixelType, &numComp);
+      sscanf(line, "%*s %*s %s %u", pixelType, &numComp);
       text = pixelType;
       if ( numComp == 1 )
         {
