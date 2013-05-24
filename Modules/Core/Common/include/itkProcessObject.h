@@ -238,11 +238,26 @@ public:
   /** Turn on and off the AbortGenerateData flag. */
   itkBooleanMacro(AbortGenerateData);
 
-  /** Set the execution progress of a process object. The progress is
+  /** \deprecated
+   * Set the execution progress of a process object. The progress is
    * a floating number in [0,1] with 0 meaning no progress and 1 meaning
    * the filter has completed execution.  The ProgressEvent is NOT
-   * invoked. */
-  itkSetClampMacro(Progress, float, 0.0f, 1.0f);
+   * invoked.
+   * This method is deprecated because filters should not be calling
+   * SetProgress directly but should be using UpdateProgress instead.
+   * We avoid the use of the itkSetClampMacro because that macro calls
+   * Modified on the filter, which will cause the filter to rerun even
+   * if it doesn't need to.
+   * Thus, we implement the SetClampMacro directly without the call to
+   * Modified. */
+#if ! defined ( ITK_FUTURE_LEGACY_REMOVE )
+  void SetProgress(float progress)
+  {
+    // Clamp the value to be between 0 and 1.
+    m_Progress = std::max(progress, 0.0f);
+    m_Progress = std::min(m_Progress, 1.0f);
+  }
+#endif
 
   /** Get the execution progress of a process object. The progress is
    * a floating number in [0,1] with 0 meaning no progress and 1 meaning
@@ -254,7 +269,7 @@ public:
    * Sets the Progress ivar to amount and invokes any observers for
    * the ProgressEvent. The parameter amount should be in [0,1] and is
    * the cumulative (not incremental) progress. */
-  void UpdateProgress(float amount);
+  void UpdateProgress(float progress);
 
   /** Bring this filter up-to-date. Update() checks modified times against
    * last execution times, and re-executes objects if necessary. A side
