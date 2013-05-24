@@ -157,7 +157,7 @@ protected:
 // installation.
 #ifndef ITK_USE_SYSTEM_TIFF
   // Read and returns the raw bytes of tag t
-  void * ReadRawByteFromTag(unsigned int t, short & value_count);
+  void * ReadRawByteFromTag(unsigned int t, unsigned int & value_count);
 #endif // ITK_USE_SYSTEM_TIFF
 
   TIFFReaderInternal *m_InternalImage;

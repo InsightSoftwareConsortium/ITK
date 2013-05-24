@@ -1958,6 +1958,23 @@ void TIFFImageIO::InternalWrite(const void *buffer)
   TIFFClose(tif);
 }
 
+
+// With the TIFF 4.0 (aka bigtiff ) interface the tiff field structure
+// was renamed and became an opaque type requiring function to
+// access. The follow are some macros for portable access.
+#ifdef TIFF_INT64_T // detect if libtiff4
+#define itkTIFFFieldReadCount( TIFFField ) TIFFFieldReadCount( TIFFField )
+#define itkTIFFFieldPassCount( TIFFField ) TIFFFieldPassCount( TIFFField )
+#define itkTIFFFieldDataType( TIFFField )  TIFFFieldDataType( TIFFField )
+#define itkTIFFField TIFFField
+#else
+#define itkTIFFFieldReadCount( TIFFFieldInfo ) ((TIFFFieldInfo)->field_readcount)
+#define itkTIFFFieldPassCount( TIFFFieldInfo ) ((TIFFFieldInfo)->field_passcount)
+#define itkTIFFFieldDataType( TIFFFieldInfo ) ((TIFFFieldInfo)->field_type)
+#define itkTIFFField TIFFFieldInfo
+#endif
+
+
 bool TIFFImageIO::CanFindTIFFTag(unsigned int t)
 {
   // m_InternalImage needs to be valid
@@ -1968,11 +1985,8 @@ bool TIFFImageIO::CanFindTIFFTag(unsigned int t)
     }
 
   ttag_t           tag = t;     // 32bits integer
-#ifdef TIFF_INT64_T // detect if libtiff4
-  const TIFFField *fld = TIFFFieldWithTag(m_InternalImage->m_Image, tag);
-#else
-  const TIFFFieldInfo *fld = TIFFFieldWithTag(m_InternalImage->m_Image, tag);
-#endif
+
+  const itkTIFFField *fld = TIFFFieldWithTag(m_InternalImage->m_Image, tag);
 
   if ( fld == NULL )
     {
@@ -1981,8 +1995,9 @@ bool TIFFImageIO::CanFindTIFFTag(unsigned int t)
   return true;
 }
 
+
 #ifndef ITK_USE_SYSTEM_TIFF
-void * TIFFImageIO::ReadRawByteFromTag(unsigned int t, short & value_count)
+void * TIFFImageIO::ReadRawByteFromTag(unsigned int t, unsigned int & value_count)
 {
   // m_InternalImage needs to be valid
   if ( !m_InternalImage )
@@ -1992,38 +2007,48 @@ void * TIFFImageIO::ReadRawByteFromTag(unsigned int t, short & value_count)
     }
   ttag_t           tag = t;
   void *           raw_data = NULL;
-  const TIFFField *fld = TIFFFieldWithTag(m_InternalImage->m_Image, tag);
+
+  const itkTIFFField *fld = TIFFFieldWithTag(m_InternalImage->m_Image, tag);
 
   if ( fld == NULL )
     {
     itkExceptionMacro(<< "fld is NULL");
     return NULL;
     }
+
+  if ( !itkTIFFFieldPassCount( fld ) )
+    {
+    return NULL;
+    }
+
+  int ret = 0;
+  if ( itkTIFFFieldReadCount( fld ) == TIFF_VARIABLE2 )
+    {
+    uint32_t cnt;
+    ret = TIFFGetField(m_InternalImage->m_Image, tag, &cnt, &raw_data);
+    value_count = cnt;
+    }
+  else if ( itkTIFFFieldReadCount( fld ) == TIFF_VARIABLE )
+    {
+    uint16 cnt;
+    ret = TIFFGetField(m_InternalImage->m_Image, tag, &cnt, &raw_data);
+    value_count = cnt;
+    }
+
+  if ( ret != 1 )
+    {
+    itkExceptionMacro(<< "Tag cannot be found");
+    return NULL;
+    }
   else
     {
-
-    if ( fld->field_passcount )
+    if ( itkTIFFFieldDataType( fld ) != TIFF_BYTE  )
       {
-      // GetField used va_list for variable number of arguments,
-      // passing value_count ( a reference to a parameter ), is causing
-      // errors on some platforms. Just use a stack variable.
-      uint16_t cnt;
-      if ( TIFFGetField(m_InternalImage->m_Image, tag, &cnt, &raw_data) != 1 )
-        {
-        itkExceptionMacro(<< "Tag cannot be found");
-        return NULL;
-        }
-      else
-        {
-        if ( fld->field_type != TIFF_BYTE )
-          {
-          itkExceptionMacro(<< "Tag is not of type TIFF_BYTE");
-          return NULL;
-          }
-        }
-      value_count = cnt;
+      itkExceptionMacro(<< "Tag is not of type TIFF_BYTE");
+      return NULL;
       }
     }
+
   return raw_data;
 }
 #endif // ITK_USE_SYSTEM_TIFF
