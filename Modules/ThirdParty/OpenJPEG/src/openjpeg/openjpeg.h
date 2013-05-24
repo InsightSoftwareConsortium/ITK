@@ -52,7 +52,7 @@
     #include <stdbool.h>
   #else
     #if !defined(bool)
-      #define  bool  int
+      #define  bool  unsigned char
     #endif
     #if !defined(true)
       #define true  1
