@@ -1561,8 +1561,6 @@ void TIFFImageIO::ReadImageInformation()
       }
     }
 
-  std::cout << "Spacing: " << m_Spacing[0] << " " << m_Spacing[1] << std::endl;
-
   m_Origin[0] = 0.0;
   m_Origin[1] = 0.0;
 
