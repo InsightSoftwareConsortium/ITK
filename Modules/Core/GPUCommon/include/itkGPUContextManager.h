@@ -21,6 +21,9 @@
 #include "itkOpenCLUtil.h"
 #include <itkLightObject.h>
 
+namespace itk
+{
+
 //
 // Singleton class for GPUContextManager
 //
@@ -33,8 +36,6 @@
  *
  * \ingroup ITKGPUCommon
  */
-namespace itk
-{
 class ITK_EXPORT GPUContextManager : public LightObject
 {
 public:

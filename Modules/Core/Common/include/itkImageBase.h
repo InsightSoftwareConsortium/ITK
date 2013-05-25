@@ -40,15 +40,14 @@
 //      to avoid undefined symbol vnl_matrix_fixed<double, 8u, 8u>::set_identity()", referenced from
 #include "vnl/vnl_matrix_fixed.txx"
 
-#include "itkImageRegion.h"
 #include "itkImageTransformHelper.h"
+
+namespace itk
+{
 
 /* Forward declaration (ImageTransformHelper include's ImageBase) */
 template< unsigned int NImageDimension, unsigned int R, unsigned int C >
 class ImageTransformHelper;
-
-namespace itk
-{
 
 /** \class ImageBase
  * \brief Base class for templated image classes.
