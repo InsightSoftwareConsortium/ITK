@@ -165,7 +165,7 @@ void LSMImageIO::Read(void *buffer)
 void LSMImageIO::ReadImageInformation()
 {
   // this really should be a compile time assert
-  itkAssertInDebugAndIgnoreInReleaseMacro( sizeof( zeiss_info ) = TIF_CZ_LSMINFO_SIZE );
+  itkAssertInDebugAndIgnoreInReleaseMacro( sizeof( zeiss_info ) == TIF_CZ_LSMINFO_SIZE );
 
   this->TIFFImageIO::ReadImageInformation();
 
