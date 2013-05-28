@@ -52,7 +52,15 @@
     #include <stdbool.h>
   #else
     #if !defined(bool)
-      #define  bool  unsigned char
+      // Note: this is a hack, and incorrect matching of types may
+      // cause undefined behavior.
+      #if defined(__APPLE__) && defined( __ppc__ )
+        // Mac_OS_X_ABI_Function_Calls.pdf
+        // only ppc sizeof(bool) is 4 bytes
+        #define bool  unsigned int
+      #else
+         #define bool  unsigned char
+      #endif
     #endif
     #if !defined(true)
       #define true  1
