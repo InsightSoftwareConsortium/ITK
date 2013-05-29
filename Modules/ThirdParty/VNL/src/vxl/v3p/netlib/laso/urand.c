@@ -30,7 +30,6 @@ doublereal urand_(integer *iy)
     double atan(doublereal), sqrt(doublereal);
 
     /* Local variables */
-    integer m;
     real s=0;
     integer ia=0, ic=0, mic=0;
     doublereal halfm;
@@ -55,18 +54,13 @@ doublereal urand_(integer *iy)
     }
 
 /*  IF FIRST ENTRY, COMPUTE MACHINE INTEGER WORD LENGTH */
-
 /*<       M = 1 >*/
-    m = 1;
 /*<    10 M2 = M >*/
-L10:
-    m2 = m;
 /*<       M = ITWO*M2 >*/
-    m = itwo * m2;
 /*<       IF (M .GT. M2) GO TO 10 >*/
-    if (m > m2) {
-        goto L10;
-    }
+/* Just use bit shifting to prevent signed integer overflow in original f2c code */
+    m2 = ((integer) 1) << ( sizeof(integer) * 8 - 2);
+
 /*<       HALFM = M2 >*/
     halfm = (doublereal) m2;
 
