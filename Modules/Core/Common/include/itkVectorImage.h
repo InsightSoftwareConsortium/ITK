@@ -232,36 +232,46 @@ public:
   const PixelType GetPixel(const IndexType & index) const
   {
     OffsetValueType offset = m_VectorLength * this->ComputeOffset(index);
-    PixelType       p(&( ( *m_Buffer )[offset] ), m_VectorLength);
 
-    return p;
+    // Do not create a local for this method, to use return value
+    // optimization.
+    return PixelType(&( ( *m_Buffer )[offset] ), m_VectorLength);
   }
 
-  /** \brief Get a reference to a pixel (e.g. for editing).
+  /** \brief Get a "reference" to a pixel. This result cannot be used
+   * as an lvalue because the pixel is converted on the fly to a
+   * VariableLengthVector.
+   *
+   * To use the results to modify this image, return value
+   * optimization must be relied upon.
    *
    * For efficiency, this function does not check that the
    * image has actually been allocated yet. */
   PixelType  GetPixel(const IndexType & index)
   {
     OffsetValueType offset = m_VectorLength * this->ComputeOffset(index);
-    PixelType       p(&( ( *m_Buffer )[offset] ), m_VectorLength);
 
-    return p;
+    // Correctness of this method relies of return value optimization, do
+    // not create a local for the value.
+    return PixelType(&( ( *m_Buffer )[offset] ), m_VectorLength);
   }
 
-  /** \brief Access a pixel. This version cannot be an lvalue because the pixel
-   * is converted on the fly to a VariableLengthVector.
+  /** \brief Access a pixel. This result cannot be used as an lvalue
+   * because the pixel is converted on the fly to a
+   * VariableLengthVector.
+   *
+   * To use the results to modify this image, return value
+   * optimization must be relied upon.
    *
    * For efficiency, this function does not check that the
    * image has actually been allocated yet. */
   PixelType operator[](const IndexType & index) { return this->GetPixel(index); }
 
-  /** \brief Access a pixel. This version can only be an rvalue because the
-   * pixel is converted on the fly to a VariableLengthVector.
+  /** \brief Access a pixel.
    *
    * For efficiency, this function does not check that the
    * image has actually been allocated yet. */
-  PixelType operator[](const IndexType & index) const { return this->GetPixel(index); }
+  const PixelType operator[](const IndexType & index) const { return this->GetPixel(index); }
 
   /** Return a pointer to the beginning of the buffer.  This is used by
    * the image iterator class. */
