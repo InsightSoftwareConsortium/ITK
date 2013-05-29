@@ -35,7 +35,6 @@
 # include <tiffio.h>
 #else
 # include "itktiff/tiffio.h"
-# include "itktiff/tif_dir.h"
 #endif
 
 #endif

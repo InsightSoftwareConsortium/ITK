@@ -23,10 +23,7 @@
 #include "itkNiftiImageIOFactory.h"
 #include "itkGiplImageIOFactory.h"
 #include "itkJPEGImageIOFactory.h"
-#include "itk_tiff.h" // ITK_USE_SYSTEM_TIFF
-#ifndef ITK_USE_SYSTEM_TIFF
-#  include "itkLSMImageIOFactory.h"
-#endif // ITK_USE_SYSTEM_TIFF
+#include "itkLSMImageIOFactory.h"
 #include "itkMetaImageIOFactory.h"
 #include "itkPNGImageIOFactory.h"
 #include "itkNrrdImageIOFactory.h"
@@ -44,9 +41,7 @@ void ProcessArgumentsAndRegisterBuiltInFactories(int *ac, ArgumentStringType *av
   itk::ObjectFactoryBase::RegisterFactory( itk::PNGImageIOFactory::New() );
   itk::ObjectFactoryBase::RegisterFactory( itk::VTKImageIOFactory::New() );
   itk::ObjectFactoryBase::RegisterFactory( itk::GiplImageIOFactory::New() );
-#ifndef ITK_USE_SYSTEM_TIFF
   itk::ObjectFactoryBase::RegisterFactory( itk::LSMImageIOFactory::New() );
-#endif // ITK_USE_SYSTEM_TIFF
   itk::ObjectFactoryBase::RegisterFactory( itk::NiftiImageIOFactory::New() );
   itk::ObjectFactoryBase::RegisterFactory( itk::StimulateImageIOFactory::New() );
   itk::ObjectFactoryBase::RegisterFactory( itk::JPEGImageIOFactory::New() );
