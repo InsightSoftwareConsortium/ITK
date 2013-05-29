@@ -5,6 +5,7 @@ set(ITKVideoBridgeOpenCVTests
   itkOpenCVImageBridgeRGBTest.cxx
   itkOpenCVVideoIOTest.cxx
   itkOpenCVVideoIOFactoryTest.cxx
+  itkOpenCVBasicTypeBridgeTest.cxx
 )
 
 include_directories(${ITKVideoBridgeOpenCV_INCLUDE_DIRS})
@@ -81,3 +82,10 @@ itk_add_test(
       # Webcam Number:
       0
     )
+
+# OpenCVBasicTypeBridgeTest
+itk_add_test(
+  NAME OpenCVBasicTypeBridgeTest
+  COMMAND ITKVideoBridgeOpenCVTestDriver
+    itkOpenCVBasicTypeBridgeTest
+)
