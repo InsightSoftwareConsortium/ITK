@@ -53,13 +53,3 @@ itk_add_test(NAME itkDCMTKSeriesStreamReadImageWrite1
 itk_add_test(NAME itkDCMTKImageIOOrthoDirTest
   COMMAND ITKIODCMTKTestDriver itkDCMTKImageIOOrthoDirTest
   DATA{${ITK_DATA_ROOT}/Input/OrthogonalDirectionsTest.dcm})
-
-#
-# this test depends on being able to get the ExternalData infrastructure
-# to unpack tar files into dicom directories.
-if(DONT_USE)
-itk_add_test(NAME itkDCMTKGeSignaHDx COMMAND ITKIODCMTKTestDriver
-  itkDCMTKSeriesReadImageWrite
-  DATA{${ITK_DATA_ROOT}/Input/GeSignaHDx.tar.gz}
-  ${ITK_TEST_OUTPUT_DIR}/itkDCMTKGeSignaHDx.nrrd)
-endif()
