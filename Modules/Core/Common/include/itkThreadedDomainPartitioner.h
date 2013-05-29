@@ -44,7 +44,6 @@ namespace itk
  * \ingroup ITKCommon
  *
  */
-
 template <class TDomain >
 class ITK_EXPORT ThreadedDomainPartitioner : public Object
 {

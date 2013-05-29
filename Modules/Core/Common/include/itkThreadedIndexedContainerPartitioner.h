@@ -21,6 +21,9 @@
 #include "itkThreadedDomainPartitioner.h"
 #include "itkIndex.h"
 
+namespace itk
+{
+
 /** \class ThreadedIndexedContainerPartitioner
  *  \brief Partitions an indexed container.
  *
@@ -36,10 +39,6 @@
  * \sa IndexedContainerInterface
  * \ingroup ITKCommon
  */
-
-namespace itk
-{
-
 class ITKCommon_EXPORT ThreadedIndexedContainerPartitioner
   : public ThreadedDomainPartitioner< Index<2> >
 {

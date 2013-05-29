@@ -22,7 +22,6 @@
 #include "itkImageBase.h"
 #include "itkMatrix.h"
 #include "vnl/vnl_math.h"
-#include "itkImageBase.h"
 
 namespace itk
 {
