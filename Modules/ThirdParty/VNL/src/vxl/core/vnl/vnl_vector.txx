@@ -93,7 +93,10 @@ vnl_vector<T>::vnl_vector (unsigned len, T const& value)
 {
   vnl_vector_construct_hack();
   vnl_vector_alloc_blah(len);
-  vcl_fill_n( this->data, len, value );
+  if (this->data) //VS2012 Runtime Library's std::fill_n has debug assertion when data is null
+  {
+    vcl_fill_n( this->data, len, value );
+  }
 }
 
 //: Creates a vector of specified length and initialize first n elements with values. O(n).
@@ -353,7 +356,10 @@ template<class T>
 vnl_vector<T>&
 vnl_vector<T>::fill (T const& value)
 {
-  vcl_fill_n( this->data, this->num_elmts, value );
+  if (this->data) //VS2012 Runtime Library's std::fill_n has debug assertion when data is null
+  {
+    vcl_fill_n( this->data, this->num_elmts, value );
+  }
   return *this;
 }
 

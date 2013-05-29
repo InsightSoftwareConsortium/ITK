@@ -427,7 +427,7 @@ template <class T>
 vnl_matrix<T>& vnl_matrix<T>::fill (T const& value)
 {
   // not safe if data == NULL, due to data[0] call
-  if (data)
+  if (data && data[0])
     vcl_fill_n( this->data[0], this->num_rows * this->num_cols, value );
   return *this;
 }
