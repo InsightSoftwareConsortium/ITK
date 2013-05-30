@@ -74,7 +74,7 @@ itkGreaterTest.cxx
 itkLessEqualTest.cxx
 itkLessTest.cxx
 itkClampImageFilterTest.cxx
-
+itkNthElementPixelAccessorTest2.cxx
 )
 
 # Disable optimization on the tests below to avoid possible
@@ -271,3 +271,5 @@ itk_add_test(NAME itkLessTest
       COMMAND ITKImageIntensityTestDriver itkLessTest)
 itk_add_test(NAME itkClampImageFilterTest
       COMMAND ITKImageIntensityTestDriver itkClampImageFilterTest)
+itk_add_test(NAME itkNthElementPixelAccessorTest2
+      COMMAND ITKImageIntensityTestDriver itkNthElementPixelAccessorTest2)
