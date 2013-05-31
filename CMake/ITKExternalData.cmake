@@ -33,6 +33,9 @@ list(APPEND ExternalData_URL_TEMPLATES
 
   # Data published by developers using git-gerrit-push.
   "http://www.itk.org/files/ExternalData/%(algo)/%(hash)"
+
+  # Mirror supported by the Slicer community.
+  "http://slicer.kitware.com/midas3/api/rest?method=midas.bitstream.download&checksum=%(hash)&algorithm=%(algo)"
   )
 
 # Tell ExternalData commands to transform raw files to content links.
