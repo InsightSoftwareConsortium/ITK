@@ -158,7 +158,9 @@ vnl_vector<T>::vnl_vector (vnl_vector<T> const& v)
 {
   vnl_vector_construct_hack();
   vnl_vector_alloc_blah(v.num_elmts);
-  vcl_copy( v.data, v.data + v.num_elmts, this->data );
+  if ( v.data ) {
+     vcl_copy( v.data, v.data + v.num_elmts, this->data );
+  }
 }
 
 //: Creates a vector from a block array of data, stored row-wise.
