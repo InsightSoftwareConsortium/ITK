@@ -49,7 +49,7 @@ namespace itk
  * \endwiki
  */
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT MirrorPadImageFilter:
+class MirrorPadImageFilter:
   public PadImageFilter< TInputImage, TOutputImage >
 {
 public:

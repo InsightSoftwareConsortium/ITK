@@ -31,7 +31,7 @@ namespace itk
  * \ingroup ITKLevelSets
  */
 template< class TImageType, class TFeatureImageType = TImageType >
-class ITK_EXPORT LaplacianSegmentationLevelSetFunction:
+class LaplacianSegmentationLevelSetFunction:
   public SegmentationLevelSetFunction< TImageType, TFeatureImageType >
 {
 public:

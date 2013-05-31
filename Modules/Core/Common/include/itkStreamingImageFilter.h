@@ -41,7 +41,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT StreamingImageFilter:public ImageToImageFilter< TInputImage, TOutputImage >
+class StreamingImageFilter:public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */

@@ -56,7 +56,7 @@ namespace itk
  * \ingroup ITKDeconvolution
  */
 template< class TInputImage, class TKernelSource, class TOutputImage=TInputImage >
-class ITK_EXPORT ParametricBlindLeastSquaresDeconvolutionImageFilter :
+class ParametricBlindLeastSquaresDeconvolutionImageFilter :
     public IterativeDeconvolutionImageFilter< TInputImage, typename TKernelSource::OutputImageType, TOutputImage >
 {
 public:

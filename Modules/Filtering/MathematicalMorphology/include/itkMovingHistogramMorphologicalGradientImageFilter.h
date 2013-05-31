@@ -222,7 +222,7 @@ class MorphologicalGradientHistogram<bool>:
  */
 
 template< class TInputImage, class TOutputImage, class TKernel >
-class ITK_EXPORT MovingHistogramMorphologicalGradientImageFilter:
+class MovingHistogramMorphologicalGradientImageFilter:
   public MovingHistogramImageFilter< TInputImage, TOutputImage, TKernel,
                                      typename  Function::MorphologicalGradientHistogram< typename TInputImage::
                                                                                          PixelType > >

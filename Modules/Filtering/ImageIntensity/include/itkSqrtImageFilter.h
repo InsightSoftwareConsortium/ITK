@@ -62,7 +62,7 @@ public:
  * \ingroup ITKImageIntensity
  */
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT SqrtImageFilter:
+class SqrtImageFilter:
   public
   UnaryFunctorImageFilter< TInputImage, TOutputImage,
                            Functor::Sqrt< typename TInputImage::PixelType,

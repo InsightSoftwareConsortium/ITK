@@ -68,7 +68,7 @@ namespace itk {
  */
 
 template<class TPointSet>
-class ITK_EXPORT JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4 :
+class JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4 :
     public PointSetToPointSetMetricv4<TPointSet, TPointSet>
 {
 public:

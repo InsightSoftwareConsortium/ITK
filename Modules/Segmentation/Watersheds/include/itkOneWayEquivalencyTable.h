@@ -42,7 +42,7 @@ namespace itk
  * \sa EquivalencyTable
  * \ingroup ITKWatersheds
  */
-class ITK_EXPORT OneWayEquivalencyTable:public DataObject
+class OneWayEquivalencyTable:public DataObject
 {
 public:
   /**  Standard typedefs and smart pointer declarations.   */

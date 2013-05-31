@@ -128,7 +128,7 @@ namespace itk
  */
 template< class TInputImage,
           class TMembershipFunction >
-class ITK_EXPORT ImageKmeansModelEstimator:
+class ImageKmeansModelEstimator:
   public ImageModelEstimatorBase< TInputImage, TMembershipFunction >
 {
 public:

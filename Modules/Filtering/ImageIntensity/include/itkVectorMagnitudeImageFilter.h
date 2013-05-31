@@ -68,7 +68,7 @@ public:
 }
 
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT VectorMagnitudeImageFilter:
+class VectorMagnitudeImageFilter:
   public
   UnaryFunctorImageFilter< TInputImage, TOutputImage,
                            Functor::VectorMagnitude< typename TInputImage::PixelType,

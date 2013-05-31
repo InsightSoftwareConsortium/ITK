@@ -48,7 +48,7 @@ namespace itk
  * \ingroup ITKTransform
  */
 template< class TTransform, class TImage >
-class ITK_EXPORT BSplineDeformableTransformInitializer:public Object
+class BSplineDeformableTransformInitializer:public Object
 {
 public:
   /** Standard class typedefs. */

@@ -79,7 +79,7 @@ namespace Testing
  */
 
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT ExtractSliceImageFilter:
+class ExtractSliceImageFilter:
   public ImageSource< TOutputImage >
 {
 public:

@@ -88,7 +88,7 @@ struct ImageJointDomainTraits {
  */
 
 template< class TImage >
-class ITK_EXPORT JointDomainImageToListSampleAdaptor:
+class JointDomainImageToListSampleAdaptor:
   public ListSample< typename ImageJointDomainTraits< TImage >::MeasurementVectorType >
 {
 public:

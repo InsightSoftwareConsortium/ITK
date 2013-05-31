@@ -32,7 +32,7 @@ namespace itk
  * \ingroup ITKIOMesh
  */
 
-class ITK_EXPORT FreeSurferAsciiMeshIO:public MeshIOBase
+class FreeSurferAsciiMeshIO:public MeshIOBase
 {
 public:
   /** Standard class typedefs. */

@@ -128,7 +128,7 @@ namespace itk
  * \endwiki
  */
 template< typename TImage >
-class ITK_EXPORT ImageRegionExclusionConstIteratorWithIndex:
+class ImageRegionExclusionConstIteratorWithIndex:
   public ImageRegionConstIteratorWithIndex< TImage >
 {
 public:

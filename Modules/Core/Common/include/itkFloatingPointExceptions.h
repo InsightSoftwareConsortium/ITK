@@ -18,7 +18,7 @@
 #ifndef __itkFloatingPointExceptions_h
 #define __itkFloatingPointExceptions_h
 
-#include "itkMacro.h" // for ITK_EXPORT
+#include "itkMacro.h" // for ITKCommon_EXPORT
 
 namespace itk
 {

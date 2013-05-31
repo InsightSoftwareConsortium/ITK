@@ -37,7 +37,7 @@ namespace itk
  */
 template
   <class TScalar, unsigned int NDimensions>
-class ITK_EXPORT GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform
+class GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform
 : public TimeVaryingVelocityFieldTransform<TScalar, NDimensions>
 {
 public:

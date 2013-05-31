@@ -67,7 +67,7 @@ namespace itk
  */
 template< class TPixel, unsigned int TDimension = 2,
           class TAllocator = NeighborhoodAllocator< TPixel > >
-class ITK_EXPORT AnnulusOperator:
+class AnnulusOperator:
   public NeighborhoodOperator< TPixel, TDimension, TAllocator >
 {
 public:

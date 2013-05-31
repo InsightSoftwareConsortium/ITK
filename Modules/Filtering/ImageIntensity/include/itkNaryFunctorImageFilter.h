@@ -39,7 +39,7 @@ namespace itk
  */
 
 template< class TInputImage, class TOutputImage, class TFunction >
-class ITK_EXPORT NaryFunctorImageFilter:
+class NaryFunctorImageFilter:
   public InPlaceImageFilter< TInputImage, TOutputImage >
 
 {

@@ -39,7 +39,7 @@ namespace itk
  * \ingroup ITKCurvatureFlow
  */
 template< class TImage >
-class ITK_EXPORT BinaryMinMaxCurvatureFlowFunction:
+class BinaryMinMaxCurvatureFlowFunction:
   public MinMaxCurvatureFlowFunction< TImage >
 {
 public:

@@ -144,7 +144,7 @@ template< class TInputImage,
           class TOutputPixelType = float,
           class TOutputImage = Image< TOutputPixelType,
                                       TInputImage::ImageDimension > >
-class ITK_EXPORT NarrowBandLevelSetImageFilter:
+class NarrowBandLevelSetImageFilter:
   public NarrowBandImageFilterBase< TInputImage, TOutputImage >
 {
 public:

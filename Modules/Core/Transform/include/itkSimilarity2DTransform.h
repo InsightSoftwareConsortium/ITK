@@ -60,7 +60,7 @@ namespace itk
  */
 template <class TScalarType = double>
 // Data type for scalars (float or double)
-class ITK_EXPORT Similarity2DTransform :
+class Similarity2DTransform :
   public Rigid2DTransform<TScalarType>
 {
 public:

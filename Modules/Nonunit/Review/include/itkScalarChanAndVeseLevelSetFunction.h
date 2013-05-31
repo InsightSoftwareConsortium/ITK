@@ -75,7 +75,7 @@ template< class TInputImage,
           class TSharedData = ConstrainedRegionBasedLevelSetFunctionSharedData< TInputImage, TFeatureImage,
                                                                                 ScalarChanAndVeseLevelSetFunctionData<
                                                                                   TInputImage, TFeatureImage > > >
-class ITK_EXPORT ScalarChanAndVeseLevelSetFunction:
+class ScalarChanAndVeseLevelSetFunction:
   public ScalarRegionBasedLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
 {
 public:

@@ -52,7 +52,7 @@ namespace itk
  * \endwiki
  */
 template< class TImage >
-class ITK_EXPORT ThresholdImageFilter:public InPlaceImageFilter< TImage, TImage >
+class ThresholdImageFilter:public InPlaceImageFilter< TImage, TImage >
 {
 public:
   /** Standard class typedefs. */

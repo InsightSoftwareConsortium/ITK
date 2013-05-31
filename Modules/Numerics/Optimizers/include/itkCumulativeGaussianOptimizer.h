@@ -44,7 +44,7 @@ namespace itk
  * \ingroup ITKOptimizers
  */
 
-class ITK_EXPORT CumulativeGaussianOptimizer:
+class CumulativeGaussianOptimizer:
   public MultipleValuedNonLinearOptimizer
 {
 public:

@@ -27,7 +27,7 @@ namespace itk
  * \brief Create instances of NrrdImageIO objects using an object factory.
  * \ingroup ITKIONRRD
  */
-class ITK_EXPORT NrrdImageIOFactory:public ObjectFactoryBase
+class NrrdImageIOFactory:public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */

@@ -74,7 +74,7 @@ namespace itk
 
 template< class TInputImage,
           class TOutputImage = Image< double, TInputImage::ImageDimension > >
-class ITK_EXPORT ImagePCAShapeModelEstimator:
+class ImagePCAShapeModelEstimator:
   public ImageShapeModelEstimatorBase< TInputImage, TOutputImage >
 {
 public:

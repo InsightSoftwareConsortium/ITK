@@ -53,7 +53,7 @@ namespace itk
  * \endwiki
  */
 template< unsigned int VDimension >
-class ITK_EXPORT PolyLineParametricPath:public
+class PolyLineParametricPath:public
   ParametricPath< VDimension >
 {
 public:

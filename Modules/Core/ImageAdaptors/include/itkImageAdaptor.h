@@ -52,7 +52,7 @@ template <typename TPixelType, unsigned int VImageDimension > class VectorImage;
  * \endwiki
  */
 template< class TImage, class TAccessor >
-class ITK_EXPORT ImageAdaptor:public ImageBase< TImage::ImageDimension >
+class ImageAdaptor:public ImageBase< TImage::ImageDimension >
 {
 public:
   /** Dimension of the image.  This constant is used by functions that are

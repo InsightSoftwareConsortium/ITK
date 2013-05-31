@@ -41,7 +41,7 @@ namespace itk
  * \endwiki
  */
 template< class TInputImage >
-class ITK_EXPORT MinimumMaximumImageCalculator:public Object
+class MinimumMaximumImageCalculator:public Object
 {
 public:
   /** Standard class typedefs. */

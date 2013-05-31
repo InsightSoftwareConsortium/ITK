@@ -27,7 +27,7 @@ namespace itk
  * \brief Create instances of GiplImageIO objects using an object factory.
  * \ingroup ITKIOGIPL
  */
-class ITK_EXPORT GiplImageIOFactory:public ObjectFactoryBase
+class GiplImageIOFactory:public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */

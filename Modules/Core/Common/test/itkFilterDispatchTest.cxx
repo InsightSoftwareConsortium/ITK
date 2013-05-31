@@ -45,7 +45,7 @@
  * \class An example filter.
  */
 template <typename TInputImage, typename TOutputImage>
-class ITK_EXPORT ExampleImageFilter:
+class ExampleImageFilter:
   public itk::ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:

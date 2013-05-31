@@ -53,7 +53,7 @@ namespace itk
  * \ingroup ITKVTK
  */
 template< typename TOutputImage >
-class ITK_EXPORT VTKImageImport:public ImageSource< TOutputImage >
+class VTKImageImport:public ImageSource< TOutputImage >
 {
 public:
   /** Standard class typedefs. */

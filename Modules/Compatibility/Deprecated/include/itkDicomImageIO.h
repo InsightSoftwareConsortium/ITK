@@ -33,7 +33,7 @@ namespace itk
  * \ingroup ITKDeprecated
  * \ingroup IOFilters
  */
-class ITK_EXPORT DicomImageIO:public GDCMImageIO
+class DicomImageIO:public GDCMImageIO
 {
 public:
   /** Standard class typedefs. */

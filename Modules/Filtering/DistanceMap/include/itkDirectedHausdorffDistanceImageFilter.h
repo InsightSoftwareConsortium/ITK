@@ -69,7 +69,7 @@ namespace itk
  * \ingroup ITKDistanceMap
  */
 template< class TInputImage1, class TInputImage2 >
-class ITK_EXPORT DirectedHausdorffDistanceImageFilter:
+class DirectedHausdorffDistanceImageFilter:
   public ImageToImageFilter< TInputImage1, TInputImage1 >
 {
 public:

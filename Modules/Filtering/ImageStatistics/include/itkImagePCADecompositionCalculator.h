@@ -57,7 +57,7 @@ namespace itk
  */
 template< class TInputImage,
           class TBasisImage = Image< double, TInputImage::ImageDimension > >
-class ITK_EXPORT ImagePCADecompositionCalculator:public Object
+class ImagePCADecompositionCalculator:public Object
 {
 public:
   /** Standard class typedefs. */

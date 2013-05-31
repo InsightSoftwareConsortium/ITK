@@ -142,7 +142,7 @@ namespace itk
 template< class TInputImage,
           class TFeatureImage,
           class TOutputPixelType = float >
-class ITK_EXPORT SegmentationLevelSetImageFilter:
+class SegmentationLevelSetImageFilter:
   public SparseFieldLevelSetImageFilter< TInputImage, Image< TOutputPixelType,
                                                              TInputImage::ImageDimension > >
 {

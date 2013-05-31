@@ -66,7 +66,7 @@ public:
  * \endwiki
  */
 template< class TInputImage1, class TInputImage2 = TInputImage1, class TOutputImage = TInputImage1 >
-class ITK_EXPORT MultiplyImageFilter:
+class MultiplyImageFilter:
   public
   BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage,
                             Functor::Mult<

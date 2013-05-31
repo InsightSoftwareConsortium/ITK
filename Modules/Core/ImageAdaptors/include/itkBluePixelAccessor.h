@@ -37,7 +37,7 @@ namespace itk
  */
 
 template< class T >
-class ITK_EXPORT BluePixelAccessor
+class BluePixelAccessor
 {
 public:
   /** Standard class typedefs. */

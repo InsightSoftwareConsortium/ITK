@@ -40,7 +40,7 @@ namespace itk
  * \ingroup ITKVideoCore
  */
 template< class TOutputVideoStream >
-class ITK_EXPORT VideoSource : public TemporalProcessObject
+class VideoSource : public TemporalProcessObject
 {
 public:
 

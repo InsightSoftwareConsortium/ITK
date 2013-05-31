@@ -37,7 +37,7 @@ namespace itk
  * \ingroup ITKSpatialObjects
  */
 
-class ITK_EXPORT SpatialObjectFactoryBase:public ObjectFactoryBase
+class SpatialObjectFactoryBase:public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */

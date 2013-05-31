@@ -64,7 +64,7 @@ namespace itk
  */
 
 template< class T, unsigned int NVectorDimension = 3 >
-class ITK_EXPORT CovariantVector:public FixedArray< T, NVectorDimension >
+class CovariantVector:public FixedArray< T, NVectorDimension >
 {
 public:
   /** Standard class typedefs. */

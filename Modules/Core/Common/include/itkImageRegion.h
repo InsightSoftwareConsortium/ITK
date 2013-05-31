@@ -66,7 +66,7 @@ class ImageBase;
  * \endwiki
  */
 template< unsigned int VImageDimension >
-class ITK_EXPORT ImageRegion:public Region
+class ImageRegion:public Region
 {
 public:
   /** Standard class typedefs. */

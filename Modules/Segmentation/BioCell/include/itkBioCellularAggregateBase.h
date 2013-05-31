@@ -35,7 +35,7 @@ class CellBase;
  *
  * \ingroup ITKBioCell
  */
-class ITK_EXPORT CellularAggregateBase:public Object
+class CellularAggregateBase:public Object
 {
 public:
   /** Standard class typedefs. */

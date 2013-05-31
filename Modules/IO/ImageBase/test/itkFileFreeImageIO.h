@@ -32,7 +32,7 @@ namespace itk
  *     fileFree:
  *
  */
-class ITK_EXPORT FileFreeImageIO : public ImageIOBase
+class FileFreeImageIO : public ImageIOBase
 {
 public:
   /** Standard class typedefs. */

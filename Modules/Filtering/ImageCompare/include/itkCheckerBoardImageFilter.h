@@ -42,7 +42,7 @@ namespace itk
  * \endwiki
  */
 template< class TImage >
-class ITK_EXPORT CheckerBoardImageFilter:
+class CheckerBoardImageFilter:
   public ImageToImageFilter< TImage, TImage >
 {
 public:

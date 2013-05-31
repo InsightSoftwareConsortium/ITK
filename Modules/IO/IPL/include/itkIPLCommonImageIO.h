@@ -46,7 +46,7 @@ namespace itk
   * \ingroup IOFilters
   * \ingroup ITKIOIPL
   */
-class ITK_EXPORT IPLCommonImageIO:public ImageIOBase
+class IPLCommonImageIO:public ImageIOBase
 {
 public:
   /** Standard class typedefs. */

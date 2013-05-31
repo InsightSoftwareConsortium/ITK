@@ -51,7 +51,7 @@ namespace watershed
  * \ingroup ITKWatersheds
  */
 template< class TScalarType, unsigned int TDimension >
-class ITK_EXPORT Boundary:public DataObject
+class Boundary:public DataObject
 {
 public:
   /** The dimensionality of this boundary.  For example, if the boundary

@@ -56,7 +56,7 @@ namespace itk
  */
 
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT ValuedRegionalMaximaImageFilter:
+class ValuedRegionalMaximaImageFilter:
   public
   ValuedRegionalExtremaImageFilter< TInputImage, TOutputImage,
                                     std::greater< typename TInputImage::PixelType >,

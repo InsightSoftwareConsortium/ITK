@@ -38,7 +38,7 @@ namespace itk
 
 template< class TInputImage, class TOutputImage, class TKernel /*=Neighborhood<bool,
                                                                  TInputImage::ImageDimension>*/                     >
-class ITK_EXPORT KernelImageFilter:
+class KernelImageFilter:
   public BoxImageFilter< TInputImage, TOutputImage >
 {
 public:

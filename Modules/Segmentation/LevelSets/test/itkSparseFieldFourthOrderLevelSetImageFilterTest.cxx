@@ -79,7 +79,7 @@ void evaluate_function(itk::Image<float, 2> *im,
 
 namespace itk {
 template <class TInputImage, class TOutputImage>
-class ITK_EXPORT IsotropicDiffusionLevelSetFilter
+class IsotropicDiffusionLevelSetFilter
   : public SparseFieldFourthOrderLevelSetImageFilter <TInputImage, TOutputImage>
 {
 public:

@@ -55,7 +55,7 @@ namespace itk
  */
 
 template< class TInputImage, class TOutputImage=VectorImage<typename TInputImage::PixelType, TInputImage::ImageDimension> >
-class ITK_EXPORT ComposeImageFilter:
+class ComposeImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

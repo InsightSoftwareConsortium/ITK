@@ -101,7 +101,7 @@ typedef int SemaphoreType;
  * \deprecated
  * \ingroup ITKDeprecated
  */
-class ITK_EXPORT Semaphore:public LightObject
+class Semaphore:public LightObject
 {
 public:
   /** Standard class typedefs. */

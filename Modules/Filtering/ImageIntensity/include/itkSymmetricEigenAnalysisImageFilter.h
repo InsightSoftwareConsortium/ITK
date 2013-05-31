@@ -120,7 +120,7 @@ private:
  * \ingroup ITKImageIntensity
  */
 template< typename  TInputImage, typename  TOutputImage = TInputImage >
-class ITK_EXPORT SymmetricEigenAnalysisImageFilter:
+class SymmetricEigenAnalysisImageFilter:
   public
   UnaryFunctorImageFilter< TInputImage, TOutputImage,
                            Functor::SymmetricEigenAnalysisFunction<

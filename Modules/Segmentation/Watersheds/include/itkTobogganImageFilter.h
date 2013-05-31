@@ -36,7 +36,7 @@ namespace itk
  */
 
 template< class TInputImage >
-class ITK_EXPORT TobogganImageFilter:
+class TobogganImageFilter:
   public ImageToImageFilter<
     TInputImage,
     Image< IdentifierType, TInputImage::ImageDimension > >

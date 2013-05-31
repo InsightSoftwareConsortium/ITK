@@ -120,7 +120,7 @@ private:
 }
 
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT BinaryThresholdImageFilter:
+class BinaryThresholdImageFilter:
   public
   UnaryFunctorImageFilter< TInputImage, TOutputImage,
                            Functor::BinaryThreshold<

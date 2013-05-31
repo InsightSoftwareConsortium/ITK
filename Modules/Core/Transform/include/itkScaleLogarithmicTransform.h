@@ -36,7 +36,7 @@ template <
                              // double)
   unsigned int NDimensions = 3>
 // Number of dimensions
-class ITK_EXPORT ScaleLogarithmicTransform :
+class ScaleLogarithmicTransform :
   public ScaleTransform<TScalarType,
                         NDimensions>
 {

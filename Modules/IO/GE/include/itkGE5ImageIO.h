@@ -47,7 +47,7 @@ namespace itk
  *
  * \ingroup ITKIOGE
  */
-class ITK_EXPORT GE5ImageIO:public IPLCommonImageIO
+class GE5ImageIO:public IPLCommonImageIO
 {
 public:
   /** Standard class typedefs. */

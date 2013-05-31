@@ -35,7 +35,7 @@ namespace itk
  * \ingroup ITKOptimizersv4
  */
 template< class TInternalComputationValueType=double >
-class ITK_EXPORT OptimizerParameterScalesEstimatorTemplate : public Object
+class OptimizerParameterScalesEstimatorTemplate : public Object
 {
 public:
   /** Standard class typedefs. */

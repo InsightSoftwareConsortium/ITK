@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Change SYSTEM "http://ij.itk.org/itkfaq/ITKMigration.dtd">
+<Change>
+  <Title>
+    ITK_EXTERNAL preprocsssor directive removed.
+  </Title>
+
+  <Author>
+    Hans Johnson
+  </Author>
+
+  <Description>
+    <![CDATA[
+    The defintion of ITK_EXPORT was empty in all cases
+
+    This has been identified since 2003 as not being necessary
+    for builds.  On Windows the EXPORT needs to be per library,
+    and that is not controlled by CMake now.
+
+    The PrintSelfCheck.tcl was the only remenant need for
+    This patch, and that is no longer being used, so that
+    file as been removed.
+
+    The ITK_EXPORT define was set to nothing and had no
+    known remaining purpose.  It was removed to make the
+    over all code easier to understand.  There was,
+    understandably, a bit of confusion about the
+    need for this being pervasive in the code.
+
+    It is currently backwards compatible to have
+    this in code, but at some future point it will
+    be removed (and is currently removed when
+    ITK_FUTURE_LEGACY_REMOVE is set)
+    ]]>
+  </Description>
+
+  <SampleCode>
+    <Old>
+       class ITK_EXTERN ImageBase
+    </Old>
+    <New>
+       class ImageBase
+    </New>
+  </SampleCode>
+
+    <Gerrit-ChangeId>
+     I91573177a9bec05ccc44e5f875fe977a4e6cb1d6
+    </Gerrit-ChangeId>
+
+  <FileList>
+    Almost every class header file
+  </FileList>
+
+<MigrationFix-Automatic>
+  <Old>
+    class  *ITK_EXTERN  *
+  </Old>
+  <New>
+    class
+  </New>
+</MigrationFix-Automatic>
+</Change>

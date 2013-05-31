@@ -50,7 +50,7 @@ namespace itk
  * \endwiki
  */
 template< class TImage >
-class ITK_EXPORT FlipImageFilter:
+class FlipImageFilter:
   public ImageToImageFilter< TImage, TImage >
 {
 public:

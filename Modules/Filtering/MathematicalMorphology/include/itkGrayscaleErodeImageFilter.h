@@ -50,7 +50,7 @@ namespace itk
  */
 
 template< class TInputImage, class TOutputImage, class TKernel >
-class ITK_EXPORT GrayscaleErodeImageFilter:
+class GrayscaleErodeImageFilter:
   public KernelImageFilter< TInputImage, TOutputImage, TKernel >
 {
 public:

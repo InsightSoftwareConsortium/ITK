@@ -81,7 +81,7 @@ namespace itk
 
 template< class TInputImage, class TOutputImage, class ResamplerType =
             BSplineResampleImageFilterBase< TInputImage, TOutputImage > >
-class ITK_EXPORT BSplineUpsampleImageFilter:
+class BSplineUpsampleImageFilter:
   public ResamplerType
 {
 public:

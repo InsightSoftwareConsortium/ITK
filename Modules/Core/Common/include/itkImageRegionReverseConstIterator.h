@@ -100,7 +100,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template< typename TImage >
-class ITK_EXPORT ImageRegionReverseConstIterator:public ImageReverseConstIterator< TImage >
+class ImageRegionReverseConstIterator:public ImageReverseConstIterator< TImage >
 {
 public:
   /** Standard class typedefs. */

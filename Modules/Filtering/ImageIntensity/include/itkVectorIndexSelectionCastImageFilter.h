@@ -82,7 +82,7 @@ private:
  */
 
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT VectorIndexSelectionCastImageFilter:
+class VectorIndexSelectionCastImageFilter:
   public
   UnaryFunctorImageFilter< TInputImage, TOutputImage,
                            Functor::VectorIndexSelectionCast< typename TInputImage::PixelType,

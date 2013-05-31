@@ -110,7 +110,7 @@ namespace itk
  */
 template< typename TPixel, unsigned int VDimension,
           typename TTraits = QuadEdgeMeshTraits< TPixel, VDimension, bool, bool > >
-class ITK_EXPORT QuadEdgeMesh:public Mesh< TPixel, VDimension, TTraits >
+class QuadEdgeMesh:public Mesh< TPixel, VDimension, TTraits >
 {
 public:
   /** Input template parameters. */

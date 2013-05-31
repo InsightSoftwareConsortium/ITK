@@ -37,7 +37,7 @@ namespace itk
 template <
   class TScalarType = double>
 // Data type for scalars (float or double)
-class ITK_EXPORT Rigid3DPerspectiveTransform :
+class Rigid3DPerspectiveTransform :
   public Transform<TScalarType, 3, 2>
 {
 public:

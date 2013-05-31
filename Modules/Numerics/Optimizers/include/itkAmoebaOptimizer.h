@@ -58,7 +58,7 @@ namespace itk
  * \ingroup Numerics Optimizers
  * \ingroup ITKOptimizers
  */
-class ITK_EXPORT AmoebaOptimizer:
+class AmoebaOptimizer:
   public SingleValuedNonLinearVnlOptimizer
 {
 public:

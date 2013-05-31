@@ -70,7 +70,7 @@ namespace itk
  * \ingroup ITKReview
  */
 template< class TFixedImage, class TMovingImage, class TDisplacementField >
-class ITK_EXPORT FastSymmetricForcesDemonsRegistrationFilter:
+class FastSymmetricForcesDemonsRegistrationFilter:
   public PDEDeformableRegistrationFilter< TFixedImage, TMovingImage,
                                           TDisplacementField >
 {

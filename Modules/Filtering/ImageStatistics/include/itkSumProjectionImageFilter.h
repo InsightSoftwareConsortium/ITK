@@ -73,7 +73,7 @@ public:
 } // end namespace Function
 
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT SumProjectionImageFilter:
+class SumProjectionImageFilter:
   public
   ProjectionImageFilter< TInputImage, TOutputImage,
                          Functor::SumAccumulator<

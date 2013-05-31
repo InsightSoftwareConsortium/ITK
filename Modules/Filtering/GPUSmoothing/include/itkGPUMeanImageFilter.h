@@ -39,7 +39,7 @@ namespace itk
 itkGPUKernelClassMacro(GPUMeanImageFilterKernel);
 
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT GPUMeanImageFilter : //public GPUImageToImageFilter<
+class GPUMeanImageFilter : //public GPUImageToImageFilter<
                                       // TInputImage, TOutputImage,
                                       // MeanImageFilter< TInputImage,
                                       // TOutputImage > >

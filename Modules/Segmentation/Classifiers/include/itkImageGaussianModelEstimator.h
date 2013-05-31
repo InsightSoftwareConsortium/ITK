@@ -74,7 +74,7 @@ namespace itk
 template< class TInputImage,
           class TMembershipFunction,
           class TTrainingImage >
-class ITK_EXPORT ImageGaussianModelEstimator:
+class ImageGaussianModelEstimator:
   public ImageModelEstimatorBase< TInputImage, TMembershipFunction >
 {
 public:

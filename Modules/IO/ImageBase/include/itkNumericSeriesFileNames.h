@@ -50,7 +50,7 @@ namespace itk
  * \wikiexample{Utilities/NumericSeriesFileNames,Create a list of file names}
  * \endwiki
  */
-class ITK_EXPORT NumericSeriesFileNames:public Object
+class NumericSeriesFileNames:public Object
 {
 public:
   /** Standard class typedefs. */

@@ -89,7 +89,7 @@ public:
 } // end namespace Function
 
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT BinaryThresholdProjectionImageFilter:
+class BinaryThresholdProjectionImageFilter:
   public ProjectionImageFilter< TInputImage, TOutputImage,
                                 Function::BinaryThresholdAccumulator<
                                   typename TInputImage::PixelType,

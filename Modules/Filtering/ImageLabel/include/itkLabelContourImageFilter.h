@@ -53,7 +53,7 @@ namespace itk
  */
 
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT LabelContourImageFilter:
+class LabelContourImageFilter:
   public InPlaceImageFilter< TInputImage, TOutputImage >
 {
 public:

@@ -67,7 +67,7 @@ namespace itk
  * \ingroup ITKMathematicalMorphology
  */
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT GrayscaleGrindPeakImageFilter:
+class GrayscaleGrindPeakImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

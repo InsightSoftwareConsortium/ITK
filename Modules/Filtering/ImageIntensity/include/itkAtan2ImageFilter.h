@@ -81,7 +81,7 @@ public:
  * \endwiki
  */
 template< class TInputImage1, class TInputImage2, class TOutputImage >
-class ITK_EXPORT Atan2ImageFilter:
+class Atan2ImageFilter:
   public
   BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage,
                             Functor::Atan2<

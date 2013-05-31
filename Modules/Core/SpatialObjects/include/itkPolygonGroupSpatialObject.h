@@ -47,7 +47,7 @@ namespace itk
  */
 
 template< unsigned int TDimension = 3 >
-class ITK_EXPORT PolygonGroupSpatialObject:
+class PolygonGroupSpatialObject:
   public GroupSpatialObject< TDimension >
 {
 public:

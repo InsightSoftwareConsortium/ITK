@@ -28,7 +28,7 @@ namespace itk
    * \brief Create instances of GE5ImageIO objects using an object factory.
    * \ingroup ITKIOGE
    */
-class ITK_EXPORT GE5ImageIOFactory:public ObjectFactoryBase
+class GE5ImageIOFactory:public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */

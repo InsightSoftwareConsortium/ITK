@@ -79,7 +79,7 @@ template< class TInputImage1,
           class TInputImage2 = TInputImage1,
           class TOutputImage = itk::Image< std::complex< typename TInputImage1::PixelType>,
                                            TInputImage1::ImageDimension > >
-class ITK_EXPORT MagnitudeAndPhaseToComplexImageFilter:
+class MagnitudeAndPhaseToComplexImageFilter:
   public BinaryFunctorImageFilter<
     TInputImage1,
     TInputImage2,

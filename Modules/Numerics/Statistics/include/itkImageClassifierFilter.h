@@ -45,7 +45,7 @@ namespace Statistics
  */
 
 template< class TSample, class TInputImage, class TOutputImage >
-class ITK_EXPORT ImageClassifierFilter:
+class ImageClassifierFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

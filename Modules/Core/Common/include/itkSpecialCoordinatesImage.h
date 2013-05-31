@@ -92,7 +92,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template< class TPixel, unsigned int VImageDimension = 2 >
-class ITK_EXPORT SpecialCoordinatesImage:public ImageBase< VImageDimension >
+class SpecialCoordinatesImage:public ImageBase< VImageDimension >
 {
 public:
   /** Standard class typedefs */

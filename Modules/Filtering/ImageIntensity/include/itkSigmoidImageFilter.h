@@ -135,7 +135,7 @@ private:
 }
 
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT SigmoidImageFilter:
+class SigmoidImageFilter:
   public
   UnaryFunctorImageFilter< TInputImage, TOutputImage,
                            Functor::Sigmoid<

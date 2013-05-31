@@ -43,7 +43,7 @@ namespace itk
  * \endwiki
  */
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT LabelMapToLabelImageFilter:
+class LabelMapToLabelImageFilter:
   public LabelMapFilter< TInputImage, TOutputImage >
 {
 public:

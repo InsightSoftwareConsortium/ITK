@@ -28,7 +28,7 @@ namespace itk
    * \brief Create instances of GEAdwImageIO objects using an object factory.
    * \ingroup ITKIOGE
    */
-class ITK_EXPORT GEAdwImageIOFactory:public ObjectFactoryBase
+class GEAdwImageIOFactory:public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */

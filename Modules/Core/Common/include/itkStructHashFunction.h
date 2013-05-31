@@ -37,7 +37,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template< class TInput >
-class ITK_EXPORT StructHashFunction
+class StructHashFunction
 {
 public:
 

@@ -44,7 +44,7 @@ namespace itk
  */
 template <class TScalarType = double>
 // Data type for scalars (float or double)
-class ITK_EXPORT VersorRigid3DTransform :
+class VersorRigid3DTransform :
   public VersorTransform<TScalarType>
 {
 public:

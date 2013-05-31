@@ -40,7 +40,7 @@ namespace Function
  * \ingroup ITKOptimizersv4
  */
 template<class TScalar, class TEnergyValue>
-class ITK_EXPORT ConvergenceMonitoringFunction
+class ConvergenceMonitoringFunction
 : public Object
 {
 public:

@@ -56,7 +56,7 @@ namespace itk
  * \endwiki
  */
 template< class TInputImage, class TOutputImage, class TInterpolatorPrecisionType = double >
-class ITK_EXPORT VectorResampleImageFilter:
+class VectorResampleImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

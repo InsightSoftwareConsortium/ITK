@@ -76,7 +76,7 @@ namespace itk
  */
 
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT RelabelComponentImageFilter:
+class RelabelComponentImageFilter:
   public InPlaceImageFilter< TInputImage, TOutputImage >
 {
 public:

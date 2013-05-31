@@ -38,7 +38,7 @@ namespace itk
  * \ingroup ITKPath
  */
 template< class TInputChainCodePath, class TOutputFourierSeriesPath >
-class ITK_EXPORT ChainCodeToFourierSeriesPathFilter:public
+class ChainCodeToFourierSeriesPathFilter:public
   PathToPathFilter< TInputChainCodePath, TOutputFourierSeriesPath >
 {
 public:

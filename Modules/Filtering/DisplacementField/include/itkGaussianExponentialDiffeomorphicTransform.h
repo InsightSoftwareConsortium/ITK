@@ -54,7 +54,7 @@ namespace itk
  */
 template
   <class TScalar, unsigned int NDimensions>
-class ITK_EXPORT GaussianExponentialDiffeomorphicTransform :
+class GaussianExponentialDiffeomorphicTransform :
   public ConstantVelocityFieldTransform<TScalar, NDimensions>
 {
 public:

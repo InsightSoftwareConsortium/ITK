@@ -31,7 +31,7 @@ namespace Statistics
  * \ingroup ITKStatistics
  */
 template< class TVector >
-class ITK_EXPORT EuclideanDistanceMetric:
+class EuclideanDistanceMetric:
   public DistanceMetric< TVector >
 {
 public:

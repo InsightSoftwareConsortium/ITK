@@ -47,7 +47,7 @@ namespace itk
  * \ingroup ITKImageSources
  */
 template< typename TRealValueType>
-class ITK_EXPORT GaborKernelFunction:public KernelFunctionBase<TRealValueType>
+class GaborKernelFunction:public KernelFunctionBase<TRealValueType>
 {
 public:
   /** Standard class typedefs. */

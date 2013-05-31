@@ -30,7 +30,7 @@ namespace itk
    * \deprecated
    * \ingroup ITKDeprecated
    */
-class ITK_EXPORT AnalyzeImageIOFactory:public ObjectFactoryBase
+class AnalyzeImageIOFactory:public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */

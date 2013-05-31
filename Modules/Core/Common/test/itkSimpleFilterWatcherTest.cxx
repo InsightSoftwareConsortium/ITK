@@ -46,7 +46,7 @@ namespace itk
   }
 
   template< class TInputImage, class TOutputImage >
-  class ITK_EXPORT TanHelperImageFilter:
+  class TanHelperImageFilter:
     public UnaryFunctorImageFilter< TInputImage, TOutputImage,
                              Function::TanHelper< typename TInputImage::PixelType,
                                             typename TOutputImage::PixelType >   >

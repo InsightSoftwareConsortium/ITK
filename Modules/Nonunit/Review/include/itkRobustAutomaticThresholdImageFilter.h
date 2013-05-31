@@ -48,7 +48,7 @@ namespace itk
  */
 
 template< class TInputImage, class TGradientImage = TInputImage, class TOutputImage = TInputImage >
-class ITK_EXPORT RobustAutomaticThresholdImageFilter:
+class RobustAutomaticThresholdImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

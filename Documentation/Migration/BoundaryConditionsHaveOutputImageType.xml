@@ -66,7 +66,7 @@
       <Old>
         <![CDATA[
 template< class TInputImage >
-class ITK_EXPORT BoundaryConditionSubclass :
+class BoundaryConditionSubclass :
   public ImageBoundaryCondition< TInputImage > {
   ...
   typedef typename Superclass::PixelType        PixelType;
@@ -102,7 +102,7 @@ class ITK_EXPORT BoundaryConditionSubclass :
       <New>
         <![CDATA[
 template< class TInputImage, class TOutputImage = TInputImage >
-class ITK_EXPORT BoundaryConditionSubclass :
+class BoundaryConditionSubclass :
   public ImageBoundaryCondition< TInputImage, TOutputImage >
   ...
   typedef typename Superclass::PixelType        PixelType;

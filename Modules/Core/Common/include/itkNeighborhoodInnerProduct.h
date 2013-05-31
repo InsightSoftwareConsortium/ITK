@@ -45,7 +45,7 @@ namespace itk
  */
 
 template< class TImage, class TOperator = typename TImage::PixelType, class TComputation = TOperator >
-class ITK_EXPORT NeighborhoodInnerProduct
+class NeighborhoodInnerProduct
 {
 public:
   /** Standard typedefs */

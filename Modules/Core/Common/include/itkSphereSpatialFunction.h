@@ -32,7 +32,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template< unsigned int VImageDimension = 3, typename TInput = Point< double, VImageDimension > >
-class ITK_EXPORT SphereSpatialFunction:
+class SphereSpatialFunction:
   public InteriorExteriorSpatialFunction< VImageDimension, TInput >
 {
 public:

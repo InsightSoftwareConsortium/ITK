@@ -42,7 +42,7 @@ namespace itk
  */
 
 template< class TFixedPointSet,  class TMovingPointSet >
-class ITK_EXPORT PointSetToPointSetMetric:public MultipleValuedCostFunction
+class PointSetToPointSetMetric:public MultipleValuedCostFunction
 {
 public:
 

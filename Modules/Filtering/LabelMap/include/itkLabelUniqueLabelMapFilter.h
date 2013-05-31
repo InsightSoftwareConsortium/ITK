@@ -43,7 +43,7 @@ namespace itk {
  * \ingroup ITKLabelMap
  */
 template<class TImage>
-class ITK_EXPORT LabelUniqueLabelMapFilter :
+class LabelUniqueLabelMapFilter :
     public AttributeUniqueLabelMapFilter<TImage, typename Functor::LabelLabelObjectAccessor< typename TImage::LabelObjectType > >
 {
 public:

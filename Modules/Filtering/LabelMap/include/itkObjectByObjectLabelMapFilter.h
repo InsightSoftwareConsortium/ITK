@@ -76,7 +76,7 @@ template<class TInputImage, class TOutputImage=TInputImage,
   class TOutputFilter=typename TInputFilter::Superclass,
   class TInternalInputImage=typename TInputFilter::InputImageType,
   class TInternalOutputImage=typename TOutputFilter::OutputImageType >
-class ITK_EXPORT ObjectByObjectLabelMapFilter :
+class ObjectByObjectLabelMapFilter :
     public LabelMapFilter<TInputImage, TOutputImage>
 {
 public:

@@ -62,7 +62,7 @@ namespace itk
  * \ingroup ITKBiasCorrection
  */
 template< class TInputImage >
-class ITK_EXPORT MRASlabIdentifier:public Object
+class MRASlabIdentifier:public Object
 {
 public:
   /** Standard class typedefs. */

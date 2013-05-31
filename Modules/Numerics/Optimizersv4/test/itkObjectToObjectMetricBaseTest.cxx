@@ -25,7 +25,7 @@
  */
 
 template< class TFixedObject,  class TMovingObject >
-class ITK_EXPORT ObjectToObjectMetricTestMetric:
+class ObjectToObjectMetricTestMetric:
   public itk::ObjectToObjectMetricBase
 {
 public:

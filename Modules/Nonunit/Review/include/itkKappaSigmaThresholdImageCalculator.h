@@ -37,7 +37,7 @@ namespace itk
  * \ingroup ITKReview
  */
 template< class TInputImage, class TMaskImage >
-class ITK_EXPORT KappaSigmaThresholdImageCalculator:public Object
+class KappaSigmaThresholdImageCalculator:public Object
 {
 public:
   /** Standard class typedefs. */

@@ -76,7 +76,7 @@ namespace itk
  * \endwiki
  */
 template< class TLabelImage, class TIntensityImage = TLabelImage >
-class ITK_EXPORT LabelGeometryImageFilter:
+class LabelGeometryImageFilter:
   public ImageToImageFilter< TLabelImage, TIntensityImage >
 {
 public:

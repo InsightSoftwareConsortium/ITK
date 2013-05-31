@@ -92,7 +92,7 @@ class Array1DToData;
  */
 template<typename TFixedImage, typename TMovingImage, typename TOutputTransform =
   TimeVaryingBSplineVelocityFieldTransform<double, TFixedImage::ImageDimension> >
-class ITK_EXPORT TimeVaryingBSplineVelocityFieldImageRegistrationMethod
+class TimeVaryingBSplineVelocityFieldImageRegistrationMethod
 : public ImageRegistrationMethodv4<TFixedImage, TMovingImage, TOutputTransform>
 {
 public:

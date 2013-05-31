@@ -55,7 +55,7 @@ namespace itk
  *
  */
 template< typename TImage >
-class ITK_EXPORT ImageScanlineConstIterator:
+class ImageScanlineConstIterator:
     public ImageConstIterator< TImage >
 {
 public:

@@ -71,7 +71,7 @@ template< typename TInputImage,
           typename TOutputImage =
             Image< CovariantVector< typename TInputImage::PixelType, 2 >,
                    TInputImage::ImageDimension > >
-class ITK_EXPORT Compose2DCovariantVectorImageFilter:
+class Compose2DCovariantVectorImageFilter:
   public
   BinaryFunctorImageFilter< TInputImage, TInputImage,
                             TOutputImage,

@@ -39,7 +39,7 @@ namespace itk
  */
 template< class TInputImage, class TFeatureImage, class TOutputImage =
             LabelMap< StatisticsLabelObject< SizeValueType, TInputImage::ImageDimension > > >
-class ITK_EXPORT BinaryImageToStatisticsLabelMapFilter:
+class BinaryImageToStatisticsLabelMapFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

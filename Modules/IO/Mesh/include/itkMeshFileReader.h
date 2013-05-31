@@ -100,7 +100,7 @@ public:
 template< class TOutputMesh,
           class ConvertPointPixelTraits = MeshConvertPixelTraits< typename TOutputMesh::PixelType >,
           class ConvertCellPixelTraits = MeshConvertPixelTraits< typename TOutputMesh::CellPixelType > >
-class ITK_EXPORT MeshFileReader:public MeshSource< TOutputMesh >
+class MeshFileReader:public MeshSource< TOutputMesh >
 {
 public:
   /** Standard class typedefs. */

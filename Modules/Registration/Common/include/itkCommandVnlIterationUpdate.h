@@ -29,7 +29,7 @@ namespace itk {
  * \ingroup ITKRegistrationCommon
  */
 template < class TOptimizer >
-class ITK_EXPORT CommandVnlIterationUpdate : public Command
+class CommandVnlIterationUpdate : public Command
 {
 public:
   /**

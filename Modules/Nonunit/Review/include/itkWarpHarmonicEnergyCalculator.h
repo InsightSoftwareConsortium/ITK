@@ -42,7 +42,7 @@ namespace itk
  * \ingroup ITKReview
  */
 template< class TInputImage >
-class ITK_EXPORT WarpHarmonicEnergyCalculator:public Object
+class WarpHarmonicEnergyCalculator:public Object
 {
 public:
   /** Standard class typedefs. */

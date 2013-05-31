@@ -39,7 +39,7 @@ namespace itk
  * \ingroup ITKLabelMap
  */
 template< class TLabel, unsigned int VImageDimension >
-class ITK_EXPORT ShapeLabelObject:public LabelObject< TLabel, VImageDimension >
+class ShapeLabelObject:public LabelObject< TLabel, VImageDimension >
 {
 public:
   /** Standard class typedefs */

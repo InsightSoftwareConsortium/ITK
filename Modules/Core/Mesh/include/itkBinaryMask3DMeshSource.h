@@ -68,7 +68,7 @@ namespace itk
  * \ingroup ITKMesh
  */
 template< class TInputImage, class TOutputMesh >
-class ITK_EXPORT BinaryMask3DMeshSource:public ImageToMeshFilter< TInputImage, TOutputMesh >
+class BinaryMask3DMeshSource:public ImageToMeshFilter< TInputImage, TOutputMesh >
 {
 public:
   /** Standard "Self" typedef. */

@@ -43,7 +43,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template< class TImageType >
-class ITK_EXPORT DefaultVectorPixelAccessorFunctor
+class DefaultVectorPixelAccessorFunctor
 {
 public:
 

@@ -50,7 +50,7 @@ namespace itk
  * \ingroup ITKPath
  */
 template< class TInput, class TOutput, unsigned int VDimension >
-class ITK_EXPORT Path: public DataObject
+class Path: public DataObject
 {
 public:
   /** Standard class typedefs. */

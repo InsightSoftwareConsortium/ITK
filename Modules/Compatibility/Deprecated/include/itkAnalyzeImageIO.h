@@ -91,7 +91,7 @@ namespace itk
    * \ingroup ITKDeprecated
    * \ingroup IOFilters
    */
-class ITK_EXPORT AnalyzeImageIO:public ImageIOBase
+class AnalyzeImageIO:public ImageIOBase
 {
 public:
   /** Standard class typedefs. */

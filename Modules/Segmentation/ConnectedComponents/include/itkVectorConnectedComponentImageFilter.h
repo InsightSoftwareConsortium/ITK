@@ -95,7 +95,7 @@ protected:
  * \ingroup ITKConnectedComponents
  */
 template< class TInputImage, class TOutputImage, class TMaskImage = TInputImage >
-class ITK_EXPORT VectorConnectedComponentImageFilter:
+class VectorConnectedComponentImageFilter:
   public ConnectedComponentFunctorImageFilter< TInputImage, TOutputImage,
                                                Functor::SimilarVectorsFunctor< typename TInputImage::ValueType >,
                                                TMaskImage >

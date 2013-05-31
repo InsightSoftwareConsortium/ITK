@@ -44,7 +44,7 @@ namespace itk
  */
 template
   <class TScalar, unsigned int NDimensions>
-class ITK_EXPORT GaussianSmoothingOnUpdateDisplacementFieldTransform :
+class GaussianSmoothingOnUpdateDisplacementFieldTransform :
   public DisplacementFieldTransform<TScalar, NDimensions>
 {
 public:

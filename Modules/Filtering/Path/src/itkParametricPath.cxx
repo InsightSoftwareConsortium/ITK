@@ -25,5 +25,5 @@ namespace itk
 // subclass of ParametricPath<2>) and these instantiations must be in
 // the library so that the instantiations can be shared amongst
 // implicit instantiations of templated subclasses of ParametricPath.
-template class ITK_EXPORT ParametricPath< 2 >;
+template class ParametricPath< 2 >;
 } // end namespace itk

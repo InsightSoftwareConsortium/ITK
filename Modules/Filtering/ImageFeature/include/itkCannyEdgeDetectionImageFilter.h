@@ -81,7 +81,7 @@ public:
  * \ingroup ITKImageFeature
  */
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT CannyEdgeDetectionImageFilter:
+class CannyEdgeDetectionImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

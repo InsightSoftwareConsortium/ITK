@@ -83,7 +83,7 @@ public:
 
 }
 template <class TImage>
-class ITK_EXPORT BinaryNotImageFilter :
+class BinaryNotImageFilter :
     public
 UnaryFunctorImageFilter<TImage, TImage,
   Functor::BinaryNot< typename TImage::PixelType > >

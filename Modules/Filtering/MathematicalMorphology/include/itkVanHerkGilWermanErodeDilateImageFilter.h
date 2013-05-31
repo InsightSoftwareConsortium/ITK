@@ -38,7 +38,7 @@ template< class TInputImage, class TOutputImage, class TKernel > class KernelIma
  * \ingroup ITKMathematicalMorphology
  */
 template< class TImage, class TKernel, class TFunction1 >
-class ITK_EXPORT VanHerkGilWermanErodeDilateImageFilter:
+class VanHerkGilWermanErodeDilateImageFilter:
   public KernelImageFilter< TImage, TImage, TKernel >
 {
 public:

@@ -48,7 +48,7 @@ namespace itk
  */
 template< class TInputImage1, class TInputImage2,
           class TOutputImage, class TFunction    >
-class ITK_EXPORT BinaryFunctorImageFilter:
+class BinaryFunctorImageFilter:
   public InPlaceImageFilter< TInputImage1, TOutputImage >
 {
 public:

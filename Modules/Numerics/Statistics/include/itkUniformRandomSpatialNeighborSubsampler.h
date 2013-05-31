@@ -43,7 +43,7 @@ namespace Statistics {
  */
 
 template < class TSample, class TRegion >
-  class ITK_EXPORT UniformRandomSpatialNeighborSubsampler : public SpatialNeighborSubsampler<TSample, TRegion>
+  class UniformRandomSpatialNeighborSubsampler : public SpatialNeighborSubsampler<TSample, TRegion>
 {
 public:
   /** Standard class typedefs */

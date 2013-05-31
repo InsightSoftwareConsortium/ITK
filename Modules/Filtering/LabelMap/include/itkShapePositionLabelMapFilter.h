@@ -35,7 +35,7 @@ namespace itk {
  * \ingroup ITKLabelMap
  */
 template<class TImage>
-class ITK_EXPORT ShapePositionLabelMapFilter :
+class ShapePositionLabelMapFilter :
     public InPlaceLabelMapFilter<TImage>
 {
 public:

@@ -51,7 +51,7 @@ namespace itk
  * \ingroup ITKThresholding
  */
 template <class THistogram, class TOutput=double>
-class ITK_EXPORT IsoDataThresholdCalculator : public HistogramThresholdCalculator<THistogram, TOutput>
+class IsoDataThresholdCalculator : public HistogramThresholdCalculator<THistogram, TOutput>
 {
 public:
   /** Standard class typedefs. */

@@ -44,7 +44,7 @@ namespace itk
  */
 
 template< class TMatrixElement, int VNumberOfRows >
-class ITK_EXPORT SymmetricEigenSystem:public Object
+class SymmetricEigenSystem:public Object
 {
 public:
   /** Standard "Self" typedef. */

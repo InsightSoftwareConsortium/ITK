@@ -213,7 +213,7 @@ private:
 };
 
 template< class T >
-ITK_EXPORT std::ostream & operator<<(std::ostream & os,
+std::ostream & operator<<(std::ostream & os,
                                      const VariableSizeMatrix< T > & v)
 {
   os << v.GetVnlMatrix(); return os;

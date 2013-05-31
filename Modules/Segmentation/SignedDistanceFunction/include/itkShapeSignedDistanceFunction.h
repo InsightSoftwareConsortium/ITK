@@ -49,7 +49,7 @@ namespace itk
  * \ingroup ITKSignedDistanceFunction
  */
 template< typename TCoordRep, unsigned int VSpaceDimension >
-class ITK_EXPORT ShapeSignedDistanceFunction:
+class ShapeSignedDistanceFunction:
   public SpatialFunction< double, VSpaceDimension, Point< TCoordRep, VSpaceDimension > >
 {
 public:

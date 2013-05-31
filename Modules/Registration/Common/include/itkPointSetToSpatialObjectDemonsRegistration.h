@@ -50,7 +50,7 @@ namespace itk
  * \ingroup ITKRegistrationCommon
  */
 template< typename TFixedPointSet, typename TMovingSpatialObject >
-class ITK_EXPORT PointSetToSpatialObjectDemonsRegistration:public ProcessObject
+class PointSetToSpatialObjectDemonsRegistration:public ProcessObject
 {
 public:
   /** Standard class typedefs. */

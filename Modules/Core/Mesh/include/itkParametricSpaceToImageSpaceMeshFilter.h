@@ -45,7 +45,7 @@ namespace itk
  * \ingroup ITKMesh
  */
 template< class TInputMesh, class TOutputMesh >
-class ITK_EXPORT ParametricSpaceToImageSpaceMeshFilter:
+class ParametricSpaceToImageSpaceMeshFilter:
   public MeshToMeshFilter< TInputMesh, TOutputMesh >
 {
 public:

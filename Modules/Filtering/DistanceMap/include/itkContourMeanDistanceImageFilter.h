@@ -66,7 +66,7 @@ ected
  * \endwiki
  */
 template< class TInputImage1, class TInputImage2 >
-class ITK_EXPORT ContourMeanDistanceImageFilter:
+class ContourMeanDistanceImageFilter:
   public ImageToImageFilter< TInputImage1, TInputImage1 >
 {
 public:

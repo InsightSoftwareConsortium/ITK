@@ -168,7 +168,7 @@ template<class TFixedImage,class TMovingImage,class TVirtualImage = TFixedImage,
          class TInternalComputationValueType = double,
          typename TMetricTraits = DefaultImageToImageMetricTraitsv4< TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType >
          >
-class ITK_EXPORT ImageToImageMetricv4
+class ImageToImageMetricv4
   : public ObjectToObjectMetric<TFixedImage::ImageDimension, TMovingImage::ImageDimension, TVirtualImage, TInternalComputationValueType>
 {
 public:

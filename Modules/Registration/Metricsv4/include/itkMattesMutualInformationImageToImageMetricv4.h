@@ -96,7 +96,7 @@ template <class TFixedImage, class TMovingImage, class TVirtualImage = TFixedIma
           class TInternalComputationValueType = double,
           class TMetricTraits = DefaultImageToImageMetricTraitsv4<TFixedImage,TMovingImage,TVirtualImage,TInternalComputationValueType>
           >
-class ITK_EXPORT MattesMutualInformationImageToImageMetricv4 :
+class MattesMutualInformationImageToImageMetricv4 :
   public ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 {
 public:

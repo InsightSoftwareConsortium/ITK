@@ -49,7 +49,7 @@ namespace itk
  */
 template< class TInputImage, class TMaskImage, class TOutputImage, class TOperatorValueType =
             typename TOutputImage::PixelType >
-class ITK_EXPORT MaskNeighborhoodOperatorImageFilter:
+class MaskNeighborhoodOperatorImageFilter:
   public NeighborhoodOperatorImageFilter< TInputImage, TOutputImage, TOperatorValueType >
 {
 public:

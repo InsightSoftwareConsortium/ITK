@@ -54,7 +54,7 @@ namespace Statistics
  * can be obtained from http://commonfund.nih.gov/bioinformatics.
  * \ingroup ITKStatistics
  */
-class ITK_EXPORT TDistribution:
+class TDistribution:
   public ProbabilityDistribution
 {
 public:

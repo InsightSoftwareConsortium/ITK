@@ -110,7 +110,7 @@ namespace itk
  * (see CanReadFile).  This class supports reading only.
  * \ingroup ITKReview
  */
-class ITK_EXPORT Bruker2DSEQImageIO:public ImageIOBase
+class Bruker2DSEQImageIO:public ImageIOBase
 {
 public:
   typedef ImageIOBase SuperClass;

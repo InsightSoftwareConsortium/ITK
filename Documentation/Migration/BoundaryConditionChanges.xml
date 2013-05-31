@@ -56,7 +56,7 @@
       <Old>
         <![CDATA[
         template< class TImage >
-        class ITK_EXPORT CustomBoundaryCondition:
+        class CustomBoundaryCondition:
           public ImageBoundaryCondition< TImage >
         {
           // No GetPixel() method was required to be defined.
@@ -67,7 +67,7 @@
       <New>
         <![CDATA[
         template< class TImage >
-        class ITK_EXPORT CustomBoundaryCondition:
+        class CustomBoundaryCondition:
           public ImageBoundaryCondition< TImage >
         {
 

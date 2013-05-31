@@ -32,7 +32,7 @@ namespace itk
    * \endwiki
    */
 template<class ScalarType>
-class ITK_EXPORT TransformFileReaderTemplate:public LightProcessObject
+class TransformFileReaderTemplate:public LightProcessObject
 {
 public:
 

@@ -33,7 +33,7 @@ namespace itk
  * \ingroup ITKMesh
  */
 template< class TInputImage, class TOutputMesh >
-class ITK_EXPORT ImageToMeshFilter:public MeshSource< TOutputMesh >
+class ImageToMeshFilter:public MeshSource< TOutputMesh >
 {
 public:
   /** Standard class typedefs. */

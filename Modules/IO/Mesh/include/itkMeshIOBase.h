@@ -65,7 +65,7 @@ namespace itk
  *
  */
 
-class ITK_EXPORT MeshIOBase:public LightProcessObject
+class MeshIOBase:public LightProcessObject
 {
 public:
   /** Standard class typedefs. */

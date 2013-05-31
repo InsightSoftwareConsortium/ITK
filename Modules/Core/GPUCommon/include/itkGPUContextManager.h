@@ -36,7 +36,7 @@ namespace itk
  *
  * \ingroup ITKGPUCommon
  */
-class ITK_EXPORT GPUContextManager : public LightObject
+class GPUContextManager : public LightObject
 {
 public:
 

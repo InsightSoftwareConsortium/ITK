@@ -41,7 +41,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template< class TObjectType >
-class ITK_EXPORT WeakPointer
+class WeakPointer
 {
 public:
   /** Extract information from template parameter. */

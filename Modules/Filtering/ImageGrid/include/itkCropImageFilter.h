@@ -40,7 +40,7 @@ namespace itk
  * \endwiki
  */
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT CropImageFilter:
+class CropImageFilter:
   public ExtractImageFilter< TInputImage, TOutputImage >
 {
 public:

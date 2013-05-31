@@ -36,7 +36,7 @@ namespace bio
  */
 
 template< unsigned int NSpaceDimension = 3 >
-class ITK_EXPORT Cell:public CellBase
+class Cell:public CellBase
 {
 public:
   typedef   CellBase Superclass;

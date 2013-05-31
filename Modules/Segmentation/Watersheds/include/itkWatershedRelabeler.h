@@ -61,7 +61,7 @@ namespace watershed
  * \ingroup ITKWatersheds
  */
 template< class TScalarType, unsigned int TImageDimension >
-class ITK_EXPORT Relabeler:
+class Relabeler:
   public ProcessObject
 {
 public:

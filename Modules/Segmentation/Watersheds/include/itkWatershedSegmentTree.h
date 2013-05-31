@@ -44,7 +44,7 @@ namespace watershed
  * \ingroup ITKWatersheds
  */
 template< class TScalarType >
-class ITK_EXPORT SegmentTree:public DataObject
+class SegmentTree:public DataObject
 {
 public:
   /** Define itk Smart Pointers for this object */

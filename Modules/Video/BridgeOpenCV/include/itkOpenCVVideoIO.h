@@ -31,7 +31,7 @@ namespace itk
  *
  * \ingroup ITKVideoBridgeOpenCV
  */
-class ITK_EXPORT OpenCVVideoIO:public VideoIOBase
+class OpenCVVideoIO:public VideoIOBase
 {
 public:
   /** Standard class typedefs. */

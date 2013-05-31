@@ -61,7 +61,7 @@ namespace itk
  */
 template
 <class TScalar = double, unsigned int NDimensions = 3, unsigned int NSubDimensions = NDimensions>
-class ITK_EXPORT MultiTransform :
+class MultiTransform :
   public Transform<TScalar, NDimensions, NDimensions>
 {
 public:

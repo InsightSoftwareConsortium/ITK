@@ -50,7 +50,7 @@ namespace itk
  * \endwiki
  */
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT RegionOfInterestImageFilter:
+class RegionOfInterestImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

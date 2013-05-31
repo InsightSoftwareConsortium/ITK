@@ -89,9 +89,8 @@ namespace itk
   *
   * \ingroup ITKMetricsv4
   */
-
 template<unsigned int TFixedDimension, unsigned int TMovingDimension, class TVirtualImage = Image<double, TFixedDimension>, class TInternalComputationValueType = double >
-class ITK_EXPORT ObjectToObjectMultiMetricv4:
+class ObjectToObjectMultiMetricv4:
   public ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternalComputationValueType>
 {
 public:

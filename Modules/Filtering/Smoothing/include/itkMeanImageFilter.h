@@ -45,7 +45,7 @@ namespace itk
  * \endwiki
  */
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT MeanImageFilter:
+class MeanImageFilter:
   public BoxImageFilter< TInputImage, TOutputImage >
 {
 public:

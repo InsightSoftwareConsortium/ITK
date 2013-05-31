@@ -61,7 +61,7 @@ public:
 };
 }
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT SquareImageFilter:
+class SquareImageFilter:
   public
   UnaryFunctorImageFilter< TInputImage, TOutputImage,
                            Functor::Square< typename TInputImage::PixelType,

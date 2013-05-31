@@ -27,7 +27,7 @@ namespace itk
  * \brief Create instances of BMPImageIO objects using an object factory.
  * \ingroup ITKIOBMP
  */
-class ITK_EXPORT BMPImageIOFactory:public ObjectFactoryBase
+class BMPImageIOFactory:public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */

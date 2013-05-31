@@ -40,7 +40,7 @@ namespace itk
  * \ingroup ITKReview
  */
 template< class TInputImage, class TOutputPath >
-class ITK_EXPORT ImageToPathFilter:public PathSource< TOutputPath >
+class ImageToPathFilter:public PathSource< TOutputPath >
 {
 public:
   /** Standard class typedefs. */

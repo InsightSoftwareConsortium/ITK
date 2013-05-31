@@ -47,7 +47,7 @@ namespace itk
  * \ingroup ITKFastMarching
  */
 template< class TInput, class TOutput >
-class ITK_EXPORT FastMarchingUpwindGradientImageFilterBase:
+class FastMarchingUpwindGradientImageFilterBase:
   public FastMarchingImageFilterBase< TInput, TOutput >
 {
 public:
@@ -116,7 +116,7 @@ private:
 //template< unsigned int VDimension,
 //         typename TInputPixel,
 //         typename TOutputPixel >
-//class ITK_EXPORT IsotropicFastMarchingUpwindGradientImageFilterBase:
+//class IsotropicFastMarchingUpwindGradientImageFilterBase:
 //    public FastMarchingUpwindGradientImageFilterBase< VDimension, TInputPixel,
 //    TOutputPixel,
 //    FastMarchingImageFilterBase< VDimension, TInputPixel, TOutputPixel >
