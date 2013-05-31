@@ -215,7 +215,7 @@ vnl_matrix<T>::vnl_matrix (vnl_matrix<T> const& from)
 : num_rows(from.num_rows), num_cols(from.num_cols)
 {
   vnl_matrix_construct_hack();
-  if (from.data) {
+  if (from.data && from.data[0]) {
     vnl_matrix_alloc_blah();
     T const *src = from.data[0];
     vcl_copy( src, src + this->num_rows * this->num_cols, this->data[0] );
@@ -477,7 +477,9 @@ vnl_matrix<T>& vnl_matrix<T>::operator= (vnl_matrix<T> const& rhs)
   if (this != &rhs) { // make sure *this != m
     if (rhs.data) {
       this->set_size(rhs.num_rows, rhs.num_cols);
-      vcl_copy( rhs.data[0], rhs.data[0] + this->num_rows * this->num_cols, this->data[0] );
+      if (rhs.data[0]) {
+        vcl_copy( rhs.data[0], rhs.data[0] + this->num_rows * this->num_cols, this->data[0] );
+      }
     }
     else {
       // rhs is default-constructed.
