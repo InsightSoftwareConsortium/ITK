@@ -169,6 +169,16 @@ public:
    */
   void SetMetaDataDictionary(const MetaDataDictionary & rhs);
 
+  /**
+   * A facility to help application programmers set a
+   * human identifiable name for a given object.
+   * This has no inherent use in ITK, but is a
+   * convenience to allow developers to provide a
+   * name for this object.
+   */
+  itkSetMacro(ObjectName, std::string);
+  itkGetConstReferenceMacro(ObjectName, std::string);
+
 protected:
   Object();
   virtual ~Object();
@@ -210,6 +220,8 @@ private:
    * This is only allocated if used.
    */
   mutable MetaDataDictionary *m_MetaDataDictionary;
+
+  std::string m_ObjectName;
 };
 } // end namespace itk
 
