@@ -27,7 +27,7 @@ namespace itk
    * \brief Create instances of MGHImageIO objects using an object factory.
    * \ingroup ITKIOMGH
    */
-class ITK_EXPORT MGHImageIOFactory : public ObjectFactoryBase
+class MGHImageIOFactory : public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs */

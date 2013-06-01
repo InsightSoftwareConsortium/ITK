@@ -35,7 +35,7 @@ namespace itk
  * \ingroup IOFilters
  * \ingroup ITKIOMGH
  */
-class ITK_EXPORT MGHImageIO:public ImageIOBase
+class MGHImageIO:public ImageIOBase
 {
 public:
   /** Standard class typedefs. */
