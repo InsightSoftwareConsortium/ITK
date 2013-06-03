@@ -14,6 +14,11 @@ struct B
   char b;
 } __attribute__ ((aligned (64)));
 
+// fail for gcc 4.1
+#if __GNUC__ == 4 && __GNUC_MINOR__ == 1
+#error This version of GCC is know to have a internal compilation error with this feature in ITK.
+#endif
+
 // BUG DETECTION: This following usage may generate a segfault during
 // compilation.
 //
