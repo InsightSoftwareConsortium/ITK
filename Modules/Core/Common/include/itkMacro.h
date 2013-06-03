@@ -125,6 +125,8 @@ namespace itk
 #define ITKCommon_HIDDEN ITK_ABI_HIDDEN
 
 #if !defined( ITKSTATIC )
+/* CMake adds "MyLibrary_EXPORTS" definition for MSVC platforms
+ * when building a DLL */
   #ifdef ITKCommon_EXPORTS
     #define ITKCommon_EXPORT ITK_ABI_EXPORT
   #else
