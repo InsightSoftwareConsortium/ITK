@@ -38,7 +38,9 @@ instructions='#\
 #   PERF:   - performance improvement\
 #   STYLE:  - no logic impact (indentation, comments)\
 #   WIP:    - Work In Progress not ready for merge\
-# To reference issue XY, add " (#XY)" to the END of the FIRST line.\
+# To have an automatic link created between this patch set\
+# and the issue referenced at issues.itk.org, simply\
+# add ITK-#### in somewhere in the commit message.
 #' &&
 sed '/^# On branch.*$/ a\
 '"$instructions"'
