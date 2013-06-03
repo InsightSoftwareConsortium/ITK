@@ -26,6 +26,14 @@ int itkImageTest(int, char* [] )
   typedef itk::Image<float,2> Image;
   Image::Pointer image = Image::New();
   image->DebugOn();
+  const char * const knownStringName = "My First Image For Testing.";
+  image->SetObjectName( knownStringName );
+  if( std::string(knownStringName) != image->GetObjectName() )
+    {
+    std::cerr << "ERROR:  Object name not set and recovered correctly.\n"
+      << std::string(knownStringName) << " != " << image->GetObjectName() << std::endl;
+    return EXIT_FAILURE;
+    }
   image->GetSource();
   image->DisconnectPipeline();
 
