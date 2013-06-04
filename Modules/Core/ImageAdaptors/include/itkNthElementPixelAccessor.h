@@ -129,7 +129,11 @@ public:
   inline void Set(InternalType &output, const ExternalType & input,
                   const unsigned long offset) const
   {
-    return Set( Superclass::Get( output, offset ), input );
+    // note: v is a reference to the internal buffer, this method of
+    // access relies on return value optimization to work
+    ActualPixelType v = Superclass::Get( output, offset );
+
+    return Set( v, input );
   }
 
   inline ExternalType Get(const ActualPixelType & input) const
