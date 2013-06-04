@@ -64,7 +64,7 @@ Allocate memory aligned to a 16 byte boundry
 @return Returns a void pointer to the allocated space, or NULL if there is insufficient memory available
 */
 /* FIXME: These should be set with cmake tests, but we're currently not requiring use of cmake */
-#ifdef WIN32
+#ifdef _WIN32
   /* Someone should tell the mingw people that their malloc.h ought to provide _mm_malloc() */
   #ifdef __GNUC__
     #include <mm_malloc.h>
@@ -75,7 +75,7 @@ Allocate memory aligned to a 16 byte boundry
       #define HAVE_MM_MALLOC
     #endif
   #endif
-#else /* Not WIN32 */
+#else /* Not _WIN32 */
   #if defined(__sun)
     #define HAVE_MEMALIGN
   /* Linux x86_64 and OSX always align allocations to 16 bytes */
