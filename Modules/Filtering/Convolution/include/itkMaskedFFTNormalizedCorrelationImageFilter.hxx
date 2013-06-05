@@ -113,6 +113,7 @@ template < class TInputImage, class TOutputImage, class TMaskImage >
 void MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
 ::GenerateData()
 {
+  this->UpdateProgress( m_AccumulatedProgress );
   OutputImagePointer outputImage = this->GetOutput();
 
   MaskImagePointer fixedMask = PreProcessMask( this->GetFixedImage(), this->GetFixedImageMask() );
@@ -343,6 +344,11 @@ MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
   FFTFilter->SetInput( padder->GetOutput() );
   FFTFilter->Update();
 
+  // The main computation time of this filter is the computation of the FFTs.
+  // So we compute our progress based on these FFT computations.
+  m_AccumulatedProgress += 1.0/m_TotalForwardAndInverseFFTs;
+  this->UpdateProgress( m_AccumulatedProgress );
+
   return FFTFilter->GetOutput();
  }
 
@@ -372,6 +378,11 @@ MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
   extracter->SetInput(FFTFilter->GetOutput());
   extracter->SetRegionOfInterest(imageRegion);
   extracter->Update();
+
+  // The main computation time of this filter is the computation of the FFTs.
+  // So we compute our progress based on these FFT computations.
+  m_AccumulatedProgress += 1.0/m_TotalForwardAndInverseFFTs;
+  this->UpdateProgress( m_AccumulatedProgress );
 
   return extracter->GetOutput();
  }
