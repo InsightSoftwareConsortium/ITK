@@ -87,6 +87,7 @@ itk_module(ITKReview
   TEST_DEPENDS
     ITKTestKernel
     ITKIOMesh
+    ITKIOCSV
   DESCRIPTION
     "${DOCUMENTATION}"
 )
