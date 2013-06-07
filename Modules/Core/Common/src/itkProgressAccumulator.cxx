@@ -25,7 +25,8 @@ ProgressAccumulator
   m_MiniPipelineFilter = 0;
 
   // Initialize the progress values
-  this->ResetProgress();
+  m_AccumulatedProgress     = 0.0f;
+  m_BaseAccumulatedProgress = 0.0f;
 
   // Create a member command
   m_CallbackCommand = CommandType::New();
@@ -45,8 +46,8 @@ ProgressAccumulator
   // Observe the filter
   unsigned long progressTag =
     filter->AddObserver(ProgressEvent(), m_CallbackCommand);
-  unsigned long iterationTag =
-    filter->AddObserver(IterationEvent(), m_CallbackCommand);
+  unsigned long startTag =
+    filter->AddObserver(StartEvent(), m_CallbackCommand);
 
   // Create a record for the filter
   struct FilterRecord record;
@@ -54,8 +55,7 @@ ProgressAccumulator
   record.Filter = filter;
   record.Weight = weight;
   record.ProgressObserverTag = progressTag;
-  record.IterationObserverTag = iterationTag;
-  record.Progress = 0.0f;
+  record.StartObserverTag = startTag;
 
   // Add the record to the list
   m_FilterRecord.push_back(record);
@@ -71,16 +71,18 @@ ProgressAccumulator
   for ( it = m_FilterRecord.begin(); it != m_FilterRecord.end(); ++it )
     {
     it->Filter->RemoveObserver(it->ProgressObserverTag);
-    it->Filter->RemoveObserver(it->IterationObserverTag);
+    it->Filter->RemoveObserver(it->StartObserverTag);
     }
 
   // Clear the filter array
   m_FilterRecord.clear();
 
-  // Reset the progress meter
-  ResetProgress();
+  // Reset the accumulated progress
+  m_AccumulatedProgress     = 0.0f;
+  m_BaseAccumulatedProgress = 0.0f;
 }
 
+#if ! defined ( ITK_FUTURE_LEGACY_REMOVE )
 void
 ProgressAccumulator
 ::ResetProgress()
@@ -93,37 +95,33 @@ ProgressAccumulator
   FilterRecordVector::iterator it;
   for ( it = m_FilterRecord.begin(); it != m_FilterRecord.end(); ++it )
     {
-    it->Progress = 0.0f;
-    it->Filter->SetProgress(0.0f);
+    it->Filter->UpdateProgress(0.0f);
     }
 }
+#endif
 
+#if ! defined ( ITK_FUTURE_LEGACY_REMOVE )
 void
 ProgressAccumulator
 ::ResetFilterProgressAndKeepAccumulatedProgress()
 {
-  m_BaseAccumulatedProgress = m_AccumulatedProgress;
-  // Reset each of the individial progress meters
-  FilterRecordVector::iterator it;
-  for ( it = m_FilterRecord.begin(); it != m_FilterRecord.end(); ++it )
-    {
-    it->Progress = 0.0f;
-    it->Filter->SetProgress(0.0f);
-    }
+  // Do nothing.  After all, this method is deprecated.
 }
+#endif
 
 void
 ProgressAccumulator
 ::ReportProgress(Object *who, const EventObject & event)
 {
-  ProgressEvent  pe;
-  IterationEvent ie;
+  ProgressEvent pe;
+  StartEvent se;
 
   if ( typeid( event ) == typeid( pe ) )
     {
-    // Add up the progress from different filters
+    // Start the progress from the progress accumulated so far.
     m_AccumulatedProgress = m_BaseAccumulatedProgress;
 
+    // Add up the new progress from different filters.
     FilterRecordVector::iterator it;
     for ( it = m_FilterRecord.begin(); it != m_FilterRecord.end(); ++it )
       {
@@ -147,8 +145,28 @@ ProgressAccumulator
         }
       }
     }
-  else if ( typeid( event ) == typeid( ie ) )
-          {}
+  else if ( typeid( event ) == typeid( se ) )
+  {
+    // When a filter is restarted, we can capture the progress it has made so far and add it
+    // to the accumulated value.
+    // This is especially helpful when streaming is used since the filter is restarted multiple
+    // times for different regions of the input.
+    // By capturing the start event, it is no longer necessary for filters that use the ProgressAccumulator
+    // to explicitly call ResetFilterProgressAndKeepAccumulatedProgress().
+
+    FilterRecordVector::iterator it;
+    for ( it = m_FilterRecord.begin(); it != m_FilterRecord.end(); ++it )
+    {
+      if( who == it->Filter )
+      {
+        // On a start event, we need to capture the accumulated progress for this filter
+        // and then reset this filter's progress.
+        // It is not necessary to SetProgress(0.0f) explicitly on the filter because this is done
+        // automatically when the filter is restarted.
+        m_BaseAccumulatedProgress += it->Filter->GetProgress() * it->Weight;
+      }
+    }
+  }
 }
 
 void ProgressAccumulator

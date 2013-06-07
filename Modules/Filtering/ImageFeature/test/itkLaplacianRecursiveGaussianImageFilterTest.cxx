@@ -21,6 +21,7 @@
 #include "itkImageFileWriter.h"
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkZeroCrossingImageFilter.h"
+#include "itkSimpleFilterWatcher.h"
 
 int itkLaplacianRecursiveGaussianImageFilterTest(int argc, char* argv[])
 {
@@ -77,6 +78,7 @@ int itkLaplacianRecursiveGaussianImageFilterTest(int argc, char* argv[])
   //Setting the ITK pipeline filter
 
   LaplacianFilter::Pointer lapFilter = LaplacianFilter::New();
+  itk::SimpleFilterWatcher watcher(lapFilter);
   ZeroCrossingFilter::Pointer zeroFilter = ZeroCrossingFilter::New();
 
   reader->SetFileName( inputFilename  );

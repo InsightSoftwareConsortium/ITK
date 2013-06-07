@@ -21,6 +21,7 @@
 #include "itkImageFileWriter.h"
 #include "itkLandweberDeconvolutionImageFilter.h"
 #include "itkDeconvolutionIterationCommand.h"
+#include "itkSimpleFilterWatcher.h"
 
 int itkLandweberDeconvolutionImageFilterTest(int argc, char* argv[])
 {
@@ -73,6 +74,8 @@ int itkLandweberDeconvolutionImageFilterTest(int argc, char* argv[])
   typedef itk::DeconvolutionIterationCommand< DeconvolutionFilterType > IterationCommandType;
   IterationCommandType::Pointer observer = IterationCommandType::New();
   deconvolutionFilter->AddObserver( itk::IterationEvent(), observer );
+
+  itk::SimpleFilterWatcher watcher(deconvolutionFilter);
 
   // Write the deconvolution result
   try

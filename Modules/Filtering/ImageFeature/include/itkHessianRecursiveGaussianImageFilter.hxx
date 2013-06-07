@@ -184,10 +184,18 @@ HessianRecursiveGaussianImageFilter< TInputImage, TOutputImage >
   // Create a process accumulator for tracking the progress of this
   // minipipeline
   ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
-  progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
 
   // Compute the contribution of each filter to the total progress.
+  // This computed weight is an upper bound that assumes that all filters are
+  // run for each iteration.
+  // However, it is not entirely accurate because it does not take into account
+  // that some filters will be reused.  In that case, they will not progress
+  // again and will not contribute to the overall progress.
+  // This means that the total progress may not reach 1.
+  // For example, when run in 3D, m_DerivativeA will not run again when
+  // dima = 0 and dimb = 2 because it did not change from when
+  // dima = 0 and dimb = 1.
   const double weight =
     1.0 / ( ImageDimension * ( ImageDimension * ( ImageDimension + 1 ) / 2 ) );
 
@@ -318,8 +326,6 @@ HessianRecursiveGaussianImageFilter< TInputImage, TOutputImage >
         m_DerivativeFilterB->UpdateLargestPossibleRegion();
         derivativeImage = m_DerivativeFilterB->GetOutput();
         }
-
-      progress->ResetFilterProgressAndKeepAccumulatedProgress();
 
       // Copy the results to the corresponding component
       // on the output image of vectors

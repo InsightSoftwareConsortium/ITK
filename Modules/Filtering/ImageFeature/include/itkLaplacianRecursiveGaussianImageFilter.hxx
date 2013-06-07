@@ -235,9 +235,6 @@ LaplacianRecursiveGaussianImageFilter< TInputImage, TOutputImage >
 
     cumulativeImage = addFilter->GetOutput();
     cumulativeImage->DisconnectPipeline();
-
-    // after each pass reset progress to accumulate next iteration
-    progress->ResetFilterProgressAndKeepAccumulatedProgress();
     }
 
   // Because the output of last filter in the mini-pipeline is not

@@ -16,7 +16,7 @@
  *
  *=========================================================================*/
 #include "itkHessianRecursiveGaussianImageFilter.h"
-
+#include "itkSimpleFilterWatcher.h"
 
 int itkHessianRecursiveGaussianFilterTest(int, char* [] )
 {
@@ -101,6 +101,7 @@ int itkHessianRecursiveGaussianFilterTest(int, char* [] )
 
   // Create a  Filter
   myFilterType::Pointer filter = myFilterType::New();
+  itk::SimpleFilterWatcher watcher(filter);
 
 
   // Connect the input images

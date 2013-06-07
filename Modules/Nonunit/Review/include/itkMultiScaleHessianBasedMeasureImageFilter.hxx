@@ -189,7 +189,6 @@ MultiScaleHessianBasedMeasureImageFilter
   // Create a process accumulator for tracking the progress of this
   // minipipeline
   ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
-  progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
 
   // prevent a divide by zero
@@ -223,10 +222,6 @@ MultiScaleHessianBasedMeasureImageFilter
     sigma  = this->ComputeSigmaValue(scaleLevel);
 
     scaleLevel++;
-
-    // reset the progress accumulator after each pass to continue
-    // addition of progress for the next pass
-    progress->ResetFilterProgressAndKeepAccumulatedProgress();
 
     if ( m_NumberOfSigmaSteps == 1 )
       {

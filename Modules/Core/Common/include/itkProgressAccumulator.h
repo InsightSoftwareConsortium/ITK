@@ -67,7 +67,16 @@ public:
 
   /**
    * Register a filter with the progress accumulator and specify the
-   * fraction of the overall progress associated with this filter
+   * fraction of the overall progress associated with this filter.
+   * The sum of the weights for all filters that are registered should
+   * be 1.
+   * However, if streaming is used, the weight should be divided by the
+   * number of streams because each stream will reset the filter
+   * after capturing its progress.
+   * For example, if the desired weight of a filter is 0.4, but it is
+   * streamed into 4 streams, the weight should be 0.1.
+   * The ProgressAccumulator will then ensure that each of the 4 runs
+   * of this filter will add 0.1 to the filter's progress.
    */
   void RegisterInternalFilter(GenericFilterType *filter, float weight);
 
@@ -77,13 +86,30 @@ public:
   void UnregisterAllFilters();
 
   /**
-   * Reset the progress accumulator.  This method should be called in
-   * the beginning of the GenerateData() method in the mini-pipeline
-   * filter.
+   * \deprecated
+   * Reset the progress accumulator.  This method should not be necessary
+   * because this functionality is already present in the filter
+   * constructor.
    */
+#if ! defined ( ITK_FUTURE_LEGACY_REMOVE )
   void ResetProgress();
+#endif
 
+  /**
+   * \deprecated
+   * Reset the filter progress but keep the accumulated progress.
+   * This method is deprecated because the ProgressAccumulator
+   * now internally checks if a filter has been restarted and updates
+   * the accumulated progress automatically.
+   * This method also used to have the unfortunate side effect of forcing
+   * filters to rerun even if their parameters and input had not changed.
+   * This is because it called SetProgress(0) on the filters, which
+   * triggered a ModifiedTime and thus caused the filters to rerun.
+   * To avoid this behavior, the implementation of this method is now empty.
+   */
+#if ! defined ( ITK_FUTURE_LEGACY_REMOVE )
   void ResetFilterProgressAndKeepAccumulatedProgress();
+#endif
 
 protected:
   ProgressAccumulator();
@@ -105,10 +131,7 @@ private:
 
     // The tags for adding/removing observers to mini-pipeline filter
     unsigned long ProgressObserverTag;
-    unsigned long IterationObserverTag;
-
-    // The progress accumulated by the filter since last Reset()
-    float Progress;
+    unsigned long StartObserverTag;
   };
 
   /** A callback function that is called by the progressing filters */
