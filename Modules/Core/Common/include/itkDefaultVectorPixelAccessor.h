@@ -77,9 +77,9 @@ public:
   /** Get the value from input */
   inline ExternalType Get(const InternalType & input, const SizeValueType offset) const
   {
-    ExternalType output( ( &input ) + ( offset * m_OffsetMultiplier ), m_VectorLength );
-
-    return output;
+    // Do not create a local for this method, to use return value
+    // optimization.
+    return ExternalType( ( &input ) + ( offset * m_OffsetMultiplier ), m_VectorLength );
   }
 
   /** Set the length of each vector in the VectorImage */
