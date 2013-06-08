@@ -69,6 +69,7 @@ extern ITK_EXPORT const char *const SPM_ROI_SCALE;
 extern ITK_EXPORT const char *const ITK_FileNotes;
 extern ITK_EXPORT const char *const ITK_Origin;
 extern ITK_EXPORT const char *const ITK_Spacing;
+extern ITK_EXPORT const char *const ITK_ZDirection;
 extern ITK_EXPORT const char *const ITK_FileOriginator;
 extern ITK_EXPORT const char *const ITK_OriginationDate;
 extern ITK_EXPORT const char *const ITK_PatientID;
