@@ -27,9 +27,9 @@ namespace itk
  */
 
 Optimizer
-::Optimizer()
+::Optimizer() :
+  m_ScalesInitialized( false )
 {
-  m_ScalesInitialized = false;
 }
 
 /**
@@ -41,6 +41,18 @@ Optimizer
 {
   itkDebugMacro("setting scales to " <<  scales);
   m_Scales = scales;
+  //Nearly every optimizer computes the inverse at each iteration.
+  //provides 1 commone place where the inverse can be computes
+  //and validated.
+  m_InverseScales.SetSize(m_Scales.GetSize());
+  for( unsigned int i =0 ; i < m_Scales.size(); ++i)
+    {
+    if ( m_Scales[i] < NumericTraits<double>::epsilon() )
+      {
+      itkExceptionMacro("ERROR: Scales must have value greater than epsilon! Scale[" << i << "] = " << m_Scales[i] );
+      }
+    m_InverseScales[i] = NumericTraits<double>::One / m_Scales[i];
+    }
   m_ScalesInitialized = true;
   this->Modified();
 }
@@ -94,13 +106,12 @@ Optimizer
 
   if ( m_ScalesInitialized )
     {
-    os << indent << "Scales: "
-       << m_Scales << std::endl;
+    os << indent << "Scales: " << m_Scales << std::endl;
+    os << indent << "InverseScales: " << m_InverseScales << std::endl;
     }
   else
     {
-    os << indent << "Scales: not defined (default 1)"
-       << std::endl;
+    os << indent << "Scales: not defined (default 1)" << std::endl;
     }
 
   os << indent << "StopConditionDescription: "

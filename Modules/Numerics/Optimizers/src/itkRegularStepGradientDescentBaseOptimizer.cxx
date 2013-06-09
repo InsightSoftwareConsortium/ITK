@@ -160,7 +160,7 @@ RegularStepGradientDescentBaseOptimizer
 
   DerivativeType transformedGradient(spaceDimension);
   DerivativeType previousTransformedGradient(spaceDimension);
-  ScalesType     scales = this->GetScales();
+  const ScalesType & scales = this->GetScales();
 
   if ( m_RelaxationFactor < 0.0 )
     {

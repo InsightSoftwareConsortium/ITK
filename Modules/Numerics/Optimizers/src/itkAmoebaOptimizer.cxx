@@ -96,7 +96,7 @@ AmoebaOptimizer
 
   if ( m_ScalesInitialized )
     {
-    const ScalesType scales = this->GetScales();
+    const ScalesType & scales = this->GetScales();
     for ( unsigned int i = 0; i < numberOfParameters; i++ )
       {
       parameters[i] *= scales[i];
@@ -153,7 +153,7 @@ void
 AmoebaOptimizer
 ::StartOptimization(void)
 {
-  const ScalesType &scales = GetScales();
+  const ScalesType & scales = GetScales();
   const ParametersType &initialPosition = GetInitialPosition();
   InternalParametersType delta( m_InitialSimplexDelta );
   SingleValuedNonLinearVnlOptimizer::CostFunctionAdaptorType *costFunction =
@@ -279,9 +279,10 @@ AmoebaOptimizer
        // get the results, we scale the parameters down if scales are defined
   if ( m_ScalesInitialized )
     {
-    for ( unsigned int i = 0; i < n; i++ )
+    const ScalesType & invScales = this->GetInverseScales();
+    for ( unsigned int i = 0; i < n; ++i )
       {
-      bestPosition[i] /= scales[i];
+      bestPosition[i] *= invScales[i];
       }
     }
 
@@ -344,7 +345,7 @@ AmoebaOptimizer
   //check that the number of scale factors matches
   if ( m_ScalesInitialized )
     {
-    if( GetScales().Size() != n )
+    if( this->GetScales().Size() != n )
       {
       itkExceptionMacro(<<"cost function and scaling information dimensions mismatch")
       }

@@ -30,18 +30,8 @@ void
 QuaternionRigidTransformGradientDescentOptimizer
 ::AdvanceOneStep(void)
 {
-  double direction;
-
-  if ( m_Maximize )
-    {
-    direction = 1.0;
-    }
-  else
-    {
-    direction = -1.0;
-    }
-
-  ScalesType scales = this->GetScales();
+  const double direction = ( m_Maximize ) ? 1.0 : -1.0;
+  const ScalesType & scales = this->GetScales();
 
   const unsigned int spaceDimension =  m_CostFunction->GetNumberOfParameters();
 

@@ -181,7 +181,7 @@ GradientDescentOptimizer
 
   const ParametersType & currentPosition = this->GetCurrentPosition();
 
-  ScalesType scales = this->GetScales();
+  const ScalesType & scales = this->GetScales();
 
   // Make sure the scales have been set properly
   if ( scales.size() != spaceDimension )

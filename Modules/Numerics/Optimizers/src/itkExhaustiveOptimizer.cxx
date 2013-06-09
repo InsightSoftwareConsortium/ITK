@@ -77,8 +77,7 @@ ExhaustiveOptimizer
   m_CurrentIndex.SetSize(spaceDimension);
   m_CurrentIndex.Fill(0);
 
-  ScalesType scales = this->GetScales();
-
+  const ScalesType & scales = this->GetScales();
   // Make sure the scales have been set properly
   if ( scales.size() != spaceDimension )
     {
@@ -207,10 +206,11 @@ ExhaustiveOptimizer
     m_StopConditionDescription << "Completed sampling of parametric space of size " << spaceDimension;
     }
 
+  const ScalesType & scales = this->GetScales();
   for ( unsigned int i = 0; i < spaceDimension; i++ )
     {
     newPosition[i] = ( m_CurrentIndex[i] - m_NumberOfSteps[i] )
-                     * m_StepLength * this->GetScales()[i]
+                     * m_StepLength * scales[i]
                      + this->GetInitialPosition()[i];
     }
 }

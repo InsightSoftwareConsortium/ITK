@@ -56,7 +56,7 @@ int itkOptimizersHierarchyTest(int, char* [] )
   genericOptimizer->SetInitialPosition( initialPosition );
   genericOptimizer->SetScales( parameterScale );
 
-  OptimizerType::ScalesType parameterScaleGot =
+  const OptimizerType::ScalesType & parameterScaleGot =
                                  genericOptimizer->GetScales();
 
   const double tolerance = 1e-10;
