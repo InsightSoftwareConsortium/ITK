@@ -24,6 +24,7 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkShiftScaleImageFilter.h"
+#include "itkSimpleFilterWatcher.h"
 
 int itkMaskedFFTNormalizedCorrelationImageFilterTest(int argc, char * argv[] )
 {
@@ -86,6 +87,8 @@ int itkMaskedFFTNormalizedCorrelationImageFilterTest(int argc, char * argv[] )
     movingMaskReader->Update();
     filter->SetMovingImageMask(movingMaskReader->GetOutput());
   }
+
+  itk::SimpleFilterWatcher watcher(filter,"FilterWatcher");
 
   // Shift the correlation values so they can be written out as a png.
   // The original range is [-1,1], and the new range is [0,255].
