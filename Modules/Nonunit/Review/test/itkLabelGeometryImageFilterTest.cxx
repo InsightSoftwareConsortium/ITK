@@ -69,7 +69,7 @@ int itkLabelGeometryImageFilterTest( int argc, char * argv[] )
 }
 
 template < const unsigned int NDimension >
-int LabelGeometryImageFilterTest(std::string labelImageName,std::string intensityImageName,std::string outputImageName,std::string outputFileName,std::string compareFileName = "")
+int LabelGeometryImageFilterTest(std::string labelImageName,std::string intensityImageName,std::string outputImageName,std::string outputFileName,std::string compareFileName)
 {
   typedef unsigned short  LabelPixelType;
   typedef unsigned char   IntensityPixelType;
@@ -267,7 +267,7 @@ int LabelGeometryImageFilterTest(std::string labelImageName,std::string intensit
 template <class MatrixType>
 bool compareMatrices(const MatrixType & m1, const MatrixType & m2)
 {
-  const double epsilon = 1e-10;
+  const double epsilon = 1e-5;
   bool pass = true;
 
   if ( m1.rows() != m2.rows() || m1.cols() != m2.cols() )
