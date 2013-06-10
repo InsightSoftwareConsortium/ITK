@@ -121,7 +121,7 @@ public:
 
   typedef VariableLengthVector< TPixelType > ActualPixelType;
 
-  inline void Set(ActualPixelType output, const ExternalType & input) const
+  inline void Set(ActualPixelType &output, const ExternalType & input) const
   {
     output[m_ElementNumber] = input;
   }
