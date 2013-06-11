@@ -40,6 +40,26 @@ namespace gdcm
  */
 template<int T> class EncodingImplementation;
 
+
+/**
+ *  \brief A class which is used to produce compile errors for an
+ * invalid combination of template parameters.
+ *
+ * Invalid combinations have specialized declarations with no
+ * definition.
+ */
+template <int TVR, int TVM>
+class ElementDisableCombinations {};
+template <>
+class  ElementDisableCombinations<VR::OB, VM::VM1_n> {};
+template <>
+class  ElementDisableCombinations<VR::OW, VM::VM1_n> {};
+// Make it impossible to compile these other cases
+template <int TVM>
+class  ElementDisableCombinations<VR::OB, TVM>;
+template <int TVM>
+class ElementDisableCombinations<VR::OW, TVM>;
+
 /**
  * \brief Element class
  *
@@ -48,6 +68,7 @@ template<int T> class EncodingImplementation;
 template<int TVR, int TVM>
 class Element
 {
+  enum { ElementDisableCombinationsCheck = sizeof ( ElementDisableCombinations<TVR, TVM> ) };
 public:
   typename VRToType<TVR>::Type Internal[VMToLength<TVM>::Length];
   typedef typename VRToType<TVR>::Type Type;
@@ -376,6 +397,7 @@ private:
 template< int TVM>
 class Element<VR::PN, TVM> : public StringElement<TVM>
 {
+  enum { ElementDisableCombinationsCheck = sizeof ( ElementDisableCombinations<VR::PN, TVM> ) };
 };
 #endif
 
@@ -383,6 +405,7 @@ class Element<VR::PN, TVM> : public StringElement<TVM>
 template<int TVR>
 class Element<TVR, VM::VM1_n>
 {
+  enum { ElementDisableCombinationsCheck = sizeof ( ElementDisableCombinations<TVR, VM::VM1_n> ) };
 public:
   // This the way to prevent default initialization
   explicit Element() { Internal=0; Length=0; Save = false; }
@@ -546,6 +569,7 @@ private:
 template<int TVR>
 class Element<TVR, VM::VM2_n> : public Element<TVR, VM::VM1_n>
 {
+  enum { ElementDisableCombinationsCheck = sizeof ( ElementDisableCombinations<TVR, VM::VM2_n> ) };
 public:
   typedef Element<TVR, VM::VM1_n> Parent;
   void SetLength(int len) {
@@ -556,6 +580,7 @@ public:
 template<int TVR>
 class Element<TVR, VM::VM2_2n> : public Element<TVR, VM::VM2_n>
 {
+  enum { ElementDisableCombinationsCheck = sizeof ( ElementDisableCombinations<TVR, VM::VM2_2n> ) };
 public:
   typedef Element<TVR, VM::VM2_n> Parent;
   void SetLength(int len) {
@@ -566,6 +591,7 @@ public:
 template<int TVR>
 class Element<TVR, VM::VM3_n> : public Element<TVR, VM::VM1_n>
 {
+  enum { ElementDisableCombinationsCheck = sizeof ( ElementDisableCombinations<TVR, VM::VM3_n> ) };
 public:
   typedef Element<TVR, VM::VM1_n> Parent;
   void SetLength(int len) {
@@ -576,6 +602,7 @@ public:
 template<int TVR>
 class Element<TVR, VM::VM3_3n> : public Element<TVR, VM::VM3_n>
 {
+  enum { ElementDisableCombinationsCheck = sizeof ( ElementDisableCombinations<TVR, VM::VM3_3n> ) };
 public:
   typedef Element<TVR, VM::VM3_n> Parent;
   void SetLength(int len) {
@@ -595,6 +622,7 @@ public:
 template<>
 class Element<VR::AS, VM::VM5>
 {
+  enum { ElementDisableCombinationsCheck = sizeof ( ElementDisableCombinations<VR::AS, VM::VM5> ) };
 public:
   char Internal[VMToLength<VM::VM5>::Length];
   void Print(std::ostream &_os) const {
@@ -605,16 +633,14 @@ public:
   }
 };
 
+
 template <>
 class Element<VR::OB, VM::VM1> : public Element<VR::OB, VM::VM1_n> {};
-// Make it impossible to compile any other cases:
-template <int TVM> class Element<VR::OB, TVM>;
 
 // Same for OW:
 template <>
 class Element<VR::OW, VM::VM1> : public Element<VR::OW, VM::VM1_n> {};
-// Make it impossible to compile any other cases:
-template <int TVM> class Element<VR::OW, TVM>;
+
 
 } // namespace gdcm
 
