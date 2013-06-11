@@ -7,6 +7,7 @@ platform specific features. It is anticipated that most other ITK modules will
 depend on this one.")
 
 itk_module(ITKCommon
+  ENABLE_SHARED
   DEPENDS
     ITKVNLInstantiation
     ITKKWSys
