@@ -83,7 +83,7 @@ namespace itk
 template< class TInputImage,
           class TOutputImage,
           class TInterpolatorPrecisionType = double,
-          class TTransformPrecisionType = double>
+          class TTransformPrecisionType = TInterpolatorPrecisionType>
 class ITK_EXPORT ResampleImageFilter :
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
