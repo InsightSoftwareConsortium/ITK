@@ -49,7 +49,7 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType, TTra
   m_OutputStartIndex.Fill(0);
 
   m_Transform =
-    IdentityTransform< TInterpolatorPrecisionType, ImageDimension >::New();
+    IdentityTransform< TTransformPrecisionType, ImageDimension >::New();
 
   m_Interpolator = dynamic_cast< InterpolatorType * >
     ( LinearInterpolatorType::New().GetPointer() );
