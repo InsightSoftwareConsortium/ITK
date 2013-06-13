@@ -29,7 +29,7 @@ int LabelGeometryImageFilterTest(std::string labelImageName,std::string intensit
 
 // Helper function to compare matrices.
 template <class MatrixType>
-bool compareMatrices(const MatrixType & m1, const MatrixType & m2);
+bool compareMatrices(const MatrixType & m1, const MatrixType & m2, double epsilon);
 
 int itkLabelGeometryImageFilterTest( int argc, char * argv[] )
 {
@@ -71,6 +71,9 @@ int itkLabelGeometryImageFilterTest( int argc, char * argv[] )
 template < const unsigned int NDimension >
 int LabelGeometryImageFilterTest(std::string labelImageName,std::string intensityImageName,std::string outputImageName,std::string outputFileName,std::string compareFileName)
 {
+  // Tolerance for comparing the matrix of features for regression testing.
+  double epsilon = 1e-3;
+
   typedef unsigned short  LabelPixelType;
   typedef unsigned char   IntensityPixelType;
 
@@ -165,7 +168,11 @@ int LabelGeometryImageFilterTest(std::string labelImageName,std::string intensit
     matrix(rowIndex,columnIndex++) = labelGeometryFilter->GetMinorAxisLength(labelValue);
     matrix(rowIndex,columnIndex++) = labelGeometryFilter->GetEccentricity(labelValue);
     matrix(rowIndex,columnIndex++) = labelGeometryFilter->GetElongation(labelValue);
-    matrix(rowIndex,columnIndex++) = labelGeometryFilter->GetOrientation(labelValue);
+
+    typename LabelGeometryType::RealType orientation = labelGeometryFilter->GetOrientation(labelValue);
+    // If the orientation is very close pi, we set it to 0.
+    orientation = vcl_fabs(vnl_math::pi - orientation) < epsilon ? 0 : orientation;
+    matrix(rowIndex,columnIndex++) = orientation;
 
     rowIndex++;
   }
@@ -205,6 +212,7 @@ int LabelGeometryImageFilterTest(std::string labelImageName,std::string intensit
     std::cerr << exp << std::endl;
     return EXIT_FAILURE;
   }
+  delete matrixPointer;
 
   // If an optional csv file was passed in, compare the results of this analysis with the values in the file.
   // This enables regression testing on the calculated values.
@@ -252,7 +260,7 @@ int LabelGeometryImageFilterTest(std::string labelImageName,std::string intensit
     std::cout << newMatrix << std::endl;
 
     // Compare the matrices.
-    if ( !compareMatrices(newMatrix,compareMatrix) )
+    if ( !compareMatrices(newMatrix,compareMatrix,epsilon) )
     {
       std::cerr << "Matrices are not the same! Test Failed!" << std::endl;
       return EXIT_FAILURE;
@@ -265,9 +273,8 @@ int LabelGeometryImageFilterTest(std::string labelImageName,std::string intensit
 
 // function for comparing matrices
 template <class MatrixType>
-bool compareMatrices(const MatrixType & m1, const MatrixType & m2)
+bool compareMatrices(const MatrixType & m1, const MatrixType & m2, double epsilon)
 {
-  const double epsilon = 1e-5;
   bool pass = true;
 
   if ( m1.rows() != m2.rows() || m1.cols() != m2.cols() )
