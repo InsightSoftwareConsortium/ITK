@@ -2,6 +2,7 @@ itk_module_test()
 set(ITKIOGDCMTests
 itkGDCMImageIOTest.cxx
 itkGDCMImageIOTest2.cxx
+itkGDCMImageIONoCrashTest.cxx
 itkGDCMSeriesReadImageWrite.cxx
 itkGDCMSeriesMissingDicomTagTest.cxx
 itkGDCMSeriesStreamReadImageWrite.cxx
@@ -61,3 +62,6 @@ itk_add_test(NAME itkGDCMImageIOOrthoDirTest
   DATA{${ITK_DATA_ROOT}/Input/OrthogonalDirectionsTest.dcm})
 
 set_property(TEST itkGDCMSeriesMissingDicomTagTest APPEND PROPERTY DEPENDS ITKData)
+
+itk_add_test(NAME itkGDCMImageIONoCrashTest
+             COMMAND ITKIOGDCMTestDriver itkGDCMImageIONoCrashTest DATA{${ITK_DATA_ROOT}/Input/OT-PAL-8-face.dcm})
