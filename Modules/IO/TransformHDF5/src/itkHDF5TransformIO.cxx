@@ -23,14 +23,14 @@ namespace itk
 // HDF uses hierarchical paths to find particular data
 // in a file. These strings are used by both reading and
 // writing.
-const std::string transformGroupName("/TransformGroup");
-const std::string transformTypeName("/TransformType");
-const std::string transformFixedName("/TranformFixedParameters");
-const std::string transformParamsName("/TranformParameters");
-const std::string ItkVersion("/ITKVersion");
-const std::string HDFVersion("/HDFVersion");
-const std::string OSName("/OSName");
-const std::string OSVersion("/OSVersion");
+const std::string HDF5CommonPathNames::transformGroupName(std::string("/TransformGroup"));
+const std::string HDF5CommonPathNames::transformTypeName("/TransformType");
+const std::string HDF5CommonPathNames::transformFixedName("/TranformFixedParameters");
+const std::string HDF5CommonPathNames::transformParamsName("/TranformParameters");
+const std::string HDF5CommonPathNames::ItkVersion("/ITKVersion");
+const std::string HDF5CommonPathNames::HDFVersion("/HDFVersion");
+const std::string HDF5CommonPathNames::OSName("/OSName");
+const std::string HDF5CommonPathNames::OSVersion("/OSVersion");
 
 // I couldn't figure out a way to represent transforms
 // excepts as groups -- the HDF5 composite only allows
@@ -42,7 +42,7 @@ const std::string
 GetTransformName(int i)
 {
   std::stringstream s;
-  s << transformGroupName;
+  s << HDF5CommonPathNames::transformGroupName;
   s << "/";
   s << i;
   return s.str();

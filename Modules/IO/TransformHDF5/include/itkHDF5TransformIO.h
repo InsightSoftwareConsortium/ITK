@@ -34,6 +34,39 @@ class H5File;
 
 namespace itk
 {
+
+
+/** \class HDF5CommonPathNames
+ * \brief Secondary bass class of HDF5CommonPathNames common between templates
+ *
+ * This class provides common non-templated code which can be compiled
+ * and used by all templated versions of HDF5TransformIOTemplate.
+ *
+ * This class must be inherited privately, and light-weight adapting
+ * of methods is required for virtual methods or non-private methods
+ * for the HDF5TransformIOTemplate interface.
+ *
+ * \ingroup ITKIOTransformHDF5
+ *
+ */
+struct HDF5CommonPathNames
+  {
+  //
+  // HDF uses hierarchical paths to find particular data
+  // in a file. These strings are used by both reading and
+  // writing.
+  static const std::string transformGroupName;
+  static const std::string transformTypeName;
+  static const std::string transformFixedName;
+  static const std::string transformParamsName;
+  static const std::string ItkVersion;
+  static const std::string HDFVersion;
+  static const std::string OSName;
+  static const std::string OSVersion;
+  };
+
+
+
 /** \class HDF5TransformIOTemplate
  *  \brief Read&Write transforms in HDF5 Format
  *
@@ -44,7 +77,8 @@ namespace itk
  * \ingroup ITKIOTransformHDF5
  */
 template< class TInternalComputationValueType >
-class HDF5TransformIOTemplate:public TransformIOBaseTemplate< TInternalComputationValueType >
+class HDF5TransformIOTemplate:public TransformIOBaseTemplate< TInternalComputationValueType >,
+private HDF5CommonPathNames
 {
 public:
   typedef HDF5TransformIOTemplate                               Self;
@@ -99,19 +133,6 @@ private:
 
   H5::H5File *m_H5File;
 };
-//
-// HDF uses hierarchical paths to find particular data
-// in a file. These strings are used by both reading and
-// writing.
-extern const std::string transformGroupName;
-extern const std::string transformTypeName;
-extern const std::string transformFixedName;
-extern const std::string transformParamsName;
-extern const std::string ItkVersion;
-extern const std::string HDFVersion;
-extern const std::string OSName;
-extern const std::string OSVersion;
-
 extern const std::string  GetTransformName(int);
 
 /** This helps to meet backward compatibility */
