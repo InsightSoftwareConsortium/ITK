@@ -39,30 +39,13 @@ int itkTransformFileWriterTemplateTest( int argc, char *argv[] )
             << dynamic_cast<TransformWriterType::Superclass *>(transformWriter.GetPointer())->GetNameOfClass()
             << std::endl;
 
-  try
-    {
-    // trigger empty write exception
-    transformWriter->Update();
-    }
-  catch(itk::ExceptionObject &excp)
-    {
-    std::cerr << "Expected exception (no filename)" << std::endl
-              << excp << std::endl;
-    }
-  transformWriter->SetFileName("transform.garbage");
-  try
-    {
-    // trigger exception for transformio not found
-    transformWriter->Update();
-    }
-  catch(itk::ExceptionObject &excp)
-    {
-    std::cerr << "Expected exception (no transformio that can write file)"
-              << excp << std::endl;
-    }
+  // trigger empty write exception
+  TRY_EXPECT_EXCEPTION( transformWriter->Update() );
 
+  transformWriter->SetFileName("transform.garbage");
+  // trigger exception for transformio not found
+  TRY_EXPECT_EXCEPTION( transformWriter->Update() );
 
   std::cout << "Test PASSED!" << std::endl;
-
   return EXIT_SUCCESS;
 }

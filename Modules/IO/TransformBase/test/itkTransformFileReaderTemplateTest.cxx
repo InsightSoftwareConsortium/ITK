@@ -38,29 +38,13 @@ int itkTransformFileReaderTemplateTest( int argc, char *argv[] )
             << dynamic_cast<TransformReaderType::Superclass *>(transformReader.GetPointer())->GetNameOfClass()
             << std::endl;
 
-  try
-    {
-    //trigger empty read exception
-    transformReader->Update();
-    }
-  catch(itk::ExceptionObject &excp)
-    {
-    std::cerr << "Expected exception (no filename)" << std::endl
-              << excp << std::endl;
-    }
+  //trigger empty read exception
+  TRY_EXPECT_EXCEPTION( transformReader->Update() );
+
   transformReader->SetFileName("transform.garbage");
-  try
-    {
-    // trigger exception for transformio not found
-    transformReader->Update();
-    }
-  catch(itk::ExceptionObject &excp)
-    {
-    std::cerr << "Expected exception (no transformio that can read file)"
-              << excp << std::endl;
-    }
+  // trigger exception for transformio not found
+  TRY_EXPECT_EXCEPTION( transformReader->Update() );
 
   std::cout << "Test PASSED!" << std::endl;
-
   return EXIT_SUCCESS;
 }
