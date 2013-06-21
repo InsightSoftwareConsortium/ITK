@@ -1274,6 +1274,7 @@ void MINCImageIO::WriteImageInformation(void)
         //TODO: figure out what to do with it
       }
     }
+    mifree_volume_props( hprops );
 }
 
 template<class T> void get_buffer_min_max(const void* _buffer,size_t len,double &buf_min,double &buf_max)
