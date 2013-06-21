@@ -175,6 +175,7 @@ public:
   typedef typename RealImageType::IndexType         RealIndexType;
   typedef typename RealImageType::SizeType          RealSizeType;
   typedef typename RealImageType::RegionType        RealRegionType;
+  typedef typename RealImageType::PointType         RealPointType;
 
   typedef TMaskImage                                MaskImageType;
   typedef typename MaskImageType::Pointer           MaskImagePointer;
@@ -271,9 +272,11 @@ protected:
    * \sa ProcessObject::GenerateOutputRequestedRegion() */
   void GenerateOutputInformation();
 
+  void EnlargeOutputRequestedRegion( DataObject *output );
+
   typename TMaskImage::Pointer PreProcessMask( const InputImageType * inputImage, const MaskImageType * inputMask );
 
-  typename TInputImage::Pointer PreProcessImage( const InputImageType * inputImage, MaskImageType * inputMask );
+  typename TInputImage::Pointer PreProcessImage( const InputImageType * inputImage, const MaskImageType * inputMask );
 
   template< class LocalInputImageType >
   typename LocalInputImageType::Pointer RotateImage( LocalInputImageType * inputImage );
