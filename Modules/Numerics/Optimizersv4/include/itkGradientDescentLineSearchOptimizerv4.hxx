@@ -15,6 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+#ifndef __itkGradientDescentLineSearchOptimizerv4_hxx
+#define __itkGradientDescentLineSearchOptimizerv4_hxx
 
 #include "itkGradientDescentLineSearchOptimizerv4.h"
 
@@ -24,12 +26,13 @@ namespace itk
 /**
  * Default constructor
  */
-GradientDescentLineSearchOptimizerv4
-::GradientDescentLineSearchOptimizerv4()
+template<class TInternalComputationValueType>
+GradientDescentLineSearchOptimizerTemplatev4<TInternalComputationValueType>
+::GradientDescentLineSearchOptimizerTemplatev4()
 {
   this->m_MaximumLineSearchIterations = 20;
   this->m_LineSearchIterations = NumericTraits<unsigned int>::Zero;
-  this->m_LowerLimit = itk::NumericTraits< InternalComputationValueType >::Zero;
+  this->m_LowerLimit = itk::NumericTraits< TInternalComputationValueType >::Zero;
   this->m_UpperLimit = 5.0;
   this->m_Phi = 1.618034;
   this->m_Resphi = 2 - this->m_Phi;
@@ -38,28 +41,31 @@ GradientDescentLineSearchOptimizerv4
 }
 
 /**
- * Destructor
- */
-GradientDescentLineSearchOptimizerv4
-::~GradientDescentLineSearchOptimizerv4()
+* Destructor
+*/
+template<class TInternalComputationValueType>
+GradientDescentLineSearchOptimizerTemplatev4<TInternalComputationValueType>
+::~GradientDescentLineSearchOptimizerTemplatev4()
 {}
 
 
 /**
- *PrintSelf
- */
+*PrintSelf
+*/
+template<class TInternalComputationValueType>
 void
-GradientDescentLineSearchOptimizerv4
+GradientDescentLineSearchOptimizerTemplatev4<TInternalComputationValueType>
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-}
+  }
 
 /**
- * Advance one Step following the gradient direction
- */
+* Advance one Step following the gradient direction
+*/
+template<class TInternalComputationValueType>
 void
-GradientDescentLineSearchOptimizerv4
+GradientDescentLineSearchOptimizerTemplatev4<TInternalComputationValueType>
 ::AdvanceOneStep()
 {
   itkDebugMacro("AdvanceOneStep");
@@ -77,7 +83,7 @@ GradientDescentLineSearchOptimizerv4
 
   this->m_LineSearchIterations = 0;
   this->m_LearningRate = this->GoldenSectionSearch( this->m_LearningRate * this->m_LowerLimit ,
-    this->m_LearningRate , this->m_LearningRate * this->m_UpperLimit );
+                                                   this->m_LearningRate , this->m_LearningRate * this->m_UpperLimit );
 
   /* Begin threaded gradient modification of m_Gradient variable. */
   this->ModifyGradientByLearningRate();
@@ -87,17 +93,17 @@ GradientDescentLineSearchOptimizerv4
     /* Pass graident to transform and let it do its own updating */
     this->m_Metric->UpdateTransformParameters( this->m_Gradient );
     }
-  catch ( ExceptionObject & )
+  catch ( ExceptionObject & err )
     {
-    this->m_StopCondition = UPDATE_PARAMETERS_ERROR;
+    this->m_StopCondition = Superclass::UPDATE_PARAMETERS_ERROR;
     this->m_StopConditionDescription << "UpdateTransformParameters error";
     this->StopOptimization();
-    // Pass exception to caller
-    throw;
+      // Pass exception to caller
+    throw err;
     }
 
   this->InvokeEvent( IterationEvent() );
-}
+  }
 
 
 // a and c are the current bounds; the minimum is between them.
@@ -105,9 +111,10 @@ GradientDescentLineSearchOptimizerv4
 // f(x) is some mathematical function elsewhere defined
 // a corresponds to x1; b corresponds to x2; c corresponds to x3
 // x corresponds to x4
-GradientDescentLineSearchOptimizerv4::InternalComputationValueType
-GradientDescentLineSearchOptimizerv4
-::GoldenSectionSearch( InternalComputationValueType a, InternalComputationValueType b, InternalComputationValueType c )
+template<class TInternalComputationValueType>
+TInternalComputationValueType
+GradientDescentLineSearchOptimizerTemplatev4<TInternalComputationValueType>
+::GoldenSectionSearch( TInternalComputationValueType a, TInternalComputationValueType b, TInternalComputationValueType c )
 {
   if ( this->m_LineSearchIterations > this->m_MaximumLineSearchIterations )
     {
@@ -115,7 +122,7 @@ GradientDescentLineSearchOptimizerv4
     }
   this->m_LineSearchIterations++;
 
-  InternalComputationValueType x;
+  TInternalComputationValueType x;
   if ( c - b > b - a )
     {
     x = b + this->m_Resphi * ( c - b );
@@ -129,37 +136,37 @@ GradientDescentLineSearchOptimizerv4
     return ( c + a ) / 2;
     }
 
-  InternalComputationValueType metricx, metricb;
+  TInternalComputationValueType metricx, metricb;
 
-  {
-  // Cache the learning rate , parameters , gradient
-  // Contain this in a block so these variables go out of
-  // scope before we call recursively below. With dense transforms
-  // we would otherwise eat up a lot of memory unnecessarily.
-  InternalComputationValueType baseLearningRate = this->m_LearningRate;
-  DerivativeType baseGradient( this->m_Gradient );
-  ParametersType baseParameters( this->GetCurrentPosition() );
+    {
+      // Cache the learning rate , parameters , gradient
+      // Contain this in a block so these variables go out of
+      // scope before we call recursively below. With dense transforms
+      // we would otherwise eat up a lot of memory unnecessarily.
+    TInternalComputationValueType baseLearningRate = this->m_LearningRate;
+    DerivativeType baseGradient( this->m_Gradient );
+    ParametersType baseParameters( this->GetCurrentPosition() );
 
-  this->m_LearningRate = x;
-  this->ModifyGradientByLearningRate();
-  this->m_Metric->UpdateTransformParameters( this->m_Gradient );
-  metricx = this->GetMetric()->GetValue( );
+    this->m_LearningRate = x;
+    this->ModifyGradientByLearningRate();
+    this->m_Metric->UpdateTransformParameters( this->m_Gradient );
+    metricx = this->GetMetric()->GetValue( );
 
-  /** reset position of transform and gradient */
-  this->m_Metric->SetParameters( baseParameters );
-  this->m_Gradient = baseGradient;
+    /** reset position of transform and gradient */
+    this->m_Metric->SetParameters( baseParameters );
+    this->m_Gradient = baseGradient;
 
-  this->m_LearningRate = b;
-  this->ModifyGradientByLearningRate();
+    this->m_LearningRate = b;
+    this->ModifyGradientByLearningRate();
 
-  this->m_Metric->UpdateTransformParameters( this->m_Gradient );
-  metricb = this->GetMetric()->GetValue( );
+    this->m_Metric->UpdateTransformParameters( this->m_Gradient );
+    metricb = this->GetMetric()->GetValue( );
 
-  /** reset position of transform and learning rate */
-  this->m_Metric->SetParameters( baseParameters );
-  this->m_Gradient = baseGradient;
-  this->m_LearningRate = baseLearningRate;
-  }
+    /** reset position of transform and learning rate */
+    this->m_Metric->SetParameters( baseParameters );
+    this->m_Gradient = baseGradient;
+    this->m_LearningRate = baseLearningRate;
+    }
 
   /** golden section */
   if (  metricx < metricb )
@@ -184,6 +191,8 @@ GradientDescentLineSearchOptimizerv4
       return this->GoldenSectionSearch( x, b, c  );
       }
     }
-}
+  }
 
 }//namespace itk
+
+#endif

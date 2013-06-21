@@ -27,21 +27,22 @@
 #include "itkBSplineTransform.h"
 #include "itksys/SystemTools.hxx"
 
-
+template<class ScalarType>
 static int oneTest(const char *goodname,const char *badname)
 {
   unsigned int i;
-  typedef itk::AffineTransform<double,4>  AffineTransformType;
-  typedef itk::AffineTransform<double,10> AffineTransformTypeNotRegistered;
-  AffineTransformType::Pointer        affine = AffineTransformType::New();
-  AffineTransformType::InputPointType cor;
-
+  typedef itk::AffineTransform<ScalarType,4>  AffineTransformType;
+  typedef itk::AffineTransform<ScalarType,10> AffineTransformTypeNotRegistered;
+  typename AffineTransformType::Pointer        affine = AffineTransformType::New();
+  typename AffineTransformType::InputPointType cor;
+  typedef itk::TransformFileWriterTemplate<ScalarType> TransformWriterType;
+  typedef itk::TransformFileReaderTemplate<ScalarType> TransformReaderType;
 
   itk::ObjectFactoryBase::RegisterFactory(itk::MatlabTransformIOFactory::New() );
 
 
   // Set it's parameters
-  AffineTransformType::ParametersType p = affine->GetParameters();
+  typename AffineTransformType::ParametersType p = affine->GetParameters();
   for ( i = 0; i < p.GetSize(); i++ )
     {
     p[i] = i;
@@ -53,12 +54,11 @@ static int oneTest(const char *goodname,const char *badname)
     p[i] = i;
     }
   affine->SetFixedParameters ( p );
-  itk::TransformFileWriter::Pointer writer;
-  itk::TransformFileReader::Pointer reader;
+  typename TransformWriterType::Pointer writer = TransformWriterType::New();
+  typename TransformReaderType::Pointer reader = TransformReaderType::New();
 
-  reader = itk::TransformFileReader::New();
-  writer = itk::TransformFileWriter::New();
-  writer->AddTransform(affine);
+  //writer->AddTransform(affine);
+  writer->SetInput(affine);
 
   writer->SetFileName( goodname );
   reader->SetFileName( goodname );
@@ -68,9 +68,11 @@ static int oneTest(const char *goodname,const char *badname)
   try
     {
     writer->Update();
+    std::cout << "Writing " << goodname << " to the disk is done." << std::endl;
     std::cout << std::endl;
     std::cout << "Testing read : " << std::endl;
     reader->Update();
+    std::cout << goodname << "is read from disk successfully." << std::endl;
     }
   catch( itk::ExceptionObject & excp )
     {
@@ -83,9 +85,9 @@ static int oneTest(const char *goodname,const char *badname)
 
   try
     {
-    itk::TransformFileReader::TransformListType *list;
+    typename TransformReaderType::TransformListType *list;
     list = reader->GetTransformList();
-    itk::TransformFileReader::TransformListType::iterator lit = list->begin();
+    typename TransformReaderType::TransformListType::iterator lit = list->begin();
     while ( lit != list->end() )
       {
       (*lit)->Print ( std::cout );
@@ -101,8 +103,8 @@ static int oneTest(const char *goodname,const char *badname)
     }
 
 
-  std::cout << "Creating bad writer" << std::endl;
-  AffineTransformTypeNotRegistered::Pointer Bogus = AffineTransformTypeNotRegistered::New();
+  std::cout << "\n\nCreating bad writer" << std::endl;
+  typename AffineTransformTypeNotRegistered::Pointer Bogus = AffineTransformTypeNotRegistered::New();
 
   // Set it's parameters
   p = Bogus->GetParameters();
@@ -118,12 +120,12 @@ static int oneTest(const char *goodname,const char *badname)
     }
   Bogus->SetFixedParameters ( p );
 
-  itk::TransformFileWriter::Pointer badwriter;
-  itk::TransformFileReader::Pointer badreader;
-  badreader = itk::TransformFileReader::New();
-  badwriter = itk::TransformFileWriter::New();
+  typename TransformWriterType::Pointer badwriter = TransformWriterType::New();
+  typename TransformReaderType::Pointer badreader = TransformReaderType::New();
+
   badwriter->AddTransform(Bogus);
   badwriter->SetFileName(badname);
+
   badreader->SetFileName(badname);
 
   // Testing writing
@@ -171,8 +173,8 @@ static int oneTest(const char *goodname,const char *badname)
 // EOL at end of file.
 // This test will exercise this reported bug:
 // http://public.kitware.com/Bug/view.php?id=7028
-int
-secondTest()
+template<class ScalarType>
+int secondTest()
 {
   std::filebuf fb;
   fb.open("IllegalTransform.txt",std::ios::out);
@@ -189,16 +191,17 @@ secondTest()
      << std::endl
      << "FixedParameters: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18";
   fb.close();
-  itk::TransformFileReader::Pointer reader;
-  reader = itk::TransformFileReader::New();
+
+  typedef itk::TransformFileReaderTemplate<ScalarType> TransformReaderType;
+  typename TransformReaderType::Pointer reader = TransformReaderType::New();
   reader->SetFileName("IllegalTransform.txt");
   try
     {
     reader->Update();
     std::cerr << "FAILED to throw expected exception" << std::endl;
-    itk::TransformFileReader::TransformListType *list;
+    typename TransformReaderType::TransformListType *list;
     list = reader->GetTransformList();
-    itk::TransformFileReader::TransformListType::iterator lit =
+    typename TransformReaderType::TransformListType::iterator lit =
       list->begin();
     while ( lit != list->end() )
       {
@@ -222,8 +225,15 @@ int itkIOTransformMatlabTest(int argc, char* argv[])
     {
     itksys::SystemTools::ChangeDirectory(argv[1]);
     }
-  int result1 =  oneTest("Transforms.mat", "TransformsBad.mat" );
-  int result2 =  secondTest();
-  return !( result1 == EXIT_SUCCESS
-     && result2 == EXIT_SUCCESS);
+
+  int result1 =  oneTest<float>("Transforms_float.mat", "TransformsBad_float.mat" );
+  int result2 =  secondTest<float>();
+
+  int result3 =  oneTest<double>("Transforms_double.mat", "TransformsBad_double.mat" );
+  int result4 =  secondTest<double>();
+
+  return (
+          ( !( result1 == EXIT_SUCCESS && result2 == EXIT_SUCCESS) ) &&
+          ( !( result3 == EXIT_SUCCESS && result4 == EXIT_SUCCESS) )
+         );
 }

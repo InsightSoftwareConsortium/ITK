@@ -82,16 +82,17 @@ public:
   typedef typename DisplacementFieldType::Pointer     DisplacementFieldPointer;
   typedef typename DisplacementFieldType::PixelType   VectorType;
   typedef typename VectorType::RealValueType          RealType;
+  typedef typename VectorType::ValueType              ScalarType;
   typedef typename DisplacementFieldType::PointType   PointType;
   typedef typename DisplacementFieldType::RegionType  OutputRegionType;
 
   typedef VectorInterpolateImageFunction
-    <TimeVaryingVelocityFieldType, RealType>    VelocityFieldInterpolatorType;
+    <TimeVaryingVelocityFieldType, ScalarType>    VelocityFieldInterpolatorType;
   typedef typename VelocityFieldInterpolatorType::Pointer
-                                                VelocityFieldInterpolatorPointer;
+                                                  VelocityFieldInterpolatorPointer;
 
-  typedef VectorInterpolateImageFunction<DisplacementFieldType, RealType>   DisplacementFieldInterpolatorType;
-  typedef typename DisplacementFieldInterpolatorType::Pointer               DisplacementFieldInterpolatorPointer;
+  typedef VectorInterpolateImageFunction<DisplacementFieldType, ScalarType>   DisplacementFieldInterpolatorType;
+  typedef typename DisplacementFieldInterpolatorType::Pointer                 DisplacementFieldInterpolatorPointer;
 
   /** Get/Set the time-varying velocity field interpolator.  Default = linear. */
   itkSetObjectMacro( VelocityFieldInterpolator, VelocityFieldInterpolatorType );

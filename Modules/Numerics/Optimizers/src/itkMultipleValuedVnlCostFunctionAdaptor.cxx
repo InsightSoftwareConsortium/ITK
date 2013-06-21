@@ -34,8 +34,19 @@ void
 MultipleValuedVnlCostFunctionAdaptor
 ::SetScales(const ScalesType & scales)
 {
-  this->m_Scales = scales;
-  this->m_ScalesInitialized = true;
+  //Only the inverse is used computes the inverse at each iteration.
+  //provides 1 commone place where the inverse can be computes
+  //and validated.
+  m_InverseScales.SetSize(scales.GetSize());
+  for( unsigned int i =0 ; i < scales.size(); ++i)
+    {
+    if ( scales[i] <= NumericTraits<double>::epsilon() )
+      {
+      itkGenericExceptionMacro("ERROR: Scales must have value greater than epsilon! Scale[" << i << "] = " << scales[i] );
+      }
+    m_InverseScales[i] = NumericTraits<double>::One / scales[i];
+    }
+  m_ScalesInitialized = true;
 }
 
 /**  Delegate computation of the value to the CostFunction. */
@@ -56,9 +67,10 @@ MultipleValuedVnlCostFunctionAdaptor
   // Use scales if they are provided
   if ( this->m_ScalesInitialized )
     {
+    const ScalesType & invScales = this->GetInverseScales();
     for ( unsigned int i = 0; i < parameters.size(); i++ )
       {
-      parameters[i] = inparameters[i] / this->m_Scales[i];
+      parameters[i] = inparameters[i] * invScales[i];
       }
     }
   else
@@ -93,9 +105,10 @@ MultipleValuedVnlCostFunctionAdaptor
   ParametersType parameters( inparameters.size() );
   if ( this->m_ScalesInitialized )
     {
+    const ScalesType & invScales = this->GetInverseScales();
     for ( unsigned int i = 0; i < parameters.size(); i++ )
       {
-      parameters[i] = inparameters[i] / this->m_Scales[i];
+      parameters[i] = inparameters[i] *  invScales[i];
       }
     }
   else
@@ -120,9 +133,10 @@ MultipleValuedVnlCostFunctionAdaptor
 
   if ( this->m_ScalesInitialized )
     {
+    const ScalesType & invScales = this->GetInverseScales();
     for ( unsigned int i = 0; i < parameters.size(); i++ )
       {
-      parameters[i] = x[i] / this->m_Scales[i];
+      parameters[i] = x[i] * invScales[i];
       }
     }
   else
@@ -154,6 +168,7 @@ MultipleValuedVnlCostFunctionAdaptor
   const unsigned int rows = input.rows();
   const unsigned int cols = input.cols();
 
+  const ScalesType & invScales = this->GetInverseScales();
   for ( unsigned int i = 0; i < rows; i++ )
     {
     for ( unsigned int j = 0; j < cols; j++ )
@@ -162,7 +177,7 @@ MultipleValuedVnlCostFunctionAdaptor
 
       if ( this->m_ScalesInitialized )
         {
-        output(j, i) /= this->m_Scales[i];
+        output(j, i) *= invScales[i];
         }
       }
     }

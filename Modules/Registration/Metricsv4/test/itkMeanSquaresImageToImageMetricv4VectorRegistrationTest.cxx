@@ -137,8 +137,8 @@ int itkMeanSquaresImageToImageMetricv4VectorRegistrationTest(int argc, char *arg
 
   // The metric
   typedef itk::Image< double, Dimension>                                                                                VirtualImageType;
-  typedef itk::VectorImageToImageMetricTraitsv4< FixedImageType, MovingImageType, VirtualImageType, PixelType::Length > MetricTraitsType;
-  typedef itk::MeanSquaresImageToImageMetricv4 < FixedImageType, MovingImageType, VirtualImageType, MetricTraitsType >  MetricType;
+  typedef itk::VectorImageToImageMetricTraitsv4< FixedImageType, MovingImageType, VirtualImageType, PixelType::Length> MetricTraitsType;
+  typedef itk::MeanSquaresImageToImageMetricv4 < FixedImageType, MovingImageType, VirtualImageType, double, MetricTraitsType >  MetricType;
   typedef MetricType::FixedSampledPointSetType                                                                        PointSetType;
   MetricType::Pointer metric = MetricType::New();
 

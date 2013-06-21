@@ -276,7 +276,7 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
     {
     for( unsigned int n = 0; n < this->m_MovingSmoothImages.size(); n++ )
       {
-      typedef ResampleImageFilter<MovingImageType, MovingImageType> MovingResamplerType;
+      typedef ResampleImageFilter<MovingImageType, MovingImageType, RealType> MovingResamplerType;
       typename MovingResamplerType::Pointer movingResampler = MovingResamplerType::New();
       movingResampler->SetTransform( movingTransform );
       movingResampler->SetInput( movingImages[n] );
@@ -287,7 +287,7 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
       movingResampler->SetDefaultPixelValue( 0 );
       movingResampler->Update();
 
-      typedef ResampleImageFilter<FixedImageType, FixedImageType> FixedResamplerType;
+      typedef ResampleImageFilter<FixedImageType, FixedImageType, RealType> FixedResamplerType;
       typename FixedResamplerType::Pointer fixedResampler = FixedResamplerType::New();
       fixedResampler->SetTransform( fixedTransform );
       fixedResampler->SetInput( fixedImages[n] );

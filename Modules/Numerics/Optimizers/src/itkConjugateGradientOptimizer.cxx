@@ -86,7 +86,7 @@ ConjugateGradientOptimizer
 
   if ( m_ScalesInitialized )
     {
-    const ScalesType scales = this->GetScales();
+    const ScalesType & scales = this->GetScales();
     for ( unsigned int i = 0; i < parameters.size(); i++ )
       {
       parameters[i] *= scales[i];
@@ -120,7 +120,7 @@ ConjugateGradientOptimizer
   // and at the end of this function.
   if ( m_ScalesInitialized )
     {
-    ScalesType scales = this->GetScales();
+    const ScalesType & scales = this->GetScales();
     this->GetNonConstCostFunctionAdaptor()->SetScales(scales);
     for ( unsigned int i = 0; i < parameters.size(); i++ )
       {
@@ -135,10 +135,10 @@ ConjugateGradientOptimizer
   // we scale the parameters down if scales are defined
   if ( m_ScalesInitialized )
     {
-    ScalesType scales = this->GetScales();
-    for ( unsigned int i = 0; i < parameters.size(); i++ )
+    const ScalesType & invScales = this->GetInverseScales();
+    for ( unsigned int i = 0; i < parameters.size(); ++i )
       {
-      parameters[i] /= scales[i];
+      parameters[i] *= invScales[i];
       }
     }
 

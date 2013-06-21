@@ -23,8 +23,8 @@
 namespace itk
 {
 
-template < class TFixedImage, class TMovingImage, class TVirtualImage >
-DemonsImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage>
+template < class TFixedImage, class TMovingImage, class TVirtualImage, class TInternalComputationValueType, class TMetricTraits >
+DemonsImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage, TInternalComputationValueType, TMetricTraits>
 ::DemonsImageToImageMetricv4()
 {
   // We have our own GetValueAndDerivativeThreader's that we want
@@ -35,21 +35,21 @@ DemonsImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage>
   // Unlike most other metrics, this defaults to using fixed image gradients
   this->SetGradientSource( this->GRADIENT_SOURCE_FIXED );
 
-  this->m_Normalizer = NumericTraits<InternalComputationValueType>::One;
-  this->m_DenominatorThreshold = static_cast<InternalComputationValueType>(1e-9);
-  this->m_IntensityDifferenceThreshold = static_cast<InternalComputationValueType>(0.001);
+  this->m_Normalizer = NumericTraits<TInternalComputationValueType>::One;
+  this->m_DenominatorThreshold = static_cast<TInternalComputationValueType>(1e-9);
+  this->m_IntensityDifferenceThreshold = static_cast<TInternalComputationValueType>(0.001);
 
 }
 
-template < class TFixedImage, class TMovingImage, class TVirtualImage >
-DemonsImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage>
+template < class TFixedImage, class TMovingImage, class TVirtualImage, class TInternalComputationValueType, class TMetricTraits >
+DemonsImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage, TInternalComputationValueType, TMetricTraits>
 ::~DemonsImageToImageMetricv4()
 {
 }
 
-template < class TFixedImage, class TMovingImage, class TVirtualImage >
+template < class TFixedImage, class TMovingImage, class TVirtualImage, class TInternalComputationValueType, class TMetricTraits >
 void
-DemonsImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage>
+DemonsImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage, TInternalComputationValueType, TMetricTraits>
 ::Initialize(void) throw ( itk::ExceptionObject )
 {
   // Make sure user has not set to use both moving and fixed image
@@ -82,19 +82,19 @@ DemonsImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage>
     dimension = MovingImageDimension;
     }
 
-  this->m_Normalizer = NumericTraits<InternalComputationValueType>::Zero;
+  this->m_Normalizer = NumericTraits<TInternalComputationValueType>::Zero;
   for ( ImageDimensionType k = 0; k < dimension; k++ )
     {
     this->m_Normalizer += imageSpacing[k] * imageSpacing[k];
     }
-  this->m_Normalizer /= static_cast<InternalComputationValueType>( dimension );
+  this->m_Normalizer /= static_cast<TInternalComputationValueType>( dimension );
 
   Superclass::Initialize();
 }
 
-template < class TFixedImage, class TMovingImage, class TVirtualImage  >
+template < class TFixedImage, class TMovingImage, class TVirtualImage, class TInternalComputationValueType, class TMetricTraits >
 void
-DemonsImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage>
+DemonsImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage, TInternalComputationValueType, TMetricTraits>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);

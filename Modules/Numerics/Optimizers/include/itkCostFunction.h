@@ -32,23 +32,23 @@ namespace itk
  *
  * \ingroup ITKOptimizers
  */
-
-class ITK_EXPORT CostFunction:public Object
+template< class TInternalComputationValueType >
+class ITK_EXPORT CostFunctionTemplate:public Object
 {
 public:
   /** Standard class typedefs. */
-  typedef CostFunction               Self;
+  typedef CostFunctionTemplate       Self;
   typedef Object                     Superclass;
   typedef SmartPointer< Self >       Pointer;
   typedef SmartPointer< const Self > ConstPointer;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(CostFunction, Object);
+  itkTypeMacro(CostFunctionTemplate, Object);
 
   /**  ParametersType typedef.
    *  It defines a position in the optimization search space. */
-  typedef double                                     ParametersValueType;
-  typedef OptimizerParameters< ParametersValueType > ParametersType;
+  typedef TInternalComputationValueType                        ParametersValueType;
+  typedef OptimizerParameters< TInternalComputationValueType > ParametersType;
 
   /** Return the number of parameters required to compute
    *  this cost function.
@@ -56,14 +56,22 @@ public:
   virtual unsigned int GetNumberOfParameters(void) const  = 0;
 
 protected:
-  CostFunction() {}
-  virtual ~CostFunction() {}
+  CostFunctionTemplate() {}
+  virtual ~CostFunctionTemplate() {}
   void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  CostFunction(const Self &);   //purposely not implemented
+  CostFunctionTemplate(const Self &);   //purposely not implemented
   void operator=(const Self &); //purposely not implemented
 };
+
+/** This helps to meet backward compatibility */
+typedef CostFunctionTemplate<double> CostFunction;
+
 } // end namespace itk
+
+#ifndef ITK_MANUAL_INSTANTIATION
+#include "itkCostFunction.hxx"
+#endif
 
 #endif

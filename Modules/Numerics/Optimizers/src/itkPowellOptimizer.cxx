@@ -57,10 +57,11 @@ PowellOptimizer
 ::SetLine(const PowellOptimizer::ParametersType & origin,
           const vnl_vector< double > & direction)
 {
-  for ( unsigned int i = 0; i < m_SpaceDimension; i++ )
+  const Optimizer::ScalesType & inv_scales = this->GetInverseScales();
+  for ( unsigned int i = 0; i < m_SpaceDimension; ++i )
     {
     m_LineOrigin[i] = origin[i];
-    m_LineDirection[i] = direction[i] / this->GetScales()[i];
+    m_LineDirection[i] = direction[i] * inv_scales[i];
     }
 }
 
@@ -496,10 +497,11 @@ PowellOptimizer
       return;
       }
 
+    const Optimizer::ScalesType & scales = this->GetScales();
     for ( unsigned int j = 0; j < m_SpaceDimension; ++j )
       {
       ptt[j] = 2.0 * p[j] - pt[j];
-      xit[j] = ( p[j] - pt[j] ) * this->GetScales()[j];
+      xit[j] = ( p[j] - pt[j] ) * scales[j];
       pt[j] = p[j];
       }
 

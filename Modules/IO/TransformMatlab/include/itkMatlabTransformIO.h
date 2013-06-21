@@ -21,21 +21,27 @@
 
 namespace itk
 {
-/** \class MatlabTransformIO
- *  \brief Create instances of MatlabTransformIO objects.
+/** \class MatlabTransformIOTemplate
+ *  \brief Create instances of MatlabTransformIOTemplate objects.
  * \ingroup ITKIOTransformMatlab
  */
-class ITK_EXPORT MatlabTransformIO:public TransformIOBase
+template<class ParametersValueType>
+class ITK_EXPORT MatlabTransformIOTemplate:public TransformIOBaseTemplate<ParametersValueType>
 {
 public:
-  typedef MatlabTransformIO             Self;
-  typedef TransformIOBase               Superclass;
-  typedef SmartPointer< Self >          Pointer;
-  typedef TransformBase                 TransformType;
-  typedef Superclass::TransformPointer  TransformPointer;
-  typedef Superclass::TransformListType TransformListType;
+  typedef MatlabTransformIOTemplate                       Self;
+  typedef TransformIOBaseTemplate<ParametersValueType>    Superclass;
+  typedef SmartPointer< Self >                            Pointer;
+  typedef typename Superclass::TransformType              TransformType;
+  typedef typename Superclass::TransformPointer           TransformPointer;
+  typedef typename Superclass::TransformListType          TransformListType;
+
+  typedef typename TransformIOBaseTemplate
+                      <ParametersValueType>::ConstTransformListType
+                                                          ConstTransformListType;
+
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MatlabTransformIO, TransformIOBase);
+  itkTypeMacro(MatlabTransformIOTemplate, Superclass);
   itkNewMacro(Self);
 
   /** Determine the file type. Returns true if this ImageIO can read the
@@ -55,8 +61,17 @@ public:
   virtual void Write();
 
 protected:
-  MatlabTransformIO();
-  virtual ~MatlabTransformIO();
+  MatlabTransformIOTemplate();
+  virtual ~MatlabTransformIOTemplate();
 };
+
+/** This helps to meet backward compatibility */
+typedef MatlabTransformIOTemplate<double> MatlabTransformIO;
+
 }
+
+#ifndef ITK_MANUAL_INSTANTIATION
+#include "itkMatlabTransformIO.hxx"
+#endif
+
 #endif // __itkMatlabTransformIO_h

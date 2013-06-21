@@ -15,6 +15,9 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+#ifndef __itkTransformIOBase_hxx
+#define __itkTransformIOBase_hxx
+
 #include "itkTransformIOBase.h"
 #include "itkTransformFactoryBase.h"
 #include <iostream>
@@ -22,37 +25,41 @@
 
 namespace itk
 {
-TransformIOBase::TransformIOBase()
+template <class ScalarType>
+TransformIOBaseTemplate<ScalarType>
+::TransformIOBaseTemplate() :
+  m_AppendMode(false)
 {
-  this->m_AppendMode = false;
 }
 
-TransformIOBase::
-~TransformIOBase()
-{}
+template <class ScalarType>
+TransformIOBaseTemplate<ScalarType>
+::~TransformIOBaseTemplate()
+{
+}
 
-void
-TransformIOBase::CreateTransform(TransformPointer & ptr,
-                                 const std::string & ClassName)
+template <class ScalarType>
+void TransformIOBaseTemplate<ScalarType>
+::CreateTransform(TransformPointer & ptr, const std::string & ClassName)
 {
   //
   // call to GetFactory has side effect of initializing the
   // TransformFactory overrides
   TransformFactoryBase *theFactory =
-    TransformFactoryBase::GetFactory();
+  TransformFactoryBase::GetFactory();
 
   // Instantiate the transform
   itkDebugMacro ("About to call ObjectFactory");
   LightObject::Pointer i;
   i = ObjectFactoryBase::CreateInstance ( ClassName.c_str() );
   itkDebugMacro ("After call ObjectFactory");
-  ptr = dynamic_cast< TransformBase * >( i.GetPointer() );
+  ptr = dynamic_cast< TransformType * >( i.GetPointer() );
   if ( ptr.IsNull() )
     {
     std::ostringstream msg;
     msg << "Could not create an instance of " << ClassName << std::endl
-        << "The usual cause of this error is not registering the "
-        << "transform with TransformFactory" << std::endl;
+    << "The usual cause of this error is not registering the "
+    << "transform with TransformFactory" << std::endl;
     msg << "Currently registered Transforms: " << std::endl;
     std::list< std::string >           names = theFactory->GetClassOverrideWithNames();
     for ( std::list< std::string >::iterator it = names.begin(); it != names.end(); ++it )
@@ -63,10 +70,10 @@ TransformIOBase::CreateTransform(TransformPointer & ptr,
     }
   // Correct extra reference count from CreateInstance()
   ptr->UnRegister();
-}
+  }
 
-void
-TransformIOBase
+template <class ScalarType>
+void TransformIOBaseTemplate<ScalarType>
 ::OpenStream(std::ofstream & outputStream, bool binary)
 {
   std::ios::openmode mode(std::ios::out);
@@ -89,38 +96,44 @@ TransformIOBase
     }
 }
 
-void TransformIOBase::SetTransformList(ConstTransformListType & transformList)
+template <class ScalarType>
+void TransformIOBaseTemplate<ScalarType>
+::SetTransformList(ConstTransformListType & transformList)
 {
   this->m_WriteTransformList = transformList;
 }
 
-void TransformIOBase::PrintSelf(std::ostream & os, Indent indent) const
+template <class ScalarType>
+void TransformIOBaseTemplate<ScalarType>
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os, indent);
+Superclass::PrintSelf(os, indent);
 
-  os << indent << "FileName: " << m_FileName << std::endl;
-  os << indent << "AppendMode: "
-     << ( m_AppendMode ? "true" : "false" ) << std::endl;
-  if ( m_ReadTransformList.size() > 0 )
+os << indent << "FileName: " << m_FileName << std::endl;
+os << indent << "AppendMode: "
+<< ( m_AppendMode ? "true" : "false" ) << std::endl;
+if ( m_ReadTransformList.size() > 0 )
+  {
+  os << indent << "ReadTransformList: " << std::endl;
+  typename TransformListType::const_iterator it = m_ReadTransformList.begin();
+  while ( it != m_ReadTransformList.end() )
     {
-    os << indent << "ReadTransformList: " << std::endl;
-    TransformListType::const_iterator it = m_ReadTransformList.begin();
-    while ( it != m_ReadTransformList.end() )
-      {
-      ( *it )->Print( os, indent.GetNextIndent() );
-      ++it;
-      }
+    ( *it )->Print( os, indent.GetNextIndent() );
+    ++it;
     }
-  if ( m_WriteTransformList.size() > 0 )
-    {
-    os << indent << "WriteTransformList: " << std::endl;
+  }
+if ( m_WriteTransformList.size() > 0 )
+  {
+  os << indent << "WriteTransformList: " << std::endl;
 
-    ConstTransformListType::const_iterator it = m_WriteTransformList.begin();
-    while ( it != m_WriteTransformList.end() )
-      {
-      ( *it )->Print( os, indent.GetNextIndent() );
-      ++it;
-      }
+  typename ConstTransformListType::const_iterator it = m_WriteTransformList.begin();
+  while ( it != m_WriteTransformList.end() )
+    {
+    ( *it )->Print( os, indent.GetNextIndent() );
+    ++it;
     }
+  }
 }
 } // itk
+
+#endif

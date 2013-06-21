@@ -1,5 +1,4 @@
 set(ITKIOTransformInsightLegacy_SRC
-itkTxtTransformIO.cxx
 itkTxtTransformIOFactory.cxx
 )
 

@@ -83,8 +83,8 @@ int itkAutoScaledGradientDescentRegistrationOnVectorTestTemplated(int numberOfIt
   typedef typename MovingTransformType::ParametersType ParametersType;
 
   // Metric
-  typedef itk::VectorImageToImageMetricTraitsv4< FixedImageType, MovingImageType, FixedImageType, PixelType::Dimension > MetricTraitsType;
-  typedef itk::MeanSquaresImageToImageMetricv4< FixedImageType, MovingImageType, FixedImageType, MetricTraitsType > MetricType;
+  typedef itk::VectorImageToImageMetricTraitsv4< FixedImageType, MovingImageType, FixedImageType, PixelType::Dimension, double > MetricTraitsType;
+  typedef itk::MeanSquaresImageToImageMetricv4< FixedImageType, MovingImageType, FixedImageType, double, MetricTraitsType > MetricType;
   typename MetricType::Pointer metric = MetricType::New();
 
   // Assign images and transforms to the metric.

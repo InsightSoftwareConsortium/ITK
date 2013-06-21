@@ -24,33 +24,34 @@
 
 namespace itk
 {
-/** \class TransformFileWriter
- *
- * \brief TODO
- * \ingroup ITKIOTransformBase
- *
- * \wiki
- * \wikiexample{IO/TransformFileWriter,Write a transform to a file}
- * \endwiki
- */
-class ITK_EXPORT TransformFileWriter:public LightProcessObject
+  /** \class TransformFileWriterTemplate
+   *
+   * \brief TODO
+   * \ingroup ITKIOTransformBase
+   *
+   * \wiki
+   * \wikiexample{IO/TransformFileWriter,Write a transform to a file}
+   * \endwiki
+   */
+template<class ScalarType>
+class ITK_EXPORT TransformFileWriterTemplate:public LightProcessObject
 {
 public:
 
   /** SmartPointer typedef support */
-  typedef TransformFileWriter  Self;
-  typedef LightProcessObject   Superclass;
-  typedef SmartPointer< Self > Pointer;
+  typedef TransformFileWriterTemplate  Self;
+  typedef LightProcessObject           Superclass;
+  typedef SmartPointer< Self >         Pointer;
 
-  typedef TransformBase                           TransformType;
-  typedef TransformIOBase::ConstTransformPointer  ConstTransformPointer;
-  typedef TransformIOBase::ConstTransformListType ConstTransformListType;
+  typedef TransformBaseTemplate<ScalarType>                                    TransformType;
+  typedef typename TransformIOBaseTemplate<ScalarType>::ConstTransformPointer  ConstTransformPointer;
+  typedef typename TransformIOBaseTemplate<ScalarType>::ConstTransformListType ConstTransformListType;
 
   /** Method for creation through the object factory */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(TransformFileWriter, LightProcessObject);
+  itkTypeMacro(TransformFileWriterTemplate, LightProcessObject);
 
   /** Set the filename  */
   itkSetStringMacro(FileName);
@@ -83,12 +84,12 @@ public:
   void Update();
 
 protected:
-  TransformFileWriter(const Self &); //purposely not implemented
+  TransformFileWriterTemplate(const Self &); //purposely not implemented
   void operator=(const Self &);      //purposely not implemented
   void PrintSelf(std::ostream & os, Indent indent) const;
 
-  TransformFileWriter();
-  virtual ~TransformFileWriter();
+  TransformFileWriterTemplate();
+  virtual ~TransformFileWriterTemplate();
 
 private:
   void OpenStream(std::ofstream & out, bool binary);
@@ -98,11 +99,18 @@ private:
   unsigned int           m_Precision;
   bool                   m_AppendMode;
 };
-} // namespace itk
 
+/** This helps to meet backward compatibility */
+typedef itk::TransformFileWriterTemplate<double> TransformFileWriter;
+
+} // namespace itk
 
 #ifdef ITK_IO_FACTORY_REGISTER_MANAGER
 #include "itkTransformIOFactoryRegisterManager.h"
+#endif
+
+#ifndef ITK_MANUAL_INSTANTIATION
+#include "itkTransformFileWriter.hxx"
 #endif
 
 #endif // __itkTransformFileWriter_h

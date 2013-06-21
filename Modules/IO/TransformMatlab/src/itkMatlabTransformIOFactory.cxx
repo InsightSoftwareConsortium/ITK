@@ -27,11 +27,16 @@ void MatlabTransformIOFactory::PrintSelf(std::ostream &, Indent) const
 
 MatlabTransformIOFactory::MatlabTransformIOFactory()
 {
-  this->RegisterOverride( "itkTransformIOBase",
+  this->RegisterOverride( "itkTransformIOBaseTemplate",
                           "itkMatlabTransformIO",
-                          "Matlab Transform IO",
+                          "Matlab Transform float IO",
                           1,
-                          CreateObjectFunction< MatlabTransformIO >::New() );
+                          CreateObjectFunction< MatlabTransformIOTemplate< float > >::New() );
+  this->RegisterOverride( "itkTransformIOBaseTemplate",
+                          "itkMatlabTransformIO",
+                          "Matlab Transform double IO",
+                          1,
+                          CreateObjectFunction< MatlabTransformIOTemplate< double >  >::New() );
 }
 
 MatlabTransformIOFactory::~MatlabTransformIOFactory()

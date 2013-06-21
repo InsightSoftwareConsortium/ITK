@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTransformFileWriter_cxx
-#define __itkTransformFileWriter_cxx
+#ifndef __itkTransformFileWriter_hxx
+#define __itkTransformFileWriter_hxx
 
 #include "itkTransformFileWriter.h"
 #include "itkTransformFactoryBase.h"
@@ -24,59 +24,77 @@
 
 namespace itk
 {
-TransformFileWriter
-::TransformFileWriter()
+template<class ScalarType>
+TransformFileWriterTemplate<ScalarType>
+::TransformFileWriterTemplate() :
+  m_FileName(""),
+  m_Precision(7),
+  m_AppendMode(false)
 {
-  this->m_FileName = "";
-  this->m_Precision = 7;
-  this->m_AppendMode = false;
   TransformFactoryBase::RegisterDefaultTransforms();
 }
 
-TransformFileWriter
-::~TransformFileWriter()
-{}
+template<class ScalarType>
+TransformFileWriterTemplate<ScalarType>
+::~TransformFileWriterTemplate()
+{
+}
 
 /** Set the writer to append to the specified file */
-void TransformFileWriter::SetAppendOn()
+template<class ScalarType>
+void TransformFileWriterTemplate<ScalarType>
+::SetAppendOn()
 {
   this->SetAppendMode(true);
 }
 
 /** Set the writer to overwrite the specified file - This is the
- * default mode. */
-void TransformFileWriter::SetAppendOff()
+* default mode. */
+template<class ScalarType>
+void TransformFileWriterTemplate<ScalarType>
+::SetAppendOff()
 {
   this->SetAppendMode(false);
 }
 
 /** Set the writer mode (append/overwrite). */
-void TransformFileWriter::SetAppendMode(bool mode)
+template<class ScalarType>
+void TransformFileWriterTemplate<ScalarType>
+::SetAppendMode(bool mode)
 {
   this->m_AppendMode = mode;
 }
 
 /** Get the writer mode. */
-bool TransformFileWriter::GetAppendMode()
+template<class ScalarType>
+bool TransformFileWriterTemplate<ScalarType>
+::GetAppendMode()
 {
   return ( this->m_AppendMode );
 }
 
 /** Set the input transform and reinitialize the list of transforms */
-void TransformFileWriter::SetInput(const TransformType *transform)
+template<class ScalarType>
+void TransformFileWriterTemplate<ScalarType>
+::SetInput(const TransformType *transform)
 {
   m_TransformList.clear();
   m_TransformList.push_back( ConstTransformPointer(transform) );
 }
 
-const TransformFileWriter::TransformType * TransformFileWriter::GetInput()
+template<class ScalarType>
+const typename TransformFileWriterTemplate<ScalarType>::TransformType *
+TransformFileWriterTemplate<ScalarType>
+::GetInput()
 {
   ConstTransformPointer res = *(m_TransformList.begin());
   return res.GetPointer();
 }
 
 /** Add a transform to be written */
-void TransformFileWriter::AddTransform(const TransformType *transform)
+template<class ScalarType>
+void TransformFileWriterTemplate<ScalarType>
+::AddTransform(const TransformType *transform)
 {
   /* Check for a CompositeTransform.
    * The convention is that there should be one, and it should
@@ -95,16 +113,16 @@ void TransformFileWriter::AddTransform(const TransformType *transform)
   m_TransformList.push_back( ConstTransformPointer(transform) );
 }
 
-void TransformFileWriter
+template<class ScalarType>
+void TransformFileWriterTemplate<ScalarType>
 ::Update()
 {
   if ( m_FileName == "" )
     {
     itkExceptionMacro ("No file name given");
     }
-  TransformIOBase::Pointer transformIO =
-    TransformIOFactory::CreateTransformIO(m_FileName.c_str(),
-                                          TransformIOFactory::WriteMode);
+  typename TransformIOBaseTemplate<ScalarType>::Pointer transformIO =
+    TransformIOFactoryTemplate<ScalarType>::CreateTransformIO( m_FileName.c_str(), /*TransformIOFactoryTemplate<ScalarType>::*/ WriteMode );
   if ( transformIO.IsNull() )
     {
     itkExceptionMacro("Can't Create IO object for file "
@@ -116,7 +134,9 @@ void TransformFileWriter
   transformIO->Write();
 }
 
-void TransformFileWriter::PrintSelf(std::ostream & os, Indent indent) const
+template<class ScalarType>
+void TransformFileWriterTemplate<ScalarType>
+::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

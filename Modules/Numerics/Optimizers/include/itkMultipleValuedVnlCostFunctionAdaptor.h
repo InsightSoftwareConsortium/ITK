@@ -130,10 +130,13 @@ protected:
 
 private:
 
+  /** Get current parameters scaling. */
+  itkGetConstReferenceMacro(InverseScales, ScalesType);
+
   MultipleValuedCostFunction::Pointer m_CostFunction;
 
   bool            m_ScalesInitialized;
-  ScalesType      m_Scales;
+  ScalesType                        m_InverseScales;
   Object::Pointer m_Reporter;
 
   mutable MeasureType    m_CachedValue;

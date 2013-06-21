@@ -1,4 +1,4 @@
-  /*=========================================================================
+/*=========================================================================
  *
  *  Copyright Insight Software Consortium
  *
@@ -21,60 +21,59 @@
 #include "itkTransformBase.h"
 #include "itkSingleValuedCostFunctionv4.h"
 
+
 namespace itk
 {
 
-/** \class ObjectToObjectMetricBase
- * \brief Base class for all object-to-object similarlity metrics added in ITKv4.
- *
- * This is the abstract base class for a hierarchy of similarity metrics
- * that may, in derived classes, operate on meshes, images, etc.
- * This class computes a value that measures the similarity between the two
- * objects.
- *
- * Derived classes must provide implementations for:
- *  GetValue
- *  GetDerivative
- *  GetValueAndDerivative
- *  Initialize
- *  GetNumberOfParameters
- *  GetNumberOfLocalParameters
- *  GetParameters
- *  SetParameters
- *  HasLocalSupport
- *  UpdateTransformParameters
- *
- * \ingroup ITKOptimizersv4
- */
-class ITK_EXPORT ObjectToObjectMetricBase:
-  public SingleValuedCostFunctionv4
+  /** \class ObjectToObjectMetricBaseTemplate
+   * \brief Base class for all object-to-object similarlity metrics added in ITKv4.
+   *
+   * This is the abstract base class for a hierarchy of similarity metrics
+   * that may, in derived classes, operate on meshes, images, etc.
+   * This class computes a value that measures the similarity between the two
+   * objects.
+   *
+   * Derived classes must provide implementations for:
+   *  GetValue
+   *  GetDerivative
+   *  GetValueAndDerivative
+   *  Initialize
+   *  GetNumberOfParameters
+   *  GetNumberOfLocalParameters
+   *  GetParameters
+   *  SetParameters
+   *  HasLocalSupport
+   *  UpdateTransformParameters
+   *
+   * \ingroup ITKOptimizersv4
+   */
+template<class TInternalComputationValueType=double>
+class ITK_EXPORT ObjectToObjectMetricBaseTemplate:
+  public SingleValuedCostFunctionTemplatev4<TInternalComputationValueType>
 {
 public:
   /** Standard class typedefs. */
-  typedef ObjectToObjectMetricBase     Self;
-  typedef SingleValuedCostFunctionv4   Superclass;
-  typedef SmartPointer< Self >         Pointer;
-  typedef SmartPointer< const Self >   ConstPointer;
+  typedef ObjectToObjectMetricBaseTemplate                                   Self;
+  typedef SingleValuedCostFunctionTemplatev4<TInternalComputationValueType>  Superclass;
+  typedef SmartPointer< Self >                                               Pointer;
+  typedef SmartPointer< const Self >                                         ConstPointer;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ObjectToObjectMetricBase, SingleValuedCostFunctionv4);
+  itkTypeMacro(ObjectToObjectMetricBaseTemplate, SingleValuedCostFunctionTemplatev4);
 
   /** Type used for representing object components  */
-  typedef Superclass::ParametersValueType CoordinateRepresentationType;
-
-  /** Type for internal computations */
-  typedef double                          InternalComputationValueType;
+  typedef TInternalComputationValueType           CoordinateRepresentationType;
 
   /**  Type of the measure. */
-  typedef  Superclass::MeasureType        MeasureType;
+  typedef typename Superclass::MeasureType        MeasureType;
 
   /**  Type of the derivative. */
-  typedef  Superclass::DerivativeType     DerivativeType;
-  typedef  DerivativeType::ValueType      DerivativeValueType;
-  
+  typedef typename Superclass::DerivativeType     DerivativeType;
+  typedef typename DerivativeType::ValueType      DerivativeValueType;
+
   /**  Type of the parameters. */
-  typedef  Superclass::ParametersType       ParametersType;
-  typedef  Superclass::ParametersValueType  ParametersValueType;
+  typedef typename Superclass::ParametersType     ParametersType;
+  typedef TInternalComputationValueType           ParametersValueType;
 
   /** Source of the gradient(s) used by the metric
    * (e.g. image gradients, in the case of
@@ -152,7 +151,7 @@ public:
    * \c derivative must be the proper size, as retrieved
    * from GetNumberOfParameters. */
   virtual void UpdateTransformParameters( const DerivativeType & derivative,
-                                          ParametersValueType factor = NumericTraits<ParametersValueType>::One) = 0;
+                                         ParametersValueType factor = NumericTraits<ParametersValueType>::One) = 0;
 
   /** Get the current metric value stored in m_Value. This is only
    * meaningful after a call to GetValue() or GetValueAndDerivative().
@@ -162,8 +161,8 @@ public:
   MeasureType GetCurrentValue() const;
 
 protected:
-  ObjectToObjectMetricBase();
-  virtual ~ObjectToObjectMetricBase();
+  ObjectToObjectMetricBaseTemplate();
+  virtual ~ObjectToObjectMetricBaseTemplate();
 
   void PrintSelf(std::ostream & os, Indent indent) const;
 
@@ -173,10 +172,17 @@ protected:
   mutable MeasureType             m_Value;
 
 private:
-  ObjectToObjectMetricBase(const Self &); //purposely not implemented
+  ObjectToObjectMetricBaseTemplate(const Self &); //purposely not implemented
   void operator=(const Self &);     //purposely not implemented
-
 };
+
+/** This helps to meet backward compatibility */
+typedef ObjectToObjectMetricBaseTemplate<double> ObjectToObjectMetricBase;
+
 } // end namespace itk
+
+#ifndef ITK_MANUAL_INSTANTIATION
+#include "itkObjectToObjectMetricBase.hxx"
+#endif
 
 #endif

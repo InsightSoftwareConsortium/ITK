@@ -243,7 +243,7 @@ BSplineTransformParametersAdaptor<TTransform>
 
   //  Resample the coefficient images
   typedef BSplineResampleImageFunction<ImageType, ParametersValueType> CoefficientUpsampleFunctionType;
-  typedef ResampleImageFilter<ImageType, ImageType> UpsampleFilterType;
+  typedef ResampleImageFilter<ImageType, ImageType, ParametersValueType> UpsampleFilterType;
   typedef BSplineDecompositionImageFilter<ImageType, ImageType> DecompositionFilterType;
 
   CoefficientImageArray newCoefficientImages;

@@ -17,48 +17,50 @@
  *=========================================================================*/
 #ifndef __itkMultiStartOptimizerv4_h
 #define __itkMultiStartOptimizerv4_h
+
 #include "itkObjectToObjectOptimizerBase.h"
 #include "itkGradientDescentOptimizerv4.h"
 
 namespace itk
 {
-/** \class MultiStartOptimizerv4
- *  \brief Multi-start searches over input parameters and returns the best metric value
- *
- *   The multi-start algorithm performs gradient descent from N (large) number of starting points and
- *   returns the best solution. Ideal start points would sample the solution space almost uniformly, thus,
- *   in theory, this is a global optimizer.  In this implementation, the quality of the optimization
- *   depends on the parameter space samples that the user inputs to the optimizer.  Multi-start can be
- *   modified in numerous ways to improve robustness of standard approaches.  These improvements usually
- *   focus modifying the parameter sample space.  This is why we place the burden on the user to provide
- *   the parameter samples over which to optimize.
- *
- * \ingroup ITKOptimizersv4
- */
-
-class ITK_EXPORT MultiStartOptimizerv4
-  : public ObjectToObjectOptimizerBase
+  /** \class MultiStartOptimizerTemplatev4
+   *  \brief Multi-start searches over input parameters and returns the best metric value
+   *
+   *   The multi-start algorithm performs gradient descent from N (large) number of starting points and
+   *   returns the best solution. Ideal start points would sample the solution space almost uniformly, thus,
+   *   in theory, this is a global optimizer.  In this implementation, the quality of the optimization
+   *   depends on the parameter space samples that the user inputs to the optimizer.  Multi-start can be
+   *   modified in numerous ways to improve robustness of standard approaches.  These improvements usually
+   *   focus modifying the parameter sample space.  This is why we place the burden on the user to provide
+   *   the parameter samples over which to optimize.
+   *
+   * \ingroup ITKOptimizersv4
+   */
+template<class TInternalComputationValueType>
+class ITK_EXPORT MultiStartOptimizerTemplatev4
+: public ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>
 {
 public:
   /** Standard class typedefs. */
-  typedef MultiStartOptimizerv4          Self;
-  typedef ObjectToObjectOptimizerBase    Superclass;
-  typedef SmartPointer< Self >           Pointer;
-  typedef SmartPointer< const Self >     ConstPointer;
+  typedef MultiStartOptimizerTemplatev4                                Self;
+  typedef ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType> Superclass;
+  typedef SmartPointer< Self >                                         Pointer;
+  typedef SmartPointer< const Self >                                   ConstPointer;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MultiStartOptimizerv4, ObjectToObjectOptimizerBase);
+  itkTypeMacro(MultiStartOptimizerTemplatev4, Superclass);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  typedef Superclass::ParametersType                 ParametersType;
-  typedef std::vector< ParametersType >              ParametersListType;
-  typedef ParametersListType::size_type              ParameterListSizeType;
-  typedef ObjectToObjectOptimizerBase                OptimizerType;
-  typedef OptimizerType::Pointer                     OptimizerPointer;
-  typedef itk::GradientDescentOptimizerv4            LocalOptimizerType;
-  typedef itk::GradientDescentOptimizerv4::Pointer   LocalOptimizerPointer;
+  typedef typename Superclass::ParametersType                                 ParametersType;
+  typedef std::vector< ParametersType >                                       ParametersListType;
+  typedef typename ParametersListType::size_type                              ParameterListSizeType;
+
+  typedef ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>              OptimizerType;
+  typedef typename OptimizerType::Pointer                                           OptimizerPointer;
+  typedef typename itk::GradientDescentOptimizerTemplatev4<TInternalComputationValueType> LocalOptimizerType;
+  typedef typename LocalOptimizerType::Pointer                                      LocalOptimizerPointer;
 
   /** Codes of stopping conditions. */
   typedef enum {
@@ -68,7 +70,7 @@ public:
     STEP_TOO_SMALL,
     CONVERGENCE_CHECKER_PASSED,
     OTHER_ERROR
-    } StopConditionType;
+  } StopConditionType;
 
   /** Stop condition return string type */
   typedef std::string                            StopConditionReturnStringType;
@@ -76,19 +78,19 @@ public:
   /** Stop condition internal string type */
   typedef std::ostringstream                     StopConditionDescriptionType;
 
+  /** It should be possible to derive the internal computation type from the class object. */
+  typedef TInternalComputationValueType             InternalComputationValueType;
+
   /** Metric type over which this class is templated */
-  typedef Superclass::MetricType                    MetricType;
-  typedef MetricType::Pointer                       MetricTypePointer;
+  typedef typename Superclass::MetricType           MetricType;
+  typedef typename MetricType::Pointer              MetricTypePointer;
 
   /** Derivative type */
-  typedef MetricType::DerivativeType                DerivativeType;
+  typedef typename MetricType::DerivativeType       DerivativeType;
 
   /** Measure type */
-  typedef Superclass::MeasureType                   MeasureType;
+  typedef typename Superclass::MeasureType          MeasureType;
   typedef std::vector< MeasureType >                MetricValuesListType;
-
-  /** Internal computation type, for maintaining a desired precision */
-  typedef Superclass::InternalComputationValueType InternalComputationValueType;
 
   /** Get stop condition enum */
   itkGetConstReferenceMacro(StopCondition, StopConditionType);
@@ -138,10 +140,9 @@ public:
   inline ParameterListSizeType GetBestParametersIndex( ) { return this->m_BestParametersIndex; }
 
 protected:
-
   /** Default constructor */
-  MultiStartOptimizerv4();
-  virtual ~MultiStartOptimizerv4();
+  MultiStartOptimizerTemplatev4();
+  virtual ~MultiStartOptimizerTemplatev4();
 
   virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
@@ -159,11 +160,18 @@ protected:
   OptimizerPointer              m_LocalOptimizer;
 
 private:
-  MultiStartOptimizerv4( const Self & ); //purposely not implemented
+  MultiStartOptimizerTemplatev4( const Self & ); //purposely not implemented
   void operator=( const Self& ); //purposely not implemented
 
 };
 
+/** This helps to meet backward compatibility */
+typedef MultiStartOptimizerTemplatev4<double> MultiStartOptimizerv4;
+
 } // end namespace itk
+
+#ifndef ITK_MANUAL_INSTANTIATION
+#include "itkMultiStartOptimizerv4.hxx"
+#endif
 
 #endif

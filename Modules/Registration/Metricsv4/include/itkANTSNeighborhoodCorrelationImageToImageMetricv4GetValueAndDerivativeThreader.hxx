@@ -407,10 +407,10 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader< TD
  typename VirtualImageType::IndexType oindex = scanIt.GetIndex();
 
  VirtualPointType        virtualPoint;
- FixedImagePointType    mappedFixedPoint;
+ FixedImagePointType     mappedFixedPoint;
  FixedImagePixelType     fixedImageValue;
  FixedImageGradientType  fixedImageGradient;
- MovingImagePointType   mappedMovingPoint;
+ MovingImagePointType    mappedMovingPoint;
  MovingImagePixelType    movingImageValue;
  MovingImageGradientType movingImageGradient;
  bool pointIsValid;

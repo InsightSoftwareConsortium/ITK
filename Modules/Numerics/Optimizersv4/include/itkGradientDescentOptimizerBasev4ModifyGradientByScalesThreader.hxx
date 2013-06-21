@@ -15,18 +15,22 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkQuasiNewtonOptimizerv4EstimateNewtonStepThreader.h"
-#include "itkQuasiNewtonOptimizerv4.h"
+#ifndef __itkGradientDescentOptimizerBasev4ModifyGradientByScalesThreader_hxx
+#define __itkGradientDescentOptimizerBasev4ModifyGradientByScalesThreader_hxx
+
+#include "itkGradientDescentOptimizerBasev4ModifyGradientByScalesThreader.h"
 
 namespace itk
 {
-
+template<class TInternalComputationValueType>
 void
-QuasiNewtonOptimizerv4EstimateNewtonStepThreader
+GradientDescentOptimizerBasev4ModifyGradientByScalesThreaderTemplate<TInternalComputationValueType>
 ::ThreadedExecution( const IndexRangeType & subrange,
-                     const ThreadIdType itkNotUsed(threadId) )
+                      const ThreadIdType itkNotUsed(threadId) )
 {
-  this->m_Associate->EstimateNewtonStepOverSubRange( subrange );
+  this->m_Associate->ModifyGradientByScalesOverSubRange( subrange );
 }
 
 } // end namespace itk
+
+#endif

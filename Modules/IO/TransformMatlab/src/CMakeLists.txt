@@ -1,5 +1,4 @@
 set(ITKIOTransformMatlab_SRC
-itkMatlabTransformIO.cxx
 itkMatlabTransformIOFactory.cxx
 )
 

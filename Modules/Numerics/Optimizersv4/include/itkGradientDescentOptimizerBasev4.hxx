@@ -15,21 +15,30 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+#ifndef __itkGradientDescentOptimizerBasev4_hxx
+#define __itkGradientDescentOptimizerBasev4_hxx
 
 #include "itkGradientDescentOptimizerBasev4.h"
+#include "itkGradientDescentOptimizerBasev4ModifyGradientByScalesThreader.h"
+#include "itkGradientDescentOptimizerBasev4ModifyGradientByLearningRateThreader.h"
 
 namespace itk
 {
 
 //-------------------------------------------------------------------
-GradientDescentOptimizerBasev4
-::GradientDescentOptimizerBasev4()
+template<class TInternalComputationValueType>
+GradientDescentOptimizerBaseTemplatev4<TInternalComputationValueType>
+::GradientDescentOptimizerBaseTemplatev4()
 {
   /** Threader for apply scales to gradient */
-  this->m_ModifyGradientByScalesThreader = GradientDescentOptimizerBasev4ModifyGradientByScalesThreader::New();
+  typename GradientDescentOptimizerBasev4ModifyGradientByScalesThreaderTemplate<TInternalComputationValueType>::Pointer modifyGradientByScalesThreader =
+    GradientDescentOptimizerBasev4ModifyGradientByScalesThreaderTemplate<TInternalComputationValueType>::New();
+  this->m_ModifyGradientByScalesThreader = modifyGradientByScalesThreader;
 
   /** Threader for apply the learning rate to gradient */
-  this->m_ModifyGradientByLearningRateThreader = GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreader::New();
+  typename GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreaderTemplate<TInternalComputationValueType>::Pointer modifyGradientByLearningRateThreader =
+    GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreaderTemplate<TInternalComputationValueType>::New();
+  this->m_ModifyGradientByLearningRateThreader = modifyGradientByLearningRateThreader;
 
   this->m_NumberOfIterations = 100;
   this->m_CurrentIteration   = 0;
@@ -38,13 +47,15 @@ GradientDescentOptimizerBasev4
 }
 
 //-------------------------------------------------------------------
-GradientDescentOptimizerBasev4
-::~GradientDescentOptimizerBasev4()
+template<class TInternalComputationValueType>
+GradientDescentOptimizerBaseTemplatev4<TInternalComputationValueType>
+::~GradientDescentOptimizerBaseTemplatev4()
 {}
 
 //-------------------------------------------------------------------
+template<class TInternalComputationValueType>
 void
-GradientDescentOptimizerBasev4
+GradientDescentOptimizerBaseTemplatev4<TInternalComputationValueType>
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
@@ -56,16 +67,18 @@ GradientDescentOptimizerBasev4
 
 
 //-------------------------------------------------------------------
-const GradientDescentOptimizerBasev4::StopConditionReturnStringType
-GradientDescentOptimizerBasev4
+template<class TInternalComputationValueType>
+const typename GradientDescentOptimizerBaseTemplatev4<TInternalComputationValueType>::StopConditionReturnStringType
+GradientDescentOptimizerBaseTemplatev4<TInternalComputationValueType>
 ::GetStopConditionDescription() const
 {
   return this->m_StopConditionDescription.str();
 }
 
 //-------------------------------------------------------------------
+template<class TInternalComputationValueType>
 void
-GradientDescentOptimizerBasev4
+GradientDescentOptimizerBaseTemplatev4<TInternalComputationValueType>
 ::StopOptimization(void)
 {
   itkDebugMacro( "StopOptimization called with a description - "
@@ -75,8 +88,9 @@ GradientDescentOptimizerBasev4
 }
 
 //-------------------------------------------------------------------
+template<class TInternalComputationValueType>
 void
-GradientDescentOptimizerBasev4
+GradientDescentOptimizerBaseTemplatev4<TInternalComputationValueType>
 ::ModifyGradientByScales()
 {
   if ( this->GetScalesAreIdentity() && this->GetWeightsAreIdentity() )
@@ -105,8 +119,9 @@ GradientDescentOptimizerBasev4
 }
 
 //-------------------------------------------------------------------
+template<class TInternalComputationValueType>
 void
-GradientDescentOptimizerBasev4
+GradientDescentOptimizerBaseTemplatev4<TInternalComputationValueType>
 ::ModifyGradientByLearningRate()
 {
   IndexRangeType fullrange;
@@ -132,3 +147,5 @@ GradientDescentOptimizerBasev4
 }
 
 } //namespace itk
+
+#endif

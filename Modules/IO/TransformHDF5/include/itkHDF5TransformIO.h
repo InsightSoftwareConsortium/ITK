@@ -34,7 +34,40 @@ class H5File;
 
 namespace itk
 {
-/** \class HDF5TransformIO
+
+
+/** \class HDF5CommonPathNames
+ * \brief Secondary bass class of HDF5CommonPathNames common between templates
+ *
+ * This class provides common non-templated code which can be compiled
+ * and used by all templated versions of HDF5TransformIOTemplate.
+ *
+ * This class must be inherited privately, and light-weight adapting
+ * of methods is required for virtual methods or non-private methods
+ * for the HDF5TransformIOTemplate interface.
+ *
+ * \ingroup ITKIOTransformHDF5
+ *
+ */
+struct HDF5CommonPathNames
+  {
+  //
+  // HDF uses hierarchical paths to find particular data
+  // in a file. These strings are used by both reading and
+  // writing.
+  static const std::string transformGroupName;
+  static const std::string transformTypeName;
+  static const std::string transformFixedName;
+  static const std::string transformParamsName;
+  static const std::string ItkVersion;
+  static const std::string HDFVersion;
+  static const std::string OSName;
+  static const std::string OSVersion;
+  };
+
+
+
+/** \class HDF5TransformIOTemplate
  *  \brief Read&Write transforms in HDF5 Format
  *
  *  See hdfgroup.org/HDF5 -- HDF5 is a physics/astrophysics
@@ -43,18 +76,25 @@ namespace itk
  *
  * \ingroup ITKIOTransformHDF5
  */
-class HDF5TransformIO:public TransformIOBase
+template< class TInternalComputationValueType >
+class HDF5TransformIOTemplate:public TransformIOBaseTemplate< TInternalComputationValueType >,
+private HDF5CommonPathNames
 {
 public:
-  typedef HDF5TransformIO               Self;
-  typedef TransformIOBase               Superclass;
-  typedef SmartPointer< Self >          Pointer;
-  typedef TransformBase                 TransformType;
-  typedef Superclass::TransformPointer  TransformPointer;
-  typedef Superclass::TransformListType TransformListType;
-  typedef TransformType::ParametersType ParametersType;
+  typedef HDF5TransformIOTemplate                               Self;
+  typedef TransformIOBaseTemplate< TInternalComputationValueType >    Superclass;
+  typedef SmartPointer< Self >                                  Pointer;
+  typedef typename Superclass::TransformType                    TransformType;
+  typedef typename Superclass::TransformPointer                 TransformPointer;
+  typedef typename Superclass::TransformListType                TransformListType;
+  typedef typename TransformType::ParametersType                ParametersType;
+
+  typedef typename TransformIOBaseTemplate
+                      <TInternalComputationValueType>::ConstTransformListType
+                                                                ConstTransformListType;
+
   /** Run-time type information (and related methods). */
-  itkTypeMacro(HDF5TransformIO, TransformIOBase);
+  itkTypeMacro(HDF5TransformIOTemplate, Superclass);
   itkNewMacro(Self);
 
   /** Determine the file type. Returns true if this ImageIO can read the
@@ -74,8 +114,8 @@ public:
   virtual void Write();
 
 protected:
-  HDF5TransformIO();
-  virtual ~HDF5TransformIO();
+  HDF5TransformIOTemplate();
+  virtual ~HDF5TransformIOTemplate();
 
 private:
   /** Read a parameter array from the file location name */
@@ -93,5 +133,15 @@ private:
 
   H5::H5File *m_H5File;
 };
-}
+extern const std::string  GetTransformName(int);
+
+/** This helps to meet backward compatibility */
+typedef HDF5TransformIOTemplate<double> HDF5TransformIO;
+
+} // end namespace itk
+
+#ifndef ITK_MANUAL_INSTANTIATION
+#include "itkHDF5TransformIO.hxx"
+#endif
+
 #endif // __itkHDF5TransformIO_h

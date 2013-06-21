@@ -24,7 +24,7 @@
 
 namespace itk
 {
-/** \class ObjectToObjectOptimizerBase
+/** \class ObjectToObjectOptimizerBaseTemplate
  * \brief Abstract base for object-to-object optimizers.
  *
  * The goal of this optimizer hierarchy is to work with metrics
@@ -63,37 +63,34 @@ namespace itk
  *
  * \ingroup ITKOptimizersv4
  */
-
-class ITK_EXPORT ObjectToObjectOptimizerBase : public Object
+template< class TInternalComputationValueType>
+class ITK_EXPORT ObjectToObjectOptimizerBaseTemplate : public Object
 {
 public:
   /** Standard class typedefs. */
-  typedef ObjectToObjectOptimizerBase                 Self;
+  typedef ObjectToObjectOptimizerBaseTemplate         Self;
   typedef Object                                      Superclass;
   typedef SmartPointer< Self >                        Pointer;
   typedef SmartPointer< const Self >                  ConstPointer;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ObjectToObjectOptimizerBase, Object);
+  itkTypeMacro(ObjectToObjectOptimizerBaseTemplate, Object);
 
   /**  Scale type. */
-  typedef OptimizerParameters< double >             ScalesType;
+  typedef OptimizerParameters< TInternalComputationValueType >          ScalesType;
 
   /**  Parameters type. */
-  typedef OptimizerParameters< double >             ParametersType;
+  typedef OptimizerParameters< TInternalComputationValueType >          ParametersType;
 
   /** Metric function type */
-  typedef ObjectToObjectMetricBase                  MetricType;
-  typedef MetricType::Pointer                       MetricTypePointer;
+  typedef ObjectToObjectMetricBaseTemplate< TInternalComputationValueType >  MetricType;
+  typedef typename MetricType::Pointer                                      MetricTypePointer;
 
   /** Number of parameters type */
-  typedef MetricType::NumberOfParametersType        NumberOfParametersType;
+  typedef typename MetricType::NumberOfParametersType        NumberOfParametersType;
 
   /** Measure type */
-  typedef MetricType::MeasureType                   MeasureType;
-
-  /** Internal computation value type */
-  typedef MetricType::InternalComputationValueType  InternalComputationValueType;
+  typedef typename MetricType::MeasureType                   MeasureType;
 
   /** Accessors for Metric */
   itkSetObjectMacro( Metric, MetricType );
@@ -155,8 +152,8 @@ public:
 protected:
 
   /** Default constructor */
-  ObjectToObjectOptimizerBase();
-  virtual ~ObjectToObjectOptimizerBase();
+  ObjectToObjectOptimizerBaseTemplate();
+  virtual ~ObjectToObjectOptimizerBaseTemplate();
 
   MetricTypePointer             m_Metric;
   ThreadIdType                  m_NumberOfThreads;
@@ -185,12 +182,19 @@ protected:
 private:
 
   //purposely not implemented
-  ObjectToObjectOptimizerBase( const Self & );
+  ObjectToObjectOptimizerBaseTemplate( const Self & );
   //purposely not implemented
   void operator=( const Self& );
 
 };
 
+/** This helps to meet backward compatibility */
+typedef ObjectToObjectOptimizerBaseTemplate<double> ObjectToObjectOptimizerBase;
+
 } // end namespace itk
+
+#ifndef ITK_MANUAL_INSTANTIATION
+#include "itkObjectToObjectOptimizerBase.hxx"
+#endif
 
 #endif

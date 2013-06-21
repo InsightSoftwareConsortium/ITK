@@ -42,7 +42,7 @@ template<
   class    TFixedImageType,
   class    TMovingImageType,
   class    TVirtualImageType,
-  typename TCoordRep = typename ObjectToObjectMetricBase::CoordinateRepresentationType
+  typename TCoordRep = double
   >
 class DefaultImageToImageMetricTraitsv4
 {

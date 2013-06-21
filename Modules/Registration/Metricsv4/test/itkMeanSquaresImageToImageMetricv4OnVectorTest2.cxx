@@ -146,8 +146,8 @@ int itkMeanSquaresImageToImageMetricv4OnVectorTest2(int, char ** const)
   typedef itk::Vector<double, vectorLength>                  VectorType;
   typedef itk::Image< VectorType, imageDimensionality >      VectorImageType;
 
-  typedef itk::VectorImageToImageMetricTraitsv4< VectorImageType, VectorImageType, VectorImageType, vectorLength >    MetricTraitsType;
-  typedef itk::MeanSquaresImageToImageMetricv4< VectorImageType, VectorImageType, VectorImageType, MetricTraitsType > VectorMetricType;
+  typedef itk::VectorImageToImageMetricTraitsv4< VectorImageType, VectorImageType, VectorImageType, vectorLength, double >    MetricTraitsType;
+  typedef itk::MeanSquaresImageToImageMetricv4< VectorImageType, VectorImageType, VectorImageType, double, MetricTraitsType > VectorMetricType;
 
   VectorMetricType::MeasureType     vectorMeasure = 0.0;
   VectorMetricType::DerivativeType  vectorDerivative;

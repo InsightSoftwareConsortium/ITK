@@ -15,6 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+#ifndef __itkConjugateGradientLineSearchOptimizerv4_hxx
+#define __itkConjugateGradientLineSearchOptimizerv4_hxx
 
 #include "itkConjugateGradientLineSearchOptimizerv4.h"
 
@@ -24,45 +26,50 @@ namespace itk
 /**
  * Default constructor
  */
-ConjugateGradientLineSearchOptimizerv4
-::ConjugateGradientLineSearchOptimizerv4()
+template<class TInternalComputationValueType>
+ConjugateGradientLineSearchOptimizerTemplatev4<TInternalComputationValueType>
+::ConjugateGradientLineSearchOptimizerTemplatev4()
 {
 }
 
 /**
  * Destructor
  */
-ConjugateGradientLineSearchOptimizerv4
-::~ConjugateGradientLineSearchOptimizerv4()
+template<class TInternalComputationValueType>
+ConjugateGradientLineSearchOptimizerTemplatev4<TInternalComputationValueType>
+::~ConjugateGradientLineSearchOptimizerTemplatev4()
 {}
 
 
 /**
  *PrintSelf
  */
+template<class TInternalComputationValueType>
 void
-ConjugateGradientLineSearchOptimizerv4
+ConjugateGradientLineSearchOptimizerTemplatev4<TInternalComputationValueType>
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }
 
+template<class TInternalComputationValueType>
 void
-ConjugateGradientLineSearchOptimizerv4
+ConjugateGradientLineSearchOptimizerTemplatev4<TInternalComputationValueType>
 ::StartOptimization( bool doOnlyInitialization)
 {
   this->m_ConjugateGradient.SetSize( this->m_Metric->GetNumberOfParameters() );
-  this->m_ConjugateGradient.Fill( itk::NumericTraits< InternalComputationValueType >::Zero );
+  this->m_ConjugateGradient.Fill( itk::NumericTraits< TInternalComputationValueType >::Zero );
   this->m_LastGradient.SetSize( this->m_Metric->GetNumberOfParameters() );
-  this->m_LastGradient.Fill( itk::NumericTraits< InternalComputationValueType >::Zero );
+  this->m_LastGradient.Fill( itk::NumericTraits< TInternalComputationValueType >::Zero );
   Superclass::StartOptimization( doOnlyInitialization );
 }
 
 /**
- * Advance one Step following the gradient direction
- */
+* Advance one Step following the gradient direction
+*/
+template<class TInternalComputationValueType>
 void
-ConjugateGradientLineSearchOptimizerv4
+ConjugateGradientLineSearchOptimizerTemplatev4<TInternalComputationValueType>
 ::AdvanceOneStep()
 {
   itkDebugMacro("AdvanceOneStep");
@@ -73,9 +80,9 @@ ConjugateGradientLineSearchOptimizerv4
     this->EstimateLearningRate();
     }
 
-  InternalComputationValueType gamma = itk::NumericTraits< InternalComputationValueType >::Zero;
-  InternalComputationValueType gammaDenom = inner_product( this->m_LastGradient , this->m_LastGradient );
-  if ( gammaDenom > itk::NumericTraits< InternalComputationValueType >::epsilon() )
+  TInternalComputationValueType gamma = itk::NumericTraits< TInternalComputationValueType >::Zero;
+  TInternalComputationValueType gammaDenom = inner_product( this->m_LastGradient , this->m_LastGradient );
+  if ( gammaDenom > itk::NumericTraits< TInternalComputationValueType >::epsilon() )
     {
     gamma = inner_product( this->m_Gradient - this->m_LastGradient , this->m_Gradient ) / gammaDenom;
     }
@@ -92,7 +99,7 @@ ConjugateGradientLineSearchOptimizerv4
   /* Estimate a learning rate for this step */
   this->m_LineSearchIterations = 0;
   this->m_LearningRate = this->GoldenSectionSearch( this->m_LearningRate * this->m_LowerLimit ,
-    this->m_LearningRate , this->m_LearningRate * this->m_UpperLimit  );
+                                                   this->m_LearningRate , this->m_LearningRate * this->m_UpperLimit  );
 
   /* Begin threaded gradient modification of m_Gradient variable. */
   this->ModifyGradientByLearningRate();
@@ -102,16 +109,18 @@ ConjugateGradientLineSearchOptimizerv4
     /* Pass graident to transform and let it do its own updating. */
     this->m_Metric->UpdateTransformParameters( this->m_Gradient );
     }
-  catch ( ExceptionObject & )
+  catch ( ExceptionObject & err )
     {
-    this->m_StopCondition = UPDATE_PARAMETERS_ERROR;
+    this->m_StopCondition = Superclass::UPDATE_PARAMETERS_ERROR;
     this->m_StopConditionDescription << "UpdateTransformParameters error";
     this->StopOptimization();
-    // Pass exception to caller
-    throw;
+      // Pass exception to caller
+    throw err;
     }
 
   this->InvokeEvent( IterationEvent() );
 }
 
 }//namespace itk
+
+#endif

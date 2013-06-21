@@ -90,16 +90,16 @@ namespace itk
   * \ingroup ITKMetricsv4
   */
 
-template<unsigned int TFixedDimension, unsigned int TMovingDimension, class TVirtualImage = Image<typename ObjectToObjectMetricBase::ParametersValueType, TFixedDimension> >
+template<unsigned int TFixedDimension, unsigned int TMovingDimension, class TVirtualImage = Image<double, TFixedDimension>, class TInternalComputationValueType = double >
 class ITK_EXPORT ObjectToObjectMultiMetricv4:
-  public ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage>
+  public ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternalComputationValueType>
 {
 public:
   /** Standard class typedefs */
-  typedef ObjectToObjectMultiMetricv4                                             Self;
-  typedef ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage>  Superclass;
-  typedef SmartPointer<Self>                                                      Pointer;
-  typedef SmartPointer<const Self>                                                ConstPointer;
+  typedef ObjectToObjectMultiMetricv4                                                                      Self;
+  typedef ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternalComputationValueType>  Superclass;
+  typedef SmartPointer<Self>                                                                               Pointer;
+  typedef SmartPointer<const Self>                                                                         ConstPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ObjectToObjectMultiMetricv4, ObjectToObjectMetric);

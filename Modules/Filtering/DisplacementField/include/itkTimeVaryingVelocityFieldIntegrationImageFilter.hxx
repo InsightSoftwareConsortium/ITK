@@ -47,7 +47,7 @@ TimeVaryingVelocityFieldIntegrationImageFilter
     }
 
   typedef VectorLinearInterpolateImageFunction<TimeVaryingVelocityFieldType,
-    RealType> DefaultVelocityFieldInterpolatorType;
+    ScalarType> DefaultVelocityFieldInterpolatorType;
 
   typename DefaultVelocityFieldInterpolatorType::Pointer
     velocityFieldInterpolator = DefaultVelocityFieldInterpolatorType::New();
@@ -55,7 +55,7 @@ TimeVaryingVelocityFieldIntegrationImageFilter
   this->m_VelocityFieldInterpolator = velocityFieldInterpolator;
 
   typedef VectorLinearInterpolateImageFunction<DisplacementFieldType,
-    RealType> DefaultDisplacementFieldInterpolatorType;
+    ScalarType> DefaultDisplacementFieldInterpolatorType;
 
   typename DefaultDisplacementFieldInterpolatorType::Pointer
     deformationFieldInterpolator = DefaultDisplacementFieldInterpolatorType::New();

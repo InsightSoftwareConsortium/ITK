@@ -17,54 +17,57 @@
  *=========================================================================*/
 #ifndef __itkMultiGradientOptimizerv4_h
 #define __itkMultiGradientOptimizerv4_h
+
 #include "itkObjectToObjectOptimizerBase.h"
 #include "itkGradientDescentOptimizerv4.h"
 
 namespace itk
 {
-/** \class MultiGradientOptimizerv4
- *  \brief Multiple gradient-based optimizers are combined in order to perform a multi-objective optimization.
- *
- *  This optimizer will do a combined gradient descent optimization using whatever metric/optimizer gradient
- *  sub-optimizers are passed to it by the user.  The learning rate or scaleestimator for each sub-optimizer
- *  controls the relative weight of each metric in the optimization.  Denote the weights as \f$ w_1 \f$ and \f$ w_2 \f$ then
- *  the MultiGradientOptimizer will optimize \f$ \sum_i w_i Metric_i \f$ by using update rule:
- *
- *  \f[
- *    params_{new} = params_{old} + \frac{1}{N_{Metrics}} * ( \sum_i w_i Grad(Metric_i) )
- *  \f]
- *
- *  \note The scales, learning rates and weights options must be set individually for each sub-optimizer,
- *  and have no effect when set on this class.
- *
- *  The test for this class illustrates the expected behavior.
- *
- * \ingroup ITKOptimizersv4
- */
-
-class ITK_EXPORT MultiGradientOptimizerv4
-  : public GradientDescentOptimizerv4
+  /** \class MultiGradientOptimizerTemplatev4
+   *  \brief Multiple gradient-based optimizers are combined in order to perform a multi-objective optimization.
+   *
+   *  This optimizer will do a combined gradient descent optimization using whatever metric/optimizer gradient
+   *  sub-optimizers are passed to it by the user.  The learning rate or scaleestimator for each sub-optimizer
+   *  controls the relative weight of each metric in the optimization.  Denote the weights as \f$ w_1 \f$ and \f$ w_2 \f$ then
+   *  the MultiGradientOptimizer will optimize \f$ \sum_i w_i Metric_i \f$ by using update rule:
+   *
+   *  \f[
+   *    params_{new} = params_{old} + \frac{1}{N_{Metrics}} * ( \sum_i w_i Grad(Metric_i) )
+   *  \f]
+   *
+   *  \note The scales, learning rates and weights options must be set individually for each sub-optimizer,
+   *  and have no effect when set on this class.
+   *
+   *  The test for this class illustrates the expected behavior.
+   *
+   * \ingroup ITKOptimizersv4
+   */
+template<class TInternalComputationValueType>
+class ITK_EXPORT MultiGradientOptimizerTemplatev4
+: public GradientDescentOptimizerTemplatev4<TInternalComputationValueType>
 {
 public:
   /** Standard class typedefs. */
-  typedef MultiGradientOptimizerv4       Self;
-  typedef GradientDescentOptimizerv4     Superclass;
-  typedef SmartPointer< Self >           Pointer;
-  typedef SmartPointer< const Self >     ConstPointer;
+  typedef MultiGradientOptimizerTemplatev4                             Self;
+  typedef GradientDescentOptimizerTemplatev4<TInternalComputationValueType>  Superclass;
+  typedef SmartPointer< Self >                                         Pointer;
+  typedef SmartPointer< const Self >                                   ConstPointer;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MultiGradientOptimizerv4, GradientDescentOptimizerv4);
+  itkTypeMacro(MultiGradientOptimizerTemplatev4, Superclass);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  typedef itk::GradientDescentOptimizerv4            LocalOptimizerType;
-  typedef itk::GradientDescentOptimizerv4::Pointer   LocalOptimizerPointer;
-  typedef Superclass::ParametersType                 ParametersType;
-  typedef ObjectToObjectOptimizerBase                OptimizerType;
-  typedef OptimizerType::Pointer                     OptimizerPointer;
-  typedef std::vector< LocalOptimizerPointer >       OptimizersListType;
-  typedef OptimizersListType::size_type              OptimizersListSizeType;
+  typedef itk::GradientDescentOptimizerTemplatev4<TInternalComputationValueType>                   LocalOptimizerType;
+  typedef typename itk::GradientDescentOptimizerTemplatev4<TInternalComputationValueType>::Pointer LocalOptimizerPointer;
+  typedef typename Superclass::ParametersType                                                ParametersType;
+  typedef ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>                       OptimizerType;
+  typedef typename OptimizerType::Pointer                                                    OptimizerPointer;
+  typedef std::vector< LocalOptimizerPointer >                                               OptimizersListType;
+  typedef typename OptimizersListType::size_type                                             OptimizersListSizeType;
+
+  typedef typename Superclass::StopConditionType                                             StopConditionType;
 
   /** Stop condition return string type */
   typedef std::string                            StopConditionReturnStringType;
@@ -72,19 +75,19 @@ public:
   /** Stop condition internal string type */
   typedef std::ostringstream                     StopConditionDescriptionType;
 
+  /** It should be possible to derive the internal computation type from the class object. */
+  typedef TInternalComputationValueType             InternalComputationValueType;
+
   /** Metric type over which this class is templated */
-  typedef Superclass::MetricType                    MetricType;
-  typedef MetricType::Pointer                       MetricTypePointer;
+  typedef typename Superclass::MetricType           MetricType;
+  typedef typename MetricType::Pointer              MetricTypePointer;
 
   /** Derivative type */
-  typedef MetricType::DerivativeType                DerivativeType;
+  typedef typename MetricType::DerivativeType       DerivativeType;
 
   /** Measure type */
-  typedef Superclass::MeasureType                   MeasureType;
+  typedef typename Superclass::MeasureType          MeasureType;
   typedef std::vector< MeasureType >                MetricValuesListType;
-
-  /** Internal computation type, for maintaining a desired precision */
-  typedef Superclass::InternalComputationValueType InternalComputationValueType;
 
   /** Get stop condition enum */
   itkGetConstReferenceMacro(StopCondition, StopConditionType);
@@ -121,11 +124,11 @@ public:
   /** Get the list of metric values that we produced after the multi-objective search.  */
   const MetricValuesListType & GetMetricValuesList() const;
 
-protected:
+  protected:
 
   /** Default constructor */
-  MultiGradientOptimizerv4();
-  virtual ~MultiGradientOptimizerv4();
+  MultiGradientOptimizerTemplatev4();
+  virtual ~MultiGradientOptimizerTemplatev4();
 
   virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
@@ -140,12 +143,19 @@ protected:
   MeasureType                   m_MinimumMetricValue;
   MeasureType                   m_MaximumMetricValue;
 
-private:
-  MultiGradientOptimizerv4( const Self & ); //purposely not implemented
+  private:
+  MultiGradientOptimizerTemplatev4( const Self & ); //purposely not implemented
   void operator=( const Self& ); //purposely not implemented
 
 };
 
+/** This helps to meet backward compatibility */
+typedef MultiGradientOptimizerTemplatev4<double> MultiGradientOptimizerv4;
+
 } // end namespace itk
+
+#ifndef ITK_MANUAL_INSTANTIATION
+#include "itkMultiGradientOptimizerv4.hxx"
+#endif
 
 #endif

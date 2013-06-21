@@ -93,7 +93,7 @@ class ObjectToObjectOptimizerBaseTestOptimizer
 public:
   /** Standard "Self" typedef. */
   typedef ObjectToObjectOptimizerBaseTestOptimizer Self;
-  typedef ObjectToObjectOptimizerBase              Superclass;
+  typedef itk::ObjectToObjectOptimizerBase         Superclass;
   typedef itk::SmartPointer< Self >                Pointer;
   typedef itk::SmartPointer< const Self >          ConstPointer;
 

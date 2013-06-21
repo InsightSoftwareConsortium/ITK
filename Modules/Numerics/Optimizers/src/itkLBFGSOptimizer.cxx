@@ -237,47 +237,45 @@ LBFGSOptimizer
     this->GetNonConstCostFunctionAdaptor()->NegateCostFunctionOn();
     }
 
-  ParametersType initialPosition = this->GetInitialPosition();
-  ParametersType parameters(initialPosition);
+  ParametersType currentPositionInternalValue = this->GetInitialPosition();
 
-  // If the user provides the scales then we set otherwise we don't
-  // for computation speed.
-  // We also scale the initial parameters up if scales are defined.
+  // We also scale the initial vnlCompatibleParameters up if scales are defined.
   // This compensates for later scaling them down in the cost function adaptor
   // and at the end of this function.
+  InternalParametersType vnlCompatibleParameters(currentPositionInternalValue.size());
+  const ScalesType & scales = this->GetScales();
   if ( m_ScalesInitialized )
     {
-    ScalesType scales = this->GetScales();
     this->GetNonConstCostFunctionAdaptor()->SetScales(scales);
-    for ( unsigned int i = 0; i < parameters.size(); i++ )
-      {
-      parameters[i] *= scales[i];
-      }
+    }
+  for ( unsigned int i = 0; i < vnlCompatibleParameters.size(); ++i )
+    {
+    vnlCompatibleParameters[i] = (m_ScalesInitialized)
+      ? currentPositionInternalValue[i] * scales[i]
+      : currentPositionInternalValue[i];
     }
 
   // vnl optimizers return the solution by reference
   // in the variable provided as initial position
-  m_VnlOptimizer->minimize(parameters);
+  m_VnlOptimizer->minimize(vnlCompatibleParameters);
 
-  if ( parameters.size() != initialPosition.size() )
+  if ( vnlCompatibleParameters.size() != currentPositionInternalValue.size() )
     {
     // set current position to initial position and throw an exception
-    this->SetCurrentPosition(initialPosition);
+    this->SetCurrentPosition(currentPositionInternalValue);
     itkExceptionMacro(<< "Error occurred in optimization");
     }
 
-  // we scale the parameters down if scales are defined
-  if ( m_ScalesInitialized )
+  // we scale the vnlCompatibleParameters down if scales are defined
+  const ScalesType & invScales = this->GetInverseScales();
+  for ( unsigned int i = 0; i < vnlCompatibleParameters.size(); ++i )
     {
-    ScalesType scales = this->GetScales();
-    for ( unsigned int i = 0; i < parameters.size(); i++ )
-      {
-      parameters[i] /= scales[i];
-      }
+    currentPositionInternalValue[i] = (m_ScalesInitialized)
+      ? vnlCompatibleParameters[i] * invScales[i]
+      : vnlCompatibleParameters[i];
     }
 
-  this->SetCurrentPosition(parameters);
-
+  this->SetCurrentPosition(currentPositionInternalValue);
   this->InvokeEvent( EndEvent() );
 }
 

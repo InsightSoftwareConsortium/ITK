@@ -27,11 +27,16 @@ void TxtTransformIOFactory::PrintSelf(std::ostream &, Indent) const
 
 TxtTransformIOFactory::TxtTransformIOFactory()
 {
-  this->RegisterOverride( "itkTransformIOBase",
+  this->RegisterOverride( "itkTransformIOBaseTemplate",
                           "itkTxtTransformIO",
-                          "Txt Transform IO",
+                          "Txt Transform float IO",
                           1,
-                          CreateObjectFunction< TxtTransformIO >::New() );
+                          CreateObjectFunction< TxtTransformIOTemplate< float > >::New() );
+  this->RegisterOverride( "itkTransformIOBaseTemplate",
+                          "itkTxtTransformIO",
+                          "Txt Transform double IO",
+                          1,
+                          CreateObjectFunction< TxtTransformIOTemplate< double > >::New() );
 }
 
 TxtTransformIOFactory::~TxtTransformIOFactory()

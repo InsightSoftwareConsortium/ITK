@@ -15,14 +15,22 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkCostFunction.h"
+#ifndef __itkGradientDescentOptimizerBasev4ModifyGradientByLearningRateThreader_hxx
+#define __itkGradientDescentOptimizerBasev4ModifyGradientByLearningRateThreader_hxx
+
+#include "itkGradientDescentOptimizerBasev4ModifyGradientByLearningRateThreader.h"
 
 namespace itk
 {
+template<class TInternalComputationValueType>
 void
-CostFunction
-::PrintSelf(std::ostream & os, Indent indent) const
+GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreaderTemplate<TInternalComputationValueType>
+::ThreadedExecution( const IndexRangeType & subrange,
+                     const ThreadIdType itkNotUsed(threadId) )
 {
-  Superclass::PrintSelf(os, indent);
+  this->m_Associate->ModifyGradientByLearningRateOverSubRange( subrange );
 }
+
 } // end namespace itk
+
+#endif

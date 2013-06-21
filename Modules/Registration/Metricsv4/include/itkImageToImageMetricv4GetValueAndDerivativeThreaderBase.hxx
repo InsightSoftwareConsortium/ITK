@@ -179,10 +179,10 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase< TDomainPartitioner, TImag
                        const VirtualPointType & virtualPoint,
                        const ThreadIdType threadId )
 {
-  FixedOutputPointType        mappedFixedPoint;
+  FixedImagePointType         mappedFixedPoint;
   FixedImagePixelType         mappedFixedPixelValue;
   FixedImageGradientType      mappedFixedImageGradient;
-  MovingOutputPointType       mappedMovingPoint;
+  MovingImagePointType        mappedMovingPoint;
   MovingImagePixelType        mappedMovingPixelValue;
   MovingImageGradientType     mappedMovingImageGradient;
   bool                        pointIsValid = false;

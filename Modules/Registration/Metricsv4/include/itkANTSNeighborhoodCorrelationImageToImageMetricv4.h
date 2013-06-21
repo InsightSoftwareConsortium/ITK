@@ -90,17 +90,21 @@ namespace itk {
  *
  * \ingroup ITKMetricsv4
  */
-template<class TFixedImage, class TMovingImage, class TVirtualImage = TFixedImage>
+template<class TFixedImage, class TMovingImage, class TVirtualImage = TFixedImage,
+          class TInternalComputationValueType = double,
+          class TMetricTraits = DefaultImageToImageMetricTraitsv4<TFixedImage,TMovingImage,TVirtualImage,TInternalComputationValueType>
+          >
 class ITK_EXPORT ANTSNeighborhoodCorrelationImageToImageMetricv4 :
-  public ImageToImageMetricv4< TFixedImage, TMovingImage, TVirtualImage>
+  public ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 {
 public:
 
   /** Standard class typedefs. */
-  typedef ANTSNeighborhoodCorrelationImageToImageMetricv4                Self;
-  typedef ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage> Superclass;
-  typedef SmartPointer<Self>                                             Pointer;
-  typedef SmartPointer<const Self>                                       ConstPointer;
+  typedef ANTSNeighborhoodCorrelationImageToImageMetricv4                  Self;
+  typedef ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage,
+                             TInternalComputationValueType,TMetricTraits>  Superclass;
+  typedef SmartPointer<Self>                                               Pointer;
+  typedef SmartPointer<const Self>                                         ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -133,8 +137,6 @@ public:
   typedef typename Superclass::VirtualImageType               VirtualImageType;
   typedef typename Superclass::FixedOutputPointType           FixedOutputPointType;
   typedef typename Superclass::MovingOutputPointType          MovingOutputPointType;
-
-  typedef typename Superclass::InternalComputationValueType  InternalComputationValueType;
 
   typedef typename Superclass::FixedTransformType::JacobianType
                             FixedTransformJacobianType;

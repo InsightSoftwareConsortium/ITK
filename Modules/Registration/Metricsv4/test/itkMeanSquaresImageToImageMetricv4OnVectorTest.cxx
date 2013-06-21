@@ -105,8 +105,8 @@ int itkMeanSquaresImageToImageMetricv4OnVectorTest(int, char ** const)
   movingTransform->SetIdentity();
 
   /* The metric */
-  typedef itk::VectorImageToImageMetricTraitsv4< ImageType, ImageType, ImageType, vectorLength > MetricTraitsType;
-  typedef itk::MeanSquaresImageToImageMetricv4< ImageType, ImageType, ImageType, MetricTraitsType > MetricType;
+  typedef itk::VectorImageToImageMetricTraitsv4< ImageType, ImageType, ImageType, vectorLength, double > MetricTraitsType;
+  typedef itk::MeanSquaresImageToImageMetricv4< ImageType, ImageType, ImageType, double, MetricTraitsType > MetricType;
 
   MetricType::Pointer metric = MetricType::New();
 

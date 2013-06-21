@@ -15,14 +15,18 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+#ifndef __itkObjectToObjectMetricBase_hxx
+#define __itkObjectToObjectMetricBase_hxx
+
 #include "itkObjectToObjectMetricBase.h"
 
 namespace itk
 {
 
 //-------------------------------------------------------------------
-ObjectToObjectMetricBase
-::ObjectToObjectMetricBase()
+template<class TInternalComputationValueType>
+ObjectToObjectMetricBaseTemplate<TInternalComputationValueType>
+::ObjectToObjectMetricBaseTemplate()
 {
   // Don't call SetGradientSource, to avoid valgrind warning.
   this->m_GradientSource = this->GRADIENT_SOURCE_MOVING;
@@ -30,59 +34,64 @@ ObjectToObjectMetricBase
 }
 
 //-------------------------------------------------------------------
-ObjectToObjectMetricBase
-::~ObjectToObjectMetricBase()
+template<class TInternalComputationValueType>
+ObjectToObjectMetricBaseTemplate<TInternalComputationValueType>
+::~ObjectToObjectMetricBaseTemplate()
 {}
 
 //-------------------------------------------------------------------
-bool
-ObjectToObjectMetricBase
+template<class TInternalComputationValueType>
+bool ObjectToObjectMetricBaseTemplate<TInternalComputationValueType>
 ::GetGradientSourceIncludesFixed() const
 {
   return m_GradientSource == GRADIENT_SOURCE_FIXED ||
-         m_GradientSource == GRADIENT_SOURCE_BOTH;
+  m_GradientSource == GRADIENT_SOURCE_BOTH;
 }
 
 //-------------------------------------------------------------------
-bool
-ObjectToObjectMetricBase
+template<class TInternalComputationValueType>
+bool ObjectToObjectMetricBaseTemplate<TInternalComputationValueType>
 ::GetGradientSourceIncludesMoving() const
 {
   return m_GradientSource == GRADIENT_SOURCE_MOVING ||
-         m_GradientSource == GRADIENT_SOURCE_BOTH;
+  m_GradientSource == GRADIENT_SOURCE_BOTH;
 }
 
 //-------------------------------------------------------------------
-ObjectToObjectMetricBase::MeasureType
-ObjectToObjectMetricBase
+template<class TInternalComputationValueType>
+typename ObjectToObjectMetricBaseTemplate<TInternalComputationValueType>::MeasureType
+ObjectToObjectMetricBaseTemplate<TInternalComputationValueType>
 ::GetCurrentValue() const
 {
   return m_Value;
 }
 
 //-------------------------------------------------------------------
+template<class TInternalComputationValueType>
 void
-ObjectToObjectMetricBase
+ObjectToObjectMetricBaseTemplate<TInternalComputationValueType>
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os, indent);
-  os << indent << "Value: " << m_Value << std::endl;
-  os << indent << "GradientSourceType: ";
-  switch( m_GradientSource )
-    {
-  case GRADIENT_SOURCE_FIXED:
+Superclass::PrintSelf(os, indent);
+os << indent << "Value: " << m_Value << std::endl;
+os << indent << "GradientSourceType: ";
+switch( m_GradientSource )
+  {
+    case GRADIENT_SOURCE_FIXED:
     os << "GRADIENT_SOURCE_FIXED";
     break;
-  case GRADIENT_SOURCE_MOVING:
+    case GRADIENT_SOURCE_MOVING:
     os << "GRADIENT_SOURCE_MOVING";
     break;
-  case GRADIENT_SOURCE_BOTH:
+    case GRADIENT_SOURCE_BOTH:
     os << "GRADIENT_SOURCE_BOTH";
     break;
-  default:
+    default:
     itkExceptionMacro(<< "Unknown GradientSource.");
-    }
-  os << std::endl;
+  }
+os << std::endl;
 }
 
 }//namespace itk
+
+#endif

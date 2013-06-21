@@ -15,6 +15,9 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+#ifndef __itkTxtTransformIO_hxx
+#define __itkTxtTransformIO_hxx
+
 #include "itkTxtTransformIO.h"
 #include "itksys/SystemTools.hxx"
 #include "vnl/vnl_matlab_read.h"
@@ -25,15 +28,20 @@
 #include "itkNumberToString.h"
 namespace itk
 {
-TxtTransformIO::TxtTransformIO()
+template<class ParametersValueType>
+TxtTransformIOTemplate<ParametersValueType>
+::TxtTransformIOTemplate()
 {}
 
-TxtTransformIO::
-~TxtTransformIO()
+template<class ParametersValueType>
+TxtTransformIOTemplate<ParametersValueType>
+::~TxtTransformIOTemplate()
 {}
 
+template<class ParametersValueType>
 bool
-TxtTransformIO::CanReadFile(const char *fileName)
+TxtTransformIOTemplate<ParametersValueType>
+::CanReadFile(const char *fileName)
 {
   bool recognizedExtension = false;
 
@@ -42,8 +50,10 @@ TxtTransformIO::CanReadFile(const char *fileName)
   return recognizedExtension;
 }
 
+template<class ParametersValueType>
 bool
-TxtTransformIO::CanWriteFile(const char *fileName)
+TxtTransformIOTemplate<ParametersValueType>
+::CanWriteFile(const char *fileName)
 {
   bool recognizedExtension = false;
 
@@ -52,8 +62,10 @@ TxtTransformIO::CanWriteFile(const char *fileName)
   return recognizedExtension;
 }
 
+template<class ParametersValueType>
 std::string
-TxtTransformIO::trim(std::string const & source, char const *delims)
+TxtTransformIOTemplate<ParametersValueType>
+::trim(std::string const & source, char const *delims)
 {
   std::string            result(source);
   std::string::size_type index = result.find_last_not_of(delims);
@@ -75,8 +87,10 @@ TxtTransformIO::trim(std::string const & source, char const *delims)
   return result;
 }
 
+template<class ParametersValueType>
 void
-TxtTransformIO::ReadComponentFile( std::string Value )
+TxtTransformIOTemplate<ParametersValueType>
+::ReadComponentFile( std::string Value )
 {
   /* Used for reading component files listed in a composite transform
    * file, which should be read by CompositeTransformReader for assembly
@@ -89,7 +103,8 @@ TxtTransformIO::ReadComponentFile( std::string Value )
     itksys::SystemTools::ConvertToOutputPath( filePathUnix.c_str() );
 
   /* Use TransformFileReader to read each component file. */
-  TransformFileReader::Pointer reader = TransformFileReader::New();
+  typename TransformFileReaderTemplate<ParametersValueType>::Pointer reader =
+      TransformFileReaderTemplate<ParametersValueType>::New();
   std::string componentFullPath = filePath + Value;
   reader->SetFileName( componentFullPath );
   try
@@ -105,8 +120,10 @@ TxtTransformIO::ReadComponentFile( std::string Value )
   this->GetReadTransformList().push_back (transform);
 }
 
+template<class ParametersValueType>
 void
-TxtTransformIO::Read()
+TxtTransformIOTemplate<ParametersValueType>
+::Read()
 {
   TransformPointer transform;
   std::ifstream    in;
@@ -143,11 +160,11 @@ TxtTransformIO::Read()
   in.close();
 
   // Read line by line
-  TransformType::ParametersType   VectorBuffer;
+  typename TransformType::ParametersType   VectorBuffer;
   std::string::size_type position = 0;
 
-  TransformType::ParametersType TmpParameterArray;
-  TransformType::ParametersType TmpFixedParameterArray;
+  typename TransformType::ParametersType TmpParameterArray;
+  typename TransformType::ParametersType TmpFixedParameterArray;
   TmpParameterArray.clear();
   TmpFixedParameterArray.clear();
   bool haveFixedParameters = false;
@@ -270,7 +287,8 @@ TxtTransformIO::Read()
 }
 
 namespace {
-void print_vector(std::ofstream& s, vnl_vector<double> const &v)
+template<class ParametersValueType>
+void print_vector(std::ofstream& s, vnl_vector<ParametersValueType> const &v)
 {
   NumberToString<double> convert;
   for (unsigned i = 0; i+1 < v.size(); ++i)
@@ -284,8 +302,10 @@ void print_vector(std::ofstream& s, vnl_vector<double> const &v)
 }
 }
 
+template<class ParametersValueType>
 void
-TxtTransformIO::Write()
+TxtTransformIOTemplate<ParametersValueType>
+::Write()
 {
   ConstTransformListType &transformList =
     this->GetWriteTransformList();
@@ -301,17 +321,17 @@ TxtTransformIO::Write()
   // if the first transform in the list is a
   // composite transform, use its internal list
   // instead of the IO
-  CompositeTransformIOHelper helper;
+  CompositeTransformIOHelperTemplate<ParametersValueType> helper;
   if(CompositeTransformTypeName.find("CompositeTransform") != std::string::npos)
     {
     transformList = helper.GetTransformList(transformList.front().GetPointer());
     }
-  vnl_vector< double > TempArray;
+  vnl_vector< ParametersValueType > TempArray;
   int count = 0;
 
-  ConstTransformListType::const_iterator end = transformList.end();
+  typename ConstTransformListType::const_iterator end = transformList.end();
 
-  for (ConstTransformListType::const_iterator it = transformList.begin();
+  for (typename ConstTransformListType::const_iterator it = transformList.begin();
        it != end; ++it,++count )
     {
     const std::string TransformTypeName = ( *it )->GetTransformTypeAsString();
@@ -343,3 +363,5 @@ TxtTransformIO::Write()
   out.close();
 }
 }
+
+#endif

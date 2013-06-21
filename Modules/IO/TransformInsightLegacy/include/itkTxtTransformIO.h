@@ -21,21 +21,26 @@
 
 namespace itk
 {
-/** \class TxtTransformIO
-   * \brief Create instances of TxtTransformIO objects.
+/** \class TxtTransformIOTemplate
+   * \brief Create instances of TxtTransformIOTemplate objects.
    * \ingroup ITKIOTransformInsightLegacy
    */
-class ITK_EXPORT TxtTransformIO:public TransformIOBase
+template<class ParametersValueType>
+class ITK_EXPORT TxtTransformIOTemplate:public TransformIOBaseTemplate<ParametersValueType>
 {
 public:
-  typedef TxtTransformIO                Self;
-  typedef TransformIOBase               Superclass;
-  typedef SmartPointer< Self >          Pointer;
-  typedef TransformBase                 TransformType;
-  typedef Superclass::TransformPointer  TransformPointer;
-  typedef Superclass::TransformListType TransformListType;
+  typedef TxtTransformIOTemplate                        Self;
+  typedef TransformIOBaseTemplate<ParametersValueType>  Superclass;
+  typedef SmartPointer< Self >                          Pointer;
+  typedef typename Superclass::TransformType            TransformType;
+  typedef typename Superclass::TransformPointer         TransformPointer;
+  typedef typename Superclass::TransformListType        TransformListType;
+  typedef typename TransformIOBaseTemplate
+                      <ParametersValueType>::ConstTransformListType
+                                                        ConstTransformListType;
+
   /** Run-time type information (and related methods). */
-  itkTypeMacro(TxtTransformIO, TransformIOBase);
+  itkTypeMacro(TxtTransformIOTemplate, Superclass);
   itkNewMacro(Self);
 
   /** Determine the file type. Returns true if this ImageIO can read the
@@ -58,12 +63,21 @@ public:
   void ReadComponentFile( std::string Value );
 
 protected:
-  TxtTransformIO();
-  virtual ~TxtTransformIO();
+  TxtTransformIOTemplate();
+  virtual ~TxtTransformIOTemplate();
 
 private:
   /** trim spaces and newlines from start and end of a string */
   std::string trim(std::string const & source, char const *delims = " \t\r\n");
 };
+
+/** This helps to meet backward compatibility */
+typedef TxtTransformIOTemplate<double> TxtTransformIO;
+
 }
+
+#ifndef ITK_MANUAL_INSTANTIATION
+#include "itkTxtTransformIO.hxx"
+#endif
+
 #endif // __itkTxtTransformIO_h

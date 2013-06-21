@@ -23,7 +23,7 @@
 
 namespace itk
 {
-/** \class SingleValuedCostFunctionv4
+/** \class SingleValuedCostFunctionTemplatev4
  * \brief This class is a base for a CostFunction that returns a
  * single value.
  *
@@ -45,31 +45,31 @@ namespace itk
  * \ingroup Numerics Optimizers
  * \ingroup ITKOptimizersv4
  */
-class ITK_EXPORT SingleValuedCostFunctionv4:
-  public CostFunction
+template< class TInternalComputationValueType >
+class ITK_EXPORT SingleValuedCostFunctionTemplatev4:
+  public CostFunctionTemplate<TInternalComputationValueType>
 {
 public:
   /** Standard class typedefs. */
-  typedef SingleValuedCostFunctionv4   Self;
-  typedef CostFunction                 Superclass;
-  typedef SmartPointer< Self >         Pointer;
-  typedef SmartPointer< const Self >   ConstPointer;
+  typedef SingleValuedCostFunctionTemplatev4              Self;
+  typedef CostFunctionTemplate<TInternalComputationValueType>   Superclass;
+  typedef SmartPointer< Self >                            Pointer;
+  typedef SmartPointer< const Self >                      ConstPointer;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(SingleValuedCostFunctionv4, CostFunction);
+  itkTypeMacro(SingleValuedCostFunctionTemplatev4, CostFunctionTemplate);
 
   /**  MeasureType typedef.
    *  It defines a type used to return the cost function value. */
-  typedef double MeasureType;
+  typedef TInternalComputationValueType                  MeasureType;
 
   /**  ParametersType typedef.
    *  It defines a position in the optimization search space. */
-  typedef Superclass::ParametersType      ParametersType;
-  typedef Superclass::ParametersValueType ParametersValueType;
+  typedef typename Superclass::ParametersType      ParametersType;
 
   /** DerivativeType typedef.
    *  It defines a type used to return the cost function derivative.  */
-  typedef Array< ParametersValueType > DerivativeType;
+  typedef Array< TInternalComputationValueType > DerivativeType;
 
   /** This method returns the value of the cost function corresponding
     * to the specified parameters.    */
@@ -82,13 +82,17 @@ public:
                                      DerivativeType & derivative) const = 0;
 
 protected:
-  SingleValuedCostFunctionv4() {}
-  virtual ~SingleValuedCostFunctionv4() {}
+  SingleValuedCostFunctionTemplatev4() {}
+  virtual ~SingleValuedCostFunctionTemplatev4() {}
 
 private:
-  SingleValuedCostFunctionv4(const Self &); //purposely not implemented
+  SingleValuedCostFunctionTemplatev4(const Self &); //purposely not implemented
   void operator=(const Self &);           //purposely not implemented
 };
+
+/** This helps to meet backward compatibility */
+typedef SingleValuedCostFunctionTemplatev4<double> SingleValuedCostFunctionv4;
+
 } // end namespace itk
 
 #endif

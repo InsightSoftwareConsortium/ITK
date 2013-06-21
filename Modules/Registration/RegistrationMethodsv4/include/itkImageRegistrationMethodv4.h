@@ -114,13 +114,6 @@ public:
   typedef std::vector<MovingImagePointer>                             MovingImagesContainerType;
 
   /** Metric and transform typedefs */
-  typedef ObjectToObjectMetricBase                                    MetricType;
-  typedef typename MetricType::Pointer                                MetricPointer;
-
-  typedef ObjectToObjectMultiMetricv4<ImageDimension, ImageDimension> MultiMetricType;
-  typedef ImageToImageMetricv4<FixedImageType, MovingImageType>       ImageMetricType;
-  typedef typename ImageMetricType::VirtualImageType                  VirtualImageType;
-
   typedef TOutputTransform                                            OutputTransformType;
   typedef typename OutputTransformType::Pointer                       OutputTransformPointer;
   typedef typename OutputTransformType::ScalarType                    RealType;
@@ -132,6 +125,14 @@ public:
 
   typedef CompositeTransform<RealType, ImageDimension>                CompositeTransformType;
   typedef typename CompositeTransformType::Pointer                    CompositeTransformPointer;
+
+  typedef ObjectToObjectMetricBaseTemplate<RealType>                  MetricType;
+  typedef typename MetricType::Pointer                                MetricPointer;
+
+  typedef Image<typename ObjectToObjectMetricBaseTemplate<RealType>::ParametersValueType, ImageDimension> VirtualImageType;
+
+  typedef ObjectToObjectMultiMetricv4<ImageDimension, ImageDimension, VirtualImageType, RealType>  MultiMetricType;
+  typedef ImageToImageMetricv4<FixedImageType, MovingImageType, VirtualImageType, RealType>        ImageMetricType;
 
   /**
    * Type for the output: Using Decorator pattern for enabling the transform to be
@@ -154,7 +155,7 @@ public:
   typedef std::vector<TransformParametersAdaptorPointer>              TransformParametersAdaptorsContainerType;
 
   /**  Type of the optimizer. */
-  typedef ObjectToObjectOptimizerBase                                 OptimizerType;
+  typedef ObjectToObjectOptimizerBaseTemplate<RealType>               OptimizerType;
   typedef typename OptimizerType::Pointer                             OptimizerPointer;
 
   /** enum type for metric sampling strategy */

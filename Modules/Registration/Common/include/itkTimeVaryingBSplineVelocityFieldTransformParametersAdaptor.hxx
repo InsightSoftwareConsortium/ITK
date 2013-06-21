@@ -270,7 +270,7 @@ TimeVaryingBSplineVelocityFieldTransformParametersAdaptor<TTransform>
 
   //  Resample the coefficient images
   typedef BSplineResampleImageFunction<ComponentImageType, ParametersValueType> CoefficientUpsampleFunctionType;
-  typedef ResampleImageFilter<ComponentImageType, ComponentImageType> UpsampleFilterType;
+  typedef ResampleImageFilter<ComponentImageType, ComponentImageType, ParametersValueType> UpsampleFilterType;
   typedef BSplineDecompositionImageFilter<ComponentImageType, ComponentImageType> DecompositionFilterType;
 
   VectorType zeroVector( 0.0 );

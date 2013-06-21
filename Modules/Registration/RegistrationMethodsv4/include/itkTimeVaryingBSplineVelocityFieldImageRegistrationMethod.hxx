@@ -244,7 +244,7 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
 
       for( unsigned int n = 0; n < this->m_MovingSmoothImages.size(); n++ )
         {
-        typedef ResampleImageFilter<MovingImageType, VirtualImageType> MovingResamplerType;
+        typedef ResampleImageFilter<MovingImageType, VirtualImageType, RealType> MovingResamplerType;
         typename MovingResamplerType::Pointer movingResampler = MovingResamplerType::New();
         movingResampler->SetTransform( this->m_CompositeTransform );
         movingResampler->SetInput( this->m_MovingSmoothImages[n] );
@@ -255,7 +255,7 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
         movingResampler->SetDefaultPixelValue( 0 );
         movingResampler->Update();
 
-        typedef ResampleImageFilter<FixedImageType, VirtualImageType> FixedResamplerType;
+        typedef ResampleImageFilter<FixedImageType, VirtualImageType, RealType> FixedResamplerType;
         typename FixedResamplerType::Pointer fixedResampler = FixedResamplerType::New();
         fixedResampler->SetTransform( fixedDisplacementFieldTransform );
         fixedResampler->SetInput( this->m_FixedSmoothImages[n] );
@@ -280,7 +280,7 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
 
       if( fixedImageMask )
         {
-        typedef ResampleImageFilter<MaskImageType, WeightedMaskImageType> FixedMaskResamplerType;
+        typedef ResampleImageFilter<MaskImageType, WeightedMaskImageType, RealType> FixedMaskResamplerType;
         typename FixedMaskResamplerType::Pointer fixedMaskResampler = FixedMaskResamplerType::New();
         fixedMaskResampler->SetTransform( fixedDisplacementFieldTransform );
         fixedMaskResampler->SetInput( dynamic_cast<ImageMaskSpatialObjectType *>( const_cast<FixedImageMaskType *>( fixedImageMask.GetPointer() ) )->GetImage() );

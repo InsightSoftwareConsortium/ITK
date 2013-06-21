@@ -15,33 +15,32 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+#ifndef __itkTransformIOFactory_hxx
+#define __itkTransformIOFactory_hxx
 
 #include "itkTransformIOFactory.h"
 
 namespace itk
 {
-TransformIOBase::Pointer
-TransformIOFactory::CreateTransformIO(const char *path, FileModeType mode)
+template<class ParametersValueType>
+typename TransformIOBaseTemplate<ParametersValueType>::Pointer
+TransformIOFactoryTemplate<ParametersValueType>
+::CreateTransformIO(const char *path, TransformIOFactoryFileModeType mode)
 {
-  std::list< TransformIOBase::Pointer > possibleTransformIO;
+  typename std::list< typename TransformIOBaseTemplate<ParametersValueType>::Pointer > possibleTransformIO;
   std::list< LightObject::Pointer >     allobjects =
-    ObjectFactoryBase::CreateAllInstance("itkTransformIOBase");
+    ObjectFactoryBase::CreateAllInstance("itkTransformIOBaseTemplate");
   for ( std::list< LightObject::Pointer >::iterator i = allobjects.begin();
         i != allobjects.end(); ++i )
     {
-    TransformIOBase *io = dynamic_cast< TransformIOBase * >( i->GetPointer() );
+    TransformIOBaseTemplate<ParametersValueType> *io =
+                        dynamic_cast< TransformIOBaseTemplate<ParametersValueType> * >( i->GetPointer() );
     if ( io )
       {
       possibleTransformIO.push_back(io);
       }
-    else
-      {
-      std::cerr << "Error TransformIO factory did not return an TransformIOBase: "
-                << ( *i )->GetNameOfClass()
-                << std::endl;
-      }
     }
-  for ( std::list< TransformIOBase::Pointer >::iterator k = possibleTransformIO.begin();
+  for ( typename std::list< typename TransformIOBaseTemplate<ParametersValueType>::Pointer >::iterator k = possibleTransformIO.begin();
         k != possibleTransformIO.end(); ++k )
     {
     if ( mode == ReadMode )
@@ -62,3 +61,5 @@ TransformIOFactory::CreateTransformIO(const char *path, FileModeType mode)
   return 0;
 }
 } // end namespace itk
+
+#endif

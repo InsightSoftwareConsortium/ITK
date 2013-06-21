@@ -320,7 +320,6 @@ void SPSAOptimizer
   m_Delta = DerivativeType(spaceDimension);
 
   const ScalesType & scales = this->GetScales();
-
   // Make sure the scales have been set properly
   if ( scales.size() != spaceDimension )
     {
@@ -331,7 +330,8 @@ void SPSAOptimizer
                       << ".");
     }
 
-  for ( unsigned int j = 0; j < spaceDimension; j++ )
+  const ScalesType & invScales = this->GetInverseScales();
+  for ( unsigned int j = 0; j < spaceDimension; ++j )
     {
     /** Generate randomly -1 or 1. */
     m_Delta[j] = 2 * Math::Round< int >( this->m_Generator->GetUniformVariate (0.0f, 1.0f) ) - 1;
@@ -341,7 +341,7 @@ void SPSAOptimizer
      * large range (and thus is assigned a small scaler) should be higher than
      * the perturbation of a parameter that has a small range.
      */
-    m_Delta[j] /= scales[j];
+    m_Delta[j] *= invScales[j];
     }
 } // end GenerateDelta
 
