@@ -98,7 +98,7 @@ class GradientDescentOptimizerBasev4TestOptimizer
 public:
   /** Standard "Self" typedef. */
   typedef GradientDescentOptimizerBasev4TestOptimizer     Self;
-  typedef GradientDescentOptimizerBasev4                  Superclass;
+  typedef itk::GradientDescentOptimizerBasev4             Superclass;
   typedef itk::SmartPointer< Self >                       Pointer;
   typedef itk::SmartPointer< const Self >                 ConstPointer;
 

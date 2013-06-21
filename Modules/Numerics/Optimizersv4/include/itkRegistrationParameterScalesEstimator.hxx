@@ -96,7 +96,7 @@ if (m_Metric.IsNull())
 
 /** Get the transform being estimated scales for. */
 template< class TMetric >
-const TransformBase *
+const TransformBaseTemplate<typename TMetric::MeasureType> *
 RegistrationParameterScalesEstimator< TMetric >
 ::GetTransform()
 {
@@ -473,7 +473,7 @@ RegistrationParameterScalesEstimator< TMetric >
   typedef Rigid3DPerspectiveTransform<ScalarType>
           Rigid3DPerspectiveTransformType;
 
-  const TransformBase *transform = this->GetTransform();
+  const TransformBaseTemplate<typename TMetric::MeasureType> *transform = this->GetTransform();
 
   if ( dynamic_cast< const MatrixOffsetTransformBaseType * >( transform ) != NULL
     || dynamic_cast< const TranslationTransformType * >( transform ) != NULL

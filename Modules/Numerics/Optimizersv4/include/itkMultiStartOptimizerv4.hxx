@@ -15,6 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+#ifndef __itkMultiStartOptimizerv4_hxx
+#define __itkMultiStartOptimizerv4_hxx
 
 #include "itkMultiStartOptimizerv4.h"
 
@@ -22,8 +24,9 @@ namespace itk
 {
 
 //-------------------------------------------------------------------
-MultiStartOptimizerv4
-::MultiStartOptimizerv4()
+template<class TInternalComputationValueType>
+MultiStartOptimizerTemplatev4<TInternalComputationValueType>
+::MultiStartOptimizerTemplatev4()
 {
   this->m_NumberOfIterations = static_cast<SizeValueType>(0);
   this->m_CurrentIteration   = static_cast<SizeValueType>(0);
@@ -37,13 +40,15 @@ MultiStartOptimizerv4
 }
 
 //-------------------------------------------------------------------
-MultiStartOptimizerv4
-::~MultiStartOptimizerv4()
+template<class TInternalComputationValueType>
+MultiStartOptimizerTemplatev4<TInternalComputationValueType>
+::~MultiStartOptimizerTemplatev4()
 {}
 
 //-------------------------------------------------------------------
+template<class TInternalComputationValueType>
 void
-MultiStartOptimizerv4
+MultiStartOptimizerTemplatev4<TInternalComputationValueType>
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
@@ -54,17 +59,19 @@ MultiStartOptimizerv4
 }
 
 //-------------------------------------------------------------------
-MultiStartOptimizerv4::ParametersListType &
-MultiStartOptimizerv4
+template<class TInternalComputationValueType>
+typename MultiStartOptimizerTemplatev4<TInternalComputationValueType>::ParametersListType &
+MultiStartOptimizerTemplatev4<TInternalComputationValueType>
 ::GetParametersList()
 {
   return this->m_ParametersList;
 }
 
 /** Set the list of parameters over which to search */
+template<class TInternalComputationValueType>
 void
-MultiStartOptimizerv4
-::SetParametersList(MultiStartOptimizerv4::ParametersListType & p)
+MultiStartOptimizerTemplatev4<TInternalComputationValueType>
+::SetParametersList(typename MultiStartOptimizerTemplatev4::ParametersListType & p)
 {
   if( p != this->m_ParametersList )
     {
@@ -74,16 +81,18 @@ MultiStartOptimizerv4
 }
 
 /** Get the list of metric values that we produced after the multi-start search.  */
-const MultiStartOptimizerv4::MetricValuesListType &
-MultiStartOptimizerv4
+template<class TInternalComputationValueType>
+const typename MultiStartOptimizerTemplatev4<TInternalComputationValueType>::MetricValuesListType &
+MultiStartOptimizerTemplatev4<TInternalComputationValueType>
 ::GetMetricValuesList() const
 {
   return this->m_MetricValuesList;
 }
 
 //-------------------------------------------------------------------
-MultiStartOptimizerv4::ParametersType
-MultiStartOptimizerv4
+template<class TInternalComputationValueType>
+typename MultiStartOptimizerTemplatev4<TInternalComputationValueType>::ParametersType
+MultiStartOptimizerTemplatev4<TInternalComputationValueType>
 ::GetBestParameters( )
 {
   return this->m_ParametersList[m_BestParametersIndex];
@@ -91,32 +100,34 @@ MultiStartOptimizerv4
 
 
 //-------------------------------------------------------------------
+template<class TInternalComputationValueType>
 void
-MultiStartOptimizerv4
+MultiStartOptimizerTemplatev4<TInternalComputationValueType>
 ::InstantiateLocalOptimizer()
 {
   LocalOptimizerPointer optimizer = LocalOptimizerType::New();
-  typedef LocalOptimizerType::InternalComputationValueType LearningType;
-  optimizer->SetLearningRate( static_cast<LearningType>(1.e-1) );
+  optimizer->SetLearningRate( static_cast<TInternalComputationValueType>(1.e-1) );
   optimizer->SetNumberOfIterations( 25 );
   this->m_LocalOptimizer=optimizer;
 }
 
 //-------------------------------------------------------------------
-const MultiStartOptimizerv4::StopConditionReturnStringType
-MultiStartOptimizerv4
+template<class TInternalComputationValueType>
+const typename MultiStartOptimizerTemplatev4<TInternalComputationValueType>::StopConditionReturnStringType
+MultiStartOptimizerTemplatev4<TInternalComputationValueType>
 ::GetStopConditionDescription() const
 {
   return this->m_StopConditionDescription.str();
 }
 
 //-------------------------------------------------------------------
+template<class TInternalComputationValueType>
 void
-MultiStartOptimizerv4
+MultiStartOptimizerTemplatev4<TInternalComputationValueType>
 ::StopOptimization(void)
 {
   itkDebugMacro( "StopOptimization called with a description - "
-    << this->GetStopConditionDescription() );
+                << this->GetStopConditionDescription() );
   this->m_Stop = true;
 
   this->m_Metric->SetParameters( this->m_ParametersList[ this->m_BestParametersIndex ] );
@@ -125,10 +136,11 @@ MultiStartOptimizerv4
 }
 
 /**
- * Start and run the optimization
- */
+* Start and run the optimization
+*/
+template<class TInternalComputationValueType>
 void
-MultiStartOptimizerv4
+MultiStartOptimizerTemplatev4<TInternalComputationValueType>
 ::StartOptimization( bool doOnlyInitialization )
 {
   itkDebugMacro("StartOptimization");
@@ -156,10 +168,11 @@ MultiStartOptimizerv4
 }
 
 /**
- * Resume optimization.
- */
+* Resume optimization.
+*/
+template<class TInternalComputationValueType>
 void
-MultiStartOptimizerv4
+MultiStartOptimizerTemplatev4<TInternalComputationValueType>
 ::ResumeOptimization()
 {
   this->m_StopConditionDescription.str("");
@@ -210,8 +223,8 @@ MultiStartOptimizerv4
     if ( this->m_CurrentIteration >= this->m_NumberOfIterations )
       {
       this->m_StopConditionDescription << "Maximum number of iterations ("
-                                 << this->m_NumberOfIterations
-                                 << ") exceeded.";
+      << this->m_NumberOfIterations
+      << ") exceeded.";
       this->m_StopCondition = MAXIMUM_NUMBER_OF_ITERATIONS;
       this->StopOptimization();
       break;
@@ -220,3 +233,5 @@ MultiStartOptimizerv4
 }
 
 } //namespace itk
+
+#endif

@@ -24,94 +24,102 @@
 
 namespace itk
 {
-/** \class GradientDescentOptimizerv4
- *  \brief Gradient descent optimizer.
- *
- * GradientDescentOptimizer implements a simple gradient descent optimizer.
- * At each iteration the current position is updated according to
- *
- * \f[
- *        p_{n+1} = p_n
- *                + \mbox{learningRate}
-                  \, \frac{\partial f(p_n) }{\partial p_n}
- * \f]
- *
- * Optionally, the best metric value and matching parameters
- * can be stored and retried via GetValue() and GetCurrentPosition().
- * See SetReturnBestParametersAndValue().
- *
- * The user can scale each component of the df / dp in two ways:
- * 1) manually, by setting a scaling vector using method SetScales().
- * Or,
- * 2) automatically, by assigning a ScalesEstimator using SetScalesEstimator().
- * When ScalesEstimator is assigned, the optimizer is enabled by default to
- * estimate scales, and can be changed via SetDoEstimateScales(). The scales
- * are estimated and assigned once, during the call to StartOptimization().
- * This option will override any manually-assigned scales.
- *
- * The learing rate defaults to 1.0, and can be set in two ways:
- * 1) manually, via \c SetLearningRate().
- * Or,
- * 2) automatically, either at each iteration or only at the first iteration,
- * by assigning a ScalesEstimator via SetScalesEstimator(). When a
- * ScalesEstimator is assigned, the optimizer is enabled by default to estimate
- * learning rate only once, during the first iteration. This behavior can be changed via
- * SetDoEstimateLearningRateAtEveryIteration() and
- * SetDoEstimateLearningRateOnce(). For learning rate to be estimated at each iteration,
- * the user must call SetDoEstimateLearningRateAtEveryIteration(true) and
- * SetDoEstimateLearningRateOnce(false). When enabled, the optimizer computes learning
- * rate(s) such that at each step, each voxel's change in physical space will be less
- * than m_MaximumStepSizeInPhysicalUnits.
- *      m_LearningRate =
- *        m_MaximumStepSizeInPhysicalUnits /
- *        m_ScalesEstimator->EstimateStepScale(scaledGradient)
- * where m_MaximumStepSizeInPhysicalUnits defaults to the voxel spacing returned by
- * m_ScalesEstimator->EstimateMaximumStepSize() (which is typically 1 voxel),
- * and can be set by the user via SetMaximumStepSizeInPhysicalUnits().
- * When SetDoEstimateLearningRateOnce is enabled, the voxel change may become
- * being greater than m_MaximumStepSizeInPhysicalUnits in later iterations.
- *
- * \note Unlike the previous version of GradientDescentOptimizer, this version
- * does not have a "maximize/minimize" option to modify the effect of the metric
- * derivative. The assigned metric is assumed to return a parameter derivative
- * result that "improves" the optimization when *added* to the current
- * parameters via the metric::UpdateTransformParameters method, after the
- * optimizer applies scales and a learning rate.
- *
- * \ingroup ITKOptimizersv4
- */
-class ITK_EXPORT GradientDescentOptimizerv4
-  : public GradientDescentOptimizerBasev4
+  /** \class GradientDescentOptimizerTemplatev4
+   *  \brief Gradient descent optimizer.
+   *
+   * GradientDescentOptimizer implements a simple gradient descent optimizer.
+   * At each iteration the current position is updated according to
+   *
+   * \f[
+   *        p_{n+1} = p_n
+   *                + \mbox{learningRate}
+   \, \frac{\partial f(p_n) }{\partial p_n}
+   * \f]
+   *
+   * Optionally, the best metric value and matching parameters
+   * can be stored and retried via GetValue() and GetCurrentPosition().
+   * See SetReturnBestParametersAndValue().
+   *
+   * The user can scale each component of the df / dp in two ways:
+   * 1) manually, by setting a scaling vector using method SetScales().
+   * Or,
+   * 2) automatically, by assigning a ScalesEstimator using SetScalesEstimator().
+   * When ScalesEstimator is assigned, the optimizer is enabled by default to
+   * estimate scales, and can be changed via SetDoEstimateScales(). The scales
+   * are estimated and assigned once, during the call to StartOptimization().
+   * This option will override any manually-assigned scales.
+   *
+   * The learing rate defaults to 1.0, and can be set in two ways:
+   * 1) manually, via \c SetLearningRate().
+   * Or,
+   * 2) automatically, either at each iteration or only at the first iteration,
+   * by assigning a ScalesEstimator via SetScalesEstimator(). When a
+   * ScalesEstimator is assigned, the optimizer is enabled by default to estimate
+   * learning rate only once, during the first iteration. This behavior can be changed via
+   * SetDoEstimateLearningRateAtEveryIteration() and
+   * SetDoEstimateLearningRateOnce(). For learning rate to be estimated at each iteration,
+   * the user must call SetDoEstimateLearningRateAtEveryIteration(true) and
+   * SetDoEstimateLearningRateOnce(false). When enabled, the optimizer computes learning
+   * rate(s) such that at each step, each voxel's change in physical space will be less
+   * than m_MaximumStepSizeInPhysicalUnits.
+   *      m_LearningRate =
+   *        m_MaximumStepSizeInPhysicalUnits /
+   *        m_ScalesEstimator->EstimateStepScale(scaledGradient)
+   * where m_MaximumStepSizeInPhysicalUnits defaults to the voxel spacing returned by
+   * m_ScalesEstimator->EstimateMaximumStepSize() (which is typically 1 voxel),
+   * and can be set by the user via SetMaximumStepSizeInPhysicalUnits().
+   * When SetDoEstimateLearningRateOnce is enabled, the voxel change may become
+   * being greater than m_MaximumStepSizeInPhysicalUnits in later iterations.
+   *
+   * \note Unlike the previous version of GradientDescentOptimizer, this version
+   * does not have a "maximize/minimize" option to modify the effect of the metric
+   * derivative. The assigned metric is assumed to return a parameter derivative
+   * result that "improves" the optimization when *added* to the current
+   * parameters via the metric::UpdateTransformParameters method, after the
+   * optimizer applies scales and a learning rate.
+   *
+   * \ingroup ITKOptimizersv4
+   */
+template<class TInternalComputationValueType>
+class ITK_EXPORT GradientDescentOptimizerTemplatev4
+: public GradientDescentOptimizerBaseTemplatev4<TInternalComputationValueType>
 {
 public:
   /** Standard class typedefs. */
-  typedef GradientDescentOptimizerv4     Self;
-  typedef GradientDescentOptimizerBasev4 Superclass;
-  typedef SmartPointer< Self >           Pointer;
-  typedef SmartPointer< const Self >     ConstPointer;
+  typedef GradientDescentOptimizerTemplatev4                                    Self;
+  typedef GradientDescentOptimizerBaseTemplatev4<TInternalComputationValueType> Superclass;
+  typedef SmartPointer< Self >                                                  Pointer;
+  typedef SmartPointer< const Self >                                            ConstPointer;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(GradientDescentOptimizerv4, GradientDescentOptimizerBasev4);
+  itkTypeMacro(GradientDescentOptimizerTemplatev4, Superclass);
 
   /** New macro for creation of through a Smart Pointer   */
   itkNewMacro(Self);
 
+
+  /** It should be possible to derive the internal computation type from the class object. */
+  typedef TInternalComputationValueType                     InternalComputationValueType;
+
   /** Derivative type */
-  typedef Superclass::DerivativeType      DerivativeType;
+  typedef typename Superclass::DerivativeType               DerivativeType;
 
   /** Metric type over which this class is templated */
-  typedef Superclass::MeasureType                  MeasureType;
-  typedef Superclass::InternalComputationValueType InternalComputationValueType;
+  typedef typename Superclass::MeasureType                  MeasureType;
+  typedef typename Superclass::IndexRangeType               IndexRangeType;
+  typedef typename Superclass::ScalesType                   ScalesType;
+  typedef typename Superclass::ParametersType               ParametersType;
+  typedef typename Superclass::StopConditionType            StopConditionType;
 
   /** Type for the convergence checker */
-  typedef itk::Function::WindowConvergenceMonitoringFunction<double>
-    ConvergenceMonitoringType;
+  typedef itk::Function::WindowConvergenceMonitoringFunction<TInternalComputationValueType>
+  ConvergenceMonitoringType;
 
   /** Set the learning rate. */
-  itkSetMacro(LearningRate, InternalComputationValueType);
+  itkSetMacro(LearningRate, TInternalComputationValueType);
 
   /** Get the learning rate. */
-  itkGetConstReferenceMacro(LearningRate, InternalComputationValueType);
+  itkGetConstReferenceMacro(LearningRate, TInternalComputationValueType);
 
   /** Set the maximum step size, in physical space units.
    *
@@ -119,10 +127,10 @@ public:
    *  and automatic learning rate estimation is enabled.
    *  See main documentation.
    */
-  itkSetMacro(MaximumStepSizeInPhysicalUnits, InternalComputationValueType);
+  itkSetMacro(MaximumStepSizeInPhysicalUnits, TInternalComputationValueType);
 
   /** Get the maximum step size, in physical space units. */
-  itkGetConstReferenceMacro(MaximumStepSizeInPhysicalUnits, InternalComputationValueType);
+  itkGetConstReferenceMacro(MaximumStepSizeInPhysicalUnits, TInternalComputationValueType);
 
   /** Set the scales estimator.
    *
@@ -133,7 +141,7 @@ public:
    * \sa SetDoEstimateLearningRateAtEachIteration()
    * \sa SetDoEstimateLearningOnce()
    */
-  itkSetObjectMacro(ScalesEstimator, OptimizerParameterScalesEstimator);
+  itkSetObjectMacro(ScalesEstimator, OptimizerParameterScalesEstimatorTemplate<TInternalComputationValueType>);
 
   /** Option to use ScalesEstimator for scales estimation.
    * The estimation is performed once at begin of
@@ -174,7 +182,7 @@ public:
    *  tests. It is suggested to use 1e-6 for less stringent convergence
    *  checking.
    */
-  itkSetMacro(MinimumConvergenceValue, InternalComputationValueType);
+  itkSetMacro(MinimumConvergenceValue, double);
 
   /** Window size for the convergence checker.
    *  The convergence checker calculates convergence value by fitting to
@@ -187,7 +195,7 @@ public:
   itkSetMacro(ConvergenceWindowSize, SizeValueType);
 
   /** Get current convergence value */
-  itkGetConstReferenceMacro( ConvergenceValue, InternalComputationValueType );
+  itkGetConstReferenceMacro( ConvergenceValue, double);
 
   /** Flag. Set to have the optimizer track and return the best
    *  best metric value and corresponding best parameters that were
@@ -227,29 +235,29 @@ protected:
   /** Manual learning rate to apply. It is overridden by
    * automatic learning rate estimation if enabled. See main documentation.
    */
-  InternalComputationValueType  m_LearningRate;
+  TInternalComputationValueType  m_LearningRate;
 
   /** The maximum step size in physical units, to restrict learning rates.
    * Only used with automatic learning rate estimation. See main documentation.
    */
-  InternalComputationValueType  m_MaximumStepSizeInPhysicalUnits;
+  TInternalComputationValueType  m_MaximumStepSizeInPhysicalUnits;
 
   /** Default constructor */
-  GradientDescentOptimizerv4();
+  GradientDescentOptimizerTemplatev4();
 
   /** Destructor */
-  virtual ~GradientDescentOptimizerv4();
+  virtual ~GradientDescentOptimizerTemplatev4();
 
   virtual void PrintSelf( std::ostream & os, Indent indent ) const;
 
-  OptimizerParameterScalesEstimator::Pointer m_ScalesEstimator;
+  typename OptimizerParameterScalesEstimatorTemplate<TInternalComputationValueType>::Pointer m_ScalesEstimator;
 
   /** Minimum convergence value for convergence checking.
    *  The convergence checker calculates convergence value by fitting to
    *  a window of the energy profile. When the convergence value reaches
    *  a small value, such as 1e-8, it would be treated as converged.
    */
-  InternalComputationValueType m_MinimumConvergenceValue;
+  double m_MinimumConvergenceValue;
 
   /** Window size for the convergence checker.
    *  The convergence checker calculates convergence value by fitting to
@@ -258,10 +266,11 @@ protected:
   SizeValueType m_ConvergenceWindowSize;
 
   /** Current convergence value. */
-  InternalComputationValueType m_ConvergenceValue;
+  /* WindowConvergenceMonitoringFunction always returns output convergence value in 'double' precision */
+  double m_ConvergenceValue;
 
   /** The convergence checker. */
-  ConvergenceMonitoringType::Pointer m_ConvergenceMonitoring;
+  typename ConvergenceMonitoringType::Pointer m_ConvergenceMonitoring;
 
   /** Store the best value and related paramters */
   MeasureType                  m_CurrentBestValue;
@@ -286,10 +295,17 @@ private:
    */
   bool m_DoEstimateLearningRateOnce;
 
-  GradientDescentOptimizerv4( const Self & ); //purposely not implemented
+  GradientDescentOptimizerTemplatev4( const Self & ); //purposely not implemented
   void operator=( const Self& ); //purposely not implemented
 };
 
+/** This helps to meet backward compatibility */
+typedef GradientDescentOptimizerTemplatev4<double> GradientDescentOptimizerv4;
+
 } // end namespace itk
+
+#ifndef ITK_MANUAL_INSTANTIATION
+#include "itkGradientDescentOptimizerv4.hxx"
+#endif
 
 #endif

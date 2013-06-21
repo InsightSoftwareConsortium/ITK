@@ -19,11 +19,12 @@
 #define __itkCompositeTransformIOHelper_h
 
 #include "itkTransformIOBase.h"
+#include "itkCompositeTransform.h"
 
 namespace itk
 {
 
-/** \class CompositeTransformIOHelper
+/** \class CompositeTransformIOHelperTemplate
  *  \brief An adapter that adapts CompositeTransform into the
  *  TransformReader/Writer
  *
@@ -41,14 +42,15 @@ namespace itk
  *  of CompositeTransform.
  * \ingroup ITKIOTransformBase
  */
-class CompositeTransformIOHelper
+template <typename TScalar>
+class CompositeTransformIOHelperTemplate
 {
 public:
-  typedef TransformIOBase::TransformType          TransformType;
-  typedef TransformIOBase::TransformPointer       TransformPointer;
-  typedef TransformIOBase::TransformListType      TransformListType;
-  typedef TransformIOBase::ConstTransformPointer  ConstTransformPointer;
-  typedef TransformIOBase::ConstTransformListType ConstTransformListType;
+  typedef typename TransformIOBaseTemplate<TScalar>::TransformType          TransformType;
+  typedef typename TransformIOBaseTemplate<TScalar>::TransformPointer       TransformPointer;
+  typedef typename TransformIOBaseTemplate<TScalar>::TransformListType      TransformListType;
+  typedef typename TransformIOBaseTemplate<TScalar>::ConstTransformPointer  ConstTransformPointer;
+  typedef typename TransformIOBaseTemplate<TScalar>::ConstTransformListType ConstTransformListType;
 
   /** from a composite transform, recover a
    * TransformIOBase::ConstTransformList.
@@ -73,18 +75,26 @@ private:
    ** queue. A cascade of calls with different template parameters
    ** selects the correct concrete type for CompositeTransform.
    */
-  template <typename TScalar, unsigned TDim>
+  template <unsigned TDim>
   int BuildTransformList(const TransformType *transform);
+
   /** Sets a CompositeTransform's TransformQueue from the
    **  TransformIO's list of TransformBase. Will throw an exception
    **  if the scalar type or dimension of the transform being added
    **  doesn't match that of the concrete CompositeTransform's type.
    */
-  template <typename TScalar, unsigned TDim>
+  template <unsigned TDim>
   int InternalSetTransformList(TransformType *transform,TransformListType &transformList);
 
 };
 
+/** This helps to meet backward compatibility */
+typedef CompositeTransformIOHelperTemplate<double> CompositeTransformIOHelper;
 
-}
+} // namespace itk
+
+#ifndef ITK_MANUAL_INSTANTIATION
+#include "itkCompositeTransformIOHelper.hxx"
+#endif
+
 #endif //  __itkCompositeTransformIOHelper_h

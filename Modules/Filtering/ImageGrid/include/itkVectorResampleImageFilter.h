@@ -153,11 +153,11 @@ public:
   itkGetConstReferenceMacro(OutputSpacing, SpacingType);
 
   /** Set the output image origin. */
-  itkSetMacro(OutputOrigin, PointType);
+  itkSetMacro(OutputOrigin, OriginPointType);
   virtual void SetOutputOrigin(const double *values);
 
   /** Get the output image origin. */
-  itkGetConstReferenceMacro(OutputOrigin, PointType);
+  itkGetConstReferenceMacro(OutputOrigin, OriginPointType);
 
   /** Set the output direciton cosine matrix. */
   itkSetMacro(OutputDirection, DirectionType);
@@ -231,10 +231,10 @@ private:
   PixelType m_DefaultPixelValue;
   // default pixel value if the point
   // is outside the image
-  SpacingType   m_OutputSpacing;           // output image spacing
-  PointType     m_OutputOrigin;            // output image origin
-  DirectionType m_OutputDirection;         // output image direction cosines
-  IndexType     m_OutputStartIndex;        // output start index
+  SpacingType       m_OutputSpacing;           // output image spacing
+  OriginPointType   m_OutputOrigin;            // output image origin
+  DirectionType     m_OutputDirection;         // output image direction cosines
+  IndexType         m_OutputStartIndex;        // output start index
 };
 } // end namespace itk
 

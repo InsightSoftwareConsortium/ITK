@@ -27,11 +27,17 @@ void HDF5TransformIOFactory::PrintSelf(std::ostream &, Indent) const
 
 HDF5TransformIOFactory::HDF5TransformIOFactory()
 {
-  this->RegisterOverride( "itkTransformIOBase",
+  this->RegisterOverride( "itkTransformIOBaseTemplate",
                           "itkHDF5TransformIO",
-                          "HD5 Transform IO",
+                          "HD5 Transform float IO",
                           1,
-                          CreateObjectFunction< HDF5TransformIO >::New() );
+                          CreateObjectFunction< HDF5TransformIOTemplate< float > >::New() );
+
+  this->RegisterOverride( "itkTransformIOBaseTemplate",
+                          "itkHDF5TransformIO",
+                          "HD5 Transform double IO",
+                          1,
+                          CreateObjectFunction< HDF5TransformIOTemplate< double > >::New() );
 }
 
 HDF5TransformIOFactory::~HDF5TransformIOFactory()

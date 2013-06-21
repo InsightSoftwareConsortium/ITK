@@ -38,19 +38,18 @@ namespace itk
  * \ingroup ITKMetricsv4
  */
 template <class TFixedImage, class TMovingImage, class TVirtualImage = TFixedImage,
-          class TMetricTraits = DefaultImageToImageMetricTraitsv4<TFixedImage,TMovingImage,TVirtualImage>
+          class TInternalComputationValueType = double,
+          class TMetricTraits = DefaultImageToImageMetricTraitsv4<TFixedImage,TMovingImage,TVirtualImage,TInternalComputationValueType>
           >
 class ITK_EXPORT MeanSquaresImageToImageMetricv4 :
-  public ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TMetricTraits>
+  public ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 {
 public:
   /** Standard class typedefs. */
-  typedef MeanSquaresImageToImageMetricv4                                     Self;
-
-  typedef ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TMetricTraits> Superclass;
-
-  typedef SmartPointer<Self>                                             Pointer;
-  typedef SmartPointer<const Self>                                       ConstPointer;
+  typedef MeanSquaresImageToImageMetricv4                                                                        Self;
+  typedef ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits> Superclass;
+  typedef SmartPointer<Self>                                                                                     Pointer;
+  typedef SmartPointer<const Self>                                                                               ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -58,8 +57,6 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(MeanSquaresImageToImageMetricv4, ImageToImageMetricv4);
 
-  /** Superclass types */
-  typedef typename Superclass::MeasureType             MeasureType;
   typedef typename Superclass::DerivativeType          DerivativeType;
 
   typedef typename Superclass::FixedImagePointType     FixedImagePointType;

@@ -21,13 +21,12 @@
 #include "itkObject.h"
 #include "itkObjectFactory.h"
 #include "itkObjectToObjectOptimizerBase.h"
-#include "itkSingleValuedCostFunctionv4.h"
 
 namespace itk
 {
 
-/** \class OptimizerParameterScalesEstimator
- *  \brief OptimizerParameterScalesEstimator is the base class offering a
+/** \class OptimizerParameterScalesEstimatorTemplate
+ *  \brief OptimizerParameterScalesEstimatorTemplate is the base class offering a
  * empty method of estimating the parameter scales for optimizers.
  *
  * Its subclass RegistrationParameterScalesEstimator estimates scales for
@@ -35,24 +34,25 @@ namespace itk
  *
  * \ingroup ITKOptimizersv4
  */
-class ITK_EXPORT OptimizerParameterScalesEstimator : public Object
+template< class TInternalComputationValueType=double >
+class ITK_EXPORT OptimizerParameterScalesEstimatorTemplate : public Object
 {
 public:
   /** Standard class typedefs. */
-  typedef OptimizerParameterScalesEstimator     Self;
-  typedef Object                                Superclass;
-  typedef SmartPointer<Self>                    Pointer;
-  typedef SmartPointer<const Self>              ConstPointer;
+  typedef OptimizerParameterScalesEstimatorTemplate     Self;
+  typedef Object                                        Superclass;
+  typedef SmartPointer<Self>                            Pointer;
+  typedef SmartPointer<const Self>                      ConstPointer;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( OptimizerParameterScalesEstimator, Object );
+  itkTypeMacro( OptimizerParameterScalesEstimatorTemplate, Object );
 
   /** Type of scales */
-  typedef ObjectToObjectOptimizerBase::ScalesType        ScalesType;
+  typedef typename ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>::ScalesType        ScalesType;
   /** Type of parameters of the optimizer */
-  typedef ObjectToObjectOptimizerBase::ParametersType    ParametersType;
+  typedef typename ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>::ParametersType    ParametersType;
   /** Type of float */
-  typedef double                                         FloatType;
+  typedef TInternalComputationValueType                                                                  FloatType;
 
   /** Estimate parameter scales. */
   virtual void EstimateScales(ScalesType &scales) = 0;
@@ -68,8 +68,8 @@ public:
   virtual FloatType EstimateMaximumStepSize() = 0;
 
 protected:
-  OptimizerParameterScalesEstimator(){};
-  ~OptimizerParameterScalesEstimator(){};
+  OptimizerParameterScalesEstimatorTemplate(){};
+  ~OptimizerParameterScalesEstimatorTemplate(){};
 
   void PrintSelf(std::ostream &os, Indent indent) const
     {
@@ -77,11 +77,14 @@ protected:
     }
 
 private:
-  OptimizerParameterScalesEstimator(const Self&); //purposely not implemented
+  OptimizerParameterScalesEstimatorTemplate(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-}; //class OptimizerParameterScalesEstimator
+}; //class OptimizerParameterScalesEstimatorTemplate
+
+/** This helps to meet backward compatibility */
+typedef OptimizerParameterScalesEstimatorTemplate<double> OptimizerParameterScalesEstimator;
 
 }  // namespace itk
 
-#endif /* __itkOptimizerParameterScalesEstimator_h */
+#endif

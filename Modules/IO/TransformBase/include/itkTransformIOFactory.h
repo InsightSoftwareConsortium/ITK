@@ -23,47 +23,57 @@
 
 namespace itk
 {
-/** \class TransformIOFactory
+
+/** Mode in which the files is intended to be used */
+typedef enum { ReadMode, WriteMode } TransformIOFactoryFileModeType;
+
+/** \class TransformIOFactoryTemplate
  * \brief Create instances of TransformIO objects using an object factory.
  * \ingroup ITKIOTransformBase
  */
-class ITK_EXPORT TransformIOFactory:public Object
+template<class ParametersValueType>
+class ITK_EXPORT TransformIOFactoryTemplate:public Object
 {
 public:
   /** Standard class typedefs. */
-  typedef TransformIOFactory         Self;
-  typedef Object                     Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  typedef TransformIOFactoryTemplate          Self;
+  typedef Object                              Superclass;
+  typedef SmartPointer< Self >                Pointer;
+  typedef SmartPointer< const Self >          ConstPointer;
 
   /** Class Methods used to interface with the registered factories */
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(TransformIOFactory, Object);
+  itkTypeMacro(TransformIOFactoryTemplate, Object);
 
   /** Convenient typedefs. */
-  typedef TransformIOBase::Pointer TransformIOBasePointer;
-
-  /** Mode in which the files is intended to be used */
-  typedef enum { ReadMode, WriteMode } FileModeType;
+  typedef typename TransformIOBaseTemplate<ParametersValueType>::Pointer TransformIOBasePointer;
 
   /** Create the appropriate TransformIO depending on
    *  the particulars of the file.
    */
   static TransformIOBasePointer
-  CreateTransformIO(const char *path, FileModeType mode);
+  CreateTransformIO(const char *path, TransformIOFactoryFileModeType mode);
 
   /** Register Built-in factories */
   static void RegisterBuiltInFactories();
 
 protected:
-  TransformIOFactory();
-  ~TransformIOFactory();
+  TransformIOFactoryTemplate();
+  ~TransformIOFactoryTemplate();
 
 private:
-  TransformIOFactory(const Self &); //purposely not implemented
+  TransformIOFactoryTemplate(const Self &); //purposely not implemented
   void operator=(const Self &);     //purposely not implemented
 };
+
+/** This helps to meet backward compatibility */
+typedef TransformIOFactoryTemplate<double> TransformIOFactory;
+
 } // end namespace itk
+
+#ifndef ITK_MANUAL_INSTANTIATION
+#include "itkTransformIOFactory.hxx"
+#endif
 
 #endif

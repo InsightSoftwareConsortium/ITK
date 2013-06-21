@@ -19,8 +19,10 @@
 #define __itkGradientDescentOptimizerBasev4_h
 
 #include "itkObjectToObjectOptimizerBase.h"
-#include "itkGradientDescentOptimizerBasev4ModifyGradientByScalesThreader.h"
-#include "itkGradientDescentOptimizerBasev4ModifyGradientByLearningRateThreader.h"
+
+#include "itkObjectToObjectOptimizerBase.h"
+#include "itkThreadedIndexedContainerPartitioner.h"
+#include "itkDomainThreader.h"
 
 namespace itk
 {
@@ -34,19 +36,19 @@ namespace itk
  *
  * \ingroup ITKOptimizersv4
  */
-
-class ITK_EXPORT GradientDescentOptimizerBasev4
-  : public ObjectToObjectOptimizerBase
+template<class TInternalComputationValueType>
+class ITK_EXPORT GradientDescentOptimizerBaseTemplatev4
+  : public ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>
 {
 public:
   /** Standard class typedefs. */
-  typedef GradientDescentOptimizerBasev4 Self;
-  typedef ObjectToObjectOptimizerBase    Superclass;
-  typedef SmartPointer< Self >           Pointer;
-  typedef SmartPointer< const Self >     ConstPointer;
+  typedef GradientDescentOptimizerBaseTemplatev4                       Self;
+  typedef ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType> Superclass;
+  typedef SmartPointer< Self >                                         Pointer;
+  typedef SmartPointer< const Self >                                   ConstPointer;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(GradientDescentOptimizerBasev4, ObjectToObjectOptimizerBase);
+  itkTypeMacro(GradientDescentOptimizerBaseTemplatev4, Superclass);
 
   /** Codes of stopping conditions. */
   typedef enum {
@@ -65,18 +67,22 @@ public:
   /** Stop condition internal string type */
   typedef std::ostringstream                     StopConditionDescriptionType;
 
+  /** It should be possible to derive the internal computation type from the class object. */
+  typedef TInternalComputationValueType          InternalComputationValueType;
+
   /** Metric type over which this class is templated */
-  typedef Superclass::MetricType                    MetricType;
-  typedef MetricType::Pointer                       MetricTypePointer;
+  typedef typename Superclass::MetricType                    MetricType;
+  typedef typename MetricType::Pointer                       MetricTypePointer;
 
   /** Derivative type */
-  typedef MetricType::DerivativeType                DerivativeType;
+  typedef typename MetricType::DerivativeType                DerivativeType;
 
   /** Measure type */
-  typedef Superclass::MeasureType                   MeasureType;
+  typedef typename Superclass::MeasureType                   MeasureType;
 
-  /** Internal computation type, for maintaining a desired precision */
-  typedef Superclass::InternalComputationValueType InternalComputationValueType;
+  typedef typename Superclass::ScalesType                    ScalesType;
+
+  typedef typename Superclass::ParametersType                ParametersType;
 
   /** Get the most recent gradient values. */
   itkGetConstReferenceMacro( Gradient, DerivativeType );
@@ -120,19 +126,7 @@ public:
   virtual void ModifyGradientByScales();
   virtual void ModifyGradientByLearningRate();
 
-protected:
-
-  /** Default constructor */
-  GradientDescentOptimizerBasev4();
-  virtual ~GradientDescentOptimizerBasev4();
-
-  friend class GradientDescentOptimizerBasev4ModifyGradientByScalesThreader;
-  friend class GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreader;
-
-  typedef GradientDescentOptimizerBasev4ModifyGradientByScalesThreader::IndexRangeType IndexRangeType;
-
-  GradientDescentOptimizerBasev4ModifyGradientByScalesThreader::Pointer       m_ModifyGradientByScalesThreader;
-  GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreader::Pointer m_ModifyGradientByLearningRateThreader;
+  typedef ThreadedIndexedContainerPartitioner::IndexRangeType IndexRangeType;
 
   /** Derived classes define this worker method to modify the gradient by scales.
    * Modifications must be performed over the index range defined in
@@ -145,8 +139,20 @@ protected:
    * Modifications must be performed over the index range defined in
    * \c subrange.
    * Called from ModifyGradientByLearningRate(), either directly or via threaded
-   * operation. */
+   * operation.
+   * This function is used in GradientDescentOptimizerBasev4ModifyGradientByScalesThreaderTemplate
+   * and GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreaderTemplate classes.
+   */
   virtual void ModifyGradientByLearningRateOverSubRange( const IndexRangeType& subrange ) = 0;
+
+protected:
+
+  /** Default constructor */
+  GradientDescentOptimizerBaseTemplatev4();
+  virtual ~GradientDescentOptimizerBaseTemplatev4();
+
+  typename DomainThreader<ThreadedIndexedContainerPartitioner, Self>::Pointer m_ModifyGradientByScalesThreader;
+  typename DomainThreader<ThreadedIndexedContainerPartitioner, Self>::Pointer m_ModifyGradientByLearningRateThreader;
 
   /* Common variables for optimization control and reporting */
   bool                          m_Stop;
@@ -160,11 +166,18 @@ protected:
   virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  GradientDescentOptimizerBasev4( const Self & ); //purposely not implemented
+  GradientDescentOptimizerBaseTemplatev4( const Self & ); //purposely not implemented
   void operator=( const Self& ); //purposely not implemented
 
 };
 
+/** This helps to meet backward compatibility */
+typedef GradientDescentOptimizerBaseTemplatev4<double> GradientDescentOptimizerBasev4;
+
 } // end namespace itk
+
+#ifndef ITK_MANUAL_INSTANTIATION
+#include "itkGradientDescentOptimizerBasev4.hxx"
+#endif
 
 #endif

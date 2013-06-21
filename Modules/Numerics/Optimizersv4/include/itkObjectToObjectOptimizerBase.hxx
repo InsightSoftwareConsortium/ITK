@@ -15,6 +15,9 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+#ifndef __itkObjectToObjectOptimizerBase_hxx
+#define __itkObjectToObjectOptimizerBase_hxx
+
 #include "itkObjectToObjectOptimizerBase.h"
 #include "itkMultiThreader.h"
 
@@ -22,8 +25,9 @@ namespace itk
 {
 
 //-------------------------------------------------------------------
-ObjectToObjectOptimizerBase
-::ObjectToObjectOptimizerBase()
+template<class TInternalComputationValueType>
+ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>
+::ObjectToObjectOptimizerBaseTemplate()
 {
   this->m_Metric = NULL;
   this->m_CurrentMetricValue = 0;
@@ -35,12 +39,15 @@ ObjectToObjectOptimizerBase
 }
 
 //-------------------------------------------------------------------
-ObjectToObjectOptimizerBase
-::~ObjectToObjectOptimizerBase()
+template<class TInternalComputationValueType>
+ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>
+::~ObjectToObjectOptimizerBaseTemplate()
 {}
 
+//-------------------------------------------------------------------
+template<class TInternalComputationValueType>
 void
-ObjectToObjectOptimizerBase
+ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
@@ -70,8 +77,9 @@ ObjectToObjectOptimizerBase
 }
 
 //-------------------------------------------------------------------
+template<class TInternalComputationValueType>
 void
-ObjectToObjectOptimizerBase
+ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>
 ::SetNumberOfThreads( ThreadIdType number )
 {
   if( number < 1 )
@@ -86,8 +94,9 @@ ObjectToObjectOptimizerBase
 }
 
 //-------------------------------------------------------------------
+template<class TInternalComputationValueType>
 void
-ObjectToObjectOptimizerBase
+ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>
 ::StartOptimization( bool itkNotUsed(doOnlyInitialization) )
 {
   /* Validate some settings */
@@ -98,7 +107,7 @@ ObjectToObjectOptimizerBase
     }
 
   /* Verify m_Scales. If m_Scales hasn't been set, initialize to all 1's. */
-  typedef ScalesType::ValueType     ValueType;
+  typedef typename ScalesType::ValueType     SValueType;
   if( this->m_Scales.Size() > 0 )
     {
     if( this->m_Scales.Size() != this->m_Metric->GetNumberOfLocalParameters() )
@@ -110,19 +119,19 @@ ObjectToObjectOptimizerBase
     /* Check that all values in m_Scales are > machine epsilon, to avoid
      * division by zero/epsilon.
      * Also check if scales are identity. */
-    typedef ScalesType::size_type     SizeType;
+    typedef typename ScalesType::size_type     SizeType;
     this->m_ScalesAreIdentity = true;
     for( SizeType i=0; i < this->m_Scales.Size(); i++ )
       {
-      if( this->m_Scales[i] <= NumericTraits<ValueType>::epsilon() )
+      if( this->m_Scales[i] <= NumericTraits<SValueType>::epsilon() )
         {
         itkExceptionMacro("m_Scales values must be > epsilon.");
         }
       /* Check if the scales are identity. Consider to be identity if
        * within a tolerance, to allow for automatically estimated scales
        * that may not be exactly 1.0 when in priciniple they should be. */
-      ValueType difference = vcl_fabs( NumericTraits<ValueType>::OneValue() - this->m_Scales[i] );
-      ValueType tolerance = static_cast<ValueType>( 0.01 );
+      SValueType difference = vcl_fabs( NumericTraits<SValueType>::OneValue() - this->m_Scales[i] );
+      SValueType tolerance = static_cast<SValueType>( 0.01 );
       if( difference > tolerance  )
         {
         this->m_ScalesAreIdentity = false;
@@ -134,12 +143,12 @@ ObjectToObjectOptimizerBase
     {
     //Initialize scales to identity
     m_Scales.SetSize( this->m_Metric->GetNumberOfLocalParameters() );
-    m_Scales.Fill( NumericTraits<ValueType>::OneValue() );
+    m_Scales.Fill( NumericTraits<SValueType>::OneValue() );
     this->m_ScalesAreIdentity = true;
     }
 
   /* Verify m_Weights. */
-  typedef ScalesType::ValueType     ValueType;
+  typedef typename ScalesType::ValueType     SValueType;
   if( this->m_Weights.Size() > 0 )
     {
     if( this->m_Weights.Size() != this->m_Metric->GetNumberOfLocalParameters() )
@@ -148,12 +157,12 @@ ObjectToObjectOptimizerBase
                         << ") must equal number of local parameters (" << this->m_Metric->GetNumberOfLocalParameters() << ").");
       }
     /* Check if they are identity within tolerance. */
-    typedef ScalesType::size_type     SizeType;
+    typedef typename ScalesType::size_type     SizeType;
     this->m_WeightsAreIdentity = true;
     for( SizeType i=0; i < this->m_Weights.Size(); i++ )
       {
-      ValueType difference = vcl_fabs( NumericTraits<ValueType>::OneValue() - this->m_Weights[i] );
-      ValueType tolerance = static_cast<ValueType>( 1e-4 );
+      SValueType difference = vcl_fabs( NumericTraits<SValueType>::OneValue() - this->m_Weights[i] );
+      SValueType tolerance = static_cast<SValueType>( 1e-4 );
       if( difference > tolerance  )
         {
         this->m_WeightsAreIdentity = false;
@@ -169,8 +178,9 @@ ObjectToObjectOptimizerBase
 }
 
 //-------------------------------------------------------------------
-const ObjectToObjectOptimizerBase::ParametersType &
-ObjectToObjectOptimizerBase
+template<class TInternalComputationValueType>
+const typename ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>::ParametersType &
+ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>
 ::GetCurrentPosition()
 {
   if( this->m_Metric.IsNull() )
@@ -181,11 +191,14 @@ ObjectToObjectOptimizerBase
 }
 
 //-------------------------------------------------------------------
-const ObjectToObjectOptimizerBase::MeasureType &
-ObjectToObjectOptimizerBase
+template<class TInternalComputationValueType>
+const typename ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>::MeasureType &
+ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>
 ::GetValue()
 {
   return this->GetCurrentMetricValue();
 }
 
 }//namespace itk
+
+#endif

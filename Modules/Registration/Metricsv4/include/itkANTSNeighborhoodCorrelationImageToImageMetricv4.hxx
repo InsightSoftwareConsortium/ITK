@@ -24,8 +24,8 @@
 namespace itk
 {
 
-template<class TFixedImage, class TMovingImage, class TVirtualImage>
-ANTSNeighborhoodCorrelationImageToImageMetricv4<TFixedImage, TMovingImage,TVirtualImage>
+template<class TFixedImage, class TMovingImage, class TVirtualImage, class TInternalComputationValueType, class TMetricTraits>
+ANTSNeighborhoodCorrelationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 ::ANTSNeighborhoodCorrelationImageToImageMetricv4()
 {
   // initialize radius. note that a radius of 1 can be unstable
@@ -37,23 +37,23 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4<TFixedImage, TMovingImage,TVirtu
   this->m_SparseGetValueAndDerivativeThreader = ANTSNeighborhoodCorrelationImageToImageMetricv4SparseGetValueAndDerivativeThreaderType::New();
 }
 
-template<class TFixedImage, class TMovingImage, class TVirtualImage>
-ANTSNeighborhoodCorrelationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
+template<class TFixedImage, class TMovingImage, class TVirtualImage, class TInternalComputationValueType, class TMetricTraits>
+ANTSNeighborhoodCorrelationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 ::~ANTSNeighborhoodCorrelationImageToImageMetricv4()
 {
 }
 
-template<class TFixedImage, class TMovingImage, class TVirtualImage>
+template<class TFixedImage, class TMovingImage, class TVirtualImage, class TInternalComputationValueType, class TMetricTraits>
 void
-ANTSNeighborhoodCorrelationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
+ANTSNeighborhoodCorrelationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 ::Initialize(void) throw ( itk::ExceptionObject )
 {
   Superclass::Initialize();
 }
 
-template<class TFixedImage, class TMovingImage, class TVirtualImage>
+template<class TFixedImage, class TMovingImage, class TVirtualImage, class TInternalComputationValueType, class TMetricTraits>
 void
-ANTSNeighborhoodCorrelationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
+ANTSNeighborhoodCorrelationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);

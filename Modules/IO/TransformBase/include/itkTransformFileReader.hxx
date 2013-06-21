@@ -15,6 +15,9 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+#ifndef __itkTransformFileReader_hxx
+#define __itkTransformFileReader_hxx
+
 #include "itkTransformFileReader.h"
 #include "itkTransformIOFactory.h"
 #include "itkCompositeTransformIOHelper.h"
@@ -22,28 +25,30 @@
 namespace itk
 {
 /** Constructor */
-TransformFileReader
-::TransformFileReader()
+template<class ScalarType>
+TransformFileReaderTemplate<ScalarType>
+::TransformFileReaderTemplate() :
+  m_FileName("") /* to be removed soon. See .h */
 {
-  m_FileName = "";
-  /* to be removed soon. See .h */
 }
 
 /** Destructor */
-TransformFileReader
-::~TransformFileReader()
-{}
+template<class ScalarType>
+TransformFileReaderTemplate<ScalarType>
+::~TransformFileReaderTemplate()
+{
+}
 
-void TransformFileReader
+template<class ScalarType>
+void TransformFileReaderTemplate<ScalarType>
 ::Update()
 {
   if ( m_FileName == "" )
     {
     itkExceptionMacro ("No file name given");
     }
-  TransformIOBase::Pointer transformIO =
-    TransformIOFactory::CreateTransformIO(m_FileName.c_str(),
-                                          TransformIOFactory::ReadMode);
+  typename TransformIOBaseTemplate<ScalarType>::Pointer transformIO =
+      TransformIOFactoryTemplate<ScalarType>::CreateTransformIO( m_FileName.c_str(), /*TransformIOFactoryTemplate<ScalarType>::*/ ReadMode );
   if ( transformIO.IsNull() )
     {
     itkExceptionMacro("Can't Create IO object for file "
@@ -53,38 +58,40 @@ void TransformFileReader
   transformIO->SetFileName(m_FileName);
   transformIO->Read();
 
-  TransformIOBase::TransformListType &ioTransformList =
-    transformIO->GetTransformList();
+  typename TransformIOBaseTemplate<ScalarType>::TransformListType &ioTransformList =
+  transformIO->GetTransformList();
 
-  // In the case where the first transform in the list is a
-  // CompositeTransform, add all the transforms to that first
-  // transform. and return a single composite item on the
-  // m_TransformList
+    // In the case where the first transform in the list is a
+    // CompositeTransform, add all the transforms to that first
+    // transform. and return a single composite item on the
+    // m_TransformList
   const std::string firstTransformName = ioTransformList.front()->GetNameOfClass();
   if(firstTransformName.find("CompositeTransform") != std::string::npos)
     {
-    TransformListType::const_iterator tit = ioTransformList.begin();
-    TransformType::Pointer composite = (*tit).GetPointer();
-    //
-    // CompositeTransformIOHelper knows how to assign to the composite
-    // transform's internal list
-    CompositeTransformIOHelper helper;
+    typename TransformListType::const_iterator tit = ioTransformList.begin();
+    typename TransformType::Pointer composite = (*tit).GetPointer();
+      //
+      // CompositeTransformIOHelperTemplate knows how to assign to the composite
+      // transform's internal list
+    CompositeTransformIOHelperTemplate<ScalarType> helper;
     helper.SetTransformList(composite.GetPointer(),ioTransformList);
 
     this->m_TransformList.push_back( composite.GetPointer() );
     }
   else  //Just return the entire list of elements
     {
-    for ( TransformListType::iterator it =
-      ioTransformList.begin();
-      it != ioTransformList.end(); ++it )
+    for ( typename TransformListType::iterator it =
+         ioTransformList.begin();
+         it != ioTransformList.end(); ++it )
       {
       this->m_TransformList.push_back( (*it).GetPointer() );
       }
     }
 }
 
-void TransformFileReader::PrintSelf(std::ostream & os, Indent indent) const
+template<class ScalarType>
+void TransformFileReaderTemplate<ScalarType>
+::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
@@ -92,3 +99,5 @@ void TransformFileReader::PrintSelf(std::ostream & os, Indent indent) const
 }
 
 } // namespace itk
+
+#endif

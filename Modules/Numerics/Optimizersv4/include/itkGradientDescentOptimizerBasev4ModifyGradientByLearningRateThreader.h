@@ -24,44 +24,54 @@
 namespace itk
 {
 
-class GradientDescentOptimizerBasev4;
+template<class TInternalComputationValueType>
+class GradientDescentOptimizerBaseTemplatev4;
 
-/** \class GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreader
+/** \class GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreaderTemplate
  * \brief Modify the gradient by the learning rate for
  * GradientDescentOptimizerBasev4.
  * \ingroup ITKOptimizersv4
  */
-class GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreader
-  : public DomainThreader< ThreadedIndexedContainerPartitioner, GradientDescentOptimizerBasev4 >
+
+template<class TInternalComputationValueType>
+class GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreaderTemplate
+  : public DomainThreader< ThreadedIndexedContainerPartitioner, GradientDescentOptimizerBaseTemplatev4<TInternalComputationValueType> >
 {
 public:
   /** Standard class typedefs. */
-  typedef GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreader Self;
-  typedef DomainThreader< ThreadedIndexedContainerPartitioner, GradientDescentOptimizerBasev4 >
-                                                                                 Superclass;
-  typedef SmartPointer< Self >                                                   Pointer;
-  typedef SmartPointer< const Self >                                             ConstPointer;
+  typedef GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreaderTemplate              Self;
+  typedef DomainThreader< ThreadedIndexedContainerPartitioner,
+                          GradientDescentOptimizerBaseTemplatev4<TInternalComputationValueType> >  Superclass;
+  typedef SmartPointer< Self >                                                                    Pointer;
+  typedef SmartPointer< const Self >                                                              ConstPointer;
 
-  itkTypeMacro( GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreader, DomainThreader );
+  itkTypeMacro( GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreaderTemplate, DomainThreader );
 
   itkNewMacro( Self );
 
-  typedef Superclass::DomainType             DomainType;
-  typedef Superclass::AssociateType          AssociateType;
-  typedef DomainType                         IndexRangeType;
+  typedef typename Superclass::DomainType             DomainType;
+  typedef typename Superclass::AssociateType          AssociateType;
+  typedef DomainType                                  IndexRangeType;
 
 protected:
   virtual void ThreadedExecution( const IndexRangeType & subrange,
                                   const ThreadIdType threadId );
 
-  GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreader() {}
-  virtual ~GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreader() {}
+  GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreaderTemplate() {}
+  virtual ~GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreaderTemplate() {}
 
 private:
-  GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreader( const Self & ); // purposely not implemented
+  GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreaderTemplate( const Self & ); // purposely not implemented
   void operator=( const Self & ); // purposely not implemented
 };
 
+/** This helps to meet backward compatibility */
+typedef GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreaderTemplate<double> GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreader;
+
 } // end namespace itk
+
+#ifndef ITK_MANUAL_INSTANTIATION
+#include "itkGradientDescentOptimizerBasev4ModifyGradientByLearningRateThreader.hxx"
+#endif
 
 #endif

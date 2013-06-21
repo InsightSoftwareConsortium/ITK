@@ -84,9 +84,9 @@ CorrelationImageToImageMetricv4HelperThreader<TDomainPartitioner,
 TImageToImageMetric, TCorrelationMetric>
 ::ProcessVirtualPoint( const VirtualIndexType & itkNotUsed(virtualIndex), const VirtualPointType & virtualPoint, const ThreadIdType threadID )
 {
-  FixedOutputPointType        mappedFixedPoint;
+  FixedImagePointType         mappedFixedPoint;
   FixedImagePixelType         mappedFixedPixelValue;
-  MovingOutputPointType       mappedMovingPoint;
+  MovingImagePointType        mappedMovingPoint;
   MovingImagePixelType        mappedMovingPixelValue;
   bool                        pointIsValid = false;
 

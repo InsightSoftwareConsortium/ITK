@@ -119,6 +119,8 @@ CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner,
     fdm.Fill(NumericTraits<DerivativeValueType>::Zero);
     mdm.Fill(NumericTraits<DerivativeValueType>::Zero);
 
+    const InternalComputationValueType fc = static_cast<InternalComputationValueType>( 2.0 );
+
     for (ThreadIdType i = 0; i < this->GetNumberOfThreadsUsed(); i++)
       {
       fdm += this->m_InternalCumSumPerThread[i].fdm;
@@ -133,7 +135,7 @@ CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner,
      *  we will want to always add to the values in m_DerivativeResult so they
      *  can be efficiently accumulated between multiple metrics.
      */
-    *(this->m_CorrelationAssociate->m_DerivativeResult) += 2.0 *fm/(f2*m2)*(fdm - fm/m2*mdm);
+    *(this->m_CorrelationAssociate->m_DerivativeResult) += fc *fm/(f2*m2)*(fdm - fm/m2*mdm);
     }
 
 }
@@ -143,10 +145,10 @@ bool
 CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner, TImageToImageMetric, TCorrelationMetric>
 ::ProcessVirtualPoint( const VirtualIndexType & virtualIndex, const VirtualPointType & virtualPoint, const ThreadIdType threadId )
 {
-  FixedOutputPointType        mappedFixedPoint;
+  FixedImagePointType         mappedFixedPoint;
   FixedImagePixelType         mappedFixedPixelValue;
   FixedImageGradientType      mappedFixedImageGradient;
-  MovingOutputPointType       mappedMovingPoint;
+  MovingImagePointType        mappedMovingPoint;
   MovingImagePixelType        mappedMovingPixelValue;
   MovingImageGradientType     mappedMovingImageGradient;
   bool                        pointIsValid = false;

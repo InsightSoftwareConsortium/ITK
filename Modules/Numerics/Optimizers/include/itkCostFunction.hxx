@@ -15,18 +15,20 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkGradientDescentOptimizerBasev4ModifyGradientByScalesThreader.h"
-#include "itkGradientDescentOptimizerBasev4.h"
+#ifndef __itkCostFunction_hxx
+#define __itkCostFunction_hxx
+
+#include "itkCostFunction.h"
 
 namespace itk
 {
-
+template<class ValueType>
 void
-GradientDescentOptimizerBasev4ModifyGradientByScalesThreader
-::ThreadedExecution( const IndexRangeType & subrange,
-                     const ThreadIdType itkNotUsed(threadId) )
+CostFunctionTemplate<ValueType>
+::PrintSelf(std::ostream & os, Indent indent) const
 {
-  this->m_Associate->ModifyGradientByScalesOverSubRange( subrange );
+  Superclass::PrintSelf(os, indent);
 }
-
 } // end namespace itk
+
+#endif

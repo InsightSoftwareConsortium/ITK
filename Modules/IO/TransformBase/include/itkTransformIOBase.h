@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef __itkTransformIOBase_h
 #define __itkTransformIOBase_h
+
 #include "itkLightProcessObject.h"
 #include "itkTransformBase.h"
 #include <list>
@@ -26,36 +27,38 @@
 
 namespace itk
 {
-/** \class TransformIOBase
- * \brief Abstract superclass defining the Transform IO interface.
- *
- * TransformIOBase is a pure virtual base class for dervied classes that
- * read/write transform data. It's used by the TransformFileReader and
- * TransformFileWriter classes.  End users don't directly manipulate classes
- * derived from TransformIOBase; the TransformIOFactory is used by
- * the Reader/Writer to pick a concrete derived class to do the actual
- * reading/writing of transforms.
- * \ingroup ITKIOTransformBase
- */
-class ITK_EXPORT TransformIOBase:public LightProcessObject
-{
+  /** \class TransformIOBaseTemplate
+   * \brief Abstract superclass defining the Transform IO interface.
+   *
+   * TransformIOBaseTemplate is a pure virtual base class for dervied classes that
+   * read/write transform data considering the type of input transform.
+   * First, TransformIOBase is derived from this class for legacy read/write transform.
+   * This class also is used by the TransformFileReader and TransformFileWriter
+   * classes. End users don't directly manipulate classes derived from TransformIOBaseTemplate;
+   * the TransformIOFactory is used by the Reader/Writer to pick a concrete derived class to do
+   * the actual reading/writing of transforms.
+   * \ingroup ITKIOTransformBase
+   */
+template<class ScalarType>
+class ITK_EXPORT TransformIOBaseTemplate:public LightProcessObject
+  {
 public:
   /** Standard class typedefs */
-  typedef TransformIOBase      Self;
-  typedef LightProcessObject   Superclass;
-  typedef SmartPointer< Self > Pointer;
+  typedef TransformIOBaseTemplate   Self;
+  typedef LightProcessObject        Superclass;
+  typedef SmartPointer< Self >      Pointer;
   /** Run-time type information (and related methods). */
-  itkTypeMacro(TransformIOBase, Superclass);
+  itkTypeMacro(TransformIOBaseTemplate, Superclass);
 
   /** Transform types */
-  typedef TransformBase TransformType;
+  typedef TransformBaseTemplate<ScalarType> TransformType;
   /** For writing, a const transform list gets passed in, for
    * reading, a non-const transform list is created from the file.
    */
-  typedef TransformType::Pointer             TransformPointer;
-  typedef std::list< TransformPointer >      TransformListType;
-  typedef TransformType::ConstPointer        ConstTransformPointer;
-  typedef std::list< ConstTransformPointer > ConstTransformListType;
+  typedef typename TransformType::Pointer             TransformPointer;
+  typedef std::list< TransformPointer >               TransformListType;
+  typedef typename TransformType::ConstPointer        ConstTransformPointer;
+  typedef std::list< ConstTransformPointer >          ConstTransformListType;
 
   /** Set/Get the name of the file to be read. */
   itkSetStringMacro(FileName);
@@ -89,19 +92,27 @@ public:
   itkBooleanMacro(AppendMode);
 
 protected:
-  TransformIOBase();
-  virtual ~TransformIOBase();
+  TransformIOBaseTemplate();
+  virtual ~TransformIOBaseTemplate();
   void PrintSelf(std::ostream & os, Indent indent) const;
 
-  void OpenStream(std::ofstream & out, bool binary);
+  void OpenStream(std::ofstream & outputStream, bool binary);
 
   void CreateTransform(TransformPointer & ptr, const std::string & ClassName);
 
-private:
   std::string            m_FileName;
   TransformListType      m_ReadTransformList;
   ConstTransformListType m_WriteTransformList;
   bool                   m_AppendMode;
 };
+
+/** This helps to meet backward compatibility */
+typedef itk::TransformIOBaseTemplate<double> TransformIOBase;
+
 } // end namespace itk
-#endif // __itaTransformIOBase
+
+#ifndef ITK_MANUAL_INSTANTIATION
+#include "itkTransformIOBase.hxx"
+#endif
+
+#endif // __itkTransformIOBase.h

@@ -23,8 +23,8 @@
 namespace itk
 {
 
-template < class TFixedImage, class TMovingImage, class TVirtualImage >
-MattesMutualInformationImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage>
+template <class TFixedImage, class TMovingImage, class TVirtualImage, class TInternalComputationValueType, class TMetricTraits>
+MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 ::MattesMutualInformationImageToImageMetricv4() :
   m_NumberOfHistogramBins(50),
   m_MovingImageNormalizedMin(0.0),
@@ -56,8 +56,8 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualIma
   this->m_SparseGetValueAndDerivativeThreader = MattesMutualInformationSparseGetValueAndDerivativeThreaderType::New();
 }
 
-template < class TFixedImage, class TMovingImage, class TVirtualImage >
-MattesMutualInformationImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage>
+template <class TFixedImage, class TMovingImage, class TVirtualImage, class TInternalComputationValueType, class TMetricTraits>
+MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 ::~MattesMutualInformationImageToImageMetricv4()
 {
 }
@@ -66,9 +66,9 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualIma
 /**
  * Initialize
  */
-template <class TFixedImage, class TMovingImage, class TVirtualImage>
+template <class TFixedImage, class TMovingImage, class TVirtualImage, class TInternalComputationValueType, class TMetricTraits>
 void
-MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
+MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 ::Initialize(void) throw ( itk::ExceptionObject )
 {
   /* Superclass initialization */
@@ -178,9 +178,9 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualI
    * is now performed in the threader BeforeThreadedExecution method */
   }
 
-template <class TFixedImage, class TMovingImage, class TVirtualImage>
+template <class TFixedImage, class TMovingImage, class TVirtualImage, class TInternalComputationValueType, class TMetricTraits>
 void
-MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
+MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 ::ComputeResults() const
 {
   // Collect some results
@@ -323,9 +323,9 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualI
 /**
  * Common post-threading code.
  */
-template <class TFixedImage, class TMovingImage, class TVirtualImage>
+template <class TFixedImage, class TMovingImage, class TVirtualImage, class TInternalComputationValueType, class TMetricTraits>
 void
-MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
+MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 ::GetValueCommonAfterThreadedExecution()
 {
   // This method is from MattesMutualImageToImageMetric::GetValueThreadPostProcess. Common
@@ -369,9 +369,9 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualI
 /**
  * PrintSelf
  */
-template < class TFixedImage, class TMovingImage, class TVirtualImage  >
+template <class TFixedImage, class TMovingImage, class TVirtualImage, class TInternalComputationValueType, class TMetricTraits>
 void
-MattesMutualInformationImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage>
+MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
@@ -380,9 +380,9 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualIma
 /**
  * ComputeSingleFixedImageParzenWindowIndex.
  */
-template <class TFixedImage, class TMovingImage, class TVirtualImage>
+template <class TFixedImage, class TMovingImage, class TVirtualImage, class TInternalComputationValueType, class TMetricTraits>
 OffsetValueType
-MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
+MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 ::ComputeSingleFixedImageParzenWindowIndex( const FixedImagePixelType & value ) const
 {
   // Note. The previous version of this metric pre-computed these values

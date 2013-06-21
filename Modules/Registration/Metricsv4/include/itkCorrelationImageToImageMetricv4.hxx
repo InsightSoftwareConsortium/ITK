@@ -23,8 +23,8 @@
 namespace itk
 {
 
-template < class TFixedImage, class TMovingImage, class TVirtualImage >
-CorrelationImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage>
+template <class TFixedImage, class TMovingImage, class TVirtualImage, class TInternalComputationValueType, class TMetricTraits>
+CorrelationImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage, TInternalComputationValueType, TMetricTraits>
 ::CorrelationImageToImageMetricv4()
 {
   // We have our own GetValueAndDerivativeThreader's that we want
@@ -41,24 +41,24 @@ CorrelationImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage>
     }
 }
 
-template < class TFixedImage, class TMovingImage, class TVirtualImage >
-CorrelationImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage>
+template <class TFixedImage, class TMovingImage, class TVirtualImage, class TInternalComputationValueType, class TMetricTraits>
+CorrelationImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage, TInternalComputationValueType, TMetricTraits>
 ::~CorrelationImageToImageMetricv4()
 {
 }
 
-template < class TFixedImage, class TMovingImage, class TVirtualImage  >
+template <class TFixedImage, class TMovingImage, class TVirtualImage, class TInternalComputationValueType, class TMetricTraits>
 void
-CorrelationImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage>
+CorrelationImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage, TInternalComputationValueType, TMetricTraits>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }
 
 
-template < class TFixedImage, class TMovingImage, class TVirtualImage >
+template <class TFixedImage, class TMovingImage, class TVirtualImage, class TInternalComputationValueType, class TMetricTraits>
 void
-CorrelationImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage>
+CorrelationImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage, TInternalComputationValueType, TMetricTraits>
 ::InitializeForIteration() const
 {
 

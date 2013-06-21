@@ -41,31 +41,34 @@ namespace itk
  * \ingroup ITKMetricsv4
  */
 
-template<class TFixedImage,class TMovingImage,class TVirtualImage = TFixedImage>
+template<class TFixedImage,class TMovingImage,class TVirtualImage = TFixedImage,
+          class TInternalComputationValueType = double,
+          class TMetricTraits = DefaultImageToImageMetricTraitsv4<TFixedImage,TMovingImage,TVirtualImage,TInternalComputationValueType>
+          >
 class ITK_EXPORT JointHistogramMutualInformationImageToImageMetricv4 :
-  public ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
+  public ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 {
 public:
 
   /** Standard class typedefs. */
-  typedef JointHistogramMutualInformationImageToImageMetricv4            Self;
-  typedef ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage> Superclass;
-  typedef SmartPointer<Self>                                             Pointer;
-  typedef SmartPointer<const Self>                                       ConstPointer;
+  typedef JointHistogramMutualInformationImageToImageMetricv4              Self;
+  typedef ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage,
+                             TInternalComputationValueType,TMetricTraits>  Superclass;
+  typedef SmartPointer<Self>                                               Pointer;
+  typedef SmartPointer<const Self>                                         ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(JointHistogramMutualInformationImageToImageMetricv4,
-                ImageToImageMetricv4);
+  itkTypeMacro(JointHistogramMutualInformationImageToImageMetricv4, ImageToImageMetricv4);
 
   /** Type used for representing parameter values  */
   typedef typename Superclass::CoordinateRepresentationType
                                                   CoordinateRepresentationType;
   /** Type used internally for computations */
-  typedef typename Superclass::InternalComputationValueType
-                                                  InternalComputationValueType;
+  /** It should be possible to derive the internal computation type from the class object. */
+  typedef TInternalComputationValueType               InternalComputationValueType;
   /**  Type of the parameters. */
   typedef typename Superclass::ParametersType         ParametersType;
   typedef typename Superclass::ParametersValueType    ParametersValueType;
@@ -96,7 +99,7 @@ public:
       TMovingImage::ImageDimension);
 
   /** Value type of the PDF */
-  typedef InternalComputationValueType                  PDFValueType;
+  typedef TInternalComputationValueType                  PDFValueType;
 
   /** Typedef for the joint PDF and marginal PDF are stored as ITK Images. */
   typedef Image<PDFValueType,1>                 MarginalPDFType;
@@ -137,8 +140,8 @@ public:
   itkGetConstReferenceMacro(NumberOfHistogramBins, SizeValueType );
 
   /** Get/Set option to smooth the joint pdf after it's updated */
-  itkSetMacro(VarianceForJointPDFSmoothing, InternalComputationValueType);
-  itkGetMacro(VarianceForJointPDFSmoothing, InternalComputationValueType);
+  itkSetMacro(VarianceForJointPDFSmoothing, TInternalComputationValueType);
+  itkGetMacro(VarianceForJointPDFSmoothing, TInternalComputationValueType);
 
   /** Initialize the metric. Make sure all essential inputs are plugged in. */
   virtual void Initialize() throw (itk::ExceptionObject);
@@ -202,21 +205,21 @@ private:
   mutable typename JointPDFType::Pointer            m_JointPDF;
 
   /** Flag to control smoothing of joint pdf */
-  InternalComputationValueType        m_VarianceForJointPDFSmoothing;
+  TInternalComputationValueType        m_VarianceForJointPDFSmoothing;
 
   /** Variables to define the marginal and joint histograms. */
   SizeValueType                       m_NumberOfHistogramBins;
-  InternalComputationValueType        m_FixedImageTrueMin;
-  InternalComputationValueType        m_FixedImageTrueMax;
-  InternalComputationValueType        m_MovingImageTrueMin;
-  InternalComputationValueType        m_MovingImageTrueMax;
-  InternalComputationValueType        m_FixedImageBinSize;
-  InternalComputationValueType        m_MovingImageBinSize;
+  TInternalComputationValueType        m_FixedImageTrueMin;
+  TInternalComputationValueType        m_FixedImageTrueMax;
+  TInternalComputationValueType        m_MovingImageTrueMin;
+  TInternalComputationValueType        m_MovingImageTrueMax;
+  TInternalComputationValueType        m_FixedImageBinSize;
+  TInternalComputationValueType        m_MovingImageBinSize;
 
-  InternalComputationValueType        m_JointPDFSum;
+  TInternalComputationValueType        m_JointPDFSum;
   JointPDFSpacingType                 m_JointPDFSpacing;
 
-  InternalComputationValueType        m_Log2;
+  TInternalComputationValueType        m_Log2;
   JointPDFIndexValueType              m_Padding;
 
 };

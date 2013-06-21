@@ -79,17 +79,17 @@ namespace itk
 template <class TScalarType,
           unsigned int NInputDimensions = 3,
           unsigned int NOutputDimensions = 3>
-class ITK_EXPORT Transform : public TransformBase
+class ITK_EXPORT Transform : public TransformBaseTemplate<TScalarType>
 {
 public:
   /** Standard class typedefs. */
-  typedef Transform                Self;
-  typedef TransformBase            Superclass;
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  typedef Transform                          Self;
+  typedef TransformBaseTemplate<TScalarType> Superclass;
+  typedef SmartPointer<Self>                 Pointer;
+  typedef SmartPointer<const Self>           ConstPointer;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(Transform, TransformBase);
+  itkTypeMacro(Transform, TransformBaseTemplate);
 
   /** Dimension of the domain space. */
   itkStaticConstMacro(InputSpaceDimension, unsigned int, NInputDimensions);
@@ -180,7 +180,7 @@ public:
                  itkGetStaticConstMacro(InputSpaceDimension)>
   DirectionChangeMatrix;
 
-  typedef Superclass::NumberOfParametersType    NumberOfParametersType;
+  typedef typename Superclass::NumberOfParametersType    NumberOfParametersType;
 
   /**  Method to transform a point.
    * \warning This method must be thread-safe. See, e.g., its use
@@ -436,17 +436,19 @@ public:
   /** Generate a platform independent name */
   virtual std::string GetTransformTypeAsString() const;
 
+  typedef typename Superclass::TransformCategoryType    TransformCategoryType;
+
   /** Indicates the category transform.
    *  e.g. an affine transform, or a local one, e.g. a deformation field.
    */
   virtual TransformCategoryType GetTransformCategory() const
   {
-    return UnknownTransformCategory;
+    return Superclass::UnknownTransformCategory;
   }
 
   virtual bool IsLinear() const
   {
-    return ( this->GetTransformCategory() == Linear );
+    return ( this->GetTransformCategory() == Superclass::Linear );
   }
 
 

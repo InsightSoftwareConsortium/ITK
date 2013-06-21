@@ -59,7 +59,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
   typename IdentityTransformType::Pointer defaultMovingInitialTransform = IdentityTransformType::New();
   this->m_MovingInitialTransform = defaultMovingInitialTransform;
 
-  typedef MattesMutualInformationImageToImageMetricv4<FixedImageType, MovingImageType> DefaultMetricType;
+  typedef MattesMutualInformationImageToImageMetricv4<FixedImageType, MovingImageType, VirtualImageType, RealType> DefaultMetricType;
   typename DefaultMetricType::Pointer mutualInformationMetric = DefaultMetricType::New();
   mutualInformationMetric->SetNumberOfHistogramBins( 20 );
   mutualInformationMetric->SetUseMovingImageGradientFilter( false );
@@ -72,7 +72,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
   scalesEstimator->SetMetric( mutualInformationMetric );
   scalesEstimator->SetTransformForward( true );
 
-  typedef GradientDescentOptimizerv4 DefaultOptimizerType;
+  typedef GradientDescentOptimizerTemplatev4<RealType> DefaultOptimizerType;
   typename DefaultOptimizerType::Pointer optimizer = DefaultOptimizerType::New();
   optimizer->SetLearningRate( 1.0 );
   optimizer->SetNumberOfIterations( 1000 );

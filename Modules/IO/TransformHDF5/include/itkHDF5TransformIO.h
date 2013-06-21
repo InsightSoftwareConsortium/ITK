@@ -34,7 +34,7 @@ class H5File;
 
 namespace itk
 {
-/** \class HDF5TransformIO
+/** \class HDF5TransformIOTemplate
  *  \brief Read&Write transforms in HDF5 Format
  *
  *  See hdfgroup.org/HDF5 -- HDF5 is a physics/astrophysics
@@ -43,18 +43,24 @@ namespace itk
  *
  * \ingroup ITKIOTransformHDF5
  */
-class HDF5TransformIO:public TransformIOBase
+template< class TInternalComputationValueType >
+class HDF5TransformIOTemplate:public TransformIOBaseTemplate< TInternalComputationValueType >
 {
 public:
-  typedef HDF5TransformIO               Self;
-  typedef TransformIOBase               Superclass;
-  typedef SmartPointer< Self >          Pointer;
-  typedef TransformBase                 TransformType;
-  typedef Superclass::TransformPointer  TransformPointer;
-  typedef Superclass::TransformListType TransformListType;
-  typedef TransformType::ParametersType ParametersType;
+  typedef HDF5TransformIOTemplate                               Self;
+  typedef TransformIOBaseTemplate< TInternalComputationValueType >    Superclass;
+  typedef SmartPointer< Self >                                  Pointer;
+  typedef typename Superclass::TransformType                    TransformType;
+  typedef typename Superclass::TransformPointer                 TransformPointer;
+  typedef typename Superclass::TransformListType                TransformListType;
+  typedef typename TransformType::ParametersType                ParametersType;
+
+  typedef typename TransformIOBaseTemplate
+                      <TInternalComputationValueType>::ConstTransformListType
+                                                                ConstTransformListType;
+
   /** Run-time type information (and related methods). */
-  itkTypeMacro(HDF5TransformIO, TransformIOBase);
+  itkTypeMacro(HDF5TransformIOTemplate, Superclass);
   itkNewMacro(Self);
 
   /** Determine the file type. Returns true if this ImageIO can read the
@@ -74,8 +80,8 @@ public:
   virtual void Write();
 
 protected:
-  HDF5TransformIO();
-  virtual ~HDF5TransformIO();
+  HDF5TransformIOTemplate();
+  virtual ~HDF5TransformIOTemplate();
 
 private:
   /** Read a parameter array from the file location name */
@@ -93,5 +99,28 @@ private:
 
   H5::H5File *m_H5File;
 };
-}
+//
+// HDF uses hierarchical paths to find particular data
+// in a file. These strings are used by both reading and
+// writing.
+extern const std::string transformGroupName;
+extern const std::string transformTypeName;
+extern const std::string transformFixedName;
+extern const std::string transformParamsName;
+extern const std::string ItkVersion;
+extern const std::string HDFVersion;
+extern const std::string OSName;
+extern const std::string OSVersion;
+
+extern const std::string  GetTransformName(int);
+
+/** This helps to meet backward compatibility */
+typedef HDF5TransformIOTemplate<double> HDF5TransformIO;
+
+} // end namespace itk
+
+#ifndef ITK_MANUAL_INSTANTIATION
+#include "itkHDF5TransformIO.hxx"
+#endif
+
 #endif // __itkHDF5TransformIO_h

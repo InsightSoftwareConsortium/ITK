@@ -24,17 +24,20 @@
  *  \class RegistrationParameterScalesEstimatorTestMetric for test.
  *  Create a simple metric to use for testing here.
  */
-template< class TFixedImage,class TMovingImage,class TVirtualImage = TFixedImage >
+template< class TFixedImage,class TMovingImage,class TVirtualImage = TFixedImage,
+          class TInternalComputationValueType = double,
+          class TMetricTraits = itk::DefaultImageToImageMetricTraitsv4<TFixedImage,TMovingImage,TVirtualImage,TInternalComputationValueType>
+          >
 class ITK_EXPORT RegistrationParameterScalesEstimatorTestMetric:
-  public itk::ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
+  public itk::ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 {
 public:
   /** Standard class typedefs. */
-  typedef RegistrationParameterScalesEstimatorTestMetric          Self;
-  typedef itk::ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
-                                                                  Superclass;
-  typedef itk::SmartPointer< Self >                               Pointer;
-  typedef itk::SmartPointer< const Self >                         ConstPointer;
+  typedef RegistrationParameterScalesEstimatorTestMetric                  Self;
+  typedef itk::ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage,
+                             TInternalComputationValueType,TMetricTraits> Superclass;
+  typedef itk::SmartPointer< Self >                                       Pointer;
+  typedef itk::SmartPointer< const Self >                                 ConstPointer;
 
   typedef typename Superclass::MeasureType          MeasureType;
   typedef typename Superclass::DerivativeType       DerivativeType;

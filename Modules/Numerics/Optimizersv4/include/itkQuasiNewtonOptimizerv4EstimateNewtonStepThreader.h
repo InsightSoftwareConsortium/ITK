@@ -24,42 +24,52 @@
 namespace itk
 {
 
-class QuasiNewtonOptimizerv4;
+template<class TInternalComputationValueType>
+class QuasiNewtonOptimizerTemplatev4;
 
-/** \class QuasiNewtonOptimizerv4EstimateNewtonStepThreader
+/** \class QuasiNewtonOptimizerv4EstimateNewtonStepThreaderTemplate
  * \brief Estimate the quasi-Newton step in a thread.
  * \ingroup ITKOptimizersv4
  * */
-class QuasiNewtonOptimizerv4EstimateNewtonStepThreader
-  : public DomainThreader< ThreadedIndexedContainerPartitioner, QuasiNewtonOptimizerv4 >
+template<class TInternalComputationValueType>
+class QuasiNewtonOptimizerv4EstimateNewtonStepThreaderTemplate
+  : public DomainThreader< ThreadedIndexedContainerPartitioner, QuasiNewtonOptimizerTemplatev4<TInternalComputationValueType> >
 {
 public:
   /** Standard class typedefs. */
-  typedef QuasiNewtonOptimizerv4EstimateNewtonStepThreader                              Self;
-  typedef DomainThreader< ThreadedIndexedContainerPartitioner, QuasiNewtonOptimizerv4 > Superclass;
-  typedef SmartPointer< Self >                                                          Pointer;
-  typedef SmartPointer< const Self >                                                    ConstPointer;
+  typedef QuasiNewtonOptimizerv4EstimateNewtonStepThreaderTemplate                                  Self;
+  typedef DomainThreader< ThreadedIndexedContainerPartitioner, QuasiNewtonOptimizerTemplatev4<TInternalComputationValueType> >
+                                                                                                    Superclass;
+  typedef SmartPointer< Self >                                                                      Pointer;
+  typedef SmartPointer< const Self >                                                                ConstPointer;
 
-  itkTypeMacro( QuasiNewtonOptimizerv4EstimateNewtonStepThreader, DomainThreader );
+  itkTypeMacro( QuasiNewtonOptimizerv4EstimateNewtonStepThreaderTemplate, DomainThreader );
 
   itkNewMacro( Self );
 
-  typedef Superclass::DomainType    DomainType;
-  typedef Superclass::AssociateType AssociateType;
-  typedef DomainType                IndexRangeType;
+  typedef typename Superclass::DomainType     DomainType;
+  typedef typename Superclass::AssociateType  AssociateType;
+  typedef DomainType                          IndexRangeType;
 
 protected:
   virtual void ThreadedExecution( const IndexRangeType & subrange,
                                   const ThreadIdType threadId );
 
-  QuasiNewtonOptimizerv4EstimateNewtonStepThreader() {}
-  virtual ~QuasiNewtonOptimizerv4EstimateNewtonStepThreader() {}
+  QuasiNewtonOptimizerv4EstimateNewtonStepThreaderTemplate() {}
+  virtual ~QuasiNewtonOptimizerv4EstimateNewtonStepThreaderTemplate() {}
 
 private:
-  QuasiNewtonOptimizerv4EstimateNewtonStepThreader( const Self & ); // purposely not implemented
+  QuasiNewtonOptimizerv4EstimateNewtonStepThreaderTemplate( const Self & ); // purposely not implemented
   void operator=( const Self & ); // purposely not implemented
 };
 
+/** This helps to meet backward compatibility */
+typedef QuasiNewtonOptimizerv4EstimateNewtonStepThreaderTemplate<double> QuasiNewtonOptimizerv4EstimateNewtonStepThreader;
+
 } // end namespace itk
+
+#ifndef ITK_MANUAL_INSTANTIATION
+#include "itkQuasiNewtonOptimizerv4EstimateNewtonStepThreader.hxx"
+#endif
 
 #endif

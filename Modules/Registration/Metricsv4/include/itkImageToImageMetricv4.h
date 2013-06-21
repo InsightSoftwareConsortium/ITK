@@ -165,22 +165,26 @@ namespace itk
  * \ingroup ITKMetricsv4
  */
 template<class TFixedImage,class TMovingImage,class TVirtualImage = TFixedImage,
-         typename TMetricTraits = DefaultImageToImageMetricTraitsv4< TFixedImage, TMovingImage, TVirtualImage > >
-class ITK_EXPORT ImageToImageMetricv4 : public ObjectToObjectMetric<TFixedImage::ImageDimension, TMovingImage::ImageDimension, TVirtualImage>
+         class TInternalComputationValueType = double,
+         typename TMetricTraits = DefaultImageToImageMetricTraitsv4< TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType >
+         >
+class ITK_EXPORT ImageToImageMetricv4
+  : public ObjectToObjectMetric<TFixedImage::ImageDimension, TMovingImage::ImageDimension, TVirtualImage, TInternalComputationValueType>
 {
 public:
 
   /** Standard class typedefs. */
-  typedef ImageToImageMetricv4                                                                            Self;
-  typedef ObjectToObjectMetric<TFixedImage::ImageDimension, TMovingImage::ImageDimension, TVirtualImage>  Superclass;
-  typedef SmartPointer<Self>                                                                              Pointer;
-  typedef SmartPointer<const Self>                                                                        ConstPointer;
+  typedef ImageToImageMetricv4                                                                                                     Self;
+  typedef ObjectToObjectMetric<TFixedImage::ImageDimension, TMovingImage::ImageDimension, TVirtualImage, TInternalComputationValueType>  Superclass;
+  typedef SmartPointer<Self>                                                                                                       Pointer;
+  typedef SmartPointer<const Self>                                                                                                 ConstPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageToImageMetricv4, ObjectToObjectMetric);
 
   /** Type used internally for computations */
-  typedef typename Superclass::InternalComputationValueType InternalComputationValueType;
+  /** It should be possible to derive the internal computation type from the class object. */
+  typedef TInternalComputationValueType                     InternalComputationValueType;
 
   /** Type used for representing parameter values  */
   typedef typename Superclass::CoordinateRepresentationType CoordinateRepresentationType;

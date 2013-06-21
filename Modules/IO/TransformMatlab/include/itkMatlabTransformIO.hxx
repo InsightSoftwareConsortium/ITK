@@ -15,6 +15,9 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+#ifndef __itkMatlabTransformIO_hxx
+#define __itkMatlabTransformIO_hxx
+
 #include "itkMatlabTransformIO.h"
 #include "itksys/SystemTools.hxx"
 #include "vnl/vnl_matlab_read.h"
@@ -22,21 +25,28 @@
 
 namespace itk
 {
-MatlabTransformIO::MatlabTransformIO()
+template<class ParametersValueType>
+MatlabTransformIOTemplate<ParametersValueType>
+::MatlabTransformIOTemplate()
 {}
 
-MatlabTransformIO::
-~MatlabTransformIO()
+template<class ParametersValueType>
+MatlabTransformIOTemplate<ParametersValueType>
+::~MatlabTransformIOTemplate()
 {}
 
+template<class ParametersValueType>
 bool
-MatlabTransformIO::CanReadFile(const char *fileName)
+MatlabTransformIOTemplate<ParametersValueType>
+::CanReadFile(const char *fileName)
 {
   return itksys::SystemTools::GetFilenameLastExtension(fileName) == ".mat";
 }
 
+template<class ParametersValueType>
 bool
-MatlabTransformIO::CanWriteFile(const char *fileName)
+MatlabTransformIOTemplate<ParametersValueType>
+::CanWriteFile(const char *fileName)
 {
   return itksys::SystemTools::GetFilenameLastExtension(fileName) == ".mat";
 }
@@ -44,9 +54,10 @@ MatlabTransformIO::CanWriteFile(const char *fileName)
 //
 // ReadMat -- we always want double precision,
 // but handle single precision as well.
+template<class ParametersValueType>
 static void
 ReadMat(vnl_matlab_readhdr & mathdr,
-        MatlabTransformIO::TransformType::ParametersType & array)
+        typename MatlabTransformIOTemplate<ParametersValueType>::TransformType::ParametersType & array)
 {
   if ( mathdr.is_single() )
     {
@@ -63,8 +74,10 @@ ReadMat(vnl_matlab_readhdr & mathdr,
     }
 }
 
+template<class ParametersValueType>
 void
-MatlabTransformIO::Read()
+MatlabTransformIOTemplate<ParametersValueType>
+::Read()
 {
   std::ifstream matfile(this->GetFileName(),
                         std::ios::in | std::ios::binary);
@@ -88,8 +101,8 @@ MatlabTransformIO::Read()
       itkExceptionMacro
         ("Only vector parameters supported");
       }
-    TransformType::ParametersType TmpParameterArray( mathdr.rows() );
-    ReadMat(mathdr, TmpParameterArray);
+    typename TransformType::ParametersType TmpParameterArray( mathdr.rows() );
+    ReadMat<ParametersValueType>(mathdr, TmpParameterArray);
     std::string classname( mathdr.name() );
     // create transform based on name of first vector
     TransformPointer transform;
@@ -102,20 +115,22 @@ MatlabTransformIO::Read()
       itkExceptionMacro
         ("Only vector parameters supported");
       }
-    TransformType::ParametersType TmpFixedParameterArray( mathdr2.rows() );
-    ReadMat(mathdr2, TmpFixedParameterArray);
+    typename TransformType::ParametersType TmpFixedParameterArray( mathdr2.rows() );
+    ReadMat<ParametersValueType>(mathdr2, TmpFixedParameterArray);
     transform->SetFixedParameters(TmpFixedParameterArray);
     transform->SetParametersByValue(TmpParameterArray);
     }
   matfile.close();
 }
 
+template<class ParametersValueType>
 void
-MatlabTransformIO::Write()
+MatlabTransformIOTemplate<ParametersValueType>
+::Write()
 {
-  ConstTransformListType::iterator it = this->GetWriteTransformList().begin();
+  typename ConstTransformListType::iterator it = this->GetWriteTransformList().begin();
 
-  MatlabTransformIO::TransformType::ParametersType TempArray;
+  typename MatlabTransformIOTemplate<ParametersValueType>::TransformType::ParametersType TempArray;
   std::ofstream        out;
   this->OpenStream(out, true);
   while ( it != this->GetWriteTransformList().end() )
@@ -130,3 +145,5 @@ MatlabTransformIO::Write()
   out.close();
 }
 }
+
+#endif

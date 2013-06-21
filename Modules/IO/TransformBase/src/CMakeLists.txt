@@ -1,9 +1,4 @@
 set(ITKIOTransformBase_SRC
-itkTransformFileReader.cxx
-itkTransformFileWriter.cxx
-itkTransformIOBase.cxx
-itkTransformIOFactory.cxx
-itkCompositeTransformIOHelper.cxx
 itkTransformFactoryBase.cxx
 )
 

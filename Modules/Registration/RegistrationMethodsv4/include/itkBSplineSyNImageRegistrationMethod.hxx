@@ -235,7 +235,7 @@ BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
     {
     for( unsigned int n = 0; n < this->m_MovingSmoothImages.size(); n++ )
       {
-      typedef ResampleImageFilter<MovingImageType, MovingImageType> MovingResamplerType;
+      typedef ResampleImageFilter<MovingImageType, MovingImageType, typename TOutputTransform::ScalarType> MovingResamplerType;
       typename MovingResamplerType::Pointer movingResampler = MovingResamplerType::New();
       movingResampler->SetTransform( movingTransform );
       movingResampler->SetInput( movingImages[n] );
@@ -246,7 +246,7 @@ BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
       movingResampler->SetDefaultPixelValue( 0 );
       movingResampler->Update();
 
-      typedef ResampleImageFilter<FixedImageType, FixedImageType> FixedResamplerType;
+      typedef ResampleImageFilter<FixedImageType, FixedImageType, typename TOutputTransform::ScalarType> FixedResamplerType;
       typename FixedResamplerType::Pointer fixedResampler = FixedResamplerType::New();
       fixedResampler->SetTransform( fixedTransform );
       fixedResampler->SetInput( fixedImages[n] );
@@ -325,12 +325,18 @@ BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
 
   if( mask )
     {
-    typedef ResampleImageFilter<MaskImageType, WeightedMaskImageType> MaskResamplerType;
+      // Before using virtualDomainImage as the reference image, it should be cast to the WeightedMaskImageType that always has a type of double.
+    typedef itk::CastImageFilter<VirtualImageType, WeightedMaskImageType> CastFilterType;
+    typename CastFilterType::Pointer castfilter = CastFilterType::New();
+    castfilter->SetInput(virtualDomainImage);
+    castfilter->Update();
+
+    typedef ResampleImageFilter<MaskImageType, WeightedMaskImageType, typename TOutputTransform::ScalarType> MaskResamplerType;
     typename MaskResamplerType::Pointer maskResampler = MaskResamplerType::New();
     maskResampler->SetTransform( fixedTransform );
     maskResampler->SetInput( dynamic_cast<ImageMaskSpatialObjectType *>( const_cast<FixedImageMaskType *>( mask ) )->GetImage() );
     maskResampler->UseReferenceImageOn();
-    maskResampler->SetReferenceImage( virtualDomainImage );
+    maskResampler->SetReferenceImage( castfilter->GetOutput() );
     maskResampler->SetSize( virtualDomainImage->GetBufferedRegion().GetSize() );
     maskResampler->SetDefaultPixelValue( 0 );
 

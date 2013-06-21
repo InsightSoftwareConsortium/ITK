@@ -51,17 +51,18 @@ namespace itk
  * \ingroup ITKOptimizersv4
  */
 template < class TMetric >
-class ITK_EXPORT RegistrationParameterScalesEstimator : public OptimizerParameterScalesEstimator
+class ITK_EXPORT RegistrationParameterScalesEstimator
+  : public OptimizerParameterScalesEstimatorTemplate<typename TMetric::ParametersValueType>
 {
 public:
   /** Standard class typedefs. */
-  typedef RegistrationParameterScalesEstimator  Self;
-  typedef OptimizerParameterScalesEstimator     Superclass;
-  typedef SmartPointer<Self>                    Pointer;
-  typedef SmartPointer<const Self>              ConstPointer;
+  typedef RegistrationParameterScalesEstimator                                              Self;
+  typedef OptimizerParameterScalesEstimatorTemplate<typename TMetric::ParametersValueType>  Superclass;
+  typedef SmartPointer<Self>                                                                Pointer;
+  typedef SmartPointer<const Self>                                                          ConstPointer;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( RegistrationParameterScalesEstimator, OptimizerParameterScalesEstimator );
+  itkTypeMacro( RegistrationParameterScalesEstimator, Superclass );
 
   /** Type of scales */
   typedef typename Superclass::ScalesType           ScalesType;
@@ -103,7 +104,7 @@ public:
                  CornerSampling,
                  RandomSampling,
                  CentralRegionSampling,
-                 VirtualDomainPointSetSampling }            SamplingStrategyType;
+                 VirtualDomainPointSetSampling }    SamplingStrategyType;
 
   typedef std::vector<VirtualPointType>             SamplePointContainerType;
 
@@ -230,7 +231,7 @@ protected:
   VirtualRegionType GetVirtualDomainCentralRegion();
 
   /** Get the transform in use. */
-  const TransformBase *GetTransform();
+  const TransformBaseTemplate<typename TMetric::MeasureType> *GetTransform();
 
   /** Get the dimension of the target transformed to. */
   SizeValueType GetDimension();
@@ -240,7 +241,7 @@ protected:
   itkGetMacro( SamplingStrategy, SamplingStrategyType )
 
   /** the metric object */
-  MetricPointer            m_Metric;
+  MetricPointer                 m_Metric;
 
   /** the samples in the virtual domain */
   SamplePointContainerType      m_SamplePoints;

@@ -51,16 +51,20 @@ namespace itk
  * \sa itkImageToImageMetricv4
  * \ingroup ITKMetricsv4
  */
-template <class TFixedImage, class TMovingImage, class TVirtualImage = TFixedImage >
+template <class TFixedImage, class TMovingImage, class TVirtualImage = TFixedImage,
+          class TInternalComputationValueType = double,
+          class TMetricTraits = DefaultImageToImageMetricTraitsv4<TFixedImage,TMovingImage,TVirtualImage,TInternalComputationValueType>
+          >
 class ITK_EXPORT DemonsImageToImageMetricv4 :
-public ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
+  public ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 {
 public:
   /** Standard class typedefs. */
-  typedef DemonsImageToImageMetricv4                                     Self;
-  typedef ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage> Superclass;
-  typedef SmartPointer<Self>                                             Pointer;
-  typedef SmartPointer<const Self>                                       ConstPointer;
+  typedef DemonsImageToImageMetricv4                                       Self;
+  typedef ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage,
+                             TInternalComputationValueType,TMetricTraits>  Superclass;
+  typedef SmartPointer<Self>                                               Pointer;
+  typedef SmartPointer<const Self>                                         ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -88,7 +92,8 @@ public:
   typedef typename Superclass::VirtualPointSetType     VirtualSPointSetType;
   typedef typename Superclass::NumberOfParametersType  NumberOfParametersType;
 
-  typedef typename Superclass::InternalComputationValueType InternalComputationValueType;
+  /** It should be possible to derive the internal computation type from the class object. */
+  typedef TInternalComputationValueType                InternalComputationValueType;
 
   typedef typename Superclass::ImageDimensionType      ImageDimensionType;
 
@@ -104,14 +109,14 @@ public:
 
   /** Accessors for the image intensity difference threshold use
    *  in derivative calculation */
-  itkGetConstMacro(IntensityDifferenceThreshold, InternalComputationValueType);
-  itkSetMacro(IntensityDifferenceThreshold, InternalComputationValueType);
+  itkGetConstMacro(IntensityDifferenceThreshold, TInternalComputationValueType);
+  itkSetMacro(IntensityDifferenceThreshold, TInternalComputationValueType);
 
   /** Get the denominator threshold used in derivative calculation. */
-  itkGetConstMacro(DenominatorThreshold, InternalComputationValueType);
+  itkGetConstMacro(DenominatorThreshold, TInternalComputationValueType);
 
 protected:
-  itkGetConstMacro(Normalizer, InternalComputationValueType);
+  itkGetConstMacro(Normalizer, TInternalComputationValueType);
 
   DemonsImageToImageMetricv4();
   virtual ~DemonsImageToImageMetricv4();
@@ -129,13 +134,13 @@ private:
 
   /** Threshold below which the denominator term is considered zero.
    *  Fixed programatically in constructor. */
-  InternalComputationValueType   m_DenominatorThreshold;
+  TInternalComputationValueType   m_DenominatorThreshold;
 
   /** Threshold below which two intensity value are assumed to match. */
-  InternalComputationValueType   m_IntensityDifferenceThreshold;
+  TInternalComputationValueType   m_IntensityDifferenceThreshold;
 
   /* Used to normalize derivative calculation. Automatically calculated */
-  InternalComputationValueType   m_Normalizer;
+  TInternalComputationValueType   m_Normalizer;
 
   DemonsImageToImageMetricv4(const Self &); //purposely not implemented
   void operator = (const Self &); //purposely not implemented

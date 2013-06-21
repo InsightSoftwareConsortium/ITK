@@ -27,20 +27,20 @@
 namespace itk
 {
 
-template <class TFixedImage,class TMovingImage,class TVirtualImage>
-JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage>
+template <class TFixedImage, class TMovingImage, class TVirtualImage, class TInternalComputationValueType, class TMetricTraits>
+JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage,TInternalComputationValueType, TMetricTraits>
 ::JointHistogramMutualInformationImageToImageMetricv4()
 {
   // Initialize histogram properties
   this->m_NumberOfHistogramBins = 20;
-  this->m_FixedImageTrueMin     = NumericTraits< InternalComputationValueType >::Zero;
-  this->m_FixedImageTrueMax     = NumericTraits< InternalComputationValueType >::Zero;
-  this->m_MovingImageTrueMin    = NumericTraits< InternalComputationValueType >::Zero;
-  this->m_MovingImageTrueMax    = NumericTraits< InternalComputationValueType >::Zero;
-  this->m_FixedImageBinSize     = NumericTraits< InternalComputationValueType >::Zero;
-  this->m_MovingImageBinSize    = NumericTraits< InternalComputationValueType >::Zero;
+  this->m_FixedImageTrueMin     = NumericTraits< TInternalComputationValueType >::Zero;
+  this->m_FixedImageTrueMax     = NumericTraits< TInternalComputationValueType >::Zero;
+  this->m_MovingImageTrueMin    = NumericTraits< TInternalComputationValueType >::Zero;
+  this->m_MovingImageTrueMax    = NumericTraits< TInternalComputationValueType >::Zero;
+  this->m_FixedImageBinSize     = NumericTraits< TInternalComputationValueType >::Zero;
+  this->m_MovingImageBinSize    = NumericTraits< TInternalComputationValueType >::Zero;
   this->m_Padding = 2;
-  this->m_JointPDFSum = NumericTraits< InternalComputationValueType >::Zero;
+  this->m_JointPDFSum = NumericTraits< TInternalComputationValueType >::Zero;
   this->m_Log2 = vcl_log(2.0);
   this->m_VarianceForJointPDFSmoothing = 1.5;
 
@@ -54,15 +54,15 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,TMovingImage,TVi
   this->m_JointPDF             = JointPDFType::New();
 }
 
-template <class TFixedImage, class TMovingImage, class TVirtualImage>
-JointHistogramMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
+template <class TFixedImage, class TMovingImage, class TVirtualImage, class TInternalComputationValueType, class TMetricTraits>
+JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage,TInternalComputationValueType, TMetricTraits>
 ::~JointHistogramMutualInformationImageToImageMetricv4()
 {
 }
 
-template <class TFixedImage,class TMovingImage,class TVirtualImage>
+template <class TFixedImage, class TMovingImage, class TVirtualImage, class TInternalComputationValueType, class TMetricTraits>
 void
-JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage>
+JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage,TInternalComputationValueType, TMetricTraits>
 ::Initialize() throw (itk::ExceptionObject)
 {
   Superclass::Initialize();
@@ -159,12 +159,12 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,TMovingImage,TVi
 
   //By setting these values, the joint histogram physical locations will correspond to intensity values.
   JointPDFSpacingType spacing;
-  spacing[0]=1/(InternalComputationValueType)(this->m_NumberOfHistogramBins-(InternalComputationValueType)this->m_Padding*2-1);
+  spacing[0]=1/(TInternalComputationValueType)(this->m_NumberOfHistogramBins-(TInternalComputationValueType)this->m_Padding*2-1);
   spacing[1]=spacing[0];
   this->m_JointPDF->SetSpacing(spacing);
   this->m_JointPDFSpacing=this->m_JointPDF->GetSpacing();
   JointPDFPointType origin;
-  origin[0]=this->m_JointPDFSpacing[0]*(InternalComputationValueType)this->m_Padding*(-1.0);
+  origin[0]=this->m_JointPDFSpacing[0]*(TInternalComputationValueType)this->m_Padding*(-1.0);
   origin[1]=origin[0];
   this->m_JointPDF->SetOrigin(origin);
   this->m_JointPDF->Allocate();
@@ -207,9 +207,9 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,TMovingImage,TVi
 }
 
 
-template <class TFixedImage, class TMovingImage, class TVirtualImage>
+template <class TFixedImage, class TMovingImage, class TVirtualImage, class TInternalComputationValueType, class TMetricTraits>
 void
-JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage>
+JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage,TInternalComputationValueType, TMetricTraits>
 ::InitializeForIteration() const
 {
   Superclass::InitializeForIteration();
@@ -261,7 +261,7 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,TMovingImage,TVi
   linearIter.SetDirection( 0 );
   linearIter.GoToBegin();
   unsigned int fixedIndex = 0;
-  CompensatedSummation< InternalComputationValueType > sum;
+  CompensatedSummation< TInternalComputationValueType > sum;
   while( !linearIter.IsAtEnd() )
     {
     sum.ResetToZero();
@@ -296,9 +296,9 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,TMovingImage,TVi
     }
 }
 
-template <class TFixedImage, class TMovingImage, class TVirtualImage>
-typename JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage>::MeasureType
-JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage>
+template <class TFixedImage, class TMovingImage, class TVirtualImage, class TInternalComputationValueType, class TMetricTraits>
+typename JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage,TInternalComputationValueType, TMetricTraits>::MeasureType
+JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage,TInternalComputationValueType, TMetricTraits>
 ::GetValue() const
 {
   DerivativeType dummyDeriviative;
@@ -316,9 +316,9 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,TMovingImage,TVi
   return this->m_Value;
 }
 
-template <class TFixedImage, class TMovingImage, class TVirtualImage>
-typename JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage>::MeasureType
-JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage>
+template <class TFixedImage, class TMovingImage, class TVirtualImage, class TInternalComputationValueType, class TMetricTraits>
+typename JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage,TInternalComputationValueType, TMetricTraits>::MeasureType
+JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage,TInternalComputationValueType, TMetricTraits>
 ::ComputeValue() const
 {
   /**
@@ -326,10 +326,10 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,TMovingImage,TVi
   2- The MI energy is bounded in the range of [0  min(H(x),H(y))].
   3- The ComputeMutualInformation() iterator range should cover the entire PDF.
   4- The normalization is done based on NumberOfHistogramBins-1 instead of NumberOfHistogramBins. */
-  InternalComputationValueType px,py,pxy;
-  CompensatedSummation< InternalComputationValueType > total_mi;
-  InternalComputationValueType local_mi;
-  InternalComputationValueType eps = NumericTraits<InternalComputationValueType>::epsilon();
+  TInternalComputationValueType px,py,pxy;
+  CompensatedSummation< TInternalComputationValueType > total_mi;
+  TInternalComputationValueType local_mi;
+  TInternalComputationValueType eps = NumericTraits<TInternalComputationValueType>::epsilon();
   typename JointPDFType::IndexType index;
   for (SizeValueType ii = 0; ii<m_NumberOfHistogramBins; ii++)
     {
@@ -340,7 +340,7 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,TMovingImage,TVi
       {
       mind[0] = jj;
       py = this->m_MovingImageMarginalPDF->GetPixel(mind);
-      InternalComputationValueType denom = px * py;
+      TInternalComputationValueType denom = px * py;
       index[0] = ii;
       index[1] = jj;
       pxy = m_JointPDF->GetPixel(index);
@@ -359,22 +359,22 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,TMovingImage,TVi
   return ( -1.0 * total_mi.GetSum() / this->m_Log2  );
 }
 
-template <class TFixedImage, class TMovingImage, class TVirtualImage>
+template <class TFixedImage, class TMovingImage, class TVirtualImage, class TInternalComputationValueType, class TMetricTraits>
 void
-JointHistogramMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
+JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage,TInternalComputationValueType, TMetricTraits>
 ::ComputeJointPDFPoint( const FixedImagePixelType fixedImageValue,
                         const MovingImagePixelType movingImageValue,
                         JointPDFPointType& jointPDFpoint ) const
 {
-    InternalComputationValueType a = ( fixedImageValue - this->m_FixedImageTrueMin ) / ( this->m_FixedImageTrueMax - this->m_FixedImageTrueMin );
-    InternalComputationValueType b = ( movingImageValue - this->m_MovingImageTrueMin ) / ( this->m_MovingImageTrueMax - this->m_MovingImageTrueMin );
+    TInternalComputationValueType a = ( fixedImageValue - this->m_FixedImageTrueMin ) / ( this->m_FixedImageTrueMax - this->m_FixedImageTrueMin );
+    TInternalComputationValueType b = ( movingImageValue - this->m_MovingImageTrueMin ) / ( this->m_MovingImageTrueMax - this->m_MovingImageTrueMin );
     jointPDFpoint[0] = a;
     jointPDFpoint[1] = b;
 }
 
-template <class TFixedImage, class TMovingImage, class TVirtualImage>
+template <class TFixedImage, class TMovingImage, class TVirtualImage, class TInternalComputationValueType, class TMetricTraits>
 void
-JointHistogramMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
+JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage,TInternalComputationValueType, TMetricTraits>
 ::PrintSelf (std::ostream & os, Indent indent) const
 {
   // Print the superclass

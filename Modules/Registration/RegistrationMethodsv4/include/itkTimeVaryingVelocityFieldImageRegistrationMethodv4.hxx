@@ -186,7 +186,7 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TOu
 
       for( unsigned int n = 0; n < this->m_MovingSmoothImages.size(); n++ )
         {
-        typedef ResampleImageFilter<MovingImageType, VirtualImageType> MovingResamplerType;
+        typedef ResampleImageFilter<MovingImageType, VirtualImageType, RealType> MovingResamplerType;
         typename MovingResamplerType::Pointer movingResampler = MovingResamplerType::New();
         movingResampler->SetTransform( this->m_CompositeTransform );
         movingResampler->SetInput( this->m_MovingSmoothImages[n] );
@@ -197,7 +197,7 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TOu
         movingResampler->SetDefaultPixelValue( 0 );
         movingResampler->Update();
 
-        typedef ResampleImageFilter<FixedImageType, VirtualImageType> FixedResamplerType;
+        typedef ResampleImageFilter<FixedImageType, VirtualImageType, RealType> FixedResamplerType;
         typename FixedResamplerType::Pointer fixedResampler = FixedResamplerType::New();
         fixedResampler->SetTransform( fixedDisplacementFieldTransform );
         fixedResampler->SetInput( this->m_FixedSmoothImages[n] );

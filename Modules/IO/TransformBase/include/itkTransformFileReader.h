@@ -22,34 +22,35 @@
 
 namespace itk
 {
-/** \class TransformFileReader
- *
- * \brief TODO
- * \ingroup ITKIOTransformBase
- *
- * \wiki
- * \wikiexample{IO/TransformFileReader,Read a transform from a file}
- * \endwiki
- */
-class ITK_EXPORT TransformFileReader:public LightProcessObject
+  /** \class TransformFileReaderTemplate
+   *
+   * \brief TODO
+   * \ingroup ITKIOTransformBase
+   *
+   * \wiki
+   * \wikiexample{IO/TransformFileReader,Read a transform from a file}
+   * \endwiki
+   */
+template<class ScalarType>
+class ITK_EXPORT TransformFileReaderTemplate:public LightProcessObject
 {
 public:
 
   /** SmartPointer typedef support */
-  typedef TransformFileReader                 Self;
+  typedef TransformFileReaderTemplate         Self;
   typedef SmartPointer< Self >                Pointer;
-  typedef TransformBase                       TransformType;
+  typedef TransformBaseTemplate<ScalarType>   TransformType;
 
-  typedef TransformType::ParametersType      ParametersType;
-  typedef TransformIOBase::TransformPointer  TransformPointer;
-  typedef TransformIOBase::TransformListType TransformListType;
+  typedef typename TransformType::ParametersType                           ParametersType;
+  typedef typename TransformIOBaseTemplate<ScalarType>::TransformPointer   TransformPointer;
+  typedef typename TransformIOBaseTemplate<ScalarType>::TransformListType  TransformListType;
 
   /** Method for creation through the object factory */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
   typedef Object Superclass;
-  itkTypeMacro(TransformFileReader, LightProcessObject);
+  itkTypeMacro(TransformFileReaderTemplate, LightProcessObject);
 
   /** Set the filename  */
   itkSetStringMacro(FileName);
@@ -64,24 +65,31 @@ public:
   TransformListType * GetTransformList() { return &m_TransformList; }
 
 protected:
-  TransformIOBase::Pointer m_TransformIO;
-  TransformFileReader(const Self &); //purposely not implemented
+  typename TransformIOBaseTemplate<ScalarType>::Pointer m_TransformIO;
+  TransformFileReaderTemplate(const Self &); //purposely not implemented
   void operator=(const Self &);      //purposely not implemented
   void PrintSelf(std::ostream & os, Indent indent) const;
 
   std::string m_FileName;
 
-  TransformFileReader();
-  virtual ~TransformFileReader();
+  TransformFileReaderTemplate();
+  virtual ~TransformFileReaderTemplate();
   void CreateTransform(TransformPointer & ptr, const std::string & ClassName);
 
-private:
   TransformListType m_TransformList;
 };
+
+/** This helps to meet backward compatibility */
+typedef itk::TransformFileReaderTemplate<double> TransformFileReader;
+
 } // namespace itk
 
 #ifdef ITK_IO_FACTORY_REGISTER_MANAGER
 #include "itkTransformIOFactoryRegisterManager.h"
 #endif
 
-#endif // __itkTransformFileReader_h
+#ifndef ITK_MANUAL_INSTANTIATION
+#include "itkTransformFileReader.hxx"
+#endif
+
+#endif // __itkTransformFileReade_h

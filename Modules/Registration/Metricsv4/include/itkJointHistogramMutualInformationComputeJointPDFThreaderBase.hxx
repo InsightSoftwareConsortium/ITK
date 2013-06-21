@@ -59,10 +59,10 @@ JointHistogramMutualInformationComputeJointPDFThreaderBase< TDomainPartitioner, 
                 const VirtualPointType & virtualPoint,
                 const ThreadIdType threadId )
 {
-  typename AssociateType::Superclass::FixedOutputPointType    mappedFixedPoint;
+  typename AssociateType::Superclass::FixedImagePointType     mappedFixedPoint;
   typename AssociateType::Superclass::FixedImagePixelType     fixedImageValue;
   typename AssociateType::Superclass::FixedImageGradientType  fixedImageGradients;
-  typename AssociateType::Superclass::MovingOutputPointType   mappedMovingPoint;
+  typename AssociateType::Superclass::MovingImagePointType    mappedMovingPoint;
   typename AssociateType::Superclass::MovingImagePixelType    movingImageValue;
   typename AssociateType::Superclass::MovingImageGradientType movingImageGradients;
   bool                                                        pointIsValid = false;
