@@ -352,6 +352,18 @@ ImageSeriesWriter< TInputImage, TOutputImage >
         EncapsulateMetaData< DoubleArrayType >(dictionary, ITK_Origin, originArray);
         EncapsulateMetaData< DoubleArrayType >(dictionary, ITK_Spacing, spacingArray);
         EncapsulateMetaData<  unsigned int   >(dictionary, ITK_NumberOfDimensions, inputImageDimension);
+
+        typename InputImageType::DirectionType direction2 = inputImage->GetDirection();
+        typedef Matrix< double, inputImageDimension, inputImageDimension> DoubleMatrixType;
+        DoubleMatrixType directionMatrix;
+        for( unsigned int i = 0; i < inputImageDimension; i++ )
+          {
+          for( unsigned int j = 0; j < inputImageDimension; j++ )
+            {
+            directionMatrix[j][i]  = direction2[i][j];
+            }
+          }
+        EncapsulateMetaData< DoubleMatrixType >( dictionary, ITK_ZDirection, directionMatrix );
         }
       }
 
