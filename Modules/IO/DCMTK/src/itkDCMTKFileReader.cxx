@@ -65,7 +65,7 @@ DCMTKItem
   //  this->m_DcmItem->print(std::cerr);
   if(this->m_DcmItem->findAndGetSequence(tagKey,seq) != EC_Normal)
     {
-    DCMTKException(<< "Can't find sequence "
+    DCMTKExceptionOrErrorReturn(<< "Can't find sequence "
                    << std::hex << group << " "
                    << std::hex << entry)
       }
@@ -83,7 +83,7 @@ DCMTKSequence
   DcmTagKey tagkey(group,element);
   if(this->m_DcmSequenceOfItems->search(tagkey,resultStack) != EC_Normal)
     {
-    DCMTKException(<< "Can't find tag " << std::hex << group << " "
+    DCMTKExceptionOrErrorReturn(<< "Can't find tag " << std::hex << group << " "
                    << element << std::dec);
     }
   return EXIT_SUCCESS;
@@ -115,7 +115,7 @@ DCMTKSequence
     dynamic_cast<DcmSequenceOfItems *>(item);
   if(sequence == 0)
     {
-    DCMTKException(<< "Can't find DCMTKSequence at index " << index);
+    DCMTKExceptionOrErrorReturn(<< "Can't find DCMTKSequence at index " << index);
     }
   target.SetDcmSequenceOfItems(sequence);
   return EXIT_SUCCESS;
@@ -135,7 +135,7 @@ DCMTKSequence
     dynamic_cast<DcmCodeString *>(resultStack.top());
   if(codeStringElement == 0)
     {
-    DCMTKException(<< "Cant find CodeString Element "
+    DCMTKExceptionOrErrorReturn(<< "Cant find CodeString Element "
                    << std::hex
                    << group << " " << std::hex
                    << element << std::dec);
@@ -144,7 +144,7 @@ DCMTKSequence
   OFString ofString;
   if(codeStringElement->getOFStringArray(ofString) != EC_Normal)
     {
-    DCMTKException(<< "Can't get OFString Value at tag "
+    DCMTKExceptionOrErrorReturn(<< "Can't get OFString Value at tag "
                    << std::hex << group << " "
                    << element << std::dec);
     }
@@ -170,7 +170,7 @@ DCMTKSequence
 
   if(obItem == 0)
     {
-    DCMTKException(<< "Cant find DecimalString element " << std::hex
+    DCMTKExceptionOrErrorReturn(<< "Cant find DecimalString element " << std::hex
                    << group << " " << std::hex
                    << element << std::dec);
     }
@@ -217,7 +217,7 @@ GetElementFD(unsigned short group,
   DcmFloatingPointDouble *fdItem = dynamic_cast<DcmFloatingPointDouble *>(resultStack.top());
   if(fdItem == 0)
     {
-    DCMTKException(<< "Can't get CodeString Element at tag "
+    DCMTKExceptionOrErrorReturn(<< "Can't get CodeString Element at tag "
                    << std::hex << group << " "
                    << element << std::dec);
     }
@@ -227,14 +227,14 @@ GetElementFD(unsigned short group,
   OFString vm(ss.str().c_str());
   if(fdItem->checkValue(vm).bad())
     {
-    DCMTKException(<< "Value multiplicity doesn't match "
+    DCMTKExceptionOrErrorReturn(<< "Value multiplicity doesn't match "
                    << count << " at  tag "
                    << std::hex << group << " "
                    << element << std::dec);
     }
   if(fdItem->getFloat64Array(tmp) != EC_Normal)
     {
-    DCMTKException(<< "Can't get floatarray Value at tag "
+    DCMTKExceptionOrErrorReturn(<< "Can't get floatarray Value at tag "
                    << std::hex << group << " "
                    << element << std::dec);
     }
@@ -268,14 +268,14 @@ DCMTKSequence
   DcmDecimalString *decimalStringElement = dynamic_cast<DcmDecimalString *>(resultStack.top());
   if(decimalStringElement == 0)
     {
-    DCMTKException(<< "Can't get DecimalString Element at tag "
+    DCMTKExceptionOrErrorReturn(<< "Can't get DecimalString Element at tag "
                    << std::hex << group << " "
                    << element << std::dec);
     }
   OFString ofString;
   if(decimalStringElement->getOFStringArray(ofString) != EC_Normal)
     {
-    DCMTKException(<< "Can't get DecimalString Value at tag "
+    DCMTKExceptionOrErrorReturn(<< "Can't get DecimalString Value at tag "
                    << std::hex << group << " "
                    << element << std::dec);
     }
@@ -301,7 +301,7 @@ DCMTKSequence
   DcmSequenceOfItems *seqElement = dynamic_cast<DcmSequenceOfItems *>(resultStack.top());
   if(seqElement == 0)
     {
-    DCMTKException(<< "Can't get  at tag "
+    DCMTKExceptionOrErrorReturn(<< "Can't get  at tag "
                    << std::hex << group << " "
                    << element << std::dec);
     }
@@ -318,7 +318,7 @@ DCMTKSequence
   DcmItem *itemElement = this->m_DcmSequenceOfItems->getItem(index);
   if(itemElement == 0)
     {
-    DCMTKException(<< "Can't get item "
+    DCMTKExceptionOrErrorReturn(<< "Can't get item "
                    << index
                    << std::endl);
     }
@@ -340,7 +340,7 @@ DCMTKSequence
   DcmTime *dcmTime = dynamic_cast<DcmTime *>(resultStack.top());
   if(dcmTime == 0)
     {
-    DCMTKException(<< "Can't get  at tag "
+    DCMTKExceptionOrErrorReturn(<< "Can't get  at tag "
                    << std::hex << group << " "
                    << element << std::dec);
     }
@@ -473,21 +473,21 @@ DCMTKFileReader
   DcmElement *el;
   if(this->m_Dataset->findAndGetElement(tagkey,el) != EC_Normal)
     {
-    DCMTKException(<< "Cant find tag " << std::hex
+    DCMTKExceptionOrErrorReturn(<< "Cant find tag " << std::hex
                    << group << " " << std::hex
                    << element << std::dec);
     }
   DcmLongString *loItem = dynamic_cast<DcmLongString *>(el);
   if(loItem == 0)
     {
-    DCMTKException(<< "Cant find DecimalString element " << std::hex
+    DCMTKExceptionOrErrorReturn(<< "Cant find DecimalString element " << std::hex
                    << group << " " << std::hex
                    << element << std::dec);
     }
   OFString ofString;
   if(loItem->getOFStringArray(ofString) != EC_Normal)
     {
-    DCMTKException(<< "Cant get string from element " << std::hex
+    DCMTKExceptionOrErrorReturn(<< "Cant get string from element " << std::hex
                    << group << " " << std::hex
                    << element << std::dec);
     }
@@ -510,14 +510,14 @@ DCMTKFileReader
   DcmElement *el;
   if(this->m_Dataset->findAndGetElement(tagkey,el) != EC_Normal)
     {
-    DCMTKException(<< "Cant find tag " << std::hex
+    DCMTKExceptionOrErrorReturn(<< "Cant find tag " << std::hex
                    << group << " " << std::hex
                    << element << std::dec);
     }
   DcmLongString *loItem = dynamic_cast<DcmLongString *>(el);
   if(loItem == 0)
     {
-    DCMTKException(<< "Cant find DecimalString element " << std::hex
+    DCMTKExceptionOrErrorReturn(<< "Cant find DecimalString element " << std::hex
                    << group << " " << std::hex
                    << element << std::dec);
     }
@@ -548,21 +548,21 @@ DCMTKFileReader
   DcmElement *el;
   if(this->m_Dataset->findAndGetElement(tagkey,el) != EC_Normal)
     {
-    DCMTKException(<< "Cant find tag " << std::hex
+    DCMTKExceptionOrErrorReturn(<< "Cant find tag " << std::hex
                    << group << " " << std::hex
                    << element << std::dec);
     }
   DcmDecimalString *dsItem = dynamic_cast<DcmDecimalString *>(el);
   if(dsItem == 0)
     {
-    DCMTKException(<< "Cant find DecimalString element " << std::hex
+    DCMTKExceptionOrErrorReturn(<< "Cant find DecimalString element " << std::hex
                    << group << " " << std::hex
                    << element << std::dec);
     }
   OFString ofString;
   if(dsItem->getOFStringArray(ofString) != EC_Normal)
     {
-    DCMTKException(<< "Can't get DecimalString Value at tag "
+    DCMTKExceptionOrErrorReturn(<< "Can't get DecimalString Value at tag "
                    << std::hex << group << " "
                    << element << std::dec);
     }
@@ -586,14 +586,14 @@ DCMTKFileReader
   DcmElement *el;
   if(this->m_Dataset->findAndGetElement(tagkey,el) != EC_Normal)
     {
-    DCMTKException(<< "Cant find tag " << std::hex
+    DCMTKExceptionOrErrorReturn(<< "Cant find tag " << std::hex
                    << group << " " << std::hex
                    << element << std::dec);
     }
   DcmFloatingPointDouble *fdItem = dynamic_cast<DcmFloatingPointDouble *>(el);
   if(fdItem == 0)
     {
-    DCMTKException(<< "Cant find DecimalString element " << std::hex
+    DCMTKExceptionOrErrorReturn(<< "Cant find DecimalString element " << std::hex
                    << group << " " << std::hex
                    << element << std::dec);
     }
@@ -603,7 +603,7 @@ DCMTKFileReader
   OFString vm(ss.str().c_str());
   if(fdItem->checkValue(vm).bad())
     {
-    DCMTKException(<< "Value multiplicity doesn't match "
+    DCMTKExceptionOrErrorReturn(<< "Value multiplicity doesn't match "
                    << count << " at  tag "
                    << std::hex << group << " "
                    << element << std::dec);
@@ -611,7 +611,7 @@ DCMTKFileReader
   double *doubleArray;
   if(fdItem->getFloat64Array(doubleArray) != EC_Normal)
     {
-    DCMTKException(<< "Cant extract Array from DecimalString " << std::hex
+    DCMTKExceptionOrErrorReturn(<< "Cant extract Array from DecimalString " << std::hex
                    << group << " " << std::hex
                    << element << std::dec);
     }
@@ -643,20 +643,20 @@ DCMTKFileReader
   DcmElement *el;
   if(this->m_Dataset->findAndGetElement(tagkey,el) != EC_Normal)
     {
-    DCMTKException(<< "Cant find tag " << std::hex
+    DCMTKExceptionOrErrorReturn(<< "Cant find tag " << std::hex
                    << group << " " << std::hex
                    << element << std::dec);
     }
   DcmFloatingPointSingle *flItem = dynamic_cast<DcmFloatingPointSingle *>(el);
   if(flItem == 0)
     {
-    DCMTKException(<< "Cant find DecimalString element " << std::hex
+    DCMTKExceptionOrErrorReturn(<< "Cant find DecimalString element " << std::hex
                    << group << " " << std::hex
                    << element << std::dec);
     }
   if(flItem->getFloat32(target) != EC_Normal)
     {
-    DCMTKException(<< "Cant extract Array from DecimalString " << std::hex
+    DCMTKExceptionOrErrorReturn(<< "Cant extract Array from DecimalString " << std::hex
                    << group << " " << std::hex
                    << element << std::dec);
     }
@@ -676,7 +676,7 @@ DCMTKFileReader
   std::string val;
   if(this->GetElementOB(group,element,val) != EXIT_SUCCESS)
     {
-    DCMTKException(<< "Cant find DecimalString element " << std::hex
+    DCMTKExceptionOrErrorReturn(<< "Cant find DecimalString element " << std::hex
                    << group << " " << std::hex
                    << element << std::dec);
     }
@@ -710,20 +710,20 @@ DCMTKFileReader
   DcmElement *el;
   if(this->m_Dataset->findAndGetElement(tagkey,el) != EC_Normal)
     {
-    DCMTKException(<< "Cant find tag " << std::hex
+    DCMTKExceptionOrErrorReturn(<< "Cant find tag " << std::hex
                    << group << " " << std::hex
                    << element << std::dec);
     }
   DcmUnsignedShort *usItem = dynamic_cast<DcmUnsignedShort *>(el);
   if(usItem == 0)
     {
-    DCMTKException(<< "Cant find DecimalString element " << std::hex
+    DCMTKExceptionOrErrorReturn(<< "Cant find DecimalString element " << std::hex
                    << group << " " << std::hex
                    << element << std::dec);
     }
   if(usItem->getUint16(target) != EC_Normal)
     {
-    DCMTKException(<< "Cant extract Array from DecimalString " << std::hex
+    DCMTKExceptionOrErrorReturn(<< "Cant extract Array from DecimalString " << std::hex
                    << group << " " << std::hex
                    << element << std::dec);
     }
@@ -740,20 +740,20 @@ DCMTKFileReader
   DcmElement *el;
   if(this->m_Dataset->findAndGetElement(tagkey,el) != EC_Normal)
     {
-    DCMTKException(<< "Cant find tag " << std::hex
+    DCMTKExceptionOrErrorReturn(<< "Cant find tag " << std::hex
                    << group << " " << std::hex
                    << element << std::dec);
     }
   DcmUnsignedShort *usItem = dynamic_cast<DcmUnsignedShort *>(el);
   if(usItem == 0)
     {
-    DCMTKException(<< "Cant find DecimalString element " << std::hex
+    DCMTKExceptionOrErrorReturn(<< "Cant find DecimalString element " << std::hex
                    << group << " " << std::hex
                    << element << std::dec);
     }
   if(usItem->getUint16Array(target) != EC_Normal)
     {
-    DCMTKException(<< "Cant extract Array from DecimalString " << std::hex
+    DCMTKExceptionOrErrorReturn(<< "Cant extract Array from DecimalString " << std::hex
                    << group << " " << std::hex
                    << element << std::dec);
     }
@@ -772,21 +772,21 @@ DCMTKFileReader
   DcmElement *el;
   if(this->m_Dataset->findAndGetElement(tagkey,el) != EC_Normal)
     {
-    DCMTKException(<< "Cant find tag " << std::hex
+    DCMTKExceptionOrErrorReturn(<< "Cant find tag " << std::hex
                    << group << " " << std::hex
                    << element << std::dec);
     }
   DcmCodeString *csItem = dynamic_cast<DcmCodeString *>(el);
   if(csItem == 0)
     {
-    DCMTKException(<< "Cant find DecimalString element " << std::hex
+    DCMTKExceptionOrErrorReturn(<< "Cant find DecimalString element " << std::hex
                    << group << " " << std::hex
                    << element << std::dec);
     }
   OFString ofString;
   if(csItem->getOFStringArray(ofString) != EC_Normal)
     {
-    DCMTKException(<< "Can't get DecimalString Value at tag "
+    DCMTKExceptionOrErrorReturn(<< "Can't get DecimalString Value at tag "
                    << std::hex << group << " "
                    << element << std::dec);
     }
@@ -827,21 +827,21 @@ DCMTKFileReader
   DcmElement *el;
   if(this->m_Dataset->findAndGetElement(tagkey,el) != EC_Normal)
     {
-    DCMTKException(<< "Cant find tag " << std::hex
+    DCMTKExceptionOrErrorReturn(<< "Cant find tag " << std::hex
                    << group << " " << std::hex
                    << element << std::dec);
     }
   DcmPersonName *pnItem = dynamic_cast<DcmPersonName *>(el);
   if(pnItem == 0)
     {
-    DCMTKException(<< "Cant find DecimalString element " << std::hex
+    DCMTKExceptionOrErrorReturn(<< "Cant find DecimalString element " << std::hex
                    << group << " " << std::hex
                    << element << std::dec);
     }
   OFString ofString;
   if(pnItem->getOFStringArray(ofString) != EC_Normal)
     {
-    DCMTKException(<< "Can't get DecimalString Value at tag "
+    DCMTKExceptionOrErrorReturn(<< "Can't get DecimalString Value at tag "
                    << std::hex << group << " "
                    << element << std::dec);
     }
@@ -866,14 +866,14 @@ DCMTKFileReader
   DcmElement *el;
   if(this->m_Dataset->findAndGetElement(tagkey,el) != EC_Normal)
     {
-    DCMTKException(<< "Cant find tag " << std::hex
+    DCMTKExceptionOrErrorReturn(<< "Cant find tag " << std::hex
                    << group << " " << std::hex
                    << element << std::dec);
     }
   DcmIntegerString *isItem = dynamic_cast<DcmIntegerString *>(el);
   if(isItem == 0)
     {
-    DCMTKException(<< "Cant find DecimalString element " << std::hex
+    DCMTKExceptionOrErrorReturn(<< "Cant find DecimalString element " << std::hex
                    << group << " " << std::hex
                    << element << std::dec);
     }
@@ -881,7 +881,7 @@ DCMTKFileReader
                   // using int32_t as a an argument to getSint32
   if(isItem->getSint32(_target) != EC_Normal)
     {
-    DCMTKException(<< "Can't get DecimalString Value at tag "
+    DCMTKExceptionOrErrorReturn(<< "Can't get DecimalString Value at tag "
                    << std::hex << group << " "
                    << element << std::dec);
     }
@@ -938,14 +938,14 @@ DCMTKFileReader
   DcmElement *el;
   if(this->m_Dataset->findAndGetElement(tagkey,el) != EC_Normal)
     {
-    DCMTKException(<< "Cant find tag " << std::hex
+    DCMTKExceptionOrErrorReturn(<< "Cant find tag " << std::hex
                    << group << " " << std::hex
                    << element << std::dec);
     }
   DcmOtherByteOtherWord *obItem = dynamic_cast<DcmOtherByteOtherWord *>(el);
   if(obItem == 0)
     {
-    DCMTKException(<< "Cant find DecimalString element " << std::hex
+    DCMTKExceptionOrErrorReturn(<< "Cant find DecimalString element " << std::hex
                    << group << " " << std::hex
                    << element << std::dec);
     }
@@ -973,7 +973,7 @@ DCMTKFileReader
 
   if(this->m_Dataset->findAndGetSequence(tagKey,seq) != EC_Normal)
     {
-    DCMTKException(<< "Can't find sequence "
+    DCMTKExceptionOrErrorReturn(<< "Can't find sequence "
                    << std::hex << group << " "
                    << std::hex << entry)
       }
@@ -992,20 +992,20 @@ DCMTKFileReader
   DcmElement *el;
   if(this->m_Dataset->findAndGetElement(tagKey,el) != EC_Normal)
     {
-    DCMTKException(<< "Cant find tag " << std::hex
+    DCMTKExceptionOrErrorReturn(<< "Cant find tag " << std::hex
                    << group << " " << std::hex
                    << entry << std::dec);
     }
   DcmUniqueIdentifier *uiItem = dynamic_cast<DcmUniqueIdentifier *>(el);
   if(uiItem == 0)
     {
-    DCMTKException(<< "Can't convert data item " << group
+    DCMTKExceptionOrErrorReturn(<< "Can't convert data item " << group
                    << "," << entry);
     }
   OFString ofString;
   if(uiItem->getOFStringArray(ofString,0) != EC_Normal)
     {
-    DCMTKException(<< "Can't get UID Value at tag "
+    DCMTKExceptionOrErrorReturn(<< "Can't get UID Value at tag "
                    << std::hex << group << " " << std::hex
                    << entry << std::dec);
     }
@@ -1027,14 +1027,14 @@ GetElementDA(unsigned short group,
   DcmElement *el;
   if(this->m_Dataset->findAndGetElement(tagkey,el) != EC_Normal)
     {
-    DCMTKException(<< "Cant find tag " << std::hex
+    DCMTKExceptionOrErrorReturn(<< "Cant find tag " << std::hex
                    << group << " " << std::hex
                    << element << std::dec);
     }
   DcmDate *dcmDate = dynamic_cast<DcmDate *>(el);
   if(dcmDate == 0)
     {
-    DCMTKException(<< "Can't get  at tag "
+    DCMTKExceptionOrErrorReturn(<< "Can't get  at tag "
                    << std::hex << group << " "
                    << element << std::dec);
     }
@@ -1056,14 +1056,14 @@ DCMTKFileReader
   DcmElement *el;
   if(this->m_Dataset->findAndGetElement(tagkey,el) != EC_Normal)
     {
-    DCMTKException(<< "Cant find tag " << std::hex
+    DCMTKExceptionOrErrorReturn(<< "Cant find tag " << std::hex
                    << group << " " << std::hex
                    << element << std::dec);
     }
   DcmTime *dcmTime = dynamic_cast<DcmTime *>(el);
   if(dcmTime == 0)
     {
-    DCMTKException(<< "Can't get  at tag "
+    DCMTKExceptionOrErrorReturn(<< "Can't get  at tag "
                    << std::hex << group << " "
                    << element << std::dec);
     }
