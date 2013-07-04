@@ -15,13 +15,9 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-/**
- * \author Vladimir S. FONOV
- *         Brain Imaging Center, Montreal Neurological Institute, McGill University, Montreal Canada 2012
- */
-
 #ifndef __itkMINCTransformIO_h
 #define __itkMINCTransformIO_h
+
 #include "itkTransformIOBase.h"
 
 #include <string>
@@ -30,55 +26,62 @@
 
 namespace itk
 {
-  /** \class MINCTransformIO
-  *  \brief Read&Write transforms in Minc  XFM Format
-  *
-  * \ingroup ITKIOMINC
-  */
-  class MINCTransformIO:public TransformIOBase
-  {
-  public:
-    typedef MINCTransformIO               Self;
-    typedef TransformIOBase               Superclass;
-    typedef SmartPointer< Self >          Pointer;
-    typedef TransformBase                 TransformType;
-    typedef Superclass::TransformPointer  TransformPointer;
-    typedef Superclass::TransformListType TransformListType;
-    typedef TransformType::ParametersType ParametersType;
 
-    /** Run-time type information (and related methods). */
-    itkTypeMacro(MINCTransformIO, TransformIOBase);
-    itkNewMacro(Self);
+/** \class MINCTransformIO
+*  \brief Read&Write transforms in Minc  XFM Format
+*
+*
+* \author Vladimir S. FONOV
+*         Brain Imaging Center, Montreal Neurological Institute, McGill University, Montreal Canada 2012
+*
+* \ingroup ITKIOMINC
+*/
+class MINCTransformIO: public TransformIOBase
+{
+public:
+  typedef MINCTransformIO               Self;
+  typedef TransformIOBase               Superclass;
+  typedef SmartPointer< Self >          Pointer;
 
-    /** Determine the file type. Returns true if this ImageIO can read the
-    * file specified. */
-    virtual bool CanReadFile(const char *);
+  typedef TransformBase                 TransformType;
+  typedef Superclass::TransformPointer  TransformPointer;
+  typedef Superclass::TransformListType TransformListType;
+  typedef TransformType::ParametersType ParametersType;
 
-    /** Determine the file type. Returns true if this ImageIO can read the
-    * file specified. */
-    virtual bool CanWriteFile(const char *);
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(MINCTransformIO, TransformIOBase);
+  itkNewMacro(Self);
 
-    /** Reads the data from disk into the memory buffer provided. */
-    virtual void Read();
+  /** Determine the file type. Returns true if this ImageIO can read the
+  * file specified. */
+  virtual bool CanReadFile(const char *);
 
-    virtual void Write();
+  /** Determine the file type. Returns true if this ImageIO can read the
+  * file specified. */
+  virtual bool CanWriteFile(const char *);
 
-  protected:
+  /** Reads the data from disk into the memory buffer provided. */
+  virtual void Read();
 
-    MINCTransformIO();
-    virtual ~MINCTransformIO();
+  virtual void Write();
 
-    VIO_General_transform m_XFM;
-    bool                  m_XFM_initialized;
+protected:
+  MINCTransformIO();
+  virtual ~MINCTransformIO();
 
-  private:
-    void _cleanup(void);
-    void WriteOneTransform(const int transformIndex,
-                           const TransformType *transform,
-                           std::vector<VIO_General_transform> &_xfm,
-                           const char * xfm_file_base,int & serial);
+  VIO_General_transform m_XFM;
+  bool                  m_XFM_initialized;
 
-    void ReadOneTransform(VIO_General_transform *xfm);
-  };
-}
+private:
+  void _cleanup(void);
+  void WriteOneTransform(const int transformIndex,
+                         const TransformType *transform,
+                         std::vector<VIO_General_transform> &_xfm,
+                         const char * xfm_file_base,int & serial);
+
+  void ReadOneTransform(VIO_General_transform *xfm);
+};
+
+} // end namespace itk
+
 #endif // __itkMINCTransformIO_h

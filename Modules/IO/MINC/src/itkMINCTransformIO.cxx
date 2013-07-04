@@ -159,7 +159,9 @@ void MINCTransformIO::ReadOneTransform(VIO_General_transform *xfm)
 void MINCTransformIO::Read()
 {
   if(input_transform_file((char*)this->GetFileName(), &m_XFM) != VIO_OK)
+    {
     itkExceptionMacro( << "Error reading XFM:" << this->GetFileName() );
+    }
   this->m_XFM_initialized=true;
 
   this->ReadOneTransform(&m_XFM);
@@ -179,30 +181,37 @@ void MINCTransformIO::WriteOneTransform(const int transformIndex,
   //
   // composite transform doesn't store own parameters
   if(transformType.find("CompositeTransform") != std::string::npos)
-  {
-    if(transformIndex != 0)
     {
-      itkExceptionMacro(<< "Composite Transform can only be 1st transform in a file");
+      if(transformIndex != 0)
+        {
+        itkExceptionMacro(<< "Composite Transform can only be 1st transform in a file");
+        }
     }
-  } else {
-
-    if(transformType.find("AffineTransform") != std::string::npos && curTransform->GetNumberOfParameters() == 12)
+  else
     {
+    if(transformType.find("AffineTransform") != std::string::npos && curTransform->GetNumberOfParameters() == 12)
+      {
       VIO_Transform lin;
-      memset(&lin,0,sizeof(VIO_Transform));
-      for(int j=0;j<3;j++)
-        for(int i=0;i<4;i++)
+      memset(&lin, 0, sizeof(VIO_Transform));
+      for(int j=0; j < 3; ++j)
+        {
+        for(int i=0; i < 4; ++i)
+          {
           Transform_elem(lin,j,i)=curTransform->GetParameters()[i+j*4];
+          }
+        }
       xfm.push_back(VIO_General_transform());
-      memset(&xfm[xfm.size()-1],0,sizeof(VIO_General_transform));
-      create_linear_transform(&xfm[xfm.size()-1],&lin );
-    } else if(transformType.find("DisplacementFieldTransform_double_3_3") != std::string::npos && curTransform->GetFixedParameters().Size() == 18) {
+      memset(&xfm[xfm.size()-1], 0, sizeof(VIO_General_transform));
+      create_linear_transform(&xfm[xfm.size()-1], &lin);
+      }
+    else if( transformType.find("DisplacementFieldTransform_double_3_3") != std::string::npos && curTransform->GetFixedParameters().Size() == 18 )
+      {
       bool _inverse_grid=false;
       typedef DisplacementFieldTransform<double, 3 > DoubleDisplacementFieldTransformType;
       DoubleDisplacementFieldTransformType* _grid_transform=static_cast<DoubleDisplacementFieldTransformType*>(const_cast<TransformType*>(curTransform));
       char tmp[1024];
       sprintf(tmp,"%s_grid_%d.mnc",xfm_file_base,serial);
-      serial++;
+      ++serial;
 
       MINCImageIO::Pointer mincIO = MINCImageIO::New();
       typedef DoubleDisplacementFieldTransformType::DisplacementFieldType DoubleGridImageType;
@@ -231,12 +240,13 @@ void MINCTransformIO::WriteOneTransform(const int transformIndex,
       create_grid_transform_no_copy( &xfm[xfm.size()-1], NULL, NULL );//relying on volume_io using the same name
       if(_inverse_grid)
         {
-          xfm[xfm.size()-1].inverse_flag=TRUE;
+        xfm[xfm.size()-1].inverse_flag=TRUE;
         }
 
     }
 #if !defined(__clang__) && !defined(_MSC_VER) //Seem to cause problems on MacOSX and Windows 
-    else if(transformType.find("DisplacementFieldTransform_float_3_3") != std::string::npos && curTransform->GetFixedParameters().Size() == 18 ) {
+    else if(transformType.find("DisplacementFieldTransform_float_3_3") != std::string::npos && curTransform->GetFixedParameters().Size() == 18 )
+      {
       bool _inverse_grid=false;
       typedef DisplacementFieldTransform<float, 3 > FloatDisplacementFieldTransformType;
       typedef FloatDisplacementFieldTransformType::DisplacementFieldType FloatGridImageType;
@@ -257,12 +267,12 @@ void MINCTransformIO::WriteOneTransform(const int transformIndex,
         }
       else if( _grid_transform->GetInverseDisplacementField() )
         {
-          writer->SetInput( _grid_transform->GetModifiableInverseDisplacementField() );
-          _inverse_grid=false;
+        writer->SetInput( _grid_transform->GetModifiableInverseDisplacementField() );
+        _inverse_grid=false;
         }
       else
         {
-          itkExceptionMacro(<< "Trying to write-out displacement transform without displacement field");
+        itkExceptionMacro(<< "Trying to write-out displacement transform without displacement field");
         }
       writer->Update();
 
@@ -270,19 +280,20 @@ void MINCTransformIO::WriteOneTransform(const int transformIndex,
       create_grid_transform_no_copy( &xfm[xfm.size()-1],NULL,NULL ); //relying on volume_io using the same name
       if(_inverse_grid)
         {
-          xfm[xfm.size()-1].inverse_flag=TRUE;
+        xfm[xfm.size()-1].inverse_flag=TRUE;
         }
-    }
+      }
 #endif
-    else {
+    else
+      {
       itkExceptionMacro(<< "Transform type:"<<transformType.c_str()<<"is Unsupported");
-    }
+      }
   }
 }
 
 void MINCTransformIO::Write()
 {
-  std::string xfm_filename=this->GetFileName();
+  std::string xfm_filename = this->GetFileName();
 
   std::string::size_type xfmPos = xfm_filename.rfind(".xfm");
 
