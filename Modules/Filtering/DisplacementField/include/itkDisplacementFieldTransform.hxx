@@ -102,11 +102,12 @@ DisplacementFieldTransform<TScalar, NDimensions>
 
   if( this->m_Interpolator->IsInsideBuffer( point ) )
     {
-    this->m_DisplacementField->
-    TransformPhysicalPointToContinuousIndex( point, cidx );
-    typename InterpolatorType::OutputType displacement =
-      this->m_Interpolator->EvaluateAtContinuousIndex( cidx );
-    outputPoint += displacement;
+    this->m_DisplacementField->TransformPhysicalPointToContinuousIndex( point, cidx );
+    typename InterpolatorType::OutputType displacement = this->m_Interpolator->EvaluateAtContinuousIndex( cidx );
+    for( unsigned int ii = 0; ii < NDimensions; ++ii )
+      {
+      outputPoint[ii] += displacement[ii];
+      }
     }
   // else
   // simply return inputPoint

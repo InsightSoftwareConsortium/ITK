@@ -29,15 +29,17 @@ namespace itk
 {
 
 /** \class TransformIOBaseTemplate
+ *
  * \brief Abstract superclass defining the Transform IO interface.
  *
- * TransformIOBaseTemplate is a pure virtual base class for dervied classes that
+ * TransformIOBaseTemplate is a pure virtual base class for derived classes that
  * read/write transform data considering the type of input transform.
  * First, TransformIOBase is derived from this class for legacy read/write transform.
  * This class also is used by the TransformFileReader and TransformFileWriter
  * classes. End users don't directly manipulate classes derived from TransformIOBaseTemplate;
  * the TransformIOFactory is used by the Reader/Writer to pick a concrete derived class to do
  * the actual reading/writing of transforms.
+ *
  * \ingroup ITKIOTransformBase
  */
 template<class ScalarType>

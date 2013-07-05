@@ -29,15 +29,14 @@ int main( int argc, char *argv[] )
 
 
   const char* envName = "ITK_AUTOLOAD_PATH";
-  char*oldenv = getenv( envName );
+  char* oldenv = getenv( envName );
 
   std::string myenv = std::string(envName)+"=";
 
   // if the FactoryPath  argument is not "" then add it to the env
-  if (argc >= 4 )
+  if( argc >= 4 )
     {
-
-    if ( oldenv )
+    if( oldenv )
       {
 #if defined(_WIN32)
       myenv += std::string(oldenv) + ";";
@@ -45,14 +44,11 @@ int main( int argc, char *argv[] )
       myenv += std::string(oldenv) + ":";
 #endif
       }
-
     myenv += std::string(argv[3]);
-
     putenv (const_cast<char *>(myenv.c_str()));
 
     itk::ObjectFactoryBase::ReHash();
     }
-
 
   std::cout << myenv << std::endl;
 
@@ -62,6 +58,7 @@ int main( int argc, char *argv[] )
   const unsigned int numFactories = factories.size();
 
   std::cout << "----- Registered factories -----" << std::endl;
+  std::cout << "Count: " << numFactories << std::endl;
   if (!factories.empty())
     {
     for ( std::list<itk::ObjectFactoryBase*>::iterator
@@ -143,6 +140,7 @@ int main( int argc, char *argv[] )
   factories = itk::ObjectFactoryBase::GetRegisteredFactories();
 
   std::cout << "----- Registered factories -----" << std::endl;
+  std::cout << "Count: " << factories.size() << std::endl;
 
   if (!factories.empty())
     {

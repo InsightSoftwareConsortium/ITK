@@ -16,8 +16,9 @@
  *
  *=========================================================================*/
 #include "itkMINCImageIO.h"
-#include <stdio.h>
-#include <ctype.h>
+
+#include <cstdio>
+#include <cctype>
 #include "vnl/vnl_vector.h"
 #include "itkMetaDataObject.h"
 #include "itkArray.h"

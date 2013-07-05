@@ -15,6 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+#ifndef __itkMINCTransformIO_hxx
+#define __itkMINCTransformIO_hxx
 
 #include "itksys/SystemTools.hxx"
 #include "itksys/SystemInformation.hxx"
@@ -35,36 +37,89 @@
 namespace itk
 {
 
-MINCTransformIO::MINCTransformIO()
+namespace
+{
+
+// The following struct returns the string name of computation type
+// default implementation
+template <class TInternalComputationValueType>
+struct TypeName
+{
+  static const char* Get()
+  {
+  return typeid(TInternalComputationValueType).name();
+  }
+};
+
+// a specialization for each "float" and "double" type that we support
+ // and don't like the string returned by typeid
+template <>
+struct TypeName<float>
+{
+  static const char* Get()
+  {
+  return "float";
+  }
+};
+
+template <>
+struct TypeName<double>
+{
+  static const char* Get()
+  {
+  return "double";
+  }
+};
+
+} // end anonymous namespace
+
+
+template< class TInternalComputationValueType >
+MINCTransformIOTemplate< TInternalComputationValueType >
+::MINCTransformIOTemplate()
 {
   m_XFM_initialized=false;
 }
 
-MINCTransformIO::~MINCTransformIO()
+template< class TInternalComputationValueType >
+MINCTransformIOTemplate< TInternalComputationValueType >
+::~MINCTransformIOTemplate()
 {
   _cleanup();
 }
 
-void MINCTransformIO::_cleanup(void)
+template< class TInternalComputationValueType >
+void
+MINCTransformIOTemplate< TInternalComputationValueType >
+::_cleanup(void)
 {
   if(m_XFM_initialized)
       delete_general_transform(&m_XFM);
   m_XFM_initialized=false;
 }
 
-bool MINCTransformIO::CanReadFile(const char *fileName)
+template< class TInternalComputationValueType >
+bool
+MINCTransformIOTemplate< TInternalComputationValueType >
+::CanReadFile(const char *fileName)
 {
   std::string ext(itksys::SystemTools::GetFilenameLastExtension(fileName));
   return (ext == ".xfm" || ext==".XFM");
 }
 
-bool MINCTransformIO::CanWriteFile(const char *fileName)
+template< class TInternalComputationValueType >
+bool
+MINCTransformIOTemplate< TInternalComputationValueType >
+::CanWriteFile(const char *fileName)
 {
   std::string ext(itksys::SystemTools::GetFilenameLastExtension(fileName));
   return (ext == ".xfm" || ext==".XFM");
 }
 
-void MINCTransformIO::ReadOneTransform(VIO_General_transform *xfm)
+template< class TInternalComputationValueType >
+void
+MINCTransformIOTemplate< TInternalComputationValueType >
+::ReadOneTransform(VIO_General_transform *xfm)
 {
   switch(get_transform_type(xfm))
   {
@@ -73,27 +128,31 @@ void MINCTransformIO::ReadOneTransform(VIO_General_transform *xfm)
       VIO_Transform *lin=get_linear_transform_ptr(xfm);
 
       TransformPointer transform;
-      this->CreateTransform(transform,"AffineTransform_double_3_3");
-      ParametersType ParameterArray;
-      ParameterArray.SetSize(12);
+      std::string transformTypeName = "AffineTransform_";
+      transformTypeName += TypeName< TInternalComputationValueType >::Get();
+      transformTypeName += "_3_3";
+      this->CreateTransform(transform, transformTypeName);
+      ParametersType parameterArray;
+      parameterArray.SetSize(12);
 
-      for(int j=0;j<3;j++)
+      for(int j = 0; j < 3; ++j)
         {
-        for(int i=0;i<4;i++)
+        for(int i = 0; i < 4; ++i)
           {
-          ParameterArray.SetElement(i+j*4,Transform_elem(*lin,j,i));
+          parameterArray.SetElement(i+j*4, Transform_elem(*lin,j,i));
           }
         }
 
       if(xfm->inverse_flag)
         {
-        AffineTransform<double,3>::Pointer tmp=AffineTransform<double,3>::New();
-        tmp->SetParametersByValue(ParameterArray);
-        tmp->GetInverse(static_cast<AffineTransform<double,3>*>(transform.GetPointer()));
+        typedef AffineTransform< TInternalComputationValueType, 3 > AffineTransformType;
+        typename AffineTransformType::Pointer tmp = AffineTransformType::New();
+        tmp->SetParametersByValue(parameterArray);
+        tmp->GetInverse(static_cast< AffineTransformType* >( transform.GetPointer()) );
         }
       else
         {
-        transform->SetParametersByValue(ParameterArray);
+        transform->SetParametersByValue(parameterArray);
         }
       this->GetReadTransformList().push_back(transform);
 
@@ -101,9 +160,9 @@ void MINCTransformIO::ReadOneTransform(VIO_General_transform *xfm)
       }
     case CONCATENATED_TRANSFORM:
       {
-      for(int i=0;i<get_n_concated_transforms(xfm);i++)
+      for(int i = 0; i < get_n_concated_transforms(xfm); ++i)
         {
-        this->ReadOneTransform(get_nth_general_transform(xfm,i));
+        this->ReadOneTransform(get_nth_general_transform(xfm, i));
         }
       break;
       }
@@ -117,31 +176,34 @@ void MINCTransformIO::ReadOneTransform(VIO_General_transform *xfm)
     {
       if(xfm->displacement_volume_file)
         {
-        typedef DisplacementFieldTransform<double, 3 > DoubleDisplacementFieldTransformType;
-        typedef DoubleDisplacementFieldTransformType::DisplacementFieldType DoubleGridImageType;
-        typedef ImageFileReader< DoubleGridImageType > DoubleMincReaderType;
+        typedef DisplacementFieldTransform< TInternalComputationValueType, 3 > DisplacementFieldTransformType;
+        typedef typename DisplacementFieldTransformType::DisplacementFieldType GridImageType;
+        typedef ImageFileReader< GridImageType >                               MincReaderType;
 
-        MINCImageIO::Pointer mincIO = MINCImageIO::New();
-        DoubleMincReaderType::Pointer reader = DoubleMincReaderType::New();
+        MINCImageIO::Pointer mincIO             = MINCImageIO::New();
+        typename MincReaderType::Pointer reader = MincReaderType::New();
         reader->SetImageIO( mincIO );
         reader->SetFileName( xfm->displacement_volume_file );
         reader->Update();
 
-        DoubleGridImageType::Pointer _grid=reader->GetOutput();
+        typename GridImageType::Pointer grid = reader->GetOutput();
 
         TransformPointer transform;
-        this->CreateTransform(transform,"DisplacementFieldTransform_double_3_3");
-        DoubleDisplacementFieldTransformType *_grid_transform=static_cast<DoubleDisplacementFieldTransformType*>(transform.GetPointer());
-        if(xfm->inverse_flag) //TODO: invert grid transform?
+        std::string transformTypeName = "DisplacementFieldTransform_";
+        transformTypeName += TypeName< TInternalComputationValueType >::Get();
+        transformTypeName += "_3_3";
+        this->CreateTransform(transform, transformTypeName);
+        DisplacementFieldTransformType * gridTransform = static_cast< DisplacementFieldTransformType* >( transform.GetPointer());
+        if( xfm->inverse_flag ) //TODO: invert grid transform?
           {
-          _grid_transform->SetInverseDisplacementField(_grid);
+          gridTransform->SetInverseDisplacementField( grid );
           }
         else
           {
-          _grid_transform->SetDisplacementField(_grid);
+          gridTransform->SetDisplacementField( grid );
           }
 
-        this->GetReadTransformList().push_back(transform);
+        this->GetReadTransformList().push_back( transform );
 
         break;
         }
@@ -156,7 +218,10 @@ void MINCTransformIO::ReadOneTransform(VIO_General_transform *xfm)
   }
 }
 
-void MINCTransformIO::Read()
+template< class TInternalComputationValueType >
+void
+MINCTransformIOTemplate< TInternalComputationValueType >
+::Read()
 {
   if(input_transform_file((char*)this->GetFileName(), &m_XFM) != VIO_OK)
     {
@@ -169,8 +234,11 @@ void MINCTransformIO::Read()
   _cleanup();
 }
 
-void MINCTransformIO::WriteOneTransform(const int transformIndex,
-                    const TransformBase *curTransform,
+template< class TInternalComputationValueType >
+void
+MINCTransformIOTemplate< TInternalComputationValueType >
+::WriteOneTransform(const int transformIndex,
+                    const TransformType *curTransform,
                     std::vector<VIO_General_transform> &xfm,
                     const char * xfm_file_base,int & serial )
 {
@@ -204,60 +272,21 @@ void MINCTransformIO::WriteOneTransform(const int transformIndex,
       memset(&xfm[xfm.size()-1], 0, sizeof(VIO_General_transform));
       create_linear_transform(&xfm[xfm.size()-1], &lin);
       }
-    else if( transformType.find("DisplacementFieldTransform_double_3_3") != std::string::npos && curTransform->GetFixedParameters().Size() == 18 )
+    else if( transformType.find("DisplacementFieldTransform_") != std::string::npos
+             && transformType.find("_3_3") != std::string::npos
+             && curTransform->GetFixedParameters().Size() == 18 )
       {
       bool _inverse_grid=false;
-      typedef DisplacementFieldTransform<double, 3 > DoubleDisplacementFieldTransformType;
-      DoubleDisplacementFieldTransformType* _grid_transform=static_cast<DoubleDisplacementFieldTransformType*>(const_cast<TransformType*>(curTransform));
+      typedef DisplacementFieldTransform< TInternalComputationValueType, 3 > DisplacementFieldTransformType;
+      typedef typename DisplacementFieldTransformType::DisplacementFieldType GridImageType;
+      typedef ImageFileWriter< GridImageType > MincWriterType;
+      DisplacementFieldTransformType* _grid_transform = static_cast< DisplacementFieldTransformType* >( const_cast< TransformType* >( curTransform ));
       char tmp[1024];
       sprintf(tmp,"%s_grid_%d.mnc",xfm_file_base,serial);
       ++serial;
 
       MINCImageIO::Pointer mincIO = MINCImageIO::New();
-      typedef DoubleDisplacementFieldTransformType::DisplacementFieldType DoubleGridImageType;
-      typedef ImageFileWriter< DoubleGridImageType > DoubleMincWriterType;
-      DoubleMincWriterType::Pointer writer = DoubleMincWriterType::New();
-      writer->SetImageIO( mincIO );
-      writer->SetFileName( tmp );
-      if( _grid_transform->GetDisplacementField() )
-        {
-        EncapsulateMetaData<std::string>(_grid_transform->GetModifiableDisplacementField()->GetMetaDataDictionary(),std::string("storage_data_type"),std::string(typeid(float).name()));
-        writer->SetInput( _grid_transform->GetDisplacementField() );
-        }
-      else if( _grid_transform->GetInverseDisplacementField() )
-        {
-        EncapsulateMetaData<std::string>(_grid_transform->GetModifiableInverseDisplacementField()->GetMetaDataDictionary(),std::string("storage_data_type"),std::string(typeid(float).name()));
-        writer->SetInput( _grid_transform->GetInverseDisplacementField() );
-        _inverse_grid=false;
-        }
-      else
-        {
-        itkExceptionMacro(<< "Trying to write-out displacement transform without displacement field");
-        }
-      writer->Update();
-
-      xfm.push_back( VIO_General_transform() );
-      create_grid_transform_no_copy( &xfm[xfm.size()-1], NULL, NULL );//relying on volume_io using the same name
-      if(_inverse_grid)
-        {
-        xfm[xfm.size()-1].inverse_flag=TRUE;
-        }
-
-    }
-#if !defined(__clang__) && !defined(_MSC_VER) //Seem to cause problems on MacOSX and Windows 
-    else if(transformType.find("DisplacementFieldTransform_float_3_3") != std::string::npos && curTransform->GetFixedParameters().Size() == 18 )
-      {
-      bool _inverse_grid=false;
-      typedef DisplacementFieldTransform<float, 3 > FloatDisplacementFieldTransformType;
-      typedef FloatDisplacementFieldTransformType::DisplacementFieldType FloatGridImageType;
-      typedef ImageFileWriter< FloatGridImageType > FloatMincWriterType;
-      FloatDisplacementFieldTransformType* _grid_transform=static_cast<FloatDisplacementFieldTransformType*>(const_cast<TransformType*>(curTransform));
-      char tmp[1024];
-      sprintf(tmp,"%s_grid_%d.mnc",xfm_file_base,serial);
-      serial++;
-
-      itk::MINCImageIO::Pointer mincIO = itk::MINCImageIO::New();
-      FloatMincWriterType::Pointer writer = FloatMincWriterType::New();
+      typename MincWriterType::Pointer writer = MincWriterType::New();
       writer->SetImageIO( mincIO );
       writer->SetFileName( tmp );
 
@@ -277,21 +306,23 @@ void MINCTransformIO::WriteOneTransform(const int transformIndex,
       writer->Update();
 
       xfm.push_back( VIO_General_transform() );
-      create_grid_transform_no_copy( &xfm[xfm.size()-1],NULL,NULL ); //relying on volume_io using the same name
+      create_grid_transform_no_copy( &xfm[xfm.size()-1], NULL, NULL ); //relying on volume_io using the same name
       if(_inverse_grid)
         {
         xfm[xfm.size()-1].inverse_flag=TRUE;
         }
       }
-#endif
     else
       {
-      itkExceptionMacro(<< "Transform type:"<<transformType.c_str()<<"is Unsupported");
+      itkExceptionMacro(<< "Transform type:" << transformType.c_str() << "is Unsupported");
       }
   }
 }
 
-void MINCTransformIO::Write()
+template< class TInternalComputationValueType >
+void
+MINCTransformIOTemplate< TInternalComputationValueType >
+::Write()
 {
   std::string xfm_filename = this->GetFileName();
 
@@ -309,7 +340,7 @@ void MINCTransformIO::Write()
 
   std::string compositeTransformType = transformList.front()->GetTransformTypeAsString();
 
-  CompositeTransformIOHelper helper;
+  CompositeTransformIOHelperTemplate< TInternalComputationValueType > helper;
 
   // if the first transform in the list is a
   // composite transform, use its internal list
@@ -319,19 +350,19 @@ void MINCTransformIO::Write()
     transformList = helper.GetTransformList(transformList.front().GetPointer());
     }
 
-  ConstTransformListType::const_iterator end = transformList.end();
+  typename ConstTransformListType::const_iterator end = transformList.end();
 
   int count = 0;
   int serial = 0;
-  for( ConstTransformListType::const_iterator it = transformList.begin();
+  for( typename ConstTransformListType::const_iterator it = transformList.begin();
       it != end; ++it,++count )
     {
-    this->WriteOneTransform(count,(*it).GetPointer(),xfm,xfm_file_base.c_str(),serial);
+    this->WriteOneTransform(count, (*it).GetPointer(), xfm, xfm_file_base.c_str(), serial);
     }
 
-  VIO_General_transform transform=xfm[0];
+  VIO_General_transform transform = xfm[0];
 
-  for( size_t i=1;i<xfm.size();i++ )
+  for( size_t i=1; i < xfm.size(); ++i )
     {
     VIO_General_transform concated;
     concat_general_transforms( &transform, &xfm[i], &concated );
@@ -340,7 +371,7 @@ void MINCTransformIO::Write()
     transform = concated;
     }
 
-  VIO_Status wrt=output_transform_file((char*)(xfm_filename.c_str()),(char*)"ITK-XFM writer",&transform);
+  VIO_Status wrt = output_transform_file((char*)(xfm_filename.c_str()),(char*)"ITK-XFM writer",&transform);
 
   delete_general_transform(&transform);
 
@@ -351,3 +382,5 @@ void MINCTransformIO::Write()
 }
 
 } // end namespace itk
+
+#endif
