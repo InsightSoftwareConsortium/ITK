@@ -64,7 +64,7 @@ main(int argc, char ** argv)
     if (errNum != CL_SUCCESS)
     {
       std::cerr << "Failed to find OpenCL devices." << std::endl;
-      return 100;
+      return -1;
     }
 
     cl_device_id * devices = (cl_device_id *)alloca(sizeof(cl_device_id) * numDevices);
@@ -72,7 +72,7 @@ main(int argc, char ** argv)
     if (errNum != CL_SUCCESS)
     {
       std::cerr << "Failed to find OpenCL devices." << std::endl;
-      return 100;
+      return -1;
     }
 
     std::cout << "\tNumber of devices: \t" << numDevices << std::endl;
@@ -85,10 +85,10 @@ main(int argc, char ** argv)
       if (vectorWidthDouble == 0)
       {
         std::cout << "Found a device that does not support double precision.\n";
-        return 1;
+        return 20;
       }
     }
   }
   std::cout << "All devices supported double precision.\n";
-  return 0;
+  return 1;
 }

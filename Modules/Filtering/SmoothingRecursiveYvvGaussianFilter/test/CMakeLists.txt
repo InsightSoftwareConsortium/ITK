@@ -42,10 +42,10 @@ itk_add_test(
   COMMAND
     ${itk-module}TestDriver
     itkCPURecursiveYvvGaussianImageFilterTest
-    ${TEST_DATA_ROOT}/512ex.jpg
+    ${TEST_DATA_ROOT}/1024ex.jpg
     2
     12.0
-    1
+    20
 )
 
 itk_add_test(
@@ -53,7 +53,7 @@ itk_add_test(
   COMMAND
     ${itk-module}TestDriver
     itkYvvBenchmark
-    ${TEST_DATA_ROOT}/512ex.jpg
+    ${TEST_DATA_ROOT}/1024ex.jpg
     2
     12.0
     30
@@ -90,7 +90,7 @@ if(ITK_USE_GPU AND WITH_OPENCL)
     COMMAND
       ${itk-module}TestDriver
       itkGPURecursiveYvvGaussianImageFilterTest
-      ${TEST_DATA_ROOT}/512ex.jpg
+      ${TEST_DATA_ROOT}/1024ex.jpg
       2
       12.0
       1
@@ -101,7 +101,7 @@ if(ITK_USE_GPU AND WITH_OPENCL)
     COMMAND
       ${itk-module}TestDriver
       itkYvvGpuCpuSimilarityTest
-      ${TEST_DATA_ROOT}/512ex.jpg
+      ${TEST_DATA_ROOT}/1024ex.jpg
       2
       0.5
   )
