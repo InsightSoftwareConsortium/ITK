@@ -52,14 +52,14 @@ OtsuMultipleThresholdsImageFilter< TInputImage, TOutputImage >
   typename OtsuCalculatorType::Pointer otsuHistogramThresholdCalculator = OtsuCalculatorType::New();
   otsuHistogramThresholdCalculator->SetInputHistogram( histogramGenerator->GetOutput() );
   otsuHistogramThresholdCalculator->SetNumberOfThresholds(m_NumberOfThresholds);
-  otsuHistogramThresholdCalculator->Update();
+  otsuHistogramThresholdCalculator->Compute();
 
   m_Thresholds = otsuHistogramThresholdCalculator->GetOutput();
 
   typename ThresholdLabelerImageFilter< TInputImage, TOutputImage >::Pointer threshold =
     ThresholdLabelerImageFilter< TInputImage, TOutputImage >::New();
 
-  progress->RegisterInternalFilter(threshold, .5f);
+  progress->RegisterInternalFilter(threshold, 1.0f);
   threshold->GraftOutput ( this->GetOutput() );
   threshold->SetInput ( this->GetInput() );
   threshold->SetRealThresholds(m_Thresholds);

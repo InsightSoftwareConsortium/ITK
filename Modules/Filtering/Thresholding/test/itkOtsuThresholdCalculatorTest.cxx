@@ -40,7 +40,7 @@ int itkOtsuThresholdCalculatorTest(int, char* [] )
 
     int flag = 0;           /* Did this test program work? */
 
-    std::cout << "Testing Minimum and Maximum Image Calulator:\n";
+    std::cout << "Testing Minimum and Maximum Image Calculator:\n";
 
     /* Allocate a simple test image */
     ImageType::Pointer image = ImageType::New();

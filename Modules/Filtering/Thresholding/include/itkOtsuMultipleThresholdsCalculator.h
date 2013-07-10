@@ -24,11 +24,11 @@
 namespace itk
 {
 /** \class OtsuMultipleThresholdsCalculator
- * \brief Computes Otsu's thresholds for a histogram.
+ * \brief Computes Otsu's multiple thresholds for a histogram.
  *
  * You plug in the target histogram using SetInputHistogram method and
  * specify the number of thresholds you want to be computed. Then call
- * the GenerateData method to run the alogithm.
+ * the Compute() method to run the algorithm.
  *
  * The thresholds are computed so that the between-class variance is
  * maximized.
@@ -74,13 +74,13 @@ public:
   itkSetClampMacro( NumberOfThresholds, SizeValueType, 1, NumericTraits< SizeValueType >::max() );
   itkGetConstMacro(NumberOfThresholds, SizeValueType);
 
+  /** Calculates the thresholds and save them */
+  void Compute();
+
 protected:
   OtsuMultipleThresholdsCalculator();
   virtual ~OtsuMultipleThresholdsCalculator() {}
   void PrintSelf(std::ostream & os, Indent indent) const;
-
-  /** Calculates the thresholds and save them */
-  void GenerateData();
 
   /** Increment the thresholds of one position */
   bool IncrementThresholds(InstanceIdentifierVectorType & thresholdIds,

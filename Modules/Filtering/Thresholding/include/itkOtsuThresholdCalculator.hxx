@@ -51,14 +51,14 @@ OtsuThresholdCalculator< THistogram, TOutput >
     {
     relativeFrequency[j] = histogram->GetFrequency(j,0);
     relativeFrequency[j] /= histogram->GetTotalFrequency();
-    totalMean += ( j + 1 ) * relativeFrequency[j];
+    totalMean += j * relativeFrequency[j];
     progress.CompletedPixel();
     }
 
   // compute Otsu's threshold by maximizing the between-class
   // variance
   double freqLeft = relativeFrequency[0];
-  double meanLeft = 1.0;
+  double meanLeft = 0.0;
   double meanRight = 0.0;
 
   if ( freqLeft < 1.0 )
@@ -81,7 +81,7 @@ OtsuThresholdCalculator< THistogram, TOutput >
     if ( freqLeft > 0.0 )
       {
       meanLeft = ( meanLeftOld * freqLeftOld
-                   + ( j + 1 ) * relativeFrequency[j] ) / freqLeft;
+                   + j * relativeFrequency[j] ) / freqLeft;
       }
 
     if ( freqLeft >= 1.0 )
@@ -111,10 +111,8 @@ OtsuThresholdCalculator< THistogram, TOutput >
     meanLeftOld = meanLeft;
     progress.CompletedPixel();
     }
-  // should be this for backward compatibility
-  // this->GetOutput()->Set( static_cast<OutputType>(
-  // histogram->GetBinMin( 0, maxBinNumber + 1 ) ) );
-  this->GetOutput()->Set( static_cast<OutputType>( histogram->GetMeasurement( maxBinNumber + 1, 0 ) ) );
+
+  this->GetOutput()->Set( static_cast<OutputType>( histogram->GetMeasurement( maxBinNumber, 0 ) ) );
 }
 
 } // end namespace itk
