@@ -1,6 +1,6 @@
 itk_module_test()
 
-if(ITK_USE_GPU AND WITH_OPENCL)
+if(ITK_USE_GPU)
   add_definitions(-DGPU)
 
   if(GPU_HANDLES_DOUBLE)
@@ -84,7 +84,7 @@ itk_add_test(
     16
 )
 
-if(ITK_USE_GPU AND WITH_OPENCL)
+if(ITK_USE_GPU)
   itk_add_test(
     NAME itkGPURecursiveYvvGaussianImageFilterTest
     COMMAND
