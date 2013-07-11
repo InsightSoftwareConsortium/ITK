@@ -29,20 +29,19 @@ namespace itk
  *  \brief Virtual base class for partitioning a domain into subsets to be
  *  processed per thread when parallel processing.
  *
- * The class is templated over the type of domain over which threading
- * is performed, e.g. an image region. And it is templated over the
+ * \tparam TDomain The type of the domain to be partitioned.
  *
- * PartitionDomain is a method to split the domain into
- * non-overlapping pieces for threading. Must be overridden by derived
+ * \c PartitionDomain is a method to split the domain into
+ * non-overlapping pieces for threading. It must be overridden by derived
  * classes to provide the particular functionality required for
- * TDomain type.
+ * \c TDomain type.
  *
- * \sa ThreadedImageRegionPartitioner
+ * Subclasses of this class are typically used as template arguments to a DomainThreader.
+ *
+ * \sa DomainThreader
  *
  * \ingroup DataProcessing
- *
  * \ingroup ITKCommon
- *
  */
 template <class TDomain >
 class ThreadedDomainPartitioner : public Object
@@ -60,22 +59,22 @@ public:
   /** Type of the input object that's split for threading */
   typedef TDomain                   DomainType;
 
-  /** Split the output's RequestedObject into \c requestedTotal "pieces",
-   * returning piece \c i as \c splitObject. "Pieces" may represent
-   * an image region, or a index range for a parameter array, etc, depending
-   * on the type of object over which this class is templated.
-   * This method is called \c requestedTotal times, which is the number of
-   * threads available for use. The
-   * pieces must not overlap. The method returns the number of pieces that
-   * the routine is capable of splitting the output RequestedObject,
-   * i.e. return value is less than or equal to \c requestedTotal.
-   * This must be overridden by derived classes to provide specialized
-   * behavior. */
+  /** Split the domain \c completeDomain into up to \c requestedTotal
+   * non-overlapping subdomains, setting subdomain number \c threadId as
+   * \c subDomain and returning the total number of subdomains actually available.
+   *
+   * Subdomains may represent an image region, or a index range for a parameter
+   * array, etc, depending on the type of object over which this class is
+   * templated.
+   *
+   * This method should be called repeatedly for each value of \c threadId, from 0 up
+   * to the return value (which is always less than or equal to \c requestedTotal).
+   */
   virtual
-  ThreadIdType PartitionDomain(const ThreadIdType threadID,
+  ThreadIdType PartitionDomain(const ThreadIdType threadId,
                            const ThreadIdType requestedTotal,
                            const DomainType& completeDomain,
-                           DomainType& subdomain) const = 0;
+                           DomainType& subDomain) const = 0;
 
 protected:
   ThreadedDomainPartitioner(){}
