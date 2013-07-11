@@ -20,6 +20,7 @@
 
 #include "itkThreadedDomainPartitioner.h"
 #include "itkImageRegion.h"
+#include "itkImageRegionSplitterSlowDimension.h"
 
 namespace itk
 {
@@ -78,13 +79,11 @@ public:
   /** Type of the object being threaded over */
   typedef typename Superclass::DomainType  DomainType;
 
-  /** Some convenient typedefs. */
-  // typedef TImageRegion ImageRegionType;
+  /** Deprecated typedefs. */
   itkStaticConstMacro(ImageDimension, unsigned int, VDimension);
-
-  typedef ImageRegion<VDimension>   ImageRegionType;
-  typedef Size<VDimension>          SizeType;
-  typedef Index<VDimension>         IndexType;
+  typedef typename Self::DomainType            ImageRegionType;
+  typedef typename Self::DomainType::SizeType  SizeType;
+  typedef typename Self::DomainType::IndexType IndexType;
 
   /** Split the ImageRegion \c overallRegion into \c requestedTotal subregions,
    * returning subregion \c i as \c splitRegion.
@@ -102,9 +101,13 @@ protected:
   ThreadedImageRegionPartitioner();
   virtual ~ThreadedImageRegionPartitioner();
 
+  typedef ImageRegionSplitterSlowDimension ImageRegionSplitterType;
+
 private:
   ThreadedImageRegionPartitioner(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
+
+  ImageRegionSplitterType::Pointer m_ImageRegionSplitter;
 };
 
 } // end namespace itk

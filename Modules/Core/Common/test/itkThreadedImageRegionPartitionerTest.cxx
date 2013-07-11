@@ -27,7 +27,7 @@ int itkThreadedImageRegionPartitionerTest(int , char* [])
   typedef itk::ThreadedImageRegionPartitioner< Dimension > ThreadedImageRegionPartitionerType;
   ThreadedImageRegionPartitionerType::Pointer threadedImageRegionPartitioner = ThreadedImageRegionPartitionerType::New();
 
-  typedef ThreadedImageRegionPartitionerType::ImageRegionType ImageRegionType;
+  typedef ThreadedImageRegionPartitionerType::DomainType ImageRegionType;
 
   typedef ImageRegionType::SizeType   SizeType;
   typedef ImageRegionType::IndexType  IndexType;
