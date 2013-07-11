@@ -39,7 +39,7 @@ int main(int argc, char * argv[] )
     {
     std::cerr << "Arguments Missing. " << std::endl;
     std::cerr <<
-      "Usage:  IterativeClosestPoint1   fixedPointsFile  movingPointsFile "
+      "Usage:  IterativeClosestPoint2   fixedPointsFile  movingPointsFile "
       << std::endl;
     return 1;
     }
