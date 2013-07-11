@@ -452,6 +452,14 @@ QuickSelect(TSubsample* sample,
 
 
 template< class TSubsample >
+int UnguardedPartition(TSubsample* sample,
+                       unsigned int activeDimension,
+                       int beginIndex,
+                       int endIndex,
+                       typename TSubsample::MeasurementType pivotValue );
+
+
+template< class TSubsample >
 inline typename TSubsample::MeasurementType 
 NthElement(TSubsample* sample,
             unsigned int activeDimension,
