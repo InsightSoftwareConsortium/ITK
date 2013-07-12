@@ -13,7 +13,7 @@ if(ITK_USE_GPU)
   endif()
 
   include_directories(
-    "${ITKSmoothingRecursiveYvvGaussianFilter_SOURCE_DIR}/include"
+    "${ITKSmoothingRecursiveYvvGaussianFilter_SOURCE_DIR}/include/"
   )
   include_directories("${ITKSmoothingRecursiveYvvGaussianFilterKernelDir}")
 
@@ -30,6 +30,7 @@ else()
     ITK${itk-module}Tests
     itkCPURecursiveYvvGaussianImageFilterTest.cxx
     itkYvvBenchmark.cxx
+    itkYvvWhiteImageTest.cxx
   )
 endif()
 

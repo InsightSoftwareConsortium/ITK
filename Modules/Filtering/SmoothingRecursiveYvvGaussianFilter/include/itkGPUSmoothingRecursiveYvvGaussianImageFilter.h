@@ -1,14 +1,15 @@
+#ifdef GPU
 
-#ifndef _ITK_GPU_SMOOTHING_RECURSIVE_YVV_GAUSSIAN_IMAGE_FILTER_H_
-#define _ITK_GPU_SMOOTHING_RECURSIVE_YVV_GAUSSIAN_IMAGE_FILTER_H_
+#  ifndef _ITK_GPU_SMOOTHING_RECURSIVE_YVV_GAUSSIAN_IMAGE_FILTER_H_
+#    define _ITK_GPU_SMOOTHING_RECURSIVE_YVV_GAUSSIAN_IMAGE_FILTER_H_
 
-#include "itkImage.h"
-#include "itkPixelTraits.h"
-#include "itkCommand.h"
-#include "itkFixedArray.h"
-#include "itkGPUImageToImageFilter.h"
-#include "itkOpenCLUtil.h"
-#include "itkSmoothingRecursiveYvvGaussianImageFilter.h"
+#    include "itkImage.h"
+#    include "itkPixelTraits.h"
+#    include "itkCommand.h"
+#    include "itkFixedArray.h"
+#    include "itkSmoothingRecursiveYvvGaussianImageFilter.h"
+#    include "itkOpenCLUtil.h"
+#    include "itkGPUImageToImageFilter.h"
 
 
 namespace itk
@@ -41,13 +42,13 @@ public:
   typedef TInputImage                     InputImageType;
   typedef TOutputImage                    OutputImageType;
   typedef typename TInputImage::PixelType PixelType;
-#ifdef WITH_DOUBLE
+#    ifdef WITH_DOUBLE
   typedef typename NumericTraits<PixelType>::RealType       RealType;
   typedef typename NumericTraits<PixelType>::ScalarRealType ScalarRealType;
-#else
+#    else
   typedef typename NumericTraits<PixelType>::FloatType RealType;
   typedef typename NumericTraits<PixelType>::FloatType ScalarRealType;
-#endif
+#    endif
 
   typedef typename itk::GPUTraits<TInputImage>::Type  GPUInputImage;
   typedef typename itk::GPUTraits<TOutputImage>::Type GPUOutputImage;
@@ -95,11 +96,11 @@ public:
   virtual void
   SetUp(ScalarRealType spacing);
 
-#ifdef ITK_USE_CONCEPT_CHECKING
+#    ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
   itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<PixelType>));
   /** End concept checking */
-#endif
+#    endif
   /** Get OpenCL Kernel source as a string, creates a GetOpenCLSource method */
   itkGetOpenCLSourceFromKernelMacro(GPUSmoothingRecursiveYvvGaussianImageFilterKernel);
   void
@@ -169,8 +170,9 @@ private:
 
 } // end namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#  include "itkGPUSmoothingRecursiveYvvGaussianImageFilter.hxx"
-#endif
+#    ifndef ITK_MANUAL_INSTANTIATION
+#      include "itkGPUSmoothingRecursiveYvvGaussianImageFilter.hxx"
+#    endif
 
-#endif
+#  endif //_ITK_GPU_SMOOTHING_RECURSIVE_YVV_GAUSSIAN_IMAGE_FILTER_H_
+#endif   // GPU
