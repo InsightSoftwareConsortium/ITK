@@ -28,8 +28,13 @@ macro( itk_module_headertest _name )
 
     # Count how many tests we are going to get, and put the source files in
     # the list _outputs.
+    # WARNING: This code is highly coupled with the BuildHeaderTest.py file
+    # below.  Before making any logic changes here, make sure that script is not
+    # effected.
     set( _include ${${_name}_SOURCE_DIR}/include )
     file( GLOB _h_files ${_include}/*.h )
+    file( GLOB _hxx_files ${_include}/*.hxx )
+    set( _header_files ${_h_files} ${_hxx_files} )
     list( LENGTH _h_files _num_headers )
     set( _outputs ${${_name}_BINARY_DIR}/test/${_name}HeaderTest1.cxx )
     set( _test_num 1 )
@@ -49,8 +54,8 @@ macro( itk_module_headertest _name )
     # source files so they are regenerated.
     if( ${CMAKE_VERSION} VERSION_GREATER 2.8.6 ) # for string( MD5
       set( _headers_list_md5 "${${_name}_BINARY_DIR}/test/CMakeFiles/HeadersList.md5" )
-      list( SORT _h_files )
-      string( MD5 _new_md5 "${_h_files}" )
+      list( SORT _header_files )
+      string( MD5 _new_md5 "${_header_files}" )
       set( _regenerate_sources FALSE )
       if( NOT EXISTS "${_headers_list_md5}" )
         set( _regenerate_sources TRUE )
