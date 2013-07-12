@@ -58,7 +58,8 @@ try_compile( ITK_HAS_CPP11_ALIGNAS
 
 try_compile( ITK_HAS_GNU_ATTRIBUTE_ALIGNED
   ${ITK_BINARY_DIR}/CMakeTmp
-  ${CMAKE_CURRENT_SOURCE_DIR}/CMake/itkCheckHasGNUAttributeAligned.cxx )
+  ${CMAKE_CURRENT_SOURCE_DIR}/CMake/itkCheckHasGNUAttributeAligned.cxx
+  CMAKE_FLAGS "-DCMAKE_BUILD_TYPE:STRING=Debug" )
 
 configure_file(src/itkConfigure.h.in itkConfigure.h)
 
