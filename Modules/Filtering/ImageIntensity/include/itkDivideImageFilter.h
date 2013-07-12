@@ -77,7 +77,7 @@ public:
  * \endwiki
  */
 template< class TInputImage1, class TInputImage2, class TOutputImage >
-class ITK_EXPORT DivideImageFilter:
+class DivideImageFilter:
   public
   BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage,
                             Functor::Div<

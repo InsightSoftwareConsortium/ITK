@@ -48,7 +48,7 @@ namespace itk
  * \ingroup ITKDeconvolution
  */
 template< class TInputImage, class TKernelImage=TInputImage, class TOutputImage=TInputImage, class TInternalPrecision=double >
-class ITK_EXPORT IterativeDeconvolutionImageFilter :
+class IterativeDeconvolutionImageFilter :
     public FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
 {
 public:

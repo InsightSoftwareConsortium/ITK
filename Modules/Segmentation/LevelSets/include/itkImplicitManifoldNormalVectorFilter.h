@@ -70,7 +70,7 @@ namespace itk
  * \ingroup ITKLevelSets
  */
 template< class TInputImage, class TSparseOutputImage >
-class ITK_EXPORT ImplicitManifoldNormalVectorFilter:
+class ImplicitManifoldNormalVectorFilter:
   public FiniteDifferenceSparseImageFilter< TInputImage, TSparseOutputImage >
 {
 public:

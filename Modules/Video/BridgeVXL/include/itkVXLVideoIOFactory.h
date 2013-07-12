@@ -28,7 +28,7 @@ namespace itk
  *
  * \ingroup ITKVideoBridgeVXL
  */
-class ITK_EXPORT VXLVideoIOFactory:public ObjectFactoryBase
+class VXLVideoIOFactory:public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */

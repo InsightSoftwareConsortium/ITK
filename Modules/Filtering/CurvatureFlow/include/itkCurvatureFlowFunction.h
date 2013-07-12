@@ -40,7 +40,7 @@ namespace itk
  * \ingroup ITKCurvatureFlow
  */
 template< class TImage >
-class ITK_EXPORT CurvatureFlowFunction:
+class CurvatureFlowFunction:
   public FiniteDifferenceFunction< TImage >
 {
 public:

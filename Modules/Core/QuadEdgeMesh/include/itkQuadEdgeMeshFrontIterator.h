@@ -86,7 +86,7 @@ namespace itk
  * \ingroup ITKQuadEdgeMesh
  */
 template< typename TMesh, typename TQE >
-class ITK_EXPORT QuadEdgeMeshFrontBaseIterator
+class QuadEdgeMeshFrontBaseIterator
 {
 public:
   // Hierarchy typedefs & values.
@@ -226,7 +226,7 @@ protected:
  * \ingroup ITKQuadEdgeMesh
  */
 template< typename TMesh, typename TQE >
-class ITK_EXPORT QuadEdgeMeshFrontIterator:
+class QuadEdgeMeshFrontIterator:
   public QuadEdgeMeshFrontBaseIterator< TMesh, TQE  >
 {
 public:
@@ -253,7 +253,7 @@ public:
  * \ingroup ITKQuadEdgeMesh
  */
 template< class TMesh, class TQE = typename TMesh::QEType >
-class ITK_EXPORT QuadEdgeMeshConstFrontIterator:
+class QuadEdgeMeshConstFrontIterator:
   public QuadEdgeMeshFrontBaseIterator< TMesh, TQE >
 {
 public:

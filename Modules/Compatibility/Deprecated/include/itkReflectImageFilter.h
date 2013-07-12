@@ -35,7 +35,7 @@ namespace itk
  * \ingroup SingelThreaded
  */
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT ReflectImageFilter:public ImageToImageFilter< TInputImage, TOutputImage >
+class ReflectImageFilter:public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */

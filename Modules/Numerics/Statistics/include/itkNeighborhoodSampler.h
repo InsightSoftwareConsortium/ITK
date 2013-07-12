@@ -41,7 +41,7 @@ namespace Statistics
  */
 
 template< class TSample >
-class ITK_EXPORT NeighborhoodSampler:public SampleToSubsampleFilter< TSample >
+class NeighborhoodSampler:public SampleToSubsampleFilter< TSample >
 {
 public:
   /** Standard class typedefs. */

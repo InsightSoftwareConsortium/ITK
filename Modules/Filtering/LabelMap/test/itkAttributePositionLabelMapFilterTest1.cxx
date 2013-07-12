@@ -26,7 +26,7 @@
   * \brief a test accessor - to make kwstyle happy
   */
 template< class TLabelObject >
-class ITK_EXPORT TestLabelObjectAccessor
+class TestLabelObjectAccessor
 {
 public:
   typedef TLabelObject                                    LabelObjectType;

@@ -28,7 +28,7 @@ namespace itk
  *
  * \ingroup ITKVideoIO
  */
-class ITK_EXPORT FileListVideoIOFactory : public ObjectFactoryBase
+class FileListVideoIOFactory : public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */

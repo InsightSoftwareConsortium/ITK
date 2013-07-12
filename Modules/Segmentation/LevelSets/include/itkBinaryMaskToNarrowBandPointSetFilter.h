@@ -51,7 +51,7 @@ namespace itk
  * \ingroup ITKLevelSets
  */
 template< class TInputImage, class TOutputMesh >
-class ITK_EXPORT BinaryMaskToNarrowBandPointSetFilter:
+class BinaryMaskToNarrowBandPointSetFilter:
   public ImageToMeshFilter< TInputImage, TOutputMesh >
 {
 public:

@@ -38,7 +38,7 @@ namespace itk
  * \ingroup ITKGPURegistrationCommon
  */
 template <class TFixedImage, class TMovingImage, class TDisplacementField>
-class ITK_EXPORT GPUPDEDeformableRegistrationFunction :
+class GPUPDEDeformableRegistrationFunction :
   public GPUFiniteDifferenceFunction<TDisplacementField>
 {
 public:

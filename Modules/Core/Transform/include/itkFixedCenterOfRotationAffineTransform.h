@@ -34,7 +34,7 @@ template<
   class TScalarType = double,   // Data type for scalars (e.g. float or double)
   unsigned int NDimensions = 3 >
 // Number of dimensions in the input space
-class ITK_EXPORT FixedCenterOfRotationAffineTransform:
+class FixedCenterOfRotationAffineTransform:
   public ScalableAffineTransform< TScalarType, NDimensions >
 {
 public:

@@ -368,7 +368,7 @@ void MapData::Reset()
 SmapsData_2_6::~SmapsData_2_6()
 {}
 
-ITK_EXPORT std::istream & operator>>(std::istream & smapsStream, SmapsData_2_6 & data)
+std::istream & operator>>(std::istream & smapsStream, SmapsData_2_6 & data)
 {
   SmapsRecord *record = NULL;
 
@@ -426,7 +426,7 @@ VMMapData_10_2
 ::~VMMapData_10_2()
 {}
 
-ITK_EXPORT std::istream & operator>>(std::istream & stream, VMMapData_10_2 & data)
+std::istream & operator>>(std::istream & stream, VMMapData_10_2 & data)
 {
   MapRecord *record = NULL;
 

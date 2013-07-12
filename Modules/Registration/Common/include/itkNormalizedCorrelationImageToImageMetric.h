@@ -39,7 +39,7 @@ namespace itk
  * \ingroup ITKRegistrationCommon
  */
 template< class TFixedImage, class TMovingImage >
-class ITK_EXPORT NormalizedCorrelationImageToImageMetric:
+class NormalizedCorrelationImageToImageMetric:
   public ImageToImageMetric< TFixedImage, TMovingImage >
 {
 public:

@@ -77,7 +77,7 @@ public:
 template< typename TInputImage1,
           typename TInputImage2=TInputImage1,
           typename TOutputImage=TInputImage1 >
-class ITK_EXPORT DivideOrZeroOutImageFilter :
+class DivideOrZeroOutImageFilter :
   public BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage,
                                    Functor::DivideOrZeroOut<
                                      typename TInputImage1::PixelType,

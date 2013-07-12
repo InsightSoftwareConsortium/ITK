@@ -109,7 +109,7 @@ template<
   class TInputImage,
   class TOutputImage
   >
-class ITK_EXPORT MultiResolutionPyramidImageFilter:
+class MultiResolutionPyramidImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

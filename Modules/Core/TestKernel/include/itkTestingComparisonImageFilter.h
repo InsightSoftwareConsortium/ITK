@@ -39,7 +39,7 @@ namespace Testing
  * \ingroup ITKTestKernel
  */
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT ComparisonImageFilter:
+class ComparisonImageFilter:
   public ImageSource< TOutputImage >
 {
 public:

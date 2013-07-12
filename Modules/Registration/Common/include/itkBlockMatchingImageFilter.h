@@ -70,7 +70,7 @@ template<
   class TFeatures = PointSet< Matrix< double, TFixedImage::ImageDimension, TFixedImage::ImageDimension>, TFixedImage::ImageDimension >,
   class TDisplacements = PointSet< Vector< typename TFeatures::PointType::ValueType, TFeatures::PointDimension >, TFeatures::PointDimension >,
   class TSimilarities = PointSet< double, TDisplacements::PointDimension > >
-class ITK_EXPORT BlockMatchingImageFilter:
+class BlockMatchingImageFilter:
 public MeshToMeshFilter< TFeatures, TDisplacements>
 {
 public:

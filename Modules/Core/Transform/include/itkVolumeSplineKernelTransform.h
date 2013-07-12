@@ -34,7 +34,7 @@ template< class TScalarType, // Data type for scalars (float or
                              // double)
           unsigned int NDimensions = 3 >
 // Number of dimensions
-class ITK_EXPORT VolumeSplineKernelTransform:
+class VolumeSplineKernelTransform:
   public KernelTransform<   TScalarType, NDimensions >
 {
 public:

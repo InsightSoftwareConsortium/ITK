@@ -81,7 +81,7 @@ public:
 }
 
 template< class TInputImage1, class TInputImage2, class TOutputImage >
-class ITK_EXPORT SquaredDifferenceImageFilter:
+class SquaredDifferenceImageFilter:
   public
   BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage,
                             Functor::SquaredDifference2<

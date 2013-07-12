@@ -29,7 +29,7 @@ namespace itk
 * length */
 
 template< unsigned int VDimension >
-class ITK_EXPORT BresenhamLine
+class BresenhamLine
 {
 public:
   typedef BresenhamLine Self;

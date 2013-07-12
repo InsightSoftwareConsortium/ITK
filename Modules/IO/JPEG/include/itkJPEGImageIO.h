@@ -31,7 +31,7 @@ namespace itk
  *
  * \ingroup ITKIOJPEG
  */
-class ITK_EXPORT JPEGImageIO:public ImageIOBase
+class JPEGImageIO:public ImageIOBase
 {
 public:
   /** Standard class typedefs. */

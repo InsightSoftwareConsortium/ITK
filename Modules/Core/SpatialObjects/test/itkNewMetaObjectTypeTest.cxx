@@ -117,7 +117,7 @@ private:
  *  Dummy converter class
  */
 template< unsigned int NDimensions = 3 >
-class ITK_EXPORT MetaDummyConverter :
+class MetaDummyConverter :
     public MetaConverterBase< NDimensions >
 {
 public:

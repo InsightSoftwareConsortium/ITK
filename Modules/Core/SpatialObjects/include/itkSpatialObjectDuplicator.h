@@ -29,7 +29,7 @@ namespace itk
  * \ingroup ITKSpatialObjects
  */
 template< class TInputSpatialObject >
-class ITK_EXPORT SpatialObjectDuplicator:public Object
+class SpatialObjectDuplicator:public Object
 {
 public:
   /** Standard class typedefs. */

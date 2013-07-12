@@ -39,7 +39,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template< typename TFunction >
-class ITK_EXPORT BinaryThresholdSpatialFunction:
+class BinaryThresholdSpatialFunction:
   public SpatialFunction< bool,
                           TFunction::ImageDimension,
                           typename TFunction::InputType >

@@ -221,7 +221,7 @@ private:
  * \ingroup ITKBiasCorrection
  */
 template< class TInputImage, class TOutputImage, class TMaskImage >
-class ITK_EXPORT MRIBiasFieldCorrectionFilter:
+class MRIBiasFieldCorrectionFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

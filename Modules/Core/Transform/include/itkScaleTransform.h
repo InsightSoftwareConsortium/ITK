@@ -43,8 +43,8 @@ template <
                              // double)
   unsigned int NDimensions = 3>
 // Number of dimensions
-// class ITK_EXPORT ScaleTransform:public Transform< TScalarType,
-class ITK_EXPORT ScaleTransform : public MatrixOffsetTransformBase<TScalarType,
+// class ScaleTransform:public Transform< TScalarType,
+class ScaleTransform : public MatrixOffsetTransformBase<TScalarType,
                                                                    NDimensions,
                                                                    NDimensions>
 {

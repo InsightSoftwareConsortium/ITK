@@ -44,7 +44,7 @@ namespace itk
  */
 
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT GPUDiscreteGaussianImageFilter :
+class GPUDiscreteGaussianImageFilter :
   public GPUImageToImageFilter< TInputImage, TOutputImage, DiscreteGaussianImageFilter< TInputImage, TOutputImage > >
 {
 public:

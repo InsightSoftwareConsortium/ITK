@@ -246,7 +246,7 @@ private:
  * \ingroup ITKLevelSets
  */
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT ParallelSparseFieldLevelSetImageFilter:
+class ParallelSparseFieldLevelSetImageFilter:
   public FiniteDifferenceImageFilter< TInputImage, TOutputImage >
 {
 public:

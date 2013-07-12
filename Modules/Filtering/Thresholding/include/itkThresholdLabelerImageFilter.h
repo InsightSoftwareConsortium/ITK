@@ -42,7 +42,7 @@ namespace itk
 namespace Functor
 {
 template< class TInput, class TOutput >
-class ITK_EXPORT ThresholdLabeler
+class ThresholdLabeler
 {
 public:
   ThresholdLabeler() { m_LabelOffset = NumericTraits< TOutput >::One; }

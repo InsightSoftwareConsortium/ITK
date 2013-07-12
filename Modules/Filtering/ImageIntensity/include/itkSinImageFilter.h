@@ -64,7 +64,7 @@ public:
  * \endwiki
  */
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT SinImageFilter:
+class SinImageFilter:
   public
   UnaryFunctorImageFilter< TInputImage, TOutputImage,
                            Functor::Sin<

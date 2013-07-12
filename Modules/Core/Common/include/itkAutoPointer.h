@@ -43,7 +43,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template< class TObjectType >
-class ITK_EXPORT AutoPointer
+class AutoPointer
 {
 public:
   /** Extract information from template parameter. */
@@ -221,7 +221,7 @@ std::ostream & operator<<(std::ostream & os, AutoPointer< T > p)
     transfer between AutoPointers of Derived class to Base class */
 template< typename TAutoPointerBase, typename TAutoPointerDerived >
 void
-ITK_EXPORT TransferAutoPointer(TAutoPointerBase & pa, TAutoPointerDerived & pb)
+ TransferAutoPointer(TAutoPointerBase & pa, TAutoPointerDerived & pb)
 {
   // give a chance to natural polymorphism
   pa.TakeNoOwnership( pb.GetPointer() );

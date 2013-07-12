@@ -30,7 +30,7 @@ namespace itk
  * \ingroup Numerics Optimizers
  * \ingroup ITKOptimizers
  */
-class ITK_EXPORT ConjugateGradientOptimizer:
+class ConjugateGradientOptimizer:
   public SingleValuedNonLinearVnlOptimizer
 
 {

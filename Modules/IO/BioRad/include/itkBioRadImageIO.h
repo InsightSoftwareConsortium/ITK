@@ -46,7 +46,7 @@ namespace itk
  *
  * \ingroup ITKIOBioRad
  */
-class ITK_EXPORT BioRadImageIO:public ImageIOBase
+class BioRadImageIO:public ImageIOBase
 {
 public:
   /** Standard class typedefs. */

@@ -35,7 +35,7 @@ namespace itk
  * \ingroup ITKImageFunction
  */
 template< class TInputImage, class TOutput = double >
-class ITK_EXPORT GaussianDerivativeImageFunction:
+class GaussianDerivativeImageFunction:
   public ImageFunction< TInputImage,
                         Vector< TOutput, TInputImage::ImageDimension >,
                         TOutput >

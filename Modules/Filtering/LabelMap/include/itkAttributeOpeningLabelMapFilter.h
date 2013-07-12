@@ -41,7 +41,7 @@ namespace itk {
  */
 template<class TImage, class TAttributeAccessor=
     typename Functor::AttributeLabelObjectAccessor< typename TImage::LabelObjectType > >
-class ITK_EXPORT AttributeOpeningLabelMapFilter :
+class AttributeOpeningLabelMapFilter :
     public InPlaceLabelMapFilter<TImage>
 {
 public:

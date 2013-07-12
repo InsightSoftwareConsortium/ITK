@@ -50,7 +50,7 @@ namespace itk
  * \ingroup ITKRegistrationCommon
  */
 template< class TFixedImage, class TMovingImage, class TDisplacementField >
-class ITK_EXPORT MeanSquareRegistrationFunction:
+class MeanSquareRegistrationFunction:
   public PDEDeformableRegistrationFunction< TFixedImage,
                                             TMovingImage, TDisplacementField >
 {

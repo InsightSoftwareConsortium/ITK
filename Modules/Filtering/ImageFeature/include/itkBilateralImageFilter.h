@@ -72,7 +72,7 @@ namespace itk
  */
 
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT BilateralImageFilter:
+class BilateralImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

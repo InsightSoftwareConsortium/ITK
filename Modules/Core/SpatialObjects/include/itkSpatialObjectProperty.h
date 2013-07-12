@@ -32,7 +32,7 @@ namespace itk
  */
 
 template< class TComponentType = float >
-class ITK_EXPORT SpatialObjectProperty:
+class SpatialObjectProperty:
   public LightObject
 {
 public:

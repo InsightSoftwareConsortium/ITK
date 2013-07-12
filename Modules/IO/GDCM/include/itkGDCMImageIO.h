@@ -83,7 +83,7 @@ namespace itk
  * \endwiki
  */
 class InternalHeader;
-class ITK_EXPORT GDCMImageIO:public ImageIOBase
+class GDCMImageIO:public ImageIOBase
 {
 public:
   /** Standard class typedefs. */

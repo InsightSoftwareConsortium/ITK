@@ -56,7 +56,7 @@ public:
 }
 
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT ComplexToModulusImageFilter:
+class ComplexToModulusImageFilter:
   public
   UnaryFunctorImageFilter< TInputImage, TOutputImage,
                            Functor::ComplexToModulus<

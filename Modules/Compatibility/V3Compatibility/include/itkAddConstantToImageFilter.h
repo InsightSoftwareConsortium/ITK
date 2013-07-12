@@ -48,7 +48,7 @@ namespace itk
  * \sa AddImageFilter
  */
 template <class TInputImage, class TConstant, class TOutputImage>
-class ITK_EXPORT AddConstantToImageFilter :
+class AddConstantToImageFilter :
       public AddImageFilter<TInputImage, Image<TConstant, TInputImage::ImageDimension>, TOutputImage>
 {
 public:

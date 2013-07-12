@@ -41,7 +41,7 @@ namespace itk
  * \ingroup ITKImageSources
  */
 template <class TOutputImage>
-class ITK_EXPORT ParametricImageSource
+class ParametricImageSource
   : public GenerateImageSource< TOutputImage >
 {
 public:

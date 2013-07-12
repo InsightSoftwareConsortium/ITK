@@ -31,7 +31,7 @@ namespace itk
  * \ingroup ITKOptimizersv4
  */
 template < class TMetric >
-class ITK_EXPORT RegistrationParameterScalesFromPhysicalShift :
+class RegistrationParameterScalesFromPhysicalShift :
   public RegistrationParameterScalesFromShiftBase< TMetric >
 {
 public:

@@ -39,7 +39,7 @@ namespace itk
  * \ingroup ITKStatistics
  */
 template< class T, unsigned int VEstimatorDimension >
-class ITK_EXPORT KalmanLinearEstimator
+class KalmanLinearEstimator
 {
 public:
   /**  Dimension of the vector of parameters to be estimated.

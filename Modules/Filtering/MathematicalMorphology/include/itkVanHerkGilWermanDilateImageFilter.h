@@ -36,7 +36,7 @@ public:
 };
 
 template< class TImage, class TKernel >
-class ITK_EXPORT VanHerkGilWermanDilateImageFilter:
+class VanHerkGilWermanDilateImageFilter:
   public VanHerkGilWermanErodeDilateImageFilter< TImage, TKernel, MaxFunctor< typename TImage::PixelType > >
 {
 public:

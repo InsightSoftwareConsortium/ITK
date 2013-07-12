@@ -83,7 +83,7 @@ public:
  */
 
 template< class TInputMesh, class TOutputMesh >
-class ITK_EXPORT DeformableSimplexMesh3DGradientConstraintForceFilter :
+class DeformableSimplexMesh3DGradientConstraintForceFilter :
   public DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
 {
 public:

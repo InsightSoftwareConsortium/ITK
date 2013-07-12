@@ -83,7 +83,7 @@ struct ITKCommon_EXPORT ImageSourceCommon
  * \endwiki
  */
 template< class TOutputImage >
-class ITK_EXPORT ImageSource
+class ImageSource
   : public ProcessObject, private ImageSourceCommon
 {
 public:

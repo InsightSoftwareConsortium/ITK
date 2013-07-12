@@ -60,7 +60,7 @@ public:
 }
 
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT EdgePotentialImageFilter:
+class EdgePotentialImageFilter:
   public
   UnaryFunctorImageFilter< TInputImage, TOutputImage,
                            Functor::EdgePotential<

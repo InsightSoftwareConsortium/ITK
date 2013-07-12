@@ -50,7 +50,7 @@ namespace itk
  * \ingroup ITKPDEDeformableRegistration
  */
 template< class TFixedImage, class TMovingImage, class TDisplacementField >
-class ITK_EXPORT DemonsRegistrationFunction:
+class DemonsRegistrationFunction:
   public PDEDeformableRegistrationFunction< TFixedImage,
                                             TMovingImage,
                                             TDisplacementField >

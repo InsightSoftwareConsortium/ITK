@@ -72,7 +72,7 @@ namespace itk
  *
  */
 template< class TInputImage, class TKernelImage = TInputImage, class TOutputImage = TInputImage, class TInternalPrecision=double >
-class ITK_EXPORT WienerDeconvolutionImageFilter :
+class WienerDeconvolutionImageFilter :
   public InverseDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
 {
 public:

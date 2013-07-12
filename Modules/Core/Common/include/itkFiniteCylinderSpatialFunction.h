@@ -37,7 +37,7 @@ namespace itk
 
 template< unsigned int VDimension = 3,
           typename TInput = Point< double, VDimension > >
-class ITK_EXPORT FiniteCylinderSpatialFunction:
+class FiniteCylinderSpatialFunction:
   public InteriorExteriorSpatialFunction< VDimension, TInput >
 {
 public:

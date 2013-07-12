@@ -47,7 +47,7 @@ namespace itk
  */
 
 template< class TInputMesh, class TOutputMesh >
-class ITK_EXPORT ConnectedRegionsMeshFilter:
+class ConnectedRegionsMeshFilter:
   public MeshToMeshFilter< TInputMesh, TOutputMesh >
 {
 public:

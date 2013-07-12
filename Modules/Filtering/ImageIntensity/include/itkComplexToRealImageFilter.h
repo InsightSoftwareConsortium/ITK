@@ -55,7 +55,7 @@ public:
 }
 
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT ComplexToRealImageFilter:
+class ComplexToRealImageFilter:
   public
   UnaryFunctorImageFilter< TInputImage, TOutputImage,
                            Functor::ComplexToReal<

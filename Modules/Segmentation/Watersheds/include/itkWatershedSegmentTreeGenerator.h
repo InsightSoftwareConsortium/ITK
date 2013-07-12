@@ -75,7 +75,7 @@ namespace watershed
  * \ingroup ITKWatersheds
  */
 template< class TScalarType >
-class ITK_EXPORT SegmentTreeGenerator:public ProcessObject
+class SegmentTreeGenerator:public ProcessObject
 {
 public:
   /**  Standard itk smart pointer declarations    */

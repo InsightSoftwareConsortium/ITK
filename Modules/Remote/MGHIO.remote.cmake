@@ -1,5 +1,5 @@
 itk_fetch_module(MGHIO
   "MGHIO ImageIO plugin for ITK"
   GIT_REPOSITORY https://github.com/Slicer/itkMGHImageIO.git
-  GIT_TAG 4fa1fd8155a697bdd1a2c73f475178220d9fb09f
+  GIT_TAG 65a531ba9f5220cbaa05892d9eabb5a2d395364e
   )

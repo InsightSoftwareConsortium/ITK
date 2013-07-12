@@ -67,7 +67,7 @@ namespace itk
  * \endwiki
  */
 template< class TLabelObject >
-class ITK_EXPORT LabelMap:public ImageBase<  TLabelObject ::ImageDimension >
+class LabelMap:public ImageBase<  TLabelObject ::ImageDimension >
 {
 public:
   /** Standard class typedefs */

@@ -37,7 +37,7 @@ namespace itk
  * \brief Create instances of VTKImageIO objects using an object factory.
  * \ingroup ITKIOVTK
  */
-class ITK_EXPORT VTKImageIOFactory:public ObjectFactoryBase
+class VTKImageIOFactory:public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */

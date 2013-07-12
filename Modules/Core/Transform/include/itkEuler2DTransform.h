@@ -39,7 +39,7 @@ namespace itk
  */
 template< class TScalarType = double >
 // Data type for scalars
-class ITK_EXPORT Euler2DTransform:
+class Euler2DTransform:
   public Rigid2DTransform< TScalarType >
 {
 public:

@@ -67,7 +67,7 @@ namespace itk
  * \ingroup ITKPDEDeformableRegistration
  */
 template< class TFixedImage, class TMovingImage, class TDisplacementField >
-class ITK_EXPORT SymmetricForcesDemonsRegistrationFilter:
+class SymmetricForcesDemonsRegistrationFilter:
   public PDEDeformableRegistrationFilter< TFixedImage, TMovingImage,
                                           TDisplacementField >
 {

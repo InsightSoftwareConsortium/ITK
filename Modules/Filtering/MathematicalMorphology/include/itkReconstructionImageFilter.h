@@ -52,7 +52,7 @@ namespace itk
  */
 
 template< class TInputImage, class TOutputImage, class TCompare >
-class ITK_EXPORT ReconstructionImageFilter:
+class ReconstructionImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

@@ -70,7 +70,7 @@ namespace itk
  * \ingroup ITKImageFunction
  */
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT BSplineDecompositionImageFilter:
+class BSplineDecompositionImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

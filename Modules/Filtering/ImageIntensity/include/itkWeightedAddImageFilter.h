@@ -110,7 +110,7 @@ private:
  * \ingroup ITKImageIntensity
  */
 template< class TInputImage1, class TInputImage2, class TOutputImage >
-class ITK_EXPORT WeightedAddImageFilter:
+class WeightedAddImageFilter:
   public
   BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage,
                             Functor::WeightedAdd2<

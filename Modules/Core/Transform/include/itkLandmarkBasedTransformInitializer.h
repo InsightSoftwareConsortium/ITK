@@ -67,7 +67,7 @@ namespace itk
 template< class TTransform,
           class TFixedImage,
           class TMovingImage >
-class ITK_EXPORT LandmarkBasedTransformInitializer:
+class LandmarkBasedTransformInitializer:
   public Object
 {
 public:

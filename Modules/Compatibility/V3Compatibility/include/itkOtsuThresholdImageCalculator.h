@@ -49,7 +49,7 @@ namespace itk
  * \ingroup ITKV3Compatibility
  */
 template< class TInputImage >
-class ITK_EXPORT OtsuThresholdImageCalculator:public Object
+class OtsuThresholdImageCalculator:public Object
 {
 public:
   /** Standard class typedefs. */

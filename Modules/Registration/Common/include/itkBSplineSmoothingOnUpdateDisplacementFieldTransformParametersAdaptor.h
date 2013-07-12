@@ -30,7 +30,7 @@ namespace itk
  * \ingroup ITKRegistrationCommon
  */
 template<class TTransform>
-class ITK_EXPORT BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor
+class BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor
 : public DisplacementFieldTransformParametersAdaptor<TTransform>
 {
 public:

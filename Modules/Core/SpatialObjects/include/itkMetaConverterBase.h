@@ -38,7 +38,7 @@ namespace itk
  *  \ingroup ITKSpatialObjects
  */
 template <unsigned VDimension = 3>
-class ITK_EXPORT MetaConverterBase : public Object
+class MetaConverterBase : public Object
 {
 public:
   /** standard class typedefs */

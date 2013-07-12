@@ -37,7 +37,7 @@ public:
 };
 
 template< class TImage, class TKernel >
-class ITK_EXPORT VanHerkGilWermanErodeImageFilter:
+class VanHerkGilWermanErodeImageFilter:
   public VanHerkGilWermanErodeDilateImageFilter< TImage, TKernel, MinFunctor< typename TImage::PixelType > >
 
 {

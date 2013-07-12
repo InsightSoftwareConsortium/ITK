@@ -40,7 +40,7 @@ namespace itk
    * \ingroup ITKIOTransformBase
    */
 template<class ScalarType>
-class ITK_EXPORT TransformIOBaseTemplate:public LightProcessObject
+class TransformIOBaseTemplate:public LightProcessObject
   {
 public:
   /** Standard class typedefs */

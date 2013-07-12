@@ -47,7 +47,7 @@ namespace itk
  * \ingroup ITKMesh
  */
 template< class TInputMesh, class TOutputMesh >
-class ITK_EXPORT SimplexMeshAdaptTopologyFilter:public MeshToMeshFilter< TInputMesh, TOutputMesh >
+class SimplexMeshAdaptTopologyFilter:public MeshToMeshFilter< TInputMesh, TOutputMesh >
 {
 public:
   /** Standard "Self" typedef. */

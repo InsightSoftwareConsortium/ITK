@@ -48,7 +48,7 @@ namespace itk
  * \ingroup IOFilters
  * \ingroup ITKIOImageBase
  */
-class ITK_EXPORT StreamingImageIOBase:public ImageIOBase
+class StreamingImageIOBase:public ImageIOBase
 {
 public:
   /** Standard class typedefs. */

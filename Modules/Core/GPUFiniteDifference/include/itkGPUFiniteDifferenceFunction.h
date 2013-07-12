@@ -44,7 +44,7 @@ namespace itk
  * \ingroup ITKGPUFiniteDifference
  **/
 template< class TImageType >
-class ITK_EXPORT GPUFiniteDifferenceFunction : public FiniteDifferenceFunction< TImageType >
+class GPUFiniteDifferenceFunction : public FiniteDifferenceFunction< TImageType >
 {
 public:
 

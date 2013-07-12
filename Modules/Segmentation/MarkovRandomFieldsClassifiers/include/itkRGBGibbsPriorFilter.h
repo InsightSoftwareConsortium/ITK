@@ -44,7 +44,7 @@ namespace itk
  * \ingroup ITKMarkovRandomFieldsClassifiers
  */
 template< class TInputImage, class TClassifiedImage >
-class ITK_EXPORT RGBGibbsPriorFilter:public MRFImageFilter< TInputImage,
+class RGBGibbsPriorFilter:public MRFImageFilter< TInputImage,
                                                             TClassifiedImage >
 {
 public:

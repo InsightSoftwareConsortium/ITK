@@ -30,7 +30,7 @@ namespace itk
  * \ingroup ITKSpatialObjects
  */
 template< class TScalarType = double, unsigned int NDimensions = 3 >
-class ITK_EXPORT AffineGeometryFrame:public Object
+class AffineGeometryFrame:public Object
 {
 public:
   typedef AffineGeometryFrame        Self;

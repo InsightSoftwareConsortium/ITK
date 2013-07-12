@@ -34,7 +34,7 @@ namespace itk
    * \endwiki
    */
 template<class ScalarType>
-class ITK_EXPORT TransformFileWriterTemplate:public LightProcessObject
+class TransformFileWriterTemplate:public LightProcessObject
 {
 public:
 

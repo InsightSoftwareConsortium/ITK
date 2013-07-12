@@ -40,12 +40,11 @@ namespace itk
  *
  * \ingroup ITKMetricsv4
  */
-
 template<class TFixedImage,class TMovingImage,class TVirtualImage = TFixedImage,
           class TInternalComputationValueType = double,
           class TMetricTraits = DefaultImageToImageMetricTraitsv4<TFixedImage,TMovingImage,TVirtualImage,TInternalComputationValueType>
           >
-class ITK_EXPORT JointHistogramMutualInformationImageToImageMetricv4 :
+class JointHistogramMutualInformationImageToImageMetricv4 :
   public ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 {
 public:

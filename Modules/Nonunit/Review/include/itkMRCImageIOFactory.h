@@ -44,7 +44,7 @@ namespace itk
  *
  * \ingroup ITKReview
  */
-class ITK_EXPORT MRCImageIOFactory:public ObjectFactoryBase
+class MRCImageIOFactory:public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */

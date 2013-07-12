@@ -41,7 +41,7 @@ namespace bio
  *
  * \ingroup ITKBioCell
  */
-class ITK_EXPORT Genome
+class Genome
 {
 public:
   typedef   std::string                    GeneIdType;

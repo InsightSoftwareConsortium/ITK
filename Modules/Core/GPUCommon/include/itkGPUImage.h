@@ -37,7 +37,7 @@ namespace itk
  * \ingroup ITKGPUCommon
  */
 template <class TPixel, unsigned int VImageDimension = 2>
-class ITK_EXPORT GPUImage : public Image<TPixel,VImageDimension>
+class GPUImage : public Image<TPixel,VImageDimension>
 {
 public:
   typedef GPUImage                      Self;

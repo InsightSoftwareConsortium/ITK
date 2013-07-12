@@ -78,7 +78,7 @@ public:
  * \ingroup ITKIOImageBase
  */
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT ImageSeriesWriter:public ProcessObject
+class ImageSeriesWriter:public ProcessObject
 {
 public:
   /** Standard class typedefs. */

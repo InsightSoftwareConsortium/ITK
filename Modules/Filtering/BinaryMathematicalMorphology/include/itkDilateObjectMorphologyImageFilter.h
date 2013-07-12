@@ -43,7 +43,7 @@ namespace itk
  * \ingroup ITKBinaryMathematicalMorphology
  */
 template< class TInputImage, class TOutputImage, class TKernel >
-class ITK_EXPORT DilateObjectMorphologyImageFilter:
+class DilateObjectMorphologyImageFilter:
   public ObjectMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
 {
 public:

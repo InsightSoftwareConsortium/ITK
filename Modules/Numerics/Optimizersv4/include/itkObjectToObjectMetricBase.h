@@ -24,7 +24,6 @@
 
 namespace itk
 {
-
   /** \class ObjectToObjectMetricBaseTemplate
    * \brief Base class for all object-to-object similarlity metrics added in ITKv4.
    *
@@ -48,7 +47,7 @@ namespace itk
    * \ingroup ITKOptimizersv4
    */
 template<class TInternalComputationValueType=double>
-class ITK_EXPORT ObjectToObjectMetricBaseTemplate:
+class ObjectToObjectMetricBaseTemplate:
   public SingleValuedCostFunctionTemplatev4<TInternalComputationValueType>
 {
 public:

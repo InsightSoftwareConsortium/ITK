@@ -52,7 +52,7 @@ namespace itk
  * \ingroup ITKLevelSets
  */
 template< class TLevelSet >
-class ITK_EXPORT ReinitializeLevelSetImageFilter:
+class ReinitializeLevelSetImageFilter:
   public ImageToImageFilter< TLevelSet, TLevelSet >
 {
 public:

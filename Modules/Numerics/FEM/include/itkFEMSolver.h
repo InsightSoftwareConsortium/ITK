@@ -66,7 +66,7 @@ namespace fem
  * \ingroup ITKFEM
  */
 template <unsigned int VDimension = 3>
-class ITK_EXPORT Solver : public ProcessObject
+class Solver : public ProcessObject
 {
 public:
   /** Standard class typedefs. */

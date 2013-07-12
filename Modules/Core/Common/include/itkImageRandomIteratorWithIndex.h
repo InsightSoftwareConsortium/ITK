@@ -64,7 +64,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template< typename TImage >
-class ITK_EXPORT ImageRandomIteratorWithIndex:public ImageRandomConstIteratorWithIndex< TImage >
+class ImageRandomIteratorWithIndex:public ImageRandomConstIteratorWithIndex< TImage >
 {
 public:
   /** Standard class typedefs. */

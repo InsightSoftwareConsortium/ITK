@@ -219,7 +219,7 @@ protected:
  * \ingroup ITKCommon
  */
 template< class TMapData >
-class ITK_EXPORT MapFileParser
+class MapFileParser
 {
 public:
   typedef typename TMapData::MemoryLoadType MemoryLoadType;
@@ -268,7 +268,7 @@ protected:
  * \ingroup ITKCommon
  */
 template< class TSmapsDataType >
-class ITK_EXPORT SmapsFileParser:public MapFileParser< TSmapsDataType >
+class SmapsFileParser:public MapFileParser< TSmapsDataType >
 {
 public:
   virtual ~SmapsFileParser();
@@ -286,7 +286,7 @@ public:
  * \ingroup ITKCommon
  */
 template< class TVMMapDataType >
-class ITK_EXPORT VMMapFileParser:public MapFileParser< TVMMapDataType >
+class VMMapFileParser:public MapFileParser< TVMMapDataType >
 {
 public:
   virtual ~VMMapFileParser();

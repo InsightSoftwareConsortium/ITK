@@ -43,7 +43,7 @@ namespace itk
  * \ingroup ITKLabelMap
  */
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT LabelMapToBinaryImageFilter:
+class LabelMapToBinaryImageFilter:
   public LabelMapFilter< TInputImage, TOutputImage >
 {
 public:

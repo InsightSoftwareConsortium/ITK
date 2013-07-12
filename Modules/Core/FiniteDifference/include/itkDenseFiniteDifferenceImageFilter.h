@@ -66,7 +66,7 @@ namespace itk
  * \ingroup ITKFiniteDifference
  */
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT DenseFiniteDifferenceImageFilter:
+class DenseFiniteDifferenceImageFilter:
   public FiniteDifferenceImageFilter< TInputImage, TOutputImage >
 {
 public:

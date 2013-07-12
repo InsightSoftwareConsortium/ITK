@@ -41,7 +41,7 @@ namespace itk
  */
 
 template< class TOutputImage >
-class ITK_EXPORT ImageSeriesReader:public ImageSource< TOutputImage >
+class ImageSeriesReader:public ImageSource< TOutputImage >
 {
 public:
   /** Standard class typedefs. */

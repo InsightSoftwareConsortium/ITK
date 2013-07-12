@@ -27,7 +27,7 @@ namespace itk
    * \brief Create instances of FreeSurferBinaryMeshIO objects using an object factory.
    * \ingroup ITKIOMesh
    */
-class ITK_EXPORT FreeSurferBinaryMeshIOFactory:public ObjectFactoryBase
+class FreeSurferBinaryMeshIOFactory:public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */

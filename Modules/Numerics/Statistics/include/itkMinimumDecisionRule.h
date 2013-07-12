@@ -34,7 +34,7 @@ namespace Statistics
  * \ingroup ITKStatistics
  */
 
-class ITK_EXPORT MinimumDecisionRule:public DecisionRule
+class MinimumDecisionRule:public DecisionRule
 {
 public:
   /** Standard class typedefs */

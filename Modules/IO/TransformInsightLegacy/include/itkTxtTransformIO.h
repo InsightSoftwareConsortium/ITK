@@ -26,7 +26,7 @@ namespace itk
    * \ingroup ITKIOTransformInsightLegacy
    */
 template<class ParametersValueType>
-class ITK_EXPORT TxtTransformIOTemplate:public TransformIOBaseTemplate<ParametersValueType>
+class TxtTransformIOTemplate:public TransformIOBaseTemplate<ParametersValueType>
 {
 public:
   typedef TxtTransformIOTemplate                        Self;

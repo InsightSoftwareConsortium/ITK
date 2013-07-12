@@ -30,7 +30,7 @@ namespace itk
  * \ingroup ITKQuadEdgeMesh
  */
 template< class TMesh, class TQEType >
-class ITK_EXPORT QuadEdgeMeshZipMeshFunction:
+class QuadEdgeMeshZipMeshFunction:
   public QuadEdgeMeshFunctionBase< TMesh, typename TQEType::OriginRefType >
 {
 public:

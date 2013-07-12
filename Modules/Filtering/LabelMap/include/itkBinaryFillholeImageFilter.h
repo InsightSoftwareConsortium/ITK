@@ -42,7 +42,7 @@ namespace itk {
  * \ingroup ITKLabelMap
  */
 template<class TInputImage>
-class ITK_EXPORT BinaryFillholeImageFilter :
+class BinaryFillholeImageFilter :
     public ImageToImageFilter<TInputImage, TInputImage>
 {
 public:

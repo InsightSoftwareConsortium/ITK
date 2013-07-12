@@ -74,7 +74,7 @@ template< typename TInputImage,
           typename TOutputImage =
             Image< Vector< typename TInputImage::PixelType, 3 >,
                    TInputImage::ImageDimension > >
-class ITK_EXPORT Compose3DVectorImageFilter:
+class Compose3DVectorImageFilter:
   public
   TernaryFunctorImageFilter< TInputImage, TInputImage,
                              TInputImage, TOutputImage,

@@ -61,7 +61,7 @@ namespace watershed
  * \ingroup ITKWatersheds
  */
 template< class TPixelType, unsigned int TDimension >
-class ITK_EXPORT BoundaryResolver:public ProcessObject
+class BoundaryResolver:public ProcessObject
 {
 public:
   /** Set up smart pointer and object factory definitions.   */

@@ -46,7 +46,7 @@ namespace itk
  * \ingroup GeometricTransform
  */
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT NonThreadedShrinkImageFilter:
+class NonThreadedShrinkImageFilter:
   public ShrinkImageFilter< TInputImage, TOutputImage >
 {
 public:

@@ -36,7 +36,7 @@ namespace itk
  */
 
 template< class TElement >
-class ITK_EXPORT RingBuffer : public Object
+class RingBuffer : public Object
 {
 public:
 

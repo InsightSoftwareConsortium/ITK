@@ -46,7 +46,7 @@ const char *const magicMAP = "MAP ";
  * \sa MetaDataDictionary
  * \ingroup ITKReview
  */
-class ITK_EXPORT MRCHeaderObject:
+class MRCHeaderObject:
   public itk::LightObject
 {
 public:

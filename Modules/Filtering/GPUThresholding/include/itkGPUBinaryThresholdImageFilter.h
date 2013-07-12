@@ -90,7 +90,7 @@ itkGPUKernelClassMacro(GPUBinaryThresholdImageFilterKernel);
 
 /** GPUBinaryThresholdImageFilter class definition */
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT GPUBinaryThresholdImageFilter :
+class GPUBinaryThresholdImageFilter :
   public
   GPUUnaryFunctorImageFilter< TInputImage, TOutputImage,
                               Functor::GPUBinaryThreshold<

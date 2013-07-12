@@ -67,7 +67,7 @@ namespace itk
 template< class TFixedImage, class TMovingImage, class TDisplacementField,
           class TParentImageFilter = itk::DemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
           >
-class ITK_EXPORT GPUDemonsRegistrationFilter :
+class GPUDemonsRegistrationFilter :
   public GPUPDEDeformableRegistrationFilter< TFixedImage, TMovingImage,
                                              TDisplacementField, TParentImageFilter >
 {

@@ -35,7 +35,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template< class TProbe >
-class ITK_EXPORT ResourceProbesCollectorBase
+class ResourceProbesCollectorBase
 {
 public:
   typedef std::string                IdType;

@@ -38,7 +38,7 @@ namespace itk
   itkGPUKernelClassMacro(GPUReductionKernel);
 
 template< class TElement >
-class ITK_EXPORT GPUReduction :
+class GPUReduction :
   public Object
 {
 public:

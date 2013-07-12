@@ -50,7 +50,7 @@ namespace itk {
  * \ingroup ITKLabelMap
  */
 template<class TImage>
-class ITK_EXPORT LabelSelectionLabelMapFilter :
+class LabelSelectionLabelMapFilter :
     public AttributeSelectionLabelMapFilter<TImage, typename Functor::LabelLabelObjectAccessor< typename TImage::LabelObjectType > >
 {
 public:

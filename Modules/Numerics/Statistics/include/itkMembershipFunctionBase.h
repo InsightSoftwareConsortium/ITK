@@ -54,7 +54,7 @@ namespace Statistics
  */
 
 template< class TVector >
-class ITK_EXPORT MembershipFunctionBase:
+class MembershipFunctionBase:
   public FunctionBase< TVector, double >
 {
 public:

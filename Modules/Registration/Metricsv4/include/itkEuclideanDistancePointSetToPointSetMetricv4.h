@@ -39,7 +39,7 @@ namespace itk
  * \ingroup ITKMetricsv4
  */
 template<class TFixedPointSet, class TMovingPointSet = TFixedPointSet>
-class ITK_EXPORT EuclideanDistancePointSetToPointSetMetricv4:
+class EuclideanDistancePointSetToPointSetMetricv4:
   public PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
 {
 public:

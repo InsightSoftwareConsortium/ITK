@@ -27,7 +27,7 @@ namespace itk
    * \brief Create instances of OBJMeshIO objects using an object factory.
    * \ingroup ITKIOMesh
    */
-class ITK_EXPORT OBJMeshIOFactory:public ObjectFactoryBase
+class OBJMeshIOFactory:public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */

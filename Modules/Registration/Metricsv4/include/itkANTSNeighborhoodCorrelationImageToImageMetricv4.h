@@ -94,7 +94,7 @@ template<class TFixedImage, class TMovingImage, class TVirtualImage = TFixedImag
           class TInternalComputationValueType = double,
           class TMetricTraits = DefaultImageToImageMetricTraitsv4<TFixedImage,TMovingImage,TVirtualImage,TInternalComputationValueType>
           >
-class ITK_EXPORT ANTSNeighborhoodCorrelationImageToImageMetricv4 :
+class ANTSNeighborhoodCorrelationImageToImageMetricv4 :
   public ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 {
 public:

@@ -64,7 +64,7 @@ namespace itk
  * \endwiki
  */
 template< class TInputImage, class TOutputImage, class TKernel >
-class ITK_EXPORT BinaryErodeImageFilter:
+class BinaryErodeImageFilter:
   public BinaryMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
 {
 public:

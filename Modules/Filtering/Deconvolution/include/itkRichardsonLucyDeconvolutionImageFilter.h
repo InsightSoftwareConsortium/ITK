@@ -56,7 +56,7 @@ namespace itk
  *
  */
 template< class TInputImage, class TKernelImage=TInputImage, class TOutputImage=TInputImage, class TInternalPrecision=double >
-class ITK_EXPORT RichardsonLucyDeconvolutionImageFilter :
+class RichardsonLucyDeconvolutionImageFilter :
     public IterativeDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
 {
 public:

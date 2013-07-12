@@ -38,7 +38,7 @@ namespace itk
  */
 
 template< class T >
-class ITK_EXPORT GreenPixelAccessor
+class GreenPixelAccessor
 {
 public:
   /** Standard class typedefs. */

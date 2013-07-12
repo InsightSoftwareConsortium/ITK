@@ -52,7 +52,7 @@ namespace itk
  * \ingroup ITKQuadEdgeMesh
  */
 template< class TMesh, class TOutput >
-class ITK_EXPORT QuadEdgeMeshFunctionBase:public Object
+class QuadEdgeMeshFunctionBase:public Object
 {
 public:
   /** Standard class typedefs. */

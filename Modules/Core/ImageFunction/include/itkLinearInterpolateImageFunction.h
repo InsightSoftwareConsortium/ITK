@@ -45,7 +45,7 @@ namespace itk
  * \endwiki
  */
 template< class TInputImage, class TCoordRep = double >
-class ITK_EXPORT LinearInterpolateImageFunction:
+class LinearInterpolateImageFunction:
   public InterpolateImageFunction< TInputImage, TCoordRep >
 {
 public:

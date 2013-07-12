@@ -58,7 +58,7 @@ namespace itk
 template< class TInputImage,
   class TOutputImage,
   class TVoronoiImage = TInputImage >
-class ITK_EXPORT DanielssonDistanceMapImageFilter:
+class DanielssonDistanceMapImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

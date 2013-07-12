@@ -36,7 +36,7 @@ namespace itk
  * \endwiki
  */
 template< class TImage >
-class ITK_EXPORT RGBToVectorImageAdaptor:public
+class RGBToVectorImageAdaptor:public
   ImageAdaptor< TImage,
                 Accessor::RGBToVectorPixelAccessor<
                   typename TImage::PixelType::ComponentType

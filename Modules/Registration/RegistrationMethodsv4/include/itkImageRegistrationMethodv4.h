@@ -86,7 +86,7 @@ namespace itk
  * \ingroup ITKRegistrationMethodsv4
  */
 template<typename TFixedImage, typename TMovingImage, typename TOutputTransform>
-class ITK_EXPORT ImageRegistrationMethodv4
+class ImageRegistrationMethodv4
 :public ProcessObject
 {
 public:

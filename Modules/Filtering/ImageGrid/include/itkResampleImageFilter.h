@@ -84,7 +84,7 @@ template< class TInputImage,
           class TOutputImage,
           class TInterpolatorPrecisionType = double,
           class TTransformPrecisionType = TInterpolatorPrecisionType>
-class ITK_EXPORT ResampleImageFilter :
+class ResampleImageFilter :
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

@@ -40,7 +40,7 @@ namespace itk
  * \endwiki
  */
 template< class TInputImage, class TOutput = double >
-class ITK_EXPORT GaussianBlurImageFunction:
+class GaussianBlurImageFunction:
   public ImageFunction< TInputImage, TOutput >
 {
 public:

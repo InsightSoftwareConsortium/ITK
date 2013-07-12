@@ -37,7 +37,7 @@ namespace itk
  * \ingroup ITKQuadEdgeMeshFiltering
  */
 template< class TInput, class TOutput, class TCriterion >
-class ITK_EXPORT EdgeDecimationQuadEdgeMeshFilter:
+class EdgeDecimationQuadEdgeMeshFilter:
   public DecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >
 {
 public:

@@ -62,7 +62,7 @@ class ProgressReporter;
  * \ingroup ITKImageGrid
  */
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT BSplineCenteredResampleImageFilterBase:
+class BSplineCenteredResampleImageFilterBase:
   public BSplineResampleImageFilterBase< TInputImage, TOutputImage >
 {
 public:

@@ -48,7 +48,7 @@ namespace itk
  * \ingroup Numerics Optimizers
  * \ingroup ITKOptimizers
  */
-class ITK_EXPORT VersorTransformOptimizer:
+class VersorTransformOptimizer:
   public RegularStepGradientDescentBaseOptimizer
 {
 public:

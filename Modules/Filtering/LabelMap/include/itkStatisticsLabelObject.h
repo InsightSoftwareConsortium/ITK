@@ -38,7 +38,7 @@ namespace itk
  * \ingroup ITKLabelMap
  */
 template< class TLabel, unsigned int VImageDimension >
-class ITK_EXPORT StatisticsLabelObject:public ShapeLabelObject< TLabel, VImageDimension >
+class StatisticsLabelObject:public ShapeLabelObject< TLabel, VImageDimension >
 {
 public:
   /** Standard class typedefs */

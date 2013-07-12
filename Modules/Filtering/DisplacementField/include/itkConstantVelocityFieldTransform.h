@@ -34,7 +34,7 @@ namespace itk
  */
 template
 <class TScalar, unsigned int NDimensions>
-class ITK_EXPORT ConstantVelocityFieldTransform :
+class ConstantVelocityFieldTransform :
   public DisplacementFieldTransform<TScalar, NDimensions>
 {
 public:

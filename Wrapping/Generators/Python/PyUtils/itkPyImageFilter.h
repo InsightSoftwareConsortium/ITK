@@ -36,7 +36,7 @@ namespace itk
 
 
 template <class TInputImage, class TOutputImage>
-class ITK_EXPORT PyImageFilter : public ImageToImageFilter<TInputImage,TOutputImage>
+class PyImageFilter : public ImageToImageFilter<TInputImage,TOutputImage>
 {
 public:
   /** Standard class typedefs. */

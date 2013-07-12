@@ -21,7 +21,7 @@
 
 /* Create a simple metric to use for testing here. */
 template< class TFixedObject,  class TMovingObject >
-class ITK_EXPORT ObjectToObjectOptimizerBaseTestMetric:
+class ObjectToObjectOptimizerBaseTestMetric:
   public itk::ObjectToObjectMetricBase
 {
 public:

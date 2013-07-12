@@ -55,7 +55,7 @@ namespace itk
  * energy values again and again for each iteration.
  * \ingroup ITKBiasCorrection
  */
-class ITK_EXPORT CacheableScalarFunction
+class CacheableScalarFunction
 {
 public:
   /** Constructor. */

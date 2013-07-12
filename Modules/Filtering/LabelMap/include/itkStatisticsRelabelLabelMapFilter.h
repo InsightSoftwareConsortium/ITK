@@ -42,7 +42,7 @@ namespace itk
  * \ingroup ITKLabelMap
  */
 template< class TImage >
-class ITK_EXPORT StatisticsRelabelLabelMapFilter:
+class StatisticsRelabelLabelMapFilter:
   public ShapeRelabelLabelMapFilter< TImage >
 {
 public:

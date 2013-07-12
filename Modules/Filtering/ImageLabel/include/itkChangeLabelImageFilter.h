@@ -109,7 +109,7 @@ private:
 }
 
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT ChangeLabelImageFilter:
+class ChangeLabelImageFilter:
   public
   UnaryFunctorImageFilter< TInputImage, TOutputImage,
                            Functor::ChangeLabel<

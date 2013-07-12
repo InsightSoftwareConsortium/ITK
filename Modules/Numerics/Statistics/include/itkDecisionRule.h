@@ -44,7 +44,7 @@ namespace Statistics
  *  \ingroup ITKStatistics
  */
 
-class ITK_EXPORT DecisionRule : public Object
+class DecisionRule : public Object
 {
 public:
   /** Standard class typedefs */

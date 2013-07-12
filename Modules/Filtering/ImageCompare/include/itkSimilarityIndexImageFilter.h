@@ -57,7 +57,7 @@ namespace itk
  * \ingroup ITKImageCompare
  */
 template< class TInputImage1, class TInputImage2 >
-class ITK_EXPORT SimilarityIndexImageFilter:
+class SimilarityIndexImageFilter:
   public ImageToImageFilter< TInputImage1, TInputImage1 >
 {
 public:

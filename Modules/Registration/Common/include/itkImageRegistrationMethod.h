@@ -67,7 +67,7 @@ namespace itk
  * \endwiki
  */
 template< typename TFixedImage, typename TMovingImage >
-class ITK_EXPORT ImageRegistrationMethod:public ProcessObject
+class ImageRegistrationMethod:public ProcessObject
 {
 public:
   /** Standard class typedefs. */

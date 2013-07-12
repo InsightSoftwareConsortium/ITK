@@ -63,7 +63,7 @@ public:
  */
 template< class TInputImage1, class TInputImage2,
           class TInputImage3, class TOutputImage >
-class ITK_EXPORT TernaryAddImageFilter:
+class TernaryAddImageFilter:
   public
   TernaryFunctorImageFilter< TInputImage1, TInputImage2,
                              TInputImage3, TOutputImage,

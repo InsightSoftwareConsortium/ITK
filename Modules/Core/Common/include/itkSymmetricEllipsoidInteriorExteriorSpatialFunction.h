@@ -37,7 +37,7 @@ namespace itk
  */
 template< unsigned int VDimension = 3,
           typename TInput = Point< double, VDimension > >
-class ITK_EXPORT SymmetricEllipsoidInteriorExteriorSpatialFunction:
+class SymmetricEllipsoidInteriorExteriorSpatialFunction:
   public InteriorExteriorSpatialFunction< VDimension, TInput >
 {
 public:

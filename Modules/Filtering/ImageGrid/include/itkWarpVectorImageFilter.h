@@ -89,7 +89,7 @@ template<
   class TOutputImage,
   class TDisplacementField
   >
-class ITK_EXPORT WarpVectorImageFilter:
+class WarpVectorImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

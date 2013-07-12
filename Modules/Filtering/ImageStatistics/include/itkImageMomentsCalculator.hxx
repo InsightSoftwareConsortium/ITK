@@ -25,7 +25,7 @@
 
 namespace itk
 {
-class ITK_EXPORT InvalidImageMomentsError:public ExceptionObject
+class InvalidImageMomentsError:public ExceptionObject
 {
 public:
   /**

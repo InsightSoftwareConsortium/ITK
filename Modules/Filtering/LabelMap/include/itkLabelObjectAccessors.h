@@ -35,7 +35,7 @@ namespace itk
 namespace Functor
 {
 template< class TLabelObject >
-class ITK_EXPORT LabelLabelObjectAccessor
+class LabelLabelObjectAccessor
 {
 public:
   typedef TLabelObject                        LabelObjectType;
@@ -48,7 +48,7 @@ public:
 };
 
 template< class TLabelObject >
-class ITK_EXPORT NumberOfLinesLabelObjectAccessor
+class NumberOfLinesLabelObjectAccessor
 {
 public:
   typedef TLabelObject LabelObjectType;

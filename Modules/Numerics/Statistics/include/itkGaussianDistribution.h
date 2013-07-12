@@ -57,7 +57,7 @@ namespace Statistics
  * \wikiexample{Statistics/GaussianDistribution,Create a Gaussian distribution}
  * \endwiki
  */
-class ITK_EXPORT GaussianDistribution:
+class GaussianDistribution:
   public ProbabilityDistribution
 {
 public:

@@ -118,7 +118,7 @@ private:
  * \endwiki
  */
 template< typename  TInputImage, typename  TOutputImage = TInputImage >
-class ITK_EXPORT RescaleIntensityImageFilter:
+class RescaleIntensityImageFilter:
   public
   UnaryFunctorImageFilter< TInputImage, TOutputImage,
                            Functor::IntensityLinearTransform<

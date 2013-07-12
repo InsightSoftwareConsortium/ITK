@@ -67,7 +67,7 @@ public:
 }
 
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT BoundedReciprocalImageFilter:
+class BoundedReciprocalImageFilter:
   public
   UnaryFunctorImageFilter< TInputImage, TOutputImage,
                            Functor::BoundedReciprocal<

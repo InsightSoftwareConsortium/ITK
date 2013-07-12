@@ -64,7 +64,7 @@ namespace itk
  * \endwiki
  */
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT ShrinkImageFilter:
+class ShrinkImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

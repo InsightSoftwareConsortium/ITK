@@ -45,7 +45,7 @@ namespace itk {
  */
 
 template <class TInputImage, class TOutputImage>
-class ITK_EXPORT NullImageToImageFilterDriver
+class NullImageToImageFilterDriver
 {
 public:
   NullImageToImageFilterDriver() {};

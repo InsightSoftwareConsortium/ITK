@@ -40,7 +40,7 @@ namespace bio
  * \ingroup ITKBioCell
  */
 template< unsigned int NSpaceDimension = 3 >
-class ITK_EXPORT CellularAggregate:public CellularAggregateBase
+class CellularAggregate:public CellularAggregateBase
 {
 public:
   /** Standard class typedefs. */

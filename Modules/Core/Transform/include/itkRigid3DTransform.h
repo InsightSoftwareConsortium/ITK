@@ -55,7 +55,7 @@ namespace itk
  */
 template< class TScalarType = double >
 // type for scalars (float or double)
-class ITK_EXPORT Rigid3DTransform:
+class Rigid3DTransform:
   public MatrixOffsetTransformBase< TScalarType, 3, 3 >
 {
 public:

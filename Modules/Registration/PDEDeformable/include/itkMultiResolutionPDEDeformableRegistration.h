@@ -78,7 +78,7 @@ namespace itk
  * \ingroup ITKPDEDeformableRegistration
  */
 template< class TFixedImage, class TMovingImage, class TDisplacementField, class TRealType = float >
-class ITK_EXPORT MultiResolutionPDEDeformableRegistration:
+class MultiResolutionPDEDeformableRegistration:
   public ImageToImageFilter< TDisplacementField, TDisplacementField >
 {
 public:

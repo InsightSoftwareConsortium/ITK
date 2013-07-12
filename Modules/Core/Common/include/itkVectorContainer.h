@@ -48,7 +48,7 @@ template<
   typename TElementIdentifier,
   typename TElement
   >
-class ITK_EXPORT VectorContainer:
+class VectorContainer:
   public Object,
   private std::vector< TElement >
 {

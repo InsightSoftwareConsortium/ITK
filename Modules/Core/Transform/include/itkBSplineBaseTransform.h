@@ -32,7 +32,7 @@ namespace itk
  */
 template <class TScalarType = double, unsigned int NDimensions = 3,
           unsigned int VSplineOrder = 3>
-class ITK_EXPORT BSplineBaseTransform :
+class BSplineBaseTransform :
   public Transform<TScalarType, NDimensions, NDimensions>
 {
 public:

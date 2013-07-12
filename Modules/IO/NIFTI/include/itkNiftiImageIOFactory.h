@@ -28,7 +28,7 @@ namespace itk
    * \brief Create instances of NiftiImageIO objects using an object factory.
    * \ingroup ITKIONIFTI
    */
-class ITK_EXPORT NiftiImageIOFactory:public ObjectFactoryBase
+class NiftiImageIOFactory:public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */

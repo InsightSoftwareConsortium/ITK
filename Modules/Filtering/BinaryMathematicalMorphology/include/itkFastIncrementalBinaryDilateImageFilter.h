@@ -49,7 +49,7 @@ namespace itk
  * \ingroup ITKBinaryMathematicalMorphology
  */
 template< class TInputImage, class TOutputImage, class TKernel >
-class ITK_EXPORT FastIncrementalBinaryDilateImageFilter:
+class FastIncrementalBinaryDilateImageFilter:
   public BinaryDilateImageFilter< TInputImage, TOutputImage, TKernel >
 {
 public:

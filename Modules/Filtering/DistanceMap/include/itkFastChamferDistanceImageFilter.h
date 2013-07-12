@@ -52,7 +52,7 @@ namespace itk
  */
 
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT FastChamferDistanceImageFilter:
+class FastChamferDistanceImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

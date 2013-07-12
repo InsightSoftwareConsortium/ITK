@@ -49,7 +49,7 @@ namespace itk
  * \ingroup ITKPath
  */
 template< class TFourierSeriesPath, class TSwathMeritImage >
-class ITK_EXPORT OrthogonalSwath2DPathFilter:public
+class OrthogonalSwath2DPathFilter:public
   PathAndImageToPathFilter< TFourierSeriesPath, TSwathMeritImage,
                             OrthogonallyCorrected2DParametricPath >
 {

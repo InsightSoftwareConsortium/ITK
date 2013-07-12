@@ -175,7 +175,7 @@ namespace itk
  */
 template< class TInputImage, class TFeatureImage, class TOutputImage, class TFunction,
           typename TIdCell = unsigned int >
-class ITK_EXPORT MultiphaseSparseFiniteDifferenceImageFilter:
+class MultiphaseSparseFiniteDifferenceImageFilter:
   public MultiphaseFiniteDifferenceImageFilter< TInputImage,
                                                 TFeatureImage, TOutputImage, TFunction, TIdCell >
 {

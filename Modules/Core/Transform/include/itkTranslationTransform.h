@@ -45,7 +45,7 @@ template <
                                        // double)
   unsigned int NDimensions = 3>
 // Number of dimensions
-class ITK_EXPORT TranslationTransform :
+class TranslationTransform :
   public Transform<TScalarType, NDimensions, NDimensions>
 {
 public:

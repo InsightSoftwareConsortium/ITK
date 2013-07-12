@@ -23,7 +23,7 @@
 namespace itk
 {
 template< class TImage, class TKernel >
-class ITK_EXPORT AnchorOpenImageFilter:
+class AnchorOpenImageFilter:
   public AnchorOpenCloseImageFilter< TImage, TKernel, std::less< typename TImage::PixelType >,
                                      std::greater< typename TImage::PixelType > >
 

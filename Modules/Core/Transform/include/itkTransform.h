@@ -79,7 +79,7 @@ namespace itk
 template <class TScalarType,
           unsigned int NInputDimensions = 3,
           unsigned int NOutputDimensions = 3>
-class ITK_EXPORT Transform : public TransformBaseTemplate<TScalarType>
+class Transform : public TransformBaseTemplate<TScalarType>
 {
 public:
   /** Standard class typedefs. */

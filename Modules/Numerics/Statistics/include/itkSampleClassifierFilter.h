@@ -41,7 +41,7 @@ namespace Statistics
  */
 
 template< class TSample >
-class ITK_EXPORT SampleClassifierFilter:
+class SampleClassifierFilter:
   public ProcessObject
 {
 public:

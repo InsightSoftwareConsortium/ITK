@@ -53,7 +53,7 @@ namespace Statistics
  */
 
 template< class TSample >
-class ITK_EXPORT MembershipSample:public DataObject
+class MembershipSample:public DataObject
 {
 public:
   /** Standard class typedefs. */

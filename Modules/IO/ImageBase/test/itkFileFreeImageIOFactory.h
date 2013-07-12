@@ -25,7 +25,7 @@ namespace itk
 /** \class FileFreeImageIOFactory
  * \brief Create instances of FileFreeImageIO objects using an object factory.
  */
-class ITK_EXPORT FileFreeImageIOFactory : public ObjectFactoryBase
+class FileFreeImageIOFactory : public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */

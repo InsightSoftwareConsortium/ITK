@@ -51,7 +51,7 @@ namespace itk
  * \endwiki
  */
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT RegionalMaximaImageFilter:
+class RegionalMaximaImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

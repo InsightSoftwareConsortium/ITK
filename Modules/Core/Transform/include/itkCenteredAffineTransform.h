@@ -34,7 +34,7 @@ template <
   class TScalarType = double,      // Data type for scalars
   unsigned int NDimensions = 3>
 // Number of dimensions in the input space
-class ITK_EXPORT CenteredAffineTransform : public AffineTransform<TScalarType,
+class CenteredAffineTransform : public AffineTransform<TScalarType,
                                                                   NDimensions>
 {
 public:

@@ -141,7 +141,7 @@ private:
  * \endwiki
  */
 template< class TInputImage, class TMaskImage, class TOutputImage = TInputImage >
-class ITK_EXPORT MaskImageFilter:
+class MaskImageFilter:
   public
   BinaryFunctorImageFilter< TInputImage, TMaskImage, TOutputImage,
                             Functor::MaskInput<

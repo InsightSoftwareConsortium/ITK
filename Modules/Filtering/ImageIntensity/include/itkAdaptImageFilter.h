@@ -120,7 +120,7 @@ private:
  * \ingroup ITKImageIntensity
  */
 template< class TInputImage, class TOutputImage, class TAccessor >
-class ITK_EXPORT AdaptImageFilter:
+class AdaptImageFilter:
   public UnaryFunctorImageFilter< TInputImage, TOutputImage,
                                   Functor::AccessorFunctor< typename TInputImage::PixelType, TAccessor > >
 {

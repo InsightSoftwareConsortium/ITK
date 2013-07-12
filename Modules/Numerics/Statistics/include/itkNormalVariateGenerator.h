@@ -94,7 +94,7 @@ namespace Statistics
  * \ingroup Statistics
  * \ingroup ITKStatistics
  */
-class ITK_EXPORT NormalVariateGenerator:
+class NormalVariateGenerator:
   public RandomVariateGeneratorBase
 {
 public:

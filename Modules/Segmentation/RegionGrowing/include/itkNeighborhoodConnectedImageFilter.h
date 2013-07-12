@@ -33,7 +33,7 @@ namespace itk
  * \ingroup ITKRegionGrowing
  */
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT NeighborhoodConnectedImageFilter:
+class NeighborhoodConnectedImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

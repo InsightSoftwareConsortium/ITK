@@ -31,7 +31,7 @@ namespace itk
  *
  * \ingroup ITKIOPNG
  */
-class ITK_EXPORT PNGImageIO:public ImageIOBase
+class PNGImageIO:public ImageIOBase
 {
 public:
   /** Standard class typedefs. */

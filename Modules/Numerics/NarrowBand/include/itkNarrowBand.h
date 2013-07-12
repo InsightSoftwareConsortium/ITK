@@ -45,7 +45,7 @@ public:
  * \ingroup ITKNarrowBand
  */
 template< class NodeType >
-class ITK_EXPORT NarrowBand:public LightObject
+class NarrowBand:public LightObject
 {
 public:
   /** Standard class typedefs */

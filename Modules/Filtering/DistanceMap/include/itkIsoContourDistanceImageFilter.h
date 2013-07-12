@@ -54,7 +54,7 @@ namespace itk
  * \ingroup ITKDistanceMap
  */
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT IsoContourDistanceImageFilter:
+class IsoContourDistanceImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

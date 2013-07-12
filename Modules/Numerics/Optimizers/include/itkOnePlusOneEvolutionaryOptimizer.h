@@ -67,7 +67,7 @@ namespace itk
  * \ingroup ITKOptimizers
  */
 
-class ITK_EXPORT OnePlusOneEvolutionaryOptimizer:
+class OnePlusOneEvolutionaryOptimizer:
   public SingleValuedNonLinearOptimizer
 {
 public:

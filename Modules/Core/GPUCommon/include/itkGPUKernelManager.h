@@ -42,7 +42,7 @@ namespace itk
  * \ingroup ITKGPUCommon
  */
 
-class ITK_EXPORT GPUKernelManager : public LightObject
+class GPUKernelManager : public LightObject
 {
 public:
 
