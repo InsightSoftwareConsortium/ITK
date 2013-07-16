@@ -110,6 +110,7 @@ function(check_compiler_warning_flags c_warning_flags_var cxx_warning_flags_var)
     -Wwrite-strings
     -funit-at-a-time
     -Wno-strict-overflow
+    -Wno-unused-local-typedefs
   )
 
   # Check this list on C++ compiler only
