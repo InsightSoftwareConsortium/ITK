@@ -40,6 +40,19 @@ void itkPNGWriteWarningFunction( png_structp itkNotUsed(png_ptr),
 {}
 }
 
+namespace
+{
+// Wrap setjmp call to avoid warnings about variable clobbering.
+bool wrapSetjmp( png_structp & png_ptr )
+{
+  if( setjmp( png_jmpbuf( png_ptr ) ) )
+    {
+    return 1;
+    }
+  return 0;
+}
+}
+
 // simple class to call fopen on construct and
 // fclose on destruct
 class PNGFileWrapper
@@ -190,7 +203,7 @@ void PNGImageIO::Read(void *buffer)
 
   //  VS 7.1 has problems with setjmp/longjmp in C++ code
 #if !defined( MSC_VER ) || _MSC_VER != 1310
-  if ( setjmp( png_jmpbuf(png_ptr) ) )
+  if ( wrapSetjmp( png_ptr ) )
     {
     png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);
     itkExceptionMacro( "File is not png type " << this->GetFileName() );
@@ -526,7 +539,7 @@ void PNGImageIO::WriteSlice(const std::string & fileName, const void *buffer)
 #if !defined( _MSC_VER ) || _MSC_VER != 1310
   png_set_error_fn(png_ptr, png_ptr,
                    itkPNGWriteErrorFunction, itkPNGWriteWarningFunction);
-  if ( setjmp(png_jmpbuf(png_ptr)) )
+  if ( wrapSetjmp( png_ptr) )
     {
     fclose(fp);
     itkExceptionMacro( "Error while writing Slice to file: "
