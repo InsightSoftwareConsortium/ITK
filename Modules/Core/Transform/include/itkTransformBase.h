@@ -36,7 +36,7 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template  <class ScalarType>
+template< class ScalarType >
 class TransformBaseTemplate:public Object
 {
 public:
