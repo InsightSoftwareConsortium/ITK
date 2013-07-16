@@ -35,26 +35,26 @@
     **-->
     <Description>
       <![CDATA[
-      WIP: Float Type for Transform Classes and Registration Framework of ITKv4
+      Float Type for Transform Classes and Registration Framework of ITKv4
 
       The current registration framework of ITK just can process data using double
       precision. However, in some cases using &apos;float&apos; type is enough for the
       precision of computations.
 
-      This feature allows CPU to process more data in its cache in a limited
-      period of time, so it can increase the computations speed.
+      This feature allows the CPU to process more data in its cache in a limited
+      period of time, so it can increase the computation speed.
       Also, writing outputs to the disk using single precision needs much less memory
-      rather than we save them by values in double precision.
-      Saving the memory space is specially important when our outputs are huge
-      files that need hundreds of giga bytes of memory disk. An example of
-      such outputs is transforms files that contain several deformation fields.
+      than when we save them in double precision.
+      Saving memory space is especially important when our outputs are huge
+      files that need hundreds of gigabytes of disk space. An example of
+      such outputs are transform files that contain several deformation fields.
 
-      We need a lot of changes in several files of ITK to make that consistent
+      We need many changes in several files of ITK to make that consistent
       with this new feature.
-      The following provides a short describtion of the main obstacles and the
+      The following provides a short description of the main obstacles and the
       ways that are used to tackle them:
 
-      I) One of the main obstacles to do the compuatations in single precision
+      I) One of the main obstacles to computation in single precision
       is the definition of &quot;ParametersValueType&quot; in the &quot;itkTransformBase&quot; class,
       which is hard coded to &apos;double&apos;.
 
@@ -68,7 +68,7 @@
 
       &gt;&gt; typedef TransformBaseTemplate&amp;lt;double&gt; TransformBase;
 
-      At the next levels of the hierarchy, we are not worried about the other
+      At the lower levels of the class hierarchy, we are not worried about the other
       transform classes because they are already defined as a template over
       the &apos;ScalarType&apos;, so the backward compatibility issues are automatically
       solved for them.
@@ -85,14 +85,12 @@
       Therefore, I changed all the Metric and Optimizer classes the same way that
       I did for transform IO classes.
 
-      All these classes are modified in a way that minimum changes be needed
+      All these classes are modified in a way such that minimal changes are needed
       from the original version of ITK.
       In many of them just a new template parameter is added as
       &quot;TInternalComputationValueType&quot; that is set to double as default.
 
-      PS: The new template versions of metric and optimizer classes are just
-      added to ITKv4.
-
+      PS: New templated versions of metric and optimizer classes we added in ITK 4.0.
       ]]>
     </Description>
 

@@ -32,11 +32,14 @@ namespace itk
 {
 /** \class itkTransformBaseTemplate
  *
- * This class is an abstract class to represent the transform. This class is defined as a template over scalar type.
+ * This class is an abstract class to represent a spatial transform.
+ *
+ * This class is templated over the scalar type used to store the transform's
+ * parameters.
  *
  * \ingroup ITKTransform
  */
-template  <class ScalarType>
+template< class ScalarType >
 class TransformBaseTemplate:public Object
 {
 public:
@@ -112,7 +115,7 @@ private:
 };
 
 /** This helps to meet backward compatibility */
-typedef TransformBaseTemplate<double> TransformBase;
+typedef TransformBaseTemplate< double > TransformBase;
 
 } // end namespace itk
 

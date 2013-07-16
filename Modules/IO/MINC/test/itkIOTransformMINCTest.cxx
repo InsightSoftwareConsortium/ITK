@@ -27,8 +27,8 @@
 #include "itkDisplacementFieldTransform.h"
 #include "itkIOTestHelper.h"
 
-void RandomPix(vnl_random &randgen,itk::Vector<double,3> &pix,
-                      double _max=itk::NumericTraits<double>::max() )
+template<class T>void RandomPix(vnl_random &randgen,itk::Vector<T,3> &pix,
+                      double _max=itk::NumericTraits<T>::max() )
 {
   for(unsigned int i = 0; i < 3; i++)
     {
@@ -36,25 +36,10 @@ void RandomPix(vnl_random &randgen,itk::Vector<double,3> &pix,
     }
 }
 
-double abs_diff(const itk::Vector<double> &pix1,const itk::Vector<double> &pix2)
+
+static int check_linear(const char *linear_transform)
 {
-  double diff=0.0;
-
-  for(int i=0; i<3; i++)
-    {
-    diff += fabs(pix1[i]-pix2[i]);
-    }
-  return diff;
-}
-
-static int oneTest(const char *linear_transform, const char *nonlinear_transform)
-{
-  unsigned int i;
-  double tolerance=1e-5;
-
   typedef itk::AffineTransform<double,3>                    AffineTransformType;
-  typedef itk::DisplacementFieldTransform<double,3>         DisplacementFieldTransform;
-  typedef DisplacementFieldTransform::DisplacementFieldType DisplacementFieldType;
 
   AffineTransformType::Pointer        affine = AffineTransformType::New();
   AffineTransformType::InputPointType cor;
@@ -63,16 +48,16 @@ static int oneTest(const char *linear_transform, const char *nonlinear_transform
 
   // Set it's parameters
   AffineTransformType::ParametersType p = affine->GetParameters();
-  for ( i = 0; i < p.GetSize(); i++ )
-  {
+  for( unsigned int i = 0; i < p.GetSize(); ++i )
+    {
     p[i] = i;
-  }
+    }
   affine->SetParameters ( p );
   p = affine->GetFixedParameters ();
-  for ( i = 0; i < p.GetSize(); i++ )
-  {
+  for( unsigned int i = 0; i < p.GetSize(); ++i )
+    {
     p[i] = i;
-  }
+    }
   affine->SetFixedParameters ( p );
   itk::TransformFileWriter::Pointer writer;
   itk::TransformFileReader::Pointer reader;
@@ -120,6 +105,16 @@ static int oneTest(const char *linear_transform, const char *nonlinear_transform
     return EXIT_FAILURE;
   }
 
+  return EXIT_SUCCESS;
+}
+
+static int check_nonlinear_double(const char *nonlinear_transform)
+{
+  const double tolerance = 1e-5;
+
+  typedef itk::DisplacementFieldTransform<double,3>         DisplacementFieldTransform;
+  typedef DisplacementFieldTransform::DisplacementFieldType DisplacementFieldType;
+
   DisplacementFieldTransform::Pointer disp = DisplacementFieldTransform::New();
   DisplacementFieldType::Pointer field=DisplacementFieldType::New();
 
@@ -152,10 +147,14 @@ static int oneTest(const char *linear_transform, const char *nonlinear_transform
   for(it.GoToBegin(); !it.IsAtEnd(); ++it)
     {
     DisplacementFieldType::PixelType pix;
-     if(tolerance>0.0)
-      RandomPix(randgen,pix,100);
+     if( tolerance > 0.0 )
+       {
+       RandomPix<double>(randgen,pix,100);
+       }
      else
-      RandomPix(randgen,pix);
+       {
+       RandomPix<double>(randgen,pix);
+       }
     it.Set(pix);
     }
 
@@ -173,22 +172,22 @@ static int oneTest(const char *linear_transform, const char *nonlinear_transform
   nlreader->SetFileName(nonlinear_transform);
 
   // Testing writing
-  std::cout << "Testing write of non linear transform : " << std::endl;
+  std::cout << "Testing write of non linear transform (double) : " << std::endl;
 
   try
-  {
+    {
     nlwriter->Update();
-  }
+    }
   catch( itk::ExceptionObject & excp )
-  {
+    {
     std::cerr << "Error while saving the transforms" << std::endl;
     std::cerr << excp << std::endl;
     std::cout << "[FAILED]" << std::endl;
     return EXIT_FAILURE;
-  }
+    }
 
   // Testing writing
-  std::cout << "Testing read of non linear transform : " << std::endl;
+  std::cout << "Testing read of non linear transform (double): " << std::endl;
   try
     {
     nlreader->Update();
@@ -202,7 +201,7 @@ static int oneTest(const char *linear_transform, const char *nonlinear_transform
     }
   std::cout << "[PASSED]" << std::endl;
 
-  std::cout << "Comparing of non linear transform : " << std::endl;
+  std::cout << "Comparing of non linear transform (double) : " << std::endl;
   itk::TransformFileReader::TransformListType list=*nlreader->GetTransformList();
   std::cout<<"Read :"<<list.size()<<" transformations"<<std::endl;
 
@@ -231,7 +230,7 @@ static int oneTest(const char *linear_transform, const char *nonlinear_transform
     } else { //account for rounding errors
     for( it.GoToBegin(),it2.GoToBegin(); !it.IsAtEnd() && !it2.IsAtEnd(); ++it,++it2 )
       {
-      if( abs_diff(it.Value(),it2.Value() ) > tolerance)
+      if( ( it.Value() - it2.Value() ).GetSquaredNorm() > tolerance)
         {
         std::cout << "Original Pixel (" << it.Value()
                   << ") doesn't match read-in Pixel ("
@@ -246,7 +245,148 @@ static int oneTest(const char *linear_transform, const char *nonlinear_transform
   return EXIT_SUCCESS;
 }
 
-int secondTest()
+
+static int check_nonlinear_float(const char *nonlinear_transform)
+{
+  double tolerance=1e-5;
+
+  typedef itk::TransformFileWriterTemplate<float> TransformFileWriterFloat;
+  typedef itk::TransformFileReaderTemplate<float> TransformFileReaderFloat;
+
+  typedef itk::DisplacementFieldTransform<float,3>         DisplacementFieldTransform;
+  typedef DisplacementFieldTransform::DisplacementFieldType DisplacementFieldType;
+
+  DisplacementFieldTransform::Pointer disp = DisplacementFieldTransform::New();
+  DisplacementFieldType::Pointer field=DisplacementFieldType::New();
+
+  //create zero displacement field
+  DisplacementFieldType::SizeType    imageSize3D = {{ 10, 10, 10}};
+  DisplacementFieldType::IndexType   startIndex3D = { {0, 0, 0}};
+
+  double spacing[]={2.0, 2.0, 2.0};
+  double origin[]={-10.0, -10.0, -10.0};
+  DisplacementFieldType::RegionType  region;
+
+  region.SetSize  (imageSize3D);
+  region.SetIndex (startIndex3D);
+
+  field->SetLargestPossibleRegion (region);
+  field->SetBufferedRegion (region);
+  field->SetRequestedRegion (region);
+
+  field->SetSpacing( spacing );
+  field->SetOrigin( origin );
+  field->Allocate ();
+
+  DisplacementFieldType::PixelType zeroDisplacement;
+  zeroDisplacement.Fill( 0.0 );
+  field->FillBuffer( zeroDisplacement );
+
+  vnl_random                          randgen(12345678);
+  itk::ImageRegionIterator<DisplacementFieldType> it(field,field->GetLargestPossibleRegion() );
+
+  for(it.GoToBegin(); !it.IsAtEnd(); ++it)
+    {
+    DisplacementFieldType::PixelType pix;
+     if(tolerance > 0.0)
+       {
+       RandomPix<float>(randgen,pix,100);
+       }
+     else
+       {
+       RandomPix<float>(randgen,pix);
+       }
+    it.Set(pix);
+    }
+
+  disp->SetDisplacementField(field);
+
+  disp->Print ( std::cout );
+
+  TransformFileWriterFloat::Pointer nlwriter;
+  TransformFileReaderFloat::Pointer nlreader;
+
+  nlreader = TransformFileReaderFloat::New();
+  nlwriter = TransformFileWriterFloat::New();
+  nlwriter->AddTransform(disp);
+  nlwriter->SetFileName(nonlinear_transform);
+  nlreader->SetFileName(nonlinear_transform);
+
+  // Testing writing
+  std::cout << "Testing write of non linear transform (float): " << std::endl;
+
+  try
+  {
+    nlwriter->Update();
+  }
+  catch( itk::ExceptionObject & excp )
+  {
+    std::cerr << "Error while saving the transforms" << std::endl;
+    std::cerr << excp << std::endl;
+    std::cout << "[FAILED]" << std::endl;
+    return EXIT_FAILURE;
+  }
+
+  // Testing writing
+  std::cout << "Testing read of non linear transform (float) : " << std::endl;
+  try
+    {
+    nlreader->Update();
+    }
+  catch( itk::ExceptionObject & excp )
+    {
+    std::cerr << "Error while reading the transforms" << std::endl;
+    std::cerr << excp << std::endl;
+    std::cout << "[FAILED]" << std::endl;
+    return EXIT_FAILURE;
+    }
+  std::cout << "[PASSED]" << std::endl;
+
+  std::cout << "Comparing of non linear transform : " << std::endl;
+  TransformFileReaderFloat::TransformListType list=*nlreader->GetTransformList();
+  std::cout<<"Read :"<<list.size()<<" transformations"<<std::endl;
+
+  if(list.front()->GetTransformTypeAsString() != "DisplacementFieldTransform_float_3_3")
+    {
+      std::cerr<<"Read back transform of type:"<<list.front()->GetTransformTypeAsString()<<std::endl;
+      return EXIT_FAILURE;
+    }
+  DisplacementFieldTransform::Pointer disp2 = static_cast<DisplacementFieldTransform*>(list.front().GetPointer());
+  DisplacementFieldType::ConstPointer field2=disp2->GetDisplacementField();
+
+  itk::ImageRegionConstIterator<DisplacementFieldType> it2(field2,field2->GetLargestPossibleRegion() );
+  if(tolerance == 0.0)
+    {
+    for(it.GoToBegin(),it2.GoToBegin(); !it.IsAtEnd() && !it2.IsAtEnd(); ++it,++it2)
+      {
+      if(it.Value() != it2.Value() )
+        {
+        std::cout << "Original Pixel (" << it.Value()
+                  << ") doesn't match read-in Pixel ("
+                  << it2.Value() << " ) " << std::endl
+                  << " in "<< nonlinear_transform  << std::endl;
+        return EXIT_FAILURE;
+        }
+      }
+    } else { //account for rounding errors
+    for( it.GoToBegin(),it2.GoToBegin(); !it.IsAtEnd() && !it2.IsAtEnd(); ++it,++it2 )
+      {
+      if( (it.Value() - it2.Value()).GetSquaredNorm() > tolerance)
+        {
+        std::cout << "Original Pixel (" << it.Value()
+                  << ") doesn't match read-in Pixel ("
+                  << it2.Value() << " ) "
+                  << " in "<< nonlinear_transform <<std::endl;
+        return EXIT_FAILURE;
+        }
+      }
+    }
+
+
+  return EXIT_SUCCESS;
+}
+
+static int secondTest()
 {
   std::filebuf fb;
   fb.open("Rotation.xfm",std::ios::out);
@@ -283,8 +423,16 @@ int itkIOTransformMINCTest(int argc, char* argv[])
     itksys::SystemTools::ChangeDirectory(argv[1]);
   }
   itk::TransformFactory< itk::DisplacementFieldTransform<double,3> >::RegisterTransform ();
+  itk::TransformFactory< itk::DisplacementFieldTransform<float,3> >::RegisterTransform ();
 
-  int result1 =  oneTest("TransformLinear.xfm", "TransformNonLinear.xfm" );
-  int result2 =  secondTest();
-  return !( result1 == EXIT_SUCCESS && result2 == EXIT_SUCCESS);
+  int result1 =  check_linear("TransformLinear.xfm");
+  int result2 =  check_nonlinear_double( "TransformNonLinear.xfm" );
+  int result3 =  check_nonlinear_float( "TransformNonLinear_float.xfm" );
+  int result4 =  secondTest();
+
+  return !( result1 == EXIT_SUCCESS &&
+            result2 == EXIT_SUCCESS &&
+            result3 == EXIT_SUCCESS &&
+            result4 == EXIT_SUCCESS
+          );
 }

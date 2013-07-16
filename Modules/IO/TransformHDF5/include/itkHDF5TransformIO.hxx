@@ -30,6 +30,9 @@
 namespace itk
 {
 
+namespace
+{
+
 // The following struct returns the string name of computation type
 // default implementation
 template <class TInternalComputationValueType>
@@ -60,6 +63,8 @@ struct TypeName<double>
   return "double";
   }
 };
+
+} // end anonymous namespace
 
 template< class TInternalComputationValueType >
 HDF5TransformIOTemplate< TInternalComputationValueType >
