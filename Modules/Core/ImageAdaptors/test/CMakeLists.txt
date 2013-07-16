@@ -2,12 +2,15 @@ itk_module_test()
 set(ITKImageAdaptorsTests
 itkComplexConjugateImageAdaptorTest.cxx
 itkImageAdaptorTest.cxx
+itkNthElementPixelAccessorTest.cxx
 itkRGBToVectorImageAdaptorTest.cxx
 itkVectorImageTest.cxx
 )
 
 CreateTestDriver(ITKImageAdaptors  "${ITKImageAdaptors-Test_LIBRARIES}" "${ITKImageAdaptorsTests}")
 
+itk_add_test(NAME itkNthElementPixelAccessorTest
+      COMMAND ITKImageAdaptorsTestDriver itkNthElementPixelAccessorTest)
 itk_add_test(NAME itkImageAdaptorTest
       COMMAND ITKImageAdaptorsTestDriver itkImageAdaptorTest)
 itk_add_test(NAME itkRGBToVectorImageAdaptorTest
