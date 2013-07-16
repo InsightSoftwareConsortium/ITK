@@ -263,12 +263,34 @@ void DCMTKImageIO::ReadImageInformation()
     std::cerr << "DCMTKImageIO::ReadImageInformation: "
               << "DicomImage could not read the file." << std::endl;
     }
+
+  // check for multiframe > 3D
+  ::itk::int32_t numPhases;
+  unsigned      numDim(3);
+
+  if(reader.GetElementSL(0x2001,0x1017,numPhases,false) != EXIT_SUCCESS)
+    {
+    numPhases = 1;
+    }
+  if(numPhases > 1)
+    {
+    this->SetNumberOfDimensions(4);
+    numDim = 4;
+    }
+
   unsigned short rows,columns;
   reader.GetDimensions(rows,columns);
   this->m_Dimensions[0] = rows;
   this->m_Dimensions[1] = columns;
-  this->m_Dimensions[2] = reader.GetFrameCount();
-
+  if(numPhases == 1)
+    {
+    this->m_Dimensions[2] = reader.GetFrameCount();
+    }
+  else
+    {
+    this->m_Dimensions[2] = reader.GetFrameCount() / numPhases;
+    this->m_Dimensions[3] = numPhases;
+    }
   vnl_vector<double> rowDirection(3),columnDirection(3),sliceDirection(3);
   reader.GetDirCosines(rowDirection,columnDirection,sliceDirection);
   // orthogonalize
@@ -276,21 +298,49 @@ void DCMTKImageIO::ReadImageInformation()
   rowDirection = vnl_cross_3d(columnDirection,sliceDirection).normalize();
   columnDirection.normalize();
 
-  this->SetDirection(0,rowDirection);
-  this->SetDirection(1,columnDirection);
-  if(this->m_NumberOfDimensions > 2)
+  if(numDim < 4)
     {
-    this->SetDirection(2,sliceDirection);
+    this->SetDirection(0,rowDirection);
+    this->SetDirection(1,columnDirection);
+    if(this->m_NumberOfDimensions > 2)
+      {
+      this->SetDirection(2,sliceDirection);
+      }
     }
+  else
+    {
+    vnl_vector<double> rowDirection4(4),
+      columnDirection4(4),
+      sliceDirection4(4),
+      phaseDirection4(4);
+    for(unsigned i = 0; i < 3; ++i)
+      {
+      rowDirection4[i] = rowDirection[i];
+      columnDirection4[i] = columnDirection[i];
+      sliceDirection4[i] = sliceDirection[i];
+      phaseDirection4[i] = 0.0;
+      }
+    rowDirection4[3] = 0.0;
+    columnDirection4[3] = 0.0;
+    sliceDirection4[3] = 0.0;
+    phaseDirection4[3] = 1.0;
+    this->SetDirection(0,rowDirection4);
+    this->SetDirection(1,columnDirection4);
+    this->SetDirection(2,sliceDirection4);
+    this->SetDirection(3,phaseDirection4);
+    }
+
   // get slope and intercept
   reader.GetSlopeIntercept(this->m_RescaleSlope,this->m_RescaleIntercept);
   this->m_ComponentType = reader.GetImageDataType();
   this->m_PixelType = reader.GetImagePixelType();
+
   double spacing[3];
   double origin[3];
   reader.GetSpacing(spacing);
   reader.GetOrigin(origin);
-  this->m_Origin.resize(3);
+  this->m_Origin.resize(numDim);
+
   for(unsigned i = 0; i < 3; i++)
     {
     this->m_Origin[i] = origin[i];
@@ -301,6 +351,12 @@ void DCMTKImageIO::ReadImageInformation()
     {
     this->m_Spacing.push_back(spacing[i]);
     }
+  if(numDim == 4)
+    {
+    this->m_Origin[3] = 0.0;
+    this->m_Spacing.push_back(1.0);
+    }
+
 
   this->OpenDicomImage();
   const DiPixel *interData = this->m_DImage->getInterData();
