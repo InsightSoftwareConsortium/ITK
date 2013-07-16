@@ -4,6 +4,7 @@ set(ITKIODCMTKTests
   itkDCMTKSeriesReadImageWrite.cxx
   itkDCMTKSeriesStreamReadImageWrite.cxx
   itkDCMTKImageIOOrthoDirTest.cxx
+  itkDCMTKMultiFrame4DTest.cxx
 )
 
 
