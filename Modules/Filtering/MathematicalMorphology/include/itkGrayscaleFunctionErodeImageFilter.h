@@ -47,7 +47,7 @@ namespace itk
  * \ingroup ITKMathematicalMorphology
  */
 template< class TInputImage, class TOutputImage, class TKernel >
-class ITK_EXPORT GrayscaleFunctionErodeImageFilter:
+class GrayscaleFunctionErodeImageFilter:
   public MorphologyImageFilter< TInputImage, TOutputImage, TKernel >
 {
 public:

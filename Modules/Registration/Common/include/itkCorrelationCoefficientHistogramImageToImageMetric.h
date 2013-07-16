@@ -36,7 +36,7 @@ namespace itk
  * \ingroup ITKRegistrationCommon
  */
 template< class TFixedImage, class TMovingImage >
-class ITK_EXPORT CorrelationCoefficientHistogramImageToImageMetric:
+class CorrelationCoefficientHistogramImageToImageMetric:
   public HistogramImageToImageMetric< TFixedImage, TMovingImage >
 {
 public:

@@ -60,7 +60,7 @@ public:
 }
 
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT RGBToLuminanceImageFilter:
+class RGBToLuminanceImageFilter:
   public
   UnaryFunctorImageFilter< TInputImage, TOutputImage,
                            Functor::RGBToLuminance<

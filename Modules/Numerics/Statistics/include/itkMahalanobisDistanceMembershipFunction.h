@@ -59,7 +59,7 @@ namespace Statistics
  */
 
 template< class TVector >
-class ITK_EXPORT MahalanobisDistanceMembershipFunction:
+class MahalanobisDistanceMembershipFunction:
   public MembershipFunctionBase< TVector >
 {
 public:

@@ -43,7 +43,7 @@ namespace Statistics
  */
 
 template< class TVector >
-class ITK_EXPORT MahalanobisDistanceMetric:
+class MahalanobisDistanceMetric:
   public DistanceMetric< TVector >
 {
 public:

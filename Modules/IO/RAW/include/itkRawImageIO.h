@@ -45,7 +45,7 @@ namespace itk
  */
 
 template< class TPixel, unsigned int VImageDimension = 2 >
-class ITK_EXPORT RawImageIO:public ImageIOBase
+class RawImageIO:public ImageIOBase
 {
 public:
   /** Standard class typedefs. */
@@ -154,7 +154,7 @@ private:
 };
 
 template< class TPixel, unsigned int VImageDimension >
-class ITK_EXPORT RawImageIOFactory:public ObjectFactoryBase
+class RawImageIOFactory:public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */

@@ -135,7 +135,7 @@ Clamp< TInput, TOutput >
  * \endwiki
  */
 template <class TInputImage, class TOutputImage>
-class ITK_EXPORT ClampImageFilter :
+class ClampImageFilter :
   public UnaryFunctorImageFilter< TInputImage,TOutputImage,
                                   Functor::Clamp< typename TInputImage::PixelType,
                                                   typename TOutputImage::PixelType > >

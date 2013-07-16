@@ -34,7 +34,7 @@ namespace itk
  * \ingroup ITKRegionGrowing
  */
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT ConnectedThresholdImageFilter:
+class ConnectedThresholdImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

@@ -39,7 +39,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template< unsigned int VSplineOrder = 3, typename TRealValueType = double >
-class ITK_EXPORT BSplineDerivativeKernelFunction:public KernelFunctionBase<TRealValueType>
+class BSplineDerivativeKernelFunction:public KernelFunctionBase<TRealValueType>
 {
 public:
   /** Standard class typedefs. */

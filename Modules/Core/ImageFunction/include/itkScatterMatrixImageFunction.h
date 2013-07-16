@@ -42,7 +42,7 @@ namespace itk
  * \ingroup ITKImageFunction
  */
 template< class TInputImage, class TCoordRep = float >
-class ITK_EXPORT ScatterMatrixImageFunction:
+class ScatterMatrixImageFunction:
   public ImageFunction< TInputImage,
                         vnl_matrix<
                           typename NumericTraits< typename TInputImage::PixelType::ValueType >::RealType >,

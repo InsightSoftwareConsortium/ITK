@@ -58,7 +58,7 @@ namespace itk
  * \ingroup DataRepresentation
  */
 template< class TScalar, class TVector, unsigned int TVectorDimension = 3 >
-class ITK_EXPORT ScalarVector
+class ScalarVector
 {
 public:
   /** Standard class typedefs. */

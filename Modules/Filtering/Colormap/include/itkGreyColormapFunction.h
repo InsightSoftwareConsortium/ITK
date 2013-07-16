@@ -42,7 +42,7 @@ namespace Function
  * \ingroup ITKColormap
  */
 template< class TScalar, class TRGBPixel >
-class ITK_EXPORT GreyColormapFunction:
+class GreyColormapFunction:
   public ColormapFunction< TScalar, TRGBPixel >
 {
 public:

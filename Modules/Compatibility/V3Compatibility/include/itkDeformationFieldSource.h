@@ -51,7 +51,7 @@ namespace itk
  * \ingroup ITKV3Compatibility
  */
 template< class TOutputImage >
-class ITK_EXPORT DeformationFieldSource:
+class DeformationFieldSource:
   public ImageSource< TOutputImage >
 {
 public:

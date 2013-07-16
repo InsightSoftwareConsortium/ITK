@@ -50,7 +50,7 @@ namespace itk
  * \ingroup ITKLabelMap
  */
 template< class TInputImage >
-class ITK_EXPORT AutoCropLabelMapFilter:
+class AutoCropLabelMapFilter:
   public ChangeRegionLabelMapFilter< TInputImage >
 {
 public:

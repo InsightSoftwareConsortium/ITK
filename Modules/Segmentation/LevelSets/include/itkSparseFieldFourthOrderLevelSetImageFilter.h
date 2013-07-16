@@ -153,7 +153,7 @@ public:
  * \ingroup ITKLevelSets
  */
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT SparseFieldFourthOrderLevelSetImageFilter:
+class SparseFieldFourthOrderLevelSetImageFilter:
   public SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 {
 public:

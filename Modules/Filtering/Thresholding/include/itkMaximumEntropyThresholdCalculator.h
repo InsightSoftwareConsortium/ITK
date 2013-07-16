@@ -49,7 +49,7 @@ namespace itk
  * \ingroup ITKThresholding
  */
 template <class THistogram, class TOutput=double>
-class ITK_EXPORT MaximumEntropyThresholdCalculator : public HistogramThresholdCalculator<THistogram, TOutput>
+class MaximumEntropyThresholdCalculator : public HistogramThresholdCalculator<THistogram, TOutput>
 {
 public:
   /** Standard class typedefs. */

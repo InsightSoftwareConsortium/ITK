@@ -40,7 +40,7 @@ namespace Accessor
  */
 
 template< class T >
-class ITK_EXPORT VectorToRGBPixelAccessor
+class VectorToRGBPixelAccessor
 {
 public:
   /** Standard class typedefs. */

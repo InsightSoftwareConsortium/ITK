@@ -46,7 +46,7 @@ namespace itk
  */
 template <class TScalarType = double>
 // Data type for scalars (float or double)
-class ITK_EXPORT QuaternionRigidTransform :
+class QuaternionRigidTransform :
   public Rigid3DTransform<TScalarType>
 {
 public:

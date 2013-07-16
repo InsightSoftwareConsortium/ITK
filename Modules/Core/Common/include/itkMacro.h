@@ -101,11 +101,6 @@ namespace itk
 #endif
 
 // Setup symbol exports
-//
-// When a class definition has ITK_EXPORT, the class will be
-// checked automatically, by Utilities/Dart/PrintSelfCheck.tcl
-#define ITK_EXPORT
-
 #if defined( _WIN32 ) || defined ( WIN32 )
   #define ITK_ABI_IMPORT __declspec(dllimport)
   #define ITK_ABI_EXPORT __declspec(dllexport)
@@ -335,7 +330,7 @@ extern ITKCommon_EXPORT void OutputWindowDisplayDebugText(const char *);
 
 #define itkDeclareExceptionMacro(newexcp,parentexcp,whatmessage)                        \
 namespace itk {                                                                         \
-class ITK_EXPORT newexcp : public parentexcp                                            \
+class newexcp : public parentexcp                                            \
 {                                                                                       \
 public:                                                                                 \
 newexcp( const char *file, unsigned int lineNumber ) :                                  \
@@ -1058,6 +1053,10 @@ TTarget itkDynamicCastInDebugMode(TSource x)
   itkGetObjectMacro(name, type)
 #endif // defined ( ITK_FUTURE_LEGACY_REMOVE )
 
+// For backwards compatibility define ITK_EXPORT to nothing
+#define ITK_EXPORT
+
+
 /** Get a const reference to a smart pointer to an object.
  * Creates the member Get"name"() (e.g., GetPoints()). */
 #define itkGetConstReferenceObjectMacro(name, type)                     \
@@ -1129,7 +1128,7 @@ TTarget itkDynamicCastInDebugMode(TSource x)
  * provides the GPU kernel source code as a const char*
  */
 #define itkGPUKernelClassMacro(kernel)   \
-class ITK_EXPORT kernel                  \
+class kernel                  \
   {                                      \
     public:                              \
       static const char* GetOpenCLSource(); \

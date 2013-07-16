@@ -66,7 +66,7 @@ public:
  * \endwiki
  */
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT AbsImageFilter:
+class AbsImageFilter:
   public
   UnaryFunctorImageFilter< TInputImage, TOutputImage,
                            Functor::Abs<

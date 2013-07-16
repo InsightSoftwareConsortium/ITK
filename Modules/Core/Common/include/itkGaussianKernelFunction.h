@@ -38,7 +38,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template< typename TRealValueType = double >
-class ITK_EXPORT GaussianKernelFunction:public KernelFunctionBase<TRealValueType>
+class GaussianKernelFunction:public KernelFunctionBase<TRealValueType>
 {
 public:
   /** Standard class typedefs. */

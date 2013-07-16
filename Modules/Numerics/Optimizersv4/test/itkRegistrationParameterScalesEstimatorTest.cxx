@@ -28,7 +28,7 @@ template< class TFixedImage,class TMovingImage,class TVirtualImage = TFixedImage
           class TInternalComputationValueType = double,
           class TMetricTraits = itk::DefaultImageToImageMetricTraitsv4<TFixedImage,TMovingImage,TVirtualImage,TInternalComputationValueType>
           >
-class ITK_EXPORT RegistrationParameterScalesEstimatorTestMetric:
+class RegistrationParameterScalesEstimatorTestMetric:
   public itk::ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 {
 public:
@@ -107,7 +107,7 @@ private:
  *  Create a simple scales estimator class to use for testing here.
  */
 template < class TMetric >
-class ITK_EXPORT RegistrationParameterScalesEstimatorTest:
+class RegistrationParameterScalesEstimatorTest:
   public itk::RegistrationParameterScalesEstimator< TMetric >
 {
 public:

@@ -42,7 +42,7 @@ namespace itk
  */
 
 template< unsigned int VDimension >
-class ITK_EXPORT FlatStructuringElement:public Neighborhood< bool, VDimension >
+class FlatStructuringElement:public Neighborhood< bool, VDimension >
 {
 public:
   /** Standard class typedefs. */

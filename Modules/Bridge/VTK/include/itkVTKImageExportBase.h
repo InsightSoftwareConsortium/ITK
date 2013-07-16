@@ -33,7 +33,7 @@ namespace itk
  * \sa VTKImageExport
  * \ingroup ITKVTK
  */
-class ITK_EXPORT VTKImageExportBase:public ProcessObject
+class VTKImageExportBase:public ProcessObject
 {
 public:
   /** Standard class typedefs. */

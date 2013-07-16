@@ -100,7 +100,7 @@ namespace Statistics
 */
 
 template< class THistogram >
-class ITK_EXPORT HistogramToTextureFeaturesFilter:public ProcessObject
+class HistogramToTextureFeaturesFilter:public ProcessObject
 {
 public:
   /** Standard typedefs */

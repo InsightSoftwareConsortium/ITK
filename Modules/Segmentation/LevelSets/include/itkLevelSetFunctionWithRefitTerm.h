@@ -49,7 +49,7 @@ namespace itk
  * \ingroup ITKLevelSets
  */
 template< class TImageType, class TSparseImageType >
-class ITK_EXPORT LevelSetFunctionWithRefitTerm:
+class LevelSetFunctionWithRefitTerm:
   public LevelSetFunction< TImageType >
 {
 public:

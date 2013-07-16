@@ -81,7 +81,7 @@ public:
  * \ingroup ITKImageIntensity
  */
 template< class TInputImage1, class TInputImage2, class TOutputImage >
-class ITK_EXPORT BinaryMagnitudeImageFilter:
+class BinaryMagnitudeImageFilter:
   public
   BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage,
                             Functor::Modulus2<

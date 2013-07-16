@@ -46,7 +46,7 @@ itkGPUKernelClassMacro(GPUNeighborhoodOperatorImageFilterKernel);
 template< class TInputImage, class TOutputImage,
           class TOperatorValueType = typename TOutputImage::PixelType,
           class TParentImageFilter = NeighborhoodOperatorImageFilter< TInputImage, TOutputImage, TOperatorValueType> >
-class ITK_EXPORT GPUNeighborhoodOperatorImageFilter :
+class GPUNeighborhoodOperatorImageFilter :
   public GPUImageToImageFilter< TInputImage, TOutputImage, TParentImageFilter >
 {
 public:

@@ -101,7 +101,7 @@ public:
  * \ingroup ITKImageIntensity
  */
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT NaryMaximumImageFilter:
+class NaryMaximumImageFilter:
   public
   NaryFunctorImageFilter< TInputImage, TOutputImage,
                           Functor::Maximum1<  typename TInputImage::PixelType,

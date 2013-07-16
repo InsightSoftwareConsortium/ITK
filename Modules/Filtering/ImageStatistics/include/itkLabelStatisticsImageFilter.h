@@ -57,7 +57,7 @@ namespace itk
  * \endwiki
  */
 template< class TInputImage, class TLabelImage >
-class ITK_EXPORT LabelStatisticsImageFilter:
+class LabelStatisticsImageFilter:
   public ImageToImageFilter< TInputImage, TInputImage >
 {
 public:

@@ -45,7 +45,7 @@ namespace itk
  */
 
 template< class TInputImage, class TOutputImage, class TKernel >
-class ITK_EXPORT BasicDilateImageFilter:
+class BasicDilateImageFilter:
   public MorphologyImageFilter< TInputImage, TOutputImage, TKernel >
 {
 public:

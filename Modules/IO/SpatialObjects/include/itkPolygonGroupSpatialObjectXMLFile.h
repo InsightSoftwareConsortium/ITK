@@ -32,7 +32,7 @@ typedef PolygonGroupSpatialObject< 3 > PGroupSpatialObjectType;
  * creates a corresponding PolygonGroupSpatialObject
  * \ingroup ITKIOSpatialObjects
  */
-class ITK_EXPORT PolygonGroupSpatialObjectXMLFileReader:
+class PolygonGroupSpatialObjectXMLFileReader:
   public XMLReader< PGroupSpatialObjectType >
 {
 public:
@@ -84,7 +84,7 @@ private:
  * based on a PolygonGroupSpatialObject.
  * \ingroup ITKIOSpatialObjects
  */
-class ITK_EXPORT PolygonGroupSpatialObjectXMLFileWriter:
+class PolygonGroupSpatialObjectXMLFileWriter:
   public XMLWriterBase< PGroupSpatialObjectType >
 {
 public:

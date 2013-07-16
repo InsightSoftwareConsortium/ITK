@@ -45,7 +45,7 @@ namespace itk
  * \ingroup ITKImageStatistics
  */
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT GetAverageSliceImageFilter:public AccumulateImageFilter< TInputImage, TOutputImage >
+class GetAverageSliceImageFilter:public AccumulateImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */

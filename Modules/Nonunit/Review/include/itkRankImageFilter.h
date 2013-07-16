@@ -65,7 +65,7 @@ namespace itk
 
 template< class TInputImage, class TOutputImage, class TKernel =
             FlatStructuringElement< TInputImage::ImageDimension > >
-class ITK_EXPORT RankImageFilter:
+class RankImageFilter:
   public MovingHistogramImageFilter< TInputImage, TOutputImage, TKernel,
                                      Function::RankHistogram< typename TInputImage::PixelType > >
 {

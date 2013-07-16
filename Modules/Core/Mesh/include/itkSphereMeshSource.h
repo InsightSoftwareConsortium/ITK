@@ -38,7 +38,7 @@ namespace itk
  * \ingroup ITKMesh
  */
 template< class TOutputMesh >
-class ITK_EXPORT SphereMeshSource:public MeshSource< TOutputMesh >
+class SphereMeshSource:public MeshSource< TOutputMesh >
 {
 public:
   /** Standard "Self" typedef. */

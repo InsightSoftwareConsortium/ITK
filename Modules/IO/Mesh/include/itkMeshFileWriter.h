@@ -73,7 +73,7 @@ public:
  * \ingroup ITKIOMesh
  */
 template< class TInputMesh >
-class ITK_EXPORT MeshFileWriter:public ProcessObject
+class MeshFileWriter:public ProcessObject
 {
 public:
   /** Standard class typedefs. */

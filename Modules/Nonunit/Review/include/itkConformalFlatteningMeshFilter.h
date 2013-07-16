@@ -45,7 +45,7 @@ namespace itk
  */
 
 template< class TInputMesh, class TOutputMesh >
-class ITK_EXPORT ConformalFlatteningMeshFilter:
+class ConformalFlatteningMeshFilter:
   public MeshToMeshFilter< TInputMesh, TOutputMesh >
 {
 public:

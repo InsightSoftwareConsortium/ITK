@@ -75,7 +75,7 @@ namespace itk
  * \endwiki
  */
 template< typename TImage >
-class ITK_EXPORT ImageRegionIterator:public ImageRegionConstIterator< TImage >
+class ImageRegionIterator:public ImageRegionConstIterator< TImage >
 {
 public:
   /** Standard class typedefs. */

@@ -133,7 +133,7 @@ public:
 
 class KLMSegmentationRegion;
 
-class ITK_EXPORT KLMSegmentationBorder:public SegmentationBorder
+class KLMSegmentationBorder:public SegmentationBorder
 {
 public:
   /** Standard class typedefs. */

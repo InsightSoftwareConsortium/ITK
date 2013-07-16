@@ -100,7 +100,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template< typename TImage >
-class ITK_EXPORT ImageLinearConstIteratorWithIndex:public ImageConstIteratorWithIndex< TImage >
+class ImageLinearConstIteratorWithIndex:public ImageConstIteratorWithIndex< TImage >
 {
 public:
   /** Standard class typedefs. */

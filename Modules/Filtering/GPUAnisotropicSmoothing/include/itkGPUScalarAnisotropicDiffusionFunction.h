@@ -35,7 +35,7 @@ namespace itk
 itkGPUKernelClassMacro(GPUScalarAnisotropicDiffusionFunctionKernel);
 
 template< class TImage >
-class ITK_EXPORT GPUScalarAnisotropicDiffusionFunction :
+class GPUScalarAnisotropicDiffusionFunction :
   public GPUAnisotropicDiffusionFunction< TImage >
 {
 public:

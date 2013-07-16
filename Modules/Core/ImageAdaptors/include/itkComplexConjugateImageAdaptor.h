@@ -32,7 +32,7 @@ namespace Accessor
  * \ingroup ITKImageAdaptors
  */
 template< class TComplexType >
-class ITK_EXPORT ComplexConjugatePixelAccessor
+class ComplexConjugatePixelAccessor
 {
 public:
   typedef TComplexType ExternalType;
@@ -57,7 +57,7 @@ public:
  * \ingroup ITKImageAdaptors
  */
 template< class TImage >
-class ITK_EXPORT ComplexConjugateImageAdaptor:public
+class ComplexConjugateImageAdaptor:public
   ImageAdaptor< TImage,
                 Accessor::ComplexConjugatePixelAccessor< typename TImage::PixelType > >
 {

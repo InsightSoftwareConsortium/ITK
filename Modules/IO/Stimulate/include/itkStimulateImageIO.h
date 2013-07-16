@@ -58,7 +58,7 @@ namespace itk
  *
  * \ingroup ITKIOStimulate
  */
-class ITK_EXPORT StimulateImageIO:public ImageIOBase
+class StimulateImageIO:public ImageIOBase
 {
 public:
   /** Standard class typedefs. */

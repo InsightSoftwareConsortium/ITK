@@ -39,7 +39,7 @@ namespace itk
  */
 
 template< typename TCellInterface >
-class ITK_EXPORT LineCell:public TCellInterface
+class LineCell:public TCellInterface
 {
 public:
   /** Standard class typedefs. */

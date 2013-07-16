@@ -38,7 +38,7 @@ namespace Accessor
  * \ingroup ITKImageAdaptors
  */
 template< class TInternalType, class TExternalType >
-class ITK_EXPORT ComplexToPhasePixelAccessor
+class ComplexToPhasePixelAccessor
 {
 public:
   /** External typedef. It defines the external aspect
@@ -67,7 +67,7 @@ public:
  * \ingroup ITKImageAdaptors
  */
 template< class TImage, class TOutputPixelType >
-class ITK_EXPORT ComplexToPhaseImageAdaptor:public
+class ComplexToPhaseImageAdaptor:public
   ImageAdaptor< TImage,
                 Accessor::ComplexToPhasePixelAccessor<
                   typename TImage::PixelType,

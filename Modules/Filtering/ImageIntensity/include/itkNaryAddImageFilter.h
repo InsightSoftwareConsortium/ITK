@@ -94,7 +94,7 @@ public:
  * \ingroup ITKImageIntensity
  */
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT NaryAddImageFilter:
+class NaryAddImageFilter:
   public
   NaryFunctorImageFilter< TInputImage, TOutputImage,
                           Functor::Add1< typename TInputImage::PixelType,  typename TInputImage::PixelType > >

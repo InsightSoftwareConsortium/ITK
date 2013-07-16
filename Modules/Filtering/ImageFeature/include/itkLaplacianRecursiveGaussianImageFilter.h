@@ -41,7 +41,7 @@ namespace itk
  */
 template< typename TInputImage,
           typename TOutputImage = TInputImage >
-class ITK_EXPORT LaplacianRecursiveGaussianImageFilter:
+class LaplacianRecursiveGaussianImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

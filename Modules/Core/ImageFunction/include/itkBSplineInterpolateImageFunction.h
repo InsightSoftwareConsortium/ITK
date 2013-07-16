@@ -81,7 +81,7 @@ template<
   class TImageType,
   class TCoordRep = double,
   class TCoefficientType = double >
-class ITK_EXPORT BSplineInterpolateImageFunction:
+class BSplineInterpolateImageFunction:
   public InterpolateImageFunction< TImageType, TCoordRep >
 {
 public:

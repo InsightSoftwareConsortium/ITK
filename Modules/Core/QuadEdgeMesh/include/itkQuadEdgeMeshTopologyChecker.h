@@ -38,7 +38,7 @@ namespace itk
  * \ingroup ITKQuadEdgeMesh
  */
 template< class TMesh >
-class ITK_EXPORT QuadEdgeMeshTopologyChecker:public Object
+class QuadEdgeMeshTopologyChecker:public Object
 {
 public:
   // Standard types

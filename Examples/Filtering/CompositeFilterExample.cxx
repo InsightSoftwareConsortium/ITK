@@ -62,7 +62,7 @@
 namespace itk {
 
 template <class TImageType>
-class ITK_EXPORT CompositeExampleImageFilter :
+class CompositeExampleImageFilter :
     public ImageToImageFilter<TImageType, TImageType>
 {
 public:

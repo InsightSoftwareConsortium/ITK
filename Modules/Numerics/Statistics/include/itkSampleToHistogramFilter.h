@@ -52,7 +52,7 @@ namespace Statistics
  */
 
 template< class TSample, class THistogram >
-class ITK_EXPORT SampleToHistogramFilter:public ProcessObject
+class SampleToHistogramFilter:public ProcessObject
 {
 public:
   /** Standard class typedefs */

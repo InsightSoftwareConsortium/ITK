@@ -82,7 +82,7 @@ class MetaDataDictionary;
  *
  */
 
-class ITK_EXPORT HDF5ImageIO:public StreamingImageIOBase
+class HDF5ImageIO:public StreamingImageIOBase
 {
 public:
   /** Standard class typedefs. */

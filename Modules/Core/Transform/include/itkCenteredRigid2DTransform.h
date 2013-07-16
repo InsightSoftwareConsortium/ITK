@@ -50,7 +50,7 @@ namespace itk
  */
 template <class TScalarType = double>
 // Data type for scalars
-class ITK_EXPORT CenteredRigid2DTransform :
+class CenteredRigid2DTransform :
   public Rigid2DTransform<TScalarType>
 {
 public:

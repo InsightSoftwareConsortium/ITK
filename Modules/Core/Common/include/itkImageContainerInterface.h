@@ -50,7 +50,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template< typename TElementIdentifier, typename TElement >
-class ITK_EXPORT ImageContainerInterface:public Object
+class ImageContainerInterface:public Object
 {
 public:
   /** Standard class typedefs. */

@@ -78,7 +78,7 @@ namespace itk
  */
 template< class TInputVectorImage, class TLabelsType = unsigned char,
           class TPosteriorsPrecisionType = double, class TPriorsPrecisionType = double >
-class ITK_EXPORT BayesianClassifierImageFilter:
+class BayesianClassifierImageFilter:
   public ImageToImageFilter<
     TInputVectorImage, Image< TLabelsType,
                                TInputVectorImage ::ImageDimension > >

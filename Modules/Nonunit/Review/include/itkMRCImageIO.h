@@ -56,7 +56,7 @@ namespace itk
  * \sa ImageFileWriter ImageFileReader ImageIOBase
  * \ingroup ITKReview
  */
-class ITK_EXPORT MRCImageIO:
+class MRCImageIO:
   public StreamingImageIOBase
 {
 public:

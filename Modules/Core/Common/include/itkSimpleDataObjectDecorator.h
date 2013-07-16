@@ -63,7 +63,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template< class T >
-class ITK_EXPORT SimpleDataObjectDecorator:public DataObject
+class SimpleDataObjectDecorator:public DataObject
 {
 public:
   /** Standard typedefs. */

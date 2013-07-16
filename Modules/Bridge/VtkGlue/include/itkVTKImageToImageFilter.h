@@ -44,7 +44,7 @@ namespace itk
  * \ingroup ITKVtkGlue
  */
 template <class TOutputImage >
-class ITK_EXPORT VTKImageToImageFilter : public VTKImageImport< TOutputImage >
+class VTKImageToImageFilter : public VTKImageImport< TOutputImage >
 {
 public:
   /** Standard class typedefs. */

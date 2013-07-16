@@ -41,7 +41,7 @@ namespace itk
  * \ingroup ITKLabelMap
  */
 template< class TImage >
-class ITK_EXPORT AggregateLabelMapFilter:
+class AggregateLabelMapFilter:
   public InPlaceLabelMapFilter< TImage >
 {
 public:

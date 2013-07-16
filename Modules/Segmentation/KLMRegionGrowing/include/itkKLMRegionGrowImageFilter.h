@@ -162,7 +162,7 @@ namespace itk
  */
 
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT KLMRegionGrowImageFilter:public RegionGrowImageFilter< TInputImage, TOutputImage >
+class KLMRegionGrowImageFilter:public RegionGrowImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */

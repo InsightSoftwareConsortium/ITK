@@ -40,7 +40,7 @@ namespace itk
  * \ingroup ITKTransform
  */
 template< class ScalarType >
-class ITK_EXPORT TransformBaseTemplate:public Object
+class TransformBaseTemplate:public Object
 {
 public:
   /** Standard class typedefs. */

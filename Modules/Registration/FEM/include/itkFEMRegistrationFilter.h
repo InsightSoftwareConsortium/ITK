@@ -115,7 +115,7 @@ namespace fem
  */
 
 template <class TMovingImage, class TFixedImage, class TFemObjectType>
-class ITK_EXPORT  FEMRegistrationFilter : public ImageToImageFilter<TMovingImage, TFixedImage>
+class FEMRegistrationFilter : public ImageToImageFilter<TMovingImage, TFixedImage>
 {
 public:
   typedef FEMRegistrationFilter                         Self;

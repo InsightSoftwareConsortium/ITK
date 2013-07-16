@@ -64,7 +64,7 @@ template< class TInputImage, class TFeatureImage, class TOutputImage,
           class TFunction = ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage >,
           class TSharedData = typename TFunction::SharedDataType,
           typename TIdCell = unsigned int >
-class ITK_EXPORT ScalarChanAndVeseSparseLevelSetImageFilter:
+class ScalarChanAndVeseSparseLevelSetImageFilter:
   public MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
                                                       TOutputImage, TFunction, TIdCell >
 {

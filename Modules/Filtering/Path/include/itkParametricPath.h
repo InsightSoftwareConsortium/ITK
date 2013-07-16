@@ -57,7 +57,7 @@ namespace itk
  * \ingroup ITKPath
  */
 template< unsigned int VDimension >
-class ITK_EXPORT ParametricPath:public
+class ParametricPath:public
   Path< double, ContinuousIndex< double, VDimension >, VDimension >
 {
 public:

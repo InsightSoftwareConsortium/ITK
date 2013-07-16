@@ -34,7 +34,7 @@ namespace itk
  */
 
 template< unsigned int TDimension = 3 >
-class ITK_EXPORT PointBasedSpatialObject:
+class PointBasedSpatialObject:
   public SpatialObject< TDimension >
 {
 public:

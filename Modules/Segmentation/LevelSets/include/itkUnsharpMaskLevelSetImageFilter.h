@@ -64,7 +64,7 @@ namespace itk
  * \ingroup ITKLevelSets
  */
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT UnsharpMaskLevelSetImageFilter:
+class UnsharpMaskLevelSetImageFilter:
   public SparseFieldFourthOrderLevelSetImageFilter< TInputImage, TOutputImage >
 {
 public:

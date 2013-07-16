@@ -28,7 +28,7 @@ namespace itk
  * \brief Create instances of JPEGImageIO objects using an object factory.
  * \ingroup ITKIOJPEG
  */
-class ITK_EXPORT JPEGImageIOFactory:public ObjectFactoryBase
+class JPEGImageIOFactory:public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */

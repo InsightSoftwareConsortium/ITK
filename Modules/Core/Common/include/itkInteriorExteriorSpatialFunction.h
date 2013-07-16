@@ -46,7 +46,7 @@ namespace itk
  */
 
 template< unsigned int VDimension = 3, typename TInput = Point< double, VDimension > >
-class ITK_EXPORT InteriorExteriorSpatialFunction:public
+class InteriorExteriorSpatialFunction:public
   SpatialFunction< bool, VDimension, TInput >
 {
 public:

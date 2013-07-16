@@ -33,7 +33,7 @@ namespace bio
  * Derived classes are instantiated for a specific space dimension.
  * \ingroup ITKBioCell
  */
-class ITK_EXPORT CellBase
+class CellBase
 {
 public:
   typedef   itk::RGBPixel< float > ColorType;

@@ -40,7 +40,7 @@ namespace itk
  * \ingroup ITKLabelMap
  */
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT ConvertLabelMapFilter:
+class ConvertLabelMapFilter:
   public LabelMapFilter< TInputImage, TOutputImage >
 {
 public:

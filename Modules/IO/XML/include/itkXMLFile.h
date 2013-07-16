@@ -31,7 +31,7 @@ namespace itk
  * are implemented here.
  * \ingroup ITKIOXML
  */
-class ITK_EXPORT XMLReaderBase:public LightProcessObject
+class XMLReaderBase:public LightProcessObject
 {
 public:
   typedef XMLReaderBase Self;
@@ -90,7 +90,7 @@ private:
  * \ingroup ITKIOXML
  */
 template< class T >
-class ITK_EXPORT XMLReader: public XMLReaderBase
+class XMLReader: public XMLReaderBase
 {
 public:
   typedef XMLReader Self;
@@ -124,7 +124,7 @@ private:
  * \ingroup ITKIOXML
  */
 template< class T >
-class ITK_EXPORT XMLWriterBase:public LightProcessObject
+class XMLWriterBase:public LightProcessObject
 {
 public:
   typedef XMLWriterBase Self;

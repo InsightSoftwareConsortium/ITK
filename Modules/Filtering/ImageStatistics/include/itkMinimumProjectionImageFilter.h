@@ -71,7 +71,7 @@ public:
 } // end namespace Function
 
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT MinimumProjectionImageFilter:public
+class MinimumProjectionImageFilter:public
   ProjectionImageFilter< TInputImage, TOutputImage,
                          Functor::MinimumAccumulator< typename TInputImage::PixelType > >
 {

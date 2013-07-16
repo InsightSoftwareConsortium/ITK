@@ -34,7 +34,7 @@ namespace itk
  *
  * \ingroup ITKIOPhilipsREC
  */
-class ITK_EXPORT PhilipsRECImageIOFactory:public ObjectFactoryBase
+class PhilipsRECImageIOFactory:public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */

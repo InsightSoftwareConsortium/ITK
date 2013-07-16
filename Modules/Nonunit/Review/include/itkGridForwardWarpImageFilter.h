@@ -55,7 +55,7 @@ template<
   class TDisplacementField,
   class TOutputImage
   >
-class ITK_EXPORT GridForwardWarpImageFilter:
+class GridForwardWarpImageFilter:
   public ImageToImageFilter< TDisplacementField, TOutputImage >
 {
 public:

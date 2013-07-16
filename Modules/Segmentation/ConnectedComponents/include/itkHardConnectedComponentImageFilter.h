@@ -46,7 +46,7 @@ namespace itk
  * \ingroup ITKConnectedComponents
  */
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT HardConnectedComponentImageFilter:
+class HardConnectedComponentImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

@@ -128,7 +128,7 @@ private:
  * access the protected methods by adding friend class.
  */
 template<class TFixedImage, class TMovingImage, class TVirtualImage = TFixedImage>
-class ITK_EXPORT VanillaImageToImageMetricv4 : public ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
+class VanillaImageToImageMetricv4 : public ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
 {
 public:
   /** Standard class typedefs. */

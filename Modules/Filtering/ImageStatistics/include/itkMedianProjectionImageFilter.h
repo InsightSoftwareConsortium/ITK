@@ -82,7 +82,7 @@ public:
 } // end namespace Function
 
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT MedianProjectionImageFilter:public
+class MedianProjectionImageFilter:public
   ProjectionImageFilter< TInputImage, TOutputImage,
                          Functor::MedianAccumulator< typename TInputImage::PixelType > >
 {

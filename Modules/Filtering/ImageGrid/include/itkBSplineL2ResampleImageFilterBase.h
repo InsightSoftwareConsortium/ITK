@@ -80,7 +80,7 @@ namespace itk
  * \ingroup ITKImageGrid
  */
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT BSplineL2ResampleImageFilterBase:
+class BSplineL2ResampleImageFilterBase:
   public BSplineResampleImageFilterBase< TInputImage, TOutputImage >
 {
 public:

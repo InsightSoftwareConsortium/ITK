@@ -45,7 +45,7 @@ namespace itk
  */
 template< class TInputImage, class TOutputImage, class TParentImageFilter =
             GradientAnisotropicDiffusionImageFilter< TInputImage, TOutputImage > >
-class ITK_EXPORT GPUGradientAnisotropicDiffusionImageFilter :
+class GPUGradientAnisotropicDiffusionImageFilter :
   public GPUAnisotropicDiffusionImageFilter< TInputImage, TOutputImage, TParentImageFilter >
 {
 public:

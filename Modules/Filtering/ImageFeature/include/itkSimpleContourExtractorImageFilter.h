@@ -47,7 +47,7 @@ namespace itk
   * \ingroup ITKImageFeature
 */
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT SimpleContourExtractorImageFilter:
+class SimpleContourExtractorImageFilter:
   public BoxImageFilter< TInputImage, TOutputImage >
 {
 public:

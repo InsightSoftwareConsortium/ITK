@@ -64,7 +64,7 @@ namespace itk
 template< class TInput,   // LevelSetImageType
           class TFeature, // FeatureImageType
           class TSharedData >
-class ITK_EXPORT RegionBasedLevelSetFunction:public
+class RegionBasedLevelSetFunction:public
   FiniteDifferenceFunction< TInput >
 {
 public:

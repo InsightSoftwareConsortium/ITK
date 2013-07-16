@@ -71,7 +71,7 @@ template< typename TInputImage,
           typename TOutputImage =
             Image< Vector< typename TInputImage::PixelType, 2 >,
                    TInputImage::ImageDimension > >
-class ITK_EXPORT Compose2DVectorImageFilter:
+class Compose2DVectorImageFilter:
   public
   BinaryFunctorImageFilter< TInputImage, TInputImage,
                             TOutputImage,

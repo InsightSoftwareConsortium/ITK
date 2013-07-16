@@ -100,7 +100,7 @@ namespace itk
 template< class TInputImage,
           class TFeatureImage,
           class TOutputPixelType = float >
-class ITK_EXPORT NarrowBandCurvesLevelSetImageFilter:
+class NarrowBandCurvesLevelSetImageFilter:
   public NarrowBandLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType,
                                         Image< TOutputPixelType,
                                                TInputImage::ImageDimension > >

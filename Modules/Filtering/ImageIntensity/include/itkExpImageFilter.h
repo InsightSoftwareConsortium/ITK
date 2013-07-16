@@ -63,7 +63,7 @@ public:
  * \ingroup ITKImageIntensity
  */
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT ExpImageFilter:
+class ExpImageFilter:
   public
   UnaryFunctorImageFilter< TInputImage, TOutputImage,
                            Functor::Exp<

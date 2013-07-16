@@ -54,7 +54,7 @@ namespace itk
  */
 template <class TScalarType = double>
 // Data type for scalars
-class ITK_EXPORT CenteredSimilarity2DTransform :
+class CenteredSimilarity2DTransform :
   public Similarity2DTransform<TScalarType>
 {
 public:

@@ -51,7 +51,7 @@ namespace itk
  */
 
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT BinaryContourImageFilter:
+class BinaryContourImageFilter:
   public InPlaceImageFilter< TInputImage, TOutputImage >
 {
 public:

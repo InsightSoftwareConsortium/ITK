@@ -41,7 +41,7 @@ namespace itk {
  */
 template<class TImage, class TAttributeAccessor=
     typename Functor::AttributeLabelObjectAccessor< typename TImage::LabelObjectType >, bool VPhysicalPosition=true >
-class ITK_EXPORT AttributePositionLabelMapFilter :
+class AttributePositionLabelMapFilter :
     public InPlaceLabelMapFilter<TImage>
 {
 public:

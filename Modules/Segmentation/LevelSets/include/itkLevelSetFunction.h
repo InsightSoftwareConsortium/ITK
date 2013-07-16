@@ -63,7 +63,7 @@ namespace itk
  * \ingroup ITKLevelSets
   */
 template< class TImageType >
-class ITK_EXPORT LevelSetFunction:
+class LevelSetFunction:
   public FiniteDifferenceFunction< TImageType >
 {
 public:

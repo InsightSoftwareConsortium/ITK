@@ -47,7 +47,7 @@ namespace itk
  */
 
 template< class T >
-class ITK_EXPORT ByteSwapper:public Object
+class ByteSwapper:public Object
 {
 public:
   /** Standard class typedefs. */

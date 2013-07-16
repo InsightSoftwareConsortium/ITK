@@ -64,7 +64,7 @@ namespace itk
  */
 template< class TPixel, unsigned int VDimension = 2,
           class TAllocator = NeighborhoodAllocator< TPixel > >
-class ITK_EXPORT GaussianOperator:
+class GaussianOperator:
   public NeighborhoodOperator< TPixel, VDimension, TAllocator >
 {
 public:

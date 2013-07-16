@@ -30,7 +30,7 @@ namespace itk
  * \ingroup ITKQuadEdgeMeshFiltering
  */
 template< typename TInputMesh >
-class ITK_EXPORT MatrixCoefficients
+class MatrixCoefficients
 {
 public:
   typedef TInputMesh                           InputMeshType;
@@ -52,7 +52,7 @@ public:
  * \ingroup ITKQuadEdgeMeshFiltering
  */
 template< typename TInputMesh >
-class ITK_EXPORT OnesMatrixCoefficients:public MatrixCoefficients< TInputMesh >
+class OnesMatrixCoefficients:public MatrixCoefficients< TInputMesh >
 {
 public:
   typedef MatrixCoefficients< TInputMesh > Superclass;
@@ -81,7 +81,7 @@ public:
  * \ingroup ITKQuadEdgeMeshFiltering
  */
 template< typename TInputMesh >
-class ITK_EXPORT InverseEuclideanDistanceMatrixCoefficients:
+class InverseEuclideanDistanceMatrixCoefficients:
   public MatrixCoefficients< TInputMesh >
 {
 public:
@@ -123,7 +123,7 @@ public:
  * \ingroup ITKQuadEdgeMeshFiltering
  */
 template< typename TInputMesh >
-class ITK_EXPORT ConformalMatrixCoefficients:public MatrixCoefficients< TInputMesh >
+class ConformalMatrixCoefficients:public MatrixCoefficients< TInputMesh >
 {
 public:
   typedef MatrixCoefficients< TInputMesh > Superclass;
@@ -176,7 +176,7 @@ public:
  * \ingroup ITKQuadEdgeMeshFiltering
  */
 template< typename TInputMesh >
-class ITK_EXPORT AuthalicMatrixCoefficients:public MatrixCoefficients< TInputMesh >
+class AuthalicMatrixCoefficients:public MatrixCoefficients< TInputMesh >
 {
 public:
   typedef MatrixCoefficients< TInputMesh > Superclass;
@@ -232,7 +232,7 @@ public:
  * \ingroup ITKQuadEdgeMeshFiltering
  */
 template< typename TInputMesh >
-class ITK_EXPORT IntrinsicMatrixCoefficients:public MatrixCoefficients< TInputMesh >
+class IntrinsicMatrixCoefficients:public MatrixCoefficients< TInputMesh >
 {
 public:
   typedef MatrixCoefficients< TInputMesh > Superclass;
@@ -268,7 +268,7 @@ public:
  * \ingroup ITKQuadEdgeMeshFiltering
  */
 template< typename TInputMesh >
-class ITK_EXPORT HarmonicMatrixCoefficients:public MatrixCoefficients< TInputMesh >
+class HarmonicMatrixCoefficients:public MatrixCoefficients< TInputMesh >
 {
 public:
   typedef MatrixCoefficients< TInputMesh > Superclass;

@@ -101,7 +101,7 @@ private:
  * \ingroup ITKCommon
  */
 template< class TIterator >
-class ITK_EXPORT ThreadedIteratorRangePartitioner
+class ThreadedIteratorRangePartitioner
   : public ThreadedDomainPartitioner< ThreadedIteratorRangePartitionerDomain< TIterator > >
 {
 public:

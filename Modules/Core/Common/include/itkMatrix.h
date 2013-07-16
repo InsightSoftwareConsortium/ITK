@@ -260,7 +260,7 @@ private:
 };
 
 template< class T, unsigned int NRows, unsigned int NColumns >
-ITK_EXPORT std::ostream & operator<<(std::ostream & os, const Matrix< T, NRows, NColumns > & v)
+std::ostream & operator<<(std::ostream & os, const Matrix< T, NRows, NColumns > & v)
 {
   os << v.GetVnlMatrix();
   return os;

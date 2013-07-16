@@ -37,7 +37,7 @@ namespace itk
  */
 
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT BoxImageFilter:
+class BoxImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

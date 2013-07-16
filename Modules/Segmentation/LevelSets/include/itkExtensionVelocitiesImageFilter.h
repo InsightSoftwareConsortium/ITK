@@ -51,7 +51,7 @@ template<
   class TAuxValue = float,
   unsigned int VAuxDimension = 1
   >
-class ITK_EXPORT ExtensionVelocitiesImageFilter:
+class ExtensionVelocitiesImageFilter:
   public ReinitializeLevelSetImageFilter< TLevelSet >
 {
 public:

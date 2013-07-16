@@ -35,7 +35,7 @@ namespace bio
  *
  * \ingroup ITKBioCell
  */
-class ITK_EXPORT GeneNetwork
+class GeneNetwork
 {
 public:
   typedef   std::vector< float > ProteomeType;

@@ -94,7 +94,7 @@ private:
 }
 
 template< class THistogram, class TImage=Image< double, 3 > >
-class ITK_EXPORT HistogramToLogProbabilityImageFilter:
+class HistogramToLogProbabilityImageFilter:
   public HistogramToImageFilter< THistogram, TImage,
                                  Function::HistogramLogProbabilityFunction< SizeValueType, typename TImage::PixelType > >
 {

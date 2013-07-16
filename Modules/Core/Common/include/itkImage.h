@@ -77,7 +77,7 @@ namespace itk
  * \endwiki
  */
 template< class TPixel, unsigned int VImageDimension = 2 >
-class ITK_EXPORT Image:public ImageBase< VImageDimension >
+class Image:public ImageBase< VImageDimension >
 {
 public:
   /** Standard class typedefs */

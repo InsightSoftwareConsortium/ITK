@@ -51,7 +51,7 @@ namespace itk
  * \ingroup ITKImageStatistics
  */
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT AccumulateImageFilter:public ImageToImageFilter< TInputImage, TOutputImage >
+class AccumulateImageFilter:public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */

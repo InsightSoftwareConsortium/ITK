@@ -38,7 +38,7 @@ namespace itk
  * \ingroup ITKFEM
  */
 
-class ITK_EXPORT FEMFactoryBase : public ObjectFactoryBase
+class FEMFactoryBase : public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */

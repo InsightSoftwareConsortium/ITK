@@ -99,7 +99,7 @@ private:
 }
 
 template< class THistogram, class TImage=Image< double, 3> >
-class ITK_EXPORT HistogramToEntropyImageFilter:
+class HistogramToEntropyImageFilter:
   public HistogramToImageFilter< THistogram, TImage,
                                  Function::HistogramEntropyFunction< SizeValueType, typename TImage::PixelType > >
 {

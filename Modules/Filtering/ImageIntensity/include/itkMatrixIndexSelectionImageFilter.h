@@ -78,7 +78,7 @@ private:
  */
 
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT MatrixIndexSelectionImageFilter:
+class MatrixIndexSelectionImageFilter:
   public
   UnaryFunctorImageFilter< TInputImage, TOutputImage,
                            Functor::MatrixIndexSelection< typename TInputImage::PixelType,

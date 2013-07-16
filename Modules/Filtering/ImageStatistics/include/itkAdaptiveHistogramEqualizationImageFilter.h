@@ -63,7 +63,7 @@ namespace itk
  * \endwiki
  */
 template< class TImageType >
-class ITK_EXPORT AdaptiveHistogramEqualizationImageFilter:
+class AdaptiveHistogramEqualizationImageFilter:
   public BoxImageFilter< TImageType, TImageType >
 {
 public:

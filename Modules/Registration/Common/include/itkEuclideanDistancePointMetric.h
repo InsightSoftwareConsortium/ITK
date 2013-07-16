@@ -44,7 +44,7 @@ namespace itk
 template< class TFixedPointSet, class TMovingPointSet,
           class TDistanceMap =
             ::itk::Image< unsigned short, TMovingPointSet::PointDimension > >
-class ITK_EXPORT EuclideanDistancePointMetric:
+class EuclideanDistancePointMetric:
   public PointSetToPointSetMetric< TFixedPointSet, TMovingPointSet >
 {
 public:

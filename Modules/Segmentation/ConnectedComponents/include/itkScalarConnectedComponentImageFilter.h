@@ -107,7 +107,7 @@ protected:
 } // end namespace Functor
 
 template< class TInputImage, class TOutputImage, class TMaskImage = TInputImage >
-class ITK_EXPORT ScalarConnectedComponentImageFilter:
+class ScalarConnectedComponentImageFilter:
   public ConnectedComponentFunctorImageFilter< TInputImage, TOutputImage,
                                                Functor::SimilarPixelsFunctor< typename TInputImage::ValueType >,
                                                TMaskImage >

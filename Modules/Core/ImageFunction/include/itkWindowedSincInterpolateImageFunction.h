@@ -255,7 +255,7 @@ template<
   class TWindowFunction = Function::HammingWindowFunction< VRadius >,
   class TBoundaryCondition = ZeroFluxNeumannBoundaryCondition< TInputImage, TInputImage >,
   class TCoordRep = double >
-class ITK_EXPORT WindowedSincInterpolateImageFunction:
+class WindowedSincInterpolateImageFunction:
   public InterpolateImageFunction< TInputImage, TCoordRep >
 {
 public:

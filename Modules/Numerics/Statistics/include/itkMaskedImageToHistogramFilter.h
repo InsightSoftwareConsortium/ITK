@@ -39,7 +39,7 @@ namespace Statistics
  */
 
 template< class TImage, class TMaskImage >
-class ITK_EXPORT MaskedImageToHistogramFilter:public ImageToHistogramFilter<TImage>
+class MaskedImageToHistogramFilter:public ImageToHistogramFilter<TImage>
 {
 public:
   /** Standard typedefs */

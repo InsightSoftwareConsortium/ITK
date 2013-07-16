@@ -36,7 +36,7 @@
     <Description>
       The definition for shared library symbol export macros was
       previously only definied in itkWin32Header.h for DLL creation. However, support was
-      added to GCC visibility, so the ITK_EXPORT macro definition was moved to itkMacro.h.
+      added to GCC visibility, so the macro definition was moved to itkMacro.h.
     </Description>
 
     <!--**
@@ -48,7 +48,7 @@
         <![CDATA[
         #include "itkWin32Header.h"
 
-        class ITK_EXPORT Gene
+        class Gene
         {
         ]]>
       </Old>
@@ -57,7 +57,7 @@
         <![CDATA[
         #include "itkMacro.h"
 
-        class ITK_EXPORT Gene
+        class Gene
         ]]>
       </New>
 

@@ -50,7 +50,7 @@ namespace itk
  * \ingroup ITKFEMRegistration
  */
 template< class TFixedImage, class TMovingImage, class TDisplacementField >
-class ITK_EXPORT NCCRegistrationFunction:
+class NCCRegistrationFunction:
   public PDEDeformableRegistrationFunction< TFixedImage,
                                             TMovingImage, TDisplacementField >
 {

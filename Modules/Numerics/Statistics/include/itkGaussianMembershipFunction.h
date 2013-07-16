@@ -52,7 +52,7 @@ namespace Statistics
  */
 
 template< class TMeasurementVector >
-class ITK_EXPORT GaussianMembershipFunction:
+class GaussianMembershipFunction:
   public MembershipFunctionBase< TMeasurementVector >
 {
 public:

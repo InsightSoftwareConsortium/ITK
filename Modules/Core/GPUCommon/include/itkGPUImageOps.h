@@ -33,7 +33,7 @@ namespace itk
 itkGPUKernelClassMacro(GPUImageOpsKernel);
 
 /** GPUImageOps class definition */
-class ITK_EXPORT GPUImageOps
+class GPUImageOps
 {
 public:
   /** Standard class typedefs. */

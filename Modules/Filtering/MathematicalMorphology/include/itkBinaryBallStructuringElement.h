@@ -56,7 +56,7 @@ namespace itk
 
 template< class TPixel, unsigned int VDimension = 2,
           class TAllocator = NeighborhoodAllocator< TPixel > >
-class ITK_EXPORT BinaryBallStructuringElement:
+class BinaryBallStructuringElement:
   public Neighborhood< TPixel, VDimension, TAllocator >
 {
 public:

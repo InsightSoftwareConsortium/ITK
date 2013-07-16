@@ -91,7 +91,7 @@ namespace itk
  * \endwiki
  */
 template< class TFixedImage, class TMovingImage >
-class ITK_EXPORT MutualInformationImageToImageMetric:
+class MutualInformationImageToImageMetric:
   public ImageToImageMetric< TFixedImage, TMovingImage >
 {
 public:

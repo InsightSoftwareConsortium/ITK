@@ -54,7 +54,7 @@ namespace itk
  * \ingroup ITKImageGrid
  */
 template<unsigned int VSplineOrder = 3, typename TRealValueType = double>
-class ITK_EXPORT CoxDeBoorBSplineKernelFunction:
+class CoxDeBoorBSplineKernelFunction:
   public KernelFunctionBase<TRealValueType>
 {
 public:

@@ -49,7 +49,7 @@ namespace itk
  * \sa DivideImageFilter
  */
 template <class TInputImage, class TConstant, class TOutputImage>
-class ITK_EXPORT DivideByConstantImageFilter :
+class DivideByConstantImageFilter :
     public DivideImageFilter<TInputImage, Image<TConstant, TInputImage::ImageDimension>, TOutputImage>
 {
 public:

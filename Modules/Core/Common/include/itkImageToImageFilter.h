@@ -99,7 +99,7 @@ namespace itk
  * \endwiki
  */
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT ImageToImageFilter:public ImageSource< TOutputImage >
+class ImageToImageFilter:public ImageSource< TOutputImage >
 {
 public:
   /** Standard class typedefs. */

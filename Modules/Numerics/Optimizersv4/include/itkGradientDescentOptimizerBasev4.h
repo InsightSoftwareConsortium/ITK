@@ -37,7 +37,7 @@ namespace itk
  * \ingroup ITKOptimizersv4
  */
 template<class TInternalComputationValueType>
-class ITK_EXPORT GradientDescentOptimizerBaseTemplatev4
+class GradientDescentOptimizerBaseTemplatev4
   : public ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>
 {
 public:

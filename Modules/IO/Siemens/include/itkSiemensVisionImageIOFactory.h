@@ -28,7 +28,7 @@ namespace itk
    * \brief Create instances of SiemensVisionImageIO objects using an object factory.
    * \ingroup ITKIOSiemens
    */
-class ITK_EXPORT SiemensVisionImageIOFactory:public ObjectFactoryBase
+class SiemensVisionImageIOFactory:public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */

@@ -43,7 +43,7 @@ namespace itk
    * \ingroup ITKOptimizersv4
    */
 template<class TInternalComputationValueType>
-class ITK_EXPORT MultiGradientOptimizerTemplatev4
+class MultiGradientOptimizerTemplatev4
 : public GradientDescentOptimizerTemplatev4<TInternalComputationValueType>
 {
 public:

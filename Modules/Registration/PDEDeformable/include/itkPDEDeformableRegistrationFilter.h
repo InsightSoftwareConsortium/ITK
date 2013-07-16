@@ -70,7 +70,7 @@ namespace itk
  * \ingroup ITKPDEDeformableRegistration
  */
 template< class TFixedImage, class TMovingImage, class TDisplacementField >
-class ITK_EXPORT PDEDeformableRegistrationFilter:
+class PDEDeformableRegistrationFilter:
   public DenseFiniteDifferenceImageFilter< TDisplacementField, TDisplacementField >
 {
 public:

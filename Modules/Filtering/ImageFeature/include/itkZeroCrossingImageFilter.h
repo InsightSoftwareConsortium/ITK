@@ -60,7 +60,7 @@ namespace itk
  * \endwiki
  */
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT ZeroCrossingImageFilter:
+class ZeroCrossingImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

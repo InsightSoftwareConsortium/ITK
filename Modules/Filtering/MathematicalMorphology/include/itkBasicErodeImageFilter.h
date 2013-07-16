@@ -43,7 +43,7 @@ namespace itk
  * \ingroup ITKMathematicalMorphology
  */
 template< class TInputImage, class TOutputImage, class TKernel >
-class ITK_EXPORT BasicErodeImageFilter:
+class BasicErodeImageFilter:
   public MorphologyImageFilter< TInputImage, TOutputImage, TKernel >
 {
 public:

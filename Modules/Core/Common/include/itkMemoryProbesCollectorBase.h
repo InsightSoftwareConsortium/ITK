@@ -34,7 +34,7 @@ namespace itk
  *
  * \ingroup ITKCommon
  */
-class ITK_EXPORT MemoryProbesCollectorBase:public ResourceProbesCollectorBase< MemoryProbe >
+class MemoryProbesCollectorBase:public ResourceProbesCollectorBase< MemoryProbe >
 {
 public:
   virtual ~MemoryProbesCollectorBase(){}

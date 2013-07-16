@@ -201,7 +201,7 @@ struct MakeJoin {
  * \endwiki
  */
 template< class TInputImage1, class TInputImage2 >
-class ITK_EXPORT JoinImageFilter:
+class JoinImageFilter:
   public BinaryFunctorImageFilter< TInputImage1,
                                    TInputImage2,
                                    typename

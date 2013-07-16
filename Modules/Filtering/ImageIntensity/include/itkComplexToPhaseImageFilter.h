@@ -55,7 +55,7 @@ public:
 }
 
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT ComplexToPhaseImageFilter:
+class ComplexToPhaseImageFilter:
   public
   UnaryFunctorImageFilter< TInputImage, TOutputImage,
                            Functor::ComplexToPhase<

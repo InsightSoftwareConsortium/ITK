@@ -69,7 +69,7 @@ public:
 template< typename  TInputImage, typename  TOutputImage = Image<
     typename NumericTraits< typename TInputImage::PixelType::ValueType >::RealType,
     TInputImage::Dimension > >
-class ITK_EXPORT TensorRelativeAnisotropyImageFilter:
+class TensorRelativeAnisotropyImageFilter:
   public
   UnaryFunctorImageFilter< TInputImage, TOutputImage,
                            Functor::TensorRelativeAnisotropyFunction<

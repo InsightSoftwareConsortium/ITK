@@ -74,7 +74,7 @@ public:
  * \ingroup ITKImageIntensity
  */
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT CosImageFilter:
+class CosImageFilter:
   public
   UnaryFunctorImageFilter< TInputImage, TOutputImage,
                            Functor::Cos<

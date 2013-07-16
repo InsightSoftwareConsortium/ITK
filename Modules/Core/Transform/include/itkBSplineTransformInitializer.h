@@ -38,7 +38,7 @@ namespace itk
  * \ingroup ITKTransform
  */
 template<class TTransform, class TImage>
-class ITK_EXPORT BSplineTransformInitializer
+class BSplineTransformInitializer
 : public Object
 {
 public:

@@ -41,7 +41,7 @@ namespace itk
  * \ingroup ITKMetricsv4
  */
 template<class TFixedPointSet, class TMovingPointSet = TFixedPointSet>
-class ITK_EXPORT ExpectationBasedPointSetToPointSetMetricv4:
+class ExpectationBasedPointSetToPointSetMetricv4:
   public PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
 {
 public:

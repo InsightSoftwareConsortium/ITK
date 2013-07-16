@@ -102,7 +102,7 @@ template< class TInputImage,
           class TAccumulate = typename
                               NumericTraits< typename TOutputImage::PixelType >
                               ::AccumulateType >
-class ITK_EXPORT StandardDeviationProjectionImageFilter:
+class StandardDeviationProjectionImageFilter:
   public
   ProjectionImageFilter< TInputImage, TOutputImage,
                          Functor::StandardDeviationAccumulator< typename

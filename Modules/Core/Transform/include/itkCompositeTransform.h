@@ -85,7 +85,7 @@ namespace itk
  */
 template
 <class TScalar = double, unsigned int NDimensions = 3>
-class ITK_EXPORT CompositeTransform :
+class CompositeTransform :
   public MultiTransform<TScalar, NDimensions>
 {
 public:

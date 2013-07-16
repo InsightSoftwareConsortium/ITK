@@ -41,7 +41,7 @@ namespace itk
  * \ingroup ITKImageStatistics
  */
 template< class TInputImage >
-class ITK_EXPORT MinimumMaximumImageFilter:
+class MinimumMaximumImageFilter:
   public ImageToImageFilter< TInputImage, TInputImage >
 {
 public:

@@ -49,7 +49,7 @@ namespace itk
  */
 
 template< class T, class TContainer >
-class ITK_EXPORT NthElementPixelAccessor
+class NthElementPixelAccessor
 {
 public:
   /** Standard class typedefs. */
@@ -105,10 +105,12 @@ private:
 
 
 template< class TOutputPixelType, class TPixelType >
-class ITK_EXPORT NthElementPixelAccessor< TOutputPixelType, itk::VariableLengthVector<TPixelType> >
+class NthElementPixelAccessor< TOutputPixelType, itk::VariableLengthVector<TPixelType> >
   : private DefaultVectorPixelAccessor< TPixelType >
 {
 public:
+  /** Standard class typedefs. */
+  typedef   NthElementPixelAccessor Self;
 
   typedef unsigned int VectorLengthType;
 
@@ -172,6 +174,21 @@ public:
     {
     Superclass::SetVectorLength( length );
     }
+
+  /** operator!=. This is needed to convert a pixel accessor to a functor.
+   * \sa AdaptImageFilter */
+  bool operator!=(const Self & accessor) const
+  {
+    return ( m_ElementNumber != accessor.m_ElementNumber );
+  }
+
+  /** Assignment operator */
+  NthElementPixelAccessor & operator=(const NthElementPixelAccessor & accessor)
+  {
+    m_ElementNumber = accessor.m_ElementNumber;
+    this->SetVectorLength( accessor.GetVectorLength() );
+    return *this;
+  }
 
 protected:
   typedef DefaultVectorPixelAccessor< TPixelType > Superclass;

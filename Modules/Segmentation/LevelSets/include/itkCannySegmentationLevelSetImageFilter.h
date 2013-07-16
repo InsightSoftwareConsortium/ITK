@@ -129,7 +129,7 @@ namespace itk
 template< class TInputImage,
           class TFeatureImage,
           class TOutputPixelType = float >
-class ITK_EXPORT CannySegmentationLevelSetImageFilter:
+class CannySegmentationLevelSetImageFilter:
   public SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >
 {
 public:

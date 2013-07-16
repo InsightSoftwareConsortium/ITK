@@ -27,7 +27,7 @@ namespace itk
  * \brief Create instances of ImageIO objects using an object factory.
  * \ingroup ITKIOImageBase
  */
-class ITK_EXPORT ImageIOFactory:public Object
+class ImageIOFactory:public Object
 {
 public:
   /** Standard class typedefs. */

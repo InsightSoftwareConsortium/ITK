@@ -40,7 +40,7 @@ namespace itk
  *
  * \ingroup ITKMesh
  */
-class ITK_EXPORT SimplexMeshGeometry
+class SimplexMeshGeometry
 {
 public:
 

@@ -46,7 +46,7 @@ namespace itk
  * \ingroup ITKOptimizers
  */
 
-class ITK_EXPORT FRPROptimizer:
+class FRPROptimizer:
   public PowellOptimizer
 {
 public:

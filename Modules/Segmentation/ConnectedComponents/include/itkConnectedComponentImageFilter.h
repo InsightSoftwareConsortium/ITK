@@ -52,7 +52,7 @@ namespace itk
  */
 
 template< class TInputImage, class TOutputImage, class TMaskImage = TInputImage >
-class ITK_EXPORT ConnectedComponentImageFilter:
+class ConnectedComponentImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

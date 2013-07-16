@@ -149,7 +149,7 @@ public:
  * \ingroup ITKCommon
  */
 template< class TNodeType >
-class ITK_EXPORT SparseFieldLayer:
+class SparseFieldLayer:
   public Object
 {
 public:

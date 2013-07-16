@@ -80,7 +80,7 @@ namespace itk
  * \ingroup ITKLabelMap
  */
 template< class TInputImage >
-class ITK_EXPORT InPlaceLabelMapFilter:public LabelMapFilter< TInputImage, TInputImage >
+class InPlaceLabelMapFilter:public LabelMapFilter< TInputImage, TInputImage >
 {
 public:
   /** Standard class typedefs. */

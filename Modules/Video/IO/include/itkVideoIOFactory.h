@@ -32,7 +32,7 @@ namespace itk
  *
  * \ingroup ITKVideoIO
  */
-class ITK_EXPORT VideoIOFactory : public Object
+class VideoIOFactory : public Object
 {
 public:
   /** Standard class typedefs. */

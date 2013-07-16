@@ -21,7 +21,7 @@
  *  \class OptimizerParameterScalesEstimatorTest for test.
  *  Create a simple scales estimator class to use for testing here.
  */
-class ITK_EXPORT OptimizerParameterScalesEstimatorTest:
+class OptimizerParameterScalesEstimatorTest:
   public itk::OptimizerParameterScalesEstimator
 {
 public:

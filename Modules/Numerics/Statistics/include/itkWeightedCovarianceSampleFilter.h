@@ -40,7 +40,7 @@ namespace Statistics
  */
 
 template< class TSample >
-class ITK_EXPORT WeightedCovarianceSampleFilter:
+class WeightedCovarianceSampleFilter:
   public CovarianceSampleFilter< TSample >
 {
 public:

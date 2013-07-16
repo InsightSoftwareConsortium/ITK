@@ -47,7 +47,7 @@ namespace itk
  */
 
 template< class THistogram, class TImage, class TFunction >
-class ITK_EXPORT HistogramToImageFilter:
+class HistogramToImageFilter:
   public ImageSource< TImage >
 {
 public:

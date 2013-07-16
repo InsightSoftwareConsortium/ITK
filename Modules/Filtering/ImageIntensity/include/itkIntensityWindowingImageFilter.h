@@ -112,7 +112,7 @@ private:
  * \sa RescaleIntensityImageFilter
  */
 template< typename  TInputImage, typename  TOutputImage = TInputImage >
-class ITK_EXPORT IntensityWindowingImageFilter:
+class IntensityWindowingImageFilter:
   public
   UnaryFunctorImageFilter< TInputImage, TOutputImage,
                            Functor::IntensityWindowingTransform<

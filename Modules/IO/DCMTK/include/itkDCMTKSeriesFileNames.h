@@ -47,7 +47,7 @@ namespace itk
  *
  * \ingroup ITKIODCMTK
  */
-class ITK_EXPORT DCMTKSeriesFileNames:public ProcessObject
+class DCMTKSeriesFileNames:public ProcessObject
 {
 public:
   /** Standard class typedefs. */

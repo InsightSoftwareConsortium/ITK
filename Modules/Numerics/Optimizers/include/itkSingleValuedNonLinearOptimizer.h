@@ -31,7 +31,7 @@ namespace itk
  *
  * \ingroup ITKOptimizers
  */
-class ITK_EXPORT SingleValuedNonLinearOptimizer:
+class SingleValuedNonLinearOptimizer:
   public NonLinearOptimizer
 {
 public:

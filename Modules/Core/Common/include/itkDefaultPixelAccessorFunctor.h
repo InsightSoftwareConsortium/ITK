@@ -44,7 +44,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template< class TImageType >
-class ITK_EXPORT DefaultPixelAccessorFunctor
+class DefaultPixelAccessorFunctor
 {
 public:
   typedef TImageType                            ImageType;

@@ -44,7 +44,7 @@ namespace itk
  * \ingroup ITKMesh
  */
 template< class TInputMesh, class TOutputMesh >
-class ITK_EXPORT MeshToMeshFilter:public MeshSource< TOutputMesh >
+class MeshToMeshFilter:public MeshSource< TOutputMesh >
 {
 public:
   /** Standard class typedefs. */

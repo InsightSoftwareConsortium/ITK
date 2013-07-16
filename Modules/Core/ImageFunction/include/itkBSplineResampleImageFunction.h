@@ -53,7 +53,7 @@ namespace itk
  * \ingroup ITKImageFunction
  */
 template< class TImageType, class TCoordRep = float >
-class ITK_EXPORT BSplineResampleImageFunction:
+class BSplineResampleImageFunction:
   public BSplineInterpolateImageFunction<
     TImageType, TCoordRep, typename TImageType::PixelType >
 {

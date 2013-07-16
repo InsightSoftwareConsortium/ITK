@@ -33,7 +33,7 @@ namespace itk
  * \ingroup ITKTestKernel
  */
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT DifferenceImageFilter:
+class DifferenceImageFilter:
   public Testing::ComparisonImageFilter< TInputImage, TOutputImage >
 {
 public:

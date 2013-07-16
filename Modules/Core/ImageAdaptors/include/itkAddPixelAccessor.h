@@ -41,7 +41,7 @@ namespace Accessor
  */
 
 template< class TPixel >
-class ITK_EXPORT AddPixelAccessor
+class AddPixelAccessor
 {
 public:
   /** Standard class typedefs. */

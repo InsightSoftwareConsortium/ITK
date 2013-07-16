@@ -84,7 +84,7 @@ private:
  * \ingroup ITKImageIntensity
  */
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT ExpNegativeImageFilter:
+class ExpNegativeImageFilter:
   public
   UnaryFunctorImageFilter< TInputImage, TOutputImage,
                            Functor::ExpNegative<

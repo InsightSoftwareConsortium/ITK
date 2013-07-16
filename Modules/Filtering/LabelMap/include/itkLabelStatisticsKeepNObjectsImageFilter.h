@@ -43,7 +43,7 @@ namespace itk
  * \ingroup ITKLabelMap
  */
 template< class TInputImage, class TFeatureImage >
-class ITK_EXPORT LabelStatisticsKeepNObjectsImageFilter:
+class LabelStatisticsKeepNObjectsImageFilter:
   public ImageToImageFilter< TInputImage, TInputImage >
 {
 public:

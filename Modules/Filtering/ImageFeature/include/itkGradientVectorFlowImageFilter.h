@@ -46,7 +46,7 @@ namespace itk
  * \ingroup ITKImageFeature
  */
 template< class TInputImage, class TOutputImage, class TInternalPixel = double >
-class ITK_EXPORT GradientVectorFlowImageFilter:public ImageToImageFilter< TInputImage, TOutputImage >
+class GradientVectorFlowImageFilter:public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard "Self" typedef. */

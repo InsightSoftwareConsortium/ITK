@@ -81,7 +81,7 @@ namespace itk
    * \ingroup ITKOptimizersv4
    */
 template<class TInternalComputationValueType>
-class ITK_EXPORT GradientDescentOptimizerTemplatev4
+class GradientDescentOptimizerTemplatev4
 : public GradientDescentOptimizerBaseTemplatev4<TInternalComputationValueType>
 {
 public:

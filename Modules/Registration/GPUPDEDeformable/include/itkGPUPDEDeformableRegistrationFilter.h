@@ -78,7 +78,7 @@ itkGPUKernelClassMacro(GPUPDEDeformableRegistrationFilterKernel);
 template< class TFixedImage, class TMovingImage, class TDisplacementField,
           class TParentImageFilter = PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
           >
-class ITK_EXPORT GPUPDEDeformableRegistrationFilter :
+class GPUPDEDeformableRegistrationFilter :
   public GPUDenseFiniteDifferenceImageFilter< TDisplacementField, TDisplacementField, TParentImageFilter >
 {
 public:

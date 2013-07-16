@@ -274,7 +274,7 @@ private:
 };
 
 template< class T >
-ITK_EXPORT std::ostream & operator<<(std::ostream & os,
+std::ostream & operator<<(std::ostream & os,
                                      const Versor< T > & v)
 {
   os << "[ ";
@@ -284,7 +284,7 @@ ITK_EXPORT std::ostream & operator<<(std::ostream & os,
 }
 
 template< class T >
-ITK_EXPORT std::istream & operator>>(std::istream & is,
+std::istream & operator>>(std::istream & is,
                                      Versor< T > & v);
 } // end namespace itk
 

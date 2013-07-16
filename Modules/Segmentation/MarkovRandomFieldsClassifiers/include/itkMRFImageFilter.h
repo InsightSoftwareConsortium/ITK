@@ -122,7 +122,7 @@ namespace itk
  * \ingroup ITKMarkovRandomFieldsClassifiers
  */
 template< class TInputImage, class TClassifiedImage >
-class ITK_EXPORT MRFImageFilter:
+class MRFImageFilter:
   public ImageToImageFilter< TInputImage, TClassifiedImage >
 {
 public:

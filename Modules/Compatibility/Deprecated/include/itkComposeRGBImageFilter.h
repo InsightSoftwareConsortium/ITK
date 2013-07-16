@@ -71,7 +71,7 @@ template< typename TInputImage,
           typename TOutputImage =
             Image< RGBPixel< typename TInputImage::PixelType >,
                    TInputImage::ImageDimension > >
-class ITK_EXPORT ComposeRGBImageFilter:
+class ComposeRGBImageFilter:
   public
   TernaryFunctorImageFilter< TInputImage, TInputImage,
                              TInputImage, TOutputImage,

@@ -38,7 +38,7 @@ namespace itk
  */
 
 template< class TOutputPath >
-class ITK_EXPORT PathSource:public ProcessObject
+class PathSource:public ProcessObject
 {
 public:
   /** Standard class typedefs. */

@@ -62,7 +62,7 @@ namespace itk
  * \endwiki
  */
 template< class TInputImage, class TOutputImage = TInputImage >
-class ITK_EXPORT ConstantBoundaryCondition:
+class ConstantBoundaryCondition:
     public ImageBoundaryCondition< TInputImage, TOutputImage >
 {
 public:

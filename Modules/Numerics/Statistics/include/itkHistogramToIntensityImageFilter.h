@@ -72,7 +72,7 @@ private:
 }
 
 template< class THistogram, class TImage=Image< SizeValueType, 3 > >
-class ITK_EXPORT HistogramToIntensityImageFilter:
+class HistogramToIntensityImageFilter:
   public HistogramToImageFilter< THistogram, TImage,
                                  Function::HistogramIntensityFunction< SizeValueType, typename TImage::PixelType > >
 {

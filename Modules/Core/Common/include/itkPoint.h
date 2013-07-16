@@ -261,11 +261,11 @@ public:
 };
 
 template< class T, unsigned int NPointDimension >
-ITK_EXPORT std::ostream & operator<<(std::ostream & os,
+std::ostream & operator<<(std::ostream & os,
                                      const Point< T, NPointDimension > & v);
 
 template< class T, unsigned int NPointDimension >
-ITK_EXPORT std::istream & operator>>(std::istream & is,
+std::istream & operator>>(std::istream & is,
                                      Point< T, NPointDimension > & v);
 
 /** \class BarycentricCombination
@@ -294,7 +294,7 @@ ITK_EXPORT std::istream & operator>>(std::istream & is,
  * \ingroup ITKCommon
  */
 template< class TPointContainer, class TWeightContainer >
-ITK_EXPORT class BarycentricCombination
+class BarycentricCombination
 {
 public:
   /** Convenient typedefs. */

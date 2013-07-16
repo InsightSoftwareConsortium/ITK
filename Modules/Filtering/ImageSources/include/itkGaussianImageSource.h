@@ -41,7 +41,7 @@ namespace itk
  * \ingroup ITKImageSources
  */
 template< typename TOutputImage >
-class ITK_EXPORT GaussianImageSource :
+class GaussianImageSource :
     public ParametricImageSource< TOutputImage >
 {
 public:

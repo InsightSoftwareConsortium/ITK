@@ -84,7 +84,7 @@ namespace itk
  */
 template
 <class TScalar, unsigned int NDimensions>
-class ITK_EXPORT DisplacementFieldTransform :
+class DisplacementFieldTransform :
   public Transform<TScalar, NDimensions, NDimensions>
 {
 public:

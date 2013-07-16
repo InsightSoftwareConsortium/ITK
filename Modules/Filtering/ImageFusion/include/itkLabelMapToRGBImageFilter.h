@@ -40,7 +40,7 @@ namespace itk {
  * \ingroup ITKImageFusion
  */
 template<class TInputImage, class TOutputImage=Image< RGBPixel<unsigned char>, TInputImage::ImageDimension > >
-class ITK_EXPORT LabelMapToRGBImageFilter :
+class LabelMapToRGBImageFilter :
     public LabelMapFilter<TInputImage, TOutputImage>
 {
 public:

@@ -69,7 +69,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template< class TInputImage, class TOutputImage = TInputImage >
-class ITK_EXPORT InPlaceImageFilter:public ImageToImageFilter< TInputImage, TOutputImage >
+class InPlaceImageFilter:public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */

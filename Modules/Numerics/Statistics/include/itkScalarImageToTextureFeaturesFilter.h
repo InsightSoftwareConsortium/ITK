@@ -103,7 +103,7 @@ namespace Statistics
 
 template< class TImageType,
           class THistogramFrequencyContainer = DenseFrequencyContainer2 >
-class ITK_EXPORT ScalarImageToTextureFeaturesFilter:public ProcessObject
+class ScalarImageToTextureFeaturesFilter:public ProcessObject
 {
 public:
   /** Standard typedefs */

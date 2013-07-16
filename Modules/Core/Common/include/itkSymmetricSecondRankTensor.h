@@ -214,11 +214,11 @@ typedef std::ostream OutputStreamType;
 typedef std::istream InputStreamType;
 
 template< typename TComponent, unsigned int NDimension  >
-ITK_EXPORT OutputStreamType & operator<<(OutputStreamType & os,
+OutputStreamType & operator<<(OutputStreamType & os,
                                          const SymmetricSecondRankTensor< TComponent, NDimension > & c);
 
 template< typename TComponent, unsigned int NDimension  >
-ITK_EXPORT InputStreamType & operator>>(InputStreamType & is,
+InputStreamType & operator>>(InputStreamType & is,
                                         SymmetricSecondRankTensor< TComponent, NDimension > & c);
 } // end namespace itk
 

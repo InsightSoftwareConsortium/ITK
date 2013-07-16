@@ -45,7 +45,7 @@ namespace itk
  */
 template <class TScalarType = double>
 // Data type for scalars (float or double)
-class ITK_EXPORT Euler3DTransform :
+class Euler3DTransform :
   public Rigid3DTransform<TScalarType>
 {
 public:

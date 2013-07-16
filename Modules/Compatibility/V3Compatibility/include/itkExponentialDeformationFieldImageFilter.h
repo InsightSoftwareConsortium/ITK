@@ -65,7 +65,7 @@ namespace itk
  * \ingroup ITKV3Compatibility
  */
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT ExponentialDeformationFieldImageFilter:
+class ExponentialDeformationFieldImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

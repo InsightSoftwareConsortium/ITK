@@ -33,7 +33,7 @@ namespace itk
  * \ingroup ITKImageAdaptors
  */
 template< class TImage >
-class ITK_EXPORT AddImageAdaptor:public
+class AddImageAdaptor:public
   ImageAdaptor< TImage,
                 Accessor::AddPixelAccessor< typename TImage::PixelType >   >
 {

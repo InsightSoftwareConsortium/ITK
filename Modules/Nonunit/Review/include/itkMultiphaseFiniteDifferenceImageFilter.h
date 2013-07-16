@@ -162,7 +162,7 @@ template< class TInputImage,
           class TOutputImage,
           class TFiniteDifferenceFunction = FiniteDifferenceFunction< TOutputImage >,
           typename TIdCell = unsigned int >
-class ITK_EXPORT MultiphaseFiniteDifferenceImageFilter:
+class MultiphaseFiniteDifferenceImageFilter:
   public InPlaceImageFilter< TFeatureImage, TOutputImage >
 {
 public:

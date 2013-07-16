@@ -27,7 +27,7 @@
  *  Create a simple metric to use for testing here.
  */
 template<class TFixedPointSet, class TMovingPointSet>
-class ITK_EXPORT RegistrationParameterScalesFromPhysicalShiftPointSetTestMetric:
+class RegistrationParameterScalesFromPhysicalShiftPointSetTestMetric:
   public itk::PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
 {
 public:

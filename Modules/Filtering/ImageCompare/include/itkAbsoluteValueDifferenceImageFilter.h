@@ -83,7 +83,7 @@ public:
 }
 
 template< class TInputImage1, class TInputImage2, class TOutputImage >
-class ITK_EXPORT AbsoluteValueDifferenceImageFilter:
+class AbsoluteValueDifferenceImageFilter:
   public
   BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage,
                             Functor::AbsoluteValueDifference2<
