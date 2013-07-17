@@ -2,7 +2,7 @@ set(DOCUMENTATION "This module contains a collection of classes for performing
 recursive gaussian filtering (Young Van Vliet implementation).")
 
 if(ITK_USE_GPU)
-    itk_module(SmoothingRecursiveYvvGaussianFilter
+    itk_module(ITKSmoothingRecursiveYvvGaussianFilter
      DEPENDS
         ITKCommon
         ITKIOImageBase
@@ -17,7 +17,7 @@ if(ITK_USE_GPU)
          "${DOCUMENTATION}"
     )
 else()
-    itk_module(SmoothingRecursiveYvvGaussianFilter
+    itk_module(ITKSmoothingRecursiveYvvGaussianFilter
      DEPENDS
         ITKCommon
         ITKIOImageBase
