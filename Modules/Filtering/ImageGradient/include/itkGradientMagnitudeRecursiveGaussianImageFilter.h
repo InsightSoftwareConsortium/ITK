@@ -35,7 +35,7 @@ namespace itk
  * filters
  *
  * \ingroup GradientFilters
- * \ingroup SingelThreaded
+ * \ingroup SingleThreaded
  * \ingroup ITKImageGradient
  *
  * \wiki
