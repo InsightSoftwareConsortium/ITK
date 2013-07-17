@@ -518,7 +518,7 @@ These objects are the basic system objects used in building ITK.
 
 
 /**
-  \defgroup SingelThreaded  SingelThreaded Filters
+  \defgroup SingleThreaded  SingleThreaded Filters
   \ingroup MultiThreadingGroup
   Filter on this category perform all its processing in a single thread
 */

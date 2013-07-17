@@ -47,7 +47,7 @@ namespace itk
  * INRA de Jouy-en-Josas, France.
  *
  * \sa AccumulateImageFilter
- * \ingroup IntensityImageFilters SingelThreaded
+ * \ingroup IntensityImageFilters SingleThreaded
  * \ingroup ITKImageStatistics
  */
 template< class TInputImage, class TOutputImage, class TAccumulator >

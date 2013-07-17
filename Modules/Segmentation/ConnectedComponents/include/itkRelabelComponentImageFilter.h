@@ -67,7 +67,7 @@ namespace itk
  *
  * \sa ConnectedComponentImageFilter, BinaryThresholdImageFilter, ThresholdImageFilter
  *
- * \ingroup SingelThreaded
+ * \ingroup SingleThreaded
  * \ingroup ITKConnectedComponents
  *
  * \wiki

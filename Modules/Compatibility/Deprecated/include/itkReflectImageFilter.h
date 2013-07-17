@@ -32,7 +32,7 @@ namespace itk
  * \deprecated
  * \ingroup ITKDeprecated
  * \ingroup IntensityImageFilters
- * \ingroup SingelThreaded
+ * \ingroup SingleThreaded
  */
 template< class TInputImage, class TOutputImage >
 class ReflectImageFilter:public ImageToImageFilter< TInputImage, TOutputImage >
