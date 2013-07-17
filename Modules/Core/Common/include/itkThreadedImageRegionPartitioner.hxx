@@ -38,7 +38,7 @@ ThreadedImageRegionPartitioner<VDimension>
 template <unsigned int VDimension>
 ThreadIdType
 ThreadedImageRegionPartitioner<VDimension>
-::PartitionDomain( const ThreadIdType threadID,
+::PartitionDomain( const ThreadIdType threadId,
                         const ThreadIdType requestedTotal,
                         const DomainType &completeRegion,
                         DomainType& subRegion) const
@@ -90,17 +90,17 @@ ThreadedImageRegionPartitioner<VDimension>
     Math::Ceil<ThreadIdType>( range / static_cast<double>(valuesPerThread) ) - 1;
 
   // Split the region
-  if( threadID < maxThreadIdUsed )
+  if( threadId < maxThreadIdUsed )
     {
-    splitIndex[splitAxis] += threadID * valuesPerThread;
+    splitIndex[splitAxis] += threadId * valuesPerThread;
     splitSize[splitAxis] = valuesPerThread;
     }
 
-  if( threadID == maxThreadIdUsed )
+  if( threadId == maxThreadIdUsed )
     {
-    splitIndex[splitAxis] += threadID * valuesPerThread;
+    splitIndex[splitAxis] += threadId * valuesPerThread;
     // last thread needs to process the "rest" dimension being split
-    splitSize[splitAxis] = splitSize[splitAxis] - threadID * valuesPerThread;
+    splitSize[splitAxis] = splitSize[splitAxis] - threadId * valuesPerThread;
     }
 
   // set the split region ivars

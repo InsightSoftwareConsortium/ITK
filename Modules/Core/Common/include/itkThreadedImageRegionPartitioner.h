@@ -27,35 +27,17 @@ namespace itk
 /** \class ThreadedImageRegionPartitioner
  *  \brief Class for partitioning of an ImageRegion.
  *
- * This class provides threading over an ImageRegion. It provides a
- * \c SplitRequestedObject method that splits the provided ImageRegion into
- * subregions, along the z-axis. Additionally it makes setting up a threaded
- * operation easier.
+ * \tparam VDimension The dimensionality of the image.
  *
- * Call SetOverallRegion to define the ImageRegion over which to thread.
- * Call SetThreadedGenerateData to define the worker callback function,
- *  which is called from each thread with a unique region to process.
- *\warning This callback function must be \c static if it is a class method.
+ * The \c DomainType is defined to be an itk::ImageRegion.
  *
- * Call \c SetHolder to provide a pointer to DataHolder object to
- * store arbitrary user data for use in the threader callback
- * (typically a class instance).
+ * Partitioning will occur within the outermost, non-singleton-length
+ * dimension of the image region.
  *
- * Call GenerateData to begin threaded processing.
- *
- * This class is templated over image dimension and DataHolder type.
- * The third template parameter \c TDomain should always be
- * left as default.
- *
- * \warning The actual number of threads used may be less than the
- * requested number of threads. Either because the requested number is
- * greater than the number available, or the SplitRequestedObject method
- * decides that fewer threads would be more efficient. After the threader
- * has run, m_NumberOfThreadsUsed holds the actual number used.
- * See \c DetermineNumberOfThreadsToUse to get the number of threads
- * before running.
+ * This class is typically used as a template argument to a DomainThreader.
  *
  * \sa ThreadedDomainPartitioner
+ * \sa DomainThreader
  * \ingroup ITKCommon
  */
 template <unsigned int VDimension>
@@ -86,14 +68,19 @@ public:
   typedef Size<VDimension>          SizeType;
   typedef Index<VDimension>         IndexType;
 
-  /** Split the ImageRegion \c overallRegion into \c requestedTotal subregions,
-   * returning subregion \c i as \c splitRegion.
-   * This method is called \c requestedTotal times. The
-   * pieces must not overlap. The method returns the number of pieces that
-   * the routine is capable of splitting the output RequestedObject,
-   * i.e. return value is less than or equal to \c requestedTotal. */
+  /** Split the ImageRegion \c completeRegion into up to \c requestedTotal
+   * non-overlapping subregions, setting subregion number \c threadId as
+   * \c subRegion and returning the total number of subregions actually available.
+   *
+   * This method should be called repeatedly for each value of \c threadId from 0 up
+   * to the return value (which is always less than or equal to \c requestedTotal).
+   *
+   * It is an error for \c completeRegion to be zero-length.
+   * If \c threadId is greater than the return value, the contents of
+   * \c subRegion are undefined.
+   */
   virtual
-  ThreadIdType PartitionDomain(const ThreadIdType i,
+  ThreadIdType PartitionDomain(const ThreadIdType threadId,
                            const ThreadIdType requestedTotal,
                            const DomainType& completeRegion,
                            DomainType& subRegion) const;

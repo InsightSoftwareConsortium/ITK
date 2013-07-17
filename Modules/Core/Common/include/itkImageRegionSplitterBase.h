@@ -28,7 +28,7 @@ namespace itk
 /** \class ImageRegionSplitterBase
  * \brief Divide an image region into several pieces.
  *
- * ImageRegionSplitterBase is an abstract interface to  divides an
+ * ImageRegionSplitterBase is an abstract interface to divide an
  * ImageRegion into smaller regions. ImageRegionSplitterBase is used
  * by the ImageSource,  StreamingImageFilter, streaming ImageIO
  * classes to divide a region into a series of smaller subregions.
