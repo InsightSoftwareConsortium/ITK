@@ -52,6 +52,20 @@ METHODDEF(void) itk_jpeg_output_message (j_common_ptr)
 
 namespace itk
 {
+
+namespace
+{
+// Wrap setjmp call to avoid warnings about variable clobbering.
+bool wrapSetjmp( itk_jpeg_error_mgr & jerr )
+{
+  if( setjmp( jerr.setjmp_buffer ) )
+    {
+    return true;
+    }
+  return false;
+}
+}
+
 // simple class to call fopen on construct and
 // fclose on destruct
 class JPEGFileWrapper
@@ -153,7 +167,7 @@ bool JPEGImageIO::CanReadFile(const char *file)
   jerr.pub.output_message = itk_jpeg_output_message;
   // set the jump point, if there is a jpeg error or warning
   // this will evaluate to true
-  if ( setjmp(jerr.setjmp_buffer) )
+  if( wrapSetjmp( jerr ) )
     {
     // clean up
     jpeg_destroy_decompress(&cinfo);
@@ -205,7 +219,7 @@ void JPEGImageIO::Read(void *buffer)
   jerr.pub.error_exit = itk_jpeg_error_exit;
   // for any output message call itk_jpeg_output_message
   jerr.pub.output_message = itk_jpeg_output_message;
-  if ( setjmp(jerr.setjmp_buffer) )
+  if( wrapSetjmp( jerr ) )
     {
     // clean up
     jpeg_destroy_decompress(&cinfo);
@@ -477,7 +491,7 @@ void JPEGImageIO::WriteSlice(std::string & fileName, const void *buffer)
   cinfo.err = jpeg_std_error(&jerr.pub);
   // set the jump point, if there is a jpeg error or warning
   // this will evaluate to true
-  if ( setjmp(jerr.setjmp_buffer) )
+  if ( wrapSetjmp( jerr ) )
     {
     jpeg_destroy_compress(&cinfo);
     itkExceptionMacro(<< "JPEG : Out of disk space");
