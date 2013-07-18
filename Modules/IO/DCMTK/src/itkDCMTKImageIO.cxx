@@ -278,7 +278,7 @@ void DCMTKImageIO::ReadImageInformation()
 
   this->SetDirection(0,rowDirection);
   this->SetDirection(1,columnDirection);
-  if(this->m_NumberOfDimensions > 2 && this->m_Dimensions[2] != 1)
+  if(this->m_NumberOfDimensions > 2)
     {
     this->SetDirection(2,sliceDirection);
     }

@@ -42,6 +42,11 @@ itk_add_test(NAME itkDCMTKSeriesReadImageWrite
   DATA{${ITK_DATA_ROOT}/Input/DicomSeries/,REGEX:Image[0-9]+.dcm}
   ${ITK_TEST_OUTPUT_DIR}/itkDCMTKSeriesReadImageWrite.vtk ${ITK_TEST_OUTPUT_DIR})
 
+itk_add_test(NAME itkDCMTKDirCosinesTest
+  COMMAND ITKIODCMTKTestDriver itkDCMTKSeriesReadImageWrite
+  DATA{${ITK_DATA_ROOT}/Input/DicomDirectionsTest/,REGEX:1020_[0-9]+.dcm}
+  ${ITK_TEST_OUTPUT_DIR}/itkDCMTKSeriesReadImageWrite.vtk ${ITK_TEST_OUTPUT_DIR})
+
 set_property(TEST itkDCMTKSeriesReadImageWrite APPEND PROPERTY DEPENDS ITKData)
 
 itk_add_test(NAME itkDCMTKSeriesStreamReadImageWrite1
