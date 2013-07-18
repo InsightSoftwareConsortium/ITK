@@ -51,6 +51,7 @@
 #include "gdcmUIDGenerator.h"
 #include "gdcmAttribute.h"
 #include "gdcmGlobal.h"
+#include "gdcmMediaStorage.h"
 
 #include <fstream>
 
@@ -356,16 +357,110 @@ void GDCMImageIO::InternalReadImageInformation()
   m_Dimensions[0] = dims[0];
   m_Dimensions[1] = dims[1];
 
-  const double *spacing = image.GetSpacing();
-  m_Spacing[0] = spacing[0];
-  m_Spacing[1] = spacing[1];
-  m_Spacing[2] = spacing[2];
+  double spacing[3];
+
+  //
+  //
+  // This is a WORKAROUND for a bug in GDCM -- in
+  // ImageHeplper::GetSpacingTagFromMediaStorage it was not
+  // handling some MediaStorage types
+  // so we have to punt here.
+  gdcm::MediaStorage ms;
+
+  ms.SetFromFile(f);
+  switch(ms)
+    {
+    case gdcm::MediaStorage::HardcopyGrayscaleImageStorage:
+    case gdcm::MediaStorage::GEPrivate3DModelStorage:
+    case gdcm::MediaStorage::Philips3D:
+    case gdcm::MediaStorage::VideoEndoscopicImageStorage:
+    case gdcm::MediaStorage::UltrasoundMultiFrameImageStorage:
+    case gdcm::MediaStorage::UltrasoundImageStorage: // ??
+    case gdcm::MediaStorage::UltrasoundImageStorageRetired:
+    case gdcm::MediaStorage::UltrasoundMultiFrameImageStorageRetired:
+      {
+      std::vector<double> sp;
+      gdcm::Tag spacingTag(0x0028,0x0030);
+      if(ds.FindDataElement(spacingTag) &&
+         !ds.GetDataElement(spacingTag).IsEmpty())
+        {
+        gdcm::DataElement de = ds.GetDataElement(spacingTag);
+        const gdcm::Global &g = gdcm::GlobalInstance;
+        const gdcm::Dicts &dicts = g.GetDicts();
+        const gdcm::DictEntry &entry = dicts.GetDictEntry(de.GetTag());
+        const gdcm::VR & vr = entry.GetVR();
+        switch(vr)
+          {
+          case gdcm::VR::DS:
+            {
+            std::stringstream m_Ss;
+
+            gdcm::Element<gdcm::VR::DS,gdcm::VM::VM1_n> m_El;
+
+            const gdcm::ByteValue *                     bv = de.GetByteValue();
+            assert( bv );
+
+            std::string s = std::string( bv->GetPointer(), bv->GetLength() );
+
+            m_Ss.str( s );
+            // Stupid file: CT-MONO2-8-abdo.dcm
+            // The spacing is something like that: [0.2\0\0.200000]
+            // I would need to throw an expection that VM is not compatible
+            m_El.SetLength( entry.GetVM().GetLength() * entry.GetVR().GetSizeof() );
+            m_El.Read( m_Ss );
+
+            assert( m_El.GetLength() == 2 );
+            for(unsigned long i = 0; i < m_El.GetLength(); ++i)
+              sp.push_back( m_El.GetValue(i) );
+            std::swap( sp[0], sp[1]);
+            assert( sp.size() == (unsigned int)entry.GetVM() );
+            }
+            break;
+          case gdcm::VR::IS:
+            {
+            std::stringstream m_Ss;
+
+            gdcm::Element<gdcm::VR::IS,gdcm::VM::VM1_n> m_El;
+
+            const gdcm::ByteValue *bv = de.GetByteValue();
+            assert( bv );
+
+            std::string s = std::string( bv->GetPointer(), bv->GetLength() );
+            m_Ss.str( s );
+            m_El.SetLength( entry.GetVM().GetLength() * entry.GetVR().GetSizeof() );
+            m_El.Read( m_Ss );
+            for(unsigned long i = 0; i < m_El.GetLength(); ++i)
+              sp.push_back( m_El.GetValue(i) );
+            assert( sp.size() == (unsigned int)entry.GetVM() );
+            }
+            break;
+          default:
+            assert(0);
+            break;
+          }
+        }
+        spacing[0] = sp[0];
+        spacing[1] = sp[1];
+        spacing[2] = 1.0; // punt?
+      }
+      break;
+    default:
+      {
+      const double *sp;
+      sp = image.GetSpacing();
+      spacing[0] = sp[0];
+      spacing[1] = sp[1];
+      spacing[2] = sp[2];
+      }
+    break;
+    }
 
   const double *origin = image.GetOrigin();
-  m_Origin[0] = origin[0];
-  m_Origin[1] = origin[1];
-  m_Origin[2] = origin[2];
-
+  for(unsigned i = 0; i < 3; ++i)
+    {
+    m_Spacing[i] = spacing[i];
+    m_Origin[i] = origin[i];
+    }
   if ( image.GetNumberOfDimensions() == 3 )
     {
     m_Dimensions[2] = dims[2];
