@@ -161,7 +161,7 @@ ProgressAccumulator
       {
         // On a start event, we need to capture the accumulated progress for this filter
         // and then reset this filter's progress.
-        // It is not necessary to SetProgress(0.0f) explicitly on the filter because this is done
+        // It is not necessary to call UpdateProgress(0.0f) explicitly on the filter because this is done
         // automatically when the filter is restarted.
         m_BaseAccumulatedProgress += it->Filter->GetProgress() * it->Weight;
       }
