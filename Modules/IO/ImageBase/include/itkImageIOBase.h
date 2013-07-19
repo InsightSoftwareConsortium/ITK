@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef __itkImageIOBase_h
 #define __itkImageIOBase_h
+#include "ITKIOImageBaseExport.h"
 
 #include "itkIOConfigure.h"
 
@@ -65,7 +66,7 @@ namespace itk
  *
  * \ingroup ITKIOImageBase
  */
-class ImageIOBase:public LightProcessObject
+class ITKIOImageBase_EXPORT ImageIOBase:public LightProcessObject
 {
 public:
   /** Standard class typedefs. */

@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef __itkNumericSeriesFileNames_h
 #define __itkNumericSeriesFileNames_h
+#include "ITKIOImageBaseExport.h"
 
 
 #include "itkObject.h"
@@ -50,7 +51,7 @@ namespace itk
  * \wikiexample{Utilities/NumericSeriesFileNames,Create a list of file names}
  * \endwiki
  */
-class NumericSeriesFileNames:public Object
+class ITKIOImageBase_EXPORT NumericSeriesFileNames:public Object
 {
 public:
   /** Standard class typedefs. */

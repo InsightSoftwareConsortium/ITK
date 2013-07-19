@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef __itkConvertArrayPixelBuffer_h
 #define __itkConvertArrayPixelBuffer_h
+#include "ITKIOMeshExport.h"
 
 #include "itkConvertPixelBuffer.h"
 #include "itkArray.h"

@@ -27,6 +27,7 @@
  *=========================================================================*/
 #ifndef __itkStimulateImageIOFactory_h
 #define __itkStimulateImageIOFactory_h
+#include "ITKIOStimulateExport.h"
 
 #include "itkObjectFactoryBase.h"
 #include "itkImageIOBase.h"
@@ -37,7 +38,7 @@ namespace itk
  * \brief Create instances of StimulateImageIO objects using an object factory.
  * \ingroup ITKIOStimulate
  */
-class StimulateImageIOFactory:public ObjectFactoryBase
+class ITKIOStimulate_EXPORT StimulateImageIOFactory:public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */

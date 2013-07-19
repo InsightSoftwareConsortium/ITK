@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef __itkSiemensVisionImageIOFactory_h
 #define __itkSiemensVisionImageIOFactory_h
+#include "ITKIOSiemensExport.h"
 
 
 #include "itkObjectFactoryBase.h"
@@ -28,7 +29,7 @@ namespace itk
    * \brief Create instances of SiemensVisionImageIO objects using an object factory.
    * \ingroup ITKIOSiemens
    */
-class SiemensVisionImageIOFactory:public ObjectFactoryBase
+class ITKIOSiemens_EXPORT SiemensVisionImageIOFactory:public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */

@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef __itkGE4ImageIOFactory_h
 #define __itkGE4ImageIOFactory_h
+#include "ITKIOGEExport.h"
 
 
 #include "itkObjectFactoryBase.h"
@@ -28,7 +29,7 @@ namespace itk
    * \brief Create instances of GE4ImageIO objects using an object factory.
    * \ingroup ITKIOGE
    */
-class GE4ImageIOFactory:public ObjectFactoryBase
+class ITKIOGE_EXPORT GE4ImageIOFactory:public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */

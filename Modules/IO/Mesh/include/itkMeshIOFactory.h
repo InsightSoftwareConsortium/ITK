@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef __itkMeshIOFactory_h
 #define __itkMeshIOFactory_h
+#include "ITKIOMeshExport.h"
 
 #include "itkObject.h"
 #include "itkMeshIOBase.h"
@@ -36,7 +37,7 @@ namespace itk
  *
  * \ingroup ITKIOMesh
  */
-class MeshIOFactory:public Object
+class ITKIOMesh_EXPORT MeshIOFactory:public Object
 {
 public:
   /** Standard class typedefs. */

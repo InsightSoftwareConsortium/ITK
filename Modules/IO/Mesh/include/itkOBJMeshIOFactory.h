@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef __itkOBJMeshIOFactory_h
 #define __itkOBJMeshIOFactory_h
+#include "ITKIOMeshExport.h"
 
 #include "itkObjectFactoryBase.h"
 #include "itkMeshIOBase.h"
@@ -27,7 +28,7 @@ namespace itk
    * \brief Create instances of OBJMeshIO objects using an object factory.
    * \ingroup ITKIOMesh
    */
-class OBJMeshIOFactory:public ObjectFactoryBase
+class ITKIOMesh_EXPORT OBJMeshIOFactory:public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */

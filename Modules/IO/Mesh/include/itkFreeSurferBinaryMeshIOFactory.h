@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef __itkFreeSurferBinaryMeshIOFactory_h
 #define __itkFreeSurferBinaryMeshIOFactory_h
+#include "ITKIOMeshExport.h"
 
 #include "itkObjectFactoryBase.h"
 #include "itkMeshIOBase.h"
@@ -27,7 +28,7 @@ namespace itk
    * \brief Create instances of FreeSurferBinaryMeshIO objects using an object factory.
    * \ingroup ITKIOMesh
    */
-class FreeSurferBinaryMeshIOFactory:public ObjectFactoryBase
+class ITKIOMesh_EXPORT FreeSurferBinaryMeshIOFactory:public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */

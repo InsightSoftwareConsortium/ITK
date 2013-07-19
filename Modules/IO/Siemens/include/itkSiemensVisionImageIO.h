@@ -32,6 +32,7 @@
 
 #ifndef __itkSiemensVisionImageIO_h
 #define __itkSiemensVisionImageIO_h
+#include "ITKIOSiemensExport.h"
 
 
 #include "itkIPLCommonImageIO.h"
@@ -46,7 +47,7 @@ namespace itk
  * \ingroup IOFilters
  * \ingroup ITKIOSiemens
  */
-class SiemensVisionImageIO:public IPLCommonImageIO
+class ITKIOSiemens_EXPORT SiemensVisionImageIO:public IPLCommonImageIO
 {
 public:
   /** Standard class typedefs. */

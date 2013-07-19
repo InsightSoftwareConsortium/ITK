@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef __itkGiplImageIO_h
 #define __itkGiplImageIO_h
+#include "ITKIOGIPLExport.h"
 
 
 #include <fstream>
@@ -35,7 +36,7 @@ class GiplImageIOInternals;
  *
  * \ingroup ITKIOGIPL
  */
-class GiplImageIO:public ImageIOBase
+class ITKIOGIPL_EXPORT GiplImageIO:public ImageIOBase
 {
 public:
   /** Standard class typedefs. */

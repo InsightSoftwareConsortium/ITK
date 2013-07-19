@@ -41,6 +41,7 @@
 
 #ifndef __itkGE4ImageIO_h
 #define __itkGE4ImageIO_h
+#include "ITKIOGEExport.h"
 
 #include "itkIPLCommonImageIO.h"
 
@@ -54,7 +55,7 @@ namespace itk
  * \ingroup IOFilters
  * \ingroup ITKIOGE
  */
-class GE4ImageIO:public IPLCommonImageIO
+class ITKIOGE_EXPORT GE4ImageIO:public IPLCommonImageIO
 {
 public:
   /** Standard class typedefs. */

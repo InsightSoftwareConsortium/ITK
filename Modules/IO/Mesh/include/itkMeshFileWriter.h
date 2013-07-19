@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef __itkMeshFileWriter_h
 #define __itkMeshFileWriter_h
+#include "ITKIOMeshExport.h"
 
 #include "itkProcessObject.h"
 #include "itkMeshIOBase.h"
@@ -29,7 +30,7 @@ namespace itk
  *
  * \ingroup ITKIOMesh
  */
-class ITK_ABI_EXPORT MeshFileWriterException:public ExceptionObject
+class ITKIOMesh_HIDDEN MeshFileWriterException:public ExceptionObject
 {
 public:
   /** Run-time information. */
@@ -73,7 +74,7 @@ public:
  * \ingroup ITKIOMesh
  */
 template< class TInputMesh >
-class MeshFileWriter:public ProcessObject
+class ITKIOMesh_HIDDEN MeshFileWriter:public ProcessObject
 {
 public:
   /** Standard class typedefs. */

@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef __itkVTKPolyDataMeshIO_h
 #define __itkVTKPolyDataMeshIO_h
+#include "ITKIOMeshExport.h"
 
 #include "itkByteSwapper.h"
 #include "itkMetaDataObject.h"
@@ -36,7 +37,7 @@ namespace itk
  * \ingroup IOFilters
  * \ingroup ITKIOMesh
  */
-class VTKPolyDataMeshIO:public MeshIOBase
+class ITKIOMesh_EXPORT VTKPolyDataMeshIO:public MeshIOBase
 {
 public:
   /** Standard "Self" typedef. */

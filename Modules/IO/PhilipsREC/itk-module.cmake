@@ -2,6 +2,7 @@ set(DOCUMENTATION "This module contains classes that read Philips
 REC/PAR image files.")
 
 itk_module(ITKIOPhilipsREC
+  ENABLE_SHARED
   DEPENDS
     ITKIOImageBase
     ITKZLIB
