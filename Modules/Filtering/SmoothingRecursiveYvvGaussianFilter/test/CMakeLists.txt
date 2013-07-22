@@ -16,7 +16,7 @@ if(ITK_USE_GPU)
   include_directories("${${itk-module}KernelDir}")
 
   set(
-    ITK${itk-module}Tests
+    ${itk-module}Tests
     itkCPURecursiveYvvGaussianImageFilterTest.cxx
     itkGPURecursiveYvvGaussianImageFilterTest.cxx
     itkYvvGpuCpuSimilarityTest.cxx
@@ -25,37 +25,49 @@ if(ITK_USE_GPU)
   )
 else()
   set(
-    ITK${itk-module}Tests
+    ${itk-module}Tests
     itkCPURecursiveYvvGaussianImageFilterTest.cxx
     itkYvvBenchmark.cxx
     itkYvvWhiteImageTest.cxx
   )
 endif()
 
+#set(ITK_TEST_DRIVER itkTestDriver)
+
+createtestdriver(${itk-module} "${${itk-module}-Test_LIBRARIES}" "${${itk-module}Tests}")
 set(TEST_DATA_ROOT "${${itk-module}_SOURCE_DIR}/Data")
 
-createtestdriver(${itk-module} "${${itk-module}-Test_LIBRARIES}" "${ITK${itk-module}Tests}")
-
 itk_add_test(
-  NAME itkCPURecursiveYvvGaussianImageFilterTest
+  NAME itkCPURecursiveYvvGaussianImageFilterTest2D
   COMMAND
     ${itk-module}TestDriver
     itkCPURecursiveYvvGaussianImageFilterTest
     ${TEST_DATA_ROOT}/1024ex.jpg
     2
     12.0
-    20
+    4
 )
 
 itk_add_test(
-  NAME itkYvvBenchmark
+  NAME itkYvvBenchmark2D
   COMMAND
     ${itk-module}TestDriver
     itkYvvBenchmark
     ${TEST_DATA_ROOT}/1024ex.jpg
     2
     12.0
-    30
+    4
+)
+
+itk_add_test(
+  NAME itkYvvBenchmark3D
+  COMMAND
+    ${itk-module}TestDriver
+    itkYvvBenchmark
+    ${TEST_DATA_ROOT}/256x256x64.tif
+    3
+    12.0
+    2
 )
 
 itk_add_test(
@@ -65,7 +77,7 @@ itk_add_test(
     itkYvvWhiteImageTest
     2
     12.0
-    80
+    6
     512
     512
 )
@@ -77,7 +89,7 @@ itk_add_test(
     itkYvvWhiteImageTest
     3
     12.0
-    5
+    2
     256
     256
     16
@@ -85,7 +97,7 @@ itk_add_test(
 
 if(ITK_USE_GPU)
   itk_add_test(
-    NAME itkGPURecursiveYvvGaussianImageFilterTest
+    NAME itkGPURecursiveYvvGaussianImageFilterTest2D
     COMMAND
       ${itk-module}TestDriver
       itkGPURecursiveYvvGaussianImageFilterTest
@@ -96,7 +108,7 @@ if(ITK_USE_GPU)
   )
 
   itk_add_test(
-    NAME itkYvvGpuCpuSimilarityTest
+    NAME itkYvvGpuCpuSimilarityTest2D
     COMMAND
       ${itk-module}TestDriver
       itkYvvGpuCpuSimilarityTest
