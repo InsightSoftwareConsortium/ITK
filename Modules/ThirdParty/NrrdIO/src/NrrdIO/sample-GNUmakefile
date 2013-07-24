@@ -1,6 +1,6 @@
-#  
+#
 # NrrdIO: stand-alone code for basic nrrd functionality
-# Copyright (C) 2012, 2011, 2010, 2009  University of Chicago
+# Copyright (C) 2013, 2012, 2011, 2010, 2009  University of Chicago
 # Copyright (C) 2008, 2007, 2006, 2005  Gordon Kindlmann
 # Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
 #
@@ -60,7 +60,7 @@ CCFLAGS = -O2 -std=c89 -pedantic \
 RANLIB = ranlib
 
 ### Assuming NrrdIO will be built with zlib enabled (due to "-DTEEM_ZLIB=1"
-### on the source compilation, below), these (may) need to be set to help 
+### on the source compilation, below), these (may) need to be set to help
 ### find the zlib includes and libraries
 ###
 ZLIB_IPATH =
@@ -68,7 +68,7 @@ ZLIB_LPATH =
 
 ### We'll build the static libNrrdIO library, and one test program
 ###
-ALL = libNrrdIO.a sampleIO 
+ALL = libNrrdIO.a sampleIO
 all: $(ALL)
 
 ### The libNrrdIO library is built from the objects from the source files

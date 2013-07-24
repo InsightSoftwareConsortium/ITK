@@ -1,25 +1,25 @@
 /*
   NrrdIO: stand-alone code for basic nrrd functionality
-  Copyright (C) 2012, 2011, 2010, 2009  University of Chicago
+  Copyright (C) 2013, 2012, 2011, 2010, 2009  University of Chicago
   Copyright (C) 2008, 2007, 2006, 2005  Gordon Kindlmann
   Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
- 
+
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any
   damages arising from the use of this software.
- 
+
   Permission is granted to anyone to use this software for any
   purpose, including commercial applications, and to alter it and
   redistribute it freely, subject to the following restrictions:
- 
+
   1. The origin of this software must not be misrepresented; you must
      not claim that you wrote the original software. If you use this
      software in a product, an acknowledgment in the product
      documentation would be appreciated but is not required.
- 
+
   2. Altered source versions must be plainly marked as such, and must
      not be misrepresented as being the original software.
- 
+
   3. This notice may not be removed or altered from any source distribution.
 */
 
@@ -43,7 +43,7 @@ demoIO(char *filename) {
   }
 
   /* say something about the array */
-  printf("%s: \"%s\" is a %d-dimensional nrrd of type %d (%s)\n", 
+  printf("%s: \"%s\" is a %d-dimensional nrrd of type %d (%s)\n",
          me, filename, nin->dim, nin->type,
          airEnumStr(nrrdType, nin->type));
   printf("%s: the array contains %d elements, each %d bytes in size\n",
@@ -84,7 +84,7 @@ main(int argc, char **argv) {
   int enc, form, miss;
 
   me = argv[0];
-  fprintf(stderr, "(from Teem %s, %s)\n", 
+  fprintf(stderr, "(from Teem %s, %s)\n",
           airTeemVersion, airTeemReleaseDate);
 
   if (!nrrdSanity()) {
@@ -92,7 +92,7 @@ main(int argc, char **argv) {
     fprintf(stderr, "!!! nrrd sanity check FAILED: fix and re-compile\n");
     err = biffGet(NRRD);
     fprintf(stderr, "%s\n", err);
-    free(err); 
+    free(err);
     return 1;
   }
   fprintf(stderr, "(nrrdSanity check passed)\n");
