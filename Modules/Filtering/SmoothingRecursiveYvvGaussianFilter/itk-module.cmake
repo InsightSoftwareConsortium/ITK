@@ -13,7 +13,8 @@ if(ITK_USE_GPU)
      TEST_DEPENDS
         ITKTestKernel #to handle IO in src
         ITKGPUCommon
-       DESCRIPTION
+     EXCLUDE_FROM_ALL
+     DESCRIPTION
          "${DOCUMENTATION}"
     )
 else()
@@ -25,7 +26,8 @@ else()
         ITKSmoothing
      TEST_DEPENDS
         ITKTestKernel #to handle IO in src
-       DESCRIPTION
+     EXCLUDE_FROM_ALL
+     DESCRIPTION
          "${DOCUMENTATION}"
     )
 endif()
