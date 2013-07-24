@@ -151,6 +151,12 @@ UnaryFunctorImageFilter< TInputImage, TOutputImage, TFunction >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
                        ThreadIdType threadId)
 {
+  const typename OutputImageRegionType::SizeType &regionSize = outputRegionForThread.GetSize();
+
+  if( regionSize[0] == 0 )
+    {
+    return;
+    }
   const TInputImage *inputPtr = this->GetInput();
   TOutputImage *outputPtr = this->GetOutput(0);
 
@@ -161,17 +167,15 @@ UnaryFunctorImageFilter< TInputImage, TOutputImage, TFunction >
 
   this->CallCopyOutputRegionToInputRegion(inputRegionForThread, outputRegionForThread);
 
+  const size_t numberOfLinesToProcess = outputRegionForThread.GetNumberOfPixels() / regionSize[0];
+  ProgressReporter progress( this, threadId, numberOfLinesToProcess );
+
   // Define the iterators
   ImageScanlineConstIterator< TInputImage > inputIt(inputPtr, inputRegionForThread);
   ImageScanlineIterator< TOutputImage > outputIt(outputPtr, outputRegionForThread);
 
   inputIt.GoToBegin();
   outputIt.GoToBegin();
-
-  const size_t numberOfLinesToProcess = outputRegionForThread.GetNumberOfPixels() / outputRegionForThread.GetSize(0);
-  ProgressReporter progress( this, threadId, numberOfLinesToProcess );
-
-
   while ( !inputIt.IsAtEnd() )
     {
     while ( !inputIt.IsAtEndOfLine() )
