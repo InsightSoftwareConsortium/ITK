@@ -64,6 +64,7 @@ itk_module(ITKReview
     ITKMesh
     ITKNarrowBand
     ITKNeuralNetworks
+    ITKOpenJPEG
     ITKOptimizers
     ITKPath
     ITKPDEDeformableRegistration
