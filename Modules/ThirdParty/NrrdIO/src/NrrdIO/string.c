@@ -1,6 +1,6 @@
 /*
   NrrdIO: stand-alone code for basic nrrd functionality
-  Copyright (C) 2012, 2011, 2010, 2009  University of Chicago
+  Copyright (C) 2013, 2012, 2011, 2010, 2009  University of Chicago
   Copyright (C) 2008, 2007, 2006, 2005  Gordon Kindlmann
   Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
 
@@ -266,7 +266,7 @@ airOneLinify(char *s) {
     return s;
 
   /* convert white space to space (' '), and delete unprintables */
-  for (i=0; i<len; i++) {
+  for (i=0; i<len && s[i]; i++) {
     if (isspace(AIR_CAST(int, s[i]))) {
       s[i] = ' ';
       continue;
@@ -342,7 +342,7 @@ airToUpper(char *str) {
 /*
 ******** airOneLine()
 **
-** gets one line from "file", putting it into an array if given size.
+** gets one line from "file", putting it into an array of given size.
 ** "size" must be the size of line buffer "line": the size which
 ** "line" was allocated for, not the number of non-null characters it
 ** was meant to hold.  "size" must be at least 3.  Always
