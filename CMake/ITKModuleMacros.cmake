@@ -142,6 +142,12 @@ macro(itk_module_impl)
       EXPORT_MACRO_NAME ${itk-module}_EXPORT
       NO_EXPORT_MACRO_NAME ${itk-module}_HIDDEN
       STATIC_DEFINE ITK_STATIC )
+    install(FILES
+      ${ITKCommon_BINARY_DIR}/${itk-module}Export.h
+      DESTINATION ${${itk-module}_INSTALL_INCLUDE_DIR}
+      COMPONENT Development
+      )
+
     if (BUILD_SHARED_LIBS)
       # export flags are only added when building shared libs, they cause
       # mismatched visibility warnings when building statically.
