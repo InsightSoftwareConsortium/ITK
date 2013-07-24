@@ -64,13 +64,6 @@ namespace itk
  * TMeshTraits =
  *     Type information structure for the point set.
  *
- * \example PointSet1.cxx
- * \example PointSet2.cxx
- * \example PointSet3.cxx
- * \example RGBPointSet.cxx
- * \example PointSetWithVectors.cxx
- * \example PointSetWithCovariantVectors.cxx
- *
  * \ingroup MeshObjects
  * \ingroup DataRepresentation
  * \ingroup ITKCommon
