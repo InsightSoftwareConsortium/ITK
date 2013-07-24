@@ -33,6 +33,7 @@
 
 #ifndef __itkPhilipsRECImageIO_h
 #define __itkPhilipsRECImageIO_h
+#include "ITKIOPhilipsRECExport.h"
 
 
 #include "itkImageIOBase.h"
@@ -50,7 +51,7 @@ namespace itk
  * \ingroup ITKIOPhilipsREC
  */
 
-class PhilipsRECImageIO:public ImageIOBase
+class ITKIOPhilipsREC_EXPORT PhilipsRECImageIO:public ImageIOBase
 {
 public:
   /** Standard class typedefs. */

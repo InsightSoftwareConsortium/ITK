@@ -53,7 +53,7 @@ GE4ImageIOFactory::GetDescription() const
 
 static bool GE4ImageIOFactoryHasBeenRegistered;
 
-void GE4ImageIOFactoryRegister__Private(void)
+void ITKIOGE_EXPORT GE4ImageIOFactoryRegister__Private(void)
 {
   if( ! GE4ImageIOFactoryHasBeenRegistered )
     {

@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef __itkVTKPolyDataMeshIOFactory_h
 #define __itkVTKPolyDataMeshIOFactory_h
+#include "ITKIOMeshExport.h"
 
 #include "itkObjectFactoryBase.h"
 #include "itkMeshIOBase.h"
@@ -27,7 +28,7 @@ namespace itk
    * \brief Create instances of VTKPolyDataMeshIO objects using an object factory.
    * \ingroup ITKIOMesh
    */
-class VTKPolyDataMeshIOFactory:public ObjectFactoryBase
+class ITKIOMesh_EXPORT VTKPolyDataMeshIOFactory:public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */

@@ -17,7 +17,7 @@ set(ITKIOMesh_SRC
   itkVTKPolyDataMeshIOFactory.cxx
 )
 
-add_library(ITKIOMesh ${ITKIOMesh_SRC})
+add_library(ITKIOMesh ${ITK_LIBRARY_BUILD_TYPE} ${ITKIOMesh_SRC})
 target_link_libraries(ITKIOMesh ${ITKCommon_LIBRARIES} ${ITKGIFTI_LIBRARIES} ${ITKIOImageBase_LIBRARIES})
 
 itk_module_target(ITKIOMesh)

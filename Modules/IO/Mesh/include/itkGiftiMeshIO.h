@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef __itkGiftiMeshIO_h
 #define __itkGiftiMeshIO_h
+#include "ITKIOMeshExport.h"
 
 #include "itkMapContainer.h"
 #include "itkMatrix.h"
@@ -36,7 +37,7 @@ namespace itk
  * \ingroup ITKIOMesh
  */
 
-class GiftiMeshIO:public MeshIOBase
+class ITKIOMesh_EXPORT GiftiMeshIO:public MeshIOBase
 {
 public:
   /** Standard class typedefs. */

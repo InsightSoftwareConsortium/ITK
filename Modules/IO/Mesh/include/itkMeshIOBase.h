@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef __itkMeshIOBase_h
 #define __itkMeshIOBase_h
+#include "ITKIOMeshExport.h"
 
 #include "itkByteSwapper.h"
 #include "itkCellInterface.h"
@@ -65,7 +66,7 @@ namespace itk
  *
  */
 
-class MeshIOBase:public LightProcessObject
+class ITKIOMesh_EXPORT MeshIOBase:public LightProcessObject
 {
 public:
   /** Standard class typedefs. */

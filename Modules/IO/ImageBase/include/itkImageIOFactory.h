@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef __itkImageIOFactory_h
 #define __itkImageIOFactory_h
+#include "ITKIOImageBaseExport.h"
 
 #include "itkObject.h"
 #include "itkImageIOBase.h"
@@ -27,7 +28,7 @@ namespace itk
  * \brief Create instances of ImageIO objects using an object factory.
  * \ingroup ITKIOImageBase
  */
-class ImageIOFactory:public Object
+class ITKIOImageBase_EXPORT ImageIOFactory:public Object
 {
 public:
   /** Standard class typedefs. */

@@ -10,11 +10,25 @@ set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${ITK_REQUIRED_LINK_FLAGS}
 set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} ${ITK_REQUIRED_LINK_FLAGS}")
 set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} ${ITK_REQUIRED_LINK_FLAGS}")
 
+
 # Add include directories needed to use ITK.
 include_directories(BEFORE ${ITK_INCLUDE_DIRS})
 
 # Add link directories needed to use ITK.
 link_directories(${ITK_LIBRARY_DIRS})
+
+macro(ADD_FACTORY_REGISTRATION _registration_list_var _names_list_var _module_name _factory_name)
+  if(${_module_name}_LOADED)
+    # note: this is an internal CMake variable and should not be used outside ITK
+    set(_abi)
+    if(ITK_MODULE_${_module_name}_ENABLE_SHARED)
+      set(_abi "ITK_ABI_IMPORT")
+    endif()
+    set(${_registration_list_var}
+      "${${_registration_list_var}}void ${_abi} ${_factory_name}FactoryRegister__Private(void);")
+    set(${_names_list_var} "${${_names_list_var}}${_factory_name}FactoryRegister__Private,")
+  endif()
+endmacro()
 
 if(NOT ITK_NO_IO_FACTORY_REGISTER_MANAGER)
   #
@@ -27,19 +41,14 @@ if(NOT ITK_NO_IO_FACTORY_REGISTER_MANAGER)
 
   foreach (ImageFormat  Nifti Nrrd Gipl HDF5 JPEG GDCM BMP LSM PNG TIFF VTK Stimulate BioRad Meta MINC SCIFIO MGH )
     string(TOUPPER ${ImageFormat} ImageFormat_UPPER) ## Need to check for uppercase name as well
-    if (ITKIO${ImageFormat}_LOADED OR ITKIO${ImageFormat_UPPER}_LOADED)
-      set (LIST_OF_FACTORIES_REGISTRATION "${LIST_OF_FACTORIES_REGISTRATION}void ${ImageFormat}ImageIOFactoryRegister__Private(void);")
-      set (LIST_OF_FACTORY_NAMES  "${LIST_OF_FACTORY_NAMES}${ImageFormat}ImageIOFactoryRegister__Private,")
+    ADD_FACTORY_REGISTRATION("LIST_OF_FACTORIES_REGISTRATION" "LIST_OF_FACTORY_NAMES" ITKIO${ImageFormat} ${ImageFormat}ImageIO)
+    if(NOT "${ImageFormat}" STREQUAL "${ImageFormat_UPPER}")
+      ADD_FACTORY_REGISTRATION("LIST_OF_FACTORIES_REGISTRATION" "LIST_OF_FACTORY_NAMES" ITKIO${ImageFormat_UPPER} ${ImageFormat}ImageIO)
     endif()
   endforeach()
 
   # add ImageIOs in review to the automatic registration
-  if (ITK_USE_REVIEW)
-    foreach (ImageFormat MRC)
-      set (LIST_OF_FACTORIES_REGISTRATION "${LIST_OF_FACTORIES_REGISTRATION}void ${ImageFormat}ImageIOFactoryRegister__Private(void);")
-      set (LIST_OF_FACTORY_NAMES  "${LIST_OF_FACTORY_NAMES}${ImageFormat}ImageIOFactoryRegister__Private,")
-    endforeach()
-  endif()
+  ADD_FACTORY_REGISTRATION("LIST_OF_FACTORIES_REGISTRATION" "LIST_OF_FACTORY_NAMES" ITKReview MRCImageIO)
 
   get_filename_component(_selfdir "${CMAKE_CURRENT_LIST_FILE}" PATH)
   configure_file(${_selfdir}/itkImageIOFactoryRegisterManager.h.in
@@ -52,9 +61,13 @@ if(NOT ITK_NO_IO_FACTORY_REGISTER_MANAGER)
   set(LIST_OF_FACTORY_NAMES "")
 
   foreach (TransformFormat  Matlab Txt HDF5)
-     set (LIST_OF_FACTORIES_REGISTRATION "${LIST_OF_FACTORIES_REGISTRATION}void ${TransformFormat}TransformIOFactoryRegister__Private(void);")
-     set (LIST_OF_FACTORY_NAMES "${LIST_OF_FACTORY_NAMES}${TransformFormat}TransformIOFactoryRegister__Private,")
+    ADD_FACTORY_REGISTRATION("LIST_OF_FACTORIES_REGISTRATION" "LIST_OF_FACTORY_NAMES"
+      ITKIOTransform${TransformFormat} ${TransformFormat}TransformIO)
   endforeach()
+  ADD_FACTORY_REGISTRATION("LIST_OF_FACTORIES_REGISTRATION" "LIST_OF_FACTORY_NAMES"
+    ITKIOMINC MINCTransformIO)
+  ADD_FACTORY_REGISTRATION("LIST_OF_FACTORIES_REGISTRATION" "LIST_OF_FACTORY_NAMES"
+    ITKIOTransformInsightLegacy TxtTransformIO)
 
   get_filename_component(_selfdir "${CMAKE_CURRENT_LIST_FILE}" PATH)
   configure_file(${_selfdir}/itkTransformIOFactoryRegisterManager.h.in

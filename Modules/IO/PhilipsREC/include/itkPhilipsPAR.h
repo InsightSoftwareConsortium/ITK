@@ -33,6 +33,7 @@
 
 #ifndef __itkPhilipsPAR_h
 #define __itkPhilipsPAR_h
+#include "ITKIOPhilipsRECExport.h"
 
 #include <cstdio>
 #include <cstdlib>
@@ -208,7 +209,7 @@ struct par_parameter  //par_parameter
  *
  * \ingroup ITKIOPhilipsREC
  */
-class PhilipsPAR:public LightProcessObject
+class ITKIOPhilipsREC_EXPORT PhilipsPAR:public LightProcessObject
 {
 public:
   /** Standard class typedefs. */

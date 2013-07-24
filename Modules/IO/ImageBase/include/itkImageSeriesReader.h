@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef __itkImageSeriesReader_h
 #define __itkImageSeriesReader_h
+#include "ITKIOImageBaseExport.h"
 
 #include "itkSize.h"
 #include <vector>
@@ -41,7 +42,7 @@ namespace itk
  */
 
 template< class TOutputImage >
-class ImageSeriesReader:public ImageSource< TOutputImage >
+class ITKIOImageBase_HIDDEN ImageSeriesReader:public ImageSource< TOutputImage >
 {
 public:
   /** Standard class typedefs. */

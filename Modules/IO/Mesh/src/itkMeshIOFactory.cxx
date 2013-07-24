@@ -29,6 +29,18 @@
 
 namespace itk
 {
+
+MeshIOFactory
+::MeshIOFactory()
+{
+}
+
+MeshIOFactory
+::~MeshIOFactory()
+{
+}
+
+
 MeshIOBase::Pointer
 MeshIOFactory
 ::CreateMeshIO(const char *path, FileModeType mode)

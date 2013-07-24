@@ -27,6 +27,7 @@
  *=========================================================================*/
 #ifndef __itkStimulateImageIO_h
 #define __itkStimulateImageIO_h
+#include "ITKIOStimulateExport.h"
 
 
 #include <fstream>
@@ -58,7 +59,7 @@ namespace itk
  *
  * \ingroup ITKIOStimulate
  */
-class StimulateImageIO:public ImageIOBase
+class ITKIOStimulate_EXPORT StimulateImageIO:public ImageIOBase
 {
 public:
   /** Standard class typedefs. */

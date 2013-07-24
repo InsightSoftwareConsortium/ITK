@@ -27,6 +27,7 @@
  *=========================================================================*/
 #ifndef __itkBioRadImageIOFactory_h
 #define __itkBioRadImageIOFactory_h
+#include "ITKIOBioRadExport.h"
 
 #include "itkObjectFactoryBase.h"
 #include "itkImageIOBase.h"
@@ -37,7 +38,7 @@ namespace itk
  * \brief Create instances of BioRadImageIO objects using an object factory.
  * \ingroup ITKIOBioRad
  */
-class BioRadImageIOFactory:public ObjectFactoryBase
+class ITKIOBioRad_EXPORT BioRadImageIOFactory:public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */

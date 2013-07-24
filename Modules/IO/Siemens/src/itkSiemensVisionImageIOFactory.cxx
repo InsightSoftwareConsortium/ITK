@@ -53,7 +53,7 @@ SiemensVisionImageIOFactory::GetDescription() const
 
 static bool SiemensVisionImageIOFactoryHasBeenRegistered;
 
-void SiemensVisionImageIOFactoryRegister__Private(void)
+void ITKIOSiemens_EXPORT SiemensVisionImageIOFactoryRegister__Private(void)
 {
   if( ! SiemensVisionImageIOFactoryHasBeenRegistered )
     {

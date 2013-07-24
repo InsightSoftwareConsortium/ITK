@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef __itkPhilipsRECImageIOFactory_h
 #define __itkPhilipsRECImageIOFactory_h
+#include "ITKIOPhilipsRECExport.h"
 
 #include "itkObjectFactoryBase.h"
 #include "itkImageIOBase.h"
@@ -34,7 +35,7 @@ namespace itk
  *
  * \ingroup ITKIOPhilipsREC
  */
-class PhilipsRECImageIOFactory:public ObjectFactoryBase
+class ITKIOPhilipsREC_EXPORT PhilipsRECImageIOFactory:public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */

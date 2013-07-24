@@ -27,6 +27,7 @@
  *=========================================================================*/
 #ifndef __itkGEImageHeader_h
 #define __itkGEImageHeader_h
+#include "ITKIOIPLExport.h"
 
 #include "itkIOCommon.h"
 

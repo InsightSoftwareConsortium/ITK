@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef __itkStreamingImageIOBase_h
 #define __itkStreamingImageIOBase_h
+#include "ITKIOImageBaseExport.h"
 
 #include "itkImageIOBase.h"
 
@@ -48,7 +49,7 @@ namespace itk
  * \ingroup IOFilters
  * \ingroup ITKIOImageBase
  */
-class StreamingImageIOBase:public ImageIOBase
+class ITKIOImageBase_EXPORT StreamingImageIOBase:public ImageIOBase
 {
 public:
   /** Standard class typedefs. */

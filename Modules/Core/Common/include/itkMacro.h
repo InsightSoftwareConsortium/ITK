@@ -40,6 +40,7 @@
 
 #include "itkWin32Header.h"
 #include "itkConfigure.h"
+#include "ITKCommonExport.h"
 
 #include <typeinfo>
 
@@ -101,6 +102,7 @@ namespace itk
 #endif
 
 // Setup symbol exports
+// begin legacy
 #if defined( _WIN32 ) || defined ( WIN32 )
   #define ITK_ABI_IMPORT __declspec(dllimport)
   #define ITK_ABI_EXPORT __declspec(dllexport)
@@ -116,27 +118,7 @@ namespace itk
     #define ITK_ABI_HIDDEN
   #endif
 #endif
-
-#define ITKCommon_HIDDEN ITK_ABI_HIDDEN
-
-#if !defined( ITKSTATIC )
-/* CMake adds "MyLibrary_EXPORTS" definition for MSVC platforms
- * when building a DLL */
-  #ifdef ITKCommon_EXPORTS
-    #define ITKCommon_EXPORT ITK_ABI_EXPORT
-  #else
-    #define ITKCommon_EXPORT ITK_ABI_IMPORT
-  #endif  /* ITKCommon_EXPORTS */
-#else
-  /* ITKCommon is build as a static lib */
-  #if __GNUC__ >= 4
-    // Don't hide symbols in the static ITKCommon library in case
-    // -fvisibility=hidden is used
-    #define ITKCommon_EXPORT ITK_ABI_EXPORT
-  #else
-    #define ITKCommon_EXPORT
-  #endif
-#endif
+// end legacy
 
 /** Define two object creation methods.  The first method, New(),
  * creates an object from a class, potentially deferring to a factory.

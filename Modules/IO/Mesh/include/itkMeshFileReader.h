@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef __itkMeshFileReader_h
 #define __itkMeshFileReader_h
+#include "ITKIOMeshExport.h"
 
 #include "itkMacro.h"
 #include "itkHexahedronCell.h"
@@ -41,7 +42,7 @@ namespace itk
  * \brief Base exception class for IO conflicts.
  * \ingroup ITKIOMesh
  */
-class ITK_ABI_EXPORT MeshFileReaderException:public ExceptionObject
+class ITKIOMesh_HIDDEN MeshFileReaderException:public ExceptionObject
 {
 public:
   /** Has to have empty throw(). */
@@ -100,7 +101,7 @@ public:
 template< class TOutputMesh,
           class ConvertPointPixelTraits = MeshConvertPixelTraits< typename TOutputMesh::PixelType >,
           class ConvertCellPixelTraits = MeshConvertPixelTraits< typename TOutputMesh::CellPixelType > >
-class MeshFileReader:public MeshSource< TOutputMesh >
+class ITKIOMesh_HIDDEN MeshFileReader:public MeshSource< TOutputMesh >
 {
 public:
   /** Standard class typedefs. */

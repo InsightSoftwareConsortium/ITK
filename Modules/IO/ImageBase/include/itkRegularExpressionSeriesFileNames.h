@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef __itkRegularExpressionSeriesFileNames_h
 #define __itkRegularExpressionSeriesFileNames_h
+#include "ITKIOImageBaseExport.h"
 
 
 #include "itkObject.h"
@@ -67,7 +68,7 @@ namespace itk
  *
  * \ingroup ITKIOImageBase
  */
-class RegularExpressionSeriesFileNames:public Object
+class ITKIOImageBase_EXPORT RegularExpressionSeriesFileNames:public Object
 {
 public:
   /** Standard class typedefs. */

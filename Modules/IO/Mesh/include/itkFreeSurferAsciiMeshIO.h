@@ -18,6 +18,7 @@
 
 #ifndef __itkFreeSurferAsciiMeshIO_h
 #define __itkFreeSurferAsciiMeshIO_h
+#include "ITKIOMeshExport.h"
 
 #include "itkMeshIOBase.h"
 
@@ -32,7 +33,7 @@ namespace itk
  * \ingroup ITKIOMesh
  */
 
-class FreeSurferAsciiMeshIO:public MeshIOBase
+class ITKIOMesh_EXPORT FreeSurferAsciiMeshIO:public MeshIOBase
 {
 public:
   /** Standard class typedefs. */

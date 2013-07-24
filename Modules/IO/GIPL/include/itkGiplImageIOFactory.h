@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef __itkGiplImageIOFactory_h
 #define __itkGiplImageIOFactory_h
+#include "ITKIOGIPLExport.h"
 
 #include "itkObjectFactoryBase.h"
 #include "itkImageIOBase.h"
@@ -27,7 +28,7 @@ namespace itk
  * \brief Create instances of GiplImageIO objects using an object factory.
  * \ingroup ITKIOGIPL
  */
-class GiplImageIOFactory:public ObjectFactoryBase
+class ITKIOGIPL_EXPORT GiplImageIOFactory:public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */

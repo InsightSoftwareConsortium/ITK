@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef __itkPNGImageIO_h
 #define __itkPNGImageIO_h
+#include "ITKIOPNGExport.h"
 
 
 #include "itkImageIOBase.h"
@@ -31,7 +32,7 @@ namespace itk
  *
  * \ingroup ITKIOPNG
  */
-class PNGImageIO:public ImageIOBase
+class ITKIOPNG_EXPORT PNGImageIO:public ImageIOBase
 {
 public:
   /** Standard class typedefs. */

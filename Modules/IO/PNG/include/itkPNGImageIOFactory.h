@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef __itkPNGImageIOFactory_h
 #define __itkPNGImageIOFactory_h
+#include "ITKIOPNGExport.h"
 
 
 #include "itkObjectFactoryBase.h"
@@ -28,7 +29,7 @@ namespace itk
  * \brief Create instances of PNGImageIO objects using an object factory.
  * \ingroup ITKIOPNG
  */
-class PNGImageIOFactory:public ObjectFactoryBase
+class ITKIOPNG_EXPORT PNGImageIOFactory:public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */

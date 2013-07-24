@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef __itkGiftiMeshIOFactory_h
 #define __itkGiftiMeshIOFactory_h
+#include "ITKIOMeshExport.h"
 
 #include "itkMeshIOBase.h"
 #include "itkObjectFactoryBase.h"
@@ -27,7 +28,7 @@ namespace itk
    * \brief Create instances of GiftiMeshIO objects using an object factory.
    * \ingroup ITKIOMesh
    */
-class GiftiMeshIOFactory:public ObjectFactoryBase
+class ITKIOMesh_EXPORT GiftiMeshIOFactory:public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */
