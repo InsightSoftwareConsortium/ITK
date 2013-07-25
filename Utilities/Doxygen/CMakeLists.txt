@@ -126,12 +126,15 @@ if (BUILD_DOCUMENTATION)
     message( "Warning: LaTeX not found. Formulas will not be generated in documentation." )
   endif()
 
-  add_custom_target(Documentation ALL
-    COMMAND ${DOXYGEN_EXECUTABLE} ${ITK_BINARY_DIR}/Utilities/Doxygen/doxygen.config
-    MAIN_DEPENDENCY ${ITK_BINARY_DIR}/Utilities/Doxygen/doxygen.config
-    DEPENDS         ${ITK_BINARY_DIR}/Utilities/Doxygen/itkdoxygen.pl
-    WORKING_DIRECTORY ${ITK_BINARY_DIR}/Utilities/Doxygen
+  # Custom command to generate a examples page which include all ITK examples
+  add_custom_command( OUTPUT "${ITK_BINARY_DIR}/Documentation/Doxygen/Examples.dox"
+    COMMAND ${CMAKE_COMMAND} -D "PROJECT_SOURCE_DIR:PATH=${ITK_SOURCE_DIR}"
+    -D "OUTPUT_FILE:PATH=${ITK_BINARY_DIR}/Documentation/Doxygen/Examples.dox"
+    -P "${ITK_SOURCE_DIR}/Utilities/Doxygen/GenerateExamplesDox.cmake"
+    WORKING_DIRECTORY "${ITK_SOURCE_DIR}/Examples"
+    DEPENDS "${ITK_SOURCE_DIR}/Examples" "${ITK_SOURCE_DIR}/Utilities/Doxygen/GenerateExamplesDox.cmake"
     )
+
 
   # Somehow the logo image is not copied into the html folder.
   # Here we ensure that the logo image ends up in the right directory
@@ -139,8 +142,17 @@ if (BUILD_DOCUMENTATION)
   add_custom_command(TARGET Documentation
     COMMAND ${CMAKE_COMMAND} -E copy
       ${ITK_SOURCE_DIR}/Documentation/Art/itkLogoSmall.jpg # logo
-      ${ITK_BINARY_DIR}/Utilities/Doxygen/html # output doxygen directory
+      ${ITK_DOXYGEN_OUTPUT_DIR}/html # output doxygen directory
     )
+
+  add_custom_target(Documentation ALL
+    COMMAND ${DOXYGEN_EXECUTABLE} ${ITK_BINARY_DIR}/Utilities/Doxygen/doxygen.config
+    MAIN_DEPENDENCY ${ITK_BINARY_DIR}/Utilities/Doxygen/doxygen.config
+    DEPENDS         ${ITK_BINARY_DIR}/Utilities/Doxygen/itkdoxygen.pl
+    DEPENDS         ${ITK_BINARY_DIR}/Documentation/Doxygen/Examples.dox
+    WORKING_DIRECTORY ${ITK_BINARY_DIR}/Utilities/Doxygen
+    )
+
 
   message( STATUS
            "To generate Doxygen's documentation, you need to build the Documentation target"
