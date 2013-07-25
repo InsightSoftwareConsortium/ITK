@@ -25,6 +25,70 @@
 
 namespace itk
 {
+
+namespace
+{
+
+/* The following struct returns the string name of computation type */
+/* default implementation */
+template <class ScalarType>
+struct TypeName
+{
+  static const char* Get()
+    {
+    return typeid(ScalarType).name();
+    }
+};
+
+/* a specialization for each "float" and "double" type that we support
+   and don't like the string returned by typeid */
+template <>
+struct TypeName<float>
+{
+  static const char* Get()
+    {
+    return "float";
+    }
+};
+
+template <>
+struct TypeName<double>
+{
+  static const char* Get()
+    {
+    return "double";
+    }
+};
+
+template<class ScalarType>
+struct TransformName
+{
+  static void CorrectPrecisionType( std::string& inputTransformName )
+    {
+    const std::string outputScalarTypeAsString = TypeName<ScalarType>::Get();
+    std::string searchFor;
+    std::string replaceBy;
+    if( inputTransformName.find(outputScalarTypeAsString) == std::string::npos ) // output precision type is not found in input transform.
+      {
+      if( outputScalarTypeAsString.compare("float") == 0 ) // output precision type is float,
+                                                           // so we should search for double and replace that.
+        {
+        searchFor = "double";
+        replaceBy = "float";
+        }
+      else
+        {
+        searchFor = "float";
+        replaceBy = "double";
+        }
+      std::string::size_type begin = inputTransformName.find(searchFor);
+      inputTransformName.replace(begin, searchFor.size(), replaceBy);
+      }
+    }
+};
+
+} // end anonymous namespace
+
 template <class ScalarType>
 TransformIOBaseTemplate<ScalarType>
 ::TransformIOBaseTemplate() :
@@ -50,8 +114,7 @@ void TransformIOBaseTemplate<ScalarType>
 
   // Instantiate the transform
   itkDebugMacro ("About to call ObjectFactory");
-  LightObject::Pointer i;
-  i = ObjectFactoryBase::CreateInstance ( ClassName.c_str() );
+  LightObject::Pointer i = ObjectFactoryBase::CreateInstance ( ClassName.c_str() );
   itkDebugMacro ("After call ObjectFactory");
   ptr = dynamic_cast< TransformType * >( i.GetPointer() );
   if ( ptr.IsNull() )
