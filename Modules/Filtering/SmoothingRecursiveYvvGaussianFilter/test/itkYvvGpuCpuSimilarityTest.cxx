@@ -13,10 +13,19 @@
 #include "itkGPUSmoothingRecursiveYvvGaussianImageFilter.h"
 
 
+// The double precision is not well-supported on most GPUs
+// and by many drivers at this time.
+// Relax the RMS threshold to allow for errors due to
+// differences in precision when the GPU does not support
+// double-precision.
+// TODO: Test on Mac/Windows.
+
 #ifdef WITH_DOUBLE
 typedef double PixelType;
+#  define RMSTH 5e-06
 #else
 typedef float PixelType;
+#  define RMSTH 5e-03
 #endif
 
 template <typename ImageType>
@@ -70,7 +79,7 @@ runYvvGpuCpuSimilarityTest(const std::string & inFile, float mySigma)
 
   std::cout << "\nUsing  " << inFile << std::endl;
 
-  for (float sigma = mySigma; sigma <= 32; sigma *= 2)
+  for (float sigma = 0.5; sigma <= mySigma; sigma *= 2)
   {
     typename CPUYvvFilterType::Pointer CPUFilter = CPUYvvFilterType::New();
 
@@ -133,24 +142,15 @@ runYvvGpuCpuSimilarityTest(const std::string & inFile, float mySigma)
     {
       double RMSError = sqrt(diff / (double)nPix);
       std::cout << "RMS Error with sigma = " << sigma << " : " << RMSError << std::endl;
-      // the CPU filter operator has type double
-      // but the double precision is not well-supported on most GPUs
-      // and by most drivers at this time.  Therefore, the GPU filter
-      // operator has type float
-      // relax the RMS threshold here to allow for errors due to
-      // differences in precision
-      // NOTE:
-      //   a threshold of 1.2e-5 worked on linux and Mac, but not Windows
-      //   why?
-      double RMSThreshold = 1.7e-5;
+
       if (vnl_math_isnan(RMSError))
       {
         std::cout << "RMS Error with sigma = " << sigma << " is NaN! nPix: " << nPix << std::endl;
         return EXIT_FAILURE;
       }
-      if (RMSError > RMSThreshold)
+      if (RMSError > RMSTH)
       {
-        std::cout << "RMS Error with sigma = " << sigma << " exceeds threshold (" << RMSThreshold << ")" << std::endl;
+        std::cout << "RMS Error with sigma = " << sigma << " exceeds threshold (" << RMSTH << ")" << std::endl;
         someDiffFlag = true;
       }
     }
