@@ -126,6 +126,6 @@ if(ITK_USE_GPU)
       itkYvvGpuCpuSimilarityTest
       ${TEST_DATA_ROOT}/1024ex.jpg
       2
-      16
+      14
   )
 endif()
