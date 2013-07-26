@@ -27,7 +27,7 @@ int itkOtsuThresholdImageFilterTest(int argc, char* argv[] )
   if( argc < 3 )
     {
     std::cerr << "Usage: " << argv[0];
-    std::cerr << " inputImageFile outputImageFile";
+    std::cerr << " inputImageFile outputImageFile [numberOfHistogramBins flipOutputIntensities]";
     std::cerr << std::endl;
     return EXIT_FAILURE;
     }
@@ -53,13 +53,33 @@ int itkOtsuThresholdImageFilterTest(int argc, char* argv[] )
 
   reader->SetFileName( argv[1] );
   filter->SetInput( reader->GetOutput() );
-  // filter->SetNumberOfHistogramBins (atoi(argv[3]));
-  writer->SetInput( filter->GetOutput() );
-
+  if( argc > 3 )
+  {
+    filter->SetNumberOfHistogramBins (atoi(argv[3]));
+  }
+  if( argc > 4 )
+  {
+    bool flipOutputIntensities = atoi(argv[4]);
+    if( flipOutputIntensities )
+    {
+      // Flip the inside and outside values.
+      FilterType::OutputPixelType outsideValue = filter->GetInsideValue();
+      FilterType::OutputPixelType insideValue = filter->GetOutsideValue();
+      filter->SetInsideValue( insideValue );
+      filter->SetOutsideValue( outsideValue );
+    }
+  }
   filter->Update();
+
+  // Test GetMacros
+  unsigned long numberOfHistogramBins = filter->GetNumberOfHistogramBins();
+  std::cout << "filter->GetNumberOfHistogramBins(): "
+            << numberOfHistogramBins
+            << std::endl;
   std::cout << "Computed Threshold is: "
             << itk::NumericTraits<FilterType::InputPixelType>::PrintType(filter->GetThreshold())
             << std::endl;
+  writer->SetInput( filter->GetOutput() );
   writer->SetFileName( argv[2] );
   writer->Update();
 

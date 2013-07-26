@@ -75,7 +75,7 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
   typedef itk::ImageFileReader< InputImageType >  ReaderType;
-  typedef itk::ImageFileWriter< OutputImageType >  WriterType;
+  typedef itk::ImageFileWriter< OutputImageType > WriterType;
 
   // Software Guide : BeginLatex
   //
@@ -143,7 +143,7 @@ int main( int argc, char * argv[] )
 
   try
     {
-    calculator->Update();
+    calculator->Compute();
     }
   catch( itk::ExceptionObject & excp )
     {
@@ -193,7 +193,6 @@ int main( int argc, char * argv[] )
     sprintf (outputFilename, outputFile.c_str(), (itNum - thresholdVector.begin()));
     writer->SetFileName( outputFilename );
 
-
     try
       {
       writer->Update();
@@ -226,4 +225,3 @@ int main( int argc, char * argv[] )
 
   return EXIT_SUCCESS;
 }
-
