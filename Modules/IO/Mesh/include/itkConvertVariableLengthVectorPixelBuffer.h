@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef __itkConvertVariableLengthVectorPixelBuffer_h
 #define __itkConvertVariableLengthVectorPixelBuffer_h
+#include "ITKIOMeshExport.h"
 
 #include "itkConvertPixelBuffer.h"
 #include "itkVariableLengthVector.h"

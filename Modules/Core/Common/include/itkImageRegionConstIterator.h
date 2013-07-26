@@ -74,7 +74,6 @@ namespace itk
  * is available in print and as a free .pdf download from http://www.itk.org.
  *
  * \ingroup ImageIterators
- * \example ImageRegionIterator.cxx
  *
  * \sa ImageConstIterator \sa ConditionalConstIterator
  * \sa ConstNeighborhoodIterator \sa ConstShapedNeighborhoodIterator

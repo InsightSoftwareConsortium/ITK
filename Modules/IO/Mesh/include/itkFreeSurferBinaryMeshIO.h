@@ -18,6 +18,7 @@
 
 #ifndef __itkFreeSurferBinaryMeshIO_h
 #define __itkFreeSurferBinaryMeshIO_h
+#include "ITKIOMeshExport.h"
 
 #include "itkByteSwapper.h"
 #include "itkMeshIOBase.h"
@@ -34,7 +35,7 @@ namespace itk
  * \ingroup ITKIOMesh
  */
 
-class FreeSurferBinaryMeshIO:public MeshIOBase
+class ITKIOMesh_EXPORT FreeSurferBinaryMeshIO:public MeshIOBase
 {
 public:
   /** Standard class typedefs. */

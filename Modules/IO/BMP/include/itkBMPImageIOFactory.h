@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef __itkBMPImageIOFactory_h
 #define __itkBMPImageIOFactory_h
+#include "ITKIOBMPExport.h"
 
 #include "itkObjectFactoryBase.h"
 #include "itkImageIOBase.h"
@@ -27,7 +28,7 @@ namespace itk
  * \brief Create instances of BMPImageIO objects using an object factory.
  * \ingroup ITKIOBMP
  */
-class BMPImageIOFactory:public ObjectFactoryBase
+class ITKIOBMP_EXPORT BMPImageIOFactory:public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */

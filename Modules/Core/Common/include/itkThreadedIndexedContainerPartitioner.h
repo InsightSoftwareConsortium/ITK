@@ -27,15 +27,17 @@ namespace itk
 /** \class ThreadedIndexedContainerPartitioner
  *  \brief Partitions an indexed container.
  *
- * The DomainType is defined to be a two element itk::Index of ElementIdentifiers:
+ * The \c DomainType is defined to be a two element itk::Index of ElementIdentifiers:
  * the first element defines the start of the domain, and the second element
  * defines the end of the domain.
  *
  * Element counting starts from zero and the identifier at the end of the domain
  * is inclusive.
  *
- * \sa ThreadedImageRegionPartitioner
+ * This class is typically used as a template argument to a DomainThreader.
+ *
  * \sa ThreadedDomainPartitioner
+ * \sa DomainThreader
  * \sa IndexedContainerInterface
  * \ingroup ITKCommon
  */
@@ -61,17 +63,23 @@ public:
   /** Synonym for the domain that is more descriptive. */
   typedef DomainType                       IndexRangeType;
 
-  /** Split the IndexRange \c overallIndexRange into
-   * \c requestedTotal subranges, returning subrange \c i as \c splitIndex.
-   * This method is called \c requestedTotal times. The
-   * pieces will not overlap. The method returns the number of pieces that
-   * the routine is capable of splitting the output RequestedObject,
-   * i.e. return value is less than or equal to \c requestedTotal. */
+  /** Split the index range \c completeIndexRange into up to \c requestedTotal
+   * non-overlapping subranges, setting subrange number \c threadId as
+   * \c subIndexRange and returning the total number of subranges actually available.
+   *
+   * This method should be called repeatedly for each value of \c threadId, from 0 up
+   * to the return value (which is always less than or equal to \c requestedTotal).
+   *
+   * It is an error for \c completeIndexRange to be zero-length (i.e. for
+   * completeIndexRange.End to be less than completeIndexRange.Begin).
+   * If \c threadId is greater than the return value, the contents of
+   * \c subIndexRange are undefined.
+   */
   virtual
-  ThreadIdType PartitionDomain(const ThreadIdType i,
+  ThreadIdType PartitionDomain(const ThreadIdType threadId,
                            const ThreadIdType requestedTotal,
                            const DomainType& completeIndexRange,
-                           DomainType& subdomain) const;
+                           DomainType& subIndexRange) const;
 
 protected:
   ThreadedIndexedContainerPartitioner();

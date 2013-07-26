@@ -60,7 +60,7 @@ VTKImageIOFactory::GetDescription(void) const
 
 static bool VTKImageIOFactoryHasBeenRegistered;
 
-void VTKImageIOFactoryRegister__Private(void)
+void ITKIOVTK_EXPORT VTKImageIOFactoryRegister__Private(void)
 {
   if( ! VTKImageIOFactoryHasBeenRegistered )
     {

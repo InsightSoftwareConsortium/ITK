@@ -50,7 +50,7 @@ PNGImageIOFactory::GetDescription(void) const
 
 static bool PNGImageIOFactoryHasBeenRegistered;
 
-void PNGImageIOFactoryRegister__Private(void)
+void ITKIOPNG_EXPORT PNGImageIOFactoryRegister__Private(void)
 {
   if( ! PNGImageIOFactoryHasBeenRegistered )
     {

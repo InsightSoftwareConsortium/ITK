@@ -27,6 +27,7 @@
  *=========================================================================*/
 #ifndef __itkBioRadImageIO_h
 #define __itkBioRadImageIO_h
+#include "ITKIOBioRadExport.h"
 
 #include "itkImageIOBase.h"
 #include <fstream>
@@ -46,7 +47,7 @@ namespace itk
  *
  * \ingroup ITKIOBioRad
  */
-class BioRadImageIO:public ImageIOBase
+class ITKIOBioRad_EXPORT BioRadImageIO:public ImageIOBase
 {
 public:
   /** Standard class typedefs. */

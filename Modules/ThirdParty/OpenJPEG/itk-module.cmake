@@ -5,6 +5,10 @@ has been developed in order to promote the use of JPEG 2000, the new still-image
 compression standard from the Joint Photographic Experts Group (JPEG).")
 
 itk_module(ITKOpenJPEG
+  # Since GDCM is the only Module that depends on ITKOpenJPEG
+  # EXCLUDE_FROM_ALL to prevent building if not required. If
+  # ITKGDCM is build, it will automatically enable this module.
+  EXCLUDE_FROM_ALL
   DESCRIPTION
     "${DOCUMENTATION}"
 )

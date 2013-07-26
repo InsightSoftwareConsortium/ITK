@@ -481,7 +481,7 @@ protected:
   {
     Superclass::InitializeIteration();
     // Estimate the progress of the filter
-    this->SetProgress( (float)( (float)this->GetElapsedIterations()
+    this->UpdateProgress( (float)( (float)this->GetElapsedIterations()
                                 / (float)this->GetNumberOfIterations() ) );
   }
 

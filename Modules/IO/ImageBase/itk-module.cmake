@@ -8,6 +8,7 @@ for reading series of files include ArchetypeSeriesFileNames,
 NumericSeriesFileNames, and RegularExpressionSeriesFileNames.")
 
 itk_module(ITKIOImageBase
+  ENABLE_SHARED
   DEPENDS
     ITKCommon
   TEST_DEPENDS

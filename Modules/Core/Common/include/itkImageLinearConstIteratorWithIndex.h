@@ -65,8 +65,6 @@ namespace itk
  *
  *  \endcode
  *
- * \example  ImageLinearIteratorWithIndex.cxx
- *
  * \par MORE INFORMATION
  * For a complete description of the ITK Image Iterators and their API, please
  * see the Iterators chapter in the ITK Software Guide.  The ITK Software Guide

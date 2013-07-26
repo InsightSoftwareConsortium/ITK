@@ -64,11 +64,6 @@ namespace itk
  * \sa ImageBase
  * \sa ImageContainerInterface
  *
- * \example Image1.cxx
- * \example Image2.cxx
- * \example RGBImage.cxx
- * \example VectorImage.cxx
- *
  * \ingroup ImageObjects
  * \ingroup ITKCommon
  *

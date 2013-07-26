@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef __itkBMPImageIO_h
 #define __itkBMPImageIO_h
+#include "ITKIOBMPExport.h"
 
 
 #include <fstream>
@@ -34,7 +35,7 @@ namespace itk
  *
  * \ingroup ITKIOBMP
  */
-class BMPImageIO:public ImageIOBase
+class ITKIOBMP_EXPORT BMPImageIO:public ImageIOBase
 {
 public:
   /** Standard class typedefs. */

@@ -309,7 +309,7 @@ macro(itk_wrap_class class)
   # The class will be named in the SWIG wrappers as the top-level namespace
   # concatenated to the base class name. E.g. itk::Image -> itkImage or
   # itk::Statistics::Sample -> itkSample.
-  # If the top-level namespace is 'itk' amd WRAPPER_AUTO_INCLUDE_HEADERS is ON
+  # If the top-level namespace is 'itk' and WRAPPER_AUTO_INCLUDE_HEADERS is ON
   # then the appropriate itk header for this class will be included. Otherwise
   # itk_wrap_include should be manually called from the wrap_*.cmake file that calls
   # this macro.

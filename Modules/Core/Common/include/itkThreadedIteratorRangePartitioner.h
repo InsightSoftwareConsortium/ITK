@@ -84,20 +84,23 @@ private:
  *
  *  \tparam TIterator The type of the iterator.
  *
- * The DomainType is defined to be a two component struct of interators:
- * the first iterator, \c Begin, defines the start of the domain, and the second iterator,
- * \c End, defines one element past the end of the domain.
+ * The \c DomainType is defined to be an itk::ThreadedIteratorRangePartitionerDomain,
+ * a two component struct of interators: the first iterator, \c Begin, defines
+ * the start of the domain, and the second iterator, \c End, defines one element
+ * past the end of the domain.
  *
  * The class assumes that iterating through the domain will be a repeatable
  * process.
  *
  * While this class will work for most containers that use iterators, indexed
- * containers such as std::vector or Array will be partitioned more efficiently with a
- * ThreadedIndexedContainerPartitioner.
+ * containers such as std::vector or Array will be partitioned much more efficiently
+ * with a ThreadedIndexedContainerPartitioner.
  *
- * \sa ThreadedIndexedContainerPartitioner
+ * This class is typically used as a template argument to a DomainThreader.
+ *
  * \sa ThreadedDomainPartitioner
- * \sa IteratorRangeInterface
+ * \sa DomainThreader
+ * \sa ThreadedIndexedContainerPartitioner
  * \ingroup ITKCommon
  */
 template< class TIterator >
@@ -122,17 +125,22 @@ public:
 
   typedef TIterator IteratorType;
 
-  /** Split the Domain into
-   * \c requestedTotal sub-domains, returning sub-domain \c i as \c subdomain.
-   * This method is called \c requestedTotal times. The
-   * pieces will not overlap. The method returns the number of pieces that
-   * the routine is capable of splitting the output RequestedObject,
-   * i.e. return value is less than or equal to \c requestedTotal. */
+  /** Split the domain \c completeDomain into up to \c requestedTotal
+   * non-overlapping subdomains, setting subdomain number \c threadId as
+   * \c subDomain and returning the total number of subdomains actually available.
+   *
+   * This method should be called repeatedly for each value of \c threadId, from 0 up
+   * to the return value (which is always less than or equal to \c requestedTotal).
+   *
+   * It is an error for \c completeDomain to be zero-length.
+   * If \c threadId is greater than the return value, the contents of
+   * \c subDomain are undefined.
+   */
   virtual
-  ThreadIdType PartitionDomain(const ThreadIdType i,
+  ThreadIdType PartitionDomain(const ThreadIdType threadId,
                            const ThreadIdType requestedTotal,
                            const DomainType& completeDomain,
-                           DomainType& subdomain) const;
+                           DomainType& subDomain) const;
 
 protected:
   ThreadedIteratorRangePartitioner();

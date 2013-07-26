@@ -147,7 +147,7 @@ OtsuMultipleThresholdsCalculator< TInputHistogram >
 template< class TInputHistogram >
 void
 OtsuMultipleThresholdsCalculator< TInputHistogram >
-::GenerateData()
+::Compute()
 {
   typename TInputHistogram::ConstPointer histogram = this->GetInputHistogram();
 
@@ -253,7 +253,7 @@ OtsuMultipleThresholdsCalculator< TInputHistogram >
 
   for ( j = 0; j < m_NumberOfThresholds; j++ )
     {
-    m_Output[j] = histogram->GetBinMax(0, maxVarThresholdIndexes[j]);
+    m_Output[j] = histogram->GetMeasurement(maxVarThresholdIndexes[j],0);
     }
 }
 

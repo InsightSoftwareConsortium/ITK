@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef __itkImageFileReader_h
 #define __itkImageFileReader_h
+#include "ITKIOImageBaseExport.h"
 
 #include "itkImageIOBase.h"
 #include "itkImageSource.h"
@@ -99,7 +100,7 @@ public:
 template< class TOutputImage,
           class ConvertPixelTraits = DefaultConvertPixelTraits<
             typename TOutputImage::IOPixelType > >
-class ImageFileReader:public ImageSource< TOutputImage >
+class ITKIOImageBase_HIDDEN ImageFileReader:public ImageSource< TOutputImage >
 {
 public:
   /** Standard class typedefs. */

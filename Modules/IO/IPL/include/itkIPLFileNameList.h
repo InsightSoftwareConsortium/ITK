@@ -27,6 +27,7 @@
  *=========================================================================*/
 #ifndef __itkIPLFileNameList_h
 #define __itkIPLFileNameList_h
+#include "ITKIOIPLExport.h"
 
 #include "itkMacro.h"
 #include "itkObject.h"
@@ -109,7 +110,7 @@ private:
  *  \brief -- stores filename+info to be enumerated for IPLCommonImageIO
  * \ingroup ITKIOIPL
  */
-class IPLFileNameList
+class ITKIOIPL_EXPORT IPLFileNameList
 {
 public:
   typedef std::vector< IPLFileSortInfo * > ListType;

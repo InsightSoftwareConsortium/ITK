@@ -18,6 +18,7 @@
 
 #ifndef __itkBYUMeshIO_h
 #define __itkBYUMeshIO_h
+#include "ITKIOMeshExport.h"
 
 #include "itkMeshIOBase.h"
 #include "itkNumberToString.h"
@@ -33,7 +34,7 @@ namespace itk
  * \ingroup ITKIOMesh
  */
 
-class BYUMeshIO:public MeshIOBase
+class ITKIOMesh_EXPORT BYUMeshIO:public MeshIOBase
 {
 public:
   /** Standard class typedefs. */

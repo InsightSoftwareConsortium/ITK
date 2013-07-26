@@ -64,6 +64,7 @@ itk_module(ITKReview
     ITKMesh
     ITKNarrowBand
     ITKNeuralNetworks
+    ITKOpenJPEG
     ITKOptimizers
     ITKPath
     ITKPDEDeformableRegistration
@@ -90,4 +91,5 @@ itk_module(ITKReview
     ITKIOCSV
   DESCRIPTION
     "${DOCUMENTATION}"
-)
+  EXCLUDE_FROM_ALL
+ )

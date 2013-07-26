@@ -33,12 +33,12 @@ ThreadedIndexedContainerPartitioner
 
 ThreadIdType
 ThreadedIndexedContainerPartitioner
-::PartitionDomain( const ThreadIdType threadID,
+::PartitionDomain( const ThreadIdType threadId,
                         const ThreadIdType requestedTotal,
                         const DomainType& completeIndexRange,
                         DomainType& subIndexRange) const
 {
-  // overallIndexRange is expected to be inclusive
+  // completeIndexRange and subIndexRange are inclusive
 
   // determine the actual number of pieces that will be generated
   const double count = static_cast<double>( completeIndexRange[1] - completeIndexRange[0] + 1 );
@@ -48,14 +48,14 @@ ThreadedIndexedContainerPartitioner
     Math::Ceil<ThreadIdType>( count/static_cast<double>(valuesPerThread) ) - 1;
 
   // Split the index range
-  if (threadID < maxThreadIdUsed)
+  if (threadId < maxThreadIdUsed)
     {
-    subIndexRange[0] = completeIndexRange[0] + threadID * valuesPerThread;
+    subIndexRange[0] = completeIndexRange[0] + threadId * valuesPerThread;
     subIndexRange[1] = subIndexRange[0] + valuesPerThread - 1;
     }
-  if (threadID == maxThreadIdUsed)
+  if (threadId == maxThreadIdUsed)
     {
-    subIndexRange[0] = completeIndexRange[0] + threadID * valuesPerThread;
+    subIndexRange[0] = completeIndexRange[0] + threadId * valuesPerThread;
     // last thread needs to process the "rest" of the range
     subIndexRange[1] = completeIndexRange[1];
     }

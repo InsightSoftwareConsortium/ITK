@@ -110,7 +110,7 @@ ScalarChanAndVeseSparseLevelSetImageFilter< TInputImage, TFeatureImage, TOutputI
     }
 
   // Estimate the progress of the filter
-  this->SetProgress( ( (float)this->m_ElapsedIterations
+  this->UpdateProgress( ( (float)this->m_ElapsedIterations
                        / (float)this->m_NumberOfIterations ) );
 }
 

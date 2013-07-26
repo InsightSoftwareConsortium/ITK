@@ -144,7 +144,7 @@ StreamingImageFilter< TInputImage, TOutputImage >
     return;
     }
   this->SetAbortGenerateData(0);
-  this->SetProgress(0.0);
+  this->UpdateProgress(0.0);
   this->m_Updating = true;
 
   /**

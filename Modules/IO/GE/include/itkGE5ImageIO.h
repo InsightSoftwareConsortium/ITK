@@ -31,6 +31,7 @@
 
 #ifndef __itkGE5ImageIO_h
 #define __itkGE5ImageIO_h
+#include "ITKIOGEExport.h"
 
 
 #include "itkIPLCommonImageIO.h"
@@ -47,7 +48,7 @@ namespace itk
  *
  * \ingroup ITKIOGE
  */
-class GE5ImageIO:public IPLCommonImageIO
+class ITKIOGE_EXPORT GE5ImageIO:public IPLCommonImageIO
 {
 public:
   /** Standard class typedefs. */

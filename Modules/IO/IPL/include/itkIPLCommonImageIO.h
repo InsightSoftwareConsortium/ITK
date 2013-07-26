@@ -31,6 +31,7 @@
 
 #ifndef __itkIPLCommonImageIO_h
 #define __itkIPLCommonImageIO_h
+#include "ITKIOIPLExport.h"
 
 #include "itkImageIOBase.h"
 #include "itkIPLFileNameList.h"
@@ -46,7 +47,7 @@ namespace itk
   * \ingroup IOFilters
   * \ingroup ITKIOIPL
   */
-class IPLCommonImageIO:public ImageIOBase
+class ITKIOIPL_EXPORT IPLCommonImageIO:public ImageIOBase
 {
 public:
   /** Standard class typedefs. */

@@ -1,0 +1,5 @@
+itk_wrap_class("itk::TransformFileWriterTemplate" POINTER)
+  foreach(t ${WRAP_ITK_REAL})
+    itk_wrap_template("${ITKM_${t}}" "${ITKT_${t}}")
+  endforeach(t)
+itk_end_wrap_class()

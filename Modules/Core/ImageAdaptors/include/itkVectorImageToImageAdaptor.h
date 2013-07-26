@@ -123,8 +123,7 @@ private:
  * The class is expected to be templated over a pixel type and dimension. These
  * are the pixel types and dimension of the VectorImage.
  *
- * The component to extract is set with SetExtractComponentIdx() method
- * RGBPixel type.
+ * The component to extract is set with SetExtractComponentIdx() method.
  *
  * \note
  * This work is part of the National Alliance for Medical Image Computing

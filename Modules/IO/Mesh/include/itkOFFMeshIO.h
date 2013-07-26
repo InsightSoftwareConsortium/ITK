@@ -18,6 +18,7 @@
 
 #ifndef __itkOFFMeshIO_h
 #define __itkOFFMeshIO_h
+#include "ITKIOMeshExport.h"
 
 #include "itkMeshIOBase.h"
 
@@ -31,7 +32,7 @@ namespace itk
  * \ingroup ITKIOMesh
  */
 
-class OFFMeshIO:public MeshIOBase
+class ITKIOMesh_EXPORT OFFMeshIO:public MeshIOBase
 {
 public:
   /** Standard class typedefs. */
