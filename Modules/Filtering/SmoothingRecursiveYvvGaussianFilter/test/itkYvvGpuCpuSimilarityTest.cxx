@@ -6,6 +6,7 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkTimeProbe.h"
+#include "itkMinimumMaximumImageCalculator.h"
 
 #include "itkGPUImage.h"
 #include "itkGPUKernelManager.h"
@@ -22,10 +23,10 @@
 
 #ifdef WITH_DOUBLE
 typedef double PixelType;
-#  define RMSTH 5e-06
+#  define NRMSTH 5e-07
 #else
 typedef float PixelType;
-#  define RMSTH 5e-03
+#  define NRMSTH 5e-04
 #endif
 
 template <typename ImageType>
@@ -121,6 +122,14 @@ runYvvGpuCpuSimilarityTest(const std::string & inFile, float mySigma)
     // RMS Error check
     // ---------------
 
+    typedef itk::MinimumMaximumImageCalculator<ImageType> ImageCalculatorFilterType;
+
+    typename ImageCalculatorFilterType::Pointer imageCalculatorFilter = ImageCalculatorFilterType::New();
+    imageCalculatorFilter->SetImage(CPUFilter->GetOutput());
+    imageCalculatorFilter->Compute();
+
+    double                                    maxPx = imageCalculatorFilter->GetMaximum();
+    double                                    minPx = imageCalculatorFilter->GetMinimum();
     double                                    diff = 0;
     unsigned int                              nPix = 0;
     itk::ImageRegionIterator<OutputImageType> cit(CPUFilter->GetOutput(),
@@ -140,17 +149,18 @@ runYvvGpuCpuSimilarityTest(const std::string & inFile, float mySigma)
 
     if (nPix > 0)
     {
-      double RMSError = sqrt(diff / (double)nPix);
-      std::cout << "RMS Error with sigma = " << sigma << " : " << RMSError << std::endl;
+      double NormRMSError = sqrt(diff / (double)nPix) / (maxPx - minPx); //
+      std::cout << "Normalised RMS Error with sigma = " << sigma << " : " << NormRMSError << std::endl;
 
-      if (vnl_math_isnan(RMSError))
+      if (vnl_math_isnan(NormRMSError))
       {
-        std::cout << "RMS Error with sigma = " << sigma << " is NaN! nPix: " << nPix << std::endl;
+        std::cout << "Normalised RMS Error with sigma = " << sigma << " is NaN! nPix: " << nPix << std::endl;
         return EXIT_FAILURE;
       }
-      if (RMSError > RMSTH)
+      if (NormRMSError > NRMSTH)
       {
-        std::cout << "RMS Error with sigma = " << sigma << " exceeds threshold (" << RMSTH << ")" << std::endl;
+        std::cout << "Normalised RMS Error with sigma = " << sigma << " exceeds threshold (" << NRMSTH << ")"
+                  << std::endl;
         someDiffFlag = true;
       }
     }
