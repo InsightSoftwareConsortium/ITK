@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef __itkSpatialObjectWriter_h
 #define __itkSpatialObjectWriter_h
-#include "ITKIOSpatialObjectsExport.h"
 
 #include "itkMetaSceneConverter.h"
 #include "itkMetaConverterBase.h"
