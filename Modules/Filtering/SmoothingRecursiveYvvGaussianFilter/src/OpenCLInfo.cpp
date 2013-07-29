@@ -54,6 +54,8 @@ main(int argc, char ** argv)
   }
 
   std::cout << "Number of platforms: \t" << numPlatforms << std::endl;
+  int result = 1;
+
   // Iterate through the list of platforms displaying associated information
   for (cl_uint i = 0; i < numPlatforms; i++)
   {
@@ -77,6 +79,7 @@ main(int argc, char ** argv)
 
     std::cout << "\tNumber of devices: \t" << numDevices << std::endl;
     // Iterate through each device, displaying associated information
+
     for (cl_uint j = 0; j < numDevices; j++)
     {
       cl_uint vectorWidthDouble;
@@ -85,10 +88,21 @@ main(int argc, char ** argv)
       if (vectorWidthDouble == 0)
       {
         std::cout << "Found a device that does not support double precision.\n";
-        return 20;
+        result = 20;
+      }
+      cl_ulong sharedMemSize, maxObjMem;
+      errNum = clGetDeviceInfo(devices[j], CL_DEVICE_LOCAL_MEM_SIZE, sizeof(cl_ulong), &sharedMemSize, NULL);
+      // std::cout<<"sharedMemSize: "<<sharedMemSize/1024<<"KB.\n";
+      errNum = clGetDeviceInfo(devices[j], CL_DEVICE_MAX_MEM_ALLOC_SIZE, sizeof(cl_ulong), &maxObjMem, NULL);
+      // std::cout<<"MaxObjMem: "<<maxObjMem/(1024.0*1024.0)<<"MB.\n";
+
+      if (maxObjMem / (1024.0 * 1024.0) <= 512 || sharedMemSize <= 49000)
+      {
+        std::cout << "GPU with little RAM. Setting single-precision.\n";
+        result = 10;
       }
     }
   }
-  std::cout << "All devices supported double precision.\n";
-  return 1;
+  std::cout << "All devices verified.\n";
+  return result;
 }

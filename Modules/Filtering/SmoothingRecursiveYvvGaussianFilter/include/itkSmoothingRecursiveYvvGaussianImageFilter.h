@@ -1,3 +1,20 @@
+/*=========================================================================
+ *
+ * Copyright Insight Software Consortium
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ *=========================================================================*/
 
 #ifndef _ITK_SMOOTHING_RECURSIVE_YVV_GAUSSIAN_IMAGE_FILTER_H_
 #define _ITK_SMOOTHING_RECURSIVE_YVV_GAUSSIAN_IMAGE_FILTER_H_
@@ -12,7 +29,21 @@
 
 namespace itk
 {
-
+/**
+ * \class SmoothingRecursiveYvvGaussianImageFilter
+ * \brief Recursive Gaussian blurring filter based on Young-Van Vliet's
+ *  algorithm, implemented for CPU.
+ *
+ *  This CPU implementation is more efficient than the GPU implamentation for
+ *  smaller images (e.g. 512x512 and smaller for quadcores at over 3GHz); use
+ *  the benchmark tests to establish the size for which this implementation
+ *  performs better for your particular hardware configuration.
+ *
+ *  More information in the Insight Journal publication:
+ *  http://hdl.handle.net/10380/3425
+ *
+ * \ingroup ITKSmoothingRecursiveYvvGaussianFilter
+ */
 template <typename TInputImage, typename TOutputImage = TInputImage>
 class ITK_EXPORT SmoothingRecursiveYvvGaussianImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
