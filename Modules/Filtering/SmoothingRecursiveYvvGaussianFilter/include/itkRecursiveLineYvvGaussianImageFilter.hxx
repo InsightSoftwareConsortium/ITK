@@ -183,8 +183,8 @@ RecursiveLineYvvGaussianImageFilter<TInputImage, TOutputImage>::FilterDataArray(
   // AntiCausal direction pass
 
   // Handle outside values according to Triggs and Sdika
-  const ScalarRealType u_p = data[ln - 1] / (1.0 - m_B1 - m_B2 - m_B3);
-  const ScalarRealType v_p = u_p / (1.0 - m_B1 - m_B2 - m_B3);
+  const RealType u_p = data[ln - 1] / (1.0 - m_B1 - m_B2 - m_B3);
+  const RealType v_p = u_p / (1.0 - m_B1 - m_B2 - m_B3);
 
   RealType Vn0 = v_p;
   RealType Vn1 = v_p;

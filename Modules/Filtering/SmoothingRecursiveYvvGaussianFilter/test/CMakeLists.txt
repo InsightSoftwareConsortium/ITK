@@ -24,6 +24,8 @@ if(ITK_USE_GPU)
     itkYvvWhiteImageTest.cxx
   )
 else()
+  #No GPU, but CPU user will probably want double-precision.
+  add_definitions(-DWITH_DOUBLE)
   set(
     ${itk-module}Tests
     itkCPURecursiveYvvGaussianImageFilterTest.cxx
