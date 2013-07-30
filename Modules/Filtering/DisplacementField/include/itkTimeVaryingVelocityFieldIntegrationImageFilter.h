@@ -34,7 +34,7 @@ namespace itk
  * described by the integral equation:
  *
  * \f[
- * \phi(t_b) = \phi(t_a) + \int_t_a^t_b v(\phi(t),t) dt
+ * \phi(t_b) = \phi(t_a) + \int_{t_a}^{t_b} v(\phi(t),t) dt
  * \f]
  *
  * In this class, the input is the time-varying velocity field and an initial
