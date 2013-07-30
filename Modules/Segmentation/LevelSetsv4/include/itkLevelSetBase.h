@@ -171,7 +171,7 @@ public:
   virtual void EvaluateForwardGradient( const InputType& iP, LevelSetDataType& ioData ) const = 0;
   virtual void EvaluateBackwardGradient( const InputType& iP, LevelSetDataType& ioData ) const = 0;
 
-  /** Returns true if iP is inside the level set, i.e. \f$\phi(p) \leqslant 0 \f$ */
+  /** Returns true if iP is inside the level set, i.e. \f$\phi(p) \le 0 \f$ */
   virtual bool IsInside( const InputType& iP ) const;
 
   /** Get the maximum number of regions that this data can be

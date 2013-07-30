@@ -35,7 +35,7 @@ namespace itk
  *  negative square of normalized cross correlation
  *
  *  \f[
- *  C(f, m) = -\frac{<f-\bar{f}, m-\bar{m} >^2}{|f-\bar{f}}|^2 |m-\bar{m}|^2}
+ *  C(f, m) = -\frac{<f-\bar{f}, m-\bar{m} >^2}{|f-\bar{f}|^2 |m-\bar{m}|^2}
  *  \f]
  *
  *  in which, f, m are the vectors of image pixel intensities, \f$\bar{f}\f$ and
