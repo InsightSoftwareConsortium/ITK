@@ -46,9 +46,10 @@ int itkNthElementPixelAccessorTest(int, char* []) {
   // Typedefs for convenience
   const unsigned int Dimension = 2;
   const unsigned int VectorLength = 3;
-  typedef itk::Image< itk::Vector<float, VectorLength>, Dimension > myImageType;
+  typedef itk::Image< itk::Vector<float, VectorLength>, Dimension >              myImageType;
   typedef itk::NthElementPixelAccessor<float, itk::Vector<float, VectorLength> > myNthAccessorType;
-  typedef itk::ImageAdaptor< myImageType, myNthAccessorType > myNthAdaptorType;
+
+  typedef itk::ImageAdaptor< myImageType, myNthAccessorType >    myNthAdaptorType;
   typedef itk::ImageRegionIteratorWithIndex< myImageType >       myIteratorType;
   typedef itk::ImageRegionIteratorWithIndex< myNthAdaptorType >  myNthIteratorType;
 

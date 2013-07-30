@@ -48,11 +48,13 @@ int itkNthElementPixelAccessorTest2(int, char* []) {
   // Typedefs for convenience
   const unsigned int Dimension = 2;
   const unsigned int VectorLength = 3;
+
   typedef float PrecisionType;
-  typedef itk::VectorImage< PrecisionType, Dimension > VectorImageType;
-  typedef itk::VariableLengthVector< PrecisionType > PixelType;
-  typedef itk::Image< PrecisionType, Dimension > ScalarImageType;
-  typedef itk::NthElementPixelAccessor< PrecisionType, PixelType > AccessorType;
+
+  typedef itk::VectorImage< PrecisionType, Dimension >                            VectorImageType;
+  typedef itk::VariableLengthVector< PrecisionType >                              PixelType;
+  typedef itk::Image< PrecisionType, Dimension >                                  ScalarImageType;
+  typedef itk::NthElementPixelAccessor< PrecisionType, PixelType >                AccessorType;
   typedef itk::AdaptImageFilter< VectorImageType, ScalarImageType, AccessorType > AdaptorType;
 
   // Test on variable length vector image
