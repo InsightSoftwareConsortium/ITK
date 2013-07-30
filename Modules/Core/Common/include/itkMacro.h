@@ -102,7 +102,6 @@ namespace itk
 #endif
 
 // Setup symbol exports
-// begin legacy
 #if defined( _WIN32 ) || defined ( WIN32 )
   #define ITK_ABI_IMPORT __declspec(dllimport)
   #define ITK_ABI_EXPORT __declspec(dllexport)
@@ -118,7 +117,6 @@ namespace itk
     #define ITK_ABI_HIDDEN
   #endif
 #endif
-// end legacy
 
 /** Define two object creation methods.  The first method, New(),
  * creates an object from a class, potentially deferring to a factory.
