@@ -34,7 +34,7 @@ int itkGDCMImageIONoCrashTest(int ac, char* av[])
     }
 
 
-  typedef unsigned char InputPixelType;
+  typedef unsigned char                           InputPixelType;
   typedef itk::Image< InputPixelType, 2 >         InputImageType;
   typedef itk::ImageFileReader< InputImageType >  ReaderType;
 

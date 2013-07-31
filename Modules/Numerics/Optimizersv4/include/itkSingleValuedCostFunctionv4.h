@@ -51,10 +51,10 @@ class SingleValuedCostFunctionTemplatev4:
 {
 public:
   /** Standard class typedefs. */
-  typedef SingleValuedCostFunctionTemplatev4              Self;
+  typedef SingleValuedCostFunctionTemplatev4                    Self;
   typedef CostFunctionTemplate<TInternalComputationValueType>   Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  typedef SmartPointer< Self >                                  Pointer;
+  typedef SmartPointer< const Self >                            ConstPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(SingleValuedCostFunctionTemplatev4, CostFunctionTemplate);
