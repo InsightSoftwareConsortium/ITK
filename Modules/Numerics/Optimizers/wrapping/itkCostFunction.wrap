@@ -1,6 +1,6 @@
 set(WRAPPER_AUTO_INCLUDE_HEADERS OFF)
-itk_wrap_include("itkObjectToObjectMetricBase.h")
-itk_wrap_class("itk::ObjectToObjectMetricBaseTemplate" POINTER)
+itk_wrap_include("itkCostFunction.h")
+itk_wrap_class("itk::CostFunctionTemplate" POINTER)
   UNIQUE(types "D;${WRAP_ITK_REAL}")
   foreach(t ${types})
     itk_wrap_template("${ITKM_${t}}" "${ITKT_${t}}")

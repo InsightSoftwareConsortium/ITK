@@ -48,17 +48,17 @@ namespace itk
    */
 template<class TInternalComputationValueType=double>
 class ObjectToObjectMetricBaseTemplate:
-  public SingleValuedCostFunctionTemplatev4<TInternalComputationValueType>
+  public SingleValuedCostFunctionv4Template<TInternalComputationValueType>
 {
 public:
   /** Standard class typedefs. */
   typedef ObjectToObjectMetricBaseTemplate                                   Self;
-  typedef SingleValuedCostFunctionTemplatev4<TInternalComputationValueType>  Superclass;
+  typedef SingleValuedCostFunctionv4Template<TInternalComputationValueType>  Superclass;
   typedef SmartPointer< Self >                                               Pointer;
   typedef SmartPointer< const Self >                                         ConstPointer;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ObjectToObjectMetricBaseTemplate, SingleValuedCostFunctionTemplatev4);
+  itkTypeMacro(ObjectToObjectMetricBaseTemplate, SingleValuedCostFunctionv4Template);
 
   /** Type used for representing object components  */
   typedef TInternalComputationValueType           CoordinateRepresentationType;
