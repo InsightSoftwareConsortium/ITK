@@ -231,36 +231,36 @@ public:
   
   // Expose the following methods from the superclass.  This is a restricted
   // subset of the methods available for ConstNeighborhoodIterator.
-  Superclass::GetImagePointer;
-  Superclass::GetRadius;
-  Superclass::GetIndex;
-  Superclass::GetNeighborhoodIndex;
-  Superclass::GetCenterNeighborhoodIndex;
-  Superclass::GetRegion;
-  Superclass::GetBeginIndex;
-  Superclass::GoToBegin;
-  Superclass::GoToEnd;
-  Superclass::IsAtBegin;
-  Superclass::IsAtEnd;
-  Superclass::GetOffset;
-  Superclass::operator==;
-  Superclass::operator!=;
-  Superclass::operator<;
-  Superclass::operator>;
-  Superclass::operator>=;
-  Superclass::operator<=;
-  Superclass::operator[];
-  Superclass::GetElement;
-  Superclass::SetLocation;
-  Superclass::GetCenterPointer;
-  Superclass::GetCenterPixel;
-  Superclass::OverrideBoundaryCondition;
-  Superclass::ResetBoundaryCondition;
-  Superclass::GetBoundaryCondition;
-  Superclass::Print;
-  Superclass::operator-;
+  using Superclass::GetImagePointer;
+  using Superclass::GetRadius;
+  using Superclass::GetIndex;
+  using Superclass::GetNeighborhoodIndex;
+  using Superclass::GetCenterNeighborhoodIndex;
+  using Superclass::GetRegion;
+  using Superclass::GetBeginIndex;
+  using Superclass::GoToBegin;
+  using Superclass::GoToEnd;
+  using Superclass::IsAtBegin;
+  using Superclass::IsAtEnd;
+  using Superclass::GetOffset;
+  using Superclass::operator==;
+  using Superclass::operator!=;
+  using Superclass::operator<;
+  using Superclass::operator>;
+  using Superclass::operator>=;
+  using Superclass::operator<=;
+  using Superclass::operator[];
+  using Superclass::GetElement;
+  using Superclass::SetLocation;
+  using Superclass::GetCenterPointer;
+  using Superclass::GetCenterPixel;
+  using Superclass::OverrideBoundaryCondition;
+  using Superclass::ResetBoundaryCondition;
+  using Superclass::GetBoundaryCondition;
+  using Superclass::Print;
+  using Superclass::operator-;
  
-  Superclass::GetPixel;
+  using Superclass::GetPixel;
   
   /** Assignment operator */
   Self &operator=(const Self& orig)
@@ -323,8 +323,8 @@ public:
 
   // Should be protected, but Borland compiler will not allow it.  A workaround
   // must be found.
-  Superclass::SetPixel;
-  Superclass::SetCenterPixel;
+  using Superclass::SetPixel;
+  using Superclass::SetCenterPixel;
 protected:
   /** Copy constructor */
   ConstShapedNeighborhoodIterator( const ConstShapedNeighborhoodIterator & );
