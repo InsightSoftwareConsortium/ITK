@@ -136,7 +136,7 @@ private:
   MultipleValuedCostFunction::Pointer m_CostFunction;
 
   bool            m_ScalesInitialized;
-  ScalesType                        m_InverseScales;
+  ScalesType      m_InverseScales;
   Object::Pointer m_Reporter;
 
   mutable MeasureType    m_CachedValue;

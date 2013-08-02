@@ -207,7 +207,7 @@ private:
   TInternalComputationValueType        m_VarianceForJointPDFSmoothing;
 
   /** Variables to define the marginal and joint histograms. */
-  SizeValueType                       m_NumberOfHistogramBins;
+  SizeValueType                        m_NumberOfHistogramBins;
   TInternalComputationValueType        m_FixedImageTrueMin;
   TInternalComputationValueType        m_FixedImageTrueMax;
   TInternalComputationValueType        m_MovingImageTrueMin;
@@ -216,10 +216,10 @@ private:
   TInternalComputationValueType        m_MovingImageBinSize;
 
   TInternalComputationValueType        m_JointPDFSum;
-  JointPDFSpacingType                 m_JointPDFSpacing;
+  JointPDFSpacingType                  m_JointPDFSpacing;
 
   TInternalComputationValueType        m_Log2;
-  JointPDFIndexValueType              m_Padding;
+  JointPDFIndexValueType               m_Padding;
 
 };
 
