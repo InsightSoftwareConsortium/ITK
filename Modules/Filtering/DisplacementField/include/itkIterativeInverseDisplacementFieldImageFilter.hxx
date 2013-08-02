@@ -51,10 +51,6 @@ void IterativeInverseDisplacementFieldImageFilter< TInputImage, TOutputImage >
     {
     itkExceptionMacro("\n Input is missing.");
     }
-  if ( !TInputImage::ImageDimension == TOutputImage::ImageDimension )
-    {
-    itkExceptionMacro("\n Image Dimensions must be the same.");
-    }
 
   // calculate a first guess
   // (calculate negative displacement field and apply it to itself)
