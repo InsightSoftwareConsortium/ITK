@@ -67,7 +67,6 @@ namespace itk
  * \sa Image
  * \sa ImportImageContainer
  *
- * \example itkVectorImageTest.cxx
  *
  * \ingroup ImageObjects
  * \ingroup ITKCommon
