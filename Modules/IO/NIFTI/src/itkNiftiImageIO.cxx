@@ -1604,7 +1604,6 @@ NiftiImageIO
                                                                                                         // distinguish
                                                                                                         // between
                                                                                                         // them.
-  return;
 }
 
 namespace

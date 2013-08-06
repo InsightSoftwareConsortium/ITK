@@ -67,8 +67,6 @@ VectorResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType
   os << indent << "OutputDirection: " << m_OutputDirection << std::endl;
   os << indent << "Transform: " << m_Transform.GetPointer() << std::endl;
   os << indent << "Interpolator: " << m_Interpolator.GetPointer() << std::endl;
-
-  return;
 }
 
 /**
@@ -209,7 +207,6 @@ VectorResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType
     progress.CompletedPixel();
     ++outIt;
     }
-  return;
 }
 
 /**
@@ -240,8 +237,6 @@ VectorResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType
   InputImageRegionType inputRegion;
   inputRegion = inputPtr->GetLargestPossibleRegion();
   inputPtr->SetRequestedRegion(inputRegion);
-
-  return;
 }
 
 /**
@@ -272,8 +267,6 @@ VectorResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType
   outputPtr->SetSpacing(m_OutputSpacing);
   outputPtr->SetOrigin(m_OutputOrigin);
   outputPtr->SetDirection(m_OutputDirection);
-
-  return;
 }
 
 /**

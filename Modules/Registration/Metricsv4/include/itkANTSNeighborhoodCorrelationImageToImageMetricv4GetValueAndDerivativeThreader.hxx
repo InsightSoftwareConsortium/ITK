@@ -519,7 +519,6 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader< TD
         }
       }
     }
-  return;
 }
 
 /*

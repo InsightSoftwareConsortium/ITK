@@ -217,8 +217,6 @@ void MRCImageIO::ReadImageInformation(void)
   EncapsulateMetaData< std::string >(thisDic, ITK_InputFilterName, classname);
   EncapsulateMetaData< MRCHeaderObject::ConstPointer >( thisDic, m_MetaDataHeaderName,
                                                         MRCHeaderObject::ConstPointer(m_MRCHeader) );
-
-  return;
 }
 
 // methods to load the data into the MRCHeader member variable

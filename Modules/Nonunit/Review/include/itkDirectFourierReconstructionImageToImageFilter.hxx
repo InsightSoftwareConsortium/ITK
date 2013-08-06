@@ -422,7 +422,6 @@ void DirectFourierReconstructionImageToImageFilter< TInputImage, TOutputImage >:
     } // while ( !inputIt.IsAtEnd() )
 
   delete[] FFTLineInterpolator;
-  return;
 }
 } // namespace
 

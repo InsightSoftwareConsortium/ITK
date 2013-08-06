@@ -47,7 +47,6 @@ template< class TScalarType, unsigned int NDimensions >
 AffineTransform< TScalarType, NDimensions >::
 ~AffineTransform()
 {
-  return;
 }
 
 /** Print self */
@@ -76,7 +75,6 @@ AffineTransform< TScalarType, NDimensions >::Translate(const OutputVectorType & 
   this->SetVarTranslation(newTranslation);
   this->ComputeOffset();
   this->Modified();
-  return;
 }
 
 /** Compose with isotropic scaling */
@@ -104,7 +102,6 @@ AffineTransform< TScalarType, NDimensions >
   this->ComputeMatrixParameters();
   this->ComputeOffset();
   this->Modified();
-  return;
 }
 
 /** Compose with anisotropic scaling */
@@ -136,7 +133,6 @@ AffineTransform< TScalarType, NDimensions >
   this->ComputeMatrixParameters();
   this->ComputeOffset();
   this->Modified();
-  return;
 }
 
 /** Compose with elementary rotation */
@@ -172,7 +168,6 @@ AffineTransform< TScalarType, NDimensions >
   this->ComputeMatrixParameters();
   this->ComputeOffset();
   this->Modified();
-  return;
 }
 
 /** Compose with 2D rotation
@@ -201,7 +196,6 @@ AffineTransform< TScalarType, NDimensions >
   this->ComputeMatrixParameters();
   this->ComputeOffset();
   this->Modified();
-  return;
 }
 
 /** Compose with 3D rotation
@@ -252,7 +246,6 @@ AffineTransform< TScalarType, NDimensions >
   this->ComputeMatrixParameters();
   this->ComputeOffset();
   this->Modified();
-  return;
 }
 
 /** Compose with elementary rotation */
@@ -285,7 +278,6 @@ AffineTransform< TScalarType, NDimensions >
   this->ComputeMatrixParameters();
   this->ComputeOffset();
   this->Modified();
-  return;
 }
 
 /** Get an inverse of this transform. */

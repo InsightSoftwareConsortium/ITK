@@ -176,7 +176,6 @@ void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::RunRegistrati
     this->ComputeJacobian( );
     WarpImage(m_OriginalMovingImage);
     }
-  return;
 }
 
 template <class TMovingImage, class TFixedImage, class TFemObject>
@@ -525,8 +524,6 @@ void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::ApplyLoads(
     nodect++;
     itkDebugMacro( << " node " << nodect );
     }
-
-  return;
 }
 
 template <class TMovingImage, class TFixedImage, class TFemObject>
@@ -1227,7 +1224,6 @@ void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::MultiResSolve
                              + m_Field->GetPixel(index) );
       }
     }
-  return;
 }
 
 template <class TMovingImage, class TFixedImage, class TFemObject>
@@ -1335,7 +1331,6 @@ void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::FindBracketin
     } // to avoid crazy numbers caused by bad bracket (u goes nuts)
 
   *a = ax; *b = bx; *c = cx;
-  return;
 }
 
 template <class TMovingImage, class TFixedImage, class TFemObject>

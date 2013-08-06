@@ -38,8 +38,6 @@ void LinearSystemWrapperDenseVNL::InitializeMatrix(unsigned int matrixIndex)
 
   ( *m_Matrices )[matrixIndex] = new MatrixRepresentation( this->GetSystemOrder(), this->GetSystemOrder() );
   ( *m_Matrices )[matrixIndex]->fill(0.0);
-
-  return;
 }
 
 bool LinearSystemWrapperDenseVNL::IsMatrixInitialized(unsigned int matrixIndex)
@@ -86,8 +84,6 @@ void LinearSystemWrapperDenseVNL::InitializeVector(unsigned int vectorIndex)
 
   ( *m_Vectors )[vectorIndex] = new vnl_vector<Float>( this->GetSystemOrder() );
   ( *m_Vectors )[vectorIndex]->fill(0.0);
-
-  return;
 }
 
 bool LinearSystemWrapperDenseVNL::IsVectorInitialized(unsigned int vectorIndex)
@@ -134,8 +130,6 @@ void LinearSystemWrapperDenseVNL::InitializeSolution(unsigned int solutionIndex)
 
   ( *m_Solutions )[solutionIndex] = new vnl_vector<Float>( this->GetSystemOrder() );
   ( *m_Solutions )[solutionIndex]->fill(0.0);
-
-  return;
 }
 
 bool LinearSystemWrapperDenseVNL::IsSolutionInitialized(unsigned int solutionIndex)

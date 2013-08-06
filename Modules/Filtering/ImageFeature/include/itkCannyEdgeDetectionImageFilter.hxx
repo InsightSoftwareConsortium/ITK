@@ -105,7 +105,6 @@ throw( InvalidRequestedRegionError )
 {
   // call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
-  return;
 }
 
 template< class TInputImage, class TOutputImage >

@@ -48,8 +48,6 @@ void LinearSystemWrapperVNL::InitializeMatrix(unsigned int matrixIndex)
     itkGenericExceptionMacro(
       << "LinearSystemWrapperVNL::InitializeMatrix(): allocation of (*m_Matrices)[" << matrixIndex << "] failed.");
     }
-
-  return;
 }
 
 bool LinearSystemWrapperVNL::IsMatrixInitialized(unsigned int matrixIndex)
@@ -104,8 +102,6 @@ void LinearSystemWrapperVNL::InitializeVector(unsigned int vectorIndex)
     itkGenericExceptionMacro(<< "InitializeVector(): allocation of (*m_Vectors)[" << vectorIndex << "] failed.");
     }
   ( *m_Vectors )[vectorIndex]->fill(0.0);
-
-  return;
 }
 
 bool LinearSystemWrapperVNL::IsVectorInitialized(unsigned int vectorIndex)
@@ -160,8 +156,6 @@ void LinearSystemWrapperVNL::InitializeSolution(unsigned int solutionIndex)
     itkGenericExceptionMacro(<< "InitializeSolution(): allocation of (*m_olutions)[" << solutionIndex << "] failed.");
     }
   ( *m_Solutions )[solutionIndex]->fill(0.0);
-
-  return;
 }
 
 bool LinearSystemWrapperVNL::IsSolutionInitialized(unsigned int solutionIndex)

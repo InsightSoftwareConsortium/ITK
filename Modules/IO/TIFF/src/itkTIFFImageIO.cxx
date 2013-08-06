@@ -1661,8 +1661,6 @@ void TIFFImageIO::ReadImageInformation()
     m_Spacing[2] = 1.0;
     m_Origin[2] = 0.0;
     }
-
-  return;
 }
 
 bool TIFFImageIO::CanWriteFile(const char *name)

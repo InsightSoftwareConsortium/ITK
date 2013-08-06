@@ -77,8 +77,6 @@ FreeSurferAsciiMeshIO
     {
     itkExceptionMacro("Unable to open file " << this->m_FileName);
     }
-
-  return;
 }
 
 void
@@ -164,8 +162,6 @@ FreeSurferAsciiMeshIO
       }
     m_InputFile >> value;
     }
-
-  return;
 }
 
 void
@@ -198,14 +194,12 @@ void
 FreeSurferAsciiMeshIO
 ::ReadPointData(void * itkNotUsed( buffer) )
 {
-  return;
 }
 
 void
 FreeSurferAsciiMeshIO
 ::ReadCellData(void * itkNotUsed( buffer) )
 {
-  return;
 }
 
 void
@@ -347,7 +341,6 @@ FreeSurferAsciiMeshIO
     }
 
   outputFile.close();
-  return;
 }
 
 void
@@ -447,29 +440,24 @@ FreeSurferAsciiMeshIO
     }
 
   outputFile.close();
-
-  return;
 }
 
 void
 FreeSurferAsciiMeshIO
 ::WritePointData(void * itkNotUsed( buffer) )
 {
-  return;
 }
 
 void
 FreeSurferAsciiMeshIO
 ::WriteCellData(void * itkNotUsed( buffer) )
 {
-  return;
 }
 
 void
 FreeSurferAsciiMeshIO
 ::Write()
 {
-  return;
 }
 
 void

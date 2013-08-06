@@ -407,8 +407,6 @@ ConnectedRegionsMeshFilter< TInputMesh, TOutputMesh >
 
   // This prevents unnecessary re-executions of the pipeline.
   output->SetBufferedRegion( output->GetRequestedRegion() );
-
-  return;
 }
 
 template< class TInputMesh, class TOutputMesh >
@@ -459,8 +457,6 @@ ConnectedRegionsMeshFilter< TInputMesh, TOutputMesh >
     m_Wave2 = tmpWave;
     tmpWave->clear();
     } //while wave is propagating
-
-  return;
 }
 } // end namespace itk
 

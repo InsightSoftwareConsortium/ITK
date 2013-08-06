@@ -127,8 +127,6 @@ void ItpackSparseMatrix::Initialize()
     {
     this->Set(i, i, 0.0);
     }
-
-  return;
 }
 
 void ItpackSparseMatrix::Clear()
@@ -185,8 +183,6 @@ void ItpackSparseMatrix::Finalize()
 
   /* set info flag */
   m_MatrixFinalized = 1;
-
-  return;
 }
 
 void ItpackSparseMatrix::UnFinalize()
@@ -208,8 +204,6 @@ void ItpackSparseMatrix::UnFinalize()
 
   /* set info flag */
   m_MatrixFinalized = 0;
-
-  return;
 }
 
 void ItpackSparseMatrix::Set(integer i, integer j, doublereal value)
@@ -246,8 +240,6 @@ void ItpackSparseMatrix::Set(integer i, integer j, doublereal value)
     {
     throw FEMExceptionItpackSparseMatrixSbsij(__FILE__, __LINE__, "ItpackSparseMatrix::Set", IER);
     }
-
-  return;
 }
 
 void ItpackSparseMatrix::Add(integer i, integer j, doublereal value)
@@ -289,8 +281,6 @@ void ItpackSparseMatrix::Add(integer i, integer j, doublereal value)
     {
     throw FEMExceptionItpackSparseMatrixSbsij(__FILE__, __LINE__, "ItpackSparseMatrix::Set", IER);
     }
-
-  return;
 }
 
 ItpackSparseMatrix::doublereal ItpackSparseMatrix::Get(integer i, integer j)
@@ -397,8 +387,6 @@ void ItpackSparseMatrix::mult(doublereal *vector, doublereal *result)
       result[i] += m_A[j] * vector[m_JA[j] - 1];
       }
     }
-
-  return;
 }
 
 void ItpackSparseMatrix::mult(ItpackSparseMatrix *rightMatrix, ItpackSparseMatrix *resultMatrix)

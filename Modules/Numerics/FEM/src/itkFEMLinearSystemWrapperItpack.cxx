@@ -95,8 +95,6 @@ void LinearSystemWrapperItpack::InitializeMatrix(unsigned int matrixIndex)
   ( *m_Matrices )[matrixIndex].Clear();
   ( *m_Matrices )[matrixIndex].SetOrder(m_Order);
   ( *m_Matrices )[matrixIndex].SetMaxNonZeroValues(m_MaximumNonZeroValues);
-
-  return;
 }
 
 bool LinearSystemWrapperItpack::IsMatrixInitialized(unsigned int matrixIndex)
@@ -155,8 +153,6 @@ void LinearSystemWrapperItpack::InitializeVector(unsigned int vectorIndex)
     {
     ( *m_Vectors )[vectorIndex][i] = 0.0;
     }
-
-  return;
 }
 
 bool LinearSystemWrapperItpack::IsVectorInitialized(unsigned int vectorIndex)
@@ -211,8 +207,6 @@ void LinearSystemWrapperItpack::InitializeSolution(unsigned int solutionIndex)
     {
     ( *m_Solutions )[solutionIndex][i] = 0.0;
     }
-
-  return;
 }
 
 bool LinearSystemWrapperItpack::IsSolutionInitialized(unsigned int solutionIndex)

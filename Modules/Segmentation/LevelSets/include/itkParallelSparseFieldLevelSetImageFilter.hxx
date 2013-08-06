@@ -1124,7 +1124,6 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 {
   // If child classes need an entry point to the start of every iteration step
   // they can override this method.
-  return;
 }
 
 template< class TInputImage, class TOutputImage >
@@ -1960,7 +1959,6 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 {
   // This function can be overridden in the derived classes to process pixels
   // entering the active layer.
-  return;
 }
 
 template< class TInputImage, class TOutputImage >

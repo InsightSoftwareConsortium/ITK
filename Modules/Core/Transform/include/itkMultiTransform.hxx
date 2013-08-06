@@ -172,8 +172,6 @@ MultiTransform<TScalar, NDimensions, NSubDimensions>
     ++it;
     }
   while( it != transforms.end() );
-
-  return;
 }
 
 template
@@ -243,8 +241,6 @@ MultiTransform<TScalar, NDimensions, NSubDimensions>
     ++it;
     }
   while( it != transforms.end() );
-
-  return;
 }
 
 template<class TScalar, unsigned int NDimensions, unsigned int NSubDimensions>
