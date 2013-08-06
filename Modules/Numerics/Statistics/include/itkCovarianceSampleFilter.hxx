@@ -198,7 +198,15 @@ CovarianceSampleFilter< TSample >
 
   if( totalFrequency - 1.0 > vnl_math::eps )
     {
-    output /= ( totalFrequency - 1.0 );
+    const double factor = 1.0 / ( totalFrequency - 1.0 );
+
+    for ( unsigned int col = 0; col < measurementVectorSize; col++ )
+      {
+      for ( unsigned int row = 0; row < measurementVectorSize; row++ )
+        {
+        output(col, row) *= factor;
+        }
+      }
     decoratedOutput->Set(output);
     }
   else
