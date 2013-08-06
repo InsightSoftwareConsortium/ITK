@@ -93,6 +93,8 @@ ClosingByReconstructionImageFilter< TInputImage, TOutputImage, TKernel >
     erode->Update();
     typename TInputImage::Pointer tempImage = TInputImage::New();
     tempImage->SetRegions ( dilate->GetOutput()->GetBufferedRegion() );
+    tempImage->CopyInformation( this->GetInput() );
+
     tempImage->Allocate();
 
     ImageRegionConstIterator< TInputImage > inputIt( this->GetInput(),
