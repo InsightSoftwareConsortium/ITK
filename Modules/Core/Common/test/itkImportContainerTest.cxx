@@ -249,8 +249,8 @@ int itkImportContainerTest(int , char * [] )
 #endif
 
   // We must delete the memory we said we would manage
-  delete [] ptr1;
-  delete [] myPtr;
+  delete[] ptr1;
+  delete[] myPtr;
 
 #if (defined(NDEBUG))
   if (!caughtException && (sizeof(void *) != 8))

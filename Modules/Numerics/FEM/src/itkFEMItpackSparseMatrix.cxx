@@ -381,7 +381,7 @@ void ItpackSparseMatrix::mult(doublereal *vector, doublereal *result)
   int i;
   int j;
   /* prepare result vector */
-  // delete [] result;
+  // delete[] result;
   // result = new doublereal [ m_N ];
   for( i = 0; i < m_N; i++ )
     {

@@ -91,7 +91,7 @@ int itkSpatialObjectDuplicatorTest(int, char* [])
       v[k] = k;
       }
     p.SetTensorMatrix(v);
-    delete [] v;
+    delete[] v;
     list3.push_back(p);
     }
 

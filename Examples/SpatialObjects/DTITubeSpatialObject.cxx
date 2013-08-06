@@ -91,7 +91,7 @@ int main( int , char *[] )
       v[k] = k;
       }
     p.SetTensorMatrix(v);
-    delete [] v;
+    delete[] v;
     p.SetColor(1,0,0,1);
     list.push_back(p);
     }

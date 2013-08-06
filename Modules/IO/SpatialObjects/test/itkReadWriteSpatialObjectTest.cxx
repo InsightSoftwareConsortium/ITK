@@ -125,7 +125,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
       v[k] = k;
       }
     p.SetTensorMatrix(v);
-    delete []v;
+    delete[] v;
     list3.push_back(p);
     }
 

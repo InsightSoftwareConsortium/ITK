@@ -135,8 +135,8 @@ void MINCImageIO::Read(void *buffer)
     {
     itkDebugMacro(" Can not get real value hyperslab!!\n");
     }
-  delete [] start;
-  delete [] count;
+  delete[] start;
+  delete[] count;
 }
 
 void MINCImageIO::CleanupDimensions(void)
@@ -168,11 +168,11 @@ void MINCImageIO::CleanupDimensions(void)
     }
   if(this->m_MincFileDims)
     {
-    delete [] this->m_MincFileDims;
+    delete[] this->m_MincFileDims;
     }
   if(this->m_MincApparentDims)
     {
-    delete [] this->m_MincApparentDims;
+    delete[] this->m_MincApparentDims;
     }
   this->m_DimensionName  = NULL;
   this->m_DimensionSize  = NULL;
@@ -657,7 +657,7 @@ void MINCImageIO::ReadImageInformation()
       {
       EncapsulateMetaData<std::string>(thisDic,"history", std::string(minc_history) );
       }
-    delete [] minc_history;
+    delete[] minc_history;
     }
 
   if(this->m_DimensionIndices[4]!=-1) //have time dimension
@@ -755,7 +755,7 @@ void MINCImageIO::ReadImageInformation()
                   {
                   EncapsulateMetaData< std::string >( thisDic, entry_key, std::string(tmp) );
                   }
-                delete [] tmp;
+                delete[] tmp;
                 }
                 break;
               case MI_TYPE_FLOAT:
@@ -1402,8 +1402,8 @@ void MINCImageIO::Write(const void *buffer)
   //TODO: determine what to do if we are streming
   this->CloseVolume();
 
-  delete [] start;
-  delete [] count;
+  delete[] start;
+  delete[] count;
 }
 
 } // end namespace itk

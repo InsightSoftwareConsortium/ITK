@@ -148,7 +148,7 @@ public:
           }
         ComplexType * din = new ComplexType[total];
         fftwf_plan_dft_c2r(rank,n,din,out,flags);
-        delete [] din;
+        delete[] din;
         // and then create the final plan - this time it shouldn't fail
         plan = fftwf_plan_dft_c2r(rank,n,in,out,roflags);
         }
@@ -240,7 +240,7 @@ public:
           }
         PixelType * din = new PixelType[total];
         fftwf_plan_dft_r2c(rank,n,din,out,flags);
-        delete [] din;
+        delete[] din;
         // and then create the final plan - this time it shouldn't fail
         plan = fftwf_plan_dft_r2c(rank,n,in,out,roflags);
         }
@@ -334,7 +334,7 @@ public:
           }
         ComplexType * din = new ComplexType[total];
         fftwf_plan_dft(rank,n,din,out,sign,flags);
-        delete [] din;
+        delete[] din;
         // and then create the final plan - this time it shouldn't fail
         plan = fftwf_plan_dft(rank,n,in,out,sign,roflags);
         }
@@ -449,7 +449,7 @@ public:
           }
         ComplexType * din = new ComplexType[total];
         fftw_plan_dft_c2r(rank,n,din,out,flags);
-        delete [] din;
+        delete[] din;
         // and then create the final plan - this time it shouldn't fail
         plan = fftw_plan_dft_c2r(rank,n,in,out,roflags);
         }
@@ -540,7 +540,7 @@ public:
           }
         PixelType * din = new PixelType[total];
         fftw_plan_dft_r2c(rank,n,din,out,flags);
-        delete [] din;
+        delete[] din;
         // and then create the final plan - this time it shouldn't fail
         plan = fftw_plan_dft_r2c(rank,n,in,out,roflags);
         }
@@ -634,7 +634,7 @@ public:
           }
         ComplexType * din = new ComplexType[total];
         fftw_plan_dft(rank,n,din,out,sign,flags);
-        delete [] din;
+        delete[] din;
         // and then create the final plan - this time it shouldn't fail
         plan = fftw_plan_dft(rank,n,in,out,sign,roflags);
         }

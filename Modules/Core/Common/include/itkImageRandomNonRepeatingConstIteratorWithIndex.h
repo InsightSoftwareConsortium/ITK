@@ -86,7 +86,7 @@ public:
 
   RandomPermutation &operator=(const RandomPermutation &it)
     {
-      delete [] m_Permutation;
+      delete[] m_Permutation;
       m_Size = it.m_Size;
       m_Permutation = new NodeOfPermutation[m_Size];
       m_Generator = it.m_Generator;

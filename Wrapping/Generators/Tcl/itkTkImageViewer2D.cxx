@@ -124,7 +124,7 @@ void TkImageViewer2D::Draw()
   char* cmd = new char[cmdstr.length()+1];
   strcpy(cmd, cmdstr.c_str());
   Tcl_GlobalEval(m_Interpreter, cmd);
-  delete [] cmd;
+  delete[] cmd;
 
   // Copy the image data to the Tk photo.
   unsigned char* buffer =
