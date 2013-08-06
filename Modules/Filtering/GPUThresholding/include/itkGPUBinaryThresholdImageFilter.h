@@ -26,12 +26,7 @@
 
 namespace itk
 {
-/** \class GPUBinaryThresholdImageFilter
- *
- * \brief GPU version of binary threshold image filter.
- *
- * \ingroup ITKGPUThresholding
- */
+
 namespace Functor
 {
 template< class TInput, class TOutput >
@@ -88,7 +83,13 @@ private:
 /** Create a helper GPU Kernel class for GPUBinaryThresholdImageFilter */
 itkGPUKernelClassMacro(GPUBinaryThresholdImageFilterKernel);
 
-/** GPUBinaryThresholdImageFilter class definition */
+/**
+ * \class GPUBinaryThresholdImageFilter
+ *
+ * \brief GPU version of binary threshold image filter.
+ *
+ * \ingroup ITKGPUThresholding
+ */
 template< class TInputImage, class TOutputImage >
 class GPUBinaryThresholdImageFilter :
   public
@@ -145,7 +146,12 @@ private:
 
 };
 
-/** Object Factory implemenatation for GPUBinaryThresholdImageFilter */
+/**
+ * \class GPUBinaryThresholdImageFilterFactory
+ * Object Factory implemenatation for GPUBinaryThresholdImageFilter
+ *
+ * \ingroup ITKGPUThresholding
+ */
 class GPUBinaryThresholdImageFilterFactory : public ObjectFactoryBase
 {
 public:

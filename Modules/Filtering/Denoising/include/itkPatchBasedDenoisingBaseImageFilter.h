@@ -139,10 +139,10 @@ public:
    */
   typedef ZeroFluxNeumannBoundaryCondition<OutputImageType> BoundaryConditionType;
   typedef typename::itk::Statistics::ImageToNeighborhoodSampleAdaptor<
-      OutputImageType, BoundaryConditionType >                ListAdaptorType;
-  typedef typename ListAdaptorType::NeighborhoodRadiusType PatchRadiusType;
+      OutputImageType, BoundaryConditionType >              ListAdaptorType;
+  typedef typename ListAdaptorType::NeighborhoodRadiusType  PatchRadiusType;
   typedef ConstNeighborhoodIterator<
-      InputImageType, BoundaryConditionType >                 InputImagePatchIterator;
+      InputImageType, BoundaryConditionType >               InputImagePatchIterator;
 
   /** Set/Get the patch radius specified in physical coordinates.
    * Patch radius is preferably set to an even number.

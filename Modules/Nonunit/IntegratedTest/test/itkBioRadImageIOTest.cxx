@@ -20,7 +20,6 @@
 #include "itkBioRadImageIO.h"
 #include "itkImage.h"
 
-
 #define SPECIFIC_IMAGEIO_MODULE_TEST
 
 int itkBioRadImageIOTest(int argc, char* argv[])
@@ -31,10 +30,10 @@ int itkBioRadImageIOTest(int argc, char* argv[])
     return EXIT_FAILURE;
     }
 
-  typedef unsigned char InputPixelType;
-  typedef itk::Image< InputPixelType, 2 > InputImageType;
+  typedef unsigned char                          InputPixelType;
+  typedef itk::Image< InputPixelType, 2 >        InputImageType;
   typedef itk::ImageFileReader< InputImageType > ReaderType;
-  typedef itk::BioRadImageIO ImageIOType;
+  typedef itk::BioRadImageIO                     ImageIOType;
 
   const char *filename = argv[1];
   const char *outfilename = argv[2];
@@ -79,4 +78,3 @@ int itkBioRadImageIOTest(int argc, char* argv[])
 
   return EXIT_SUCCESS;
 }
-

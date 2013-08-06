@@ -41,7 +41,6 @@ namespace itk
  *
  * \ingroup ITKGPUCommon
  */
-
 class GPUKernelManager : public LightObject
 {
 public:

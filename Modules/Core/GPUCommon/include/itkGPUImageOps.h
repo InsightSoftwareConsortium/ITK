@@ -22,17 +22,15 @@
 
 namespace itk
 {
+/** Create a helper GPU Kernel class for GPUImageOps */
+itkGPUKernelClassMacro(GPUImageOpsKernel);
+
 /** \class GPUImageOps
  *
  * \brief Provides the kernels for some basic GPU Image Operations
  *
  * \ingroup ITKGPUCommon
  */
-
-/** Create a helper GPU Kernel class for GPUImageOps */
-itkGPUKernelClassMacro(GPUImageOpsKernel);
-
-/** GPUImageOps class definition */
 class GPUImageOps
 {
 public:

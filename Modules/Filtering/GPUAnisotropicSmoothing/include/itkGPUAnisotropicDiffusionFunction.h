@@ -142,7 +142,7 @@ protected:
   }
 
   // GPU buffer for Computing Average Squared Gradient Magnitude
-  typename GPUDataManager::Pointer m_AnisotropicDiffusionFunctionGPUBuffer;
+  typename GPUDataManager::Pointer   m_AnisotropicDiffusionFunctionGPUBuffer;
   typename GPUKernelManager::Pointer m_AnisotropicDiffusionFunctionGPUKernelManager;
 
   // GPU Kernel Handles

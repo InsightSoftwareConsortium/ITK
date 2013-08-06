@@ -35,11 +35,10 @@ public:
                                                   NodeDataType;
 
   NodeDataType m_Data, m_InputData, m_Update;
-  NodeDataType
-  m_ManifoldNormal [TImageType::ImageDimension];
+  NodeDataType m_ManifoldNormal [TImageType::ImageDimension];
   NodeDataType m_Flux [TImageType::ImageDimension];
 
-  IndexType m_Index;
+  IndexType       m_Index;
   NormalBandNode *Next;
   NormalBandNode *Previous;
 };

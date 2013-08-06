@@ -67,7 +67,7 @@ int itkMaximumRatioDecisionRuleTest(int, char* [] )
 
   //Set aprior probablity
   typedef MaximumRatioDecisionRuleType::APrioriVectorType APrioriVectorType;
-  typedef MaximumRatioDecisionRuleType::APrioriValueType APrioriValueType;
+  typedef MaximumRatioDecisionRuleType::APrioriValueType  APrioriValueType;
 
   APrioriVectorType aprioriProbabilityVector;
 

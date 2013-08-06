@@ -344,7 +344,7 @@ private:
   SizeValueType m_Center;
 
   typename ListNodeStorageType::Pointer m_NodeStore;
-  ListPointerType m_NodeList;
+  ListPointerType                       m_NodeList;
 
   const InputImageType *m_InputImage;
   OutputImageType      *m_OutputImage;

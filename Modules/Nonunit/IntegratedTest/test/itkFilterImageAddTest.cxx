@@ -19,10 +19,8 @@
 #include "itkAddImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 
-
 int itkFilterImageAddTest(int, char* [] )
 {
-
   // Define the dimension of the images
   const unsigned int myDimension = 3;
 
@@ -137,9 +135,4 @@ int itkFilterImageAddTest(int, char* [] )
 
   // All objects should be automatically destroyed at this point
   return EXIT_SUCCESS;
-
 }
-
-
-
-

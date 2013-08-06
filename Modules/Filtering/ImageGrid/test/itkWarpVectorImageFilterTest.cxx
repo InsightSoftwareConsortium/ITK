@@ -31,18 +31,18 @@ public:
   typedef itk::Size<VDimension>  SizeType;
 
   ImagePattern()
-    {
-    offset = 0.0;
+  {
+    m_Offset = 0.0;
     for( int j = 0; j < VDimension; j++ )
       {
-      coeff[j] = 0.0;
+      m_Coeff[j] = 0.0;
       }
-    }
+  }
 
-    double Evaluate( const IndexType& index , const SizeType& size,
-                     const SizeType& clampSize, const float& padValue)
-    {
-    double accum = offset;
+  double Evaluate( const IndexType& index , const SizeType& size,
+                   const SizeType& clampSize, const float& padValue)
+  {
+    double accum = m_Offset;
     for( int j = 0; j < VDimension; j++ )
       {
          if ( static_cast< unsigned int >( index[j] ) < size[j] )
@@ -50,11 +50,11 @@ public:
            if ( static_cast< unsigned int >( index[j] ) >= clampSize[j] )
              {
              //Interpolators behave this way in half-pixel band at image perimeter
-             accum += coeff[j] * (double) (clampSize[j]-1);
+             accum += m_Coeff[j] * (double) (clampSize[j]-1);
              }
            else
              {
-             accum += coeff[j] * (double) index[j];
+             accum += m_Coeff[j] * (double) index[j];
              }
            }
          else
@@ -65,10 +65,10 @@ public:
       }
 
     return accum;
-      }
+  }
 
-  double coeff[VDimension];
-  double offset;
+  double m_Coeff[VDimension];
+  double m_Offset;
 
 };
 
@@ -79,9 +79,13 @@ class ShowProgressObject
 {
 public:
   ShowProgressObject(itk::ProcessObject* o)
-    {m_Process = o;}
+  {
+    m_Process = o;
+  }
   void ShowProgress()
-    {std::cout << "Progress " << m_Process->GetProgress() << std::endl;}
+  {
+    std::cout << "Progress " << m_Process->GetProgress() << std::endl;
+  }
   itk::ProcessObject::Pointer m_Process;
 };
 
@@ -115,10 +119,10 @@ int itkWarpVectorImageFilterTest(int, char* [] )
 
   unsigned int j;
   ImagePattern<ImageDimension> pattern;
-  pattern.offset = 64;
+  pattern.m_Offset = 64;
   for( j = 0; j < ImageDimension; j++ )
     {
-    pattern.coeff[j] = 1.0;
+    pattern.m_Coeff[j] = 1.0;
     }
 
   typedef itk::ImageRegionIteratorWithIndex<ImageType> Iterator;
@@ -250,7 +254,7 @@ int itkWarpVectorImageFilterTest(int, char* [] )
   // adjust the pattern coefficients to match
   for( j = 0; j < ImageDimension; j++ )
     {
-    pattern.coeff[j] /= (double) factors[j];
+    pattern.m_Coeff[j] /= (double) factors[j];
     }
 
   Iterator outIter( warper->GetOutput(), warper->GetOutput()->GetBufferedRegion() );
