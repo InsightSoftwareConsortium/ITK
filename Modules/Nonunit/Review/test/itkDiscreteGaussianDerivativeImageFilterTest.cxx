@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-// Author : Iván Macía (imacia@vicomtech.org)
+// Author : Ivan Macia (imacia@vicomtech.org)
 // Date   : 02/01/2009
 // VICOMTech, Spain
 // http://www.vicomtech.org

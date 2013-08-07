@@ -53,7 +53,7 @@ namespace itk
  * This filter is intended to be used in the process of Physics-Based
  * Non-Rigid Registration. It computes displacement for selected points based
  * on similarity [M. Bierling, Displacement estimation by hierarchical block
- * matching, Proc. SPIE Vis. Comm. and Image Proc., vol. 1001, pp. 942�951,
+ * matching, Proc. SPIE Vis. Comm. and Image Proc., vol. 1001, pp. 942-951,
  * 1988.].
  *
  * \author Andriy Kot, Center for Real-Time Computing, Old Dominion University,
