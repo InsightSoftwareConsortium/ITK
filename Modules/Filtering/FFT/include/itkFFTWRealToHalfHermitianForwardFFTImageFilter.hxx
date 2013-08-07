@@ -95,7 +95,7 @@ FFTWRealToHalfHermitianForwardFFTImageFilter< TInputImage, TOutputImage >
 
   plan = FFTWProxyType::Plan_dft_r2c(ImageDimension, sizes, in, out, flags,
                                     this->GetNumberOfThreads());
-  delete [] sizes;
+  delete[] sizes;
   FFTWProxyType::Execute(plan);
   FFTWProxyType::DestroyPlan(plan);
 }

@@ -108,9 +108,9 @@ int testMetaUtils(int argc, char * argv[])
   int i;
   for(i=0;i<n;i++)
     {
-      delete [] wordArray[i];
+      delete[] wordArray[i];
     }
-  delete [] wordArray;
+  delete[] wordArray;
 
   char fName[80];
   sprintf(fName, "this/is/a/test.com");
@@ -256,9 +256,9 @@ int testMetaUtils(int argc, char * argv[])
 
   for(i=0;i<nNames;i++)
     {
-      delete [] names[i];
+      delete[] names[i];
     }
-  delete [] names;
+  delete[] names;
 
   for(fieldIter=mFields.begin(); fieldIter != mFields.end(); ++fieldIter)
     {

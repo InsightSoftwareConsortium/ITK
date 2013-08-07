@@ -88,7 +88,7 @@ int itkTimeProbesTest(int, char* [] )
       {
       dummy[j] = j;
       }
-    delete [] dummy;
+    delete[] dummy;
     }
   }
   collector.Stop("Loop1");
@@ -104,7 +104,7 @@ int itkTimeProbesTest(int, char* [] )
       {
       dummy[j] = j;
       }
-    delete [] dummy;
+    delete[] dummy;
     }
   }
   collector.Stop("Loop2");

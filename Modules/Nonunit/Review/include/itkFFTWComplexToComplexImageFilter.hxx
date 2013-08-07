@@ -110,7 +110,7 @@ BeforeThreadedGenerateData()
                                     transformDirection,
                                     flags,
                                     this->GetNumberOfThreads());
-  delete [] sizes;
+  delete[] sizes;
 
   FFTWProxyType::Execute(plan);
   FFTWProxyType::DestroyPlan(plan);

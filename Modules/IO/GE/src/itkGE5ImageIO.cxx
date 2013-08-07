@@ -286,7 +286,7 @@ GE5ImageIO::ReadHeader(const char  *FileNameToRead)
   if(f.fail())
     {
     f.close();
-    delete [] buffer;
+    delete[] buffer;
     itkExceptionMacro("GE5ImageIO:Could not read exam header!");
     }
 

@@ -68,14 +68,14 @@ NumericSeriesFileNames
     OffsetValueType result = snprintf (temp, bufflen, m_SeriesFormat.c_str(), i);
     if(result < 0 || result >= bufflen)
       {
-      delete [] temp;
+      delete[] temp;
       itkExceptionMacro(<< "The filename is too long for temp buffer."
                         << " Truncated form: " << temp << "." << std::endl
                         << "nchars: " << nchars << " bufflen: " << bufflen
                         << " result: " << result );
       }
     std::string fileName(temp);
-    delete [] temp;
+    delete[] temp;
     m_FileNames.push_back(fileName);
     }
   return m_FileNames;

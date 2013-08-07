@@ -61,10 +61,10 @@ int itkMemoryProbesCollecterBaseTest(int, char *[])
     std::cout << "WARNING: Total memory usage should be greater than zero"
               << "Memory Probes do not work on this platform"
               << std::endl;
-    delete [] buf;
+    delete[] buf;
     return EXIT_SUCCESS;
     }
   mcollecter.Report();
-  delete [] buf;
+  delete[] buf;
   return EXIT_SUCCESS;
 }

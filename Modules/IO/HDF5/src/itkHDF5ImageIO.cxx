@@ -468,7 +468,7 @@ HDF5ImageIO
   H5::DataSet vecSet = this->m_H5File->createDataSet(path, vecType, vecSpace);
   vecSet.write(buf,vecType);
   vecSet.close();
-  delete [] buf;
+  delete[] buf;
 
 }
 
@@ -497,7 +497,7 @@ HDF5ImageIO
     {
     vec[i] = buf[i];
     }
-  delete [] buf;
+  delete[] buf;
   vecSet.close();
   return vec;
 }
@@ -527,7 +527,7 @@ HDF5ImageIO
                                                      dirSpace);
   dirSet.write(buf,H5::PredType::NATIVE_DOUBLE);
   dirSet.close();
-  delete [] buf;
+  delete[] buf;
 }
 
 std::vector<std::vector<double> >
@@ -563,7 +563,7 @@ HDF5ImageIO
         k++;
         }
       }
-    delete [] buf;
+    delete[] buf;
     }
   else
     {
@@ -578,7 +578,7 @@ HDF5ImageIO
         k++;
         }
       }
-    delete [] buf;
+    delete[] buf;
     }
   dirSet.close();
   return rval;
@@ -768,7 +768,7 @@ HDF5ImageIO
       {
       this->SetNumberOfComponents(Dims[nDims - 1]);
       }
-    delete [] Dims;
+    delete[] Dims;
     //
     // read out metadata
     MetaDataDictionary & metaDict = this->GetMetaDataDictionary();
@@ -962,8 +962,8 @@ HDF5ImageIO
     }
   slabSpace->setExtentSimple(HDFDim,HDFSize);
   imageSpace->selectHyperslab(H5S_SELECT_SET,HDFSize,offset);
-  delete [] HDFSize;
-  delete [] offset;
+  delete[] HDFSize;
+  delete[] offset;
 }
 
 void
@@ -1291,7 +1291,7 @@ HDF5ImageIO
     H5::DataSpace dspace;
     this->SetupStreaming(&imageSpace,&dspace);
     this->m_VoxelDataSet->write(buffer,dataType,dspace,imageSpace);
-    delete [] dims;
+    delete[] dims;
     }
   // catch failure caused by the H5File operations
   catch( H5::FileIException & error )

@@ -91,7 +91,7 @@ int itkArrayTest(int, char* [] )
   //
   notMyOwnBossToo.SetSize( notMyOwnBossToo.GetSize() );
 
-//
+  //
   // Calling SetSize with an argument different to the current
   // size
   //
@@ -125,7 +125,7 @@ int itkArrayTest(int, char* [] )
   myOwnDouble[3] = 1.0;
   std::cout << myOwnDouble << std::endl;
 
-  delete [] data;
+  delete[] data;
 
   return EXIT_SUCCESS;
 

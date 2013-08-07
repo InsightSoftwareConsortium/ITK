@@ -1067,7 +1067,7 @@ Mesh< TPixelType, VDimension, TMeshTraits >
   //    of the mesh should not be passed as a return parameter...)
   // 2) the user allocated the Cells as a big array so the
   //    memory has to be released by getting the pointer to
-  //    the first cell in the array and calling "delete [] cells"
+  //    the first cell in the array and calling "delete[] cells"
   // 3) the user allocated the Cells on a cell-by-cell basis
   //    so every cell has to be deleted using   "delete cell"
   //

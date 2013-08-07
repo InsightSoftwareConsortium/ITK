@@ -171,7 +171,7 @@ GPUScalarAnisotropicDiffusionFunction< TImage >
 
   this->SetAverageGradientMagnitudeSquared( (double)( sum / (double)numPixel ) );
 
-  delete [] intermSum;
+  delete[] intermSum;
 }
 
 } // end namespace itk

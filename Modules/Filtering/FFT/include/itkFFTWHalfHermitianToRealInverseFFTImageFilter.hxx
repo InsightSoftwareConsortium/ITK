@@ -112,7 +112,7 @@ FFTWHalfHermitianToRealInverseFFTImageFilter< TInputImage, TOutputImage >
   FFTWProxyType::DestroyPlan( plan );
   if( !m_CanUseDestructiveAlgorithm )
     {
-    delete [] in;
+    delete[] in;
     }
 }
 

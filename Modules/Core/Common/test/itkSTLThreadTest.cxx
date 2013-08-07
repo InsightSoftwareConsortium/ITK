@@ -93,7 +93,7 @@ int itkSTLThreadTest(int argc, char* argv[])
       result = 1;
       }
     }
-  delete [] results;
+  delete[] results;
 
   // Test other methods for coverage.
   std::cout << "Done with primary test.  Testing more methods..."

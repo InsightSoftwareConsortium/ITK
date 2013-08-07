@@ -168,7 +168,7 @@ HDF5TransformIOTemplate< TInternalComputationValueType >
     paramSet.write(buf,H5::PredType::NATIVE_FLOAT);
     paramSet.close();
     }
-  delete [] buf;
+  delete[] buf;
 }
 
 /** read a parameter array from the location specified by name */
@@ -211,7 +211,7 @@ HDF5TransformIOTemplate< TInternalComputationValueType >
       {
       ParameterArray.SetElement(i,buf[i]);
       }
-    delete [] buf;
+    delete[] buf;
     }
   paramSet.close();
   return ParameterArray;
