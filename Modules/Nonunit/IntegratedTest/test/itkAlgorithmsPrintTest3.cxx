@@ -37,12 +37,13 @@ int main(int , char* [])
 {
   typedef itk::Image<float,2> InputType;
   typedef itk::Image<float,2> OutputType;
+
   typedef itk::Image<unsigned short,2> UShortImageType;
-  typedef itk::Image<unsigned char,2> CharType;
+  typedef itk::Image<unsigned char,2>  CharType;
 
-  typedef itk::Mesh<double>  MeshType;
+  typedef itk::Mesh<double> MeshType;
 
-  typedef itk::Vector<float,2> VectorType;
+  typedef itk::Vector<float,2>      VectorType;
   typedef itk::Image<VectorType, 2> VectorImageType;
 
   // Used for NormalizedCorrelationPointSetToImageMetric
@@ -50,7 +51,7 @@ int main(int , char* [])
 
   // Used for GradientVectorFlowImageFilter
   typedef itk::CovariantVector<double,2> GradientType;
-  typedef itk::Image<GradientType,2>   GradientImageType;
+  typedef itk::Image<GradientType,2>     GradientImageType;
 
   //Used for ImageKMeansModelEstimator
   typedef itk::Statistics::DistanceToCentroidMembershipFunction<VectorType> KMeansMemFuncType;

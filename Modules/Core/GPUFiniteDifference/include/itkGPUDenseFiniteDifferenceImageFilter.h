@@ -23,6 +23,9 @@
 
 namespace itk
 {
+/** Create a helper GPU Kernel class for GPUDenseFiniteDifferenceImageFilter */
+itkGPUKernelClassMacro(GPUDenseFiniteDifferenceImageFilterKernel);
+
 /**
  * \class GPUDenseFiniteDifferenceImageFilter
  * This is the GPU version of DenseFiniteDifferenceImageFilter class.
@@ -46,10 +49,6 @@ namespace itk
  *
  * \ingroup ITKGPUFiniteDifference
  */
-
-/** Create a helper GPU Kernel class for GPUDenseFiniteDifferenceImageFilter */
-itkGPUKernelClassMacro(GPUDenseFiniteDifferenceImageFilterKernel);
-
 template< class TInputImage, class TOutputImage, class TParentImageFilter =
             DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage > >
 class GPUDenseFiniteDifferenceImageFilter :

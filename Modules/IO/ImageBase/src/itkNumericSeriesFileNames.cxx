@@ -18,8 +18,6 @@
 #ifndef _itkNumericSeriesFileNames_h
 #define _itkNumericSeriesFileNames_h
 
-
-
 #include "itkNumericSeriesFileNames.h"
 #include <stdio.h>
 

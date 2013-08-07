@@ -165,7 +165,7 @@ int MatrixConversionTest()
   const unsigned int NRows = 2;
   const unsigned int NColumns = 3;
   typedef itk::Matrix< double, NRows, NColumns > ITKMatrixType;
-  typedef cv::Matx< double, NRows, NColumns > CVMatrixType;
+  typedef cv::Matx< double, NRows, NColumns >    CVMatrixType;
 
   CVMatrixType cvA;
   int k = 1;
@@ -430,7 +430,7 @@ int MatrixConversionTest()
   const unsigned int NRows = 2;
   const unsigned int NColumns = 3;
   typedef itk::Matrix< double, NRows, NColumns > ITKMatrixType;
-  typedef cv::Matx< double, NRows, NColumns > CVMatrixType;
+  typedef cv::Matx< double, NRows, NColumns >    CVMatrixType;
 
   ITKMatrixType itkA;
   int k = 1;

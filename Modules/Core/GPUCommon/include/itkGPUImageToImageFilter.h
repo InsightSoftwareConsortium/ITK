@@ -23,7 +23,6 @@
 
 namespace itk
 {
-
 /** \class GPUImageToImageFilter
  *
  * \brief class to abstract the behaviour of the GPU filters.

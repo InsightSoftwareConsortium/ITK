@@ -32,124 +32,126 @@
 #include "itkPostOrderTreeIterator.h"
 #include "itkRootTreeIterator.h"
 
-class TestData {
-    int value;
-    static int counter;
-
+class TestData
+{
 public:
-    TestData() {
-        this->value = 0;
-        counter++;
-    }
+  TestData()
+  {
+    m_Value = 0;
+    m_Counter++;
+  }
 
-    TestData(const int valueIn) {
-        this->value = valueIn;
-        counter++;
-    }
+  TestData(const int valueIn)
+  {
+    m_Value = valueIn;
+    m_Counter++;
+  }
 
-    TestData(const TestData& t) {
-        this->value = t.value;
-        counter++;
-    }
+  TestData(const TestData& t)
+  {
+    m_Value = t.m_Value;
+    m_Counter++;
+  }
 
-    ~TestData() {
-        value = 0;
-        counter--;
+  ~TestData()
+  {
+    m_Value = 0;
+    m_Counter--;
 
-        if(counter == 0)
-            std::cout << "last Data destroyed" << std::endl;
-    }
+    if(m_Counter == 0)
+      {
+      std::cout << "last Data destroyed" << std::endl;
+      }
+  }
 
-    int Get() const {
-        return value;
-    }
+  int Get() const
+  {
+    return m_Value;
+  }
 
-    void Set( int v ) {
-        value = v;
-    }
+  void Set( int v )
+  {
+    m_Value = v;
+  }
 
+  TestData &operator=(const TestData& t)
+  {
+    m_Value = t.m_Value;
+    std::cout << "assignation: " << m_Value << std::endl;
+    return *this;
+  }
 
-    TestData &operator=(const TestData& t) {
-        value = t.value;
-        std::cout << "assignation: " << value << std::endl;
-        return *this;
-    }
+  bool operator==(const TestData& t)
+  {
+    if( &t == this )
+      {
+      return true;
+      }
+    return false;
+  }
 
-    bool operator==(const TestData& t) {
+  friend std::ostream& operator<<( std::ostream& o, TestData& t);
+  friend std::istream& operator>>( std::istream& i, TestData& t);
 
-        if( &t == this )
-            return true;
-        return false;
-    }
-
-    friend std::ostream& operator<<( std::ostream& o, TestData& t);
-    friend std::istream& operator>>( std::istream& i, TestData& t);
+private:
+  int        m_Value;
+  static int m_Counter;
 };
 
-int TestData::counter = 0;
+int TestData::m_Counter = 0;
 
-/**
- *
- */
-std::ostream& operator<<( std::ostream& o, TestData& t) {
-
-    return o << "( TestData Nr. " << t.Get() << " )";
+std::ostream& operator<<( std::ostream& o, TestData& t)
+{
+  return o << "( TestData Nr. " << t.Get() << " )";
 }
 
-/**
- *
- */
-std::istream& operator>>( std::istream& i, TestData& t ) {
+std::istream& operator>>( std::istream& i, TestData& t )
+{
+  char s[10];
+  int value;
 
-    char s[10];
-    int value;
+  i >> s; // {
+  i >> s; // TestData
+  i >> s; // Nr.
+  i >> s; // }
+  i >> value;
 
-    i >> s; // {
-    i >> s; // TestData
-    i >> s; // Nr.
-    i >> s; // }
-    i >> value;
-
-    t.Set( value );
-    return i;
+  t.Set( value );
+  return i;
 }
 
 
-typedef TestData*                    NodeType;
-std::list<TestData*>                 InternalList;// used to delete the pointer in the tree
-typedef itk::TreeContainer<NodeType> TreeType;
+typedef TestData*                           NodePointerType;
+typedef std::list<NodePointerType>          NodeListType;
+typedef itk::TreeContainer<NodePointerType> TreeType;
 
-class TreeChangeListener : public itk::Command {
-protected:
-  TreeChangeListener(){};
-
+class TreeChangeListener : public itk::Command
+{
 public:
-
   typedef TreeChangeListener             Self;
   typedef itk::SmartPointer<Self>        Pointer;
   typedef itk::SmartPointer<const Self>  ConstPointer;
   itkNewMacro(Self);
 
-  /**
-   *
-   */
-  void  Execute (itk::Object*, const itk::EventObject& event ) {
-
-       std::cout << event.GetEventName() << std::endl;
+  void Execute( itk::Object*, const itk::EventObject& event )
+  {
+    std::cout << event.GetEventName() << std::endl;
   }
 
-  /**
-   *
-   */
-  virtual void  Execute (const itk::Object *, const itk::EventObject &event) {
-
+  virtual void Execute( const itk::Object *, const itk::EventObject &event )
+  {
     std::cout << event.GetEventName();
 
     const itk::TreeChangeEvent<TreeType>* e = dynamic_cast<const itk::TreeChangeEvent<TreeType>*>(&event);
 
     if ( e )
+      {
       std::cout << *e->GetChangePosition().Get()  << std::endl;
+      }
   }
+
+protected:
+  TreeChangeListener() {};
 };
 
 /*
@@ -178,7 +180,7 @@ public:
                                                     *     *     *
                                                  [991]  [912]  [913]
  */
-TreeType::Pointer CreateTree_1()
+TreeType::Pointer CreateTree_1(NodeListType& internalList)
 {
   std::cout << "create tree" << std::endl;
 
@@ -193,40 +195,40 @@ TreeType::Pointer CreateTree_1()
   itk::PostOrderTreeIterator<TreeType> it( tree );
 
   TestData* newNode = new TestData(1);
-  InternalList.push_back(newNode);
+  internalList.push_back(newNode);
   it.Add(newNode);
   newNode = new TestData(11);
-  InternalList.push_back(newNode);
+  internalList.push_back(newNode);
   it.Add(newNode);
   newNode = new TestData(12);
-  InternalList.push_back(newNode);
+  internalList.push_back(newNode);
   it.Add(newNode);
   newNode = new TestData(13);
-  InternalList.push_back(newNode);
+  internalList.push_back(newNode);
   it.Add(newNode);
   newNode = new TestData(14);
-  InternalList.push_back(newNode);
+  internalList.push_back(newNode);
   it.Add(newNode);
   it.GoToChild(0);
   newNode = new TestData(111);
-  InternalList.push_back(newNode);
+  internalList.push_back(newNode);
   it.Add(newNode);
   newNode = new TestData(112);
-  InternalList.push_back(newNode);
+  internalList.push_back(newNode);
   it.Add(newNode);
   newNode = new TestData(113);
-  InternalList.push_back(newNode);
+  internalList.push_back(newNode);
   it.Add(newNode);
   it.GoToParent();
   it.GoToChild(1);
   newNode = new TestData(121);
-  InternalList.push_back(newNode);
+  internalList.push_back(newNode);
   it.Add(newNode);
   newNode = new TestData(122);
-  InternalList.push_back(newNode);
+  internalList.push_back(newNode);
   it.Add(newNode);
   newNode = new TestData(123);
-  InternalList.push_back(newNode);
+  internalList.push_back(newNode);
   it.Add(newNode);
   tree->RemoveObserver( tag );
 
@@ -250,41 +252,37 @@ TreeType::Pointer CreateTree_1()
                                                     *     *     *
                                                  [991]  [912]  [913]
  */
-TreeType::Pointer CreateTree_2()
+TreeType::Pointer CreateTree_2(NodeListType& internalList)
 {
   std::cout << "create tree 2" << std::endl;
 
   TreeType::Pointer tree = TreeType::New();
   TestData* newNode = new TestData(9);
-  InternalList.push_back(newNode);
+  internalList.push_back(newNode);
   tree->SetRoot(newNode);
   itk::PostOrderTreeIterator<TreeType> it( tree );
 
   newNode = new TestData(91);
-  InternalList.push_back(newNode);
+  internalList.push_back(newNode);
   it.Add(newNode);
   newNode = new TestData(92);
-  InternalList.push_back(newNode);
+  internalList.push_back(newNode);
   it.Add(newNode);
   it.GoToChild( 0 );
   newNode = new TestData(991);
-  InternalList.push_back(newNode);
+  internalList.push_back(newNode);
   it.Add(newNode);
   newNode = new TestData(912);
-  InternalList.push_back(newNode);
+  internalList.push_back(newNode);
   it.Add(newNode);
   newNode = new TestData(913);
-  InternalList.push_back(newNode);
+  internalList.push_back(newNode);
   it.Add(newNode);
 
   std::cout << "end create tree 2" << std::endl;
   return tree;
 }
 
-
-/**
- *
- */
 int IteratorTest( itk::TreeIteratorBase<TreeType>& i )
 {
   int sum = 0;
@@ -322,7 +320,9 @@ int itkTreeContainerTest2(int, char* [])
 {
   int result;
   int testCounter = 0;
-  TreeType::Pointer tree = CreateTree_1();
+  NodeListType internalList; // used to delete the pointer in the tree
+
+  TreeType::Pointer tree = CreateTree_1(internalList);
 
   std::cout << "\nPreOrderTreeIterator:" << std::endl;
   itk::PreOrderTreeIterator<TreeType> preOrderIt( tree );
@@ -379,7 +379,7 @@ int itkTreeContainerTest2(int, char* [])
   itk::PreOrderTreeIterator<TreeType> iterator_123( tree );
   iterator_123.GoToChild( 1 );
   iterator_123.GoToChild( 2 );
-  TreeType::Pointer tree_2 = CreateTree_2();
+  TreeType::Pointer tree_2 = CreateTree_2(internalList);
   iterator_123.Add( *tree_2.GetPointer() );
 
   std::cout << "\nTree1 + Tree2:" << std::endl;
@@ -394,14 +394,14 @@ int itkTreeContainerTest2(int, char* [])
   tree->RemoveObserver( tag );
 
   // Delete the list of pointer to TestData
-  std::list<TestData*>::iterator it = InternalList.begin();
+  std::list<TestData*>::iterator it = internalList.begin();
 
-  while(it != InternalList.end())
+  while(it != internalList.end())
     {
     std::list<TestData*>::iterator it2 = it;
     ++it;
     TestData* t = *it2;
-    InternalList.erase(it2);
+    internalList.erase(it2);
     delete t;
     }
 

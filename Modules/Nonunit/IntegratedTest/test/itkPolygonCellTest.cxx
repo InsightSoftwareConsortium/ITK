@@ -22,17 +22,14 @@
 #include <iostream>
 #include <string>
 
-
 int itkPolygonCellTest(int, char* [] )
 {
-
-
   /**
    * Define a mesh type that stores a PixelType of "int".  Use the defaults for
    * the other template parameters.
    */
-  typedef itk::Mesh<int>  MeshType;
-  typedef MeshType::CellTraits  CellTraits;
+  typedef itk::Mesh<int>       MeshType;
+  typedef MeshType::CellTraits CellTraits;
 
   /**
    * Define a few cell types which uses a PixelType of "int".  Again,
@@ -77,7 +74,7 @@ int itkPolygonCellTest(int, char* [] )
    * Note that the constructor for Point is public, and takes an array
    * of coordinates for the point.
    */
-  for(int i=0; i < 8 ; ++i)
+  for(int i=0; i < 8; ++i)
     {
     mesh->SetPoint(i, PointType(testPointCoords[i]));
     }
@@ -151,4 +148,3 @@ int itkPolygonCellTest(int, char* [] )
 
   return EXIT_SUCCESS;
 }
-

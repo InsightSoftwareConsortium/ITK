@@ -25,10 +25,11 @@
 namespace itk
 {
 /**
+ * \class GPUAnisotropicDiffusionImageFilter
  * This filter is the GPU base class for AnisotropicDiffusionImageFilter.
  * InitializeIteration() calls GPUCalculateAverageGradientMagnitudeSquared().
  *
- * \ingroup ITKGPUAnistropicSmoothing
+ * \ingroup ITKGPUAnisotropicSmoothing
  */
 template< class TInputImage, class TOutputImage, class TParentImageFilter =
             AnisotropicDiffusionImageFilter< TInputImage, TOutputImage > >

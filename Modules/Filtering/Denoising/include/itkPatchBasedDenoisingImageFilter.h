@@ -36,7 +36,6 @@
 
 namespace itk
 {
-
 /** \class PatchBasedDenoisingImageFilter
  * \brief Derived class implementing a specific patch-based denoising algorithm, as detailed below.
  *
@@ -58,7 +57,6 @@ namespace itk
  * \ingroup ITKDenoising
  * \sa PatchBasedDenoisingBaseImageFilter
  */
-
 template <class TInputImage, class TOutputImage>
 class PatchBasedDenoisingImageFilter :
   public PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
@@ -112,7 +110,7 @@ public:
 
   /** Type definitions for delegate classes. */
   typedef itk::Statistics::RegionConstrainedSubsampler<
-      PatchSampleType, InputImageRegionType >            BaseSamplerType;
+      PatchSampleType, InputImageRegionType >          BaseSamplerType;
   typedef typename BaseSamplerType::Pointer            BaseSamplerPointer;
   typedef typename BaseSamplerType::InstanceIdentifier InstanceIdentifier;
 
@@ -458,7 +456,7 @@ protected:
   RealType m_NoiseSigmaSquared;
   bool     m_NoiseSigmaIsSet;
   //
-  BaseSamplerPointer m_Sampler;
+  BaseSamplerPointer                m_Sampler;
   typename ListAdaptorType::Pointer m_SearchSpaceList;
 
 private:
