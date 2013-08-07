@@ -218,8 +218,6 @@ BYUMeshIO
   // Determine cells start position
   m_FilePosition = inputFile.tellg();
   inputFile.close();
-
-  return;
 }
 
 void
@@ -276,22 +274,18 @@ BYUMeshIO
     }
 
   inputFile.close();
-
-  return;
 }
 
 void
 BYUMeshIO
 ::ReadPointData(void * itkNotUsed( buffer) )
 {
-  return;
 }
 
 void
 BYUMeshIO
 ::ReadCellData(void * itkNotUsed( buffer) )
 {
-  return;
 }
 
 void
@@ -435,7 +429,6 @@ BYUMeshIO
     }
 
   outputFile.close();
-  return;
 }
 
 void
@@ -534,29 +527,24 @@ BYUMeshIO
     }
 
   outputFile.close();
-
-  return;
 }
 
 void
 BYUMeshIO
 ::WritePointData(void * itkNotUsed( buffer) )
 {
-  return;
 }
 
 void
 BYUMeshIO
 ::WriteCellData(void * itkNotUsed( buffer) )
 {
-  return;
 }
 
 void
 BYUMeshIO
 ::Write()
 {
-  return;
 }
 
 void

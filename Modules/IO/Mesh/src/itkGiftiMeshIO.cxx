@@ -1015,7 +1015,6 @@ GiftiMeshIO
     }
 
   gifti_free_image( m_GiftiImage );
-  return;
 }
 
 void
@@ -1046,7 +1045,6 @@ GiftiMeshIO
     }
 
   gifti_free_image( m_GiftiImage );
-  return;
 }
 
 void
@@ -1077,7 +1075,6 @@ GiftiMeshIO
     }
 
   gifti_free_image( m_GiftiImage );
-  return;
 }
 
 void
@@ -1636,8 +1633,6 @@ GiftiMeshIO
         }
       }
     }
-
-  return;
 }
 
 void
@@ -1835,8 +1830,6 @@ GiftiMeshIO
         }
       }
     }
-
-  return;
 }
 
 void
@@ -2034,8 +2027,6 @@ GiftiMeshIO
         }
       }
     }
-
-  return;
 }
 
 void

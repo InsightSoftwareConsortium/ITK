@@ -144,8 +144,6 @@ RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
       }
     this->UpdateSharedDataParameters();
     }
-
-  return;
 }
 
 template< class TInput,

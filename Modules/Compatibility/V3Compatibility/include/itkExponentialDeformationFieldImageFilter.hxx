@@ -65,7 +65,6 @@ ExponentialDeformationFieldImageFilter< TInputImage, TOutputImage >
   os << indent << "ComputeInverse:   "
      << ( m_ComputeInverse ? "On" : "Off" ) << std::endl;
 
-  return;
 }
 
 /**

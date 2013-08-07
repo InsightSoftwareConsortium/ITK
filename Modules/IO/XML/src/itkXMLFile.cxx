@@ -113,7 +113,6 @@ XMLReaderBase::parse(void)
     throw exception;
     }
   XML_ParserFree(Parser);
-  return;
 }
 
 void

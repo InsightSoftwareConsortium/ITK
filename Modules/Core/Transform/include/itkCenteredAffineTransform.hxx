@@ -35,7 +35,6 @@ template <class TScalarType, unsigned int NDimensions>
 CenteredAffineTransform<TScalarType, NDimensions>::
 ~CenteredAffineTransform()
 {
-  return;
 }
 
 // Get parameters

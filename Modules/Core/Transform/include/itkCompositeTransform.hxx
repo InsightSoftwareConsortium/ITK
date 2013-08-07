@@ -773,8 +773,6 @@ CompositeTransform<TScalar, NDimensions>
     /* Transform the point so it's ready for next transform's Jacobian */
     transformedPoint = transform->TransformPoint( transformedPoint );
     }
-
-  return;
 }
 
 template
@@ -889,7 +887,6 @@ CompositeTransform<TScalar, NDimensions>
       }
     while( it != transforms.begin() );
     }
-  return;
 }
 
 template
@@ -962,8 +959,6 @@ CompositeTransform<TScalar, NDimensions>
     offset += subFixedParameters.Size();
     }
   while( it != transforms.begin() );
-
-  return;
 }
 
 template<class TScalar, unsigned int NDimensions>

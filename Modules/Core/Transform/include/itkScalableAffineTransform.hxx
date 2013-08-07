@@ -81,7 +81,6 @@ template< class TScalarType, unsigned int NDimensions >
 ScalableAffineTransform< TScalarType, NDimensions >
 ::~ScalableAffineTransform()
 {
-  return;
 }
 
 /** Print self */

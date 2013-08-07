@@ -154,8 +154,6 @@ GE5ImageIO::SwapPixHdr(Ge5xPixelHeader *hdr)
   ByteSwapper< int >::SwapFromSystemToBigEndian ( &( hdr->GENESIS_IH_img_l_series ) );
   ByteSwapper< int >::SwapFromSystemToBigEndian ( &( hdr->GENESIS_IH_img_p_image ) );
   ByteSwapper< int >::SwapFromSystemToBigEndian ( &( hdr->GENESIS_IH_img_l_image ) );
-
-  return;
 }
 
 GEImageHeader *

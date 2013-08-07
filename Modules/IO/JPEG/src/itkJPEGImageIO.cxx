@@ -399,8 +399,6 @@ void JPEGImageIO::ReadImageInformation()
 
   // close the file
   jpeg_destroy_decompress(&cinfo);
-
-  return;
 }
 
 bool JPEGImageIO::CanWriteFile(const char *name)

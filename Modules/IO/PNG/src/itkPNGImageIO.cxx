@@ -436,8 +436,6 @@ void PNGImageIO::ReadImageInformation()
   // clean up
   png_destroy_read_struct(&png_ptr, &info_ptr,
                           &end_info);
-
-  return;
 }
 
 bool PNGImageIO::CanWriteFile(const char *name)

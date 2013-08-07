@@ -57,7 +57,6 @@ void ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintDerivativeAsVector
       }
       std::cout << std::endl;
     }
-  return;
 }
 
 
@@ -86,7 +85,6 @@ void ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintImage(ImageType *i
       }
       std::cout << std::endl;
     }
-  return;
 }
 
 template<class ImagePointerType>
@@ -112,7 +110,6 @@ void ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintImage(const ImageP
       }
       std::cout << std::endl;
     }
-  return;
 }
 
 int itkANTSNeighborhoodCorrelationImageToImageMetricv4Test( int, char ** const )

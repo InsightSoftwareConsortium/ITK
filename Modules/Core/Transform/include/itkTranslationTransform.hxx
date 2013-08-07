@@ -45,7 +45,6 @@ template <class TScalarType, unsigned int NDimensions>
 TranslationTransform<TScalarType, NDimensions>::
 ~TranslationTransform()
 {
-  return;
 }
 
 // Set the parameters
@@ -105,7 +104,6 @@ void
 TranslationTransform<TScalarType, NDimensions>::Compose(const Self *other, bool)
 {
   this->Translate(other->m_Offset);
-  return;
 }
 
 // Compose with a translation
@@ -120,7 +118,6 @@ TranslationTransform<TScalarType, NDimensions>::Translate(const OutputVectorType
     newOffset[i] = m_Offset[i] + offset[i];
     }
   this->SetParameters(newOffset);
-  return;
 }
 
 // Transform a point
@@ -190,7 +187,6 @@ TranslationTransform<TScalarType, NDimensions>::ComputeJacobianWithRespectToPara
   // the Jacobian is constant for this transform, and it has already been
   // initialized in the constructor, so we just need to return it here.
   jacobian = this->m_IdentityJacobian;
-  return;
 }
 
 // Compute jacobian with respect to position

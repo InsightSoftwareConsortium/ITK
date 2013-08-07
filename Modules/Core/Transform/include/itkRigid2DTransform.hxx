@@ -303,8 +303,6 @@ Rigid2DTransform<TScalarType>::ComputeJacobianWithRespectToParameters(const Inpu
     {
     j[dim][blockOffset + dim] = 1.0;
     }
-
-  return;
 }
 
 #ifdef ITKV3_COMPATIBILITY

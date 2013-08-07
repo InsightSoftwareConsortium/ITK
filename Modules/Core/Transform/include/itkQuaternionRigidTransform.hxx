@@ -67,8 +67,6 @@ QuaternionRigidTransform<TScalarType>::SetRotation(const VnlQuaternionType & rot
   m_Rotation        = rotation;
 
   this->ComputeMatrix();
-
-  return;
 }
 
 // Set the parameters in order to fit an Identity transform

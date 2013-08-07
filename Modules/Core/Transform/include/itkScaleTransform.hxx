@@ -36,7 +36,6 @@ template <class ScalarType, unsigned int NDimensions>
 ScaleTransform<ScalarType, NDimensions>::
 ~ScaleTransform()
 {
-  return;
 }
 
 // Set the parameters
@@ -101,7 +100,6 @@ ScaleTransform<ScalarType, NDimensions>::Compose(const Self *other, bool)
     {
     m_Scale[i] *= other->m_Scale[i];
     }
-  return;
 }
 
 // Compose with a scale
@@ -113,7 +111,6 @@ ScaleTransform<ScalarType, NDimensions>::Scale(const ScaleType & scale, bool)
     {
     m_Scale[i] *= scale[i];
     }
-  return;
 }
 
 // Transform a point

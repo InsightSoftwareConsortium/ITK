@@ -81,8 +81,6 @@ FreeSurferBinaryMeshIO
     {
     itkExceptionMacro("Unable to open file inputFile " << this->m_FileName);
     }
-
-  return;
 }
 
 void
@@ -223,7 +221,6 @@ FreeSurferBinaryMeshIO
   this->m_CellPixelType  = SCALAR;
 
   CloseFile();
-  return;
 }
 
 void
@@ -238,8 +235,6 @@ FreeSurferBinaryMeshIO
 
   m_InputFile.read( static_cast< char * >( buffer ), this->m_NumberOfPoints * this->m_PointDimension * sizeof( float ) );
   itk::ByteSwapper< float >::SwapRangeFromSystemToBigEndian(data, this->m_NumberOfPoints * this->m_PointDimension);
-
-  return;
 }
 
 void
@@ -256,8 +251,6 @@ FreeSurferBinaryMeshIO
   delete[] data;
 
   CloseFile();
-
-  return;
 }
 
 void
@@ -273,14 +266,12 @@ FreeSurferBinaryMeshIO
   itk::ByteSwapper< float >::SwapRangeFromSystemToBigEndian(data, this->m_NumberOfPointPixels);
 
   CloseFile();
-  return;
 }
 
 void
 FreeSurferBinaryMeshIO
 ::ReadCellData(void * itkNotUsed( buffer) )
 {
-  return;
 }
 
 void
@@ -448,7 +439,6 @@ FreeSurferBinaryMeshIO
     }
 
   outputFile.close();
-  return;
 }
 
 void
@@ -547,8 +537,6 @@ FreeSurferBinaryMeshIO
     }
 
   outputFile.close();
-
-  return;
 }
 
 void
@@ -659,21 +647,18 @@ FreeSurferBinaryMeshIO
     }
 
   outputFile.close();
-  return;
 }
 
 void
 FreeSurferBinaryMeshIO
 ::WriteCellData(void * itkNotUsed( buffer) )
 {
-  return;
 }
 
 void
 FreeSurferBinaryMeshIO
 ::Write()
 {
-  return;
 }
 
 void

@@ -26,7 +26,6 @@ namespace itk
 template <class ScalarType, unsigned int NDimensions>
 ScaleLogarithmicTransform<ScalarType, NDimensions>::ScaleLogarithmicTransform()
 {
-  return;
 }
 
 // Destructor
@@ -34,7 +33,6 @@ template <class ScalarType, unsigned int NDimensions>
 ScaleLogarithmicTransform<ScalarType, NDimensions>::
 ~ScaleLogarithmicTransform()
 {
-  return;
 }
 
 // Set the parameters

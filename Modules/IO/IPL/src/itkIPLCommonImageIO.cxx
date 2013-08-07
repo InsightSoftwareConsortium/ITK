@@ -605,14 +605,12 @@ void IPLCommonImageIO
 ::sortImageListAscend()
 {
   m_FilenameList->sortImageListAscend();
-  return;
 }
 
 void IPLCommonImageIO
 ::sortImageListDescend()
 {
   m_FilenameList->sortImageListDescend();
-  return;
 }
 
 int IPLCommonImageIO

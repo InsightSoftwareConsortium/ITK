@@ -61,8 +61,6 @@ LandmarkDisplacementFieldSource< TOutputImage >
   os << indent << "KernelTransform: " << m_KernelTransform.GetPointer() << std::endl;
   os << indent << "Source Landmarks: " << m_SourceLandmarks.GetPointer() << std::endl;
   os << indent << "Target Landmarks: " << m_TargetLandmarks.GetPointer() << std::endl;
-
-  return;
 }
 
 /**
@@ -187,8 +185,6 @@ LandmarkDisplacementFieldSource< TOutputImage >
     ++outIt;
     progress.CompletedPixel();
     }
-
-  return;
 }
 
 /**
@@ -216,8 +212,6 @@ LandmarkDisplacementFieldSource< TOutputImage >
   outputPtr->SetSpacing(m_OutputSpacing);
   outputPtr->SetOrigin(m_OutputOrigin);
   outputPtr->SetDirection(m_OutputDirection);
-
-  return;
 }
 
 /**

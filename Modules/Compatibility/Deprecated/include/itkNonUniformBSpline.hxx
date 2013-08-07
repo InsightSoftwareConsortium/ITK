@@ -368,7 +368,6 @@ NonUniformBSpline< TDimension >::ComputeControlPoints()
       }
     m_ControlPoints.push_back(pt);
     }
-  return;
 }
 
 template< unsigned int TDimension >

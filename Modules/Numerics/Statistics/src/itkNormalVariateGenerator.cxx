@@ -96,7 +96,6 @@ void NormalVariateGenerator::Initialize(int randomSeed)
   m_Chic1 = fake * vcl_sqrt(0.5 / m_TLEN);
 
   m_ActualRSD = 0.0;
-  return;
 }
 
 double NormalVariateGenerator::GetVariate()
