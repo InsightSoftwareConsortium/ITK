@@ -145,7 +145,7 @@ foreach(TCL_TEST_IMAGE_DIMENSION ${ITK_WRAP_DIMS})
 
     configure_file("${CMAKE_CURRENT_SOURCE_DIR}/simplePipeline.tcl.in"
                   "${CMAKE_CURRENT_BINARY_DIR}/${TEST_FILE_NAME}.tcl"
-                  @ONLY IMMEDIATE)
+                  @ONLY)
 
     add_tcl_test(TclSimplePipeline${TCL_TEST_PIXEL_TYPE}${TCL_TEST_IMAGE_DIMENSION}
       ${TEST_FILE_NAME}.tcl

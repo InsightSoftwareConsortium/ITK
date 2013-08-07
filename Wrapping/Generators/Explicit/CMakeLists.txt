@@ -42,7 +42,7 @@ macro(itk_end_wrap_submodule_explicit module)
   set(file_name "${module}Explicit.cxx")
   set(cxx_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/${file_name}")
   configure_file("${ITK_WRAP_EXPLICIT_SOURCE_DIR}/Explicit.cxx.in"
-    "${cxx_file}" @ONLY IMMEDIATE)
+    "${cxx_file}" @ONLY)
   set(EXPLICIT_EXPLICITS_FILES ${EXPLICIT_EXPLICITS_FILES} ${cxx_file})
 endmacro()
 
@@ -130,7 +130,7 @@ macro(itk_end_wrap_module_explicit)
   set(file_name "${WRAPPER_LIBRARY_NAME}Explicit.h")
   set(cxx_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${file_name}")
   configure_file("${ITK_WRAP_EXPLICIT_SOURCE_DIR}/Explicit.h.in"
-    "${cxx_file}" @ONLY IMMEDIATE)
+    "${cxx_file}" @ONLY)
 
   WRAP_ITK_INSTALL(/Configuration/Typedefs "${cxx_file}")
   if(EXPLICIT_EXPLICITS_FILES)

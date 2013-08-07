@@ -71,7 +71,7 @@ macro(itk_end_wrap_module_tcl)
   # It uses ITK_WRAP_TCL_LIBRARY_DECLS, ITK_WRAP_TCL_LIBRARY_CALLS
   configure_file("${ITK_WRAP_TCL_SOURCE_DIR}/main_module_ext.i.in"
     "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/tcl/${WRAPPER_LIBRARY_NAME}_ext.i"
-    @ONLY IMMEDIATE)
+    @ONLY)
   WRAP_ITK_INSTALL("/Configuration/Typedefs/tcl"
     "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/tcl/${WRAPPER_LIBRARY_NAME}_ext.i"
   )
@@ -155,7 +155,7 @@ macro(itk_end_wrap_submodule_tcl group_name)
   # create the tcl customization for that wrap_*.cmake file.
   configure_file("${ITK_WRAP_TCL_SOURCE_DIR}/module_ext.i.in"
   "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/tcl/${group_name}_ext.i"
-  @ONLY IMMEDIATE)
+  @ONLY)
   WRAP_ITK_INSTALL("/Configuration/Typedefs/tcl" "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/tcl/${group_name}_ext.i"
   )
 
@@ -336,20 +336,20 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
         set(ITK_WRAP_TCL_PACKAGE_DIR "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/${config}")
         configure_file("${ITK_WRAP_TCL_SOURCE_DIR}/pkgIndex.tcl.in"
                        "${ITK_WRAP_TCL_BINARY_DIR}/${config}/pkgIndex.tcl"
-                       @ONLY IMMEDIATE)
+                       @ONLY)
       endforeach()
     else()
       set(ITK_WRAP_TCL_PACKAGE_DIR "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}")
       configure_file("${ITK_WRAP_TCL_SOURCE_DIR}/pkgIndex.tcl.in"
                      "${ITK_WRAP_TCL_BINARY_DIR}/pkgIndex.tcl"
-                     @ONLY IMMEDIATE)
+                     @ONLY)
     endif()
 
     # configure pkgIndex.tcl for the installed tree
     set(ITK_WRAP_TCL_PACKAGE_DIR "${CMAKE_INSTALL_PREFIX}/lib/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}/Tcl")
     configure_file("${ITK_WRAP_TCL_SOURCE_DIR}/pkgIndex.tcl.in"
                    "${ITK_WRAP_TCL_BINARY_DIR}/InstallOnly/itkwish_wont_find_me_here/pkgIndex.tcl"
-                  @ONLY IMMEDIATE)
+                  @ONLY)
     WRAP_ITK_BINDINGS_INSTALL(/Tcl "${ITK_WRAP_TCL_BINARY_DIR}/InstallOnly/itkwish_wont_find_me_here/pkgIndex.tcl")
 
     #install the actual executable

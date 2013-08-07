@@ -102,7 +102,7 @@ macro(itk_end_wrap_module_DOC)
     set(ITK_WRAP_DOC_LIBRARY_DIR "${library_doc_build_dir}")
     configure_file("${ITK_WRAP_DOC_SOURCE_DIR}/doxygen.config.in"
       "${library_doxygen_config_file}"
-      @ONLY IMMEDIATE)
+      @ONLY)
 
     # which files are produced?
     set(outputs ${ITK_WRAP_DOC_DOXYGEN_XML_FILES})
@@ -136,7 +136,7 @@ macro(itk_end_wrap_submodule_DOC)
     set(doxy2swig_config_file ${CMAKE_CURRENT_BINARY_DIR}/Doc/${WRAPPER_MODULE_NAME}.conf)
     configure_file("${ITK_WRAP_DOC_SOURCE_DIR}/itk_doxy2swig.conf.in"
       "${doxy2swig_config_file}"
-      @ONLY IMMEDIATE)
+      @ONLY)
 
     # run itk_doxy2swig
     set(itk_doxy2swig_py "${ITK_WRAP_DOC_SOURCE_DIR}/itk_doxy2swig.py")

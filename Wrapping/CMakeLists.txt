@@ -198,12 +198,12 @@ set(CONFIG_ITK_WRAP_PYTHON_LIBS "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/\\\${CTEST_CO
 set(CONFIG_WRAP_ITK_LIB_DIR  "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}")
 configure_file("${WRAP_ITK_CONFIG_DIR}/WrapITKConfig.cmake.in"
                "${WrapITK_BINARY_DIR}/WrapITKConfig.cmake"
-               @ONLY IMMEDIATE)
+               @ONLY)
 
 set(CONFIG_WRAP_ITK_DIR "${WrapITK_BINARY_DIR}")
 configure_file("${WRAP_ITK_CONFIG_DIR}/FindWrapITK.cmake.in"
                "${WrapITK_BINARY_DIR}/FindWrapITK.cmake"
-               @ONLY IMMEDIATE)
+               @ONLY)
 
 # Second, configure for installed use. Ensure that no absolute paths
 # go into the installed config file, so that it is as portable as possible.
@@ -217,9 +217,9 @@ set(CONFIG_ITK_WRAP_PYTHON_LIBS "\${WrapITK_DIR}/lib")
 set(CONFIG_WRAP_ITK_LIB_DIR  "\${WrapITK_DIR}/lib")
 configure_file("${WRAP_ITK_CONFIG_DIR}/WrapITKConfig.cmake.in"
                "${WrapITK_BINARY_DIR}/InstallOnly/WrapITKConfig.cmake"
-               @ONLY IMMEDIATE)
+               @ONLY)
 
 set(CONFIG_WRAP_ITK_DIR "${CMAKE_INSTALL_PREFIX}/${WRAP_ITK_INSTALL_PREFIX}")
 configure_file("${WRAP_ITK_CONFIG_DIR}/FindWrapITK.cmake.in"
                "${WrapITK_BINARY_DIR}/InstallOnly/FindWrapITK.cmake"
-               @ONLY IMMEDIATE)
+               @ONLY)
