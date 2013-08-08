@@ -29,6 +29,8 @@
 #include "itkVectorMagnitudeImageFilter.h"
 #include "itkStatisticsImageFilter.h"
 
+#include "itkTimeProbesCollectorBase.h"
+
 template<class TFilter>
 class CommandIterationUpdate : public itk::Command
 {
@@ -109,6 +111,7 @@ int PerformExpImageRegistration( int argc, char *argv[] )
     exit( 1 );
     }
 
+  itk::TimeProbesCollectorBase timer;
   typedef double                                 PixelType;
   typedef itk::Image<PixelType, VImageDimension> FixedImageType;
   typedef itk::Image<PixelType, VImageDimension> MovingImageType;
@@ -117,16 +120,24 @@ int PerformExpImageRegistration( int argc, char *argv[] )
 
   typename ImageReaderType::Pointer fixedImageReader = ImageReaderType::New();
   fixedImageReader->SetFileName( argv[2] );
+  timer.Start("0 fixedImageReader");
   fixedImageReader->Update();
+  timer.Stop("0 fixedImageReader");
   typename FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
+  timer.Start("1 fixedImage");
   fixedImage->Update();
+  timer.Stop("1 fixedImage");
   fixedImage->DisconnectPipeline();
 
   typename ImageReaderType::Pointer movingImageReader = ImageReaderType::New();
   movingImageReader->SetFileName( argv[3] );
+  timer.Start("2 movingImageReader");
   movingImageReader->Update();
+  timer.Stop("2 movingImageReader");
   typename MovingImageType::Pointer movingImage = movingImageReader->GetOutput();
+  timer.Start("3 movingImage");
   movingImage->Update();
+  timer.Stop("3 movingImage");
   movingImage->DisconnectPipeline();
 
   typedef itk::AffineTransform<double, VImageDimension> AffineTransformType;
@@ -154,7 +165,11 @@ int PerformExpImageRegistration( int argc, char *argv[] )
     {
     itkGenericExceptionMacro( "Error dynamic_cast failed" );
     }
+#ifdef NDEBUG
   affineOptimizer->SetNumberOfIterations( atoi( argv[5] ) );
+#else
+  affineOptimizer->SetNumberOfIterations( 1 );
+#endif
   affineOptimizer->SetDoEstimateLearningRateOnce( false ); //true by default
   affineOptimizer->SetDoEstimateLearningRateAtEachIteration( true );
 
@@ -172,7 +187,9 @@ int PerformExpImageRegistration( int argc, char *argv[] )
   try
     {
     std::cout << "Affine txf:" << std::endl;
+    timer.Start("4 affineSimple");
     affineSimple->Update();
+    timer.Stop("4 affineSimple");
     }
   catch( itk::ExceptionObject &e )
     {
@@ -242,7 +259,11 @@ int PerformExpImageRegistration( int argc, char *argv[] )
 
   typename GradientDescentOptimizerv4Type::Pointer optimizer = GradientDescentOptimizerv4Type::New();
   optimizer->SetLearningRate( 1.0 );
+#ifdef NDEBUG
   optimizer->SetNumberOfIterations( atoi( argv[6] ) );
+#else
+  optimizer->SetNumberOfIterations( 1 );
+#endif
   optimizer->SetScalesEstimator( NULL );
   optimizer->SetDoEstimateLearningRateOnce( false ); //true by default
   optimizer->SetDoEstimateLearningRateAtEachIteration( true );
@@ -286,7 +307,9 @@ int PerformExpImageRegistration( int argc, char *argv[] )
     typename ShrinkFilterType::Pointer shrinkFilter = ShrinkFilterType::New();
     shrinkFilter->SetShrinkFactors( shrinkFactorsPerLevel[level] );
     shrinkFilter->SetInput( fieldTransform->GetConstantVelocityField() );
+    timer.Start("5 shrink");
     shrinkFilter->Update();
+    timer.Stop("5 shrink");
 
     typename VelocityFieldTransformAdaptorType::Pointer fieldTransformAdaptor = VelocityFieldTransformAdaptorType::New();
     fieldTransformAdaptor->SetRequiredSpacing( shrinkFilter->GetOutput()->GetSpacing() );
@@ -305,7 +328,9 @@ int PerformExpImageRegistration( int argc, char *argv[] )
   try
     {
     std::cout << "Displ. txf - gauss update" << std::endl;
+    timer.Start("6 displacementFieldSimple");
     displacementFieldSimple->Update();
+    timer.Stop("6 displacementFieldSimple");
     }
   catch( itk::ExceptionObject &e )
     {
@@ -332,13 +357,17 @@ int PerformExpImageRegistration( int argc, char *argv[] )
   resampler->SetOutputSpacing( fixedImage->GetSpacing() );
   resampler->SetOutputDirection( fixedImage->GetDirection() );
   resampler->SetDefaultPixelValue( 0 );
+  timer.Start("7 resampler");
   resampler->Update();
+  timer.Stop("7 resampler");
 
   typedef itk::ImageFileWriter<FixedImageType> WriterType;
   typename WriterType::Pointer writer = WriterType::New();
   writer->SetFileName( argv[4] );
   writer->SetInput( resampler->GetOutput() );
+  timer.Start("8 writer");
   writer->Update();
+  timer.Stop("8 writer");
 
   // Check identity of forward and inverse transforms
 
@@ -346,17 +375,23 @@ int PerformExpImageRegistration( int argc, char *argv[] )
   typename ComposerType::Pointer composer = ComposerType::New();
   composer->SetDisplacementField( fieldTransform->GetDisplacementField() );
   composer->SetWarpingField( fieldTransform->GetInverseDisplacementField() );
+  timer.Start("8 composer");
   composer->Update();
+  timer.Stop("8 composer");
 
   typedef itk::VectorMagnitudeImageFilter<DisplacementFieldType, MovingImageType> MagnituderType;
   typename MagnituderType::Pointer magnituder = MagnituderType::New();
   magnituder->SetInput( composer->GetOutput() );
+  timer.Start("9 magnituder");
   magnituder->Update();
+  timer.Stop("9 magnituder");
 
   typedef itk::StatisticsImageFilter<MovingImageType> StatisticsImageFilterType;
   typename StatisticsImageFilterType::Pointer stats = StatisticsImageFilterType::New();
   stats->SetInput( magnituder->GetOutput() );
+  timer.Start("10 stats");
   stats->Update();
+  timer.Stop("10 stats");
 
   std::cout << "Identity check:" << std::endl;
   std::cout << "  Min:  " << stats->GetMinimum() << std::endl;
@@ -368,6 +403,8 @@ int PerformExpImageRegistration( int argc, char *argv[] )
     {
     std::cerr << "Identity test failed." << std::endl;
     }
+
+  timer.Report(std::cout);
 
   return EXIT_SUCCESS;
 }

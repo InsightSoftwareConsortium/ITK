@@ -24,8 +24,8 @@ itk_add_test(NAME itkSimpleImageRegistrationTest
       --with-threads 1
       --compareIntensityTolerance 3.0
       --compareNumberOfPixelsTolerance 4
-      --compare DATA{Baseline/itkSimpleImageRegistrationTestNew.nii.gz}
-                ${TEMP}/itkSimpleImageRegistrationTestNew.nii.gz
+      --compare DATA{Baseline/itkSimpleImageRegistrationTestNew.nii,:}
+              ${TEMP}/itkSimpleImageRegistrationTestNew.nii.gz
               itkSimpleImageRegistrationTest
               2 # number of dimensions
               DATA{Input/r16slice_rigid.nii.gz}
