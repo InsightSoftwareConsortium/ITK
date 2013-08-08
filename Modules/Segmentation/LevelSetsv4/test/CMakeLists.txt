@@ -21,6 +21,8 @@ itkLevelSetEquationTermBaseTest.cxx
 itkLevelSetEquationTermContainerTest.cxx
 # domain partition classes
 itkLevelSetDomainPartitionBaseTest.cxx
+itkLevelSetDomainPartitionImageTest.cxx
+itkLevelSetDomainPartitionImageWithKdTreeTest.cxx
 itkLevelSetDomainMapImageFilterTest.cxx
 # level set container
 itkDenseLevelSetContainerTest.cxx
@@ -88,6 +90,10 @@ itk_add_test(NAME itkBinaryImageToShiSparseLevelSetsv4AdaptorTest
 # domain partition classes
 itk_add_test(NAME itkLevelSetsv4DomainPartitionBaseTest
       COMMAND ITKLevelSetsv4TestDriver itkLevelSetDomainPartitionBaseTest)
+itk_add_test(NAME itkLevelSetsv4DomainPartitionImageTest
+      COMMAND ITKLevelSetsv4TestDriver itkLevelSetDomainPartitionImageTest)
+itk_add_test(NAME itkLevelSetsv4DomainPartitionImageWithKdTreeTest
+      COMMAND ITKLevelSetsv4TestDriver itkLevelSetDomainPartitionImageWithKdTreeTest)
 itk_add_test(NAME itkLevelSetsv4DomainMapImageFilterTest
       COMMAND ITKLevelSetsv4TestDriver itkLevelSetDomainMapImageFilterTest)
 # level set container

@@ -38,6 +38,8 @@ template< class TImage >
 void LevelSetDomainPartitionImage< TImage >
 ::PopulateListDomain()
 {
+  this->AllocateListDomain();
+
   const ListRegionType & region = this->m_ListDomain->GetLargestPossibleRegion();
   ListIteratorType lIt(this->m_ListDomain, region);
 
@@ -48,7 +50,7 @@ void LevelSetDomainPartitionImage< TImage >
     IdentifierType i = NumericTraits< IdentifierType >::Zero;
     while( i < this->m_NumberOfLevelSetFunctions )
       {
-      if ( this->m_LevelSetDataPointerVector[i]->VerifyInsideRegion(listIndex) )
+      if ( this->m_LevelSetDataPointerVector[i].IsInside( listIndex ) )
         {
         identifierList.push_back(i);
         }
