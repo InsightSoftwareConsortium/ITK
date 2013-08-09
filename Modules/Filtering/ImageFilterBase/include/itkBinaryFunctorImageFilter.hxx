@@ -214,8 +214,12 @@ BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage, TFunction >
   const TInputImage2 *inputPtr2 =
     dynamic_cast< const TInputImage2 * >( ProcessObject::GetInput(1) );
   TOutputImage *outputPtr = this->GetOutput(0);
-
-  const size_t numberOfLinesToProcess = outputRegionForThread.GetNumberOfPixels() / outputRegionForThread.GetSize(0);
+  const SizeValueType size0 = outputRegionForThread.GetSize(0);
+  if( size0 == 0)
+    {
+    return;
+    }
+  const size_t numberOfLinesToProcess = outputRegionForThread.GetNumberOfPixels() / size0;
 
   if( inputPtr1 && inputPtr2 )
     {

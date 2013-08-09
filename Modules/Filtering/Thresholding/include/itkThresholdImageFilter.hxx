@@ -134,6 +134,11 @@ ThresholdImageFilter< TImage >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
                        ThreadIdType threadId)
 {
+  const SizeValueType size0 = outputRegionForThread.GetSize(0);
+  if( size0 == 0)
+    {
+    return;
+    }
   itkDebugMacro(<< "Actually executing");
 
   // Get the input and output pointers
@@ -149,7 +154,7 @@ ThresholdImageFilter< TImage >
   OutputIterator outIt(outputPtr, outputRegionForThread);
 
   // support progress methods/callbacks
-  const size_t numberOfLinesToProcess = outputRegionForThread.GetNumberOfPixels() / outputRegionForThread.GetSize(0);
+  const size_t numberOfLinesToProcess = outputRegionForThread.GetNumberOfPixels() / size0;
   ProgressReporter progress( this, threadId, numberOfLinesToProcess );
 
   // walk the regions, threshold each pixel

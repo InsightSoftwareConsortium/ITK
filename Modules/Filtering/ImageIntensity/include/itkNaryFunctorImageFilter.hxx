@@ -46,6 +46,11 @@ NaryFunctorImageFilter< TInputImage, TOutputImage, TFunction >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
                        ThreadIdType threadId)
 {
+  const SizeValueType size0 = outputRegionForThread.GetSize(0);
+  if( size0 == 0)
+    {
+    return;
+    }
   const unsigned int numberOfInputImages =
     static_cast< unsigned int >( this->GetNumberOfIndexedInputs() );
 
@@ -66,7 +71,7 @@ NaryFunctorImageFilter< TInputImage, TOutputImage, TFunction >
       }
     }
 
-  const size_t numberOfLinesToProcess = outputRegionForThread.GetNumberOfPixels() / outputRegionForThread.GetSize(0);
+  const size_t numberOfLinesToProcess = outputRegionForThread.GetNumberOfPixels() / size0;
   ProgressReporter progress( this, threadId, numberOfLinesToProcess );
 
   const unsigned int numberOfValidInputImages = inputItrVector.size();
