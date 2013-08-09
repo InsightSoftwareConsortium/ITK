@@ -171,7 +171,7 @@ public:
    *  symmetric positive-definite eigensystem analysys will be used. See
    *  Hasan KM, Basser PJ, Parker DL, Alexander AL.
    *  Analytical computation of the eigenvalues and eigenvectors in DT-MRI.
-   *  J Magn Reson 2001; 152: 41–47.
+   *  J Magn Reson 2001; 152: 41-47.
    *  This faster algorithm may be slightly less accurate and possibly less stable in the presence
    *  of noise.  So far in practice it has been shown to work well.
    *

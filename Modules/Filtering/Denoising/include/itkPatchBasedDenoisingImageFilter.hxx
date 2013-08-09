@@ -933,7 +933,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   // this implementation based on
   // Hasan KM, Basser PJ, Parker DL, Alexander AL.
   // Analytical computation of the eigenvalues and eigenvectors in DT-MRI.
-  // J Magn Reson 2001; 152: 41–47.
+  // J Magn Reson 2001; 152: 41-47.
 
   typedef typename NumericTraits<TensorValueT>::RealType RealTensorValueT;
 
