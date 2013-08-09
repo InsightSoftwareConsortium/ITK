@@ -67,8 +67,6 @@ InverseDeformationFieldImageFilter< TInputImage, TOutputImage >
   os << indent << "OutputOrigin:      " << m_OutputOrigin << std::endl;
   os << indent << "KernelTransform:   " << m_KernelTransform.GetPointer() << std::endl;
   os << indent << "SubsamplingFactor: " << m_SubsamplingFactor << std::endl;
-
-  return;
 }
 
 /**
@@ -269,8 +267,6 @@ InverseDeformationFieldImageFilter< TInputImage, TOutputImage >
     ++outIt;
     progress.CompletedPixel();
     }
-
-  return;
 }
 
 /**
@@ -301,8 +297,6 @@ InverseDeformationFieldImageFilter< TInputImage, TOutputImage >
   InputImageRegionType inputRegion;
   inputRegion = inputPtr->GetLargestPossibleRegion();
   inputPtr->SetRequestedRegion(inputRegion);
-
-  return;
 }
 
 /**
@@ -331,8 +325,6 @@ InverseDeformationFieldImageFilter< TInputImage, TOutputImage >
   // Set spacing and origin
   outputPtr->SetSpacing(m_OutputSpacing);
   outputPtr->SetOrigin(m_OutputOrigin);
-
-  return;
 }
 
 /**

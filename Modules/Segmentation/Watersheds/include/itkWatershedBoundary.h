@@ -113,10 +113,11 @@ public:
   /** The face data structure.  This is just an Image of face pixel
       types. */
   typedef Image< face_pixel_t, TDimension > face_t;
+
   /** A hash table holding flat region data structures.   */
-  typedef itksys::hash_map< IdentifierType,             flat_region_t,
-                        itksys::hash< IdentifierType > > flat_hash_t;
-  typedef typename flat_hash_t::value_type FlatHashValueType;
+  typedef itksys::hash_map< IdentifierType, flat_region_t,
+                            itksys::hash< IdentifierType > > flat_hash_t;
+  typedef typename flat_hash_t::value_type                   FlatHashValueType;
 
   /** Itk typedefs and macros defining smart pointer and type identification.
    */

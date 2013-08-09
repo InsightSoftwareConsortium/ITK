@@ -140,8 +140,6 @@ RegistrationParameterScalesFromJacobian< TMetric >
     localStepScales[localId] = sampleScales[c];
     }
 
-  return;
-
 }
 
 /**

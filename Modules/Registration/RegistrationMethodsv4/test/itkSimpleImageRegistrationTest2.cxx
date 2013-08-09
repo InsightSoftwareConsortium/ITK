@@ -198,7 +198,11 @@ int PerformSimpleImageRegistration2( int argc, char *argv[] )
     itkGenericExceptionMacro( "Error dynamic_cast failed" );
     }
 
+#ifdef NDEBUG
   affineOptimizer->SetNumberOfIterations( atoi( argv[5] ) );
+#else
+  affineOptimizer->SetNumberOfIterations( 1 );
+#endif
   affineOptimizer->SetDoEstimateLearningRateOnce( false ); //true by default
   affineOptimizer->SetDoEstimateLearningRateAtEachIteration( true );
   affineOptimizer->SetScalesEstimator( scalesEstimator1 );

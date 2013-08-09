@@ -93,7 +93,7 @@ int itkMetaDataDictionaryTest(int , char * [])
     {
     std::cerr << "Exception Thrown." << std::endl;
     std::cerr << excp << std::endl;
-    delete [] StrandedMemory;
+    delete[] StrandedMemory;
     return EXIT_FAILURE;
     }
 
@@ -155,7 +155,7 @@ int itkMetaDataDictionaryTest(int , char * [])
 #endif
 
   //NOTE: Must clean up memory allocated with char * StrandedMemory=new char[2345];
-  delete [] StrandedMemory;
+  delete[] StrandedMemory;
 
   return EXIT_SUCCESS;
 

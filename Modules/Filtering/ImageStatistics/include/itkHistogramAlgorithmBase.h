@@ -28,7 +28,7 @@ namespace itk
  * \brief base class for algorithms operating on histograms
  *
  * You plug in the target sample data using SetInputHistogram method. Then call
- * the GenerateData method to run the alogithm.
+ * the Compute() method to run the algorithm.
  *
  * \ingroup ITKImageStatistics
  */
@@ -63,18 +63,24 @@ public:
   const TInputHistogram * GetInputHistogram() const
   { return m_InputHistogram.GetPointer(); }
 
-  /** dummy function that calls the GenerateData() function to generate
-   * output. It exists for future compatibility with ProcessObject
-   * without streaming */
+  /** \deprecated
+   * Update() is deprecated because classes that do not
+   * derive from ProcessObject are not part of the pipeline and
+   * should therefore not have an Update() method.
+   * It is included for backwards compatibility. */
+#if ! defined ( ITK_FUTURE_LEGACY_REMOVE )
   void Update()
-  { this->GenerateData(); }
+  {
+    this->Compute();
+  }
+#endif
 
 protected:
   HistogramAlgorithmBase();
   virtual ~HistogramAlgorithmBase() {}
   void PrintSelf(std::ostream & os, Indent indent) const;
 
-  virtual void GenerateData() = 0;
+  virtual void Compute() = 0;
 
 private:
   /** Target histogram data pointer */

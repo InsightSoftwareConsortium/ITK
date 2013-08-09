@@ -23,14 +23,9 @@
 
 namespace itk
 {
-
-//
-// Singleton class for GPUContextManager
-//
-
 /** \class GPUContextManager
  *
- * \brief Class to store the GPU context.
+ * \brief Singleton class to store the GPU context.
  *
  *  Won-Ki to write more documentation here...
  *

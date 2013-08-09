@@ -67,8 +67,6 @@ InverseDisplacementFieldImageFilter< TInputImage, TOutputImage >
   os << indent << "OutputOrigin:      " << m_OutputOrigin << std::endl;
   os << indent << "KernelTransform:   " << m_KernelTransform.GetPointer() << std::endl;
   os << indent << "SubsamplingFactor: " << m_SubsamplingFactor << std::endl;
-
-  return;
 }
 
 /**
@@ -272,8 +270,6 @@ InverseDisplacementFieldImageFilter< TInputImage, TOutputImage >
     ++outIt;
     progress.CompletedPixel();
     }
-
-  return;
 }
 
 /**
@@ -304,8 +300,6 @@ InverseDisplacementFieldImageFilter< TInputImage, TOutputImage >
   InputImageRegionType inputRegion;
   inputRegion = inputPtr->GetLargestPossibleRegion();
   inputPtr->SetRequestedRegion(inputRegion);
-
-  return;
 }
 
 /**
@@ -334,8 +328,6 @@ InverseDisplacementFieldImageFilter< TInputImage, TOutputImage >
   // Set spacing and origin
   outputPtr->SetSpacing(m_OutputSpacing);
   outputPtr->SetOrigin(m_OutputOrigin);
-
-  return;
 }
 
 /**

@@ -30,7 +30,7 @@ namespace itk
  *
  *  \tparam TTermContainer Container holding the terms in a level set equation
  *
- *  Evolving level-set functions \f$\left\{ \phi_j \right\}\limits_{j=1}{M}\f$
+ *  Evolving level-set functions \f$\left\{ \phi_j \right\}_{j=1}^{M}\f$
  *  can be expressed as follows:
  *  \f{eqnarray*}{
  *  \frac{\partial \phi_1(p)}{\partial \tau} &=& \sum\limits_{i=1}^{N_1} \alpha_{i1}
@@ -42,7 +42,7 @@ namespace itk
  *  \cdot \omega_{iM}(p)
  *  \f}
  *  where \f$\omega_{iM}\f$ is a term which could depend on any of the level-set
- *  functions \f$\left\{ \phi_j \right\}\limits_{j=1}{M}\f$ , the input image,
+ *  functions \f$\left\{ \phi_j \right\}_{j=1}^{M}\f$ , the input image,
  *  and \f$\alpha_{iM}\f$ is a weight to balance the contribution of each term
  *  in the PDE.
  *

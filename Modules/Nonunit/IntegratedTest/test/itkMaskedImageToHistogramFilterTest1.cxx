@@ -66,7 +66,7 @@ int itkMaskedImageToHistogramFilterTest1( int argc, char * argv [] )
   histogramFilter->SetMaskValue( atoi(argv[4]) );
   itk::SimpleFilterWatcher watcher(histogramFilter, "filter");
 
-  typedef HistogramFilterType::HistogramType  HistogramType;
+  typedef HistogramFilterType::HistogramType       HistogramType;
   typedef HistogramFilterType::HistogramSizeType   SizeType;
 
 //   // Setting bin mins and max

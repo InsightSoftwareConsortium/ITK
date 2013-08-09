@@ -182,7 +182,11 @@ int PerformSimpleImageRegistration( int argc, char *argv[] )
     {
     itkGenericExceptionMacro( "Error dynamic_cast failed" );
     }
+#ifdef NDEBUG
   affineOptimizer->SetNumberOfIterations( atoi( argv[5] ) );
+#else
+  affineOptimizer->SetNumberOfIterations( 1 );
+#endif
   affineOptimizer->SetDoEstimateLearningRateOnce( false ); //true by default
   affineOptimizer->SetDoEstimateLearningRateAtEachIteration( true );
   affineOptimizer->SetScalesEstimator( scalesEstimator1 );
@@ -268,7 +272,11 @@ int PerformSimpleImageRegistration( int argc, char *argv[] )
 
   typename GradientDescentOptimizerv4Type::Pointer optimizer = GradientDescentOptimizerv4Type::New();
   optimizer->SetLearningRate( 1.0 );
+#ifdef NDEBUG
   optimizer->SetNumberOfIterations( atoi( argv[6] ) );
+#else
+  optimizer->SetNumberOfIterations( 1 );
+#endif
   optimizer->SetScalesEstimator( scalesEstimator );
   optimizer->SetDoEstimateLearningRateOnce( false ); //true by default
   optimizer->SetDoEstimateLearningRateAtEachIteration( true );

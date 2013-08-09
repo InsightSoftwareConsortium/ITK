@@ -74,7 +74,7 @@ int itkOtsuMultipleThresholdsCalculatorTest(int, char*[])
 
   try
     {
-    otsuThresholdCalculator->Update();
+    otsuThresholdCalculator->Compute();
     }
   catch(itk::ExceptionObject & excp)
     {

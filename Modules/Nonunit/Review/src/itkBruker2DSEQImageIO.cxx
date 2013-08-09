@@ -1790,7 +1790,5 @@ void Bruker2DSEQImageIO::ReadImageInformation()
       this->SetDirection(1, diry);
       this->SetDirection(2, dirz);
     }
-
-  return;
 }
 } // end namespace itk

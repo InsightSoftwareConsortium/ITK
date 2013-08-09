@@ -42,7 +42,6 @@ template< class TScalarType, unsigned int NDimensions >
 AzimuthElevationToCartesianTransform< TScalarType, NDimensions >::
 ~AzimuthElevationToCartesianTransform()
 {
-  return;
 }
 
 // Print self

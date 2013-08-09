@@ -10,6 +10,7 @@ itkTimeVaryingBSplineVelocityFieldImageRegistrationTest.cxx
 itkSyNImageRegistrationTest.cxx
 itkBSplineSyNImageRegistrationTest.cxx
 itkQuasiNewtonOptimizerv4RegistrationTest.cxx
+itkBSplineImageRegistrationTest.cxx
 )
 
 set(INPUTDATA ${ITK_DATA_ROOT}/Input)
@@ -23,8 +24,8 @@ itk_add_test(NAME itkSimpleImageRegistrationTest
       --with-threads 1
       --compareIntensityTolerance 3.0
       --compareNumberOfPixelsTolerance 4
-      --compare DATA{Baseline/itkSimpleImageRegistrationTestNew.nii.gz}
-                ${TEMP}/itkSimpleImageRegistrationTestNew.nii.gz
+      --compare DATA{Baseline/itkSimpleImageRegistrationTestNew.nii,:}
+              ${TEMP}/itkSimpleImageRegistrationTestNew.nii.gz
               itkSimpleImageRegistrationTest
               2 # number of dimensions
               DATA{Input/r16slice_rigid.nii.gz}
@@ -156,3 +157,19 @@ itk_add_test(NAME itkQuasiNewtonOptimizerv4RegistrationTest3
               DATA{Input/r64slice.nii.gz}
               ${TEMP}/itkQuasiNewtonOptimizerv4RegistrationTest3.nii.gz
               5 2 )
+
+itk_add_test(NAME itkBSplineImageRegistrationTest
+      COMMAND ITKRegistrationMethodsv4TestDriver
+      --with-threads 1
+      --compareIntensityTolerance 3.0
+      --compareNumberOfPixelsTolerance 4
+#       --compare DATA{Baseline/itkSimpleImageRegistrationTestNew.nii.gz}
+#                 ${TEMP}/itkBSplineImageRegistrationTestNew.nii.gz
+              itkBSplineImageRegistrationTest
+              2 # number of dimensions
+              DATA{Input/r16slice_rigid.nii.gz}
+              DATA{Input/r64slice.nii.gz}
+              ${TEMP}/itkBSplineImageRegistrationTestNew.nii.gz
+              100 # number of affine iterations
+              10 # number of deformable iterations
+              )

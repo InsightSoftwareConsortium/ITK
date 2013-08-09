@@ -22,9 +22,6 @@
 
 namespace itk
 {
-//
-// Constructor
-//
 template <class TPixel, unsigned int VImageDimension>
 GPUImage< TPixel, VImageDimension >::GPUImage()
 {

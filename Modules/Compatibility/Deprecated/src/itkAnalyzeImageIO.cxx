@@ -1142,7 +1142,6 @@ void AnalyzeImageIO::ReadImageInformation()
   itk::EncapsulateMetaData< int >
     (thisDic, ANALYZE_S_MIN,
     this->m_Hdr.hist.smin);
-  return;
 }
 
 /**
@@ -1380,7 +1379,6 @@ AnalyzeImageIO
     itkExceptionMacro(<< "Unexpected end of file");
     }
   local_OutputStream.close();
-  return;
 }
 
 /** Return the directions that this particular ImageIO would use by default

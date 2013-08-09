@@ -93,7 +93,7 @@ private:
    * Dispatch control class simply holds information in its template
    * parameter(s) that is used to control which Execute() method is chosen.
    */
-  template <unsigned long>
+  template <unsigned long V>
   struct Dispatch: public DispatchBase {};
 
   void Execute(const DispatchBase&);

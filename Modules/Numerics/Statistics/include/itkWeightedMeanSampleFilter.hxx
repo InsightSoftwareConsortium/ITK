@@ -76,7 +76,6 @@ WeightedMeanSampleFilter< TSample >
 
   // Otherwise compute the regular mean ( without weight coefficients)
   Superclass::GenerateData();
-  return;
 }
 
 template< class TSample >

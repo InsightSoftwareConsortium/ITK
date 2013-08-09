@@ -143,7 +143,6 @@ Rigid3DPerspectiveTransform<TScalarType>::SetRotation(const VersorType & rotatio
 {
   m_Versor          = rotation;
   m_RotationMatrix  = m_Versor.GetMatrix();
-  return;
 }
 
 // Set rotation

@@ -188,7 +188,6 @@ static void PrintCommandLineUsage( const int argc, const char * const argv[] )
     {
     std::cout << "argv[" << qq << "] = " << argv[qq] << std::endl;
     }
-  return;
 }
 
 int main( int argc, char *argv[] )

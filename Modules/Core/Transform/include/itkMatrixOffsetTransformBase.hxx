@@ -86,7 +86,6 @@ template <class TScalarType, unsigned int NInputDimensions,
 MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
 ::~MatrixOffsetTransformBase()
 {
-  return;
 }
 
 // Print self
@@ -169,8 +168,6 @@ MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
 
   m_MatrixMTime.Modified();
   this->Modified();
-
-  return;
 }
 
 // Transform a point
@@ -681,8 +678,6 @@ MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
     {
     jacobian(dim, blockOffset + dim) = 1.0;
     }
-
-  return;
 }
 
 // Return jacobian with respect to position.

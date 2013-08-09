@@ -84,8 +84,6 @@ OFFMeshIO
     {
     itkExceptionMacro("Unable to open file " << this->m_FileName);
     }
-
-  return;
 }
 
 void
@@ -262,8 +260,6 @@ OFFMeshIO
   this->m_CellPixelType  = SCALAR;
   this->m_UpdateCellData = false;
   this->m_NumberOfCellPixelComponents = itk::NumericTraits< unsigned int >::One;
-
-  return;
 }
 
 void
@@ -286,8 +282,6 @@ OFFMeshIO
     {
     itkExceptionMacro(<< "Invalid file type (not ASCII or BINARY)");
     }
-
-  return;
 }
 
 void
@@ -321,22 +315,18 @@ OFFMeshIO
     }
 
   delete[] data;
-
-  return;
 }
 
 void
 OFFMeshIO
 ::ReadPointData(void * itkNotUsed( buffer) )
 {
-  return;
 }
 
 void
 OFFMeshIO
 ::ReadCellData(void * itkNotUsed( buffer) )
 {
-  return;
 }
 
 void
@@ -608,7 +598,6 @@ OFFMeshIO
     }
 
   outputFile.close();
-  return;
 }
 
 void
@@ -819,29 +808,24 @@ OFFMeshIO
     }
 
   outputFile.close();
-
-  return;
 }
 
 void
 OFFMeshIO
 ::WritePointData(void * itkNotUsed( buffer ) )
 {
-  return;
 }
 
 void
 OFFMeshIO
 ::WriteCellData(void * itkNotUsed( buffer ) )
 {
-  return;
 }
 
 void
 OFFMeshIO
 ::Write()
 {
-  return;
 }
 
 void

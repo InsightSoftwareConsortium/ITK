@@ -60,7 +60,7 @@ int testMetaImage(int , char * [])
   sequID[0]=1;
   sequID[1]=1;
   tIm2.SequenceID(sequID);
-  delete [] sequID;
+  delete[] sequID;
   tIm2.SequenceID(0,1.0f);
 
   std::cout << "ElementSizeValid = " << tIm2.ElementSizeValid() << std::endl;
@@ -73,7 +73,7 @@ int testMetaImage(int , char * [])
   elmtSize[0]=1;
   elmtSize[1]=2;
   tIm2.ElementSize(elmtSize);
-  delete [] elmtSize;
+  delete[] elmtSize;
 
   std::cout << "ElementType = " << tIm2.ElementType() << std::endl;
   std::cout << "ElementNumberOfChannels = " << tIm2.ElementNumberOfChannels() << std::endl;
@@ -137,7 +137,7 @@ int testMetaImage(int , char * [])
     std::cout << "Modality  = " << modality << std::endl;
     }
 
-  delete [] modality;
+  delete[] modality;
 
   //Testing Append function
   std::cout << "Testing Append:";

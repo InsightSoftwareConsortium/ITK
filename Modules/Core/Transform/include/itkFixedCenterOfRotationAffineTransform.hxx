@@ -52,7 +52,6 @@ template< class TScalarType, unsigned int NDimensions >
 FixedCenterOfRotationAffineTransform< TScalarType, NDimensions >::
 ~FixedCenterOfRotationAffineTransform()
 {
-  return;
 }
 } // namespace
 

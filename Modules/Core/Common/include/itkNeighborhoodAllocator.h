@@ -47,8 +47,8 @@ public:
   * itk::Neighborhood makes reference to the allocator, which because it may
   * be vnl or other type, uses the lower case/underscore forms iterator and
   * const_iterator. */
-  typedef TPixel *      iterator;
-  typedef const TPixel *const_iterator;
+  typedef TPixel *       iterator;
+  typedef const TPixel * const_iterator;
 
   /** Default constructor */
   NeighborhoodAllocator():m_ElementCount(0), m_Data(0)  {}

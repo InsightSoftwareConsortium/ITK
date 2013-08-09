@@ -38,7 +38,10 @@ QuasiNewtonOptimizerTemplatev4<TInternalComputationValueType>
   this->m_MaximumNewtonStepSizeInPhysicalUnits = NumericTraits<TInternalComputationValueType>::Zero;
 
   /** Threader for Quasi-Newton method */
-  typename QuasiNewtonOptimizerv4EstimateNewtonStepThreaderTemplate<TInternalComputationValueType>::Pointer estimateNewtonStepThreader = QuasiNewtonOptimizerv4EstimateNewtonStepThreaderTemplate<TInternalComputationValueType>::New();
+  typedef QuasiNewtonOptimizerv4EstimateNewtonStepThreaderTemplate<TInternalComputationValueType>  OptimizerType;
+  typedef typename OptimizerType::Pointer                                                          OptimizerPointer;
+
+  OptimizerPointer estimateNewtonStepThreader = OptimizerType::New();
 
   this->m_EstimateNewtonStepThreader = estimateNewtonStepThreader;
 }

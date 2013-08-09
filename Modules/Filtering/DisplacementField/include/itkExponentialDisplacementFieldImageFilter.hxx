@@ -64,8 +64,6 @@ ExponentialDisplacementFieldImageFilter< TInputImage, TOutputImage >
      << m_MaximumNumberOfIterations << std::endl;
   os << indent << "ComputeInverse:   "
      << ( m_ComputeInverse ? "On" : "Off" ) << std::endl;
-
-  return;
 }
 
 /**

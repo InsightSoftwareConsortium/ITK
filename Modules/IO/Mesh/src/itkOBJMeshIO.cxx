@@ -88,8 +88,6 @@ OBJMeshIO
 
   // If not set to start of file stream, windows won't work properly
   m_InputFile.seekg(0, std::ios::beg);
-
-  return;
 }
 
 void
@@ -244,8 +242,6 @@ OBJMeshIO
     }
 
   CloseFile();
-
-  return;
 }
 
 void
@@ -314,8 +310,6 @@ OBJMeshIO
   // this->WriteCellsBuffer(data, static_cast<unsigned int *>(buffer),
   // TRIANGLE_CELL, 3, this->m_NumberOfCells);
   delete[] data;
-
-  return;
 }
 
 void
@@ -361,15 +355,12 @@ OBJMeshIO
     }
 
   CloseFile();
-
-  return;
 }
 
 void
 OBJMeshIO
 ::ReadCellData(void * itkNotUsed( buffer ) )
 {
-  return;
 }
 
 void
@@ -514,8 +505,6 @@ WritePoints(void *buffer)
     }
 
   outputFile.close();
-
-  return;
 }
 
 void
@@ -615,8 +604,6 @@ OBJMeshIO
     }
 
   outputFile.close();
-
-  return;
 }
 
 void
@@ -735,22 +722,18 @@ OBJMeshIO
     }
 
   outputFile.close();
-
-  return;
 }
 
 void
 OBJMeshIO
 ::WriteCellData(void * itkNotUsed( buffer ) )
 {
-  return;
 }
 
 void
 OBJMeshIO
 ::Write()
 {
-  return;
 }
 
 void

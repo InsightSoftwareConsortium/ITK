@@ -89,7 +89,6 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType, TTra
   os << indent << "Extrapolator: " << m_Extrapolator.GetPointer() << std::endl;
   os << indent << "UseReferenceImage: " << ( m_UseReferenceImage ? "On" : "Off" )
      << std::endl;
-  return;
 }
 
 /**
@@ -375,8 +374,6 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType, TTra
     progress.CompletedPixel();
     ++outIt;
     }
-
-  return;
 }
 
 /**
@@ -515,8 +512,6 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType, TTra
       }
     outIt.NextLine();
     } //while( !outIt.IsAtEnd() )
-
-  return;
 }
 
 /**
@@ -548,8 +543,6 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType, TTra
 
   // Request the entire input image
   inputPtr->SetRequestedRegionToLargestPossibleRegion();
-
-  return;
 }
 
 /**
@@ -645,8 +638,6 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType, TTra
     outputPtr->SetOrigin(m_OutputOrigin);
     outputPtr->SetDirection(m_OutputDirection);
     }
-
-  return;
 }
 
 /**

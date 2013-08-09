@@ -149,8 +149,6 @@ CheckerBoardImageFilter< TImage >
     ++in1Itr;
     ++in2Itr;
     }
-
-  return;
 }
 } // end namespace itk
 

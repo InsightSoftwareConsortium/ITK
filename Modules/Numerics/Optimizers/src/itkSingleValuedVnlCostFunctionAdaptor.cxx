@@ -40,7 +40,8 @@ SingleValuedVnlCostFunctionAdaptor
   //provides 1 commone place where the inverse can be computes
   //and validated.
   m_InverseScales.SetSize(scales.GetSize());
-  for( unsigned int i =0 ; i < scales.size(); ++i)
+
+  for( unsigned int i = 0; i < scales.size(); ++i )
     {
     if ( scales[i] <= NumericTraits<double>::epsilon() )
       {

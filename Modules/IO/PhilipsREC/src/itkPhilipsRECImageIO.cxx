@@ -1065,7 +1065,5 @@ void PhilipsRECImageIO::ReadImageInformation()
                              par.num_label_types);
   EncapsulateMetaData< LabelTypesASLContainerType::Pointer >(thisDic,
                                                              PAR_ASLLabelTypes, labelTypesASLVector);
-
-  return;
 }
 } // end namespace itk

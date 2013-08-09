@@ -77,8 +77,6 @@ WeightedCovarianceSampleFilter< TSample >
   // Otherwise compute the regular covariance matrix ( without weight
   // coefficients)
   Superclass::GenerateData();
-
-  return;
 }
 
 template< class TSample >
