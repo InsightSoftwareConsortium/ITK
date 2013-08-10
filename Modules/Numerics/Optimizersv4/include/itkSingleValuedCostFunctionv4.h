@@ -23,7 +23,7 @@
 
 namespace itk
 {
-/** \class SingleValuedCostFunctionTemplatev4
+/** \class SingleValuedCostFunctionv4Template
  * \brief This class is a base for a CostFunction that returns a
  * single value.
  *
@@ -46,18 +46,18 @@ namespace itk
  * \ingroup ITKOptimizersv4
  */
 template< class TInternalComputationValueType >
-class SingleValuedCostFunctionTemplatev4:
-  public CostFunctionTemplate<TInternalComputationValueType>
+class SingleValuedCostFunctionv4Template:
+  public CostFunctionTemplate< TInternalComputationValueType >
 {
 public:
   /** Standard class typedefs. */
-  typedef SingleValuedCostFunctionTemplatev4                    Self;
-  typedef CostFunctionTemplate<TInternalComputationValueType>   Superclass;
+  typedef SingleValuedCostFunctionv4Template                    Self;
+  typedef CostFunctionTemplate< TInternalComputationValueType > Superclass;
   typedef SmartPointer< Self >                                  Pointer;
   typedef SmartPointer< const Self >                            ConstPointer;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(SingleValuedCostFunctionTemplatev4, CostFunctionTemplate);
+  itkTypeMacro(SingleValuedCostFunctionv4Template, CostFunctionTemplate);
 
   /**  MeasureType typedef.
    *  It defines a type used to return the cost function value. */
@@ -82,16 +82,16 @@ public:
                                      DerivativeType & derivative) const = 0;
 
 protected:
-  SingleValuedCostFunctionTemplatev4() {}
-  virtual ~SingleValuedCostFunctionTemplatev4() {}
+  SingleValuedCostFunctionv4Template() {}
+  virtual ~SingleValuedCostFunctionv4Template() {}
 
 private:
-  SingleValuedCostFunctionTemplatev4(const Self &); //purposely not implemented
+  SingleValuedCostFunctionv4Template(const Self &); //purposely not implemented
   void operator=(const Self &);           //purposely not implemented
 };
 
 /** This helps to meet backward compatibility */
-typedef SingleValuedCostFunctionTemplatev4<double> SingleValuedCostFunctionv4;
+typedef SingleValuedCostFunctionv4Template<double> SingleValuedCostFunctionv4;
 
 } // end namespace itk
 
