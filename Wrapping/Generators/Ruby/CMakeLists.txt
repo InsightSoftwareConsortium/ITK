@@ -76,7 +76,7 @@ macro(itk_end_wrap_module_ruby)
   # ITK_WRAP_RUBY_LIBRARY_IMPORTS
   configure_file("${ITK_WRAP_RUBY_SOURCE_DIR}/main_module_ext.i.in"
     "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/ruby/${WRAPPER_LIBRARY_NAME}_ext.i"
-    @ONLY IMMEDIATE)
+    @ONLY)
   WRAP_ITK_INSTALL("/Configuration/Typedefs/ruby"
     "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/ruby/${WRAPPER_LIBRARY_NAME}_ext.i"
   )
@@ -165,7 +165,7 @@ macro(itk_end_wrap_submodule_ruby group_name)
   # create the ruby customization for that wrap_*.cmake file.
   configure_file("${ITK_WRAP_RUBY_SOURCE_DIR}/module_ext.i.in"
   "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/ruby/wrap_${group_name}_ext.i"
-  @ONLY IMMEDIATE)
+  @ONLY)
   WRAP_ITK_INSTALL("/Configuration/Typedefs/ruby" "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/ruby/wrap_${group_name}_ext.i"
   )
 

@@ -129,7 +129,7 @@ foreach(d ${ITK_WRAP_DIMS})
     set(ITK_WRAP_JAVA_TEST_PIXEL_TYPE ${t})
     configure_file("${CMAKE_CURRENT_SOURCE_DIR}/simplePipeline.java.in"
                   "${CMAKE_CURRENT_BINARY_DIR}/${test_base_name}.java"
-                  @ONLY IMMEDIATE)
+                  @ONLY)
 
     build_java_test_bin(${test_base_name} class_path ITKIOImageBase)
 

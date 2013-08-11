@@ -133,7 +133,7 @@ macro(itk_end_wrap_module_java)
 
   configure_file("${ITK_WRAP_JAVA_SOURCE_DIR}/module_ext.i.in"
     "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/java/${WRAPPER_LIBRARY_NAME}_ext.i"
-    @ONLY IMMEDIATE)
+    @ONLY)
 
   WRAP_ITK_INSTALL(/Configuration/Typedefs/java
     "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/java/${WRAPPER_LIBRARY_NAME}_ext.i")
@@ -206,7 +206,7 @@ macro(itk_end_wrap_module_java)
   endif()
   configure_file("${ITK_WRAP_JAVA_SOURCE_DIR}/manifest.in"
                 "${CMAKE_CURRENT_BINARY_DIR}/manifest"
-                @ONLY IMMEDIATE)
+                @ONLY)
 
   # Add java proxy compilation stuff
   # Only add this if there is any classes to be built
@@ -353,7 +353,7 @@ macro(itk_end_wrap_submodule_java group_name)
 
   configure_file("${ITK_WRAP_JAVA_SOURCE_DIR}/module_ext.i.in"
     "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/java/${group_name}_ext.i"
-    @ONLY IMMEDIATE)
+    @ONLY)
 
   WRAP_ITK_INSTALL("/Configuration/Typedefs/java"
    "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/java/${group_name}_ext.i")

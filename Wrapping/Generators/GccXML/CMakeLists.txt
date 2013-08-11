@@ -106,7 +106,7 @@ macro(itk_end_wrap_submodule_gccxml module)
   set(CONFIG_WRAPPER_TYPEDEFS "${GCC_XML_TYPEDEFS}")
   set(CONFIG_WRAPPER_FORCE_INSTANTIATE "${GCC_XML_FORCE_INSTANTIATE}")
   configure_file("${ITK_WRAP_GCCXML_SOURCE_DIR}/wrap_.cxx.in"
-    "${cxx_file}" @ONLY IMMEDIATE)
+    "${cxx_file}" @ONLY)
   set(ADDITIONAL_GCC_XML_FLAGS "")
   if(MSVC90)
     set( ADDITIONAL_GCC_XML_FLAGS "-D\"_HAS_TR1=0\"" )
@@ -182,7 +182,7 @@ macro(itk_wrap_module_gccxml library_name)
     endforeach()
     # and the file.
     configure_file("${ITK_WRAP_GCCXML_SOURCE_DIR}/gcc_xml.inc.in" "${gccxml_inc_file}"
-      @ONLY IMMEDIATE)
+      @ONLY)
   endif()
   set(GCC_XML_OUTPUT_FILES )
 endmacro()
