@@ -44,8 +44,6 @@ if(NOT ITK_TARGETS_IMPORTED@ITK_CONFIG_TARGETS_CONDITION@)
   include("${ITK_CONFIG_TARGETS_FILE}")
 endif()
 
-set(ITK_USE_REVIEW "@ITK_USE_REVIEW@")
-
 # Load module interface macros.
 include("@ITK_CONFIG_MODULE_API_FILE@")
 

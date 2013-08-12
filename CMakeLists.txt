@@ -192,11 +192,9 @@ endif()
 
 #-----------------------------------------------------------------------------
 # ITK build classes that are in the review process
-option(ITK_USE_REVIEW "Build algorithms that are candidates to be included in the Toolkit. This classes are not covered by the Backward Compatibility Policy, no
-r the Copyright Policy of ITK." OFF)
-mark_as_advanced(ITK_USE_REVIEW)
-
+# ITK_USE_REVIEW is deprecated, only kept for backward compatibility
 if (ITK_USE_REVIEW)
+  message(WARNING "ITK_USE_REVIEW is deprecated, please use Module_ITKReview to turn Review module ON/OFF")
   set(Module_ITKReview ON CACHE BOOL FORCE "Module containing code from the Review directory of ITKv3.")
 endif()
 
