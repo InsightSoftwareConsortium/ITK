@@ -25,8 +25,8 @@ namespace itk
 
 //-------------------------------------------------------------------
 template<class TInternalComputationValueType>
-MultiGradientOptimizerTemplatev4<TInternalComputationValueType>
-::MultiGradientOptimizerTemplatev4()
+MultiGradientOptimizerv4Template<TInternalComputationValueType>
+::MultiGradientOptimizerv4Template()
 {
   this->m_NumberOfIterations = static_cast<SizeValueType>(0);
   this->m_CurrentIteration   = static_cast<SizeValueType>(0);
@@ -39,15 +39,15 @@ MultiGradientOptimizerTemplatev4<TInternalComputationValueType>
 
 //-------------------------------------------------------------------
 template<class TInternalComputationValueType>
-MultiGradientOptimizerTemplatev4<TInternalComputationValueType>
-::~MultiGradientOptimizerTemplatev4()
+MultiGradientOptimizerv4Template<TInternalComputationValueType>
+::~MultiGradientOptimizerv4Template()
 {
 }
 
 //-------------------------------------------------------------------
 template<class TInternalComputationValueType>
 void
-MultiGradientOptimizerTemplatev4<TInternalComputationValueType>
+MultiGradientOptimizerv4Template<TInternalComputationValueType>
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
@@ -59,8 +59,8 @@ MultiGradientOptimizerTemplatev4<TInternalComputationValueType>
 
 //-------------------------------------------------------------------
 template<class TInternalComputationValueType>
-typename MultiGradientOptimizerTemplatev4<TInternalComputationValueType>::OptimizersListType &
-MultiGradientOptimizerTemplatev4<TInternalComputationValueType>
+typename MultiGradientOptimizerv4Template<TInternalComputationValueType>::OptimizersListType &
+MultiGradientOptimizerv4Template<TInternalComputationValueType>
 ::GetOptimizersList()
 {
   return this->m_OptimizersList;
@@ -69,8 +69,8 @@ MultiGradientOptimizerTemplatev4<TInternalComputationValueType>
 /** Set the list of optimizers to use in the multiple gradient descent */
 template<class TInternalComputationValueType>
 void
-MultiGradientOptimizerTemplatev4<TInternalComputationValueType>
-::SetOptimizersList(typename MultiGradientOptimizerTemplatev4::OptimizersListType & p)
+MultiGradientOptimizerv4Template<TInternalComputationValueType>
+::SetOptimizersList(typename MultiGradientOptimizerv4Template::OptimizersListType & p)
 {
   if( p != this->m_OptimizersList )
     {
@@ -81,8 +81,8 @@ MultiGradientOptimizerTemplatev4<TInternalComputationValueType>
 
 /** Get the list of metric values that we produced after the multi-gradient optimization.  */
 template<class TInternalComputationValueType>
-const typename MultiGradientOptimizerTemplatev4<TInternalComputationValueType>::MetricValuesListType &
-MultiGradientOptimizerTemplatev4<TInternalComputationValueType>
+const typename MultiGradientOptimizerv4Template<TInternalComputationValueType>::MetricValuesListType &
+MultiGradientOptimizerv4Template<TInternalComputationValueType>
 ::GetMetricValuesList() const
 {
   return this->m_MetricValuesList;
@@ -90,8 +90,8 @@ MultiGradientOptimizerTemplatev4<TInternalComputationValueType>
 
 //-------------------------------------------------------------------
 template<class TInternalComputationValueType>
-const typename MultiGradientOptimizerTemplatev4<TInternalComputationValueType>::StopConditionReturnStringType
-MultiGradientOptimizerTemplatev4<TInternalComputationValueType>
+const typename MultiGradientOptimizerv4Template<TInternalComputationValueType>::StopConditionReturnStringType
+MultiGradientOptimizerv4Template<TInternalComputationValueType>
 ::GetStopConditionDescription() const
 {
   return this->m_StopConditionDescription.str();
@@ -100,7 +100,7 @@ MultiGradientOptimizerTemplatev4<TInternalComputationValueType>
 //-------------------------------------------------------------------
 template<class TInternalComputationValueType>
 void
-MultiGradientOptimizerTemplatev4<TInternalComputationValueType>
+MultiGradientOptimizerv4Template<TInternalComputationValueType>
 ::StopOptimization(void)
 {
   itkDebugMacro( "StopOptimization called with a description - "
@@ -117,7 +117,7 @@ MultiGradientOptimizerTemplatev4<TInternalComputationValueType>
 */
 template<class TInternalComputationValueType>
 void
-MultiGradientOptimizerTemplatev4<TInternalComputationValueType>
+MultiGradientOptimizerv4Template<TInternalComputationValueType>
 ::StartOptimization( bool doOnlyInitialization )
 {
   itkDebugMacro("StartOptimization");
@@ -164,7 +164,7 @@ MultiGradientOptimizerTemplatev4<TInternalComputationValueType>
 */
 template<class TInternalComputationValueType>
 void
-MultiGradientOptimizerTemplatev4<TInternalComputationValueType>
+MultiGradientOptimizerv4Template<TInternalComputationValueType>
 ::ResumeOptimization()
 {
   this->m_StopConditionDescription.str("");

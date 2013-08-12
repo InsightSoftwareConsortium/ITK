@@ -24,7 +24,7 @@
 
 namespace itk
 {
-  /** \class GradientDescentOptimizerTemplatev4
+  /** \class GradientDescentOptimizerv4Template
    *  \brief Gradient descent optimizer.
    *
    * GradientDescentOptimizer implements a simple gradient descent optimizer.
@@ -81,18 +81,18 @@ namespace itk
    * \ingroup ITKOptimizersv4
    */
 template<class TInternalComputationValueType>
-class GradientDescentOptimizerTemplatev4
-: public GradientDescentOptimizerBaseTemplatev4<TInternalComputationValueType>
+class GradientDescentOptimizerv4Template
+: public GradientDescentOptimizerBasev4Template<TInternalComputationValueType>
 {
 public:
   /** Standard class typedefs. */
-  typedef GradientDescentOptimizerTemplatev4                                    Self;
-  typedef GradientDescentOptimizerBaseTemplatev4<TInternalComputationValueType> Superclass;
+  typedef GradientDescentOptimizerv4Template                                    Self;
+  typedef GradientDescentOptimizerBasev4Template<TInternalComputationValueType> Superclass;
   typedef SmartPointer< Self >                                                  Pointer;
   typedef SmartPointer< const Self >                                            ConstPointer;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(GradientDescentOptimizerTemplatev4, Superclass);
+  itkTypeMacro(GradientDescentOptimizerv4Template, Superclass);
 
   /** New macro for creation of through a Smart Pointer   */
   itkNewMacro(Self);
@@ -243,10 +243,10 @@ protected:
   TInternalComputationValueType  m_MaximumStepSizeInPhysicalUnits;
 
   /** Default constructor */
-  GradientDescentOptimizerTemplatev4();
+  GradientDescentOptimizerv4Template();
 
   /** Destructor */
-  virtual ~GradientDescentOptimizerTemplatev4();
+  virtual ~GradientDescentOptimizerv4Template();
 
   virtual void PrintSelf( std::ostream & os, Indent indent ) const;
 
@@ -295,12 +295,12 @@ private:
    */
   bool m_DoEstimateLearningRateOnce;
 
-  GradientDescentOptimizerTemplatev4( const Self & ); //purposely not implemented
+  GradientDescentOptimizerv4Template( const Self & ); //purposely not implemented
   void operator=( const Self& ); //purposely not implemented
 };
 
 /** This helps to meet backward compatibility */
-typedef GradientDescentOptimizerTemplatev4<double> GradientDescentOptimizerv4;
+typedef GradientDescentOptimizerv4Template<double> GradientDescentOptimizerv4;
 
 } // end namespace itk
 

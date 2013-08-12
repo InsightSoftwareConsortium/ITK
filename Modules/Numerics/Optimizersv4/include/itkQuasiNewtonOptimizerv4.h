@@ -26,7 +26,7 @@
 
 namespace itk
 {
-/** \class QuasiNewtonOptimizerTemplatev4
+/** \class QuasiNewtonOptimizerv4Template
  * \brief Implement a Quasi-Newton optimizer with BFGS Hessian estimation.
  *
  * Second order approximation of the cost function is usually more efficient
@@ -56,13 +56,13 @@ namespace itk
  * \ingroup ITKOptimizersv4
  */
 template<class TInternalComputationValueType>
-class QuasiNewtonOptimizerTemplatev4 :
-  public         GradientDescentOptimizerTemplatev4<TInternalComputationValueType>
+class QuasiNewtonOptimizerv4Template :
+  public         GradientDescentOptimizerv4Template<TInternalComputationValueType>
 {
 public:
   /** Standard class typedefs. */
-  typedef QuasiNewtonOptimizerTemplatev4                                 Self;
-  typedef GradientDescentOptimizerTemplatev4<TInternalComputationValueType>    Superclass;
+  typedef QuasiNewtonOptimizerv4Template                                 Self;
+  typedef GradientDescentOptimizerv4Template<TInternalComputationValueType>    Superclass;
   typedef SmartPointer< Self >                                           Pointer;
   typedef SmartPointer< const Self >                                     ConstPointer;
 
@@ -70,7 +70,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(QuasiNewtonOptimizerTemplatev4, Superclass);
+  itkTypeMacro(QuasiNewtonOptimizerv4Template, Superclass);
 
   /** It should be possible to derive the internal computation type from the class object. */
   typedef TInternalComputationValueType          InternalComputationValueType;
@@ -186,13 +186,13 @@ protected:
    */
   virtual void AdvanceOneStep(void);
 
-  QuasiNewtonOptimizerTemplatev4();
-  virtual ~QuasiNewtonOptimizerTemplatev4();
+  QuasiNewtonOptimizerv4Template();
+  virtual ~QuasiNewtonOptimizerv4Template();
 
   virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  QuasiNewtonOptimizerTemplatev4(const Self &); //purposely not implemented
+  QuasiNewtonOptimizerv4Template(const Self &); //purposely not implemented
   void operator=(const Self &);                 //purposely not implemented
 
   /** Threader for Newton step estimation. */
@@ -200,7 +200,7 @@ private:
 };
 
 /** This helps to meet backward compatibility */
-typedef QuasiNewtonOptimizerTemplatev4<double> QuasiNewtonOptimizerv4;
+typedef QuasiNewtonOptimizerv4Template<double> QuasiNewtonOptimizerv4;
 
 } // end namespace itk
 

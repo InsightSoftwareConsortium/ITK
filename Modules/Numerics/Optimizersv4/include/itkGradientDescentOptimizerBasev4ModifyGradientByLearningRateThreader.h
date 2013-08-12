@@ -25,7 +25,7 @@ namespace itk
 {
 
 template<class TInternalComputationValueType>
-class GradientDescentOptimizerBaseTemplatev4;
+class GradientDescentOptimizerBasev4Template;
 
 /** \class GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreaderTemplate
  * \brief Modify the gradient by the learning rate for
@@ -35,13 +35,13 @@ class GradientDescentOptimizerBaseTemplatev4;
 
 template<class TInternalComputationValueType>
 class GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreaderTemplate
-  : public DomainThreader< ThreadedIndexedContainerPartitioner, GradientDescentOptimizerBaseTemplatev4<TInternalComputationValueType> >
+  : public DomainThreader< ThreadedIndexedContainerPartitioner, GradientDescentOptimizerBasev4Template<TInternalComputationValueType> >
 {
 public:
   /** Standard class typedefs. */
   typedef GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreaderTemplate              Self;
   typedef DomainThreader< ThreadedIndexedContainerPartitioner,
-                          GradientDescentOptimizerBaseTemplatev4<TInternalComputationValueType> >  Superclass;
+                          GradientDescentOptimizerBasev4Template<TInternalComputationValueType> >  Superclass;
   typedef SmartPointer< Self >                                                                    Pointer;
   typedef SmartPointer< const Self >                                                              ConstPointer;
 

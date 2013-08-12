@@ -27,8 +27,8 @@ namespace itk
  * Default constructor
  */
 template<class TInternalComputationValueType>
-ConjugateGradientLineSearchOptimizerTemplatev4<TInternalComputationValueType>
-::ConjugateGradientLineSearchOptimizerTemplatev4()
+ConjugateGradientLineSearchOptimizerv4Template<TInternalComputationValueType>
+::ConjugateGradientLineSearchOptimizerv4Template()
 {
 }
 
@@ -36,8 +36,8 @@ ConjugateGradientLineSearchOptimizerTemplatev4<TInternalComputationValueType>
  * Destructor
  */
 template<class TInternalComputationValueType>
-ConjugateGradientLineSearchOptimizerTemplatev4<TInternalComputationValueType>
-::~ConjugateGradientLineSearchOptimizerTemplatev4()
+ConjugateGradientLineSearchOptimizerv4Template<TInternalComputationValueType>
+::~ConjugateGradientLineSearchOptimizerv4Template()
 {}
 
 
@@ -46,7 +46,7 @@ ConjugateGradientLineSearchOptimizerTemplatev4<TInternalComputationValueType>
  */
 template<class TInternalComputationValueType>
 void
-ConjugateGradientLineSearchOptimizerTemplatev4<TInternalComputationValueType>
+ConjugateGradientLineSearchOptimizerv4Template<TInternalComputationValueType>
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
@@ -54,7 +54,7 @@ ConjugateGradientLineSearchOptimizerTemplatev4<TInternalComputationValueType>
 
 template<class TInternalComputationValueType>
 void
-ConjugateGradientLineSearchOptimizerTemplatev4<TInternalComputationValueType>
+ConjugateGradientLineSearchOptimizerv4Template<TInternalComputationValueType>
 ::StartOptimization( bool doOnlyInitialization)
 {
   this->m_ConjugateGradient.SetSize( this->m_Metric->GetNumberOfParameters() );
@@ -69,7 +69,7 @@ ConjugateGradientLineSearchOptimizerTemplatev4<TInternalComputationValueType>
 */
 template<class TInternalComputationValueType>
 void
-ConjugateGradientLineSearchOptimizerTemplatev4<TInternalComputationValueType>
+ConjugateGradientLineSearchOptimizerv4Template<TInternalComputationValueType>
 ::AdvanceOneStep()
 {
   itkDebugMacro("AdvanceOneStep");

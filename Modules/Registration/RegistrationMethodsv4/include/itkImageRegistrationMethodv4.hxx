@@ -72,7 +72,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform>
   scalesEstimator->SetMetric( mutualInformationMetric );
   scalesEstimator->SetTransformForward( true );
 
-  typedef GradientDescentOptimizerTemplatev4<RealType> DefaultOptimizerType;
+  typedef GradientDescentOptimizerv4Template<RealType> DefaultOptimizerType;
   typename DefaultOptimizerType::Pointer optimizer = DefaultOptimizerType::New();
   optimizer->SetLearningRate( 1.0 );
   optimizer->SetNumberOfIterations( 1000 );

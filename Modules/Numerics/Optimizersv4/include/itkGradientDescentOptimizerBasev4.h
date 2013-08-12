@@ -37,18 +37,18 @@ namespace itk
  * \ingroup ITKOptimizersv4
  */
 template<class TInternalComputationValueType>
-class GradientDescentOptimizerBaseTemplatev4
+class GradientDescentOptimizerBasev4Template
   : public ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>
 {
 public:
   /** Standard class typedefs. */
-  typedef GradientDescentOptimizerBaseTemplatev4                       Self;
+  typedef GradientDescentOptimizerBasev4Template                       Self;
   typedef ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType> Superclass;
   typedef SmartPointer< Self >                                         Pointer;
   typedef SmartPointer< const Self >                                   ConstPointer;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(GradientDescentOptimizerBaseTemplatev4, Superclass);
+  itkTypeMacro(GradientDescentOptimizerBasev4Template, Superclass);
 
   /** Codes of stopping conditions. */
   typedef enum {
@@ -148,8 +148,8 @@ public:
 protected:
 
   /** Default constructor */
-  GradientDescentOptimizerBaseTemplatev4();
-  virtual ~GradientDescentOptimizerBaseTemplatev4();
+  GradientDescentOptimizerBasev4Template();
+  virtual ~GradientDescentOptimizerBasev4Template();
 
   typename DomainThreader<ThreadedIndexedContainerPartitioner, Self>::Pointer m_ModifyGradientByScalesThreader;
   typename DomainThreader<ThreadedIndexedContainerPartitioner, Self>::Pointer m_ModifyGradientByLearningRateThreader;
@@ -166,13 +166,13 @@ protected:
   virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  GradientDescentOptimizerBaseTemplatev4( const Self & ); //purposely not implemented
+  GradientDescentOptimizerBasev4Template( const Self & ); //purposely not implemented
   void operator=( const Self& ); //purposely not implemented
 
 };
 
 /** This helps to meet backward compatibility */
-typedef GradientDescentOptimizerBaseTemplatev4<double> GradientDescentOptimizerBasev4;
+typedef GradientDescentOptimizerBasev4Template<double> GradientDescentOptimizerBasev4;
 
 } // end namespace itk
 

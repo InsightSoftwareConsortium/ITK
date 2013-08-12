@@ -23,7 +23,7 @@
 
 namespace itk
 {
-  /** \class MultiStartOptimizerTemplatev4
+  /** \class MultiStartOptimizerv4Template
    *  \brief Multi-start searches over input parameters and returns the best metric value
    *
    *   The multi-start algorithm performs gradient descent from N (large) number of starting points and
@@ -37,18 +37,18 @@ namespace itk
    * \ingroup ITKOptimizersv4
    */
 template<class TInternalComputationValueType>
-class MultiStartOptimizerTemplatev4
+class MultiStartOptimizerv4Template
 : public ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>
 {
 public:
   /** Standard class typedefs. */
-  typedef MultiStartOptimizerTemplatev4                                Self;
+  typedef MultiStartOptimizerv4Template                                Self;
   typedef ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType> Superclass;
   typedef SmartPointer< Self >                                         Pointer;
   typedef SmartPointer< const Self >                                   ConstPointer;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MultiStartOptimizerTemplatev4, Superclass);
+  itkTypeMacro(MultiStartOptimizerv4Template, Superclass);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -59,7 +59,7 @@ public:
 
   typedef ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>              OptimizerType;
   typedef typename OptimizerType::Pointer                                           OptimizerPointer;
-  typedef typename itk::GradientDescentOptimizerTemplatev4<TInternalComputationValueType> LocalOptimizerType;
+  typedef typename itk::GradientDescentOptimizerv4Template<TInternalComputationValueType> LocalOptimizerType;
   typedef typename LocalOptimizerType::Pointer                                      LocalOptimizerPointer;
 
   /** Codes of stopping conditions. */
@@ -141,8 +141,8 @@ public:
 
 protected:
   /** Default constructor */
-  MultiStartOptimizerTemplatev4();
-  virtual ~MultiStartOptimizerTemplatev4();
+  MultiStartOptimizerv4Template();
+  virtual ~MultiStartOptimizerv4Template();
 
   virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
@@ -160,13 +160,13 @@ protected:
   OptimizerPointer              m_LocalOptimizer;
 
 private:
-  MultiStartOptimizerTemplatev4( const Self & ); //purposely not implemented
+  MultiStartOptimizerv4Template( const Self & ); //purposely not implemented
   void operator=( const Self& ); //purposely not implemented
 
 };
 
 /** This helps to meet backward compatibility */
-typedef MultiStartOptimizerTemplatev4<double> MultiStartOptimizerv4;
+typedef MultiStartOptimizerv4Template<double> MultiStartOptimizerv4;
 
 } // end namespace itk
 
