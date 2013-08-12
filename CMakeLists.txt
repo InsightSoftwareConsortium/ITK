@@ -197,7 +197,7 @@ r the Copyright Policy of ITK." OFF)
 mark_as_advanced(ITK_USE_REVIEW)
 
 if (ITK_USE_REVIEW)
-  set(Module_ITKReview ON CACHE BOOL "Module containing code from the Review directory of ITKv3.")
+  set(Module_ITKReview ON CACHE BOOL FORCE "Module containing code from the Review directory of ITKv3.")
 endif()
 
 #-----------------------------------------------------------------------------
