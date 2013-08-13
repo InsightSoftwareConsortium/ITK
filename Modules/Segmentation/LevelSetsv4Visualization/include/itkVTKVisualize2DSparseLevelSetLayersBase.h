@@ -16,10 +16,10 @@
  *
  *=========================================================================*/
 
-#ifndef __vtkVisualize2DSparseLevelSetLayersBase_h
-#define __vtkVisualize2DSparseLevelSetLayersBase_h
+#ifndef __VTKVisualize2DSparseLevelSetLayersBase_h
+#define __VTKVisualize2DSparseLevelSetLayersBase_h
 
-#include "itkLightObject.h"
+#include "itkVTKVisualizeImageLevelSet.h"
 
 #include "itkImageToRGBVTKImageFilter.h"
 
@@ -40,23 +40,29 @@
 #include "vtkCaptureScreen.h"
 #include "vtkPNGWriter.h"
 
+namespace itk
+{
 /**
- *  \class vtkVisualize2DSparseLevelSetLayersBase
+ *  \class VTKVisualize2DSparseLevelSetLayersBase
  *  \tparam TInputImage Input Image Type
  *  \tparam TLevelSet   Level Set Type
  *  \ingroup ITKLevelSetsv4Visualization
  */
 template< class TInputImage, class TLevelSet >
-class vtkVisualize2DSparseLevelSetLayersBase : public itk::LightObject
+class VTKVisualize2DSparseLevelSetLayersBase :
+    public VTKVisualizeImageLevelSet< TInputImage, ImageToRGBVTKImageFilter< TInputImage > >
 {
 public:
-  typedef vtkVisualize2DSparseLevelSetLayersBase  Self;
-  typedef LightObject                             Superclass;
+  typedef ImageToRGBVTKImageFilter< TInputImage > ConverterType;
+  typedef typename ConverterType::Pointer         ConverterPointer;
+
+  typedef VTKVisualize2DSparseLevelSetLayersBase  Self;
+  typedef VTKVisualizeImageLevelSet< TInputImage, ConverterType > Superclass;
   typedef itk::SmartPointer< Self >               Pointer;
   typedef itk::SmartPointer< const Self >         ConstPointer;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(vtkVisualize2DSparseLevelSetLayersBase, LightObject);
+  itkTypeMacro(VTKVisualize2DSparseLevelSetLayersBase, VTKVisualizeImageLevelSet );
 
   typedef TInputImage                         InputImageType;
   typedef typename InputImageType::PixelType  InputPixelType;
@@ -64,46 +70,32 @@ public:
   typedef TLevelSet                       LevelSetType;
   typedef typename LevelSetType::Pointer  LevelSetPointer;
 
-  typedef itk::ImageToRGBVTKImageFilter< InputImageType >  ConverterType;
-  typedef typename ConverterType::Pointer                  ConverterPointer;
+  virtual void SetInputImage( const InputImageType* image );
+  void SetLevelSet( LevelSetType * levelSet );
 
-  void SetInputImage( const InputImageType * iImage );
-
-  void SetLevelSet( LevelSetType *f );
-
-  void SetScreenCapture( const bool& iCapture );
-
-  void SetCurrentIteration( const itk::IdentifierType& iIteration );
-
-  void Update();
+//  virtual void Update();
 
 protected:
-  vtkVisualize2DSparseLevelSetLayersBase();
+  VTKVisualize2DSparseLevelSetLayersBase();
+  virtual ~VTKVisualize2DSparseLevelSetLayersBase();
 
-  virtual ~vtkVisualize2DSparseLevelSetLayersBase();
-
-  ConverterPointer  m_ImageConverter;
-  LevelSetPointer   m_LevelSet;
-
+  LevelSetPointer m_LevelSet;
   vtkSmartPointer< vtkImageData >               m_VTKImage;
   vtkSmartPointer< vtkImageActor >              m_VTKImageActor;
-  vtkSmartPointer< vtkCornerAnnotation >        m_Annotation;
-  vtkSmartPointer< vtkRenderer >                m_Renderer;
-  vtkSmartPointer< vtkRenderWindow >            m_RenWin;
-  vtkSmartPointer< vtkRenderWindowInteractor >  m_Iren;
 
-  itk::IdentifierType m_CurrentIteration;
-  bool                m_ScreenCapture;
+  virtual void PrepareVTKPipeline();
 
   virtual std::string GetLevelSetRepresentationName() const = 0;
 
   virtual void AddLayers() = 0;
 
 private:
-  vtkVisualize2DSparseLevelSetLayersBase ( const Self& );
+  VTKVisualize2DSparseLevelSetLayersBase ( const Self& );
   void operator = ( const Self& );
 };
+}
+
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "vtkVisualize2DSparseLevelSetLayersBase.hxx"
+#include "itkVTKVisualize2DSparseLevelSetLayersBase.hxx"
 #endif
 #endif

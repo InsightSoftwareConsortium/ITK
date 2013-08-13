@@ -27,12 +27,12 @@
 #include "itkLevelSetEvolution.h"
 #include "itkLevelSetEvolutionNumberOfIterationsStoppingCriterion.h"
 #include "itkLevelSetDenseImage.h"
-#include "itkVTKVisualizeImageLevelSetIsoValues.h"
+#include "itkVTKVisualize2DLevelSetAsElevationMap.h"
 #include "itkSinRegularizedHeavisideStepFunction.h"
 
 template< class TInputImage, class TLevelSetType >
 void
-visualizeLevelSet( TInputImage * inputImage, const int numberOfIterations, const char * )
+VisualizeLevelSetSurface( TInputImage * inputImage, const int numberOfIterations, const char * )
 {
   // Basic typedefs
   typedef TInputImage InputImageType;
@@ -129,7 +129,7 @@ visualizeLevelSet( TInputImage * inputImage, const int numberOfIterations, const
   std::cout << "Stopping criteria created" << std::endl;
 
   // Create the visualizer
-  typedef typename itk::VTKVisualizeImageLevelSetIsoValues< InputImageType, LevelSetType > VisualizationType;
+  typedef itk::VTKVisualize2DLevelSetAsElevationMap< InputImageType, LevelSetType > VisualizationType;
   typename VisualizationType::Pointer visualizer = VisualizationType::New();
   //! \todo the visualizer should get the input image from the level set
   visualizer->SetInputImage( inputImage );
@@ -147,7 +147,7 @@ visualizeLevelSet( TInputImage * inputImage, const int numberOfIterations, const
   typedef typename itk::LevelSetIterationUpdateCommand< LevelSetEvolutionType, VisualizationType > IterationUpdateCommandType;
   typename IterationUpdateCommandType::Pointer iterationUpdateCommand = IterationUpdateCommandType::New();
   iterationUpdateCommand->SetFilterToUpdate( visualizer );
-  iterationUpdateCommand->SetUpdatePeriod( 4 );
+  iterationUpdateCommand->SetUpdatePeriod( 5 );
   evolution->AddObserver( itk::IterationEvent(), iterationUpdateCommand );
   std::cout << "Visualization IterationUpdateCommand created" << std::endl;
 
@@ -157,7 +157,7 @@ visualizeLevelSet( TInputImage * inputImage, const int numberOfIterations, const
   //! \todo Write out the final visualization image.
 }
 
-int vtkVisualize2DCellsLevelSetTest( int argc, char* argv[] )
+int itkVTKVisualize2DCellsLevelSetSurfaceTest( int argc, char* argv[] )
 {
   if( argc < 5 )
     {
@@ -192,12 +192,14 @@ int vtkVisualize2DCellsLevelSetTest( int argc, char* argv[] )
   std::string levelSetRepresentation = argv[3];
   if( levelSetRepresentation.compare( "Dense" ) == 0 )
     {
-    typedef float                                        LevelSetPixelType;
-    typedef itk::Image< LevelSetPixelType, Dimension >   LevelSetImageType;
-    typedef itk::LevelSetDenseImage< LevelSetImageType > LevelSetType;
+    typedef float                                         LevelSetPixelType;
+    typedef itk::Image< LevelSetPixelType, Dimension >    LevelSetImageType;
+    typedef itk::LevelSetDenseImage< LevelSetImageType >  LevelSetType;
     try
       {
-      visualizeLevelSet< InputImageType, LevelSetType >( input, numberOfIterations, argv[4] );
+      VisualizeLevelSetSurface< InputImageType, LevelSetType >( input,
+                                                                numberOfIterations,
+                                                                argv[4] );
       }
     catch ( itk::ExceptionObject& err )
       {
@@ -210,9 +212,9 @@ int vtkVisualize2DCellsLevelSetTest( int argc, char* argv[] )
     typedef itk::WhitakerSparseLevelSetImage< double, Dimension > LevelSetType;
     try
       {
-      visualizeLevelSet< InputImageType, LevelSetType >( input,
-                                                         numberOfIterations,
-                                                         argv[4] );
+      VisualizeLevelSetSurface< InputImageType, LevelSetType >( input,
+                                                                numberOfIterations,
+                                                                argv[4] );
       }
     catch ( itk::ExceptionObject& err )
       {
@@ -225,9 +227,9 @@ int vtkVisualize2DCellsLevelSetTest( int argc, char* argv[] )
     typedef itk::ShiSparseLevelSetImage< Dimension > LevelSetType;
     try
       {
-      visualizeLevelSet< InputImageType, LevelSetType >( input,
-                                                         numberOfIterations,
-                                                         argv[4] );
+      VisualizeLevelSetSurface< InputImageType, LevelSetType >( input,
+                                                                numberOfIterations,
+                                                                argv[4] );
       }
     catch ( itk::ExceptionObject& err )
       {
@@ -240,9 +242,9 @@ int vtkVisualize2DCellsLevelSetTest( int argc, char* argv[] )
     typedef itk::MalcolmSparseLevelSetImage< Dimension > LevelSetType;
     try
       {
-      visualizeLevelSet< InputImageType, LevelSetType >( input,
-                                                         numberOfIterations,
-                                                         argv[4] );
+      VisualizeLevelSetSurface< InputImageType, LevelSetType >( input,
+                                                                numberOfIterations,
+                                                                argv[4] );
       }
     catch ( itk::ExceptionObject& err )
       {

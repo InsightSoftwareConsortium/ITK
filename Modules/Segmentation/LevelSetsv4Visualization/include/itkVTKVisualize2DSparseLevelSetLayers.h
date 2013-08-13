@@ -16,24 +16,26 @@
  *
  *=========================================================================*/
 
-#ifndef __vtkVisualize2DSparseLevelSetLayers_h
-#define __vtkVisualize2DSparseLevelSetLayers_h
+#ifndef __itkVTKVisualize2DSparseLevelSetLayers_h
+#define __itkVTKVisualize2DSparseLevelSetLayers_h
 
-#include "vtkVisualize2DSparseLevelSetLayersBase.h"
+#include "itkVTKVisualize2DSparseLevelSetLayersBase.h"
 
 #include "itkWhitakerSparseLevelSetImage.h"
 #include "itkShiSparseLevelSetImage.h"
 #include "itkMalcolmSparseLevelSetImage.h"
 
+namespace itk
+{
 /**
- *  \class vtkVisualize2DSparseLevelSetLayers
+ *  \class VTKVisualize2DSparseLevelSetLayers
  *  \tparam TInputImage Input Image Type
  *  \tparam TLevelSetImage  Level Set type
  *
  *  \ingroup ITKLevelSetsv4Visualization
  */
 template< class TInputImage, class TLevelSet >
-class vtkVisualize2DSparseLevelSetLayers
+class VTKVisualize2DSparseLevelSetLayers
 {};
 
 // -----------------------------------------------------------------------------
@@ -41,18 +43,18 @@ class vtkVisualize2DSparseLevelSetLayers
  *  \ingroup ITKLevelSetsv4Visualization
  */
 template< class TInputImage, typename TOutput, unsigned int VDimension >
-class vtkVisualize2DSparseLevelSetLayers<
+class VTKVisualize2DSparseLevelSetLayers<
     TInputImage,
     itk::WhitakerSparseLevelSetImage< TOutput, VDimension > > :
-public vtkVisualize2DSparseLevelSetLayersBase<
+public VTKVisualize2DSparseLevelSetLayersBase<
     TInputImage,
     itk::WhitakerSparseLevelSetImage< TOutput, VDimension > >
 {
 public:
   typedef itk::WhitakerSparseLevelSetImage< TOutput, VDimension > LevelSetType;
 
-  typedef vtkVisualize2DSparseLevelSetLayers                                    Self;
-  typedef vtkVisualize2DSparseLevelSetLayersBase< TInputImage, LevelSetType >   Superclass;
+  typedef VTKVisualize2DSparseLevelSetLayers                                    Self;
+  typedef VTKVisualize2DSparseLevelSetLayersBase< TInputImage, LevelSetType >   Superclass;
   typedef itk::SmartPointer< Self >                                             Pointer;
   typedef itk::SmartPointer< const Self >                                       ConstPointer;
 
@@ -60,8 +62,8 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(vtkVisualize2DSparseLevelSetLayers,
-               vtkVisualize2DSparseLevelSetLayersBase );
+  itkTypeMacro(VTKVisualize2DSparseLevelSetLayers,
+               VTKVisualize2DSparseLevelSetLayersBase );
 
   typedef typename Superclass::InputImageType InputImageType;
   typedef typename Superclass::InputPixelType InputPixelType;
@@ -69,15 +71,15 @@ public:
   typedef typename Superclass::LevelSetPointer  LevelSetPointer;
 
 protected:
-  vtkVisualize2DSparseLevelSetLayers();
-  virtual ~vtkVisualize2DSparseLevelSetLayers();
+  VTKVisualize2DSparseLevelSetLayers();
+  virtual ~VTKVisualize2DSparseLevelSetLayers();
 
   void AddLayers();
 
   std::string GetLevelSetRepresentationName() const;
 
 private:
-  vtkVisualize2DSparseLevelSetLayers ( const Self& );
+  VTKVisualize2DSparseLevelSetLayers ( const Self& );
   void operator = ( const Self& );
 };
 
@@ -86,18 +88,18 @@ private:
  *  \ingroup ITKLevelSetsv4Visualization
  */
 template< class TInputImage, unsigned int VDimension >
-class vtkVisualize2DSparseLevelSetLayers<
+class VTKVisualize2DSparseLevelSetLayers<
     TInputImage,
     itk::ShiSparseLevelSetImage< VDimension > > :
-public vtkVisualize2DSparseLevelSetLayersBase<
+public VTKVisualize2DSparseLevelSetLayersBase<
     TInputImage,
     itk::ShiSparseLevelSetImage< VDimension > >
 {
 public:
   typedef itk::ShiSparseLevelSetImage< VDimension > LevelSetType;
 
-  typedef vtkVisualize2DSparseLevelSetLayers                                    Self;
-  typedef vtkVisualize2DSparseLevelSetLayersBase< TInputImage, LevelSetType >   Superclass;
+  typedef VTKVisualize2DSparseLevelSetLayers                                    Self;
+  typedef VTKVisualize2DSparseLevelSetLayersBase< TInputImage, LevelSetType >   Superclass;
   typedef itk::SmartPointer< Self >                                             Pointer;
   typedef itk::SmartPointer< const Self >                                       ConstPointer;
 
@@ -105,8 +107,8 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(vtkVisualize2DSparseLevelSetLayers,
-               vtkVisualize2DSparseLevelSetLayersBase );
+  itkTypeMacro(VTKVisualize2DSparseLevelSetLayers,
+               VTKVisualize2DSparseLevelSetLayersBase );
 
   typedef typename Superclass::InputImageType InputImageType;
   typedef typename Superclass::InputPixelType InputPixelType;
@@ -114,15 +116,15 @@ public:
   typedef typename Superclass::LevelSetPointer  LevelSetPointer;
 
 protected:
-  vtkVisualize2DSparseLevelSetLayers();
-  virtual ~vtkVisualize2DSparseLevelSetLayers();
+  VTKVisualize2DSparseLevelSetLayers();
+  virtual ~VTKVisualize2DSparseLevelSetLayers();
 
   void AddLayers();
 
   std::string GetLevelSetRepresentationName() const;
 
 private:
-  vtkVisualize2DSparseLevelSetLayers ( const Self& );
+  VTKVisualize2DSparseLevelSetLayers ( const Self& );
   void operator = ( const Self& );
 };
 
@@ -132,18 +134,18 @@ private:
  *  \ingroup ITKLevelSetsv4Visualization
  */
 template< class TInputImage, unsigned int VDimension >
-class vtkVisualize2DSparseLevelSetLayers<
+class VTKVisualize2DSparseLevelSetLayers<
     TInputImage,
     itk::MalcolmSparseLevelSetImage< VDimension > > :
-public vtkVisualize2DSparseLevelSetLayersBase<
+public VTKVisualize2DSparseLevelSetLayersBase<
     TInputImage,
     itk::MalcolmSparseLevelSetImage< VDimension > >
 {
 public:
   typedef itk::MalcolmSparseLevelSetImage< VDimension > LevelSetType;
 
-  typedef vtkVisualize2DSparseLevelSetLayers                                    Self;
-  typedef vtkVisualize2DSparseLevelSetLayersBase< TInputImage, LevelSetType >   Superclass;
+  typedef VTKVisualize2DSparseLevelSetLayers                                    Self;
+  typedef VTKVisualize2DSparseLevelSetLayersBase< TInputImage, LevelSetType >   Superclass;
   typedef itk::SmartPointer< Self >                                             Pointer;
   typedef itk::SmartPointer< const Self >                                       ConstPointer;
 
@@ -151,8 +153,8 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(vtkVisualize2DSparseLevelSetLayers,
-               vtkVisualize2DSparseLevelSetLayersBase );
+  itkTypeMacro(VTKVisualize2DSparseLevelSetLayers,
+               VTKVisualize2DSparseLevelSetLayersBase );
 
   typedef typename Superclass::InputImageType InputImageType;
   typedef typename Superclass::InputPixelType InputPixelType;
@@ -160,19 +162,20 @@ public:
   typedef typename Superclass::LevelSetPointer  LevelSetPointer;
 
 protected:
-  vtkVisualize2DSparseLevelSetLayers();
-  virtual ~vtkVisualize2DSparseLevelSetLayers();
+  VTKVisualize2DSparseLevelSetLayers();
+  virtual ~VTKVisualize2DSparseLevelSetLayers();
 
   void AddLayers();
 
   std::string GetLevelSetRepresentationName() const;
 
 private:
-  vtkVisualize2DSparseLevelSetLayers ( const Self& );
+  VTKVisualize2DSparseLevelSetLayers ( const Self& );
   void operator = ( const Self& );
 };
+}
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "vtkVisualize2DSparseLevelSetLayers.hxx"
+#include "itkVTKVisualize2DSparseLevelSetLayers.hxx"
 #endif
 #endif

@@ -40,9 +40,9 @@ BANNED_HEADERS = set(('itkExceptionObject.h', # There is a pre-processor check s
     'itkVanHerkGilWermanErodeDilateImageFilter.h', # circular include's
     'itkBSplineDeformableTransform.h',   # deprecated
     'vtkCaptureScreen.h',  # these includes require VTK
-    'vtkVisualize3DLevelSetImage.h',
-    'vtkVisualize2DSparseLevelSetLayers.h',
-    'vtkVisualize2DSparseLevelSetLayersBase.h',
+    'itkVTKVisualize3DLevelSetImage.h',
+    'itkVTKVisualize2DSparseLevelSetLayers.h',
+    'itkVTKVisualize2DSparseLevelSetLayersBase.h',
     'itkVTKVisualizeImageLevelSet.h',
     'itkVTKVisualizeImageLevelSetIsoValues.h',
     'itkVTKVisualize2DLevelSetAsElevationMap.h',

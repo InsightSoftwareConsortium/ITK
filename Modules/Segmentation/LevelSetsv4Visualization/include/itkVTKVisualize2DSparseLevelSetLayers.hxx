@@ -16,28 +16,30 @@
  *
  *=========================================================================*/
 
-#ifndef __vtkVisualize2DSparseLevelSetLayers_hxx
-#define __vtkVisualize2DSparseLevelSetLayers_hxx
+#ifndef __itkVTKVisualize2DSparseLevelSetLayers_hxx
+#define __itkVTKVisualize2DSparseLevelSetLayers_hxx
 
-#include "vtkVisualize2DSparseLevelSetLayers.h"
+#include "itkVTKVisualize2DSparseLevelSetLayers.h"
 
+namespace itk
+{
 template< class TInputImage, typename TOutput, unsigned int VDimension >
-vtkVisualize2DSparseLevelSetLayers<
+VTKVisualize2DSparseLevelSetLayers<
   TInputImage,
   itk::WhitakerSparseLevelSetImage< TOutput, VDimension > >
-::vtkVisualize2DSparseLevelSetLayers() : Superclass()
+::VTKVisualize2DSparseLevelSetLayers() : Superclass()
 {}
 
 template< class TInputImage, typename TOutput, unsigned int VDimension >
-vtkVisualize2DSparseLevelSetLayers<
+VTKVisualize2DSparseLevelSetLayers<
   TInputImage,
   itk::WhitakerSparseLevelSetImage< TOutput, VDimension > >
-::~vtkVisualize2DSparseLevelSetLayers()
+::~VTKVisualize2DSparseLevelSetLayers()
 {}
 
 template< class TInputImage, typename TOutput, unsigned int VDimension >
 void
-vtkVisualize2DSparseLevelSetLayers<
+VTKVisualize2DSparseLevelSetLayers<
   TInputImage,
   itk::WhitakerSparseLevelSetImage< TOutput, VDimension > >
 ::AddLayers()
@@ -122,7 +124,7 @@ vtkVisualize2DSparseLevelSetLayers<
 
 template< class TInputImage, typename TOutput, unsigned int VDimension >
 std::string
-vtkVisualize2DSparseLevelSetLayers<
+VTKVisualize2DSparseLevelSetLayers<
   TInputImage,
   itk::WhitakerSparseLevelSetImage< TOutput, VDimension > >
 ::GetLevelSetRepresentationName() const
@@ -132,24 +134,24 @@ vtkVisualize2DSparseLevelSetLayers<
 
 // -----------------------------------------------------------------------------
 template< class TInputImage, unsigned int VDimension >
-vtkVisualize2DSparseLevelSetLayers<
+VTKVisualize2DSparseLevelSetLayers<
   TInputImage,
   itk::ShiSparseLevelSetImage< VDimension > >
-::vtkVisualize2DSparseLevelSetLayers() : Superclass()
+::VTKVisualize2DSparseLevelSetLayers() : Superclass()
   {
   }
 
 template< class TInputImage, unsigned int VDimension >
-vtkVisualize2DSparseLevelSetLayers<
+VTKVisualize2DSparseLevelSetLayers<
   TInputImage,
   itk::ShiSparseLevelSetImage< VDimension > >
-::~vtkVisualize2DSparseLevelSetLayers()
+::~VTKVisualize2DSparseLevelSetLayers()
   {
   }
 
 template< class TInputImage, unsigned int VDimension >
 void
-vtkVisualize2DSparseLevelSetLayers<
+VTKVisualize2DSparseLevelSetLayers<
   TInputImage,
   itk::ShiSparseLevelSetImage< VDimension > >
 ::AddLayers()
@@ -190,7 +192,7 @@ vtkVisualize2DSparseLevelSetLayers<
 
 template< class TInputImage, unsigned int VDimension >
 std::string
-vtkVisualize2DSparseLevelSetLayers<
+VTKVisualize2DSparseLevelSetLayers<
   TInputImage,
   itk::ShiSparseLevelSetImage< VDimension > >
 ::GetLevelSetRepresentationName() const
@@ -200,26 +202,28 @@ vtkVisualize2DSparseLevelSetLayers<
 
 // -----------------------------------------------------------------------------
 template< class TInputImage, unsigned int VDimension >
-vtkVisualize2DSparseLevelSetLayers<
+VTKVisualize2DSparseLevelSetLayers<
   TInputImage,
   itk::MalcolmSparseLevelSetImage< VDimension > >
-::vtkVisualize2DSparseLevelSetLayers() : Superclass()
+::VTKVisualize2DSparseLevelSetLayers() : Superclass()
 {}
 
 template< class TInputImage, unsigned int VDimension >
-vtkVisualize2DSparseLevelSetLayers<
+VTKVisualize2DSparseLevelSetLayers<
   TInputImage,
   itk::MalcolmSparseLevelSetImage< VDimension > >
-::~vtkVisualize2DSparseLevelSetLayers()
+::~VTKVisualize2DSparseLevelSetLayers()
 {}
 
 template< class TInputImage, unsigned int VDimension >
 void
-vtkVisualize2DSparseLevelSetLayers<
+VTKVisualize2DSparseLevelSetLayers<
   TInputImage,
   itk::MalcolmSparseLevelSetImage< VDimension > >
 ::AddLayers()
 {
+
+
   typedef typename LevelSetType::LayerType          LayerType;
   typedef typename LevelSetType::LayerConstIterator LayerConstIterator;
 
@@ -241,12 +245,12 @@ vtkVisualize2DSparseLevelSetLayers<
 
 template< class TInputImage, unsigned int VDimension >
 std::string
-vtkVisualize2DSparseLevelSetLayers<
+VTKVisualize2DSparseLevelSetLayers<
   TInputImage,
   itk::MalcolmSparseLevelSetImage< VDimension > >
 ::GetLevelSetRepresentationName() const
   {
   return std::string( "Malcolm" );
   }
-
+}
 #endif
