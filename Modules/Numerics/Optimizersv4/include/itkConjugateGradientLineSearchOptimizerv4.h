@@ -24,7 +24,7 @@
 
 namespace itk
 {
-  /** \class ConjugateGradientLineSearchOptimizerTemplatev4
+  /** \class ConjugateGradientLineSearchOptimizerv4Template
    *  \brief Conjugate gradient descent optimizer with a golden section line search for nonlinear optimization.
    *
    * ConjugateGradientLineSearchOptimizer implements a conjugate gradient descent optimizer
@@ -44,18 +44,18 @@ namespace itk
    * \ingroup ITKOptimizersv4
    */
 template<class TInternalComputationValueType>
-class ConjugateGradientLineSearchOptimizerTemplatev4
-: public GradientDescentLineSearchOptimizerTemplatev4<TInternalComputationValueType>
+class ConjugateGradientLineSearchOptimizerv4Template
+: public GradientDescentLineSearchOptimizerv4Template<TInternalComputationValueType>
 {
 public:
   /** Standard class typedefs. */
-  typedef ConjugateGradientLineSearchOptimizerTemplatev4                        Self;
-  typedef GradientDescentLineSearchOptimizerTemplatev4<TInternalComputationValueType> Superclass;
+  typedef ConjugateGradientLineSearchOptimizerv4Template                        Self;
+  typedef GradientDescentLineSearchOptimizerv4Template<TInternalComputationValueType> Superclass;
   typedef SmartPointer< Self >                                                  Pointer;
   typedef SmartPointer< const Self >                                            ConstPointer;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ConjugateGradientLineSearchOptimizerTemplatev4, Superclass);
+  itkTypeMacro(ConjugateGradientLineSearchOptimizerv4Template, Superclass);
 
   /** New macro for creation of through a Smart Pointer */
   itkNewMacro(Self);
@@ -81,10 +81,10 @@ protected:
   virtual void AdvanceOneStep(void);
 
   /** Default constructor */
-  ConjugateGradientLineSearchOptimizerTemplatev4();
+  ConjugateGradientLineSearchOptimizerv4Template();
 
   /** Destructor */
-  virtual ~ConjugateGradientLineSearchOptimizerTemplatev4();
+  virtual ~ConjugateGradientLineSearchOptimizerv4Template();
 
   virtual void PrintSelf( std::ostream & os, Indent indent ) const;
 
@@ -93,13 +93,13 @@ private:
   DerivativeType               m_LastGradient;
   DerivativeType               m_ConjugateGradient;
 
-  ConjugateGradientLineSearchOptimizerTemplatev4( const Self & ); //purposely not implemented
+  ConjugateGradientLineSearchOptimizerv4Template( const Self & ); //purposely not implemented
   void operator=( const Self& ); //purposely not implemented
 
 };
 
 /** This helps to meet backward compatibility */
-typedef ConjugateGradientLineSearchOptimizerTemplatev4<double> ConjugateGradientLineSearchOptimizerv4;
+typedef ConjugateGradientLineSearchOptimizerv4Template<double> ConjugateGradientLineSearchOptimizerv4;
 
 } // end namespace itk
 

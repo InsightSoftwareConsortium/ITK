@@ -24,7 +24,7 @@
 
 namespace itk
 {
-/** \class GradientDescentLineSearchOptimizerTemplatev4
+/** \class GradientDescentLineSearchOptimizerv4Template
  *  \brief Gradient descent optimizer with a golden section line search.
  *
  * GradientDescentLineSearchOptimizer implements a simple gradient descent optimizer
@@ -56,18 +56,18 @@ namespace itk
  * \ingroup ITKOptimizersv4
  */
 template<class TInternalComputationValueType>
-class GradientDescentLineSearchOptimizerTemplatev4
-: public GradientDescentOptimizerTemplatev4<TInternalComputationValueType>
+class GradientDescentLineSearchOptimizerv4Template
+: public GradientDescentOptimizerv4Template<TInternalComputationValueType>
 {
 public:
   /** Standard class typedefs. */
-  typedef GradientDescentLineSearchOptimizerTemplatev4                 Self;
-  typedef  GradientDescentOptimizerTemplatev4<TInternalComputationValueType> Superclass;
+  typedef GradientDescentLineSearchOptimizerv4Template                 Self;
+  typedef  GradientDescentOptimizerv4Template<TInternalComputationValueType> Superclass;
   typedef SmartPointer< Self >                                         Pointer;
   typedef SmartPointer< const Self >                                   ConstPointer;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(GradientDescentLineSearchOptimizerTemplatev4, Superclass);
+  itkTypeMacro(GradientDescentLineSearchOptimizerv4Template, Superclass);
 
   /** New macro for creation of through a Smart Pointer   */
   itkNewMacro(Self);
@@ -113,10 +113,10 @@ protected:
   virtual void AdvanceOneStep(void);
 
   /** Default constructor */
-  GradientDescentLineSearchOptimizerTemplatev4();
+  GradientDescentLineSearchOptimizerv4Template();
 
   /** Destructor */
-  virtual ~GradientDescentLineSearchOptimizerTemplatev4();
+  virtual ~GradientDescentLineSearchOptimizerv4Template();
 
   virtual void PrintSelf( std::ostream & os, Indent indent ) const;
 
@@ -134,13 +134,13 @@ protected:
   unsigned int      m_LineSearchIterations;
 
 private:
-  GradientDescentLineSearchOptimizerTemplatev4( const Self & ); //purposely not implemented
+  GradientDescentLineSearchOptimizerv4Template( const Self & ); //purposely not implemented
   void operator=( const Self& ); //purposely not implemented
 
 };
 
 /** This helps to meet backward compatibility */
-typedef GradientDescentLineSearchOptimizerTemplatev4<double> GradientDescentLineSearchOptimizerv4;
+typedef GradientDescentLineSearchOptimizerv4Template<double> GradientDescentLineSearchOptimizerv4;
 
 } // end namespace itk
 

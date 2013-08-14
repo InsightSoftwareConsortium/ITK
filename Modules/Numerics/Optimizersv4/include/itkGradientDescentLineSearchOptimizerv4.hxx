@@ -27,8 +27,8 @@ namespace itk
  * Default constructor
  */
 template<class TInternalComputationValueType>
-GradientDescentLineSearchOptimizerTemplatev4<TInternalComputationValueType>
-::GradientDescentLineSearchOptimizerTemplatev4()
+GradientDescentLineSearchOptimizerv4Template<TInternalComputationValueType>
+::GradientDescentLineSearchOptimizerv4Template()
 {
   this->m_MaximumLineSearchIterations = 20;
   this->m_LineSearchIterations = NumericTraits<unsigned int>::Zero;
@@ -44,8 +44,8 @@ GradientDescentLineSearchOptimizerTemplatev4<TInternalComputationValueType>
 * Destructor
 */
 template<class TInternalComputationValueType>
-GradientDescentLineSearchOptimizerTemplatev4<TInternalComputationValueType>
-::~GradientDescentLineSearchOptimizerTemplatev4()
+GradientDescentLineSearchOptimizerv4Template<TInternalComputationValueType>
+::~GradientDescentLineSearchOptimizerv4Template()
 {}
 
 
@@ -54,7 +54,7 @@ GradientDescentLineSearchOptimizerTemplatev4<TInternalComputationValueType>
 */
 template<class TInternalComputationValueType>
 void
-GradientDescentLineSearchOptimizerTemplatev4<TInternalComputationValueType>
+GradientDescentLineSearchOptimizerv4Template<TInternalComputationValueType>
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
@@ -65,7 +65,7 @@ GradientDescentLineSearchOptimizerTemplatev4<TInternalComputationValueType>
 */
 template<class TInternalComputationValueType>
 void
-GradientDescentLineSearchOptimizerTemplatev4<TInternalComputationValueType>
+GradientDescentLineSearchOptimizerv4Template<TInternalComputationValueType>
 ::AdvanceOneStep()
 {
   itkDebugMacro("AdvanceOneStep");
@@ -113,7 +113,7 @@ GradientDescentLineSearchOptimizerTemplatev4<TInternalComputationValueType>
 // x corresponds to x4
 template<class TInternalComputationValueType>
 TInternalComputationValueType
-GradientDescentLineSearchOptimizerTemplatev4<TInternalComputationValueType>
+GradientDescentLineSearchOptimizerv4Template<TInternalComputationValueType>
 ::GoldenSectionSearch( TInternalComputationValueType a, TInternalComputationValueType b, TInternalComputationValueType c )
 {
   if ( this->m_LineSearchIterations > this->m_MaximumLineSearchIterations )

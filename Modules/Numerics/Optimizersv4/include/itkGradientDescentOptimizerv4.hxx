@@ -27,8 +27,8 @@ namespace itk
 * Default constructor
 */
 template<class TInternalComputationValueType>
-GradientDescentOptimizerTemplatev4<TInternalComputationValueType>
-::GradientDescentOptimizerTemplatev4()
+GradientDescentOptimizerv4Template<TInternalComputationValueType>
+::GradientDescentOptimizerv4Template()
 {
   this->m_LearningRate = NumericTraits<TInternalComputationValueType>::One;
 
@@ -52,8 +52,8 @@ GradientDescentOptimizerTemplatev4<TInternalComputationValueType>
 * Destructor
 */
 template<class TInternalComputationValueType>
-GradientDescentOptimizerTemplatev4<TInternalComputationValueType>
-::~GradientDescentOptimizerTemplatev4()
+GradientDescentOptimizerv4Template<TInternalComputationValueType>
+::~GradientDescentOptimizerv4Template()
 {}
 
 
@@ -62,7 +62,7 @@ GradientDescentOptimizerTemplatev4<TInternalComputationValueType>
 */
 template<class TInternalComputationValueType>
 void
-GradientDescentOptimizerTemplatev4<TInternalComputationValueType>
+GradientDescentOptimizerv4Template<TInternalComputationValueType>
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
@@ -90,7 +90,7 @@ GradientDescentOptimizerTemplatev4<TInternalComputationValueType>
 */
 template<class TInternalComputationValueType>
 void
-GradientDescentOptimizerTemplatev4<TInternalComputationValueType>
+GradientDescentOptimizerv4Template<TInternalComputationValueType>
 ::StartOptimization( bool doOnlyInitialization )
 {
   itkDebugMacro("StartOptimization");
@@ -143,7 +143,7 @@ GradientDescentOptimizerTemplatev4<TInternalComputationValueType>
 */
 template<class TInternalComputationValueType>
 void
-GradientDescentOptimizerTemplatev4<TInternalComputationValueType>
+GradientDescentOptimizerv4Template<TInternalComputationValueType>
 ::StopOptimization(void)
 {
   if( this->m_ReturnBestParametersAndValue )
@@ -159,7 +159,7 @@ GradientDescentOptimizerTemplatev4<TInternalComputationValueType>
 */
 template<class TInternalComputationValueType>
 void
-GradientDescentOptimizerTemplatev4<TInternalComputationValueType>
+GradientDescentOptimizerv4Template<TInternalComputationValueType>
 ::ResumeOptimization()
 {
   this->m_StopConditionDescription.str("");
@@ -242,7 +242,7 @@ GradientDescentOptimizerTemplatev4<TInternalComputationValueType>
 */
 template<class TInternalComputationValueType>
 void
-GradientDescentOptimizerTemplatev4<TInternalComputationValueType>
+GradientDescentOptimizerv4Template<TInternalComputationValueType>
 ::AdvanceOneStep()
 {
   itkDebugMacro("AdvanceOneStep");
@@ -279,7 +279,7 @@ GradientDescentOptimizerTemplatev4<TInternalComputationValueType>
 */
 template<class TInternalComputationValueType>
 void
-GradientDescentOptimizerTemplatev4<TInternalComputationValueType>
+GradientDescentOptimizerv4Template<TInternalComputationValueType>
 ::ModifyGradientByScalesOverSubRange( const IndexRangeType& subrange )
 {
   const ScalesType& scales = this->GetScales();
@@ -320,7 +320,7 @@ GradientDescentOptimizerTemplatev4<TInternalComputationValueType>
 */
 template<class TInternalComputationValueType>
 void
-GradientDescentOptimizerTemplatev4<TInternalComputationValueType>
+GradientDescentOptimizerv4Template<TInternalComputationValueType>
 ::ModifyGradientByLearningRateOverSubRange( const IndexRangeType& subrange )
 {
   /* Loop over the range. It is inclusive. */
@@ -335,7 +335,7 @@ GradientDescentOptimizerTemplatev4<TInternalComputationValueType>
 */
 template<class TInternalComputationValueType>
 void
-GradientDescentOptimizerTemplatev4<TInternalComputationValueType>
+GradientDescentOptimizerv4Template<TInternalComputationValueType>
 ::EstimateLearningRate()
 {
   if ( this->m_ScalesEstimator.IsNull() )

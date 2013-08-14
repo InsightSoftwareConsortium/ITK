@@ -23,7 +23,7 @@
 
 namespace itk
 {
-  /** \class MultiGradientOptimizerTemplatev4
+  /** \class MultiGradientOptimizerv4Template
    *  \brief Multiple gradient-based optimizers are combined in order to perform a multi-objective optimization.
    *
    *  This optimizer will do a combined gradient descent optimization using whatever metric/optimizer gradient
@@ -43,24 +43,24 @@ namespace itk
    * \ingroup ITKOptimizersv4
    */
 template<class TInternalComputationValueType>
-class MultiGradientOptimizerTemplatev4
-: public GradientDescentOptimizerTemplatev4<TInternalComputationValueType>
+class MultiGradientOptimizerv4Template
+: public GradientDescentOptimizerv4Template<TInternalComputationValueType>
 {
 public:
   /** Standard class typedefs. */
-  typedef MultiGradientOptimizerTemplatev4                             Self;
-  typedef GradientDescentOptimizerTemplatev4<TInternalComputationValueType>  Superclass;
+  typedef MultiGradientOptimizerv4Template                             Self;
+  typedef GradientDescentOptimizerv4Template<TInternalComputationValueType>  Superclass;
   typedef SmartPointer< Self >                                         Pointer;
   typedef SmartPointer< const Self >                                   ConstPointer;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MultiGradientOptimizerTemplatev4, Superclass);
+  itkTypeMacro(MultiGradientOptimizerv4Template, Superclass);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  typedef itk::GradientDescentOptimizerTemplatev4<TInternalComputationValueType>                   LocalOptimizerType;
-  typedef typename itk::GradientDescentOptimizerTemplatev4<TInternalComputationValueType>::Pointer LocalOptimizerPointer;
+  typedef itk::GradientDescentOptimizerv4Template<TInternalComputationValueType>                   LocalOptimizerType;
+  typedef typename itk::GradientDescentOptimizerv4Template<TInternalComputationValueType>::Pointer LocalOptimizerPointer;
   typedef typename Superclass::ParametersType                                                ParametersType;
   typedef ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>                       OptimizerType;
   typedef typename OptimizerType::Pointer                                                    OptimizerPointer;
@@ -127,8 +127,8 @@ public:
   protected:
 
   /** Default constructor */
-  MultiGradientOptimizerTemplatev4();
-  virtual ~MultiGradientOptimizerTemplatev4();
+  MultiGradientOptimizerv4Template();
+  virtual ~MultiGradientOptimizerv4Template();
 
   virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
@@ -144,13 +144,13 @@ public:
   MeasureType                   m_MaximumMetricValue;
 
   private:
-  MultiGradientOptimizerTemplatev4( const Self & ); //purposely not implemented
+  MultiGradientOptimizerv4Template( const Self & ); //purposely not implemented
   void operator=( const Self& ); //purposely not implemented
 
 };
 
 /** This helps to meet backward compatibility */
-typedef MultiGradientOptimizerTemplatev4<double> MultiGradientOptimizerv4;
+typedef MultiGradientOptimizerv4Template<double> MultiGradientOptimizerv4;
 
 } // end namespace itk
 

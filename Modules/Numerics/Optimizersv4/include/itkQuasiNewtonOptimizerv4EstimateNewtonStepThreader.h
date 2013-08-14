@@ -25,7 +25,7 @@ namespace itk
 {
 
 template<class TInternalComputationValueType>
-class QuasiNewtonOptimizerTemplatev4;
+class QuasiNewtonOptimizerv4Template;
 
 /** \class QuasiNewtonOptimizerv4EstimateNewtonStepThreaderTemplate
  * \brief Estimate the quasi-Newton step in a thread.
@@ -33,12 +33,12 @@ class QuasiNewtonOptimizerTemplatev4;
  * */
 template<class TInternalComputationValueType>
 class QuasiNewtonOptimizerv4EstimateNewtonStepThreaderTemplate
-  : public DomainThreader< ThreadedIndexedContainerPartitioner, QuasiNewtonOptimizerTemplatev4<TInternalComputationValueType> >
+  : public DomainThreader< ThreadedIndexedContainerPartitioner, QuasiNewtonOptimizerv4Template<TInternalComputationValueType> >
 {
 public:
   /** Standard class typedefs. */
   typedef QuasiNewtonOptimizerv4EstimateNewtonStepThreaderTemplate                                  Self;
-  typedef DomainThreader< ThreadedIndexedContainerPartitioner, QuasiNewtonOptimizerTemplatev4<TInternalComputationValueType> >
+  typedef DomainThreader< ThreadedIndexedContainerPartitioner, QuasiNewtonOptimizerv4Template<TInternalComputationValueType> >
                                                                                                     Superclass;
   typedef SmartPointer< Self >                                                                      Pointer;
   typedef SmartPointer< const Self >                                                                ConstPointer;

@@ -25,8 +25,8 @@ namespace itk
 {
 
 template<class TInternalComputationValueType>
-QuasiNewtonOptimizerTemplatev4<TInternalComputationValueType>
-::QuasiNewtonOptimizerTemplatev4()
+QuasiNewtonOptimizerv4Template<TInternalComputationValueType>
+::QuasiNewtonOptimizerv4Template()
 {
   this->m_MaximumIterationsWithoutProgress = 30;
   this->m_LearningRate = NumericTraits<TInternalComputationValueType>::One;
@@ -47,14 +47,14 @@ QuasiNewtonOptimizerTemplatev4<TInternalComputationValueType>
 }
 
 template<class TInternalComputationValueType>
-QuasiNewtonOptimizerTemplatev4<TInternalComputationValueType>
-::~QuasiNewtonOptimizerTemplatev4()
+QuasiNewtonOptimizerv4Template<TInternalComputationValueType>
+::~QuasiNewtonOptimizerv4Template()
 {
 }
 
 template<class TInternalComputationValueType>
 void
-QuasiNewtonOptimizerTemplatev4<TInternalComputationValueType>
+QuasiNewtonOptimizerv4Template<TInternalComputationValueType>
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
@@ -62,7 +62,7 @@ QuasiNewtonOptimizerTemplatev4<TInternalComputationValueType>
 
 template<class TInternalComputationValueType>
 void
-QuasiNewtonOptimizerTemplatev4<TInternalComputationValueType>
+QuasiNewtonOptimizerv4Template<TInternalComputationValueType>
 ::StartOptimization( bool doOnlyInitialization )
 {
   itkDebugMacro("StartOptimization");
@@ -101,7 +101,7 @@ QuasiNewtonOptimizerTemplatev4<TInternalComputationValueType>
 
 template<class TInternalComputationValueType>
 void
-QuasiNewtonOptimizerTemplatev4<TInternalComputationValueType>
+QuasiNewtonOptimizerv4Template<TInternalComputationValueType>
 ::AdvanceOneStep(void)
 {
   itkDebugMacro("AdvanceOneStep");
@@ -197,7 +197,7 @@ QuasiNewtonOptimizerTemplatev4<TInternalComputationValueType>
 
 template<class TInternalComputationValueType>
 void
-QuasiNewtonOptimizerTemplatev4<TInternalComputationValueType>
+QuasiNewtonOptimizerv4Template<TInternalComputationValueType>
 ::CombineGradientNewtonStep()
 {
   const SizeValueType numLocalPara = this->m_Metric->GetNumberOfLocalParameters();
@@ -242,7 +242,7 @@ QuasiNewtonOptimizerTemplatev4<TInternalComputationValueType>
 
 template<class TInternalComputationValueType>
 void
-QuasiNewtonOptimizerTemplatev4<TInternalComputationValueType>
+QuasiNewtonOptimizerv4Template<TInternalComputationValueType>
 ::ModifyCombinedNewtonStep()
 {
     // If m_ScalesEstimator is not set, we will not change the Newton step.
@@ -277,7 +277,7 @@ QuasiNewtonOptimizerTemplatev4<TInternalComputationValueType>
 
 template<class TInternalComputationValueType>
 void
-QuasiNewtonOptimizerTemplatev4<TInternalComputationValueType>
+QuasiNewtonOptimizerv4Template<TInternalComputationValueType>
 ::ResetNewtonStep(IndexValueType loc)
 {
   const SizeValueType numLocalPara = this->m_Metric->GetNumberOfLocalParameters();
@@ -301,7 +301,7 @@ QuasiNewtonOptimizerTemplatev4<TInternalComputationValueType>
 
 template<class TInternalComputationValueType>
 void
-QuasiNewtonOptimizerTemplatev4<TInternalComputationValueType>
+QuasiNewtonOptimizerv4Template<TInternalComputationValueType>
 ::EstimateNewtonStep()
 {
   IndexRangeType fullrange;
@@ -322,7 +322,7 @@ QuasiNewtonOptimizerTemplatev4<TInternalComputationValueType>
 
 template<class TInternalComputationValueType>
 void
-QuasiNewtonOptimizerTemplatev4<TInternalComputationValueType>
+QuasiNewtonOptimizerv4Template<TInternalComputationValueType>
 ::EstimateNewtonStepOverSubRange( const IndexRangeType& subrange )
 {
   const SizeValueType numLocalPara = this->m_Metric->GetNumberOfLocalParameters();
@@ -362,7 +362,7 @@ QuasiNewtonOptimizerTemplatev4<TInternalComputationValueType>
 
 template<class TInternalComputationValueType>
 bool
-QuasiNewtonOptimizerTemplatev4<TInternalComputationValueType>
+QuasiNewtonOptimizerv4Template<TInternalComputationValueType>
 ::ComputeHessianAndStepWithBFGS(IndexValueType loc)
 {
   if (this->GetCurrentIteration() == 0)
