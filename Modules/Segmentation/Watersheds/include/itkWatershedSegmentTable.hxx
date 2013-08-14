@@ -24,8 +24,8 @@ namespace itk
 {
 namespace watershed
 {
-template< class TScalarType >
-void SegmentTable< TScalarType >
+template< class TScalar >
+void SegmentTable< TScalar >
 ::PruneEdgeLists(ScalarType maximum_saliency)
 {
   Iterator it;
@@ -47,8 +47,8 @@ void SegmentTable< TScalarType >
     }
 }
 
-template< class TScalarType >
-void SegmentTable< TScalarType >
+template< class TScalar >
+void SegmentTable< TScalar >
 ::SortEdgeLists()
 {
   Iterator it;
@@ -59,8 +59,8 @@ void SegmentTable< TScalarType >
     }
 }
 
-template< class TScalarType >
-bool SegmentTable< TScalarType >
+template< class TScalar >
+bool SegmentTable< TScalar >
 ::Add(IdentifierType a, const segment_t & t)
 {
   std::pair< Iterator, bool > result;

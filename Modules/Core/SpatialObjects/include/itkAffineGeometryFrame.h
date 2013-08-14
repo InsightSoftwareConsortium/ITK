@@ -29,7 +29,7 @@ namespace itk
  * \brief Describes the geometry of a data object
  * \ingroup ITKSpatialObjects
  */
-template< class TScalarType = double, unsigned int NDimensions = 3 >
+template< class TScalar = double, unsigned int NDimensions = 3 >
 class AffineGeometryFrame:public Object
 {
 public:
@@ -38,10 +38,10 @@ public:
   typedef SmartPointer< Self >       Pointer;
   typedef SmartPointer< const Self > ConstPointer;
 
-  typedef ScalableAffineTransform< TScalarType, NDimensions >     TransformType;
-  typedef BoundingBox< IdentifierType, NDimensions, TScalarType > BoundingBoxType;
-  typedef typename BoundingBoxType::BoundsArrayType               BoundsArrayType;
-  typedef typename BoundingBoxType::Pointer                       BoundingBoxPointer;
+  typedef ScalableAffineTransform< TScalar, NDimensions >     TransformType;
+  typedef BoundingBox< IdentifierType, NDimensions, TScalar > BoundingBoxType;
+  typedef typename BoundingBoxType::BoundsArrayType           BoundsArrayType;
+  typedef typename BoundingBoxType::Pointer                   BoundingBoxPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -64,7 +64,7 @@ public:
   virtual void SetBounds(const BoundsArrayType & bounds);
 
   /** Get the extent of the bounding box */
-  TScalarType GetExtent(unsigned int direction) const
+  TScalar GetExtent(unsigned int direction) const
   {
     itkAssertInDebugAndIgnoreInReleaseMacro(direction < NDimensions);
     itkAssertInDebugAndIgnoreInReleaseMacro( m_BoundingBox.IsNotNull() );

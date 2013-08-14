@@ -43,17 +43,16 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template <class TScalarType = double>
+template< class TScalar = double >
 // Data type for scalars (float or double)
-class VersorTransform : public Rigid3DTransform<TScalarType>
+class VersorTransform : public Rigid3DTransform< TScalar >
 {
 public:
-
   /** Standard Self Typedef */
-  typedef VersorTransform               Self;
-  typedef Rigid3DTransform<TScalarType> Superclass;
-  typedef SmartPointer<Self>            Pointer;
-  typedef SmartPointer<const Self>      ConstPointer;
+  typedef VersorTransform             Self;
+  typedef Rigid3DTransform< TScalar > Superclass;
+  typedef SmartPointer< Self >        Pointer;
+  typedef SmartPointer< const Self >  ConstPointer;
 
   /** Run-time type information (and related methods).  */
   itkTypeMacro(VersorTransform, Rigid3DTransform);
@@ -85,10 +84,10 @@ public:
   typedef typename Superclass::OffsetType                OffsetType;
 
   /** VnlQuaternion Type */
-  typedef vnl_quaternion<TScalarType> VnlQuaternionType;
+  typedef vnl_quaternion< TScalar > VnlQuaternionType;
 
   /** Versor Type */
-  typedef Versor<TScalarType>                VersorType;
+  typedef Versor< TScalar >                  VersorType;
   typedef typename VersorType::VectorType    AxisType;
   typedef typename VersorType::ValueType     AngleType;
   typedef typename AxisType::ValueType       AxisValueType;

@@ -22,15 +22,15 @@
 
 namespace itk
 {
-template <class TScalarType>
-class Rigid3DTransformSurrogate : public Rigid3DTransform < TScalarType >
+template <class TScalar>
+class Rigid3DTransformSurrogate : public Rigid3DTransform < TScalar >
 {
 public:
   /** Standard class typedefs. */
-  typedef Rigid3DTransformSurrogate        Self;
-  typedef Rigid3DTransform< TScalarType >  Superclass;
-  typedef SmartPointer< Self >             Pointer;
-  typedef SmartPointer< const Self >       ConstPointer;
+  typedef Rigid3DTransformSurrogate   Self;
+  typedef Rigid3DTransform< TScalar > Superclass;
+  typedef SmartPointer< Self        > Pointer;
+  typedef SmartPointer< const Self  > ConstPointer;
 
   itkNewMacro(Self);
 

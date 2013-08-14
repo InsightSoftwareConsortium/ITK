@@ -25,8 +25,8 @@ namespace itk
 {
 namespace watershed
 {
-template< class TScalarType, unsigned int TImageDimension >
-Relabeler< TScalarType, TImageDimension >::Relabeler():m_FloodLevel(0.0)
+template< class TScalar, unsigned int TImageDimension >
+Relabeler< TScalar, TImageDimension >::Relabeler():m_FloodLevel(0.0)
 {
   typename ImageType::Pointer img =
     static_cast< ImageType * >( this->MakeOutput(0).GetPointer() );
@@ -34,16 +34,16 @@ Relabeler< TScalarType, TImageDimension >::Relabeler():m_FloodLevel(0.0)
   this->ProcessObject::SetNthOutput( 0, img.GetPointer() );
 }
 
-template< class TScalarType, unsigned int TImageDimension >
-typename Relabeler< TScalarType, TImageDimension >::DataObjectPointer
-Relabeler< TScalarType, TImageDimension >
+template< class TScalar, unsigned int TImageDimension >
+typename Relabeler< TScalar, TImageDimension >::DataObjectPointer
+Relabeler< TScalar, TImageDimension >
 ::MakeOutput( DataObjectPointerArraySizeType itkNotUsed(idx) )
 {
   return ImageType::New().GetPointer();
 }
 
-template< class TScalarType, unsigned int TImageDimension >
-void Relabeler< TScalarType, TImageDimension >
+template< class TScalar, unsigned int TImageDimension >
+void Relabeler< TScalar, TImageDimension >
 ::GenerateData()
 {
   this->UpdateProgress(0.0);
@@ -95,8 +95,8 @@ void Relabeler< TScalarType, TImageDimension >
   this->UpdateProgress(1.0);
 }
 
-template< class TScalarType, unsigned int VImageDimension >
-void Relabeler< TScalarType, VImageDimension >
+template< class TScalar, unsigned int VImageDimension >
+void Relabeler< TScalar, VImageDimension >
 ::GenerateInputRequestedRegion()
 {
   // call the superclass' implementation of this method
@@ -117,8 +117,8 @@ void Relabeler< TScalarType, VImageDimension >
   inputPtr->SetRequestedRegion( outputPtr->GetRequestedRegion() );
 }
 
-template< class TScalarType, unsigned int TImageDimension >
-void Relabeler< TScalarType, TImageDimension >
+template< class TScalar, unsigned int TImageDimension >
+void Relabeler< TScalar, TImageDimension >
 ::GenerateOutputRequestedRegion(DataObject *output)
 {
   // Only the Image output need to be propagated through.
@@ -143,15 +143,15 @@ void Relabeler< TScalarType, TImageDimension >
     }
 }
 
-template< class TScalarType, unsigned int TImageDimension >
-void Relabeler< TScalarType, TImageDimension >
+template< class TScalar, unsigned int TImageDimension >
+void Relabeler< TScalar, TImageDimension >
 ::GraftOutput(ImageType *graft)
 {
   this->GraftNthOutput(0, graft);
 }
 
-template< class TScalarType, unsigned int TImageDimension >
-void Relabeler< TScalarType, TImageDimension >
+template< class TScalar, unsigned int TImageDimension >
+void Relabeler< TScalar, TImageDimension >
 ::GraftNthOutput(unsigned int idx, ImageType *graft)
 {
   typedef typename ImageType::Pointer OutputImagePointer;
@@ -176,9 +176,9 @@ void Relabeler< TScalarType, TImageDimension >
     }
 }
 
-template< class TScalarType, unsigned int TImageDimension >
+template< class TScalar, unsigned int TImageDimension >
 void
-Relabeler< TScalarType, TImageDimension >
+Relabeler< TScalar, TImageDimension >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);

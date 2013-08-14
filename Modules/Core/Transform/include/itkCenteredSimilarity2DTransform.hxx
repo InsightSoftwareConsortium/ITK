@@ -23,24 +23,24 @@
 namespace itk
 {
 // Constructor with default arguments
-template <class TScalarType>
-CenteredSimilarity2DTransform<TScalarType>
+template <class TScalar>
+CenteredSimilarity2DTransform<TScalar>
 ::CenteredSimilarity2DTransform() : Superclass(ParametersDimension)
 {
 }
 
 // Constructor with arguments
-template <class TScalarType>
-CenteredSimilarity2DTransform<TScalarType>::CenteredSimilarity2DTransform(unsigned int spaceDimension,
+template <class TScalar>
+CenteredSimilarity2DTransform<TScalar>::CenteredSimilarity2DTransform(unsigned int spaceDimension,
                                                                           unsigned int parametersDimension) :
   Superclass(spaceDimension, parametersDimension)
 {
 }
 
 // Set Parameters
-template <class TScalarType>
+template <class TScalar>
 void
-CenteredSimilarity2DTransform<TScalarType>
+CenteredSimilarity2DTransform<TScalar>
 ::SetParameters(const ParametersType & parameters)
 {
   itkDebugMacro(<< "Setting parameters " << parameters);
@@ -52,11 +52,11 @@ CenteredSimilarity2DTransform<TScalarType>
     }
 
   // Set scale
-  const TScalarType scale = parameters[0];
+  const TScalar scale = parameters[0];
   this->SetVarScale(scale);
 
   // Set angle
-  const TScalarType angle = parameters[1];
+  const TScalar angle = parameters[1];
   this->SetVarAngle(angle);
 
   InputPointType center;
@@ -86,9 +86,9 @@ CenteredSimilarity2DTransform<TScalarType>
 }
 
 // Get Parameters
-template <class TScalarType>
-const typename CenteredSimilarity2DTransform<TScalarType>::ParametersType
-& CenteredSimilarity2DTransform<TScalarType>
+template <class TScalar>
+const typename CenteredSimilarity2DTransform<TScalar>::ParametersType
+& CenteredSimilarity2DTransform<TScalar>
 ::GetParameters(void) const
   {
   itkDebugMacro(<< "Getting parameters ");
@@ -113,9 +113,9 @@ const typename CenteredSimilarity2DTransform<TScalarType>::ParametersType
   return this->m_Parameters;
   }
 
-template <class TScalarType>
+template <class TScalar>
 void
-CenteredSimilarity2DTransform<TScalarType>
+CenteredSimilarity2DTransform<TScalar>
 ::ComputeJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const
 {
   const double angle = this->GetAngle();
@@ -156,16 +156,16 @@ CenteredSimilarity2DTransform<TScalarType>
   jacobian[1][5] = 1.0;
 }
 
-template <class TScalarType>
+template <class TScalar>
 void
-CenteredSimilarity2DTransform<TScalarType>::SetFixedParameters( const ParametersType & itkNotUsed(parameters) )
+CenteredSimilarity2DTransform<TScalar>::SetFixedParameters( const ParametersType & itkNotUsed(parameters) )
 {
   // no fixed parameters
 }
 
-template <class TScalarType>
-const typename CenteredSimilarity2DTransform<TScalarType>::ParametersType
-& CenteredSimilarity2DTransform<TScalarType>::GetFixedParameters(void) const
+template <class TScalar>
+const typename CenteredSimilarity2DTransform<TScalar>::ParametersType
+& CenteredSimilarity2DTransform<TScalar>::GetFixedParameters(void) const
   {
   // return dummy parameters
   this->m_FixedParameters.SetSize(0);
@@ -173,26 +173,26 @@ const typename CenteredSimilarity2DTransform<TScalarType>::ParametersType
   }
 
 // Print self
-template <class TScalarType>
+template <class TScalar>
 void
-CenteredSimilarity2DTransform<TScalarType>::PrintSelf(std::ostream & os, Indent indent) const
+CenteredSimilarity2DTransform<TScalar>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }
 
 // Create and return an inverse transformation
-template <class TScalarType>
+template <class TScalar>
 void
-CenteredSimilarity2DTransform<TScalarType>::CloneInverseTo(Pointer & result) const
+CenteredSimilarity2DTransform<TScalar>::CloneInverseTo(Pointer & result) const
 {
   result = New();
   this->GetInverse( result.GetPointer() );
 }
 
 // return an inverse transformation
-template <class TScalarType>
+template <class TScalar>
 bool
-CenteredSimilarity2DTransform<TScalarType>::GetInverse(Self *inverse) const
+CenteredSimilarity2DTransform<TScalar>::GetInverse(Self *inverse) const
 {
   if( !inverse )
     {
@@ -207,9 +207,9 @@ CenteredSimilarity2DTransform<TScalarType>::GetInverse(Self *inverse) const
 }
 
 // Return an inverse of this transform
-template <class TScalarType>
-typename CenteredSimilarity2DTransform<TScalarType>::InverseTransformBasePointer
-CenteredSimilarity2DTransform<TScalarType>
+template <class TScalar>
+typename CenteredSimilarity2DTransform<TScalar>::InverseTransformBasePointer
+CenteredSimilarity2DTransform<TScalar>
 ::GetInverseTransform() const
 {
   Pointer inv = New();
@@ -222,9 +222,9 @@ CenteredSimilarity2DTransform<TScalarType>
 }
 
 // Create and return a clone of the transformation
-template <class TScalarType>
+template <class TScalar>
 void
-CenteredSimilarity2DTransform<TScalarType>::CloneTo(Pointer & result) const
+CenteredSimilarity2DTransform<TScalar>::CloneTo(Pointer & result) const
 {
   result = New();
   result->SetCenter( this->GetCenter() );

@@ -53,17 +53,17 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template< class TScalarType = double >
+template< class TScalar = double >
 // type for scalars (float or double)
 class Rigid3DTransform:
-  public MatrixOffsetTransformBase< TScalarType, 3, 3 >
+  public MatrixOffsetTransformBase< TScalar, 3, 3 >
 {
 public:
   /** Standard class typedefs. */
-  typedef Rigid3DTransform                               Self;
-  typedef MatrixOffsetTransformBase< TScalarType, 3, 3 > Superclass;
-  typedef SmartPointer< Self >                           Pointer;
-  typedef SmartPointer< const Self >                     ConstPointer;
+  typedef Rigid3DTransform                           Self;
+  typedef MatrixOffsetTransformBase< TScalar, 3, 3 > Superclass;
+  typedef SmartPointer< Self >                       Pointer;
+  typedef SmartPointer< const Self >                 ConstPointer;
 
 #ifdef ITKV3_COMPATIBILITY
   /** Run-time type information (and related methods).   */

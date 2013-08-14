@@ -34,17 +34,17 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template< class TScalarType = double,   // Data type for scalars (float or
+template< class TScalar = double,   // Data type for scalars (float or
                                         // double)
           unsigned int NDimensions = 3 >
 // Number of dimensions
 class ElasticBodyReciprocalSplineKernelTransform:
-  public KernelTransform<  TScalarType, NDimensions >
+  public KernelTransform<  TScalar, NDimensions >
 {
 public:
   /** Standard class typedefs. */
   typedef ElasticBodyReciprocalSplineKernelTransform Self;
-  typedef KernelTransform<  TScalarType,
+  typedef KernelTransform<  TScalar,
                             NDimensions > Superclass;
 
   typedef SmartPointer< Self >       Pointer;
@@ -71,10 +71,10 @@ public:
   /** Set alpha.  Alpha is related to Poisson's Ratio (\f$\nu\f$) as
    * \f$\alpha = 8 ( 1 - \nu ) - 1\f$
    */
-  itkSetMacro(Alpha, TScalarType);
+  itkSetMacro(Alpha, TScalar);
 
   /** Get alpha */
-  itkGetConstMacro(Alpha, TScalarType);
+  itkGetConstMacro(Alpha, TScalar);
 
   typedef typename Superclass::InputPointType            InputPointType;
   typedef typename Superclass::OutputPointType           OutputPointType;
@@ -102,7 +102,7 @@ protected:
   virtual void ComputeG(const InputVectorType & landmarkVector, GMatrixType & gmatrix) const;
 
   /** alpha, Poisson's ratio */
-  TScalarType m_Alpha;
+  TScalar m_Alpha;
 
 private:
   ElasticBodyReciprocalSplineKernelTransform(const Self &); //purposely not

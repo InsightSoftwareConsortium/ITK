@@ -27,10 +27,10 @@ namespace itk
 /**
  * Constructor
  */
-template <class TScalarType,
+template <class TScalar,
           unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
-Transform<TScalarType, NInputDimensions, NOutputDimensions>
+Transform<TScalar, NInputDimensions, NOutputDimensions>
 ::Transform() :
   m_Parameters(1),
   m_FixedParameters(1)
@@ -45,10 +45,10 @@ Transform<TScalarType, NInputDimensions, NOutputDimensions>
 /**
  * Constructor
  */
-template <class TScalarType,
+template <class TScalar,
           unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
-Transform<TScalarType, NInputDimensions, NOutputDimensions>
+Transform<TScalar, NInputDimensions, NOutputDimensions>
 ::Transform(NumberOfParametersType numberOfParameters) :
   m_Parameters(numberOfParameters),
   m_FixedParameters(numberOfParameters)
@@ -61,17 +61,17 @@ Transform<TScalarType, NInputDimensions, NOutputDimensions>
 /**
  * GenerateName
  */
-template <class TScalarType,
+template <class TScalar,
           unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
-std::string Transform<TScalarType, NInputDimensions, NOutputDimensions>
+std::string Transform<TScalar, NInputDimensions, NOutputDimensions>
 ::GetTransformTypeAsString() const
 {
   std::ostringstream n;
 
   n << GetNameOfClass();
   n << "_";
-  n << this->GetTransformTypeAsString(static_cast<TScalarType *>(0) );
+  n << this->GetTransformTypeAsString(static_cast<TScalar *>(0) );
   n << "_" << this->GetInputSpaceDimension() << "_" << this->GetOutputSpaceDimension();
   return n.str();
 }
@@ -79,11 +79,11 @@ std::string Transform<TScalarType, NInputDimensions, NOutputDimensions>
 /**
  * Clone
  */
-template <class TScalarType,
+template <class TScalar,
           unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
 typename LightObject::Pointer
-Transform<TScalarType, NInputDimensions, NOutputDimensions>
+Transform<TScalar, NInputDimensions, NOutputDimensions>
 ::InternalClone() const
 {
   // Default implementation just copies the parameters from
@@ -106,12 +106,12 @@ Transform<TScalarType, NInputDimensions, NOutputDimensions>
 /**
  * UpdateTransformParameters
  */
-template <class TScalarType,
+template <class TScalar,
           unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
 void
-Transform<TScalarType, NInputDimensions, NOutputDimensions>
-::UpdateTransformParameters( const DerivativeType & update, TScalarType factor )
+Transform<TScalar, NInputDimensions, NOutputDimensions>
+::UpdateTransformParameters( const DerivativeType & update, TScalar factor )
 {
   NumberOfParametersType numberOfParameters = this->GetNumberOfParameters();
 
@@ -164,11 +164,11 @@ Transform<TScalarType, NInputDimensions, NOutputDimensions>
 /**
  * Transform vector
  */
-template <class TScalarType,
+template <class TScalar,
           unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
-typename Transform<TScalarType, NInputDimensions, NOutputDimensions>::OutputVectorType
-Transform<TScalarType, NInputDimensions, NOutputDimensions>
+typename Transform<TScalar, NInputDimensions, NOutputDimensions>::OutputVectorType
+Transform<TScalar, NInputDimensions, NOutputDimensions>
 ::TransformVector( const InputVectorType& vector, const InputPointType & point ) const
 {
   JacobianType jacobian;
@@ -189,11 +189,11 @@ Transform<TScalarType, NInputDimensions, NOutputDimensions>
 /**
  * Transform vector
  */
-template <class TScalarType,
+template <class TScalar,
           unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
-typename Transform<TScalarType, NInputDimensions, NOutputDimensions>::OutputVnlVectorType
-Transform<TScalarType, NInputDimensions, NOutputDimensions>
+typename Transform<TScalar, NInputDimensions, NOutputDimensions>::OutputVnlVectorType
+Transform<TScalar, NInputDimensions, NOutputDimensions>
 ::TransformVector( const InputVnlVectorType& vector, const InputPointType & point ) const
 {
   JacobianType jacobian;
@@ -214,11 +214,11 @@ Transform<TScalarType, NInputDimensions, NOutputDimensions>
 /**
  * Transform vector
  */
-template <class TScalarType,
+template <class TScalar,
           unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
-typename Transform<TScalarType, NInputDimensions, NOutputDimensions>::OutputVectorPixelType
-Transform<TScalarType, NInputDimensions, NOutputDimensions>
+typename Transform<TScalar, NInputDimensions, NOutputDimensions>::OutputVectorPixelType
+Transform<TScalar, NInputDimensions, NOutputDimensions>
 ::TransformVector( const InputVectorPixelType& vector, const InputPointType & point ) const
 {
 
@@ -248,11 +248,11 @@ Transform<TScalarType, NInputDimensions, NOutputDimensions>
 /**
  * Transform covariant vector
  */
-template <class TScalarType,
+template <class TScalar,
           unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
-typename Transform<TScalarType, NInputDimensions, NOutputDimensions>::OutputCovariantVectorType
-Transform<TScalarType, NInputDimensions, NOutputDimensions>
+typename Transform<TScalar, NInputDimensions, NOutputDimensions>::OutputCovariantVectorType
+Transform<TScalar, NInputDimensions, NOutputDimensions>
 ::TransformCovariantVector( const InputCovariantVectorType& vector, const InputPointType & point ) const
 {
   JacobianType jacobian;
@@ -273,11 +273,11 @@ Transform<TScalarType, NInputDimensions, NOutputDimensions>
 /**
  * Transform covariant vector
  */
-template <class TScalarType,
+template <class TScalar,
           unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
-typename Transform<TScalarType, NInputDimensions, NOutputDimensions>::OutputVectorPixelType
-Transform<TScalarType, NInputDimensions, NOutputDimensions>
+typename Transform<TScalar, NInputDimensions, NOutputDimensions>::OutputVectorPixelType
+Transform<TScalar, NInputDimensions, NOutputDimensions>
 ::TransformCovariantVector( const InputVectorPixelType& vector, const InputPointType & point ) const
 {
 
@@ -307,9 +307,9 @@ Transform<TScalarType, NInputDimensions, NOutputDimensions>
 /**
  * Transform tensor
  */
-template <class TScalarType, unsigned int NInputDimensions, unsigned int NOutputDimensions>
-typename Transform<TScalarType, NInputDimensions, NOutputDimensions>::OutputDiffusionTensor3DType
-Transform<TScalarType, NInputDimensions, NOutputDimensions>
+template <class TScalar, unsigned int NInputDimensions, unsigned int NOutputDimensions>
+typename Transform<TScalar, NInputDimensions, NOutputDimensions>::OutputDiffusionTensor3DType
+Transform<TScalar, NInputDimensions, NOutputDimensions>
 ::TransformDiffusionTensor3D( const InputDiffusionTensor3DType& inputTensor, const InputPointType & point ) const
 {
   JacobianType invJacobian;
@@ -324,9 +324,9 @@ Transform<TScalarType, NInputDimensions, NOutputDimensions>
 /**
  * Transform tensor
  */
-template <class TScalarType, unsigned int NInputDimensions, unsigned int NOutputDimensions>
-typename Transform<TScalarType, NInputDimensions, NOutputDimensions>::OutputVectorPixelType
-Transform<TScalarType, NInputDimensions, NOutputDimensions>
+template <class TScalar, unsigned int NInputDimensions, unsigned int NOutputDimensions>
+typename Transform<TScalar, NInputDimensions, NOutputDimensions>::OutputVectorPixelType
+Transform<TScalar, NInputDimensions, NOutputDimensions>
 ::TransformDiffusionTensor3D( const InputVectorPixelType & inputTensor, const InputPointType & point ) const
 {
   if (inputTensor.GetSize() != 6 )
@@ -356,13 +356,13 @@ Transform<TScalarType, NInputDimensions, NOutputDimensions>
 /**
  * Transform tensor
  */
-template <class TScalarType, unsigned int NInputDimensions, unsigned int NOutputDimensions>
-typename Transform<TScalarType, NInputDimensions, NOutputDimensions>::OutputDiffusionTensor3DType
-Transform<TScalarType, NInputDimensions, NOutputDimensions>
+template <class TScalar, unsigned int NInputDimensions, unsigned int NOutputDimensions>
+typename Transform<TScalar, NInputDimensions, NOutputDimensions>::OutputDiffusionTensor3DType
+Transform<TScalar, NInputDimensions, NOutputDimensions>
 ::PreservationOfPrincipalDirectionDiffusionTensor3DReorientation( const InputDiffusionTensor3DType inputTensor,
                                                                   const JacobianType jacobian ) const
 {
-   Matrix<TScalarType,3,3> matrix;
+   Matrix<TScalar,3,3> matrix;
   //typename MatrixType3D dMatrix;
 
   matrix.Fill(0.0);
@@ -389,9 +389,9 @@ Transform<TScalarType, NInputDimensions, NOutputDimensions>
   typename InputDiffusionTensor3DType::EigenVectorsMatrixType eigenVectors;
   inputTensor.ComputeEigenAnalysis( eigenValues, eigenVectors );
 
-  Vector<TScalarType,3> ev1;
-  Vector<TScalarType,3> ev2;
-  Vector<TScalarType,3> ev3;
+  Vector<TScalar,3> ev1;
+  Vector<TScalar,3> ev2;
+  Vector<TScalar,3> ev3;
   for( unsigned int i = 0; i < 3; i++ )
     {
     ev1[i] = eigenVectors(2, i);
@@ -415,13 +415,13 @@ Transform<TScalarType, NInputDimensions, NOutputDimensions>
   ev2 = ev2 - ev1 * dp;
   ev2.Normalize();
 
-  CrossHelper< Vector<TScalarType,3> > vectorCross;
+  CrossHelper< Vector<TScalar,3> > vectorCross;
   ev3 = vectorCross( ev1, ev2 );
 
   // Outer product matrices
-  Matrix<TScalarType,3,3> e1;
-  Matrix<TScalarType,3,3> e2;
-  Matrix<TScalarType,3,3> e3;
+  Matrix<TScalar,3,3> e1;
+  Matrix<TScalar,3,3> e2;
+  Matrix<TScalar,3,3> e3;
   for( unsigned int i = 0; i < 3; i++ )
     {
     for( unsigned int j = 0; j < 3; j++ )
@@ -432,7 +432,7 @@ Transform<TScalarType, NInputDimensions, NOutputDimensions>
       }
     }
 
-  Matrix<TScalarType,3,3> rotated = e1 + e2 + e3;
+  Matrix<TScalar,3,3> rotated = e1 + e2 + e3;
 
   OutputDiffusionTensor3DType result;     // Converted vector
   result[0] = rotated(0, 0);
@@ -448,9 +448,9 @@ Transform<TScalarType, NInputDimensions, NOutputDimensions>
 /**
  * Transform tensor
  */
-template <class TScalarType, unsigned int NInputDimensions, unsigned int NOutputDimensions>
-typename Transform<TScalarType, NInputDimensions, NOutputDimensions>::OutputSymmetricSecondRankTensorType
-Transform<TScalarType, NInputDimensions, NOutputDimensions>
+template <class TScalar, unsigned int NInputDimensions, unsigned int NOutputDimensions>
+typename Transform<TScalar, NInputDimensions, NOutputDimensions>::OutputSymmetricSecondRankTensorType
+Transform<TScalar, NInputDimensions, NOutputDimensions>
 ::TransformSymmetricSecondRankTensor( const InputSymmetricSecondRankTensorType& inputTensor, const InputPointType & point ) const
 {
 
@@ -486,9 +486,9 @@ Transform<TScalarType, NInputDimensions, NOutputDimensions>
 /**
  * Transform tensor
  */
-template <class TScalarType, unsigned int NInputDimensions, unsigned int NOutputDimensions>
-typename Transform<TScalarType, NInputDimensions, NOutputDimensions>::OutputVectorPixelType
-Transform<TScalarType, NInputDimensions, NOutputDimensions>
+template <class TScalar, unsigned int NInputDimensions, unsigned int NOutputDimensions>
+typename Transform<TScalar, NInputDimensions, NOutputDimensions>::OutputVectorPixelType
+Transform<TScalar, NInputDimensions, NOutputDimensions>
 ::TransformSymmetricSecondRankTensor( const InputVectorPixelType& inputTensor, const InputPointType & point ) const
 {
 
@@ -531,11 +531,11 @@ Transform<TScalarType, NInputDimensions, NOutputDimensions>
 /**
  * ComputeInverseJacobianWithRespectToPosition
  */
-template <class TScalarType,
+template <class TScalar,
           unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
 void
-Transform<TScalarType, NInputDimensions, NOutputDimensions>
+Transform<TScalar, NInputDimensions, NOutputDimensions>
 ::ComputeInverseJacobianWithRespectToPosition( const InputPointType & pnt, JacobianType & jacobian ) const
 {
   JacobianType forward_jacobian;

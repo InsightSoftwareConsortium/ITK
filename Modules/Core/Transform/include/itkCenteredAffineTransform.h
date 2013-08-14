@@ -31,18 +31,18 @@ namespace itk
  * \ingroup ITKTransform
  */
 template <
-  class TScalarType = double,      // Data type for scalars
+  class TScalar = double,      // Data type for scalars
   unsigned int NDimensions = 3>
 // Number of dimensions in the input space
-class CenteredAffineTransform : public AffineTransform<TScalarType,
+class CenteredAffineTransform : public AffineTransform<TScalar,
                                                                   NDimensions>
 {
 public:
   /** Standard typedefs   */
-  typedef CenteredAffineTransform                   Self;
-  typedef AffineTransform<TScalarType, NDimensions> Superclass;
-  typedef SmartPointer<Self>                        Pointer;
-  typedef SmartPointer<const Self>                  ConstPointer;
+  typedef CenteredAffineTransform               Self;
+  typedef AffineTransform<TScalar, NDimensions> Superclass;
+  typedef SmartPointer<Self>                    Pointer;
+  typedef SmartPointer<const Self>              ConstPointer;
 
   /** Run-time type information (and related methods).   */
   itkTypeMacro(CenteredAffineTransform, AffineTransform);

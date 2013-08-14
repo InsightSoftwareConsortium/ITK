@@ -21,23 +21,23 @@
 
 namespace itk
 {
-template< class TScalarType, unsigned int NDimensions >
+template< class TScalar, unsigned int NDimensions >
 void
-ThinPlateR2LogRSplineKernelTransform< TScalarType, NDimensions >::ComputeG(const InputVectorType & x,
+ThinPlateR2LogRSplineKernelTransform< TScalar, NDimensions >::ComputeG(const InputVectorType & x,
                                                                            GMatrixType & gmatrix) const
 {
-  const TScalarType r = x.GetNorm();
+  const TScalar r = x.GetNorm();
 
-  gmatrix.fill(NumericTraits< TScalarType >::Zero);
-  const TScalarType      R2logR =
-    ( r > 1e-8 ) ? r *r *vcl_log(r):NumericTraits< TScalarType >::Zero;
+  gmatrix.fill(NumericTraits< TScalar >::Zero);
+  const TScalar      R2logR =
+    ( r > 1e-8 ) ? r *r *vcl_log(r):NumericTraits< TScalar >::Zero;
 
   gmatrix.fill_diagonal(R2logR);
 }
 
-template< class TScalarType, unsigned int NDimensions >
+template< class TScalar, unsigned int NDimensions >
 void
-ThinPlateR2LogRSplineKernelTransform< TScalarType, NDimensions >::ComputeDeformationContribution(
+ThinPlateR2LogRSplineKernelTransform< TScalar, NDimensions >::ComputeDeformationContribution(
   const InputPointType  & thisPoint,
   OutputPointType &
   result) const
@@ -49,9 +49,9 @@ ThinPlateR2LogRSplineKernelTransform< TScalarType, NDimensions >::ComputeDeforma
   for ( unsigned int lnd = 0; lnd < numberOfLandmarks; lnd++ )
     {
     InputVectorType        position = thisPoint - sp->Value();
-    const TScalarType      r = position.GetNorm();
-    const TScalarType      R2logR =
-      ( r > 1e-8 ) ? r *r *vcl_log(r):NumericTraits< TScalarType >::Zero;
+    const TScalar      r = position.GetNorm();
+    const TScalar      R2logR =
+      ( r > 1e-8 ) ? r *r *vcl_log(r):NumericTraits< TScalar >::Zero;
     for ( unsigned int odim = 0; odim < NDimensions; odim++ )
       {
       result[odim] += R2logR * this->m_DMatrix(odim, lnd);

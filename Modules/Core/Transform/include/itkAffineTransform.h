@@ -96,17 +96,17 @@ namespace itk
  */
 
 template<
-  class TScalarType = double,      // Data type for scalars
+  class TScalar = double,      // Data type for scalars
                                    //    (e.g. float or double)
   unsigned int NDimensions = 3 >
 // Number of dimensions in the input space
 class AffineTransform:
-  public MatrixOffsetTransformBase< TScalarType, NDimensions, NDimensions >
+  public MatrixOffsetTransformBase< TScalar, NDimensions, NDimensions >
 {
 public:
   /** Standard typedefs   */
   typedef AffineTransform Self;
-  typedef MatrixOffsetTransformBase< TScalarType,
+  typedef MatrixOffsetTransformBase< TScalar,
                                      NDimensions,
                                      NDimensions >  Superclass;
 
@@ -170,7 +170,7 @@ public:
    * Note that the scaling is applied centered at the origin. */
   void Scale(const OutputVectorType & factor, bool pre = 0);
 
-  void Scale(const TScalarType & factor, bool pre = 0);
+  void Scale(const TScalar & factor, bool pre = 0);
 
   /** Compose affine transformation with an elementary rotation
    *
@@ -187,7 +187,7 @@ public:
    * The rotation is precomposed with self if pre is true, and
    * postcomposed otherwise.
    * Note that the rotation is applied centered at the origin. */
-  void Rotate(int axis1, int axis2, TScalarType angle, bool pre = 0);
+  void Rotate(int axis1, int axis2, TScalar angle, bool pre = 0);
 
   /** Compose 2D affine transformation with a rotation
    *
@@ -202,7 +202,7 @@ public:
    *
    * \todo Find a way to generate a compile-time error
    *       is this is used with NDimensions != 2. */
-  void Rotate2D(TScalarType angle, bool pre = 0);
+  void Rotate2D(TScalar angle, bool pre = 0);
 
   /** Compose 3D affine transformation with a rotation
    *
@@ -217,7 +217,7 @@ public:
    *
    * \todo Find a way to generate a compile-time error
    * is this is used with NDimensions != 3. */
-  void Rotate3D(const OutputVectorType & axis, TScalarType angle, bool pre = 0);
+  void Rotate3D(const OutputVectorType & axis, TScalar angle, bool pre = 0);
 
   /** Compose affine transformation with a shear
    *
@@ -230,7 +230,7 @@ public:
    * y[axis2] =                 x[axis2].
    *
    * Note that the shear is applied centered at the origin. */
-  void Shear(int axis1, int axis2, TScalarType coef, bool pre = 0);
+  void Shear(int axis1, int axis2, TScalar coef, bool pre = 0);
 
   /** Get an inverse of this transform. */
   bool GetInverse(Self *inverse) const;
@@ -307,10 +307,10 @@ private:
 
 #if !defined(ITK_LEGACY_REMOVE)
 /** Back transform a vector */
-template< class TScalarType, unsigned int NDimensions >
+template< class TScalar, unsigned int NDimensions >
 inline
-typename AffineTransform< TScalarType, NDimensions >::InputVectorType
-AffineTransform< TScalarType, NDimensions >::BackTransform(const OutputVectorType & vect) const
+typename AffineTransform< TScalar, NDimensions >::InputVectorType
+AffineTransform< TScalar, NDimensions >::BackTransform(const OutputVectorType & vect) const
 {
   itkWarningMacro(
     << "BackTransform(): This method is slated to be removed "
@@ -320,10 +320,10 @@ AffineTransform< TScalarType, NDimensions >::BackTransform(const OutputVectorTyp
 }
 
 /** Back transform a vnl_vector */
-template< class TScalarType, unsigned int NDimensions >
+template< class TScalar, unsigned int NDimensions >
 inline
-typename AffineTransform< TScalarType, NDimensions >::InputVnlVectorType
-AffineTransform< TScalarType, NDimensions >::BackTransform(const OutputVnlVectorType & vect) const
+typename AffineTransform< TScalar, NDimensions >::InputVnlVectorType
+AffineTransform< TScalar, NDimensions >::BackTransform(const OutputVnlVectorType & vect) const
 {
   itkWarningMacro(
     << "BackTransform(): This method is slated to be removed "
@@ -333,10 +333,10 @@ AffineTransform< TScalarType, NDimensions >::BackTransform(const OutputVnlVector
 }
 
 /** Back Transform a CovariantVector */
-template< class TScalarType, unsigned int NDimensions >
+template< class TScalar, unsigned int NDimensions >
 inline
-typename AffineTransform< TScalarType, NDimensions >::InputCovariantVectorType
-AffineTransform< TScalarType, NDimensions >::BackTransform(const OutputCovariantVectorType & vec) const
+typename AffineTransform< TScalar, NDimensions >::InputCovariantVectorType
+AffineTransform< TScalar, NDimensions >::BackTransform(const OutputCovariantVectorType & vec) const
 {
   itkWarningMacro(
     << "BackTransform(): This method is slated to be removed "
@@ -357,19 +357,19 @@ AffineTransform< TScalarType, NDimensions >::BackTransform(const OutputCovariant
 }
 
 /** Back transform a given point which is represented as type PointType */
-template< class TScalarType, unsigned int NDimensions >
+template< class TScalar, unsigned int NDimensions >
 inline
-typename AffineTransform< TScalarType, NDimensions >::InputPointType
-AffineTransform< TScalarType, NDimensions >::BackTransformPoint(const OutputPointType & point) const
+typename AffineTransform< TScalar, NDimensions >::InputPointType
+AffineTransform< TScalar, NDimensions >::BackTransformPoint(const OutputPointType & point) const
 {
   return this->BackTransform(point);
 }
 
 /** Back transform a point */
-template< class TScalarType, unsigned int NDimensions >
+template< class TScalar, unsigned int NDimensions >
 inline
-typename AffineTransform< TScalarType, NDimensions >::InputPointType
-AffineTransform< TScalarType, NDimensions >::BackTransform(const OutputPointType & point) const
+typename AffineTransform< TScalar, NDimensions >::InputPointType
+AffineTransform< TScalar, NDimensions >::BackTransform(const OutputPointType & point) const
 {
   itkWarningMacro(
     << "BackTransform(): This method is slated to be removed "

@@ -50,7 +50,7 @@ namespace watershed
  * \ingroup WatershedSegmentation
  * \ingroup ITKWatersheds
  */
-template< class TScalarType, unsigned int TDimension >
+template< class TScalar, unsigned int TDimension >
 class Boundary:public DataObject
 {
 public:
@@ -64,10 +64,10 @@ public:
    * The IndexType.first is the dimension of the face and IndexType.second is a
    * binary value 0 or 1 indicating the LOW face or the HIGH face,
    * respectively.    */
-  typedef std::pair< unsigned, unsigned >                        IndexType;
-  typedef Image< IdentifierType, TDimension >                    ImageType;
-  typedef typename ImageType::IndexType                          ImageIndexType;
-  typedef TScalarType                                            ScalarType;
+  typedef std::pair< unsigned, unsigned >     IndexType;
+  typedef Image< IdentifierType, TDimension > ImageType;
+  typedef typename ImageType::IndexType       ImageIndexType;
+  typedef TScalar                             ScalarType;
 
   /** Data type stored at each pixel in a face.   */
   struct face_pixel_t {

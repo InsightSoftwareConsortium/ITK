@@ -31,18 +31,18 @@ namespace itk
  */
 
 template<
-  class TScalarType = double,   // Data type for scalars (e.g. float or double)
+  class TScalar = double,   // Data type for scalars (e.g. float or double)
   unsigned int NDimensions = 3 >
 // Number of dimensions in the input space
 class FixedCenterOfRotationAffineTransform:
-  public ScalableAffineTransform< TScalarType, NDimensions >
+  public ScalableAffineTransform< TScalar, NDimensions >
 {
 public:
   /** Standard typedefs   */
-  typedef FixedCenterOfRotationAffineTransform                Self;
-  typedef ScalableAffineTransform< TScalarType, NDimensions > Superclass;
-  typedef SmartPointer< Self >                                Pointer;
-  typedef SmartPointer< const Self >                          ConstPointer;
+  typedef FixedCenterOfRotationAffineTransform            Self;
+  typedef ScalableAffineTransform< TScalar, NDimensions > Superclass;
+  typedef SmartPointer< Self >                            Pointer;
+  typedef SmartPointer< const Self >                      ConstPointer;
 
   /** Run-time type information (and related methods).   */
   itkTypeMacro(FixedCenterOfRotationAffineTransform, ScalableAffineTransform);

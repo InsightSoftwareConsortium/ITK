@@ -30,19 +30,19 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template< class TScalarType, // Data type for scalars (float or
+template< class TScalar, // Data type for scalars (float or
                              // double)
           unsigned int NDimensions = 3 >
 // Number of dimensions
 class VolumeSplineKernelTransform:
-  public KernelTransform<   TScalarType, NDimensions >
+  public KernelTransform< TScalar, NDimensions >
 {
 public:
   /** Standard class typedefs. */
-  typedef VolumeSplineKernelTransform                 Self;
-  typedef KernelTransform< TScalarType, NDimensions > Superclass;
-  typedef SmartPointer< Self >                        Pointer;
-  typedef SmartPointer< const Self >                  ConstPointer;
+  typedef VolumeSplineKernelTransform             Self;
+  typedef KernelTransform< TScalar, NDimensions > Superclass;
+  typedef SmartPointer< Self >                    Pointer;
+  typedef SmartPointer< const Self >              ConstPointer;
 
   /** New macro for creation of through a Smart Pointer */
   itkNewMacro(Self);

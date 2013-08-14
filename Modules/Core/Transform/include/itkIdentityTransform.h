@@ -46,16 +46,16 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template <class TScalarType,
-          unsigned int NDimensions = 3>
-class IdentityTransform : public Transform<TScalarType, NDimensions, NDimensions>
+template< class TScalar,
+          unsigned int NDimensions = 3 >
+class IdentityTransform : public Transform< TScalar, NDimensions, NDimensions >
 {
 public:
   /** Standard class typedefs. */
-  typedef IdentityTransform                                Self;
-  typedef Transform<TScalarType, NDimensions, NDimensions> Superclass;
-  typedef SmartPointer<Self>                               Pointer;
-  typedef SmartPointer<const Self>                         ConstPointer;
+  typedef IdentityTransform                              Self;
+  typedef Transform< TScalar, NDimensions, NDimensions > Superclass;
+  typedef SmartPointer< Self >                           Pointer;
+  typedef SmartPointer< const Self >                     ConstPointer;
 
   /** New method for creating an object using a factory. */
   itkNewMacro(Self);
@@ -68,7 +68,7 @@ public:
   itkStaticConstMacro(OutputSpaceDimension, unsigned int, NDimensions);
 
   /** Type of the input parameters. */
-  typedef  TScalarType ScalarType;
+  typedef  TScalar ScalarType;
 
   /** Type of the input parameters. */
   typedef  typename Superclass::ParametersType ParametersType;
@@ -80,27 +80,27 @@ public:
   typedef typename Superclass::TransformCategoryType TransformCategoryType;
 
   /** Standard vector type for this class. */
-  typedef Vector<TScalarType,
+  typedef Vector<TScalar,
                  itkGetStaticConstMacro(InputSpaceDimension)>  InputVectorType;
-  typedef Vector<TScalarType,
+  typedef Vector<TScalar,
                  itkGetStaticConstMacro(OutputSpaceDimension)> OutputVectorType;
 
   /** Standard covariant vector type for this class */
-  typedef CovariantVector<TScalarType,
+  typedef CovariantVector<TScalar,
                           itkGetStaticConstMacro(InputSpaceDimension)>  InputCovariantVectorType;
-  typedef CovariantVector<TScalarType,
+  typedef CovariantVector<TScalar,
                           itkGetStaticConstMacro(OutputSpaceDimension)> OutputCovariantVectorType;
 
   /** Standard vnl_vector type for this class. */
-  typedef vnl_vector_fixed<TScalarType,
+  typedef vnl_vector_fixed<TScalar,
                            itkGetStaticConstMacro(InputSpaceDimension)>  InputVnlVectorType;
-  typedef vnl_vector_fixed<TScalarType,
+  typedef vnl_vector_fixed<TScalar,
                            itkGetStaticConstMacro(OutputSpaceDimension)> OutputVnlVectorType;
 
   /** Standard coordinate point type for this class */
-  typedef Point<TScalarType,
+  typedef Point<TScalar,
                 itkGetStaticConstMacro(InputSpaceDimension)> InputPointType;
-  typedef Point<TScalarType,
+  typedef Point<TScalar,
                 itkGetStaticConstMacro(OutputSpaceDimension)> OutputPointType;
 
   /** Base inverse transform type. This type should not be changed to the
@@ -232,7 +232,7 @@ public:
   }
 
 protected:
-  IdentityTransform() : Transform<TScalarType, NDimensions, NDimensions>(0),
+  IdentityTransform() : Transform<TScalar, NDimensions, NDimensions>(0),
     m_IdentityJacobian(NDimensions, 0)
   {
     // The Jacobian is constant, therefore it can be initialized in the

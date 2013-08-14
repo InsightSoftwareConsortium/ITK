@@ -74,7 +74,7 @@ namespace watershed
  * \ingroup WatershedSegmentation
  * \ingroup ITKWatersheds
  */
-template< class TScalarType >
+template< class TScalar >
 class SegmentTreeGenerator:public ProcessObject
 {
 public:
@@ -83,11 +83,13 @@ public:
   typedef ProcessObject              Superclass;
   typedef SmartPointer< Self >       Pointer;
   typedef SmartPointer< const Self > ConstPointer;
+
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
   itkTypeMacro(WatershedSegmentTreeGenerator, ProcessObject);
 
   /** Convenient type definitions */
-  typedef TScalarType                ScalarType;
+  typedef TScalar                    ScalarType;
   typedef SegmentTable< ScalarType > SegmentTableType;
   typedef SegmentTree< ScalarType >  SegmentTreeType;
   typedef EquivalencyTable           EquivalencyTableType;

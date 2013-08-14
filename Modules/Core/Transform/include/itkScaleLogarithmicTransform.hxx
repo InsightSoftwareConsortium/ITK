@@ -60,9 +60,9 @@ ScaleLogarithmicTransform<ScalarType, NDimensions>
 }
 
 // Get Parameters
-template <class TScalarType, unsigned int NDimensions>
-const typename ScaleLogarithmicTransform<TScalarType, NDimensions>::ParametersType
-& ScaleLogarithmicTransform<TScalarType, NDimensions>
+template <class TScalar, unsigned int NDimensions>
+const typename ScaleLogarithmicTransform<TScalar, NDimensions>::ParametersType
+& ScaleLogarithmicTransform<TScalar, NDimensions>
 ::GetParameters(void) const
   {
   itkDebugMacro(<< "Getting parameters ");

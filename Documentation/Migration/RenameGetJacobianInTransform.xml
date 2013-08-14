@@ -56,10 +56,10 @@
       Then add the following delegation code for GetJacobian()
 
   // Compute the Jacobian in one position
-  template< class TScalarType, unsigned int NDimensions >
-  const typename MyTransform< TScalarType, NDimensions >
+  template< class TScalar, unsigned int NDimensions >
+  const typename MyTransform< TScalar, NDimensions >
   ::JacobianType &
-  MyTransform< TScalarType, NDimensions >::GetJacobian(const InputPointType & p) const
+  MyTransform< TScalar, NDimensions >::GetJacobian(const InputPointType & p) const
   {
     JacobianType tmp;
     this->ComputeJacobianWithRespectToParameters( p, tmp );
@@ -127,8 +127,8 @@
       <Old>
         <![CDATA[
         MyCustomTransformITKV3(unsigned int outputDims, unsigned int paramDims);
-        MyCustomTransformITKV3< TScalarType, NDimensions >::MyCustomTransformITKV3():Superclass(SpaceDimension, ParametersDimension) {}
-        MyCustomTransformITKV3< TScalarType, NDimensions >::MyCustomTransformITKV3(unsigned int outputSpaceDimension, unsigned int parametersDimension):Superclass(outputSpaceDimension, parametersDimension) {}
+        MyCustomTransformITKV3< TScalar, NDimensions >::MyCustomTransformITKV3():Superclass(SpaceDimension, ParametersDimension) {}
+        MyCustomTransformITKV3< TScalar, NDimensions >::MyCustomTransformITKV3(unsigned int outputSpaceDimension, unsigned int parametersDimension):Superclass(outputSpaceDimension, parametersDimension) {}
         ]]>
       </Old>
 
@@ -137,7 +137,7 @@
         /* Thread safe transforms do not have an private mutable m_Jacobian variable, so there is no need to initialize the "SpaceDimension" of that variable. */
         MyCustomTransformITKV3(unsigned int paramDims);
 
-        MyCustomTransformITKV3< TScalarType, NDimensions >::MyCustomTransformITKV3()
+        MyCustomTransformITKV3< TScalar, NDimensions >::MyCustomTransformITKV3()
 #if ITK_VERSION_MAJOR >=4
         :Superclass(ParametersDimension)
 #else
@@ -147,7 +147,7 @@
 #if ITK_VERSION_MAJOR >=4
 #else
         /* Only needed to meet defunct ITKv3 API requirements that ensured non-thread-safety */
-        MyCustomTransformITKV3< TScalarType, NDimensions >::MyCustomTransformITKV3(unsigned int outputSpaceDimension, unsigned int parametersDimension):Superclass(outputSpaceDimension, parametersDimension) {}
+        MyCustomTransformITKV3< TScalar, NDimensions >::MyCustomTransformITKV3(unsigned int outputSpaceDimension, unsigned int parametersDimension):Superclass(outputSpaceDimension, parametersDimension) {}
 #endif
 
         ]]>

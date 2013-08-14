@@ -26,17 +26,17 @@ namespace itkTransformTestHelpers
 {
 
 template <
-  class TScalarType,
+  class TScalar,
   unsigned int NInputDimensions,
   unsigned int NOutputDimensions>
 class TransformTestHelper :
-  public Transform<TScalarType, NInputDimensions, NOutputDimensions>
+  public Transform< TScalar, NInputDimensions, NOutputDimensions >
 {
 public:
-  typedef TransformTestHelper                                         Self;
-  typedef Transform<TScalarType, NInputDimensions, NOutputDimensions> Superclass;
-  typedef SmartPointer<Self>                                          Pointer;
-  typedef SmartPointer<const Self>                                    ConstPointer;
+  typedef TransformTestHelper                                       Self;
+  typedef Transform< TScalar, NInputDimensions, NOutputDimensions > Superclass;
+  typedef SmartPointer< Self >                                      Pointer;
+  typedef SmartPointer< const Self >                                ConstPointer;
 
   itkNewMacro( Self );
   itkTypeMacro( TransformTestHelper, Transform );
@@ -163,7 +163,7 @@ public:
 };
 
 template <
-  class TScalarType,
+  class TScalar,
   unsigned int NInputDimensions,
   unsigned int NOutputDimensions>
 class TransformTester

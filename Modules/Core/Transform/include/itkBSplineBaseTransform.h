@@ -30,17 +30,17 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template <class TScalarType = double, unsigned int NDimensions = 3,
+template <class TScalar = double, unsigned int NDimensions = 3,
           unsigned int VSplineOrder = 3>
 class BSplineBaseTransform :
-  public Transform<TScalarType, NDimensions, NDimensions>
+  public Transform<TScalar, NDimensions, NDimensions>
 {
 public:
   /** Standard class typedefs. */
-  typedef BSplineBaseTransform                             Self;
-  typedef Transform<TScalarType, NDimensions, NDimensions> Superclass;
-  typedef SmartPointer<Self>                               Pointer;
-  typedef SmartPointer<const Self>                         ConstPointer;
+  typedef BSplineBaseTransform                         Self;
+  typedef Transform<TScalar, NDimensions, NDimensions> Superclass;
+  typedef SmartPointer<Self>                           Pointer;
+  typedef SmartPointer<const Self>                     ConstPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro( BSplineBaseTransform, Transform );
@@ -70,20 +70,20 @@ public:
   typedef typename Superclass::NumberOfParametersType NumberOfParametersType;
 
   /** Standard vector type for this class. */
-  typedef Vector<TScalarType, itkGetStaticConstMacro( SpaceDimension )> InputVectorType;
-  typedef Vector<TScalarType, itkGetStaticConstMacro( SpaceDimension )> OutputVectorType;
+  typedef Vector<TScalar, itkGetStaticConstMacro( SpaceDimension )> InputVectorType;
+  typedef Vector<TScalar, itkGetStaticConstMacro( SpaceDimension )> OutputVectorType;
 
   /** Standard covariant vector type for this class. */
-  typedef CovariantVector<TScalarType, itkGetStaticConstMacro( SpaceDimension )> InputCovariantVectorType;
-  typedef CovariantVector<TScalarType, itkGetStaticConstMacro( SpaceDimension )> OutputCovariantVectorType;
+  typedef CovariantVector<TScalar, itkGetStaticConstMacro( SpaceDimension )> InputCovariantVectorType;
+  typedef CovariantVector<TScalar, itkGetStaticConstMacro( SpaceDimension )> OutputCovariantVectorType;
 
   /** Standard vnl_vector type for this class. */
-  typedef vnl_vector_fixed<TScalarType, SpaceDimension> InputVnlVectorType;
-  typedef vnl_vector_fixed<TScalarType, SpaceDimension> OutputVnlVectorType;
+  typedef vnl_vector_fixed<TScalar, SpaceDimension> InputVnlVectorType;
+  typedef vnl_vector_fixed<TScalar, SpaceDimension> OutputVnlVectorType;
 
   /** Standard coordinate point type for this class. */
-  typedef Point <TScalarType, itkGetStaticConstMacro( SpaceDimension )> InputPointType;
-  typedef Point <TScalarType, itkGetStaticConstMacro( SpaceDimension )> OutputPointType;
+  typedef Point <TScalar, itkGetStaticConstMacro( SpaceDimension )> InputPointType;
+  typedef Point <TScalar, itkGetStaticConstMacro( SpaceDimension )> OutputPointType;
 
   /** This method sets the parameters of the transform.
    * For a BSpline deformation transform, the parameters are the BSpline
@@ -201,7 +201,7 @@ public:
    * a converion to member variables for use in TransformPoint.
    * Derived classes should override to provide specialized behavior.
    */
-  virtual void UpdateTransformParameters( const DerivativeType & update, TScalarType factor = 1.0 );
+  virtual void UpdateTransformParameters( const DerivativeType & update, TScalar factor = 1.0 );
 
   /** Typedefs for specifying the extent of the grid. */
   typedef ImageRegion<itkGetStaticConstMacro( SpaceDimension )> RegionType;

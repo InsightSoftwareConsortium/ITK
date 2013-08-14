@@ -26,8 +26,8 @@ namespace itk
 {
 namespace watershed
 {
-template< class TScalarType >
-SegmentTreeGenerator< TScalarType >
+template< class TScalar >
+SegmentTreeGenerator< TScalar >
 ::SegmentTreeGenerator():m_Merge(false), m_FloodLevel(0.0),
   m_ConsumeInput(false), m_HighestCalculatedFloodLevel(0.0)
 {
@@ -38,16 +38,16 @@ SegmentTreeGenerator< TScalarType >
   m_MergedSegmentsTable = OneWayEquivalencyTableType::New();
 }
 
-template< class TScalarType >
-typename SegmentTreeGenerator< TScalarType >::DataObjectPointer
-SegmentTreeGenerator< TScalarType >
+template< class TScalar >
+typename SegmentTreeGenerator< TScalar >::DataObjectPointer
+SegmentTreeGenerator< TScalar >
 ::MakeOutput( DataObjectPointerArraySizeType itkNotUsed(idx) )
 {
   return SegmentTreeType::New().GetPointer();
 }
 
-template< class TScalarType >
-void SegmentTreeGenerator< TScalarType >
+template< class TScalar >
+void SegmentTreeGenerator< TScalar >
 ::SetFloodLevel(double val)
 {
   // Clamp level between 0.0 and 1.0
@@ -67,8 +67,8 @@ void SegmentTreeGenerator< TScalarType >
     }
 }
 
-template< class TScalarType >
-void SegmentTreeGenerator< TScalarType >
+template< class TScalar >
+void SegmentTreeGenerator< TScalar >
 ::GenerateData()
 {
   //Reset persistent ivars.
@@ -105,8 +105,8 @@ void SegmentTreeGenerator< TScalarType >
     }
 }
 
-template< class TScalarType >
-void SegmentTreeGenerator< TScalarType >
+template< class TScalar >
+void SegmentTreeGenerator< TScalar >
 ::MergeEquivalencies()
 {
   typename SegmentTableType::Pointer segTable = this->GetInputSegmentTable();
@@ -136,8 +136,8 @@ void SegmentTreeGenerator< TScalarType >
     }
 }
 
-template< class TScalarType >
-void SegmentTreeGenerator< TScalarType >
+template< class TScalar >
+void SegmentTreeGenerator< TScalar >
 ::CompileMergeList(SegmentTableTypePointer segments,
                    SegmentTreeTypePointer mergeList)
 {
@@ -188,8 +188,8 @@ void SegmentTreeGenerator< TScalarType >
   std::make_heap( mergeList->Begin(), mergeList->End(), MergeComparison() );
 }
 
-template< class TScalarType >
-void SegmentTreeGenerator< TScalarType >
+template< class TScalar >
+void SegmentTreeGenerator< TScalar >
 ::ExtractMergeHierarchy(SegmentTableTypePointer segments,
                         SegmentTreeTypePointer heap)
 {
@@ -287,8 +287,8 @@ void SegmentTreeGenerator< TScalarType >
     }
 }
 
-template< class TScalarType >
-void SegmentTreeGenerator< TScalarType >
+template< class TScalar >
+void SegmentTreeGenerator< TScalar >
 ::PruneMergeSegments(SegmentTableTypePointer segments,
                      OneWayEquivalencyTableTypePointer eqT,
                      const IdentifierType FROM, const IdentifierType TO,
@@ -415,8 +415,8 @@ void SegmentTreeGenerator< TScalarType >
   eqT->Add(FROM, TO);
 }
 
-template< class TScalarType >
-void SegmentTreeGenerator< TScalarType >
+template< class TScalar >
+void SegmentTreeGenerator< TScalar >
 ::MergeSegments(SegmentTableTypePointer segments,
                 OneWayEquivalencyTableTypePointer eqT,
                 const IdentifierType FROM, const IdentifierType TO)
@@ -544,13 +544,13 @@ void SegmentTreeGenerator< TScalarType >
   eqT->Add(FROM, TO);
 }
 
-template< class TScalarType >
-void SegmentTreeGenerator< TScalarType >
+template< class TScalar >
+void SegmentTreeGenerator< TScalar >
 ::GenerateOutputRequestedRegion( DataObject *itkNotUsed(output) )
 {}
 
-template< class TScalarType >
-void SegmentTreeGenerator< TScalarType >
+template< class TScalar >
+void SegmentTreeGenerator< TScalar >
 ::GenerateInputRequestedRegion()
 {
   Superclass::GenerateInputRequestedRegion();
@@ -567,9 +567,9 @@ void SegmentTreeGenerator< TScalarType >
   //    }
 }
 
-template< class TScalarType >
+template< class TScalar >
 void
-SegmentTreeGenerator< TScalarType >
+SegmentTreeGenerator< TScalar >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);

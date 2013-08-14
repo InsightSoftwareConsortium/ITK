@@ -44,17 +44,17 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template <class TScalarType = double>
+template< class TScalar = double >
 // Data type for scalars (float or double)
 class QuaternionRigidTransform :
-  public Rigid3DTransform<TScalarType>
+  public Rigid3DTransform< TScalar >
 {
 public:
   /** Standard class typedefs.   */
-  typedef QuaternionRigidTransform      Self;
-  typedef Rigid3DTransform<TScalarType> Superclass;
-  typedef SmartPointer<Self>            Pointer;
-  typedef SmartPointer<const Self>      ConstPointer;
+  typedef QuaternionRigidTransform    Self;
+  typedef Rigid3DTransform< TScalar > Superclass;
+  typedef SmartPointer< Self >        Pointer;
+  typedef SmartPointer< const Self >  ConstPointer;
 
   /** New macro for creation of through a Smart Pointer   */
   itkNewMacro(Self);
@@ -89,7 +89,7 @@ public:
   typedef typename Superclass::TranslationType           TranslationType;
 
   /** VnlQuaternion type.  */
-  typedef vnl_quaternion<TScalarType> VnlQuaternionType;
+  typedef vnl_quaternion<TScalar> VnlQuaternionType;
 
   /** Compute the Jacobian Matrix of the transformation at one point */
   /** Set the rotation of the rigid transform.
