@@ -16,7 +16,7 @@
  *
  *=========================================================================*/
 
-#include "itkVTKVisualizeImageLevelSetIsoValues.h"
+#include "itkVTKVisualize2DSparseLevelSetLayers.h"
 
 #include "itkWhitakerSparseLevelSetImage.h"
 #include "itkBinaryImageToLevelSetImageAdaptor.h"
@@ -62,7 +62,7 @@ void GenerateImage( typename TImage::Pointer ioImage )
 
 }
 
-int vtkVisualize2DWhitakerLevelSetTest( int , char* [] )
+int itkVTKVisualize2DWhitakerLevelSetLayersTest( int , char* [] )
 {
   typedef unsigned char PixelType;
   const unsigned int Dimension = 2;
@@ -85,13 +85,11 @@ int vtkVisualize2DWhitakerLevelSetTest( int , char* [] )
 
   LevelSetType::Pointer LevelSet = adaptor->GetLevelSet();
 
-  typedef itk::VTKVisualizeImageLevelSetIsoValues< ImageType, LevelSetType >
+  typedef itk::VTKVisualize2DSparseLevelSetLayers< ImageType, LevelSetType >
       VisualizationType;
   VisualizationType::Pointer viewer = VisualizationType::New();
   viewer->SetInputImage( image );
   viewer->SetLevelSet( LevelSet );
-  viewer->SetLevelLimit( 3. );
-  viewer->SetNumberOfLevels( 7 );
   viewer->SetScreenCapture( true );
   viewer->Update();
 

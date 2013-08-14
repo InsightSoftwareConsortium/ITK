@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __vtkVisualize3DLevelSetImage_h
-#define __vtkVisualize3DLevelSetImage_h
+#ifndef __itkVTKVisualize3DLevelSetImage_h
+#define __itkVTKVisualize3DLevelSetImage_h
 
 #include "itkImage.h"
 
@@ -43,39 +43,42 @@
 #include "vtkCaptureScreen.h"
 #include "vtkPNGWriter.h"
 
+namespace itk
+{
 /**
- * \class vtkVisualize3DLevelSetImage
+ * \class VTKVisualize3DLevelSetImage
+ * \brief visualization for 3D Dense Level Set
+ *
  * \tparam TInputImage Input Image Type
- * \tparam TLevelSetImage Level Set type
+ * \tparam TLevelSetImage Level Set Image Type
  *
  * \ingroup ITKLevelSetsv4Visualization
  */
 template< class TInputImage, class TLevelSetImage >
-class vtkVisualize3DLevelSetImage : public itk::LightObject
+class VTKVisualize3DLevelSetImage : public LightObject
 {
 public:
-  typedef vtkVisualize3DLevelSetImage     Self;
-  typedef LightObject                     Superclass;
-  typedef itk::SmartPointer< Self >       Pointer;
-  typedef itk::SmartPointer< const Self > ConstPointer;
+  typedef VTKVisualize3DLevelSetImage Self;
+  typedef LightObject                 Superclass;
+  typedef SmartPointer< Self >        Pointer;
+  typedef SmartPointer< const Self >  ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(vtkVisualize3DLevelSetImage, LightObject);
+  itkTypeMacro(VTKVisualize3DLevelSetImage, LightObject);
 
   typedef TInputImage     InputImageType;
   typedef TLevelSetImage  LevelSetImageType;
 
-  typedef itk::LevelSetDenseImage< LevelSetImageType > LevelSetType;
+  typedef LevelSetDenseImage< LevelSetImageType > LevelSetType;
 
-  typedef itk::ImageToVTKImageFilter< InputImageType >  ImageConverterType;
+  typedef ImageToVTKImageFilter< InputImageType >  ImageConverterType;
   typedef typename ImageConverterType::Pointer          ImageConverterPointer;
 
-  typedef itk::LevelSetTovtkImageData< LevelSetType > LevelSetConverterType;
+  typedef LevelSetTovtkImageData< LevelSetType > LevelSetConverterType;
   typedef typename LevelSetConverterType::Pointer     LevelSetConverterPointer;
-
 
   void SetInputImage( const InputImageType * iImage )
     {
@@ -84,7 +87,7 @@ public:
       {
       m_ImageConverter->Update();
       }
-    catch( itk::ExceptionObject& e )
+    catch( ExceptionObject& e )
       {
       std::cout << e << std::endl;
       return;
@@ -110,7 +113,7 @@ public:
       {
       m_LevelSetConverter->Update();
       }
-    catch( itk::ExceptionObject& e )
+    catch( ExceptionObject& e )
       {
       std::cout << e << std::endl;
       return;
@@ -198,7 +201,7 @@ public:
     }
 
 protected:
-  vtkVisualize3DLevelSetImage() : Superclass(),
+  VTKVisualize3DLevelSetImage() : Superclass(),
     m_Count( 0 ),
     m_ScreenCapture( false )
     {
@@ -206,18 +209,19 @@ protected:
     m_LevelSetConverter = LevelSetConverterType::New();
     }
 
-  ~vtkVisualize3DLevelSetImage()
+  ~VTKVisualize3DLevelSetImage()
     {}
 
 private:
-  vtkVisualize3DLevelSetImage ( const Self& );
+  VTKVisualize3DLevelSetImage ( const Self& );
   void operator = ( const Self& );
 
   ImageConverterPointer     m_ImageConverter;
   LevelSetConverterPointer  m_LevelSetConverter;
 
-  itk::IdentifierType m_Count;
-  bool                m_ScreenCapture;
+  IdentifierType m_Count;
+  bool           m_ScreenCapture;
 
   };
+}
 #endif

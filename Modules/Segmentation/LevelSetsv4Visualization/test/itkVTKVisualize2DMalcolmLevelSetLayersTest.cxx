@@ -16,9 +16,9 @@
  *
  *=========================================================================*/
 
-#include "vtkVisualize2DSparseLevelSetLayers.h"
+#include "itkVTKVisualize2DSparseLevelSetLayers.h"
 
-#include "itkWhitakerSparseLevelSetImage.h"
+#include "itkMalcolmSparseLevelSetImage.h"
 #include "itkBinaryImageToLevelSetImageAdaptor.h"
 
 #include "itkImage.h"
@@ -62,7 +62,7 @@ void GenerateImage( typename TImage::Pointer ioImage )
 
 }
 
-int vtkVisualize2DWhitakerLevelSetLayersTest( int , char* [] )
+int itkVTKVisualize2DMalcolmLevelSetLayersTest( int , char* [] )
 {
   typedef unsigned char PixelType;
   const unsigned int Dimension = 2;
@@ -71,13 +71,9 @@ int vtkVisualize2DWhitakerLevelSetLayersTest( int , char* [] )
   ImageType::Pointer image = ImageType::New();
   GenerateImage< ImageType >( image );
 
-  typedef double LevelSetOutputType;
-
-  typedef itk::WhitakerSparseLevelSetImage< LevelSetOutputType, Dimension >
-      LevelSetType;
-
-  typedef itk::BinaryImageToLevelSetImageAdaptor< ImageType, LevelSetType >
-      BinaryToSparseAdaptorType;
+  typedef itk::MalcolmSparseLevelSetImage< Dimension >  LevelSetType;
+  typedef itk::BinaryImageToLevelSetImageAdaptor<
+      ImageType, LevelSetType >                    BinaryToSparseAdaptorType;
 
   BinaryToSparseAdaptorType::Pointer adaptor = BinaryToSparseAdaptorType::New();
   adaptor->SetInputImage( image );
@@ -85,8 +81,7 @@ int vtkVisualize2DWhitakerLevelSetLayersTest( int , char* [] )
 
   LevelSetType::Pointer LevelSet = adaptor->GetLevelSet();
 
-  typedef vtkVisualize2DSparseLevelSetLayers< ImageType, LevelSetType >
-      VisualizationType;
+  typedef itk::VTKVisualize2DSparseLevelSetLayers< ImageType, LevelSetType > VisualizationType;
   VisualizationType::Pointer viewer = VisualizationType::New();
   viewer->SetInputImage( image );
   viewer->SetLevelSet( LevelSet );

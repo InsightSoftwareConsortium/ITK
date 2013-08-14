@@ -16,9 +16,9 @@
  *
  *=========================================================================*/
 
-#include "vtkVisualize2DSparseLevelSetLayers.h"
+#include "itkVTKVisualizeImageLevelSetIsoValues.h"
 
-#include "itkShiSparseLevelSetImage.h"
+#include "itkWhitakerSparseLevelSetImage.h"
 #include "itkBinaryImageToLevelSetImageAdaptor.h"
 
 #include "itkImage.h"
@@ -59,9 +59,10 @@ void GenerateImage( typename TImage::Pointer ioImage )
     it.Set( itk::NumericTraits< PixelType >::max() );
     ++it;
     }
+
 }
 
-int vtkVisualize2DShiLevelSetLayersTest( int , char* [] )
+int itkVTKVisualize2DWhitakerLevelSetTest( int , char* [] )
 {
   typedef unsigned char PixelType;
   const unsigned int Dimension = 2;
@@ -70,22 +71,27 @@ int vtkVisualize2DShiLevelSetLayersTest( int , char* [] )
   ImageType::Pointer image = ImageType::New();
   GenerateImage< ImageType >( image );
 
-  typedef itk::ShiSparseLevelSetImage< Dimension > LevelSetType;
+  typedef double LevelSetOutputType;
 
-  typedef itk::BinaryImageToLevelSetImageAdaptor< ImageType,
-      LevelSetType > BinaryToLevelSetAdaptorType;
+  typedef itk::WhitakerSparseLevelSetImage< LevelSetOutputType, Dimension >
+      LevelSetType;
 
-  BinaryToLevelSetAdaptorType::Pointer adaptor = BinaryToLevelSetAdaptorType::New();
+  typedef itk::BinaryImageToLevelSetImageAdaptor< ImageType, LevelSetType >
+      BinaryToSparseAdaptorType;
+
+  BinaryToSparseAdaptorType::Pointer adaptor = BinaryToSparseAdaptorType::New();
   adaptor->SetInputImage( image );
   adaptor->Initialize();
 
-  typedef BinaryToLevelSetAdaptorType::LevelSetType           SparseLevelSetType;
-  SparseLevelSetType::Pointer LevelSet = adaptor->GetLevelSet();
+  LevelSetType::Pointer LevelSet = adaptor->GetLevelSet();
 
-  typedef vtkVisualize2DSparseLevelSetLayers< ImageType, LevelSetType > VisualizationType;
+  typedef itk::VTKVisualizeImageLevelSetIsoValues< ImageType, LevelSetType >
+      VisualizationType;
   VisualizationType::Pointer viewer = VisualizationType::New();
   viewer->SetInputImage( image );
   viewer->SetLevelSet( LevelSet );
+  viewer->SetLevelLimit( 3. );
+  viewer->SetNumberOfLevels( 7 );
   viewer->SetScreenCapture( true );
   viewer->Update();
 
