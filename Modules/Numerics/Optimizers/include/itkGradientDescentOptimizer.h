@@ -39,8 +39,9 @@ namespace itk
  * The optimizer steps through a user defined number of iterations;
  * no convergence checking is done.
  *
- * Additionally, user can scale each component of the df / dp
- * but setting a scaling vector using method SetScale().
+ * Additionally, user can scale each component,
+ * \f$ \partial f / \partial p \f$,
+ * by setting a scaling vector using method SetScale().
  *
  * \sa RegularStepGradientDescentOptimizer
  *
