@@ -136,9 +136,15 @@ macro(itk_module_impl)
 
 
   if( ITK_MODULE_${itk-module}_ENABLE_SHARED )
+
+    # Need to use relative path to work around CMake ISSUE 12645 fixed
+    # in CMake 2.8.8, to support older versions
+    set(_export_header_file "${ITKCommon_BINARY_DIR}/${itk-module}Export.h")
+    file(RELATIVE_PATH _export_header_file ${CMAKE_CURRENT_BINARY_DIR} ${_export_header_file} )
+
     # Generate the export macro header for symbol visibility/Windows DLL declspec
     generate_export_header(${itk-module}
-      EXPORT_FILE_NAME ${ITKCommon_BINARY_DIR}/${itk-module}Export.h
+      EXPORT_FILE_NAME ${_export_header_file}
       EXPORT_MACRO_NAME ${itk-module}_EXPORT
       NO_EXPORT_MACRO_NAME ${itk-module}_HIDDEN
       STATIC_DEFINE ITK_STATIC )
