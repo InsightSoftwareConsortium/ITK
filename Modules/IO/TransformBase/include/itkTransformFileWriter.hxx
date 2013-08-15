@@ -28,7 +28,6 @@ template<class ScalarType>
 TransformFileWriterTemplate<ScalarType>
 ::TransformFileWriterTemplate() :
   m_FileName(""),
-  m_Precision(7),
   m_AppendMode(false)
 {
   TransformFactoryBase::RegisterDefaultTransforms();
@@ -141,7 +140,6 @@ void TransformFileWriterTemplate<ScalarType>
   Superclass::PrintSelf(os, indent);
 
   os << indent << "FileName: " << m_FileName << std::endl;
-  os << indent << "Precision: " << m_Precision << std::endl;
 }
 
 } // namespace itk

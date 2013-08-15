@@ -76,10 +76,6 @@ public:
   /** Add a transform to be written */
   void AddTransform(const TransformType *transform);
 
-  /** Set/Get the precision of the writing */
-  itkSetMacro(Precision, unsigned int);
-  itkGetConstMacro(Precision, unsigned int);
-
   /** Write out the transform */
   void Update();
 
@@ -96,7 +92,6 @@ private:
 
   std::string            m_FileName;
   ConstTransformListType m_TransformList;
-  unsigned int           m_Precision;
   bool                   m_AppendMode;
 };
 
