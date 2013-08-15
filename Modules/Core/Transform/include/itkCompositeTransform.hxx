@@ -1166,9 +1166,9 @@ CompositeTransform<TScalar, NDimensions>
   this->m_TransformsToOptimizeFlags = transformsToOptimizeFlags;
 }
 
-template <class TScalarType, unsigned int NDimensions>
+template <class TScalar, unsigned int NDimensions>
 void
-CompositeTransform<TScalarType, NDimensions>
+CompositeTransform<TScalar, NDimensions>
 ::PrintSelf( std::ostream& os, Indent indent ) const
 {
   Superclass::PrintSelf( os, indent );
@@ -1201,9 +1201,9 @@ CompositeTransform<TScalarType, NDimensions>
 }
 
 template
-<class TScalarType, unsigned int NDimensions>
+<class TScalar, unsigned int NDimensions>
 typename LightObject::Pointer
-CompositeTransform<TScalarType, NDimensions>
+CompositeTransform<TScalar, NDimensions>
 ::InternalClone() const
 {
   // This class doesn't use its superclass implemenation

@@ -21,27 +21,27 @@
 
 namespace itk
 {
-template< class TScalarType, unsigned int NDimensions >
-ElasticBodyReciprocalSplineKernelTransform< TScalarType, NDimensions >::ElasticBodyReciprocalSplineKernelTransform()
+template< class TScalar, unsigned int NDimensions >
+ElasticBodyReciprocalSplineKernelTransform< TScalar, NDimensions >::ElasticBodyReciprocalSplineKernelTransform()
 {
   // Alpha = 8 ( 1 - \nu ) - 1
   m_Alpha = 8.0 * ( 1.0 - .25 ) - 1;
 }
 
-template< class TScalarType, unsigned int NDimensions >
-ElasticBodyReciprocalSplineKernelTransform< TScalarType, NDimensions >::
+template< class TScalar, unsigned int NDimensions >
+ElasticBodyReciprocalSplineKernelTransform< TScalar, NDimensions >::
 ~ElasticBodyReciprocalSplineKernelTransform()
 {}
 
-template< class TScalarType, unsigned int NDimensions >
+template< class TScalar, unsigned int NDimensions >
 void
-ElasticBodyReciprocalSplineKernelTransform< TScalarType, NDimensions >
+ElasticBodyReciprocalSplineKernelTransform< TScalar, NDimensions >
 ::ComputeG(const InputVectorType & x, GMatrixType & gmatrix) const
 {
-  const TScalarType r       = x.GetNorm();
-  const TScalarType factor  =
-    ( r > 1e-8 ) ? ( -1.0 / r ) : NumericTraits< TScalarType >::Zero;
-  const TScalarType radial  = m_Alpha * r;
+  const TScalar r       = x.GetNorm();
+  const TScalar factor  =
+    ( r > 1e-8 ) ? ( -1.0 / r ) : NumericTraits< TScalar >::Zero;
+  const TScalar radial  = m_Alpha * r;
 
   for ( unsigned int i = 0; i < NDimensions; i++ )
     {
@@ -49,7 +49,7 @@ ElasticBodyReciprocalSplineKernelTransform< TScalarType, NDimensions >
     // G is symmetric
     for ( unsigned int j = 0; j < i; j++ )
       {
-      const TScalarType value = xi * x[j];
+      const TScalar value = xi * x[j];
       gmatrix[i][j] = value;
       gmatrix[j][i] = value;
       }
@@ -57,9 +57,9 @@ ElasticBodyReciprocalSplineKernelTransform< TScalarType, NDimensions >
     }
 }
 
-template< class TScalarType, unsigned int NDimensions >
+template< class TScalar, unsigned int NDimensions >
 void
-ElasticBodyReciprocalSplineKernelTransform< TScalarType, NDimensions >
+ElasticBodyReciprocalSplineKernelTransform< TScalar, NDimensions >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);

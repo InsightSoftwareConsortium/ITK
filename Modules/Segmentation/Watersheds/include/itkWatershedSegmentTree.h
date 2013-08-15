@@ -43,7 +43,7 @@ namespace watershed
  *
  * \ingroup ITKWatersheds
  */
-template< class TScalarType >
+template< class TScalar >
 class SegmentTree:public DataObject
 {
 public:
@@ -54,7 +54,7 @@ public:
   typedef SmartPointer< const Self > ConstPointer;
   itkNewMacro(Self);
   itkTypeMacro(WatershedSegmentTree, DataObject);
-  typedef TScalarType ScalarType;
+  typedef TScalar ScalarType;
 
   /** Elements of the list (nodes of the tree).  A record of a merge
    * between two segments (IdentifierType labels) at a particular

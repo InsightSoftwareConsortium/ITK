@@ -57,18 +57,18 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template <class TScalarType, // probably only float and double make sense here
-          unsigned int NDimensions>
+template< class TScalar, // probably only float and double make sense here
+          unsigned int NDimensions >
 // Number of dimensions
 class KernelTransform :
-  public Transform<TScalarType, NDimensions, NDimensions>
+  public Transform< TScalar, NDimensions, NDimensions >
 {
 public:
   /** Standard class typedefs. */
-  typedef KernelTransform                                  Self;
-  typedef Transform<TScalarType, NDimensions, NDimensions> Superclass;
-  typedef SmartPointer<Self>                               Pointer;
-  typedef SmartPointer<const Self>                         ConstPointer;
+  typedef KernelTransform                                Self;
+  typedef Transform< TScalar, NDimensions, NDimensions > Superclass;
+  typedef SmartPointer< Self >                           Pointer;
+  typedef SmartPointer< const Self >                     ConstPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(KernelTransform, Transform);
@@ -109,7 +109,7 @@ public:
 
   /** PointList typedef. This type is used for maintaining lists of points,
    * specifically, the source and target landmark lists. */
-  typedef DefaultStaticMeshTraits<TScalarType, NDimensions, NDimensions, TScalarType, TScalarType> PointSetTraitsType;
+  typedef DefaultStaticMeshTraits<TScalar, NDimensions, NDimensions, TScalar, TScalar> PointSetTraitsType;
   typedef PointSet<InputPointType, NDimensions, PointSetTraitsType>                                PointSetType;
 
   typedef typename PointSetType::Pointer                      PointSetPointer;
@@ -163,7 +163,7 @@ public:
   }
 
   /** 'I' (identity) matrix typedef. */
-  typedef vnl_matrix_fixed<TScalarType, NDimensions, NDimensions> IMatrixType;
+  typedef vnl_matrix_fixed<TScalar, NDimensions, NDimensions> IMatrixType;
 
   /** Compute the Jacobian Matrix of the transformation at one point */
   virtual void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const;
@@ -225,37 +225,37 @@ protected:
 
 public:
   /** 'G' matrix typedef. */
-  typedef vnl_matrix_fixed<TScalarType, NDimensions, NDimensions> GMatrixType;
+  typedef vnl_matrix_fixed<TScalar, NDimensions, NDimensions> GMatrixType;
 
   /** 'L' matrix typedef. */
-  typedef vnl_matrix<TScalarType> LMatrixType;
+  typedef vnl_matrix<TScalar> LMatrixType;
 
   /** 'K' matrix typedef. */
-  typedef vnl_matrix<TScalarType> KMatrixType;
+  typedef vnl_matrix<TScalar> KMatrixType;
 
   /** 'P' matrix typedef. */
-  typedef vnl_matrix<TScalarType> PMatrixType;
+  typedef vnl_matrix<TScalar> PMatrixType;
 
   /** 'Y' matrix typedef. */
-  typedef vnl_matrix<TScalarType> YMatrixType;
+  typedef vnl_matrix<TScalar> YMatrixType;
 
   /** 'W' matrix typedef. */
-  typedef vnl_matrix<TScalarType> WMatrixType;
+  typedef vnl_matrix<TScalar> WMatrixType;
 
   /** 'D' matrix typedef. Deformation component */
-  typedef vnl_matrix<TScalarType> DMatrixType;
+  typedef vnl_matrix<TScalar> DMatrixType;
 
   /** 'A' matrix typedef. Rotational part of the Affine component */
-  typedef vnl_matrix_fixed<TScalarType, NDimensions, NDimensions> AMatrixType;
+  typedef vnl_matrix_fixed<TScalar, NDimensions, NDimensions> AMatrixType;
 
   /** 'B' matrix typedef. Translational part of the Affine component */
-  typedef vnl_vector_fixed<TScalarType, NDimensions> BMatrixType;
+  typedef vnl_vector_fixed<TScalar, NDimensions> BMatrixType;
 
   /** Row matrix typedef. */
-  typedef vnl_matrix_fixed<TScalarType, 1, NDimensions> RowMatrixType;
+  typedef vnl_matrix_fixed<TScalar, 1, NDimensions> RowMatrixType;
 
   /** Column matrix typedef. */
-  typedef vnl_matrix_fixed<TScalarType, NDimensions, 1> ColumnMatrixType;
+  typedef vnl_matrix_fixed<TScalar, NDimensions, 1> ColumnMatrixType;
 
 protected:
   /** Compute G(x)

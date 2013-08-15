@@ -39,21 +39,21 @@ namespace itk
  * \endwiki
  */
 template <
-  class TScalarType = float, // Type for cordinate representation type (float or
+  class TScalar = float, // Type for cordinate representation type (float or
                              // double)
   unsigned int NDimensions = 3>
 // Number of dimensions
-// class ScaleTransform:public Transform< TScalarType,
-class ScaleTransform : public MatrixOffsetTransformBase<TScalarType,
-                                                                   NDimensions,
-                                                                   NDimensions>
+// class ScaleTransform:public Transform< TScalar,
+class ScaleTransform : public MatrixOffsetTransformBase< TScalar,
+                                                         NDimensions,
+                                                         NDimensions >
 {
 public:
   /** Standard class typedefs.   */
-  typedef ScaleTransform                                                   Self;
-  typedef MatrixOffsetTransformBase<TScalarType, NDimensions, NDimensions> Superclass;
-  typedef SmartPointer<Self>                                               Pointer;
-  typedef SmartPointer<const Self>                                         ConstPointer;
+  typedef ScaleTransform                                                 Self;
+  typedef MatrixOffsetTransformBase< TScalar, NDimensions, NDimensions > Superclass;
+  typedef SmartPointer< Self >                                           Pointer;
+  typedef SmartPointer< const Self >                                     ConstPointer;
 
   /** New macro for creation of through a smart pointer. */
   itkNewMacro(Self);
@@ -75,23 +75,23 @@ public:
   typedef typename Superclass::JacobianType JacobianType;
 
   /** Standard vector type for this class. */
-  typedef FixedArray<TScalarType, NDimensions> ScaleType;
+  typedef FixedArray<TScalar, NDimensions> ScaleType;
 
   /** Standard vector type for this class. */
-  typedef Vector<TScalarType, NDimensions> InputVectorType;
-  typedef Vector<TScalarType, NDimensions> OutputVectorType;
+  typedef Vector<TScalar, NDimensions> InputVectorType;
+  typedef Vector<TScalar, NDimensions> OutputVectorType;
 
   /** Standard covariant vector type for this class. */
-  typedef CovariantVector<TScalarType, NDimensions> InputCovariantVectorType;
-  typedef CovariantVector<TScalarType, NDimensions> OutputCovariantVectorType;
+  typedef CovariantVector<TScalar, NDimensions> InputCovariantVectorType;
+  typedef CovariantVector<TScalar, NDimensions> OutputCovariantVectorType;
 
   /** Standard vnl_vector type for this class. */
-  typedef vnl_vector_fixed<TScalarType, NDimensions> InputVnlVectorType;
-  typedef vnl_vector_fixed<TScalarType, NDimensions> OutputVnlVectorType;
+  typedef vnl_vector_fixed<TScalar, NDimensions> InputVnlVectorType;
+  typedef vnl_vector_fixed<TScalar, NDimensions> OutputVnlVectorType;
 
   /** Standard coordinate point type for this class. */
-  typedef Point<TScalarType, NDimensions> InputPointType;
-  typedef Point<TScalarType, NDimensions> OutputPointType;
+  typedef Point<TScalar, NDimensions> InputPointType;
+  typedef Point<TScalar, NDimensions> OutputPointType;
 
   /** Base inverse transform type. This type should not be changed to the
    * concrete inverse transform type or inheritance would be lost.*/

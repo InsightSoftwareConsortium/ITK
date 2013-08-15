@@ -105,17 +105,17 @@ namespace itk
  * \wikiexample{Registration/ImageRegistrationMethodBSpline,
  *   A global registration of two images}
  */
-template <class TScalarType = double, unsigned int NDimensions = 3,
+template <class TScalar = double, unsigned int NDimensions = 3,
           unsigned int VSplineOrder = 3>
 class BSplineTransform :
-  public BSplineBaseTransform<TScalarType,NDimensions,VSplineOrder>
+  public BSplineBaseTransform<TScalar,NDimensions,VSplineOrder>
 {
 public:
   /** Standard class typedefs. */
-  typedef BSplineTransform                                           Self;
-  typedef BSplineBaseTransform<TScalarType,NDimensions,VSplineOrder> Superclass;
-  typedef SmartPointer<Self>                                         Pointer;
-  typedef SmartPointer<const Self>                                   ConstPointer;
+  typedef BSplineTransform                                       Self;
+  typedef BSplineBaseTransform<TScalar,NDimensions,VSplineOrder> Superclass;
+  typedef SmartPointer<Self>                                     Pointer;
+  typedef SmartPointer<const Self>                               ConstPointer;
 
   /** New macro for creation of through the object factory. */
   itkNewMacro( Self );

@@ -23,31 +23,31 @@
 namespace itk
 {
 // Constructor with default arguments
-template <class TScalarType>
-ScaleVersor3DTransform<TScalarType>
+template <class TScalar>
+ScaleVersor3DTransform<TScalar>
 ::ScaleVersor3DTransform() : Superclass(ParametersDimension)
 {
   m_Scale.Fill(1.0);
 }
 
 // Destructor
-template <class TScalarType>
-ScaleVersor3DTransform<TScalarType>
+template <class TScalar>
+ScaleVersor3DTransform<TScalar>
 ::~ScaleVersor3DTransform()
 {
 }
 
 // Constructor with arguments
-template <class TScalarType>
-ScaleVersor3DTransform<TScalarType>::ScaleVersor3DTransform(unsigned int parametersDimension) :
+template <class TScalar>
+ScaleVersor3DTransform<TScalar>::ScaleVersor3DTransform(unsigned int parametersDimension) :
   Superclass(parametersDimension)
 {
   m_Scale.Fill(1.0);
 }
 
 // Constructor with arguments
-template <class TScalarType>
-ScaleVersor3DTransform<TScalarType>::ScaleVersor3DTransform(const MatrixType & matrix,
+template <class TScalar>
+ScaleVersor3DTransform<TScalar>::ScaleVersor3DTransform(const MatrixType & matrix,
                                                             const OutputVectorType & offset) :
   Superclass(matrix, offset)
 {
@@ -55,20 +55,20 @@ ScaleVersor3DTransform<TScalarType>::ScaleVersor3DTransform(const MatrixType & m
 }
 
 // Directly set the matrix
-template <class TScalarType>
+template <class TScalar>
 void
-ScaleVersor3DTransform<TScalarType>
+ScaleVersor3DTransform<TScalar>
 ::SetMatrix(const MatrixType & matrix)
 {
   // Any matrix should work - bypass orthogonality testing
-  typedef MatrixOffsetTransformBase<TScalarType, 3> Baseclass;
+  typedef MatrixOffsetTransformBase<TScalar, 3> Baseclass;
   this->Baseclass::SetMatrix(matrix);
 }
 
 // Set Parameters
-template <class TScalarType>
+template <class TScalar>
 void
-ScaleVersor3DTransform<TScalarType>
+ScaleVersor3DTransform<TScalar>
 ::SetParameters(const ParametersType & parameters)
 {
   itkDebugMacro(<< "Setting parameters " << parameters);
@@ -137,9 +137,9 @@ ScaleVersor3DTransform<TScalarType>
 // p[6:8] = Scale
 //
 
-template <class TScalarType>
-const typename ScaleVersor3DTransform<TScalarType>::ParametersType
-& ScaleVersor3DTransform<TScalarType>
+template <class TScalar>
+const typename ScaleVersor3DTransform<TScalar>::ParametersType
+& ScaleVersor3DTransform<TScalar>
 ::GetParameters(void) const
   {
   itkDebugMacro(<< "Getting parameters ");
@@ -161,18 +161,18 @@ const typename ScaleVersor3DTransform<TScalarType>::ParametersType
   return this->m_Parameters;
   }
 
-template <class TScalarType>
+template <class TScalar>
 void
-ScaleVersor3DTransform<TScalarType>
+ScaleVersor3DTransform<TScalar>
 ::SetIdentity()
 {
   m_Scale.Fill(1.0);
   Superclass::SetIdentity();
 }
 
-template <class TScalarType>
+template <class TScalar>
 void
-ScaleVersor3DTransform<TScalarType>
+ScaleVersor3DTransform<TScalar>
 ::SetScale(const ScaleVectorType & scale)
 {
   m_Scale = scale;
@@ -182,27 +182,27 @@ ScaleVersor3DTransform<TScalarType>
 // // THIS is different from VersorRigid3DTransform;
 // // it is copied from ScaleSkewVersor3DTransform:
 // Compute the matrix
-template <class TScalarType>
+template <class TScalar>
 void
-ScaleVersor3DTransform<TScalarType>
+ScaleVersor3DTransform<TScalar>
 ::ComputeMatrix(void)
 {
   VersorType versor = Superclass::GetVersor();
 
-  const TScalarType vx = versor.GetX();
-  const TScalarType vy = versor.GetY();
-  const TScalarType vz = versor.GetZ();
-  const TScalarType vw = versor.GetW();
+  const TScalar vx = versor.GetX();
+  const TScalar vy = versor.GetY();
+  const TScalar vz = versor.GetZ();
+  const TScalar vw = versor.GetW();
 
-  const TScalarType xx = vx * vx;
-  const TScalarType yy = vy * vy;
-  const TScalarType zz = vz * vz;
-  const TScalarType xy = vx * vy;
-  const TScalarType xz = vx * vz;
-  const TScalarType xw = vx * vw;
-  const TScalarType yz = vy * vz;
-  const TScalarType yw = vy * vw;
-  const TScalarType zw = vz * vw;
+  const TScalar xx = vx * vx;
+  const TScalar yy = vy * vy;
+  const TScalar zz = vz * vz;
+  const TScalar xy = vx * vy;
+  const TScalar xz = vx * vz;
+  const TScalar xw = vx * vw;
+  const TScalar yz = vy * vz;
+  const TScalar yw = vy * vw;
+  const TScalar zw = vz * vw;
 
   MatrixType newMatrix;
 
@@ -218,18 +218,18 @@ ScaleVersor3DTransform<TScalarType>
   this->SetVarMatrix(newMatrix);
 }
 
-template <class TScalarType>
+template <class TScalar>
 void
-ScaleVersor3DTransform<TScalarType>
+ScaleVersor3DTransform<TScalar>
 ::ComputeMatrixParameters(void)
 {
   itkExceptionMacro(<< "Setting the matrix of a ScaleVersor3D transform is not supported at this time.");
 }
 
 // Print self
-template <class TScalarType>
+template <class TScalar>
 void
-ScaleVersor3DTransform<TScalarType>
+ScaleVersor3DTransform<TScalar>
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
@@ -237,9 +237,9 @@ ScaleVersor3DTransform<TScalarType>
   os << indent << "Scales:       " << m_Scale        << std::endl;
 }
 
-template <class TScalarType>
+template <class TScalar>
 void
-ScaleVersor3DTransform<TScalarType>
+ScaleVersor3DTransform<TScalar>
 ::ComputeJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const
 {
   typedef typename VersorType::ValueType ValueType;

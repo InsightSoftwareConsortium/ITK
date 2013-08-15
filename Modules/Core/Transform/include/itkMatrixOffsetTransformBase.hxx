@@ -27,9 +27,9 @@
 namespace itk
 {
 // Constructor with default arguments
-template <class TScalarType, unsigned int NInputDimensions,
+template <class TScalar, unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
-MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
+MatrixOffsetTransformBase<TScalar, NInputDimensions, NOutputDimensions>
 ::MatrixOffsetTransformBase() :
   Superclass(ParametersDimension)
 {
@@ -46,9 +46,9 @@ MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
 }
 
 // Constructor with default arguments
-template <class TScalarType, unsigned int NInputDimensions,
+template <class TScalar, unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
-MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
+MatrixOffsetTransformBase<TScalar, NInputDimensions, NOutputDimensions>
 ::MatrixOffsetTransformBase(unsigned int paramDims) :
   Superclass(paramDims)
 {
@@ -63,9 +63,9 @@ MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
 }
 
 // Constructor with explicit arguments
-template <class TScalarType, unsigned int NInputDimensions,
+template <class TScalar, unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
-MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
+MatrixOffsetTransformBase<TScalar, NInputDimensions, NOutputDimensions>
 ::MatrixOffsetTransformBase(const MatrixType & matrix, const OutputVectorType & offset)
 {
   m_Matrix = matrix;
@@ -81,18 +81,18 @@ MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
 }
 
 // Destructor
-template <class TScalarType, unsigned int NInputDimensions,
+template <class TScalar, unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
-MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
+MatrixOffsetTransformBase<TScalar, NInputDimensions, NOutputDimensions>
 ::~MatrixOffsetTransformBase()
 {
 }
 
 // Print self
-template <class TScalarType, unsigned int NInputDimensions,
+template <class TScalar, unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
 void
-MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
+MatrixOffsetTransformBase<TScalar, NInputDimensions, NOutputDimensions>
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
@@ -128,10 +128,10 @@ MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
 }
 
 // Constructor with explicit arguments
-template <class TScalarType, unsigned int NInputDimensions,
+template <class TScalar, unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
 void
-MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
+MatrixOffsetTransformBase<TScalar, NInputDimensions, NOutputDimensions>
 ::SetIdentity(void)
 {
   m_Matrix.SetIdentity();
@@ -146,10 +146,10 @@ MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
 }
 
 // Compose with another affine transformation
-template <class TScalarType, unsigned int NInputDimensions,
+template <class TScalar, unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
 void
-MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
+MatrixOffsetTransformBase<TScalar, NInputDimensions, NOutputDimensions>
 ::Compose(const Self *other, bool pre)
 {
   if( pre )
@@ -171,54 +171,54 @@ MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
 }
 
 // Transform a point
-template <class TScalarType, unsigned int NInputDimensions,
+template <class TScalar, unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
-typename MatrixOffsetTransformBase<TScalarType,
+typename MatrixOffsetTransformBase<TScalar,
                                    NInputDimensions,
                                    NOutputDimensions>::OutputPointType
-MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
+MatrixOffsetTransformBase<TScalar, NInputDimensions, NOutputDimensions>
 ::TransformPoint(const InputPointType & point) const
 {
   return m_Matrix * point + m_Offset;
 }
 
 // Transform a vector
-template <class TScalarType, unsigned int NInputDimensions,
+template <class TScalar, unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
-typename MatrixOffsetTransformBase<TScalarType,
+typename MatrixOffsetTransformBase<TScalar,
                                    NInputDimensions,
                                    NOutputDimensions>::OutputVectorType
-MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
+MatrixOffsetTransformBase<TScalar, NInputDimensions, NOutputDimensions>
 ::TransformVector(const InputVectorType & vect) const
 {
   return m_Matrix * vect;
 }
 
 // Transform a vnl_vector_fixed
-template <class TScalarType, unsigned int NInputDimensions,
+template <class TScalar, unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
-typename MatrixOffsetTransformBase<TScalarType,
+typename MatrixOffsetTransformBase<TScalar,
                                    NInputDimensions,
                                    NOutputDimensions>::OutputVnlVectorType
-MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
+MatrixOffsetTransformBase<TScalar, NInputDimensions, NOutputDimensions>
 ::TransformVector(const InputVnlVectorType & vect) const
 {
   return m_Matrix * vect;
 }
 
 // Transform a variable length vector
-template <class TScalarType, unsigned int NInputDimensions,
+template <class TScalar, unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
-typename MatrixOffsetTransformBase<TScalarType,
+typename MatrixOffsetTransformBase<TScalar,
                                    NInputDimensions,
                                    NOutputDimensions>::OutputVectorPixelType
-MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
+MatrixOffsetTransformBase<TScalar, NInputDimensions, NOutputDimensions>
 ::TransformVector(const InputVectorPixelType & vect) const
 {
   const unsigned int vectorDim = vect.Size();
 
-  vnl_vector<TScalarType> vnl_vect( vectorDim );
-  vnl_matrix<TScalarType> vnl_mat( vectorDim, vect.Size(), 0.0 );
+  vnl_vector<TScalar> vnl_vect( vectorDim );
+  vnl_matrix<TScalar> vnl_mat( vectorDim, vect.Size(), 0.0 );
   for( unsigned int i = 0; i < vectorDim; i++ )
     {
     vnl_vect[i] = vect[i];
@@ -235,7 +235,7 @@ MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
       }
     }
 
-  vnl_vector<TScalarType> tvect = vnl_mat * vnl_vect;
+  vnl_vector<TScalar> tvect = vnl_mat * vnl_vect;
   OutputVectorPixelType   outVect;
   outVect.SetSize( vectorDim );
   for( unsigned int i = 0; i < vectorDim; i++ )
@@ -247,12 +247,12 @@ MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
 }
 
 // Transform a CovariantVector
-template <class TScalarType, unsigned int NInputDimensions,
+template <class TScalar, unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
-typename MatrixOffsetTransformBase<TScalarType,
+typename MatrixOffsetTransformBase<TScalar,
                                    NInputDimensions,
                                    NOutputDimensions>::OutputCovariantVectorType
-MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
+MatrixOffsetTransformBase<TScalar, NInputDimensions, NOutputDimensions>
 ::TransformCovariantVector(const InputCovariantVectorType & vec) const
 {
   OutputCovariantVectorType result;     // Converted vector
@@ -270,19 +270,19 @@ MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
 }
 
 // Transform a variable length vector
-template <class TScalarType, unsigned int NInputDimensions,
+template <class TScalar, unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
-typename MatrixOffsetTransformBase<TScalarType,
+typename MatrixOffsetTransformBase<TScalar,
                                    NInputDimensions,
                                    NOutputDimensions>::OutputVectorPixelType
-MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
+MatrixOffsetTransformBase<TScalar, NInputDimensions, NOutputDimensions>
 ::TransformCovariantVector(const InputVectorPixelType & vect) const
 {
 
   const unsigned int vectorDim = vect.Size();
 
-  vnl_vector<TScalarType> vnl_vect( vectorDim );
-  vnl_matrix<TScalarType> vnl_mat( vectorDim, vect.Size(), 0.0 );
+  vnl_vector<TScalar> vnl_vect( vectorDim );
+  vnl_matrix<TScalar> vnl_mat( vectorDim, vect.Size(), 0.0 );
   for( unsigned int i = 0; i < vectorDim; i++ )
     {
     vnl_vect[i] = vect[i];
@@ -299,7 +299,7 @@ MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
       }
     }
 
-  vnl_vector<TScalarType> tvect = vnl_mat * vnl_vect;
+  vnl_vector<TScalar> tvect = vnl_mat * vnl_vect;
   OutputVectorPixelType   outVect;
   outVect.SetSize( vectorDim );
   for( unsigned int i = 0; i < vectorDim; i++ )
@@ -311,12 +311,12 @@ MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
 }
 
 // Transform a Tensor
-template <class TScalarType, unsigned int NInputDimensions,
+template <class TScalar, unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
-typename MatrixOffsetTransformBase<TScalarType,
+typename MatrixOffsetTransformBase<TScalar,
                                    NInputDimensions,
                                    NOutputDimensions>::OutputDiffusionTensor3DType
-MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
+MatrixOffsetTransformBase<TScalar, NInputDimensions, NOutputDimensions>
 ::TransformDiffusionTensor3D(const InputDiffusionTensor3DType & tensor) const
 {
 
@@ -337,12 +337,12 @@ MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
 }
 
 // Transform a Tensor
-template <class TScalarType, unsigned int NInputDimensions,
+template <class TScalar, unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
-typename MatrixOffsetTransformBase<TScalarType,
+typename MatrixOffsetTransformBase<TScalar,
                                    NInputDimensions,
                                    NOutputDimensions>::OutputVectorPixelType
-MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
+MatrixOffsetTransformBase<TScalar, NInputDimensions, NOutputDimensions>
 ::TransformDiffusionTensor3D(const InputVectorPixelType & tensor) const
 {
   OutputVectorPixelType result( InputDiffusionTensor3DType::InternalDimension );     // Converted tensor
@@ -368,11 +368,11 @@ MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
 /**
  * Transform tensor
  */
-template <class TScalarType, unsigned int NInputDimensions, unsigned int NOutputDimensions>
-typename MatrixOffsetTransformBase<TScalarType,
+template <class TScalar, unsigned int NInputDimensions, unsigned int NOutputDimensions>
+typename MatrixOffsetTransformBase<TScalar,
                                    NInputDimensions,
                                    NOutputDimensions>::OutputSymmetricSecondRankTensorType
-MatrixOffsetTransformBase<TScalarType,NInputDimensions,NOutputDimensions>
+MatrixOffsetTransformBase<TScalar,NInputDimensions,NOutputDimensions>
 ::TransformSymmetricSecondRankTensor( const InputSymmetricSecondRankTensorType& inputTensor ) const
 {
 
@@ -417,11 +417,11 @@ MatrixOffsetTransformBase<TScalarType,NInputDimensions,NOutputDimensions>
 /**
  * Transform tensor
  */
-template <class TScalarType, unsigned int NInputDimensions, unsigned int NOutputDimensions>
-typename MatrixOffsetTransformBase<TScalarType,
+template <class TScalar, unsigned int NInputDimensions, unsigned int NOutputDimensions>
+typename MatrixOffsetTransformBase<TScalar,
                                    NInputDimensions,
                                    NOutputDimensions>::OutputVectorPixelType
-MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
+MatrixOffsetTransformBase<TScalar, NInputDimensions, NOutputDimensions>
 ::TransformSymmetricSecondRankTensor( const InputVectorPixelType& inputTensor ) const
 {
 
@@ -465,12 +465,12 @@ MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
 }
 
 // Recompute the inverse matrix (internal)
-template <class TScalarType, unsigned int NInputDimensions,
+template <class TScalar, unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
-const typename MatrixOffsetTransformBase<TScalarType,
+const typename MatrixOffsetTransformBase<TScalar,
                                          NInputDimensions,
                                          NOutputDimensions>::InverseMatrixType
-& MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
+& MatrixOffsetTransformBase<TScalar, NInputDimensions, NOutputDimensions>
 ::GetInverseMatrix(void) const
   {
   // If the transform has been modified we recompute the inverse
@@ -492,10 +492,10 @@ const typename MatrixOffsetTransformBase<TScalarType,
   }
 
 // return an inverse transformation
-template <class TScalarType, unsigned int NInputDimensions,
+template <class TScalar, unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
 bool
-MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
+MatrixOffsetTransformBase<TScalar, NInputDimensions, NOutputDimensions>
 ::GetInverse(Self *inverse) const
 {
   if( !inverse )
@@ -519,11 +519,11 @@ MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
 }
 
 // Return an inverse of this transform
-template <class TScalarType, unsigned int NInputDimensions,
+template <class TScalar, unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
-typename MatrixOffsetTransformBase<TScalarType, NInputDimensions,
+typename MatrixOffsetTransformBase<TScalar, NInputDimensions,
                                    NOutputDimensions>::InverseTransformBasePointer
-MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
+MatrixOffsetTransformBase<TScalar, NInputDimensions, NOutputDimensions>
 ::GetInverseTransform() const
 {
   Pointer inv = New();
@@ -532,10 +532,10 @@ MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
 }
 
 // Get fixed parameters
-template <class TScalarType, unsigned int NInputDimensions,
+template <class TScalar, unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
 void
-MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
+MatrixOffsetTransformBase<TScalar, NInputDimensions, NOutputDimensions>
 ::SetFixedParameters(const ParametersType & fp)
 {
   this->m_FixedParameters = fp;
@@ -549,12 +549,12 @@ MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
 }
 
 /** Get the Fixed Parameters. */
-template <class TScalarType, unsigned int NInputDimensions,
+template <class TScalar, unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
-const typename MatrixOffsetTransformBase<TScalarType,
+const typename MatrixOffsetTransformBase<TScalar,
                                          NInputDimensions,
                                          NOutputDimensions>::ParametersType
-& MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
+& MatrixOffsetTransformBase<TScalar, NInputDimensions, NOutputDimensions>
 ::GetFixedParameters(void) const
   {
   this->m_FixedParameters.SetSize(NInputDimensions);
@@ -566,12 +566,12 @@ const typename MatrixOffsetTransformBase<TScalarType,
   }
 
 // Get parameters
-template <class TScalarType, unsigned int NInputDimensions,
+template <class TScalar, unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
-const typename MatrixOffsetTransformBase<TScalarType,
+const typename MatrixOffsetTransformBase<TScalar,
                                          NInputDimensions,
                                          NOutputDimensions>::ParametersType
-& MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
+& MatrixOffsetTransformBase<TScalar, NInputDimensions, NOutputDimensions>
 ::GetParameters(void) const
   {
   // Transfer the linear part
@@ -595,10 +595,10 @@ const typename MatrixOffsetTransformBase<TScalarType,
   }
 
 // Set parameters
-template <class TScalarType, unsigned int NInputDimensions,
+template <class TScalar, unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
 void
-MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
+MatrixOffsetTransformBase<TScalar, NInputDimensions, NOutputDimensions>
 ::SetParameters(const ParametersType & parameters)
 {
   if( parameters.Size() <
@@ -648,10 +648,10 @@ MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
 }
 
 // Compute the Jacobian in one position
-template <class TScalarType, unsigned int NInputDimensions,
+template <class TScalar, unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
 void
-MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
+MatrixOffsetTransformBase<TScalar, NInputDimensions, NOutputDimensions>
 ::ComputeJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const
 {
   // This will not reallocate memory if the dimensions are equal
@@ -681,10 +681,10 @@ MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
 }
 
 // Return jacobian with respect to position.
-template <class TScalarType, unsigned int NInputDimensions,
+template <class TScalar, unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
 void
-MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
+MatrixOffsetTransformBase<TScalar, NInputDimensions, NOutputDimensions>
 ::ComputeJacobianWithRespectToPosition(const InputPointType  &,
                                        JacobianType & jac) const
 {
@@ -699,10 +699,10 @@ MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
 }
 
 // Return jacobian with respect to position.
-template <class TScalarType, unsigned int NInputDimensions,
+template <class TScalar, unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
 void
-MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
+MatrixOffsetTransformBase<TScalar, NInputDimensions, NOutputDimensions>
 ::ComputeInverseJacobianWithRespectToPosition(const InputPointType  &,
                                        JacobianType & jac) const
 {
@@ -717,10 +717,10 @@ MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
 }
 
 // Computes offset based on center, matrix, and translation variables
-template <class TScalarType, unsigned int NInputDimensions,
+template <class TScalar, unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
 void
-MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
+MatrixOffsetTransformBase<TScalar, NInputDimensions, NOutputDimensions>
 ::ComputeOffset(void)
 {
   const MatrixType & matrix = this->GetMatrix();
@@ -740,10 +740,10 @@ MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
 }
 
 // Computes translation based on offset, matrix, and center
-template <class TScalarType, unsigned int NInputDimensions,
+template <class TScalar, unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
 void
-MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
+MatrixOffsetTransformBase<TScalar, NInputDimensions, NOutputDimensions>
 ::ComputeTranslation(void)
 {
   const MatrixType & matrix = this->GetMatrix();
@@ -764,10 +764,10 @@ MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
 
 // Computes matrix - base class does nothing.  In derived classes is
 //    used to convert, for example, versor into a matrix
-template <class TScalarType, unsigned int NInputDimensions,
+template <class TScalar, unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
 void
-MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
+MatrixOffsetTransformBase<TScalar, NInputDimensions, NOutputDimensions>
 ::ComputeMatrix(void)
 {
   // Since parameters explicitly define the matrix in this base class, this
@@ -777,10 +777,10 @@ MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
 
 // Computes parameters - base class does nothing.  In derived classes is
 //    used to convert, for example, matrix into a versor
-template <class TScalarType, unsigned int NInputDimensions,
+template <class TScalar, unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
 void
-MatrixOffsetTransformBase<TScalarType, NInputDimensions, NOutputDimensions>
+MatrixOffsetTransformBase<TScalar, NInputDimensions, NOutputDimensions>
 ::ComputeMatrixParameters(void)
 {
   // Since parameters explicitly define the matrix in this base class, this

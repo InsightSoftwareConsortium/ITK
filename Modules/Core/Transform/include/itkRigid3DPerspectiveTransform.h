@@ -34,11 +34,10 @@ namespace itk
  * \ingroup ITKTransform
  */
 
-template <
-  class TScalarType = double>
+template< class TScalar = double >
 // Data type for scalars (float or double)
 class Rigid3DPerspectiveTransform :
-  public Transform<TScalarType, 3, 2>
+  public Transform< TScalar, 3, 2 >
 {
 public:
   /** Dimension of the domain space. */
@@ -51,7 +50,7 @@ public:
 
   /** Standard class typedefs. */
   typedef Rigid3DPerspectiveTransform Self;
-  typedef Transform<TScalarType,
+  typedef Transform<TScalar,
                     itkGetStaticConstMacro(InputSpaceDimension),
                     itkGetStaticConstMacro(OutputSpaceDimension)> Superclass;
 
@@ -75,34 +74,34 @@ public:
   typedef typename Superclass::JacobianType JacobianType;
 
   /** Standard matrix type for this class. */
-  typedef Matrix<TScalarType, itkGetStaticConstMacro(InputSpaceDimension),
+  typedef Matrix<TScalar, itkGetStaticConstMacro(InputSpaceDimension),
                  itkGetStaticConstMacro(InputSpaceDimension)> MatrixType;
 
   /** Standard vector type for this class. */
-  typedef Vector<TScalarType, itkGetStaticConstMacro(InputSpaceDimension)> OffsetType;
+  typedef Vector<TScalar, itkGetStaticConstMacro(InputSpaceDimension)> OffsetType;
   typedef typename OffsetType::ValueType                                   OffsetValueType;
 
   /** Standard vector type for this class. */
-  typedef Vector<TScalarType, itkGetStaticConstMacro(InputSpaceDimension)>  InputVectorType;
-  typedef Vector<TScalarType, itkGetStaticConstMacro(OutputSpaceDimension)> OutputVectorType;
+  typedef Vector<TScalar, itkGetStaticConstMacro(InputSpaceDimension)>  InputVectorType;
+  typedef Vector<TScalar, itkGetStaticConstMacro(OutputSpaceDimension)> OutputVectorType;
 
   /** Standard covariant vector type for this class */
   typedef typename Superclass::InputCovariantVectorType  InputCovariantVectorType;
   typedef typename Superclass::OutputCovariantVectorType OutputCovariantVectorType;
 
   /** Standard coordinate point type for this class. */
-  typedef Point<TScalarType, itkGetStaticConstMacro(InputSpaceDimension)>  InputPointType;
-  typedef Point<TScalarType, itkGetStaticConstMacro(OutputSpaceDimension)> OutputPointType;
+  typedef Point<TScalar, itkGetStaticConstMacro(InputSpaceDimension)>  InputPointType;
+  typedef Point<TScalar, itkGetStaticConstMacro(OutputSpaceDimension)> OutputPointType;
 
   /** Standard vnl_quaternion type. */
-  typedef vnl_quaternion<TScalarType> VnlQuaternionType;
+  typedef vnl_quaternion<TScalar> VnlQuaternionType;
 
   /** Standard vnl_vector type for this class. */
   typedef typename Superclass::InputVnlVectorType  InputVnlVectorType;
   typedef typename Superclass::OutputVnlVectorType OutputVnlVectorType;
 
   /** Versor type. */
-  typedef Versor<TScalarType>             VersorType;
+  typedef Versor< TScalar >               VersorType;
   typedef typename VersorType::VectorType AxisType;
   typedef typename VersorType::ValueType  AngleType;
   typedef typename AxisType::ValueType    AxisValueType;
@@ -153,12 +152,12 @@ public:
    * This method sets the rotation of an Rigid3DTransform to a
    * value specified by the user using the axis of rotation an
    * the angle. */
-  void SetRotation(const Vector<TScalarType, 3> & axis, double angle);
+  void SetRotation(const Vector<TScalar, 3> & axis, double angle);
 
   /** Set the Focal Distance of the projection
    * This method sets the focal distance for the perspective
    * projection to a value specified by the user. */
-  void SetFocalDistance(TScalarType focalDistance)
+  void SetFocalDistance(TScalar focalDistance)
   {
     m_FocalDistance = focalDistance;
   }
@@ -242,7 +241,7 @@ private:
   VersorType m_Versor;
 
   /** Set Focal distance of the projection. */
-  TScalarType m_FocalDistance;
+  TScalar m_FocalDistance;
 
   /** Matrix representation of the rotation. */
   MatrixType m_RotationMatrix;

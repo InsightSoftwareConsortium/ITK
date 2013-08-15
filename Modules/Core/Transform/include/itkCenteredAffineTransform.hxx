@@ -25,23 +25,23 @@
 namespace itk
 {
 // Constructor with default arguments
-template <class TScalarType, unsigned int NDimensions>
-CenteredAffineTransform<TScalarType, NDimensions>::CenteredAffineTransform() : Superclass(ParametersDimension)
+template <class TScalar, unsigned int NDimensions>
+CenteredAffineTransform<TScalar, NDimensions>::CenteredAffineTransform() : Superclass(ParametersDimension)
 {
 }
 
 // Destructor
-template <class TScalarType, unsigned int NDimensions>
-CenteredAffineTransform<TScalarType, NDimensions>::
+template <class TScalar, unsigned int NDimensions>
+CenteredAffineTransform<TScalar, NDimensions>::
 ~CenteredAffineTransform()
 {
 }
 
 // Get parameters
-template <class TScalarType, unsigned int NDimensions>
-const typename CenteredAffineTransform<TScalarType,
+template <class TScalar, unsigned int NDimensions>
+const typename CenteredAffineTransform<TScalar,
                                        NDimensions>::ParametersType
-& CenteredAffineTransform<TScalarType, NDimensions>::GetParameters(void) const
+& CenteredAffineTransform<TScalar, NDimensions>::GetParameters(void) const
   {
   // Transfer the linear part
   unsigned int par = 0;
@@ -76,9 +76,9 @@ const typename CenteredAffineTransform<TScalarType,
   }
 
 /** Set the parameters */
-template <class TScalarType, unsigned int NDimensions>
+template <class TScalar, unsigned int NDimensions>
 void
-CenteredAffineTransform<TScalarType, NDimensions>::SetParameters(const ParametersType & parameters)
+CenteredAffineTransform<TScalar, NDimensions>::SetParameters(const ParametersType & parameters)
 {
   // Transfer the linear part
   unsigned int par = 0;
@@ -124,9 +124,9 @@ CenteredAffineTransform<TScalarType, NDimensions>::SetParameters(const Parameter
   this->Modified();
 }
 
-template <class TScalarType, unsigned int NDimensions>
+template <class TScalar, unsigned int NDimensions>
 void
-CenteredAffineTransform<TScalarType, NDimensions>
+CenteredAffineTransform<TScalar, NDimensions>
 ::ComputeJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const
 {
   // The Jacobian of the affine transform is composed of
@@ -166,18 +166,18 @@ CenteredAffineTransform<TScalarType, NDimensions>
 }
 
 // Get an inverse of this transform
-template <class TScalarType, unsigned int NDimensions>
+template <class TScalar, unsigned int NDimensions>
 bool
-CenteredAffineTransform<TScalarType, NDimensions>
+CenteredAffineTransform<TScalar, NDimensions>
 ::GetInverse(Self *inverse) const
 {
   return this->Superclass::GetInverse(inverse);
 }
 
 // Return an inverse of this transform
-template <class TScalarType, unsigned int NDimensions>
-typename CenteredAffineTransform<TScalarType, NDimensions>::InverseTransformBasePointer
-CenteredAffineTransform<TScalarType, NDimensions>
+template <class TScalar, unsigned int NDimensions>
+typename CenteredAffineTransform<TScalar, NDimensions>::InverseTransformBasePointer
+CenteredAffineTransform<TScalar, NDimensions>
 ::GetInverseTransform() const
 {
   Pointer inv = New();

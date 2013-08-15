@@ -43,17 +43,17 @@ namespace itk
  * \sa VersorRigid3DTransform
  * \ingroup ITKTransform
  */
-template <class TScalarType = double>
+template< class TScalar = double >
 // Data type for scalars (float or double)
 class Similarity3DTransform :
-  public VersorRigid3DTransform<TScalarType>
+  public VersorRigid3DTransform< TScalar >
 {
 public:
   /** Standard class typedefs. */
-  typedef Similarity3DTransform               Self;
-  typedef VersorRigid3DTransform<TScalarType> Superclass;
-  typedef SmartPointer<Self>                  Pointer;
-  typedef SmartPointer<const Self>            ConstPointer;
+  typedef Similarity3DTransform             Self;
+  typedef VersorRigid3DTransform< TScalar > Superclass;
+  typedef SmartPointer< Self >              Pointer;
+  typedef SmartPointer< const Self >        ConstPointer;
 
   /** New macro for creation of through a Smart Pointer. */
   itkNewMacro(Self);
@@ -89,7 +89,7 @@ public:
   typedef typename Superclass::VersorType VersorType;
   typedef typename Superclass::AxisType   AxisType;
   typedef typename Superclass::AngleType  AngleType;
-  typedef          TScalarType            ScaleType;
+  typedef          TScalar                ScaleType;
 
   /** Set the parameters to the IdentityTransform */
   virtual void SetIdentity(void);

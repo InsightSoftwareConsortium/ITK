@@ -28,8 +28,8 @@ namespace itk
 {
 
 // Constructor with default arguments
-template <class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
-BSplineBaseTransform<TScalarType, NDimensions, VSplineOrder>
+template <class TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
+BSplineBaseTransform<TScalar, NDimensions, VSplineOrder>
 ::BSplineBaseTransform() : Superclass( 0 ),
   m_CoefficientImages( this->ArrayOfImagePointerGeneratorHelper() )
 {
@@ -40,17 +40,17 @@ BSplineBaseTransform<TScalarType, NDimensions, VSplineOrder>
 }
 
 // Destructor
-template <class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
-BSplineBaseTransform<TScalarType, NDimensions, VSplineOrder>
+template <class TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
+BSplineBaseTransform<TScalar, NDimensions, VSplineOrder>
 ::~BSplineBaseTransform()
 {
 }
 
 
 // Set the parameters
-template <class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
+template <class TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
 void
-BSplineBaseTransform<TScalarType, NDimensions, VSplineOrder>
+BSplineBaseTransform<TScalar, NDimensions, VSplineOrder>
 ::SetIdentity()
 {
   if( this->m_InternalParametersBuffer.Size() != this->GetNumberOfParameters() )
@@ -64,9 +64,9 @@ BSplineBaseTransform<TScalarType, NDimensions, VSplineOrder>
 }
 
 // Set the parameters
-template <class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
+template <class TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
 void
-BSplineBaseTransform<TScalarType, NDimensions, VSplineOrder>
+BSplineBaseTransform<TScalar, NDimensions, VSplineOrder>
 ::SetParameters( const ParametersType & parameters )
 {
   // check if the number of parameters match the
@@ -98,9 +98,9 @@ BSplineBaseTransform<TScalarType, NDimensions, VSplineOrder>
 }
 
 // Set the parameters by value
-template <class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
+template <class TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
 void
-BSplineBaseTransform<TScalarType, NDimensions, VSplineOrder>
+BSplineBaseTransform<TScalar, NDimensions, VSplineOrder>
 ::SetParametersByValue( const ParametersType & parameters )
 {
   // check if the number of parameters match the
@@ -118,9 +118,9 @@ BSplineBaseTransform<TScalarType, NDimensions, VSplineOrder>
 }
 
 
-template <class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
+template <class TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
 void
-BSplineBaseTransform<TScalarType, NDimensions, VSplineOrder>
+BSplineBaseTransform<TScalar, NDimensions, VSplineOrder>
 ::SetFixedParametersFromTransformDomainInformation() const
 {
   //  Fixed Parameters store the following information:
@@ -143,10 +143,10 @@ BSplineBaseTransform<TScalarType, NDimensions, VSplineOrder>
 /**
  * UpdateTransformParameters
  */
-template <class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
+template <class TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
 void
-BSplineBaseTransform<TScalarType, NDimensions, VSplineOrder>
-::UpdateTransformParameters( const DerivativeType & update, TScalarType factor )
+BSplineBaseTransform<TScalar, NDimensions, VSplineOrder>
+::UpdateTransformParameters( const DerivativeType & update, TScalar factor )
 {
   NumberOfParametersType numberOfParameters = this->GetNumberOfParameters();
 
@@ -196,9 +196,9 @@ BSplineBaseTransform<TScalarType, NDimensions, VSplineOrder>
 }
 
 // Wrap flat parameters as images
-template <class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
+template <class TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
 void
-BSplineBaseTransform<TScalarType, NDimensions, VSplineOrder>
+BSplineBaseTransform<TScalar, NDimensions, VSplineOrder>
 ::WrapAsImages()
 {
   /**
@@ -217,18 +217,18 @@ BSplineBaseTransform<TScalarType, NDimensions, VSplineOrder>
 }
 
 // Get the parameters
-template <class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
-const typename BSplineBaseTransform<TScalarType, NDimensions, VSplineOrder>::ParametersType &
-BSplineBaseTransform<TScalarType, NDimensions, VSplineOrder>
+template <class TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
+const typename BSplineBaseTransform<TScalar, NDimensions, VSplineOrder>::ParametersType &
+BSplineBaseTransform<TScalar, NDimensions, VSplineOrder>
 ::GetParameters() const
 {
   return this->m_InternalParametersBuffer;
 }
 
 // Get the parameters
-template <class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
-const typename BSplineBaseTransform<TScalarType, NDimensions, VSplineOrder>::ParametersType &
-BSplineBaseTransform<TScalarType, NDimensions, VSplineOrder>
+template <class TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
+const typename BSplineBaseTransform<TScalar, NDimensions, VSplineOrder>::ParametersType &
+BSplineBaseTransform<TScalar, NDimensions, VSplineOrder>
 ::GetFixedParameters() const
 {
   // HACK:  This should not be necessary if the
@@ -238,9 +238,9 @@ BSplineBaseTransform<TScalarType, NDimensions, VSplineOrder>
 }
 
 // Print self
-template <class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
+template <class TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
 void
-BSplineBaseTransform<TScalarType, NDimensions, VSplineOrder>
+BSplineBaseTransform<TScalar, NDimensions, VSplineOrder>
 ::PrintSelf( std::ostream & os, Indent indent ) const
 {
   this->Superclass::PrintSelf(os, indent);
@@ -256,9 +256,9 @@ BSplineBaseTransform<TScalarType, NDimensions, VSplineOrder>
 
 
 /** Get Jacobian at a point. A very specialized function just for BSplines */
-template <class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
+template <class TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
 void
-BSplineBaseTransform<TScalarType, NDimensions, VSplineOrder>
+BSplineBaseTransform<TScalar, NDimensions, VSplineOrder>
 ::ComputeJacobianFromBSplineWeightsWithRespectToPosition(
   const InputPointType & point, WeightsType & weights,
   ParameterIndexArrayType & indexes ) const
@@ -304,9 +304,9 @@ BSplineBaseTransform<TScalarType, NDimensions, VSplineOrder>
     }
 }
 
-template <class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
+template <class TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
 unsigned int
-BSplineBaseTransform<TScalarType, NDimensions, VSplineOrder>
+BSplineBaseTransform<TScalar, NDimensions, VSplineOrder>
 ::GetNumberOfAffectedWeights() const
 {
   return this->m_WeightsFunction->GetNumberOfWeights();
@@ -314,9 +314,9 @@ BSplineBaseTransform<TScalarType, NDimensions, VSplineOrder>
 
 // This helper class is used to work around a race condition where the dynamically
 // generated images must exist before the references to the sub-sections are created.
-template <class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
-typename BSplineBaseTransform<TScalarType, NDimensions, VSplineOrder>::CoefficientImageArray
-BSplineBaseTransform<TScalarType, NDimensions, VSplineOrder>
+template <class TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
+typename BSplineBaseTransform<TScalar, NDimensions, VSplineOrder>::CoefficientImageArray
+BSplineBaseTransform<TScalar, NDimensions, VSplineOrder>
 ::ArrayOfImagePointerGeneratorHelper(void) const
 {
   CoefficientImageArray tempArrayOfPointers;
@@ -329,10 +329,10 @@ BSplineBaseTransform<TScalarType, NDimensions, VSplineOrder>
 }
 
 // Transform a point
-template <class TScalarType, unsigned int NDimensions, unsigned int VSplineOrder>
-typename BSplineBaseTransform<TScalarType, NDimensions, VSplineOrder>
+template <class TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
+typename BSplineBaseTransform<TScalar, NDimensions, VSplineOrder>
 ::OutputPointType
-BSplineBaseTransform<TScalarType, NDimensions, VSplineOrder>
+BSplineBaseTransform<TScalar, NDimensions, VSplineOrder>
 ::TransformPoint(const InputPointType & point) const
 {
   WeightsType             weights( this->m_WeightsFunction->GetNumberOfWeights() );

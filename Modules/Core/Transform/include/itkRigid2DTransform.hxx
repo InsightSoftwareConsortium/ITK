@@ -24,48 +24,48 @@
 namespace itk
 {
 // Constructor with default arguments
-template <class TScalarType>
-Rigid2DTransform<TScalarType>::Rigid2DTransform() :
+template <class TScalar>
+Rigid2DTransform<TScalar>::Rigid2DTransform() :
   Superclass(ParametersDimension)
 {
-  m_Angle = NumericTraits<TScalarType>::Zero;
+  m_Angle = NumericTraits<TScalar>::Zero;
 }
 
 // Constructor with arguments
-template <class TScalarType>
-Rigid2DTransform<TScalarType>::Rigid2DTransform(unsigned int parametersDimension) :
+template <class TScalar>
+Rigid2DTransform<TScalar>::Rigid2DTransform(unsigned int parametersDimension) :
   Superclass(parametersDimension)
 {
-  m_Angle = NumericTraits<TScalarType>::Zero;
+  m_Angle = NumericTraits<TScalar>::Zero;
 }
 
-template <class TScalarType>
-Rigid2DTransform<TScalarType>::Rigid2DTransform(unsigned int , unsigned int parametersDimension) :
+template <class TScalar>
+Rigid2DTransform<TScalar>::Rigid2DTransform(unsigned int , unsigned int parametersDimension) :
   Superclass(parametersDimension)
 {
-  m_Angle = NumericTraits<TScalarType>::Zero;
+  m_Angle = NumericTraits<TScalar>::Zero;
 }
 
 // Destructor
-template <class TScalarType>
-Rigid2DTransform<TScalarType>::
+template <class TScalar>
+Rigid2DTransform<TScalar>::
 ~Rigid2DTransform()
 {
 }
 
 // Print self
-template <class TScalarType>
+template <class TScalar>
 void
-Rigid2DTransform<TScalarType>::PrintSelf(std::ostream & os, Indent indent) const
+Rigid2DTransform<TScalar>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Angle       = " << m_Angle        << std::endl;
 }
 
 // Set the rotation matrix
-template <class TScalarType>
+template <class TScalar>
 void
-Rigid2DTransform<TScalarType>::SetMatrix(const MatrixType & matrix)
+Rigid2DTransform<TScalar>::SetMatrix(const MatrixType & matrix)
 {
   itkDebugMacro("setting  m_Matrix  to " << matrix);
   // The matrix must be orthogonal otherwise it is not
@@ -87,17 +87,17 @@ Rigid2DTransform<TScalarType>::SetMatrix(const MatrixType & matrix)
 }
 
 /** Compute the Angle from the Rotation Matrix */
-template <class TScalarType>
+template <class TScalar>
 void
-Rigid2DTransform<TScalarType>
+Rigid2DTransform<TScalar>
 ::ComputeMatrixParameters(void)
 {
   // Extract the orthogonal part of the matrix
   //
-  vnl_matrix<TScalarType> p(2, 2);
+  vnl_matrix<TScalar> p(2, 2);
   p = this->GetMatrix().GetVnlMatrix();
-  vnl_svd<TScalarType>    svd(p);
-  vnl_matrix<TScalarType> r(2, 2);
+  vnl_svd<TScalar>    svd(p);
+  vnl_matrix<TScalar> r(2, 2);
   r = svd.U() * svd.V().transpose();
 
   m_Angle = vcl_acos(r[0][0]);
@@ -114,9 +114,9 @@ Rigid2DTransform<TScalarType>
 }
 
 // Compose with a translation
-template <class TScalarType>
+template <class TScalar>
 void
-Rigid2DTransform<TScalarType>::Translate(const OffsetType & offset, bool)
+Rigid2DTransform<TScalar>::Translate(const OffsetType & offset, bool)
 {
   OutputVectorType newOffset = this->GetOffset();
 
@@ -126,18 +126,18 @@ Rigid2DTransform<TScalarType>::Translate(const OffsetType & offset, bool)
 }
 
 // Create and return an inverse transformation
-template <class TScalarType>
+template <class TScalar>
 void
-Rigid2DTransform<TScalarType>::CloneInverseTo(Pointer & result) const
+Rigid2DTransform<TScalar>::CloneInverseTo(Pointer & result) const
 {
   result = New();
   this->GetInverse( result.GetPointer() );
 }
 
 // return an inverse transformation
-template <class TScalarType>
+template <class TScalar>
 bool
-Rigid2DTransform<TScalarType>::GetInverse(Self *inverse) const
+Rigid2DTransform<TScalar>::GetInverse(Self *inverse) const
 {
   if( !inverse )
     {
@@ -152,9 +152,9 @@ Rigid2DTransform<TScalarType>::GetInverse(Self *inverse) const
 }
 
 // Return an inverse of this transform
-template <class TScalarType>
-typename Rigid2DTransform<TScalarType>::InverseTransformBasePointer
-Rigid2DTransform<TScalarType>
+template <class TScalar>
+typename Rigid2DTransform<TScalar>::InverseTransformBasePointer
+Rigid2DTransform<TScalar>
 ::GetInverseTransform() const
 {
   Pointer inv = New();
@@ -163,9 +163,9 @@ Rigid2DTransform<TScalarType>
 }
 
 // Create and return a clone of the transformation
-template <class TScalarType>
+template <class TScalar>
 void
-Rigid2DTransform<TScalarType>::CloneTo(Pointer & result) const
+Rigid2DTransform<TScalar>::CloneTo(Pointer & result) const
 {
   result = New();
   result->SetCenter( this->GetCenter() );
@@ -174,19 +174,19 @@ Rigid2DTransform<TScalarType>::CloneTo(Pointer & result) const
 }
 
 // Reset the transform to an identity transform
-template <class TScalarType>
+template <class TScalar>
 void
-Rigid2DTransform<TScalarType>::SetIdentity(void)
+Rigid2DTransform<TScalar>::SetIdentity(void)
 {
   this->Superclass::SetIdentity();
-  m_Angle = NumericTraits<TScalarType>::Zero;
+  m_Angle = NumericTraits<TScalar>::Zero;
 }
 
 // Set the angle of rotation
-template <class TScalarType>
+template <class TScalar>
 void
-Rigid2DTransform<TScalarType>
-::SetAngle(TScalarType angle)
+Rigid2DTransform<TScalar>
+::SetAngle(TScalar angle)
 {
   m_Angle = angle;
   this->ComputeMatrix();
@@ -195,20 +195,20 @@ Rigid2DTransform<TScalarType>
 }
 
 // Set the angle of rotation
-template <class TScalarType>
+template <class TScalar>
 void
-Rigid2DTransform<TScalarType>
-::SetAngleInDegrees(TScalarType angle)
+Rigid2DTransform<TScalar>
+::SetAngleInDegrees(TScalar angle)
 {
-  const TScalarType angleInRadians = angle * vcl_atan(1.0) / 45.0;
+  const TScalar angleInRadians = angle * vcl_atan(1.0) / 45.0;
 
   this->SetAngle(angleInRadians);
 }
 
 // Compute the matrix from the angle
-template <class TScalarType>
+template <class TScalar>
 void
-Rigid2DTransform<TScalarType>
+Rigid2DTransform<TScalar>
 ::ComputeMatrix(void)
 {
   const MatrixValueType ca = vcl_cos(m_Angle);
@@ -223,9 +223,9 @@ Rigid2DTransform<TScalarType>
 }
 
 // Set Parameters
-template <class TScalarType>
+template <class TScalar>
 void
-Rigid2DTransform<TScalarType>::SetParameters(const ParametersType & parameters)
+Rigid2DTransform<TScalar>::SetParameters(const ParametersType & parameters)
 {
   itkDebugMacro(<< "Setting parameters " << parameters);
 
@@ -236,7 +236,7 @@ Rigid2DTransform<TScalarType>::SetParameters(const ParametersType & parameters)
     }
 
   // Set angle
-  const TScalarType angle = parameters[0];
+  const TScalar angle = parameters[0];
   this->SetVarAngle(angle);
 
   // Set translation
@@ -259,9 +259,9 @@ Rigid2DTransform<TScalarType>::SetParameters(const ParametersType & parameters)
 }
 
 // Get Parameters
-template <class TScalarType>
-const typename Rigid2DTransform<TScalarType>::ParametersType
-& Rigid2DTransform<TScalarType>::GetParameters(void) const
+template <class TScalar>
+const typename Rigid2DTransform<TScalar>::ParametersType
+& Rigid2DTransform<TScalar>::GetParameters(void) const
   {
   itkDebugMacro(<< "Getting parameters ");
 
@@ -279,9 +279,9 @@ const typename Rigid2DTransform<TScalarType>::ParametersType
   }
 
 // Compute transformation Jacobian
-template <class TScalarType>
+template <class TScalar>
 void
-Rigid2DTransform<TScalarType>::ComputeJacobianWithRespectToParameters(const InputPointType & p,
+Rigid2DTransform<TScalar>::ComputeJacobianWithRespectToParameters(const InputPointType & p,
                                                                       JacobianType & j ) const
 {
   j.SetSize( OutputSpaceDimension, this->GetNumberOfLocalParameters() );
@@ -307,16 +307,16 @@ Rigid2DTransform<TScalarType>::ComputeJacobianWithRespectToParameters(const Inpu
 
 #ifdef ITKV3_COMPATIBILITY
 #if !defined(ITK_LEGACY_REMOVE)
-template <class TScalarType>
+template <class TScalar>
 void
-Rigid2DTransform<TScalarType>::SetRotationMatrix(const MatrixType & matrix)
+Rigid2DTransform<TScalar>::SetRotationMatrix(const MatrixType & matrix)
 {
   this->SetMatrix(matrix);
 }
 
-template <class TScalarType>
-const typename Rigid2DTransform<TScalarType>::MatrixType &
-Rigid2DTransform<TScalarType>::GetRotationMatrix() const
+template <class TScalar>
+const typename Rigid2DTransform<TScalar>::MatrixType &
+Rigid2DTransform<TScalar>::GetRotationMatrix() const
 {
   return this->GetMatrix();
 }

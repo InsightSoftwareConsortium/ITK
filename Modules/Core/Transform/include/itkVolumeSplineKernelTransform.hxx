@@ -21,24 +21,24 @@
 
 namespace itk
 {
-template< class TScalarType, unsigned int NDimensions >
+template< class TScalar, unsigned int NDimensions >
 void
-VolumeSplineKernelTransform< TScalarType, NDimensions >::ComputeG(const InputVectorType & x,
+VolumeSplineKernelTransform< TScalar, NDimensions >::ComputeG(const InputVectorType & x,
                                                                   GMatrixType & gmatrix) const
 {
-  const TScalarType r = x.GetNorm();
+  const TScalar r = x.GetNorm();
 
-  gmatrix.fill(NumericTraits< TScalarType >::Zero);
-  const TScalarType r3 = r * r * r;
+  gmatrix.fill(NumericTraits< TScalar >::Zero);
+  const TScalar r3 = r * r * r;
   for ( unsigned int i = 0; i < NDimensions; i++ )
     {
     gmatrix[i][i] = r3;
     }
 }
 
-template< class TScalarType, unsigned int NDimensions >
+template< class TScalar, unsigned int NDimensions >
 void
-VolumeSplineKernelTransform< TScalarType, NDimensions >::ComputeDeformationContribution(
+VolumeSplineKernelTransform< TScalar, NDimensions >::ComputeDeformationContribution(
   const InputPointType  & thisPoint,
   OutputPointType & result) const
 {
@@ -50,8 +50,8 @@ VolumeSplineKernelTransform< TScalarType, NDimensions >::ComputeDeformationContr
   for ( unsigned int lnd = 0; lnd < numberOfLandmarks; lnd++ )
     {
     InputVectorType   position = thisPoint - sp->Value();
-    const TScalarType r = position.GetNorm();
-    const TScalarType r3 = r * r * r;
+    const TScalar r = position.GetNorm();
+    const TScalar r3 = r * r * r;
 
     for ( unsigned int odim = 0; odim < NDimensions; odim++ )
       {

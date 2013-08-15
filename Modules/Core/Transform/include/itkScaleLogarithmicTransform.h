@@ -32,20 +32,20 @@ namespace itk
  * \ingroup ITKTransform
  */
 template <
-  class TScalarType = float, // Type for cordinate representation type (float or
+  class TScalar = float, // Type for cordinate representation type (float or
                              // double)
   unsigned int NDimensions = 3>
 // Number of dimensions
 class ScaleLogarithmicTransform :
-  public ScaleTransform<TScalarType,
-                        NDimensions>
+  public ScaleTransform< TScalar,
+                         NDimensions >
 {
 public:
   /** Standard class typedefs.   */
-  typedef ScaleLogarithmicTransform                Self;
-  typedef ScaleTransform<TScalarType, NDimensions> Superclass;
-  typedef SmartPointer<Self>                       Pointer;
-  typedef SmartPointer<const Self>                 ConstPointer;
+  typedef ScaleLogarithmicTransform              Self;
+  typedef ScaleTransform< TScalar, NDimensions > Superclass;
+  typedef SmartPointer< Self >                   Pointer;
+  typedef SmartPointer< const Self >             ConstPointer;
 
   /** New macro for creation of through a smart pointer. */
   itkNewMacro(Self);

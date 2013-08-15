@@ -69,17 +69,17 @@ namespace itk
  */
 
 template <
-  class TScalarType = double,         // Data type for scalars
+  class TScalar = double,         // Data type for scalars
   unsigned int NInputDimensions = 3,  // Number of dimensions in the input space
   unsigned int NOutputDimensions = 3>
 // Number of dimensions in the output space
 class MatrixOffsetTransformBase :
-  public Transform<TScalarType, NInputDimensions, NOutputDimensions>
+  public Transform<TScalar, NInputDimensions, NOutputDimensions>
 {
 public:
   /** Standard typedefs   */
   typedef MatrixOffsetTransformBase Self;
-  typedef Transform<TScalarType,
+  typedef Transform<TScalar,
                     NInputDimensions,
                     NOutputDimensions>        Superclass;
 
@@ -112,17 +112,17 @@ public:
   typedef typename Superclass::ScalarType ScalarType;
 
   /** Standard vector type for this class   */
-  typedef Vector<TScalarType,
+  typedef Vector<TScalar,
                  itkGetStaticConstMacro(InputSpaceDimension)>  InputVectorType;
-  typedef Vector<TScalarType,
+  typedef Vector<TScalar,
                  itkGetStaticConstMacro(OutputSpaceDimension)> OutputVectorType;
   typedef typename OutputVectorType::ValueType OutputVectorValueType;
 
   /** Standard covariant vector type for this class   */
-  typedef CovariantVector<TScalarType,
+  typedef CovariantVector<TScalar,
                           itkGetStaticConstMacro(InputSpaceDimension)>
   InputCovariantVectorType;
-  typedef CovariantVector<TScalarType,
+  typedef CovariantVector<TScalar,
                           itkGetStaticConstMacro(OutputSpaceDimension)>
   OutputCovariantVectorType;
 
@@ -141,35 +141,35 @@ public:
   typedef typename Superclass::OutputSymmetricSecondRankTensorType
   OutputSymmetricSecondRankTensorType;
 
-  typedef CovariantVector<TScalarType, InputDiffusionTensor3DType::Dimension>
+  typedef CovariantVector<TScalar, InputDiffusionTensor3DType::Dimension>
   InputTensorEigenVectorType;
 
   /** Standard vnl_vector type for this class   */
-  typedef vnl_vector_fixed<TScalarType,
+  typedef vnl_vector_fixed<TScalar,
                            itkGetStaticConstMacro(InputSpaceDimension)>
   InputVnlVectorType;
-  typedef vnl_vector_fixed<TScalarType,
+  typedef vnl_vector_fixed<TScalar,
                            itkGetStaticConstMacro(OutputSpaceDimension)>
   OutputVnlVectorType;
 
   /** Standard coordinate point type for this class   */
-  typedef Point<TScalarType,
+  typedef Point<TScalar,
                 itkGetStaticConstMacro(InputSpaceDimension)>
   InputPointType;
   typedef typename InputPointType::ValueType InputPointValueType;
-  typedef Point<TScalarType,
+  typedef Point<TScalar,
                 itkGetStaticConstMacro(OutputSpaceDimension)>
   OutputPointType;
   typedef typename OutputPointType::ValueType OutputPointValueType;
 
   /** Standard matrix type for this class   */
-  typedef Matrix<TScalarType, itkGetStaticConstMacro(OutputSpaceDimension),
+  typedef Matrix<TScalar, itkGetStaticConstMacro(OutputSpaceDimension),
                  itkGetStaticConstMacro(InputSpaceDimension)>
   MatrixType;
   typedef typename MatrixType::ValueType MatrixValueType;
 
   /** Standard inverse matrix type for this class   */
-  typedef Matrix<TScalarType, itkGetStaticConstMacro(InputSpaceDimension),
+  typedef Matrix<TScalar, itkGetStaticConstMacro(InputSpaceDimension),
                  itkGetStaticConstMacro(OutputSpaceDimension)>
   InverseMatrixType;
 

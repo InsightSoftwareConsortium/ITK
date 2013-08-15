@@ -25,8 +25,8 @@
 namespace itk
 {
 // Constructor with default arguments
-template <class TScalarType>
-Similarity3DTransform<TScalarType>
+template <class TScalar>
+Similarity3DTransform<TScalar>
 ::Similarity3DTransform() :
   Superclass(ParametersDimension),
   m_Scale(1.0)
@@ -34,8 +34,8 @@ Similarity3DTransform<TScalarType>
 }
 
 // Constructor with arguments
-template <class TScalarType>
-Similarity3DTransform<TScalarType>
+template <class TScalar>
+Similarity3DTransform<TScalar>
 ::Similarity3DTransform(unsigned int paramDim) :
   Superclass(paramDim),
   m_Scale(1.0)
@@ -43,8 +43,8 @@ Similarity3DTransform<TScalarType>
 }
 
 // Constructor with arguments
-template <class TScalarType>
-Similarity3DTransform<TScalarType>
+template <class TScalar>
+Similarity3DTransform<TScalar>
 ::Similarity3DTransform(const MatrixType & matrix, const OutputVectorType & offset) :
   Superclass(matrix, offset),
   m_Scale(1.0)
@@ -52,9 +52,9 @@ Similarity3DTransform<TScalarType>
 }
 
 // / Set the parameters to the IdentityTransform
-template <class TScalarType>
+template <class TScalar>
 void
-Similarity3DTransform<TScalarType>
+Similarity3DTransform<TScalar>
 ::SetIdentity(void)
 {
   this->Superclass::SetIdentity();
@@ -62,9 +62,9 @@ Similarity3DTransform<TScalarType>
 }
 
 // Set the scale factor
-template <class TScalarType>
+template <class TScalar>
 void
-Similarity3DTransform<TScalarType>
+Similarity3DTransform<TScalar>
 ::SetScale(ScaleType scale)
 {
   m_Scale = scale;
@@ -72,9 +72,9 @@ Similarity3DTransform<TScalarType>
 }
 
 // Directly set the matrix
-template <class TScalarType>
+template <class TScalar>
 void
-Similarity3DTransform<TScalarType>
+Similarity3DTransform<TScalar>
 ::SetMatrix(const MatrixType & matrix)
 {
   //
@@ -114,14 +114,14 @@ Similarity3DTransform<TScalarType>
     itkExceptionMacro(<< "Attempting to set a non-orthogonal matrix (after removing scaling)");
     }
 
-  typedef MatrixOffsetTransformBase<TScalarType, 3> Baseclass;
+  typedef MatrixOffsetTransformBase<TScalar, 3> Baseclass;
   this->Baseclass::SetMatrix(matrix);
 }
 
 // Set Parameters
-template <class TScalarType>
+template <class TScalar>
 void
-Similarity3DTransform<TScalarType>
+Similarity3DTransform<TScalar>
 ::SetParameters(const ParametersType & parameters)
 {
   itkDebugMacro(<< "Setting parameters " << parameters);
@@ -185,9 +185,9 @@ Similarity3DTransform<TScalarType>
 // p[6:6} = scaling factor (isotropic)
 //
 
-template <class TScalarType>
-const typename Similarity3DTransform<TScalarType>::ParametersType
-& Similarity3DTransform<TScalarType>
+template <class TScalar>
+const typename Similarity3DTransform<TScalar>::ParametersType
+& Similarity3DTransform<TScalar>
 ::GetParameters(void) const
   {
   itkDebugMacro(<< "Getting parameters ");
@@ -208,9 +208,9 @@ const typename Similarity3DTransform<TScalarType>::ParametersType
   return this->m_Parameters;
   }
 
-template <class TScalarType>
+template <class TScalar>
 void
-Similarity3DTransform<TScalarType>::ComputeJacobianWithRespectToParameters(const InputPointType & p,
+Similarity3DTransform<TScalar>::ComputeJacobianWithRespectToParameters(const InputPointType & p,
                                                                            JacobianType & jacobian) const
 {
   typedef typename VersorType::ValueType ValueType;
@@ -282,9 +282,9 @@ Similarity3DTransform<TScalarType>::ComputeJacobianWithRespectToParameters(const
 }
 
 // Set the scale factor
-template <class TScalarType>
+template <class TScalar>
 void
-Similarity3DTransform<TScalarType>
+Similarity3DTransform<TScalar>
 ::ComputeMatrix()
 {
   this->Superclass::ComputeMatrix();
@@ -294,9 +294,9 @@ Similarity3DTransform<TScalarType>
 }
 
 /** Compute the matrix */
-template <class TScalarType>
+template <class TScalar>
 void
-Similarity3DTransform<TScalarType>
+Similarity3DTransform<TScalar>
 ::ComputeMatrixParameters(void)
 {
   MatrixType matrix = this->GetMatrix();
@@ -311,9 +311,9 @@ Similarity3DTransform<TScalarType>
 }
 
 // Print self
-template <class TScalarType>
+template <class TScalar>
 void
-Similarity3DTransform<TScalarType>
+Similarity3DTransform<TScalar>
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);

@@ -49,7 +49,7 @@ namespace watershed
  * \sa EquivalencyTable
  * \ingroup ITKWatersheds
  */
-template< class TScalarType, unsigned int TImageDimension >
+template< class TScalar, unsigned int TImageDimension >
 class EquivalenceRelabeler:
   public ProcessObject
 {
@@ -61,7 +61,7 @@ public:
   typedef Image< IdentifierType, TImageDimension >          ImageType;
   typedef EquivalenceRelabeler                              Self;
   typedef ProcessObject                                     Superclass;
-  typedef TScalarType                                       ScalarType;
+  typedef TScalar                                           ScalarType;
   typedef EquivalencyTable                                  EquivalencyTableType;
   typedef Segmenter< Image< ScalarType, TImageDimension > > SegmenterType;
   typedef DataObject::Pointer                               DataObjectPointer;

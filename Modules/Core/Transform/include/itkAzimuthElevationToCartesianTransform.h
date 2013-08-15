@@ -76,18 +76,18 @@ namespace itk
  * \wikiexample{Utilities/AzimuthElevationToCartesianTransform,Cartesian to AzimuthElevation and vice-versa}
  * \endwiki
  */
-template< class TScalarType = float,  // Data type for scalars
+template< class TScalar = float,  // Data type for scalars
           unsigned int NDimensions = 3 >
 // (e.g. float or double)
 class AzimuthElevationToCartesianTransform:
-  public AffineTransform< TScalarType, NDimensions >
+  public AffineTransform< TScalar, NDimensions >
 {
 public:
   /** Standard class typedefs.   */
-  typedef AzimuthElevationToCartesianTransform         Self;
-  typedef AffineTransform<  TScalarType, NDimensions > Superclass;
-  typedef SmartPointer< Self >                         Pointer;
-  typedef SmartPointer< const Self >                   ConstPointer;
+  typedef AzimuthElevationToCartesianTransform     Self;
+  typedef AffineTransform<  TScalar, NDimensions > Superclass;
+  typedef SmartPointer< Self >                     Pointer;
+  typedef SmartPointer< const Self >               ConstPointer;
 
   /** Dimension of the domain space. */
   itkStaticConstMacro(SpaceDimension, unsigned int, NDimensions);
@@ -114,7 +114,7 @@ public:
   typedef  typename Superclass::OutputPointType OutputPointType;
 
   /** Standard matrix type for this class.   */
-  typedef Matrix< TScalarType, itkGetStaticConstMacro(SpaceDimension),
+  typedef Matrix< TScalar, itkGetStaticConstMacro(SpaceDimension),
                   itkGetStaticConstMacro(SpaceDimension) > MatrixType;
 
   /** Set the transformation parameters. */

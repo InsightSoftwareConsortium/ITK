@@ -43,7 +43,7 @@ namespace watershed
  * \sa itk::WatershedImageFilter
  * \ingroup ITKWatersheds
  */
-template< class TScalarType >
+template< class TScalar >
 class SegmentTable:public DataObject
 {
 public:
@@ -52,7 +52,8 @@ public:
   typedef DataObject                 Superclass;
   typedef SmartPointer< Self >       Pointer;
   typedef SmartPointer< const Self > ConstPointer;
-  typedef TScalarType                ScalarType;
+  typedef TScalar                    ScalarType;
+
   itkNewMacro(Self);
   itkTypeMacro(WatershedSegmentTable, DataObject);
 

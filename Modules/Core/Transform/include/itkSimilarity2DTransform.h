@@ -58,17 +58,17 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template <class TScalarType = double>
+template< class TScalar = double >
 // Data type for scalars (float or double)
 class Similarity2DTransform :
-  public Rigid2DTransform<TScalarType>
+  public Rigid2DTransform< TScalar >
 {
 public:
   /** Standard class typedefs. */
-  typedef Similarity2DTransform         Self;
-  typedef Rigid2DTransform<TScalarType> Superclass;
-  typedef SmartPointer<Self>            Pointer;
-  typedef SmartPointer<const Self>      ConstPointer;
+  typedef Similarity2DTransform       Self;
+  typedef Rigid2DTransform< TScalar > Superclass;
+  typedef SmartPointer< Self >        Pointer;
+  typedef SmartPointer< const Self >  ConstPointer;
 
   /** New macro for creation of through a Smart Pointer. */
   itkNewMacro(Self);
@@ -84,7 +84,7 @@ public:
 
   /** Scalar type. */
   typedef typename Superclass::ScalarType ScalarType;
-  typedef          TScalarType            ScaleType;
+  typedef          TScalar                ScaleType;
 
   /** Parameters type. */
   typedef typename Superclass::ParametersType      ParametersType;

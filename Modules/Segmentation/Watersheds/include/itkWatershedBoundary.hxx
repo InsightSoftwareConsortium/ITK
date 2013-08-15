@@ -26,8 +26,8 @@ namespace itk
 {
 namespace watershed
 {
-template< class TScalarType, unsigned int TDimension >
-Boundary< TScalarType, TDimension >
+template< class TScalar, unsigned int TDimension >
+Boundary< TScalar, TDimension >
 ::Boundary()
 {
   unsigned int i;
@@ -57,9 +57,9 @@ Boundary< TScalarType, TDimension >
     }
 }
 
-template< class TScalarType,  unsigned int TDimension >
+template< class TScalar,  unsigned int TDimension >
 void
-Boundary< TScalarType, TDimension >
+Boundary< TScalar, TDimension >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {  Superclass::PrintSelf(os, indent); }
 } // end namespace watershed

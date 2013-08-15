@@ -44,17 +44,17 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template <class TScalarType = double>
+template< class TScalar = double >
 // Data type for scalars:float or double
 class ScaleSkewVersor3DTransform :
-  public VersorRigid3DTransform<TScalarType>
+  public VersorRigid3DTransform< TScalar >
 {
 public:
   /** Standard class typedefs. */
-  typedef ScaleSkewVersor3DTransform          Self;
-  typedef VersorRigid3DTransform<TScalarType> Superclass;
-  typedef SmartPointer<Self>                  Pointer;
-  typedef SmartPointer<const Self>            ConstPointer;
+  typedef ScaleSkewVersor3DTransform        Self;
+  typedef VersorRigid3DTransform< TScalar > Superclass;
+  typedef SmartPointer< Self >              Pointer;
+  typedef SmartPointer< const Self >        ConstPointer;
 
   /** New macro for creation of through a Smart Pointer. */
   itkNewMacro(Self);
@@ -90,8 +90,8 @@ public:
   typedef typename Superclass::AngleType  AngleType;
 
   /** Scale & Skew Vector Type. */
-  typedef Vector<TScalarType, 3> ScaleVectorType;
-  typedef Vector<TScalarType, 6> SkewVectorType;
+  typedef Vector<TScalar, 3> ScaleVectorType;
+  typedef Vector<TScalar, 6> SkewVectorType;
 
   typedef typename ScaleVectorType::ValueType ScaleVectorValueType;
   typedef typename SkewVectorType::ValueType  SkewVectorValueType;

@@ -23,8 +23,8 @@ namespace itk
 {
 namespace watershed
 {
-template< class TScalarType, unsigned int TImageDimension >
-void EquivalenceRelabeler< TScalarType, TImageDimension >
+template< class TScalar, unsigned int TImageDimension >
+void EquivalenceRelabeler< TScalar, TImageDimension >
 ::GenerateData()
 {
   typename ImageType::ConstPointer input  = this->GetInputImage();
@@ -54,8 +54,8 @@ void EquivalenceRelabeler< TScalarType, TImageDimension >
   SegmenterType::RelabelImage(output, output->GetRequestedRegion(), eqT);
 }
 
-template< class TScalarType, unsigned int VImageDimension >
-void EquivalenceRelabeler< TScalarType, VImageDimension >
+template< class TScalar, unsigned int VImageDimension >
+void EquivalenceRelabeler< TScalar, VImageDimension >
 ::GenerateInputRequestedRegion()
 {
   // call the superclass' implementation of this method
@@ -77,8 +77,8 @@ void EquivalenceRelabeler< TScalarType, VImageDimension >
   inputPtr->SetRequestedRegion( outputPtr->GetRequestedRegion() );
 }
 
-template< class TScalarType, unsigned int TImageDimension >
-void EquivalenceRelabeler< TScalarType, TImageDimension >
+template< class TScalar, unsigned int TImageDimension >
+void EquivalenceRelabeler< TScalar, TImageDimension >
 ::GenerateOutputRequestedRegion(DataObject *output)
 {
   // Only the Image output need to be propagated through.
@@ -103,16 +103,16 @@ void EquivalenceRelabeler< TScalarType, TImageDimension >
     }
 }
 
-template< class TScalarType, unsigned int TImageDimension >
-void EquivalenceRelabeler< TScalarType, TImageDimension >
+template< class TScalar, unsigned int TImageDimension >
+void EquivalenceRelabeler< TScalar, TImageDimension >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }
 
-template< class TScalarType, unsigned int TImageDimension >
-typename EquivalenceRelabeler< TScalarType, TImageDimension >::DataObjectPointer
-EquivalenceRelabeler< TScalarType, TImageDimension >
+template< class TScalar, unsigned int TImageDimension >
+typename EquivalenceRelabeler< TScalar, TImageDimension >::DataObjectPointer
+EquivalenceRelabeler< TScalar, TImageDimension >
 ::MakeOutput(DataObjectPointerArraySizeType)
 {
   return ImageType::New().GetPointer();

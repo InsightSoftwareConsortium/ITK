@@ -63,9 +63,9 @@ ScaleTransform<ScalarType, NDimensions>
 }
 
 // Get Parameters
-template <class TScalarType, unsigned int NDimensions>
-const typename ScaleTransform<TScalarType, NDimensions>::ParametersType
-& ScaleTransform<TScalarType, NDimensions>
+template <class TScalar, unsigned int NDimensions>
+const typename ScaleTransform<TScalar, NDimensions>::ParametersType
+& ScaleTransform<TScalar, NDimensions>
 ::GetParameters(void) const
   {
   itkDebugMacro(<< "Getting parameters ");

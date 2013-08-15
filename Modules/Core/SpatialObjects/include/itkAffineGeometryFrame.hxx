@@ -23,8 +23,8 @@
 namespace itk
 {
 /** Constructor */
-template< class TScalarType, unsigned int NDimensions >
-AffineGeometryFrame< TScalarType, NDimensions >
+template< class TScalar, unsigned int NDimensions >
+AffineGeometryFrame< TScalar, NDimensions >
 ::AffineGeometryFrame()
 {
   m_BoundingBox = NULL;
@@ -38,17 +38,17 @@ AffineGeometryFrame< TScalarType, NDimensions >
 }
 
 /** Destructor */
-template< class TScalarType, unsigned int NDimensions >
-AffineGeometryFrame< TScalarType, NDimensions >
+template< class TScalar, unsigned int NDimensions >
+AffineGeometryFrame< TScalar, NDimensions >
 ::~AffineGeometryFrame()
 {}
 
 /** Initialize the transform */
-template< class TScalarType, unsigned int NDimensions >
-void AffineGeometryFrame< TScalarType, NDimensions >
+template< class TScalar, unsigned int NDimensions >
+void AffineGeometryFrame< TScalar, NDimensions >
 ::Initialize()
 {
-  TScalarType  b[2 * NDimensions];
+  TScalar  b[2 * NDimensions];
   unsigned int i;
 
   for ( i = 0; i < 2 * NDimensions; ++i )
@@ -63,16 +63,16 @@ void AffineGeometryFrame< TScalarType, NDimensions >
 }
 
 /** Set the bounds */
-template< class TScalarType, unsigned int NDimensions >
-void AffineGeometryFrame< TScalarType, NDimensions >
+template< class TScalar, unsigned int NDimensions >
+void AffineGeometryFrame< TScalar, NDimensions >
 ::SetBounds(const BoundsArrayType & bounds)
 {
   SetBoundsArray(bounds, m_BoundingBox);
 }
 
 /** Set the bounds array */
-template< class TScalarType, unsigned int NDimensions >
-void AffineGeometryFrame< TScalarType, NDimensions >
+template< class TScalar, unsigned int NDimensions >
+void AffineGeometryFrame< TScalar, NDimensions >
 ::SetBoundsArray(const BoundsArrayType & bounds, BoundingBoxPointer & boundingBox)
 {
   boundingBox = BoundingBoxType::New();
@@ -98,9 +98,9 @@ void AffineGeometryFrame< TScalarType, NDimensions >
 }
 
 /** Clone the geometry */
-template< class TScalarType, unsigned int NDimensions >
+template< class TScalar, unsigned int NDimensions >
 typename LightObject::Pointer
-AffineGeometryFrame< TScalarType, NDimensions >
+AffineGeometryFrame< TScalar, NDimensions >
 ::InternalClone() const
 {
   LightObject::Pointer loPtr = Superclass::InternalClone();
@@ -118,9 +118,9 @@ AffineGeometryFrame< TScalarType, NDimensions >
 }
 
 /** Initialize the geometry */
-template< class TScalarType, unsigned int NDimensions >
+template< class TScalar, unsigned int NDimensions >
 void
-AffineGeometryFrame< TScalarType, NDimensions >
+AffineGeometryFrame< TScalar, NDimensions >
 ::InitializeGeometry(AffineGeometryFrame *newGeometry) const
 {
   newGeometry->SetBounds( m_BoundingBox->GetBounds() );
@@ -149,9 +149,9 @@ AffineGeometryFrame< TScalarType, NDimensions >
 }
 
 /** Print the object */
-template< class TScalarType, unsigned int NDimensions >
+template< class TScalar, unsigned int NDimensions >
 void
-AffineGeometryFrame< TScalarType, NDimensions >
+AffineGeometryFrame< TScalar, NDimensions >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
