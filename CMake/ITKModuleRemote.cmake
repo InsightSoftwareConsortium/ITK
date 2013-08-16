@@ -105,16 +105,16 @@ function(_fetch_with_git git_executable git_repository git_tag module_dir)
   # If we don't have a clone yet.
   if(NOT EXISTS "${module_dir}")
     _git_clone("${git_executable}" "${git_repository}" "${git_tag}" "${module_dir}")
+    message(STATUS " The remote module: ${git_repository} is cloned into the directory ${module_dir}")
   else() # We already have a clone, but we need to check that it has the right revision.
     _git_update("${git_executable}" "${git_repository}" "${git_tag}" "${module_dir}")
   endif()
 endfunction()
 
-# Fetch a remote module.
+# Download and turn on a remote module.
 #
-# A new CMake option is created, Fetch_${module_name}, which defaults to OFF.
-# Once set to ON, the module is downloaded into the Remote module group, and an
-# option to build the module will be available on the next CMake configuration.
+# The module CMake option is created: Module_${module_name}, which defaults to OFF.
+# Once set to ON, the module is downloaded into the Remote module group.
 #
 # A module name and description are required.  The description will show up in
 # the CMake user interface.
@@ -123,9 +123,16 @@ endfunction()
 #    [GIT_REPOSITORY url]        # URL of git repo
 #    [GIT_TAG tag]               # Git branch name, commit id or tag
 function(itk_fetch_module _name _description)
-  option(Fetch_${_name} "${_description}" OFF)
-  mark_as_advanced(Fetch_${_name})
+  option(Module_${_name} "${_description}" OFF)
+  mark_as_advanced(Module_${_name})
+
+  # Fetch_$_remote_module} is deprecated. To maintain backward compatibility:
   if(Fetch_${_name})
+    message(WARNING "Fetch_${_name} is deprecated, please use Module_${_name} to download and enable the remote module.")
+    set(Module_${_name} ON CACHE FORCE "${_description}")
+  endif()
+
+  if(Module_${_name})
     include(CMakeParseArguments)
     cmake_parse_arguments(_fetch_options "" "GIT_REPOSITORY;GIT_TAG" "" ${ARGN})
     find_package(Git)

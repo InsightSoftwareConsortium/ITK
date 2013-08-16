@@ -280,6 +280,10 @@ mark_as_advanced(ITK_COMPUTER_MEMORY_SIZE)
 
 
 
+#----------------------------------------------------------------------
+# Make sure remote modules are downloaded before sorting out the module
+# dependencies.
+add_subdirectory(Modules/Remote)
 
 #----------------------------------------------------------------------
 # Load the module DAG.
@@ -658,7 +662,7 @@ if(BUILD_TESTING)
   add_subdirectory(Utilities/InstallTest)
 endif()
 
-add_subdirectory(Modules/Remote)
+
 
 #-----------------------------------------------------------------------------
 # The subdirectories added below this line should use only the public
