@@ -16,7 +16,7 @@
  *
  *=========================================================================*/
 
-#include "itkVTKVisualize3DLevelSetImage.h"
+#include "itkVTKVisualizeImageLevelSetIsoValues.h"
 
 #include "itkLevelSetDenseImage.h"
 
@@ -58,10 +58,9 @@ void GenerateImage( typename TImage::Pointer ioImage )
     it.Set( itk::NumericTraits< PixelType >::max() );
     ++it;
     }
-
 }
 
-int itkVTKVisualize3DLevelSetImageTest( int , char* [] )
+int itkVTKVisualize3DDenseImageLevelSetTest( int , char* [] )
 {
   typedef unsigned char PixelType;
   const unsigned int Dimension = 3;
@@ -98,7 +97,7 @@ int itkVTKVisualize3DLevelSetImageTest( int , char* [] )
   LevelSetType::Pointer levelset = LevelSetType::New();
   levelset->SetImage( LevelSetImage );
 
-  typedef itk::VTKVisualize3DLevelSetImage< ImageType, LevelSetType > VisualizationType;
+  typedef itk::VTKVisualizeImageLevelSetIsoValues< ImageType, LevelSetType > VisualizationType;
   VisualizationType::Pointer viewer = VisualizationType::New();
   viewer->SetInputImage( image );
   viewer->SetLevelSet( levelset );
