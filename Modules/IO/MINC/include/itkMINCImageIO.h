@@ -121,7 +121,7 @@ protected:
 
   // dimension size and start and step, in FILE ORDER!
 
-  const char   **m_DimensionName;
+  char         **m_DimensionName;
   misize_t      *m_DimensionSize;
   double        *m_DimensionStart;
   double        *m_DimensionStep;

@@ -145,8 +145,7 @@ void MINCImageIO::CleanupDimensions(void)
     {
     for ( int i = 0; i < this->m_NDims; i++ )
       {
-      if(this->m_DimensionName[i])
-        free( (void*)this->m_DimensionName[i]);
+      mifree_name( this->m_DimensionName[i] );
       this->m_DimensionName[i]=NULL;
       }
     }
@@ -188,7 +187,7 @@ void MINCImageIO::AllocateDimensions(int nDims)
 
   m_NDims=nDims;
 
-  this->m_DimensionName  = new const char*[m_NDims];
+  this->m_DimensionName  = new char*[m_NDims];
   this->m_DimensionSize  = new misize_t[m_NDims];
   this->m_DimensionStart = new double[m_NDims];
   this->m_DimensionStep  = new double[m_NDims];
