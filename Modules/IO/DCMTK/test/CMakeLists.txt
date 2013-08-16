@@ -4,6 +4,7 @@ set(ITKIODCMTKTests
   itkDCMTKSeriesReadImageWrite.cxx
   itkDCMTKSeriesStreamReadImageWrite.cxx
   itkDCMTKImageIOOrthoDirTest.cxx
+  itkDCMTKMultiFrame4DTest.cxx
 )
 
 
@@ -58,3 +59,8 @@ itk_add_test(NAME itkDCMTKSeriesStreamReadImageWrite1
 itk_add_test(NAME itkDCMTKImageIOOrthoDirTest
   COMMAND ITKIODCMTKTestDriver itkDCMTKImageIOOrthoDirTest
   DATA{${ITK_DATA_ROOT}/Input/OrthogonalDirectionsTest.dcm})
+
+itk_add_test(NAME itkDCMTKMultiFrame4DTest
+  COMMAND ITKIODCMTKTestDriver itkDCMTKMultiFrame4DTest
+  DATA{${ITK_DATA_ROOT}/Input/Philips_4D_DICOM.dcm}
+  ${ITK_TEST_OUTPUT_DIR}/Philips_4D_DICOM.nrrd )

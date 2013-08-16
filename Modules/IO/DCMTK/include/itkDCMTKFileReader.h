@@ -397,6 +397,11 @@ public:
                     ::itk::int32_t  &target,
                     bool throwException = true);
 
+  int  GetElementSL(unsigned short group,
+                    unsigned short element,
+                    ::itk::int32_t  &target,
+                    bool throwException = true);
+
   int  GetElementISorOB(unsigned short group,
                         unsigned short element,
                         ::itk::int32_t  &target,

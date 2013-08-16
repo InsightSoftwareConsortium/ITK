@@ -20,7 +20,6 @@
 #undef HAVE_SSTREAM   // 'twould be nice if people coded without using
 // incredibly generic macro names
 #include "dcmtk/config/osconfig.h" // make sure OS specific configuration is included first
-
 #define INCLUDE_CSTDIO
 #define INCLUDE_CSTRING
 
@@ -29,6 +28,7 @@
 #include "dcvrcs.h"          /* for DcmCodeString */
 #include "dcvrfd.h"          /* for DcmFloatingPointDouble */
 #include "dcvrfl.h"          /* for DcmFloatingPointDouble */
+#include "dcvrsl.h"          /* for DCMSignedLong */
 #include "dcvrus.h"          /* for DcmUnsignedShort */
 #include "dcvris.h"          /* for DcmIntegerString */
 #include "dcvrobow.h"        /* for DcmOtherByteOtherWord */
@@ -42,6 +42,7 @@
 #include "dcmimage.h"        /* fore DicomImage */
 // #include "diregist.h"     /* include to support color images */
 #include "vnl/vnl_cross.h"
+#include "itkIntTypes.h"
 
 
 namespace itk
@@ -402,8 +403,8 @@ DCMTKFileReader
     DicomImage *image = new DicomImage(filename.c_str());
     if(image != 0)
       {
-      if(!image->getStatus() != EIS_Normal &&
-         image->getInterData() != 0)
+      if((image->getStatus() == EIS_Normal) &&
+         (image->getInterData() != 0))
         {
         rval = true;
         }
@@ -871,6 +872,40 @@ DCMTKFileReader
                    << element << std::dec);
     }
   DcmIntegerString *isItem = dynamic_cast<DcmIntegerString *>(el);
+  if(isItem == 0)
+    {
+    DCMTKExceptionOrErrorReturn(<< "Cant find DecimalString element " << std::hex
+                   << group << " " << std::hex
+                   << element << std::dec);
+    }
+  Sint32 _target; // MSVC seems to have type conversion problems with
+                  // using int32_t as a an argument to getSint32
+  if(isItem->getSint32(_target) != EC_Normal)
+    {
+    DCMTKExceptionOrErrorReturn(<< "Can't get DecimalString Value at tag "
+                   << std::hex << group << " "
+                   << element << std::dec);
+    }
+  target = static_cast< ::itk::int32_t>(_target);
+  return EXIT_SUCCESS;
+}
+
+int
+DCMTKFileReader
+::GetElementSL(unsigned short group,
+               unsigned short element,
+               ::itk::int32_t &target,
+               bool throwException)
+{
+  DcmTagKey tagkey(group,element);
+  DcmElement *el;
+  if(this->m_Dataset->findAndGetElement(tagkey,el) != EC_Normal)
+    {
+    DCMTKExceptionOrErrorReturn(<< "Cant find tag " << std::hex
+                   << group << " " << std::hex
+                   << element << std::dec);
+    }
+  DcmSignedLong *isItem = dynamic_cast<DcmSignedLong *>(el);
   if(isItem == 0)
     {
     DCMTKExceptionOrErrorReturn(<< "Cant find DecimalString element " << std::hex
