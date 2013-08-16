@@ -222,6 +222,9 @@ TxtTransformIOTemplate<ParametersValueType>
     VectorBuffer.clear();
     if ( Name == "Transform" )
       {
+      // Transform name should be modified to have the output precision type.
+      TransformName<ParametersValueType>::CorrectPrecisionType( Value );
+
       this->CreateTransform(transform, Value);
       this->GetReadTransformList().push_back (transform);
       }
@@ -290,7 +293,7 @@ namespace {
 template<class ParametersValueType>
 void print_vector(std::ofstream& s, vnl_vector<ParametersValueType> const &v)
 {
-  NumberToString<double> convert;
+  NumberToString<ParametersValueType> convert;
   for (unsigned i = 0; i+1 < v.size(); ++i)
     {
     s << convert(v[i]) << ' ';

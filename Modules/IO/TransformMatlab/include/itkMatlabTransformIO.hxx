@@ -65,12 +65,17 @@ ReadMat(vnl_matlab_readhdr & mathdr,
     mathdr.read_data( fv.begin() );
     for ( int i = 0; i < mathdr.rows(); i++ )
       {
-      array[i] = fv[i];
+      array[i] = (ParametersValueType)(fv[i]);
       }
     }
   else
     {
-    mathdr.read_data( array.begin() );
+    vnl_vector< double > dv( mathdr.rows() );
+    mathdr.read_data( dv.begin() );
+    for ( int i = 0; i < mathdr.rows(); i++ )
+      {
+      array[i] = (ParametersValueType)(dv[i]);
+      }
     }
 }
 
@@ -104,6 +109,9 @@ MatlabTransformIOTemplate<ParametersValueType>
     typename TransformType::ParametersType TmpParameterArray( mathdr.rows() );
     ReadMat<ParametersValueType>(mathdr, TmpParameterArray);
     std::string classname( mathdr.name() );
+    // Transform name should be modified to have the output precision type.
+    TransformName<ParametersValueType>::CorrectPrecisionType( classname );
+
     // create transform based on name of first vector
     TransformPointer transform;
     this->CreateTransform(transform, classname);
