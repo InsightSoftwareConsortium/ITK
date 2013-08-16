@@ -10,6 +10,7 @@ itkVTKVisualize2DCellsLevelSetLayersTest
 itkVTKVisualize2DWhitakerLevelSetLayersTest
 itkVTKVisualize2DShiLevelSetLayersTest
 itkVTKVisualize2DMalcolmLevelSetLayersTest
+itkVTKVisualize3DLevelSetImageTest
 )
 
 set(ITKLevelSetsv4Visualization-Test_LIBRARIES ${ITKLevelSetsv4Visualization_LIBRARIES} )
@@ -34,6 +35,9 @@ itk_add_test(NAME itkVTKVisualize2DShiLevelSetLayersTest
 
 itk_add_test(NAME itkVTKVisualize2DMalcolmLevelSetLayersTest
   COMMAND ITKLevelSetsv4VisualizationTestDriver itkVTKVisualize2DMalcolmLevelSetLayersTest)
+
+itk_add_test(NAME itkVTKVisualize3DLevelSetImageTest
+  COMMAND ITKLevelSetsv4VisualizationTestDriver itkVTKVisualize3DLevelSetImageTest)
 
 itk_add_test(NAME itkVTKVisualize2DCellsDenseLevelSetTest
   COMMAND ITKLevelSetsv4VisualizationTestDriver itkVTKVisualize2DCellsLevelSetTest
