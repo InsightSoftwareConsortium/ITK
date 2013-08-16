@@ -294,11 +294,6 @@ void SimplexMeshAdaptTopologyFilter< TInputMesh, TOutputMesh >
       this->ModifyNeighborCells(lineOneFirstIdx, lineOneSecondIdx, firstNewIndex);
       this->ModifyNeighborCells(lineTwoFirstIdx, lineTwoSecondIdx, secondNewIndex);
 
-      if ( outputMesh->GetCellsAllocationMethod() == TInputMesh::CellsAllocatedDynamicallyCellByCell )
-        {
-        // delete poly.GetPointer();
-        }
-
       } // end if cell must be modified
     areaIt++;
     curvatureIt++;

@@ -60,6 +60,10 @@ class InternalHeader
 {
 public:
   InternalHeader():m_Header(0) {}
+  ~InternalHeader()
+  {
+    delete m_Header;
+  }
   gdcm::File *m_Header;
 };
 
@@ -98,10 +102,6 @@ GDCMImageIO::GDCMImageIO()
 
 GDCMImageIO::~GDCMImageIO()
 {
-  if ( this->m_DICOMHeader->m_Header )
-    {
-    delete this->m_DICOMHeader->m_Header;
-    }
   delete this->m_DICOMHeader;
 }
 

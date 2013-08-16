@@ -354,7 +354,6 @@ DCMTKSequence
 DCMTKFileReader
 ::~DCMTKFileReader()
 {
-
   delete m_DFile;
 }
 
@@ -377,17 +376,14 @@ DCMTKFileReader
 ::CanReadFile(const std::string &filename)
 {
   DcmFileFormat *DFile = new DcmFileFormat();
-  bool rval(true);
-  if(DFile == 0)
+  bool rval = false;
+  if( DFile &&
+      DFile->loadFile(filename.c_str(),
+                      EXS_Unknown,
+                      EGL_noChange,
+                      65536) == EC_Normal)
     {
-    rval = false;
-    }
-  else if( !(DFile->loadFile(filename.c_str(),
-                             EXS_Unknown,
-                             EGL_noChange,
-                             65536) == EC_Normal))
-    {
-    rval = false;
+    rval = true;
     }
   delete DFile;
   return rval;
@@ -397,28 +393,18 @@ bool
 DCMTKFileReader
 ::IsImageFile(const std::string &filename)
 {
-  bool rval = DCMTKFileReader::CanReadFile(filename);
-  if(rval != false)
+  if( !DCMTKFileReader::CanReadFile(filename) )
     {
-    DicomImage *image = new DicomImage(filename.c_str());
-    if(image != 0)
-      {
-      if((image->getStatus() == EIS_Normal) &&
-         (image->getInterData() != 0))
-        {
-        rval = true;
-        }
-      else
-        {
-        rval = false;
-        }
-      delete image;
-      }
-    else
-      {
-      rval = false;
-      }
+    return false;
     }
+
+  bool rval = false;
+  DicomImage *image = new DicomImage(filename.c_str());
+  if( image && image->getStatus() == EIS_Normal && image->getInterData() )
+    {
+    rval = true;
+    }
+  delete image;
   return rval;
 }
 
