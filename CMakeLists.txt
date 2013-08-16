@@ -93,19 +93,6 @@ endif()
 option(ITK_CPPCHECK_TEST "Run cppcheck for static code analysis" OFF)
 mark_as_advanced(ITK_CPPCHECK_TEST)
 
-#-----------------------------------------------------------------------------
-# Default values for CMake options may vary based on whether it's a
-# dashboard build or not:
-#
-if("$ENV{DASHBOARD_TEST_FROM_CTEST}" STREQUAL "")
-  # developer build
-  set(ITK_BUILD_ALL_MODULES_DEFAULT ON)
-  set(BUILD_EXAMPLES_DEFAULT ON)
-else()
-  # dashboard build
-  set(ITK_BUILD_ALL_MODULES_DEFAULT ON)
-  set(BUILD_EXAMPLES_DEFAULT ON)
-endif()
 
 #-----------------------------------------------------------------------------
 # Enable the download and use of BrainWeb datasets.
@@ -203,9 +190,8 @@ endif()
 include(${ITK_SOURCE_DIR}/Utilities/KWStyle/KWStyle.cmake)
 
 #-----------------------------------------------------------------------------
-# ITK build the Examples that are illustrated in the Software Guide
-option(BUILD_EXAMPLES "Build the Examples directory."
-  ${BUILD_EXAMPLES_DEFAULT})
+# By default, ITK builds the Examples that are illustrated in the Software Guide
+option(BUILD_EXAMPLES "Build the Examples directory." ON)
 
 #-----------------------------------------------------------------------------
 # Enable GPU support. Requires OpenCL to be installed
@@ -351,9 +337,8 @@ endforeach()
 
 #----------------------------------------------------------------------
 
-# Provide an option for all modules.
-option(ITK_BUILD_ALL_MODULES "Request to build all modules"
-  ${ITK_BUILD_ALL_MODULES_DEFAULT})
+# By default, all defaults modules are to be built.
+option(ITK_BUILD_ALL_MODULES "Request to build all modules" ON)
 
 # Provide module selections by groups
 include(${ITK_SOURCE_DIR}/CMake/ITKGroups.cmake)
