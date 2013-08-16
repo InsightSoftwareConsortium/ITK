@@ -53,11 +53,8 @@ template< typename TInputMesh, typename TOutputMesh >
 DeformableMesh3DFilter< TInputMesh, TOutputMesh >
 ::~DeformableMesh3DFilter()
 {
-  if ( m_K )
-    {
-    delete[] ( m_K );
-    m_K = 0;
-    }
+  delete[] m_K;
+  m_K = 0;
 }
 
 /* PrintSelf. */

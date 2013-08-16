@@ -149,11 +149,8 @@ DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
     SimplexMeshGeometry *data;
     IdentifierType       idx = pointItr.Index();
     data = this->m_Data->GetElement(idx);
-    if( data->neighborSet )
-      {
-      delete data->neighborSet;
-      data->neighborSet = NULL;
-      }
+    delete data->neighborSet;
+    data->neighborSet = NULL;
     pointItr++;
     }
 

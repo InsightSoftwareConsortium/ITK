@@ -1292,7 +1292,7 @@ void TIFFImageIO::ReadVolume(void *buffer)
             }
           }
         }
-      if ( tempImage != 0 && tempImage != buffer )
+      if ( tempImage != buffer )
         {
         delete[] tempImage;
         }
@@ -1454,7 +1454,7 @@ void TIFFImageIO::Read(void *buffer)
         }
       }
 
-    if ( tempImage != 0 && tempImage != buffer )
+    if ( tempImage != buffer )
       {
       delete[] tempImage;
       }

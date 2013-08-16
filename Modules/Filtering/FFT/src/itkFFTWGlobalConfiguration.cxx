@@ -270,10 +270,7 @@ FFTWGlobalConfiguration
   fftw_cleanup_threads();
   fftw_cleanup();
 #endif
-  if(this->m_WisdomFilenameGenerator)
-    {
-    delete this->m_WisdomFilenameGenerator;
-    }
+  delete this->m_WisdomFilenameGenerator;
 }
 
 void

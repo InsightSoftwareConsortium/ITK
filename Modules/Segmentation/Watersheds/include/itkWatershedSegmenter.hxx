@@ -38,14 +38,8 @@ namespace watershed
 template< class TInputImage >
 Segmenter< TInputImage >::~Segmenter()
 {
-  if ( m_Connectivity.index != 0 )
-    {
-    delete[] m_Connectivity.index;
-    }
-  if ( m_Connectivity.direction != 0 )
-    {
-    delete[] m_Connectivity.direction;
-    }
+  delete[] m_Connectivity.index;
+  delete[] m_Connectivity.direction;
 }
 
 template< class TInputImage >

@@ -125,18 +125,9 @@ bool CheckFileNameParsing(const std::string & fileName,
 
   // clean up
   std::cout << "Cleaning up...";
-  if (nameOnly != NULL)
-    {
-    delete[] nameOnly;
-    }
-  if (extension != NULL)
-    {
-    delete[] extension;
-    }
-  if (path != NULL)
-    {
-    delete[] path;
-    }
+  delete[] nameOnly;
+  delete[] extension;
+  delete[] path;
   std::cout << "DONE" << std::endl;
 
   return correctParse;

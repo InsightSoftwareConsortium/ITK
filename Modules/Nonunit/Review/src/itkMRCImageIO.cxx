@@ -260,10 +260,7 @@ void MRCImageIO::InternalReadImageInformation(std::ifstream & file)
   catch ( ... )
     {
     // clean up dynamic allocation
-    if ( buffer )
-      {
-      delete[] buffer;
-      }
+    delete[] buffer;
     buffer = 0;
     throw;
     }

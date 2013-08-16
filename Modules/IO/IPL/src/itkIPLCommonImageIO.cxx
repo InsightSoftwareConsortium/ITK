@@ -50,10 +50,7 @@ IPLCommonImageIO::IPLCommonImageIO()
 
 IPLCommonImageIO::~IPLCommonImageIO()
 {
-  if ( m_ImageHeader != 0 )
-    {
-    delete m_ImageHeader;
-    }
+  delete m_ImageHeader;
   delete m_FilenameList;
 }
 

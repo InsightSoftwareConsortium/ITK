@@ -64,21 +64,14 @@ template< class TImageType, class TCoordRep, class TCoefficientType >
 BSplineInterpolateImageFunction< TImageType, TCoordRep, TCoefficientType >
 ::~BSplineInterpolateImageFunction()
 {
-  if ( m_ThreadedEvaluateIndex != NULL )
-    {
-    delete[] m_ThreadedEvaluateIndex;
-    m_ThreadedEvaluateIndex = NULL;
-    }
-  if ( m_ThreadedWeights != NULL )
-    {
-    delete[] m_ThreadedWeights;
-    m_ThreadedWeights = NULL;
-    }
-  if ( m_ThreadedWeightsDerivative != NULL )
-    {
-    delete[] m_ThreadedWeightsDerivative;
-    m_ThreadedWeightsDerivative = NULL;
-    }
+  delete[] m_ThreadedEvaluateIndex;
+  m_ThreadedEvaluateIndex = NULL;
+
+  delete[] m_ThreadedWeights;
+  m_ThreadedWeights = NULL;
+
+  delete[] m_ThreadedWeightsDerivative;
+  m_ThreadedWeightsDerivative = NULL;
 }
 
 /**
@@ -633,20 +626,11 @@ BSplineInterpolateImageFunction< TImageType, TCoordRep, TCoefficientType >
   // m_PointsToIndex is used to convert a sequential location to an N-dimension
   // index vector.  This is precomputed to save time during the interpolation
   // routine.
-  if ( m_ThreadedEvaluateIndex != NULL )
-    {
-    delete[] m_ThreadedEvaluateIndex;
-    }
+  delete[] m_ThreadedEvaluateIndex;
   m_ThreadedEvaluateIndex = new vnl_matrix< long >[m_NumberOfThreads];
-  if ( m_ThreadedWeights != NULL )
-    {
-    delete[] m_ThreadedWeights;
-    }
+  delete[] m_ThreadedWeights;
   m_ThreadedWeights = new vnl_matrix< double >[m_NumberOfThreads];
-  if ( m_ThreadedWeightsDerivative != NULL )
-    {
-    delete[] m_ThreadedWeightsDerivative;
-    }
+  delete[] m_ThreadedWeightsDerivative;
   m_ThreadedWeightsDerivative = new vnl_matrix< double >[m_NumberOfThreads];
   for ( unsigned int i = 0; i < m_NumberOfThreads; i++ )
     {

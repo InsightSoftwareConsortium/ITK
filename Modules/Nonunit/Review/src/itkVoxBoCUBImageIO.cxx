@@ -328,15 +328,8 @@ VoxBoCUBImageIO::VoxBoCUBImageIO()
 /** Destructor */
 VoxBoCUBImageIO::~VoxBoCUBImageIO()
 {
-  if ( m_Reader )
-    {
-    delete m_Reader;
-    }
-
-  if ( m_Writer )
-    {
-    delete m_Writer;
-    }
+  delete m_Reader;
+  delete m_Writer;
 }
 
 GenericCUBFileAdaptor *
@@ -468,10 +461,7 @@ void VoxBoCUBImageIO::Read(void *buffer)
 void VoxBoCUBImageIO::ReadImageInformation()
 {
   // Make sure there is no other reader
-  if ( m_Reader )
-    {
-    delete m_Reader;
-    }
+  delete m_Reader;
 
   // Create a reader
   m_Reader = CreateReader( m_FileName.c_str() );

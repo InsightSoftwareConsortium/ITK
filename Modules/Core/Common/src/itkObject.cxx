@@ -509,7 +509,7 @@ Object
 {
   itkDebugMacro(<< "Destructing!");
   delete m_SubjectImplementation;
-  delete m_MetaDataDictionary; //Deleting a NULL pointer does nothing.
+  delete m_MetaDataDictionary;
 }
 
 /**

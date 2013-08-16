@@ -39,10 +39,7 @@ AmoebaOptimizer
 AmoebaOptimizer
 ::~AmoebaOptimizer()
 {
-  if( this->m_VnlOptimizer != NULL )
-    {
-    delete m_VnlOptimizer;
-    }
+  delete m_VnlOptimizer;
 }
 
 
@@ -172,10 +169,7 @@ AmoebaOptimizer
   CostFunctionAdaptorType *adaptor = GetNonConstCostFunctionAdaptor();
        //get rid of previous instance of the internal optimizer and create a
        //new one
-  if( this->m_VnlOptimizer != NULL )
-    {
-    delete m_VnlOptimizer;
-    }
+  delete m_VnlOptimizer;
   m_VnlOptimizer = new vnl_amoeba( *adaptor );
   m_VnlOptimizer->set_max_iterations( static_cast< int >( m_MaximumNumberOfIterations ) );
   m_VnlOptimizer->set_x_tolerance(m_ParametersConvergenceTolerance);

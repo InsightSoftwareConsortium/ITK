@@ -382,41 +382,29 @@ MeshFileReader< TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits >
   catch ( ... )
     {
     // if an exception is thrown catch it
-    if ( inputPointDataBuffer )
-      {
-      // clean up
-      delete[] inputPointDataBuffer;
-      inputPointDataBuffer = 0;
-      }
 
-    if ( outputPointDataBuffer )
-      {
-      // clean up
-      delete[] outputPointDataBuffer;
-      outputPointDataBuffer = 0;
-      }
+    // clean up
+    delete[] inputPointDataBuffer;
+    inputPointDataBuffer = 0;
+
+    delete[] outputPointDataBuffer;
+    outputPointDataBuffer = 0;
 
     // then rethrow
     throw;
     }
 
   // clean up
-  if ( inputPointDataBuffer )
-    {
-    delete[] inputPointDataBuffer;
-    inputPointDataBuffer = 0;
-    }
+  delete[] inputPointDataBuffer;
+  inputPointDataBuffer = 0;
 
   for ( OutputPointIdentifier id = 0; id < m_MeshIO->GetNumberOfPointPixels(); id++ )
     {
     output->SetPointData(id, outputPointDataBuffer[id]);
     }
 
-  if ( outputPointDataBuffer )
-    {
-    delete[] outputPointDataBuffer;
-    outputPointDataBuffer = 0;
-    }
+  delete[] outputPointDataBuffer;
+  outputPointDataBuffer = 0;
 }
 
 template< class TOutputMesh, class ConvertPointPixelTraits, class ConvertCellPixelTraits >
@@ -464,41 +452,28 @@ MeshFileReader< TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits >
     {
     // if an exception is thrown catch it
 
-    if ( inputCellDataBuffer )
-      {
-      // clean up
-      delete[] inputCellDataBuffer;
-      inputCellDataBuffer = 0;
-      }
+    // clean up
+    delete[] inputCellDataBuffer;
+    inputCellDataBuffer = 0;
 
-    if ( outputCellDataBuffer )
-      {
-      // clean up
-      delete[] outputCellDataBuffer;
-      outputCellDataBuffer = 0;
-      }
+    delete[] outputCellDataBuffer;
+    outputCellDataBuffer = 0;
 
     // then rethrow
     throw;
     }
 
   // clean up
-  if ( inputCellDataBuffer )
-    {
-    delete[] inputCellDataBuffer;
-    inputCellDataBuffer = 0;
-    }
+  delete[] inputCellDataBuffer;
+  inputCellDataBuffer = 0;
 
   for ( OutputCellIdentifier id = 0; id < m_MeshIO->GetNumberOfCellPixels(); id++ )
     {
     output->SetCellData(id, outputCellDataBuffer[id]);
     }
 
-  if ( outputCellDataBuffer )
-    {
-    delete[] outputCellDataBuffer;
-    outputCellDataBuffer = 0;
-    }
+  delete[] outputCellDataBuffer;
+  outputCellDataBuffer = 0;
 }
 
 template< class TOutputMesh, class ConvertPointPixelTraits, class ConvertCellPixelTraits >

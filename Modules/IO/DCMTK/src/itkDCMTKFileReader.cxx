@@ -430,10 +430,7 @@ DCMTKFileReader
     {
     itkGenericExceptionMacro(<< "No filename given" );
     }
-  if(this->m_DFile != 0)
-    {
-    delete this->m_DFile;
-    }
+  delete this->m_DFile;
   this->m_DFile = new DcmFileFormat();
   OFCondition cond = this->m_DFile->loadFile(this->m_FileName.c_str());
                                              // /* transfer syntax, autodetect */

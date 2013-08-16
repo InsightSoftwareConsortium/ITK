@@ -80,10 +80,7 @@ template< typename TValueType >
 OptimizerParameters< TValueType >
 ::~OptimizerParameters()
 {
-  if( this->m_Helper )
-    {
-    delete this->m_Helper;
-    }
+  delete this->m_Helper;
 }
 
 template< typename TValueType >
@@ -91,10 +88,7 @@ void
 OptimizerParameters< TValueType >
 ::SetHelper( OptimizerParametersHelperType* helper )
 {
-  if( this->m_Helper )
-    {
-    delete this->m_Helper;
-    }
+  delete this->m_Helper;
   this->m_Helper = helper;
 }
 

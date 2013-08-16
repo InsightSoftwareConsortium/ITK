@@ -28,11 +28,8 @@ MetaDataDictionary
 MetaDataDictionary
 ::~MetaDataDictionary()
 {
-  if ( m_Dictionary )
-    {
-    delete m_Dictionary;
-    m_Dictionary = 0;
-    }
+  delete m_Dictionary;
+  m_Dictionary = 0;
 }
 
 MetaDataDictionary

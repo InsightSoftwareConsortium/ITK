@@ -70,18 +70,9 @@ template< typename TInputImage, typename TClassifiedImage >
 RGBGibbsPriorFilter< TInputImage, TClassifiedImage >
 ::~RGBGibbsPriorFilter()
 {
-  if ( m_Region )
-    {
-    delete[] m_Region;
-    }
-  if ( m_RegionCount )
-    {
-    delete[] m_RegionCount;
-    }
-  if ( m_LabelStatus )
-    {
-    delete[] m_LabelStatus;
-    }
+  delete[] m_Region;
+  delete[] m_RegionCount;
+  delete[] m_LabelStatus;
 }
 
 /* Set the labelled image. */
@@ -684,16 +675,10 @@ RGBGibbsPriorFilter< TInputImage, TClassifiedImage >
 {
   const unsigned int size = m_ImageWidth * m_ImageHeight * m_ImageDepth;
 
-  if ( m_Region )
-    {
-    delete[] m_Region;
-    }
+  delete[] m_Region;
   m_Region = new unsigned short[size];
 
-  if ( m_RegionCount )
-    {
-    delete[] m_RegionCount;
-    }
+  delete[] m_RegionCount;
   m_RegionCount = new unsigned short[size];
 
   unsigned short *valid_region_counter = new unsigned short[size];

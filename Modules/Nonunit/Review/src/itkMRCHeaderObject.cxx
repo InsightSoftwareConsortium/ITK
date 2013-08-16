@@ -26,10 +26,7 @@ void MRCHeaderObject::DeepCopy(ConstPointer h)
   this->m_ExtendedHeaderSize = h->m_ExtendedHeaderSize;
   if ( this->m_ExtendedHeaderSize )
     {
-    if ( this->m_ExtendedHeader )
-      {
-      delete[] static_cast< char * >( this->m_ExtendedHeader );
-      }
+    delete[] static_cast< char * >( this->m_ExtendedHeader );
 
     this->m_ExtendedHeader = new char[this->m_ExtendedHeaderSize];
     memcpy(this->m_ExtendedHeader, h->m_ExtendedHeader, this->m_ExtendedHeaderSize);
@@ -107,10 +104,7 @@ bool MRCHeaderObject::SetHeader(const Header *buffer)
     }
 
   // clean up
-  if ( this->m_ExtendedHeader )
-    {
-    delete[] static_cast< char * >( this->m_ExtendedHeader );
-    }
+  delete[] static_cast< char * >( this->m_ExtendedHeader );
 
   this->m_ExtendedHeader = 0;
   this->m_ExtendedFeiHeader = 0;
@@ -167,10 +161,7 @@ bool MRCHeaderObject::SetExtendedHeader(const void *buffer)
     return false;
     }
 
-  if ( this->m_ExtendedHeader )
-    {
-    delete[] static_cast< char * >( this->m_ExtendedHeader );
-    }
+  delete[] static_cast< char * >( this->m_ExtendedHeader );
 
   this->m_ExtendedHeader = new char[this->m_ExtendedHeaderSize];
   memcpy(this->m_ExtendedHeader, buffer, this->m_ExtendedHeaderSize);
@@ -206,10 +197,7 @@ MRCHeaderObject::MRCHeaderObject(void):m_ExtendedHeaderSize(0), m_ExtendedHeader
 
 MRCHeaderObject::~MRCHeaderObject(void)
 {
-  if ( this->m_ExtendedHeader )
-    {
-    delete[] static_cast< char * >( this->m_ExtendedHeader );
-    }
+  delete[] static_cast< char * >( this->m_ExtendedHeader );
 }
 
 void MRCHeaderObject::swapHeader(bool bigEndian)

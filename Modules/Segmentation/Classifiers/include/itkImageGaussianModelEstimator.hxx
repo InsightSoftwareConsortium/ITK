@@ -35,7 +35,7 @@ template< class TInputImage,
 ImageGaussianModelEstimator< TInputImage, TMembershipFunction, TTrainingImage >
 ::~ImageGaussianModelEstimator(void)
 {
-  if ( m_Covariance ) { delete[] m_Covariance; }
+  delete[] m_Covariance;
 }
 
 /**
@@ -183,7 +183,7 @@ ImageGaussianModelEstimator< TInputImage, TMembershipFunction, TTrainingImage >
   m_NumberOfSamples.fill(0);
 
   // delete previous allocation first
-  if ( m_Covariance ) { delete[] m_Covariance; }
+  delete[] m_Covariance;
   //Number of covariance matrices are equal to the number of classes
   m_Covariance = (MatrixType *)new MatrixType[numberOfModels];
 
