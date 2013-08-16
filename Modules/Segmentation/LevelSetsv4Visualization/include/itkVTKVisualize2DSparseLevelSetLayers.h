@@ -40,6 +40,8 @@ class VTKVisualize2DSparseLevelSetLayers
 
 // -----------------------------------------------------------------------------
 /**
+ *  \class VTKVisualize2DSparseLevelSetLayers
+ *
  *  \ingroup ITKLevelSetsv4Visualization
  */
 template< class TInputImage, typename TOutput, unsigned int VDimension >
@@ -85,6 +87,8 @@ private:
 
 // -----------------------------------------------------------------------------
 /**
+ *  \class VTKVisualize2DSparseLevelSetLayers
+ *
  *  \ingroup ITKLevelSetsv4Visualization
  */
 template< class TInputImage, unsigned int VDimension >
@@ -131,6 +135,8 @@ private:
 // -----------------------------------------------------------------------------
 
 /**
+ *  \class VTKVisualize2DSparseLevelSetLayers
+ *
  *  \ingroup ITKLevelSetsv4Visualization
  */
 template< class TInputImage, unsigned int VDimension >

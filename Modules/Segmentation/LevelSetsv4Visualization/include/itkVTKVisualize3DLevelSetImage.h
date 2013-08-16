@@ -74,11 +74,11 @@ public:
 
   typedef LevelSetDenseImage< LevelSetImageType > LevelSetType;
 
-  typedef ImageToVTKImageFilter< InputImageType >  ImageConverterType;
-  typedef typename ImageConverterType::Pointer          ImageConverterPointer;
+  typedef ImageToVTKImageFilter< InputImageType > ImageConverterType;
+  typedef typename ImageConverterType::Pointer    ImageConverterPointer;
 
-  typedef LevelSetTovtkImageData< LevelSetType > LevelSetConverterType;
-  typedef typename LevelSetConverterType::Pointer     LevelSetConverterPointer;
+  typedef LevelSetTovtkImageData< LevelSetType >  LevelSetConverterType;
+  typedef typename LevelSetConverterType::Pointer LevelSetConverterPointer;
 
   void SetInputImage( const InputImageType * iImage )
     {
