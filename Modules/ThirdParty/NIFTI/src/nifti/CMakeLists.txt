@@ -100,7 +100,7 @@ set(CPACK_PACKAGE_VENDOR "NIFTI DFWG")
 set(CPACK_SOURCE_GENERATOR "TGZ;TZ")
 #set(CPACK_SOURCE_IGNORE_FILES "/CVS/;/\\.svn/;\\.swp$;\\.#;/#;\\.*~")
 set(CPACK_SOURCE_IGNORE_FILES "")
-set(CPACK_PACKAGE_EXECUTABLES "NIFTI";"A program for registering medical
+set(CPACK_PACKAGE_EXECUTABLES "NIFTI" "A program for registering medical
 images with mutual information.")
 
 if(WIN32 AND NOT UNIX)
