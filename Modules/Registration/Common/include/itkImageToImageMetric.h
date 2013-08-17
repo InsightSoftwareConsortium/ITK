@@ -167,7 +167,7 @@ public:
   itkGetConstReferenceMacro(NumberOfPixelsCounted, SizeValueType);
 
   /** Set the region over which the metric will be computed */
-  void SetFixedImageRegion(const FixedImageRegionType reg);
+  virtual void SetFixedImageRegion(const FixedImageRegionType reg);
 
   /** Get the region over which the metric will be computed */
   itkGetConstReferenceMacro(FixedImageRegion, FixedImageRegionType);
