@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __VTKVisualize2DSparseLevelSetLayersBase_hxx
-#define __VTKVisualize2DSparseLevelSetLayersBase_hxx
+#ifndef __itkVTKVisualize2DSparseLevelSetLayersBase_hxx
+#define __itkVTKVisualize2DSparseLevelSetLayersBase_hxx
 
 #include "vtkVersion.h"
 
