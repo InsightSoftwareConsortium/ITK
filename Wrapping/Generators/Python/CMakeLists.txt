@@ -113,7 +113,8 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
                 @ONLY)
   WRAP_ITK_BINDINGS_INSTALL(/Python "${ITK_WRAP_PYTHON_BINARY_DIR}/WrapITKBuildOptionsPython.py")
 
-  exec_program(${CMAKE_COMMAND} ARGS -E copy_if_different "\"${CMAKE_CURRENT_SOURCE_DIR}/WrapITKBuildOptionsConfig.py\"" "\"${CMAKE_CURRENT_BINARY_DIR}/Configuration/WrapITKBuildOptionsConfig.py\"")
+  file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/WrapITKBuildOptionsConfig.py"
+       DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/Configuration/")
   WRAP_ITK_BINDINGS_INSTALL(/Python/Configuration "${CMAKE_CURRENT_SOURCE_DIR}/WrapITKBuildOptionsConfig.py")
 
 endif()

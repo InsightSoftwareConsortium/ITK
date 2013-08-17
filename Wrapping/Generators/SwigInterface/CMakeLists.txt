@@ -189,9 +189,10 @@ macro(itk_end_wrap_module_swig_interface)
 
   # Loop over the extra swig input files and copy them to the Typedefs directory
   foreach(source ${WRAPPER_LIBRARY_SWIG_INPUTS})
+    file(COPY "${source}"
+         DESTINATION "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}")
     get_filename_component(basename ${source} NAME)
     set(dest "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${basename}")
-    exec_program(${CMAKE_COMMAND} ARGS -E copy_if_different "\"${source}\"" "\"${dest}\"")
     WRAP_ITK_INSTALL("/Configuration/Typedefs" "${dest}")
 #    set(SWIG_INTERFACE_MODULE_CONTENT "${SWIG_INTERFACE_MODULE_CONTENT}%import ${basename}\n")
   endforeach()
@@ -211,8 +212,9 @@ macro(itk_end_wrap_module_swig_interface)
   foreach(swig_lib ${WRAPPER_SWIG_LIBRARY_FILES})
     get_filename_component(basename ${swig_lib} NAME)
     set(swig_libs ${swig_libs} --swig-include ${basename})
+    file(COPY "${swig_lib}"
+      DESTINATION "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}")
     set(dest "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${basename}")
-    exec_program(${CMAKE_COMMAND} ARGS -E copy_if_different "\"${swig_lib}\"" "\"${dest}\"")
     WRAP_ITK_INSTALL("/Configuration/Typedefs" "${dest}")
   endforeach()
 
