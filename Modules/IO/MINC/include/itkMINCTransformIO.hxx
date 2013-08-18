@@ -37,43 +37,6 @@
 namespace itk
 {
 
-namespace
-{
-
-// The following struct returns the string name of computation type
-// default implementation
-template <class TInternalComputationValueType>
-struct TypeName
-{
-  static const char* Get()
-  {
-  return typeid(TInternalComputationValueType).name();
-  }
-};
-
-// a specialization for each "float" and "double" type that we support
- // and don't like the string returned by typeid
-template <>
-struct TypeName<float>
-{
-  static const char* Get()
-  {
-  return "float";
-  }
-};
-
-template <>
-struct TypeName<double>
-{
-  static const char* Get()
-  {
-  return "double";
-  }
-};
-
-} // end anonymous namespace
-
-
 template< class TInternalComputationValueType >
 MINCTransformIOTemplate< TInternalComputationValueType >
 ::MINCTransformIOTemplate()
