@@ -36,11 +36,11 @@
 //  parameter of the curve, and will assume that it goes from $0$ to $1$ and
 //  cycles as we go around the closed curve. //
 //  \begin{equation}
-//  \textbf{V(t)} = \left( X(t), Y(t) \rigth)
+//  \textbf{V(t)} = \left( X(t), Y(t) \right)
 //  \end{equation}
 //
 //  We take now the functions $X(t)$, $Y(t)$ and interpret them as the
-//  components of a complex number for wich we compute its discrete fourier
+//  components of a complex number for which we compute its discrete fourier
 //  series in the form
 //
 //  \begin{equation}
@@ -56,7 +56,7 @@
 
 //  Software Guide : BeginLatex
 //
-//  The class \code{vnl\_fft\_1D} is the VNL class that computes such transform.
+//  The class \code{vnl\_fft\_1d} is the VNL class that computes such transform.
 //  In order to use it, we should include its header file first.
 //
 //  Software Guide : EndLatex
@@ -141,7 +141,7 @@ int main(int argc, char * argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  This class will compute the Fast Fourier transform of the input an it will
+  //  This class will compute the Fast Fourier transform of the input and it will
   //  return it in the same array. We must therefore copy the original data into
   //  an auxiliary array that will in its turn contain the results of the
   //  transform.
