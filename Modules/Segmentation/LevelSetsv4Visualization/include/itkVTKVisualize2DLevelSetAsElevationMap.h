@@ -22,16 +22,12 @@
 #include "itkVTKVisualizeImageLevelSet.h"
 
 #include "itkImageToVTKImageFilter.h"
+#include "itkConceptChecking.h"
 
-#include "vnl/vnl_math.h"
-
-#include "vtkImageData.h"
-#include "vtkMarchingSquares.h"
+#include "vtkPolyData.h"
 #include "vtkPolyDataMapper.h"
 #include "vtkActor.h"
 #include "vtkScalarBarActor.h"
-#include "vtkProperty.h"
-#include "vtkTextProperty.h"
 
 namespace itk
 {
@@ -59,6 +55,11 @@ public:
   typedef typename LevelSetType::Pointer    LevelSetPointer;
 
   void SetLevelSet( LevelSetType * levelSet );
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+  itkConceptMacro( Is2Dimensional,
+                   ( Concept::SameDimension< LevelSetType::Dimension, 2 > ) );
+#endif
 
 protected:
   VTKVisualize2DLevelSetAsElevationMap();

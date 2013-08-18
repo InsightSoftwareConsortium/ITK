@@ -21,6 +21,8 @@
 
 #include "itkVTKVisualizeImageLevelSet.h"
 
+#include "itkConceptChecking.h"
+
 #include "itkImageToRGBVTKImageFilter.h"
 
 #include "vtkCornerAnnotation.h"
@@ -72,6 +74,11 @@ public:
 
   virtual void SetInputImage( const InputImageType* image );
   void SetLevelSet( LevelSetType * levelSet );
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+  itkConceptMacro( Is2Dimensional,
+                   ( Concept::SameDimension< LevelSetType::Dimension, 2 > ) );
+#endif
 
 protected:
   VTKVisualize2DSparseLevelSetLayersBase();

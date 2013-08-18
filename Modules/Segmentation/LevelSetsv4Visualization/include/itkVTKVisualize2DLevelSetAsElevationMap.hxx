@@ -20,12 +20,16 @@
 
 #include "itkVTKVisualize2DLevelSetAsElevationMap.h"
 
+#include "vnl/vnl_math.h"
+
 #include "vtkVersion.h"
 
 #include "vtkScalarsToColors.h"
 #include "vtkDoubleArray.h"
 #include "vtkPointData.h"
 #include "vtkCellArray.h"
+#include "vtkProperty.h"
+#include "vtkTextProperty.h"
 
 namespace itk
 {

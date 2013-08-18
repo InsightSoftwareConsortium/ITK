@@ -20,6 +20,7 @@
 
 #include "itkVTKVisualizeImageLevelSet.h"
 
+#include "itkConceptChecking.h"
 #include "itkImageToVTKImageFilter.h"
 #include "itkLevelSetTovtkImageData.h"
 
@@ -34,11 +35,23 @@
 
 namespace itk
 {
-
+/**
+ * \class VTKVisualizeImageLevelSetIsoValues
+ *
+ * \tparam TImage Image Type
+ * \tparam TLevelSet Level Set Type
+ *
+ * \ingroup LevelSetsv4Visualization
+ */
 template< class TImage, class TLevelSet >
 class VTKVisualizeImageLevelSetIsoValues
 {};
 
+/**
+ * \class VTKVisualizeImageLevelSetIsoValues
+ *
+ * \ingroup LevelSetsv4Visualization
+ */
 template< typename TInputPixel, class TLevelSet >
 class VTKVisualizeImageLevelSetIsoValues< Image< TInputPixel, 2 >, TLevelSet >
   : public VTKVisualizeImageLevelSet<
@@ -73,6 +86,11 @@ public:
   void SetLevelLimit( double iLimit );
   double GetLevelLimit() const;
 
+#ifdef ITK_USE_CONCEPT_CHECKING
+  itkConceptMacro( Is2Dimensional,
+                   ( Concept::SameDimension< LevelSetType::Dimension, 2 > ) );
+#endif
+
 protected:
   VTKVisualizeImageLevelSetIsoValues();
   virtual ~VTKVisualizeImageLevelSetIsoValues();
@@ -95,9 +113,9 @@ private:
   vtkSmartPointer< vtkScalarBarActor >  m_ScalarBar;
   vtkSmartPointer< vtkLookupTable >     m_Lut;
 
-  itk::IdentifierType m_Count;
-  SizeValueType       m_NumberOfLevels;
-  double              m_LevelLimit;
+  IdentifierType  m_Count;
+  SizeValueType   m_NumberOfLevels;
+  double          m_LevelLimit;
 };
 
 } // end namespace itk
