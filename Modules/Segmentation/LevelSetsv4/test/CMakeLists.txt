@@ -118,11 +118,11 @@ itk_add_test(NAME itkSingleLevelSetsv4WhitakerImage2DTestThreads
       COMMAND ITKLevelSetsv4TestDriver
       --with-threads 16
       --compare DATA{Baseline/solution_whiteSpot_output_sparse_single.mha}
-                ${ITK_TEST_OUTPUT_DIR}/whiteSpot_output_sparse_single.mha
+                ${ITK_TEST_OUTPUT_DIR}/whiteSpot_output_sparse_single_threads.mha
       itkSingleLevelSetWhitakerImage2DTest
       DATA{${ITK_DATA_ROOT}/Input/whiteSpot.png}
       50
-      ${ITK_TEST_OUTPUT_DIR}/whiteSpot_output_sparse_single.mha
+      ${ITK_TEST_OUTPUT_DIR}/whiteSpot_output_sparse_single_threads.mha
 )
 
 itk_add_test(NAME itkSingleLevelSetsv4MalcolmImage2DTest
