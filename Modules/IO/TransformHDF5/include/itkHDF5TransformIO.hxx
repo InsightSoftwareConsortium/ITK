@@ -173,6 +173,7 @@ HDF5TransformIOTemplate< TInternalComputationValueType >
       {
       ParameterArray.SetElement(i,(TInternalComputationValueType)(buf[i]));
       }
+    delete[] buf;
     }
   else
     {
