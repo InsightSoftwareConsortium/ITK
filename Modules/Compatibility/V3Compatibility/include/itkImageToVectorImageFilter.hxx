@@ -61,7 +61,7 @@ ImageToVectorImageFilter< TInputImage >
 
   for ( unsigned int i = 0; i < numberOfInputs; i++ )
     {
-    InputImageType *input = this->Superclass::GetInput(i);
+    const InputImageType * input = this->Superclass::GetInput(i);
     if ( !input )
       {
       itkExceptionMacro(<< "Input " << i << " not set!");
