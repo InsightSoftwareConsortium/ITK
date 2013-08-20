@@ -17,9 +17,11 @@
  *=========================================================================*/
 
 #include <iostream>
+#include "itkCastImageFilter.h"
 #include "itkShrinkImageFilter.h"
 #include "itkPipelineMonitorImageFilter.h"
 #include "itkStreamingImageFilter.h"
+#include "itkTestingMacros.h"
 
 int itkShrinkImageStreamingTest(int, char* [] )
 {
@@ -50,9 +52,15 @@ int itkShrinkImageStreamingTest(int, char* [] )
     }
 
 
-  MonitorFilter::Pointer monitor1 = MonitorFilter::New();
-  monitor1->SetInput( sourceImage );
+  // use caster to copy source to intermediate image of only the
+  // requested region
+  itk::CastImageFilter<ShortImage, ShortImage>::Pointer caster;
+  caster = itk::CastImageFilter<ShortImage, ShortImage>::New();
+  caster->SetInput( sourceImage );
 
+
+  MonitorFilter::Pointer monitor1 = MonitorFilter::New();
+  monitor1->SetInput( caster->GetOutput() );
 
   // Create a filter, shrink by 2,3
   itk::ShrinkImageFilter< ShortImage, ShortImage >::Pointer shrink;
@@ -75,12 +83,20 @@ int itkShrinkImageStreamingTest(int, char* [] )
 
   // this verifies that the pipeline was executed as expected allong
   // with correct region propagation and output information
-  if (!monitor2->VerifyAllInputCanStream(4))
+  if (!monitor2->VerifyAllInputCanStream(numberOfStreamDivisions))
     {
     std::cout << "Filter failed to execute as expected!" << std::endl;
     std::cout << monitor2;
     return EXIT_FAILURE;
     }
+
+  // Verify that only the data needed is requested;
+  MonitorFilter::RegionVectorType rr = monitor1->GetOutputRequestedRegions();
+  for (unsigned int j = 0; j < rr.size(); ++j )
+    {
+    TEST_EXPECT_TRUE(rr[j].GetSize(1)%factors[1]== 1);
+    }
+
 
   return EXIT_SUCCESS;
 
