@@ -40,10 +40,7 @@ template< class TInternalComputationValueType >
 HDF5TransformIOTemplate< TInternalComputationValueType >
 ::~HDF5TransformIOTemplate()
 {
-  if(this->m_H5File)
-    {
-    delete this->m_H5File;
-    }
+  delete this->m_H5File;
 }
 
 template< class TInternalComputationValueType >

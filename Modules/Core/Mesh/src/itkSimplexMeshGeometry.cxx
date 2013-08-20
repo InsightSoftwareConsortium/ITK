@@ -56,11 +56,8 @@ SimplexMeshGeometry
 SimplexMeshGeometry
 ::~SimplexMeshGeometry()
 {
-  if( this->neighborSet )
-    {
-    delete this->neighborSet;
-    this->neighborSet = NULL;
-    }
+  delete this->neighborSet;
+  this->neighborSet = NULL;
 }
 
 void
@@ -152,10 +149,7 @@ void
 SimplexMeshGeometry
 ::CopyNeigborSet( const NeighborSetType * nset )
 {
-  if( this->neighborSet )
-    {
-    delete this->neighborSet;
-    }
+  delete this->neighborSet;
   if( nset )
     {
     this->neighborSet = new NeighborSetType;

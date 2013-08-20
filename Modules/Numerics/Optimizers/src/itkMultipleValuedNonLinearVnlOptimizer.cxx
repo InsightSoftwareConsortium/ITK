@@ -44,11 +44,8 @@ MultipleValuedNonLinearVnlOptimizer
 MultipleValuedNonLinearVnlOptimizer
 ::~MultipleValuedNonLinearVnlOptimizer()
 {
-  if ( m_CostFunctionAdaptor )
-    {
-    delete m_CostFunctionAdaptor;
-    m_CostFunctionAdaptor = 0;
-    }
+  delete m_CostFunctionAdaptor;
+  m_CostFunctionAdaptor = 0;
 }
 
 void
@@ -60,10 +57,7 @@ MultipleValuedNonLinearVnlOptimizer
     return;
     }
 
-  if ( m_CostFunctionAdaptor )
-    {
-    delete m_CostFunctionAdaptor;
-    }
+  delete m_CostFunctionAdaptor;
 
   m_CostFunctionAdaptor = adaptor;
 

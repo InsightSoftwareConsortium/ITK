@@ -70,10 +70,7 @@ CurvatureRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField, TIma
 
   for ( unsigned int dim = 0; dim < ImageDimension; ++dim )
     {
-    if ( m_DiagonalElements[dim] )
-      {
-      delete[] m_DiagonalElements[dim];
-      }
+    delete[] m_DiagonalElements[dim];
     }
 }
 
@@ -174,10 +171,7 @@ CurvatureRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField, TIma
   // compute components of diagonal matrix elements
   for ( unsigned int dim = 0; dim < ImageDimension; ++dim )
     {
-    if ( m_DiagonalElements[dim] )
-      {
-      delete[] m_DiagonalElements[dim];
-      }
+    delete[] m_DiagonalElements[dim];
     m_DiagonalElements[dim] = new RealTypeDFT[m_FixedImageDimensions[dim]];
     for ( unsigned int idx = 0; idx < m_FixedImageDimensions[dim]; ++idx )
       {

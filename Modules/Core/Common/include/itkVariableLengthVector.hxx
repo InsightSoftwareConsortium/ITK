@@ -83,7 +83,7 @@ VariableLengthVector< TValueType >
 ::~VariableLengthVector()
 {
   // if data exists and we are responsible for its memory, get rid of it..
-  if ( m_LetArrayManageMemory && m_Data )
+  if ( m_LetArrayManageMemory )
     {
     delete[] m_Data;
     }
@@ -155,7 +155,7 @@ VariableLengthVector< TValueType >
 ::SetData(TValueType *datain, bool LetArrayManageMemory)
 {
   // Free any existing data if we manage its memory
-  if ( m_LetArrayManageMemory && m_Data )
+  if ( m_LetArrayManageMemory )
     {
     delete[] m_Data;
     }
@@ -179,7 +179,7 @@ VariableLengthVector< TValueType >
 ::SetData(TValueType *datain, unsigned int sz, bool LetArrayManageMemory)
 {
   // Free any existing data if we manage its memory
-  if ( m_LetArrayManageMemory && m_Data )
+  if ( m_LetArrayManageMemory )
     {
     delete[] m_Data;
     }

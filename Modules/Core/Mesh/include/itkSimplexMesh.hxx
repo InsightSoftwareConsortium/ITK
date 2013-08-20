@@ -63,10 +63,7 @@ SimplexMesh< TPixelType, VDimension, TMeshTraits >
   while ( pointDataIterator != pointDataEnd )
     {
     SimplexMeshGeometry *geometry = pointDataIterator->Value();
-    if ( geometry )
-      {
-      delete geometry;
-      }
+    delete geometry;
     pointDataIterator++;
     }
   // clear the map

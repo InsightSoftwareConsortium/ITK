@@ -65,10 +65,7 @@ void TriangleMeshToSimplexMeshFilter< TInputMesh, TOutputMesh >
   m_VertexNeighborList = VertexNeighborListType::New();
   m_LineCellIndices = LineCellIndexType::New();
   m_Edges = EdgeMapType::New();
-  if ( m_FaceSet )
-    {
-    delete m_FaceSet;
-    }
+  delete m_FaceSet;
 
   m_FaceSet = new IndexSetType();
 

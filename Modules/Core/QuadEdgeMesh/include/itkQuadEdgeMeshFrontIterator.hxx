@@ -58,10 +58,7 @@ template< class TMesh, class TQE >
 QuadEdgeMeshFrontBaseIterator< TMesh, TQE >::
 ~QuadEdgeMeshFrontBaseIterator()
 {
-  if ( m_Front )
-    {
-    delete m_Front;
-    }
+  delete m_Front;
 }
 
 // ---------------------------------------------------------------------

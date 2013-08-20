@@ -106,28 +106,16 @@ template< class TFixedImage, class TMovingImage >
 ImageToImageMetric< TFixedImage, TMovingImage >
 ::~ImageToImageMetric()
 {
-  if ( m_ThreaderNumberOfMovingImageSamples != NULL )
-    {
-    delete[] m_ThreaderNumberOfMovingImageSamples;
-    }
+  delete[] m_ThreaderNumberOfMovingImageSamples;
   m_ThreaderNumberOfMovingImageSamples = NULL;
 
-  if ( m_ThreaderTransform != NULL )
-    {
-    delete[] m_ThreaderTransform;
-    }
+  delete[] m_ThreaderTransform;
   m_ThreaderTransform = NULL;
 
-  if ( this->m_ThreaderBSplineTransformWeights != NULL )
-    {
-    delete[] this->m_ThreaderBSplineTransformWeights;
-    }
+  delete[] this->m_ThreaderBSplineTransformWeights;
   this->m_ThreaderBSplineTransformWeights = NULL;
 
-  if ( this->m_ThreaderBSplineTransformIndices != NULL )
-    {
-    delete[] this->m_ThreaderBSplineTransformIndices;
-    }
+  delete[] this->m_ThreaderBSplineTransformIndices;
   this->m_ThreaderBSplineTransformIndices = NULL;
 }
 
@@ -386,17 +374,11 @@ throw ( ExceptionObject )
 {
   this->SetNumberOfThreads(m_NumberOfThreads);
 
-  if ( m_ThreaderNumberOfMovingImageSamples != NULL )
-    {
-    delete[] m_ThreaderNumberOfMovingImageSamples;
-    }
+  delete[] m_ThreaderNumberOfMovingImageSamples;
   m_ThreaderNumberOfMovingImageSamples = new unsigned int[m_NumberOfThreads - 1];
 
   // Allocate the array of transform clones to be used in every thread
-  if ( m_ThreaderTransform != NULL )
-    {
-    delete[] m_ThreaderTransform;
-    }
+  delete[] m_ThreaderTransform;
   m_ThreaderTransform = new TransformPointer[m_NumberOfThreads - 1];
   for ( ThreadIdType ithread = 0; ithread < m_NumberOfThreads - 1; ++ithread )
     {
@@ -501,16 +483,10 @@ throw ( ExceptionObject )
     this->m_BSplineTransformWeights.SetSize(1);
     this->m_BSplineTransformIndices.SetSize(1);
 
-    if ( this->m_ThreaderBSplineTransformWeights != NULL )
-      {
-      delete[] this->m_ThreaderBSplineTransformWeights;
-      }
+    delete[] this->m_ThreaderBSplineTransformWeights;
     this->m_ThreaderBSplineTransformWeights = NULL;
 
-    if ( this->m_ThreaderBSplineTransformIndices != NULL )
-      {
-      delete[] this->m_ThreaderBSplineTransformIndices;
-      }
+    delete[] this->m_ThreaderBSplineTransformIndices;
     this->m_ThreaderBSplineTransformIndices = NULL;
 
     if ( this->m_UseCachingOfBSplineWeights )

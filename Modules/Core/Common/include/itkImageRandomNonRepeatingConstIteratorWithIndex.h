@@ -246,10 +246,7 @@ public:
   ImageRandomNonRepeatingConstIteratorWithIndex();
   ~ImageRandomNonRepeatingConstIteratorWithIndex()
   {
-    if ( m_Permutation )
-      {
-      delete m_Permutation;
-      }
+    delete m_Permutation;
   }
 
   /** Constructor establishes an iterator to walk a particular image and a

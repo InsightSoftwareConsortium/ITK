@@ -51,7 +51,7 @@ template< class TPixel, unsigned int VImageDimension >
 ImportImageFilter< TPixel, VImageDimension >
 ::~ImportImageFilter()
 {
-  if ( m_ImportPointer && m_FilterManageMemory )
+  if ( m_FilterManageMemory )
     {
     delete[] m_ImportPointer;
     }
@@ -107,7 +107,7 @@ ImportImageFilter< TPixel, VImageDimension >
 {
   if ( ptr != m_ImportPointer )
     {
-    if ( m_ImportPointer && m_FilterManageMemory )
+    if ( m_FilterManageMemory )
       {
       delete[] m_ImportPointer;
       }

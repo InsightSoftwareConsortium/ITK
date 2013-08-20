@@ -50,7 +50,6 @@ template <class TFixedImage, class TMovingImage>
 MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>
 ::~MeanSquaresImageToImageMetric()
 {
-  // C++ says if NULL is passed to delete, nothing should happend
   delete[] m_PerThread;
   m_PerThread = NULL;
 }

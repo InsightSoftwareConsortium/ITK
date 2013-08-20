@@ -201,7 +201,7 @@ void ImportImageContainer< TElementIdentifier, TElement >
 ::DeallocateManagedMemory()
 {
   // Encapsulate all image memory deallocation here
-  if ( m_ImportPointer && m_ContainerManageMemory )
+  if ( m_ContainerManageMemory )
     {
     delete[] m_ImportPointer;
     }

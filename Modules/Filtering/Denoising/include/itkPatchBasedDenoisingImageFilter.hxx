@@ -92,14 +92,8 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
     SizeValueType cacheSize = m_ThreadData[threadId].eigenValsCache.size();
     for (SizeValueType c = 0; c < cacheSize; ++c)
       {
-      if (m_ThreadData[threadId].eigenValsCache[c] != 0)
-        {
-        delete m_ThreadData[threadId].eigenValsCache[c];
-        }
-      if (m_ThreadData[threadId].eigenVecsCache[c] != 0)
-        {
-        delete m_ThreadData[threadId].eigenVecsCache[c];
-        }
+      delete m_ThreadData[threadId].eigenValsCache[c];
+      delete m_ThreadData[threadId].eigenVecsCache[c];
       }
     m_ThreadData[threadId].eigenValsCache.empty();
     m_ThreadData[threadId].eigenVecsCache.empty();
@@ -1119,8 +1113,8 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
       eigenVecsCache.resize(cacheIndex+1, 0);
       }
 
-    if (eigenValsCache[cacheIndex]) delete eigenValsCache[cacheIndex];
-    if (eigenVecsCache[cacheIndex]) delete eigenVecsCache[cacheIndex];
+    delete eigenValsCache[cacheIndex];
+    delete eigenVecsCache[cacheIndex];
 
     eigenValsCache[cacheIndex] = new EigenValuesArrayType(eigenVals);
     eigenVecsCache[cacheIndex] = new EigenVectorsMatrixType(eigenVecs);

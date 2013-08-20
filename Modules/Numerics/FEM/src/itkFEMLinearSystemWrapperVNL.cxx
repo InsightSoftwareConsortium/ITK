@@ -37,10 +37,7 @@ void LinearSystemWrapperVNL::InitializeMatrix(unsigned int matrixIndex)
     }
 
   // out with old, in with new
-  if( ( *m_Matrices )[matrixIndex] != 0 )
-    {
-    delete ( *m_Matrices )[matrixIndex];
-    }
+  delete ( *m_Matrices )[matrixIndex];
 
   ( *m_Matrices )[matrixIndex] = new MatrixRepresentation( this->GetSystemOrder(), this->GetSystemOrder() );
   if( ( *m_Matrices )[matrixIndex] == NULL )
@@ -91,10 +88,7 @@ void LinearSystemWrapperVNL::InitializeVector(unsigned int vectorIndex)
     }
 
   // out with old, in with new
-  if( ( *m_Vectors )[vectorIndex] != 0 )
-    {
-    delete ( *m_Vectors )[vectorIndex];
-    }
+  delete ( *m_Vectors )[vectorIndex];
 
   ( *m_Vectors )[vectorIndex] = new vnl_vector<Float>( this->GetSystemOrder() );
   if( ( *m_Vectors )[vectorIndex] == NULL )
@@ -145,10 +139,7 @@ void LinearSystemWrapperVNL::InitializeSolution(unsigned int solutionIndex)
     }
 
   // out with old, in with new
-  if( ( *m_Solutions )[solutionIndex] != 0 )
-    {
-    delete ( *m_Solutions )[solutionIndex];
-    }
+  delete ( *m_Solutions )[solutionIndex];
 
   ( *m_Solutions )[solutionIndex] = new vnl_vector<Float>( this->GetSystemOrder() );
   if( ( *m_Solutions )[solutionIndex] == NULL )

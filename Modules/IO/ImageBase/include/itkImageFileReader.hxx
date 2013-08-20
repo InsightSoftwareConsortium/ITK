@@ -450,23 +450,17 @@ void ImageFileReader< TOutputImage, ConvertPixelTraits >
     {
     // if an exception is thrown catch it
 
-    if ( loadBuffer )
-      {
-      // clean up
-      delete[] loadBuffer;
-      loadBuffer = 0;
-      }
+    // clean up
+    delete[] loadBuffer;
+    loadBuffer = 0;
 
     // then rethrow
     throw;
     }
 
   // clean up
-  if ( loadBuffer )
-    {
-    delete[] loadBuffer;
-    loadBuffer = 0;
-    }
+  delete[] loadBuffer;
+  loadBuffer = 0;
 }
 
 template< class TOutputImage, class ConvertPixelTraits >

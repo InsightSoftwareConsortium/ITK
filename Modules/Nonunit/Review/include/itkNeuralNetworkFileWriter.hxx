@@ -56,7 +56,7 @@ NeuralNetworkFileWriter< TNetwork >
 {
   for ( FieldsContainerType::size_type i = 0; i <  this->m_Fields.size(); i++ )
     {
-    delete  this->m_Fields[i];
+    delete this->m_Fields[i];
     }
   this->m_Fields.clear();
 }

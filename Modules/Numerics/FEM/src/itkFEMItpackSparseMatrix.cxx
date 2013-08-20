@@ -83,22 +83,11 @@ void ItpackSparseMatrix::Initialize()
     }
 
   /* initialize itpack variables */
-  if( m_IA != 0 )
-    {
-    delete[] m_IA;
-    }
-  if( m_JA != 0 )
-    {
-    delete[] m_JA;
-    }
-  if( m_IWORK != 0 )
-    {
-    delete[] m_IWORK;
-    }
-  if( m_A != 0 )
-    {
-    delete[] m_A;
-    }
+
+  delete[] m_IA;
+  delete[] m_JA;
+  delete[] m_IWORK;
+  delete[] m_A;
   m_IA =    new integer[m_N + 1];
   m_JA =    new integer[m_NZ];
   m_IWORK = new integer[m_NZ];
@@ -132,22 +121,10 @@ void ItpackSparseMatrix::Initialize()
 void ItpackSparseMatrix::Clear()
 {
   /* free variables */
-  if( m_IA != 0 )
-    {
-    delete[] m_IA;
-    }
-  if( m_JA != 0 )
-    {
-    delete[] m_JA;
-    }
-  if( m_IWORK != 0 )
-    {
-    delete[] m_IWORK;
-    }
-  if( m_A != 0 )
-    {
-    delete[] m_A;
-    }
+  delete[] m_IA;
+  delete[] m_JA;
+  delete[] m_IWORK;
+  delete[] m_A;
 
   m_MatrixFinalized = 0;
   m_MatrixInitialized = 0;

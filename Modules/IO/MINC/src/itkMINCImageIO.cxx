@@ -149,36 +149,19 @@ void MINCImageIO::CleanupDimensions(void)
       this->m_DimensionName[i]=NULL;
       }
     }
-  if(this->m_DimensionName)
-    {
-    delete[] this->m_DimensionName;
-    }
-  if(this->m_DimensionSize)
-    {
-    delete[] this->m_DimensionSize;
-    }
-  if(this->m_DimensionStart)
-    {
-    delete[] this->m_DimensionStart;
-    }
-  if(this->m_DimensionStep)
-    {
-    delete[] this->m_DimensionStep;
-    }
-  if(this->m_MincFileDims)
-    {
-    delete[] this->m_MincFileDims;
-    }
-  if(this->m_MincApparentDims)
-    {
-    delete[] this->m_MincApparentDims;
-    }
-  this->m_DimensionName  = NULL;
-  this->m_DimensionSize  = NULL;
-  this->m_DimensionStart = NULL;
-  this->m_DimensionStep  = NULL;
-  this->m_MincFileDims = NULL;
-  this->m_MincApparentDims= NULL;
+
+  delete[] this->m_DimensionName;
+  delete[] this->m_DimensionSize;
+  delete[] this->m_DimensionStart;
+  delete[] this->m_DimensionStep;
+  delete[] this->m_MincFileDims;
+  delete[] this->m_MincApparentDims;
+
+  this->m_DimensionSize    = NULL;
+  this->m_DimensionStart   = NULL;
+  this->m_DimensionStep    = NULL;
+  this->m_MincFileDims     = NULL;
+  this->m_MincApparentDims = NULL;
 }
 
 void MINCImageIO::AllocateDimensions(int nDims)

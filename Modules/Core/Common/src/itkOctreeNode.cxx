@@ -95,7 +95,7 @@ bool OctreeNode::IsNodeColored(void) const
 
 void OctreeNode::RemoveChildren(void)
 {
-  if ( m_Branch != 0 && !this->IsNodeColored() )
+  if ( !this->IsNodeColored() )
     {
     delete m_Branch;
     m_Branch = reinterpret_cast< OctreeNodeBranch * >

@@ -67,7 +67,7 @@ public:
   /** Deallocates memory using delete[](). */
   void Deallocate()
   {
-    if ( m_Data ) { delete[] m_Data; }
+    delete[] m_Data;
     m_ElementCount = 0;
   }
 

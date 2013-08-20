@@ -66,7 +66,7 @@ public:
   {
     itk::ObjectFactoryBase::UnRegisterAllFactories();
 
-    if (  ObjectFactoryBasePrivate::m_InternalFactories )
+    if ( ObjectFactoryBasePrivate::m_InternalFactories )
       {
       for ( std::list< ObjectFactoryBase * >::iterator i =
               ObjectFactoryBasePrivate::m_InternalFactories->begin();
@@ -74,8 +74,8 @@ public:
         {
         (*i)->UnRegister();
         }
+      delete ObjectFactoryBasePrivate::m_InternalFactories;
       }
-    delete ObjectFactoryBasePrivate::m_InternalFactories;
   }
 };
 //NOTE:  KWStyle insists on m_ for m_CleanUpObjectFactoryGlobal
