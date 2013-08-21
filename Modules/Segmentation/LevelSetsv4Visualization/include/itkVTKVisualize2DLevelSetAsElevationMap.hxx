@@ -203,14 +203,14 @@ VTKVisualize2DLevelSetAsElevationMap< TInputImage, TLevelSet >
 
   vtkIdType vtkId[3];
 
-  for( InputImageSizeValueType j = 0; j < ( this->m_NumberOfSamples[1] - 1 ); j++ )
-    {
-    for( InputImageSizeValueType i = 0; i < ( this->m_NumberOfSamples[0] - 1 ); i++ )
-      {
-      vtkId[0] = j * m_NumberOfSamples[0] + i;
-      vtkId[1] = vtkId[0] + 1;
-      vtkId[2] = vtkId[1] + m_NumberOfSamples[0];
 
+  for( InputImageSizeValueType i = 0; i < ( this->m_NumberOfSamples[0] -1 ); i++ )
+    {
+    for( InputImageSizeValueType j = 0; j < ( this->m_NumberOfSamples[1] - 1 ); j++ )
+      {
+      vtkId[0] = i * m_NumberOfSamples[1] + j;
+      vtkId[1] = vtkId[0] + 1;
+      vtkId[2] = vtkId[1] + m_NumberOfSamples[1];
       this->m_Mesh->InsertNextCell( VTK_TRIANGLE, 3, static_cast< vtkIdType* >( vtkId ) );
 
       vtkId[1] = vtkId[2];

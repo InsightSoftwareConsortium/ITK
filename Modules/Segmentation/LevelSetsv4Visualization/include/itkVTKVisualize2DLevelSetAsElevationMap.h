@@ -61,6 +61,11 @@ public:
                    ( Concept::SameDimension< LevelSetType::Dimension, 2 > ) );
 #endif
 
+  vtkPolyData* GetElevationMapMesh() const
+  {
+    return m_Mesh;
+  }
+
 protected:
   VTKVisualize2DLevelSetAsElevationMap();
   virtual ~VTKVisualize2DLevelSetAsElevationMap();

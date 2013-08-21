@@ -12,6 +12,7 @@ itkVTKVisualize2DShiLevelSetLayersTest
 itkVTKVisualize2DMalcolmLevelSetLayersTest
 itkVTKVisualize3DDenseImageLevelSetTest
 itkVTKVisualize3DWhitakerLevelSetTest
+itkVTKVisualize2DLevelSetAsElevationMapTest
 )
 
 set(ITKLevelSetsv4Visualization-Test_LIBRARIES ${ITKLevelSetsv4Visualization_LIBRARIES} )
@@ -102,4 +103,8 @@ itk_add_test(NAME itkVTKVisualize2DCellsMalcolmLevelSetLayersTest
 itk_add_test(NAME itkVTKVisualizeLevelSetsInteractivePauseTest
   COMMAND ITKLevelSetsv4VisualizationTestDriver itkVTKVisualizeLevelSetsInteractivePauseTest
   DATA{Input/cells.png} 30
+  )
+
+itk_add_test(NAME itkVTKVisualize2DLevelSetAsElevationMapTest
+  COMMAND ITKLevelSetsv4VisualizationTestDriver itkVTKVisualize2DLevelSetAsElevationMapTest
   )
