@@ -265,10 +265,17 @@ void DCMTKImageIO::ReadImageInformation()
     }
   unsigned short rows,columns;
   reader.GetDimensions(rows,columns);
-  this->m_Dimensions[0] = rows;
-  this->m_Dimensions[1] = columns;
-  this->m_Dimensions[2] = reader.GetFrameCount();
-
+  this->m_Dimensions[0] = columns;
+  this->m_Dimensions[1] = rows;
+  if(numPhases == 1)
+    {
+    this->m_Dimensions[2] = reader.GetFrameCount();
+    }
+  else
+    {
+    this->m_Dimensions[2] = reader.GetFrameCount() / numPhases;
+    this->m_Dimensions[3] = numPhases;
+    }
   vnl_vector<double> rowDirection(3),columnDirection(3),sliceDirection(3);
   reader.GetDirCosines(rowDirection,columnDirection,sliceDirection);
   // orthogonalize
