@@ -217,6 +217,9 @@ LevelSetEvolutionBase< TEquationContainer, TLevelSet >
   this->m_StoppingCriterion->SetCurrentIteration( iter );
   this->m_StoppingCriterion->SetLevelSetContainer( this->m_LevelSetContainer );
 
+  // Trigger visualization classes to show initial level-set
+  this->InvokeEvent( IterationEvent() );
+
   while( !this->m_StoppingCriterion->IsSatisfied() )
     {
     this->m_RMSChangeAccumulator = NumericTraits< LevelSetOutputRealType >::Zero;
@@ -236,6 +239,8 @@ LevelSetEvolutionBase< TEquationContainer, TLevelSet >
     this->m_StoppingCriterion->SetCurrentIteration( iter );
 
     ++this->m_NumberOfIterations;
+
+    // Trigger visualization classes to show updated level-set
     this->InvokeEvent( IterationEvent() );
     }
 }
