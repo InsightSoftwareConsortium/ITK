@@ -18,6 +18,7 @@
 
 #include <iostream>
 #include <fstream>
+#include "itkTestingMacros.h"
 #include "itkTxtTransformIOFactory.h"
 #include "itkTransformFileWriter.h"
 #include "itkTransformFileReader.h"
@@ -28,7 +29,7 @@
 #include "itksys/SystemTools.hxx"
 
 template<class ScalarType>
-static int oneTest(const char *goodname,const char *badname)
+static int oneTest(const std::string & outputDirectory, const char *goodname,const char *badname)
 {
   unsigned int i;
   typedef itk::AffineTransform<ScalarType,4>  AffineTransformType;
@@ -58,8 +59,8 @@ static int oneTest(const char *goodname,const char *badname)
   writer = itk::TransformFileWriterTemplate<ScalarType>::New();
   writer->AddTransform(affine);
 
-  writer->SetFileName( goodname );
-  reader->SetFileName( goodname );
+  writer->SetFileName( outputDirectory + goodname );
+  reader->SetFileName( outputDirectory + goodname );
 
   // Testing writing std::cout << "Testing write : ";
   affine->Print ( std::cout );
@@ -120,9 +121,9 @@ static int oneTest(const char *goodname,const char *badname)
   typename itk::TransformFileReaderTemplate<ScalarType>::Pointer badreader;
   badreader = itk::TransformFileReaderTemplate<ScalarType>::New();
   badwriter = itk::TransformFileWriterTemplate<ScalarType>::New();
-  badwriter->AddTransform(Bogus);
-  badwriter->SetFileName(badname);
-  badreader->SetFileName(badname);
+  badwriter->AddTransform( Bogus );
+  badwriter->SetFileName( outputDirectory + badname );
+  badreader->SetFileName( outputDirectory + badname );
 
   // Testing writing
   std::cout << "Testing write of non register transform : " << std::endl;
@@ -171,11 +172,11 @@ static int oneTest(const char *goodname,const char *badname)
 // http://public.kitware.com/Bug/view.php?id=7028
 template<class ScalarType>
 int
-secondTest()
+secondTest( const std::string & outputDirectory )
 {
   std::filebuf fb;
-  fb.open("IllegalTransform.txt",std::ios::out);
-  std::ostream os(&fb);
+  fb.open( (outputDirectory + "IllegalTransform.txt").c_str(), std::ios::out );
+  std::ostream os( &fb );
   os << "#Insight Transform File V1.0"
      << std::endl
      << "#Transform 0"
@@ -190,7 +191,7 @@ secondTest()
   fb.close();
   typename itk::TransformFileReaderTemplate<ScalarType>::Pointer reader;
   reader = itk::TransformFileReaderTemplate<ScalarType>::New();
-  reader->SetFileName("IllegalTransform.txt");
+  reader->SetFileName( outputDirectory + "IllegalTransform.txt" );
   try
     {
     reader->Update();
@@ -215,20 +216,47 @@ secondTest()
   return EXIT_FAILURE;
 }
 
+
+int
+templatelessTest( const std::string & outputDirectory )
+{
+  const std::string outputFile = outputDirectory + "itkIOTransformTxtTestRigid2DTransform.tfm";
+
+  typedef itk::Rigid2DTransform< float > TransformType;
+  TransformType::Pointer transform = TransformType::New();
+
+  itk::TransformFileWriter::Pointer writer = itk::TransformFileWriter::New();
+  writer->SetInput( transform );
+  writer->SetFileName( outputFile );
+  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+
+  return EXIT_SUCCESS;
+}
+
+
 int itkIOTransformTxtTest(int argc, char* argv[])
 {
-  if (argc > 1)
+  if (argc < 2)
     {
+    std::cerr << "Usage: "
+              << argv[0]
+              << " outputDirectory"
+              << std::endl;
+
     itksys::SystemTools::ChangeDirectory(argv[1]);
     }
-  const int result1 =  oneTest<float>("Transforms_float.txt", "TransformsBad_float.txt" );
-  const int result2 =  secondTest<float>();
+  const std::string outputDirectory = std::string(argv[1]) + "/";
+  const int result1 =  oneTest<float>( outputDirectory, "Transforms_float.txt", "TransformsBad_float.txt" );
+  const int result2 =  secondTest<float>( outputDirectory );
 
-  const int result3 =  oneTest<double>("Transforms_double.txt", "TransformsBad_double.txt" );
-  const int result4 =  secondTest<double>();
+  const int result3 =  oneTest<double>( outputDirectory, "Transforms_double.txt", "TransformsBad_double.txt" );
+  const int result4 =  secondTest<double>( outputDirectory );
+
+  const int result5 = templatelessTest( outputDirectory );
 
   return (
           ( !( result1 == EXIT_SUCCESS && result2 == EXIT_SUCCESS) ) &&
-          ( !( result3 == EXIT_SUCCESS && result4 == EXIT_SUCCESS) )
+          ( !( result3 == EXIT_SUCCESS && result4 == EXIT_SUCCESS) ) &&
+            !( result5 == EXIT_SUCCESS )
           );
 }
