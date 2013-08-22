@@ -63,16 +63,11 @@ bool LinearSystemWrapperVNL::IsMatrixInitialized(unsigned int matrixIndex)
 
 void LinearSystemWrapperVNL::DestroyMatrix(unsigned int matrixIndex)
 {
-  if( m_Matrices == 0 )
+  if( m_Matrices )
     {
-    return;
+    delete ( *m_Matrices )[matrixIndex];
+    ( *m_Matrices )[matrixIndex] = 0;
     }
-  if( ( *m_Matrices )[matrixIndex] == 0 )
-    {
-    return;
-    }
-  delete ( *m_Matrices )[matrixIndex];
-  ( *m_Matrices )[matrixIndex] = 0;
 }
 
 void LinearSystemWrapperVNL::InitializeVector(unsigned int vectorIndex)
@@ -114,16 +109,11 @@ bool LinearSystemWrapperVNL::IsVectorInitialized(unsigned int vectorIndex)
 
 void LinearSystemWrapperVNL::DestroyVector(unsigned int vectorIndex)
 {
-  if( m_Vectors == 0 )
+  if( m_Vectors )
     {
-    return;
+    delete ( *m_Vectors )[vectorIndex];
+    ( *m_Vectors )[vectorIndex] = 0;
     }
-  if( ( *m_Vectors )[vectorIndex] == 0 )
-    {
-    return;
-    }
-  delete ( *m_Vectors )[vectorIndex];
-  ( *m_Vectors )[vectorIndex] = 0;
 }
 
 void LinearSystemWrapperVNL::InitializeSolution(unsigned int solutionIndex)
@@ -165,16 +155,11 @@ bool LinearSystemWrapperVNL::IsSolutionInitialized(unsigned int solutionIndex)
 
 void LinearSystemWrapperVNL::DestroySolution(unsigned int solutionIndex)
 {
-  if( m_Solutions == 0 )
+  if( m_Solutions )
     {
-    return;
+    delete ( *m_Solutions )[solutionIndex];
+    ( *m_Solutions )[solutionIndex] = 0;
     }
-  if( ( *m_Solutions )[solutionIndex] == 0 )
-    {
-    return;
-    }
-  delete ( *m_Solutions )[solutionIndex];
-  ( *m_Solutions )[solutionIndex] = 0;
 }
 
 LinearSystemWrapperVNL::Float LinearSystemWrapperVNL::GetSolutionValue(unsigned int i,

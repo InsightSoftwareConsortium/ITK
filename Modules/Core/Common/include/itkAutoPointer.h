@@ -70,12 +70,7 @@ public:
   /** Destructor.  */
   ~AutoPointer ()
   {
-    if ( m_IsOwner && m_Pointer )
-      {
-      delete m_Pointer;
-      }
-    m_Pointer = 0;
-    m_IsOwner = false;
+    this->Reset();
   }
 
   /** Overload operator ->.  */
