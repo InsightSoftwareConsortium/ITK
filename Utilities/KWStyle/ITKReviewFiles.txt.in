@@ -1,3 +1,0 @@
-@ITK_SOURCE_DIR@/Modules/Nonunit/Review/include/itk*.h
-@ITK_SOURCE_DIR@/Modules/Nonunit/Review/include/itk*.hxx
-@ITK_SOURCE_DIR@/Modules/Nonunit/Review/src/itk*.cxx
