@@ -74,7 +74,8 @@ protected:
   virtual ~SquaredEdgeLengthDecimationQuadEdgeMeshFilter();
 
   /**
-   * \brief Compute the measure value for iEdge
+   * Compute the measure value for iEdge.
+   *
    * \param[in] iEdge
    * \return measure value, here the squared edge length
    */
@@ -90,8 +91,8 @@ protected:
     }
 
   /**
-   * \brief Calculate the position of the remaining vertex from collapsing
-   * iEdge.
+   * Calculate the position of the remaining vertex from collapsing iEdge.
+   *
    * \param[in] iEdge
    * \return the optimal point location
    */
