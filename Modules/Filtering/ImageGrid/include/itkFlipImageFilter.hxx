@@ -19,7 +19,7 @@
 #define __itkFlipImageFilter_hxx
 
 #include "itkFlipImageFilter.h"
-#include "itkImageRegionIteratorWithIndex.h"
+#include "itkImageScanlineIterator.h"
 #include "itkMacro.h"
 #include "itkProgressReporter.h"
 
@@ -205,14 +205,12 @@ FlipImageFilter< TImage >
   OutputImagePointer     outputPtr = this->GetOutput();
 
   // Setup output region iterator
-  typedef ImageRegionIteratorWithIndex< TImage > OutputIterator;
-  OutputIterator outIt(outputPtr, outputRegionForThread);
-
-  typename TImage::IndexType outputIndex;
-  typename TImage::IndexType inputIndex;
+  ImageScanlineIterator< TImage > outputIt(outputPtr, outputRegionForThread);
 
   // support progress methods/callbacks
-  ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
+  const typename OutputImageRegionType::SizeType &regionSize = outputRegionForThread.GetSize();
+  const size_t numberOfLinesToProcess = outputRegionForThread.GetNumberOfPixels() / regionSize[0];
+  ProgressReporter progress( this, threadId, numberOfLinesToProcess );
 
   const typename TImage::SizeType & outputLargestPossibleSize =
     outputPtr->GetLargestPossibleRegion().GetSize();
@@ -233,30 +231,48 @@ FlipImageFilter< TImage >
       }
     }
 
-  // walk the output region, and sample the input image
-  for ( outIt.GoToBegin(); !outIt.IsAtEnd(); ++outIt )
+  outputIt.GoToBegin();
+  while ( !outputIt.IsAtEnd() )
     {
-    // determine the index of the output pixel
-    outputIndex = outIt.GetIndex();
 
-    // determine the input pixel location associated with this output pixel
-    for ( unsigned int j = 0; j < ImageDimension; j++ )
+    // determine the index of the output line
+    const typename TImage::IndexType outputIndex = outputIt.GetIndex();
+
+    // determine the input pixel location associated with the start of
+    // the line
+    typename TImage::IndexType inputIndex(outputIndex);
+    for ( unsigned int j = 0; j < ImageDimension; ++j )
       {
       if ( m_FlipAxes[j] )
         {
         inputIndex[j] = -1 * outputIndex[j] + offset[j];
         }
+      }
+
+    // walk the output region, and sample the input image
+    while ( !outputIt.IsAtEndOfLine() )
+      {
+      // copy the input pixel to the output
+      outputIt.Set( inputPtr->GetPixel(inputIndex) );
+
+      ++outputIt;
+      // move input index in scanline axis
+      if ( m_FlipAxes[0] )
+        {
+        --inputIndex[0];
+        }
       else
         {
-        inputIndex[j] = outputIndex[j];
+        ++inputIndex[0];
         }
       }
 
-    // copy the input pixel to the output
-    outIt.Set( inputPtr->GetPixel(inputIndex) );
-    progress.CompletedPixel();
+      outputIt.NextLine();
+      progress.CompletedPixel();
+
     }
 }
+
 } // namespace itk
 
 #endif
