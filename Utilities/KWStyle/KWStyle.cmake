@@ -1,5 +1,5 @@
 find_package(KWStyle 1.0.1
-  QUIET MODULE
+  QUIET
   )
 option(ITK_USE_KWSTYLE
   "Enable the use of KWStyle for checking coding style."
@@ -9,7 +9,7 @@ mark_as_advanced(ITK_USE_KWSTYLE)
 
 if(ITK_USE_KWSTYLE)
   find_package(KWStyle 1.0.1
-    QUIET MODULE
+    QUIET
     REQUIRED # throw a FATAL_ERROR if KWStyle isn't found
     )
 
