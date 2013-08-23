@@ -94,7 +94,7 @@ int itkShrinkImageStreamingTest(int, char* [] )
   MonitorFilter::RegionVectorType rr = monitor1->GetOutputRequestedRegions();
   for (unsigned int j = 0; j < rr.size(); ++j )
     {
-    TEST_EXPECT_TRUE(rr[j].GetSize(1)%factors[1]== 1);
+    TEST_EXPECT_TRUE(rr[j].GetSize(1)%factors[1] == 1);
     }
 
 
