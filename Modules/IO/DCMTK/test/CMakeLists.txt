@@ -64,3 +64,13 @@ itk_add_test(NAME itkDCMTKMultiFrame4DTest
   COMMAND ITKIODCMTKTestDriver itkDCMTKMultiFrame4DTest
   DATA{${ITK_DATA_ROOT}/Input/Philips_4D_DICOM.dcm}
   ${ITK_TEST_OUTPUT_DIR}/Philips_4D_DICOM.nrrd )
+
+itk_add_test(NAME itkDCMTKImageIONonSquareTest
+  COMMAND ITKIODCMTKTestDriver
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/itkDCMTKNonSquare.nii.gz}
+  ${ITK_TEST_OUTPUT_DIR}/itkDCMTKNonSquare.nii.gz
+  itkDCMTKImageIOTest
+  DATA{${ITK_DATA_ROOT}/Input/itkDCMTKNonSquare.dcm}
+  ${ITK_TEST_OUTPUT_DIR}/itkDCMTKNonSquare.nii.gz
+  ${ITK_TEST_OUTPUT_DIR}/itkDCMTKNonSquare.nii.gz
+  ${ITK_TEST_OUTPUT_DIR}/itkDCMTKNonSquareRescale.dcm)
