@@ -98,7 +98,7 @@ int itkGDCMImageOrientationPatientTest( int argc, char* argv[] )
   Writer2DType::Pointer writer2D = Writer2DType::New();
   std::ostringstream filename;
   filename.str("");
-  filename << argv[1] << "/Test2D.dcm";
+  filename << argv[1] << "/itkGDCMImageOrientationPatientTest.dcm";
   writer2D->SetInput(src2D->GetOutput());
   writer2D->SetFileName(filename.str().c_str());
 
