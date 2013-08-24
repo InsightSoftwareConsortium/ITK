@@ -20,7 +20,6 @@
 
 #include "itkFlipImageFilter.h"
 #include "itkImageScanlineIterator.h"
-#include "itkMacro.h"
 #include "itkProgressReporter.h"
 
 namespace itk
@@ -165,7 +164,7 @@ FlipImageFilter< TImage >
   const typename TImage::IndexType & outputLargestPossibleIndex =
     outputPtr->GetLargestPossibleRegion().GetIndex();
 
-  IndexType inputRequestedIndex;
+  IndexType inputRequestedIndex(outputRequestedIndex);
 
   unsigned int j;
   for ( j = 0; j < ImageDimension; j++ )
@@ -178,15 +177,9 @@ FlipImageFilter< TImage >
         - static_cast< IndexValueType >( outputRequestedSize[j] )
         - outputRequestedIndex[j];
       }
-    else
-      {
-      inputRequestedIndex[j] = outputRequestedIndex[j];
-      }
     }
 
-  typename TImage::RegionType inputRequestedRegion;
-  inputRequestedRegion.SetSize(outputRequestedSize);
-  inputRequestedRegion.SetIndex(inputRequestedIndex);
+  typename TImage::RegionType inputRequestedRegion( inputRequestedIndex, outputRequestedSize);
 
   inputPtr->SetRequestedRegion(inputRequestedRegion);
 }
@@ -204,9 +197,6 @@ FlipImageFilter< TImage >
   InputImageConstPointer inputPtr = this->GetInput();
   OutputImagePointer     outputPtr = this->GetOutput();
 
-  // Setup output region iterator
-  ImageScanlineIterator< TImage > outputIt(outputPtr, outputRegionForThread);
-
   // support progress methods/callbacks
   const typename OutputImageRegionType::SizeType &regionSize = outputRegionForThread.GetSize();
   const size_t numberOfLinesToProcess = outputRegionForThread.GetNumberOfPixels() / regionSize[0];
@@ -216,6 +206,25 @@ FlipImageFilter< TImage >
     outputPtr->GetLargestPossibleRegion().GetSize();
   const typename TImage::IndexType & outputLargestPossibleIndex =
     outputPtr->GetLargestPossibleRegion().GetIndex();
+
+  // compute the input region the output region maps to
+  typename TImage::RegionType inputReginForThread( outputRegionForThread );
+   for ( unsigned int j = 0; j < ImageDimension; j++ )
+    {
+    if ( m_FlipAxes[j] )
+      {
+      const IndexValueType idx =
+        2 * outputLargestPossibleIndex[j]
+        + static_cast< IndexValueType >( outputLargestPossibleSize[j] )
+        - static_cast< IndexValueType >( outputRegionForThread.GetSize(j) )
+        - outputRegionForThread.GetIndex(j);
+      inputReginForThread.SetIndex(j, idx);
+      }
+    }
+
+ // Setup output region iterator
+  ImageScanlineIterator< TImage > outputIt(outputPtr, outputRegionForThread);
+  ImageScanlineConstIterator< TImage > inputIter(inputPtr, inputReginForThread);
 
   IndexValueType offset[ImageDimension];
   for ( unsigned int j = 0; j < ImageDimension; j++ )
@@ -248,22 +257,31 @@ FlipImageFilter< TImage >
         inputIndex[j] = -1 * outputIndex[j] + offset[j];
         }
       }
+    inputIter.SetIndex(inputIndex);
 
-    // walk the output region, and sample the input image
-    while ( !outputIt.IsAtEndOfLine() )
+    if ( m_FlipAxes[0] )
       {
-      // copy the input pixel to the output
-      outputIt.Set( inputPtr->GetPixel(inputIndex) );
+      // move the across the output scanline
+      while ( !outputIt.IsAtEndOfLine() )
+        {
+        // copy the input pixel to the output
+        outputIt.Set( inputIter.Get() );
 
-      ++outputIt;
-      // move input index in scanline axis
-      if ( m_FlipAxes[0] )
-        {
-        --inputIndex[0];
+        ++outputIt;
+        // read the input scaneline in reverse
+        --inputIter;
         }
-      else
+      }
+    else
+      {
+      // move the across the output scanline
+      while ( !outputIt.IsAtEndOfLine() )
         {
-        ++inputIndex[0];
+        // copy the input pixel to the output
+        outputIt.Set( inputIter.Get() );
+
+        ++outputIt;
+        ++inputIter;
         }
       }
 
