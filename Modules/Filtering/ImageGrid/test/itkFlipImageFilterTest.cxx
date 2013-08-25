@@ -19,6 +19,7 @@
 #include "itkFlipImageFilter.h"
 #include "itkTextOutput.h"
 #include "itkFilterWatcher.h"
+#include "itkImageRegionIteratorWithIndex.h"
 
 int itkFlipImageFilterTest(int, char* [] )
 {
