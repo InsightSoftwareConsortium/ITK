@@ -12,12 +12,16 @@ itkVTKVisualize2DShiLevelSetLayersTest
 itkVTKVisualize2DMalcolmLevelSetLayersTest
 itkVTKVisualize3DDenseImageLevelSetTest
 itkVTKVisualize3DWhitakerLevelSetTest
+itkVTKVisualize2DLevelSetAsElevationMapTest
 )
 
 set(ITKLevelSetsv4Visualization-Test_LIBRARIES ${ITKLevelSetsv4Visualization_LIBRARIES} )
 CreateTestDriver(ITKLevelSetsv4Visualization  "${ITKLevelSetsv4Visualization-Test_LIBRARIES}" "${ITKLevelSetsv4VisualizationTests}")
 
 set(TEMP ${ITK_TEST_OUTPUT_DIR})
+
+itk_add_test(NAME itkVTKVisualize2DLevelSetAsElevationMapTest
+  COMMAND ITKLevelSetsv4VisualizationTestDriver itkVTKVisualize2DLevelSetAsElevationMapTest)
 
 itk_add_test(NAME itkVTKVisualize2DDenseImageLevelSetTest
   COMMAND ITKLevelSetsv4VisualizationTestDriver itkVTKVisualize2DDenseImageLevelSetTest)

@@ -61,6 +61,24 @@ public:
                    ( Concept::SameDimension< LevelSetType::Dimension, 2 > ) );
 #endif
 
+  /* Set the height scaling for visualization */
+  void SetHeightScaling( const double c )
+    {
+    m_HeightScaling = c;
+    }
+
+  /* Get the height scaling for visualization */
+  double GetHeightScaling() const
+    {
+    return m_HeightScaling;
+    }
+
+  /* Get the surface mesh*/
+  vtkPolyData* GetElevationMapMesh() const
+    {
+    return m_Mesh;
+    }
+
 protected:
   VTKVisualize2DLevelSetAsElevationMap();
   virtual ~VTKVisualize2DLevelSetAsElevationMap();
@@ -82,7 +100,7 @@ private:
 
   InputImageSizeType m_NumberOfSamples;
 
-  double m_Constant;
+  double m_HeightScaling;
   double m_MinValue;
   double m_MaxValue;
 
