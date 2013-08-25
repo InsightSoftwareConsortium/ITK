@@ -2,6 +2,9 @@ itk_module_test()
 set(ITKIOBMPTests
 itkBMPImageIOTest2.cxx
 itkBMPImageIOTest.cxx
+itkBMPImageIOTest3.cxx
+itkBMPImageIOTest4.cxx
+itkBMPImageIOTest5.cxx
 )
 
 CreateTestDriver(ITKIOBMP  "${ITKIOBMP-Test_LIBRARIES}" "${ITKIOBMPTests}")
@@ -36,3 +39,12 @@ itk_add_test(NAME itkBMPImageIOTest4
     --compare DATA{${ITK_DATA_ROOT}/Baseline/IO/image_color.bmp}
               ${ITK_TEST_OUTPUT_DIR}/image_color.bmp
     itkBMPImageIOTest DATA{${ITK_DATA_ROOT}/Input/image_color.bmp} ${ITK_TEST_OUTPUT_DIR}/image_color.bmp)
+itk_add_test(NAME itkBMPImageIOTest7
+      COMMAND ITKIOBMPTestDriver
+    itkBMPImageIOTest3 DATA{${ITK_DATA_ROOT}/Input/grayscale_lowerleft.bmp} DATA{${ITK_DATA_ROOT}/Input/grayscale_upperleft.bmp})
+itk_add_test(NAME itkBMPImageIOTest8
+      COMMAND ITKIOBMPTestDriver
+    itkBMPImageIOTest4 DATA{${ITK_DATA_ROOT}/Input/color_lowerleft.bmp} DATA{${ITK_DATA_ROOT}/Input/color_upperleft.bmp})
+itk_add_test(NAME itkBMPImageIOTest9
+      COMMAND ITKIOBMPTestDriver
+    itkBMPImageIOTest5 DATA{${ITK_DATA_ROOT}/Input/grayscale_lowerleft_rle.bmp} DATA{${ITK_DATA_ROOT}/Input/grayscale_lowerleft.bmp})

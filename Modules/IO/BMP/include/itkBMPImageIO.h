@@ -50,6 +50,12 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(BMPImageIO, Superclass);
 
+  /** Getter for the FileLowerLeft attribute. */
+  itkGetConstMacro(FileLowerLeft, bool);
+
+  /** Getter for the BMPCompression attribute. */
+  itkGetConstMacro(BMPCompression, long);
+
   /*-------- This part of the interfaces deals with reading data. ----- */
 
   /** Determine the file type. Returns true if this ImageIO can read the
@@ -89,6 +95,8 @@ private:
   void Write32BitsInteger(unsigned int value);
 
   void Write16BitsInteger(unsigned short value);
+
+  RGBPixelType GetColorPaletteEntry(const unsigned char entry) const;
 
   std::ifstream               m_Ifstream;
   std::ofstream               m_Ofstream;
