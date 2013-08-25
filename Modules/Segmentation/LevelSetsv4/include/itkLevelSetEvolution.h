@@ -228,6 +228,11 @@ public:
   typedef UpdateWhitakerSparseLevelSet< ImageDimension, LevelSetOutputType, EquationContainerType > UpdateLevelSetFilterType;
   typedef typename UpdateLevelSetFilterType::Pointer                                                UpdateLevelSetFilterPointer;
 
+  /** Set the maximum number of threads to be used. */
+  void SetNumberOfThreads( const ThreadIdType threads );
+  /** Set the maximum number of threads to be used. */
+  ThreadIdType GetNumberOfThreads() const;
+
 protected:
   LevelSetEvolution();
   ~LevelSetEvolution();
