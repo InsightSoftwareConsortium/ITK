@@ -25,7 +25,7 @@ namespace itk
 {
 /** \class MGHImageIOFactory
    * \brief Create instances of MGHImageIO objects using an object factory.
-   * \ingroup ITKIOMGH
+   * \ingroup MGHIO
    */
 class MGHImageIOFactory : public ObjectFactoryBase
 {
