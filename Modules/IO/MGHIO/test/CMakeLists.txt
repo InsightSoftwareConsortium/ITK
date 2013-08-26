@@ -5,9 +5,6 @@ set(MGHIOTests
 
 set(MGH_DATA_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/MD5)
 
-# For itkMGHImageIOTest.h.
-include_directories( ${MGHIO_SOURCE_DIR}/test )
-
 CreateTestDriver(MGHIO  "${MGHIO-Test_LIBRARIES}" "${MGHIOTests}")
 
 itk_add_test(NAME MGHFactoryCreationTest
