@@ -287,11 +287,11 @@ void BMPImageIO::Read(void *buffer)
     long streamRead = m_Dimensions[0] * m_Depth / 8;
     long paddedStreamRead = streamRead;
     unsigned long step = this->GetNumberOfComponents();
-    value = new char[paddedStreamRead + 1];
     if ( streamRead % 4 )
       {
       paddedStreamRead = ( ( streamRead / 4 ) + 1 ) * 4;
       }
+    value = new char[paddedStreamRead + 1];
 
     for ( unsigned int id = 0; id < m_Dimensions[1]; id++ )
       {
