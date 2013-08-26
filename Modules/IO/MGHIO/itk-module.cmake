@@ -7,7 +7,6 @@ itk_module(MGHIO
     ITKZLIB
   TEST_DEPENDS
     ITKTestKernel
-    ITKTransform
   EXCLUDE_FROM_ALL
   DESCRIPTION
     "${DOCUMENTATION}"
