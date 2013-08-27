@@ -33,7 +33,7 @@ namespace itk
  * package under grants XXXX
  *
  * \ingroup IOFilters
- * \ingroup ITKIOMGH
+ * \ingroup MGHIO
  */
 class MGHImageIO:public ImageIOBase
 {
