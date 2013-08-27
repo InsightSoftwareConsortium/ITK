@@ -114,7 +114,7 @@ public:
   itkStaticConstMacro(PRINCIPAL_AXES, AttributeType, 110);
 
   /** Elongation is the  ratio of the largest principal moment to the
-    * smallest principal moment. Its value is greater or equal to 1.
+    * second largest principal moment. Its value is greater or equal to 1.
     * Its type is double.*/
   itkStaticConstMacro(ELONGATION, AttributeType, 111);
 

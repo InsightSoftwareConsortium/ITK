@@ -20,6 +20,7 @@
 #define __itkOtsuThresholdCalculator_h
 
 #include "itkHistogramThresholdCalculator.h"
+#include "itkOtsuMultipleThresholdsCalculator.h"
 
 namespace itk
 {
@@ -66,14 +67,17 @@ public:
   }
 
 protected:
-  OtsuThresholdCalculator() {};
+  OtsuThresholdCalculator()
+  {
+    m_OtsuMultipleThresholdsCalculator = OtsuMultipleThresholdsCalculator<THistogram>::New();
+  }
   virtual ~OtsuThresholdCalculator() {};
   void GenerateData(void);
 
 private:
   OtsuThresholdCalculator(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
-
+  typename OtsuMultipleThresholdsCalculator<THistogram>::Pointer m_OtsuMultipleThresholdsCalculator;
 };
 
 } // end namespace itk

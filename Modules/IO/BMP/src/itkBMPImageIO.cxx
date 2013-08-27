@@ -199,126 +199,106 @@ void BMPImageIO::Read(void *buffer)
 {
   char *        p = static_cast< char * >( buffer );
   unsigned long l = 0;
-  unsigned long step = this->GetNumberOfComponents();
-  long          streamRead = m_Dimensions[0] * m_Depth / 8;
+  char *        value;
 
   m_Ifstream.open(m_FileName.c_str(), std::ios::in | std::ios::binary);
 
-  long paddedStreamRead = streamRead;
-  if ( streamRead % 4 )
+  // If the file is RLE compressed
+  // RLE-compressed files are lower-left
+  // About the RLE compression algorithm:
+  // http://msdn.microsoft.com/en-us/library/windows/desktop/dd183383%28v=vs.85%29.aspx
+  if ( m_BMPCompression == 1 && this->GetNumberOfComponents() == 3 )
     {
-    paddedStreamRead = ( ( streamRead / 4 ) + 1 ) * 4;
-    }
+    value = new char[m_BMPDataSize + 1];
+    m_Ifstream.seekg(m_BitMapOffset, std::ios::beg);
+    m_Ifstream.read( (char *)value, m_BMPDataSize );
 
-  char *value = new char[paddedStreamRead + 1];
-  if ( m_FileLowerLeft )
-    {
-    // If the file is RLE compressed
-    if ( m_BMPCompression == 1 && this->GetNumberOfComponents() == 3 )
+    SizeValueType posLine = 0;
+    SizeValueType line = m_Dimensions[1] - 1;
+    for ( unsigned int i = 0; i < m_BMPDataSize; i++ )
       {
-      delete[] value;
-      value = new char[m_BMPDataSize + 1];
-      m_Ifstream.seekg(m_BitMapOffset, std::ios::beg);
-      m_Ifstream.read( (char *)value, m_BMPDataSize );
-
-      SizeValueType posLine = 0;
-      SizeValueType line = m_Dimensions[1] - 1;
-      for ( unsigned int i = 0; i < m_BMPDataSize; i++ )
+      unsigned char byte1 = value[i];
+      i++;
+      unsigned char byte2 = value[i];
+      if(byte1 == 0)
         {
-        unsigned long n = value[i];
-        i++;
-        unsigned char valpix = value[i];
-        for ( unsigned long j = 0; j < n; j++ )
+        if(byte2 == 0)
           {
-          RGBPixelType rbg;
-          if ( valpix < m_ColorPalette.size() )
+          // End of line
+          line--;
+          posLine = 0;
+          continue;
+          }
+        else if(byte2 == 1)
+          {
+          // End of bitmap data
+          break;
+          }
+        else if(byte2 == 2)
+          {
+          // Delta
+          i++;
+          unsigned char dx = value[i];
+          i++;
+          unsigned char dy = value[i];
+          posLine += dx;
+          line -= dy;
+          continue;
+          }
+        else
+          {
+          // Unencoded run
+          for ( unsigned long j = 0; j < byte2; j++ )
             {
-            rbg = m_ColorPalette[valpix];
+            i++;
+            RGBPixelType rgb = this->GetColorPaletteEntry(value[i]);
+            l = 3 * ( line * m_Dimensions[0] + posLine );
+            p[l] = rgb.GetBlue();
+            p[l + 1] = rgb.GetGreen();
+            p[l + 2] = rgb.GetRed();
+            posLine++;
             }
-          else
+          // If a run's length is odd, the it is padded with 0
+          if(byte2 % 2)
             {
-            rbg.SetRed(0);
-            rbg.SetGreen(0);
-            rbg.SetBlue(0);
-            }
-          l = 3 * ( line * m_Dimensions[0] + posLine );
-          p[l] = rbg.GetBlue();
-          p[l + 1] = rbg.GetGreen();
-          p[l + 2] = rbg.GetRed();
-          posLine++;
-          if ( posLine == m_Dimensions[0] )
-            {
-            line--;
-            posLine = 0;
+            i++;
             }
           }
         }
-      }
-    else
-      {
-      // File is not compressed
-      // Read one row at a time
-      for ( unsigned int id = 0; id < m_Dimensions[1]; id++ )
+      else
         {
-        m_Ifstream.seekg(m_BitMapOffset + paddedStreamRead * ( m_Dimensions[1] - id - 1 ), std::ios::beg);
-        m_Ifstream.read( (char *)value, paddedStreamRead );
-        for ( long i = 0; i < streamRead; i++ )
+        // Encoded run
+        RGBPixelType rgb = this->GetColorPaletteEntry(byte2);
+        for ( unsigned long j = 0; j < byte1; j++ )
           {
-          if ( this->GetNumberOfComponents() == 1 )
-            {
-            p[l++] = value[i];
-            }
-          else
-            {
-            if ( m_ColorTableSize == 0 )
-              {
-              if ( this->GetNumberOfComponents() == 3 )
-                {
-                p[l++] = value[i + 2];
-                p[l++] = value[i + 1];
-                p[l++] = value[i];
-                }
-              if ( this->GetNumberOfComponents() == 4 )
-                {
-                p[l++] = value[i + 3];
-                p[l++] = value[i + 2];
-                p[l++] = value[i + 1];
-                p[l++] = value[i];
-                }
-              i += step - 1;
-              }
-            else
-              {
-              unsigned char val = value[i];
-              RGBPixelType  rbg;
-              if ( val < m_ColorPalette.size() )
-                {
-                rbg = m_ColorPalette[val];
-                }
-              else
-                {
-                rbg.SetRed(0);
-                rbg.SetGreen(0);
-                rbg.SetBlue(0);
-                }
-              p[l++] = rbg.GetBlue();
-              p[l++] = rbg.GetGreen();
-              p[l++] = rbg.GetRed();
-              }
-            }
+          l = 3 * ( line * m_Dimensions[0] + posLine );
+          p[l] = rgb.GetBlue();
+          p[l + 1] = rgb.GetGreen();
+          p[l + 2] = rgb.GetRed();
+          posLine++;
           }
         }
       }
     }
   else
-  // File not lower left
     {
-    m_Ifstream.seekg(m_BitMapOffset, std::ios::beg);
+    // File is not compressed
+    // Read one row at a time
+    long streamRead = m_Dimensions[0] * m_Depth / 8;
+    long paddedStreamRead = streamRead;
+    unsigned long step = this->GetNumberOfComponents();
+    if ( streamRead % 4 )
+      {
+      paddedStreamRead = ( ( streamRead / 4 ) + 1 ) * 4;
+      }
+    value = new char[paddedStreamRead + 1];
+
     for ( unsigned int id = 0; id < m_Dimensions[1]; id++ )
       {
-      m_Ifstream.read( (char *)value, streamRead );
-
-      for ( long i = 0; i < streamRead; i += step )
+      const unsigned int line_id = m_FileLowerLeft ? (m_Dimensions[1] - id - 1) : id;
+      m_Ifstream.seekg(m_BitMapOffset + paddedStreamRead * line_id, std::ios::beg);
+      m_Ifstream.read( (char *)value, paddedStreamRead );
+      for ( long i = 0; i < streamRead; i++ )
         {
         if ( this->GetNumberOfComponents() == 1 )
           {
@@ -326,9 +306,30 @@ void BMPImageIO::Read(void *buffer)
           }
         else
           {
-          p[l++] = value[i + 2];
-          p[l++] = value[i + 1];
-          p[l++] = value[i];
+          if ( m_ColorTableSize == 0 )
+            {
+            if ( this->GetNumberOfComponents() == 3 )
+              {
+              p[l++] = value[i + 2];
+              p[l++] = value[i + 1];
+              p[l++] = value[i];
+              }
+            if ( this->GetNumberOfComponents() == 4 )
+              {
+              p[l++] = value[i + 3];
+              p[l++] = value[i + 2];
+              p[l++] = value[i + 1];
+              p[l++] = value[i];
+              }
+            i += step - 1;
+            }
+          else
+            {
+            RGBPixelType rgb = this->GetColorPaletteEntry(value[i]);
+            p[l++] = rgb.GetBlue();
+            p[l++] = rgb.GetGreen();
+            p[l++] = rgb.GetRed();
+            }
           }
         }
       }
@@ -465,20 +466,20 @@ void BMPImageIO::ReadImageInformation()
       }
     }
 
-  this->SetNumberOfDimensions(2);
-  m_Dimensions[0] = xsize;
-  m_Dimensions[1] = ysize;
-
   // is corner in upper left or lower left
   if ( ysize < 0 )
     {
-    ysize = ysize * -1;
+    ysize = -ysize;
     m_FileLowerLeft = 0;
     }
   else
     {
     m_FileLowerLeft = 1;
     }
+
+  this->SetNumberOfDimensions(2);
+  m_Dimensions[0] = xsize;
+  m_Dimensions[1] = ysize;
 
   // ignore planes
   m_Ifstream.read( (char *)&stmp, 2 );
@@ -537,6 +538,15 @@ void BMPImageIO::ReadImageInformation()
       m_Ifstream.read( (char *)&itmp, 4 );
       }
     }
+
+  // http://msdn.microsoft.com/en-us/library/windows/desktop/dd183376%28v=vs.85%29.aspx
+  if(m_BMPCompression == 1 && !m_FileLowerLeft)
+    {
+    m_Ifstream.close();
+    itkExceptionMacro("Compressed BMP are not supposed to be upper-left.");
+    return;
+    }
+
   // Read the color palette. Only used for 1,4 and 8 bit images.
   if ( m_Depth <= 8 )
     {
@@ -691,6 +701,24 @@ BMPImageIO
   m_Ofstream.write( &tmp, sizeof( char ) );
   tmp = static_cast< char >( ( value % 65536L ) / 256 );
   m_Ofstream.write( &tmp, sizeof( char ) );
+}
+
+BMPImageIO::RGBPixelType
+BMPImageIO
+::GetColorPaletteEntry(const unsigned char entry) const
+{
+  if ( entry < m_ColorPalette.size() )
+    {
+    return m_ColorPalette[entry];
+    }
+  else
+    {
+    RGBPixelType p;
+    p.SetRed(0);
+    p.SetGreen(0);
+    p.SetBlue(0);
+    return p;
+    }
 }
 
 void

@@ -238,6 +238,16 @@ public:
     return *this;
   }
 
+  /** decrement (prefix) along the scanline the iterator's index.
+   *
+   */
+  Self& operator--()
+  {
+    itkAssertInDebugAndIgnoreInReleaseMacro( !this->IsAtEndOfLine() );
+    --this->m_Offset;
+    return *this;
+  }
+
 
 protected:
   OffsetValueType m_SpanBeginOffset; // one pixel the beginning of the scanline

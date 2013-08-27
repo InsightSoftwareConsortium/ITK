@@ -60,6 +60,10 @@ class InternalHeader
 {
 public:
   InternalHeader():m_Header(0) {}
+  ~InternalHeader()
+  {
+    delete m_Header;
+  }
   gdcm::File *m_Header;
 };
 
@@ -98,10 +102,6 @@ GDCMImageIO::GDCMImageIO()
 
 GDCMImageIO::~GDCMImageIO()
 {
-  if ( this->m_DICOMHeader->m_Header )
-    {
-    delete this->m_DICOMHeader->m_Header;
-    }
   delete this->m_DICOMHeader;
 }
 
@@ -803,26 +803,42 @@ void GDCMImageIO::Write(const void *buffer)
     }
 
   // Do the direction now:
-  image.SetDirectionCosines(0, m_Direction[0][0]);
-  image.SetDirectionCosines(1, m_Direction[0][1]);
-  if ( m_Direction.size() == 3 )
-    {
-    image.SetDirectionCosines(2, m_Direction[0][2]);
-    }
+  // if the meta dictionary contains the tag "0020 0037", use it
+  const bool hasIOP = ExposeMetaData<std::string>(dict, "0020|0037",tempString);
+  if (hasIOP)
+  {
+    double directions[6];
+    sscanf(tempString.c_str(), "%lf\\%lf\\%lf\\%lf\\%lf\\%lf", &(directions[0]), &(directions[1]), &(directions[2]),&(directions[3]),&(directions[4]),&(directions[5]));
+    image.SetDirectionCosines(0, directions[0]);
+    image.SetDirectionCosines(1, directions[1]);
+    image.SetDirectionCosines(2, directions[2]);
+    image.SetDirectionCosines(3, directions[3]);
+    image.SetDirectionCosines(4, directions[4]);
+    image.SetDirectionCosines(5, directions[5]);
+  }
   else
-    {
-    image.SetDirectionCosines(2, 0);
-    }
-  image.SetDirectionCosines(3, m_Direction[1][0]);
-  image.SetDirectionCosines(4, m_Direction[1][1]);
-  if ( m_Direction.size() == 3 )
-    {
-    image.SetDirectionCosines(5, m_Direction[1][2]);
-    }
-  else
-    {
-    image.SetDirectionCosines(5, 0);
-    }
+  {
+    image.SetDirectionCosines(0, m_Direction[0][0]);
+    image.SetDirectionCosines(1, m_Direction[0][1]);
+    if ( m_Direction.size() == 3 )
+      {
+      image.SetDirectionCosines(2, m_Direction[0][2]);
+      }
+    else
+      {
+      image.SetDirectionCosines(2, 0);
+      }
+    image.SetDirectionCosines(3, m_Direction[1][0]);
+    image.SetDirectionCosines(4, m_Direction[1][1]);
+    if ( m_Direction.size() == 3 )
+      {
+      image.SetDirectionCosines(5, m_Direction[1][2]);
+      }
+    else
+      {
+      image.SetDirectionCosines(5, 0);
+      }
+  }
 
   // reset any previous value:
   m_RescaleSlope = 1.0;

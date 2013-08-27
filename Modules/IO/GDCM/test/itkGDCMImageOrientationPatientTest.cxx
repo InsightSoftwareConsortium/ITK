@@ -25,7 +25,7 @@
 #include <sstream>
 #include <vector>
 
-int itkGDCMImagePositionPatientTest( int argc, char* argv[] )
+int itkGDCMImageOrientationPatientTest( int argc, char* argv[] )
 {
 
   if( argc < 2 )
@@ -50,11 +50,6 @@ int itkGDCMImagePositionPatientTest( int argc, char* argv[] )
   spacing2D[0] = 10.0;
   spacing2D[1] = 100.0;
 
-  Image2DType::DirectionType direction2D;
-  direction2D[0][0] = .5;
-  direction2D[0][1] = .7;
-  direction2D[1][0] = .7;
-  direction2D[1][1] = .5;
   Image2DType::SizeType size2D;
   size2D.Fill(16);
 
@@ -80,8 +75,22 @@ int itkGDCMImagePositionPatientTest( int argc, char* argv[] )
   value << origin3D[0] << "\\" << origin3D[1] << "\\" << origin3D[2];
   itk::EncapsulateMetaData<std::string>(dictionary,"0020|0032", value.str());
 
+  Image3DType::DirectionType direction3D;
+  direction3D[0][0] = .6;
+  direction3D[1][0] = .0;
+  direction3D[2][0] =  .8;
+  direction3D[0][1] = -.8;
+  direction3D[1][1] = .0;
+  direction3D[2][1] = .6;
+  direction3D[0][2] = 0;
+  direction3D[1][2] = 1;
+  direction3D[2][2] = 0;
+  value.str("");
+  value << direction3D[0][0] << "\\" << direction3D[1][0] << "\\" << direction3D[2][0] << "\\" << direction3D[0][1] << "\\" << direction3D[1][1] << "\\" << direction3D[2][1];
+  itk::EncapsulateMetaData<std::string>(dictionary,"0020|0037", value.str());
+
   // GDCM will not write IPP unless the modality is one of CT, MR or RT.
-  std::string modality("CT");
+  std::string modality("MR");
   itk::EncapsulateMetaData<std::string>(dictionary, "0008|0060", modality);
 
   src2D->GetOutput()->SetMetaDataDictionary(dictionary);
@@ -89,7 +98,7 @@ int itkGDCMImagePositionPatientTest( int argc, char* argv[] )
   Writer2DType::Pointer writer2D = Writer2DType::New();
   std::ostringstream filename;
   filename.str("");
-  filename << argv[1] << "/itkGDCMImagePositionPatientTest.dcm";
+  filename << argv[1] << "/itkGDCMImageOrientationPatientTest.dcm";
   writer2D->SetInput(src2D->GetOutput());
   writer2D->SetFileName(filename.str().c_str());
 
@@ -111,17 +120,19 @@ int itkGDCMImagePositionPatientTest( int argc, char* argv[] )
   reader->SetFileName(filename.str().c_str());
   reader->Update();
 
-  Image3DType::PointType readerOrigin3D;
-  readerOrigin3D = reader->GetOutput()->GetOrigin();
-  if ((readerOrigin3D[0] != origin3D[0]) ||
-      (readerOrigin3D[1] != origin3D[1]) ||
-      (readerOrigin3D[2] != origin3D[2]))
+  Image3DType::DirectionType readerDirection3D;
+  readerDirection3D = reader->GetOutput()->GetDirection();
+  if ((readerDirection3D[0][0] != direction3D[0][0]) ||
+      (readerDirection3D[1][0] != direction3D[1][0]) ||
+      (readerDirection3D[2][0] != direction3D[2][0]) ||
+      (readerDirection3D[0][1] != direction3D[0][1]) ||
+      (readerDirection3D[1][1] != direction3D[1][1]) ||
+      (readerDirection3D[2][1] != direction3D[2][1])
+      )
     {
-    std::cout << "ERROR: read origin does not equal written origin: "
-              << readerOrigin3D << " != ["
-              << origin3D[0] << ", "
-              << origin3D[1] << ", "
-              << origin3D[2] << "]\n";
+    std::cout << "ERROR: read directions does not equal written directions: "
+              << readerDirection3D << " != "
+              << direction3D;
     return EXIT_FAILURE;
     }
   return EXIT_SUCCESS;

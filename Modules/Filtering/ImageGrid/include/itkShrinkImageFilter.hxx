@@ -255,15 +255,13 @@ ShrinkImageFilter< TInputImage, TOutputImage >
 
   inputRequestedRegionIndex = outputRequestedRegionStartIndex * factorSize + offsetIndex;
 
-  // Originally this was
-  //  for ( i=0; i < TInputImage::ImageDimension; ++i )
-  //  {
-  //  inputRequestedRegionSize[i] = (outputRequestedRegionSize[i] - 1 ) *
-  // factorSize[i] + 1;
-  //  }
-  // but with centered pixels we may sample edge to edge
-
-  inputRequestedRegionSize = outputRequestedRegionSize * factorSize;
+  // originally this was
+  // inputRequestedRegionSize = outputRequestedRegionSize * factorSize;
+  // but since we don't sample edge to edge, we can reduce the size
+  for ( i=0; i < TInputImage::ImageDimension; ++i )
+    {
+    inputRequestedRegionSize[i] = (outputRequestedRegionSize[i] - 1 ) * factorSize[i] + 1;
+    }
 
   typename TInputImage::RegionType inputRequestedRegion;
   inputRequestedRegion.SetIndex(inputRequestedRegionIndex);

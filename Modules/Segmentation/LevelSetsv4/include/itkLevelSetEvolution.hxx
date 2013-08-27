@@ -51,6 +51,24 @@ LevelSetEvolution< TEquationContainer, LevelSetDenseImage< TImage > >
 template< class TEquationContainer, class TImage >
 void
 LevelSetEvolution< TEquationContainer, LevelSetDenseImage< TImage > >
+::SetNumberOfThreads( const ThreadIdType numberOfThreads)
+{
+  this->m_SplitLevelSetComputeIterationThreader->SetMaximumNumberOfThreads( numberOfThreads );
+  this->m_SplitDomainMapComputeIterationThreader->SetMaximumNumberOfThreads( numberOfThreads );
+  this->m_SplitLevelSetUpdateLevelSetsThreader->SetMaximumNumberOfThreads( numberOfThreads );
+}
+
+template< class TEquationContainer, class TImage >
+ThreadIdType
+LevelSetEvolution< TEquationContainer, LevelSetDenseImage< TImage > >
+::GetNumberOfThreads() const
+{
+  return this->m_SplitDomainMapComputeIterationThreader->GetMaximumNumberOfThreads();
+}
+
+template< class TEquationContainer, class TImage >
+void
+LevelSetEvolution< TEquationContainer, LevelSetDenseImage< TImage > >
 ::ComputeIteration()
 {
   InputImageConstPointer inputImage = this->m_EquationContainer->GetInput();

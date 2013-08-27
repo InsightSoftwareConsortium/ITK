@@ -98,6 +98,32 @@
     ** Sample code snippets
     ** Extracted from git diff of changed files in Examples and Testing
     **-->
+  <SampleCode>
+    <Old>
+      <![CDATA[
+        typedef TransformFileWriter   WriterType;
+        typedef TransformFileReader   ReaderType;
+      ]]>
+    </Old>
+
+    <New>
+      <![CDATA[
+        /* transform file read/write filters are redefined as a template over the output precision type. */
+
+        // save a transform to the disk in single precision type:
+        typedef TransformFileWriterTemplate<float>   WriterType;
+
+        // read a transform and store that to the memory in single precision type:
+        typedef TransformFileReaderTemplate<float>   ReaderType;
+
+        // The legacy writer/reader APIs are aliases for the following definitions:
+        typedef TransformFileWriterTemplate<double>   WriterType;
+        typedef TransformFileReaderTemplate<double>   ReaderType;
+
+        // In above example, a reader/writer filter returns a double precision transform as its output.
+      ]]>
+    </New>
+    </SampleCode>
     <SampleCode>
       <Old>
         <![CDATA[

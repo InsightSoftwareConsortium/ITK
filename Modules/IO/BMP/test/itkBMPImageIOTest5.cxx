@@ -1,0 +1,109 @@
+/*=========================================================================
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
+#include "itkBMPImageIO.h"
+#include "itkImageFileReader.h"
+#include "itkImageRegionConstIterator.h"
+#include <fstream>
+
+
+#define SPECIFIC_IMAGEIO_MODULE_TEST
+
+/* This test check that a RLE-compressed bitmap and an
+ * uncompressed bitmap representing the same grayscale image
+ * contains the same data.
+ */
+int itkBMPImageIOTest5( int ac, char* av[] )
+{
+
+  if(ac < 3)
+    {
+    std::cerr << "Usage: " << av[0] << " CompressedImage UncompressedImage" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  typedef unsigned char                              PixelType;
+  typedef itk::Image<PixelType, 2>                   ImageType;
+  typedef itk::ImageFileReader<ImageType>            ReaderType;
+  typedef itk::ImageRegionConstIterator< ImageType > IteratorType;
+
+
+  ReaderType::Pointer reader1 = ReaderType::New();
+  itk::BMPImageIO::Pointer io1 = itk::BMPImageIO::New();
+  reader1->SetImageIO(io1);
+  reader1->SetFileName(av[1]);
+
+  ReaderType::Pointer reader2 = ReaderType::New();
+  itk::BMPImageIO::Pointer io2 = itk::BMPImageIO::New();
+  reader2->SetImageIO(io2);
+  reader2->SetFileName(av[2]);
+
+
+  try
+    {
+    reader1->Update();
+    reader2->Update();
+    }
+  catch (itk::ExceptionObject & e)
+    {
+    std::cerr << "exception in image file reader " << std::endl;
+    std::cerr << e << std::endl;
+    return EXIT_FAILURE;
+    }
+
+
+  if(io1->GetBMPCompression() != 1)
+    {
+      std::cout << "Expecting a RLE-compressed image, got an uncompressed one (" << av[1] << ")." << std::endl;
+      return EXIT_FAILURE;
+    }
+
+  if(io2->GetBMPCompression() != 0)
+    {
+      std::cout << "Expecting an uncompressed image, got an RLE-compressed one (" << av[2] << ")." << std::endl;
+      return EXIT_FAILURE;
+    }
+
+
+  ImageType::RegionType r1 = reader1->GetOutput()->GetLargestPossibleRegion(),
+                        r2 = reader2->GetOutput()->GetLargestPossibleRegion();
+
+  if(r1 != r2)
+    {
+      std::cout << "The images must have the same size." << std::endl;
+      return EXIT_FAILURE;
+    }
+
+  IteratorType it1( reader1->GetOutput(), r1 );
+  IteratorType it2( reader2->GetOutput(), r2 );
+
+  it1.GoToBegin();
+  it2.GoToBegin();
+  while ( !it1.IsAtEnd() )
+    {
+    if ( it1.Value() != it2.Value() )
+      {
+      std::cout << "An image stored in a lower-left bitmap is different than the same image stored in a upper-left bitmap." << std::endl;
+      return EXIT_FAILURE;
+      }
+
+    ++it1;
+    ++it2;
+    }
+
+  return EXIT_SUCCESS;
+}
