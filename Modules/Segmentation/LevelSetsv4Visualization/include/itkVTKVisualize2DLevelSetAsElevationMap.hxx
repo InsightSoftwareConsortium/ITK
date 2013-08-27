@@ -41,7 +41,7 @@ VTKVisualize2DLevelSetAsElevationMap< TInputImage, TLevelSet >
   this->m_ColorValue = true;
   this->m_MinValue = itk::NumericTraits< double >::max( );
   this->m_MaxValue = itk::NumericTraits< double >::min( );
-  this->m_Constant = 0.1;
+  this->m_HeightScaling = 0.1;
 
   this->m_Mesh = vtkSmartPointer< vtkPolyData >::New();
 
@@ -186,7 +186,7 @@ VTKVisualize2DLevelSetAsElevationMap< TInputImage, TLevelSet >
 
   inputImage->TransformIndexToPhysicalPoint( index, itkPoint2 );
 
-  double ratio = m_Constant *
+  double ratio = m_HeightScaling *
       static_cast< double >( itkPoint.EuclideanDistanceTo( itkPoint2 ) );
 
   if( den != 0. )
