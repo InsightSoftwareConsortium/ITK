@@ -454,7 +454,7 @@ if("${CMAKE_SYSTEM_NAME}" MATCHES "Linux")
     PROPERTIES WILL_FAIL TRUE
     )
 
-  set(CTEST_CUSTOM_MEMCHECK_IGNORE ${CTEST_CUSTOM_MEMCHECK_IGNORE} itkFloatingPointExceptionsTest5 CACHE INTERNAL "tests excluded from memcheck" FORCE)
+  itk_memcheck_ignore(itkFloatingPointExceptionsTest5)
 
 endif()
 
