@@ -90,5 +90,4 @@ itk_module(ITKReview
     ITKIOMesh
   DESCRIPTION
     "${DOCUMENTATION}"
-  EXCLUDE_FROM_ALL
- )
+)
