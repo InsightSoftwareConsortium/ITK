@@ -14,6 +14,7 @@ itkLevelSetEquationChanAndVeseInternalTermTest.cxx
 itkLevelSetEquationCurvatureTermTest.cxx
 itkLevelSetEquationLaplacianTermTest.cxx
 itkLevelSetEquationPropagationTermTest.cxx
+itkLevelSetEquationBinaryMaskTermTest.cxx
 itkLevelSetEquationRegionTermTest.cxx
 itkLevelSetEquationTermBaseTest.cxx
 itkLevelSetEquationTermContainerTest.cxx
@@ -47,6 +48,8 @@ itkLevelSetEvolutionNumberOfIterationsStoppingCriterionTest.cxx
 
 CreateTestDriver(ITKLevelSetsv4  "${ITKLevelSetsv4-Test_LIBRARIES}" "${ITKLevelSetsv4Tests}")
 
+itk_add_test(NAME itkLevelSetsv4EquationBinaryMaskTermTest
+      COMMAND ITKLevelSetsv4TestDriver itkLevelSetEquationBinaryMaskTermTest)
 itk_add_test(NAME itkLevelSetsv4DenseImageBaseTest
       COMMAND ITKLevelSetsv4TestDriver itkLevelSetDenseImageTest)
 itk_add_test(NAME itkWhitakerSparseLevelSetsv4BaseTest
