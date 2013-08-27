@@ -36,6 +36,33 @@ SliceBySliceImageFilter< TInputImage, TOutputImage, TInputFilter, TOutputFilter,
   m_SliceIndex = 0;
 }
 
+template< class TInputImage, class TOutputImage, class TInputFilter, class TOutputFilter, class TInternalInputImageType,
+          class TInternalOutputImageType >
+void
+SliceBySliceImageFilter< TInputImage, TOutputImage, TInputFilter, TOutputFilter, TInternalInputImageType,
+                         TInternalOutputImageType >
+::VerifyInputInformation()
+{
+
+  Superclass::VerifyInputInformation();
+
+  // verify sane parameter
+  if ( this->m_Dimension >= RegionType::ImageDimension )
+    {
+    itkExceptionMacro("Dimension selected for slicing is greater than ImageDimension");
+    }
+
+  if ( !m_InputFilter )
+    {
+    itkExceptionMacro("InputFilter must be set.");
+    }
+
+  if ( !m_OutputFilter )
+    {
+    itkExceptionMacro("OutputFilter must be set.");
+    }
+
+}
 
 template< class TInputImage, class TOutputImage, class TInputFilter, class TOutputFilter, class TInternalInputImageType,
           class TInternalOutputImageType >
@@ -49,14 +76,6 @@ SliceBySliceImageFilter< TInputImage, TOutputImage, TInputFilter, TOutputFilter,
 
   if (out)
     {
-    const RegionType &largestOutputRegion = out->GetLargestPossibleRegion();
-
-    // verify sane parameter
-    if ( this->m_Dimension >=  largestOutputRegion.GetImageDimension() )
-      {
-      itkExceptionMacro("Dimension selected for slicing is greater than ImageDimension");
-      }
-
     // The requested region is the largest is all but the slice
     // dimension. In that dimension we can stream the requested
     // slices.
@@ -131,15 +150,6 @@ SliceBySliceImageFilter< TInputImage, TOutputImage, TInputFilter, TOutputFilter,
                          TInternalOutputImageType >
 ::GenerateData()
 {
-  if ( !m_InputFilter )
-    {
-    itkExceptionMacro("InputFilter must be set.");
-    }
-
-  if ( !m_OutputFilter )
-    {
-    itkExceptionMacro("OutputFilter must be set.");
-    }
 
   const ProcessObject::DataObjectPointerArraySizeType numberOfIndexedInputs = this->GetNumberOfIndexedInputs();
   const ProcessObject::DataObjectPointerArraySizeType numberOfIndexedOutputs = this->GetNumberOfIndexedOutputs();

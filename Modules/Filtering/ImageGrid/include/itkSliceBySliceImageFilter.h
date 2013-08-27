@@ -158,6 +158,8 @@ protected:
   SliceBySliceImageFilter();
   ~SliceBySliceImageFilter() {}
 
+  void VerifyInputInformation();
+
   void GenerateData();
 
   void PrintSelf(std::ostream & os, Indent indent) const;
