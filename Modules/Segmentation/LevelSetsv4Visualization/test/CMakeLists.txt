@@ -20,9 +20,6 @@ CreateTestDriver(ITKLevelSetsv4Visualization  "${ITKLevelSetsv4Visualization-Tes
 
 set(TEMP ${ITK_TEST_OUTPUT_DIR})
 
-itk_add_test(NAME itkVTKVisualize2DLevelSetAsElevationMapTest
-  COMMAND ITKLevelSetsv4VisualizationTestDriver itkVTKVisualize2DLevelSetAsElevationMapTest)
-
 itk_add_test(NAME itkVTKVisualize2DDenseImageLevelSetTest
   COMMAND ITKLevelSetsv4VisualizationTestDriver itkVTKVisualize2DDenseImageLevelSetTest)
 
@@ -106,4 +103,8 @@ itk_add_test(NAME itkVTKVisualize2DCellsMalcolmLevelSetLayersTest
 itk_add_test(NAME itkVTKVisualizeLevelSetsInteractivePauseTest
   COMMAND ITKLevelSetsv4VisualizationTestDriver itkVTKVisualizeLevelSetsInteractivePauseTest
   DATA{Input/cells.png} 30
+  )
+
+itk_add_test(NAME itkVTKVisualize2DLevelSetAsElevationMapTest
+  COMMAND ITKLevelSetsv4VisualizationTestDriver itkVTKVisualize2DLevelSetAsElevationMapTest
   )

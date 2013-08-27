@@ -109,8 +109,22 @@ int itkVTKVisualize2DLevelSetAsElevationMapTest( int , char* [] )
   viewer->SetHeightScaling( 0.1 );
   viewer->Update();
 
+  vtkPolyData* levelsetSurface = viewer->GetElevationMapMesh();
+  vtkCellArray*          cells = levelsetSurface->GetPolys();
+
+  vtkSmartPointer<vtkMassProperties> massProperty = vtkSmartPointer<vtkMassProperties>::New();
+  massProperty->SetInputData( levelsetSurface );
+  double averageSurfaceAreaPerCell = massProperty->GetSurfaceArea()/cells->GetNumberOfCells();
+
+  if ( averageSurfaceAreaPerCell > 2.5 )
+    {
+    std::cerr << "Average surface area per cell too high." << std::endl;
+    return EXIT_FAILURE;
+    }
+
   if ( viewer->GetHeightScaling() != 0.1)
     {
+    std::cerr << "HeightScaling not set correctly." << std::endl;
     return EXIT_FAILURE;
     }
 
