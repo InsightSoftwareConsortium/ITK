@@ -64,32 +64,44 @@ SliceBySliceImageFilter< TInputImage, TOutputImage, TInputFilter, TOutputFilter,
 
 }
 
+
 template< class TInputImage, class TOutputImage, class TInputFilter, class TOutputFilter, class TInternalInputImageType,
           class TInternalOutputImageType >
 void
 SliceBySliceImageFilter< TInputImage, TOutputImage, TInputFilter, TOutputFilter, TInternalInputImageType,
                          TInternalOutputImageType >
-::EnlargeOutputRequestedRegion(DataObject *output)
+::GenerateInputRequestedRegion()
 {
+  // call the superclass's implementation of this method, which
+  // propagates the output requested region to all inputs
+  Superclass::GenerateInputRequestedRegion();
 
-  TOutputImage *out = dynamic_cast<TOutputImage*>(output);
+  InputDataObjectIterator it( this );
+  InputImageType * input  = dynamic_cast< InputImageType * >( it.GetInput() );
 
-  if (out)
+  const RegionType &requestedInputRegion = input->GetRequestedRegion();
+
+  // The requested region is the largest in all but the slice
+  // dimension. In that dimension we can stream the requested
+  // slices.
+  RegionType inputRegion = input->GetLargestPossibleRegion();
+  inputRegion.SetIndex( m_Dimension, requestedInputRegion.GetIndex(m_Dimension) );
+  inputRegion.SetSize( m_Dimension, requestedInputRegion.GetSize(m_Dimension) );
+
+  // Use the same requested region for each input, if an input image
+  // is a different size and can't fulfill the request,
+  // DataObject::PropagateRequestedRegion with throw
+  while( !it.IsAtEnd() )
     {
-    // The requested region is the largest is all but the slice
-    // dimension. In that dimension we can stream the requested
-    // slices.
-    RegionType outputRegion =  out->GetLargestPossibleRegion();
-    outputRegion.SetIndex( m_Dimension, out->GetRequestedRegion().GetIndex(m_Dimension) );
-    outputRegion.SetSize( m_Dimension, out->GetRequestedRegion().GetSize(m_Dimension) );
+    // get pointers to the input and output
+    input  = dynamic_cast< InputImageType * >( it.GetInput() );
 
-    out->SetRequestedRegion( outputRegion );
+    if (input)
+      {
+      input->SetRequestedRegion( inputRegion );
+      }
+    ++it;
     }
-
-  // NOTE: we only set the requested region on this passed arguemnt
-  // output, because the default
-  // ProcessObject::GenerateOutputRequestedRegion will propogate the
-  // same requested region to the other outputs ( if they exist )
 }
 
 template< class TInputImage, class TOutputImage, class TInputFilter, class TOutputFilter, class TInternalInputImageType,
@@ -154,25 +166,16 @@ SliceBySliceImageFilter< TInputImage, TOutputImage, TInputFilter, TOutputFilter,
   const ProcessObject::DataObjectPointerArraySizeType numberOfIndexedInputs = this->GetNumberOfIndexedInputs();
   const ProcessObject::DataObjectPointerArraySizeType numberOfIndexedOutputs = this->GetNumberOfIndexedOutputs();
 
-  const SizeType firstInputSize = this->GetInput( 0 )->GetRequestedRegion().GetSize();
-  for ( unsigned int i = 1; i < numberOfIndexedInputs; i++ )
-    {
-    if ( firstInputSize != this->GetInput( i )->GetRequestedRegion().GetSize() )
-      {
-      itkExceptionMacro(<< "Inputs must have the same size.");
-      }
-    }
-
   this->AllocateOutputs();
-
 
   const RegionType requestedRegion = this->GetOutput( 0 )->GetRequestedRegion();
   const IndexType requestedIndex = requestedRegion.GetIndex();
   const SizeType requestedSize = requestedRegion.GetSize();
 
-  InternalRegionType internalRegion;
+  InternalRegionType internalOutputRegion;
+  InternalRegionType internalInputRegion;
 
-  // copy the requrested region to the internal slice region in
+  // copy the requested region to the internal slice region in
   // dimension order
   unsigned int internal_i = 0;
   for ( unsigned int i = 0; internal_i < InternalImageDimension; ++i, ++internal_i )
@@ -181,8 +184,12 @@ SliceBySliceImageFilter< TInputImage, TOutputImage, TInputFilter, TOutputFilter,
       {
       ++i;
       }
-    internalRegion.SetSize( internal_i, requestedSize[i] );
-    internalRegion.SetIndex( internal_i, requestedIndex[i] );
+    internalOutputRegion.SetSize( internal_i, requestedSize[i] );
+    internalOutputRegion.SetIndex( internal_i, requestedIndex[i] );
+
+    internalInputRegion.SetSize( internal_i, this->GetInput(0)->GetRequestedRegion().GetSize(i) );
+    internalInputRegion.SetIndex( internal_i, this->GetInput(0)->GetRequestedRegion().GetIndex(i) );
+
     }
 
   ProgressReporter progress(this, 0, requestedSize[m_Dimension]);
@@ -207,43 +214,51 @@ SliceBySliceImageFilter< TInputImage, TOutputImage, TInputFilter, TOutputFilter,
     this->m_SliceIndex = slice;
     this->InvokeEvent( IterationEvent() );
 
-    // this region is the current region for the input and output we
+
+    RegionType inputRegion = this->GetInput( 0 )->GetRequestedRegion();
+    inputRegion.SetIndex( m_Dimension, slice );
+    inputRegion.SetSize( m_Dimension, 1 );
+
+
+    // this region is the current output region we
     // are iterating on
-    RegionType currentRegion = this->GetOutput( 0 )->GetRequestedRegion();
-    currentRegion.SetIndex( m_Dimension, slice );
-    currentRegion.SetSize( m_Dimension, 1 );
+    RegionType outputRegion = this->GetOutput( 0 )->GetRequestedRegion();
+    outputRegion.SetIndex( m_Dimension, slice );
+    outputRegion.SetSize( m_Dimension, 1 );
 
-    itkDebugMacro( "currentRegion: " << currentRegion );
-    itkDebugMacro( "internalRegion: " << internalRegion );
+    itkDebugMacro( "inputRegion: " << inputRegion );
+    itkDebugMacro( "internalInputRegion: " << internalInputRegion );
 
-    itkAssertOrThrowMacro( currentRegion.GetNumberOfPixels() == internalRegion.GetNumberOfPixels(), "currentRegion.GetNumberOfPixels() == internalRegion.GetNumberOfPixel()" );
+    itkDebugMacro( "outputRegion: " << outputRegion );
+    itkDebugMacro( "internalOutputRegion: " << internalOutputRegion );
+
+
+    itkAssertOrThrowMacro( inputRegion.GetNumberOfPixels() == internalInputRegion.GetNumberOfPixels(), "inputRegion.GetNumberOfPixels() == internalInputRegion.GetNumberOfPixel()" );
+    itkAssertOrThrowMacro( outputRegion.GetNumberOfPixels() == internalOutputRegion.GetNumberOfPixels(), "outputRegion.GetNumberOfPixels() == internalOutputRegion.GetNumberOfPixel()" );
 
     // reallocate the internal input at each slice, so the slice by slice filter can work
     // even if the pipeline is run in place
     for ( unsigned int i = 0; i < numberOfIndexedInputs; i++ )
       {
-      internalInputs[i]->SetRegions( internalRegion );
+      internalInputs[i]->SetRegions( internalInputRegion );
       internalInputs[i]->Allocate();
       m_InputFilter->SetInput(i, internalInputs[i]);
-      }
 
-
-    for ( unsigned int i = 0; i < numberOfIndexedInputs; i++ )
-      {
-      ImageAlgorithm::Copy( this->GetInput( i ), internalInputs[i].GetPointer(), currentRegion, internalRegion );
+      ImageAlgorithm::Copy( this->GetInput( i ), internalInputs[i].GetPointer(), inputRegion, internalInputRegion );
       }
 
     // run the filter on the current slice
     this->m_InputFilter->Modified();
-    this->m_OutputFilter->Modified(); // should not be needed, but may help in some
-                                // cases
-    this->m_OutputFilter->UpdateLargestPossibleRegion();
+    this->m_OutputFilter->Modified(); // should not be needed, but may help in some cases
+    this->m_OutputFilter->GetOutput()->SetRequestedRegion(internalOutputRegion);
+    this->m_OutputFilter->Update();
+
     progress.CompletedPixel();
 
     // and copy the output slice to the output image
     for ( unsigned int i = 0; i < numberOfIndexedOutputs; i++ )
       {
-      ImageAlgorithm::Copy( this->m_OutputFilter->GetOutput( i ), this->GetOutput( i ), internalRegion, currentRegion );
+      ImageAlgorithm::Copy( this->m_OutputFilter->GetOutput( i ), this->GetOutput( i ), internalOutputRegion, outputRegion );
       }
     }
 }
