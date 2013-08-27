@@ -9,6 +9,7 @@ itkIOPrintTest.cxx
 itkBasicFiltersPrintTest.cxx
 itkNeuralNetworksPrintTest.cxx
 itkSpatialObjectPrintTest.cxx
+itkShrinkImagePreserveObjectPhysicalLocations.cxx
 )
 
 CreateTestDriver_SupportBuildInIOFactories(ITKIntegratedTest  "${ITKIntegratedTest-Test_LIBRARIES}" "${ITKIntegratedTestTests}")
@@ -58,3 +59,6 @@ itk_add_test(NAME itkNeuralNetworksPrintTest
       COMMAND ITKIntegratedTestTestDriver itkNeuralNetworksPrintTest)
 itk_add_test(NAME itkNumericsPrintTest
      COMMAND ITKIntegratedTestTestDriver itkNumericsPrintTest)
+
+itk_add_test(NAME itkShrinkImagePreserveObjectPhysicalLocations
+      COMMAND ITKIntegratedTestTestDriver itkShrinkImagePreserveObjectPhysicalLocations)
