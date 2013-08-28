@@ -38,7 +38,7 @@ namespace itk
  *  More information in the Insight Journal publication:
  *  http://hdl.handle.net/10380/3425
  *
- * \ingroup ITKSmoothingRecursiveYvvGaussianFilter
+ * \ingroup SmoothingRecursiveYvvGaussianFilter
  */
 
 
