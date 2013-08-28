@@ -8,7 +8,7 @@ itk_module(ITKVideoBridgeOpenCV
     ITKVideoIO
   TEST_DEPENDS
     ITKTestKernel
-  EXCLUDE_FROM_ALL
+  EXCLUDE_FROM_DEFAULT
   DESCRIPTION
     "${DOCUMENTATION}"
 )

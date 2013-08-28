@@ -12,7 +12,7 @@ itk_module(ITKVtkGlue
     ITKTestKernel
     ITKSmoothing
     ITKImageCompose
-  EXCLUDE_FROM_ALL
+  EXCLUDE_FROM_DEFAULT
   DESCRIPTION
     "${DOCUMENTATION}")
 

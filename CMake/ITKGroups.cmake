@@ -99,7 +99,7 @@ foreach( group ${group_list})
       endforeach()
     endif()
     # Hide group options if building all modules anyway.
-    if(ITK_BUILD_ALL_MODULES)
+    if(ITK_BUILD_DEFAULT_MODULES)
       set_property(CACHE ITKGroup_${group} PROPERTY TYPE INTERNAL)
     else()
       set_property(CACHE ITKGroup_${group} PROPERTY TYPE BOOL)

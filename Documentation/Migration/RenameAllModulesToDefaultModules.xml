@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Change SYSTEM "http://ij.itk.org/itkfaq/ITKMigration.dtd">
+
+<!--**
+**
+** RenameAllModulesToDefaultModules.xml
+**
+**-->
+<Change>
+    <Title>
+      Rename ALL_MODULES To DEFAULT_MODULES
+    </Title>
+
+    <Author>
+      <![CDATA[
+      Brian Helba <brian.helba@kitware.com>
+      Xiaoxiao Liu <xiaoxiao.liu@kitware.com>
+      ]]>
+    </Author>
+
+    <Date>
+      2013-08-28
+    </Date>
+
+    <Description>
+        Renamed the CMake option ITK_BUILD_ALL_MODULES to ITK_BUILD_DEFAULT_MODULES.
+        Renamed the CMake itk_module() macro argument EXCLUDE_FROM_ALL to EXCLUDE_FROM_DEFAULT.
+
+        When enabled, the ITK_BUILD_DEFAULT_MODULES option will select for building all ITK
+        modules that were not defined with the EXCLUDE_FROM_DEFAULT argument.
+
+        Any build configurations that use the ITK_BUILD_ALL_MODULES option should be updated.
+
+        Any Remote or External ITK modules that use the EXCLUDE_FROM_ALL argument in their
+        module definition file should be updated.
+    </Description>
+
+    <SampleCode>
+      <Old>
+        <![CDATA[
+        # in itk-module.cmake
+        itk_module(MyModule
+          ...
+          EXCLUDE_FROM_ALL
+          )
+        ]]>
+      </Old>
+      <New>
+        <![CDATA[
+        # in itk-module.cmake
+        itk_module(MyModule
+          ...
+          EXCLUDE_FROM_DEFAULT
+          )
+        ]]>
+      </New>
+    </SampleCode>
+
+    <SampleCode>
+      <Old>
+        <![CDATA[
+        cmake -DITK_BUILD_ALL_MODULES:BOOL=FALSE ...
+        ]]>
+      </Old>
+      <New>
+        <![CDATA[
+        cmake -DITK_BUILDE_DEFAULT_MODULES:BOOL=FALSE ...
+          )
+        ]]>
+      </New>
+    </SampleCode>
+
+    <Gerrit-ChangeId>
+      Ib07028b5ab6c4ff67a1dfb73dcacce7f2fecbb9b
+    </Gerrit-ChangeId>
+
+    <FileList>
+      CMake/ITKGroups.cmake
+      CMake/ITKModuleMacros.cmake
+      CMakeLists.txt
+      Examples/CMakeLists.txt
+      Modules/Bridge/VtkGlue/itk-module.cmake
+      Modules/Compatibility/Deprecated/itk-module.cmake
+      Modules/Compatibility/V3Compatibility/itk-module.cmake
+      Modules/IO/DCMTK/itk-module.cmake
+      Modules/IO/MINC/itk-module.cmake
+      Modules/IO/PhilipsREC/itk-module.cmake
+      Modules/Nonunit/Review/itk-module.cmake
+      Modules/Segmentation/LevelSetsv4Visualization/itk-module.cmake
+      Modules/ThirdParty/DCMTK/itk-module.cmake
+      Modules/ThirdParty/GDCM/itk-module.cmake
+      Modules/ThirdParty/MINC/itk-module.cmake
+      Modules/ThirdParty/OpenJPEG/itk-module.cmake
+      Modules/Video/BridgeOpenCV/itk-module.cmake
+      Modules/Video/BridgeVXL/itk-module.cmake
+    </FileList>
+
+</Change>

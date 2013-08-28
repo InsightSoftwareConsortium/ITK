@@ -6,7 +6,7 @@ if(ITK_USE_SYSTEM_DCMTK)
   itk_module(ITKDCMTK
     DESCRIPTION
     "${DOCUMENTATION}"
-    EXCLUDE_FROM_ALL
+    EXCLUDE_FROM_DEFAULT
     )
 
 else()
@@ -17,6 +17,6 @@ else()
     ITKTIFF
     DESCRIPTION
     "${DOCUMENTATION}"
-    EXCLUDE_FROM_ALL
+    EXCLUDE_FROM_DEFAULT
     )
 endif()

@@ -343,9 +343,20 @@ foreach(itk-module ${ITK_MODULES_ALL})
 endforeach()
 
 #----------------------------------------------------------------------
+# Provide an option to build the default set of ITK modules. Only a small
+# set of modules are excluded and they have the "EXCLUDE_FROM_DEFAULT" tags in
+# their module definition file (itk-module.cmake).
+#
+# However, if you choose to customize which modules will be built, ITK also
+# allows you to manually enable modules by using either individual Module_*
+# options or ITKGroup_* options.
+option(ITK_BUILD_DEFAULT_MODULES "Build the default ITK modules." ON)
 
-# By default, all defaults modules are to be built.
-option(ITK_BUILD_ALL_MODULES "Request to build all modules" ON)
+# To maintain backward compatibility
+if(DEFINED ITK_BUILD_ALL_MODULES)
+  message(WARNING "ITK_BUILD_ALL_MODULES is deprecated, please use ITK_BUILD_DEFAULT_MODULES.")
+  set(ITK_BUILD_DEFAULT_MODULES ${ITK_BUILD_ALL_MODULES} CACHE BOOL "Build the default ITK modules." FORCE)
+endif()
 
 # Provide module selections by groups
 include(${ITK_SOURCE_DIR}/CMake/ITKGroups.cmake)
@@ -355,10 +366,10 @@ foreach(itk-module ${ITK_MODULES_ALL})
   if(NOT ${itk-module}_IS_TEST)
     option(Module_${itk-module} "Request building ${itk-module}" OFF)
     mark_as_advanced(Module_${itk-module})
-    if(ITK_MODULE_${itk-module}_EXCLUDE_FROM_ALL)
-      set(ITK_MODULE_${itk-module}_IN_ALL 0)
+    if(ITK_MODULE_${itk-module}_EXCLUDE_FROM_DEFAULT)
+      set(ITK_MODULE_${itk-module}_IN_DEFAULT 0)
     else()
-      set(ITK_MODULE_${itk-module}_IN_ALL ${ITK_BUILD_ALL_MODULES})
+      set(ITK_MODULE_${itk-module}_IN_DEFAULT ${ITK_BUILD_DEFAULT_MODULES})
     endif()
   endif()
 endforeach()
@@ -383,7 +394,7 @@ macro(itk_module_enable itk-module _needed_by)
 endmacro()
 
 foreach(itk-module ${ITK_MODULES_ALL})
-  if(Module_${itk-module} OR ITK_MODULE_${itk-module}_IN_ALL)
+  if(Module_${itk-module} OR ITK_MODULE_${itk-module}_IN_DEFAULT)
     itk_module_enable("${itk-module}" "")
   elseif(ITK_MODULE_${itk-module}_REQUEST_BY)
     itk_module_enable("${itk-module}" "${ITK_MODULE_${itk-module}_REQUEST_BY}")
@@ -435,8 +446,8 @@ foreach(itk-module ${_enabled_modules})
   if(NOT ${itk-module}_IS_TEST)
     if(Module_${itk-module})
       set(_reason ", requested by Module_${itk-module}")
-    elseif(ITK_MODULE_${itk-module}_IN_ALL)
-      set(_reason ", requested by ITK_BUILD_ALL_MODULES")
+    elseif(ITK_MODULE_${itk-module}_IN_DEFAULT)
+      set(_reason ", requested by ITK_BUILD_DEFAULT_MODULES")
     else()
       set(_reason ", needed by [${ITK_MODULE_${itk-module}_NEEDED_BY}]")
     endif()
@@ -447,7 +458,7 @@ endforeach()
 # Hide options for modules that will build anyway.
 foreach(itk-module ${ITK_MODULES_ALL})
   if(NOT ${itk-module}_IS_TEST)
-    if(ITK_MODULE_${itk-module}_IN_ALL OR ITK_MODULE_${itk-module}_NEEDED_BY)
+    if(ITK_MODULE_${itk-module}_IN_DEFAULT OR ITK_MODULE_${itk-module}_NEEDED_BY)
       set_property(CACHE Module_${itk-module} PROPERTY TYPE INTERNAL)
     else()
       set_property(CACHE Module_${itk-module} PROPERTY TYPE BOOL)

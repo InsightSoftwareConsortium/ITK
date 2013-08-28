@@ -2,7 +2,7 @@ set(DOCUMENTATION "This is a collection of classes that are intended to be
 removed from the toolkit.")
 
 if(NOT ITKV3_COMPATIBILITY ) ## Deprecated code only work with ITKV3_COMPATIBILITY
-  set(EXCLUDE_DEPRECATED_LEGACY_CODE "EXCLUDE_FROM_ALL")
+  set(EXCLUDE_DEPRECATED_LEGACY_CODE "EXCLUDE_FROM_DEFAULT")
 else()
   set(EXCLUDE_DEPRECATED_LEGACY_CODE "")
 endif()

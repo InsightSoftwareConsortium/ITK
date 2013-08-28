@@ -11,7 +11,7 @@ itk_module(ITKIOPhilipsREC
     ITKTransform
     ITKImageGrid
     ITKImageIntensity
-  EXCLUDE_FROM_ALL
+  EXCLUDE_FROM_DEFAULT
   DESCRIPTION
     "${DOCUMENTATION}")
 # Extra dependency of ITKTransform is introduced by itkPhilipsRECImageIOOrientationTest.
