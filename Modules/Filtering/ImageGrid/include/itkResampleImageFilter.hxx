@@ -546,8 +546,7 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType, TTra
 }
 
 /**
- * Set the smart pointer to the reference image that will provide
- * the grid parameters for the output image.
+ * Get the reference image that will provide the grid parameters for the output image.
  */
 template< class TInputImage,
           class TOutputImage,
@@ -557,20 +556,19 @@ const typename ResampleImageFilter< TInputImage,
                                     TOutputImage,
                                     TInterpolatorPrecisionType,
                                     TTransformPrecisionType >
-::OutputImageType *
+::ReferenceImageBaseType *
 ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType, TTransformPrecisionType >
 ::GetReferenceImage() const
 {
   Self *                 surrogate = const_cast< Self * >( this );
-  const OutputImageType *referenceImage =
-    static_cast< const OutputImageType * >( surrogate->ProcessObject::GetInput(1) );
+  const ReferenceImageBaseType *referenceImage =
+    static_cast< const ReferenceImageBaseType * >( surrogate->ProcessObject::GetInput(1) );
 
   return referenceImage;
 }
 
 /**
- * Set the smart pointer to the reference image that will provide
- * the grid parameters for the output image.
+ * Set the reference image that will provide the grid parameters for the output image.
  */
 template< class TInputImage,
           class TOutputImage,
@@ -578,12 +576,12 @@ template< class TInputImage,
           class TTransformPrecisionType >
 void
 ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType, TTransformPrecisionType >
-::SetReferenceImage(const TOutputImage *image)
+::SetReferenceImage(const ReferenceImageBaseType *image)
 {
   itkDebugMacro("setting input ReferenceImage to " << image);
-  if ( image != static_cast< const TOutputImage * >( this->ProcessObject::GetInput(1) ) )
+  if ( image != static_cast< const ReferenceImageBaseType * >( this->ProcessObject::GetInput(1) ) )
     {
-    this->ProcessObject::SetNthInput( 1, const_cast< TOutputImage * >( image ) );
+    this->ProcessObject::SetNthInput( 1, const_cast< ReferenceImageBaseType * >( image ) );
     this->Modified();
     }
 }
@@ -609,7 +607,7 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType, TTra
     return;
     }
 
-  const OutputImageType *referenceImage = this->GetReferenceImage();
+  const ReferenceImageBaseType *referenceImage = this->GetReferenceImage();
 
   // Set the size of the output region
   if ( m_UseReferenceImage && referenceImage )
