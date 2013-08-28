@@ -127,6 +127,13 @@ function(itk_add_test)
 endfunction()
 
 #-----------------------------------------------------------------------------
+# ITK macro to ignore a test during MemCheck
+#
+macro(itk_memcheck_ignore)
+  set_property(GLOBAL APPEND PROPERTY CTEST_CUSTOM_MEMCHECK_IGNORE ${ARGN})
+endmacro()
+
+#-----------------------------------------------------------------------------
 # ITK build configuration options.
 option(BUILD_SHARED_LIBS "Build ITK with shared libraries." OFF)
 set(ITK_BUILD_SHARED_LIBS ${BUILD_SHARED_LIBS})
@@ -568,6 +575,7 @@ foreach(itk-module ${ITK_MODULES_ENABLED})
 endforeach()
 
 #----------------------------------------------------------------------------
+get_property(CTEST_CUSTOM_MEMCHECK_IGNORE GLOBAL PROPERTY CTEST_CUSTOM_MEMCHECK_IGNORE)
 configure_file(CMake/CTestCustom.cmake.in CTestCustom.cmake @ONLY)
 
 #-----------------------------------------------------------------------------
