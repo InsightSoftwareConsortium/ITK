@@ -2,11 +2,19 @@ set(DOCUMENTATION "This module contains the third party <a
 href=\"http://sourceforge.net/projects/gdcm/\">GDCM</a> library.
 Grassroots DiCoM is a C++ library for DICOM medical files.")
 
-itk_module(ITKGDCM
-  DEPENDS
-    ITKZLIB
-    ITKExpat
-    ITKOpenJPEG
-  DESCRIPTION
-    "${DOCUMENTATION}"
-)
+if(ITK_USE_SYSTEM_GDCM)
+  itk_module(ITKGDCM
+    DESCRIPTION
+      "${DOCUMENTATION}"
+    EXCLUDE_FROM_ALL
+    )
+else()
+  itk_module(ITKGDCM
+    DEPENDS
+      ITKZLIB
+      ITKExpat
+      ITKOpenJPEG
+    DESCRIPTION
+      "${DOCUMENTATION}"
+  )
+endif()

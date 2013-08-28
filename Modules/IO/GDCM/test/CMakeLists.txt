@@ -7,6 +7,7 @@ itkGDCMSeriesMissingDicomTagTest.cxx
 itkGDCMSeriesStreamReadImageWrite.cxx
 itkGDCMImagePositionPatientTest.cxx
 itkGDCMImageIOOrthoDirTest.cxx
+itkGDCMImageOrientationPatientTest.cxx
 )
 
 CreateTestDriver(ITKIOGDCM  "${ITKIOGDCM-Test_LIBRARIES}" "${ITKIOGDCMTests}")
@@ -59,5 +60,9 @@ itk_add_test(NAME itkGDCMSeriesMissingDicomTagTest
 itk_add_test(NAME itkGDCMImageIOOrthoDirTest
   COMMAND ITKIOGDCMTestDriver itkGDCMImageIOOrthoDirTest
   DATA{${ITK_DATA_ROOT}/Input/OrthogonalDirectionsTest.dcm})
+
+itk_add_test(NAME itkGDCMImageOrientationPatientTest
+      COMMAND ITKIOGDCMTestDriver itkGDCMImageOrientationPatientTest
+              ${ITK_TEST_OUTPUT_DIR})
 
 set_property(TEST itkGDCMSeriesMissingDicomTagTest APPEND PROPERTY DEPENDS ITKData)

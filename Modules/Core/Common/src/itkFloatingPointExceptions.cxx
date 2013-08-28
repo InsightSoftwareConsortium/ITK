@@ -423,6 +423,7 @@ SetEnabled(bool val)
 
 #if defined(_WIN32)
 
+#if defined(_MSC_VER)
 #include <float.h>
 
 void FloatingPointExceptions
@@ -442,7 +443,42 @@ void FloatingPointExceptions
   FloatingPointExceptions::m_Enabled = false;
 }
 
-#else // defined( _WIN32 )
+#else // defined(_MSC_VER)
+
+// MinGW has troubles include'ing float.h.
+void FloatingPointExceptions
+::Enable()
+{
+  std::cerr << "FloatingPointExceptions are not supported with MinGW." << std::endl;
+  if(itk::FloatingPointExceptions::GetExceptionAction() ==
+     itk::FloatingPointExceptions::ABORT)
+    {
+    abort();
+    }
+  else
+    {
+    exit(255);
+    }
+}
+
+void FloatingPointExceptions
+::Disable()
+{
+  std::cerr << "FloatingPointExceptions are not supported with MinGW." << std::endl;
+  if(itk::FloatingPointExceptions::GetExceptionAction() ==
+     itk::FloatingPointExceptions::ABORT)
+    {
+    abort();
+    }
+  else
+    {
+    exit(255);
+    }
+}
+
+#endif // defined(_MSC_VER)
+
+#else // defined(_WIN32)
 
 void
 FloatingPointExceptions
@@ -480,6 +516,6 @@ FloatingPointExceptions
   FloatingPointExceptions::m_Enabled = false;
 }
 
-#endif // defined ( _WIN32 )
+#endif // not defined ( _WIN32 )
 
 } // end of itk namespace

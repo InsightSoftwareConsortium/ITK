@@ -304,6 +304,11 @@ StatisticsImageFilter< TInputImage >
 ::ThreadedGenerateData(const RegionType & outputRegionForThread,
                        ThreadIdType threadId)
 {
+  const SizeValueType size0 = outputRegionForThread.GetSize(0);
+  if( size0 == 0)
+    {
+    return;
+    }
   RealType  realValue;
   PixelType value;
 
@@ -316,7 +321,7 @@ StatisticsImageFilter< TInputImage >
   ImageScanlineConstIterator< TInputImage > it (this->GetInput(),  outputRegionForThread);
 
   // support progress methods/callbacks
-  const size_t numberOfLinesToProcess = outputRegionForThread.GetNumberOfPixels() / outputRegionForThread.GetSize(0);
+  const size_t numberOfLinesToProcess = outputRegionForThread.GetNumberOfPixels() / size0;
   ProgressReporter progress( this, threadId, numberOfLinesToProcess );
 
   // do the work

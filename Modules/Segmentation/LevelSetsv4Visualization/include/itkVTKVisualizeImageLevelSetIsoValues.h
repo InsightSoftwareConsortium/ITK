@@ -93,6 +93,7 @@ private:
   vtkSmartPointer< vtkPolyDataMapper >  m_ContourMapper;
   vtkSmartPointer< vtkActor >           m_ContourActor;
   vtkSmartPointer< vtkScalarBarActor >  m_ScalarBar;
+  vtkSmartPointer< vtkLookupTable >     m_Lut;
 
   itk::IdentifierType m_Count;
   SizeValueType       m_NumberOfLevels;

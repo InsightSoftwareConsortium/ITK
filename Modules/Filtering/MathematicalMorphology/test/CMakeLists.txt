@@ -14,6 +14,7 @@ itkHConvexConcaveImageFilterTest.cxx
 itkHMaximaMinimaImageFilterTest.cxx
 itkMorphologicalGradientImageFilterTest.cxx
 itkOpeningByReconstructionImageFilterTest.cxx
+itkOpeningByReconstructionImageFilterTest2.cxx
 itkDoubleThresholdImageFilterTest.cxx
 itkRemoveBoundaryObjectsTest.cxx
 itkRemoveBoundaryObjectsTest2.cxx
@@ -127,6 +128,16 @@ itk_add_test(NAME itkOpeningByReconstructionImageFilterTest2
     --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/OpeningByReconstructionImageFilterTest2.png}
               ${ITK_TEST_OUTPUT_DIR}/OpeningByReconstructionImageFilterTest2.png
     itkOpeningByReconstructionImageFilterTest DATA{${ITK_DATA_ROOT}/Input/chondt.png} ${ITK_TEST_OUTPUT_DIR}/OpeningByReconstructionImageFilterTest2.png 4 1 ${ITK_TEST_OUTPUT_DIR}/OpeningByReconstructionImageFilterTestSubtract2.png)
+itk_add_test(NAME itkOpeningByReconstructionImageFilterTestNoInput
+      COMMAND ITKMathematicalMorphologyTestDriver
+    --compare DATA{Baseline/OpeningByReconstructionImageFilterTestNoInput.png}
+              ${ITK_TEST_OUTPUT_DIR}/OpeningByReconstructionImageFilterTestNoInput.png
+    itkOpeningByReconstructionImageFilterTest2 ${ITK_TEST_OUTPUT_DIR}/OpeningByReconstructionImageFilterTestNoInput.png 4 0 0 0 0.5 0.5 ${ITK_TEST_OUTPUT_DIR}/OpeningByReconstructionImageFilterTestSubtractNoInput.png)
+itk_add_test(NAME itkOpeningByReconstructionImageFilterTestNoInput2
+      COMMAND ITKMathematicalMorphologyTestDriver
+    --compare DATA{Baseline/OpeningByReconstructionImageFilterTestNoInput2.png}
+              ${ITK_TEST_OUTPUT_DIR}/OpeningByReconstructionImageFilterTestNoInput2.png
+    itkOpeningByReconstructionImageFilterTest2 ${ITK_TEST_OUTPUT_DIR}/OpeningByReconstructionImageFilterTestNoInput2.png 4 1 0 0 0.5 0.5 ${ITK_TEST_OUTPUT_DIR}/OpeningByReconstructionImageFilterTestSubtractNoInput2.png)
 itk_add_test(NAME itkDoubleThresholdImageFilterTest
       COMMAND ITKMathematicalMorphologyTestDriver
   --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/DoubleThresholdImageFilterTest.png}

@@ -37,7 +37,15 @@ VTKVisualizeImageLevelSetIsoValues< Image< TInputPixel, 2 >, TLevelSet >
 
   this->m_ContourMapper = vtkSmartPointer< vtkPolyDataMapper >::New();
 
+  this->m_Lut = vtkSmartPointer< vtkLookupTable >::New();
+  this->m_Lut->SetTableRange( 0, 1 );
+  this->m_Lut->SetHueRange( 0, 1 );
+  this->m_Lut->SetSaturationRange( 1, 1 );
+  this->m_Lut->SetValueRange( 1, 1 );
+  this->m_Lut->Build();
+
   this->m_ScalarBar = vtkSmartPointer< vtkScalarBarActor >::New();
+  this->m_ScalarBar->SetLookupTable( this->m_Lut );
   this->m_ScalarBar->SetTitle( "Level Set Values" );
   this->m_ScalarBar->SetNumberOfLabels( this->m_NumberOfLevels );
   this->m_ContourMapper->SetScalarRange( - m_LevelLimit, m_LevelLimit );
