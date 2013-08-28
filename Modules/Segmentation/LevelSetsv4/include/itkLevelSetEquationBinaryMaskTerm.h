@@ -45,7 +45,7 @@ class LevelSetEquationBinaryMaskTerm :
     public LevelSetEquationTermBase< TInput, TLevelSetContainer >
 {
 public:
-  typedef LevelSetEquationBinaryMaskTerm         Self;
+  typedef LevelSetEquationBinaryMaskTerm                  Self;
   typedef SmartPointer< Self >                            Pointer;
   typedef SmartPointer< const Self >                      ConstPointer;
   typedef LevelSetEquationTermBase< TInput,
