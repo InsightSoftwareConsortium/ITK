@@ -1,0 +1,289 @@
+/*=========================================================================
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
+#ifndef __itkVariationalRegistrationFunction_h
+#define __itkVariationalRegistrationFunction_h
+
+#include "itkFiniteDifferenceFunction.h"
+#include "itkWarpImageFilter.h"
+
+namespace itk
+{
+
+/** \class itk::VariationalRegistrationFunction
+ *
+ *  TODO
+ *
+ *  \sa VariationalRegistrationFilter
+ *
+ *  \ingroup FiniteDifferenceFunctions
+ *  \ingroup VariationalRegistration
+ */
+template <class TFixedImage, class TMovingImage, class TDisplacementField>
+class ITK_EXPORT VariationalRegistrationFunction : public FiniteDifferenceFunction<TDisplacementField>
+{
+public:
+  /** Standard class typedefs. */
+  typedef VariationalRegistrationFunction              Self;
+  typedef FiniteDifferenceFunction<TDisplacementField> Superclass;
+  typedef SmartPointer<Self>                           Pointer;
+  typedef SmartPointer<const Self>                     ConstPointer;
+
+  typedef typename Superclass::TimeStepType TimeStepType;
+
+  /** Run-time type information (and related methods) */
+  itkTypeMacro(VariationalRegistrationFunction, FiniteDifferenceFunction);
+
+  /** Get image dimension. */
+  itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);
+
+  /** MovingImage image type. */
+  typedef TMovingImage                           MovingImageType;
+  typedef typename MovingImageType::ConstPointer MovingImagePointer;
+
+  /** FixedImage image type. */
+  typedef TFixedImage                           FixedImageType;
+  typedef typename FixedImageType::ConstPointer FixedImagePointer;
+
+  /** FixedImage image type. */
+  typedef TFixedImage                            WarpedImageType;
+  typedef typename WarpedImageType::ConstPointer WarpedImagePointer;
+
+  /** Deformation field type. */
+  typedef TDisplacementField                           DisplacementFieldType;
+  typedef typename DisplacementFieldType::ConstPointer DisplacementFieldTypePointer;
+
+  /** MovingImage image type. */
+  typedef unsigned char                             MaskImagePixelType;
+  typedef Image<MaskImagePixelType, ImageDimension> MaskImageType;
+  typedef typename MaskImageType::ConstPointer      MaskImagePointer;
+
+  /** Typedef of the warp image filter. */
+  typedef itk::WarpImageFilter<FixedImageType, WarpedImageType, DisplacementFieldType> MovingImageWarperType;
+  typedef typename MovingImageWarperType::Pointer                                      MovingImageWarperPointer;
+
+
+  /** Set the Moving image.  */
+  void
+  SetMovingImage(const MovingImageType * ptr)
+  {
+    m_MovingImage = ptr;
+  }
+
+  /** Get the Moving image. */
+  const MovingImageType *
+  GetMovingImage(void) const
+  {
+    return m_MovingImage;
+  }
+
+  /** Set the fixed image. */
+  void
+  SetFixedImage(const FixedImageType * ptr)
+  {
+    m_FixedImage = ptr;
+  }
+
+  /** Get the fixed image. */
+  const FixedImageType *
+  GetFixedImage(void) const
+  {
+    return m_FixedImage;
+  }
+
+  /** Set the deformation field. */
+  void
+  SetDisplacementField(DisplacementFieldType * ptr)
+  {
+    m_DisplacementField = ptr;
+  }
+
+  /** Get the deformation field. */
+  const DisplacementFieldType *
+  GetDisplacementField(void) const
+  {
+    return m_DisplacementField;
+  }
+
+  /** Set the mask image. */
+  void
+  SetMaskImage(const MaskImageType * ptr)
+  {
+    m_MaskImage = ptr;
+  }
+
+  /** Get the mask image. */
+  const MaskImageType *
+  GetMaskImage(void) const
+  {
+    return m_MaskImage;
+  }
+
+  /** Set the moving image warper. */
+  void
+  SetMovingImageWarper(MovingImageWarperType * ptr)
+  {
+    m_MovingImageWarper = ptr;
+  }
+
+  /** Get the moving image warper. */
+  const MovingImageWarperType *
+  GetMovingImageWarper(void) const
+  {
+    return m_MovingImageWarper;
+  }
+
+  /** Set the time step. This time step will be used by ComputeGlobalTimeStep(). */
+  void
+  SetTimeStep(TimeStepType timeStep)
+  {
+    m_TimeStep = timeStep;
+  }
+
+  /** Get the time step. */
+  const TimeStepType
+  GetTimeStep(void) const
+  {
+    return m_TimeStep;
+  }
+
+  /** Set the MaskBackgroundThreshold. All Pixels of the mask image will be
+   *  treated as background if the are <= this threshold. */
+  void
+  SetMaskBackgroundThreshold(MaskImagePixelType threshold)
+  {
+    m_MaskBackgroundThreshold = threshold;
+  }
+
+  /** Get the MaskBackgroundThreshold. All Pixels of the mask image will be
+   *  treated as background if the are <= this threshold. */
+  const MaskImagePixelType
+  GetMaskBackgroundThreshold(void) const
+  {
+    return m_MaskBackgroundThreshold;
+  }
+
+  /** Set the object's state before each iteration. */
+  virtual void
+  InitializeIteration();
+
+  //
+  // GlobalData functions for multi-threading.
+  /** This class uses the constant time step m_TimeStep. */
+  virtual TimeStepType
+  ComputeGlobalTimeStep(void * itkNotUsed(GlobalData)) const
+  {
+    return m_TimeStep;
+  }
+
+  /** Return a pointer to a global data structure that is passed to
+   * this object from the solver at each calculation.  */
+  virtual void *
+  GetGlobalDataPointer() const;
+
+  /** Release memory for global data structure. */
+  virtual void
+  ReleaseGlobalDataPointer(void * GlobalData) const;
+
+  //
+  // Metric accessor methods
+  /** Get the metric value. The metric value is the mean square difference
+   * in intensity between the fixed image and transforming moving image
+   * computed over the the overlapping region between the two images. */
+  virtual double
+  GetMetric() const
+  {
+    return m_Metric;
+  }
+
+  /** Get the rms change in deformation field. */
+  virtual double
+  GetRMSChange() const
+  {
+    return m_RMSChange;
+  }
+
+protected:
+  VariationalRegistrationFunction();
+  ~VariationalRegistrationFunction() {}
+  void
+  PrintSelf(std::ostream & os, Indent indent) const;
+
+  /** Warp the moving image into the domain of the fixed image using the
+   * deformation field. */
+  virtual void
+  WarpMovingImage(void);
+
+  /** Get the warped image. */
+  const WarpedImagePointer
+  GetWarpedImage(void) const;
+
+  /** A global data type for this class of equation. Used to store
+   * information for computing the metric. */
+  struct GlobalDataStruct
+  {
+    double        m_SumOfMetricValues;
+    SizeValueType m_NumberOfPixelsProcessed;
+    double        m_SumOfSquaredChange;
+  };
+
+private:
+  VariationalRegistrationFunction(const Self &); // purposely not implemented
+  void
+  operator=(const Self &); // purposely not implemented
+
+  /** The Moving image. */
+  MovingImagePointer m_MovingImage;
+
+  /** The fixed image. */
+  FixedImagePointer m_FixedImage;
+
+  /** The deformation field. */
+  DisplacementFieldTypePointer m_DisplacementField;
+
+  /** The deformation field. */
+  MaskImagePointer m_MaskImage;
+
+  /** A class to warp the moving image into the domain of the fixed image. */
+  MovingImageWarperPointer m_MovingImageWarper;
+
+  /** The global timestep. */
+  TimeStepType m_TimeStep;
+
+  /** Threshold to define the background in the mask image. */
+  MaskImagePixelType m_MaskBackgroundThreshold;
+
+  /** The metric value is the mean square difference in intensity between
+   * the fixed image and transforming moving image computed over the
+   * the overlapping region between the two images. */
+  mutable double        m_Metric;
+  mutable double        m_SumOfMetricValues;
+  mutable SizeValueType m_NumberOfPixelsProcessed;
+  mutable double        m_RMSChange;
+  mutable double        m_SumOfSquaredChange;
+
+  /** Mutex lock to protect modification to metric. */
+  mutable SimpleFastMutexLock m_MetricCalculationLock;
+};
+
+} // end namespace itk
+
+#ifndef ITK_MANUAL_INSTANTIATION
+#  include "itkVariationalRegistrationFunction.hxx"
+#endif
+
+#endif
