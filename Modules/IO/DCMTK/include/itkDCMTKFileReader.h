@@ -42,7 +42,7 @@ class DcmDictEntry;
 // Don't print error messages if you're not throwing
 // an exception
 //     std::cerr body;
-#define DCMTKException(body)                    \
+#define DCMTKExceptionOrErrorReturn(body)       \
   {                                             \
     if(throwException)                          \
       {                                         \
@@ -113,7 +113,7 @@ public:
       std::string val;
       if(this->GetElementOB(group,element,val,throwException) != EXIT_SUCCESS)
         {
-        DCMTKException(<< "Cant find DecimalString element " << std::hex
+        DCMTKExceptionOrErrorReturn(<< "Cant find DecimalString element " << std::hex
                        << group << " " << std::hex
                        << element << std::dec);
         }
@@ -138,7 +138,7 @@ public:
       std::string val;
       if(this->GetElementOB(group,element,val,throwException) != EXIT_SUCCESS)
         {
-        DCMTKException(<< "Cant find DecimalString element " << std::hex
+        DCMTKExceptionOrErrorReturn(<< "Cant find DecimalString element " << std::hex
                        << group << " " << std::hex
                        << element << std::dec);
         }
@@ -188,7 +188,7 @@ public:
         dynamic_cast<DcmDecimalString *>(resultStack.top());
       if(dsItem == 0)
         {
-        DCMTKException(<< "Can't get DecimalString Element at tag "
+        DCMTKExceptionOrErrorReturn(<< "Can't get DecimalString Element at tag "
                        << std::hex << group << " "
                        << element << std::dec);
         }
@@ -196,13 +196,13 @@ public:
       OFVector<Float64> doubleVals;
       if(dsItem->getFloat64Vector(doubleVals) != EC_Normal)
         {
-        DCMTKException(<< "Cant extract Array from DecimalString " << std::hex
+        DCMTKExceptionOrErrorReturn(<< "Cant extract Array from DecimalString " << std::hex
                        << group << " " << std::hex
                        << element << std::dec);
         }
       if(doubleVals.size() != count)
         {
-        DCMTKException(<< "DecimalString " << std::hex
+        DCMTKExceptionOrErrorReturn(<< "DecimalString " << std::hex
                        << group << " " << std::hex
                        << element << " expected "
                        << count << "items, but found "
@@ -274,27 +274,27 @@ public:
       DcmElement *el;
       if(this->m_Dataset->findAndGetElement(tagkey,el) != EC_Normal)
         {
-        DCMTKException(<< "Cant find tag " << std::hex
+        DCMTKExceptionOrErrorReturn(<< "Cant find tag " << std::hex
                        << group << " " << std::hex
                        << element << std::dec);
         }
       DcmDecimalString *dsItem = dynamic_cast<DcmDecimalString *>(el);
       if(dsItem == 0)
         {
-        DCMTKException(<< "Cant find DecimalString element " << std::hex
+        DCMTKExceptionOrErrorReturn(<< "Cant find DecimalString element " << std::hex
                        << group << " " << std::hex
                        << element << std::dec);
         }
       OFVector<Float64> doubleVals;
       if(dsItem->getFloat64Vector(doubleVals) != EC_Normal)
         {
-        DCMTKException(<< "Cant extract Array from DecimalString " << std::hex
+        DCMTKExceptionOrErrorReturn(<< "Cant extract Array from DecimalString " << std::hex
                        << group << " " << std::hex
                        << element << std::dec);
         }
       if(doubleVals.size() != count)
         {
-        DCMTKException(<< "DecimalString " << std::hex
+        DCMTKExceptionOrErrorReturn(<< "DecimalString " << std::hex
                        << group << " " << std::hex
                        << element << " expected "
                        << count << "items, but found "
@@ -321,7 +321,7 @@ public:
       std::string val;
       if(this->GetElementOB(group,element,val) != EXIT_SUCCESS)
         {
-        DCMTKException(<< "Cant find DecimalString element " << std::hex
+        DCMTKExceptionOrErrorReturn(<< "Cant find DecimalString element " << std::hex
                        << group << " " << std::hex
                        << element << std::dec);
         }
@@ -393,6 +393,11 @@ public:
   /** get an IS (Integer String Item
    */
   int  GetElementIS(unsigned short group,
+                    unsigned short element,
+                    ::itk::int32_t  &target,
+                    bool throwException = true);
+
+  int  GetElementSL(unsigned short group,
                     unsigned short element,
                     ::itk::int32_t  &target,
                     bool throwException = true);

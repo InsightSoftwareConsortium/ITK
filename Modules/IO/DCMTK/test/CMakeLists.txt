@@ -4,6 +4,7 @@ set(ITKIODCMTKTests
   itkDCMTKSeriesReadImageWrite.cxx
   itkDCMTKSeriesStreamReadImageWrite.cxx
   itkDCMTKImageIOOrthoDirTest.cxx
+  itkDCMTKMultiFrame4DTest.cxx
 )
 
 
@@ -40,6 +41,11 @@ itk_add_test(NAME itkDCMTKImageIOTest4 COMMAND ITKIODCMTKTestDriver
 itk_add_test(NAME itkDCMTKSeriesReadImageWrite
   COMMAND ITKIODCMTKTestDriver itkDCMTKSeriesReadImageWrite
   DATA{${ITK_DATA_ROOT}/Input/DicomSeries/,REGEX:Image[0-9]+.dcm}
+  ${ITK_TEST_OUTPUT_DIR}/itkDCMTKSeriesReadImageWrite.vtk ${ITK_TEST_OUTPUT_DIR})
+
+itk_add_test(NAME itkDCMTKDirCosinesTest
+  COMMAND ITKIODCMTKTestDriver itkDCMTKSeriesReadImageWrite
+  DATA{${ITK_DATA_ROOT}/Input/DicomDirectionsTest/,REGEX:1020_[0-9]+.dcm}
   ${ITK_TEST_OUTPUT_DIR}/itkDCMTKSeriesReadImageWrite.vtk ${ITK_TEST_OUTPUT_DIR})
 
 set_property(TEST itkDCMTKSeriesReadImageWrite APPEND PROPERTY DEPENDS ITKData)
