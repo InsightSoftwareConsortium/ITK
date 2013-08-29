@@ -280,7 +280,7 @@ VTKVisualizeImageLevelSetIsoValues< Image< TInputPixel, 3 >, TLevelSet >
   this->m_LevelSetConverter->Update();
 
 #if VTK_MAJOR_VERSION <= 5
-  this->m_MarchingSquare->SetInput( this->m_LevelSetConverter->GetOutput() );
+  this->m_MarchingCubes->SetInput( this->m_LevelSetConverter->GetOutput() );
 #else
   this->m_LevelSetConverter->Update();
   this->m_MarchingCubes->SetInputData( this->m_LevelSetConverter->GetOutput() );
