@@ -20,7 +20,8 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkSimpleFilterWatcher.h"
-
+#include "itkPipelineMonitorImageFilter.h"
+#include "itkTestingMacros.h"
 #include "itkMedianImageFilter.h"
 
 
@@ -80,6 +81,9 @@ int itkSliceBySliceImageFilterTest(int argc, char * argv[])
   MedianType::Pointer median = MedianType::New();
   filter->SetFilter( median );
 
+  typedef itk::PipelineMonitorImageFilter<FilterType::InternalOutputImageType> MonitorType;
+  MonitorType::Pointer monitor = MonitorType::New();
+
   itk::CStyleCommand::Pointer command = itk::CStyleCommand::New();
   command->SetCallback( *sliceCallBack );
 
@@ -109,6 +113,43 @@ int itkSliceBySliceImageFilterTest(int argc, char * argv[])
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
     }
+
+
+  // set up a requested region of just one pixel and verify that was
+  // all that was produced.
+  std::cout << "Testing with requested region..." << std::endl;
+  ImageType::Pointer temp = filter->GetOutput();
+  temp->DisconnectPipeline();
+  temp = NULL;
+
+  ImageType::RegionType rr = reader->GetOutput()->GetLargestPossibleRegion();
+  for (unsigned int i = 0; i < ImageType::ImageDimension; ++i)
+    {
+    rr.SetIndex(i, rr.GetIndex(i)+rr.GetSize(i)/2);
+    rr.SetSize(i,1);
+    }
+
+
+  monitor->SetInput(median->GetOutput());
+  filter->SetOutputFilter(monitor);
+  filter->GetOutput()->SetRequestedRegion(rr);
+
+
+  try
+    {
+    filter->Update();
+    }
+  catch( itk::ExceptionObject & excp )
+    {
+    std::cerr << excp << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  // check that one slice executed is just one pixel and the input
+  // filter just update that region
+  TEST_EXPECT_EQUAL( monitor->GetNumberOfUpdates(), 1 );
+  TEST_EXPECT_EQUAL( monitor->GetOutputRequestedRegions()[0].GetNumberOfPixels(), 1 );
+  TEST_EXPECT_TRUE( monitor->VerifyAllInputCanStream(1) );
 
   //
   // Exercise PrintSelf()
