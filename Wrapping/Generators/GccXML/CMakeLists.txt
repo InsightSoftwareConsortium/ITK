@@ -26,8 +26,8 @@ else()
     set(test )
   endif()
   ExternalProject_add(GCC_XML
-  URL http://itk.org/files/gccxml/gccxml-2012-08-08.tar.bz2
-  URL_MD5 199924259f913a914f7084213b71d6da
+  URL http://itk.org/files/gccxml/gccxml-2013-08-27.tar.bz2
+  URL_MD5 6f3e1474b17d3b15391de7ed14cf83f2
   PREFIX gccxml
   CMAKE_ARGS
     -DCMAKE_CXX_COMPILER:STRING=${CMAKE_CXX_COMPILER}
