@@ -42,7 +42,7 @@ namespace itk
  * \tparam TImage Image Type
  * \tparam TLevelSet Level Set Type
  *
- * \ingroup LevelSetsv4Visualization
+ * \ingroup ITKLevelSetsv4Visualization
  */
 template< class TImage, class TLevelSet >
 class VTKVisualizeImageLevelSetIsoValues
@@ -51,7 +51,7 @@ class VTKVisualizeImageLevelSetIsoValues
 /**
  * \class VTKVisualizeImageLevelSetIsoValues
  *
- * \ingroup LevelSetsv4Visualization
+ * \ingroup ITKLevelSetsv4Visualization
  */
 template< typename TInputPixel, class TLevelSet >
 class VTKVisualizeImageLevelSetIsoValues< Image< TInputPixel, 2 >, TLevelSet >
@@ -123,7 +123,7 @@ private:
 /**
  * \class VTKVisualizeImageLevelSetIsoValues
  *
- * \ingroup LevelSetsv4Visualization
+ * \ingroup ITKLevelSetsv4Visualization
  */
 template< typename TInputPixel, class TLevelSet >
 class VTKVisualizeImageLevelSetIsoValues< Image< TInputPixel, 3 >, TLevelSet >
