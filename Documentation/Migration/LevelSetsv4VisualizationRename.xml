@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE Change SYSTEM "http://ij.itk.org/itkfaq/ITKMigration.dtd">
+<!DOCTYPE Change SYSTEM "http://itk.org/migrationv4/ITKMigration.dtd">
 
 <!--**
 **
@@ -49,19 +49,23 @@
     **-->
     <SampleCode>
       <Old>
+        <![CDATA[
         #include "vtkVisualize2DSparseLevelSetLayers.h"
         #include "vtkVisualize3DLevelSetImage.h"
 
         typedef vtkVisualize2DSparseLevelSetLayers< ImageType, LevelSetType > LevelSetLayerVisType;
         typedef vtkVisualize3DLevelSetImage< ImageType, LevelSetType >        DenseLevelSet3DVisType;
+        ]]>
       </Old>
 
       <New>
+        <![CDATA[
         #include "itkVTKVisualize2DSparseLevelSetLayers.h"
         #include "itkVTKVisualize3DLevelSetImage.h"
 
         typedef itk::VTKVisualize2DSparseLevelSetLayers< ImageType, LevelSetType > LevelSetLayerVisType;
         typedef itk::VTKVisualize3DLevelSetImage< ImageType, LevelSetType >        DenseLevelSet3DVisType;
+        ]]>
       </New>
 
     </SampleCode>

@@ -246,7 +246,7 @@ if __name__ == '__main__':
   # Create XMl file text
   #
 
-  xmlString = '<?xml version="1.0" encoding="UTF-8"?>\n<!DOCTYPE Change SYSTEM "http://ij.itk.org/itkfaq/ITKMigration.dtd">\n\n'
+  xmlString = '<?xml version="1.0" encoding="UTF-8"?>\n<!DOCTYPE Change SYSTEM "http://itk.org/migrationv4/ITKMigration.dtd">\n\n'
   changeElementBody = ""
 
   # <Title> element
