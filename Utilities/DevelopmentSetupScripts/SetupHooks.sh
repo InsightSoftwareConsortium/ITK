@@ -65,7 +65,7 @@ git config hooks.uncrustify.conf "Utilities/Maintenance/uncrustify_itk.cfg"
 
 # Set up KWStyle hook.
 echo "Setting up the KWStyle hook..."
-git config hooks.KWStyle.conf "Utilities/KWStyle/ITK.kws.xml.in"
+git config hooks.KWStyle.conf "Utilities/KWStyle/ITK.kws.xml"
 git config hooks.KWStyle.overwriteRulesConf "Utilities/KWStyle/ITKOverwrite.txt"
 git config hooks.KWStyle true
 

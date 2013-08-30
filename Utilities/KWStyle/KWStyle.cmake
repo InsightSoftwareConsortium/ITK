@@ -15,7 +15,7 @@ if(ITK_USE_KWSTYLE)
 
   # Define and configure configuration files
   set(KWSTYLE_ITK_CONFIGURATION_FILE
-    ${ITK_SOURCE_DIR}/Utilities/KWStyle/ITK.kws.xml.in
+    ${ITK_SOURCE_DIR}/Utilities/KWStyle/ITK.kws.xml
     )
   set(KWSTYLE_ITK_FILES_LIST_FILE
     ${ITK_BINARY_DIR}/Utilities/KWStyle/ITKFiles.txt
