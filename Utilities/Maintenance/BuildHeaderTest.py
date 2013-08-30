@@ -40,12 +40,6 @@ BANNED_HEADERS = set(('itkExceptionObject.h', # There is a pre-processor check s
     'itkVanHerkGilWermanErodeDilateImageFilter.h', # circular include's
     'itkBSplineDeformableTransform.h',   # deprecated
     'vtkCaptureScreen.h',  # these includes require VTK
-    'itkVTKVisualize3DLevelSetImage.h',
-    'itkVTKVisualize2DSparseLevelSetLayers.h',
-    'itkVTKVisualize2DSparseLevelSetLayersBase.h',
-    'itkVTKVisualizeImageLevelSet.h',
-    'itkVTKVisualizeImageLevelSetIsoValues.h',
-    'itkVTKVisualize2DLevelSetAsElevationMap.h',
     'itkBSplineDeformableTransformInitializer.h'))
 
 HEADER = """/*=========================================================================
@@ -120,7 +114,8 @@ def main():
         for i in range(added_header_idx, max_idx):
             # Use the .hxx if possible.
             hxx_file = h_files[i][:-1] + 'hxx'
-            if h_files[i] in BANNED_HEADERS:
+            # Files that include VTK headers need to link to VTK.
+            if h_files[i] in BANNED_HEADERS or h_files[i].lower().find('vtk') != -1:
                 to_include = '// #include "' + h_files[i] + '" // Banned in BuildHeaderTest.py\n'
             elif os.path.exists(os.path.join(module_source_path, 'include',
                 hxx_file)):
