@@ -80,17 +80,17 @@ public:
   typedef typename LayerMapType::iterator         LayerMapIterator;
   typedef typename LayerMapType::const_iterator   LayerMapConstIterator;
 
-  /** Returns the layer affiliation of a given location iP */
-  virtual LayerIdType Status( const InputType& iP ) const;
+  /** Returns the layer affiliation of a given location inputIndex */
+  virtual LayerIdType Status( const InputType& inputIndex ) const;
 
   /** Return the const pointer to a layer map with given id  */
-  const LayerType& GetLayer( LayerIdType iVal ) const;
+  const LayerType& GetLayer( LayerIdType value ) const;
 
   /** Return the pointer to a layer map with given id  */
-  LayerType& GetLayer( LayerIdType iVal );
+  LayerType& GetLayer( LayerIdType value );
 
   /** Set a layer map with id to the given layer pointer */
-  void SetLayer( LayerIdType iVal, const LayerType& iLayer );
+  void SetLayer( LayerIdType value, const LayerType& iLayer );
 
   /** Set/Get the label map for computing the sparse representation */
   virtual void SetLabelMap( LabelMapType* iLabelMap );
@@ -117,7 +117,7 @@ protected:
 
   virtual void InitializeInternalLabelList() = 0;
 
-  virtual bool IsInsideDomain( const InputType& iP ) const;
+  virtual bool IsInsideDomain( const InputType& inputIndex ) const;
 
   /** Initialize the label map point and the sparse-field layers */
   virtual void Initialize();

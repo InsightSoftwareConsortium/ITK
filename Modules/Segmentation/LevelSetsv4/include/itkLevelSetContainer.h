@@ -167,6 +167,7 @@ public:
 
         temp_ls->SetImage( image );
         newContainer[ it->first ] = temp_ls;
+        newContainer[ it->first ]->SetDomainOffset( (it->second)->GetDomainOffset() );
         }
       else
         {

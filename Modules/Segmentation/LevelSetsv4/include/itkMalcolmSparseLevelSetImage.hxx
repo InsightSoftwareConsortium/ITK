@@ -44,13 +44,14 @@ MalcolmSparseLevelSetImage< VDimension >
 // ----------------------------------------------------------------------------
 template< unsigned int VDimension >
 typename MalcolmSparseLevelSetImage< VDimension >::OutputType
-MalcolmSparseLevelSetImage< VDimension >::Evaluate( const InputType& iP ) const
+MalcolmSparseLevelSetImage< VDimension >::Evaluate( const InputType& inputPixel ) const
 {
+  InputType mapIndex = inputPixel - this->m_DomainOffset;
   LayerMapConstIterator layerIt = this->m_Layers.begin();
 
   while( layerIt != this->m_Layers.end() )
     {
-    LayerConstIterator it = ( layerIt->second ).find( iP );
+    LayerConstIterator it = ( layerIt->second ).find( mapIndex );
     if( it != ( layerIt->second ).end() )
       {
       return it->second;
@@ -59,13 +60,13 @@ MalcolmSparseLevelSetImage< VDimension >::Evaluate( const InputType& iP ) const
     ++layerIt;
     }
 
-  if( this->m_LabelMap->GetLabelObject( MinusOneLayer() )->HasIndex( iP ) )
+  if( this->m_LabelMap->GetLabelObject( MinusOneLayer() )->HasIndex( mapIndex ) )
     {
     return MinusOneLayer();
     }
   else
     {
-    char status = this->m_LabelMap->GetPixel( iP );
+    char status = this->m_LabelMap->GetPixel( mapIndex );
     if( status == PlusOneLayer() )
       {
       return PlusOneLayer();
@@ -84,9 +85,9 @@ MalcolmSparseLevelSetImage< VDimension >::Evaluate( const InputType& iP ) const
 template< unsigned int VDimension >
 typename MalcolmSparseLevelSetImage< VDimension >::HessianType
 MalcolmSparseLevelSetImage< VDimension >
-::EvaluateHessian( const InputType& iP ) const
+::EvaluateHessian( const InputType& inputPixel ) const
 {
-  (void) iP;
+  (void) inputPixel;
   itkGenericExceptionMacro( <<"The approximation of the hessian in the Malcolm's"
                             <<" representation is poor, and far to be representative."
                             <<" If it was required for regularization purpose, "
@@ -102,9 +103,9 @@ MalcolmSparseLevelSetImage< VDimension >
 template< unsigned int VDimension >
 typename MalcolmSparseLevelSetImage< VDimension >::OutputRealType
 MalcolmSparseLevelSetImage< VDimension >
-::EvaluateLaplacian( const InputType& iP ) const
+::EvaluateLaplacian( const InputType& inputPixel ) const
 {
-  (void) iP;
+  (void) inputPixel;
   itkGenericExceptionMacro( <<"The approximation of the hessian in the Malcolm's"
                             <<" representation is poor, and far to be representative."
                             <<" If it was required for regularization purpose, "
@@ -120,9 +121,9 @@ MalcolmSparseLevelSetImage< VDimension >
 template< unsigned int VDimension >
 typename MalcolmSparseLevelSetImage< VDimension >::OutputRealType
 MalcolmSparseLevelSetImage< VDimension >
-::EvaluateMeanCurvature( const InputType& iP ) const
+::EvaluateMeanCurvature( const InputType& inputPixel ) const
 {
-  (void) iP;
+  (void) inputPixel;
   itkGenericExceptionMacro( <<"The approximation of the hessian in the Malcolm's"
                             <<" representation is poor, and far to be representative."
                             <<" If it was required for regularization purpose, "
@@ -137,49 +138,49 @@ MalcolmSparseLevelSetImage< VDimension >
 template< unsigned int VDimension >
 void
 MalcolmSparseLevelSetImage< VDimension >
-::EvaluateHessian( const InputType& iP, LevelSetDataType& ioData ) const
+::EvaluateHessian( const InputType& inputPixel, LevelSetDataType& data ) const
 {
-  (void) iP;
+  (void) inputPixel;
 
-  if( ioData.Hessian.m_Computed )
+  if( data.Hessian.m_Computed )
     {
     return;
     }
 
-  ioData.Hessian.m_Value = this->EvaluateHessian( iP );
+  data.Hessian.m_Value = this->EvaluateHessian( inputPixel );
 
-  ioData.Hessian.m_Computed = true;
+  data.Hessian.m_Computed = true;
 }
 
 // ----------------------------------------------------------------------------
 template< unsigned int VDimension >
 void
 MalcolmSparseLevelSetImage< VDimension >
-::EvaluateLaplacian( const InputType& iP, LevelSetDataType& ioData ) const
+::EvaluateLaplacian( const InputType& inputPixel, LevelSetDataType& data ) const
 {
-  if( !ioData.Laplacian.m_Computed )
+  if( !data.Laplacian.m_Computed )
     {
     return;
     }
 
-  ioData.Laplacian.m_Value = this->EvaluateLaplacian( iP );
+  data.Laplacian.m_Value = this->EvaluateLaplacian( inputPixel );
 
-  ioData.Laplacian.m_Computed = true;
+  data.Laplacian.m_Computed = true;
 }
 
 // ----------------------------------------------------------------------------
 template< unsigned int VDimension >
 void
 MalcolmSparseLevelSetImage< VDimension >
-::EvaluateMeanCurvature( const InputType& iP, LevelSetDataType& ioData ) const
+::EvaluateMeanCurvature( const InputType& inputPixel, LevelSetDataType& data ) const
 {
-  if( !ioData.MeanCurvature.m_Computed )
+  if( !data.MeanCurvature.m_Computed )
     {
     return;
     }
 
-  ioData.MeanCurvature.m_Value = this->EvaluateMeanCurvature( iP );
-  ioData.MeanCurvature.m_Computed = true;
+  data.MeanCurvature.m_Value = this->EvaluateMeanCurvature( inputPixel );
+  data.MeanCurvature.m_Computed = true;
 }
 
 // ----------------------------------------------------------------------------

@@ -43,13 +43,14 @@ WhitakerSparseLevelSetImage< TOutput, VDimension >
 template< typename TOutput, unsigned int VDimension >
 typename WhitakerSparseLevelSetImage< TOutput, VDimension >::OutputType
 WhitakerSparseLevelSetImage< TOutput, VDimension >
-::Evaluate( const InputType& iP ) const
+::Evaluate( const InputType& inputIndex ) const
 {
+  InputType mapIndex = inputIndex - this->m_DomainOffset;
   LayerMapConstIterator layerIt = this->m_Layers.begin();
 
   while( layerIt != this->m_Layers.end() )
     {
-    LayerConstIterator it = ( layerIt->second ).find( iP );
+    LayerConstIterator it = ( layerIt->second ).find( mapIndex );
     if( it != ( layerIt->second ).end() )
       {
       return it->second;
@@ -60,13 +61,13 @@ WhitakerSparseLevelSetImage< TOutput, VDimension >
 
   if( this->m_LabelMap.IsNotNull() )
     {
-    if( this->m_LabelMap->GetLabelObject( MinusThreeLayer() )->HasIndex( iP ) )
+    if( this->m_LabelMap->GetLabelObject( MinusThreeLayer() )->HasIndex( mapIndex ) )
       {
       return static_cast<OutputType>( MinusThreeLayer() );
       }
     else
       {
-      char status = this->m_LabelMap->GetPixel( iP );
+      char status = this->m_LabelMap->GetPixel( mapIndex );
       if( status == this->PlusThreeLayer() )
         {
         return static_cast<OutputType>( this->PlusThreeLayer() );

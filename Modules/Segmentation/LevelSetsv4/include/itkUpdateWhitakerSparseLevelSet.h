@@ -64,6 +64,7 @@ public:
                                                        LevelSetType;
   typedef typename LevelSetType::Pointer               LevelSetPointer;
   typedef typename LevelSetType::InputType             LevelSetInputType;
+  typedef typename LevelSetType::OffsetType            LevelSetOffsetType;
 
   typedef typename LevelSetType::LabelMapType          LevelSetLabelMapType;
   typedef typename LevelSetType::LabelMapPointer       LevelSetLabelMapPointer;
@@ -120,7 +121,7 @@ public:
   itkGetMacro( CurrentLevelSetId, IdentifierType );
 
   /** Set the update map for all points in the zero layer */
-  void SetUpdate( const LevelSetLayerType& iUpdate );
+  void SetUpdate( const LevelSetLayerType& update );
 
 protected:
   UpdateWhitakerSparseLevelSet();
@@ -177,6 +178,8 @@ private:
   LevelSetLayerIdType m_MaxStatus;
 
   LabelImagePointer m_InternalImage;
+
+  LevelSetOffsetType m_Offset;
 
   typedef ShapedNeighborhoodIterator< LabelImageType > NeighborhoodIteratorType;
 
