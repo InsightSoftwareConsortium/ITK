@@ -82,7 +82,7 @@ public:
 
   /** Returns the value of the level set function at a given location iP */
   using Superclass::Evaluate;
-  virtual OutputType Evaluate( const InputType& iP ) const;
+  virtual OutputType Evaluate( const InputType& inputIndex ) const;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */

@@ -60,6 +60,7 @@ public:
   typedef typename LevelSetType::Pointer               LevelSetPointer;
   typedef typename LevelSetType::InputType             LevelSetInputType;
   typedef typename LevelSetType::OutputType            LevelSetOutputType;
+  typedef typename LevelSetType::OffsetType            LevelSetOffsetType;
 
   typedef typename LevelSetType::LabelMapType          LevelSetLabelMapType;
   typedef typename LevelSetType::LabelMapPointer       LevelSetLabelMapPointer;
@@ -139,7 +140,8 @@ private:
   void operator = ( const Self& );  // purposely not implemented
 
   // input
-  LevelSetPointer   m_InputLevelSet;
+  LevelSetPointer    m_InputLevelSet;
+  LevelSetOffsetType m_Offset;
 
   typedef std::pair< LevelSetInputType, LevelSetOutputType > NodePairType;
 };

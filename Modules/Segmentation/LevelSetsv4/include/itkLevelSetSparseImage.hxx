@@ -37,9 +37,10 @@ LevelSetSparseImage< TOutput, VDimension >
 template< typename TOutput, unsigned int VDimension >
 typename LevelSetSparseImage< TOutput, VDimension >::LayerIdType
 LevelSetSparseImage< TOutput, VDimension >
-::Status( const InputType& iP ) const
+::Status( const InputType& inputIndex ) const
 {
-  return this->m_LabelMap->GetPixel( iP );
+  InputType mapIndex = inputIndex - this->m_DomainOffset;
+  return this->m_LabelMap->GetPixel( mapIndex );
 }
 
 
@@ -65,11 +66,13 @@ LevelSetSparseImage< TOutput, VDimension >
 template< typename TOutput, unsigned int VDimension >
 bool
 LevelSetSparseImage< TOutput, VDimension >
-::IsInsideDomain( const InputType& iP ) const
+::IsInsideDomain( const InputType& inputIndex ) const
 {
   const RegionType largestRegion = this->m_LabelMap->GetLargestPossibleRegion();
 
-  return largestRegion.IsInside( iP );
+  InputType mapIndex = inputIndex - this->m_DomainOffset;
+
+  return largestRegion.IsInside( mapIndex );
 }
 
 template< typename TOutput, unsigned int VDimension >
@@ -106,9 +109,9 @@ LevelSetSparseImage< TOutput, VDimension >
 // ----------------------------------------------------------------------------
 template< typename TOutput, unsigned int VDimension >
 const typename LevelSetSparseImage< TOutput, VDimension >::LayerType&
-LevelSetSparseImage< TOutput, VDimension >::GetLayer( LayerIdType iVal ) const
+LevelSetSparseImage< TOutput, VDimension >::GetLayer( LayerIdType value ) const
 {
-  LayerMapConstIterator it = m_Layers.find( iVal );
+  LayerMapConstIterator it = m_Layers.find( value );
   if( it == m_Layers.end() )
     {
     itkGenericExceptionMacro( <<"This layer does not exist" );
@@ -119,9 +122,9 @@ LevelSetSparseImage< TOutput, VDimension >::GetLayer( LayerIdType iVal ) const
 // ----------------------------------------------------------------------------
 template< typename TOutput, unsigned int VDimension >
 typename LevelSetSparseImage< TOutput, VDimension >::LayerType&
-LevelSetSparseImage< TOutput, VDimension >::GetLayer( LayerIdType iVal )
+LevelSetSparseImage< TOutput, VDimension >::GetLayer( LayerIdType value )
 {
-  LayerMapIterator it = m_Layers.find( iVal );
+  LayerMapIterator it = m_Layers.find( value );
   if( it == m_Layers.end() )
     {
     itkGenericExceptionMacro( <<"This layer does not exist" );
@@ -133,16 +136,16 @@ LevelSetSparseImage< TOutput, VDimension >::GetLayer( LayerIdType iVal )
 template< typename TOutput, unsigned int VDimension >
 void
 LevelSetSparseImage< TOutput, VDimension >
-::SetLayer( LayerIdType iVal, const LayerType& iLayer )
+::SetLayer( LayerIdType value, const LayerType& iLayer )
 {
-  LayerMapIterator it = m_Layers.find( iVal );
+  LayerMapIterator it = m_Layers.find( value );
   if( it != m_Layers.end() )
     {
     it->second = iLayer;
     }
   else
     {
-    itkGenericExceptionMacro( <<iVal << "is out of bounds" );
+    itkGenericExceptionMacro( <<value << "is out of bounds" );
     }
 }
 

@@ -44,6 +44,7 @@ int itkSingleLevelSetWhitakerImage2DWithCurvatureTest( int argc, char* argv[] )
   typedef itk::ImageFileReader< InputImageType >            ReaderType;
 
   typedef float                                             PixelType;
+  typedef InputImageType::OffsetType                        OffsetType;
 
   typedef itk::WhitakerSparseLevelSetImage< PixelType, Dimension >
                                                             SparseLevelSetType;
@@ -113,6 +114,15 @@ int itkSingleLevelSetWhitakerImage2DWithCurvatureTest( int argc, char* argv[] )
   std::cout << "Finished converting to sparse format" << std::endl;
 
   SparseLevelSetType::Pointer level_set = adaptor->GetModifiableLevelSet();
+
+
+  input->TransformPhysicalPointToIndex( binary->GetOrigin(), index );
+  OffsetType offset;
+  for( unsigned int i = 0; i < Dimension; i++ )
+    {
+    offset[i] = index[i];
+    }
+  level_set->SetDomainOffset( offset );
 
   // Define the Heaviside function
   HeavisideFunctionBaseType::Pointer heaviside = HeavisideFunctionBaseType::New();

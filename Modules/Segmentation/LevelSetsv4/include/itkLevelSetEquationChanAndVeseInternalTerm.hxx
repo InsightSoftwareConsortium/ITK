@@ -57,7 +57,6 @@ void LevelSetEquationChanAndVeseInternalTerm< TInput, TLevelSetContainer >
     {
     this->m_Mean = NumericTraits< InputPixelRealType >::Zero;
     }
-
 }
 
 template< class TInput, class TLevelSetContainer >
@@ -72,14 +71,14 @@ void LevelSetEquationChanAndVeseInternalTerm< TInput, TLevelSetContainer >
 
 template< class TInput, class TLevelSetContainer >
 void LevelSetEquationChanAndVeseInternalTerm< TInput, TLevelSetContainer >
-::Initialize( const LevelSetInputIndexType& iP )
+::Initialize( const LevelSetInputIndexType& inputIndex )
 {
   if( this->m_Heaviside.IsNotNull() )
     {
-    InputPixelType pixel = this->m_Input->GetPixel( iP );
+    InputPixelType pixel = this->m_Input->GetPixel( inputIndex );
 
     LevelSetOutputRealType prod;
-    this->ComputeProduct( iP, prod );
+    this->ComputeProduct( inputIndex, prod );
     this->Accumulate( pixel, prod );
     }
   else
@@ -91,21 +90,21 @@ void LevelSetEquationChanAndVeseInternalTerm< TInput, TLevelSetContainer >
 
 template< class TInput, class TLevelSetContainer >
 void LevelSetEquationChanAndVeseInternalTerm< TInput, TLevelSetContainer >
-::ComputeProduct( const LevelSetInputIndexType& iP, LevelSetOutputRealType& prod )
+::ComputeProduct( const LevelSetInputIndexType& inputIndex, LevelSetOutputRealType& prod )
 {
-  LevelSetOutputRealType value = this->m_CurrentLevelSetPointer->Evaluate( iP );
+  LevelSetOutputRealType value = this->m_CurrentLevelSetPointer->Evaluate( inputIndex );
   prod = this->m_Heaviside->Evaluate( -value );
 }
 
 
 template< class TInput, class TLevelSetContainer >
 void LevelSetEquationChanAndVeseInternalTerm< TInput, TLevelSetContainer >
-::UpdatePixel( const LevelSetInputIndexType& iP,
+::UpdatePixel( const LevelSetInputIndexType& inputIndex,
                const LevelSetOutputRealType & oldValue,
                const LevelSetOutputRealType & newValue )
 {
   // For each affected h val: h val = new hval (this will dirty some cvals)
-  InputPixelType input = this->m_Input->GetPixel( iP );
+  InputPixelType input = this->m_Input->GetPixel( inputIndex );
 
   const LevelSetOutputRealType oldH = this->m_Heaviside->Evaluate( -oldValue );
   const LevelSetOutputRealType newH = this->m_Heaviside->Evaluate( -newValue );
@@ -119,19 +118,19 @@ void LevelSetEquationChanAndVeseInternalTerm< TInput, TLevelSetContainer >
 template< class TInput, class TLevelSetContainer >
 typename LevelSetEquationChanAndVeseInternalTerm< TInput, TLevelSetContainer >::LevelSetOutputRealType
 LevelSetEquationChanAndVeseInternalTerm< TInput, TLevelSetContainer >
-::Value( const LevelSetInputIndexType& iP )
+::Value( const LevelSetInputIndexType& inputIndex )
 {
   if( this->m_Heaviside.IsNotNull() )
     {
     const LevelSetOutputRealType value =
-      static_cast< LevelSetOutputRealType >( this->m_CurrentLevelSetPointer->Evaluate( iP ) );
+      static_cast< LevelSetOutputRealType >( this->m_CurrentLevelSetPointer->Evaluate( inputIndex ) );
 
     const LevelSetOutputRealType d_val = this->m_Heaviside->EvaluateDerivative( -value );
 
-    const InputPixelType pixel = this->m_Input->GetPixel( iP );
+    const InputPixelType pixel = this->m_Input->GetPixel( inputIndex );
     LevelSetOutputRealType prod = 1;
 
-    this->ComputeProductTerm( iP, prod );
+    this->ComputeProductTerm( inputIndex, prod );
 
     const LevelSetOutputRealType oValue = d_val * prod *
       static_cast< LevelSetOutputRealType >( ( pixel - this->m_Mean ) * ( pixel - this->m_Mean ) );
@@ -148,19 +147,19 @@ LevelSetEquationChanAndVeseInternalTerm< TInput, TLevelSetContainer >
 template< class TInput, class TLevelSetContainer >
 typename LevelSetEquationChanAndVeseInternalTerm< TInput, TLevelSetContainer >::LevelSetOutputRealType
 LevelSetEquationChanAndVeseInternalTerm< TInput, TLevelSetContainer >
-::Value( const LevelSetInputIndexType& iP, const LevelSetDataType& iData )
+::Value( const LevelSetInputIndexType& inputIndex, const LevelSetDataType& data )
 {
   if( this->m_Heaviside.IsNotNull() )
     {
-    const LevelSetOutputRealType value = iData.Value.m_Value;
+    const LevelSetOutputRealType value = data.Value.m_Value;
 
     const LevelSetOutputRealType d_val = this->m_Heaviside->EvaluateDerivative( -value );
 
-    const InputPixelType pixel = this->m_Input->GetPixel( iP );
+    const InputPixelType pixel = this->m_Input->GetPixel( inputIndex );
 
     LevelSetOutputRealType prod = 1;
 
-    this->ComputeProductTerm( iP, prod );
+    this->ComputeProductTerm( inputIndex, prod );
 
     const LevelSetOutputRealType oValue = d_val * prod *
       static_cast< LevelSetOutputRealType >( ( pixel - this->m_Mean ) * ( pixel - this->m_Mean ) );
@@ -176,11 +175,11 @@ LevelSetEquationChanAndVeseInternalTerm< TInput, TLevelSetContainer >
 
 template< class TInput, class TLevelSetContainer >
 void LevelSetEquationChanAndVeseInternalTerm< TInput, TLevelSetContainer >
-::Accumulate( const InputPixelType& iPix, const LevelSetOutputRealType& iH )
+::Accumulate( const InputPixelType& inputPixel, const LevelSetOutputRealType& heavisideValue )
 {
-  this->m_TotalValue += static_cast< InputPixelRealType >( iPix ) *
-      static_cast< LevelSetOutputRealType >( iH );
-  this->m_TotalH += static_cast< LevelSetOutputRealType >( iH );
+  this->m_TotalValue += static_cast< InputPixelRealType >( inputPixel ) *
+      static_cast< LevelSetOutputRealType >( heavisideValue );
+  this->m_TotalH += static_cast< LevelSetOutputRealType >( heavisideValue );
 }
 
 }

@@ -43,13 +43,14 @@ ShiSparseLevelSetImage< VDimension >
 template< unsigned int VDimension >
 typename ShiSparseLevelSetImage< VDimension >::OutputType
 ShiSparseLevelSetImage< VDimension >
-::Evaluate( const InputType& iP ) const
+::Evaluate( const InputType& inputIndex ) const
 {
+  InputType mapIndex = inputIndex - this->m_DomainOffset;
   LayerMapConstIterator layerIt = this->m_Layers.begin();
 
   while( layerIt != this->m_Layers.end() )
     {
-    LayerConstIterator it = ( layerIt->second ).find( iP );
+    LayerConstIterator it = ( layerIt->second ).find( mapIndex );
     if( it != ( layerIt->second ).end() )
       {
       return it->second;
@@ -58,13 +59,13 @@ ShiSparseLevelSetImage< VDimension >
     ++layerIt;
     }
 
-  if( this->m_LabelMap->GetLabelObject( this->MinusThreeLayer() )->HasIndex( iP ) )
+  if( this->m_LabelMap->GetLabelObject( this->MinusThreeLayer() )->HasIndex( mapIndex ) )
     {
     return static_cast<OutputType>( this->MinusThreeLayer() );
     }
   else
     {
-    const LayerIdType status = this->m_LabelMap->GetPixel( iP );
+    const LayerIdType status = this->m_LabelMap->GetPixel( mapIndex );
 
     if( status == this->PlusThreeLayer() )
       {
@@ -84,7 +85,7 @@ ShiSparseLevelSetImage< VDimension >
 template< unsigned int VDimension >
 typename ShiSparseLevelSetImage< VDimension >::HessianType
 ShiSparseLevelSetImage< VDimension >
-::EvaluateHessian( const InputType& itkNotUsed( iP ) ) const
+::EvaluateHessian( const InputType& itkNotUsed( inputIndex ) ) const
 {
   itkGenericExceptionMacro( <<"The approximation of the hessian in the Shi's"
                             <<" representation is poor, and far to be representative."
@@ -100,7 +101,7 @@ ShiSparseLevelSetImage< VDimension >
 template< unsigned int VDimension >
 typename ShiSparseLevelSetImage< VDimension >::OutputRealType
 ShiSparseLevelSetImage< VDimension >
-::EvaluateLaplacian( const InputType& itkNotUsed( iP ) ) const
+::EvaluateLaplacian( const InputType& itkNotUsed( inputIndex ) ) const
 {
   itkGenericExceptionMacro( <<"The approximation of the hessian in the Shi's"
                             <<" representation is poor, and far to be representative."
@@ -117,7 +118,7 @@ ShiSparseLevelSetImage< VDimension >
 template< unsigned int VDimension >
 typename ShiSparseLevelSetImage< VDimension >::OutputRealType
 ShiSparseLevelSetImage< VDimension >
-::EvaluateMeanCurvature( const InputType& itkNotUsed( iP ) ) const
+::EvaluateMeanCurvature( const InputType& itkNotUsed( inputIndex ) ) const
 {
   itkGenericExceptionMacro( <<"The approximation of the hessian in the Shi's"
                             <<" representation is poor, and far to be representative."
@@ -133,45 +134,45 @@ ShiSparseLevelSetImage< VDimension >
 template< unsigned int VDimension >
 void
 ShiSparseLevelSetImage< VDimension >
-::EvaluateHessian( const InputType& iP, LevelSetDataType& ioData ) const
+::EvaluateHessian( const InputType& inputIndex, LevelSetDataType& data ) const
 {
-  if( ioData.Hessian.m_Computed )
+  if( data.Hessian.m_Computed )
     {
     return;
     }
 
-  ioData.Hessian.m_Value = this->EvaluateHessian( iP );
-  ioData.Hessian.m_Computed = true;
+  data.Hessian.m_Value = this->EvaluateHessian( inputIndex );
+  data.Hessian.m_Computed = true;
 }
 
 // ----------------------------------------------------------------------------
 template< unsigned int VDimension >
 void
 ShiSparseLevelSetImage< VDimension >
-::EvaluateLaplacian( const InputType& iP, LevelSetDataType& ioData ) const
+::EvaluateLaplacian( const InputType& inputIndex, LevelSetDataType& data ) const
 {
-  if( ioData.Laplacian.m_Computed )
+  if( data.Laplacian.m_Computed )
     {
     return;
     }
 
-  ioData.Laplacian.m_Value = this->EvaluateLaplacian( iP );
-  ioData.Laplacian.m_Computed = true;
+  data.Laplacian.m_Value = this->EvaluateLaplacian( inputIndex );
+  data.Laplacian.m_Computed = true;
 }
 
 // ----------------------------------------------------------------------------
 template< unsigned int VDimension >
 void
 ShiSparseLevelSetImage< VDimension >
-::EvaluateMeanCurvature( const InputType& iP, LevelSetDataType& ioData ) const
+::EvaluateMeanCurvature( const InputType& inputIndex, LevelSetDataType& data ) const
 {
-  if( ioData.MeanCurvature.m_Computed )
+  if( data.MeanCurvature.m_Computed )
     {
     return;
     }
 
-  ioData.MeanCurvature.m_Value = this->EvaluateMeanCurvature( iP );
-  ioData.MeanCurvature.m_Computed = true;
+  data.MeanCurvature.m_Value = this->EvaluateMeanCurvature( inputIndex );
+  data.MeanCurvature.m_Computed = true;
 }
 
 

@@ -56,51 +56,51 @@ public:
   typedef typename Superclass::HessianType      HessianType;
   typedef typename Superclass::LevelSetDataType LevelSetDataType;
 
-  /** Returns the gradient of the level set function at a given location iP */
-  virtual OutputType  Evaluate( const InputType& iP ) const = 0;
+  /** Returns the gradient of the level set function at a given location inputIndex */
+  virtual OutputType  Evaluate( const InputType& inputIndex ) const = 0;
 
-  /** Returns the image gradient of the level set function at a given location iP */
-  virtual GradientType EvaluateGradient( const InputType& iP ) const;
+  /** Returns the image gradient of the level set function at a given location inputIndex */
+  virtual GradientType EvaluateGradient( const InputType& inputIndex ) const;
 
-  /** Returns the image hessian of the level set function at a given location iP */
-  virtual HessianType EvaluateHessian( const InputType& iP ) const;
+  /** Returns the image hessian of the level set function at a given location inputIndex */
+  virtual HessianType EvaluateHessian( const InputType& inputIndex ) const;
 
-  /** Returns the image Laplacian of the level set function at a given location iP */
-  virtual OutputRealType EvaluateLaplacian( const InputType& iP ) const;
+  /** Returns the image Laplacian of the level set function at a given location inputIndex */
+  virtual OutputRealType EvaluateLaplacian( const InputType& inputIndex ) const;
 
-  /** Returns the mean curvature of the level set function at a given location iP */
-  virtual OutputRealType EvaluateMeanCurvature( const InputType& iP ) const;
+  /** Returns the mean curvature of the level set function at a given location inputIndex */
+  virtual OutputRealType EvaluateMeanCurvature( const InputType& inputIndex ) const;
 
-  virtual GradientType EvaluateForwardGradient( const InputType& iP ) const;
+  virtual GradientType EvaluateForwardGradient( const InputType& inputIndex ) const;
 
-  virtual GradientType EvaluateBackwardGradient( const InputType& iP ) const;
+  virtual GradientType EvaluateBackwardGradient( const InputType& inputIndex ) const;
 
-  /** Returns the value of the level set function at a given location iP */
-  virtual void Evaluate( const InputType& iP, LevelSetDataType& ioData ) const;
+  /** Returns the value of the level set function at a given location inputIndex */
+  virtual void Evaluate( const InputType& inputIndex, LevelSetDataType& data ) const;
 
-  /** Returns the gradient of the level set function at a given location iP
+  /** Returns the gradient of the level set function at a given location inputIndex
    * as part of the LevelSetDataType */
-  virtual void EvaluateGradient( const InputType& iP, LevelSetDataType& ioData ) const;
+  virtual void EvaluateGradient( const InputType& inputIndex, LevelSetDataType& data ) const;
 
-  /** Returns the Hessian of the level set function at a given location iP
+  /** Returns the Hessian of the level set function at a given location inputIndex
    * as part of the LevelSetDataType */
-  virtual void EvaluateHessian( const InputType& iP, LevelSetDataType& ioData ) const;
+  virtual void EvaluateHessian( const InputType& inputIndex, LevelSetDataType& data ) const;
 
-  /** Returns the Hessian of the level set function at a given location iP
+  /** Returns the Hessian of the level set function at a given location inputIndex
    * as part of the LevelSetDataType */
-  virtual void EvaluateMeanCurvature( const InputType& iP, LevelSetDataType& ioData ) const;
+  virtual void EvaluateMeanCurvature( const InputType& inputIndex, LevelSetDataType& data ) const;
 
-  /** Returns the Laplacian of the level set function at a given location iP
+  /** Returns the Laplacian of the level set function at a given location inputIndex
    * as part of the LevelSetDataType */
-  virtual void EvaluateLaplacian( const InputType& iP, LevelSetDataType& ioData ) const;
+  virtual void EvaluateLaplacian( const InputType& inputIndex, LevelSetDataType& data ) const;
 
-  /** Returns the gradient of the level set function at a given location iP
+  /** Returns the gradient of the level set function at a given location inputIndex
    * as part of the LevelSetDataType */
-  virtual void EvaluateForwardGradient( const InputType& iP, LevelSetDataType& ioData ) const;
+  virtual void EvaluateForwardGradient( const InputType& inputIndex, LevelSetDataType& data ) const;
 
-  /** Returns the gradient of the level set function at a given location iP
+  /** Returns the gradient of the level set function at a given location inputIndex
    * as part of the LevelSetDataType */
-  virtual void EvaluateBackwardGradient( const InputType& iP, LevelSetDataType& ioData ) const;
+  virtual void EvaluateBackwardGradient( const InputType& inputIndex, LevelSetDataType& data ) const;
 
 protected:
   DiscreteLevelSetImage();

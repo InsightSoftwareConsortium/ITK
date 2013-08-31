@@ -71,9 +71,9 @@ public:
   virtual void SetImage( ImageType* iImage );
   itkGetModifiableObjectMacro(Image, ImageType );
 
-  /** Returns the value of the level set function at a given location iP */
-  virtual OutputType Evaluate( const InputType& iP ) const;
-  virtual void Evaluate( const InputType& iP, LevelSetDataType& ioData ) const;
+  /** Returns the value of the level set function at a given location inputIndex */
+  virtual OutputType Evaluate( const InputType& inputIndex ) const;
+  virtual void Evaluate( const InputType& inputIndex, LevelSetDataType& data ) const;
 
 protected:
   LevelSetDenseImage();
@@ -82,7 +82,7 @@ protected:
 
   ImagePointer m_Image;
 
-  virtual bool IsInsideDomain( const InputType& iP ) const;
+  virtual bool IsInsideDomain( const InputType& inputIndex ) const;
 
   /** Initial the level set pointer */
   virtual void Initialize();

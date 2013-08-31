@@ -226,11 +226,13 @@ LevelSetEvolutionBase< TEquationContainer, TLevelSet >
 
     // one iteration over all container
     // update each level set based on the different equations provided
+    // Input image domain
     this->ComputeIteration();
 
     this->ComputeTimeStepForNextIteration();
 
     this->UpdateLevelSets();
+
     this->UpdateEquations();
 
     ++iter;

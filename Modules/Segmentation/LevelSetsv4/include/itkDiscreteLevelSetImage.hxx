@@ -40,37 +40,37 @@ DiscreteLevelSetImage< TOutput, VDimension >
 // ----------------------------------------------------------------------------
 template< typename TOutput, unsigned int VDimension >
 typename DiscreteLevelSetImage< TOutput, VDimension >::GradientType
-DiscreteLevelSetImage< TOutput, VDimension >::EvaluateGradient( const InputType& iP ) const
+DiscreteLevelSetImage< TOutput, VDimension >::EvaluateGradient( const InputType& inputIndex ) const
 {
-  InputType pA = iP;
-  InputType pB = iP;
+  InputType inputIndexA = inputIndex;
+  InputType inputIndexB = inputIndex;
 
   GradientType dx;
 
   for( unsigned int dim = 0; dim < Dimension; dim++ )
     {
-    pA[dim] += 1;
-    pB[dim] -= 1;
+    inputIndexA[dim] += 1;
+    inputIndexB[dim] -= 1;
 
-    if( !this->IsInsideDomain( pA ) )
+    if( !this->IsInsideDomain( inputIndexA ) )
       {
-      pA[dim] = iP[dim];
+      inputIndexA[dim] = inputIndex[dim];
       }
 
-    if( !this->IsInsideDomain( pB ) )
+    if( !this->IsInsideDomain( inputIndexB ) )
       {
-      pB[dim] = iP[dim];
+      inputIndexB[dim] = inputIndex[dim];
       }
 
-    const OutputRealType valueA = static_cast< OutputRealType >( this->Evaluate( pA ) );
-    const OutputRealType valueB = static_cast< OutputRealType >( this->Evaluate( pB ) );
+    const OutputRealType valueA = static_cast< OutputRealType >( this->Evaluate( inputIndexA ) );
+    const OutputRealType valueB = static_cast< OutputRealType >( this->Evaluate( inputIndexB ) );
 
     // division by 0 only if image is a single pixel
-    const OutputRealType scale = this->m_NeighborhoodScales[dim] / (pA[dim] - pB[dim]);
+    const OutputRealType scale = this->m_NeighborhoodScales[dim] / (inputIndexA[dim] - inputIndexB[dim]);
 
     dx[dim] = ( valueA - valueB ) * scale;
 
-    pA[dim] = pB[dim] = iP[dim];
+    inputIndexA[dim] = inputIndexB[dim] = inputIndex[dim];
 
     }
 
@@ -81,29 +81,29 @@ DiscreteLevelSetImage< TOutput, VDimension >::EvaluateGradient( const InputType&
 template< typename TOutput, unsigned int VDimension >
 typename DiscreteLevelSetImage< TOutput, VDimension >::GradientType
 DiscreteLevelSetImage< TOutput, VDimension >
-::EvaluateForwardGradient( const InputType& iP ) const
+::EvaluateForwardGradient( const InputType& inputIndex ) const
 {
-  const OutputRealType center_value = static_cast< OutputRealType >( this->Evaluate( iP ) );
+  const OutputRealType centerValue = static_cast< OutputRealType >( this->Evaluate( inputIndex ) );
 
-  InputType pA = iP;
+  InputType inputIndexA = inputIndex;
 
   GradientType dx;
 
   for( unsigned int dim = 0; dim < Dimension; dim++ )
     {
-    pA[dim] += 1;
+    inputIndexA[dim] += 1;
 
-    if( !this->IsInsideDomain( pA ) )
+    if( !this->IsInsideDomain( inputIndexA ) )
       {
-      pA[dim] = iP[dim];
+      inputIndexA[dim] = inputIndex[dim];
       }
 
-    const OutputRealType valueA = static_cast< OutputRealType >( this->Evaluate( pA ) );
+    const OutputRealType valueA = static_cast< OutputRealType >( this->Evaluate( inputIndexA ) );
     const OutputRealType scale = this->m_NeighborhoodScales[dim];
 
-    dx[dim] = ( valueA - center_value ) * scale;
+    dx[dim] = ( valueA - centerValue ) * scale;
 
-    pA[dim] = iP[dim];
+    inputIndexA[dim] = inputIndex[dim];
     }
 
   return dx;
@@ -113,29 +113,29 @@ DiscreteLevelSetImage< TOutput, VDimension >
 template< typename TOutput, unsigned int VDimension >
 typename DiscreteLevelSetImage< TOutput, VDimension >::GradientType
 DiscreteLevelSetImage< TOutput, VDimension >
-::EvaluateBackwardGradient( const InputType& iP ) const
+::EvaluateBackwardGradient( const InputType& inputIndex ) const
 {
-  const OutputRealType center_value = static_cast< OutputRealType >( this->Evaluate( iP ) );
+  const OutputRealType centerValue = static_cast< OutputRealType >( this->Evaluate( inputIndex ) );
 
-  InputType pA = iP;
+  InputType inputIndexA = inputIndex;
 
   GradientType dx;
 
   for( unsigned int dim = 0; dim < Dimension; dim++ )
     {
-    pA[dim] -= 1;
+    inputIndexA[dim] -= 1;
 
-    if( !this->IsInsideDomain( pA ) )
+    if( !this->IsInsideDomain( inputIndexA ) )
       {
-      pA[dim] = iP[dim];
+      inputIndexA[dim] = inputIndex[dim];
       }
 
-    const OutputRealType valueA = static_cast< OutputRealType >( this->Evaluate( pA ) );
+    const OutputRealType valueA = static_cast< OutputRealType >( this->Evaluate( inputIndexA ) );
     const OutputRealType scale = this->m_NeighborhoodScales[dim];
 
-    dx[dim] = ( center_value - valueA ) * scale;
+    dx[dim] = ( centerValue - valueA ) * scale;
 
-    pA[dim] = iP[dim];
+    inputIndexA[dim] = inputIndex[dim];
     }
   return dx;
 }
@@ -144,93 +144,93 @@ DiscreteLevelSetImage< TOutput, VDimension >
 template< typename TOutput, unsigned int VDimension >
 typename DiscreteLevelSetImage< TOutput, VDimension >::HessianType
 DiscreteLevelSetImage< TOutput, VDimension >
-::EvaluateHessian( const InputType& iP ) const
+::EvaluateHessian( const InputType& inputIndex ) const
 {
   HessianType oHessian;
 
-  const OutputRealType center_value = static_cast< OutputRealType >( this->Evaluate( iP ) );
+  const OutputRealType centerValue = static_cast< OutputRealType >( this->Evaluate( inputIndex ) );
 
-  InputType pA = iP;
-  InputType pB = iP;
+  InputType inputIndexA = inputIndex;
+  InputType inputIndexB = inputIndex;
 
-  InputType pAa;
-  InputType pBa;
-  InputType pCa;
-  InputType pDa;
+  InputType inputIndexAa;
+  InputType inputIndexBa;
+  InputType inputIndexCa;
+  InputType inputIndexDa;
 
   for( unsigned int dim1 = 0; dim1 < Dimension; dim1++ )
     {
-    pA[dim1] += 1;
-    pB[dim1] -= 1;
+    inputIndexA[dim1] += 1;
+    inputIndexB[dim1] -= 1;
 
-    if( !this->IsInsideDomain( pA ) )
+    if( !this->IsInsideDomain( inputIndexA ) )
       {
-      pA[dim1] = iP[dim1];
+      inputIndexA[dim1] = inputIndex[dim1];
       }
 
-    if( !this->IsInsideDomain( pB ) )
+    if( !this->IsInsideDomain( inputIndexB ) )
       {
-      pB[dim1] = iP[dim1];
+      inputIndexB[dim1] = inputIndex[dim1];
       }
 
-    const OutputRealType valueA = static_cast< OutputRealType >( this->Evaluate( pA ) );
-    const OutputRealType valueB = static_cast< OutputRealType >( this->Evaluate( pB ) );
+    const OutputRealType valueA = static_cast< OutputRealType >( this->Evaluate( inputIndexA ) );
+    const OutputRealType valueB = static_cast< OutputRealType >( this->Evaluate( inputIndexB ) );
 
-    oHessian[dim1][dim1] = ( valueA + valueB - 2.0 * center_value )
+    oHessian[dim1][dim1] = ( valueA + valueB - 2.0 * centerValue )
         * vnl_math_sqr( this->m_NeighborhoodScales[dim1] );
 
-    pAa = pB;
-    pBa = pB;
+    inputIndexAa = inputIndexB;
+    inputIndexBa = inputIndexB;
 
-    pCa = pA;
-    pDa = pA;
+    inputIndexCa = inputIndexA;
+    inputIndexDa = inputIndexA;
 
     for( unsigned int dim2 = dim1 + 1; dim2 < Dimension; dim2++ )
       {
-      pAa[dim2] -= 1;
-      pBa[dim2] += 1;
+      inputIndexAa[dim2] -= 1;
+      inputIndexBa[dim2] += 1;
 
-      pCa[dim2] -= 1;
-      pDa[dim2] += 1;
+      inputIndexCa[dim2] -= 1;
+      inputIndexDa[dim2] += 1;
 
-      if( !this->IsInsideDomain( pAa ) )
+      if( !this->IsInsideDomain( inputIndexAa ) )
         {
-        pAa[dim2] = pB[dim2];
+        inputIndexAa[dim2] = inputIndexB[dim2];
         }
 
-      if( !this->IsInsideDomain( pBa ) )
+      if( !this->IsInsideDomain( inputIndexBa ) )
         {
-        pBa[dim2] = pB[dim2];
+        inputIndexBa[dim2] = inputIndexB[dim2];
         }
 
-      if( !this->IsInsideDomain( pCa ) )
+      if( !this->IsInsideDomain( inputIndexCa ) )
         {
-        pCa[dim2] = pA[dim2];
+        inputIndexCa[dim2] = inputIndexA[dim2];
         }
 
-      if( !this->IsInsideDomain( pDa ) )
+      if( !this->IsInsideDomain( inputIndexDa ) )
         {
-        pDa[dim2] = pA[dim2];
+        inputIndexDa[dim2] = inputIndexA[dim2];
         }
 
-      const OutputRealType valueAa = static_cast< OutputRealType >( this->Evaluate( pAa ) );
-      const OutputRealType valueBa = static_cast< OutputRealType >( this->Evaluate( pBa ) );
-      const OutputRealType valueCa = static_cast< OutputRealType >( this->Evaluate( pCa ) );
-      const OutputRealType valueDa = static_cast< OutputRealType >( this->Evaluate( pDa ) );
+      const OutputRealType valueAa = static_cast< OutputRealType >( this->Evaluate( inputIndexAa ) );
+      const OutputRealType valueBa = static_cast< OutputRealType >( this->Evaluate( inputIndexBa ) );
+      const OutputRealType valueCa = static_cast< OutputRealType >( this->Evaluate( inputIndexCa ) );
+      const OutputRealType valueDa = static_cast< OutputRealType >( this->Evaluate( inputIndexDa ) );
 
       oHessian[dim1][dim2] = oHessian[dim2][dim1] =
           0.25 * ( valueAa - valueBa - valueCa + valueDa )
           * this->m_NeighborhoodScales[dim1] * this->m_NeighborhoodScales[dim2];
 
-      pAa[dim2] = pB[dim2];
-      pBa[dim2] = pB[dim2];
+      inputIndexAa[dim2] = inputIndexB[dim2];
+      inputIndexBa[dim2] = inputIndexB[dim2];
 
-      pCa[dim2] = pA[dim2];
-      pDa[dim2] = pA[dim2];
+      inputIndexCa[dim2] = inputIndexA[dim2];
+      inputIndexDa[dim2] = inputIndexA[dim2];
       }
 
-    pA[dim1] = iP[dim1];
-    pB[dim1] = iP[dim1];
+    inputIndexA[dim1] = inputIndex[dim1];
+    inputIndexB[dim1] = inputIndex[dim1];
     }
 
   return oHessian;
@@ -240,38 +240,38 @@ DiscreteLevelSetImage< TOutput, VDimension >
 template< typename TOutput, unsigned int VDimension >
 typename DiscreteLevelSetImage< TOutput, VDimension >::OutputRealType
 DiscreteLevelSetImage< TOutput, VDimension >
-::EvaluateLaplacian( const InputType& iP ) const
+::EvaluateLaplacian( const InputType& inputIndex ) const
 {
   OutputRealType oLaplacian = NumericTraits< OutputRealType >::Zero;
 
-  const OutputRealType center_value = static_cast< OutputRealType >( this->Evaluate( iP ) );
+  const OutputRealType centerValue = static_cast< OutputRealType >( this->Evaluate( inputIndex ) );
 
-  InputType pA = iP;
-  InputType pB = iP;
+  InputType inputIndexA = inputIndex;
+  InputType inputIndexB = inputIndex;
 
   for( unsigned int dim1 = 0; dim1 < Dimension; dim1++ )
     {
-    pA[dim1] += 1;
-    pB[dim1] -= 1;
+    inputIndexA[dim1] += 1;
+    inputIndexB[dim1] -= 1;
 
-    if( !this->IsInsideDomain( pA ) )
+    if( !this->IsInsideDomain( inputIndexA ) )
       {
-      pA[dim1] = iP[dim1];
+      inputIndexA[dim1] = inputIndex[dim1];
       }
 
-    if( !this->IsInsideDomain( pB ) )
+    if( !this->IsInsideDomain( inputIndexB ) )
       {
-      pB[dim1] = iP[dim1];
+      inputIndexB[dim1] = inputIndex[dim1];
       }
 
-    const OutputRealType valueA = static_cast< OutputRealType >( this->Evaluate( pA ) );
-    const OutputRealType valueB = static_cast< OutputRealType >( this->Evaluate( pB ) );
+    const OutputRealType valueA = static_cast< OutputRealType >( this->Evaluate( inputIndexA ) );
+    const OutputRealType valueB = static_cast< OutputRealType >( this->Evaluate( inputIndexB ) );
 
-    oLaplacian += ( valueA + valueB - 2.0 * center_value )
+    oLaplacian += ( valueA + valueB - 2.0 * centerValue )
         * vnl_math_sqr(this->m_NeighborhoodScales[dim1]);
 
-    pA[dim1] = iP[dim1];
-    pB[dim1] = iP[dim1];
+    inputIndexA[dim1] = inputIndex[dim1];
+    inputIndexB[dim1] = inputIndex[dim1];
     }
 
   return oLaplacian;
@@ -281,25 +281,25 @@ DiscreteLevelSetImage< TOutput, VDimension >
 template< typename TOutput, unsigned int VDimension >
 void
 DiscreteLevelSetImage< TOutput, VDimension >
-::Evaluate( const InputType& iP, LevelSetDataType& ioData ) const
+::Evaluate( const InputType& inputIndex, LevelSetDataType& data ) const
 {
   // If it has not already been computed before
-  if( ioData.Value.m_Computed )
+  if( data.Value.m_Computed )
     {
     return;
     }
 
-  ioData.Value.m_Value = this->Evaluate( iP );
-  ioData.Value.m_Computed = true;
+  data.Value.m_Value = this->Evaluate( inputIndex );
+  data.Value.m_Computed = true;
 }
 
 // ----------------------------------------------------------------------------
 template< typename TOutput, unsigned int VDimension >
 void
 DiscreteLevelSetImage< TOutput, VDimension >
-::EvaluateGradient( const InputType& iP, LevelSetDataType& ioData ) const
+::EvaluateGradient( const InputType& inputIndex, LevelSetDataType& data ) const
 {
-  if( ioData.Gradient.m_Computed )
+  if( data.Gradient.m_Computed )
     {
     return;
     }
@@ -308,170 +308,170 @@ DiscreteLevelSetImage< TOutput, VDimension >
 
   // compute the gradient
 
-  InputType pA = iP;
-  InputType pB = iP;
+  InputType inputIndexA = inputIndex;
+  InputType inputIndexB = inputIndex;
 
   for( unsigned int dim = 0; dim < Dimension; dim++ )
     {
-    pA[dim] += 1;
-    pB[dim] -= 1;
+    inputIndexA[dim] += 1;
+    inputIndexB[dim] -= 1;
 
-    if( !this->IsInsideDomain( pA ) )
+    if( !this->IsInsideDomain( inputIndexA ) )
       {
-      pA[dim] = iP[dim];
+      inputIndexA[dim] = inputIndex[dim];
       }
 
-    if( !this->IsInsideDomain( pB ) )
+    if( !this->IsInsideDomain( inputIndexB ) )
       {
-      pB[dim] = iP[dim];
+      inputIndexB[dim] = inputIndex[dim];
       }
 
-    const OutputRealType valueA = static_cast< OutputRealType >( this->Evaluate( pA ) );
-    const OutputRealType valueB = static_cast< OutputRealType >( this->Evaluate( pB ) );
-    const OutputRealType scale = this->m_NeighborhoodScales[dim] / (pA[dim] - pB[dim]);
+    const OutputRealType valueA = static_cast< OutputRealType >( this->Evaluate( inputIndexA ) );
+    const OutputRealType valueB = static_cast< OutputRealType >( this->Evaluate( inputIndexB ) );
+    const OutputRealType scale = this->m_NeighborhoodScales[dim] / (inputIndexA[dim] - inputIndexB[dim]);
 
-    ioData.Gradient.m_Value[dim] = ( valueA - valueB ) * scale;
+    data.Gradient.m_Value[dim] = ( valueA - valueB ) * scale;
 
-    pA[dim] = pB[dim] = iP[dim];
+    inputIndexA[dim] = inputIndexB[dim] = inputIndex[dim];
     }
 
-  ioData.Gradient.m_Computed = true;
+  data.Gradient.m_Computed = true;
 }
 
 // ----------------------------------------------------------------------------
 template< typename TOutput, unsigned int VDimension >
 void
 DiscreteLevelSetImage< TOutput, VDimension >
-::EvaluateHessian( const InputType& iP, LevelSetDataType& ioData ) const
+::EvaluateHessian( const InputType& inputIndex, LevelSetDataType& data ) const
 {
-  if( ioData.Hessian.m_Computed )
+  if( data.Hessian.m_Computed )
     {
     return;
     }
 
-  if( !ioData.Value.m_Computed )
+  if( !data.Value.m_Computed )
     {
-    ioData.Value.m_Computed = true;
-    ioData.Value.m_Value = this->Evaluate( iP );
+    data.Value.m_Computed = true;
+    data.Value.m_Value = this->Evaluate( inputIndex );
     }
 
   // compute the hessian
-  OutputRealType center_value = static_cast< OutputRealType >( ioData.Value.m_Value );
+  OutputRealType centerValue = static_cast< OutputRealType >( data.Value.m_Value );
 
-  InputType pA = iP;
-  InputType pB = iP;
+  InputType inputIndexA = inputIndex;
+  InputType inputIndexB = inputIndex;
 
-  InputType pAa;
-  InputType pBa;
-  InputType pCa;
-  InputType pDa;
+  InputType inputIndexAa;
+  InputType inputIndexBa;
+  InputType inputIndexCa;
+  InputType inputIndexDa;
 
-  bool backward = ioData.BackwardGradient.m_Computed;
-  bool forward = ioData.ForwardGradient.m_Computed;
+  bool backward = data.BackwardGradient.m_Computed;
+  bool forward = data.ForwardGradient.m_Computed;
 
   for( unsigned int dim1 = 0; dim1 < Dimension; dim1++ )
     {
-    pA[dim1] += 1;
-    pB[dim1] -= 1;
+    inputIndexA[dim1] += 1;
+    inputIndexB[dim1] -= 1;
 
-    if( !this->IsInsideDomain( pA ) )
+    if( !this->IsInsideDomain( inputIndexA ) )
       {
-      pA[dim1] = iP[dim1];
+      inputIndexA[dim1] = inputIndex[dim1];
       }
 
-    if( !this->IsInsideDomain( pB ) )
+    if( !this->IsInsideDomain( inputIndexB ) )
       {
-      pB[dim1] = iP[dim1];
+      inputIndexB[dim1] = inputIndex[dim1];
       }
 
-    const OutputRealType valueA = static_cast< OutputRealType >( this->Evaluate( pA ) );
-    const OutputRealType valueB = static_cast< OutputRealType >( this->Evaluate( pB ) );
+    const OutputRealType valueA = static_cast< OutputRealType >( this->Evaluate( inputIndexA ) );
+    const OutputRealType valueB = static_cast< OutputRealType >( this->Evaluate( inputIndexB ) );
 
-    ioData.Hessian.m_Value[dim1][dim1] =
-        ( valueA + valueB - 2.0 * center_value ) * vnl_math_sqr( this->m_NeighborhoodScales[dim1] );
+    data.Hessian.m_Value[dim1][dim1] =
+        ( valueA + valueB - 2.0 * centerValue ) * vnl_math_sqr( this->m_NeighborhoodScales[dim1] );
 
     if( !backward )
       {
-      ioData.BackwardGradient.m_Computed = true;
-      ioData.BackwardGradient.m_Value[dim1] =
-          ( center_value - valueB ) * this->m_NeighborhoodScales[dim1];
+      data.BackwardGradient.m_Computed = true;
+      data.BackwardGradient.m_Value[dim1] =
+          ( centerValue - valueB ) * this->m_NeighborhoodScales[dim1];
       }
 
     if( !forward )
       {
-      ioData.ForwardGradient.m_Computed = true;
-      ioData.ForwardGradient.m_Value[dim1]  =
-          ( valueA - center_value ) * this->m_NeighborhoodScales[dim1];
+      data.ForwardGradient.m_Computed = true;
+      data.ForwardGradient.m_Value[dim1]  =
+          ( valueA - centerValue ) * this->m_NeighborhoodScales[dim1];
       }
 
-    pAa = pB;
-    pBa = pB;
+    inputIndexAa = inputIndexB;
+    inputIndexBa = inputIndexB;
 
-    pCa = pA;
-    pDa = pA;
+    inputIndexCa = inputIndexA;
+    inputIndexDa = inputIndexA;
 
     for( unsigned int dim2 = dim1 + 1; dim2 < Dimension; dim2++ )
       {
-      pAa[dim2] -= 1;
-      pBa[dim2] += 1;
+      inputIndexAa[dim2] -= 1;
+      inputIndexBa[dim2] += 1;
 
-      pCa[dim2] -= 1;
-      pDa[dim2] += 1;
+      inputIndexCa[dim2] -= 1;
+      inputIndexDa[dim2] += 1;
 
-      if( !this->IsInsideDomain( pAa ) )
+      if( !this->IsInsideDomain( inputIndexAa ) )
         {
-        pAa[dim2] = pB[dim2];
+        inputIndexAa[dim2] = inputIndexB[dim2];
         }
 
-      if( !this->IsInsideDomain( pBa ) )
+      if( !this->IsInsideDomain( inputIndexBa ) )
         {
-        pBa[dim2] = pB[dim2];
+        inputIndexBa[dim2] = inputIndexB[dim2];
         }
 
-      if( !this->IsInsideDomain( pCa ) )
+      if( !this->IsInsideDomain( inputIndexCa ) )
         {
-        pCa[dim2] = pA[dim2];
+        inputIndexCa[dim2] = inputIndexA[dim2];
         }
 
-      if( !this->IsInsideDomain( pDa ) )
+      if( !this->IsInsideDomain( inputIndexDa ) )
         {
-        pDa[dim2] = pA[dim2];
+        inputIndexDa[dim2] = inputIndexA[dim2];
         }
 
-      const OutputRealType valueAa = static_cast< OutputRealType >( this->Evaluate( pAa ) );
-      const OutputRealType valueBa = static_cast< OutputRealType >( this->Evaluate( pBa ) );
-      const OutputRealType valueCa = static_cast< OutputRealType >( this->Evaluate( pCa ) );
-      const OutputRealType valueDa = static_cast< OutputRealType >( this->Evaluate( pDa ) );
+      const OutputRealType valueAa = static_cast< OutputRealType >( this->Evaluate( inputIndexAa ) );
+      const OutputRealType valueBa = static_cast< OutputRealType >( this->Evaluate( inputIndexBa ) );
+      const OutputRealType valueCa = static_cast< OutputRealType >( this->Evaluate( inputIndexCa ) );
+      const OutputRealType valueDa = static_cast< OutputRealType >( this->Evaluate( inputIndexDa ) );
 
-      ioData.Hessian.m_Value[dim1][dim2] =
-          ioData.Hessian.m_Value[dim2][dim1] =
+      data.Hessian.m_Value[dim1][dim2] =
+          data.Hessian.m_Value[dim2][dim1] =
           0.25 * ( valueAa - valueBa - valueCa + valueDa )
           * this->m_NeighborhoodScales[dim1] * this->m_NeighborhoodScales[dim2];
 
-      pAa[dim2] = pB[dim2];
-      pBa[dim2] = pB[dim2];
+      inputIndexAa[dim2] = inputIndexB[dim2];
+      inputIndexBa[dim2] = inputIndexB[dim2];
 
-      pCa[dim2] = pA[dim2];
-      pDa[dim2] = pA[dim2];
+      inputIndexCa[dim2] = inputIndexA[dim2];
+      inputIndexDa[dim2] = inputIndexA[dim2];
       }
 
-    pA[dim1] = iP[dim1];
-    pB[dim1] = iP[dim1];
+    inputIndexA[dim1] = inputIndex[dim1];
+    inputIndexB[dim1] = inputIndex[dim1];
     }
 
-    ioData.Hessian.m_Computed = true;
+    data.Hessian.m_Computed = true;
 }
 
 // ----------------------------------------------------------------------------
 template< typename TOutput, unsigned int VDimension >
 typename DiscreteLevelSetImage< TOutput, VDimension >::OutputRealType
 DiscreteLevelSetImage< TOutput, VDimension >
-::EvaluateMeanCurvature( const InputType& iP ) const
+::EvaluateMeanCurvature( const InputType& inputIndex ) const
 {
   OutputRealType oValue = NumericTraits< OutputRealType >::Zero;
 
-  HessianType   hessian = this->EvaluateHessian( iP );
-  GradientType  grad = this->EvaluateGradient( iP );
+  HessianType   hessian = this->EvaluateHessian( inputIndex );
+  GradientType  grad = this->EvaluateGradient( inputIndex );
 
   for( unsigned int i = 0; i < Dimension; i++ )
     {
@@ -503,77 +503,77 @@ DiscreteLevelSetImage< TOutput, VDimension >
 template< typename TOutput, unsigned int VDimension >
 void
 DiscreteLevelSetImage< TOutput, VDimension >
-::EvaluateLaplacian( const InputType& iP, LevelSetDataType& ioData ) const
+::EvaluateLaplacian( const InputType& inputIndex, LevelSetDataType& data ) const
 {
-  if( ioData.Laplacian.m_Computed )
+  if( data.Laplacian.m_Computed )
     {
     return;
     }
 
-  if( !ioData.Value.m_Computed )
+  if( !data.Value.m_Computed )
     {
-    ioData.Value.m_Value = this->Evaluate( iP );
-    ioData.Value.m_Computed = true;
+    data.Value.m_Value = this->Evaluate( inputIndex );
+    data.Value.m_Computed = true;
     }
 
-  const OutputRealType center_value = static_cast< OutputRealType >( ioData.Value.m_Value );
+  const OutputRealType centerValue = static_cast< OutputRealType >( data.Value.m_Value );
 
-  InputType pA =iP;
-  InputType pB = iP;
+  InputType inputIndexA =inputIndex;
+  InputType inputIndexB = inputIndex;
 
   for( unsigned int dim1 = 0; dim1 < Dimension; dim1++ )
     {
-    pA[dim1] += 1;
-    pB[dim1] -= 1;
+    inputIndexA[dim1] += 1;
+    inputIndexB[dim1] -= 1;
 
-    if( !this->IsInsideDomain( pA ) )
+    if( !this->IsInsideDomain( inputIndexA ) )
       {
-      pA[dim1] = iP[dim1];
+      inputIndexA[dim1] = inputIndex[dim1];
       }
 
-    if( !this->IsInsideDomain( pB ) )
+    if( !this->IsInsideDomain( inputIndexB ) )
       {
-      pB[dim1] = iP[dim1];
+      inputIndexB[dim1] = inputIndex[dim1];
       }
 
-    const OutputRealType valueA = static_cast< OutputRealType >( this->Evaluate( pA ) );
-    const OutputRealType valueB = static_cast< OutputRealType >( this->Evaluate( pB ) );
+    const OutputRealType valueA = static_cast< OutputRealType >( this->Evaluate( inputIndexA ) );
+    const OutputRealType valueB = static_cast< OutputRealType >( this->Evaluate( inputIndexB ) );
 
-    ioData.Laplacian.m_Value +=
-        ( valueA + valueB - 2.0 * center_value ) * vnl_math_sqr( this->m_NeighborhoodScales[dim1] );
+    data.Laplacian.m_Value +=
+        ( valueA + valueB - 2.0 * centerValue ) * vnl_math_sqr( this->m_NeighborhoodScales[dim1] );
 
-    pA[dim1] = iP[dim1];
-    pB[dim1] = iP[dim1];
+    inputIndexA[dim1] = inputIndex[dim1];
+    inputIndexB[dim1] = inputIndex[dim1];
     }
 
-  ioData.Laplacian.m_Computed = true;
+  data.Laplacian.m_Computed = true;
 }
 
 // ----------------------------------------------------------------------------
 template< typename TOutput, unsigned int VDimension >
 void
 DiscreteLevelSetImage< TOutput, VDimension >
-::EvaluateMeanCurvature( const InputType& iP, LevelSetDataType& ioData ) const
+::EvaluateMeanCurvature( const InputType& inputIndex, LevelSetDataType& data ) const
 {
-  if( !ioData.MeanCurvature.m_Computed )
+  if( !data.MeanCurvature.m_Computed )
     {
-    if( !ioData.Hessian.m_Computed )
+    if( !data.Hessian.m_Computed )
       {
-      this->EvaluateHessian( iP, ioData );
+      this->EvaluateHessian( inputIndex, data );
       }
 
-    if( !ioData.Gradient.m_Computed )
+    if( !data.Gradient.m_Computed )
       {
-      this->EvaluateGradient( iP, ioData );
+      this->EvaluateGradient( inputIndex, data );
       }
 
-    if( !ioData.GradientNorm.m_Computed )
+    if( !data.GradientNorm.m_Computed )
       {
-      this->EvaluateGradientNorm( iP, ioData );
+      this->EvaluateGradientNorm( inputIndex, data );
       }
 
-    ioData.MeanCurvature.m_Computed = true;
-    ioData.MeanCurvature.m_Value = NumericTraits< OutputRealType >::Zero;
+    data.MeanCurvature.m_Computed = true;
+    data.MeanCurvature.m_Value = NumericTraits< OutputRealType >::Zero;
 
     for( unsigned int i = 0; i < Dimension; i++ )
       {
@@ -581,23 +581,23 @@ DiscreteLevelSetImage< TOutput, VDimension >
         {
         if( j != i )
           {
-          ioData.MeanCurvature.m_Value -= ioData.Gradient.m_Value[i]
-              * ioData.Gradient.m_Value[j] * ioData.Hessian.m_Value[i][j];
-          ioData.MeanCurvature.m_Value += ioData.Hessian.m_Value[j][j]
-              * ioData.Gradient.m_Value[i] * ioData.Gradient.m_Value[i];
+          data.MeanCurvature.m_Value -= data.Gradient.m_Value[i]
+              * data.Gradient.m_Value[j] * data.Hessian.m_Value[i][j];
+          data.MeanCurvature.m_Value += data.Hessian.m_Value[j][j]
+              * data.Gradient.m_Value[i] * data.Gradient.m_Value[i];
           }
         }
       }
 
-    OutputRealType temp = ioData.GradientNorm.m_Value;
+    OutputRealType temp = data.GradientNorm.m_Value;
 
     if( temp > vnl_math::eps )
       {
-      ioData.MeanCurvature.m_Value /= ( temp * temp * temp );
+      data.MeanCurvature.m_Value /= ( temp * temp * temp );
       }
     else
       {
-      ioData.MeanCurvature.m_Value /= ( NumericTraits< OutputRealType >::One + temp );
+      data.MeanCurvature.m_Value /= ( NumericTraits< OutputRealType >::One + temp );
       }
     }
 }
@@ -606,91 +606,91 @@ DiscreteLevelSetImage< TOutput, VDimension >
 template< typename TOutput, unsigned int VDimension >
 void
 DiscreteLevelSetImage< TOutput, VDimension >
-::EvaluateForwardGradient( const InputType& iP, LevelSetDataType& ioData ) const
+::EvaluateForwardGradient( const InputType& inputIndex, LevelSetDataType& data ) const
 {
-  if( ioData.ForwardGradient.m_Computed )
+  if( data.ForwardGradient.m_Computed )
     {
     return;
     }
 
   // compute the gradient
-  if( !ioData.Value.m_Computed )
+  if( !data.Value.m_Computed )
     {
-    ioData.Value.m_Computed = true;
-    ioData.Value.m_Value = this->Evaluate( iP );
+    data.Value.m_Computed = true;
+    data.Value.m_Value = this->Evaluate( inputIndex );
     }
 
-  const OutputRealType center_value = static_cast< OutputRealType >( ioData.Value.m_Value );
+  const OutputRealType centerValue = static_cast< OutputRealType >( data.Value.m_Value );
 
-  InputType pA = iP;
+  InputType inputIndexA = inputIndex;
 
   GradientType dx;
 
   for( unsigned int dim = 0; dim < Dimension; dim++ )
     {
-    pA[dim] += 1;
+    inputIndexA[dim] += 1;
 
-    if( !this->IsInsideDomain( pA ) )
+    if( !this->IsInsideDomain( inputIndexA ) )
       {
-      pA[dim] = iP[dim];
+      inputIndexA[dim] = inputIndex[dim];
       }
 
-    const OutputRealType valueA = static_cast< OutputRealType >( this->Evaluate( pA ) );
+    const OutputRealType valueA = static_cast< OutputRealType >( this->Evaluate( inputIndexA ) );
     const OutputRealType scale = this->m_NeighborhoodScales[dim];
 
-    dx[dim] = ( valueA - center_value ) * scale;
+    dx[dim] = ( valueA - centerValue ) * scale;
 
-    pA[dim] = iP[dim];
+    inputIndexA[dim] = inputIndex[dim];
     }
-  ioData.ForwardGradient.m_Value = dx;
+  data.ForwardGradient.m_Value = dx;
 
-  ioData.ForwardGradient.m_Computed = true;
+  data.ForwardGradient.m_Computed = true;
 }
 
 // ----------------------------------------------------------------------------
 template< typename TOutput, unsigned int VDimension >
 void
 DiscreteLevelSetImage< TOutput, VDimension >
-::EvaluateBackwardGradient( const InputType& iP, LevelSetDataType& ioData ) const
+::EvaluateBackwardGradient( const InputType& inputIndex, LevelSetDataType& data ) const
 {
-  if( ioData.BackwardGradient.m_Computed )
+  if( data.BackwardGradient.m_Computed )
     {
     return;
     }
 
   // compute the gradient
-  if( !ioData.Value.m_Computed )
+  if( !data.Value.m_Computed )
     {
-    ioData.Value.m_Value = this->Evaluate( iP );
-    ioData.Value.m_Computed = true;
+    data.Value.m_Value = this->Evaluate( inputIndex );
+    data.Value.m_Computed = true;
     }
 
-  const OutputRealType center_value =
-    static_cast< OutputRealType >( ioData.Value.m_Value );
+  const OutputRealType centerValue =
+    static_cast< OutputRealType >( data.Value.m_Value );
 
-  InputType pA = iP;
+  InputType inputIndexA = inputIndex;
 
   GradientType dx;
 
   for( unsigned int dim = 0; dim < Dimension; dim++ )
     {
-    pA[dim] -= 1;
+    inputIndexA[dim] -= 1;
 
-    if( !this->IsInsideDomain( pA ) )
+    if( !this->IsInsideDomain( inputIndexA ) )
       {
-      pA[dim] = iP[dim];
+      inputIndexA[dim] = inputIndex[dim];
       }
 
-    const OutputRealType valueA = static_cast< OutputRealType >( this->Evaluate( pA ) );
+    const OutputRealType valueA = static_cast< OutputRealType >( this->Evaluate( inputIndexA ) );
     const OutputRealType scale = this->m_NeighborhoodScales[dim];
 
-    dx[dim] = ( center_value - valueA ) * scale;
+    dx[dim] = ( centerValue - valueA ) * scale;
 
-    pA[dim] = iP[dim];
+    inputIndexA[dim] = inputIndex[dim];
     }
-  ioData.BackwardGradient.m_Value = dx;
+  data.BackwardGradient.m_Value = dx;
 
-  ioData.BackwardGradient.m_Computed = true;
+  data.BackwardGradient.m_Computed = true;
 }
 
 // ----------------------------------------------------------------------------

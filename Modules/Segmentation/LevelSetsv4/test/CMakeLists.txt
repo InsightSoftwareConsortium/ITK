@@ -43,6 +43,10 @@ itkTwoLevelSetShiImage2DTest.cxx
 itkMultiLevelSetDenseImageTest.cxx
 itkMultiLevelSetChanAndVeseInternalTermTest.cxx
 itkMultiLevelSetEvolutionTest.cxx
+itkMultiLevelSetDenseImageSubset2DTest.cxx
+itkMultiLevelSetWhitakerImageSubset2DTest.cxx
+itkMultiLevelSetShiImageSubset2DTest.cxx
+itkMultiLevelSetMalcolmImageSubset2DTest.cxx
 # stopping criterion
 itkLevelSetEvolutionNumberOfIterationsStoppingCriterionTest.cxx
 )
@@ -100,6 +104,7 @@ itk_add_test(NAME itkSingleLevelSetsv4DenseImage2DTest
       DATA{${ITK_DATA_ROOT}/Input/whiteSpot.png} 25 25 25
       ${ITK_TEST_OUTPUT_DIR}/whiteSpot_output_dense_single.mha
 )
+
 
 itk_add_test(NAME itkSingleLevelSetsv4DenseAdvectionImage2DTest_5
       COMMAND ITKLevelSetsv4TestDriver
@@ -227,3 +232,15 @@ itk_add_test(NAME itkMultiLevelSetsv4SetEvolutionTest
       COMMAND ITKLevelSetsv4TestDriver itkMultiLevelSetEvolutionTest)
 itk_add_test(NAME itkMultiLevelSetsv4SetEvolutionTwoThreadsTest
       COMMAND ITKLevelSetsv4TestDriver --with-threads 2 itkMultiLevelSetEvolutionTest)
+itk_add_test(NAME itkMultiLevelSetsv4DenseImageSubset2DTest
+      COMMAND ITKLevelSetsv4TestDriver itkMultiLevelSetDenseImageSubset2DTest
+)
+itk_add_test(NAME itkMultiLevelSetsv4WhitakerImageSubset2DTest
+      COMMAND ITKLevelSetsv4TestDriver itkMultiLevelSetWhitakerImageSubset2DTest
+)
+itk_add_test(NAME itkMultiLevelSetsv4ShiImageSubset2DTest
+      COMMAND ITKLevelSetsv4TestDriver itkMultiLevelSetShiImageSubset2DTest
+)
+itk_add_test(NAME itkMultiLevelSetsv4MalcolmImageSubset2DTest
+      COMMAND ITKLevelSetsv4TestDriver itkMultiLevelSetMalcolmImageSubset2DTest
+)

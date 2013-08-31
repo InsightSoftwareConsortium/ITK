@@ -68,6 +68,9 @@ public:
   typedef typename LevelSetEvolutionType::IdListConstIterator    IdListConstIterator;
   typedef typename LevelSetEvolutionType::InputImageType         InputImageType;
   typedef typename LevelSetEvolutionType::LevelSetType           LevelSetType;
+  typedef typename LevelSetType::IndexType                       IndexType;
+  typedef typename LevelSetType::RegionType                      RegionType;
+  typedef typename LevelSetType::OffsetType                      OffsetType;
   typedef typename LevelSetEvolutionType::LevelSetImageType      LevelSetImageType;
   typedef typename LevelSetEvolutionType::LevelSetDataType       LevelSetDataType;
   typedef typename LevelSetEvolutionType::LevelSetOutputRealType LevelSetOutputRealType;
@@ -117,6 +120,9 @@ public:
   typedef typename LevelSetEvolutionType::IdListConstIterator    IdListConstIterator;
   typedef typename LevelSetEvolutionType::InputImageType         InputImageType;
   typedef typename LevelSetEvolutionType::LevelSetType           LevelSetType;
+  typedef typename LevelSetType::IndexType                       IndexType;
+  typedef typename LevelSetType::RegionType                      RegionType;
+  typedef typename LevelSetType::OffsetType                      OffsetType;
   typedef typename LevelSetEvolutionType::LevelSetImageType      LevelSetImageType;
   typedef typename LevelSetEvolutionType::LevelSetDataType       LevelSetDataType;
   typedef typename LevelSetEvolutionType::LevelSetOutputRealType LevelSetOutputRealType;
@@ -164,6 +170,9 @@ public:
   /** Types of the associate class. */
   typedef TLevelSetEvolution                                     LevelSetEvolutionType;
   typedef typename LevelSetEvolutionType::LevelSetType           LevelSetType;
+  typedef typename LevelSetType::IndexType                       IndexType;
+  typedef typename LevelSetType::RegionType                      RegionType;
+  typedef typename LevelSetType::OffsetType                      OffsetType;
   typedef typename LevelSetEvolutionType::LevelSetContainerType  LevelSetContainerType;
   typedef typename LevelSetEvolutionType::LevelSetIdentifierType LevelSetIdentifierType;
   typedef typename LevelSetEvolutionType::LevelSetInputType      LevelSetInputType;

@@ -29,6 +29,7 @@ LevelSetImage< TInput, VDimension, TOutput >
 ::LevelSetImage()
 {
   this->m_NeighborhoodScales.Fill( NumericTraits< OutputRealType >::One );
+  this->m_DomainOffset.Fill( NumericTraits< OffsetValueType >::Zero );
 }
 
 // ----------------------------------------------------------------------------

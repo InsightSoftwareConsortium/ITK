@@ -29,9 +29,9 @@ template< class TEquationContainer, class TImage >
 LevelSetEvolution< TEquationContainer, LevelSetDenseImage< TImage > >
 ::LevelSetEvolution()
 {
-  this->m_SplitLevelSetComputeIterationThreader = SplitLevelSetComputeIterationThreaderType::New();
+  this->m_SplitLevelSetComputeIterationThreader  = SplitLevelSetComputeIterationThreaderType::New();
   this->m_SplitDomainMapComputeIterationThreader = SplitDomainMapComputeIterationThreaderType::New();
-  this->m_SplitLevelSetUpdateLevelSetsThreader = SplitLevelSetUpdateLevelSetsThreaderType::New();
+  this->m_SplitLevelSetUpdateLevelSetsThreader   = SplitLevelSetUpdateLevelSetsThreaderType::New();
 }
 
 template< class TEquationContainer, class TImage >
@@ -53,9 +53,9 @@ void
 LevelSetEvolution< TEquationContainer, LevelSetDenseImage< TImage > >
 ::SetNumberOfThreads( const ThreadIdType numberOfThreads)
 {
-  this->m_SplitLevelSetComputeIterationThreader->SetMaximumNumberOfThreads( numberOfThreads );
+  this->m_SplitLevelSetComputeIterationThreader->SetMaximumNumberOfThreads(  numberOfThreads );
   this->m_SplitDomainMapComputeIterationThreader->SetMaximumNumberOfThreads( numberOfThreads );
-  this->m_SplitLevelSetUpdateLevelSetsThreader->SetMaximumNumberOfThreads( numberOfThreads );
+  this->m_SplitLevelSetUpdateLevelSetsThreader->SetMaximumNumberOfThreads(   numberOfThreads );
 }
 
 template< class TEquationContainer, class TImage >
@@ -96,6 +96,7 @@ LevelSetEvolution< TEquationContainer, LevelSetDenseImage< TImage > >
         typedef typename DomainMapImageFilterType::LevelSetDomain LevelSetListImageDomainType;
         const LevelSetListImageDomainType & levelSetListImageDomain = mapIt->second;
         this->m_IdListToProcessWhenThreading = levelSetListImageDomain.GetIdList();
+
         this->m_SplitLevelSetComputeIterationThreader->Execute( this, *(levelSetListImageDomain.GetRegion()) );
         ++mapIt;
         }
@@ -125,6 +126,7 @@ LevelSetEvolution< TEquationContainer, LevelSetDenseImage< TImage > >
       {
       LevelSetOutputRealType contribution = this->m_EquationContainer->ComputeCFLContribution();
 
+      contribution = 1;
       if( contribution > NumericTraits< LevelSetOutputRealType >::epsilon() )
         {
         this->m_Dt = this->m_Alpha / contribution;

@@ -53,11 +53,10 @@ public:
 
   typedef TInput                                           InputType;
   typedef TOutput                                          OutputType;
+  typedef TDomain                                          DomainType;
   typedef typename NumericTraits< OutputType >::RealType   OutputRealType;
   typedef CovariantVector< OutputRealType, VDimension >    GradientType;
   typedef Matrix< OutputRealType, VDimension, VDimension > HessianType;
-
-  typedef TDomain DomainType;
 
   /** Type used to define Regions */
   typedef IdentifierType RegionType;

@@ -96,10 +96,10 @@ public:
   virtual void InitializeParameters();
 
   /** Initialize term parameters in the dense case by computing for each pixel location */
-  virtual void Initialize( const LevelSetInputIndexType& iP );
+  virtual void Initialize( const LevelSetInputIndexType& inputIndex );
 
   /** Compute the product of Heaviside functions in the multi-levelset cases */
-  virtual void ComputeProduct( const LevelSetInputIndexType& iP,
+  virtual void ComputeProduct( const LevelSetInputIndexType& inputPixel,
                               LevelSetOutputRealType& prod );
 
   /** Compute the product of Heaviside functions in the multi-levelset cases
@@ -109,7 +109,7 @@ public:
   {}
 
   /** Supply updates at pixels to keep the term parameters always updated */
-  virtual void UpdatePixel( const LevelSetInputIndexType& iP,
+  virtual void UpdatePixel( const LevelSetInputIndexType& inputPixel,
                            const LevelSetOutputRealType & oldValue,
                            const LevelSetOutputRealType & newValue );
 
@@ -118,18 +118,18 @@ protected:
 
   virtual ~LevelSetEquationChanAndVeseInternalTerm();
 
-  /** Returns the term contribution for a given location iP, i.e.
+  /** Returns the term contribution for a given location inputPixel, i.e.
    *  \f$ \omega_i( p ) \f$. */
-  virtual LevelSetOutputRealType Value( const LevelSetInputIndexType& iP );
+  virtual LevelSetOutputRealType Value( const LevelSetInputIndexType& inputPixel );
 
-  /** Returns the term contribution for a given location iP, i.e.
+  /** Returns the term contribution for a given location inputPixel, i.e.
    *  \f$ \omega_i( p ) \f$. */
-  virtual LevelSetOutputRealType Value( const LevelSetInputIndexType& iP,
-                                        const LevelSetDataType& iData );
+  virtual LevelSetOutputRealType Value( const LevelSetInputIndexType& inputPixel,
+                                        const LevelSetDataType& data );
 
   /** Accumulate contribution to term parameters from a given pixel */
-  void Accumulate( const InputPixelType& iPix,
-                   const LevelSetOutputRealType& iH );
+  void Accumulate( const InputPixelType& inputPixel,
+                   const LevelSetOutputRealType& heavisideValue );
 
   InputPixelRealType      m_Mean;
   InputPixelRealType      m_TotalValue;

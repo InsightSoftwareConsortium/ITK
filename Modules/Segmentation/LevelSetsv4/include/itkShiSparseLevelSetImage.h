@@ -77,22 +77,22 @@ public:
   typedef typename Superclass::LayerMapIterator       LayerMapIterator;
   typedef typename Superclass::LayerMapConstIterator  LayerMapConstIterator;
 
-  /** Returns the value of the level set function at a given location iP */
+  /** Returns the value of the level set function at a given location inputIndex */
   using Superclass::Evaluate;
-  virtual OutputType Evaluate( const InputType& iP ) const;
+  virtual OutputType Evaluate( const InputType& inputIndex ) const;
 
-  /** Returns the Hessian of the level set function at a given location iP */
-  virtual HessianType EvaluateHessian( const InputType& iP ) const;
+  /** Returns the Hessian of the level set function at a given location inputIndex */
+  virtual HessianType EvaluateHessian( const InputType& inputIndex ) const;
 
-  /** Returns the Laplacian of the level set function at a given location iP */
-  virtual OutputRealType EvaluateLaplacian( const InputType& iP ) const;
+  /** Returns the Laplacian of the level set function at a given location inputIndex */
+  virtual OutputRealType EvaluateLaplacian( const InputType& inputIndex ) const;
 
-  /** Returns the Laplacian of the level set function at a given location iP */
-  virtual OutputRealType EvaluateMeanCurvature( const InputType& iP ) const;
+  /** Returns the Laplacian of the level set function at a given location inputIndex */
+  virtual OutputRealType EvaluateMeanCurvature( const InputType& inputIndex ) const;
 
-  virtual void EvaluateHessian( const InputType& iP, LevelSetDataType& ioData ) const;
-  virtual void EvaluateLaplacian( const InputType& iP, LevelSetDataType& ioData ) const;
-  virtual void EvaluateMeanCurvature( const InputType& iP, LevelSetDataType& ioData ) const;
+  virtual void EvaluateHessian( const InputType& inputIndex, LevelSetDataType& data ) const;
+  virtual void EvaluateLaplacian( const InputType& inputIndex, LevelSetDataType& data ) const;
+  virtual void EvaluateMeanCurvature( const InputType& inputIndex, LevelSetDataType& data ) const;
 
   static inline LayerIdType MinusThreeLayer() { return -3; }
   static inline LayerIdType MinusOneLayer() { return -1; }
