@@ -113,7 +113,11 @@ int itkVTKVisualize2DLevelSetAsElevationMapTest( int , char* [] )
   vtkCellArray*          cells = levelsetSurface->GetPolys();
 
   vtkSmartPointer<vtkMassProperties> massProperty = vtkSmartPointer<vtkMassProperties>::New();
+#if VTK_MAJOR_VERSION <= 5
+  massProperty->SetInput( levelsetSurface );
+#else
   massProperty->SetInputData( levelsetSurface );
+#endif
   double averageSurfaceAreaPerCell = massProperty->GetSurfaceArea()/cells->GetNumberOfCells();
 
   if ( averageSurfaceAreaPerCell > 2.5 )
