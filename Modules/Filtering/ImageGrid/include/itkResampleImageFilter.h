@@ -175,6 +175,9 @@ public:
   typedef typename TOutputImage::PointType     OriginPointType;
   typedef typename TOutputImage::DirectionType DirectionType;
 
+  /** Typedef the reference image type to be the ImageBase of the OutputImageType */
+  typedef ImageBase<ImageDimension> ReferenceImageBaseType;
+
   /** Get/Set the coordinate transformation.
    * Set the coordinate transform to use for resampling.  Note that this must
    * be in physical coordinates and it is the output-to-input transform, NOT
@@ -238,15 +241,19 @@ public:
   /** Get the start index of the output largest possible region. */
   itkGetConstReferenceMacro(OutputStartIndex, IndexType);
 
-  /** Copy the output information from another Image.  By default,
-   *  the information is specified with the SetOutputSpacing, Origin,
-   *  and Direction methods. UseReferenceImage must be On and a
-   *  Reference image must be present to override the defaul behavior.
-   */
-  void SetReferenceImage(const TOutputImage *image);
+   /** Set a reference image to use to define the output information.
+    *  By default, output information is specificed through the
+    *  SetOutputSpacing, Origin, and Direction methods.  Alternatively,
+    *  this method can be used to specify an image from which to
+    *  copy the information. UseReferenceImageOn must be set to utilize the
+    *  reference image. */
+  void SetReferenceImage(const ReferenceImageBaseType *image);
 
-  const TOutputImage * GetReferenceImage() const;
+  /** Get the reference image that is defining the output information. */
+  const ReferenceImageBaseType * GetReferenceImage() const;
 
+  /** Turn on/off whether a specified reference image should be used to define
+   *  the output information. */
   itkSetMacro(UseReferenceImage, bool);
   itkBooleanMacro(UseReferenceImage);
   itkGetConstMacro(UseReferenceImage, bool);
