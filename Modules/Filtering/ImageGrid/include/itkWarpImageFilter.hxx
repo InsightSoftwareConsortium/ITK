@@ -146,6 +146,17 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
          ( this->ProcessObject::GetInput(1) );
 }
 
+template< class TInputImage, class TOutputImage, class TDisplacementField >
+void
+WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
+::VerifyInputInformation()
+{
+  if (ImageDimension != GetDisplacementField()->GetNumberOfComponentsPerPixel())
+    {
+    itkExceptionMacro("Expected number of components of displacement field to match image dimensions!");
+    }
+}
+
 /**
  * Setup state of filter before multi-threading.
  * InterpolatorType::SetInputImage is not thread-safe and hence
@@ -193,11 +204,9 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
 }
 
 template< class TInputImage, class TOutputImage, class TDisplacementField >
-typename WarpImageFilter< TInputImage,
-                          TOutputImage,
-                          TDisplacementField >::DisplacementType
+void
 WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
-::EvaluateDisplacementAtPhysicalPoint(const PointType & point)
+::EvaluateDisplacementAtPhysicalPoint(const PointType & point, DisplacementType &output)
 {
   DisplacementFieldPointer fieldPtr = this->GetDisplacementField();
 
@@ -240,7 +249,6 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
    * neighbors. The weight for each neighbour is the fraction overlap
    * of the neighbor pixel with respect to a pixel centered on point.
    */
-  DisplacementType output;
   output.Fill(0);
 
   double       totalOverlap = 0.0;
@@ -273,7 +281,7 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
       {
       const DisplacementType input =
         fieldPtr->GetPixel(neighIndex);
-      for ( unsigned int k = 0; k < DisplacementType::Dimension; k++ )
+      for ( unsigned int k = 0; k < ImageDimension; k++ )
         {
         output[k] += overlap * static_cast< double >( input[k] );
         }
@@ -286,7 +294,6 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
       break;
       }
     }
-  return ( output );
 }
 
 /**
@@ -312,6 +319,7 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
   IndexType        index;
   PointType        point;
   DisplacementType displacement;
+  NumericTraits<DisplacementType>::SetLength(displacement,ImageDimension);
   if ( this->m_DefFieldSizeSame )
     {
     // iterator for the deformation field
@@ -357,7 +365,7 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
       index = outputIt.GetIndex();
       outputPtr->TransformIndexToPhysicalPoint(index, point);
 
-      displacement = this->EvaluateDisplacementAtPhysicalPoint(point);
+      this->EvaluateDisplacementAtPhysicalPoint(point, displacement);
       // compute the required input image point
       for ( unsigned int j = 0; j < ImageDimension; j++ )
         {
