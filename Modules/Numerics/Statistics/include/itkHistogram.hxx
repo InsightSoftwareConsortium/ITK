@@ -311,7 +311,8 @@ bool Histogram< TMeasurement, TFrequencyContainer >
       {
       // one of measurement is above the maximum
       // its ok if we extend the bins to infinity.. not ok if we don't
-      if ( !m_ClipBinsAtEnds )
+      // Need to include the last endpoint in the last bin.
+      if ( !m_ClipBinsAtEnds || tempMeasurement ==  m_Max[dim][end])
         {
         index[dim] = (IndexValueType)m_Size[dim] - 1;
         continue;
