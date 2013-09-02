@@ -558,16 +558,36 @@ int itkHistogramTest(int, char* [] )
   // Testing GetIndex on the upper and lower bounds
   IndexType upperIndex( numberOfComponents );
   bool upperIndexBool = histogram->GetIndex( upperBound, upperIndex );
-  if( upperIndexBool )
+  if( !upperIndexBool )
     {
-    std::cout << "Upper bound index = " << upperIndex << std::endl;
+    pass = false;
+    whereFail = "GetIndex() returned boolean failed for upper bound";
+    }
+
+  for(unsigned k1=0; k1 < numberOfComponents; k1++ )
+    {
+    if( upperIndex[ k1 ] != 63 )
+      {
+      pass = false;
+      whereFail = "GetIndex() index value failed for upperBound, as upper bound should map to the last bin.";
+      }
     }
 
   IndexType lowerIndex( numberOfComponents );
   bool lowerIndexBool = histogram->GetIndex( lowerBound, lowerIndex );
-  if( lowerIndexBool )
+  if( !lowerIndexBool )
     {
-    std::cout << "Upper bound index = " << lowerIndex << std::endl;
+    pass = false;
+    whereFail = "GetIndex() returned boolean failed for lower bound";
+    }
+
+  for(unsigned k1=0; k1 < numberOfComponents; k1++ )
+    {
+    if( lowerIndex[ k1 ] != 0 )
+      {
+      pass = false;
+      whereFail = "GetIndex() index value failed for lowerIndex, as lower bound should map to the first bin.";
+      }
     }
 
   // Testing GetIndex above the upper bound of a bin
