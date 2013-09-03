@@ -201,10 +201,10 @@ int itkScalarImageToRunLengthFeaturesFilterTest(int, char* [] )
     means = texFilter->GetFeatureMeans();
     stds = texFilter->GetFeatureStandardDeviations();
 
-    double expectedMeans[10] = { 0.556, 5.8, 10.4, 10.4, 0.466667, 5.8, 0.150667,
-        4.204, 2.06667, 39.4 };
-    double expectedDeviations[10] = { 0.249415, 6.23538, 4.50333, 4.50333, 0, 0, 0.0277128, 2.24474,
-        0.69282, 56.1184 };
+    double expectedMeans[10] = { 0.76, 7, 10.4, 20, 0.0826667, 15.4, 0.0628267,
+        11.704, 0.578667, 107.8 };
+    double expectedDeviations[10] = { 0.415692, 10.3923, 4.50333, 8.66025, 0, 0, 0.0343639, 6.40166,
+        0.859097, 160.041494 };
     RunLengthFilterType::FeatureValueVector::ConstIterator mIt;
     RunLengthFilterType::FeatureValueVector::ConstIterator sIt;
 
@@ -235,8 +235,8 @@ int itkScalarImageToRunLengthFeaturesFilterTest(int, char* [] )
     means = texFilter->GetFeatureMeans();
     stds = texFilter->GetFeatureStandardDeviations();
 
-    double expectedMeans2[10] = { 0.7, 2.2, 13, 13, 0.466667, 5.8, 0.166667,
-        5.5, 1.66667, 7 };
+    double expectedMeans2[10] = { 1, 1, 13, 25, 0.0826667, 15.4, 0.0826667,
+        15.4, 0.0826667, 15.4 };
     double expectedDeviations2[10] = { 0 };
 
     for (counter = 0, mIt = means->Begin(); mIt != means->End(); ++mIt, counter++)
@@ -300,8 +300,8 @@ int itkScalarImageToRunLengthFeaturesFilterTest(int, char* [] )
     means = texFilter->GetFeatureMeans();
     stds = texFilter->GetFeatureStandardDeviations();
 
-    double expectedMeans3[10] = { 0.7, 2.2, 13, 13, 0.466667, 5.8, 0.166667,
-        5.5, 1.66667, 7 };
+    double expectedMeans3[10] = { 1, 1, 13, 25, 0.0826667, 15.4, 0.0826667,
+        15.4, 0.0826667, 15.4 };
     double expectedDeviations3[10] = { 0 };
 
     for (counter = 0, mIt = means->Begin(); mIt != means->End(); ++mIt, counter++)
