@@ -19,6 +19,7 @@
 #include <iostream>
 
 #include "itkImageRegionReverseIterator.h"
+#include "itkImageRegionReverseConstIterator.h"
 
 
 // This routine is used to make sure that we call the "const" version
@@ -168,10 +169,22 @@ int itkImageReverseIteratorTest(int, char* [] )
     }
   while (!backReverseIt.IsAtBegin()); // stop when we reach the beginning
 
+  // Iterate over a region backwards using a reverse const iterator
+  itk::ImageRegionReverseConstIterator< ImageType > reverseConstIt(o3, region);
+  for (reverseConstIt.GoToBegin(); !reverseConstIt.IsAtEnd(); ++reverseConstIt)
+    {
+    ImageType::IndexType index = reverseConstIt.GetIndex();
+    std::cout << "Reverse const iterator: ";
+    for (unsigned int i=0; i < index.GetIndexDimension(); i++)
+      {
+      std::cout << index[i] << " ";
+      }
+    std::cout << std::endl;
+    }
 
   // Finally, create a ReverseIterator from an Iterator and walk each appropriately so that they match
-  itk::ImageRegionReverseIterator< ImageType > castBackReverseIt(it);
   it.GoToBegin();
+  itk::ImageRegionReverseIterator< ImageType > castBackReverseIt(it);
   castBackReverseIt.GoToEnd();
   int status = 0;
   std::cout << "It and Reverse check: ";
@@ -183,13 +196,13 @@ int itkImageReverseIteratorTest(int, char* [] )
     for (unsigned int i=0; i < index.GetIndexDimension(); i++)
       {
       if (index[i] != rindex[i])
-  {
-  std::cout << index[i] << " != " << rindex[i] << std::endl;
-  status = 1;
-  }
+        {
+        std::cout << index[i] << " != " << rindex[i] << std::endl;
+        status = EXIT_FAILURE;
+        }
       }
     }
-  if (status == 0)
+  if (status == EXIT_SUCCESS)
     {
     std::cout << "Passed" << std::endl;
     }
