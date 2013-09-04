@@ -9,3 +9,10 @@ the list of new modules, see the page that describes the policy and procedures
 for adding a new module:
 
   http://www.itk.org/Wiki/ITK/Policy_and_Procedures_for_Adding_Remote_Modules
+
+
+**Note that in each <remote module name>.remote.cmake, the first argument of the
+function itk_fetch_module() is the name of the remote module, and it has to be
+consistent with the module name defined in the correponding itk-module.cmake.
+To better distinguish the remote modules from the internal ITK modules, the names
+of the remote modules should not contain the "ITK" string prefix in them.
