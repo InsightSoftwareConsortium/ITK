@@ -6,7 +6,7 @@ if(ITK_USE_SYSTEM_GDCM)
   itk_module(ITKGDCM
     DESCRIPTION
       "${DOCUMENTATION}"
-    EXCLUDE_FROM_ALL
+    EXCLUDE_FROM_DEFAULT
     )
 else()
   itk_module(ITKGDCM

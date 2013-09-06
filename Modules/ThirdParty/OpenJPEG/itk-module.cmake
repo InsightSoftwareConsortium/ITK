@@ -6,9 +6,9 @@ compression standard from the Joint Photographic Experts Group (JPEG).")
 
 itk_module(ITKOpenJPEG
   # Since GDCM is the only Module that depends on ITKOpenJPEG
-  # EXCLUDE_FROM_ALL to prevent building if not required. If
+  # EXCLUDE_FROM_DEFAULT to prevent building if not required. If
   # ITKGDCM is build, it will automatically enable this module.
-  EXCLUDE_FROM_ALL
+  EXCLUDE_FROM_DEFAULT
   DESCRIPTION
     "${DOCUMENTATION}"
 )
