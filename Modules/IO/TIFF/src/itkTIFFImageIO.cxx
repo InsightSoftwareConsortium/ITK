@@ -1190,11 +1190,11 @@ void TIFFImageIO::ReadVolume(void *buffer)
                               width, height,
                               tempImage, 1) )
         {
-        itkExceptionMacro(<< "Cannot read TIFF image or as a TIFF RGBA image");
         if ( tempImage != buffer )
           {
           delete[] tempImage;
           }
+        itkExceptionMacro(<< "Cannot read TIFF image or as a TIFF RGBA image");
         return;
         }
       int     xx, yy;
@@ -1421,13 +1421,12 @@ void TIFFImageIO::Read(void *buffer)
                             width, height,
                             tempImage, 1) )
       {
-      itkExceptionMacro(<< "Cannot read TIFF image or as a TIFF RGBA image");
       if ( tempImage != buffer )
         {
         delete[] tempImage;
         }
-
       m_InternalImage->Clean();
+      itkExceptionMacro(<< "Cannot read TIFF image or as a TIFF RGBA image");
       return;
       }
     int            xx, yy;
