@@ -46,8 +46,7 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  itkTypeMacro( LevelSetDomainPartitionImageWithKdTree,
-                LevelSetDomainPartitionImage);
+  itkTypeMacro( LevelSetDomainPartitionImageWithKdTree, LevelSetDomainPartitionImage);
 
   typedef TImage                                        ImageType;
   typedef typename Superclass::ListIndexType            ListIndexType;
@@ -73,13 +72,13 @@ public:
   itkSetMacro( NumberOfNeighbors, NeighborsIdType );
   itkGetMacro( NumberOfNeighbors, NeighborsIdType );
 
-protected:
-  LevelSetDomainPartitionImageWithKdTree();
-  ~LevelSetDomainPartitionImageWithKdTree();
-
   /** Populate a list image with each pixel being a list of overlapping
    *  level set support at that pixel */
   void PopulateListDomain();
+
+protected:
+  LevelSetDomainPartitionImageWithKdTree();
+  ~LevelSetDomainPartitionImageWithKdTree();
 
   /** Populate a list image with each pixel being a list of overlapping
    *  level set support at that pixel */
@@ -96,7 +95,7 @@ private:
 } //end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLevelSetDomainPartitionImage.h"
+#include "itkLevelSetDomainPartitionImageWithKdTree.hxx"
 #endif
 
 #endif

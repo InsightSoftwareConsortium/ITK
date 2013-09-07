@@ -46,6 +46,8 @@ public:
   itkSetMacro( NumberOfLevelSetFunctions, IdentifierType );
   itkGetMacro( NumberOfLevelSetFunctions, IdentifierType );
 
+  virtual void PopulateListDomain() = 0;
+
 protected:
 
   /** \brief Constructor */
@@ -55,7 +57,6 @@ protected:
   virtual ~LevelSetDomainPartitionBase();
 
   virtual void AllocateListDomain() = 0;
-  virtual void PopulateListDomain() = 0;
 
   typedef std::list< IdentifierType >                 IdentifierListType;
   typedef typename IdentifierListType::iterator       IdentifierListIterator;
