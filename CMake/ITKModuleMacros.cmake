@@ -32,7 +32,7 @@ macro(itk_module _name)
       set(ITK_MODULE_${itk-module}_EXCLUDE_FROM_DEFAULT 1)
     elseif("${arg}" MATCHES "^EXCLUDE_FROM_ALL$") # To maintain backward compatibility
       set(_doing "")
-      message(AUTHOR_WARNING "EXCLUDE_FROM_ALL$ is deprecated, please use EXCLUDE_FROM_DEFAULT$.")
+      message(AUTHOR_WARNING "EXCLUDE_FROM_ALL is deprecated, please use EXCLUDE_FROM_DEFAULT.")
       set(ITK_MODULE_${itk-module}_EXCLUDE_FROM_DEFAULT 1)
     elseif("${arg}" MATCHES "^ENABLE_SHARED$")
       set(_doing "")
