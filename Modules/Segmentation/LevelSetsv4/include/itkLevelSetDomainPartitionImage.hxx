@@ -35,6 +35,22 @@ LevelSetDomainPartitionImage< TImage >
 }
 
 template< class TImage >
+void
+LevelSetDomainPartitionImage< TImage >
+::SetLevelSetDataPointerVector( const LevelSetDomainVectorType& domain )
+{
+  m_LevelSetDataPointerVector = domain;
+}
+
+template< class TImage >
+const typename LevelSetDomainPartitionImage< TImage >::LevelSetDomainVectorType&
+LevelSetDomainPartitionImage< TImage >
+::GetLevelSetDataPointerVector() const
+{
+  return m_LevelSetDataPointerVector;
+}
+
+template< class TImage >
 void LevelSetDomainPartitionImage< TImage >
 ::PopulateListDomain()
 {
