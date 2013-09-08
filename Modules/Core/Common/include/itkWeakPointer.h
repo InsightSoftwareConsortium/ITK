@@ -117,8 +117,15 @@ public:
   /** Function to print object pointed to.  */
   ObjectType * Print(std::ostream & os) const
   {
-    // This prints the object pointed to by the pointer
-    ( *m_Pointer ).Print(os);
+    if( this->IsNull() )
+      {
+      os << "(null)";
+      }
+    else
+      {
+      // This prints the object pointed to by the pointer
+      ( *m_Pointer ).Print(os);
+      }
     return m_Pointer;
   }
 
