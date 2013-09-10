@@ -106,7 +106,7 @@ public:
    *
    *  \sa GetCurrentMetricValue()
    */
-  const MeasureType & GetValue();
+  virtual const MeasureType & GetValue() const;
 
   /** Set current parameters scaling. */
   itkSetMacro( Scales, ScalesType );
@@ -138,7 +138,7 @@ public:
   /** Get a reference to the current position of the optimization.
    * This returns the parameters from the assigned metric, since the optimizer
    * itself does not store a position. */
-  const ParametersType & GetCurrentPosition();
+  virtual const ParametersType & GetCurrentPosition() const;
 
   /** Run the optimization.
    * \param doOnlyInitialization This is false by default. It should only be
