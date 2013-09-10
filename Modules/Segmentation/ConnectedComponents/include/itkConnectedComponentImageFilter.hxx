@@ -600,10 +600,6 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
 {
   m_Consecutive = UnionFindType( m_UnionFind.size() );
 
-  const LabelType background = static_cast< LabelType >( this->m_BackgroundValue );
-
-  m_Consecutive[background] = background;
-
   SizeValueType CLab = 0;
   SizeValueType count = 0;
   for ( SizeValueType I = 1; I < m_UnionFind.size(); I++ )

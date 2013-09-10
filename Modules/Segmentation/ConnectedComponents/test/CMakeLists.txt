@@ -4,6 +4,7 @@ itkRelabelComponentImageFilterTest.cxx
 itkHardConnectedComponentImageFilterTest.cxx
 itkConnectedComponentImageFilterTestRGB.cxx
 itkConnectedComponentImageFilterTest.cxx
+itkConnectedComponentImageFilterBackgroundTest.cxx
 itkThresholdMaximumConnectedComponentsImageFilterTest.cxx
 itkScalarConnectedComponentImageFilterTest.cxx
 itkVectorConnectedComponentImageFilterTest.cxx
@@ -40,6 +41,12 @@ itk_add_test(NAME itkConnectedComponentImageFilterTest3
     --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/ConnectedComponentImageFilterTest3.png,:}
               ${ITK_TEST_OUTPUT_DIR}/ConnectedComponentImageFilterTest3.png
     itkConnectedComponentImageFilterTest DATA{${ITK_DATA_ROOT}/Input/Shapes.png} ${ITK_TEST_OUTPUT_DIR}/ConnectedComponentImageFilterTest3.png 128 255 1)
+itk_add_test(NAME itkConnectedComponentImageFilterBackgroundTest1
+      COMMAND ITKConnectedComponentsTestDriver
+    itkConnectedComponentImageFilterBackgroundTest 1)
+itk_add_test(NAME itkConnectedComponentImageFilterBackgroundTest2
+      COMMAND ITKConnectedComponentsTestDriver
+    itkConnectedComponentImageFilterBackgroundTest -1)
 itk_add_test(NAME itkThresholdMaximumConnectedComponentsImageFilterTest1
       COMMAND ITKConnectedComponentsTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/Algorithms/itkThresholdMaximumConnectedComponentsImageFilterTest1.png}
