@@ -40,7 +40,7 @@ int itkLevelSetDomainPartitionImageTest( int argc, char* argv[] )
 
   typedef itk::LevelSetDomainPartitionImage< InputImageType > DomainPartitionSourceType;
   typedef DomainPartitionSourceType::ListImageType            ListImageType;
-  typedef DomainPartitionSourceType::LevelSetDomainVectorType LevelSetDomainVectorType;
+  typedef DomainPartitionSourceType::LevelSetDomainRegionVectorType LevelSetDomainRegionVectorType;
 
   typedef ListImageType::PixelType                                ListType;
   typedef itk::ImageRegionConstIteratorWithIndex< ListImageType > ListImageIteratorType;
@@ -74,7 +74,7 @@ int itkLevelSetDomainPartitionImageTest( int argc, char* argv[] )
 
   IdentifierType numberOfLevelSetFunctions = 2;
 
-  LevelSetDomainVectorType regionVector;
+  LevelSetDomainRegionVectorType regionVector;
   regionVector.resize( numberOfLevelSetFunctions );
   regionVector[0] = region;
   regionVector[1] = region;
@@ -82,7 +82,7 @@ int itkLevelSetDomainPartitionImageTest( int argc, char* argv[] )
   DomainPartitionSourceType::Pointer partitionSource = DomainPartitionSourceType::New();
   partitionSource->SetNumberOfLevelSetFunctions( numberOfLevelSetFunctions );
   partitionSource->SetImage( binary );
-  partitionSource->SetLevelSetDataPointerVector( regionVector );
+  partitionSource->SetLevelSetDomainRegionVector( regionVector );
   partitionSource->PopulateListDomain();
 
 

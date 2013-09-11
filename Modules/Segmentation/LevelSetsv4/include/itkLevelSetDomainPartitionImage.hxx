@@ -37,17 +37,17 @@ LevelSetDomainPartitionImage< TImage >
 template< class TImage >
 void
 LevelSetDomainPartitionImage< TImage >
-::SetLevelSetDataPointerVector( const LevelSetDomainVectorType& domain )
+::SetLevelSetDomainRegionVector( const LevelSetDomainRegionVectorType& domain )
 {
-  m_LevelSetDataPointerVector = domain;
+  m_LevelSetDomainRegionVector = domain;
 }
 
 template< class TImage >
-const typename LevelSetDomainPartitionImage< TImage >::LevelSetDomainVectorType&
+const typename LevelSetDomainPartitionImage< TImage >::LevelSetDomainRegionVectorType&
 LevelSetDomainPartitionImage< TImage >
-::GetLevelSetDataPointerVector() const
+::GetLevelSetDomainRegionVector() const
 {
-  return m_LevelSetDataPointerVector;
+  return m_LevelSetDomainRegionVector;
 }
 
 template< class TImage >
@@ -66,7 +66,7 @@ void LevelSetDomainPartitionImage< TImage >
     IdentifierType i = NumericTraits< IdentifierType >::Zero;
     while( i < this->m_NumberOfLevelSetFunctions )
       {
-      if ( this->m_LevelSetDataPointerVector[i].IsInside( listIndex ) )
+      if ( this->m_LevelSetDomainRegionVector[i].IsInside( listIndex ) )
         {
         identifierList.push_back(i);
         }

@@ -40,7 +40,7 @@ int itkLevelSetDomainPartitionImageWithKdTreeTest( int argc, char* argv[] )
 
   typedef itk::LevelSetDomainPartitionImageWithKdTree< InputImageType > DomainPartitionSourceType;
   typedef DomainPartitionSourceType::ListImageType                      ListImageType;
-  typedef DomainPartitionSourceType::LevelSetDomainVectorType           LevelSetDomainVectorType;
+  typedef DomainPartitionSourceType::LevelSetDomainRegionVectorType           LevelSetDomainRegionVectorType;
   typedef DomainPartitionSourceType::CentroidVectorType                 CentroidVectorType;
   typedef DomainPartitionSourceType::SampleType                         SampleType;
   typedef DomainPartitionSourceType::TreeGeneratorType                  TreeGeneratorType;
@@ -79,7 +79,7 @@ int itkLevelSetDomainPartitionImageWithKdTreeTest( int argc, char* argv[] )
 
   IdentifierType numberOfLevelSetFunctions = 10;
 
-  LevelSetDomainVectorType regionVector;
+  LevelSetDomainRegionVectorType regionVector;
   regionVector.resize( numberOfLevelSetFunctions );
 
   CentroidVectorType mv;
@@ -112,7 +112,7 @@ int itkLevelSetDomainPartitionImageWithKdTreeTest( int argc, char* argv[] )
   DomainPartitionSourceType::Pointer partitionSource = DomainPartitionSourceType::New();
   partitionSource->SetNumberOfLevelSetFunctions( numberOfLevelSetFunctions );
   partitionSource->SetImage( binary );
-  partitionSource->SetLevelSetDataPointerVector( regionVector );
+  partitionSource->SetLevelSetDomainRegionVector( regionVector );
   partitionSource->SetNumberOfNeighbors( 3 );
   partitionSource->SetKdTree( kdtree );
   partitionSource->PopulateListDomain();
