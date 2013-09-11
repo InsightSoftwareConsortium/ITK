@@ -94,7 +94,7 @@ test -n "$SetupForDevelopment_VERSION" || SetupForDevelopment_VERSION=0
 if test $lastSetupForDevelopment -lt $SetupForDevelopment_VERSION; then
   die 'Developer setup in this work tree is out of date.  Please re-run
 
-  Utilities/SetupForDevelopment.sh
+  ./Utilities/SetupForDevelopment.sh
 '
 fi
 
