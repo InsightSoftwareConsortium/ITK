@@ -72,12 +72,12 @@ public:
   itkNewMacro(Self);
 
   /** Some convenient typedefs. */
-  typedef TInputImage                              InputImageType;
-  typedef typename InputImageType::Pointer         InputImagePointer;
-  typedef typename InputImageType::ConstPointer    InputImageConstPointer;
-  typedef typename InputImageType::RegionType      InputImageRegionType;
-  typedef typename InputImageType::PixelType       InputImagePixelType;
-  typedef typename InputImageType::LabelObjectType LabelObjectType;
+  typedef typename Superclass::InputImageType         InputImageType;
+  typedef typename Superclass::InputImagePointer      InputImagePointer;
+  typedef typename Superclass::InputImageConstPointer InputImageConstPointer;
+  typedef typename Superclass::InputImageRegionType   InputImageRegionType;
+  typedef typename Superclass::InputImagePixelType    InputImagePixelType;
+  typedef typename InputImageType::LabelObjectType    LabelObjectType;
 
   typedef TOutputImage                           OutputImageType;
   typedef typename OutputImageType::Pointer      OutputImagePointer;

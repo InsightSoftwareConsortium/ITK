@@ -54,19 +54,19 @@ public:
   typedef SmartPointer< const Self >                  ConstPointer;
 
   /** Some convenient typedefs. */
-  typedef TInputImage                              InputImageType;
-  typedef TOutputImage                             OutputImageType;
-  typedef typename InputImageType::Pointer         InputImagePointer;
-  typedef typename InputImageType::ConstPointer    InputImageConstPointer;
-  typedef typename InputImageType::RegionType      InputImageRegionType;
-  typedef typename InputImageType::PixelType       InputImagePixelType;
-  typedef typename InputImageType::LabelObjectType LabelObjectType;
+  typedef typename Superclass::InputImageType          InputImageType;
+  typedef typename Superclass::InputImagePointer       InputImagePointer;
+  typedef typename Superclass::InputImageConstPointer  InputImageConstPointer;
+  typedef typename Superclass::InputImageRegionType    InputImageRegionType;
+  typedef typename Superclass::InputImagePixelType     InputImagePixelType;
+  typedef typename Superclass::LabelObjectType         LabelObjectType;
 
-  typedef typename OutputImageType::Pointer      OutputImagePointer;
-  typedef typename OutputImageType::ConstPointer OutputImageConstPointer;
-  typedef typename OutputImageType::RegionType   OutputImageRegionType;
-  typedef typename OutputImageType::PixelType    OutputImagePixelType;
-  typedef typename OutputImageType::IndexType    IndexType;
+  typedef typename Superclass::OutputImageType         OutputImageType;
+  typedef typename Superclass::OutputImagePointer      OutputImagePointer;
+  typedef typename Superclass::OutputImageConstPointer OutputImageConstPointer;
+  typedef typename Superclass::OutputImageRegionType   OutputImageRegionType;
+  typedef typename Superclass::OutputImagePixelType    OutputImagePixelType;
+  typedef typename OutputImageType::IndexType          IndexType;
 
   /** ImageDimension constants */
   itkStaticConstMacro(InputImageDimension, unsigned int, TInputImage::ImageDimension);
