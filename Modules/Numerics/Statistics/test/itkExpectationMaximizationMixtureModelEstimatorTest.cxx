@@ -159,6 +159,7 @@ int itkExpectationMaximizationMixtureModelEstimatorTest(int argc, char* argv[] )
 
   bool passed = true;
   double displacement;
+  const unsigned int measurementVectorSize = sample->GetMeasurementVectorSize();
   for ( i = 0; i < numberOfClasses; i++)
     {
     std::cout << "Cluster[" << i << "]" << std::endl;
@@ -167,7 +168,7 @@ int itkExpectationMaximizationMixtureModelEstimatorTest(int argc, char* argv[] )
     std::cout << "    Proportion: ";
     std::cout << "         " << (estimator->GetProportions())[i] << std::endl;
     displacement = 0.0;
-    for ( j = 0; j < DataSampleType::MeasurementVectorSize; j++)
+    for ( j = 0; j < measurementVectorSize; j++)
       {
       temp = (components[i])->GetFullParameters()[j] - trueParameters[i][j];
       displacement += (temp * temp);
