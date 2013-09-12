@@ -242,9 +242,9 @@ WeightedCovarianceSampleFilter< TSample >
       }
 
     // updates the covariance matrix
-    for ( unsigned int row = 0; row < measurementVectorSize; row++ )
+    for ( unsigned int row = 0; row < measurementVectorSize; ++row )
       {
-      for ( unsigned int col = 0; col < row + 1; col++ )
+      for ( unsigned int col = 0; col < row + 1; ++col )
         {
         output(row, col) += weight * diff[row] * diff[col];
         }
@@ -254,9 +254,9 @@ WeightedCovarianceSampleFilter< TSample >
     }
 
   // fills the upper triangle using the lower triangle
-  for ( unsigned int row = 1; row < measurementVectorSize; row++ )
+  for ( unsigned int row = 1; row < measurementVectorSize; ++row )
     {
-    for ( unsigned int col = 0; col < row; col++ )
+    for ( unsigned int col = 0; col < row; ++col )
       {
       output(col, row) = output(row, col);
       }
