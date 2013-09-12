@@ -67,15 +67,15 @@ namespace itk
  * \endwiki
  */
 template< class TLabelObject >
-class LabelMap:public ImageBase<  TLabelObject ::ImageDimension >
+class LabelMap:public ImageBase< TLabelObject::ImageDimension >
 {
 public:
   /** Standard class typedefs */
-  typedef LabelMap                                                              Self;
-  typedef ImageBase<  TLabelObject ::ImageDimension > Superclass;
-  typedef SmartPointer< Self >                        Pointer;
-  typedef SmartPointer< const Self >                  ConstPointer;
-  typedef WeakPointer< const Self >                   ConstWeakPointer;
+  typedef LabelMap                                  Self;
+  typedef ImageBase< TLabelObject::ImageDimension > Superclass;
+  typedef SmartPointer< Self >                      Pointer;
+  typedef SmartPointer< const Self >                ConstPointer;
+  typedef WeakPointer< const Self >                 ConstWeakPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

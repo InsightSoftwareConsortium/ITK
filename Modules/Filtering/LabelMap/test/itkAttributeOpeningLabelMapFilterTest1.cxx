@@ -37,30 +37,30 @@ int itkAttributeOpeningLabelMapFilterTest1(int argc, char * argv[])
     return EXIT_FAILURE;
     }
 
-  const unsigned int dim = 3;
+  const unsigned int Dimension = 3;
 
   typedef unsigned char PixelType;
 
-  typedef itk::Image< PixelType, dim > ImageType;
+  typedef itk::Image< PixelType, Dimension > ImageType;
 
-  typedef itk::AttributeLabelObject< PixelType, dim, int >      LabelObjectType;
-  typedef itk::LabelMap< LabelObjectType >                      LabelMapType;
+  typedef itk::AttributeLabelObject< PixelType, Dimension, int > LabelObjectType;
+  typedef itk::LabelMap< LabelObjectType >                       LabelMapType;
 
   typedef itk::ImageFileReader< ImageType > ReaderType;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
-  typedef itk::LabelImageToLabelMapFilter< ImageType, LabelMapType> I2LType;
-  I2LType::Pointer i2l = I2LType::New();
-  i2l->SetInput( reader->GetOutput() );
+  typedef itk::LabelImageToLabelMapFilter< ImageType, LabelMapType> ImageToLabelType;
+  ImageToLabelType::Pointer imageToLabel = ImageToLabelType::New();
+  imageToLabel->SetInput( reader->GetOutput() );
 
 
   // The next step is made outside the pipeline model, so we call Update() now.
-  i2l->Update();
+  imageToLabel->Update();
 
   // Now we will valuate the attributes. The attribute will be the object position
   // in the label map
-  LabelMapType::Pointer labelMap = i2l->GetOutput();
+  LabelMapType::Pointer labelMap = imageToLabel->GetOutput();
 
   int pos = 0;
   for( LabelMapType::Iterator it(labelMap); !it.IsAtEnd(); ++it )
@@ -95,14 +95,14 @@ int itkAttributeOpeningLabelMapFilterTest1(int argc, char * argv[])
 
   itk::SimpleFilterWatcher watcher(opening, "filter");
 
-  typedef itk::LabelMapToLabelImageFilter< LabelMapType, ImageType> L2IType;
-  L2IType::Pointer l2i = L2IType::New();
-  l2i->SetInput( opening->GetOutput() );
+  typedef itk::LabelMapToLabelImageFilter< LabelMapType, ImageType> LabelToImageType;
+  LabelToImageType::Pointer labelToImage = LabelToImageType::New();
+  labelToImage->SetInput( opening->GetOutput() );
 
   typedef itk::ImageFileWriter< ImageType > WriterType;
 
   WriterType::Pointer writer = WriterType::New();
-  writer->SetInput( l2i->GetOutput() );
+  writer->SetInput( labelToImage->GetOutput() );
   writer->SetFileName( argv[2] );
   writer->UseCompressionOn();
 
