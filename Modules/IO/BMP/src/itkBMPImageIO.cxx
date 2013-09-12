@@ -406,7 +406,6 @@ void BMPImageIO::ReadImageInformation()
       {
       itkExceptionMacro(<< "Unknown file type! " << m_FileName.c_str()
                         << " is not a Windows BMP file!");
-      m_Ifstream.close();
       return;
       }
 
