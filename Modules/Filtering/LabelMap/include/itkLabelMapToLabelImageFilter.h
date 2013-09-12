@@ -76,7 +76,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(LabelMapToLabelImageFilter, ImageToImageFilter);
+  itkTypeMacro(LabelMapToLabelImageFilter, LabelMapFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   itkConceptMacro( SameDimensionCheck,
