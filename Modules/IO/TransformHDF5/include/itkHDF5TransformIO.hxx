@@ -99,9 +99,9 @@ HDF5TransformIOTemplate< TInternalComputationValueType >
 {
   hsize_t dim(parameters.Size());
 
-  const char* nameOfComputationType = TypeName<TInternalComputationValueType>::Get();
+  const std::string & nameOfComputationType = GetTypeNameString<TInternalComputationValueType>();
   TInternalComputationValueType *buf = new TInternalComputationValueType[dim];
-  if( !strcmp( nameOfComputationType, "double" ) )
+  if( ! nameOfComputationType.compare( std::string("double") ))
     {
     for(unsigned i(0); i < dim; i++)
       {
@@ -114,7 +114,7 @@ HDF5TransformIOTemplate< TInternalComputationValueType >
     paramSet.write(buf,H5::PredType::NATIVE_DOUBLE);
     paramSet.close();
     }
-  else if( !strcmp( nameOfComputationType, "float" ) )
+  else if( ! nameOfComputationType.compare(std::string("float") ) )
     {
     for(unsigned i(0); i < dim; i++)
       {
@@ -254,7 +254,7 @@ HDF5TransformIOTemplate< TInternalComputationValueType >
       typeSet.close();
       }
       // Transform name should be modified to have the output precision type.
-      TransformName<TInternalComputationValueType>::CorrectPrecisionType( transformType );
+      CorrectTransformPrecisionType<TInternalComputationValueType>( transformType );
 
       TransformPointer transform;
       this->CreateTransform(transform,transformType);

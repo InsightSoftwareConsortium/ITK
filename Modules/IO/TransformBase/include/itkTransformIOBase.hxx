@@ -31,62 +31,46 @@ namespace
 
 /* The following struct returns the string name of computation type */
 /* default implementation */
-template <class ScalarType>
-struct TypeName
+template <typename ScalarType>
+inline const std::string GetTypeNameString()
 {
-  static const char* Get()
-    {
-    return typeid(ScalarType).name();
-    }
-};
+  return std::string(typeid(ScalarType).name());
+}
 
 /* a specialization for each "float" and "double" type that we support
    and don't like the string returned by typeid */
 template <>
-struct TypeName<float>
+inline const std::string GetTypeNameString<float>()
 {
-  static const char* Get()
-    {
-    return "float";
-    }
-};
+  return std::string("float");
+}
 
 template <>
-struct TypeName<double>
+inline const std::string GetTypeNameString<double>()
 {
-  static const char* Get()
-    {
-    return "double";
-    }
-};
+  return std::string("double");
+}
 
-template<class ScalarType>
-struct TransformName
+template<typename ScalarType>
+inline void CorrectTransformPrecisionType( std::string & inputTransformName )
 {
-  static void CorrectPrecisionType( std::string& inputTransformName )
+  const std::string & outputScalarTypeAsString = GetTypeNameString<ScalarType>();
+  if( inputTransformName.find(outputScalarTypeAsString) == std::string::npos ) // output precision type is not found in input transform.
     {
-    const std::string outputScalarTypeAsString = TypeName<ScalarType>::Get();
-    std::string searchFor;
-    std::string replaceBy;
-    if( inputTransformName.find(outputScalarTypeAsString) == std::string::npos ) // output precision type is not found in input transform.
+    const std::string floatString("float");
+    const std::string doubleString("double");
+    if( outputScalarTypeAsString.compare(floatString) == 0 ) // output precision type is float, so we should search for double and replace that.
       {
-      if( outputScalarTypeAsString.compare("float") == 0 ) // output precision type is float,
-                                                           // so we should search for double and replace that.
-        {
-        searchFor = "double";
-        replaceBy = "float";
-        }
-      else
-        {
-        searchFor = "float";
-        replaceBy = "double";
-        }
-      std::string::size_type begin = inputTransformName.find(searchFor);
-      inputTransformName.replace(begin, searchFor.size(), replaceBy);
+      const std::string::size_type begin = inputTransformName.find(doubleString);
+      inputTransformName.replace(begin, doubleString.size(), floatString);
+      }
+    else
+      {
+      const std::string::size_type begin = inputTransformName.find(floatString);
+      inputTransformName.replace(begin, floatString.size(), doubleString);
       }
     }
-};
-
+}
 } // end anonymous namespace
 
 template <class ScalarType>
