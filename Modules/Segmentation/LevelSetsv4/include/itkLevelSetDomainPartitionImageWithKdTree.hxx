@@ -75,7 +75,7 @@ void LevelSetDomainPartitionImageWithKdTree< TImage >
     for ( NeighborsIdType i = 0; i < this->m_NumberOfNeighbors; ++i )
       {
       IdentifierType levelSetID = neighbors[i];
-      if ( this->m_LevelSetDataPointerVector[levelSetID].IsInside( index ) )
+      if ( this->m_LevelSetDomainRegionVector[levelSetID].IsInside( index ) )
         {
         identifierList.push_back(neighbors[i]);
         }
