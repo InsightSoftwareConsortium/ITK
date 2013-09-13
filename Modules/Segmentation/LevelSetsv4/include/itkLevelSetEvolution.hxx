@@ -283,8 +283,6 @@ void
 LevelSetEvolution< TEquationContainer, WhitakerSparseLevelSetImage< TOutput, VDimension > >
 ::ComputeIteration()
 {
-  typename LevelSetContainerType::Iterator it = this->m_LevelSetContainer->Begin();
-
   this->m_LevelSetContainerIteratorToProcessWhenThreading = this->m_LevelSetContainer->Begin();
 
   while( this->m_LevelSetContainerIteratorToProcessWhenThreading != this->m_LevelSetContainer->End() )
