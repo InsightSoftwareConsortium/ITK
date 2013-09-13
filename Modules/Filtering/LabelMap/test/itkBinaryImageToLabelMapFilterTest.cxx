@@ -51,20 +51,20 @@ int itkBinaryImageToLabelMapFilterTest( int argc, char * argv [] )
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
-  typedef itk::BinaryImageToLabelMapFilter< ImageType, LabelMapType> I2LType;
-  I2LType::Pointer i2l = I2LType::New();
+  typedef itk::BinaryImageToLabelMapFilter< ImageType, LabelMapType > ImageToLabelType;
+  ImageToLabelType::Pointer imageToLabel = ImageToLabelType::New();
   // test the behavior without input
-  TRY_EXPECT_EXCEPTION( i2l->Update() );
-  i2l->ResetPipeline();
+  TRY_EXPECT_EXCEPTION( imageToLabel->Update() );
+  imageToLabel->ResetPipeline();
 
-  i2l->SetFullyConnected( atoi(argv[3]) );
-  i2l->SetInputForegroundValue( atoi(argv[4]) );
-  i2l->SetOutputBackgroundValue( atoi(argv[5]) );
+  imageToLabel->SetFullyConnected( atoi(argv[3]) );
+  imageToLabel->SetInputForegroundValue( atoi(argv[4]) );
+  imageToLabel->SetOutputBackgroundValue( atoi(argv[5]) );
 
-  itk::SimpleFilterWatcher watcher( i2l );
+  itk::SimpleFilterWatcher watcher( imageToLabel );
 
-  typedef itk::LabelMapToLabelImageFilter< LabelMapType, ImageType> L2IType;
-  L2IType::Pointer l2i = L2IType::New();
+  typedef itk::LabelMapToLabelImageFilter< LabelMapType, ImageType> LabelToImageType;
+  LabelToImageType::Pointer labelToImage = LabelToImageType::New();
 
   typedef itk::ImageFileWriter< ImageType > WriterType;
   WriterType::Pointer writer = WriterType::New();
@@ -73,9 +73,9 @@ int itkBinaryImageToLabelMapFilterTest( int argc, char * argv [] )
   writer->UseCompressionOn();
 
 
-  i2l->SetInput( reader->GetOutput() );
-  l2i->SetInput( i2l->GetOutput() );
-  writer->SetInput( l2i->GetOutput() );
+  imageToLabel->SetInput( reader->GetOutput() );
+  labelToImage->SetInput( imageToLabel->GetOutput() );
+  writer->SetInput( labelToImage->GetOutput() );
 
   bool expectfailure = atoi( argv[6] );
 
@@ -88,11 +88,11 @@ int itkBinaryImageToLabelMapFilterTest( int argc, char * argv [] )
     TRY_EXPECT_NO_EXCEPTION( writer->Update() );
     }
 
-  i2l->GetOutput()->PrintLabelObjects();
+  imageToLabel->GetOutput()->PrintLabelObjects();
 
-  std::cout << i2l->GetNameOfClass() << std::endl;
+  std::cout << imageToLabel->GetNameOfClass() << std::endl;
 
-  i2l->Print( std::cout );
+  imageToLabel->Print( std::cout );
 
   return EXIT_SUCCESS;
 }

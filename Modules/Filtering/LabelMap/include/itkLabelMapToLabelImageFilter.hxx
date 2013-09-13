@@ -25,12 +25,14 @@
 
 namespace itk
 {
+
 template< class TInputImage, class TOutputImage >
 LabelMapToLabelImageFilter< TInputImage, TOutputImage >
 ::LabelMapToLabelImageFilter()
 {
   m_OutputImage = 0;
 }
+
 
 template< class TInputImage, class TOutputImage >
 void
@@ -44,6 +46,7 @@ LabelMapToLabelImageFilter< TInputImage, TOutputImage >
   Superclass::BeforeThreadedGenerateData();
   this->m_OutputImage = this->GetOutput();
 }
+
 
 template< class TInputImage, class TOutputImage >
 void
@@ -59,5 +62,7 @@ LabelMapToLabelImageFilter< TInputImage, TOutputImage >
     ++it;
     }
 }
+
 } // end namespace itk
+
 #endif

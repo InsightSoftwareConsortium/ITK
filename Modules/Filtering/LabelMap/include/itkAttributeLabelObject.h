@@ -73,10 +73,10 @@ public:
   /** Standard class typedefs */
   typedef AttributeLabelObject                   Self;
   typedef LabelObject< TLabel, VImageDimension > Superclass;
-  typedef SmartPointer<Self>                     Pointer;
-   typedef typename Superclass::LabelObjectType  LabelObjectType;
-  typedef SmartPointer<const Self>               ConstPointer;
-  typedef WeakPointer<const Self>                ConstWeakPointer;
+  typedef SmartPointer< Self >                   Pointer;
+  typedef typename Superclass::LabelObjectType   LabelObjectType;
+  typedef SmartPointer< const Self >             ConstPointer;
+  typedef WeakPointer< const Self >              ConstWeakPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
