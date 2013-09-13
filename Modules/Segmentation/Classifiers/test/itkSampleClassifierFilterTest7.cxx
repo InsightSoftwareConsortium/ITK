@@ -163,7 +163,8 @@ int itkSampleClassifierFilterTest7(int argc, char* argv[] )
     std::cout << "    Proportion: ";
     std::cout << "         " << (estimator->GetProportions())[i] << std::endl;
     double displacement = 0.0;
-    for ( unsigned int j = 0; j < DataSampleType::MeasurementVectorSize; j++)
+    const unsigned int measurementVectorSize = sample->GetMeasurementVectorSize();
+    for ( unsigned int j = 0; j < measurementVectorSize; ++j )
       {
       double temp;
       temp = (components[i])->GetFullParameters()[j] - trueParameters[i][j];

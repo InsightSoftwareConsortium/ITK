@@ -28,7 +28,8 @@ template< class TPointSet >
 PointSetToListSampleAdaptor< TPointSet >
 ::PointSetToListSampleAdaptor()
 {
-  m_PointSet = 0;
+  this->m_PointSet = 0;
+  this->SetMeasurementVectorSize( TPointSet::PointDimension );
 }
 
 template< class TPointSet >

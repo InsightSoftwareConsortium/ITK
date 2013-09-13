@@ -133,8 +133,8 @@ int itkKdTreeBasedKmeansEstimatorTest(int argc, char* argv[] )
 
   bool passed = true;
   int index;
-  unsigned int numberOfMeasurements = DataSampleType::MeasurementVectorSize;
-  unsigned int numberOfClasses = trueMeans.size() / numberOfMeasurements;
+  const unsigned int numberOfMeasurements = sample->GetMeasurementVectorSize();
+  const unsigned int numberOfClasses = trueMeans.size() / numberOfMeasurements;
   for (i = 0; i < numberOfClasses; i++)
     {
     std::cout << "cluster[" << i << "] " << std::endl;

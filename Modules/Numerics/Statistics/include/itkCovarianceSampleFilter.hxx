@@ -177,9 +177,9 @@ CovarianceSampleFilter< TSample >
       }
 
     // updates the covariance matrix
-    for ( unsigned int row = 0; row < measurementVectorSize; row++ )
+    for ( unsigned int row = 0; row < measurementVectorSize; ++row )
       {
-      for ( unsigned int col = 0; col < row + 1; col++ )
+      for ( unsigned int col = 0; col < row + 1; ++col )
         {
         output(row, col) += frequency * diff[row] * diff[col];
         }
@@ -188,9 +188,9 @@ CovarianceSampleFilter< TSample >
     }
 
   // fills the upper triangle using the lower triangle
-  for ( unsigned int row = 1; row < measurementVectorSize; row++ )
+  for ( unsigned int row = 1; row < measurementVectorSize; ++row )
     {
-    for ( unsigned int col = 0; col < row; col++ )
+    for ( unsigned int col = 0; col < row; ++col )
       {
       output(col, row) = output(row, col);
       }
@@ -200,9 +200,9 @@ CovarianceSampleFilter< TSample >
     {
     const double factor = 1.0 / ( totalFrequency - 1.0 );
 
-    for ( unsigned int col = 0; col < measurementVectorSize; col++ )
+    for ( unsigned int col = 0; col < measurementVectorSize; ++col )
       {
-      for ( unsigned int row = 0; row < measurementVectorSize; row++ )
+      for ( unsigned int row = 0; row < measurementVectorSize; ++row )
         {
         output(col, row) *= factor;
         }

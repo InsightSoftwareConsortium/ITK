@@ -59,10 +59,6 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** the number of components in a measurement vector */
-  itkStaticConstMacro(MeasurementVectorSize, unsigned int,
-                      TPointSet::PointDimension);
-
   /** PointSet typedefs */
   typedef TPointSet                                        PointSetType;
   typedef typename TPointSet::Pointer                      PointSetPointer;
