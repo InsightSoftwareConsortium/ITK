@@ -47,7 +47,7 @@ struct TransformIOHelper
   CreateNewTypeTransform(std::string transformName)
   {
     // Transform name is modified to have the output precision type.
-    TransformName<TOutputScalar>::CorrectPrecisionType( transformName );
+    CorrectTransformPrecisionType<TOutputScalar>( transformName );
 
     OutputTransformPointer convertedTransform;
     // Instantiate the transform
@@ -84,22 +84,19 @@ struct TransformIOHelper
 };
 
 /* Changes the precision type of input transform to the requested precision type */
-template<class TOutputScalar, class TInputScalar>
-struct SetInputTransformWithOutputPrecisionType
-{
+template<typename TOutputScalar, typename TInputScalar>
+inline void AddToTransformList(typename TransformBaseTemplate<TInputScalar>::ConstPointer &transform, std::list< typename TransformBaseTemplate<TOutputScalar>::ConstPointer > & transformList)
+  {
+  /* Pushes the converted transform to the input transform list */
   typedef TransformBaseTemplate<TInputScalar>        InputTransformType;
   typedef typename InputTransformType::ConstPointer  InputTransformConstPointer;
   typedef std::list< InputTransformConstPointer >    InputConstTransformListType;
-
   typedef TransformBaseTemplate<TOutputScalar>        OutputTransformType;
   typedef typename OutputTransformType::Pointer       OutputTransformPointer;
   typedef typename OutputTransformType::ConstPointer  OutputTransformConstPointer;
   typedef std::list< OutputTransformPointer >         OutputTransformListType;
   typedef std::list< OutputTransformConstPointer >    OutputConstTransformListType;
 
-  /* Pushes the converted transform to the input transform list */
-  static void AddToTransformList(const InputTransformType *transform, OutputConstTransformListType& transformList)
-  {
   const std::string transformName = transform->GetTransformTypeAsString();
   OutputTransformPointer convertedTransform;
 
@@ -154,33 +151,20 @@ struct SetInputTransformWithOutputPrecisionType
     }
 
   transformList.push_back( OutputTransformConstPointer(convertedTransform.GetPointer()) );
-  }
-};
+}
 
 /* Precision type conversion is not needed when the input transform already has the requested precision type */
 template<>
-struct SetInputTransformWithOutputPrecisionType<double, double>
+inline void AddToTransformList<double,double>(TransformBaseTemplate<double>::ConstPointer &transform, std::list< TransformBaseTemplate<double>::ConstPointer > & transformList)
 {
-  typedef TransformBaseTemplate<double>::ConstPointer  ConstTransformPointer;
-  typedef std::list< ConstTransformPointer >           ConstTransformListType;
-
-  static void AddToTransformList(const TransformBaseTemplate<double> *transform, ConstTransformListType& transformList)
-  {
-    transformList.push_back( ConstTransformPointer(transform) );
-  }
-};
+  transformList.push_back( TransformBaseTemplate<double>::ConstPointer(transform) );
+}
 
 template<>
-struct SetInputTransformWithOutputPrecisionType<float, float>
+inline void AddToTransformList<float,float>(TransformBaseTemplate<float>::ConstPointer &transform, std::list< TransformBaseTemplate<float>::ConstPointer > & transformList)
 {
-  typedef TransformBaseTemplate<float>::ConstPointer  ConstTransformPointer;
-  typedef std::list< ConstTransformPointer >          ConstTransformListType;
-
-  static void AddToTransformList(const TransformBaseTemplate<float> *transform, ConstTransformListType& transformList)
-  {
-    transformList.push_back( ConstTransformPointer(transform) );
-  }
-};
+  transformList.push_back( TransformBaseTemplate<float>::ConstPointer(transform) );
+}
 
 } // end anonymous namespace
 
@@ -236,26 +220,23 @@ template<class ScalarType>
 void TransformFileWriterTemplate<ScalarType>
 ::PushBackTransformList(const Object *transObj)
 {
-  Object::ConstPointer ptr;
-  ptr = dynamic_cast<const TransformBaseTemplate<double> *>( transObj );
-  if( ptr.IsNull() )
+  TransformBaseTemplate<double>::ConstPointer dblptr = dynamic_cast<const TransformBaseTemplate<double> *>( transObj );
+  if( dblptr.IsNotNull() )
     {
-    ptr = dynamic_cast<const TransformBaseTemplate<float> *>( transObj );
-    if( ptr.IsNull() )
+    AddToTransformList<ScalarType,double>( dblptr, m_TransformList );
+    }
+  else
+    {
+    TransformBaseTemplate<float>::ConstPointer fltptr = dynamic_cast<const TransformBaseTemplate<float> *>( transObj );
+    if( fltptr.IsNotNull() )
+      {
+      AddToTransformList<ScalarType,float>( fltptr, m_TransformList );
+      }
+    else
       {
       itkExceptionMacro("The input of writer should be whether a double precision"
                         "or a single precision transform type.");
       }
-    else
-      {
-      SetInputTransformWithOutputPrecisionType<ScalarType, float>
-      ::AddToTransformList( dynamic_cast<const TransformBaseTemplate<float> *>( transObj ), m_TransformList );
-      }
-    }
-  else
-    {
-    SetInputTransformWithOutputPrecisionType<ScalarType, double>
-    ::AddToTransformList( dynamic_cast<const TransformBaseTemplate<double> *>( transObj ), m_TransformList );
     }
 }
 
