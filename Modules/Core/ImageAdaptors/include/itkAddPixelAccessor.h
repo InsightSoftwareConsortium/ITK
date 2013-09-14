@@ -40,7 +40,7 @@ namespace Accessor
  * \endwiki
  */
 
-template< class TPixel >
+template< typename TPixel >
 class AddPixelAccessor
 {
 public:

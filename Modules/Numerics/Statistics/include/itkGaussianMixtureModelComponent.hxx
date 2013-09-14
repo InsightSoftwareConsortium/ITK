@@ -26,7 +26,7 @@ namespace itk
 {
 namespace Statistics
 {
-template< class TSample >
+template< typename TSample >
 GaussianMixtureModelComponent< TSample >
 ::GaussianMixtureModelComponent()
 {
@@ -39,7 +39,7 @@ GaussianMixtureModelComponent< TSample >
   m_Covariance.SetIdentity();
 }
 
-template< class TSample >
+template< typename TSample >
 void
 GaussianMixtureModelComponent< TSample >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -53,7 +53,7 @@ GaussianMixtureModelComponent< TSample >
   os << indent << "GaussianMembershipFunction: " << m_GaussianMembershipFunction << std::endl;
 }
 
-template< class TSample >
+template< typename TSample >
 void
 GaussianMixtureModelComponent< TSample >
 ::SetSample(const TSample *sample)
@@ -87,7 +87,7 @@ GaussianMixtureModelComponent< TSample >
   m_GaussianMembershipFunction->SetMean(mean);
 }
 
-template< class TSample >
+template< typename TSample >
 void
 GaussianMixtureModelComponent< TSample >
 ::SetParameters(const ParametersType & parameters)
@@ -143,7 +143,7 @@ GaussianMixtureModelComponent< TSample >
   this->AreParametersModified(changed);
 }
 
-template< class TSample >
+template< typename TSample >
 double
 GaussianMixtureModelComponent< TSample >
 ::CalculateParametersChange()
@@ -181,7 +181,7 @@ GaussianMixtureModelComponent< TSample >
   return changes;
 }
 
-template< class TSample >
+template< typename TSample >
 void
 GaussianMixtureModelComponent< TSample >
 ::GenerateData()

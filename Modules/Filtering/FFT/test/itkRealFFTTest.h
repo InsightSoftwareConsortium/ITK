@@ -38,8 +38,8 @@
 
 /* test_fft is the test function and it is templated over the pixel, Image
  * dimensions and the FFT library to be used. */
-template< class TPixel, unsigned int VImageDimensions,
-          class R2CType, class C2RType >
+template< typename TPixel, unsigned int VImageDimensions,
+          typename R2CType, typename C2RType >
 int
 test_fft(unsigned int *SizeOfDimensions)
 {
@@ -231,8 +231,8 @@ test_fft(unsigned int *SizeOfDimensions)
 /* test_fft_rtc is the test function to compare two implementations
  * (Direct FFT only).  It is templated over the pixel, Image
  * dimensions and the FFT libraries to be used. */
-template< class TPixel, unsigned int VImageDimensions,
-          class R2CAType, class R2CBType >
+template< typename TPixel, unsigned int VImageDimensions,
+          typename R2CAType, typename R2CBType >
 int
 test_fft_rtc(unsigned int *SizeOfDimensions)
 {

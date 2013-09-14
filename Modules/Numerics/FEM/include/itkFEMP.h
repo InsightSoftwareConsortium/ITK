@@ -28,7 +28,7 @@ namespace fem
  * \class FEMP
  * \brief Pointer used to store polymorphic elements in STL arrays.
  *
- * FEMP holds a pointer to objects of class T and its derived classes. it
+ * FEMP holds a pointer to objects of typename T and its derived classes. it
  * behaves like a special kind of pointer. Special pointers to object can
  * be used to store polymorphic arrays in STL. The basic idea of the special
  * pointer is: whatever you do to the pointer (object of class FEMP), is
@@ -44,7 +44,7 @@ namespace fem
  * SmartPointer classes.
  * \ingroup ITKFEM
  */
-template <class T>
+template <typename T>
 class FEMP
 {
 public:
@@ -136,7 +136,7 @@ private:
   typename T::Pointer m_Data;
 };
 
-template <class T>
+template <typename T>
 const FEMP<T> & FEMP<T>::operator=(const FEMP<T> & rhs)
 {
   /** Self assignments don't make sense. */

@@ -63,7 +63,7 @@ namespace fem
  * and more functionality will be available (such as scale selection).
  * \ingroup ITKFEMRegistration
  */
-template <class TMoving, class TFixed>
+template <typename TMoving, typename TFixed>
 class FiniteDifferenceFunctionLoad : public LoadElement
 {
 public:

@@ -30,7 +30,7 @@ namespace itk
 /**
  * Constructor
  */
-template <class TScalar, unsigned int NDimensions>
+template <typename TScalar, unsigned int NDimensions>
 VelocityFieldTransform<TScalar, NDimensions>
 ::VelocityFieldTransform()
 {
@@ -60,13 +60,13 @@ VelocityFieldTransform<TScalar, NDimensions>
 /**
  * Destructor
  */
-template <class TScalar, unsigned int NDimensions>
+template <typename TScalar, unsigned int NDimensions>
 VelocityFieldTransform<TScalar, NDimensions>::
 ~VelocityFieldTransform()
 {
 }
 
-template <class TScalar, unsigned int NDimensions>
+template <typename TScalar, unsigned int NDimensions>
 void
 VelocityFieldTransform<TScalar, NDimensions>
 ::UpdateTransformParameters( const DerivativeType & update, ScalarType factor)
@@ -81,7 +81,7 @@ VelocityFieldTransform<TScalar, NDimensions>
 /**
  * return an inverse transformation
  */
-template<class TScalar, unsigned int NDimensions>
+template<typename TScalar, unsigned int NDimensions>
 bool
 VelocityFieldTransform<TScalar, NDimensions>
 ::GetInverse( Self *inverse ) const
@@ -104,7 +104,7 @@ VelocityFieldTransform<TScalar, NDimensions>
 }
 
 // Return an inverse of this transform
-template<class TScalar, unsigned int NDimensions>
+template<typename TScalar, unsigned int NDimensions>
 typename VelocityFieldTransform<TScalar, NDimensions>::InverseTransformBasePointer
 VelocityFieldTransform<TScalar, NDimensions>
 ::GetInverseTransform() const
@@ -120,7 +120,7 @@ VelocityFieldTransform<TScalar, NDimensions>
     }
 }
 
-template <class TScalar, unsigned int NDimensions>
+template <typename TScalar, unsigned int NDimensions>
 void VelocityFieldTransform<TScalar, NDimensions>
 ::SetVelocityField( VelocityFieldType* field )
 {
@@ -144,7 +144,7 @@ void VelocityFieldTransform<TScalar, NDimensions>
   this->SetFixedParametersFromVelocityField();
 }
 
-template <class TScalar, unsigned int NDimensions>
+template <typename TScalar, unsigned int NDimensions>
 void
 VelocityFieldTransform<TScalar, NDimensions>
 ::SetVelocityFieldInterpolator( VelocityFieldInterpolatorType* interpolator )
@@ -161,7 +161,7 @@ VelocityFieldTransform<TScalar, NDimensions>
     }
 }
 
-template <class TScalar, unsigned int NDimensions>
+template <typename TScalar, unsigned int NDimensions>
 void
 VelocityFieldTransform<TScalar, NDimensions>
 ::SetFixedParameters( const ParametersType & fixedParameters )
@@ -212,7 +212,7 @@ VelocityFieldTransform<TScalar, NDimensions>
   this->SetVelocityField( velocityField );
 }
 
-template <class TScalar, unsigned int NDimensions>
+template <typename TScalar, unsigned int NDimensions>
 void
 VelocityFieldTransform<TScalar, NDimensions>
 ::SetFixedParametersFromVelocityField() const
@@ -255,7 +255,7 @@ VelocityFieldTransform<TScalar, NDimensions>
     }
 }
 
-template <class TScalar, unsigned int NDimensions>
+template <typename TScalar, unsigned int NDimensions>
 typename VelocityFieldTransform<TScalar, NDimensions>::DisplacementFieldType::Pointer
 VelocityFieldTransform<TScalar, NDimensions>
 ::CopyDisplacementField( const DisplacementFieldType *toCopy ) const
@@ -277,7 +277,7 @@ VelocityFieldTransform<TScalar, NDimensions>
   return rval;
 }
 
-template <class TScalar, unsigned int NDimensions>
+template <typename TScalar, unsigned int NDimensions>
 typename LightObject::Pointer
 VelocityFieldTransform<TScalar, NDimensions>
 ::InternalClone() const
@@ -337,7 +337,7 @@ VelocityFieldTransform<TScalar, NDimensions>
   return loPtr;
 }
 
-template <class TScalar, unsigned int NDimensions>
+template <typename TScalar, unsigned int NDimensions>
 void
 VelocityFieldTransform<TScalar, NDimensions>
 ::PrintSelf( std::ostream& os, Indent indent ) const

@@ -24,7 +24,7 @@
 namespace itk
 {
 /** Set the Input Image */
-template< class TInputImage, class TOutput >
+template< typename TInputImage, typename TOutput >
 DiscreteHessianGaussianImageFunction< TInputImage, TOutput >
 ::DiscreteHessianGaussianImageFunction():
   m_MaximumError(0.005),
@@ -38,7 +38,7 @@ DiscreteHessianGaussianImageFunction< TInputImage, TOutput >
 }
 
 /** Print self method */
-template< class TInputImage, class TOutput >
+template< typename TInputImage, typename TOutput >
 void
 DiscreteHessianGaussianImageFunction< TInputImage, TOutput >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -56,7 +56,7 @@ DiscreteHessianGaussianImageFunction< TInputImage, TOutput >
 }
 
 /** Set the input image */
-template< class TInputImage, class TOutput >
+template< typename TInputImage, typename TOutput >
 void
 DiscreteHessianGaussianImageFunction< TInputImage, TOutput >
 ::SetInputImage(const InputImageType *ptr)
@@ -67,7 +67,7 @@ DiscreteHessianGaussianImageFunction< TInputImage, TOutput >
 
 /** Recompute the gaussian kernel used to evaluate indexes
  *  This should use a fastest Derivative Gaussian operator */
-template< class TInputImage, class TOutput >
+template< typename TInputImage, typename TOutput >
 void
 DiscreteHessianGaussianImageFunction< TInputImage, TOutput >
 ::RecomputeGaussianKernel()
@@ -206,7 +206,7 @@ DiscreteHessianGaussianImageFunction< TInputImage, TOutput >
 }
 
 /** Evaluate the function at the specifed index */
-template< class TInputImage, class TOutput >
+template< typename TInputImage, typename TOutput >
 typename DiscreteHessianGaussianImageFunction< TInputImage, TOutput >::OutputType
 DiscreteHessianGaussianImageFunction< TInputImage, TOutput >
 ::EvaluateAtIndex(const IndexType & index) const
@@ -222,7 +222,7 @@ DiscreteHessianGaussianImageFunction< TInputImage, TOutput >
 }
 
 /** Evaluate the function at the specifed point */
-template< class TInputImage, class TOutput >
+template< typename TInputImage, typename TOutput >
 typename DiscreteHessianGaussianImageFunction< TInputImage, TOutput >::OutputType
 DiscreteHessianGaussianImageFunction< TInputImage, TOutput >
 ::Evaluate(const PointType & point) const
@@ -242,7 +242,7 @@ DiscreteHessianGaussianImageFunction< TInputImage, TOutput >
 }
 
 /** Evaluate the function at specified ContinousIndex position.*/
-template< class TInputImage, class TOutput >
+template< typename TInputImage, typename TOutput >
 typename DiscreteHessianGaussianImageFunction< TInputImage, TOutput >::OutputType
 DiscreteHessianGaussianImageFunction< TInputImage, TOutput >
 ::EvaluateAtContinuousIndex(const ContinuousIndexType & cindex) const

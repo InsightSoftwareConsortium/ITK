@@ -54,7 +54,7 @@ namespace itk
  * \endwiki
  */
 
-template< class TInputImage, class TOutputImage=VectorImage<typename TInputImage::PixelType, TInputImage::ImageDimension> >
+template< typename TInputImage, typename TOutputImage=VectorImage<typename TInputImage::PixelType, TInputImage::ImageDimension> >
 class ComposeImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
@@ -105,14 +105,14 @@ private:
   typedef ImageRegionConstIterator< InputImageType > InputIteratorType;
   typedef std::vector< InputIteratorType >           InputIteratorContainerType;
 
-  template<class T>
+  template<typename T>
   void ComputeOutputPixel(std::complex<T> & pix, InputIteratorContainerType & inputItContainer )
     {
     pix = std::complex<T>(inputItContainer[0].Get(), inputItContainer[1].Get());
     ++( inputItContainer[0] );
     ++( inputItContainer[1] );
     }
-  template<class TPixel>
+  template<typename TPixel>
   void ComputeOutputPixel(TPixel & pix, InputIteratorContainerType & inputItContainer)
     {
     for ( unsigned int i = 0; i < this->GetNumberOfInputs(); i++ )

@@ -26,7 +26,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage >
 ::CopyInputToOutput()
@@ -63,7 +63,7 @@ DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage >
 ::AllocateUpdateBuffer()
@@ -80,7 +80,7 @@ DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage >
   m_UpdateBuffer->Allocate();
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage >
 ::ApplyUpdate(const TimeStepType& dt)
@@ -103,7 +103,7 @@ DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage >
   this->GetOutput()->Modified();
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 ITK_THREAD_RETURN_TYPE
 DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage >
 ::ApplyUpdateThreaderCallback(void *arg)
@@ -129,7 +129,7 @@ DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage >
   return ITK_THREAD_RETURN_VALUE;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 typename
 DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage >::TimeStepType
 DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage >
@@ -172,7 +172,7 @@ DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage >
   return dt;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 ITK_THREAD_RETURN_TYPE
 DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage >
 ::CalculateChangeThreaderCallback(void *arg)
@@ -202,7 +202,7 @@ DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage >
   return ITK_THREAD_RETURN_VALUE;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage >
 ::ThreadedApplyUpdate(const TimeStepType& dt,
@@ -224,7 +224,7 @@ DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 typename
 DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage >::TimeStepType
 DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage >
@@ -302,7 +302,7 @@ DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage >
   return timeStep;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

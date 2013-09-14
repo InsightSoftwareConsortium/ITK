@@ -28,14 +28,14 @@
 namespace itk
 {
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 FFTWInverseFFTImageFilter< TInputImage, TOutputImage >
 ::FFTWInverseFFTImageFilter()
 {
   m_PlanRigor = FFTWGlobalConfiguration::GetPlanRigor();
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 FFTWInverseFFTImageFilter< TInputImage, TOutputImage >
 ::BeforeThreadedGenerateData()
@@ -100,7 +100,7 @@ FFTWInverseFFTImageFilter< TInputImage, TOutputImage >
   FFTWProxyType::DestroyPlan( plan );
 }
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 void
 FFTWInverseFFTImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, ThreadIdType itkNotUsed(threadId) )
@@ -115,7 +115,7 @@ FFTWInverseFFTImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 FFTWInverseFFTImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

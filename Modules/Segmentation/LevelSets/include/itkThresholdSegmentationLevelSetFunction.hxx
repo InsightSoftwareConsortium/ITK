@@ -26,7 +26,7 @@
 
 namespace itk
 {
-template< class TImageType, class TFeatureImageType >
+template< typename TImageType, typename TFeatureImageType >
 void ThresholdSegmentationLevelSetFunction< TImageType, TFeatureImageType >
 ::CalculateSpeedImage()
 {

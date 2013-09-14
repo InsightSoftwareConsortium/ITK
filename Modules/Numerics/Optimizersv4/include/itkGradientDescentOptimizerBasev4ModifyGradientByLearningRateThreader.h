@@ -24,7 +24,7 @@
 namespace itk
 {
 
-template<class TInternalComputationValueType>
+template<typename TInternalComputationValueType>
 class GradientDescentOptimizerBasev4Template;
 
 /** \class GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreaderTemplate
@@ -33,7 +33,7 @@ class GradientDescentOptimizerBasev4Template;
  * \ingroup ITKOptimizersv4
  */
 
-template<class TInternalComputationValueType>
+template<typename TInternalComputationValueType>
 class GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreaderTemplate
   : public DomainThreader< ThreadedIndexedContainerPartitioner, GradientDescentOptimizerBasev4Template<TInternalComputationValueType> >
 {

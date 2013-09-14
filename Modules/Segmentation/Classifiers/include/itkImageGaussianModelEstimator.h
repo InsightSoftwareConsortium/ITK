@@ -71,9 +71,9 @@ namespace itk
  * \ingroup ClassificationFilters
  * \ingroup ITKClassifiers
  */
-template< class TInputImage,
-          class TMembershipFunction,
-          class TTrainingImage >
+template< typename TInputImage,
+          typename TMembershipFunction,
+          typename TTrainingImage >
 class ImageGaussianModelEstimator:
   public ImageModelEstimatorBase< TInputImage, TMembershipFunction >
 {

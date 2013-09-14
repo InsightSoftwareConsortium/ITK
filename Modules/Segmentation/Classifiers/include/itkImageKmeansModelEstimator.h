@@ -126,8 +126,8 @@ namespace itk
  * \wikiexample{Statistics/ImageKmeansModelEstimator,Compute kmeans clusters of pixels in an image}
  * \endwiki
  */
-template< class TInputImage,
-          class TMembershipFunction >
+template< typename TInputImage,
+          typename TMembershipFunction >
 class ImageKmeansModelEstimator:
   public ImageModelEstimatorBase< TInputImage, TMembershipFunction >
 {

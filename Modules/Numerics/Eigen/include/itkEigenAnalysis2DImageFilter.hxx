@@ -27,7 +27,7 @@ namespace itk
 /**
  * Constructor
  */
-template< class TInputImage, class TEigenValueImage, class TEigenVectorImage >
+template< typename TInputImage, typename TEigenValueImage, typename TEigenVectorImage >
 EigenAnalysis2DImageFilter< TInputImage, TEigenValueImage, TEigenVectorImage >
 ::EigenAnalysis2DImageFilter()
 {
@@ -41,7 +41,7 @@ EigenAnalysis2DImageFilter< TInputImage, TEigenValueImage, TEigenVectorImage >
 /**
  * Connect one the image containing the [0,0] elements of the input matrix
  */
-template< class TInputImage, class TEigenValueImage, class TEigenVectorImage >
+template< typename TInputImage, typename TEigenValueImage, typename TEigenVectorImage >
 void
 EigenAnalysis2DImageFilter< TInputImage, TEigenValueImage, TEigenVectorImage >
 ::SetInput1(TInputImage *image)
@@ -54,7 +54,7 @@ EigenAnalysis2DImageFilter< TInputImage, TEigenValueImage, TEigenVectorImage >
  * this element is the same [1,0] because this filter assumes symmetric
  * matrices
  */
-template< class TInputImage, class TEigenValueImage, class TEigenVectorImage >
+template< typename TInputImage, typename TEigenValueImage, typename TEigenVectorImage >
 void
 EigenAnalysis2DImageFilter< TInputImage, TEigenValueImage, TEigenVectorImage >
 ::SetInput2(TInputImage *image)
@@ -65,7 +65,7 @@ EigenAnalysis2DImageFilter< TInputImage, TEigenValueImage, TEigenVectorImage >
 /**
  * Connect one the image containing the [1,1] elements of the input matrix
  */
-template< class TInputImage, class TEigenValueImage, class TEigenVectorImage >
+template< typename TInputImage, typename TEigenValueImage, typename TEigenVectorImage >
 void
 EigenAnalysis2DImageFilter< TInputImage, TEigenValueImage, TEigenVectorImage >
 ::SetInput3(TInputImage *image)
@@ -76,7 +76,7 @@ EigenAnalysis2DImageFilter< TInputImage, TEigenValueImage, TEigenVectorImage >
 /**
  * Get the largest eigenvalue considering the sign
  */
-template< class TInputImage, class TEigenValueImage, class TEigenVectorImage >
+template< typename TInputImage, typename TEigenValueImage, typename TEigenVectorImage >
 typename EigenAnalysis2DImageFilter< TInputImage, TEigenValueImage, TEigenVectorImage >::EigenValueImageType *
 EigenAnalysis2DImageFilter< TInputImage, TEigenValueImage, TEigenVectorImage >
 ::GetMaxEigenValue(void)
@@ -88,7 +88,7 @@ EigenAnalysis2DImageFilter< TInputImage, TEigenValueImage, TEigenVectorImage >
 /**
  * Get the smallest eigenvalue considering the sign
  */
-template< class TInputImage, class TEigenValueImage, class TEigenVectorImage >
+template< typename TInputImage, typename TEigenValueImage, typename TEigenVectorImage >
 typename EigenAnalysis2DImageFilter< TInputImage, TEigenValueImage, TEigenVectorImage >::EigenValueImageType *
 EigenAnalysis2DImageFilter< TInputImage, TEigenValueImage, TEigenVectorImage >
 ::GetMinEigenValue(void)
@@ -100,7 +100,7 @@ EigenAnalysis2DImageFilter< TInputImage, TEigenValueImage, TEigenVectorImage >
 /**
  * Get the eigenvector corresponding to the largest eigenvalue (considering the sign)
  */
-template< class TInputImage, class TEigenValueImage, class TEigenVectorImage >
+template< typename TInputImage, typename TEigenValueImage, typename TEigenVectorImage >
 typename EigenAnalysis2DImageFilter< TInputImage, TEigenValueImage, TEigenVectorImage >::EigenVectorImageType *
 EigenAnalysis2DImageFilter< TInputImage, TEigenValueImage, TEigenVectorImage >
 ::GetMaxEigenVector(void)
@@ -130,7 +130,7 @@ EigenAnalysis2DImageFilter< TInputImage, TEigenValueImage, TEigenVectorImage >
  * \todo Verify that MakeOutput is createing the right type of objects
  *  this could be the cause of the reinterpret_cast bug in this class
  */
-template< class TInputImage, class TEigenValueImage, class TEigenVectorImage >
+template< typename TInputImage, typename TEigenValueImage, typename TEigenVectorImage >
 DataObject::Pointer
 EigenAnalysis2DImageFilter< TInputImage, TEigenValueImage, TEigenVectorImage >
 ::MakeOutput(DataObjectPointerArraySizeType idx)
@@ -152,7 +152,7 @@ EigenAnalysis2DImageFilter< TInputImage, TEigenValueImage, TEigenVectorImage >
   return output.GetPointer();
 }
 
-template< class TInputImage, class TEigenValueImage, class TEigenVectorImage >
+template< typename TInputImage, typename TEigenValueImage, typename TEigenVectorImage >
 void
 EigenAnalysis2DImageFilter< TInputImage, TEigenValueImage, TEigenVectorImage >
 ::GenerateData()

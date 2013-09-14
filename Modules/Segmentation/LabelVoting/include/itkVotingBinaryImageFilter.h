@@ -35,7 +35,7 @@ namespace itk
  * \ingroup IntensityImageFilters
  * \ingroup ITKLabelVoting
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class VotingBinaryImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {

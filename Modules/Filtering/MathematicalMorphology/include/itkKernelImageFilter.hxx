@@ -23,14 +23,14 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 KernelImageFilter< TInputImage, TOutputImage, TKernel >
 ::KernelImageFilter()
 {
   this->SetRadius(1UL);
 }
 
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 void
 KernelImageFilter< TInputImage, TOutputImage, TKernel >
 ::SetRadius(const RadiusType & radius)
@@ -43,7 +43,7 @@ KernelImageFilter< TInputImage, TOutputImage, TKernel >
   this->SetKernel( kernel );
 }
 
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 void
 KernelImageFilter< TInputImage, TOutputImage, TKernel >
 ::SetKernel(const KernelType & kernel)
@@ -57,7 +57,7 @@ KernelImageFilter< TInputImage, TOutputImage, TKernel >
   Superclass::SetRadius( kernel.GetRadius() );
 }
 
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 void
 KernelImageFilter< TInputImage, TOutputImage, TKernel >
 ::PrintSelf(std::ostream & os, Indent indent) const

@@ -24,7 +24,7 @@
 
 #define SPECIFIC_IMAGEIO_MODULE_TEST
 
-template <class TPixel>
+template <typename TPixel>
 class RawImageReaderAndWriter
 {
 public:

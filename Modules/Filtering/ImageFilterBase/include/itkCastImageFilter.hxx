@@ -26,7 +26,7 @@ namespace itk
 {
 
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 CastImageFilter< TInputImage, TOutputImage >
 ::CastImageFilter()
 {
@@ -34,7 +34,7 @@ CastImageFilter< TInputImage, TOutputImage >
   this->InPlaceOff();
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 CastImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
@@ -51,7 +51,7 @@ CastImageFilter< TInputImage, TOutputImage >
 }
 
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 CastImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,

@@ -27,7 +27,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 OrientImageFilter< TInputImage, TOutputImage >
 ::OrientImageFilter():
   m_GivenCoordinateOrientation  (SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP),
@@ -136,7 +136,7 @@ OrientImageFilter< TInputImage, TOutputImage >
   m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_ASL] = "ASL";
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 OrientImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
@@ -177,7 +177,7 @@ OrientImageFilter< TInputImage, TOutputImage >
   cast->GetOutput()->PropagateRequestedRegion();
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 OrientImageFilter< TInputImage, TOutputImage >
 ::EnlargeOutputRequestedRegion(DataObject *)
@@ -186,7 +186,7 @@ OrientImageFilter< TInputImage, TOutputImage >
   ->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 OrientImageFilter< TInputImage, TOutputImage >
 ::DeterminePermutationsAndFlips(
@@ -282,7 +282,7 @@ OrientImageFilter< TInputImage, TOutputImage >
 /**
  *
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 OrientImageFilter< TInputImage, TOutputImage >
 ::SetGivenCoordinateOrientation(CoordinateOrientationCode newCode)
@@ -302,7 +302,7 @@ OrientImageFilter< TInputImage, TOutputImage >
 /**
  *
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 OrientImageFilter< TInputImage, TOutputImage >
 ::SetDesiredCoordinateOrientation(CoordinateOrientationCode newCode)
@@ -324,7 +324,7 @@ OrientImageFilter< TInputImage, TOutputImage >
 }
 
 /** Returns true if a permute is required. Return false otherwise */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 bool
 OrientImageFilter< TInputImage, TOutputImage >
 ::NeedToPermute()
@@ -337,7 +337,7 @@ OrientImageFilter< TInputImage, TOutputImage >
 }
 
 /** Returns true if flipping is required. Return false otherwise */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 bool
 OrientImageFilter< TInputImage, TOutputImage >
 ::NeedToFlip()
@@ -464,7 +464,7 @@ std::string SO_OrientationToString(SO_OrientationType in)
     }
 }
 
-template< class ImageType >
+template< typename ImageType >
 void
 DumpDirections(const std::string & prompt, const typename ImageType::Pointer & image)
 {
@@ -487,7 +487,7 @@ DumpDirections(const std::string & prompt, const typename ImageType::Pointer & i
 #define DEBUG_EXECUTE(X)
 #endif
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 OrientImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
@@ -576,7 +576,7 @@ OrientImageFilter< TInputImage, TOutputImage >
 /**
  *
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 OrientImageFilter< TInputImage, TOutputImage >
 ::GenerateOutputInformation()
@@ -622,7 +622,7 @@ OrientImageFilter< TInputImage, TOutputImage >
   outputPtr->CopyInformation( cast->GetOutput() );
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 OrientImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

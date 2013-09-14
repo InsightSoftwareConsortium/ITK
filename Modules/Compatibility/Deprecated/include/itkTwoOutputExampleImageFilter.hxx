@@ -30,7 +30,7 @@ namespace itk
 /**
  *
  */
-template< class TImage >
+template< typename TImage >
 TwoOutputExampleImageFilter< TImage >
 ::TwoOutputExampleImageFilter()
 {
@@ -46,7 +46,7 @@ TwoOutputExampleImageFilter< TImage >
 /**
  *
  */
-template< class TImage >
+template< typename TImage >
 void
 TwoOutputExampleImageFilter< TImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -67,7 +67,7 @@ TwoOutputExampleImageFilter< TImage >
 /**
  * The values greater than or equal to the value are set to OutsideValue
  */
-template< class TImage >
+template< typename TImage >
 void
 TwoOutputExampleImageFilter< TImage >
 ::ThresholdAbove(PixelType & thresh)
@@ -84,7 +84,7 @@ TwoOutputExampleImageFilter< TImage >
 /**
  * The values less than or equal to the value are set to OutsideValue
  */
-template< class TImage >
+template< typename TImage >
 void
 TwoOutputExampleImageFilter< TImage >
 ::ThresholdBelow(PixelType & thresh)
@@ -100,7 +100,7 @@ TwoOutputExampleImageFilter< TImage >
 /**
  * The values outside the range are set to OutsideValue
  */
-template< class TImage >
+template< typename TImage >
 void
 TwoOutputExampleImageFilter< TImage >
 ::ThresholdOutside(PixelType & lower, PixelType & upper)
@@ -122,7 +122,7 @@ TwoOutputExampleImageFilter< TImage >
 /**
  *
  */
-template< class TImage >
+template< typename TImage >
 void
 TwoOutputExampleImageFilter< TImage >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,

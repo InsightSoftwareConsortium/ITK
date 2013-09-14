@@ -30,7 +30,7 @@
 
 namespace itk {
 
-template<class TInputImage, class TKernel>
+template<typename TInputImage, typename TKernel>
 BinaryClosingByReconstructionImageFilter<TInputImage, TKernel>
 ::BinaryClosingByReconstructionImageFilter()
 {
@@ -38,7 +38,7 @@ BinaryClosingByReconstructionImageFilter<TInputImage, TKernel>
   m_FullyConnected = false;
 }
 
-template <class TInputImage, class TKernel>
+template <typename TInputImage, typename TKernel>
 void
 BinaryClosingByReconstructionImageFilter<TInputImage, TKernel>
 ::GenerateInputRequestedRegion()
@@ -54,7 +54,7 @@ BinaryClosingByReconstructionImageFilter<TInputImage, TKernel>
     }
 }
 
-template<class TInputImage, class TKernel>
+template<typename TInputImage, typename TKernel>
 void
 BinaryClosingByReconstructionImageFilter<TInputImage, TKernel>
 ::GenerateData()
@@ -109,7 +109,7 @@ BinaryClosingByReconstructionImageFilter<TInputImage, TKernel>
   this->GraftOutput( erode->GetOutput() );
 }
 
-template<class TInputImage, class TKernel>
+template<typename TInputImage, typename TKernel>
 void
 BinaryClosingByReconstructionImageFilter<TInputImage, TKernel>
 ::PrintSelf(std::ostream &os, Indent indent) const

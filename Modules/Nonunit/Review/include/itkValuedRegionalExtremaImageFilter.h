@@ -72,8 +72,8 @@ namespace itk
  * \ingroup ITKReview
  */
 
-template< class TInputImage, class TOutputImage,
-          class TFunction1, class TFunction2 >
+template< typename TInputImage, typename TOutputImage,
+          typename TFunction1, typename TFunction2 >
 class ValuedRegionalExtremaImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {

@@ -52,7 +52,7 @@ namespace itk
  *
  * \sa FFTWGlobalConfiguration
  */
-template< class TImage >
+template< typename TImage >
 class FFTWComplexToComplexImageFilter:
   public FFTComplexToComplexImageFilter< TImage >
 {

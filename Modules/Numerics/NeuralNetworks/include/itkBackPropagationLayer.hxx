@@ -24,18 +24,18 @@ namespace itk
 {
 namespace Statistics
 {
-template<class TMeasurementVector, class TTargetVector>
+template<typename TMeasurementVector, typename TTargetVector>
 BackPropagationLayer<TMeasurementVector,TTargetVector>
 ::BackPropagationLayer()
 {
   m_Bias = 1;
 }
 
-template<class TMeasurementVector, class TTargetVector>
+template<typename TMeasurementVector, typename TTargetVector>
 BackPropagationLayer<TMeasurementVector,TTargetVector>
 ::~BackPropagationLayer() {}
 
-template<class TMeasurementVector, class TTargetVector>
+template<typename TMeasurementVector, typename TTargetVector>
 void
 BackPropagationLayer<TMeasurementVector,TTargetVector>
 ::SetNumberOfNodes(unsigned int c)
@@ -48,7 +48,7 @@ BackPropagationLayer<TMeasurementVector,TTargetVector>
   this->Modified();
 }
 
-template<class TMeasurementVector, class TTargetVector>
+template<typename TMeasurementVector, typename TTargetVector>
 void
 BackPropagationLayer<TMeasurementVector,TTargetVector>
 ::SetInputValue(unsigned int i, ValueType value)
@@ -57,14 +57,14 @@ BackPropagationLayer<TMeasurementVector,TTargetVector>
   this->Modified();
 }
 
-template<class TMeasurementVector, class TTargetVector>
+template<typename TMeasurementVector, typename TTargetVector>
 typename BackPropagationLayer<TMeasurementVector,TTargetVector>::ValueType
 BackPropagationLayer<TMeasurementVector,TTargetVector>
 ::GetInputValue(unsigned int i) const
 {
   return m_NodeInputValues[i];
 }
-template<class TMeasurementVector, class TTargetVector>
+template<typename TMeasurementVector, typename TTargetVector>
 void
 BackPropagationLayer<TMeasurementVector,TTargetVector>
 ::SetOutputValue(unsigned int i, ValueType value)
@@ -73,7 +73,7 @@ BackPropagationLayer<TMeasurementVector,TTargetVector>
   this->Modified();
 }
 
-template<class TMeasurementVector, class TTargetVector>
+template<typename TMeasurementVector, typename TTargetVector>
 typename BackPropagationLayer<TMeasurementVector,TTargetVector>::ValueType
 BackPropagationLayer<TMeasurementVector,TTargetVector>
 ::GetOutputValue(unsigned int i) const
@@ -81,7 +81,7 @@ BackPropagationLayer<TMeasurementVector,TTargetVector>
   return m_NodeOutputValues(i);
 }
 
-template<class TMeasurementVector, class TTargetVector>
+template<typename TMeasurementVector, typename TTargetVector>
 void
 BackPropagationLayer<TMeasurementVector,TTargetVector>
 ::SetOutputVector(TMeasurementVector value)
@@ -90,7 +90,7 @@ BackPropagationLayer<TMeasurementVector,TTargetVector>
   this->Modified();
 }
 
-template<class TMeasurementVector, class TTargetVector>
+template<typename TMeasurementVector, typename TTargetVector>
 typename BackPropagationLayer<TMeasurementVector,TTargetVector>::ValueType *
 BackPropagationLayer<TMeasurementVector,TTargetVector>
 ::GetOutputVector()
@@ -98,7 +98,7 @@ BackPropagationLayer<TMeasurementVector,TTargetVector>
   return m_NodeOutputValues.data_block();
 }
 
-template<class TMeasurementVector, class TTargetVector>
+template<typename TMeasurementVector, typename TTargetVector>
 typename BackPropagationLayer<TMeasurementVector,TTargetVector>::ValueType
 BackPropagationLayer<TMeasurementVector,TTargetVector>
 ::GetInputErrorValue(unsigned int n) const
@@ -106,7 +106,7 @@ BackPropagationLayer<TMeasurementVector,TTargetVector>
   return m_InputErrorValues[n];
 }
 
-template<class TMeasurementVector, class TTargetVector>
+template<typename TMeasurementVector, typename TTargetVector>
 typename BackPropagationLayer<TMeasurementVector,TTargetVector>::ValueType *
 BackPropagationLayer<TMeasurementVector,TTargetVector>
 ::GetInputErrorVector()
@@ -114,7 +114,7 @@ BackPropagationLayer<TMeasurementVector,TTargetVector>
   return m_InputErrorValues.data_block();
 }
 
-template<class TMeasurementVector, class TTargetVector>
+template<typename TMeasurementVector, typename TTargetVector>
 void
 BackPropagationLayer<TMeasurementVector,TTargetVector>
 ::SetInputErrorValue(ValueType v, unsigned int i)
@@ -123,7 +123,7 @@ BackPropagationLayer<TMeasurementVector,TTargetVector>
   this->Modified();
 }
 
-template<class TMeasurementVector, class TTargetVector>
+template<typename TMeasurementVector, typename TTargetVector>
 void
 BackPropagationLayer<TMeasurementVector,TTargetVector>
 ::ForwardPropagate()
@@ -165,7 +165,7 @@ BackPropagationLayer<TMeasurementVector,TTargetVector>
 }
 
 //overloaded to handle input layers
-template<class TMeasurementVector, class TTargetVector>
+template<typename TMeasurementVector, typename TTargetVector>
 void
 BackPropagationLayer<TMeasurementVector,TTargetVector>
 ::ForwardPropagate(TMeasurementVector samplevector)
@@ -179,7 +179,7 @@ BackPropagationLayer<TMeasurementVector,TTargetVector>
     }
 }
 
-template<class TMeasurementVector, class TTargetVector>
+template<typename TMeasurementVector, typename TTargetVector>
 void
 BackPropagationLayer<TMeasurementVector,TTargetVector>
 ::BackwardPropagate(InternalVectorType errors)
@@ -218,7 +218,7 @@ BackPropagationLayer<TMeasurementVector,TTargetVector>
 
 }
 
-template<class TMeasurementVector, class TTargetVector>
+template<typename TMeasurementVector, typename TTargetVector>
 void
 BackPropagationLayer<TMeasurementVector,TTargetVector>
 ::SetOutputErrorValues(TTargetVector errors)
@@ -230,7 +230,7 @@ BackPropagationLayer<TMeasurementVector,TTargetVector>
   this->Modified();
 }
 
-template<class TMeasurementVector, class TTargetVector>
+template<typename TMeasurementVector, typename TTargetVector>
 typename BackPropagationLayer<TMeasurementVector,TTargetVector>::ValueType
 BackPropagationLayer<TMeasurementVector,TTargetVector>
 ::GetOutputErrorValue(unsigned int i) const
@@ -239,7 +239,7 @@ BackPropagationLayer<TMeasurementVector,TTargetVector>
 }
 
 
-template<class TMeasurementVector, class TTargetVector>
+template<typename TMeasurementVector, typename TTargetVector>
 void
 BackPropagationLayer<TMeasurementVector,TTargetVector>
 ::BackwardPropagate()
@@ -305,7 +305,7 @@ BackPropagationLayer<TMeasurementVector,TTargetVector>
   inputweightset->SetDeltaBValues(GetInputErrorVector());
 }
 
-template<class TMeasurementVector, class TTargetVector>
+template<typename TMeasurementVector, typename TTargetVector>
 typename BackPropagationLayer<TMeasurementVector,TTargetVector>::ValueType
 BackPropagationLayer<TMeasurementVector,TTargetVector>
 ::Activation(ValueType n)
@@ -313,7 +313,7 @@ BackPropagationLayer<TMeasurementVector,TTargetVector>
   return this->m_ActivationFunction->Evaluate(n);
 }
 
-template<class TMeasurementVector, class TTargetVector>
+template<typename TMeasurementVector, typename TTargetVector>
 typename BackPropagationLayer<TMeasurementVector,TTargetVector>::ValueType
 BackPropagationLayer<TMeasurementVector,TTargetVector>
 ::DActivation(ValueType n)
@@ -322,7 +322,7 @@ BackPropagationLayer<TMeasurementVector,TTargetVector>
 }
 
 /** Print the object */
-template<class TMeasurementVector, class TTargetVector>
+template<typename TMeasurementVector, typename TTargetVector>
 void
 BackPropagationLayer<TMeasurementVector,TTargetVector>
 ::PrintSelf( std::ostream& os, Indent indent ) const

@@ -25,32 +25,32 @@
 namespace itk
 {
 /** Constructor with default arguments */
-template< class TScalar, unsigned int NDimensions >
+template< typename TScalar, unsigned int NDimensions >
 AffineTransform< TScalar, NDimensions >::AffineTransform():Superclass(ParametersDimension)
 {}
 
 /** Constructor with default arguments */
-template< class TScalar, unsigned int NDimensions >
+template< typename TScalar, unsigned int NDimensions >
 AffineTransform< TScalar, NDimensions >::AffineTransform(unsigned int parametersDimension):
   Superclass(parametersDimension)
 {}
 
 /** Constructor with explicit arguments */
-template< class TScalar, unsigned int NDimensions >
+template< typename TScalar, unsigned int NDimensions >
 AffineTransform< TScalar, NDimensions >::AffineTransform(const MatrixType & matrix,
                                                              const OutputVectorType & offset):
   Superclass(matrix, offset)
 {}
 
 /**  Destructor */
-template< class TScalar, unsigned int NDimensions >
+template< typename TScalar, unsigned int NDimensions >
 AffineTransform< TScalar, NDimensions >::
 ~AffineTransform()
 {
 }
 
 /** Print self */
-template< class TScalar, unsigned int NDimensions >
+template< typename TScalar, unsigned int NDimensions >
 void
 AffineTransform< TScalar, NDimensions >::PrintSelf(std::ostream & os, Indent indent) const
 {
@@ -58,7 +58,7 @@ AffineTransform< TScalar, NDimensions >::PrintSelf(std::ostream & os, Indent ind
 }
 
 /** Compose with a translation */
-template< class TScalar, unsigned int NDimensions >
+template< typename TScalar, unsigned int NDimensions >
 void
 AffineTransform< TScalar, NDimensions >::Translate(const OutputVectorType & trans, bool pre)
 {
@@ -78,7 +78,7 @@ AffineTransform< TScalar, NDimensions >::Translate(const OutputVectorType & tran
 }
 
 /** Compose with isotropic scaling */
-template< class TScalar, unsigned int NDimensions >
+template< typename TScalar, unsigned int NDimensions >
 void
 AffineTransform< TScalar, NDimensions >
 ::Scale(const TScalar & factor, bool pre)
@@ -105,7 +105,7 @@ AffineTransform< TScalar, NDimensions >
 }
 
 /** Compose with anisotropic scaling */
-template< class TScalar, unsigned int NDimensions >
+template< typename TScalar, unsigned int NDimensions >
 void
 AffineTransform< TScalar, NDimensions >
 ::Scale(const OutputVectorType & factor, bool pre)
@@ -136,7 +136,7 @@ AffineTransform< TScalar, NDimensions >
 }
 
 /** Compose with elementary rotation */
-template< class TScalar, unsigned int NDimensions >
+template< typename TScalar, unsigned int NDimensions >
 void
 AffineTransform< TScalar, NDimensions >
 ::Rotate(int axis1, int axis2, TScalar angle, bool pre)
@@ -173,7 +173,7 @@ AffineTransform< TScalar, NDimensions >
 /** Compose with 2D rotation
  * \todo Find a way to generate a compile-time error
  * is this is used with NDimensions != 2. */
-template< class TScalar, unsigned int NDimensions >
+template< typename TScalar, unsigned int NDimensions >
 void
 AffineTransform< TScalar, NDimensions >
 ::Rotate2D(TScalar angle, bool pre)
@@ -201,7 +201,7 @@ AffineTransform< TScalar, NDimensions >
 /** Compose with 3D rotation
  *  \todo Find a way to generate a compile-time error
  *  is this is used with NDimensions != 3. */
-template< class TScalar, unsigned int NDimensions >
+template< typename TScalar, unsigned int NDimensions >
 void
 AffineTransform< TScalar, NDimensions >
 ::Rotate3D(const OutputVectorType & axis, TScalar angle, bool pre)
@@ -249,7 +249,7 @@ AffineTransform< TScalar, NDimensions >
 }
 
 /** Compose with elementary rotation */
-template< class TScalar, unsigned int NDimensions >
+template< typename TScalar, unsigned int NDimensions >
 void
 AffineTransform< TScalar, NDimensions >
 ::Shear(int axis1, int axis2, TScalar coef, bool pre)
@@ -281,7 +281,7 @@ AffineTransform< TScalar, NDimensions >
 }
 
 /** Get an inverse of this transform. */
-template< class TScalar, unsigned int NDimensions >
+template< typename TScalar, unsigned int NDimensions >
 bool
 AffineTransform< TScalar, NDimensions >
 ::GetInverse(Self *inverse) const
@@ -290,7 +290,7 @@ AffineTransform< TScalar, NDimensions >
 }
 
 /** Return an inverse of this transform. */
-template< class TScalar, unsigned int NDimensions >
+template< typename TScalar, unsigned int NDimensions >
 typename AffineTransform< TScalar, NDimensions >::InverseTransformBasePointer
 AffineTransform< TScalar, NDimensions >
 ::GetInverseTransform() const
@@ -301,7 +301,7 @@ AffineTransform< TScalar, NDimensions >
 }
 
 /** Compute a distance between two affine transforms */
-template< class TScalar, unsigned int NDimensions >
+template< typename TScalar, unsigned int NDimensions >
 typename AffineTransform< TScalar, NDimensions >::ScalarType
 AffineTransform< TScalar, NDimensions >
 ::Metric(const Self *other) const
@@ -322,7 +322,7 @@ AffineTransform< TScalar, NDimensions >
 }
 
 /** Compute a distance between self and the identity transform */
-template< class TScalar, unsigned int NDimensions >
+template< typename TScalar, unsigned int NDimensions >
 typename AffineTransform< TScalar, NDimensions >::ScalarType
 AffineTransform< TScalar, NDimensions >
 ::Metric(void) const

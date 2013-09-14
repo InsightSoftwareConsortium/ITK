@@ -51,7 +51,7 @@ namespace Statistics
  * \endwiki
  */
 
-template< class TSample, class THistogram >
+template< typename TSample, typename THistogram >
 class SampleToHistogramFilter:public ProcessObject
 {
 public:

@@ -110,7 +110,7 @@ public:
  * table, and a Mapping function, derived from itk::FunctionBase
  * \ingroup ITKCommon
  */
-template< class TPixel, unsigned int ColorTableSize, class MappingFunctionType >
+template< typename TPixel, unsigned int ColorTableSize, typename MappingFunctionType >
 class Octree:public OctreeBase
 {
 public:

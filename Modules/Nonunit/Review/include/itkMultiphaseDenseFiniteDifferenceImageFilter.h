@@ -97,7 +97,7 @@ namespace itk
  * \sa FiniteDifferenceImageFilter
  * \ingroup ITKReview
  */
-template< class TInputImage, class TFeatureImage, class TOutputImage, class TFunction,
+template< typename TInputImage, typename TFeatureImage, typename TOutputImage, typename TFunction,
           typename TIdCell = unsigned int >
 class MultiphaseDenseFiniteDifferenceImageFilter:
   public MultiphaseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,

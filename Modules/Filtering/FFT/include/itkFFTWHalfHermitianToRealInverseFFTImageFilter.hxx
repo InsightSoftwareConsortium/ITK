@@ -26,14 +26,14 @@
 namespace itk
 {
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 FFTWHalfHermitianToRealInverseFFTImageFilter< TInputImage, TOutputImage >
 ::FFTWHalfHermitianToRealInverseFFTImageFilter()
 {
   m_PlanRigor = FFTWGlobalConfiguration::GetPlanRigor();
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 FFTWHalfHermitianToRealInverseFFTImageFilter< TInputImage, TOutputImage >
 ::BeforeThreadedGenerateData()
@@ -116,7 +116,7 @@ FFTWHalfHermitianToRealInverseFFTImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 void
 FFTWHalfHermitianToRealInverseFFTImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData(const OutputRegionType& outputRegionForThread,
@@ -132,7 +132,7 @@ FFTWHalfHermitianToRealInverseFFTImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 FFTWHalfHermitianToRealInverseFFTImageFilter< TInputImage, TOutputImage >
 ::UpdateOutputData(DataObject * output)
@@ -144,7 +144,7 @@ FFTWHalfHermitianToRealInverseFFTImageFilter< TInputImage, TOutputImage >
   Superclass::UpdateOutputData( output );
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 FFTWHalfHermitianToRealInverseFFTImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

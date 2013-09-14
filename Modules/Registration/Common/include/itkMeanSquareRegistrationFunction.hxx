@@ -27,7 +27,7 @@ namespace itk
 /**
  * Default constructor
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 MeanSquareRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::MeanSquareRegistrationFunction()
 {
@@ -57,7 +57,7 @@ MeanSquareRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 /*
  * Standard "PrintSelf" method.
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void
 MeanSquareRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -78,7 +78,7 @@ MeanSquareRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 /*
  * Set the function state values before each iteration
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void
 MeanSquareRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::InitializeIteration()
@@ -103,7 +103,7 @@ MeanSquareRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 /**
  * Compute update at a non boundary neighbourhood
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 typename MeanSquareRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::PixelType
 MeanSquareRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >

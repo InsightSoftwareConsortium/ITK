@@ -53,19 +53,19 @@ public:
   typedef OpenCVImageBridge Self;
 
   /** IplImage* -> itk::Image */
-  template<class TOutputImageType>
+  template<typename TOutputImageType>
   static typename TOutputImageType::Pointer IplImageToITKImage(const IplImage* in);
 
   /** cv::Mat -> itk::Image */
-  template<class TOutputImageType>
+  template<typename TOutputImageType>
   static typename TOutputImageType::Pointer CVMatToITKImage(const cv::Mat & in);
 
   /** itk::Image -> IplImage* */
-  template<class TInputImageType>
+  template<typename TInputImageType>
   static IplImage* ITKImageToIplImage(const TInputImageType* in, bool force3Channels = false);
 
   /** itk::Image -> cv::Mat */
-  template<class TInputImageType>
+  template<typename TInputImageType>
   static cv::Mat ITKImageToCVMat(const TInputImageType* in, bool force3Channels = false);
 
 private:
@@ -78,7 +78,7 @@ private:
     3) Create a copy of the current IplImage's buffer without any padding
     (slow but necessary)
     4) Copy the buffer and convert the pixels if necessary */
-  template< class TOutputImageType, class TPixel >
+  template< typename TOutputImageType, typename TPixel >
   static void ITKConvertIplImageBuffer( const IplImage* in,
                                         TOutputImageType* out,
                                         int iDepth )
@@ -170,7 +170,7 @@ private:
       }
   }
 
-  template< class TPixel, unsigned int VDimension >
+  template< typename TPixel, unsigned int VDimension >
   struct HandleRGBPixel
   {
     static void Padding( const Image< TPixel, VDimension >* itkNotUsed( in ),
@@ -178,7 +178,7 @@ private:
     {}
   };
 
-  template< class TValue, unsigned int VDimension >
+  template< typename TValue, unsigned int VDimension >
   struct HandleRGBPixel< RGBPixel< TValue >, VDimension >
   {
     typedef TValue                          ValueType;

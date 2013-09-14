@@ -25,11 +25,11 @@
 
 namespace itk
 {
-template< class TImage >
+template< typename TImage >
 double GPUGradientNDAnisotropicDiffusionFunction< TImage >
 ::m_MIN_NORM = 1.0e-10;
 
-template< class TImage >
+template< typename TImage >
 GPUGradientNDAnisotropicDiffusionFunction< TImage >
 ::GPUGradientNDAnisotropicDiffusionFunction()
 {
@@ -121,7 +121,7 @@ GPUGradientNDAnisotropicDiffusionFunction< TImage >
   this->m_ComputeUpdateGPUKernelHandle = this->m_GPUKernelManager->CreateKernel("ComputeUpdate");
 }
 
-template< class TImage >
+template< typename TImage >
 void
 GPUGradientNDAnisotropicDiffusionFunction< TImage >
 ::GPUComputeUpdate( const typename TImage::Pointer output, typename TImage::Pointer buffer, void *itkNotUsed(globalData) )

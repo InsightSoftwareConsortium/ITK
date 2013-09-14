@@ -36,8 +36,8 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage, class TFunction1,
-          class TFunction2 >
+template< typename TInputImage, typename TOutputImage, typename TFunction1,
+          typename TFunction2 >
 ValuedRegionalExtremaImageFilter< TInputImage, TOutputImage, TFunction1,
                                   TFunction2 >
 ::ValuedRegionalExtremaImageFilter():m_MarkerValue(0)
@@ -49,8 +49,8 @@ ValuedRegionalExtremaImageFilter< TInputImage, TOutputImage, TFunction1,
   m_Flat = false;
 }
 
-template< class TInputImage, class TOutputImage, class TFunction1,
-          class TFunction2 >
+template< typename TInputImage, typename TOutputImage, typename TFunction1,
+          typename TFunction2 >
 void
 ValuedRegionalExtremaImageFilter< TInputImage, TOutputImage, TFunction1,
                                   TFunction2 >
@@ -69,8 +69,8 @@ ValuedRegionalExtremaImageFilter< TInputImage, TOutputImage, TFunction1,
   input->SetRequestedRegion( input->GetLargestPossibleRegion() );
 }
 
-template< class TInputImage, class TOutputImage, class TFunction1,
-          class TFunction2 >
+template< typename TInputImage, typename TOutputImage, typename TFunction1,
+          typename TFunction2 >
 void
 ValuedRegionalExtremaImageFilter< TInputImage, TOutputImage, TFunction1,
                                   TFunction2 >
@@ -80,8 +80,8 @@ ValuedRegionalExtremaImageFilter< TInputImage, TOutputImage, TFunction1,
   ->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
 }
 
-template< class TInputImage, class TOutputImage, class TFunction1,
-          class TFunction2 >
+template< typename TInputImage, typename TOutputImage, typename TFunction1,
+          typename TFunction2 >
 void
 ValuedRegionalExtremaImageFilter< TInputImage, TOutputImage, TFunction1,
                                   TFunction2 >
@@ -234,8 +234,8 @@ ValuedRegionalExtremaImageFilter< TInputImage, TOutputImage, TFunction1,
     }
 }
 
-template< class TInputImage, class TOutputImage, class TFunction1,
-          class TFunction2 >
+template< typename TInputImage, typename TOutputImage, typename TFunction1,
+          typename TFunction2 >
 void
 ValuedRegionalExtremaImageFilter< TInputImage, TOutputImage, TFunction1,
                                   TFunction2 >

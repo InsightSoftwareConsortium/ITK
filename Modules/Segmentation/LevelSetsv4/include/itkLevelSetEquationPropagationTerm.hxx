@@ -24,7 +24,7 @@
 
 namespace itk
 {
-template< class TInput, class TLevelSetContainer, class TPropagationImage >
+template< typename TInput, typename TLevelSetContainer, typename TPropagationImage >
 LevelSetEquationPropagationTerm< TInput, TLevelSetContainer, TPropagationImage >
 ::LevelSetEquationPropagationTerm()
 {
@@ -33,14 +33,14 @@ LevelSetEquationPropagationTerm< TInput, TLevelSetContainer, TPropagationImage >
   this->m_RequiredData.insert( "ForwardGradient" );
 }
 
-template< class TInput, class TLevelSetContainer, class TPropagationImage >
+template< typename TInput, typename TLevelSetContainer, typename TPropagationImage >
 LevelSetEquationPropagationTerm< TInput, TLevelSetContainer, TPropagationImage >
 ::~LevelSetEquationPropagationTerm()
 {
 }
 
 
-template< class TInput, class TLevelSetContainer, class TPropagationImage >
+template< typename TInput, typename TLevelSetContainer, typename TPropagationImage >
 void
 LevelSetEquationPropagationTerm< TInput, TLevelSetContainer, TPropagationImage >
 ::InitializeParameters()
@@ -58,21 +58,21 @@ LevelSetEquationPropagationTerm< TInput, TLevelSetContainer, TPropagationImage >
     }
 }
 
-template< class TInput, class TLevelSetContainer, class TPropagationImage >
+template< typename TInput, typename TLevelSetContainer, typename TPropagationImage >
 void
 LevelSetEquationPropagationTerm< TInput, TLevelSetContainer, TPropagationImage >
 ::Initialize( const LevelSetInputIndexType& )
 {
 }
 
-template< class TInput, class TLevelSetContainer, class TPropagationImage >
+template< typename TInput, typename TLevelSetContainer, typename TPropagationImage >
 void
 LevelSetEquationPropagationTerm< TInput, TLevelSetContainer, TPropagationImage >
 ::Update()
 {
 }
 
-template< class TInput, class TLevelSetContainer, class TPropagationImage >
+template< typename TInput, typename TLevelSetContainer, typename TPropagationImage >
 void
 LevelSetEquationPropagationTerm< TInput, TLevelSetContainer, TPropagationImage >
 ::UpdatePixel( const LevelSetInputIndexType& itkNotUsed( iP ),
@@ -81,7 +81,7 @@ LevelSetEquationPropagationTerm< TInput, TLevelSetContainer, TPropagationImage >
 {
 }
 
-template< class TInput, class TLevelSetContainer, class TPropagationImage >
+template< typename TInput, typename TLevelSetContainer, typename TPropagationImage >
 typename LevelSetEquationPropagationTerm< TInput, TLevelSetContainer, TPropagationImage >::LevelSetOutputRealType
 LevelSetEquationPropagationTerm< TInput, TLevelSetContainer, TPropagationImage >
 ::PropagationSpeed( const LevelSetInputIndexType& iP ) const
@@ -89,7 +89,7 @@ LevelSetEquationPropagationTerm< TInput, TLevelSetContainer, TPropagationImage >
   return ( static_cast< LevelSetOutputRealType >( this->m_PropagationImage->GetPixel(iP) ) );
 }
 
-template< class TInput, class TLevelSetContainer, class TPropagationImage >
+template< typename TInput, typename TLevelSetContainer, typename TPropagationImage >
 typename LevelSetEquationPropagationTerm< TInput, TLevelSetContainer, TPropagationImage >::LevelSetOutputRealType
 LevelSetEquationPropagationTerm< TInput, TLevelSetContainer, TPropagationImage >
 ::Value( const LevelSetInputIndexType& iP )
@@ -120,7 +120,7 @@ LevelSetEquationPropagationTerm< TInput, TLevelSetContainer, TPropagationImage >
   return propagation_gradient;
 }
 
-template< class TInput, class TLevelSetContainer, class TPropagationImage >
+template< typename TInput, typename TLevelSetContainer, typename TPropagationImage >
 typename LevelSetEquationPropagationTerm< TInput, TLevelSetContainer, TPropagationImage >::LevelSetOutputRealType
 LevelSetEquationPropagationTerm< TInput, TLevelSetContainer, TPropagationImage >
 ::Value( const LevelSetInputIndexType& iP,

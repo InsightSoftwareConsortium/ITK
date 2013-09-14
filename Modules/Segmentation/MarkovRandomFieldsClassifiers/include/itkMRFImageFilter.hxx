@@ -21,7 +21,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TClassifiedImage >
+template< typename TInputImage, typename TClassifiedImage >
 MRFImageFilter< TInputImage, TClassifiedImage >
 ::MRFImageFilter(void):
   m_NumberOfClasses(0),
@@ -52,12 +52,12 @@ MRFImageFilter< TInputImage, TClassifiedImage >
   this->SetDefaultMRFNeighborhoodWeight();
 }
 
-template< class TInputImage, class TClassifiedImage >
+template< typename TInputImage, typename TClassifiedImage >
 MRFImageFilter< TInputImage, TClassifiedImage >
 ::~MRFImageFilter(void)
 {}
 
-template< class TInputImage, class TClassifiedImage >
+template< typename TInputImage, typename TClassifiedImage >
 void
 MRFImageFilter< TInputImage, TClassifiedImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -103,7 +103,7 @@ MRFImageFilter< TInputImage, TClassifiedImage >
 /*
  * GenerateInputRequestedRegion method.
  */
-template< class TInputImage, class TClassifiedImage >
+template< typename TInputImage, typename TClassifiedImage >
 void
 MRFImageFilter< TInputImage, TClassifiedImage >
 ::GenerateInputRequestedRegion()
@@ -123,7 +123,7 @@ MRFImageFilter< TInputImage, TClassifiedImage >
 /**
  * EnlargeOutputRequestedRegion method.
  */
-template< class TInputImage, class TClassifiedImage >
+template< typename TInputImage, typename TClassifiedImage >
 void
 MRFImageFilter< TInputImage, TClassifiedImage >
 ::EnlargeOutputRequestedRegion(
@@ -140,7 +140,7 @@ MRFImageFilter< TInputImage, TClassifiedImage >
 /**
  * GenerateOutputInformation method.
  */
-template< class TInputImage, class TClassifiedImage >
+template< typename TInputImage, typename TClassifiedImage >
 void
 MRFImageFilter< TInputImage, TClassifiedImage >
 ::GenerateOutputInformation()
@@ -150,7 +150,7 @@ MRFImageFilter< TInputImage, TClassifiedImage >
   output->SetLargestPossibleRegion( input->GetLargestPossibleRegion() );
 }
 
-template< class TInputImage, class TClassifiedImage >
+template< typename TInputImage, typename TClassifiedImage >
 void
 MRFImageFilter< TInputImage, TClassifiedImage >
 ::GenerateData()
@@ -207,7 +207,7 @@ MRFImageFilter< TInputImage, TClassifiedImage >
     } // end while
 }     // end GenerateData
 
-template< class TInputImage, class TClassifiedImage >
+template< typename TInputImage, typename TClassifiedImage >
 void
 MRFImageFilter< TInputImage, TClassifiedImage >
 ::SetClassifier(typename ClassifierType::Pointer ptrToClassifier)
@@ -224,7 +224,7 @@ MRFImageFilter< TInputImage, TClassifiedImage >
 //Set the neighborhood radius
 //-------------------------------------------------------
 
-template< class TInputImage, class TClassifiedImage >
+template< typename TInputImage, typename TClassifiedImage >
 void
 MRFImageFilter< TInputImage, TClassifiedImage >
 ::SetNeighborhoodRadius(const SizeValueType radiusValue)
@@ -239,7 +239,7 @@ MRFImageFilter< TInputImage, TClassifiedImage >
   this->SetNeighborhoodRadius(radius);
 } // end SetNeighborhoodRadius
 
-template< class TInputImage, class TClassifiedImage >
+template< typename TInputImage, typename TClassifiedImage >
 void
 MRFImageFilter< TInputImage, TClassifiedImage >
 ::SetNeighborhoodRadius(const SizeValueType *radiusArray)
@@ -255,7 +255,7 @@ MRFImageFilter< TInputImage, TClassifiedImage >
 } // end SetNeighborhoodRadius
 
 //Set the neighborhood radius
-template< class TInputImage, class TClassifiedImage >
+template< typename TInputImage, typename TClassifiedImage >
 void
 MRFImageFilter< TInputImage, TClassifiedImage >
 ::SetNeighborhoodRadius(const NeighborhoodRadiusType & radius)
@@ -278,7 +278,7 @@ MRFImageFilter< TInputImage, TClassifiedImage >
 //Set the neighborhood weights
 //-------------------------------------------------------
 
-template< class TInputImage, class TClassifiedImage >
+template< typename TInputImage, typename TClassifiedImage >
 void
 MRFImageFilter< TInputImage, TClassifiedImage >
 ::SetDefaultMRFNeighborhoodWeight()
@@ -349,7 +349,7 @@ MRFImageFilter< TInputImage, TClassifiedImage >
     }
 } // SetMRFNeighborhoodWeight
 
-template< class TInputImage, class TClassifiedImage >
+template< typename TInputImage, typename TClassifiedImage >
 void
 MRFImageFilter< TInputImage, TClassifiedImage >
 ::SetMRFNeighborhoodWeight(std::vector< double > betaMatrix)
@@ -387,7 +387,7 @@ MRFImageFilter< TInputImage, TClassifiedImage >
 //-------------------------------------------------------
 //Allocate algorithm specific resources
 //-------------------------------------------------------
-template< class TInputImage, class TClassifiedImage >
+template< typename TInputImage, typename TClassifiedImage >
 void
 MRFImageFilter< TInputImage, TClassifiedImage >
 ::Allocate()
@@ -442,7 +442,7 @@ MRFImageFilter< TInputImage, TClassifiedImage >
 //Apply the MRF image filter
 //-------------------------------------------------------
 
-template< class TInputImage, class TClassifiedImage >
+template< typename TInputImage, typename TClassifiedImage >
 void
 MRFImageFilter< TInputImage, TClassifiedImage >
 ::ApplyMRFImageFilter()
@@ -499,7 +499,7 @@ MRFImageFilter< TInputImage, TClassifiedImage >
 //Minimize the functional
 //-------------------------------------------------------
 
-template< class TInputImage, class TClassifiedImage >
+template< typename TInputImage, typename TClassifiedImage >
 void
 MRFImageFilter< TInputImage, TClassifiedImage >
 ::MinimizeFunctional()
@@ -512,7 +512,7 @@ MRFImageFilter< TInputImage, TClassifiedImage >
 //-------------------------------------------------------
 //Core of the ICM algorithm
 //-------------------------------------------------------
-template< class TInputImage, class TClassifiedImage >
+template< typename TInputImage, typename TClassifiedImage >
 void
 MRFImageFilter< TInputImage, TClassifiedImage >
 ::ApplyICMLabeller()
@@ -605,7 +605,7 @@ MRFImageFilter< TInputImage, TClassifiedImage >
 //Function that performs the MRF operation with each neighborhood
 //-------------------------------------------------------
 
-template< class TInputImage, class TClassifiedImage >
+template< typename TInputImage, typename TClassifiedImage >
 void
 MRFImageFilter< TInputImage, TClassifiedImage >
 ::DoNeighborhoodOperation(const InputImageNeighborhoodIterator & imageIter,

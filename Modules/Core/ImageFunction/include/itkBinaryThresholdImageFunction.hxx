@@ -22,7 +22,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TCoordRep >
+template< typename TInputImage, typename TCoordRep >
 BinaryThresholdImageFunction< TInputImage, TCoordRep >
 ::BinaryThresholdImageFunction()
 {
@@ -33,7 +33,7 @@ BinaryThresholdImageFunction< TInputImage, TCoordRep >
 /**
  * Values greater than or equal to the value are inside
  */
-template< class TInputImage, class TCoordRep >
+template< typename TInputImage, typename TCoordRep >
 void
 BinaryThresholdImageFunction< TInputImage, TCoordRep >
 ::ThresholdAbove(PixelType thresh)
@@ -50,7 +50,7 @@ BinaryThresholdImageFunction< TInputImage, TCoordRep >
 /**
  * The values less than or equal to the value are inside
  */
-template< class TInputImage, class TCoordRep >
+template< typename TInputImage, typename TCoordRep >
 void
 BinaryThresholdImageFunction< TInputImage, TCoordRep >
 ::ThresholdBelow(PixelType thresh)
@@ -67,7 +67,7 @@ BinaryThresholdImageFunction< TInputImage, TCoordRep >
 /**
  * The values less than or equal to the value are inside
  */
-template< class TInputImage, class TCoordRep >
+template< typename TInputImage, typename TCoordRep >
 void
 BinaryThresholdImageFunction< TInputImage, TCoordRep >
 ::ThresholdBetween(PixelType lower, PixelType upper)
@@ -81,7 +81,7 @@ BinaryThresholdImageFunction< TInputImage, TCoordRep >
     }
 }
 
-template< class TInputImage, class TCoordRep >
+template< typename TInputImage, typename TCoordRep >
 void
 BinaryThresholdImageFunction< TInputImage, TCoordRep >
 ::PrintSelf(std::ostream & os, Indent indent) const

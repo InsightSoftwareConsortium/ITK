@@ -25,7 +25,7 @@ namespace itk
 /**
  * Constructor
  */
-template< class TImageType, class TFeatureImageType >
+template< typename TImageType, typename TFeatureImageType >
 ShapePriorSegmentationLevelSetFunction< TImageType, TFeatureImageType >
 ::ShapePriorSegmentationLevelSetFunction()
 {
@@ -36,7 +36,7 @@ ShapePriorSegmentationLevelSetFunction< TImageType, TFeatureImageType >
 /**
  * PrintSelf
  */
-template< class TImageType, class TFeatureImageType >
+template< typename TImageType, typename TFeatureImageType >
 void
 ShapePriorSegmentationLevelSetFunction< TImageType, TFeatureImageType >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -49,7 +49,7 @@ ShapePriorSegmentationLevelSetFunction< TImageType, TFeatureImageType >
 /**
  * Compute the equation value.
  */
-template< class TImageType, class TFeatureImageType >
+template< typename TImageType, typename TFeatureImageType >
 typename ShapePriorSegmentationLevelSetFunction< TImageType, TFeatureImageType >
 ::PixelType
 ShapePriorSegmentationLevelSetFunction< TImageType, TFeatureImageType >
@@ -90,7 +90,7 @@ ShapePriorSegmentationLevelSetFunction< TImageType, TFeatureImageType >
 /**
  * Compute the global time step.
  */
-template< class TImageType, class TFeatureImageType >
+template< typename TImageType, typename TFeatureImageType >
 typename ShapePriorSegmentationLevelSetFunction< TImageType, TFeatureImageType >
 ::TimeStepType
 ShapePriorSegmentationLevelSetFunction< TImageType, TFeatureImageType >

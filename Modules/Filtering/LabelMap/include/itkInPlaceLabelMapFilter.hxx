@@ -45,7 +45,7 @@ namespace itk
 /**
  *
  */
-template< class TInputImage >
+template< typename TInputImage >
 InPlaceLabelMapFilter< TInputImage >
 ::InPlaceLabelMapFilter():m_InPlace(true)
 {}
@@ -53,12 +53,12 @@ InPlaceLabelMapFilter< TInputImage >
 /**
  *
  */
-template< class TInputImage >
+template< typename TInputImage >
 InPlaceLabelMapFilter< TInputImage >
 ::~InPlaceLabelMapFilter()
 {}
 
-template< class TInputImage >
+template< typename TInputImage >
 void
 InPlaceLabelMapFilter< TInputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -77,7 +77,7 @@ InPlaceLabelMapFilter< TInputImage >
     }
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void
 InPlaceLabelMapFilter< TInputImage >
 ::AllocateOutputs()

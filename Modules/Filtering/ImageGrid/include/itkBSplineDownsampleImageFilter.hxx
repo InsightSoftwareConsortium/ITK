@@ -34,12 +34,12 @@ namespace itk
 /**
  * Constructor
  */
-template< class TInputImage, class TOutputImage, class ResamplerType >
+template< typename TInputImage, typename TOutputImage, typename ResamplerType >
 BSplineDownsampleImageFilter< TInputImage, TOutputImage, ResamplerType >
 ::BSplineDownsampleImageFilter()
 {}
 
-template< class TInputImage, class TOutputImage, class ResamplerType >
+template< typename TInputImage, typename TOutputImage, typename ResamplerType >
 void
 BSplineDownsampleImageFilter< TInputImage, TOutputImage, ResamplerType >
 ::GenerateData()
@@ -68,7 +68,7 @@ BSplineDownsampleImageFilter< TInputImage, TOutputImage, ResamplerType >
 /**
  *
  */
-template< class TInputImage, class TOutputImage, class ResamplerType >
+template< typename TInputImage, typename TOutputImage, typename ResamplerType >
 void
 BSplineDownsampleImageFilter< TInputImage, TOutputImage, ResamplerType >
 ::GenerateInputRequestedRegion()
@@ -115,7 +115,7 @@ BSplineDownsampleImageFilter< TInputImage, TOutputImage, ResamplerType >
 /**
  *
  */
-template< class TInputImage, class TOutputImage, class ResamplerType >
+template< typename TInputImage, typename TOutputImage, typename ResamplerType >
 void
 BSplineDownsampleImageFilter< TInputImage, TOutputImage, ResamplerType >
 ::GenerateOutputInformation()
@@ -168,7 +168,7 @@ BSplineDownsampleImageFilter< TInputImage, TOutputImage, ResamplerType >
 /*
  * EnlargeOutputRequestedRegion method.
  */
-template< class TInputImage, class TOutputImage, class ResamplerType >
+template< typename TInputImage, typename TOutputImage, typename ResamplerType >
 void
 BSplineDownsampleImageFilter< TInputImage, TOutputImage, ResamplerType >
 ::EnlargeOutputRequestedRegion(

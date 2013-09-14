@@ -27,7 +27,7 @@ namespace itk
 /** \class BinaryImageToLevelSetImageAdaptorBase
  *  \ingroup ITKLevelSetsv4
  */
-template< class TInputImage, class TLevelSet >
+template< typename TInputImage, typename TLevelSet >
 class BinaryImageToLevelSetImageAdaptorBase : public Object
 {
 public:

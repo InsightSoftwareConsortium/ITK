@@ -22,14 +22,14 @@
 
 namespace itk
 {
-template< class TInputHistogram >
+template< typename TInputHistogram >
 HistogramAlgorithmBase< TInputHistogram >
 ::HistogramAlgorithmBase()
 {
   m_InputHistogram = 0;
 }
 
-template< class TInputHistogram >
+template< typename TInputHistogram >
 void
 HistogramAlgorithmBase< TInputHistogram >
 ::PrintSelf(std::ostream & os, Indent indent) const

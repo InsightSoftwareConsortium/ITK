@@ -53,7 +53,7 @@ namespace itk
  */
 namespace Functor {
 
-template< class TPixel >
+template< typename TPixel >
 class BinaryNot
 {
 public:
@@ -82,7 +82,7 @@ public:
 };
 
 }
-template <class TImage>
+template <typename TImage>
 class BinaryNotImageFilter :
     public
 UnaryFunctorImageFilter<TImage, TImage,

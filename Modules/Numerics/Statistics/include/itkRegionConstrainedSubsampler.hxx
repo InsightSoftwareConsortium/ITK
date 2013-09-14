@@ -22,7 +22,7 @@
 namespace itk {
 namespace Statistics {
 
-template <class TSample, class TRegion>
+template <typename TSample, typename TRegion>
 RegionConstrainedSubsampler<TSample, TRegion>
 ::RegionConstrainedSubsampler()
 {
@@ -31,7 +31,7 @@ RegionConstrainedSubsampler<TSample, TRegion>
   this->m_SampleRegionInitialized = false;
 }
 
-template <class TSample, class TRegion>
+template <typename TSample, typename TRegion>
 typename LightObject::Pointer
 RegionConstrainedSubsampler<TSample, TRegion>
 ::InternalClone() const
@@ -66,7 +66,7 @@ RegionConstrainedSubsampler<TSample, TRegion>
   return loPtr;
 }
 
-template <class TSample, class TRegion>
+template <typename TSample, typename TRegion>
 void
 RegionConstrainedSubsampler<TSample, TRegion>
 ::SetSampleRegion(const RegionType& region)
@@ -81,7 +81,7 @@ RegionConstrainedSubsampler<TSample, TRegion>
     }
 }
 
-template <class TSample, class TRegion>
+template <typename TSample, typename TRegion>
 void
 RegionConstrainedSubsampler<TSample, TRegion>
 ::SetRegionConstraint(const RegionType& region)
@@ -96,7 +96,7 @@ RegionConstrainedSubsampler<TSample, TRegion>
     }
 }
 
-template <class TSample, class TRegion>
+template <typename TSample, typename TRegion>
 void
 RegionConstrainedSubsampler<TSample, TRegion>
 ::PrintSelf(std::ostream& os, Indent indent) const

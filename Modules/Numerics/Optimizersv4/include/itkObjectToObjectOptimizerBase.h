@@ -63,7 +63,7 @@ namespace itk
  *
  * \ingroup ITKOptimizersv4
  */
-template< class TInternalComputationValueType>
+template< typename TInternalComputationValueType>
 class ObjectToObjectOptimizerBaseTemplate : public Object
 {
 public:

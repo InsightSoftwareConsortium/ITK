@@ -26,7 +26,7 @@ namespace itk
 /**
  * Constructor
  */
-template< class TFixedImage, class TMovingImage >
+template< typename TFixedImage, typename TMovingImage >
 MatchCardinalityImageToImageMetric< TFixedImage, TMovingImage >
 ::MatchCardinalityImageToImageMetric()
 {
@@ -42,7 +42,7 @@ MatchCardinalityImageToImageMetric< TFixedImage, TMovingImage >
 /*
  * Get the match Measure
  */
-template< class TFixedImage, class TMovingImage >
+template< typename TFixedImage, typename TMovingImage >
 typename MatchCardinalityImageToImageMetric< TFixedImage, TMovingImage >::MeasureType
 MatchCardinalityImageToImageMetric< TFixedImage, TMovingImage >
 ::GetValue(const TransformParametersType & parameters) const
@@ -53,7 +53,7 @@ MatchCardinalityImageToImageMetric< TFixedImage, TMovingImage >
 /**
  * Get the match Measure (non const version. spawns threads).
  */
-template< class TFixedImage, class TMovingImage >
+template< typename TFixedImage, typename TMovingImage >
 typename MatchCardinalityImageToImageMetric< TFixedImage, TMovingImage >::MeasureType
 MatchCardinalityImageToImageMetric< TFixedImage, TMovingImage >
 ::GetNonconstValue(const TransformParametersType & parameters)
@@ -125,7 +125,7 @@ MatchCardinalityImageToImageMetric< TFixedImage, TMovingImage >
   return measure;
 }
 
-template< class TFixedImage, class TMovingImage >
+template< typename TFixedImage, typename TMovingImage >
 void
 MatchCardinalityImageToImageMetric< TFixedImage, TMovingImage >
 ::ThreadedGetValue(const FixedImageRegionType & regionForThread,
@@ -194,7 +194,7 @@ MatchCardinalityImageToImageMetric< TFixedImage, TMovingImage >
 }
 
 //----------------------------------------------------------------------------
-template< class TFixedImage, class TMovingImage >
+template< typename TFixedImage, typename TMovingImage >
 ThreadIdType
 MatchCardinalityImageToImageMetric< TFixedImage, TMovingImage >
 ::SplitFixedRegion(ThreadIdType i, int num, FixedImageRegionType & splitRegion)
@@ -254,7 +254,7 @@ MatchCardinalityImageToImageMetric< TFixedImage, TMovingImage >
 // Callback routine used by the threading library. This routine just calls
 // the ThreadedGenerateData method after setting the correct region for this
 // thread.
-template< class TFixedImage, class TMovingImage >
+template< typename TFixedImage, typename TMovingImage >
 ITK_THREAD_RETURN_TYPE
 MatchCardinalityImageToImageMetric< TFixedImage, TMovingImage >
 ::ThreaderCallback(void *arg)
@@ -289,7 +289,7 @@ MatchCardinalityImageToImageMetric< TFixedImage, TMovingImage >
 /**
  * PrintSelf
  */
-template< class TFixedImage, class TMovingImage >
+template< typename TFixedImage, typename TMovingImage >
 void
 MatchCardinalityImageToImageMetric< TFixedImage, TMovingImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

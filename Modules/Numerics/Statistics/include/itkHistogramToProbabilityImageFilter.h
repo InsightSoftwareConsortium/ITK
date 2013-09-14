@@ -46,7 +46,7 @@ namespace itk
 
 namespace Function
 {
-template< class TInput, class TOutput = float >
+template< typename TInput, typename TOutput = float >
 class HistogramProbabilityFunction
 {
 public:
@@ -83,7 +83,7 @@ private:
 };
 }
 
-template< class THistogram, class TImage=Image< float, 3> >
+template< typename THistogram, typename TImage=Image< float, 3> >
 class HistogramToProbabilityImageFilter:
   public HistogramToImageFilter< THistogram, TImage,
                                  Function::HistogramProbabilityFunction< SizeValueType, typename TImage::PixelType > >

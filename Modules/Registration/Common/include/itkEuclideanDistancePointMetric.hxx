@@ -24,7 +24,7 @@
 namespace itk
 {
 /** Constructor */
-template< class TFixedPointSet, class TMovingPointSet, class TDistanceMap >
+template< typename TFixedPointSet, typename TMovingPointSet, typename TDistanceMap >
 EuclideanDistancePointMetric< TFixedPointSet, TMovingPointSet, TDistanceMap >
 ::EuclideanDistancePointMetric()
 {
@@ -36,7 +36,7 @@ EuclideanDistancePointMetric< TFixedPointSet, TMovingPointSet, TDistanceMap >
 }
 
 /** Return the number of values, i.e the number of points in the moving set */
-template< class TFixedPointSet, class TMovingPointSet, class TDistanceMap >
+template< typename TFixedPointSet, typename TMovingPointSet, typename TDistanceMap >
 unsigned int
 EuclideanDistancePointMetric< TFixedPointSet, TMovingPointSet, TDistanceMap >
 ::GetNumberOfValues() const
@@ -52,7 +52,7 @@ EuclideanDistancePointMetric< TFixedPointSet, TMovingPointSet, TDistanceMap >
 }
 
 /** Get the match Measure */
-template< class TFixedPointSet, class TMovingPointSet, class TDistanceMap >
+template< typename TFixedPointSet, typename TMovingPointSet, typename TDistanceMap >
 typename EuclideanDistancePointMetric< TFixedPointSet, TMovingPointSet, TDistanceMap >::MeasureType
 EuclideanDistancePointMetric< TFixedPointSet, TMovingPointSet, TDistanceMap >
 ::GetValue(const TransformParametersType & parameters) const
@@ -142,7 +142,7 @@ EuclideanDistancePointMetric< TFixedPointSet, TMovingPointSet, TDistanceMap >
 }
 
 /** Get the Derivative Measure */
-template< class TFixedPointSet, class TMovingPointSet, class TDistanceMap >
+template< typename TFixedPointSet, typename TMovingPointSet, typename TDistanceMap >
 void
 EuclideanDistancePointMetric< TFixedPointSet, TMovingPointSet, TDistanceMap >
 ::GetDerivative( const TransformParametersType & itkNotUsed(parameters),
@@ -150,7 +150,7 @@ EuclideanDistancePointMetric< TFixedPointSet, TMovingPointSet, TDistanceMap >
 {}
 
 /** Get both the match Measure and theDerivative Measure  */
-template< class TFixedPointSet, class TMovingPointSet, class TDistanceMap >
+template< typename TFixedPointSet, typename TMovingPointSet, typename TDistanceMap >
 void
 EuclideanDistancePointMetric< TFixedPointSet, TMovingPointSet, TDistanceMap >
 ::GetValueAndDerivative(const TransformParametersType & parameters,
@@ -161,7 +161,7 @@ EuclideanDistancePointMetric< TFixedPointSet, TMovingPointSet, TDistanceMap >
 }
 
 /** PrintSelf method */
-template< class TFixedPointSet, class TMovingPointSet, class TDistanceMap >
+template< typename TFixedPointSet, typename TMovingPointSet, typename TDistanceMap >
 void
 EuclideanDistancePointMetric< TFixedPointSet, TMovingPointSet, TDistanceMap >
 ::PrintSelf(std::ostream & os, Indent indent) const

@@ -68,7 +68,7 @@ public:
 };
 
 // Test the cell interface
-template<class TCell> int TestCellInterface(std::string name, TCell *aCell)
+template<typename TCell> int TestCellInterface(std::string name, TCell *aCell)
 {
 
   CellAutoPointer cell(aCell,true);
@@ -177,7 +177,7 @@ template<class TCell> int TestCellInterface(std::string name, TCell *aCell)
 
 // Test the QEcell interface
 
-template<class TCell> int TestQECellInterface(std::string name, TCell *aCell)
+template<typename TCell> int TestQECellInterface(std::string name, TCell *aCell)
 {
   std::cout << "-------- " << name << "("
             << aCell->GetNameOfClass() << ")" << std::endl;

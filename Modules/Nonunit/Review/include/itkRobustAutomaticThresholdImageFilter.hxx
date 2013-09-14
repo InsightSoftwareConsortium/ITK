@@ -34,7 +34,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TGradientImage, class TOutputImage >
+template< typename TInputImage, typename TGradientImage, typename TOutputImage >
 RobustAutomaticThresholdImageFilter< TInputImage, TGradientImage, TOutputImage >
 ::RobustAutomaticThresholdImageFilter()
 {
@@ -45,7 +45,7 @@ RobustAutomaticThresholdImageFilter< TInputImage, TGradientImage, TOutputImage >
   this->SetNumberOfRequiredInputs(2);
 }
 
-template< class TInputImage, class TGradientImage, class TOutputImage >
+template< typename TInputImage, typename TGradientImage, typename TOutputImage >
 void
 RobustAutomaticThresholdImageFilter< TInputImage, TGradientImage, TOutputImage >
 ::GenerateData()
@@ -76,7 +76,7 @@ RobustAutomaticThresholdImageFilter< TInputImage, TGradientImage, TOutputImage >
   this->GraftOutput( threshold->GetOutput() );
 }
 
-template< class TInputImage, class TGradientImage, class TOutputImage >
+template< typename TInputImage, typename TGradientImage, typename TOutputImage >
 void
 RobustAutomaticThresholdImageFilter< TInputImage, TGradientImage, TOutputImage >
 ::GenerateInputRequestedRegion()
@@ -85,7 +85,7 @@ RobustAutomaticThresholdImageFilter< TInputImage, TGradientImage, TOutputImage >
   const_cast< TGradientImage * >( this->GetGradientImage() )->SetRequestedRegionToLargestPossibleRegion();
 }
 
-template< class TInputImage, class TGradientImage, class TOutputImage >
+template< typename TInputImage, typename TGradientImage, typename TOutputImage >
 void
 RobustAutomaticThresholdImageFilter< TInputImage, TGradientImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

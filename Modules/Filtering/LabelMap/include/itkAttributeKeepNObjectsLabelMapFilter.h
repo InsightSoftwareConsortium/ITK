@@ -38,7 +38,7 @@ namespace itk {
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKLabelMap
  */
-template<class TImage, class TAttributeAccessor=
+template<typename TImage, typename TAttributeAccessor=
     typename Functor::AttributeLabelObjectAccessor< typename TImage::LabelObjectType > >
 class AttributeKeepNObjectsLabelMapFilter :
     public InPlaceLabelMapFilter<TImage>

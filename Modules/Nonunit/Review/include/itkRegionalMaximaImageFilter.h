@@ -50,7 +50,7 @@ namespace itk
  * \wikiexample{ImageProcessing/RegionalMaximaImageFilter,RegionalMaximaImageFilter}
  * \endwiki
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class RegionalMaximaImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {

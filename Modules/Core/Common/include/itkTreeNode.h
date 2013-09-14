@@ -39,7 +39,7 @@ namespace itk
  * \ingroup DataRepresentation
  * \ingroup ITKCommon
  */
-template< class TValueType >
+template< typename TValueType >
 class TreeNode:public Object
 {
 public:

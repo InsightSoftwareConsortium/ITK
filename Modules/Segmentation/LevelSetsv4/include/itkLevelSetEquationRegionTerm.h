@@ -22,8 +22,8 @@
 
 namespace itk
 {
-template< class TInput,
-          class TLevelSetContainer >
+template< typename TInput,
+          typename TLevelSetContainer >
 class LevelSetEquationRegionTerm :
     public LevelSetEquationTermBase< TInput, TLevelSetContainer >
 {

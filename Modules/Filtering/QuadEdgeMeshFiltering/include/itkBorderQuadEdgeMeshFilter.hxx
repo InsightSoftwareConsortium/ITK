@@ -23,7 +23,7 @@
 namespace itk
 {
 // ----------------------------------------------------------------------------
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 BorderQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 ::BorderQuadEdgeMeshFilter()
 {
@@ -33,7 +33,7 @@ BorderQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 }
 
 // ----------------------------------------------------------------------------
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 typename BorderQuadEdgeMeshFilter< TInputMesh, TOutputMesh >::MapPointIdentifier
 BorderQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 ::GetBoundaryPtMap()
@@ -42,7 +42,7 @@ BorderQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 }
 
 // ----------------------------------------------------------------------------
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 typename BorderQuadEdgeMeshFilter< TInputMesh, TOutputMesh >::InputVectorPointType
 BorderQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 ::GetBorder()
@@ -51,7 +51,7 @@ BorderQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 }
 
 // ----------------------------------------------------------------------------
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 void
 BorderQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 ::ComputeBoundary()
@@ -86,7 +86,7 @@ BorderQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 }
 
 // ----------------------------------------------------------------------------
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 void BorderQuadEdgeMeshFilter< TInputMesh, TOutputMesh >::GenerateData()
 {
   this->ComputeTransform();
@@ -95,7 +95,7 @@ void BorderQuadEdgeMeshFilter< TInputMesh, TOutputMesh >::GenerateData()
 // ----------------------------------------------------------------------------
 // *** under testing ***
 #if !defined( CABLE_CONFIGURATION )
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 typename BorderQuadEdgeMeshFilter< TInputMesh, TOutputMesh >::InputQEType*
 BorderQuadEdgeMeshFilter< TInputMesh, TOutputMesh >::ComputeLongestBorder()
 {
@@ -146,7 +146,7 @@ BorderQuadEdgeMeshFilter< TInputMesh, TOutputMesh >::ComputeLongestBorder()
 
 // ----------------------------------------------------------------------------
 #if !defined( CABLE_CONFIGURATION )
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 typename BorderQuadEdgeMeshFilter< TInputMesh, TOutputMesh >::InputQEType*
 BorderQuadEdgeMeshFilter< TInputMesh, TOutputMesh >::ComputeLargestBorder()
 {
@@ -191,7 +191,7 @@ BorderQuadEdgeMeshFilter< TInputMesh, TOutputMesh >::ComputeLargestBorder()
 #endif
 
 // ----------------------------------------------------------------------------
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 void
 BorderQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 ::DiskTransform()
@@ -262,7 +262,7 @@ BorderQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 }
 
 // ----------------------------------------------------------------------------
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 typename BorderQuadEdgeMeshFilter< TInputMesh, TOutputMesh >::InputCoordRepType
 BorderQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 ::RadiusMaxSquare()
@@ -294,7 +294,7 @@ BorderQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 }
 
 // ----------------------------------------------------------------------------
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 typename BorderQuadEdgeMeshFilter< TInputMesh, TOutputMesh >::InputPointType
 BorderQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 ::GetMeshBarycentre()
@@ -334,7 +334,7 @@ BorderQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 }
 
 // ----------------------------------------------------------------------------
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 void BorderQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 ::ComputeTransform()
 {
@@ -357,7 +357,7 @@ void BorderQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 }
 
 // ----------------------------------------------------------------------------
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 void
 BorderQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 ::ArcLengthSquareTransform()
@@ -454,7 +454,7 @@ BorderQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
   delete list;
 }
 
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 void
 BorderQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 ::PrintSelf(std::ostream & os, Indent indent) const

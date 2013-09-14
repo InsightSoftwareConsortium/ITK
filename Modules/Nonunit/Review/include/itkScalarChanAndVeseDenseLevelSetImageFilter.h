@@ -59,8 +59,8 @@ namespace itk
  * \wikiexample{Segmentation/SinglephaseChanAndVeseDenseFieldLevelSetSegmentation,Single-phase Chan And Vese Dense Field Level Set Segmentation}
  * \endwiki
  */
-template< class TInputImage, class TFeatureImage, class TOutputImage,
-          class TFunction = ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage >,
+template< typename TInputImage, typename TFeatureImage, typename TOutputImage,
+          typename TFunction = ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage >,
           class TSharedData = typename TFunction::SharedDataType >
 class ScalarChanAndVeseDenseLevelSetImageFilter:
   public MultiphaseDenseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutputImage,

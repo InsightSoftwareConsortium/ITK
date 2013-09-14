@@ -31,7 +31,7 @@ namespace itk
 /**
  *   Constructor
  */
-template< class TInputImage >
+template< typename TInputImage >
 WarpHarmonicEnergyCalculator< TInputImage >
 ::WarpHarmonicEnergyCalculator()
 {
@@ -47,7 +47,7 @@ WarpHarmonicEnergyCalculator< TInputImage >
     }
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void
 WarpHarmonicEnergyCalculator< TInputImage >
 ::SetUseImageSpacing(bool f)
@@ -73,7 +73,7 @@ WarpHarmonicEnergyCalculator< TInputImage >
 /*
  * Compute
  */
-template< class TInputImage >
+template< typename TInputImage >
 void
 WarpHarmonicEnergyCalculator< TInputImage >
 ::Compute(void)
@@ -134,7 +134,7 @@ WarpHarmonicEnergyCalculator< TInputImage >
   m_HarmonicEnergy /= m_Region.GetNumberOfPixels();
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 double
 WarpHarmonicEnergyCalculator< TInputImage >
 ::EvaluateAtNeighborhood(ConstNeighborhoodIteratorType & it) const
@@ -170,7 +170,7 @@ WarpHarmonicEnergyCalculator< TInputImage >
   return norm * norm;
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void
 WarpHarmonicEnergyCalculator< TInputImage >
 ::SetRegion(const RegionType & region)
@@ -179,7 +179,7 @@ WarpHarmonicEnergyCalculator< TInputImage >
   m_RegionSetByUser = true;
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void
 WarpHarmonicEnergyCalculator< TInputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

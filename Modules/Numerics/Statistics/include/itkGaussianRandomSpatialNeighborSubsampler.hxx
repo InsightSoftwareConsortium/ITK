@@ -22,14 +22,14 @@
 namespace itk {
 namespace Statistics {
 
-template <class TSample, class TRegion>
+template <typename TSample, typename TRegion>
 GaussianRandomSpatialNeighborSubsampler<TSample, TRegion>
 ::GaussianRandomSpatialNeighborSubsampler()
 {
   m_Variance = DefaultVariance;
 }
 
-template <class TSample, class TRegion>
+template <typename TSample, typename TRegion>
 typename LightObject::Pointer
 GaussianRandomSpatialNeighborSubsampler<TSample, TRegion>
 ::InternalClone() const
@@ -49,7 +49,7 @@ GaussianRandomSpatialNeighborSubsampler<TSample, TRegion>
   return loPtr;
 }
 
-template <class TSample, class TRegion>
+template <typename TSample, typename TRegion>
 typename GaussianRandomSpatialNeighborSubsampler<TSample, TRegion>::RandomIntType
 GaussianRandomSpatialNeighborSubsampler<TSample, TRegion>
 ::GetIntegerVariate(RandomIntType lowerBound,
@@ -75,7 +75,7 @@ GaussianRandomSpatialNeighborSubsampler<TSample, TRegion>
   return randInt;
 }
 
-template <class TSample, class TRegion>
+template <typename TSample, typename TRegion>
 void
 GaussianRandomSpatialNeighborSubsampler<TSample, TRegion>
 ::PrintSelf(std::ostream& os, Indent indent) const

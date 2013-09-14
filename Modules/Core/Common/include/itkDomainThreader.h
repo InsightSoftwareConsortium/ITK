@@ -62,7 +62,7 @@ namespace itk
  *
  *  \ingroup ITKCommon
  */
-template< class TDomainPartitioner, class TAssociate >
+template< typename TDomainPartitioner, typename TAssociate >
 class DomainThreader: public Object
 {
 public:

@@ -22,7 +22,7 @@
 
 namespace itk
 {
-template< class TTreeType >
+template< typename TTreeType >
 class RootTreeIterator:public TreeIteratorBase< TTreeType >
 {
 public:
@@ -58,7 +58,7 @@ private:
 };
 
 /** Constructor */
-template< class TTreeType >
+template< typename TTreeType >
 RootTreeIterator< TTreeType >::RootTreeIterator(TTreeType *tree, const TreeNodeType *start):
   TreeIteratorBase< TTreeType >(tree, start)
 {
@@ -71,7 +71,7 @@ RootTreeIterator< TTreeType >::RootTreeIterator(TTreeType *tree, const TreeNodeT
 }
 
 /** Return the type of the iterator */
-template< class TTreeType >
+template< typename TTreeType >
 typename RootTreeIterator< TTreeType >::NodeType
 RootTreeIterator< TTreeType >::GetType() const
 {
@@ -79,7 +79,7 @@ RootTreeIterator< TTreeType >::GetType() const
 }
 
 /** Return true if the next node exists */
-template< class TTreeType >
+template< typename TTreeType >
 bool
 RootTreeIterator< TTreeType >::HasNext() const
 {
@@ -91,7 +91,7 @@ RootTreeIterator< TTreeType >::HasNext() const
 }
 
 /** Go to the next node */
-template< class TTreeType >
+template< typename TTreeType >
 const typename RootTreeIterator< TTreeType >::ValueType &
 RootTreeIterator< TTreeType >::Next()
 {
@@ -100,7 +100,7 @@ RootTreeIterator< TTreeType >::Next()
 }
 
 /** Find the next node */
-template< class TTreeType >
+template< typename TTreeType >
 const typename RootTreeIterator< TTreeType >::TreeNodeType *
 RootTreeIterator< TTreeType >::FindNextNode() const
 {
@@ -116,7 +116,7 @@ RootTreeIterator< TTreeType >::FindNextNode() const
 }
 
 /** Clone function */
-template< class TTreeType >
+template< typename TTreeType >
 TreeIteratorBase< TTreeType > *RootTreeIterator< TTreeType >::Clone()
 {
   RootTreeIterator< TTreeType > *clone = new RootTreeIterator< TTreeType >(const_cast< TTreeType * >( this->m_Tree ),

@@ -48,7 +48,7 @@ namespace itk
  * \ingroup ITKLabelMap
  */
 
-template< class TImage, class TLabelImage =
+template< typename TImage, typename TLabelImage =
             Image< typename TImage::PixelType,  TImage ::ImageDimension > >
 class ShapeLabelMapFilter:
   public
@@ -153,7 +153,7 @@ private:
 
   // it seems impossible to specialize a method without specializing the whole class, but we
   // can use simple overloading
-  template<class TMapIntercept, class TSpacing> double PerimeterFromInterceptCount( TMapIntercept & intercepts, const TSpacing & spacing );
+  template<typename TMapIntercept, typename TSpacing> double PerimeterFromInterceptCount( TMapIntercept & intercepts, const TSpacing & spacing );
 #if ! defined(ITK_DO_NOT_USE_PERIMETER_SPECIALIZATION)
   double PerimeterFromInterceptCount( MapIntercept2Type & intercepts, const Spacing2Type spacing );
   double PerimeterFromInterceptCount( MapIntercept3Type & intercepts, const Spacing3Type spacing );

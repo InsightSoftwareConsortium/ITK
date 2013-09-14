@@ -25,7 +25,7 @@ namespace itk
 /**
  *
  */
-template< class TOutputMesh >
+template< typename TOutputMesh >
 RegularSphereMeshSource< TOutputMesh >
 ::RegularSphereMeshSource()
 {
@@ -43,7 +43,7 @@ RegularSphereMeshSource< TOutputMesh >
 /*
  *
  */
-template< class TOutputMesh >
+template< typename TOutputMesh >
 void
 RegularSphereMeshSource< TOutputMesh >
 ::GenerateData()
@@ -303,7 +303,7 @@ RegularSphereMeshSource< TOutputMesh >
     }
 }
 
-template< class TOutputMesh >
+template< typename TOutputMesh >
 typename RegularSphereMeshSource< TOutputMesh >::PointType
 RegularSphereMeshSource< TOutputMesh >
 ::Divide(const PointType & p1, const PointType & p2) const
@@ -334,7 +334,7 @@ RegularSphereMeshSource< TOutputMesh >
   return ( result );
 }
 
-template< class TOutputMesh >
+template< typename TOutputMesh >
 void
 RegularSphereMeshSource< TOutputMesh >
 ::AddCell(OutputMeshType *mesh, const typename OutputMeshType::PointIdentifier *pointIds, IdentifierType idx)
@@ -345,7 +345,7 @@ RegularSphereMeshSource< TOutputMesh >
   mesh->SetCell(idx, testCell);
 }
 
-template< class TOutputMesh >
+template< typename TOutputMesh >
 void
 RegularSphereMeshSource< TOutputMesh >
 ::PrintSelf(std::ostream & os, Indent indent) const

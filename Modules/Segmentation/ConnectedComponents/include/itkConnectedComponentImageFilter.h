@@ -53,7 +53,7 @@ namespace itk
  * \endwiki
  */
 
-template< class TInputImage, class TOutputImage, class TMaskImage = TInputImage >
+template< typename TInputImage, typename TOutputImage, typename TMaskImage = TInputImage >
 class ConnectedComponentImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {

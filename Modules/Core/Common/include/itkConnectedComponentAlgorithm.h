@@ -23,7 +23,7 @@
 
 namespace itk
 {
-template< class TIterator >
+template< typename TIterator >
 TIterator *
 setConnectivity(TIterator *it, bool fullyConnected = false)
 {
@@ -59,7 +59,7 @@ setConnectivity(TIterator *it, bool fullyConnected = false)
   return it;
 }
 
-template< class TIterator >
+template< typename TIterator >
 TIterator *
 setConnectivityPrevious(TIterator *it, bool fullyConnected = false)
 {
@@ -94,7 +94,7 @@ setConnectivityPrevious(TIterator *it, bool fullyConnected = false)
   return it;
 }
 
-template< class TIterator >
+template< typename TIterator >
 TIterator *
 setConnectivityLater(TIterator *it, bool fullyConnected = false)
 {

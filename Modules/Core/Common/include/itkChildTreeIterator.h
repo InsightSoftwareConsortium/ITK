@@ -22,7 +22,7 @@
 
 namespace itk
 {
-template< class TTreeType >
+template< typename TTreeType >
 class ChildTreeIterator:public TreeIteratorBase< TTreeType >
 {
 public:

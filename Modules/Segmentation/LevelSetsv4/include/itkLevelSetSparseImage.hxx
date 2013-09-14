@@ -193,7 +193,7 @@ LevelSetSparseImage< TOutput, VDimension >
 }
 
 template< typename TOutput, unsigned int VDimension >
-template< class TLabel >
+template< typename TLabel >
 typename LabelObject< TLabel, VDimension >::Pointer
 LevelSetSparseImage< TOutput, VDimension >
 ::GetAsLabelObject()

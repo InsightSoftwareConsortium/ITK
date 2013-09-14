@@ -25,7 +25,7 @@ namespace itk
 namespace fem
 {
 
-template <class TMoving, class TFixed>
+template <typename TMoving, typename TFixed>
 ::itk::LightObject::Pointer
 FiniteDifferenceFunctionLoad<TMoving, TFixed>::CreateAnother(void) const
 {
@@ -53,7 +53,7 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::CreateAnother(void) const
   return smartPtr;
 }
 
-template <class TMoving, class TFixed>
+template <typename TMoving, typename TFixed>
 FiniteDifferenceFunctionLoad<TMoving, TFixed>::FiniteDifferenceFunctionLoad()
 {
   m_SolutionIndex = 1;
@@ -69,7 +69,7 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::FiniteDifferenceFunctionLoad()
 
 }
 
-template <class TMoving, class TFixed>
+template <typename TMoving, typename TFixed>
 void
 FiniteDifferenceFunctionLoad<TMoving, TFixed>::InitializeIteration()
 {
@@ -89,14 +89,14 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::InitializeIteration()
 
 }
 
-template <class TMoving, class TFixed>
+template <typename TMoving, typename TFixed>
 void
 FiniteDifferenceFunctionLoad<TMoving, TFixed>::InitializeMetric()
 {
   this->InitializeIteration();
 }
 
-template <class TMoving, class TFixed>
+template <typename TMoving, typename TFixed>
 void
 FiniteDifferenceFunctionLoad<TMoving, TFixed>::PrintCurrentEnergy()
 {
@@ -106,7 +106,7 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::PrintCurrentEnergy()
     }
 }
 
-template <class TMoving, class TFixed>
+template <typename TMoving, typename TFixed>
 double
 FiniteDifferenceFunctionLoad<TMoving, TFixed>::GetCurrentEnergy()
 {
@@ -120,7 +120,7 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::GetCurrentEnergy()
     }
 }
 
-template <class TMoving, class TFixed>
+template <typename TMoving, typename TFixed>
 void
 FiniteDifferenceFunctionLoad<TMoving, TFixed>::SetCurrentEnergy(double e)
 {
@@ -131,7 +131,7 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::SetCurrentEnergy(double e)
 }
 
 
-template <class TMoving, class TFixed>
+template <typename TMoving, typename TFixed>
 typename FiniteDifferenceFunctionLoad<TMoving, TFixed>::Float
 FiniteDifferenceFunctionLoad<TMoving, TFixed>::EvaluateMetricGivenSolution( ElementContainerType *el, Float step)
 {
@@ -213,7 +213,7 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::EvaluateMetricGivenSolution( Elem
 }
 
 
-template <class TMoving, class TFixed>
+template <typename TMoving, typename TFixed>
 typename FiniteDifferenceFunctionLoad<TMoving, TFixed>::FEMVectorType
 FiniteDifferenceFunctionLoad<TMoving, TFixed>::Fe( FEMVectorType  Gpos )
 {
@@ -296,7 +296,7 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::Fe( FEMVectorType  Gpos )
   return femVec;
 }
 
-template <class TMoving, class TFixed>
+template <typename TMoving, typename TFixed>
 void
 FiniteDifferenceFunctionLoad<TMoving, TFixed>::ApplyLoad
   ( Element::ConstPointer element, Element::VectorType & F)

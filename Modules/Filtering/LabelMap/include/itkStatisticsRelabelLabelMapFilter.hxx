@@ -24,14 +24,14 @@
 
 namespace itk
 {
-template< class TImage >
+template< typename TImage >
 StatisticsRelabelLabelMapFilter< TImage >
 ::StatisticsRelabelLabelMapFilter()
 {
   this->m_Attribute = LabelObjectType::MEAN;
 }
 
-template< class TImage >
+template< typename TImage >
 void
 StatisticsRelabelLabelMapFilter< TImage >
 ::GenerateData()

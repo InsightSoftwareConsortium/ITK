@@ -23,20 +23,20 @@
 namespace itk
 {
 // Constructor with default arguments
-template< class TScalar >
+template< typename TScalar >
 Euler2DTransform< TScalar >
 ::Euler2DTransform():
   Superclass(ParametersDimension)
 {}
 
 // Constructor with arguments
-template< class TScalar >
+template< typename TScalar >
 Euler2DTransform< TScalar >::Euler2DTransform(unsigned int parametersDimension):
   Superclass(parametersDimension)
 {}
 
 // Create and return an inverse transformation
-template< class TScalar >
+template< typename TScalar >
 void
 Euler2DTransform< TScalar >::CloneInverseTo(Pointer & result) const
 {
@@ -45,7 +45,7 @@ Euler2DTransform< TScalar >::CloneInverseTo(Pointer & result) const
 }
 
 // return an inverse transformation
-template< class TScalar >
+template< typename TScalar >
 bool
 Euler2DTransform< TScalar >::GetInverse(Self *inverse) const
 {
@@ -62,7 +62,7 @@ Euler2DTransform< TScalar >::GetInverse(Self *inverse) const
 }
 
 // Return an inverse of this transform
-template< class TScalar >
+template< typename TScalar >
 typename Euler2DTransform< TScalar >::InverseTransformBasePointer
 Euler2DTransform< TScalar >
 ::GetInverseTransform() const
@@ -73,7 +73,7 @@ Euler2DTransform< TScalar >
 }
 
 // Create and return an inverse transformation
-template< class TScalar >
+template< typename TScalar >
 void
 Euler2DTransform< TScalar >::CloneTo(Pointer & result) const
 {
@@ -84,7 +84,7 @@ Euler2DTransform< TScalar >::CloneTo(Pointer & result) const
 }
 
 // Print self
-template< class TScalar >
+template< typename TScalar >
 void
 Euler2DTransform< TScalar >::PrintSelf(std::ostream & os, Indent indent) const
 {

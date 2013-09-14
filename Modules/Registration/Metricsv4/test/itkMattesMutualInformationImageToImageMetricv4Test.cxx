@@ -45,7 +45,7 @@
  *  delta = 0.001.
  *
  */
-template< class TImage, class TInterpolator>
+template< typename TImage, typename TInterpolator>
 int TestMattesMetricWithAffineTransform(
   TInterpolator * interpolator, bool useSampling )
 {

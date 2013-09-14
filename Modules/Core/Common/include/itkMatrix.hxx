@@ -26,7 +26,7 @@ namespace itk
 /**
  *  Product by a Vector
  */
-template< class T, unsigned int NRows, unsigned int NColumns >
+template< typename T, unsigned int NRows, unsigned int NColumns >
 Vector< T, NRows >
 Matrix< T, NRows, NColumns >
 ::operator*(const Vector< T, NColumns > & vect) const
@@ -47,7 +47,7 @@ Matrix< T, NRows, NColumns >
 /**
  *  Product by a Point
  */
-template< class T, unsigned int NRows, unsigned int NColumns >
+template< typename T, unsigned int NRows, unsigned int NColumns >
 Point< T, NRows >
 Matrix< T, NRows, NColumns >
 ::operator*(const Point< T, NColumns > & pnt) const
@@ -68,7 +68,7 @@ Matrix< T, NRows, NColumns >
 /**
  *  Product by a CovariantVector
  */
-template< class T, unsigned int NRows, unsigned int NColumns >
+template< typename T, unsigned int NRows, unsigned int NColumns >
 CovariantVector< T, NRows >
 Matrix< T, NRows, NColumns >
 ::operator*(const CovariantVector< T, NColumns > & covect) const
@@ -89,7 +89,7 @@ Matrix< T, NRows, NColumns >
 /**
  *  Product by a matrix
  */
-template< class T, unsigned int NRows, unsigned int NColumns >
+template< typename T, unsigned int NRows, unsigned int NColumns >
 Matrix< T, NRows, NColumns >
 Matrix< T, NRows, NColumns >
 ::operator*(const CompatibleSquareMatrixType & matrix) const
@@ -103,7 +103,7 @@ Matrix< T, NRows, NColumns >
 /**
  *  Matrix Addition
  */
-template< class T, unsigned int NRows, unsigned int NColumns >
+template< typename T, unsigned int NRows, unsigned int NColumns >
 Matrix< T, NRows, NColumns >
 Matrix< T, NRows, NColumns >
 ::operator+(const Self & matrix) const
@@ -123,7 +123,7 @@ Matrix< T, NRows, NColumns >
 /**
  *  Matrix Addition in-place
  */
-template< class T, unsigned int NRows, unsigned int NColumns >
+template< typename T, unsigned int NRows, unsigned int NColumns >
 const Matrix< T, NRows, NColumns > &
 Matrix< T, NRows, NColumns >
 ::operator+=(const Self & matrix)
@@ -141,7 +141,7 @@ Matrix< T, NRows, NColumns >
 /**
  *  Matrix Subtraction
  */
-template< class T, unsigned int NRows, unsigned int NColumns >
+template< typename T, unsigned int NRows, unsigned int NColumns >
 Matrix< T, NRows, NColumns >
 Matrix< T, NRows, NColumns >
 ::operator-(const Self & matrix) const
@@ -161,7 +161,7 @@ Matrix< T, NRows, NColumns >
 /**
  *  Matrix subtraction in-place
  */
-template< class T, unsigned int NRows, unsigned int NColumns >
+template< typename T, unsigned int NRows, unsigned int NColumns >
 const Matrix< T, NRows, NColumns > &
 Matrix< T, NRows, NColumns >
 ::operator-=(const Self & matrix)
@@ -179,7 +179,7 @@ Matrix< T, NRows, NColumns >
 /**
  *  Product by a vnl_matrix
  */
-template< class T, unsigned int NRows, unsigned int NColumns >
+template< typename T, unsigned int NRows, unsigned int NColumns >
 vnl_matrix< T >
 Matrix< T, NRows, NColumns >
 ::operator*(const vnl_matrix< T > & matrix) const
@@ -190,7 +190,7 @@ Matrix< T, NRows, NColumns >
 /**
  *  Product by a matrix
  */
-template< class T, unsigned int NRows, unsigned int NColumns >
+template< typename T, unsigned int NRows, unsigned int NColumns >
 void
 Matrix< T, NRows, NColumns >
 ::operator*=(const CompatibleSquareMatrixType & matrix)
@@ -201,7 +201,7 @@ Matrix< T, NRows, NColumns >
 /**
  *  Product by a vnl_matrix
  */
-template< class T, unsigned int NRows, unsigned int NColumns >
+template< typename T, unsigned int NRows, unsigned int NColumns >
 void
 Matrix< T, NRows, NColumns >
 ::operator*=(const vnl_matrix< T > & matrix)
@@ -212,7 +212,7 @@ Matrix< T, NRows, NColumns >
 /**
  *  Product by a vnl_vector
  */
-template< class T, unsigned int NRows, unsigned int NColumns >
+template< typename T, unsigned int NRows, unsigned int NColumns >
 vnl_vector< T >
 Matrix< T, NRows, NColumns >
 ::operator*(const vnl_vector< T > & vc) const

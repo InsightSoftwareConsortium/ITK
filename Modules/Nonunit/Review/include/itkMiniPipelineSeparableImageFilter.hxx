@@ -33,7 +33,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage, class TFilter >
+template< typename TInputImage, typename TOutputImage, typename TFilter >
 MiniPipelineSeparableImageFilter< TInputImage, TOutputImage, TFilter >
 ::MiniPipelineSeparableImageFilter()
 {
@@ -53,7 +53,7 @@ MiniPipelineSeparableImageFilter< TInputImage, TOutputImage, TFilter >
   m_Cast->SetInPlace(true);
 }
 
-template< class TInputImage, class TOutputImage, class TFilter >
+template< typename TInputImage, typename TOutputImage, typename TFilter >
 void
 MiniPipelineSeparableImageFilter< TInputImage, TOutputImage, TFilter >
 ::Modified() const
@@ -66,7 +66,7 @@ MiniPipelineSeparableImageFilter< TInputImage, TOutputImage, TFilter >
   m_Cast->Modified();
 }
 
-template< class TInputImage, class TOutputImage, class TFilter >
+template< typename TInputImage, typename TOutputImage, typename TFilter >
 void
 MiniPipelineSeparableImageFilter< TInputImage, TOutputImage, TFilter >
 ::SetNumberOfThreads(ThreadIdType nb)
@@ -79,7 +79,7 @@ MiniPipelineSeparableImageFilter< TInputImage, TOutputImage, TFilter >
   m_Cast->SetNumberOfThreads(nb);
 }
 
-template< class TInputImage, class TOutputImage, class TFilter >
+template< typename TInputImage, typename TOutputImage, typename TFilter >
 void
 MiniPipelineSeparableImageFilter< TInputImage, TOutputImage, TFilter >
 ::SetRadius(const RadiusType & radius)
@@ -96,7 +96,7 @@ MiniPipelineSeparableImageFilter< TInputImage, TOutputImage, TFilter >
     }
 }
 
-template< class TInputImage, class TOutputImage, class TFilter >
+template< typename TInputImage, typename TOutputImage, typename TFilter >
 void
 MiniPipelineSeparableImageFilter< TInputImage, TOutputImage, TFilter >
 ::GenerateData()

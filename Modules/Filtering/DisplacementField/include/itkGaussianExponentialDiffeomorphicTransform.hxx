@@ -28,7 +28,7 @@
 namespace itk
 {
 
-template<class TScalar, unsigned int NDimensions>
+template<typename TScalar, unsigned int NDimensions>
 GaussianExponentialDiffeomorphicTransform<TScalar, NDimensions>
 ::GaussianExponentialDiffeomorphicTransform():
   m_GaussianSmoothingVarianceForTheUpdateField( 0.5 ),
@@ -36,13 +36,13 @@ GaussianExponentialDiffeomorphicTransform<TScalar, NDimensions>
 {
 }
 
-template<class TScalar, unsigned int NDimensions>
+template<typename TScalar, unsigned int NDimensions>
 GaussianExponentialDiffeomorphicTransform<TScalar, NDimensions>::
 ~GaussianExponentialDiffeomorphicTransform()
 {
 }
 
-template<class TScalar, unsigned int NDimensions>
+template<typename TScalar, unsigned int NDimensions>
 void
 GaussianExponentialDiffeomorphicTransform<TScalar, NDimensions>
 ::UpdateTransformParameters( const DerivativeType & update, ScalarType factor )
@@ -139,7 +139,7 @@ GaussianExponentialDiffeomorphicTransform<TScalar, NDimensions>
   this->IntegrateVelocityField();
 }
 
-template<class TScalar, unsigned int NDimensions>
+template<typename TScalar, unsigned int NDimensions>
 typename GaussianExponentialDiffeomorphicTransform<TScalar, NDimensions>::ConstantVelocityFieldPointer
 GaussianExponentialDiffeomorphicTransform<TScalar, NDimensions>
 ::GaussianSmoothConstantVelocityField( ConstantVelocityFieldType *field, ScalarType variance )
@@ -230,7 +230,7 @@ GaussianExponentialDiffeomorphicTransform<TScalar, NDimensions>
 /**
  * Standard "PrintSelf" method
  */
-template<class TScalar, unsigned int NDimensions>
+template<typename TScalar, unsigned int NDimensions>
 void
 GaussianExponentialDiffeomorphicTransform<TScalar, NDimensions>
 ::PrintSelf( std::ostream& os, Indent indent) const

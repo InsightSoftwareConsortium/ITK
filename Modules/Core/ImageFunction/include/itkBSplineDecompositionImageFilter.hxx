@@ -38,7 +38,7 @@ namespace itk
 /**
  * Constructor
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 BSplineDecompositionImageFilter< TInputImage, TOutputImage >
 ::BSplineDecompositionImageFilter()
 {
@@ -52,7 +52,7 @@ BSplineDecompositionImageFilter< TInputImage, TOutputImage >
 /**
  * Standard "PrintSelf" method
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 BSplineDecompositionImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(
@@ -63,7 +63,7 @@ BSplineDecompositionImageFilter< TInputImage, TOutputImage >
   os << indent << "Spline Order: " << m_SplineOrder << std::endl;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 bool
 BSplineDecompositionImageFilter< TInputImage, TOutputImage >
 ::DataToCoefficients1D()
@@ -113,7 +113,7 @@ BSplineDecompositionImageFilter< TInputImage, TOutputImage >
   return true;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 BSplineDecompositionImageFilter< TInputImage, TOutputImage >
 ::SetSplineOrder(unsigned int SplineOrder)
@@ -127,7 +127,7 @@ BSplineDecompositionImageFilter< TInputImage, TOutputImage >
   this->Modified();
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 BSplineDecompositionImageFilter< TInputImage, TOutputImage >
 ::SetPoles()
@@ -174,7 +174,7 @@ BSplineDecompositionImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 BSplineDecompositionImageFilter< TInputImage, TOutputImage >
 ::SetInitialCausalCoefficient(double z)
@@ -221,7 +221,7 @@ BSplineDecompositionImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 BSplineDecompositionImageFilter< TInputImage, TOutputImage >
 ::SetInitialAntiCausalCoefficient(double z)
@@ -234,7 +234,7 @@ BSplineDecompositionImageFilter< TInputImage, TOutputImage >
     * ( z * m_Scratch[m_DataLength[m_IteratorDirection] - 2] + m_Scratch[m_DataLength[m_IteratorDirection] - 1] );
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 BSplineDecompositionImageFilter< TInputImage, TOutputImage >
 ::DataToCoefficientsND()
@@ -280,7 +280,7 @@ BSplineDecompositionImageFilter< TInputImage, TOutputImage >
 /**
  * Copy the input image into the output image
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 BSplineDecompositionImageFilter< TInputImage, TOutputImage >
 ::CopyImageToImage()
@@ -306,7 +306,7 @@ BSplineDecompositionImageFilter< TInputImage, TOutputImage >
 /**
  * Copy the scratch to one line of the output image
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 BSplineDecompositionImageFilter< TInputImage, TOutputImage >
 ::CopyScratchToCoefficients(OutputLinearIterator & Iter)
@@ -324,7 +324,7 @@ BSplineDecompositionImageFilter< TInputImage, TOutputImage >
 /**
  * Copy one line of the output image to the scratch
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 BSplineDecompositionImageFilter< TInputImage, TOutputImage >
 ::CopyCoefficientsToScratch(OutputLinearIterator & Iter)
@@ -342,7 +342,7 @@ BSplineDecompositionImageFilter< TInputImage, TOutputImage >
 /**
  * GenerateInputRequestedRegion method.
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 BSplineDecompositionImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
@@ -360,7 +360,7 @@ BSplineDecompositionImageFilter< TInputImage, TOutputImage >
 /**
  * EnlargeOutputRequestedRegion method.
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 BSplineDecompositionImageFilter< TInputImage, TOutputImage >
 ::EnlargeOutputRequestedRegion(
@@ -380,7 +380,7 @@ BSplineDecompositionImageFilter< TInputImage, TOutputImage >
 /**
  * Generate data
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 BSplineDecompositionImageFilter< TInputImage, TOutputImage >
 ::GenerateData()

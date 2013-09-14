@@ -24,7 +24,7 @@ namespace itk
 {
 namespace Statistics
 {
-template<class TSample>
+template<typename TSample>
 KdTreeNonterminalNode<TSample>
 ::KdTreeNonterminalNode( unsigned int partitionDimension,
   MeasurementType partitionValue, Superclass *left, Superclass *right )
@@ -35,7 +35,7 @@ KdTreeNonterminalNode<TSample>
   this->m_Right = right;
 }
 
-template<class TSample>
+template<typename TSample>
 void
 KdTreeNonterminalNode<TSample>
 ::GetParameters( unsigned int &partitionDimension,
@@ -45,7 +45,7 @@ KdTreeNonterminalNode<TSample>
   partitionValue = this->m_PartitionValue;
 }
 
-template<class TSample>
+template<typename TSample>
 KdTreeWeightedCentroidNonterminalNode<TSample>
 ::KdTreeWeightedCentroidNonterminalNode( unsigned int partitionDimension,
   MeasurementType partitionValue, Superclass *left, Superclass *right,
@@ -64,7 +64,7 @@ KdTreeWeightedCentroidNonterminalNode<TSample>
   this->m_Size = size;
 }
 
-template<class TSample>
+template<typename TSample>
 void
 KdTreeWeightedCentroidNonterminalNode<TSample>
 ::GetParameters( unsigned int &partitionDimension,
@@ -74,7 +74,7 @@ KdTreeWeightedCentroidNonterminalNode<TSample>
   partitionValue = this->m_PartitionValue;
 }
 
-template<class TSample>
+template<typename TSample>
 KdTree<TSample>
 ::KdTree()
 {
@@ -87,7 +87,7 @@ KdTree<TSample>
   this->m_MeasurementVectorSize = 0;
 }
 
-template<class TSample>
+template<typename TSample>
 KdTree<TSample>
 ::~KdTree()
 {
@@ -98,7 +98,7 @@ KdTree<TSample>
   delete this->m_EmptyTerminalNode;
 }
 
-template<class TSample>
+template<typename TSample>
 void
 KdTree<TSample>
 ::PrintSelf( std::ostream &os, Indent indent ) const
@@ -128,7 +128,7 @@ KdTree<TSample>
      << this->m_MeasurementVectorSize << std::endl;
 }
 
-template<class TSample>
+template<typename TSample>
 void
 KdTree<TSample>
 ::DeleteNode( KdTreeNodeType *node )
@@ -159,7 +159,7 @@ KdTree<TSample>
   delete node;
 }
 
-template<class TSample>
+template<typename TSample>
 void
 KdTree<TSample>
 ::SetSample( const TSample *sample )
@@ -171,7 +171,7 @@ KdTree<TSample>
   this->Modified();
 }
 
-template<class TSample>
+template<typename TSample>
 void
 KdTree<TSample>
 ::SetBucketSize(unsigned int size)
@@ -179,7 +179,7 @@ KdTree<TSample>
   this->m_BucketSize = size;
 }
 
-template<class TSample>
+template<typename TSample>
 void
 KdTree<TSample>
 ::Search( const MeasurementVectorType & query,
@@ -216,7 +216,7 @@ KdTree<TSample>
   result = nearestNeighbors.GetNeighbors();
 }
 
-template<class TSample>
+template<typename TSample>
 inline int
 KdTree<TSample>
 ::NearestNeighborSearchLoop( const KdTreeNodeType *node,
@@ -333,7 +333,7 @@ KdTree<TSample>
   return 0;
 }
 
-template<class TSample>
+template<typename TSample>
 void
 KdTree<TSample>
 ::Search( const MeasurementVectorType & query, double radius,
@@ -360,7 +360,7 @@ KdTree<TSample>
   this->SearchLoop( this->m_Root, query, radius, lowerBound, upperBound, result );
 }
 
-template<class TSample>
+template<typename TSample>
 inline int
 KdTree<TSample>
 ::SearchLoop( const KdTreeNodeType *node, const MeasurementVectorType &query,
@@ -467,7 +467,7 @@ KdTree<TSample>
   return 0;
 }
 
-template<class TSample>
+template<typename TSample>
 inline bool
 KdTree<TSample>
 ::BallWithinBounds( const MeasurementVectorType & query, MeasurementVectorType
@@ -485,7 +485,7 @@ KdTree<TSample>
   return true;
 }
 
-template<class TSample>
+template<typename TSample>
 inline bool
 KdTree<TSample>
 ::BoundsOverlapBall( const MeasurementVectorType &query, MeasurementVectorType
@@ -518,7 +518,7 @@ KdTree<TSample>
   return false;
 }
 
-template<class TSample>
+template<typename TSample>
 void
 KdTree<TSample>
 ::PrintTree( std::ostream & os ) const
@@ -529,7 +529,7 @@ KdTree<TSample>
   this->PrintTree( this->m_Root, topLevel, activeDimension, os );
 }
 
-template<class TSample>
+template<typename TSample>
 void
 KdTree<TSample>
 ::PrintTree( KdTreeNodeType *node, unsigned int level,
@@ -577,7 +577,7 @@ KdTree<TSample>
   this->PrintTree( node->Right(), level, partitionDimension, os );
 }
 
-template<class TSample>
+template<typename TSample>
 void
 KdTree<TSample>
 ::PlotTree( std::ostream & os ) const
@@ -598,7 +598,7 @@ KdTree<TSample>
   os << "}" << std::endl;
 }
 
-template<class TSample>
+template<typename TSample>
 void
 KdTree<TSample>
 ::PlotTree( KdTreeNodeType *node, std::ostream & os ) const

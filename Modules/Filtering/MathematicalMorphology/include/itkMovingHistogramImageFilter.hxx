@@ -28,7 +28,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage, class TKernel, class THistogram >
+template< typename TInputImage, typename TOutputImage, typename TKernel, typename THistogram >
 MovingHistogramImageFilter< TInputImage, TOutputImage, TKernel, THistogram >
 ::MovingHistogramImageFilter()
 {}
@@ -36,7 +36,7 @@ MovingHistogramImageFilter< TInputImage, TOutputImage, TKernel, THistogram >
 // a modified version that uses line iterators and only moves the
 // histogram in one direction. Hopefully it will be a bit simpler and
 // faster due to improved memory access and a tighter loop.
-template< class TInputImage, class TOutputImage, class TKernel, class THistogram >
+template< typename TInputImage, typename TOutputImage, typename TKernel, typename THistogram >
 void
 MovingHistogramImageFilter< TInputImage, TOutputImage, TKernel, THistogram >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
@@ -179,7 +179,7 @@ MovingHistogramImageFilter< TInputImage, TOutputImage, TKernel, THistogram >
   delete[] Steps;
 }
 
-template< class TInputImage, class TOutputImage, class TKernel, class THistogram >
+template< typename TInputImage, typename TOutputImage, typename TKernel, typename THistogram >
 void
 MovingHistogramImageFilter< TInputImage, TOutputImage, TKernel, THistogram >
 ::PushHistogram(HistogramType & histogram,

@@ -26,7 +26,7 @@ namespace Statistics
 {
 
 /** Constructor */
-template<class TMeasurementVector, class TTargetVector>
+template<typename TMeasurementVector, typename TTargetVector>
 OneHiddenLayerBackPropagationNeuralNetwork<TMeasurementVector,TTargetVector>
 ::OneHiddenLayerBackPropagationNeuralNetwork()
 {
@@ -52,7 +52,7 @@ OneHiddenLayerBackPropagationNeuralNetwork<TMeasurementVector,TTargetVector>
 }
 
 /** Intialize */
-template<class TMeasurementVector, class TTargetVector>
+template<typename TMeasurementVector, typename TTargetVector>
 void
 OneHiddenLayerBackPropagationNeuralNetwork<TMeasurementVector,TTargetVector>
 ::Initialize()
@@ -124,7 +124,7 @@ OneHiddenLayerBackPropagationNeuralNetwork<TMeasurementVector,TTargetVector>
 }
 
 
-template<class TMeasurementVector, class TTargetVector>
+template<typename TMeasurementVector, typename TTargetVector>
 void
 OneHiddenLayerBackPropagationNeuralNetwork<TMeasurementVector,TTargetVector>
 ::SetInputTransferFunction(TransferFunctionInterfaceType* f)
@@ -132,7 +132,7 @@ OneHiddenLayerBackPropagationNeuralNetwork<TMeasurementVector,TTargetVector>
   m_InputTransferFunction=f;
 }
 
-template<class TMeasurementVector, class TTargetVector>
+template<typename TMeasurementVector, typename TTargetVector>
 void
 OneHiddenLayerBackPropagationNeuralNetwork<TMeasurementVector,TTargetVector>
 ::SetFirstHiddenTransferFunction(TransferFunctionInterfaceType* f)
@@ -140,7 +140,7 @@ OneHiddenLayerBackPropagationNeuralNetwork<TMeasurementVector,TTargetVector>
   m_FirstHiddenTransferFunction=f;
 }
 
-template<class TMeasurementVector, class TTargetVector>
+template<typename TMeasurementVector, typename TTargetVector>
 void
 OneHiddenLayerBackPropagationNeuralNetwork<TMeasurementVector,TTargetVector>
 ::SetOutputTransferFunction(TransferFunctionInterfaceType* f)
@@ -148,7 +148,7 @@ OneHiddenLayerBackPropagationNeuralNetwork<TMeasurementVector,TTargetVector>
   m_OutputTransferFunction=f;
 }
 
-template<class TMeasurementVector, class TTargetVector>
+template<typename TMeasurementVector, typename TTargetVector>
 void
 OneHiddenLayerBackPropagationNeuralNetwork<TMeasurementVector,TTargetVector>
 ::SetInputFunction(InputFunctionInterfaceType* f)
@@ -157,7 +157,7 @@ OneHiddenLayerBackPropagationNeuralNetwork<TMeasurementVector,TTargetVector>
 }
 
 /** Generate output */
-template<class TMeasurementVector, class TTargetVector>
+template<typename TMeasurementVector, typename TTargetVector>
 typename OneHiddenLayerBackPropagationNeuralNetwork<TMeasurementVector, TTargetVector>::NetworkOutputType
 OneHiddenLayerBackPropagationNeuralNetwork<TMeasurementVector,TTargetVector>
 ::GenerateOutput(TMeasurementVector samplevector)
@@ -166,7 +166,7 @@ OneHiddenLayerBackPropagationNeuralNetwork<TMeasurementVector,TTargetVector>
 }
 
 /** Print the object */
-template<class TMeasurementVector, class TTargetVector>
+template<typename TMeasurementVector, typename TTargetVector>
 void
 OneHiddenLayerBackPropagationNeuralNetwork<TMeasurementVector,TTargetVector>
 ::PrintSelf( std::ostream& os, Indent indent ) const

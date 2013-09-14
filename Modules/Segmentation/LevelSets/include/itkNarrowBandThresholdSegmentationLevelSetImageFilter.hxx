@@ -22,7 +22,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TFeatureImage, class TOutputType >
+template< typename TInputImage, typename TFeatureImage, typename TOutputType >
 NarrowBandThresholdSegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputType >
 ::NarrowBandThresholdSegmentationLevelSetImageFilter()
 {
@@ -33,7 +33,7 @@ NarrowBandThresholdSegmentationLevelSetImageFilter< TInputImage, TFeatureImage, 
   this->SetSegmentationFunction(m_ThresholdFunction);
 }
 
-template< class TInputImage, class TFeatureImage, class TOutputType >
+template< typename TInputImage, typename TFeatureImage, typename TOutputType >
 void
 NarrowBandThresholdSegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputType >
 ::PrintSelf(std::ostream & os, Indent indent) const

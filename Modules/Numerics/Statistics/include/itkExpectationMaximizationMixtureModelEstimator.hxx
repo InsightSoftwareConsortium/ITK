@@ -25,7 +25,7 @@ namespace itk
 {
 namespace Statistics
 {
-template< class TSample >
+template< typename TSample >
 ExpectationMaximizationMixtureModelEstimator< TSample >
 ::ExpectationMaximizationMixtureModelEstimator()
 {
@@ -38,7 +38,7 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
   m_MaxIteration = 100;
 }
 
-template< class TSample >
+template< typename TSample >
 void
 ExpectationMaximizationMixtureModelEstimator< TSample >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -64,7 +64,7 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
   os << indent << "Calculated Expectation: " << this->CalculateExpectation() << std::endl;
 }
 
-template< class TSample >
+template< typename TSample >
 void
 ExpectationMaximizationMixtureModelEstimator< TSample >
 ::SetMaximumIteration(int numberOfIterations)
@@ -72,7 +72,7 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
   m_MaxIteration = numberOfIterations;
 }
 
-template< class TSample >
+template< typename TSample >
 int
 ExpectationMaximizationMixtureModelEstimator< TSample >
 ::GetMaximumIteration() const
@@ -80,7 +80,7 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
   return m_MaxIteration;
 }
 
-template< class TSample >
+template< typename TSample >
 void
 ExpectationMaximizationMixtureModelEstimator< TSample >
 ::SetInitialProportions(ProportionVectorType & proportions)
@@ -88,7 +88,7 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
   m_InitialProportions = proportions;
 }
 
-template< class TSample >
+template< typename TSample >
 const typename ExpectationMaximizationMixtureModelEstimator< TSample >::ProportionVectorType &
 ExpectationMaximizationMixtureModelEstimator< TSample >
 ::GetInitialProportions() const
@@ -96,7 +96,7 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
   return m_InitialProportions;
 }
 
-template< class TSample >
+template< typename TSample >
 const typename ExpectationMaximizationMixtureModelEstimator< TSample >::ProportionVectorType &
 ExpectationMaximizationMixtureModelEstimator< TSample >
 ::GetProportions() const
@@ -104,7 +104,7 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
   return m_Proportions;
 }
 
-template< class TSample >
+template< typename TSample >
 void
 ExpectationMaximizationMixtureModelEstimator< TSample >
 ::SetSample(const TSample *sample)
@@ -112,7 +112,7 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
   m_Sample = sample;
 }
 
-template< class TSample >
+template< typename TSample >
 const TSample *
 ExpectationMaximizationMixtureModelEstimator< TSample >
 ::GetSample() const
@@ -120,7 +120,7 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
   return m_Sample;
 }
 
-template< class TSample >
+template< typename TSample >
 int
 ExpectationMaximizationMixtureModelEstimator< TSample >
 ::AddComponent(ComponentType *component)
@@ -129,7 +129,7 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
   return static_cast< int >( m_ComponentVector.size() );
 }
 
-template< class TSample >
+template< typename TSample >
 unsigned int
 ExpectationMaximizationMixtureModelEstimator< TSample >
 ::GetNumberOfComponents() const
@@ -137,7 +137,7 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
   return m_ComponentVector.size();
 }
 
-template< class TSample >
+template< typename TSample >
 typename ExpectationMaximizationMixtureModelEstimator< TSample >::TERMINATION_CODE
 ExpectationMaximizationMixtureModelEstimator< TSample >
 ::GetTerminationCode() const
@@ -145,7 +145,7 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
   return m_TerminationCode;
 }
 
-template< class TSample >
+template< typename TSample >
 typename ExpectationMaximizationMixtureModelEstimator< TSample >::ComponentMembershipFunctionType *
 ExpectationMaximizationMixtureModelEstimator< TSample >
 ::GetComponentMembershipFunction(int componentIndex) const
@@ -153,7 +153,7 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
   return ( m_ComponentVector[componentIndex] )->GetMembershipFunction();
 }
 
-template< class TSample >
+template< typename TSample >
 bool
 ExpectationMaximizationMixtureModelEstimator< TSample >
 ::CalculateDensities()
@@ -241,7 +241,7 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
   return true;
 }
 
-template< class TSample >
+template< typename TSample >
 double
 ExpectationMaximizationMixtureModelEstimator< TSample >
 ::CalculateExpectation() const
@@ -291,7 +291,7 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
   return sum;
 }
 
-template< class TSample >
+template< typename TSample >
 bool
 ExpectationMaximizationMixtureModelEstimator< TSample >
 ::UpdateComponentParameters()
@@ -313,7 +313,7 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
   return updated;
 }
 
-template< class TSample >
+template< typename TSample >
 bool
 ExpectationMaximizationMixtureModelEstimator< TSample >
 ::UpdateProportions()
@@ -350,7 +350,7 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
   return updated;
 }
 
-template< class TSample >
+template< typename TSample >
 void
 ExpectationMaximizationMixtureModelEstimator< TSample >
 ::GenerateData()
@@ -378,7 +378,7 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
   m_TerminationCode = NOT_CONVERGED;
 }
 
-template< class TSample >
+template< typename TSample >
 const typename ExpectationMaximizationMixtureModelEstimator< TSample >::MembershipFunctionVectorObjectType *
 ExpectationMaximizationMixtureModelEstimator< TSample >
 ::GetOutput() const
@@ -428,7 +428,7 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
   return static_cast< const MembershipFunctionVectorObjectType * >( m_MembershipFunctionsObject );
 }
 
-template< class TSample >
+template< typename TSample >
 const typename ExpectationMaximizationMixtureModelEstimator< TSample
                                                              >::MembershipFunctionsWeightsArrayObjectType *
 ExpectationMaximizationMixtureModelEstimator< TSample >
@@ -447,7 +447,7 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
   return static_cast< const MembershipFunctionsWeightsArrayObjectType * >( m_MembershipFunctionsWeightArrayObject );
 }
 
-template< class TSample >
+template< typename TSample >
 void
 ExpectationMaximizationMixtureModelEstimator< TSample >
 ::Update()

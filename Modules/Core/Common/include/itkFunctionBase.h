@@ -40,7 +40,7 @@ namespace itk
  *
  * \ingroup ITKCommon
  */
-template< class TInput, class TOutput >
+template< typename TInput, typename TOutput >
 class FunctionBase:public Object
 {
 public:

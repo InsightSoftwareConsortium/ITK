@@ -23,7 +23,7 @@
 namespace itk
 {
 /** Default constructor. Needed since we provide a cast constructor. */
-template< class TImage >
+template< typename TImage >
 ImageRandomConstIteratorWithIndex< TImage >
 ::ImageRandomConstIteratorWithIndex():ImageConstIteratorWithIndex< TImage >()
 {
@@ -35,7 +35,7 @@ ImageRandomConstIteratorWithIndex< TImage >
 
 /** Constructor establishes an iterator to walk a particular image and a
  * particular region of that image. */
-template< class TImage >
+template< typename TImage >
 ImageRandomConstIteratorWithIndex< TImage >
 ::ImageRandomConstIteratorWithIndex(const ImageType *ptr, const RegionType & region):
   ImageConstIteratorWithIndex< TImage >(ptr, region)
@@ -47,7 +47,7 @@ ImageRandomConstIteratorWithIndex< TImage >
 }
 
 /**  Set the number of samples to extract from the region */
-template< class TImage >
+template< typename TImage >
 void
 ImageRandomConstIteratorWithIndex< TImage >
 ::SetNumberOfSamples(SizeValueType number)
@@ -56,7 +56,7 @@ ImageRandomConstIteratorWithIndex< TImage >
 }
 
 /**  Set the number of samples to extract from the region */
-template< class TImage >
+template< typename TImage >
 typename ImageRandomConstIteratorWithIndex< TImage >::SizeValueType
 ImageRandomConstIteratorWithIndex< TImage >
 ::GetNumberOfSamples(void) const
@@ -65,7 +65,7 @@ ImageRandomConstIteratorWithIndex< TImage >
 }
 
 /** Reinitialize the seed of the random number generator */
-template< class TImage >
+template< typename TImage >
 void
 ImageRandomConstIteratorWithIndex< TImage >
 ::ReinitializeSeed()
@@ -73,7 +73,7 @@ ImageRandomConstIteratorWithIndex< TImage >
   m_Generator->SetSeed();
 }
 
-template< class TImage >
+template< typename TImage >
 void
 ImageRandomConstIteratorWithIndex< TImage >
 ::ReinitializeSeed(int seed)
@@ -83,7 +83,7 @@ ImageRandomConstIteratorWithIndex< TImage >
 }
 
 /** Execute an acrobatic random jump */
-template< class TImage >
+template< typename TImage >
 void
 ImageRandomConstIteratorWithIndex< TImage >
 ::RandomJump()

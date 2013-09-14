@@ -24,7 +24,7 @@
 namespace itk
 {
 
-template<class THistogram, class TOutput>
+template<typename THistogram, typename TOutput>
 bool
 IntermodesThresholdCalculator<THistogram, TOutput>
 ::BimodalTest(const std::vector<double> & h)
@@ -50,7 +50,7 @@ IntermodesThresholdCalculator<THistogram, TOutput>
 /*
  * Compute the Intermodes's threshold
  */
-template<class THistogram, class TOutput>
+template<typename THistogram, typename TOutput>
 void
 IntermodesThresholdCalculator<THistogram, TOutput>
 ::GenerateData(void)
@@ -148,7 +148,7 @@ IntermodesThresholdCalculator<THistogram, TOutput>
   this->GetOutput()->Set( static_cast<OutputType>( histogram->GetMeasurement( tt, 0 ) ) );
 }
 
-template<class THistogram, class TOutput>
+template<typename THistogram, typename TOutput>
 void
 IntermodesThresholdCalculator<THistogram, TOutput>
 ::PrintSelf( std::ostream& os, Indent indent ) const

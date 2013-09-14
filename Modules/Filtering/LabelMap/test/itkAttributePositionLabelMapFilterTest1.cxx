@@ -25,7 +25,7 @@
 /** \class TestLabelObjectAccessor
   * \brief a test accessor - to make kwstyle happy
   */
-template< class TLabelObject >
+template< typename TLabelObject >
 class TestLabelObjectAccessor
 {
 public:

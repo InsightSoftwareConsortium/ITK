@@ -24,7 +24,7 @@
 
 namespace itk
 {
-template< class TPixel >
+template< typename TPixel >
 class MinFunctor
 {
 public:
@@ -36,7 +36,7 @@ public:
   }
 };
 
-template< class TImage, class TKernel >
+template< typename TImage, typename TKernel >
 class VanHerkGilWermanErodeImageFilter:
   public VanHerkGilWermanErodeDilateImageFilter< TImage, TKernel, MinFunctor< typename TImage::PixelType > >
 

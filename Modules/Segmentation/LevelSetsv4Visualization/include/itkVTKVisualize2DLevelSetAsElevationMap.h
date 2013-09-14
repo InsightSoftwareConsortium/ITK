@@ -32,7 +32,7 @@
 namespace itk
 {
 
-template< class TInputImage, class TLevelSet >
+template< typename TInputImage, typename TLevelSet >
 class VTKVisualize2DLevelSetAsElevationMap :
     public VTKVisualizeImageLevelSet< TInputImage, ImageToVTKImageFilter< TInputImage > >
 {

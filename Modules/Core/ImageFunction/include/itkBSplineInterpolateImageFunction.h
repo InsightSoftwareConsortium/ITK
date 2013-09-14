@@ -78,9 +78,9 @@ namespace itk
  * \endwiki
  */
 template<
-  class TImageType,
-  class TCoordRep = double,
-  class TCoefficientType = double >
+  typename TImageType,
+  typename TCoordRep = double,
+  typename TCoefficientType = double >
 class BSplineInterpolateImageFunction:
   public InterpolateImageFunction< TImageType, TCoordRep >
 {

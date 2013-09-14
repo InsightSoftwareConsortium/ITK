@@ -22,7 +22,7 @@
 const double epsilon = 1e-20;
 
 // function for comparing matrices
-template <class T>
+template <typename T>
 bool testArray(const itk::Array2D<T> & m1, const itk::Array2D<T> & m2)
 {
   bool pass = true;

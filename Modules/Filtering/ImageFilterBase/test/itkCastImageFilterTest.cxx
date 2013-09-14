@@ -31,7 +31,7 @@
 #include <cxxabi.h>
 #endif
 
-template< class T >
+template< typename T >
 std::string GetCastTypeName()
 {
   std::string name;
@@ -49,7 +49,7 @@ std::string GetCastTypeName()
 }
 
 
-template < class TInputPixelType, class TOutputPixelType >
+template < typename TInputPixelType, typename TOutputPixelType >
 bool TestCastFromTo()
 {
   typedef itk::Image< TInputPixelType, 3 >                        InputImageType;
@@ -113,7 +113,7 @@ bool TestCastFromTo()
 }
 
 
-template < class TInputPixelType >
+template < typename TInputPixelType >
 bool TestCastFrom()
 {
   bool success =

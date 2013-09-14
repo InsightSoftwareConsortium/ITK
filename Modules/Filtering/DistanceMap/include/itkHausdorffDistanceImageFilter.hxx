@@ -25,7 +25,7 @@
 
 namespace itk
 {
-template< class TInputImage1, class TInputImage2 >
+template< typename TInputImage1, typename TInputImage2 >
 HausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
 ::HausdorffDistanceImageFilter()
 {
@@ -37,7 +37,7 @@ HausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
   m_UseImageSpacing = true;
 }
 
-template< class TInputImage1, class TInputImage2 >
+template< typename TInputImage1, typename TInputImage2 >
 void
 HausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
 ::SetInput1(const InputImage1Type *image)
@@ -45,7 +45,7 @@ HausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
   this->SetInput( image );
 }
 
-template< class TInputImage1, class TInputImage2 >
+template< typename TInputImage1, typename TInputImage2 >
 void
 HausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
 ::SetInput2(const TInputImage2 *image)
@@ -53,7 +53,7 @@ HausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
   this->SetNthInput( 1, const_cast< TInputImage2 * >( image ) );
 }
 
-template< class TInputImage1, class TInputImage2 >
+template< typename TInputImage1, typename TInputImage2 >
 const typename HausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
 ::InputImage1Type *
 HausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
@@ -62,7 +62,7 @@ HausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
   return this->GetInput();
 }
 
-template< class TInputImage1, class TInputImage2 >
+template< typename TInputImage1, typename TInputImage2 >
 const typename HausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
 ::InputImage2Type *
 HausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
@@ -72,7 +72,7 @@ HausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
     ( this->ProcessObject::GetInput(1) );
 }
 
-template< class TInputImage1, class TInputImage2 >
+template< typename TInputImage1, typename TInputImage2 >
 void
 HausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
 ::GenerateInputRequestedRegion()
@@ -98,7 +98,7 @@ HausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
     }
 }
 
-template< class TInputImage1, class TInputImage2 >
+template< typename TInputImage1, typename TInputImage2 >
 void
 HausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
 ::EnlargeOutputRequestedRegion(DataObject *data)
@@ -107,7 +107,7 @@ HausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
   data->SetRequestedRegionToLargestPossibleRegion();
 }
 
-template< class TInputImage1, class TInputImage2 >
+template< typename TInputImage1, typename TInputImage2 >
 void
 HausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
 ::GenerateData()
@@ -160,7 +160,7 @@ HausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
   m_AverageHausdorffDistance = ( filter12->GetAverageHausdorffDistance() + filter21->GetAverageHausdorffDistance() ) * 0.5;
 }
 
-template< class TInputImage1, class TInputImage2 >
+template< typename TInputImage1, typename TInputImage2 >
 void
 HausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
 ::PrintSelf(std::ostream & os, Indent indent) const

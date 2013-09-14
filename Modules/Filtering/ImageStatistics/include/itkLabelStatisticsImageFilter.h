@@ -56,7 +56,7 @@ namespace itk
  * \wikiexample{ImageProcessing/LabelStatisticsImageFilter,Get statistical properties of labeled regions in an image}
  * \endwiki
  */
-template< class TInputImage, class TLabelImage >
+template< typename TInputImage, typename TLabelImage >
 class LabelStatisticsImageFilter:
   public ImageToImageFilter< TInputImage, TInputImage >
 {

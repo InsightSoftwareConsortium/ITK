@@ -79,7 +79,7 @@ namespace itk
  * \ingroup ITKImageGrid
  */
 
-template< class TInputImage, class TOutputImage, class ResamplerType =
+template< typename TInputImage, typename TOutputImage, typename ResamplerType =
             BSplineResampleImageFilterBase< TInputImage, TOutputImage > >
 class BSplineUpsampleImageFilter:
   public ResamplerType

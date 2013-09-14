@@ -24,19 +24,19 @@
 namespace itk
 {
 
-template< class TIdentifier, class TLevelSet >
+template< typename TIdentifier, typename TLevelSet >
 LevelSetContainerBase< TIdentifier, TLevelSet >
 ::LevelSetContainerBase()
 {
 }
 
-template< class TIdentifier, class TLevelSet >
+template< typename TIdentifier, typename TLevelSet >
 LevelSetContainerBase< TIdentifier, TLevelSet >
 ::~LevelSetContainerBase()
 {
 }
 
-template< class TIdentifier, class TLevelSet >
+template< typename TIdentifier, typename TLevelSet >
 const typename
 LevelSetContainerBase< TIdentifier, TLevelSet >::LevelSetContainerType&
 LevelSetContainerBase< TIdentifier, TLevelSet >::GetContainer() const
@@ -44,7 +44,7 @@ LevelSetContainerBase< TIdentifier, TLevelSet >::GetContainer() const
   return m_Container;
 }
 
-template< class TIdentifier, class TLevelSet >
+template< typename TIdentifier, typename TLevelSet >
 void
 LevelSetContainerBase< TIdentifier, TLevelSet >
 ::SetContainer(const LevelSetContainerType &iContainer)
@@ -52,42 +52,42 @@ LevelSetContainerBase< TIdentifier, TLevelSet >
   m_Container = iContainer;
 }
 
-template< class TIdentifier, class TLevelSet >
+template< typename TIdentifier, typename TLevelSet >
 typename LevelSetContainerBase< TIdentifier, TLevelSet >::Iterator
 LevelSetContainerBase< TIdentifier, TLevelSet >::Begin()
 {
   return Iterator( m_Container.begin() );
 }
 
-template< class TIdentifier, class TLevelSet >
+template< typename TIdentifier, typename TLevelSet >
 typename LevelSetContainerBase< TIdentifier, TLevelSet >::ConstIterator
 LevelSetContainerBase< TIdentifier, TLevelSet >::Begin() const
 {
   return ConstIterator( m_Container.begin() );
 }
 
-template< class TIdentifier, class TLevelSet >
+template< typename TIdentifier, typename TLevelSet >
 typename LevelSetContainerBase< TIdentifier, TLevelSet >::Iterator
 LevelSetContainerBase< TIdentifier, TLevelSet >::End()
 {
   return Iterator( m_Container.end() );
 }
 
-template< class TIdentifier, class TLevelSet >
+template< typename TIdentifier, typename TLevelSet >
 typename LevelSetContainerBase< TIdentifier, TLevelSet >::ConstIterator
 LevelSetContainerBase< TIdentifier, TLevelSet >::End() const
 {
   return ConstIterator( m_Container.end() );
 }
 
-template< class TIdentifier, class TLevelSet >
+template< typename TIdentifier, typename TLevelSet >
 typename LevelSetContainerBase< TIdentifier, TLevelSet >::LevelSetIdentifierType
 LevelSetContainerBase< TIdentifier, TLevelSet >::Size() const
 {
   return static_cast< LevelSetIdentifierType >( m_Container.size() );
 }
 
-template< class TIdentifier, class TLevelSet >
+template< typename TIdentifier, typename TLevelSet >
 typename LevelSetContainerBase< TIdentifier, TLevelSet >::LevelSetPointer
 LevelSetContainerBase< TIdentifier, TLevelSet >
 ::GetLevelSet( const LevelSetIdentifierType& iId ) const
@@ -104,7 +104,7 @@ LevelSetContainerBase< TIdentifier, TLevelSet >
     }
 }
 
-template< class TIdentifier, class TLevelSet >
+template< typename TIdentifier, typename TLevelSet >
 bool LevelSetContainerBase< TIdentifier, TLevelSet >
 ::AddLevelSet( const LevelSetIdentifierType& iId,
                LevelSetType * iLevelSet,
@@ -142,7 +142,7 @@ bool LevelSetContainerBase< TIdentifier, TLevelSet >
     }
 }
 
-template< class TIdentifier, class TLevelSet >
+template< typename TIdentifier, typename TLevelSet >
 bool
 LevelSetContainerBase< TIdentifier, TLevelSet >
 ::RemoveLevelSet( const LevelSetIdentifierType& iId )
@@ -164,7 +164,7 @@ LevelSetContainerBase< TIdentifier, TLevelSet >
     }
 }
 
-template< class TIdentifier, class TLevelSet >
+template< typename TIdentifier, typename TLevelSet >
 bool
 LevelSetContainerBase< TIdentifier, TLevelSet >
 ::HasDomainMap() const

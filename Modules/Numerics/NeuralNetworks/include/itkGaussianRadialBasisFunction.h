@@ -31,7 +31,7 @@ namespace Statistics
  * \ingroup ITKNeuralNetworks
  */
 
-template<class ScalarType>
+template<typename ScalarType>
 class GaussianRadialBasisFunction : public RadialBasisFunctionBase<ScalarType>
 {
 public:

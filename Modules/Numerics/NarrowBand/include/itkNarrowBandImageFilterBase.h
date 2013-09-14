@@ -64,7 +64,7 @@ namespace itk
  *
  * \ingroup ITKNarrowBand
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class NarrowBandImageFilterBase:
   public FiniteDifferenceImageFilter< TInputImage, TOutputImage >
 {

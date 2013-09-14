@@ -23,7 +23,7 @@
 namespace itk
 {
 
-template<class TTransform>
+template<typename TTransform>
 GaussianExponentialDiffeomorphicTransformParametersAdaptor<TTransform>
 ::GaussianExponentialDiffeomorphicTransformParametersAdaptor() :
   m_GaussianSmoothingVarianceForTheConstantVelocityField( 0.5 ),
@@ -33,13 +33,13 @@ GaussianExponentialDiffeomorphicTransformParametersAdaptor<TTransform>
 {
 }
 
-template<class TTransform>
+template<typename TTransform>
 GaussianExponentialDiffeomorphicTransformParametersAdaptor<TTransform>
 ::~GaussianExponentialDiffeomorphicTransformParametersAdaptor()
 {
 }
 
-template<class TTransform>
+template<typename TTransform>
 void
 GaussianExponentialDiffeomorphicTransformParametersAdaptor<TTransform>
 ::SetGaussianSmoothingVarianceForTheConstantVelocityField( ScalarType variance )
@@ -53,7 +53,7 @@ GaussianExponentialDiffeomorphicTransformParametersAdaptor<TTransform>
     }
 }
 
-template<class TTransform>
+template<typename TTransform>
 void
 GaussianExponentialDiffeomorphicTransformParametersAdaptor<TTransform>
 ::SetGaussianSmoothingVarianceForTheUpdateField( ScalarType variance )
@@ -67,7 +67,7 @@ GaussianExponentialDiffeomorphicTransformParametersAdaptor<TTransform>
     }
 }
 
-template<class TTransform>
+template<typename TTransform>
 void
 GaussianExponentialDiffeomorphicTransformParametersAdaptor<TTransform>
 ::AdaptTransformParameters()
@@ -86,7 +86,7 @@ GaussianExponentialDiffeomorphicTransformParametersAdaptor<TTransform>
     }
 }
 
-template <class TTransform>
+template <typename TTransform>
 void
 GaussianExponentialDiffeomorphicTransformParametersAdaptor<TTransform>
 ::PrintSelf( std::ostream& os, Indent indent ) const

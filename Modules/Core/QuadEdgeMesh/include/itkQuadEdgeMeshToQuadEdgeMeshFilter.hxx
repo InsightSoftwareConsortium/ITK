@@ -23,7 +23,7 @@
 namespace itk
 {
 // ---------------------------------------------------------------------
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 ::QuadEdgeMeshToQuadEdgeMeshFilter()
 {
@@ -34,7 +34,7 @@ QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 }
 
 // ---------------------------------------------------------------------
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 void
 QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 ::CopyInputMeshToOutputMesh()
@@ -44,7 +44,7 @@ QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 }
 
 // ---------------------------------------------------------------------
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 void
 QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 ::CopyInputMeshToOutputMeshGeometry()
@@ -55,7 +55,7 @@ QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 }
 
 // ---------------------------------------------------------------------
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 void
 QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 ::CopyInputMeshToOutputMeshFieldData()
@@ -65,7 +65,7 @@ QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 }
 
 // ---------------------------------------------------------------------
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 void
 QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 ::CopyInputMeshToOutputMeshPoints()
@@ -77,7 +77,7 @@ QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 }
 
 // ---------------------------------------------------------------------
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 void
 QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 ::CopyInputMeshToOutputMeshEdgeCells()
@@ -89,7 +89,7 @@ QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 }
 
 // ---------------------------------------------------------------------
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 void
 QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 ::CopyInputMeshToOutputMeshCells()
@@ -101,7 +101,7 @@ QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 }
 
 // ---------------------------------------------------------------------
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 void
 QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 ::CopyInputMeshToOutputMeshPointData()
@@ -113,7 +113,7 @@ QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 }
 
 // ---------------------------------------------------------------------
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 void
 QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 ::CopyInputMeshToOutputMeshCellData()

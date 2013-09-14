@@ -43,7 +43,7 @@ namespace itk
    *
    * \ingroup ITKOptimizersv4
    */
-template<class TInternalComputationValueType>
+template<typename TInternalComputationValueType>
 class ConjugateGradientLineSearchOptimizerv4Template
 : public GradientDescentLineSearchOptimizerv4Template<TInternalComputationValueType>
 {

@@ -23,12 +23,12 @@
 
 namespace itk
 {
-template< class TRegion, class TLine >
+template< typename TRegion, typename TLine >
 bool NeedToDoFace(const TRegion AllImage,
                   const TRegion face,
                   const TLine line);
 
-template< class TImage, class TBres, class TLine >
+template< typename TImage, typename TBres, typename TLine >
 int ComputeStartEnd(const typename TImage::IndexType StartIndex,
                     const TLine line,
                     const float tol,
@@ -37,7 +37,7 @@ int ComputeStartEnd(const typename TImage::IndexType StartIndex,
                     unsigned & start,
                     unsigned & end);
 
-template< class TImage, class TBres, class TLine >
+template< typename TImage, typename TBres, typename TLine >
 int FillLineBuffer(typename TImage::ConstPointer input,
                    const typename TImage::IndexType StartIndex,
                    const TLine line,
@@ -48,7 +48,7 @@ int FillLineBuffer(typename TImage::ConstPointer input,
                    unsigned int &start,
                    unsigned int &end);
 
-template< class TImage, class TBres >
+template< typename TImage, typename TBres >
 void CopyLineToImage(const typename TImage::Pointer output,
                      const typename TImage::IndexType StartIndex,
                      const typename TBres::OffsetArray LineOffsets,
@@ -62,7 +62,7 @@ void CopyLineToImage(const typename TImage::Pointer output,
 // of the region will not touch the image. This approach is necessary
 // because we want to be able to sweep the lines in a fashion that
 // does not have overlap between them.
-template< class TInputImage, class TLine >
+template< typename TInputImage, typename TLine >
 typename TInputImage::RegionType
 MakeEnlargedFace(const TInputImage *input,
                  const typename TInputImage::RegionType AllImage,
@@ -70,7 +70,7 @@ MakeEnlargedFace(const TInputImage *input,
 
 // figure out the correction factor for length->pixel count based on
 // line angle
-template< class TLine >
+template< typename TLine >
 unsigned int GetLinePixels(const TLine line);
 
 } // namespace itk

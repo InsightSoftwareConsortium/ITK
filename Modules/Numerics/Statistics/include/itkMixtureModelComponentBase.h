@@ -52,7 +52,7 @@ namespace Statistics
  * \ingroup ITKStatistics
  */
 
-template< class TSample >
+template< typename TSample >
 class MixtureModelComponentBase:
   public Object
 {

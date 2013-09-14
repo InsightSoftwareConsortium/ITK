@@ -58,7 +58,7 @@ namespace itk
  * \wikiexample{ImageProcessing/LaplacianImageFilter,Compute the Laplacian of an image}
  * \endwiki
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class LaplacianImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {

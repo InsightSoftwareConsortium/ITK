@@ -26,7 +26,7 @@
 namespace itk
 {
 /** Constructor */
-template< class TInputPath, class TOutputImage >
+template< typename TInputPath, typename TOutputImage >
 PathToImageFilter< TInputPath, TOutputImage >
 ::PathToImageFilter()
 {
@@ -45,13 +45,13 @@ PathToImageFilter< TInputPath, TOutputImage >
 }
 
 /** Destructor */
-template< class TInputPath, class TOutputImage >
+template< typename TInputPath, typename TOutputImage >
 PathToImageFilter< TInputPath, TOutputImage >
 ::~PathToImageFilter()
 {}
 
 /** Set the Input SpatialObject */
-template< class TInputPath, class TOutputImage >
+template< typename TInputPath, typename TOutputImage >
 void
 PathToImageFilter< TInputPath, TOutputImage >
 ::SetInput(const InputPathType *input)
@@ -61,7 +61,7 @@ PathToImageFilter< TInputPath, TOutputImage >
 }
 
 /** Connect one of the operands  */
-template< class TInputPath, class TOutputImage >
+template< typename TInputPath, typename TOutputImage >
 void
 PathToImageFilter< TInputPath, TOutputImage >
 ::SetInput(unsigned int index, const InputPathType *path)
@@ -71,7 +71,7 @@ PathToImageFilter< TInputPath, TOutputImage >
 }
 
 /** Get the input Path */
-template< class TInputPath, class TOutputImage >
+template< typename TInputPath, typename TOutputImage >
 const typename PathToImageFilter< TInputPath, TOutputImage >::InputPathType *
 PathToImageFilter< TInputPath, TOutputImage >
 ::GetInput(void)
@@ -80,7 +80,7 @@ PathToImageFilter< TInputPath, TOutputImage >
 }
 
 /** Get the input Path */
-template< class TInputPath, class TOutputImage >
+template< typename TInputPath, typename TOutputImage >
 const typename PathToImageFilter< TInputPath, TOutputImage >::InputPathType *
 PathToImageFilter< TInputPath, TOutputImage >
 ::GetInput(unsigned int idx)
@@ -89,7 +89,7 @@ PathToImageFilter< TInputPath, TOutputImage >
 }
 
 //----------------------------------------------------------------------------
-template< class TInputPath, class TOutputImage >
+template< typename TInputPath, typename TOutputImage >
 void
 PathToImageFilter< TInputPath, TOutputImage >
 ::SetSpacing(const double *spacing)
@@ -112,7 +112,7 @@ PathToImageFilter< TInputPath, TOutputImage >
     }
 }
 
-template< class TInputPath, class TOutputImage >
+template< typename TInputPath, typename TOutputImage >
 void
 PathToImageFilter< TInputPath, TOutputImage >
 ::SetSpacing(const float *spacing)
@@ -135,7 +135,7 @@ PathToImageFilter< TInputPath, TOutputImage >
     }
 }
 
-template< class TInputPath, class TOutputImage >
+template< typename TInputPath, typename TOutputImage >
 const double *
 PathToImageFilter< TInputPath, TOutputImage >
 ::GetSpacing() const
@@ -144,7 +144,7 @@ PathToImageFilter< TInputPath, TOutputImage >
 }
 
 //----------------------------------------------------------------------------
-template< class TInputPath, class TOutputImage >
+template< typename TInputPath, typename TOutputImage >
 void
 PathToImageFilter< TInputPath, TOutputImage >
 ::SetOrigin(const double *origin)
@@ -167,7 +167,7 @@ PathToImageFilter< TInputPath, TOutputImage >
     }
 }
 
-template< class TInputPath, class TOutputImage >
+template< typename TInputPath, typename TOutputImage >
 void
 PathToImageFilter< TInputPath, TOutputImage >
 ::SetOrigin(const float *origin)
@@ -190,7 +190,7 @@ PathToImageFilter< TInputPath, TOutputImage >
     }
 }
 
-template< class TInputPath, class TOutputImage >
+template< typename TInputPath, typename TOutputImage >
 const double *
 PathToImageFilter< TInputPath, TOutputImage >
 ::GetOrigin() const
@@ -200,7 +200,7 @@ PathToImageFilter< TInputPath, TOutputImage >
 
 //----------------------------------------------------------------------------
 
-template< class TInputPath, class TOutputImage >
+template< typename TInputPath, typename TOutputImage >
 void
 PathToImageFilter< TInputPath, TOutputImage >
 ::GenerateData(void)
@@ -305,7 +305,7 @@ PathToImageFilter< TInputPath, TOutputImage >
   itkDebugMacro(<< "PathToImageFilter::GenerateData() finished");
 } // end update function
 
-template< class TInputPath, class TOutputImage >
+template< typename TInputPath, typename TOutputImage >
 void
 PathToImageFilter< TInputPath, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

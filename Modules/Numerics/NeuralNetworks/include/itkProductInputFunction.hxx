@@ -26,21 +26,21 @@ namespace Statistics
 {
 
 /** Constructor */
-template<class TMeasurementVector, class ScalarType>
+template<typename TMeasurementVector, typename ScalarType>
 ProductInputFunction<TMeasurementVector,ScalarType>
 ::ProductInputFunction()
 {
 }
 
 /** Destructor */
-template<class TMeasurementVector, class ScalarType>
+template<typename TMeasurementVector, typename ScalarType>
 ProductInputFunction <TMeasurementVector,ScalarType>
 ::~ProductInputFunction()
 {
 }
 
 /** Evaluate */
-template<class TMeasurementVector, class ScalarType>
+template<typename TMeasurementVector, typename ScalarType>
 ScalarType
 ProductInputFunction <TMeasurementVector,ScalarType>
 ::Evaluate(const TMeasurementVector& input)  const
@@ -55,7 +55,7 @@ ProductInputFunction <TMeasurementVector,ScalarType>
 }
 
 /** Print the object */
-template<class TMeasurementVector, class ScalarType>
+template<typename TMeasurementVector, typename ScalarType>
 void
 ProductInputFunction <TMeasurementVector,ScalarType>
 ::PrintSelf( std::ostream& os, Indent indent ) const

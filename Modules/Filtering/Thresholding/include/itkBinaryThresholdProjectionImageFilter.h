@@ -48,7 +48,7 @@ namespace itk
 
 namespace Function
 {
-template< class TInputPixel, class TOutputPixel >
+template< typename TInputPixel, typename TOutputPixel >
 class BinaryThresholdAccumulator
 {
 public:
@@ -88,7 +88,7 @@ public:
 };
 } // end namespace Function
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class BinaryThresholdProjectionImageFilter:
   public ProjectionImageFilter< TInputImage, TOutputImage,
                                 Function::BinaryThresholdAccumulator<

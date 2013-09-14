@@ -24,19 +24,19 @@
 namespace itk
 {
 /* constructor: seting the default value of the parameters */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 VoronoiPartitioningImageFilter< TInputImage, TOutputImage >
 ::VoronoiPartitioningImageFilter():
   m_SigmaThreshold(10)
 {}
 
 /* destructor */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 VoronoiPartitioningImageFilter< TInputImage, TOutputImage >
 ::~VoronoiPartitioningImageFilter()
 {}
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 VoronoiPartitioningImageFilter< TInputImage, TOutputImage >
 ::ClassifyDiagram(void)
@@ -74,7 +74,7 @@ VoronoiPartitioningImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 VoronoiPartitioningImageFilter< TInputImage, TOutputImage >
 ::GenerateAddingSeeds(void)
@@ -102,7 +102,7 @@ VoronoiPartitioningImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 VoronoiPartitioningImageFilter< TInputImage, TOutputImage >
 ::MakeSegmentBoundary(void)
@@ -131,7 +131,7 @@ VoronoiPartitioningImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 VoronoiPartitioningImageFilter< TInputImage, TOutputImage >
 ::MakeSegmentObject(void)
@@ -164,7 +164,7 @@ VoronoiPartitioningImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 bool
 VoronoiPartitioningImageFilter< TInputImage, TOutputImage >
 ::TestHomogeneity(IndexList & Plist)
@@ -198,7 +198,7 @@ VoronoiPartitioningImageFilter< TInputImage, TOutputImage >
   return ( savevar >= 0 && vcl_sqrt(savevar) < m_SigmaThreshold );
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 VoronoiPartitioningImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

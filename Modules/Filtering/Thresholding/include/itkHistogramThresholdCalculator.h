@@ -42,7 +42,7 @@ namespace itk
  * \ingroup Operators
  * \ingroup ITKThresholding
  */
-template <class THistogram, class TOutput>
+template <typename THistogram, typename TOutput>
 class HistogramThresholdCalculator : public ProcessObject
 {
 public:

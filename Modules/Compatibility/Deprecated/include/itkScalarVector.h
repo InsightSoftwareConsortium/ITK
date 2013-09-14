@@ -57,7 +57,7 @@ namespace itk
  * \ingroup ITKDeprecated
  * \ingroup DataRepresentation
  */
-template< class TScalar, class TVector, unsigned int TVectorDimension = 3 >
+template< typename TScalar, typename TVector, unsigned int TVectorDimension = 3 >
 class ScalarVector
 {
 public:

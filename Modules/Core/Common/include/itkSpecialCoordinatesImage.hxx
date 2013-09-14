@@ -33,14 +33,14 @@
 namespace itk
 {
 
-template< class TPixel, unsigned int VImageDimension >
+template< typename TPixel, unsigned int VImageDimension >
 SpecialCoordinatesImage< TPixel, VImageDimension >
 ::SpecialCoordinatesImage()
 {
   m_Buffer = PixelContainer::New();
 }
 
-template< class TPixel, unsigned int VImageDimension >
+template< typename TPixel, unsigned int VImageDimension >
 void
 SpecialCoordinatesImage< TPixel, VImageDimension >
 ::Allocate()
@@ -53,7 +53,7 @@ SpecialCoordinatesImage< TPixel, VImageDimension >
   m_Buffer->Reserve(num);
 }
 
-template< class TPixel, unsigned int VImageDimension >
+template< typename TPixel, unsigned int VImageDimension >
 void
 SpecialCoordinatesImage< TPixel, VImageDimension >
 ::Initialize()
@@ -72,7 +72,7 @@ SpecialCoordinatesImage< TPixel, VImageDimension >
   m_Buffer = PixelContainer::New();
 }
 
-template< class TPixel, unsigned int VImageDimension >
+template< typename TPixel, unsigned int VImageDimension >
 void
 SpecialCoordinatesImage< TPixel, VImageDimension >
 ::FillBuffer(const TPixel & value)
@@ -86,7 +86,7 @@ SpecialCoordinatesImage< TPixel, VImageDimension >
     }
 }
 
-template< class TPixel, unsigned int VImageDimension >
+template< typename TPixel, unsigned int VImageDimension >
 void
 SpecialCoordinatesImage< TPixel, VImageDimension >
 ::SetPixelContainer(PixelContainer *container)
@@ -98,7 +98,7 @@ SpecialCoordinatesImage< TPixel, VImageDimension >
     }
 }
 
-template< class TPixel, unsigned int VImageDimension >
+template< typename TPixel, unsigned int VImageDimension >
 void
 SpecialCoordinatesImage< TPixel, VImageDimension >
 ::PrintSelf(std::ostream & os, Indent indent) const

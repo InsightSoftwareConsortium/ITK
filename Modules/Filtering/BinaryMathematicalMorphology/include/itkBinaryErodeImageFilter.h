@@ -63,7 +63,7 @@ namespace itk
  * \wikiexample{Morphology/BinaryErodeImageFilter,Erode a binary image}
  * \endwiki
  */
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 class BinaryErodeImageFilter:
   public BinaryMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
 {

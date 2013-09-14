@@ -21,7 +21,7 @@
 
 namespace itk
 {
-template< class TPixel, unsigned int VDimension, class TAllocator >
+template< typename TPixel, unsigned int VDimension, typename TAllocator >
 void
 LaplacianOperator< TPixel, VDimension, TAllocator >
 ::SetDerivativeScalings(const double *s)
@@ -33,7 +33,7 @@ LaplacianOperator< TPixel, VDimension, TAllocator >
 }
 
 //Create the operator
-template< class TPixel, unsigned int VDimension, class TAllocator >
+template< typename TPixel, unsigned int VDimension, typename TAllocator >
 void
 LaplacianOperator< TPixel, VDimension, TAllocator >
 ::CreateOperator()
@@ -46,7 +46,7 @@ LaplacianOperator< TPixel, VDimension, TAllocator >
 }
 
 //This function fills the coefficients into the corresponding neighborhodd.
-template< class TPixel, unsigned int VDimension, class TAllocator >
+template< typename TPixel, unsigned int VDimension, typename TAllocator >
 void
 LaplacianOperator< TPixel, VDimension, TAllocator >
 ::Fill(const CoefficientVector & coeff)
@@ -68,7 +68,7 @@ LaplacianOperator< TPixel, VDimension, TAllocator >
     }
 }
 
-template< class TPixel, unsigned int VDimension, class TAllocator >
+template< typename TPixel, unsigned int VDimension, typename TAllocator >
 typename LaplacianOperator< TPixel, VDimension, TAllocator >
 ::CoefficientVector
 LaplacianOperator< TPixel, VDimension, TAllocator >

@@ -27,7 +27,7 @@
 
 namespace itk
 {
-template< class TInputImage >
+template< typename TInputImage >
 MRASlabIdentifier< TInputImage >
 ::MRASlabIdentifier()
 {
@@ -39,7 +39,7 @@ MRASlabIdentifier< TInputImage >
   m_SlicingDirection = 2;
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void
 MRASlabIdentifier< TInputImage >
 ::GenerateSlabRegions(void)
@@ -170,7 +170,7 @@ MRASlabIdentifier< TInputImage >
   m_Slabs.push_back(slabRegion);
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 typename MRASlabIdentifier< TInputImage >::SlabRegionVectorType
 MRASlabIdentifier< TInputImage >
 ::GetSlabRegionVector(void)
@@ -178,7 +178,7 @@ MRASlabIdentifier< TInputImage >
   return m_Slabs;
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void
 MRASlabIdentifier< TInputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

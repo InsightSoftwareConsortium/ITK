@@ -31,7 +31,7 @@ namespace itk
  *
  * \ingroup ITKGPUAnisotropicSmoothing
  */
-template< class TInputImage, class TOutputImage, class TParentImageFilter =
+template< typename TInputImage, typename TOutputImage, typename TParentImageFilter =
             AnisotropicDiffusionImageFilter< TInputImage, TOutputImage > >
 class GPUAnisotropicDiffusionImageFilter :
   public GPUDenseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TParentImageFilter >

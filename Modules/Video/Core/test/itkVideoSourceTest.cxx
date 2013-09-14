@@ -33,7 +33,7 @@ namespace VideoSourceTest
 /** \class DummyVideoSource
  * Provide dummy implementation of VideoSource that just sets all pixels to 1
  */
-template<class TOutputVideoStream>
+template<typename TOutputVideoStream>
 class DummyVideoSource : public VideoSource<TOutputVideoStream>
 {
 public:

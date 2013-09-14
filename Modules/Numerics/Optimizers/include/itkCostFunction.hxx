@@ -22,7 +22,7 @@
 
 namespace itk
 {
-template<class ValueType>
+template<typename ValueType>
 void
 CostFunctionTemplate<ValueType>
 ::PrintSelf(std::ostream & os, Indent indent) const

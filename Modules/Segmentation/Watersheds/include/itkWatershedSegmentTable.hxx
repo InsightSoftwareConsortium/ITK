@@ -24,7 +24,7 @@ namespace itk
 {
 namespace watershed
 {
-template< class TScalar >
+template< typename TScalar >
 void SegmentTable< TScalar >
 ::PruneEdgeLists(ScalarType maximum_saliency)
 {
@@ -47,7 +47,7 @@ void SegmentTable< TScalar >
     }
 }
 
-template< class TScalar >
+template< typename TScalar >
 void SegmentTable< TScalar >
 ::SortEdgeLists()
 {
@@ -59,7 +59,7 @@ void SegmentTable< TScalar >
     }
 }
 
-template< class TScalar >
+template< typename TScalar >
 bool SegmentTable< TScalar >
 ::Add(IdentifierType a, const segment_t & t)
 {

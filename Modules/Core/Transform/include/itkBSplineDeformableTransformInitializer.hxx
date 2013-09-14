@@ -22,14 +22,14 @@
 
 namespace itk
 {
-template< class TTransform, class TImage >
+template< typename TTransform, typename TImage >
 BSplineDeformableTransformInitializer< TTransform, TImage >
 ::BSplineDeformableTransformInitializer()
 {
   this->m_GridSizeInsideTheImage.Fill(5);
 }
 
-template< class TTransform, class TImage >
+template< typename TTransform, typename TImage >
 void
 BSplineDeformableTransformInitializer< TTransform, TImage >
 ::InitializeTransform() const
@@ -114,7 +114,7 @@ BSplineDeformableTransformInitializer< TTransform, TImage >
   this->m_Transform->SetGridDirection(gridDirection);
 }
 
-template< class TTransform, class TImage >
+template< typename TTransform, typename TImage >
 void
 BSplineDeformableTransformInitializer< TTransform, TImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

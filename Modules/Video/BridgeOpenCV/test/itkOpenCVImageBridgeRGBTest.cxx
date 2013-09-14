@@ -27,7 +27,7 @@
 //-----------------------------------------------------------------------------
 // Compare RGBPixel Images
 //
-template<class TPixelValue, unsigned int VDimension>
+template<typename TPixelValue, unsigned int VDimension>
 TPixelValue
 RGBImageTotalAbsDifference(
   const itk::Image<itk::RGBPixel<TPixelValue>, VDimension>* valid,
@@ -86,7 +86,7 @@ RGBImageTotalAbsDifference(
 //-----------------------------------------------------------------------------
 // Convert the data in the IplImage to the templated type
 //
-template<class TPixelType>
+template<typename TPixelType>
 IplImage* ConvertIplImageDataType(IplImage* in)
 {
   int depth = 0;
@@ -130,7 +130,7 @@ IplImage* ConvertIplImageDataType(IplImage* in)
 //-----------------------------------------------------------------------------
 // Templated test function to do the heavy lifting for RGB case
 //
-template<class TValueType, unsigned int VDimension>
+template<typename TValueType, unsigned int VDimension>
 int itkOpenCVImageBridgeTestTemplatedRGB(char* argv0, char* argv1)
 {
   // typedefs
@@ -250,7 +250,7 @@ int itkOpenCVImageBridgeTestTemplatedRGB(char* argv0, char* argv1)
   return EXIT_SUCCESS;
 }
 
-template< class TValue >
+template< typename TValue >
 int itkRunRGBTest( char* argv0, char* argv1 )
 {
   if (itkOpenCVImageBridgeTestTemplatedRGB< TValue, 2 >(argv0, argv1) == EXIT_FAILURE)

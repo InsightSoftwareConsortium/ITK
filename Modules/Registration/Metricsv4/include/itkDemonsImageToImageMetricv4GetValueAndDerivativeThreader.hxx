@@ -22,7 +22,7 @@
 
 namespace itk
 {
-template< class TDomainPartitioner, class TImageToImageMetric, class TDemonsMetric >
+template< typename TDomainPartitioner, typename TImageToImageMetric, typename TDemonsMetric >
 void
 DemonsImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric, TDemonsMetric >
 ::BeforeThreadedExecution()
@@ -37,7 +37,7 @@ DemonsImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TIm
     }
 }
 
-template< class TDomainPartitioner, class TImageToImageMetric, class TDemonsMetric >
+template< typename TDomainPartitioner, typename TImageToImageMetric, typename TDemonsMetric >
 bool
 DemonsImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric, TDemonsMetric >
 ::ProcessPoint( const VirtualIndexType &,

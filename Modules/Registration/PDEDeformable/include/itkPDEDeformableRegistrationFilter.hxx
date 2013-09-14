@@ -34,7 +34,7 @@ namespace itk
 /**
  * Default constructor
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::PDEDeformableRegistrationFilter()
 {
@@ -63,7 +63,7 @@ PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 /*
  * Set the fixed image.
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void
 PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::SetFixedImage(
@@ -75,7 +75,7 @@ PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 /*
  * Get the fixed image.
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 const typename PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::FixedImageType *
 PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
@@ -88,7 +88,7 @@ PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 /*
  * Set the moving image.
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void
 PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::SetMovingImage(
@@ -100,7 +100,7 @@ PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 /*
  * Get the moving image.
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 const typename PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::MovingImageType *
 PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
@@ -113,7 +113,7 @@ PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 /*
  *
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 std::vector< SmartPointer< DataObject > >::size_type
 PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::GetNumberOfValidRequiredInputs() const
@@ -136,7 +136,7 @@ PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 /**
  * Set the standard deviations.
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void
 PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::SetStandardDeviations(
@@ -164,7 +164,7 @@ PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 /*
  * Set the standard deviations.
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void
 PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::SetUpdateFieldStandardDeviations(
@@ -192,7 +192,7 @@ PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 /*
  * Standard PrintSelf method.
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void
 PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -227,7 +227,7 @@ PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 /*
  * Set the function state values before each iteration
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void
 PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::InitializeIteration()
@@ -262,7 +262,7 @@ PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
  * If the initial deformation is not set, the output is
  * fill with zero vectors.
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void
 PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::CopyInputToOutput()
@@ -293,7 +293,7 @@ PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
     }
 }
 
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void
 PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::GenerateOutputInformation()
@@ -322,7 +322,7 @@ PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
     }
 }
 
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void
 PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::GenerateInputRequestedRegion()
@@ -360,7 +360,7 @@ PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 /*
  * Release memory of internal buffers
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void
 PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::PostProcessOutput()
@@ -372,7 +372,7 @@ PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 /*
  * Initialize flags
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void
 PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::Initialize()
@@ -384,7 +384,7 @@ PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 /*
  * Smooth deformation using a separable Gaussian kernel
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void
 PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::SmoothDisplacementField()
@@ -454,7 +454,7 @@ PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 /*
  * Smooth deformation using a separable Gaussian kernel
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void
 PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::SmoothUpdateField()

@@ -23,7 +23,7 @@
 
 namespace itk {
 
-template <class TImageType>
+template <typename TImageType>
 class NodeClass
 {
 public:

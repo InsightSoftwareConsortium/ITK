@@ -24,7 +24,7 @@
 namespace itk
 {
 
-template< class TImageToImageMetricv4 >
+template< typename TImageToImageMetricv4 >
 void
 ImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedImageRegionPartitioner< TImageToImageMetricv4::VirtualImageDimension >, TImageToImageMetricv4 >
 ::ThreadedExecution ( const DomainType & imageSubRegion,
@@ -43,7 +43,7 @@ ImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedImageRegionPartitione
     }
 }
 
-template< class TImageToImageMetricv4 >
+template< typename TImageToImageMetricv4 >
 void
 ImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedIndexedContainerPartitioner, TImageToImageMetricv4 >
 ::ThreadedExecution ( const DomainType & indexSubRange,

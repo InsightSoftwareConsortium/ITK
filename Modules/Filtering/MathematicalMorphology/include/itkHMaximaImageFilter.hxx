@@ -27,7 +27,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 HMaximaImageFilter< TInputImage, TOutputImage >
 ::HMaximaImageFilter()
 {
@@ -36,7 +36,7 @@ HMaximaImageFilter< TInputImage, TOutputImage >
   m_FullyConnected = false;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 HMaximaImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
@@ -52,7 +52,7 @@ HMaximaImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 HMaximaImageFilter< TInputImage, TOutputImage >
 ::EnlargeOutputRequestedRegion(DataObject *)
@@ -61,7 +61,7 @@ HMaximaImageFilter< TInputImage, TOutputImage >
   ->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 HMaximaImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
@@ -114,7 +114,7 @@ HMaximaImageFilter< TInputImage, TOutputImage >
   this->GraftOutput( cast->GetOutput() );
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 HMaximaImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

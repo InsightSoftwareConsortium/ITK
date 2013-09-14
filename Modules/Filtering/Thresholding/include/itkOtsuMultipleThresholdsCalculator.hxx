@@ -22,7 +22,7 @@
 
 namespace itk
 {
-template< class TInputHistogram >
+template< typename TInputHistogram >
 OtsuMultipleThresholdsCalculator< TInputHistogram >
 ::OtsuMultipleThresholdsCalculator()
 {
@@ -31,7 +31,7 @@ OtsuMultipleThresholdsCalculator< TInputHistogram >
   std::fill(m_Output.begin(), m_Output.end(), NumericTraits< MeasurementType >::Zero);
 }
 
-template< class TInputHistogram >
+template< typename TInputHistogram >
 const typename OtsuMultipleThresholdsCalculator< TInputHistogram >::OutputType &
 OtsuMultipleThresholdsCalculator< TInputHistogram >
 ::GetOutput()
@@ -42,7 +42,7 @@ OtsuMultipleThresholdsCalculator< TInputHistogram >
 /**
  * Increment the thresholds of one position along the histogram
  */
-template< class TInputHistogram >
+template< typename TInputHistogram >
 bool
 OtsuMultipleThresholdsCalculator< TInputHistogram >
 ::IncrementThresholds(InstanceIdentifierVectorType & thresholdIndexes,
@@ -144,7 +144,7 @@ OtsuMultipleThresholdsCalculator< TInputHistogram >
 /**
  * Compute Otsu's thresholds
  */
-template< class TInputHistogram >
+template< typename TInputHistogram >
 void
 OtsuMultipleThresholdsCalculator< TInputHistogram >
 ::Compute()
@@ -257,7 +257,7 @@ OtsuMultipleThresholdsCalculator< TInputHistogram >
     }
 }
 
-template< class TInputHistogram >
+template< typename TInputHistogram >
 void
 OtsuMultipleThresholdsCalculator< TInputHistogram >
 ::PrintSelf(std::ostream & os, Indent indent) const

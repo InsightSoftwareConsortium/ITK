@@ -37,7 +37,7 @@ namespace itk
  * \ingroup ITKThresholding
  */
 
-template< class TInputHistogram >
+template< typename TInputHistogram >
 class OtsuMultipleThresholdsCalculator:
   public HistogramAlgorithmBase< TInputHistogram >
 {

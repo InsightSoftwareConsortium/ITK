@@ -30,7 +30,7 @@ namespace itk
 /**
  *
  */
-template< class TLevelSet >
+template< typename TLevelSet >
 LevelSetNeighborhoodExtractor< TLevelSet >
 ::LevelSetNeighborhoodExtractor()
 {
@@ -54,7 +54,7 @@ LevelSetNeighborhoodExtractor< TLevelSet >
 /*
  *
  */
-template< class TLevelSet >
+template< typename TLevelSet >
 void
 LevelSetNeighborhoodExtractor< TLevelSet >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -72,7 +72,7 @@ LevelSetNeighborhoodExtractor< TLevelSet >
 /*
  *
  */
-template< class TLevelSet >
+template< typename TLevelSet >
 void
 LevelSetNeighborhoodExtractor< TLevelSet >
 ::SetInputNarrowBand(
@@ -88,7 +88,7 @@ LevelSetNeighborhoodExtractor< TLevelSet >
 /**
  *
  */
-template< class TLevelSet >
+template< typename TLevelSet >
 void
 LevelSetNeighborhoodExtractor< TLevelSet >
 ::Locate()
@@ -99,7 +99,7 @@ LevelSetNeighborhoodExtractor< TLevelSet >
 /**
  *
  */
-template< class TLevelSet >
+template< typename TLevelSet >
 void
 LevelSetNeighborhoodExtractor< TLevelSet >
 ::Initialize()
@@ -120,7 +120,7 @@ LevelSetNeighborhoodExtractor< TLevelSet >
 /*
  *
  */
-template< class TLevelSet >
+template< typename TLevelSet >
 void
 LevelSetNeighborhoodExtractor< TLevelSet >
 ::GenerateData()
@@ -148,7 +148,7 @@ LevelSetNeighborhoodExtractor< TLevelSet >
 /*
  *
  */
-template< class TLevelSet >
+template< typename TLevelSet >
 void
 LevelSetNeighborhoodExtractor< TLevelSet >
 ::GenerateDataFull()
@@ -182,7 +182,7 @@ LevelSetNeighborhoodExtractor< TLevelSet >
 /**
  *
  */
-template< class TLevelSet >
+template< typename TLevelSet >
 void
 LevelSetNeighborhoodExtractor< TLevelSet >
 ::GenerateDataNarrowBand()
@@ -224,7 +224,7 @@ LevelSetNeighborhoodExtractor< TLevelSet >
 /**
  *
  */
-template< class TLevelSet >
+template< typename TLevelSet >
 double
 LevelSetNeighborhoodExtractor< TLevelSet >
 ::CalculateDistance(

@@ -23,7 +23,7 @@
 namespace itk
 {
 /** Constructor */
-template< class TInputSpatialObject, class TOutputPointSet >
+template< typename TInputSpatialObject, typename TOutputPointSet >
 SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >
 ::SpatialObjectToPointSetFilter()
 {
@@ -33,13 +33,13 @@ SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >
 }
 
 /** Destructor */
-template< class TInputSpatialObject, class TOutputPointSet >
+template< typename TInputSpatialObject, typename TOutputPointSet >
 SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >
 ::~SpatialObjectToPointSetFilter()
 {}
 
 /** Set the Input SpatialObject */
-template< class TInputSpatialObject, class TOutputPointSet >
+template< typename TInputSpatialObject, typename TOutputPointSet >
 void
 SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >
 ::SetInput(const InputSpatialObjectType *input)
@@ -50,7 +50,7 @@ SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >
 }
 
 /** Connect one of the operands  */
-template< class TInputSpatialObject, class TOutputPointSet >
+template< typename TInputSpatialObject, typename TOutputPointSet >
 void
 SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >
 ::SetInput(unsigned int index, const TInputSpatialObject *object)
@@ -61,7 +61,7 @@ SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >
 }
 
 /** Get the input Spatial Object */
-template< class TInputSpatialObject, class TOutputPointSet >
+template< typename TInputSpatialObject, typename TOutputPointSet >
 const typename SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >::InputSpatialObjectType *
 SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >
 ::GetInput(void)
@@ -70,7 +70,7 @@ SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >
 }
 
 /** Get the input Spatial Object */
-template< class TInputSpatialObject, class TOutputPointSet >
+template< typename TInputSpatialObject, typename TOutputPointSet >
 const typename SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >::InputSpatialObjectType *
 SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >
 ::GetInput(unsigned int idx)
@@ -79,7 +79,7 @@ SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >
 }
 
 /** Update */
-template< class TInputSpatialObject, class TOutputPointSet >
+template< typename TInputSpatialObject, typename TOutputPointSet >
 void
 SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >
 ::GenerateData(void)
@@ -172,7 +172,7 @@ SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >
   itkDebugMacro(<< "SpatialObjectToPointSetFilter::Update() finished");
 } // end update function
 
-template< class TInputSpatialObject, class TOutputPointSet >
+template< typename TInputSpatialObject, typename TOutputPointSet >
 void
 SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >
 ::PrintSelf(std::ostream & os, Indent indent) const

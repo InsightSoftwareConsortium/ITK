@@ -206,7 +206,7 @@ int WriteFile(const std::string &name, const unsigned char *buf, size_t buflen)
 /** ReadFile
  * read an image from disk
  */
-template <class TImage>
+template <typename TImage>
 typename TImage::Pointer
 ReadImage( const std::string &fileName )
 {

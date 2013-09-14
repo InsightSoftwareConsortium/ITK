@@ -46,7 +46,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 
-template< class T >
+template< typename T >
 class ByteSwapper:public Object
 {
 public:

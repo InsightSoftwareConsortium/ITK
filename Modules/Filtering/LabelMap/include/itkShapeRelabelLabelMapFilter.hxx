@@ -23,7 +23,7 @@
 
 namespace itk
 {
-template< class TImage >
+template< typename TImage >
 ShapeRelabelLabelMapFilter< TImage >
 ::ShapeRelabelLabelMapFilter()
 {
@@ -31,7 +31,7 @@ ShapeRelabelLabelMapFilter< TImage >
   m_Attribute = LabelObjectType::NUMBER_OF_PIXELS;
 }
 
-template< class TImage >
+template< typename TImage >
 void
 ShapeRelabelLabelMapFilter< TImage >
 ::GenerateData()
@@ -45,7 +45,7 @@ ShapeRelabelLabelMapFilter< TImage >
     }
 }
 
-template< class TImage >
+template< typename TImage >
 void
 ShapeRelabelLabelMapFilter< TImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

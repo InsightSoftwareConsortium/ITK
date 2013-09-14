@@ -76,7 +76,7 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template <class TScalar,
+template <typename TScalar,
           unsigned int NInputDimensions = 3,
           unsigned int NOutputDimensions = 3>
 class Transform : public TransformBaseTemplate< TScalar >

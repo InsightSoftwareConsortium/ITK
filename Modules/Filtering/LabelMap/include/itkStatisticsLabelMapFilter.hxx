@@ -27,7 +27,7 @@
 
 namespace itk
 {
-template< class TImage, class TFeatureImage >
+template< typename TImage, typename TFeatureImage >
 StatisticsLabelMapFilter< TImage, TFeatureImage >
 ::StatisticsLabelMapFilter()
 {
@@ -36,7 +36,7 @@ StatisticsLabelMapFilter< TImage, TFeatureImage >
   this->SetNumberOfRequiredInputs(2);
 }
 
-template< class TImage, class TFeatureImage >
+template< typename TImage, typename TFeatureImage >
 void
 StatisticsLabelMapFilter< TImage, TFeatureImage >
 ::BeforeThreadedGenerateData()
@@ -55,7 +55,7 @@ StatisticsLabelMapFilter< TImage, TFeatureImage >
   m_Maximum = minMax->GetMaximum();
 }
 
-template< class TImage, class TFeatureImage >
+template< typename TImage, typename TFeatureImage >
 void
 StatisticsLabelMapFilter< TImage, TFeatureImage >
 ::ThreadedProcessLabelObject(LabelObjectType *labelObject)
@@ -298,7 +298,7 @@ StatisticsLabelMapFilter< TImage, TFeatureImage >
     }
 }
 
-template< class TImage, class TFeatureImage >
+template< typename TImage, typename TFeatureImage >
 void
 StatisticsLabelMapFilter< TImage, TFeatureImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

@@ -25,7 +25,7 @@ namespace itk
 /**
  * Constructor
  */
-template< class TInputImage, class TCoordRep >
+template< typename TInputImage, typename TCoordRep >
 VectorCentralDifferenceImageFunction< TInputImage, TCoordRep >
 ::VectorCentralDifferenceImageFunction()
 {
@@ -35,7 +35,7 @@ VectorCentralDifferenceImageFunction< TInputImage, TCoordRep >
 /**
  *
  */
-template< class TInputImage, class TCoordRep >
+template< typename TInputImage, typename TCoordRep >
 void
 VectorCentralDifferenceImageFunction< TInputImage, TCoordRep >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -47,7 +47,7 @@ VectorCentralDifferenceImageFunction< TInputImage, TCoordRep >
 /**
  *
  */
-template< class TInputImage, class TCoordRep >
+template< typename TInputImage, typename TCoordRep >
 typename VectorCentralDifferenceImageFunction< TInputImage, TCoordRep >::OutputType
 VectorCentralDifferenceImageFunction< TInputImage, TCoordRep >
 ::EvaluateAtIndex(const IndexType & index) const

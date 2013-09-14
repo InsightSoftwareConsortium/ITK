@@ -24,7 +24,7 @@ namespace itk
 /**
  *
  */
-template< class TInputImage, class TOutputMesh >
+template< typename TInputImage, typename TOutputMesh >
 ImageToMeshFilter< TInputImage, TOutputMesh >
 ::ImageToMeshFilter()
 {
@@ -40,7 +40,7 @@ ImageToMeshFilter< TInputImage, TOutputMesh >
 /**
  *
  */
-template< class TInputImage, class TOutputMesh >
+template< typename TInputImage, typename TOutputMesh >
 ImageToMeshFilter< TInputImage, TOutputMesh >
 ::~ImageToMeshFilter()
 {}
@@ -48,7 +48,7 @@ ImageToMeshFilter< TInputImage, TOutputMesh >
 /**
  *   Make Ouput
  */
-template< class TInputImage, class TOutputMesh >
+template< typename TInputImage, typename TOutputMesh >
 DataObject::Pointer
 ImageToMeshFilter< TInputImage, TOutputMesh >
 ::MakeOutput(DataObjectPointerArraySizeType)
@@ -61,7 +61,7 @@ ImageToMeshFilter< TInputImage, TOutputMesh >
 /**
  *
  */
-template< class TInputImage, class TOutputMesh >
+template< typename TInputImage, typename TOutputMesh >
 void
 ImageToMeshFilter< TInputImage, TOutputMesh >
 ::SetInput(unsigned int idx, const InputImageType *input)
@@ -75,7 +75,7 @@ ImageToMeshFilter< TInputImage, TOutputMesh >
 /**
  *
  */
-template< class TInputImage, class TOutputMesh >
+template< typename TInputImage, typename TOutputMesh >
 const typename ImageToMeshFilter< TInputImage, TOutputMesh >::InputImageType *
 ImageToMeshFilter< TInputImage, TOutputMesh >
 ::GetInput(unsigned int idx)
@@ -87,7 +87,7 @@ ImageToMeshFilter< TInputImage, TOutputMesh >
 /**
  *
  */
-template< class TInputImage, class TOutputMesh >
+template< typename TInputImage, typename TOutputMesh >
 typename ImageToMeshFilter< TInputImage, TOutputMesh >::OutputMeshType *
 ImageToMeshFilter< TInputImage, TOutputMesh >
 ::GetOutput(void)
@@ -101,7 +101,7 @@ ImageToMeshFilter< TInputImage, TOutputMesh >
  * This is a void implementation to prevent the
  * ProcessObject version to be called
  */
-template< class TInputImage, class TOutputMesh >
+template< typename TInputImage, typename TOutputMesh >
 void
 ImageToMeshFilter< TInputImage, TOutputMesh >
 ::GenerateOutputInformation()

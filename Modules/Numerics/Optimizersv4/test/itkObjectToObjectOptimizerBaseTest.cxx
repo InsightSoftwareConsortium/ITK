@@ -20,7 +20,7 @@
 #include "itkTestingMacros.h"
 
 /* Create a simple metric to use for testing here. */
-template< class TFixedObject,  class TMovingObject >
+template< typename TFixedObject,  typename TMovingObject >
 class ObjectToObjectOptimizerBaseTestMetric:
   public itk::ObjectToObjectMetricBase
 {

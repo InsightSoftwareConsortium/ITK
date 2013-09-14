@@ -23,7 +23,7 @@
 namespace itk
 {
 
-template< class TSizeValue >
+template< typename TSizeValue >
 bool
 VnlFFTCommon
 ::IsDimensionSizeLegal(TSizeValue n)
@@ -41,7 +41,7 @@ VnlFFTCommon
   return ( n == 1 ); // return false if decomposition failed
 }
 
-template< class TImage >
+template< typename TImage >
 VnlFFTCommon::VnlFFTTransform< TImage >
 ::VnlFFTTransform(const typename TImage::SizeType & s)
 {

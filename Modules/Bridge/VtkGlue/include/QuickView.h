@@ -115,13 +115,13 @@ public:
     m_SnapshotExtension = "png";
   }
   /** Add an image to be rendered. */
-  template<class TImage> void AddImage(
+  template<typename TImage> void AddImage(
     TImage *,
     bool FlipVertical=true,
     std::string Description="");
 
   /** Add an RGB image to be rendered */
-  template<class TImage> void AddRGBImage(
+  template<typename TImage> void AddRGBImage(
     TImage *,
     bool FlipVertical=true,
     std::string Description="");

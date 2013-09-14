@@ -23,7 +23,7 @@
 namespace itk
 {
 
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 CleanQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 ::CleanQuadEdgeMeshFilter()
 {
@@ -40,7 +40,7 @@ CleanQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 }
 
 
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 void
 CleanQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 ::GenerateData()
@@ -62,7 +62,7 @@ CleanQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 }
 
 
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 void
 CleanQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 ::MergePoints( const InputCoordRepType absoluteToleranceSquared )
@@ -127,7 +127,7 @@ CleanQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 }
 
 
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 void
 CleanQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 ::CleanPoints()
@@ -152,7 +152,7 @@ CleanQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 }
 
 
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 void
 CleanQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 ::PrintSelf( std::ostream & os, Indent indent ) const

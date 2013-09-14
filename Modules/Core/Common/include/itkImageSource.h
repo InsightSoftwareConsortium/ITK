@@ -82,7 +82,7 @@ struct ITKCommon_EXPORT ImageSourceCommon
  * \wikiexample{Developer/ImageSource,Produce an image programmatically.}
  * \endwiki
  */
-template< class TOutputImage >
+template< typename TOutputImage >
 class ImageSource
   : public ProcessObject, private ImageSourceCommon
 {

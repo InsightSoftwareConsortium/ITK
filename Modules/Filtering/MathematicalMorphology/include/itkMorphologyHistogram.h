@@ -27,7 +27,7 @@ namespace itk
 {
 namespace Function
 {
-template< class TInputPixel, class TCompare >
+template< typename TInputPixel, typename TCompare >
 class MorphologyHistogram
 {
 public:
@@ -109,7 +109,7 @@ public:
 
 };
 
-template< class TInputPixel, class TCompare >
+template< typename TInputPixel, typename TCompare >
 class VectorMorphologyHistogram
 {
 public:
@@ -195,19 +195,19 @@ public:
 // now create MorphologyHistogram partial specilizations using the VectorMorphologyHistogram
 // as base class
 
-template< class TCompare >
+template< typename TCompare >
 class MorphologyHistogram<unsigned char, TCompare>:
   public VectorMorphologyHistogram<unsigned char, TCompare>
 {
 };
 
-template< class TCompare >
+template< typename TCompare >
 class MorphologyHistogram<signed char, TCompare>:
   public VectorMorphologyHistogram<signed char, TCompare>
 {
 };
 
-template< class TCompare >
+template< typename TCompare >
 class MorphologyHistogram<bool, TCompare>:
   public VectorMorphologyHistogram<bool, TCompare>
 {

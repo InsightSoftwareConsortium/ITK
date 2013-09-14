@@ -77,7 +77,7 @@ namespace itk
  * \wikiexample{VectorImages/NeighborhoodIterator,NeighborhoodIterator on a VectorImage}
  * \endwiki
  */
-template< class TPixel, unsigned int VImageDimension = 3 >
+template< typename TPixel, unsigned int VImageDimension = 3 >
 class VectorImage:
   public ImageBase< VImageDimension >
 {

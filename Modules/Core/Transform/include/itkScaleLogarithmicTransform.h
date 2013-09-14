@@ -32,7 +32,7 @@ namespace itk
  * \ingroup ITKTransform
  */
 template <
-  class TScalar = float, // Type for cordinate representation type (float or
+  typename TScalar = float, // Type for cordinate representation type (float or
                              // double)
   unsigned int NDimensions = 3>
 // Number of dimensions

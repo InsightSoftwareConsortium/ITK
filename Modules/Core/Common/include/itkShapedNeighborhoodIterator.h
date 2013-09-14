@@ -147,7 +147,7 @@ namespace itk
  * \wikiexample{Iterators/ShapedNeighborhoodIterator,Iterate over a region of an image with a shaped neighborhood}
  * \endwiki
  */
-template< class TImage,  class TBoundaryCondition =
+template< typename TImage,  typename TBoundaryCondition =
             ZeroFluxNeumannBoundaryCondition< TImage > >
 class ShapedNeighborhoodIterator:
   public ConstShapedNeighborhoodIterator< TImage, TBoundaryCondition >

@@ -26,7 +26,7 @@
 
 namespace itk
 {
-template< class TFixedImage, class TMovingImage >
+template< typename TFixedImage, typename TMovingImage >
 HistogramImageToImageMetric< TFixedImage, TMovingImage >
 ::HistogramImageToImageMetric()
 {
@@ -44,7 +44,7 @@ HistogramImageToImageMetric< TFixedImage, TMovingImage >
   m_UpperBoundSetByUser = false;
 }
 
-template< class TFixedImage, class TMovingImage >
+template< typename TFixedImage, typename TMovingImage >
 void HistogramImageToImageMetric< TFixedImage, TMovingImage >
 ::SetUpperBound(const MeasurementVectorType & bounds)
 {
@@ -53,7 +53,7 @@ void HistogramImageToImageMetric< TFixedImage, TMovingImage >
   this->Modified();
 }
 
-template< class TFixedImage, class TMovingImage >
+template< typename TFixedImage, typename TMovingImage >
 const typename HistogramImageToImageMetric< TFixedImage, TMovingImage >::MeasurementVectorType &
 HistogramImageToImageMetric< TFixedImage, TMovingImage >
 ::GetUpperBound() const
@@ -61,7 +61,7 @@ HistogramImageToImageMetric< TFixedImage, TMovingImage >
   return m_UpperBound;
 }
 
-template< class TFixedImage, class TMovingImage >
+template< typename TFixedImage, typename TMovingImage >
 void HistogramImageToImageMetric< TFixedImage, TMovingImage >
 ::SetLowerBound(const MeasurementVectorType & bounds)
 {
@@ -70,7 +70,7 @@ void HistogramImageToImageMetric< TFixedImage, TMovingImage >
   this->Modified();
 }
 
-template< class TFixedImage, class TMovingImage >
+template< typename TFixedImage, typename TMovingImage >
 const typename HistogramImageToImageMetric< TFixedImage, TMovingImage >::MeasurementVectorType &
 HistogramImageToImageMetric< TFixedImage, TMovingImage >
 ::GetLowerBound() const
@@ -78,7 +78,7 @@ HistogramImageToImageMetric< TFixedImage, TMovingImage >
   return m_LowerBound;
 }
 
-template< class TFixedImage, class TMovingImage >
+template< typename TFixedImage, typename TMovingImage >
 void HistogramImageToImageMetric< TFixedImage, TMovingImage >
 ::Initialize()
 throw ( ExceptionObject )
@@ -164,7 +164,7 @@ throw ( ExceptionObject )
     }
 }
 
-template< class TFixedImage, class TMovingImage >
+template< typename TFixedImage, typename TMovingImage >
 void
 HistogramImageToImageMetric< TFixedImage, TMovingImage >
 ::SetTransform(TransformType *transform)
@@ -178,7 +178,7 @@ HistogramImageToImageMetric< TFixedImage, TMovingImage >
   Superclass::SetTransform(transform);
 }
 
-template< class TFixedImage, class TMovingImage >
+template< typename TFixedImage, typename TMovingImage >
 typename HistogramImageToImageMetric< TFixedImage, TMovingImage >::MeasureType
 HistogramImageToImageMetric< TFixedImage, TMovingImage >
 ::GetValue(const TransformParametersType & parameters) const
@@ -190,7 +190,7 @@ HistogramImageToImageMetric< TFixedImage, TMovingImage >
   return this->EvaluateMeasure(*m_Histogram);
 }
 
-template< class TFixedImage, class TMovingImage >
+template< typename TFixedImage, typename TMovingImage >
 void
 HistogramImageToImageMetric< TFixedImage, TMovingImage >
 ::GetDerivative(const TransformParametersType & parameters,
@@ -248,7 +248,7 @@ HistogramImageToImageMetric< TFixedImage, TMovingImage >
     }
 }
 
-template< class TFixedImage, class TMovingImage >
+template< typename TFixedImage, typename TMovingImage >
 void
 HistogramImageToImageMetric< TFixedImage, TMovingImage >
 ::GetValueAndDerivative(const TransformParametersType & parameters,
@@ -259,7 +259,7 @@ HistogramImageToImageMetric< TFixedImage, TMovingImage >
   this->GetDerivative(parameters, derivative);
 }
 
-template< class TFixedImage, class TMovingImage >
+template< typename TFixedImage, typename TMovingImage >
 void
 HistogramImageToImageMetric< TFixedImage, TMovingImage >
 ::ComputeHistogram(TransformParametersType const & parameters,
@@ -341,7 +341,7 @@ HistogramImageToImageMetric< TFixedImage, TMovingImage >
     }
 }
 
-template< class TFixedImage, class TMovingImage >
+template< typename TFixedImage, typename TMovingImage >
 void
 HistogramImageToImageMetric< TFixedImage, TMovingImage >
 ::CopyHistogram(HistogramType & target, HistogramType & source) const
@@ -386,7 +386,7 @@ HistogramImageToImageMetric< TFixedImage, TMovingImage >
     }
 }
 
-template< class TFixedImage, class TMovingImage >
+template< typename TFixedImage, typename TMovingImage >
 void
 HistogramImageToImageMetric< TFixedImage, TMovingImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

@@ -37,7 +37,7 @@
 
 namespace itk {
 
-template <class TInputImage, class TMaskImage, class TOutputImage>
+template <typename TInputImage, typename TMaskImage, typename TOutputImage>
 N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
 ::N4BiasFieldCorrectionImageFilter() :
   m_MaskLabel( NumericTraits<MaskPixelType>::One ),
@@ -58,7 +58,7 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
   this->m_MaximumNumberOfIterations.Fill( 50 );
 }
 
-template<class TInputImage, class TMaskImage, class TOutputImage>
+template<typename TInputImage, typename TMaskImage, typename TOutputImage>
 void
 N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
 ::GenerateData()
@@ -226,7 +226,7 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
   this->GraftOutput( divider->GetOutput() );
 }
 
-template<class TInputImage, class TMaskImage, class TOutputImage>
+template<typename TInputImage, typename TMaskImage, typename TOutputImage>
 typename
 N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::RealImagePointer
 N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
@@ -464,7 +464,7 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
   return sharpenedImage;
 }
 
-template<class TInputImage, class TMaskImage, class TOutputImage>
+template<typename TInputImage, typename TMaskImage, typename TOutputImage>
 typename
 N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::RealImagePointer
 N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
@@ -623,7 +623,7 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
   return smoothField;
 }
 
-template<class TInputImage, class TMaskImage, class TOutputImage>
+template<typename TInputImage, typename TMaskImage, typename TOutputImage>
 typename
 N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::RealType
 N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
@@ -673,7 +673,7 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
   return ( sigma / mu );
 }
 
-template<class TInputImage, class TMaskImage, class TOutputImage>
+template<typename TInputImage, typename TMaskImage, typename TOutputImage>
 void
 N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
 ::PrintSelf(std::ostream &os, Indent indent) const

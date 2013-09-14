@@ -22,7 +22,7 @@ namespace itk {
 namespace Statistics {
 namespace DistanceMetricTest {
 
-template <class TMeasurementVector>
+template <typename TMeasurementVector>
 class MyDistanceMetric : public DistanceMetric< TMeasurementVector >
 {
 public:

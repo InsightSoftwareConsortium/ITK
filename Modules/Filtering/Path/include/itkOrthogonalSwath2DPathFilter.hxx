@@ -27,7 +27,7 @@ namespace itk
 /**
  * Constructor
  */
-template< class TParametricPath, class TSwathMeritImage >
+template< typename TParametricPath, typename TSwathMeritImage >
 OrthogonalSwath2DPathFilter< TParametricPath, TSwathMeritImage >
 ::OrthogonalSwath2DPathFilter()
 {
@@ -46,7 +46,7 @@ OrthogonalSwath2DPathFilter< TParametricPath, TSwathMeritImage >
 /**
  * Destructor
  */
-template< class TParametricPath, class TSwathMeritImage >
+template< typename TParametricPath, typename TSwathMeritImage >
 OrthogonalSwath2DPathFilter< TParametricPath, TSwathMeritImage >
 ::~OrthogonalSwath2DPathFilter()
 {
@@ -58,7 +58,7 @@ OrthogonalSwath2DPathFilter< TParametricPath, TSwathMeritImage >
 /**
  * GenerateData Performs the reflection
  */
-template< class TParametricPath, class TSwathMeritImage >
+template< typename TParametricPath, typename TSwathMeritImage >
 void
 OrthogonalSwath2DPathFilter< TParametricPath, TSwathMeritImage >
 ::GenerateData(void)
@@ -194,7 +194,7 @@ OrthogonalSwath2DPathFilter< TParametricPath, TSwathMeritImage >
   outputPtr->SetOrthogonalCorrectionTable(m_FinalOffsetValues);
 }
 
-template< class TParametricPath, class TSwathMeritImage >
+template< typename TParametricPath, typename TSwathMeritImage >
 void
 OrthogonalSwath2DPathFilter< TParametricPath, TSwathMeritImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -207,7 +207,7 @@ OrthogonalSwath2DPathFilter< TParametricPath, TSwathMeritImage >
 }
 
 // The next three functions are private helper functions
-template< class TParametricPath, class TSwathMeritImage >
+template< typename TParametricPath, typename TSwathMeritImage >
 unsigned int
 OrthogonalSwath2DPathFilter< TParametricPath, TSwathMeritImage >
 ::FindAndStoreBestErrorStep(unsigned int x, unsigned int F, unsigned int L)

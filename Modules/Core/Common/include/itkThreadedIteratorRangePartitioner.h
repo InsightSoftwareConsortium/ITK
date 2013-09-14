@@ -23,7 +23,7 @@
 namespace itk
 {
 
-template< class TIterator >
+template< typename TIterator >
 class ThreadedIteratorRangePartitioner;
 
 /** \class ThreadedIteratorRangePartitionerDomain
@@ -33,7 +33,7 @@ class ThreadedIteratorRangePartitioner;
  *
  * \ingroup ITKCommon
  */
-template< class TIterator >
+template< typename TIterator >
 class ThreadedIteratorRangePartitionerDomain
 {
 public:
@@ -103,7 +103,7 @@ private:
  * \sa ThreadedIndexedContainerPartitioner
  * \ingroup ITKCommon
  */
-template< class TIterator >
+template< typename TIterator >
 class ThreadedIteratorRangePartitioner
   : public ThreadedDomainPartitioner< ThreadedIteratorRangePartitionerDomain< TIterator > >
 {

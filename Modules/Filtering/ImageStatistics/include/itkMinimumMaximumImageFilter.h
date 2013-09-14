@@ -40,7 +40,7 @@ namespace itk
  * \sa StatisticsImageFilter
  * \ingroup ITKImageStatistics
  */
-template< class TInputImage >
+template< typename TInputImage >
 class MinimumMaximumImageFilter:
   public ImageToImageFilter< TInputImage, TInputImage >
 {

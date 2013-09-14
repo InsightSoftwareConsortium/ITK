@@ -26,7 +26,7 @@
 
 namespace itk
 {
-template< class TOutputImage >
+template< typename TOutputImage >
 GaborImageSource< TOutputImage >
 ::GaborImageSource()
 {
@@ -40,7 +40,7 @@ GaborImageSource< TOutputImage >
   this->m_PhaseOffset = 0.0;
 }
 
-template< class TOutputImage >
+template< typename TOutputImage >
 void
 GaborImageSource< TOutputImage >
 ::GenerateData()
@@ -88,7 +88,7 @@ GaborImageSource< TOutputImage >
     }
 }
 
-template< class TOutputImage >
+template< typename TOutputImage >
 void
 GaborImageSource< TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

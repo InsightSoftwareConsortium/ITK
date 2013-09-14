@@ -34,7 +34,7 @@
  * that the results are the same.
  */
 
-template<class TFilter>
+template<typename TFilter>
 class itkObjectToObjectMultiMetricv4RegistrationTestCommandIterationUpdate : public itk::Command
 {
 public:
@@ -71,7 +71,7 @@ public:
     }
 };
 
-template<class TImage>
+template<typename TImage>
 void ObjectToObjectMultiMetricv4RegistrationTestCreateImages( typename TImage::Pointer & fixedImage, typename TImage::Pointer & movingImage, typename TImage::OffsetType & imageShift )
 {
   typedef typename TImage::PixelType  PixelType;

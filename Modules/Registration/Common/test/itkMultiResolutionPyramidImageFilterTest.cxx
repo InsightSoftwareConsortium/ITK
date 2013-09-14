@@ -64,7 +64,7 @@ public:
 }
 
 #include "itkImageMomentsCalculator.h"
-template <class ImageType>
+template <typename ImageType>
 typename ImageType::PointType GetCenterOfMass(const ImageType * volume)
 {
   typename ImageType::PointType CenterOfMass;

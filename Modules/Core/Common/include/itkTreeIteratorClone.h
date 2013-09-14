@@ -28,7 +28,7 @@ namespace itk
  *  \ingroup DataRepresentation
  *  \ingroup ITKCommon
  */
-template< class TObjectType >
+template< typename TObjectType >
 class TreeIteratorClone
 {
 public:

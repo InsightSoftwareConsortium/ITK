@@ -30,7 +30,7 @@ namespace Functor
  * \brief Unary logical NOT functor
  * \ingroup ITKImageIntensity
  */
-template< class TInput, class TOutput = TInput >
+template< typename TInput, typename TOutput = TInput >
 class NOT
 {
 public:
@@ -76,7 +76,7 @@ public:
  * \ingroup MultiThreaded
  * \ingroup ITKImageIntensity
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class NotImageFilter:
   public
   UnaryFunctorImageFilter< TInputImage, TOutputImage,

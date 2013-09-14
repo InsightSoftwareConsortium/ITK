@@ -24,14 +24,14 @@ namespace itk
 {
 namespace Statistics
 {
-template<class TVectorContainer>
+template<typename TVectorContainer>
 VectorContainerToListSampleAdaptor<TVectorContainer>
 ::VectorContainerToListSampleAdaptor()
 {
   this->m_VectorContainer = 0;
 }
 
-template<class TVectorContainer>
+template<typename TVectorContainer>
 void
 VectorContainerToListSampleAdaptor<TVectorContainer>
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -50,7 +50,7 @@ VectorContainerToListSampleAdaptor<TVectorContainer>
 }
 
 /** returns the number of measurement vectors in this container*/
-template<class TVectorContainer>
+template<typename TVectorContainer>
 typename VectorContainerToListSampleAdaptor<TVectorContainer>
 ::InstanceIdentifier
 VectorContainerToListSampleAdaptor<TVectorContainer>
@@ -64,7 +64,7 @@ VectorContainerToListSampleAdaptor<TVectorContainer>
   return this->m_VectorContainer->Size();
 }
 
-template<class TVectorContainer>
+template<typename TVectorContainer>
 inline const typename VectorContainerToListSampleAdaptor<TVectorContainer>
 ::MeasurementVectorType &
 VectorContainerToListSampleAdaptor<TVectorContainer>
@@ -79,7 +79,7 @@ VectorContainerToListSampleAdaptor<TVectorContainer>
   return this->m_TempPoint;
 }
 
-template<class TVectorContainer>
+template<typename TVectorContainer>
 inline typename VectorContainerToListSampleAdaptor<TVectorContainer>
 ::AbsoluteFrequencyType
 VectorContainerToListSampleAdaptor<TVectorContainer>
@@ -93,7 +93,7 @@ VectorContainerToListSampleAdaptor<TVectorContainer>
   return 1;
 }
 
-template<class TVectorContainer>
+template<typename TVectorContainer>
 typename VectorContainerToListSampleAdaptor<TVectorContainer>
 ::TotalAbsoluteFrequencyType
 VectorContainerToListSampleAdaptor<TVectorContainer>

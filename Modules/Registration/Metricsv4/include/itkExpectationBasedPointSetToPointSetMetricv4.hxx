@@ -24,7 +24,7 @@
 namespace itk {
 
 /** Constructor */
-template<class TFixedPointSet, class TMovingPointSet>
+template<typename TFixedPointSet, typename TMovingPointSet>
 ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
 ::ExpectationBasedPointSetToPointSetMetricv4() :
   m_PointSetSigma( 1.0 ),
@@ -33,13 +33,13 @@ ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
 }
 
 /** Destructor */
-template<class TFixedPointSet, class TMovingPointSet>
+template<typename TFixedPointSet, typename TMovingPointSet>
 ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
 ::~ExpectationBasedPointSetToPointSetMetricv4()
 {
 }
 
-template<class TFixedPointSet, class TMovingPointSet>
+template<typename TFixedPointSet, typename TMovingPointSet>
 void
 ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
 ::Initialize( void ) throw ( ExceptionObject )
@@ -54,7 +54,7 @@ ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
   this->m_Denominator = 2.0 * vnl_math_sqr( this->m_PointSetSigma );
 }
 
-template<class TFixedPointSet, class TMovingPointSet>
+template<typename TFixedPointSet, typename TMovingPointSet>
 typename ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
 ::MeasureType
 ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
@@ -75,7 +75,7 @@ ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
   return localValue;
 }
 
-template<class TFixedPointSet, class TMovingPointSet>
+template<typename TFixedPointSet, typename TMovingPointSet>
 void
 ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
 ::GetLocalNeighborhoodValueAndDerivative( const PointType & point,
@@ -128,7 +128,7 @@ ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
     }
 }
 
-template<class TFixedPointSet, class TMovingPointSet>
+template<typename TFixedPointSet, typename TMovingPointSet>
 ::itk::LightObject::Pointer
 ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
 ::Clone( void ) const
@@ -146,7 +146,7 @@ ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
   return smartPtr;
 }
 
-template<class TFixedPointSet, class TMovingPointSet>
+template<typename TFixedPointSet, typename TMovingPointSet>
 void
 ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
 ::PrintSelf( std::ostream& os, Indent indent ) const

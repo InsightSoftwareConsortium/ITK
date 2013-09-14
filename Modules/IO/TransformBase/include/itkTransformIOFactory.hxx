@@ -22,7 +22,7 @@
 
 namespace itk
 {
-template<class ParametersValueType>
+template<typename ParametersValueType>
 typename TransformIOBaseTemplate<ParametersValueType>::Pointer
 TransformIOFactoryTemplate<ParametersValueType>
 ::CreateTransformIO(const char *path, TransformIOFactoryFileModeType mode)

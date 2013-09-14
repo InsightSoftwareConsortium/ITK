@@ -53,7 +53,7 @@ namespace itk
  * \sa MultilayerNeuralNetworkBase
  * \ingroup ITKReview
  */
-template< class TNetwork >
+template< typename TNetwork >
 class NeuralNetworkFileReader:public Object
 {
 public:

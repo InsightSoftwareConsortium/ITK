@@ -43,7 +43,7 @@ namespace Statistics
  * \ingroup ITKStatistics
  */
 
-template< class TVector >
+template< typename TVector >
 class DistanceMetric:public FunctionBase< TVector, double  >
 {
 public:

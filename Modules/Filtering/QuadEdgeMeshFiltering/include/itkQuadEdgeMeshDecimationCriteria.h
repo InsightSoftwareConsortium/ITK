@@ -28,10 +28,10 @@ namespace itk
  * \brief
  * \ingroup ITKQuadEdgeMeshFiltering
  */
-template< class TMesh,
+template< typename TMesh,
           typename TElement  = IdentifierType,
           typename TMeasure = double,
-          class TPriorityQueueWrapper =
+          typename TPriorityQueueWrapper =
             MinPriorityQueueElementWrapper< typename TMesh::QEType *,
                                             std::pair< bool, TMeasure > > >
 class QuadEdgeMeshDecimationCriterion:public Object
@@ -114,10 +114,10 @@ private:
  * \brief
  * \ingroup ITKQuadEdgeMeshFiltering
  */
-template< class TMesh,
+template< typename TMesh,
           typename TElement = IdentifierType,
           typename TMeasure = double,
-          class TPriorityQueueWrapper =
+          typename TPriorityQueueWrapper =
             MinPriorityQueueElementWrapper< typename TMesh::QEType *,
                                             std::pair< bool, TMeasure > > >
 class NumberOfPointsCriterion:
@@ -164,10 +164,10 @@ private:
  * \brief
  * \ingroup ITKQuadEdgeMeshFiltering
  */
-template< class TMesh,
+template< typename TMesh,
           typename TElement = IdentifierType,
           typename TMeasure = double,
-          class TPriorityQueueWrapper =
+          typename TPriorityQueueWrapper =
             MinPriorityQueueElementWrapper< typename TMesh::QEType *,
                                             std::pair< bool, TMeasure > > >
 class NumberOfFacesCriterion:
@@ -215,10 +215,10 @@ private:
  * \brief
  * \ingroup ITKQuadEdgeMeshFiltering
  */
-template< class TMesh,
+template< typename TMesh,
           typename TElement = IdentifierType,
           typename TMeasure = double,
-          class TPriorityQueueWrapper =
+          typename TPriorityQueueWrapper =
             MinPriorityQueueElementWrapper< typename TMesh::QEType *,
                                             std::pair< bool, TMeasure > > >
 class MaxMeasureBoundCriterion:
@@ -266,10 +266,10 @@ private:
  * \brief
  * \ingroup ITKQuadEdgeMeshFiltering
  */
-template< class TMesh,
+template< typename TMesh,
           typename TElement = IdentifierType,
           typename TMeasure = double,
-          class TPriorityQueueWrapper =
+          typename TPriorityQueueWrapper =
             MaxPriorityQueueElementWrapper< typename TMesh::QEType *,
                                             std::pair< bool, TMeasure > > >
 class MinMeasureBoundCriterion:

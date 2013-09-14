@@ -24,7 +24,7 @@
 
 namespace itk
 {
-template < class ImageType >
+template < typename ImageType >
 void GPUImageDataManager< ImageType >::SetImagePointer( typename ImageType::Pointer img )
 {
   m_Image = img;
@@ -59,7 +59,7 @@ void GPUImageDataManager< ImageType >::SetImagePointer( typename ImageType::Poin
 
 }
 
-template < class ImageType >
+template < typename ImageType >
 void GPUImageDataManager< ImageType >::MakeCPUBufferUpToDate()
 {
   if( m_Image.IsNotNull() )
@@ -98,7 +98,7 @@ void GPUImageDataManager< ImageType >::MakeCPUBufferUpToDate()
     }
 }
 
-template < class ImageType >
+template < typename ImageType >
 void GPUImageDataManager< ImageType >::MakeGPUBufferUpToDate()
 {
   if( m_Image.IsNotNull() )
@@ -136,7 +136,7 @@ void GPUImageDataManager< ImageType >::MakeGPUBufferUpToDate()
     }
 }
 
-template < class ImageType >
+template < typename ImageType >
 void GPUImageDataManager< ImageType >::Graft(const GPUDataManager* data)
 {
   //std::cout << "GPU timestamp : " << this->GetMTime() << ", CPU timestamp : "

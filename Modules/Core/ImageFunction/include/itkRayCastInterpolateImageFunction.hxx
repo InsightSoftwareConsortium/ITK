@@ -30,7 +30,7 @@ namespace
 /** \class Helper class to maintain state when casting a ray.
  *  This helper class keeps the RayCastInterpolateImageFunction thread safe.
  */
-template< class TInputImage, class TCoordRep = float >
+template< typename TInputImage, typename TCoordRep = float >
 class RayCastHelper
 {
 public:
@@ -290,7 +290,7 @@ protected:
    Initialise() - Initialise the object
    ----------------------------------------------------------------------- */
 
-template< class TInputImage, class TCoordRep >
+template< typename TInputImage, typename TCoordRep >
 void
 RayCastHelper< TInputImage, TCoordRep >
 ::Initialise(void)
@@ -307,7 +307,7 @@ RayCastHelper< TInputImage, TCoordRep >
    RecordVolumeDimensions() - Record volume dimensions and resolution
    ----------------------------------------------------------------------- */
 
-template< class TInputImage, class TCoordRep >
+template< typename TInputImage, typename TCoordRep >
 void
 RayCastHelper< TInputImage, TCoordRep >
 ::RecordVolumeDimensions(void)
@@ -328,7 +328,7 @@ RayCastHelper< TInputImage, TCoordRep >
    DefineCorners() - Define the corners of the volume
    ----------------------------------------------------------------------- */
 
-template< class TInputImage, class TCoordRep >
+template< typename TInputImage, typename TCoordRep >
 void
 RayCastHelper< TInputImage, TCoordRep >
 ::DefineCorners(void)
@@ -371,7 +371,7 @@ RayCastHelper< TInputImage, TCoordRep >
    CalcPlanesAndCorners() - Calculate the planes and corners of the volume.
    ----------------------------------------------------------------------- */
 
-template< class TInputImage, class TCoordRep >
+template< typename TInputImage, typename TCoordRep >
 void
 RayCastHelper< TInputImage, TCoordRep >
 ::CalcPlanesAndCorners(void)
@@ -452,7 +452,7 @@ RayCastHelper< TInputImage, TCoordRep >
    CalcRayIntercepts() - Calculate the ray intercepts with the volume.
    ----------------------------------------------------------------------- */
 
-template< class TInputImage, class TCoordRep >
+template< typename TInputImage, typename TCoordRep >
 bool
 RayCastHelper< TInputImage, TCoordRep >
 ::CalcRayIntercepts()
@@ -667,7 +667,7 @@ RayCastHelper< TInputImage, TCoordRep >
    SetRay() - Set the position and direction of the ray
    ----------------------------------------------------------------------- */
 
-template< class TInputImage, class TCoordRep >
+template< typename TInputImage, typename TCoordRep >
 bool
 RayCastHelper< TInputImage, TCoordRep >
 ::SetRay(const OutputPointType & rayPosition, const DirectionType & rayDirection)
@@ -738,7 +738,7 @@ RayCastHelper< TInputImage, TCoordRep >
    EndPointsInVoxels() - Convert the endpoints to voxels
    ----------------------------------------------------------------------- */
 
-template< class TInputImage, class TCoordRep >
+template< typename TInputImage, typename TCoordRep >
 void
 RayCastHelper< TInputImage, TCoordRep >
 ::EndPointsInVoxels(void)
@@ -756,7 +756,7 @@ RayCastHelper< TInputImage, TCoordRep >
    CalcDirnVector() - Calculate the incremental direction vector in voxels.
    ----------------------------------------------------------------------- */
 
-template< class TInputImage, class TCoordRep >
+template< typename TInputImage, typename TCoordRep >
 void
 RayCastHelper< TInputImage, TCoordRep >
 ::CalcDirnVector(void)
@@ -929,7 +929,7 @@ RayCastHelper< TInputImage, TCoordRep >
    AdjustRayLength() - Ensure that the ray lies within the volume
    ----------------------------------------------------------------------- */
 
-template< class TInputImage, class TCoordRep >
+template< typename TInputImage, typename TCoordRep >
 bool
 RayCastHelper< TInputImage, TCoordRep >
 ::AdjustRayLength(void)
@@ -1020,7 +1020,7 @@ RayCastHelper< TInputImage, TCoordRep >
    Reset() - Reset the iterator to the start of the ray.
    ----------------------------------------------------------------------- */
 
-template< class TInputImage, class TCoordRep >
+template< typename TInputImage, typename TCoordRep >
 void
 RayCastHelper< TInputImage, TCoordRep >
 ::Reset(void)
@@ -1075,7 +1075,7 @@ RayCastHelper< TInputImage, TCoordRep >
    InitialiseVoxelPointers() - Obtain pointers to the first four voxels
    ----------------------------------------------------------------------- */
 
-template< class TInputImage, class TCoordRep >
+template< typename TInputImage, typename TCoordRep >
 void
 RayCastHelper< TInputImage, TCoordRep >
 ::InitialiseVoxelPointers(void)
@@ -1206,7 +1206,7 @@ RayCastHelper< TInputImage, TCoordRep >
    IncrementVoxelPointers() - Increment the voxel pointers
    ----------------------------------------------------------------------- */
 
-template< class TInputImage, class TCoordRep >
+template< typename TInputImage, typename TCoordRep >
 void
 RayCastHelper< TInputImage, TCoordRep >
 ::IncrementVoxelPointers(void)
@@ -1240,7 +1240,7 @@ RayCastHelper< TInputImage, TCoordRep >
    GetCurrentIntensity() - Get the intensity of the current ray point.
    ----------------------------------------------------------------------- */
 
-template< class TInputImage, class TCoordRep >
+template< typename TInputImage, typename TCoordRep >
 double
 RayCastHelper< TInputImage, TCoordRep >
 ::GetCurrentIntensity(void) const
@@ -1295,7 +1295,7 @@ RayCastHelper< TInputImage, TCoordRep >
    IntegrateAboveThreshold() - Integrate intensities above a threshold.
    ----------------------------------------------------------------------- */
 
-template< class TInputImage, class TCoordRep >
+template< typename TInputImage, typename TCoordRep >
 bool
 RayCastHelper< TInputImage, TCoordRep >
 ::IntegrateAboveThreshold(double & integral, double threshold)
@@ -1342,7 +1342,7 @@ RayCastHelper< TInputImage, TCoordRep >
    ZeroState() - Set the default (zero) state of the object
    ----------------------------------------------------------------------- */
 
-template< class TInputImage, class TCoordRep >
+template< typename TInputImage, typename TCoordRep >
 void
 RayCastHelper< TInputImage, TCoordRep >
 ::ZeroState()
@@ -1410,7 +1410,7 @@ namespace itk
    Constructor
    ----------------------------------------------------------------------- */
 
-template< class TInputImage, class TCoordRep >
+template< typename TInputImage, typename TCoordRep >
 RayCastInterpolateImageFunction< TInputImage, TCoordRep >
 ::RayCastInterpolateImageFunction()
 {
@@ -1425,7 +1425,7 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
    PrintSelf
    ----------------------------------------------------------------------- */
 
-template< class TInputImage, class TCoordRep >
+template< typename TInputImage, typename TCoordRep >
 void
 RayCastInterpolateImageFunction< TInputImage, TCoordRep >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -1442,7 +1442,7 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
    Evaluate at image index position
    ----------------------------------------------------------------------- */
 
-template< class TInputImage, class TCoordRep >
+template< typename TInputImage, typename TCoordRep >
 typename RayCastInterpolateImageFunction< TInputImage, TCoordRep >
 ::OutputType
 RayCastInterpolateImageFunction< TInputImage, TCoordRep >
@@ -1466,7 +1466,7 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
   return ( static_cast< OutputType >( integral ) );
 }
 
-template< class TInputImage, class TCoordRep >
+template< typename TInputImage, typename TCoordRep >
 typename RayCastInterpolateImageFunction< TInputImage, TCoordRep >
 ::OutputType
 RayCastInterpolateImageFunction< TInputImage, TCoordRep >

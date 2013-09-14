@@ -22,7 +22,7 @@
 
 namespace itk
 {
-template< class TTreeType >
+template< typename TTreeType >
 class PostOrderTreeIterator:public TreeIteratorBase< TTreeType >
 {
 public:
@@ -61,7 +61,7 @@ protected:
 };
 
 /** Constructor */
-template< class TTreeType >
+template< typename TTreeType >
 PostOrderTreeIterator< TTreeType >::PostOrderTreeIterator(TTreeType *tree):
   TreeIteratorBase< TTreeType >(tree, NULL)
 {
@@ -83,7 +83,7 @@ PostOrderTreeIterator< TTreeType >::PostOrderTreeIterator(TTreeType *tree):
 }
 
 /** Return the type of the iterator */
-template< class TTreeType >
+template< typename TTreeType >
 typename PostOrderTreeIterator< TTreeType >::NodeType
 PostOrderTreeIterator< TTreeType >::GetType() const
 {
@@ -91,7 +91,7 @@ PostOrderTreeIterator< TTreeType >::GetType() const
 }
 
 /** Return true if the next node exists */
-template< class TTreeType >
+template< typename TTreeType >
 bool
 PostOrderTreeIterator< TTreeType >::HasNext() const
 {
@@ -103,7 +103,7 @@ PostOrderTreeIterator< TTreeType >::HasNext() const
 }
 
 /** Go to the next node */
-template< class TTreeType >
+template< typename TTreeType >
 const typename PostOrderTreeIterator< TTreeType >::ValueType &
 PostOrderTreeIterator< TTreeType >::Next()
 {
@@ -112,7 +112,7 @@ PostOrderTreeIterator< TTreeType >::Next()
 }
 
 /** Find the next node */
-template< class TTreeType >
+template< typename TTreeType >
 const typename PostOrderTreeIterator< TTreeType >::TreeNodeType *
 PostOrderTreeIterator< TTreeType >::FindNextNode() const
 {
@@ -139,7 +139,7 @@ PostOrderTreeIterator< TTreeType >::FindNextNode() const
 }
 
 /** Find the sister node */
-template< class TTreeType >
+template< typename TTreeType >
 const typename PostOrderTreeIterator< TTreeType >::TreeNodeType *
 PostOrderTreeIterator< TTreeType >::FindSister(TreeNodeType *node) const
 {
@@ -177,7 +177,7 @@ PostOrderTreeIterator< TTreeType >::FindSister(TreeNodeType *node) const
 }
 
 /** Find the most right leaf */
-template< class TTreeType >
+template< typename TTreeType >
 const typename PostOrderTreeIterator< TTreeType >::TreeNodeType *
 PostOrderTreeIterator< TTreeType >::FindMostRightLeaf(TreeNodeType *node) const
 {
@@ -215,7 +215,7 @@ PostOrderTreeIterator< TTreeType >::FindMostRightLeaf(TreeNodeType *node) const
 }
 
 /** Clone function */
-template< class TTreeType >
+template< typename TTreeType >
 TreeIteratorBase< TTreeType > *PostOrderTreeIterator< TTreeType >::Clone()
 {
   PostOrderTreeIterator< TTreeType > *clone =

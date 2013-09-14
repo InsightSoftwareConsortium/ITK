@@ -24,7 +24,7 @@ namespace itk
 {
 namespace Functor
 {
-template< class TScalar >
+template< typename TScalar >
 ScalarToRGBPixelFunctor< TScalar >
 ::ScalarToRGBPixelFunctor()
 {
@@ -44,7 +44,7 @@ ScalarToRGBPixelFunctor< TScalar >
 #endif
 }
 
-template< class TScalar >
+template< typename TScalar >
 typename ScalarToRGBPixelFunctor< TScalar >::RGBPixelType
 ScalarToRGBPixelFunctor< TScalar >
 ::operator()(const TScalar & v) const

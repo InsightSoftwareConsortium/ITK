@@ -25,7 +25,7 @@ namespace itk
 /**
  * Constructor
  */
-template< class TFeatureImage, class TOutputPixel >
+template< typename TFeatureImage, typename TOutputPixel >
 ShapePriorMAPCostFunctionBase< TFeatureImage, TOutputPixel >
 ::ShapePriorMAPCostFunctionBase()
 {
@@ -37,7 +37,7 @@ ShapePriorMAPCostFunctionBase< TFeatureImage, TOutputPixel >
 /**
  * PrintSelf
  */
-template< class TFeatureImage, class TOutputPixel >
+template< typename TFeatureImage, typename TOutputPixel >
 void
 ShapePriorMAPCostFunctionBase< TFeatureImage, TOutputPixel >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -51,7 +51,7 @@ ShapePriorMAPCostFunctionBase< TFeatureImage, TOutputPixel >
 /**
  *
  */
-template< class TFeatureImage, class TOutputPixel >
+template< typename TFeatureImage, typename TOutputPixel >
 typename ShapePriorMAPCostFunctionBase< TFeatureImage, TOutputPixel >
 ::MeasureType
 ShapePriorMAPCostFunctionBase< TFeatureImage, TOutputPixel >
@@ -66,7 +66,7 @@ ShapePriorMAPCostFunctionBase< TFeatureImage, TOutputPixel >
 /**
  *
  */
-template< class TFeatureImage, class TOutputPixel >
+template< typename TFeatureImage, typename TOutputPixel >
 void
 ShapePriorMAPCostFunctionBase< TFeatureImage, TOutputPixel >
 ::Initialize(void)

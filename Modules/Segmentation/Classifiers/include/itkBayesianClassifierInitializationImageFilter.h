@@ -72,7 +72,7 @@ namespace itk
  * \ingroup ClassificationFilters
  * \ingroup ITKClassifiers
  */
-template< class TInputImage, class TProbabilityPrecisionType = float >
+template< typename TInputImage, typename TProbabilityPrecisionType = float >
 class BayesianClassifierInitializationImageFilter:
   public
   ImageToImageFilter< TInputImage, VectorImage< TProbabilityPrecisionType,

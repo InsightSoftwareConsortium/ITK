@@ -47,7 +47,7 @@ namespace itk
  * \wikiexample{Statistics/NoiseImageFilter,Compute the local noise in an image}
  * \endwiki
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class NoiseImageFilter:
   public BoxImageFilter< TInputImage, TOutputImage >
 {

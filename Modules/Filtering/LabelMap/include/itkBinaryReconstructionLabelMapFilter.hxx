@@ -24,7 +24,7 @@
 
 namespace itk {
 
-template <class TImage, class TMarkerImage, class TAttributeAccessor>
+template <typename TImage, typename TMarkerImage, typename TAttributeAccessor>
 BinaryReconstructionLabelMapFilter<TImage, TMarkerImage, TAttributeAccessor>
 ::BinaryReconstructionLabelMapFilter()
 {
@@ -33,7 +33,7 @@ BinaryReconstructionLabelMapFilter<TImage, TMarkerImage, TAttributeAccessor>
 }
 
 
-template <class TImage, class TMarkerImage, class TAttributeAccessor>
+template <typename TImage, typename TMarkerImage, typename TAttributeAccessor>
 void
 BinaryReconstructionLabelMapFilter<TImage, TMarkerImage, TAttributeAccessor>
 ::ThreadedProcessLabelObject( LabelObjectType * labelObject )
@@ -62,7 +62,7 @@ BinaryReconstructionLabelMapFilter<TImage, TMarkerImage, TAttributeAccessor>
 }
 
 
-template <class TImage, class TMarkerImage, class TAttributeAccessor>
+template <typename TImage, typename TMarkerImage, typename TAttributeAccessor>
 void
 BinaryReconstructionLabelMapFilter<TImage, TMarkerImage, TAttributeAccessor>
 ::PrintSelf(std::ostream &os, Indent indent) const

@@ -26,7 +26,7 @@
 
 namespace itk
 {
-template< class TInput, class TLevelSetContainer >
+template< typename TInput, typename TLevelSetContainer >
 LevelSetEquationAdvectionTerm< TInput, TLevelSetContainer >
 ::LevelSetEquationAdvectionTerm()
 {
@@ -41,13 +41,13 @@ LevelSetEquationAdvectionTerm< TInput, TLevelSetContainer >
   this->m_AutoGenerateAdvectionImage = true;
 }
 
-template< class TInput, class TLevelSetContainer >
+template< typename TInput, typename TLevelSetContainer >
 LevelSetEquationAdvectionTerm< TInput, TLevelSetContainer >
 ::~LevelSetEquationAdvectionTerm()
 {
 }
 
-template< class TInput, class TLevelSetContainer >
+template< typename TInput, typename TLevelSetContainer >
 void
 LevelSetEquationAdvectionTerm< TInput, TLevelSetContainer >
 ::SetAdvectionImage( AdvectionImageType* iImage )
@@ -57,7 +57,7 @@ LevelSetEquationAdvectionTerm< TInput, TLevelSetContainer >
   this->Modified();
 }
 
-template< class TInput, class TLevelSetContainer >
+template< typename TInput, typename TLevelSetContainer >
 void
 LevelSetEquationAdvectionTerm< TInput, TLevelSetContainer >
 ::InitializeParameters()
@@ -70,7 +70,7 @@ LevelSetEquationAdvectionTerm< TInput, TLevelSetContainer >
     }
 }
 
-template< class TInput, class TLevelSetContainer >
+template< typename TInput, typename TLevelSetContainer >
 void
 LevelSetEquationAdvectionTerm< TInput, TLevelSetContainer >
 ::GenerateAdvectionImage()
@@ -129,21 +129,21 @@ LevelSetEquationAdvectionTerm< TInput, TLevelSetContainer >
     }
 }
 
-template< class TInput, class TLevelSetContainer >
+template< typename TInput, typename TLevelSetContainer >
 void
 LevelSetEquationAdvectionTerm< TInput, TLevelSetContainer >
 ::Initialize( const LevelSetInputIndexType& )
 {
 }
 
-template< class TInput, class TLevelSetContainer >
+template< typename TInput, typename TLevelSetContainer >
 void
 LevelSetEquationAdvectionTerm< TInput, TLevelSetContainer >
 ::Update()
 {
 }
 
-template< class TInput, class TLevelSetContainer >
+template< typename TInput, typename TLevelSetContainer >
 void
 LevelSetEquationAdvectionTerm< TInput, TLevelSetContainer >
 ::UpdatePixel( const LevelSetInputIndexType& itkNotUsed( iP ),
@@ -152,7 +152,7 @@ LevelSetEquationAdvectionTerm< TInput, TLevelSetContainer >
 {
 }
 
-template< class TInput, class TLevelSetContainer >
+template< typename TInput, typename TLevelSetContainer >
 typename LevelSetEquationAdvectionTerm< TInput, TLevelSetContainer >::VectorType
 LevelSetEquationAdvectionTerm< TInput, TLevelSetContainer >
 ::AdvectionSpeed( const LevelSetInputIndexType& iP ) const
@@ -160,7 +160,7 @@ LevelSetEquationAdvectionTerm< TInput, TLevelSetContainer >
   return this->m_AdvectionImage->GetPixel( iP );
 }
 
-template< class TInput, class TLevelSetContainer >
+template< typename TInput, typename TLevelSetContainer >
 typename LevelSetEquationAdvectionTerm< TInput, TLevelSetContainer >::LevelSetOutputRealType
 LevelSetEquationAdvectionTerm< TInput, TLevelSetContainer >
 ::Value( const LevelSetInputIndexType& iP )
@@ -189,7 +189,7 @@ LevelSetEquationAdvectionTerm< TInput, TLevelSetContainer >
 
 }
 
-template< class TInput, class TLevelSetContainer >
+template< typename TInput, typename TLevelSetContainer >
 typename LevelSetEquationAdvectionTerm< TInput, TLevelSetContainer >::LevelSetOutputRealType
 LevelSetEquationAdvectionTerm< TInput, TLevelSetContainer >
 ::Value( const LevelSetInputIndexType& iP,

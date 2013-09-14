@@ -26,7 +26,7 @@ namespace itk
  *
  * \ingroup ITKCommon
  */
-template< class TStructureType >
+template< typename TStructureType >
 class CorrespondenceDataStructureIterator
 {
 public:

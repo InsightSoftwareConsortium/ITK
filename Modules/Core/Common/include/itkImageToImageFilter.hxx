@@ -35,7 +35,7 @@ namespace itk
 /**
  *
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 ImageToImageFilter< TInputImage, TOutputImage >
 ::ImageToImageFilter() : m_CoordinateTolerance(1.0e-6),
                          m_DirectionTolerance(1.0e-6)
@@ -47,7 +47,7 @@ ImageToImageFilter< TInputImage, TOutputImage >
 /**
  *
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 ImageToImageFilter< TInputImage, TOutputImage >
 ::~ImageToImageFilter()
 {}
@@ -55,7 +55,7 @@ ImageToImageFilter< TInputImage, TOutputImage >
 /**
  *
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ImageToImageFilter< TInputImage, TOutputImage >
 ::SetInput(const InputImageType *input)
@@ -68,7 +68,7 @@ ImageToImageFilter< TInputImage, TOutputImage >
 /**
  * Connect one of the operands for pixel-wise addition
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ImageToImageFilter< TInputImage, TOutputImage >
 ::SetInput(unsigned int index, const TInputImage *image)
@@ -81,7 +81,7 @@ ImageToImageFilter< TInputImage, TOutputImage >
 /**
  *
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 const typename ImageToImageFilter< TInputImage, TOutputImage >::InputImageType *
 ImageToImageFilter< TInputImage, TOutputImage >
 ::GetInput(void) const
@@ -92,7 +92,7 @@ ImageToImageFilter< TInputImage, TOutputImage >
 /**
  *
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 const typename ImageToImageFilter< TInputImage, TOutputImage >::InputImageType *
 ImageToImageFilter< TInputImage, TOutputImage >
 ::GetInput(unsigned int idx) const
@@ -109,7 +109,7 @@ ImageToImageFilter< TInputImage, TOutputImage >
 
 //-----------------------------------------------------------------------
 //
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ImageToImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
@@ -134,7 +134,7 @@ ImageToImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ImageToImageFilter< TInputImage, TOutputImage >
 ::CallCopyOutputRegionToInputRegion(InputImageRegionType & destRegion,
@@ -145,7 +145,7 @@ ImageToImageFilter< TInputImage, TOutputImage >
   regionCopier(destRegion, srcRegion);
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ImageToImageFilter< TInputImage, TOutputImage >
 ::CallCopyInputRegionToOutputRegion(OutputImageRegionType & destRegion,
@@ -156,7 +156,7 @@ ImageToImageFilter< TInputImage, TOutputImage >
   regionCopier(destRegion, srcRegion);
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ImageToImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -168,7 +168,7 @@ ImageToImageFilter< TInputImage, TOutputImage >
      << this->m_DirectionTolerance << std::endl;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ImageToImageFilter< TInputImage, TOutputImage >
 ::VerifyInputInformation()
@@ -251,7 +251,7 @@ ImageToImageFilter< TInputImage, TOutputImage >
 
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ImageToImageFilter< TInputImage, TOutputImage >
 ::PushBackInput(const InputImageType *input)
@@ -260,7 +260,7 @@ ImageToImageFilter< TInputImage, TOutputImage >
   this->ProcessObject::PushBackInput(input);
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ImageToImageFilter< TInputImage, TOutputImage >
 ::PopBackInput()
@@ -269,7 +269,7 @@ ImageToImageFilter< TInputImage, TOutputImage >
   this->ProcessObject::PopBackInput();
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ImageToImageFilter< TInputImage, TOutputImage >
 ::PushFrontInput(const InputImageType *input)
@@ -278,7 +278,7 @@ ImageToImageFilter< TInputImage, TOutputImage >
   this->ProcessObject::PushFrontInput(input);
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ImageToImageFilter< TInputImage, TOutputImage >
 ::PopFrontInput()

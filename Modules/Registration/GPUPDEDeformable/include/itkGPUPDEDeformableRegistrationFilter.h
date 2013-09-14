@@ -75,8 +75,8 @@ namespace itk
 /** Create a helper GPU Kernel class for GPUPDEDeformableRegistrationFilter */
 itkGPUKernelClassMacro(GPUPDEDeformableRegistrationFilterKernel);
 
-template< class TFixedImage, class TMovingImage, class TDisplacementField,
-          class TParentImageFilter = PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField,
+          typename TParentImageFilter = PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
           >
 class GPUPDEDeformableRegistrationFilter :
   public GPUDenseFiniteDifferenceImageFilter< TDisplacementField, TDisplacementField, TParentImageFilter >

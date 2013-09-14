@@ -52,8 +52,8 @@ namespace itk
  * \ingroup ITKReview
  */
 template<
-  class TDisplacementField,
-  class TOutputImage
+  typename TDisplacementField,
+  typename TOutputImage
   >
 class GridForwardWarpImageFilter:
   public ImageToImageFilter< TDisplacementField, TOutputImage >

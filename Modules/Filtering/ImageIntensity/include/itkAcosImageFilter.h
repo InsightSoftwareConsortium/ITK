@@ -30,7 +30,7 @@ namespace Functor
  * \brief Computes the Acos of a pixel.
  * \ingroup ITKImageIntensity
  */
-template< class TInput, class TOutput >
+template< typename TInput, typename TOutput >
 class Acos
 {
 public:
@@ -75,7 +75,7 @@ public:
  * \ingroup MultiThreaded
  * \ingroup ITKImageIntensity
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class AcosImageFilter:
   public
   UnaryFunctorImageFilter< TInputImage, TOutputImage,

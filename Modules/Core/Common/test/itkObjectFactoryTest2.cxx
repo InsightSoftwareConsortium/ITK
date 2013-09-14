@@ -35,7 +35,7 @@ bool TestNew2(myPointer v, const char* expectedClassName)
 }
 
 
-template<class T>
+template<typename T>
 void MakeImage(const int count, T pixel)
 {
   typedef itk::Image<T, 3>               ImageType;

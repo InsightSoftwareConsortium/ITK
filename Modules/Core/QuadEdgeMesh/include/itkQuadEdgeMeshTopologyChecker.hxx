@@ -22,7 +22,7 @@
 
 namespace itk
 {
-template< class TMesh >
+template< typename TMesh >
 QuadEdgeMeshTopologyChecker< TMesh >
 ::QuadEdgeMeshTopologyChecker()
 {
@@ -34,7 +34,7 @@ QuadEdgeMeshTopologyChecker< TMesh >
   m_Mesh = NULL;
 }
 
-template< class TMesh >
+template< typename TMesh >
 bool
 QuadEdgeMeshTopologyChecker< TMesh >
 ::ValidateEulerCharacteristic() const
@@ -125,7 +125,7 @@ QuadEdgeMeshTopologyChecker< TMesh >
   return ( true );
 }
 
-template< class TMesh >
+template< typename TMesh >
 void
 QuadEdgeMeshTopologyChecker< TMesh >
 ::PrintSelf(std::ostream & os, Indent indent) const

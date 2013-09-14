@@ -44,7 +44,7 @@ namespace itk
  * \ingroup ITKIORAW
  */
 
-template< class TPixel, unsigned int VImageDimension = 2 >
+template< typename TPixel, unsigned int VImageDimension = 2 >
 class RawImageIO:public ImageIOBase
 {
 public:
@@ -153,7 +153,7 @@ private:
   unsigned short m_ImageMask;
 };
 
-template< class TPixel, unsigned int VImageDimension >
+template< typename TPixel, unsigned int VImageDimension >
 class RawImageIOFactory:public ObjectFactoryBase
 {
 public:

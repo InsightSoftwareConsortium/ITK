@@ -34,7 +34,7 @@ namespace itk {
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKLabelMap
  */
-template<class TImage>
+template<typename TImage>
 class ShapePositionLabelMapFilter :
     public InPlaceLabelMapFilter<TImage>
 {
@@ -94,7 +94,7 @@ protected:
 
   virtual void ThreadedProcessLabelObject( LabelObjectType * labelObject );
 
-  template< class TAttributeAccessor >
+  template< typename TAttributeAccessor >
   void TemplatedThreadedProcessLabelObject( const TAttributeAccessor & accessor, bool physical, LabelObjectType * labelObject )
   {
     typedef typename TAttributeAccessor::AttributeValueType AttributeValueType;

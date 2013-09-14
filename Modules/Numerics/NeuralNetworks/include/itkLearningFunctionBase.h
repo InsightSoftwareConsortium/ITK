@@ -35,7 +35,7 @@ namespace Statistics
  * \ingroup ITKNeuralNetworks
  */
 
-template<class LayerType, class TTargetVector>
+template<typename LayerType, typename TTargetVector>
 class LearningFunctionBase : public LightProcessObject
 {
 public:

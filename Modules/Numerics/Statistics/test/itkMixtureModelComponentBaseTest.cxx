@@ -23,7 +23,7 @@
 namespace itk {
 namespace Statistics {
 
-template <class TSample>
+template <typename TSample>
 class MixtureModelComponentBaseTestHelper : public MixtureModelComponentBase<TSample>
 {
 public:

@@ -72,8 +72,8 @@ namespace Statistics
  * \endwiki
  */
 
-template< class TMeasurement = float,
-          class TFrequencyContainer = DenseFrequencyContainer2 >
+template< typename TMeasurement = float,
+          typename TFrequencyContainer = DenseFrequencyContainer2 >
 class Histogram:
   public Sample< Array< TMeasurement > >
 {

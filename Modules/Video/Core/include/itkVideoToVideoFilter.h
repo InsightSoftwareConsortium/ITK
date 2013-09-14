@@ -40,7 +40,7 @@ namespace itk
  *
  * \ingroup ITKVideoCore
  */
-template< class TInputVideoStream, class TOutputVideoStream >
+template< typename TInputVideoStream, typename TOutputVideoStream >
 class VideoToVideoFilter : public VideoSource< TOutputVideoStream >
 {
 public:

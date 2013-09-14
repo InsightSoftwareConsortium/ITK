@@ -55,7 +55,7 @@ namespace itk
  *
  * \ingroup ITKReview
  */
-template< class TInputImage, class TOutputImage, class TAttribute = typename TInputImage::SpacingType::ValueType >
+template< typename TInputImage, typename TOutputImage, typename TAttribute = typename TInputImage::SpacingType::ValueType >
 class AreaClosingImageFilter:
   public AttributeMorphologyBaseImageFilter< TInputImage, TOutputImage, TAttribute,
                                              std::less< typename TInputImage::PixelType > >

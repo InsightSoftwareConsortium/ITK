@@ -30,7 +30,7 @@ namespace itk
 /**
  * Default constructor.
  */
-template< class TInputImage, class TOutputImage, class TDisplacementField >
+template< typename TInputImage, typename TOutputImage, typename TDisplacementField >
 WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
 ::WarpImageFilter()
 {
@@ -55,7 +55,7 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
 /**
  * Standard PrintSelf method.
  */
-template< class TInputImage, class TOutputImage, class TDisplacementField >
+template< typename TInputImage, typename TOutputImage, typename TDisplacementField >
 void
 WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -77,7 +77,7 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
  * Set the output image spacing.
  *
  */
-template< class TInputImage, class TOutputImage, class TDisplacementField >
+template< typename TInputImage, typename TOutputImage, typename TDisplacementField >
 void
 WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
 ::SetOutputSpacing(
@@ -92,7 +92,7 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
  * Set the output image origin.
  *
  */
-template< class TInputImage, class TOutputImage, class TDisplacementField >
+template< typename TInputImage, typename TOutputImage, typename TDisplacementField >
 void
 WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
 ::SetOutputOrigin(
@@ -104,7 +104,7 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
 }
 
 /** Helper method to set the output parameters based on this image */
-template< class TInputImage, class TOutputImage, class TDisplacementField >
+template< typename TInputImage, typename TOutputImage, typename TDisplacementField >
 void
 WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
 ::SetOutputParametersFromImage(const ImageBaseType *image)
@@ -120,7 +120,7 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
  * Set displacement field as Inputs[1] for this ProcessObject.
  *
  */
-template< class TInputImage, class TOutputImage, class TDisplacementField >
+template< typename TInputImage, typename TOutputImage, typename TDisplacementField >
 void
 WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
 ::SetDisplacementField(
@@ -136,7 +136,7 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
 /**
  * Return a pointer to the displacement field.
  */
-template< class TInputImage, class TOutputImage, class TDisplacementField >
+template< typename TInputImage, typename TOutputImage, typename TDisplacementField >
 typename WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
 ::DisplacementFieldType *
 WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
@@ -146,7 +146,7 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
          ( this->ProcessObject::GetInput(1) );
 }
 
-template< class TInputImage, class TOutputImage, class TDisplacementField >
+template< typename TInputImage, typename TOutputImage, typename TDisplacementField >
 void
 WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
 ::VerifyInputInformation()
@@ -162,7 +162,7 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
  * InterpolatorType::SetInputImage is not thread-safe and hence
  * has to be setup before ThreadedGenerateData
  */
-template< class TInputImage, class TOutputImage, class TDisplacementField >
+template< typename TInputImage, typename TOutputImage, typename TDisplacementField >
 void
 WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
 ::BeforeThreadedGenerateData()
@@ -194,7 +194,7 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
 /**
  * Setup state of filter after multi-threading.
  */
-template< class TInputImage, class TOutputImage, class TDisplacementField >
+template< typename TInputImage, typename TOutputImage, typename TDisplacementField >
 void
 WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
 ::AfterThreadedGenerateData()
@@ -203,7 +203,7 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
   m_Interpolator->SetInputImage(NULL);
 }
 
-template< class TInputImage, class TOutputImage, class TDisplacementField >
+template< typename TInputImage, typename TOutputImage, typename TDisplacementField >
 void
 WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
 ::EvaluateDisplacementAtPhysicalPoint(const PointType & point, DisplacementType &output)
@@ -299,7 +299,7 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
 /**
  * Compute the output for the region specified by outputRegionForThread.
  */
-template< class TInputImage, class TOutputImage, class TDisplacementField >
+template< typename TInputImage, typename TOutputImage, typename TDisplacementField >
 void
 WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
 ::ThreadedGenerateData(
@@ -389,7 +389,7 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
     }
 }
 
-template< class TInputImage, class TOutputImage, class TDisplacementField >
+template< typename TInputImage, typename TOutputImage, typename TDisplacementField >
 void
 WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
 ::GenerateInputRequestedRegion()
@@ -420,7 +420,7 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
     }
 }
 
-template< class TInputImage, class TOutputImage, class TDisplacementField >
+template< typename TInputImage, typename TOutputImage, typename TDisplacementField >
 void
 WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
 ::GenerateOutputInformation()

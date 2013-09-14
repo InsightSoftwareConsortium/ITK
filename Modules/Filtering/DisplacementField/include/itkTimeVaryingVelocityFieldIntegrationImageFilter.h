@@ -49,7 +49,7 @@ namespace itk
  *
  * \ingroup ITKDisplacementField
  */
-template<class TTimeVaryingVelocityField, class TDisplacementField =
+template<typename TTimeVaryingVelocityField, typename TDisplacementField =
  Image<typename TTimeVaryingVelocityField::PixelType,
  TTimeVaryingVelocityField::ImageDimension - 1> >
 class TimeVaryingVelocityFieldIntegrationImageFilter :

@@ -79,7 +79,7 @@ namespace itk
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKLabelMap
  */
-template< class TInputImage >
+template< typename TInputImage >
 class InPlaceLabelMapFilter:public LabelMapFilter< TInputImage, TInputImage >
 {
 public:

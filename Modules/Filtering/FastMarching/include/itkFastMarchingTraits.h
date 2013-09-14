@@ -42,10 +42,10 @@ namespace itk
 
   \ingroup ITKFastMarching
   */
-template< class TInputDomain,
-          class TNode,
-          class TOutputDomain,
-          class TSuperclass >
+template< typename TInputDomain,
+          typename TNode,
+          typename TOutputDomain,
+          typename TSuperclass >
 class FastMarchingTraitsBase
   {
 public:
@@ -103,7 +103,7 @@ public:
   };
 
 
-template< class TInput, class TOutput >
+template< typename TInput, typename TOutput >
 class FastMarchingTraits
 {
 };
@@ -127,7 +127,7 @@ public:
 
 template< unsigned int VDimension,
           typename TInputPixel,
-          class TInputMeshTraits, //= QuadEdgeMeshTraits< TInputPixel, VDimension, bool, bool >,
+          typename TInputMeshTraits, //= QuadEdgeMeshTraits< TInputPixel, VDimension, bool, bool >,
           typename TOutputPixel, //= TInputPixel,
           class TOutputMeshTraits //= QuadEdgeMeshTraits< TOutputPixel, VDimension, bool, bool >
          >

@@ -35,13 +35,13 @@ namespace itk
  *
  * \ingroup ITKLevelSetsv4
  */
-template< class TLevelSet, class TDomainPartitioner, class TLevelSetEvolution >
+template< typename TLevelSet, typename TDomainPartitioner, typename TLevelSetEvolution >
 class LevelSetEvolutionComputeIterationThreader
 {};
 
 // For dense image level set split by putting part of the level set region in
 // each thread.
-template< class TImage, class TLevelSetEvolution >
+template< typename TImage, typename TLevelSetEvolution >
 class LevelSetEvolutionComputeIterationThreader< LevelSetDenseImage< TImage >, ThreadedImageRegionPartitioner< TImage::ImageDimension >, TLevelSetEvolution >
   : public DomainThreader< ThreadedImageRegionPartitioner< TImage::ImageDimension >, TLevelSetEvolution >
 {
@@ -89,7 +89,7 @@ private:
 };
 
 // For dense image level set split by putting a level set domain in each thread.
-template< class TImage, class TLevelSetEvolution >
+template< typename TImage, typename TLevelSetEvolution >
 class LevelSetEvolutionComputeIterationThreader< LevelSetDenseImage< TImage >,
       ThreadedIteratorRangePartitioner< typename TLevelSetEvolution::DomainMapImageFilterType::DomainMapType::const_iterator >, TLevelSetEvolution >
   : public DomainThreader< ThreadedIteratorRangePartitioner< typename TLevelSetEvolution::DomainMapImageFilterType::DomainMapType::const_iterator >, TLevelSetEvolution >
@@ -142,7 +142,7 @@ private:
 
 // For Whitaker sparse level set split by putting part of the level set in each
 // thread.
-template< class TOutput, unsigned int VDimension, class TLevelSetEvolution >
+template< typename TOutput, unsigned int VDimension, typename TLevelSetEvolution >
 class LevelSetEvolutionComputeIterationThreader<
       WhitakerSparseLevelSetImage< TOutput, VDimension >,
       ThreadedIteratorRangePartitioner< typename WhitakerSparseLevelSetImage< TOutput, VDimension >::LayerConstIterator >,

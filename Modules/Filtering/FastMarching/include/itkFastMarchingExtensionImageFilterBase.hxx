@@ -22,8 +22,8 @@
 
 namespace itk
 {
-template< class TInput, class TOutput,
-         class TAuxValue,
+template< typename TInput, typename TOutput,
+         typename TAuxValue,
          unsigned int VAuxDimension >
 FastMarchingExtensionImageFilterBase< TInput, TOutput, TAuxValue, VAuxDimension >
 ::FastMarchingExtensionImageFilterBase()
@@ -42,8 +42,8 @@ FastMarchingExtensionImageFilterBase< TInput, TOutput, TAuxValue, VAuxDimension 
     }
 }
 
-template< class TInput, class TOutput,
-         class TAuxValue,
+template< typename TInput, typename TOutput,
+         typename TAuxValue,
          unsigned int VAuxDimension >
 void
 FastMarchingExtensionImageFilterBase< TInput, TOutput, TAuxValue, VAuxDimension >
@@ -57,8 +57,8 @@ FastMarchingExtensionImageFilterBase< TInput, TOutput, TAuxValue, VAuxDimension 
 }
 
 
- template< class TInput, class TOutput,
-         class TAuxValue,
+ template< typename TInput, typename TOutput,
+         typename TAuxValue,
          unsigned int VAuxDimension >
 typename FastMarchingExtensionImageFilterBase< TInput, TOutput, TAuxValue, VAuxDimension >
 ::AuxImageType *
@@ -76,8 +76,8 @@ FastMarchingExtensionImageFilterBase< TInput, TOutput, TAuxValue, VAuxDimension 
 /*
  *
  */
-template< class TInput, class TOutput,
-         class TAuxValue,
+template< typename TInput, typename TOutput,
+         typename TAuxValue,
          unsigned int VAuxDimension >
 void
 FastMarchingExtensionImageFilterBase< TInput, TOutput, TAuxValue, VAuxDimension >
@@ -99,8 +99,8 @@ FastMarchingExtensionImageFilterBase< TInput, TOutput, TAuxValue, VAuxDimension 
 /*
  *
  */
-template< class TInput, class TOutput,
-         class TAuxValue,
+template< typename TInput, typename TOutput,
+         typename TAuxValue,
          unsigned int VAuxDimension >
 void
 FastMarchingExtensionImageFilterBase< TInput, TOutput, TAuxValue, VAuxDimension >
@@ -120,8 +120,8 @@ FastMarchingExtensionImageFilterBase< TInput, TOutput, TAuxValue, VAuxDimension 
 /*
  *
  */
-template< class TInput, class TOutput,
-         class TAuxValue,
+template< typename TInput, typename TOutput,
+         typename TAuxValue,
          unsigned int VAuxDimension >
 void
 FastMarchingExtensionImageFilterBase< TInput, TOutput, TAuxValue, VAuxDimension >
@@ -210,8 +210,8 @@ FastMarchingExtensionImageFilterBase< TInput, TOutput, TAuxValue, VAuxDimension 
     }   // if AuxTrialValues set
 }
 
-template< class TInput, class TOutput,
-         class TAuxValue,
+template< typename TInput, typename TOutput,
+         typename TAuxValue,
          unsigned int VAuxDimension >
 void
 FastMarchingExtensionImageFilterBase< TInput, TOutput, TAuxValue, VAuxDimension >

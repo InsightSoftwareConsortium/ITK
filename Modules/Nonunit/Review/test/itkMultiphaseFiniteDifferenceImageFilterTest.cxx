@@ -22,8 +22,8 @@
 namespace itk
 {
 
-template < class TInputImage, class TFeatureImage, class TOutputImage,
-  class TFiniteDifferenceFunction, typename TIdCell >
+template < typename TInputImage, typename TFeatureImage, typename TOutputImage,
+  typename TFiniteDifferenceFunction, typename TIdCell >
 class MultiphaseFiniteDifferenceImageFilterTestHelper
   : public MultiphaseFiniteDifferenceImageFilter<
       TInputImage, TFeatureImage, TOutputImage, TFiniteDifferenceFunction, TIdCell >

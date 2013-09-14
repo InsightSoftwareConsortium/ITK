@@ -45,7 +45,7 @@ namespace itk
  * \sa ImageToImageFilter
  * \ingroup ITKConnectedComponents
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class HardConnectedComponentImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {

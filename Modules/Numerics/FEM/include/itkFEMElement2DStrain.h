@@ -47,7 +47,7 @@ namespace fem
  * \sa Element2DC0LinearQuadrilateralStrain
  * \ingroup ITKFEM
  */
-template <class TBaseClass = Element>
+template <typename TBaseClass = Element>
 class Element2DStrain : public TBaseClass
 {
 public:

@@ -27,7 +27,7 @@ namespace itk
 /**
  * Constructor
  */
-template< class TInputImage, class TCoordRep >
+template< typename TInputImage, typename TCoordRep >
 CovarianceImageFunction< TInputImage, TCoordRep >
 ::CovarianceImageFunction()
 {
@@ -37,7 +37,7 @@ CovarianceImageFunction< TInputImage, TCoordRep >
 /**
  *
  */
-template< class TInputImage, class TCoordRep >
+template< typename TInputImage, typename TCoordRep >
 void
 CovarianceImageFunction< TInputImage, TCoordRep >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -49,7 +49,7 @@ CovarianceImageFunction< TInputImage, TCoordRep >
 /**
  *
  */
-template< class TInputImage, class TCoordRep >
+template< typename TInputImage, typename TCoordRep >
 typename CovarianceImageFunction< TInputImage, TCoordRep >
 ::RealType
 CovarianceImageFunction< TInputImage, TCoordRep >

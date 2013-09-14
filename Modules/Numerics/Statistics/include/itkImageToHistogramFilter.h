@@ -39,7 +39,7 @@ namespace Statistics
  * \ingroup ITKStatistics
  */
 
-template< class TImage >
+template< typename TImage >
 class ImageToHistogramFilter:public ImageTransformer<TImage>
 {
 public:

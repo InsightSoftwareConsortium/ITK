@@ -27,7 +27,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 BinomialBlurImageFilter< TInputImage, TOutputImage >
 ::BinomialBlurImageFilter()
 {
@@ -37,7 +37,7 @@ BinomialBlurImageFilter< TInputImage, TOutputImage >
   m_Repetitions = 1;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 BinomialBlurImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
@@ -95,7 +95,7 @@ BinomialBlurImageFilter< TInputImage, TOutputImage >
   inputPtr->SetRequestedRegion(inputRegion);
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 BinomialBlurImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
@@ -271,7 +271,7 @@ BinomialBlurImageFilter< TInputImage, TOutputImage >
   itkDebugMacro(<< "Binomial blur filter executed " << num_reps << " times");
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 BinomialBlurImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

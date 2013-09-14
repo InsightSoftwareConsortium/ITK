@@ -84,7 +84,7 @@ namespace watershed
  * \ingroup WatershedSegmentation
  * \ingroup ITKWatersheds
  */
-template< class TInputImage >
+template< typename TInputImage >
 class Segmenter:
   public ProcessObject
 {

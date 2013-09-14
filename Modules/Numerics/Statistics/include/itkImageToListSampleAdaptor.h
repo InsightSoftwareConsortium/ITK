@@ -49,7 +49,7 @@ namespace Statistics
  * \endwiki
  */
 
-template< class TImage >
+template< typename TImage >
 class ImageToListSampleAdaptor:
   public ListSample< typename MeasurementVectorPixelTraits< typename TImage::PixelType >::MeasurementVectorType >
 {

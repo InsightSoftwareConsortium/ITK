@@ -47,7 +47,7 @@ namespace itk
  * \wikiexample{ImageProcessing/PermuteAxesImageFilter,Switch the axes of an image}
  * \endwiki
  */
-template< class TImage >
+template< typename TImage >
 class PermuteAxesImageFilter:
   public ImageToImageFilter< TImage, TImage >
 {

@@ -30,7 +30,7 @@ namespace itk
 {
 
 /** \class Iteration callback */
-template < class TOptimizer >
+template < typename TOptimizer >
 class IterationCallback : public Command
 {
 public:

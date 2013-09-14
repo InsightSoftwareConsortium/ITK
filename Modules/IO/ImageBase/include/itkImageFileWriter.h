@@ -81,7 +81,7 @@ public:
  * \wikiexample{IO/ImageFileWriter,Write an image}
  * \endwiki
  */
-template< class TInputImage >
+template< typename TInputImage >
 class ITKIOImageBase_HIDDEN ImageFileWriter:public ProcessObject
 {
 public:

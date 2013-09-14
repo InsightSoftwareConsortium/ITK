@@ -26,7 +26,7 @@ namespace itk
 {
 
 //-------------------------------------------------------------------
-template<class TInternalComputationValueType>
+template<typename TInternalComputationValueType>
 GradientDescentOptimizerBasev4Template<TInternalComputationValueType>
 ::GradientDescentOptimizerBasev4Template()
 {
@@ -47,13 +47,13 @@ GradientDescentOptimizerBasev4Template<TInternalComputationValueType>
 }
 
 //-------------------------------------------------------------------
-template<class TInternalComputationValueType>
+template<typename TInternalComputationValueType>
 GradientDescentOptimizerBasev4Template<TInternalComputationValueType>
 ::~GradientDescentOptimizerBasev4Template()
 {}
 
 //-------------------------------------------------------------------
-template<class TInternalComputationValueType>
+template<typename TInternalComputationValueType>
 void
 GradientDescentOptimizerBasev4Template<TInternalComputationValueType>
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -67,7 +67,7 @@ GradientDescentOptimizerBasev4Template<TInternalComputationValueType>
 
 
 //-------------------------------------------------------------------
-template<class TInternalComputationValueType>
+template<typename TInternalComputationValueType>
 const typename GradientDescentOptimizerBasev4Template<TInternalComputationValueType>::StopConditionReturnStringType
 GradientDescentOptimizerBasev4Template<TInternalComputationValueType>
 ::GetStopConditionDescription() const
@@ -76,7 +76,7 @@ GradientDescentOptimizerBasev4Template<TInternalComputationValueType>
 }
 
 //-------------------------------------------------------------------
-template<class TInternalComputationValueType>
+template<typename TInternalComputationValueType>
 void
 GradientDescentOptimizerBasev4Template<TInternalComputationValueType>
 ::StopOptimization(void)
@@ -88,7 +88,7 @@ GradientDescentOptimizerBasev4Template<TInternalComputationValueType>
 }
 
 //-------------------------------------------------------------------
-template<class TInternalComputationValueType>
+template<typename TInternalComputationValueType>
 void
 GradientDescentOptimizerBasev4Template<TInternalComputationValueType>
 ::ModifyGradientByScales()
@@ -119,7 +119,7 @@ GradientDescentOptimizerBasev4Template<TInternalComputationValueType>
 }
 
 //-------------------------------------------------------------------
-template<class TInternalComputationValueType>
+template<typename TInternalComputationValueType>
 void
 GradientDescentOptimizerBasev4Template<TInternalComputationValueType>
 ::ModifyGradientByLearningRate()

@@ -29,7 +29,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 TileImageFilter< TInputImage, TOutputImage >
 ::TileImageFilter()
 {
@@ -37,7 +37,7 @@ TileImageFilter< TInputImage, TOutputImage >
   m_DefaultPixelValue = NumericTraits< OutputPixelType >::ZeroValue();
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 TileImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
@@ -101,7 +101,7 @@ TileImageFilter< TInputImage, TOutputImage >
   this->GraftOutput(output);
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 TileImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
@@ -116,7 +116,7 @@ TileImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 TileImageFilter< TInputImage, TOutputImage >
 ::GenerateOutputInformation()
@@ -319,7 +319,7 @@ TileImageFilter< TInputImage, TOutputImage >
   outputPtr->SetLargestPossibleRegion(outputLargestPossibleRegion);
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 TileImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

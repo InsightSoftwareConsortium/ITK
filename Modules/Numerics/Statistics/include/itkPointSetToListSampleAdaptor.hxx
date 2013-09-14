@@ -24,7 +24,7 @@ namespace itk
 {
 namespace Statistics
 {
-template< class TPointSet >
+template< typename TPointSet >
 PointSetToListSampleAdaptor< TPointSet >
 ::PointSetToListSampleAdaptor()
 {
@@ -32,7 +32,7 @@ PointSetToListSampleAdaptor< TPointSet >
   this->SetMeasurementVectorSize( TPointSet::PointDimension );
 }
 
-template< class TPointSet >
+template< typename TPointSet >
 void
 PointSetToListSampleAdaptor< TPointSet >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -50,7 +50,7 @@ PointSetToListSampleAdaptor< TPointSet >
     }
 }
 
-template< class TPointSet >
+template< typename TPointSet >
 void
 PointSetToListSampleAdaptor< TPointSet >
 ::SetPointSet(const TPointSet *pointSet)
@@ -61,7 +61,7 @@ PointSetToListSampleAdaptor< TPointSet >
   this->Modified();
 }
 
-template< class TPointSet >
+template< typename TPointSet >
 const TPointSet *
 PointSetToListSampleAdaptor< TPointSet >
 ::GetPointSet()
@@ -75,7 +75,7 @@ PointSetToListSampleAdaptor< TPointSet >
 }
 
 /** returns the number of measurement vectors in this container*/
-template< class TPointSet >
+template< typename TPointSet >
 typename PointSetToListSampleAdaptor< TPointSet >::InstanceIdentifier
 PointSetToListSampleAdaptor< TPointSet >
 ::Size() const
@@ -88,7 +88,7 @@ PointSetToListSampleAdaptor< TPointSet >
   return m_PointsContainer->Size();
 }
 
-template< class TPointSet >
+template< typename TPointSet >
 inline const typename PointSetToListSampleAdaptor< TPointSet >::MeasurementVectorType &
 PointSetToListSampleAdaptor< TPointSet >
 ::GetMeasurementVector(InstanceIdentifier identifier) const
@@ -102,7 +102,7 @@ PointSetToListSampleAdaptor< TPointSet >
   return ( MeasurementVectorType & )m_TempPoint;
 }
 
-template< class TPointSet >
+template< typename TPointSet >
 inline typename PointSetToListSampleAdaptor< TPointSet >::AbsoluteFrequencyType
 PointSetToListSampleAdaptor< TPointSet >
 ::GetFrequency(InstanceIdentifier) const
@@ -115,7 +115,7 @@ PointSetToListSampleAdaptor< TPointSet >
   return 1;
 }
 
-template< class TPointSet >
+template< typename TPointSet >
 typename PointSetToListSampleAdaptor< TPointSet >::TotalAbsoluteFrequencyType
 PointSetToListSampleAdaptor< TPointSet >
 ::GetTotalFrequency() const

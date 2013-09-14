@@ -31,7 +31,7 @@ namespace itk
  *  \tparam TMesh Input mesh type of the level set function
  *  \ingroup ITKLevelSetsv4
  */
-template< class TMesh >
+template< typename TMesh >
 class LevelSetQuadEdgeMesh :
     public LevelSetBase<
       typename TMesh::PointIdentifier,

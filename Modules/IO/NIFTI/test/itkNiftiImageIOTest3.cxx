@@ -18,7 +18,7 @@
 
 #include "itkNiftiImageIOTest.h"
 
-template <class ScalarType, unsigned TVecLength, unsigned TDimension>
+template <typename ScalarType, unsigned TVecLength, unsigned TDimension>
 int
 TestImageOfVectors(const std::string &fname)
 {

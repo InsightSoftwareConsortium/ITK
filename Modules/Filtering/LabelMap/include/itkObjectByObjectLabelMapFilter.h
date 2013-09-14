@@ -69,8 +69,8 @@ namespace itk {
  * \wikiexample{ImageProcessing/ObjectByObjectLabelMapFilter,Apply an operation to every label object in a label map}
  * \endwiki
  */
-template<class TInputImage, class TOutputImage=TInputImage,
-  class TInputFilter=ImageToImageFilter<
+template<typename TInputImage, typename TOutputImage=TInputImage,
+  typename TInputFilter=ImageToImageFilter<
     Image< unsigned char, TInputImage::ImageDimension >,
     Image< unsigned char, TOutputImage::ImageDimension > >,
   class TOutputFilter=typename TInputFilter::Superclass,

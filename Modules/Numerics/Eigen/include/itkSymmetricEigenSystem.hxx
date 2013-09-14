@@ -25,7 +25,7 @@ namespace itk
 /**
  * Constructor
  */
-template< class TMatrixElement, int VNumberOfRows >
+template< typename TMatrixElement, int VNumberOfRows >
 SymmetricEigenSystem< TMatrixElement, VNumberOfRows >
 ::SymmetricEigenSystem()
 {
@@ -40,12 +40,12 @@ SymmetricEigenSystem< TMatrixElement, VNumberOfRows >
 /**
  * Destructor
  */
-template< class TMatrixElement, int VNumberOfRows >
+template< typename TMatrixElement, int VNumberOfRows >
 SymmetricEigenSystem< TMatrixElement, VNumberOfRows >
 ::~SymmetricEigenSystem()
 {}
 
-template< class TMatrixElement, int VNumberOfRows >
+template< typename TMatrixElement, int VNumberOfRows >
 void
 SymmetricEigenSystem< TMatrixElement, VNumberOfRows >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -71,7 +71,7 @@ SymmetricEigenSystem< TMatrixElement, VNumberOfRows >
 /**
  * Compute the eigen values and vectors
  */
-template< class TMatrixElement, int VNumberOfRows >
+template< typename TMatrixElement, int VNumberOfRows >
 void
 SymmetricEigenSystem< TMatrixElement, VNumberOfRows >
 ::GenerateData(void)

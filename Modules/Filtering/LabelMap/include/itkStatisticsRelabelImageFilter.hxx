@@ -23,7 +23,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TFeatureImage >
+template< typename TInputImage, typename TFeatureImage >
 StatisticsRelabelImageFilter< TInputImage, TFeatureImage >
 ::StatisticsRelabelImageFilter()
 {
@@ -33,7 +33,7 @@ StatisticsRelabelImageFilter< TInputImage, TFeatureImage >
   this->SetNumberOfRequiredInputs(2);
 }
 
-template< class TInputImage, class TFeatureImage >
+template< typename TInputImage, typename TFeatureImage >
 void
 StatisticsRelabelImageFilter< TInputImage, TFeatureImage >
 ::GenerateInputRequestedRegion()
@@ -49,7 +49,7 @@ StatisticsRelabelImageFilter< TInputImage, TFeatureImage >
     }
 }
 
-template< class TInputImage, class TFeatureImage >
+template< typename TInputImage, typename TFeatureImage >
 void
 StatisticsRelabelImageFilter< TInputImage, TFeatureImage >
 ::EnlargeOutputRequestedRegion(DataObject *)
@@ -58,7 +58,7 @@ StatisticsRelabelImageFilter< TInputImage, TFeatureImage >
   ->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
 }
 
-template< class TInputImage, class TFeatureImage >
+template< typename TInputImage, typename TFeatureImage >
 void
 StatisticsRelabelImageFilter< TInputImage, TFeatureImage >
 ::GenerateData()
@@ -110,7 +110,7 @@ StatisticsRelabelImageFilter< TInputImage, TFeatureImage >
   this->GraftOutput( binarizer->GetOutput() );
 }
 
-template< class TInputImage, class TFeatureImage >
+template< typename TInputImage, typename TFeatureImage >
 void
 StatisticsRelabelImageFilter< TInputImage, TFeatureImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

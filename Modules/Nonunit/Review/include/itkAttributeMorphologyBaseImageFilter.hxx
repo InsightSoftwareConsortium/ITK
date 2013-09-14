@@ -38,7 +38,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage, class TAttribute, class TFunction >
+template< typename TInputImage, typename TOutputImage, typename TAttribute, typename TFunction >
 void
 AttributeMorphologyBaseImageFilter< TInputImage, TOutputImage, TAttribute, TFunction >
 ::GenerateInputRequestedRegion()
@@ -52,7 +52,7 @@ AttributeMorphologyBaseImageFilter< TInputImage, TOutputImage, TAttribute, TFunc
   input->SetRequestedRegion( input->GetLargestPossibleRegion() );
 }
 
-template< class TInputImage, class TOutputImage, class TAttribute, class TFunction >
+template< typename TInputImage, typename TOutputImage, typename TAttribute, typename TFunction >
 void
 AttributeMorphologyBaseImageFilter< TInputImage, TOutputImage, TAttribute, TFunction >
 ::EnlargeOutputRequestedRegion(DataObject *)
@@ -61,7 +61,7 @@ AttributeMorphologyBaseImageFilter< TInputImage, TOutputImage, TAttribute, TFunc
   ->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
 }
 
-template< class TInputImage, class TOutputImage, class TAttribute, class TFunction >
+template< typename TInputImage, typename TOutputImage, typename TAttribute, typename TFunction >
 void
 AttributeMorphologyBaseImageFilter< TInputImage, TOutputImage, TAttribute, TFunction >
 ::GenerateData()
@@ -302,7 +302,7 @@ AttributeMorphologyBaseImageFilter< TInputImage, TOutputImage, TAttribute, TFunc
   delete[] m_AuxData;
 }
 
-template< class TInputImage, class TOutputImage, class TAttribute, class TFunction >
+template< typename TInputImage, typename TOutputImage, typename TAttribute, typename TFunction >
 void
 AttributeMorphologyBaseImageFilter< TInputImage, TOutputImage, TAttribute, TFunction >
 ::SetupOffsetVec(OffsetDirectVecType & PosOffsets, OffsetVecType & Offsets)
@@ -328,7 +328,7 @@ AttributeMorphologyBaseImageFilter< TInputImage, TOutputImage, TAttribute, TFunc
     }
 }
 
-template< class TInputImage, class TOutputImage, class TAttribute, class TFunction >
+template< typename TInputImage, typename TOutputImage, typename TAttribute, typename TFunction >
 void
 AttributeMorphologyBaseImageFilter< TInputImage, TOutputImage, TAttribute, TFunction >
 ::PrintSelf(std::ostream & os, Indent indent) const

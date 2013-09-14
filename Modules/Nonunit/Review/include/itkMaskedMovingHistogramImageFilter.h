@@ -39,7 +39,7 @@ namespace itk
  * \ingroup ITKReview
  */
 
-template< class TInputImage, class TMaskImage, class TOutputImage, class TKernel, class THistogram >
+template< typename TInputImage, typename TMaskImage, typename TOutputImage, typename TKernel, typename THistogram >
 class MaskedMovingHistogramImageFilter:
   public MovingHistogramImageFilterBase< TInputImage, TOutputImage, TKernel >
 {

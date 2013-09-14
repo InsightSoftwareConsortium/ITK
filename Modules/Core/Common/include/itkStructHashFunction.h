@@ -36,7 +36,7 @@ namespace itk
  *  general classes.
  * \ingroup ITKCommon
  */
-template< class TInput >
+template< typename TInput >
 class StructHashFunction
 {
 public:
@@ -50,7 +50,7 @@ public:
   IdentifierType operator()(const InputType & key) const;
 };
 
-template< class TInput >
+template< typename TInput >
 inline IdentifierType
 StructHashFunction< TInput >
 ::operator()(const InputType & key) const

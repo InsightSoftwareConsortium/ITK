@@ -27,7 +27,7 @@ namespace itk
 /**
  * Constructor
  */
-template< class TInputImage, class TCoordRep >
+template< typename TInputImage, typename TCoordRep >
 VarianceImageFunction< TInputImage, TCoordRep >
 ::VarianceImageFunction()
 {
@@ -37,7 +37,7 @@ VarianceImageFunction< TInputImage, TCoordRep >
 /**
  *
  */
-template< class TInputImage, class TCoordRep >
+template< typename TInputImage, typename TCoordRep >
 void
 VarianceImageFunction< TInputImage, TCoordRep >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -49,7 +49,7 @@ VarianceImageFunction< TInputImage, TCoordRep >
 /**
  *
  */
-template< class TInputImage, class TCoordRep >
+template< typename TInputImage, typename TCoordRep >
 typename VarianceImageFunction< TInputImage, TCoordRep >
 ::RealType
 VarianceImageFunction< TInputImage, TCoordRep >

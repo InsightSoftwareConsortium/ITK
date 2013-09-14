@@ -23,7 +23,7 @@
 
 namespace itk
 {
-template< class TNode, unsigned int VImageDimension >
+template< typename TNode, unsigned int VImageDimension >
 SparseImage< TNode, VImageDimension >
 ::SparseImage()
 {
@@ -31,7 +31,7 @@ SparseImage< TNode, VImageDimension >
   m_NodeStore    = NodeStoreType::New();
 }
 
-template< class TNode, unsigned int VImageDimension >
+template< typename TNode, unsigned int VImageDimension >
 void
 SparseImage< TNode, VImageDimension >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -39,7 +39,7 @@ SparseImage< TNode, VImageDimension >
   Superclass::PrintSelf(os, indent);
 }
 
-template< class TNode, unsigned int VImageDimension >
+template< typename TNode, unsigned int VImageDimension >
 void
 SparseImage< TNode, VImageDimension >
 ::Initialize()

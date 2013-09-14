@@ -24,7 +24,7 @@ namespace itk
 /**
  * Default constructor
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 SymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::SymmetricForcesDemonsRegistrationFilter()
 {
@@ -38,7 +38,7 @@ SymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacemen
 /*
  * Set the function state values before each iteration
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void
 SymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::InitializeIteration()
@@ -70,7 +70,7 @@ SymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacemen
 /**
  * Get the metric value from the difference function
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 double
 SymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::GetMetric() const
@@ -91,7 +91,7 @@ SymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacemen
 /*
  *
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 double
 SymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::GetIntensityDifferenceThreshold() const
@@ -112,7 +112,7 @@ SymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacemen
 /*
  *
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void
 SymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::SetIntensityDifferenceThreshold(double threshold)
@@ -133,7 +133,7 @@ SymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacemen
 /*
  * Get the metric value from the difference function
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 const double &
 SymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::GetRMSChange() const
@@ -154,7 +154,7 @@ SymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacemen
 /*
  * Get the metric value from the difference function
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void
 SymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::ApplyUpdate(const TimeStepType& dt)
@@ -181,7 +181,7 @@ SymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacemen
   this->SetRMSChange( drfp->GetRMSChange() );
 }
 
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void
 SymmetricForcesDemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::PrintSelf(std::ostream & os, Indent indent) const

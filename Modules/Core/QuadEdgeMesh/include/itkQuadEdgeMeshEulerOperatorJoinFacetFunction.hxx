@@ -22,7 +22,7 @@
 
 namespace itk
 {
-template< class TMesh, class TQEType >
+template< typename TMesh, typename TQEType >
 typename QuadEdgeMeshEulerOperatorJoinFacetFunction< TMesh, TQEType >::OutputType
 QuadEdgeMeshEulerOperatorJoinFacetFunction< TMesh, TQEType >::Evaluate(QEType *e)
 {

@@ -23,7 +23,7 @@
 
 namespace itk
 {
-template< class TFixedImage, class TMovingImage >
+template< typename TFixedImage, typename TMovingImage >
 CompareHistogramImageToImageMetric< TFixedImage, TMovingImage >::CompareHistogramImageToImageMetric()
 {
   m_TrainingFixedImage        = 0; // has to be provided by the user.
@@ -33,7 +33,7 @@ CompareHistogramImageToImageMetric< TFixedImage, TMovingImage >::CompareHistogra
   m_TrainingHistogram         = 0; // either provided by the user or created
 }
 
-template< class TFixedImage, class TMovingImage >
+template< typename TFixedImage, typename TMovingImage >
 void
 CompareHistogramImageToImageMetric< TFixedImage, TMovingImage >
 ::Initialize()
@@ -47,7 +47,7 @@ throw ( ExceptionObject )
     }
 }
 
-template< class TFixedImage, class TMovingImage >
+template< typename TFixedImage, typename TMovingImage >
 void
 CompareHistogramImageToImageMetric< TFixedImage, TMovingImage >
 ::FormTrainingHistogram()
@@ -158,7 +158,7 @@ age");
     }
 }
 
-template< class TFixedImage, class TMovingImage >
+template< typename TFixedImage, typename TMovingImage >
 void CompareHistogramImageToImageMetric< TFixedImage, TMovingImage >::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);

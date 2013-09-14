@@ -24,7 +24,7 @@
 
 namespace itk {
 
-template< class TInputImage, class TCoordRep = double >
+template< typename TInputImage, typename TCoordRep = double >
 class TestImageFunction:
   public ImageFunction< TInputImage,
                         typename NumericTraits<

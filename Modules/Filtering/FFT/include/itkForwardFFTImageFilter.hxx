@@ -28,7 +28,7 @@
 namespace itk
 {
 
-template< typename TSelfPointer, class TInputImage, class TOutputImage, typename TPixel >
+template< typename TSelfPointer, typename TInputImage, typename TOutputImage, typename TPixel >
 struct DispatchFFTW_Forward_New
 {
   static TSelfPointer Apply()
@@ -39,7 +39,7 @@ struct DispatchFFTW_Forward_New
 };
 
 #ifdef ITK_USE_FFTWD
-template< typename TSelfPointer, class TInputImage, class TOutputImage >
+template< typename TSelfPointer, typename TInputImage, typename TOutputImage >
 struct DispatchFFTW_Forward_New< TSelfPointer, TInputImage, TOutputImage, double >
 {
   static TSelfPointer Apply()
@@ -51,7 +51,7 @@ struct DispatchFFTW_Forward_New< TSelfPointer, TInputImage, TOutputImage, double
 #endif
 
 #ifdef ITK_USE_FFTWF
-template< typename TSelfPointer, class TInputImage, class TOutputImage >
+template< typename TSelfPointer, typename TInputImage, typename TOutputImage >
 struct DispatchFFTW_Forward_New< TSelfPointer, TInputImage, TOutputImage, float >
 {
   static TSelfPointer Apply()
@@ -62,7 +62,7 @@ struct DispatchFFTW_Forward_New< TSelfPointer, TInputImage, TOutputImage, float 
 };
 #endif
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 typename ForwardFFTImageFilter< TInputImage, TOutputImage >::Pointer
 ForwardFFTImageFilter< TInputImage, TOutputImage >
 ::New(void)
@@ -79,7 +79,7 @@ ForwardFFTImageFilter< TInputImage, TOutputImage >
   return smartPtr;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ForwardFFTImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
@@ -99,7 +99,7 @@ ForwardFFTImageFilter< TInputImage, TOutputImage >
   input->SetRequestedRegionToLargestPossibleRegion();
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ForwardFFTImageFilter< TInputImage, TOutputImage >
 ::EnlargeOutputRequestedRegion(DataObject *output)

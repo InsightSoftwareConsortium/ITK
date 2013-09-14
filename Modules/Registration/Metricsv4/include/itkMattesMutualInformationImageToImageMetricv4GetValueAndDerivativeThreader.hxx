@@ -23,7 +23,7 @@
 namespace itk
 {
 
-template< class TDomainPartitioner, class TImageToImageMetric, class TMattesMutualInformationMetric >
+template< typename TDomainPartitioner, typename TImageToImageMetric, typename TMattesMutualInformationMetric >
 void
 MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric, TMattesMutualInformationMetric >
 ::BeforeThreadedExecution()
@@ -191,7 +191,7 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< TDomai
 }
 
 
-template< class TDomainPartitioner, class TImageToImageMetric, class TMattesMutualInformationMetric >
+template< typename TDomainPartitioner, typename TImageToImageMetric, typename TMattesMutualInformationMetric >
 bool
 MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric, TMattesMutualInformationMetric >
 ::ProcessPoint( const VirtualIndexType &           virtualIndex,
@@ -337,7 +337,7 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< TDomai
 /**
  * ComputePDFDerivative
  */
-template< class TDomainPartitioner, class TImageToImageMetric, class TMattesMutualInformationMetric >
+template< typename TDomainPartitioner, typename TImageToImageMetric, typename TMattesMutualInformationMetric >
 void
 MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric, TMattesMutualInformationMetric >
 ::ComputePDFDerivatives(const ThreadIdType &            threadID,
@@ -382,7 +382,7 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< TDomai
     }
 }
 
-template< class TDomainPartitioner, class TImageToImageMetric, class TMattesMutualInformationMetric >
+template< typename TDomainPartitioner, typename TImageToImageMetric, typename TMattesMutualInformationMetric >
 void
 MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric, TMattesMutualInformationMetric >
 ::AfterThreadedExecution()

@@ -34,7 +34,7 @@ namespace itk
 /**
  * Constructor
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 MultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
 ::MultiResolutionPyramidImageFilter()
 {
@@ -47,7 +47,7 @@ MultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
 /**
  * Set the number of computation levels
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 MultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
 ::SetNumberOfLevels(
@@ -104,7 +104,7 @@ MultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
 /*
  * Set the starting shrink factors
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 MultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
 ::SetStartingShrinkFactors(
@@ -123,7 +123,7 @@ MultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
 /**
  * Set the starting shrink factors
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 MultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
 ::SetStartingShrinkFactors(
@@ -156,7 +156,7 @@ MultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
 /*
  * Get the starting shrink factors
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 const unsigned int *
 MultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
 ::GetStartingShrinkFactors() const
@@ -167,7 +167,7 @@ MultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
 /*
  * Set the multi-resolution schedule
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 MultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
 ::SetSchedule(
@@ -212,7 +212,7 @@ MultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
 /*
  * Is the schedule downward divisible ?
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 bool
 MultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
 ::IsScheduleDownwardDivisible(const ScheduleType & schedule)
@@ -240,7 +240,7 @@ MultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
 /*
  * GenerateData for non downward divisible schedules
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 MultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
@@ -341,7 +341,7 @@ MultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
 /**
  * PrintSelf method
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 MultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -358,7 +358,7 @@ MultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
 /*
  * GenerateOutputInformation
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 MultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
 ::GenerateOutputInformation()
@@ -436,7 +436,7 @@ MultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
 /*
  * GenerateOutputRequestedRegion
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 MultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
 ::GenerateOutputRequestedRegion(DataObject *refOutput)
@@ -521,7 +521,7 @@ MultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
 /**
  * GenerateInputRequestedRegion
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 MultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()

@@ -30,7 +30,7 @@ namespace itk
  *
  * \ingroup ITKOptimizersv4
  */
-template < class TMetric >
+template < typename TMetric >
 class RegistrationParameterScalesFromIndexShift :
   public RegistrationParameterScalesFromShiftBase< TMetric >
 {
@@ -87,14 +87,14 @@ protected:
 
   virtual void ComputeSampleShifts(const ParametersType &deltaParameters, ScalesType &localShifts);
 
-  template<class TContinuousIndexType>
+  template<typename TContinuousIndexType>
   void TransformPointToContinuousIndex(const VirtualPointType &point, TContinuousIndexType &mappedIndex);
 
 private:
   RegistrationParameterScalesFromIndexShift(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
 
-  template <class TTransform>
+  template <typename TTransform>
   void ComputeSampleShiftsInternal(const ParametersType &deltaParameters, ScalesType &localShifts);
 
 }; //class RegistrationParameterScalesFromIndexShift

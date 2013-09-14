@@ -24,7 +24,7 @@ namespace itk
 {
 namespace Statistics
 {
-template< class TImage >
+template< typename TImage >
 JointDomainImageToListSampleAdaptor< TImage >
 ::JointDomainImageToListSampleAdaptor()
 {
@@ -34,7 +34,7 @@ JointDomainImageToListSampleAdaptor< TImage >
 }
 
 /** returns the number of measurement vectors in this container*/
-template< class TImage >
+template< typename TImage >
 typename JointDomainImageToListSampleAdaptor< TImage >::InstanceIdentifier
 JointDomainImageToListSampleAdaptor< TImage >
 ::Size() const
@@ -47,7 +47,7 @@ JointDomainImageToListSampleAdaptor< TImage >
   return m_Image->GetPixelContainer()->Size();
 }
 
-template< class TImage >
+template< typename TImage >
 inline typename JointDomainImageToListSampleAdaptor< TImage >::AbsoluteFrequencyType
 JointDomainImageToListSampleAdaptor< TImage >
 ::GetFrequency(InstanceIdentifier) const
@@ -60,7 +60,7 @@ JointDomainImageToListSampleAdaptor< TImage >
   return NumericTraits< AbsoluteFrequencyType >::One;
 }
 
-template< class TImage >
+template< typename TImage >
 void
 JointDomainImageToListSampleAdaptor< TImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -80,7 +80,7 @@ JointDomainImageToListSampleAdaptor< TImage >
      << this->GetUsePixelContainer() << std::endl;
 }
 
-template< class TImage >
+template< typename TImage >
 void
 JointDomainImageToListSampleAdaptor< TImage >
 ::SetImage(const TImage *image)
@@ -90,7 +90,7 @@ JointDomainImageToListSampleAdaptor< TImage >
   this->Modified();
 }
 
-template< class TImage >
+template< typename TImage >
 const TImage *
 JointDomainImageToListSampleAdaptor< TImage >
 ::GetImage() const
@@ -103,7 +103,7 @@ JointDomainImageToListSampleAdaptor< TImage >
   return m_Image.GetPointer();
 }
 
-template< class TImage >
+template< typename TImage >
 typename JointDomainImageToListSampleAdaptor< TImage >::TotalAbsoluteFrequencyType
 JointDomainImageToListSampleAdaptor< TImage >
 ::GetTotalFrequency() const
@@ -116,7 +116,7 @@ JointDomainImageToListSampleAdaptor< TImage >
   return this->Size();
 }
 
-template< class TImage >
+template< typename TImage >
 void
 JointDomainImageToListSampleAdaptor< TImage >
 ::SetNormalizationFactors(NormalizationFactorsType & factors)
@@ -128,7 +128,7 @@ JointDomainImageToListSampleAdaptor< TImage >
     }
 }
 
-template< class TImage >
+template< typename TImage >
 const typename JointDomainImageToListSampleAdaptor< TImage >::MeasurementVectorType &
 JointDomainImageToListSampleAdaptor< TImage >
 ::GetMeasurementVector(InstanceIdentifier id) const

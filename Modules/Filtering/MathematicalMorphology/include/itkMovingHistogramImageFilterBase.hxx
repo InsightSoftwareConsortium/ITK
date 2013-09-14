@@ -28,7 +28,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 MovingHistogramImageFilterBase< TInputImage, TOutputImage, TKernel >
 ::MovingHistogramImageFilterBase()
 {
@@ -39,7 +39,7 @@ MovingHistogramImageFilterBase< TInputImage, TOutputImage, TKernel >
   this->SetKernel( this->GetKernel() );
 }
 
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 void
 MovingHistogramImageFilterBase< TInputImage, TOutputImage, TKernel >
 ::SetKernel(const KernelType & kernel)
@@ -189,7 +189,7 @@ MovingHistogramImageFilterBase< TInputImage, TOutputImage, TKernel >
                                                                        // axis
 }
 
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 void
 MovingHistogramImageFilterBase< TInputImage, TOutputImage, TKernel >
 ::GetDirAndOffset(const IndexType LineStart,
@@ -216,7 +216,7 @@ MovingHistogramImageFilterBase< TInputImage, TOutputImage, TKernel >
     }
 }
 
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 void
 MovingHistogramImageFilterBase< TInputImage, TOutputImage, TKernel >
 ::PrintSelf(std::ostream & os, Indent indent) const

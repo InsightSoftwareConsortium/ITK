@@ -21,7 +21,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 KLMRegionGrowImageFilter< TInputImage, TOutputImage >
 ::KLMRegionGrowImageFilter(void):
   m_MaximumLambda(1000),
@@ -36,7 +36,7 @@ KLMRegionGrowImageFilter< TInputImage, TOutputImage >
   this->SetMaximumNumberOfRegions(2);
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 KLMRegionGrowImageFilter< TInputImage, TOutputImage >
 ::~KLMRegionGrowImageFilter()
 {}
@@ -44,7 +44,7 @@ KLMRegionGrowImageFilter< TInputImage, TOutputImage >
 /**
  * PrintSelf
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 KLMRegionGrowImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -62,7 +62,7 @@ KLMRegionGrowImageFilter< TInputImage, TOutputImage >
 /*
  * GenerateInputRequestedRegion method.
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 KLMRegionGrowImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
@@ -80,7 +80,7 @@ KLMRegionGrowImageFilter< TInputImage, TOutputImage >
 /**
  * EnlargeOutputRequestedRegion method.
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 KLMRegionGrowImageFilter< TInputImage, TOutputImage >
 ::EnlargeOutputRequestedRegion(
@@ -93,7 +93,7 @@ KLMRegionGrowImageFilter< TInputImage, TOutputImage >
   imgData->SetRequestedRegionToLargestPossibleRegion();
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 KLMRegionGrowImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
@@ -111,7 +111,7 @@ KLMRegionGrowImageFilter< TInputImage, TOutputImage >
   GenerateOutputImage();
 } // end GenerateData
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 KLMRegionGrowImageFilter< TInputImage, TOutputImage >
 ::GenerateOutputImage()
@@ -183,7 +183,7 @@ KLMRegionGrowImageFilter< TInputImage, TOutputImage >
     } // end iregion loop
 }     // end GenerateOutputImage()
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 typename KLMRegionGrowImageFilter< TInputImage, TOutputImage >::LabelImagePointer
 KLMRegionGrowImageFilter< TInputImage, TOutputImage >
 ::GetLabelledImage()
@@ -212,7 +212,7 @@ KLMRegionGrowImageFilter< TInputImage, TOutputImage >
   return labelImagePtr;
 } // end GetLabelledImage()
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 typename KLMRegionGrowImageFilter< TInputImage, TOutputImage >::LabelImagePointer
 KLMRegionGrowImageFilter< TInputImage, TOutputImage >
 ::GenerateLabelledImage(LabelImageType *labelImagePtr)
@@ -270,7 +270,7 @@ KLMRegionGrowImageFilter< TInputImage, TOutputImage >
   return labelImagePtr;
 } // end GenerateLabelledImage()
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 KLMRegionGrowImageFilter< TInputImage, TOutputImage >
 ::ApplyRegionGrowImageFilter()
@@ -278,7 +278,7 @@ KLMRegionGrowImageFilter< TInputImage, TOutputImage >
   this->ApplyKLM();
 } // end ApplyRegionGrowImageFilter()
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 KLMRegionGrowImageFilter< TInputImage, TOutputImage >
 ::ApplyKLM()
@@ -301,7 +301,7 @@ KLMRegionGrowImageFilter< TInputImage, TOutputImage >
   this->ResolveRegions();
 } // end ApplyKLM()
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 KLMRegionGrowImageFilter< TInputImage, TOutputImage >
 ::InitializeKLM()
@@ -579,7 +579,7 @@ KLMRegionGrowImageFilter< TInputImage, TOutputImage >
     }
 } // end InitializeKLM()
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 KLMRegionGrowImageFilter< TInputImage, TOutputImage >
 ::InitializeRegionParameters(InputRegionType region)
@@ -621,7 +621,7 @@ KLMRegionGrowImageFilter< TInputImage, TOutputImage >
   m_InitialRegionMean /= m_InitialRegionArea;
 } // end InitializeRegionParameters
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 KLMRegionGrowImageFilter< TInputImage, TOutputImage >
 ::MergeRegions()
@@ -715,7 +715,7 @@ KLMRegionGrowImageFilter< TInputImage, TOutputImage >
     }
 } // end MergeRegions
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 KLMRegionGrowImageFilter< TInputImage, TOutputImage >
 ::ResolveRegions()
@@ -808,7 +808,7 @@ KLMRegionGrowImageFilter< TInputImage, TOutputImage >
     } // end looping through the regions
 }     // end ResolveRegions()
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 KLMRegionGrowImageFilter< TInputImage, TOutputImage >
 ::PrintAlgorithmRegionStats()
@@ -827,7 +827,7 @@ KLMRegionGrowImageFilter< TInputImage, TOutputImage >
     } // end region printloop
 }     // end PrintAlgorithmRegionStats
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 KLMRegionGrowImageFilter< TInputImage, TOutputImage >
 ::PrintAlgorithmBorderStats()

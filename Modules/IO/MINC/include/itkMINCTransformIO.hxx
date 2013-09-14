@@ -37,21 +37,21 @@
 namespace itk
 {
 
-template< class TInternalComputationValueType >
+template< typename TInternalComputationValueType >
 MINCTransformIOTemplate< TInternalComputationValueType >
 ::MINCTransformIOTemplate()
 {
   m_XFM_initialized=false;
 }
 
-template< class TInternalComputationValueType >
+template< typename TInternalComputationValueType >
 MINCTransformIOTemplate< TInternalComputationValueType >
 ::~MINCTransformIOTemplate()
 {
   _cleanup();
 }
 
-template< class TInternalComputationValueType >
+template< typename TInternalComputationValueType >
 void
 MINCTransformIOTemplate< TInternalComputationValueType >
 ::_cleanup(void)
@@ -61,7 +61,7 @@ MINCTransformIOTemplate< TInternalComputationValueType >
   m_XFM_initialized=false;
 }
 
-template< class TInternalComputationValueType >
+template< typename TInternalComputationValueType >
 bool
 MINCTransformIOTemplate< TInternalComputationValueType >
 ::CanReadFile(const char *fileName)
@@ -70,7 +70,7 @@ MINCTransformIOTemplate< TInternalComputationValueType >
   return (ext == ".xfm" || ext==".XFM");
 }
 
-template< class TInternalComputationValueType >
+template< typename TInternalComputationValueType >
 bool
 MINCTransformIOTemplate< TInternalComputationValueType >
 ::CanWriteFile(const char *fileName)
@@ -79,7 +79,7 @@ MINCTransformIOTemplate< TInternalComputationValueType >
   return (ext == ".xfm" || ext==".XFM");
 }
 
-template< class TInternalComputationValueType >
+template< typename TInternalComputationValueType >
 void
 MINCTransformIOTemplate< TInternalComputationValueType >
 ::ReadOneTransform(VIO_General_transform *xfm)
@@ -181,7 +181,7 @@ MINCTransformIOTemplate< TInternalComputationValueType >
   }
 }
 
-template< class TInternalComputationValueType >
+template< typename TInternalComputationValueType >
 void
 MINCTransformIOTemplate< TInternalComputationValueType >
 ::Read()
@@ -197,7 +197,7 @@ MINCTransformIOTemplate< TInternalComputationValueType >
   _cleanup();
 }
 
-template< class TInternalComputationValueType >
+template< typename TInternalComputationValueType >
 void
 MINCTransformIOTemplate< TInternalComputationValueType >
 ::WriteOneTransform(const int transformIndex,
@@ -282,7 +282,7 @@ MINCTransformIOTemplate< TInternalComputationValueType >
   }
 }
 
-template< class TInternalComputationValueType >
+template< typename TInternalComputationValueType >
 void
 MINCTransformIOTemplate< TInternalComputationValueType >
 ::Write()

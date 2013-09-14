@@ -25,7 +25,7 @@
 namespace
 {
 
-template<class  TInputImageType >
+template<typename  TInputImageType >
 int itkVotingBinaryImageFilterTestImp( const std::string &infname,
                                        const std::string &outfname,
                                        itk::SizeValueType radius,

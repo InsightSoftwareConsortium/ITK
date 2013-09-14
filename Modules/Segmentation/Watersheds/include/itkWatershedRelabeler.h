@@ -60,7 +60,7 @@ namespace watershed
  * \sa itk::watershed::SegmentTree
  * \ingroup ITKWatersheds
  */
-template< class TScalar, unsigned int TImageDimension >
+template< typename TScalar, unsigned int TImageDimension >
 class Relabeler:
   public ProcessObject
 {

@@ -128,7 +128,7 @@ namespace itk
  * \sa DenseFiniteDifferenceImageFilter
  * \ingroup ITKFiniteDifference
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class FiniteDifferenceImageFilter:
   public InPlaceImageFilter< TInputImage, TOutputImage >
 {

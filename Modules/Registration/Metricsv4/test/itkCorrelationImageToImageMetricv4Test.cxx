@@ -24,7 +24,7 @@
  *
  * TODO Numerical verification.
  */
-template<class TIndexType, class TPointType>
+template<typename TIndexType, typename TPointType>
 double itkCorrelationImageToImageMetricv4Test_GetToyImagePixelValue(TIndexType index, TPointType offset, const unsigned int Dim, double c)
 {
   double v = 0.0;
@@ -39,7 +39,7 @@ double itkCorrelationImageToImageMetricv4Test_GetToyImagePixelValue(TIndexType i
   return v;
 }
 
-template<class TMetricPointer, class TValueType, class TDerivativeType>
+template<typename TMetricPointer, typename TValueType, typename TDerivativeType>
 int itkCorrelationImageToImageMetricv4Test_WithSpecifiedThreads(TMetricPointer &metric,
                                                                 TValueType &value,
                                                                 TDerivativeType &derivative)

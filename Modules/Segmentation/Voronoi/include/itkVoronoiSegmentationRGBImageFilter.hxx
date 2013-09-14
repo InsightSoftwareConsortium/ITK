@@ -25,7 +25,7 @@
 namespace itk
 {
 /* Constructor: setting of the default values for the parameters. */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 VoronoiSegmentationRGBImageFilter< TInputImage, TOutputImage >::VoronoiSegmentationRGBImageFilter()
 {
   unsigned int i;
@@ -50,12 +50,12 @@ VoronoiSegmentationRGBImageFilter< TInputImage, TOutputImage >::VoronoiSegmentat
 }
 
 /* Destructor. */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 VoronoiSegmentationRGBImageFilter< TInputImage, TOutputImage >::
 ~VoronoiSegmentationRGBImageFilter()
 {}
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 VoronoiSegmentationRGBImageFilter< TInputImage, TOutputImage >::SetMeanPercentError(double x[6])
 {
@@ -66,7 +66,7 @@ VoronoiSegmentationRGBImageFilter< TInputImage, TOutputImage >::SetMeanPercentEr
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 VoronoiSegmentationRGBImageFilter< TInputImage, TOutputImage >::SetSTDPercentError(double x[6])
 {
@@ -78,7 +78,7 @@ VoronoiSegmentationRGBImageFilter< TInputImage, TOutputImage >::SetSTDPercentErr
 }
 
 /* Initialization for the segmentation. */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 VoronoiSegmentationRGBImageFilter< TInputImage, TOutputImage >
 ::SetInput(unsigned int inputNumber, const InputImageType *input)
@@ -87,7 +87,7 @@ VoronoiSegmentationRGBImageFilter< TInputImage, TOutputImage >
 }
 
 /* Initialization for the segmentation. */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 VoronoiSegmentationRGBImageFilter< TInputImage, TOutputImage >
 ::SetInput(const InputImageType *input)
@@ -155,7 +155,7 @@ VoronoiSegmentationRGBImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 bool
 VoronoiSegmentationRGBImageFilter< TInputImage, TOutputImage >::TestHomogeneity(IndexList & Plist)
 {
@@ -223,7 +223,7 @@ VoronoiSegmentationRGBImageFilter< TInputImage, TOutputImage >::TestHomogeneity(
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 VoronoiSegmentationRGBImageFilter< TInputImage, TOutputImage >::TakeAPrior(const BinaryObjectImage *aprior)
 {
@@ -379,7 +379,7 @@ VoronoiSegmentationRGBImageFilter< TInputImage, TOutputImage >::TakeAPrior(const
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 VoronoiSegmentationRGBImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

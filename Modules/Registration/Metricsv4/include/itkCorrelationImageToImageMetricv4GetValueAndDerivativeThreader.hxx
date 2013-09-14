@@ -22,7 +22,7 @@
 
 namespace itk
 {
-template<class TDomainPartitioner, class TImageToImageMetric, class TCorrelationMetric>
+template<typename TDomainPartitioner, typename TImageToImageMetric, typename TCorrelationMetric>
 void CorrelationImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric, TCorrelationMetric>
 ::BeforeThreadedExecution()
 {
@@ -62,7 +62,7 @@ void CorrelationImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartit
 
 }
 
-template<class TDomainPartitioner, class TImageToImageMetric, class TCorrelationMetric>
+template<typename TDomainPartitioner, typename TImageToImageMetric, typename TCorrelationMetric>
 void
 CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner, TImageToImageMetric, TCorrelationMetric>
 ::AfterThreadedExecution()
@@ -140,7 +140,7 @@ CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner,
 
 }
 
-template<class TDomainPartitioner, class TImageToImageMetric, class TCorrelationMetric>
+template<typename TDomainPartitioner, typename TImageToImageMetric, typename TCorrelationMetric>
 bool
 CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner, TImageToImageMetric, TCorrelationMetric>
 ::ProcessVirtualPoint( const VirtualIndexType & virtualIndex, const VirtualPointType & virtualPoint, const ThreadIdType threadId )
@@ -233,7 +233,7 @@ CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner,
   return pointIsValid;
 }
 
-template<class TDomainPartitioner, class TImageToImageMetric, class TCorrelationMetric>
+template<typename TDomainPartitioner, typename TImageToImageMetric, typename TCorrelationMetric>
 bool
 CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner, TImageToImageMetric, TCorrelationMetric>
 ::ProcessPoint( const VirtualIndexType &           itkNotUsed(virtualIndex),

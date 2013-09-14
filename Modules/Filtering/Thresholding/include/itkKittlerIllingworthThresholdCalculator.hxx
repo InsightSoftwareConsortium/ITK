@@ -26,7 +26,7 @@
 namespace itk
 {
 
-template<class THistogram, class TOutput>
+template<typename THistogram, typename TOutput>
 IndexValueType
 KittlerIllingworthThresholdCalculator<THistogram, TOutput>
 ::Mean()
@@ -57,7 +57,7 @@ KittlerIllingworthThresholdCalculator<THistogram, TOutput>
 }
 
 
-template<class THistogram, class TOutput>
+template<typename THistogram, typename TOutput>
 double
 KittlerIllingworthThresholdCalculator<THistogram, TOutput>
 ::A( InstanceIdentifier j)
@@ -71,7 +71,7 @@ KittlerIllingworthThresholdCalculator<THistogram, TOutput>
   return x;
 }
 
-template<class THistogram, class TOutput>
+template<typename THistogram, typename TOutput>
 double
 KittlerIllingworthThresholdCalculator<THistogram, TOutput>
 ::B( InstanceIdentifier j)
@@ -85,7 +85,7 @@ KittlerIllingworthThresholdCalculator<THistogram, TOutput>
   return x;
 }
 
-template<class THistogram, class TOutput>
+template<typename THistogram, typename TOutput>
 double
 KittlerIllingworthThresholdCalculator<THistogram, TOutput>
 ::C( InstanceIdentifier j)
@@ -104,7 +104,7 @@ KittlerIllingworthThresholdCalculator<THistogram, TOutput>
 /*
  * Compute the KittlerIllingworth's threshold
  */
-template<class THistogram, class TOutput>
+template<typename THistogram, typename TOutput>
 void
 KittlerIllingworthThresholdCalculator<THistogram, TOutput>
 ::GenerateData(void)

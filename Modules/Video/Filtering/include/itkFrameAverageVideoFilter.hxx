@@ -30,7 +30,7 @@ namespace itk
 //
 // Constructor
 //
-template<class TInputVideoStream, class TOutputVideoStream>
+template<typename TInputVideoStream, typename TOutputVideoStream>
 FrameAverageVideoFilter<TInputVideoStream, TOutputVideoStream>::
 FrameAverageVideoFilter()
 {
@@ -51,7 +51,7 @@ FrameAverageVideoFilter()
 //
 // PrintSelf
 //
-template<class TInputVideoStream, class TOutputVideoStream>
+template<typename TInputVideoStream, typename TOutputVideoStream>
 void
 FrameAverageVideoFilter<TInputVideoStream, TOutputVideoStream>::
 PrintSelf(std::ostream & os, Indent indent) const
@@ -66,7 +66,7 @@ PrintSelf(std::ostream & os, Indent indent) const
 //
 // SetNumberOfFrames
 //
-template<class TInputVideoStream, class TOutputVideoStream>
+template<typename TInputVideoStream, typename TOutputVideoStream>
 void
 FrameAverageVideoFilter<TInputVideoStream, TOutputVideoStream>::
 SetNumberOfFrames(SizeValueType numFrames)
@@ -79,7 +79,7 @@ SetNumberOfFrames(SizeValueType numFrames)
 //
 // GetNumberOfFrames
 //
-template<class TInputVideoStream, class TOutputVideoStream>
+template<typename TInputVideoStream, typename TOutputVideoStream>
 SizeValueType
 FrameAverageVideoFilter<TInputVideoStream, TOutputVideoStream>::
 GetNumberOfFrames()
@@ -91,7 +91,7 @@ GetNumberOfFrames()
 //
 // ThreadedGenerateData
 //
-template<class TInputVideoStream, class TOutputVideoStream>
+template<typename TInputVideoStream, typename TOutputVideoStream>
 void
 FrameAverageVideoFilter<TInputVideoStream, TOutputVideoStream>::
 ThreadedGenerateData(const OutputFrameSpatialRegionType& outputRegionForThread,

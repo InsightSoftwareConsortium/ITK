@@ -135,7 +135,7 @@ public:
   FixedArray(const ValueType & r);
 
   /** Constructor to initialize a fixed array from another of any data type */
-  template< class TFixedArrayValueType >
+  template< typename TFixedArrayValueType >
   FixedArray(const FixedArray< TFixedArrayValueType, VLength > & r)
   {
     typename FixedArray< TFixedArrayValueType, VLength >::ConstIterator input = r.Begin();
@@ -160,7 +160,7 @@ public:
    */
 
   /** Operator= defined for a variety of types. */
-  template< class TFixedArrayValueType >
+  template< typename TFixedArrayValueType >
   FixedArray & operator=(const FixedArray< TFixedArrayValueType, VLength > & r)
   {
     if ( (void *)r.Begin() != (void *)m_InternalArray )

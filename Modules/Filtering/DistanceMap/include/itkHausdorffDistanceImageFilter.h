@@ -58,7 +58,7 @@ namespace itk
  * \ingroup MultiThreaded
  * \ingroup ITKDistanceMap
  */
-template< class TInputImage1, class TInputImage2 >
+template< typename TInputImage1, typename TInputImage2 >
 class HausdorffDistanceImageFilter:
   public ImageToImageFilter< TInputImage1, TInputImage1 >
 {

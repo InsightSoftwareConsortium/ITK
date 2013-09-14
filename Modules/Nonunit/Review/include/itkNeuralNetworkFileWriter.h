@@ -51,7 +51,7 @@ namespace itk
  *
  * \ingroup ITKReview
  */
-template< class TNetwork >
+template< typename TNetwork >
 class NeuralNetworkFileWriter:public Object
 {
 public:

@@ -50,7 +50,7 @@ namespace itk
  * \ingroup ITKConnectedComponents
  */
 
-template< class TInputImage, class TOutputImage, class TFunctor, class TMaskImage = TInputImage >
+template< typename TInputImage, typename TOutputImage, typename TFunctor, typename TMaskImage = TInputImage >
 class ConnectedComponentFunctorImageFilter:
   public ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
 {

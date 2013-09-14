@@ -24,7 +24,7 @@
 namespace itk
 {
 // ---------------------------------------------------------------------
-template< class TCellInterface >
+template< typename TCellInterface >
 QuadEdgeMeshLineCell< TCellInterface >
 ::QuadEdgeMeshLineCell()
 {
@@ -45,7 +45,7 @@ QuadEdgeMeshLineCell< TCellInterface >
 }
 
 // ---------------------------------------------------------------------
-template< class TCellInterface >
+template< typename TCellInterface >
 QuadEdgeMeshLineCell< TCellInterface >
 ::~QuadEdgeMeshLineCell()
 {
@@ -105,7 +105,7 @@ QuadEdgeMeshLineCell< TCellInterface >
 }
 
 // ---------------------------------------------------------------------
-template< class TCellInterface >
+template< typename TCellInterface >
 void
 QuadEdgeMeshLineCell< TCellInterface >
 ::Accept(CellIdentifier cellId, MultiVisitor *mv)
@@ -119,7 +119,7 @@ QuadEdgeMeshLineCell< TCellInterface >
 }
 
 // ---------------------------------------------------------------------
-template< class TCellInterface >
+template< typename TCellInterface >
 typename QuadEdgeMeshLineCell< TCellInterface >::CellFeatureCount
 QuadEdgeMeshLineCell< TCellInterface >
 ::GetNumberOfBoundaryFeatures(int dimension) const
@@ -138,7 +138,7 @@ QuadEdgeMeshLineCell< TCellInterface >
 }
 
 // ---------------------------------------------------------------------
-template< class TCellInterface >
+template< typename TCellInterface >
 bool
 QuadEdgeMeshLineCell< TCellInterface >
 ::GetBoundaryFeature(int dimension, CellFeatureIdentifier cellId,
@@ -152,7 +152,7 @@ QuadEdgeMeshLineCell< TCellInterface >
 }
 
 // ---------------------------------------------------------------------
-template< class TCellInterface >
+template< typename TCellInterface >
 void
 QuadEdgeMeshLineCell< TCellInterface >
 ::SetPointIds(PointIdConstIterator first)
@@ -165,7 +165,7 @@ QuadEdgeMeshLineCell< TCellInterface >
 }
 
 // ---------------------------------------------------------------------
-template< class TCellInterface >
+template< typename TCellInterface >
 void
 QuadEdgeMeshLineCell< TCellInterface >
 ::InternalSetPointIds(PointIdInternalConstIterator first)
@@ -178,7 +178,7 @@ QuadEdgeMeshLineCell< TCellInterface >
 }
 
 // ---------------------------------------------------------------------
-template< class TCellInterface >
+template< typename TCellInterface >
 void
 QuadEdgeMeshLineCell< TCellInterface >
 ::SetPointIds(PointIdConstIterator first,
@@ -191,7 +191,7 @@ QuadEdgeMeshLineCell< TCellInterface >
 }
 
 // ---------------------------------------------------------------------
-template< class TCellInterface >
+template< typename TCellInterface >
 void
 QuadEdgeMeshLineCell< TCellInterface >
 ::InternalSetPointIds(PointIdInternalConstIterator first,
@@ -204,7 +204,7 @@ QuadEdgeMeshLineCell< TCellInterface >
 }
 
 // ---------------------------------------------------------------------
-template< class TCellInterface >
+template< typename TCellInterface >
 void
 QuadEdgeMeshLineCell< TCellInterface >
 ::SetPointId(int localId, PointIdentifier pId)
@@ -220,7 +220,7 @@ QuadEdgeMeshLineCell< TCellInterface >
 }
 
 // ---------------------------------------------------------------------
-template< class TCellInterface >
+template< typename TCellInterface >
 typename QuadEdgeMeshLineCell< TCellInterface >::PointIdInternalIterator
 QuadEdgeMeshLineCell< TCellInterface >
 ::InternalPointIdsBegin()
@@ -230,7 +230,7 @@ QuadEdgeMeshLineCell< TCellInterface >
 }
 
 // ---------------------------------------------------------------------
-template< class TCellInterface >
+template< typename TCellInterface >
 typename QuadEdgeMeshLineCell< TCellInterface >::PointIdInternalIterator
 QuadEdgeMeshLineCell< TCellInterface >
 ::InternalPointIdsEnd()
@@ -240,7 +240,7 @@ QuadEdgeMeshLineCell< TCellInterface >
 }
 
 // ---------------------------------------------------------------------
-template< class TCellInterface >
+template< typename TCellInterface >
 typename QuadEdgeMeshLineCell< TCellInterface >::PointIdInternalConstIterator
 QuadEdgeMeshLineCell< TCellInterface >
 ::InternalGetPointIds() const
@@ -250,7 +250,7 @@ QuadEdgeMeshLineCell< TCellInterface >
 }
 
 // ---------------------------------------------------------------------
-template< class TCellInterface >
+template< typename TCellInterface >
 typename QuadEdgeMeshLineCell< TCellInterface >::PointIdInternalConstIterator
 QuadEdgeMeshLineCell< TCellInterface >
 ::InternalPointIdsBegin() const
@@ -260,7 +260,7 @@ QuadEdgeMeshLineCell< TCellInterface >
 }
 
 // ---------------------------------------------------------------------
-template< class TCellInterface >
+template< typename TCellInterface >
 typename QuadEdgeMeshLineCell< TCellInterface >::PointIdInternalConstIterator
 QuadEdgeMeshLineCell< TCellInterface >
 ::InternalPointIdsEnd() const
@@ -270,7 +270,7 @@ QuadEdgeMeshLineCell< TCellInterface >
 }
 
 // ---------------------------------------------------------------------
-template< class TCellInterface >
+template< typename TCellInterface >
 void
 QuadEdgeMeshLineCell< TCellInterface >
 ::SetIdent(CellIdentifier cid)
@@ -281,7 +281,7 @@ QuadEdgeMeshLineCell< TCellInterface >
 }
 
 // ---------------------------------------------------------------------
-template< class TCellInterface >
+template< typename TCellInterface >
 typename QuadEdgeMeshLineCell< TCellInterface >::CellIdentifier
 QuadEdgeMeshLineCell< TCellInterface >
 ::GetIdent()
@@ -290,7 +290,7 @@ QuadEdgeMeshLineCell< TCellInterface >
 }
 
 // ---------------------------------------------------------------------
-template< class TCellInterface >
+template< typename TCellInterface >
 typename QuadEdgeMeshLineCell< TCellInterface >::CellGeometry
 QuadEdgeMeshLineCell< TCellInterface >
 ::GetType() const
@@ -299,7 +299,7 @@ QuadEdgeMeshLineCell< TCellInterface >
 }
 
 // ---------------------------------------------------------------------
-template< class TCellInterface >
+template< typename TCellInterface >
 int
 QuadEdgeMeshLineCell< TCellInterface >
 ::GetTopologyId()
@@ -308,7 +308,7 @@ QuadEdgeMeshLineCell< TCellInterface >
 }
 
 // ---------------------------------------------------------------------
-template< class TCellInterface >
+template< typename TCellInterface >
 unsigned int
 QuadEdgeMeshLineCell< TCellInterface >
 ::GetDimension() const
@@ -317,7 +317,7 @@ QuadEdgeMeshLineCell< TCellInterface >
 }
 
 // ---------------------------------------------------------------------
-template< class TCellInterface >
+template< typename TCellInterface >
 unsigned int
 QuadEdgeMeshLineCell< TCellInterface >
 ::GetNumberOfPoints() const

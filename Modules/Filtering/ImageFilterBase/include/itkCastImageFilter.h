@@ -32,7 +32,7 @@ namespace Functor
  * \ingroup ITKImageFilterBase
  */
 
-template< class TInput, class TOutput >
+template< typename TInput, typename TOutput >
 class Cast
 {
 public:
@@ -93,7 +93,7 @@ public:
  * \wikiexample{ImageProcessing/CastImageFilter,Cast an image from one type to another}
  * \endwiki
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class CastImageFilter:
     public UnaryFunctorImageFilter< TInputImage, TOutputImage,
                                     Functor::Cast<

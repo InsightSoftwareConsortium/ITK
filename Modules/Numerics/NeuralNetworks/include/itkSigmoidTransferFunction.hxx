@@ -26,7 +26,7 @@ namespace Statistics
 {
 
 /** Constructor */
-template<class ScalarType>
+template<typename ScalarType>
 SigmoidTransferFunction< ScalarType>
 ::SigmoidTransferFunction()
 {
@@ -37,14 +37,14 @@ SigmoidTransferFunction< ScalarType>
 }
 
 /** Destructor */
-template<class ScalarType>
+template<typename ScalarType>
 SigmoidTransferFunction<ScalarType>
 ::~SigmoidTransferFunction()
 {
 }
 
 /** Evaluate */
-template<class ScalarType>
+template<typename ScalarType>
 ScalarType
 SigmoidTransferFunction<ScalarType>
 ::Evaluate(const ScalarType& input)  const
@@ -57,7 +57,7 @@ SigmoidTransferFunction<ScalarType>
 }
 
 /** Evaluate Derivatives */
-template<class ScalarType>
+template<typename ScalarType>
 ScalarType
 SigmoidTransferFunction< ScalarType>
 ::EvaluateDerivative(const ScalarType& input)  const
@@ -67,7 +67,7 @@ SigmoidTransferFunction< ScalarType>
 }
 
 /** Print the object */
-template<class ScalarType>
+template<typename ScalarType>
 void
 SigmoidTransferFunction<ScalarType>
 ::PrintSelf( std::ostream& os, Indent indent ) const

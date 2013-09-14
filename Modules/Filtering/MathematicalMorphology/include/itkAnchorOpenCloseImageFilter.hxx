@@ -25,13 +25,13 @@
 #include "itkImageRegionIterator.h"
 namespace itk
 {
-template< class TImage, class TKernel, class TCompare1, class TCompare2 >
+template< typename TImage, typename TKernel, typename TCompare1, typename TCompare2 >
 AnchorOpenCloseImageFilter< TImage, TKernel, TCompare1, TCompare2 >
 ::AnchorOpenCloseImageFilter()
 {
 }
 
-template< class TImage, class TKernel, class TCompare1, class TCompare2 >
+template< typename TImage, typename TKernel, typename TCompare1, typename TCompare2 >
 void
 AnchorOpenCloseImageFilter< TImage, TKernel, TCompare1, TCompare2 >
 ::ThreadedGenerateData(const InputImageRegionType & outputRegionForThread,
@@ -176,7 +176,7 @@ AnchorOpenCloseImageFilter< TImage, TKernel, TCompare1, TCompare2 >
 
 }
 
-template< class TImage, class TKernel, class TCompare1, class TCompare2 >
+template< typename TImage, typename TKernel, typename TCompare1, typename TCompare2 >
 void
 AnchorOpenCloseImageFilter< TImage, TKernel, TCompare1, TCompare2 >
 ::DoFaceOpen(InputImageConstPointer input,
@@ -233,7 +233,7 @@ AnchorOpenCloseImageFilter< TImage, TKernel, TCompare1, TCompare2 >
     }
 }
 
-template< class TImage, class TKernel, class TCompare1, class TCompare2 >
+template< typename TImage, typename TKernel, typename TCompare1, typename TCompare2 >
 void
 AnchorOpenCloseImageFilter< TImage, TKernel, TCompare1, TCompare2 >
 ::PrintSelf(std::ostream & os, Indent indent) const

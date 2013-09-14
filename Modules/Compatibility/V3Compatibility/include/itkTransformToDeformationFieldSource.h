@@ -59,8 +59,8 @@ namespace itk
  * \ingroup GeometricTransform
  * \ingroup ITKV3Compatibility
  */
-template< class TOutputImage,
-          class TTransformPrecisionType = double >
+template< typename TOutputImage,
+          typename TTransformPrecisionType = double >
 class TransformToDeformationFieldSource:
   public ImageSource< TOutputImage >
 {

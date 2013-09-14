@@ -24,7 +24,7 @@
 
 namespace itk {
 
-template <class TImage, class TAttributeAccessor>
+template <typename TImage, typename TAttributeAccessor>
 AttributeKeepNObjectsLabelMapFilter<TImage, TAttributeAccessor>
 ::AttributeKeepNObjectsLabelMapFilter()
 {
@@ -36,7 +36,7 @@ AttributeKeepNObjectsLabelMapFilter<TImage, TAttributeAccessor>
 }
 
 
-template <class TImage, class TAttributeAccessor>
+template <typename TImage, typename TAttributeAccessor>
 void
 AttributeKeepNObjectsLabelMapFilter<TImage, TAttributeAccessor>
 ::GenerateData()
@@ -93,7 +93,7 @@ AttributeKeepNObjectsLabelMapFilter<TImage, TAttributeAccessor>
 }
 
 
-template <class TImage, class TAttributeAccessor>
+template <typename TImage, typename TAttributeAccessor>
 void
 AttributeKeepNObjectsLabelMapFilter<TImage, TAttributeAccessor>
 ::PrintSelf(std::ostream& os, Indent indent) const

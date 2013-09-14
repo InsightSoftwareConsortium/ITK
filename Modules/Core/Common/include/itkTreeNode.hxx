@@ -24,13 +24,13 @@
 namespace itk
 {
 /** Constructor */
-template< class TValueType >
+template< typename TValueType >
 TreeNode< TValueType >
 ::TreeNode():m_Parent(NULL)
 {}
 
 /** Destructor */
-template< class TValueType >
+template< typename TValueType >
 TreeNode< TValueType >
 ::~TreeNode()
 {
@@ -51,7 +51,7 @@ TreeNode< TValueType >
 }
 
 /** Return the parent node */
-template< class TValueType >
+template< typename TValueType >
 TreeNode< TValueType > *
 TreeNode< TValueType >
 ::GetParent() const
@@ -60,7 +60,7 @@ TreeNode< TValueType >
 }
 
 /** Get a child */
-template< class TValueType >
+template< typename TValueType >
 TreeNode< TValueType > *
 TreeNode< TValueType >
 ::GetChild(ChildIdentifier number) const
@@ -78,7 +78,7 @@ TreeNode< TValueType >
 }
 
 /** Set the value of a node */
-template< class TValueType >
+template< typename TValueType >
 TValueType
 TreeNode< TValueType >
 ::Set(const TValueType data)
@@ -90,7 +90,7 @@ TreeNode< TValueType >
 }
 
 /** Get the data of node */
-template< class TValueType >
+template< typename TValueType >
 const TValueType &
 TreeNode< TValueType >
 ::Get() const
@@ -99,7 +99,7 @@ TreeNode< TValueType >
 }
 
 /** Return true if has a parent */
-template< class TValueType >
+template< typename TValueType >
 bool
 TreeNode< TValueType >
 ::HasParent() const
@@ -108,7 +108,7 @@ TreeNode< TValueType >
 }
 
 /** Set the parent node */
-template< class TValueType >
+template< typename TValueType >
 void
 TreeNode< TValueType >
 ::SetParent(TreeNode< TValueType > *node)
@@ -124,7 +124,7 @@ TreeNode< TValueType >
 }
 
 /** Return true if the node has children */
-template< class TValueType >
+template< typename TValueType >
 bool
 TreeNode< TValueType >
 ::HasChildren() const
@@ -133,7 +133,7 @@ TreeNode< TValueType >
 }
 
 /** Return the number of children */
-template< class TValueType >
+template< typename TValueType >
 typename TreeNode< TValueType >::ChildIdentifier
 TreeNode< TValueType >
 ::CountChildren() const
@@ -142,7 +142,7 @@ TreeNode< TValueType >
 }
 
 /** Remove a child node from the current node */
-template< class TValueType >
+template< typename TValueType >
 bool
 TreeNode< TValueType >
 ::Remove(Self *n)
@@ -161,7 +161,7 @@ TreeNode< TValueType >
 }
 
 /** Replace a child by a new one */
-template< class TValueType >
+template< typename TValueType >
 bool
 TreeNode< TValueType >
 ::ReplaceChild(Self *oldChild, Self *newChild)
@@ -180,7 +180,7 @@ TreeNode< TValueType >
 }
 
 /** Return the child position given a node */
-template< class TValueType >
+template< typename TValueType >
 OffsetValueType
 TreeNode< TValueType >
 ::ChildPosition(const Self *node) const
@@ -198,7 +198,7 @@ TreeNode< TValueType >
 }
 
 /** Return the child position given an element, the first child found. */
-template< class TValueType >
+template< typename TValueType >
 typename TreeNode< TValueType >::ChildIdentifier
 TreeNode< TValueType >
 ::ChildPosition(TValueType element) const
@@ -216,7 +216,7 @@ TreeNode< TValueType >
 }
 
 /** Add a child node */
-template< class TValueType >
+template< typename TValueType >
 void
 TreeNode< TValueType >
 ::AddChild(Self *node)
@@ -228,7 +228,7 @@ TreeNode< TValueType >
 }
 
 /** Add a child at a specific position in the children list */
-template< class TValueType >
+template< typename TValueType >
 void
 TreeNode< TValueType >
 ::AddChild(ChildIdentifier number, Self *node)
@@ -251,7 +251,7 @@ TreeNode< TValueType >
 }
 
 /** Get the number of children given a name and a depth */
-template< class TValueType >
+template< typename TValueType >
 typename TreeNode< TValueType >::ChildIdentifier
 TreeNode< TValueType >
 ::GetNumberOfChildren(unsigned int depth, char *name) const
@@ -285,7 +285,7 @@ TreeNode< TValueType >
 
 /** Get children given a name and a depth */
 #if !defined( CABLE_CONFIGURATION )
-template< class TValueType >
+template< typename TValueType >
 typename TreeNode< TValueType >::ChildrenListType *
 TreeNode< TValueType >
 ::GetChildren(unsigned int depth, char *name) const

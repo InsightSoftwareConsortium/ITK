@@ -23,7 +23,7 @@
 namespace itk
 {
 // ---------------------------------------------------------------------
-template< class TMesh, class TQE >
+template< typename TMesh, typename TQE >
 QuadEdgeMeshFrontBaseIterator< TMesh, TQE >::QuadEdgeMeshFrontBaseIterator(MeshType *mesh,
                                                                            bool start,
                                                                            QEType *seed):
@@ -54,7 +54,7 @@ QuadEdgeMeshFrontBaseIterator< TMesh, TQE >::QuadEdgeMeshFrontBaseIterator(MeshT
 }
 
 // ---------------------------------------------------------------------
-template< class TMesh, class TQE >
+template< typename TMesh, typename TQE >
 QuadEdgeMeshFrontBaseIterator< TMesh, TQE >::
 ~QuadEdgeMeshFrontBaseIterator()
 {
@@ -62,7 +62,7 @@ QuadEdgeMeshFrontBaseIterator< TMesh, TQE >::
 }
 
 // ---------------------------------------------------------------------
-template< class TMesh, class TQE >
+template< typename TMesh, typename TQE >
 QuadEdgeMeshFrontBaseIterator< TMesh, TQE > &
 QuadEdgeMeshFrontBaseIterator< TMesh, TQE >::operator++()
 {
@@ -130,7 +130,7 @@ QuadEdgeMeshFrontBaseIterator< TMesh, TQE >::operator++()
  * Find in the cell container an arbitrary underlying edge with type
  * QEType.
  */
-template< class TMesh, class TQE >
+template< typename TMesh, typename TQE >
 typename QuadEdgeMeshFrontBaseIterator< TMesh, TQE >::QEType *
 QuadEdgeMeshFrontBaseIterator< TMesh, TQE >::FindDefaultSeed()
 {

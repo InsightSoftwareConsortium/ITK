@@ -27,7 +27,7 @@ namespace itk
 /**
  *
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 ConstantPadImageFilter< TInputImage, TOutputImage >
 ::ConstantPadImageFilter()
 {
@@ -38,7 +38,7 @@ ConstantPadImageFilter< TInputImage, TOutputImage >
 /**
  *
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ConstantPadImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

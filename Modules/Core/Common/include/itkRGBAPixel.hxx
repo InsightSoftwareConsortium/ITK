@@ -25,7 +25,7 @@ namespace itk
 /**
  * Assignment Operator
  */
-template< class T >
+template< typename T >
 RGBAPixel< T > &
 RGBAPixel< T >
 ::operator=(const Self & r)
@@ -37,7 +37,7 @@ RGBAPixel< T >
 /**
  * Assigment from a plain array
  */
-template< class T >
+template< typename T >
 RGBAPixel< T > &
 RGBAPixel< T >
 ::operator=(const ComponentType r[4])
@@ -49,7 +49,7 @@ RGBAPixel< T >
 /**
  * Returns a temporary copy of a vector
  */
-template< class T >
+template< typename T >
 RGBAPixel< T >
 RGBAPixel< T >
 ::operator+(const Self & r) const
@@ -66,7 +66,7 @@ RGBAPixel< T >
 /**
  * Returns a temporary copy of a vector
  */
-template< class T >
+template< typename T >
 RGBAPixel< T >
 RGBAPixel< T >
 ::operator-(const Self & r) const
@@ -83,7 +83,7 @@ RGBAPixel< T >
 /**
  * Returns a temporary copy of a vector
  */
-template< class T >
+template< typename T >
 const RGBAPixel< T > &
 RGBAPixel< T >
 ::operator+=(const Self & r)
@@ -98,7 +98,7 @@ RGBAPixel< T >
 /**
  * Returns a temporary copy of a vector
  */
-template< class T >
+template< typename T >
 const RGBAPixel< T > &
 RGBAPixel< T >
 ::operator-=(const Self & r)
@@ -113,7 +113,7 @@ RGBAPixel< T >
 /**
  * Returns a temporary copy of a vector
  */
-template< class T >
+template< typename T >
 RGBAPixel< T >
 RGBAPixel< T >
 ::operator*(const ComponentType & r) const
@@ -130,7 +130,7 @@ RGBAPixel< T >
 /**
  * Returns the results from a test for equality (all components must be equal)
  */
-template< class T >
+template< typename T >
 bool
 RGBAPixel< T >
 ::operator==(const Self & r) const
@@ -148,7 +148,7 @@ RGBAPixel< T >
 /**
  * Compute luminance
  */
-template< class T >
+template< typename T >
 typename RGBAPixel< T >::LuminanceType
 RGBAPixel< T >
 ::GetLuminance() const
@@ -164,7 +164,7 @@ RGBAPixel< T >
 /**
  * Print content to an ostream
  */
-template< class TComponent >
+template< typename TComponent >
 std::ostream &
 operator<<(std::ostream & os, const RGBAPixel< TComponent > & c)
 {
@@ -178,7 +178,7 @@ operator<<(std::ostream & os, const RGBAPixel< TComponent > & c)
 /**
  * Read content from an istream
  */
-template< class TComponent >
+template< typename TComponent >
 std::istream &
 operator>>(std::istream & is, RGBAPixel< TComponent > & c)
 {

@@ -23,7 +23,7 @@
 namespace itk
 {
 /** Constructor */
-template< class TFixedImage, class TMovingSpatialObject >
+template< typename TFixedImage, typename TMovingSpatialObject >
 ImageToSpatialObjectMetric< TFixedImage, TMovingSpatialObject >
 ::ImageToSpatialObjectMetric()
 {
@@ -37,7 +37,7 @@ ImageToSpatialObjectMetric< TFixedImage, TMovingSpatialObject >
  * Initialize
  */
 
-template< class TFixedImage, class TMovingSpatialObject >
+template< typename TFixedImage, typename TMovingSpatialObject >
 void
 ImageToSpatialObjectMetric< TFixedImage, TMovingSpatialObject >
 ::Initialize(void)
@@ -77,7 +77,7 @@ throw ( ExceptionObject )
 }
 
 /** PrintSelf */
-template< class TFixedImage, class TMovingSpatialObject >
+template< typename TFixedImage, typename TMovingSpatialObject >
 void
 ImageToSpatialObjectMetric< TFixedImage, TMovingSpatialObject >
 ::PrintSelf(std::ostream & os, Indent indent) const

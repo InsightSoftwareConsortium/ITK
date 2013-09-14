@@ -30,7 +30,7 @@
  */
 
 
-template<class DataType>
+template<typename DataType>
 bool DoRegistration ()
 {
 

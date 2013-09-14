@@ -84,8 +84,8 @@ namespace itk
  */
 
 //= typename BSplineResampleImageFilterBase<TInputImage, TOutputImage>
-template< class TInputImage, class TOutputImage,
-          class ResamplerType = BSplineResampleImageFilterBase< TInputImage, TOutputImage > >
+template< typename TInputImage, typename TOutputImage,
+          typename ResamplerType = BSplineResampleImageFilterBase< TInputImage, TOutputImage > >
 class BSplineDownsampleImageFilter:
   public ResamplerType
 {

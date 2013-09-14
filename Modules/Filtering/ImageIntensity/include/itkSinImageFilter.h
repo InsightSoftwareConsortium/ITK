@@ -30,7 +30,7 @@ namespace Functor
  * \brief
  * \ingroup ITKImageIntensity
  */
-template< class TInput, class TOutput >
+template< typename TInput, typename TOutput >
 class Sin
 {
 public:
@@ -63,7 +63,7 @@ public:
  * \wikiexample{Math/Trig/SinImageFilter,Compute the sine of each pixel.}
  * \endwiki
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class SinImageFilter:
   public
   UnaryFunctorImageFilter< TInputImage, TOutputImage,

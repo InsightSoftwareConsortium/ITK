@@ -23,7 +23,7 @@
 
 namespace itk
 {
-template< class TInput, class TLevelSetContainer >
+template< typename TInput, typename TLevelSetContainer >
 LevelSetEquationLaplacianTerm< TInput, TLevelSetContainer >
 ::LevelSetEquationLaplacianTerm()
 {
@@ -31,14 +31,14 @@ LevelSetEquationLaplacianTerm< TInput, TLevelSetContainer >
   this->m_RequiredData.insert( "Laplacian" );
 }
 
-template< class TInput, class TLevelSetContainer >
+template< typename TInput, typename TLevelSetContainer >
 LevelSetEquationLaplacianTerm< TInput, TLevelSetContainer >
 ::~LevelSetEquationLaplacianTerm()
 {
 }
 
 
-template< class TInput, class TLevelSetContainer >
+template< typename TInput, typename TLevelSetContainer >
 void
 LevelSetEquationLaplacianTerm< TInput, TLevelSetContainer >
 ::InitializeParameters()
@@ -46,21 +46,21 @@ LevelSetEquationLaplacianTerm< TInput, TLevelSetContainer >
   this->SetUp();
 }
 
-template< class TInput, class TLevelSetContainer >
+template< typename TInput, typename TLevelSetContainer >
 void
 LevelSetEquationLaplacianTerm< TInput, TLevelSetContainer >
 ::Initialize( const LevelSetInputIndexType& )
 {
 }
 
-template< class TInput, class TLevelSetContainer >
+template< typename TInput, typename TLevelSetContainer >
 void
 LevelSetEquationLaplacianTerm< TInput, TLevelSetContainer >
 ::Update()
 {
 }
 
-template< class TInput, class TLevelSetContainer >
+template< typename TInput, typename TLevelSetContainer >
 void
 LevelSetEquationLaplacianTerm< TInput, TLevelSetContainer >
 ::UpdatePixel( const LevelSetInputIndexType& itkNotUsed( iP ),
@@ -69,7 +69,7 @@ LevelSetEquationLaplacianTerm< TInput, TLevelSetContainer >
 {
 }
 
-template< class TInput, class TLevelSetContainer >
+template< typename TInput, typename TLevelSetContainer >
 typename LevelSetEquationLaplacianTerm< TInput, TLevelSetContainer >::LevelSetOutputRealType
 LevelSetEquationLaplacianTerm< TInput, TLevelSetContainer >
 ::LaplacianSpeed( const LevelSetInputIndexType& itkNotUsed(iP) ) const
@@ -77,7 +77,7 @@ LevelSetEquationLaplacianTerm< TInput, TLevelSetContainer >
   return NumericTraits< LevelSetOutputRealType >::One;
 }
 
-template< class TInput, class TLevelSetContainer >
+template< typename TInput, typename TLevelSetContainer >
 typename LevelSetEquationLaplacianTerm< TInput, TLevelSetContainer >::LevelSetOutputRealType
 LevelSetEquationLaplacianTerm< TInput, TLevelSetContainer >
 ::Value( const LevelSetInputIndexType& iP )
@@ -89,7 +89,7 @@ LevelSetEquationLaplacianTerm< TInput, TLevelSetContainer >
   return laplacian;
 }
 
-template< class TInput, class TLevelSetContainer >
+template< typename TInput, typename TLevelSetContainer >
 typename LevelSetEquationLaplacianTerm< TInput, TLevelSetContainer >::LevelSetOutputRealType
 LevelSetEquationLaplacianTerm< TInput, TLevelSetContainer >
 ::Value( const LevelSetInputIndexType& iP, const LevelSetDataType& iData )

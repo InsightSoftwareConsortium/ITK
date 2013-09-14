@@ -20,7 +20,7 @@
 #include "itkConstShapedNeighborhoodIterator.h"
 namespace itk
 {
-template< class TImage, class TBoundaryCondition >
+template< typename TImage, typename TBoundaryCondition >
 void
 ConstShapedNeighborhoodIterator< TImage, TBoundaryCondition >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -39,7 +39,7 @@ ConstShapedNeighborhoodIterator< TImage, TBoundaryCondition >
   Superclass::PrintSelf( os, indent.GetNextIndent() );
 }
 
-template< class TImage, class TBoundaryCondition >
+template< typename TImage, typename TBoundaryCondition >
 void
 ConstShapedNeighborhoodIterator< TImage, TBoundaryCondition >
 ::ActivateIndex(NeighborIndexType n)
@@ -91,7 +91,7 @@ ConstShapedNeighborhoodIterator< TImage, TBoundaryCondition >
     }
 }
 
-template< class TImage, class TBoundaryCondition >
+template< typename TImage, typename TBoundaryCondition >
 void
 ConstShapedNeighborhoodIterator< TImage, TBoundaryCondition >
 ::DeactivateIndex(NeighborIndexType n)
@@ -126,7 +126,7 @@ ConstShapedNeighborhoodIterator< TImage, TBoundaryCondition >
     }
 }
 
-template< class TImage, class TBoundaryCondition >
+template< typename TImage, typename TBoundaryCondition >
 void
 ConstShapedNeighborhoodIterator< TImage, TBoundaryCondition >
 ::CreateActiveListFromNeighborhood(const NeighborhoodType &neighborhood)
@@ -153,7 +153,7 @@ ConstShapedNeighborhoodIterator< TImage, TBoundaryCondition >
     }
 }
 
-template< class TImage, class TBoundaryCondition >
+template< typename TImage, typename TBoundaryCondition >
 ConstShapedNeighborhoodIterator< TImage, TBoundaryCondition > &
 ConstShapedNeighborhoodIterator< TImage, TBoundaryCondition >
 ::operator++()
@@ -214,7 +214,7 @@ ConstShapedNeighborhoodIterator< TImage, TBoundaryCondition >
   return *this;
 }
 
-template< class TImage, class TBoundaryCondition >
+template< typename TImage, typename TBoundaryCondition >
 ConstShapedNeighborhoodIterator< TImage, TBoundaryCondition > &
 ConstShapedNeighborhoodIterator< TImage, TBoundaryCondition >
 ::operator--()
@@ -278,7 +278,7 @@ ConstShapedNeighborhoodIterator< TImage, TBoundaryCondition >
   return *this;
 }
 
-template< class TImage, class TBoundaryCondition >
+template< typename TImage, typename TBoundaryCondition >
 ConstShapedNeighborhoodIterator< TImage, TBoundaryCondition > &
 ConstShapedNeighborhoodIterator< TImage, TBoundaryCondition >
 ::operator+=(const OffsetType & idx)
@@ -335,7 +335,7 @@ ConstShapedNeighborhoodIterator< TImage, TBoundaryCondition >
   return *this;
 }
 
-template< class TImage, class TBoundaryCondition >
+template< typename TImage, typename TBoundaryCondition >
 ConstShapedNeighborhoodIterator< TImage, TBoundaryCondition > &
 ConstShapedNeighborhoodIterator< TImage, TBoundaryCondition >
 ::operator-=(const OffsetType & idx)

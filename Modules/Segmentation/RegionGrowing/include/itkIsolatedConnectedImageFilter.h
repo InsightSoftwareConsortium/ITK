@@ -67,7 +67,7 @@ namespace itk
  * \ingroup RegionGrowingSegmentation
  * \ingroup ITKRegionGrowing
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class IsolatedConnectedImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {

@@ -23,7 +23,7 @@
 
 namespace itk
 {
-template< class TPixel, unsigned int VImageDimension >
+template< typename TPixel, unsigned int VImageDimension >
 RawImageIO< TPixel, VImageDimension >::RawImageIO():
   ImageIOBase()
 {
@@ -47,11 +47,11 @@ RawImageIO< TPixel, VImageDimension >::RawImageIO():
   m_FileType = Binary;
 }
 
-template< class TPixel, unsigned int VImageDimension >
+template< typename TPixel, unsigned int VImageDimension >
 RawImageIO< TPixel, VImageDimension >::~RawImageIO()
 {}
 
-template< class TPixel, unsigned int VImageDimension >
+template< typename TPixel, unsigned int VImageDimension >
 void RawImageIO< TPixel, VImageDimension >::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
@@ -60,7 +60,7 @@ void RawImageIO< TPixel, VImageDimension >::PrintSelf(std::ostream & os, Indent 
   os << indent << "FileDimensionality: " << m_FileDimensionality << std::endl;
 }
 
-template< class TPixel, unsigned int VImageDimension >
+template< typename TPixel, unsigned int VImageDimension >
 SizeValueType RawImageIO< TPixel, VImageDimension >::GetHeaderSize()
 {
   std::ifstream file;
@@ -93,7 +93,7 @@ SizeValueType RawImageIO< TPixel, VImageDimension >::GetHeaderSize()
   return m_HeaderSize;
 }
 
-template< class TPixel, unsigned int VImageDimension >
+template< typename TPixel, unsigned int VImageDimension >
 void RawImageIO< TPixel, VImageDimension >::OpenFileForReading(std::ifstream & is)
 {
   if ( m_FileName == "" )
@@ -120,7 +120,7 @@ void RawImageIO< TPixel, VImageDimension >::OpenFileForReading(std::ifstream & i
     }
 }
 
-template< class TPixel, unsigned int VImageDimension >
+template< typename TPixel, unsigned int VImageDimension >
 void RawImageIO< TPixel, VImageDimension >::OpenFileForWriting(std::ofstream & os)
 {
   if ( m_FileName == "" )
@@ -150,7 +150,7 @@ void RawImageIO< TPixel, VImageDimension >::OpenFileForWriting(std::ofstream & o
     }
 }
 
-template< class TPixel, unsigned int VImageDimension >
+template< typename TPixel, unsigned int VImageDimension >
 void RawImageIO< TPixel, VImageDimension >
 ::SetHeaderSize(SizeValueType size)
 {
@@ -162,7 +162,7 @@ void RawImageIO< TPixel, VImageDimension >
   m_ManualHeaderSize = true;
 }
 
-template< class TPixel, unsigned int VImageDimension >
+template< typename TPixel, unsigned int VImageDimension >
 void RawImageIO< TPixel, VImageDimension >
 ::Read(void *buffer)
 {
@@ -232,7 +232,7 @@ void RawImageIO< TPixel, VImageDimension >
   else if itkReadRawBytesAfterSwappingMacro(double, DOUBLE)
 }
 
-template< class TPixel, unsigned int VImageDimension >
+template< typename TPixel, unsigned int VImageDimension >
 bool RawImageIO< TPixel, VImageDimension >
 ::CanWriteFile(const char *fname)
 {
@@ -246,7 +246,7 @@ bool RawImageIO< TPixel, VImageDimension >
   return true;
 }
 
-template< class TPixel, unsigned int VImageDimension >
+template< typename TPixel, unsigned int VImageDimension >
 void RawImageIO< TPixel, VImageDimension >
 ::Write(const void *buffer)
 {

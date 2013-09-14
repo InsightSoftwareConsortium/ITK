@@ -30,7 +30,7 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template <class TScalar = double, unsigned int NDimensions = 3,
+template <typename TScalar = double, unsigned int NDimensions = 3,
           unsigned int VSplineOrder = 3>
 class BSplineBaseTransform :
   public Transform<TScalar, NDimensions, NDimensions>

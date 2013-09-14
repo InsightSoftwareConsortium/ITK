@@ -29,7 +29,7 @@ namespace Functor
  * \brief
  * \ingroup ITKImageIntensity
  */
-template< class TInput1, class TInput2, class TInput3, class TOutput >
+template< typename TInput1, typename TInput2, typename TInput3, typename TOutput >
 class ModulusSquare3
 {
 public:
@@ -61,8 +61,8 @@ public:
  * \ingroup IntensityImageFilters
  * \ingroup ITKImageIntensity
  */
-template< class TInputImage1, class TInputImage2,
-          class TInputImage3, class TOutputImage >
+template< typename TInputImage1, typename TInputImage2,
+          typename TInputImage3, typename TOutputImage >
 class TernaryMagnitudeSquaredImageFilter:
   public
   TernaryFunctorImageFilter< TInputImage1, TInputImage2,

@@ -31,8 +31,8 @@ namespace itk
 /**
  * Constructor
  */
-template< class TInputImage, class TPolyline,
-          class TOutputImage >
+template< typename TInputImage, typename TPolyline,
+          typename TOutputImage >
 PolylineMask2DImageFilter< TInputImage, TPolyline, TOutputImage >
 ::PolylineMask2DImageFilter()
 {
@@ -42,8 +42,8 @@ PolylineMask2DImageFilter< TInputImage, TPolyline, TOutputImage >
 /**
  *
  */
-template< class TInputImage, class TPolyline,
-          class TOutputImage >
+template< typename TInputImage, typename TPolyline,
+          typename TOutputImage >
 void PolylineMask2DImageFilter< TInputImage, TPolyline, TOutputImage >
 ::SetInput1(const TInputImage *input)
 
@@ -56,8 +56,8 @@ void PolylineMask2DImageFilter< TInputImage, TPolyline, TOutputImage >
 /**
  *
  */
-template< class TInputImage, class TPolyline,
-          class TOutputImage >
+template< typename TInputImage, typename TPolyline,
+          typename TOutputImage >
 void PolylineMask2DImageFilter< TInputImage, TPolyline, TOutputImage >
 ::SetInput2(const TPolyline *input)
 {
@@ -69,8 +69,8 @@ void PolylineMask2DImageFilter< TInputImage, TPolyline, TOutputImage >
 /**
  *
  */
-template< class TInputImage, class TPolyline,
-          class TOutputImage >
+template< typename TInputImage, typename TPolyline,
+          typename TOutputImage >
 void PolylineMask2DImageFilter< TInputImage, TPolyline, TOutputImage >
 ::GenerateData(void)
 {

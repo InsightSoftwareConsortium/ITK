@@ -61,7 +61,7 @@ namespace itk
  * \ingroup ImageToImageFilter
  * \ingroup ITKDisplacementField
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class InverseDisplacementFieldImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {

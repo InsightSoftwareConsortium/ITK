@@ -28,14 +28,14 @@ namespace itk
 namespace Statistics
 {
 
-template<class LayerType, class TTargetVector>
+template<typename LayerType, typename TTargetVector>
 ErrorBackPropagationLearningWithMomentum <LayerType,TTargetVector>
 ::ErrorBackPropagationLearningWithMomentum()
 {
   m_Momentum = 0.9; //Default
 }
 
-template<class LayerType, class TTargetVector>
+template<typename LayerType, typename TTargetVector>
 void
 ErrorBackPropagationLearningWithMomentum<LayerType,TTargetVector>
 ::Learn(LayerInterfaceType * layer, ValueType lr)
@@ -101,7 +101,7 @@ ErrorBackPropagationLearningWithMomentum<LayerType,TTargetVector>
   inputweightset->SetDBValues(DB_temp.data_block());
 }
 
-template<class LayerType, class TTargetVector>
+template<typename LayerType, typename TTargetVector>
 void
 ErrorBackPropagationLearningWithMomentum<LayerType,TTargetVector>
 ::Learn( LayerInterfaceType * itkNotUsed(layer), TTargetVector itkNotUsed(errors),ValueType itkNotUsed(lr))
@@ -111,7 +111,7 @@ ErrorBackPropagationLearningWithMomentum<LayerType,TTargetVector>
 }
 
 /** Print the object */
-template<class LayerType, class TTargetVector>
+template<typename LayerType, typename TTargetVector>
 void
 ErrorBackPropagationLearningWithMomentum<LayerType,TTargetVector>
 ::PrintSelf( std::ostream& os, Indent indent ) const

@@ -27,7 +27,7 @@ namespace itk
 /**
  * Default constructor
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 GPUDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::GPUDemonsRegistrationFunction()
 {
@@ -102,7 +102,7 @@ GPUDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 /**
  * Standard "PrintSelf" method.
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void
 GPUDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -136,7 +136,7 @@ GPUDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 /**
  *
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void
 GPUDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::SetIntensityDifferenceThreshold(double threshold)
@@ -147,7 +147,7 @@ GPUDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 /**
  *
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 double
 GPUDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::GetIntensityDifferenceThreshold() const
@@ -158,7 +158,7 @@ GPUDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 /**
  * Set the function state values before each iteration
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void
 GPUDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::InitializeIteration()
@@ -197,7 +197,7 @@ GPUDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 /**
  * Allocate GPU buffers for computing metric statitics
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void
 GPUDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::GPUAllocateMetricData(unsigned int numPixels)
@@ -219,7 +219,7 @@ GPUDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 
 }
 
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void
 GPUDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::GPUReleaseMetricData()
@@ -233,7 +233,7 @@ GPUDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
  * Compute update at a specify neighbourhood
  */
 
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void
 GPUDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::GPUComputeUpdate( DisplacementFieldTypePointer output,
@@ -305,7 +305,7 @@ GPUDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 /**
  * Compute update at a specify neighbourhood
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 typename GPUDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::PixelType
 GPUDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
@@ -400,7 +400,7 @@ GPUDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 /**
  * Update the metric and release the per-thread-global data.
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void
 GPUDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::ReleaseGlobalDataPointer(void *gd) const

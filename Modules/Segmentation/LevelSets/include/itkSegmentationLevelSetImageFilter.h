@@ -139,9 +139,9 @@ namespace itk
  *  See LevelSetFunction for more information.
  * \ingroup ITKLevelSets
  */
-template< class TInputImage,
-          class TFeatureImage,
-          class TOutputPixelType = float >
+template< typename TInputImage,
+          typename TFeatureImage,
+          typename TOutputPixelType = float >
 class SegmentationLevelSetImageFilter:
   public SparseFieldLevelSetImageFilter< TInputImage, Image< TOutputPixelType,
                                                              TInputImage::ImageDimension > >

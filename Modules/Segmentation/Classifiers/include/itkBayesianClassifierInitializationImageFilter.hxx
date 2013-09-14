@@ -35,7 +35,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TProbabilityPrecisionType >
+template< typename TInputImage, typename TProbabilityPrecisionType >
 BayesianClassifierInitializationImageFilter< TInputImage, TProbabilityPrecisionType >
 ::BayesianClassifierInitializationImageFilter():
   m_UserSuppliesMembershipFunctions(false),
@@ -46,7 +46,7 @@ BayesianClassifierInitializationImageFilter< TInputImage, TProbabilityPrecisionT
 
 // GenerateOutputInformation method. Here we force update on the entire input
 // image. It does not make sense having K-Means etc otherwise.
-template< class TInputImage, class TProbabilityPrecisionType >
+template< typename TInputImage, typename TProbabilityPrecisionType >
 void
 BayesianClassifierInitializationImageFilter< TInputImage,
                                              TProbabilityPrecisionType >
@@ -74,7 +74,7 @@ BayesianClassifierInitializationImageFilter< TInputImage,
   outputPtr->SetVectorLength(m_NumberOfClasses);
 }
 
-template< class TInputImage, class TProbabilityPrecisionType >
+template< typename TInputImage, typename TProbabilityPrecisionType >
 void
 BayesianClassifierInitializationImageFilter< TInputImage,
                                              TProbabilityPrecisionType >
@@ -237,7 +237,7 @@ BayesianClassifierInitializationImageFilter< TInputImage,
     }
 }
 
-template< class TInputImage, class TProbabilityPrecisionType >
+template< typename TInputImage, typename TProbabilityPrecisionType >
 void
 BayesianClassifierInitializationImageFilter< TInputImage, TProbabilityPrecisionType >
 ::GenerateData()
@@ -285,7 +285,7 @@ BayesianClassifierInitializationImageFilter< TInputImage, TProbabilityPrecisionT
     }
 }
 
-template< class TInputImage, class TProbabilityPrecisionType >
+template< typename TInputImage, typename TProbabilityPrecisionType >
 void
 BayesianClassifierInitializationImageFilter< TInputImage, TProbabilityPrecisionType >
 ::SetMembershipFunctions(MembershipFunctionContainerType *membershipFunction)
@@ -308,7 +308,7 @@ BayesianClassifierInitializationImageFilter< TInputImage, TProbabilityPrecisionT
   this->Modified();
 }
 
-template< class TInputImage, class TProbabilityPrecisionType >
+template< typename TInputImage, typename TProbabilityPrecisionType >
 void
 BayesianClassifierInitializationImageFilter< TInputImage, TProbabilityPrecisionType >
 ::PrintSelf(std::ostream & os, Indent indent) const

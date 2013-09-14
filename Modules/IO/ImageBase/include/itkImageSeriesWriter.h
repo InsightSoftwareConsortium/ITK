@@ -78,7 +78,7 @@ public:
  * \ingroup IOFilters
  * \ingroup ITKIOImageBase
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class ITKIOImageBase_HIDDEN ImageSeriesWriter:public ProcessObject
 {
 public:

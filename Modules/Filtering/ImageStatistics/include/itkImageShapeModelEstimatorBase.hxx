@@ -23,17 +23,17 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 ImageShapeModelEstimatorBase< TInputImage, TOutputImage >
 ::ImageShapeModelEstimatorBase(void)
 {}
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 ImageShapeModelEstimatorBase< TInputImage, TOutputImage >
 ::~ImageShapeModelEstimatorBase()
 {}
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ImageShapeModelEstimatorBase< TInputImage, TOutputImage >
 ::GenerateData()
@@ -44,7 +44,7 @@ ImageShapeModelEstimatorBase< TInputImage, TOutputImage >
 /**
  * PrintSelf
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ImageShapeModelEstimatorBase< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

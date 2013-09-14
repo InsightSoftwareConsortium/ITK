@@ -30,7 +30,7 @@ namespace Functor
  * \brief bitwise AND functor
  * \ingroup ITKImageIntensity
  */
-template< class TInput1, class TInput2 = TInput1, class TOutput = TInput1 >
+template< typename TInput1, typename TInput2 = TInput1, typename TOutput = TInput1 >
 class AND
 {
 public:
@@ -77,7 +77,7 @@ public:
  * \wikiexample{ImageProcessing/AndImageFilter,Binary AND two images}
  * \endwiki
  */
-template< class TInputImage1, class TInputImage2 = TInputImage1, class TOutputImage = TInputImage1 >
+template< typename TInputImage1, typename TInputImage2 = TInputImage1, typename TOutputImage = TInputImage1 >
 class AndImageFilter:
   public
   BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage,

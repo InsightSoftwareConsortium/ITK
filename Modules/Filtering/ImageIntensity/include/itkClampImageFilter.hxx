@@ -27,30 +27,30 @@ namespace itk
 namespace Functor
 {
 
-template< class TInput, class TOutput >
+template< typename TInput, typename TOutput >
 Clamp< TInput, TOutput >
 ::Clamp() :
   m_LowerBound(NumericTraits< OutputType >::NonpositiveMin()),
   m_UpperBound(NumericTraits< OutputType >::max())
   {}
 
-template< class TInput, class TOutput >
+template< typename TInput, typename TOutput >
 Clamp< TInput, TOutput >
 ::~Clamp() {}
 
-template< class TInput, class TOutput >
+template< typename TInput, typename TOutput >
 typename Clamp< TInput, TOutput >::OutputType
 Clamp< TInput, TOutput >
 ::GetLowerBound() const
   { return m_LowerBound; }
 
-template< class TInput, class TOutput >
+template< typename TInput, typename TOutput >
 typename Clamp< TInput, TOutput >::OutputType
 Clamp< TInput, TOutput >
 ::GetUpperBound() const
   { return m_UpperBound; }
 
-template< class TInput, class TOutput >
+template< typename TInput, typename TOutput >
 void
 Clamp< TInput, TOutput >
 ::SetBounds( const OutputType lowerBound, const OutputType upperBound)
@@ -64,7 +64,7 @@ Clamp< TInput, TOutput >
   m_UpperBound = upperBound;
   }
 
-template< class TInput, class TOutput >
+template< typename TInput, typename TOutput >
 bool
 Clamp< TInput, TOutput >
 ::operator!=( const Self & other ) const
@@ -73,7 +73,7 @@ Clamp< TInput, TOutput >
     || m_LowerBound != other.m_LowerBound;
   }
 
-template< class TInput, class TOutput >
+template< typename TInput, typename TOutput >
 bool
 Clamp< TInput, TOutput >
 ::operator==( const Self & other ) const
@@ -84,11 +84,11 @@ Clamp< TInput, TOutput >
 } // end namespace Functor
 
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 ClampImageFilter< TInputImage, TOutputImage >
 ::ClampImageFilter() {}
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 typename ClampImageFilter< TInputImage, TOutputImage >::OutputPixelType
 ClampImageFilter< TInputImage, TOutputImage >
 ::GetLowerBound() const
@@ -96,7 +96,7 @@ ClampImageFilter< TInputImage, TOutputImage >
   return this->GetFunctor().GetLowerBound();
   }
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 typename ClampImageFilter< TInputImage, TOutputImage >::OutputPixelType
 ClampImageFilter< TInputImage, TOutputImage >
 ::GetUpperBound() const
@@ -104,7 +104,7 @@ ClampImageFilter< TInputImage, TOutputImage >
   return this->GetFunctor().GetUpperBound();
   }
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 void
 ClampImageFilter< TInputImage, TOutputImage >
 ::SetBounds(const OutputPixelType lowerBound, const OutputPixelType upperBound)
@@ -118,7 +118,7 @@ ClampImageFilter< TInputImage, TOutputImage >
   this->Modified();
   }
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 void
 ClampImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
@@ -138,7 +138,7 @@ ClampImageFilter< TInputImage, TOutputImage >
   Superclass::GenerateData();
   }
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 void
 ClampImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

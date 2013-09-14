@@ -41,7 +41,7 @@ namespace itk
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKMathematicalMorphology
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class GrayscaleConnectedClosingImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {

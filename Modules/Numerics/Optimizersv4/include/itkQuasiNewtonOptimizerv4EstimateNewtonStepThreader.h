@@ -24,14 +24,14 @@
 namespace itk
 {
 
-template<class TInternalComputationValueType>
+template<typename TInternalComputationValueType>
 class QuasiNewtonOptimizerv4Template;
 
 /** \class QuasiNewtonOptimizerv4EstimateNewtonStepThreaderTemplate
  * \brief Estimate the quasi-Newton step in a thread.
  * \ingroup ITKOptimizersv4
  * */
-template<class TInternalComputationValueType>
+template<typename TInternalComputationValueType>
 class QuasiNewtonOptimizerv4EstimateNewtonStepThreaderTemplate
   : public DomainThreader< ThreadedIndexedContainerPartitioner, QuasiNewtonOptimizerv4Template<TInternalComputationValueType> >
 {

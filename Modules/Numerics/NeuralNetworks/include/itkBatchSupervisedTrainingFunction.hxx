@@ -27,7 +27,7 @@ namespace itk
 namespace Statistics
 {
 
-template<class TSample, class TTargetVector, class ScalarType>
+template<typename TSample, typename TTargetVector, typename ScalarType>
 BatchSupervisedTrainingFunction<TSample,TTargetVector,ScalarType>//,f>
 ::BatchSupervisedTrainingFunction()
 {
@@ -36,14 +36,14 @@ BatchSupervisedTrainingFunction<TSample,TTargetVector,ScalarType>//,f>
   m_Stop = false; //stop condition
 }
 
-template<class TSample, class TTargetVector, class ScalarType>
+template<typename TSample, typename TTargetVector, typename ScalarType>
 void BatchSupervisedTrainingFunction<TSample,TTargetVector,ScalarType>
 ::SetNumOfIterations(SizeValueType i)
 {
   this->SetIterations(i);
 }
 
-template<class TSample, class TTargetVector, class ScalarType>
+template<typename TSample, typename TTargetVector, typename ScalarType>
 void BatchSupervisedTrainingFunction<TSample,TTargetVector,ScalarType>
 ::Train(typename BatchSupervisedTrainingFunction<TSample, TTargetVector, ScalarType>::NetworkType* net,
         TSample* samples, TTargetVector* targets)
@@ -103,7 +103,7 @@ void BatchSupervisedTrainingFunction<TSample,TTargetVector,ScalarType>
 }
 
 /** Print the object */
-template<class TSample, class TTargetVector, class ScalarType>
+template<typename TSample, typename TTargetVector, typename ScalarType>
 void
 BatchSupervisedTrainingFunction<TSample,TTargetVector,ScalarType>
 ::PrintSelf( std::ostream& os, Indent indent ) const

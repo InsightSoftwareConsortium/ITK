@@ -100,7 +100,7 @@ public:
   virtual void Graft( const DataObject* data );
 
   /** Return the label object pointer with a given id */
-  template< class TLabel >
+  template< typename TLabel >
   typename LabelObject< TLabel, VDimension >::Pointer GetAsLabelObject();
 
 protected:

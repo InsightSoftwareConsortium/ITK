@@ -44,7 +44,7 @@ namespace itk
  * \wikiexample{ImageProcessing/LinearInterpolateImageFunction,Linearly interpolate a position in an image}
  * \endwiki
  */
-template< class TInputImage, class TCoordRep = double >
+template< typename TInputImage, typename TCoordRep = double >
 class LinearInterpolateImageFunction:
   public InterpolateImageFunction< TInputImage, TCoordRep >
 {

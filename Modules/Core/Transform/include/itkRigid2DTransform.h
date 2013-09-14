@@ -53,7 +53,7 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template< class TScalar = double >
+template< typename TScalar = double >
 // Data type for scalars (float or double)
 class Rigid2DTransform :
   public MatrixOffsetTransformBase< TScalar, 2, 2 >        // Dimensions of
@@ -271,7 +271,7 @@ private:
 }; // class Rigid2DTransform
 
 // Back transform a point
-template <class TScalar>
+template <typename TScalar>
 inline
 typename Rigid2DTransform<TScalar>::InputPointType
 Rigid2DTransform<TScalar>::BackTransform(const OutputPointType & point) const
@@ -284,7 +284,7 @@ Rigid2DTransform<TScalar>::BackTransform(const OutputPointType & point) const
 }
 
 // Back transform a vector
-template <class TScalar>
+template <typename TScalar>
 inline
 typename Rigid2DTransform<TScalar>::InputVectorType
 Rigid2DTransform<TScalar>::BackTransform(const OutputVectorType & vect) const
@@ -297,7 +297,7 @@ Rigid2DTransform<TScalar>::BackTransform(const OutputVectorType & vect) const
 }
 
 // Back transform a vnl_vector
-template <class TScalar>
+template <typename TScalar>
 inline
 typename Rigid2DTransform<TScalar>::InputVnlVectorType
 Rigid2DTransform<TScalar>::BackTransform(const OutputVnlVectorType & vect) const
@@ -310,7 +310,7 @@ Rigid2DTransform<TScalar>::BackTransform(const OutputVnlVectorType & vect) const
 }
 
 // Back Transform a CovariantVector
-template <class TScalar>
+template <typename TScalar>
 inline
 typename Rigid2DTransform<TScalar>::InputCovariantVectorType
 Rigid2DTransform<TScalar>::BackTransform(const OutputCovariantVectorType & vect) const

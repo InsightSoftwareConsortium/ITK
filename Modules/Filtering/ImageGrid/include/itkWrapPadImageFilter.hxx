@@ -27,7 +27,7 @@ namespace itk
 /**
  *
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 WrapPadImageFilter< TInputImage, TOutputImage >
 ::WrapPadImageFilter()
 {

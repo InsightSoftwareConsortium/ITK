@@ -29,7 +29,7 @@ namespace itk
 /*
  * constructor
  */
-template<unsigned int TFixedDimension, unsigned int TMovingDimension, class TVirtualImage, class TInternalComputationValueType>
+template<unsigned int TFixedDimension, unsigned int TMovingDimension, typename TVirtualImage, typename TInternalComputationValueType>
 ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternalComputationValueType>
 ::ObjectToObjectMetric()
 {
@@ -45,7 +45,7 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternal
 /*
  * destructor
  */
-template<unsigned int TFixedDimension, unsigned int TMovingDimension, class TVirtualImage, class TInternalComputationValueType>
+template<unsigned int TFixedDimension, unsigned int TMovingDimension, typename TVirtualImage, typename TInternalComputationValueType>
 ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternalComputationValueType>
 ::~ObjectToObjectMetric()
 {
@@ -54,7 +54,7 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternal
 /*
  * Initialize
  */
-template<unsigned int TFixedDimension, unsigned int TMovingDimension, class TVirtualImage, class TInternalComputationValueType>
+template<unsigned int TFixedDimension, unsigned int TMovingDimension, typename TVirtualImage, typename TInternalComputationValueType>
 void
 ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternalComputationValueType>
 ::Initialize() throw ( ExceptionObject )
@@ -96,7 +96,7 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternal
 /*
  * SetTransform
  */
-template<unsigned int TFixedDimension, unsigned int TMovingDimension, class TVirtualImage, class TInternalComputationValueType>
+template<unsigned int TFixedDimension, unsigned int TMovingDimension, typename TVirtualImage, typename TInternalComputationValueType>
 void
 ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternalComputationValueType>
 ::SetTransform( MovingTransformType* transform )
@@ -107,7 +107,7 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternal
 /*
  * GetTransform
  */
-template<unsigned int TFixedDimension, unsigned int TMovingDimension, class TVirtualImage, class TInternalComputationValueType>
+template<unsigned int TFixedDimension, unsigned int TMovingDimension, typename TVirtualImage, typename TInternalComputationValueType>
 const typename ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternalComputationValueType>::MovingTransformType *
 ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternalComputationValueType>
 ::GetTransform()
@@ -118,7 +118,7 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternal
 /*
  * UpdateTransformParameters
  */
-template<unsigned int TFixedDimension, unsigned int TMovingDimension, class TVirtualImage, class TInternalComputationValueType>
+template<unsigned int TFixedDimension, unsigned int TMovingDimension, typename TVirtualImage, typename TInternalComputationValueType>
 void
 ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternalComputationValueType>
 ::UpdateTransformParameters( const DerivativeType & derivative, TInternalComputationValueType factor )
@@ -131,7 +131,7 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternal
 /*
  * GetNumberOfParameters
  */
-template<unsigned int TFixedDimension, unsigned int TMovingDimension, class TVirtualImage, class TInternalComputationValueType>
+template<unsigned int TFixedDimension, unsigned int TMovingDimension, typename TVirtualImage, typename TInternalComputationValueType>
 typename ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternalComputationValueType>::NumberOfParametersType
 ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternalComputationValueType>
 ::GetNumberOfParameters() const
@@ -142,7 +142,7 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternal
 /*
  * GetParameters
  */
-template<unsigned int TFixedDimension, unsigned int TMovingDimension, class TVirtualImage, class TInternalComputationValueType>
+template<unsigned int TFixedDimension, unsigned int TMovingDimension, typename TVirtualImage, typename TInternalComputationValueType>
 const typename ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternalComputationValueType>::ParametersType &
 ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternalComputationValueType>
 ::GetParameters() const
@@ -153,7 +153,7 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternal
 /*
  * SetParameters
  */
-template<unsigned int TFixedDimension, unsigned int TMovingDimension, class TVirtualImage, class TInternalComputationValueType>
+template<unsigned int TFixedDimension, unsigned int TMovingDimension, typename TVirtualImage, typename TInternalComputationValueType>
 void
 ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternalComputationValueType>
 ::SetParameters( ParametersType & params)
@@ -164,7 +164,7 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternal
 /*
  * GetNumberOfLocalParameters
  */
-template<unsigned int TFixedDimension, unsigned int TMovingDimension, class TVirtualImage, class TInternalComputationValueType>
+template<unsigned int TFixedDimension, unsigned int TMovingDimension, typename TVirtualImage, typename TInternalComputationValueType>
 typename ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternalComputationValueType>::NumberOfParametersType
 ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternalComputationValueType>
 ::GetNumberOfLocalParameters() const
@@ -175,7 +175,7 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternal
 /*
  * HasLocalSupport
  */
-template<unsigned int TFixedDimension, unsigned int TMovingDimension, class TVirtualImage, class TInternalComputationValueType>
+template<unsigned int TFixedDimension, unsigned int TMovingDimension, typename TVirtualImage, typename TInternalComputationValueType>
 bool
 ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternalComputationValueType>
 ::HasLocalSupport() const
@@ -183,7 +183,7 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternal
   return ( this->m_MovingTransform->GetTransformCategory() == MovingTransformType::DisplacementField );
 }
 
-template<unsigned int TFixedDimension, unsigned int TMovingDimension, class TVirtualImage, class TInternalComputationValueType>
+template<unsigned int TFixedDimension, unsigned int TMovingDimension, typename TVirtualImage, typename TInternalComputationValueType>
 bool
 ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternalComputationValueType>
 ::TransformPhysicalPointToVirtualIndex( const VirtualPointType & point, VirtualIndexType & index) const
@@ -198,7 +198,7 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternal
     }
 }
 
-template<unsigned int TFixedDimension, unsigned int TMovingDimension, class TVirtualImage, class TInternalComputationValueType>
+template<unsigned int TFixedDimension, unsigned int TMovingDimension, typename TVirtualImage, typename TInternalComputationValueType>
 void
 ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternalComputationValueType>
 ::TransformVirtualIndexToPhysicalPoint( const VirtualIndexType & index, VirtualPointType & point) const
@@ -213,7 +213,7 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternal
     }
 }
 
-template<unsigned int TFixedDimension, unsigned int TMovingDimension, class TVirtualImage, class TInternalComputationValueType>
+template<unsigned int TFixedDimension, unsigned int TMovingDimension, typename TVirtualImage, typename TInternalComputationValueType>
 void
 ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternalComputationValueType>
 ::SetVirtualDomain( const VirtualSpacingType & spacing, const VirtualOriginType & origin,
@@ -228,7 +228,7 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternal
   this->Modified();
 }
 
-template<unsigned int TFixedDimension, unsigned int TMovingDimension, class TVirtualImage, class TInternalComputationValueType>
+template<unsigned int TFixedDimension, unsigned int TMovingDimension, typename TVirtualImage, typename TInternalComputationValueType>
 void
 ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternalComputationValueType>
 ::SetVirtualDomainFromImage( VirtualImageType * virtualImage )
@@ -242,7 +242,7 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternal
     }
 }
 
-template<unsigned int TFixedDimension, unsigned int TMovingDimension, class TVirtualImage, class TInternalComputationValueType>
+template<unsigned int TFixedDimension, unsigned int TMovingDimension, typename TVirtualImage, typename TInternalComputationValueType>
 void
 ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternalComputationValueType>
 ::SetVirtualDomainFromImage( const VirtualImageType * virtualImage )
@@ -250,7 +250,7 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternal
   this->SetVirtualDomainFromImage( const_cast<VirtualImageType*>( virtualImage ) );
 }
 
-template<unsigned int TFixedDimension, unsigned int TMovingDimension, class TVirtualImage, class TInternalComputationValueType>
+template<unsigned int TFixedDimension, unsigned int TMovingDimension, typename TVirtualImage, typename TInternalComputationValueType>
 const TimeStamp&
 ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternalComputationValueType>
 ::GetVirtualDomainTimeStamp( void ) const
@@ -270,7 +270,7 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternal
     }
 }
 
-template<unsigned int TFixedDimension, unsigned int TMovingDimension, class TVirtualImage, class TInternalComputationValueType>
+template<unsigned int TFixedDimension, unsigned int TMovingDimension, typename TVirtualImage, typename TInternalComputationValueType>
 bool
 ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternalComputationValueType>
 ::IsInsideVirtualDomain( const VirtualPointType & point ) const
@@ -287,7 +287,7 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternal
   return true;
 }
 
-template<unsigned int TFixedDimension, unsigned int TMovingDimension, class TVirtualImage, class TInternalComputationValueType>
+template<unsigned int TFixedDimension, unsigned int TMovingDimension, typename TVirtualImage, typename TInternalComputationValueType>
 bool
 ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternalComputationValueType>
 ::IsInsideVirtualDomain( const VirtualIndexType & index ) const
@@ -302,7 +302,7 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternal
   return true;
 }
 
-template<unsigned int TFixedDimension, unsigned int TMovingDimension, class TVirtualImage, class TInternalComputationValueType>
+template<unsigned int TFixedDimension, unsigned int TMovingDimension, typename TVirtualImage, typename TInternalComputationValueType>
 OffsetValueType
 ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternalComputationValueType>
 ::ComputeParameterOffsetFromVirtualPoint( const VirtualPointType & point, const NumberOfParametersType & numberOfLocalParameters ) const
@@ -322,7 +322,7 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternal
     }
 }
 
-template<unsigned int TFixedDimension, unsigned int TMovingDimension, class TVirtualImage, class TInternalComputationValueType>
+template<unsigned int TFixedDimension, unsigned int TMovingDimension, typename TVirtualImage, typename TInternalComputationValueType>
 OffsetValueType
 ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternalComputationValueType>
 ::ComputeParameterOffsetFromVirtualIndex( const VirtualIndexType & index, const NumberOfParametersType & numberOfLocalParameters ) const
@@ -338,7 +338,7 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternal
     }
 }
 
-template<unsigned int TFixedDimension, unsigned int TMovingDimension, class TVirtualImage, class TInternalComputationValueType>
+template<unsigned int TFixedDimension, unsigned int TMovingDimension, typename TVirtualImage, typename TInternalComputationValueType>
 typename ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternalComputationValueType>::VirtualSpacingType
 ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternalComputationValueType>
 ::GetVirtualSpacing( void ) const
@@ -355,7 +355,7 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternal
     }
 }
 
-template<unsigned int TFixedDimension, unsigned int TMovingDimension, class TVirtualImage, class TInternalComputationValueType>
+template<unsigned int TFixedDimension, unsigned int TMovingDimension, typename TVirtualImage, typename TInternalComputationValueType>
 typename ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternalComputationValueType>::VirtualDirectionType
 ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternalComputationValueType>
 ::GetVirtualDirection( void ) const
@@ -372,7 +372,7 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternal
     }
 }
 
-template<unsigned int TFixedDimension, unsigned int TMovingDimension, class TVirtualImage, class TInternalComputationValueType>
+template<unsigned int TFixedDimension, unsigned int TMovingDimension, typename TVirtualImage, typename TInternalComputationValueType>
 typename ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternalComputationValueType>::VirtualOriginType
 ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternalComputationValueType>
 ::GetVirtualOrigin( void ) const
@@ -389,7 +389,7 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternal
     }
 }
 
-template<unsigned int TFixedDimension, unsigned int TMovingDimension, class TVirtualImage, class TInternalComputationValueType>
+template<unsigned int TFixedDimension, unsigned int TMovingDimension, typename TVirtualImage, typename TInternalComputationValueType>
 const typename ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternalComputationValueType>::VirtualRegionType &
 ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternalComputationValueType>
 ::GetVirtualRegion( void ) const
@@ -404,7 +404,7 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternal
     }
 }
 
-template<unsigned int TFixedDimension, unsigned int TMovingDimension, class TVirtualImage, class TInternalComputationValueType>
+template<unsigned int TFixedDimension, unsigned int TMovingDimension, typename TVirtualImage, typename TInternalComputationValueType>
 typename ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternalComputationValueType>::MovingDisplacementFieldTransformType *
 ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternalComputationValueType>
 ::GetMovingDisplacementFieldTransform() const
@@ -425,7 +425,7 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternal
   return deftx;
 }
 
-template<unsigned int TFixedDimension, unsigned int TMovingDimension, class TVirtualImage, class TInternalComputationValueType>
+template<unsigned int TFixedDimension, unsigned int TMovingDimension, typename TVirtualImage, typename TInternalComputationValueType>
 void
 ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternalComputationValueType>
 ::VerifyDisplacementFieldSizeAndPhysicalSpace()
@@ -489,7 +489,7 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternal
     }
 }
 
-template<unsigned int TFixedDimension, unsigned int TMovingDimension, class TVirtualImage, class TInternalComputationValueType>
+template<unsigned int TFixedDimension, unsigned int TMovingDimension, typename TVirtualImage, typename TInternalComputationValueType>
 bool
 ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternalComputationValueType>
 ::VerifyNumberOfValidPoints( MeasureType & value, DerivativeType & derivative) const
@@ -508,7 +508,7 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternal
   return true;
 }
 
-template<unsigned int TFixedDimension, unsigned int TMovingDimension, class TVirtualImage, class TInternalComputationValueType>
+template<unsigned int TFixedDimension, unsigned int TMovingDimension, typename TVirtualImage, typename TInternalComputationValueType>
 void
 ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternalComputationValueType>
 ::PrintSelf(std::ostream& os, Indent indent) const

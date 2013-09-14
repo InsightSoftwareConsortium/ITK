@@ -25,7 +25,7 @@ namespace itk
 // Computes the foreground constant and background constant value. For the Dense
 // image filter, this is called prior to the start of every iteration. For the
 // sparse filter, this is only called one during initialization.
-template< class TInputImage, class TFeatureImage, class TSharedData >
+template< typename TInputImage, typename TFeatureImage, typename TSharedData >
 void
 ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
 ::UpdateSharedDataParameters()
@@ -58,7 +58,7 @@ ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
 // update the foreground constant for pixel updates
 // Called only when sparse filters are used to prevent iteration through the
 // entire image
-template< class TInputImage, class TFeatureImage, class TSharedData >
+template< typename TInputImage, typename TFeatureImage, typename TSharedData >
 void
 ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
 ::UpdateSharedDataInsideParameters(const unsigned int & iId,
@@ -73,7 +73,7 @@ ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
 // update the background constant for pixel updates
 // Called only when sparse filters are used to prevent iteration through the
 // entire image
-template< class TInputImage, class TFeatureImage, class TSharedData >
+template< typename TInputImage, typename TFeatureImage, typename TSharedData >
 void
 ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
 ::UpdateSharedDataOutsideParameters(const unsigned int & iId,
@@ -87,7 +87,7 @@ ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
 the optimization, it is called once at the beginning of the code, and then the
 cNum and cDen are updated during the evolution without iterating through the
 entire image. */
-template< class TInputImage, class TFeatureImage, class TSharedData >
+template< typename TInputImage, typename TFeatureImage, typename TSharedData >
 void
 ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
 ::ComputeParameters()
@@ -144,7 +144,7 @@ ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
     }
 }
 
-template< class TInputImage, class TFeatureImage, class TSharedData >
+template< typename TInputImage, typename TFeatureImage, typename TSharedData >
 typename ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
 ::ScalarValueType
 ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage, TSharedData >::ComputeInternalTerm(
@@ -159,7 +159,7 @@ ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage, TSharedData >::Co
   return t * t;
 }
 
-template< class TInputImage, class TFeatureImage, class TSharedData >
+template< typename TInputImage, typename TFeatureImage, typename TSharedData >
 typename ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
 ::ScalarValueType
 ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage, TSharedData >

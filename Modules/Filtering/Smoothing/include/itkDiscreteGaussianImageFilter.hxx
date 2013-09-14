@@ -27,7 +27,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 DiscreteGaussianImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
@@ -112,7 +112,7 @@ throw( InvalidRequestedRegionError )
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 DiscreteGaussianImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
@@ -328,7 +328,7 @@ DiscreteGaussianImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 DiscreteGaussianImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

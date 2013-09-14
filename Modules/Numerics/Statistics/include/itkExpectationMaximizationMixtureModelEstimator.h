@@ -57,7 +57,7 @@ namespace Statistics
  * \endwiki
  */
 
-template< class TSample >
+template< typename TSample >
 class ExpectationMaximizationMixtureModelEstimator:public Object
 {
 public:

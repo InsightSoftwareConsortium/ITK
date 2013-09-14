@@ -48,7 +48,7 @@ public:
 }
 
 // Template function to fill in an image with a circle.
-template <class TImage>
+template <typename TImage>
 void
 FillWithCircle(
 TImage * image,
@@ -82,7 +82,7 @@ typename TImage::PixelType backgnd )
 
 
 // Template function to copy image regions
-template <class TImage>
+template <typename TImage>
 void
 CopyImageBuffer(
 TImage *input,

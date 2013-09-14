@@ -51,7 +51,7 @@ namespace itk
  *
  * \ingroup ITKQuadEdgeMesh
  */
-template< class TMesh, class TOutput >
+template< typename TMesh, typename TOutput >
 class QuadEdgeMeshFunctionBase:public Object
 {
 public:

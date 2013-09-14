@@ -82,7 +82,7 @@ namespace itk
  * \ingroup ClassificationFilters
  * \ingroup ITKClassifiers
  */
-template< class TDataContainer >
+template< typename TDataContainer >
 class ClassifierBase:public LightProcessObject
 {
 public:

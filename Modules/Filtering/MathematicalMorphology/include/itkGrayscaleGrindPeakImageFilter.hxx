@@ -37,7 +37,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 GrayscaleGrindPeakImageFilter< TInputImage, TOutputImage >
 ::GrayscaleGrindPeakImageFilter():
   m_NumberOfIterationsUsed(1)
@@ -45,7 +45,7 @@ GrayscaleGrindPeakImageFilter< TInputImage, TOutputImage >
   m_FullyConnected = false;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 GrayscaleGrindPeakImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
@@ -61,7 +61,7 @@ GrayscaleGrindPeakImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 GrayscaleGrindPeakImageFilter< TInputImage, TOutputImage >
 ::EnlargeOutputRequestedRegion(DataObject *)
@@ -70,7 +70,7 @@ GrayscaleGrindPeakImageFilter< TInputImage, TOutputImage >
   ->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 GrayscaleGrindPeakImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
@@ -154,7 +154,7 @@ GrayscaleGrindPeakImageFilter< TInputImage, TOutputImage >
   this->GraftOutput( dilate->GetOutput() );
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 GrayscaleGrindPeakImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

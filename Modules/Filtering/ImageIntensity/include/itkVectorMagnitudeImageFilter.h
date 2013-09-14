@@ -43,7 +43,7 @@ namespace itk
 
 namespace Functor
 {
-template< class TInput, class TOutput >
+template< typename TInput, typename TOutput >
 class VectorMagnitude
 {
 public:
@@ -67,7 +67,7 @@ public:
 };
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class VectorMagnitudeImageFilter:
   public
   UnaryFunctorImageFilter< TInputImage, TOutputImage,

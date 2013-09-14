@@ -43,7 +43,7 @@ namespace itk
  *
  * \ingroup ITKMesh
  */
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 class MeshToMeshFilter:public MeshSource< TOutputMesh >
 {
 public:

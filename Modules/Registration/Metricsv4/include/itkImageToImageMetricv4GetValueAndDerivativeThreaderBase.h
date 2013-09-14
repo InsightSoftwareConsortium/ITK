@@ -40,7 +40,7 @@ namespace itk
  *  ProcessVirtualPoint calls \c ProcessPoint on each point.
  *
  * \ingroup ITKMetricsv4 */
-template < class TDomainPartitioner, class TImageToImageMetricv4 >
+template < typename TDomainPartitioner, typename TImageToImageMetricv4 >
 class ImageToImageMetricv4GetValueAndDerivativeThreaderBase
   : public DomainThreader< TDomainPartitioner, TImageToImageMetricv4 >
 {

@@ -27,7 +27,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage, class TFunctor, class TMaskImage >
+template< typename TInputImage, typename TOutputImage, typename TFunctor, typename TMaskImage >
 void
 ConnectedComponentFunctorImageFilter< TInputImage, TOutputImage, TFunctor, TMaskImage >
 ::GenerateData()

@@ -27,7 +27,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 GPUDiscreteGaussianImageFilter< TInputImage, TOutputImage >
 ::GPUDiscreteGaussianImageFilter()
 {
@@ -63,7 +63,7 @@ GPUDiscreteGaussianImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 GPUDiscreteGaussianImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
@@ -74,7 +74,7 @@ throw( InvalidRequestedRegionError )
   CPUSuperclass::GenerateInputRequestedRegion();
   }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 GPUDiscreteGaussianImageFilter< TInputImage, TOutputImage >
 ::GPUGenerateData()
@@ -299,7 +299,7 @@ GPUDiscreteGaussianImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 GPUDiscreteGaussianImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

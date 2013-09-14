@@ -33,7 +33,7 @@ namespace itk
  *
  */
 
-template< class TRegion, class TLine >
+template< typename TRegion, typename TLine >
 bool NeedToDoFace(const TRegion AllImage,
                   const TRegion face,
                   const TLine line)
@@ -75,7 +75,7 @@ bool NeedToDoFace(const TRegion AllImage,
   return ( false );
 }
 
-template< class TImage, class TBres, class TLine >
+template< typename TImage, typename TBres, typename TLine >
 int ComputeStartEnd(const typename TImage::IndexType StartIndex,
                     const TLine line,
                     const float tol,
@@ -238,7 +238,7 @@ int ComputeStartEnd(const typename TImage::IndexType StartIndex,
   return ( 1 );
 }
 
-template< class TImage, class TBres >
+template< typename TImage, typename TBres >
 void CopyLineToImage(const typename TImage::Pointer output,
                      const typename TImage::IndexType StartIndex,
                      const typename TBres::OffsetArray LineOffsets,
@@ -256,7 +256,7 @@ void CopyLineToImage(const typename TImage::Pointer output,
     }
 }
 
-template< class TInputImage, class TLine >
+template< typename TInputImage, typename TLine >
 typename TInputImage::RegionType
 MakeEnlargedFace(const typename TInputImage::ConstPointer itkNotUsed(input),
                  const typename TInputImage::RegionType AllImage,
@@ -383,7 +383,7 @@ MakeEnlargedFace(const typename TInputImage::ConstPointer itkNotUsed(input),
   return RelevantRegion;
 }
 
-template< class TImage, class TBres, class TLine >
+template< typename TImage, typename TBres, typename TLine >
 int FillLineBuffer(typename TImage::ConstPointer input,
                    const typename TImage::IndexType StartIndex,
                    const TLine line,  // unit vector
@@ -407,7 +407,7 @@ int FillLineBuffer(typename TImage::ConstPointer input,
   return ( 1 );
 }
 
-template< class TLine >
+template< typename TLine >
 unsigned int GetLinePixels(const TLine line)
 {
   float N = line.GetNorm();

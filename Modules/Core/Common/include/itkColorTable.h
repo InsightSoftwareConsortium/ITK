@@ -36,7 +36,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 
-template< class TPixel >
+template< typename TPixel >
 class ColorTable:public Object
 {
 public:

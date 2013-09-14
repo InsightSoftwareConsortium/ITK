@@ -41,7 +41,7 @@ namespace itk
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKLabelMap
  */
-template< class TInputImage, class TFeatureImage >
+template< typename TInputImage, typename TFeatureImage >
 class StatisticsRelabelImageFilter:
   public ImageToImageFilter< TInputImage, TInputImage >
 {

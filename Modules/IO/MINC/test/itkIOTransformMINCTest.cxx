@@ -27,7 +27,7 @@
 #include "itkDisplacementFieldTransform.h"
 #include "itkIOTestHelper.h"
 
-template<class T>void RandomPix(vnl_random &randgen,itk::Vector<T,3> &pix,
+template<typename T>void RandomPix(vnl_random &randgen,itk::Vector<T,3> &pix,
                       double _max=itk::NumericTraits<T>::max() )
 {
   for(unsigned int i = 0; i < 3; i++)

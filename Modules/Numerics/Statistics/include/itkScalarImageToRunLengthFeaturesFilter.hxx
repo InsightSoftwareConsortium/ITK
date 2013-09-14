@@ -26,7 +26,7 @@ namespace itk
 {
 namespace Statistics
 {
-template<class TImage, class THistogramFrequencyContainer>
+template<typename TImage, typename THistogramFrequencyContainer>
 ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
 ::ScalarImageToRunLengthFeaturesFilter()
 {
@@ -90,7 +90,7 @@ ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
   this->m_FastCalculations = false;
 }
 
-template<class TImage, class THistogramFrequencyContainer>
+template<typename TImage, typename THistogramFrequencyContainer>
 typename
 ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
 ::DataObjectPointer
@@ -100,7 +100,7 @@ ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
   return FeatureValueVectorDataObjectType::New().GetPointer();
 }
 
-template<class TImage, class THistogramFrequencyContainer>
+template<typename TImage, typename THistogramFrequencyContainer>
 void
 ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
 ::GenerateData(void)
@@ -115,7 +115,7 @@ ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
     }
 }
 
-template<class TImage, class THistogramFrequencyContainer>
+template<typename TImage, typename THistogramFrequencyContainer>
 void
 ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
 ::FullCompute()
@@ -221,7 +221,7 @@ ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
   delete[] features;
 }
 
-template<class TImage, class THistogramFrequencyContainer>
+template<typename TImage, typename THistogramFrequencyContainer>
 void
 ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
 ::FastCompute()
@@ -259,7 +259,7 @@ ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
   standardDeviationOutputObject->Set( this->m_FeatureStandardDeviations );
 }
 
-template<class TImage, class THistogramFrequencyContainer>
+template<typename TImage, typename THistogramFrequencyContainer>
 void
 ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
 ::SetInput( const ImageType *image )
@@ -271,7 +271,7 @@ ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
   this->m_RunLengthMatrixGenerator->SetInput( image );
 }
 
-template<class TImage, class THistogramFrequencyContainer>
+template<typename TImage, typename THistogramFrequencyContainer>
 void
 ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
 ::SetNumberOfBinsPerAxis( unsigned int numberOfBins )
@@ -281,7 +281,7 @@ ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
   this->Modified();
 }
 
-template<class TImage, class THistogramFrequencyContainer>
+template<typename TImage, typename THistogramFrequencyContainer>
 void
 ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
 ::SetPixelValueMinMax( PixelType min, PixelType max )
@@ -291,7 +291,7 @@ ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
   this->Modified();
 }
 
-template<class TImage, class THistogramFrequencyContainer>
+template<typename TImage, typename THistogramFrequencyContainer>
 void
 ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
 ::SetDistanceValueMinMax( double min, double max )
@@ -301,7 +301,7 @@ ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
   this->Modified();
 }
 
-template<class TImage, class THistogramFrequencyContainer>
+template<typename TImage, typename THistogramFrequencyContainer>
 void
 ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
 ::SetMaskImage( const ImageType *image )
@@ -313,7 +313,7 @@ ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
   this->m_RunLengthMatrixGenerator->SetMaskImage( image );
 }
 
-template<class TImage, class THistogramFrequencyContainer>
+template<typename TImage, typename THistogramFrequencyContainer>
 const TImage *
 ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
 ::GetInput() const
@@ -325,7 +325,7 @@ ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
   return static_cast<const ImageType *>( this->ProcessObject::GetInput( 0 ) );
 }
 
-template<class TImage, class THistogramFrequencyContainer>
+template<typename TImage, typename THistogramFrequencyContainer>
 const typename
 ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
 ::FeatureValueVectorDataObjectType *
@@ -336,7 +336,7 @@ ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
     (this->ProcessObject::GetOutput( 0 ) );
 }
 
-template<class TImage, class THistogramFrequencyContainer>
+template<typename TImage, typename THistogramFrequencyContainer>
 const typename
 ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
 ::FeatureValueVectorDataObjectType *
@@ -347,7 +347,7 @@ ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
     ( this->ProcessObject::GetOutput( 1 ) );
 }
 
-template<class TImage, class THistogramFrequencyContainer>
+template<typename TImage, typename THistogramFrequencyContainer>
 const TImage *
 ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
 ::GetMaskImage() const
@@ -359,7 +359,7 @@ ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
   return static_cast< const ImageType *>( this->ProcessObject::GetInput( 1 ) );
 }
 
-template<class TImage, class THistogramFrequencyContainer>
+template<typename TImage, typename THistogramFrequencyContainer>
 void
 ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
 ::SetInsidePixelValue( PixelType insidePixelValue )
@@ -369,7 +369,7 @@ ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
   this->Modified();
 }
 
-template<class TImage, class THistogramFrequencyContainer>
+template<typename TImage, typename THistogramFrequencyContainer>
 void
 ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
 ::PrintSelf(std::ostream & os, Indent indent) const

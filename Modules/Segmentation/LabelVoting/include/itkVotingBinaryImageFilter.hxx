@@ -30,7 +30,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 VotingBinaryImageFilter< TInputImage, TOutputImage >
 ::VotingBinaryImageFilter()
 {
@@ -41,7 +41,7 @@ VotingBinaryImageFilter< TInputImage, TOutputImage >
   m_SurvivalThreshold = 1;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 VotingBinaryImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
@@ -91,7 +91,7 @@ throw ( InvalidRequestedRegionError )
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 VotingBinaryImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
@@ -165,7 +165,7 @@ VotingBinaryImageFilter< TInputImage, TOutputImage >
 /**
  * Standard "PrintSelf" method
  */
-template< class TInputImage, class TOutput >
+template< typename TInputImage, typename TOutput >
 void
 VotingBinaryImageFilter< TInputImage, TOutput >
 ::PrintSelf(

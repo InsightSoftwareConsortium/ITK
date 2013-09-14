@@ -28,7 +28,7 @@ namespace itk
 {
 
 // Constructor with default arguments
-template <class TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
+template <typename TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
 BSplineBaseTransform<TScalar, NDimensions, VSplineOrder>
 ::BSplineBaseTransform() : Superclass( 0 ),
   m_CoefficientImages( this->ArrayOfImagePointerGeneratorHelper() )
@@ -40,7 +40,7 @@ BSplineBaseTransform<TScalar, NDimensions, VSplineOrder>
 }
 
 // Destructor
-template <class TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
+template <typename TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
 BSplineBaseTransform<TScalar, NDimensions, VSplineOrder>
 ::~BSplineBaseTransform()
 {
@@ -48,7 +48,7 @@ BSplineBaseTransform<TScalar, NDimensions, VSplineOrder>
 
 
 // Set the parameters
-template <class TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
+template <typename TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
 void
 BSplineBaseTransform<TScalar, NDimensions, VSplineOrder>
 ::SetIdentity()
@@ -64,7 +64,7 @@ BSplineBaseTransform<TScalar, NDimensions, VSplineOrder>
 }
 
 // Set the parameters
-template <class TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
+template <typename TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
 void
 BSplineBaseTransform<TScalar, NDimensions, VSplineOrder>
 ::SetParameters( const ParametersType & parameters )
@@ -98,7 +98,7 @@ BSplineBaseTransform<TScalar, NDimensions, VSplineOrder>
 }
 
 // Set the parameters by value
-template <class TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
+template <typename TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
 void
 BSplineBaseTransform<TScalar, NDimensions, VSplineOrder>
 ::SetParametersByValue( const ParametersType & parameters )
@@ -118,7 +118,7 @@ BSplineBaseTransform<TScalar, NDimensions, VSplineOrder>
 }
 
 
-template <class TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
+template <typename TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
 void
 BSplineBaseTransform<TScalar, NDimensions, VSplineOrder>
 ::SetFixedParametersFromTransformDomainInformation() const
@@ -143,7 +143,7 @@ BSplineBaseTransform<TScalar, NDimensions, VSplineOrder>
 /**
  * UpdateTransformParameters
  */
-template <class TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
+template <typename TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
 void
 BSplineBaseTransform<TScalar, NDimensions, VSplineOrder>
 ::UpdateTransformParameters( const DerivativeType & update, TScalar factor )
@@ -196,7 +196,7 @@ BSplineBaseTransform<TScalar, NDimensions, VSplineOrder>
 }
 
 // Wrap flat parameters as images
-template <class TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
+template <typename TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
 void
 BSplineBaseTransform<TScalar, NDimensions, VSplineOrder>
 ::WrapAsImages()
@@ -217,7 +217,7 @@ BSplineBaseTransform<TScalar, NDimensions, VSplineOrder>
 }
 
 // Get the parameters
-template <class TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
+template <typename TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
 const typename BSplineBaseTransform<TScalar, NDimensions, VSplineOrder>::ParametersType &
 BSplineBaseTransform<TScalar, NDimensions, VSplineOrder>
 ::GetParameters() const
@@ -226,7 +226,7 @@ BSplineBaseTransform<TScalar, NDimensions, VSplineOrder>
 }
 
 // Get the parameters
-template <class TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
+template <typename TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
 const typename BSplineBaseTransform<TScalar, NDimensions, VSplineOrder>::ParametersType &
 BSplineBaseTransform<TScalar, NDimensions, VSplineOrder>
 ::GetFixedParameters() const
@@ -238,7 +238,7 @@ BSplineBaseTransform<TScalar, NDimensions, VSplineOrder>
 }
 
 // Print self
-template <class TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
+template <typename TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
 void
 BSplineBaseTransform<TScalar, NDimensions, VSplineOrder>
 ::PrintSelf( std::ostream & os, Indent indent ) const
@@ -256,7 +256,7 @@ BSplineBaseTransform<TScalar, NDimensions, VSplineOrder>
 
 
 /** Get Jacobian at a point. A very specialized function just for BSplines */
-template <class TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
+template <typename TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
 void
 BSplineBaseTransform<TScalar, NDimensions, VSplineOrder>
 ::ComputeJacobianFromBSplineWeightsWithRespectToPosition(
@@ -304,7 +304,7 @@ BSplineBaseTransform<TScalar, NDimensions, VSplineOrder>
     }
 }
 
-template <class TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
+template <typename TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
 unsigned int
 BSplineBaseTransform<TScalar, NDimensions, VSplineOrder>
 ::GetNumberOfAffectedWeights() const
@@ -314,7 +314,7 @@ BSplineBaseTransform<TScalar, NDimensions, VSplineOrder>
 
 // This helper class is used to work around a race condition where the dynamically
 // generated images must exist before the references to the sub-sections are created.
-template <class TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
+template <typename TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
 typename BSplineBaseTransform<TScalar, NDimensions, VSplineOrder>::CoefficientImageArray
 BSplineBaseTransform<TScalar, NDimensions, VSplineOrder>
 ::ArrayOfImagePointerGeneratorHelper(void) const
@@ -329,7 +329,7 @@ BSplineBaseTransform<TScalar, NDimensions, VSplineOrder>
 }
 
 // Transform a point
-template <class TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
+template <typename TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
 typename BSplineBaseTransform<TScalar, NDimensions, VSplineOrder>
 ::OutputPointType
 BSplineBaseTransform<TScalar, NDimensions, VSplineOrder>

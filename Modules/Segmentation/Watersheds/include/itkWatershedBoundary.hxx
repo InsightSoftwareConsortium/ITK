@@ -26,7 +26,7 @@ namespace itk
 {
 namespace watershed
 {
-template< class TScalar, unsigned int TDimension >
+template< typename TScalar, unsigned int TDimension >
 Boundary< TScalar, TDimension >
 ::Boundary()
 {
@@ -57,7 +57,7 @@ Boundary< TScalar, TDimension >
     }
 }
 
-template< class TScalar,  unsigned int TDimension >
+template< typename TScalar,  unsigned int TDimension >
 void
 Boundary< TScalar, TDimension >
 ::PrintSelf(std::ostream & os, Indent indent) const

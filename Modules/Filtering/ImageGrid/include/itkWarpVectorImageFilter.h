@@ -85,9 +85,9 @@ namespace itk
  * \ingroup ITKImageGrid
  */
 template<
-  class TInputImage,
-  class TOutputImage,
-  class TDisplacementField
+  typename TInputImage,
+  typename TOutputImage,
+  typename TDisplacementField
   >
 class WarpVectorImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >

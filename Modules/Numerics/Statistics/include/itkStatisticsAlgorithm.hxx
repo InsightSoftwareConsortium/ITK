@@ -27,7 +27,7 @@ namespace Statistics
 {
 namespace Algorithm
 {
-template< class TSize >
+template< typename TSize >
 inline TSize FloorLog(TSize size)
 {
   TSize k;
@@ -45,7 +45,7 @@ inline TSize FloorLog(TSize size)
  * of such values. Implemented following the description of the partition
  * algorithm in the QuickSelect entry of the Wikipedia.
  * http://en.wikipedia.org/wiki/Selection_algorithm. */
-template< class TSubsample >
+template< typename TSubsample >
 inline int Partition(TSubsample *sample,
                      unsigned int activeDimension,
                      int beginIndex, int endIndex,
@@ -209,7 +209,7 @@ inline int Partition(TSubsample *sample,
   return storeIndex;
 }
 
-template< class TValue >
+template< typename TValue >
 inline TValue MedianOfThree(const TValue a,
                             const TValue b,
                             const TValue c)
@@ -243,7 +243,7 @@ inline TValue MedianOfThree(const TValue a,
     }
 }
 
-template< class TSample >
+template< typename TSample >
 inline void FindSampleBound(const TSample *sample,
                             typename TSample::ConstIterator begin,
                             typename TSample::ConstIterator end,
@@ -298,7 +298,7 @@ inline void FindSampleBound(const TSample *sample,
 }
 
 /** The endIndex should points one point after the last elements. */
-template< class TSubsample >
+template< typename TSubsample >
 inline void
 FindSampleBoundAndMean(const TSubsample *sample,
                        int beginIndex,
@@ -363,7 +363,7 @@ FindSampleBoundAndMean(const TSubsample *sample,
  * it is possible to feed this function with beginIndex=15, endIndex=23, and
  * kth=3, since we can ask for the element 3rd in the range [15,23]. */
 
-template< class TSubsample >
+template< typename TSubsample >
 inline typename TSubsample::MeasurementType
 QuickSelect(TSubsample *sample,
             unsigned int activeDimension,
@@ -446,7 +446,7 @@ QuickSelect(TSubsample *sample,
   return sample->GetMeasurementVectorByIndex(kthIndex)[activeDimension];
 }
 
-template< class TSubsample >
+template< typename TSubsample >
 inline typename TSubsample::MeasurementType
 QuickSelect(TSubsample *sample,
             unsigned int activeDimension,
@@ -461,7 +461,7 @@ QuickSelect(TSubsample *sample,
 }
 
 
-template< class TSubsample >
+template< typename TSubsample >
 inline int UnguardedPartition(TSubsample *sample,
                               unsigned int activeDimension,
                               int beginIndex,
@@ -502,7 +502,7 @@ inline int UnguardedPartition(TSubsample *sample,
     ++beginIndex;
     }
 }
-template< class TSubsample >
+template< typename TSubsample >
 inline typename TSubsample::MeasurementType
 NthElement(TSubsample *sample,
            unsigned int activeDimension,
@@ -547,7 +547,7 @@ NthElement(TSubsample *sample,
   return sample->GetMeasurementVectorByIndex(nthIndex)[activeDimension];
 }
 
-template< class TSubsample >
+template< typename TSubsample >
 inline void InsertSort(TSubsample *sample,
                        unsigned int activeDimension,
                        int beginIndex,
@@ -580,7 +580,7 @@ inline void InsertSort(TSubsample *sample,
     }
 }
 
-template< class TSubsample >
+template< typename TSubsample >
 inline void DownHeap(TSubsample *sample,
                      unsigned int activeDimension,
                      int beginIndex, int endIndex, int node)
@@ -635,7 +635,7 @@ inline void DownHeap(TSubsample *sample,
     }
 }
 
-template< class TSubsample >
+template< typename TSubsample >
 inline void HeapSort(TSubsample *sample,
                      unsigned int activeDimension,
                      int beginIndex,
@@ -662,7 +662,7 @@ inline void HeapSort(TSubsample *sample,
     }
 }
 
-template< class TSubsample >
+template< typename TSubsample >
 inline void IntrospectiveSortLoop(TSubsample *sample,
                                   unsigned int activeDimension,
                                   int beginIndex,
@@ -698,7 +698,7 @@ inline void IntrospectiveSortLoop(TSubsample *sample,
     }
 }
 
-template< class TSubsample >
+template< typename TSubsample >
 inline void IntrospectiveSort(TSubsample *sample,
                               unsigned int activeDimension,
                               int beginIndex,

@@ -186,7 +186,7 @@ private:
   VisualizationType::Pointer m_Visualizer;
 };
 
-template< class TInputImage, class TLevelSetType >
+template< typename TInputImage, typename TLevelSetType >
 void
 visualizeLevelSet( TInputImage * inputImage,
   const int numberOfIterations,

@@ -25,7 +25,7 @@
 namespace itk
 {
 // ---------------------------------------------------------------------
-template< class TCellInterface >
+template< typename TCellInterface >
 QuadEdgeMeshPolygonCell< TCellInterface >
 ::QuadEdgeMeshPolygonCell(PointIdentifier nPoints)
 {
@@ -55,7 +55,7 @@ QuadEdgeMeshPolygonCell< TCellInterface >
 }
 
 // ---------------------------------------------------------------------
-template< class TCellInterface >
+template< typename TCellInterface >
 QuadEdgeMeshPolygonCell< TCellInterface >
 ::QuadEdgeMeshPolygonCell(QuadEdgeType *e)
 {
@@ -66,7 +66,7 @@ QuadEdgeMeshPolygonCell< TCellInterface >
 }
 
 // ---------------------------------------------------------------------
-template< class TCellInterface >
+template< typename TCellInterface >
 QuadEdgeMeshPolygonCell< TCellInterface >
 ::~QuadEdgeMeshPolygonCell()
 {
@@ -96,7 +96,7 @@ QuadEdgeMeshPolygonCell< TCellInterface >
 }
 
 // ---------------------------------------------------------------------
-template< class TCellInterface >
+template< typename TCellInterface >
 typename QuadEdgeMeshPolygonCell< TCellInterface >::SelfAutoPointer
 QuadEdgeMeshPolygonCell< TCellInterface >
 ::New()
@@ -108,7 +108,7 @@ QuadEdgeMeshPolygonCell< TCellInterface >
 }
 
 // ---------------------------------------------------------------------
-template< class TCellInterface >
+template< typename TCellInterface >
 void QuadEdgeMeshPolygonCell< TCellInterface >
 ::Accept(CellIdentifier cellId, MultiVisitor *mv)
 {
@@ -121,7 +121,7 @@ void QuadEdgeMeshPolygonCell< TCellInterface >
 }
 
 // ---------------------------------------------------------------------
-template< class TCellInterface >
+template< typename TCellInterface >
 unsigned int QuadEdgeMeshPolygonCell< TCellInterface >
 ::GetNumberOfPoints() const
 {
@@ -147,7 +147,7 @@ unsigned int QuadEdgeMeshPolygonCell< TCellInterface >
 }
 
 // ---------------------------------------------------------------------
-template< class TCellInterface >
+template< typename TCellInterface >
 typename QuadEdgeMeshPolygonCell< TCellInterface >::CellFeatureCount
 QuadEdgeMeshPolygonCell< TCellInterface >
 ::GetNumberOfBoundaryFeatures(int dimension) const
@@ -164,7 +164,7 @@ QuadEdgeMeshPolygonCell< TCellInterface >
 }
 
 // ---------------------------------------------------------------------
-template< class TCellInterface >
+template< typename TCellInterface >
 bool QuadEdgeMeshPolygonCell< TCellInterface >
 ::GetBoundaryFeature(int dimension, CellFeatureIdentifier cellId, CellAutoPointer & cell)
 {
@@ -176,7 +176,7 @@ bool QuadEdgeMeshPolygonCell< TCellInterface >
 }
 
 // ---------------------------------------------------------------------
-template< class TCellInterface >
+template< typename TCellInterface >
 void
 QuadEdgeMeshPolygonCell< TCellInterface >
 ::SetPointIds(PointIdConstIterator first)
@@ -197,7 +197,7 @@ QuadEdgeMeshPolygonCell< TCellInterface >
 }
 
 // ---------------------------------------------------------------------
-template< class TCellInterface >
+template< typename TCellInterface >
 void
 QuadEdgeMeshPolygonCell< TCellInterface >
 ::InternalSetPointIds(PointIdInternalConstIterator first)
@@ -218,7 +218,7 @@ QuadEdgeMeshPolygonCell< TCellInterface >
 }
 
 // ---------------------------------------------------------------------
-template< class TCellInterface >
+template< typename TCellInterface >
 void QuadEdgeMeshPolygonCell< TCellInterface >
 ::SetPointIds(PointIdConstIterator first,
               PointIdConstIterator last)
@@ -236,7 +236,7 @@ void QuadEdgeMeshPolygonCell< TCellInterface >
 }
 
 // ---------------------------------------------------------------------
-template< class TCellInterface >
+template< typename TCellInterface >
 void QuadEdgeMeshPolygonCell< TCellInterface >
 ::InternalSetPointIds(PointIdInternalConstIterator first,
                       PointIdInternalConstIterator last)
@@ -254,7 +254,7 @@ void QuadEdgeMeshPolygonCell< TCellInterface >
 }
 
 // ---------------------------------------------------------------------
-template< class TCellInterface >
+template< typename TCellInterface >
 void QuadEdgeMeshPolygonCell< TCellInterface >
 ::SetPointId(int localId, PointIdentifier pId)
 {
@@ -275,7 +275,7 @@ void QuadEdgeMeshPolygonCell< TCellInterface >
 }
 
 // ---------------------------------------------------------------------
-template< class TCellInterface >
+template< typename TCellInterface >
 typename QuadEdgeMeshPolygonCell< TCellInterface >::PointIdentifier
 QuadEdgeMeshPolygonCell< TCellInterface >
 ::GetPointId(int localId) const
@@ -296,7 +296,7 @@ QuadEdgeMeshPolygonCell< TCellInterface >
 }
 
 // ---------------------------------------------------------------------
-template< class TCellInterface >
+template< typename TCellInterface >
 typename QuadEdgeMeshPolygonCell< TCellInterface >::PointIdInternalIterator
 QuadEdgeMeshPolygonCell< TCellInterface >
 ::InternalPointIdsBegin()
@@ -305,7 +305,7 @@ QuadEdgeMeshPolygonCell< TCellInterface >
 }
 
 // ---------------------------------------------------------------------
-template< class TCellInterface >
+template< typename TCellInterface >
 typename QuadEdgeMeshPolygonCell< TCellInterface >::PointIdInternalIterator
 QuadEdgeMeshPolygonCell< TCellInterface >
 ::InternalPointIdsEnd()
@@ -314,7 +314,7 @@ QuadEdgeMeshPolygonCell< TCellInterface >
 }
 
 // ---------------------------------------------------------------------
-template< class TCellInterface >
+template< typename TCellInterface >
 typename QuadEdgeMeshPolygonCell< TCellInterface >::PointIdInternalConstIterator
 QuadEdgeMeshPolygonCell< TCellInterface >
 ::InternalGetPointIds() const
@@ -326,7 +326,7 @@ QuadEdgeMeshPolygonCell< TCellInterface >
 }
 
 // ---------------------------------------------------------------------
-template< class TCellInterface >
+template< typename TCellInterface >
 typename QuadEdgeMeshPolygonCell< TCellInterface >::PointIdInternalConstIterator
 QuadEdgeMeshPolygonCell< TCellInterface >
 ::InternalPointIdsBegin() const
@@ -338,7 +338,7 @@ QuadEdgeMeshPolygonCell< TCellInterface >
 }
 
 // ---------------------------------------------------------------------
-template< class TCellInterface >
+template< typename TCellInterface >
 typename QuadEdgeMeshPolygonCell< TCellInterface >::PointIdInternalConstIterator
 QuadEdgeMeshPolygonCell< TCellInterface >
 ::InternalPointIdsEnd() const

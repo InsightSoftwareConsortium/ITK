@@ -25,7 +25,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 LabelMapToBinaryImageFilter< TInputImage, TOutputImage >
 ::LabelMapToBinaryImageFilter()
 {
@@ -33,7 +33,7 @@ LabelMapToBinaryImageFilter< TInputImage, TOutputImage >
   this->m_ForegroundValue = NumericTraits< OutputImagePixelType >::max();
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 LabelMapToBinaryImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
@@ -50,7 +50,7 @@ LabelMapToBinaryImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 LabelMapToBinaryImageFilter< TInputImage, TOutputImage >
 ::EnlargeOutputRequestedRegion(DataObject *)
@@ -58,7 +58,7 @@ LabelMapToBinaryImageFilter< TInputImage, TOutputImage >
   this->GetOutput()->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 LabelMapToBinaryImageFilter< TInputImage, TOutputImage >
 ::BeforeThreadedGenerateData()
@@ -85,7 +85,7 @@ LabelMapToBinaryImageFilter< TInputImage, TOutputImage >
   this->Superclass::BeforeThreadedGenerateData();
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 LabelMapToBinaryImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId)
@@ -139,7 +139,7 @@ LabelMapToBinaryImageFilter< TInputImage, TOutputImage >
   this->Superclass::ThreadedGenerateData(outputRegionForThread, threadId);
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 LabelMapToBinaryImageFilter< TInputImage, TOutputImage >
 ::ThreadedProcessLabelObject(LabelObjectType *labelObject)
@@ -153,7 +153,7 @@ LabelMapToBinaryImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 LabelMapToBinaryImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

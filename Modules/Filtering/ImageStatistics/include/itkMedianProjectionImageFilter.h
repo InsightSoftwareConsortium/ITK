@@ -48,7 +48,7 @@ namespace itk
 
 namespace Functor
 {
-template< class TInputPixel >
+template< typename TInputPixel >
 class MedianAccumulator
 {
 public:
@@ -81,7 +81,7 @@ public:
 };
 } // end namespace Function
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class MedianProjectionImageFilter:public
   ProjectionImageFilter< TInputImage, TOutputImage,
                          Functor::MedianAccumulator< typename TInputImage::PixelType > >

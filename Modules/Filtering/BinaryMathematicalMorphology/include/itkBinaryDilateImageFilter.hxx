@@ -29,14 +29,14 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 BinaryDilateImageFilter< TInputImage, TOutputImage, TKernel >
 ::BinaryDilateImageFilter()
 {
   this->m_BoundaryToForeground = false;
 }
 
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 void
 BinaryDilateImageFilter< TInputImage, TOutputImage, TKernel >
 ::GenerateData()
@@ -480,7 +480,7 @@ BinaryDilateImageFilter< TInputImage, TOutputImage, TKernel >
 /**
  * Standard "PrintSelf" method
  */
-template< class TInputImage, class TOutput, class TKernel >
+template< typename TInputImage, typename TOutput, typename TKernel >
 void
 BinaryDilateImageFilter< TInputImage, TOutput, TKernel >
 ::PrintSelf(std::ostream & os, Indent indent) const

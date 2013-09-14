@@ -26,7 +26,7 @@ namespace itk
 {
 namespace Functor
 {
-template< class InputPixelType >
+template< typename InputPixelType >
 class InvertIntensityFunctor
 {
 public:
@@ -84,9 +84,9 @@ namespace itk
  * \ingroup ITKDistanceMap
  */
 
-template< class TInputImage,
-          class TOutputImage,
-          class TVoronoiImage = TInputImage >
+template< typename TInputImage,
+          typename TOutputImage,
+          typename TVoronoiImage = TInputImage >
 class SignedDanielssonDistanceMapImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {

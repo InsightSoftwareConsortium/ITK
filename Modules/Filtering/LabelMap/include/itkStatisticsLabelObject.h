@@ -37,7 +37,7 @@ namespace itk
  * \ingroup DataRepresentation
  * \ingroup ITKLabelMap
  */
-template< class TLabel, unsigned int VImageDimension >
+template< typename TLabel, unsigned int VImageDimension >
 class StatisticsLabelObject:public ShapeLabelObject< TLabel, VImageDimension >
 {
 public:

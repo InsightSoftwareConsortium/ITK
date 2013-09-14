@@ -32,7 +32,7 @@ namespace itk
  *
  * \ingroup ITKOptimizers
  */
-template< class TInternalComputationValueType >
+template< typename TInternalComputationValueType >
 class CostFunctionTemplate:public Object
 {
 public:

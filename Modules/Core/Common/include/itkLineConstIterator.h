@@ -52,7 +52,7 @@ namespace itk
  * \wikiexample{Iterators/LineConstIterator,Iterate over a line through an image without write access}
  * \endwiki
  */
-template< class TImage >
+template< typename TImage >
 class LineConstIterator
 {
 public:

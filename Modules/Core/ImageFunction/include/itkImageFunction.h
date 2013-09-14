@@ -51,9 +51,9 @@ namespace itk
  * \ingroup ITKImageFunction
  */
 template<
-  class TInputImage,
-  class TOutput,
-  class TCoordRep = float
+  typename TInputImage,
+  typename TOutput,
+  typename TCoordRep = float
   >
 class ImageFunction:
   public FunctionBase< Point< TCoordRep, TInputImage::ImageDimension >, TOutput >

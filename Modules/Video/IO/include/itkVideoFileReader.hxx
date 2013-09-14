@@ -31,7 +31,7 @@ namespace itk
 //
 // Constructor
 //
-template< class TOutputVideoStream >
+template< typename TOutputVideoStream >
 VideoFileReader< TOutputVideoStream >
 ::VideoFileReader()
 {
@@ -51,7 +51,7 @@ VideoFileReader< TOutputVideoStream >
 //
 // Destructor
 //
-template< class TOutputVideoStream >
+template< typename TOutputVideoStream >
 VideoFileReader< TOutputVideoStream >
 ::~VideoFileReader()
 {}
@@ -60,7 +60,7 @@ VideoFileReader< TOutputVideoStream >
 //
 // PrintSelf
 //
-template< class TOutputVideoStream >
+template< typename TOutputVideoStream >
 void
 VideoFileReader< TOutputVideoStream >
 ::PrintSelf(std::ostream &os, Indent indent) const
@@ -80,7 +80,7 @@ VideoFileReader< TOutputVideoStream >
 //
 // GenerateOutputInformation
 //
-template< class TOutputVideoStream >
+template< typename TOutputVideoStream >
 void
 VideoFileReader< TOutputVideoStream >
 ::UpdateOutputInformation()
@@ -159,7 +159,7 @@ VideoFileReader< TOutputVideoStream >
 //
 // GetCurrentPositionFrame
 //
-template< class TOutputVideoStream >
+template< typename TOutputVideoStream >
 typename VideoFileReader<TOutputVideoStream>::FrameOffsetType
 VideoFileReader< TOutputVideoStream >
 ::GetCurrentPositionFrame()
@@ -175,7 +175,7 @@ VideoFileReader< TOutputVideoStream >
 //
 // GetCurrentPositionRatio
 //
-template< class TOutputVideoStream >
+template< typename TOutputVideoStream >
 typename VideoFileReader<TOutputVideoStream>::TemporalRatioType
 VideoFileReader< TOutputVideoStream >
 ::GetCurrentPositionRatio()
@@ -191,7 +191,7 @@ VideoFileReader< TOutputVideoStream >
 //
 // GetCurrentPositionMSec
 //
-template< class TOutputVideoStream >
+template< typename TOutputVideoStream >
 typename VideoFileReader<TOutputVideoStream>::TemporalRatioType
 VideoFileReader< TOutputVideoStream >
 ::GetCurrentPositionMSec()
@@ -207,7 +207,7 @@ VideoFileReader< TOutputVideoStream >
 //
 // GetNumberOfFrames
 //
-template< class TOutputVideoStream >
+template< typename TOutputVideoStream >
 typename VideoFileReader<TOutputVideoStream>::FrameOffsetType
 VideoFileReader< TOutputVideoStream >
 ::GetNumberOfFrames()
@@ -223,7 +223,7 @@ VideoFileReader< TOutputVideoStream >
 //
 // GetFramesPerSecond
 //
-template< class TOutputVideoStream >
+template< typename TOutputVideoStream >
 typename VideoFileReader<TOutputVideoStream>::TemporalRatioType
 VideoFileReader< TOutputVideoStream >
 ::GetFramesPerSecond()
@@ -241,7 +241,7 @@ VideoFileReader< TOutputVideoStream >
 //
 // InitializeVideoIO
 //
-template< class TOutputVideoStream >
+template< typename TOutputVideoStream >
 void
 VideoFileReader< TOutputVideoStream >
 ::InitializeVideoIO()
@@ -291,7 +291,7 @@ VideoFileReader< TOutputVideoStream >
 //
 // TemporalStreamingGenerateData
 //
-template< class TOutputVideoStream >
+template< typename TOutputVideoStream >
 void
 VideoFileReader< TOutputVideoStream >
 ::TemporalStreamingGenerateData()
@@ -341,7 +341,7 @@ VideoFileReader< TOutputVideoStream >
 //
 // DoConvertBuffer (much borrowed from itkImageFileReader)
 //
-template< class TOutputVideoStream >
+template< typename TOutputVideoStream >
 void
 VideoFileReader< TOutputVideoStream >::
 DoConvertBuffer(void* inputData, FrameOffsetType frameNumber)

@@ -44,7 +44,7 @@ namespace itk
  * \wikiexample{ImageProcessing/PasteImageFilter,Paste a part of one image into another image}
  * \endwiki
  */
-template< class TInputImage, class TSourceImage = TInputImage, class TOutputImage = TInputImage >
+template< typename TInputImage, typename TSourceImage = TInputImage, typename TOutputImage = TInputImage >
 class PasteImageFilter:
   public InPlaceImageFilter< TInputImage, TOutputImage >
 {

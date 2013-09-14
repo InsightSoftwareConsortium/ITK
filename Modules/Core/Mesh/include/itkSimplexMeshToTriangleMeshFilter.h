@@ -39,7 +39,7 @@ namespace itk
  *
  * \ingroup ITKMesh
  */
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 class SimplexMeshToTriangleMeshFilter:public MeshToMeshFilter< TInputMesh, TOutputMesh >
 {
 public:

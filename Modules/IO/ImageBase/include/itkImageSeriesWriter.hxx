@@ -31,7 +31,7 @@
 namespace itk
 {
 //---------------------------------------------------------
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 ImageSeriesWriter< TInputImage, TOutputImage >
 ::ImageSeriesWriter():
   m_ImageIO(0), m_UserSpecifiedImageIO(false),
@@ -42,13 +42,13 @@ ImageSeriesWriter< TInputImage, TOutputImage >
 }
 
 //---------------------------------------------------------
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 ImageSeriesWriter< TInputImage, TOutputImage >
 ::~ImageSeriesWriter()
 {}
 
 //---------------------------------------------------------
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ImageSeriesWriter< TInputImage, TOutputImage >
 ::SetInput(const InputImageType *input)
@@ -59,7 +59,7 @@ ImageSeriesWriter< TInputImage, TOutputImage >
 }
 
 //---------------------------------------------------------
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 const typename ImageSeriesWriter< TInputImage, TOutputImage >::InputImageType *
 ImageSeriesWriter< TInputImage, TOutputImage >
 ::GetInput(void)
@@ -68,7 +68,7 @@ ImageSeriesWriter< TInputImage, TOutputImage >
 }
 
 //---------------------------------------------------------
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 const typename ImageSeriesWriter< TInputImage, TOutputImage >::InputImageType *
 ImageSeriesWriter< TInputImage, TOutputImage >
 ::GetInput(unsigned int idx)
@@ -77,7 +77,7 @@ ImageSeriesWriter< TInputImage, TOutputImage >
 }
 
 //---------------------------------------------------------
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ImageSeriesWriter< TInputImage, TOutputImage >
 ::Write(void)
@@ -115,7 +115,7 @@ ImageSeriesWriter< TInputImage, TOutputImage >
 }
 
 //---------------------------------------------------------
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ImageSeriesWriter< TInputImage, TOutputImage >
 ::GenerateNumericFileNamesAndWrite(void)
@@ -126,7 +126,7 @@ ImageSeriesWriter< TInputImage, TOutputImage >
 }
 
 //---------------------------------------------------------
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ImageSeriesWriter< TInputImage, TOutputImage >
 ::GenerateNumericFileNames(void)
@@ -162,7 +162,7 @@ ImageSeriesWriter< TInputImage, TOutputImage >
 }
 
 //---------------------------------------------------------
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ImageSeriesWriter< TInputImage, TOutputImage >
 ::GenerateData(void)
@@ -179,7 +179,7 @@ ImageSeriesWriter< TInputImage, TOutputImage >
 }
 
 //---------------------------------------------------------
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ImageSeriesWriter< TInputImage, TOutputImage >
 ::WriteFiles()
@@ -377,7 +377,7 @@ ImageSeriesWriter< TInputImage, TOutputImage >
 }
 
 //---------------------------------------------------------
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ImageSeriesWriter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

@@ -26,7 +26,7 @@
 
 namespace itk
 {
-template< class TInputImage >
+template< typename TInputImage >
 MinimumMaximumImageFilter< TInputImage >
 ::MinimumMaximumImageFilter()
 {
@@ -47,7 +47,7 @@ MinimumMaximumImageFilter< TInputImage >
   this->GetMaximumOutput()->Set( NumericTraits< PixelType >::NonpositiveMin() );
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 DataObject::Pointer
 MinimumMaximumImageFilter< TInputImage >
 ::MakeOutput(DataObjectPointerArraySizeType output)
@@ -68,7 +68,7 @@ MinimumMaximumImageFilter< TInputImage >
     }
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 typename MinimumMaximumImageFilter< TInputImage >::PixelObjectType *
 MinimumMaximumImageFilter< TInputImage >
 ::GetMinimumOutput()
@@ -76,7 +76,7 @@ MinimumMaximumImageFilter< TInputImage >
   return static_cast< PixelObjectType * >( this->ProcessObject::GetOutput(1) );
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 const typename MinimumMaximumImageFilter< TInputImage >::PixelObjectType *
 MinimumMaximumImageFilter< TInputImage >
 ::GetMinimumOutput() const
@@ -84,7 +84,7 @@ MinimumMaximumImageFilter< TInputImage >
   return static_cast< const PixelObjectType * >( this->ProcessObject::GetOutput(1) );
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 typename MinimumMaximumImageFilter< TInputImage >::PixelObjectType *
 MinimumMaximumImageFilter< TInputImage >
 ::GetMaximumOutput()
@@ -92,7 +92,7 @@ MinimumMaximumImageFilter< TInputImage >
   return static_cast< PixelObjectType * >( this->ProcessObject::GetOutput(2) );
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 const typename MinimumMaximumImageFilter< TInputImage >::PixelObjectType *
 MinimumMaximumImageFilter< TInputImage >
 ::GetMaximumOutput() const
@@ -100,7 +100,7 @@ MinimumMaximumImageFilter< TInputImage >
   return static_cast< const PixelObjectType * >( this->ProcessObject::GetOutput(2) );
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void
 MinimumMaximumImageFilter< TInputImage >
 ::GenerateInputRequestedRegion()
@@ -114,7 +114,7 @@ MinimumMaximumImageFilter< TInputImage >
     }
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void
 MinimumMaximumImageFilter< TInputImage >
 ::EnlargeOutputRequestedRegion(DataObject *data)
@@ -123,7 +123,7 @@ MinimumMaximumImageFilter< TInputImage >
   data->SetRequestedRegionToLargestPossibleRegion();
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void
 MinimumMaximumImageFilter< TInputImage >
 ::AllocateOutputs()
@@ -137,7 +137,7 @@ MinimumMaximumImageFilter< TInputImage >
   // Nothing that needs to be allocated for the remaining outputs
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void
 MinimumMaximumImageFilter< TInputImage >
 ::BeforeThreadedGenerateData()
@@ -151,7 +151,7 @@ MinimumMaximumImageFilter< TInputImage >
                                           NumericTraits< PixelType >::NonpositiveMin() );
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void
 MinimumMaximumImageFilter< TInputImage >
 ::AfterThreadedGenerateData()
@@ -181,7 +181,7 @@ MinimumMaximumImageFilter< TInputImage >
   this->GetMaximumOutput()->Set(maximum);
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void
 MinimumMaximumImageFilter< TInputImage >
 ::ThreadedGenerateData(const RegionType & outputRegionForThread,
@@ -231,7 +231,7 @@ MinimumMaximumImageFilter< TInputImage >
   m_ThreadMax[threadId] = localMax;
 }
 
-template< class TImage >
+template< typename TImage >
 void
 MinimumMaximumImageFilter< TImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

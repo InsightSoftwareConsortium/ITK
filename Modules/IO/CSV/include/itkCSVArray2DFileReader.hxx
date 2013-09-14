@@ -26,14 +26,14 @@
 namespace itk
 {
 
-template <class TData>
+template <typename TData>
 CSVArray2DFileReader<TData>
 ::CSVArray2DFileReader()
 {
   this->m_Array2DDataObject = Array2DDataObjectType::New();
 }
 
-template <class TData>
+template <typename TData>
 void
 CSVArray2DFileReader<TData>
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -42,7 +42,7 @@ CSVArray2DFileReader<TData>
   os << this->m_Array2DDataObject << std::endl;
 }
 
-template <class TData>
+template <typename TData>
 void
 CSVArray2DFileReader <TData>
 ::Parse()
@@ -130,7 +130,7 @@ CSVArray2DFileReader <TData>
 }
 
 /** Update method */
-template<class TData>
+template<typename TData>
 void
 CSVArray2DFileReader<TData>
 ::Update()
@@ -139,7 +139,7 @@ CSVArray2DFileReader<TData>
 }
 
 /** Get the output */
-template <class TData>
+template <typename TData>
 typename CSVArray2DFileReader<TData>::Array2DDataObjectPointer
 CSVArray2DFileReader<TData>
 ::GetOutput()

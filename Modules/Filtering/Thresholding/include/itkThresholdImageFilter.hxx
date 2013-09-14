@@ -39,7 +39,7 @@ namespace itk
 /**
  *
  */
-template< class TImage >
+template< typename TImage >
 ThresholdImageFilter< TImage >
 ::ThresholdImageFilter()
 {
@@ -52,7 +52,7 @@ ThresholdImageFilter< TImage >
 /**
  *
  */
-template< class TImage >
+template< typename TImage >
 void
 ThresholdImageFilter< TImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -73,7 +73,7 @@ ThresholdImageFilter< TImage >
 /**
  * The values greater than or equal to the value are set to OutsideValue
  */
-template< class TImage >
+template< typename TImage >
 void
 ThresholdImageFilter< TImage >
 ::ThresholdAbove(const PixelType & thresh)
@@ -90,7 +90,7 @@ ThresholdImageFilter< TImage >
 /**
  * The values less than or equal to the value are set to OutsideValue
  */
-template< class TImage >
+template< typename TImage >
 void
 ThresholdImageFilter< TImage >
 ::ThresholdBelow(const PixelType & thresh)
@@ -106,7 +106,7 @@ ThresholdImageFilter< TImage >
 /**
  * The values outside the range are set to OutsideValue
  */
-template< class TImage >
+template< typename TImage >
 void
 ThresholdImageFilter< TImage >
 ::ThresholdOutside(const PixelType & lower, const PixelType & upper)
@@ -128,7 +128,7 @@ ThresholdImageFilter< TImage >
 /**
  *
  */
-template< class TImage >
+template< typename TImage >
 void
 ThresholdImageFilter< TImage >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,

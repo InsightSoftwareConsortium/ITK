@@ -29,7 +29,7 @@ namespace itk
 /**
  * Constructor
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 IsolatedConnectedImageFilter< TInputImage, TOutputImage >
 ::IsolatedConnectedImageFilter()
 {
@@ -47,7 +47,7 @@ IsolatedConnectedImageFilter< TInputImage, TOutputImage >
 /**
  * Standard PrintSelf method.
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 IsolatedConnectedImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -76,7 +76,7 @@ IsolatedConnectedImageFilter< TInputImage, TOutputImage >
      << std::endl;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 IsolatedConnectedImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
@@ -90,7 +90,7 @@ IsolatedConnectedImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 IsolatedConnectedImageFilter< TInputImage, TOutputImage >
 ::EnlargeOutputRequestedRegion(DataObject *output)
@@ -99,7 +99,7 @@ IsolatedConnectedImageFilter< TInputImage, TOutputImage >
   output->SetRequestedRegionToLargestPossibleRegion();
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 IsolatedConnectedImageFilter< TInputImage, TOutputImage >
 ::SetSeed1(const IndexType & seed)
@@ -109,7 +109,7 @@ IsolatedConnectedImageFilter< TInputImage, TOutputImage >
 }
 
 /** Clear all the seeds1. */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 IsolatedConnectedImageFilter< TInputImage, TOutputImage >
 ::ClearSeeds1()
@@ -122,7 +122,7 @@ IsolatedConnectedImageFilter< TInputImage, TOutputImage >
 }
 
 /** Add seed point 1. */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 IsolatedConnectedImageFilter< TInputImage, TOutputImage >
 ::AddSeed1(const IndexType & seed)
@@ -133,7 +133,7 @@ IsolatedConnectedImageFilter< TInputImage, TOutputImage >
 
 /** Set seed point 2. This seed will be isolated from Seed1 (if possible).
  *  This method is deprecated, please use AddSeed() */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 IsolatedConnectedImageFilter< TInputImage, TOutputImage >
 ::SetSeed2(const IndexType & seed)
@@ -143,7 +143,7 @@ IsolatedConnectedImageFilter< TInputImage, TOutputImage >
 }
 
 /** Clear all the seeds2. */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 IsolatedConnectedImageFilter< TInputImage, TOutputImage >
 ::ClearSeeds2()
@@ -155,7 +155,7 @@ IsolatedConnectedImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 const typename IsolatedConnectedImageFilter< TInputImage, TOutputImage >::SeedsContainerType &
 IsolatedConnectedImageFilter< TInputImage, TOutputImage >
 ::GetSeeds1() const
@@ -164,7 +164,7 @@ IsolatedConnectedImageFilter< TInputImage, TOutputImage >
   return this->m_Seeds1;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 const typename IsolatedConnectedImageFilter< TInputImage, TOutputImage >::SeedsContainerType &
 IsolatedConnectedImageFilter< TInputImage, TOutputImage >
 ::GetSeeds2() const
@@ -174,7 +174,7 @@ IsolatedConnectedImageFilter< TInputImage, TOutputImage >
 }
 
 /** Add seed point 2. */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 IsolatedConnectedImageFilter< TInputImage, TOutputImage >
 ::AddSeed2(const IndexType & seed)
@@ -183,7 +183,7 @@ IsolatedConnectedImageFilter< TInputImage, TOutputImage >
   this->Modified();
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 IsolatedConnectedImageFilter< TInputImage, TOutputImage >
 ::GenerateData()

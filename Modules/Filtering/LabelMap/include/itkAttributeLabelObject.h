@@ -27,7 +27,7 @@ namespace itk
 
 namespace Functor {
 
-template< class TLabelObject >
+template< typename TLabelObject >
 class AttributeLabelObjectAccessor
 {
 public:
@@ -66,7 +66,7 @@ public:
  * \ingroup DataRepresentation
  * \ingroup ITKLabelMap
  */
-template < class TLabel, unsigned int VImageDimension, class TAttributeValue >
+template < typename TLabel, unsigned int VImageDimension, typename TAttributeValue >
 class AttributeLabelObject : public LabelObject< TLabel, VImageDimension >
 {
 public:

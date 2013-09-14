@@ -39,7 +39,7 @@ namespace Accessor
  * \ingroup ITKImageAdaptors
  */
 
-template< class T >
+template< typename T >
 class VectorToRGBPixelAccessor
 {
 public:

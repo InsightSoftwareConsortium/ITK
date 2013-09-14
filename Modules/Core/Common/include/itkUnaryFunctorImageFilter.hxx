@@ -27,7 +27,7 @@ namespace itk
 /**
  * Constructor
  */
-template< class TInputImage, class TOutputImage, class TFunction  >
+template< typename TInputImage, typename TOutputImage, typename TFunction  >
 UnaryFunctorImageFilter< TInputImage, TOutputImage, TFunction >
 ::UnaryFunctorImageFilter()
 {
@@ -44,7 +44,7 @@ UnaryFunctorImageFilter< TInputImage, TOutputImage, TFunction >
  *
  * \sa ProcessObject::GenerateOutputInformaton()
  */
-template< class TInputImage, class TOutputImage, class TFunction >
+template< typename TInputImage, typename TOutputImage, typename TFunction >
 void
 UnaryFunctorImageFilter< TInputImage, TOutputImage, TFunction >
 ::GenerateOutputInformation()
@@ -145,7 +145,7 @@ UnaryFunctorImageFilter< TInputImage, TOutputImage, TFunction >
 /**
  * ThreadedGenerateData Performs the pixel-wise addition
  */
-template< class TInputImage, class TOutputImage, class TFunction  >
+template< typename TInputImage, typename TOutputImage, typename TFunction  >
 void
 UnaryFunctorImageFilter< TInputImage, TOutputImage, TFunction >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,

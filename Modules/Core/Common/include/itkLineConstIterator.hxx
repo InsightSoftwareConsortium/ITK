@@ -22,7 +22,7 @@
 
 namespace itk
 {
-template< class TImage >
+template< typename TImage >
 LineConstIterator< TImage >
 ::LineConstIterator(const ImageType *imagePtr, const IndexType & firstIndex, const IndexType & lastIndex)
 {
@@ -83,7 +83,7 @@ LineConstIterator< TImage >
   this->GoToBegin();
 }
 
-template< class TImage >
+template< typename TImage >
 LineConstIterator< TImage > &
 LineConstIterator< TImage >
 ::operator=(const Self & it)
@@ -107,7 +107,7 @@ LineConstIterator< TImage >
   return *this;
 }
 
-template< class TImage >
+template< typename TImage >
 void
 LineConstIterator< TImage >
 ::GoToBegin()
@@ -117,7 +117,7 @@ LineConstIterator< TImage >
   m_IsAtEnd = ( m_StartIndex[m_MainDirection] == m_EndIndex[m_MainDirection] );
 }
 
-template< class TImage >
+template< typename TImage >
 void
 LineConstIterator< TImage >
 ::operator++()

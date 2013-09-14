@@ -42,7 +42,7 @@ namespace itk
  * \ingroup ITKIOCSV
  */
 
-template <class TData>
+template <typename TData>
 class CSVArray2DDataObject:public DataObject
 {
 public:

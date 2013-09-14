@@ -23,7 +23,7 @@
 namespace itk
 {
 /** Set the Input Image */
-template< class TInputImage, class TOutput >
+template< typename TInputImage, typename TOutput >
 GaussianDerivativeImageFunction< TInputImage, TOutput >
 ::GaussianDerivativeImageFunction()
 {
@@ -45,7 +45,7 @@ GaussianDerivativeImageFunction< TInputImage, TOutput >
 }
 
 /** Print self method */
-template< class TInputImage, class TOutput >
+template< typename TInputImage, typename TOutput >
 void
 GaussianDerivativeImageFunction< TInputImage, TOutput >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -68,7 +68,7 @@ GaussianDerivativeImageFunction< TInputImage, TOutput >
 }
 
 /** Set the input image */
-template< class TInputImage, class TOutput >
+template< typename TInputImage, typename TOutput >
 void
 GaussianDerivativeImageFunction< TInputImage, TOutput >
 ::SetInputImage(const InputImageType *ptr)
@@ -78,7 +78,7 @@ GaussianDerivativeImageFunction< TInputImage, TOutput >
 }
 
 /** Set the variance of the gaussian in each direction */
-template< class TInputImage, class TOutput >
+template< typename TInputImage, typename TOutput >
 void
 GaussianDerivativeImageFunction< TInputImage, TOutput >
 ::SetSigma(const double *sigma)
@@ -103,7 +103,7 @@ GaussianDerivativeImageFunction< TInputImage, TOutput >
 }
 
 /** Set the variance of the gaussian in each direction */
-template< class TInputImage, class TOutput >
+template< typename TInputImage, typename TOutput >
 void
 GaussianDerivativeImageFunction< TInputImage, TOutput >
 ::SetSigma(const double sigma)
@@ -128,7 +128,7 @@ GaussianDerivativeImageFunction< TInputImage, TOutput >
 }
 
 /** Set the extent of the gaussian in each direction */
-template< class TInputImage, class TOutput >
+template< typename TInputImage, typename TOutput >
 void
 GaussianDerivativeImageFunction< TInputImage, TOutput >
 ::SetExtent(const double *extent)
@@ -153,7 +153,7 @@ GaussianDerivativeImageFunction< TInputImage, TOutput >
 }
 
 /** Set the extent of the gaussian in each direction */
-template< class TInputImage, class TOutput >
+template< typename TInputImage, typename TOutput >
 void
 GaussianDerivativeImageFunction< TInputImage, TOutput >
 ::SetExtent(const double extent)
@@ -180,7 +180,7 @@ GaussianDerivativeImageFunction< TInputImage, TOutput >
 /** Recompute the gaussian kernel used to evaluate indexes
  *  This should use a fastest Derivative Gaussian operator
  */
-template< class TInputImage, class TOutput >
+template< typename TInputImage, typename TOutput >
 void
 GaussianDerivativeImageFunction< TInputImage, TOutput >
 ::RecomputeGaussianKernel()
@@ -273,7 +273,7 @@ GaussianDerivativeImageFunction< TInputImage, TOutput >
 }
 
 /** Evaluate the function at the specifed index */
-template< class TInputImage, class TOutput >
+template< typename TInputImage, typename TOutput >
 typename GaussianDerivativeImageFunction< TInputImage, TOutput >::OutputType
 GaussianDerivativeImageFunction< TInputImage, TOutput >
 ::EvaluateAtIndex(const IndexType & index) const
@@ -315,7 +315,7 @@ GaussianDerivativeImageFunction< TInputImage, TOutput >
 
 /** Recompute the gaussian kernel used to evaluate indexes
  *  The variance should be uniform */
-template< class TInputImage, class TOutput >
+template< typename TInputImage, typename TOutput >
 void
 GaussianDerivativeImageFunction< TInputImage, TOutput >
 ::RecomputeContinuousGaussianKernel(
@@ -409,7 +409,7 @@ GaussianDerivativeImageFunction< TInputImage, TOutput >
 }
 
 /** Evaluate the function at the specifed point */
-template< class TInputImage, class TOutput >
+template< typename TInputImage, typename TOutput >
 typename GaussianDerivativeImageFunction< TInputImage, TOutput >::OutputType
 GaussianDerivativeImageFunction< TInputImage, TOutput >
 ::Evaluate(const PointType & point) const
@@ -421,7 +421,7 @@ GaussianDerivativeImageFunction< TInputImage, TOutput >
 }
 
 /** Evaluate the function at specified ContinousIndex position.*/
-template< class TInputImage, class TOutput >
+template< typename TInputImage, typename TOutput >
 typename GaussianDerivativeImageFunction< TInputImage, TOutput >::OutputType
 GaussianDerivativeImageFunction< TInputImage, TOutput >
 ::EvaluateAtContinuousIndex(const ContinuousIndexType & cindex) const

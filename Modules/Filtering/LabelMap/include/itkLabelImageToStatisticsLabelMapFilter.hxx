@@ -23,7 +23,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TFeatureImage, class TOutputImage >
+template< typename TInputImage, typename TFeatureImage, typename TOutputImage >
 LabelImageToStatisticsLabelMapFilter< TInputImage, TFeatureImage, TOutputImage >
 ::LabelImageToStatisticsLabelMapFilter()
 {
@@ -35,7 +35,7 @@ LabelImageToStatisticsLabelMapFilter< TInputImage, TFeatureImage, TOutputImage >
   this->SetNumberOfRequiredInputs(2);
 }
 
-template< class TInputImage, class TFeatureImage, class TOutputImage >
+template< typename TInputImage, typename TFeatureImage, typename TOutputImage >
 void
 LabelImageToStatisticsLabelMapFilter< TInputImage, TFeatureImage, TOutputImage >
 ::GenerateInputRequestedRegion()
@@ -51,7 +51,7 @@ LabelImageToStatisticsLabelMapFilter< TInputImage, TFeatureImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TFeatureImage, class TOutputImage >
+template< typename TInputImage, typename TFeatureImage, typename TOutputImage >
 void
 LabelImageToStatisticsLabelMapFilter< TInputImage, TFeatureImage, TOutputImage >
 ::EnlargeOutputRequestedRegion(DataObject *)
@@ -60,7 +60,7 @@ LabelImageToStatisticsLabelMapFilter< TInputImage, TFeatureImage, TOutputImage >
   ->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
 }
 
-template< class TInputImage, class TFeatureImage, class TOutputImage >
+template< typename TInputImage, typename TFeatureImage, typename TOutputImage >
 void
 LabelImageToStatisticsLabelMapFilter< TInputImage, TFeatureImage, TOutputImage >
 ::GenerateData()
@@ -94,7 +94,7 @@ LabelImageToStatisticsLabelMapFilter< TInputImage, TFeatureImage, TOutputImage >
   this->GraftOutput( valuator->GetOutput() );
 }
 
-template< class TInputImage, class TFeatureImage, class TOutputImage >
+template< typename TInputImage, typename TFeatureImage, typename TOutputImage >
 void
 LabelImageToStatisticsLabelMapFilter< TInputImage, TFeatureImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

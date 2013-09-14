@@ -25,7 +25,7 @@
 namespace itk
 {
 /** Constructor */
-template< class THistogram, class TImage, class TFunction >
+template< typename THistogram, typename TImage, typename TFunction >
 HistogramToImageFilter< THistogram, TImage, TFunction >
 ::HistogramToImageFilter()
 {
@@ -33,13 +33,13 @@ HistogramToImageFilter< THistogram, TImage, TFunction >
 }
 
 /** Destructor */
-template< class THistogram, class TImage, class TFunction >
+template< typename THistogram, typename TImage, typename TFunction >
 HistogramToImageFilter< THistogram, TImage, TFunction >
 ::~HistogramToImageFilter()
 {}
 
 /** Set the Input Histogram */
-template< class THistogram, class TImage, class TFunction >
+template< typename THistogram, typename TImage, typename TFunction >
 void
 HistogramToImageFilter< THistogram, TImage, TFunction >
 ::SetInput(const HistogramType *input)
@@ -49,7 +49,7 @@ HistogramToImageFilter< THistogram, TImage, TFunction >
   this->ProcessObject::SetNthInput(0,  histogram);
 }
 
-template< class THistogram, class TImage, class TFunction >
+template< typename THistogram, typename TImage, typename TFunction >
 const typename HistogramToImageFilter< THistogram, TImage, TFunction >::HistogramType *
 HistogramToImageFilter< THistogram, TImage, TFunction >
 ::GetInput(void)
@@ -57,7 +57,7 @@ HistogramToImageFilter< THistogram, TImage, TFunction >
   return itkDynamicCastInDebugMode< const HistogramType * >( this->GetPrimaryInput() );
 }
 
-template< class THistogram, class TImage, class TFunction >
+template< typename THistogram, typename TImage, typename TFunction >
 void
 HistogramToImageFilter< THistogram, TImage, TFunction >
 ::SetTotalFrequency(SizeValueType n)
@@ -78,7 +78,7 @@ HistogramToImageFilter< THistogram, TImage, TFunction >
     }
 }
 
-template< class THistogram, class TImage, class TFunction >
+template< typename THistogram, typename TImage, typename TFunction >
 void
 HistogramToImageFilter< THistogram, TImage, TFunction >
 ::GenerateOutputInformation()
@@ -126,7 +126,7 @@ HistogramToImageFilter< THistogram, TImage, TFunction >
 //----------------------------------------------------------------------------
 
 /** Update */
-template< class THistogram, class TImage, class TFunction >
+template< typename THistogram, typename TImage, typename TFunction >
 void
 HistogramToImageFilter< THistogram, TImage, TFunction >
 ::GenerateData(void)
@@ -168,7 +168,7 @@ HistogramToImageFilter< THistogram, TImage, TFunction >
     }
 } // end update function
 
-template< class THistogram, class TImage, class TFunction >
+template< typename THistogram, typename TImage, typename TFunction >
 void
 HistogramToImageFilter< THistogram, TImage, TFunction >
 ::PrintSelf(std::ostream & os, Indent indent) const

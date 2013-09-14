@@ -25,7 +25,7 @@
 namespace itk
 {
 /** Constructor */
-template<class ScalarType>
+template<typename ScalarType>
 TransformFileReaderTemplate<ScalarType>
 ::TransformFileReaderTemplate() :
   m_FileName("") /* to be removed soon. See .h */
@@ -33,13 +33,13 @@ TransformFileReaderTemplate<ScalarType>
 }
 
 /** Destructor */
-template<class ScalarType>
+template<typename ScalarType>
 TransformFileReaderTemplate<ScalarType>
 ::~TransformFileReaderTemplate()
 {
 }
 
-template<class ScalarType>
+template<typename ScalarType>
 void TransformFileReaderTemplate<ScalarType>
 ::Update()
 {
@@ -89,7 +89,7 @@ void TransformFileReaderTemplate<ScalarType>
     }
 }
 
-template<class ScalarType>
+template<typename ScalarType>
 void TransformFileReaderTemplate<ScalarType>
 ::PrintSelf(std::ostream & os, Indent indent) const
 {

@@ -26,7 +26,7 @@ namespace itk
 /**
 * Default constructor
 */
-template<class TInternalComputationValueType>
+template<typename TInternalComputationValueType>
 GradientDescentOptimizerv4Template<TInternalComputationValueType>
 ::GradientDescentOptimizerv4Template()
 {
@@ -51,7 +51,7 @@ GradientDescentOptimizerv4Template<TInternalComputationValueType>
 /**
 * Destructor
 */
-template<class TInternalComputationValueType>
+template<typename TInternalComputationValueType>
 GradientDescentOptimizerv4Template<TInternalComputationValueType>
 ::~GradientDescentOptimizerv4Template()
 {}
@@ -60,7 +60,7 @@ GradientDescentOptimizerv4Template<TInternalComputationValueType>
 /**
 *PrintSelf
 */
-template<class TInternalComputationValueType>
+template<typename TInternalComputationValueType>
 void
 GradientDescentOptimizerv4Template<TInternalComputationValueType>
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -88,7 +88,7 @@ GradientDescentOptimizerv4Template<TInternalComputationValueType>
 /**
 * Start and run the optimization
 */
-template<class TInternalComputationValueType>
+template<typename TInternalComputationValueType>
 void
 GradientDescentOptimizerv4Template<TInternalComputationValueType>
 ::StartOptimization( bool doOnlyInitialization )
@@ -141,7 +141,7 @@ GradientDescentOptimizerv4Template<TInternalComputationValueType>
 /**
 * StopOptimization
 */
-template<class TInternalComputationValueType>
+template<typename TInternalComputationValueType>
 void
 GradientDescentOptimizerv4Template<TInternalComputationValueType>
 ::StopOptimization(void)
@@ -157,7 +157,7 @@ GradientDescentOptimizerv4Template<TInternalComputationValueType>
 /**
 * Resume optimization.
 */
-template<class TInternalComputationValueType>
+template<typename TInternalComputationValueType>
 void
 GradientDescentOptimizerv4Template<TInternalComputationValueType>
 ::ResumeOptimization()
@@ -240,7 +240,7 @@ GradientDescentOptimizerv4Template<TInternalComputationValueType>
 /**
 * Advance one Step following the gradient direction
 */
-template<class TInternalComputationValueType>
+template<typename TInternalComputationValueType>
 void
 GradientDescentOptimizerv4Template<TInternalComputationValueType>
 ::AdvanceOneStep()
@@ -277,7 +277,7 @@ GradientDescentOptimizerv4Template<TInternalComputationValueType>
 /**
 * Modify the gradient by scales and weights over a given index range.
 */
-template<class TInternalComputationValueType>
+template<typename TInternalComputationValueType>
 void
 GradientDescentOptimizerv4Template<TInternalComputationValueType>
 ::ModifyGradientByScalesOverSubRange( const IndexRangeType& subrange )
@@ -318,7 +318,7 @@ GradientDescentOptimizerv4Template<TInternalComputationValueType>
 /**
 * Modify the gradient by learning rate over a given index range.
 */
-template<class TInternalComputationValueType>
+template<typename TInternalComputationValueType>
 void
 GradientDescentOptimizerv4Template<TInternalComputationValueType>
 ::ModifyGradientByLearningRateOverSubRange( const IndexRangeType& subrange )
@@ -333,7 +333,7 @@ GradientDescentOptimizerv4Template<TInternalComputationValueType>
 /**
 * Estimate the learning rate.
 */
-template<class TInternalComputationValueType>
+template<typename TInternalComputationValueType>
 void
 GradientDescentOptimizerv4Template<TInternalComputationValueType>
 ::EstimateLearningRate()

@@ -36,7 +36,7 @@ namespace itk
 /**
  *
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 IntensityWindowingImageFilter< TInputImage, TOutputImage >
 ::IntensityWindowingImageFilter()
 {
@@ -53,7 +53,7 @@ IntensityWindowingImageFilter< TInputImage, TOutputImage >
 /**
  *
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 IntensityWindowingImageFilter< TInputImage, TOutputImage >
 ::SetWindowLevel(const InputPixelType & window, const InputPixelType & level)
@@ -82,7 +82,7 @@ IntensityWindowingImageFilter< TInputImage, TOutputImage >
 /**
  *
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 typename IntensityWindowingImageFilter< TInputImage, TOutputImage >::InputPixelType
 IntensityWindowingImageFilter< TInputImage, TOutputImage >
 ::GetWindow() const
@@ -93,7 +93,7 @@ IntensityWindowingImageFilter< TInputImage, TOutputImage >
 /**
  *
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 typename IntensityWindowingImageFilter< TInputImage, TOutputImage >::InputPixelType
 IntensityWindowingImageFilter< TInputImage, TOutputImage >
 ::GetLevel() const
@@ -104,7 +104,7 @@ IntensityWindowingImageFilter< TInputImage, TOutputImage >
 /**
  *
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 IntensityWindowingImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -134,7 +134,7 @@ IntensityWindowingImageFilter< TInputImage, TOutputImage >
 /**
  *
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 IntensityWindowingImageFilter< TInputImage, TOutputImage >
 ::BeforeThreadedGenerateData()

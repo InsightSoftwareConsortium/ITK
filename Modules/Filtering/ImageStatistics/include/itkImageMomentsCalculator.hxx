@@ -49,7 +49,7 @@ public:
 
 //----------------------------------------------------------------------
 // Construct without computing moments
-template< class TImage >
+template< typename TImage >
 ImageMomentsCalculator< TImage >::ImageMomentsCalculator(void)
 {
   m_Valid = false;
@@ -66,12 +66,12 @@ ImageMomentsCalculator< TImage >::ImageMomentsCalculator(void)
 
 //----------------------------------------------------------------------
 // Destructor
-template< class TImage >
+template< typename TImage >
 ImageMomentsCalculator< TImage >::
 ~ImageMomentsCalculator()
 {}
 
-template< class TInputImage >
+template< typename TInputImage >
 void
 ImageMomentsCalculator< TInputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -90,7 +90,7 @@ ImageMomentsCalculator< TInputImage >
 
 //----------------------------------------------------------------------
 // Compute moments for a new or modified image
-template< class TImage >
+template< typename TImage >
 void
 ImageMomentsCalculator< TImage >::Compute()
 {
@@ -209,7 +209,7 @@ ImageMomentsCalculator< TImage >::Compute()
 
 //---------------------------------------------------------------------
 // Get sum of intensities
-template< class TImage >
+template< typename TImage >
 typename ImageMomentsCalculator< TImage >::ScalarType
 ImageMomentsCalculator< TImage >::GetTotalMass() const
 {
@@ -222,7 +222,7 @@ ImageMomentsCalculator< TImage >::GetTotalMass() const
 
 //--------------------------------------------------------------------
 // Get first moments about origin, in index coordinates
-template< class TImage >
+template< typename TImage >
 typename ImageMomentsCalculator< TImage >::VectorType
 ImageMomentsCalculator< TImage >::GetFirstMoments() const
 {
@@ -235,7 +235,7 @@ ImageMomentsCalculator< TImage >::GetFirstMoments() const
 
 //--------------------------------------------------------------------
 // Get second moments about origin, in index coordinates
-template< class TImage >
+template< typename TImage >
 typename ImageMomentsCalculator< TImage >::MatrixType
 ImageMomentsCalculator< TImage >::GetSecondMoments() const
 {
@@ -248,7 +248,7 @@ ImageMomentsCalculator< TImage >::GetSecondMoments() const
 
 //--------------------------------------------------------------------
 // Get center of gravity, in physical coordinates
-template< class TImage >
+template< typename TImage >
 typename ImageMomentsCalculator< TImage >::VectorType
 ImageMomentsCalculator< TImage >::GetCenterOfGravity() const
 {
@@ -261,7 +261,7 @@ ImageMomentsCalculator< TImage >::GetCenterOfGravity() const
 
 //--------------------------------------------------------------------
 // Get second central moments, in physical coordinates
-template< class TImage >
+template< typename TImage >
 typename ImageMomentsCalculator< TImage >::MatrixType
 ImageMomentsCalculator< TImage >::GetCentralMoments() const
 {
@@ -274,7 +274,7 @@ ImageMomentsCalculator< TImage >::GetCentralMoments() const
 
 //--------------------------------------------------------------------
 // Get principal moments, in physical coordinates
-template< class TImage >
+template< typename TImage >
 typename ImageMomentsCalculator< TImage >::VectorType
 ImageMomentsCalculator< TImage >::GetPrincipalMoments() const
 {
@@ -287,7 +287,7 @@ ImageMomentsCalculator< TImage >::GetPrincipalMoments() const
 
 //--------------------------------------------------------------------
 // Get principal axes, in physical coordinates
-template< class TImage >
+template< typename TImage >
 typename ImageMomentsCalculator< TImage >::MatrixType
 ImageMomentsCalculator< TImage >::GetPrincipalAxes() const
 {
@@ -300,7 +300,7 @@ ImageMomentsCalculator< TImage >::GetPrincipalAxes() const
 
 //--------------------------------------------------------------------
 // Get principal axes to physical axes transform
-template< class TImage >
+template< typename TImage >
 typename ImageMomentsCalculator< TImage >::AffineTransformPointer
 ImageMomentsCalculator< TImage >::GetPrincipalAxesToPhysicalAxesTransform(void) const
 {
@@ -326,7 +326,7 @@ ImageMomentsCalculator< TImage >::GetPrincipalAxesToPhysicalAxesTransform(void) 
 //--------------------------------------------------------------------
 // Get physical axes to principal axes transform
 
-template< class TImage >
+template< typename TImage >
 typename ImageMomentsCalculator< TImage >::AffineTransformPointer
 ImageMomentsCalculator< TImage >::GetPhysicalAxesToPrincipalAxesTransform(void) const
 {

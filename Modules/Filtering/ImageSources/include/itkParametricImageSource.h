@@ -40,7 +40,7 @@ namespace itk
  * \ingroup DataSources
  * \ingroup ITKImageSources
  */
-template <class TOutputImage>
+template <typename TOutputImage>
 class ParametricImageSource
   : public GenerateImageSource< TOutputImage >
 {

@@ -54,7 +54,7 @@ namespace itk
  * \endwiki
  */
 
-template< class TInputImage >
+template< typename TInputImage >
 class ImageToVectorImageFilter:
   public ImageToImageFilter< TInputImage,
                              VectorImage< typename TInputImage::InternalPixelType,

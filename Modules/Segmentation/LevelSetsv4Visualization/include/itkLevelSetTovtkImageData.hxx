@@ -34,19 +34,19 @@
 
 namespace itk
 {
-template< class TImage >
+template< typename TImage >
 LevelSetTovtkImageData< LevelSetDenseImage< TImage > >
 ::LevelSetTovtkImageData()
 {
   this->m_Converter = ConverterType::New();
 }
 
-template< class TImage >
+template< typename TImage >
 LevelSetTovtkImageData< LevelSetDenseImage< TImage > >
 ::~LevelSetTovtkImageData()
 {}
 
-template< class TImage >
+template< typename TImage >
 vtkImageData*
 LevelSetTovtkImageData< LevelSetDenseImage< TImage > >
 ::GetOutput() const
@@ -54,7 +54,7 @@ LevelSetTovtkImageData< LevelSetDenseImage< TImage > >
   return this->m_Converter->GetOutput();
   }
 
-template< class TImage >
+template< typename TImage >
 void
 LevelSetTovtkImageData< LevelSetDenseImage< TImage > >
 ::GenerateData()

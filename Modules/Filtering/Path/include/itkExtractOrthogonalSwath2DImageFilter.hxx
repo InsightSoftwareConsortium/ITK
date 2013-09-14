@@ -25,7 +25,7 @@
 
 namespace itk
 {
-template< class TImage >
+template< typename TImage >
 void
 ExtractOrthogonalSwath2DImageFilter< TImage >
 ::SetSpacing(const double *spacing)
@@ -48,7 +48,7 @@ ExtractOrthogonalSwath2DImageFilter< TImage >
     }
 }
 
-template< class TImage >
+template< typename TImage >
 void
 ExtractOrthogonalSwath2DImageFilter< TImage >
 ::SetSpacing(const float *spacing)
@@ -71,7 +71,7 @@ ExtractOrthogonalSwath2DImageFilter< TImage >
     }
 }
 
-template< class TImage >
+template< typename TImage >
 const double *
 ExtractOrthogonalSwath2DImageFilter< TImage >
 ::GetSpacing() const
@@ -80,7 +80,7 @@ ExtractOrthogonalSwath2DImageFilter< TImage >
 }
 
 //----------------------------------------------------------------------------
-template< class TImage >
+template< typename TImage >
 void
 ExtractOrthogonalSwath2DImageFilter< TImage >
 ::SetOrigin(const double *origin)
@@ -103,7 +103,7 @@ ExtractOrthogonalSwath2DImageFilter< TImage >
     }
 }
 
-template< class TImage >
+template< typename TImage >
 void
 ExtractOrthogonalSwath2DImageFilter< TImage >
 ::SetOrigin(const float *origin)
@@ -126,7 +126,7 @@ ExtractOrthogonalSwath2DImageFilter< TImage >
     }
 }
 
-template< class TImage >
+template< typename TImage >
 const double *
 ExtractOrthogonalSwath2DImageFilter< TImage >
 ::GetOrigin() const
@@ -136,7 +136,7 @@ ExtractOrthogonalSwath2DImageFilter< TImage >
 
 //----------------------------------------------------------------------------
 
-template< class TImage >
+template< typename TImage >
 void
 ExtractOrthogonalSwath2DImageFilter< TImage >
 ::GenerateOutputInformation(void)
@@ -157,7 +157,7 @@ ExtractOrthogonalSwath2DImageFilter< TImage >
 /**
  * GenerateData Performs the reflection
  */
-template< class TImage >
+template< typename TImage >
 void
 ExtractOrthogonalSwath2DImageFilter< TImage >
 ::GenerateData(void)
@@ -235,7 +235,7 @@ ExtractOrthogonalSwath2DImageFilter< TImage >
     }
 }
 
-template< class TImage >
+template< typename TImage >
 void
 ExtractOrthogonalSwath2DImageFilter< TImage >::PrintSelf(std::ostream & os, Indent indent) const
 {

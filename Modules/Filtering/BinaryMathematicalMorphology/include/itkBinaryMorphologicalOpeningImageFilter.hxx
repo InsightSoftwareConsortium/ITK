@@ -35,7 +35,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 BinaryMorphologicalOpeningImageFilter< TInputImage, TOutputImage, TKernel >
 ::BinaryMorphologicalOpeningImageFilter()
 {
@@ -43,7 +43,7 @@ BinaryMorphologicalOpeningImageFilter< TInputImage, TOutputImage, TKernel >
   m_BackgroundValue = NumericTraits< PixelType >::Zero;
 }
 
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 void
 BinaryMorphologicalOpeningImageFilter< TInputImage, TOutputImage, TKernel >
 ::GenerateData()
@@ -83,7 +83,7 @@ BinaryMorphologicalOpeningImageFilter< TInputImage, TOutputImage, TKernel >
   this->GraftOutput( dilate->GetOutput() );
 }
 
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 void
 BinaryMorphologicalOpeningImageFilter< TInputImage, TOutputImage, TKernel >
 ::PrintSelf(std::ostream & os, Indent indent) const

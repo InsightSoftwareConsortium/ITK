@@ -22,7 +22,7 @@
 
 
 // Function for image initialization
-template <class ImageType>
+template <typename ImageType>
 void InitializeImage( ImageType * image, const typename ImageType::PixelType & value   )
 {
   typename ImageType::Pointer inputImage( image );
@@ -56,7 +56,7 @@ void InitializeImage( ImageType * image, const typename ImageType::PixelType & v
 
 
 // Function for image printing
-template <class ImageType>
+template <typename ImageType>
 void PrintImage( ImageType * image, const char * text)
 {
   typename ImageType::Pointer inputImage( image );

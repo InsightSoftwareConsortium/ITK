@@ -25,7 +25,7 @@
 namespace itk
 {
 
-template <class TPointSet, class TOutput, class TCoordRep>
+template <typename TPointSet, typename TOutput, typename TCoordRep>
 ManifoldParzenWindowsPointSetFunction<TPointSet, TOutput, TCoordRep>
 ::ManifoldParzenWindowsPointSetFunction() :
   m_PointsLocator( NULL ),
@@ -38,13 +38,13 @@ ManifoldParzenWindowsPointSetFunction<TPointSet, TOutput, TCoordRep>
 {
 }
 
-template <class TPointSet, class TOutput, class TCoordRep>
+template <typename TPointSet, typename TOutput, typename TCoordRep>
 ManifoldParzenWindowsPointSetFunction<TPointSet, TOutput, TCoordRep>
 ::~ManifoldParzenWindowsPointSetFunction()
 {
 }
 
-template <class TPointSet, class TOutput, class TCoordRep>
+template <typename TPointSet, typename TOutput, typename TCoordRep>
 void
 ManifoldParzenWindowsPointSetFunction<TPointSet, TOutput, TCoordRep>
 ::SetInputPointSet( const InputPointSetType * ptr )
@@ -162,7 +162,7 @@ ManifoldParzenWindowsPointSetFunction<TPointSet, TOutput, TCoordRep>
     }
 }
 
-template <class TPointSet, class TOutput, class TCoordRep>
+template <typename TPointSet, typename TOutput, typename TCoordRep>
 TOutput
 ManifoldParzenWindowsPointSetFunction<TPointSet, TOutput, TCoordRep>
 ::Evaluate( const InputPointType &point ) const
@@ -201,7 +201,7 @@ ManifoldParzenWindowsPointSetFunction<TPointSet, TOutput, TCoordRep>
     sum / static_cast<OutputType>( this->m_Gaussians.size() ) );
 }
 
-template <class TPointSet, class TOutput, class TCoordRep>
+template <typename TPointSet, typename TOutput, typename TCoordRep>
 typename ManifoldParzenWindowsPointSetFunction<TPointSet, TOutput, TCoordRep>::GaussianConstPointer
 ManifoldParzenWindowsPointSetFunction<TPointSet, TOutput, TCoordRep>
 ::GetGaussian( PointIdentifier i ) const
@@ -219,7 +219,7 @@ ManifoldParzenWindowsPointSetFunction<TPointSet, TOutput, TCoordRep>
 /**
  * Standard "PrintSelf" method
  */
-template <class TPointSet, class TOutput, class TCoordRep>
+template <typename TPointSet, typename TOutput, typename TCoordRep>
 void
 ManifoldParzenWindowsPointSetFunction<TPointSet, TOutput, TCoordRep>
 ::PrintSelf(

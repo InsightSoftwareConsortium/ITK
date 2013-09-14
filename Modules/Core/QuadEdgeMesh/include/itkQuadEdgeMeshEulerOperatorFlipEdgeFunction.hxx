@@ -24,12 +24,12 @@
 
 namespace itk
 {
-template< class TMesh, class TQEType >
+template< typename TMesh, typename TQEType >
 QuadEdgeMeshEulerOperatorFlipEdgeFunction< TMesh, TQEType >::QuadEdgeMeshEulerOperatorFlipEdgeFunction():Superclass(),
   m_EdgeStatus(STANDARD_CONFIG)
 {}
 
-template< class TMesh, class TQEType >
+template< typename TMesh, typename TQEType >
 void
 QuadEdgeMeshEulerOperatorFlipEdgeFunction< TMesh, TQEType >::PrintSelf(std::ostream & os, Indent indent) const
 {
@@ -62,7 +62,7 @@ QuadEdgeMeshEulerOperatorFlipEdgeFunction< TMesh, TQEType >::PrintSelf(std::ostr
     }
 }
 
-template< class TMesh, class TQEType >
+template< typename TMesh, typename TQEType >
 void
 QuadEdgeMeshEulerOperatorFlipEdgeFunction< TMesh, TQEType >::CheckStatus(QEType *h)
 {
@@ -107,7 +107,7 @@ QuadEdgeMeshEulerOperatorFlipEdgeFunction< TMesh, TQEType >::CheckStatus(QEType 
   m_EdgeStatus = STANDARD_CONFIG;
 }
 
-template< class TMesh, class TQEType >
+template< typename TMesh, typename TQEType >
 typename QuadEdgeMeshEulerOperatorFlipEdgeFunction< TMesh, TQEType >::OutputType
 QuadEdgeMeshEulerOperatorFlipEdgeFunction< TMesh, TQEType >::Evaluate(QEType *h)
 {
@@ -153,7 +153,7 @@ QuadEdgeMeshEulerOperatorFlipEdgeFunction< TMesh, TQEType >::Evaluate(QEType *h)
     }
 }
 
-template< class TMesh, class TQEType >
+template< typename TMesh, typename TQEType >
 typename QuadEdgeMeshEulerOperatorFlipEdgeFunction< TMesh, TQEType >::OutputType
 QuadEdgeMeshEulerOperatorFlipEdgeFunction< TMesh, TQEType >::Process(QEType *h)
 {

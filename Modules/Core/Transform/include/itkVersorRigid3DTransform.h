@@ -42,7 +42,7 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template< class TScalar = double >
+template< typename TScalar = double >
 // Data type for scalars (float or double)
 class VersorRigid3DTransform :
   public VersorTransform< TScalar >

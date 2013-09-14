@@ -22,7 +22,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 GrayscaleFunctionDilateImageFilter< TInputImage, TOutputImage, TKernel >
 ::GrayscaleFunctionDilateImageFilter()
 {
@@ -30,7 +30,7 @@ GrayscaleFunctionDilateImageFilter< TInputImage, TOutputImage, TKernel >
   this->OverrideBoundaryCondition(&m_DilateBoundaryCondition);
 }
 
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 typename GrayscaleFunctionDilateImageFilter< TInputImage, TOutputImage, TKernel >::PixelType
 GrayscaleFunctionDilateImageFilter< TInputImage, TOutputImage, TKernel >
 ::Evaluate(const NeighborhoodIteratorType & nit,

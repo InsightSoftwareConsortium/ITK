@@ -28,7 +28,7 @@ namespace itk
 /*
  * Compute the RenyiEntropy's threshold
  */
-template<class THistogram, class TOutput>
+template<typename THistogram, typename TOutput>
 void
 RenyiEntropyThresholdCalculator<THistogram, TOutput>
 ::GenerateData(void)
@@ -170,7 +170,7 @@ RenyiEntropyThresholdCalculator<THistogram, TOutput>
   this->GetOutput()->Set( static_cast<OutputType>( histogram->GetMeasurement( opt_threshold, 0 ) ) );
 }
 
-template<class THistogram, class TOutput>
+template<typename THistogram, typename TOutput>
 typename RenyiEntropyThresholdCalculator<THistogram, TOutput>::InstanceIdentifier
 RenyiEntropyThresholdCalculator<THistogram, TOutput>
 ::MaxEntropyThresholding( const HistogramType* histogram,
@@ -223,7 +223,7 @@ RenyiEntropyThresholdCalculator<THistogram, TOutput>
   return threshold;
   }
 
-template<class THistogram, class TOutput>
+template<typename THistogram, typename TOutput>
 typename RenyiEntropyThresholdCalculator<THistogram, TOutput>::InstanceIdentifier
 RenyiEntropyThresholdCalculator<THistogram, TOutput>
 ::MaxEntropyThresholding2( const HistogramType* itkNotUsed( histogram ),
@@ -272,7 +272,7 @@ RenyiEntropyThresholdCalculator<THistogram, TOutput>
   return threshold;
   }
 
-template<class THistogram, class TOutput>
+template<typename THistogram, typename TOutput>
 typename RenyiEntropyThresholdCalculator<THistogram, TOutput>::InstanceIdentifier
 RenyiEntropyThresholdCalculator<THistogram, TOutput>
 ::MaxEntropyThresholding3( const HistogramType* itkNotUsed( histogram ),

@@ -24,7 +24,7 @@
 
 namespace itk
 {
-template< class TImage >
+template< typename TImage >
 StatisticsOpeningLabelMapFilter< TImage >
 ::StatisticsOpeningLabelMapFilter()
 {
@@ -34,7 +34,7 @@ StatisticsOpeningLabelMapFilter< TImage >
   this->SetNthOutput( 1, static_cast< TImage * >( this->MakeOutput(1).GetPointer() ) );
 }
 
-template< class TImage >
+template< typename TImage >
 void
 StatisticsOpeningLabelMapFilter< TImage >
 ::GenerateData()

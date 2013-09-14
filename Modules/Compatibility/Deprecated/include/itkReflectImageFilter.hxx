@@ -28,7 +28,7 @@ namespace itk
 /**
  * Constructor
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 ReflectImageFilter< TInputImage, TOutputImage >
 ::ReflectImageFilter()
 {
@@ -39,7 +39,7 @@ ReflectImageFilter< TInputImage, TOutputImage >
 /**
  * GenerateData Performs the reflection
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ReflectImageFilter< TInputImage, TOutputImage >
 ::GenerateData(void)
@@ -85,7 +85,7 @@ ReflectImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ReflectImageFilter< TInputImage, TOutputImage >::PrintSelf(std::ostream & os, Indent indent) const
 {

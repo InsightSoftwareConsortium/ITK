@@ -91,7 +91,7 @@ namespace itk
  * \ingroup ImageObjects
  * \ingroup ITKCommon
  */
-template< class TPixel, unsigned int VImageDimension = 2 >
+template< typename TPixel, unsigned int VImageDimension = 2 >
 class SpecialCoordinatesImage:public ImageBase< VImageDimension >
 {
 public:
@@ -258,22 +258,22 @@ public:
   /* It is ILLEGAL in C++ to make a templated member function virtual! */
   /* Therefore, we must just let templates take care of everything.    */
   /*
-  template<class TCoordRep>
+  template<typename TCoordRep>
   virtual bool TransformPhysicalPointToContinuousIndex(
               const Point<TCoordRep, VImageDimension>& point,
               ContinuousIndex<TCoordRep, VImageDimension>& index   ) const = 0;
 
-  template<class TCoordRep>
+  template<typename TCoordRep>
   virtual bool TransformPhysicalPointToIndex(
             const Point<TCoordRep, VImageDimension>&,
             IndexType & index                                ) const = 0;
 
-  template<class TCoordRep>
+  template<typename TCoordRep>
   virtual void TransformContinuousIndexToPhysicalPoint(
             const ContinuousIndex<TCoordRep, VImageDimension>& index,
             Point<TCoordRep, VImageDimension>& point        ) const = 0;
 
-  template<class TCoordRep>
+  template<typename TCoordRep>
   virtual void TransformIndexToPhysicalPoint(
                       const IndexType & index,
                       Point<TCoordRep, VImageDimension>& point ) const = 0;

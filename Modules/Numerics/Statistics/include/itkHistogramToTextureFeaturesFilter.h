@@ -99,7 +99,7 @@ namespace Statistics
 * \ingroup ITKStatistics
 */
 
-template< class THistogram >
+template< typename THistogram >
 class HistogramToTextureFeaturesFilter:public ProcessObject
 {
 public:

@@ -46,7 +46,7 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template< class TScalar,
+template< typename TScalar,
           unsigned int NDimensions = 3 >
 class IdentityTransform : public Transform< TScalar, NDimensions, NDimensions >
 {

@@ -44,7 +44,7 @@ namespace itk
  * \wikiexample{Images/ConstantPadImageFilter,Pad an image with a constant value}
  * \endwiki
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class ConstantPadImageFilter:
   public PadImageFilter< TInputImage, TOutputImage >
 {

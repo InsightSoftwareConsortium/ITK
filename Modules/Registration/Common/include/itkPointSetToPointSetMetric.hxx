@@ -23,7 +23,7 @@
 namespace itk
 {
 /** Constructor */
-template< class TFixedPointSet, class TMovingPointSet >
+template< typename TFixedPointSet, typename TMovingPointSet >
 PointSetToPointSetMetric< TFixedPointSet, TMovingPointSet >
 ::PointSetToPointSetMetric()
 {
@@ -33,7 +33,7 @@ PointSetToPointSetMetric< TFixedPointSet, TMovingPointSet >
 }
 
 /** Set the parameters that define a unique transform */
-template< class TFixedPointSet, class TMovingPointSet >
+template< typename TFixedPointSet, typename TMovingPointSet >
 void
 PointSetToPointSetMetric< TFixedPointSet, TMovingPointSet >
 ::SetTransformParameters(const ParametersType & parameters) const
@@ -46,7 +46,7 @@ PointSetToPointSetMetric< TFixedPointSet, TMovingPointSet >
 }
 
 /** Initialize the metric */
-template< class TFixedPointSet, class TMovingPointSet >
+template< typename TFixedPointSet, typename TMovingPointSet >
 void
 PointSetToPointSetMetric< TFixedPointSet, TMovingPointSet >
 ::Initialize(void)
@@ -81,7 +81,7 @@ throw ( ExceptionObject )
 }
 
 /** PrintSelf */
-template< class TFixedPointSet, class TMovingPointSet >
+template< typename TFixedPointSet, typename TMovingPointSet >
 void
 PointSetToPointSetMetric< TFixedPointSet, TMovingPointSet >
 ::PrintSelf(std::ostream & os, Indent indent) const

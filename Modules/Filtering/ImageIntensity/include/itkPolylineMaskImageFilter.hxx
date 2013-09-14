@@ -35,8 +35,8 @@ namespace itk
 /**
  * Constructor
  */
-template< class TInputImage, class TPolyline, class TVector,
-          class TOutputImage >
+template< typename TInputImage, typename TPolyline, typename TVector,
+          typename TOutputImage >
 PolylineMaskImageFilter< TInputImage, TPolyline, TVector, TOutputImage >
 ::PolylineMaskImageFilter()
 {
@@ -67,8 +67,8 @@ PolylineMaskImageFilter< TInputImage, TPolyline, TVector, TOutputImage >
 /**
  *
  */
-template< class TInputImage, class TPolyline, class TVector,
-          class TOutputImage >
+template< typename TInputImage, typename TPolyline, typename TVector,
+          typename TOutputImage >
 void PolylineMaskImageFilter< TInputImage, TPolyline, TVector, TOutputImage >
 ::SetInput1(const InputImageType *input)
 {
@@ -80,8 +80,8 @@ void PolylineMaskImageFilter< TInputImage, TPolyline, TVector, TOutputImage >
 /**
  *
  */
-template< class TInputImage, class TPolyline, class TVector,
-          class TOutputImage >
+template< typename TInputImage, typename TPolyline, typename TVector,
+          typename TOutputImage >
 void PolylineMaskImageFilter< TInputImage, TPolyline, TVector, TOutputImage >
 ::SetInput2(const PolylineType *input)
 {
@@ -93,8 +93,8 @@ void PolylineMaskImageFilter< TInputImage, TPolyline, TVector, TOutputImage >
 /**
  * Generate 3D rotation matrix using the viewing and up vector
  */
-template< class TInputImage, class TPolyline, class TVector,
-          class TOutputImage >
+template< typename TInputImage, typename TPolyline, typename TVector,
+          typename TOutputImage >
 void PolylineMaskImageFilter< TInputImage, TPolyline, TVector, TOutputImage >
 ::GenerateRotationMatrix()
 {
@@ -145,7 +145,7 @@ void PolylineMaskImageFilter< TInputImage, TPolyline, TVector, TOutputImage >
 /**
  3D rotation and perspective projection transform
  */
-template< class TInputImage, class TPolyline, class TVector, class TOutputImage >
+template< typename TInputImage, typename TPolyline, typename TVector, typename TOutputImage >
 typename PolylineMaskImageFilter< TInputImage, TPolyline, TVector,
                                   TOutputImage >::ProjPlanePointType
 PolylineMaskImageFilter< TInputImage, TPolyline, TVector, TOutputImage >
@@ -178,8 +178,8 @@ PolylineMaskImageFilter< TInputImage, TPolyline, TVector, TOutputImage >
 /**
  *
  */
-template< class TInputImage, class TPolyline, class TVector,
-          class TOutputImage >
+template< typename TInputImage, typename TPolyline, typename TVector,
+          typename TOutputImage >
 void PolylineMaskImageFilter< TInputImage, TPolyline, TVector, TOutputImage >
 ::GenerateData(void)
 {
@@ -577,8 +577,8 @@ void PolylineMaskImageFilter< TInputImage, TPolyline, TVector, TOutputImage >
     }
 }
 
-template< class TInputImage, class TPolyline, class TVector,
-          class TOutputImage >
+template< typename TInputImage, typename TPolyline, typename TVector,
+          typename TOutputImage >
 void PolylineMaskImageFilter< TInputImage, TPolyline, TVector, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {

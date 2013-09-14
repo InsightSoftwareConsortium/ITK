@@ -73,7 +73,7 @@ namespace itk
  * \wikiexample{SimpleOperations/ScalarToRGBColormapImageFilter,Apply a color map to an image}
  * \endwiki
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class ScalarToRGBColormapImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {

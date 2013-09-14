@@ -25,7 +25,7 @@ namespace itk
 {
 namespace Statistics
 {
-template< class TMeasurement, class TFrequencyContainer >
+template< typename TMeasurement, typename TFrequencyContainer >
 Histogram< TMeasurement, TFrequencyContainer >
 ::Histogram()
 {
@@ -38,7 +38,7 @@ Histogram< TMeasurement, TFrequencyContainer >
     }
 }
 
-template< class TMeasurement, class TFrequencyContainer >
+template< typename TMeasurement, typename TFrequencyContainer >
 typename
 Histogram< TMeasurement, TFrequencyContainer >::InstanceIdentifier
 Histogram< TMeasurement, TFrequencyContainer >
@@ -56,7 +56,7 @@ Histogram< TMeasurement, TFrequencyContainer >
   return size;
 }
 
-template< class TMeasurement, class TFrequencyContainer >
+template< typename TMeasurement, typename TFrequencyContainer >
 const typename
 Histogram< TMeasurement, TFrequencyContainer >::SizeType &
 Histogram< TMeasurement, TFrequencyContainer >
@@ -65,7 +65,7 @@ Histogram< TMeasurement, TFrequencyContainer >
   return m_Size;
 }
 
-template< class TMeasurement, class TFrequencyContainer >
+template< typename TMeasurement, typename TFrequencyContainer >
 typename
 Histogram< TMeasurement, TFrequencyContainer >::SizeValueType
 Histogram< TMeasurement, TFrequencyContainer >
@@ -74,7 +74,7 @@ Histogram< TMeasurement, TFrequencyContainer >
   return m_Size[dimension];
 }
 
-template< class TMeasurement, class TFrequencyContainer >
+template< typename TMeasurement, typename TFrequencyContainer >
 const typename
 Histogram< TMeasurement, TFrequencyContainer >::MeasurementType &
 Histogram< TMeasurement, TFrequencyContainer >
@@ -83,8 +83,8 @@ Histogram< TMeasurement, TFrequencyContainer >
   return m_Min[dimension][nbin];
 }
 
-template< class TMeasurement,
-          class TFrequencyContainer >
+template< typename TMeasurement,
+          typename TFrequencyContainer >
 const typename
 Histogram< TMeasurement, TFrequencyContainer >::MeasurementType &
 Histogram< TMeasurement, TFrequencyContainer >
@@ -93,7 +93,7 @@ Histogram< TMeasurement, TFrequencyContainer >
   return m_Max[dimension][nbin];
 }
 
-template< class TMeasurement, class TFrequencyContainer >
+template< typename TMeasurement, typename TFrequencyContainer >
 void
 Histogram< TMeasurement, TFrequencyContainer >
 ::SetBinMin(unsigned int dimension, InstanceIdentifier nbin,
@@ -102,7 +102,7 @@ Histogram< TMeasurement, TFrequencyContainer >
   m_Min[dimension][nbin] = min;
 }
 
-template< class TMeasurement, class TFrequencyContainer >
+template< typename TMeasurement, typename TFrequencyContainer >
 void
 Histogram< TMeasurement, TFrequencyContainer >
 ::SetBinMax(unsigned int dimension, InstanceIdentifier nbin,
@@ -111,7 +111,7 @@ Histogram< TMeasurement, TFrequencyContainer >
   m_Max[dimension][nbin] = max;
 }
 
-template< class TMeasurement, class TFrequencyContainer >
+template< typename TMeasurement, typename TFrequencyContainer >
 const typename
 Histogram< TMeasurement, TFrequencyContainer >::BinMinVectorType &
 Histogram< TMeasurement, TFrequencyContainer >
@@ -120,7 +120,7 @@ Histogram< TMeasurement, TFrequencyContainer >
   return m_Min[dimension];
 }
 
-template< class TMeasurement, class TFrequencyContainer >
+template< typename TMeasurement, typename TFrequencyContainer >
 const typename
 Histogram< TMeasurement, TFrequencyContainer >::BinMaxVectorType &
 Histogram< TMeasurement, TFrequencyContainer >
@@ -129,7 +129,7 @@ Histogram< TMeasurement, TFrequencyContainer >
   return m_Max[dimension];
 }
 
-template< class TMeasurement, class TFrequencyContainer >
+template< typename TMeasurement, typename TFrequencyContainer >
 const typename
 Histogram< TMeasurement, TFrequencyContainer >::BinMinContainerType &
 Histogram< TMeasurement, TFrequencyContainer >
@@ -138,7 +138,7 @@ Histogram< TMeasurement, TFrequencyContainer >
   return m_Min;
 }
 
-template< class TMeasurement, class TFrequencyContainer >
+template< typename TMeasurement, typename TFrequencyContainer >
 const typename
 Histogram< TMeasurement, TFrequencyContainer >::BinMaxContainerType &
 Histogram< TMeasurement, TFrequencyContainer >
@@ -147,7 +147,7 @@ Histogram< TMeasurement, TFrequencyContainer >
   return m_Max;
 }
 
-template< class TMeasurement, class TFrequencyContainer >
+template< typename TMeasurement, typename TFrequencyContainer >
 typename
 Histogram< TMeasurement, TFrequencyContainer >::AbsoluteFrequencyType
 Histogram< TMeasurement, TFrequencyContainer >
@@ -156,7 +156,7 @@ Histogram< TMeasurement, TFrequencyContainer >
   return m_FrequencyContainer->GetFrequency(id);
 }
 
-template< class TMeasurement, class TFrequencyContainer >
+template< typename TMeasurement, typename TFrequencyContainer >
 bool
 Histogram< TMeasurement, TFrequencyContainer >
 ::SetFrequency(InstanceIdentifier id, AbsoluteFrequencyType value)
@@ -164,7 +164,7 @@ Histogram< TMeasurement, TFrequencyContainer >
   return m_FrequencyContainer->SetFrequency(id, value);
 }
 
-template< class TMeasurement, class TFrequencyContainer >
+template< typename TMeasurement, typename TFrequencyContainer >
 bool
 Histogram< TMeasurement, TFrequencyContainer >
 ::IncreaseFrequency(InstanceIdentifier id, AbsoluteFrequencyType value)
@@ -172,7 +172,7 @@ Histogram< TMeasurement, TFrequencyContainer >
   return m_FrequencyContainer->IncreaseFrequency(id, value);
 }
 
-template< class TMeasurement, class TFrequencyContainer >
+template< typename TMeasurement, typename TFrequencyContainer >
 void
 Histogram< TMeasurement, TFrequencyContainer >
 ::Initialize(const SizeType & size)
@@ -224,7 +224,7 @@ Histogram< TMeasurement, TFrequencyContainer >
   this->SetToZero();
 }
 
-template< class TMeasurement, class TFrequencyContainer >
+template< typename TMeasurement, typename TFrequencyContainer >
 void
 Histogram< TMeasurement, TFrequencyContainer >
 ::SetToZero()
@@ -232,7 +232,7 @@ Histogram< TMeasurement, TFrequencyContainer >
   m_FrequencyContainer->SetToZero();
 }
 
-template< class TMeasurement, class TFrequencyContainer >
+template< typename TMeasurement, typename TFrequencyContainer >
 void
 Histogram< TMeasurement, TFrequencyContainer >
 ::Initialize(const SizeType & size, MeasurementVectorType & lowerBound,
@@ -266,7 +266,7 @@ Histogram< TMeasurement, TFrequencyContainer >
 }
 
 /** */
-template< class TMeasurement, class TFrequencyContainer >
+template< typename TMeasurement, typename TFrequencyContainer >
 bool Histogram< TMeasurement, TFrequencyContainer >
 ::GetIndex(const MeasurementVectorType & measurement, IndexType & index) const
 {
@@ -359,7 +359,7 @@ bool Histogram< TMeasurement, TFrequencyContainer >
   return true;
 }
 
-template< class TMeasurement, class TFrequencyContainer >
+template< typename TMeasurement, typename TFrequencyContainer >
 inline const typename Histogram< TMeasurement, TFrequencyContainer >::IndexType &
 Histogram< TMeasurement, TFrequencyContainer >
 ::GetIndex(InstanceIdentifier id) const
@@ -376,7 +376,7 @@ Histogram< TMeasurement, TFrequencyContainer >
   return m_TempIndex;
 }
 
-template< class TMeasurement, class TFrequencyContainer >
+template< typename TMeasurement, typename TFrequencyContainer >
 inline bool
 Histogram< TMeasurement, TFrequencyContainer >
 ::IsIndexOutOfBounds(const IndexType & index) const
@@ -391,7 +391,7 @@ Histogram< TMeasurement, TFrequencyContainer >
   return false;
 }
 
-template< class TMeasurement, class TFrequencyContainer >
+template< typename TMeasurement, typename TFrequencyContainer >
 inline typename Histogram< TMeasurement, TFrequencyContainer >::InstanceIdentifier
 Histogram< TMeasurement, TFrequencyContainer >
 ::GetInstanceIdentifier(const IndexType & index) const
@@ -408,7 +408,7 @@ Histogram< TMeasurement, TFrequencyContainer >
   return instanceId;
 }
 
-template< class TMeasurement, class TFrequencyContainer >
+template< typename TMeasurement, typename TFrequencyContainer >
 inline const typename Histogram< TMeasurement, TFrequencyContainer >::MeasurementType &
 Histogram< TMeasurement, TFrequencyContainer >
 ::GetBinMinFromValue(const unsigned int dimension, const float value) const
@@ -441,7 +441,7 @@ Histogram< TMeasurement, TFrequencyContainer >
   return this->m_Min[dimension][binMinFromValue];
 }
 
-template< class TMeasurement, class TFrequencyContainer >
+template< typename TMeasurement, typename TFrequencyContainer >
 inline const typename Histogram< TMeasurement, TFrequencyContainer >::MeasurementType &
 Histogram< TMeasurement, TFrequencyContainer >
 ::GetBinMaxFromValue(const unsigned int dimension, const float value) const
@@ -474,7 +474,7 @@ Histogram< TMeasurement, TFrequencyContainer >
   return this->m_Max[dimension][binMaxFromValue];
 }
 
-template< class TMeasurement, class TFrequencyContainer >
+template< typename TMeasurement, typename TFrequencyContainer >
 const typename
 Histogram< TMeasurement, TFrequencyContainer >::MeasurementVectorType &
 Histogram< TMeasurement, TFrequencyContainer >
@@ -487,7 +487,7 @@ Histogram< TMeasurement, TFrequencyContainer >
   return m_TempMeasurementVector;
 }
 
-template< class TMeasurement, class TFrequencyContainer >
+template< typename TMeasurement, typename TFrequencyContainer >
 const typename
 Histogram< TMeasurement, TFrequencyContainer >::MeasurementVectorType &
 Histogram< TMeasurement, TFrequencyContainer >
@@ -500,7 +500,7 @@ Histogram< TMeasurement, TFrequencyContainer >
   return m_TempMeasurementVector;
 }
 
-template< class TMeasurement, class TFrequencyContainer >
+template< typename TMeasurement, typename TFrequencyContainer >
 inline const typename Histogram< TMeasurement, TFrequencyContainer >::MeasurementVectorType &
 Histogram< TMeasurement, TFrequencyContainer >
 ::GetMeasurementVector(const IndexType & index) const
@@ -513,7 +513,7 @@ Histogram< TMeasurement, TFrequencyContainer >
   return m_TempMeasurementVector;
 }
 
-template< class TMeasurement, class TFrequencyContainer >
+template< typename TMeasurement, typename TFrequencyContainer >
 inline const typename Histogram< TMeasurement, TFrequencyContainer >::MeasurementVectorType &
 Histogram< TMeasurement, TFrequencyContainer >
 ::GetMeasurementVector(InstanceIdentifier id) const
@@ -521,7 +521,7 @@ Histogram< TMeasurement, TFrequencyContainer >
   return this->GetMeasurementVector( this->GetIndex(id) );
 }
 
-template< class TMeasurement, class TFrequencyContainer >
+template< typename TMeasurement, typename TFrequencyContainer >
 inline void
 Histogram< TMeasurement, TFrequencyContainer >
 ::SetFrequency(const AbsoluteFrequencyType value)
@@ -536,7 +536,7 @@ Histogram< TMeasurement, TFrequencyContainer >
     }
 }
 
-template< class TMeasurement, class TFrequencyContainer >
+template< typename TMeasurement, typename TFrequencyContainer >
 inline bool
 Histogram< TMeasurement, TFrequencyContainer >
 ::SetFrequencyOfIndex(const IndexType & index, const AbsoluteFrequencyType value)
@@ -544,7 +544,7 @@ Histogram< TMeasurement, TFrequencyContainer >
   return this->SetFrequency(this->GetInstanceIdentifier(index), value);
 }
 
-template< class TMeasurement, class TFrequencyContainer >
+template< typename TMeasurement, typename TFrequencyContainer >
 inline bool
 Histogram< TMeasurement, TFrequencyContainer >
 ::SetFrequencyOfMeasurement(const MeasurementVectorType & measurement, const AbsoluteFrequencyType value)
@@ -554,7 +554,7 @@ Histogram< TMeasurement, TFrequencyContainer >
   return this->SetFrequencyOfIndex(index, value);
 }
 
-template< class TMeasurement, class TFrequencyContainer >
+template< typename TMeasurement, typename TFrequencyContainer >
 inline bool
 Histogram< TMeasurement, TFrequencyContainer >
 ::IncreaseFrequencyOfIndex(const IndexType & index, const AbsoluteFrequencyType value)
@@ -565,7 +565,7 @@ Histogram< TMeasurement, TFrequencyContainer >
   return result;
 }
 
-template< class TMeasurement, class TFrequencyContainer >
+template< typename TMeasurement, typename TFrequencyContainer >
 inline bool
 Histogram< TMeasurement, TFrequencyContainer >
 ::IncreaseFrequencyOfMeasurement(const MeasurementVectorType & measurement, const AbsoluteFrequencyType value)
@@ -576,7 +576,7 @@ Histogram< TMeasurement, TFrequencyContainer >
   return this->IncreaseFrequency(this->GetInstanceIdentifier(index), value);
 }
 
-template< class TMeasurement, class TFrequencyContainer >
+template< typename TMeasurement, typename TFrequencyContainer >
 inline typename Histogram< TMeasurement, TFrequencyContainer >::AbsoluteFrequencyType
 Histogram< TMeasurement, TFrequencyContainer >
 ::GetFrequency(const IndexType & index) const
@@ -584,7 +584,7 @@ Histogram< TMeasurement, TFrequencyContainer >
   return ( this->GetFrequency( this->GetInstanceIdentifier(index) ) );
 }
 
-template< class TMeasurement, class TFrequencyContainer >
+template< typename TMeasurement, typename TFrequencyContainer >
 typename
 Histogram< TMeasurement, TFrequencyContainer >::MeasurementType
 Histogram< TMeasurement, TFrequencyContainer >
@@ -594,7 +594,7 @@ Histogram< TMeasurement, TFrequencyContainer >
                                            + m_Max[dimension][n] ) / 2 );
 }
 
-template< class TMeasurement, class TFrequencyContainer >
+template< typename TMeasurement, typename TFrequencyContainer >
 typename
 Histogram< TMeasurement, TFrequencyContainer >::AbsoluteFrequencyType
 Histogram< TMeasurement, TFrequencyContainer >
@@ -623,7 +623,7 @@ Histogram< TMeasurement, TFrequencyContainer >
   return frequency;
 }
 
-template< class TMeasurement, class TFrequencyContainer >
+template< typename TMeasurement, typename TFrequencyContainer >
 inline typename Histogram< TMeasurement, TFrequencyContainer >::TotalAbsoluteFrequencyType
 Histogram< TMeasurement, TFrequencyContainer >
 ::GetTotalFrequency() const
@@ -631,7 +631,7 @@ Histogram< TMeasurement, TFrequencyContainer >
   return m_FrequencyContainer->GetTotalFrequency();
 }
 
-template< class TMeasurement, class TFrequencyContainer >
+template< typename TMeasurement, typename TFrequencyContainer >
 double
 Histogram< TMeasurement, TFrequencyContainer >
 ::Quantile(unsigned int dimension, double p) const
@@ -691,7 +691,7 @@ Histogram< TMeasurement, TFrequencyContainer >
     }
 }
 
-template< class TMeasurement, class TFrequencyContainer >
+template< typename TMeasurement, typename TFrequencyContainer >
 double
 Histogram< TMeasurement, TFrequencyContainer >
 ::Mean(unsigned int dimension) const
@@ -706,7 +706,7 @@ Histogram< TMeasurement, TFrequencyContainer >
   return sum / totalFrequency;
 }
 
-template< class TMeasurement, class TFrequencyContainer >
+template< typename TMeasurement, typename TFrequencyContainer >
 void
 Histogram< TMeasurement, TFrequencyContainer >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -745,7 +745,7 @@ Histogram< TMeasurement, TFrequencyContainer >
   m_FrequencyContainer->Print( os,  indent.GetNextIndent() );
 }
 
-template< class TMeasurement, class TFrequencyContainer >
+template< typename TMeasurement, typename TFrequencyContainer >
 void
 Histogram< TMeasurement, TFrequencyContainer >
 ::Graft(const DataObject *thatObject)
@@ -769,7 +769,7 @@ Histogram< TMeasurement, TFrequencyContainer >
 }
 
 #if !defined(ITK_LEGACY_REMOVE)
-template< class TMeasurement, class TFrequencyContainer >
+template< typename TMeasurement, typename TFrequencyContainer >
 inline const typename Histogram< TMeasurement, TFrequencyContainer >::IndexType &
 Histogram< TMeasurement, TFrequencyContainer >
 ::GetIndex(const MeasurementVectorType & measurement) const

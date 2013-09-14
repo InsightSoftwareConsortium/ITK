@@ -31,7 +31,7 @@
 
 namespace itk
 {
-template< class TInputImage >
+template< typename TInputImage >
 void
 RegionFromReferenceLabelMapFilter< TInputImage >
 ::GenerateOutputInformation()
@@ -42,7 +42,7 @@ RegionFromReferenceLabelMapFilter< TInputImage >
   this->GetOutput()->SetLargestPossibleRegion( this->GetRegion() );
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void
 RegionFromReferenceLabelMapFilter< TInputImage >
 ::SetReferenceImage(const ReferenceImageType *image)
@@ -55,7 +55,7 @@ RegionFromReferenceLabelMapFilter< TInputImage >
     }
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 const typename RegionFromReferenceLabelMapFilter< TInputImage >::ReferenceImageType *
 RegionFromReferenceLabelMapFilter< TInputImage >
 ::GetReferenceImage() const
@@ -65,7 +65,7 @@ RegionFromReferenceLabelMapFilter< TInputImage >
   return itkDynamicCastInDebugMode<const ReferenceImageType *>(surrogate->ProcessObject::GetInput(1));
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void
 RegionFromReferenceLabelMapFilter< TInputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

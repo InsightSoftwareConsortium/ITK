@@ -36,7 +36,7 @@ namespace fem
  * an object with specific GN within an array.
  * \ingroup ITKFEM
  */
-template <class T>
+template <typename T>
 class FEMPArray : public std::vector<FEMP<T> >
 {
 public:
@@ -99,7 +99,7 @@ public:
 /**
  * Find function for for non-const objects
  */
-template <class T>
+template <typename T>
 typename FEMPArray<T>::ClassTypePointer
 FEMPArray<T>::Find(int gn)
 {
@@ -133,7 +133,7 @@ FEMPArray<T>::Find(int gn)
 /**
  * Find function for for const objects
  */
-template <class T>
+template <typename T>
 typename FEMPArray<T>::ClassTypeConstPointer
 FEMPArray<T>::Find(int gn) const
 {
@@ -164,7 +164,7 @@ FEMPArray<T>::Find(int gn) const
   return &( *( *it ) );
 }
 
-template <class T>
+template <typename T>
 int FEMPArray<T>::Renumber()
 {
   typename Superclass::iterator i;

@@ -26,21 +26,21 @@ namespace Statistics
 {
 
 /** Constructor */
-template<class ScalarType>
+template<typename ScalarType>
 TanHTransferFunction<ScalarType>
 ::TanHTransferFunction()
 {
 }
 
 /** Destructor */
-template<class ScalarType>
+template<typename ScalarType>
 TanHTransferFunction<ScalarType>
 ::~TanHTransferFunction()
 {
 }
 
 /** Evaluate */
-template<class ScalarType>
+template<typename ScalarType>
 ScalarType
 TanHTransferFunction<ScalarType>
 ::Evaluate(const ScalarType& input)  const
@@ -51,7 +51,7 @@ TanHTransferFunction<ScalarType>
 }
 
 /** Evaluate derivatives */
-template<class ScalarType>
+template<typename ScalarType>
 ScalarType
 TanHTransferFunction<ScalarType>
 ::EvaluateDerivative(const ScalarType& input)  const
@@ -61,7 +61,7 @@ TanHTransferFunction<ScalarType>
 }
 
 /** Print the object */
-template<class ScalarType>
+template<typename ScalarType>
 void
 TanHTransferFunction<ScalarType>
 ::PrintSelf( std::ostream& os, Indent indent ) const

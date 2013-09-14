@@ -35,7 +35,7 @@ namespace itk
 /**
  *
  */
-template< class TPixel, unsigned int VImageDimension >
+template< typename TPixel, unsigned int VImageDimension >
 VectorImage< TPixel, VImageDimension >
 ::VectorImage():
   m_VectorLength(0)
@@ -44,7 +44,7 @@ VectorImage< TPixel, VImageDimension >
 }
 
 //----------------------------------------------------------------------------
-template< class TPixel, unsigned int VImageDimension >
+template< typename TPixel, unsigned int VImageDimension >
 void
 VectorImage< TPixel, VImageDimension >
 ::Allocate()
@@ -61,7 +61,7 @@ VectorImage< TPixel, VImageDimension >
   m_Buffer->Reserve(num * m_VectorLength);
 }
 
-template< class TPixel, unsigned int VImageDimension >
+template< typename TPixel, unsigned int VImageDimension >
 void
 VectorImage< TPixel, VImageDimension >
 ::Initialize()
@@ -80,7 +80,7 @@ VectorImage< TPixel, VImageDimension >
   m_Buffer = PixelContainer::New();
 }
 
-template< class TPixel, unsigned int VImageDimension >
+template< typename TPixel, unsigned int VImageDimension >
 void
 VectorImage< TPixel, VImageDimension >
 ::FillBuffer(const PixelType & value)
@@ -99,7 +99,7 @@ VectorImage< TPixel, VImageDimension >
     }
 }
 
-template< class TPixel, unsigned int VImageDimension >
+template< typename TPixel, unsigned int VImageDimension >
 void
 VectorImage< TPixel, VImageDimension >
 ::SetPixelContainer(PixelContainer *container)
@@ -112,7 +112,7 @@ VectorImage< TPixel, VImageDimension >
 }
 
 //----------------------------------------------------------------------------
-template< class TPixel, unsigned int VImageDimension >
+template< typename TPixel, unsigned int VImageDimension >
 void
 VectorImage< TPixel, VImageDimension >
 ::Graft(const DataObject *data)
@@ -152,7 +152,7 @@ VectorImage< TPixel, VImageDimension >
 }
 
 //----------------------------------------------------------------------------
-template< class TPixel, unsigned int VImageDimension >
+template< typename TPixel, unsigned int VImageDimension >
 unsigned int
 VectorImage< TPixel, VImageDimension >
 ::GetNumberOfComponentsPerPixel() const
@@ -161,7 +161,7 @@ VectorImage< TPixel, VImageDimension >
 }
 
 //----------------------------------------------------------------------------
-template< class TPixel, unsigned int VImageDimension >
+template< typename TPixel, unsigned int VImageDimension >
 void
 VectorImage< TPixel, VImageDimension >
 ::SetNumberOfComponentsPerPixel(unsigned int n)
@@ -172,7 +172,7 @@ VectorImage< TPixel, VImageDimension >
 /**
  *
  */
-template< class TPixel, unsigned int VImageDimension >
+template< typename TPixel, unsigned int VImageDimension >
 void
 VectorImage< TPixel, VImageDimension >
 ::PrintSelf(std::ostream & os, Indent indent) const

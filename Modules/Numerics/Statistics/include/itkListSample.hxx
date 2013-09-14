@@ -24,12 +24,12 @@ namespace itk
 {
 namespace Statistics
 {
-template< class TMeasurementVector >
+template< typename TMeasurementVector >
 ListSample< TMeasurementVector >
 ::ListSample()
 {}
 
-template< class TMeasurementVector >
+template< typename TMeasurementVector >
 void
 ListSample< TMeasurementVector >
 ::Resize(InstanceIdentifier newsize)
@@ -37,7 +37,7 @@ ListSample< TMeasurementVector >
   this->m_InternalContainer.resize(newsize);
 }
 
-template< class TMeasurementVector >
+template< typename TMeasurementVector >
 void
 ListSample< TMeasurementVector >
 ::Clear()
@@ -45,7 +45,7 @@ ListSample< TMeasurementVector >
   this->m_InternalContainer.clear();
 }
 
-template< class TMeasurementVector >
+template< typename TMeasurementVector >
 void
 ListSample< TMeasurementVector >
 ::PushBack(const MeasurementVectorType & mv)
@@ -58,7 +58,7 @@ ListSample< TMeasurementVector >
   this->m_InternalContainer.push_back(mv);
 }
 
-template< class TMeasurementVector >
+template< typename TMeasurementVector >
 typename ListSample< TMeasurementVector >::InstanceIdentifier
 ListSample< TMeasurementVector >
 ::Size() const
@@ -67,7 +67,7 @@ ListSample< TMeasurementVector >
            this->m_InternalContainer.size() );
 }
 
-template< class TMeasurementVector >
+template< typename TMeasurementVector >
 typename ListSample< TMeasurementVector >::TotalAbsoluteFrequencyType
 ListSample< TMeasurementVector >
 ::GetTotalFrequency() const
@@ -77,7 +77,7 @@ ListSample< TMeasurementVector >
   return this->Size();
 }
 
-template< class TMeasurementVector >
+template< typename TMeasurementVector >
 const typename ListSample< TMeasurementVector >::MeasurementVectorType &
 ListSample< TMeasurementVector >
 ::GetMeasurementVector(InstanceIdentifier instanceId) const
@@ -89,7 +89,7 @@ ListSample< TMeasurementVector >
   itkExceptionMacro("MeasurementVector " << instanceId << " does not exist");
 }
 
-template< class TMeasurementVector >
+template< typename TMeasurementVector >
 void
 ListSample< TMeasurementVector >
 ::SetMeasurement(InstanceIdentifier instanceId,
@@ -102,7 +102,7 @@ ListSample< TMeasurementVector >
     }
 }
 
-template< class TMeasurementVector >
+template< typename TMeasurementVector >
 void
 ListSample< TMeasurementVector >
 ::SetMeasurementVector(InstanceIdentifier instanceId,
@@ -114,7 +114,7 @@ ListSample< TMeasurementVector >
     }
 }
 
-template< class TMeasurementVector >
+template< typename TMeasurementVector >
 typename ListSample< TMeasurementVector >::AbsoluteFrequencyType
 ListSample< TMeasurementVector >
 ::GetFrequency(InstanceIdentifier instanceId) const
@@ -129,7 +129,7 @@ ListSample< TMeasurementVector >
     }
 }
 
-template< class TMeasurementVector >
+template< typename TMeasurementVector >
 void
 ListSample< TMeasurementVector >
 ::Graft(const DataObject *thatObject)
@@ -144,7 +144,7 @@ ListSample< TMeasurementVector >
     }
 }
 
-template< class TMeasurementVector >
+template< typename TMeasurementVector >
 void
 ListSample< TMeasurementVector >
 ::PrintSelf(std::ostream & os, Indent indent) const

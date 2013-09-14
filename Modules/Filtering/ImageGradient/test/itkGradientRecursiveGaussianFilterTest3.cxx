@@ -30,7 +30,7 @@
  * verify they're the same.
  */
 
-template< class TImageType, class TGradImageType, unsigned int TComponents >
+template< typename TImageType, typename TGradImageType, unsigned int TComponents >
 int itkGradientRecursiveGaussianFilterTest3Run( typename TImageType::PixelType & myPixelBorder,
                                                 typename TImageType::PixelType & myPixelFill,
                                                 typename TGradImageType::Pointer & outputImage, char * outputFilename )

@@ -46,7 +46,7 @@ namespace itk
  * \wikiexample{Images/NormalizedCorrelationImageFilter,Normalized correlation}
  * \endwiki
  */
-template< class TInputImage, class TMaskImage, class TOutputImage, class TOperatorValueType =
+template< typename TInputImage, typename TMaskImage, typename TOutputImage, typename TOperatorValueType =
             typename TOutputImage::PixelType >
 class NormalizedCorrelationImageFilter:
   public NeighborhoodOperatorImageFilter< TInputImage, TOutputImage, TOperatorValueType >

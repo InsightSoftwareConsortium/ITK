@@ -27,19 +27,19 @@
 
 namespace itk
 {
-template< class TInput, class TOutput >
+template< typename TInput, typename TOutput >
 FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
 ::FastMarchingQuadEdgeMeshFilterBase() : Superclass()
 {
   this->m_InputMesh = 0;
 }
 
-template< class TInput, class TOutput >
+template< typename TInput, typename TOutput >
 FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
 ::~FastMarchingQuadEdgeMeshFilterBase()
 {}
 
-template< class TInput, class TOutput >
+template< typename TInput, typename TOutput >
 IdentifierType
 FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
 ::GetTotalNumberOfNodes() const
@@ -47,7 +47,7 @@ FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
   return this->GetInput()->GetNumberOfPoints();
 }
 
-template< class TInput, class TOutput >
+template< typename TInput, typename TOutput >
 void
 FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
 ::SetOutputValue( OutputMeshType* oMesh,
@@ -57,7 +57,7 @@ FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
   oMesh->SetPointData( iNode, iValue );
 }
 
-template< class TInput, class TOutput >
+template< typename TInput, typename TOutput >
 const typename
 FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
 ::OutputPixelType
@@ -70,7 +70,7 @@ FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
 }
 
 
-template< class TInput, class TOutput >
+template< typename TInput, typename TOutput >
 unsigned char
 FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
 ::GetLabelValueForGivenNode( const NodeType& iNode ) const
@@ -87,7 +87,7 @@ FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
     }
 }
 
-template< class TInput, class TOutput >
+template< typename TInput, typename TOutput >
 void
 FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
 ::SetLabelValueForGivenNode( const NodeType& iNode,
@@ -96,7 +96,7 @@ FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
    m_Label[iNode] = iLabel;
 }
 
-template< class TInput, class TOutput >
+template< typename TInput, typename TOutput >
 void
 FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
 ::UpdateNeighbors( OutputMeshType* oMesh,
@@ -140,7 +140,7 @@ FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
     }
 }
 
-template< class TInput, class TOutput >
+template< typename TInput, typename TOutput >
 void
 FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
 ::UpdateValue( OutputMeshType* oMesh,
@@ -246,7 +246,7 @@ FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
     }
   }
 
-template< class TInput, class TOutput >
+template< typename TInput, typename TOutput >
 const typename
 FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
 ::OutputVectorRealType
@@ -346,7 +346,7 @@ FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
   return this->m_LargeValue;
   }
 
-template< class TInput, class TOutput >
+template< typename TInput, typename TOutput >
 const typename
 FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
 ::OutputVectorRealType
@@ -422,7 +422,7 @@ FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
     }
 }
 
-template< class TInput, class TOutput >
+template< typename TInput, typename TOutput >
 bool
 FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
 ::UnfoldTriangle(
@@ -615,7 +615,7 @@ FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
     return false;
   }
 
-template< class TInput, class TOutput >
+template< typename TInput, typename TOutput >
 bool
 FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
 ::CheckTopology( OutputMeshType* oMesh,
@@ -627,7 +627,7 @@ FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
   return true;
   }
 
-template< class TInput, class TOutput >
+template< typename TInput, typename TOutput >
 void
 FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
 ::InitializeOutput( OutputMeshType* oMesh )

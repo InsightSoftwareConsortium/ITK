@@ -19,7 +19,7 @@
 #include "itkImageAlgorithm.h"
 
 
-template <class TImage >
+template <typename TImage >
 static void AverageTestCopy( typename TImage::SizeType &size )
 {
 

@@ -27,7 +27,7 @@ namespace itk
 /**
  *
  */
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 ParametricSpaceToImageSpaceMeshFilter< TInputMesh, TOutputMesh >
 ::ParametricSpaceToImageSpaceMeshFilter()
 {
@@ -37,7 +37,7 @@ ParametricSpaceToImageSpaceMeshFilter< TInputMesh, TOutputMesh >
 /**
  *
  */
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 void
 ParametricSpaceToImageSpaceMeshFilter< TInputMesh, TOutputMesh >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -48,7 +48,7 @@ ParametricSpaceToImageSpaceMeshFilter< TInputMesh, TOutputMesh >
 /**
  * This method causes the filter to generate its output.
  */
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 void
 ParametricSpaceToImageSpaceMeshFilter< TInputMesh, TOutputMesh >
 ::GenerateData(void)
@@ -138,7 +138,7 @@ ParametricSpaceToImageSpaceMeshFilter< TInputMesh, TOutputMesh >
 /**
  * copy information from first input to all outputs
  */
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 void
 ParametricSpaceToImageSpaceMeshFilter< TInputMesh, TOutputMesh >
 ::GenerateOutputInformation()

@@ -47,7 +47,7 @@ namespace Statistics
  * \endwiki
  */
 
-template< class TMeasurementVector >
+template< typename TMeasurementVector >
 class ListSample:public Sample< TMeasurementVector >
 {
 public:

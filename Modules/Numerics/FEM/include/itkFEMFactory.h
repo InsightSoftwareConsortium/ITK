@@ -38,7 +38,7 @@ namespace itk
  * \ingroup ITKFEM
  */
 
-template <class T>
+template <typename T>
 class FEMFactory : public FEMFactoryBase
 {
 public:

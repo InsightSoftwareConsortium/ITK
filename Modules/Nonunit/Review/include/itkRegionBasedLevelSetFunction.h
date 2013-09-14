@@ -61,9 +61,9 @@ namespace itk
  * inside of the level-set function is negative and outside is positive.
  * \ingroup ITKReview
  */
-template< class TInput,   // LevelSetImageType
-          class TFeature, // FeatureImageType
-          class TSharedData >
+template< typename TInput,   // LevelSetImageType
+          typename TFeature, // FeatureImageType
+          typename TSharedData >
 class RegionBasedLevelSetFunction:public
   FiniteDifferenceFunction< TInput >
 {

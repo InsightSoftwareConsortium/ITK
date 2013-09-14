@@ -39,7 +39,7 @@ namespace itk
  *  \tparam TEquationContainer Container holding the system of level set of equations
  *   \ingroup ITKLevelSetsv4
  */
-template< class TEquationContainer, class TLevelSet >
+template< typename TEquationContainer, typename TLevelSet >
 class LevelSetEvolutionBase : public Object
 {
 public:

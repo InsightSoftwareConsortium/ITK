@@ -25,18 +25,18 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 const SizeValueType
 SparseFieldFourthOrderLevelSetImageFilter< TInputImage, TOutputImage >
 ::m_NumVertex = 1 << ImageDimension;
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 const typename SparseFieldFourthOrderLevelSetImageFilter< TInputImage,
                                                           TOutputImage >::ValueType
 SparseFieldFourthOrderLevelSetImageFilter< TInputImage, TOutputImage >
 ::m_DimConst = static_cast< ValueType >( 2.0 / m_NumVertex );
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 SparseFieldFourthOrderLevelSetImageFilter< TInputImage, TOutputImage >
 ::SparseFieldFourthOrderLevelSetImageFilter()
 {
@@ -55,7 +55,7 @@ SparseFieldFourthOrderLevelSetImageFilter< TInputImage, TOutputImage >
   m_NormalProcessUnsharpWeight = NumericTraits< ValueType >::Zero;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 SparseFieldFourthOrderLevelSetImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -80,7 +80,7 @@ SparseFieldFourthOrderLevelSetImageFilter< TInputImage, TOutputImage >
      << m_NormalProcessUnsharpWeight << std::endl;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void SparseFieldFourthOrderLevelSetImageFilter< TInputImage, TOutputImage >
 ::SetLevelSetFunction(LevelSetFunctionType *lsf)
 {
@@ -88,7 +88,7 @@ void SparseFieldFourthOrderLevelSetImageFilter< TInputImage, TOutputImage >
   Superclass::SetDifferenceFunction(lsf);
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 typename SparseFieldFourthOrderLevelSetImageFilter< TInputImage, TOutputImage >
 ::ValueType
 SparseFieldFourthOrderLevelSetImageFilter< TInputImage, TOutputImage >
@@ -148,7 +148,7 @@ SparseFieldFourthOrderLevelSetImageFilter< TInputImage, TOutputImage >
   return curvature;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 SparseFieldFourthOrderLevelSetImageFilter< TInputImage, TOutputImage >
 ::ComputeCurvatureTarget(const OutputImageType *distanceImage,
@@ -196,7 +196,7 @@ SparseFieldFourthOrderLevelSetImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 bool
 SparseFieldFourthOrderLevelSetImageFilter< TInputImage, TOutputImage >
 ::ActiveLayerCheckBand() const
@@ -223,7 +223,7 @@ SparseFieldFourthOrderLevelSetImageFilter< TInputImage, TOutputImage >
   return flag;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 SparseFieldFourthOrderLevelSetImageFilter< TInputImage, TOutputImage >
 ::ProcessNormals()

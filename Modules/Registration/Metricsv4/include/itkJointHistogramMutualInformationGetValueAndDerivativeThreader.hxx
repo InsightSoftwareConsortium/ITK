@@ -23,7 +23,7 @@
 namespace itk
 {
 
-template< class TDomainPartitioner, class TImageToImageMetric, class TJointHistogramMetric >
+template< typename TDomainPartitioner, typename TImageToImageMetric, typename TJointHistogramMetric >
 void
 JointHistogramMutualInformationGetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric, TJointHistogramMetric >
 ::BeforeThreadedExecution()
@@ -61,7 +61,7 @@ JointHistogramMutualInformationGetValueAndDerivativeThreader< TDomainPartitioner
     }
 }
 
-template< class TDomainPartitioner, class TImageToImageMetric, class TJointHistogramMetric >
+template< typename TDomainPartitioner, typename TImageToImageMetric, typename TJointHistogramMetric >
 void
 JointHistogramMutualInformationGetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric, TJointHistogramMetric >
 ::AfterThreadedExecution()
@@ -77,7 +77,7 @@ JointHistogramMutualInformationGetValueAndDerivativeThreader< TDomainPartitioner
     }
 }
 
-template< class TDomainPartitioner, class TImageToImageMetric, class TJointHistogramMetric >
+template< typename TDomainPartitioner, typename TImageToImageMetric, typename TJointHistogramMetric >
 bool
 JointHistogramMutualInformationGetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric, TJointHistogramMetric >
 ::ProcessPoint( const VirtualIndexType &,
@@ -157,7 +157,7 @@ JointHistogramMutualInformationGetValueAndDerivativeThreader< TDomainPartitioner
   return true;
 }
 
-template< class TDomainPartitioner, class TImageToImageMetric, class TJointHistogramMetric >
+template< typename TDomainPartitioner, typename TImageToImageMetric, typename TJointHistogramMetric >
 typename JointHistogramMutualInformationGetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric, TJointHistogramMetric >::InternalComputationValueType
 JointHistogramMutualInformationGetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric, TJointHistogramMetric >
 ::ComputeFixedImageMarginalPDFDerivative( const MarginalPDFPointType & margPDFpoint,
@@ -198,7 +198,7 @@ JointHistogramMutualInformationGetValueAndDerivativeThreader< TDomainPartitioner
     }
 }
 
-template< class TDomainPartitioner, class TImageToImageMetric, class TJointHistogramMetric >
+template< typename TDomainPartitioner, typename TImageToImageMetric, typename TJointHistogramMetric >
 typename JointHistogramMutualInformationGetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric, TJointHistogramMetric >::InternalComputationValueType
 JointHistogramMutualInformationGetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric, TJointHistogramMetric >
 ::ComputeMovingImageMarginalPDFDerivative( const MarginalPDFPointType & margPDFpoint,
@@ -240,7 +240,7 @@ JointHistogramMutualInformationGetValueAndDerivativeThreader< TDomainPartitioner
     }
 }
 
-template< class TDomainPartitioner, class TImageToImageMetric, class TJointHistogramMetric >
+template< typename TDomainPartitioner, typename TImageToImageMetric, typename TJointHistogramMetric >
 typename JointHistogramMutualInformationGetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric, TJointHistogramMetric >::InternalComputationValueType
 JointHistogramMutualInformationGetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric, TJointHistogramMetric >
 ::ComputeJointPDFDerivative( const JointPDFPointType & jointPDFpoint,

@@ -35,7 +35,7 @@ namespace itk
  * \ingroup ITKVideoCore
  */
 
-template< class TElement >
+template< typename TElement >
 class RingBuffer : public Object
 {
 public:

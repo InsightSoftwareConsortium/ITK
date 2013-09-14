@@ -22,7 +22,7 @@
 #include "itkAffineTransform.h"
 #include "itkCommand.h"
 
-template<class TFilter>
+template<typename TFilter>
 class itkEuclideanDistancePointSetMetricRegistrationTestCommandIterationUpdate : public itk::Command
 {
 public:
@@ -63,7 +63,7 @@ public:
 typedef itk::Transform<double, 2, 2> itkEuclideanDistancePointSetMetricRegistrationTestTransformType;
 
 /////////////////////////////////////////////////////////
-template< class TTransform, class TMetric, class TPointSet >
+template< typename TTransform, typename TMetric, typename TPointSet >
 int itkEuclideanDistancePointSetMetricRegistrationTestRun(
   unsigned int numberOfIterations, double maximumPhysicalStepSize, double pointMax,
   typename TTransform::Pointer & transform, typename TMetric::Pointer & metric )

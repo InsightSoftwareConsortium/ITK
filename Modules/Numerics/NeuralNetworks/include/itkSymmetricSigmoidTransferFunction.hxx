@@ -25,7 +25,7 @@ namespace itk
 namespace Statistics
 {
 
-template<class ScalarType>
+template<typename ScalarType>
 SymmetricSigmoidTransferFunction<ScalarType>
 ::SymmetricSigmoidTransferFunction()
 {
@@ -33,13 +33,13 @@ SymmetricSigmoidTransferFunction<ScalarType>
   m_Offset = 0.1;
 }
 
-template<class ScalarType>
+template<typename ScalarType>
 SymmetricSigmoidTransferFunction<ScalarType>
 ::~SymmetricSigmoidTransferFunction()
 {
 }
 
-template<class ScalarType>
+template<typename ScalarType>
 ScalarType
 SymmetricSigmoidTransferFunction<ScalarType>
 ::Evaluate(const ScalarType& input)  const
@@ -61,7 +61,7 @@ SymmetricSigmoidTransferFunction<ScalarType>
 }
 
 /** Evaluate derivatives */
-template<class ScalarType>
+template<typename ScalarType>
 ScalarType
 SymmetricSigmoidTransferFunction<ScalarType>
 ::EvaluateDerivative(const ScalarType& input)  const
@@ -72,7 +72,7 @@ SymmetricSigmoidTransferFunction<ScalarType>
 
 
 /** Print the object */
-template<class ScalarType>
+template<typename ScalarType>
 void
 SymmetricSigmoidTransferFunction<ScalarType>
 ::PrintSelf( std::ostream& os, Indent indent ) const

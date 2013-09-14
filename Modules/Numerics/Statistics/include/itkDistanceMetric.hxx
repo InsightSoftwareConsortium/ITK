@@ -24,7 +24,7 @@ namespace itk
 {
 namespace Statistics
 {
-template< class TVector >
+template< typename TVector >
 DistanceMetric< TVector >
 ::DistanceMetric()
 {
@@ -48,7 +48,7 @@ DistanceMetric< TVector >
   m_Origin.Fill(0.0);
 }
 
-template< class TVector >
+template< typename TVector >
 void
 DistanceMetric< TVector >
 ::SetOrigin(const OriginType & x)
@@ -68,7 +68,7 @@ DistanceMetric< TVector >
   this->Modified();
 }
 
-template< class TVector >
+template< typename TVector >
 void
 DistanceMetric< TVector >
 ::PrintSelf(std::ostream & os, Indent indent) const

@@ -23,18 +23,18 @@
 
 namespace itk
 {
-template< class TImageType, class TSparseImageType >
+template< typename TImageType, typename TSparseImageType >
 const typename LevelSetFunctionWithRefitTerm< TImageType, TSparseImageType >::NeighborhoodSizeValueType
 LevelSetFunctionWithRefitTerm< TImageType, TSparseImageType >
 ::m_NumVertex = 1 << TImageType::ImageDimension;
 
-template< class TImageType, class TSparseImageType >
+template< typename TImageType, typename TSparseImageType >
 const typename LevelSetFunctionWithRefitTerm< TImageType,
                                               TSparseImageType >::ScalarValueType
 LevelSetFunctionWithRefitTerm< TImageType, TSparseImageType >
 ::m_DimConst = static_cast< ScalarValueType >( 2.0 / m_NumVertex );
 
-template< class TImageType, class TSparseImageType >
+template< typename TImageType, typename TSparseImageType >
 LevelSetFunctionWithRefitTerm< TImageType, TSparseImageType >
 ::LevelSetFunctionWithRefitTerm()
 {
@@ -46,7 +46,7 @@ LevelSetFunctionWithRefitTerm< TImageType, TSparseImageType >
   m_MinVectorNorm = static_cast< ScalarValueType >( 1.0e-6 );
 }
 
-template< class TImageType, class TSparseImageType >
+template< typename TImageType, typename TSparseImageType >
 void
 LevelSetFunctionWithRefitTerm< TImageType, TSparseImageType >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -60,7 +60,7 @@ LevelSetFunctionWithRefitTerm< TImageType, TSparseImageType >
   os << indent << "NumVertex: " << m_NumVertex << std::endl;
 }
 
-template< class TImageType, class TSparseImageType >
+template< typename TImageType, typename TSparseImageType >
 typename LevelSetFunctionWithRefitTerm< TImageType,
                                         TSparseImageType >::TimeStepType
 LevelSetFunctionWithRefitTerm< TImageType, TSparseImageType >
@@ -73,7 +73,7 @@ LevelSetFunctionWithRefitTerm< TImageType, TSparseImageType >
   return dt;
 }
 
-template< class TImageType, class TSparseImageType >
+template< typename TImageType, typename TSparseImageType >
 typename LevelSetFunctionWithRefitTerm< TImageType,
                                         TSparseImageType >::ScalarValueType
 LevelSetFunctionWithRefitTerm< TImageType, TSparseImageType >
@@ -154,7 +154,7 @@ LevelSetFunctionWithRefitTerm< TImageType, TSparseImageType >
   return curvature;
 }
 
-template< class TImageType, class TSparseImageType >
+template< typename TImageType, typename TSparseImageType >
 typename LevelSetFunctionWithRefitTerm< TImageType,
                                         TSparseImageType >::ScalarValueType
 LevelSetFunctionWithRefitTerm< TImageType, TSparseImageType >

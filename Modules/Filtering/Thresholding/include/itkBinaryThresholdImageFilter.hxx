@@ -35,7 +35,7 @@ namespace itk
 /**
  *
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 BinaryThresholdImageFilter< TInputImage, TOutputImage >
 ::BinaryThresholdImageFilter()
 {
@@ -57,7 +57,7 @@ BinaryThresholdImageFilter< TInputImage, TOutputImage >
 /**
  *
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 BinaryThresholdImageFilter< TInputImage, TOutputImage >
 ::SetLowerThreshold(const InputPixelType threshold)
@@ -81,7 +81,7 @@ BinaryThresholdImageFilter< TInputImage, TOutputImage >
   this->Modified();
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 BinaryThresholdImageFilter< TInputImage, TOutputImage >
 ::SetLowerThresholdInput(const InputPixelObjectType *input)
@@ -94,7 +94,7 @@ BinaryThresholdImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 typename BinaryThresholdImageFilter< TInputImage, TOutputImage >::InputPixelType
 BinaryThresholdImageFilter< TInputImage, TOutputImage >
 ::GetLowerThreshold() const
@@ -105,7 +105,7 @@ BinaryThresholdImageFilter< TInputImage, TOutputImage >
   return lower->Get();
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 typename BinaryThresholdImageFilter< TInputImage, TOutputImage >::InputPixelObjectType *
 BinaryThresholdImageFilter< TInputImage, TOutputImage >
 ::GetLowerThresholdInput()
@@ -124,7 +124,7 @@ BinaryThresholdImageFilter< TInputImage, TOutputImage >
   return lower;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 const
 typename BinaryThresholdImageFilter< TInputImage, TOutputImage >::InputPixelObjectType *
 BinaryThresholdImageFilter< TInputImage, TOutputImage >
@@ -148,7 +148,7 @@ BinaryThresholdImageFilter< TInputImage, TOutputImage >
 /**
  *
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 BinaryThresholdImageFilter< TInputImage, TOutputImage >
 ::SetUpperThreshold(const InputPixelType threshold)
@@ -172,7 +172,7 @@ BinaryThresholdImageFilter< TInputImage, TOutputImage >
   this->Modified();
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 BinaryThresholdImageFilter< TInputImage, TOutputImage >
 ::SetUpperThresholdInput(const InputPixelObjectType *input)
@@ -185,7 +185,7 @@ BinaryThresholdImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 typename BinaryThresholdImageFilter< TInputImage, TOutputImage >::InputPixelType
 BinaryThresholdImageFilter< TInputImage, TOutputImage >
 ::GetUpperThreshold() const
@@ -196,7 +196,7 @@ BinaryThresholdImageFilter< TInputImage, TOutputImage >
   return upper->Get();
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 typename BinaryThresholdImageFilter< TInputImage, TOutputImage >::InputPixelObjectType *
 BinaryThresholdImageFilter< TInputImage, TOutputImage >
 ::GetUpperThresholdInput()
@@ -215,7 +215,7 @@ BinaryThresholdImageFilter< TInputImage, TOutputImage >
   return upper;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 const
 typename BinaryThresholdImageFilter< TInputImage, TOutputImage >::InputPixelObjectType *
 BinaryThresholdImageFilter< TInputImage, TOutputImage >
@@ -239,7 +239,7 @@ BinaryThresholdImageFilter< TInputImage, TOutputImage >
 /**
  *
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 BinaryThresholdImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -259,7 +259,7 @@ BinaryThresholdImageFilter< TInputImage, TOutputImage >
 /**
  *
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 BinaryThresholdImageFilter< TInputImage, TOutputImage >
 ::BeforeThreadedGenerateData()

@@ -58,7 +58,7 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template< class TScalar = double >
+template< typename TScalar = double >
 // Data type for scalars (float or double)
 class Similarity2DTransform :
   public Rigid2DTransform< TScalar >

@@ -46,7 +46,7 @@ namespace itk
 
 namespace Functor
 {
-template< class TInputPixel, class TAccumulate >
+template< typename TInputPixel, typename TAccumulate >
 class StandardDeviationAccumulator
 {
 public:
@@ -97,9 +97,9 @@ public:
 };
 } // end namespace Function
 
-template< class TInputImage,
-          class TOutputImage,
-          class TAccumulate = typename
+template< typename TInputImage,
+          typename TOutputImage,
+          typename TAccumulate = typename
                               NumericTraits< typename TOutputImage::PixelType >
                               ::AccumulateType >
 class StandardDeviationProjectionImageFilter:

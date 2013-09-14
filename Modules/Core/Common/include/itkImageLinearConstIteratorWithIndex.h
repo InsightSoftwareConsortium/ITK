@@ -221,7 +221,7 @@ private:
 //----------------------------------------------------------------------
 //  Go to next line
 //----------------------------------------------------------------------
-template< class TImage >
+template< typename TImage >
 inline
 void
 ImageLinearConstIteratorWithIndex< TImage >
@@ -259,7 +259,7 @@ ImageLinearConstIteratorWithIndex< TImage >
 //----------------------------------------------------------------------
 //  Pass to the last pixel on the previous line
 //----------------------------------------------------------------------
-template< class TImage >
+template< typename TImage >
 inline
 void
 ImageLinearConstIteratorWithIndex< TImage >

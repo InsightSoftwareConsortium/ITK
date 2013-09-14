@@ -105,7 +105,7 @@ namespace itk
  * \wikiexample{Registration/ImageRegistrationMethodBSpline,
  *   A global registration of two images}
  */
-template <class TScalar = double, unsigned int NDimensions = 3,
+template <typename TScalar = double, unsigned int NDimensions = 3,
           unsigned int VSplineOrder = 3>
 class BSplineTransform :
   public BSplineBaseTransform<TScalar,NDimensions,VSplineOrder>

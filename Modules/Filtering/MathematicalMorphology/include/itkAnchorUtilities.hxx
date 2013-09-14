@@ -31,7 +31,7 @@ namespace itk
 * erosions/dilation
 *
 **/
-template< class TImage, class TBres, class TAnchor, class TLine >
+template< typename TImage, typename TBres, typename TAnchor, typename TLine >
 void DoAnchorFace(const TImage *input,
                   TImage *output,
                   typename TImage::PixelType border,

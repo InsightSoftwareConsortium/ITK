@@ -31,7 +31,7 @@ void print_vnl_matrix(T& mat)
     }
 }
 
-template <class V>  // V is often double or float
+template <typename V>  // V is often double or float
 vnl_matrix<V> solve_with_warning(vnl_matrix<V>const& M,
          vnl_matrix<V>const& B)
 {

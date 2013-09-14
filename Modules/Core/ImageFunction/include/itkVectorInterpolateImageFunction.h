@@ -42,7 +42,7 @@ namespace itk
  * \ingroup ImageFunctions ImageInterpolators
  * \ingroup ITKImageFunction
  */
-template< class TInputImage, class TCoordRep = double >
+template< typename TInputImage, typename TCoordRep = double >
 class VectorInterpolateImageFunction:
   public ImageFunction<
     TInputImage,

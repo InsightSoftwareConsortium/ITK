@@ -62,7 +62,7 @@ namespace itk
  *
  * \ingroup ITKIOXML
  */
-template< class TInput >
+template< typename TInput >
 class DOMWriter : public Object
 {
 public:

@@ -28,7 +28,7 @@ namespace itk
 //
 // Constructor
 //
-template< class TInputMesh >
+template< typename TInputMesh >
 VTKPolyDataWriter< TInputMesh >
 ::VTKPolyDataWriter()
 {
@@ -39,7 +39,7 @@ VTKPolyDataWriter< TInputMesh >
 //
 // Destructor
 //
-template< class TInputMesh >
+template< typename TInputMesh >
 VTKPolyDataWriter< TInputMesh >
 ::~VTKPolyDataWriter()
 {}
@@ -47,7 +47,7 @@ VTKPolyDataWriter< TInputMesh >
 //
 // Set the input mesh
 //
-template< class TInputMesh >
+template< typename TInputMesh >
 void
 VTKPolyDataWriter< TInputMesh >
 ::SetInput(const InputMeshType *input)
@@ -58,7 +58,7 @@ VTKPolyDataWriter< TInputMesh >
 //
 // Write the input mesh to the output file
 //
-template< class TInputMesh >
+template< typename TInputMesh >
 void VTKPolyDataWriter< TInputMesh >
 ::Update()
 {
@@ -68,14 +68,14 @@ void VTKPolyDataWriter< TInputMesh >
 //
 // Write the input mesh to the output file
 //
-template< class TInputMesh >
+template< typename TInputMesh >
 void VTKPolyDataWriter< TInputMesh >
 ::Write()
 {
   this->GenerateData();
 }
 
-template< class TInputMesh >
+template< typename TInputMesh >
 void
 VTKPolyDataWriter< TInputMesh >
 ::GenerateData()
@@ -270,7 +270,7 @@ VTKPolyDataWriter< TInputMesh >
   outputFile.close();
 }
 
-template< class TInputMesh >
+template< typename TInputMesh >
 void
 VTKPolyDataWriter< TInputMesh >
 ::PrintSelf(std::ostream & os, Indent indent) const

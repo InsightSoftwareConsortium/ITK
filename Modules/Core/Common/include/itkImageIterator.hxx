@@ -25,7 +25,7 @@ namespace itk
 //----------------------------------------------------------------------
 //  Constructor
 //----------------------------------------------------------------------
-template< class TImage >
+template< typename TImage >
 ImageIterator< TImage >
 ::ImageIterator()
 {}
@@ -33,7 +33,7 @@ ImageIterator< TImage >
 //----------------------------------------------------------------------
 //  Constructor
 //----------------------------------------------------------------------
-template< class TImage >
+template< typename TImage >
 ImageIterator< TImage >
 ::ImageIterator(const Self & it):
   ImageConstIterator< TImage >(it)
@@ -42,7 +42,7 @@ ImageIterator< TImage >
 //----------------------------------------------------------------------
 //  Constructor
 //----------------------------------------------------------------------
-template< class TImage >
+template< typename TImage >
 ImageIterator< TImage >
 ::ImageIterator(TImage *ptr, const RegionType & region):
   ImageConstIterator< TImage >(ptr, region)
@@ -51,7 +51,7 @@ ImageIterator< TImage >
 //----------------------------------------------------------------------
 //  Constructor
 //----------------------------------------------------------------------
-template< class TImage >
+template< typename TImage >
 ImageIterator< TImage >
 ::ImageIterator(const ImageConstIterator< TImage > & it):
   ImageConstIterator< TImage >(it)
@@ -60,7 +60,7 @@ ImageIterator< TImage >
 //----------------------------------------------------------------------
 //    Assignment Operator
 //----------------------------------------------------------------------
-template< class TImage >
+template< typename TImage >
 ImageIterator< TImage > &
 ImageIterator< TImage >
 ::operator=(const ImageConstIterator< TImage > & it)
@@ -72,7 +72,7 @@ ImageIterator< TImage >
 //----------------------------------------------------------------------
 //    Assignment Operator
 //----------------------------------------------------------------------
-template< class TImage >
+template< typename TImage >
 ImageIterator< TImage > &
 ImageIterator< TImage >
 ::operator=(const Self & it)
@@ -84,7 +84,7 @@ ImageIterator< TImage >
 #if !defined(ITK_LEGACY_REMOVE)
 //----------------------------------------------------------------------------
 // Begin() is the first pixel in the region.
-template< class TImage >
+template< typename TImage >
 ImageIterator< TImage >
 ImageIterator< TImage >
 ::Begin() const
@@ -100,7 +100,7 @@ ImageIterator< TImage >
 //           m_StartIndex[VImageDimension-2] + m_Size[VImageDimension-2]-1,
 //           m_StartIndex[VImageDimension-1] + m_Size[VImageDimension-1]-1]
 //
-template< class TImage >
+template< typename TImage >
 ImageIterator< TImage >
 ImageIterator< TImage >
 ::End() const

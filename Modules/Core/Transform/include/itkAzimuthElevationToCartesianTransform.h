@@ -76,7 +76,7 @@ namespace itk
  * \wikiexample{Utilities/AzimuthElevationToCartesianTransform,Cartesian to AzimuthElevation and vice-versa}
  * \endwiki
  */
-template< class TScalar = float,  // Data type for scalars
+template< typename TScalar = float,  // Data type for scalars
           unsigned int NDimensions = 3 >
 // (e.g. float or double)
 class AzimuthElevationToCartesianTransform:

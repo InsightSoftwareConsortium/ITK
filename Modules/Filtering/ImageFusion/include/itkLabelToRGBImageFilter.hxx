@@ -35,7 +35,7 @@ namespace itk
 /**
  *
  */
-template< class TLabelImage, class TOutputImage >
+template< typename TLabelImage, typename TOutputImage >
 LabelToRGBImageFilter< TLabelImage, TOutputImage >
 ::LabelToRGBImageFilter()
 {
@@ -44,7 +44,7 @@ LabelToRGBImageFilter< TLabelImage, TOutputImage >
   m_BackgroundColor.Fill(NumericTraits< OutputPixelValueType >::Zero);
 }
 
-template< class TLabelImage, class TOutputImage >
+template< typename TLabelImage, typename TOutputImage >
 unsigned int
 LabelToRGBImageFilter< TLabelImage, TOutputImage >
 ::GetNumberOfColors() const
@@ -52,7 +52,7 @@ LabelToRGBImageFilter< TLabelImage, TOutputImage >
   return this->GetFunctor().GetNumberOfColors();
 }
 
-template< class TLabelImage, class TOutputImage >
+template< typename TLabelImage, typename TOutputImage >
 void
 LabelToRGBImageFilter< TLabelImage, TOutputImage >
 ::ResetColors()
@@ -60,7 +60,7 @@ LabelToRGBImageFilter< TLabelImage, TOutputImage >
   this->GetFunctor().ResetColors();
 }
 
-template< class TLabelImage, class TOutputImage >
+template< typename TLabelImage, typename TOutputImage >
 void
 LabelToRGBImageFilter< TLabelImage, TOutputImage >
 ::AddColor(ComponentType r, ComponentType g, ComponentType b)
@@ -68,7 +68,7 @@ LabelToRGBImageFilter< TLabelImage, TOutputImage >
   this->GetFunctor().AddColor(r, g, b);
 }
 
-template< class TLabelImage, class TOutputImage >
+template< typename TLabelImage, typename TOutputImage >
 void
 LabelToRGBImageFilter< TLabelImage, TOutputImage >
 ::GenerateOutputInformation()
@@ -89,7 +89,7 @@ LabelToRGBImageFilter< TLabelImage, TOutputImage >
     }
 }
 
-template< class TLabelImage, class TOutputImage >
+template< typename TLabelImage, typename TOutputImage >
 void
 LabelToRGBImageFilter< TLabelImage, TOutputImage >
 ::BeforeThreadedGenerateData()
@@ -101,7 +101,7 @@ LabelToRGBImageFilter< TLabelImage, TOutputImage >
 /**
  *
  */
-template< class TLabelImage, class TOutputImage >
+template< typename TLabelImage, typename TOutputImage >
 void
 LabelToRGBImageFilter< TLabelImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

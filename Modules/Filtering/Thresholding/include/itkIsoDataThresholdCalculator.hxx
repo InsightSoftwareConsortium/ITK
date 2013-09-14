@@ -29,7 +29,7 @@ namespace itk
 /*
  * Compute the IsoData's threshold
  */
-template<class THistogram, class TOutput>
+template<typename THistogram, typename TOutput>
 void
 IsoDataThresholdCalculator<THistogram, TOutput>
 ::GenerateData(void)

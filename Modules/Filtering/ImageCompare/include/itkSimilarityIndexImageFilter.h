@@ -56,7 +56,7 @@ namespace itk
  * \ingroup MultiThreaded
  * \ingroup ITKImageCompare
  */
-template< class TInputImage1, class TInputImage2 >
+template< typename TInputImage1, typename TInputImage2 >
 class SimilarityIndexImageFilter:
   public ImageToImageFilter< TInputImage1, TInputImage1 >
 {

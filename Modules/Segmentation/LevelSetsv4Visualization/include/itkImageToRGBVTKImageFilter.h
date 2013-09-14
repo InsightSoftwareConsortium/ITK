@@ -30,7 +30,7 @@ namespace itk
  *
  * \ingroup ITKLevelSetsv4Visualization
  */
-template< class TInputImage >
+template< typename TInputImage >
 class ImageToRGBVTKImageFilter:public ProcessObject
 {
 public:

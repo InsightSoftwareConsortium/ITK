@@ -21,7 +21,7 @@
 
 namespace itk
 {
-template< class TInputImage >
+template< typename TInputImage >
 void
 WatershedImageFilter< TInputImage >
 ::SetThreshold(double val)
@@ -45,7 +45,7 @@ WatershedImageFilter< TInputImage >
     }
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void
 WatershedImageFilter< TInputImage >
 ::SetLevel(double val)
@@ -70,7 +70,7 @@ WatershedImageFilter< TInputImage >
     }
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 WatershedImageFilter< TInputImage >
 ::WatershedImageFilter():m_Threshold(0.0), m_Level(0.0)
 {
@@ -105,7 +105,7 @@ WatershedImageFilter< TInputImage >
   m_ThresholdChanged = true;
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void
 WatershedImageFilter< TInputImage >
 ::EnlargeOutputRequestedRegion(DataObject *data)
@@ -114,7 +114,7 @@ WatershedImageFilter< TInputImage >
   data->SetRequestedRegionToLargestPossibleRegion();
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void
 WatershedImageFilter< TInputImage >
 ::PrepareOutputs()
@@ -167,7 +167,7 @@ WatershedImageFilter< TInputImage >
     }
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void
 WatershedImageFilter< TInputImage >
 ::GenerateData()
@@ -203,7 +203,7 @@ WatershedImageFilter< TInputImage >
   m_ThresholdChanged = false;
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void
 WatershedImageFilter< TInputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

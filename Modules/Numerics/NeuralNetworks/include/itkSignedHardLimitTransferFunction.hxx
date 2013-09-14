@@ -26,21 +26,21 @@ namespace Statistics
 {
 
 /** Constructor */
-template<class ScalarType>
+template<typename ScalarType>
 SignedHardLimitTransferFunction<ScalarType>
 ::SignedHardLimitTransferFunction()
 {
 }
 
 /** Destructor */
-template<class ScalarType>
+template<typename ScalarType>
 SignedHardLimitTransferFunction<ScalarType>
 ::~SignedHardLimitTransferFunction()
 {
 }
 
 /** Evaluate */
-template<class ScalarType>
+template<typename ScalarType>
 ScalarType
 SignedHardLimitTransferFunction<ScalarType>
 ::Evaluate(const ScalarType& input)  const
@@ -49,7 +49,7 @@ SignedHardLimitTransferFunction<ScalarType>
 }
 
 /** Evaluate derivative */
-template<class ScalarType>
+template<typename ScalarType>
 ScalarType
 SignedHardLimitTransferFunction<ScalarType>
 ::EvaluateDerivative(const ScalarType& )  const
@@ -58,7 +58,7 @@ SignedHardLimitTransferFunction<ScalarType>
 }
 
 /** Print the object */
-template<class ScalarType>
+template<typename ScalarType>
 void
 SignedHardLimitTransferFunction< ScalarType>
 ::PrintSelf( std::ostream& os, Indent indent ) const

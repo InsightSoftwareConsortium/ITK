@@ -51,14 +51,14 @@ public:
    *
    * An exception will be thrown if errors were encountered during the conversion.
    */
-  template < class T >
+  template < typename T >
   static std::string& ToData( std::string& s, std::vector<T>& data, int count = -1 );
 
   /**
    * Functions to convert a vector of type std::vector<T> to a string.
    * An exception will be thrown if errors were encountered during the conversion.
    */
-  template < class T >
+  template < typename T >
   static std::string& FromData( std::string& s, const std::vector<T>& data );
 
   /////////////////////////////////////////////////////////////////////////////
@@ -74,14 +74,14 @@ public:
    *
    * An exception will be thrown if errors were encountered during the conversion.
    */
-  template < class T >
+  template < typename T >
   static std::string& ToData( std::string& s, Array<T>& data, int count = -1 );
 
   /**
    * Functions to convert an array of type itk::Array<T> to a string.
    * An exception will be thrown if errors were encountered during the conversion.
    */
-  template < class T >
+  template < typename T >
   static std::string& FromData( std::string& s, const Array<T>& data );
 
   /////////////////////////////////////////////////////////////////////////////
@@ -92,14 +92,14 @@ public:
    * Functions to convert a string to a value of basic data type.
    * An exception will be thrown if errors were encountered during the conversion.
    */
-  template < class T >
+  template < typename T >
   static std::string& ToData( std::string& s, T& data );
 
   /**
    * Functions to convert a value of basic data type to a string.
    * An exception will be thrown if errors were encountered during the conversion.
    */
-  template < class T >
+  template < typename T >
   static std::string& FromData( std::string& s, const T& data );
 
   /////////////////////////////////////////////////////////////////////////////

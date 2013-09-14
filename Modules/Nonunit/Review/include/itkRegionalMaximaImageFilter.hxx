@@ -28,7 +28,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 RegionalMaximaImageFilter< TInputImage, TOutputImage >
 ::RegionalMaximaImageFilter()
 {
@@ -38,7 +38,7 @@ RegionalMaximaImageFilter< TInputImage, TOutputImage >
   m_BackgroundValue = NumericTraits< OutputImagePixelType >::NonpositiveMin();
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 RegionalMaximaImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
@@ -55,7 +55,7 @@ RegionalMaximaImageFilter< TInputImage, TOutputImage >
   input->SetRequestedRegion( input->GetLargestPossibleRegion() );
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 RegionalMaximaImageFilter< TInputImage, TOutputImage >
 ::EnlargeOutputRequestedRegion(DataObject *)
@@ -64,7 +64,7 @@ RegionalMaximaImageFilter< TInputImage, TOutputImage >
   ->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 RegionalMaximaImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
@@ -130,7 +130,7 @@ RegionalMaximaImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 RegionalMaximaImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

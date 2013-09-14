@@ -39,7 +39,7 @@ namespace itk
 /**
  *
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 ShrinkImageFilter< TInputImage, TOutputImage >
 ::ShrinkImageFilter()
 {
@@ -52,7 +52,7 @@ ShrinkImageFilter< TInputImage, TOutputImage >
 /**
  *
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ShrinkImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -70,7 +70,7 @@ ShrinkImageFilter< TInputImage, TOutputImage >
 /**
  *
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ShrinkImageFilter< TInputImage, TOutputImage >
 ::SetShrinkFactors(unsigned int factor)
@@ -96,7 +96,7 @@ ShrinkImageFilter< TInputImage, TOutputImage >
 }
 
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ShrinkImageFilter< TInputImage, TOutputImage >
 ::SetShrinkFactor(unsigned int i, unsigned int factor)
@@ -114,7 +114,7 @@ ShrinkImageFilter< TInputImage, TOutputImage >
 /**
  *
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ShrinkImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
@@ -192,7 +192,7 @@ ShrinkImageFilter< TInputImage, TOutputImage >
 /**
  *
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ShrinkImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
@@ -274,7 +274,7 @@ ShrinkImageFilter< TInputImage, TOutputImage >
 /**
  *
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ShrinkImageFilter< TInputImage, TOutputImage >
 ::GenerateOutputInformation()

@@ -119,7 +119,7 @@ void QuickView::AddImage<UnsignedCharImageType>(
     }
 }
 
-template<class TImage>
+template<typename TImage>
 void QuickView::AddImage(
   TImage *image,
   bool FlipVertical,

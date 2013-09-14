@@ -73,10 +73,10 @@ namespace itk
  * \ingroup ITKImageGrid
  */
 
-template< class TInputImage,
-          class TOutputImage,
-          class TCoordType = typename TInputImage::PixelType,
-          class InterpolatorType = BSplineInterpolateImageFunction< TInputImage, TCoordType > >
+template< typename TInputImage,
+          typename TOutputImage,
+          typename TCoordType = typename TInputImage::PixelType,
+          typename InterpolatorType = BSplineInterpolateImageFunction< TInputImage, TCoordType > >
 class InterpolateImagePointsFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {

@@ -31,7 +31,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 BinaryMedianImageFilter< TInputImage, TOutputImage >
 ::BinaryMedianImageFilter()
 {
@@ -40,7 +40,7 @@ BinaryMedianImageFilter< TInputImage, TOutputImage >
   m_BackgroundValue = NumericTraits< InputPixelType >::Zero;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 BinaryMedianImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
@@ -90,7 +90,7 @@ throw ( InvalidRequestedRegionError )
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 BinaryMedianImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
@@ -162,7 +162,7 @@ BinaryMedianImageFilter< TInputImage, TOutputImage >
 /**
  * Standard "PrintSelf" method
  */
-template< class TInputImage, class TOutput >
+template< typename TInputImage, typename TOutput >
 void
 BinaryMedianImageFilter< TInputImage, TOutput >
 ::PrintSelf(

@@ -40,7 +40,7 @@ namespace itk
  * \ingroup DataProcessing
  * \ingroup ITKCommon
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class StreamingImageFilter:public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

@@ -37,7 +37,7 @@
 //  - IO support for VectorImage.
 //
 
-template< class TPixel, unsigned int VDimension, class TAdaptor, unsigned int VVectorLength >
+template< typename TPixel, unsigned int VDimension, typename TAdaptor, unsigned int VVectorLength >
 bool testVectorImageAdaptor( typename TAdaptor::Pointer & vectorImageAdaptor,
   const typename itk::VectorImage< TPixel, VDimension >::Pointer & vectorImage,
   const typename itk::VectorImage< TPixel, VDimension >::RegionType & region,
@@ -117,7 +117,7 @@ bool testVectorImageAdaptor( typename TAdaptor::Pointer & vectorImageAdaptor,
   return failed;
 }
 
-template< class TPixel, unsigned int VDimension >
+template< typename TPixel, unsigned int VDimension >
 bool testVectorImageBasicMethods( void )
 {
   const unsigned int VectorLength = 3 * VDimension;

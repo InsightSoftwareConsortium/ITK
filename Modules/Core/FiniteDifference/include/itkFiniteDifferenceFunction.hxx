@@ -22,7 +22,7 @@
 
 namespace itk
 {
-template< class TImageType >
+template< typename TImageType >
 FiniteDifferenceFunction< TImageType >::
 FiniteDifferenceFunction()
 {
@@ -34,21 +34,21 @@ FiniteDifferenceFunction()
     }
 }
 
-template< class TImageType >
+template< typename TImageType >
 void
 FiniteDifferenceFunction< TImageType >::SetRadius(const RadiusType & r)
 {
   m_Radius = r;
 }
 
-template< class TImageType >
+template< typename TImageType >
 const typename FiniteDifferenceFunction< TImageType >::RadiusType &
 FiniteDifferenceFunction< TImageType >::GetRadius() const
 {
   return m_Radius;
 }
 
-template< class TImageType >
+template< typename TImageType >
 void
 FiniteDifferenceFunction< TImageType >::
 SetScaleCoefficients(PixelRealType vals[ImageDimension])
@@ -59,7 +59,7 @@ SetScaleCoefficients(PixelRealType vals[ImageDimension])
     }
 }
 
-template< class TImageType >
+template< typename TImageType >
 void
 FiniteDifferenceFunction< TImageType >::
 GetScaleCoefficients(PixelRealType vals[ImageDimension]) const
@@ -70,7 +70,7 @@ GetScaleCoefficients(PixelRealType vals[ImageDimension]) const
     }
 }
 
-template< class TImageType >
+template< typename TImageType >
 void
 FiniteDifferenceFunction< TImageType >::PrintSelf(std::ostream & os, Indent indent) const
 {
@@ -79,7 +79,7 @@ FiniteDifferenceFunction< TImageType >::PrintSelf(std::ostream & os, Indent inde
   os << indent << "ScaleCoefficients: " << m_ScaleCoefficients;
 }
 
-template< class TImageType >
+template< typename TImageType >
 const typename FiniteDifferenceFunction< TImageType >::NeighborhoodScalesType
 FiniteDifferenceFunction< TImageType >::ComputeNeighborhoodScales() const
 {

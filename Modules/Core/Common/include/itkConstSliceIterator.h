@@ -47,7 +47,7 @@ namespace itk
  *
  * \ingroup ITKCommon
  */
-template< class TPixel, class TContainer >
+template< typename TPixel, typename TContainer >
 class ConstSliceIterator
 {
 public:

@@ -26,7 +26,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 DerivativeImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
@@ -82,7 +82,7 @@ throw ( InvalidRequestedRegionError )
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 DerivativeImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
@@ -146,7 +146,7 @@ DerivativeImageFilter< TInputImage, TOutputImage >
   this->GraftOutput( filter->GetOutput() );
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 DerivativeImageFilter< TInputImage, TOutputImage >::PrintSelf(std::ostream & os, Indent indent) const
 {

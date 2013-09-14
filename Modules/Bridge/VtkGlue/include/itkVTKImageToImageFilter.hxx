@@ -29,7 +29,7 @@ namespace itk
 /**
  * Constructor
  */
-template <class TOutputImage>
+template <typename TOutputImage>
 VTKImageToImageFilter<TOutputImage>
 ::VTKImageToImageFilter()
 {
@@ -54,7 +54,7 @@ VTKImageToImageFilter<TOutputImage>
 /**
  * Destructor
  */
-template <class TOutputImage>
+template <typename TOutputImage>
 VTKImageToImageFilter<TOutputImage>
 ::~VTKImageToImageFilter()
 {
@@ -68,7 +68,7 @@ VTKImageToImageFilter<TOutputImage>
 /**
  * Set a vtkImageData as input
  */
-template <class TOutputImage>
+template <typename TOutputImage>
 void
 VTKImageToImageFilter<TOutputImage>
 ::SetInput( vtkImageData * inputImage )
@@ -83,7 +83,7 @@ VTKImageToImageFilter<TOutputImage>
 /**
  * Get the exporter filter
  */
-template <class TOutputImage>
+template <typename TOutputImage>
 vtkImageExport *
 VTKImageToImageFilter<TOutputImage>
 ::GetExporter() const
@@ -94,7 +94,7 @@ VTKImageToImageFilter<TOutputImage>
 /**
  * Get the importer filter
  */
-template <class TOutputImage>
+template <typename TOutputImage>
 const typename VTKImageToImageFilter<TOutputImage>::Superclass *
 VTKImageToImageFilter<TOutputImage>
 ::GetImporter() const

@@ -24,7 +24,7 @@
 namespace itk
 {
 
-template<class TInternalComputationValueType>
+template<typename TInternalComputationValueType>
 QuasiNewtonOptimizerv4Template<TInternalComputationValueType>
 ::QuasiNewtonOptimizerv4Template()
 {
@@ -46,13 +46,13 @@ QuasiNewtonOptimizerv4Template<TInternalComputationValueType>
   this->m_EstimateNewtonStepThreader = estimateNewtonStepThreader;
 }
 
-template<class TInternalComputationValueType>
+template<typename TInternalComputationValueType>
 QuasiNewtonOptimizerv4Template<TInternalComputationValueType>
 ::~QuasiNewtonOptimizerv4Template()
 {
 }
 
-template<class TInternalComputationValueType>
+template<typename TInternalComputationValueType>
 void
 QuasiNewtonOptimizerv4Template<TInternalComputationValueType>
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -60,7 +60,7 @@ QuasiNewtonOptimizerv4Template<TInternalComputationValueType>
   Superclass::PrintSelf(os, indent);
 }
 
-template<class TInternalComputationValueType>
+template<typename TInternalComputationValueType>
 void
 QuasiNewtonOptimizerv4Template<TInternalComputationValueType>
 ::StartOptimization( bool doOnlyInitialization )
@@ -99,7 +99,7 @@ QuasiNewtonOptimizerv4Template<TInternalComputationValueType>
   Superclass::StartOptimization( doOnlyInitialization );
 }
 
-template<class TInternalComputationValueType>
+template<typename TInternalComputationValueType>
 void
 QuasiNewtonOptimizerv4Template<TInternalComputationValueType>
 ::AdvanceOneStep(void)
@@ -195,7 +195,7 @@ QuasiNewtonOptimizerv4Template<TInternalComputationValueType>
   this->InvokeEvent( IterationEvent() );
 }
 
-template<class TInternalComputationValueType>
+template<typename TInternalComputationValueType>
 void
 QuasiNewtonOptimizerv4Template<TInternalComputationValueType>
 ::CombineGradientNewtonStep()
@@ -240,7 +240,7 @@ QuasiNewtonOptimizerv4Template<TInternalComputationValueType>
     }
 }
 
-template<class TInternalComputationValueType>
+template<typename TInternalComputationValueType>
 void
 QuasiNewtonOptimizerv4Template<TInternalComputationValueType>
 ::ModifyCombinedNewtonStep()
@@ -275,7 +275,7 @@ QuasiNewtonOptimizerv4Template<TInternalComputationValueType>
     }
 }
 
-template<class TInternalComputationValueType>
+template<typename TInternalComputationValueType>
 void
 QuasiNewtonOptimizerv4Template<TInternalComputationValueType>
 ::ResetNewtonStep(IndexValueType loc)
@@ -299,7 +299,7 @@ QuasiNewtonOptimizerv4Template<TInternalComputationValueType>
     }
 }
 
-template<class TInternalComputationValueType>
+template<typename TInternalComputationValueType>
 void
 QuasiNewtonOptimizerv4Template<TInternalComputationValueType>
 ::EstimateNewtonStep()
@@ -320,7 +320,7 @@ QuasiNewtonOptimizerv4Template<TInternalComputationValueType>
     }
 }
 
-template<class TInternalComputationValueType>
+template<typename TInternalComputationValueType>
 void
 QuasiNewtonOptimizerv4Template<TInternalComputationValueType>
 ::EstimateNewtonStepOverSubRange( const IndexRangeType& subrange )
@@ -360,7 +360,7 @@ QuasiNewtonOptimizerv4Template<TInternalComputationValueType>
     } // end for loc
 }
 
-template<class TInternalComputationValueType>
+template<typename TInternalComputationValueType>
 bool
 QuasiNewtonOptimizerv4Template<TInternalComputationValueType>
 ::ComputeHessianAndStepWithBFGS(IndexValueType loc)

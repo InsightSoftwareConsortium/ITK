@@ -23,7 +23,7 @@
 
 namespace itk
 {
-template< class TLevelSetContainer >
+template< typename TLevelSetContainer >
 LevelSetEvolutionStoppingCriterion< TLevelSetContainer >
 ::LevelSetEvolutionStoppingCriterion()
 {
@@ -32,7 +32,7 @@ LevelSetEvolutionStoppingCriterion< TLevelSetContainer >
   this->m_CurrentIteration = NumericTraits< IterationIdType >::Zero;
 }
 
-template< class TLevelSetContainer >
+template< typename TLevelSetContainer >
 LevelSetEvolutionStoppingCriterion< TLevelSetContainer >
 ::~LevelSetEvolutionStoppingCriterion()
 {}

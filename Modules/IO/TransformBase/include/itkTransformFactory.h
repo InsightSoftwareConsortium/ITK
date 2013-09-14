@@ -37,7 +37,7 @@ namespace itk
  * \ingroup ITKIOTransformBase
  */
 
-template< class T >
+template< typename T >
 class TransformFactory:public TransformFactoryBase
 {
 public:

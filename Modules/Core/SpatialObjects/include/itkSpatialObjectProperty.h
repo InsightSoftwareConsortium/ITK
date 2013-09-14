@@ -31,7 +31,7 @@ namespace itk
  * it's templated over the representation to use for each color component.
  */
 
-template< class TComponentType = float >
+template< typename TComponentType = float >
 class SpatialObjectProperty:
   public LightObject
 {

@@ -26,21 +26,21 @@ namespace Statistics
 {
 
 /** Constructor */
-template<class ScalarType>
+template<typename ScalarType>
 GaussianTransferFunction<ScalarType>
 ::GaussianTransferFunction()
 {
 }
 
 /** Destructor */
-template<class ScalarType>
+template<typename ScalarType>
 GaussianTransferFunction<ScalarType>
 ::~GaussianTransferFunction()
 {
 }
 
 /** Evaluate function */
-template<class ScalarType>
+template<typename ScalarType>
 ScalarType
 GaussianTransferFunction<ScalarType>
 ::Evaluate(const ScalarType& input)  const
@@ -49,7 +49,7 @@ GaussianTransferFunction<ScalarType>
 }
 
 /** Evaluate derivatives function */
-template<class ScalarType>
+template<typename ScalarType>
 ScalarType
 GaussianTransferFunction<ScalarType>
 ::EvaluateDerivative(const ScalarType& input)  const
@@ -58,7 +58,7 @@ GaussianTransferFunction<ScalarType>
 }
 
 /** Print the object */
-template<class ScalarType>
+template<typename ScalarType>
 void
 GaussianTransferFunction<ScalarType>
 ::PrintSelf( std::ostream& os, Indent indent ) const

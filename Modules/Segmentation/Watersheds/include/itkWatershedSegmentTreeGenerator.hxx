@@ -26,7 +26,7 @@ namespace itk
 {
 namespace watershed
 {
-template< class TScalar >
+template< typename TScalar >
 SegmentTreeGenerator< TScalar >
 ::SegmentTreeGenerator():m_Merge(false), m_FloodLevel(0.0),
   m_ConsumeInput(false), m_HighestCalculatedFloodLevel(0.0)
@@ -38,7 +38,7 @@ SegmentTreeGenerator< TScalar >
   m_MergedSegmentsTable = OneWayEquivalencyTableType::New();
 }
 
-template< class TScalar >
+template< typename TScalar >
 typename SegmentTreeGenerator< TScalar >::DataObjectPointer
 SegmentTreeGenerator< TScalar >
 ::MakeOutput( DataObjectPointerArraySizeType itkNotUsed(idx) )
@@ -46,7 +46,7 @@ SegmentTreeGenerator< TScalar >
   return SegmentTreeType::New().GetPointer();
 }
 
-template< class TScalar >
+template< typename TScalar >
 void SegmentTreeGenerator< TScalar >
 ::SetFloodLevel(double val)
 {
@@ -67,7 +67,7 @@ void SegmentTreeGenerator< TScalar >
     }
 }
 
-template< class TScalar >
+template< typename TScalar >
 void SegmentTreeGenerator< TScalar >
 ::GenerateData()
 {
@@ -105,7 +105,7 @@ void SegmentTreeGenerator< TScalar >
     }
 }
 
-template< class TScalar >
+template< typename TScalar >
 void SegmentTreeGenerator< TScalar >
 ::MergeEquivalencies()
 {
@@ -136,7 +136,7 @@ void SegmentTreeGenerator< TScalar >
     }
 }
 
-template< class TScalar >
+template< typename TScalar >
 void SegmentTreeGenerator< TScalar >
 ::CompileMergeList(SegmentTableTypePointer segments,
                    SegmentTreeTypePointer mergeList)
@@ -188,7 +188,7 @@ void SegmentTreeGenerator< TScalar >
   std::make_heap( mergeList->Begin(), mergeList->End(), MergeComparison() );
 }
 
-template< class TScalar >
+template< typename TScalar >
 void SegmentTreeGenerator< TScalar >
 ::ExtractMergeHierarchy(SegmentTableTypePointer segments,
                         SegmentTreeTypePointer heap)
@@ -287,7 +287,7 @@ void SegmentTreeGenerator< TScalar >
     }
 }
 
-template< class TScalar >
+template< typename TScalar >
 void SegmentTreeGenerator< TScalar >
 ::PruneMergeSegments(SegmentTableTypePointer segments,
                      OneWayEquivalencyTableTypePointer eqT,
@@ -415,7 +415,7 @@ void SegmentTreeGenerator< TScalar >
   eqT->Add(FROM, TO);
 }
 
-template< class TScalar >
+template< typename TScalar >
 void SegmentTreeGenerator< TScalar >
 ::MergeSegments(SegmentTableTypePointer segments,
                 OneWayEquivalencyTableTypePointer eqT,
@@ -544,12 +544,12 @@ void SegmentTreeGenerator< TScalar >
   eqT->Add(FROM, TO);
 }
 
-template< class TScalar >
+template< typename TScalar >
 void SegmentTreeGenerator< TScalar >
 ::GenerateOutputRequestedRegion( DataObject *itkNotUsed(output) )
 {}
 
-template< class TScalar >
+template< typename TScalar >
 void SegmentTreeGenerator< TScalar >
 ::GenerateInputRequestedRegion()
 {
@@ -567,7 +567,7 @@ void SegmentTreeGenerator< TScalar >
   //    }
 }
 
-template< class TScalar >
+template< typename TScalar >
 void
 SegmentTreeGenerator< TScalar >
 ::PrintSelf(std::ostream & os, Indent indent) const

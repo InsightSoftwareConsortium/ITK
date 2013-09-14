@@ -51,10 +51,10 @@ template <typename TPixelType, unsigned int VImageDimension > class VectorImage;
  * \ingroup GradientFilters
  * \ingroup ITKImageGradient
  */
-template< class TInputImage,
-          class TOperatorValueType = float,
-          class TOutputValueType = float,
-          class TOutputImageType = Image< CovariantVector< TOutputValueType,
+template< typename TInputImage,
+          typename TOperatorValueType = float,
+          typename TOutputValueType = float,
+          typename TOutputImageType = Image< CovariantVector< TOutputValueType,
                                                            TInputImage::ImageDimension >,
                                           TInputImage::ImageDimension > >
 class GradientImageFilter:
@@ -170,7 +170,7 @@ private:
 
   // An overloaded method which may transform the gradient to a
   // physical vector and converts to the correct output pixel type.
-  template <class TValueType>
+  template <typename TValueType>
   void SetOutputPixel( ImageRegionIterator< VectorImage<TValueType,OutputImageDimension> > &it, CovariantVectorType &gradient )
   {
     if ( this->m_UseImageDirection )
@@ -185,7 +185,7 @@ private:
       }
   }
 
-  template <class T >
+  template <typename T >
   void SetOutputPixel( ImageRegionIterator< T > &it, CovariantVectorType &gradient )
   {
     // This uses the more efficient set by reference method

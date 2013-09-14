@@ -26,7 +26,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ZeroCrossingBasedEdgeDetectionImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
@@ -72,7 +72,7 @@ ZeroCrossingBasedEdgeDetectionImageFilter< TInputImage, TOutputImage >
   this->GraftOutput( zerocrossingFilter->GetOutput() );
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ZeroCrossingBasedEdgeDetectionImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

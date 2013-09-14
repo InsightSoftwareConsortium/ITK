@@ -55,9 +55,9 @@ namespace itk
  * \ingroup ImageFeatureExtraction
  * \ingroup ITKDistanceMap
  */
-template< class TInputImage,
-  class TOutputImage,
-  class TVoronoiImage = TInputImage >
+template< typename TInputImage,
+  typename TOutputImage,
+  typename TVoronoiImage = TInputImage >
 class DanielssonDistanceMapImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {

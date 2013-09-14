@@ -30,7 +30,7 @@ namespace itk
 /**
  * Constructor
  */
-template<class TImageType, class TCoordRep>
+template<typename TImageType, typename TCoordRep>
 GaussianInterpolateImageFunction<TImageType, TCoordRep>
 ::GaussianInterpolateImageFunction()
 {
@@ -41,7 +41,7 @@ GaussianInterpolateImageFunction<TImageType, TCoordRep>
 /**
  * Standard "PrintSelf" method
  */
-template<class TImageType, class TCoordRep>
+template<typename TImageType, typename TCoordRep>
 void
 GaussianInterpolateImageFunction<TImageType, TCoordRep>
 ::PrintSelf( std::ostream& os, Indent indent ) const
@@ -51,7 +51,7 @@ GaussianInterpolateImageFunction<TImageType, TCoordRep>
   os << indent << "Sigma: " << this->m_Sigma << std::endl;
 }
 
-template<class TImageType, class TCoordRep>
+template<typename TImageType, typename TCoordRep>
 void
 GaussianInterpolateImageFunction<TImageType, TCoordRep>
 ::ComputeBoundingBox()
@@ -74,7 +74,7 @@ GaussianInterpolateImageFunction<TImageType, TCoordRep>
     }
 }
 
-template<class TImageType, class TCoordRep>
+template<typename TImageType, typename TCoordRep>
 typename GaussianInterpolateImageFunction<TImageType, TCoordRep>
 ::OutputType
 GaussianInterpolateImageFunction<TImageType, TCoordRep>
@@ -178,7 +178,7 @@ GaussianInterpolateImageFunction<TImageType, TCoordRep>
   return rc;
 }
 
-template<class TImageType, class TCoordRep>
+template<typename TImageType, typename TCoordRep>
 void
 GaussianInterpolateImageFunction<TImageType, TCoordRep>
 ::ComputeErrorFunctionArray( unsigned int dimension, RealType cindex,

@@ -30,7 +30,7 @@ namespace Functor
  * \brief
  * \ingroup ITKImageIntensity
  */
-template< class TInput1, class TInput2, class TOutput >
+template< typename TInput1, typename TInput2, typename TOutput >
 class ConstrainedValueAddition
 {
 public:
@@ -91,7 +91,7 @@ public:
  * \ingroup MultiThreaded
  * \ingroup ITKImageIntensity
  */
-template< class TInputImage1, class TInputImage2, class TOutputImage >
+template< typename TInputImage1, typename TInputImage2, typename TOutputImage >
 class ConstrainedValueAdditionImageFilter:
   public
   BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage,

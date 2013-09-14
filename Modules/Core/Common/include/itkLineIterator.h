@@ -52,7 +52,7 @@ namespace itk
  * \wikiexample{Iterators/LineIterator,Iterate over a line through an image}
  * \endwiki
  */
-template< class TImage >
+template< typename TImage >
 class LineIterator:public LineConstIterator< TImage >
 {
 public:

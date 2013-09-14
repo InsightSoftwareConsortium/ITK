@@ -32,7 +32,7 @@ namespace Statistics
  * \ingroup ITKNeuralNetworks
  */
 
-template<class TMeasurementVector, class ScalarType>
+template<typename TMeasurementVector, typename ScalarType>
 class MeanSquaredErrorFunction : public ErrorFunctionBase<TMeasurementVector, ScalarType>
 {
 public:

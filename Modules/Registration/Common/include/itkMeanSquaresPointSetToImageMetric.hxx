@@ -26,7 +26,7 @@ namespace itk
 /**
  * Constructor
  */
-template <class TFixedPointSet, class TMovingImage>
+template <typename TFixedPointSet, typename TMovingImage>
 MeanSquaresPointSetToImageMetric<TFixedPointSet, TMovingImage>
 ::MeanSquaresPointSetToImageMetric()
 {
@@ -35,7 +35,7 @@ MeanSquaresPointSetToImageMetric<TFixedPointSet, TMovingImage>
 /**
  * Get the match Measure
  */
-template <class TFixedPointSet, class TMovingImage>
+template <typename TFixedPointSet, typename TMovingImage>
 typename MeanSquaresPointSetToImageMetric<TFixedPointSet, TMovingImage>::MeasureType
 MeanSquaresPointSetToImageMetric<TFixedPointSet, TMovingImage>
 ::GetValue(const TransformParametersType & parameters) const
@@ -96,7 +96,7 @@ MeanSquaresPointSetToImageMetric<TFixedPointSet, TMovingImage>
 /**
  * Get the Derivative Measure
  */
-template <class TFixedPointSet, class TMovingImage>
+template <typename TFixedPointSet, typename TMovingImage>
 void
 MeanSquaresPointSetToImageMetric<TFixedPointSet, TMovingImage>
 ::GetDerivative(const TransformParametersType & parameters,
@@ -194,7 +194,7 @@ MeanSquaresPointSetToImageMetric<TFixedPointSet, TMovingImage>
 /*
  * Get both the match Measure and theDerivative Measure
  */
-template <class TFixedPointSet, class TMovingImage>
+template <typename TFixedPointSet, typename TMovingImage>
 void
 MeanSquaresPointSetToImageMetric<TFixedPointSet, TMovingImage>
 ::GetValueAndDerivative(const TransformParametersType & parameters,

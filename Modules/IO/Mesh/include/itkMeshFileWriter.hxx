@@ -29,7 +29,7 @@
 
 namespace itk
 {
-template< class TInputMesh >
+template< typename TInputMesh >
 MeshFileWriter< TInputMesh >
 ::MeshFileWriter()
 {
@@ -40,12 +40,12 @@ MeshFileWriter< TInputMesh >
   m_FileTypeIsBINARY = false;
 }
 
-template< class TInputMesh >
+template< typename TInputMesh >
 MeshFileWriter< TInputMesh >
 ::~MeshFileWriter()
 {}
 
-template< class TInputMesh >
+template< typename TInputMesh >
 void
 MeshFileWriter< TInputMesh >
 ::SetInput(const InputMeshType *input)
@@ -53,7 +53,7 @@ MeshFileWriter< TInputMesh >
   this->ProcessObject::SetNthInput( 0, const_cast< TInputMesh * >( input ) );
 }
 
-template< class TInputMesh >
+template< typename TInputMesh >
 const typename MeshFileWriter< TInputMesh >::InputMeshType *
 MeshFileWriter< TInputMesh >
 ::GetInput(void)
@@ -66,7 +66,7 @@ MeshFileWriter< TInputMesh >
   return static_cast< TInputMesh * >( this->ProcessObject::GetInput(0) );
 }
 
-template< class TInputMesh >
+template< typename TInputMesh >
 const typename MeshFileWriter< TInputMesh >::InputMeshType *
 MeshFileWriter< TInputMesh >
 ::GetInput(unsigned int idx)
@@ -74,7 +74,7 @@ MeshFileWriter< TInputMesh >
   return static_cast< TInputMesh * >( this->ProcessObject::GetInput(idx) );
 }
 
-template< class TInputMesh >
+template< typename TInputMesh >
 void
 MeshFileWriter< TInputMesh >
 ::Write()
@@ -250,7 +250,7 @@ MeshFileWriter< TInputMesh >
   this->ReleaseInputs();
 }
 
-template< class TInputMesh >
+template< typename TInputMesh >
 void
 MeshFileWriter< TInputMesh >
 ::WritePoints(void)
@@ -265,7 +265,7 @@ MeshFileWriter< TInputMesh >
   delete[] buffer;
 }
 
-template< class TInputMesh >
+template< typename TInputMesh >
 void
 MeshFileWriter< TInputMesh >
 ::WriteCells(void)
@@ -279,7 +279,7 @@ MeshFileWriter< TInputMesh >
   delete[] buffer;
 }
 
-template< class TInputMesh >
+template< typename TInputMesh >
 void
 MeshFileWriter< TInputMesh >
 ::WritePointData(void)
@@ -302,7 +302,7 @@ MeshFileWriter< TInputMesh >
     }
 }
 
-template< class TInputMesh >
+template< typename TInputMesh >
 void
 MeshFileWriter< TInputMesh >
 ::WriteCellData(void)
@@ -325,8 +325,8 @@ MeshFileWriter< TInputMesh >
     }
 }
 
-template< class TInputMesh >
-template< class Output >
+template< typename TInputMesh >
+template< typename Output >
 void
 MeshFileWriter< TInputMesh >
 ::CopyPointsToBuffer(Output *data)
@@ -348,8 +348,8 @@ MeshFileWriter< TInputMesh >
     }
 }
 
-template< class TInputMesh >
-template< class Output >
+template< typename TInputMesh >
+template< typename Output >
 void
 MeshFileWriter< TInputMesh >
 ::CopyCellsToBuffer(Output *data)
@@ -417,8 +417,8 @@ MeshFileWriter< TInputMesh >
     }
 }
 
-template< class TInputMesh >
-template< class Output >
+template< typename TInputMesh >
+template< typename Output >
 void
 MeshFileWriter< TInputMesh >
 ::CopyPointDataToBuffer(Output *data)
@@ -447,8 +447,8 @@ MeshFileWriter< TInputMesh >
     }
 }
 
-template< class TInputMesh >
-template< class Output >
+template< typename TInputMesh >
+template< typename Output >
 void
 MeshFileWriter< TInputMesh >
 ::CopyCellDataToBuffer(Output *data)
@@ -475,7 +475,7 @@ MeshFileWriter< TInputMesh >
     }
 }
 
-template< class TInputMesh >
+template< typename TInputMesh >
 void
 MeshFileWriter< TInputMesh >
 ::PrintSelf(std::ostream & os, Indent indent) const

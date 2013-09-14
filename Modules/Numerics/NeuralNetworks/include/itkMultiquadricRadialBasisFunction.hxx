@@ -26,7 +26,7 @@ namespace itk
 namespace Statistics
 {
 
-template<class ScalarType>
+template<typename ScalarType>
 MultiquadricRadialBasisFunction<ScalarType>
 ::MultiquadricRadialBasisFunction()
 {
@@ -34,13 +34,13 @@ MultiquadricRadialBasisFunction<ScalarType>
   m_Radius=1;
 }
 
-template<class ScalarType>
+template<typename ScalarType>
 MultiquadricRadialBasisFunction<ScalarType>
 ::~MultiquadricRadialBasisFunction()
 {
 }
 
-template<class ScalarType>
+template<typename ScalarType>
 ScalarType
 MultiquadricRadialBasisFunction<ScalarType>
 ::Evaluate(const ScalarType& input) const
@@ -50,7 +50,7 @@ MultiquadricRadialBasisFunction<ScalarType>
 }
 
 /** Print the object */
-template<class ScalarType>
+template<typename ScalarType>
 void
 MultiquadricRadialBasisFunction<ScalarType>
 ::PrintSelf( std::ostream& os, Indent indent ) const

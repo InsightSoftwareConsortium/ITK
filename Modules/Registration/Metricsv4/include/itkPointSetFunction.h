@@ -53,9 +53,9 @@ namespace itk
  * \ingroup ITKMetricsv4
  */
 template <
-class TInputPointSet,
-class TOutput,
-class TCoordRep = float
+typename TInputPointSet,
+typename TOutput,
+typename TCoordRep = float
 >
 class PointSetFunction :
     public FunctionBase<typename TInputPointSet::PointType, TOutput>

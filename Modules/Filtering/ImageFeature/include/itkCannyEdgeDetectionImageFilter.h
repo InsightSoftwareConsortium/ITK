@@ -28,7 +28,7 @@
 
 namespace itk
 {
-template< class TValueType >
+template< typename TValueType >
 class ListNode
 {
 public:
@@ -80,7 +80,7 @@ public:
  * \sa ThresholdImageFilter
  * \ingroup ITKImageFeature
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class CannyEdgeDetectionImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {

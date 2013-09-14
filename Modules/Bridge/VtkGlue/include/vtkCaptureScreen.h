@@ -24,7 +24,7 @@
 #include "vtkWindowToImageFilter.h"
 #include "vtkRenderWindow.h"
 
-template < class TImageWriter >
+template < typename TImageWriter >
 class vtkCaptureScreen
   {
 public:

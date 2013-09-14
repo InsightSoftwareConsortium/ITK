@@ -20,7 +20,7 @@
 #include <fstream>
 #include "itkTIFFImageIO.h"
 
-template<class T>
+template<typename T>
 bool BUG_12266( const std::string &fname, T*)
 {
   typedef T                               ImageType;
@@ -56,7 +56,7 @@ bool BUG_12266( const std::string &fname, T*)
 
 #define SPECIFIC_IMAGEIO_MODULE_TEST
 
-template<class T> int DoIt( int, char * argv[], typename T::Pointer)
+template<typename T> int DoIt( int, char * argv[], typename T::Pointer)
 {
   typename itk::ImageFileReader<T>::Pointer reader
     = itk::ImageFileReader<T>::New();

@@ -26,13 +26,13 @@
 
 namespace itk
 {
-template< class TMesh, class TQEType >
+template< typename TMesh, typename TQEType >
 QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::QuadEdgeMeshEulerOperatorJoinVertexFunction():Superclass(),
   m_OldPointID(0), m_EdgeStatus(STANDARD_CONFIG)
 {}
 
 //--------------------------------------------------------------------------
-template< class TMesh, class TQEType >
+template< typename TMesh, typename TQEType >
 void
 QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::PrintSelf(std::ostream & os, Indent indent) const
 {
@@ -81,7 +81,7 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::PrintSelf(std::os
 }
 
 //--------------------------------------------------------------------------
-template< class TMesh, class TQEType >
+template< typename TMesh, typename TQEType >
 typename QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::OutputType
 QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::Evaluate(QEType *e)
 {
@@ -127,7 +127,7 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::Evaluate(QEType *
 }
 
 //--------------------------------------------------------------------------
-template< class TMesh, class TQEType >
+template< typename TMesh, typename TQEType >
 TQEType *
 QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::Process(QEType *e)
 {
@@ -238,7 +238,7 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::Process(QEType *e
 }
 
 //--------------------------------------------------------------------------
-template< class TMesh, class TQEType >
+template< typename TMesh, typename TQEType >
 TQEType *
 QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::ProcessIsolatedQuadEdge(QEType *e)
 {
@@ -263,7 +263,7 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::ProcessIsolatedQu
 }
 
 //--------------------------------------------------------------------------
-template< class TMesh, class TQEType >
+template< typename TMesh, typename TQEType >
 TQEType *
 QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::ProcessIsolatedFace(
   QEType *e,
@@ -294,7 +294,7 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::ProcessIsolatedFa
 }
 
 //--------------------------------------------------------------------------
-template< class TMesh, class TQEType >
+template< typename TMesh, typename TQEType >
 bool
 QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::IsFaceIsolated(QEType *e,
                                                                               const bool & iWasLeftFace,
@@ -324,7 +324,7 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::IsFaceIsolated(QE
 }
 
 //--------------------------------------------------------------------------
-template< class TMesh, class TQEType >
+template< typename TMesh, typename TQEType >
 typename QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType
                                                       >::EdgeStatusType
 QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::CheckStatus(QEType *e,
@@ -435,7 +435,7 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::CheckStatus(QETyp
 }
 
 //--------------------------------------------------------------------------
-template< class TMesh, class TQEType >
+template< typename TMesh, typename TQEType >
 bool
 QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::IsTetrahedron(QEType *e)
 {
@@ -508,7 +508,7 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::IsTetrahedron(QET
 }
 
 //--------------------------------------------------------------------------
-template< class TMesh, class TQEType >
+template< typename TMesh, typename TQEType >
 bool
 QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::IsSamosa(QEType *e)
 {
@@ -516,7 +516,7 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::IsSamosa(QEType *
 }
 
 //--------------------------------------------------------------------------
-template< class TMesh, class TQEType >
+template< typename TMesh, typename TQEType >
 bool
 QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::IsEye(QEType *e)
 {
@@ -528,7 +528,7 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::IsEye(QEType *e)
 }
 
 //--------------------------------------------------------------------------
-template< class TMesh, class TQEType >
+template< typename TMesh, typename TQEType >
 typename QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::PointIdentifier
 QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::CommonVertexNeighboor(QEType *e)
 {
@@ -571,7 +571,7 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::CommonVertexNeigh
 }
 
 //--------------------------------------------------------------------------
-template< class TMesh, class TQEType >
+template< typename TMesh, typename TQEType >
 bool
 QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::IsEdgeLinkingTwoDifferentBorders(QEType *e)
 {

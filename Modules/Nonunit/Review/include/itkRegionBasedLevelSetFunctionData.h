@@ -64,7 +64,7 @@ namespace itk
  *
  * \ingroup ITKReview
  */
-template< class TInputImage, class TFeatureImage >
+template< typename TInputImage, typename TFeatureImage >
 class RegionBasedLevelSetFunctionData:public LightObject
 {
 public:
@@ -110,7 +110,7 @@ public:
 
   // Checks if the given index lies in the domain of the current
   // level-set function. The domain is defined by the start and end indices.
-  template< class TIndex >
+  template< typename TIndex >
   bool VerifyInsideRegion(const TIndex & featureIndex)
   {
     for ( unsigned int j = 0; j < ImageDimension; j++ )

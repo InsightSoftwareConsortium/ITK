@@ -480,7 +480,7 @@ public:
     this->SetComponentType(MapPixelType<TPixel>::CType);
   }
 
-  template <class TPixel, unsigned VLength>
+  template <typename TPixel, unsigned VLength>
     void SetPixelTypeInfo(const SymmetricSecondRankTensor<TPixel,VLength> *)
   {
     this->SetNumberOfComponents(VLength * (VLength + 1) / 2 );

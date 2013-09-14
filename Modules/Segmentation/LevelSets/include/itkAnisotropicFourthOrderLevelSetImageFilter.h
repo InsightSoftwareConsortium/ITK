@@ -79,7 +79,7 @@ namespace itk
  * number of iterations is set to be extremely large.
  * \ingroup ITKLevelSets
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class AnisotropicFourthOrderLevelSetImageFilter:
   public SparseFieldFourthOrderLevelSetImageFilter< TInputImage, TOutputImage >
 {

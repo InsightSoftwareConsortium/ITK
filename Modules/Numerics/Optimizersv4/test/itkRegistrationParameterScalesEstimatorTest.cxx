@@ -24,9 +24,9 @@
  *  \class RegistrationParameterScalesEstimatorTestMetric for test.
  *  Create a simple metric to use for testing here.
  */
-template< class TFixedImage,class TMovingImage,class TVirtualImage = TFixedImage,
-          class TInternalComputationValueType = double,
-          class TMetricTraits = itk::DefaultImageToImageMetricTraitsv4<TFixedImage,TMovingImage,TVirtualImage,TInternalComputationValueType>
+template< typename TFixedImage,typename TMovingImage,typename TVirtualImage = TFixedImage,
+          typename TInternalComputationValueType = double,
+          typename TMetricTraits = itk::DefaultImageToImageMetricTraitsv4<TFixedImage,TMovingImage,TVirtualImage,TInternalComputationValueType>
           >
 class RegistrationParameterScalesEstimatorTestMetric:
   public itk::ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
@@ -106,7 +106,7 @@ private:
  *  \class RegistrationParameterScalesEstimatorTest for test.
  *  Create a simple scales estimator class to use for testing here.
  */
-template < class TMetric >
+template < typename TMetric >
 class RegistrationParameterScalesEstimatorTest:
   public itk::RegistrationParameterScalesEstimator< TMetric >
 {

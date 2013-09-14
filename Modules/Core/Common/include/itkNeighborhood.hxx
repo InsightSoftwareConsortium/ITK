@@ -23,7 +23,7 @@
 
 namespace itk
 {
-template< class TPixel, unsigned int VDimension, class TContainer >
+template< typename TPixel, unsigned int VDimension, typename TContainer >
 void
 Neighborhood< TPixel, VDimension, TContainer >
 ::ComputeNeighborhoodStrideTable()
@@ -43,7 +43,7 @@ Neighborhood< TPixel, VDimension, TContainer >
     }
 }
 
-template< class TPixel, unsigned int VDimension, class TContainer >
+template< typename TPixel, unsigned int VDimension, typename TContainer >
 void Neighborhood< TPixel, VDimension, TContainer >
 ::ComputeNeighborhoodOffsetTable()
 {
@@ -71,7 +71,7 @@ void Neighborhood< TPixel, VDimension, TContainer >
     }
 }
 
-template< class TPixel, unsigned int VDimension, class TContainer >
+template< typename TPixel, unsigned int VDimension, typename TContainer >
 void
 Neighborhood< TPixel, VDimension, TContainer >
 ::SetRadius(const SizeValueType s)
@@ -85,7 +85,7 @@ Neighborhood< TPixel, VDimension, TContainer >
   this->SetRadius(k);
 }
 
-template< class TPixel, unsigned int VDimension, class TContainer >
+template< typename TPixel, unsigned int VDimension, typename TContainer >
 void
 Neighborhood< TPixel, VDimension, TContainer >
 ::SetRadius(const SizeType & r)
@@ -104,7 +104,7 @@ Neighborhood< TPixel, VDimension, TContainer >
   this->ComputeNeighborhoodOffsetTable();
 }
 
-template< class TPixel, unsigned int VDimension, class TContainer >
+template< typename TPixel, unsigned int VDimension, typename TContainer >
 Neighborhood< TPixel, VDimension, TContainer >
 ::Neighborhood(const Self & other)
 {
@@ -117,7 +117,7 @@ Neighborhood< TPixel, VDimension, TContainer >
   m_OffsetTable = other.m_OffsetTable;
 }
 
-template< class TPixel, unsigned int VDimension, class TContainer >
+template< typename TPixel, unsigned int VDimension, typename TContainer >
 Neighborhood< TPixel, VDimension, TContainer > &
 Neighborhood< TPixel, VDimension, TContainer >
 ::operator=(const Self & other)
@@ -135,7 +135,7 @@ Neighborhood< TPixel, VDimension, TContainer >
   return *this;
 }
 
-template< class TPixel, unsigned int VDimension, class TContainer >
+template< typename TPixel, unsigned int VDimension, typename TContainer >
 std::slice Neighborhood< TPixel, VDimension, TContainer >
 ::GetSlice(unsigned int d) const
 {
@@ -150,7 +150,7 @@ std::slice Neighborhood< TPixel, VDimension, TContainer >
                      static_cast< size_t >( t ) );
 }
 
-template< class TPixel, unsigned int VDimension, class TContainer >
+template< typename TPixel, unsigned int VDimension, typename TContainer >
 typename Neighborhood< TPixel, VDimension, TContainer >::NeighborIndexType
 Neighborhood< TPixel, VDimension, TContainer >
 ::GetNeighborhoodIndex(const OffsetType & o) const
@@ -164,7 +164,7 @@ Neighborhood< TPixel, VDimension, TContainer >
   return idx;
 }
 
-template< class TPixel, unsigned int VDimension, class TContainer >
+template< typename TPixel, unsigned int VDimension, typename TContainer >
 void Neighborhood< TPixel, VDimension, TContainer >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {

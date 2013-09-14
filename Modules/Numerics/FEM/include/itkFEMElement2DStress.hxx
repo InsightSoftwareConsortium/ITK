@@ -25,7 +25,7 @@ namespace itk
 {
 namespace fem
 {
-template <class TBaseClass>
+template <typename TBaseClass>
 Element2DStress<TBaseClass>
 ::Element2DStress() : Superclass(), m_mat(0)
 {
@@ -36,7 +36,7 @@ Element2DStress<TBaseClass>
  * Methods related to the physics of the problem.
  */
 
-template <class TBaseClass>
+template <typename TBaseClass>
 void
 Element2DStress<TBaseClass>
 ::GetStrainDisplacementMatrix(MatrixType & B, const MatrixType & shapeDgl) const
@@ -61,7 +61,7 @@ Element2DStress<TBaseClass>
     }
 }
 
-template <class TBaseClass>
+template <typename TBaseClass>
 void
 Element2DStress<TBaseClass>
 ::GetMassMatrix(MatrixType & Me) const
@@ -74,7 +74,7 @@ Element2DStress<TBaseClass>
   Me = Me * m_mat->GetDensityHeatProduct();
 }
 
-template <class TBaseClass>
+template <typename TBaseClass>
 void
 Element2DStress<TBaseClass>
 ::GetMaterialMatrix(MatrixType & D) const
@@ -98,7 +98,7 @@ Element2DStress<TBaseClass>
   D[2][2] = disot * ( 1. - m_mat->GetPoissonsRatio() ) / 2.0;
 }
 
-template <class TBaseClass>
+template <typename TBaseClass>
 void
 Element2DStress<TBaseClass>
 ::PrintSelf(std::ostream& os, Indent indent) const

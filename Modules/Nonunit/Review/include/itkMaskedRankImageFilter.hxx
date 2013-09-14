@@ -42,14 +42,14 @@
 
 namespace itk
 {
-template< class TInputImage, class TMaskImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TMaskImage, typename TOutputImage, typename TKernel >
 MaskedRankImageFilter< TInputImage, TMaskImage, TOutputImage, TKernel >
 ::MaskedRankImageFilter()
 {
   m_Rank = 0.5;
 }
 
-template< class TInputImage, class TMaskImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TMaskImage, typename TOutputImage, typename TKernel >
 void
 MaskedRankImageFilter< TInputImage, TMaskImage, TOutputImage, TKernel >
 ::ConfigureHistogram( HistogramType & histogram )
@@ -58,7 +58,7 @@ MaskedRankImageFilter< TInputImage, TMaskImage, TOutputImage, TKernel >
 }
 
 
-template< class TInputImage, class TMaskImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TMaskImage, typename TOutputImage, typename TKernel >
 void
 MaskedRankImageFilter< TInputImage, TMaskImage, TOutputImage, TKernel >
 ::PrintSelf(std::ostream & os, Indent indent) const

@@ -44,8 +44,8 @@ namespace itk
  * \sa  PolylineMaskImageFilter
  * \ingroup ITKImageIntensity
  */
-template< class TInputImage, class TPolyline,
-          class TOutputImage >
+template< typename TInputImage, typename TPolyline,
+          typename TOutputImage >
 class PolylineMask2DImageFilter:public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

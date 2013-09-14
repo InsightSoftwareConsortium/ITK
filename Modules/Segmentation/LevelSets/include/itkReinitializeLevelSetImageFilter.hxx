@@ -27,7 +27,7 @@ namespace itk
 /**
  * Default constructor.
  */
-template< class TLevelSet >
+template< typename TLevelSet >
 ReinitializeLevelSetImageFilter< TLevelSet >
 ::ReinitializeLevelSetImageFilter()
 {
@@ -46,7 +46,7 @@ ReinitializeLevelSetImageFilter< TLevelSet >
 /*
  * Set the input narrowband container.
  */
-template< class TLevelSet >
+template< typename TLevelSet >
 void
 ReinitializeLevelSetImageFilter< TLevelSet >
 ::SetInputNarrowBand(
@@ -62,7 +62,7 @@ ReinitializeLevelSetImageFilter< TLevelSet >
 /**
  * PrintSelf method.
  */
-template< class TLevelSet >
+template< typename TLevelSet >
 void
 ReinitializeLevelSetImageFilter< TLevelSet >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -83,7 +83,7 @@ ReinitializeLevelSetImageFilter< TLevelSet >
 /*
  * GenerateInputRequestedRegion method.
  */
-template< class TLevelSet >
+template< typename TLevelSet >
 void
 ReinitializeLevelSetImageFilter< TLevelSet >
 ::GenerateInputRequestedRegion()
@@ -95,7 +95,7 @@ ReinitializeLevelSetImageFilter< TLevelSet >
 /*
  * EnlargeOutputRequestedRegion method.
  */
-template< class TLevelSet >
+template< typename TLevelSet >
 void
 ReinitializeLevelSetImageFilter< TLevelSet >
 ::EnlargeOutputRequestedRegion(
@@ -123,7 +123,7 @@ ReinitializeLevelSetImageFilter< TLevelSet >
 /*
  * Allocate/initialize memory.
  */
-template< class TLevelSet >
+template< typename TLevelSet >
 void
 ReinitializeLevelSetImageFilter< TLevelSet >
 ::AllocateOutput()
@@ -146,7 +146,7 @@ ReinitializeLevelSetImageFilter< TLevelSet >
 /*
  * Generate the output data.
  */
-template< class TLevelSet >
+template< typename TLevelSet >
 void
 ReinitializeLevelSetImageFilter< TLevelSet >
 ::GenerateData()
@@ -166,7 +166,7 @@ ReinitializeLevelSetImageFilter< TLevelSet >
 /*
  * Generate the output data - full set version.
  */
-template< class TLevelSet >
+template< typename TLevelSet >
 void
 ReinitializeLevelSetImageFilter< TLevelSet >
 ::GenerateDataFull()
@@ -245,7 +245,7 @@ ReinitializeLevelSetImageFilter< TLevelSet >
 /*
  * Generate output data - narrowband version.
  */
-template< class TLevelSet >
+template< typename TLevelSet >
 void
 ReinitializeLevelSetImageFilter< TLevelSet >
 ::GenerateDataNarrowBand()

@@ -62,7 +62,7 @@ namespace itk
  *
  * \ingroup ITKImageGrid
  */
-template <class TInputImage, class TCoordRep = double>
+template <typename TInputImage, typename TCoordRep = double>
 class BSplineControlPointImageFunction
 : public ImageFunction<TInputImage, typename TInputImage::PixelType, TCoordRep>
 {

@@ -30,7 +30,7 @@ namespace itk
 namespace Statistics
 {
 
-template<class TImageType, class THistogramFrequencyContainer>
+template<typename TImageType, typename THistogramFrequencyContainer>
 ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>
 ::ScalarImageToRunLengthMatrixFilter() :
   m_NumberOfBinsPerAxis( itkGetStaticConstMacro( DefaultBinsPerAxis ) ),
@@ -58,7 +58,7 @@ ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>
   this->m_UpperBound[1] = this->m_MaxDistance;
 }
 
-template<class TImageType, class THistogramFrequencyContainer>
+template<typename TImageType, typename THistogramFrequencyContainer>
 void
 ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>
 ::SetOffset( const OffsetType offset )
@@ -68,7 +68,7 @@ ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>
   this->SetOffsets( offsetVector );
 }
 
-template<class TImageType, class THistogramFrequencyContainer>
+template<typename TImageType, typename THistogramFrequencyContainer>
 void
 ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>
 ::SetInput( const ImageType *image )
@@ -77,7 +77,7 @@ ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>
   this->ProcessObject::SetNthInput( 0, const_cast<ImageType *>( image ) );
 }
 
-template<class TImageType, class THistogramFrequencyContainer>
+template<typename TImageType, typename THistogramFrequencyContainer>
 void
 ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>
 ::SetMaskImage( const ImageType *image )
@@ -86,7 +86,7 @@ ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>
   this->ProcessObject::SetNthInput( 1, const_cast<ImageType *>( image ) );
 }
 
-template<class TImageType, class THistogramFrequencyContainer>
+template<typename TImageType, typename THistogramFrequencyContainer>
 const TImageType *
 ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>
 ::GetInput() const
@@ -98,7 +98,7 @@ ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>
   return static_cast<const ImageType *>( this->ProcessObject::GetInput( 0 ) );
 }
 
-template<class TImageType, class THistogramFrequencyContainer>
+template<typename TImageType, typename THistogramFrequencyContainer>
 const TImageType *
 ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>
 ::GetMaskImage() const
@@ -110,7 +110,7 @@ ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>
   return static_cast<const ImageType *>( this->ProcessObject::GetInput( 1 ) );
 }
 
-template<class TImageType, class THistogramFrequencyContainer>
+template<typename TImageType, typename THistogramFrequencyContainer>
 const typename ScalarImageToRunLengthMatrixFilter<TImageType,
   THistogramFrequencyContainer >::HistogramType *
 ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>
@@ -121,7 +121,7 @@ ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>
   return output;
 }
 
-template<class TImageType, class THistogramFrequencyContainer>
+template<typename TImageType, typename THistogramFrequencyContainer>
 typename ScalarImageToRunLengthMatrixFilter<TImageType,
   THistogramFrequencyContainer>::DataObjectPointer
 ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>
@@ -130,7 +130,7 @@ ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>
   return HistogramType::New().GetPointer();
 }
 
-template<class TImageType, class THistogramFrequencyContainer>
+template<typename TImageType, typename THistogramFrequencyContainer>
 void
 ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>
 ::GenerateData()
@@ -290,7 +290,7 @@ ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>
     }
 }
 
-template<class TImageType, class THistogramFrequencyContainer>
+template<typename TImageType, typename THistogramFrequencyContainer>
 void
 ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>
 ::SetPixelValueMinMax( PixelType min, PixelType max )
@@ -304,7 +304,7 @@ ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>
     }
 }
 
-template<class TImageType, class THistogramFrequencyContainer>
+template<typename TImageType, typename THistogramFrequencyContainer>
 void
 ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>
 ::SetDistanceValueMinMax( RealType min, RealType max )
@@ -319,7 +319,7 @@ ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>
     }
 }
 
-template<class TImageType, class THistogramFrequencyContainer>
+template<typename TImageType, typename THistogramFrequencyContainer>
 void
 ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>
 ::PrintSelf( std::ostream& os, Indent indent ) const
@@ -335,7 +335,7 @@ ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>
   os << indent << "InsidePixelValue: " << this->m_InsidePixelValue << std::endl;
 }
 
-template<class TImageType, class THistogramFrequencyContainer>
+template<typename TImageType, typename THistogramFrequencyContainer>
 void
 ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>
 ::NormalizeOffsetDirection(OffsetType &offset)

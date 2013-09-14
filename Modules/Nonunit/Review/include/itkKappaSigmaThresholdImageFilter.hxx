@@ -24,7 +24,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TMaskImage, class TOutputImage >
+template< typename TInputImage, typename TMaskImage, typename TOutputImage >
 KappaSigmaThresholdImageFilter< TInputImage, TMaskImage, TOutputImage >
 ::KappaSigmaThresholdImageFilter()
 {
@@ -36,7 +36,7 @@ KappaSigmaThresholdImageFilter< TInputImage, TMaskImage, TOutputImage >
   m_MaskValue = NumericTraits< MaskPixelType >::max();
 }
 
-template< class TInputImage, class TMaskImage, class TOutputImage >
+template< typename TInputImage, typename TMaskImage, typename TOutputImage >
 void
 KappaSigmaThresholdImageFilter< TInputImage, TMaskImage, TOutputImage >
 ::GenerateData()
@@ -69,7 +69,7 @@ KappaSigmaThresholdImageFilter< TInputImage, TMaskImage, TOutputImage >
   this->GraftOutput( threshold->GetOutput() );
 }
 
-template< class TInputImage, class TMaskImage, class TOutputImage >
+template< typename TInputImage, typename TMaskImage, typename TOutputImage >
 void
 KappaSigmaThresholdImageFilter< TInputImage, TMaskImage, TOutputImage >
 ::GenerateInputRequestedRegion()
@@ -77,7 +77,7 @@ KappaSigmaThresholdImageFilter< TInputImage, TMaskImage, TOutputImage >
   const_cast< TInputImage * >( this->GetInput() )->SetRequestedRegionToLargestPossibleRegion();
 }
 
-template< class TInputImage, class TMaskImage, class TOutputImage >
+template< typename TInputImage, typename TMaskImage, typename TOutputImage >
 void
 KappaSigmaThresholdImageFilter< TInputImage, TMaskImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

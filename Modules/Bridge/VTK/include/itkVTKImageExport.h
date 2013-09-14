@@ -50,7 +50,7 @@ namespace itk
  * \sa VTKImageExportBase
  * \ingroup ITKVTK
  */
-template< class TInputImage >
+template< typename TInputImage >
 class VTKImageExport:public VTKImageExportBase
 {
 public:

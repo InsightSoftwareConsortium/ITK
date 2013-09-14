@@ -38,7 +38,7 @@ namespace itk
 
 namespace Function
 {
-template< class TInput, class TOutput = SizeValueType >
+template< typename TInput, typename TOutput = SizeValueType >
 class HistogramIntensityFunction
 {
 public:
@@ -71,7 +71,7 @@ private:
 };
 }
 
-template< class THistogram, class TImage=Image< SizeValueType, 3 > >
+template< typename THistogram, typename TImage=Image< SizeValueType, 3 > >
 class HistogramToIntensityImageFilter:
   public HistogramToImageFilter< THistogram, TImage,
                                  Function::HistogramIntensityFunction< SizeValueType, typename TImage::PixelType > >

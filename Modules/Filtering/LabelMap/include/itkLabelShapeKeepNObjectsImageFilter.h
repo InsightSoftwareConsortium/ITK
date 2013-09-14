@@ -47,7 +47,7 @@ namespace itk
  * \wikiexample{ImageProcessing/LabelShapeKeepNObjectsImageFilter,Keep only regions that rank above a certain level of a particular property}
  * \endwiki
  */
-template< class TInputImage >
+template< typename TInputImage >
 class LabelShapeKeepNObjectsImageFilter:
   public ImageToImageFilter< TInputImage, TInputImage >
 {

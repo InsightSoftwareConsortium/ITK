@@ -23,7 +23,7 @@
 
 namespace itk
 {
-template< class TImage, class TFunction >
+template< typename TImage, typename TFunction >
 FloodFilledFunctionConditionalConstIterator< TImage, TFunction >
 ::FloodFilledFunctionConditionalConstIterator(const ImageType *imagePtr,
                                               FunctionType *fnPtr,
@@ -37,7 +37,7 @@ FloodFilledFunctionConditionalConstIterator< TImage, TFunction >
   this->InitializeIterator();
 }
 
-template< class TImage, class TFunction >
+template< typename TImage, typename TFunction >
 FloodFilledFunctionConditionalConstIterator< TImage, TFunction >
 ::FloodFilledFunctionConditionalConstIterator(const ImageType *imagePtr,
                                               FunctionType *fnPtr,
@@ -55,7 +55,7 @@ FloodFilledFunctionConditionalConstIterator< TImage, TFunction >
   this->InitializeIterator();
 }
 
-template< class TImage, class TFunction >
+template< typename TImage, typename TFunction >
 FloodFilledFunctionConditionalConstIterator< TImage, TFunction >
 ::FloodFilledFunctionConditionalConstIterator(const ImageType *imagePtr,
                                               FunctionType *fnPtr)
@@ -67,7 +67,7 @@ FloodFilledFunctionConditionalConstIterator< TImage, TFunction >
   this->InitializeIterator();
 }
 
-template< class TImage, class TFunction >
+template< typename TImage, typename TFunction >
 void
 FloodFilledFunctionConditionalConstIterator< TImage, TFunction >
 ::InitializeIterator()
@@ -103,7 +103,7 @@ FloodFilledFunctionConditionalConstIterator< TImage, TFunction >
     }
 }
 
-template< class TImage, class TFunction >
+template< typename TImage, typename TFunction >
 void
 FloodFilledFunctionConditionalConstIterator< TImage, TFunction >
 ::FindSeedPixel()
@@ -129,7 +129,7 @@ FloodFilledFunctionConditionalConstIterator< TImage, TFunction >
     }
 }
 
-template< class TImage, class TFunction >
+template< typename TImage, typename TFunction >
 void
 FloodFilledFunctionConditionalConstIterator< TImage, TFunction >
 ::FindSeedPixels()
@@ -157,7 +157,7 @@ FloodFilledFunctionConditionalConstIterator< TImage, TFunction >
     }
 }
 
-template< class TImage, class TFunction >
+template< typename TImage, typename TFunction >
 void
 FloodFilledFunctionConditionalConstIterator< TImage, TFunction >
 ::DoFloodStep()

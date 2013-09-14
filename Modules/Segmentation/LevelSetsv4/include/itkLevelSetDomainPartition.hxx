@@ -22,19 +22,19 @@
 
 namespace itk
 {
-template< class TImage >
+template< typename TImage >
 LevelSetDomainPartition< TImage >::
 LevelSetDomainPartition()
 {
 }
 
-template< class TImage >
+template< typename TImage >
 LevelSetDomainPartition< TImage >::
 ~LevelSetDomainPartition()
 {
 }
 
-template< class TImage >
+template< typename TImage >
 void
 LevelSetDomainPartition< TImage >::
 PopulateListImage()

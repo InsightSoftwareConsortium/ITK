@@ -30,7 +30,7 @@
 
 namespace itk
 {
-template < class TPixel, unsigned int NDimension > class GPUImage;
+template < typename TPixel, unsigned int NDimension > class GPUImage;
 
 /**
  * \class GPUImageDataManager
@@ -40,7 +40,7 @@ template < class TPixel, unsigned int NDimension > class GPUImage;
  *
  * \ingroup ITKGPUCommon
  */
-template < class ImageType >
+template < typename ImageType >
 class GPUImageDataManager : public GPUDataManager
 {
   // allow GPUKernelManager to access GPU buffer pointer

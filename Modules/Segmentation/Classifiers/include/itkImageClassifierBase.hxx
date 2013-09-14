@@ -21,14 +21,14 @@
 
 namespace itk
 {
-template< class TInputImage,
-          class TClassifiedImage >
+template< typename TInputImage,
+          typename TClassifiedImage >
 ImageClassifierBase< TInputImage, TClassifiedImage >
 ::ImageClassifierBase(void)
 {}
 
-template< class TInputImage,
-          class TClassifiedImage >
+template< typename TInputImage,
+          typename TClassifiedImage >
 ImageClassifierBase< TInputImage, TClassifiedImage >
 ::~ImageClassifierBase(void)
 {}
@@ -36,8 +36,8 @@ ImageClassifierBase< TInputImage, TClassifiedImage >
 /**
  * PrintSelf
  */
-template< class TInputImage,
-          class TClassifiedImage >
+template< typename TInputImage,
+          typename TClassifiedImage >
 void
 ImageClassifierBase< TInputImage, TClassifiedImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -54,8 +54,8 @@ ImageClassifierBase< TInputImage, TClassifiedImage >
 /**
  * Generate data (start the classification process)
  */
-template< class TInputImage,
-          class TClassifiedImage >
+template< typename TInputImage,
+          typename TClassifiedImage >
 void
 ImageClassifierBase< TInputImage, TClassifiedImage >
 ::GenerateData()
@@ -66,8 +66,8 @@ ImageClassifierBase< TInputImage, TClassifiedImage >
 //------------------------------------------------------------------
 // The core function where classification is carried out
 //------------------------------------------------------------------
-template< class TInputImage,
-          class TClassifiedImage >
+template< typename TInputImage,
+          typename TClassifiedImage >
 void
 ImageClassifierBase< TInputImage, TClassifiedImage >
 ::Classify()
@@ -147,8 +147,8 @@ ImageClassifierBase< TInputImage, TClassifiedImage >
 /**
  * Allocate
  */
-template< class TInputImage,
-          class TClassifiedImage >
+template< typename TInputImage,
+          typename TClassifiedImage >
 void
 ImageClassifierBase< TInputImage, TClassifiedImage >
 ::Allocate()
@@ -175,8 +175,8 @@ ImageClassifierBase< TInputImage, TClassifiedImage >
   classifiedImage->Allocate();
 }
 
-template< class TInputImage,
-          class TClassifiedImage >
+template< typename TInputImage,
+          typename TClassifiedImage >
 std::vector< double >
 ImageClassifierBase< TInputImage, TClassifiedImage >
 ::GetPixelMembershipValue(const InputImagePixelType inputImagePixel)

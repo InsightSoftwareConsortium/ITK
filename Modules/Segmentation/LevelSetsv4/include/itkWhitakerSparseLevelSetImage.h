@@ -102,7 +102,7 @@ public:
   static inline LayerIdType PlusThreeLayer() { return 3; }
 
   /** Return the label object pointer with a given id */
-  template< class TLabel >
+  template< typename TLabel >
   typename LabelObject< TLabel, Dimension >::Pointer
   GetAsLabelObject()
     {

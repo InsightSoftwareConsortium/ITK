@@ -30,7 +30,7 @@ namespace Functor
  * \brief
  * \ingroup ITKImageIntensity
  */
-template< class TInput, class TOutput >
+template< typename TInput, typename TOutput >
 class ExpNegative
 {
 public:
@@ -83,7 +83,7 @@ private:
  *
  * \ingroup ITKImageIntensity
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class ExpNegativeImageFilter:
   public
   UnaryFunctorImageFilter< TInputImage, TOutputImage,

@@ -30,7 +30,7 @@
 
 namespace itk
 {
-template< class TInputImage1, class TInputImage2 >
+template< typename TInputImage1, typename TInputImage2 >
 ContourDirectedMeanDistanceImageFilter< TInputImage1, TInputImage2 >
 ::ContourDirectedMeanDistanceImageFilter():m_MeanDistance(1), m_Count(1)
 {
@@ -42,7 +42,7 @@ ContourDirectedMeanDistanceImageFilter< TInputImage1, TInputImage2 >
   m_ContourDirectedMeanDistance = NumericTraits< RealType >::Zero;
 }
 
-template< class TInputImage1, class TInputImage2 >
+template< typename TInputImage1, typename TInputImage2 >
 void
 ContourDirectedMeanDistanceImageFilter< TInputImage1, TInputImage2 >
 ::SetInput1(const InputImage1Type *image)
@@ -50,7 +50,7 @@ ContourDirectedMeanDistanceImageFilter< TInputImage1, TInputImage2 >
   this->SetInput(image);
 }
 
-template< class TInputImage1, class TInputImage2 >
+template< typename TInputImage1, typename TInputImage2 >
 void
 ContourDirectedMeanDistanceImageFilter< TInputImage1, TInputImage2 >
 ::SetInput2(const TInputImage2 *image)
@@ -58,7 +58,7 @@ ContourDirectedMeanDistanceImageFilter< TInputImage1, TInputImage2 >
   this->SetNthInput( 1, const_cast< TInputImage2 * >( image ) );
 }
 
-template< class TInputImage1, class TInputImage2 >
+template< typename TInputImage1, typename TInputImage2 >
 const typename ContourDirectedMeanDistanceImageFilter< TInputImage1, TInputImage2 >
 ::InputImage1Type *
 ContourDirectedMeanDistanceImageFilter< TInputImage1, TInputImage2 >
@@ -67,7 +67,7 @@ ContourDirectedMeanDistanceImageFilter< TInputImage1, TInputImage2 >
   return this->GetInput();
 }
 
-template< class TInputImage1, class TInputImage2 >
+template< typename TInputImage1, typename TInputImage2 >
 const typename ContourDirectedMeanDistanceImageFilter< TInputImage1, TInputImage2 >
 ::InputImage2Type *
 ContourDirectedMeanDistanceImageFilter< TInputImage1, TInputImage2 >
@@ -77,7 +77,7 @@ ContourDirectedMeanDistanceImageFilter< TInputImage1, TInputImage2 >
     ( this->ProcessObject::GetInput(1) );
 }
 
-template< class TInputImage1, class TInputImage2 >
+template< typename TInputImage1, typename TInputImage2 >
 void
 ContourDirectedMeanDistanceImageFilter< TInputImage1, TInputImage2 >
 ::GenerateInputRequestedRegion()
@@ -103,7 +103,7 @@ ContourDirectedMeanDistanceImageFilter< TInputImage1, TInputImage2 >
     }
 }
 
-template< class TInputImage1, class TInputImage2 >
+template< typename TInputImage1, typename TInputImage2 >
 void
 ContourDirectedMeanDistanceImageFilter< TInputImage1, TInputImage2 >
 ::EnlargeOutputRequestedRegion(DataObject *data)
@@ -112,7 +112,7 @@ ContourDirectedMeanDistanceImageFilter< TInputImage1, TInputImage2 >
   data->SetRequestedRegionToLargestPossibleRegion();
 }
 
-template< class TInputImage1, class TInputImage2 >
+template< typename TInputImage1, typename TInputImage2 >
 void
 ContourDirectedMeanDistanceImageFilter< TInputImage1, TInputImage2 >
 ::AllocateOutputs()
@@ -124,7 +124,7 @@ ContourDirectedMeanDistanceImageFilter< TInputImage1, TInputImage2 >
   this->GraftOutput(image);
 }
 
-template< class TInputImage1, class TInputImage2 >
+template< typename TInputImage1, typename TInputImage2 >
 void
 ContourDirectedMeanDistanceImageFilter< TInputImage1, TInputImage2 >
 ::BeforeThreadedGenerateData()
@@ -153,7 +153,7 @@ ContourDirectedMeanDistanceImageFilter< TInputImage1, TInputImage2 >
   m_DistanceMap = filter->GetOutput();
 }
 
-template< class TInputImage1, class TInputImage2 >
+template< typename TInputImage1, typename TInputImage2 >
 void
 ContourDirectedMeanDistanceImageFilter< TInputImage1, TInputImage2 >
 ::AfterThreadedGenerateData()
@@ -179,7 +179,7 @@ ContourDirectedMeanDistanceImageFilter< TInputImage1, TInputImage2 >
     }
 }
 
-template< class TInputImage1, class TInputImage2 >
+template< typename TInputImage1, typename TInputImage2 >
 void
 ContourDirectedMeanDistanceImageFilter< TInputImage1, TInputImage2 >
 ::ThreadedGenerateData(const RegionType & outputRegionForThread,
@@ -249,7 +249,7 @@ ContourDirectedMeanDistanceImageFilter< TInputImage1, TInputImage2 >
     }
 }
 
-template< class TInputImage1, class TInputImage2 >
+template< typename TInputImage1, typename TInputImage2 >
 void
 ContourDirectedMeanDistanceImageFilter< TInputImage1, TInputImage2 >
 ::PrintSelf(std::ostream & os, Indent indent) const

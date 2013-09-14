@@ -38,7 +38,7 @@ namespace itk
  * \ingroup ITKKLMRegionGrowing
  */
 
-template< class TBorder >
+template< typename TBorder >
 class KLMDynamicBorderArray
 {
 public:

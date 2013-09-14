@@ -41,7 +41,7 @@ namespace itk
  * \ingroup Operators
  * \ingroup ITKReview
  */
-template< class TInputImage >
+template< typename TInputImage >
 class WarpHarmonicEnergyCalculator:public Object
 {
 public:

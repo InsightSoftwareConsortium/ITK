@@ -23,7 +23,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TFeatureImage, class TOutputPixelType, class TOutputImage >
+template< typename TInputImage, typename TFeatureImage, typename TOutputPixelType, typename TOutputImage >
 void
 NarrowBandLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -33,7 +33,7 @@ NarrowBandLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType, TOu
   os << indent << "m_SegmentationFunction = " << m_SegmentationFunction << std::endl;
 }
 
-template< class TInputImage, class TFeatureImage, class TOutputPixelType, class TOutputImage >
+template< typename TInputImage, typename TFeatureImage, typename TOutputPixelType, typename TOutputImage >
 NarrowBandLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType, TOutputImage >
 ::NarrowBandLevelSetImageFilter()
 {
@@ -52,7 +52,7 @@ NarrowBandLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType, TOu
   m_ReverseExpansionDirection = false;
 }
 
-template< class TInputImage, class TFeatureImage, class TOutputPixelType, class TOutputImage >
+template< typename TInputImage, typename TFeatureImage, typename TOutputPixelType, typename TOutputImage >
 void
 NarrowBandLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType, TOutputImage >
 ::SetSegmentationFunction(SegmentationFunctionType *s)
@@ -72,7 +72,7 @@ NarrowBandLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType, TOu
   this->Modified();
 }
 
-template< class TInputImage, class TFeatureImage, class TOutputPixelType, class TOutputImage >
+template< typename TInputImage, typename TFeatureImage, typename TOutputPixelType, typename TOutputImage >
 void
 NarrowBandLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType, TOutputImage >
 ::GenerateData()
@@ -109,7 +109,7 @@ NarrowBandLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType, TOu
     }
 }
 
-template< class TInputImage, class TFeatureImage, class TOutputPixelType, class TOutputImage >
+template< typename TInputImage, typename TFeatureImage, typename TOutputPixelType, typename TOutputImage >
 void
 NarrowBandLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType, TOutputImage >
 ::CreateNarrowBand()

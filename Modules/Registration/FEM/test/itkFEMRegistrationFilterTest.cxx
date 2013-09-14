@@ -29,7 +29,7 @@ typedef itk::Image<PixelType, ImageDimension>         ImageType;
 typedef itk::fem::Element3DC0LinearHexahedronMembrane ElementType;
 
 // Template function to fill in an image with a value
-template <class TImage>
+template <typename TImage>
 void
 FillImage(
   TImage * image,
@@ -47,7 +47,7 @@ FillImage(
 }
 
 // Template function to fill in an image with a circle.
-template <class TImage>
+template <typename TImage>
 void
 FillWithCircle(
   TImage * image,

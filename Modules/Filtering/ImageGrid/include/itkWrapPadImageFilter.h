@@ -49,7 +49,7 @@ namespace itk
  * \wikiexample{Images/WrapPadImageFilter,Pad an image by wrapping}
  * \endwiki
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class WrapPadImageFilter:
   public PadImageFilter< TInputImage, TOutputImage >
 {

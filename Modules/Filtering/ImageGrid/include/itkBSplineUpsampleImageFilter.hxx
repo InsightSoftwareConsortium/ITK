@@ -34,7 +34,7 @@ namespace itk
 /**
  * Constructor
  */
-template< class TInputImage, class TOutputImage, class ResamplerType >
+template< typename TInputImage, typename TOutputImage, typename ResamplerType >
 BSplineUpsampleImageFilter< TInputImage, TOutputImage, ResamplerType >
 ::BSplineUpsampleImageFilter()
 {}
@@ -42,7 +42,7 @@ BSplineUpsampleImageFilter< TInputImage, TOutputImage, ResamplerType >
 /**
  * Standard "PrintSelf" method
  */
-template< class TInputImage, class TOutputImage, class ResamplerType >
+template< typename TInputImage, typename TOutputImage, typename ResamplerType >
 void
 BSplineUpsampleImageFilter< TInputImage, TOutputImage, ResamplerType >
 ::PrintSelf(
@@ -52,7 +52,7 @@ BSplineUpsampleImageFilter< TInputImage, TOutputImage, ResamplerType >
   Superclass::PrintSelf(os, indent);
 }
 
-template< class TInputImage, class TOutputImage, class ResamplerType >
+template< typename TInputImage, typename TOutputImage, typename ResamplerType >
 void
 BSplineUpsampleImageFilter< TInputImage, TOutputImage, ResamplerType >
 ::GenerateData()
@@ -81,7 +81,7 @@ BSplineUpsampleImageFilter< TInputImage, TOutputImage, ResamplerType >
 /**
  *
  */
-template< class TInputImage, class TOutputImage, class ResamplerType >
+template< typename TInputImage, typename TOutputImage, typename ResamplerType >
 void
 BSplineUpsampleImageFilter< TInputImage, TOutputImage, ResamplerType >
 ::GenerateInputRequestedRegion()
@@ -128,7 +128,7 @@ BSplineUpsampleImageFilter< TInputImage, TOutputImage, ResamplerType >
 /**
  *
  */
-template< class TInputImage, class TOutputImage, class ResamplerType >
+template< typename TInputImage, typename TOutputImage, typename ResamplerType >
 void
 BSplineUpsampleImageFilter< TInputImage, TOutputImage, ResamplerType >
 ::GenerateOutputInformation()
@@ -180,7 +180,7 @@ BSplineUpsampleImageFilter< TInputImage, TOutputImage, ResamplerType >
 /*
  * EnlargeOutputRequestedRegion method.
  */
-template< class TInputImage, class TOutputImage, class ResamplerType >
+template< typename TInputImage, typename TOutputImage, typename ResamplerType >
 void
 BSplineUpsampleImageFilter< TInputImage, TOutputImage, ResamplerType >
 ::EnlargeOutputRequestedRegion(

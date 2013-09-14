@@ -81,9 +81,9 @@ namespace itk
  * \endwiki
  */
 template<
-  class TInputImage,
-  class TOutputImage,
-  class TDisplacementField
+  typename TInputImage,
+  typename TOutputImage,
+  typename TDisplacementField
   >
 class WarpImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >

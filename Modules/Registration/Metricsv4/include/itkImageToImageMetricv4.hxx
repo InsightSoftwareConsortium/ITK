@@ -28,7 +28,7 @@
 namespace itk
 {
 
-template<class TFixedImage,class TMovingImage,class TVirtualImage, class TInternalComputationValueType, class TMetricTraits>
+template<typename TFixedImage,typename TMovingImage,typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits>
 ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 ::ImageToImageMetricv4()
 {
@@ -78,13 +78,13 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
   this->m_ComputeDerivative = true;
 }
 
-template<class TFixedImage,class TMovingImage,class TVirtualImage, class TInternalComputationValueType, class TMetricTraits>
+template<typename TFixedImage,typename TMovingImage,typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits>
 ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 ::~ImageToImageMetricv4()
 {
 }
 
-template<class TFixedImage,class TMovingImage,class TVirtualImage, class TInternalComputationValueType, class TMetricTraits>
+template<typename TFixedImage,typename TMovingImage,typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits>
 void
 ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 ::Initialize() throw ( itk::ExceptionObject )
@@ -195,7 +195,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
     }
 }
 
-template<class TFixedImage,class TMovingImage,class TVirtualImage, class TInternalComputationValueType, class TMetricTraits>
+template<typename TFixedImage,typename TMovingImage,typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits>
 typename ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>::MeasureType
 ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 ::GetValue() const
@@ -214,7 +214,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
   return this->m_Value;
 }
 
-template<class TFixedImage,class TMovingImage,class TVirtualImage, class TInternalComputationValueType, class TMetricTraits>
+template<typename TFixedImage,typename TMovingImage,typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits>
 void
 ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 ::GetDerivative( DerivativeType & derivative ) const
@@ -223,7 +223,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
   this->GetValueAndDerivative( value, derivative );
 }
 
-template<class TFixedImage,class TMovingImage,class TVirtualImage, class TInternalComputationValueType, class TMetricTraits>
+template<typename TFixedImage,typename TMovingImage,typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits>
 void
 ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 ::GetValueAndDerivative( MeasureType & value, DerivativeType & derivative ) const
@@ -241,7 +241,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
   value = this->m_Value;
 }
 
-template<class TFixedImage,class TMovingImage,class TVirtualImage, class TInternalComputationValueType, class TMetricTraits>
+template<typename TFixedImage,typename TMovingImage,typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits>
 void
 ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 ::GetValueAndDerivativeExecute() const
@@ -264,7 +264,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
     }
 }
 
-template<class TFixedImage,class TMovingImage,class TVirtualImage, class TInternalComputationValueType, class TMetricTraits>
+template<typename TFixedImage,typename TMovingImage,typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits>
 void
 ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 ::InitializeForIteration() const
@@ -282,7 +282,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
     }
 }
 
-template<class TFixedImage,class TMovingImage,class TVirtualImage, class TInternalComputationValueType, class TMetricTraits>
+template<typename TFixedImage,typename TMovingImage,typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits>
 bool
 ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 ::TransformAndEvaluateFixedPoint(
@@ -331,7 +331,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
   return pointIsValid;
 }
 
-template<class TFixedImage,class TMovingImage,class TVirtualImage, class TInternalComputationValueType, class TMetricTraits>
+template<typename TFixedImage,typename TMovingImage,typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits>
 bool
 ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 ::TransformAndEvaluateMovingPoint(
@@ -379,7 +379,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
   return pointIsValid;
 }
 
-template<class TFixedImage,class TMovingImage,class TVirtualImage, class TInternalComputationValueType, class TMetricTraits>
+template<typename TFixedImage,typename TMovingImage,typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits>
 void
 ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 ::ComputeFixedImageGradientAtPoint( const FixedImagePointType & mappedPoint, FixedImageGradientType & gradient ) const
@@ -400,7 +400,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
     }
 }
 
-template<class TFixedImage,class TMovingImage,class TVirtualImage, class TInternalComputationValueType, class TMetricTraits>
+template<typename TFixedImage,typename TMovingImage,typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits>
 void
 ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 ::ComputeMovingImageGradientAtPoint( const MovingImagePointType & mappedPoint, MovingImageGradientType & gradient ) const
@@ -421,7 +421,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
     }
 }
 
-template<class TFixedImage,class TMovingImage,class TVirtualImage, class TInternalComputationValueType, class TMetricTraits>
+template<typename TFixedImage,typename TMovingImage,typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits>
 void
 ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 ::ComputeFixedImageGradientFilterImage()
@@ -432,7 +432,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
   this->m_FixedImageGradientInterpolator->SetInputImage( this->m_FixedImageGradientImage );
 }
 
-template<class TFixedImage,class TMovingImage,class TVirtualImage, class TInternalComputationValueType, class TMetricTraits>
+template<typename TFixedImage,typename TMovingImage,typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits>
 void
 ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 ::ComputeMovingImageGradientFilterImage() const
@@ -443,7 +443,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
   this->m_MovingImageGradientInterpolator->SetInputImage( this->m_MovingImageGradientImage );
 }
 
-template<class TFixedImage,class TMovingImage,class TVirtualImage, class TInternalComputationValueType, class TMetricTraits>
+template<typename TFixedImage,typename TMovingImage,typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits>
 void
 ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 ::InitializeDefaultFixedImageGradientFilter()
@@ -463,7 +463,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
   this->m_DefaultFixedImageGradientFilter->SetUseImageDirection( true );
 }
 
-template<class TFixedImage,class TMovingImage,class TVirtualImage, class TInternalComputationValueType, class TMetricTraits>
+template<typename TFixedImage,typename TMovingImage,typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits>
 void
 ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 ::InitializeDefaultMovingImageGradientFilter()
@@ -483,7 +483,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
   this->m_DefaultMovingImageGradientFilter->SetUseImageDirection(true);
 }
 
-template<class TFixedImage,class TMovingImage,class TVirtualImage, class TInternalComputationValueType, class TMetricTraits>
+template<typename TFixedImage,typename TMovingImage,typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits>
 void
 ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 ::SetMaximumNumberOfThreads( const ThreadIdType number )
@@ -500,7 +500,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
     }
 }
 
-template<class TFixedImage,class TMovingImage,class TVirtualImage, class TInternalComputationValueType, class TMetricTraits>
+template<typename TFixedImage,typename TMovingImage,typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits>
 ThreadIdType
 ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 ::GetMaximumNumberOfThreads() const
@@ -512,7 +512,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
   return  this->m_DenseGetValueAndDerivativeThreader->GetMaximumNumberOfThreads();
 }
 
-template<class TFixedImage,class TMovingImage,class TVirtualImage, class TInternalComputationValueType, class TMetricTraits>
+template<typename TFixedImage,typename TMovingImage,typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits>
 ThreadIdType
 ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 ::GetNumberOfThreadsUsed() const
@@ -527,7 +527,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
     }
 }
 
-template<class TFixedImage,class TMovingImage,class TVirtualImage, class TInternalComputationValueType, class TMetricTraits>
+template<typename TFixedImage,typename TMovingImage,typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits>
 void
 ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 ::MapFixedSampledPointSetToVirtual()
@@ -575,7 +575,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
     }
 }
 
-template<class TFixedImage,class TMovingImage,class TVirtualImage, class TInternalComputationValueType, class TMetricTraits>
+template<typename TFixedImage,typename TMovingImage,typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits>
 SizeValueType
 ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 ::GetNumberOfDomainPoints() const
@@ -593,7 +593,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
     }
 }
 
-template<class TFixedImage,class TMovingImage,class TVirtualImage, class TInternalComputationValueType, class TMetricTraits>
+template<typename TFixedImage,typename TMovingImage,typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits>
 void
 ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 ::PrintSelf(std::ostream& os, Indent indent) const

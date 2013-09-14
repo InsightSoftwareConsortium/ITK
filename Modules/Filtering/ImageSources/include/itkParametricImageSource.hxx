@@ -22,7 +22,7 @@
 namespace itk
 {
 
-template< class TOutputImage >
+template< typename TOutputImage >
 void
 ParametricImageSource< TOutputImage >
 ::PrintSelf(std::ostream& os, Indent indent) const

@@ -125,7 +125,7 @@ namespace itk
  * \ingroup ITKImageGrid
  */
 
-template< class TInputPointSet, class TOutputImage >
+template< typename TInputPointSet, typename TOutputImage >
 class BSplineScatteredDataPointSetToImageFilter:
   public PointSetToImageFilter< TInputPointSet, TOutputImage >
 {

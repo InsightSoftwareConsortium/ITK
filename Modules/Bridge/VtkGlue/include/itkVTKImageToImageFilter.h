@@ -43,7 +43,7 @@ namespace itk
  *
  * \ingroup ITKVtkGlue
  */
-template <class TOutputImage >
+template <typename TOutputImage >
 class VTKImageToImageFilter : public VTKImageImport< TOutputImage >
 {
 public:

@@ -35,7 +35,7 @@ namespace itk
  *
  * \ingroup ITKVideoBridgeVXL
  */
-template< class TVideoStream >
+template< typename TVideoStream >
 class vidl_itk_istream : public vidl_istream
 {
 public:

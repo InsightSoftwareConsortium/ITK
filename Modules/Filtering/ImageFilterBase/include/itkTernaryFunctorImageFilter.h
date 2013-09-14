@@ -35,8 +35,8 @@ namespace itk
  * \ingroup IntensityImageFilters MultiThreaded
  * \ingroup ITKImageFilterBase
  */
-template< class TInputImage1, class TInputImage2,
-          class TInputImage3, class TOutputImage, class TFunction    >
+template< typename TInputImage1, typename TInputImage2,
+          typename TInputImage3, typename TOutputImage, typename TFunction    >
 class TernaryFunctorImageFilter:
   public InPlaceImageFilter< TInputImage1, TOutputImage >
 {

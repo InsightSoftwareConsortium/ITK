@@ -51,7 +51,7 @@ namespace itk
  * \wikiexample{ImageProcessing/ThresholdImageFilter,Threshold an image}
  * \endwiki
  */
-template< class TImage >
+template< typename TImage >
 class ThresholdImageFilter:public InPlaceImageFilter< TImage, TImage >
 {
 public:

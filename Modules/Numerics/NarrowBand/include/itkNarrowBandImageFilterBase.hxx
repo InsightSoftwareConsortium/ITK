@@ -23,7 +23,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 NarrowBandImageFilterBase< TInputImage, TOutputImage >
 ::ClearNarrowBand()
@@ -31,7 +31,7 @@ NarrowBandImageFilterBase< TInputImage, TOutputImage >
   m_NarrowBand->Clear();
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 NarrowBandImageFilterBase< TInputImage, TOutputImage >
 ::CopyInputToOutput()
@@ -45,7 +45,7 @@ NarrowBandImageFilterBase< TInputImage, TOutputImage >
   this->GraftOutput( shiftScaleFilter->GetOutput() );
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 NarrowBandImageFilterBase< TInputImage, TOutputImage >
 ::GenerateData()
@@ -109,7 +109,7 @@ NarrowBandImageFilterBase< TInputImage, TOutputImage >
   this->PostProcessOutput();
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 ITK_THREAD_RETURN_TYPE
 NarrowBandImageFilterBase< TInputImage, TOutputImage >
 ::IterateThreaderCallback(void *arg)
@@ -125,7 +125,7 @@ NarrowBandImageFilterBase< TInputImage, TOutputImage >
   return ITK_THREAD_RETURN_VALUE;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 NarrowBandImageFilterBase< TInputImage, TOutputImage >
 ::ThreadedIterate(void *arg, ThreadIdType threadId)
@@ -212,7 +212,7 @@ NarrowBandImageFilterBase< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 NarrowBandImageFilterBase< TInputImage, TOutputImage >
 ::Initialize()
@@ -242,7 +242,7 @@ NarrowBandImageFilterBase< TInputImage, TOutputImage >
   m_Barrier->Initialize( this->GetMultiThreader()->GetNumberOfThreads() );
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 NarrowBandImageFilterBase< TInputImage, TOutputImage >
 ::InitializeIteration()
@@ -268,7 +268,7 @@ NarrowBandImageFilterBase< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 NarrowBandImageFilterBase< TInputImage, TOutputImage >
 ::ThreadedApplyUpdate(const TimeStepType& dt,
@@ -295,7 +295,7 @@ NarrowBandImageFilterBase< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 typename
 NarrowBandImageFilterBase< TInputImage, TOutputImage >::TimeStepType
 NarrowBandImageFilterBase< TInputImage, TOutputImage >
@@ -340,14 +340,14 @@ NarrowBandImageFilterBase< TInputImage, TOutputImage >
   return timeStep;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 NarrowBandImageFilterBase< TInputImage, TOutputImage >
 ::PostProcessOutput()
 {
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 NarrowBandImageFilterBase< TInputImage, TOutputImage >
 ::GetSplitRegion(const size_t& i, ThreadRegionType & splitRegion)
@@ -356,7 +356,7 @@ NarrowBandImageFilterBase< TInputImage, TOutputImage >
   splitRegion.last = m_RegionList[i].End;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 NarrowBandImageFilterBase< TInputImage, TOutputImage >
 ::WaitForAll()
@@ -364,7 +364,7 @@ NarrowBandImageFilterBase< TInputImage, TOutputImage >
   m_Barrier->Wait();
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 NarrowBandImageFilterBase< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

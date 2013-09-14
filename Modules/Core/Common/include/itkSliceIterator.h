@@ -44,7 +44,7 @@ namespace itk
  * \ingroup Iterators
  * \ingroup ITKCommon
  */
-template< class TPixel, class TContainer >
+template< typename TPixel, typename TContainer >
 class SliceIterator
 {
 public:

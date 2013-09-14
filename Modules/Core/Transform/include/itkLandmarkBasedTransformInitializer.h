@@ -64,9 +64,9 @@ namespace itk
  * \wikiexample{Registration/LandmarkBasedTransformInitializer,Rigidly register one image to another using manually specified landmarks}
  * \endwiki
  */
-template< class TTransform,
-          class TFixedImage,
-          class TMovingImage >
+template< typename TTransform,
+          typename TFixedImage,
+          typename TMovingImage >
 class LandmarkBasedTransformInitializer:
   public Object
 {
@@ -162,7 +162,7 @@ private:
 
 
   /** fallback Initializer just sets transform to identity */
-  template <class TTransform2>
+  template <typename TTransform2>
     void InternalInitializeTransform(TTransform *);
   /** Initializer for VersorRigid3D */
   void InternalInitializeTransform(VersorRigid3DTransformType *);

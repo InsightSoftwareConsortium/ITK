@@ -38,7 +38,7 @@
 
 
 // Generic Kernel Transform Tester
-template<class KernelType> int TestKernelTransform(const char *name, KernelType *)
+template<typename KernelType> int TestKernelTransform(const char *name, KernelType *)
 {
   std::cout << name << std::flush;
 

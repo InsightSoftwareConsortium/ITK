@@ -27,7 +27,7 @@
 namespace itk
 {
 
-template< class TInput >
+template< typename TInput >
 DOMWriter<TInput>::DOMWriter() : m_Input( NULL )
 {
   // Create the logger.
@@ -46,7 +46,7 @@ DOMWriter<TInput>::DOMWriter() : m_Input( NULL )
 }
 
 /** Set the input object to be written. */
-template< class TInput >
+template< typename TInput >
 void
 DOMWriter<TInput>::SetInput( const InputType* input )
 {
@@ -56,7 +56,7 @@ DOMWriter<TInput>::SetInput( const InputType* input )
 }
 
 /** Get the input object to be written. */
-template< class TInput >
+template< typename TInput >
 const typename DOMWriter<TInput>::InputType *
 DOMWriter<TInput>::GetInput() const
 {
@@ -68,7 +68,7 @@ DOMWriter<TInput>::GetInput() const
  * Some derived writers may accept an incomplete input object during the writing process, in those cases
  * the optional argument 'userdata' can be used to provide the missed information.
  */
-template< class TInput >
+template< typename TInput >
 void
 DOMWriter<TInput>::Update( DOMNodeType* outputdom, const void* userdata )
 {
@@ -107,7 +107,7 @@ DOMWriter<TInput>::Update( DOMNodeType* outputdom, const void* userdata )
 /**
  * Function called by end-users to write the input object to the output XML file.
  */
-template< class TInput >
+template< typename TInput >
 void
 DOMWriter<TInput>::Update()
 {

@@ -40,7 +40,7 @@ namespace Function
  *
  * \ingroup ITKColormap
  */
-template< class TScalar, class TRGBPixel >
+template< typename TScalar, typename TRGBPixel >
 class CoolColormapFunction:
   public ColormapFunction< TScalar, TRGBPixel >
 {

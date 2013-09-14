@@ -31,7 +31,7 @@ namespace itk
 /**
  * Default constructor.
  */
-template< class TDisplacementField, class TOutputImage >
+template< typename TDisplacementField, typename TOutputImage >
 GridForwardWarpImageFilter< TDisplacementField, TOutputImage >
 ::GridForwardWarpImageFilter()
 {
@@ -44,7 +44,7 @@ GridForwardWarpImageFilter< TDisplacementField, TOutputImage >
 /**
  * Standard PrintSelf method.
  */
-template< class TDisplacementField, class TOutputImage >
+template< typename TDisplacementField, typename TOutputImage >
 void
 GridForwardWarpImageFilter< TDisplacementField, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -62,7 +62,7 @@ GridForwardWarpImageFilter< TDisplacementField, TOutputImage >
 /**
  * Compute the output for the region specified by outputRegionForThread.
  */
-template< class TDisplacementField, class TOutputImage >
+template< typename TDisplacementField, typename TOutputImage >
 void
 GridForwardWarpImageFilter< TDisplacementField, TOutputImage >
 ::GenerateData()

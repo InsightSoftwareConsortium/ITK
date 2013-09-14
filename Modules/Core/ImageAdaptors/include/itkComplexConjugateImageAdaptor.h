@@ -31,7 +31,7 @@ namespace Accessor
  * \ingroup ImageAdaptors
  * \ingroup ITKImageAdaptors
  */
-template< class TComplexType >
+template< typename TComplexType >
 class ComplexConjugatePixelAccessor
 {
 public:
@@ -56,7 +56,7 @@ public:
  * \ingroup ImageAdaptors
  * \ingroup ITKImageAdaptors
  */
-template< class TImage >
+template< typename TImage >
 class ComplexConjugateImageAdaptor:public
   ImageAdaptor< TImage,
                 Accessor::ComplexConjugatePixelAccessor< typename TImage::PixelType > >

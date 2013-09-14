@@ -24,7 +24,7 @@
 namespace itk
 {
 
-template< class TInput, class TLevelSetContainer >
+template< typename TInput, typename TLevelSetContainer >
 LevelSetEquationChanAndVeseInternalTerm< TInput, TLevelSetContainer >
 ::LevelSetEquationChanAndVeseInternalTerm() :
   m_Mean( NumericTraits< InputPixelRealType >::Zero ),
@@ -35,13 +35,13 @@ LevelSetEquationChanAndVeseInternalTerm< TInput, TLevelSetContainer >
   this->m_RequiredData.insert( "Value" );
 }
 
-template< class TInput, class TLevelSetContainer >
+template< typename TInput, typename TLevelSetContainer >
 LevelSetEquationChanAndVeseInternalTerm< TInput, TLevelSetContainer >
 ::~LevelSetEquationChanAndVeseInternalTerm()
 {
 }
 
-template< class TInput, class TLevelSetContainer >
+template< typename TInput, typename TLevelSetContainer >
 void LevelSetEquationChanAndVeseInternalTerm< TInput, TLevelSetContainer >
 ::Update()
 {
@@ -59,7 +59,7 @@ void LevelSetEquationChanAndVeseInternalTerm< TInput, TLevelSetContainer >
     }
 }
 
-template< class TInput, class TLevelSetContainer >
+template< typename TInput, typename TLevelSetContainer >
 void LevelSetEquationChanAndVeseInternalTerm< TInput, TLevelSetContainer >
 ::InitializeParameters()
 {
@@ -69,7 +69,7 @@ void LevelSetEquationChanAndVeseInternalTerm< TInput, TLevelSetContainer >
 }
 
 
-template< class TInput, class TLevelSetContainer >
+template< typename TInput, typename TLevelSetContainer >
 void LevelSetEquationChanAndVeseInternalTerm< TInput, TLevelSetContainer >
 ::Initialize( const LevelSetInputIndexType& inputIndex )
 {
@@ -88,7 +88,7 @@ void LevelSetEquationChanAndVeseInternalTerm< TInput, TLevelSetContainer >
 }
 
 
-template< class TInput, class TLevelSetContainer >
+template< typename TInput, typename TLevelSetContainer >
 void LevelSetEquationChanAndVeseInternalTerm< TInput, TLevelSetContainer >
 ::ComputeProduct( const LevelSetInputIndexType& inputIndex, LevelSetOutputRealType& prod )
 {
@@ -97,7 +97,7 @@ void LevelSetEquationChanAndVeseInternalTerm< TInput, TLevelSetContainer >
 }
 
 
-template< class TInput, class TLevelSetContainer >
+template< typename TInput, typename TLevelSetContainer >
 void LevelSetEquationChanAndVeseInternalTerm< TInput, TLevelSetContainer >
 ::UpdatePixel( const LevelSetInputIndexType& inputIndex,
                const LevelSetOutputRealType & oldValue,
@@ -115,7 +115,7 @@ void LevelSetEquationChanAndVeseInternalTerm< TInput, TLevelSetContainer >
   this->m_TotalValue += input * change;
 }
 
-template< class TInput, class TLevelSetContainer >
+template< typename TInput, typename TLevelSetContainer >
 typename LevelSetEquationChanAndVeseInternalTerm< TInput, TLevelSetContainer >::LevelSetOutputRealType
 LevelSetEquationChanAndVeseInternalTerm< TInput, TLevelSetContainer >
 ::Value( const LevelSetInputIndexType& inputIndex )
@@ -144,7 +144,7 @@ LevelSetEquationChanAndVeseInternalTerm< TInput, TLevelSetContainer >
   return NumericTraits< LevelSetOutputPixelType >::Zero;
 }
 
-template< class TInput, class TLevelSetContainer >
+template< typename TInput, typename TLevelSetContainer >
 typename LevelSetEquationChanAndVeseInternalTerm< TInput, TLevelSetContainer >::LevelSetOutputRealType
 LevelSetEquationChanAndVeseInternalTerm< TInput, TLevelSetContainer >
 ::Value( const LevelSetInputIndexType& inputIndex, const LevelSetDataType& data )
@@ -173,7 +173,7 @@ LevelSetEquationChanAndVeseInternalTerm< TInput, TLevelSetContainer >
   return NumericTraits< LevelSetOutputPixelType >::Zero;
 }
 
-template< class TInput, class TLevelSetContainer >
+template< typename TInput, typename TLevelSetContainer >
 void LevelSetEquationChanAndVeseInternalTerm< TInput, TLevelSetContainer >
 ::Accumulate( const InputPixelType& inputPixel, const LevelSetOutputRealType& heavisideValue )
 {

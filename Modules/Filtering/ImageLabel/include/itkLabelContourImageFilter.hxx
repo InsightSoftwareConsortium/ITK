@@ -29,7 +29,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 LabelContourImageFilter< TInputImage, TOutputImage >
 ::LabelContourImageFilter() :
   m_BackgroundValue( NumericTraits< OutputImagePixelType >::Zero ),
@@ -40,7 +40,7 @@ LabelContourImageFilter< TInputImage, TOutputImage >
 }
 
 // -----------------------------------------------------------------------------
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 LabelContourImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
@@ -59,7 +59,7 @@ LabelContourImageFilter< TInputImage, TOutputImage >
 }
 
 // -----------------------------------------------------------------------------
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 LabelContourImageFilter< TInputImage, TOutputImage >
 ::EnlargeOutputRequestedRegion(DataObject *)
@@ -69,7 +69,7 @@ LabelContourImageFilter< TInputImage, TOutputImage >
 }
 
 // -----------------------------------------------------------------------------
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 LabelContourImageFilter< TInputImage, TOutputImage >
 ::BeforeThreadedGenerateData()
@@ -106,7 +106,7 @@ LabelContourImageFilter< TInputImage, TOutputImage >
 }
 
 // -----------------------------------------------------------------------------
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 LabelContourImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData(const OutputRegionType & outputRegionForThread,
@@ -243,7 +243,7 @@ LabelContourImageFilter< TInputImage, TOutputImage >
 }
 
 // -----------------------------------------------------------------------------
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 LabelContourImageFilter< TInputImage, TOutputImage >
 ::AfterThreadedGenerateData()
@@ -252,7 +252,7 @@ LabelContourImageFilter< TInputImage, TOutputImage >
 }
 
 // -----------------------------------------------------------------------------
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 LabelContourImageFilter< TInputImage, TOutputImage >
 ::SetupLineOffsets(OffsetVectorType & LineOffsets)
@@ -315,7 +315,7 @@ LabelContourImageFilter< TInputImage, TOutputImage >
 }
 
 // -----------------------------------------------------------------------------
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 bool
 LabelContourImageFilter< TInputImage, TOutputImage >
 ::CheckNeighbors(const OutputIndexType & A,
@@ -337,7 +337,7 @@ LabelContourImageFilter< TInputImage, TOutputImage >
 }
 
 // -----------------------------------------------------------------------------
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 LabelContourImageFilter< TInputImage, TOutputImage >
 ::CompareLines(TOutputImage *output, LineEncodingType & current, const LineEncodingType & Neighbour)
@@ -459,7 +459,7 @@ LabelContourImageFilter< TInputImage, TOutputImage >
 }
 
 // -----------------------------------------------------------------------------
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 LabelContourImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -472,7 +472,7 @@ LabelContourImageFilter< TInputImage, TOutputImage >
 }
 
 // -----------------------------------------------------------------------------
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 LabelContourImageFilter< TInputImage, TOutputImage >
 ::Wait()

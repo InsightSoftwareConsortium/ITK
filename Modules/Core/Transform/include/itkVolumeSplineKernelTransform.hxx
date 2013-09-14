@@ -21,7 +21,7 @@
 
 namespace itk
 {
-template< class TScalar, unsigned int NDimensions >
+template< typename TScalar, unsigned int NDimensions >
 void
 VolumeSplineKernelTransform< TScalar, NDimensions >::ComputeG(const InputVectorType & x,
                                                                   GMatrixType & gmatrix) const
@@ -36,7 +36,7 @@ VolumeSplineKernelTransform< TScalar, NDimensions >::ComputeG(const InputVectorT
     }
 }
 
-template< class TScalar, unsigned int NDimensions >
+template< typename TScalar, unsigned int NDimensions >
 void
 VolumeSplineKernelTransform< TScalar, NDimensions >::ComputeDeformationContribution(
   const InputPointType  & thisPoint,

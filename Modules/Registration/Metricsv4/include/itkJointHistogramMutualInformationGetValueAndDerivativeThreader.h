@@ -30,7 +30,7 @@ namespace itk
  *
  * \ingroup ITKMetricsv4
  */
-template < class TDomainPartitioner, class TImageToImageMetric, class TJointHistogramMetric >
+template < typename TDomainPartitioner, typename TImageToImageMetric, typename TJointHistogramMetric >
 class JointHistogramMutualInformationGetValueAndDerivativeThreader
   : public ImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric >
 {

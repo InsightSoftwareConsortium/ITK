@@ -30,7 +30,7 @@ namespace itk
 /**
  * Constructor
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 ConnectedThresholdImageFilter< TInputImage, TOutputImage >
 ::ConnectedThresholdImageFilter()
 {
@@ -48,7 +48,7 @@ ConnectedThresholdImageFilter< TInputImage, TOutputImage >
   this->ProcessObject::SetNthInput(2, upper);
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ConnectedThresholdImageFilter< TInputImage, TOutputImage >
 ::SetSeed(const IndexType & seed)
@@ -57,7 +57,7 @@ ConnectedThresholdImageFilter< TInputImage, TOutputImage >
   this->AddSeed (seed);
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ConnectedThresholdImageFilter< TInputImage, TOutputImage >
 ::AddSeed(const IndexType & seed)
@@ -66,7 +66,7 @@ ConnectedThresholdImageFilter< TInputImage, TOutputImage >
   this->Modified();
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ConnectedThresholdImageFilter< TInputImage, TOutputImage >
 ::ClearSeeds()
@@ -78,7 +78,7 @@ ConnectedThresholdImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 const typename ConnectedThresholdImageFilter< TInputImage, TOutputImage >::SeedContainerType &
 ConnectedThresholdImageFilter< TInputImage, TOutputImage >
 ::GetSeeds() const
@@ -90,7 +90,7 @@ ConnectedThresholdImageFilter< TInputImage, TOutputImage >
 /**
  * Standard PrintSelf method.
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ConnectedThresholdImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -108,7 +108,7 @@ ConnectedThresholdImageFilter< TInputImage, TOutputImage >
   os << indent << "Connectivity: " << m_Connectivity << std::endl;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ConnectedThresholdImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
@@ -122,7 +122,7 @@ ConnectedThresholdImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ConnectedThresholdImageFilter< TInputImage, TOutputImage >
 ::EnlargeOutputRequestedRegion(DataObject *output)
@@ -131,7 +131,7 @@ ConnectedThresholdImageFilter< TInputImage, TOutputImage >
   output->SetRequestedRegionToLargestPossibleRegion();
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ConnectedThresholdImageFilter< TInputImage, TOutputImage >
 ::SetLowerInput(const InputPixelObjectType *input)
@@ -144,7 +144,7 @@ ConnectedThresholdImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ConnectedThresholdImageFilter< TInputImage, TOutputImage >
 ::SetUpperInput(const InputPixelObjectType *input)
@@ -157,7 +157,7 @@ ConnectedThresholdImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ConnectedThresholdImageFilter< TInputImage, TOutputImage >
 ::SetUpper(const InputImagePixelType threshold)
@@ -181,7 +181,7 @@ ConnectedThresholdImageFilter< TInputImage, TOutputImage >
   this->Modified();
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ConnectedThresholdImageFilter< TInputImage, TOutputImage >
 ::SetLower(const InputImagePixelType threshold)
@@ -205,7 +205,7 @@ ConnectedThresholdImageFilter< TInputImage, TOutputImage >
   this->Modified();
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 typename ConnectedThresholdImageFilter< TInputImage, TOutputImage >::InputPixelObjectType *
 ConnectedThresholdImageFilter< TInputImage, TOutputImage >
 ::GetLowerInput()
@@ -224,7 +224,7 @@ ConnectedThresholdImageFilter< TInputImage, TOutputImage >
   return lower;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 typename ConnectedThresholdImageFilter< TInputImage, TOutputImage >::InputPixelObjectType *
 ConnectedThresholdImageFilter< TInputImage, TOutputImage >
 ::GetUpperInput()
@@ -243,7 +243,7 @@ ConnectedThresholdImageFilter< TInputImage, TOutputImage >
   return upper;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 typename ConnectedThresholdImageFilter< TInputImage, TOutputImage >::InputImagePixelType
 ConnectedThresholdImageFilter< TInputImage, TOutputImage >
 ::GetLower() const
@@ -254,7 +254,7 @@ ConnectedThresholdImageFilter< TInputImage, TOutputImage >
   return lower->Get();
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 typename ConnectedThresholdImageFilter< TInputImage, TOutputImage >::InputImagePixelType
 ConnectedThresholdImageFilter< TInputImage, TOutputImage >
 ::GetUpper() const
@@ -265,7 +265,7 @@ ConnectedThresholdImageFilter< TInputImage, TOutputImage >
   return upper->Get();
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ConnectedThresholdImageFilter< TInputImage, TOutputImage >
 ::GenerateData()

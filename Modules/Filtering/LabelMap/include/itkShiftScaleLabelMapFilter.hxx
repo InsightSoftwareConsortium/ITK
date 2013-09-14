@@ -23,7 +23,7 @@
 
 namespace itk
 {
-template< class TImage >
+template< typename TImage >
 ShiftScaleLabelMapFilter< TImage >
 ::ShiftScaleLabelMapFilter()
 {
@@ -32,7 +32,7 @@ ShiftScaleLabelMapFilter< TImage >
   m_ChangeBackgroundValue = false;
 }
 
-template< class TImage >
+template< typename TImage >
 void
 ShiftScaleLabelMapFilter< TImage >
 ::GenerateData()
@@ -70,7 +70,7 @@ ShiftScaleLabelMapFilter< TImage >
     }
 }
 
-template< class TImage >
+template< typename TImage >
 void
 ShiftScaleLabelMapFilter< TImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

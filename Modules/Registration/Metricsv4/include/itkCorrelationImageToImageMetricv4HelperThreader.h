@@ -32,7 +32,7 @@ namespace itk
  *
  * \ingroup ITKMetricsv4
  */
-template < class TDomainPartitioner, class TImageToImageMetric, class TCorrelationMetric >
+template < typename TDomainPartitioner, typename TImageToImageMetric, typename TCorrelationMetric >
 class CorrelationImageToImageMetricv4HelperThreader
   : public ImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric >
 {

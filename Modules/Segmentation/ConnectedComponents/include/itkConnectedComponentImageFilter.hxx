@@ -30,7 +30,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage, class TMaskImage >
+template< typename TInputImage, typename TOutputImage, typename TMaskImage >
 void
 ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
 ::GenerateInputRequestedRegion()
@@ -53,7 +53,7 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
     }
 }
 
-template< class TInputImage, class TOutputImage, class TMaskImage >
+template< typename TInputImage, typename TOutputImage, typename TMaskImage >
 void
 ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
 ::EnlargeOutputRequestedRegion(DataObject *)
@@ -62,7 +62,7 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
   ->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
 }
 
-template< class TInputImage, class TOutputImage, class TMaskImage >
+template< typename TInputImage, typename TOutputImage, typename TMaskImage >
 void
 ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
 ::BeforeThreadedGenerateData()
@@ -110,7 +110,7 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
   m_FirstLineIdToJoin.resize(nbOfThreads - 1);
 }
 
-template< class TInputImage, class TOutputImage, class TMaskImage >
+template< typename TInputImage, typename TOutputImage, typename TMaskImage >
 void
 ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
 ::ThreadedGenerateData(const RegionType & outputRegionForThread,
@@ -401,7 +401,7 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
     }
 }
 
-template< class TInputImage, class TOutputImage, class TMaskImage >
+template< typename TInputImage, typename TOutputImage, typename TMaskImage >
 void
 ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
 ::AfterThreadedGenerateData()
@@ -412,7 +412,7 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
   m_Input = NULL;
 }
 
-template< class TInputImage, class TOutputImage, class TMaskImage >
+template< typename TInputImage, typename TOutputImage, typename TMaskImage >
 void
 ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
 ::SetupLineOffsets(OffsetVec & LineOffsets)
@@ -471,7 +471,7 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
   // LineOffsets is the thing we wanted.
 }
 
-template< class TInputImage, class TOutputImage, class TMaskImage >
+template< typename TInputImage, typename TOutputImage, typename TMaskImage >
 bool
 ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
 ::CheckNeighbors(const OutputIndexType & A,
@@ -492,7 +492,7 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
   return ( true );
 }
 
-template< class TInputImage, class TOutputImage, class TMaskImage >
+template< typename TInputImage, typename TOutputImage, typename TMaskImage >
 void
 ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
 ::CompareLines(lineEncoding & current, const lineEncoding & Neighbour)
@@ -585,7 +585,7 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
 }
 
 // union find related functions
-template< class TInputImage, class TOutputImage, class TMaskImage >
+template< typename TInputImage, typename TOutputImage, typename TMaskImage >
 void
 ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
 ::InsertSet(const LabelType label)
@@ -593,7 +593,7 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
   m_UnionFind[label] = label;
 }
 
-template< class TInputImage, class TOutputImage, class TMaskImage >
+template< typename TInputImage, typename TOutputImage, typename TMaskImage >
 SizeValueType
 ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
 ::CreateConsecutive()
@@ -619,7 +619,7 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
   return count;
 }
 
-template< class TInputImage, class TOutputImage, class TMaskImage >
+template< typename TInputImage, typename TOutputImage, typename TMaskImage >
 SizeValueType
 ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
 ::LookupSet(const LabelType label)
@@ -632,7 +632,7 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
   return ( m_UnionFind[label] );
 }
 
-template< class TInputImage, class TOutputImage, class TMaskImage >
+template< typename TInputImage, typename TOutputImage, typename TMaskImage >
 void
 ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
 ::LinkLabels(const LabelType lab1, const LabelType lab2)
@@ -650,7 +650,7 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
     }
 }
 
-template< class TInputImage, class TOutputImage, class TMaskImage >
+template< typename TInputImage, typename TOutputImage, typename TMaskImage >
 void
 ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

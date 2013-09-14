@@ -23,7 +23,7 @@
 namespace itk
 {
 
-template< class TMetric >
+template< typename TMetric >
 RegistrationParameterScalesFromJacobian< TMetric >
 ::RegistrationParameterScalesFromJacobian()
 {
@@ -34,7 +34,7 @@ RegistrationParameterScalesFromJacobian< TMetric >
  *  then average the squared norm over the sample points. This average is
  *  used as the scale of this parameter.
  */
-template< class TMetric >
+template< typename TMetric >
 void
 RegistrationParameterScalesFromJacobian< TMetric >
 ::EstimateScales(ScalesType &parameterScales)
@@ -77,7 +77,7 @@ RegistrationParameterScalesFromJacobian< TMetric >
 /**
  *  Compute the scale for a STEP, the impact of a STEP on the transform.
  */
-template< class TMetric >
+template< typename TMetric >
 typename RegistrationParameterScalesFromJacobian< TMetric >::FloatType
 RegistrationParameterScalesFromJacobian< TMetric >
 ::EstimateStepScale(const ParametersType &step)
@@ -106,7 +106,7 @@ RegistrationParameterScalesFromJacobian< TMetric >
  * of a STEP on its location as in EstimateStepScale. Then we attribute this
  * impact to the corresponding local parameters.
  */
-template< class TMetric >
+template< typename TMetric >
 void
 RegistrationParameterScalesFromJacobian< TMetric >
 ::EstimateLocalStepScales(const ParametersType &step,
@@ -146,7 +146,7 @@ RegistrationParameterScalesFromJacobian< TMetric >
  *  Compute the step scales for samples, i.e. the impacts on each sampled
  *  voxel from a change on the transform.
  */
-template< class TMetric >
+template< typename TMetric >
 void
 RegistrationParameterScalesFromJacobian< TMetric >
 ::ComputeSampleStepScales(const ParametersType &step, ScalesType &sampleScales)
@@ -196,7 +196,7 @@ RegistrationParameterScalesFromJacobian< TMetric >
 }
 
 /** Print the information about this class */
-template< class TMetric >
+template< typename TMetric >
 void
 RegistrationParameterScalesFromJacobian< TMetric >
 ::PrintSelf(std::ostream& os, Indent indent) const

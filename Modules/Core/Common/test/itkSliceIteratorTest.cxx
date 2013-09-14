@@ -21,7 +21,7 @@
 #include "itkNeighborhoodIterator.h"
 #include <iostream>
 
-template< class T, unsigned int N >
+template< typename T, unsigned int N >
 void FillRegionSequential(itk::SmartPointer< itk::Image<T, N> > I)
 {
   unsigned int iDim, ArrayLength, i;
@@ -73,7 +73,7 @@ void FillRegionSequential(itk::SmartPointer< itk::Image<T, N> > I)
     }
 }
 
-template< class T, unsigned int VDimension >
+template< typename T, unsigned int VDimension >
 void PrintRegion(itk::SmartPointer< itk::Image<T, VDimension> > I)
 {
   unsigned int iDim;
@@ -127,7 +127,7 @@ void PrintRegion(itk::SmartPointer< itk::Image<T, VDimension> > I)
     }
 }
 
-template <class TContainer>
+template <typename TContainer>
 void PrintSlice(TContainer s)
 {
   std::cout << "[";

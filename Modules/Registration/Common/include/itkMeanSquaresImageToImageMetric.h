@@ -35,7 +35,7 @@ namespace itk
  * \wikiexample{Metrics/MeanSquaresImageToImageMetric,Compute the mean squares metric between two images}
  * \endwiki
  */
-template< class TFixedImage, class TMovingImage >
+template< typename TFixedImage, typename TMovingImage >
 class MeanSquaresImageToImageMetric:
   public ImageToImageMetric< TFixedImage, TMovingImage >
 {

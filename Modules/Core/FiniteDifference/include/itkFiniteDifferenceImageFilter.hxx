@@ -25,7 +25,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 FiniteDifferenceImageFilter< TInputImage, TOutputImage >
 ::FiniteDifferenceImageFilter()
 {
@@ -40,12 +40,12 @@ FiniteDifferenceImageFilter< TInputImage, TOutputImage >
   this->InPlaceOff();
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 FiniteDifferenceImageFilter< TInputImage, TOutputImage >
 ::~FiniteDifferenceImageFilter()
 {}
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 FiniteDifferenceImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
@@ -115,7 +115,7 @@ FiniteDifferenceImageFilter< TInputImage, TOutputImage >
 /**
  *
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 FiniteDifferenceImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
@@ -174,7 +174,7 @@ FiniteDifferenceImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 typename FiniteDifferenceImageFilter< TInputImage, TOutputImage >::TimeStepType
 FiniteDifferenceImageFilter< TInputImage, TOutputImage >
 ::ResolveTimeStep(const std::vector< TimeStepType >& timeStepList,
@@ -224,7 +224,7 @@ FiniteDifferenceImageFilter< TInputImage, TOutputImage >
   return oMin;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 bool
 FiniteDifferenceImageFilter< TInputImage, TOutputImage >
 ::Halt()
@@ -253,7 +253,7 @@ FiniteDifferenceImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 FiniteDifferenceImageFilter< TInputImage, TOutputImage >
 ::InitializeFunctionCoefficients()
@@ -287,7 +287,7 @@ FiniteDifferenceImageFilter< TInputImage, TOutputImage >
   m_DifferenceFunction->SetScaleCoefficients(coeffs);
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 FiniteDifferenceImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

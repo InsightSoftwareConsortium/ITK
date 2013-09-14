@@ -41,7 +41,7 @@
 
 namespace itk
 {
-template< class TInputImage >
+template< typename TInputImage >
 void
 ChangeRegionLabelMapFilter< TInputImage >
 ::GenerateInputRequestedRegion()
@@ -56,7 +56,7 @@ ChangeRegionLabelMapFilter< TInputImage >
   input->SetRequestedRegion( input->GetLargestPossibleRegion() );
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void
 ChangeRegionLabelMapFilter< TInputImage >
 ::GenerateOutputInformation()
@@ -65,7 +65,7 @@ ChangeRegionLabelMapFilter< TInputImage >
   this->GetOutput()->SetLargestPossibleRegion(m_Region);
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void
 ChangeRegionLabelMapFilter< TInputImage >
 ::EnlargeOutputRequestedRegion(DataObject *)
@@ -74,7 +74,7 @@ ChangeRegionLabelMapFilter< TInputImage >
   ->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void
 ChangeRegionLabelMapFilter< TInputImage >
 ::GenerateData()
@@ -93,7 +93,7 @@ ChangeRegionLabelMapFilter< TInputImage >
     }
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void
 ChangeRegionLabelMapFilter< TInputImage >
 ::ThreadedProcessLabelObject(LabelObjectType *labelObject)
@@ -156,7 +156,7 @@ ChangeRegionLabelMapFilter< TInputImage >
     }
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void
 ChangeRegionLabelMapFilter< TInputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

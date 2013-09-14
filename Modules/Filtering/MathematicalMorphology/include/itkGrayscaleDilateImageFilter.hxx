@@ -25,7 +25,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 GrayscaleDilateImageFilter< TInputImage, TOutputImage, TKernel >
 ::GrayscaleDilateImageFilter()
 {
@@ -38,7 +38,7 @@ GrayscaleDilateImageFilter< TInputImage, TOutputImage, TKernel >
   this->SetBoundary( NumericTraits< PixelType >::NonpositiveMin() );
 }
 
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 void
 GrayscaleDilateImageFilter< TInputImage, TOutputImage, TKernel >
 ::SetNumberOfThreads(ThreadIdType nb)
@@ -50,7 +50,7 @@ GrayscaleDilateImageFilter< TInputImage, TOutputImage, TKernel >
   m_BasicFilter->SetNumberOfThreads(nb);
 }
 
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 void
 GrayscaleDilateImageFilter< TInputImage, TOutputImage, TKernel >
 ::SetKernel(const KernelType & kernel)
@@ -101,7 +101,7 @@ GrayscaleDilateImageFilter< TInputImage, TOutputImage, TKernel >
   Superclass::SetKernel(kernel);
 }
 
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 void
 GrayscaleDilateImageFilter< TInputImage, TOutputImage, TKernel >
 ::SetBoundary(const PixelType value)
@@ -114,7 +114,7 @@ GrayscaleDilateImageFilter< TInputImage, TOutputImage, TKernel >
   m_BasicFilter->OverrideBoundaryCondition(&m_BoundaryCondition);
 }
 
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 void
 GrayscaleDilateImageFilter< TInputImage, TOutputImage, TKernel >
 ::SetAlgorithm(int algo)
@@ -156,7 +156,7 @@ GrayscaleDilateImageFilter< TInputImage, TOutputImage, TKernel >
     }
 }
 
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 void
 GrayscaleDilateImageFilter< TInputImage, TOutputImage, TKernel >
 ::GenerateData()
@@ -220,7 +220,7 @@ GrayscaleDilateImageFilter< TInputImage, TOutputImage, TKernel >
     }
 }
 
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 void
 GrayscaleDilateImageFilter< TInputImage, TOutputImage, TKernel >
 ::Modified() const
@@ -232,7 +232,7 @@ GrayscaleDilateImageFilter< TInputImage, TOutputImage, TKernel >
   m_VHGWFilter->Modified();
 }
 
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 void
 GrayscaleDilateImageFilter< TInputImage, TOutputImage, TKernel >
 ::PrintSelf(std::ostream & os, Indent indent) const

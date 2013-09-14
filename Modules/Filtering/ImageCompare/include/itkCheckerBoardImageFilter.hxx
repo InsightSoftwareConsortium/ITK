@@ -28,7 +28,7 @@ namespace itk
 /**
  * Initialize new instance
  */
-template< class TImage >
+template< typename TImage >
 CheckerBoardImageFilter< TImage >
 ::CheckerBoardImageFilter()
 {
@@ -40,7 +40,7 @@ CheckerBoardImageFilter< TImage >
  *
  * \todo Add details about this class
  */
-template< class TImage >
+template< typename TImage >
 void
 CheckerBoardImageFilter< TImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -52,7 +52,7 @@ CheckerBoardImageFilter< TImage >
 /**
  * Connect one of the operands for checkerboard operation
  */
-template< class TImage >
+template< typename TImage >
 void
 CheckerBoardImageFilter< TImage >
 ::SetInput1(const InputImageType *image1)
@@ -64,7 +64,7 @@ CheckerBoardImageFilter< TImage >
 /**
  * Connect one of the operands for checkerboard operation
  */
-template< class TImage >
+template< typename TImage >
 void
 CheckerBoardImageFilter< TImage >
 ::SetInput2(const InputImageType *image2)
@@ -76,7 +76,7 @@ CheckerBoardImageFilter< TImage >
 /**
  * ThreadedGenerateData
  */
-template< class TImage >
+template< typename TImage >
 void
 CheckerBoardImageFilter< TImage >
 ::ThreadedGenerateData(

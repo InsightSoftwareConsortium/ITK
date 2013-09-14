@@ -23,7 +23,7 @@
 namespace itk
 {
 
-template<class TTransform>
+template<typename TTransform>
 GaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>
 ::GaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor() :
   m_GaussianSmoothingVarianceForTheUpdateField( 1.75 ),
@@ -33,13 +33,13 @@ GaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>
 {
 }
 
-template<class TTransform>
+template<typename TTransform>
 GaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>
 ::~GaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor()
 {
 }
 
-template<class TTransform>
+template<typename TTransform>
 void
 GaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>
 ::SetGaussianSmoothingVarianceForTheUpdateField( ScalarType variance )
@@ -53,7 +53,7 @@ GaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>
     }
 }
 
-template<class TTransform>
+template<typename TTransform>
 void
 GaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>
 ::SetGaussianSmoothingVarianceForTheTotalField( const ScalarType variance )
@@ -67,7 +67,7 @@ GaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>
     }
 }
 
-template<class TTransform>
+template<typename TTransform>
 void
 GaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>
 ::AdaptTransformParameters()
@@ -86,7 +86,7 @@ GaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>
     }
 }
 
-template <class TTransform>
+template <typename TTransform>
 void
 GaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>
 ::PrintSelf( std::ostream& os, Indent indent ) const

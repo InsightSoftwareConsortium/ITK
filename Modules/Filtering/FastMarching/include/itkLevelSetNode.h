@@ -41,7 +41,7 @@ namespace itk
  *
  * \ingroup ITKFastMarching
  */
-template< class TPixel, unsigned int VSetDimension = 2 >
+template< typename TPixel, unsigned int VSetDimension = 2 >
 class LevelSetNode
 {
 public:

@@ -25,7 +25,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 MorphologicalGradientImageFilter< TInputImage, TOutputImage, TKernel >
 ::MorphologicalGradientImageFilter()
 {
@@ -39,7 +39,7 @@ MorphologicalGradientImageFilter< TInputImage, TOutputImage, TKernel >
   m_Algorithm = HISTO;
 }
 
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 void
 MorphologicalGradientImageFilter< TInputImage, TOutputImage, TKernel >
 ::SetKernel(const KernelType & kernel)
@@ -91,7 +91,7 @@ MorphologicalGradientImageFilter< TInputImage, TOutputImage, TKernel >
   Superclass::SetKernel(kernel);
 }
 
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 void
 MorphologicalGradientImageFilter< TInputImage, TOutputImage, TKernel >
 ::SetAlgorithm(int algo)
@@ -136,7 +136,7 @@ MorphologicalGradientImageFilter< TInputImage, TOutputImage, TKernel >
     }
 }
 
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 void
 MorphologicalGradientImageFilter< TInputImage, TOutputImage, TKernel >
 ::GenerateData()
@@ -216,7 +216,7 @@ MorphologicalGradientImageFilter< TInputImage, TOutputImage, TKernel >
     }
 }
 
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 void
 MorphologicalGradientImageFilter< TInputImage, TOutputImage, TKernel >
 ::Modified() const
@@ -231,7 +231,7 @@ MorphologicalGradientImageFilter< TInputImage, TOutputImage, TKernel >
   m_VanHerkGilWermanErodeFilter->Modified();
 }
 
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 void
 MorphologicalGradientImageFilter< TInputImage, TOutputImage, TKernel >
 ::PrintSelf(std::ostream & os, Indent indent) const

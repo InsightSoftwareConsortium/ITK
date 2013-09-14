@@ -62,7 +62,7 @@ namespace itk
  *
  * \ingroup ITKCommon
  */
-template< class T >
+template< typename T >
 class DataObjectDecorator:public DataObject
 {
 public:

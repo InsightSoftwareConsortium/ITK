@@ -36,7 +36,7 @@
 namespace itk
 {
 
-template< class TPixel, unsigned int VDimension, class TAllocator >
+template< typename TPixel, unsigned int VDimension, typename TAllocator >
 void
 ImageKernelOperator< TPixel, VDimension, TAllocator >
 ::SetImageKernel(const ImageType *kernel)
@@ -44,7 +44,7 @@ ImageKernelOperator< TPixel, VDimension, TAllocator >
   m_ImageKernel = kernel;
 }
 
-template< class TPixel, unsigned int VDimension, class TAllocator >
+template< typename TPixel, unsigned int VDimension, typename TAllocator >
 const typename ImageKernelOperator< TPixel, VDimension, TAllocator >::ImageType *
 ImageKernelOperator< TPixel, VDimension, TAllocator >
 ::GetImageKernel() const
@@ -52,7 +52,7 @@ ImageKernelOperator< TPixel, VDimension, TAllocator >
   return m_ImageKernel;
 }
 
-template< class TPixel, unsigned int VDimension, class TAllocator >
+template< typename TPixel, unsigned int VDimension, typename TAllocator >
 typename ImageKernelOperator< TPixel, VDimension, TAllocator >::CoefficientVector
 ImageKernelOperator< TPixel, VDimension, TAllocator >
 ::GenerateCoefficients()
@@ -95,7 +95,7 @@ ImageKernelOperator< TPixel, VDimension, TAllocator >
   return coeff;
 }
 
-template< class TPixel, unsigned int VDimension, class TAllocator >
+template< typename TPixel, unsigned int VDimension, typename TAllocator >
 void
 ImageKernelOperator< TPixel, VDimension, TAllocator >
 ::Fill(const CoefficientVector & coeff)

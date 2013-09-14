@@ -25,7 +25,7 @@ namespace itk
 {
 namespace Statistics
 {
-template< class TVector >
+template< typename TVector >
 DistanceToCentroidMembershipFunction< TVector >
 ::DistanceToCentroidMembershipFunction()
 {
@@ -34,7 +34,7 @@ DistanceToCentroidMembershipFunction< TVector >
   m_DistanceMetric = EuclideanDistanceMetric< TVector >::New();
 }
 
-template< class TVector >
+template< typename TVector >
 void
 DistanceToCentroidMembershipFunction< TVector >
 ::SetCentroid(const CentroidType & centroid)
@@ -46,7 +46,7 @@ DistanceToCentroidMembershipFunction< TVector >
     }
 }
 
-template< class TVector >
+template< typename TVector >
 void
 DistanceToCentroidMembershipFunction< TVector >
 ::SetMeasurementVectorSize(MeasurementVectorSizeType s)
@@ -55,7 +55,7 @@ DistanceToCentroidMembershipFunction< TVector >
   m_DistanceMetric->SetMeasurementVectorSize(s);
 }
 
-template< class TVector >
+template< typename TVector >
 const typename DistanceToCentroidMembershipFunction< TVector >::CentroidType &
 DistanceToCentroidMembershipFunction< TVector >
 ::GetCentroid() const
@@ -63,7 +63,7 @@ DistanceToCentroidMembershipFunction< TVector >
   return m_DistanceMetric->GetOrigin();
 }
 
-template< class TVector >
+template< typename TVector >
 double
 DistanceToCentroidMembershipFunction< TVector >
 ::Evaluate(const MeasurementVectorType & measurement) const
@@ -71,7 +71,7 @@ DistanceToCentroidMembershipFunction< TVector >
   return m_DistanceMetric->Evaluate(measurement);
 }
 
-template< class TVector >
+template< typename TVector >
 typename LightObject::Pointer
 DistanceToCentroidMembershipFunction< TVector >
 ::InternalClone() const
@@ -92,7 +92,7 @@ DistanceToCentroidMembershipFunction< TVector >
   return loPtr;
 }
 
-template< class TVector >
+template< typename TVector >
 void
 DistanceToCentroidMembershipFunction< TVector >
 ::PrintSelf(std::ostream & os, Indent indent) const

@@ -33,7 +33,7 @@ namespace itk
  * \ingroup ITKImageStatistics
  */
 
-template< class TInputHistogram >
+template< typename TInputHistogram >
 class HistogramAlgorithmBase:public Object
 {
 public:

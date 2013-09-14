@@ -23,7 +23,7 @@
 namespace itk
 {
 /** Default constructor. Needed since we provide a cast constructor. */
-template< class TImage >
+template< typename TImage >
 ImageRandomNonRepeatingConstIteratorWithIndex< TImage >
 ::ImageRandomNonRepeatingConstIteratorWithIndex():ImageConstIteratorWithIndex< TImage >()
 {
@@ -35,7 +35,7 @@ ImageRandomNonRepeatingConstIteratorWithIndex< TImage >
 
 /** Constructor establishes an iterator to walk a particular image and a
  * particular region of that image. */
-template< class TImage >
+template< typename TImage >
 ImageRandomNonRepeatingConstIteratorWithIndex< TImage >
 ::ImageRandomNonRepeatingConstIteratorWithIndex(const ImageType *ptr, const RegionType & region):
   ImageConstIteratorWithIndex< TImage >(ptr, region)
@@ -50,7 +50,7 @@ ImageRandomNonRepeatingConstIteratorWithIndex< TImage >
 //----------------------------------------------------------------------
 //    Assignment Operator
 //----------------------------------------------------------------------
-template< class TImage >
+template< typename TImage >
 ImageRandomNonRepeatingConstIteratorWithIndex< TImage > &
 ImageRandomNonRepeatingConstIteratorWithIndex< TImage >
 ::operator=(const Self & it)
@@ -74,7 +74,7 @@ ImageRandomNonRepeatingConstIteratorWithIndex< TImage >
 }
 
 /**  Set the number of samples to extract from the region */
-template< class TImage >
+template< typename TImage >
 void
 ImageRandomNonRepeatingConstIteratorWithIndex< TImage >
 ::SetNumberOfSamples(SizeValueType number)
@@ -84,7 +84,7 @@ ImageRandomNonRepeatingConstIteratorWithIndex< TImage >
 }
 
 /**  Set the number of samples to extract from the region */
-template< class TImage >
+template< typename TImage >
 typename ImageRandomNonRepeatingConstIteratorWithIndex< TImage >::SizeValueType
 ImageRandomNonRepeatingConstIteratorWithIndex< TImage >
 ::GetNumberOfSamples(void) const
@@ -93,7 +93,7 @@ ImageRandomNonRepeatingConstIteratorWithIndex< TImage >
 }
 
 /** Reinitialize the seed of the random number generator */
-template< class TImage >
+template< typename TImage >
 void
 ImageRandomNonRepeatingConstIteratorWithIndex< TImage >
 ::ReinitializeSeed()
@@ -102,7 +102,7 @@ ImageRandomNonRepeatingConstIteratorWithIndex< TImage >
   this->m_Permutation->Shuffle();
 }
 
-template< class TImage >
+template< typename TImage >
 void
 ImageRandomNonRepeatingConstIteratorWithIndex< TImage >
 ::ReinitializeSeed(int seed)
@@ -112,7 +112,7 @@ ImageRandomNonRepeatingConstIteratorWithIndex< TImage >
 }
 
 /** update the position */
-template< class TImage >
+template< typename TImage >
 void
 ImageRandomNonRepeatingConstIteratorWithIndex< TImage >
 ::SetPriorityImage(const PriorityImageType *priorityImage)
@@ -141,7 +141,7 @@ ImageRandomNonRepeatingConstIteratorWithIndex< TImage >
 }
 
 /** update the position */
-template< class TImage >
+template< typename TImage >
 void
 ImageRandomNonRepeatingConstIteratorWithIndex< TImage >
 ::UpdatePosition()

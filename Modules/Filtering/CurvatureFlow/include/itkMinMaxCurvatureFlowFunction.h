@@ -38,7 +38,7 @@ namespace itk
  * \ingroup FiniteDifferenceFunctions
  * \ingroup ITKCurvatureFlow
  */
-template< class TImage >
+template< typename TImage >
 class MinMaxCurvatureFlowFunction:
   public CurvatureFlowFunction< TImage >
 {

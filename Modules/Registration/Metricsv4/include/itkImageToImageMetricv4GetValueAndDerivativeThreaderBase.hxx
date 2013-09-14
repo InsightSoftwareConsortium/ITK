@@ -24,13 +24,13 @@
 namespace itk
 {
 
-template< class TDomainPartitioner, class TImageToImageMetricv4 >
+template< typename TDomainPartitioner, typename TImageToImageMetricv4 >
 ImageToImageMetricv4GetValueAndDerivativeThreaderBase< TDomainPartitioner, TImageToImageMetricv4 >
 ::ImageToImageMetricv4GetValueAndDerivativeThreaderBase()
 {
 }
 
-template< class TDomainPartitioner, class TImageToImageMetricv4 >
+template< typename TDomainPartitioner, typename TImageToImageMetricv4 >
 void
 ImageToImageMetricv4GetValueAndDerivativeThreaderBase< TDomainPartitioner, TImageToImageMetricv4 >
 ::BeforeThreadedExecution()
@@ -115,7 +115,7 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase< TDomainPartitioner, TImag
  this->m_CachedNumberOfLocalParameters = this->m_Associate->GetNumberOfLocalParameters();
 }
 
-template< class TDomainPartitioner, class TImageToImageMetricv4 >
+template< typename TDomainPartitioner, typename TImageToImageMetricv4 >
 void
 ImageToImageMetricv4GetValueAndDerivativeThreaderBase< TDomainPartitioner, TImageToImageMetricv4 >
 ::AfterThreadedExecution()
@@ -172,7 +172,7 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase< TDomainPartitioner, TImag
     }
 }
 
-template< class TDomainPartitioner, class TImageToImageMetricv4 >
+template< typename TDomainPartitioner, typename TImageToImageMetricv4 >
 bool
 ImageToImageMetricv4GetValueAndDerivativeThreaderBase< TDomainPartitioner, TImageToImageMetricv4 >
 ::ProcessVirtualPoint( const VirtualIndexType & virtualIndex,
@@ -271,7 +271,7 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase< TDomainPartitioner, TImag
   return pointIsValid;
 }
 
-template< class TDomainPartitioner, class TImageToImageMetricv4 >
+template< typename TDomainPartitioner, typename TImageToImageMetricv4 >
 void
 ImageToImageMetricv4GetValueAndDerivativeThreaderBase< TDomainPartitioner, TImageToImageMetricv4 >
 ::StorePointDerivativeResult( const VirtualIndexType & virtualIndex, const ThreadIdType threadId )
@@ -319,7 +319,7 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase< TDomainPartitioner, TImag
     }
 }
 
-template< class TDomainPartitioner, class TImageToImageMetricv4 >
+template< typename TDomainPartitioner, typename TImageToImageMetricv4 >
 bool
 ImageToImageMetricv4GetValueAndDerivativeThreaderBase< TDomainPartitioner, TImageToImageMetricv4 >
 ::GetComputeDerivative() const

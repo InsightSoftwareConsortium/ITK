@@ -29,7 +29,7 @@
 
 namespace itk
 {
-template< class TNeighborhoodType >
+template< typename TNeighborhoodType >
 ParallelSparseFieldCityBlockNeighborList< TNeighborhoodType >
 ::ParallelSparseFieldCityBlockNeighborList()
 {
@@ -74,7 +74,7 @@ ParallelSparseFieldCityBlockNeighborList< TNeighborhoodType >
     }
 }
 
-template< class TNeighborhoodType >
+template< typename TNeighborhoodType >
 void
 ParallelSparseFieldCityBlockNeighborList< TNeighborhoodType >
 ::Print(std::ostream & os) const
@@ -87,46 +87,46 @@ ParallelSparseFieldCityBlockNeighborList< TNeighborhoodType >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 typename ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >::ValueType
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::m_ValueOne = NumericTraits< typename ParallelSparseFieldLevelSetImageFilter< TInputImage,
                                                                                    TOutputImage >::ValueType >::OneValue();
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 typename ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >::ValueType
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::m_ValueZero = NumericTraits< typename ParallelSparseFieldLevelSetImageFilter< TInputImage,
                                                                                     TOutputImage >::ValueType >::ZeroValue();
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 typename ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >::StatusType
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::m_StatusNull = NumericTraits< typename ParallelSparseFieldLevelSetImageFilter< TInputImage,
                                                                                      TOutputImage >::StatusType >::
                  NonpositiveMin();
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 typename ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >::StatusType
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::m_StatusChanging = -1;
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 typename ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >::StatusType
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::m_StatusActiveChangingUp = -2;
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 typename ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >::StatusType
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::m_StatusActiveChangingDown = -3;
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 typename ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >::StatusType
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::m_StatusBoundaryPixel = -4;
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::ParallelSparseFieldLevelSetImageFilter()
 {
@@ -143,7 +143,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
   m_Data = 0;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
@@ -183,7 +183,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::CopyInputToOutput()
@@ -216,7 +216,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
   this->GraftOutput( zeroCrossingFilter->GetOutput() );
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::Initialize()
@@ -352,7 +352,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
   m_Data = new ThreadData[m_NumOfThreads];
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::ConstructActiveLayer()
@@ -453,7 +453,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::ConstructLayer(const StatusType& from, const StatusType& to)
@@ -491,7 +491,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::InitializeActiveLayerValues()
@@ -553,7 +553,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::PropagateAllLayerValues()
@@ -571,7 +571,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::PropagateLayerValues(const StatusType& from,
@@ -675,7 +675,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::InitializeBackgroundPixels()
@@ -719,7 +719,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
   m_ShiftedImage = 0;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::ComputeInitialThreadBoundaries()
@@ -799,7 +799,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::ThreadedAllocateData(ThreadIdType ThreadId)
@@ -901,7 +901,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
   m_Data[ThreadId].m_SemaphoreArrayNumber = 0;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::ThreadedInitializeData(ThreadIdType ThreadId,
@@ -965,7 +965,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::DeallocateData()
@@ -1105,7 +1105,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
   m_Data = 0;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::ThreadedInitializeIteration( ThreadIdType itkNotUsed(ThreadId) )
@@ -1114,7 +1114,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
   // they can override this method.
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::Iterate()
@@ -1139,7 +1139,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
   this->GetMultiThreader()->SingleMethodExecute ();
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 ITK_THREAD_RETURN_TYPE
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::IterateThreaderCallback(void *arg)
@@ -1353,7 +1353,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
   return ITK_THREAD_RETURN_VALUE;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 typename
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >::TimeStepType
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
@@ -1466,7 +1466,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
   return timeStep;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::ThreadedApplyUpdate(const TimeStepType& dt, ThreadIdType ThreadId)
@@ -1565,7 +1565,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::ThreadedUpdateActiveLayerValues(const TimeStepType& dt, LayerType *UpList,
@@ -1716,7 +1716,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
   m_Data[ThreadId].m_Count = counter;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::CopyInsertList(ThreadIdType ThreadId, LayerPointerType FromListPtr,
@@ -1742,7 +1742,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::ClearList(ThreadIdType ThreadId, LayerPointerType ListPtr)
@@ -1759,7 +1759,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::CopyInsertInterNeighborNodeTransferBufferLayers(
@@ -1785,7 +1785,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::ClearInterNeighborNodeTransferBufferLayers(
@@ -1798,7 +1798,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::ThreadedProcessFirstLayerStatusLists(
@@ -1938,7 +1938,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::ThreadedProcessPixelEnteringActiveLayer( const IndexType& itkNotUsed(index),
@@ -1949,7 +1949,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
   // entering the active layer.
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::ThreadedProcessStatusList(
@@ -2071,7 +2071,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::ThreadedProcessOutsideList(
@@ -2117,7 +2117,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::ThreadedPropagateLayerValues(
@@ -2229,7 +2229,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::CheckLoadBalance()
@@ -2361,7 +2361,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::ThreadedLoadBalance(ThreadIdType ThreadId)
@@ -2454,7 +2454,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::GetThreadRegionSplitByBoundary(ThreadIdType ThreadId, ThreadRegionType & ThreadRegion)
@@ -2486,7 +2486,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
   ThreadRegion.SetSize(threadRegionSize);
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::GetThreadRegionSplitUniformly(
@@ -2516,7 +2516,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
   ThreadRegion.SetSize(threadRegionSize);
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::ThreadedPostProcessOutput(const ThreadRegionType & regionToProcess)
@@ -2549,7 +2549,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 unsigned int
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::GetThreadNumber(unsigned int splitAxisValue)
@@ -2557,7 +2557,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
   return ( m_MapZToThreadNumber[splitAxisValue] );
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::SignalNeighborsAndWait(ThreadIdType ThreadId)
@@ -2612,7 +2612,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::SignalNeighbor(
@@ -2626,7 +2626,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
   td.m_Lock[SemaphoreArrayNumber].Unlock();
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::WaitForNeighbor(unsigned int SemaphoreArrayNumber, ThreadIdType ThreadId)
@@ -2641,7 +2641,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
   td.m_Lock[SemaphoreArrayNumber].Unlock();
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::WaitForAll()
@@ -2649,7 +2649,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
   m_Barrier->Wait();
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

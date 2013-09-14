@@ -49,10 +49,10 @@ namespace itk
  * \ingroup ITKFastMarching
  */
 template<
-  class TLevelSet,
-  class TAuxValue,
+  typename TLevelSet,
+  typename TAuxValue,
   unsigned int VAuxDimension = 1,
-  class TSpeedImage = Image< float,  TLevelSet ::ImageDimension >
+  typename TSpeedImage = Image< float,  TLevelSet ::ImageDimension >
   >
 class FastMarchingExtensionImageFilter:
   public FastMarchingImageFilter< TLevelSet, TSpeedImage >

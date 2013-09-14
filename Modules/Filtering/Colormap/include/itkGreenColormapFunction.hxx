@@ -24,7 +24,7 @@ namespace itk
 {
 namespace Function
 {
-template< class TScalar, class TRGBPixel >
+template< typename TScalar, typename TRGBPixel >
 typename GreenColormapFunction< TScalar, TRGBPixel >::RGBPixelType
 GreenColormapFunction< TScalar, TRGBPixel >
 ::operator()(const TScalar & v) const

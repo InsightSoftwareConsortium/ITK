@@ -64,7 +64,7 @@ namespace itk
  * \ingroup PathObjects
  * \ingroup ITKPath
  */
-template< class TImage, class TPath >
+template< typename TImage, typename TPath >
 class PathIterator:public PathConstIterator< TImage, TPath >
 {
 public:

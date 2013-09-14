@@ -24,7 +24,7 @@
 namespace itk
 {
 // ----------------------------------------------------------------------------
-template< class TInput, unsigned int VDimension, typename TOutput >
+template< typename TInput, unsigned int VDimension, typename TOutput >
 LevelSetImage< TInput, VDimension, TOutput >
 ::LevelSetImage()
 {
@@ -33,7 +33,7 @@ LevelSetImage< TInput, VDimension, TOutput >
 }
 
 // ----------------------------------------------------------------------------
-template< class TInput, unsigned int VDimension, typename TOutput >
+template< typename TInput, unsigned int VDimension, typename TOutput >
 LevelSetImage< TInput, VDimension, TOutput >
 ::~LevelSetImage()
 {

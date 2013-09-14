@@ -35,7 +35,7 @@ namespace itk
 /**
  *
  */
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 MeshToMeshFilter< TInputMesh, TOutputMesh >
 ::MeshToMeshFilter()
 {
@@ -46,7 +46,7 @@ MeshToMeshFilter< TInputMesh, TOutputMesh >
 /**
  *
  */
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 void
 MeshToMeshFilter< TInputMesh, TOutputMesh >
 ::SetInput(const TInputMesh *input)
@@ -59,7 +59,7 @@ MeshToMeshFilter< TInputMesh, TOutputMesh >
 /**
  *
  */
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 const typename MeshToMeshFilter< TInputMesh, TOutputMesh >::InputMeshType *
 MeshToMeshFilter< TInputMesh, TOutputMesh >
 ::GetInput() const
@@ -70,7 +70,7 @@ MeshToMeshFilter< TInputMesh, TOutputMesh >
 /**
  *
  */
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 const typename MeshToMeshFilter< TInputMesh, TOutputMesh >::InputMeshType *
 MeshToMeshFilter< TInputMesh, TOutputMesh >
 ::GetInput(unsigned int idx) const
@@ -79,7 +79,7 @@ MeshToMeshFilter< TInputMesh, TOutputMesh >
          ( this->ProcessObject::GetInput(idx) );
 }
 
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 void
 MeshToMeshFilter< TInputMesh, TOutputMesh >
 ::CopyInputMeshToOutputMeshPoints(void)
@@ -113,7 +113,7 @@ MeshToMeshFilter< TInputMesh, TOutputMesh >
     }
 }
 
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 void
 MeshToMeshFilter< TInputMesh, TOutputMesh >
 ::CopyInputMeshToOutputMeshPointData(void)
@@ -147,7 +147,7 @@ MeshToMeshFilter< TInputMesh, TOutputMesh >
     }
 }
 
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 void
 MeshToMeshFilter< TInputMesh, TOutputMesh >
 ::CopyInputMeshToOutputMeshCellLinks(void)
@@ -181,7 +181,7 @@ MeshToMeshFilter< TInputMesh, TOutputMesh >
     }
 }
 
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 void
 MeshToMeshFilter< TInputMesh, TOutputMesh >
 ::CopyInputMeshToOutputMeshCells(void)
@@ -225,7 +225,7 @@ MeshToMeshFilter< TInputMesh, TOutputMesh >
     }
 }
 
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 void
 MeshToMeshFilter< TInputMesh, TOutputMesh >
 ::CopyInputMeshToOutputMeshCellData(void)

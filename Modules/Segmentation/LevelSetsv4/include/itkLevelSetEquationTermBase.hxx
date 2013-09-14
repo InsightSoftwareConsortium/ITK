@@ -26,7 +26,7 @@
 namespace itk
 {
 // ----------------------------------------------------------------------------
-template< class TInputImage, class TLevelSetContainer >
+template< typename TInputImage, typename TLevelSetContainer >
 LevelSetEquationTermBase< TInputImage, TLevelSetContainer >
 ::LevelSetEquationTermBase()
 {
@@ -38,14 +38,14 @@ LevelSetEquationTermBase< TInputImage, TLevelSetContainer >
 }
 
 // ----------------------------------------------------------------------------
-template< class TInputImage, class TLevelSetContainer >
+template< typename TInputImage, typename TLevelSetContainer >
 LevelSetEquationTermBase< TInputImage, TLevelSetContainer >
 ::~LevelSetEquationTermBase()
 {
 }
 
 // ----------------------------------------------------------------------------
-template< class TInputImage, class TLevelSetContainer >
+template< typename TInputImage, typename TLevelSetContainer >
 const typename LevelSetEquationTermBase< TInputImage, TLevelSetContainer >::RequiredDataType &
 LevelSetEquationTermBase< TInputImage, TLevelSetContainer >
 ::GetRequiredData() const
@@ -54,7 +54,7 @@ LevelSetEquationTermBase< TInputImage, TLevelSetContainer >
 }
 
 // ----------------------------------------------------------------------------
-template< class TInputImage, class TLevelSetContainer >
+template< typename TInputImage, typename TLevelSetContainer >
 void
 LevelSetEquationTermBase< TInputImage, TLevelSetContainer >
 ::SetLevelSetContainer( LevelSetContainerType* iContainer )
@@ -72,7 +72,7 @@ LevelSetEquationTermBase< TInputImage, TLevelSetContainer >
 }
 
 // ----------------------------------------------------------------------------
-template< class TInputImage, class TLevelSetContainer >
+template< typename TInputImage, typename TLevelSetContainer >
 typename
 LevelSetEquationTermBase< TInputImage, TLevelSetContainer >
 ::LevelSetOutputRealType
@@ -91,7 +91,7 @@ LevelSetEquationTermBase< TInputImage, TLevelSetContainer >
 // ----------------------------------------------------------------------------
 
 // ----------------------------------------------------------------------------
-template< class TInputImage, class TLevelSetContainer >
+template< typename TInputImage, typename TLevelSetContainer >
 typename
 LevelSetEquationTermBase< TInputImage, TLevelSetContainer >
 ::LevelSetOutputRealType
@@ -111,7 +111,7 @@ LevelSetEquationTermBase< TInputImage, TLevelSetContainer >
 // ----------------------------------------------------------------------------
 
 // ----------------------------------------------------------------------------
-template< class TInputImage, class TLevelSetContainer >
+template< typename TInputImage, typename TLevelSetContainer >
 void
 LevelSetEquationTermBase< TInputImage, TLevelSetContainer >
 ::SetUp()

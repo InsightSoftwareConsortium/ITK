@@ -61,7 +61,7 @@ namespace itk
  *
  * \ingroup ITKIOXML
  */
-template< class TOutput >
+template< typename TOutput >
 class DOMReader : public Object
 {
 public:

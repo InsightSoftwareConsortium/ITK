@@ -25,7 +25,7 @@ namespace itk
 //----------------------------------------------------------------------
 //  Advance to Next Line
 //----------------------------------------------------------------------
-template< class TImage >
+template< typename TImage >
 void
 ImageSliceConstIteratorWithIndex< TImage >
 ::NextLine(void)
@@ -43,7 +43,7 @@ ImageSliceConstIteratorWithIndex< TImage >
 //----------------------------------------------------------------------
 //  Advance to Previous Line
 //----------------------------------------------------------------------
-template< class TImage >
+template< typename TImage >
 void
 ImageSliceConstIteratorWithIndex< TImage >
 ::PreviousLine(void)
@@ -61,7 +61,7 @@ ImageSliceConstIteratorWithIndex< TImage >
 //----------------------------------------------------------------------
 //  Go to the first pixel of the current slice
 //----------------------------------------------------------------------
-template< class TImage >
+template< typename TImage >
 void
 ImageSliceConstIteratorWithIndex< TImage >
 ::GoToBeginOfSlice(void)
@@ -75,7 +75,7 @@ ImageSliceConstIteratorWithIndex< TImage >
 //----------------------------------------------------------------------
 //  Advance to next slice
 //----------------------------------------------------------------------
-template< class TImage >
+template< typename TImage >
 void
 ImageSliceConstIteratorWithIndex< TImage >
 ::NextSlice(void)
@@ -112,7 +112,7 @@ ImageSliceConstIteratorWithIndex< TImage >
 //----------------------------------------------------------------------
 //  Go Back to previous slice
 //----------------------------------------------------------------------
-template< class TImage >
+template< typename TImage >
 void
 ImageSliceConstIteratorWithIndex< TImage >
 ::PreviousSlice(void)
@@ -149,7 +149,7 @@ ImageSliceConstIteratorWithIndex< TImage >
 //----------------------------------------------------------------------
 //  Test for end of line
 //----------------------------------------------------------------------
-template< class TImage >
+template< typename TImage >
 bool
 ImageSliceConstIteratorWithIndex< TImage >
 ::IsAtEndOfLine(void)
@@ -160,7 +160,7 @@ ImageSliceConstIteratorWithIndex< TImage >
 //----------------------------------------------------------------------
 //  Test for end of slice
 //----------------------------------------------------------------------
-template< class TImage >
+template< typename TImage >
 bool
 ImageSliceConstIteratorWithIndex< TImage >
 ::IsAtEndOfSlice(void)
@@ -171,7 +171,7 @@ ImageSliceConstIteratorWithIndex< TImage >
 //----------------------------------------------------------------------
 //  Test for begin of line
 //----------------------------------------------------------------------
-template< class TImage >
+template< typename TImage >
 bool
 ImageSliceConstIteratorWithIndex< TImage >
 ::IsAtReverseEndOfLine(void)
@@ -182,7 +182,7 @@ ImageSliceConstIteratorWithIndex< TImage >
 //----------------------------------------------------------------------
 //  Test for begin of slice
 //----------------------------------------------------------------------
-template< class TImage >
+template< typename TImage >
 bool
 ImageSliceConstIteratorWithIndex< TImage >
 ::IsAtReverseEndOfSlice(void)
@@ -193,7 +193,7 @@ ImageSliceConstIteratorWithIndex< TImage >
 //----------------------------------------------------------------------
 //  Select the fastest changing direction
 //----------------------------------------------------------------------
-template< class TImage >
+template< typename TImage >
 void
 ImageSliceConstIteratorWithIndex< TImage >
 ::SetFirstDirection(unsigned int direction)
@@ -210,7 +210,7 @@ ImageSliceConstIteratorWithIndex< TImage >
 //----------------------------------------------------------------------
 //  Select the second fastest changing direction
 //----------------------------------------------------------------------
-template< class TImage >
+template< typename TImage >
 void
 ImageSliceConstIteratorWithIndex< TImage >
 ::SetSecondDirection(unsigned int direction)
@@ -227,7 +227,7 @@ ImageSliceConstIteratorWithIndex< TImage >
 //----------------------------------------------------------------------
 //  Advance along a line
 //----------------------------------------------------------------------
-template< class TImage >
+template< typename TImage >
 ImageSliceConstIteratorWithIndex< TImage > &
 ImageSliceConstIteratorWithIndex< TImage >
 ::operator++()
@@ -240,7 +240,7 @@ ImageSliceConstIteratorWithIndex< TImage >
 //----------------------------------------------------------------------
 //  Go back along a line
 //----------------------------------------------------------------------
-template< class TImage >
+template< typename TImage >
 ImageSliceConstIteratorWithIndex< TImage > &
 ImageSliceConstIteratorWithIndex< TImage >
 ::operator--()

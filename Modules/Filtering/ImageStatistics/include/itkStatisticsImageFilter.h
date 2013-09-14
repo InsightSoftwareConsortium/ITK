@@ -45,7 +45,7 @@ namespace itk
  * \wikiexample{Statistics/StatisticsImageFilter,Compute min\, max\, variance and mean of an Image.}
  * \endwiki
  */
-template< class TInputImage >
+template< typename TInputImage >
 class StatisticsImageFilter:
   public ImageToImageFilter< TInputImage, TInputImage >
 {

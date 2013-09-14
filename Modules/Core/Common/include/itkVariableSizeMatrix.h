@@ -39,7 +39,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 
-template< class T >
+template< typename T >
 class VariableSizeMatrix
 {
 public:
@@ -212,7 +212,7 @@ private:
   InternalMatrixType m_Matrix;
 };
 
-template< class T >
+template< typename T >
 std::ostream & operator<<(std::ostream & os,
                                      const VariableSizeMatrix< T > & v)
 {
@@ -222,7 +222,7 @@ std::ostream & operator<<(std::ostream & os,
 /**
  *  Comparison
  */
-template< class T >
+template< typename T >
 inline
 bool
 VariableSizeMatrix< T >

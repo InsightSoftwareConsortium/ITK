@@ -38,7 +38,7 @@ namespace itk
  * \ingroup ITKImageIntensity
  */
 
-template< class TInputImage, class TOutputImage, class TFunction >
+template< typename TInputImage, typename TOutputImage, typename TFunction >
 class NaryFunctorImageFilter:
   public InPlaceImageFilter< TInputImage, TOutputImage >
 

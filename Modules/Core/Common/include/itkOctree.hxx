@@ -22,7 +22,7 @@
 
 namespace itk
 {
-template< class TPixel, unsigned int ColorTableSize, class MappingFunctionType >
+template< typename TPixel, unsigned int ColorTableSize, typename MappingFunctionType >
 Octree< TPixel, ColorTableSize,
         MappingFunctionType >::Octree(void):m_Plane(UNKNOWN_PLANE), m_Width(0), m_Depth(0), m_Tree()
 {
@@ -32,11 +32,11 @@ Octree< TPixel, ColorTableSize,
   m_Tree.SetParentOctree(this);
 }
 
-template< class TPixel, unsigned int ColorTableSize, class MappingFunctionType >
+template< typename TPixel, unsigned int ColorTableSize, typename MappingFunctionType >
 Octree< TPixel, ColorTableSize, MappingFunctionType >::
 ~Octree(void) { /*Nothing to be done here*/ }
 
-template< class TPixel, unsigned int ColorTableSize, class MappingFunctionType >
+template< typename TPixel, unsigned int ColorTableSize, typename MappingFunctionType >
 void
 Octree< TPixel, ColorTableSize, MappingFunctionType >::SetTrueDims(const unsigned int Dim0, const unsigned int Dim1,
                                                                    const unsigned int Dim2)
@@ -108,7 +108,7 @@ inline unsigned int ZF(const unsigned int octantID)
 
 /** @} */ // End of defgroup
 
-template< class TPixel, unsigned int ColorTableSize, class MappingFunctionType >
+template< typename TPixel, unsigned int ColorTableSize, typename MappingFunctionType >
 int
 Octree< TPixel, ColorTableSize, MappingFunctionType >::GetValue(const unsigned int Dim0,
                                                                 const unsigned int Dim1,
@@ -145,7 +145,7 @@ Octree< TPixel, ColorTableSize, MappingFunctionType >::GetValue(const unsigned i
   return CurrentOctreeNode->GetColor();
 }
 
-template< class TPixel, unsigned int ColorTableSize, class MappingFunctionType >
+template< typename TPixel, unsigned int ColorTableSize, typename MappingFunctionType >
 OctreeNodeBranch *
 Octree< TPixel, ColorTableSize, MappingFunctionType >::maskToOctree(const TPixel *Mask, unsigned width, unsigned x,
                                                                     unsigned y, unsigned z, unsigned xsize,
@@ -223,7 +223,7 @@ Octree< TPixel, ColorTableSize, MappingFunctionType >::maskToOctree(const TPixel
     }
 }
 
-template< class TPixel, unsigned int ColorTableSize, class MappingFunctionType >
+template< typename TPixel, unsigned int ColorTableSize, typename MappingFunctionType >
 void
 Octree< TPixel, ColorTableSize, MappingFunctionType >::BuildFromBuffer(const void *frombuffer,
                                                                        const unsigned int xsize,
@@ -253,7 +253,7 @@ Octree< TPixel, ColorTableSize, MappingFunctionType >::BuildFromBuffer(const voi
   m_Tree.SetBranch(branch);
 }
 
-template< class TPixel, unsigned int ColorTableSize, class MappingFunctionType >
+template< typename TPixel, unsigned int ColorTableSize, typename MappingFunctionType >
 void
 Octree< TPixel, ColorTableSize, MappingFunctionType >::BuildFromImage(ImageType *fromImage)
 {
@@ -265,7 +265,7 @@ Octree< TPixel, ColorTableSize, MappingFunctionType >::BuildFromImage(ImageType 
                         xsize, ysize, zsize);
 }
 
-template< class TPixel, unsigned int ColorTableSize, class MappingFunctionType >
+template< typename TPixel, unsigned int ColorTableSize, typename MappingFunctionType >
 typename Octree< TPixel, ColorTableSize, MappingFunctionType >::ImageTypePointer
 Octree< TPixel, ColorTableSize, MappingFunctionType >::GetImage()
 {
@@ -301,49 +301,49 @@ Octree< TPixel, ColorTableSize, MappingFunctionType >::GetImage()
   return img;
 }
 
-template< class TPixel, unsigned int ColorTableSize, class MappingFunctionType >
+template< typename TPixel, unsigned int ColorTableSize, typename MappingFunctionType >
 OctreeNode *
 Octree< TPixel, ColorTableSize, MappingFunctionType >::GetTree()
 {
   return &m_Tree;
 }
 
-template< class TPixel, unsigned int ColorTableSize, class MappingFunctionType >
+template< typename TPixel, unsigned int ColorTableSize, typename MappingFunctionType >
 void
 Octree< TPixel, ColorTableSize, MappingFunctionType >::SetWidth(unsigned int width)
 {
   m_Width = width;
 }
 
-template< class TPixel, unsigned int ColorTableSize, class MappingFunctionType >
+template< typename TPixel, unsigned int ColorTableSize, typename MappingFunctionType >
 void
 Octree< TPixel, ColorTableSize, MappingFunctionType >::SetDepth(unsigned int depth)
 {
   m_Depth = depth;
 }
 
-template< class TPixel, unsigned int ColorTableSize, class MappingFunctionType >
+template< typename TPixel, unsigned int ColorTableSize, typename MappingFunctionType >
 unsigned int
 Octree< TPixel, ColorTableSize, MappingFunctionType >::GetWidth()
 {
   return m_Width;
 }
 
-template< class TPixel, unsigned int ColorTableSize, class MappingFunctionType >
+template< typename TPixel, unsigned int ColorTableSize, typename MappingFunctionType >
 unsigned int
 Octree< TPixel, ColorTableSize, MappingFunctionType >::GetDepth()
 {
   return m_Depth;
 }
 
-template< class TPixel, unsigned int ColorTableSize, class MappingFunctionType >
+template< typename TPixel, unsigned int ColorTableSize, typename MappingFunctionType >
 const char *
 Octree< TPixel, ColorTableSize, MappingFunctionType >::GetColorTable() const
 {
   return m_ColorTable;
 }
 
-template< class TPixel, unsigned int ColorTableSize, class MappingFunctionType >
+template< typename TPixel, unsigned int ColorTableSize, typename MappingFunctionType >
 int
 Octree< TPixel, ColorTableSize, MappingFunctionType >::GetColorTableSize() const
 {

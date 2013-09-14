@@ -25,14 +25,14 @@
 
 namespace itk {
 
-template <class TInputImage, class TOutputImage, class TAttributeAccessor>
+template <typename TInputImage, typename TOutputImage, typename TAttributeAccessor>
 LabelMapToAttributeImageFilter<TInputImage, TOutputImage, TAttributeAccessor>
 ::LabelMapToAttributeImageFilter()
 {
   m_BackgroundValue = NumericTraits<OutputImagePixelType>::NonpositiveMin();
 }
 
-template <class TInputImage, class TOutputImage, class TAttributeAccessor>
+template <typename TInputImage, typename TOutputImage, typename TAttributeAccessor>
 void
 LabelMapToAttributeImageFilter<TInputImage, TOutputImage, TAttributeAccessor>
 ::GenerateInputRequestedRegion()
@@ -48,7 +48,7 @@ LabelMapToAttributeImageFilter<TInputImage, TOutputImage, TAttributeAccessor>
 }
 
 
-template <class TInputImage, class TOutputImage, class TAttributeAccessor>
+template <typename TInputImage, typename TOutputImage, typename TAttributeAccessor>
 void
 LabelMapToAttributeImageFilter<TInputImage, TOutputImage, TAttributeAccessor>
 ::EnlargeOutputRequestedRegion(DataObject *)
@@ -58,7 +58,7 @@ LabelMapToAttributeImageFilter<TInputImage, TOutputImage, TAttributeAccessor>
 }
 
 
-template<class TInputImage, class TOutputImage, class TAttributeAccessor>
+template<typename TInputImage, typename TOutputImage, typename TAttributeAccessor>
 void
 LabelMapToAttributeImageFilter<TInputImage, TOutputImage, TAttributeAccessor>
 ::GenerateData()
@@ -93,7 +93,7 @@ LabelMapToAttributeImageFilter<TInputImage, TOutputImage, TAttributeAccessor>
 }
 
 
-template<class TInputImage, class TOutputImage, class TAttributeAccessor>
+template<typename TInputImage, typename TOutputImage, typename TAttributeAccessor>
 void
 LabelMapToAttributeImageFilter<TInputImage, TOutputImage, TAttributeAccessor>
 ::PrintSelf(std::ostream &os, Indent indent) const

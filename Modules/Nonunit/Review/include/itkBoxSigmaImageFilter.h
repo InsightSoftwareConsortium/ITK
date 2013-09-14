@@ -37,7 +37,7 @@ namespace itk
  * \ingroup ITKReview
  */
 
-template< class TInputImage, class TOutputImage = TInputImage >
+template< typename TInputImage, typename TOutputImage = TInputImage >
 class BoxSigmaImageFilter:
   public BoxImageFilter< TInputImage, TOutputImage >
 {

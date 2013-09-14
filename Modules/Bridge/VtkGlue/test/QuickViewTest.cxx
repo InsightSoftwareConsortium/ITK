@@ -20,7 +20,7 @@
 
 #include "itkImageFileReader.h"
 
-template<class T> void View(const char *name, T,
+template<typename T> void View(const char *name, T,
                             std::string fileName,
                             bool sharedCamera=false,
                             const std::string & snapshotPath = "",
@@ -59,7 +59,7 @@ template<class T> void View(const char *name, T,
   viewer1.Visualize(false);
 }
 
-template<class T> void ViewRGB(const char *name,
+template<typename T> void ViewRGB(const char *name,
                                T,
                                std::string fileName,
                                bool sharedCamera=false,

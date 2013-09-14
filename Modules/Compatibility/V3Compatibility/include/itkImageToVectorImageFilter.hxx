@@ -25,7 +25,7 @@
 namespace itk
 {
 //----------------------------------------------------------------------------
-template< class TInputImage >
+template< typename TInputImage >
 ImageToVectorImageFilter< TInputImage >
 ::ImageToVectorImageFilter()
 {
@@ -34,7 +34,7 @@ ImageToVectorImageFilter< TInputImage >
 }
 
 //----------------------------------------------------------------------------
-template< class TInputImage >
+template< typename TInputImage >
 void
 ImageToVectorImageFilter< TInputImage >
 ::GenerateOutputInformation(void)
@@ -49,7 +49,7 @@ ImageToVectorImageFilter< TInputImage >
 }
 
 //----------------------------------------------------------------------------
-template< class TInputImage >
+template< typename TInputImage >
 void
 ImageToVectorImageFilter< TInputImage >
 ::BeforeThreadedGenerateData()
@@ -78,7 +78,7 @@ ImageToVectorImageFilter< TInputImage >
 }
 
 //----------------------------------------------------------------------------
-template< class TInputImage >
+template< typename TInputImage >
 void
 ImageToVectorImageFilter< TInputImage >
 ::ThreadedGenerateData(const RegionType & outputRegionForThread,

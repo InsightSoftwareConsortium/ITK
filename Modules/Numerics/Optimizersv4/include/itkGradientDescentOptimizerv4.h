@@ -80,7 +80,7 @@ namespace itk
    *
    * \ingroup ITKOptimizersv4
    */
-template<class TInternalComputationValueType>
+template<typename TInternalComputationValueType>
 class GradientDescentOptimizerv4Template
 : public GradientDescentOptimizerBasev4Template<TInternalComputationValueType>
 {

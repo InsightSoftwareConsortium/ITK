@@ -52,7 +52,7 @@ namespace Statistics
  * \endwiki
  */
 
-template< class TSample >
+template< typename TSample >
 class MembershipSample:public DataObject
 {
 public:

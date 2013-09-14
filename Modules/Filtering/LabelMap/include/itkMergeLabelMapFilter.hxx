@@ -24,14 +24,14 @@
 
 namespace itk
 {
-template< class TImage >
+template< typename TImage >
 MergeLabelMapFilter< TImage >
 ::MergeLabelMapFilter()
 {
   this->m_Method = KEEP;
 }
 
-template< class TImage >
+template< typename TImage >
 void
 MergeLabelMapFilter< TImage >
 ::GenerateData()
@@ -68,7 +68,7 @@ MergeLabelMapFilter< TImage >
     }
 }
 
-template< class TImage >
+template< typename TImage >
 void
 MergeLabelMapFilter< TImage >
 ::MergeWithKeep()
@@ -116,7 +116,7 @@ MergeLabelMapFilter< TImage >
     }
 }
 
-template< class TImage >
+template< typename TImage >
 void
 MergeLabelMapFilter< TImage >
 ::MergeWithStrict()
@@ -164,7 +164,7 @@ MergeLabelMapFilter< TImage >
     }
 }
 
-template< class TImage >
+template< typename TImage >
 void
 MergeLabelMapFilter< TImage >
 ::MergeWithAggregate()
@@ -213,7 +213,7 @@ MergeLabelMapFilter< TImage >
     }
 }
 
-template< class TImage >
+template< typename TImage >
 void
 MergeLabelMapFilter< TImage >
 ::MergeWithPack()
@@ -257,7 +257,7 @@ MergeLabelMapFilter< TImage >
     }
 }
 
-template< class TImage >
+template< typename TImage >
 void
 MergeLabelMapFilter< TImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

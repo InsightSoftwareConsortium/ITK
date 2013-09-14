@@ -65,7 +65,7 @@ namespace fem
  * and more functionality will be available (such as scale selection).
  * \ingroup ITKFEM
  */
-template <class TMoving, class TFixed>
+template <typename TMoving, typename TFixed>
 class ImageMetricLoad : public LoadElement
 {
 public:

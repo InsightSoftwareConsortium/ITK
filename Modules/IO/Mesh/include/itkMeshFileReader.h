@@ -98,8 +98,8 @@ public:
  * \author Wanlin Zhu. Uviversity of New South Wales, Australia.
  */
 
-template< class TOutputMesh,
-          class ConvertPointPixelTraits = MeshConvertPixelTraits< typename TOutputMesh::PixelType >,
+template< typename TOutputMesh,
+          typename ConvertPointPixelTraits = MeshConvertPixelTraits< typename TOutputMesh::PixelType >,
           class ConvertCellPixelTraits = MeshConvertPixelTraits< typename TOutputMesh::CellPixelType > >
 class ITKIOMesh_HIDDEN MeshFileReader:public MeshSource< TOutputMesh >
 {

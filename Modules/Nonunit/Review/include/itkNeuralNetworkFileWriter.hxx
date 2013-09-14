@@ -24,7 +24,7 @@
 namespace itk
 {
 /** Constructor */
-template< class TNetwork >
+template< typename TNetwork >
 NeuralNetworkFileWriter< TNetwork >
 ::NeuralNetworkFileWriter()
 {
@@ -32,7 +32,7 @@ NeuralNetworkFileWriter< TNetwork >
   this->m_WriteWeightValuesType = Self::BINARY; //Default: binary output
 }
 
-template< class TNetwork >
+template< typename TNetwork >
 void
 NeuralNetworkFileWriter< TNetwork >
 //Avoiding VS6 error::SetInput( const TNetwork* network )
@@ -42,14 +42,14 @@ NeuralNetworkFileWriter< TNetwork >
 }
 
 /** Destructor */
-template< class TNetwork >
+template< typename TNetwork >
 NeuralNetworkFileWriter< TNetwork >
 ::~NeuralNetworkFileWriter()
 {
   this->ClearFields();
 }
 
-template< class TNetwork >
+template< typename TNetwork >
 void
 NeuralNetworkFileWriter< TNetwork >
 ::ClearFields()
@@ -61,7 +61,7 @@ NeuralNetworkFileWriter< TNetwork >
   this->m_Fields.clear();
 }
 
-template< class TNetwork >
+template< typename TNetwork >
 void
 NeuralNetworkFileWriter< TNetwork >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -69,7 +69,7 @@ NeuralNetworkFileWriter< TNetwork >
   Superclass::PrintSelf(os, indent);
 }
 
-template< class TNetwork >
+template< typename TNetwork >
 const TNetwork *
 NeuralNetworkFileWriter< TNetwork >
 ::GetInput() const
@@ -78,7 +78,7 @@ NeuralNetworkFileWriter< TNetwork >
 }
 
 /** Update the Writer */
-template< class TNetwork >
+template< typename TNetwork >
 void
 NeuralNetworkFileWriter< TNetwork >
 ::Update()

@@ -53,7 +53,7 @@ namespace itk
  * \ingroup LabeledImageFilters
  * \ingroup ITKLabelMap
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class LabelMapFilter:
   public
   ImageToImageFilter< TInputImage, TOutputImage >

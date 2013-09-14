@@ -24,17 +24,17 @@ namespace itk
 {
 namespace Statistics
 {
-template< class TSample >
+template< typename TSample >
 NeighborhoodSampler< TSample >
 ::NeighborhoodSampler()
 {}
 
-template< class TSample >
+template< typename TSample >
 NeighborhoodSampler< TSample >
 ::~NeighborhoodSampler()
 {}
 
-template< class TSample >
+template< typename TSample >
 void
 NeighborhoodSampler< TSample >
 ::GenerateData()
@@ -60,7 +60,7 @@ NeighborhoodSampler< TSample >
   //
 }
 
-template< class TSample >
+template< typename TSample >
 void
 NeighborhoodSampler< TSample >
 ::PrintSelf(std::ostream & os, Indent indent) const

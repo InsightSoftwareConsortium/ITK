@@ -25,7 +25,7 @@ namespace itk
 {
 namespace watershed
 {
-template< class TScalar, unsigned int TImageDimension >
+template< typename TScalar, unsigned int TImageDimension >
 Relabeler< TScalar, TImageDimension >::Relabeler():m_FloodLevel(0.0)
 {
   typename ImageType::Pointer img =
@@ -34,7 +34,7 @@ Relabeler< TScalar, TImageDimension >::Relabeler():m_FloodLevel(0.0)
   this->ProcessObject::SetNthOutput( 0, img.GetPointer() );
 }
 
-template< class TScalar, unsigned int TImageDimension >
+template< typename TScalar, unsigned int TImageDimension >
 typename Relabeler< TScalar, TImageDimension >::DataObjectPointer
 Relabeler< TScalar, TImageDimension >
 ::MakeOutput( DataObjectPointerArraySizeType itkNotUsed(idx) )
@@ -42,7 +42,7 @@ Relabeler< TScalar, TImageDimension >
   return ImageType::New().GetPointer();
 }
 
-template< class TScalar, unsigned int TImageDimension >
+template< typename TScalar, unsigned int TImageDimension >
 void Relabeler< TScalar, TImageDimension >
 ::GenerateData()
 {
@@ -95,7 +95,7 @@ void Relabeler< TScalar, TImageDimension >
   this->UpdateProgress(1.0);
 }
 
-template< class TScalar, unsigned int VImageDimension >
+template< typename TScalar, unsigned int VImageDimension >
 void Relabeler< TScalar, VImageDimension >
 ::GenerateInputRequestedRegion()
 {
@@ -117,7 +117,7 @@ void Relabeler< TScalar, VImageDimension >
   inputPtr->SetRequestedRegion( outputPtr->GetRequestedRegion() );
 }
 
-template< class TScalar, unsigned int TImageDimension >
+template< typename TScalar, unsigned int TImageDimension >
 void Relabeler< TScalar, TImageDimension >
 ::GenerateOutputRequestedRegion(DataObject *output)
 {
@@ -143,14 +143,14 @@ void Relabeler< TScalar, TImageDimension >
     }
 }
 
-template< class TScalar, unsigned int TImageDimension >
+template< typename TScalar, unsigned int TImageDimension >
 void Relabeler< TScalar, TImageDimension >
 ::GraftOutput(ImageType *graft)
 {
   this->GraftNthOutput(0, graft);
 }
 
-template< class TScalar, unsigned int TImageDimension >
+template< typename TScalar, unsigned int TImageDimension >
 void Relabeler< TScalar, TImageDimension >
 ::GraftNthOutput(unsigned int idx, ImageType *graft)
 {
@@ -176,7 +176,7 @@ void Relabeler< TScalar, TImageDimension >
     }
 }
 
-template< class TScalar, unsigned int TImageDimension >
+template< typename TScalar, unsigned int TImageDimension >
 void
 Relabeler< TScalar, TImageDimension >
 ::PrintSelf(std::ostream & os, Indent indent) const

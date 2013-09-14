@@ -34,7 +34,7 @@ namespace itk
  *
  * \ingroup ITKLevelSetsv4Visualization
  */
-template< class TIteratingFilter, class TFilterToUpdate >
+template< typename TIteratingFilter, typename TFilterToUpdate >
 class LevelSetIterationUpdateCommand : public Command
 {
 public:

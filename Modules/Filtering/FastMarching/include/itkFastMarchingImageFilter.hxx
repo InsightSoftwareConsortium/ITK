@@ -26,7 +26,7 @@
 
 namespace itk
 {
-template< class TLevelSet, class TSpeedImage >
+template< typename TLevelSet, typename TSpeedImage >
 FastMarchingImageFilter< TLevelSet, TSpeedImage >
 ::FastMarchingImageFilter():
   m_TrialHeap()
@@ -62,7 +62,7 @@ FastMarchingImageFilter< TLevelSet, TSpeedImage >
   m_NormalizationFactor = 1.0;
 }
 
-template< class TLevelSet, class TSpeedImage >
+template< typename TLevelSet, typename TSpeedImage >
 void
 FastMarchingImageFilter< TLevelSet, TSpeedImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -85,7 +85,7 @@ FastMarchingImageFilter< TLevelSet, TSpeedImage >
   os << indent << "OutputDirection: " << m_OutputDirection << std::endl;
 }
 
-template< class TLevelSet, class TSpeedImage >
+template< typename TLevelSet, typename TSpeedImage >
 void
 FastMarchingImageFilter< TLevelSet, TSpeedImage >
 ::GenerateOutputInformation()
@@ -104,7 +104,7 @@ FastMarchingImageFilter< TLevelSet, TSpeedImage >
     }
 }
 
-template< class TLevelSet, class TSpeedImage >
+template< typename TLevelSet, typename TSpeedImage >
 void
 FastMarchingImageFilter< TLevelSet, TSpeedImage >
 ::EnlargeOutputRequestedRegion(
@@ -129,7 +129,7 @@ FastMarchingImageFilter< TLevelSet, TSpeedImage >
     }
 }
 
-template< class TLevelSet, class TSpeedImage >
+template< typename TLevelSet, typename TSpeedImage >
 void
 FastMarchingImageFilter< TLevelSet, TSpeedImage >
 ::Initialize(LevelSetImageType *output)
@@ -271,7 +271,7 @@ FastMarchingImageFilter< TLevelSet, TSpeedImage >
     }
 }
 
-template< class TLevelSet, class TSpeedImage >
+template< typename TLevelSet, typename TSpeedImage >
 void
 FastMarchingImageFilter< TLevelSet, TSpeedImage >
 ::GenerateData()
@@ -354,7 +354,7 @@ FastMarchingImageFilter< TLevelSet, TSpeedImage >
     }
 }
 
-template< class TLevelSet, class TSpeedImage >
+template< typename TLevelSet, typename TSpeedImage >
 void
 FastMarchingImageFilter< TLevelSet, TSpeedImage >
 ::UpdateNeighbors(
@@ -402,7 +402,7 @@ FastMarchingImageFilter< TLevelSet, TSpeedImage >
     }
 }
 
-template< class TLevelSet, class TSpeedImage >
+template< typename TLevelSet, typename TSpeedImage >
 double
 FastMarchingImageFilter< TLevelSet, TSpeedImage >
 ::UpdateValue(

@@ -36,7 +36,7 @@ namespace itk
 /**
  * Constructor
  */
-template< class TInputImage, class TOutputImage, class TCoordType, class InterpolatorType >
+template< typename TInputImage, typename TOutputImage, typename TCoordType, typename InterpolatorType >
 InterpolateImagePointsFilter< TInputImage, TOutputImage, TCoordType, InterpolatorType >
 ::InterpolateImagePointsFilter()
 {
@@ -49,7 +49,7 @@ InterpolateImagePointsFilter< TInputImage, TOutputImage, TCoordType, Interpolato
 /**
  * Standard "PrintSelf" method
  */
-template< class TInputImage, class TOutputImage, class TCoordType, class InterpolatorType >
+template< typename TInputImage, typename TOutputImage, typename TCoordType, typename InterpolatorType >
 void
 InterpolateImagePointsFilter< TInputImage, TOutputImage, TCoordType, InterpolatorType >
 ::PrintSelf(
@@ -60,7 +60,7 @@ InterpolateImagePointsFilter< TInputImage, TOutputImage, TCoordType, Interpolato
   os << indent << "Default (background) pixel level: " << m_DefaultPixelValue << std::endl;
 }
 
-template< class TInputImage, class TOutputImage, class TCoordType, class InterpolatorType >
+template< typename TInputImage, typename TOutputImage, typename TCoordType, typename InterpolatorType >
 void
 InterpolateImagePointsFilter< TInputImage, TOutputImage, TCoordType, InterpolatorType >
 ::SetInputImage(const TInputImage *inputImage)
@@ -71,7 +71,7 @@ InterpolateImagePointsFilter< TInputImage, TOutputImage, TCoordType, Interpolato
   m_Interpolator->SetInputImage(inputImage);
 }
 
-template< class TInputImage, class TOutputImage, class TCoordType, class InterpolatorType >
+template< typename TInputImage, typename TOutputImage, typename TCoordType, typename InterpolatorType >
 void
 InterpolateImagePointsFilter< TInputImage, TOutputImage, TCoordType, InterpolatorType >
 ::SetInterpolationCoordinate(const CoordImageType *coordinate, unsigned int setDimension)
@@ -80,7 +80,7 @@ InterpolateImagePointsFilter< TInputImage, TOutputImage, TCoordType, Interpolato
   this->SetInput(setDimension + 1, coordinate); // This is a data filter input
 }
 
-template< class TInputImage, class TOutputImage, class TCoordType, class InterpolatorType >
+template< typename TInputImage, typename TOutputImage, typename TCoordType, typename InterpolatorType >
 void
 InterpolateImagePointsFilter< TInputImage, TOutputImage, TCoordType, InterpolatorType >
 ::BeforeThreadedGenerateData()
@@ -97,7 +97,7 @@ InterpolateImagePointsFilter< TInputImage, TOutputImage, TCoordType, Interpolato
   // outputPtr->Allocate();
 }
 
-template< class TInputImage, class TOutputImage, class TCoordType, class InterpolatorType >
+template< typename TInputImage, typename TOutputImage, typename TCoordType, typename InterpolatorType >
 void
 InterpolateImagePointsFilter< TInputImage, TOutputImage, TCoordType, InterpolatorType >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
@@ -165,7 +165,7 @@ InterpolateImagePointsFilter< TInputImage, TOutputImage, TCoordType, Interpolato
 /**
  *
  */
-template< class TInputImage, class TOutputImage, class TCoordType, class InterpolatorType >
+template< typename TInputImage, typename TOutputImage, typename TCoordType, typename InterpolatorType >
 void
 InterpolateImagePointsFilter< TInputImage, TOutputImage, TCoordType, InterpolatorType >
 ::GenerateInputRequestedRegion()
@@ -190,7 +190,7 @@ InterpolateImagePointsFilter< TInputImage, TOutputImage, TCoordType, Interpolato
 /**
  *
  */
-template< class TInputImage, class TOutputImage, class TCoordType, class InterpolatorType >
+template< typename TInputImage, typename TOutputImage, typename TCoordType, typename InterpolatorType >
 void
 InterpolateImagePointsFilter< TInputImage, TOutputImage, TCoordType, InterpolatorType >
 ::GenerateOutputInformation()

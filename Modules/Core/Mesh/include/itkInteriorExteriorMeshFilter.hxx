@@ -27,7 +27,7 @@ namespace itk
 /**
  *
  */
-template< class TInputMesh, class TOutputMesh, class TSpatialFunction >
+template< typename TInputMesh, typename TOutputMesh, typename TSpatialFunction >
 InteriorExteriorMeshFilter< TInputMesh, TOutputMesh, TSpatialFunction >
 ::InteriorExteriorMeshFilter()
 {
@@ -41,7 +41,7 @@ InteriorExteriorMeshFilter< TInputMesh, TOutputMesh, TSpatialFunction >
 /**
  *
  */
-template< class TInputMesh, class TOutputMesh, class TSpatialFunction >
+template< typename TInputMesh, typename TOutputMesh, typename TSpatialFunction >
 void
 InteriorExteriorMeshFilter< TInputMesh, TOutputMesh, TSpatialFunction >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -53,7 +53,7 @@ InteriorExteriorMeshFilter< TInputMesh, TOutputMesh, TSpatialFunction >
 /**
  * This method causes the filter to generate its output.
  */
-template< class TInputMesh, class TOutputMesh, class TSpatialFunction >
+template< typename TInputMesh, typename TOutputMesh, typename TSpatialFunction >
 void
 InteriorExteriorMeshFilter< TInputMesh, TOutputMesh, TSpatialFunction >
 ::GenerateData(void)

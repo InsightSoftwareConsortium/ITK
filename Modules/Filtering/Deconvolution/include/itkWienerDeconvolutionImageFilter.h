@@ -71,7 +71,7 @@ namespace itk
  * \ingroup ITKDeconvolution
  *
  */
-template< class TInputImage, class TKernelImage = TInputImage, class TOutputImage = TInputImage, class TInternalPrecision=double >
+template< typename TInputImage, typename TKernelImage = TInputImage, typename TOutputImage = TInputImage, typename TInternalPrecision=double >
 class WienerDeconvolutionImageFilter :
   public InverseDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
 {
@@ -141,7 +141,7 @@ private:
 
 namespace Functor
 {
-template< class TPixel >
+template< typename TPixel >
 class WienerDeconvolutionFunctor
 {
 public:

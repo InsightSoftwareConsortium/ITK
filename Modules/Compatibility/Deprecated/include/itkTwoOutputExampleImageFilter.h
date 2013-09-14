@@ -43,7 +43,7 @@ namespace itk
  * \ingroup IntensityImageFilters
  * \ingroup MultiThreaded
  */
-template< class TImage >
+template< typename TImage >
 class TwoOutputExampleImageFilter:
   public ImageToImageFilter< TImage, TImage >
 {

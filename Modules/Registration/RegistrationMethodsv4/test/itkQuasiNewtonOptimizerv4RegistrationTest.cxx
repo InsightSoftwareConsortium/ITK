@@ -48,7 +48,7 @@
 #include "itksys/SystemTools.hxx"
 #include "itkResampleImageFilter.h"
 
-template<unsigned int Dimension, class TAffineTransform>
+template<unsigned int Dimension, typename TAffineTransform>
 int itkQuasiNewtonOptimizerv4RegistrationTestMain(int argc, char *argv[])
 {
   std::string metricString = argv[2];

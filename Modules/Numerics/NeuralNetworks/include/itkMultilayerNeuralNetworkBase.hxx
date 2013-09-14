@@ -27,7 +27,7 @@ namespace itk
 {
 namespace Statistics
 {
-template<class TMeasurementVector, class TTargetVector,class TLearningLayer>
+template<typename TMeasurementVector, typename TTargetVector,typename TLearningLayer>
 MultilayerNeuralNetworkBase<TMeasurementVector,TTargetVector,TLearningLayer>
 ::MultilayerNeuralNetworkBase()
 {
@@ -41,7 +41,7 @@ MultilayerNeuralNetworkBase<TMeasurementVector,TTargetVector,TLearningLayer>
 #endif
 }
 
-template<class TMeasurementVector, class TTargetVector,class TLearningLayer>
+template<typename TMeasurementVector, typename TTargetVector,typename TLearningLayer>
 void
 MultilayerNeuralNetworkBase<TMeasurementVector,TTargetVector,TLearningLayer>
 ::SetLearningRate(ValueType lr)
@@ -50,7 +50,7 @@ MultilayerNeuralNetworkBase<TMeasurementVector,TTargetVector,TLearningLayer>
   this->Modified();
 }
 
-template<class TMeasurementVector, class TTargetVector,class TLearningLayer>
+template<typename TMeasurementVector, typename TTargetVector,typename TLearningLayer>
 void
 MultilayerNeuralNetworkBase<TMeasurementVector,TTargetVector,TLearningLayer>
 ::SetLearningFunction(LearningFunctionInterfaceType* f)
@@ -60,13 +60,13 @@ MultilayerNeuralNetworkBase<TMeasurementVector,TTargetVector,TLearningLayer>
 }
 
 
-template<class TMeasurementVector, class TTargetVector,class TLearningLayer>
+template<typename TMeasurementVector, typename TTargetVector,typename TLearningLayer>
 MultilayerNeuralNetworkBase<TMeasurementVector,TTargetVector,TLearningLayer>
 ::~MultilayerNeuralNetworkBase()
 {
 }
 
-template<class TMeasurementVector, class TTargetVector,class TLearningLayer>
+template<typename TMeasurementVector, typename TTargetVector,typename TLearningLayer>
 void
 MultilayerNeuralNetworkBase<TMeasurementVector,TTargetVector,TLearningLayer>
 ::AddLayer(LayerInterfaceType* layer)
@@ -80,7 +80,7 @@ MultilayerNeuralNetworkBase<TMeasurementVector,TTargetVector,TLearningLayer>
 #endif
 }
 
-template<class TMeasurementVector, class TTargetVector,class TLearningLayer>
+template<typename TMeasurementVector, typename TTargetVector,typename TLearningLayer>
 typename MultilayerNeuralNetworkBase<TMeasurementVector,TTargetVector,TLearningLayer>::LayerInterfaceType*
 MultilayerNeuralNetworkBase<TMeasurementVector,TTargetVector,TLearningLayer>
 ::GetLayer(int layer_id)
@@ -89,7 +89,7 @@ MultilayerNeuralNetworkBase<TMeasurementVector,TTargetVector,TLearningLayer>
 }
 
 
-template<class TMeasurementVector, class TTargetVector,class TLearningLayer>
+template<typename TMeasurementVector, typename TTargetVector,typename TLearningLayer>
 const typename MultilayerNeuralNetworkBase<TMeasurementVector,TTargetVector,TLearningLayer>::LayerInterfaceType*
 MultilayerNeuralNetworkBase<TMeasurementVector,TTargetVector,TLearningLayer>
 ::GetLayer(int layer_id) const
@@ -97,7 +97,7 @@ MultilayerNeuralNetworkBase<TMeasurementVector,TTargetVector,TLearningLayer>
   return m_Layers[layer_id].GetPointer();
 }
 
-template<class TMeasurementVector, class TTargetVector,class TLearningLayer>
+template<typename TMeasurementVector, typename TTargetVector,typename TLearningLayer>
 typename MultilayerNeuralNetworkBase<TMeasurementVector,TTargetVector,TLearningLayer>::NetworkOutputType
 MultilayerNeuralNetworkBase<TMeasurementVector,TTargetVector,TLearningLayer>
 ::GenerateOutput(TMeasurementVector samplevector)
@@ -120,7 +120,7 @@ MultilayerNeuralNetworkBase<TMeasurementVector,TTargetVector,TLearningLayer>
   return temp_output;
 }
 
-template<class TMeasurementVector, class TTargetVector,class TLearningLayer>
+template<typename TMeasurementVector, typename TTargetVector,typename TLearningLayer>
 void
 MultilayerNeuralNetworkBase<TMeasurementVector,TTargetVector,TLearningLayer>
 ::BackwardPropagate(NetworkOutputType errors)
@@ -136,7 +136,7 @@ MultilayerNeuralNetworkBase<TMeasurementVector,TTargetVector,TLearningLayer>
     }
 }
 
-template<class TMeasurementVector, class TTargetVector,class TLearningLayer>
+template<typename TMeasurementVector, typename TTargetVector,typename TLearningLayer>
 void
 MultilayerNeuralNetworkBase<TMeasurementVector,TTargetVector,TLearningLayer>
 ::InitializeWeights()
@@ -148,7 +148,7 @@ MultilayerNeuralNetworkBase<TMeasurementVector,TTargetVector,TLearningLayer>
     }
 }
 
-template<class TMeasurementVector, class TTargetVector,class TLearningLayer>
+template<typename TMeasurementVector, typename TTargetVector,typename TLearningLayer>
 void
 MultilayerNeuralNetworkBase<TMeasurementVector,TTargetVector,TLearningLayer>
 ::UpdateWeights(ValueType itkNotUsed(lr))
@@ -162,7 +162,7 @@ MultilayerNeuralNetworkBase<TMeasurementVector,TTargetVector,TLearningLayer>
     }
 }
 
-template<class TMeasurementVector, class TTargetVector,class TLearningLayer>
+template<typename TMeasurementVector, typename TTargetVector,typename TLearningLayer>
 void
 MultilayerNeuralNetworkBase<TMeasurementVector,TTargetVector,TLearningLayer>
 ::AddWeightSet(typename LayerInterfaceType::WeightSetInterfaceType* weightset)
@@ -177,7 +177,7 @@ MultilayerNeuralNetworkBase<TMeasurementVector,TTargetVector,TLearningLayer>
 
 #ifdef __USE_OLD_INTERFACE
 //Moved definition to header in attempt to fix compiler issues on MS Express 5.0 compiler.
-template<class TMeasurementVector, class TTargetVector,class TLearningLayer>
+template<typename TMeasurementVector, typename TTargetVector,typename TLearningLayer>
 typename MultilayerNeuralNetworkBase<TMeasurementVector,TTargetVector,TLearningLayer>::LayerInterfaceType::WeightSetInterfaceType*
 MultilayerNeuralNetworkBase<TMeasurementVector,TTargetVector,TLearningLayer>
 ::GetWeightSet(unsigned int id)
@@ -187,7 +187,7 @@ MultilayerNeuralNetworkBase<TMeasurementVector,TTargetVector,TLearningLayer>
 #endif
 
 #ifdef __USE_OLD_INTERFACE
-template<class TMeasurementVector, class TTargetVector,class TLearningLayer>
+template<typename TMeasurementVector, typename TTargetVector,typename TLearningLayer>
 const typename MultilayerNeuralNetworkBase<TMeasurementVector,TTargetVector,TLearningLayer>::LayerInterfaceType::WeightSetInterfaceType*
 MultilayerNeuralNetworkBase<TMeasurementVector,TTargetVector,TLearningLayer>
 ::GetWeightSet(unsigned int id) const
@@ -197,7 +197,7 @@ MultilayerNeuralNetworkBase<TMeasurementVector,TTargetVector,TLearningLayer>
 #endif
 
 
-template<class TMeasurementVector, class TTargetVector,class TLearningLayer>
+template<typename TMeasurementVector, typename TTargetVector,typename TLearningLayer>
 void
 MultilayerNeuralNetworkBase<TMeasurementVector,TTargetVector,TLearningLayer>
 ::SetLearningRule(LearningFunctionInterfaceType* l)
@@ -207,7 +207,7 @@ MultilayerNeuralNetworkBase<TMeasurementVector,TTargetVector,TLearningLayer>
 }
 
 /** Print the object */
-template<class TMeasurementVector, class TTargetVector,class TLearningLayer>
+template<typename TMeasurementVector, typename TTargetVector,typename TLearningLayer>
 void
 MultilayerNeuralNetworkBase<TMeasurementVector,TTargetVector,TLearningLayer>
 ::PrintSelf( std::ostream& os, Indent indent ) const

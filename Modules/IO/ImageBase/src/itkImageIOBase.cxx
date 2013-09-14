@@ -558,7 +558,7 @@ ImageIOBase::IOPixelType ImageIOBase::GetPixelTypeFromString(const std::string &
 
 namespace
 {
-template< class TComponent >
+template< typename TComponent >
 void WriteBuffer(std::ostream & os, const TComponent *buffer, ImageIOBase::SizeType num)
 {
   const TComponent *ptr = buffer;
@@ -664,7 +664,7 @@ void ImageIOBase::WriteBufferAsASCII(std::ostream & os, const void *buffer,
     }
 }
 
-template< class TComponent >
+template< typename TComponent >
 void ReadBuffer(std::istream & is, TComponent *buffer, ImageIOBase::SizeType num)
 {
   typedef typename itk::NumericTraits< TComponent >::PrintType PrintType;

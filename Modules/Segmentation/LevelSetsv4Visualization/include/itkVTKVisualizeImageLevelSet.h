@@ -40,7 +40,7 @@ namespace itk
  *
  * \ingroup ITKLevelSetsv4Visualization
  */
-template< class TInputImage, class TInputImageConverter >
+template< typename TInputImage, typename TInputImageConverter >
 class VTKVisualizeImageLevelSet: public LightObject
 {
 public:

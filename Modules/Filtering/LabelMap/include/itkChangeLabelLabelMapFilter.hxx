@@ -24,12 +24,12 @@
 
 namespace itk
 {
-template< class TImage >
+template< typename TImage >
 ChangeLabelLabelMapFilter< TImage >
 ::ChangeLabelLabelMapFilter()
 {}
 
-template< class TImage >
+template< typename TImage >
 void
 ChangeLabelLabelMapFilter< TImage >
 ::SetChangeMap(const ChangeMapType & changeMap)
@@ -41,7 +41,7 @@ ChangeLabelLabelMapFilter< TImage >
     }
 }
 
-template< class TImage >
+template< typename TImage >
 const typename ChangeLabelLabelMapFilter< TImage >::ChangeMapType &
 ChangeLabelLabelMapFilter< TImage >
 ::GetChangeMap() const
@@ -49,7 +49,7 @@ ChangeLabelLabelMapFilter< TImage >
   return m_MapOfLabelToBeReplaced;
 }
 
-template< class TImage >
+template< typename TImage >
 void
 ChangeLabelLabelMapFilter< TImage >
 ::SetChange(const PixelType & oldLabel, const PixelType & newLabel)
@@ -62,7 +62,7 @@ ChangeLabelLabelMapFilter< TImage >
     }
 }
 
-template< class TImage >
+template< typename TImage >
 void
 ChangeLabelLabelMapFilter< TImage >
 ::ClearChangeMap()
@@ -74,7 +74,7 @@ ChangeLabelLabelMapFilter< TImage >
     }
 }
 
-template< class TImage >
+template< typename TImage >
 void
 ChangeLabelLabelMapFilter< TImage >
 ::GenerateData()
@@ -180,7 +180,7 @@ ChangeLabelLabelMapFilter< TImage >
     }
 }
 
-template< class TImage >
+template< typename TImage >
 void
 ChangeLabelLabelMapFilter< TImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

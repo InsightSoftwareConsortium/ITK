@@ -33,12 +33,12 @@ struct VnlFFTCommon
 
   /** Vnl's FFT supports discrete Fourier transforms for images whose
   sizes have a prime factorization consisting of 2's, 3's, and 5's. */
-  template< class TSizeValue >
+  template< typename TSizeValue >
   static bool IsDimensionSizeLegal(TSizeValue n);
 
   /** Convenience struct for computing the discrete Fourier
   Transform. */
-  template< class TImage >
+  template< typename TImage >
   struct VnlFFTTransform:
     public vnl_fft_base< TImage::ImageDimension, typename TImage::PixelType >
   {

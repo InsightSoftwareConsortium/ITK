@@ -25,7 +25,7 @@
 namespace itk
 {
 // Constructor with default arguments
-template <class TScalar>
+template <typename TScalar>
 Similarity3DTransform<TScalar>
 ::Similarity3DTransform() :
   Superclass(ParametersDimension),
@@ -34,7 +34,7 @@ Similarity3DTransform<TScalar>
 }
 
 // Constructor with arguments
-template <class TScalar>
+template <typename TScalar>
 Similarity3DTransform<TScalar>
 ::Similarity3DTransform(unsigned int paramDim) :
   Superclass(paramDim),
@@ -43,7 +43,7 @@ Similarity3DTransform<TScalar>
 }
 
 // Constructor with arguments
-template <class TScalar>
+template <typename TScalar>
 Similarity3DTransform<TScalar>
 ::Similarity3DTransform(const MatrixType & matrix, const OutputVectorType & offset) :
   Superclass(matrix, offset),
@@ -52,7 +52,7 @@ Similarity3DTransform<TScalar>
 }
 
 // / Set the parameters to the IdentityTransform
-template <class TScalar>
+template <typename TScalar>
 void
 Similarity3DTransform<TScalar>
 ::SetIdentity(void)
@@ -62,7 +62,7 @@ Similarity3DTransform<TScalar>
 }
 
 // Set the scale factor
-template <class TScalar>
+template <typename TScalar>
 void
 Similarity3DTransform<TScalar>
 ::SetScale(ScaleType scale)
@@ -72,7 +72,7 @@ Similarity3DTransform<TScalar>
 }
 
 // Directly set the matrix
-template <class TScalar>
+template <typename TScalar>
 void
 Similarity3DTransform<TScalar>
 ::SetMatrix(const MatrixType & matrix)
@@ -119,7 +119,7 @@ Similarity3DTransform<TScalar>
 }
 
 // Set Parameters
-template <class TScalar>
+template <typename TScalar>
 void
 Similarity3DTransform<TScalar>
 ::SetParameters(const ParametersType & parameters)
@@ -185,7 +185,7 @@ Similarity3DTransform<TScalar>
 // p[6:6} = scaling factor (isotropic)
 //
 
-template <class TScalar>
+template <typename TScalar>
 const typename Similarity3DTransform<TScalar>::ParametersType
 & Similarity3DTransform<TScalar>
 ::GetParameters(void) const
@@ -208,7 +208,7 @@ const typename Similarity3DTransform<TScalar>::ParametersType
   return this->m_Parameters;
   }
 
-template <class TScalar>
+template <typename TScalar>
 void
 Similarity3DTransform<TScalar>::ComputeJacobianWithRespectToParameters(const InputPointType & p,
                                                                            JacobianType & jacobian) const
@@ -282,7 +282,7 @@ Similarity3DTransform<TScalar>::ComputeJacobianWithRespectToParameters(const Inp
 }
 
 // Set the scale factor
-template <class TScalar>
+template <typename TScalar>
 void
 Similarity3DTransform<TScalar>
 ::ComputeMatrix()
@@ -294,7 +294,7 @@ Similarity3DTransform<TScalar>
 }
 
 /** Compute the matrix */
-template <class TScalar>
+template <typename TScalar>
 void
 Similarity3DTransform<TScalar>
 ::ComputeMatrixParameters(void)
@@ -311,7 +311,7 @@ Similarity3DTransform<TScalar>
 }
 
 // Print self
-template <class TScalar>
+template <typename TScalar>
 void
 Similarity3DTransform<TScalar>
 ::PrintSelf(std::ostream & os, Indent indent) const

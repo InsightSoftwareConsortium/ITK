@@ -24,7 +24,7 @@ namespace itk
 {
 namespace Functor
 {
-template< class TInput, class TOutput >
+template< typename TInput, typename TOutput >
 class VectorIndexSelectionCast
 {
 public:
@@ -81,7 +81,7 @@ private:
  * \endwiki
  */
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class VectorIndexSelectionCastImageFilter:
   public
   UnaryFunctorImageFilter< TInputImage, TOutputImage,

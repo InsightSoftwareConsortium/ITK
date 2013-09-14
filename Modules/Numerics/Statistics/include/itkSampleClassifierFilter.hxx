@@ -24,7 +24,7 @@ namespace itk
 {
 namespace Statistics
 {
-template< class TSample >
+template< typename TSample >
 SampleClassifierFilter< TSample >
 ::SampleClassifierFilter()
 {
@@ -39,7 +39,7 @@ SampleClassifierFilter< TSample >
   m_DecisionRule = NULL;
 }
 
-template< class TSample >
+template< typename TSample >
 void
 SampleClassifierFilter< TSample >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -51,7 +51,7 @@ SampleClassifierFilter< TSample >
      << this->GetDecisionRule() << std::endl;
 }
 
-template< class TSample >
+template< typename TSample >
 void
 SampleClassifierFilter< TSample >
 ::SetInput(const TSample *sample)
@@ -61,7 +61,7 @@ SampleClassifierFilter< TSample >
                                     const_cast< SampleType * >( sample ) );
 }
 
-template< class TSample >
+template< typename TSample >
 const TSample *
 SampleClassifierFilter< TSample >
 ::GetInput() const
@@ -69,7 +69,7 @@ SampleClassifierFilter< TSample >
   return itkDynamicCastInDebugMode< const SampleType * >( this->GetPrimaryInput() );
 }
 
-template< class TSample >
+template< typename TSample >
 void
 SampleClassifierFilter< TSample >
 ::SetClassLabels(const ClassLabelVectorObjectType *classLabels)
@@ -79,7 +79,7 @@ SampleClassifierFilter< TSample >
                                     const_cast< ClassLabelVectorObjectType * >( classLabels ) );
 }
 
-template< class TSample >
+template< typename TSample >
 void
 SampleClassifierFilter< TSample >
 ::SetMembershipFunctions(const MembershipFunctionVectorObjectType *membershipFunctions)
@@ -89,7 +89,7 @@ SampleClassifierFilter< TSample >
                                     const_cast< MembershipFunctionVectorObjectType * >( membershipFunctions ) );
 }
 
-template< class TSample >
+template< typename TSample >
 void
 SampleClassifierFilter< TSample >
 ::SetMembershipFunctionsWeightsArray(const
@@ -101,7 +101,7 @@ SampleClassifierFilter< TSample >
                                       MembershipFunctionsWeightsArrayObjectType * >( weightsArray ) );
 }
 
-template< class TSample >
+template< typename TSample >
 typename SampleClassifierFilter< TSample >::DataObjectPointer
 SampleClassifierFilter< TSample >
 ::MakeOutput(DataObjectPointerArraySizeType)
@@ -109,7 +109,7 @@ SampleClassifierFilter< TSample >
   return MembershipSampleType::New().GetPointer();
 }
 
-template< class TSample >
+template< typename TSample >
 void
 SampleClassifierFilter< TSample >
 ::GenerateData()
@@ -200,7 +200,7 @@ SampleClassifierFilter< TSample >
     }
 }
 
-template< class TSample >
+template< typename TSample >
 const typename SampleClassifierFilter< TSample >::MembershipSampleType *
 SampleClassifierFilter< TSample >
 ::GetOutput() const

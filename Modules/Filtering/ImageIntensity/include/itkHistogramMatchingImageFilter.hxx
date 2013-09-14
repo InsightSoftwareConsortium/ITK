@@ -28,7 +28,7 @@ namespace itk
 /**
  *
  */
-template< class TInputImage, class TOutputImage, class THistogramMeasurement >
+template< typename TInputImage, typename TOutputImage, typename THistogramMeasurement >
 HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
 ::HistogramMatchingImageFilter()
 {
@@ -57,7 +57,7 @@ HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
 /*
  *
  */
-template< class TInputImage, class TOutputImage, class THistogramMeasurement >
+template< typename TInputImage, typename TOutputImage, typename THistogramMeasurement >
 void
 HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -96,7 +96,7 @@ HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
 /*
  *
  */
-template< class TInputImage, class TOutputImage, class THistogramMeasurement >
+template< typename TInputImage, typename TOutputImage, typename THistogramMeasurement >
 void
 HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
 ::SetReferenceImage(const InputImageType *reference)
@@ -108,7 +108,7 @@ HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
 /*
  *
  */
-template< class TInputImage, class TOutputImage, class THistogramMeasurement >
+template< typename TInputImage, typename TOutputImage, typename THistogramMeasurement >
 const typename HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
 ::InputImageType *
 HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
@@ -121,7 +121,7 @@ HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
  * This filter requires all of the input images to be
  * in the buffer.
  */
-template< class TInputImage, class TOutputImage, class THistogramMeasurement >
+template< typename TInputImage, typename TOutputImage, typename THistogramMeasurement >
 void
 HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
 ::GenerateInputRequestedRegion()
@@ -142,7 +142,7 @@ HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
 /**
  *
  */
-template< class TInputImage, class TOutputImage, class THistogramMeasurement >
+template< typename TInputImage, typename TOutputImage, typename THistogramMeasurement >
 void
 HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
 ::BeforeThreadedGenerateData()
@@ -239,7 +239,7 @@ HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
 /**
  *
  */
-template< class TInputImage, class TOutputImage, class THistogramMeasurement >
+template< typename TInputImage, typename TOutputImage, typename THistogramMeasurement >
 void
 HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
 ::AfterThreadedGenerateData()
@@ -278,7 +278,7 @@ HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
 /**
  *
  */
-template< class TInputImage, class TOutputImage, class THistogramMeasurement >
+template< typename TInputImage, typename TOutputImage, typename THistogramMeasurement >
 void
 HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
@@ -353,7 +353,7 @@ HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
 /**
  * Compute min, max and mean of an image.
  */
-template< class TInputImage, class TOutputImage, class THistogramMeasurement >
+template< typename TInputImage, typename TOutputImage, typename THistogramMeasurement >
 void
 HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
 ::ComputeMinMaxMean(
@@ -389,7 +389,7 @@ HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
 /**
  * Construct a histogram from an image.
  */
-template< class TInputImage, class TOutputImage, class THistogramMeasurement >
+template< typename TInputImage, typename TOutputImage, typename THistogramMeasurement >
 void
 HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
 ::ConstructHistogram(

@@ -22,7 +22,7 @@
 
 namespace itk
 {
-template< class TPixel, unsigned int TDimension, class TAllocator >
+template< typename TPixel, unsigned int TDimension, typename TAllocator >
 typename BackwardDifferenceOperator< TPixel, TDimension, TAllocator >
 ::CoefficientVector
 BackwardDifferenceOperator< TPixel, TDimension, TAllocator >

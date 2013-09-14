@@ -23,7 +23,7 @@
 
 namespace itk
 {
-template< class TSparseImageType >
+template< typename TSparseImageType >
 NormalVectorDiffusionFunction< TSparseImageType >
 ::NormalVectorDiffusionFunction()
 {
@@ -42,7 +42,7 @@ NormalVectorDiffusionFunction< TSparseImageType >
   m_FluxStopConstant = NumericTraits< NodeValueType >::Zero;
 }
 
-template< class TSparseImageType >
+template< typename TSparseImageType >
 void
 NormalVectorDiffusionFunction< TSparseImageType >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -53,7 +53,7 @@ NormalVectorDiffusionFunction< TSparseImageType >
   os << indent << "FluxStopConstant: " << m_FluxStopConstant << std::endl;
 }
 
-template< class TSparseImageType >
+template< typename TSparseImageType >
 void
 NormalVectorDiffusionFunction< TSparseImageType >
 ::PrecomputeSparseUpdate(NeighborhoodType & it) const
@@ -175,7 +175,7 @@ NormalVectorDiffusionFunction< TSparseImageType >
     }   // end flux offset axis
 }
 
-template< class TSparseImageType >
+template< typename TSparseImageType >
 typename NormalVectorDiffusionFunction< TSparseImageType >::NormalVectorType
 NormalVectorDiffusionFunction< TSparseImageType >
 ::ComputeSparseUpdate(NeighborhoodType & it,

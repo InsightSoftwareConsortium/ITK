@@ -25,7 +25,7 @@ namespace itk
 {
 namespace watershed
 {
-template< class TPixelType, unsigned int TDimension >
+template< typename TPixelType, unsigned int TDimension >
 void BoundaryResolver< TPixelType, TDimension >
 ::GenerateData()
 {
@@ -92,12 +92,12 @@ void BoundaryResolver< TPixelType, TDimension >
 // ------------------------------------------------------------
 // --------------------PIPELINE METHODS------------------------
 // ------------------------------------------------------------
-template< class TPixelType, unsigned int TDimension >
+template< typename TPixelType, unsigned int TDimension >
 void BoundaryResolver< TPixelType, TDimension >
 ::GenerateOutputRequestedRegion(DataObject *)
 {}
 
-template< class TPixelType, unsigned int TDimension >
+template< typename TPixelType, unsigned int TDimension >
 typename BoundaryResolver< TPixelType, TDimension >::DataObjectPointer
 BoundaryResolver< TPixelType, TDimension >
 ::MakeOutput(DataObjectPointerArraySizeType)
@@ -105,7 +105,7 @@ BoundaryResolver< TPixelType, TDimension >
   return EquivalencyTable::New().GetPointer();
 }
 
-template< class TPixelType, unsigned int TDimension >
+template< typename TPixelType, unsigned int TDimension >
 void
 BoundaryResolver< TPixelType, TDimension >
 ::PrintSelf(std::ostream & os, Indent indent) const

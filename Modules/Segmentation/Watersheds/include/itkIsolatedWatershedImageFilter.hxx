@@ -27,7 +27,7 @@ namespace itk
 /**
  * Constructor
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 IsolatedWatershedImageFilter< TInputImage, TOutputImage >
 ::IsolatedWatershedImageFilter()
 {
@@ -46,7 +46,7 @@ IsolatedWatershedImageFilter< TInputImage, TOutputImage >
 /**
  * Standard PrintSelf method.
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 IsolatedWatershedImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -74,7 +74,7 @@ IsolatedWatershedImageFilter< TInputImage, TOutputImage >
      << std::endl;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 IsolatedWatershedImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
@@ -88,7 +88,7 @@ IsolatedWatershedImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 IsolatedWatershedImageFilter< TInputImage, TOutputImage >
 ::EnlargeOutputRequestedRegion(DataObject *output)
@@ -97,7 +97,7 @@ IsolatedWatershedImageFilter< TInputImage, TOutputImage >
   output->SetRequestedRegionToLargestPossibleRegion();
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 IsolatedWatershedImageFilter< TInputImage, TOutputImage >
 ::GenerateData()

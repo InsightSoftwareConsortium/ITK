@@ -28,21 +28,21 @@ namespace Statistics
 {
 
 /** Constructor */
-template<class ScalarType>
+template<typename ScalarType>
 GaussianRadialBasisFunction< ScalarType>
 ::GaussianRadialBasisFunction()
 {
 }
 
 /** Destructor */
-template<class ScalarType>
+template<typename ScalarType>
 GaussianRadialBasisFunction< ScalarType>
 ::~GaussianRadialBasisFunction()
 {
 }
 
 /** Evaluate function */
-template<class ScalarType>
+template<typename ScalarType>
 ScalarType
 GaussianRadialBasisFunction< ScalarType>
 ::Evaluate(const ScalarType& input) const
@@ -54,7 +54,7 @@ GaussianRadialBasisFunction< ScalarType>
 }
 
 /** Evaluate derivative function */
-template<class ScalarType>
+template<typename ScalarType>
 ScalarType
 GaussianRadialBasisFunction< ScalarType>
 ::EvaluateDerivative(const ScalarType& dist,const ArrayType& input,
@@ -77,7 +77,7 @@ GaussianRadialBasisFunction< ScalarType>
 }
 
 /** Print the object */
-template<class ScalarType>
+template<typename ScalarType>
 void
 GaussianRadialBasisFunction<ScalarType>
 ::PrintSelf( std::ostream& os, Indent indent ) const

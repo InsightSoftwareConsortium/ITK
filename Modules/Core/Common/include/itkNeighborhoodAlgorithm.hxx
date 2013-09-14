@@ -26,7 +26,7 @@ namespace itk
 {
 namespace NeighborhoodAlgorithm
 {
-template< class TImage >
+template< typename TImage >
 typename ImageBoundaryFacesCalculator< TImage >::FaceListType
 ImageBoundaryFacesCalculator< TImage >
 ::operator()(const TImage *img, RegionType regionToProcess, RadiusType radius)
@@ -166,7 +166,7 @@ ImageBoundaryFacesCalculator< TImage >
   return faceList;
 }
 
-template< class TImage >
+template< typename TImage >
 typename CalculateOutputWrapOffsetModifiers< TImage >::OffsetType
 CalculateOutputWrapOffsetModifiers< TImage >
 ::operator()(TImage *input, TImage *output) const

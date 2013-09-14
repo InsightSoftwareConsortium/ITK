@@ -25,14 +25,14 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 LabelImageToLabelMapFilter< TInputImage, TOutputImage >
 ::LabelImageToLabelMapFilter()
 {
   m_BackgroundValue = NumericTraits< OutputImagePixelType >::NonpositiveMin();
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 LabelImageToLabelMapFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
@@ -49,7 +49,7 @@ LabelImageToLabelMapFilter< TInputImage, TOutputImage >
   input->SetRequestedRegion( input->GetLargestPossibleRegion() );
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 LabelImageToLabelMapFilter< TInputImage, TOutputImage >
 ::EnlargeOutputRequestedRegion(DataObject *)
@@ -58,7 +58,7 @@ LabelImageToLabelMapFilter< TInputImage, TOutputImage >
   ->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 LabelImageToLabelMapFilter< TInputImage, TOutputImage >
 ::BeforeThreadedGenerateData()
@@ -84,7 +84,7 @@ LabelImageToLabelMapFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 LabelImageToLabelMapFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData(const OutputImageRegionType & regionForThread, ThreadIdType threadId)
@@ -126,7 +126,7 @@ LabelImageToLabelMapFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 LabelImageToLabelMapFilter< TInputImage, TOutputImage >
 ::AfterThreadedGenerateData()
@@ -165,7 +165,7 @@ LabelImageToLabelMapFilter< TInputImage, TOutputImage >
   m_TemporaryImages.clear();
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 LabelImageToLabelMapFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

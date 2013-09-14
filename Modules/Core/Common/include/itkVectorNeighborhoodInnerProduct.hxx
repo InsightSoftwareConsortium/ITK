@@ -21,7 +21,7 @@
 
 namespace itk
 {
-template< class TImage >
+template< typename TImage >
 typename VectorNeighborhoodInnerProduct< TImage >::PixelType
 VectorNeighborhoodInnerProduct< TImage >
 ::operator()(const std::slice & s,
@@ -54,7 +54,7 @@ VectorNeighborhoodInnerProduct< TImage >
   return sum;
 }
 
-template< class TImage >
+template< typename TImage >
 typename VectorNeighborhoodInnerProduct< TImage >::PixelType
 VectorNeighborhoodInnerProduct< TImage >
 ::operator()(const std::slice & s,

@@ -35,7 +35,7 @@ namespace itk
  *
  *  \ingroup ITKLevelSetsv4
  */
-template< class TInput, unsigned int VDimension, class TOutput >
+template< typename TInput, unsigned int VDimension, typename TOutput >
 class LevelSetImage :
   public LevelSetBase< TInput, VDimension, TOutput, ImageBase< VDimension > >
 {

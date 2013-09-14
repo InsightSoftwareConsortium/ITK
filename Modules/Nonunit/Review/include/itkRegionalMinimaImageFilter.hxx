@@ -28,7 +28,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 RegionalMinimaImageFilter< TInputImage, TOutputImage >
 ::RegionalMinimaImageFilter()
 {
@@ -38,7 +38,7 @@ RegionalMinimaImageFilter< TInputImage, TOutputImage >
   m_BackgroundValue = NumericTraits< OutputImagePixelType >::NonpositiveMin();
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 RegionalMinimaImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
@@ -55,7 +55,7 @@ RegionalMinimaImageFilter< TInputImage, TOutputImage >
   input->SetRequestedRegion( input->GetLargestPossibleRegion() );
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 RegionalMinimaImageFilter< TInputImage, TOutputImage >
 ::EnlargeOutputRequestedRegion(DataObject *)
@@ -64,7 +64,7 @@ RegionalMinimaImageFilter< TInputImage, TOutputImage >
   ->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 RegionalMinimaImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
@@ -135,7 +135,7 @@ RegionalMinimaImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 RegionalMinimaImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

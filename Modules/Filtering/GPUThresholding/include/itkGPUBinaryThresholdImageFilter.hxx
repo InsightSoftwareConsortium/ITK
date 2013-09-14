@@ -25,7 +25,7 @@ namespace itk
 /**
  * Constructor
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 GPUBinaryThresholdImageFilter< TInputImage, TOutputImage >
 ::GPUBinaryThresholdImageFilter()
 {
@@ -103,7 +103,7 @@ GPUBinaryThresholdImageFilter< TInputImage, TOutputImage >
   this->m_UnaryFunctorImageFilterGPUKernelHandle = this->m_GPUKernelManager->CreateKernel("BinaryThresholdFilter");
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 GPUBinaryThresholdImageFilter< TInputImage, TOutputImage >
 ::GPUGenerateData()

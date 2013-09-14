@@ -27,7 +27,7 @@
 namespace itk
 {
 
-template<class TTransform>
+template<typename TTransform>
 TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>
 ::TimeVaryingVelocityFieldTransformParametersAdaptor()
 {
@@ -35,13 +35,13 @@ TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>
   this->m_RequiredFixedParameters.Fill( 0.0 );
 }
 
-template<class TTransform>
+template<typename TTransform>
 TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>
 ::~TimeVaryingVelocityFieldTransformParametersAdaptor()
 {
 }
 
-template<class TTransform>
+template<typename TTransform>
 void
 TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>
 ::SetRequiredSize( const SizeType & size )
@@ -63,7 +63,7 @@ TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>
     }
 }
 
-template<class TTransform>
+template<typename TTransform>
 const typename TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>::SizeType
 TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>
 ::GetRequiredSize() const
@@ -76,7 +76,7 @@ TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>
   return size;
 }
 
-template<class TTransform>
+template<typename TTransform>
 void
 TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>
 ::SetRequiredOrigin( const PointType & origin )
@@ -98,7 +98,7 @@ TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>
     }
 }
 
-template<class TTransform>
+template<typename TTransform>
 const typename TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>::PointType
 TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>
 ::GetRequiredOrigin() const
@@ -111,7 +111,7 @@ TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>
   return origin;
 }
 
-template<class TTransform>
+template<typename TTransform>
 void
 TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>
 ::SetRequiredSpacing( const SpacingType & spacing )
@@ -133,7 +133,7 @@ TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>
     }
 }
 
-template<class TTransform>
+template<typename TTransform>
 const typename TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>::SpacingType
 TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>
 ::GetRequiredSpacing() const
@@ -146,7 +146,7 @@ TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>
   return spacing;
 }
 
-template<class TTransform>
+template<typename TTransform>
 void
 TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>
 ::SetRequiredDirection( const DirectionType & direction )
@@ -171,7 +171,7 @@ TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>
     }
 }
 
-template<class TTransform>
+template<typename TTransform>
 const typename TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>::DirectionType
 TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>
 ::GetRequiredDirection() const
@@ -187,7 +187,7 @@ TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>
   return direction;
 }
 
-template<class TTransform>
+template<typename TTransform>
 void
 TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>
 ::AdaptTransformParameters()

@@ -97,8 +97,8 @@ public:
  * \wikiexample{IO/ImageFileReader,Read an image}
  * \endwiki
  */
-template< class TOutputImage,
-          class ConvertPixelTraits = DefaultConvertPixelTraits<
+template< typename TOutputImage,
+          typename ConvertPixelTraits = DefaultConvertPixelTraits<
             typename TOutputImage::IOPixelType > >
 class ITKIOImageBase_HIDDEN ImageFileReader:public ImageSource< TOutputImage >
 {

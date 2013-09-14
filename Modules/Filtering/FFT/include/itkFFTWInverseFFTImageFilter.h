@@ -45,7 +45,7 @@ namespace itk
  *
  * \sa FFTWGlobalConfiguration
  */
-template< class TInputImage, class TOutputImage=Image< typename TInputImage::PixelType::value_type, TInputImage::ImageDimension> >
+template< typename TInputImage, typename TOutputImage=Image< typename TInputImage::PixelType::value_type, TInputImage::ImageDimension> >
 class FFTWInverseFFTImageFilter:
   public InverseFFTImageFilter< TInputImage, TOutputImage >
 {

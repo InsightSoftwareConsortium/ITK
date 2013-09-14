@@ -25,7 +25,7 @@ namespace itk
 /**
  *
  */
-template< class TInputPath, class TOutputPath >
+template< typename TInputPath, typename TOutputPath >
 PathToPathFilter< TInputPath, TOutputPath >
 ::PathToPathFilter()
 {
@@ -35,7 +35,7 @@ PathToPathFilter< TInputPath, TOutputPath >
 /**
  *
  */
-template< class TInputPath, class TOutputPath >
+template< typename TInputPath, typename TOutputPath >
 void
 PathToPathFilter< TInputPath, TOutputPath >
 ::SetInput(const InputPathType *path)
@@ -48,7 +48,7 @@ PathToPathFilter< TInputPath, TOutputPath >
 /**
  * Connect one of the operands for pixel-wise addition
  */
-template< class TInputPath, class TOutputPath >
+template< typename TInputPath, typename TOutputPath >
 void
 PathToPathFilter< TInputPath, TOutputPath >
 ::SetInput(unsigned int index, const TInputPath *path)
@@ -61,7 +61,7 @@ PathToPathFilter< TInputPath, TOutputPath >
 /**
  *
  */
-template< class TInputPath, class TOutputPath >
+template< typename TInputPath, typename TOutputPath >
 const typename PathToPathFilter< TInputPath, TOutputPath >::InputPathType *
 PathToPathFilter< TInputPath, TOutputPath >
 ::GetInput(void)
@@ -72,7 +72,7 @@ PathToPathFilter< TInputPath, TOutputPath >
 /**
  *
  */
-template< class TInputPath, class TOutputPath >
+template< typename TInputPath, typename TOutputPath >
 const typename PathToPathFilter< TInputPath, TOutputPath >::InputPathType *
 PathToPathFilter< TInputPath, TOutputPath >
 ::GetInput(unsigned int idx)
@@ -83,7 +83,7 @@ PathToPathFilter< TInputPath, TOutputPath >
 /**
  *
  */
-template< class TInputPath, class TOutputPath >
+template< typename TInputPath, typename TOutputPath >
 void
 PathToPathFilter< TInputPath, TOutputPath >
 ::GenerateInputRequestedRegion()
@@ -96,7 +96,7 @@ PathToPathFilter< TInputPath, TOutputPath >
 /**
  *
  */
-template< class TInputPath, class TOutputPath >
+template< typename TInputPath, typename TOutputPath >
 void
 PathToPathFilter< TInputPath, TOutputPath >
 ::PrintSelf(std::ostream & os, Indent indent) const

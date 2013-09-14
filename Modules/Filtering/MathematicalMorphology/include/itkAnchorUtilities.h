@@ -31,7 +31,7 @@ namespace itk
 *
 * \ingroup ITKMathematicalMorphology
 */
-template< class TImage, class TBres, class TLine >
+template< typename TImage, typename TBres, typename TLine >
 int ComputeStartEnd(const typename TImage::IndexType StartIndex,
                     const TLine line,
                     const float tol,
@@ -40,7 +40,7 @@ int ComputeStartEnd(const typename TImage::IndexType StartIndex,
                     unsigned & start,
                     unsigned & end);
 
-template< class TImage, class TBres, class TAnchor, class TLine >
+template< typename TImage, typename TBres, typename TAnchor, typename TLine >
 void DoAnchorFace(const TImage * input,
                   TImage * output,
                   typename TImage::PixelType border,

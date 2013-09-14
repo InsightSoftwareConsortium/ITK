@@ -27,7 +27,7 @@
 
 namespace itk
 {
-template< class TTransform, class TFixedImage, class TMovingImage >
+template< typename TTransform, typename TFixedImage, typename TMovingImage >
 LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
 ::LandmarkBasedTransformInitializer()
 {}
@@ -35,8 +35,8 @@ LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
 /** default transform initializer, if transform type isn't
  * specifically handled.
  */
-template< class TTransform, class TFixedImage, class TMovingImage >
-template <class TTransform2>
+template< typename TTransform, typename TFixedImage, typename TMovingImage >
+template <typename TTransform2>
 void
 LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
 ::InternalInitializeTransform(TTransform *)
@@ -52,7 +52,7 @@ LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
  *  orientation using orthonormal matrices" by Horn, Hilden, and
  *  Negahdaripour. See http://www.opticsinfobase.org/abstract.cfm?&id=3143
  */
-template< class TTransform, class TFixedImage, class TMovingImage >
+template< typename TTransform, typename TFixedImage, typename TMovingImage >
 void
 LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
 ::InternalInitializeTransform(AffineTransformType *)
@@ -203,7 +203,7 @@ LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
 
 }
 
-template< class TTransform, class TFixedImage, class TMovingImage >
+template< typename TTransform, typename TFixedImage, typename TMovingImage >
 void
 LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
 ::InternalInitializeTransform(VersorRigid3DTransformType *)
@@ -397,7 +397,7 @@ LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
 
 }
 
-template< class TTransform, class TFixedImage, class TMovingImage >
+template< typename TTransform, typename TFixedImage, typename TMovingImage >
 void
 LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
 ::InternalInitializeTransform(Rigid2DTransformType *)
@@ -538,7 +538,7 @@ LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
   transform->SetTranslation(translation);
 }
 
-template< class TTransform, class TFixedImage, class TMovingImage >
+template< typename TTransform, typename TFixedImage, typename TMovingImage >
 void
 LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
 ::InitializeTransform()
@@ -557,7 +557,7 @@ LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
   this->InternalInitializeTransform(static_cast<TTransform *>(0));
 }
 
-template< class TTransform, class TFixedImage, class TMovingImage >
+template< typename TTransform, typename TFixedImage, typename TMovingImage >
 void
 LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

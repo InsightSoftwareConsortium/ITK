@@ -23,7 +23,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 typename PeriodicBoundaryCondition< TInputImage, TOutputImage >::OutputPixelType
 PeriodicBoundaryCondition< TInputImage, TOutputImage >
 ::operator()(const OffsetType & point_index, const OffsetType & boundary_offset,
@@ -77,7 +77,7 @@ PeriodicBoundaryCondition< TInputImage, TOutputImage >
   return static_cast< OutputPixelType >( *ptr );
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 typename PeriodicBoundaryCondition< TInputImage, TOutputImage >::OutputPixelType
 PeriodicBoundaryCondition< TInputImage, TOutputImage >
 ::operator()(const OffsetType & point_index, const OffsetType & boundary_offset,
@@ -132,7 +132,7 @@ PeriodicBoundaryCondition< TInputImage, TOutputImage >
 }
 
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 typename PeriodicBoundaryCondition< TInputImage, TOutputImage >::RegionType
 PeriodicBoundaryCondition< TInputImage, TOutputImage >
 ::GetInputRequestedRegion( const RegionType & inputLargestPossibleRegion,
@@ -179,7 +179,7 @@ PeriodicBoundaryCondition< TInputImage, TOutputImage >
 }
 
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 typename PeriodicBoundaryCondition< TInputImage, TOutputImage >::OutputPixelType
 PeriodicBoundaryCondition< TInputImage, TOutputImage >
 ::GetPixel( const IndexType & index, const TInputImage * image ) const

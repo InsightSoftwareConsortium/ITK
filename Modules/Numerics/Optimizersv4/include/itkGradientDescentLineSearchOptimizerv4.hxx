@@ -26,7 +26,7 @@ namespace itk
 /**
  * Default constructor
  */
-template<class TInternalComputationValueType>
+template<typename TInternalComputationValueType>
 GradientDescentLineSearchOptimizerv4Template<TInternalComputationValueType>
 ::GradientDescentLineSearchOptimizerv4Template()
 {
@@ -43,7 +43,7 @@ GradientDescentLineSearchOptimizerv4Template<TInternalComputationValueType>
 /**
 * Destructor
 */
-template<class TInternalComputationValueType>
+template<typename TInternalComputationValueType>
 GradientDescentLineSearchOptimizerv4Template<TInternalComputationValueType>
 ::~GradientDescentLineSearchOptimizerv4Template()
 {}
@@ -52,7 +52,7 @@ GradientDescentLineSearchOptimizerv4Template<TInternalComputationValueType>
 /**
 *PrintSelf
 */
-template<class TInternalComputationValueType>
+template<typename TInternalComputationValueType>
 void
 GradientDescentLineSearchOptimizerv4Template<TInternalComputationValueType>
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -63,7 +63,7 @@ GradientDescentLineSearchOptimizerv4Template<TInternalComputationValueType>
 /**
 * Advance one Step following the gradient direction
 */
-template<class TInternalComputationValueType>
+template<typename TInternalComputationValueType>
 void
 GradientDescentLineSearchOptimizerv4Template<TInternalComputationValueType>
 ::AdvanceOneStep()
@@ -111,7 +111,7 @@ GradientDescentLineSearchOptimizerv4Template<TInternalComputationValueType>
 // f(x) is some mathematical function elsewhere defined
 // a corresponds to x1; b corresponds to x2; c corresponds to x3
 // x corresponds to x4
-template<class TInternalComputationValueType>
+template<typename TInternalComputationValueType>
 TInternalComputationValueType
 GradientDescentLineSearchOptimizerv4Template<TInternalComputationValueType>
 ::GoldenSectionSearch( TInternalComputationValueType a, TInternalComputationValueType b, TInternalComputationValueType c )

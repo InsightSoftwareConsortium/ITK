@@ -30,7 +30,7 @@ namespace itk
 /*
  * Compute the Huang's threshold
  */
-template<class THistogram, class TOutput>
+template<typename THistogram, typename TOutput>
 void
 HuangThresholdCalculator<THistogram, TOutput>
 ::GenerateData(void)

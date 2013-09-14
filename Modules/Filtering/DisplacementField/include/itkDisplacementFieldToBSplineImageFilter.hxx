@@ -31,7 +31,7 @@ namespace itk
 /*
  * DisplacementFieldToBSplineImageFilter class definitions
  */
-template<class TInputImage, class TOutputImage>
+template<typename TInputImage, typename TOutputImage>
 DisplacementFieldToBSplineImageFilter<TInputImage, TOutputImage>
 ::DisplacementFieldToBSplineImageFilter() :
   m_EstimateInverse( false ),
@@ -46,13 +46,13 @@ DisplacementFieldToBSplineImageFilter<TInputImage, TOutputImage>
   this->m_DisplacementFieldControlPointLattice = NULL;
 }
 
-template<class TInputImage, class TOutputImage>
+template<typename TInputImage, typename TOutputImage>
 DisplacementFieldToBSplineImageFilter<TInputImage, TOutputImage>
 ::~DisplacementFieldToBSplineImageFilter()
 {
 }
 
-template<class TInputImage, class TOutputImage>
+template<typename TInputImage, typename TOutputImage>
 void
 DisplacementFieldToBSplineImageFilter<TInputImage, TOutputImage>
 ::GenerateData()
@@ -208,7 +208,7 @@ DisplacementFieldToBSplineImageFilter<TInputImage, TOutputImage>
   this->SetNthOutput( 0, bspliner->GetOutput() );
 }
 
-template<class TInputImage, class TOutputImage>
+template<typename TInputImage, typename TOutputImage>
 void
 DisplacementFieldToBSplineImageFilter<TInputImage, TOutputImage>
 ::PrintSelf( std::ostream& os, Indent indent ) const

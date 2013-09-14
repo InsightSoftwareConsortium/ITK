@@ -31,7 +31,7 @@
 
 namespace itk
 {
-template< class TImageType >
+template< typename TImageType >
 float
 AdaptiveHistogramEqualizationImageFilter< TImageType >
 ::CumulativeFunction(float u, float v)
@@ -45,7 +45,7 @@ AdaptiveHistogramEqualizationImageFilter< TImageType >
   return 0.5 *s *vcl_pow(ad, m_Alpha) - m_Beta * 0.5 * s * ad + m_Beta * u;
 }
 
-template< class TImageType >
+template< typename TImageType >
 void
 AdaptiveHistogramEqualizationImageFilter< TImageType >
 ::GenerateData()
@@ -272,7 +272,7 @@ AdaptiveHistogramEqualizationImageFilter< TImageType >
     }
 }
 
-template< class TImageType >
+template< typename TImageType >
 void
 AdaptiveHistogramEqualizationImageFilter< TImageType >
 ::PrintSelf(std::ostream & os, Indent indent) const

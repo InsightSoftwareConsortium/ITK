@@ -22,7 +22,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 GrayscaleFunctionErodeImageFilter< TInputImage, TOutputImage, TKernel >
 ::GrayscaleFunctionErodeImageFilter()
 {
@@ -30,7 +30,7 @@ GrayscaleFunctionErodeImageFilter< TInputImage, TOutputImage, TKernel >
   this->OverrideBoundaryCondition(&m_ErodeBoundaryCondition);
 }
 
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 typename GrayscaleFunctionErodeImageFilter< TInputImage, TOutputImage, TKernel >::PixelType
 GrayscaleFunctionErodeImageFilter< TInputImage, TOutputImage, TKernel >
 ::Evaluate(const NeighborhoodIteratorType & nit,

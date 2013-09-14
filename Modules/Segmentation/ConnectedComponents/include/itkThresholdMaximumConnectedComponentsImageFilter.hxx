@@ -29,7 +29,7 @@ namespace itk
 /** Constructor
  *
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 ThresholdMaximumConnectedComponentsImageFilter< TInputImage, TOutputImage >
 ::ThresholdMaximumConnectedComponentsImageFilter()
 {
@@ -77,7 +77,7 @@ ThresholdMaximumConnectedComponentsImageFilter< TInputImage, TOutputImage >
 /**
  *
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 SizeValueType
 ThresholdMaximumConnectedComponentsImageFilter< TInputImage, TOutputImage >
 ::ComputeConnectedComponents()
@@ -101,7 +101,7 @@ ThresholdMaximumConnectedComponentsImageFilter< TInputImage, TOutputImage >
  * Remove the comments on the output statements to see how the search
  * strategy works.
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void ThresholdMaximumConnectedComponentsImageFilter< TInputImage, TOutputImage >
 ::GenerateData(void)
 {
@@ -204,7 +204,7 @@ void ThresholdMaximumConnectedComponentsImageFilter< TInputImage, TOutputImage >
 /** Standard Run of the mill PrintSelf
  *
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ThresholdMaximumConnectedComponentsImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

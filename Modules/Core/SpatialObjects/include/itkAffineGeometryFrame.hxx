@@ -23,7 +23,7 @@
 namespace itk
 {
 /** Constructor */
-template< class TScalar, unsigned int NDimensions >
+template< typename TScalar, unsigned int NDimensions >
 AffineGeometryFrame< TScalar, NDimensions >
 ::AffineGeometryFrame()
 {
@@ -38,13 +38,13 @@ AffineGeometryFrame< TScalar, NDimensions >
 }
 
 /** Destructor */
-template< class TScalar, unsigned int NDimensions >
+template< typename TScalar, unsigned int NDimensions >
 AffineGeometryFrame< TScalar, NDimensions >
 ::~AffineGeometryFrame()
 {}
 
 /** Initialize the transform */
-template< class TScalar, unsigned int NDimensions >
+template< typename TScalar, unsigned int NDimensions >
 void AffineGeometryFrame< TScalar, NDimensions >
 ::Initialize()
 {
@@ -63,7 +63,7 @@ void AffineGeometryFrame< TScalar, NDimensions >
 }
 
 /** Set the bounds */
-template< class TScalar, unsigned int NDimensions >
+template< typename TScalar, unsigned int NDimensions >
 void AffineGeometryFrame< TScalar, NDimensions >
 ::SetBounds(const BoundsArrayType & bounds)
 {
@@ -71,7 +71,7 @@ void AffineGeometryFrame< TScalar, NDimensions >
 }
 
 /** Set the bounds array */
-template< class TScalar, unsigned int NDimensions >
+template< typename TScalar, unsigned int NDimensions >
 void AffineGeometryFrame< TScalar, NDimensions >
 ::SetBoundsArray(const BoundsArrayType & bounds, BoundingBoxPointer & boundingBox)
 {
@@ -98,7 +98,7 @@ void AffineGeometryFrame< TScalar, NDimensions >
 }
 
 /** Clone the geometry */
-template< class TScalar, unsigned int NDimensions >
+template< typename TScalar, unsigned int NDimensions >
 typename LightObject::Pointer
 AffineGeometryFrame< TScalar, NDimensions >
 ::InternalClone() const
@@ -118,7 +118,7 @@ AffineGeometryFrame< TScalar, NDimensions >
 }
 
 /** Initialize the geometry */
-template< class TScalar, unsigned int NDimensions >
+template< typename TScalar, unsigned int NDimensions >
 void
 AffineGeometryFrame< TScalar, NDimensions >
 ::InitializeGeometry(AffineGeometryFrame *newGeometry) const
@@ -149,7 +149,7 @@ AffineGeometryFrame< TScalar, NDimensions >
 }
 
 /** Print the object */
-template< class TScalar, unsigned int NDimensions >
+template< typename TScalar, unsigned int NDimensions >
 void
 AffineGeometryFrame< TScalar, NDimensions >
 ::PrintSelf(std::ostream & os, Indent indent) const

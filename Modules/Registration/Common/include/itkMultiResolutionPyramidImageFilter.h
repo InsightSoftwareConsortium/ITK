@@ -106,8 +106,8 @@ namespace itk
  * \ingroup ITKRegistrationCommon
  */
 template<
-  class TInputImage,
-  class TOutputImage
+  typename TInputImage,
+  typename TOutputImage
   >
 class MultiResolutionPyramidImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >

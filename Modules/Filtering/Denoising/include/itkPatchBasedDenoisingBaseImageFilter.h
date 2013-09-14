@@ -90,7 +90,7 @@ namespace itk
  * \sa PatchBasedDenoisingImageFilter
  */
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 class PatchBasedDenoisingBaseImageFilter :
   public ImageToImageFilter<TInputImage, TOutputImage>
 {
@@ -300,7 +300,7 @@ protected:
   return RIEMANNIAN;
   }
 
-  template <class PixelT>
+  template <typename PixelT>
   ComponentSpaceType DetermineComponentSpace(const PixelT& itkNotUsed(p) )
   {
   return EUCLIDEAN;

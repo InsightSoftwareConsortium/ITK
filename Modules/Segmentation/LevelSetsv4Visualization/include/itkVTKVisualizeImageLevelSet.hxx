@@ -29,7 +29,7 @@
 namespace itk
 {
 
-template < class TInputImage, class TInputImageConverter >
+template < typename TInputImage, typename TInputImageConverter >
 VTKVisualizeImageLevelSet< TInputImage, TInputImageConverter >
 ::VTKVisualizeImageLevelSet():
   m_ScreenCapture( false ),
@@ -48,13 +48,13 @@ VTKVisualizeImageLevelSet< TInputImage, TInputImageConverter >
   this->m_Renderer->AddActor2D( this->m_Annotation );
 }
 
-template < class TInputImage, class TInputImageConverter >
+template < typename TInputImage, typename TInputImageConverter >
 VTKVisualizeImageLevelSet< TInputImage, TInputImageConverter >
 ::~VTKVisualizeImageLevelSet()
 {
 }
 
-template < class TInputImage, class TInputImageConverter >
+template < typename TInputImage, typename TInputImageConverter >
 void
 VTKVisualizeImageLevelSet< TInputImage, TInputImageConverter >
 ::SetInputImage( const InputImageType * inputImage )
@@ -79,7 +79,7 @@ VTKVisualizeImageLevelSet< TInputImage, TInputImageConverter >
   this->m_Renderer->AddActor2D( ImageActor );
 }
 
-template < class TInputImage, class TInputImageConverter >
+template < typename TInputImage, typename TInputImageConverter >
 void
 VTKVisualizeImageLevelSet< TInputImage, TInputImageConverter >
 ::SetScreenCapture( const bool iCapture )
@@ -87,7 +87,7 @@ VTKVisualizeImageLevelSet< TInputImage, TInputImageConverter >
   this->m_ScreenCapture = iCapture;
 }
 
-template < class TInputImage, class TInputImageConverter >
+template < typename TInputImage, typename TInputImageConverter >
 bool
 VTKVisualizeImageLevelSet< TInputImage, TInputImageConverter >
 ::GetScreenCapture() const
@@ -95,7 +95,7 @@ VTKVisualizeImageLevelSet< TInputImage, TInputImageConverter >
   return this->m_ScreenCapture;
 }
 
-template < class TInputImage, class TInputImageConverter >
+template < typename TInputImage, typename TInputImageConverter >
 vtkRenderer *
 VTKVisualizeImageLevelSet< TInputImage, TInputImageConverter >
 ::GetRenderer()
@@ -103,7 +103,7 @@ VTKVisualizeImageLevelSet< TInputImage, TInputImageConverter >
   return this->m_Renderer;
 }
 
-template < class TInputImage, class TInputImageConverter >
+template < typename TInputImage, typename TInputImageConverter >
 vtkRenderWindow *
 VTKVisualizeImageLevelSet< TInputImage, TInputImageConverter >
 ::GetRenderWindow()
@@ -111,7 +111,7 @@ VTKVisualizeImageLevelSet< TInputImage, TInputImageConverter >
   return this->m_RenderWindow;
 }
 
-template < class TInputImage, class TInputImageConverter >
+template < typename TInputImage, typename TInputImageConverter >
 void
 VTKVisualizeImageLevelSet< TInputImage, TInputImageConverter >
 ::SetRenderWindow( vtkRenderWindow * renderWindow )
@@ -120,7 +120,7 @@ VTKVisualizeImageLevelSet< TInputImage, TInputImageConverter >
   this->m_RenderWindow->AddRenderer( this->m_Renderer );
 }
 
-template < class TInputImage, class TInputImageConverter >
+template < typename TInputImage, typename TInputImageConverter >
 void
 VTKVisualizeImageLevelSet< TInputImage, TInputImageConverter >
 ::SetCurrentIteration( const IdentifierType iteration )
@@ -128,7 +128,7 @@ VTKVisualizeImageLevelSet< TInputImage, TInputImageConverter >
   this->m_CurrentIteration = iteration;
 }
 
-template < class TInputImage, class TInputImageConverter >
+template < typename TInputImage, typename TInputImageConverter >
 IdentifierType
 VTKVisualizeImageLevelSet< TInputImage, TInputImageConverter >
 ::GetCurrentIteration() const
@@ -136,7 +136,7 @@ VTKVisualizeImageLevelSet< TInputImage, TInputImageConverter >
   return this->m_CurrentIteration;
 }
 
-template < class TInputImage, class TInputImageConverter >
+template < typename TInputImage, typename TInputImageConverter >
 void
 VTKVisualizeImageLevelSet< TInputImage, TInputImageConverter >
 ::SetScreenCapturePrefix( const char * prefix)
@@ -144,7 +144,7 @@ VTKVisualizeImageLevelSet< TInputImage, TInputImageConverter >
   this->m_ScreenCapturePrefix = prefix;
 }
 
-template < class TInputImage, class TInputImageConverter >
+template < typename TInputImage, typename TInputImageConverter >
 void
 VTKVisualizeImageLevelSet< TInputImage, TInputImageConverter >
 ::Update()

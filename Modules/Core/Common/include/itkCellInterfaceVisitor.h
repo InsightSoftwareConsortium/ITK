@@ -105,8 +105,8 @@ private:
 template<
   typename TPixelType,
   typename TCellTraits,
-  class CellTopology,
-  class UserVisitor
+  typename CellTopology,
+  typename UserVisitor
   >
 class CellInterfaceVisitorImplementation:
   public CellInterfaceVisitor< TPixelType, TCellTraits >, public UserVisitor

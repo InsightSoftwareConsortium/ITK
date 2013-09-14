@@ -24,19 +24,19 @@
 namespace itk
 {
 // ----------------------------------------------------------------------------
-template< class TImage >
+template< typename TImage >
 LevelSetDenseImage< TImage >
 ::LevelSetDenseImage()
 {}
 
 // ----------------------------------------------------------------------------
-template< class TImage >
+template< typename TImage >
 LevelSetDenseImage< TImage >
 ::~LevelSetDenseImage()
 {}
 
 // ----------------------------------------------------------------------------
-template< class TImage >
+template< typename TImage >
 void
 LevelSetDenseImage< TImage >
 ::SetImage( ImageType* inputImage )
@@ -53,7 +53,7 @@ LevelSetDenseImage< TImage >
 }
 
 // ----------------------------------------------------------------------------
-template< class TImage >
+template< typename TImage >
 typename LevelSetDenseImage< TImage >::OutputType
 LevelSetDenseImage< TImage >::Evaluate( const InputType& inputIndex ) const
 {
@@ -62,7 +62,7 @@ LevelSetDenseImage< TImage >::Evaluate( const InputType& inputIndex ) const
 }
 
 // ----------------------------------------------------------------------------
-template< class TImage >
+template< typename TImage >
 void
 LevelSetDenseImage< TImage >::Evaluate( const InputType& inputIndex, LevelSetDataType& data ) const
 {
@@ -70,7 +70,7 @@ LevelSetDenseImage< TImage >::Evaluate( const InputType& inputIndex, LevelSetDat
 }
 
 // ----------------------------------------------------------------------------
-template< class TImage >
+template< typename TImage >
 void
 LevelSetDenseImage< TImage >
 ::Initialize()
@@ -81,7 +81,7 @@ LevelSetDenseImage< TImage >
 }
 
 // ----------------------------------------------------------------------------
-template< class TImage >
+template< typename TImage >
 void
 LevelSetDenseImage< TImage >
 ::CopyInformation(const DataObject *data)
@@ -112,7 +112,7 @@ LevelSetDenseImage< TImage >
 }
 
 // ----------------------------------------------------------------------------
-template< class TImage >
+template< typename TImage >
 void
 LevelSetDenseImage< TImage >
 ::Graft( const DataObject* data )
@@ -145,7 +145,7 @@ LevelSetDenseImage< TImage >
 }
 
 // ----------------------------------------------------------------------------
-template< class TImage >
+template< typename TImage >
 bool
 LevelSetDenseImage< TImage >
 ::IsInsideDomain(const InputType &inputIndex) const

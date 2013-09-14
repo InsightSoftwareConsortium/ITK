@@ -72,8 +72,8 @@ namespace itk
  * \wikiexample{Operators/GaussianDerivativeOperator,Create a Gaussian derivative kernel}
  * \endwiki
  */
-template< class TPixel, unsigned int VDimension = 2,
-          class TAllocator = NeighborhoodAllocator< TPixel > >
+template< typename TPixel, unsigned int VDimension = 2,
+          typename TAllocator = NeighborhoodAllocator< TPixel > >
 class GaussianDerivativeOperator :
   public NeighborhoodOperator< TPixel, VDimension, TAllocator >
 {

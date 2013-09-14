@@ -27,7 +27,7 @@ namespace itk
 /**
  * Constructor
  */
-template <class TScalar,
+template <typename TScalar,
           unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
 Transform<TScalar, NInputDimensions, NOutputDimensions>
@@ -45,7 +45,7 @@ Transform<TScalar, NInputDimensions, NOutputDimensions>
 /**
  * Constructor
  */
-template <class TScalar,
+template <typename TScalar,
           unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
 Transform<TScalar, NInputDimensions, NOutputDimensions>
@@ -61,7 +61,7 @@ Transform<TScalar, NInputDimensions, NOutputDimensions>
 /**
  * GenerateName
  */
-template <class TScalar,
+template <typename TScalar,
           unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
 std::string Transform<TScalar, NInputDimensions, NOutputDimensions>
@@ -79,7 +79,7 @@ std::string Transform<TScalar, NInputDimensions, NOutputDimensions>
 /**
  * Clone
  */
-template <class TScalar,
+template <typename TScalar,
           unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
 typename LightObject::Pointer
@@ -106,7 +106,7 @@ Transform<TScalar, NInputDimensions, NOutputDimensions>
 /**
  * UpdateTransformParameters
  */
-template <class TScalar,
+template <typename TScalar,
           unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
 void
@@ -164,7 +164,7 @@ Transform<TScalar, NInputDimensions, NOutputDimensions>
 /**
  * Transform vector
  */
-template <class TScalar,
+template <typename TScalar,
           unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
 typename Transform<TScalar, NInputDimensions, NOutputDimensions>::OutputVectorType
@@ -189,7 +189,7 @@ Transform<TScalar, NInputDimensions, NOutputDimensions>
 /**
  * Transform vector
  */
-template <class TScalar,
+template <typename TScalar,
           unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
 typename Transform<TScalar, NInputDimensions, NOutputDimensions>::OutputVnlVectorType
@@ -214,7 +214,7 @@ Transform<TScalar, NInputDimensions, NOutputDimensions>
 /**
  * Transform vector
  */
-template <class TScalar,
+template <typename TScalar,
           unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
 typename Transform<TScalar, NInputDimensions, NOutputDimensions>::OutputVectorPixelType
@@ -248,7 +248,7 @@ Transform<TScalar, NInputDimensions, NOutputDimensions>
 /**
  * Transform covariant vector
  */
-template <class TScalar,
+template <typename TScalar,
           unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
 typename Transform<TScalar, NInputDimensions, NOutputDimensions>::OutputCovariantVectorType
@@ -273,7 +273,7 @@ Transform<TScalar, NInputDimensions, NOutputDimensions>
 /**
  * Transform covariant vector
  */
-template <class TScalar,
+template <typename TScalar,
           unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
 typename Transform<TScalar, NInputDimensions, NOutputDimensions>::OutputVectorPixelType
@@ -307,7 +307,7 @@ Transform<TScalar, NInputDimensions, NOutputDimensions>
 /**
  * Transform tensor
  */
-template <class TScalar, unsigned int NInputDimensions, unsigned int NOutputDimensions>
+template <typename TScalar, unsigned int NInputDimensions, unsigned int NOutputDimensions>
 typename Transform<TScalar, NInputDimensions, NOutputDimensions>::OutputDiffusionTensor3DType
 Transform<TScalar, NInputDimensions, NOutputDimensions>
 ::TransformDiffusionTensor3D( const InputDiffusionTensor3DType& inputTensor, const InputPointType & point ) const
@@ -324,7 +324,7 @@ Transform<TScalar, NInputDimensions, NOutputDimensions>
 /**
  * Transform tensor
  */
-template <class TScalar, unsigned int NInputDimensions, unsigned int NOutputDimensions>
+template <typename TScalar, unsigned int NInputDimensions, unsigned int NOutputDimensions>
 typename Transform<TScalar, NInputDimensions, NOutputDimensions>::OutputVectorPixelType
 Transform<TScalar, NInputDimensions, NOutputDimensions>
 ::TransformDiffusionTensor3D( const InputVectorPixelType & inputTensor, const InputPointType & point ) const
@@ -356,7 +356,7 @@ Transform<TScalar, NInputDimensions, NOutputDimensions>
 /**
  * Transform tensor
  */
-template <class TScalar, unsigned int NInputDimensions, unsigned int NOutputDimensions>
+template <typename TScalar, unsigned int NInputDimensions, unsigned int NOutputDimensions>
 typename Transform<TScalar, NInputDimensions, NOutputDimensions>::OutputDiffusionTensor3DType
 Transform<TScalar, NInputDimensions, NOutputDimensions>
 ::PreservationOfPrincipalDirectionDiffusionTensor3DReorientation( const InputDiffusionTensor3DType inputTensor,
@@ -448,7 +448,7 @@ Transform<TScalar, NInputDimensions, NOutputDimensions>
 /**
  * Transform tensor
  */
-template <class TScalar, unsigned int NInputDimensions, unsigned int NOutputDimensions>
+template <typename TScalar, unsigned int NInputDimensions, unsigned int NOutputDimensions>
 typename Transform<TScalar, NInputDimensions, NOutputDimensions>::OutputSymmetricSecondRankTensorType
 Transform<TScalar, NInputDimensions, NOutputDimensions>
 ::TransformSymmetricSecondRankTensor( const InputSymmetricSecondRankTensorType& inputTensor, const InputPointType & point ) const
@@ -486,7 +486,7 @@ Transform<TScalar, NInputDimensions, NOutputDimensions>
 /**
  * Transform tensor
  */
-template <class TScalar, unsigned int NInputDimensions, unsigned int NOutputDimensions>
+template <typename TScalar, unsigned int NInputDimensions, unsigned int NOutputDimensions>
 typename Transform<TScalar, NInputDimensions, NOutputDimensions>::OutputVectorPixelType
 Transform<TScalar, NInputDimensions, NOutputDimensions>
 ::TransformSymmetricSecondRankTensor( const InputVectorPixelType& inputTensor, const InputPointType & point ) const
@@ -531,7 +531,7 @@ Transform<TScalar, NInputDimensions, NOutputDimensions>
 /**
  * ComputeInverseJacobianWithRespectToPosition
  */
-template <class TScalar,
+template <typename TScalar,
           unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
 void

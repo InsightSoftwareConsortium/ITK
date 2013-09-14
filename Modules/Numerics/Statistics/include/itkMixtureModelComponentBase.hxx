@@ -24,7 +24,7 @@ namespace itk
 {
 namespace Statistics
 {
-template< class TSample >
+template< typename TSample >
 MixtureModelComponentBase< TSample >
 ::MixtureModelComponentBase()
 {
@@ -34,12 +34,12 @@ MixtureModelComponentBase< TSample >
   m_ParametersModified = true;
 }
 
-template< class TSample >
+template< typename TSample >
 MixtureModelComponentBase< TSample >
 ::~MixtureModelComponentBase()
 {}
 
-template< class TSample >
+template< typename TSample >
 void
 MixtureModelComponentBase< TSample >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -73,7 +73,7 @@ MixtureModelComponentBase< TSample >
      << std::endl;
 }
 
-template< class TSample >
+template< typename TSample >
 void
 MixtureModelComponentBase< TSample >
 ::SetSample(const TSample *sample)
@@ -82,7 +82,7 @@ MixtureModelComponentBase< TSample >
   m_Weights = WeightArrayType( m_Sample->Size() );
 }
 
-template< class TSample >
+template< typename TSample >
 const TSample *
 MixtureModelComponentBase< TSample >
 ::GetSample() const
@@ -90,7 +90,7 @@ MixtureModelComponentBase< TSample >
   return m_Sample;
 }
 
-template< class TSample >
+template< typename TSample >
 void
 MixtureModelComponentBase< TSample >
 ::SetParameters(const ParametersType & parameters)
@@ -102,7 +102,7 @@ MixtureModelComponentBase< TSample >
     }
 }
 
-template< class TSample >
+template< typename TSample >
 bool
 MixtureModelComponentBase< TSample >
 ::AreParametersModified()
@@ -110,7 +110,7 @@ MixtureModelComponentBase< TSample >
   return m_ParametersModified;
 }
 
-template< class TSample >
+template< typename TSample >
 void
 MixtureModelComponentBase< TSample >
 ::AreParametersModified(bool flag)
@@ -118,7 +118,7 @@ MixtureModelComponentBase< TSample >
   m_ParametersModified = flag;
 }
 
-template< class TSample >
+template< typename TSample >
 void
 MixtureModelComponentBase< TSample >
 ::SetMembershipFunction(MembershipFunctionType *function)
@@ -126,7 +126,7 @@ MixtureModelComponentBase< TSample >
   m_MembershipFunction = function;
 }
 
-template< class TSample >
+template< typename TSample >
 typename MixtureModelComponentBase< TSample >::MembershipFunctionType *
 MixtureModelComponentBase< TSample >
 ::GetMembershipFunction()
@@ -134,7 +134,7 @@ MixtureModelComponentBase< TSample >
   return m_MembershipFunction;
 }
 
-template< class TSample >
+template< typename TSample >
 inline double
 MixtureModelComponentBase< TSample >
 ::Evaluate(MeasurementVectorType & measurements)
@@ -142,7 +142,7 @@ MixtureModelComponentBase< TSample >
   return m_MembershipFunction->Evaluate(measurements);
 }
 
-template< class TSample >
+template< typename TSample >
 inline void
 MixtureModelComponentBase< TSample >
 ::SetWeight(unsigned int index, double value)
@@ -157,7 +157,7 @@ MixtureModelComponentBase< TSample >
     }
 }
 
-template< class TSample >
+template< typename TSample >
 inline double
 MixtureModelComponentBase< TSample >
 ::GetWeight(unsigned int index) const
@@ -172,7 +172,7 @@ MixtureModelComponentBase< TSample >
     }
 }
 
-template< class TSample >
+template< typename TSample >
 void
 MixtureModelComponentBase< TSample >
 ::Update()

@@ -27,7 +27,7 @@ namespace itk
 /**
  * Assignment Operator
  */
-template< class T, unsigned int TPointDimension >
+template< typename T, unsigned int TPointDimension >
 Point< T, TPointDimension > &
 Point< T, TPointDimension >
 ::operator=(const Self & r)
@@ -39,7 +39,7 @@ Point< T, TPointDimension >
 /**
  * Assignment from a plain array
  */
-template< class T, unsigned int TPointDimension >
+template< typename T, unsigned int TPointDimension >
 Point< T, TPointDimension > &
 Point< T, TPointDimension >
 ::operator=(const ValueType r[TPointDimension])
@@ -51,7 +51,7 @@ Point< T, TPointDimension >
 /**
  * In place increment by a vector
  */
-template< class T, unsigned int TPointDimension >
+template< typename T, unsigned int TPointDimension >
 const Point< T, TPointDimension > &
 Point< T, TPointDimension >
 ::operator+=(const VectorType & vec)
@@ -66,7 +66,7 @@ Point< T, TPointDimension >
 /**
  * In place subtract a vector
  */
-template< class T, unsigned int TPointDimension >
+template< typename T, unsigned int TPointDimension >
 const Point< T, TPointDimension > &
 Point< T, TPointDimension >
 ::operator-=(const VectorType & vec)
@@ -81,7 +81,7 @@ Point< T, TPointDimension >
 /*
  * Add operator with a vector
  */
-template< class T, unsigned int TPointDimension >
+template< typename T, unsigned int TPointDimension >
 Point< T, TPointDimension >
 Point< T, TPointDimension >
 ::operator+(const VectorType & vec) const
@@ -98,7 +98,7 @@ Point< T, TPointDimension >
 /*
  * Subtract a vector, return a point
  */
-template< class T, unsigned int TPointDimension >
+template< typename T, unsigned int TPointDimension >
 Point< T, TPointDimension >
 Point< T, TPointDimension >
 ::operator-(const VectorType & vec)  const
@@ -115,7 +115,7 @@ Point< T, TPointDimension >
 /*
  * Difference between two points
  */
-template< class T, unsigned int TPointDimension >
+template< typename T, unsigned int TPointDimension >
 Vector< T, TPointDimension >
 Point< T, TPointDimension >
 ::operator-(const Self & pnt)  const
@@ -132,7 +132,7 @@ Point< T, TPointDimension >
 /*
  * Return a vnl_vector_ref
  */
-template< class T, unsigned int TPointDimension >
+template< typename T, unsigned int TPointDimension >
 vnl_vector_ref< T >
 Point< T, TPointDimension >
 ::GetVnlVector(void)
@@ -143,7 +143,7 @@ Point< T, TPointDimension >
 /**
  * Return a vnl_vector const
  */
-template< class T, unsigned int TPointDimension >
+template< typename T, unsigned int TPointDimension >
 vnl_vector< T >
 Point< T, TPointDimension >
 ::GetVnlVector(void) const
@@ -156,7 +156,7 @@ Point< T, TPointDimension >
                               const_cast< T * >( this->GetDataPointer() ) );
 }
 
-template< class T, unsigned int TPointDimension >
+template< typename T, unsigned int TPointDimension >
 typename Point< T, TPointDimension >::VectorType
 Point< T, TPointDimension >
 ::GetVectorFromOrigin() const
@@ -168,7 +168,7 @@ Point< T, TPointDimension >
 /**
  * Set the point to the median point of the two arguments
  */
-template< class T, unsigned int TPointDimension >
+template< typename T, unsigned int TPointDimension >
 void
 Point< T, TPointDimension >
 ::SetToMidPoint(const Self & A, const Self & B)
@@ -182,7 +182,7 @@ Point< T, TPointDimension >
 /**
  * Set the point to the barycentric combination of two points
  */
-template< class T, unsigned int TPointDimension >
+template< typename T, unsigned int TPointDimension >
 void
 Point< T, TPointDimension >
 ::SetToBarycentricCombination(const Self & A,
@@ -201,7 +201,7 @@ Point< T, TPointDimension >
 /**
  * Set the point to the barycentric combination of three points
  */
-template< class T, unsigned int TPointDimension >
+template< typename T, unsigned int TPointDimension >
 void
 Point< T, TPointDimension >
 ::SetToBarycentricCombination(const Self & A,
@@ -221,7 +221,7 @@ Point< T, TPointDimension >
 /**
  * Set the point to the barycentric combination of N points
  */
-template< class T, unsigned int TPointDimension >
+template< typename T, unsigned int TPointDimension >
 void
 Point< T, TPointDimension >
 ::SetToBarycentricCombination(const Self *P,
@@ -248,7 +248,7 @@ Point< T, TPointDimension >
 /**
  * Set the point to the barycentric combination of N points in a Container
  */
-template< class TPointContainer, class TWeightContainer >
+template< typename TPointContainer, typename TWeightContainer >
 typename BarycentricCombination< TPointContainer, TWeightContainer >
 ::PointType
 BarycentricCombination< TPointContainer, TWeightContainer >
@@ -296,7 +296,7 @@ BarycentricCombination< TPointContainer, TWeightContainer >
 /**
  * Print content to an ostream
  */
-template< class T, unsigned int TPointDimension >
+template< typename T, unsigned int TPointDimension >
 std::ostream &
 operator<<(std::ostream & os, const Point< T, TPointDimension > & vct)
 {
@@ -320,7 +320,7 @@ operator<<(std::ostream & os, const Point< T, TPointDimension > & vct)
 /**
  * Read content from an istream
  */
-template< class T, unsigned int TPointDimension >
+template< typename T, unsigned int TPointDimension >
 std::istream &
 operator>>(std::istream & is, Point< T, TPointDimension > & vct)
 {
@@ -335,7 +335,7 @@ operator>>(std::istream & is, Point< T, TPointDimension > & vct)
 /**
  * Return a vnl_vector_ref
  */
-template< class T, unsigned int TPointDimension >
+template< typename T, unsigned int TPointDimension >
 vnl_vector_ref< T >
 Point< T, TPointDimension >
 ::Get_vnl_vector(void)
@@ -346,7 +346,7 @@ Point< T, TPointDimension >
 /**
  * Return a vnl_vector const
  */
-template< class T, unsigned int TPointDimension >
+template< typename T, unsigned int TPointDimension >
 vnl_vector< T >
 Point< T, TPointDimension >
 ::Get_vnl_vector(void) const

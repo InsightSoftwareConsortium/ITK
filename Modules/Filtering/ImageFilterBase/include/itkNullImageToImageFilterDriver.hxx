@@ -44,7 +44,7 @@ namespace itk {
  * Update on the filter.  Times the execution of the filter.
  */
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 class NullImageToImageFilterDriver
 {
 public:
@@ -86,7 +86,7 @@ private:
 };
 
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 void
 NullImageToImageFilterDriver<TInputImage, TOutputImage>
 ::InitializePixel(InputPixelType &pixel)
@@ -94,7 +94,7 @@ NullImageToImageFilterDriver<TInputImage, TOutputImage>
   this->InitializePixel(Dispatch<InputPixelDimension>(), pixel);
 }
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 void
 NullImageToImageFilterDriver<TInputImage, TOutputImage>
 ::InitializePixel(const DispatchBase &, InputPixelType &pixel)
@@ -105,7 +105,7 @@ NullImageToImageFilterDriver<TInputImage, TOutputImage>
     }
 }
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 void
 NullImageToImageFilterDriver<TInputImage, TOutputImage>
 ::InitializePixel(const Dispatch<1> &, InputPixelType &pixel)
@@ -116,7 +116,7 @@ NullImageToImageFilterDriver<TInputImage, TOutputImage>
 /**
  *  Drive the filter without using the itk pipeline
  */
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 void
 NullImageToImageFilterDriver<TInputImage, TOutputImage>
 ::Execute()

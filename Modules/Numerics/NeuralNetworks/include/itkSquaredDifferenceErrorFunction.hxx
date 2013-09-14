@@ -26,21 +26,21 @@ namespace Statistics
 {
 
 /** Constructor */
-template<class TMeasurementVector, class ScalarType>
+template<typename TMeasurementVector, typename ScalarType>
 SquaredDifferenceErrorFunction<TMeasurementVector,ScalarType>
 ::SquaredDifferenceErrorFunction()
 {
 }
 
 /** Destructor */
-template<class TMeasurementVector, class ScalarType>
+template<typename TMeasurementVector, typename ScalarType>
 SquaredDifferenceErrorFunction <TMeasurementVector,ScalarType>
 ::~SquaredDifferenceErrorFunction()
 {
 }
 
 /** Evaluate */
-template<class TMeasurementVector, class ScalarType>
+template<typename TMeasurementVector, typename ScalarType>
 ScalarType
 SquaredDifferenceErrorFunction <TMeasurementVector,ScalarType>
 ::Evaluate(const TMeasurementVector& errors)  const
@@ -56,7 +56,7 @@ SquaredDifferenceErrorFunction <TMeasurementVector,ScalarType>
 }
 
 /** Evaluate derivatives */
-template<class TMeasurementVector, class ScalarType>
+template<typename TMeasurementVector, typename ScalarType>
 typename SquaredDifferenceErrorFunction <TMeasurementVector,ScalarType>
 ::InternalVectorType
 SquaredDifferenceErrorFunction <TMeasurementVector,ScalarType>
@@ -80,7 +80,7 @@ SquaredDifferenceErrorFunction <TMeasurementVector,ScalarType>
 }
 
 /** Print the object */
-template<class TMeasurementVector, class ScalarType>
+template<typename TMeasurementVector, typename ScalarType>
 void
 SquaredDifferenceErrorFunction <TMeasurementVector,ScalarType>
 ::PrintSelf( std::ostream& os, Indent indent ) const

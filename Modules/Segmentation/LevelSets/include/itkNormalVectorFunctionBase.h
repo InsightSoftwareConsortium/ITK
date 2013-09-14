@@ -48,7 +48,7 @@ namespace itk
  * \ingroup ITKLevelSets
  */
 
-template< class TSparseImageType >
+template< typename TSparseImageType >
 class NormalVectorFunctionBase:
   public FiniteDifferenceSparseImageFunction< TSparseImageType >
 {

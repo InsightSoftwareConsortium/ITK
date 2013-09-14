@@ -23,7 +23,7 @@
 namespace itk
 {
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 GPUMeanImageFilter< TInputImage, TOutputImage >::GPUMeanImageFilter()
 {
   std::ostringstream defines;
@@ -47,13 +47,13 @@ GPUMeanImageFilter< TInputImage, TOutputImage >::GPUMeanImageFilter()
   m_MeanFilterGPUKernelHandle = this->m_GPUKernelManager->CreateKernel("MeanFilter");
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 GPUMeanImageFilter< TInputImage, TOutputImage >::~GPUMeanImageFilter()
 {
 
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 GPUMeanImageFilter< TInputImage, TOutputImage >::PrintSelf(std::ostream & os, Indent indent) const
 {
@@ -62,7 +62,7 @@ GPUMeanImageFilter< TInputImage, TOutputImage >::PrintSelf(std::ostream & os, In
   // std::endl;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 GPUMeanImageFilter< TInputImage, TOutputImage >::GPUGenerateData()
 {

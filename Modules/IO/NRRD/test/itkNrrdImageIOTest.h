@@ -26,7 +26,7 @@
 #include "itkImage.h"
 #include "itkRandomImageSource.h"
 
-template <class TPixelType, unsigned int VImageDimension>
+template <typename TPixelType, unsigned int VImageDimension>
 typename itk::Image<TPixelType, VImageDimension>::Pointer
 itkNrrdImageIOTestGenerateRandomImage(unsigned int size)
 {
@@ -54,7 +54,7 @@ itkNrrdImageIOTestGenerateRandomImage(unsigned int size)
   return (source->GetOutput());
 }
 
-template<class TPixelType, unsigned int VImageDimension>
+template<typename TPixelType, unsigned int VImageDimension>
 int itkNrrdImageIOTestReadWriteTest(std::string fn, unsigned int size,
                                     std::string inputFile, bool compression=false)
 {

@@ -41,7 +41,7 @@ typedef CellType::CellAutoPointer       CellAutoPointer;
 
 // Test the cell interface
 
-template<class TCell> int TestCellInterface(std::string name, TCell *aCell)
+template<typename TCell> int TestCellInterface(std::string name, TCell *aCell)
 {
   CellAutoPointer cell(aCell,true);
 

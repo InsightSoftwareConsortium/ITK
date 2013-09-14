@@ -78,7 +78,7 @@ namespace Testing
  * \ingroup ITKTestKernel
  */
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class ExtractSliceImageFilter:
   public ImageSource< TOutputImage >
 {

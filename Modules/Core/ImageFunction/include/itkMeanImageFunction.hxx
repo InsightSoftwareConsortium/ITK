@@ -26,7 +26,7 @@ namespace itk
 /**
  * Constructor
  */
-template< class TInputImage, class TCoordRep >
+template< typename TInputImage, typename TCoordRep >
 MeanImageFunction< TInputImage, TCoordRep >
 ::MeanImageFunction()
 {
@@ -36,7 +36,7 @@ MeanImageFunction< TInputImage, TCoordRep >
 /**
  *
  */
-template< class TInputImage, class TCoordRep >
+template< typename TInputImage, typename TCoordRep >
 void
 MeanImageFunction< TInputImage, TCoordRep >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -48,7 +48,7 @@ MeanImageFunction< TInputImage, TCoordRep >
 /**
  *
  */
-template< class TInputImage, class TCoordRep >
+template< typename TInputImage, typename TCoordRep >
 typename MeanImageFunction< TInputImage, TCoordRep >
 ::RealType
 MeanImageFunction< TInputImage, TCoordRep >

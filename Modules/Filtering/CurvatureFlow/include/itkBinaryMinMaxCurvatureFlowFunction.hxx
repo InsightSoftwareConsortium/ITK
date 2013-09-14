@@ -27,7 +27,7 @@ namespace itk
 /**
  * Constructor
  */
-template< class TImage >
+template< typename TImage >
 BinaryMinMaxCurvatureFlowFunction< TImage >
 ::BinaryMinMaxCurvatureFlowFunction()
 {
@@ -38,7 +38,7 @@ BinaryMinMaxCurvatureFlowFunction< TImage >
  * Update the solution at pixels which does not lie on the
  * data boundary.
  */
-template< class TImage >
+template< typename TImage >
 typename BinaryMinMaxCurvatureFlowFunction< TImage >::PixelType
 BinaryMinMaxCurvatureFlowFunction< TImage >
 ::ComputeUpdate(const NeighborhoodType & it, void *globalData,

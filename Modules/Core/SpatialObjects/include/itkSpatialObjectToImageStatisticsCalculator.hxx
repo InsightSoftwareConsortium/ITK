@@ -28,7 +28,7 @@
 namespace itk
 {
 /** Constructor */
-template< class TInputImage, class TInputSpatialObject, unsigned int TSampleDimension >
+template< typename TInputImage, typename TInputSpatialObject, unsigned int TSampleDimension >
 SpatialObjectToImageStatisticsCalculator< TInputImage, TInputSpatialObject, TSampleDimension >
 ::SpatialObjectToImageStatisticsCalculator()
 {
@@ -45,7 +45,7 @@ SpatialObjectToImageStatisticsCalculator< TInputImage, TInputSpatialObject, TSam
 }
 
 /** Compute Statistics from the Sample vector */
-template< class TInputImage, class TInputSpatialObject, unsigned int TSampleDimension >
+template< typename TInputImage, typename TInputSpatialObject, unsigned int TSampleDimension >
 bool
 SpatialObjectToImageStatisticsCalculator< TInputImage, TInputSpatialObject, TSampleDimension >
 ::ComputeStatistics()
@@ -82,7 +82,7 @@ SpatialObjectToImageStatisticsCalculator< TInputImage, TInputSpatialObject, TSam
 }
 
 /** */
-template< class TInputImage, class TInputSpatialObject, unsigned int TSampleDimension >
+template< typename TInputImage, typename TInputSpatialObject, unsigned int TSampleDimension >
 void
 SpatialObjectToImageStatisticsCalculator< TInputImage, TInputSpatialObject, TSampleDimension >
 ::Update(void)
@@ -197,7 +197,7 @@ SpatialObjectToImageStatisticsCalculator< TInputImage, TInputSpatialObject, TSam
   this->ComputeStatistics();
 }
 
-template< class TInputImage, class TInputSpatialObject, unsigned int TSampleDimension >
+template< typename TInputImage, typename TInputSpatialObject, unsigned int TSampleDimension >
 void
 SpatialObjectToImageStatisticsCalculator< TInputImage, TInputSpatialObject, TSampleDimension >
 ::PrintSelf(std::ostream & os, Indent indent) const

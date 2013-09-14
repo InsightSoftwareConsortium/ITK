@@ -43,7 +43,7 @@ namespace itk
  * \ingroup MRFFilters
  * \ingroup ITKMarkovRandomFieldsClassifiers
  */
-template< class TInputImage, class TClassifiedImage >
+template< typename TInputImage, typename TClassifiedImage >
 class RGBGibbsPriorFilter:public MRFImageFilter< TInputImage,
                                                             TClassifiedImage >
 {

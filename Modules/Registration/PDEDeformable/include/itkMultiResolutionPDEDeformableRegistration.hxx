@@ -29,7 +29,7 @@ namespace itk
 /**
  * Default constructor
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField, class TRealType >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField, typename TRealType >
 MultiResolutionPDEDeformableRegistration< TFixedImage, TMovingImage, TDisplacementField, TRealType >
 ::MultiResolutionPDEDeformableRegistration()
 {
@@ -64,7 +64,7 @@ MultiResolutionPDEDeformableRegistration< TFixedImage, TMovingImage, TDisplaceme
 /*
  * Set the moving image image.
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField, class TRealType >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField, typename TRealType >
 void
 MultiResolutionPDEDeformableRegistration< TFixedImage, TMovingImage, TDisplacementField, TRealType >
 ::SetMovingImage(
@@ -76,7 +76,7 @@ MultiResolutionPDEDeformableRegistration< TFixedImage, TMovingImage, TDisplaceme
 /*
  * Get the moving image image.
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField, class TRealType >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField, typename TRealType >
 const typename MultiResolutionPDEDeformableRegistration< TFixedImage, TMovingImage, TDisplacementField, TRealType >
 ::MovingImageType *
 MultiResolutionPDEDeformableRegistration< TFixedImage, TMovingImage, TDisplacementField, TRealType >
@@ -89,7 +89,7 @@ MultiResolutionPDEDeformableRegistration< TFixedImage, TMovingImage, TDisplaceme
 /*
  * Set the fixed image.
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField, class TRealType >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField, typename TRealType >
 void
 MultiResolutionPDEDeformableRegistration< TFixedImage, TMovingImage, TDisplacementField, TRealType >
 ::SetFixedImage(
@@ -101,7 +101,7 @@ MultiResolutionPDEDeformableRegistration< TFixedImage, TMovingImage, TDisplaceme
 /*
  * Get the fixed image.
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField, class TRealType >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField, typename TRealType >
 const typename MultiResolutionPDEDeformableRegistration< TFixedImage, TMovingImage, TDisplacementField, TRealType >
 ::FixedImageType *
 MultiResolutionPDEDeformableRegistration< TFixedImage, TMovingImage, TDisplacementField, TRealType >
@@ -114,7 +114,7 @@ MultiResolutionPDEDeformableRegistration< TFixedImage, TMovingImage, TDisplaceme
 /*
  *
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField, class TRealType >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField, typename TRealType >
 std::vector< SmartPointer< DataObject > >::size_type
 MultiResolutionPDEDeformableRegistration< TFixedImage, TMovingImage, TDisplacementField, TRealType >
 ::GetNumberOfValidRequiredInputs() const
@@ -137,7 +137,7 @@ MultiResolutionPDEDeformableRegistration< TFixedImage, TMovingImage, TDisplaceme
 /**
  * Set the number of multi-resolution levels
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField, class TRealType >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField, typename TRealType >
 void
 MultiResolutionPDEDeformableRegistration< TFixedImage, TMovingImage, TDisplacementField, TRealType >
 ::SetNumberOfLevels(
@@ -163,7 +163,7 @@ MultiResolutionPDEDeformableRegistration< TFixedImage, TMovingImage, TDisplaceme
 /**
  * Standard PrintSelf method.
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField, class TRealType >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField, typename TRealType >
 void
 MultiResolutionPDEDeformableRegistration< TFixedImage, TMovingImage, TDisplacementField, TRealType >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -207,7 +207,7 @@ MultiResolutionPDEDeformableRegistration< TFixedImage, TMovingImage, TDisplaceme
  * registrator and field_expander.
  *
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField, class TRealType >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField, typename TRealType >
 void
 MultiResolutionPDEDeformableRegistration< TFixedImage, TMovingImage, TDisplacementField, TRealType >
 ::GenerateData()
@@ -433,7 +433,7 @@ MultiResolutionPDEDeformableRegistration< TFixedImage, TMovingImage, TDisplaceme
   m_RegistrationFilter->GetOutput()->ReleaseData();
 }
 
-template< class TFixedImage, class TMovingImage, class TDisplacementField, class TRealType >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField, typename TRealType >
 void
 MultiResolutionPDEDeformableRegistration< TFixedImage, TMovingImage, TDisplacementField, TRealType >
 ::StopRegistration()
@@ -442,7 +442,7 @@ MultiResolutionPDEDeformableRegistration< TFixedImage, TMovingImage, TDisplaceme
   m_StopRegistrationFlag = true;
 }
 
-template< class TFixedImage, class TMovingImage, class TDisplacementField, class TRealType >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField, typename TRealType >
 bool
 MultiResolutionPDEDeformableRegistration< TFixedImage, TMovingImage, TDisplacementField, TRealType >
 ::Halt()
@@ -468,7 +468,7 @@ MultiResolutionPDEDeformableRegistration< TFixedImage, TMovingImage, TDisplaceme
     }
 }
 
-template< class TFixedImage, class TMovingImage, class TDisplacementField, class TRealType >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField, typename TRealType >
 void
 MultiResolutionPDEDeformableRegistration< TFixedImage, TMovingImage, TDisplacementField, TRealType >
 ::GenerateOutputInformation()
@@ -497,7 +497,7 @@ MultiResolutionPDEDeformableRegistration< TFixedImage, TMovingImage, TDisplaceme
     }
 }
 
-template< class TFixedImage, class TMovingImage, class TDisplacementField, class TRealType >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField, typename TRealType >
 void
 MultiResolutionPDEDeformableRegistration< TFixedImage, TMovingImage, TDisplacementField, TRealType >
 ::GenerateInputRequestedRegion()
@@ -532,7 +532,7 @@ MultiResolutionPDEDeformableRegistration< TFixedImage, TMovingImage, TDisplaceme
     }
 }
 
-template< class TFixedImage, class TMovingImage, class TDisplacementField, class TRealType >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField, typename TRealType >
 void
 MultiResolutionPDEDeformableRegistration< TFixedImage, TMovingImage, TDisplacementField, TRealType >
 ::EnlargeOutputRequestedRegion(

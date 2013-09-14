@@ -26,7 +26,7 @@
 namespace itk
 {
 /** Constructor to initialize entire vector to one value. */
-template< class T >
+template< typename T >
 Versor< T >
 ::Versor()
 {
@@ -37,7 +37,7 @@ Versor< T >
 }
 
 /** Copy Constructor */
-template< class T >
+template< typename T >
 Versor< T >
 ::Versor(const Self & v)
 {
@@ -48,7 +48,7 @@ Versor< T >
 }
 
 /** Assignment Operator */
-template< class T >
+template< typename T >
 const Versor< T > &
 Versor< T >
 ::operator=(const Self & v)
@@ -61,7 +61,7 @@ Versor< T >
 }
 
 /** Set to an identity transform */
-template< class T >
+template< typename T >
 void
 Versor< T >
 ::SetIdentity()
@@ -73,7 +73,7 @@ Versor< T >
 }
 
 /** Return a vnl_quaternion */
-template< class T >
+template< typename T >
 vnl_quaternion< T >
 Versor< T >
 ::GetVnlQuaternion(void) const
@@ -82,7 +82,7 @@ Versor< T >
 }
 
 /** Assignment and Composition Operator */
-template< class T >
+template< typename T >
 const Versor< T > &
 Versor< T >
 ::operator*=(const Self & v)
@@ -101,7 +101,7 @@ Versor< T >
 }
 
 /** Composition Operator */
-template< class T >
+template< typename T >
 Versor< T >
 Versor< T >
 ::operator*(const Self & v) const
@@ -117,7 +117,7 @@ Versor< T >
 }
 
 /** Division and Assignment Operator */
-template< class T >
+template< typename T >
 const Versor< T > &
 Versor< T >
 ::operator/=(const Self & v)
@@ -136,7 +136,7 @@ Versor< T >
 }
 
 /** Division Operator  */
-template< class T >
+template< typename T >
 Versor< T >
 Versor< T >
 ::operator/(const Self & v) const
@@ -152,7 +152,7 @@ Versor< T >
 }
 
 /** Comparison operator */
-template< class T >
+template< typename T >
 bool
 Versor< T >
 ::operator!=(const Self & v) const
@@ -161,7 +161,7 @@ Versor< T >
 }
 
 /** Comparison operator */
-template< class T >
+template< typename T >
 bool
 Versor< T >
 ::operator==(const Self & v) const
@@ -183,7 +183,7 @@ Versor< T >
 }
 
 /** Get Conjugate */
-template< class T >
+template< typename T >
 Versor< T >
 Versor< T >
 ::GetConjugate(void) const
@@ -199,7 +199,7 @@ Versor< T >
 }
 
 /** Get Reciprocal */
-template< class T >
+template< typename T >
 Versor< T >
 Versor< T >
 ::GetReciprocal(void) const
@@ -215,7 +215,7 @@ Versor< T >
 }
 
 /** Get Tensor part */
-template< class T >
+template< typename T >
 typename Versor< T >::ValueType
 Versor< T >
 ::GetTensor(void) const
@@ -228,7 +228,7 @@ Versor< T >
 }
 
 /** Normalize */
-template< class T >
+template< typename T >
 void
 Versor< T >
 ::Normalize(void)
@@ -250,7 +250,7 @@ Versor< T >
 }
 
 /** Get Axis */
-template< class T >
+template< typename T >
 typename Versor< T >::VectorType
 Versor< T >
 ::GetAxis(void) const
@@ -280,7 +280,7 @@ Versor< T >
 }
 
 /** Get Right part */
-template< class T >
+template< typename T >
 typename Versor< T >::VectorType
 Versor< T >
 ::GetRight(void) const
@@ -295,7 +295,7 @@ Versor< T >
 }
 
 /** Get Scalar part */
-template< class T >
+template< typename T >
 typename Versor< T >::ValueType
 Versor< T >
 ::GetScalar(void) const
@@ -304,7 +304,7 @@ Versor< T >
 }
 
 /** Get Angle (in radians) */
-template< class T >
+template< typename T >
 typename Versor< T >::ValueType
 Versor< T >
 ::GetAngle(void) const
@@ -321,7 +321,7 @@ Versor< T >
 }
 
 /** Get the Square root of the unit quaternion */
-template< class T >
+template< typename T >
 Versor< T >
 Versor< T >
 ::SquareRoot(void) const
@@ -342,7 +342,7 @@ Versor< T >
 }
 
 /** Compute the Exponential of the quaternion */
-template< class T >
+template< typename T >
 Versor< T >
 Versor< T >
 ::Exponential(ValueType exponent) const
@@ -356,7 +356,7 @@ Versor< T >
 }
 
 /** Set Axis and Angle (in radians) */
-template< class T >
+template< typename T >
 void
 Versor< T >
 ::Set(const VectorType & axis, ValueType angle)
@@ -376,7 +376,7 @@ Versor< T >
 }
 
 /**  Set using an orthogonal matrix. */
-template< class T >
+template< typename T >
 void
 Versor< T >
 ::Set(const MatrixType & mat)
@@ -463,7 +463,7 @@ Versor< T >
 }
 
 /** Set right Part (in radians) */
-template< class T >
+template< typename T >
 void
 Versor< T >
 ::Set(const VectorType & axis)
@@ -491,7 +491,7 @@ Versor< T >
 /** Set the Versor from four components.
  *  After assignment, the quaternion is normalized
  *  in order to get a consistent Versor (unit quaternion). */
-template< class T >
+template< typename T >
 void
 Versor< T >
 ::Set(T x, T y, T z, T w)
@@ -523,7 +523,7 @@ Versor< T >
 /** Set from a vnl_quaternion
  *  After assignment, the quaternion is normalized
  *  in order to get a consistent Versor (unit quaternion). */
-template< class T >
+template< typename T >
 void
 Versor< T >
 ::Set(const VnlQuaternionType & quaternion)
@@ -536,7 +536,7 @@ Versor< T >
 }
 
 /** Set rotation around X axis */
-template< class T >
+template< typename T >
 void
 Versor< T >
 ::SetRotationAroundX(ValueType angle)
@@ -551,7 +551,7 @@ Versor< T >
 }
 
 /** Set rotation around Y axis  */
-template< class T >
+template< typename T >
 void
 Versor< T >
 ::SetRotationAroundY(ValueType angle)
@@ -566,7 +566,7 @@ Versor< T >
 }
 
 /**  Set rotation around Z axis  */
-template< class T >
+template< typename T >
 void
 Versor< T >
 ::SetRotationAroundZ(ValueType angle)
@@ -617,7 +617,7 @@ namespace {
 }
 
 /** Transform a Vector */
-template< class T >
+template< typename T >
 typename Versor< T >::VectorType
 Versor< T >
 ::Transform(const VectorType & v) const
@@ -628,7 +628,7 @@ Versor< T >
 /** Transform a CovariantVector
  *  given that this is an orthogonal transformation
  *  CovariantVectors are transformed as vectors. */
-template< class T >
+template< typename T >
 typename Versor< T >::CovariantVectorType
 Versor< T >
 ::Transform(const CovariantVectorType & v) const
@@ -637,7 +637,7 @@ Versor< T >
 }
 
 /** Transform a Point */
-template< class T >
+template< typename T >
 typename Versor< T >::PointType
 Versor< T >
 ::Transform(const PointType & v) const
@@ -646,7 +646,7 @@ Versor< T >
 }
 
 /** Transform a VnlVector */
-template< class T >
+template< typename T >
 typename Versor< T >::VnlVectorType
 Versor< T >
 ::Transform(const VnlVectorType & v) const
@@ -655,7 +655,7 @@ Versor< T >
 }
 
 /** Get Matrix representation */
-template< class T >
+template< typename T >
 Matrix< T, 3, 3 >
 Versor< T >
 ::GetMatrix(void) const

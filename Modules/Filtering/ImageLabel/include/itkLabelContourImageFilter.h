@@ -52,7 +52,7 @@ namespace itk
  * \endwiki
  */
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class LabelContourImageFilter:
   public InPlaceImageFilter< TInputImage, TOutputImage >
 {

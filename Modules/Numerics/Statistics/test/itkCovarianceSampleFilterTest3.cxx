@@ -22,7 +22,7 @@
 
 namespace itk {
 namespace Statistics {
-template < class TSample >
+template < typename TSample >
 class MyCovarianceSampleFilter : public CovarianceSampleFilter< TSample >
 {
 public:

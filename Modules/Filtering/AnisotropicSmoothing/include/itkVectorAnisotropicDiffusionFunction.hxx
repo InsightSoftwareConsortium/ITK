@@ -26,7 +26,7 @@
 
 namespace itk
 {
-template< class TImage >
+template< typename TImage >
 void
 VectorAnisotropicDiffusionFunction< TImage >
 ::CalculateAverageGradientMagnitudeSquared(TImage *ip)

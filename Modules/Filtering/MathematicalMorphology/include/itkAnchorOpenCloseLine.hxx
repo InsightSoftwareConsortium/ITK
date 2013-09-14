@@ -22,14 +22,14 @@
 
 namespace itk
 {
-template< class TInputPix, class TCompare >
+template< typename TInputPix, typename TCompare >
 AnchorOpenCloseLine< TInputPix, TCompare >
 ::AnchorOpenCloseLine()
 {
   m_Size = 2;
 }
 
-template< class TInputPix, class TCompare >
+template< typename TInputPix, typename TCompare >
 void
 AnchorOpenCloseLine< TInputPix, TCompare >
 ::DoLine(std::vector<InputImagePixelType> & buffer, unsigned bufflength)
@@ -111,7 +111,7 @@ AnchorOpenCloseLine< TInputPix, TCompare >
     }
 }
 
-template< class TInputPix, class TCompare >
+template< typename TInputPix, typename TCompare >
 bool
 AnchorOpenCloseLine< TInputPix, TCompare >
 ::StartLine(std::vector<InputImagePixelType> & buffer,
@@ -227,7 +227,7 @@ AnchorOpenCloseLine< TInputPix, TCompare >
   return ( false );
 }
 
-template< class TInputPix, class TCompare >
+template< typename TInputPix, typename TCompare >
 void
 AnchorOpenCloseLine< TInputPix,  TCompare >
 ::FinishLine(std::vector<InputImagePixelType> & buffer,
@@ -259,7 +259,7 @@ AnchorOpenCloseLine< TInputPix,  TCompare >
     }
 }
 
-template< class TInputPix, class TCompare >
+template< typename TInputPix, typename TCompare >
 void
 AnchorOpenCloseLine< TInputPix, TCompare >
 ::PrintSelf(std::ostream & os, Indent indent) const

@@ -48,7 +48,7 @@ namespace itk
  * OtherPropagationSpeed instead.
  * \ingroup ITKLevelSets
  */
-template< class TImageType, class TSparseImageType >
+template< typename TImageType, typename TSparseImageType >
 class LevelSetFunctionWithRefitTerm:
   public LevelSetFunction< TImageType >
 {

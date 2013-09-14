@@ -26,7 +26,7 @@
 
 namespace itk {
 
-template <class TInputImage>
+template <typename TInputImage>
 BinaryGrindPeakImageFilter<TInputImage>
 ::BinaryGrindPeakImageFilter()
 {
@@ -35,7 +35,7 @@ BinaryGrindPeakImageFilter<TInputImage>
   m_BackgroundValue = NumericTraits<InputImagePixelType>::Zero;
 }
 
-template <class TInputImage>
+template <typename TInputImage>
 void
 BinaryGrindPeakImageFilter<TInputImage>
 ::GenerateInputRequestedRegion()
@@ -52,7 +52,7 @@ BinaryGrindPeakImageFilter<TInputImage>
 }
 
 
-template <class TInputImage>
+template <typename TInputImage>
 void
 BinaryGrindPeakImageFilter<TInputImage>
 ::EnlargeOutputRequestedRegion(DataObject *)
@@ -62,7 +62,7 @@ BinaryGrindPeakImageFilter<TInputImage>
 }
 
 
-template<class TInputImage>
+template<typename TInputImage>
 void
 BinaryGrindPeakImageFilter<TInputImage>
 ::GenerateData()
@@ -107,7 +107,7 @@ BinaryGrindPeakImageFilter<TInputImage>
 }
 
 
-template<class TInputImage>
+template<typename TInputImage>
 void
 BinaryGrindPeakImageFilter<TInputImage>
 ::PrintSelf(std::ostream &os, Indent indent) const

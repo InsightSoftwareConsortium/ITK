@@ -28,7 +28,7 @@ namespace itk
 /**
  * Constructor
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 NeighborhoodConnectedImageFilter< TInputImage, TOutputImage >
 ::NeighborhoodConnectedImageFilter()
 {
@@ -38,7 +38,7 @@ NeighborhoodConnectedImageFilter< TInputImage, TOutputImage >
   m_Radius.Fill(1);
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 NeighborhoodConnectedImageFilter< TInputImage, TOutputImage >
 ::ClearSeeds()
@@ -50,7 +50,7 @@ NeighborhoodConnectedImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 NeighborhoodConnectedImageFilter< TInputImage, TOutputImage >
 ::SetSeed(const IndexType & seed)
@@ -59,7 +59,7 @@ NeighborhoodConnectedImageFilter< TInputImage, TOutputImage >
   this->AddSeed (seed);
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 NeighborhoodConnectedImageFilter< TInputImage, TOutputImage >
 ::AddSeed(const IndexType & seed)
@@ -71,7 +71,7 @@ NeighborhoodConnectedImageFilter< TInputImage, TOutputImage >
 /**
  * Standard PrintSelf method.
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 NeighborhoodConnectedImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -89,7 +89,7 @@ NeighborhoodConnectedImageFilter< TInputImage, TOutputImage >
   os << indent << "Radius: " << m_Radius << std::endl;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 NeighborhoodConnectedImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
@@ -103,7 +103,7 @@ NeighborhoodConnectedImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 NeighborhoodConnectedImageFilter< TInputImage, TOutputImage >
 ::EnlargeOutputRequestedRegion(DataObject *output)
@@ -112,7 +112,7 @@ NeighborhoodConnectedImageFilter< TInputImage, TOutputImage >
   output->SetRequestedRegionToLargestPossibleRegion();
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 NeighborhoodConnectedImageFilter< TInputImage, TOutputImage >
 ::GenerateData()

@@ -27,7 +27,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 GrayscaleMorphologicalOpeningImageFilter< TInputImage, TOutputImage, TKernel >
 ::GrayscaleMorphologicalOpeningImageFilter()
 {
@@ -42,7 +42,7 @@ GrayscaleMorphologicalOpeningImageFilter< TInputImage, TOutputImage, TKernel >
   m_SafeBorder = true;
 }
 
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 void
 GrayscaleMorphologicalOpeningImageFilter< TInputImage, TOutputImage, TKernel >
 ::SetKernel(const KernelType & kernel)
@@ -95,7 +95,7 @@ GrayscaleMorphologicalOpeningImageFilter< TInputImage, TOutputImage, TKernel >
   Superclass::SetKernel(kernel);
 }
 
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 void
 GrayscaleMorphologicalOpeningImageFilter< TInputImage, TOutputImage, TKernel >
 ::SetAlgorithm(int algo)
@@ -138,7 +138,7 @@ GrayscaleMorphologicalOpeningImageFilter< TInputImage, TOutputImage, TKernel >
     }
 }
 
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 void
 GrayscaleMorphologicalOpeningImageFilter< TInputImage, TOutputImage, TKernel >
 ::GenerateData()
@@ -331,7 +331,7 @@ GrayscaleMorphologicalOpeningImageFilter< TInputImage, TOutputImage, TKernel >
     }
 }
 
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 void
 GrayscaleMorphologicalOpeningImageFilter< TInputImage, TOutputImage, TKernel >
 ::Modified() const
@@ -346,7 +346,7 @@ GrayscaleMorphologicalOpeningImageFilter< TInputImage, TOutputImage, TKernel >
   m_AnchorFilter->Modified();
 }
 
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 void
 GrayscaleMorphologicalOpeningImageFilter< TInputImage, TOutputImage, TKernel >
 ::PrintSelf(std::ostream & os, Indent indent) const

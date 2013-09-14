@@ -33,7 +33,7 @@ namespace itk
 /**
  * Constructor
  */
-template <class TFixedImage, class TMovingImage>
+template <typename TFixedImage, typename TMovingImage>
 MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>
 ::MattesMutualInformationImageToImageMetric() :
   m_NumberOfHistogramBins(50),
@@ -63,7 +63,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>
   this->m_ComputeGradient = false;
 }
 
-template <class TFixedImage, class TMovingImage>
+template <typename TFixedImage, typename TMovingImage>
 MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>
 ::~MattesMutualInformationImageToImageMetric()
 {
@@ -73,7 +73,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>
 /**
  * Print out internal information about this class
  */
-template <class TFixedImage, class TMovingImage>
+template <typename TFixedImage, typename TMovingImage>
 void
 MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -115,7 +115,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>
 /**
  * Initialize
  */
-template <class TFixedImage, class TMovingImage>
+template <typename TFixedImage, typename TMovingImage>
 void
 MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>
 ::Initialize(void)
@@ -352,7 +352,7 @@ throw ( ExceptionObject )
  * From the pre-computed samples, now
  * fill in the parzen window index locations
  */
-template <class TFixedImage, class TMovingImage>
+template <typename TFixedImage, typename TMovingImage>
 void
 MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>
 ::ComputeFixedImageParzenWindowIndices( FixedImageSampleContainer & samples)
@@ -386,7 +386,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>
     }
 }
 
-template <class TFixedImage, class TMovingImage>
+template <typename TFixedImage, typename TMovingImage>
 inline void
 MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>
 ::GetValueThreadPreProcess(ThreadIdType threadID,
@@ -399,7 +399,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>
   this->m_PerThread[threadID].FixedImageMarginalPDF = std::vector<PDFValueType>(m_NumberOfHistogramBins, 0.0F);
 }
 
-template <class TFixedImage, class TMovingImage>
+template <typename TFixedImage, typename TMovingImage>
 inline bool
 MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>
 ::GetValueThreadProcessSample(ThreadIdType threadID,
@@ -468,7 +468,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>
   return true;
 }
 
-template <class TFixedImage, class TMovingImage>
+template <typename TFixedImage, typename TMovingImage>
 inline void
 MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>
 ::GetValueThreadPostProcess( ThreadIdType threadID,
@@ -514,7 +514,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>
 
 }
 
-template <class TFixedImage, class TMovingImage>
+template <typename TFixedImage, typename TMovingImage>
 typename MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>
 ::MeasureType
 MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>
@@ -616,7 +616,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>
   return static_cast<MeasureType>( -1.0 * sum );
 }
 
-template <class TFixedImage, class TMovingImage>
+template <typename TFixedImage, typename TMovingImage>
 inline void
 MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>
 ::GetValueAndDerivativeThreadPreProcess( ThreadIdType threadID,
@@ -630,7 +630,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>
     }
 }
 
-template <class TFixedImage, class TMovingImage>
+template <typename TFixedImage, typename TMovingImage>
 inline bool
 MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>
 ::GetValueAndDerivativeThreadProcessSample(ThreadIdType threadID,
@@ -727,7 +727,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>
   return true;
 }
 
-template <class TFixedImage, class TMovingImage>
+template <typename TFixedImage, typename TMovingImage>
 inline void
 MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>
 ::GetValueAndDerivativeThreadPostProcess(ThreadIdType threadID,
@@ -775,7 +775,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>
 /**
  * Get the both Value and Derivative Measure
  */
-template <class TFixedImage, class TMovingImage>
+template <typename TFixedImage, typename TMovingImage>
 void
 MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>
 ::GetValueAndDerivative(const ParametersType & parameters,
@@ -946,7 +946,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>
 /**
  * Get the match measure derivative
  */
-template <class TFixedImage, class TMovingImage>
+template <typename TFixedImage, typename TMovingImage>
 void
 MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>
 ::GetDerivative(const ParametersType & parameters,
@@ -961,7 +961,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>
 /**
  * Compute PDF derivatives contribution for each parameter
  */
-template <class TFixedImage, class TMovingImage>
+template <typename TFixedImage, typename TMovingImage>
 void
 MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>
 ::ComputePDFDerivatives(ThreadIdType threadID,

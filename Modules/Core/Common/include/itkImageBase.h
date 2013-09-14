@@ -401,7 +401,7 @@ public:
    * Floating point index results are rounded to integers
    * Returns true if the resulting index is within the image, false otherwise
    * \sa Transform */
-  template< class TCoordRep >
+  template< typename TCoordRep >
   bool TransformPhysicalPointToIndex(
     const Point< TCoordRep, VImageDimension > & point,
     IndexType & index) const
@@ -414,7 +414,7 @@ public:
     return isInside;
     /* NON TEMPLATE_META_PROGRAMMING_LOOP_UNROLLING data version
      * Leaving here for documentation purposes
-     * template< class TCoordRep >
+     * template< typename TCoordRep >
      * bool TransformPhysicalPointToIndex(
      *   const Point< TCoordRep, VImageDimension > & point,
      *   IndexType & index) const
@@ -439,7 +439,7 @@ public:
    *
    * Returns true if the resulting index is within the image, false otherwise.
    * \sa Transform */
-  template< class TCoordRep >
+  template< typename TCoordRep >
   bool TransformPhysicalPointToContinuousIndex(
     const Point< TCoordRep, VImageDimension > & point,
     ContinuousIndex< TCoordRep, VImageDimension > & index) const
@@ -466,7 +466,7 @@ public:
    * the origin and spacing information comes from)
    * from a continuous index (in the index space)
    * \sa Transform */
-  template< class TCoordRep >
+  template< typename TCoordRep >
   void TransformContinuousIndexToPhysicalPoint(
     const ContinuousIndex< TCoordRep, VImageDimension > & index,
     Point< TCoordRep, VImageDimension > & point) const
@@ -487,7 +487,7 @@ public:
    * from a discrete index (in the index space)
    *
    * \sa Transform */
-  template< class TCoordRep >
+  template< typename TCoordRep >
   void TransformIndexToPhysicalPoint(
     const IndexType & index,
     Point< TCoordRep, VImageDimension > & point) const
@@ -496,7 +496,7 @@ public:
       this->m_IndexToPhysicalPoint, this->m_Origin, index, point);
     /* NON TEMPLATE_META_PROGRAMMING_LOOP_UNROLLING data version
      * Leaving here for documentation purposes
-     * template< class TCoordRep >
+     * template< typename TCoordRep >
      * void TransformIndexToPhysicalPoint(
      *   const IndexType & index,
      *   Point< TCoordRep, VImageDimension > & point) const
@@ -524,7 +524,7 @@ public:
    *
    * \sa Image
    */
-  template< class TCoordRep >
+  template< typename TCoordRep >
   void TransformLocalVectorToPhysicalVector(
     const FixedArray< TCoordRep, VImageDimension > & inputGradient,
     FixedArray< TCoordRep, VImageDimension > & outputGradient) const
@@ -555,7 +555,7 @@ public:
    * Cosines. The arguments of the method are of type FixedArray to make
    * possible to use this method with both Vector and CovariantVector.
    */
-  template< class TCoordRep >
+  template< typename TCoordRep >
   void TransformPhysicalVectorToLocalVector(
     const FixedArray< TCoordRep, VImageDimension > & inputGradient,
     FixedArray< TCoordRep, VImageDimension > & outputGradient) const

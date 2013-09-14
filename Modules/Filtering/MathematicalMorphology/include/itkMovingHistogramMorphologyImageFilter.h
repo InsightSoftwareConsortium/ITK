@@ -38,7 +38,7 @@ namespace itk
  * \ingroup ITKMathematicalMorphology
  */
 
-template< class TInputImage, class TOutputImage, class TKernel, class THistogram >
+template< typename TInputImage, typename TOutputImage, typename TKernel, typename THistogram >
 class MovingHistogramMorphologyImageFilter:
   public MovingHistogramImageFilter< TInputImage, TOutputImage, TKernel, THistogram >
 {

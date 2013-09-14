@@ -27,7 +27,7 @@
 namespace itk
 {
 // Constructor
-template< class TInputImage >
+template< typename TInputImage >
 ContourExtractor2DImageFilter< TInputImage >
 ::ContourExtractor2DImageFilter()
 {
@@ -39,12 +39,12 @@ ContourExtractor2DImageFilter< TInputImage >
 }
 
 // Destructor
-template< class TInputImage >
+template< typename TInputImage >
 ContourExtractor2DImageFilter< TInputImage >
 ::~ContourExtractor2DImageFilter()
 {}
 
-template< class TInputImage >
+template< typename TInputImage >
 void
 ContourExtractor2DImageFilter< TInputImage >
 ::GenerateData()
@@ -238,7 +238,7 @@ ContourExtractor2DImageFilter< TInputImage >
   m_NumberOfContoursCreated = 0;
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 inline
 typename ContourExtractor2DImageFilter< TInputImage >::VertexType
 ContourExtractor2DImageFilter< TInputImage >
@@ -269,7 +269,7 @@ ContourExtractor2DImageFilter< TInputImage >
   return output;
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void
 ContourExtractor2DImageFilter< TInputImage >
 ::AddSegment(VertexType from, VertexType to)
@@ -403,7 +403,7 @@ ContourExtractor2DImageFilter< TInputImage >
     }
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void
 ContourExtractor2DImageFilter< TInputImage >
 ::FillOutputs()
@@ -455,7 +455,7 @@ ContourExtractor2DImageFilter< TInputImage >
     }
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void
 ContourExtractor2DImageFilter< TInputImage >
 ::SetRequestedRegion(const InputRegionType region)
@@ -469,7 +469,7 @@ ContourExtractor2DImageFilter< TInputImage >
     }
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void
 ContourExtractor2DImageFilter< TInputImage >
 ::ClearRequestedRegion()
@@ -482,7 +482,7 @@ ContourExtractor2DImageFilter< TInputImage >
     }
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void
 ContourExtractor2DImageFilter< TInputImage >
 ::GenerateInputRequestedRegion()
@@ -526,7 +526,7 @@ throw ( InvalidRequestedRegionError )
 /**
  * Standard "PrintSelf" method
  */
-template< class TInputImage >
+template< typename TInputImage >
 void
 ContourExtractor2DImageFilter< TInputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

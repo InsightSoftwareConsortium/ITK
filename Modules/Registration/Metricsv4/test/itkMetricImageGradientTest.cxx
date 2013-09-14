@@ -61,7 +61,7 @@ namespace itk
  * \brief A vanilla class of metric thread, required to implement the virtual base class
  */
 
-template<class TDomainPartitioner, class TImageToImageMetric>
+template<typename TDomainPartitioner, typename TImageToImageMetric>
 class VanilaImageToImageMetricv4GetValueAndDerivativeThreader
 : public ImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner, TImageToImageMetric>
 {
@@ -127,7 +127,7 @@ private:
  * \brief A vanilla metric for ImageToImageMetricv4 since we need to
  * access the protected methods by adding friend class.
  */
-template<class TFixedImage, class TMovingImage, class TVirtualImage = TFixedImage>
+template<typename TFixedImage, typename TMovingImage, typename TVirtualImage = TFixedImage>
 class VanillaImageToImageMetricv4 : public ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
 {
 public:

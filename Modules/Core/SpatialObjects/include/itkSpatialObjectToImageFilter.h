@@ -36,7 +36,7 @@ namespace itk
  * \wikiexample{SpatialObjects/SpatialObjectToImageFilter,Convert a spatial object to an image}
  * \endwiki
  */
-template< class TInputSpatialObject, class TOutputImage >
+template< typename TInputSpatialObject, typename TOutputImage >
 class SpatialObjectToImageFilter:public ImageSource< TOutputImage >
 {
 public:

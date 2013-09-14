@@ -24,7 +24,7 @@ namespace itk
 {
 
 /** Constructor */
-template< class TTreeType >
+template< typename TTreeType >
 ChildTreeIterator< TTreeType >::ChildTreeIterator(TTreeType *tree,
                                                   const TreeNodeType *start):
   TreeIteratorBase< TTreeType >(tree, start)
@@ -35,7 +35,7 @@ ChildTreeIterator< TTreeType >::ChildTreeIterator(TTreeType *tree,
   this->m_Begin = this->m_Position;
 }
 
-template< class TTreeType >
+template< typename TTreeType >
 ChildTreeIterator< TTreeType >::ChildTreeIterator(
   const TreeIteratorBase< TTreeType > & iterator):
   TreeIteratorBase< TTreeType >( iterator.GetTree(), iterator.GetNode() )
@@ -46,7 +46,7 @@ ChildTreeIterator< TTreeType >::ChildTreeIterator(
 }
 
 /** Go to a specific child */
-template< class TTreeType >
+template< typename TTreeType >
 bool
 ChildTreeIterator< TTreeType >::GoToChild(ChildIdentifier number)
 {
@@ -63,7 +63,7 @@ ChildTreeIterator< TTreeType >::GoToChild(ChildIdentifier number)
 }
 
 /** Go to the parent node */
-template< class TTreeType >
+template< typename TTreeType >
 bool
 ChildTreeIterator< TTreeType >::GoToParent()
 {
@@ -82,7 +82,7 @@ ChildTreeIterator< TTreeType >::GoToParent()
 }
 
 /** Return the type of the iterator */
-template< class TTreeType >
+template< typename TTreeType >
 typename ChildTreeIterator< TTreeType >::NodeType
 ChildTreeIterator< TTreeType >::GetType() const
 {
@@ -90,7 +90,7 @@ ChildTreeIterator< TTreeType >::GetType() const
 }
 
 /** Return true if the next node exists */
-template< class TTreeType >
+template< typename TTreeType >
 bool
 ChildTreeIterator< TTreeType >::HasNext() const
 {
@@ -105,7 +105,7 @@ ChildTreeIterator< TTreeType >::HasNext() const
 }
 
 /** Return the next node */
-template< class TTreeType >
+template< typename TTreeType >
 const typename ChildTreeIterator< TTreeType >::ValueType &
 ChildTreeIterator< TTreeType >::Next()
 {
@@ -115,7 +115,7 @@ ChildTreeIterator< TTreeType >::Next()
 }
 
 /** Clone function */
-template< class TTreeType >
+template< typename TTreeType >
 TreeIteratorBase< TTreeType > *ChildTreeIterator< TTreeType >::Clone()
 {
   ChildTreeIterator< TTreeType > *clone = new ChildTreeIterator< TTreeType >(

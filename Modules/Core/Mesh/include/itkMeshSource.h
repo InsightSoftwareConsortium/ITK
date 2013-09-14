@@ -45,7 +45,7 @@ namespace itk
  * \ingroup DataSources
  * \ingroup ITKMesh
  */
-template< class TOutputMesh >
+template< typename TOutputMesh >
 class MeshSource:public ProcessObject
 {
 public:

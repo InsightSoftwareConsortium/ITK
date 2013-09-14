@@ -29,7 +29,7 @@ namespace itk
 /*
  * Compute the Li's threshold
  */
-template<class THistogram, class TOutput>
+template<typename THistogram, typename TOutput>
 void
 LiThresholdCalculator<THistogram, TOutput>
 ::GenerateData(void)

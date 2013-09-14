@@ -41,7 +41,7 @@
 
 namespace itk
 {
-template< class TIterator >
+template< typename TIterator >
 TIterator *
 setConnectivityEarlyBox(TIterator *it, bool fullyConnected = false)
 {
@@ -89,7 +89,7 @@ setConnectivityEarlyBox(TIterator *it, bool fullyConnected = false)
   return it;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 BoxAccumulateFunction(const TInputImage *inputImage,
                       const TOutputImage *outputImage,
@@ -165,7 +165,7 @@ BoxAccumulateFunction(const TInputImage *inputImage,
 }
 
 // a function to generate corners of arbitrary dimension box
-template< class ImType >
+template< typename ImType >
 std::vector< typename ImType::OffsetType > CornerOffsets(const ImType *im)
 {
   typedef ShapedNeighborhoodIterator< ImType > NIterator;
@@ -196,7 +196,7 @@ std::vector< typename ImType::OffsetType > CornerOffsets(const ImType *im)
   return ( result );
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 BoxMeanCalculatorFunction(const TInputImage *accImage,
                           TOutputImage *outputImage,
@@ -380,7 +380,7 @@ BoxMeanCalculatorFunction(const TInputImage *accImage,
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 BoxSigmaCalculatorFunction(const TInputImage *accImage,
                            TOutputImage *outputImage,
@@ -572,7 +572,7 @@ BoxSigmaCalculatorFunction(const TInputImage *accImage,
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 BoxSquareAccumulateFunction(const TInputImage *inputImage,
                             TOutputImage *outputImage,

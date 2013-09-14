@@ -60,8 +60,8 @@ namespace itk
  * \wikiexample{Segmentation/SinglephaseChanAndVeseSparseFieldLevelSetSegmentation,Single-phase Chan And Vese Sparse Field Level Set Segmentation}
  * \endwiki
  */
-template< class TInputImage, class TFeatureImage, class TOutputImage,
-          class TFunction = ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage >,
+template< typename TInputImage, typename TFeatureImage, typename TOutputImage,
+          typename TFunction = ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage >,
           class TSharedData = typename TFunction::SharedDataType,
           typename TIdCell = unsigned int >
 class ScalarChanAndVeseSparseLevelSetImageFilter:

@@ -28,7 +28,7 @@
 namespace itk
 {
 /*
-template< class TInputImage, class TOutputImage, class TOperatorValueType >
+template< typename TInputImage, typename TOutputImage, typename TOperatorValueType >
 void
 GPUNeighborhoodOperatorImageFilter< TInputImage, TOutputImage, TOperatorValueType >
 ::GenerateInputRequestedRegion()
@@ -79,7 +79,7 @@ throw ( InvalidRequestedRegionError )
 }
 */
 
-template< class TInputImage, class TOutputImage, class TOperatorValueType, class TParentImageFilter >
+template< typename TInputImage, typename TOutputImage, typename TOperatorValueType, typename TParentImageFilter >
 GPUNeighborhoodOperatorImageFilter< TInputImage, TOutputImage, TOperatorValueType, TParentImageFilter >
 ::GPUNeighborhoodOperatorImageFilter()
 {
@@ -116,7 +116,7 @@ GPUNeighborhoodOperatorImageFilter< TInputImage, TOutputImage, TOperatorValueTyp
   m_NeighborhoodOperatorFilterGPUKernelHandle = this->m_GPUKernelManager->CreateKernel("NeighborOperatorFilter");
 }
 
-template< class TInputImage, class TOutputImage, class TOperatorValueType, class TParentImageFilter >
+template< typename TInputImage, typename TOutputImage, typename TOperatorValueType, typename TParentImageFilter >
 void
 GPUNeighborhoodOperatorImageFilter< TInputImage, TOutputImage, TOperatorValueType, TParentImageFilter >
 ::SetOperator(const OutputNeighborhoodType & p)
@@ -157,7 +157,7 @@ GPUNeighborhoodOperatorImageFilter< TInputImage, TOutputImage, TOperatorValueTyp
   m_NeighborhoodGPUBuffer->GetGPUDataManager()->SetGPUBufferDirty();
 }
 
-template< class TInputImage, class TOutputImage, class TOperatorValueType, class TParentImageFilter >
+template< typename TInputImage, typename TOutputImage, typename TOperatorValueType, typename TParentImageFilter >
 void
 GPUNeighborhoodOperatorImageFilter< TInputImage, TOutputImage, TOperatorValueType, TParentImageFilter >
 ::GPUGenerateData()

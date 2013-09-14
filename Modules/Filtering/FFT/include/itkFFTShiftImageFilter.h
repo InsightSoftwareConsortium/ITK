@@ -44,7 +44,7 @@ namespace itk
  * \ingroup FourierTransform
  * \ingroup ITKFFT
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class FFTShiftImageFilter :
   public CyclicShiftImageFilter< TInputImage, TOutputImage >
 {

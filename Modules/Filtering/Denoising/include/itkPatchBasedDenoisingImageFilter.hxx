@@ -33,7 +33,7 @@
 namespace itk
 {
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 ::PatchBasedDenoisingImageFilter()
 {
@@ -75,14 +75,14 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   // because we need the input image first.
 }
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 ::~PatchBasedDenoisingImageFilter()
 {
   EmptyCaches();
 }
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 void
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 ::EmptyCaches()
@@ -100,7 +100,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
     }
 }
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 void
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 ::SetThreadData(int threadId, const ThreadDataStruct& data)
@@ -118,7 +118,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
     }
 }
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 typename PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ThreadDataStruct
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 ::GetThreadData(int threadId)
@@ -137,7 +137,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   return ThreadDataStruct(); // keep the compiler happy
 }
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 void
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 ::SetNoiseSigma(const RealType& sigma)
@@ -147,7 +147,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   m_NoiseSigmaIsSet = true;
 }
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 void
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 ::SetKernelBandwidthSigma(const RealArrayType& kernelSigma)
@@ -156,7 +156,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   m_KernelBandwidthSigmaIsSet = true;
 }
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 void
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 ::CopyInputToOutput()
@@ -176,7 +176,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
     }
 }
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 void
 PatchBasedDenoisingImageFilter<TInputImage,TOutputImage>
 ::GenerateInputRequestedRegion()
@@ -244,7 +244,7 @@ PatchBasedDenoisingImageFilter<TInputImage,TOutputImage>
     }
 } // end GenerateInputRequestedRegion
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 void
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 ::AllocateUpdateBuffer()
@@ -258,7 +258,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   m_UpdateBuffer->Allocate();
 }
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 void
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 ::Initialize()
@@ -442,7 +442,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
     }
 }
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 void
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 ::EnforceConstraints()
@@ -491,7 +491,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
     }
 }
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 void
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 ::InitializePatchWeights()
@@ -514,7 +514,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
     }
 }
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 void
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 ::InitializePatchWeightsSmoothDisc()
@@ -670,7 +670,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   this->SetPatchWeights(patchWeights);
 } // end InitializePatchWeights
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 template <typename TInputImageType>
 void
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
@@ -686,7 +686,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   m_ImageMax[0] = minmax->GetMaximum();
 }
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 template <typename TInputImageType>
 void
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
@@ -712,7 +712,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
     }
 }
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 template <typename TInputImageType>
 void
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
@@ -732,7 +732,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   this->ResolveRiemannianMinMax();
 }
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 ITK_THREAD_RETURN_TYPE
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 ::RiemannianMinMaxThreaderCallback(void * arg)
@@ -762,7 +762,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   return ITK_THREAD_RETURN_VALUE;
 }
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 typename PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ThreadDataStruct
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 // ::ThreadedRiemannianMinMax(const typename
@@ -858,7 +858,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   return threadData;
 }
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 void
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 ::ResolveRiemannianMinMax()
@@ -895,7 +895,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 
 }
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 void
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 ::ComputeSignedEuclideanDifferenceAndWeightedSquaredNorm(const PixelType& a, const PixelType& b,
@@ -915,7 +915,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
     }
 }
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 template <typename TensorValueT>
 void
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
@@ -1065,7 +1065,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   eigenVecs(2,2) = eigenVecs(0,0) * eigenVecs(1,1) - eigenVecs(0,1) * eigenVecs(1,0);
 }
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 void
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 ::ComputeLogMapAndWeightedSquaredGeodesicDifference(const DiffusionTensor3D<PixelValueType>& spdMatrixA,
@@ -1239,7 +1239,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 
 }
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 typename PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::RealType
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 ::AddEuclideanUpdate(const RealType& a,
@@ -1255,7 +1255,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   return result;
 }
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 typename PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::RealType
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 ::AddExponentialMapUpdate(const DiffusionTensor3D<RealValueType>& spdMatrix,
@@ -1400,7 +1400,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   return expMap;
 }
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 void
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 ::InitializeKernelSigma()
@@ -1413,7 +1413,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
     }
 }
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 void
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 ::InitializeIteration()
@@ -1454,7 +1454,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
     }
 }
 
-template<class TInputImage, class TOutputImage>
+template<typename TInputImage, typename TOutputImage>
 void
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 ::ApplyUpdate()
@@ -1477,7 +1477,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   this->m_OutputImage->Modified();
 }
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 ITK_THREAD_RETURN_TYPE
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 ::ApplyUpdateThreaderCallback( void * arg )
@@ -1504,7 +1504,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   return ITK_THREAD_RETURN_VALUE;
 }
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 void
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 ::ThreadedApplyUpdate(const InputImageRegionType &regionToProcess,
@@ -1514,7 +1514,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
                        regionToProcess, regionToProcess);
 }
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 void
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 ::ComputeKernelBandwidthUpdate()
@@ -1599,7 +1599,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
     }
 }
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 ITK_THREAD_RETURN_TYPE
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 ::ComputeSigmaUpdateThreaderCallback( void * arg )
@@ -1628,7 +1628,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   return ITK_THREAD_RETURN_VALUE;
 }
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 typename PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ThreadDataStruct
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 ::ThreadedComputeSigmaUpdate(const InputImageRegionType &regionToProcess,
@@ -1959,7 +1959,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   return threadData;
 } // end ThreadedComputeSigmaUpdate
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 typename PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::RealArrayType
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 ::ResolveSigmaUpdate()
@@ -2043,7 +2043,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   return sigmaUpdate;
 }
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 void
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 ::ComputeImageUpdate()
@@ -2063,7 +2063,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   this->GetMultiThreader()->SingleMethodExecute();
 }
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 ITK_THREAD_RETURN_TYPE
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 ::ComputeImageUpdateThreaderCallback( void * arg )
@@ -2092,7 +2092,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   return ITK_THREAD_RETURN_VALUE;
 }
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 typename PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ThreadDataStruct
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 ::ThreadedComputeImageUpdate(const InputImageRegionType &regionToProcess,
@@ -2284,7 +2284,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   return threadData;
 } // end ThreadedComputeImageUpdate
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 typename PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::RealType
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 ::ComputeGradientJointEntropy(InstanceIdentifier id,
@@ -2523,14 +2523,14 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   return gradientJointEntropy;
 } // end ComputeGradientJointEntropy
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 void
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 ::PostProcessOutput()
 {
 }
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 void
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 ::PrintSelf(std::ostream& os, Indent indent) const

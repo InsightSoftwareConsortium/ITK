@@ -40,8 +40,8 @@ namespace itk
  * \wikiexample{Operators/ForwardDifferenceOperator,Create a forward difference kernel}
  * \endwiki
  */
-template< class TPixel, unsigned int VDimension = 2,
-          class TAllocator = NeighborhoodAllocator< TPixel > >
+template< typename TPixel, unsigned int VDimension = 2,
+          typename TAllocator = NeighborhoodAllocator< TPixel > >
 class ForwardDifferenceOperator:
   public NeighborhoodOperator< TPixel, VDimension, TAllocator >
 {

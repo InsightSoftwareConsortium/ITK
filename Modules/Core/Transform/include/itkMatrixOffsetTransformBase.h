@@ -69,7 +69,7 @@ namespace itk
  */
 
 template <
-  class TScalar = double,         // Data type for scalars
+  typename TScalar = double,         // Data type for scalars
   unsigned int NInputDimensions = 3,  // Number of dimensions in the input space
   unsigned int NOutputDimensions = 3>
 // Number of dimensions in the output space

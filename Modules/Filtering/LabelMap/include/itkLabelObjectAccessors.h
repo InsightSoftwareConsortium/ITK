@@ -34,7 +34,7 @@ namespace itk
 {
 namespace Functor
 {
-template< class TLabelObject >
+template< typename TLabelObject >
 class LabelLabelObjectAccessor
 {
 public:
@@ -47,7 +47,7 @@ public:
   }
 };
 
-template< class TLabelObject >
+template< typename TLabelObject >
 class NumberOfLinesLabelObjectAccessor
 {
 public:
@@ -60,7 +60,7 @@ public:
   }
 };
 
-template< class TLabelObject, class TAttributeAccessor >
+template< typename TLabelObject, typename TAttributeAccessor >
 class LabelObjectComparator
 {
 public:
@@ -81,7 +81,7 @@ private:
   AttributeAccessorType m_Accessor;
 };
 
-template< class TLabelObject, class TAttributeAccessor >
+template< typename TLabelObject, typename TAttributeAccessor >
 class LabelObjectReverseComparator
 {
 public:

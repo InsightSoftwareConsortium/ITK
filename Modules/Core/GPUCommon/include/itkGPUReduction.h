@@ -36,7 +36,7 @@ namespace itk
  *
  * \ingroup ITKGPUCommon
  */
-template< class TElement >
+template< typename TElement >
 class GPUReduction :
   public Object
 {

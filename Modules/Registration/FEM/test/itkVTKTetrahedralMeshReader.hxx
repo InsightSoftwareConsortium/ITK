@@ -28,7 +28,7 @@ namespace itk
 //
 // Constructor
 //
-template<class TOutputMesh>
+template<typename TOutputMesh>
 VTKTetrahedralMeshReader<TOutputMesh>
 ::VTKTetrahedralMeshReader()
 {
@@ -43,13 +43,13 @@ VTKTetrahedralMeshReader<TOutputMesh>
 //
 // Destructor
 //
-template<class TOutputMesh>
+template<typename TOutputMesh>
 VTKTetrahedralMeshReader<TOutputMesh>
 ::~VTKTetrahedralMeshReader()
 {
 }
 
-template<class TOutputMesh>
+template<typename TOutputMesh>
 void
 VTKTetrahedralMeshReader<TOutputMesh>
 ::GenerateData()
@@ -447,7 +447,7 @@ VTKTetrahedralMeshReader<TOutputMesh>
     inputFile.close();
 }
 
-template<class TOutputMesh>
+template<typename TOutputMesh>
 void
 VTKTetrahedralMeshReader<TOutputMesh>
 ::PrintSelf( std::ostream& os, Indent indent ) const

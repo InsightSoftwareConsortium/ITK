@@ -24,7 +24,7 @@
 namespace itk
 {
 /** Constructor */
-template< class TInputImage >
+template< typename TInputImage >
 ImageDuplicator< TInputImage >
 ::ImageDuplicator()
 {
@@ -34,7 +34,7 @@ ImageDuplicator< TInputImage >
 }
 
 /** */
-template< class TInputImage >
+template< typename TInputImage >
 void
 ImageDuplicator< TInputImage >
 ::Update(void)
@@ -68,7 +68,7 @@ ImageDuplicator< TInputImage >
   ImageAlgorithm::Copy(m_InputImage.GetPointer(),m_Output.GetPointer(),region,region);
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void
 ImageDuplicator< TInputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

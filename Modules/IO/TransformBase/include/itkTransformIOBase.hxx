@@ -73,20 +73,20 @@ inline void CorrectTransformPrecisionType( std::string & inputTransformName )
 }
 } // end anonymous namespace
 
-template <class ScalarType>
+template <typename ScalarType>
 TransformIOBaseTemplate<ScalarType>
 ::TransformIOBaseTemplate() :
   m_AppendMode(false)
 {
 }
 
-template <class ScalarType>
+template <typename ScalarType>
 TransformIOBaseTemplate<ScalarType>
 ::~TransformIOBaseTemplate()
 {
 }
 
-template <class ScalarType>
+template <typename ScalarType>
 void TransformIOBaseTemplate<ScalarType>
 ::CreateTransform(TransformPointer & ptr, const std::string & ClassName)
 {
@@ -119,7 +119,7 @@ void TransformIOBaseTemplate<ScalarType>
   ptr->UnRegister();
   }
 
-template <class ScalarType>
+template <typename ScalarType>
 void TransformIOBaseTemplate<ScalarType>
 ::OpenStream(std::ofstream & outputStream, bool binary)
 {
@@ -143,14 +143,14 @@ void TransformIOBaseTemplate<ScalarType>
     }
 }
 
-template <class ScalarType>
+template <typename ScalarType>
 void TransformIOBaseTemplate<ScalarType>
 ::SetTransformList(ConstTransformListType & transformList)
 {
   this->m_WriteTransformList = transformList;
 }
 
-template <class ScalarType>
+template <typename ScalarType>
 void TransformIOBaseTemplate<ScalarType>
 ::PrintSelf(std::ostream & os, Indent indent) const
 {

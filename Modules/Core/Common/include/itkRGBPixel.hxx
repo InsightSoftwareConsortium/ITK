@@ -25,7 +25,7 @@ namespace itk
 /**
  * Assigment from a plain array
  */
-template< class T >
+template< typename T >
 RGBPixel< T > &
 RGBPixel< T >
 ::operator=(const ComponentType r[3])
@@ -37,7 +37,7 @@ RGBPixel< T >
 /**
  * Returns a temporary copy of a vector
  */
-template< class T >
+template< typename T >
 RGBPixel< T >
 RGBPixel< T >
 ::operator+(const Self & r) const
@@ -54,7 +54,7 @@ RGBPixel< T >
 /**
  * Returns a temporary copy of a vector
  */
-template< class T >
+template< typename T >
 RGBPixel< T >
 RGBPixel< T >
 ::operator-(const Self & r) const
@@ -71,7 +71,7 @@ RGBPixel< T >
 /**
  * Returns a temporary copy of a vector
  */
-template< class T >
+template< typename T >
 const RGBPixel< T > &
 RGBPixel< T >
 ::operator+=(const Self & r)
@@ -86,7 +86,7 @@ RGBPixel< T >
 /**
  * Returns a temporary copy of a vector
  */
-template< class T >
+template< typename T >
 const RGBPixel< T > &
 RGBPixel< T >
 ::operator-=(const Self & r)
@@ -101,7 +101,7 @@ RGBPixel< T >
 /**
  * Returns a temporary copy of a vector
  */
-template< class T >
+template< typename T >
 RGBPixel< T >
 RGBPixel< T >
 ::operator*(const ComponentType & r) const
@@ -118,7 +118,7 @@ RGBPixel< T >
 /**
  * Returns the results from a test for equality (all components must be equal)
  */
-template< class T >
+template< typename T >
 bool
 RGBPixel< T >
 ::operator==(const Self & r) const
@@ -136,7 +136,7 @@ RGBPixel< T >
 /**
  * Returns the results from a test for less than (all components must be less than)
  */
-template< class T >
+template< typename T >
 bool
 RGBPixel< T >
 ::operator<(const Self & r) const
@@ -154,7 +154,7 @@ RGBPixel< T >
 /**
  * Compute luminance
  */
-template< class T >
+template< typename T >
 typename RGBPixel< T >::LuminanceType
 RGBPixel< T >
 ::GetLuminance() const
@@ -170,7 +170,7 @@ RGBPixel< T >
 /**
  * Print content to an ostream
  */
-template< class TComponent >
+template< typename TComponent >
 std::ostream &
 operator<<(std::ostream & os, const RGBPixel< TComponent > & c)
 {
@@ -183,7 +183,7 @@ operator<<(std::ostream & os, const RGBPixel< TComponent > & c)
 /**
  * Read content from an istream
  */
-template< class TComponent >
+template< typename TComponent >
 std::istream &
 operator>>(std::istream & is, RGBPixel< TComponent > & c)
 {

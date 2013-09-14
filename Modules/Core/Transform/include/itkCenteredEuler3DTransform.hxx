@@ -23,21 +23,21 @@
 namespace itk
 {
 // Constructor with default arguments
-template <class TScalar>
+template <typename TScalar>
 CenteredEuler3DTransform<TScalar>::CenteredEuler3DTransform() :
   Superclass(ParametersDimension)
 {
 }
 
 // Constructor with default arguments
-template <class TScalar>
+template <typename TScalar>
 CenteredEuler3DTransform<TScalar>::CenteredEuler3DTransform(unsigned int parametersDimension) :
   Superclass(parametersDimension)
 {
 }
 
 // Constructor with default arguments
-template <class TScalar>
+template <typename TScalar>
 CenteredEuler3DTransform<TScalar>::CenteredEuler3DTransform(const MatrixType & matrix,
                                                                 const OutputPointType & offset) :
   Superclass(matrix, offset)
@@ -45,7 +45,7 @@ CenteredEuler3DTransform<TScalar>::CenteredEuler3DTransform(const MatrixType & m
 }
 
 // Destructor
-template <class TScalar>
+template <typename TScalar>
 CenteredEuler3DTransform<TScalar>::
 ~CenteredEuler3DTransform()
 {
@@ -61,7 +61,7 @@ CenteredEuler3DTransform<TScalar>::
 // p[6:8] = translation
 //
 //
-template <class TScalar>
+template <typename TScalar>
 void
 CenteredEuler3DTransform<TScalar>
 ::SetParameters(const ParametersType & parameters)
@@ -111,7 +111,7 @@ CenteredEuler3DTransform<TScalar>
 // p[6:8] = translation
 //
 
-template <class TScalar>
+template <typename TScalar>
 const typename CenteredEuler3DTransform<TScalar>::ParametersType
 & CenteredEuler3DTransform<TScalar>
 ::GetParameters(void) const
@@ -133,7 +133,7 @@ const typename CenteredEuler3DTransform<TScalar>::ParametersType
   return this->m_Parameters;
   }
 
-template <class TScalar>
+template <typename TScalar>
 void
 CenteredEuler3DTransform<TScalar>
 ::ComputeJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const
@@ -201,7 +201,7 @@ CenteredEuler3DTransform<TScalar>
 }
 
 // Get an inverse of this transform
-template <class TScalar>
+template <typename TScalar>
 bool
 CenteredEuler3DTransform<TScalar>
 ::GetInverse(Self *inverse) const
@@ -210,7 +210,7 @@ CenteredEuler3DTransform<TScalar>
 }
 
 // Return an inverse of this transform
-template <class TScalar>
+template <typename TScalar>
 typename CenteredEuler3DTransform<TScalar>::InverseTransformBasePointer
 CenteredEuler3DTransform<TScalar>
 ::GetInverseTransform() const
@@ -221,7 +221,7 @@ CenteredEuler3DTransform<TScalar>
 }
 
 // Print self
-template <class TScalar>
+template <typename TScalar>
 void
 CenteredEuler3DTransform<TScalar>::PrintSelf(std::ostream & os, Indent indent) const
 {

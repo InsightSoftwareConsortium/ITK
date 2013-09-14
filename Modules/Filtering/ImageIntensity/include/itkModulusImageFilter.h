@@ -29,7 +29,7 @@ namespace Functor
  *
  * \ingroup ITKImageIntensity
  */
-template< class TInput1, class TInput2, class TOutput >
+template< typename TInput1, typename TInput2, typename TOutput >
 class Modulus
 {
 public:
@@ -115,7 +115,7 @@ private:
  *
  * \ingroup ITKImageIntensity
  */
-template< typename  TInputImage1, class TInputImage2 = TInputImage1, class TOutputImage = TInputImage1 >
+template< typename  TInputImage1, typename TInputImage2 = TInputImage1, typename TOutputImage = TInputImage1 >
 class ModulusImageFilter:
   public
   BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage,

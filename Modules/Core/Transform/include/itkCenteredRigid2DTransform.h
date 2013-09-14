@@ -48,7 +48,7 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template< class TScalar = double >
+template< typename TScalar = double >
 // Data type for scalars
 class CenteredRigid2DTransform :
   public Rigid2DTransform< TScalar >

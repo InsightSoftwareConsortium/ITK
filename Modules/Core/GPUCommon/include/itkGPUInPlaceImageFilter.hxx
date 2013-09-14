@@ -22,19 +22,19 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage, class TParentImageFilter >
+template< typename TInputImage, typename TOutputImage, typename TParentImageFilter >
 GPUInPlaceImageFilter< TInputImage, TOutputImage, TParentImageFilter >
 ::GPUInPlaceImageFilter()
 {
 }
 
-template< class TInputImage, class TOutputImage, class TParentImageFilter  >
+template< typename TInputImage, typename TOutputImage, typename TParentImageFilter  >
 GPUInPlaceImageFilter< TInputImage, TOutputImage, TParentImageFilter  >
 ::~GPUInPlaceImageFilter()
 {
 }
 
-template< class TInputImage, class TOutputImage, class TParentImageFilter >
+template< typename TInputImage, typename TOutputImage, typename TParentImageFilter >
 void
 GPUInPlaceImageFilter< TInputImage, TOutputImage, TParentImageFilter >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -42,7 +42,7 @@ GPUInPlaceImageFilter< TInputImage, TOutputImage, TParentImageFilter >
   GPUSuperclass::PrintSelf(os, indent);
 }
 
-template< class TInputImage, class TOutputImage, class TParentImageFilter >
+template< typename TInputImage, typename TOutputImage, typename TParentImageFilter >
 void
 GPUInPlaceImageFilter< TInputImage, TOutputImage, TParentImageFilter >
 ::ReleaseInputs()
@@ -61,7 +61,7 @@ GPUInPlaceImageFilter< TInputImage, TOutputImage, TParentImageFilter >
 */
 }
 
-template< class TInputImage, class TOutputImage, class TParentImageFilter  >
+template< typename TInputImage, typename TOutputImage, typename TParentImageFilter  >
 void
 GPUInPlaceImageFilter< TInputImage, TOutputImage, TParentImageFilter >
 ::AllocateOutputs()

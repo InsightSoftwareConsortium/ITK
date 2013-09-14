@@ -61,7 +61,7 @@ namespace itk
  * \wikiexample{Iterators/ConstantBoundaryCondition,Make out of bounds pixels return a constant value}
  * \endwiki
  */
-template< class TInputImage, class TOutputImage = TInputImage >
+template< typename TInputImage, typename TOutputImage = TInputImage >
 class ConstantBoundaryCondition:
     public ImageBoundaryCondition< TInputImage, TOutputImage >
 {
@@ -100,7 +100,7 @@ public:
 
   /** Special version of initialize for images with pixel type
    * VariableLengthVector. */
-  template < class TPixel >
+  template < typename TPixel >
   void Initialize( const VariableLengthVector< TPixel > * );
 
   /** Computes and returns appropriate out-of-bounds values from

@@ -22,7 +22,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 RegionGrowImageFilter< TInputImage, TOutputImage >
 ::RegionGrowImageFilter()
 {
@@ -30,7 +30,7 @@ RegionGrowImageFilter< TInputImage, TOutputImage >
   m_MaximumNumberOfRegions = 0;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 RegionGrowImageFilter< TInputImage, TOutputImage >
 ::~RegionGrowImageFilter()
 {}
@@ -38,7 +38,7 @@ RegionGrowImageFilter< TInputImage, TOutputImage >
 /**
  * PrintSelf
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 RegionGrowImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

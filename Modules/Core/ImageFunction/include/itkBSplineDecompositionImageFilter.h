@@ -69,7 +69,7 @@ namespace itk
  * \ingroup CannotBeStreamed
  * \ingroup ITKImageFunction
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class BSplineDecompositionImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {

@@ -22,7 +22,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 DilateObjectMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
 ::DilateObjectMorphologyImageFilter()
 {
@@ -31,7 +31,7 @@ DilateObjectMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
   this->OverrideBoundaryCondition(&m_DilateBoundaryCondition);
 }
 
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 void
 DilateObjectMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
 ::Evaluate(OutputNeighborhoodIteratorType & nit, const KernelType & kernel)
@@ -51,7 +51,7 @@ DilateObjectMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
     }
 }
 
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 void
 DilateObjectMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
 ::PrintSelf(std::ostream & os, Indent indent) const

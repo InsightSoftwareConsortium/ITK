@@ -22,7 +22,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 BasicErodeImageFilter< TInputImage, TOutputImage, TKernel >
 ::BasicErodeImageFilter()
 {
@@ -30,7 +30,7 @@ BasicErodeImageFilter< TInputImage, TOutputImage, TKernel >
   this->OverrideBoundaryCondition(&m_ErodeBoundaryCondition);
 }
 
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 typename BasicErodeImageFilter< TInputImage, TOutputImage, TKernel >::PixelType
 BasicErodeImageFilter< TInputImage, TOutputImage, TKernel >
 ::Evaluate(const NeighborhoodIteratorType & nit,

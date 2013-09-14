@@ -51,7 +51,7 @@ namespace itk
  *
  * \ingroup ITKLevelSets
  */
-template< class TLevelSet >
+template< typename TLevelSet >
 class ReinitializeLevelSetImageFilter:
   public ImageToImageFilter< TLevelSet, TLevelSet >
 {

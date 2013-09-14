@@ -35,7 +35,7 @@ namespace itk
  * Caviet2: itkVTKTetrahedralMeshReader can only read vtk legacy files.
  * Caveat3: itkVTKTetrahedralMeshReader cannot read binary vtk files.
  */
-template <class TOutputMesh>
+template <typename TOutputMesh>
 class VTKTetrahedralMeshReader : public MeshSource<TOutputMesh>
 {
 public:

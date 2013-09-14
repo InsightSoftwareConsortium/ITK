@@ -25,7 +25,7 @@
 
 namespace itk {
 
-template<class TLabelMap, class TFeatureImage, class TOutputImage>
+template<typename TLabelMap, typename TFeatureImage, typename TOutputImage>
 LabelMapOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
 ::LabelMapOverlayImageFilter()
 {
@@ -33,7 +33,7 @@ LabelMapOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
   m_Opacity = 0.5;
 }
 
-template<class TLabelMap, class TFeatureImage, class TOutputImage>
+template<typename TLabelMap, typename TFeatureImage, typename TOutputImage>
 void
 LabelMapOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
 ::GenerateInputRequestedRegion()
@@ -48,7 +48,7 @@ LabelMapOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
   input->SetRequestedRegion( input->GetLargestPossibleRegion() );
 }
 
-template <class TLabelMap, class TFeatureImage, class TOutputImage>
+template <typename TLabelMap, typename TFeatureImage, typename TOutputImage>
 void
 LabelMapOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
 ::EnlargeOutputRequestedRegion(DataObject *)
@@ -58,7 +58,7 @@ LabelMapOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
 }
 
 
-template<class TLabelMap, class TFeatureImage, class TOutputImage>
+template<typename TLabelMap, typename TFeatureImage, typename TOutputImage>
 void
 LabelMapOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
 ::BeforeThreadedGenerateData()
@@ -82,7 +82,7 @@ LabelMapOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
 }
 
 
-template<class TLabelMap, class TFeatureImage, class TOutputImage>
+template<typename TLabelMap, typename TFeatureImage, typename TOutputImage>
 void
 LabelMapOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
 ::ThreadedGenerateData( const OutputImageRegionType& outputRegionForThread, ThreadIdType threadId )
@@ -118,7 +118,7 @@ LabelMapOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
 }
 
 
-template<class TLabelMap, class TFeatureImage, class TOutputImage>
+template<typename TLabelMap, typename TFeatureImage, typename TOutputImage>
 void
 LabelMapOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
 ::ThreadedProcessLabelObject( LabelObjectType * labelObject )
@@ -144,7 +144,7 @@ LabelMapOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
 
 }
 
-template<class TLabelMap, class TFeatureImage, class TOutputImage>
+template<typename TLabelMap, typename TFeatureImage, typename TOutputImage>
 void
 LabelMapOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
 ::GenerateOutputInformation()
@@ -165,7 +165,7 @@ LabelMapOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
     }
 }
 
-template<class TLabelMap, class TFeatureImage, class TOutputImage>
+template<typename TLabelMap, typename TFeatureImage, typename TOutputImage>
 void
 LabelMapOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
 ::PrintSelf(std::ostream& os, Indent indent) const

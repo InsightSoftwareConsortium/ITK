@@ -24,19 +24,19 @@
 
 namespace itk
 {
-template< class TInputImage, class TLevelSetImage >
+template< typename TInputImage, typename TLevelSetImage >
 BinaryImageToLevelSetImageAdaptor< TInputImage, LevelSetDenseImage< TLevelSetImage > >
 ::BinaryImageToLevelSetImageAdaptor()
 {
   this->m_SignedDistanceTransformFilter = SignedMaurerDistanceMapImageFilter< InputImageType, LevelSetImageType >::New();
 }
 
-template< class TInputImage, class TLevelSetImage >
+template< typename TInputImage, typename TLevelSetImage >
 BinaryImageToLevelSetImageAdaptor< TInputImage, LevelSetDenseImage< TLevelSetImage > >
 ::~BinaryImageToLevelSetImageAdaptor()
 {}
 
-template< class TInputImage, class TLevelSetImage >
+template< typename TInputImage, typename TLevelSetImage >
 void
 BinaryImageToLevelSetImageAdaptor< TInputImage, LevelSetDenseImage< TLevelSetImage > >
 ::Initialize()
@@ -61,14 +61,14 @@ BinaryImageToLevelSetImageAdaptor< TInputImage, LevelSetDenseImage< TLevelSetIma
 }
 
 
-template< class TInput, typename TOutput >
+template< typename TInput, typename TOutput >
 BinaryImageToLevelSetImageAdaptor<
   TInput,
   WhitakerSparseLevelSetImage< TOutput, TInput::ImageDimension > >
 ::BinaryImageToLevelSetImageAdaptor()
 {}
 
-template< class TInput, typename TOutput >
+template< typename TInput, typename TOutput >
 BinaryImageToLevelSetImageAdaptor<
   TInput,
   WhitakerSparseLevelSetImage< TOutput, TInput::ImageDimension > >
@@ -76,7 +76,7 @@ BinaryImageToLevelSetImageAdaptor<
 {
 }
 
-template< class TInput, typename TOutput >
+template< typename TInput, typename TOutput >
 void
 BinaryImageToLevelSetImageAdaptor<
   TInput,
@@ -142,7 +142,7 @@ BinaryImageToLevelSetImageAdaptor<
   this->m_InternalImage = NULL;
 }
 
-template< class TInput, typename TOutput >
+template< typename TInput, typename TOutput >
 void
 BinaryImageToLevelSetImageAdaptor<
   TInput,
@@ -223,7 +223,7 @@ BinaryImageToLevelSetImageAdaptor<
     this->m_LabelMap->AddLabelObject( ObjectPlus2 );
 }
 
-template< class TInput, typename TOutput >
+template< typename TInput, typename TOutput >
 void
 BinaryImageToLevelSetImageAdaptor<
   TInput,
@@ -302,7 +302,7 @@ BinaryImageToLevelSetImageAdaptor<
     }
 }
 
-template< class TInput, typename TOutput >
+template< typename TInput, typename TOutput >
 void
 BinaryImageToLevelSetImageAdaptor<
   TInput,
@@ -405,18 +405,18 @@ BinaryImageToLevelSetImageAdaptor<
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template< class TInput >
+template< typename TInput >
 BinaryImageToLevelSetImageAdaptor< TInput, ShiSparseLevelSetImage< TInput::ImageDimension > >
 ::BinaryImageToLevelSetImageAdaptor()
 {}
 
-template< class TInput >
+template< typename TInput >
 BinaryImageToLevelSetImageAdaptor< TInput, ShiSparseLevelSetImage< TInput::ImageDimension > >
 ::~BinaryImageToLevelSetImageAdaptor()
 {
 }
 
-template< class TInput >
+template< typename TInput >
 void BinaryImageToLevelSetImageAdaptor< TInput, ShiSparseLevelSetImage< TInput::ImageDimension > >
 ::Initialize()
 {
@@ -467,7 +467,7 @@ void BinaryImageToLevelSetImageAdaptor< TInput, ShiSparseLevelSetImage< TInput::
 }
 
 
-template< class TInput >
+template< typename TInput >
 void BinaryImageToLevelSetImageAdaptor< TInput, ShiSparseLevelSetImage< TInput::ImageDimension > >
 ::FindActiveLayer()
 {
@@ -562,18 +562,18 @@ void BinaryImageToLevelSetImageAdaptor< TInput, ShiSparseLevelSetImage< TInput::
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template< class TInput >
+template< typename TInput >
 BinaryImageToLevelSetImageAdaptor< TInput,MalcolmSparseLevelSetImage< TInput::ImageDimension > >
 ::BinaryImageToLevelSetImageAdaptor() : Superclass()
 {}
 
-template< class TInput >
+template< typename TInput >
 BinaryImageToLevelSetImageAdaptor< TInput,MalcolmSparseLevelSetImage< TInput::ImageDimension > >
 ::~BinaryImageToLevelSetImageAdaptor()
 {
 }
 
-template< class TInput >
+template< typename TInput >
 void BinaryImageToLevelSetImageAdaptor< TInput,MalcolmSparseLevelSetImage< TInput::ImageDimension > >
 ::Initialize()
 {
@@ -625,7 +625,7 @@ void BinaryImageToLevelSetImageAdaptor< TInput,MalcolmSparseLevelSetImage< TInpu
   this->m_InternalImage = NULL;
 }
 
-template< class TInput >
+template< typename TInput >
 void BinaryImageToLevelSetImageAdaptor< TInput,MalcolmSparseLevelSetImage< TInput::ImageDimension > >
 ::FindActiveLayer()
 {
@@ -702,7 +702,7 @@ void BinaryImageToLevelSetImageAdaptor< TInput,MalcolmSparseLevelSetImage< TInpu
   this->m_LabelMap->AddLabelObject( ObjectZero );
 }
 
-template< class TInput >
+template< typename TInput >
 void BinaryImageToLevelSetImageAdaptor< TInput,MalcolmSparseLevelSetImage< TInput::ImageDimension > >
 ::CreateMinimalInterface()
 {

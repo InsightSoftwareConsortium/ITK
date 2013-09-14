@@ -31,7 +31,7 @@
 
 namespace itk
 {
-template< class TInputImage >
+template< typename TInputImage >
 VotingBinaryIterativeHoleFillingImageFilter< TInputImage >
 ::VotingBinaryIterativeHoleFillingImageFilter()
 {
@@ -44,7 +44,7 @@ VotingBinaryIterativeHoleFillingImageFilter< TInputImage >
   m_NumberOfPixelsChanged = 0;
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void
 VotingBinaryIterativeHoleFillingImageFilter< TInputImage >
 ::GenerateData()
@@ -93,7 +93,7 @@ VotingBinaryIterativeHoleFillingImageFilter< TInputImage >
 /**
  * Standard "PrintSelf" method
  */
-template< class TInputImage >
+template< typename TInputImage >
 void
 VotingBinaryIterativeHoleFillingImageFilter< TInputImage >
 ::PrintSelf(

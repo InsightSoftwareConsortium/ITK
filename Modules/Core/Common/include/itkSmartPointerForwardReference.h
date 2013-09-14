@@ -44,7 +44,7 @@ namespace itk
  * \ingroup DataAccess
  * \ingroup ITKCommon
  */
-template< class T >
+template< typename T >
 class SmartPointerForwardReference
 {
 public:

@@ -29,7 +29,7 @@ namespace itk
 /**
  *    Constructor
  */
-template< class TInputImage, class TOutputImage, class TVoronoiImage >
+template< typename TInputImage, typename TOutputImage, typename TVoronoiImage >
 DanielssonDistanceMapImageFilter< TInputImage, TOutputImage, TVoronoiImage >
 ::DanielssonDistanceMapImageFilter()
 {
@@ -49,7 +49,7 @@ DanielssonDistanceMapImageFilter< TInputImage, TOutputImage, TVoronoiImage >
   m_UseImageSpacing     = true;
 }
 
-template< class TInputImage, class TOutputImage, class TVoronoiImage >
+template< typename TInputImage, typename TOutputImage, typename TVoronoiImage >
 typename DanielssonDistanceMapImageFilter<
   TInputImage, TOutputImage, TVoronoiImage >::DataObjectPointer
 DanielssonDistanceMapImageFilter< TInputImage, TOutputImage, TVoronoiImage >
@@ -72,7 +72,7 @@ DanielssonDistanceMapImageFilter< TInputImage, TOutputImage, TVoronoiImage >
 /**
  *  Return the distance map Image pointer
  */
-template< class TInputImage, class TOutputImage, class TVoronoiImage >
+template< typename TInputImage, typename TOutputImage, typename TVoronoiImage >
 typename
 DanielssonDistanceMapImageFilter< TInputImage, TOutputImage, TVoronoiImage >::OutputImageType *
 DanielssonDistanceMapImageFilter< TInputImage, TOutputImage, TVoronoiImage >
@@ -85,7 +85,7 @@ DanielssonDistanceMapImageFilter< TInputImage, TOutputImage, TVoronoiImage >
 /**
  *  Return Closest Points Map
  */
-template< class TInputImage, class TOutputImage, class TVoronoiImage >
+template< typename TInputImage, typename TOutputImage, typename TVoronoiImage >
 typename
 DanielssonDistanceMapImageFilter< TInputImage, TOutputImage, TVoronoiImage >::VoronoiImageType *
 DanielssonDistanceMapImageFilter< TInputImage, TOutputImage, TVoronoiImage >
@@ -98,7 +98,7 @@ DanielssonDistanceMapImageFilter< TInputImage, TOutputImage, TVoronoiImage >
 /**
  *  Return the distance vectors
  */
-template< class TInputImage, class TOutputImage, class TVoronoiImage >
+template< typename TInputImage, typename TOutputImage, typename TVoronoiImage >
 typename
 DanielssonDistanceMapImageFilter< TInputImage, TOutputImage, TVoronoiImage >::VectorImageType *
 DanielssonDistanceMapImageFilter< TInputImage, TOutputImage, TVoronoiImage >
@@ -111,7 +111,7 @@ DanielssonDistanceMapImageFilter< TInputImage, TOutputImage, TVoronoiImage >
 /**
  *  Prepare data for computation
  */
-template< class TInputImage, class TOutputImage, class TVoronoiImage >
+template< typename TInputImage, typename TOutputImage, typename TVoronoiImage >
 void
 DanielssonDistanceMapImageFilter< TInputImage, TOutputImage, TVoronoiImage >
 ::PrepareData(void)
@@ -244,7 +244,7 @@ DanielssonDistanceMapImageFilter< TInputImage, TOutputImage, TVoronoiImage >
 /**
  *  Post processing for computing the Voronoi Map
  */
-template< class TInputImage, class TOutputImage, class TVoronoiImage >
+template< typename TInputImage, typename TOutputImage, typename TVoronoiImage >
 void
 DanielssonDistanceMapImageFilter< TInputImage, TOutputImage, TVoronoiImage >
 ::ComputeVoronoiMap()
@@ -308,7 +308,7 @@ DanielssonDistanceMapImageFilter< TInputImage, TOutputImage, TVoronoiImage >
 /**
  *  Locally update the distance.
  */
-template< class TInputImage, class TOutputImage, class TVoronoiImage >
+template< typename TInputImage, typename TOutputImage, typename TVoronoiImage >
 void
 DanielssonDistanceMapImageFilter< TInputImage, TOutputImage, TVoronoiImage >
 ::UpdateLocalDistance(VectorImageType *components,
@@ -346,7 +346,7 @@ DanielssonDistanceMapImageFilter< TInputImage, TOutputImage, TVoronoiImage >
 /**
  *  Compute Distance and Voronoi maps
  */
-template< class TInputImage, class TOutputImage, class TVoronoiImage >
+template< typename TInputImage, typename TOutputImage, typename TVoronoiImage >
 void
 DanielssonDistanceMapImageFilter< TInputImage, TOutputImage, TVoronoiImage >
 ::GenerateData()
@@ -463,7 +463,7 @@ DanielssonDistanceMapImageFilter< TInputImage, TOutputImage, TVoronoiImage >
 /**
  *  Print Self
  */
-template< class TInputImage, class TOutputImage, class TVoronoiImage >
+template< typename TInputImage, typename TOutputImage, typename TVoronoiImage >
 void
 DanielssonDistanceMapImageFilter< TInputImage, TOutputImage, TVoronoiImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

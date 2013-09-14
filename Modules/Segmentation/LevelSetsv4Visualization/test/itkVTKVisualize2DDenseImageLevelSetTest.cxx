@@ -25,7 +25,7 @@
 #include "itkImageRegionIteratorWithIndex.h"
 
 
-template< class TImage >
+template< typename TImage >
 void GenerateImage( typename TImage::Pointer ioImage )
 {
   typename TImage::IndexType  index;

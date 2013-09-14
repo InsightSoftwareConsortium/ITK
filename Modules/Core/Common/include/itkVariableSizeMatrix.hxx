@@ -23,7 +23,7 @@
 
 namespace itk
 {
-template< class T >
+template< typename T >
 VariableSizeMatrix< T >
 ::VariableSizeMatrix(unsigned int rows, unsigned int cols):
   m_Matrix(rows, cols) {}
@@ -31,7 +31,7 @@ VariableSizeMatrix< T >
 /**
  *  Product by a Vector
  */
-template< class T >
+template< typename T >
 Array< T >
 VariableSizeMatrix< T >
 ::operator*(const Array< T > & vect) const
@@ -61,7 +61,7 @@ VariableSizeMatrix< T >
 /**
  *  Product by a matrix
  */
-template< class T >
+template< typename T >
 VariableSizeMatrix< T >
 VariableSizeMatrix< T >
 ::operator*(const Self & matrix) const
@@ -82,7 +82,7 @@ VariableSizeMatrix< T >
 /**
  *  Matrix Addition
  */
-template< class T >
+template< typename T >
 VariableSizeMatrix< T >
 VariableSizeMatrix< T >
 ::operator+(const Self & matrix) const
@@ -109,7 +109,7 @@ VariableSizeMatrix< T >
 /**
  *  Matrix Addition in-place
  */
-template< class T >
+template< typename T >
 const VariableSizeMatrix< T > &
 VariableSizeMatrix< T >
 ::operator+=(const Self & matrix)
@@ -135,7 +135,7 @@ VariableSizeMatrix< T >
 /**
  *  Matrix Subtraction
  */
-template< class T >
+template< typename T >
 VariableSizeMatrix< T >
 VariableSizeMatrix< T >
 ::operator-(const Self & matrix) const
@@ -162,7 +162,7 @@ VariableSizeMatrix< T >
 /**
  *  Matrix subtraction in-place
  */
-template< class T >
+template< typename T >
 const VariableSizeMatrix< T > &
 VariableSizeMatrix< T >
 ::operator-=(const Self & matrix)
@@ -185,7 +185,7 @@ VariableSizeMatrix< T >
   return *this;
 }
 
-template< class T >
+template< typename T >
 VariableSizeMatrix< T > &
 VariableSizeMatrix< T >
 ::operator-()
@@ -203,7 +203,7 @@ VariableSizeMatrix< T >
 /**
  *  Product by a vnl_matrix
  */
-template< class T >
+template< typename T >
 vnl_matrix< T >
 VariableSizeMatrix< T >
 ::operator*(const vnl_matrix< T > & matrix) const
@@ -214,7 +214,7 @@ VariableSizeMatrix< T >
 /**
  *  Product by a matrix
  */
-template< class T >
+template< typename T >
 void
 VariableSizeMatrix< T >
 ::operator*=(const Self & matrix)
@@ -225,7 +225,7 @@ VariableSizeMatrix< T >
 /**
  *  Product by a vnl_matrix
  */
-template< class T >
+template< typename T >
 void
 VariableSizeMatrix< T >
 ::operator*=(const vnl_matrix< T > & matrix)
@@ -236,7 +236,7 @@ VariableSizeMatrix< T >
 /**
  *  Product by a vnl_vector
  */
-template< class T >
+template< typename T >
 vnl_vector< T >
 VariableSizeMatrix< T >
 ::operator*(const vnl_vector< T > & vc) const

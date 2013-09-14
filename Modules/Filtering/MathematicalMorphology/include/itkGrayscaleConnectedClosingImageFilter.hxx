@@ -26,7 +26,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 GrayscaleConnectedClosingImageFilter< TInputImage, TOutputImage >
 ::GrayscaleConnectedClosingImageFilter():
   m_NumberOfIterationsUsed(1)
@@ -35,7 +35,7 @@ GrayscaleConnectedClosingImageFilter< TInputImage, TOutputImage >
   m_FullyConnected = false;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 GrayscaleConnectedClosingImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
@@ -51,7 +51,7 @@ GrayscaleConnectedClosingImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 GrayscaleConnectedClosingImageFilter< TInputImage, TOutputImage >
 ::EnlargeOutputRequestedRegion(DataObject *)
@@ -60,7 +60,7 @@ GrayscaleConnectedClosingImageFilter< TInputImage, TOutputImage >
   ->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 GrayscaleConnectedClosingImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
@@ -144,7 +144,7 @@ GrayscaleConnectedClosingImageFilter< TInputImage, TOutputImage >
   this->GraftOutput( erode->GetOutput() );
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 GrayscaleConnectedClosingImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

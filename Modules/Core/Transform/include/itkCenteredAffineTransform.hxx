@@ -25,20 +25,20 @@
 namespace itk
 {
 // Constructor with default arguments
-template <class TScalar, unsigned int NDimensions>
+template <typename TScalar, unsigned int NDimensions>
 CenteredAffineTransform<TScalar, NDimensions>::CenteredAffineTransform() : Superclass(ParametersDimension)
 {
 }
 
 // Destructor
-template <class TScalar, unsigned int NDimensions>
+template <typename TScalar, unsigned int NDimensions>
 CenteredAffineTransform<TScalar, NDimensions>::
 ~CenteredAffineTransform()
 {
 }
 
 // Get parameters
-template <class TScalar, unsigned int NDimensions>
+template <typename TScalar, unsigned int NDimensions>
 const typename CenteredAffineTransform<TScalar,
                                        NDimensions>::ParametersType
 & CenteredAffineTransform<TScalar, NDimensions>::GetParameters(void) const
@@ -76,7 +76,7 @@ const typename CenteredAffineTransform<TScalar,
   }
 
 /** Set the parameters */
-template <class TScalar, unsigned int NDimensions>
+template <typename TScalar, unsigned int NDimensions>
 void
 CenteredAffineTransform<TScalar, NDimensions>::SetParameters(const ParametersType & parameters)
 {
@@ -124,7 +124,7 @@ CenteredAffineTransform<TScalar, NDimensions>::SetParameters(const ParametersTyp
   this->Modified();
 }
 
-template <class TScalar, unsigned int NDimensions>
+template <typename TScalar, unsigned int NDimensions>
 void
 CenteredAffineTransform<TScalar, NDimensions>
 ::ComputeJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const
@@ -166,7 +166,7 @@ CenteredAffineTransform<TScalar, NDimensions>
 }
 
 // Get an inverse of this transform
-template <class TScalar, unsigned int NDimensions>
+template <typename TScalar, unsigned int NDimensions>
 bool
 CenteredAffineTransform<TScalar, NDimensions>
 ::GetInverse(Self *inverse) const
@@ -175,7 +175,7 @@ CenteredAffineTransform<TScalar, NDimensions>
 }
 
 // Return an inverse of this transform
-template <class TScalar, unsigned int NDimensions>
+template <typename TScalar, unsigned int NDimensions>
 typename CenteredAffineTransform<TScalar, NDimensions>::InverseTransformBasePointer
 CenteredAffineTransform<TScalar, NDimensions>
 ::GetInverseTransform() const

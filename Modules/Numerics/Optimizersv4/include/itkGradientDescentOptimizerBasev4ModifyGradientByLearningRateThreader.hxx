@@ -22,7 +22,7 @@
 
 namespace itk
 {
-template<class TInternalComputationValueType>
+template<typename TInternalComputationValueType>
 void
 GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreaderTemplate<TInternalComputationValueType>
 ::ThreadedExecution( const IndexRangeType & subrange,

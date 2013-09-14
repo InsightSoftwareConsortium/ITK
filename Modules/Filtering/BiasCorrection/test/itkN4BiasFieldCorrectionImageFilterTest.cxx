@@ -22,7 +22,7 @@
 #include "itkOtsuThresholdImageFilter.h"
 #include "itkShrinkImageFilter.h"
 
-template<class TFilter>
+template<typename TFilter>
 class CommandIterationUpdate : public itk::Command
 {
 public:
@@ -67,7 +67,7 @@ public:
 };
 
 
-template<class TValue>
+template<typename TValue>
 TValue Convert( std::string optionString )
 {
   TValue             value;
@@ -77,7 +77,7 @@ TValue Convert( std::string optionString )
   return value;
 }
 
-template<class TValue>
+template<typename TValue>
 std::vector<TValue> ConvertVector( std::string optionString )
 {
   std::vector<TValue>    values;

@@ -70,7 +70,7 @@ namespace itk
  *
  * \ingroup ITKConnectedComponents
  */
-template< class TInputImage, class TOutputImage = TInputImage >
+template< typename TInputImage, typename TOutputImage = TInputImage >
 class ThresholdMaximumConnectedComponentsImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {

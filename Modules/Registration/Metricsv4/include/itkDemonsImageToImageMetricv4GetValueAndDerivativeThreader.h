@@ -29,7 +29,7 @@ namespace itk
  *
  * \ingroup ITKMetricsv4
  */
-template < class TDomainPartitioner, class TImageToImageMetric, class TDemonsMetric >
+template < typename TDomainPartitioner, typename TImageToImageMetric, typename TDemonsMetric >
 class DemonsImageToImageMetricv4GetValueAndDerivativeThreader
   : public ImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric >
 {

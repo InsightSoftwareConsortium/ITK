@@ -22,7 +22,7 @@
 
 namespace itk
 {
-template <class TScalar>
+template <typename TScalar>
 class Rigid3DTransformSurrogate : public Rigid3DTransform < TScalar >
 {
 public:

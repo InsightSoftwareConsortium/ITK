@@ -30,7 +30,7 @@ namespace itk
  *  the maximum size of the point-set's bounding box is used.
  * \ingroup ITKCommon
  */
-template< class TInputPointSet, class TOutputImage >
+template< typename TInputPointSet, typename TOutputImage >
 class PointSetToImageFilter:public ImageSource< TOutputImage >
 {
 public:

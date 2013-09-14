@@ -25,7 +25,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 LaplacianImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -34,7 +34,7 @@ LaplacianImageFilter< TInputImage, TOutputImage >
   os << indent << "UseImageSpacing = " << m_UseImageSpacing << std::endl;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 LaplacianImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
@@ -88,7 +88,7 @@ throw ( InvalidRequestedRegionError )
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 LaplacianImageFilter< TInputImage, TOutputImage >
 ::GenerateData()

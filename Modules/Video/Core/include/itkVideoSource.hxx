@@ -28,7 +28,7 @@ namespace itk
 //
 // Constructor
 //
-template<class TOutputVideoStream>
+template<typename TOutputVideoStream>
 VideoSource<TOutputVideoStream>::VideoSource()
 {
   typename OutputVideoStreamType::Pointer output =
@@ -40,7 +40,7 @@ VideoSource<TOutputVideoStream>::VideoSource()
 //
 // Destructor
 //
-template<class TOutputVideoStream>
+template<typename TOutputVideoStream>
 VideoSource<TOutputVideoStream>::~VideoSource()
 {
 }
@@ -48,7 +48,7 @@ VideoSource<TOutputVideoStream>::~VideoSource()
 //
 // PrintSelf
 //
-template<class TOutputVideoStream>
+template<typename TOutputVideoStream>
 void
 VideoSource<TOutputVideoStream>
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -61,7 +61,7 @@ VideoSource<TOutputVideoStream>
 //
 // GetOutput()
 //
-template<class TOutputVideoStream>
+template<typename TOutputVideoStream>
 typename VideoSource< TOutputVideoStream >::OutputVideoStreamType*
 VideoSource<TOutputVideoStream>::GetOutput()
 {
@@ -79,7 +79,7 @@ VideoSource<TOutputVideoStream>::GetOutput()
 //
 // GetOutput(idx)
 //
-template<class TOutputVideoStream>
+template<typename TOutputVideoStream>
 TOutputVideoStream*
 VideoSource<TOutputVideoStream>::GetOutput(unsigned int idx)
 {
@@ -98,7 +98,7 @@ VideoSource<TOutputVideoStream>::GetOutput(unsigned int idx)
 //
 // GraftOutput
 //
-template<class TOutputVideoStream>
+template<typename TOutputVideoStream>
 void
 VideoSource<TOutputVideoStream>::GraftOutput(TOutputVideoStream* graft)
 {
@@ -108,7 +108,7 @@ VideoSource<TOutputVideoStream>::GraftOutput(TOutputVideoStream* graft)
 //
 // GraftNthOutput
 //
-template<class TOutputVideoStream>
+template<typename TOutputVideoStream>
 void
 VideoSource<TOutputVideoStream>::
 GraftNthOutput(unsigned int idx, TOutputVideoStream* graft)
@@ -133,7 +133,7 @@ GraftNthOutput(unsigned int idx, TOutputVideoStream* graft)
 //
 // MakeOutput
 //
-template<class TOutputVideoStream>
+template<typename TOutputVideoStream>
 DataObject::Pointer
 VideoSource<TOutputVideoStream>::MakeOutput(DataObjectPointerArraySizeType itkNotUsed(idx) )
 {
@@ -145,7 +145,7 @@ VideoSource<TOutputVideoStream>::MakeOutput(DataObjectPointerArraySizeType itkNo
 //
 // GenerateOutputRequestedTemporalRegion
 //
-template<class TOutputVideoStream>
+template<typename TOutputVideoStream>
 void
 VideoSource<TOutputVideoStream>::
 GenerateOutputRequestedTemporalRegion(TemporalDataObject* output)
@@ -195,7 +195,7 @@ GenerateOutputRequestedTemporalRegion(TemporalDataObject* output)
 //
 // AllocateOutputs
 //
-template<class TOutputVideoStream>
+template<typename TOutputVideoStream>
 void
 VideoSource<TOutputVideoStream>::AllocateOutputs()
 {
@@ -234,7 +234,7 @@ VideoSource<TOutputVideoStream>::AllocateOutputs()
 //
 // TemporalStreamingGenerateData
 //
-template<class TOutputVideoStream>
+template<typename TOutputVideoStream>
 void
 VideoSource<TOutputVideoStream>::
 TemporalStreamingGenerateData()
@@ -266,7 +266,7 @@ TemporalStreamingGenerateData()
 //
 // ThreadedGenerateData
 //
-template<class TOutputVideoStream>
+template<typename TOutputVideoStream>
 void
 VideoSource<TOutputVideoStream>::
 ThreadedGenerateData(
@@ -285,7 +285,7 @@ ThreadedGenerateData(
 // spatial region for the current Head frame of the output. This could
 // potentially cause issues if frames are different sized.
 //
-template<class TOutputVideoStream>
+template<typename TOutputVideoStream>
 int
 VideoSource<TOutputVideoStream>::
 SplitRequestedSpatialRegion(int i, int num,
@@ -350,7 +350,7 @@ SplitRequestedSpatialRegion(int i, int num,
 //
 // ThreaderCallback -- Copied from ImageSource
 //
-template<class TOutputVideoStream>
+template<typename TOutputVideoStream>
 ITK_THREAD_RETURN_TYPE
 VideoSource<TOutputVideoStream>::
 ThreaderCallback(void* arg)

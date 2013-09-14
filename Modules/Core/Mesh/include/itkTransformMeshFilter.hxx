@@ -26,7 +26,7 @@ namespace itk
 /**
  *
  */
-template< class TInputMesh, class TOutputMesh, class TTransform >
+template< typename TInputMesh, typename TOutputMesh, typename TTransform >
 TransformMeshFilter< TInputMesh, TOutputMesh, TTransform >
 ::TransformMeshFilter()
 {
@@ -36,7 +36,7 @@ TransformMeshFilter< TInputMesh, TOutputMesh, TTransform >
 /**
  *
  */
-template< class TInputMesh, class TOutputMesh, class TTransform >
+template< typename TInputMesh, typename TOutputMesh, typename TTransform >
 void
 TransformMeshFilter< TInputMesh, TOutputMesh, TTransform >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -51,7 +51,7 @@ TransformMeshFilter< TInputMesh, TOutputMesh, TTransform >
 /**
  * This method causes the filter to generate its output.
  */
-template< class TInputMesh, class TOutputMesh, class TTransform >
+template< typename TInputMesh, typename TOutputMesh, typename TTransform >
 void
 TransformMeshFilter< TInputMesh, TOutputMesh, TTransform >
 ::GenerateData(void)

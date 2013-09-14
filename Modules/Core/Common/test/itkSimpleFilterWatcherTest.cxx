@@ -24,7 +24,7 @@ namespace itk
 {
   namespace Function
   {
-    template< class TInput, class TOutput >
+    template< typename TInput, typename TOutput >
     class TanHelper
     {
     public:
@@ -45,7 +45,7 @@ namespace itk
     };
   }
 
-  template< class TInputImage, class TOutputImage >
+  template< typename TInputImage, typename TOutputImage >
   class TanHelperImageFilter:
     public UnaryFunctorImageFilter< TInputImage, TOutputImage,
                              Function::TanHelper< typename TInputImage::PixelType,

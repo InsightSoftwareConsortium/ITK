@@ -55,7 +55,7 @@ namespace itk
  *
  * \ingroup ITKOptimizersv4
  */
-template<class TInternalComputationValueType>
+template<typename TInternalComputationValueType>
 class QuasiNewtonOptimizerv4Template :
   public         GradientDescentOptimizerv4Template<TInternalComputationValueType>
 {

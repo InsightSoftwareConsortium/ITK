@@ -31,7 +31,7 @@
 
 namespace itk
 {
-template< class TInputImage >
+template< typename TInputImage >
 void
 PadLabelMapFilter< TInputImage >
 ::GenerateOutputInformation()
@@ -65,7 +65,7 @@ PadLabelMapFilter< TInputImage >
   Superclass::GenerateOutputInformation();
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void
 PadLabelMapFilter< TInputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

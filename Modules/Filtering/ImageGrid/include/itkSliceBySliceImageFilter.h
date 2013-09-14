@@ -70,9 +70,9 @@ namespace itk
  * \ingroup ITKImageGrid
  */
 
-template< class TInputImage,
-          class TOutputImage,
-          class TInputFilter = ImageToImageFilter<
+template< typename TInputImage,
+          typename TOutputImage,
+          typename TInputFilter = ImageToImageFilter<
             Image< typename TInputImage::PixelType,  TInputImage::ImageDimension - 1 >,
             Image< typename TOutputImage::PixelType,  TOutputImage ::ImageDimension - 1 > >,
           class TOutputFilter = typename TInputFilter::Superclass,

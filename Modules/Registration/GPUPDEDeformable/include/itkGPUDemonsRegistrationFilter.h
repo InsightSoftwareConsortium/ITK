@@ -64,8 +64,8 @@ namespace itk
  * \ingroup DeformableImageRegistration MultiThreaded
  * \ingroup ITKGPUPDEDeformableRegistration
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField,
-          class TParentImageFilter = itk::DemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField,
+          typename TParentImageFilter = itk::DemonsRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
           >
 class GPUDemonsRegistrationFilter :
   public GPUPDEDeformableRegistrationFilter< TFixedImage, TMovingImage,

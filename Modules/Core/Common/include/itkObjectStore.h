@@ -59,7 +59,7 @@ namespace itk
  * serious problems.
  * \ingroup ITKCommon
  */
-template< class TObjectType >
+template< typename TObjectType >
 class ObjectStore:public Object
 {
 public:

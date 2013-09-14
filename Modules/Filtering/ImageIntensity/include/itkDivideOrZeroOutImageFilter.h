@@ -26,7 +26,7 @@ namespace itk
 
 namespace Functor {
 
-template< class TNumerator, class TDenominator=TNumerator, class TOutput=TNumerator >
+template< typename TNumerator, typename TDenominator=TNumerator, typename TOutput=TNumerator >
 class DivideOrZeroOut
 {
 public:

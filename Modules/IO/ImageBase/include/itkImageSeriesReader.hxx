@@ -30,7 +30,7 @@
 namespace itk
 {
 // Destructor
-template< class TOutputImage >
+template< typename TOutputImage >
 ImageSeriesReader< TOutputImage >
 ::~ImageSeriesReader()
 {
@@ -46,7 +46,7 @@ ImageSeriesReader< TOutputImage >
   m_MetaDataDictionaryArray.clear();
 }
 
-template< class TOutputImage >
+template< typename TOutputImage >
 void ImageSeriesReader< TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
@@ -69,7 +69,7 @@ void ImageSeriesReader< TOutputImage >
   os << indent << "MetaDataDictionaryArrayUpdate: " << m_MetaDataDictionaryArrayUpdate << std::endl;
 }
 
-template< class TOutputImage >
+template< typename TOutputImage >
 int ImageSeriesReader< TOutputImage >
 ::ComputeMovingDimensionIndex(ReaderType *reader)
 {
@@ -96,7 +96,7 @@ int ImageSeriesReader< TOutputImage >
   return movingDimension;
 }
 
-template< class TOutputImage >
+template< typename TOutputImage >
 void ImageSeriesReader< TOutputImage >
 ::GenerateOutputInformation(void)
 {
@@ -257,7 +257,7 @@ void ImageSeriesReader< TOutputImage >
     }
 }
 
-template< class TOutputImage >
+template< typename TOutputImage >
 void
 ImageSeriesReader< TOutputImage >
 ::EnlargeOutputRequestedRegion(DataObject *output)
@@ -276,7 +276,7 @@ ImageSeriesReader< TOutputImage >
     }
 }
 
-template< class TOutputImage >
+template< typename TOutputImage >
 void ImageSeriesReader< TOutputImage >
 ::GenerateData()
 {
@@ -462,7 +462,7 @@ void ImageSeriesReader< TOutputImage >
     }
 }
 
-template< class TOutputImage >
+template< typename TOutputImage >
 typename
 ImageSeriesReader< TOutputImage >::DictionaryArrayRawPointer
 ImageSeriesReader< TOutputImage >

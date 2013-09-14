@@ -101,7 +101,7 @@ namespace Statistics
  * \ingroup ITKStatistics
  */
 
-template<class TImageType, class THistogramFrequencyContainer =
+template<typename TImageType, typename THistogramFrequencyContainer =
   DenseFrequencyContainer2>
 class ScalarImageToRunLengthMatrixFilter : public ProcessObject
 {

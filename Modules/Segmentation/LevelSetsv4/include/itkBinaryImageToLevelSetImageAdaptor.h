@@ -33,7 +33,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TLevelSet >
+template< typename TInputImage, typename TLevelSet >
 class BinaryImageToLevelSetImageAdaptor
 {};
 
@@ -41,7 +41,7 @@ class BinaryImageToLevelSetImageAdaptor
 /** \class BinaryImageToLevelSetImageAdaptorBase
  *  \ingroup ITKLevelSetsv4
  */
-template< class TInputImage, class TLevelSetImage >
+template< typename TInputImage, typename TLevelSetImage >
 class BinaryImageToLevelSetImageAdaptor<
     TInputImage,
     LevelSetDenseImage< TLevelSetImage > > :
@@ -107,7 +107,7 @@ private:
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template< class TInput, class TOutput >
+template< typename TInput, typename TOutput >
 class BinaryImageToSparseLevelSetImageAdaptorBase :
     public BinaryImageToLevelSetImageAdaptorBase< TInput, TOutput >
 {
@@ -175,7 +175,7 @@ private:
 };
 
 ////////////////////////////////////////////////////////////////////////////////
-template< class TInput, typename TOutput >
+template< typename TInput, typename TOutput >
 class BinaryImageToLevelSetImageAdaptor<
     TInput,
     WhitakerSparseLevelSetImage< TOutput, TInput::ImageDimension > > :
@@ -265,7 +265,7 @@ private:
 };
 
 ////////////////////////////////////////////////////////////////////////////////
-template< class TInput >
+template< typename TInput >
 class BinaryImageToLevelSetImageAdaptor<
     TInput,
     ShiSparseLevelSetImage< TInput::ImageDimension > > :
@@ -349,7 +349,7 @@ private:
 
 
 ////////////////////////////////////////////////////////////////////////////////
-template< class TInput >
+template< typename TInput >
 class BinaryImageToLevelSetImageAdaptor<
     TInput,
     MalcolmSparseLevelSetImage< TInput::ImageDimension > > :

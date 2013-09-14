@@ -51,7 +51,7 @@ namespace itk {
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKLabelMap
  */
-template<class TInputImage>
+template<typename TInputImage>
 class BinaryReconstructionByDilationImageFilter :
     public ImageToImageFilter<TInputImage, TInputImage>
 {

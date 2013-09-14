@@ -25,7 +25,7 @@
 namespace itk
 {
 /** Constructor */
-template< class TInputSpatialObject, class TOutputImage >
+template< typename TInputSpatialObject, typename TOutputImage >
 SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
 ::SpatialObjectToImageFilter()
 {
@@ -46,13 +46,13 @@ SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
 }
 
 /** Destructor */
-template< class TInputSpatialObject, class TOutputImage >
+template< typename TInputSpatialObject, typename TOutputImage >
 SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
 ::~SpatialObjectToImageFilter()
 {}
 
 /** Set the Input SpatialObject */
-template< class TInputSpatialObject, class TOutputImage >
+template< typename TInputSpatialObject, typename TOutputImage >
 void
 SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
 ::SetInput(const InputSpatialObjectType *input)
@@ -63,7 +63,7 @@ SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
 }
 
 /** Connect one of the operands  */
-template< class TInputSpatialObject, class TOutputImage >
+template< typename TInputSpatialObject, typename TOutputImage >
 void
 SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
 ::SetInput(unsigned int index, const TInputSpatialObject *object)
@@ -74,7 +74,7 @@ SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
 }
 
 /** Get the input Spatial Object */
-template< class TInputSpatialObject, class TOutputImage >
+template< typename TInputSpatialObject, typename TOutputImage >
 const typename SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >::InputSpatialObjectType *
 SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
 ::GetInput(void)
@@ -83,7 +83,7 @@ SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
 }
 
 /** Get the input Spatial Object */
-template< class TInputSpatialObject, class TOutputImage >
+template< typename TInputSpatialObject, typename TOutputImage >
 const typename SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >::InputSpatialObjectType *
 SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
 ::GetInput(unsigned int idx)
@@ -93,7 +93,7 @@ SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
 }
 
 //----------------------------------------------------------------------------
-template< class TInputSpatialObject, class TOutputImage >
+template< typename TInputSpatialObject, typename TOutputImage >
 void
 SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
 ::SetSpacing(const SpacingType & spacing)
@@ -118,7 +118,7 @@ SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
 }
 
 //----------------------------------------------------------------------------
-template< class TInputSpatialObject, class TOutputImage >
+template< typename TInputSpatialObject, typename TOutputImage >
 void
 SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
 ::SetSpacing(const double *spacing)
@@ -142,7 +142,7 @@ SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
     }
 }
 
-template< class TInputSpatialObject, class TOutputImage >
+template< typename TInputSpatialObject, typename TOutputImage >
 void
 SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
 ::SetSpacing(const float *spacing)
@@ -166,7 +166,7 @@ SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
     }
 }
 
-template< class TInputSpatialObject, class TOutputImage >
+template< typename TInputSpatialObject, typename TOutputImage >
 const double *
 SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
 ::GetSpacing() const
@@ -175,7 +175,7 @@ SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
 }
 
 //----------------------------------------------------------------------------
-template< class TInputSpatialObject, class TOutputImage >
+template< typename TInputSpatialObject, typename TOutputImage >
 void
 SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
 ::SetOrigin(const PointType & origin)
@@ -200,7 +200,7 @@ SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
 }
 
 //----------------------------------------------------------------------------
-template< class TInputSpatialObject, class TOutputImage >
+template< typename TInputSpatialObject, typename TOutputImage >
 void
 SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
 ::SetOrigin(const double *origin)
@@ -224,7 +224,7 @@ SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
     }
 }
 
-template< class TInputSpatialObject, class TOutputImage >
+template< typename TInputSpatialObject, typename TOutputImage >
 void
 SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
 ::SetOrigin(const float *origin)
@@ -248,7 +248,7 @@ SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
     }
 }
 
-template< class TInputSpatialObject, class TOutputImage >
+template< typename TInputSpatialObject, typename TOutputImage >
 const double *
 SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
 ::GetOrigin() const
@@ -258,7 +258,7 @@ SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
 
 //----------------------------------------------------------------------------
 
-template< class TInputSpatialObject, class TOutputImage >
+template< typename TInputSpatialObject, typename TOutputImage >
 void
 SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
 ::SetDirection(const DirectionType & dir)
@@ -267,7 +267,7 @@ SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
   this->Modified();
 }
 
-template< class TInputSpatialObject, class TOutputImage >
+template< typename TInputSpatialObject, typename TOutputImage >
 const typename SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >::DirectionType &
 SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
 ::GetDirection(void) const
@@ -278,7 +278,7 @@ SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
 //----------------------------------------------------------------------------
 
 /** Update */
-template< class TInputSpatialObject, class TOutputImage >
+template< typename TInputSpatialObject, typename TOutputImage >
 void
 SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
 ::GenerateData(void)
@@ -412,7 +412,7 @@ SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
   itkDebugMacro(<< "SpatialObjectToImageFilter::Update() finished");
 } // end update function
 
-template< class TInputSpatialObject, class TOutputImage >
+template< typename TInputSpatialObject, typename TOutputImage >
 void
 SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

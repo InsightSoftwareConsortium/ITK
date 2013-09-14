@@ -22,7 +22,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 BasicDilateImageFilter< TInputImage, TOutputImage, TKernel >
 ::BasicDilateImageFilter()
 {
@@ -30,7 +30,7 @@ BasicDilateImageFilter< TInputImage, TOutputImage, TKernel >
   this->OverrideBoundaryCondition(&m_DilateBoundaryCondition);
 }
 
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 typename BasicDilateImageFilter< TInputImage, TOutputImage, TKernel >::PixelType
 BasicDilateImageFilter< TInputImage, TOutputImage, TKernel >
 ::Evaluate(const NeighborhoodIteratorType & nit,

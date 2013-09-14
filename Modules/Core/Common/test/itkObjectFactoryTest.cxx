@@ -29,7 +29,7 @@
     } \
   }
 
-template<class TPixel, unsigned int VImageDimension=2>
+template<typename TPixel, unsigned int VImageDimension=2>
 class TestImage : public itk::Image< TPixel, VImageDimension >
 {
 public:
@@ -58,7 +58,7 @@ private:
   void operator=(const TestImage&);
 };
 
-template<class TPixel, unsigned int VImageDimension=3>
+template<typename TPixel, unsigned int VImageDimension=3>
 class TestImage2 : public itk::Image< TPixel, VImageDimension >
 {
 public:

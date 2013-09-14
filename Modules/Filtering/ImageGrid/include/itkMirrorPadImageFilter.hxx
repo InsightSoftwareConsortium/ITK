@@ -32,7 +32,7 @@ namespace itk
  * and size (where the current region and maximum region for each dimension
  * is encoded in regIndices and regLimit), choose the next output region.
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 int MirrorPadImageFilter< TInputImage, TOutputImage >
 ::GenerateNextOutputRegion(long *regIndices, long *regLimit,
                            std::vector< long > *indices,
@@ -88,7 +88,7 @@ int MirrorPadImageFilter< TInputImage, TOutputImage >
  * and size (where the current region and maximum region for each dimension
  * is encoded in regIndices and regLimit), choose the next input region.
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 int MirrorPadImageFilter< TInputImage, TOutputImage >
 ::GenerateNextInputRegion(long *regIndices, long *regLimit,
                           std::vector< long > *indices,
@@ -145,7 +145,7 @@ int MirrorPadImageFilter< TInputImage, TOutputImage >
  * a way to adjust width of the area while forcing alignment to the
  * start or end location.
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 int
 MirrorPadImageFilter< TInputImage, TOutputImage >
 ::FindRegionsInArea(long start, long end, long size, long offset)
@@ -174,7 +174,7 @@ MirrorPadImageFilter< TInputImage, TOutputImage >
  * Convert from the output index to the input index taking
  * into consideration mirrored and normal regions.
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 MirrorPadImageFilter< TInputImage, TOutputImage >
 ::ConvertOutputIndexToInputIndex(OutputImageIndexType & outputIndex,
@@ -211,7 +211,7 @@ MirrorPadImageFilter< TInputImage, TOutputImage >
  * Decide whether test falls within an odd or even number
  * of size regions from base.
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 int
 MirrorPadImageFilter< TInputImage, TOutputImage >
 ::RegionIsOdd(long base, long test, long size)
@@ -242,7 +242,7 @@ MirrorPadImageFilter< TInputImage, TOutputImage >
  * side of this region.  The algorithmic complications are necessary
  * to support the streaming interface and multithreading.
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 int
 MirrorPadImageFilter< TInputImage, TOutputImage >
 ::BuildInterRegions(std::vector< long > & inputRegionStart,
@@ -297,7 +297,7 @@ MirrorPadImageFilter< TInputImage, TOutputImage >
  * complications are necessary to support the streaming interface
  * and multithreading.
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 int
 MirrorPadImageFilter< TInputImage, TOutputImage >
 ::BuildPreRegions(std::vector< long > & inputRegionStart,
@@ -372,7 +372,7 @@ MirrorPadImageFilter< TInputImage, TOutputImage >
  * complications are necessary to support the streaming interface
  * and multithreading.
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 int
 MirrorPadImageFilter< TInputImage, TOutputImage >
 ::BuildPostRegions(std::vector< long > & inputRegionStart,
@@ -445,7 +445,7 @@ MirrorPadImageFilter< TInputImage, TOutputImage >
  * \sa PadImageFilter::GenerateInputRequestedRegion()
  * \sa ProcessObject::GenerateInputRequestedRegion()
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 MirrorPadImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
@@ -618,7 +618,7 @@ MirrorPadImageFilter< TInputImage, TOutputImage >
 /**
  *
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 MirrorPadImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,

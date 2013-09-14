@@ -29,7 +29,7 @@ namespace itk
  * \brief Describes the geometry of a data object
  * \ingroup ITKSpatialObjects
  */
-template< class TScalar = double, unsigned int NDimensions = 3 >
+template< typename TScalar = double, unsigned int NDimensions = 3 >
 class AffineGeometryFrame:public Object
 {
 public:

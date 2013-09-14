@@ -27,7 +27,7 @@
 namespace itk
 {
 
-template< class TInputPointSet, class TOutputImage >
+template< typename TInputPointSet, typename TOutputImage >
 PointSetToImageFilter< TInputPointSet, TOutputImage >
 ::PointSetToImageFilter()
 {
@@ -40,12 +40,12 @@ PointSetToImageFilter< TInputPointSet, TOutputImage >
   this->m_OutsideValue = NumericTraits< ValueType >::ZeroValue();
 }
 
-template< class TInputPointSet, class TOutputImage >
+template< typename TInputPointSet, typename TOutputImage >
 PointSetToImageFilter< TInputPointSet, TOutputImage >
 ::~PointSetToImageFilter()
 {}
 
-template< class TInputPointSet, class TOutputImage >
+template< typename TInputPointSet, typename TOutputImage >
 void
 PointSetToImageFilter< TInputPointSet, TOutputImage >
 ::SetInput(const InputPointSetType *input)
@@ -56,7 +56,7 @@ PointSetToImageFilter< TInputPointSet, TOutputImage >
 }
 
 /** Connect one of the operands  */
-template< class TInputPointSet, class TOutputImage >
+template< typename TInputPointSet, typename TOutputImage >
 void
 PointSetToImageFilter< TInputPointSet, TOutputImage >
 ::SetInput(unsigned int index, const TInputPointSet *pointset)
@@ -67,7 +67,7 @@ PointSetToImageFilter< TInputPointSet, TOutputImage >
 }
 
 /** Get the input point-set */
-template< class TInputPointSet, class TOutputImage >
+template< typename TInputPointSet, typename TOutputImage >
 const typename PointSetToImageFilter< TInputPointSet, TOutputImage >::InputPointSetType *
 PointSetToImageFilter< TInputPointSet, TOutputImage >
 ::GetInput(void)
@@ -76,7 +76,7 @@ PointSetToImageFilter< TInputPointSet, TOutputImage >
 }
 
 /** Get the input point-set */
-template< class TInputPointSet, class TOutputImage >
+template< typename TInputPointSet, typename TOutputImage >
 const typename PointSetToImageFilter< TInputPointSet, TOutputImage >::InputPointSetType *
 PointSetToImageFilter< TInputPointSet, TOutputImage >
 ::GetInput(unsigned int idx)
@@ -85,7 +85,7 @@ PointSetToImageFilter< TInputPointSet, TOutputImage >
          ( this->ProcessObject::GetInput(idx) );
 }
 
-template< class TInputPointSet, class TOutputImage >
+template< typename TInputPointSet, typename TOutputImage >
 void
 PointSetToImageFilter< TInputPointSet, TOutputImage >
 ::SetSpacing(const float *v)
@@ -96,7 +96,7 @@ PointSetToImageFilter< TInputPointSet, TOutputImage >
   this->SetSpacing(spacing);
 }
 
-template< class TInputPointSet, class TOutputImage >
+template< typename TInputPointSet, typename TOutputImage >
 void
 PointSetToImageFilter< TInputPointSet, TOutputImage >
 ::SetSpacing(const double *v)
@@ -106,7 +106,7 @@ PointSetToImageFilter< TInputPointSet, TOutputImage >
   this->SetSpacing(spacing);
 }
 
-template< class TInputPointSet, class TOutputImage >
+template< typename TInputPointSet, typename TOutputImage >
 void
 PointSetToImageFilter< TInputPointSet, TOutputImage >
 ::SetOrigin(const float *v)
@@ -117,7 +117,7 @@ PointSetToImageFilter< TInputPointSet, TOutputImage >
   this->SetOrigin(origin);
 }
 
-template< class TInputPointSet, class TOutputImage >
+template< typename TInputPointSet, typename TOutputImage >
 void
 PointSetToImageFilter< TInputPointSet, TOutputImage >
 ::SetOrigin(const double *v)
@@ -130,7 +130,7 @@ PointSetToImageFilter< TInputPointSet, TOutputImage >
 //----------------------------------------------------------------------------
 
 /** Update */
-template< class TInputPointSet, class TOutputImage >
+template< typename TInputPointSet, typename TOutputImage >
 void
 PointSetToImageFilter< TInputPointSet, TOutputImage >
 ::GenerateData(void)
@@ -251,7 +251,7 @@ PointSetToImageFilter< TInputPointSet, TOutputImage >
   itkDebugMacro(<< "PointSetToImageFilter::Update() finished");
 } // end update function
 
-template< class TInputPointSet, class TOutputImage >
+template< typename TInputPointSet, typename TOutputImage >
 void
 PointSetToImageFilter< TInputPointSet, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

@@ -26,7 +26,7 @@ namespace itk
 /**
  * Constructor
  */
-template< class TInputImage, class TCoordRep >
+template< typename TInputImage, typename TCoordRep >
 ScatterMatrixImageFunction< TInputImage, TCoordRep >
 ::ScatterMatrixImageFunction()
 {
@@ -36,7 +36,7 @@ ScatterMatrixImageFunction< TInputImage, TCoordRep >
 /**
  *
  */
-template< class TInputImage, class TCoordRep >
+template< typename TInputImage, typename TCoordRep >
 void
 ScatterMatrixImageFunction< TInputImage, TCoordRep >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -48,7 +48,7 @@ ScatterMatrixImageFunction< TInputImage, TCoordRep >
 /**
  *
  */
-template< class TInputImage, class TCoordRep >
+template< typename TInputImage, typename TCoordRep >
 typename ScatterMatrixImageFunction< TInputImage, TCoordRep >
 ::RealType
 ScatterMatrixImageFunction< TInputImage, TCoordRep >

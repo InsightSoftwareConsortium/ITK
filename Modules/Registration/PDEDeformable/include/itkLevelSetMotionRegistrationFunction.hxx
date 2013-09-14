@@ -27,7 +27,7 @@ namespace itk
 /**
  * Default constructor
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 LevelSetMotionRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::LevelSetMotionRegistrationFunction()
 {
@@ -73,7 +73,7 @@ LevelSetMotionRegistrationFunction< TFixedImage, TMovingImage, TDisplacementFiel
 /*
  * Standard "PrintSelf" method.
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void
 LevelSetMotionRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -104,7 +104,7 @@ LevelSetMotionRegistrationFunction< TFixedImage, TMovingImage, TDisplacementFiel
 /**
  *
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void
 LevelSetMotionRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::SetAlpha(double alpha)
@@ -115,7 +115,7 @@ LevelSetMotionRegistrationFunction< TFixedImage, TMovingImage, TDisplacementFiel
 /**
  *
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 double
 LevelSetMotionRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::GetAlpha() const
@@ -126,7 +126,7 @@ LevelSetMotionRegistrationFunction< TFixedImage, TMovingImage, TDisplacementFiel
 /**
  *
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void
 LevelSetMotionRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::SetIntensityDifferenceThreshold(double threshold)
@@ -137,7 +137,7 @@ LevelSetMotionRegistrationFunction< TFixedImage, TMovingImage, TDisplacementFiel
 /**
  *
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 double
 LevelSetMotionRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::GetIntensityDifferenceThreshold() const
@@ -148,7 +148,7 @@ LevelSetMotionRegistrationFunction< TFixedImage, TMovingImage, TDisplacementFiel
 /**
  *
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void
 LevelSetMotionRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::SetGradientMagnitudeThreshold(double threshold)
@@ -159,7 +159,7 @@ LevelSetMotionRegistrationFunction< TFixedImage, TMovingImage, TDisplacementFiel
 /**
  *
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 double
 LevelSetMotionRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::GetGradientMagnitudeThreshold() const
@@ -170,7 +170,7 @@ LevelSetMotionRegistrationFunction< TFixedImage, TMovingImage, TDisplacementFiel
 /**
  *
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void
 LevelSetMotionRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::SetGradientSmoothingStandardDeviations(double sigma)
@@ -181,7 +181,7 @@ LevelSetMotionRegistrationFunction< TFixedImage, TMovingImage, TDisplacementFiel
 /**
  *
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 double
 LevelSetMotionRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::GetGradientSmoothingStandardDeviations() const
@@ -193,7 +193,7 @@ LevelSetMotionRegistrationFunction< TFixedImage, TMovingImage, TDisplacementFiel
  * Return the flag that defines whether the image spacing should be taken into
  * account in computations.
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 bool
 LevelSetMotionRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::GetUseImageSpacing() const
@@ -205,7 +205,7 @@ LevelSetMotionRegistrationFunction< TFixedImage, TMovingImage, TDisplacementFiel
  * Set the flag that defines whether the image spacing should be taken into
  * account in computations.
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void
 LevelSetMotionRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::SetUseImageSpacing(bool useImageSpacing)
@@ -216,7 +216,7 @@ LevelSetMotionRegistrationFunction< TFixedImage, TMovingImage, TDisplacementFiel
 /**
  * Set the function state values before each iteration
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void
 LevelSetMotionRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::InitializeIteration()
@@ -250,7 +250,7 @@ LevelSetMotionRegistrationFunction< TFixedImage, TMovingImage, TDisplacementFiel
 /**
  * Compute update at a specify neighbourhood
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 typename LevelSetMotionRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::PixelType
 LevelSetMotionRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
@@ -411,7 +411,7 @@ LevelSetMotionRegistrationFunction< TFixedImage, TMovingImage, TDisplacementFiel
 /**
  * Compute the global time step for this iteration.
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 typename LevelSetMotionRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >::TimeStepType
 LevelSetMotionRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::ComputeGlobalTimeStep(void *GlobalData) const
@@ -436,7 +436,7 @@ LevelSetMotionRegistrationFunction< TFixedImage, TMovingImage, TDisplacementFiel
 /*
  * Update the metric and release the per-thread-global data.
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void
 LevelSetMotionRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::ReleaseGlobalDataPointer(void *gd) const

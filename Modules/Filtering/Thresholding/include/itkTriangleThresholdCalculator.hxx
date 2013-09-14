@@ -29,7 +29,7 @@ namespace itk
 /*
  * Compute the Triangle's threshold
  */
-template<class THistogram, class TOutput>
+template<typename THistogram, typename TOutput>
 void
 TriangleThresholdCalculator<THistogram, TOutput>
 ::GenerateData(void)

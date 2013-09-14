@@ -26,7 +26,7 @@ namespace itk
 /**
  * Constructor
  */
-template< class TInputImage, class TBasisImage >
+template< typename TInputImage, typename TBasisImage >
 ImagePCADecompositionCalculator< TInputImage, TBasisImage >
 ::ImagePCADecompositionCalculator()
 {
@@ -35,7 +35,7 @@ ImagePCADecompositionCalculator< TInputImage, TBasisImage >
   m_BasisMatrixCalculated = false;
 }
 
-template< class TInputImage, class TBasisImage >
+template< typename TInputImage, typename TBasisImage >
 void
 ImagePCADecompositionCalculator< TInputImage, TBasisImage >
 ::SetBasisImages(const BasisImagePointerVector & v)
@@ -55,7 +55,7 @@ ImagePCADecompositionCalculator< TInputImage, TBasisImage >
 /**
  * Compute the projection
  */
-template< class TInputImage, class TBasisImage >
+template< typename TInputImage, typename TBasisImage >
 void
 ImagePCADecompositionCalculator< TInputImage, TBasisImage >
 ::Compute(void)
@@ -71,7 +71,7 @@ ImagePCADecompositionCalculator< TInputImage, TBasisImage >
 /*
  * Convert a vector of basis images into a matrix. Each image is flattened into 1-D.
   */
-template< class TInputImage, class TBasisImage >
+template< typename TInputImage, typename TBasisImage >
 void
 ImagePCADecompositionCalculator< TInputImage, TBasisImage >
 ::CalculateBasisMatrix(void)
@@ -110,7 +110,7 @@ ImagePCADecompositionCalculator< TInputImage, TBasisImage >
 /**
  * Convert an image into a 1-D vector, changing the pixel type if necessary.
  */
-template< class TInputImage, class TBasisImage >
+template< typename TInputImage, typename TBasisImage >
 void
 ImagePCADecompositionCalculator< TInputImage, TBasisImage >
 ::CalculateRecenteredImageAsVector(void)
@@ -141,7 +141,7 @@ ImagePCADecompositionCalculator< TInputImage, TBasisImage >
     }
 }
 
-template< class TInputImage, class TBasisImage >
+template< typename TInputImage, typename TBasisImage >
 void
 ImagePCADecompositionCalculator< TInputImage, TBasisImage >
 ::SetBasisFromModel(ModelPointerType model)
@@ -158,7 +158,7 @@ ImagePCADecompositionCalculator< TInputImage, TBasisImage >
   this->SetMeanImage( model->GetOutput(0) );
 }
 
-template< class TInputImage, class TBasisImage >
+template< typename TInputImage, typename TBasisImage >
 void
 ImagePCADecompositionCalculator< TInputImage, TBasisImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

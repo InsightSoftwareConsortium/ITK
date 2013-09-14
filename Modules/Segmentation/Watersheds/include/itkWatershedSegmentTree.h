@@ -43,7 +43,7 @@ namespace watershed
  *
  * \ingroup ITKWatersheds
  */
-template< class TScalar >
+template< typename TScalar >
 class SegmentTree:public DataObject
 {
 public:

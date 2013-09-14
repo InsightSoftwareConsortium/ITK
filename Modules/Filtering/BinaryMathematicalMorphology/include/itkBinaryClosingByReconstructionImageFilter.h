@@ -45,7 +45,7 @@ namespace itk {
  * \ingroup ITKBinaryMathematicalMorphology
  */
 
-template<class TInputImage, class TKernel>
+template<typename TInputImage, typename TKernel>
 class BinaryClosingByReconstructionImageFilter :
     public KernelImageFilter<TInputImage, TInputImage, TKernel>
 {

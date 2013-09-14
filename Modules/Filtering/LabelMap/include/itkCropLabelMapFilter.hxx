@@ -32,7 +32,7 @@
 
 namespace itk
 {
-template< class TInputImage >
+template< typename TInputImage >
 void
 CropLabelMapFilter< TInputImage >
 ::GenerateOutputInformation()
@@ -66,7 +66,7 @@ CropLabelMapFilter< TInputImage >
   Superclass::GenerateOutputInformation();
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void
 CropLabelMapFilter< TInputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

@@ -21,17 +21,17 @@
 #include "itkImageGaussianModelEstimator.h"
 namespace itk
 {
-template< class TInputImage,
-          class TMembershipFunction,
-          class TTrainingImage >
+template< typename TInputImage,
+          typename TMembershipFunction,
+          typename TTrainingImage >
 ImageGaussianModelEstimator< TInputImage, TMembershipFunction, TTrainingImage >
 ::ImageGaussianModelEstimator(void):
   m_Covariance(NULL)
 {}
 
-template< class TInputImage,
-          class TMembershipFunction,
-          class TTrainingImage >
+template< typename TInputImage,
+          typename TMembershipFunction,
+          typename TTrainingImage >
 ImageGaussianModelEstimator< TInputImage, TMembershipFunction, TTrainingImage >
 ::~ImageGaussianModelEstimator(void)
 {
@@ -41,9 +41,9 @@ ImageGaussianModelEstimator< TInputImage, TMembershipFunction, TTrainingImage >
 /**
  * PrintSelf
  */
-template< class TInputImage,
-          class TMembershipFunction,
-          class TTrainingImage >
+template< typename TInputImage,
+          typename TMembershipFunction,
+          typename TTrainingImage >
 void
 ImageGaussianModelEstimator< TInputImage, TMembershipFunction, TTrainingImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -61,9 +61,9 @@ ImageGaussianModelEstimator< TInputImage, TMembershipFunction, TTrainingImage >
 /**
  * Generate data (start the model building process)
  */
-template< class TInputImage,
-          class TMembershipFunction,
-          class TTrainingImage >
+template< typename TInputImage,
+          typename TMembershipFunction,
+          typename TTrainingImage >
 void
 ImageGaussianModelEstimator< TInputImage, TMembershipFunction, TTrainingImage >
 ::GenerateData()
@@ -75,9 +75,9 @@ ImageGaussianModelEstimator< TInputImage, TMembershipFunction, TTrainingImage >
 // and variance of the various classes defined in the
 // training set.
 
-template< class TInputImage,
-          class TMembershipFunction,
-          class TTrainingImage >
+template< typename TInputImage,
+          typename TMembershipFunction,
+          typename TTrainingImage >
 void
 ImageGaussianModelEstimator< TInputImage, TMembershipFunction, TTrainingImage >
 ::EstimateModels()
@@ -149,9 +149,9 @@ ImageGaussianModelEstimator< TInputImage, TMembershipFunction, TTrainingImage >
     }
 } // end train classifier
 
-template< class TInputImage,
-          class TMembershipFunction,
-          class TTrainingImage >
+template< typename TInputImage,
+          typename TMembershipFunction,
+          typename TTrainingImage >
 void
 ImageGaussianModelEstimator< TInputImage, TMembershipFunction, TTrainingImage >
 ::EstimateGaussianModelParameters()

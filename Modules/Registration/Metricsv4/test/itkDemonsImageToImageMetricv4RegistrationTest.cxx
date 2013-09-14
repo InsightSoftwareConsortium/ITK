@@ -44,7 +44,7 @@
 #include <iostream>
 #include <fstream>
 
-template<class TFilter>
+template<typename TFilter>
 class itkDemonsImageToImageMetricv4RegistrationTestCommandIterationUpdate : public itk::Command
 {
 public:

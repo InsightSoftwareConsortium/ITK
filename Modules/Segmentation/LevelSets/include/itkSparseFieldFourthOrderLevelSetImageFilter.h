@@ -34,7 +34,7 @@ namespace itk
  *
  * \ingroup ITKLevelSets
  */
-template< class TImageType >
+template< typename TImageType >
 class NormalBandNode
 {
 public:
@@ -152,7 +152,7 @@ public:
  * Users of this class must define the Halt function.
  * \ingroup ITKLevelSets
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class SparseFieldFourthOrderLevelSetImageFilter:
   public SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 {

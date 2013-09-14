@@ -34,7 +34,7 @@ namespace itk
 /**
  * Constructor
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 BSplineL2ResampleImageFilterBase< TInputImage, TOutputImage >
 ::BSplineL2ResampleImageFilterBase()
 {}
@@ -42,7 +42,7 @@ BSplineL2ResampleImageFilterBase< TInputImage, TOutputImage >
 /**
  * Standard "PrintSelf" method
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 BSplineL2ResampleImageFilterBase< TInputImage, TOutputImage >
 ::PrintSelf(
@@ -52,7 +52,7 @@ BSplineL2ResampleImageFilterBase< TInputImage, TOutputImage >
   Superclass::PrintSelf(os, indent);
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void BSplineL2ResampleImageFilterBase< TInputImage, TOutputImage >
 ::InitializePyramidSplineFilter(int SplineOrder)
 {

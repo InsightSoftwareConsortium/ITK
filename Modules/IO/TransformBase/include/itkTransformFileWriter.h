@@ -33,7 +33,7 @@ namespace itk
    * \wikiexample{IO/TransformFileWriter,Write a transform to a file}
    * \endwiki
    */
-template<class ScalarType>
+template<typename ScalarType>
 class TransformFileWriterTemplate:public LightProcessObject
 {
 public:

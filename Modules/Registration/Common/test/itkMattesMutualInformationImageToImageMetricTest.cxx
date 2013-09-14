@@ -39,7 +39,7 @@
  *
  *
  */
-template< class TImage, class TInterpolator>
+template< typename TImage, typename TInterpolator>
 int TestMattesMetricWithAffineTransform(
   TInterpolator * interpolator, bool useSampling,
   bool useExplicitJointPDFDerivatives, bool useCachingBSplineWeights )
@@ -412,7 +412,7 @@ int TestMattesMetricWithAffineTransform(
  *
  *
  */
-template< class TImage, class TInterpolator>
+template< typename TImage, typename TInterpolator>
 int TestMattesMetricWithBSplineTransform(
   TInterpolator * interpolator, bool useSampling,
   bool useExplicitJointPDFDerivatives, bool useCachingBSplineWeights )

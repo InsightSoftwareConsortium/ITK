@@ -38,7 +38,7 @@ namespace itk
  * \ingroup   PathFilters
  * \ingroup ITKPath
  */
-template< class TImage >
+template< typename TImage >
 class ExtractOrthogonalSwath2DImageFilter:public
   ImageAndPathToImageFilter< TImage, ParametricPath< 2 >, TImage >
 {

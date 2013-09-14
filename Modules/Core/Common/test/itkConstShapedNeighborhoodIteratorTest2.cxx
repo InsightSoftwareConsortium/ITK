@@ -23,7 +23,7 @@
 // this is kind of a duff test, in that it doesn't fail w/the old code
 // at runtime, it won't compile at all.  But it does at least do
 // coverage of the newly exposed methods.
-template <class ImageType>
+template <typename ImageType>
 class MyDerivedCSNI : public itk::ConstShapedNeighborhoodIterator<ImageType>
 {
 public:
@@ -42,7 +42,7 @@ public:
     }
 };
 
-template <class ImageType>
+template <typename ImageType>
 void
 MyDerivedCSNI<ImageType>
 ::TestNewExposedProtectedMembers()

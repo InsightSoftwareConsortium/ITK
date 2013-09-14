@@ -28,7 +28,7 @@ namespace itk
 {
 namespace Statistics
 {
-template< class TVector >
+template< typename TVector >
 MahalanobisDistanceMembershipFunction< TVector >
 ::MahalanobisDistanceMembershipFunction()
 {
@@ -43,7 +43,7 @@ MahalanobisDistanceMembershipFunction< TVector >
   m_CovarianceNonsingular = true;
 }
 
-template< class TVector >
+template< typename TVector >
 void
 MahalanobisDistanceMembershipFunction< TVector >
 ::SetMean(const MeanVectorType & mean)
@@ -67,7 +67,7 @@ MahalanobisDistanceMembershipFunction< TVector >
     }
 }
 
-template< class TVector >
+template< typename TVector >
 void
 MahalanobisDistanceMembershipFunction< TVector >
 ::SetCovariance(const CovarianceMatrixType & cov)
@@ -134,7 +134,7 @@ MahalanobisDistanceMembershipFunction< TVector >
   this->Modified();
 }
 
-template< class TVector >
+template< typename TVector >
 double
 MahalanobisDistanceMembershipFunction< TVector >
 ::Evaluate(const MeasurementVectorType & measurement) const
@@ -160,7 +160,7 @@ MahalanobisDistanceMembershipFunction< TVector >
   return temp;
 }
 
-template< class TVector >
+template< typename TVector >
 void
 MahalanobisDistanceMembershipFunction< TVector >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -176,7 +176,7 @@ MahalanobisDistanceMembershipFunction< TVector >
     (m_CovarianceNonsingular ? "true" : "false") << std::endl;
 }
 
-template< class TVector >
+template< typename TVector >
 typename LightObject::Pointer
 MahalanobisDistanceMembershipFunction< TVector >
 ::InternalClone() const

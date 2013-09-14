@@ -24,7 +24,7 @@ namespace itk
 {
 namespace Statistics
 {
-template< class TSample >
+template< typename TSample >
 KdTreeGenerator< TSample >
 ::KdTreeGenerator()
 {
@@ -34,7 +34,7 @@ KdTreeGenerator< TSample >
   m_MeasurementVectorSize = 0;
 }
 
-template< class TSample >
+template< typename TSample >
 void
 KdTreeGenerator< TSample >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -56,7 +56,7 @@ KdTreeGenerator< TSample >
      << m_MeasurementVectorSize << std::endl;
 }
 
-template< class TSample >
+template< typename TSample >
 void
 KdTreeGenerator< TSample >
 ::SetSample(TSample *sample)
@@ -70,7 +70,7 @@ KdTreeGenerator< TSample >
   NumericTraits<MeasurementVectorType>::SetLength(m_TempMean, m_MeasurementVectorSize);
 }
 
-template< class TSample >
+template< typename TSample >
 void
 KdTreeGenerator< TSample >
 ::SetBucketSize(unsigned int size)
@@ -78,7 +78,7 @@ KdTreeGenerator< TSample >
   m_BucketSize = size;
 }
 
-template< class TSample >
+template< typename TSample >
 void
 KdTreeGenerator< TSample >
 ::GenerateData()
@@ -120,7 +120,7 @@ KdTreeGenerator< TSample >
   m_Tree->SetRoot(root);
 }
 
-template< class TSample >
+template< typename TSample >
 inline typename KdTreeGenerator< TSample >::KdTreeNodeType *
 KdTreeGenerator< TSample >
 ::GenerateNonterminalNode(unsigned int beginIndex,
@@ -202,7 +202,7 @@ KdTreeGenerator< TSample >
   return nonTerminalNode;
 }
 
-template< class TSample >
+template< typename TSample >
 inline typename KdTreeGenerator< TSample >::KdTreeNodeType *
 KdTreeGenerator< TSample >
 ::GenerateTreeLoop(unsigned int beginIndex,

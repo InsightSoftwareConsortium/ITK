@@ -25,7 +25,7 @@ namespace itk
 /**
  * Assignment Operator from a scalar constant
  */
-template< class T, unsigned int NDimension >
+template< typename T, unsigned int NDimension >
 SymmetricSecondRankTensor< T, NDimension > &
 SymmetricSecondRankTensor< T, NDimension >
 ::operator=(const ComponentType & r)
@@ -37,7 +37,7 @@ SymmetricSecondRankTensor< T, NDimension >
 /**
  * Assigment from a plain array
  */
-template< class T, unsigned int NDimension >
+template< typename T, unsigned int NDimension >
 SymmetricSecondRankTensor< T, NDimension > &
 SymmetricSecondRankTensor< T, NDimension >
 ::operator=(const ComponentArrayType r)
@@ -49,7 +49,7 @@ SymmetricSecondRankTensor< T, NDimension >
 /**
  * Returns a temporary copy of a vector
  */
-template< class T, unsigned int NDimension >
+template< typename T, unsigned int NDimension >
 SymmetricSecondRankTensor< T, NDimension >
 SymmetricSecondRankTensor< T, NDimension >
 ::operator+(const Self & r) const
@@ -66,7 +66,7 @@ SymmetricSecondRankTensor< T, NDimension >
 /**
  * Returns a temporary copy of a vector
  */
-template< class T, unsigned int NDimension >
+template< typename T, unsigned int NDimension >
 SymmetricSecondRankTensor< T, NDimension >
 SymmetricSecondRankTensor< T, NDimension >
 ::operator-(const Self & r) const
@@ -83,7 +83,7 @@ SymmetricSecondRankTensor< T, NDimension >
 /**
  * Performs addition in place
  */
-template< class T, unsigned int NDimension >
+template< typename T, unsigned int NDimension >
 const SymmetricSecondRankTensor< T, NDimension > &
 SymmetricSecondRankTensor< T, NDimension >
 ::operator+=(const Self & r)
@@ -98,7 +98,7 @@ SymmetricSecondRankTensor< T, NDimension >
 /**
  * Performs subtraction in place
  */
-template< class T, unsigned int NDimension >
+template< typename T, unsigned int NDimension >
 const SymmetricSecondRankTensor< T, NDimension > &
 SymmetricSecondRankTensor< T, NDimension >
 ::operator-=(const Self & r)
@@ -113,7 +113,7 @@ SymmetricSecondRankTensor< T, NDimension >
 /**
  * Performs multiplication by a scalar, in place
  */
-template< class T, unsigned int NDimension >
+template< typename T, unsigned int NDimension >
 const SymmetricSecondRankTensor< T, NDimension > &
 SymmetricSecondRankTensor< T, NDimension >
 ::operator*=(const RealValueType & r)
@@ -128,7 +128,7 @@ SymmetricSecondRankTensor< T, NDimension >
 /**
  * Performs division by a scalar, in place
  */
-template< class T, unsigned int NDimension >
+template< typename T, unsigned int NDimension >
 const SymmetricSecondRankTensor< T, NDimension > &
 SymmetricSecondRankTensor< T, NDimension >
 ::operator/=(const RealValueType & r)
@@ -143,7 +143,7 @@ SymmetricSecondRankTensor< T, NDimension >
 /**
  * Performs multiplication with a scalar
  */
-template< class T, unsigned int NDimension >
+template< typename T, unsigned int NDimension >
 SymmetricSecondRankTensor< T, NDimension >
 SymmetricSecondRankTensor< T, NDimension >
 ::operator*(const RealValueType & r) const
@@ -160,7 +160,7 @@ SymmetricSecondRankTensor< T, NDimension >
 /**
  * Performs division by a scalar
  */
-template< class T, unsigned int NDimension >
+template< typename T, unsigned int NDimension >
 SymmetricSecondRankTensor< T, NDimension >
 SymmetricSecondRankTensor< T, NDimension >
 ::operator/(const RealValueType & r) const
@@ -177,7 +177,7 @@ SymmetricSecondRankTensor< T, NDimension >
 /**
  * Matrix notation access to elements
  */
-template< class T, unsigned int NDimension >
+template< typename T, unsigned int NDimension >
 const typename SymmetricSecondRankTensor< T, NDimension >::ValueType &
 SymmetricSecondRankTensor< T, NDimension >
 ::operator()(unsigned int row, unsigned int col) const
@@ -204,7 +204,7 @@ SymmetricSecondRankTensor< T, NDimension >
 /**
  * Matrix notation access to elements
  */
-template< class T, unsigned int NDimension >
+template< typename T, unsigned int NDimension >
 typename SymmetricSecondRankTensor< T, NDimension >::ValueType &
 SymmetricSecondRankTensor< T, NDimension >
 ::operator()(unsigned int row, unsigned int col)
@@ -232,7 +232,7 @@ SymmetricSecondRankTensor< T, NDimension >
  * Set the Tensor to an Identity.
  * Set ones in the diagonal and zeroes every where else.
  */
-template< class T, unsigned int NDimension >
+template< typename T, unsigned int NDimension >
 void
 SymmetricSecondRankTensor< T, NDimension >
 ::SetIdentity()
@@ -247,7 +247,7 @@ SymmetricSecondRankTensor< T, NDimension >
 /**
  * Get the Trace
  */
-template< class T, unsigned int NDimension >
+template< typename T, unsigned int NDimension >
 typename SymmetricSecondRankTensor< T, NDimension >::AccumulateValueType
 SymmetricSecondRankTensor< T, NDimension >
 ::GetTrace() const
@@ -266,7 +266,7 @@ SymmetricSecondRankTensor< T, NDimension >
 /**
  * Compute Eigen Values
  */
-template< class T, unsigned int NDimension >
+template< typename T, unsigned int NDimension >
 void
 SymmetricSecondRankTensor< T, NDimension >
 ::ComputeEigenValues(EigenValuesArrayType & eigenValues) const
@@ -290,7 +290,7 @@ SymmetricSecondRankTensor< T, NDimension >
  * Compute Eigen analysis, it returns an array with eigen values
  * and a Matrix with eigen vectors
  */
-template< class T, unsigned int NDimension >
+template< typename T, unsigned int NDimension >
 void
 SymmetricSecondRankTensor< T, NDimension >
 ::ComputeEigenAnalysis(EigenValuesArrayType & eigenValues,
@@ -317,7 +317,7 @@ SymmetricSecondRankTensor< T, NDimension >
  * matrix * self * Transpose(matrix)
  *
  */
-template<class T,unsigned int NDimension>
+template<typename T,unsigned int NDimension>
 template <typename TMatrixValueType>
 SymmetricSecondRankTensor<T,NDimension>
 SymmetricSecondRankTensor<T,NDimension>
@@ -357,7 +357,7 @@ SymmetricSecondRankTensor<T,NDimension>
 /**
  * Pre-multiply the Tensor by a Matrix
  */
-template< class T, unsigned int NDimension >
+template< typename T, unsigned int NDimension >
 typename SymmetricSecondRankTensor< T, NDimension >::MatrixType
 SymmetricSecondRankTensor< T, NDimension >
 ::PreMultiply(const MatrixType & m) const
@@ -383,7 +383,7 @@ SymmetricSecondRankTensor< T, NDimension >
 /**
  * Post-multiply the Tensor by a Matrix
  */
-template< class T, unsigned int NDimension >
+template< typename T, unsigned int NDimension >
 typename SymmetricSecondRankTensor< T, NDimension >::MatrixType
 SymmetricSecondRankTensor< T, NDimension >
 ::PostMultiply(const MatrixType & m) const
@@ -409,7 +409,7 @@ SymmetricSecondRankTensor< T, NDimension >
 /**
  * Print content to an ostream
  */
-template< class T, unsigned int NDimension >
+template< typename T, unsigned int NDimension >
 std::ostream &
 operator<<(std::ostream & os, const SymmetricSecondRankTensor< T, NDimension > & c)
 {
@@ -423,7 +423,7 @@ operator<<(std::ostream & os, const SymmetricSecondRankTensor< T, NDimension > &
 /**
  * Read content from an istream
  */
-template< class T, unsigned int NDimension >
+template< typename T, unsigned int NDimension >
 std::istream &
 operator>>(std::istream & is, SymmetricSecondRankTensor< T, NDimension > & dt)
 {

@@ -41,7 +41,7 @@ namespace itk
  */
 template< unsigned int VDimension,
           typename TLevelSetValueType,
-          class TEquationContainer >
+          typename TEquationContainer >
 class UpdateWhitakerSparseLevelSet : public Object
 {
 public:

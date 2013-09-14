@@ -36,7 +36,7 @@ namespace itk
  * \ingroup LevelSetSegmentation
  * \ingroup ITKFastMarching
  */
-template< class TLevelSet >
+template< typename TLevelSet >
 class LevelSetTypeDefault
 {
 public:
@@ -82,7 +82,7 @@ public:
  * \ingroup ITKFastMarching
  */
 template<
-  class TPixel,
+  typename TPixel,
   unsigned int VAuxDimension = 1,
   unsigned int VSetDimension = 2
   >

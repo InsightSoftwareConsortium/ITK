@@ -44,7 +44,7 @@ namespace itk
  * \wikiexample{ImageSegmentation/LabelImageToLabelMapFilter,Convert an itk::Image consisting of labeled regions to a LabelMap}
  * \endwiki
  */
-template< class TInputImage, class TOutputImage =
+template< typename TInputImage, typename TOutputImage =
             LabelMap< LabelObject< typename TInputImage::PixelType,
                                    TInputImage::ImageDimension > > >
 class LabelImageToLabelMapFilter:

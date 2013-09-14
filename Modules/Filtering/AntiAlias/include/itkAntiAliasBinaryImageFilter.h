@@ -103,7 +103,7 @@ namespace itk
  * \wikiexample{Smoothing/AntiAliasBinaryImageFilter,Anti alias a binary image}
  * \endwiki
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class AntiAliasBinaryImageFilter:
   public SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 {

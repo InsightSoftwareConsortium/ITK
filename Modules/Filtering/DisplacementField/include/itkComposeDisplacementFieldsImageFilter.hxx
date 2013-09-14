@@ -30,7 +30,7 @@ namespace itk
 /*
  * ComposeDisplacementFieldsImageFilter class definitions
  */
-template<class InputImage, class TOutputImage>
+template<typename InputImage, typename TOutputImage>
 ComposeDisplacementFieldsImageFilter<InputImage, TOutputImage>
 ::ComposeDisplacementFieldsImageFilter()
 {
@@ -41,13 +41,13 @@ ComposeDisplacementFieldsImageFilter<InputImage, TOutputImage>
   this->m_Interpolator = interpolator;
 }
 
-template<class InputImage, class TOutputImage>
+template<typename InputImage, typename TOutputImage>
 ComposeDisplacementFieldsImageFilter<InputImage, TOutputImage>
 ::~ComposeDisplacementFieldsImageFilter()
 {
 }
 
-template<class InputImage, class TOutputImage>
+template<typename InputImage, typename TOutputImage>
 void
 ComposeDisplacementFieldsImageFilter<InputImage, TOutputImage>
 ::SetInterpolator( InterpolatorType *interpolator )
@@ -64,7 +64,7 @@ ComposeDisplacementFieldsImageFilter<InputImage, TOutputImage>
     }
 }
 
-template<class InputImage, class TOutputImage>
+template<typename InputImage, typename TOutputImage>
 void
 ComposeDisplacementFieldsImageFilter<InputImage, TOutputImage>
 ::BeforeThreadedGenerateData()
@@ -79,7 +79,7 @@ ComposeDisplacementFieldsImageFilter<InputImage, TOutputImage>
     }
 }
 
-template<class InputImage, class TOutputImage>
+template<typename InputImage, typename TOutputImage>
 void
 ComposeDisplacementFieldsImageFilter<InputImage, TOutputImage>
 ::ThreadedGenerateData( const RegionType & region, ThreadIdType itkNotUsed( threadId ) )
@@ -124,7 +124,7 @@ ComposeDisplacementFieldsImageFilter<InputImage, TOutputImage>
     }
 }
 
-template<class InputImage, class TOutputImage>
+template<typename InputImage, typename TOutputImage>
 void
 ComposeDisplacementFieldsImageFilter<InputImage, TOutputImage>
 ::PrintSelf( std::ostream& os, Indent indent ) const

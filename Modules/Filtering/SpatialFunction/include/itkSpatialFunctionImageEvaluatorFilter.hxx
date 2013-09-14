@@ -23,7 +23,7 @@
 
 namespace itk
 {
-template< class TSpatialFunction, class TInputImage, class TOutputImage >
+template< typename TSpatialFunction, typename TInputImage, typename TOutputImage >
 SpatialFunctionImageEvaluatorFilter< TSpatialFunction, TInputImage, TOutputImage >
 ::SpatialFunctionImageEvaluatorFilter()
 {
@@ -33,7 +33,7 @@ SpatialFunctionImageEvaluatorFilter< TSpatialFunction, TInputImage, TOutputImage
   this->m_PixelFunction = 0;
 }
 
-template< class TSpatialFunction, class TInputImage, class TOutputImage >
+template< typename TSpatialFunction, typename TInputImage, typename TOutputImage >
 void
 SpatialFunctionImageEvaluatorFilter< TSpatialFunction, TInputImage, TOutputImage >
 ::GenerateData()

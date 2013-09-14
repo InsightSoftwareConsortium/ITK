@@ -27,7 +27,7 @@ namespace itk
 namespace Statistics
 {
 
-template<class LayerType, class TTargetVector>
+template<typename LayerType, typename TTargetVector>
 void
 ErrorBackPropagationLearningFunctionBase<LayerType,TTargetVector>
 ::Learn( LayerInterfaceType * layer, ValueType lr )
@@ -54,7 +54,7 @@ ErrorBackPropagationLearningFunctionBase<LayerType,TTargetVector>
   inputweightset->SetDBValues(DB.data_block());
 }
 
-template<class LayerType, class TTargetVector>
+template<typename LayerType, typename TTargetVector>
 void
 ErrorBackPropagationLearningFunctionBase<LayerType,TTargetVector>
 ::Learn( LayerInterfaceType * , TTargetVector , ValueType )
@@ -62,7 +62,7 @@ ErrorBackPropagationLearningFunctionBase<LayerType,TTargetVector>
 }
 
 /** Print the object */
-template<class LayerType, class TTargetVector>
+template<typename LayerType, typename TTargetVector>
 void
 ErrorBackPropagationLearningFunctionBase<LayerType,TTargetVector>
 ::PrintSelf( std::ostream& os, Indent indent ) const

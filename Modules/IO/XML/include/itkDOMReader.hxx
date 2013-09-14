@@ -26,7 +26,7 @@
 namespace itk
 {
 
-template< class TOutput >
+template< typename TOutput >
 DOMReader<TOutput>::DOMReader() : m_Output( NULL )
 {
   // Create the logger.
@@ -48,7 +48,7 @@ DOMReader<TOutput>::DOMReader() : m_Output( NULL )
  * The output object will be created automatically, but the user
  * can appoint a user object as the output by calling this function.
  */
-template< class TOutput >
+template< typename TOutput >
 void
 DOMReader<TOutput>::SetOutput( OutputType* output )
 {
@@ -58,7 +58,7 @@ DOMReader<TOutput>::SetOutput( OutputType* output )
 }
 
 /** Get the output object for full access. */
-template< class TOutput >
+template< typename TOutput >
 typename DOMReader<TOutput>::OutputType *
 DOMReader<TOutput>::GetOutput()
 {
@@ -66,7 +66,7 @@ DOMReader<TOutput>::GetOutput()
 }
 
 /** Get the output object for read-only access. */
-template< class TOutput >
+template< typename TOutput >
 const typename DOMReader<TOutput>::OutputType *
 DOMReader<TOutput>::GetOutput() const
 {
@@ -78,7 +78,7 @@ DOMReader<TOutput>::GetOutput() const
  * Some derived readers may accept an incomplete DOM object during the reading process, in those cases
  * the optional argument 'userdata' can be used to provide the missed information.
  */
-template< class TOutput >
+template< typename TOutput >
 void
 DOMReader<TOutput>::Update( const DOMNodeType* inputdom, const void* userdata )
 {
@@ -114,7 +114,7 @@ DOMReader<TOutput>::Update( const DOMNodeType* inputdom, const void* userdata )
 /**
  * Function called by end-users to generate the output object from the input XML file.
  */
-template< class TOutput >
+template< typename TOutput >
 void
 DOMReader<TOutput>::Update()
 {

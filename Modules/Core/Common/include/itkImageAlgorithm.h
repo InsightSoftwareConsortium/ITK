@@ -85,7 +85,7 @@ struct ImageAlgorithm
   }
 
 /** \cond HIDE_SPECIALIZATION_DOCUMENTATION */
-  template<class TPixel1, class TPixel2, unsigned int VImageDimension>
+  template<typename TPixel1, typename TPixel2, unsigned int VImageDimension>
   static void Copy( const Image<TPixel1, VImageDimension> * inImage,
                                Image<TPixel2, VImageDimension> * outImage,
                                const typename Image<TPixel1, VImageDimension>::RegionType &inRegion,
@@ -106,7 +106,7 @@ struct ImageAlgorithm
       );
   }
 
-  template<class TPixel1, class TPixel2, unsigned int VImageDimension>
+  template<typename TPixel1, typename TPixel2, unsigned int VImageDimension>
   static void Copy( const VectorImage<TPixel1, VImageDimension> * inImage,
                                VectorImage<TPixel2, VImageDimension> * outImage,
                                const typename VectorImage<TPixel1, VImageDimension>::RegionType &inRegion,

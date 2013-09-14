@@ -57,7 +57,7 @@ namespace itk
  *
  * \ingroup ITKCommon
  */
-template< class T >
+template< typename T >
 class AutoPointerDataObjectDecorator:public DataObject
 {
 public:

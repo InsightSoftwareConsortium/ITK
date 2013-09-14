@@ -22,7 +22,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TFeatureImage, class TOutputType >
+template< typename TInputImage, typename TFeatureImage, typename TOutputType >
 CurvesLevelSetImageFilter< TInputImage, TFeatureImage, TOutputType >
 ::CurvesLevelSetImageFilter()
 {
@@ -39,7 +39,7 @@ CurvesLevelSetImageFilter< TInputImage, TFeatureImage, TOutputType >
   this->InterpolateSurfaceLocationOff();
 }
 
-template< class TInputImage, class TFeatureImage, class TOutputType >
+template< typename TInputImage, typename TFeatureImage, typename TOutputType >
 void
 CurvesLevelSetImageFilter< TInputImage, TFeatureImage, TOutputType >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -49,7 +49,7 @@ CurvesLevelSetImageFilter< TInputImage, TFeatureImage, TOutputType >
   m_CurvesFunction->Print( os, indent.GetNextIndent() );
 }
 
-template< class TInputImage, class TFeatureImage, class TOutputType >
+template< typename TInputImage, typename TFeatureImage, typename TOutputType >
 void
 CurvesLevelSetImageFilter< TInputImage, TFeatureImage, TOutputType >
 ::GenerateData()

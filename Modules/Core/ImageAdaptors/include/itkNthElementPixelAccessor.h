@@ -48,7 +48,7 @@ namespace itk
  * \ingroup ITKImageAdaptors
  */
 
-template< class T, class TContainer >
+template< typename T, typename TContainer >
 class NthElementPixelAccessor
 {
 public:
@@ -104,7 +104,7 @@ private:
 };
 
 
-template< class TOutputPixelType, class TPixelType >
+template< typename TOutputPixelType, typename TPixelType >
 class NthElementPixelAccessor< TOutputPixelType, itk::VariableLengthVector<TPixelType> >
   : private DefaultVectorPixelAccessor< TPixelType >
 {

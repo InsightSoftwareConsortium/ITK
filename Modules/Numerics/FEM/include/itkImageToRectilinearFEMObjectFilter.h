@@ -39,7 +39,7 @@ namespace fem
  * \ingroup ITKFEM
  */
 
-template <class TInputImage>
+template <typename TInputImage>
 class ImageToRectilinearFEMObjectFilter : public ProcessObject
 {
 public:

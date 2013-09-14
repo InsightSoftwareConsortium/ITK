@@ -24,7 +24,7 @@
 namespace itk
 {
 
-template< class TInput, class TLevelSetContainer >
+template< typename TInput, typename TLevelSetContainer >
 LevelSetEquationOverlapPenaltyTerm< TInput, TLevelSetContainer >
 ::LevelSetEquationOverlapPenaltyTerm()
 {
@@ -34,19 +34,19 @@ LevelSetEquationOverlapPenaltyTerm< TInput, TLevelSetContainer >
   this->m_CacheImage = 0;
 }
 
-template< class TInput, class TLevelSetContainer >
+template< typename TInput, typename TLevelSetContainer >
 LevelSetEquationOverlapPenaltyTerm< TInput, TLevelSetContainer >
 ::~LevelSetEquationOverlapPenaltyTerm()
 {
 }
 
-template< class TInput, class TLevelSetContainer >
+template< typename TInput, typename TLevelSetContainer >
 void LevelSetEquationOverlapPenaltyTerm< TInput, TLevelSetContainer >
 ::Update()
 {
 }
 
-template< class TInput, class TLevelSetContainer >
+template< typename TInput, typename TLevelSetContainer >
 void
 LevelSetEquationOverlapPenaltyTerm< TInput, TLevelSetContainer >
 ::UpdatePixel( const LevelSetInputIndexType& itkNotUsed( index ),
@@ -55,7 +55,7 @@ LevelSetEquationOverlapPenaltyTerm< TInput, TLevelSetContainer >
 {
 }
 
-template< class TInput, class TLevelSetContainer >
+template< typename TInput, typename TLevelSetContainer >
 void LevelSetEquationOverlapPenaltyTerm< TInput, TLevelSetContainer >
 ::InitializeParameters()
 {
@@ -63,13 +63,13 @@ void LevelSetEquationOverlapPenaltyTerm< TInput, TLevelSetContainer >
 }
 
 
-template< class TInput, class TLevelSetContainer >
+template< typename TInput, typename TLevelSetContainer >
 void LevelSetEquationOverlapPenaltyTerm< TInput, TLevelSetContainer >
 ::Initialize( const LevelSetInputIndexType& itkNotUsed( index ) )
 {
 }
 
-template< class TInput, class TLevelSetContainer >
+template< typename TInput, typename TLevelSetContainer >
 typename LevelSetEquationOverlapPenaltyTerm< TInput, TLevelSetContainer >::LevelSetOutputRealType
 LevelSetEquationOverlapPenaltyTerm< TInput, TLevelSetContainer >
 ::Value( const LevelSetInputIndexType& index )
@@ -79,7 +79,7 @@ LevelSetEquationOverlapPenaltyTerm< TInput, TLevelSetContainer >
   return -value;
 }
 
-template< class TInput, class TLevelSetContainer >
+template< typename TInput, typename TLevelSetContainer >
 typename LevelSetEquationOverlapPenaltyTerm< TInput, TLevelSetContainer >::LevelSetOutputRealType
 LevelSetEquationOverlapPenaltyTerm< TInput, TLevelSetContainer >
 ::Value( const LevelSetInputIndexType& index, const LevelSetDataType& itkNotUsed( data ) )
@@ -89,7 +89,7 @@ LevelSetEquationOverlapPenaltyTerm< TInput, TLevelSetContainer >
   return -value;
 }
 
-template< class TInput, class TLevelSetContainer >
+template< typename TInput, typename TLevelSetContainer >
 void LevelSetEquationOverlapPenaltyTerm< TInput, TLevelSetContainer >
 ::ComputeSumTerm( const LevelSetInputIndexType& index, LevelSetOutputRealType& sum )
 {

@@ -25,7 +25,7 @@ namespace itk
 /**
  * Constructor
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 GetAverageSliceImageFilter< TInputImage, TOutputImage >
 ::GetAverageSliceImageFilter()
 {
@@ -33,7 +33,7 @@ GetAverageSliceImageFilter< TInputImage, TOutputImage >
   this->AverageOn();
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 GetAverageSliceImageFilter< TInputImage, TOutputImage >::PrintSelf(std::ostream & os, Indent indent) const
 {

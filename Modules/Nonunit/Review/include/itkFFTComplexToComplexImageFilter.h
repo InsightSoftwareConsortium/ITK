@@ -47,7 +47,7 @@ namespace itk
  * \sa ForwardFFTImageFilter
  * \ingroup ITKReview
  */
-template< class TImage >
+template< typename TImage >
 class FFTComplexToComplexImageFilter:
   public ImageToImageFilter< TImage, TImage >
 {

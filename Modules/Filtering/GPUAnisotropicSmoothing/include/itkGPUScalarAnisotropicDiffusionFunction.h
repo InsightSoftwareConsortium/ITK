@@ -34,7 +34,7 @@ namespace itk
 /** Create a helper GPU Kernel class for GPUScalarAnisotropicDiffusionFunction */
 itkGPUKernelClassMacro(GPUScalarAnisotropicDiffusionFunctionKernel);
 
-template< class TImage >
+template< typename TImage >
 class GPUScalarAnisotropicDiffusionFunction :
   public GPUAnisotropicDiffusionFunction< TImage >
 {

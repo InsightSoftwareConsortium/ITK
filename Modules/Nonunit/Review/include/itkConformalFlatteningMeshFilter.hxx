@@ -39,7 +39,7 @@ namespace itk
 /**
  *
  */
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
 ::ConformalFlatteningMeshFilter()
 {
@@ -57,7 +57,7 @@ ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
 /**
  * Set the triangle used to define the boundary of the flattened region.
  */
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 void
 ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
 ::SetPolarCellIdentifier(CellIdentifier cellId)
@@ -69,7 +69,7 @@ ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
  * Define the scale of the mapping. The largest coordinates of the
  * furthest point in the plane is m_MapScale.
  */
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 void
 ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
 ::SetScale(double scale)
@@ -80,7 +80,7 @@ ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
 /**
  * Define that the input surface will be mapped to a sphere
  */
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 void
 ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
 ::MapToSphere(void)
@@ -91,7 +91,7 @@ ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
 /** Define that the input surface will be mapped to a plane.
  *  This skips the steps of the stereographic projection.
  */
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 void
 ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
 ::MapToPlane(void)
@@ -102,7 +102,7 @@ ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
 /**
  *
  */
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 void
 ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -113,7 +113,7 @@ ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
 /**
  * This method causes the filter to generate its output.
  */
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 void
 ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
 ::GenerateData(void)

@@ -57,7 +57,7 @@ namespace itk
  * \ingroup ITKRegistrationCommon
  */
 
-template< class TFixedImage, class TMovingSpatialObject >
+template< typename TFixedImage, typename TMovingSpatialObject >
 class ImageToSpatialObjectMetric:
   public SingleValuedCostFunction
 {

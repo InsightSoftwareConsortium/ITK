@@ -81,7 +81,7 @@ private:
  * \ingroup ITKSystemObjects
  * \ingroup ITKCommon
  */
-template< class T >
+template< typename T >
 class MemberCommand:public Command
 {
 public:
@@ -156,7 +156,7 @@ private:
  * \ingroup ITKSystemObjects
  * \ingroup ITKCommon
  */
-template< class T >
+template< typename T >
 class ReceptorMemberCommand:public Command
 {
 public:
@@ -220,7 +220,7 @@ private:
  * \ingroup ITKSystemObjects
  * \ingroup ITKCommon
  */
-template< class T >
+template< typename T >
 class SimpleMemberCommand:public Command
 {
 public:
@@ -282,7 +282,7 @@ private:
  * \ingroup ITKSystemObjects
  * \ingroup ITKCommon
  */
-template< class T >
+template< typename T >
 class SimpleConstMemberCommand:public Command
 {
 public:

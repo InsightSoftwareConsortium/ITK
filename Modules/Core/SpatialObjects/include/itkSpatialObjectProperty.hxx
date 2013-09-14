@@ -22,7 +22,7 @@
 
 namespace itk
 {
-template< class TComponentType >
+template< typename TComponentType >
 SpatialObjectProperty< TComponentType >
 ::SpatialObjectProperty()
 {
@@ -34,12 +34,12 @@ SpatialObjectProperty< TComponentType >
   m_Name = "";
 }
 
-template< class TComponentType >
+template< typename TComponentType >
 SpatialObjectProperty< TComponentType >
 ::~SpatialObjectProperty()
 {}
 
-template< class TComponentType >
+template< typename TComponentType >
 const typename SpatialObjectProperty< TComponentType >::PixelType &
 SpatialObjectProperty< TComponentType >
 ::GetColor(void) const
@@ -47,7 +47,7 @@ SpatialObjectProperty< TComponentType >
   return m_Color;
 }
 
-template< class TComponentType >
+template< typename TComponentType >
 void
 SpatialObjectProperty< TComponentType >
 ::SetColor(const PixelType & color)
@@ -56,7 +56,7 @@ SpatialObjectProperty< TComponentType >
   this->Modified();
 }
 
-template< class TComponentType >
+template< typename TComponentType >
 void
 SpatialObjectProperty< TComponentType >
 ::SetColor(TComponentType r, TComponentType g, TComponentType b)
@@ -67,7 +67,7 @@ SpatialObjectProperty< TComponentType >
   this->Modified();
 }
 
-template< class TComponentType >
+template< typename TComponentType >
 void
 SpatialObjectProperty< TComponentType >
 ::SetRed(TComponentType r)
@@ -76,7 +76,7 @@ SpatialObjectProperty< TComponentType >
   this->Modified();
 }
 
-template< class TComponentType >
+template< typename TComponentType >
 TComponentType
 SpatialObjectProperty< TComponentType >
 ::GetRed(void) const
@@ -84,7 +84,7 @@ SpatialObjectProperty< TComponentType >
   return m_Color.GetRed();
 }
 
-template< class TComponentType >
+template< typename TComponentType >
 void
 SpatialObjectProperty< TComponentType >
 ::SetGreen(TComponentType g)
@@ -93,7 +93,7 @@ SpatialObjectProperty< TComponentType >
   this->Modified();
 }
 
-template< class TComponentType >
+template< typename TComponentType >
 TComponentType
 SpatialObjectProperty< TComponentType >
 ::GetGreen(void) const
@@ -101,7 +101,7 @@ SpatialObjectProperty< TComponentType >
   return m_Color.GetGreen();
 }
 
-template< class TComponentType >
+template< typename TComponentType >
 void
 SpatialObjectProperty< TComponentType >
 ::SetBlue(TComponentType b)
@@ -110,7 +110,7 @@ SpatialObjectProperty< TComponentType >
   this->Modified();
 }
 
-template< class TComponentType >
+template< typename TComponentType >
 TComponentType
 SpatialObjectProperty< TComponentType >
 ::GetBlue(void) const
@@ -118,7 +118,7 @@ SpatialObjectProperty< TComponentType >
   return m_Color.GetBlue();
 }
 
-template< class TComponentType >
+template< typename TComponentType >
 void
 SpatialObjectProperty< TComponentType >
 ::SetAlpha(TComponentType a)
@@ -127,7 +127,7 @@ SpatialObjectProperty< TComponentType >
   this->Modified();
 }
 
-template< class TComponentType >
+template< typename TComponentType >
 TComponentType
 SpatialObjectProperty< TComponentType >
 ::GetAlpha(void) const
@@ -135,7 +135,7 @@ SpatialObjectProperty< TComponentType >
   return m_Color.GetAlpha();
 }
 
-template< class TComponentType >
+template< typename TComponentType >
 void
 SpatialObjectProperty< TComponentType >
 ::SetName(const char *name)
@@ -144,7 +144,7 @@ SpatialObjectProperty< TComponentType >
   this->Modified();
 }
 
-template< class TComponentType >
+template< typename TComponentType >
 typename SpatialObjectProperty< TComponentType >::StringType
 SpatialObjectProperty< TComponentType >
 ::GetName(void) const
@@ -152,7 +152,7 @@ SpatialObjectProperty< TComponentType >
   return m_Name;
 }
 
-template< class TComponentType >
+template< typename TComponentType >
 void
 SpatialObjectProperty< TComponentType >
 ::PrintSelf(std::ostream & os, Indent indent) const

@@ -50,7 +50,7 @@ namespace itk
 
 namespace Functor
 {
-template< class TInput, class TOutput >
+template< typename TInput, typename TOutput >
 class ChangeLabel
 {
 public:
@@ -108,7 +108,7 @@ private:
 };
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class ChangeLabelImageFilter:
   public
   UnaryFunctorImageFilter< TInputImage, TOutputImage,

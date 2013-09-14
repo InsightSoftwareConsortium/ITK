@@ -29,7 +29,7 @@ namespace itk
 /**
  * Constructor
  */
-template< class TInputImage, class TCoordRep >
+template< typename TInputImage, typename TCoordRep >
 MedianImageFunction< TInputImage, TCoordRep >
 ::MedianImageFunction() : m_NeighborhoodRadius(1)
 {
@@ -39,7 +39,7 @@ MedianImageFunction< TInputImage, TCoordRep >
 /**
  *
  */
-template< class TInputImage, class TCoordRep >
+template< typename TInputImage, typename TCoordRep >
 void
 MedianImageFunction< TInputImage, TCoordRep >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -51,7 +51,7 @@ MedianImageFunction< TInputImage, TCoordRep >
 /**
  *
  */
-template< class TInputImage, class TCoordRep >
+template< typename TInputImage, typename TCoordRep >
 typename MedianImageFunction< TInputImage, TCoordRep >
 ::OutputType
 MedianImageFunction< TInputImage, TCoordRep >

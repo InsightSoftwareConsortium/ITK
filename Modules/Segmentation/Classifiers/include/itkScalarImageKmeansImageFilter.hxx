@@ -27,7 +27,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 ScalarImageKmeansImageFilter< TInputImage, TOutputImage >
 ::ScalarImageKmeansImageFilter()
 {
@@ -35,7 +35,7 @@ ScalarImageKmeansImageFilter< TInputImage, TOutputImage >
   m_ImageRegionDefined = false;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void ScalarImageKmeansImageFilter< TInputImage, TOutputImage >
 ::SetImageRegion(const ImageRegionType & region)
 {
@@ -43,7 +43,7 @@ void ScalarImageKmeansImageFilter< TInputImage, TOutputImage >
   m_ImageRegionDefined = true;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ScalarImageKmeansImageFilter< TInputImage, TOutputImage >
 ::VerifyPreconditions()
@@ -56,7 +56,7 @@ ScalarImageKmeansImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ScalarImageKmeansImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
@@ -225,7 +225,7 @@ ScalarImageKmeansImageFilter< TInputImage, TOutputImage >
  * This requires that the initial mean value
  * for that class has been explicitly set.
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ScalarImageKmeansImageFilter< TInputImage, TOutputImage >
 ::AddClassWithInitialMean(RealPixelType mean)
@@ -236,7 +236,7 @@ ScalarImageKmeansImageFilter< TInputImage, TOutputImage >
 /**
  * Standard "PrintSelf" method
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ScalarImageKmeansImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(

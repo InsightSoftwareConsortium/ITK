@@ -39,7 +39,7 @@ namespace itk
  * \ingroup ITKDeprecated
  */
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class ScalarToArrayCastImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {

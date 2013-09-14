@@ -45,7 +45,7 @@ namespace itk
  * \ingroup Numerics Optimizers
  * \ingroup ITKOptimizersv4
  */
-template< class TInternalComputationValueType >
+template< typename TInternalComputationValueType >
 class SingleValuedCostFunctionv4Template:
   public CostFunctionTemplate< TInternalComputationValueType >
 {

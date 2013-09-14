@@ -50,7 +50,7 @@ namespace itk
  * \wikiexample{SimpleOperations/ImageDuplicator,Duplicate an image}
  * \endwiki
  */
-template< class TInputImage >
+template< typename TInputImage >
 class ImageDuplicator:public Object
 {
 public:

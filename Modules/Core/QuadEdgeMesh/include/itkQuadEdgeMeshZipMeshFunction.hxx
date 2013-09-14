@@ -22,7 +22,7 @@
 
 namespace itk
 {
-template< class TMesh, class TQEType >
+template< typename TMesh, typename TQEType >
 typename QuadEdgeMeshZipMeshFunction< TMesh, TQEType >::OutputType
 QuadEdgeMeshZipMeshFunction< TMesh, TQEType >::Evaluate(QEType *e)
 {

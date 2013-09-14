@@ -25,7 +25,7 @@ namespace itk
 {
 namespace Statistics
 {
-template< class TSample, class THistogram >
+template< typename TSample, typename THistogram >
 SampleToHistogramFilter< TSample, THistogram >
 ::SampleToHistogramFilter()
 {
@@ -39,12 +39,12 @@ SampleToHistogramFilter< TSample, THistogram >
   this->SetAutoMinimumMaximum(true);
 }
 
-template< class TSample, class THistogram >
+template< typename TSample, typename THistogram >
 SampleToHistogramFilter< TSample, THistogram >
 ::~SampleToHistogramFilter()
 {}
 
-template< class TSample, class THistogram >
+template< typename TSample, typename THistogram >
 void
 SampleToHistogramFilter< TSample, THistogram >
 ::SetInput(const SampleType *sample)
@@ -54,7 +54,7 @@ SampleToHistogramFilter< TSample, THistogram >
                                     const_cast< SampleType * >( sample ) );
 }
 
-template< class TSample, class THistogram >
+template< typename TSample, typename THistogram >
 const typename
 SampleToHistogramFilter< TSample, THistogram >::SampleType *
 SampleToHistogramFilter< TSample, THistogram >
@@ -66,7 +66,7 @@ SampleToHistogramFilter< TSample, THistogram >
   return input;
 }
 
-template< class TSample, class THistogram >
+template< typename TSample, typename THistogram >
 const typename
 SampleToHistogramFilter< TSample, THistogram >::HistogramType *
 SampleToHistogramFilter< TSample, THistogram >
@@ -78,7 +78,7 @@ SampleToHistogramFilter< TSample, THistogram >
   return output;
 }
 
-template< class TSample, class THistogram >
+template< typename TSample, typename THistogram >
 void
 SampleToHistogramFilter< TSample, THistogram >
 ::GraftOutput(DataObject *graft)
@@ -90,7 +90,7 @@ SampleToHistogramFilter< TSample, THistogram >
   output->Graft(graft);
 }
 
-template< class TSample, class THistogram >
+template< typename TSample, typename THistogram >
 typename SampleToHistogramFilter< TSample, THistogram >::DataObjectPointer
 SampleToHistogramFilter< TSample, THistogram >
 ::MakeOutput(DataObjectPointerArraySizeType)
@@ -98,7 +98,7 @@ SampleToHistogramFilter< TSample, THistogram >
   return HistogramType::New().GetPointer();
 }
 
-template< class TSample, class THistogram >
+template< typename TSample, typename THistogram >
 void
 SampleToHistogramFilter< TSample, THistogram >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -121,7 +121,7 @@ SampleToHistogramFilter< TSample, THistogram >
      << this->GetHistogramSizeInput() << std::endl;
 }
 
-template< class TSample, class THistogram >
+template< typename TSample, typename THistogram >
 void
 SampleToHistogramFilter< TSample, THistogram >
 ::GenerateData()

@@ -65,9 +65,9 @@ namespace itk
  */
 
 template<
-  class TFixedImage,
-  class TMovingImage = TFixedImage,
-  class TFeatures = PointSet< Matrix< double, TFixedImage::ImageDimension, TFixedImage::ImageDimension>, TFixedImage::ImageDimension >,
+  typename TFixedImage,
+  typename TMovingImage = TFixedImage,
+  typename TFeatures = PointSet< Matrix< double, TFixedImage::ImageDimension, TFixedImage::ImageDimension>, TFixedImage::ImageDimension >,
   class TDisplacements = PointSet< Vector< typename TFeatures::PointType::ValueType, TFeatures::PointDimension >, TFeatures::PointDimension >,
   class TSimilarities = PointSet< double, TDisplacements::PointDimension > >
 class BlockMatchingImageFilter:

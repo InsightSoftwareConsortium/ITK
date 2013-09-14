@@ -36,7 +36,7 @@ namespace itk
  * \ingroup ITKImageFilterBase
  */
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class BoxImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {

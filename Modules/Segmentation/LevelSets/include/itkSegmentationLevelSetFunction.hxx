@@ -22,7 +22,7 @@
 
 namespace itk
 {
-template< class TImageType, class TFeatureImageType >
+template< typename TImageType, typename TFeatureImageType >
 void SegmentationLevelSetFunction< TImageType, TFeatureImageType >
 ::SetSpeedImage(ImageType *s)
 {
@@ -30,7 +30,7 @@ void SegmentationLevelSetFunction< TImageType, TFeatureImageType >
   m_Interpolator->SetInputImage(m_SpeedImage);
 }
 
-template< class TImageType, class TFeatureImageType >
+template< typename TImageType, typename TFeatureImageType >
 void SegmentationLevelSetFunction< TImageType, TFeatureImageType >
 ::SetAdvectionImage(VectorImageType *s)
 {
@@ -38,7 +38,7 @@ void SegmentationLevelSetFunction< TImageType, TFeatureImageType >
   m_VectorInterpolator->SetInputImage(m_AdvectionImage);
 }
 
-template< class TImageType, class TFeatureImageType >
+template< typename TImageType, typename TFeatureImageType >
 void SegmentationLevelSetFunction< TImageType, TFeatureImageType >
 ::ReverseExpansionDirection()
 {
@@ -46,14 +46,14 @@ void SegmentationLevelSetFunction< TImageType, TFeatureImageType >
   this->SetAdvectionWeight( -1.0 * this->GetAdvectionWeight() );
 }
 
-template< class TImageType, class TFeatureImageType >
+template< typename TImageType, typename TFeatureImageType >
 void SegmentationLevelSetFunction< TImageType, TFeatureImageType >
 ::Initialize(const RadiusType & r)
 {
   Superclass::Initialize(r);
 }
 
-template< class TImageType, class TFeatureImageType >
+template< typename TImageType, typename TFeatureImageType >
 void SegmentationLevelSetFunction< TImageType, TFeatureImageType >
 ::AllocateSpeedImage()
 {
@@ -64,7 +64,7 @@ void SegmentationLevelSetFunction< TImageType, TFeatureImageType >
   m_Interpolator->SetInputImage(m_SpeedImage);
 }
 
-template< class TImageType, class TFeatureImageType >
+template< typename TImageType, typename TFeatureImageType >
 void SegmentationLevelSetFunction< TImageType, TFeatureImageType >
 ::AllocateAdvectionImage()
 {
@@ -75,7 +75,7 @@ void SegmentationLevelSetFunction< TImageType, TFeatureImageType >
   m_VectorInterpolator->SetInputImage(m_AdvectionImage);
 }
 
-template< class TImageType, class TFeatureImageType >
+template< typename TImageType, typename TFeatureImageType >
 typename SegmentationLevelSetFunction< TImageType, TFeatureImageType >::ScalarValueType
 SegmentationLevelSetFunction< TImageType, TFeatureImageType >
 ::PropagationSpeed(const NeighborhoodType & neighborhood,
@@ -98,7 +98,7 @@ SegmentationLevelSetFunction< TImageType, TFeatureImageType >
   else { return ( static_cast< ScalarValueType >( m_SpeedImage->GetPixel(idx) ) ); }
 }
 
-template< class TImageType, class TFeatureImageType >
+template< typename TImageType, typename TFeatureImageType >
 typename SegmentationLevelSetFunction< TImageType, TFeatureImageType >::VectorType
 SegmentationLevelSetFunction< TImageType, TFeatureImageType >
 ::AdvectionField(const NeighborhoodType & neighborhood,

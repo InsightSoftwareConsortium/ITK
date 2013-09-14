@@ -24,7 +24,7 @@ namespace itk
 {
 namespace Statistics
 {
-template< class TSample >
+template< typename TSample >
 SampleToSubsampleFilter< TSample >
 ::SampleToSubsampleFilter()
 {
@@ -34,12 +34,12 @@ SampleToSubsampleFilter< TSample >
   this->ProcessObject::SetNthOutput( 0, this->MakeOutput(0) );
 }
 
-template< class TSample >
+template< typename TSample >
 SampleToSubsampleFilter< TSample >
 ::~SampleToSubsampleFilter()
 {}
 
-template< class TSample >
+template< typename TSample >
 void
 SampleToSubsampleFilter< TSample >
 ::SetInput(const SampleType *sample)
@@ -49,7 +49,7 @@ SampleToSubsampleFilter< TSample >
                                     const_cast< SampleType * >( sample ) );
 }
 
-template< class TSample >
+template< typename TSample >
 const typename
 SampleToSubsampleFilter< TSample >::SampleType *
 SampleToSubsampleFilter< TSample >
@@ -61,7 +61,7 @@ SampleToSubsampleFilter< TSample >
   return input;
 }
 
-template< class TSample >
+template< typename TSample >
 typename SampleToSubsampleFilter< TSample >::DataObjectPointer
 SampleToSubsampleFilter< TSample >
 ::MakeOutput(DataObjectPointerArraySizeType)
@@ -69,7 +69,7 @@ SampleToSubsampleFilter< TSample >
   return SubsampleType::New().GetPointer();
 }
 
-template< class TSample >
+template< typename TSample >
 const typename SampleToSubsampleFilter< TSample >::OutputType *
 SampleToSubsampleFilter< TSample >
 ::GetOutput() const
@@ -80,7 +80,7 @@ SampleToSubsampleFilter< TSample >
   return output;
 }
 
-template< class TSample >
+template< typename TSample >
 void
 SampleToSubsampleFilter< TSample >
 ::PrintSelf(std::ostream & os, Indent indent) const

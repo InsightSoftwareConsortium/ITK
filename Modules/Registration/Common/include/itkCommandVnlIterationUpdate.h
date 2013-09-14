@@ -28,7 +28,7 @@ namespace itk {
  * \class CommandVnlIterationUpdate
  * \ingroup ITKRegistrationCommon
  */
-template < class TOptimizer >
+template < typename TOptimizer >
 class CommandVnlIterationUpdate : public Command
 {
 public:

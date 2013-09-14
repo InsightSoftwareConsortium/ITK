@@ -203,7 +203,7 @@ public:
     mv = v;
   }
 
-  template<class TArray>
+  template<typename TArray>
   static void AssignToArray( const Self & v, TArray & mv )
   {
     for( unsigned int i=0; i<GetLength(v); i++ )

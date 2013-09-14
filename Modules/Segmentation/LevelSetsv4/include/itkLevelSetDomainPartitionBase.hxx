@@ -24,14 +24,14 @@
 namespace itk
 {
 
-template< class TDomain >
+template< typename TDomain >
 LevelSetDomainPartitionBase< TDomain >::
 LevelSetDomainPartitionBase()
 {
   this->m_NumberOfLevelSetFunctions = NumericTraits< IdentifierType >::One;
 }
 
-template< class TDomain >
+template< typename TDomain >
 LevelSetDomainPartitionBase< TDomain >::
 ~LevelSetDomainPartitionBase()
 {

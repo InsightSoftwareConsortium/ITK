@@ -49,7 +49,7 @@ namespace watershed
  * \sa EquivalencyTable
  * \ingroup ITKWatersheds
  */
-template< class TScalar, unsigned int TImageDimension >
+template< typename TScalar, unsigned int TImageDimension >
 class EquivalenceRelabeler:
   public ProcessObject
 {

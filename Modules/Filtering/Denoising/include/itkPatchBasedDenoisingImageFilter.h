@@ -57,7 +57,7 @@ namespace itk
  * \ingroup ITKDenoising
  * \sa PatchBasedDenoisingBaseImageFilter
  */
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 class PatchBasedDenoisingImageFilter :
   public PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
 {
@@ -341,7 +341,7 @@ protected:
       }
   }
 
-  template <class PixelT>
+  template <typename PixelT>
   void ComputeDifferenceAndWeightedSquaredNorm(const PixelT& a,
                                                const PixelT& b,
                                                const RealArrayType& weight,
@@ -373,7 +373,7 @@ protected:
       }
   }
 
-  template <class RealT>
+  template <typename RealT>
   RealType AddUpdate(const RealT& a,
                      const RealType& b)
   {

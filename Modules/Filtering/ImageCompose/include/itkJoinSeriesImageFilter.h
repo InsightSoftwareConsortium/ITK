@@ -46,7 +46,7 @@ namespace itk
  *
  * \ingroup ITKImageCompose
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class JoinSeriesImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {

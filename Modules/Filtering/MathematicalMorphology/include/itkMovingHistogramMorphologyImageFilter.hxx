@@ -23,7 +23,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage, class TKernel, class THistogram >
+template< typename TInputImage, typename TOutputImage, typename TKernel, typename THistogram >
 MovingHistogramMorphologyImageFilter< TInputImage, TOutputImage, TKernel, THistogram >
 ::MovingHistogramMorphologyImageFilter()
 {
@@ -32,7 +32,7 @@ MovingHistogramMorphologyImageFilter< TInputImage, TOutputImage, TKernel, THisto
   m_Boundary = NumericTraits< PixelType >::Zero;
 }
 
-template< class TInputImage, class TOutputImage, class TKernel, class THistogram >
+template< typename TInputImage, typename TOutputImage, typename TKernel, typename THistogram >
 void
 MovingHistogramMorphologyImageFilter< TInputImage, TOutputImage, TKernel, THistogram >
 ::ConfigureHistogram(THistogram & histogram)
@@ -40,7 +40,7 @@ MovingHistogramMorphologyImageFilter< TInputImage, TOutputImage, TKernel, THisto
   histogram.SetBoundary(m_Boundary);
 }
 
-template< class TInputImage, class TOutputImage, class TKernel, class THistogram >
+template< typename TInputImage, typename TOutputImage, typename TKernel, typename THistogram >
 void
 MovingHistogramMorphologyImageFilter< TInputImage, TOutputImage, TKernel, THistogram >
 ::PrintSelf(std::ostream & os, Indent indent) const

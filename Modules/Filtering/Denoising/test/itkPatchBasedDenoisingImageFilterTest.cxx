@@ -31,7 +31,7 @@
 #include "itkGaussianRandomSpatialNeighborSubsampler.h"
 #include "itkPatchBasedDenoisingImageFilter.h"
 
-template <class ImageT>
+template <typename ImageT>
 int doDenoising(const std::string & inputFileName, const std::string & outputFileName,
                 const int numIterations, const int numThreads,
                 const int numToSample, const float kernelBandwidthMultiplicationFactor,

@@ -29,7 +29,7 @@ namespace itk
 namespace fem
 {
 
-template <class TFixedImage, class TMovingImage, class TMaskImage, class TMesh, class TDeformationField>
+template <typename TFixedImage, typename TMovingImage, typename TMaskImage, typename TMesh, typename TDeformationField>
 PhysicsBasedNonRigidRegistrationMethod<TFixedImage, TMovingImage, TMaskImage, TMesh, TDeformationField>
 ::PhysicsBasedNonRigidRegistrationMethod()
 {
@@ -59,14 +59,14 @@ PhysicsBasedNonRigidRegistrationMethod<TFixedImage, TMovingImage, TMaskImage, TM
 }
 
 
-template <class TFixedImage, class TMovingImage, class TMaskImage, class TMesh, class TDeformationField>
+template <typename TFixedImage, typename TMovingImage, typename TMaskImage, typename TMesh, typename TDeformationField>
 PhysicsBasedNonRigidRegistrationMethod<TFixedImage, TMovingImage, TMaskImage, TMesh, TDeformationField>
 ::~PhysicsBasedNonRigidRegistrationMethod()
 {
 }
 
 
-template <class TFixedImage, class TMovingImage, class TMaskImage, class TMesh, class TDeformationField>
+template <typename TFixedImage, typename TMovingImage, typename TMaskImage, typename TMesh, typename TDeformationField>
 void
 PhysicsBasedNonRigidRegistrationMethod<TFixedImage, TMovingImage, TMaskImage, TMesh, TDeformationField>
 ::PrintSelf( std::ostream & os, Indent indent ) const
@@ -80,7 +80,7 @@ PhysicsBasedNonRigidRegistrationMethod<TFixedImage, TMovingImage, TMaskImage, TM
      << indent << "m_OutlierRejectionSteps: " << m_OutlierRejectionSteps << std::endl;
 }
 
-template <class TFixedImage, class TMovingImage, class TMaskImage, class TMesh, class TDeformationField>
+template <typename TFixedImage, typename TMovingImage, typename TMaskImage, typename TMesh, typename TDeformationField>
 void
 PhysicsBasedNonRigidRegistrationMethod<TFixedImage, TMovingImage, TMaskImage, TMesh, TDeformationField>
 ::GenerateData()

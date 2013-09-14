@@ -22,7 +22,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TFeatureImage >
+template< typename TInputImage, typename TFeatureImage >
 RegionBasedLevelSetFunctionData< TInputImage, TFeatureImage >
 ::RegionBasedLevelSetFunctionData()
 {
@@ -32,7 +32,7 @@ RegionBasedLevelSetFunctionData< TInputImage, TFeatureImage >
   m_HeavisideFunctionOfLevelSetImage = 0;
 }
 
-template< class TInputImage, class TFeatureImage >
+template< typename TInputImage, typename TFeatureImage >
 void
 RegionBasedLevelSetFunctionData< TInputImage, TFeatureImage >
 ::CreateHeavisideFunctionOfLevelSetImage(const InputImageType *image)
@@ -55,7 +55,7 @@ RegionBasedLevelSetFunctionData< TInputImage, TFeatureImage >
     }
 }
 
-template< class TInputImage, class TFeatureImage >
+template< typename TInputImage, typename TFeatureImage >
 typename RegionBasedLevelSetFunctionData< TInputImage, TFeatureImage >::InputIndexType
 RegionBasedLevelSetFunctionData< TInputImage, TFeatureImage >
 ::GetIndex(const FeatureIndexType & featureIndex)
@@ -70,7 +70,7 @@ RegionBasedLevelSetFunctionData< TInputImage, TFeatureImage >
   return index;
 }
 
-template< class TInputImage, class TFeatureImage >
+template< typename TInputImage, typename TFeatureImage >
 typename RegionBasedLevelSetFunctionData< TInputImage, TFeatureImage >::FeatureIndexType
 RegionBasedLevelSetFunctionData< TInputImage, TFeatureImage >
 ::GetFeatureIndex(const InputIndexType & inputIndex)

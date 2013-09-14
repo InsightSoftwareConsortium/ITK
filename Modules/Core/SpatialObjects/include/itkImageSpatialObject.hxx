@@ -25,7 +25,7 @@
 namespace itk
 {
 /** Constructor */
-template< unsigned int TDimension, class PixelType >
+template< unsigned int TDimension, typename PixelType >
 ImageSpatialObject< TDimension,  PixelType >
 ::ImageSpatialObject()
 {
@@ -43,7 +43,7 @@ ImageSpatialObject< TDimension,  PixelType >
 }
 
 /** Destructor */
-template< unsigned int TDimension, class PixelType >
+template< unsigned int TDimension, typename PixelType >
 ImageSpatialObject< TDimension,  PixelType >
 ::~ImageSpatialObject()
 {
@@ -51,7 +51,7 @@ ImageSpatialObject< TDimension,  PixelType >
 }
 
 /** Return true if the given point is inside the image */
-template< unsigned int TDimension, class PixelType >
+template< unsigned int TDimension, typename PixelType >
 bool
 ImageSpatialObject< TDimension,  PixelType >
 ::IsEvaluableAt(const PointType & point,
@@ -61,7 +61,7 @@ ImageSpatialObject< TDimension,  PixelType >
 }
 
 /** Set the interpolator */
-template< unsigned int TDimension, class PixelType >
+template< unsigned int TDimension, typename PixelType >
 void
 ImageSpatialObject< TDimension,  PixelType >
 ::SetInterpolator(InterpolatorType *interpolator)
@@ -76,7 +76,7 @@ ImageSpatialObject< TDimension,  PixelType >
 /** Test whether a point is inside or outside the object
  *  For computational speed purposes, it is faster if the method does not
  *  check the name of the class and the current depth */
-template< unsigned int TDimension, class PixelType >
+template< unsigned int TDimension, typename PixelType >
 bool
 ImageSpatialObject< TDimension,  PixelType >
 ::IsInside(const PointType & point) const
@@ -118,7 +118,7 @@ ImageSpatialObject< TDimension,  PixelType >
 }
 
 /** Return true if the given point is inside the image */
-template< unsigned int TDimension, class PixelType >
+template< unsigned int TDimension, typename PixelType >
 bool
 ImageSpatialObject< TDimension,  PixelType >
 ::IsInside(const PointType & point, unsigned int depth, char *name) const
@@ -145,7 +145,7 @@ ImageSpatialObject< TDimension,  PixelType >
  *  The value returned is always of type double
  *  For RGB Images the value returned is the value of the first channel.
  */
-template< unsigned int TDimension, class PixelType >
+template< unsigned int TDimension, typename PixelType >
 bool
 ImageSpatialObject< TDimension,  PixelType >
 ::ValueAt(const PointType & point, double & value, unsigned int depth,
@@ -194,7 +194,7 @@ ImageSpatialObject< TDimension,  PixelType >
 }
 
 /** Compute the bounds of the image */
-template< unsigned int TDimension, class PixelType >
+template< unsigned int TDimension, typename PixelType >
 bool
 ImageSpatialObject< TDimension,  PixelType >
 ::ComputeLocalBoundingBox() const
@@ -249,7 +249,7 @@ ImageSpatialObject< TDimension,  PixelType >
 }
 
 /** Set the image in the spatial object */
-template< unsigned int TDimension, class PixelType >
+template< unsigned int TDimension, typename PixelType >
 void
 ImageSpatialObject< TDimension,  PixelType >
 ::SetImage(const ImageType *image)
@@ -310,7 +310,7 @@ ImageSpatialObject< TDimension,  PixelType >
 }
 
 /** Get the image inside the spatial object */
-template< unsigned int TDimension, class PixelType >
+template< unsigned int TDimension, typename PixelType >
 const typename ImageSpatialObject< TDimension,  PixelType >::ImageType *
 ImageSpatialObject< TDimension,  PixelType >
 ::GetImage(void) const
@@ -319,7 +319,7 @@ ImageSpatialObject< TDimension,  PixelType >
 }
 
 /** Print the object */
-template< unsigned int TDimension, class PixelType >
+template< unsigned int TDimension, typename PixelType >
 void
 ImageSpatialObject< TDimension,  PixelType >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -332,7 +332,7 @@ ImageSpatialObject< TDimension,  PixelType >
 }
 
 /** Get the modification time */
-template< unsigned int TDimension, class PixelType >
+template< unsigned int TDimension, typename PixelType >
 ModifiedTimeType
 ImageSpatialObject< TDimension,  PixelType >
 ::GetMTime(void) const
@@ -349,7 +349,7 @@ ImageSpatialObject< TDimension,  PixelType >
 }
 
 /** Set the slice position */
-template< unsigned int TDimension, class PixelType >
+template< unsigned int TDimension, typename PixelType >
 void
 ImageSpatialObject< TDimension,  PixelType >
 ::SetSlicePosition(unsigned int dimension, int position)

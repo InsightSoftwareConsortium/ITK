@@ -92,7 +92,7 @@ namespace itk
  * \wikiexample{Segmentation/ContourExtractor2DImageFilter,Extract contours from an image}
  * \endwiki
  */
-template< class TInputImage >
+template< typename TInputImage >
 class ContourExtractor2DImageFilter:
   public ImageToPathFilter< TInputImage, PolyLineParametricPath< 2 > >
 {

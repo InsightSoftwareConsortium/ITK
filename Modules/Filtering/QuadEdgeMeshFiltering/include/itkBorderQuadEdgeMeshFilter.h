@@ -46,7 +46,7 @@ namespace itk
  * \sa ParameterizationQuadEdgeMeshFilter
  * \ingroup ITKQuadEdgeMeshFiltering
  */
-template< class TInputMesh, class TOutputMesh=TInputMesh >
+template< typename TInputMesh, typename TOutputMesh=TInputMesh >
 class BorderQuadEdgeMeshFilter:
   public QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 {

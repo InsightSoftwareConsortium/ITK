@@ -29,7 +29,7 @@ namespace itk
 
 \ingroup ITKFastMarching
 */
-template<class TNode, class TOutputPixel>
+template<typename TNode, typename TOutputPixel>
 class NodePair : private std::pair< TNode, TOutputPixel >
   {
 public:

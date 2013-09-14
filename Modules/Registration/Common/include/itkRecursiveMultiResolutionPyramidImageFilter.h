@@ -61,8 +61,8 @@ namespace itk
  * \endwiki
  */
 template<
-  class TInputImage,
-  class TOutputImage
+  typename TInputImage,
+  typename TOutputImage
   >
 class RecursiveMultiResolutionPyramidImageFilter:
   public MultiResolutionPyramidImageFilter< TInputImage, TOutputImage >

@@ -27,7 +27,7 @@
 
 namespace itk {
 
-template<class TInputImage, class TOutputImage, class TMaskImage>
+template<typename TInputImage, typename TOutputImage, typename TMaskImage>
 HistogramThresholdImageFilter<TInputImage, TOutputImage, TMaskImage>
 ::HistogramThresholdImageFilter()
 {
@@ -54,7 +54,7 @@ HistogramThresholdImageFilter<TInputImage, TOutputImage, TMaskImage>
 }
 
 
-template<class TInputImage, class TOutputImage, class TMaskImage>
+template<typename TInputImage, typename TOutputImage, typename TMaskImage>
 void
 HistogramThresholdImageFilter<TInputImage, TOutputImage, TMaskImage>
 ::GenerateData()
@@ -135,7 +135,7 @@ HistogramThresholdImageFilter<TInputImage, TOutputImage, TMaskImage>
   m_Calculator->SetInput( NULL );
 }
 
-template<class TInputImage, class TOutputImage, class TMaskImage>
+template<typename TInputImage, typename TOutputImage, typename TMaskImage>
 void
 HistogramThresholdImageFilter<TInputImage, TOutputImage,TMaskImage>
 ::GenerateInputRequestedRegion()
@@ -147,7 +147,7 @@ HistogramThresholdImageFilter<TInputImage, TOutputImage,TMaskImage>
     }
 }
 
-template<class TInputImage, class TOutputImage, class TMaskImage>
+template<typename TInputImage, typename TOutputImage, typename TMaskImage>
 void
 HistogramThresholdImageFilter<TInputImage,TOutputImage,TMaskImage>
 ::PrintSelf(std::ostream& os, Indent indent) const

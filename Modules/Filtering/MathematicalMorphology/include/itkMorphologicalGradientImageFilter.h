@@ -48,7 +48,7 @@ namespace itk
  * \ingroup ITKMathematicalMorphology
  */
 
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 class MorphologicalGradientImageFilter:
   public KernelImageFilter< TInputImage, TOutputImage, TKernel >
 {

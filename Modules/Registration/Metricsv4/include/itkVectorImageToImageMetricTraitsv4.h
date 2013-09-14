@@ -41,9 +41,9 @@ namespace itk
  * \ingroup ITKMetricsv4
  */
 template<
-  class    TFixedImageType,
-  class    TMovingImageType,
-  class    TVirtualImageType,
+  typename    TFixedImageType,
+  typename    TMovingImageType,
+  typename    TVirtualImageType,
   unsigned int NumberOfComponents,
   typename TCoordRep = typename ObjectToObjectMetricBase::CoordinateRepresentationType
   >

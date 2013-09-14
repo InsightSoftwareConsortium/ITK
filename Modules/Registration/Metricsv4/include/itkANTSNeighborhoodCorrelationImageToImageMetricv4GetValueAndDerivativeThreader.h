@@ -32,7 +32,7 @@ namespace itk
  *  A template struct to identify different input type arguments. This is used
  *  for function overloading by different threaders. Refer to the comments below.
  */
-template<class T>
+template<typename T>
 struct IdentityHelper
 {
   typedef T MyType;
@@ -53,7 +53,7 @@ struct IdentityHelper
  *
  * \ingroup ITKMetricsv4
  */
-template< class TDomainPartitioner, class TImageToImageMetric, class TNeighborhoodCorrelationMetric >
+template< typename TDomainPartitioner, typename TImageToImageMetric, typename TNeighborhoodCorrelationMetric >
 class ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader
   : public ImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric >
 {
@@ -192,7 +192,7 @@ protected:
                              const ThreadIdType threadId );
 
   /* for other default case */
-  template<class T>
+  template<typename T>
   bool ProcessVirtualPoint_impl(
                              IdentityHelper<T> itkNotUsed(self),
                              const VirtualIndexType & virtualIndex,
@@ -233,7 +233,7 @@ protected:
                              const ThreadIdType threadId );
 
   /* for other default case */
-  template<class T>
+  template<typename T>
   void ThreadedExecution_impl(
                              IdentityHelper<T> itkNotUsed(self),
                              const DomainType& domain,

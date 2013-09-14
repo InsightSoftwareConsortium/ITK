@@ -20,7 +20,7 @@
 
 namespace itk
 {
-template< class TInput, class TOutput >
+template< typename TInput, typename TOutput >
 class FastMarchingBaseTestHelper :
     public FastMarchingBase< TInput, TOutput >
 {

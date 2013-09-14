@@ -25,7 +25,7 @@ namespace itk
 /**
  * Constructor method
  */
-template< class TInputImage, class TLabelImage, class TOutputImage >
+template< typename TInputImage, typename TLabelImage, typename TOutputImage >
 LabelOverlayImageFilter< TInputImage, TLabelImage, TOutputImage >
 ::LabelOverlayImageFilter()
 {
@@ -33,7 +33,7 @@ LabelOverlayImageFilter< TInputImage, TLabelImage, TOutputImage >
   m_BackgroundValue = NumericTraits< LabelPixelType >::Zero;
 }
 
-template< class TInputImage, class TLabelImage, class TOutputImage >
+template< typename TInputImage, typename TLabelImage, typename TOutputImage >
 void
 LabelOverlayImageFilter< TInputImage, TLabelImage, TOutputImage >
 ::GenerateOutputInformation()
@@ -58,7 +58,7 @@ LabelOverlayImageFilter< TInputImage, TLabelImage, TOutputImage >
 /**
  * Destructor method
  */
-template< class TInputImage, class TLabelImage, class TOutputImage >
+template< typename TInputImage, typename TLabelImage, typename TOutputImage >
 void
 LabelOverlayImageFilter< TInputImage, TLabelImage, TOutputImage >
 ::BeforeThreadedGenerateData()
@@ -70,7 +70,7 @@ LabelOverlayImageFilter< TInputImage, TLabelImage, TOutputImage >
 /**
  * Set Label Image
  */
-template< class TInputImage, class TLabelImage, class TOutputImage >
+template< typename TInputImage, typename TLabelImage, typename TOutputImage >
 void
 LabelOverlayImageFilter< TInputImage, TLabelImage, TOutputImage >
 ::SetLabelImage(const TLabelImage *input)
@@ -81,7 +81,7 @@ LabelOverlayImageFilter< TInputImage, TLabelImage, TOutputImage >
 /**
  * Get Label Image
  */
-template< class TInputImage, class TLabelImage, class TOutputImage >
+template< typename TInputImage, typename TLabelImage, typename TOutputImage >
 const
 typename LabelOverlayImageFilter<
   TInputImage, TLabelImage, TOutputImage >::LabelImageType *
@@ -95,7 +95,7 @@ LabelOverlayImageFilter< TInputImage, TLabelImage, TOutputImage >
 /**
  * Get number of colors in the LUT container
  */
-template< class TInputImage, class TLabelImage, class TOutputImage >
+template< typename TInputImage, typename TLabelImage, typename TOutputImage >
 unsigned int
 LabelOverlayImageFilter< TInputImage, TLabelImage, TOutputImage >
 ::GetNumberOfColors() const
@@ -106,7 +106,7 @@ LabelOverlayImageFilter< TInputImage, TLabelImage, TOutputImage >
 /**
  * Empty the color LUT container
  */
-template< class TInputImage, class TLabelImage, class TOutputImage >
+template< typename TInputImage, typename TLabelImage, typename TOutputImage >
 void
 LabelOverlayImageFilter< TInputImage, TLabelImage, TOutputImage >
 ::ResetColors()
@@ -117,7 +117,7 @@ LabelOverlayImageFilter< TInputImage, TLabelImage, TOutputImage >
 /**
  * Add a color to the LUT container
  */
-template< class TInputImage, class TLabelImage, class TOutputImage >
+template< typename TInputImage, typename TLabelImage, typename TOutputImage >
 void
 LabelOverlayImageFilter< TInputImage, TLabelImage, TOutputImage >
 ::AddColor(ComponentType r, ComponentType g, ComponentType b)
@@ -128,7 +128,7 @@ LabelOverlayImageFilter< TInputImage, TLabelImage, TOutputImage >
 /**
  * Standard PrintSelf method
  */
-template< class TInputImage, class TLabelImage, class TOutputImage >
+template< typename TInputImage, typename TLabelImage, typename TOutputImage >
 void
 LabelOverlayImageFilter< TInputImage, TLabelImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

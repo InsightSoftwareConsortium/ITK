@@ -63,7 +63,7 @@ namespace itk
  * \ingroup GeometricTransform
  * \ingroup ITKImageGrid
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class ExpandImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {

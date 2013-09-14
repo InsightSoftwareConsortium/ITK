@@ -24,7 +24,7 @@
 namespace itk
 {
 
-template< class TFilterType >
+template< typename TFilterType >
 class DeconvolutionIterationCommand : public itk::Command
 {
 public:

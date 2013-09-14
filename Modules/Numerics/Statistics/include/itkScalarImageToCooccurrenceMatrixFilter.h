@@ -89,8 +89,8 @@ namespace Statistics
  * \ingroup ITKStatistics
  */
 
-template< class TImageType,
-          class THistogramFrequencyContainer = DenseFrequencyContainer2 >
+template< typename TImageType,
+          typename THistogramFrequencyContainer = DenseFrequencyContainer2 >
 class ScalarImageToCooccurrenceMatrixFilter:public ProcessObject
 {
 public:

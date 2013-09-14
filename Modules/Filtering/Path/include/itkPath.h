@@ -49,7 +49,7 @@ namespace itk
  * \ingroup PathObjects
  * \ingroup ITKPath
  */
-template< class TInput, class TOutput, unsigned int VDimension >
+template< typename TInput, typename TOutput, unsigned int VDimension >
 class Path: public DataObject
 {
 public:

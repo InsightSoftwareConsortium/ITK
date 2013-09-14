@@ -30,7 +30,7 @@ namespace itk
  * \brief Helper class used to partition domain and efficiently compute overlap.
  * \ingroup ITKLevelSetsv4
  */
-template< class TDomain >
+template< typename TDomain >
 class LevelSetDomainPartitionBase : public Object
 {
 public:

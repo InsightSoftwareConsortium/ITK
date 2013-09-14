@@ -33,7 +33,7 @@ namespace Statistics
  *
  * \ingroup ITKStatistics
  */
-template< class TVector >
+template< typename TVector >
 class ManhattanDistanceMetric:
   public DistanceMetric< TVector >
 {

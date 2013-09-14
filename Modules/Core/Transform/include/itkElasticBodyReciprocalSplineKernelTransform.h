@@ -34,7 +34,7 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template< class TScalar = double,   // Data type for scalars (float or
+template< typename TScalar = double,   // Data type for scalars (float or
                                         // double)
           unsigned int NDimensions = 3 >
 // Number of dimensions

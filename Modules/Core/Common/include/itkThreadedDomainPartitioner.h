@@ -43,7 +43,7 @@ namespace itk
  * \ingroup DataProcessing
  * \ingroup ITKCommon
  */
-template <class TDomain >
+template <typename TDomain >
 class ThreadedDomainPartitioner : public Object
 {
 public:

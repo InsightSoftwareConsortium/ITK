@@ -26,14 +26,14 @@
 namespace itk
 {
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 CyclicShiftImageFilter< TInputImage, TOutputImage >
 ::CyclicShiftImageFilter()
 {
   m_Shift.Fill( NumericTraits< OffsetValueType >::ZeroValue() );
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 CyclicShiftImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
@@ -50,7 +50,7 @@ CyclicShiftImageFilter< TInputImage, TOutputImage >
   input->SetRequestedRegionToLargestPossibleRegion();
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 CyclicShiftImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
@@ -88,7 +88,7 @@ CyclicShiftImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 CyclicShiftImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

@@ -44,7 +44,7 @@ namespace itk
  * \wikiexample{ImageSegmentation/LabelImageToShapeLabelMapFilter,Convert an itk::Image consisting of labeled regions to a ShapeLabelMap}
  * \endwiki
  */
-template< class TInputImage, class TOutputImage =
+template< typename TInputImage, typename TOutputImage =
             LabelMap< ShapeLabelObject< typename TInputImage::PixelType,
                                         TInputImage::ImageDimension > > >
 class LabelImageToShapeLabelMapFilter:

@@ -37,7 +37,7 @@ namespace itk
  * deform ability.
  * \ingroup ITKMesh
  */
-template< class TOutputMesh >
+template< typename TOutputMesh >
 class SphereMeshSource:public MeshSource< TOutputMesh >
 {
 public:

@@ -31,7 +31,7 @@ namespace itk
 //
 // OpenCVVideoCapture()
 //
-template<class TVideoStream>
+template<typename TVideoStream>
 OpenCVVideoCapture<TVideoStream>::OpenCVVideoCapture()
 {
   m_VideoStream = NULL;
@@ -46,7 +46,7 @@ OpenCVVideoCapture<TVideoStream>::OpenCVVideoCapture()
 //
 // OpenCVVideoCapture(videoStream)
 //
-template<class TVideoStream>
+template<typename TVideoStream>
 OpenCVVideoCapture<TVideoStream>::OpenCVVideoCapture(TVideoStream* videoStream)
 {
   m_VideoStream = videoStream;
@@ -64,7 +64,7 @@ OpenCVVideoCapture<TVideoStream>::OpenCVVideoCapture(TVideoStream* videoStream)
 //
 // open(videoStream)
 //
-template<class TVideoStream>
+template<typename TVideoStream>
 bool OpenCVVideoCapture<TVideoStream>::open(TVideoStream* videoStream)
 {
   // We only support 2D
@@ -85,7 +85,7 @@ bool OpenCVVideoCapture<TVideoStream>::open(TVideoStream* videoStream)
 //
 // release
 //
-template<class TVideoStream>
+template<typename TVideoStream>
 void OpenCVVideoCapture<TVideoStream>::release()
 {
   m_VideoStream = NULL;
@@ -97,7 +97,7 @@ void OpenCVVideoCapture<TVideoStream>::release()
 //
 // grab
 //
-template<class TVideoStream>
+template<typename TVideoStream>
 bool OpenCVVideoCapture<TVideoStream>::grab()
 {
   // We only support 2D
@@ -114,7 +114,7 @@ bool OpenCVVideoCapture<TVideoStream>::grab()
 //
 // retrieve
 //
-template<class TVideoStream>
+template<typename TVideoStream>
 bool OpenCVVideoCapture<TVideoStream>::retrieve(cv::Mat& image, int itkNotUsed(channel))
 {
   // We only support 2D
@@ -190,7 +190,7 @@ bool OpenCVVideoCapture<TVideoStream>::retrieve(cv::Mat& image, int itkNotUsed(c
 //
 // operator >>
 //
-template<class TVideoStream>
+template<typename TVideoStream>
 OpenCVVideoCapture<TVideoStream>& OpenCVVideoCapture<TVideoStream>::operator >>(cv::Mat& image)
 {
   if (!read(image))
@@ -203,7 +203,7 @@ OpenCVVideoCapture<TVideoStream>& OpenCVVideoCapture<TVideoStream>::operator >>(
 //
 // read
 //
-template<class TVideoStream>
+template<typename TVideoStream>
 bool OpenCVVideoCapture<TVideoStream>::read(cv::Mat& image)
 {
   if (!grab())
@@ -223,7 +223,7 @@ bool OpenCVVideoCapture<TVideoStream>::read(cv::Mat& image)
 //
 // set
 //
-template<class TVideoStream>
+template<typename TVideoStream>
 bool OpenCVVideoCapture<TVideoStream>::set(int propId, double value)
 {
   // Make sure the VideoSource isn't null
@@ -317,7 +317,7 @@ bool OpenCVVideoCapture<TVideoStream>::set(int propId, double value)
 //
 // get
 //
-template<class TVideoStream>
+template<typename TVideoStream>
 double OpenCVVideoCapture<TVideoStream>::get(int propId)
 {
   // Make sure the VideoSource isn't null

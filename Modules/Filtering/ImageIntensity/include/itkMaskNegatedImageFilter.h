@@ -30,7 +30,7 @@ namespace Functor
  * \brief
  * \ingroup ITKImageIntensity
  */
-template< class TInput, class TMask, class TOutput = TInput >
+template< typename TInput, typename TMask, typename TOutput = TInput >
 class MaskNegatedInput
 {
 public:
@@ -125,7 +125,7 @@ private:
  * \wikiexample{ImageProcessing/MaskNegatedImageFilter,Apply the inverse of a mask to an image}
  * \endwiki
  */
-template< class TInputImage, class TMaskImage, class TOutputImage = TInputImage >
+template< typename TInputImage, typename TMaskImage, typename TOutputImage = TInputImage >
 class MaskNegatedImageFilter:
   public
   BinaryFunctorImageFilter< TInputImage, TMaskImage, TOutputImage,

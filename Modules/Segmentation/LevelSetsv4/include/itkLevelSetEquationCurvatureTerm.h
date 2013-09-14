@@ -43,9 +43,9 @@ namespace itk
  *  \tparam TLevelSetContainer Level set function container type
  *  \ingroup ITKLevelSetsv4
  */
-template< class TInput, // Input image or mesh
-          class TLevelSetContainer,
-          class TCurvatureImage = TInput >
+template< typename TInput, // Input image or mesh
+          typename TLevelSetContainer,
+          typename TCurvatureImage = TInput >
 class LevelSetEquationCurvatureTerm :
     public LevelSetEquationTermBase< TInput, TLevelSetContainer >
 {

@@ -22,7 +22,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 AnisotropicFourthOrderLevelSetImageFilter< TInputImage, TOutputImage >
 ::AnisotropicFourthOrderLevelSetImageFilter()
 {
@@ -46,7 +46,7 @@ AnisotropicFourthOrderLevelSetImageFilter< TInputImage, TOutputImage >
   m_Function->Initialize(radius);
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 AnisotropicFourthOrderLevelSetImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

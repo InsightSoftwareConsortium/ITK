@@ -45,7 +45,7 @@ namespace itk
 {
 // Dummy difference function for error testing
 
-template <class TImageType>
+template <typename TImageType>
 class DummyFunction : public FiniteDifferenceFunction<TImageType>
 {
 public:

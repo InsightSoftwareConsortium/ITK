@@ -25,7 +25,7 @@ namespace itk
  *  \brief Create instances of MatlabTransformIOTemplate objects.
  * \ingroup ITKIOTransformMatlab
  */
-template<class ParametersValueType>
+template<typename ParametersValueType>
 class MatlabTransformIOTemplate:public TransformIOBaseTemplate<ParametersValueType>
 {
 public:

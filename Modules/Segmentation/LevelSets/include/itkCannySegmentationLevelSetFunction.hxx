@@ -26,7 +26,7 @@
 
 namespace itk
 {
-template< class TImageType, class TFeatureImageType >
+template< typename TImageType, typename TFeatureImageType >
 void CannySegmentationLevelSetFunction< TImageType, TFeatureImageType >
 ::CalculateSpeedImage()
 {
@@ -37,7 +37,7 @@ void CannySegmentationLevelSetFunction< TImageType, TFeatureImageType >
   this->GetSpeedImage()->Graft( m_Distance->GetOutput() );
 }
 
-template< class TImageType, class TFeatureImageType >
+template< typename TImageType, typename TFeatureImageType >
 void CannySegmentationLevelSetFunction< TImageType, TFeatureImageType >
 ::CalculateAdvectionImage()
 {
@@ -72,7 +72,7 @@ void CannySegmentationLevelSetFunction< TImageType, TFeatureImageType >
 
 }
 
-template< class TImageType, class TFeatureImageType >
+template< typename TImageType, typename TFeatureImageType >
 void CannySegmentationLevelSetFunction< TImageType, TFeatureImageType >
 ::CalculateDistanceImage()
 {

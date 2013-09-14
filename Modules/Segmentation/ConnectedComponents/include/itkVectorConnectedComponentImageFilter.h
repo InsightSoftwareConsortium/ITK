@@ -46,7 +46,7 @@ namespace Functor
  * \ingroup ITKConnectedComponents
  */
 
-template< class TInput >
+template< typename TInput >
 class SimilarVectorsFunctor
 {
 public:
@@ -94,7 +94,7 @@ protected:
  *         are similar.  Assumes that vectors are normalized.
  * \ingroup ITKConnectedComponents
  */
-template< class TInputImage, class TOutputImage, class TMaskImage = TInputImage >
+template< typename TInputImage, typename TOutputImage, typename TMaskImage = TInputImage >
 class VectorConnectedComponentImageFilter:
   public ConnectedComponentFunctorImageFilter< TInputImage, TOutputImage,
                                                Functor::SimilarVectorsFunctor< typename TInputImage::ValueType >,

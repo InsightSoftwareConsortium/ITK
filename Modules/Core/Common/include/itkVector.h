@@ -58,7 +58,7 @@ namespace itk
  * \wikiexample{Math/DotProduct,Dot product (inner product) of two vectors}
  * \endwiki
  */
-template< class T, unsigned int NVectorDimension = 3 >
+template< typename T, unsigned int NVectorDimension = 3 >
 class Vector:public FixedArray< T, NVectorDimension >
 {
 public:
@@ -112,12 +112,12 @@ public:
   Vector(const ValueType & r);
 
   /** Pass-through constructor for the Array base class. */
-  template< class TVectorValueType >
+  template< typename TVectorValueType >
   Vector(const Vector< TVectorValueType, NVectorDimension > & r):BaseArray(r) {}
   Vector(const ValueType r[Dimension]):BaseArray(r) {}
 
   /** Pass-through assignment operator for the Array base class. */
-  template< class TVectorValueType >
+  template< typename TVectorValueType >
   Vector & operator=(const Vector< TVectorValueType, NVectorDimension > & r)
   {
     BaseArray::operator=(r);
@@ -127,7 +127,7 @@ public:
   Vector & operator=(const ValueType r[NVectorDimension]);
 
   /** Scalar operator*=.  Scales elements by a scalar. */
-  template< class Tt >
+  template< typename Tt >
   inline const Self & operator*=(const Tt & value)
   {
     for ( unsigned int i = 0; i < NVectorDimension; i++ )
@@ -138,7 +138,7 @@ public:
   }
 
   /** Scalar operator/=.  Scales (divides) elements by a scalar. */
-  template< class Tt >
+  template< typename Tt >
   inline const Self & operator/=(const Tt & value)
   {
     for ( unsigned int i = 0; i < NVectorDimension; i++ )
@@ -183,7 +183,7 @@ public:
 
   /** Scalar operator/. Scale (divide) the elements of a vector by a scalar.
    * Return a new vector. */
-  template< class Tt >
+  template< typename Tt >
   inline Self operator/(const Tt & value) const
   {
     Self result;
@@ -245,7 +245,7 @@ public:
 
 /** Premultiply Operator for product of a vector and a scalar.
  *  Vector< T, N >  =  T * Vector< T,N > */
-template< class T, unsigned int NVectorDimension >
+template< typename T, unsigned int NVectorDimension >
 inline
 Vector< T, NVectorDimension >
 operator*(const T & scalar, const Vector< T, NVectorDimension > & v)
@@ -253,11 +253,11 @@ operator*(const T & scalar, const Vector< T, NVectorDimension > & v)
   return v * scalar;
 }
 
-template< class T, unsigned int NVectorDimension >
+template< typename T, unsigned int NVectorDimension >
 std::ostream & operator<<(std::ostream & os,
                           const Vector< T, NVectorDimension > & v);
 
-template< class T, unsigned int NVectorDimension >
+template< typename T, unsigned int NVectorDimension >
 std::istream & operator>>(std::istream & is,
                           Vector< T, NVectorDimension > & v);
 

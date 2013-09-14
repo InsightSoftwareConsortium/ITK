@@ -36,7 +36,7 @@ namespace itk
  */
 namespace Functor
 {
-template< class TInput, class TOutput >
+template< typename TInput, typename TOutput >
 class EdgePotential
 {
 public:
@@ -59,7 +59,7 @@ public:
 };
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class EdgePotentialImageFilter:
   public
   UnaryFunctorImageFilter< TInputImage, TOutputImage,

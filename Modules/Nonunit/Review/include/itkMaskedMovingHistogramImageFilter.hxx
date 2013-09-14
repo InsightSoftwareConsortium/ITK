@@ -40,7 +40,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TMaskImage, class TOutputImage, class TKernel, class THistogram >
+template< typename TInputImage, typename TMaskImage, typename TOutputImage, typename TKernel, typename THistogram >
 MaskedMovingHistogramImageFilter< TInputImage, TMaskImage, TOutputImage, TKernel, THistogram >
 ::MaskedMovingHistogramImageFilter()
 {
@@ -52,7 +52,7 @@ MaskedMovingHistogramImageFilter< TInputImage, TMaskImage, TOutputImage, TKernel
   this->SetGenerateOutputMask(false);
 }
 
-template< class TInputImage, class TMaskImage, class TOutputImage, class TKernel, class THistogram >
+template< typename TInputImage, typename TMaskImage, typename TOutputImage, typename TKernel, typename THistogram >
 void
 MaskedMovingHistogramImageFilter< TInputImage, TMaskImage, TOutputImage, TKernel, THistogram >
 ::SetGenerateOutputMask(bool generateOutputMask)
@@ -74,7 +74,7 @@ MaskedMovingHistogramImageFilter< TInputImage, TMaskImage, TOutputImage, TKernel
     }
 }
 
-template< class TInputImage, class TMaskImage, class TOutputImage, class TKernel, class THistogram >
+template< typename TInputImage, typename TMaskImage, typename TOutputImage, typename TKernel, typename THistogram >
 void
 MaskedMovingHistogramImageFilter< TInputImage, TMaskImage, TOutputImage, TKernel, THistogram >
 ::AllocateOutputs()
@@ -96,7 +96,7 @@ MaskedMovingHistogramImageFilter< TInputImage, TMaskImage, TOutputImage, TKernel
     }
 }
 
-template< class TInputImage, class TMaskImage, class TOutputImage, class TKernel, class THistogram >
+template< typename TInputImage, typename TMaskImage, typename TOutputImage, typename TKernel, typename THistogram >
 DataObject::Pointer
 MaskedMovingHistogramImageFilter< TInputImage, TMaskImage, TOutputImage, TKernel, THistogram >
 ::MakeOutput(DataObjectPointerArraySizeType idx)
@@ -115,7 +115,7 @@ MaskedMovingHistogramImageFilter< TInputImage, TMaskImage, TOutputImage, TKernel
   return output.GetPointer();
 }
 
-template< class TInputImage, class TMaskImage, class TOutputImage, class TKernel, class THistogram >
+template< typename TInputImage, typename TMaskImage, typename TOutputImage, typename TKernel, typename THistogram >
 typename MaskedMovingHistogramImageFilter< TInputImage, TMaskImage, TOutputImage, TKernel,
                                            THistogram >::MaskImageType *
 MaskedMovingHistogramImageFilter< TInputImage, TMaskImage, TOutputImage, TKernel, THistogram >
@@ -128,7 +128,7 @@ MaskedMovingHistogramImageFilter< TInputImage, TMaskImage, TOutputImage, TKernel
 // a modified version that uses line iterators and only moves the
 // histogram in one direction. Hopefully it will be a bit simpler and
 // faster due to improved memory access and a tighter loop.
-template< class TInputImage, class TMaskImage, class TOutputImage, class TKernel, class THistogram >
+template< typename TInputImage, typename TMaskImage, typename TOutputImage, typename TKernel, typename THistogram >
 void
 MaskedMovingHistogramImageFilter< TInputImage, TMaskImage, TOutputImage, TKernel, THistogram >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
@@ -290,7 +290,7 @@ MaskedMovingHistogramImageFilter< TInputImage, TMaskImage, TOutputImage, TKernel
   delete[] Steps;
 }
 
-template< class TInputImage, class TMaskImage, class TOutputImage, class TKernel, class THistogram >
+template< typename TInputImage, typename TMaskImage, typename TOutputImage, typename TKernel, typename THistogram >
 void
 MaskedMovingHistogramImageFilter< TInputImage, TMaskImage, TOutputImage, TKernel, THistogram >
 ::pushHistogram(HistogramType & histogram,
@@ -364,7 +364,7 @@ MaskedMovingHistogramImageFilter< TInputImage, TMaskImage, TOutputImage, TKernel
     }
 }
 
-template< class TInputImage, class TMaskImage, class TOutputImage, class TKernel, class THistogram >
+template< typename TInputImage, typename TMaskImage, typename TOutputImage, typename TKernel, typename THistogram >
 
 void
 MaskedMovingHistogramImageFilter< TInputImage, TMaskImage, TOutputImage, TKernel, THistogram >

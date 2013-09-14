@@ -26,7 +26,7 @@ namespace itk
 {
 namespace fem
 {
-template <class TBaseClass>
+template <typename TBaseClass>
 Element1DStress<TBaseClass>
 ::Element1DStress() : Superclass(), m_mat(0)
 {
@@ -37,7 +37,7 @@ Element1DStress<TBaseClass>
  * Methods related to the physics of the problem.
  */
 
-template <class TBaseClass>
+template <typename TBaseClass>
 void
 Element1DStress<TBaseClass>
 ::GetStrainDisplacementMatrix(MatrixType & B, const MatrixType & shapeDgl) const
@@ -49,7 +49,7 @@ Element1DStress<TBaseClass>
   B[0][1] = shapeDgl[0][1];
 }
 
-template <class TBaseClass>
+template <typename TBaseClass>
 void
 Element1DStress<TBaseClass>
 ::GetMaterialMatrix(MatrixType & D) const
@@ -61,7 +61,7 @@ Element1DStress<TBaseClass>
   D[0][0] = m_mat->GetYoungsModulus() * m_mat->GetCrossSectionalArea();
 }
 
-template <class TBaseClass>
+template <typename TBaseClass>
 void
 Element1DStress<TBaseClass>
 ::GetStiffnessMatrix(MatrixType & Ke) const
@@ -94,7 +94,7 @@ Element1DStress<TBaseClass>
   Ke = T.transpose() * Ke * T;
 }
 
-template <class TBaseClass>
+template <typename TBaseClass>
 void
 Element1DStress<TBaseClass>
 ::PrintSelf(std::ostream& os, Indent indent) const

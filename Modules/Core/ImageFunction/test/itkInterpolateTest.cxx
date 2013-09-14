@@ -47,7 +47,7 @@ double spacing[3] = { 0.1L,   0.05L , 0.025L};
  * Test a geometric point. Returns true if test has passed,
  * returns false otherwise
  */
-template <class TInterpolator>
+template <typename TInterpolator>
 bool TestGeometricPoint(
 const TInterpolator * interp,
 const PointType& point,
@@ -87,7 +87,7 @@ double trueValue )
  * Test a continuous index. Returns true if test has passed,
  * returns false otherwise
  */
-template<class TInterpolator>
+template<typename TInterpolator>
 bool TestContinuousIndex(
 const TInterpolator * interp,
 const ContinuousIndexType& index,

@@ -37,7 +37,7 @@ namespace Accessor
  * \ingroup ImageAdaptors
  * \ingroup ITKImageAdaptors
  */
-template< class TInternalType, class TExternalType >
+template< typename TInternalType, typename TExternalType >
 class ComplexToRealPixelAccessor
 {
 public:
@@ -67,7 +67,7 @@ public:
  * \ingroup ImageAdaptors
  * \ingroup ITKImageAdaptors
  */
-template< class TImage, class TOutputPixelType >
+template< typename TImage, typename TOutputPixelType >
 class ComplexToRealImageAdaptor:public
   ImageAdaptor< TImage,
                 Accessor::ComplexToRealPixelAccessor<

@@ -22,8 +22,8 @@
 
 namespace itk
 {
-template< class TInputImage, class TFeatureImage, class TOutputImage, class TFunction,
-          class TSharedData >
+template< typename TInputImage, typename TFeatureImage, typename TOutputImage, typename TFunction,
+          typename TSharedData >
 void
 ScalarChanAndVeseDenseLevelSetImageFilter< TInputImage, TFeatureImage, TOutputImage,
                                            TFunction, TSharedData >::Initialize()
@@ -83,8 +83,8 @@ ScalarChanAndVeseDenseLevelSetImageFilter< TInputImage, TFeatureImage, TOutputIm
 
 /** Overrides parent implementation */
 // This function is called at the end of each iteration
-template< class TInputImage, class TFeatureImage, class TOutputImage, class TFunction,
-          class TSharedData >
+template< typename TInputImage, typename TFeatureImage, typename TOutputImage, typename TFunction,
+          typename TSharedData >
 void
 ScalarChanAndVeseDenseLevelSetImageFilter< TInputImage, TFeatureImage, TOutputImage,
                                            TFunction, TSharedData >

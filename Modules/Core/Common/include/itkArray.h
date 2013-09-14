@@ -88,7 +88,7 @@ public:
         bool LetArrayManageMemory = false);
 
   /** Constructor to initialize an array from another of any data type */
-  template< class TArrayValue >
+  template< typename TArrayValue >
   Array(const Array< TArrayValue > & r)
   {
     this->m_LetArrayManageMemory = true;

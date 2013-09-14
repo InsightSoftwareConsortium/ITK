@@ -35,7 +35,7 @@ namespace itk
  * \ingroup ImageFunctions
  * \ingroup ITKImageFunction
  */
-template< class TInputImage, class TCoordRep = double >
+template< typename TInputImage, typename TCoordRep = double >
 class RayCastInterpolateImageFunction:
   public InterpolateImageFunction< TInputImage, TCoordRep >
 {

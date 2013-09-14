@@ -31,14 +31,14 @@
 
 namespace itk
 {
-template< class TInputImage >
+template< typename TInputImage >
 AutoCropLabelMapFilter< TInputImage >
 ::AutoCropLabelMapFilter()
 {
   m_CropBorder.Fill(0);
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void
 AutoCropLabelMapFilter< TInputImage >
 ::GenerateOutputInformation()
@@ -120,7 +120,7 @@ AutoCropLabelMapFilter< TInputImage >
   Superclass::GenerateOutputInformation();
 }
 
-template< class TImage >
+template< typename TImage >
 void
 AutoCropLabelMapFilter< TImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

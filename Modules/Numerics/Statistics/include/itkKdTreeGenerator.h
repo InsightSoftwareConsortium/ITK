@@ -66,7 +66,7 @@ namespace Statistics
  * \endwiki
  */
 
-template< class TSample >
+template< typename TSample >
 class KdTreeGenerator:public Object
 {
 public:

@@ -49,7 +49,7 @@ namespace itk
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKLabelMap
  */
-template< class TInputImage >
+template< typename TInputImage >
 class AutoCropLabelMapFilter:
   public ChangeRegionLabelMapFilter< TInputImage >
 {

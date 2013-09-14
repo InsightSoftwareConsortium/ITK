@@ -38,7 +38,7 @@ namespace itk
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKLabelMap
  */
-template< class TImage >
+template< typename TImage >
 class ShapeUniqueLabelMapFilter:
   public InPlaceLabelMapFilter< TImage >
 {
@@ -109,7 +109,7 @@ protected:
 
   void GenerateData();
 
-  template< class TAttributeAccessor >
+  template< typename TAttributeAccessor >
   void TemplatedGenerateData(const TAttributeAccessor & accessor)
   {
     // Allocate the output

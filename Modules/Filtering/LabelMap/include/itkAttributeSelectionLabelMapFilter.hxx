@@ -24,7 +24,7 @@
 
 namespace itk {
 
-template <class TImage, class TAttributeAccessor>
+template <typename TImage, typename TAttributeAccessor>
 AttributeSelectionLabelMapFilter<TImage, TAttributeAccessor>
 ::AttributeSelectionLabelMapFilter()
 {
@@ -35,7 +35,7 @@ AttributeSelectionLabelMapFilter<TImage, TAttributeAccessor>
 }
 
 
-template <class TImage, class TAttributeAccessor>
+template <typename TImage, typename TAttributeAccessor>
 void
 AttributeSelectionLabelMapFilter<TImage, TAttributeAccessor>
 ::GenerateData()
@@ -76,7 +76,7 @@ AttributeSelectionLabelMapFilter<TImage, TAttributeAccessor>
 }
 
 
-template <class TImage, class TAttributeAccessor>
+template <typename TImage, typename TAttributeAccessor>
 void
 AttributeSelectionLabelMapFilter<TImage, TAttributeAccessor>
 ::PrintSelf(std::ostream &os, Indent indent) const

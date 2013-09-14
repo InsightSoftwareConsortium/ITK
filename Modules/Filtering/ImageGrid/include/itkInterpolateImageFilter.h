@@ -40,7 +40,7 @@ namespace itk
  * \ingroup MultiThreaded
  * \ingroup ITKImageGrid
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class InterpolateImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {

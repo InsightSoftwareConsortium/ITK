@@ -28,7 +28,7 @@ namespace itk
 //
 // SetFrameLargestPossibleSpatialRegion
 //
-template<class TFrameType>
+template<typename TFrameType>
 void
 VideoStream<TFrameType>::SetFrameLargestPossibleSpatialRegion(
   SizeValueType frameNumber, typename TFrameType::RegionType region)
@@ -48,7 +48,7 @@ VideoStream<TFrameType>::SetFrameLargestPossibleSpatialRegion(
 //
 // GetFrameLargestPossibleSpatialRegion
 //
-template<class TFrameType>
+template<typename TFrameType>
 const typename TFrameType::RegionType &
 VideoStream<TFrameType>::
 GetFrameLargestPossibleSpatialRegion(SizeValueType frameNumber) const
@@ -61,7 +61,7 @@ GetFrameLargestPossibleSpatialRegion(SizeValueType frameNumber) const
 //
 // SetFrameRequestedSpatialRegion
 //
-template<class TFrameType>
+template<typename TFrameType>
 void
 VideoStream<TFrameType>::SetFrameRequestedSpatialRegion(
   SizeValueType frameNumber, typename TFrameType::RegionType region)
@@ -81,7 +81,7 @@ VideoStream<TFrameType>::SetFrameRequestedSpatialRegion(
 //
 // GetFrameRequestedSpatialRegion
 //
-template<class TFrameType>
+template<typename TFrameType>
 const typename TFrameType::RegionType &
 VideoStream<TFrameType>::
 GetFrameRequestedSpatialRegion(SizeValueType frameNumber) const
@@ -94,7 +94,7 @@ GetFrameRequestedSpatialRegion(SizeValueType frameNumber) const
 //
 // SetFrameBufferedSpatialRegion
 //
-template<class TFrameType>
+template<typename TFrameType>
 void
 VideoStream<TFrameType>::SetFrameBufferedSpatialRegion(
   SizeValueType frameNumber, typename TFrameType::RegionType region)
@@ -114,7 +114,7 @@ VideoStream<TFrameType>::SetFrameBufferedSpatialRegion(
 //
 // GetFrameBufferedSpatialRegion
 //
-template<class TFrameType>
+template<typename TFrameType>
 const typename TFrameType::RegionType &
 VideoStream<TFrameType>::
 GetFrameBufferedSpatialRegion(SizeValueType frameNumber) const
@@ -127,7 +127,7 @@ GetFrameBufferedSpatialRegion(SizeValueType frameNumber) const
 //
 // SetFrameSpacing
 //
-template<class TFrameType>
+template<typename TFrameType>
 void
 VideoStream<TFrameType>::SetFrameSpacing(
   SizeValueType frameNumber, typename TFrameType::SpacingType spacing)
@@ -156,7 +156,7 @@ VideoStream<TFrameType>::SetFrameSpacing(
 //
 // GetFrameSpacing
 //
-template<class TFrameType>
+template<typename TFrameType>
 const typename TFrameType::SpacingType &
 VideoStream<TFrameType>::
 GetFrameSpacing(SizeValueType frameNumber) const
@@ -169,7 +169,7 @@ GetFrameSpacing(SizeValueType frameNumber) const
 //
 // SetFrameOrigin
 //
-template<class TFrameType>
+template<typename TFrameType>
 void
 VideoStream<TFrameType>::SetFrameOrigin(
   SizeValueType frameNumber, typename TFrameType::PointType origin)
@@ -189,7 +189,7 @@ VideoStream<TFrameType>::SetFrameOrigin(
 //
 // GetFrameOrigin
 //
-template<class TFrameType>
+template<typename TFrameType>
 const typename TFrameType::PointType &
 VideoStream<TFrameType>::
 GetFrameOrigin(SizeValueType frameNumber) const
@@ -202,7 +202,7 @@ GetFrameOrigin(SizeValueType frameNumber) const
 //
 // SetFrameDirection
 //
-template<class TFrameType>
+template<typename TFrameType>
 void
 VideoStream<TFrameType>::SetFrameDirection(
   SizeValueType frameNumber, typename TFrameType::DirectionType direction)
@@ -228,7 +228,7 @@ VideoStream<TFrameType>::SetFrameDirection(
 //
 // GetFrameOrigin
 //
-template<class TFrameType>
+template<typename TFrameType>
 const typename TFrameType::DirectionType &
 VideoStream<TFrameType>::
 GetFrameDirection(SizeValueType frameNumber) const
@@ -241,7 +241,7 @@ GetFrameDirection(SizeValueType frameNumber) const
 //
 // SetFrameBuffer
 //
-template<class TFrameType>
+template<typename TFrameType>
 void
 VideoStream<TFrameType>::SetFrameBuffer(
   typename VideoStream<TFrameType>::BufferType* buffer)
@@ -262,7 +262,7 @@ VideoStream<TFrameType>::SetFrameBuffer(
 //
 // SetMinimumBufferSize
 //
-template<class TFrameType>
+template<typename TFrameType>
 void
 VideoStream<TFrameType>::SetMinimumBufferSize(SizeValueType minimumNumberOfFrames)
 {
@@ -300,7 +300,7 @@ VideoStream<TFrameType>::SetMinimumBufferSize(SizeValueType minimumNumberOfFrame
 //
 // InitializeEmptyFrames
 //
-template<class TFrameType>
+template<typename TFrameType>
 void
 VideoStream<TFrameType>::InitializeEmptyFrames()
 {
@@ -362,7 +362,7 @@ VideoStream<TFrameType>::InitializeEmptyFrames()
 //
 // SetFrame
 //
-template<class TFrameType>
+template<typename TFrameType>
 void
 VideoStream<TFrameType>::SetFrame(SizeValueType frameNumber,
                                   FramePointer frame)
@@ -384,7 +384,7 @@ VideoStream<TFrameType>::SetFrame(SizeValueType frameNumber,
 //
 // GetFrame
 //
-template<class TFrameType>
+template<typename TFrameType>
 typename VideoStream<TFrameType>::FramePointer
 VideoStream<TFrameType>::GetFrame(SizeValueType frameNumber)
 {
@@ -399,7 +399,7 @@ VideoStream<TFrameType>::GetFrame(SizeValueType frameNumber)
 //
 // const GetFrame const
 //
-template<class TFrameType>
+template<typename TFrameType>
 typename VideoStream<TFrameType>::FrameConstPointer
 VideoStream<TFrameType>::GetFrame(SizeValueType frameNumber) const
 {
@@ -412,7 +412,7 @@ VideoStream<TFrameType>::GetFrame(SizeValueType frameNumber) const
 //
 // Graft
 //
-template<class TFrameType>
+template<typename TFrameType>
 void
 VideoStream<TFrameType>::Graft(const DataObject* data)
 {
@@ -449,7 +449,7 @@ VideoStream<TFrameType>::Graft(const DataObject* data)
 //
 // SetAllLargestPossibleSpatialRegions
 //
-template<class TFrameType>
+template<typename TFrameType>
 void
 VideoStream<TFrameType>::
 SetAllLargestPossibleSpatialRegions(typename TFrameType::RegionType region)
@@ -479,7 +479,7 @@ SetAllLargestPossibleSpatialRegions(typename TFrameType::RegionType region)
 //
 // SetAllRequestedSpatialRegions
 //
-template<class TFrameType>
+template<typename TFrameType>
 void
 VideoStream<TFrameType>::
 SetAllRequestedSpatialRegions(typename TFrameType::RegionType region)
@@ -509,7 +509,7 @@ SetAllRequestedSpatialRegions(typename TFrameType::RegionType region)
 //
 // SetAllBufferedSpatialRegions
 //
-template<class TFrameType>
+template<typename TFrameType>
 void
 VideoStream<TFrameType>::
 SetAllBufferedSpatialRegions(typename TFrameType::RegionType region)
@@ -539,7 +539,7 @@ SetAllBufferedSpatialRegions(typename TFrameType::RegionType region)
 //
 // SetAllFramesSpacing
 //
-template<class TFrameType>
+template<typename TFrameType>
 void
 VideoStream<TFrameType>::
 SetAllFramesSpacing(typename TFrameType::SpacingType spacing)
@@ -569,7 +569,7 @@ SetAllFramesSpacing(typename TFrameType::SpacingType spacing)
 //
 // SetAllFramesOrigin
 //
-template<class TFrameType>
+template<typename TFrameType>
 void
 VideoStream<TFrameType>::
 SetAllFramesOrigin(typename TFrameType::PointType origin)
@@ -599,7 +599,7 @@ SetAllFramesOrigin(typename TFrameType::PointType origin)
 //
 // SetAllFramesDirection
 //
-template<class TFrameType>
+template<typename TFrameType>
 void
 VideoStream<TFrameType>::
 SetAllFramesDirection(typename TFrameType::DirectionType direction)
@@ -629,7 +629,7 @@ SetAllFramesDirection(typename TFrameType::DirectionType direction)
 //
 // Allocate
 //
-template<class TFrameType>
+template<typename TFrameType>
 void
 VideoStream<TFrameType>::Allocate()
 {

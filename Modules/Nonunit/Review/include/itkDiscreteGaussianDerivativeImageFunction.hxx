@@ -24,7 +24,7 @@
 namespace itk
 {
 /** Set the Input Image */
-template< class TInputImage, class TOutput >
+template< typename TInputImage, typename TOutput >
 DiscreteGaussianDerivativeImageFunction< TInputImage, TOutput >
 ::DiscreteGaussianDerivativeImageFunction():
   m_MaximumError(0.005),
@@ -40,7 +40,7 @@ DiscreteGaussianDerivativeImageFunction< TInputImage, TOutput >
 }
 
 /** Print self method */
-template< class TInputImage, class TOutput >
+template< typename TInputImage, typename TOutput >
 void
 DiscreteGaussianDerivativeImageFunction< TInputImage, TOutput >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -59,7 +59,7 @@ DiscreteGaussianDerivativeImageFunction< TInputImage, TOutput >
 }
 
 /** Set the input image */
-template< class TInputImage, class TOutput >
+template< typename TInputImage, typename TOutput >
 void
 DiscreteGaussianDerivativeImageFunction< TInputImage, TOutput >
 ::SetInputImage(const InputImageType *ptr)
@@ -70,7 +70,7 @@ DiscreteGaussianDerivativeImageFunction< TInputImage, TOutput >
 
 /** Recompute the gaussian kernel used to evaluate indexes
  *  This should use a fastest Derivative Gaussian operator */
-template< class TInputImage, class TOutput >
+template< typename TInputImage, typename TOutput >
 void
 DiscreteGaussianDerivativeImageFunction< TInputImage, TOutput >
 ::RecomputeGaussianKernel()
@@ -169,7 +169,7 @@ DiscreteGaussianDerivativeImageFunction< TInputImage, TOutput >
 }
 
 /** Evaluate the function at the specifed index */
-template< class TInputImage, class TOutput >
+template< typename TInputImage, typename TOutput >
 typename DiscreteGaussianDerivativeImageFunction< TInputImage, TOutput >::OutputType
 DiscreteGaussianDerivativeImageFunction< TInputImage, TOutput >
 ::EvaluateAtIndex(const IndexType & index) const
@@ -184,7 +184,7 @@ DiscreteGaussianDerivativeImageFunction< TInputImage, TOutput >
 }
 
 /** Evaluate the function at the specifed point */
-template< class TInputImage, class TOutput >
+template< typename TInputImage, typename TOutput >
 typename DiscreteGaussianDerivativeImageFunction< TInputImage, TOutput >::OutputType
 DiscreteGaussianDerivativeImageFunction< TInputImage, TOutput >
 ::Evaluate(const PointType & point) const
@@ -208,7 +208,7 @@ DiscreteGaussianDerivativeImageFunction< TInputImage, TOutput >
 }
 
 /** Evaluate the function at specified ContinousIndex position.*/
-template< class TInputImage, class TOutput >
+template< typename TInputImage, typename TOutput >
 typename DiscreteGaussianDerivativeImageFunction< TInputImage, TOutput >::OutputType
 DiscreteGaussianDerivativeImageFunction< TInputImage, TOutput >
 ::EvaluateAtContinuousIndex(const ContinuousIndexType & cindex) const

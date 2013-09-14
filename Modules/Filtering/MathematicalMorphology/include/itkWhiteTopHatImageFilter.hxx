@@ -26,7 +26,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 WhiteTopHatImageFilter< TInputImage, TOutputImage, TKernel >
 ::WhiteTopHatImageFilter()
 {
@@ -35,7 +35,7 @@ WhiteTopHatImageFilter< TInputImage, TOutputImage, TKernel >
   m_ForceAlgorithm = false;
 }
 
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 void
 WhiteTopHatImageFilter< TInputImage, TOutputImage, TKernel >
 ::GenerateData()
@@ -87,7 +87,7 @@ WhiteTopHatImageFilter< TInputImage, TOutputImage, TKernel >
   this->GraftOutput( subtract->GetOutput() );
 }
 
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 void
 WhiteTopHatImageFilter< TInputImage, TOutputImage, TKernel >
 ::PrintSelf(std::ostream & os, Indent indent) const

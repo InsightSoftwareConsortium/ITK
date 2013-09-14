@@ -76,8 +76,8 @@ namespace itk
  * \ingroup ClassificationFilters
  * \ingroup ITKClassifiers
  */
-template< class TInputVectorImage, class TLabelsType = unsigned char,
-          class TPosteriorsPrecisionType = double, class TPriorsPrecisionType = double >
+template< typename TInputVectorImage, typename TLabelsType = unsigned char,
+          typename TPosteriorsPrecisionType = double, typename TPriorsPrecisionType = double >
 class BayesianClassifierImageFilter:
   public ImageToImageFilter<
     TInputVectorImage, Image< TLabelsType,
