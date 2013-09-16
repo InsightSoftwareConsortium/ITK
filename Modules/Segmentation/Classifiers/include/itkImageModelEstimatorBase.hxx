@@ -23,21 +23,21 @@
 
 namespace itk
 {
-template< class TInputImage,
-          class TMembershipFunction >
+template< typename TInputImage,
+          typename TMembershipFunction >
 ImageModelEstimatorBase< TInputImage, TMembershipFunction >
 ::ImageModelEstimatorBase(void):
   m_NumberOfModels(0)
 {}
 
-template< class TInputImage,
-          class TMembershipFunction >
+template< typename TInputImage,
+          typename TMembershipFunction >
 ImageModelEstimatorBase< TInputImage, TMembershipFunction >
 ::~ImageModelEstimatorBase()
 {}
 
-template< class TInputImage,
-          class TMembershipFunction >
+template< typename TInputImage,
+          typename TMembershipFunction >
 void
 ImageModelEstimatorBase< TInputImage, TMembershipFunction >
 ::Update()
@@ -45,8 +45,8 @@ ImageModelEstimatorBase< TInputImage, TMembershipFunction >
   GenerateData();
 }
 
-template< class TInputImage,
-          class TMembershipFunction >
+template< typename TInputImage,
+          typename TMembershipFunction >
 void
 ImageModelEstimatorBase< TInputImage, TMembershipFunction >
 ::GenerateData()
@@ -57,8 +57,8 @@ ImageModelEstimatorBase< TInputImage, TMembershipFunction >
 /**
  * PrintSelf
  */
-template< class TInputImage,
-          class TMembershipFunction >
+template< typename TInputImage,
+          typename TMembershipFunction >
 void
 ImageModelEstimatorBase< TInputImage, TMembershipFunction >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -88,8 +88,8 @@ ImageModelEstimatorBase< TInputImage, TMembershipFunction >
 // Add a membership function corresponding to the class index
 //------------------------------------------------------------------
 
-template< class TInputImage,
-          class TMembershipFunction >
+template< typename TInputImage,
+          typename TMembershipFunction >
 unsigned int
 ImageModelEstimatorBase< TInputImage, TMembershipFunction >
 ::AddMembershipFunction(MembershipFunctionPointer function)

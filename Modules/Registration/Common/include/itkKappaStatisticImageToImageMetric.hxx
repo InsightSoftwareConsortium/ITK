@@ -26,7 +26,7 @@ namespace itk
 /**
  * Constructor
  */
-template <class TFixedImage, class TMovingImage>
+template <typename TFixedImage, typename TMovingImage>
 KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>
 ::KappaStatisticImageToImageMetric()
 {
@@ -40,7 +40,7 @@ KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>
 /**
  * Get the match Measure
  */
-template <class TFixedImage, class TMovingImage>
+template <typename TFixedImage, typename TMovingImage>
 typename KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>::MeasureType
 KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>
 ::GetValue(const TransformParametersType & parameters) const
@@ -164,7 +164,7 @@ KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>
 /**
  * Get the Derivative Measure
  */
-template <class TFixedImage, class TMovingImage>
+template <typename TFixedImage, typename TMovingImage>
 void
 KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>
 ::GetDerivative(const TransformParametersType & parameters,
@@ -305,7 +305,7 @@ KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>
 /*
  * Compute the image gradient and assign to m_GradientImage.
  */
-template <class TFixedImage, class TMovingImage>
+template <typename TFixedImage, typename TMovingImage>
 void
 KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>
 ::ComputeGradient()
@@ -376,7 +376,7 @@ KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>
 /**
  * Get both the match Measure and theDerivative Measure
  */
-template <class TFixedImage, class TMovingImage>
+template <typename TFixedImage, typename TMovingImage>
 void
 KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>
 ::GetValueAndDerivative(const TransformParametersType & parameters,
@@ -389,7 +389,7 @@ KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>
 /**
  * PrintSelf
  */
-template <class TFixedImage, class TMovingImage>
+template <typename TFixedImage, typename TMovingImage>
 void
 KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>
 ::PrintSelf(std::ostream & os, Indent indent) const

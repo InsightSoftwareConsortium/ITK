@@ -19,7 +19,7 @@
 #include "itkGradientMagnitudeRecursiveGaussianImageFilter.h"
 #include "itkSimpleFilterWatcher.h"
 
-template<class TImage1Type,class TImage2Type>
+template<typename TImage1Type,typename TImage2Type>
 class ImageInformationIsEqual
 {
 public:

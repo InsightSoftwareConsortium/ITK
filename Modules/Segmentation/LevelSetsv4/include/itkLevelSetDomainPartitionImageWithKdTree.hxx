@@ -22,20 +22,20 @@
 
 namespace itk
 {
-template< class TImage >
+template< typename TImage >
 LevelSetDomainPartitionImageWithKdTree< TImage >
 ::LevelSetDomainPartitionImageWithKdTree() :
   m_KdTree(NULL), m_NumberOfNeighbors( 10 )
 {
 }
 
-template< class TImage >
+template< typename TImage >
 LevelSetDomainPartitionImageWithKdTree< TImage >
 ::~LevelSetDomainPartitionImageWithKdTree()
 {
 }
 
-template< class TImage >
+template< typename TImage >
 void LevelSetDomainPartitionImageWithKdTree< TImage >
 ::PopulateListDomain()
 {
@@ -49,7 +49,7 @@ void LevelSetDomainPartitionImageWithKdTree< TImage >
     }
 }
 
-template< class TImage >
+template< typename TImage >
 void LevelSetDomainPartitionImageWithKdTree< TImage >
 ::PopulateDomainWithKdTree()
 {

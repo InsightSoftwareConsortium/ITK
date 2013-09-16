@@ -35,7 +35,7 @@ namespace itk
 {
 namespace Functor
 {
-template< class TLabelObject >
+template< typename TLabelObject >
 class NumberOfPixelsLabelObjectAccessor
 {
 public:
@@ -48,7 +48,7 @@ public:
   }
 };
 
-template< class TLabelObject >
+template< typename TLabelObject >
 class BoundingBoxLabelObjectAccessor
 {
 public:
@@ -61,7 +61,7 @@ public:
   }
 };
 
-template< class TLabelObject >
+template< typename TLabelObject >
 class PhysicalSizeLabelObjectAccessor
 {
 public:
@@ -74,7 +74,7 @@ public:
   }
 };
 
-template< class TLabelObject >
+template< typename TLabelObject >
 class NumberOfPixelsOnBorderLabelObjectAccessor
 {
 public:
@@ -87,7 +87,7 @@ public:
   }
 };
 
-template< class TLabelObject >
+template< typename TLabelObject >
 class PerimeterOnBorderLabelObjectAccessor
 {
 public:
@@ -100,7 +100,7 @@ public:
   }
 };
 
-template< class TLabelObject >
+template< typename TLabelObject >
 class CentroidLabelObjectAccessor
 {
 public:
@@ -113,7 +113,7 @@ public:
   }
 };
 
-template< class TLabelObject >
+template< typename TLabelObject >
 class FeretDiameterLabelObjectAccessor
 {
 public:
@@ -126,7 +126,7 @@ public:
   }
 };
 
-template< class TLabelObject >
+template< typename TLabelObject >
 class PrincipalMomentsLabelObjectAccessor
 {
 public:
@@ -139,7 +139,7 @@ public:
   }
 };
 
-template< class TLabelObject >
+template< typename TLabelObject >
 class PrincipalAxesLabelObjectAccessor
 {
 public:
@@ -152,7 +152,7 @@ public:
   }
 };
 
-template< class TLabelObject >
+template< typename TLabelObject >
 class ElongationLabelObjectAccessor
 {
 public:
@@ -165,7 +165,7 @@ public:
   }
 };
 
-template< class TLabelObject >
+template< typename TLabelObject >
 class PerimeterLabelObjectAccessor
 {
 public:
@@ -178,7 +178,7 @@ public:
   }
 };
 
-template< class TLabelObject >
+template< typename TLabelObject >
 class RoundnessLabelObjectAccessor
 {
 public:
@@ -191,7 +191,7 @@ public:
   }
 };
 
-template< class TLabelObject >
+template< typename TLabelObject >
 class EquivalentSphericalRadiusLabelObjectAccessor
 {
 public:
@@ -204,7 +204,7 @@ public:
   }
 };
 
-template< class TLabelObject >
+template< typename TLabelObject >
 class EquivalentSphericalPerimeterLabelObjectAccessor
 {
 public:
@@ -217,7 +217,7 @@ public:
   }
 };
 
-template< class TLabelObject >
+template< typename TLabelObject >
 class EquivalentEllipsoidDiameterLabelObjectAccessor
 {
 public:
@@ -230,7 +230,7 @@ public:
   }
 };
 
-template< class TLabelObject >
+template< typename TLabelObject >
 class FlatnessLabelObjectAccessor
 {
 public:
@@ -243,7 +243,7 @@ public:
   }
 };
 
-template< class TLabelObject >
+template< typename TLabelObject >
 class PerimeterOnBorderRatioLabelObjectAccessor
 {
 public:

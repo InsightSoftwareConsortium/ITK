@@ -30,7 +30,7 @@ namespace itk
 /**
  * Default constructor
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField, class TImageForceFunction >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField, typename TImageForceFunction >
 CurvatureRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField, TImageForceFunction >
 ::CurvatureRegistrationFilter()
 {
@@ -55,7 +55,7 @@ CurvatureRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField, TIma
 /**
  * Destructor.
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField, class TImageForceFunction >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField, typename TImageForceFunction >
 CurvatureRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField, TImageForceFunction >
 ::~CurvatureRegistrationFilter()
 {
@@ -74,7 +74,7 @@ CurvatureRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField, TIma
     }
 }
 
-template< class TFixedImage, class TMovingImage, class TDisplacementField, class TImageForceFunction >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField, typename TImageForceFunction >
 void
 CurvatureRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField, TImageForceFunction >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -85,7 +85,7 @@ CurvatureRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField, TIma
 /**
  * Set the function state values before each iteration
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField, class TImageForceFunction >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField, typename TImageForceFunction >
 void
 CurvatureRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField, TImageForceFunction >
 ::Initialize()
@@ -190,7 +190,7 @@ CurvatureRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField, TIma
 /*
  * Get the metric value from the difference function
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField, class TImageForceFunction >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField, typename TImageForceFunction >
 double
 CurvatureRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField, TImageForceFunction >
 ::GetMetric() const
@@ -211,7 +211,7 @@ CurvatureRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField, TIma
 /*
  * Get the metric value from the difference function
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField, class TImageForceFunction >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField, typename TImageForceFunction >
 void
 CurvatureRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField, TImageForceFunction >
 ::ApplyUpdate(const TimeStepType& dt)

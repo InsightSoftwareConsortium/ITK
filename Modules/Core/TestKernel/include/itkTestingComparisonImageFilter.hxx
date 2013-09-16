@@ -30,7 +30,7 @@ namespace itk
 namespace Testing
 {
 //----------------------------------------------------------------------------
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 ComparisonImageFilter< TInputImage, TOutputImage >
 ::ComparisonImageFilter()
 {
@@ -53,7 +53,7 @@ ComparisonImageFilter< TInputImage, TOutputImage >
 }
 
 //----------------------------------------------------------------------------
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ComparisonImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -72,7 +72,7 @@ ComparisonImageFilter< TInputImage, TOutputImage >
 }
 
 //----------------------------------------------------------------------------
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ComparisonImageFilter< TInputImage, TOutputImage >
 ::SetValidInput(const InputImageType *validImage)
@@ -82,7 +82,7 @@ ComparisonImageFilter< TInputImage, TOutputImage >
 }
 
 //----------------------------------------------------------------------------
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ComparisonImageFilter< TInputImage, TOutputImage >
 ::SetTestInput(const InputImageType *testImage)
@@ -92,7 +92,7 @@ ComparisonImageFilter< TInputImage, TOutputImage >
 }
 
 //----------------------------------------------------------------------------
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ComparisonImageFilter< TInputImage, TOutputImage >
 ::BeforeThreadedGenerateData()
@@ -120,7 +120,7 @@ ComparisonImageFilter< TInputImage, TOutputImage >
 }
 
 //----------------------------------------------------------------------------
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ComparisonImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData(const OutputImageRegionType & threadRegion, ThreadIdType threadId)
@@ -257,7 +257,7 @@ ComparisonImageFilter< TInputImage, TOutputImage >
 }
 
 //----------------------------------------------------------------------------
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ComparisonImageFilter< TInputImage, TOutputImage >
 ::AfterThreadedGenerateData()
@@ -290,7 +290,7 @@ ComparisonImageFilter< TInputImage, TOutputImage >
 /**
  *
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ComparisonImageFilter< TInputImage, TOutputImage >
 ::SetInput(const TInputImage *input)
@@ -302,7 +302,7 @@ ComparisonImageFilter< TInputImage, TOutputImage >
 /**
  * Connect one of the operands for pixel-wise addition
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ComparisonImageFilter< TInputImage, TOutputImage >
 ::SetInput(unsigned int index, const TInputImage *image)
@@ -315,7 +315,7 @@ ComparisonImageFilter< TInputImage, TOutputImage >
 /**
  *
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 const TInputImage *
 ComparisonImageFilter< TInputImage, TOutputImage >
 ::GetInput(void) const
@@ -326,7 +326,7 @@ ComparisonImageFilter< TInputImage, TOutputImage >
 /**
  *
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 const TInputImage *
 ComparisonImageFilter< TInputImage, TOutputImage >
 ::GetInput(unsigned int idx) const

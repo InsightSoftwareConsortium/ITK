@@ -46,7 +46,7 @@ namespace itk
  * \endwiki
  */
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class SobelEdgeDetectionImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {

@@ -38,7 +38,7 @@ namespace Statistics
  *
  * \ingroup ITKStatistics
  */
-template< class TSample >
+template< typename TSample >
 class WeightedMeanSampleFilter : public MeanSampleFilter< TSample >
 {
 public:

@@ -22,7 +22,7 @@
 
 namespace itk
 {
-template<class TDomainPartitioner, class TImageToImageMetric, class TCorrelationMetric>
+template<typename TDomainPartitioner, typename TImageToImageMetric, typename TCorrelationMetric>
 void CorrelationImageToImageMetricv4HelperThreader< TDomainPartitioner, TImageToImageMetric, TCorrelationMetric>
 ::BeforeThreadedExecution()
 {
@@ -44,7 +44,7 @@ void CorrelationImageToImageMetricv4HelperThreader< TDomainPartitioner, TImageTo
 
 }
 
-template<class TDomainPartitioner, class TImageToImageMetric, class TCorrelationMetric>
+template<typename TDomainPartitioner, typename TImageToImageMetric, typename TCorrelationMetric>
 void
 CorrelationImageToImageMetricv4HelperThreader<TDomainPartitioner,
     TImageToImageMetric, TCorrelationMetric>::AfterThreadedExecution()
@@ -78,7 +78,7 @@ CorrelationImageToImageMetricv4HelperThreader<TDomainPartitioner,
   this->m_CorrelationAssociate->m_AverageMov = sumM / this->m_CorrelationAssociate->m_NumberOfValidPoints;
 }
 
-template<class TDomainPartitioner, class TImageToImageMetric, class TCorrelationMetric>
+template<typename TDomainPartitioner, typename TImageToImageMetric, typename TCorrelationMetric>
 bool
 CorrelationImageToImageMetricv4HelperThreader<TDomainPartitioner,
 TImageToImageMetric, TCorrelationMetric>

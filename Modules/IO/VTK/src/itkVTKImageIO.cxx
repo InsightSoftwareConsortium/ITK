@@ -404,7 +404,7 @@ void VTKImageIO::ReadHeaderSize(std::ifstream & file)
 
 namespace
 {
-template <class TComponent>
+template <typename TComponent>
 void ReadTensorBuffer( std::istream& is, TComponent *buffer,
   const ImageIOBase::SizeType num )
 {
@@ -704,7 +704,7 @@ void VTKImageIO::WriteImageInformation( const void *itkNotUsed(buffer) )
 
 namespace
 {
-template<class TComponent>
+template<typename TComponent>
 void WriteTensorBuffer(std::ostream & os, const TComponent * buffer, const ImageIOBase::SizeType num,
                        const ImageIOBase::SizeType components )
 {

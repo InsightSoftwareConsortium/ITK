@@ -67,14 +67,14 @@ public:
    *
    * An exception will be thrown if errors were encountered during the conversion.
    */
-  template < class T >
+  template < typename T >
   FancyString& ToData( std::vector<T>& outputData, int count = -1 );
 
   /**
    * Functions to convert a vector of type std::vector<T> to a string.
    * An exception will be thrown if errors were encountered during the conversion.
    */
-  template < class T >
+  template < typename T >
   FancyString& FromData( const std::vector<T>& inputData );
 
   /////////////////////////////////////////////////////////////////////////////
@@ -90,14 +90,14 @@ public:
    *
    * An exception will be thrown if errors were encountered during the conversion.
    */
-  template < class T >
+  template < typename T >
   FancyString& ToData( Array<T>& outputData, int count = -1 );
 
   /**
    * Functions to convert an array of type itk::Array<T> to a string.
    * An exception will be thrown if errors were encountered during the conversion.
    */
-  template < class T >
+  template < typename T >
   FancyString& FromData( const Array<T>& inputData );
 
   /////////////////////////////////////////////////////////////////////////////
@@ -108,14 +108,14 @@ public:
    * Functions to convert a string to a value of basic data type.
    * An exception will be thrown if errors were encountered during the conversion.
    */
-  template < class T >
+  template < typename T >
   FancyString& ToData( T& outputData );
 
   /**
    * Functions to convert a value of basic data type to a string.
    * An exception will be thrown if errors were encountered during the conversion.
    */
-  template < class T >
+  template < typename T >
   FancyString& FromData( const T& inputData );
 
   /////////////////////////////////////////////////////////////////////////////
@@ -190,14 +190,14 @@ void ClearContent( FancyString& input );
  * Number of elements to read is given by data.size().
  * An exception will be thrown if errors were encountered during the conversion.
  */
-template < class T >
+template < typename T >
 FancyString& operator>>( FancyString& s, std::vector<T>& data );
 
 /**
  * Functions to convert a vector of type std::vector<T> to a string.
  * An exception will be thrown if errors were encountered during the conversion.
  */
-template < class T >
+template < typename T >
 FancyString& operator<<( FancyString& s, const std::vector<T>& data );
 
 /////////////////////////////////////////////////////////////////////////////
@@ -209,14 +209,14 @@ FancyString& operator<<( FancyString& s, const std::vector<T>& data );
  * Number of elements to read is given by data.GetSize().
  * An exception will be thrown if errors were encountered during the conversion.
  */
-template < class T >
+template < typename T >
 FancyString& operator>>( FancyString& s, Array<T>& data );
 
 /**
  * Functions to convert an array of type itk::Array<T> to a string.
  * An exception will be thrown if errors were encountered during the conversion.
  */
-template < class T >
+template < typename T >
 FancyString& operator<<( FancyString& s, const Array<T>& data );
 
 /////////////////////////////////////////////////////////////////////////////
@@ -227,14 +227,14 @@ FancyString& operator<<( FancyString& s, const Array<T>& data );
  * Functions to convert a string to a value of basic data type.
  * An exception will be thrown if errors were encountered during the conversion.
  */
-template < class T >
+template < typename T >
 FancyString& operator>>( FancyString& s, T& data );
 
 /**
  * Functions to convert a value of basic data type to a string.
  * An exception will be thrown if errors were encountered during the conversion.
  */
-template < class T >
+template < typename T >
 FancyString& operator<<( FancyString& s, const T& data );
 
 } // namespace itk

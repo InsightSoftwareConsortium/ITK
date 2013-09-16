@@ -23,23 +23,23 @@
 
 namespace itk
 {
-template< class TInput,
-          class TFeature,
-          class TSharedData >
+template< typename TInput,
+          typename TFeature,
+          typename TSharedData >
 double
 RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
 ::m_WaveDT = 1.0 / ( 2.0 * ImageDimension );
 
-template< class TInput,
-          class TFeature,
-          class TSharedData >
+template< typename TInput,
+          typename TFeature,
+          typename TSharedData >
 double
 RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
 ::m_DT     = 1.0 / ( 2.0 * ImageDimension );
 
-template< class TInput,
-          class TFeature,
-          class TSharedData >
+template< typename TInput,
+          typename TFeature,
+          typename TSharedData >
 RegionBasedLevelSetFunction< TInput,
                              TFeature,
                              TSharedData >
@@ -68,7 +68,7 @@ RegionBasedLevelSetFunction< TInput,
     }
 }
 
-template< class TInput, class TFeature, class TSharedData >
+template< typename TInput, typename TFeature, typename TSharedData >
 typename RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >::VectorType
 RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
 ::InitializeZeroVectorConstant()
@@ -83,7 +83,7 @@ RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
   return ans;
 }
 
-template< class TInput, class TFeature, class TSharedData >
+template< typename TInput, typename TFeature, typename TSharedData >
 typename RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >::VectorType
 RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
 ::m_ZeroVectorConstant =
@@ -91,9 +91,9 @@ RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
 
 /* Computes the Heaviside function and stores it in
   m_HeavisideFunctionOfLevelSetImage */
-template< class TInput,
-          class TFeature,
-          class TSharedData >
+template< typename TInput,
+          typename TFeature,
+          typename TSharedData >
 void RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
 ::ComputeHImage()
 {
@@ -122,9 +122,9 @@ void RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
     }
 }
 
-template< class TInput,
-          class TFeature,
-          class TSharedData >
+template< typename TInput,
+          typename TFeature,
+          typename TSharedData >
 void
 RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
 ::UpdateSharedData(bool forceUpdate)
@@ -146,9 +146,9 @@ RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
     }
 }
 
-template< class TInput,
-          class TFeature,
-          class TSharedData >
+template< typename TInput,
+          typename TFeature,
+          typename TSharedData >
 typename RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >::TimeStepType
 RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
 ::ComputeGlobalTimeStep(void *GlobalData) const
@@ -188,8 +188,8 @@ RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
   return dt;
 }
 
-template< class TInput,
-          class TFeature, class TSharedData >
+template< typename TInput,
+          typename TFeature, typename TSharedData >
 typename RegionBasedLevelSetFunction< TInput,
                                       TFeature, TSharedData >::
 ScalarValueType
@@ -229,9 +229,9 @@ RegionBasedLevelSetFunction< TInput,
 
 // Compute the Hessian matrix and various other derivatives.  Some of these
 // derivatives may be used by overloaded virtual functions.
-template< class TInput,
-          class TFeature,
-          class TSharedData >
+template< typename TInput,
+          typename TFeature,
+          typename TSharedData >
 void
 RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
 ::ComputeHessian(const NeighborhoodType & it, GlobalDataStruct *gd)
@@ -281,9 +281,9 @@ RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
   gd->m_GradMag = vcl_sqrt(gd->m_GradMagSqr);
 }
 
-template< class TInput,
-          class TFeature,
-          class TSharedData >
+template< typename TInput,
+          typename TFeature,
+          typename TSharedData >
 typename RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >::PixelType
 RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
 ::ComputeUpdate(const NeighborhoodType & it, void *globalData,
@@ -374,7 +374,7 @@ RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
   return updateVal;
 }
 
-template< class TInput, class TFeature, class TSharedData >
+template< typename TInput, typename TFeature, typename TSharedData >
 typename RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
 ::ScalarValueType
 RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
@@ -391,7 +391,7 @@ RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
   return laplacian;
 }
 
-template< class TInput, class TFeature, class TSharedData >
+template< typename TInput, typename TFeature, typename TSharedData >
 typename RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
 ::ScalarValueType
 RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
@@ -408,7 +408,7 @@ Most of the code is concerned with using the appropriate combination
 of Heaviside and dirac delta for each part of the fidelity term.
 - the final dH is the dirac delta term corresponding to the current
 level set we are updating. */
-template< class TInput, class TFeature, class TSharedData >
+template< typename TInput, typename TFeature, typename TSharedData >
 typename RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
 ::ScalarValueType
 RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >

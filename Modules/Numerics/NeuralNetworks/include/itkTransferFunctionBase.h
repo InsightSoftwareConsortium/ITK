@@ -31,7 +31,7 @@ namespace Statistics
  * \ingroup ITKNeuralNetworks
  */
 
-template<class ScalarType>
+template<typename ScalarType>
 class TransferFunctionBase : public FunctionBase<ScalarType, ScalarType>
 {
 public:

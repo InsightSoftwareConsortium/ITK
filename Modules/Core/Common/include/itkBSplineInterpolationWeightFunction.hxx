@@ -27,7 +27,7 @@
 namespace itk
 {
 /** Constructor */
-template< class TCoordRep, unsigned int VSpaceDimension,
+template< typename TCoordRep, unsigned int VSpaceDimension,
           unsigned int VSplineOrder >
 BSplineInterpolationWeightFunction< TCoordRep, VSpaceDimension, VSplineOrder >
 ::BSplineInterpolationWeightFunction()
@@ -70,7 +70,7 @@ BSplineInterpolationWeightFunction< TCoordRep, VSpaceDimension, VSplineOrder >
 /**
  * Standard "PrintSelf" method
  */
-template< class TCoordRep, unsigned int VSpaceDimension,
+template< typename TCoordRep, unsigned int VSpaceDimension,
           unsigned int VSplineOrder >
 void
 BSplineInterpolationWeightFunction< TCoordRep, VSpaceDimension, VSplineOrder >
@@ -85,7 +85,7 @@ BSplineInterpolationWeightFunction< TCoordRep, VSpaceDimension, VSplineOrder >
 }
 
 /** Compute weights for interpolation at continuous index position */
-template< class TCoordRep, unsigned int VSpaceDimension,
+template< typename TCoordRep, unsigned int VSpaceDimension,
           unsigned int VSplineOrder >
 typename BSplineInterpolationWeightFunction< TCoordRep, VSpaceDimension,
                                              VSplineOrder >
@@ -103,7 +103,7 @@ BSplineInterpolationWeightFunction< TCoordRep, VSpaceDimension, VSplineOrder >
 }
 
 /** Compute weights for interpolation at continuous index position */
-template< class TCoordRep, unsigned int VSpaceDimension,
+template< typename TCoordRep, unsigned int VSpaceDimension,
           unsigned int VSplineOrder >
 void BSplineInterpolationWeightFunction< TCoordRep, VSpaceDimension,
                                          VSplineOrder >

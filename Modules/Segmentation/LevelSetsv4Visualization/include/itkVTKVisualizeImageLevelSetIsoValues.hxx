@@ -24,7 +24,7 @@
 
 namespace itk
 {
-template< typename TInputPixel, class TLevelSet >
+template< typename TInputPixel, typename TLevelSet >
 VTKVisualizeImageLevelSetIsoValues< Image< TInputPixel, 2 >, TLevelSet >
 ::VTKVisualizeImageLevelSetIsoValues():
   m_NumberOfLevels( 1 ),
@@ -57,13 +57,13 @@ VTKVisualizeImageLevelSetIsoValues< Image< TInputPixel, 2 >, TLevelSet >
   this->m_ContourActor->GetProperty()->SetColor( 1., 0., 0. );
 }
 
-template< typename TInputPixel, class TLevelSet >
+template< typename TInputPixel, typename TLevelSet >
 VTKVisualizeImageLevelSetIsoValues< Image< TInputPixel, 2 >, TLevelSet >
 ::~VTKVisualizeImageLevelSetIsoValues()
 {
 }
 
-template< typename TInputPixel, class TLevelSet >
+template< typename TInputPixel, typename TLevelSet >
 void
 VTKVisualizeImageLevelSetIsoValues< Image< TInputPixel, 2 >, TLevelSet >
 ::SetLevelSet( LevelSetType* iLevelSet )
@@ -71,7 +71,7 @@ VTKVisualizeImageLevelSetIsoValues< Image< TInputPixel, 2 >, TLevelSet >
   this->m_LevelSetConverter->SetInput( iLevelSet );
 }
 
-template< typename TInputPixel, class TLevelSet >
+template< typename TInputPixel, typename TLevelSet >
 void
 VTKVisualizeImageLevelSetIsoValues< Image< TInputPixel, 2 >, TLevelSet >
 ::SetNumberOfLevels( const SizeValueType numLevels )
@@ -83,7 +83,7 @@ VTKVisualizeImageLevelSetIsoValues< Image< TInputPixel, 2 >, TLevelSet >
     }
 }
 
-template< typename TInputPixel, class TLevelSet >
+template< typename TInputPixel, typename TLevelSet >
 SizeValueType
 VTKVisualizeImageLevelSetIsoValues< Image< TInputPixel, 2 >, TLevelSet >
 ::GetNumberOfLevels() const
@@ -91,7 +91,7 @@ VTKVisualizeImageLevelSetIsoValues< Image< TInputPixel, 2 >, TLevelSet >
   return this->m_NumberOfLevels;
 }
 
-template< typename TInputPixel, class TLevelSet >
+template< typename TInputPixel, typename TLevelSet >
 void
 VTKVisualizeImageLevelSetIsoValues< Image< TInputPixel, 2 >, TLevelSet >
 ::SetLevelLimit( double levelLimit )
@@ -103,7 +103,7 @@ VTKVisualizeImageLevelSetIsoValues< Image< TInputPixel, 2 >, TLevelSet >
     }
 }
 
-template< typename TInputPixel, class TLevelSet >
+template< typename TInputPixel, typename TLevelSet >
 double
 VTKVisualizeImageLevelSetIsoValues< Image< TInputPixel, 2 >, TLevelSet >
 ::GetLevelLimit() const
@@ -111,7 +111,7 @@ VTKVisualizeImageLevelSetIsoValues< Image< TInputPixel, 2 >, TLevelSet >
   return this->m_LevelLimit;
 }
 
-template< typename TInputPixel, class TLevelSet >
+template< typename TInputPixel, typename TLevelSet >
 void
 VTKVisualizeImageLevelSetIsoValues< Image< TInputPixel, 2 >, TLevelSet >
 ::PrepareVTKPipeline()
@@ -142,7 +142,7 @@ VTKVisualizeImageLevelSetIsoValues< Image< TInputPixel, 2 >, TLevelSet >
 }
 
 // --------------------- 3D ---------------------------------------------------
-template< typename TInputPixel, class TLevelSet >
+template< typename TInputPixel, typename TLevelSet >
 VTKVisualizeImageLevelSetIsoValues< Image< TInputPixel, 3 >, TLevelSet >
 ::VTKVisualizeImageLevelSetIsoValues():
   m_NumberOfLevels( 1 ),
@@ -175,13 +175,13 @@ VTKVisualizeImageLevelSetIsoValues< Image< TInputPixel, 3 >, TLevelSet >
   this->m_ContourActor->GetProperty()->SetColor( 1., 0., 0. );
 }
 
-template< typename TInputPixel, class TLevelSet >
+template< typename TInputPixel, typename TLevelSet >
 VTKVisualizeImageLevelSetIsoValues< Image< TInputPixel, 3 >, TLevelSet >
 ::~VTKVisualizeImageLevelSetIsoValues()
 {
 }
 
-template< typename TInputPixel, class TLevelSet >
+template< typename TInputPixel, typename TLevelSet >
 void
 VTKVisualizeImageLevelSetIsoValues< Image< TInputPixel, 3 >, TLevelSet >
 ::SetInputImage( const InputImageType * iImage )
@@ -224,7 +224,7 @@ VTKVisualizeImageLevelSetIsoValues< Image< TInputPixel, 3 >, TLevelSet >
   this->m_Renderer->AddActor( xImageActor );
 }
 
-template< typename TInputPixel, class TLevelSet >
+template< typename TInputPixel, typename TLevelSet >
 void
 VTKVisualizeImageLevelSetIsoValues< Image< TInputPixel, 3 >, TLevelSet >
 ::SetLevelSet( LevelSetType* iLevelSet )
@@ -232,7 +232,7 @@ VTKVisualizeImageLevelSetIsoValues< Image< TInputPixel, 3 >, TLevelSet >
   this->m_LevelSetConverter->SetInput( iLevelSet );
 }
 
-template< typename TInputPixel, class TLevelSet >
+template< typename TInputPixel, typename TLevelSet >
 void
 VTKVisualizeImageLevelSetIsoValues< Image< TInputPixel, 3 >, TLevelSet >
 ::SetNumberOfLevels( const SizeValueType numLevels )
@@ -244,7 +244,7 @@ VTKVisualizeImageLevelSetIsoValues< Image< TInputPixel, 3 >, TLevelSet >
     }
 }
 
-template< typename TInputPixel, class TLevelSet >
+template< typename TInputPixel, typename TLevelSet >
 SizeValueType
 VTKVisualizeImageLevelSetIsoValues< Image< TInputPixel, 3 >, TLevelSet >
 ::GetNumberOfLevels() const
@@ -252,7 +252,7 @@ VTKVisualizeImageLevelSetIsoValues< Image< TInputPixel, 3 >, TLevelSet >
   return this->m_NumberOfLevels;
 }
 
-template< typename TInputPixel, class TLevelSet >
+template< typename TInputPixel, typename TLevelSet >
 void
 VTKVisualizeImageLevelSetIsoValues< Image< TInputPixel, 3 >, TLevelSet >
 ::SetLevelLimit( double levelLimit )
@@ -264,7 +264,7 @@ VTKVisualizeImageLevelSetIsoValues< Image< TInputPixel, 3 >, TLevelSet >
     }
 }
 
-template< typename TInputPixel, class TLevelSet >
+template< typename TInputPixel, typename TLevelSet >
 double
 VTKVisualizeImageLevelSetIsoValues< Image< TInputPixel, 3 >, TLevelSet >
 ::GetLevelLimit() const
@@ -272,7 +272,7 @@ VTKVisualizeImageLevelSetIsoValues< Image< TInputPixel, 3 >, TLevelSet >
   return this->m_LevelLimit;
 }
 
-template< typename TInputPixel, class TLevelSet >
+template< typename TInputPixel, typename TLevelSet >
 void
 VTKVisualizeImageLevelSetIsoValues< Image< TInputPixel, 3 >, TLevelSet >
 ::PrepareVTKPipeline()

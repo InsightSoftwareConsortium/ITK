@@ -33,7 +33,7 @@ namespace itk
  * \ingroup ITKPath
  */
 
-template< class TInputPath, class TOutputPath >
+template< typename TInputPath, typename TOutputPath >
 class PathToPathFilter:public PathSource< TOutputPath >
 {
 public:

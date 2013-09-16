@@ -24,7 +24,7 @@ namespace itk
 {
 namespace Statistics
 {
-template< class TVector >
+template< typename TVector >
 inline double
 EuclideanDistanceMetric< TVector >
 ::Evaluate(const MeasurementVectorType & x) const
@@ -52,7 +52,7 @@ EuclideanDistanceMetric< TVector >
   return distance;
 }
 
-template< class TVector >
+template< typename TVector >
 inline double
 EuclideanDistanceMetric< TVector >
 ::Evaluate(const MeasurementVectorType & x1, const MeasurementVectorType & x2) const
@@ -79,7 +79,7 @@ EuclideanDistanceMetric< TVector >
   return distance;
 }
 
-template< class TVector >
+template< typename TVector >
 inline double
 EuclideanDistanceMetric< TVector >
 ::Evaluate(const ValueType & a, const ValueType & b) const

@@ -203,10 +203,10 @@ protected:
 
 };
 
-template < class InterpolatorType,
-            class TransformType,
-            class FixedImageReaderType,
-            class MovingImageReaderType >
+template < typename InterpolatorType,
+            typename TransformType,
+            typename FixedImageReaderType,
+            typename MovingImageReaderType >
 void BasicTest( FixedImageReaderType* fixedImageReader,
                 MovingImageReaderType* movingImageReader,
                 InterpolatorType* interpolator,
@@ -239,12 +239,12 @@ void BasicTest( FixedImageReaderType* fixedImageReader,
   TestAMetric( fixedImageReader, movingImageReader, interpolator, transform, mattesMetric.GetPointer(), mattesMetricInitializer );
 }
 
-template <class FixedImageReaderType,
-          class MovingImageReaderType,
-          class InterpolatorType,
-          class TransformType,
-          class MetricType,
-          class MetricInitializerType>
+template <typename FixedImageReaderType,
+          typename MovingImageReaderType,
+          typename InterpolatorType,
+          typename TransformType,
+          typename MetricType,
+          typename MetricInitializerType>
 void TestAMetric(FixedImageReaderType* fixedImageReader,
                  MovingImageReaderType* movingImageReader,
                  InterpolatorType* interpolator,
@@ -267,7 +267,7 @@ void TestAMetric(FixedImageReaderType* fixedImageReader,
   testMetric.RunTest( fixedImageReader->GetOutput(), movingImageReader->GetOutput(), interpolator, transform, metric, metricInitializer );
 }
 
-template <class FixedImageReaderType, class MovingImageReaderType>
+template <typename FixedImageReaderType, typename MovingImageReaderType>
 void AffineLinearTest( FixedImageReaderType* fixedImageReader,
                        MovingImageReaderType* movingImageReader)
 {
@@ -285,7 +285,7 @@ void AffineLinearTest( FixedImageReaderType* fixedImageReader,
 
 }
 
-template <class FixedImageReaderType, class MovingImageReaderType>
+template <typename FixedImageReaderType, typename MovingImageReaderType>
 void RigidLinearTest( FixedImageReaderType* fixedImageReader,
                        MovingImageReaderType* movingImageReader)
 {
@@ -303,7 +303,7 @@ void RigidLinearTest( FixedImageReaderType* fixedImageReader,
             transform.GetPointer());
 }
 
-template <class FixedImageReaderType, class MovingImageReaderType>
+template <typename FixedImageReaderType, typename MovingImageReaderType>
 void TranslationLinearTest( FixedImageReaderType* fixedImageReader,
                             MovingImageReaderType* movingImageReader)
 {
@@ -322,7 +322,7 @@ void TranslationLinearTest( FixedImageReaderType* fixedImageReader,
 }
 
 
-template <class FixedImageReaderType, class MovingImageReaderType>
+template <typename FixedImageReaderType, typename MovingImageReaderType>
 void DoDebugTest( FixedImageReaderType* fixedImageReader,
                   MovingImageReaderType* movingImageReader)
 {

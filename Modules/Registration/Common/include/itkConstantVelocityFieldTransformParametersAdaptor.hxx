@@ -27,7 +27,7 @@
 namespace itk
 {
 
-template<class TTransform>
+template<typename TTransform>
 ConstantVelocityFieldTransformParametersAdaptor<TTransform>
 ::ConstantVelocityFieldTransformParametersAdaptor()
 {
@@ -35,13 +35,13 @@ ConstantVelocityFieldTransformParametersAdaptor<TTransform>
   this->m_RequiredFixedParameters.Fill( 0.0 );
 }
 
-template<class TTransform>
+template<typename TTransform>
 ConstantVelocityFieldTransformParametersAdaptor<TTransform>
 ::~ConstantVelocityFieldTransformParametersAdaptor()
 {
 }
 
-template<class TTransform>
+template<typename TTransform>
 void
 ConstantVelocityFieldTransformParametersAdaptor<TTransform>
 ::SetRequiredSize( const SizeType & size )
@@ -63,7 +63,7 @@ ConstantVelocityFieldTransformParametersAdaptor<TTransform>
     }
 }
 
-template<class TTransform>
+template<typename TTransform>
 const typename ConstantVelocityFieldTransformParametersAdaptor<TTransform>::SizeType
 ConstantVelocityFieldTransformParametersAdaptor<TTransform>
 ::GetRequiredSize() const
@@ -76,7 +76,7 @@ ConstantVelocityFieldTransformParametersAdaptor<TTransform>
   return size;
 }
 
-template<class TTransform>
+template<typename TTransform>
 void
 ConstantVelocityFieldTransformParametersAdaptor<TTransform>
 ::SetRequiredOrigin( const PointType & origin )
@@ -98,7 +98,7 @@ ConstantVelocityFieldTransformParametersAdaptor<TTransform>
     }
 }
 
-template<class TTransform>
+template<typename TTransform>
 const typename ConstantVelocityFieldTransformParametersAdaptor<TTransform>::PointType
 ConstantVelocityFieldTransformParametersAdaptor<TTransform>
 ::GetRequiredOrigin() const
@@ -111,7 +111,7 @@ ConstantVelocityFieldTransformParametersAdaptor<TTransform>
   return origin;
 }
 
-template<class TTransform>
+template<typename TTransform>
 void
 ConstantVelocityFieldTransformParametersAdaptor<TTransform>
 ::SetRequiredSpacing( const SpacingType & spacing )
@@ -133,7 +133,7 @@ ConstantVelocityFieldTransformParametersAdaptor<TTransform>
     }
 }
 
-template<class TTransform>
+template<typename TTransform>
 const typename ConstantVelocityFieldTransformParametersAdaptor<TTransform>::SpacingType
 ConstantVelocityFieldTransformParametersAdaptor<TTransform>
 ::GetRequiredSpacing() const
@@ -146,7 +146,7 @@ ConstantVelocityFieldTransformParametersAdaptor<TTransform>
   return spacing;
 }
 
-template<class TTransform>
+template<typename TTransform>
 void
 ConstantVelocityFieldTransformParametersAdaptor<TTransform>
 ::SetRequiredDirection( const DirectionType & direction )
@@ -171,7 +171,7 @@ ConstantVelocityFieldTransformParametersAdaptor<TTransform>
     }
 }
 
-template<class TTransform>
+template<typename TTransform>
 const typename ConstantVelocityFieldTransformParametersAdaptor<TTransform>::DirectionType
 ConstantVelocityFieldTransformParametersAdaptor<TTransform>
 ::GetRequiredDirection() const
@@ -187,7 +187,7 @@ ConstantVelocityFieldTransformParametersAdaptor<TTransform>
   return direction;
 }
 
-template<class TTransform>
+template<typename TTransform>
 void
 ConstantVelocityFieldTransformParametersAdaptor<TTransform>
 ::AdaptTransformParameters()

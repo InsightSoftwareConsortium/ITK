@@ -27,7 +27,7 @@ namespace itk
 /**
  * Default constructor
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 SymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::SymmetricForcesDemonsRegistrationFunction()
 {
@@ -61,7 +61,7 @@ SymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacem
 /*
  * Standard "PrintSelf" method.
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void
 SymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -92,7 +92,7 @@ SymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacem
 /**
  *
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void
 SymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::SetIntensityDifferenceThreshold(double threshold)
@@ -103,7 +103,7 @@ SymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacem
 /**
  *
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 double
 SymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::GetIntensityDifferenceThreshold() const
@@ -114,7 +114,7 @@ SymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacem
 /**
  * Set the function state values before each iteration
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void
 SymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::InitializeIteration()
@@ -150,7 +150,7 @@ SymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacem
 /**
  * Compute update at a non boundary neighbourhood
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 typename SymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::PixelType
 SymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
@@ -302,7 +302,7 @@ SymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacem
 /**
  * Update the metric and release the per-thread-global data.
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void
 SymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::ReleaseGlobalDataPointer(void *gd) const

@@ -25,7 +25,7 @@
 
 namespace itk
 {
-template< class TInputImage1, class TInputImage2 >
+template< typename TInputImage1, typename TInputImage2 >
 DirectedHausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
 ::DirectedHausdorffDistanceImageFilter():m_MaxDistance(1)
 {
@@ -38,7 +38,7 @@ DirectedHausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
   m_UseImageSpacing     = true;
 }
 
-template< class TInputImage1, class TInputImage2 >
+template< typename TInputImage1, typename TInputImage2 >
 void
 DirectedHausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
 ::SetInput1(const TInputImage1 *image)
@@ -46,7 +46,7 @@ DirectedHausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
   this->SetInput( image );
 }
 
-template< class TInputImage1, class TInputImage2 >
+template< typename TInputImage1, typename TInputImage2 >
 void
 DirectedHausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
 ::SetInput2(const TInputImage2 *image)
@@ -54,7 +54,7 @@ DirectedHausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
   this->SetNthInput( 1, const_cast< TInputImage2 * >( image ) );
 }
 
-template< class TInputImage1, class TInputImage2 >
+template< typename TInputImage1, typename TInputImage2 >
 const typename DirectedHausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
 ::InputImage1Type *
 DirectedHausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
@@ -63,7 +63,7 @@ DirectedHausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
   return this->GetInput();
 }
 
-template< class TInputImage1, class TInputImage2 >
+template< typename TInputImage1, typename TInputImage2 >
 const typename DirectedHausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
 ::InputImage2Type *
 DirectedHausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
@@ -73,7 +73,7 @@ DirectedHausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
     ( this->ProcessObject::GetInput(1) );
 }
 
-template< class TInputImage1, class TInputImage2 >
+template< typename TInputImage1, typename TInputImage2 >
 void
 DirectedHausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
 ::GenerateInputRequestedRegion()
@@ -99,7 +99,7 @@ DirectedHausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
     }
 }
 
-template< class TInputImage1, class TInputImage2 >
+template< typename TInputImage1, typename TInputImage2 >
 void
 DirectedHausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
 ::EnlargeOutputRequestedRegion(DataObject *data)
@@ -108,7 +108,7 @@ DirectedHausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
   data->SetRequestedRegionToLargestPossibleRegion();
 }
 
-template< class TInputImage1, class TInputImage2 >
+template< typename TInputImage1, typename TInputImage2 >
 void
 DirectedHausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
 ::AllocateOutputs()
@@ -120,7 +120,7 @@ DirectedHausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
   this->GraftOutput(image);
 }
 
-template< class TInputImage1, class TInputImage2 >
+template< typename TInputImage1, typename TInputImage2 >
 void
 DirectedHausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
 ::BeforeThreadedGenerateData()
@@ -149,7 +149,7 @@ DirectedHausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
   m_DistanceMap = filter->GetOutput();
 }
 
-template< class TInputImage1, class TInputImage2 >
+template< typename TInputImage1, typename TInputImage2 >
 void
 DirectedHausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
 ::AfterThreadedGenerateData()
@@ -185,7 +185,7 @@ DirectedHausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
   m_DistanceMap = NULL;
 }
 
-template< class TInputImage1, class TInputImage2 >
+template< typename TInputImage1, typename TInputImage2 >
 void
 DirectedHausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
 ::ThreadedGenerateData(const RegionType & regionForThread,
@@ -220,7 +220,7 @@ DirectedHausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
     }
 }
 
-template< class TInputImage1, class TInputImage2 >
+template< typename TInputImage1, typename TInputImage2 >
 void
 DirectedHausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
 ::PrintSelf(std::ostream & os, Indent indent) const

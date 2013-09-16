@@ -46,7 +46,7 @@ namespace itk
  * \ingroup ImageAdaptors
  * \ingroup ITKCommon
  */
-template< class TType >
+template< typename TType >
 class DefaultVectorPixelAccessor
 {
 public:

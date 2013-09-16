@@ -50,7 +50,7 @@ namespace itk
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKReview
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class MorphologicalWatershedImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {

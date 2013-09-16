@@ -28,7 +28,7 @@ namespace itk
  *  copy of the input SpatialObject
  * \ingroup ITKSpatialObjects
  */
-template< class TInputSpatialObject >
+template< typename TInputSpatialObject >
 class SpatialObjectDuplicator:public Object
 {
 public:

@@ -26,7 +26,7 @@ namespace itk
 /**
  *
  */
-template< class TInputMesh, class TOutputMesh, class TDisplacementField >
+template< typename TInputMesh, typename TOutputMesh, typename TDisplacementField >
 WarpMeshFilter< TInputMesh, TOutputMesh, TDisplacementField >
 ::WarpMeshFilter()
 {
@@ -35,7 +35,7 @@ WarpMeshFilter< TInputMesh, TOutputMesh, TDisplacementField >
   this->SetNumberOfRequiredInputs(2);
 }
 
-template< class TInputMesh, class TOutputMesh, class TDisplacementField >
+template< typename TInputMesh, typename TOutputMesh, typename TDisplacementField >
 const typename WarpMeshFilter< TInputMesh, TOutputMesh, TDisplacementField >::DisplacementFieldType *
 WarpMeshFilter< TInputMesh, TOutputMesh, TDisplacementField >
 ::GetDisplacementField(void) const
@@ -44,7 +44,7 @@ WarpMeshFilter< TInputMesh, TOutputMesh, TDisplacementField >
          ( this->ProcessObject::GetInput(1) );
 }
 
-template< class TInputMesh, class TOutputMesh, class TDisplacementField >
+template< typename TInputMesh, typename TOutputMesh, typename TDisplacementField >
 void
 WarpMeshFilter< TInputMesh, TOutputMesh, TDisplacementField >
 ::SetDisplacementField(const DisplacementFieldType *field)
@@ -59,7 +59,7 @@ WarpMeshFilter< TInputMesh, TOutputMesh, TDisplacementField >
 /**
  *
  */
-template< class TInputMesh, class TOutputMesh, class TDisplacementField >
+template< typename TInputMesh, typename TOutputMesh, typename TDisplacementField >
 void
 WarpMeshFilter< TInputMesh, TOutputMesh, TDisplacementField >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -70,7 +70,7 @@ WarpMeshFilter< TInputMesh, TOutputMesh, TDisplacementField >
 /**
  * This method causes the filter to generate its output.
  */
-template< class TInputMesh, class TOutputMesh, class TDisplacementField >
+template< typename TInputMesh, typename TOutputMesh, typename TDisplacementField >
 void
 WarpMeshFilter< TInputMesh, TOutputMesh, TDisplacementField >
 ::GenerateData(void)

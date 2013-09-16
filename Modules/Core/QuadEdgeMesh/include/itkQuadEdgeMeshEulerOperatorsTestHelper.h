@@ -23,7 +23,7 @@
 
 typedef unsigned long IdentifierType;
 
-template<class TMesh >
+template<typename TMesh >
 bool AssertTopologicalInvariants( TMesh *mesh,
                                   IdentifierType NumVertices,
                                   IdentifierType NumFaces,
@@ -43,7 +43,7 @@ bool AssertTopologicalInvariants( TMesh *mesh,
 }
 
 //----------------------------------------------------------------------------
-template< class TMesh >
+template< typename TMesh >
 std::vector< typename TMesh::PointType >
 GeneratePointCoordinates( const unsigned int& iN )
 {
@@ -65,7 +65,7 @@ GeneratePointCoordinates( const unsigned int& iN )
 }
 
 //----------------------------------------------------------------------------
-template< class TMesh >
+template< typename TMesh >
 void CreateSquareQuadMesh( typename TMesh::Pointer mesh )
 {
   typedef TMesh                         MeshType;
@@ -125,7 +125,7 @@ void CreateSquareQuadMesh( typename TMesh::Pointer mesh )
 }
 
 //----------------------------------------------------------------------------
-template< class TMesh >
+template< typename TMesh >
 void CreateSquareTriangularMesh( typename TMesh::Pointer mesh )
 {
   typedef TMesh                         MeshType;
@@ -199,7 +199,7 @@ void CreateSquareTriangularMesh( typename TMesh::Pointer mesh )
 }
 
 //----------------------------------------------------------------------------
-template< class TMesh >
+template< typename TMesh >
 void CreateTetraedronMesh( typename TMesh::Pointer mesh )
 {
   typedef TMesh                         MeshType;
@@ -251,7 +251,7 @@ void CreateTetraedronMesh( typename TMesh::Pointer mesh )
 
 
 //----------------------------------------------------------------------------
-template< class TMesh >
+template< typename TMesh >
 void CreateSamosa( typename TMesh::Pointer mesh )
 {
   typedef TMesh                         MeshType;

@@ -34,7 +34,7 @@ namespace itk
  * \ingroup PathFilters
  * \ingroup ITKPath
  */
-template< class TInputPath, class TOutputChainCodePath >
+template< typename TInputPath, typename TOutputChainCodePath >
 class PathToChainCodePathFilter:public
   PathToPathFilter< TInputPath, TOutputChainCodePath >
 {

@@ -37,7 +37,7 @@ namespace itk
 /**
  *
  */
-template< class TPixel, unsigned int VImageDimension >
+template< typename TPixel, unsigned int VImageDimension >
 Image< TPixel, VImageDimension >
 ::Image()
 {
@@ -45,7 +45,7 @@ Image< TPixel, VImageDimension >
 }
 
 //----------------------------------------------------------------------------
-template< class TPixel, unsigned int VImageDimension >
+template< typename TPixel, unsigned int VImageDimension >
 void
 Image< TPixel, VImageDimension >
 ::Allocate()
@@ -58,7 +58,7 @@ Image< TPixel, VImageDimension >
   m_Buffer->Reserve(num);
 }
 
-template< class TPixel, unsigned int VImageDimension >
+template< typename TPixel, unsigned int VImageDimension >
 void
 Image< TPixel, VImageDimension >
 ::Initialize()
@@ -77,7 +77,7 @@ Image< TPixel, VImageDimension >
   m_Buffer = PixelContainer::New();
 }
 
-template< class TPixel, unsigned int VImageDimension >
+template< typename TPixel, unsigned int VImageDimension >
 void
 Image< TPixel, VImageDimension >
 ::FillBuffer(const TPixel & value)
@@ -89,7 +89,7 @@ Image< TPixel, VImageDimension >
 
 }
 
-template< class TPixel, unsigned int VImageDimension >
+template< typename TPixel, unsigned int VImageDimension >
 void
 Image< TPixel, VImageDimension >
 ::SetPixelContainer(PixelContainer *container)
@@ -102,7 +102,7 @@ Image< TPixel, VImageDimension >
 }
 
 //----------------------------------------------------------------------------
-template< class TPixel, unsigned int VImageDimension >
+template< typename TPixel, unsigned int VImageDimension >
 void
 Image< TPixel, VImageDimension >
 ::Graft(const DataObject *data)
@@ -141,7 +141,7 @@ Image< TPixel, VImageDimension >
 }
 
 //----------------------------------------------------------------------------
-template< class TPixel, unsigned int VImageDimension >
+template< typename TPixel, unsigned int VImageDimension >
 void
 Image< TPixel, VImageDimension >
 ::ComputeIndexToPhysicalPointMatrices()
@@ -149,7 +149,7 @@ Image< TPixel, VImageDimension >
   this->Superclass::ComputeIndexToPhysicalPointMatrices();
 }
 
-template< class TPixel, unsigned int VImageDimension >
+template< typename TPixel, unsigned int VImageDimension >
 unsigned int
 Image< TPixel, VImageDimension >
 ::GetNumberOfComponentsPerPixel() const
@@ -163,7 +163,7 @@ Image< TPixel, VImageDimension >
 /**
  *
  */
-template< class TPixel, unsigned int VImageDimension >
+template< typename TPixel, unsigned int VImageDimension >
 void
 Image< TPixel, VImageDimension >
 ::PrintSelf(std::ostream & os, Indent indent) const

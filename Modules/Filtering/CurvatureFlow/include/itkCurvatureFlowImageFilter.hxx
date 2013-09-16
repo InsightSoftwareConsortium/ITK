@@ -26,7 +26,7 @@ namespace itk
 /**
  * Constructor
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 CurvatureFlowImageFilter< TInputImage, TOutputImage >
 ::CurvatureFlowImageFilter()
 {
@@ -43,7 +43,7 @@ CurvatureFlowImageFilter< TInputImage, TOutputImage >
 /**
  * Standard PrintSelf method.
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 CurvatureFlowImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -56,7 +56,7 @@ CurvatureFlowImageFilter< TInputImage, TOutputImage >
 /**
  * Initialize the state of filter and equation before each iteration.
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 CurvatureFlowImageFilter< TInputImage, TOutputImage >
 ::InitializeIteration()
@@ -87,7 +87,7 @@ CurvatureFlowImageFilter< TInputImage, TOutputImage >
 /**
  * GenerateInputRequestedRegion
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 CurvatureFlowImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
@@ -114,7 +114,7 @@ CurvatureFlowImageFilter< TInputImage, TOutputImage >
 /**
  * EnlargeOutputRequestedRegion
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 CurvatureFlowImageFilter< TInputImage, TOutputImage >
 ::EnlargeOutputRequestedRegion(

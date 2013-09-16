@@ -23,7 +23,7 @@
 
 namespace itk
 {
-template< class TImage, class TKernel >
+template< typename TImage, typename TKernel >
 class AnchorDilateImageFilter:
   public AnchorErodeDilateImageFilter< TImage, TKernel, std::greater< typename TImage::PixelType > >
 

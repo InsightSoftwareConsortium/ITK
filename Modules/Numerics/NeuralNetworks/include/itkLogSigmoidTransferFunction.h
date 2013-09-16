@@ -30,7 +30,7 @@ namespace Statistics
  * \ingroup ITKNeuralNetworks
  */
 
-template<class ScalarType>
+template<typename ScalarType>
 class LogSigmoidTransferFunction : public TransferFunctionBase<ScalarType>
 {
 public:

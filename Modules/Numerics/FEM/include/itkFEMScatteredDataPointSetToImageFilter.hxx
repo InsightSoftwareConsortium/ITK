@@ -36,7 +36,7 @@ namespace itk
 namespace fem
 {
 
-template<class TInputPointSet, class TInputMesh, class TOutputImage, class TInputConfidencePointSet, class TInputTensorPointSet>
+template<typename TInputPointSet, typename TInputMesh, typename TOutputImage, typename TInputConfidencePointSet, typename TInputTensorPointSet>
 FEMScatteredDataPointSetToImageFilter<TInputPointSet, TInputMesh, TOutputImage, TInputConfidencePointSet, TInputTensorPointSet>
 ::FEMScatteredDataPointSetToImageFilter()
 {
@@ -49,13 +49,13 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet, TInputMesh, TOutputImage, 
   itk::FEMFactoryBase::GetFactory()->RegisterDefaultTypes();
 }
 
-template<class TInputPointSet, class TInputMesh, class TOutputImage, class TInputConfidencePointSet, class TInputTensorPointSet>
+template<typename TInputPointSet, typename TInputMesh, typename TOutputImage, typename TInputConfidencePointSet, typename TInputTensorPointSet>
 FEMScatteredDataPointSetToImageFilter<TInputPointSet, TInputMesh, TOutputImage, TInputConfidencePointSet, TInputTensorPointSet>
 ::~FEMScatteredDataPointSetToImageFilter()
 {
 }
 
-template<class TInputPointSet, class TInputMesh, class TOutputImage, class TInputConfidencePointSet, class TInputTensorPointSet>
+template<typename TInputPointSet, typename TInputMesh, typename TOutputImage, typename TInputConfidencePointSet, typename TInputTensorPointSet>
 void
 FEMScatteredDataPointSetToImageFilter<TInputPointSet, TInputMesh, TOutputImage, TInputConfidencePointSet, TInputTensorPointSet>
 ::SetElementSpacing(const SpacingType & elementSpacing)
@@ -72,7 +72,7 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet, TInputMesh, TOutputImage, 
   this->Modified();
 }
 
-template<class TInputPointSet, class TInputMesh, class TOutputImage, class TInputConfidencePointSet, class TInputTensorPointSet>
+template<typename TInputPointSet, typename TInputMesh, typename TOutputImage, typename TInputConfidencePointSet, typename TInputTensorPointSet>
 void
 FEMScatteredDataPointSetToImageFilter<TInputPointSet, TInputMesh, TOutputImage, TInputConfidencePointSet, TInputTensorPointSet>
 ::GenerateData()
@@ -129,7 +129,7 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet, TInputMesh, TOutputImage, 
   this->ProduceDeformationField();
 }
 
-template<class TInputPointSet, class TInputMesh, class TOutputImage, class TInputConfidencePointSet, class TInputTensorPointSet>
+template<typename TInputPointSet, typename TInputMesh, typename TOutputImage, typename TInputConfidencePointSet, typename TInputTensorPointSet>
 void
 FEMScatteredDataPointSetToImageFilter<TInputPointSet, TInputMesh, TOutputImage, TInputConfidencePointSet, TInputTensorPointSet>
 ::GenerateRectilinearMesh()
@@ -153,7 +153,7 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet, TInputMesh, TOutputImage, 
     }
 }
 
-template<class TInputPointSet, class TInputMesh, class TOutputImage, class TInputConfidencePointSet, class TInputTensorPointSet>
+template<typename TInputPointSet, typename TInputMesh, typename TOutputImage, typename TInputConfidencePointSet, typename TInputTensorPointSet>
 void
 FEMScatteredDataPointSetToImageFilter<TInputPointSet, TInputMesh, TOutputImage, TInputConfidencePointSet, TInputTensorPointSet>
 ::Generate2DQuadrilateralMesh()
@@ -210,7 +210,7 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet, TInputMesh, TOutputImage, 
     }
 }
 
-template<class TInputPointSet, class TInputMesh, class TOutputImage, class TInputConfidencePointSet, class TInputTensorPointSet>
+template<typename TInputPointSet, typename TInputMesh, typename TOutputImage, typename TInputConfidencePointSet, typename TInputTensorPointSet>
 void
 FEMScatteredDataPointSetToImageFilter<TInputPointSet, TInputMesh, TOutputImage, TInputConfidencePointSet, TInputTensorPointSet>
 ::Generate3DHexahedralMesh()
@@ -304,7 +304,7 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet, TInputMesh, TOutputImage, 
     }
 }
 
-template<class TInputPointSet, class TInputMesh, class TOutputImage, class TInputConfidencePointSet, class TInputTensorPointSet>
+template<typename TInputPointSet, typename TInputMesh, typename TOutputImage, typename TInputConfidencePointSet, typename TInputTensorPointSet>
 void
 FEMScatteredDataPointSetToImageFilter<TInputPointSet, TInputMesh, TOutputImage, TInputConfidencePointSet, TInputTensorPointSet>
 ::InitializeFEMObject(FEMObjectType * femObject)
@@ -318,7 +318,7 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet, TInputMesh, TOutputImage, 
   femObject->FinalizeMesh();
 }
 
-template<class TInputPointSet, class TInputMesh, class TOutputImage, class TInputConfidencePointSet, class TInputTensorPointSet>
+template<typename TInputPointSet, typename TInputMesh, typename TOutputImage, typename TInputConfidencePointSet, typename TInputTensorPointSet>
 void
 FEMScatteredDataPointSetToImageFilter<TInputPointSet, TInputMesh, TOutputImage, TInputConfidencePointSet, TInputTensorPointSet>
 ::InitializeMaterials(FEMObjectType * femObject)
@@ -336,7 +336,7 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet, TInputMesh, TOutputImage, 
   femObject->AddNextMaterial(this->m_Material);
 }
 
-template<class TInputPointSet, class TInputMesh, class TOutputImage, class TInputConfidencePointSet, class TInputTensorPointSet>
+template<typename TInputPointSet, typename TInputMesh, typename TOutputImage, typename TInputConfidencePointSet, typename TInputTensorPointSet>
 void
 FEMScatteredDataPointSetToImageFilter<TInputPointSet, TInputMesh, TOutputImage, TInputConfidencePointSet, TInputTensorPointSet>
 ::InitializeNodes(FEMObjectType * femObject)
@@ -373,7 +373,7 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet, TInputMesh, TOutputImage, 
     }
 }
 
-template<class TInputPointSet, class TInputMesh, class TOutputImage, class TInputConfidencePointSet, class TInputTensorPointSet>
+template<typename TInputPointSet, typename TInputMesh, typename TOutputImage, typename TInputConfidencePointSet, typename TInputTensorPointSet>
 void
 FEMScatteredDataPointSetToImageFilter<TInputPointSet, TInputMesh, TOutputImage, TInputConfidencePointSet, TInputTensorPointSet>
 ::InitializeElements(FEMObjectType * femObject)
@@ -515,7 +515,7 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet, TInputMesh, TOutputImage, 
     }//end of while not at end of cells
 }
 
-template<class TInputPointSet, class TInputMesh, class TOutputImage, class TInputConfidencePointSet, class TInputTensorPointSet>
+template<typename TInputPointSet, typename TInputMesh, typename TOutputImage, typename TInputConfidencePointSet, typename TInputTensorPointSet>
 void
 FEMScatteredDataPointSetToImageFilter<TInputPointSet, TInputMesh, TOutputImage, TInputConfidencePointSet, TInputTensorPointSet>
 ::InitializeLoads(FEMObjectType * femObject)
@@ -608,7 +608,7 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet, TInputMesh, TOutputImage, 
     }
 }
 
-template<class TInputPointSet, class TInputMesh, class TOutputImage, class TInputConfidencePointSet, class TInputTensorPointSet>
+template<typename TInputPointSet, typename TInputMesh, typename TOutputImage, typename TInputConfidencePointSet, typename TInputTensorPointSet>
 void
 FEMScatteredDataPointSetToImageFilter<TInputPointSet, TInputMesh, TOutputImage, TInputConfidencePointSet, TInputTensorPointSet>
 ::ProduceDeformationField()
@@ -681,7 +681,7 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet, TInputMesh, TOutputImage, 
     }
 }
 
-template<class TInputPointSet, class TInputMesh, class TOutputImage, class TInputConfidencePointSet, class TInputTensorPointSet>
+template<typename TInputPointSet, typename TInputMesh, typename TOutputImage, typename TInputConfidencePointSet, typename TInputTensorPointSet>
 void
 FEMScatteredDataPointSetToImageFilter<TInputPointSet, TInputMesh, TOutputImage, TInputConfidencePointSet, TInputTensorPointSet>
 ::PrintSelf( std::ostream & os, Indent indent ) const

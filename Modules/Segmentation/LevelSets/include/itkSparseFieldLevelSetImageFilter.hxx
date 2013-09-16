@@ -26,7 +26,7 @@
 
 namespace itk
 {
-template< class TNeighborhoodType >
+template< typename TNeighborhoodType >
 SparseFieldCityBlockNeighborList< TNeighborhoodType >
 ::SparseFieldCityBlockNeighborList()
 {
@@ -71,7 +71,7 @@ SparseFieldCityBlockNeighborList< TNeighborhoodType >
     }
 }
 
-template< class TNeighborhoodType >
+template< typename TNeighborhoodType >
 void
 SparseFieldCityBlockNeighborList< TNeighborhoodType >
 ::Print(std::ostream & os) const
@@ -85,48 +85,48 @@ SparseFieldCityBlockNeighborList< TNeighborhoodType >
     }
 }
 
-//template<class TInputImage, class TOutputImage>
+//template<typename TInputImage, typename TOutputImage>
 //double SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 //::m_ConstantGradientValue = 1.0;
 
-template<class TInputImage, class TOutputImage>
+template<typename TInputImage, typename TOutputImage>
 typename SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ValueType
 SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 ::m_ValueOne = 1;
 
-template<class TInputImage, class TOutputImage>
+template<typename TInputImage, typename TOutputImage>
 typename SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ValueType
 SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 ::m_ValueZero = 0;
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 typename SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >::StatusType
 SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::m_StatusNull = NumericTraits< typename SparseFieldLevelSetImageFilter< TInputImage,
                                                                              TOutputImage >::StatusType >::
                  NonpositiveMin();
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 typename SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >::StatusType
 SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::m_StatusChanging = -1;
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 typename SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >::StatusType
 SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::m_StatusActiveChangingUp = -2;
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 typename SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >::StatusType
 SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::m_StatusActiveChangingDown = -3;
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 typename SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >::StatusType
 SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::m_StatusBoundaryPixel = -4;
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::SparseFieldLevelSetImageFilter()
 {
@@ -140,12 +140,12 @@ SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
   m_ConstantGradientValue = 1.0;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::~SparseFieldLevelSetImageFilter()
 {}
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::ApplyUpdate(const TimeStepType& dt)
@@ -218,7 +218,7 @@ SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
   this->PropagateAllLayerValues();
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::ProcessOutsideList(LayerType *OutsideList, StatusType ChangeToStatus)
@@ -236,7 +236,7 @@ SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::ProcessStatusList(LayerType *InputList, LayerType *OutputList,
@@ -296,7 +296,7 @@ SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::UpdateActiveLayerValues(TimeStepType dt,
@@ -487,7 +487,7 @@ SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::CopyInputToOutput()
@@ -520,7 +520,7 @@ SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
   this->GraftOutput( zeroCrossingFilter->GetOutput() );
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::Initialize()
@@ -632,7 +632,7 @@ SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::InitializeBackgroundPixels()
@@ -672,7 +672,7 @@ SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::ConstructActiveLayer()
@@ -777,7 +777,7 @@ SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::ConstructLayer(StatusType from, StatusType to)
@@ -819,7 +819,7 @@ SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::InitializeActiveLayerValues()
@@ -884,7 +884,7 @@ SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::AllocateUpdateBuffer()
@@ -898,7 +898,7 @@ SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
   m_UpdateBuffer.reserve( m_Layers[0]->Size() );
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 typename
 SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >::TimeStepType
 SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
@@ -1013,7 +1013,7 @@ SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
   return timeStep;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::PropagateAllLayerValues()
@@ -1033,7 +1033,7 @@ SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::PropagateLayerValues(StatusType from, StatusType to,
@@ -1151,7 +1151,7 @@ SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::PostProcessOutput()
@@ -1188,7 +1188,7 @@ SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

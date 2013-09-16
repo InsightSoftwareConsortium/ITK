@@ -46,7 +46,7 @@ namespace itk
 
 namespace Functor
 {
-template< class TInputPixel, class TOuputPixel >
+template< typename TInputPixel, typename TOuputPixel >
 class SumAccumulator
 {
 public:
@@ -72,7 +72,7 @@ public:
 };
 } // end namespace Function
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class SumProjectionImageFilter:
   public
   ProjectionImageFilter< TInputImage, TOutputImage,

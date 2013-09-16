@@ -23,7 +23,7 @@
 namespace itk
 {
 
-template<class TTransform>
+template<typename TTransform>
 BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>
 ::BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor()
 {
@@ -33,7 +33,7 @@ BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>
   this->m_NumberOfControlPointsForTheTotalFieldSetTime = 0;
 }
 
-template<class TTransform>
+template<typename TTransform>
 BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>
 ::~BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor()
 {
@@ -42,7 +42,7 @@ BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>
 /**
  * set mesh size for update field
  */
-template<class TTransform>
+template<typename TTransform>
 void
 BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>
 ::SetMeshSizeForTheUpdateField( const ArrayType &meshSize )
@@ -62,7 +62,7 @@ BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>
 /**
  * set mesh size for total field
  */
-template<class TTransform>
+template<typename TTransform>
 void
 BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>
 ::SetMeshSizeForTheTotalField( const ArrayType &meshSize )
@@ -82,7 +82,7 @@ BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>
 /**
  * set number of control points for update field
  */
-template<class TTransform>
+template<typename TTransform>
 void
 BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>
 ::SetNumberOfControlPointsForTheUpdateField( const ArrayType &controlPoints )
@@ -98,7 +98,7 @@ BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>
 /**
  * set number of control points for total field
  */
-template<class TTransform>
+template<typename TTransform>
 void
 BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>
 ::SetNumberOfControlPointsForTheTotalField( const ArrayType &controlPoints )
@@ -111,7 +111,7 @@ BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>
     }
 }
 
-template<class TTransform>
+template<typename TTransform>
 void
 BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>
 ::AdaptTransformParameters()
@@ -130,7 +130,7 @@ BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>
     }
 }
 
-template <class TTransform>
+template <typename TTransform>
 void
 BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>
 ::PrintSelf( std::ostream& os, Indent indent ) const

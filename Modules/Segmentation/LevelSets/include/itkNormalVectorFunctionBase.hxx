@@ -23,14 +23,14 @@
 
 namespace itk
 {
-template< class TSparseImageType >
+template< typename TSparseImageType >
 NormalVectorFunctionBase< TSparseImageType >
 ::NormalVectorFunctionBase()
 {
   m_TimeStep = NumericTraits< TimeStepType >::One;
 }
 
-template< class TSparseImageType >
+template< typename TSparseImageType >
 void
 NormalVectorFunctionBase< TSparseImageType >
 ::PrintSelf(std::ostream & os, Indent indent) const

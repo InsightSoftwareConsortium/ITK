@@ -68,7 +68,7 @@ namespace itk
  * \ingroup ITKRegistrationCommon
  */
 
-template< class TFixedImage, class TMovingImage >
+template< typename TFixedImage, typename TMovingImage >
 class KullbackLeiblerCompareHistogramImageToImageMetric:
   public CompareHistogramImageToImageMetric< TFixedImage, TMovingImage >
 {

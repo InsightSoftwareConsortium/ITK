@@ -24,7 +24,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 NormalizeImageFilter< TInputImage, TOutputImage >
 ::NormalizeImageFilter()
 {
@@ -33,7 +33,7 @@ NormalizeImageFilter< TInputImage, TOutputImage >
   m_ShiftScaleFilter = ShiftScaleImageFilter< TInputImage, TOutputImage >::New();
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 NormalizeImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
@@ -47,7 +47,7 @@ NormalizeImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 NormalizeImageFilter< TInputImage, TOutputImage >
 ::Modified() const
@@ -57,7 +57,7 @@ NormalizeImageFilter< TInputImage, TOutputImage >
   m_ShiftScaleFilter->Modified();
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 NormalizeImageFilter< TInputImage, TOutputImage >
 ::GenerateData()

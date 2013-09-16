@@ -24,7 +24,7 @@
  * Serves as a numerical verification of vector image metric evaluation.
  */
 
-template<class TMetric>
+template<typename TMetric>
 int itkMeanSquaresImageToImageMetricv4OnVectorTest2Run( typename TMetric::MeasureType & measureReturn, typename TMetric::DerivativeType & derivativeReturn )
 {
   const unsigned int imageSize = 5;

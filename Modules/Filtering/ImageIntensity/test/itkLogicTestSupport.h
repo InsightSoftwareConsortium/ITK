@@ -28,7 +28,7 @@
 // possibly extend to other binary functors.
 // The result is recomputed and compared to the image
 
-template<class InIm1, class InIm2, class ResIm, class OpT>
+template<typename InIm1, typename InIm2, typename ResIm, typename OpT>
 int checkImOnImRes(typename InIm1::Pointer A, typename InIm2::Pointer B,
                    typename ResIm::Pointer Res, typename ResIm::PixelType FG,
                    typename ResIm::PixelType BG)
@@ -66,7 +66,7 @@ int checkImOnImRes(typename InIm1::Pointer A, typename InIm2::Pointer B,
   return EXIT_SUCCESS;
 }
 
-template<class InIm1, class ConstT, class ResIm, class OpT>
+template<typename InIm1, typename ConstT, typename ResIm, typename OpT>
 int checkImOnConstRes(typename InIm1::Pointer A, ConstT B,
                    typename ResIm::Pointer Res, typename ResIm::PixelType FG,
                    typename ResIm::PixelType BG)
@@ -101,7 +101,7 @@ int checkImOnConstRes(typename InIm1::Pointer A, ConstT B,
 }
 
 
-template<class ConstT, class InIm1, class ResIm, class OpT>
+template<typename ConstT, typename InIm1, typename ResIm, typename OpT>
 int checkConstOnImRes(ConstT A, typename InIm1::Pointer B,
                       typename ResIm::Pointer Res, typename ResIm::PixelType FG,
                       typename ResIm::PixelType BG)

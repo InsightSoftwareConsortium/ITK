@@ -50,7 +50,7 @@ namespace itk
  * \ingroup ImageAdaptors
  * \ingroup ITKImageAdaptors
  */
-template< class TInternalType, class TExternalType >
+template< typename TInternalType, typename TExternalType >
 class PixelAccessor
 {
 public:

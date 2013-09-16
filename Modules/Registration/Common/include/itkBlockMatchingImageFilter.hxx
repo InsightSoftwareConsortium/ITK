@@ -26,7 +26,7 @@
 
 namespace itk
 {
-template< class TFixedImage, class TMovingImage, class TFeatures, class TDisplacements, class TSimilarities >
+template< typename TFixedImage, typename TMovingImage, typename TFeatures, typename TDisplacements, typename TSimilarities >
 BlockMatchingImageFilter< TFixedImage, TMovingImage, TFeatures, TDisplacements, TSimilarities >
 ::BlockMatchingImageFilter()
 {
@@ -48,13 +48,13 @@ BlockMatchingImageFilter< TFixedImage, TMovingImage, TFeatures, TDisplacements, 
   this->AddRequiredInputName( "MovingImage" );
 }
 
-template< class TFixedImage, class TMovingImage, class TFeatures, class TDisplacements, class TSimilarities >
+template< typename TFixedImage, typename TMovingImage, typename TFeatures, typename TDisplacements, typename TSimilarities >
 BlockMatchingImageFilter< TFixedImage, TMovingImage, TFeatures, TDisplacements, TSimilarities >
 ::~BlockMatchingImageFilter()
 {
 }
 
-template< class TFixedImage, class TMovingImage, class TFeatures, class TDisplacements, class TSimilarities >
+template< typename TFixedImage, typename TMovingImage, typename TFeatures, typename TDisplacements, typename TSimilarities >
 void
 BlockMatchingImageFilter< TFixedImage, TMovingImage, TFeatures, TDisplacements, TSimilarities >
 ::PrintSelf( std::ostream & os, Indent indent ) const
@@ -65,7 +65,7 @@ BlockMatchingImageFilter< TFixedImage, TMovingImage, TFeatures, TDisplacements, 
      << indent << "m_SearchRadius: " << m_SearchRadius << std::endl;
 }
 
-template< class TFixedImage, class TMovingImage, class TFeatures, class TDisplacements, class TSimilarities >
+template< typename TFixedImage, typename TMovingImage, typename TFeatures, typename TDisplacements, typename TSimilarities >
 void
 BlockMatchingImageFilter< TFixedImage, TMovingImage, TFeatures, TDisplacements, TSimilarities >
 ::GenerateOutputInformation()
@@ -73,7 +73,7 @@ BlockMatchingImageFilter< TFixedImage, TMovingImage, TFeatures, TDisplacements, 
   // We use the constructor defaults for all regions.
 }
 
-template< class TFixedImage, class TMovingImage, class TFeatures, class TDisplacements, class TSimilarities >
+template< typename TFixedImage, typename TMovingImage, typename TFeatures, typename TDisplacements, typename TSimilarities >
 void
 BlockMatchingImageFilter< TFixedImage, TMovingImage, TFeatures, TDisplacements, TSimilarities >
 ::EnlargeOutputRequestedRegion(DataObject * output)
@@ -81,7 +81,7 @@ BlockMatchingImageFilter< TFixedImage, TMovingImage, TFeatures, TDisplacements, 
   output->SetRequestedRegionToLargestPossibleRegion();
 }
 
-template< class TFixedImage, class TMovingImage, class TFeatures, class TDisplacements, class TSimilarities >
+template< typename TFixedImage, typename TMovingImage, typename TFeatures, typename TDisplacements, typename TSimilarities >
 void
 BlockMatchingImageFilter< TFixedImage, TMovingImage, TFeatures, TDisplacements, TSimilarities >
 ::GenerateData()
@@ -106,7 +106,7 @@ BlockMatchingImageFilter< TFixedImage, TMovingImage, TFeatures, TDisplacements, 
   this->AfterThreadedGenerateData();
 }
 
-template< class TFixedImage, class TMovingImage, class TFeatures, class TDisplacements, class TSimilarities >
+template< typename TFixedImage, typename TMovingImage, typename TFeatures, typename TDisplacements, typename TSimilarities >
 DataObject::Pointer
 BlockMatchingImageFilter< TFixedImage, TMovingImage, TFeatures, TDisplacements, TSimilarities >
 ::MakeOutput( ProcessObject::DataObjectPointerArraySizeType idx )
@@ -130,7 +130,7 @@ BlockMatchingImageFilter< TFixedImage, TMovingImage, TFeatures, TDisplacements, 
 }
 
 
-template< class TFixedImage, class TMovingImage, class TFeatures, class TDisplacements, class TSimilarities >
+template< typename TFixedImage, typename TMovingImage, typename TFeatures, typename TDisplacements, typename TSimilarities >
 void
 BlockMatchingImageFilter< TFixedImage, TMovingImage, TFeatures, TDisplacements, TSimilarities >
 ::BeforeThreadedGenerateData()
@@ -151,7 +151,7 @@ BlockMatchingImageFilter< TFixedImage, TMovingImage, TFeatures, TDisplacements, 
   this->m_SimilaritiesValuesArray = new SimilaritiesValue[ this->m_PointsCount ];
 }
 
-template< class TFixedImage, class TMovingImage, class TFeatures, class TDisplacements, class TSimilarities >
+template< typename TFixedImage, typename TMovingImage, typename TFeatures, typename TDisplacements, typename TSimilarities >
 void
 BlockMatchingImageFilter< TFixedImage, TMovingImage, TFeatures, TDisplacements, TSimilarities >
 ::AfterThreadedGenerateData()
@@ -205,7 +205,7 @@ BlockMatchingImageFilter< TFixedImage, TMovingImage, TFeatures, TDisplacements, 
 // Callback routine used by the threading library. This routine just calls
 // the ThreadedGenerateData method after setting the correct region for this
 // thread.
-template< class TFixedImage, class TMovingImage, class TFeatures, class TDisplacements, class TSimilarities >
+template< typename TFixedImage, typename TMovingImage, typename TFeatures, typename TDisplacements, typename TSimilarities >
 ITK_THREAD_RETURN_TYPE
 BlockMatchingImageFilter< TFixedImage, TMovingImage, TFeatures, TDisplacements, TSimilarities >
 ::ThreaderCallback(void *arg)
@@ -218,7 +218,7 @@ BlockMatchingImageFilter< TFixedImage, TMovingImage, TFeatures, TDisplacements, 
   return ITK_THREAD_RETURN_VALUE;
 }
 
-template< class TFixedImage, class TMovingImage, class TFeatures, class TDisplacements, class TSimilarities >
+template< typename TFixedImage, typename TMovingImage, typename TFeatures, typename TDisplacements, typename TSimilarities >
 void
 BlockMatchingImageFilter< TFixedImage, TMovingImage, TFeatures, TDisplacements, TSimilarities >
 ::ThreadedGenerateData( ThreadIdType threadId ) throw ( ExceptionObject )

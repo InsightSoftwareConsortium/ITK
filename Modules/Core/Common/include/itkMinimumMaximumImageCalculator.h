@@ -40,7 +40,7 @@ namespace itk
  * \wikiexample{Developer/OilPaintingImageFilter,Multi-threaded oil painting image filter}
  * \endwiki
  */
-template< class TInputImage >
+template< typename TInputImage >
 class MinimumMaximumImageCalculator:public Object
 {
 public:

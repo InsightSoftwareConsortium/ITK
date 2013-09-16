@@ -57,7 +57,7 @@ private:
  * \ingroup ITKSystemObjects
  * \ingroup ITKCommon
  */
-template< class T >
+template< typename T >
 class CreateObjectFunction:public CreateObjectFunctionBase
 {
 public:

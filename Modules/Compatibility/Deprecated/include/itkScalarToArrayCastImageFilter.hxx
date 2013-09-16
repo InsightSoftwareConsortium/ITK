@@ -29,7 +29,7 @@ namespace itk
 /**
  * Constructor
  */
-template< class TInputImage, class TOutputImage  >
+template< typename TInputImage, typename TOutputImage  >
 ScalarToArrayCastImageFilter< TInputImage, TOutputImage >
 ::ScalarToArrayCastImageFilter()
 {
@@ -40,7 +40,7 @@ ScalarToArrayCastImageFilter< TInputImage, TOutputImage >
 /**
  * ThreadedGenerateData Performs the pixel-wise addition
  */
-template< class TInputImage, class TOutputImage  >
+template< typename TInputImage, typename TOutputImage  >
 void
 ScalarToArrayCastImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,

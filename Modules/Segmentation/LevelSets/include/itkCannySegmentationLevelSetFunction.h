@@ -31,7 +31,7 @@ namespace itk
  * CannySegmentationLevelSetImageFilter for complete information.
  * \ingroup ITKLevelSets
  */
-template< class TImageType, class TFeatureImageType = TImageType >
+template< typename TImageType, typename TFeatureImageType = TImageType >
 class CannySegmentationLevelSetFunction:
   public SegmentationLevelSetFunction< TImageType, TFeatureImageType >
 {
@@ -124,7 +124,7 @@ private:
   /** If FeatureImageType != ImageType,
    *  use the CastImageFilter to match them.
    */
-  template <class DummyImagePointerType>
+  template <typename DummyImagePointerType>
   void AssignCannyInput(typename FeatureImageType::Pointer &feature,
                         DummyImagePointerType &)
   {

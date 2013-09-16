@@ -28,7 +28,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 BilateralImageFilter< TInputImage, TOutputImage >
 ::BilateralImageFilter()
 {
@@ -45,7 +45,7 @@ BilateralImageFilter< TInputImage, TOutputImage >
                            // index into a single table
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 BilateralImageFilter< TInputImage, TOutputImage >
 ::SetRadius(const SizeValueType i)
@@ -53,7 +53,7 @@ BilateralImageFilter< TInputImage, TOutputImage >
   m_Radius.Fill(i);
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 BilateralImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
@@ -124,7 +124,7 @@ throw( InvalidRequestedRegionError )
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 BilateralImageFilter< TInputImage, TOutputImage >
 ::BeforeThreadedGenerateData()
@@ -246,7 +246,7 @@ BilateralImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 BilateralImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
@@ -347,7 +347,7 @@ BilateralImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 BilateralImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

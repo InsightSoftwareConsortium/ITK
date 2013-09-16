@@ -27,48 +27,48 @@ namespace itk
 /* Constant definitions for functions */
 namespace Function
 {
-template< unsigned int VRadius, class TInput, class TOutput >
+template< unsigned int VRadius, typename TInput, typename TOutput >
 const double
 CosineWindowFunction< VRadius, TInput, TOutput >
 ::m_Factor = vnl_math::pi / ( 2 * VRadius );
 
-template< unsigned int VRadius, class TInput, class TOutput >
+template< unsigned int VRadius, typename TInput, typename TOutput >
 const double
 HammingWindowFunction< VRadius, TInput, TOutput >
 ::m_Factor = vnl_math::pi / VRadius;
 
-template< unsigned int VRadius, class TInput, class TOutput >
+template< unsigned int VRadius, typename TInput, typename TOutput >
 const double
 WelchWindowFunction< VRadius, TInput, TOutput >
 ::m_Factor = 1.0 / ( VRadius * VRadius );
 
-template< unsigned int VRadius, class TInput, class TOutput >
+template< unsigned int VRadius, typename TInput, typename TOutput >
 const double
 LanczosWindowFunction< VRadius, TInput, TOutput >
 ::m_Factor = vnl_math::pi / VRadius;
 
-template< unsigned int VRadius, class TInput, class TOutput >
+template< unsigned int VRadius, typename TInput, typename TOutput >
 const double
 BlackmanWindowFunction< VRadius, TInput, TOutput >
 ::m_Factor1 = vnl_math::pi / VRadius;
 
-template< unsigned int VRadius, class TInput, class TOutput >
+template< unsigned int VRadius, typename TInput, typename TOutput >
 const double
 BlackmanWindowFunction< VRadius, TInput, TOutput >
 ::m_Factor2 = 2.0 * vnl_math::pi / VRadius;
 } // end namespace Function
 
 /** Window size constant */
-template< class TInputImage, unsigned int VRadius,
-          class TWindowFunction, class TBoundaryCondition, class TCoordRep >
+template< typename TInputImage, unsigned int VRadius,
+          typename TWindowFunction, typename TBoundaryCondition, typename TCoordRep >
 const unsigned int
 WindowedSincInterpolateImageFunction< TInputImage, VRadius,
                                       TWindowFunction, TBoundaryCondition, TCoordRep >
 ::m_WindowSize = VRadius << 1;
 
 /** Constructor */
-template< class TInputImage, unsigned int VRadius,
-          class TWindowFunction, class TBoundaryCondition, class TCoordRep >
+template< typename TInputImage, unsigned int VRadius,
+          typename TWindowFunction, typename TBoundaryCondition, typename TCoordRep >
 WindowedSincInterpolateImageFunction< TInputImage, VRadius,
                                       TWindowFunction, TBoundaryCondition, TCoordRep >
 ::WindowedSincInterpolateImageFunction()
@@ -94,8 +94,8 @@ WindowedSincInterpolateImageFunction< TInputImage, VRadius,
 }
 
 /** Destructor */
-template< class TInputImage, unsigned int VRadius,
-          class TWindowFunction, class TBoundaryCondition, class TCoordRep >
+template< typename TInputImage, unsigned int VRadius,
+          typename TWindowFunction, typename TBoundaryCondition, typename TCoordRep >
 WindowedSincInterpolateImageFunction< TInputImage, VRadius,
                                       TWindowFunction, TBoundaryCondition, TCoordRep >
 ::~WindowedSincInterpolateImageFunction()
@@ -111,8 +111,8 @@ WindowedSincInterpolateImageFunction< TInputImage, VRadius,
   delete[] m_WeightOffsetTable;
 }
 
-template< class TInputImage, unsigned int VRadius,
-          class TWindowFunction, class TBoundaryCondition, class TCoordRep >
+template< typename TInputImage, unsigned int VRadius,
+          typename TWindowFunction, typename TBoundaryCondition, typename TCoordRep >
 void
 WindowedSincInterpolateImageFunction< TInputImage, VRadius,
                                       TWindowFunction, TBoundaryCondition, TCoordRep >
@@ -174,8 +174,8 @@ WindowedSincInterpolateImageFunction< TInputImage, VRadius,
 }
 
 /** PrintSelf */
-template< class TInputImage, unsigned int VRadius,
-          class TWindowFunction, class TBoundaryCondition, class TCoordRep >
+template< typename TInputImage, unsigned int VRadius,
+          typename TWindowFunction, typename TBoundaryCondition, typename TCoordRep >
 void
 WindowedSincInterpolateImageFunction< TInputImage, VRadius,
                                       TWindowFunction, TBoundaryCondition, TCoordRep >
@@ -185,8 +185,8 @@ WindowedSincInterpolateImageFunction< TInputImage, VRadius,
 }
 
 /** Evaluate at image index position */
-template< class TInputImage, unsigned int VRadius,
-          class TWindowFunction, class TBoundaryCondition, class TCoordRep >
+template< typename TInputImage, unsigned int VRadius,
+          typename TWindowFunction, typename TBoundaryCondition, typename TCoordRep >
 typename WindowedSincInterpolateImageFunction< TInputImage, VRadius,
                                                TWindowFunction, TBoundaryCondition, TCoordRep >
 ::OutputType

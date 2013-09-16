@@ -24,20 +24,20 @@ namespace itk
 {
 
 /** Constructor */
-template<class TFixedPointSet, class TMovingPointSet>
+template<typename TFixedPointSet, typename TMovingPointSet>
 EuclideanDistancePointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
 ::EuclideanDistancePointSetToPointSetMetricv4()
 {
 }
 
 /** Destructor */
-template<class TFixedPointSet, class TMovingPointSet>
+template<typename TFixedPointSet, typename TMovingPointSet>
 EuclideanDistancePointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
 ::~EuclideanDistancePointSetToPointSetMetricv4()
 {
 }
 
-template<class TFixedPointSet, class TMovingPointSet>
+template<typename TFixedPointSet, typename TMovingPointSet>
 typename EuclideanDistancePointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
 ::MeasureType
 EuclideanDistancePointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
@@ -53,7 +53,7 @@ EuclideanDistancePointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
   return distance;
 }
 
-template<class TFixedPointSet, class TMovingPointSet>
+template<typename TFixedPointSet, typename TMovingPointSet>
 void
 EuclideanDistancePointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
 ::GetLocalNeighborhoodValueAndDerivative( const PointType & point,
@@ -70,7 +70,7 @@ EuclideanDistancePointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
 }
 
 /** PrintSelf method */
-template<class TFixedPointSet, class TMovingPointSet>
+template<typename TFixedPointSet, typename TMovingPointSet>
 void
 EuclideanDistancePointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
 ::PrintSelf( std::ostream & os, Indent indent ) const

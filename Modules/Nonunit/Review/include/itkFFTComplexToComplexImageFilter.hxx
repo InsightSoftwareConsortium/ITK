@@ -40,11 +40,11 @@
 namespace itk
 {
 #if defined( ITK_USE_FFTWD ) || defined( ITK_USE_FFTWF )
-template< class TImage >
+template< typename TImage >
 class FFTWComplexToComplexImageFilter;
 #endif
 
-template< class TImage >
+template< typename TImage >
 typename FFTComplexToComplexImageFilter< TImage >::Pointer
 FFTComplexToComplexImageFilter< TImage >
 ::New(void)
@@ -75,7 +75,7 @@ FFTComplexToComplexImageFilter< TImage >
   return smartPtr;
 }
 
-template< class TImage >
+template< typename TImage >
 void
 FFTComplexToComplexImageFilter< TImage >::GenerateOutputInformation()
 {
@@ -133,7 +133,7 @@ FFTComplexToComplexImageFilter< TImage >::GenerateOutputInformation()
   outputPtr->SetLargestPossibleRegion(outputLargestPossibleRegion);
 }
 
-template< class TImage >
+template< typename TImage >
 void
 FFTComplexToComplexImageFilter< TImage >::GenerateInputRequestedRegion()
 {

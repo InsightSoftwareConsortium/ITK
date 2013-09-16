@@ -44,7 +44,7 @@ namespace itk
  * \ingroup ITKThresholding
  */
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class OtsuMultipleThresholdsImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {

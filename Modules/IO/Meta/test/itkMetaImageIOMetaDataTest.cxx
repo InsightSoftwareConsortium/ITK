@@ -57,7 +57,7 @@ typename TImage::Pointer ReadImage( const std::string &fileName )
 }
 
 /** write an image using ITK */
-template <class ImageType>
+template <typename ImageType>
 void
 WriteImage(typename ImageType::Pointer &image,
            const std::string &fileName)

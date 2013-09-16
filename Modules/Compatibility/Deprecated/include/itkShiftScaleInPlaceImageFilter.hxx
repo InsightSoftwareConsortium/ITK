@@ -27,7 +27,7 @@
 
 namespace itk
 {
-template< class TInputImage >
+template< typename TInputImage >
 ShiftScaleInPlaceImageFilter< TInputImage >
 ::ShiftScaleInPlaceImageFilter()
 {
@@ -39,12 +39,12 @@ ShiftScaleInPlaceImageFilter< TInputImage >
   m_ThreadOverflow.SetSize(1);
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 ShiftScaleInPlaceImageFilter< TInputImage >
 ::~ShiftScaleInPlaceImageFilter()
 {}
 
-template< class TInputImage >
+template< typename TInputImage >
 void
 ShiftScaleInPlaceImageFilter< TInputImage >
 ::BeforeThreadedGenerateData()
@@ -58,7 +58,7 @@ ShiftScaleInPlaceImageFilter< TInputImage >
   m_ThreadOverflow.Fill(0);
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void
 ShiftScaleInPlaceImageFilter< TInputImage >
 ::AfterThreadedGenerateData()
@@ -76,7 +76,7 @@ ShiftScaleInPlaceImageFilter< TInputImage >
     }
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void
 ShiftScaleInPlaceImageFilter< TInputImage >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
@@ -115,7 +115,7 @@ ShiftScaleInPlaceImageFilter< TInputImage >
     }
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void
 ShiftScaleInPlaceImageFilter< TInputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

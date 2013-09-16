@@ -25,7 +25,7 @@ namespace itk
 //
 // Constructor
 //
-template< class TMesh >
+template< typename TMesh >
 QuadEdgeMeshScalarDataVTKPolyDataWriter< TMesh >
 ::QuadEdgeMeshScalarDataVTKPolyDataWriter()
 {
@@ -36,12 +36,12 @@ QuadEdgeMeshScalarDataVTKPolyDataWriter< TMesh >
 //
 // Destructor
 //
-template< class TMesh >
+template< typename TMesh >
 QuadEdgeMeshScalarDataVTKPolyDataWriter< TMesh >
 ::~QuadEdgeMeshScalarDataVTKPolyDataWriter()
 {}
 
-template< class TMesh >
+template< typename TMesh >
 void
 QuadEdgeMeshScalarDataVTKPolyDataWriter< TMesh >
 ::GenerateData()
@@ -51,7 +51,7 @@ QuadEdgeMeshScalarDataVTKPolyDataWriter< TMesh >
   this->WritePointData();
 }
 
-template< class TMesh >
+template< typename TMesh >
 void
 QuadEdgeMeshScalarDataVTKPolyDataWriter< TMesh >
 ::WriteCellData()
@@ -106,7 +106,7 @@ QuadEdgeMeshScalarDataVTKPolyDataWriter< TMesh >
     }
 }
 
-template< class TMesh >
+template< typename TMesh >
 void
 QuadEdgeMeshScalarDataVTKPolyDataWriter< TMesh >
 ::WritePointData()

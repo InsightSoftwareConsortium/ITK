@@ -24,7 +24,7 @@ namespace itk
 {
 
 //-------------------------------------------------------------------
-template<class TInternalComputationValueType>
+template<typename TInternalComputationValueType>
 ObjectToObjectMetricBaseTemplate<TInternalComputationValueType>
 ::ObjectToObjectMetricBaseTemplate()
 {
@@ -34,13 +34,13 @@ ObjectToObjectMetricBaseTemplate<TInternalComputationValueType>
 }
 
 //-------------------------------------------------------------------
-template<class TInternalComputationValueType>
+template<typename TInternalComputationValueType>
 ObjectToObjectMetricBaseTemplate<TInternalComputationValueType>
 ::~ObjectToObjectMetricBaseTemplate()
 {}
 
 //-------------------------------------------------------------------
-template<class TInternalComputationValueType>
+template<typename TInternalComputationValueType>
 bool ObjectToObjectMetricBaseTemplate<TInternalComputationValueType>
 ::GetGradientSourceIncludesFixed() const
 {
@@ -49,7 +49,7 @@ bool ObjectToObjectMetricBaseTemplate<TInternalComputationValueType>
 }
 
 //-------------------------------------------------------------------
-template<class TInternalComputationValueType>
+template<typename TInternalComputationValueType>
 bool ObjectToObjectMetricBaseTemplate<TInternalComputationValueType>
 ::GetGradientSourceIncludesMoving() const
 {
@@ -58,7 +58,7 @@ bool ObjectToObjectMetricBaseTemplate<TInternalComputationValueType>
 }
 
 //-------------------------------------------------------------------
-template<class TInternalComputationValueType>
+template<typename TInternalComputationValueType>
 typename ObjectToObjectMetricBaseTemplate<TInternalComputationValueType>::MeasureType
 ObjectToObjectMetricBaseTemplate<TInternalComputationValueType>
 ::GetCurrentValue() const
@@ -67,7 +67,7 @@ ObjectToObjectMetricBaseTemplate<TInternalComputationValueType>
 }
 
 //-------------------------------------------------------------------
-template<class TInternalComputationValueType>
+template<typename TInternalComputationValueType>
 void
 ObjectToObjectMetricBaseTemplate<TInternalComputationValueType>
 ::PrintSelf(std::ostream & os, Indent indent) const

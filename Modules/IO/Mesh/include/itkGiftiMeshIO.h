@@ -124,7 +124,7 @@ protected:
 
   void PrintSelf(std::ostream & os, Indent indent) const;
 
-  template< class TInput, class TOutput >
+  template< typename TInput, typename TOutput >
   void ConvertBuffer(TInput *input, TOutput *output, SizeValueType numberOfElements)
   {
     if ( input && output )

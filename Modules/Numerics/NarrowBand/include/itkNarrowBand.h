@@ -30,7 +30,7 @@ namespace itk
  * (m_Data) computed by CalculateChange
  */
 
-template< class TIndexType, class TDataType >
+template< typename TIndexType, typename TDataType >
 class BandNode
 {
 public:
@@ -44,7 +44,7 @@ public:
  * \brief Narrow Band class
  * \ingroup ITKNarrowBand
  */
-template< class NodeType >
+template< typename NodeType >
 class NarrowBand:public LightObject
 {
 public:

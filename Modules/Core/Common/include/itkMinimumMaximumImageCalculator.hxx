@@ -27,7 +27,7 @@ namespace itk
 /**
  * Constructor
  */
-template< class TInputImage >
+template< typename TInputImage >
 MinimumMaximumImageCalculator< TInputImage >
 ::MinimumMaximumImageCalculator()
 {
@@ -42,7 +42,7 @@ MinimumMaximumImageCalculator< TInputImage >
 /**
  * Compute Min and Max of m_Image
  */
-template< class TInputImage >
+template< typename TInputImage >
 void
 MinimumMaximumImageCalculator< TInputImage >
 ::Compute(void)
@@ -76,7 +76,7 @@ MinimumMaximumImageCalculator< TInputImage >
 /**
  * Compute the minimum intensity value of the image
  */
-template< class TInputImage >
+template< typename TInputImage >
 void
 MinimumMaximumImageCalculator< TInputImage >
 ::ComputeMinimum(void)
@@ -103,7 +103,7 @@ MinimumMaximumImageCalculator< TInputImage >
 /**
  * Compute the maximum intensity value of the image
  */
-template< class TInputImage >
+template< typename TInputImage >
 void
 MinimumMaximumImageCalculator< TInputImage >
 ::ComputeMaximum(void)
@@ -127,7 +127,7 @@ MinimumMaximumImageCalculator< TInputImage >
     }
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void
 MinimumMaximumImageCalculator< TInputImage >
 ::SetRegion(const RegionType & region)
@@ -136,7 +136,7 @@ MinimumMaximumImageCalculator< TInputImage >
   m_RegionSetByUser = true;
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void
 MinimumMaximumImageCalculator< TInputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

@@ -44,7 +44,7 @@ namespace itk
  * \ingroup ITKReview
  */
 
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 class ConformalFlatteningMeshFilter:
   public MeshToMeshFilter< TInputMesh, TOutputMesh >
 {

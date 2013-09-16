@@ -68,7 +68,7 @@ namespace itk
  * \ingroup FiniteDifferenceFunctions
  * \ingroup ITKLevelSets
  */
-template< class TImageType, class TFeatureImageType = TImageType >
+template< typename TImageType, typename TFeatureImageType = TImageType >
 class ShapeDetectionLevelSetFunction:
   public SegmentationLevelSetFunction< TImageType, TFeatureImageType >
 {

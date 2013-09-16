@@ -50,7 +50,7 @@ namespace watershed
  * \ingroup WatershedSegmentation
  * \ingroup ITKWatersheds
  */
-template< class TScalar, unsigned int TDimension >
+template< typename TScalar, unsigned int TDimension >
 class Boundary:public DataObject
 {
 public:

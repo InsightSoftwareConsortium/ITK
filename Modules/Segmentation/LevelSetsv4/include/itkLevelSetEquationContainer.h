@@ -54,7 +54,7 @@ namespace itk
  *
  *  \ingroup ITKLevelSetsv4
  */
-template< class TTermContainer >
+template< typename TTermContainer >
 class LevelSetEquationContainer : public Object
 {
 public:

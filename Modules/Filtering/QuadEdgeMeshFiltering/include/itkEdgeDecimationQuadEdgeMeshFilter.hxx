@@ -22,7 +22,7 @@
 
 namespace itk
 {
-template< class TInput, class TOutput, class TCriterion >
+template< typename TInput, typename TOutput, typename TCriterion >
 EdgeDecimationQuadEdgeMeshFilter< TInput, TOutput,
                                        TCriterion >::EdgeDecimationQuadEdgeMeshFilter():Superclass(),
   m_Relocate(true), m_CheckOrientation(false)
@@ -31,7 +31,7 @@ EdgeDecimationQuadEdgeMeshFilter< TInput, TOutput,
   m_PriorityQueue = PriorityQueueType::New();
 }
 
-template< class TInput, class TOutput, class TCriterion >
+template< typename TInput, typename TOutput, typename TCriterion >
 EdgeDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >::
 ~EdgeDecimationQuadEdgeMeshFilter()
 {
@@ -48,7 +48,7 @@ EdgeDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >::
     }
 }
 
-template< class TInput, class TOutput, class TCriterion >
+template< typename TInput, typename TOutput, typename TCriterion >
 void
 EdgeDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >::FillPriorityQueue()
 {
@@ -76,7 +76,7 @@ EdgeDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >::FillPriorityQue
     }
 }
 
-template< class TInput, class TOutput, class TCriterion >
+template< typename TInput, typename TOutput, typename TCriterion >
 void
 EdgeDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >::PushElement(OutputQEType *iEdge)
 {
@@ -93,7 +93,7 @@ EdgeDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >::PushElement(Out
   m_PriorityQueue->Push(qi);
 }
 
-template< class TInput, class TOutput, class TCriterion >
+template< typename TInput, typename TOutput, typename TCriterion >
 bool
 EdgeDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >::
 #ifdef NDEBUG
@@ -155,7 +155,7 @@ IsEdgeOKToBeProcessed(OutputQEType *)
   return true;
   }
 
-template< class TInput, class TOutput, class TCriterion >
+template< typename TInput, typename TOutput, typename TCriterion >
 void
 EdgeDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >::Extract()
 {
@@ -174,7 +174,7 @@ EdgeDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >::Extract()
   while ( !IsEdgeOKToBeProcessed(m_Element) );
 }
 
-template< class TInput, class TOutput, class TCriterion >
+template< typename TInput, typename TOutput, typename TCriterion >
 void
 EdgeDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >::DeleteElement(OutputQEType *iEdge)
 {
@@ -197,7 +197,7 @@ EdgeDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >::DeleteElement(O
     }
 }
 
-template< class TInput, class TOutput, class TCriterion >
+template< typename TInput, typename TOutput, typename TCriterion >
 void
 EdgeDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >::PushOrUpdateElement(OutputQEType *iEdge)
 {
@@ -228,7 +228,7 @@ EdgeDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >::PushOrUpdateEle
     }
 }
 
-template< class TInput, class TOutput, class TCriterion >
+template< typename TInput, typename TOutput, typename TCriterion >
 void
 EdgeDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >::JoinVertexFailed()
 {
@@ -286,7 +286,7 @@ EdgeDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >::JoinVertexFaile
     }
 }
 
-template< class TInput, class TOutput, class TCriterion >
+template< typename TInput, typename TOutput, typename TCriterion >
 void
 EdgeDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >::DeletePoint(
   const OutputPointIdentifier & iIdToBeDeleted,
@@ -297,7 +297,7 @@ EdgeDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >::DeletePoint(
   this->GetOutput()->DeletePoint(iIdToBeDeleted);
 }
 
-template< class TInput, class TOutput, class TCriterion >
+template< typename TInput, typename TOutput, typename TCriterion >
 bool
 EdgeDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >::ProcessWithoutAnyTopologicalGuarantee()
 {
@@ -396,7 +396,7 @@ EdgeDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >::ProcessWithoutA
   return false;
 }
 
-template< class TInput, class TOutput, class TCriterion >
+template< typename TInput, typename TOutput, typename TCriterion >
 unsigned int
 EdgeDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >::CheckQEProcessingStatus()
 {
@@ -484,7 +484,7 @@ EdgeDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >::CheckQEProcessi
   //   return 0;
 }
 
-template< class TInput, class TOutput, class TCriterion >
+template< typename TInput, typename TOutput, typename TCriterion >
 bool
 EdgeDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >::ProcessWithTopologicalGuarantee()
 {
@@ -497,7 +497,7 @@ EdgeDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >::ProcessWithTopo
   return false;
 }
 
-template< class TInput, class TOutput, class TCriterion >
+template< typename TInput, typename TOutput, typename TCriterion >
 SizeValueType
 EdgeDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >::NumberOfCommonVerticesIn0Ring() const
 {
@@ -532,7 +532,7 @@ EdgeDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >::NumberOfCommonV
   return static_cast< SizeValueType >( intersection_list.size() );
 }
 
-template< class TInput, class TOutput, class TCriterion >
+template< typename TInput, typename TOutput, typename TCriterion >
 void
 EdgeDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >::RemoveSamosa()
 {
@@ -542,7 +542,7 @@ EdgeDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >::RemoveSamosa()
   DeleteElement( m_Element->GetRprev() );
 }
 
-template< class TInput, class TOutput, class TCriterion >
+template< typename TInput, typename TOutput, typename TCriterion >
 void
 EdgeDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >::TagElementOut(OutputQEType *iEdge)
 {
@@ -564,7 +564,7 @@ EdgeDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >::TagElementOut(O
     }
 }
 
-template< class TInput, class TOutput, class TCriterion >
+template< typename TInput, typename TOutput, typename TCriterion >
 void
 EdgeDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >::RemoveEye()
 {
@@ -582,7 +582,7 @@ EdgeDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >::RemoveEye()
   TagElementOut( qe->GetSym()->GetOprev() );
 }
 
-template< class TInput, class TOutput, class TCriterion >
+template< typename TInput, typename TOutput, typename TCriterion >
 bool
 EdgeDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >::IsCriterionSatisfied()
 {

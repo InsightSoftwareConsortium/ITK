@@ -43,7 +43,7 @@ namespace Accessor
  * \ingroup ImageAdaptors
  * \ingroup ITKImageAdaptors
  */
-template< class TType >
+template< typename TType >
 class VectorImageToImagePixelAccessor
   : private DefaultVectorPixelAccessor< TType >
 {
@@ -138,7 +138,7 @@ private:
  * \wikiexample{VectorImages/VectorImageToImageAdaptor,View a component of a vector image as if it were a scalar image}
  * \endwiki
  */
-template< class TPixelType, unsigned int Dimension >
+template< typename TPixelType, unsigned int Dimension >
 class VectorImageToImageAdaptor:public
   ImageAdaptor< VectorImage< TPixelType, Dimension >,
                 Accessor::VectorImageToImagePixelAccessor< TPixelType > >

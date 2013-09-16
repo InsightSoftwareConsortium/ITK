@@ -27,7 +27,7 @@
 
 namespace itk
 {
-template< class TImageType, class TFeatureImageType >
+template< typename TImageType, typename TFeatureImageType >
 void GeodesicActiveContourLevelSetFunction< TImageType, TFeatureImageType >
 ::CalculateSpeedImage()
 {
@@ -38,7 +38,7 @@ void GeodesicActiveContourLevelSetFunction< TImageType, TFeatureImageType >
                         this->GetFeatureImage()->GetRequestedRegion() );
 }
 
-template< class TImageType, class TFeatureImageType >
+template< typename TImageType, typename TFeatureImageType >
 void GeodesicActiveContourLevelSetFunction< TImageType, TFeatureImageType >
 ::CalculateAdvectionImage()
 {

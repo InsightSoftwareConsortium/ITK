@@ -31,7 +31,7 @@ namespace itk
  */
 namespace Functor
 {
-template< class TInput, class TOutput >
+template< typename TInput, typename TOutput >
 class ComplexToReal
 {
 public:
@@ -54,7 +54,7 @@ public:
 };
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class ComplexToRealImageFilter:
   public
   UnaryFunctorImageFilter< TInputImage, TOutputImage,

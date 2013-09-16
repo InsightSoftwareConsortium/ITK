@@ -59,7 +59,7 @@ namespace NeighborhoodAlgorithm
 *
 * \ingroup ITKCommon
 */
-template< class TImage >
+template< typename TImage >
 struct ImageBoundaryFacesCalculator {
   typedef typename NeighborhoodIterator< TImage >::RadiusType RadiusType;
   typedef typename TImage::RegionType                         RegionType;
@@ -80,7 +80,7 @@ struct ImageBoundaryFacesCalculator {
  * BufferedRegion sizes.
  * \ingroup ITKCommon
  */
-template< class TImage >
+template< typename TImage >
 struct CalculateOutputWrapOffsetModifiers {
   typedef Offset< TImage::ImageDimension > OffsetType;
   OffsetType operator()(TImage *, TImage *) const;

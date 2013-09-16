@@ -33,7 +33,7 @@ namespace itk
  * proportion of the time.
  * \ingroup ITKMathematicalMorphology
  */
-template< class TInputPix, class TCompare >
+template< typename TInputPix, typename TCompare >
 class AnchorErodeDilateLine
 {
 public:

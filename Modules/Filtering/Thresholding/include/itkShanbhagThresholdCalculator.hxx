@@ -28,7 +28,7 @@ namespace itk
 /*
  * Compute the Shanbhag's threshold
  */
-template<class THistogram, class TOutput>
+template<typename THistogram, typename TOutput>
 void
 ShanbhagThresholdCalculator<THistogram, TOutput>
 ::GenerateData(void)

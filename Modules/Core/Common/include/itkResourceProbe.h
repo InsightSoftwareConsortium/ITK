@@ -35,7 +35,7 @@ namespace itk
   *
   * \ingroup ITKCommon
   */
-template< class ValueType, class MeanType >
+template< typename ValueType, typename MeanType >
 class ResourceProbe
 {
 public:

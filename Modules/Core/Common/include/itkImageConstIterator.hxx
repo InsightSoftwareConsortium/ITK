@@ -25,7 +25,7 @@ namespace itk
 #if !defined(ITK_LEGACY_REMOVE)
 //----------------------------------------------------------------------------
 // Begin() is the first pixel in the region.
-template< class TImage >
+template< typename TImage >
 ImageConstIterator< TImage >
 ImageConstIterator< TImage >
 ::Begin() const
@@ -47,7 +47,7 @@ ImageConstIterator< TImage >
 //           m_StartIndex[VImageDimension-2] + m_Size[VImageDimension-2]-1,
 //           m_StartIndex[VImageDimension-1] + m_Size[VImageDimension-1]-1]
 //
-template< class TImage >
+template< typename TImage >
 ImageConstIterator< TImage >
 ImageConstIterator< TImage >
 ::End() const

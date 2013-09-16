@@ -22,7 +22,7 @@
 
 namespace itk
 {
-template< class TMesh, class TQEType >
+template< typename TMesh, typename TQEType >
 typename QuadEdgeMeshEulerOperatorSplitFacetFunction< TMesh, TQEType >::OutputType
 QuadEdgeMeshEulerOperatorSplitFacetFunction< TMesh, TQEType >::Evaluate(QEType *h, QEType *g)
 {

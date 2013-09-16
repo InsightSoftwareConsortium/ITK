@@ -28,7 +28,7 @@ namespace itk
 //
 // Constructor
 //
-template<class TVideoStream>
+template<typename TVideoStream>
 DecimateFramesVideoFilter<TVideoStream>::
 DecimateFramesVideoFilter()
 {
@@ -45,7 +45,7 @@ DecimateFramesVideoFilter()
 //
 // PrintSelf
 //
-template<class TVideoStream>
+template<typename TVideoStream>
 void
 DecimateFramesVideoFilter<TVideoStream>::
 PrintSelf(std::ostream & os, Indent indent) const
@@ -60,7 +60,7 @@ PrintSelf(std::ostream & os, Indent indent) const
 //
 // SetPreservedFrameSpacing
 //
-template<class TVideoStream>
+template<typename TVideoStream>
 void
 DecimateFramesVideoFilter<TVideoStream>::
 SetPreservedFrameSpacing(SizeValueType numFrames)
@@ -73,7 +73,7 @@ SetPreservedFrameSpacing(SizeValueType numFrames)
 //
 // GetPreservedFrameSpacing
 //
-template<class TVideoStream>
+template<typename TVideoStream>
 SizeValueType
 DecimateFramesVideoFilter<TVideoStream>::
 GetPreservedFrameSpacing()
@@ -85,7 +85,7 @@ GetPreservedFrameSpacing()
 //
 // ThreadedGenerateData
 //
-template<class TVideoStream>
+template<typename TVideoStream>
 void
 DecimateFramesVideoFilter<TVideoStream>::
 ThreadedGenerateData(const FrameSpatialRegionType& outputRegionForThread,

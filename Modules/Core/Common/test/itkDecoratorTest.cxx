@@ -23,7 +23,7 @@
 #include "itkAutoPointerDataObjectDecorator.h"
 
 namespace {
-template <class CharType, class TraitsType, class MemberType, class AllocatorType>
+template <typename CharType, typename TraitsType, typename MemberType, typename AllocatorType>
 std::basic_ostream<CharType, TraitsType>&
 operator<<(std::basic_ostream<CharType, TraitsType>&os, const std::vector<MemberType,AllocatorType> &p)
 {

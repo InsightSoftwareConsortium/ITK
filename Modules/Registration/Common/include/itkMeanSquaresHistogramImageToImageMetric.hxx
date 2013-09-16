@@ -22,7 +22,7 @@
 
 namespace itk
 {
-template< class TFixedImage, class TMovingImage >
+template< typename TFixedImage, typename TMovingImage >
 typename MeanSquaresHistogramImageToImageMetric< TFixedImage, TMovingImage >
 ::MeasureType
 MeanSquaresHistogramImageToImageMetric< TFixedImage, TMovingImage >

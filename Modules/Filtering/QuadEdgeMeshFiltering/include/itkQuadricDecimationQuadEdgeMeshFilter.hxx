@@ -22,18 +22,18 @@
 
 namespace itk
 {
-template< class TInput, class TOutput, class TCriterion >
+template< typename TInput, typename TOutput, typename TCriterion >
 QuadricDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >
 ::QuadricDecimationQuadEdgeMeshFilter()
 {}
 
-template< class TInput, class TOutput, class TCriterion >
+template< typename TInput, typename TOutput, typename TCriterion >
 QuadricDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >
 ::~QuadricDecimationQuadEdgeMeshFilter()
 {}
 
 
-template< class TInput, class TOutput, class TCriterion >
+template< typename TInput, typename TOutput, typename TCriterion >
 void
 QuadricDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >
 ::Initialize()
@@ -65,7 +65,7 @@ QuadricDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >
     }
 }
 
-template< class TInput, class TOutput, class TCriterion >
+template< typename TInput, typename TOutput, typename TCriterion >
 void
 QuadricDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >
 ::DeletePoint( const OutputPointIdentifier & iIdToBeDeleted,
@@ -78,7 +78,7 @@ QuadricDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >
   m_Quadric.erase(it);
 }
 
-template< class TInput, class TOutput, class TCriterion >
+template< typename TInput, typename TOutput, typename TCriterion >
 typename
 QuadricDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >
 ::OutputPointType

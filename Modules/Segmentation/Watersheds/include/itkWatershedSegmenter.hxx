@@ -35,14 +35,14 @@ namespace watershed
   ----------------------------------------------------------------------------
 */
 
-template< class TInputImage >
+template< typename TInputImage >
 Segmenter< TInputImage >::~Segmenter()
 {
   delete[] m_Connectivity.index;
   delete[] m_Connectivity.direction;
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void Segmenter< TInputImage >::GenerateData()
 {
   //
@@ -314,7 +314,7 @@ void Segmenter< TInputImage >::GenerateData()
   this->UpdateProgress(1.0);
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void Segmenter< TInputImage >
 ::CollectBoundaryInformation(flat_region_table_t & flatRegions)
 {
@@ -386,7 +386,7 @@ void Segmenter< TInputImage >
     }
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void Segmenter< TInputImage >
 ::InitializeBoundary()
 {
@@ -415,7 +415,7 @@ void Segmenter< TInputImage >
     }
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void Segmenter< TInputImage >
 ::AnalyzeBoundaryFlow(InputImageTypePointer thresholdImage,
                       flat_region_table_t & flatRegions,
@@ -613,7 +613,7 @@ void Segmenter< TInputImage >
   Self::MergeFlatRegions(flatRegions, eqTable);
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void Segmenter< TInputImage >
 ::GenerateConnectivity()
 {
@@ -665,7 +665,7 @@ void Segmenter< TInputImage >
     }
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void Segmenter< TInputImage >
 ::LabelMinima(InputImageTypePointer img, ImageRegionType region,
               typename Self::flat_region_table_t & flatRegions, InputPixelType Max)
@@ -818,7 +818,7 @@ void Segmenter< TInputImage >
   Self::RelabelImage(output, region, equivalentLabels);
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void Segmenter< TInputImage >
 ::GradientDescent(InputImageTypePointer img,
                   ImageRegionType region)
@@ -886,7 +886,7 @@ void Segmenter< TInputImage >
     }
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void Segmenter< TInputImage >
 ::DescendFlatRegions(flat_region_table_t & flatRegionTable,
                      ImageRegionType imageRegion)
@@ -912,7 +912,7 @@ void Segmenter< TInputImage >
   Self::RelabelImage(output, imageRegion, equivalentLabels);
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void Segmenter< TInputImage >
 ::UpdateSegmentTable(InputImageTypePointer input, ImageRegionType region)
 {
@@ -1039,7 +1039,7 @@ void Segmenter< TInputImage >
     }
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void Segmenter< TInputImage >
 ::BuildRetainingWall(InputImageTypePointer img,
                      ImageRegionType region,
@@ -1071,7 +1071,7 @@ void Segmenter< TInputImage >
   Algorithm helper methods and debugging methods
   ----------------------------------------------------------------------------
 */
-template< class TInputImage >
+template< typename TInputImage >
 void Segmenter< TInputImage >
 ::SetInputImageValues(InputImageTypePointer img,
                       ImageRegionType region,
@@ -1086,7 +1086,7 @@ void Segmenter< TInputImage >
     }
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void Segmenter< TInputImage >
 ::SetOutputImageValues(OutputImageTypePointer img,
                        ImageRegionType region,
@@ -1101,7 +1101,7 @@ void Segmenter< TInputImage >
     }
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void Segmenter< TInputImage >
 ::MinMax(InputImageTypePointer img, ImageRegionType region,
          InputPixelType & min, InputPixelType & max)
@@ -1118,7 +1118,7 @@ void Segmenter< TInputImage >
     }
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void Segmenter< TInputImage >
 ::MergeFlatRegions(flat_region_table_t & regions,
                    EquivalencyTable::Pointer eqTable)
@@ -1150,7 +1150,7 @@ void Segmenter< TInputImage >
     }
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void Segmenter< TInputImage >
 ::RelabelImage(OutputImageTypePointer img,
                ImageRegionType region,
@@ -1170,7 +1170,7 @@ void Segmenter< TInputImage >
     }
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void Segmenter< TInputImage >::Threshold(InputImageTypePointer destination,
                                          InputImageTypePointer source,
                                          const ImageRegionType source_region,
@@ -1235,7 +1235,7 @@ void Segmenter< TInputImage >::Threshold(InputImageTypePointer destination,
   Pipeline methods
   ----------------------------------------------------------------------------
 */
-template< class TInputImage >
+template< typename TInputImage >
 typename Segmenter< TInputImage >::DataObjectPointer
 Segmenter< TInputImage >
 ::MakeOutput(DataObjectPointerArraySizeType idx)
@@ -1255,7 +1255,7 @@ Segmenter< TInputImage >
   else { return 0; }
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void
 Segmenter< TInputImage >::UpdateOutputInformation()
 {
@@ -1295,7 +1295,7 @@ Segmenter< TInputImage >::UpdateOutputInformation()
   outputPtr->SetLargestPossibleRegion(outputLargestPossibleRegion);
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void Segmenter< TInputImage >::GenerateInputRequestedRegion()
 {
   // call the superclass' implementation of this method
@@ -1317,7 +1317,7 @@ void Segmenter< TInputImage >::GenerateInputRequestedRegion()
   inputPtr->SetRequestedRegion( outputPtr->GetRequestedRegion() );
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void
 Segmenter< TInputImage >
 ::GenerateOutputRequestedRegion(DataObject *output)
@@ -1345,7 +1345,7 @@ Segmenter< TInputImage >
     }
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 Segmenter< TInputImage >
 ::Segmenter()
 {
@@ -1374,7 +1374,7 @@ Segmenter< TInputImage >
     new typename InputImageType::OffsetType[m_Connectivity.size];
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void
 Segmenter< TInputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

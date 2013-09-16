@@ -403,7 +403,7 @@ NiftiImageIO::MustRescale()
 }
 
 // Internal function to rescale pixel according to Rescale Slope/Intercept
-template< class TBuffer >
+template< typename TBuffer >
 void RescaleFunction(TBuffer *buffer,
                      double slope,
                      double intercept,

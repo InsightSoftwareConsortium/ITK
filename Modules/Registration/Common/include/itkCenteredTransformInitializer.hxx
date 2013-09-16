@@ -22,7 +22,7 @@
 
 namespace itk
 {
-template< class TTransform, class TFixedImage, class TMovingImage >
+template< typename TTransform, typename TFixedImage, typename TMovingImage >
 CenteredTransformInitializer< TTransform, TFixedImage, TMovingImage >
 ::CenteredTransformInitializer()
 {
@@ -31,7 +31,7 @@ CenteredTransformInitializer< TTransform, TFixedImage, TMovingImage >
   m_UseMoments = false;
 }
 
-template< class TTransform, class TFixedImage, class TMovingImage >
+template< typename TTransform, typename TFixedImage, typename TMovingImage >
 void
 CenteredTransformInitializer< TTransform, TFixedImage, TMovingImage >
 ::InitializeTransform()
@@ -151,7 +151,7 @@ CenteredTransformInitializer< TTransform, TFixedImage, TMovingImage >
   m_Transform->SetTranslation(translationVector);
 }
 
-template< class TTransform, class TFixedImage, class TMovingImage >
+template< typename TTransform, typename TFixedImage, typename TMovingImage >
 void
 CenteredTransformInitializer< TTransform, TFixedImage, TMovingImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

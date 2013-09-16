@@ -59,7 +59,7 @@ namespace itk
  * \ingroup ITKFiniteDifference
  */
 
-template< class TInputImageType, class TSparseOutputImageType >
+template< typename TInputImageType, typename TSparseOutputImageType >
 class FiniteDifferenceSparseImageFilter:
   public FiniteDifferenceImageFilter< TInputImageType,
                                       TSparseOutputImageType >

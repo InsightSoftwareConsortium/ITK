@@ -29,7 +29,7 @@ namespace itk
 /**
  *
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 RegionOfInterestImageFilter< TInputImage, TOutputImage >
 ::RegionOfInterestImageFilter()
 {}
@@ -37,7 +37,7 @@ RegionOfInterestImageFilter< TInputImage, TOutputImage >
 /**
  *
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 RegionOfInterestImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -47,7 +47,7 @@ RegionOfInterestImageFilter< TInputImage, TOutputImage >
   os << indent << "RegionOfInterest: " << m_RegionOfInterest << std::endl;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 RegionOfInterestImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
@@ -66,7 +66,7 @@ RegionOfInterestImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 RegionOfInterestImageFilter< TInputImage, TOutputImage >
 ::EnlargeOutputRequestedRegion(DataObject *output)
@@ -87,7 +87,7 @@ RegionOfInterestImageFilter< TInputImage, TOutputImage >
  *
  * \sa ProcessObject::GenerateOutputInformaton()
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 RegionOfInterestImageFilter< TInputImage, TOutputImage >
 ::GenerateOutputInformation()
@@ -137,7 +137,7 @@ RegionOfInterestImageFilter< TInputImage, TOutputImage >
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData()
    */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 RegionOfInterestImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData(const RegionType & outputRegionForThread,

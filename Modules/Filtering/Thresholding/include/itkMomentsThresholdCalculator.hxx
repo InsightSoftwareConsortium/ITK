@@ -29,7 +29,7 @@ namespace itk
 /*
  * Compute the Moments's threshold
  */
-template<class THistogram, class TOutput>
+template<typename THistogram, typename TOutput>
 void
 MomentsThresholdCalculator<THistogram, TOutput>
 ::GenerateData(void)

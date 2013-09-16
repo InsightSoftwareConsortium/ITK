@@ -27,7 +27,7 @@ namespace itk
 /**
  * Initialize new instance
  */
-template< class TOutputImage >
+template< typename TOutputImage >
 LandmarkDisplacementFieldSource< TOutputImage >
 ::LandmarkDisplacementFieldSource()
 {
@@ -47,7 +47,7 @@ LandmarkDisplacementFieldSource< TOutputImage >
  *
  * \todo Add details about this class
  */
-template< class TOutputImage >
+template< typename TOutputImage >
 void
 LandmarkDisplacementFieldSource< TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -66,7 +66,7 @@ LandmarkDisplacementFieldSource< TOutputImage >
 /**
  * Set the output image spacing.
  */
-template< class TOutputImage >
+template< typename TOutputImage >
 void
 LandmarkDisplacementFieldSource< TOutputImage >
 ::SetOutputSpacing(
@@ -80,7 +80,7 @@ LandmarkDisplacementFieldSource< TOutputImage >
 /**
  * Set the output image origin.
  */
-template< class TOutputImage >
+template< typename TOutputImage >
 void
 LandmarkDisplacementFieldSource< TOutputImage >
 ::SetOutputOrigin(
@@ -95,7 +95,7 @@ LandmarkDisplacementFieldSource< TOutputImage >
  * Sub-sample the input displacement field and prepare the KernelBase
  * BSpline
  */
-template< class TOutputImage >
+template< typename TOutputImage >
 void
 LandmarkDisplacementFieldSource< TOutputImage >
 ::PrepareKernelBaseSpline()
@@ -125,7 +125,7 @@ LandmarkDisplacementFieldSource< TOutputImage >
 /**
  * GenerateData
  */
-template< class TOutputImage >
+template< typename TOutputImage >
 void
 LandmarkDisplacementFieldSource< TOutputImage >
 ::GenerateData()
@@ -190,7 +190,7 @@ LandmarkDisplacementFieldSource< TOutputImage >
 /**
  * Inform pipeline of required output region
  */
-template< class TOutputImage >
+template< typename TOutputImage >
 void
 LandmarkDisplacementFieldSource< TOutputImage >
 ::GenerateOutputInformation()
@@ -217,7 +217,7 @@ LandmarkDisplacementFieldSource< TOutputImage >
 /**
  * Verify if any of the components has been modified.
  */
-template< class TOutputImage >
+template< typename TOutputImage >
 ModifiedTimeType
 LandmarkDisplacementFieldSource< TOutputImage >
 ::GetMTime(void) const

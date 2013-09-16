@@ -47,7 +47,7 @@ namespace itk
  * \ingroup ITKV3Compatibility
  * \sa AddImageFilter
  */
-template <class TInputImage, class TConstant, class TOutputImage>
+template <typename TInputImage, typename TConstant, typename TOutputImage>
 class AddConstantToImageFilter :
       public AddImageFilter<TInputImage, Image<TConstant, TInputImage::ImageDimension>, TOutputImage>
 {

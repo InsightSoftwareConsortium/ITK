@@ -22,7 +22,7 @@
 
 namespace itk
 {
-template<class TInternalComputationValueType>
+template<typename TInternalComputationValueType>
 void
 QuasiNewtonOptimizerv4EstimateNewtonStepThreaderTemplate<TInternalComputationValueType>
 ::ThreadedExecution( const IndexRangeType & subrange,

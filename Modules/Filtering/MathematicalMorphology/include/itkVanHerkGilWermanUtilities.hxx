@@ -37,7 +37,7 @@ namespace itk
 // to have the line copy and forward extreme buffer filled in the same
 // loop - it is too messy.
 
-template< class PixelType, class TFunction >
+template< typename PixelType, typename TFunction >
 void FillForwardExt(std::vector<PixelType> & pixbuffer, std::vector<PixelType> & fExtBuffer,
                     const unsigned int KernLen, unsigned len)
 {
@@ -73,7 +73,7 @@ void FillForwardExt(std::vector<PixelType> & pixbuffer, std::vector<PixelType> &
     }
 }
 
-template< class PixelType, class TFunction >
+template< typename PixelType, typename TFunction >
 void FillReverseExt(std::vector<PixelType> & pixbuffer, std::vector<PixelType> & rExtBuffer,
                     const unsigned int KernLen, unsigned len)
 {
@@ -107,7 +107,7 @@ void FillReverseExt(std::vector<PixelType> & pixbuffer, std::vector<PixelType> &
     }
 }
 
-template< class TImage, class TBres, class TFunction, class TLine >
+template< typename TImage, typename TBres, typename TFunction, typename TLine >
 void DoFace(typename TImage::ConstPointer input,
             typename TImage::Pointer output,
             typename TImage::PixelType border,

@@ -24,7 +24,7 @@
 namespace itk
 {
 // Constructor with default arguments
-template <class ScalarType, unsigned int NDimensions>
+template <typename ScalarType, unsigned int NDimensions>
 ScaleTransform<ScalarType, NDimensions>::ScaleTransform() : Superclass(ParametersDimension)
 {
   m_Scale.Fill(NumericTraits<ScalarType>::One);
@@ -32,14 +32,14 @@ ScaleTransform<ScalarType, NDimensions>::ScaleTransform() : Superclass(Parameter
 }
 
 // Destructor
-template <class ScalarType, unsigned int NDimensions>
+template <typename ScalarType, unsigned int NDimensions>
 ScaleTransform<ScalarType, NDimensions>::
 ~ScaleTransform()
 {
 }
 
 // Set the parameters
-template <class ScalarType, unsigned int NDimensions>
+template <typename ScalarType, unsigned int NDimensions>
 void
 ScaleTransform<ScalarType, NDimensions>
 ::SetParameters(const ParametersType & parameters)
@@ -63,7 +63,7 @@ ScaleTransform<ScalarType, NDimensions>
 }
 
 // Get Parameters
-template <class TScalar, unsigned int NDimensions>
+template <typename TScalar, unsigned int NDimensions>
 const typename ScaleTransform<TScalar, NDimensions>::ParametersType
 & ScaleTransform<TScalar, NDimensions>
 ::GetParameters(void) const
@@ -81,7 +81,7 @@ const typename ScaleTransform<TScalar, NDimensions>::ParametersType
   }
 
 // Print self
-template <class ScalarType, unsigned int NDimensions>
+template <typename ScalarType, unsigned int NDimensions>
 void
 ScaleTransform<ScalarType, NDimensions>::PrintSelf(std::ostream & os, Indent indent) const
 {
@@ -92,7 +92,7 @@ ScaleTransform<ScalarType, NDimensions>::PrintSelf(std::ostream & os, Indent ind
 }
 
 // Compose with another affine transformation
-template <class ScalarType, unsigned int NDimensions>
+template <typename ScalarType, unsigned int NDimensions>
 void
 ScaleTransform<ScalarType, NDimensions>::Compose(const Self *other, bool)
 {
@@ -103,7 +103,7 @@ ScaleTransform<ScalarType, NDimensions>::Compose(const Self *other, bool)
 }
 
 // Compose with a scale
-template <class ScalarType, unsigned int NDimensions>
+template <typename ScalarType, unsigned int NDimensions>
 void
 ScaleTransform<ScalarType, NDimensions>::Scale(const ScaleType & scale, bool)
 {
@@ -114,7 +114,7 @@ ScaleTransform<ScalarType, NDimensions>::Scale(const ScaleType & scale, bool)
 }
 
 // Transform a point
-template <class ScalarType, unsigned int NDimensions>
+template <typename ScalarType, unsigned int NDimensions>
 typename ScaleTransform<ScalarType, NDimensions>::OutputPointType
 ScaleTransform<ScalarType, NDimensions>::TransformPoint(const InputPointType & point) const
 {
@@ -128,7 +128,7 @@ ScaleTransform<ScalarType, NDimensions>::TransformPoint(const InputPointType & p
 }
 
 // Transform a vector
-template <class ScalarType, unsigned int NDimensions>
+template <typename ScalarType, unsigned int NDimensions>
 typename ScaleTransform<ScalarType, NDimensions>::OutputVectorType
 ScaleTransform<ScalarType, NDimensions>::TransformVector(const InputVectorType & vect) const
 {
@@ -142,7 +142,7 @@ ScaleTransform<ScalarType, NDimensions>::TransformVector(const InputVectorType &
 }
 
 // Transform a vnl_vector_fixed
-template <class ScalarType, unsigned int NDimensions>
+template <typename ScalarType, unsigned int NDimensions>
 typename ScaleTransform<ScalarType, NDimensions>::OutputVnlVectorType
 ScaleTransform<ScalarType, NDimensions>::TransformVector(const InputVnlVectorType & vect) const
 {
@@ -156,7 +156,7 @@ ScaleTransform<ScalarType, NDimensions>::TransformVector(const InputVnlVectorTyp
 }
 
 // Transform a CovariantVector
-template <class ScalarType, unsigned int NDimensions>
+template <typename ScalarType, unsigned int NDimensions>
 typename ScaleTransform<ScalarType, NDimensions>::OutputCovariantVectorType
 ScaleTransform<ScalarType, NDimensions>::TransformCovariantVector(const InputCovariantVectorType & vect) const
 {
@@ -171,7 +171,7 @@ ScaleTransform<ScalarType, NDimensions>::TransformCovariantVector(const InputCov
 }
 
 // Create and return an inverse transformation
-template <class ScalarType, unsigned int NDimensions>
+template <typename ScalarType, unsigned int NDimensions>
 bool
 ScaleTransform<ScalarType, NDimensions>::GetInverse(Self *inverse) const
 {
@@ -188,7 +188,7 @@ ScaleTransform<ScalarType, NDimensions>::GetInverse(Self *inverse) const
 }
 
 // Return an inverse of this transform
-template <class ScalarType, unsigned int NDimensions>
+template <typename ScalarType, unsigned int NDimensions>
 typename ScaleTransform<ScalarType, NDimensions>::InverseTransformBasePointer
 ScaleTransform<ScalarType, NDimensions>
 ::GetInverseTransform() const
@@ -204,7 +204,7 @@ ScaleTransform<ScalarType, NDimensions>
 
 // Compute the Jacobian of the transformation
 // It follows the same order of Parameters vector
-template <class ScalarType, unsigned int NDimensions>
+template <typename ScalarType, unsigned int NDimensions>
 void
 ScaleTransform<ScalarType, NDimensions>
 ::ComputeJacobianWithRespectToParameters(const InputPointType & p, JacobianType & j) const
@@ -218,7 +218,7 @@ ScaleTransform<ScalarType, NDimensions>
 }
 
 // Compute the Jacobian of the transformation with respect to position
-template <class ScalarType, unsigned int NDimensions>
+template <typename ScalarType, unsigned int NDimensions>
 void
 ScaleTransform<ScalarType, NDimensions>
 ::ComputeJacobianWithRespectToPosition(const InputPointType &,
@@ -232,7 +232,7 @@ ScaleTransform<ScalarType, NDimensions>
     }
 }
 
-template <class ScalarType, unsigned int NDimensions>
+template <typename ScalarType, unsigned int NDimensions>
 const typename ScaleTransform<ScalarType, NDimensions>::ParametersType
 & ScaleTransform<ScalarType, NDimensions>
 ::GetFixedParameters(void) const
@@ -241,7 +241,7 @@ const typename ScaleTransform<ScalarType, NDimensions>::ParametersType
   return m_FixedParameters;
   }
 
-template <class ScalarType, unsigned int NDimensions>
+template <typename ScalarType, unsigned int NDimensions>
 void
 ScaleTransform<ScalarType, NDimensions>
 ::ComputeMatrix(void)

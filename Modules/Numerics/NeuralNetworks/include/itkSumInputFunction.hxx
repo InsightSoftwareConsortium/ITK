@@ -26,7 +26,7 @@ namespace Statistics
 {
 
 /** Constructor */
-template<class TMeasurementVector, class ScalarType>
+template<typename TMeasurementVector, typename ScalarType>
 SumInputFunction<TMeasurementVector,ScalarType>
 ::SumInputFunction()
 {
@@ -34,14 +34,14 @@ SumInputFunction<TMeasurementVector,ScalarType>
 }
 
 /** Destructor */
-template<class TMeasurementVector, class ScalarType>
+template<typename TMeasurementVector, typename ScalarType>
 SumInputFunction<TMeasurementVector,ScalarType>
 ::~SumInputFunction()
 {
 }
 
 /** Set the size */
-template<class TMeasurementVector, class ScalarType>
+template<typename TMeasurementVector, typename ScalarType>
 void
 SumInputFunction<TMeasurementVector,ScalarType>
 ::SetSize(unsigned int n)
@@ -51,7 +51,7 @@ SumInputFunction<TMeasurementVector,ScalarType>
 }
 
 /** Evaluate */
-template<class TMeasurementVector, class ScalarType>
+template<typename TMeasurementVector, typename ScalarType>
 ScalarType
 SumInputFunction<TMeasurementVector,ScalarType>
 ::Evaluate(const TMeasurementVector& input)  const
@@ -61,7 +61,7 @@ SumInputFunction<TMeasurementVector,ScalarType>
 }
 
 /** Print the object */
-template<class TMeasurementVector, class ScalarType>
+template<typename TMeasurementVector, typename ScalarType>
 void
 SumInputFunction <TMeasurementVector,ScalarType>
 ::PrintSelf( std::ostream& os, Indent indent ) const

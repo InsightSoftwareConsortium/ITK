@@ -26,7 +26,7 @@
 
 namespace itk
 {
-  template <class TInputImageType, class TOutputImageType>
+  template <typename TInputImageType, typename TOutputImageType>
   class NbTestClass: public NarrowBandImageFilterBase<TInputImageType, TOutputImageType>
   {
      public:

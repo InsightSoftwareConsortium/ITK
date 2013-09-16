@@ -27,7 +27,7 @@ namespace itk
 /**
  * Constructor
  */
-template< class TInputImage >
+template< typename TInputImage >
 ImageToRGBVTKImageFilter< TInputImage >
 ::ImageToRGBVTKImageFilter()
 {
@@ -37,7 +37,7 @@ ImageToRGBVTKImageFilter< TInputImage >
 /**
  * Destructor
  */
-template< class TInputImage >
+template< typename TInputImage >
 ImageToRGBVTKImageFilter< TInputImage >
 ::~ImageToRGBVTKImageFilter()
 {}
@@ -45,7 +45,7 @@ ImageToRGBVTKImageFilter< TInputImage >
 /**
  * Set an itk::Image as input
  */
-template< class TInputImage >
+template< typename TInputImage >
 void
 ImageToRGBVTKImageFilter< TInputImage >
 ::SetInput(const InputImageType *inputImage)
@@ -57,7 +57,7 @@ ImageToRGBVTKImageFilter< TInputImage >
 /**
  * Get a vtkImage as output
  */
-template< class TInputImage >
+template< typename TInputImage >
 vtkSmartPointer< vtkImageData >
 ImageToRGBVTKImageFilter< TInputImage >
 ::GetOutput() const
@@ -68,7 +68,7 @@ ImageToRGBVTKImageFilter< TInputImage >
 /**
  * Delegate the Update to the importer
  */
-template< class TInputImage >
+template< typename TInputImage >
 void
 ImageToRGBVTKImageFilter< TInputImage >
 ::Update()

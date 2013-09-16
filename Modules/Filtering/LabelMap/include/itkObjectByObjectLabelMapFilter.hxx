@@ -32,7 +32,7 @@
 
 namespace itk {
 
-template <class TInputImage, class TOutputImage, class TInputFilter, class TOutputFilter, class TInternalInputImageType, class TInternalOutputImageType>
+template <typename TInputImage, typename TOutputImage, typename TInputFilter, typename TOutputFilter, typename TInternalInputImageType, typename TInternalOutputImageType>
 ObjectByObjectLabelMapFilter<TInputImage, TOutputImage, TInputFilter, TOutputFilter, TInternalInputImageType, TInternalOutputImageType>
 ::ObjectByObjectLabelMapFilter()
 {
@@ -74,7 +74,7 @@ ObjectByObjectLabelMapFilter<TInputImage, TOutputImage, TInputFilter, TOutputFil
 }
 
 
-template <class TInputImage, class TOutputImage, class TInputFilter, class TOutputFilter, class TInternalInputImageType, class TInternalOutputImageType>
+template <typename TInputImage, typename TOutputImage, typename TInputFilter, typename TOutputFilter, typename TInternalInputImageType, typename TInternalOutputImageType>
 void
 ObjectByObjectLabelMapFilter<TInputImage, TOutputImage, TInputFilter, TOutputFilter, TInternalInputImageType, TInternalOutputImageType>
 ::SetFilter( InputFilterType * filter )
@@ -90,7 +90,7 @@ ObjectByObjectLabelMapFilter<TInputImage, TOutputImage, TInputFilter, TOutputFil
 }
 
 
-template <class TInputImage, class TOutputImage, class TInputFilter, class TOutputFilter, class TInternalInputImageType, class TInternalOutputImageType>
+template <typename TInputImage, typename TOutputImage, typename TInputFilter, typename TOutputFilter, typename TInternalInputImageType, typename TInternalOutputImageType>
 void
 ObjectByObjectLabelMapFilter<TInputImage, TOutputImage, TInputFilter, TOutputFilter, TInternalInputImageType, TInternalOutputImageType>
 ::SetInputFilter( InputFilterType * filter )
@@ -103,7 +103,7 @@ ObjectByObjectLabelMapFilter<TInputImage, TOutputImage, TInputFilter, TOutputFil
 }
 
 
-template <class TInputImage, class TOutputImage, class TInputFilter, class TOutputFilter, class TInternalInputImageType, class TInternalOutputImageType>
+template <typename TInputImage, typename TOutputImage, typename TInputFilter, typename TOutputFilter, typename TInternalInputImageType, typename TInternalOutputImageType>
 void
 ObjectByObjectLabelMapFilter<TInputImage, TOutputImage, TInputFilter, TOutputFilter, TInternalInputImageType, TInternalOutputImageType>
 ::SetOutputFilter( OutputFilterType * filter )
@@ -116,7 +116,7 @@ ObjectByObjectLabelMapFilter<TInputImage, TOutputImage, TInputFilter, TOutputFil
 }
 
 
-template <class TInputImage, class TOutputImage, class TInputFilter, class TOutputFilter, class TInternalInputImageType, class TInternalOutputImageType>
+template <typename TInputImage, typename TOutputImage, typename TInputFilter, typename TOutputFilter, typename TInternalInputImageType, typename TInternalOutputImageType>
 void
 ObjectByObjectLabelMapFilter<TInputImage, TOutputImage, TInputFilter, TOutputFilter, TInternalInputImageType, TInternalOutputImageType>
 ::GenerateData()
@@ -272,7 +272,7 @@ ObjectByObjectLabelMapFilter<TInputImage, TOutputImage, TInputFilter, TOutputFil
 }
 
 
-template <class TInputImage, class TOutputImage, class TInputFilter, class TOutputFilter, class TInternalInputImageType, class TInternalOutputImageType>
+template <typename TInputImage, typename TOutputImage, typename TInputFilter, typename TOutputFilter, typename TInternalInputImageType, typename TInternalOutputImageType>
 void
 ObjectByObjectLabelMapFilter<TInputImage, TOutputImage, TInputFilter, TOutputFilter, TInternalInputImageType, TInternalOutputImageType>
 ::PrintSelf(std::ostream &os, Indent indent) const

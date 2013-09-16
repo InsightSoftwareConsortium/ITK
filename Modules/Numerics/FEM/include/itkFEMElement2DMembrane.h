@@ -49,7 +49,7 @@ namespace fem
  *                If not specified, it defaults to the Element base class.
  * \ingroup ITKFEM
  */
-template <class TBaseClass = Element>
+template <typename TBaseClass = Element>
 class Element2DMembrane : public TBaseClass
 {
 public:

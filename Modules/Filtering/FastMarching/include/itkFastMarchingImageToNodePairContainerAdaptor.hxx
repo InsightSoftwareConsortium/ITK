@@ -25,7 +25,7 @@
 namespace itk
 {
 
-template< class TInput, class TOutput, class TImage >
+template< typename TInput, typename TOutput, typename TImage >
 FastMarchingImageToNodePairContainerAdaptor< TInput, TOutput, TImage >
 ::FastMarchingImageToNodePairContainerAdaptor() :
   m_AliveImage( NULL ), m_TrialImage( NULL ), m_ForbiddenImage( NULL ),
@@ -35,7 +35,7 @@ FastMarchingImageToNodePairContainerAdaptor< TInput, TOutput, TImage >
   m_IsForbiddenImageBinaryMask( false )
 {}
 
-template< class TInput, class TOutput, class TImage >
+template< typename TInput, typename TOutput, typename TImage >
 void
 FastMarchingImageToNodePairContainerAdaptor< TInput, TOutput, TImage >
 ::SetAliveImage( const ImageType* iImage )
@@ -43,7 +43,7 @@ FastMarchingImageToNodePairContainerAdaptor< TInput, TOutput, TImage >
   m_AliveImage = iImage;
   }
 
-template< class TInput, class TOutput, class TImage >
+template< typename TInput, typename TOutput, typename TImage >
 void
 FastMarchingImageToNodePairContainerAdaptor< TInput, TOutput, TImage >
 ::SetTrialImage( const ImageType* iImage )
@@ -51,7 +51,7 @@ FastMarchingImageToNodePairContainerAdaptor< TInput, TOutput, TImage >
   m_TrialImage = iImage;
   }
 
-template< class TInput, class TOutput, class TImage >
+template< typename TInput, typename TOutput, typename TImage >
 void
 FastMarchingImageToNodePairContainerAdaptor< TInput, TOutput, TImage >
 ::SetForbiddenImage( const ImageType* iImage )
@@ -59,7 +59,7 @@ FastMarchingImageToNodePairContainerAdaptor< TInput, TOutput, TImage >
   m_ForbiddenImage = iImage;
   }
 
-template< class TInput, class TOutput, class TImage >
+template< typename TInput, typename TOutput, typename TImage >
 typename FastMarchingImageToNodePairContainerAdaptor< TInput, TOutput, TImage >
 ::NodePairContainerType*
 FastMarchingImageToNodePairContainerAdaptor< TInput, TOutput, TImage >
@@ -68,7 +68,7 @@ FastMarchingImageToNodePairContainerAdaptor< TInput, TOutput, TImage >
   return m_AlivePoints.GetPointer();
   }
 
-template< class TInput, class TOutput, class TImage >
+template< typename TInput, typename TOutput, typename TImage >
 typename FastMarchingImageToNodePairContainerAdaptor< TInput, TOutput, TImage >
 ::NodePairContainerType*
 FastMarchingImageToNodePairContainerAdaptor< TInput, TOutput, TImage >
@@ -77,7 +77,7 @@ FastMarchingImageToNodePairContainerAdaptor< TInput, TOutput, TImage >
   return m_TrialPoints.GetPointer();
   }
 
-template< class TInput, class TOutput, class TImage >
+template< typename TInput, typename TOutput, typename TImage >
 typename FastMarchingImageToNodePairContainerAdaptor< TInput, TOutput, TImage >
 ::NodePairContainerType*
 FastMarchingImageToNodePairContainerAdaptor< TInput, TOutput, TImage >
@@ -86,7 +86,7 @@ FastMarchingImageToNodePairContainerAdaptor< TInput, TOutput, TImage >
   return m_ForbiddenPoints.GetPointer();
   }
 
-template< class TInput, class TOutput, class TImage >
+template< typename TInput, typename TOutput, typename TImage >
 void
 FastMarchingImageToNodePairContainerAdaptor< TInput, TOutput, TImage >
 ::Update()
@@ -94,7 +94,7 @@ FastMarchingImageToNodePairContainerAdaptor< TInput, TOutput, TImage >
   this->GenerateData();
   }
 
-template< class TInput, class TOutput, class TImage >
+template< typename TInput, typename TOutput, typename TImage >
 void
 FastMarchingImageToNodePairContainerAdaptor< TInput, TOutput, TImage >
 ::GenerateData()
@@ -126,7 +126,7 @@ FastMarchingImageToNodePairContainerAdaptor< TInput, TOutput, TImage >
     }
 }
 
-template< class TInput, class TOutput, class TImage >
+template< typename TInput, typename TOutput, typename TImage >
 void
 FastMarchingImageToNodePairContainerAdaptor< TInput, TOutput, TImage >
 ::SetPointsFromImage( const ImageType* image, const LabelType& iLabel,

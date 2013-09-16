@@ -26,7 +26,7 @@ namespace itk
 /**
  * Constructor
  */
-template< class TFixedImage, class TMovingImage >
+template< typename TFixedImage, typename TMovingImage >
 MeanReciprocalSquareDifferenceImageToImageMetric< TFixedImage, TMovingImage >
 ::MeanReciprocalSquareDifferenceImageToImageMetric()
 {
@@ -37,7 +37,7 @@ MeanReciprocalSquareDifferenceImageToImageMetric< TFixedImage, TMovingImage >
 /**
  * PrintSelf
  */
-template< class TFixedImage, class TMovingImage >
+template< typename TFixedImage, typename TMovingImage >
 void
 MeanReciprocalSquareDifferenceImageToImageMetric< TFixedImage, TMovingImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -50,7 +50,7 @@ MeanReciprocalSquareDifferenceImageToImageMetric< TFixedImage, TMovingImage >
 /*
  * Get the match Measure
  */
-template< class TFixedImage, class TMovingImage >
+template< typename TFixedImage, typename TMovingImage >
 typename MeanReciprocalSquareDifferenceImageToImageMetric< TFixedImage, TMovingImage >::MeasureType
 MeanReciprocalSquareDifferenceImageToImageMetric< TFixedImage, TMovingImage >
 ::GetValue(const TransformParametersType & parameters) const
@@ -120,7 +120,7 @@ MeanReciprocalSquareDifferenceImageToImageMetric< TFixedImage, TMovingImage >
 /**
  * Get the Derivative Measure
  */
-template< class TFixedImage, class TMovingImage >
+template< typename TFixedImage, typename TMovingImage >
 void
 MeanReciprocalSquareDifferenceImageToImageMetric< TFixedImage, TMovingImage >
 ::GetDerivative(const TransformParametersType & parameters,
@@ -147,7 +147,7 @@ MeanReciprocalSquareDifferenceImageToImageMetric< TFixedImage, TMovingImage >
 /**
  * Get both the match Measure and theDerivative Measure
  */
-template< class TFixedImage, class TMovingImage >
+template< typename TFixedImage, typename TMovingImage >
 void
 MeanReciprocalSquareDifferenceImageToImageMetric< TFixedImage, TMovingImage >
 ::GetValueAndDerivative(const TransformParametersType & parameters,

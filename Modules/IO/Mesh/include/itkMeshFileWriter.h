@@ -73,7 +73,7 @@ public:
  * \ingroup IOFilters
  * \ingroup ITKIOMesh
  */
-template< class TInputMesh >
+template< typename TInputMesh >
 class ITKIOMesh_HIDDEN MeshFileWriter:public ProcessObject
 {
 public:
@@ -155,16 +155,16 @@ protected:
   ~MeshFileWriter();
   void PrintSelf(std::ostream & os, Indent indent) const;
 
-  template< class Output >
+  template< typename Output >
   void CopyPointsToBuffer(Output *data);
 
-  template< class Output >
+  template< typename Output >
   void CopyCellsToBuffer(Output *data);
 
-  template< class Output >
+  template< typename Output >
   void CopyPointDataToBuffer(Output *data);
 
-  template< class Output >
+  template< typename Output >
   void CopyCellDataToBuffer(Output *data);
 
   void WritePoints();

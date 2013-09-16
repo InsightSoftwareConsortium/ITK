@@ -34,7 +34,7 @@
 
 /** \class ImageToImageTestGetValueAndDerivativeThreader
  * \brief Processes points for ImageToImageTest calculation. */
-template < class TDomainPartitioner, class TImageToImageMetricv4 >
+template < typename TDomainPartitioner, typename TImageToImageMetricv4 >
 class ImageToImageTestGetValueAndDerivativeThreader
   : public itk::ImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetricv4 >
 {
@@ -101,7 +101,7 @@ protected:
 };
 
 
-template<class TFixedImage,class TMovingImage,class TVirtualImage>
+template<typename TFixedImage,typename TMovingImage,typename TVirtualImage>
 class ImageToImageMetricv4TestMetric
   : public itk::ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
 {

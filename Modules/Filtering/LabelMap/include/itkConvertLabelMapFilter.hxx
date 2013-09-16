@@ -25,7 +25,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ConvertLabelMapFilter< TInputImage, TOutputImage >
 ::GenerateData()

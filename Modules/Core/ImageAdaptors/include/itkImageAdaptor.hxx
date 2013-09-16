@@ -25,7 +25,7 @@ namespace itk
 /**
  * Constructor
  */
-template< class TImage, class TAccessor >
+template< typename TImage, typename TAccessor >
 ImageAdaptor< TImage, TAccessor >
 ::ImageAdaptor()
 {
@@ -40,13 +40,13 @@ ImageAdaptor< TImage, TAccessor >
 /**
  * Destructor
  */
-template< class TImage, class TAccessor >
+template< typename TImage, typename TAccessor >
 ImageAdaptor< TImage, TAccessor >
 ::~ImageAdaptor()
 {}
 
 //----------------------------------------------------------------------------
-template< class TImage, class TAccessor >
+template< typename TImage, typename TAccessor >
 void
 ImageAdaptor< TImage, TAccessor >
 ::Initialize()
@@ -58,7 +58,7 @@ ImageAdaptor< TImage, TAccessor >
   m_Image->Initialize();
 }
 
-template< class TImage, class TAccessor >
+template< typename TImage, typename TAccessor >
 void
 ImageAdaptor< TImage, TAccessor >
 ::SetPixelContainer(PixelContainer *container)
@@ -71,7 +71,7 @@ ImageAdaptor< TImage, TAccessor >
 }
 
 //----------------------------------------------------------------------------
-template< class TImage, class TAccessor >
+template< typename TImage, typename TAccessor >
 void
 ImageAdaptor< TImage, TAccessor >
 ::Graft(const DataObject *data)
@@ -112,7 +112,7 @@ ImageAdaptor< TImage, TAccessor >
 /**
  *
  */
-template< class TImage, class TAccessor >
+template< typename TImage, typename TAccessor >
 void
 ImageAdaptor< TImage, TAccessor >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -121,7 +121,7 @@ ImageAdaptor< TImage, TAccessor >
 }
 
 //----------------------------------------------------------------------------
-template< class TImage, class TAccessor >
+template< typename TImage, typename TAccessor >
 const typename ImageAdaptor< TImage, TAccessor >::OffsetValueType *
 ImageAdaptor< TImage, TAccessor >
 ::GetOffsetTable(void) const
@@ -130,7 +130,7 @@ ImageAdaptor< TImage, TAccessor >
 }
 
 //----------------------------------------------------------------------------
-template< class TImage, class TAccessor >
+template< typename TImage, typename TAccessor >
 typename ImageAdaptor< TImage, TAccessor >::IndexType
 ImageAdaptor< TImage, TAccessor >
 ::ComputeIndex(OffsetValueType offset) const
@@ -139,7 +139,7 @@ ImageAdaptor< TImage, TAccessor >
 }
 
 //----------------------------------------------------------------------------
-template< class TImage, class TAccessor >
+template< typename TImage, typename TAccessor >
 void
 ImageAdaptor< TImage, TAccessor >
 ::Update()
@@ -150,7 +150,7 @@ ImageAdaptor< TImage, TAccessor >
 }
 
 //----------------------------------------------------------------------------
-template< class TImage, class TAccessor >
+template< typename TImage, typename TAccessor >
 void
 ImageAdaptor< TImage, TAccessor >
 ::UpdateOutputInformation()
@@ -167,7 +167,7 @@ ImageAdaptor< TImage, TAccessor >
 }
 
 //----------------------------------------------------------------------------
-template< class TImage, class TAccessor >
+template< typename TImage, typename TAccessor >
 void
 ImageAdaptor< TImage, TAccessor >
 ::UpdateOutputData()
@@ -181,7 +181,7 @@ ImageAdaptor< TImage, TAccessor >
 }
 
 //----------------------------------------------------------------------------
-template< class TImage, class TAccessor >
+template< typename TImage, typename TAccessor >
 void
 ImageAdaptor< TImage, TAccessor >
 ::PropagateRequestedRegion()
@@ -195,7 +195,7 @@ throw ( InvalidRequestedRegionError )
 }
 
 //----------------------------------------------------------------------------
-template< class TImage, class TAccessor >
+template< typename TImage, typename TAccessor >
 void
 ImageAdaptor< TImage, TAccessor >
 ::SetRequestedRegionToLargestPossibleRegion()
@@ -208,7 +208,7 @@ ImageAdaptor< TImage, TAccessor >
 }
 
 //----------------------------------------------------------------------------
-template< class TImage, class TAccessor >
+template< typename TImage, typename TAccessor >
 void
 ImageAdaptor< TImage, TAccessor >
 ::CopyInformation(const DataObject *data)
@@ -225,7 +225,7 @@ ImageAdaptor< TImage, TAccessor >
 }
 
 //----------------------------------------------------------------------------
-template< class TImage, class TAccessor >
+template< typename TImage, typename TAccessor >
 const typename ImageAdaptor< TImage, TAccessor >::SpacingType &
 ImageAdaptor< TImage, TAccessor >
 ::GetSpacing(void) const
@@ -234,7 +234,7 @@ ImageAdaptor< TImage, TAccessor >
 }
 
 //----------------------------------------------------------------------------
-template< class TImage, class TAccessor >
+template< typename TImage, typename TAccessor >
 void
 ImageAdaptor< TImage, TAccessor >
 ::SetSpacing(const SpacingType & spacing)
@@ -244,7 +244,7 @@ ImageAdaptor< TImage, TAccessor >
 }
 
 //----------------------------------------------------------------------------
-template< class TImage, class TAccessor >
+template< typename TImage, typename TAccessor >
 void
 ImageAdaptor< TImage, TAccessor >
 ::SetSpacing(const double *spacing /*[Self::ImageDimension]*/)
@@ -254,7 +254,7 @@ ImageAdaptor< TImage, TAccessor >
 }
 
 //----------------------------------------------------------------------------
-template< class TImage, class TAccessor >
+template< typename TImage, typename TAccessor >
 void
 ImageAdaptor< TImage, TAccessor >
 ::SetSpacing(const float *spacing /*[Self::ImageDimension]*/)
@@ -264,7 +264,7 @@ ImageAdaptor< TImage, TAccessor >
 }
 
 //----------------------------------------------------------------------------
-template< class TImage, class TAccessor >
+template< typename TImage, typename TAccessor >
 void
 ImageAdaptor< TImage, TAccessor >
 ::SetOrigin(const PointType origin)
@@ -274,7 +274,7 @@ ImageAdaptor< TImage, TAccessor >
 }
 
 //----------------------------------------------------------------------------
-template< class TImage, class TAccessor >
+template< typename TImage, typename TAccessor >
 void
 ImageAdaptor< TImage, TAccessor >
 ::SetOrigin(const double *origin /*[Self::ImageDimension]*/)
@@ -284,7 +284,7 @@ ImageAdaptor< TImage, TAccessor >
 }
 
 //----------------------------------------------------------------------------
-template< class TImage, class TAccessor >
+template< typename TImage, typename TAccessor >
 void
 ImageAdaptor< TImage, TAccessor >
 ::SetOrigin(const float *origin /*[Self::ImageDimension]*/)
@@ -294,7 +294,7 @@ ImageAdaptor< TImage, TAccessor >
 }
 
 //----------------------------------------------------------------------------
-template< class TImage, class TAccessor >
+template< typename TImage, typename TAccessor >
 const typename ImageAdaptor< TImage, TAccessor >::PointType &
 ImageAdaptor< TImage, TAccessor >
 ::GetOrigin(void) const
@@ -303,7 +303,7 @@ ImageAdaptor< TImage, TAccessor >
 }
 
 //----------------------------------------------------------------------------
-template< class TImage, class TAccessor >
+template< typename TImage, typename TAccessor >
 void
 ImageAdaptor< TImage, TAccessor >
 ::SetDirection(const DirectionType direction)
@@ -313,7 +313,7 @@ ImageAdaptor< TImage, TAccessor >
 }
 
 //----------------------------------------------------------------------------
-template< class TImage, class TAccessor >
+template< typename TImage, typename TAccessor >
 const typename ImageAdaptor< TImage, TAccessor >::DirectionType &
 ImageAdaptor< TImage, TAccessor >
 ::GetDirection(void) const
@@ -322,7 +322,7 @@ ImageAdaptor< TImage, TAccessor >
 }
 
 //----------------------------------------------------------------------------
-template< class TImage, class TAccessor >
+template< typename TImage, typename TAccessor >
 void
 ImageAdaptor< TImage, TAccessor >
 ::SetImage(TImage *image)
@@ -336,7 +336,7 @@ ImageAdaptor< TImage, TAccessor >
 }
 
 //----------------------------------------------------------------------------
-template< class TImage, class TAccessor >
+template< typename TImage, typename TAccessor >
 const typename ImageAdaptor< TImage, TAccessor >::InternalPixelType  *
 ImageAdaptor< TImage, TAccessor >
 ::GetBufferPointer() const
@@ -345,7 +345,7 @@ ImageAdaptor< TImage, TAccessor >
 }
 
 //----------------------------------------------------------------------------
-template< class TImage, class TAccessor >
+template< typename TImage, typename TAccessor >
 typename ImageAdaptor< TImage, TAccessor >::InternalPixelType  *
 ImageAdaptor< TImage, TAccessor >
 ::GetBufferPointer()
@@ -354,7 +354,7 @@ ImageAdaptor< TImage, TAccessor >
 }
 
 //----------------------------------------------------------------------------
-template< class TImage, class TAccessor >
+template< typename TImage, typename TAccessor >
 void
 ImageAdaptor< TImage, TAccessor >
 ::Modified() const
@@ -365,7 +365,7 @@ ImageAdaptor< TImage, TAccessor >
 }
 
 //----------------------------------------------------------------------------
-template< class TImage, class TAccessor >
+template< typename TImage, typename TAccessor >
 ModifiedTimeType
 ImageAdaptor< TImage, TAccessor >
 ::GetMTime() const
@@ -379,7 +379,7 @@ ImageAdaptor< TImage, TAccessor >
 }
 
 //----------------------------------------------------------------------------
-template< class TImage, class TAccessor >
+template< typename TImage, typename TAccessor >
 void
 ImageAdaptor< TImage, TAccessor >
 ::SetBufferedRegion(const RegionType & region)
@@ -392,7 +392,7 @@ ImageAdaptor< TImage, TAccessor >
 }
 
 //----------------------------------------------------------------------------
-template< class TImage, class TAccessor >
+template< typename TImage, typename TAccessor >
 const typename ImageAdaptor< TImage, TAccessor >::RegionType &
 ImageAdaptor< TImage, TAccessor >
 ::GetBufferedRegion(void) const
@@ -402,7 +402,7 @@ ImageAdaptor< TImage, TAccessor >
 }
 
 //----------------------------------------------------------------------------
-template< class TImage, class TAccessor >
+template< typename TImage, typename TAccessor >
 void
 ImageAdaptor< TImage, TAccessor >
 ::SetLargestPossibleRegion(const RegionType & region)
@@ -415,7 +415,7 @@ ImageAdaptor< TImage, TAccessor >
 }
 
 //----------------------------------------------------------------------------
-template< class TImage, class TAccessor >
+template< typename TImage, typename TAccessor >
 const typename ImageAdaptor< TImage, TAccessor >::RegionType &
 ImageAdaptor< TImage, TAccessor >
 ::GetLargestPossibleRegion(void) const
@@ -425,7 +425,7 @@ ImageAdaptor< TImage, TAccessor >
 }
 
 //----------------------------------------------------------------------------
-template< class TImage, class TAccessor >
+template< typename TImage, typename TAccessor >
 void
 ImageAdaptor< TImage, TAccessor >
 ::SetRequestedRegion(const RegionType & region)
@@ -438,7 +438,7 @@ ImageAdaptor< TImage, TAccessor >
 }
 
 //----------------------------------------------------------------------------
-template< class TImage, class TAccessor >
+template< typename TImage, typename TAccessor >
 void
 ImageAdaptor< TImage, TAccessor >
 ::SetRequestedRegion(const DataObject *data)
@@ -451,7 +451,7 @@ ImageAdaptor< TImage, TAccessor >
 }
 
 //----------------------------------------------------------------------------
-template< class TImage, class TAccessor >
+template< typename TImage, typename TAccessor >
 bool
 ImageAdaptor< TImage, TAccessor >
 ::VerifyRequestedRegion()
@@ -464,7 +464,7 @@ ImageAdaptor< TImage, TAccessor >
 }
 
 //----------------------------------------------------------------------------
-template< class TImage, class TAccessor >
+template< typename TImage, typename TAccessor >
 const typename ImageAdaptor< TImage, TAccessor >::RegionType &
 ImageAdaptor< TImage, TAccessor >
 ::GetRequestedRegion(void) const

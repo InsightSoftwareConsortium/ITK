@@ -100,8 +100,8 @@ namespace itk
  * \ingroup ITKFastMarching
  */
 template<
-  class TLevelSet,
-  class TSpeedImage = Image< float,  TLevelSet ::ImageDimension > >
+  typename TLevelSet,
+  typename TSpeedImage = Image< float,  TLevelSet ::ImageDimension > >
 class FastMarchingImageFilter:
   public ImageToImageFilter< TSpeedImage, TLevelSet >
 {

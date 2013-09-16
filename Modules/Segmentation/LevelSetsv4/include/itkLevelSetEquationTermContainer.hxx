@@ -25,7 +25,7 @@
 namespace itk
 {
 // ----------------------------------------------------------------------------
-template< class TInputImage, class TLevelSetContainer >
+template< typename TInputImage, typename TLevelSetContainer >
 LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
 ::LevelSetEquationTermContainer()
 {
@@ -33,13 +33,13 @@ LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
 }
 
 // ----------------------------------------------------------------------------
-template< class TInputImage, class TLevelSetContainer >
+template< typename TInputImage, typename TLevelSetContainer >
 LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
 ::~LevelSetEquationTermContainer()
 {}
 
 // ----------------------------------------------------------------------------
-template< class TInputImage, class TLevelSetContainer >
+template< typename TInputImage, typename TLevelSetContainer >
 typename LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
 ::Iterator
 LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
@@ -49,7 +49,7 @@ LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
 }
 
 // ----------------------------------------------------------------------------
-template< class TInputImage, class TLevelSetContainer >
+template< typename TInputImage, typename TLevelSetContainer >
 typename LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
 ::Iterator
 LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
@@ -59,7 +59,7 @@ LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
 }
 
 // ----------------------------------------------------------------------------
-template< class TInputImage, class TLevelSetContainer >
+template< typename TInputImage, typename TLevelSetContainer >
 typename LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
 ::ConstIterator
 LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
@@ -69,7 +69,7 @@ LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
 }
 
 // ----------------------------------------------------------------------------
-template< class TInputImage, class TLevelSetContainer >
+template< typename TInputImage, typename TLevelSetContainer >
 typename LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
 ::ConstIterator
 LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
@@ -79,7 +79,7 @@ LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
 }
 
 // ----------------------------------------------------------------------------
-template< class TInputImage, class TLevelSetContainer >
+template< typename TInputImage, typename TLevelSetContainer >
 void
 LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
 ::AddTerm( const TermIdType& iId, TermType* iTerm )
@@ -135,7 +135,7 @@ LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
 }
 
 // ----------------------------------------------------------------------------
-template< class TInputImage, class TLevelSetContainer >
+template< typename TInputImage, typename TLevelSetContainer >
 void
 LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
 ::PushTerm( TermType* iTerm )
@@ -195,7 +195,7 @@ LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
 }
 
 // ----------------------------------------------------------------------------
-template< class TInputImage, class TLevelSetContainer >
+template< typename TInputImage, typename TLevelSetContainer >
 typename LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >::TermType*
 LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >::
 GetTerm( const std::string& iName )
@@ -211,7 +211,7 @@ GetTerm( const std::string& iName )
 }
 
 // ----------------------------------------------------------------------------
-template< class TInputImage, class TLevelSetContainer >
+template< typename TInputImage, typename TLevelSetContainer >
 typename LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >::TermType*
 LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >::
 GetTerm( const TermIdType& iId )
@@ -227,7 +227,7 @@ GetTerm( const TermIdType& iId )
 }
 
 // ----------------------------------------------------------------------------
-template< class TInputImage, class TLevelSetContainer >
+template< typename TInputImage, typename TLevelSetContainer >
 void
 LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
 ::Initialize( const LevelSetInputIndexType& iP )
@@ -243,7 +243,7 @@ LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
 }
 
 // ----------------------------------------------------------------------------
-template< class TInputImage, class TLevelSetContainer >
+template< typename TInputImage, typename TLevelSetContainer >
 void
 LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
 ::UpdatePixel( const LevelSetInputIndexType& iP,
@@ -261,7 +261,7 @@ LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
 }
 
 // ----------------------------------------------------------------------------
-template< class TInputImage, class TLevelSetContainer >
+template< typename TInputImage, typename TLevelSetContainer >
 void
 LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
 ::InitializeParameters()
@@ -277,7 +277,7 @@ LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
 }
 
 // ----------------------------------------------------------------------------
-template< class TInputImage, class TLevelSetContainer >
+template< typename TInputImage, typename TLevelSetContainer >
 typename LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >::LevelSetOutputRealType
 LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
 ::Evaluate( const LevelSetInputIndexType& iP )
@@ -304,7 +304,7 @@ LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
 }
 
 // ----------------------------------------------------------------------------
-template< class TInputImage, class TLevelSetContainer >
+template< typename TInputImage, typename TLevelSetContainer >
 typename LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >::LevelSetOutputRealType
 LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
 ::Evaluate( const LevelSetInputIndexType& iP, const LevelSetDataType& iData )
@@ -331,7 +331,7 @@ LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
 }
 
 // ----------------------------------------------------------------------------
-template< class TInputImage, class TLevelSetContainer >
+template< typename TInputImage, typename TLevelSetContainer >
 void
 LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
 ::Update()
@@ -351,7 +351,7 @@ LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
 }
 
 // ----------------------------------------------------------------------------
-template< class TInputImage, class TLevelSetContainer >
+template< typename TInputImage, typename TLevelSetContainer >
 typename LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >::LevelSetOutputRealType
 LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
 ::ComputeCFLContribution() const
@@ -381,7 +381,7 @@ LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
 }
 
 // ----------------------------------------------------------------------------
-template< class TInputImage, class TLevelSetContainer >
+template< typename TInputImage, typename TLevelSetContainer >
 void
 LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
 ::ComputeRequiredData( const LevelSetInputIndexType& iP, LevelSetDataType& ioData )

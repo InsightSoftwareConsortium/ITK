@@ -31,7 +31,7 @@ namespace itk
 /**
  *
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 PadImageFilter< TInputImage, TOutputImage >
 ::PadImageFilter()
 {
@@ -47,7 +47,7 @@ PadImageFilter< TInputImage, TOutputImage >
 /**
  *
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 PadImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -96,7 +96,7 @@ PadImageFilter< TInputImage, TOutputImage >
  *
  * \sa ProcessObject::GenerateInputRequestedRegion()
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 PadImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
@@ -138,7 +138,7 @@ PadImageFilter< TInputImage, TOutputImage >
  *
  * \sa ProcessObject::GenerateOutputInformaton()
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 PadImageFilter< TInputImage, TOutputImage >
 ::GenerateOutputInformation()
@@ -179,7 +179,7 @@ PadImageFilter< TInputImage, TOutputImage >
   outputPtr->SetLargestPossibleRegion(outputLargestPossibleRegion);
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 PadImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
@@ -234,7 +234,7 @@ PadImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 PadImageFilter< TInputImage, TOutputImage >
 ::InternalSetBoundaryCondition( const BoundaryConditionPointerType boundaryCondition )

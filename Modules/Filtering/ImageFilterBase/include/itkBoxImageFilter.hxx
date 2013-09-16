@@ -23,14 +23,14 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 BoxImageFilter< TInputImage, TOutputImage >
 ::BoxImageFilter()
 {
   m_Radius.Fill(1);     // a good arbitrary starting point
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 BoxImageFilter< TInputImage, TOutputImage >
 ::SetRadius(const RadiusType & radius)
@@ -42,7 +42,7 @@ BoxImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 BoxImageFilter< TInputImage, TOutputImage >
 ::SetRadius(const RadiusValueType & radius)
@@ -53,7 +53,7 @@ BoxImageFilter< TInputImage, TOutputImage >
   this->SetRadius(rad);
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 BoxImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
@@ -104,7 +104,7 @@ BoxImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 BoxImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

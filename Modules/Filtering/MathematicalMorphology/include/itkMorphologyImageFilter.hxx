@@ -27,7 +27,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 MorphologyImageFilter< TInputImage, TOutputImage, TKernel >
 ::MorphologyImageFilter()
 {
@@ -35,7 +35,7 @@ MorphologyImageFilter< TInputImage, TOutputImage, TKernel >
   m_BoundaryCondition = &m_DefaultBoundaryCondition;
 }
 
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 void
 MorphologyImageFilter< TInputImage, TOutputImage, TKernel >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
@@ -80,7 +80,7 @@ MorphologyImageFilter< TInputImage, TOutputImage, TKernel >
     }
 }
 
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 void
 MorphologyImageFilter< TInputImage, TOutputImage, TKernel >
 ::PrintSelf(std::ostream & os, Indent indent) const

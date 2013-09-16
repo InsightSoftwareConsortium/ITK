@@ -80,10 +80,10 @@ namespace itk
  * \wikiexample{ImageProcessing/ResampleImageFilter,Resample (stretch or compress) an image}
  * \endwiki
  */
-template< class TInputImage,
-          class TOutputImage,
-          class TInterpolatorPrecisionType = double,
-          class TTransformPrecisionType = TInterpolatorPrecisionType>
+template< typename TInputImage,
+          typename TOutputImage,
+          typename TInterpolatorPrecisionType = double,
+          typename TTransformPrecisionType = TInterpolatorPrecisionType>
 class ResampleImageFilter :
   public ImageToImageFilter< TInputImage, TOutputImage >
 {

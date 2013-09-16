@@ -30,7 +30,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
 ::BinaryImageToLabelMapFilter()
 {
@@ -40,7 +40,7 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
   this->m_InputForegroundValue = NumericTraits< InputPixelType >::max();
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
@@ -57,7 +57,7 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
   input->SetRequestedRegion( input->GetLargestPossibleRegion() );
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
 ::EnlargeOutputRequestedRegion(DataObject *)
@@ -66,7 +66,7 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
   ->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
 ::BeforeThreadedGenerateData()
@@ -102,7 +102,7 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
   m_FirstLineIdToJoin.resize(nbOfThreads - 1);
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData(const RegionType & outputRegionForThread,
@@ -329,7 +329,7 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
 ::AfterThreadedGenerateData()
@@ -373,7 +373,7 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
   m_LineMap.clear();
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
 ::SetupLineOffsets(OffsetVectorType & LineOffsets)
@@ -432,7 +432,7 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
   // LineOffsets is the thing we wanted.
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 bool
 BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
 ::CheckNeighbors(const OutputIndexType & A,
@@ -453,7 +453,7 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
   return ( true );
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
 ::CompareLines(lineEncoding & current, const lineEncoding & Neighbour)
@@ -538,7 +538,7 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
 }
 
 // union find related functions
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
 ::InsertSet(const LabelType label)
@@ -546,7 +546,7 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
   m_UnionFind[label] = label;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 typename BinaryImageToLabelMapFilter< TInputImage, TOutputImage >::LabelType
 BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
 ::CreateConsecutive()
@@ -572,7 +572,7 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
   return count;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 typename BinaryImageToLabelMapFilter< TInputImage, TOutputImage >::LabelType
 BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
 ::LookupSet(const LabelType label)
@@ -585,7 +585,7 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
   return ( m_UnionFind[label] );
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
 ::LinkLabels(const LabelType lab1, const LabelType lab2)
@@ -603,7 +603,7 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

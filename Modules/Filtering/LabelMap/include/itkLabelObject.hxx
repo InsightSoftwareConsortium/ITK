@@ -25,14 +25,14 @@
 
 namespace itk
 {
-template< class TLabel, unsigned int VImageDimension >
+template< typename TLabel, unsigned int VImageDimension >
 LabelObject< TLabel, VImageDimension >::LabelObject()
 {
   m_Label = NumericTraits< LabelType >::Zero;
   m_LineContainer.clear();
 }
 
-template< class TLabel, unsigned int VImageDimension >
+template< typename TLabel, unsigned int VImageDimension >
 typename LabelObject< TLabel, VImageDimension >::AttributeType
 LabelObject< TLabel, VImageDimension >::GetAttributeFromName(const std::string & s)
 {
@@ -44,7 +44,7 @@ LabelObject< TLabel, VImageDimension >::GetAttributeFromName(const std::string &
   itkGenericExceptionMacro(<< "Unknown attribute: " << s);
 }
 
-template< class TLabel, unsigned int VImageDimension >
+template< typename TLabel, unsigned int VImageDimension >
 std::string
 LabelObject< TLabel, VImageDimension >
 ::GetNameFromAttribute(const AttributeType & a)
@@ -61,14 +61,14 @@ LabelObject< TLabel, VImageDimension >
 /**
  * Set/Get the label associated with that object.
  */
-template< class TLabel, unsigned int VImageDimension >
+template< typename TLabel, unsigned int VImageDimension >
 const typename LabelObject< TLabel, VImageDimension >::LabelType &
 LabelObject< TLabel, VImageDimension >::GetLabel() const
 {
   return m_Label;
 }
 
-template< class TLabel, unsigned int VImageDimension >
+template< typename TLabel, unsigned int VImageDimension >
 void
 LabelObject< TLabel, VImageDimension >::SetLabel(const LabelType & label)
 {
@@ -79,7 +79,7 @@ LabelObject< TLabel, VImageDimension >::SetLabel(const LabelType & label)
  * Return true if the object contain the given index and false otherwise.
  * Worst case complexity is O(L) where L is the number of lines in the object.
  */
-template< class TLabel, unsigned int VImageDimension >
+template< typename TLabel, unsigned int VImageDimension >
 bool
 LabelObject< TLabel, VImageDimension >::HasIndex(const IndexType & idx) const
 {
@@ -99,7 +99,7 @@ LabelObject< TLabel, VImageDimension >::HasIndex(const IndexType & idx) const
 }
 
 
-template< class TLabel, unsigned int VImageDimension >
+template< typename TLabel, unsigned int VImageDimension >
 bool
 LabelObject< TLabel, VImageDimension >::RemoveIndex(const IndexType & idx)
 {
@@ -153,7 +153,7 @@ LabelObject< TLabel, VImageDimension >::RemoveIndex(const IndexType & idx)
  * Add an index to the object. If the index is already in the object, the index can
  * be found several time in the object.
  */
-template< class TLabel, unsigned int VImageDimension >
+template< typename TLabel, unsigned int VImageDimension >
 void
 LabelObject< TLabel, VImageDimension >::AddIndex(const IndexType & idx)
 {
@@ -174,7 +174,7 @@ LabelObject< TLabel, VImageDimension >::AddIndex(const IndexType & idx)
 /**
  * Add a new line to the object, without any check.
  */
-template< class TLabel, unsigned int VImageDimension >
+template< typename TLabel, unsigned int VImageDimension >
 void
 LabelObject< TLabel, VImageDimension >::AddLine(const IndexType & idx, const LengthType & length)
 {
@@ -186,21 +186,21 @@ LabelObject< TLabel, VImageDimension >::AddLine(const IndexType & idx, const Len
 /**
  * Add a new line to the object, without any check.
  */
-template< class TLabel, unsigned int VImageDimension >
+template< typename TLabel, unsigned int VImageDimension >
 void
 LabelObject< TLabel, VImageDimension >::AddLine(const LineType & line)
 {
   m_LineContainer.push_back(line);
 }
 
-template< class TLabel, unsigned int VImageDimension >
+template< typename TLabel, unsigned int VImageDimension >
 typename LabelObject< TLabel, VImageDimension >::SizeValueType
 LabelObject< TLabel, VImageDimension >::GetNumberOfLines() const
 {
   return m_LineContainer.size();
 }
 
-template< class TLabel, unsigned int VImageDimension >
+template< typename TLabel, unsigned int VImageDimension >
 const
 typename LabelObject< TLabel, VImageDimension >::LineType &
 LabelObject< TLabel, VImageDimension >::GetLine(SizeValueType i) const
@@ -208,14 +208,14 @@ LabelObject< TLabel, VImageDimension >::GetLine(SizeValueType i) const
   return m_LineContainer[i];
 }
 
-template< class TLabel, unsigned int VImageDimension >
+template< typename TLabel, unsigned int VImageDimension >
 typename LabelObject< TLabel, VImageDimension >::LineType &
 LabelObject< TLabel, VImageDimension >::GetLine(SizeValueType i)
 {
   return m_LineContainer[i];
 }
 
-template< class TLabel, unsigned int VImageDimension >
+template< typename TLabel, unsigned int VImageDimension >
 typename LabelObject< TLabel, VImageDimension >::SizeValueType
 LabelObject< TLabel, VImageDimension >::Size() const
 {
@@ -230,14 +230,14 @@ LabelObject< TLabel, VImageDimension >::Size() const
   return size;
 }
 
-template< class TLabel, unsigned int VImageDimension >
+template< typename TLabel, unsigned int VImageDimension >
 bool
 LabelObject< TLabel, VImageDimension >::Empty() const
 {
   return this->m_LineContainer.empty();
 }
 
-template< class TLabel, unsigned int VImageDimension >
+template< typename TLabel, unsigned int VImageDimension >
 typename LabelObject< TLabel, VImageDimension >::IndexType
 LabelObject< TLabel, VImageDimension >::GetIndex(SizeValueType offset) const
 {
@@ -266,7 +266,7 @@ LabelObject< TLabel, VImageDimension >::GetIndex(SizeValueType offset) const
 }
 
 /** Copy the attributes of another node to this one */
-template< class TLabel, unsigned int VImageDimension >
+template< typename TLabel, unsigned int VImageDimension >
 void
 LabelObject< TLabel, VImageDimension >::CopyAttributesFrom(const Self *src)
 {
@@ -275,7 +275,7 @@ LabelObject< TLabel, VImageDimension >::CopyAttributesFrom(const Self *src)
 }
 
 /** Copy the lines, the label and the attributes from another node. */
-template< class TLabel, unsigned int VImageDimension >
+template< typename TLabel, unsigned int VImageDimension >
 void
 LabelObject< TLabel, VImageDimension >::CopyAllFrom(const Self *src)
 {
@@ -288,7 +288,7 @@ LabelObject< TLabel, VImageDimension >::CopyAllFrom(const Self *src)
 /** Reorder the lines, merge the touching lines and ensure that no
  * pixel is covered by two lines
  */
-template< class TLabel, unsigned int VImageDimension >
+template< typename TLabel, unsigned int VImageDimension >
 void
 LabelObject< TLabel, VImageDimension >::Optimize()
 {
@@ -349,7 +349,7 @@ LabelObject< TLabel, VImageDimension >::Optimize()
     }
 }
 
-template< class TLabel, unsigned int VImageDimension >
+template< typename TLabel, unsigned int VImageDimension >
 void
 LabelObject< TLabel, VImageDimension >
 ::Shift( OffsetType offset )
@@ -363,7 +363,7 @@ LabelObject< TLabel, VImageDimension >
     }
 }
 
-template< class TLabel, unsigned int VImageDimension >
+template< typename TLabel, unsigned int VImageDimension >
 void
 LabelObject< TLabel, VImageDimension >
 ::Clear()
@@ -371,7 +371,7 @@ LabelObject< TLabel, VImageDimension >
   m_LineContainer.clear();
 }
 
-template< class TLabel, unsigned int VImageDimension >
+template< typename TLabel, unsigned int VImageDimension >
 void
 LabelObject< TLabel, VImageDimension >::PrintSelf(std::ostream & os, Indent indent) const
 {

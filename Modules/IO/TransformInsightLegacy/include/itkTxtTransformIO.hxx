@@ -28,17 +28,17 @@
 #include "itkNumberToString.h"
 namespace itk
 {
-template<class ParametersValueType>
+template<typename ParametersValueType>
 TxtTransformIOTemplate<ParametersValueType>
 ::TxtTransformIOTemplate()
 {}
 
-template<class ParametersValueType>
+template<typename ParametersValueType>
 TxtTransformIOTemplate<ParametersValueType>
 ::~TxtTransformIOTemplate()
 {}
 
-template<class ParametersValueType>
+template<typename ParametersValueType>
 bool
 TxtTransformIOTemplate<ParametersValueType>
 ::CanReadFile(const char *fileName)
@@ -50,7 +50,7 @@ TxtTransformIOTemplate<ParametersValueType>
   return recognizedExtension;
 }
 
-template<class ParametersValueType>
+template<typename ParametersValueType>
 bool
 TxtTransformIOTemplate<ParametersValueType>
 ::CanWriteFile(const char *fileName)
@@ -62,7 +62,7 @@ TxtTransformIOTemplate<ParametersValueType>
   return recognizedExtension;
 }
 
-template<class ParametersValueType>
+template<typename ParametersValueType>
 std::string
 TxtTransformIOTemplate<ParametersValueType>
 ::trim(std::string const & source, char const *delims)
@@ -87,7 +87,7 @@ TxtTransformIOTemplate<ParametersValueType>
   return result;
 }
 
-template<class ParametersValueType>
+template<typename ParametersValueType>
 void
 TxtTransformIOTemplate<ParametersValueType>
 ::ReadComponentFile( std::string Value )
@@ -120,7 +120,7 @@ TxtTransformIOTemplate<ParametersValueType>
   this->GetReadTransformList().push_back (transform);
 }
 
-template<class ParametersValueType>
+template<typename ParametersValueType>
 void
 TxtTransformIOTemplate<ParametersValueType>
 ::Read()
@@ -290,7 +290,7 @@ TxtTransformIOTemplate<ParametersValueType>
 }
 
 namespace {
-template<class ParametersValueType>
+template<typename ParametersValueType>
 void print_vector(std::ofstream& s, vnl_vector<ParametersValueType> const &v)
 {
   NumberToString<ParametersValueType> convert;
@@ -305,7 +305,7 @@ void print_vector(std::ofstream& s, vnl_vector<ParametersValueType> const &v)
 }
 }
 
-template<class ParametersValueType>
+template<typename ParametersValueType>
 void
 TxtTransformIOTemplate<ParametersValueType>
 ::Write()

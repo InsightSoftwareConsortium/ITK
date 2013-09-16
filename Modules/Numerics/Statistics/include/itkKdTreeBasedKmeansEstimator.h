@@ -73,7 +73,7 @@ namespace Statistics
  * \endwiki
  */
 
-template< class TKdTree >
+template< typename TKdTree >
 class KdTreeBasedKmeansEstimator:
   public Object
 {

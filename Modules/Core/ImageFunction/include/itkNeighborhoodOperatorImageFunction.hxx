@@ -25,13 +25,13 @@
 namespace itk
 {
 /** Set the Input Image */
-template< class TInputImage, class TOutput >
+template< typename TInputImage, typename TOutput >
 NeighborhoodOperatorImageFunction< TInputImage, TOutput >
 ::NeighborhoodOperatorImageFunction()
 {}
 
 /** Print self method */
-template< class TInputImage, class TOutput >
+template< typename TInputImage, typename TOutput >
 void
 NeighborhoodOperatorImageFunction< TInputImage, TOutput >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -41,7 +41,7 @@ NeighborhoodOperatorImageFunction< TInputImage, TOutput >
 }
 
 /** Evaluate the function at the specifed point */
-template< class TInputImage, class TOutput >
+template< typename TInputImage, typename TOutput >
 TOutput
 NeighborhoodOperatorImageFunction< TInputImage, TOutput >
 ::EvaluateAtIndex(const IndexType & index) const

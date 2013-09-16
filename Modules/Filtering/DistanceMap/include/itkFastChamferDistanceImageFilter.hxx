@@ -26,7 +26,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 FastChamferDistanceImageFilter< TInputImage, TOutputImage >
 ::FastChamferDistanceImageFilter()
 {
@@ -54,7 +54,7 @@ FastChamferDistanceImageFilter< TInputImage, TOutputImage >
   m_NarrowBand = 0;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 FastChamferDistanceImageFilter< TInputImage, TOutputImage >
 ::SetRegionToProcess(const RegionType & r)
@@ -66,7 +66,7 @@ FastChamferDistanceImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 typename FastChamferDistanceImageFilter< TInputImage, TOutputImage >::RegionType
 FastChamferDistanceImageFilter< TInputImage, TOutputImage >
 ::GetRegionToProcess() const
@@ -74,7 +74,7 @@ FastChamferDistanceImageFilter< TInputImage, TOutputImage >
   return m_RegionToProcess;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 FastChamferDistanceImageFilter< TInputImage, TOutputImage >::
 SetNarrowBand(NarrowBandType *ptr)
@@ -86,14 +86,14 @@ SetNarrowBand(NarrowBandType *ptr)
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 typename FastChamferDistanceImageFilter< TInputImage, TOutputImage >::NarrowBandPointer
 FastChamferDistanceImageFilter< TInputImage, TOutputImage >::GetNarrowBand() const
 {
   return m_NarrowBand;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void FastChamferDistanceImageFilter< TInputImage, TOutputImage >
 ::GenerateDataND()
 {
@@ -269,7 +269,7 @@ void FastChamferDistanceImageFilter< TInputImage, TOutputImage >
   delete[] neighbor_type;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 FastChamferDistanceImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
@@ -303,7 +303,7 @@ FastChamferDistanceImageFilter< TInputImage, TOutputImage >
   this->GenerateDataND();
 } // end GenerateData()
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 FastChamferDistanceImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

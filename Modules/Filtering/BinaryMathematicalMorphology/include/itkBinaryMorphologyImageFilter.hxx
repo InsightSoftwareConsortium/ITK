@@ -29,7 +29,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 BinaryMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
 ::BinaryMorphologyImageFilter()
 {
@@ -39,7 +39,7 @@ BinaryMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
   this->AnalyzeKernel();
 }
 
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 void
 BinaryMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
 ::SetKernel(const KernelType & kernel)
@@ -49,7 +49,7 @@ BinaryMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
   this->AnalyzeKernel();
 }
 
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 void
 BinaryMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
 ::AnalyzeKernel(void)
@@ -333,7 +333,7 @@ BinaryMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
 /**
  * Standard "PrintSelf" method
  */
-template< class TInputImage, class TOutput, class TKernel >
+template< typename TInputImage, typename TOutput, typename TKernel >
 void
 BinaryMorphologyImageFilter< TInputImage, TOutput, TKernel >
 ::PrintSelf(std::ostream & os, Indent indent) const

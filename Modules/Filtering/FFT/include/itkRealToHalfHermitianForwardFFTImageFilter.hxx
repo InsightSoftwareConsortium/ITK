@@ -27,7 +27,7 @@
 namespace itk
 {
 
-template< typename TSelfPointer, class TInputImage, class TOutputImage, typename TPixel >
+template< typename TSelfPointer, typename TInputImage, typename TOutputImage, typename TPixel >
 struct DispatchFFTW_R2C_New
 {
   static TSelfPointer Apply()
@@ -38,7 +38,7 @@ struct DispatchFFTW_R2C_New
 };
 
 #ifdef ITK_USE_FFTWD
-template< typename TSelfPointer, class TInputImage, class TOutputImage >
+template< typename TSelfPointer, typename TInputImage, typename TOutputImage >
 struct DispatchFFTW_R2C_New< TSelfPointer, TInputImage, TOutputImage, double >
 {
   static TSelfPointer Apply()
@@ -50,7 +50,7 @@ struct DispatchFFTW_R2C_New< TSelfPointer, TInputImage, TOutputImage, double >
 #endif
 
 #ifdef ITK_USE_FFTWF
-template< typename TSelfPointer, class TInputImage, class TOutputImage >
+template< typename TSelfPointer, typename TInputImage, typename TOutputImage >
 struct DispatchFFTW_R2C_New< TSelfPointer, TInputImage, TOutputImage, float >
 {
   static TSelfPointer Apply()
@@ -61,7 +61,7 @@ struct DispatchFFTW_R2C_New< TSelfPointer, TInputImage, TOutputImage, float >
 };
 #endif
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 typename RealToHalfHermitianForwardFFTImageFilter< TInputImage, TOutputImage >::Pointer
 RealToHalfHermitianForwardFFTImageFilter< TInputImage, TOutputImage >
 ::New(void)
@@ -78,7 +78,7 @@ RealToHalfHermitianForwardFFTImageFilter< TInputImage, TOutputImage >
   return smartPtr;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 RealToHalfHermitianForwardFFTImageFilter< TInputImage, TOutputImage >
 ::GenerateOutputInformation()
@@ -123,7 +123,7 @@ RealToHalfHermitianForwardFFTImageFilter< TInputImage, TOutputImage >
   outputPtr->SetLargestPossibleRegion( outputLargestPossibleRegion );
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 RealToHalfHermitianForwardFFTImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
@@ -143,7 +143,7 @@ RealToHalfHermitianForwardFFTImageFilter< TInputImage, TOutputImage >
   input->SetRequestedRegionToLargestPossibleRegion();
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 RealToHalfHermitianForwardFFTImageFilter< TInputImage, TOutputImage >
 ::EnlargeOutputRequestedRegion(DataObject *output)

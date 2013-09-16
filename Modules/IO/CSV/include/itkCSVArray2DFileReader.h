@@ -74,7 +74,7 @@ namespace itk
  *
  * \ingroup ITKIOCSV
  */
-template <class TData>
+template <typename TData>
 class CSVArray2DFileReader:public CSVFileReaderBase
 {
 public:

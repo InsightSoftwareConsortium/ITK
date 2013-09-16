@@ -27,7 +27,7 @@
 namespace itk
 {
 
-template<class TTransform>
+template<typename TTransform>
 DisplacementFieldTransformParametersAdaptor<TTransform>
 ::DisplacementFieldTransformParametersAdaptor()
 {
@@ -35,13 +35,13 @@ DisplacementFieldTransformParametersAdaptor<TTransform>
   this->m_RequiredFixedParameters.Fill( 0.0 );
 }
 
-template<class TTransform>
+template<typename TTransform>
 DisplacementFieldTransformParametersAdaptor<TTransform>
 ::~DisplacementFieldTransformParametersAdaptor()
 {
 }
 
-template<class TTransform>
+template<typename TTransform>
 void
 DisplacementFieldTransformParametersAdaptor<TTransform>
 ::SetRequiredSize( const SizeType & size )
@@ -63,7 +63,7 @@ DisplacementFieldTransformParametersAdaptor<TTransform>
     }
 }
 
-template<class TTransform>
+template<typename TTransform>
 const typename DisplacementFieldTransformParametersAdaptor<TTransform>::SizeType
 DisplacementFieldTransformParametersAdaptor<TTransform>
 ::GetRequiredSize() const
@@ -76,7 +76,7 @@ DisplacementFieldTransformParametersAdaptor<TTransform>
   return size;
 }
 
-template<class TTransform>
+template<typename TTransform>
 void
 DisplacementFieldTransformParametersAdaptor<TTransform>
 ::SetRequiredOrigin( const PointType & origin )
@@ -98,7 +98,7 @@ DisplacementFieldTransformParametersAdaptor<TTransform>
     }
 }
 
-template<class TTransform>
+template<typename TTransform>
 const typename DisplacementFieldTransformParametersAdaptor<TTransform>::PointType
 DisplacementFieldTransformParametersAdaptor<TTransform>
 ::GetRequiredOrigin() const
@@ -111,7 +111,7 @@ DisplacementFieldTransformParametersAdaptor<TTransform>
   return origin;
 }
 
-template<class TTransform>
+template<typename TTransform>
 void
 DisplacementFieldTransformParametersAdaptor<TTransform>
 ::SetRequiredSpacing( const SpacingType & spacing )
@@ -133,7 +133,7 @@ DisplacementFieldTransformParametersAdaptor<TTransform>
     }
 }
 
-template<class TTransform>
+template<typename TTransform>
 const typename DisplacementFieldTransformParametersAdaptor<TTransform>::SpacingType
 DisplacementFieldTransformParametersAdaptor<TTransform>
 ::GetRequiredSpacing() const
@@ -146,7 +146,7 @@ DisplacementFieldTransformParametersAdaptor<TTransform>
   return spacing;
 }
 
-template<class TTransform>
+template<typename TTransform>
 void
 DisplacementFieldTransformParametersAdaptor<TTransform>
 ::SetRequiredDirection( const DirectionType & direction )
@@ -171,7 +171,7 @@ DisplacementFieldTransformParametersAdaptor<TTransform>
     }
 }
 
-template<class TTransform>
+template<typename TTransform>
 const typename DisplacementFieldTransformParametersAdaptor<TTransform>::DirectionType
 DisplacementFieldTransformParametersAdaptor<TTransform>
 ::GetRequiredDirection() const
@@ -187,7 +187,7 @@ DisplacementFieldTransformParametersAdaptor<TTransform>
   return direction;
 }
 
-template<class TTransform>
+template<typename TTransform>
 void
 DisplacementFieldTransformParametersAdaptor<TTransform>
 ::AdaptTransformParameters()

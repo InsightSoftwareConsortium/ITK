@@ -29,7 +29,7 @@ namespace itk
 /**
  * Constructor
  */
-template< class TInputImage, class TOutputImage, class TAccumulator >
+template< typename TInputImage, typename TOutputImage, typename TAccumulator >
 ProjectionImageFilter< TInputImage, TOutputImage, TAccumulator >
 ::ProjectionImageFilter()
 {
@@ -37,7 +37,7 @@ ProjectionImageFilter< TInputImage, TOutputImage, TAccumulator >
   m_ProjectionDimension = InputImageDimension - 1;
 }
 
-template< class TInputImage, class TOutputImage, class TAccumulator >
+template< typename TInputImage, typename TOutputImage, typename TAccumulator >
 void
 ProjectionImageFilter< TInputImage, TOutputImage, TAccumulator >
 ::GenerateOutputInformation()
@@ -127,7 +127,7 @@ ProjectionImageFilter< TInputImage, TOutputImage, TAccumulator >
   itkDebugMacro("GenerateOutputInformation End");
 }
 
-template< class TInputImage, class TOutputImage, class TAccumulator >
+template< typename TInputImage, typename TOutputImage, typename TAccumulator >
 void
 ProjectionImageFilter< TInputImage, TOutputImage, TAccumulator >
 ::GenerateInputRequestedRegion()
@@ -211,7 +211,7 @@ ProjectionImageFilter< TInputImage, TOutputImage, TAccumulator >
 /**
  * GenerateData Performs the accumulation
  */
-template< class TInputImage, class TOutputImage, class TAccumulator >
+template< typename TInputImage, typename TOutputImage, typename TAccumulator >
 void
 ProjectionImageFilter< TInputImage, TOutputImage, TAccumulator >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
@@ -360,14 +360,14 @@ ProjectionImageFilter< TInputImage, TOutputImage, TAccumulator >
     }
 }
 
-template< class TInputImage, class TOutputImage, class TAccumulator >
+template< typename TInputImage, typename TOutputImage, typename TAccumulator >
 TAccumulator
 ProjectionImageFilter< TInputImage, TOutputImage, TAccumulator >::NewAccumulator(SizeValueType size) const
 {
   return TAccumulator(size);
 }
 
-template< class TInputImage, class TOutputImage, class TAccumulator >
+template< typename TInputImage, typename TOutputImage, typename TAccumulator >
 void
 ProjectionImageFilter< TInputImage, TOutputImage, TAccumulator >::PrintSelf(std::ostream & os, Indent indent) const
 {

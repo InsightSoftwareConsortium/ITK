@@ -27,7 +27,7 @@ namespace Statistics
 {
 #define INVALID_LAYER_ID vcl_numeric_limits<unsigned int>::max()
 
-template<class TMeasurementVector, class TTargetVector>
+template<typename TMeasurementVector, typename TTargetVector>
 LayerBase<TMeasurementVector,TTargetVector>
 ::LayerBase()
 {
@@ -40,12 +40,12 @@ LayerBase<TMeasurementVector,TTargetVector>
   m_NodeInputFunction = 0;
 }
 
-template<class TMeasurementVector, class TTargetVector>
+template<typename TMeasurementVector, typename TTargetVector>
 LayerBase<TMeasurementVector,TTargetVector>
 ::~LayerBase()
 {
 }
-template<class TMeasurementVector, class TTargetVector>
+template<typename TMeasurementVector, typename TTargetVector>
 void
 LayerBase<TMeasurementVector,TTargetVector>
 ::SetNumberOfNodes(unsigned int n)
@@ -54,7 +54,7 @@ LayerBase<TMeasurementVector,TTargetVector>
   this->Modified();
 }
 
-template<class TMeasurementVector, class TTargetVector>
+template<typename TMeasurementVector, typename TTargetVector>
 unsigned int
 LayerBase<TMeasurementVector,TTargetVector>
 ::GetNumberOfNodes() const
@@ -62,7 +62,7 @@ LayerBase<TMeasurementVector,TTargetVector>
   return m_NumberOfNodes;
 }
 
-template<class TMeasurementVector, class TTargetVector>
+template<typename TMeasurementVector, typename TTargetVector>
 void
 LayerBase<TMeasurementVector,TTargetVector>
 :: SetNodeInputFunction(InputFunctionInterfaceType* f)
@@ -71,7 +71,7 @@ LayerBase<TMeasurementVector,TTargetVector>
   this->Modified();
 }
 
-template<class TMeasurementVector, class TTargetVector>
+template<typename TMeasurementVector, typename TTargetVector>
 void
 LayerBase<TMeasurementVector,TTargetVector>
 ::SetTransferFunction(TransferFunctionInterfaceType* f)
@@ -80,7 +80,7 @@ LayerBase<TMeasurementVector,TTargetVector>
   this->Modified();
 }
 
-template<class TMeasurementVector, class TTargetVector>
+template<typename TMeasurementVector, typename TTargetVector>
 void
 LayerBase<TMeasurementVector,TTargetVector>
 ::SetInputWeightSet(WeightSetInterfaceType* weightset)
@@ -94,7 +94,7 @@ LayerBase<TMeasurementVector,TTargetVector>
   this->Modified();
 }
 
-template<class TMeasurementVector, class TTargetVector>
+template<typename TMeasurementVector, typename TTargetVector>
 void
 LayerBase<TMeasurementVector,TTargetVector>
 ::SetOutputWeightSet(WeightSetInterfaceType* weightset)
@@ -109,7 +109,7 @@ LayerBase<TMeasurementVector,TTargetVector>
 }
 
 /** Print the object */
-template<class TMeasurementVector, class TTargetVector>
+template<typename TMeasurementVector, typename TTargetVector>
 void
 LayerBase<TMeasurementVector,TTargetVector>
 ::PrintSelf( std::ostream& os, Indent indent ) const

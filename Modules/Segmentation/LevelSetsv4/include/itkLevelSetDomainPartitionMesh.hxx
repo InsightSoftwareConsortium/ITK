@@ -22,19 +22,19 @@
 
 namespace itk
 {
-template< class TMesh >
+template< typename TMesh >
 LevelSetDomainPartitionMesh <TMesh>
 ::LevelSetDomainPartitionMesh()
 {
 }
 
-template< class TMesh >
+template< typename TMesh >
 LevelSetDomainPartitionMesh <TMesh>
 ::~LevelSetDomainPartitionMesh()
 {
 }
 
-template< class TMesh >
+template< typename TMesh >
 void
 LevelSetDomainPartitionMesh <TMesh>
 ::PopulateListDomain()
@@ -61,7 +61,7 @@ LevelSetDomainPartitionMesh <TMesh>
     }
 }
 
-template< class TMesh >
+template< typename TMesh >
 void
 LevelSetDomainPartitionMesh <TMesh>
 ::AllocateListDomain()

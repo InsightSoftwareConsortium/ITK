@@ -36,7 +36,7 @@ namespace itk
  * \ingroup ITKImageAdaptors
  */
 
-template< class T >
+template< typename T >
 class BluePixelAccessor
 {
 public:

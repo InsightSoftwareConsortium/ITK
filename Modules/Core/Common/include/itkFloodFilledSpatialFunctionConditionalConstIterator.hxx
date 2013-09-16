@@ -22,7 +22,7 @@
 
 namespace itk
 {
-template< class TImage, class TFunction >
+template< typename TImage, typename TFunction >
 FloodFilledSpatialFunctionConditionalConstIterator< TImage, TFunction >
 ::FloodFilledSpatialFunctionConditionalConstIterator(const ImageType *imagePtr,
                                                      FunctionType *fnPtr,
@@ -32,7 +32,7 @@ FloodFilledSpatialFunctionConditionalConstIterator< TImage, TFunction >
   this->SetCenterInclusionStrategy();
 }
 
-template< class TImage, class TFunction >
+template< typename TImage, typename TFunction >
 FloodFilledSpatialFunctionConditionalConstIterator< TImage, TFunction >
 ::FloodFilledSpatialFunctionConditionalConstIterator(const ImageType *imagePtr,
                                                      FunctionType *fnPtr):Superclass(imagePtr, fnPtr)
@@ -41,7 +41,7 @@ FloodFilledSpatialFunctionConditionalConstIterator< TImage, TFunction >
   this->SetCenterInclusionStrategy();
 }
 
-template< class TImage, class TFunction >
+template< typename TImage, typename TFunction >
 bool
 FloodFilledSpatialFunctionConditionalConstIterator< TImage, TFunction >
 ::IsPixelIncluded(const IndexType & index) const

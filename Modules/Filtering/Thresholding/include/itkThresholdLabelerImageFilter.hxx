@@ -35,7 +35,7 @@ namespace itk
 /**
  *
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 ThresholdLabelerImageFilter< TInputImage, TOutputImage >
 ::ThresholdLabelerImageFilter()
 {
@@ -47,7 +47,7 @@ ThresholdLabelerImageFilter< TInputImage, TOutputImage >
 /**
  *
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ThresholdLabelerImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -76,7 +76,7 @@ ThresholdLabelerImageFilter< TInputImage, TOutputImage >
 /**
  *
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ThresholdLabelerImageFilter< TInputImage, TOutputImage >
 ::BeforeThreadedGenerateData()

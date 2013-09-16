@@ -27,7 +27,7 @@
 
 namespace itk {
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 LabelMapMaskImageFilter<TInputImage, TOutputImage>
 ::LabelMapMaskImageFilter()
 {
@@ -39,7 +39,7 @@ LabelMapMaskImageFilter<TInputImage, TOutputImage>
   m_CropBorder.Fill( 0 );
 }
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 void
 LabelMapMaskImageFilter<TInputImage, TOutputImage>
 ::GenerateInputRequestedRegion()
@@ -54,7 +54,7 @@ LabelMapMaskImageFilter<TInputImage, TOutputImage>
   input->SetRequestedRegion( input->GetLargestPossibleRegion() );
 }
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 void
 LabelMapMaskImageFilter<TInputImage, TOutputImage>
 ::GenerateOutputInformation()
@@ -241,7 +241,7 @@ LabelMapMaskImageFilter<TInputImage, TOutputImage>
 
 }
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 void
 LabelMapMaskImageFilter<TInputImage, TOutputImage>
 ::EnlargeOutputRequestedRegion(DataObject *)
@@ -251,7 +251,7 @@ LabelMapMaskImageFilter<TInputImage, TOutputImage>
 }
 
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 void
 LabelMapMaskImageFilter<TInputImage, TOutputImage>
 ::BeforeThreadedGenerateData()
@@ -275,7 +275,7 @@ LabelMapMaskImageFilter<TInputImage, TOutputImage>
 }
 
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 void
 LabelMapMaskImageFilter<TInputImage, TOutputImage>
 ::ThreadedGenerateData( const OutputImageRegionType& outputRegionForThread, ThreadIdType threadId )
@@ -355,7 +355,7 @@ LabelMapMaskImageFilter<TInputImage, TOutputImage>
 }
 
 
-template<class TInputImage, class TOutputImage>
+template<typename TInputImage, typename TOutputImage>
 void
 LabelMapMaskImageFilter<TInputImage, TOutputImage>
 ::ThreadedProcessLabelObject( LabelObjectType * labelObject )
@@ -403,7 +403,7 @@ LabelMapMaskImageFilter<TInputImage, TOutputImage>
 }
 
 
-template<class TInputImage, class TOutputImage>
+template<typename TInputImage, typename TOutputImage>
 void
 LabelMapMaskImageFilter<TInputImage, TOutputImage>
 ::PrintSelf(std::ostream& os, Indent indent) const

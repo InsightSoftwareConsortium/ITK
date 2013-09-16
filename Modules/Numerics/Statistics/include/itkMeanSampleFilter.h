@@ -44,7 +44,7 @@ namespace Statistics
  * \ingroup ITKStatistics
  */
 
-template< class TSample >
+template< typename TSample >
 class MeanSampleFilter:public ProcessObject
 {
 public:

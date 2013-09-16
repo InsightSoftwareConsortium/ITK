@@ -48,7 +48,7 @@ namespace itk
  * \ingroup ITKThresholding
  * \ingroup ITKV3Compatibility
  */
-template< class TInputImage >
+template< typename TInputImage >
 class OtsuThresholdImageCalculator:public Object
 {
 public:

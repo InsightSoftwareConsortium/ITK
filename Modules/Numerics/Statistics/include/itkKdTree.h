@@ -59,7 +59,7 @@ namespace Statistics
  * KdTreeTerminalNode
  * \ingroup ITKStatistics
  */
-template<class TSample>
+template<typename TSample>
 
 struct KdTreeNode
   {
@@ -133,7 +133,7 @@ struct KdTreeNode
  * \sa KdTreeNode, KdTreeWeightedCentroidNonterminalNode, KdTreeGenerator
  * \ingroup ITKStatistics
  */
-template<class TSample>
+template<typename TSample>
 
 struct KdTreeNonterminalNode:public KdTreeNode<TSample>
   {
@@ -241,7 +241,7 @@ private:
  * \sa KdTreeNode, KdTreeNonterminalNode, WeightedCentroidKdTreeGenerator
  * \ingroup ITKStatistics
  */
-template<class TSample>
+template<typename TSample>
 struct KdTreeWeightedCentroidNonterminalNode:public KdTreeNode<TSample>
   {
   typedef KdTreeNode<TSample>                         Superclass;
@@ -358,7 +358,7 @@ private:
  * KdTreeWeightedCentroidNonterminalNode
  * \ingroup ITKStatistics
  */
-template<class TSample>
+template<typename TSample>
 struct KdTreeTerminalNode:public KdTreeNode<TSample>
   {
   typedef KdTreeNode<TSample>                     Superclass;
@@ -479,7 +479,7 @@ private:
  * \ingroup ITKStatistics
  */
 
-template<class TSample>
+template<typename TSample>
 class KdTree:public Object
 {
 public:

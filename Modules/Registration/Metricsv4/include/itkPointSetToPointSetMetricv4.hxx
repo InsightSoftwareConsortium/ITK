@@ -25,7 +25,7 @@ namespace itk
 {
 
 /** Constructor */
-template<class TFixedPointSet, class TMovingPointSet>
+template<typename TFixedPointSet, typename TMovingPointSet>
 PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
 ::PointSetToPointSetMetricv4()
 {
@@ -54,14 +54,14 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
 }
 
 /** Destructor */
-template<class TFixedPointSet, class TMovingPointSet>
+template<typename TFixedPointSet, typename TMovingPointSet>
 PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
 ::~PointSetToPointSetMetricv4()
 {
 }
 
 /** Initialize the metric */
-template<class TFixedPointSet, class TMovingPointSet>
+template<typename TFixedPointSet, typename TMovingPointSet>
 void
 PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
 ::Initialize( void ) throw ( ExceptionObject )
@@ -125,7 +125,7 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
   this->InitializePointSets();
 }
 
-template<class TFixedPointSet, class TMovingPointSet>
+template<typename TFixedPointSet, typename TMovingPointSet>
 void
 PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
 ::InitializePointSets() const
@@ -135,7 +135,7 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
   this->InitializePointsLocators();
 }
 
-template<class TFixedPointSet, class TMovingPointSet>
+template<typename TFixedPointSet, typename TMovingPointSet>
 void
 PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
 ::InitializeForIteration() const
@@ -149,7 +149,7 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
     }
 }
 
-template<class TFixedPointSet, class TMovingPointSet>
+template<typename TFixedPointSet, typename TMovingPointSet>
 SizeValueType
 PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
 ::GetNumberOfComponents() const
@@ -157,7 +157,7 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
   return this->m_FixedTransformedPointSet->GetNumberOfPoints();
 }
 
-template<class TFixedPointSet, class TMovingPointSet>
+template<typename TFixedPointSet, typename TMovingPointSet>
 typename PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>::MeasureType
 PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
 ::GetValue() const
@@ -208,7 +208,7 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
   return value;
 }
 
-template<class TFixedPointSet, class TMovingPointSet>
+template<typename TFixedPointSet, typename TMovingPointSet>
 void
 PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
 ::GetDerivative( DerivativeType & derivative ) const
@@ -217,7 +217,7 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
   this->CalculateValueAndDerivative( value, derivative, false );
 }
 
-template<class TFixedPointSet, class TMovingPointSet>
+template<typename TFixedPointSet, typename TMovingPointSet>
 void
 PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
 ::GetValueAndDerivative( MeasureType & value, DerivativeType & derivative ) const
@@ -225,7 +225,7 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
   this->CalculateValueAndDerivative( value, derivative, true );
 }
 
-template<class TFixedPointSet, class TMovingPointSet>
+template<typename TFixedPointSet, typename TMovingPointSet>
 void
 PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
 ::CalculateValueAndDerivative( MeasureType & value, DerivativeType & derivative, bool calculateValue ) const
@@ -318,7 +318,7 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
   this->m_Value = value;
 }
 
-template<class TFixedPointSet, class TMovingPointSet>
+template<typename TFixedPointSet, typename TMovingPointSet>
 SizeValueType
 PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
 ::CalculateNumberOfValidFixedPoints() const
@@ -338,7 +338,7 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
   return numberOfValidPoints;
 }
 
-template<class TFixedPointSet, class TMovingPointSet>
+template<typename TFixedPointSet, typename TMovingPointSet>
 void
 PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
 ::StorePointDerivative( const VirtualPointType & virtualPoint, const DerivativeType & pointDerivative, DerivativeType & field ) const
@@ -366,7 +366,7 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
     }
 }
 
-template<class TFixedPointSet, class TMovingPointSet>
+template<typename TFixedPointSet, typename TMovingPointSet>
 typename PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
 ::LocalDerivativeType
 PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
@@ -378,7 +378,7 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
   return localDerivative;
 }
 
-template<class TFixedPointSet, class TMovingPointSet>
+template<typename TFixedPointSet, typename TMovingPointSet>
 void
 PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
 ::TransformMovingPointSet() const
@@ -405,7 +405,7 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
     }
 }
 
-template<class TFixedPointSet, class TMovingPointSet>
+template<typename TFixedPointSet, typename TMovingPointSet>
 void
 PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
 ::TransformFixedAndCreateVirtualPointSet() const
@@ -440,7 +440,7 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
     }
 }
 
-template<class TFixedPointSet, class TMovingPointSet>
+template<typename TFixedPointSet, typename TMovingPointSet>
 const typename PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>::VirtualPointSetType *
 PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
 ::GetVirtualTransformedPointSet( void ) const
@@ -450,7 +450,7 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
   return this->m_VirtualTransformedPointSet.GetPointer();
 }
 
-template<class TFixedPointSet, class TMovingPointSet>
+template<typename TFixedPointSet, typename TMovingPointSet>
 void
 PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
 ::InitializePointsLocators() const
@@ -485,7 +485,7 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
 }
 
 /** PrintSelf */
-template<class TFixedPointSet, class TMovingPointSet>
+template<typename TFixedPointSet, typename TMovingPointSet>
 void
 PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
 ::PrintSelf( std::ostream & os, Indent indent ) const

@@ -34,13 +34,13 @@
 namespace itk
 {
 
-template< class TInputImage, class TKernelImage, class TOutputImage, class TInternalPrecision >
+template< typename TInputImage, typename TKernelImage, typename TOutputImage, typename TInternalPrecision >
 FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
 ::FFTConvolutionImageFilter()
 {
 }
 
-template< class TInputImage, class TKernelImage, class TOutputImage, class TInternalPrecision >
+template< typename TInputImage, typename TKernelImage, typename TOutputImage, typename TInternalPrecision >
 void
 FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
 ::GenerateInputRequestedRegion()
@@ -63,7 +63,7 @@ FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPre
     }
 }
 
-template< class TInputImage, class TKernelImage, class TOutputImage, class TInternalPrecision >
+template< typename TInputImage, typename TKernelImage, typename TOutputImage, typename TInternalPrecision >
 void
 FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
 ::GenerateData()
@@ -97,7 +97,7 @@ FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPre
   this->ProduceOutput( multiplyFilter->GetOutput(), progress, 0.2 );
 }
 
-template< class TInputImage, class TKernelImage, class TOutputImage, class TInternalPrecision >
+template< typename TInputImage, typename TKernelImage, typename TOutputImage, typename TInternalPrecision >
 void
 FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
 ::PrepareInputs(const InputImageType * input,
@@ -110,7 +110,7 @@ FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPre
   this->PrepareKernel( kernel, preparedKernel, progress, 0.5f * progressWeight );
 }
 
-template< class TInputImage, class TKernelImage, class TOutputImage, class TInternalPrecision >
+template< typename TInputImage, typename TKernelImage, typename TOutputImage, typename TInternalPrecision >
 void
 FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
 ::PrepareInput(const InputImageType * input,
@@ -124,7 +124,7 @@ FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPre
                               0.7f * progressWeight );
 }
 
-template< class TInputImage, class TKernelImage, class TOutputImage, class TInternalPrecision >
+template< typename TInputImage, typename TKernelImage, typename TOutputImage, typename TInternalPrecision >
 void
 FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
 ::PadInput(const InputImageType * input,
@@ -175,7 +175,7 @@ FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPre
   paddedInput = inputCaster->GetOutput();
 }
 
-template< class TInputImage, class TKernelImage, class TOutputImage, class TInternalPrecision >
+template< typename TInputImage, typename TKernelImage, typename TOutputImage, typename TInternalPrecision >
 void
 FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
 ::TransformPaddedInput(const InternalImageType * paddedInput,
@@ -192,7 +192,7 @@ FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPre
   transformedInput = imageFFTFilter->GetOutput();
 }
 
-template< class TInputImage, class TKernelImage, class TOutputImage, class TInternalPrecision >
+template< typename TInputImage, typename TKernelImage, typename TOutputImage, typename TInternalPrecision >
 void
 FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
 ::PrepareKernel(const KernelImageType * kernel,
@@ -295,7 +295,7 @@ FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPre
   preparedKernel = kernelInfoFilter->GetOutput();
 }
 
-template< class TInputImage, class TKernelImage, class TOutputImage, class TInternalPrecision >
+template< typename TInputImage, typename TKernelImage, typename TOutputImage, typename TInternalPrecision >
 void
 FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
 ::ProduceOutput(InternalComplexImageType * paddedOutput,
@@ -312,7 +312,7 @@ FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPre
   this->CropOutput( ifftFilter->GetOutput(), progress, 0.4f * progressWeight );
 }
 
-template< class TInputImage, class TKernelImage, class TOutputImage, class TInternalPrecision >
+template< typename TInputImage, typename TKernelImage, typename TOutputImage, typename TInternalPrecision >
 void
 FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
 ::CropOutput(InternalImageType * paddedOutput,
@@ -353,7 +353,7 @@ FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPre
   this->GraftOutput( extractFilter->GetOutput() );
 }
 
-template< class TInputImage, class TKernelImage, class TOutputImage, class TInternalPrecision >
+template< typename TInputImage, typename TKernelImage, typename TOutputImage, typename TInternalPrecision >
 typename FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >::InputSizeType
 FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
 ::GetPadLowerBound() const
@@ -371,7 +371,7 @@ FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPre
   return inputLowerBound;
 }
 
-template< class TInputImage, class TKernelImage, class TOutputImage, class TInternalPrecision >
+template< typename TInputImage, typename TKernelImage, typename TOutputImage, typename TInternalPrecision >
 typename FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >::InputSizeType
 FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
 ::GetPadSize() const
@@ -396,7 +396,7 @@ FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPre
   return padSize;
 }
 
-template< class TInputImage, class TKernelImage, class TOutputImage, class TInternalPrecision >
+template< typename TInputImage, typename TKernelImage, typename TOutputImage, typename TInternalPrecision >
 bool
 FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
 ::GetXDimensionIsOdd() const

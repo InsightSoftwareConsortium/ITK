@@ -22,8 +22,8 @@
 
 namespace itk
 {
-template< class TInputImage, class TFeatureImage, class TOutputImage,
-          class TFunction, typename TIdCell >
+template< typename TInputImage, typename TFeatureImage, typename TOutputImage,
+          typename TFunction, typename TIdCell >
 void
 MultiphaseDenseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
                                             TOutputImage, TFunction, TIdCell >
@@ -34,8 +34,8 @@ MultiphaseDenseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
   os << indent << "m_ReinitializeCounter: " << m_ReinitializeCounter << std::endl;
 }
 
-template< class TInputImage, class TFeatureImage, class TOutputImage,
-          class TFunction, typename TIdCell >
+template< typename TInputImage, typename TFeatureImage, typename TOutputImage,
+          typename TFunction, typename TIdCell >
 void
 MultiphaseDenseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
                                             TOutputImage, TFunction, TIdCell >
@@ -86,8 +86,8 @@ MultiphaseDenseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
     }
 }
 
-template< class TInputImage, class TFeatureImage, class TOutputImage,
-          class TFunction, typename TIdCell >
+template< typename TInputImage, typename TFeatureImage, typename TOutputImage,
+          typename TFunction, typename TIdCell >
 void
 MultiphaseDenseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
                                             TOutputImage, TFunction, TIdCell >
@@ -104,8 +104,8 @@ MultiphaseDenseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
     }
 }
 
-template< class TInputImage, class TFeatureImage, class TOutputImage,
-          class TFunction, typename TIdCell >
+template< typename TInputImage, typename TFeatureImage, typename TOutputImage,
+          typename TFunction, typename TIdCell >
 typename MultiphaseDenseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
                                                      TOutputImage, TFunction, TIdCell >::TimeStepType
 MultiphaseDenseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
@@ -175,8 +175,8 @@ MultiphaseDenseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
   return timeStep;
 }
 
-template< class TInputImage, class TFeatureImage, class TOutputImage,
-          class TFunction, typename TIdCell >
+template< typename TInputImage, typename TFeatureImage, typename TOutputImage,
+          typename TFunction, typename TIdCell >
 void
 MultiphaseDenseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
                                             TOutputImage, TFunction, TIdCell >
@@ -192,8 +192,8 @@ MultiphaseDenseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
     }
 }
 
-template< class TInputImage, class TFeatureImage, class TOutputImage,
-          class TFunction, typename TIdCell >
+template< typename TInputImage, typename TFeatureImage, typename TOutputImage,
+          typename TFunction, typename TIdCell >
 void
 MultiphaseDenseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
                                             TOutputImage, TFunction, TIdCell >
@@ -277,8 +277,8 @@ MultiphaseDenseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
   this->SetRMSChange( vcl_sqrt(rms_change_accumulator / den) );
 }
 
-template< class TInputImage, class TFeatureImage, class TOutputImage,
-          class TFunction, typename TIdCell >
+template< typename TInputImage, typename TFeatureImage, typename TOutputImage,
+          typename TFunction, typename TIdCell >
 void
 MultiphaseDenseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
                                             TOutputImage, TFunction, TIdCell >

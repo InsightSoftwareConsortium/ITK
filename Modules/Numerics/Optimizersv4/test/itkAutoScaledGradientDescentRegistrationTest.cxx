@@ -32,7 +32,7 @@
  *  at each iteration according to the shift of each step.
  */
 
-template< class TMovingTransform >
+template< typename TMovingTransform >
 int itkAutoScaledGradientDescentRegistrationTestTemplated(
                                             int numberOfIterations,
                                             double shiftOfStep,

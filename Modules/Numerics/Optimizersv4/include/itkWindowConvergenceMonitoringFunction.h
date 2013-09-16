@@ -35,7 +35,7 @@ namespace Function
  * \ingroup ITKOptimizersv4
  */
 
-template<class TScalar = double>
+template<typename TScalar = double>
 class WindowConvergenceMonitoringFunction
 : public ConvergenceMonitoringFunction<TScalar, TScalar>
 {

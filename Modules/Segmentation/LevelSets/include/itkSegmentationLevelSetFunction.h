@@ -43,7 +43,7 @@ namespace itk
  * \ingroup ITKLevelSets
  */
 
-template< class TImageType, class TFeatureImageType = TImageType >
+template< typename TImageType, typename TFeatureImageType = TImageType >
 class SegmentationLevelSetFunction:
   public LevelSetFunction< TImageType >
 {

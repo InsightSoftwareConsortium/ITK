@@ -30,7 +30,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 BinaryContourImageFilter< TInputImage, TOutputImage >
 ::BinaryContourImageFilter()
 {
@@ -42,7 +42,7 @@ BinaryContourImageFilter< TInputImage, TOutputImage >
   this->SetInPlace(false);
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 BinaryContourImageFilter< TInputImage, TOutputImage >
 ::Wait()
@@ -53,7 +53,7 @@ BinaryContourImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 BinaryContourImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
@@ -70,7 +70,7 @@ BinaryContourImageFilter< TInputImage, TOutputImage >
   input->SetRequestedRegionToLargestPossibleRegion();
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 BinaryContourImageFilter< TInputImage, TOutputImage >
 ::EnlargeOutputRequestedRegion(DataObject *)
@@ -79,7 +79,7 @@ BinaryContourImageFilter< TInputImage, TOutputImage >
   output->SetRequestedRegionToLargestPossibleRegion();
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 BinaryContourImageFilter< TInputImage, TOutputImage >
 ::BeforeThreadedGenerateData()
@@ -118,7 +118,7 @@ BinaryContourImageFilter< TInputImage, TOutputImage >
   m_NumberOfThreads = nbOfThreads;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 BinaryContourImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData(const RegionType & outputRegionForThread,
@@ -284,7 +284,7 @@ BinaryContourImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 BinaryContourImageFilter< TInputImage, TOutputImage >
 ::AfterThreadedGenerateData()
@@ -294,7 +294,7 @@ BinaryContourImageFilter< TInputImage, TOutputImage >
   m_BackgroundLineMap.clear();
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 BinaryContourImageFilter< TInputImage, TOutputImage >
 ::SetupLineOffsets(OffsetVec & LineOffsets)
@@ -358,7 +358,7 @@ BinaryContourImageFilter< TInputImage, TOutputImage >
   // LineOffsets is the thing we wanted.
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 bool
 BinaryContourImageFilter< TInputImage, TOutputImage >
 ::CheckNeighbors(const OutputIndexType & A,
@@ -377,7 +377,7 @@ BinaryContourImageFilter< TInputImage, TOutputImage >
   return ( true );
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 BinaryContourImageFilter< TInputImage, TOutputImage >
 ::CompareLines(LineEncodingType & current, const LineEncodingType & Neighbour)
@@ -491,7 +491,7 @@ BinaryContourImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 BinaryContourImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

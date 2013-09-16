@@ -26,7 +26,7 @@
 namespace
 {
 
-template <class TInputImage>
+template <typename TInputImage>
 int DoIt( const std::string &infname,
           const std::string &outfname )
 {

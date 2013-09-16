@@ -31,13 +31,13 @@
 
 namespace itk
 {
-template< class TInputImage, class TKernelImage, class TOutputImage >
+template< typename TInputImage, typename TKernelImage, typename TOutputImage >
 ConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
 ::ConvolutionImageFilter()
 {
 }
 
-template< class TInputImage, class TKernelImage, class TOutputImage >
+template< typename TInputImage, typename TKernelImage, typename TOutputImage >
 void
 ConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
 ::GenerateData()
@@ -75,8 +75,8 @@ ConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TKernelImage, class TOutputImage >
-template< class TImage >
+template< typename TInputImage, typename TKernelImage, typename TOutputImage >
+template< typename TImage >
 void
 ConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
 ::ComputeConvolution( const TImage * kernelImage,
@@ -193,7 +193,7 @@ ConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TKernelImage, class TOutputImage >
+template< typename TInputImage, typename TKernelImage, typename TOutputImage >
 bool
 ConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
 ::GetKernelNeedsPadding() const
@@ -213,7 +213,7 @@ ConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
   return false;
 }
 
-template< class TInputImage, class TKernelImage, class TOutputImage >
+template< typename TInputImage, typename TKernelImage, typename TOutputImage >
 typename ConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >::KernelSizeType
 ConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
 ::GetKernelPadSize() const
@@ -232,8 +232,8 @@ ConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
   return padSize;
 }
 
-template< class TInputImage, class TKernelImage, class TOutputImage >
-template< class TImage >
+template< typename TInputImage, typename TKernelImage, typename TOutputImage >
+template< typename TImage >
 typename ConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >::KernelSizeType
 ConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
 ::GetKernelRadius(const TImage *kernelImage) const
@@ -248,7 +248,7 @@ ConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
   return radius;
 }
 
-template< class TInputImage, class TKernelImage, class TOutputImage >
+template< typename TInputImage, typename TKernelImage, typename TOutputImage >
 void
 ConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
 ::GenerateInputRequestedRegion()

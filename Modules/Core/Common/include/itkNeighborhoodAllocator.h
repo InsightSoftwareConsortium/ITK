@@ -36,7 +36,7 @@ namespace itk
  * \ingroup Operators
  * \ingroup ITKCommon
  */
-template< class TPixel >
+template< typename TPixel >
 class NeighborhoodAllocator
 {
 public:
@@ -139,7 +139,7 @@ protected:
   TPixel *     m_Data;
 };
 
-template< class TPixel >
+template< typename TPixel >
 inline std::ostream & operator<<(
   std::ostream & o, const NeighborhoodAllocator< TPixel >
   & a)

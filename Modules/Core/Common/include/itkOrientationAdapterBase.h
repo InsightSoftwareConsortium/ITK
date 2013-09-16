@@ -40,7 +40,7 @@ namespace itk
  * direction cosines managed in itk::ImageBase.
  * \ingroup ITKCommon
  */
-template< class OrientationType, unsigned int Dimension = 3 >
+template< typename OrientationType, unsigned int Dimension = 3 >
 class OrientationAdapterBase
 {
 public:

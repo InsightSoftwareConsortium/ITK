@@ -47,7 +47,7 @@ namespace itk
  * \ingroup ITKReview
  */
 
-template< class TInputImage, class TGradientImage = TInputImage, class TOutputImage = TInputImage >
+template< typename TInputImage, typename TGradientImage = TInputImage, typename TOutputImage = TInputImage >
 class RobustAutomaticThresholdImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {

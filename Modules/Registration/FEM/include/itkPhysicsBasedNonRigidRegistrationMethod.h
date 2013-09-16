@@ -57,7 +57,7 @@ namespace fem
  */
 
 
-template <class TFixedImage, class TMovingImage, class TMaskImage, class TMesh, class TDeformationField>
+template <typename TFixedImage, typename TMovingImage, typename TMaskImage, typename TMesh, typename TDeformationField>
 class PhysicsBasedNonRigidRegistrationMethod : public ImageToImageFilter<TMovingImage, TDeformationField>
 {
 public:

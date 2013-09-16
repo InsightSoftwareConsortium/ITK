@@ -25,7 +25,7 @@ namespace itk
    * \brief Create instances of TxtTransformIOTemplate objects.
    * \ingroup ITKIOTransformInsightLegacy
    */
-template<class ParametersValueType>
+template<typename ParametersValueType>
 class TxtTransformIOTemplate:public TransformIOBaseTemplate<ParametersValueType>
 {
 public:

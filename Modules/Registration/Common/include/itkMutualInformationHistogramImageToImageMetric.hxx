@@ -23,7 +23,7 @@
 
 namespace itk
 {
-template< class TFixedImage, class TMovingImage >
+template< typename TFixedImage, typename TMovingImage >
 typename MutualInformationHistogramImageToImageMetric< TFixedImage, TMovingImage >::MeasureType
 MutualInformationHistogramImageToImageMetric< TFixedImage, TMovingImage >
 ::EvaluateMeasure(HistogramType & histogram) const

@@ -23,7 +23,7 @@ namespace itk
 {
 namespace watershed
 {
-template< class TScalar, unsigned int TImageDimension >
+template< typename TScalar, unsigned int TImageDimension >
 void EquivalenceRelabeler< TScalar, TImageDimension >
 ::GenerateData()
 {
@@ -54,7 +54,7 @@ void EquivalenceRelabeler< TScalar, TImageDimension >
   SegmenterType::RelabelImage(output, output->GetRequestedRegion(), eqT);
 }
 
-template< class TScalar, unsigned int VImageDimension >
+template< typename TScalar, unsigned int VImageDimension >
 void EquivalenceRelabeler< TScalar, VImageDimension >
 ::GenerateInputRequestedRegion()
 {
@@ -77,7 +77,7 @@ void EquivalenceRelabeler< TScalar, VImageDimension >
   inputPtr->SetRequestedRegion( outputPtr->GetRequestedRegion() );
 }
 
-template< class TScalar, unsigned int TImageDimension >
+template< typename TScalar, unsigned int TImageDimension >
 void EquivalenceRelabeler< TScalar, TImageDimension >
 ::GenerateOutputRequestedRegion(DataObject *output)
 {
@@ -103,14 +103,14 @@ void EquivalenceRelabeler< TScalar, TImageDimension >
     }
 }
 
-template< class TScalar, unsigned int TImageDimension >
+template< typename TScalar, unsigned int TImageDimension >
 void EquivalenceRelabeler< TScalar, TImageDimension >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }
 
-template< class TScalar, unsigned int TImageDimension >
+template< typename TScalar, unsigned int TImageDimension >
 typename EquivalenceRelabeler< TScalar, TImageDimension >::DataObjectPointer
 EquivalenceRelabeler< TScalar, TImageDimension >
 ::MakeOutput(DataObjectPointerArraySizeType)

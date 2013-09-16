@@ -70,7 +70,7 @@ namespace itk
  * the more smoothing.
  * \ingroup ITKLevelSets
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class IsotropicFourthOrderLevelSetImageFilter:
   public SparseFieldFourthOrderLevelSetImageFilter< TInputImage, TOutputImage >
 {

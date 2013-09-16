@@ -33,7 +33,7 @@ namespace itk
  * \ingroup Operators
  * \ingroup ITKSpatialObjects
  */
-template< class TInputImage, class TInputSpatialObject, unsigned int TSampleDimension = 1 >
+template< typename TInputImage, typename TInputSpatialObject, unsigned int TSampleDimension = 1 >
 class SpatialObjectToImageStatisticsCalculator:public Object
 {
 public:

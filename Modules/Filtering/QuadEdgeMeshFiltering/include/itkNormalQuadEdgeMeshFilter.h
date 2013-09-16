@@ -64,7 +64,7 @@ namespace itk
  * data and cell data.
  * \ingroup ITKQuadEdgeMeshFiltering
  */
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 class NormalQuadEdgeMeshFilter:
   public QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 {

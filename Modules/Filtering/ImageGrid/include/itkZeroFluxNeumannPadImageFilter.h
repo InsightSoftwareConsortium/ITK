@@ -57,7 +57,7 @@ namespace itk
  * \ingroup ITKImageGrid
  * \sa WrapPadImageFilter, MirrorPadImageFilter, ConstantPadImageFilter, ZeroFluxNeumannBoundaryCondition
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class ZeroFluxNeumannPadImageFilter :
     public PadImageFilter< TInputImage, TOutputImage >
 {

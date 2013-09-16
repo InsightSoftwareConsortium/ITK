@@ -25,7 +25,7 @@ namespace itk
 /**
  * Constructor
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 AnisotropicDiffusionImageFilter< TInputImage, TOutputImage >
 ::AnisotropicDiffusionImageFilter()
 {
@@ -39,7 +39,7 @@ AnisotropicDiffusionImageFilter< TInputImage, TOutputImage >
 }
 
 /** Prepare for the iteration process. */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 AnisotropicDiffusionImageFilter< TInputImage, TOutputImage >
 ::InitializeIteration()
@@ -108,7 +108,7 @@ AnisotropicDiffusionImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 AnisotropicDiffusionImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

@@ -28,7 +28,7 @@ template < const unsigned int NDimension >
 int LabelGeometryImageFilterTest(std::string labelImageName,std::string intensityImageName,std::string outputImageName,std::string outputFileName, std::string compareFileName);
 
 // Helper function to compare matrices.
-template <class MatrixType>
+template <typename MatrixType>
 bool compareMatrices(const MatrixType & m1, const MatrixType & m2, double epsilon);
 
 int itkLabelGeometryImageFilterTest( int argc, char * argv[] )
@@ -272,7 +272,7 @@ int LabelGeometryImageFilterTest(std::string labelImageName,std::string intensit
 
 
 // function for comparing matrices
-template <class MatrixType>
+template <typename MatrixType>
 bool compareMatrices(const MatrixType & m1, const MatrixType & m2, double epsilon)
 {
   bool pass = true;

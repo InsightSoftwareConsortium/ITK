@@ -27,7 +27,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TMaskImage, class TOutputImage >
+template< typename TInputImage, typename TMaskImage, typename TOutputImage >
 StochasticFractalDimensionImageFilter< TInputImage, TMaskImage, TOutputImage >
 ::StochasticFractalDimensionImageFilter()
 {
@@ -36,12 +36,12 @@ StochasticFractalDimensionImageFilter< TInputImage, TMaskImage, TOutputImage >
   this->m_MaskImage = NULL;
 }
 
-template< class TInputImage, class TMaskImage, class TOutputImage >
+template< typename TInputImage, typename TMaskImage, typename TOutputImage >
 StochasticFractalDimensionImageFilter< TInputImage, TMaskImage, TOutputImage >
 ::~StochasticFractalDimensionImageFilter()
 {}
 
-template< class TInputImage, class TMaskImage, class TOutputImage >
+template< typename TInputImage, typename TMaskImage, typename TOutputImage >
 void
 StochasticFractalDimensionImageFilter< TInputImage, TMaskImage, TOutputImage >
 ::SetMaskImage(const MaskImageType *mask)
@@ -49,7 +49,7 @@ StochasticFractalDimensionImageFilter< TInputImage, TMaskImage, TOutputImage >
   this->SetNthInput( 1, const_cast< MaskImageType * >( mask ) );
 }
 
-template< class TInputImage, class TMaskImage, class TOutputImage >
+template< typename TInputImage, typename TMaskImage, typename TOutputImage >
 const typename StochasticFractalDimensionImageFilter< TInputImage, TMaskImage, TOutputImage >::MaskImageType *
 StochasticFractalDimensionImageFilter< TInputImage, TMaskImage, TOutputImage >
 ::GetMaskImage() const
@@ -60,7 +60,7 @@ StochasticFractalDimensionImageFilter< TInputImage, TMaskImage, TOutputImage >
   return maskImage;
 }
 
-template< class TInputImage, class TMaskImage, class TOutputImage >
+template< typename TInputImage, typename TMaskImage, typename TOutputImage >
 void
 StochasticFractalDimensionImageFilter< TInputImage, TMaskImage, TOutputImage >
 ::GenerateData()
@@ -217,7 +217,7 @@ StochasticFractalDimensionImageFilter< TInputImage, TMaskImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TMaskImage, class TOutputImage >
+template< typename TInputImage, typename TMaskImage, typename TOutputImage >
 void
 StochasticFractalDimensionImageFilter< TInputImage, TMaskImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

@@ -35,7 +35,7 @@ namespace itk
 /**
  *
  */
-template< class T >
+template< typename T >
 SimpleDataObjectDecorator< T >
 ::SimpleDataObjectDecorator()
 {
@@ -48,7 +48,7 @@ SimpleDataObjectDecorator< T >
 /**
  *
  */
-template< class T >
+template< typename T >
 SimpleDataObjectDecorator< T >
 ::~SimpleDataObjectDecorator()
 {}
@@ -56,7 +56,7 @@ SimpleDataObjectDecorator< T >
 /**
  *
  */
-template< class T >
+template< typename T >
 void
 SimpleDataObjectDecorator< T >
 ::Set(const T & val)
@@ -72,7 +72,7 @@ SimpleDataObjectDecorator< T >
 /**
  *
  */
-template< class T >
+template< typename T >
 void
 SimpleDataObjectDecorator< T >
 ::PrintSelf(std::ostream & os, Indent indent) const

@@ -27,7 +27,7 @@ namespace itk
 {
 template< typename InputPixelType,
           typename OutputPixelType,
-          class OutputConvertTraits
+          typename OutputConvertTraits
           >
 void
 ConvertPixelBuffer< InputPixelType, OutputPixelType, OutputConvertTraits >
@@ -147,7 +147,7 @@ ConvertPixelBuffer< InputPixelType, OutputPixelType, OutputConvertTraits >
 
 template< typename InputPixelType,
           typename OutputPixelType,
-          class OutputConvertTraits
+          typename OutputConvertTraits
           >
 void
 ConvertPixelBuffer< InputPixelType, OutputPixelType, OutputConvertTraits >
@@ -167,7 +167,7 @@ ConvertPixelBuffer< InputPixelType, OutputPixelType, OutputConvertTraits >
 
 template< typename InputPixelType,
           typename OutputPixelType,
-          class OutputConvertTraits
+          typename OutputConvertTraits
           >
 void
 ConvertPixelBuffer< InputPixelType, OutputPixelType, OutputConvertTraits >
@@ -194,7 +194,7 @@ ConvertPixelBuffer< InputPixelType, OutputPixelType, OutputConvertTraits >
 
 template< typename InputPixelType,
           typename OutputPixelType,
-          class OutputConvertTraits
+          typename OutputConvertTraits
           >
 void
 ConvertPixelBuffer< InputPixelType, OutputPixelType, OutputConvertTraits >
@@ -234,7 +234,7 @@ ConvertPixelBuffer< InputPixelType, OutputPixelType, OutputConvertTraits >
 
 template< typename InputPixelType,
           typename OutputPixelType,
-          class OutputConvertTraits
+          typename OutputConvertTraits
           >
 void
 ConvertPixelBuffer< InputPixelType, OutputPixelType, OutputConvertTraits >
@@ -292,7 +292,7 @@ ConvertPixelBuffer< InputPixelType, OutputPixelType, OutputConvertTraits >
 
 template< typename InputPixelType,
           typename OutputPixelType,
-          class OutputConvertTraits
+          typename OutputConvertTraits
           >
 void
 ConvertPixelBuffer< InputPixelType, OutputPixelType, OutputConvertTraits >
@@ -319,7 +319,7 @@ ConvertPixelBuffer< InputPixelType, OutputPixelType, OutputConvertTraits >
 
 template< typename InputPixelType,
           typename OutputPixelType,
-          class OutputConvertTraits
+          typename OutputConvertTraits
           >
 void
 ConvertPixelBuffer< InputPixelType, OutputPixelType, OutputConvertTraits >
@@ -346,7 +346,7 @@ ConvertPixelBuffer< InputPixelType, OutputPixelType, OutputConvertTraits >
 
 template< typename InputPixelType,
           typename OutputPixelType,
-          class OutputConvertTraits
+          typename OutputConvertTraits
           >
 void
 ConvertPixelBuffer< InputPixelType, OutputPixelType, OutputConvertTraits >
@@ -374,7 +374,7 @@ ConvertPixelBuffer< InputPixelType, OutputPixelType, OutputConvertTraits >
 
 template< typename InputPixelType,
           typename OutputPixelType,
-          class OutputConvertTraits
+          typename OutputConvertTraits
           >
 void
 ConvertPixelBuffer< InputPixelType, OutputPixelType, OutputConvertTraits >
@@ -424,7 +424,7 @@ ConvertPixelBuffer< InputPixelType, OutputPixelType, OutputConvertTraits >
 
 template< typename InputPixelType,
           typename OutputPixelType,
-          class OutputConvertTraits
+          typename OutputConvertTraits
           >
 void
 ConvertPixelBuffer< InputPixelType, OutputPixelType, OutputConvertTraits >
@@ -455,7 +455,7 @@ ConvertPixelBuffer< InputPixelType, OutputPixelType, OutputConvertTraits >
 
 template< typename InputPixelType,
           typename OutputPixelType,
-          class OutputConvertTraits
+          typename OutputConvertTraits
           >
 void
 ConvertPixelBuffer< InputPixelType, OutputPixelType, OutputConvertTraits >
@@ -485,7 +485,7 @@ ConvertPixelBuffer< InputPixelType, OutputPixelType, OutputConvertTraits >
 
 template< typename InputPixelType,
           typename OutputPixelType,
-          class OutputConvertTraits
+          typename OutputConvertTraits
           >
 void
 ConvertPixelBuffer< InputPixelType, OutputPixelType, OutputConvertTraits >
@@ -515,7 +515,7 @@ ConvertPixelBuffer< InputPixelType, OutputPixelType, OutputConvertTraits >
 
 template< typename InputPixelType,
           typename OutputPixelType,
-          class OutputConvertTraits
+          typename OutputConvertTraits
           >
 void
 ConvertPixelBuffer< InputPixelType, OutputPixelType, OutputConvertTraits >
@@ -566,7 +566,7 @@ ConvertPixelBuffer< InputPixelType, OutputPixelType, OutputConvertTraits >
 
 template< typename InputPixelType,
           typename OutputPixelType,
-          class OutputConvertTraits >
+          typename OutputConvertTraits >
 void
 ConvertPixelBuffer< InputPixelType, OutputPixelType, OutputConvertTraits >
 ::ConvertTensor6ToTensor6(InputPixelType *inputData,
@@ -595,7 +595,7 @@ ConvertPixelBuffer< InputPixelType, OutputPixelType, OutputConvertTraits >
 
 template< typename InputPixelType,
           typename OutputPixelType,
-          class OutputConvertTraits
+          typename OutputConvertTraits
           >
 void
 ConvertPixelBuffer< InputPixelType, OutputPixelType, OutputConvertTraits >
@@ -619,7 +619,7 @@ ConvertPixelBuffer< InputPixelType, OutputPixelType, OutputConvertTraits >
 
 template< typename InputPixelType,
           typename OutputPixelType,
-          class OutputConvertTraits
+          typename OutputConvertTraits
           >
 void
 ConvertPixelBuffer< InputPixelType, OutputPixelType, OutputConvertTraits >
@@ -645,7 +645,7 @@ ConvertPixelBuffer< InputPixelType, OutputPixelType, OutputConvertTraits >
 
 template< typename InputPixelType,
           typename OutputPixelType,
-          class OutputConvertTraits >
+          typename OutputConvertTraits >
 void
 ConvertPixelBuffer< InputPixelType, OutputPixelType, OutputConvertTraits >
 ::ConvertTensor9ToTensor6(InputPixelType *inputData,
@@ -672,7 +672,7 @@ ConvertPixelBuffer< InputPixelType, OutputPixelType, OutputConvertTraits >
 
 template< typename InputPixelType,
           typename OutputPixelType,
-          class OutputConvertTraits
+          typename OutputConvertTraits
           >
 void
 ConvertPixelBuffer< InputPixelType, OutputPixelType, OutputConvertTraits >
@@ -700,7 +700,7 @@ ConvertPixelBuffer< InputPixelType, OutputPixelType, OutputConvertTraits >
 
 template< typename InputPixelType,
           typename OutputPixelType,
-          class OutputConvertTraits >
+          typename OutputConvertTraits >
 void
 ConvertPixelBuffer< InputPixelType, OutputPixelType, OutputConvertTraits >
 ::ConvertVectorImage(InputPixelType *inputData,

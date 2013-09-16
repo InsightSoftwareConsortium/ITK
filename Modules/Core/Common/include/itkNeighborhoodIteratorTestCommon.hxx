@@ -30,7 +30,7 @@ extern void println(const char *s);
 extern TestImageType::Pointer GetTestImage(int , int , int , int );
 
 
-template<class TIteratorType>
+template<typename TIteratorType>
 void printnb( const TIteratorType &nb, bool full)
 {
   unsigned long count = 1;

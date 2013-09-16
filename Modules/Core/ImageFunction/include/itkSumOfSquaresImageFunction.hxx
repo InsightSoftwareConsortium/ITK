@@ -27,7 +27,7 @@ namespace itk
 /**
  * Constructor
  */
-template< class TInputImage, class TCoordRep >
+template< typename TInputImage, typename TCoordRep >
 SumOfSquaresImageFunction< TInputImage, TCoordRep >
 ::SumOfSquaresImageFunction()
 {
@@ -38,7 +38,7 @@ SumOfSquaresImageFunction< TInputImage, TCoordRep >
 /**
  *
  */
-template< class TInputImage, class TCoordRep >
+template< typename TInputImage, typename TCoordRep >
 void
 SumOfSquaresImageFunction< TInputImage, TCoordRep >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -51,7 +51,7 @@ SumOfSquaresImageFunction< TInputImage, TCoordRep >
 /**
  *
  */
-template< class TInputImage, class TCoordRep >
+template< typename TInputImage, typename TCoordRep >
 typename SumOfSquaresImageFunction< TInputImage, TCoordRep >
 ::RealType
 SumOfSquaresImageFunction< TInputImage, TCoordRep >

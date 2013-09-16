@@ -23,7 +23,7 @@
 namespace itk
 {
 
-template<class TTransform>
+template<typename TTransform>
 BSplineExponentialDiffeomorphicTransformParametersAdaptor<TTransform>
 ::BSplineExponentialDiffeomorphicTransformParametersAdaptor()
 {
@@ -33,7 +33,7 @@ BSplineExponentialDiffeomorphicTransformParametersAdaptor<TTransform>
   this->m_NumberOfControlPointsForTheUpdateFieldSetTime = 0;
 }
 
-template<class TTransform>
+template<typename TTransform>
 BSplineExponentialDiffeomorphicTransformParametersAdaptor<TTransform>
 ::~BSplineExponentialDiffeomorphicTransformParametersAdaptor()
 {
@@ -42,7 +42,7 @@ BSplineExponentialDiffeomorphicTransformParametersAdaptor<TTransform>
 /**
  * set mesh size for velocity field
  */
-template<class TTransform>
+template<typename TTransform>
 void
 BSplineExponentialDiffeomorphicTransformParametersAdaptor<TTransform>
 ::SetMeshSizeForTheConstantVelocityField( const ArrayType &meshSize )
@@ -62,7 +62,7 @@ BSplineExponentialDiffeomorphicTransformParametersAdaptor<TTransform>
 /**
  * set mesh size for update field
  */
-template<class TTransform>
+template<typename TTransform>
 void
 BSplineExponentialDiffeomorphicTransformParametersAdaptor<TTransform>
 ::SetMeshSizeForTheUpdateField( const ArrayType &meshSize )
@@ -82,7 +82,7 @@ BSplineExponentialDiffeomorphicTransformParametersAdaptor<TTransform>
 /**
  * set number of control points for velocity field
  */
-template<class TTransform>
+template<typename TTransform>
 void
 BSplineExponentialDiffeomorphicTransformParametersAdaptor<TTransform>
 ::SetNumberOfControlPointsForTheConstantVelocityField( const ArrayType &controlPoints )
@@ -98,7 +98,7 @@ BSplineExponentialDiffeomorphicTransformParametersAdaptor<TTransform>
 /**
  * set number of control points for update field
  */
-template<class TTransform>
+template<typename TTransform>
 void
 BSplineExponentialDiffeomorphicTransformParametersAdaptor<TTransform>
 ::SetNumberOfControlPointsForTheUpdateField( const ArrayType &controlPoints )
@@ -111,7 +111,7 @@ BSplineExponentialDiffeomorphicTransformParametersAdaptor<TTransform>
     }
 }
 
-template<class TTransform>
+template<typename TTransform>
 void
 BSplineExponentialDiffeomorphicTransformParametersAdaptor<TTransform>
 ::AdaptTransformParameters()
@@ -130,7 +130,7 @@ BSplineExponentialDiffeomorphicTransformParametersAdaptor<TTransform>
     }
 }
 
-template <class TTransform>
+template <typename TTransform>
 void
 BSplineExponentialDiffeomorphicTransformParametersAdaptor<TTransform>
 ::PrintSelf( std::ostream& os, Indent indent ) const

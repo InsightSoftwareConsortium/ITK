@@ -24,14 +24,14 @@ namespace itk
 {
 namespace Statistics
 {
-template< class TImage >
+template< typename TImage >
 ImageToListSampleAdaptor< TImage >
 ::ImageToListSampleAdaptor()
 {
   m_Image = 0;
 }
 
-template< class TImage >
+template< typename TImage >
 const typename ImageToListSampleAdaptor< TImage >::MeasurementVectorType &
 ImageToListSampleAdaptor< TImage >
 ::GetMeasurementVector(InstanceIdentifier id) const
@@ -47,7 +47,7 @@ ImageToListSampleAdaptor< TImage >
 }
 
 /** returns the number of measurement vectors in this container*/
-template< class TImage >
+template< typename TImage >
 typename ImageToListSampleAdaptor< TImage >::InstanceIdentifier
 ImageToListSampleAdaptor< TImage >
 ::Size() const
@@ -60,7 +60,7 @@ ImageToListSampleAdaptor< TImage >
   return m_Image->GetPixelContainer()->Size();
 }
 
-template< class TImage >
+template< typename TImage >
 inline typename ImageToListSampleAdaptor< TImage >::AbsoluteFrequencyType
 ImageToListSampleAdaptor< TImage >
 ::GetFrequency(InstanceIdentifier) const
@@ -73,7 +73,7 @@ ImageToListSampleAdaptor< TImage >
   return NumericTraits< AbsoluteFrequencyType >::One;
 }
 
-template< class TImage >
+template< typename TImage >
 void
 ImageToListSampleAdaptor< TImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -100,7 +100,7 @@ ImageToListSampleAdaptor< TImage >
     }
 }
 
-template< class TImage >
+template< typename TImage >
 void
 ImageToListSampleAdaptor< TImage >
 ::SetImage(const TImage *image)
@@ -109,7 +109,7 @@ ImageToListSampleAdaptor< TImage >
   this->Modified();
 }
 
-template< class TImage >
+template< typename TImage >
 const TImage *
 ImageToListSampleAdaptor< TImage >
 ::GetImage() const
@@ -122,7 +122,7 @@ ImageToListSampleAdaptor< TImage >
   return m_Image.GetPointer();
 }
 
-template< class TImage >
+template< typename TImage >
 typename ImageToListSampleAdaptor< TImage >::TotalAbsoluteFrequencyType
 ImageToListSampleAdaptor< TImage >
 ::GetTotalFrequency() const

@@ -36,8 +36,8 @@ namespace itk
 /**
  *  Constructor
  */
-template< class TInputVectorImage, class TLabelsType,
-          class TPosteriorsPrecisionType, class TPriorsPrecisionType >
+template< typename TInputVectorImage, typename TLabelsType,
+          typename TPosteriorsPrecisionType, typename TPriorsPrecisionType >
 BayesianClassifierImageFilter< TInputVectorImage, TLabelsType,
                                TPosteriorsPrecisionType, TPriorsPrecisionType >
 ::BayesianClassifierImageFilter()
@@ -55,8 +55,8 @@ BayesianClassifierImageFilter< TInputVectorImage, TLabelsType,
 /**
  *  Print Self Method
  */
-template< class TInputVectorImage, class TLabelsType,
-          class TPosteriorsPrecisionType, class TPriorsPrecisionType >
+template< typename TInputVectorImage, typename TLabelsType,
+          typename TPosteriorsPrecisionType, typename TPriorsPrecisionType >
 void
 BayesianClassifierImageFilter< TInputVectorImage, TLabelsType,
                                TPosteriorsPrecisionType, TPriorsPrecisionType >
@@ -73,8 +73,8 @@ BayesianClassifierImageFilter< TInputVectorImage, TLabelsType,
 /**
  * Generate Data method is where the classification (and smoothing) is performed.
  */
-template< class TInputVectorImage, class TLabelsType,
-          class TPosteriorsPrecisionType, class TPriorsPrecisionType >
+template< typename TInputVectorImage, typename TLabelsType,
+          typename TPosteriorsPrecisionType, typename TPriorsPrecisionType >
 void
 BayesianClassifierImageFilter< TInputVectorImage, TLabelsType,
                                TPosteriorsPrecisionType, TPriorsPrecisionType >
@@ -104,8 +104,8 @@ BayesianClassifierImageFilter< TInputVectorImage, TLabelsType,
   this->ClassifyBasedOnPosteriors();
 }
 
-template< class TInputVectorImage, class TLabelsType,
-          class TPosteriorsPrecisionType, class TPriorsPrecisionType >
+template< typename TInputVectorImage, typename TLabelsType,
+          typename TPosteriorsPrecisionType, typename TPriorsPrecisionType >
 typename BayesianClassifierImageFilter< TInputVectorImage, TLabelsType,
                                         TPosteriorsPrecisionType, TPriorsPrecisionType >
 ::PosteriorsImageType *
@@ -119,8 +119,8 @@ BayesianClassifierImageFilter< TInputVectorImage, TLabelsType,
   return ptr;
 }
 
-template< class TInputVectorImage, class TLabelsType,
-          class TPosteriorsPrecisionType, class TPriorsPrecisionType >
+template< typename TInputVectorImage, typename TLabelsType,
+          typename TPosteriorsPrecisionType, typename TPriorsPrecisionType >
 typename BayesianClassifierImageFilter< TInputVectorImage, TLabelsType,
                                         TPosteriorsPrecisionType, TPriorsPrecisionType >
 ::DataObjectPointer
@@ -135,8 +135,8 @@ BayesianClassifierImageFilter< TInputVectorImage, TLabelsType,
   return Superclass::MakeOutput(idx);
 }
 
-template< class TInputVectorImage, class TLabelsType,
-          class TPosteriorsPrecisionType, class TPriorsPrecisionType >
+template< typename TInputVectorImage, typename TLabelsType,
+          typename TPosteriorsPrecisionType, typename TPriorsPrecisionType >
 void
 BayesianClassifierImageFilter< TInputVectorImage, TLabelsType,
                                TPosteriorsPrecisionType, TPriorsPrecisionType >
@@ -157,8 +157,8 @@ BayesianClassifierImageFilter< TInputVectorImage, TLabelsType,
 /**
  * Compute the posteriors using the Bayes rule. If no priors are available,
  * then the posteriors are just a copy of the memberships.  */
-template< class TInputVectorImage, class TLabelsType,
-          class TPosteriorsPrecisionType, class TPriorsPrecisionType >
+template< typename TInputVectorImage, typename TLabelsType,
+          typename TPosteriorsPrecisionType, typename TPriorsPrecisionType >
 void
 BayesianClassifierImageFilter< TInputVectorImage, TLabelsType,
                                TPosteriorsPrecisionType, TPriorsPrecisionType >
@@ -239,8 +239,8 @@ BayesianClassifierImageFilter< TInputVectorImage, TLabelsType,
     }
 }
 
-template< class TInputVectorImage, class TLabelsType,
-          class TPosteriorsPrecisionType, class TPriorsPrecisionType >
+template< typename TInputVectorImage, typename TLabelsType,
+          typename TPosteriorsPrecisionType, typename TPriorsPrecisionType >
 void
 BayesianClassifierImageFilter< TInputVectorImage, TLabelsType,
                                TPosteriorsPrecisionType, TPriorsPrecisionType >
@@ -254,8 +254,8 @@ BayesianClassifierImageFilter< TInputVectorImage, TLabelsType,
 /**
   * Set the prior image
   */
-template< class TInputVectorImage, class TLabelsType,
-          class TPosteriorsPrecisionType, class TPriorsPrecisionType >
+template< typename TInputVectorImage, typename TLabelsType,
+          typename TPosteriorsPrecisionType, typename TPriorsPrecisionType >
 void
 BayesianClassifierImageFilter< TInputVectorImage, TLabelsType,
                                TPosteriorsPrecisionType, TPriorsPrecisionType >
@@ -269,8 +269,8 @@ BayesianClassifierImageFilter< TInputVectorImage, TLabelsType,
 /**
  * Normalize the posteriors and smooth them using an user-provided.
  */
-template< class TInputVectorImage, class TLabelsType,
-          class TPosteriorsPrecisionType, class TPriorsPrecisionType >
+template< typename TInputVectorImage, typename TLabelsType,
+          typename TPosteriorsPrecisionType, typename TPriorsPrecisionType >
 void
 BayesianClassifierImageFilter< TInputVectorImage, TLabelsType,
                                TPosteriorsPrecisionType, TPriorsPrecisionType >
@@ -351,8 +351,8 @@ BayesianClassifierImageFilter< TInputVectorImage, TLabelsType,
 /**
  * Compute the labeled map based on the Maximum rule applied to the posteriors.
  */
-template< class TInputVectorImage, class TLabelsType,
-          class TPosteriorsPrecisionType, class TPriorsPrecisionType >
+template< typename TInputVectorImage, typename TLabelsType,
+          typename TPosteriorsPrecisionType, typename TPriorsPrecisionType >
 void
 BayesianClassifierImageFilter< TInputVectorImage, TLabelsType,
                                TPosteriorsPrecisionType, TPriorsPrecisionType >

@@ -28,7 +28,7 @@ namespace itk
  /** \class LevelSetEvolutionStoppingCriterion
   \ingroup ITKLevelSetsv4
   */
- template< class TLevelSetContainer >
+ template< typename TLevelSetContainer >
  class LevelSetEvolutionStoppingCriterion : public StoppingCriterionBase
  {
  public:

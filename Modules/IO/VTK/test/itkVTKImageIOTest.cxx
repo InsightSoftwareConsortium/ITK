@@ -26,7 +26,7 @@
 
 #define SPECIFIC_IMAGEIO_MODULE_TEST
 
-template<class TScalar, unsigned int TDimension>
+template<typename TScalar, unsigned int TDimension>
 int ReadWrite(TScalar low, TScalar hi, char *file1, char *file2, bool ascii)
 {
   typedef itk::Image<TScalar,TDimension> ImageType;

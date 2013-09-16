@@ -32,7 +32,7 @@ namespace itk
  *         Use vtkTriangleFilter to convert your mesh to a triangle mesh.
  * \ingroup ITKMesh
  */
-template< class TInputMesh >
+template< typename TInputMesh >
 class VTKPolyDataWriter:public Object
 {
 public:

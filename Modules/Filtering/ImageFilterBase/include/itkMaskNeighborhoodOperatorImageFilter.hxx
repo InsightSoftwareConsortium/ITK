@@ -26,7 +26,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TMaskImage, class TOutputImage, class TOperatorValueType >
+template< typename TInputImage, typename TMaskImage, typename TOutputImage, typename TOperatorValueType >
 void
 MaskNeighborhoodOperatorImageFilter< TInputImage, TMaskImage, TOutputImage, TOperatorValueType >
 ::SetMaskImage(const TMaskImage *mask)
@@ -34,7 +34,7 @@ MaskNeighborhoodOperatorImageFilter< TInputImage, TMaskImage, TOutputImage, TOpe
   this->ProcessObject::SetNthInput( 1, const_cast< TMaskImage * >( mask ) );
 }
 
-template< class TInputImage, class TMaskImage, class TOutputImage, class TOperatorValueType >
+template< typename TInputImage, typename TMaskImage, typename TOutputImage, typename TOperatorValueType >
 const TMaskImage *
 MaskNeighborhoodOperatorImageFilter< TInputImage, TMaskImage, TOutputImage, TOperatorValueType >
 ::GetMaskImage() const
@@ -42,7 +42,7 @@ MaskNeighborhoodOperatorImageFilter< TInputImage, TMaskImage, TOutputImage, TOpe
   return itkDynamicCastInDebugMode< MaskImageType * >( const_cast< DataObject * >( this->ProcessObject::GetInput(1) ) );
 }
 
-template< class TInputImage, class TMaskImage, class TOutputImage, class TOperatorValueType >
+template< typename TInputImage, typename TMaskImage, typename TOutputImage, typename TOperatorValueType >
 void
 MaskNeighborhoodOperatorImageFilter< TInputImage, TMaskImage, TOutputImage, TOperatorValueType >
 ::GenerateInputRequestedRegion()
@@ -90,7 +90,7 @@ throw ( InvalidRequestedRegionError )
     }
 }
 
-template< class TInputImage, class TMaskImage, class TOutputImage, class TOperatorValueType >
+template< typename TInputImage, typename TMaskImage, typename TOutputImage, typename TOperatorValueType >
 void
 MaskNeighborhoodOperatorImageFilter< TInputImage, TMaskImage, TOutputImage, TOperatorValueType >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
@@ -169,7 +169,7 @@ MaskNeighborhoodOperatorImageFilter< TInputImage, TMaskImage, TOutputImage, TOpe
     }
 }
 
-template< class TInputImage, class TMaskImage, class TOutputImage, class TOperatorValueType >
+template< typename TInputImage, typename TMaskImage, typename TOutputImage, typename TOperatorValueType >
 void
 MaskNeighborhoodOperatorImageFilter< TInputImage, TMaskImage, TOutputImage, TOperatorValueType >
 ::PrintSelf(std::ostream & os, Indent indent) const

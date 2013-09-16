@@ -22,8 +22,8 @@
 
 namespace itk
 {
-template< class TLevelSet, class TAuxValue, unsigned int VAuxDimension,
-          class TSpeedImage >
+template< typename TLevelSet, typename TAuxValue, unsigned int VAuxDimension,
+          typename TSpeedImage >
 FastMarchingExtensionImageFilter< TLevelSet, TAuxValue, VAuxDimension, TSpeedImage >
 ::FastMarchingExtensionImageFilter()
 {
@@ -41,8 +41,8 @@ FastMarchingExtensionImageFilter< TLevelSet, TAuxValue, VAuxDimension, TSpeedIma
     }
 }
 
-template< class TLevelSet, class TAuxValue, unsigned int VAuxDimension,
-          class TSpeedImage >
+template< typename TLevelSet, typename TAuxValue, unsigned int VAuxDimension,
+          typename TSpeedImage >
 void
 FastMarchingExtensionImageFilter< TLevelSet, TAuxValue, VAuxDimension, TSpeedImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -57,8 +57,8 @@ FastMarchingExtensionImageFilter< TLevelSet, TAuxValue, VAuxDimension, TSpeedIma
 /*
  *
  */
-template< class TLevelSet, class TAuxValue, unsigned int VAuxDimension,
-          class TSpeedImage >
+template< typename TLevelSet, typename TAuxValue, unsigned int VAuxDimension,
+          typename TSpeedImage >
 typename FastMarchingExtensionImageFilter< TLevelSet, TAuxValue, VAuxDimension, TSpeedImage >
 ::AuxImageType *
 FastMarchingExtensionImageFilter< TLevelSet, TAuxValue, VAuxDimension, TSpeedImage >
@@ -75,8 +75,8 @@ FastMarchingExtensionImageFilter< TLevelSet, TAuxValue, VAuxDimension, TSpeedIma
 /*
  *
  */
-template< class TLevelSet, class TAuxValue, unsigned int VAuxDimension,
-          class TSpeedImage >
+template< typename TLevelSet, typename TAuxValue, unsigned int VAuxDimension,
+          typename TSpeedImage >
 void
 FastMarchingExtensionImageFilter< TLevelSet, TAuxValue, VAuxDimension, TSpeedImage >
 ::GenerateOutputInformation()
@@ -97,8 +97,8 @@ FastMarchingExtensionImageFilter< TLevelSet, TAuxValue, VAuxDimension, TSpeedIma
 /*
  *
  */
-template< class TLevelSet, class TAuxValue, unsigned int VAuxDimension,
-          class TSpeedImage >
+template< typename TLevelSet, typename TAuxValue, unsigned int VAuxDimension,
+          typename TSpeedImage >
 void
 FastMarchingExtensionImageFilter< TLevelSet, TAuxValue, VAuxDimension, TSpeedImage >
 ::EnlargeOutputRequestedRegion(
@@ -117,8 +117,8 @@ FastMarchingExtensionImageFilter< TLevelSet, TAuxValue, VAuxDimension, TSpeedIma
 /*
  *
  */
-template< class TLevelSet, class TAuxValue, unsigned int VAuxDimension,
-          class TSpeedImage >
+template< typename TLevelSet, typename TAuxValue, unsigned int VAuxDimension,
+          typename TSpeedImage >
 void
 FastMarchingExtensionImageFilter< TLevelSet, TAuxValue, VAuxDimension, TSpeedImage >
 ::Initialize(LevelSetImageType *output)
@@ -209,8 +209,8 @@ FastMarchingExtensionImageFilter< TLevelSet, TAuxValue, VAuxDimension, TSpeedIma
     }   // if AuxTrialValues set
 }
 
-template< class TLevelSet, class TAuxValue, unsigned int VAuxDimension,
-          class TSpeedImage >
+template< typename TLevelSet, typename TAuxValue, unsigned int VAuxDimension,
+          typename TSpeedImage >
 double
 FastMarchingExtensionImageFilter< TLevelSet, TAuxValue, VAuxDimension, TSpeedImage >
 ::UpdateValue(

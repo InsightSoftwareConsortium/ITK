@@ -45,7 +45,7 @@ namespace itk
 
 namespace Functor
 {
-template< class TInputPixel, class TAccumulate >
+template< typename TInputPixel, typename TAccumulate >
 class MeanAccumulator
 {
 public:
@@ -81,8 +81,8 @@ public:
 };
 } // end namespace Function
 
-template< class TInputImage, class TOutputImage,
-          class TAccumulate =
+template< typename TInputImage, typename TOutputImage,
+          typename TAccumulate =
             typename NumericTraits<
               typename TOutputImage::PixelType >::AccumulateType >
 class MeanProjectionImageFilter:public

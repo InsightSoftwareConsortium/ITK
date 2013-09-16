@@ -96,7 +96,7 @@ namespace itk
  */
 
 template<
-  class TScalar = double,      // Data type for scalars
+  typename TScalar = double,      // Data type for scalars
                                    //    (e.g. float or double)
   unsigned int NDimensions = 3 >
 // Number of dimensions in the input space
@@ -307,7 +307,7 @@ private:
 
 #if !defined(ITK_LEGACY_REMOVE)
 /** Back transform a vector */
-template< class TScalar, unsigned int NDimensions >
+template< typename TScalar, unsigned int NDimensions >
 inline
 typename AffineTransform< TScalar, NDimensions >::InputVectorType
 AffineTransform< TScalar, NDimensions >::BackTransform(const OutputVectorType & vect) const
@@ -320,7 +320,7 @@ AffineTransform< TScalar, NDimensions >::BackTransform(const OutputVectorType & 
 }
 
 /** Back transform a vnl_vector */
-template< class TScalar, unsigned int NDimensions >
+template< typename TScalar, unsigned int NDimensions >
 inline
 typename AffineTransform< TScalar, NDimensions >::InputVnlVectorType
 AffineTransform< TScalar, NDimensions >::BackTransform(const OutputVnlVectorType & vect) const
@@ -333,7 +333,7 @@ AffineTransform< TScalar, NDimensions >::BackTransform(const OutputVnlVectorType
 }
 
 /** Back Transform a CovariantVector */
-template< class TScalar, unsigned int NDimensions >
+template< typename TScalar, unsigned int NDimensions >
 inline
 typename AffineTransform< TScalar, NDimensions >::InputCovariantVectorType
 AffineTransform< TScalar, NDimensions >::BackTransform(const OutputCovariantVectorType & vec) const
@@ -357,7 +357,7 @@ AffineTransform< TScalar, NDimensions >::BackTransform(const OutputCovariantVect
 }
 
 /** Back transform a given point which is represented as type PointType */
-template< class TScalar, unsigned int NDimensions >
+template< typename TScalar, unsigned int NDimensions >
 inline
 typename AffineTransform< TScalar, NDimensions >::InputPointType
 AffineTransform< TScalar, NDimensions >::BackTransformPoint(const OutputPointType & point) const
@@ -366,7 +366,7 @@ AffineTransform< TScalar, NDimensions >::BackTransformPoint(const OutputPointTyp
 }
 
 /** Back transform a point */
-template< class TScalar, unsigned int NDimensions >
+template< typename TScalar, unsigned int NDimensions >
 inline
 typename AffineTransform< TScalar, NDimensions >::InputPointType
 AffineTransform< TScalar, NDimensions >::BackTransform(const OutputPointType & point) const

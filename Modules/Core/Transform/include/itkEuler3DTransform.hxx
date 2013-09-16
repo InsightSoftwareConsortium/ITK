@@ -23,7 +23,7 @@
 namespace itk
 {
 // Constructor with default arguments
-template <class TScalar>
+template <typename TScalar>
 Euler3DTransform<TScalar>
 ::Euler3DTransform() :
   Superclass(ParametersDimension)
@@ -33,7 +33,7 @@ Euler3DTransform<TScalar>
 }
 
 // Constructor with default arguments
-template <class TScalar>
+template <typename TScalar>
 Euler3DTransform<TScalar>
 ::Euler3DTransform(const MatrixType & matrix, const OutputPointType & offset)
 {
@@ -48,7 +48,7 @@ Euler3DTransform<TScalar>
 }
 
 // Constructor with arguments
-template <class TScalar>
+template <typename TScalar>
 Euler3DTransform<TScalar>
 ::Euler3DTransform(unsigned int parametersDimension) :
   Superclass(parametersDimension)
@@ -58,7 +58,7 @@ Euler3DTransform<TScalar>
 }
 
 // Set Angles
-template <class TScalar>
+template <typename TScalar>
 void
 Euler3DTransform<TScalar>
 ::SetVarRotation(ScalarType angleX, ScalarType angleY, ScalarType angleZ)
@@ -69,7 +69,7 @@ Euler3DTransform<TScalar>
 }
 
 // Set Parameters
-template <class TScalar>
+template <typename TScalar>
 void
 Euler3DTransform<TScalar>
 ::SetParameters(const ParametersType & parameters)
@@ -104,7 +104,7 @@ Euler3DTransform<TScalar>
 }
 
 // Get Parameters
-template <class TScalar>
+template <typename TScalar>
 const typename Euler3DTransform<TScalar>::ParametersType
 & Euler3DTransform<TScalar>
 ::GetParameters(void) const
@@ -120,7 +120,7 @@ const typename Euler3DTransform<TScalar>::ParametersType
   }
 
 // Set Rotational Part
-template <class TScalar>
+template <typename TScalar>
 void
 Euler3DTransform<TScalar>
 ::SetRotation(ScalarType angleX, ScalarType angleY, ScalarType angleZ)
@@ -133,7 +133,7 @@ Euler3DTransform<TScalar>
 }
 
 // Compose
-template <class TScalar>
+template <typename TScalar>
 void
 Euler3DTransform<TScalar>
 ::SetIdentity(void)
@@ -145,7 +145,7 @@ Euler3DTransform<TScalar>
 }
 
 // Compute angles from the rotation matrix
-template <class TScalar>
+template <typename TScalar>
 void
 Euler3DTransform<TScalar>
 ::ComputeMatrixParameters(void)
@@ -197,7 +197,7 @@ Euler3DTransform<TScalar>
 }
 
 // Compute the matrix
-template <class TScalar>
+template <typename TScalar>
 void
 Euler3DTransform<TScalar>
 ::ComputeMatrix(void)
@@ -239,7 +239,7 @@ Euler3DTransform<TScalar>
     }
 }
 
-template <class TScalar>
+template <typename TScalar>
 void
 Euler3DTransform<TScalar>
 ::ComputeJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const
@@ -300,7 +300,7 @@ Euler3DTransform<TScalar>
 }
 
 // Print self
-template <class TScalar>
+template <typename TScalar>
 void
 Euler3DTransform<TScalar>::PrintSelf(std::ostream & os, Indent indent) const
 {

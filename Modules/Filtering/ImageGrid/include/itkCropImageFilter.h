@@ -39,7 +39,7 @@ namespace itk
  * \wikiexample{ImageProcessing/CropImageFilter,Crop an image by specifying the region to throw away}
  * \endwiki
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class CropImageFilter:
   public ExtractImageFilter< TInputImage, TOutputImage >
 {

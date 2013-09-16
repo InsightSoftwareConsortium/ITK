@@ -23,13 +23,13 @@
 
 namespace itk
 {
-template< class TImage, class TPath >
+template< typename TImage, typename TPath >
 PathIterator< TImage, TPath >
 ::PathIterator(ImageType *imagePtr, const PathType  *pathPtr):
   PathConstIterator< TImage, TPath >(imagePtr, pathPtr)
 {}
 
-template< class TImage, class TPath >
+template< typename TImage, typename TPath >
 PathIterator< TImage, TPath > &
 PathIterator< TImage, TPath >
 ::operator=(const Self & it)

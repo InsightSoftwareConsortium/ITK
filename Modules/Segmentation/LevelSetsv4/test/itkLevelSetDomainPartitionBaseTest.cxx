@@ -22,7 +22,7 @@
 namespace itk
 {
 
-template < class TDomain >
+template < typename TDomain >
 class LevelSetDomainPartitionBaseHelper
   : public LevelSetDomainPartitionBase< TDomain >
 {

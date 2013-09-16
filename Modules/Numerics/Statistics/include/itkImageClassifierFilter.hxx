@@ -25,7 +25,7 @@ namespace itk
 {
 namespace Statistics
 {
-template< class TSample, class TInputImage, class TOutputImage >
+template< typename TSample, typename TInputImage, typename TOutputImage >
 ImageClassifierFilter< TSample, TInputImage, TOutputImage >
 ::ImageClassifierFilter()
 {
@@ -39,7 +39,7 @@ ImageClassifierFilter< TSample, TInputImage, TOutputImage >
   m_NumberOfClasses = 0;
 }
 
-template< class TSample, class TInputImage, class TOutputImage >
+template< typename TSample, typename TInputImage, typename TOutputImage >
 void
 ImageClassifierFilter< TSample, TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -56,7 +56,7 @@ ImageClassifierFilter< TSample, TInputImage, TOutputImage >
      << std::endl;
 }
 
-template< class TSample, class TInputImage, class TOutputImage >
+template< typename TSample, typename TInputImage, typename TOutputImage >
 void
 ImageClassifierFilter< TSample, TInputImage, TOutputImage >
 ::SetImage(const InputImageType *image)
@@ -66,7 +66,7 @@ ImageClassifierFilter< TSample, TInputImage, TOutputImage >
                                     const_cast< InputImageType * >( image ) );
 }
 
-template< class TSample, class TInputImage, class TOutputImage >
+template< typename TSample, typename TInputImage, typename TOutputImage >
 const TInputImage *
 ImageClassifierFilter< TSample, TInputImage, TOutputImage >
 ::GetImage() const
@@ -74,7 +74,7 @@ ImageClassifierFilter< TSample, TInputImage, TOutputImage >
   return itkDynamicCastInDebugMode< const TInputImage * >( this->GetPrimaryInput() );
 }
 
-template< class TSample, class TInputImage, class TOutputImage >
+template< typename TSample, typename TInputImage, typename TOutputImage >
 void
 ImageClassifierFilter< TSample, TInputImage, TOutputImage >
 ::SetClassLabels(const ClassLabelVectorObjectType *classLabels)
@@ -84,7 +84,7 @@ ImageClassifierFilter< TSample, TInputImage, TOutputImage >
                                     const_cast< ClassLabelVectorObjectType * >( classLabels ) );
 }
 
-template< class TSample, class TInputImage, class TOutputImage >
+template< typename TSample, typename TInputImage, typename TOutputImage >
 void
 ImageClassifierFilter< TSample, TInputImage, TOutputImage >
 ::SetMembershipFunctions(const MembershipFunctionVectorObjectType *membershipFunctions)
@@ -94,7 +94,7 @@ ImageClassifierFilter< TSample, TInputImage, TOutputImage >
                                     const_cast< MembershipFunctionVectorObjectType * >( membershipFunctions ) );
 }
 
-template< class TSample, class TInputImage, class TOutputImage >
+template< typename TSample, typename TInputImage, typename TOutputImage >
 void
 ImageClassifierFilter< TSample, TInputImage, TOutputImage >
 ::SetMembershipFunctionsWeightsArray(const
@@ -106,7 +106,7 @@ ImageClassifierFilter< TSample, TInputImage, TOutputImage >
                                       MembershipFunctionsWeightsArrayObjectType * >( weightsArray ) );
 }
 
-template< class TSample, class TInputImage, class TOutputImage >
+template< typename TSample, typename TInputImage, typename TOutputImage >
 void
 ImageClassifierFilter< TSample, TInputImage, TOutputImage >
 ::GenerateData()

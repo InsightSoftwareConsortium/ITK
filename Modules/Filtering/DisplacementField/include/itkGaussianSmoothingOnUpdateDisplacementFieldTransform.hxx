@@ -32,7 +32,7 @@
 namespace itk
 {
 
-template<class TScalar, unsigned int NDimensions>
+template<typename TScalar, unsigned int NDimensions>
 GaussianSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
 ::GaussianSmoothingOnUpdateDisplacementFieldTransform()
 {
@@ -40,13 +40,13 @@ GaussianSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
   this->m_GaussianSmoothingVarianceForTheTotalField = 0.5;
 }
 
-template<class TScalar, unsigned int NDimensions>
+template<typename TScalar, unsigned int NDimensions>
 GaussianSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>::
 ~GaussianSmoothingOnUpdateDisplacementFieldTransform()
 {
 }
 
-template<class TScalar, unsigned int NDimensions>
+template<typename TScalar, unsigned int NDimensions>
 void
 GaussianSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
 ::UpdateTransformParameters( const DerivativeType & update, ScalarType factor)
@@ -126,7 +126,7 @@ GaussianSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
     }
 }
 
-template<class TScalar, unsigned int NDimensions>
+template<typename TScalar, unsigned int NDimensions>
 typename GaussianSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>::DisplacementFieldPointer
 GaussianSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
 ::GaussianSmoothDisplacementField( DisplacementFieldType *field, ScalarType variance )
@@ -214,7 +214,7 @@ GaussianSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
   return field;
 }
 
-template <class TScalar, unsigned int NDimensions>
+template <typename TScalar, unsigned int NDimensions>
 typename LightObject::Pointer
 GaussianSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
 ::InternalClone() const
@@ -243,7 +243,7 @@ GaussianSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
   return loPtr;
 }
 
-template <class TScalar, unsigned int NDimensions>
+template <typename TScalar, unsigned int NDimensions>
 void
 GaussianSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>::
 PrintSelf( std::ostream& os, Indent indent ) const

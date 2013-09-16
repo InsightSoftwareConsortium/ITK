@@ -25,7 +25,7 @@ namespace itk
 {
 namespace fem
 {
-template <class TBaseClass>
+template <typename TBaseClass>
 Element3DStrain<TBaseClass>
 ::Element3DStrain() : Superclass(), m_mat(0)
 {
@@ -36,7 +36,7 @@ Element3DStrain<TBaseClass>
  * Methods related to the physics of the problem.
  */
 
-template <class TBaseClass>
+template <typename TBaseClass>
 void Element3DStrain<TBaseClass>
 ::GetStrainDisplacementMatrix(MatrixType & B, const MatrixType & shapeDgl) const
 {
@@ -96,7 +96,7 @@ void Element3DStrain<TBaseClass>
     }
 }
 
-template <class TBaseClass>
+template <typename TBaseClass>
 void
 Element3DStrain<TBaseClass>
 ::GetMaterialMatrix(MatrixType & D) const
@@ -129,7 +129,7 @@ Element3DStrain<TBaseClass>
   D = D * fac;
 }
 
-template <class TBaseClass>
+template <typename TBaseClass>
 void
 Element3DStrain<TBaseClass>
 ::PrintSelf(std::ostream& os, Indent indent) const

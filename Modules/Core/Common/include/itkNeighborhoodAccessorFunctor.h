@@ -37,7 +37,7 @@ namespace itk
  * for Medical Research, Grant U54 EB005149.
   * \ingroup ITKCommon
  */
-template< class TImage >
+template< typename TImage >
 class NeighborhoodAccessorFunctor
 {
 public:
@@ -94,7 +94,7 @@ public:
 };
 } // end namespace itk
 
-//template< class TImage > const unsigned int
+//template< typename TImage > const unsigned int
 // itk::NeighborhoodAccessorFunctor<TImage>::ImageDimension;
 
 #endif

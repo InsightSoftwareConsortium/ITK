@@ -24,7 +24,7 @@ namespace itk
 {
 // Computes the overlap multiplicative factors for the penalty term (sum) and
 // the background intensity fitting terms in multiphase level-sets
-template< class TInputImage, class TFeatureImage, class TSharedData >
+template< typename TInputImage, typename TFeatureImage, typename TSharedData >
 typename ScalarRegionBasedLevelSetFunction< TInputImage, TFeatureImage, TSharedData >::ScalarValueType
 ScalarRegionBasedLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
 ::ComputeOverlapParameters(const FeatureIndexType & globalIndex, ScalarValueType & product)
@@ -65,7 +65,7 @@ characteristic function of each region is recomputed (note the shared
 data which contains information from the other level sets). Using the
 new H values, the previous c_i are updated. Used by only the sparse image
 filter */
-template< class TInputImage, class TFeatureImage, class TSharedData >
+template< typename TInputImage, typename TFeatureImage, typename TSharedData >
 void
 ScalarRegionBasedLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
 ::UpdatePixel( const unsigned int & idx, NeighborhoodIterator< TInputImage >

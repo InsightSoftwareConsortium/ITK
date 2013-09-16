@@ -42,7 +42,7 @@ namespace itk
  *
  * \ingroup ITKIOTransformBase
  */
-template<class ScalarType>
+template<typename ScalarType>
 class TransformIOBaseTemplate:public LightProcessObject
 {
 public:

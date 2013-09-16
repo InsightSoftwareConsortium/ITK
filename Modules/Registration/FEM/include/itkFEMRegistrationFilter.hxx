@@ -38,12 +38,12 @@ namespace itk
 namespace fem
 {
 
-template <class TMovingImage, class TFixedImage, class TFemObject>
+template <typename TMovingImage, typename TFixedImage, typename TFemObject>
 FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::~FEMRegistrationFilter()
 {
 }
 
-template <class TMovingImage, class TFixedImage, class TFemObject>
+template <typename TMovingImage, typename TFixedImage, typename TFemObject>
 FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::FEMRegistrationFilter()
 {
 
@@ -109,7 +109,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::FEMRegistrationFil
 
 }
 
-template <class TMovingImage, class TFixedImage, class TFemObject>
+template <typename TMovingImage, typename TFixedImage, typename TFemObject>
 void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::SetMaxLevel(unsigned int level)
 {
   m_MaxLevel = level;
@@ -137,7 +137,7 @@ void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::SetMaxLevel(u
 /**
  * Set the standard deviations.
  */
-template <class TMovingImage, class TFixedImage, class TFemObject>
+template <typename TMovingImage, typename TFixedImage, typename TFemObject>
 void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::SetStandardDeviations(double value)
 {
   unsigned int j;
@@ -160,7 +160,7 @@ void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::SetStandardDe
 }
 
 
-template <class TMovingImage, class TFixedImage, class TFemObject>
+template <typename TMovingImage, typename TFixedImage, typename TFemObject>
 void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::RunRegistration(void)
 {
 
@@ -178,7 +178,7 @@ void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::RunRegistrati
     }
 }
 
-template <class TMovingImage, class TFixedImage, class TFemObject>
+template <typename TMovingImage, typename TFixedImage, typename TFemObject>
 void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::SetMovingImage(MovingImageType* R)
 {
   m_MovingImage = R;
@@ -189,7 +189,7 @@ void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::SetMovingImag
     }
 }
 
-template <class TMovingImage, class TFixedImage, class TFemObject>
+template <typename TMovingImage, typename TFixedImage, typename TFemObject>
 void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::SetFixedImage(FixedImageType* T)
 {
   m_FixedImage = T;
@@ -209,21 +209,21 @@ void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::SetFixedImage
   m_CurrentLevelImageSize = m_FullImageSize;
 }
 
-template <class TMovingImage, class TFixedImage, class TFemObject>
+template <typename TMovingImage, typename TFixedImage, typename TFemObject>
 void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::SetInputFEMObject(FEMObjectType* F,
                                                                                      unsigned int level)
 {
   this->ProcessObject::SetNthInput( 2 + level, const_cast<FEMObjectType *>( F ) );
 }
 
-template <class TMovingImage, class TFixedImage, class TFemObject>
+template <typename TMovingImage, typename TFixedImage, typename TFemObject>
 typename FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::FEMObjectType
 * FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::GetInputFEMObject(unsigned int level)
   {
   return static_cast<FEMObjectType *>(this->ProcessObject::GetInput(2 + level) );
   }
 
-template <class TMovingImage, class TFixedImage, class TFemObject>
+template <typename TMovingImage, typename TFixedImage, typename TFemObject>
 void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::ChooseMetric(unsigned int which)
 {
   // Choose the similarity Function
@@ -262,7 +262,7 @@ void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::ChooseMetric(
   m_Metric->SetNormalizeGradient( m_UseNormalizedGradient );
 }
 
-template <class TMovingImage, class TFixedImage, class TFemObject>
+template <typename TMovingImage, typename TFixedImage, typename TFemObject>
 void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::WarpImage( const MovingImageType * ImageToWarp)
 {
   // -------------------------------------------------------
@@ -288,7 +288,7 @@ void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::WarpImage( co
   m_WarpedImage = warper->GetOutput();
 }
 
-template <class TMovingImage, class TFixedImage, class TFemObject>
+template <typename TMovingImage, typename TFixedImage, typename TFemObject>
 void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::CreateMesh(unsigned int PixelsPerElement,
                                                                               SolverType *mySolver)
 {
@@ -350,7 +350,7 @@ void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::CreateMesh(un
                                         m_FixedImage->GetDirection());
 }
 
-template <class TMovingImage, class TFixedImage, class TFemObject>
+template <typename TMovingImage, typename TFixedImage, typename TFemObject>
 void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>
 ::ApplyImageLoads(TMovingImage*  movingimg, TFixedImage* fixedimg )
 {
@@ -386,7 +386,7 @@ void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>
     (&*m_FEMObject->GetLoadWithGlobalNumber(m_FEMObject->GetNumberOfLoads() ) );
 }
 
-template <class TMovingImage, class TFixedImage, class TFemObject>
+template <typename TMovingImage, typename TFixedImage, typename TFemObject>
 void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::ApplyLoads(
   ImageSizeType ImgSz, double* scaling)
 {
@@ -526,7 +526,7 @@ void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::ApplyLoads(
     }
 }
 
-template <class TMovingImage, class TFixedImage, class TFemObject>
+template <typename TMovingImage, typename TFixedImage, typename TFemObject>
 void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::IterativeSolve(SolverType *mySolver)
 {
   if( !m_Load )
@@ -626,7 +626,7 @@ void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::IterativeSolv
     }
 }
 
-template <class TMovingImage, class TFixedImage, class TFemObject>
+template <typename TMovingImage, typename TFixedImage, typename TFemObject>
 void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>
 ::InitializeField()
 {
@@ -657,7 +657,7 @@ void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>
     }
 }
 
-template <class TMovingImage, class TFixedImage, class TFemObject>
+template <typename TMovingImage, typename TFixedImage, typename TFemObject>
 void
 FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::InterpolateVectorField(SolverType *mySolver)
 {
@@ -807,7 +807,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::InterpolateVectorF
   itkDebugMacro( << " interpolation done " << std::endl);
 }
 
-template <class TMovingImage, class TFixedImage, class TFemObject>
+template <typename TMovingImage, typename TFixedImage, typename TFemObject>
 void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::ComputeJacobian( )
 {
   m_MinJacobian = 1.0;
@@ -828,7 +828,7 @@ void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::ComputeJacobi
   itkDebugMacro( << " min Jacobian " << m_MinJacobian << std::endl);
 }
 
-template <class TMovingImage, class TFixedImage, class TFemObject>
+template <typename TMovingImage, typename TFixedImage, typename TFemObject>
 void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::EnforceDiffeomorphism(float thresh,
                                                                                          SolverType *mySolver,
                                                                                          bool onlywriteimages )
@@ -1013,7 +1013,7 @@ void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::EnforceDiffeo
 /*
  * Smooth deformation using a separable Gaussian kernel
  */
-template <class TMovingImage, class TFixedImage, class TFemObject>
+template <typename TMovingImage, typename TFixedImage, typename TFemObject>
 void
 FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::SmoothDisplacementField()
 {
@@ -1036,7 +1036,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::SmoothDisplacement
     }
 }
 
-template <class TMovingImage, class TFixedImage, class TFemObject>
+template <typename TMovingImage, typename TFixedImage, typename TFemObject>
 typename FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::FieldPointer
 FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::ExpandVectorField( ExpandFactorsType* expandFactors,
                                                                                  FieldType* field)
@@ -1068,7 +1068,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::ExpandVectorField(
   return m_FieldExpander->GetOutput();
 }
 
-template <class TMovingImage, class TFixedImage, class TFemObject>
+template <typename TMovingImage, typename TFixedImage, typename TFemObject>
 void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::SampleVectorFieldAtNodes(SolverType *mySolver)
 {
 
@@ -1114,7 +1114,7 @@ void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::SampleVectorF
 
 }
 
-template <class TMovingImage, class TFixedImage, class TFemObject>
+template <typename TMovingImage, typename TFixedImage, typename TFemObject>
 void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::PrintVectorField(unsigned int modnum)
 {
   FieldIterator fieldIter( m_Field, m_Field->GetLargestPossibleRegion() );
@@ -1145,7 +1145,7 @@ void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::PrintVectorFi
   itkDebugMacro( << " max  vec " << max << std::endl );
 }
 
-template <class TMovingImage, class TFixedImage, class TFemObject>
+template <typename TMovingImage, typename TFixedImage, typename TFemObject>
 void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::MultiResSolve()
 {
 
@@ -1226,7 +1226,7 @@ void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::MultiResSolve
     }
 }
 
-template <class TMovingImage, class TFixedImage, class TFemObject>
+template <typename TMovingImage, typename TFixedImage, typename TFemObject>
 Element::Float FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::EvaluateResidual(SolverType *mySolver,
                                                                                               Float t)
 {
@@ -1243,7 +1243,7 @@ Element::Float FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::Eva
   return vcl_fabs(static_cast<double>(SimE) ); // +defe;
 }
 
-template <class TMovingImage, class TFixedImage, class TFemObject>
+template <typename TMovingImage, typename TFixedImage, typename TFemObject>
 void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::FindBracketingTriplet(SolverType *mySolver, Float* a,
                                                                                          Float* b,
                                                                                          Float* c)
@@ -1333,7 +1333,7 @@ void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::FindBracketin
   *a = ax; *b = bx; *c = cx;
 }
 
-template <class TMovingImage, class TFixedImage, class TFemObject>
+template <typename TMovingImage, typename TFixedImage, typename TFemObject>
 Element::Float FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::GoldenSection(
   SolverType *mySolver, Float tol, unsigned int MaxIters)
 {
@@ -1396,7 +1396,7 @@ Element::Float FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::Gol
   return vcl_fabs(static_cast<double>(fmin) );
 }
 
-template <class TMovingImage, class TFixedImage, class TFemObject>
+template <typename TMovingImage, typename TFixedImage, typename TFemObject>
 void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::AddLandmark(PointType source, PointType target)
 {
   typename LoadLandmark::Pointer newLandmark = LoadLandmark::New();
@@ -1418,7 +1418,7 @@ void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::AddLandmark(P
   m_LandmarkArray.push_back( newLandmark );
 }
 
-template <class TMovingImage, class TFixedImage, class TFemObject>
+template <typename TMovingImage, typename TFixedImage, typename TFemObject>
 void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::InsertLandmark(unsigned int index, PointType source,
                                                                                   PointType target)
 {
@@ -1441,19 +1441,19 @@ void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::InsertLandmar
   m_LandmarkArray.insert( m_LandmarkArray.begin() + index, newLandmark );
 }
 
-template <class TMovingImage, class TFixedImage, class TFemObject>
+template <typename TMovingImage, typename TFixedImage, typename TFemObject>
 void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::DeleteLandmark(unsigned int index)
 {
   m_LandmarkArray.erase( m_LandmarkArray.begin() + index );
 }
 
-template <class TMovingImage, class TFixedImage, class TFemObject>
+template <typename TMovingImage, typename TFixedImage, typename TFemObject>
 void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::ClearLandmarks()
 {
   m_LandmarkArray.clear();
 }
 
-template <class TMovingImage, class TFixedImage, class TFemObject>
+template <typename TMovingImage, typename TFixedImage, typename TFemObject>
 void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::GetLandmark(unsigned int index, PointType& source,
                                                                                PointType& target)
 {
@@ -1469,7 +1469,7 @@ void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::GetLandmark(u
     }
 }
 
-template <class TMovingImage, class TFixedImage, class TFemObject>
+template <typename TMovingImage, typename TFixedImage, typename TFemObject>
 void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf( os, indent );

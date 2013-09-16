@@ -22,7 +22,7 @@
 
 namespace itk
 {
-template< class TTreeType >
+template< typename TTreeType >
 class InOrderTreeIterator:public TreeIteratorBase< TTreeType >
 {
 public:
@@ -60,19 +60,19 @@ private:
 };
 
 /** Constructor */
-template< class TTreeType >
+template< typename TTreeType >
 InOrderTreeIterator< TTreeType >::InOrderTreeIterator(TTreeType & start):
   TreeIteratorBase< TTreeType >(start)
 {}
 
 /** Constructor */
-template< class TTreeType >
+template< typename TTreeType >
 InOrderTreeIterator< TTreeType >::InOrderTreeIterator(TTreeType *tree, TreeNodeType *start):
   TreeIteratorBase< TTreeType >(tree, start)
 {}
 
 /** Get the type of the iterator */
-template< class TTreeType >
+template< typename TTreeType >
 typename InOrderTreeIterator< TTreeType >::NodeType
 InOrderTreeIterator< TTreeType >::GetType() const
 {
@@ -80,7 +80,7 @@ InOrderTreeIterator< TTreeType >::GetType() const
 }
 
 /** Return true if the next node exists */
-template< class TTreeType >
+template< typename TTreeType >
 bool InOrderTreeIterator< TTreeType >::HasNext() const
 {
   if ( const_cast< TreeNodeType * >( FindNextNode() ) != NULL )
@@ -91,7 +91,7 @@ bool InOrderTreeIterator< TTreeType >::HasNext() const
 }
 
 /** Return the next node */
-template< class TTreeType >
+template< typename TTreeType >
 const typename InOrderTreeIterator< TTreeType >::ValueType &
 InOrderTreeIterator< TTreeType >::Next()
 {
@@ -100,7 +100,7 @@ InOrderTreeIterator< TTreeType >::Next()
 }
 
 /** Find the next node */
-template< class TTreeType >
+template< typename TTreeType >
 const typename InOrderTreeIterator< TTreeType >::TreeNodeType *
 InOrderTreeIterator< TTreeType >::FindNextNode() const
 {
@@ -161,7 +161,7 @@ InOrderTreeIterator< TTreeType >::FindNextNode() const
 }
 
 /** Clone function */
-template< class TTreeType >
+template< typename TTreeType >
 TreeIteratorBase< TTreeType > *InOrderTreeIterator< TTreeType >::Clone()
 {
   InOrderTreeIterator *clone = new InOrderTreeIterator( const_cast< TTreeType * >( this->m_Tree ) );

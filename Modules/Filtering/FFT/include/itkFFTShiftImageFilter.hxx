@@ -22,14 +22,14 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 FFTShiftImageFilter< TInputImage, TOutputImage >
 ::FFTShiftImageFilter()
 {
   m_Inverse = false;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 FFTShiftImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
@@ -53,7 +53,7 @@ FFTShiftImageFilter< TInputImage, TOutputImage >
   this->Superclass::GenerateData();
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 FFTShiftImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

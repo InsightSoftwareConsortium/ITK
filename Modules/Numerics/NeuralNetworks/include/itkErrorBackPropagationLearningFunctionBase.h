@@ -38,7 +38,7 @@ namespace Statistics
  * \ingroup ITKNeuralNetworks
  */
 
-template<class LayerType, class TTargetVector>
+template<typename LayerType, typename TTargetVector>
 class ErrorBackPropagationLearningFunctionBase : public LearningFunctionBase<typename LayerType::LayerInterfaceType, TTargetVector>
 {
 public:

@@ -26,7 +26,7 @@ namespace itk
 {
 namespace Functor
 {
-template< class TInput >
+template< typename TInput >
 class ComposeRGB
 {
 public:

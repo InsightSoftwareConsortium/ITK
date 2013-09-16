@@ -27,7 +27,7 @@ namespace itk
 /**
  * Calculate the speed image.
  */
-template< class TImageType, class TFeatureImageType >
+template< typename TImageType, typename TFeatureImageType >
 void
 GeodesicActiveContourShapePriorLevelSetFunction< TImageType, TFeatureImageType >
 ::CalculateSpeedImage()
@@ -42,7 +42,7 @@ GeodesicActiveContourShapePriorLevelSetFunction< TImageType, TFeatureImageType >
 /**
  * Calculate the advection speed image
  */
-template< class TImageType, class TFeatureImageType >
+template< typename TImageType, typename TFeatureImageType >
 void GeodesicActiveContourShapePriorLevelSetFunction< TImageType, TFeatureImageType >
 ::CalculateAdvectionImage()
 {

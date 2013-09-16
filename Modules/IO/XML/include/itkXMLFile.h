@@ -89,7 +89,7 @@ private:
  * It can't be instantiated by itself
  * \ingroup ITKIOXML
  */
-template< class T >
+template< typename T >
 class XMLReader: public XMLReaderBase
 {
 public:
@@ -123,7 +123,7 @@ private:
  * implementing WriteFile.
  * \ingroup ITKIOXML
  */
-template< class T >
+template< typename T >
 class XMLWriterBase:public LightProcessObject
 {
 public:

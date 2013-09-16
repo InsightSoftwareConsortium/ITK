@@ -39,7 +39,7 @@ namespace itk
  * \wikiexample{Smoothing/BinomialBlurImageFilter,Blur an image}
  * \endwiki
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class BinomialBlurImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {

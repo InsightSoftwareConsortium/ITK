@@ -37,7 +37,7 @@ namespace itk
  *
  *  \ingroup ITKLevelSetsv4
  */
-template< class TImage >
+template< typename TImage >
 class LevelSetDenseImage :
   public DiscreteLevelSetImage< typename TImage::PixelType, TImage::ImageDimension >
   {

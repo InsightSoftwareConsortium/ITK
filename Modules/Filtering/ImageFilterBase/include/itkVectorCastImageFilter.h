@@ -41,7 +41,7 @@ namespace itk
  */
 namespace Functor
 {
-template< class TInput, class TOutput >
+template< typename TInput, typename TOutput >
 class VectorCast
 {
 public:
@@ -71,7 +71,7 @@ public:
 };
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class VectorCastImageFilter:
   public
   UnaryFunctorImageFilter< TInputImage, TOutputImage,

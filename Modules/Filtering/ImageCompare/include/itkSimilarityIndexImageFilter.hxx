@@ -24,7 +24,7 @@
 
 namespace itk
 {
-template< class TInputImage1, class TInputImage2 >
+template< typename TInputImage1, typename TInputImage2 >
 SimilarityIndexImageFilter< TInputImage1, TInputImage2 >
 ::SimilarityIndexImageFilter():m_CountOfImage1(1), m_CountOfImage2(1), m_CountOfIntersection(1)
 {
@@ -34,7 +34,7 @@ SimilarityIndexImageFilter< TInputImage1, TInputImage2 >
   m_SimilarityIndex = NumericTraits< RealType >::Zero;
 }
 
-template< class TInputImage1, class TInputImage2 >
+template< typename TInputImage1, typename TInputImage2 >
 void
 SimilarityIndexImageFilter< TInputImage1, TInputImage2 >
 ::SetInput2(const TInputImage2 *image)
@@ -42,7 +42,7 @@ SimilarityIndexImageFilter< TInputImage1, TInputImage2 >
   this->SetNthInput( 1, const_cast< TInputImage2 * >( image ) );
 }
 
-template< class TInputImage1, class TInputImage2 >
+template< typename TInputImage1, typename TInputImage2 >
 const typename SimilarityIndexImageFilter< TInputImage1, TInputImage2 >
 ::InputImage2Type *
 SimilarityIndexImageFilter< TInputImage1, TInputImage2 >
@@ -52,7 +52,7 @@ SimilarityIndexImageFilter< TInputImage1, TInputImage2 >
     ( this->ProcessObject::GetInput(1) );
 }
 
-template< class TInputImage1, class TInputImage2 >
+template< typename TInputImage1, typename TInputImage2 >
 void
 SimilarityIndexImageFilter< TInputImage1, TInputImage2 >
 ::GenerateInputRequestedRegion()
@@ -78,7 +78,7 @@ SimilarityIndexImageFilter< TInputImage1, TInputImage2 >
     }
 }
 
-template< class TInputImage1, class TInputImage2 >
+template< typename TInputImage1, typename TInputImage2 >
 void
 SimilarityIndexImageFilter< TInputImage1, TInputImage2 >
 ::EnlargeOutputRequestedRegion(DataObject *data)
@@ -87,7 +87,7 @@ SimilarityIndexImageFilter< TInputImage1, TInputImage2 >
   data->SetRequestedRegionToLargestPossibleRegion();
 }
 
-template< class TInputImage1, class TInputImage2 >
+template< typename TInputImage1, typename TInputImage2 >
 void
 SimilarityIndexImageFilter< TInputImage1, TInputImage2 >
 ::AllocateOutputs()
@@ -99,7 +99,7 @@ SimilarityIndexImageFilter< TInputImage1, TInputImage2 >
   this->GraftOutput(image);
 }
 
-template< class TInputImage1, class TInputImage2 >
+template< typename TInputImage1, typename TInputImage2 >
 void
 SimilarityIndexImageFilter< TInputImage1, TInputImage2 >
 ::BeforeThreadedGenerateData()
@@ -117,7 +117,7 @@ SimilarityIndexImageFilter< TInputImage1, TInputImage2 >
   m_CountOfIntersection.Fill(NumericTraits< SizeValueType >::Zero);
 }
 
-template< class TInputImage1, class TInputImage2 >
+template< typename TInputImage1, typename TInputImage2 >
 void
 SimilarityIndexImageFilter< TInputImage1, TInputImage2 >
 ::AfterThreadedGenerateData()
@@ -150,7 +150,7 @@ SimilarityIndexImageFilter< TInputImage1, TInputImage2 >
                       / ( static_cast< RealType >( countImage1 ) + static_cast< RealType >( countImage2 ) );
 }
 
-template< class TInputImage1, class TInputImage2 >
+template< typename TInputImage1, typename TInputImage2 >
 void
 SimilarityIndexImageFilter< TInputImage1, TInputImage2 >
 ::ThreadedGenerateData(const RegionType & outputRegionForThread,
@@ -186,7 +186,7 @@ SimilarityIndexImageFilter< TInputImage1, TInputImage2 >
     }
 }
 
-template< class TInputImage1, class TInputImage2 >
+template< typename TInputImage1, typename TInputImage2 >
 void
 SimilarityIndexImageFilter< TInputImage1, TInputImage2 >
 ::PrintSelf(std::ostream & os, Indent indent) const

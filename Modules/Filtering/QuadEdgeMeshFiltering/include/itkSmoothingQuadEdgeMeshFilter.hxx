@@ -22,7 +22,7 @@
 
 namespace itk
 {
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 SmoothingQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 ::SmoothingQuadEdgeMeshFilter()
 {
@@ -35,11 +35,11 @@ SmoothingQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
   this->m_OutputDelaunayFilter = OutputDelaunayConformingType::New();
 }
 
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 SmoothingQuadEdgeMeshFilter< TInputMesh, TOutputMesh >::~SmoothingQuadEdgeMeshFilter()
 {}
 
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 void SmoothingQuadEdgeMeshFilter< TInputMesh, TOutputMesh >::GenerateData()
 {
   OutputMeshPointer mesh = OutputMeshType::New();
@@ -156,7 +156,7 @@ void SmoothingQuadEdgeMeshFilter< TInputMesh, TOutputMesh >::GenerateData()
     }
 }
 
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 void SmoothingQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {

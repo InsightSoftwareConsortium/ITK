@@ -34,7 +34,7 @@ namespace itk
  * \ingroup ITKImageAdaptors
  */
 
-template< class T >
+template< typename T >
 class RedPixelAccessor
 {
 public:

@@ -35,7 +35,7 @@ namespace itk
  */
 namespace Functor
 {
-template< class TInput, class TOutput >
+template< typename TInput, typename TOutput >
 class RGBToLuminance
 {
 public:
@@ -59,7 +59,7 @@ public:
 };
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class RGBToLuminanceImageFilter:
   public
   UnaryFunctorImageFilter< TInputImage, TOutputImage,

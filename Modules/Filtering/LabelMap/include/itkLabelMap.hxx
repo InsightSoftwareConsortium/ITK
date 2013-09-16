@@ -36,7 +36,7 @@ namespace itk
 /**
  *
  */
-template< class TLabelObject >
+template< typename TLabelObject >
 LabelMap< TLabelObject >
 ::LabelMap()
 {
@@ -47,7 +47,7 @@ LabelMap< TLabelObject >
 /**
  *
  */
-template< class TLabelObject >
+template< typename TLabelObject >
 void
 LabelMap< TLabelObject >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -62,7 +62,7 @@ LabelMap< TLabelObject >
 /**
  *
  */
-template< class TLabelObject >
+template< typename TLabelObject >
 void
 LabelMap< TLabelObject >
 ::Initialize()
@@ -73,7 +73,7 @@ LabelMap< TLabelObject >
 /**
  *
  */
-template< class TLabelObject >
+template< typename TLabelObject >
 void
 LabelMap< TLabelObject >
 ::Allocate()
@@ -81,7 +81,7 @@ LabelMap< TLabelObject >
   this->Initialize();
 }
 
-template< class TLabelObject >
+template< typename TLabelObject >
 void
 LabelMap< TLabelObject >
 ::Graft(const DataObject *data)
@@ -119,7 +119,7 @@ LabelMap< TLabelObject >
     }
 }
 
-template< class TLabelObject >
+template< typename TLabelObject >
 typename LabelMap< TLabelObject >::LabelObjectType *
 LabelMap< TLabelObject >
 ::GetLabelObject(const LabelType & label)
@@ -141,7 +141,7 @@ LabelMap< TLabelObject >
   return it->second;
 }
 
-template< class TLabelObject >
+template< typename TLabelObject >
 const typename LabelMap< TLabelObject >::LabelObjectType *
 LabelMap< TLabelObject >
 ::GetLabelObject(const LabelType & label) const
@@ -163,7 +163,7 @@ LabelMap< TLabelObject >
   return it->second;
 }
 
-template< class TLabelObject >
+template< typename TLabelObject >
 bool
 LabelMap< TLabelObject >
 ::HasLabel(const LabelType label) const
@@ -171,7 +171,7 @@ LabelMap< TLabelObject >
   return m_LabelObjectContainer.find(label) != m_LabelObjectContainer.end();
 }
 
-template< class TLabelObject >
+template< typename TLabelObject >
 const typename LabelMap< TLabelObject >::LabelType &
 LabelMap< TLabelObject >
 ::GetPixel(const IndexType & idx) const
@@ -190,7 +190,7 @@ LabelMap< TLabelObject >
   return m_BackgroundValue;
 }
 
-template< class TLabelObject >
+template< typename TLabelObject >
 typename LabelMap< TLabelObject >::LabelObjectType *
 LabelMap< TLabelObject >
 ::GetNthLabelObject(const SizeValueType & pos)
@@ -214,7 +214,7 @@ LabelMap< TLabelObject >
                     << " label objects registered.");
 }
 
-template< class TLabelObject >
+template< typename TLabelObject >
 const typename LabelMap< TLabelObject >::LabelObjectType *
 LabelMap< TLabelObject >
 ::GetNthLabelObject(const SizeValueType & pos) const
@@ -238,7 +238,7 @@ LabelMap< TLabelObject >
                     << " label objects registered.");
 }
 
-template< class TLabelObject >
+template< typename TLabelObject >
 void
 LabelMap< TLabelObject >
 ::SetPixel(const IndexType & idx, const LabelType & iLabel )
@@ -272,7 +272,7 @@ LabelMap< TLabelObject >
     }
 }
 
-template< class TLabelObject >
+template< typename TLabelObject >
 void
 LabelMap< TLabelObject >
 ::AddPixel(const IndexType & idx, const LabelType & label)
@@ -288,7 +288,7 @@ LabelMap< TLabelObject >
   this->AddPixel( it, idx, label );
 }
 
-template< class TLabelObject >
+template< typename TLabelObject >
 void
 LabelMap< TLabelObject >
 ::AddPixel(const LabelObjectContainerIterator & it,
@@ -318,7 +318,7 @@ LabelMap< TLabelObject >
     }
 }
 
-template< class TLabelObject >
+template< typename TLabelObject >
 void
 LabelMap< TLabelObject >
 ::RemovePixel(const LabelObjectContainerIterator & it,
@@ -342,7 +342,7 @@ LabelMap< TLabelObject >
     }
 }
 
-template< class TLabelObject >
+template< typename TLabelObject >
 void
 LabelMap< TLabelObject >
 ::RemovePixel(const IndexType & idx, const LabelType & label)
@@ -359,7 +359,7 @@ LabelMap< TLabelObject >
   RemovePixel( it, idx, emitModifiedEvent );
 }
 
-template< class TLabelObject >
+template< typename TLabelObject >
 void
 LabelMap< TLabelObject >
 ::SetLine(const IndexType & idx, const LengthType & length, const LabelType & label)
@@ -389,7 +389,7 @@ LabelMap< TLabelObject >
     }
 }
 
-template< class TLabelObject >
+template< typename TLabelObject >
 typename LabelMap< TLabelObject >::LabelObjectType *
 LabelMap< TLabelObject >
 ::GetLabelObject(const IndexType & idx) const
@@ -407,7 +407,7 @@ LabelMap< TLabelObject >
 //   return NULL;
 }
 
-template< class TLabelObject >
+template< typename TLabelObject >
 void
 LabelMap< TLabelObject >
 ::AddLabelObject(LabelObjectType *labelObject)
@@ -418,7 +418,7 @@ LabelMap< TLabelObject >
   this->Modified();
 }
 
-template< class TLabelObject >
+template< typename TLabelObject >
 void
 LabelMap< TLabelObject >
 ::PushLabelObject(LabelObjectType *labelObject)
@@ -483,7 +483,7 @@ LabelMap< TLabelObject >
   this->AddLabelObject(labelObject);
 }
 
-template< class TLabelObject >
+template< typename TLabelObject >
 void
 LabelMap< TLabelObject >
 ::RemoveLabelObject(LabelObjectType *labelObject)
@@ -493,7 +493,7 @@ LabelMap< TLabelObject >
   this->RemoveLabel( labelObject->GetLabel() );
 }
 
-template< class TLabelObject >
+template< typename TLabelObject >
 void
 LabelMap< TLabelObject >
 ::RemoveLabel(const LabelType & label)
@@ -508,7 +508,7 @@ LabelMap< TLabelObject >
   this->Modified();
 }
 
-template< class TLabelObject >
+template< typename TLabelObject >
 void
 LabelMap< TLabelObject >
 ::ClearLabels()
@@ -520,7 +520,7 @@ LabelMap< TLabelObject >
     }
 }
 
-template< class TLabelObject >
+template< typename TLabelObject >
 typename LabelMap< TLabelObject >::SizeValueType
 LabelMap< TLabelObject >
 ::GetNumberOfLabelObjects() const
@@ -528,7 +528,7 @@ LabelMap< TLabelObject >
   return m_LabelObjectContainer.size();
 }
 
-template< class TLabelObject >
+template< typename TLabelObject >
 typename LabelMap< TLabelObject >::LabelVectorType
 LabelMap< TLabelObject >
 ::GetLabels() const
@@ -545,7 +545,7 @@ LabelMap< TLabelObject >
   return res;
 }
 
-template< class TLabelObject >
+template< typename TLabelObject >
 typename LabelMap< TLabelObject >::LabelObjectVectorType
 LabelMap< TLabelObject >
 ::GetLabelObjects() const
@@ -562,7 +562,7 @@ LabelMap< TLabelObject >
   return res;
 }
 
-template< class TLabelObject >
+template< typename TLabelObject >
 void
 LabelMap< TLabelObject >
 ::PrintLabelObjects(std::ostream & os) const
@@ -577,7 +577,7 @@ LabelMap< TLabelObject >
     }
 }
 
-template< class TLabelObject >
+template< typename TLabelObject >
 void
 LabelMap< TLabelObject >
 ::Optimize()

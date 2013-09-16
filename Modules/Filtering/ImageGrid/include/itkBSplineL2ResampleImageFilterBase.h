@@ -79,7 +79,7 @@ namespace itk
  * \ingroup CannotBeStreamed
  * \ingroup ITKImageGrid
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class BSplineL2ResampleImageFilterBase:
   public BSplineResampleImageFilterBase< TInputImage, TOutputImage >
 {

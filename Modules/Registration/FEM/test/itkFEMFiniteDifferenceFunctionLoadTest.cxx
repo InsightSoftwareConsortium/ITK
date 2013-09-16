@@ -47,7 +47,7 @@ typedef itk::MIRegistrationFunction<testImageType, testImageType, FieldType>    
 typedef itk::DemonsRegistrationFunction<testImageType, testImageType, FieldType>     MetricType3;
 
 // Template function to fill in an image with a value
-template <class TImage>
+template <typename TImage>
 void
 FillImage(
   TImage * image,
@@ -64,7 +64,7 @@ FillImage(
 }
 
 // Template function to fill in an image with a circle.
-template <class TImage>
+template <typename TImage>
 void
 FillWithCircle(
   TImage * image,
@@ -100,7 +100,7 @@ FillWithCircle(
 }
 
 // Template function to copy image regions
-template <class TImage>
+template <typename TImage>
 void
 CopyImageBuffer(
   TImage *input,

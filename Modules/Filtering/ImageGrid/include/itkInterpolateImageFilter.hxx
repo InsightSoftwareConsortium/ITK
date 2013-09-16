@@ -28,7 +28,7 @@ namespace itk
 /**
  * Constructor
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 InterpolateImageFilter< TInputImage, TOutputImage >
 ::InterpolateImageFilter()
 {
@@ -52,7 +52,7 @@ InterpolateImageFilter< TInputImage, TOutputImage >
 /**
  * Set the second image
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 InterpolateImageFilter< TInputImage, TOutputImage >
 ::SetInput2(const InputImageType *image)
@@ -65,7 +65,7 @@ InterpolateImageFilter< TInputImage, TOutputImage >
 /**
  * Get the second image
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 const typename InterpolateImageFilter< TInputImage, TOutputImage >::InputImageType *
 InterpolateImageFilter< TInputImage, TOutputImage >
 ::GetInput2()
@@ -76,7 +76,7 @@ InterpolateImageFilter< TInputImage, TOutputImage >
 /**
  * Print out a description of self
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 InterpolateImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -92,7 +92,7 @@ InterpolateImageFilter< TInputImage, TOutputImage >
  * InterpolatorType::SetInputImage is not thread-safe and hence
  * has to be setup before ThreadedGenerateData
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 InterpolateImageFilter< TInputImage, TOutputImage >
 ::BeforeThreadedGenerateData()
@@ -158,7 +158,7 @@ InterpolateImageFilter< TInputImage, TOutputImage >
 /**
  * AfterThreadedGenerateData
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 InterpolateImageFilter< TInputImage, TOutputImage >
 ::AfterThreadedGenerateData()
@@ -170,7 +170,7 @@ InterpolateImageFilter< TInputImage, TOutputImage >
 /**
  * ThreadedGenerateData
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 InterpolateImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData(

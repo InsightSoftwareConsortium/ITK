@@ -23,7 +23,7 @@
 #include <time.h>
 #include <math.h>
 
-template <class TPixel,unsigned int TableSize>
+template <typename TPixel,unsigned int TableSize>
 class IdentityMap
 {
 public:

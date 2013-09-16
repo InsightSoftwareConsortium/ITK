@@ -48,7 +48,7 @@ namespace itk
  * \ingroup ITKV3Compatibility
  * \sa SubtractImageFilter
  */
-template <class TInputImage, class TConstant, class TOutputImage>
+template <typename TInputImage, typename TConstant, typename TOutputImage>
 class SubtractConstantFromImageFilter :
       public
 SubtractImageFilter<TInputImage, Image<TConstant, TInputImage::ImageDimension>, TOutputImage>

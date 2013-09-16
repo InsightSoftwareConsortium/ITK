@@ -30,19 +30,19 @@ namespace itk
 //
 // Constructor
 //
-template<class TInputVideoStream, class TOutputVideoStream>
+template<typename TInputVideoStream, typename TOutputVideoStream>
 VideoToVideoFilter<TInputVideoStream, TOutputVideoStream>::
 VideoToVideoFilter()
 {
   this->SetNumberOfRequiredInputs(1);
 }
-template<class TInputVideoStream, class TOutputVideoStream>
+template<typename TInputVideoStream, typename TOutputVideoStream>
 VideoToVideoFilter<TInputVideoStream, TOutputVideoStream>
 ::~VideoToVideoFilter()
 {
 }
 
-template<class TInputVideoStream, class TOutputVideoStream>
+template<typename TInputVideoStream, typename TOutputVideoStream>
 void
 VideoToVideoFilter<TInputVideoStream, TOutputVideoStream>::
 PrintSelf(std::ostream & os, Indent indent) const
@@ -55,7 +55,7 @@ PrintSelf(std::ostream & os, Indent indent) const
 //
 // SetInput( videoStream )
 //
-template<class TInputVideoStream, class TOutputVideoStream>
+template<typename TInputVideoStream, typename TOutputVideoStream>
 void
 VideoToVideoFilter<TInputVideoStream, TOutputVideoStream>::
 SetInput(const TInputVideoStream* videoStream)
@@ -68,7 +68,7 @@ SetInput(const TInputVideoStream* videoStream)
 //
 // SetInput( idx, videoStream )
 //
-template<class TInputVideoStream, class TOutputVideoStream>
+template<typename TInputVideoStream, typename TOutputVideoStream>
 void
 VideoToVideoFilter<TInputVideoStream, TOutputVideoStream>::
 SetInput(unsigned int idx, const TInputVideoStream* videoStream)
@@ -82,7 +82,7 @@ SetInput(unsigned int idx, const TInputVideoStream* videoStream)
 //
 // GetInput()
 //
-template<class TInputVideoStream, class TOutputVideoStream>
+template<typename TInputVideoStream, typename TOutputVideoStream>
 const TInputVideoStream*
 VideoToVideoFilter<TInputVideoStream, TOutputVideoStream>::
 GetInput() const
@@ -97,7 +97,7 @@ GetInput() const
 //
 // GetInput(idx)
 //
-template<class TInputVideoStream, class TOutputVideoStream>
+template<typename TInputVideoStream, typename TOutputVideoStream>
 const TInputVideoStream*
 VideoToVideoFilter<TInputVideoStream, TOutputVideoStream>::
 GetInput(unsigned int idx) const
@@ -108,7 +108,7 @@ GetInput(unsigned int idx) const
 //
 // UpdateOutputInformation
 //
-template<class TInputVideoStream, class TOutputVideoStream>
+template<typename TInputVideoStream, typename TOutputVideoStream>
 void
 VideoToVideoFilter<TInputVideoStream, TOutputVideoStream>::
 UpdateOutputInformation()
@@ -134,7 +134,7 @@ UpdateOutputInformation()
 //
 // GetInput (non-const)
 //
-template<class TInputVideoStream, class TOutputVideoStream>
+template<typename TInputVideoStream, typename TOutputVideoStream>
 TInputVideoStream*
 VideoToVideoFilter<TInputVideoStream, TOutputVideoStream>::
 GetInput()
@@ -145,7 +145,7 @@ GetInput()
 //
 // GetInput (non-const)
 //
-template<class TInputVideoStream, class TOutputVideoStream>
+template<typename TInputVideoStream, typename TOutputVideoStream>
 TInputVideoStream*
 VideoToVideoFilter<TInputVideoStream, TOutputVideoStream>::
 GetInput(unsigned int idx)
@@ -156,7 +156,7 @@ GetInput(unsigned int idx)
 //
 // GenerateOutputRequestedRegion
 //
-template<class TInputVideoStream, class TOutputVideoStream>
+template<typename TInputVideoStream, typename TOutputVideoStream>
 void
 VideoToVideoFilter<TInputVideoStream, TOutputVideoStream>::
 GenerateOutputRequestedRegion(DataObject* output)
@@ -199,7 +199,7 @@ GenerateOutputRequestedRegion(DataObject* output)
 //
 // GenerateInputRequestedRegion
 //
-template<class TInputVideoStream, class TOutputVideoStream>
+template<typename TInputVideoStream, typename TOutputVideoStream>
 void
 VideoToVideoFilter<TInputVideoStream, TOutputVideoStream>::
 GenerateInputRequestedRegion()
@@ -244,7 +244,7 @@ GenerateInputRequestedRegion()
 //
 // BeforeTemporalStreamingGenerateData
 //
-template<class TInputVideoStream, class TOutputVideoStream>
+template<typename TInputVideoStream, typename TOutputVideoStream>
 void
 VideoToVideoFilter<TInputVideoStream, TOutputVideoStream>::
 BeforeTemporalStreamingGenerateData()

@@ -45,7 +45,7 @@ const unsigned char LEFT=128;      /*Bit pattern 1 0 0  00000*/
 const unsigned char ANTERIOR=64;   /*Bit pattern 0 1 0  00000*/
 const unsigned char SUPERIOR=32;   /*Bit pattern 0 0 1  00000*/
 
-template <class ImageType>
+template <typename ImageType>
 typename ImageType::DirectionType
 CORDirCosines()
 {
@@ -231,7 +231,7 @@ MakeImage(const std::string & AugmentName)
   return EXIT_SUCCESS;
 }
 
-template <class ImageType>
+template <typename ImageType>
 typename ImageType::Pointer NewRGBImage()
 {
   typename ImageType::IndexType index;

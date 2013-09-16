@@ -26,7 +26,7 @@ namespace itk
 /**
  * Default constructor
  */
-template<class TInternalComputationValueType>
+template<typename TInternalComputationValueType>
 ConjugateGradientLineSearchOptimizerv4Template<TInternalComputationValueType>
 ::ConjugateGradientLineSearchOptimizerv4Template()
 {
@@ -35,7 +35,7 @@ ConjugateGradientLineSearchOptimizerv4Template<TInternalComputationValueType>
 /**
  * Destructor
  */
-template<class TInternalComputationValueType>
+template<typename TInternalComputationValueType>
 ConjugateGradientLineSearchOptimizerv4Template<TInternalComputationValueType>
 ::~ConjugateGradientLineSearchOptimizerv4Template()
 {}
@@ -44,7 +44,7 @@ ConjugateGradientLineSearchOptimizerv4Template<TInternalComputationValueType>
 /**
  *PrintSelf
  */
-template<class TInternalComputationValueType>
+template<typename TInternalComputationValueType>
 void
 ConjugateGradientLineSearchOptimizerv4Template<TInternalComputationValueType>
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -52,7 +52,7 @@ ConjugateGradientLineSearchOptimizerv4Template<TInternalComputationValueType>
   Superclass::PrintSelf(os, indent);
 }
 
-template<class TInternalComputationValueType>
+template<typename TInternalComputationValueType>
 void
 ConjugateGradientLineSearchOptimizerv4Template<TInternalComputationValueType>
 ::StartOptimization( bool doOnlyInitialization)
@@ -67,7 +67,7 @@ ConjugateGradientLineSearchOptimizerv4Template<TInternalComputationValueType>
 /**
 * Advance one Step following the gradient direction
 */
-template<class TInternalComputationValueType>
+template<typename TInternalComputationValueType>
 void
 ConjugateGradientLineSearchOptimizerv4Template<TInternalComputationValueType>
 ::AdvanceOneStep()

@@ -32,7 +32,7 @@ namespace itk
  * lists of indices and other values.
  * \ingroup ITKLevelSets
  */
-template< class TValueType >
+template< typename TValueType >
 class SparseFieldLevelSetNode
 {
 public:
@@ -69,7 +69,7 @@ public:
  *
  * \ingroup ITKLevelSets
  */
-template< class TNeighborhoodType >
+template< typename TNeighborhoodType >
 class SparseFieldCityBlockNeighborList
 {
 public:
@@ -225,7 +225,7 @@ private:
  *
  * \ingroup ITKLevelSets
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class SparseFieldLevelSetImageFilter:
   public FiniteDifferenceImageFilter< TInputImage, TOutputImage >
 {

@@ -33,12 +33,12 @@
 
 namespace itk
 {
-template< class TMapDataType >
+template< typename TMapDataType >
 MapFileParser< TMapDataType >
 ::~MapFileParser()
 {}
 
-template< class TMapDataType >
+template< typename TMapDataType >
 bool
 MapFileParser< TMapDataType >::Update()
 {
@@ -46,7 +46,7 @@ MapFileParser< TMapDataType >::Update()
   return m_MapFilePath.empty();
 }
 
-template< class TMapDataType >
+template< typename TMapDataType >
 typename MapFileParser< TMapDataType >::MemoryLoadType
 MapFileParser< TMapDataType >
 ::GetHeapUsage()
@@ -58,7 +58,7 @@ MapFileParser< TMapDataType >
   return m_MapData.GetHeapUsage();
 }
 
-template< class TMapDataType >
+template< typename TMapDataType >
 typename MapFileParser< TMapDataType >::MemoryLoadType
 MapFileParser< TMapDataType >
 ::GetStackUsage()
@@ -70,7 +70,7 @@ MapFileParser< TMapDataType >
   return m_MapData.GetStackUsage();
 }
 
-template< class TMapDataType >
+template< typename TMapDataType >
 typename MapFileParser< TMapDataType >::MemoryLoadType
 MapFileParser< TMapDataType >
 ::GetTotalMemoryUsage()
@@ -82,7 +82,7 @@ MapFileParser< TMapDataType >
   return m_MapData.GetTotalMemoryUsage();
 }
 
-template< class TMapDataType >
+template< typename TMapDataType >
 typename MapFileParser< TMapDataType >::MemoryLoadType
 MapFileParser< TMapDataType >
 ::GetMemoryUsage(const char *filter, const char *token)
@@ -98,13 +98,13 @@ MapFileParser< TMapDataType >
 //      SmapsFileParser
 //---------------------------------
 
-template< class TSmapsDataType >
+template< typename TSmapsDataType >
 SmapsFileParser< TSmapsDataType >
 ::~SmapsFileParser()
 {}
 
 /* SmapsFileParser implementation */
-template< class TSmapsDataType >
+template< typename TSmapsDataType >
 void SmapsFileParser< TSmapsDataType >::ReadFile(const std::string & mapFileLocation)
 {
   std::stringstream filename;
@@ -145,13 +145,13 @@ void SmapsFileParser< TSmapsDataType >::ReadFile(const std::string & mapFileLoca
   this->m_MapFilePath = filename.str();
 }
 
-template< class TVMMapDataType >
+template< typename TVMMapDataType >
 VMMapFileParser< TVMMapDataType >
 ::~VMMapFileParser()
 {}
 
 /* VMapFileParser implementation */
-template< class TVMMapDataType >
+template< typename TVMMapDataType >
 void VMMapFileParser< TVMMapDataType >::ReadFile(const std::string & mapFileLocation)
 {
   try

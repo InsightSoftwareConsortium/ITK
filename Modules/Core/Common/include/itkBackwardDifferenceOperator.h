@@ -41,8 +41,8 @@ namespace itk
  * \wikiexample{Operators/BackwardDifferenceOperator,Create a backward difference kernel}
  * \endwiki
  */
-template< class TPixel, unsigned int TDimension = 2,
-          class TAllocator = NeighborhoodAllocator< TPixel > >
+template< typename TPixel, unsigned int TDimension = 2,
+          typename TAllocator = NeighborhoodAllocator< TPixel > >
 class BackwardDifferenceOperator:
   public NeighborhoodOperator< TPixel, TDimension, TAllocator >
 {

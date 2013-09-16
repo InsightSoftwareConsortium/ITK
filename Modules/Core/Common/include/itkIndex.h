@@ -282,7 +282,7 @@ public:
   IndexValueType m_Index[VIndexDimension];
 
   /** Copy values from a FixedArray by rounding each one of the components */
-  template< class TCoordRep >
+  template< typename TCoordRep >
   inline void CopyWithRound(const FixedArray< TCoordRep, VIndexDimension > & point)
   {
     itkForLoopRoundingAndAssignmentMacro(IndexType,
@@ -301,7 +301,7 @@ public:
   }
 
   /** Copy values from a FixedArray by casting each one of the components */
-  template< class TCoordRep >
+  template< typename TCoordRep >
   inline void CopyWithCast(const FixedArray< TCoordRep, VIndexDimension > & point)
   {
     for ( unsigned int i = 0; i < VIndexDimension; ++i )

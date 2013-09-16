@@ -21,7 +21,7 @@
 #include "itkImage.h"
 #include "itkTimeProbesCollectorBase.h"
 
-template <class TImage>
+template <typename TImage>
 void ComputeIndex(TImage *image, unsigned int count, unsigned int repeat)
 {
   typename TImage::IndexType index;
@@ -35,7 +35,7 @@ void ComputeIndex(TImage *image, unsigned int count, unsigned int repeat)
   std::cout << "Last index: " << index << std::endl;
 }
 
-template <class TImage>
+template <typename TImage>
 void ComputeFastIndex(TImage *image, unsigned int count, unsigned int repeat)
 {
   typename TImage::IndexType index;
@@ -56,7 +56,7 @@ void ComputeFastIndex(TImage *image, unsigned int count, unsigned int repeat)
   std::cout << "Last index: " << index << std::endl;
 }
 
-template <class TImage>
+template <typename TImage>
 void ComputeOffset(TImage *image, unsigned int count, unsigned int repeat)
 {
   typename TImage::OffsetValueType offset = 0;
@@ -79,7 +79,7 @@ void ComputeOffset(TImage *image, unsigned int count, unsigned int repeat)
   std::cout << "Last offset: " << offset << ": " << accum << std::endl;
 }
 
-template <class TImage>
+template <typename TImage>
 void ComputeFastOffset(TImage *image, unsigned int count, unsigned int repeat)
 {
   typename TImage::OffsetValueType offset = 0;

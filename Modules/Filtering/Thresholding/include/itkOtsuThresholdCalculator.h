@@ -40,7 +40,7 @@ namespace itk
  * \ingroup Operators
  * \ingroup ITKThresholding
  */
-template <class THistogram, class TOutput=double>
+template <typename THistogram, typename TOutput=double>
 class OtsuThresholdCalculator : public HistogramThresholdCalculator<THistogram, TOutput>
 {
 public:

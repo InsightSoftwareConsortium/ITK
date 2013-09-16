@@ -50,7 +50,7 @@ namespace itk
  * \sa FFTWGlobalConfiguration
  * \sa ForwardFFTImageFilter
  */
-template< class TInputImage, class TOutputImage=Image< std::complex<typename TInputImage::PixelType>, TInputImage::ImageDimension> >
+template< typename TInputImage, typename TOutputImage=Image< std::complex<typename TInputImage::PixelType>, TInputImage::ImageDimension> >
 class FFTWForwardFFTImageFilter:
   public ForwardFFTImageFilter< TInputImage, TOutputImage >
 {

@@ -24,7 +24,7 @@
 #include "itkVectorIndexSelectionCastImageFilter.h"
 
 namespace {
-template< class TImageType >
+template< typename TImageType >
 int itkPhysicalPointImageSourceTest(  const std::string &fname,
                                       typename TImageType::SizeType &size,
                                       typename TImageType::SpacingType &spacing,

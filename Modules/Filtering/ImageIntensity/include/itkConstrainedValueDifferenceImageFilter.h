@@ -54,7 +54,7 @@ namespace itk
  */
 namespace Functor
 {
-template< class TInput1, class TInput2, class TOutput >
+template< typename TInput1, typename TInput2, typename TOutput >
 class ConstrainedValueDifference
 {
 public:
@@ -86,7 +86,7 @@ public:
 };
 }
 
-template< class TInputImage1, class TInputImage2, class TOutputImage >
+template< typename TInputImage1, typename TInputImage2, typename TOutputImage >
 class ConstrainedValueDifferenceImageFilter:
   public
   BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage,

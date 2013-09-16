@@ -46,7 +46,7 @@ namespace itk
  * \sa FFTWGlobalConfiguration
  * \sa InverseFFTImageFilter
  */
-template< class TInputImage, class TOutputImage=Image< typename TInputImage::PixelType::value_type, TInputImage::ImageDimension> >
+template< typename TInputImage, typename TOutputImage=Image< typename TInputImage::PixelType::value_type, TInputImage::ImageDimension> >
 class FFTWHalfHermitianToRealInverseFFTImageFilter:
   public HalfHermitianToRealInverseFFTImageFilter< TInputImage, TOutputImage >
 {

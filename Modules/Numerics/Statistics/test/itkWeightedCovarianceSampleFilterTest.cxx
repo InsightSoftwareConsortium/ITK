@@ -27,7 +27,7 @@ typedef itk::FixedArray<
 
 namespace itk {
 namespace Statistics {
-template < class TSample >
+template < typename TSample >
 class MyWeightedCovarianceSampleFilter : public WeightedCovarianceSampleFilter< TSample >
 {
 public:

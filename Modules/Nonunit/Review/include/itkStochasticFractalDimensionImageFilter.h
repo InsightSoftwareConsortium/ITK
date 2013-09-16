@@ -49,7 +49,7 @@ namespace itk
  *
  * \ingroup ITKReview
  */
-template< class TInputImage, class TMaskImage = Image< unsigned char,
+template< typename TInputImage, typename TMaskImage = Image< unsigned char,
                                                        TInputImage::ImageDimension >,
           class TOutputImage = TInputImage >
 class StochasticFractalDimensionImageFilter:

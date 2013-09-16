@@ -40,7 +40,7 @@ namespace itk
 template<
   typename InputPixelType,
   typename OutputPixelType,
-  class OutputConvertTraits
+  typename OutputConvertTraits
   >
 class ConvertPixelBuffer
 {

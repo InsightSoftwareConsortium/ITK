@@ -45,7 +45,7 @@ namespace itk
  * \wikiexample{ImageProcessing/NormalizeImageFilter,Normalize an image}
  * \endwiki
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class NormalizeImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {

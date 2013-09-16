@@ -23,17 +23,17 @@
 
 namespace itk
 {
-template< class TMesh >
+template< typename TMesh >
 LevelSetQuadEdgeMesh< TMesh >
 ::LevelSetQuadEdgeMesh()
 {}
 
-template< class TMesh >
+template< typename TMesh >
 LevelSetQuadEdgeMesh< TMesh >
 ::~LevelSetQuadEdgeMesh()
 {}
 
-template< class TMesh >
+template< typename TMesh >
 typename LevelSetQuadEdgeMesh< TMesh >::OutputType
 LevelSetQuadEdgeMesh< TMesh >::Evaluate( const InputType& iP ) const
 {
@@ -42,7 +42,7 @@ LevelSetQuadEdgeMesh< TMesh >::Evaluate( const InputType& iP ) const
   return oValue;
 }
 
-template< class TMesh >
+template< typename TMesh >
 typename LevelSetQuadEdgeMesh< TMesh >::GradientType
 LevelSetQuadEdgeMesh< TMesh >::EvaluateGradient( const InputType& itkNotUsed(iP) ) const
 {
@@ -50,7 +50,7 @@ LevelSetQuadEdgeMesh< TMesh >::EvaluateGradient( const InputType& itkNotUsed(iP)
   return this->GradientType();
 }
 
-template< class TMesh >
+template< typename TMesh >
 typename LevelSetQuadEdgeMesh< TMesh >::HessianType
 LevelSetQuadEdgeMesh< TMesh >::EvaluateHessian( const InputType& itkNotUsed(iP) ) const
 {
@@ -58,7 +58,7 @@ LevelSetQuadEdgeMesh< TMesh >::EvaluateHessian( const InputType& itkNotUsed(iP) 
   return this->HessianType();
 }
 
-template< class TMesh >
+template< typename TMesh >
 void
 LevelSetQuadEdgeMesh< TMesh >::Evaluate( const InputType& iP, LevelSetDataType& ioData ) const
 {
@@ -70,7 +70,7 @@ LevelSetQuadEdgeMesh< TMesh >::Evaluate( const InputType& iP, LevelSetDataType& 
     }
 }
 
-template< class TMesh >
+template< typename TMesh >
 void
 LevelSetQuadEdgeMesh< TMesh >::EvaluateGradient( const InputType& itkNotUsed(iP), LevelSetDataType& ioData ) const
 {
@@ -85,7 +85,7 @@ LevelSetQuadEdgeMesh< TMesh >::EvaluateGradient( const InputType& itkNotUsed(iP)
     }
 }
 
-template< class TMesh >
+template< typename TMesh >
 void
 LevelSetQuadEdgeMesh< TMesh >::EvaluateHessian( const InputType& itkNotUsed(iP), LevelSetDataType& ioData ) const
 {
@@ -98,7 +98,7 @@ LevelSetQuadEdgeMesh< TMesh >::EvaluateHessian( const InputType& itkNotUsed(iP),
     }
 }
 
-template< class TMesh >
+template< typename TMesh >
 void
 LevelSetQuadEdgeMesh< TMesh >::Initialize()
 {
@@ -107,7 +107,7 @@ LevelSetQuadEdgeMesh< TMesh >::Initialize()
   this->m_Mesh = NULL;
 }
 
-template< class TMesh >
+template< typename TMesh >
 void
 LevelSetQuadEdgeMesh< TMesh >::CopyInformation(const DataObject *data)
 {
@@ -136,7 +136,7 @@ LevelSetQuadEdgeMesh< TMesh >::CopyInformation(const DataObject *data)
     }
 }
 
-template< class TMesh >
+template< typename TMesh >
 void
 LevelSetQuadEdgeMesh< TMesh >::Graft( const DataObject* data )
 {

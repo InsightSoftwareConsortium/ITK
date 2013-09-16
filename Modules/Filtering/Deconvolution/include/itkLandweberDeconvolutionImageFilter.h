@@ -31,7 +31,7 @@ namespace Functor
  * \brief Functor class for computing a Landweber iteration.
  * \ingroup ITKDeconvolution
  */
-template< class TInput1, class TInput2, class TInput3, class TOutput >
+template< typename TInput1, typename TInput2, typename TInput3, typename TOutput >
 class LandweberMethod
 {
 public:
@@ -97,7 +97,7 @@ public:
  * \sa RichardsonLucyDeconvolutionImageFilter
  * \sa ProjectedLandweberDeconvolutionImageFilter
  */
-template< class TInputImage, class TKernelImage=TInputImage, class TOutputImage=TInputImage, class TInternalPrecision=double >
+template< typename TInputImage, typename TKernelImage=TInputImage, typename TOutputImage=TInputImage, typename TInternalPrecision=double >
 class LandweberDeconvolutionImageFilter :
   public IterativeDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
 {

@@ -34,7 +34,7 @@ namespace fem
  *       derived classes with: "template class LoadTest<...>;" where required.
  * \ingroup ITKFEM
  */
-template <class TClass>
+template <typename TClass>
 class LoadTest : public LoadElement
 {
 public:

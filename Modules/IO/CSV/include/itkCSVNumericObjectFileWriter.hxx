@@ -27,7 +27,7 @@
 
 namespace itk
 {
-template <class TValueType, unsigned int NRows, unsigned int NColumns>
+template <typename TValueType, unsigned int NRows, unsigned int NColumns>
 CSVNumericObjectFileWriter<TValueType,NRows, NColumns>
 ::CSVNumericObjectFileWriter()
 {
@@ -35,7 +35,7 @@ CSVNumericObjectFileWriter<TValueType,NRows, NColumns>
   this->m_InputObject = 0;
 }
 
-template <class TValueType, unsigned int NRows, unsigned int NColumns>
+template <typename TValueType, unsigned int NRows, unsigned int NColumns>
 void
 CSVNumericObjectFileWriter<TValueType,NRows,NColumns>
 ::SetInput(const vnlMatrixType* obj)
@@ -45,7 +45,7 @@ CSVNumericObjectFileWriter<TValueType,NRows,NColumns>
   this->m_Columns = obj->cols();
 }
 
-template <class TValueType, unsigned int NRows, unsigned int NColumns>
+template <typename TValueType, unsigned int NRows, unsigned int NColumns>
 void
 CSVNumericObjectFileWriter<TValueType,NRows,NColumns>
 ::SetInput(const vnlFixedMatrixType* obj)
@@ -55,7 +55,7 @@ CSVNumericObjectFileWriter<TValueType,NRows,NColumns>
   this->m_Columns = obj->cols();
 }
 
-template <class TValueType, unsigned int NRows, unsigned int NColumns>
+template <typename TValueType, unsigned int NRows, unsigned int NColumns>
 void
 CSVNumericObjectFileWriter<TValueType,NRows,NColumns>
 ::SetInput(const itkMatrixType* obj)
@@ -66,7 +66,7 @@ CSVNumericObjectFileWriter<TValueType,NRows,NColumns>
   this->m_Columns = obj->ColumnDimensions;
 }
 
-template <class TValueType, unsigned int NRows, unsigned int NColumns>
+template <typename TValueType, unsigned int NRows, unsigned int NColumns>
 void
 CSVNumericObjectFileWriter<TValueType,NRows,NColumns>
 ::ColumnHeadersPushBack(const std::string & header)
@@ -74,7 +74,7 @@ CSVNumericObjectFileWriter<TValueType,NRows,NColumns>
   this->m_ColumnHeaders.push_back(header);
 }
 
-template <class TValueType, unsigned int NRows, unsigned int NColumns>
+template <typename TValueType, unsigned int NRows, unsigned int NColumns>
 void
 CSVNumericObjectFileWriter<TValueType,NRows,NColumns>
 ::RowHeadersPushBack(const std::string & header)
@@ -82,7 +82,7 @@ CSVNumericObjectFileWriter<TValueType,NRows,NColumns>
   this->m_RowHeaders.push_back(header);
 }
 
-template <class TValueType, unsigned int NRows, unsigned int NColumns>
+template <typename TValueType, unsigned int NRows, unsigned int NColumns>
 void
 CSVNumericObjectFileWriter<TValueType,NRows,NColumns>
 ::SetColumnHeaders(const StringVectorType & columnheaders)
@@ -90,7 +90,7 @@ CSVNumericObjectFileWriter<TValueType,NRows,NColumns>
   this->m_ColumnHeaders = columnheaders;
 }
 
-template <class TValueType, unsigned int NRows, unsigned int NColumns>
+template <typename TValueType, unsigned int NRows, unsigned int NColumns>
 void
 CSVNumericObjectFileWriter<TValueType,NRows,NColumns>
 ::SetRowHeaders(const StringVectorType & rowheaders)
@@ -98,7 +98,7 @@ CSVNumericObjectFileWriter<TValueType,NRows,NColumns>
   this->m_RowHeaders = rowheaders;
 }
 
-template <class TValueType,unsigned int NRows, unsigned int NColumns>
+template <typename TValueType,unsigned int NRows, unsigned int NColumns>
 void
 CSVNumericObjectFileWriter<TValueType,NRows,NColumns>
 ::PrepareForWriting()
@@ -143,7 +143,7 @@ CSVNumericObjectFileWriter<TValueType,NRows,NColumns>
     }
 }
 
-template <class TValueType, unsigned int NRows, unsigned int NColumns>
+template <typename TValueType, unsigned int NRows, unsigned int NColumns>
 void
 CSVNumericObjectFileWriter<TValueType,NRows,NColumns>
 ::Write()
@@ -215,7 +215,7 @@ CSVNumericObjectFileWriter<TValueType,NRows,NColumns>
   outputStream.close();
 }
 
-template <class TValueType, unsigned int NRows, unsigned int NColumns>
+template <typename TValueType, unsigned int NRows, unsigned int NColumns>
 void
 CSVNumericObjectFileWriter<TValueType,NRows,NColumns>
 ::Update()
@@ -223,7 +223,7 @@ CSVNumericObjectFileWriter<TValueType,NRows,NColumns>
   this->Write();
 }
 
-template <class TValueType, unsigned int NRows, unsigned int NColumns>
+template <typename TValueType, unsigned int NRows, unsigned int NColumns>
 void
 CSVNumericObjectFileWriter<TValueType,NRows,NColumns>
 ::PrintSelf(std::ostream& os, Indent indent) const

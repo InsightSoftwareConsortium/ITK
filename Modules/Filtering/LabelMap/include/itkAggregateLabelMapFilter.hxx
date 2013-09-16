@@ -23,7 +23,7 @@
 
 namespace itk
 {
-template< class TImage >
+template< typename TImage >
 void
 AggregateLabelMapFilter< TImage >
 ::GenerateData()
@@ -62,7 +62,7 @@ AggregateLabelMapFilter< TImage >
     }
 }
 
-template< class TImage >
+template< typename TImage >
 void
 AggregateLabelMapFilter< TImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

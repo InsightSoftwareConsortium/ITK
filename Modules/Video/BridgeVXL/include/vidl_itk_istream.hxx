@@ -27,7 +27,7 @@ namespace itk
 //
 // Constructor
 //
-template< class TVideoStream >
+template< typename TVideoStream >
 vidl_itk_istream< TVideoStream >::vidl_itk_istream()
 {
   m_VideoStream = NULL;
@@ -37,7 +37,7 @@ vidl_itk_istream< TVideoStream >::vidl_itk_istream()
 //
 // Constructor from VideoStream
 //
-template< class TVideoStream >
+template< typename TVideoStream >
 vidl_itk_istream< TVideoStream >::vidl_itk_istream(TVideoStream* videoStream)
 {
   m_VideoStream = videoStream;
@@ -47,7 +47,7 @@ vidl_itk_istream< TVideoStream >::vidl_itk_istream(TVideoStream* videoStream)
 //
 // open
 //
-template< class TVideoStream >
+template< typename TVideoStream >
 bool
 vidl_itk_istream< TVideoStream >::open(TVideoStream* videoStream)
 {
@@ -58,7 +58,7 @@ vidl_itk_istream< TVideoStream >::open(TVideoStream* videoStream)
 //
 // is_valid
 //
-template< class TVideoStream >
+template< typename TVideoStream >
 bool
 vidl_itk_istream< TVideoStream >::is_valid() const
 {
@@ -74,7 +74,7 @@ vidl_itk_istream< TVideoStream >::is_valid() const
 //
 // is_seekable
 //
-template< class TVideoStream >
+template< typename TVideoStream >
 bool
 vidl_itk_istream< TVideoStream >::is_seekable() const
 {
@@ -96,7 +96,7 @@ vidl_itk_istream< TVideoStream >::is_seekable() const
 //
 // num_frames
 //
-template< class TVideoStream >
+template< typename TVideoStream >
 int
 vidl_itk_istream< TVideoStream >::num_frames() const
 {
@@ -113,7 +113,7 @@ vidl_itk_istream< TVideoStream >::num_frames() const
 //
 // frame_number
 //
-template< class TVideoStream >
+template< typename TVideoStream >
 unsigned int
 vidl_itk_istream< TVideoStream >::frame_number() const
 {
@@ -130,7 +130,7 @@ vidl_itk_istream< TVideoStream >::frame_number() const
 //
 // width
 //
-template< class TVideoStream >
+template< typename TVideoStream >
 unsigned int
 vidl_itk_istream< TVideoStream >::width() const
 {
@@ -150,7 +150,7 @@ vidl_itk_istream< TVideoStream >::width() const
 //
 // height
 //
-template< class TVideoStream >
+template< typename TVideoStream >
 unsigned int
 vidl_itk_istream< TVideoStream >::height() const
 {
@@ -170,7 +170,7 @@ vidl_itk_istream< TVideoStream >::height() const
 //
 // format
 //
-template< class TVideoStream >
+template< typename TVideoStream >
 vidl_pixel_format
 vidl_itk_istream< TVideoStream >::format() const
 {
@@ -260,7 +260,7 @@ vidl_itk_istream< TVideoStream >::format() const
 //
 // duration
 //
-template< class TVideoStream >
+template< typename TVideoStream >
 double
 vidl_itk_istream< TVideoStream >::duration() const
 {
@@ -284,7 +284,7 @@ vidl_itk_istream< TVideoStream >::duration() const
 //
 // advance
 //
-template< class TVideoStream >
+template< typename TVideoStream >
 bool
 vidl_itk_istream< TVideoStream >::advance()
 {
@@ -331,7 +331,7 @@ vidl_itk_istream< TVideoStream >::advance()
 //
 // read_frame
 //
-template< class TVideoStream >
+template< typename TVideoStream >
 vidl_frame_sptr
 vidl_itk_istream< TVideoStream >::read_frame()
 {
@@ -348,7 +348,7 @@ vidl_itk_istream< TVideoStream >::read_frame()
 //
 // current_frame
 //
-template< class TVideoStream >
+template< typename TVideoStream >
 vidl_frame_sptr
 vidl_itk_istream< TVideoStream >::current_frame()
 {
@@ -375,7 +375,7 @@ vidl_itk_istream< TVideoStream >::current_frame()
 //
 // seek_frame
 //
-template< class TVideoStream >
+template< typename TVideoStream >
 bool
 vidl_itk_istream< TVideoStream >::seek_frame(unsigned int frameNumber)
 {

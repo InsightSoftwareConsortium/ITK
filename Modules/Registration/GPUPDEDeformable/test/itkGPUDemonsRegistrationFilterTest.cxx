@@ -87,9 +87,9 @@ itk::TimeProbe m_CPUTime;
 template <unsigned VDimension>
 int GPUDemonsRegistrationFilterTestTemplate(int argc, char *argv[]);
 
-template <unsigned VDimension, class TDisplacementFieldPointer>
+template <unsigned VDimension, typename TDisplacementFieldPointer>
 TDisplacementFieldPointer itkGPUDemons(int argc, char *argv[]);
-template <unsigned VDimension, class TDisplacementFieldPointer>
+template <unsigned VDimension, typename TDisplacementFieldPointer>
 TDisplacementFieldPointer itkCPUDemons(int argc, char *argv[]);
 
 char * AppendFileName(char *src, char *postfix)
@@ -221,7 +221,7 @@ int GPUDemonsRegistrationFilterTestTemplate(int argc, char *argv[])
 
 }
 
-template <unsigned VDimension, class TDisplacementFieldPointer>
+template <unsigned VDimension, typename TDisplacementFieldPointer>
 TDisplacementFieldPointer itkGPUDemons(int, char *argv[])
 {
   const unsigned int Dimension = VDimension;
@@ -348,7 +348,7 @@ TDisplacementFieldPointer itkGPUDemons(int, char *argv[])
   return ret;
 }
 
-template <unsigned VDimension, class TDisplacementFieldPointer>
+template <unsigned VDimension, typename TDisplacementFieldPointer>
 TDisplacementFieldPointer itkCPUDemons(int, char *argv[])
 {
   const unsigned int Dimension = VDimension;

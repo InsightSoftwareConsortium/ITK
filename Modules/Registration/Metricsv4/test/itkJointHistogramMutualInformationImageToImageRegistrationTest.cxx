@@ -40,7 +40,7 @@
 
 namespace{
 
-template < class TOptimizer, class TMIMetric >
+template < typename TOptimizer, typename TMIMetric >
 /** \class JointPDFStatus
  * \brief Save the JointPDF from the metric to an image file and check to make sure
  * they are normalized properly. */

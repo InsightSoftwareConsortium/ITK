@@ -20,7 +20,7 @@
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkConstNeighborhoodIterator.h"
 
-template<class TImage>
+template<typename TImage>
 bool ImageBoundaryFaceCalculatorTest(TImage * image, typename TImage::RegionType & region, const typename TImage::SizeType & radius)
 {
   typedef itk::NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TImage> FaceCalculatorType;
@@ -82,7 +82,7 @@ bool ImageBoundaryFaceCalculatorTest(TImage * image, typename TImage::RegionType
     return true;
 }
 
-template<class TPixel, unsigned int VDimension>
+template<typename TPixel, unsigned int VDimension>
 bool NeighborhoodAlgorithmTest()
 {
   typedef itk::Image<TPixel, VDimension>      ImageType;

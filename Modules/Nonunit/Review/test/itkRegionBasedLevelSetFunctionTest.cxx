@@ -21,9 +21,9 @@
 namespace itk
 {
 
-template < class TInput, // LevelSetImageType
-  class TFeature, // FeatureImageType
-  class TSharedData >
+template < typename TInput, // LevelSetImageType
+  typename TFeature, // FeatureImageType
+  typename TSharedData >
 class RegionBasedLevelSetFunctionTestHelper :
  public RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
 {

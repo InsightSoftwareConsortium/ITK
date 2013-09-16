@@ -23,18 +23,18 @@
 namespace itk
 {
 
-template< class TInputImage, class TOutputImage, class TParentImageFilter >
+template< typename TInputImage, typename TOutputImage, typename TParentImageFilter >
 GPUImageToImageFilter< TInputImage, TOutputImage, TParentImageFilter >::GPUImageToImageFilter() : m_GPUEnabled(true)
 {
   m_GPUKernelManager = GPUKernelManager::New();
 }
 
-template< class TInputImage, class TOutputImage, class TParentImageFilter >
+template< typename TInputImage, typename TOutputImage, typename TParentImageFilter >
 GPUImageToImageFilter< TInputImage, TOutputImage, TParentImageFilter >::~GPUImageToImageFilter()
 {
 }
 
-template< class TInputImage, class TOutputImage, class TParentImageFilter >
+template< typename TInputImage, typename TOutputImage, typename TParentImageFilter >
 void
 GPUImageToImageFilter< TInputImage, TOutputImage, TParentImageFilter >::PrintSelf(std::ostream & os,
                                                                                   Indent indent) const
@@ -43,7 +43,7 @@ GPUImageToImageFilter< TInputImage, TOutputImage, TParentImageFilter >::PrintSel
   os << indent << "GPU: " << ( m_GPUEnabled ? "Enabled" : "Disabled" ) << std::endl;
 }
 
-template< class TInputImage, class TOutputImage, class TParentImageFilter >
+template< typename TInputImage, typename TOutputImage, typename TParentImageFilter >
 void
 GPUImageToImageFilter< TInputImage, TOutputImage, TParentImageFilter >::GenerateData()
 {
@@ -60,7 +60,7 @@ GPUImageToImageFilter< TInputImage, TOutputImage, TParentImageFilter >::Generate
     }
 }
 
-template< class TInputImage, class TOutputImage, class TParentImageFilter >
+template< typename TInputImage, typename TOutputImage, typename TParentImageFilter >
 void
 GPUImageToImageFilter< TInputImage, TOutputImage, TParentImageFilter >::GraftOutput(DataObject *output)
 {
@@ -70,7 +70,7 @@ GPUImageToImageFilter< TInputImage, TOutputImage, TParentImageFilter >::GraftOut
   otPtr->Graft( output );
 }
 
-template< class TInputImage, class TOutputImage, class TParentImageFilter >
+template< typename TInputImage, typename TOutputImage, typename TParentImageFilter >
 void
 GPUImageToImageFilter< TInputImage, TOutputImage, TParentImageFilter >::GraftOutput(const DataObjectIdentifierType & key, DataObject *output)
 {

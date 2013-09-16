@@ -34,7 +34,7 @@ namespace itk
  * \ingroup ImageIterators
  * \ingroup ITKCommon
  */
-template< class TImage >
+template< typename TImage >
 class ConditionalConstIterator
 {
 public:

@@ -36,7 +36,7 @@
 #include "itkNumericTraitsVariableLengthVectorPixel.h"
 
 
-template<class T> void CheckVariableLengthArrayTraits(T t)
+template<typename T> void CheckVariableLengthArrayTraits(T t)
 {
   std::string name;
 #ifdef GCC_USEDEMANGLE
@@ -60,7 +60,7 @@ template<class T> void CheckVariableLengthArrayTraits(T t)
 }
 
 
-template<class T> void CheckFixedArrayTraits(T t)
+template<typename T> void CheckFixedArrayTraits(T t)
 {
   std::string name;
 #ifdef GCC_USEDEMANGLE
@@ -88,7 +88,7 @@ template<class T> void CheckFixedArrayTraits(T t)
 }
 
 
-template<class T> void CheckTraits(const char *name, T t)
+template<typename T> void CheckTraits(const char *name, T t)
 {
   // check std::numeric_limits members
   std::cout << "itk::NumericTraits<" << name << ">" << std::endl;

@@ -139,10 +139,10 @@ namespace itk
  *  See LevelSetFunction for more information.
  * \ingroup ITKLevelSets
  */
-template< class TInputImage,
-          class TFeatureImage,
-          class TOutputPixelType = float,
-          class TOutputImage = Image< TOutputPixelType,
+template< typename TInputImage,
+          typename TFeatureImage,
+          typename TOutputPixelType = float,
+          typename TOutputImage = Image< TOutputPixelType,
                                       TInputImage::ImageDimension > >
 class NarrowBandLevelSetImageFilter:
   public NarrowBandImageFilterBase< TInputImage, TOutputImage >

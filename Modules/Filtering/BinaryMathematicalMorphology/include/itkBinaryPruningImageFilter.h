@@ -50,7 +50,7 @@ namespace itk
  * \ingroup ITKBinaryMathematicalMorphology
  */
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class BinaryPruningImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {

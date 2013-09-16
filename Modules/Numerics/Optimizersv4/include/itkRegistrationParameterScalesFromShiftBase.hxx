@@ -23,7 +23,7 @@
 namespace itk
 {
 
-template< class TMetric >
+template< typename TMetric >
 RegistrationParameterScalesFromShiftBase< TMetric >
 ::RegistrationParameterScalesFromShiftBase()
 {
@@ -31,7 +31,7 @@ RegistrationParameterScalesFromShiftBase< TMetric >
 }
 
 /** Compute parameter scales */
-template< class TMetric >
+template< typename TMetric >
 void
 RegistrationParameterScalesFromShiftBase< TMetric >
 ::EstimateScales(ScalesType &parameterScales)
@@ -122,7 +122,7 @@ RegistrationParameterScalesFromShiftBase< TMetric >
 /** Compute the scale for a step. For transform T(x + t * step), the scale
  * w.r.t. the step is the shift produced by step.
  */
-template< class TMetric >
+template< typename TMetric >
 typename RegistrationParameterScalesFromShiftBase< TMetric >::FloatType
 RegistrationParameterScalesFromShiftBase< TMetric >
 ::EstimateStepScale(const ParametersType &step)
@@ -164,7 +164,7 @@ RegistrationParameterScalesFromShiftBase< TMetric >
 /**
  * Estimate the scales of local steps.
  */
-template< class TMetric >
+template< typename TMetric >
 void
 RegistrationParameterScalesFromShiftBase< TMetric >
 ::EstimateLocalStepScales(const ParametersType &step, ScalesType &localStepScales)
@@ -200,7 +200,7 @@ RegistrationParameterScalesFromShiftBase< TMetric >
 /**
  * Compute the maximum shift when a transform is changed with deltaParameters
  */
-template< class TMetric >
+template< typename TMetric >
 typename RegistrationParameterScalesFromShiftBase< TMetric >::FloatType
 RegistrationParameterScalesFromShiftBase< TMetric >
 ::ComputeMaximumVoxelShift(const ParametersType &deltaParameters)
@@ -222,7 +222,7 @@ RegistrationParameterScalesFromShiftBase< TMetric >
 }
 
 /** Print the information about this class */
-template< class TMetric >
+template< typename TMetric >
 void
 RegistrationParameterScalesFromShiftBase< TMetric >
 ::PrintSelf(std::ostream& os, Indent indent) const

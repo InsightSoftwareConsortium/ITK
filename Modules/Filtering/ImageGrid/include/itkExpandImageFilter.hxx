@@ -29,7 +29,7 @@ namespace itk
 /**
  * Default constructor
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 ExpandImageFilter< TInputImage, TOutputImage >
 ::ExpandImageFilter()
 {
@@ -53,7 +53,7 @@ ExpandImageFilter< TInputImage, TOutputImage >
 /**
  * Standard "PrintSelf" method
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ExpandImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -82,7 +82,7 @@ ExpandImageFilter< TInputImage, TOutputImage >
 /**
  * Set expand factors from a single unsigned int
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ExpandImageFilter< TInputImage, TOutputImage >
 ::SetExpandFactors(
@@ -108,7 +108,7 @@ ExpandImageFilter< TInputImage, TOutputImage >
 /**
  * BeforeThreadedGenerateData
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ExpandImageFilter< TInputImage, TOutputImage >
 ::BeforeThreadedGenerateData()
@@ -125,7 +125,7 @@ ExpandImageFilter< TInputImage, TOutputImage >
 /**
  * ThreadedGenerateData
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ExpandImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
@@ -186,7 +186,7 @@ ExpandImageFilter< TInputImage, TOutputImage >
 /**
  * GenerateInputRequesteRegion
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ExpandImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
@@ -243,7 +243,7 @@ ExpandImageFilter< TInputImage, TOutputImage >
 /**
  * GenerateOutputInformation
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ExpandImageFilter< TInputImage, TOutputImage >
 ::GenerateOutputInformation()

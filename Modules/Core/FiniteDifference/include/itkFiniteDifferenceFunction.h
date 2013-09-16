@@ -62,7 +62,7 @@ namespace itk
  * \ingroup Functions
  * \ingroup ITKFiniteDifference
  */
-template< class TImageType >
+template< typename TImageType >
 class FiniteDifferenceFunction:public LightObject
 {
 public:

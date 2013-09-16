@@ -56,7 +56,7 @@ namespace itk
  * \ingroup ITKReview
  */
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class DiscreteGaussianDerivativeImageFilter :
   public ImageToImageFilter< TInputImage, TOutputImage >
 {

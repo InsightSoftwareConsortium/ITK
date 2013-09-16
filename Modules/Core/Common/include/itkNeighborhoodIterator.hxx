@@ -22,7 +22,7 @@
 
 namespace itk
 {
-template< class TImage, class TBoundaryCondition >
+template< typename TImage, typename TBoundaryCondition >
 void
 NeighborhoodIterator< TImage, TBoundaryCondition >
 ::SetPixel(const unsigned n, const PixelType & v)
@@ -91,7 +91,7 @@ NeighborhoodIterator< TImage, TBoundaryCondition >
     }
 }
 
-template< class TImage, class TBoundaryCondition >
+template< typename TImage, typename TBoundaryCondition >
 void
 NeighborhoodIterator< TImage, TBoundaryCondition >
 ::SetPixel(const unsigned n, const PixelType & v, bool & status)
@@ -143,7 +143,7 @@ NeighborhoodIterator< TImage, TBoundaryCondition >
     }
 }
 
-template< class TImage, class TBoundaryCondition >
+template< typename TImage, typename TBoundaryCondition >
 void
 NeighborhoodIterator< TImage, TBoundaryCondition >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -153,7 +153,7 @@ NeighborhoodIterator< TImage, TBoundaryCondition >
   Superclass::PrintSelf( os, indent.GetNextIndent() );
 }
 
-template< class TImage, class TBoundaryCondition >
+template< typename TImage, typename TBoundaryCondition >
 void
 NeighborhoodIterator< TImage, TBoundaryCondition >
 ::SetNeighborhood(const NeighborhoodType & N)

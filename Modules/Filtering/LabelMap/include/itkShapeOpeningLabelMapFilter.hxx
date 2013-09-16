@@ -23,7 +23,7 @@
 
 namespace itk
 {
-template< class TImage >
+template< typename TImage >
 ShapeOpeningLabelMapFilter< TImage >
 ::ShapeOpeningLabelMapFilter()
 {
@@ -36,7 +36,7 @@ ShapeOpeningLabelMapFilter< TImage >
   this->SetNthOutput( 1, static_cast< TImage * >( this->MakeOutput(1).GetPointer() ) );
 }
 
-template< class TImage >
+template< typename TImage >
 void
 ShapeOpeningLabelMapFilter< TImage >
 ::GenerateData()
@@ -50,7 +50,7 @@ ShapeOpeningLabelMapFilter< TImage >
     }
 }
 
-template< class TImage >
+template< typename TImage >
 void
 ShapeOpeningLabelMapFilter< TImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

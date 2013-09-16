@@ -28,7 +28,7 @@
 #include "itkBSplineTransform.h"
 #include "itksys/SystemTools.hxx"
 
-template<class ScalarType>
+template<typename ScalarType>
 static int oneTest(const std::string & outputDirectory, const char *goodname,const char *badname)
 {
   unsigned int i;
@@ -170,7 +170,7 @@ static int oneTest(const std::string & outputDirectory, const char *goodname,con
 // EOL at end of file.
 // This test will exercise this reported bug:
 // http://public.kitware.com/Bug/view.php?id=7028
-template<class ScalarType>
+template<typename ScalarType>
 int
 secondTest( const std::string & outputDirectory )
 {

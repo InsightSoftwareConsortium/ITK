@@ -36,7 +36,7 @@ namespace itk
 /**
  *
  */
-template< class TInputImage >
+template< typename TInputImage >
 ImageTransformer< TInputImage >
 ::ImageTransformer()
 {
@@ -49,7 +49,7 @@ ImageTransformer< TInputImage >
 /**
  *
  */
-template< class TInputImage >
+template< typename TInputImage >
 void
 ImageTransformer< TInputImage >
 ::SetInput(const InputImageType *input)
@@ -62,7 +62,7 @@ ImageTransformer< TInputImage >
 /**
  * Connect one of the operands for pixel-wise addition
  */
-template< class TInputImage >
+template< typename TInputImage >
 void
 ImageTransformer< TInputImage >
 ::SetInput(unsigned int index, const TInputImage *image)
@@ -75,7 +75,7 @@ ImageTransformer< TInputImage >
 /**
  *
  */
-template< class TInputImage >
+template< typename TInputImage >
 const typename ImageTransformer< TInputImage >::InputImageType *
 ImageTransformer< TInputImage >
 ::GetInput(void) const
@@ -92,7 +92,7 @@ ImageTransformer< TInputImage >
 /**
  *
  */
-template< class TInputImage >
+template< typename TInputImage >
 typename ImageTransformer< TInputImage >::InputImageType *
 ImageTransformer< TInputImage >
 ::GetInput(void)
@@ -109,7 +109,7 @@ ImageTransformer< TInputImage >
 /**
  *
  */
-template< class TInputImage >
+template< typename TInputImage >
 const typename ImageTransformer< TInputImage >::InputImageType *
 ImageTransformer< TInputImage >
 ::GetInput(unsigned int idx) const
@@ -118,7 +118,7 @@ ImageTransformer< TInputImage >
          ( this->ProcessObject::GetInput(idx) );
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void
 ImageTransformer< TInputImage >
 ::PushBackInput(const InputImageType *input)
@@ -127,7 +127,7 @@ ImageTransformer< TInputImage >
   this->ProcessObject::PushBackInput(input);
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void
 ImageTransformer< TInputImage >
 ::PopBackInput()
@@ -136,7 +136,7 @@ ImageTransformer< TInputImage >
   this->ProcessObject::PopBackInput();
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void
 ImageTransformer< TInputImage >
 ::PushFrontInput(const InputImageType *input)
@@ -145,7 +145,7 @@ ImageTransformer< TInputImage >
   this->ProcessObject::PushFrontInput(input);
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void
 ImageTransformer< TInputImage >
 ::PopFrontInput()
@@ -156,7 +156,7 @@ ImageTransformer< TInputImage >
 
 //-----------------------------------------------------------------------
 //
-template< class TInputImage >
+template< typename TInputImage >
 void
 ImageTransformer< TInputImage >
 ::GenerateInputRequestedRegion()
@@ -195,7 +195,7 @@ ImageTransformer< TInputImage >
 }
 
 //----------------------------------------------------------------------------
-template< class TInputImage >
+template< typename TInputImage >
 unsigned int
 ImageTransformer< TInputImage >
 ::SplitRequestedRegion(unsigned int i, unsigned int num, InputImageRegionType & splitRegion)
@@ -262,7 +262,7 @@ ImageTransformer< TInputImage >
 }
 
 //----------------------------------------------------------------------------
-template< class TInputImage >
+template< typename TInputImage >
 void
 ImageTransformer< TInputImage >
 ::AllocateOutputs()
@@ -270,7 +270,7 @@ ImageTransformer< TInputImage >
 }
 
 //----------------------------------------------------------------------------
-template< class TInputImage >
+template< typename TInputImage >
 void
 ImageTransformer< TInputImage >
 ::GenerateData()
@@ -301,7 +301,7 @@ ImageTransformer< TInputImage >
 
 //----------------------------------------------------------------------------
 // The execute method created by the subclass.
-template< class TInputImage >
+template< typename TInputImage >
 void
 ImageTransformer< TInputImage >
 ::ThreadedGenerateData(const InputImageRegionType &,
@@ -322,7 +322,7 @@ ImageTransformer< TInputImage >
 // Callback routine used by the threading library. This routine just calls
 // the ThreadedGenerateData method after setting the correct region for this
 // thread.
-template< class TInputImage >
+template< typename TInputImage >
 ITK_THREAD_RETURN_TYPE
 ImageTransformer< TInputImage >
 ::ThreaderCallback(void *arg)

@@ -40,7 +40,7 @@ namespace itk
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKLabelMap
  */
-template< class TImage >
+template< typename TImage >
 class ChangeLabelLabelMapFilter:
   public InPlaceLabelMapFilter< TImage >
 {

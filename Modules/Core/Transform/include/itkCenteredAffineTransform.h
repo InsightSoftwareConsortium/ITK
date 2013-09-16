@@ -31,7 +31,7 @@ namespace itk
  * \ingroup ITKTransform
  */
 template <
-  class TScalar = double,      // Data type for scalars
+  typename TScalar = double,      // Data type for scalars
   unsigned int NDimensions = 3>
 // Number of dimensions in the input space
 class CenteredAffineTransform : public AffineTransform<TScalar,

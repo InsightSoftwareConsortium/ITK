@@ -59,7 +59,7 @@ namespace itk
  *
  * \ingroup ITKAnisotropicSmoothing
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class VectorCurvatureAnisotropicDiffusionImageFilter:
   public AnisotropicDiffusionImageFilter< TInputImage, TOutputImage >
 {

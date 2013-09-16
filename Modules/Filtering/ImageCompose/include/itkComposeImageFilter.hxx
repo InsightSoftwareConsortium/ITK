@@ -24,7 +24,7 @@
 namespace itk
 {
 //----------------------------------------------------------------------------
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 ComposeImageFilter< TInputImage, TOutputImage >
 ::ComposeImageFilter()
 {
@@ -35,7 +35,7 @@ ComposeImageFilter< TInputImage, TOutputImage >
 }
 
 //----------------------------------------------------------------------------
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ComposeImageFilter< TInputImage, TOutputImage >
 ::SetInput1(const InputImageType *image1)
@@ -45,7 +45,7 @@ ComposeImageFilter< TInputImage, TOutputImage >
 }
 
 //----------------------------------------------------------------------------
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ComposeImageFilter< TInputImage, TOutputImage >
 ::SetInput2(const InputImageType *image2)
@@ -55,7 +55,7 @@ ComposeImageFilter< TInputImage, TOutputImage >
 }
 
 //----------------------------------------------------------------------------
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ComposeImageFilter< TInputImage, TOutputImage >
 ::SetInput3(const InputImageType *image3)
@@ -65,7 +65,7 @@ ComposeImageFilter< TInputImage, TOutputImage >
 }
 
 //----------------------------------------------------------------------------
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ComposeImageFilter< TInputImage, TOutputImage >
 ::GenerateOutputInformation(void)
@@ -80,7 +80,7 @@ ComposeImageFilter< TInputImage, TOutputImage >
 }
 
 //----------------------------------------------------------------------------
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ComposeImageFilter< TInputImage, TOutputImage >
 ::BeforeThreadedGenerateData()
@@ -110,7 +110,7 @@ ComposeImageFilter< TInputImage, TOutputImage >
 }
 
 //----------------------------------------------------------------------------
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ComposeImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData(const RegionType & outputRegionForThread,

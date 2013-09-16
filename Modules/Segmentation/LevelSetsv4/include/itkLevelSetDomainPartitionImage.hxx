@@ -22,19 +22,19 @@
 
 namespace itk
 {
-template< class TImage >
+template< typename TImage >
 LevelSetDomainPartitionImage< TImage >
 ::LevelSetDomainPartitionImage()
 {
 }
 
-template< class TImage >
+template< typename TImage >
 LevelSetDomainPartitionImage< TImage >
 ::~LevelSetDomainPartitionImage()
 {
 }
 
-template< class TImage >
+template< typename TImage >
 void
 LevelSetDomainPartitionImage< TImage >
 ::SetLevelSetDomainRegionVector( const LevelSetDomainRegionVectorType& domain )
@@ -42,7 +42,7 @@ LevelSetDomainPartitionImage< TImage >
   m_LevelSetDomainRegionVector = domain;
 }
 
-template< class TImage >
+template< typename TImage >
 const typename LevelSetDomainPartitionImage< TImage >::LevelSetDomainRegionVectorType&
 LevelSetDomainPartitionImage< TImage >
 ::GetLevelSetDomainRegionVector() const
@@ -50,7 +50,7 @@ LevelSetDomainPartitionImage< TImage >
   return m_LevelSetDomainRegionVector;
 }
 
-template< class TImage >
+template< typename TImage >
 void LevelSetDomainPartitionImage< TImage >
 ::PopulateListDomain()
 {
@@ -76,7 +76,7 @@ void LevelSetDomainPartitionImage< TImage >
     }
 }
 
-template< class TImage >
+template< typename TImage >
 void LevelSetDomainPartitionImage< TImage >
 ::AllocateListDomain()
 {

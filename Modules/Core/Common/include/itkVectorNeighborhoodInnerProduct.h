@@ -41,7 +41,7 @@ namespace itk
  *
  * \ingroup ITKCommon
  */
-template< class TImage >
+template< typename TImage >
 class VectorNeighborhoodInnerProduct
 {
 public:

@@ -29,7 +29,7 @@ namespace itk
 //
 // Constructor
 //
-template< class TElement >
+template< typename TElement >
 RingBuffer< TElement >
 ::RingBuffer()
   : m_HeadIndex(0),
@@ -39,7 +39,7 @@ RingBuffer< TElement >
   this->SetNumberOfBuffers(3);
 }
 
-template< class TElement >
+template< typename TElement >
 RingBuffer< TElement >
 ::~RingBuffer()
 {
@@ -49,7 +49,7 @@ RingBuffer< TElement >
 //
 // PrintSelf
 //
-template< class TElement >
+template< typename TElement >
 void
 RingBuffer< TElement >
 ::PrintSelf(std::ostream &os, Indent indent) const
@@ -67,7 +67,7 @@ RingBuffer< TElement >
 //
 // MoveHead
 //
-template< class TElement >
+template< typename TElement >
 void
 RingBuffer< TElement >
 ::MoveHead( OffsetValueType offset )
@@ -83,7 +83,7 @@ RingBuffer< TElement >
 //
 // MoveHeadForward
 //
-template< class TElement >
+template< typename TElement >
 void
 RingBuffer< TElement >
 ::MoveHeadForward()
@@ -95,7 +95,7 @@ RingBuffer< TElement >
 //
 // MoveHeadBackward
 //
-template< class TElement >
+template< typename TElement >
 void
 RingBuffer< TElement >
 ::MoveHeadBackward()
@@ -107,7 +107,7 @@ RingBuffer< TElement >
 //
 // BufferIsFull
 //
-template< class TElement >
+template< typename TElement >
 bool
 RingBuffer< TElement >
 ::BufferIsFull(OffsetValueType offset)
@@ -121,7 +121,7 @@ RingBuffer< TElement >
 //
 // GetBufferContents
 //
-template< class TElement >
+template< typename TElement >
 typename TElement::Pointer
 RingBuffer< TElement >
 ::GetBufferContents( OffsetValueType offset )
@@ -138,7 +138,7 @@ RingBuffer< TElement >
 //
 // SetBufferContents
 //
-template< class TElement >
+template< typename TElement >
 void
 RingBuffer< TElement >
 ::SetBufferContents( OffsetValueType offset,
@@ -159,7 +159,7 @@ RingBuffer< TElement >
 //
 // GetNumberOfBuffers
 //
-template< class TElement >
+template< typename TElement >
 typename RingBuffer< TElement >::SizeValueType
 RingBuffer< TElement >
 ::GetNumberOfBuffers()
@@ -171,7 +171,7 @@ RingBuffer< TElement >
 //
 // SetNumberOfBuffers
 //
-template< class TElement >
+template< typename TElement >
 void
 RingBuffer< TElement >
 ::SetNumberOfBuffers(SizeValueType n)
@@ -220,7 +220,7 @@ RingBuffer< TElement >
 //
 // GetOffsetBufferIndex
 //
-template< class TElement >
+template< typename TElement >
 typename RingBuffer< TElement >::OffsetValueType
 RingBuffer< TElement >
 ::GetOffsetBufferIndex(OffsetValueType offset)

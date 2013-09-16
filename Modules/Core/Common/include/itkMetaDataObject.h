@@ -69,7 +69,7 @@ namespace itk
  * are provided to facilitate a very simple implementation, and as an example.
  * \ingroup ITKCommon
  */
-template< class MetaDataObjectType >
+template< typename MetaDataObjectType >
 class MetaDataObject:public MetaDataObjectBase
 {
 public:
@@ -162,7 +162,7 @@ private:
  * \return A smartpointer ot a MetaDataObject that is suitable for
  * insertion into a MetaDataDictionary.
  */
-template< class T >
+template< typename T >
 inline void EncapsulateMetaData(MetaDataDictionary & Dictionary, const std::string & key, const T & invalue)
 {
   typename MetaDataObject< T >::Pointer temp = MetaDataObject< T >::New();
@@ -170,7 +170,7 @@ inline void EncapsulateMetaData(MetaDataDictionary & Dictionary, const std::stri
   Dictionary[key] = temp;
 }
 
-template< class T >
+template< typename T >
 inline void EncapsulateMetaData(MetaDataDictionary & Dictionary, const char *key, const T & invalue)
 {
   EncapsulateMetaData(Dictionary, std::string(key), invalue);
@@ -185,7 +185,7 @@ inline void EncapsulateMetaData(MetaDataDictionary & Dictionary, const char *key
  * \param key -- string identifier for this object
  * \param outval -- where to store value found in table.
  */
-template< class T >
+template< typename T >
 inline bool ExposeMetaData(const MetaDataDictionary & Dictionary, const std::string key, T & outval)
 {
   if ( !Dictionary.HasKey(key) )

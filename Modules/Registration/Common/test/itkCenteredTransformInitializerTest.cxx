@@ -27,7 +27,7 @@ const unsigned int Dimension = 3;
 
 // This function assumes that the center of mass of both images is the
 // geometrical center.
-template< class TFixedImage, class TMovingImage >
+template< typename TFixedImage, typename TMovingImage >
 bool RunTest(
   itk::SmartPointer< TFixedImage >  fixedImage,
   itk::SmartPointer< TMovingImage > movingImage
@@ -176,7 +176,7 @@ bool RunTest(
   }
 
 
-template< class TImage >
+template< typename TImage >
 void PopulateImage( itk::SmartPointer< TImage > image )
   {
   image->Allocate();

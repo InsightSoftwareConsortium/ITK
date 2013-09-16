@@ -40,7 +40,7 @@ namespace itk
  * \ingroup ImageFunctions
  * \ingroup ITKImageFunction
  */
-template< class TInputImage, class TCoordRep = float >
+template< typename TInputImage, typename TCoordRep = float >
 class SumOfSquaresImageFunction:
   public ImageFunction< TInputImage, typename NumericTraits< typename TInputImage::PixelType >::RealType,
                         TCoordRep >

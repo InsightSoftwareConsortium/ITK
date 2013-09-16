@@ -94,8 +94,8 @@ namespace itk
  * \author Torsten Rohlfing, SRI International, Neuroscience Program
  * \ingroup ITKPDEDeformableRegistration
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField,
-          class TImageForceFunction =
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField,
+          typename TImageForceFunction =
             MeanSquareRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField > >
 class CurvatureRegistrationFilter:
   public PDEDeformableRegistrationFilter< TFixedImage, TMovingImage,

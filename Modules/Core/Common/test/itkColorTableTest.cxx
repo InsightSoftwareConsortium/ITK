@@ -20,7 +20,7 @@
 
 #include "itkColorTable.h"
 
-template<class T> void ColorTableTest(const char *name)
+template<typename T> void ColorTableTest(const char *name)
 {
   typedef itk::ColorTable<T> ColorTableType;
   typename ColorTableType::Pointer colors = ColorTableType::New();

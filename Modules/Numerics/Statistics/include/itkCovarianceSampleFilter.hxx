@@ -25,7 +25,7 @@ namespace itk
 {
 namespace Statistics
 {
-template< class TSample >
+template< typename TSample >
 CovarianceSampleFilter< TSample >
 ::CovarianceSampleFilter()
 {
@@ -36,12 +36,12 @@ CovarianceSampleFilter< TSample >
   this->ProcessObject::SetNthOutput( 1, this->MakeOutput(1) );
 }
 
-template< class TSample >
+template< typename TSample >
 CovarianceSampleFilter< TSample >
 ::~CovarianceSampleFilter()
 {}
 
-template< class TSample >
+template< typename TSample >
 void
 CovarianceSampleFilter< TSample >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -49,7 +49,7 @@ CovarianceSampleFilter< TSample >
   Superclass::PrintSelf(os, indent);
 }
 
-template< class TSample >
+template< typename TSample >
 void
 CovarianceSampleFilter< TSample >
 ::SetInput(const SampleType *sample)
@@ -57,7 +57,7 @@ CovarianceSampleFilter< TSample >
   this->ProcessObject::SetNthInput( 0, const_cast< SampleType * >( sample ) );
 }
 
-template< class TSample >
+template< typename TSample >
 const TSample *
 CovarianceSampleFilter< TSample >
 ::GetInput() const
@@ -65,7 +65,7 @@ CovarianceSampleFilter< TSample >
   return itkDynamicCastInDebugMode< const SampleType * >( this->GetPrimaryInput() );
 }
 
-template< class TSample >
+template< typename TSample >
 typename CovarianceSampleFilter< TSample >::DataObjectPointer
 CovarianceSampleFilter< TSample >
 ::MakeOutput(DataObjectPointerArraySizeType index)
@@ -94,7 +94,7 @@ CovarianceSampleFilter< TSample >
   itkExceptionMacro("Trying to create output of index " << index << " larger than the number of output");
 }
 
-template< class TSample >
+template< typename TSample >
 typename CovarianceSampleFilter< TSample >::MeasurementVectorSizeType
 CovarianceSampleFilter< TSample >
 ::GetMeasurementVectorSize() const
@@ -120,7 +120,7 @@ CovarianceSampleFilter< TSample >
   return measurementVectorSize;
 }
 
-template< class TSample >
+template< typename TSample >
 inline void
 CovarianceSampleFilter< TSample >
 ::GenerateData()
@@ -215,7 +215,7 @@ CovarianceSampleFilter< TSample >
     }
 }
 
-template< class TSample >
+template< typename TSample >
 const typename CovarianceSampleFilter< TSample >::MatrixDecoratedType *
 CovarianceSampleFilter< TSample >
 ::GetCovarianceMatrixOutput() const
@@ -223,7 +223,7 @@ CovarianceSampleFilter< TSample >
   return static_cast< const MatrixDecoratedType * >( this->ProcessObject::GetOutput(0) );
 }
 
-template< class TSample >
+template< typename TSample >
 const typename CovarianceSampleFilter< TSample >::MatrixType
 CovarianceSampleFilter< TSample >
 ::GetCovarianceMatrix() const
@@ -231,7 +231,7 @@ CovarianceSampleFilter< TSample >
   return this->GetCovarianceMatrixOutput()->Get();
 }
 
-template< class TSample >
+template< typename TSample >
 const typename CovarianceSampleFilter< TSample >::MeasurementVectorDecoratedType *
 CovarianceSampleFilter< TSample >
 ::GetMeanOutput() const
@@ -239,7 +239,7 @@ CovarianceSampleFilter< TSample >
   return static_cast< const MeasurementVectorDecoratedType * >( this->ProcessObject::GetOutput(1) );
 }
 
-template< class TSample >
+template< typename TSample >
 const typename CovarianceSampleFilter< TSample >::MeasurementVectorRealType
 CovarianceSampleFilter< TSample >
 ::GetMean() const

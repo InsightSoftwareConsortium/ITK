@@ -46,7 +46,7 @@ namespace itk {
  * \ingroup ITKThresholding
  */
 
-template<class TInputImage, class TOutputImage, class TMaskImage=TOutputImage>
+template<typename TInputImage, typename TOutputImage, typename TMaskImage=TOutputImage>
 class YenThresholdImageFilter :
     public HistogramThresholdImageFilter<TInputImage, TOutputImage, TMaskImage>
 {

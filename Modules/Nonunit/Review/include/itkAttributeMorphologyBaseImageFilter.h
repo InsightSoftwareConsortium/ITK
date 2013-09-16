@@ -59,7 +59,7 @@ namespace itk
  * \ingroup ITKReview
  */
 
-template< class TInputImage, class TOutputImage, class TAttribute, class TFunction >
+template< typename TInputImage, typename TOutputImage, typename TAttribute, typename TFunction >
 class AttributeMorphologyBaseImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {

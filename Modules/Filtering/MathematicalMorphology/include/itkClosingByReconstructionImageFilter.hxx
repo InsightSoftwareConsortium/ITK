@@ -26,7 +26,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 ClosingByReconstructionImageFilter< TInputImage, TOutputImage, TKernel >
 ::ClosingByReconstructionImageFilter():
   m_Kernel()
@@ -35,7 +35,7 @@ ClosingByReconstructionImageFilter< TInputImage, TOutputImage, TKernel >
   m_PreserveIntensities = false;
 }
 
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 void
 ClosingByReconstructionImageFilter< TInputImage, TOutputImage, TKernel >
 ::GenerateInputRequestedRegion()
@@ -51,7 +51,7 @@ ClosingByReconstructionImageFilter< TInputImage, TOutputImage, TKernel >
     }
 }
 
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 void
 ClosingByReconstructionImageFilter< TInputImage, TOutputImage, TKernel >
 ::EnlargeOutputRequestedRegion(DataObject *)
@@ -60,7 +60,7 @@ ClosingByReconstructionImageFilter< TInputImage, TOutputImage, TKernel >
   ->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
 }
 
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 void
 ClosingByReconstructionImageFilter< TInputImage, TOutputImage, TKernel >
 ::GenerateData()
@@ -139,7 +139,7 @@ ClosingByReconstructionImageFilter< TInputImage, TOutputImage, TKernel >
     }
 }
 
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 void
 ClosingByReconstructionImageFilter< TInputImage, TOutputImage, TKernel >
 ::PrintSelf(std::ostream & os, Indent indent) const

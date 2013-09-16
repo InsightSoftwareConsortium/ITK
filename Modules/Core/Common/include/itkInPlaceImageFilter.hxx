@@ -35,7 +35,7 @@ namespace itk
 /**
  *
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 InPlaceImageFilter< TInputImage, TOutputImage >
 ::InPlaceImageFilter():
   m_InPlace(true),
@@ -45,12 +45,12 @@ InPlaceImageFilter< TInputImage, TOutputImage >
 /**
  *
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 InPlaceImageFilter< TInputImage, TOutputImage >
 ::~InPlaceImageFilter()
 {}
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 InPlaceImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -69,7 +69,7 @@ InPlaceImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 InPlaceImageFilter< TInputImage, TOutputImage >
 ::InternalAllocateOutputs( const TrueType& )
@@ -150,7 +150,7 @@ InPlaceImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 bool
 InPlaceImageFilter< TInputImage, TOutputImage >
 ::CanRunInPlace() const
@@ -158,7 +158,7 @@ InPlaceImageFilter< TInputImage, TOutputImage >
   return IsSame<TInputImage,TOutputImage>();
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 InPlaceImageFilter< TInputImage, TOutputImage >
 ::ReleaseInputs()

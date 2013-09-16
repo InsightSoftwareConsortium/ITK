@@ -39,7 +39,7 @@ namespace itk
  *  \ingroup ITKLevelSetsv4
  */
 template< unsigned int VDimension,
-          class TEquationContainer >
+          typename TEquationContainer >
 class UpdateShiSparseLevelSet : public Object
 {
 public:

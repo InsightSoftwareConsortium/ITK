@@ -53,7 +53,7 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template< class TScalar = double >
+template< typename TScalar = double >
 // type for scalars (float or double)
 class Rigid3DTransform:
   public MatrixOffsetTransformBase< TScalar, 3, 3 >

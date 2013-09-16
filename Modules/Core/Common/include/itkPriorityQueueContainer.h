@@ -226,7 +226,7 @@ public:
   PriorityQueueContainer();
   ~PriorityQueueContainer();
 
-  template< class TInputIterator >
+  template< typename TInputIterator >
   PriorityQueueContainer(TInputIterator first, TInputIterator last):
     Superclass()
   {

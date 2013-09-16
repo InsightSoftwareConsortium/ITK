@@ -26,7 +26,7 @@ namespace itk
 //
 // Constructor
 //
-template<class TImageToImageFilter>
+template<typename TImageToImageFilter>
 ImageFilterToVideoFilterWrapper<TImageToImageFilter>::
 ImageFilterToVideoFilterWrapper()
 {
@@ -43,7 +43,7 @@ ImageFilterToVideoFilterWrapper()
 //
 // PrintSelf
 //
-template<class TImageToImageFilter>
+template<typename TImageToImageFilter>
 void
 ImageFilterToVideoFilterWrapper<TImageToImageFilter>::
 PrintSelf(std::ostream & os, Indent indent) const
@@ -64,7 +64,7 @@ PrintSelf(std::ostream & os, Indent indent) const
 //
 // TemporalStreamingGenerateData
 //
-template<class TImageToImageFilter>
+template<typename TImageToImageFilter>
 void
 ImageFilterToVideoFilterWrapper<TImageToImageFilter>::
 TemporalStreamingGenerateData()

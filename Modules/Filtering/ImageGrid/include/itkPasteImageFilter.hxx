@@ -28,7 +28,7 @@ namespace itk
 /**
  *
  */
-template< class TInputImage, class TSourceImage, class TOutputImage >
+template< typename TInputImage, typename TSourceImage, typename TOutputImage >
 PasteImageFilter< TInputImage, TSourceImage, TOutputImage >
 ::PasteImageFilter()
 {
@@ -38,7 +38,7 @@ PasteImageFilter< TInputImage, TSourceImage, TOutputImage >
   m_DestinationIndex.Fill(0);
 }
 
-template< class TInputImage, class TSourceImage, class TOutputImage >
+template< typename TInputImage, typename TSourceImage, typename TOutputImage >
 void
 PasteImageFilter< TInputImage, TSourceImage, TOutputImage >
 ::SetSourceImage(const SourceImageType *src)
@@ -47,7 +47,7 @@ PasteImageFilter< TInputImage, TSourceImage, TOutputImage >
   this->SetNthInput( 1, const_cast< SourceImageType * >( src ) );
 }
 
-template< class TInputImage, class TSourceImage, class TOutputImage >
+template< typename TInputImage, typename TSourceImage, typename TOutputImage >
 const typename PasteImageFilter< TInputImage, TSourceImage, TOutputImage >::SourceImageType *
 PasteImageFilter< TInputImage, TSourceImage, TOutputImage >
 ::GetSourceImage() const
@@ -58,7 +58,7 @@ PasteImageFilter< TInputImage, TSourceImage, TOutputImage >
   return sourceImage;
 }
 
-template< class TInputImage, class TSourceImage, class TOutputImage >
+template< typename TInputImage, typename TSourceImage, typename TOutputImage >
 void
 PasteImageFilter< TInputImage, TSourceImage, TOutputImage >
 ::SetDestinationImage(const InputImageType *src)
@@ -67,7 +67,7 @@ PasteImageFilter< TInputImage, TSourceImage, TOutputImage >
   this->SetNthInput( 0, const_cast< InputImageType * >( src ) );
 }
 
-template< class TInputImage, class TSourceImage, class TOutputImage >
+template< typename TInputImage, typename TSourceImage, typename TOutputImage >
 const typename PasteImageFilter< TInputImage, TSourceImage, TOutputImage >::InputImageType *
 PasteImageFilter< TInputImage, TSourceImage, TOutputImage >
 ::GetDestinationImage() const
@@ -81,7 +81,7 @@ PasteImageFilter< TInputImage, TSourceImage, TOutputImage >
 /**
  *
  */
-template< class TInputImage, class TSourceImage, class TOutputImage >
+template< typename TInputImage, typename TSourceImage, typename TOutputImage >
 void
 PasteImageFilter< TInputImage, TSourceImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -95,7 +95,7 @@ PasteImageFilter< TInputImage, TSourceImage, TOutputImage >
 /**
  *
  */
-template< class TInputImage, class TSourceImage, class TOutputImage >
+template< typename TInputImage, typename TSourceImage, typename TOutputImage >
 void
 PasteImageFilter< TInputImage, TSourceImage, TOutputImage >
 ::GenerateInputRequestedRegion()
@@ -132,7 +132,7 @@ PasteImageFilter< TInputImage, TSourceImage, TOutputImage >
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData()
    */
-template< class TInputImage, class TSourceImage, class TOutputImage >
+template< typename TInputImage, typename TSourceImage, typename TOutputImage >
 void
 PasteImageFilter< TInputImage, TSourceImage, TOutputImage >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,

@@ -37,7 +37,7 @@ namespace itk
  *
  * \ingroup ITKVideoBridgeOpenCV
  */
-template <class TVideoStream>
+template <typename TVideoStream>
 class OpenCVVideoCapture : public cv::VideoCapture
 {
 public:

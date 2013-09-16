@@ -22,19 +22,19 @@
 
 namespace itk
 {
-template< class TImage >
+template< typename TImage >
 ImageRegionExclusionConstIteratorWithIndex< TImage >
 ::ImageRegionExclusionConstIteratorWithIndex() : Superclass()
 {}
 
-template< class TImage >
+template< typename TImage >
 ImageRegionExclusionConstIteratorWithIndex< TImage >
 ::ImageRegionExclusionConstIteratorWithIndex(const ImageType *ptr,
                                              const RegionType & region) :
 Superclass(ptr, region)
 {}
 
-template< class TImage >
+template< typename TImage >
 ImageRegionExclusionConstIteratorWithIndex< TImage >
 ::ImageRegionExclusionConstIteratorWithIndex(const Superclass & it)
 {
@@ -43,7 +43,7 @@ ImageRegionExclusionConstIteratorWithIndex< TImage >
 //----------------------------------------------------------------------
 //  Set the region to exclude from the walk
 //----------------------------------------------------------------------
-template< class TImage >
+template< typename TImage >
 void
 ImageRegionExclusionConstIteratorWithIndex< TImage >
 ::SetExclusionRegion(const RegionType & region)
@@ -66,7 +66,7 @@ ImageRegionExclusionConstIteratorWithIndex< TImage >
 //  Set the region to exclude from the walk to a region that is inset
 //  one pixel from the boundary of the region
 //----------------------------------------------------------------------
-template< class TImage >
+template< typename TImage >
 void
 ImageRegionExclusionConstIteratorWithIndex< TImage >
 ::SetExclusionRegionToInsetRegion()
@@ -95,7 +95,7 @@ ImageRegionExclusionConstIteratorWithIndex< TImage >
 //----------------------------------------------------------------------
 // Move to beginning of region
 //----------------------------------------------------------------------
-template< class TImage >
+template< typename TImage >
 void
 ImageRegionExclusionConstIteratorWithIndex< TImage >
 ::GoToBegin()
@@ -131,7 +131,7 @@ ImageRegionExclusionConstIteratorWithIndex< TImage >
 //----------------------------------------------------------------------
 // Move to the end of the region
 //----------------------------------------------------------------------
-template< class TImage >
+template< typename TImage >
 void
 ImageRegionExclusionConstIteratorWithIndex< TImage >
 ::GoToReverseBegin()
@@ -168,7 +168,7 @@ ImageRegionExclusionConstIteratorWithIndex< TImage >
 //----------------------------------------------------------------------
 //  Advance along the line, skipping the exclusion region
 //----------------------------------------------------------------------
-template< class TImage >
+template< typename TImage >
 ImageRegionExclusionConstIteratorWithIndex< TImage > &
 ImageRegionExclusionConstIteratorWithIndex< TImage >
 ::operator++()
@@ -194,7 +194,7 @@ ImageRegionExclusionConstIteratorWithIndex< TImage >
 //----------------------------------------------------------------------
 //  Advance along the line in reverse direction, skipping exclusion region
 //----------------------------------------------------------------------
-template< class TImage >
+template< typename TImage >
 ImageRegionExclusionConstIteratorWithIndex< TImage > &
 ImageRegionExclusionConstIteratorWithIndex< TImage >
 ::operator--()

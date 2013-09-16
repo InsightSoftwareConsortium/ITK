@@ -50,7 +50,7 @@ namespace itk
  * \ingroup ImageSource
  * \ingroup ITKV3Compatibility
  */
-template< class TOutputImage >
+template< typename TOutputImage >
 class DeformationFieldSource:
   public ImageSource< TOutputImage >
 {

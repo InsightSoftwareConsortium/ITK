@@ -43,8 +43,8 @@ namespace itk
  * \ingroup ITKReview
  */
 template<
-  class TInputImage,
-  class TCoordRep = float >
+  typename TInputImage,
+  typename TCoordRep = float >
 class VectorCentralDifferenceImageFunction:
   public ImageFunction< TInputImage,
                         Matrix< double,

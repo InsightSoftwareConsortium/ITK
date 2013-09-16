@@ -22,11 +22,11 @@
 
 namespace itk
 {
-template< class TInputImage, class TFeatureImage, class TOutputImage, class TFunction, typename TIdCell >
+template< typename TInputImage, typename TFeatureImage, typename TOutputImage, typename TFunction, typename TIdCell >
 double MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutputImage, TFunction, TIdCell >
 ::m_ConstantGradientValue = 1.0;
 
-template< class TInputImage, class TFeatureImage, class TOutputImage, class TFunction, typename TIdCell >
+template< typename TInputImage, typename TFeatureImage, typename TOutputImage, typename TFunction, typename TIdCell >
 const typename MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
                                                                 TOutputImage, TFunction, TIdCell >::ValueType
 MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutputImage, TFunction, TIdCell >
@@ -35,7 +35,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutput
                                                                            TFunction, TIdCell >
                               ::ValueType >::One;
 
-template< class TInputImage, class TFeatureImage, class TOutputImage, class TFunction, typename TIdCell >
+template< typename TInputImage, typename TFeatureImage, typename TOutputImage, typename TFunction, typename TIdCell >
 const typename MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
                                                                 TOutputImage, TFunction, TIdCell >::ValueType
 MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutputImage, TFunction, TIdCell >
@@ -44,7 +44,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutput
                                                                             TFunction, TIdCell >::
                                ValueType >::Zero;
 
-template< class TInputImage, class TFeatureImage, class TOutputImage, class TFunction, typename TIdCell >
+template< typename TInputImage, typename TFeatureImage, typename TOutputImage, typename TFunction, typename TIdCell >
 const typename MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
                                                                 TOutputImage, TFunction, TIdCell >::StatusType
 MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutputImage, TFunction, TIdCell >
@@ -53,31 +53,31 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutput
                                                                              TFunction, TIdCell >::
                                 StatusType >::NonpositiveMin();
 
-template< class TInputImage, class TFeatureImage, class TOutputImage, class TFunction, typename TIdCell >
+template< typename TInputImage, typename TFeatureImage, typename TOutputImage, typename TFunction, typename TIdCell >
 const typename MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
                                                                 TOutputImage, TFunction, TIdCell >::StatusType
 MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutputImage, TFunction, TIdCell >
 ::m_StatusChanging = -1;
 
-template< class TInputImage, class TFeatureImage, class TOutputImage, class TFunction, typename TIdCell >
+template< typename TInputImage, typename TFeatureImage, typename TOutputImage, typename TFunction, typename TIdCell >
 const typename MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
                                                                 TOutputImage, TFunction, TIdCell >::StatusType
 MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutputImage, TFunction, TIdCell >
 ::m_StatusActiveChangingUp = -2;
 
-template< class TInputImage, class TFeatureImage, class TOutputImage, class TFunction, typename TIdCell >
+template< typename TInputImage, typename TFeatureImage, typename TOutputImage, typename TFunction, typename TIdCell >
 const typename MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
                                                                 TOutputImage, TFunction, TIdCell >::StatusType
 MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutputImage, TFunction, TIdCell >
 ::m_StatusActiveChangingDown = -3;
 
-template< class TInputImage, class TFeatureImage, class TOutputImage, class TFunction, typename TIdCell >
+template< typename TInputImage, typename TFeatureImage, typename TOutputImage, typename TFunction, typename TIdCell >
 const typename MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
                                                                 TOutputImage, TFunction, TIdCell >::StatusType
 MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutputImage, TFunction, TIdCell >
 ::m_StatusBoundaryPixel = -4;
 
-template< class TInputImage, class TFeatureImage, class TOutputImage, class TFunction, typename TIdCell >
+template< typename TInputImage, typename TFeatureImage, typename TOutputImage, typename TFunction, typename TIdCell >
 MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutputImage, TFunction, TIdCell >
 ::MultiphaseSparseFiniteDifferenceImageFilter()
 {
@@ -89,7 +89,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutput
   this->m_BoundsCheckingActive = false;
 }
 
-template< class TInputImage, class TFeatureImage, class TOutputImage, class TFunction, typename TIdCell >
+template< typename TInputImage, typename TFeatureImage, typename TOutputImage, typename TFunction, typename TIdCell >
 void
 MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutputImage, TFunction, TIdCell >
 ::CopyInputToOutput()
@@ -146,7 +146,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutput
     }
 }
 
-template< class TInputImage, class TFeatureImage, class TOutputImage, class TFunction, typename TIdCell >
+template< typename TInputImage, typename TFeatureImage, typename TOutputImage, typename TFunction, typename TIdCell >
 typename MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
                                                       TOutputImage, TFunction, TIdCell >::TimeStepType
 MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutputImage, TFunction, TIdCell >
@@ -283,7 +283,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutput
   return minTimeStep;
 }
 
-template< class TInputImage, class TFeatureImage, class TOutputImage, class TFunction, typename TIdCell >
+template< typename TInputImage, typename TFeatureImage, typename TOutputImage, typename TFunction, typename TIdCell >
 void
 MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
                                              TOutputImage,
@@ -378,8 +378,8 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
   this->m_CurrentFunctionIndex = 0;
 }
 
-template< class TInputImage, class TFeatureImage, class TOutputImage,
-          class TFunction, typename TIdCell >
+template< typename TInputImage, typename TFeatureImage, typename TOutputImage,
+          typename TFunction, typename TIdCell >
 void
 MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
                                              TOutputImage,
@@ -400,7 +400,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
     }
 }
 
-template< class TInputImage, class TFeatureImage, class TOutputImage, class TFunction, typename TIdCell >
+template< typename TInputImage, typename TFeatureImage, typename TOutputImage, typename TFunction, typename TIdCell >
 void
 MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
                                              TOutputImage,
@@ -468,7 +468,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
     }
 }
 
-template< class TInputImage, class TFeatureImage, class TOutputImage, class TFunction, typename TIdCell >
+template< typename TInputImage, typename TFeatureImage, typename TOutputImage, typename TFunction, typename TIdCell >
 void
 MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
                                              TOutputImage,
@@ -662,7 +662,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
     }
 }
 
-template< class TInputImage, class TFeatureImage, class TOutputImage, class TFunction, typename TIdCell >
+template< typename TInputImage, typename TFeatureImage, typename TOutputImage, typename TFunction, typename TIdCell >
 void
 MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
                                              TOutputImage,
@@ -768,7 +768,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
     }
 }
 
-template< class TInputImage, class TFeatureImage, class TOutputImage, class TFunction, typename TIdCell >
+template< typename TInputImage, typename TFeatureImage, typename TOutputImage, typename TFunction, typename TIdCell >
 void
 MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
                                              TOutputImage,
@@ -782,7 +782,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
     }
 }
 
-template< class TInputImage, class TFeatureImage, class TOutputImage, class TFunction, typename TIdCell >
+template< typename TInputImage, typename TFeatureImage, typename TOutputImage, typename TFunction, typename TIdCell >
 void
 MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
                                              TOutputImage,
@@ -805,7 +805,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
     }
 }
 
-template< class TInputImage, class TFeatureImage, class TOutputImage, class TFunction, typename TIdCell >
+template< typename TInputImage, typename TFeatureImage, typename TOutputImage, typename TFunction, typename TIdCell >
 void
 MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
                                              TOutputImage,
@@ -970,7 +970,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
     }
 }
 
-template< class TInputImage, class TFeatureImage, class TOutputImage, class TFunction, typename TIdCell >
+template< typename TInputImage, typename TFeatureImage, typename TOutputImage, typename TFunction, typename TIdCell >
 void
 MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutputImage, TFunction, TIdCell >
 ::InitializeIteration()
@@ -997,7 +997,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutput
     }
 }
 
-template< class TInputImage, class TFeatureImage, class TOutputImage, class TFunction, typename TIdCell >
+template< typename TInputImage, typename TFeatureImage, typename TOutputImage, typename TFunction, typename TIdCell >
 void
 MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutputImage, TFunction, TIdCell >
 ::Initialize()
@@ -1126,7 +1126,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutput
   this->InitializeBackgroundPixels();
 }
 
-template< class TInputImage, class TFeatureImage, class TOutputImage, class TFunction, typename TIdCell >
+template< typename TInputImage, typename TFeatureImage, typename TOutputImage, typename TFunction, typename TIdCell >
 void
 MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutputImage, TFunction, TIdCell >
 ::InitializeBackgroundConstants()
@@ -1150,7 +1150,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutput
   this->m_BackgroundValue  = ( max_layer + 1 ) * maxSpacing;
 }
 
-template< class TInputImage, class TFeatureImage, class TOutputImage, class TFunction, typename TIdCell >
+template< typename TInputImage, typename TFeatureImage, typename TOutputImage, typename TFunction, typename TIdCell >
 void
 MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutputImage, TFunction, TIdCell >
 ::InitializeBackgroundPixels()
@@ -1190,7 +1190,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutput
     }
 }
 
-template< class TInputImage, class TFeatureImage, class TOutputImage, class TFunction, typename TIdCell >
+template< typename TInputImage, typename TFeatureImage, typename TOutputImage, typename TFunction, typename TIdCell >
 void
 MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutputImage, TFunction, TIdCell >
 ::ConstructActiveLayer()
@@ -1303,7 +1303,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutput
     }
 }
 
-template< class TInputImage, class TFeatureImage, class TOutputImage, class TFunction, typename TIdCell >
+template< typename TInputImage, typename TFeatureImage, typename TOutputImage, typename TFunction, typename TIdCell >
 void
 MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutputImage, TFunction, TIdCell >
 ::ConstructLayer(SparseDataStruct *sparsePtr, StatusType from, StatusType to)
@@ -1345,7 +1345,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutput
     }
 }
 
-template< class TInputImage, class TFeatureImage, class TOutputImage, class TFunction, typename TIdCell >
+template< typename TInputImage, typename TFeatureImage, typename TOutputImage, typename TFunction, typename TIdCell >
 void
 MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutputImage, TFunction, TIdCell >
 ::PostProcessOutput()
@@ -1408,7 +1408,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutput
     }
 }
 
-template< class TInputImage, class TFeatureImage, class TOutputImage, class TFunction, typename TIdCell >
+template< typename TInputImage, typename TFeatureImage, typename TOutputImage, typename TFunction, typename TIdCell >
 void
 MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutputImage, TFunction, TIdCell >
 ::PrintSelf(std::ostream & os, Indent indent) const

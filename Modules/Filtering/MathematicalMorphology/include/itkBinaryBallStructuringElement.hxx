@@ -27,7 +27,7 @@
 namespace itk
 {
 // Create the structuring element
-template< class TPixel, unsigned int VDimension, class TAllocator >
+template< typename TPixel, unsigned int VDimension, typename TAllocator >
 void
 BinaryBallStructuringElement< TPixel, VDimension, TAllocator >
 ::CreateStructuringElement()

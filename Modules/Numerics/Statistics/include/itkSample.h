@@ -57,7 +57,7 @@ namespace Statistics
  * \ingroup ITKStatistics
  */
 
-template< class TMeasurementVector >
+template< typename TMeasurementVector >
 class Sample:public DataObject
 {
 public:

@@ -59,8 +59,8 @@ namespace itk
  * \wikiexample{Statistics/ScalarImageKmeansImageFilter,Cluster the pixels in a greyscale image}
  * \endwiki
  */
-template< class TInputImage,
-          class TOutputImage = Image< unsigned char, TInputImage::ImageDimension > >
+template< typename TInputImage,
+          typename TOutputImage = Image< unsigned char, TInputImage::ImageDimension > >
 class ScalarImageKmeansImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {

@@ -38,7 +38,7 @@ namespace Testing
  * \ingroup IntensityImageFilters   MultiThreaded
  * \ingroup ITKTestKernel
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class ComparisonImageFilter:
   public ImageSource< TOutputImage >
 {

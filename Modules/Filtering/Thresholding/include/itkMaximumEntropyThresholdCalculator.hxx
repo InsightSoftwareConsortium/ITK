@@ -29,7 +29,7 @@ namespace itk
 /*
  * Compute the MaximumEntropy's threshold
  */
-template<class THistogram, class TOutput>
+template<typename THistogram, typename TOutput>
 void
 MaximumEntropyThresholdCalculator<THistogram, TOutput>
 ::GenerateData(void)

@@ -57,9 +57,9 @@ namespace itk
  * \ingroup ITKRegistrationCommon
  * \ingroup ITKTransform
  */
-template< class TTransform,
-          class TFixedImage,
-          class TMovingImage >
+template< typename TTransform,
+          typename TFixedImage,
+          typename TMovingImage >
 class CenteredTransformInitializer:public Object
 {
 public:

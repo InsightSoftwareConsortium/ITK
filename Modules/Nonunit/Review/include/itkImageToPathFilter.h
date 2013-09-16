@@ -39,7 +39,7 @@ namespace itk
  * \ingroup ImageFilters
  * \ingroup ITKReview
  */
-template< class TInputImage, class TOutputPath >
+template< typename TInputImage, typename TOutputPath >
 class ImageToPathFilter:public PathSource< TOutputPath >
 {
 public:

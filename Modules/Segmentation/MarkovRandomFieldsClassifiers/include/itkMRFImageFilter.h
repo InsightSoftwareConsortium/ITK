@@ -121,7 +121,7 @@ namespace itk
  * \sa Classifier
  * \ingroup ITKMarkovRandomFieldsClassifiers
  */
-template< class TInputImage, class TClassifiedImage >
+template< typename TInputImage, typename TClassifiedImage >
 class MRFImageFilter:
   public ImageToImageFilter< TInputImage, TClassifiedImage >
 {

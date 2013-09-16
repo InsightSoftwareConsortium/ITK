@@ -123,7 +123,7 @@ namespace fem
  * \ingroup ITKFEM
  */
 
-template<class TInputPointSet, class TInputMesh, class TOutputImage, class TInputConfidencePointSet, class TInputTensorPointSet>
+template<typename TInputPointSet, typename TInputMesh, typename TOutputImage, typename TInputConfidencePointSet, typename TInputTensorPointSet>
 class FEMScatteredDataPointSetToImageFilter:
   public PointSetToImageFilter< TInputPointSet, TOutputImage >
 {

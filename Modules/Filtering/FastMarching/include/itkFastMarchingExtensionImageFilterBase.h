@@ -50,7 +50,7 @@ namespace itk
  * \ingroup LevelSetSegmentation
  * \ingroup ITKFastMarching
  */
-template< class TInput, class TOutput,
+template< typename TInput, typename TOutput,
          typename TAuxValue,
          unsigned int VAuxDimension >
 class FastMarchingExtensionImageFilterBase:

@@ -29,7 +29,7 @@ namespace itk
 /**
  * Initialize new instance
  */
-template< class TInputImage, class TOutputImage, class TInterpolatorPrecisionType >
+template< typename TInputImage, typename TOutputImage, typename TInterpolatorPrecisionType >
 VectorResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType >
 ::VectorResampleImageFilter()
 {
@@ -50,7 +50,7 @@ VectorResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType
  *
  * \todo Add details about this class
  */
-template< class TInputImage, class TOutputImage, class TInterpolatorPrecisionType >
+template< typename TInputImage, typename TOutputImage, typename TInterpolatorPrecisionType >
 void
 VectorResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -72,7 +72,7 @@ VectorResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType
 /**
  * Set the output image spacing.
  */
-template< class TInputImage, class TOutputImage, class TInterpolatorPrecisionType >
+template< typename TInputImage, typename TOutputImage, typename TInterpolatorPrecisionType >
 void
 VectorResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType >
 ::SetOutputSpacing(const double *spacing)
@@ -85,7 +85,7 @@ VectorResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType
 /**
  * Set the output image origin.
  */
-template< class TInputImage, class TOutputImage, class TInterpolatorPrecisionType >
+template< typename TInputImage, typename TOutputImage, typename TInterpolatorPrecisionType >
 void
 VectorResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType >
 ::SetOutputOrigin(const double *origin)
@@ -100,7 +100,7 @@ VectorResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType
  * InterpolatorType::SetInputImage is not thread-safe and hence
  * has to be set up before ThreadedGenerateData
  */
-template< class TInputImage, class TOutputImage, class TInterpolatorPrecisionType >
+template< typename TInputImage, typename TOutputImage, typename TInterpolatorPrecisionType >
 void
 VectorResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType >
 ::BeforeThreadedGenerateData()
@@ -124,7 +124,7 @@ VectorResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType
 /**
  * Set up state of filter after multi-threading.
  */
-template< class TInputImage, class TOutputImage, class TInterpolatorPrecisionType >
+template< typename TInputImage, typename TOutputImage, typename TInterpolatorPrecisionType >
 void
 VectorResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType >
 ::AfterThreadedGenerateData()
@@ -136,7 +136,7 @@ VectorResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType
 /**
  * ThreadedGenerateData
  */
-template< class TInputImage, class TOutputImage, class TInterpolatorPrecisionType >
+template< typename TInputImage, typename TOutputImage, typename TInterpolatorPrecisionType >
 void
 VectorResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType >
 ::ThreadedGenerateData(
@@ -216,7 +216,7 @@ VectorResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType
  * when we cannot assume anything about the transform being used.
  * So we do the easy thing and request the entire input image.
  */
-template< class TInputImage, class TOutputImage, class TInterpolatorPrecisionType >
+template< typename TInputImage, typename TOutputImage, typename TInterpolatorPrecisionType >
 void
 VectorResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType >
 ::GenerateInputRequestedRegion()
@@ -242,7 +242,7 @@ VectorResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType
 /**
  * Inform pipeline of required output region
  */
-template< class TInputImage, class TOutputImage, class TInterpolatorPrecisionType >
+template< typename TInputImage, typename TOutputImage, typename TInterpolatorPrecisionType >
 void
 VectorResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType >
 ::GenerateOutputInformation()
@@ -272,7 +272,7 @@ VectorResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType
 /**
  * Verify if any of the components has been modified.
  */
-template< class TInputImage, class TOutputImage, class TInterpolatorPrecisionType >
+template< typename TInputImage, typename TOutputImage, typename TInterpolatorPrecisionType >
 ModifiedTimeType
 VectorResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType >
 ::GetMTime(void) const

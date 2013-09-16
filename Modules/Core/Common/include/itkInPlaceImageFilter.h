@@ -68,7 +68,7 @@ namespace itk
  * \ingroup ImageFilters
  * \ingroup ITKCommon
  */
-template< class TInputImage, class TOutputImage = TInputImage >
+template< typename TInputImage, typename TOutputImage = TInputImage >
 class InPlaceImageFilter:public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

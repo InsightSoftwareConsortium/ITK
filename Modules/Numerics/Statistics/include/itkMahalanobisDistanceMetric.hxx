@@ -24,7 +24,7 @@ namespace itk
 {
 namespace Statistics
 {
-template< class TVector >
+template< typename TVector >
 MahalanobisDistanceMetric< TVector >
 ::MahalanobisDistanceMetric():
   m_Epsilon(1e-100),
@@ -41,7 +41,7 @@ MahalanobisDistanceMetric< TVector >
   m_InverseCovariance.set_identity();
 }
 
-template< class TVector >
+template< typename TVector >
 void
 MahalanobisDistanceMetric< TVector >
 ::SetMean(const MeanVectorType & mean)
@@ -49,7 +49,7 @@ MahalanobisDistanceMetric< TVector >
   Superclass::SetOrigin(mean);
 }
 
-template< class TVector >
+template< typename TVector >
 const typename
 MahalanobisDistanceMetric< TVector >::MeanVectorType &
 MahalanobisDistanceMetric< TVector >
@@ -58,7 +58,7 @@ MahalanobisDistanceMetric< TVector >
   return Superclass::GetOrigin();
 }
 
-template< class TVector >
+template< typename TVector >
 void
 MahalanobisDistanceMetric< TVector >
 ::SetMeasurementVectorSize(MeasurementVectorSizeType size)
@@ -72,7 +72,7 @@ MahalanobisDistanceMetric< TVector >
   this->Modified();
 }
 
-template< class TVector >
+template< typename TVector >
 void
 MahalanobisDistanceMetric< TVector >
 ::SetCovariance(const CovarianceMatrixType & cov)
@@ -91,7 +91,7 @@ MahalanobisDistanceMetric< TVector >
   this->CalculateInverseCovariance();
 }
 
-template< class TVector >
+template< typename TVector >
 void
 MahalanobisDistanceMetric< TVector >
 ::SetInverseCovariance(const CovarianceMatrixType & invcov)
@@ -113,7 +113,7 @@ MahalanobisDistanceMetric< TVector >
   m_InverseCovariance = invcov;
 }
 
-template< class TVector >
+template< typename TVector >
 void
 MahalanobisDistanceMetric< TVector >
 ::CalculateInverseCovariance()
@@ -152,7 +152,7 @@ MahalanobisDistanceMetric< TVector >
     } // end inverse calculations
 }
 
-template< class TVector >
+template< typename TVector >
 double
 MahalanobisDistanceMetric< TVector >
 ::Evaluate(const MeasurementVectorType & measurement) const
@@ -179,7 +179,7 @@ MahalanobisDistanceMetric< TVector >
   return temp;
 }
 
-template< class TVector >
+template< typename TVector >
 inline double
 MahalanobisDistanceMetric< TVector >
 ::Evaluate(const MeasurementVectorType & x1, const MeasurementVectorType & x2) const
@@ -213,7 +213,7 @@ MahalanobisDistanceMetric< TVector >
   return temp;
 }
 
-template< class TVector >
+template< typename TVector >
 void
 MahalanobisDistanceMetric< TVector >
 ::PrintSelf(std::ostream & os, Indent indent) const

@@ -48,7 +48,7 @@ namespace itk
  * \ingroup RegistrationMetrics
  * \ingroup ITKRegistrationCommon
  */
-template< class TFixedImage, class TMovingImage >
+template< typename TFixedImage, typename TMovingImage >
 class NormalizedMutualInformationHistogramImageToImageMetric:
   public HistogramImageToImageMetric< TFixedImage, TMovingImage >
 {

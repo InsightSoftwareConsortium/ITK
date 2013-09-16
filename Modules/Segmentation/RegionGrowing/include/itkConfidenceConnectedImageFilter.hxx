@@ -32,7 +32,7 @@ namespace itk
 /**
  * Constructor
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 ConfidenceConnectedImageFilter< TInputImage, TOutputImage >
 ::ConfidenceConnectedImageFilter()
 {
@@ -45,7 +45,7 @@ ConfidenceConnectedImageFilter< TInputImage, TOutputImage >
   m_Variance = NumericTraits< InputRealType >::Zero;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ConfidenceConnectedImageFilter< TInputImage, TOutputImage >
 ::SetSeed(const IndexType & seed)
@@ -54,7 +54,7 @@ ConfidenceConnectedImageFilter< TInputImage, TOutputImage >
   this->AddSeed(seed);
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ConfidenceConnectedImageFilter< TInputImage, TOutputImage >
 ::ClearSeeds()
@@ -66,7 +66,7 @@ ConfidenceConnectedImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ConfidenceConnectedImageFilter< TInputImage, TOutputImage >
 ::AddSeed(const IndexType & seed)
@@ -76,7 +76,7 @@ ConfidenceConnectedImageFilter< TInputImage, TOutputImage >
 }
 
 /** Method to access seed container */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 const typename ConfidenceConnectedImageFilter<TInputImage,TOutputImage>::SeedsContainerType &
 ConfidenceConnectedImageFilter< TInputImage, TOutputImage >
 ::GetSeeds() const
@@ -88,7 +88,7 @@ ConfidenceConnectedImageFilter< TInputImage, TOutputImage >
 /**
  * Standard PrintSelf method.
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ConfidenceConnectedImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -109,7 +109,7 @@ ConfidenceConnectedImageFilter< TInputImage, TOutputImage >
      << std::endl;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ConfidenceConnectedImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
@@ -123,7 +123,7 @@ ConfidenceConnectedImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ConfidenceConnectedImageFilter< TInputImage, TOutputImage >
 ::EnlargeOutputRequestedRegion(DataObject *output)
@@ -132,7 +132,7 @@ ConfidenceConnectedImageFilter< TInputImage, TOutputImage >
   output->SetRequestedRegionToLargestPossibleRegion();
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ConfidenceConnectedImageFilter< TInputImage, TOutputImage >
 ::GenerateData()

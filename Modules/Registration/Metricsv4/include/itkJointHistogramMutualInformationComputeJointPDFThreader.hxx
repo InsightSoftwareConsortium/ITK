@@ -24,7 +24,7 @@
 namespace itk
 {
 
-template< class TJointHistogramMetric >
+template< typename TJointHistogramMetric >
 void
 JointHistogramMutualInformationComputeJointPDFThreader< ThreadedImageRegionPartitioner< TJointHistogramMetric::VirtualImageDimension >, TJointHistogramMetric >
 ::ThreadedExecution( const DomainType & imageSubRegion,
@@ -42,7 +42,7 @@ JointHistogramMutualInformationComputeJointPDFThreader< ThreadedImageRegionParti
     }
 }
 
-template< class TJointHistogramMetric >
+template< typename TJointHistogramMetric >
 void
 JointHistogramMutualInformationComputeJointPDFThreader< ThreadedIndexedContainerPartitioner, TJointHistogramMetric >
 ::ThreadedExecution( const DomainType & indexSubRange,

@@ -25,7 +25,7 @@ namespace itk
 //----------------------------------------------------------------------
 //  Constructor
 //----------------------------------------------------------------------
-template< class TImage >
+template< typename TImage >
 ImageConstIteratorWithIndex< TImage >
 ::ImageConstIteratorWithIndex()
 {
@@ -38,7 +38,7 @@ ImageConstIteratorWithIndex< TImage >
 //----------------------------------------------------------------------
 //  Constructor
 //----------------------------------------------------------------------
-template< class TImage >
+template< typename TImage >
 ImageConstIteratorWithIndex< TImage >
 ::ImageConstIteratorWithIndex(const Self & it)
 {
@@ -66,7 +66,7 @@ ImageConstIteratorWithIndex< TImage >
 //----------------------------------------------------------------------
 //  Constructor
 //----------------------------------------------------------------------
-template< class TImage >
+template< typename TImage >
 ImageConstIteratorWithIndex< TImage >
 ::ImageConstIteratorWithIndex(const TImage *ptr,
                               const RegionType & region)
@@ -120,7 +120,7 @@ ImageConstIteratorWithIndex< TImage >
 //----------------------------------------------------------------------
 //    Assignment Operator
 //----------------------------------------------------------------------
-template< class TImage >
+template< typename TImage >
 ImageConstIteratorWithIndex< TImage > &
 ImageConstIteratorWithIndex< TImage >
 ::operator=(const Self & it)
@@ -153,7 +153,7 @@ ImageConstIteratorWithIndex< TImage >
 //----------------------------------------------------------------------------
 // GoToBegin() is the first pixel in the region.
 //----------------------------------------------------------------------------
-template< class TImage >
+template< typename TImage >
 void
 ImageConstIteratorWithIndex< TImage >
 ::GoToBegin()
@@ -176,7 +176,7 @@ ImageConstIteratorWithIndex< TImage >
 //----------------------------------------------------------------------------
 // GoToReverseBegin() is the last pixel in the region.
 //----------------------------------------------------------------------------
-template< class TImage >
+template< typename TImage >
 void
 ImageConstIteratorWithIndex< TImage >
 ::GoToReverseBegin()
@@ -205,7 +205,7 @@ ImageConstIteratorWithIndex< TImage >
 //----------------------------------------------------------------------------
 // Begin() is the first pixel in the region.
 //----------------------------------------------------------------------------
-template< class TImage >
+template< typename TImage >
 ImageConstIteratorWithIndex< TImage >
 ImageConstIteratorWithIndex< TImage >
 ::Begin() const
@@ -219,7 +219,7 @@ ImageConstIteratorWithIndex< TImage >
 //----------------------------------------------------------------------------
 // End() is the last pixel in the region.  DEPRECATED
 //----------------------------------------------------------------------------
-template< class TImage >
+template< typename TImage >
 ImageConstIteratorWithIndex< TImage >
 ImageConstIteratorWithIndex< TImage >
 ::End() const

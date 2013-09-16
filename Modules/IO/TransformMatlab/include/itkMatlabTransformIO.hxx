@@ -25,17 +25,17 @@
 
 namespace itk
 {
-template<class ParametersValueType>
+template<typename ParametersValueType>
 MatlabTransformIOTemplate<ParametersValueType>
 ::MatlabTransformIOTemplate()
 {}
 
-template<class ParametersValueType>
+template<typename ParametersValueType>
 MatlabTransformIOTemplate<ParametersValueType>
 ::~MatlabTransformIOTemplate()
 {}
 
-template<class ParametersValueType>
+template<typename ParametersValueType>
 bool
 MatlabTransformIOTemplate<ParametersValueType>
 ::CanReadFile(const char *fileName)
@@ -43,7 +43,7 @@ MatlabTransformIOTemplate<ParametersValueType>
   return itksys::SystemTools::GetFilenameLastExtension(fileName) == ".mat";
 }
 
-template<class ParametersValueType>
+template<typename ParametersValueType>
 bool
 MatlabTransformIOTemplate<ParametersValueType>
 ::CanWriteFile(const char *fileName)
@@ -54,7 +54,7 @@ MatlabTransformIOTemplate<ParametersValueType>
 //
 // ReadMat -- we always want double precision,
 // but handle single precision as well.
-template<class ParametersValueType>
+template<typename ParametersValueType>
 static void
 ReadMat(vnl_matlab_readhdr & mathdr,
         typename MatlabTransformIOTemplate<ParametersValueType>::TransformType::ParametersType & array)
@@ -79,7 +79,7 @@ ReadMat(vnl_matlab_readhdr & mathdr,
     }
 }
 
-template<class ParametersValueType>
+template<typename ParametersValueType>
 void
 MatlabTransformIOTemplate<ParametersValueType>
 ::Read()
@@ -131,7 +131,7 @@ MatlabTransformIOTemplate<ParametersValueType>
   matfile.close();
 }
 
-template<class ParametersValueType>
+template<typename ParametersValueType>
 void
 MatlabTransformIOTemplate<ParametersValueType>
 ::Write()

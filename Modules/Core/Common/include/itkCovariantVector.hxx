@@ -27,7 +27,7 @@ namespace itk
 /**
  * Constructor to initialize entire vector to one value.
  */
-template< class T, unsigned int TVectorDimension >
+template< typename T, unsigned int TVectorDimension >
 CovariantVector< T, TVectorDimension >
 ::CovariantVector(const ValueType & r)
 {
@@ -37,7 +37,7 @@ CovariantVector< T, TVectorDimension >
     }
 }
 
-template< class T, unsigned int NVectorDimension >
+template< typename T, unsigned int NVectorDimension >
 CovariantVector< T, NVectorDimension > &
 CovariantVector< T, NVectorDimension >
 ::operator=(const Self & r)
@@ -46,7 +46,7 @@ CovariantVector< T, NVectorDimension >
   return *this;
 }
 
-template< class T, unsigned int NVectorDimension >
+template< typename T, unsigned int NVectorDimension >
 CovariantVector< T, NVectorDimension > &
 CovariantVector< T, NVectorDimension >
 ::operator=(const ValueType r[NVectorDimension])
@@ -58,7 +58,7 @@ CovariantVector< T, NVectorDimension >
 /**
  *
  */
-template< class T, unsigned int NVectorDimension >
+template< typename T, unsigned int NVectorDimension >
 const typename CovariantVector< T, NVectorDimension >::Self &
 CovariantVector< T, NVectorDimension >
 ::operator+=(const Self & vec)
@@ -73,7 +73,7 @@ CovariantVector< T, NVectorDimension >
 /**
  *
  */
-template< class T, unsigned int NVectorDimension >
+template< typename T, unsigned int NVectorDimension >
 const typename CovariantVector< T, NVectorDimension >::Self &
 CovariantVector< T, NVectorDimension >
 ::operator-=(const Self & vec)
@@ -88,7 +88,7 @@ CovariantVector< T, NVectorDimension >
 /**
  * Returns a temporary copy of a vector
  */
-template< class T, unsigned int NVectorDimension >
+template< typename T, unsigned int NVectorDimension >
 CovariantVector< T, NVectorDimension >
 CovariantVector< T, NVectorDimension >
 ::operator-() const
@@ -105,7 +105,7 @@ CovariantVector< T, NVectorDimension >
 /**
  * Returns a temporary copy of a vector
  */
-template< class T, unsigned int NVectorDimension >
+template< typename T, unsigned int NVectorDimension >
 typename CovariantVector< T, NVectorDimension >::Self
 CovariantVector< T, NVectorDimension >
 ::operator+(const Self & vec) const
@@ -122,7 +122,7 @@ CovariantVector< T, NVectorDimension >
 /**
  * Returns a temporary copy of a vector
  */
-template< class T, unsigned int NVectorDimension >
+template< typename T, unsigned int NVectorDimension >
 typename CovariantVector< T, NVectorDimension >::Self
 CovariantVector< T, NVectorDimension >
 ::operator-(const Self & vec)  const
@@ -139,7 +139,7 @@ CovariantVector< T, NVectorDimension >
 /**
  *
  */
-template< class T, unsigned int NVectorDimension >
+template< typename T, unsigned int NVectorDimension >
 typename CovariantVector< T, NVectorDimension >::ValueType
 CovariantVector< T, NVectorDimension >
 ::operator*(const Self & other) const
@@ -155,7 +155,7 @@ CovariantVector< T, NVectorDimension >
 /**
  *
  */
-template< class T, unsigned int NVectorDimension >
+template< typename T, unsigned int NVectorDimension >
 typename CovariantVector< T, NVectorDimension >::ValueType
 CovariantVector< T, NVectorDimension >
 ::operator*(const Vector< T, NVectorDimension > & other) const
@@ -171,7 +171,7 @@ CovariantVector< T, NVectorDimension >
 /**
  * Returns vector's Squared Euclidean Norm
  */
-template< class T, unsigned int NVectorDimension >
+template< typename T, unsigned int NVectorDimension >
 typename CovariantVector< T, NVectorDimension >::RealValueType
 CovariantVector< T, NVectorDimension >
 ::GetSquaredNorm(void) const
@@ -189,7 +189,7 @@ CovariantVector< T, NVectorDimension >
 /**
  * Returns vector's Euclidean Norm
  */
-template< class T, unsigned int NVectorDimension >
+template< typename T, unsigned int NVectorDimension >
 typename CovariantVector< T, NVectorDimension >::RealValueType
 CovariantVector< T, NVectorDimension >
 ::GetNorm(void) const
@@ -200,7 +200,7 @@ CovariantVector< T, NVectorDimension >
 /**
  * Divide vector's components by vector's norm
  */
-template< class T, unsigned int NVectorDimension >
+template< typename T, unsigned int NVectorDimension >
 void
 CovariantVector< T, NVectorDimension >
 ::Normalize(void)
@@ -216,7 +216,7 @@ CovariantVector< T, NVectorDimension >
 /**
  * Set a vnl_vector
  */
-template< class T, unsigned int NVectorDimension >
+template< typename T, unsigned int NVectorDimension >
 void
 CovariantVector< T, NVectorDimension >
 ::SetVnlVector(const vnl_vector< T > & v)
@@ -230,7 +230,7 @@ CovariantVector< T, NVectorDimension >
 /**
  * Return a vnl_vector_ref
  */
-template< class T, unsigned int NVectorDimension >
+template< typename T, unsigned int NVectorDimension >
 vnl_vector_ref< T >
 CovariantVector< T, NVectorDimension >
 ::GetVnlVector(void)
@@ -241,7 +241,7 @@ CovariantVector< T, NVectorDimension >
 /**
  * Return a vnl_vector const
  */
-template< class T, unsigned int NVectorDimension >
+template< typename T, unsigned int NVectorDimension >
 vnl_vector< T >
 CovariantVector< T, NVectorDimension >
 ::GetVnlVector(void) const
@@ -258,7 +258,7 @@ CovariantVector< T, NVectorDimension >
 /**
  * Set a vnl_vector
  */
-template< class T, unsigned int NVectorDimension >
+template< typename T, unsigned int NVectorDimension >
 void
 CovariantVector< T, NVectorDimension >
 ::Set_vnl_vector(const vnl_vector< T > & v)
@@ -272,7 +272,7 @@ CovariantVector< T, NVectorDimension >
 /**
  * Return a vnl_vector_ref
  */
-template< class T, unsigned int NVectorDimension >
+template< typename T, unsigned int NVectorDimension >
 vnl_vector_ref< T >
 CovariantVector< T, NVectorDimension >
 ::Get_vnl_vector(void)
@@ -283,7 +283,7 @@ CovariantVector< T, NVectorDimension >
 /**
  * Return a vnl_vector const
  */
-template< class T, unsigned int NVectorDimension >
+template< typename T, unsigned int NVectorDimension >
 vnl_vector< T >
 CovariantVector< T, NVectorDimension >
 ::Get_vnl_vector(void) const

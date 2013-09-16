@@ -24,7 +24,7 @@
 
 namespace itk {
 
-template <class TImage>
+template <typename TImage>
 ShapePositionLabelMapFilter<TImage>
 ::ShapePositionLabelMapFilter()
 {
@@ -32,7 +32,7 @@ ShapePositionLabelMapFilter<TImage>
 }
 
 
-template <class TImage>
+template <typename TImage>
 void
 ShapePositionLabelMapFilter<TImage>
 ::ThreadedProcessLabelObject( LabelObjectType * labelObject )
@@ -52,7 +52,7 @@ ShapePositionLabelMapFilter<TImage>
     }
 }
 
-template <class TImage>
+template <typename TImage>
 void
 ShapePositionLabelMapFilter<TImage>
 ::PrintSelf(std::ostream &os, Indent indent) const

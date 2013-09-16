@@ -43,7 +43,7 @@ namespace itk
  * \wikiexample{Functions/MedianImageFunction,Compute the median of an image at a pixels (in a regular neighborhood)}
  * \endwiki
  */
-template< class TInputImage, class TCoordRep = float >
+template< typename TInputImage, typename TCoordRep = float >
 class MedianImageFunction:
   public ImageFunction< TInputImage, typename TInputImage::PixelType,
                         TCoordRep >

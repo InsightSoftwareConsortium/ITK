@@ -37,7 +37,7 @@ namespace itk
  * for Medical Research, Grant U54 EB005149.
   * \ingroup ITKCommon
  */
-template< class TImage >
+template< typename TImage >
 class VectorImageNeighborhoodAccessorFunctor
 {
 public:

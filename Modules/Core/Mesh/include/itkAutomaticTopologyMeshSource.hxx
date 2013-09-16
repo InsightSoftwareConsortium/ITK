@@ -27,7 +27,7 @@
 
 namespace itk
 {
-template< class TOutputMesh >
+template< typename TOutputMesh >
 AutomaticTopologyMeshSource< TOutputMesh >
 ::AutomaticTopologyMeshSource()
 {
@@ -40,12 +40,12 @@ AutomaticTopologyMeshSource< TOutputMesh >
                                           // mesh output
 }
 
-template< class TOutputMesh >
+template< typename TOutputMesh >
 AutomaticTopologyMeshSource< TOutputMesh >
 ::~AutomaticTopologyMeshSource()
 {}
 
-template< class TOutputMesh >
+template< typename TOutputMesh >
 typename AutomaticTopologyMeshSource< TOutputMesh >::IdentifierType
 AutomaticTopologyMeshSource< TOutputMesh >
 ::AddPoint(const PointType & p0)
@@ -67,7 +67,7 @@ AutomaticTopologyMeshSource< TOutputMesh >
   return pointID;
 }
 
-template< class TOutputMesh >
+template< typename TOutputMesh >
 typename AutomaticTopologyMeshSource< TOutputMesh >::IdentifierType
 AutomaticTopologyMeshSource< TOutputMesh >
 ::AddPoint(const CoordinateType *p0)
@@ -82,7 +82,7 @@ AutomaticTopologyMeshSource< TOutputMesh >
   return AddPoint(newPoint);
 }
 
-template< class TOutputMesh >
+template< typename TOutputMesh >
 typename AutomaticTopologyMeshSource< TOutputMesh >::IdentifierType
 AutomaticTopologyMeshSource< TOutputMesh >
 ::AddPoint(CoordinateType x0, CoordinateType x1, CoordinateType x2,
@@ -104,7 +104,7 @@ AutomaticTopologyMeshSource< TOutputMesh >
   return AddPoint(newPoint);
 }
 
-template< class TOutputMesh >
+template< typename TOutputMesh >
 typename AutomaticTopologyMeshSource< TOutputMesh >::IdentifierType
 AutomaticTopologyMeshSource< TOutputMesh >
 ::AddVertex(const IdentifierArrayType & pointIDs)
@@ -138,7 +138,7 @@ AutomaticTopologyMeshSource< TOutputMesh >
   return cellID;
 }
 
-template< class TOutputMesh >
+template< typename TOutputMesh >
 typename AutomaticTopologyMeshSource< TOutputMesh >::IdentifierType
 AutomaticTopologyMeshSource< TOutputMesh >
 ::AddLine(const IdentifierArrayType & pointIDs)
@@ -187,7 +187,7 @@ AutomaticTopologyMeshSource< TOutputMesh >
   return cellID;
 }
 
-template< class TOutputMesh >
+template< typename TOutputMesh >
 typename AutomaticTopologyMeshSource< TOutputMesh >::IdentifierType
 AutomaticTopologyMeshSource< TOutputMesh >
 ::AddTriangle(const IdentifierArrayType & pointIDs)
@@ -250,7 +250,7 @@ AutomaticTopologyMeshSource< TOutputMesh >
   return cellID;
 }
 
-template< class TOutputMesh >
+template< typename TOutputMesh >
 typename AutomaticTopologyMeshSource< TOutputMesh >::IdentifierType
 AutomaticTopologyMeshSource< TOutputMesh >
 ::AddQuadrilateral(const IdentifierArrayType & pointIDs)
@@ -312,7 +312,7 @@ AutomaticTopologyMeshSource< TOutputMesh >
   return cellID;
 }
 
-template< class TOutputMesh >
+template< typename TOutputMesh >
 typename AutomaticTopologyMeshSource< TOutputMesh >::IdentifierType
 AutomaticTopologyMeshSource< TOutputMesh >
 ::AddTetrahedron(const IdentifierArrayType & pointIDs)
@@ -390,7 +390,7 @@ AutomaticTopologyMeshSource< TOutputMesh >
   return cellID;
 }
 
-template< class TOutputMesh >
+template< typename TOutputMesh >
 typename AutomaticTopologyMeshSource< TOutputMesh >::IdentifierType
 AutomaticTopologyMeshSource< TOutputMesh >
 ::AddHexahedron(const IdentifierArrayType & pointIDs)
@@ -476,7 +476,7 @@ AutomaticTopologyMeshSource< TOutputMesh >
   return cellID;
 }
 
-template< class TOutputMesh >
+template< typename TOutputMesh >
 typename AutomaticTopologyMeshSource< TOutputMesh >::IdentifierType
 AutomaticTopologyMeshSource< TOutputMesh >
 ::AddVertex(IdentifierType pointId0)
@@ -486,7 +486,7 @@ AutomaticTopologyMeshSource< TOutputMesh >
   return AddVertex(pointIDs);
 }
 
-template< class TOutputMesh >
+template< typename TOutputMesh >
 typename AutomaticTopologyMeshSource< TOutputMesh >::IdentifierType
 AutomaticTopologyMeshSource< TOutputMesh >
 ::AddLine(IdentifierType pointId0, IdentifierType pointId1)
@@ -497,7 +497,7 @@ AutomaticTopologyMeshSource< TOutputMesh >
   return AddLine(pointIDs);
 }
 
-template< class TOutputMesh >
+template< typename TOutputMesh >
 typename AutomaticTopologyMeshSource< TOutputMesh >::IdentifierType
 AutomaticTopologyMeshSource< TOutputMesh >
 ::AddTriangle(IdentifierType pointId0, IdentifierType pointId1,
@@ -510,7 +510,7 @@ AutomaticTopologyMeshSource< TOutputMesh >
   return AddTriangle(pointIDs);
 }
 
-template< class TOutputMesh >
+template< typename TOutputMesh >
 typename AutomaticTopologyMeshSource< TOutputMesh >::IdentifierType
 AutomaticTopologyMeshSource< TOutputMesh >
 ::AddQuadrilateral(IdentifierType pointId0, IdentifierType pointId1,
@@ -524,7 +524,7 @@ AutomaticTopologyMeshSource< TOutputMesh >
   return AddQuadrilateral(pointIDs);
 }
 
-template< class TOutputMesh >
+template< typename TOutputMesh >
 typename AutomaticTopologyMeshSource< TOutputMesh >::IdentifierType
 AutomaticTopologyMeshSource< TOutputMesh >
 ::AddTetrahedron(IdentifierType pointId0, IdentifierType pointId1,
@@ -538,7 +538,7 @@ AutomaticTopologyMeshSource< TOutputMesh >
   return AddTetrahedron(pointIDs);
 }
 
-template< class TOutputMesh >
+template< typename TOutputMesh >
 typename AutomaticTopologyMeshSource< TOutputMesh >::IdentifierType
 AutomaticTopologyMeshSource< TOutputMesh >
 ::AddHexahedron(IdentifierType pointId0, IdentifierType pointId1,
@@ -558,7 +558,7 @@ AutomaticTopologyMeshSource< TOutputMesh >
   return AddHexahedron(pointIDs);
 }
 
-template< class TOutputMesh >
+template< typename TOutputMesh >
 typename AutomaticTopologyMeshSource< TOutputMesh >::IdentifierType
 AutomaticTopologyMeshSource< TOutputMesh >
 ::AddVertex(const PointType & p0)
@@ -568,7 +568,7 @@ AutomaticTopologyMeshSource< TOutputMesh >
   return AddVertex(pointId);
 }
 
-template< class TOutputMesh >
+template< typename TOutputMesh >
 typename AutomaticTopologyMeshSource< TOutputMesh >::IdentifierType
 AutomaticTopologyMeshSource< TOutputMesh >
 ::AddLine(const PointType & p0, const PointType & p1)
@@ -579,7 +579,7 @@ AutomaticTopologyMeshSource< TOutputMesh >
   return AddLine(pointIDs);
 }
 
-template< class TOutputMesh >
+template< typename TOutputMesh >
 typename AutomaticTopologyMeshSource< TOutputMesh >::IdentifierType
 AutomaticTopologyMeshSource< TOutputMesh >
 ::AddTriangle(const PointType & p0, const PointType & p1,
@@ -592,7 +592,7 @@ AutomaticTopologyMeshSource< TOutputMesh >
   return AddTriangle(pointIDs);
 }
 
-template< class TOutputMesh >
+template< typename TOutputMesh >
 typename AutomaticTopologyMeshSource< TOutputMesh >::IdentifierType
 AutomaticTopologyMeshSource< TOutputMesh >
 ::AddQuadrilateral(const PointType & p0, const PointType & p1,
@@ -606,7 +606,7 @@ AutomaticTopologyMeshSource< TOutputMesh >
   return AddQuadrilateral(pointIDs);
 }
 
-template< class TOutputMesh >
+template< typename TOutputMesh >
 typename AutomaticTopologyMeshSource< TOutputMesh >::IdentifierType
 AutomaticTopologyMeshSource< TOutputMesh >
 ::AddTetrahedron(const PointType & p0, const PointType & p1,
@@ -620,7 +620,7 @@ AutomaticTopologyMeshSource< TOutputMesh >
   return AddTetrahedron(pointIDs);
 }
 
-template< class TOutputMesh >
+template< typename TOutputMesh >
 typename AutomaticTopologyMeshSource< TOutputMesh >::IdentifierType
 AutomaticTopologyMeshSource< TOutputMesh >
 ::AddHexahedron(
@@ -640,7 +640,7 @@ AutomaticTopologyMeshSource< TOutputMesh >
   return AddHexahedron(pointIDs);
 }
 
-template< class TOutputMesh >
+template< typename TOutputMesh >
 typename AutomaticTopologyMeshSource< TOutputMesh >::IdentifierType
 AutomaticTopologyMeshSource< TOutputMesh >
 ::AddVertex(const CoordinateType *p0)
@@ -650,7 +650,7 @@ AutomaticTopologyMeshSource< TOutputMesh >
   return AddVertex(pointIDs);
 }
 
-template< class TOutputMesh >
+template< typename TOutputMesh >
 typename AutomaticTopologyMeshSource< TOutputMesh >::IdentifierType
 AutomaticTopologyMeshSource< TOutputMesh >
 ::AddLine(const CoordinateType *p0,
@@ -662,7 +662,7 @@ AutomaticTopologyMeshSource< TOutputMesh >
   return AddLine(pointIDs);
 }
 
-template< class TOutputMesh >
+template< typename TOutputMesh >
 typename AutomaticTopologyMeshSource< TOutputMesh >::IdentifierType
 AutomaticTopologyMeshSource< TOutputMesh >
 ::AddTriangle(const CoordinateType *p0,
@@ -676,7 +676,7 @@ AutomaticTopologyMeshSource< TOutputMesh >
   return AddTriangle(pointIDs);
 }
 
-template< class TOutputMesh >
+template< typename TOutputMesh >
 typename AutomaticTopologyMeshSource< TOutputMesh >::IdentifierType
 AutomaticTopologyMeshSource< TOutputMesh >
 ::AddQuadrilateral(const CoordinateType *p0,
@@ -692,7 +692,7 @@ AutomaticTopologyMeshSource< TOutputMesh >
   return AddQuadrilateral(pointIDs);
 }
 
-template< class TOutputMesh >
+template< typename TOutputMesh >
 typename AutomaticTopologyMeshSource< TOutputMesh >::IdentifierType
 AutomaticTopologyMeshSource< TOutputMesh >
 ::AddTetrahedron(const CoordinateType *p0,
@@ -708,7 +708,7 @@ AutomaticTopologyMeshSource< TOutputMesh >
   return AddTetrahedron(pointIDs);
 }
 
-template< class TOutputMesh >
+template< typename TOutputMesh >
 typename AutomaticTopologyMeshSource< TOutputMesh >::IdentifierType
 AutomaticTopologyMeshSource< TOutputMesh >
 ::AddHexahedron(const CoordinateType *p0,

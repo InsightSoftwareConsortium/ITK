@@ -23,7 +23,7 @@
 namespace itk
 {
 /** Default constructor. Needed since we provide a cast constructor. */
-template< class TImage >
+template< typename TImage >
 ImageRandomConstIteratorWithOnlyIndex< TImage >
 ::ImageRandomConstIteratorWithOnlyIndex():ImageConstIteratorWithOnlyIndex< TImage >()
 {
@@ -35,7 +35,7 @@ ImageRandomConstIteratorWithOnlyIndex< TImage >
 
 /** Constructor establishes an iterator to walk a particular image and a
  * particular region of that image. */
-template< class TImage >
+template< typename TImage >
 ImageRandomConstIteratorWithOnlyIndex< TImage >
 ::ImageRandomConstIteratorWithOnlyIndex(const ImageType *ptr, const RegionType & region):
   ImageConstIteratorWithOnlyIndex< TImage >(ptr, region)
@@ -47,7 +47,7 @@ ImageRandomConstIteratorWithOnlyIndex< TImage >
 }
 
 /**  Set the number of samples to extract from the region */
-template< class TImage >
+template< typename TImage >
 void
 ImageRandomConstIteratorWithOnlyIndex< TImage >
 ::SetNumberOfSamples(SizeValueType number)
@@ -56,7 +56,7 @@ ImageRandomConstIteratorWithOnlyIndex< TImage >
 }
 
 /**  Set the number of samples to extract from the region */
-template< class TImage >
+template< typename TImage >
 typename ImageRandomConstIteratorWithOnlyIndex< TImage >::SizeValueType
 ImageRandomConstIteratorWithOnlyIndex< TImage >
 ::GetNumberOfSamples(void) const
@@ -65,7 +65,7 @@ ImageRandomConstIteratorWithOnlyIndex< TImage >
 }
 
 /** Reinitialize the seed of the random number generator */
-template< class TImage >
+template< typename TImage >
 void
 ImageRandomConstIteratorWithOnlyIndex< TImage >
 ::ReinitializeSeed()
@@ -73,7 +73,7 @@ ImageRandomConstIteratorWithOnlyIndex< TImage >
   m_Generator->SetSeed();
 }
 
-template< class TImage >
+template< typename TImage >
 void
 ImageRandomConstIteratorWithOnlyIndex< TImage >
 ::ReinitializeSeed(int seed)
@@ -82,7 +82,7 @@ ImageRandomConstIteratorWithOnlyIndex< TImage >
 }
 
 /** Execute an acrobatic random jump */
-template< class TImage >
+template< typename TImage >
 void
 ImageRandomConstIteratorWithOnlyIndex< TImage >
 ::RandomJump()

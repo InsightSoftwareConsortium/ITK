@@ -26,7 +26,7 @@
  *  \class RegistrationParameterScalesFromPhysicalShiftPointSetTestMetric for test.
  *  Create a simple metric to use for testing here.
  */
-template<class TFixedPointSet, class TMovingPointSet>
+template<typename TFixedPointSet, typename TMovingPointSet>
 class RegistrationParameterScalesFromPhysicalShiftPointSetTestMetric:
   public itk::PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
 {

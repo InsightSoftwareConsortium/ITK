@@ -30,7 +30,7 @@
 #include "itkVTKVisualizeImageLevelSetIsoValues.h"
 #include "itkSinRegularizedHeavisideStepFunction.h"
 
-template< class TInputImage, class TLevelSetType >
+template< typename TInputImage, typename TLevelSetType >
 void
 visualizeLevelSet( TInputImage * inputImage, const int numberOfIterations, const char * )
 {

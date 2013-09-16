@@ -24,7 +24,7 @@
 
 namespace itk
 {
-template< class TImage >
+template< typename TImage >
 ShapeKeepNObjectsLabelMapFilter< TImage >
 ::ShapeKeepNObjectsLabelMapFilter()
 {
@@ -37,7 +37,7 @@ ShapeKeepNObjectsLabelMapFilter< TImage >
   this->SetNthOutput( 1, static_cast< TImage * >( this->MakeOutput(1).GetPointer() ) );
 }
 
-template< class TImage >
+template< typename TImage >
 void
 ShapeKeepNObjectsLabelMapFilter< TImage >
 ::GenerateData()
@@ -51,7 +51,7 @@ ShapeKeepNObjectsLabelMapFilter< TImage >
     }
 }
 
-template< class TImage >
+template< typename TImage >
 void
 ShapeKeepNObjectsLabelMapFilter< TImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

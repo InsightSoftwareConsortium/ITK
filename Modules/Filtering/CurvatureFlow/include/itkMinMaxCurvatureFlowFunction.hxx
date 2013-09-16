@@ -27,7 +27,7 @@ namespace itk
 /**
  * Constructor
  */
-template< class TImage >
+template< typename TImage >
 MinMaxCurvatureFlowFunction< TImage >
 ::MinMaxCurvatureFlowFunction()
 {
@@ -38,7 +38,7 @@ MinMaxCurvatureFlowFunction< TImage >
 /**
  * Set the stencil radius.
  */
-template< class TImage >
+template< typename TImage >
 void
 MinMaxCurvatureFlowFunction< TImage >
 ::SetStencilRadius(const RadiusValueType value)
@@ -61,7 +61,7 @@ MinMaxCurvatureFlowFunction< TImage >
 /**
  * Initialize the stencil operator.
  */
-template< class TImage >
+template< typename TImage >
 void
 MinMaxCurvatureFlowFunction< TImage >
 ::InitializeStencilOperator()
@@ -127,7 +127,7 @@ MinMaxCurvatureFlowFunction< TImage >
  * Compute the threshold by averaging the image intensity in
  * the direction perpendicular to the image gradient.
  */
-template< class TImage >
+template< typename TImage >
 typename MinMaxCurvatureFlowFunction< TImage >::PixelType
 MinMaxCurvatureFlowFunction< TImage >
 ::ComputeThreshold(const DispatchBase &,
@@ -228,7 +228,7 @@ MinMaxCurvatureFlowFunction< TImage >
  * Compute the threshold by averaging the image intensity in
  * the direction perpendicular to the image gradient.
  */
-template< class TImage >
+template< typename TImage >
 typename MinMaxCurvatureFlowFunction< TImage >::PixelType
 MinMaxCurvatureFlowFunction< TImage >
 ::ComputeThreshold(const Dispatch< 2 > &, const NeighborhoodType & it) const
@@ -292,7 +292,7 @@ MinMaxCurvatureFlowFunction< TImage >
  * Compute the threshold by averaging the image intensity in
  * the direction perpendicular to the image gradient.
  */
-template< class TImage >
+template< typename TImage >
 typename MinMaxCurvatureFlowFunction< TImage >::PixelType
 MinMaxCurvatureFlowFunction< TImage >
 ::ComputeThreshold(const Dispatch< 3 > &, const NeighborhoodType & it) const
@@ -413,7 +413,7 @@ MinMaxCurvatureFlowFunction< TImage >
 /*
  * Update the solution at pixels which lies on the data boundary.
  */
-template< class TImage >
+template< typename TImage >
 typename MinMaxCurvatureFlowFunction< TImage >::PixelType
 MinMaxCurvatureFlowFunction< TImage >
 ::ComputeUpdate(const NeighborhoodType & it, void *globalData,

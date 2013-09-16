@@ -25,7 +25,7 @@
 
 namespace itk {
 
-template<class TInputImage, class TKernel>
+template<typename TInputImage, typename TKernel>
 BinaryOpeningByReconstructionImageFilter<TInputImage, TKernel>
 ::BinaryOpeningByReconstructionImageFilter()
 {
@@ -34,7 +34,7 @@ BinaryOpeningByReconstructionImageFilter<TInputImage, TKernel>
   m_FullyConnected = false;
 }
 
-template <class TInputImage, class TKernel>
+template <typename TInputImage, typename TKernel>
 void
 BinaryOpeningByReconstructionImageFilter<TInputImage, TKernel>
 ::GenerateInputRequestedRegion()
@@ -50,7 +50,7 @@ BinaryOpeningByReconstructionImageFilter<TInputImage, TKernel>
     }
 }
 
-template<class TInputImage, class TKernel>
+template<typename TInputImage, typename TKernel>
 void
 BinaryOpeningByReconstructionImageFilter<TInputImage, TKernel>
 ::GenerateData()
@@ -90,7 +90,7 @@ BinaryOpeningByReconstructionImageFilter<TInputImage, TKernel>
   this->GraftOutput( dilate->GetOutput() );
 }
 
-template<class TInputImage, class TKernel>
+template<typename TInputImage, typename TKernel>
 void
 BinaryOpeningByReconstructionImageFilter<TInputImage, TKernel>
 ::PrintSelf(std::ostream &os, Indent indent) const

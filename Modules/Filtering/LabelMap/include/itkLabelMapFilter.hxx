@@ -32,19 +32,19 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 LabelMapFilter< TInputImage, TOutputImage >
 ::LabelMapFilter()
 {
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 LabelMapFilter< TInputImage, TOutputImage >
 ::~LabelMapFilter()
 {
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 LabelMapFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
@@ -61,7 +61,7 @@ LabelMapFilter< TInputImage, TOutputImage >
   input->SetRequestedRegion( input->GetLargestPossibleRegion() );
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 LabelMapFilter< TInputImage, TOutputImage >
 ::EnlargeOutputRequestedRegion(DataObject *)
@@ -69,7 +69,7 @@ LabelMapFilter< TInputImage, TOutputImage >
   this->GetOutput()->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 LabelMapFilter< TInputImage, TOutputImage >
 ::BeforeThreadedGenerateData()
@@ -85,7 +85,7 @@ LabelMapFilter< TInputImage, TOutputImage >
   m_NumberOfLabelObjectsProcessed = 0;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 LabelMapFilter< TInputImage, TOutputImage >
 ::AfterThreadedGenerateData()
@@ -93,7 +93,7 @@ LabelMapFilter< TInputImage, TOutputImage >
   this->UpdateProgress(1.0);
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 LabelMapFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData( const OutputImageRegionType &, ThreadIdType threadId )
@@ -146,7 +146,7 @@ LabelMapFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 LabelMapFilter< TInputImage, TOutputImage >
 ::ThreadedProcessLabelObject( LabelObjectType *itkNotUsed(labelObject) )

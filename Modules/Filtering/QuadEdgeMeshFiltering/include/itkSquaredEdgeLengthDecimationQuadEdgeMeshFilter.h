@@ -27,7 +27,7 @@ namespace itk
  * \brief
  * \ingroup ITKQuadEdgeMeshFiltering
  */
-template< class TInput, class TOutput, class TCriterion >
+template< typename TInput, typename TOutput, typename TCriterion >
 class SquaredEdgeLengthDecimationQuadEdgeMeshFilter:
   public EdgeDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >
 {

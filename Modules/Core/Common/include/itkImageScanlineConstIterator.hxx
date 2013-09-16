@@ -23,7 +23,7 @@
 namespace itk
 {
 
-template< class TImage >
+template< typename TImage >
 void
 ImageScanlineConstIterator< TImage >
 ::Increment()

@@ -44,7 +44,7 @@ namespace itk
  * \wikiexample{Smoothing/MeanImageFilter,Mean filter an image}
  * \endwiki
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class MeanImageFilter:
   public BoxImageFilter< TInputImage, TOutputImage >
 {

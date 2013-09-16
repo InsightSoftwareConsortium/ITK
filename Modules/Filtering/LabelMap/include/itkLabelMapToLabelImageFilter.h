@@ -42,7 +42,7 @@ namespace itk
  * \wikiexample{ImageProcessing/LabelMapToLabelImageFilter,Convert a LabelMap to a normal image with different values representing each region}
  * \endwiki
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class LabelMapToLabelImageFilter:
   public LabelMapFilter< TInputImage, TOutputImage >
 {

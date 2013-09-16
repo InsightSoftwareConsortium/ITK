@@ -29,7 +29,7 @@ namespace itk
 /**
  * Default constructor
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 VectorExpandImageFilter< TInputImage, TOutputImage >
 ::VectorExpandImageFilter()
 {
@@ -57,7 +57,7 @@ VectorExpandImageFilter< TInputImage, TOutputImage >
 /**
  * Standard "PrintSelf" method
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 VectorExpandImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -84,7 +84,7 @@ VectorExpandImageFilter< TInputImage, TOutputImage >
 /**
  * Set expand factors from a single unsigned int
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 VectorExpandImageFilter< TInputImage, TOutputImage >
 ::SetExpandFactors(const float factor)
@@ -109,7 +109,7 @@ VectorExpandImageFilter< TInputImage, TOutputImage >
 //TEST_RMV20100728/**
 //TEST_RMV20100728 * Set the edge padding value
 //TEST_RMV20100728 */
-//TEST_RMV20100728template <class TInputImage, class TOutputImage>
+//TEST_RMV20100728template <typename TInputImage, typename TOutputImage>
 //TEST_RMV20100728void
 //TEST_RMV20100728VectorExpandImageFilter<TInputImage,TOutputImage>
 //TEST_RMV20100728::SetEdgePaddingValue( const OutputPixelType& value )
@@ -134,7 +134,7 @@ VectorExpandImageFilter< TInputImage, TOutputImage >
 /**
  * BeforeThreadedGenerateData
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 VectorExpandImageFilter< TInputImage, TOutputImage >
 ::BeforeThreadedGenerateData()
@@ -151,7 +151,7 @@ VectorExpandImageFilter< TInputImage, TOutputImage >
 /**
  * ThreadedGenerateData
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 VectorExpandImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
@@ -224,7 +224,7 @@ VectorExpandImageFilter< TInputImage, TOutputImage >
 /**
  * GenerateInputRequesteRegion
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 VectorExpandImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
@@ -298,7 +298,7 @@ VectorExpandImageFilter< TInputImage, TOutputImage >
 /**
  * GenerateOutputInformation
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 VectorExpandImageFilter< TInputImage, TOutputImage >
 ::GenerateOutputInformation()

@@ -25,7 +25,7 @@
 namespace itk
 {
 
-template<class TInputImage, class TCoordRep>
+template<typename TInputImage, typename TCoordRep>
 BSplineControlPointImageFunction<TInputImage, TCoordRep>
 ::BSplineControlPointImageFunction()
 {
@@ -52,13 +52,13 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>
   this->m_BSplineEpsilon = vcl_numeric_limits<CoordRepType>::epsilon();
 }
 
-template<class TInputImage, class TCoordRep>
+template<typename TInputImage, typename TCoordRep>
 BSplineControlPointImageFunction<TInputImage, TCoordRep>
 ::~BSplineControlPointImageFunction()
 {
 }
 
-template<class TInputImage, class TCoordRep>
+template<typename TInputImage, typename TCoordRep>
 void
 BSplineControlPointImageFunction<TInputImage, TCoordRep>
 ::SetSplineOrder( const unsigned int order )
@@ -67,7 +67,7 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>
   this->SetSplineOrder( this->m_SplineOrder );
 }
 
-template<class TInputImage, class TCoordRep>
+template<typename TInputImage, typename TCoordRep>
 void
 BSplineControlPointImageFunction<TInputImage, TCoordRep>
 ::SetSplineOrder( const ArrayType & order )
@@ -89,7 +89,7 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>
   this->Modified();
 }
 
-template<class TInputImage, class TCoordRep>
+template<typename TInputImage, typename TCoordRep>
 void
 BSplineControlPointImageFunction<TInputImage, TCoordRep>
 ::SetInputImage( const InputImageType *image )
@@ -137,7 +137,7 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>
   this->m_NeighborhoodWeightImage->Allocate();
 }
 
-template<class TInputImage, class TCoordRep>
+template<typename TInputImage, typename TCoordRep>
 typename BSplineControlPointImageFunction<TInputImage, TCoordRep>
 ::OutputType
 BSplineControlPointImageFunction<TInputImage, TCoordRep>
@@ -153,7 +153,7 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>
   return this->Evaluate( params );
 }
 
-template<class TInputImage, class TCoordRep>
+template<typename TInputImage, typename TCoordRep>
 typename BSplineControlPointImageFunction<TInputImage, TCoordRep>
 ::OutputType
 BSplineControlPointImageFunction<TInputImage, TCoordRep>
@@ -169,7 +169,7 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>
   return this->Evaluate( params );
 }
 
-template<class TInputImage, class TCoordRep>
+template<typename TInputImage, typename TCoordRep>
 typename BSplineControlPointImageFunction<TInputImage, TCoordRep>
 ::OutputType
 BSplineControlPointImageFunction<TInputImage, TCoordRep>
@@ -184,7 +184,7 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>
   return this->Evaluate( params );
 }
 
-template<class TInputImage, class TCoordRep>
+template<typename TInputImage, typename TCoordRep>
 typename BSplineControlPointImageFunction<TInputImage, TCoordRep>
 ::OutputType
 BSplineControlPointImageFunction<TInputImage, TCoordRep>
@@ -291,7 +291,7 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>
   return data;
 }
 
-template<class TInputImage, class TCoordRep>
+template<typename TInputImage, typename TCoordRep>
 typename BSplineControlPointImageFunction<TInputImage, TCoordRep>
 ::GradientType
 BSplineControlPointImageFunction<TInputImage, TCoordRep>
@@ -307,7 +307,7 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>
   return this->EvaluateGradient( params );
 }
 
-template<class TInputImage, class TCoordRep>
+template<typename TInputImage, typename TCoordRep>
 typename BSplineControlPointImageFunction<TInputImage, TCoordRep>
 ::GradientType
 BSplineControlPointImageFunction<TInputImage, TCoordRep>
@@ -323,7 +323,7 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>
   return this->EvaluateGradient( params );
 }
 
-template<class TInputImage, class TCoordRep>
+template<typename TInputImage, typename TCoordRep>
 typename BSplineControlPointImageFunction<TInputImage, TCoordRep>
 ::GradientType
 BSplineControlPointImageFunction<TInputImage, TCoordRep>
@@ -338,7 +338,7 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>
   return this->EvaluateGradient( params );
 }
 
-template<class TInputImage, class TCoordRep>
+template<typename TInputImage, typename TCoordRep>
 typename BSplineControlPointImageFunction<TInputImage, TCoordRep>
 ::GradientType
 BSplineControlPointImageFunction<TInputImage, TCoordRep>
@@ -461,7 +461,7 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>
   return gradient;
 }
 
-template<class TInputImage, class TCoordRep>
+template<typename TInputImage, typename TCoordRep>
 typename BSplineControlPointImageFunction<TInputImage, TCoordRep>
 ::HessianComponentType
 BSplineControlPointImageFunction<TInputImage, TCoordRep>
@@ -478,7 +478,7 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>
   return this->EvaluateHessian( params, component );
 }
 
-template<class TInputImage, class TCoordRep>
+template<typename TInputImage, typename TCoordRep>
 typename BSplineControlPointImageFunction<TInputImage, TCoordRep>
 ::HessianComponentType
 BSplineControlPointImageFunction<TInputImage, TCoordRep>
@@ -495,7 +495,7 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>
   return this->EvaluateHessian( params, component );
 }
 
-template<class TInputImage, class TCoordRep>
+template<typename TInputImage, typename TCoordRep>
 typename BSplineControlPointImageFunction<TInputImage, TCoordRep>
 ::HessianComponentType
 BSplineControlPointImageFunction<TInputImage, TCoordRep>
@@ -511,7 +511,7 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>
   return this->EvaluateHessian( params, component );
 }
 
-template<class TInputImage, class TCoordRep>
+template<typename TInputImage, typename TCoordRep>
 typename BSplineControlPointImageFunction<TInputImage, TCoordRep>
 ::HessianComponentType
 BSplineControlPointImageFunction<TInputImage, TCoordRep>
@@ -648,7 +648,7 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>
   return hessian;
 }
 
-template<class TInputImage, class TCoordRep>
+template<typename TInputImage, typename TCoordRep>
 void
 BSplineControlPointImageFunction<TInputImage, TCoordRep>
 ::PrintSelf( std::ostream& os, Indent indent) const

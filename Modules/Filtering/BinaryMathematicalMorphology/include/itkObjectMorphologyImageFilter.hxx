@@ -28,7 +28,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 ObjectMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
 ::ObjectMorphologyImageFilter():
   m_Kernel()
@@ -42,7 +42,7 @@ ObjectMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
   //this->SetNumberOfThreads(1);
 }
 
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 void
 ObjectMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
 ::GenerateInputRequestedRegion()
@@ -90,7 +90,7 @@ ObjectMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
     }
 }
 
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 void
 ObjectMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
 ::BeforeThreadedGenerateData()
@@ -105,7 +105,7 @@ ObjectMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
     }
 }
 
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 void
 ObjectMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
@@ -183,7 +183,7 @@ ObjectMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
 }
 
 // Use neighborhood iter to determine if pixel touches a non-object pixel
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 bool
 ObjectMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
 ::IsObjectPixelOnBoundary(const InputNeighborhoodIteratorType & iNIter)
@@ -222,7 +222,7 @@ ObjectMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
   return false;
 }
 
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 void
 ObjectMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
 ::PrintSelf(std::ostream & os, Indent indent) const

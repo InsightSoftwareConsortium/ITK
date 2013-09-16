@@ -24,7 +24,7 @@
 namespace itk
 {
 /** Set the Input Image */
-template< class TInputImage, class TOutput >
+template< typename TInputImage, typename TOutput >
 GaussianBlurImageFunction< TInputImage, TOutput >
 ::GaussianBlurImageFunction()
 {
@@ -49,7 +49,7 @@ GaussianBlurImageFunction< TInputImage, TOutput >
 }
 
 /** Set the input image */
-template< class TInputImage, class TOutput >
+template< typename TInputImage, typename TOutput >
 void
 GaussianBlurImageFunction< TInputImage, TOutput >
 ::SetInputImage(const InputImageType *ptr)
@@ -58,7 +58,7 @@ GaussianBlurImageFunction< TInputImage, TOutput >
 }
 
 /** Print self method */
-template< class TInputImage, class TOutput >
+template< typename TInputImage, typename TOutput >
 void
 GaussianBlurImageFunction< TInputImage, TOutput >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -78,7 +78,7 @@ GaussianBlurImageFunction< TInputImage, TOutput >
 }
 
 /** Set the variance of the gaussian in each direction */
-template< class TInputImage, class TOutput >
+template< typename TInputImage, typename TOutput >
 void
 GaussianBlurImageFunction< TInputImage, TOutput >
 ::SetSigma(const double *sigma)
@@ -103,7 +103,7 @@ GaussianBlurImageFunction< TInputImage, TOutput >
 }
 
 /** Set the variance of the gaussian in each direction */
-template< class TInputImage, class TOutput >
+template< typename TInputImage, typename TOutput >
 void
 GaussianBlurImageFunction< TInputImage, TOutput >
 ::SetSigma(const double sigma)
@@ -128,7 +128,7 @@ GaussianBlurImageFunction< TInputImage, TOutput >
 }
 
 /** Set the extent of the gaussian in each direction */
-template< class TInputImage, class TOutput >
+template< typename TInputImage, typename TOutput >
 void
 GaussianBlurImageFunction< TInputImage, TOutput >
 ::SetExtent(const double *extent)
@@ -153,7 +153,7 @@ GaussianBlurImageFunction< TInputImage, TOutput >
 }
 
 /** Set the extent of the gaussian in each direction */
-template< class TInputImage, class TOutput >
+template< typename TInputImage, typename TOutput >
 void
 GaussianBlurImageFunction< TInputImage, TOutput >
 ::SetExtent(const double extent)
@@ -180,7 +180,7 @@ GaussianBlurImageFunction< TInputImage, TOutput >
 /** Recompute the gaussian kernel used to evaluate indexes
  *  And allocate the internal image for processing depending on
  *  the size of the operator */
-template< class TInputImage, class TOutput >
+template< typename TInputImage, typename TOutput >
 void
 GaussianBlurImageFunction< TInputImage, TOutput >
 ::RecomputeGaussianKernel()
@@ -227,7 +227,7 @@ GaussianBlurImageFunction< TInputImage, TOutput >
 }
 
 /** Evaluate the function at the specifed point */
-template< class TInputImage, class TOutput >
+template< typename TInputImage, typename TOutput >
 TOutput
 GaussianBlurImageFunction< TInputImage, TOutput >
 ::EvaluateAtIndex(const IndexType & index) const
@@ -236,7 +236,7 @@ GaussianBlurImageFunction< TInputImage, TOutput >
 }
 
 /** Evaluate the function at the specifed point */
-template< class TInputImage, class TOutput >
+template< typename TInputImage, typename TOutput >
 TOutput
 GaussianBlurImageFunction< TInputImage, TOutput >
 ::EvaluateAtIndex(const IndexType & index, const OperatorArrayType & operatorArray) const
@@ -356,7 +356,7 @@ GaussianBlurImageFunction< TInputImage, TOutput >
 
 /** Recompute the gaussian kernel used to evaluate indexes
  *  The variance should be uniform */
-template< class TInputImage, class TOutput >
+template< typename TInputImage, typename TOutput >
 void
 GaussianBlurImageFunction< TInputImage, TOutput >
 ::RecomputeContinuousGaussianKernel(const double *offset) const
@@ -412,7 +412,7 @@ GaussianBlurImageFunction< TInputImage, TOutput >
 }
 
 /** Evaluate the function at the specifed point */
-template< class TInputImage, class TOutput >
+template< typename TInputImage, typename TOutput >
 TOutput
 GaussianBlurImageFunction< TInputImage, TOutput >
 ::Evaluate(const PointType & point) const
@@ -425,7 +425,7 @@ GaussianBlurImageFunction< TInputImage, TOutput >
 }
 
 /** Evaluate the function at specified ContinousIndex position.*/
-template< class TInputImage, class TOutput >
+template< typename TInputImage, typename TOutput >
 TOutput
 GaussianBlurImageFunction< TInputImage, TOutput >
 ::EvaluateAtContinuousIndex(const ContinuousIndexType & cindex) const

@@ -47,8 +47,8 @@ namespace itk
  * \ingroup ITKReview
  */
 
-template< class TInputImage,
-          class TMaskImage = Image< unsigned char, TInputImage::ImageDimension >,
+template< typename TInputImage,
+          typename TMaskImage = Image< unsigned char, TInputImage::ImageDimension >,
           class TOutputImage = TInputImage >
 class KappaSigmaThresholdImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >

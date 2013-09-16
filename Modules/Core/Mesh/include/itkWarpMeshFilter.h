@@ -38,7 +38,7 @@ namespace itk
  * \sa TransformMeshFilter
  * \ingroup ITKMesh
  */
-template< class TInputMesh, class TOutputMesh, class TDisplacementField >
+template< typename TInputMesh, typename TOutputMesh, typename TDisplacementField >
 class WarpMeshFilter:
   public MeshToMeshFilter< TInputMesh, TOutputMesh >
 {

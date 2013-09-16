@@ -32,7 +32,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 GrayscaleGeodesicErodeImageFilter< TInputImage, TOutputImage >
 ::GrayscaleGeodesicErodeImageFilter()
 {
@@ -42,7 +42,7 @@ GrayscaleGeodesicErodeImageFilter< TInputImage, TOutputImage >
   m_FullyConnected = false;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 GrayscaleGeodesicErodeImageFilter< TInputImage, TOutputImage >
 ::SetMarkerImage(const MarkerImageType *markerImage)
@@ -51,7 +51,7 @@ GrayscaleGeodesicErodeImageFilter< TInputImage, TOutputImage >
   this->SetNthInput( 0, const_cast< MarkerImageType * >( markerImage ) );
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 const typename GrayscaleGeodesicErodeImageFilter< TInputImage, TOutputImage >::MarkerImageType *
 GrayscaleGeodesicErodeImageFilter< TInputImage, TOutputImage >
 ::GetMarkerImage()
@@ -59,7 +59,7 @@ GrayscaleGeodesicErodeImageFilter< TInputImage, TOutputImage >
   return this->GetInput(0);
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 GrayscaleGeodesicErodeImageFilter< TInputImage, TOutputImage >
 ::SetMaskImage(const MaskImageType *maskImage)
@@ -68,7 +68,7 @@ GrayscaleGeodesicErodeImageFilter< TInputImage, TOutputImage >
   this->SetNthInput( 1, const_cast< MaskImageType * >( maskImage ) );
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 const typename GrayscaleGeodesicErodeImageFilter< TInputImage, TOutputImage >::MaskImageType *
 GrayscaleGeodesicErodeImageFilter< TInputImage, TOutputImage >
 ::GetMaskImage()
@@ -76,7 +76,7 @@ GrayscaleGeodesicErodeImageFilter< TInputImage, TOutputImage >
   return this->GetInput(1);
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 GrayscaleGeodesicErodeImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
@@ -153,7 +153,7 @@ GrayscaleGeodesicErodeImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 GrayscaleGeodesicErodeImageFilter< TInputImage, TOutputImage >
 ::EnlargeOutputRequestedRegion(DataObject *)
@@ -166,7 +166,7 @@ GrayscaleGeodesicErodeImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 GrayscaleGeodesicErodeImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
@@ -279,7 +279,7 @@ GrayscaleGeodesicErodeImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 GrayscaleGeodesicErodeImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
@@ -397,7 +397,7 @@ GrayscaleGeodesicErodeImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 GrayscaleGeodesicErodeImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

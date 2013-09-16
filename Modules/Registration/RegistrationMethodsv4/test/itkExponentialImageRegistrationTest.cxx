@@ -31,7 +31,7 @@
 
 #include "itkTimeProbesCollectorBase.h"
 
-template<class TFilter>
+template<typename TFilter>
 class CommandIterationUpdate : public itk::Command
 {
 public:

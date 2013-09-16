@@ -35,7 +35,7 @@ namespace itk
 /**
  * Constructor
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 BSplineCenteredResampleImageFilterBase< TInputImage, TOutputImage >
 ::BSplineCenteredResampleImageFilterBase()
 {}
@@ -43,7 +43,7 @@ BSplineCenteredResampleImageFilterBase< TInputImage, TOutputImage >
 /**
  * Standard "PrintSelf" method
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 BSplineCenteredResampleImageFilterBase< TInputImage, TOutputImage >
 ::PrintSelf(
@@ -53,7 +53,7 @@ BSplineCenteredResampleImageFilterBase< TInputImage, TOutputImage >
   Superclass::PrintSelf(os, indent);
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void BSplineCenteredResampleImageFilterBase< TInputImage, TOutputImage >
 ::InitializePyramidSplineFilter(int SplineOrder)
 {
@@ -234,7 +234,7 @@ void BSplineCenteredResampleImageFilterBase< TInputImage, TOutputImage >
  *     factor of 2 and writes the results to the location specified
  *     by the Iterator (out).  inTraverseSize is the size of the in vector.
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void BSplineCenteredResampleImageFilterBase< TInputImage, TOutputImage >
 ::Reduce1DImage(const std::vector< double > & in, OutputImageIterator & out,
                 unsigned int inTraverseSize, ProgressReporter & progress)
@@ -298,7 +298,7 @@ void BSplineCenteredResampleImageFilterBase< TInputImage, TOutputImage >
  *     factor of 2 and writes the results to the location specified
  *     by the Iterator (out).  inTraverseSize is the size of the in vector.
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void BSplineCenteredResampleImageFilterBase< TInputImage, TOutputImage >
 ::Expand1DImage(const std::vector< double > & in, OutputImageIterator & out,
                 unsigned int inTraverseSize, ProgressReporter & progress)

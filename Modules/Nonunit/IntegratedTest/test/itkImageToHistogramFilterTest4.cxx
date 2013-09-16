@@ -30,7 +30,7 @@
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkSimpleFilterWatcher.h"
 
-template<class TVectorImage>
+template<typename TVectorImage>
 int itkImageToHistogramFilterTest4Templated( int argc, char * argv [] )
 {
 

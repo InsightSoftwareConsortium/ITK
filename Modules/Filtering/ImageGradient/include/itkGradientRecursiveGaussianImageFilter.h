@@ -187,7 +187,7 @@ protected:
 
 private:
 
-  template <class TValueType>
+  template <typename TValueType>
   void TransformOutputPixel( ImageRegionIterator< VectorImage<TValueType, ImageDimension> > &it )
   {
     // To transform Variable length vector we need to convert to and
@@ -198,7 +198,7 @@ private:
     it.Set( OutputPixelType( physicalGradient.GetDataPointer(), ImageDimension, false ) );
   }
 
-  template <class T >
+  template <typename T >
   void TransformOutputPixel( ImageRegionIterator< T > &it )
   {
     OutputPixelType correctedGradient;
@@ -224,7 +224,7 @@ private:
       }
   }
 
-  template <template<class, unsigned int> class P, class T, unsigned int N>
+  template <template<typename, unsigned int> class P, class T, unsigned int N>
     void TransformOutputPixel( ImageRegionIterator< Image< P<T,N>, N > > &it )
   {
     const OutputPixelType gradient = it.Get();

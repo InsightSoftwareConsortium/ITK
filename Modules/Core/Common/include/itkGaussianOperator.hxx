@@ -22,7 +22,7 @@
 #include "itkMacro.h"
 namespace itk
 {
-template< class TPixel, unsigned int VDimension, class TAllocator >
+template< typename TPixel, unsigned int VDimension, typename TAllocator >
 typename GaussianOperator< TPixel, VDimension, TAllocator >
 ::CoefficientVector
 GaussianOperator< TPixel, VDimension, TAllocator >
@@ -79,7 +79,7 @@ GaussianOperator< TPixel, VDimension, TAllocator >
   return coeff;
 }
 
-template< class TPixel, unsigned int VDimension, class TAllocator >
+template< typename TPixel, unsigned int VDimension, typename TAllocator >
 double
 GaussianOperator< TPixel, VDimension, TAllocator >
 ::ModifiedBesselI0(double y)
@@ -118,7 +118,7 @@ GaussianOperator< TPixel, VDimension, TAllocator >
   return accumulator;
 }
 
-template< class TPixel, unsigned int VDimension, class TAllocator >
+template< typename TPixel, unsigned int VDimension, typename TAllocator >
 double
 GaussianOperator< TPixel, VDimension, TAllocator >
 ::ModifiedBesselI1(double y)
@@ -156,7 +156,7 @@ GaussianOperator< TPixel, VDimension, TAllocator >
     }
 }
 
-template< class TPixel, unsigned int VDimension, class TAllocator >
+template< typename TPixel, unsigned int VDimension, typename TAllocator >
 double
 GaussianOperator< TPixel, VDimension, TAllocator >
 ::ModifiedBesselI(int n, double y)

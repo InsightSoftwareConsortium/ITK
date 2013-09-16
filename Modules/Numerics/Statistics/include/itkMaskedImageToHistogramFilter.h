@@ -38,7 +38,7 @@ namespace Statistics
  * \ingroup ITKStatistics
  */
 
-template< class TImage, class TMaskImage >
+template< typename TImage, typename TMaskImage >
 class MaskedImageToHistogramFilter:public ImageToHistogramFilter<TImage>
 {
 public:

@@ -25,7 +25,7 @@
 
 namespace itk
 {
-template <class TData>
+template <typename TData>
 CSVArray2DDataObject<TData>
 ::CSVArray2DDataObject()
 {
@@ -33,7 +33,7 @@ CSVArray2DDataObject<TData>
   this->m_HasColumnHeaders = false;
 }
 
-template <class TData>
+template <typename TData>
 typename CSVArray2DDataObject<TData>::StringVectorType
 CSVArray2DDataObject<TData>
  ::GetColumnHeaders() const
@@ -41,7 +41,7 @@ CSVArray2DDataObject<TData>
   return this->m_ColumnHeaders;
 }
 
-template <class TData>
+template <typename TData>
 typename CSVArray2DDataObject<TData>::StringVectorType
 CSVArray2DDataObject<TData>
  ::GetRowHeaders() const
@@ -49,7 +49,7 @@ CSVArray2DDataObject<TData>
   return this->m_RowHeaders;
 }
 
-template <class TData>
+template <typename TData>
 unsigned int
 CSVArray2DDataObject<TData>
  ::GetRowIndexByName(const std::string & row_name) const
@@ -70,7 +70,7 @@ CSVArray2DDataObject<TData>
   return index;
 }
 
-template <class TData>
+template <typename TData>
 unsigned int
 CSVArray2DDataObject<TData>
  ::GetColumnIndexByName(const std::string & column_name) const
@@ -91,7 +91,7 @@ CSVArray2DDataObject<TData>
   return index;
 }
 
-template <class TData>
+template <typename TData>
 typename CSVArray2DDataObject<TData>::NumericVectorType
 CSVArray2DDataObject <TData>
  ::GetRow(const unsigned int & row_index) const
@@ -111,7 +111,7 @@ CSVArray2DDataObject <TData>
   return row;
 }
 
-template <class TData>
+template <typename TData>
 typename CSVArray2DDataObject<TData>::NumericVectorType
 CSVArray2DDataObject<TData>
  ::GetRow(const std::string & row_name) const
@@ -122,7 +122,7 @@ CSVArray2DDataObject<TData>
   return row;
 }
 
-template <class TData>
+template <typename TData>
 typename CSVArray2DDataObject<TData>::NumericVectorType
 CSVArray2DDataObject <TData>
  ::GetColumn(const unsigned int & column_index) const
@@ -142,7 +142,7 @@ CSVArray2DDataObject <TData>
   return column;
 }
 
-template <class TData>
+template <typename TData>
 typename CSVArray2DDataObject<TData>::NumericVectorType
 CSVArray2DDataObject <TData>
  ::GetColumn(const std::string & column_name) const
@@ -154,7 +154,7 @@ CSVArray2DDataObject <TData>
 }
 
 
-template <class TData>
+template <typename TData>
 TData
 CSVArray2DDataObject <TData>
  ::GetData(const unsigned int & row, const unsigned int & column) const
@@ -172,7 +172,7 @@ CSVArray2DDataObject <TData>
   return this->m_Matrix[row][column];
 }
 
-template <class TData>
+template <typename TData>
 TData
 CSVArray2DDataObject <TData>
  ::GetData(const std::string & row_name, const std::string & column_name) const
@@ -183,7 +183,7 @@ CSVArray2DDataObject <TData>
 }
 
 
-template <class TData>
+template <typename TData>
 TData
 CSVArray2DDataObject <TData>
  ::GetRowData(const std::string & row_name, const unsigned int & column_index) const
@@ -192,7 +192,7 @@ CSVArray2DDataObject <TData>
   return this->GetData(row_index, column_index);
 }
 
-template <class TData>
+template <typename TData>
 TData
 CSVArray2DDataObject <TData>
  ::GetColumnData(const std::string & column_name, const unsigned int & row_index) const
@@ -201,7 +201,7 @@ CSVArray2DDataObject <TData>
   return this->GetData(row_index, column_index);
 }
 
-template<class TData>
+template<typename TData>
 TData
 CSVArray2DDataObject <TData>
 ::operator()(const unsigned int & row_index, const unsigned int & column_index) const
@@ -209,7 +209,7 @@ CSVArray2DDataObject <TData>
   return this->GetData(row_index, column_index);
 }
 
-template<class TData>
+template<typename TData>
 TData
 CSVArray2DDataObject <TData>
 ::operator()(const std::string & row_name, const std::string & column_name) const
@@ -217,7 +217,7 @@ CSVArray2DDataObject <TData>
   return this->GetData(row_name, column_name);
 }
 
-template <class TData>
+template <typename TData>
 void
 CSVArray2DDataObject <TData>
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -256,7 +256,7 @@ CSVArray2DDataObject <TData>
     }
 }
 
-template <class TData>
+template <typename TData>
 void
 CSVArray2DDataObject<TData>
 ::SetMatrixSize(unsigned int rows, unsigned int columns)
@@ -264,7 +264,7 @@ CSVArray2DDataObject<TData>
   this->m_Matrix.SetSize(rows,columns);
 }
 
-template <class TData>
+template <typename TData>
 void
 CSVArray2DDataObject<TData>
 ::SetMatrixData(unsigned int row_index, unsigned int column_index, const TData item)
@@ -272,7 +272,7 @@ CSVArray2DDataObject<TData>
   this->m_Matrix[row_index][column_index] = item;
 }
 
-template <class TData>
+template <typename TData>
 void
 CSVArray2DDataObject<TData>
 ::RowHeadersPushBack(const std::string & header)
@@ -280,7 +280,7 @@ CSVArray2DDataObject<TData>
   this->m_RowHeaders.push_back(header);
 }
 
-template <class TData>
+template <typename TData>
 void
 CSVArray2DDataObject<TData>
 ::ColumnHeadersPushBack(const std::string & header)
@@ -288,7 +288,7 @@ CSVArray2DDataObject<TData>
   this->m_ColumnHeaders.push_back(header);
 }
 
-template <class TData>
+template <typename TData>
 void
 CSVArray2DDataObject<TData>
 ::EraseFirstColumnHeader()
@@ -296,7 +296,7 @@ CSVArray2DDataObject<TData>
   this->m_ColumnHeaders.erase(this->m_ColumnHeaders.begin() );
 }
 
-template <class TData>
+template <typename TData>
 void
 CSVArray2DDataObject<TData>
 ::FillMatrix(TData value)

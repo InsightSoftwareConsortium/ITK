@@ -25,7 +25,7 @@ namespace itk
 namespace Statistics
 {
 
-template<class LayerType, class TTargetVector>
+template<typename LayerType, typename TTargetVector>
 RBFBackPropagationLearningFunction<LayerType,TTargetVector>
 ::RBFBackPropagationLearningFunction()
 {
@@ -34,7 +34,7 @@ RBFBackPropagationLearningFunction<LayerType,TTargetVector>
   m_LearningRate3 = 0.75;
 }
 
-template<class LayerType, class TTargetVector>
+template<typename LayerType, typename TTargetVector>
 void
 RBFBackPropagationLearningFunction<LayerType,TTargetVector>
 ::Learn(LayerType* layer,ValueType lr)
@@ -73,7 +73,7 @@ RBFBackPropagationLearningFunction<LayerType,TTargetVector>
     }
 }
 
-template<class LayerType, class TTargetVector>
+template<typename LayerType, typename TTargetVector>
 void
 RBFBackPropagationLearningFunction<LayerType,TTargetVector>
 ::Learn(LayerType* itkNotUsed(layer), TTargetVector itkNotUsed(errors), ValueType itkNotUsed(lr))
@@ -81,7 +81,7 @@ RBFBackPropagationLearningFunction<LayerType,TTargetVector>
 }
 
 /** Print the object */
-template<class LayerType, class TTargetVector>
+template<typename LayerType, typename TTargetVector>
 void
 RBFBackPropagationLearningFunction<LayerType,TTargetVector>
 ::PrintSelf( std::ostream& os, Indent indent ) const

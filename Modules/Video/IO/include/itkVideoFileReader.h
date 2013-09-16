@@ -37,7 +37,7 @@ namespace itk
  *
  * \ingroup ITKVideoIO
  */
-template< class TOutputVideoStream >
+template< typename TOutputVideoStream >
 class VideoFileReader : public VideoSource< TOutputVideoStream >
 {
 public:

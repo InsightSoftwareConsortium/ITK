@@ -26,7 +26,7 @@ namespace Statistics
 {
 
 /** Constructor */
-template<class TMeasurementVector, class TTargetVector>
+template<typename TMeasurementVector, typename TTargetVector>
 RBFNetwork<TMeasurementVector,TTargetVector>
 ::RBFNetwork()
 {
@@ -51,7 +51,7 @@ RBFNetwork<TMeasurementVector,TTargetVector>
   m_Classes = 0;
 }
 
-template<class TMeasurementVector, class TTargetVector>
+template<typename TMeasurementVector, typename TTargetVector>
 void
 RBFNetwork<TMeasurementVector,TTargetVector>
 ::InitializeWeights()
@@ -64,7 +64,7 @@ RBFNetwork<TMeasurementVector,TTargetVector>
   std::cout << "Setting rbf weights to zero" << std::endl;
 }
 
-template<class TMeasurementVector, class TTargetVector>
+template<typename TMeasurementVector, typename TTargetVector>
 void
 RBFNetwork<TMeasurementVector,TTargetVector>
 ::Initialize()
@@ -169,7 +169,7 @@ RBFNetwork<TMeasurementVector,TTargetVector>
     }
 }
 
-template<class TMeasurementVector, class TTargetVector>
+template<typename TMeasurementVector, typename TTargetVector>
 void
 RBFNetwork<TMeasurementVector,TTargetVector>
 ::SetInputTransferFunction(TransferFunctionInterfaceType* f)
@@ -177,7 +177,7 @@ RBFNetwork<TMeasurementVector,TTargetVector>
   m_InputTransferFunction=f;
 }
 
-template<class TMeasurementVector, class TTargetVector>
+template<typename TMeasurementVector, typename TTargetVector>
 void
 RBFNetwork<TMeasurementVector,TTargetVector>
 ::SetDistanceMetric(DistanceMetricType* f)
@@ -185,7 +185,7 @@ RBFNetwork<TMeasurementVector,TTargetVector>
   m_DistanceMetric=f;
 }
 
-template<class TMeasurementVector, class TTargetVector>
+template<typename TMeasurementVector, typename TTargetVector>
 void
 RBFNetwork<TMeasurementVector,TTargetVector>
 ::SetFirstHiddenTransferFunction(TransferFunctionInterfaceType* f)
@@ -193,7 +193,7 @@ RBFNetwork<TMeasurementVector,TTargetVector>
   m_FirstHiddenTransferFunction=f;
 }
 
-template<class TMeasurementVector, class TTargetVector>
+template<typename TMeasurementVector, typename TTargetVector>
 void
 RBFNetwork<TMeasurementVector,TTargetVector>
 ::SetOutputTransferFunction(TransferFunctionInterfaceType* f)
@@ -201,7 +201,7 @@ RBFNetwork<TMeasurementVector,TTargetVector>
   m_OutputTransferFunction=f;
 }
 
-template<class TMeasurementVector, class TTargetVector>
+template<typename TMeasurementVector, typename TTargetVector>
 void
 RBFNetwork<TMeasurementVector,TTargetVector>
 ::SetInputFunction(InputFunctionInterfaceType* f)
@@ -209,7 +209,7 @@ RBFNetwork<TMeasurementVector,TTargetVector>
   m_InputFunction=f;
 }
 
-template<class TMeasurementVector, class TTargetVector>
+template<typename TMeasurementVector, typename TTargetVector>
 typename RBFNetwork<TMeasurementVector, TTargetVector>::NetworkOutputType
 RBFNetwork<TMeasurementVector,TTargetVector>
 ::GenerateOutput(TMeasurementVector samplevector)
@@ -217,7 +217,7 @@ RBFNetwork<TMeasurementVector,TTargetVector>
   return Superclass::GenerateOutput(samplevector);
 }
 
-template<class TMeasurementVector, class TTargetVector>
+template<typename TMeasurementVector, typename TTargetVector>
 void
 RBFNetwork<TMeasurementVector,TTargetVector>
 ::SetCenter(TMeasurementVector c)
@@ -225,7 +225,7 @@ RBFNetwork<TMeasurementVector,TTargetVector>
   m_Centers.push_back(c);
 }
 
-template<class TMeasurementVector, class TTargetVector>
+template<typename TMeasurementVector, typename TTargetVector>
 void
   RBFNetwork<TMeasurementVector,TTargetVector>
 ::SetRadius(ValueType r)
@@ -234,7 +234,7 @@ void
 }
 
 /** Print the object */
-template<class TMeasurementVector, class TTargetVector>
+template<typename TMeasurementVector, typename TTargetVector>
 void
 RBFNetwork<TMeasurementVector,TTargetVector>
 ::PrintSelf( std::ostream& os, Indent indent ) const

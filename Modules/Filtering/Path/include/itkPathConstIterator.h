@@ -71,7 +71,7 @@ namespace itk
  * \sa NeighborhoodIterator \sa PathIterator \sa ShapedNeighborhoodIterator
  * \sa SliceIterator \sa ImageConstIteratorWithIndex
  */
-template< class TImage, class TPath >
+template< typename TImage, typename TPath >
 class PathConstIterator
 {
 public:

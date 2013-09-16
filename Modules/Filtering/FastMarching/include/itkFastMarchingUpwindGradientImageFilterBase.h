@@ -46,7 +46,7 @@ namespace itk
  *
  * \ingroup ITKFastMarching
  */
-template< class TInput, class TOutput >
+template< typename TInput, typename TOutput >
 class FastMarchingUpwindGradientImageFilterBase:
   public FastMarchingImageFilterBase< TInput, TOutput >
 {

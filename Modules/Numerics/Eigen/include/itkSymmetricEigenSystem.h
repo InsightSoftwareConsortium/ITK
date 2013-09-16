@@ -43,7 +43,7 @@ namespace itk
  * \ingroup ITKEigen
  */
 
-template< class TMatrixElement, int VNumberOfRows >
+template< typename TMatrixElement, int VNumberOfRows >
 class SymmetricEigenSystem:public Object
 {
 public:

@@ -27,7 +27,7 @@
 namespace itk
 {
 
-template<class TTransform, class TImage>
+template<typename TTransform, typename TImage>
 BSplineTransformInitializer<TTransform, TImage>
 ::BSplineTransformInitializer() :
   m_Transform( NULL ),
@@ -36,13 +36,13 @@ BSplineTransformInitializer<TTransform, TImage>
   this->m_TransformDomainMeshSize.Fill( 1 );
 }
 
-template<class TTransform, class TImage>
+template<typename TTransform, typename TImage>
 BSplineTransformInitializer<TTransform, TImage>
 ::~BSplineTransformInitializer()
 {
 }
 
-template<class TTransform, class TImage>
+template<typename TTransform, typename TImage>
 void
 BSplineTransformInitializer<TTransform, TImage>
 ::SetTransformDomainMeshSize( const MeshSizeType meshSize )
@@ -57,7 +57,7 @@ BSplineTransformInitializer<TTransform, TImage>
     }
 }
 
-template<class TTransform, class TImage>
+template<typename TTransform, typename TImage>
 void
 BSplineTransformInitializer<TTransform, TImage>
 ::InitializeTransform() const
@@ -269,7 +269,7 @@ BSplineTransformInitializer<TTransform, TImage>
     }
 }
 
-template<class TTransform, class TImage>
+template<typename TTransform, typename TImage>
 void
 BSplineTransformInitializer<TTransform, TImage>
 ::PrintSelf(std::ostream & os, Indent indent) const

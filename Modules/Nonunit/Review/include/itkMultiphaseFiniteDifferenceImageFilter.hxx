@@ -25,10 +25,10 @@
 
 namespace itk
 {
-template< class TInputImage,
-          class TFeatureImage,
-          class TOutputImage,
-          class TFiniteDifferenceFunction,
+template< typename TInputImage,
+          typename TFeatureImage,
+          typename TOutputImage,
+          typename TFiniteDifferenceFunction,
           typename TIdCell >
 void
 MultiphaseFiniteDifferenceImageFilter< TInputImage,
@@ -128,10 +128,10 @@ MultiphaseFiniteDifferenceImageFilter< TInputImage,
 /**
  *
  */
-template< class TInputImage,
-          class TFeatureImage,
-          class TOutputImage,
-          class TFiniteDifferenceFunction,
+template< typename TInputImage,
+          typename TFeatureImage,
+          typename TOutputImage,
+          typename TFiniteDifferenceFunction,
           typename TIdCell >
 void
 MultiphaseFiniteDifferenceImageFilter< TInputImage,
@@ -201,10 +201,10 @@ MultiphaseFiniteDifferenceImageFilter< TInputImage,
     }
 }
 
-template< class TInputImage,
-          class TFeatureImage,
-          class TOutputImage,
-          class TFiniteDifferenceFunction,
+template< typename TInputImage,
+          typename TFeatureImage,
+          typename TOutputImage,
+          typename TFiniteDifferenceFunction,
           typename TIdCell >
 typename MultiphaseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
                                                 TOutputImage, TFiniteDifferenceFunction, TIdCell >::TimeStepType
@@ -254,10 +254,10 @@ MultiphaseFiniteDifferenceImageFilter< TInputImage,
   return oMin;
 }
 
-template< class TInputImage,
-          class TFeatureImage,
-          class TOutputImage,
-          class TFiniteDifferenceFunction,
+template< typename TInputImage,
+          typename TFeatureImage,
+          typename TOutputImage,
+          typename TFiniteDifferenceFunction,
           typename TIdCell >
 bool
 MultiphaseFiniteDifferenceImageFilter< TInputImage,
@@ -280,10 +280,10 @@ MultiphaseFiniteDifferenceImageFilter< TInputImage,
            || ( this->GetMaximumRMSError() >= this->m_RMSChange ) );
 }
 
-template< class TInputImage,
-          class TFeatureImage,
-          class TOutputImage,
-          class TFiniteDifferenceFunction,
+template< typename TInputImage,
+          typename TFeatureImage,
+          typename TOutputImage,
+          typename TFiniteDifferenceFunction,
           typename TIdCell >
 void
 MultiphaseFiniteDifferenceImageFilter< TInputImage,

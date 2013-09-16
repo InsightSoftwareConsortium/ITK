@@ -42,7 +42,7 @@ namespace Statistics
  * \ingroup ITKStatistics
  */
 
-template< class TPointSet >
+template< typename TPointSet >
 class PointSetToListSampleAdaptor:
   public ListSample< typename TPointSet::PointType >
 {

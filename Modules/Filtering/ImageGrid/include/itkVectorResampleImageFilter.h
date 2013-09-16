@@ -55,7 +55,7 @@ namespace itk
  * \wikiexample{VectorImages/VectorResampleImageFilter,Translate a vector image}
  * \endwiki
  */
-template< class TInputImage, class TOutputImage, class TInterpolatorPrecisionType = double >
+template< typename TInputImage, typename TOutputImage, typename TInterpolatorPrecisionType = double >
 class VectorResampleImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {

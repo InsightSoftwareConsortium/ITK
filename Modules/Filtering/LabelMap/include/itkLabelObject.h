@@ -60,7 +60,7 @@ namespace itk
  * \ingroup LabeledImageObject
  * \ingroup ITKLabelMap
  */
-template< class TLabel, unsigned int VImageDimension >
+template< typename TLabel, unsigned int VImageDimension >
 class LabelObject:public LightObject
 {
 public:

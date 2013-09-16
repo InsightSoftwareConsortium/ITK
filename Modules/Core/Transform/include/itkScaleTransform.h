@@ -39,7 +39,7 @@ namespace itk
  * \endwiki
  */
 template <
-  class TScalar = float, // Type for cordinate representation type (float or
+  typename TScalar = float, // Type for cordinate representation type (float or
                              // double)
   unsigned int NDimensions = 3>
 // Number of dimensions
@@ -235,7 +235,7 @@ private:
 };                         // class ScaleTransform
 
 // Back transform a point
-template <class ScalarType, unsigned int NDimensions>
+template <typename ScalarType, unsigned int NDimensions>
 inline
 typename ScaleTransform<ScalarType, NDimensions>::InputPointType
 ScaleTransform<ScalarType, NDimensions>::BackTransform(const OutputPointType & point) const
@@ -250,7 +250,7 @@ ScaleTransform<ScalarType, NDimensions>::BackTransform(const OutputPointType & p
 }
 
 // Back transform a vector
-template <class ScalarType, unsigned int NDimensions>
+template <typename ScalarType, unsigned int NDimensions>
 inline
 typename ScaleTransform<ScalarType, NDimensions>::InputVectorType
 ScaleTransform<ScalarType, NDimensions>::BackTransform(const OutputVectorType & vect) const
@@ -265,7 +265,7 @@ ScaleTransform<ScalarType, NDimensions>::BackTransform(const OutputVectorType & 
 }
 
 // Back transform a vnl_vector
-template <class ScalarType, unsigned int NDimensions>
+template <typename ScalarType, unsigned int NDimensions>
 inline
 typename ScaleTransform<ScalarType, NDimensions>::InputVnlVectorType
 ScaleTransform<ScalarType, NDimensions>::BackTransform(const OutputVnlVectorType & vect) const
@@ -280,7 +280,7 @@ ScaleTransform<ScalarType, NDimensions>::BackTransform(const OutputVnlVectorType
 }
 
 // Back Transform a CovariantVector
-template <class ScalarType, unsigned int NDimensions>
+template <typename ScalarType, unsigned int NDimensions>
 inline
 typename ScaleTransform<ScalarType, NDimensions>::InputCovariantVectorType
 ScaleTransform<ScalarType, NDimensions>::BackTransform(const OutputCovariantVectorType & vect) const

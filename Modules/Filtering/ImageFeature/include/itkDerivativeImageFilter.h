@@ -44,7 +44,7 @@ namespace itk
  * \wikiexample{EdgesAndGradients/DerivativeImageFilter,Compute the derivative of an image in a particular direction}
  * \endwiki
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class DerivativeImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {

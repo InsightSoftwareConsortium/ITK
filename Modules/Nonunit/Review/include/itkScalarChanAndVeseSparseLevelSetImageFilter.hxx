@@ -22,8 +22,8 @@
 
 namespace itk
 {
-template< class TInputImage, class TFeatureImage, class TOutputImage, class TFunction,
-          class TSharedData, typename TIdCell >
+template< typename TInputImage, typename TFeatureImage, typename TOutputImage, typename TFunction,
+          typename TSharedData, typename TIdCell >
 void
 ScalarChanAndVeseSparseLevelSetImageFilter< TInputImage, TFeatureImage, TOutputImage,
                                             TFunction, TSharedData, TIdCell >::Initialize()
@@ -96,8 +96,8 @@ ScalarChanAndVeseSparseLevelSetImageFilter< TInputImage, TFeatureImage, TOutputI
 
 /** Overrides parent implementation */
 // This function is called at the end of each iteration
-template< class TInputImage, class TFeatureImage, class TOutputImage, class TFunction,
-          class TSharedData, typename TIdCell >
+template< typename TInputImage, typename TFeatureImage, typename TOutputImage, typename TFunction,
+          typename TSharedData, typename TIdCell >
 void
 ScalarChanAndVeseSparseLevelSetImageFilter< TInputImage, TFeatureImage, TOutputImage,
                                             TFunction, TSharedData, TIdCell >::InitializeIteration()
@@ -114,8 +114,8 @@ ScalarChanAndVeseSparseLevelSetImageFilter< TInputImage, TFeatureImage, TOutputI
                        / (float)this->m_NumberOfIterations ) );
 }
 
-template< class TInputImage, class TFeatureImage, class TOutputImage, class TFunction,
-          class TSharedData, typename TIdCell >
+template< typename TInputImage, typename TFeatureImage, typename TOutputImage, typename TFunction,
+          typename TSharedData, typename TIdCell >
 void
 ScalarChanAndVeseSparseLevelSetImageFilter< TInputImage, TFeatureImage, TOutputImage,
                                             TFunction, TSharedData, TIdCell >::UpdatePixel(

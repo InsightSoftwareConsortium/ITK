@@ -29,7 +29,7 @@ namespace itk
 /**
  *
  */
-template< class TLevelSet, class TSpeedImage >
+template< typename TLevelSet, typename TSpeedImage >
 FastMarchingUpwindGradientImageFilter< TLevelSet, TSpeedImage >
 ::FastMarchingUpwindGradientImageFilter()
 {
@@ -46,7 +46,7 @@ FastMarchingUpwindGradientImageFilter< TLevelSet, TSpeedImage >
 /**
  *
  */
-template< class TLevelSet, class TSpeedImage >
+template< typename TLevelSet, typename TSpeedImage >
 void
 FastMarchingUpwindGradientImageFilter< TLevelSet, TSpeedImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -65,7 +65,7 @@ FastMarchingUpwindGradientImageFilter< TLevelSet, TSpeedImage >
 /**
  *
  */
-template< class TLevelSet, class TSpeedImage >
+template< typename TLevelSet, typename TSpeedImage >
 void
 FastMarchingUpwindGradientImageFilter< TLevelSet, TSpeedImage >
 ::Initialize(LevelSetImageType *output)
@@ -106,7 +106,7 @@ FastMarchingUpwindGradientImageFilter< TLevelSet, TSpeedImage >
     }
 }
 
-template< class TLevelSet, class TSpeedImage >
+template< typename TLevelSet, typename TSpeedImage >
 void
 FastMarchingUpwindGradientImageFilter< TLevelSet, TSpeedImage >
 ::GenerateData()
@@ -136,7 +136,7 @@ FastMarchingUpwindGradientImageFilter< TLevelSet, TSpeedImage >
   this->SetStoppingValue(stoppingValue);
 }
 
-template< class TLevelSet, class TSpeedImage >
+template< typename TLevelSet, typename TSpeedImage >
 void
 FastMarchingUpwindGradientImageFilter< TLevelSet, TSpeedImage >
 ::UpdateNeighbors(
@@ -237,7 +237,7 @@ FastMarchingUpwindGradientImageFilter< TLevelSet, TSpeedImage >
 /**
  *
  */
-template< class TLevelSet, class TSpeedImage >
+template< typename TLevelSet, typename TSpeedImage >
 void
 FastMarchingUpwindGradientImageFilter< TLevelSet, TSpeedImage >
 ::ComputeGradient(const IndexType & index,

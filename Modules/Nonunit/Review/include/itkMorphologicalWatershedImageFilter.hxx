@@ -36,7 +36,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 MorphologicalWatershedImageFilter< TInputImage, TOutputImage >
 ::MorphologicalWatershedImageFilter()
 {
@@ -45,7 +45,7 @@ MorphologicalWatershedImageFilter< TInputImage, TOutputImage >
   m_Level = NumericTraits< InputImagePixelType >::Zero;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 MorphologicalWatershedImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
@@ -60,7 +60,7 @@ MorphologicalWatershedImageFilter< TInputImage, TOutputImage >
   input->SetRequestedRegion( input->GetLargestPossibleRegion() );
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 MorphologicalWatershedImageFilter< TInputImage, TOutputImage >
 ::EnlargeOutputRequestedRegion(DataObject *)
@@ -69,7 +69,7 @@ MorphologicalWatershedImageFilter< TInputImage, TOutputImage >
   ->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 MorphologicalWatershedImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
@@ -148,7 +148,7 @@ MorphologicalWatershedImageFilter< TInputImage, TOutputImage >
   this->GraftOutput( wshed->GetOutput() );
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 MorphologicalWatershedImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

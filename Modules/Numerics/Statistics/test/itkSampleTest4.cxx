@@ -24,7 +24,7 @@ namespace itk {
 namespace Statistics {
 namespace SampleTest {
 
-template <class TMeasurementVector>
+template <typename TMeasurementVector>
 class MySample : public Sample< TMeasurementVector >
 {
 public:

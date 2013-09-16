@@ -25,7 +25,7 @@ namespace itk
 /**
  * Constructor
  */
-template< class TFeatureImage, class TOutputPixel >
+template< typename TFeatureImage, typename TOutputPixel >
 ShapePriorMAPCostFunction< TFeatureImage, TOutputPixel >
 ::ShapePriorMAPCostFunction()
 {
@@ -40,7 +40,7 @@ ShapePriorMAPCostFunction< TFeatureImage, TOutputPixel >
 /**
  * PrintSelf
  */
-template< class TFeatureImage, class TOutputPixel >
+template< typename TFeatureImage, typename TOutputPixel >
 void
 ShapePriorMAPCostFunction< TFeatureImage, TOutputPixel >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -55,7 +55,7 @@ ShapePriorMAPCostFunction< TFeatureImage, TOutputPixel >
 /**
  *
  */
-template< class TFeatureImage, class TOutputPixel >
+template< typename TFeatureImage, typename TOutputPixel >
 typename ShapePriorMAPCostFunction< TFeatureImage, TOutputPixel >
 ::MeasureType
 ShapePriorMAPCostFunction< TFeatureImage, TOutputPixel >
@@ -100,7 +100,7 @@ ShapePriorMAPCostFunction< TFeatureImage, TOutputPixel >
 /**
  *
  */
-template< class TFeatureImage, class TOutputPixel >
+template< typename TFeatureImage, typename TOutputPixel >
 typename ShapePriorMAPCostFunction< TFeatureImage, TOutputPixel >
 ::MeasureType
 ShapePriorMAPCostFunction< TFeatureImage, TOutputPixel >
@@ -121,7 +121,7 @@ ShapePriorMAPCostFunction< TFeatureImage, TOutputPixel >
 /**
  *
  */
-template< class TFeatureImage, class TOutputPixel >
+template< typename TFeatureImage, typename TOutputPixel >
 typename ShapePriorMAPCostFunction< TFeatureImage, TOutputPixel >
 ::MeasureType
 ShapePriorMAPCostFunction< TFeatureImage, TOutputPixel >
@@ -159,7 +159,7 @@ ShapePriorMAPCostFunction< TFeatureImage, TOutputPixel >
 /**
  *
  */
-template< class TFeatureImage, class TOutputPixel >
+template< typename TFeatureImage, typename TOutputPixel >
 typename ShapePriorMAPCostFunction< TFeatureImage, TOutputPixel >
 ::MeasureType
 ShapePriorMAPCostFunction< TFeatureImage, TOutputPixel >
@@ -171,7 +171,7 @@ ShapePriorMAPCostFunction< TFeatureImage, TOutputPixel >
 /**
  *
  */
-template< class TFeatureImage, class TOutputPixel >
+template< typename TFeatureImage, typename TOutputPixel >
 void
 ShapePriorMAPCostFunction< TFeatureImage, TOutputPixel >
 ::Initialize(void)

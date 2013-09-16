@@ -24,7 +24,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputMesh >
+template< typename TInputImage, typename TOutputMesh >
 BinaryMask3DMeshSource< TInputImage, TOutputMesh >
 ::BinaryMask3DMeshSource()
 {
@@ -62,7 +62,7 @@ BinaryMask3DMeshSource< TInputImage, TOutputMesh >
   m_ObjectValue = NumericTraits< InputPixelType >::One;
 }
 
-template< class TInputImage, class TOutputMesh >
+template< typename TInputImage, typename TOutputMesh >
 BinaryMask3DMeshSource< TInputImage, TOutputMesh >
 ::~BinaryMask3DMeshSource()
 {
@@ -102,7 +102,7 @@ BinaryMask3DMeshSource< TInputImage, TOutputMesh >
     }
 }
 
-template< class TInputImage, class TOutputMesh >
+template< typename TInputImage, typename TOutputMesh >
 void
 BinaryMask3DMeshSource< TInputImage, TOutputMesh >
 ::SetInput(const InputImageType *image)
@@ -112,7 +112,7 @@ BinaryMask3DMeshSource< TInputImage, TOutputMesh >
 }
 
 /** Generate the data */
-template< class TInputImage, class TOutputMesh >
+template< typename TInputImage, typename TOutputMesh >
 void
 BinaryMask3DMeshSource< TInputImage, TOutputMesh >
 ::GenerateData()
@@ -130,7 +130,7 @@ BinaryMask3DMeshSource< TInputImage, TOutputMesh >
   this->CreateMesh();
 }
 
-template< class TInputImage, class TOutputMesh >
+template< typename TInputImage, typename TOutputMesh >
 void
 BinaryMask3DMeshSource< TInputImage, TOutputMesh >
 ::XFlip(unsigned char *x)
@@ -183,7 +183,7 @@ BinaryMask3DMeshSource< TInputImage, TOutputMesh >
     }
 }
 
-template< class TInputImage, class TOutputMesh >
+template< typename TInputImage, typename TOutputMesh >
 void
 BinaryMask3DMeshSource< TInputImage, TOutputMesh >
 ::YFlip(unsigned char *x)
@@ -236,7 +236,7 @@ BinaryMask3DMeshSource< TInputImage, TOutputMesh >
     }
 }
 
-template< class TInputImage, class TOutputMesh >
+template< typename TInputImage, typename TOutputMesh >
 void
 BinaryMask3DMeshSource< TInputImage, TOutputMesh >
 ::ZFlip(unsigned char *x)
@@ -289,7 +289,7 @@ BinaryMask3DMeshSource< TInputImage, TOutputMesh >
     }
 }
 
-template< class TInputImage, class TOutputMesh >
+template< typename TInputImage, typename TOutputMesh >
 void
 BinaryMask3DMeshSource< TInputImage, TOutputMesh >
 ::XRotation(unsigned char *x)
@@ -346,7 +346,7 @@ BinaryMask3DMeshSource< TInputImage, TOutputMesh >
     }
 }
 
-template< class TInputImage, class TOutputMesh >
+template< typename TInputImage, typename TOutputMesh >
 void
 BinaryMask3DMeshSource< TInputImage, TOutputMesh >
 ::YRotation(unsigned char *x)
@@ -403,7 +403,7 @@ BinaryMask3DMeshSource< TInputImage, TOutputMesh >
     }
 }
 
-template< class TInputImage, class TOutputMesh >
+template< typename TInputImage, typename TOutputMesh >
 void
 BinaryMask3DMeshSource< TInputImage, TOutputMesh >
 ::ZRotation(unsigned char *x)
@@ -460,7 +460,7 @@ BinaryMask3DMeshSource< TInputImage, TOutputMesh >
     }
 }
 
-template< class TInputImage, class TOutputMesh >
+template< typename TInputImage, typename TOutputMesh >
 void
 BinaryMask3DMeshSource< TInputImage, TOutputMesh >
 ::inverse(unsigned char *x)
@@ -472,7 +472,7 @@ BinaryMask3DMeshSource< TInputImage, TOutputMesh >
   x[1] = tmp;
 }
 
-template< class TInputImage, class TOutputMesh >
+template< typename TInputImage, typename TOutputMesh >
 void
 BinaryMask3DMeshSource< TInputImage, TOutputMesh >
 ::InitializeLUT()
@@ -1031,7 +1031,7 @@ BinaryMask3DMeshSource< TInputImage, TOutputMesh >
   m_LocationOffset[13][2] = 0.5;
 }
 
-template< class TInputImage, class TOutputMesh >
+template< typename TInputImage, typename TOutputMesh >
 void
 BinaryMask3DMeshSource< TInputImage, TOutputMesh >
 ::CreateMesh()
@@ -1192,7 +1192,7 @@ BinaryMask3DMeshSource< TInputImage, TOutputMesh >
   this->m_OutputMesh->SetBufferedRegion( this->GetOutput()->GetRequestedRegion() );
 }
 
-template< class TInputImage, class TOutputMesh >
+template< typename TInputImage, typename TOutputMesh >
 void
 BinaryMask3DMeshSource< TInputImage, TOutputMesh >
 ::AddCells(unsigned char celltype, unsigned char celltran, int index)
@@ -2378,7 +2378,7 @@ BinaryMask3DMeshSource< TInputImage, TOutputMesh >
     }
 }
 
-template< class TInputImage, class TOutputMesh >
+template< typename TInputImage, typename TOutputMesh >
 void
 BinaryMask3DMeshSource< TInputImage, TOutputMesh >
 ::AddNodes(int index,
@@ -2539,7 +2539,7 @@ BinaryMask3DMeshSource< TInputImage, TOutputMesh >
     }
 }
 
-template< class TInputImage, class TOutputMesh >
+template< typename TInputImage, typename TOutputMesh >
 void
 BinaryMask3DMeshSource< TInputImage, TOutputMesh >
 ::CellTransfer(unsigned char *nodesid, unsigned char celltran)
@@ -2568,7 +2568,7 @@ BinaryMask3DMeshSource< TInputImage, TOutputMesh >
   if ( ( celltran & 64 ) != 0 ) { this->inverse(nodesid); }
 }
 
-template< class TInputImage, class TOutputMesh >
+template< typename TInputImage, typename TOutputMesh >
 IdentifierType
 BinaryMask3DMeshSource< TInputImage, TOutputMesh >
 ::SearchThroughLastRow(int index, int start, int end)
@@ -2612,7 +2612,7 @@ BinaryMask3DMeshSource< TInputImage, TOutputMesh >
   return 0;
 }
 
-template< class TInputImage, class TOutputMesh >
+template< typename TInputImage, typename TOutputMesh >
 IdentifierType
 BinaryMask3DMeshSource< TInputImage, TOutputMesh >
 ::SearchThroughLastFrame(int index, int start, int end)
@@ -2658,7 +2658,7 @@ BinaryMask3DMeshSource< TInputImage, TOutputMesh >
 }
 
 /** PrintSelf */
-template< class TInputImage, class TOutputMesh >
+template< typename TInputImage, typename TOutputMesh >
 void
 BinaryMask3DMeshSource< TInputImage, TOutputMesh >
 ::PrintSelf(std::ostream & os, Indent indent) const

@@ -58,7 +58,7 @@ namespace itk
  * \endwiki
  */
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class DiscreteGaussianImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {

@@ -25,13 +25,13 @@ namespace itk
 namespace Statistics
 {
 
-template<class TMeasurementVector, class TTargetVector>
+template<typename TMeasurementVector, typename TTargetVector>
 CompletelyConnectedWeightSet<TMeasurementVector,TTargetVector>
 ::CompletelyConnectedWeightSet()
 {
 }
 
-template<class TMeasurementVector, class TTargetVector>
+template<typename TMeasurementVector, typename TTargetVector>
 void
 CompletelyConnectedWeightSet<TMeasurementVector,TTargetVector>
 ::SetCompleteConnectivity()
@@ -49,7 +49,7 @@ CompletelyConnectedWeightSet<TMeasurementVector,TTargetVector>
 
 
 /** Print the object */
-template<class TMeasurementVector, class TTargetVector>
+template<typename TMeasurementVector, typename TTargetVector>
 void
 CompletelyConnectedWeightSet<TMeasurementVector,TTargetVector>
 ::PrintSelf( std::ostream& os, Indent indent ) const

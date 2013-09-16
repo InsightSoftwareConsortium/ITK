@@ -47,7 +47,7 @@ namespace itk
  * \ingroup ITKMultiThreaded
  */
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class GradientToMagnitudeImageFilter:
   public
   VectorMagnitudeImageFilter< TInputImage, TOutputImage>

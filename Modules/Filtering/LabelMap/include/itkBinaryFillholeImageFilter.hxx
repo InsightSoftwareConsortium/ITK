@@ -27,7 +27,7 @@
 
 namespace itk {
 
-template <class TInputImage>
+template <typename TInputImage>
 BinaryFillholeImageFilter<TInputImage>
 ::BinaryFillholeImageFilter()
 {
@@ -35,7 +35,7 @@ BinaryFillholeImageFilter<TInputImage>
   m_ForegroundValue = NumericTraits<InputImagePixelType>::max();
 }
 
-template <class TInputImage>
+template <typename TInputImage>
 void
 BinaryFillholeImageFilter<TInputImage>
 ::GenerateInputRequestedRegion()
@@ -52,7 +52,7 @@ BinaryFillholeImageFilter<TInputImage>
 }
 
 
-template <class TInputImage>
+template <typename TInputImage>
 void
 BinaryFillholeImageFilter<TInputImage>
 ::EnlargeOutputRequestedRegion(DataObject *)
@@ -62,7 +62,7 @@ BinaryFillholeImageFilter<TInputImage>
 }
 
 
-template<class TInputImage>
+template<typename TInputImage>
 void
 BinaryFillholeImageFilter<TInputImage>
 ::GenerateData()
@@ -129,7 +129,7 @@ BinaryFillholeImageFilter<TInputImage>
 }
 
 
-template<class TInputImage>
+template<typename TInputImage>
 void
 BinaryFillholeImageFilter<TInputImage>
 ::PrintSelf(std::ostream &os, Indent indent) const

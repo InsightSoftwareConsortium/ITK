@@ -61,7 +61,7 @@ namespace itk
  * \wikiexample{ImageProcessing/ConvolutionImageFilter,Convolve an image with a kernel}
  * \endwiki
  */
-template< class TInputImage, class TKernelImage = TInputImage, class TOutputImage = TInputImage >
+template< typename TInputImage, typename TKernelImage = TInputImage, typename TOutputImage = TInputImage >
 class ConvolutionImageFilter :
   public ConvolutionImageFilterBase< TInputImage, TKernelImage, TOutputImage >
 {
@@ -121,14 +121,14 @@ protected:
   KernelSizeType GetKernelPadSize() const;
 
   /** Calculates the radius of the kernel. */
-  template< class TImage >
+  template< typename TImage >
   KernelSizeType GetKernelRadius(const TImage *kernelImage) const;
 
 private:
   ConvolutionImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);         //purposely not implemented
 
-  template< class TImage >
+  template< typename TImage >
   void ComputeConvolution( const TImage *kernelImage,
                            ProgressAccumulator *progress );
 };

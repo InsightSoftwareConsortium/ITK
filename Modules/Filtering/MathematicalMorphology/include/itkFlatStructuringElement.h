@@ -153,7 +153,7 @@ private:
   };
   typedef StructuringElementFacet< VDimension > FacetType;
 
-  template<class TStructuringElement, class TRadius>
+  template<typename TStructuringElement, typename TRadius>
   static void GeneratePolygon(TStructuringElement & res,            TRadius      radius, unsigned lines);
   static void GeneratePolygon(itk::FlatStructuringElement<2> & res, itk::Size<2> radius, unsigned lines);
   static void GeneratePolygon(itk::FlatStructuringElement<3> & res, itk::Size<3> radius, unsigned lines);

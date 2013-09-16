@@ -29,21 +29,21 @@
 
 namespace itk
 {
-template< class TInternalComputationValueType >
+template< typename TInternalComputationValueType >
 HDF5TransformIOTemplate< TInternalComputationValueType >
 ::HDF5TransformIOTemplate()
 {
   this->m_H5File = 0;
 }
 
-template< class TInternalComputationValueType >
+template< typename TInternalComputationValueType >
 HDF5TransformIOTemplate< TInternalComputationValueType >
 ::~HDF5TransformIOTemplate()
 {
   delete this->m_H5File;
 }
 
-template< class TInternalComputationValueType >
+template< typename TInternalComputationValueType >
 bool
 HDF5TransformIOTemplate< TInternalComputationValueType >
 ::CanReadFile(const char *fileName)
@@ -64,7 +64,7 @@ HDF5TransformIOTemplate< TInternalComputationValueType >
   return rval;
 }
 
-template< class TInternalComputationValueType >
+template< typename TInternalComputationValueType >
 bool
 HDF5TransformIOTemplate< TInternalComputationValueType >
 ::CanWriteFile(const char *fileName)
@@ -91,7 +91,7 @@ HDF5TransformIOTemplate< TInternalComputationValueType >
 
 
 /** Write a parameter array to the location specified by name */
-template< class TInternalComputationValueType >
+template< typename TInternalComputationValueType >
 void
 HDF5TransformIOTemplate< TInternalComputationValueType >
 ::WriteParameters(const std::string &name,
@@ -137,7 +137,7 @@ HDF5TransformIOTemplate< TInternalComputationValueType >
 }
 
 /** read a parameter array from the location specified by name */
-template< class TInternalComputationValueType >
+template< typename TInternalComputationValueType >
 typename HDF5TransformIOTemplate< TInternalComputationValueType >::ParametersType
 HDF5TransformIOTemplate< TInternalComputationValueType >
 ::ReadParameters(const std::string &DataSetName)
@@ -186,7 +186,7 @@ HDF5TransformIOTemplate< TInternalComputationValueType >
   return ParameterArray;
 }
 
-template< class TInternalComputationValueType >
+template< typename TInternalComputationValueType >
 void
 HDF5TransformIOTemplate< TInternalComputationValueType >
 ::WriteString(const std::string &path,
@@ -200,7 +200,7 @@ HDF5TransformIOTemplate< TInternalComputationValueType >
   strSet.close();
 }
 
-template< class TInternalComputationValueType >
+template< typename TInternalComputationValueType >
 void
 HDF5TransformIOTemplate< TInternalComputationValueType >
 ::WriteString(const std::string &path,
@@ -217,7 +217,7 @@ HDF5TransformIOTemplate< TInternalComputationValueType >
  /TransformGroup/N/TransformFixedParameters -- list of double
  /TransformGroup/N//TransformParameters -- list of double
  */
-template< class TInternalComputationValueType >
+template< typename TInternalComputationValueType >
 void
 HDF5TransformIOTemplate< TInternalComputationValueType >
 ::Read()
@@ -284,7 +284,7 @@ HDF5TransformIOTemplate< TInternalComputationValueType >
     }
 }
 
-template< class TInternalComputationValueType >
+template< typename TInternalComputationValueType >
 void
 HDF5TransformIOTemplate< TInternalComputationValueType >
 ::WriteOneTransform(const int transformIndex,
@@ -325,7 +325,7 @@ HDF5TransformIOTemplate< TInternalComputationValueType >
     }
 }
 
-template< class TInternalComputationValueType >
+template< typename TInternalComputationValueType >
 void
 HDF5TransformIOTemplate< TInternalComputationValueType >
 ::Write()

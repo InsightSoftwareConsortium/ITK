@@ -27,7 +27,7 @@ namespace itk
 /**
  * Constructor
  */
-template< class TInputImage, class TOutputImage, class TFunction >
+template< typename TInputImage, typename TOutputImage, typename TFunction >
 NaryFunctorImageFilter< TInputImage, TOutputImage, TFunction >
 ::NaryFunctorImageFilter()
 {
@@ -40,7 +40,7 @@ NaryFunctorImageFilter< TInputImage, TOutputImage, TFunction >
 /**
  * ThreadedGenerateData Performs the pixel-wise addition
  */
-template< class TInputImage, class TOutputImage, class TFunction >
+template< typename TInputImage, typename TOutputImage, typename TFunction >
 void
 NaryFunctorImageFilter< TInputImage, TOutputImage, TFunction >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,

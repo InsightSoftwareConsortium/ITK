@@ -22,7 +22,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TFeatureImage, class TOutputPixelType >
+template< typename TInputImage, typename TFeatureImage, typename TOutputPixelType >
 LaplacianSegmentationLevelSetImageFilter< TInputImage, TFeatureImage,
                                           TOutputPixelType >
 ::LaplacianSegmentationLevelSetImageFilter()
@@ -32,7 +32,7 @@ LaplacianSegmentationLevelSetImageFilter< TInputImage, TFeatureImage,
   this->SetSegmentationFunction(m_LaplacianFunction);
 }
 
-template< class TInputImage, class TFeatureImage, class TOutputPixelType >
+template< typename TInputImage, typename TFeatureImage, typename TOutputPixelType >
 void
 LaplacianSegmentationLevelSetImageFilter< TInputImage, TFeatureImage,
                                           TOutputPixelType >

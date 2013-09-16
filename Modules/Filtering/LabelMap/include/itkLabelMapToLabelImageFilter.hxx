@@ -26,7 +26,7 @@
 namespace itk
 {
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 LabelMapToLabelImageFilter< TInputImage, TOutputImage >
 ::LabelMapToLabelImageFilter()
 {
@@ -34,7 +34,7 @@ LabelMapToLabelImageFilter< TInputImage, TOutputImage >
 }
 
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 LabelMapToLabelImageFilter< TInputImage, TOutputImage >
 ::BeforeThreadedGenerateData()
@@ -48,7 +48,7 @@ LabelMapToLabelImageFilter< TInputImage, TOutputImage >
 }
 
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 LabelMapToLabelImageFilter< TInputImage, TOutputImage >
 ::ThreadedProcessLabelObject(LabelObjectType *labelObject)

@@ -27,7 +27,7 @@
 namespace itk
 {
 
-template<class TTransform>
+template<typename TTransform>
 BSplineTransformParametersAdaptor<TTransform>
 ::BSplineTransformParametersAdaptor()
 {
@@ -41,13 +41,13 @@ BSplineTransformParametersAdaptor<TTransform>
   this->UpdateRequiredFixedParameters();
 }
 
-template<class TTransform>
+template<typename TTransform>
 BSplineTransformParametersAdaptor<TTransform>
 ::~BSplineTransformParametersAdaptor()
 {
 }
 
-template<class TTransform>
+template<typename TTransform>
 void
 BSplineTransformParametersAdaptor<TTransform>
 ::SetRequiredTransformDomainOrigin( const OriginType & origin )
@@ -62,7 +62,7 @@ BSplineTransformParametersAdaptor<TTransform>
     }
 }
 
-template<class TTransform>
+template<typename TTransform>
 void
 BSplineTransformParametersAdaptor<TTransform>
 ::SetRequiredTransformDomainPhysicalDimensions( const PhysicalDimensionsType & dimensions )
@@ -77,7 +77,7 @@ BSplineTransformParametersAdaptor<TTransform>
     }
 }
 
-template<class TTransform>
+template<typename TTransform>
 void
 BSplineTransformParametersAdaptor<TTransform>
 ::SetRequiredTransformDomainDirection( const DirectionType & direction )
@@ -92,7 +92,7 @@ BSplineTransformParametersAdaptor<TTransform>
     }
 }
 
-template<class TTransform>
+template<typename TTransform>
 void
 BSplineTransformParametersAdaptor<TTransform>
 ::SetRequiredTransformDomainMeshSize( const MeshSizeType & meshSize )
@@ -107,7 +107,7 @@ BSplineTransformParametersAdaptor<TTransform>
     }
 }
 
-template<class TTransform>
+template<typename TTransform>
 void
 BSplineTransformParametersAdaptor<TTransform>
 ::SetRequiredFixedParameters( const ParametersType fixedParameters )
@@ -153,7 +153,7 @@ BSplineTransformParametersAdaptor<TTransform>
 }
 
 
-template<class TTransform>
+template<typename TTransform>
 void
 BSplineTransformParametersAdaptor<TTransform>
 ::UpdateRequiredFixedParameters()
@@ -206,7 +206,7 @@ BSplineTransformParametersAdaptor<TTransform>
     }
 }
 
-template<class TTransform>
+template<typename TTransform>
 void
 BSplineTransformParametersAdaptor<TTransform>
 ::AdaptTransformParameters()
@@ -286,7 +286,7 @@ BSplineTransformParametersAdaptor<TTransform>
   this->m_Transform->SetCoefficientImages( newCoefficientImages );
 }
 
-template<class TTransform>
+template<typename TTransform>
 void
 BSplineTransformParametersAdaptor<TTransform>
 ::PrintSelf( std::ostream & os, Indent indent ) const

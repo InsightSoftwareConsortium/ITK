@@ -24,7 +24,7 @@ namespace
   void println(const char *c) { std::cout << std::endl << c << std::endl; }
 }
 
-template <class TPixel>
+template <typename TPixel>
 void printn(itk::NeighborhoodAllocator<TPixel> &n, const itk::Size<2> &sz)
 {
   unsigned int i, j, k;

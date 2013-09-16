@@ -32,7 +32,7 @@ namespace itk
  *
  * \ingroup   ITKGPUCommon
  */
-template< class TInputImage, class TOutputImage, class TFunction, class TParentImageFilter =
+template< typename TInputImage, typename TOutputImage, typename TFunction, typename TParentImageFilter =
             InPlaceImageFilter< TInputImage, TOutputImage > >
 class GPUUnaryFunctorImageFilter : public GPUInPlaceImageFilter< TInputImage, TOutputImage,
                                                                             TParentImageFilter >

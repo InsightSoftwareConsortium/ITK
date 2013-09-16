@@ -41,7 +41,7 @@ namespace itk
  * A protected default constructor allows the New() routine to create an
  * instance of PointSet.  All the containers are initialized to non-existent.
  */
-template< class TInput, class TOutput, unsigned int VDimension >
+template< typename TInput, typename TOutput, unsigned int VDimension >
 Path< TInput, TOutput, VDimension >
 ::Path()
 {
@@ -49,7 +49,7 @@ Path< TInput, TOutput, VDimension >
   m_ZeroIndex.Fill(0);
 }
 
-template< class TInput, class TOutput, unsigned int VDimension >
+template< typename TInput, typename TOutput, unsigned int VDimension >
 void
 Path< TInput, TOutput, VDimension >
 ::PrintSelf(std::ostream & os, Indent indent) const

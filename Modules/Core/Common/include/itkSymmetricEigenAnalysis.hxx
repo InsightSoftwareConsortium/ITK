@@ -23,7 +23,7 @@
 
 namespace itk
 {
-template< class TMatrix, class TVector, class TEigenMatrix >
+template< typename TMatrix, typename TVector, typename TEigenMatrix >
 unsigned int
 SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValues(const TMatrix  & A,
                                                                              TVector  & D) const
@@ -53,7 +53,7 @@ SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValues(con
   return eigenErrIndex; //index of eigen value that could not be computed
 }
 
-template< class TMatrix, class TVector, class TEigenMatrix >
+template< typename TMatrix, typename TVector, typename TEigenMatrix >
 unsigned int
 SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValuesAndVectors(
   const TMatrix  & A,
@@ -98,7 +98,7 @@ SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValuesAndV
   return eigenErrIndex; //index of eigen value that could not be computed
 }
 
-template< class TMatrix, class TVector, class TEigenMatrix >
+template< typename TMatrix, typename TVector, typename TEigenMatrix >
 void
 SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ReduceToTridiagonalMatrix(double *a, VectorType & d,
                                                                                     double *e, double *e2) const
@@ -212,7 +212,7 @@ SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ReduceToTridiagonalMat
     }
 }
 
-template< class TMatrix, class TVector, class TEigenMatrix >
+template< typename TMatrix, typename TVector, typename TEigenMatrix >
 void
 SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ReduceToTridiagonalMatrixAndGetTransformation(double *a,
                                                                                                         VectorType & d,
@@ -376,7 +376,7 @@ const
   e[0] = 0.0;
 }
 
-template< class TMatrix, class TVector, class TEigenMatrix >
+template< typename TMatrix, typename TVector, typename TEigenMatrix >
 unsigned int
 SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValuesUsingQL(VectorType & d, double *e) const
 {
@@ -523,7 +523,7 @@ SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValuesUsin
   return ierr;    //ierr'th eigen value that couldn't be computed
 }
 
-template< class TMatrix, class TVector, class TEigenMatrix >
+template< typename TMatrix, typename TVector, typename TEigenMatrix >
 unsigned int
 SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValuesAndVectorsUsingQL(VectorType & d,
                                                                                               double *e,

@@ -35,7 +35,7 @@ namespace itk
 /**
  *
  */
-template< class T >
+template< typename T >
 DataObjectDecorator< T >
 ::DataObjectDecorator():m_Component()
 {}
@@ -43,7 +43,7 @@ DataObjectDecorator< T >
 /**
  *
  */
-template< class T >
+template< typename T >
 DataObjectDecorator< T >
 ::~DataObjectDecorator()
 {}
@@ -51,7 +51,7 @@ DataObjectDecorator< T >
 /**
  *
  */
-template< class T >
+template< typename T >
 void
 DataObjectDecorator< T >
 ::Set(const T *val)
@@ -66,7 +66,7 @@ DataObjectDecorator< T >
 /**
  *
  */
-template< class T >
+template< typename T >
 const T *
 DataObjectDecorator< T >
 ::Get() const
@@ -77,7 +77,7 @@ DataObjectDecorator< T >
 /**
  *
  */
-template< class T >
+template< typename T >
 void
 DataObjectDecorator< T >
 ::PrintSelf(std::ostream & os, Indent indent) const

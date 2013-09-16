@@ -30,7 +30,7 @@ namespace ProjectionImageFilterNamespace
 namespace Function
 {
 
-template <class TInputPixel, class TOutputPixel>
+template <typename TInputPixel, typename TOutputPixel>
 class BinaryAccumulator
 {
 public:

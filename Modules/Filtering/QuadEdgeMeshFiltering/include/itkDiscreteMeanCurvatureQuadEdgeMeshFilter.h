@@ -32,7 +32,7 @@ namespace itk
  * location: Berlin (Germany)
  * \ingroup ITKQuadEdgeMeshFiltering
  */
-template< class TInputMesh, class TOutputMesh=TInputMesh >
+template< typename TInputMesh, typename TOutputMesh=TInputMesh >
 class DiscreteMeanCurvatureQuadEdgeMeshFilter:
   public DiscreteCurvatureQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 {

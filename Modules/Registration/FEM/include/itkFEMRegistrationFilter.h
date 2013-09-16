@@ -114,7 +114,7 @@ namespace fem
  * \ingroup ITKFEMRegistration
  */
 
-template <class TMovingImage, class TFixedImage, class TFemObjectType>
+template <typename TMovingImage, typename TFixedImage, typename TFemObjectType>
 class FEMRegistrationFilter : public ImageToImageFilter<TMovingImage, TFixedImage>
 {
 public:

@@ -42,7 +42,7 @@ namespace itk
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKLabelMap
  */
-template< class TInputImage >
+template< typename TInputImage >
 class ShapeRelabelImageFilter:
   public ImageToImageFilter< TInputImage, TInputImage >
 {

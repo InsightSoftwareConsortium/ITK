@@ -23,7 +23,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TSparseOutputImage >
+template< typename TInputImage, typename TSparseOutputImage >
 ImplicitManifoldNormalVectorFilter< TInputImage, TSparseOutputImage >
 ::ImplicitManifoldNormalVectorFilter()
 {
@@ -50,7 +50,7 @@ ImplicitManifoldNormalVectorFilter< TInputImage, TSparseOutputImage >
   m_DimConst2 = static_cast< NodeValueType >( 4.0 * m_DimConst );
 }
 
-template< class TInputImage, class TSparseOutputImage >
+template< typename TInputImage, typename TSparseOutputImage >
 void
 ImplicitManifoldNormalVectorFilter< TInputImage, TSparseOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -67,7 +67,7 @@ ImplicitManifoldNormalVectorFilter< TInputImage, TSparseOutputImage >
   os << indent << "NumVertex: " << m_NumVertex << std::endl;
 }
 
-template< class TInputImage, class TSparseOutputImage >
+template< typename TInputImage, typename TSparseOutputImage >
 void
 ImplicitManifoldNormalVectorFilter< TInputImage, TSparseOutputImage >
 ::SetNormalFunction(NormalFunctionType *nf)
@@ -76,7 +76,7 @@ ImplicitManifoldNormalVectorFilter< TInputImage, TSparseOutputImage >
   Superclass::SetSparseFunction (nf);
 }
 
-template< class TInputImage, class TSparseOutputImage >
+template< typename TInputImage, typename TSparseOutputImage >
 void
 ImplicitManifoldNormalVectorFilter< TInputImage, TSparseOutputImage >
 ::Initialize()
@@ -88,7 +88,7 @@ ImplicitManifoldNormalVectorFilter< TInputImage, TSparseOutputImage >
   Superclass::Initialize();
 }
 
-template< class TInputImage, class TSparseOutputImage >
+template< typename TInputImage, typename TSparseOutputImage >
 void
 ImplicitManifoldNormalVectorFilter< TInputImage, TSparseOutputImage >
 ::SetNormalBand()
@@ -119,7 +119,7 @@ ImplicitManifoldNormalVectorFilter< TInputImage, TSparseOutputImage >
     }
 }
 
-template< class TInputImage, class TSparseOutputImage >
+template< typename TInputImage, typename TSparseOutputImage >
 void
 ImplicitManifoldNormalVectorFilter< TInputImage, TSparseOutputImage >
 ::InitializeNormalBandNode(NormalBandNodeType *node,
@@ -227,7 +227,7 @@ ImplicitManifoldNormalVectorFilter< TInputImage, TSparseOutputImage >
     } // end offset axis (flux position)
 }
 
-template< class TInputImage, class TSparseOutputImage >
+template< typename TInputImage, typename TSparseOutputImage >
 void
 ImplicitManifoldNormalVectorFilter< TInputImage, TSparseOutputImage >
 ::PostProcessOutput()

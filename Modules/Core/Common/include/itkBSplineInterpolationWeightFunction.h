@@ -44,7 +44,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template<
-  class TCoordRep = float,
+  typename TCoordRep = float,
   unsigned int VSpaceDimension = 2,
   unsigned int VSplineOrder = 3
   >

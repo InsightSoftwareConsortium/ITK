@@ -43,7 +43,7 @@ namespace watershed
  * \sa itk::WatershedImageFilter
  * \ingroup ITKWatersheds
  */
-template< class TScalar >
+template< typename TScalar >
 class SegmentTable:public DataObject
 {
 public:

@@ -31,7 +31,7 @@
 
 namespace {
 
-template<class TCoordRepType, unsigned int NDimensions>
+template<typename TCoordRepType, unsigned int NDimensions>
 class NonlinearAffineTransform:
   public itk::AffineTransform<TCoordRepType,NDimensions>
 {

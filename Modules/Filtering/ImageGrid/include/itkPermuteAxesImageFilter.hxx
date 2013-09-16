@@ -28,7 +28,7 @@ namespace itk
 /**
  * Constructor
  */
-template< class TImage >
+template< typename TImage >
 PermuteAxesImageFilter< TImage >
 ::PermuteAxesImageFilter()
 {
@@ -42,7 +42,7 @@ PermuteAxesImageFilter< TImage >
 /**
  * PrintSelf
  */
-template< class TImage >
+template< typename TImage >
 void
 PermuteAxesImageFilter< TImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -69,7 +69,7 @@ PermuteAxesImageFilter< TImage >
 /**
  * Set the permutation order
  */
-template< class TImage >
+template< typename TImage >
 void
 PermuteAxesImageFilter< TImage >
 ::SetOrder(const PermuteOrderArrayType & order)
@@ -116,7 +116,7 @@ PermuteAxesImageFilter< TImage >
  * The output image meta information is obtained by permuting
  * the input image meta information.
  */
-template< class TImage >
+template< typename TImage >
 void
 PermuteAxesImageFilter< TImage >
 ::GenerateOutputInformation()
@@ -178,7 +178,7 @@ PermuteAxesImageFilter< TImage >
  * The required input requested region is obtained by permuting
  * the index and size of the output requested region
  */
-template< class TImage >
+template< typename TImage >
 void
 PermuteAxesImageFilter< TImage >
 ::GenerateInputRequestedRegion()
@@ -221,7 +221,7 @@ PermuteAxesImageFilter< TImage >
 /**
  *
  */
-template< class TImage >
+template< typename TImage >
 void
 PermuteAxesImageFilter< TImage >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,

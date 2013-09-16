@@ -39,7 +39,7 @@ namespace Statistics
  * \ingroup ITKNeuralNetworks
  */
 
-template<class LayerType, class TTargetVector>
+template<typename LayerType, typename TTargetVector>
 class QuickPropLearningRule : public LearningFunctionBase<LayerType, TTargetVector>
 {
 public:

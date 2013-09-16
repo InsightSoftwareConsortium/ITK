@@ -25,7 +25,7 @@
 namespace itk
 {
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
 ::PatchBasedDenoisingBaseImageFilter()
 {
@@ -58,13 +58,13 @@ PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
   m_OutputImage = 0;
 }
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
 ::~PatchBasedDenoisingBaseImageFilter()
 {
 }
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 void
 PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
 ::SetStateToInitialized()
@@ -72,7 +72,7 @@ PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
   this->SetState(INITIALIZED);
 }
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 void
 PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
 ::SetStateToUninitialized()
@@ -80,7 +80,7 @@ PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
   this->SetState(UNINITIALIZED);
 }
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 void
 PatchBasedDenoisingBaseImageFilter<TInputImage,TOutputImage>
 ::GenerateInputRequestedRegion()
@@ -90,7 +90,7 @@ PatchBasedDenoisingBaseImageFilter<TInputImage,TOutputImage>
   Superclass::GenerateInputRequestedRegion();
 }
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 void
 PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
 ::GenerateData()
@@ -169,7 +169,7 @@ PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
   this->PostProcessOutput();
 }
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 void
 PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
 ::InitializePatchWeights()
@@ -184,7 +184,7 @@ PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
   this->SetPatchWeights(patchWeights);
 }
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 void
 PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
 ::SetPatchWeights(const PatchWeightsType& weights)
@@ -204,7 +204,7 @@ PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
     }
 }
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 typename PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>::PatchWeightsType
 PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
 ::GetPatchWeights() const
@@ -212,7 +212,7 @@ PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
   return m_PatchWeights;
 }
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 typename PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>::PatchRadiusType::SizeValueType
 PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
 ::GetPatchLengthInVoxels() const
@@ -227,7 +227,7 @@ PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
   return length;
 }
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 typename PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>::PatchRadiusType
 PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
 ::GetPatchDiameterInVoxels() const
@@ -242,7 +242,7 @@ PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
   return diameter;
 }
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 typename PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>::PatchRadiusType
 PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
 ::GetPatchRadiusInVoxels() const
@@ -273,7 +273,7 @@ PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
   return radius;
 }
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 bool
 PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
 ::Halt()
@@ -295,7 +295,7 @@ PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
     }
 }
 
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 void
 PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
 ::PrintSelf(std::ostream& os, Indent indent) const

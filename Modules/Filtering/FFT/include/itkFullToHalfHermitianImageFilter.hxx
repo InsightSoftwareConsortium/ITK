@@ -26,7 +26,7 @@
 namespace itk
 {
 
-template< class TInputImage >
+template< typename TInputImage >
 void
 FullToHalfHermitianImageFilter< TInputImage >
 ::GenerateOutputInformation()
@@ -65,7 +65,7 @@ FullToHalfHermitianImageFilter< TInputImage >
   outputPtr->SetLargestPossibleRegion( outputLargestPossibleRegion );
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void
 FullToHalfHermitianImageFilter< TInputImage >
 ::GenerateInputRequestedRegion()
@@ -81,7 +81,7 @@ FullToHalfHermitianImageFilter< TInputImage >
     }
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void
 FullToHalfHermitianImageFilter< TInputImage >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,

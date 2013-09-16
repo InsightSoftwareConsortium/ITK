@@ -79,11 +79,11 @@
   typedef InterpolatorIntegerType3D::PointType                                  PointIntegerType3D;
   typedef InterpolatorIntegerType3D::ContinuousIndexType                        ContinuousIntegerIndexType3D;
 
-//  template <class TImage>
+//  template <typename TImage>
 //  void set3DInterpData(TImage::Pointer);
   void set3DDerivativeData(ImageType3D::Pointer);
 
-template<class TImage>
+template<typename TImage>
 void set3DInterpData(typename TImage::Pointer imgPtr)
 {
   SizeType3D size = {{80,40,30}};
@@ -116,7 +116,7 @@ void set3DInterpData(typename TImage::Pointer imgPtr)
  * Test a geometric point. Returns true if test has passed,
  * returns false otherwise
  */
-template <class TInterpolator, class PointType>
+template <typename TInterpolator, typename PointType>
 bool TestGeometricPoint(
 const TInterpolator * interp,
 const PointType& point,
@@ -156,7 +156,7 @@ double trueValue )
  * Test a continuous index. Returns true if test has passed,
  * returns false otherwise
  */
-template<class TInterpolator, class ContinuousIndexType>
+template<typename TInterpolator, typename ContinuousIndexType>
 bool TestContinuousIndex(
 const TInterpolator * interp,
 const ContinuousIndexType& index,
@@ -195,7 +195,7 @@ double trueValue )
  * Test a continuous index Derivative. Returns true if test has passed,
  * returns false otherwise
  */
-template<class TInterpolator, class ContinuousIndexType>
+template<typename TInterpolator, typename ContinuousIndexType>
 bool TestContinuousIndexDerivative(
 const TInterpolator * interp,
 const ContinuousIndexType& index,

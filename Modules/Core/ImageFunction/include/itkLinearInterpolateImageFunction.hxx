@@ -27,7 +27,7 @@ namespace itk
 /**
  * Define the number of neighbors
  */
-template< class TInputImage, class TCoordRep >
+template< typename TInputImage, typename TCoordRep >
 const unsigned long
 LinearInterpolateImageFunction< TInputImage, TCoordRep >
 ::m_Neighbors = 1 << TInputImage::ImageDimension;
@@ -35,12 +35,12 @@ LinearInterpolateImageFunction< TInputImage, TCoordRep >
 /**
  * Constructor
  */
-template< class TInputImage, class TCoordRep >
+template< typename TInputImage, typename TCoordRep >
 LinearInterpolateImageFunction< TInputImage, TCoordRep >
 ::LinearInterpolateImageFunction()
 {}
 
-template< class TInputImage, class TCoordRep >
+template< typename TInputImage, typename TCoordRep >
 LinearInterpolateImageFunction< TInputImage, TCoordRep >
 ::~LinearInterpolateImageFunction()
 {}
@@ -48,7 +48,7 @@ LinearInterpolateImageFunction< TInputImage, TCoordRep >
 /**
  * PrintSelf
  */
-template< class TInputImage, class TCoordRep >
+template< typename TInputImage, typename TCoordRep >
 void
 LinearInterpolateImageFunction< TInputImage, TCoordRep >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -59,7 +59,7 @@ LinearInterpolateImageFunction< TInputImage, TCoordRep >
 /**
  * Evaluate at image index position
  */
-template< class TInputImage, class TCoordRep >
+template< typename TInputImage, typename TCoordRep >
 typename LinearInterpolateImageFunction< TInputImage, TCoordRep >
 ::OutputType
 LinearInterpolateImageFunction< TInputImage, TCoordRep >

@@ -23,7 +23,7 @@
 
 namespace itk
 {
-template< class TImage, class TFunction >
+template< typename TImage, typename TFunction >
 ShapedFloodFilledFunctionConditionalConstIterator< TImage, TFunction >
 ::ShapedFloodFilledFunctionConditionalConstIterator(const ImageType *imagePtr,
                                                     FunctionType *fnPtr,
@@ -38,7 +38,7 @@ ShapedFloodFilledFunctionConditionalConstIterator< TImage, TFunction >
   this->InitializeIterator();
 }
 
-template< class TImage, class TFunction >
+template< typename TImage, typename TFunction >
 ShapedFloodFilledFunctionConditionalConstIterator< TImage, TFunction >
 ::ShapedFloodFilledFunctionConditionalConstIterator(const ImageType *imagePtr,
                                                     FunctionType *fnPtr,
@@ -58,7 +58,7 @@ ShapedFloodFilledFunctionConditionalConstIterator< TImage, TFunction >
   this->InitializeIterator();
 }
 
-template< class TImage, class TFunction >
+template< typename TImage, typename TFunction >
 ShapedFloodFilledFunctionConditionalConstIterator< TImage, TFunction >
 ::ShapedFloodFilledFunctionConditionalConstIterator(const ImageType *imagePtr,
                                                     FunctionType *fnPtr):
@@ -71,7 +71,7 @@ ShapedFloodFilledFunctionConditionalConstIterator< TImage, TFunction >
   this->InitializeIterator();
 }
 
-template< class TImage, class TFunction >
+template< typename TImage, typename TFunction >
 void
 ShapedFloodFilledFunctionConditionalConstIterator< TImage, TFunction >
 ::InitializeIterator()
@@ -115,7 +115,7 @@ ShapedFloodFilledFunctionConditionalConstIterator< TImage, TFunction >
     }
 }
 
-template< class TImage, class TFunction >
+template< typename TImage, typename TFunction >
 void
 ShapedFloodFilledFunctionConditionalConstIterator< TImage, TFunction >
 ::FindSeedPixel()
@@ -141,7 +141,7 @@ ShapedFloodFilledFunctionConditionalConstIterator< TImage, TFunction >
     }
 }
 
-template< class TImage, class TFunction >
+template< typename TImage, typename TFunction >
 void
 ShapedFloodFilledFunctionConditionalConstIterator< TImage, TFunction >
 ::FindSeedPixels()
@@ -169,7 +169,7 @@ ShapedFloodFilledFunctionConditionalConstIterator< TImage, TFunction >
     }
 }
 
-template< class TImage, class TFunction >
+template< typename TImage, typename TFunction >
 void
 ShapedFloodFilledFunctionConditionalConstIterator< TImage, TFunction >
 ::DoFloodStep()
@@ -225,7 +225,7 @@ ShapedFloodFilledFunctionConditionalConstIterator< TImage, TFunction >
     }
 }
 
-template< class TImage, class TFunction >
+template< typename TImage, typename TFunction >
 void
 ShapedFloodFilledFunctionConditionalConstIterator< TImage, TFunction >
 ::SetFullyConnected(const bool _arg)
@@ -237,7 +237,7 @@ ShapedFloodFilledFunctionConditionalConstIterator< TImage, TFunction >
     }
 }
 
-template< class TImage, class TFunction >
+template< typename TImage, typename TFunction >
 bool
 ShapedFloodFilledFunctionConditionalConstIterator< TImage, TFunction >
 ::GetFullyConnected() const

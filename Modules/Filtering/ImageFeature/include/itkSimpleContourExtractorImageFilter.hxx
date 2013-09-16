@@ -28,7 +28,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 SimpleContourExtractorImageFilter< TInputImage, TOutputImage >
 ::SimpleContourExtractorImageFilter()
 {
@@ -38,7 +38,7 @@ SimpleContourExtractorImageFilter< TInputImage, TOutputImage >
   m_OutputForegroundValue  = NumericTraits< OutputPixelType >::max();
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 SimpleContourExtractorImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
@@ -123,7 +123,7 @@ SimpleContourExtractorImageFilter< TInputImage, TOutputImage >
 /**
  * Standard "PrintSelf" method
  */
-template< class TInputImage, class TOutput >
+template< typename TInputImage, typename TOutput >
 void
 SimpleContourExtractorImageFilter< TInputImage, TOutput >
 ::PrintSelf(

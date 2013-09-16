@@ -37,7 +37,7 @@ namespace itk
  * \ingroup ITKWatersheds
  */
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class IsolatedWatershedImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {

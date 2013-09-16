@@ -28,7 +28,7 @@ namespace itk
 /** \class LevelSetTovtkImageDataBase
  *  \ingroup ITKLevelSetsv4Visualization
  */
-template< class TLevelSet >
+template< typename TLevelSet >
 class LevelSetTovtkImageDataBase : public ProcessObject
 {
 public:

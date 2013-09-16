@@ -27,7 +27,7 @@
 
 namespace itk {
 
-template < class TInputImage, class TOutputImage >
+template < typename TInputImage, typename TOutputImage >
 NormalizeToConstantImageFilter< TInputImage, TOutputImage >
 ::NormalizeToConstantImageFilter()
 {
@@ -35,7 +35,7 @@ NormalizeToConstantImageFilter< TInputImage, TOutputImage >
 }
 
 
-template < class TInputImage, class TOutputImage >
+template < typename TInputImage, typename TOutputImage >
 void
 NormalizeToConstantImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
@@ -53,7 +53,7 @@ NormalizeToConstantImageFilter< TInputImage, TOutputImage >
 }
 
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 NormalizeToConstantImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
@@ -89,7 +89,7 @@ NormalizeToConstantImageFilter< TInputImage, TOutputImage >
 }
 
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 NormalizeToConstantImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream &os, Indent indent) const

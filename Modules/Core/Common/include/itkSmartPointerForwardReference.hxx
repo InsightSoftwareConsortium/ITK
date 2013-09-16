@@ -23,7 +23,7 @@
 namespace itk
 {
 //----------------------------------------------------------------------------
-template< class T >
+template< typename T >
 SmartPointerForwardReference< T >
 ::SmartPointerForwardReference (const SmartPointerForwardReference< T > & p)
 {
@@ -32,7 +32,7 @@ SmartPointerForwardReference< T >
 }
 
 //----------------------------------------------------------------------------
-template< class T >
+template< typename T >
 SmartPointerForwardReference< T >
 ::SmartPointerForwardReference (const WeakPointer< T > & p)
 {
@@ -41,7 +41,7 @@ SmartPointerForwardReference< T >
 }
 
 //----------------------------------------------------------------------------
-template< class T >
+template< typename T >
 SmartPointerForwardReference< T >
 ::SmartPointerForwardReference (T *p)
 {
@@ -50,7 +50,7 @@ SmartPointerForwardReference< T >
 }
 
 //----------------------------------------------------------------------------
-template< class T >
+template< typename T >
 SmartPointerForwardReference< T >
 ::~SmartPointerForwardReference ()
 {
@@ -58,7 +58,7 @@ SmartPointerForwardReference< T >
 }
 
 //----------------------------------------------------------------------------
-template< class T >
+template< typename T >
 T *
 SmartPointerForwardReference< T >
 ::operator->() const
@@ -67,7 +67,7 @@ SmartPointerForwardReference< T >
 }
 
 //----------------------------------------------------------------------------
-template< class T >
+template< typename T >
 SmartPointerForwardReference< T >
 ::operator T *() const
 {
@@ -75,7 +75,7 @@ SmartPointerForwardReference< T >
 }
 
 //----------------------------------------------------------------------------
-template< class T >
+template< typename T >
 T *
 SmartPointerForwardReference< T >
 ::GetPointer() const
@@ -84,7 +84,7 @@ SmartPointerForwardReference< T >
 }
 
 //----------------------------------------------------------------------------
-template< class T >
+template< typename T >
 bool
 SmartPointerForwardReference< T >
 ::operator<(const SmartPointerForwardReference & r)
@@ -93,7 +93,7 @@ SmartPointerForwardReference< T >
 }
 
 //----------------------------------------------------------------------------
-template< class T >
+template< typename T >
 bool
 SmartPointerForwardReference< T >
 ::operator>(const SmartPointerForwardReference & r)
@@ -102,7 +102,7 @@ SmartPointerForwardReference< T >
 }
 
 //----------------------------------------------------------------------------
-template< class T >
+template< typename T >
 bool
 SmartPointerForwardReference< T >
 ::operator<=(const SmartPointerForwardReference & r)
@@ -111,7 +111,7 @@ SmartPointerForwardReference< T >
 }
 
 //----------------------------------------------------------------------------
-template< class T >
+template< typename T >
 bool
 SmartPointerForwardReference< T >
 ::operator>=(const SmartPointerForwardReference & r)
@@ -120,7 +120,7 @@ SmartPointerForwardReference< T >
 }
 
 //----------------------------------------------------------------------------
-template< class T >
+template< typename T >
 SmartPointerForwardReference< T > &
 SmartPointerForwardReference< T >
 ::operator=(const SmartPointerForwardReference & r)
@@ -129,7 +129,7 @@ SmartPointerForwardReference< T >
 }
 
 //----------------------------------------------------------------------------
-template< class T >
+template< typename T >
 SmartPointerForwardReference< T > &
 SmartPointerForwardReference< T >
 ::operator=(const WeakPointer< T > & r)
@@ -138,7 +138,7 @@ SmartPointerForwardReference< T >
 }
 
 //----------------------------------------------------------------------------
-template< class T >
+template< typename T >
 SmartPointerForwardReference< T > &
 SmartPointerForwardReference< T >
 ::operator=(T *r)
@@ -157,7 +157,7 @@ SmartPointerForwardReference< T >
 }
 
 //----------------------------------------------------------------------------
-template< class T >
+template< typename T >
 T *
 SmartPointerForwardReference< T >
 ::Print(std::ostream & os) const
@@ -168,7 +168,7 @@ SmartPointerForwardReference< T >
 }
 
 //----------------------------------------------------------------------------
-template< class T >
+template< typename T >
 void
 SmartPointerForwardReference< T >
 ::Register()
@@ -180,7 +180,7 @@ SmartPointerForwardReference< T >
 }
 
 //----------------------------------------------------------------------------
-template< class T >
+template< typename T >
 void
 SmartPointerForwardReference< T >
 ::UnRegister()

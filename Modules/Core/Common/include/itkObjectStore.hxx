@@ -22,7 +22,7 @@
 
 namespace itk
 {
-template< class TObjectType >
+template< typename TObjectType >
 ObjectStore< TObjectType >
 ::ObjectStore()
 {
@@ -31,14 +31,14 @@ ObjectStore< TObjectType >
   m_GrowthStrategy = EXPONENTIAL_GROWTH;
 }
 
-template< class TObjectType >
+template< typename TObjectType >
 ObjectStore< TObjectType >
 ::~ObjectStore()
 {
   this->Clear();
 }
 
-template< class TObjectType >
+template< typename TObjectType >
 void
 ObjectStore< TObjectType >
 ::Reserve(SizeValueType n)
@@ -60,7 +60,7 @@ ObjectStore< TObjectType >
   m_Size += ( n - m_Size );
 }
 
-template< class TObjectType >
+template< typename TObjectType >
 typename ObjectStore< TObjectType >::ObjectType *
 ObjectStore< TObjectType >
 ::Borrow()
@@ -79,7 +79,7 @@ ObjectStore< TObjectType >
   //that blocks know when they can be deleted.
 }
 
-template< class TObjectType >
+template< typename TObjectType >
 void
 ObjectStore< TObjectType >
 ::Return(ObjectType *p)
@@ -102,7 +102,7 @@ ObjectStore< TObjectType >
   // it?
 }
 
-template< class TObjectType >
+template< typename TObjectType >
 SizeValueType
 ObjectStore< TObjectType >
 ::GetGrowthSize()
@@ -114,7 +114,7 @@ ObjectStore< TObjectType >
   return m_LinearGrowthSize;
 }
 
-template< class TObjectType >
+template< typename TObjectType >
 void
 ObjectStore< TObjectType >
 ::Squeeze()
@@ -122,7 +122,7 @@ ObjectStore< TObjectType >
   // Not implemented yet.
 }
 
-template< class TObjectType >
+template< typename TObjectType >
 void
 ObjectStore< TObjectType >
 ::Clear()
@@ -139,7 +139,7 @@ ObjectStore< TObjectType >
   m_Size = 0;
 }
 
-template< class TObjectType >
+template< typename TObjectType >
 void
 ObjectStore< TObjectType >
 ::PrintSelf(std::ostream & os, Indent indent) const

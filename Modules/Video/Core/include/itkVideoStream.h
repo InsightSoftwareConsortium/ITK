@@ -37,7 +37,7 @@ namespace itk
  *
  * \ingroup ITKVideoCore
  */
-template<class TFrameType>
+template<typename TFrameType>
 class VideoStream : public TemporalDataObject
 {
 public:

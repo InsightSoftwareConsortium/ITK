@@ -56,7 +56,7 @@ namespace itk
  * \todo It's not yet clear how multi-echo images should be handled here.
  * \ingroup ITKImageStatistics
  */
-template< class TImage >
+template< typename TImage >
 class ImageMomentsCalculator:public Object
 {
 public:

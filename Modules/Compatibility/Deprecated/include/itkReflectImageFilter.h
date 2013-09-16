@@ -34,7 +34,7 @@ namespace itk
  * \ingroup IntensityImageFilters
  * \ingroup SingleThreaded
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class ReflectImageFilter:public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

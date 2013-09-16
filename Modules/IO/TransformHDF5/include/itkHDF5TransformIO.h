@@ -75,7 +75,7 @@ struct HDF5CommonPathNames
  *
  * \ingroup ITKIOTransformHDF5
  */
-template< class TInternalComputationValueType >
+template< typename TInternalComputationValueType >
 class HDF5TransformIOTemplate:public TransformIOBaseTemplate< TInternalComputationValueType >,
 private HDF5CommonPathNames
 {

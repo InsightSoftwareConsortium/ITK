@@ -25,7 +25,7 @@ namespace itk
 /**
  *
  */
-template< class TOutputMesh >
+template< typename TOutputMesh >
 MeshSource< TOutputMesh >
 ::MeshSource()
 {
@@ -44,7 +44,7 @@ MeshSource< TOutputMesh >
 /**
  *
  */
-template< class TOutputMesh >
+template< typename TOutputMesh >
 typename MeshSource< TOutputMesh >::DataObjectPointer
 MeshSource< TOutputMesh >
 ::MakeOutput(DataObjectPointerArraySizeType)
@@ -55,7 +55,7 @@ MeshSource< TOutputMesh >
 /**
  *
  */
-template< class TOutputMesh >
+template< typename TOutputMesh >
 typename MeshSource< TOutputMesh >::OutputMeshType *
 MeshSource< TOutputMesh >
 ::GetOutput(void)
@@ -66,7 +66,7 @@ MeshSource< TOutputMesh >
 /**
  *
  */
-template< class TOutputMesh >
+template< typename TOutputMesh >
 typename MeshSource< TOutputMesh >::OutputMeshType *
 MeshSource< TOutputMesh >
 ::GetOutput(unsigned int idx)
@@ -78,7 +78,7 @@ MeshSource< TOutputMesh >
 /**
  *
  */
-template< class TOutputMesh >
+template< typename TOutputMesh >
 void
 MeshSource< TOutputMesh >
 ::SetOutput(OutputMeshType *output)
@@ -92,7 +92,7 @@ MeshSource< TOutputMesh >
 /**
  *
  */
-template< class TOutputMesh >
+template< typename TOutputMesh >
 void
 MeshSource< TOutputMesh >
 ::GenerateInputRequestedRegion()
@@ -103,7 +103,7 @@ MeshSource< TOutputMesh >
 /**
  *
  */
-template< class TOutputMesh >
+template< typename TOutputMesh >
 void
 MeshSource< TOutputMesh >
 ::GraftOutput(DataObject *graft)
@@ -114,7 +114,7 @@ MeshSource< TOutputMesh >
 /**
  *
  */
-template< class TOutputMesh >
+template< typename TOutputMesh >
 void
 MeshSource< TOutputMesh >
 ::GraftOutput(const DataObjectIdentifierType & key, DataObject *graft)
@@ -135,7 +135,7 @@ MeshSource< TOutputMesh >
 /**
  *
  */
-template< class TOutputMesh >
+template< typename TOutputMesh >
 void
 MeshSource< TOutputMesh >
 ::GraftNthOutput(unsigned int idx, DataObject *graft)
@@ -151,7 +151,7 @@ MeshSource< TOutputMesh >
 /**
  *
  */
-template< class TOutputMesh >
+template< typename TOutputMesh >
 void
 MeshSource< TOutputMesh >
 ::PrintSelf(std::ostream & os, Indent indent) const

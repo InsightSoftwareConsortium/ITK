@@ -41,7 +41,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TLabelImage >
+template< typename TInputImage, typename TLabelImage >
 MorphologicalWatershedFromMarkersImageFilter< TInputImage, TLabelImage >
 ::MorphologicalWatershedFromMarkersImageFilter()
 {
@@ -50,7 +50,7 @@ MorphologicalWatershedFromMarkersImageFilter< TInputImage, TLabelImage >
   m_MarkWatershedLine = true;
 }
 
-template< class TInputImage, class TLabelImage >
+template< typename TInputImage, typename TLabelImage >
 void
 MorphologicalWatershedFromMarkersImageFilter< TInputImage, TLabelImage >
 ::GenerateInputRequestedRegion()
@@ -75,7 +75,7 @@ MorphologicalWatershedFromMarkersImageFilter< TInputImage, TLabelImage >
   inputPtr->SetRequestedRegion( inputPtr->GetLargestPossibleRegion() );
 }
 
-template< class TInputImage, class TLabelImage >
+template< typename TInputImage, typename TLabelImage >
 void
 MorphologicalWatershedFromMarkersImageFilter< TInputImage, TLabelImage >
 ::EnlargeOutputRequestedRegion(DataObject *)
@@ -84,7 +84,7 @@ MorphologicalWatershedFromMarkersImageFilter< TInputImage, TLabelImage >
     this->GetOutput()->GetLargestPossibleRegion() );
 }
 
-template< class TInputImage, class TLabelImage >
+template< typename TInputImage, typename TLabelImage >
 void
 MorphologicalWatershedFromMarkersImageFilter< TInputImage, TLabelImage >
 ::GenerateData()
@@ -450,7 +450,7 @@ MorphologicalWatershedFromMarkersImageFilter< TInputImage, TLabelImage >
     }
 }
 
-template< class TInputImage, class TLabelImage >
+template< typename TInputImage, typename TLabelImage >
 void
 MorphologicalWatershedFromMarkersImageFilter< TInputImage, TLabelImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

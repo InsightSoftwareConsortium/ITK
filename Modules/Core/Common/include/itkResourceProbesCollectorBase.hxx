@@ -24,12 +24,12 @@
 namespace itk
 {
 
-template< class TProbe >
+template< typename TProbe >
 ResourceProbesCollectorBase< TProbe >
 ::~ResourceProbesCollectorBase()
 {}
 
-template< class TProbe >
+template< typename TProbe >
 void
 ResourceProbesCollectorBase< TProbe >
 ::Start(const char *id)
@@ -38,7 +38,7 @@ ResourceProbesCollectorBase< TProbe >
   this->m_Probes[id].Start();
 }
 
-template< class TProbe >
+template< typename TProbe >
 void
 ResourceProbesCollectorBase< TProbe >
 ::Stop(const char *id)
@@ -54,7 +54,7 @@ ResourceProbesCollectorBase< TProbe >
   pos->second.Stop();
 }
 
-template< class TProbe >
+template< typename TProbe >
 void
 ResourceProbesCollectorBase< TProbe >
 ::Report(std::ostream & os) const
@@ -93,7 +93,7 @@ ResourceProbesCollectorBase< TProbe >
     }
 }
 
-template< class TProbe >
+template< typename TProbe >
 void
 ResourceProbesCollectorBase< TProbe >
 ::Clear(void)

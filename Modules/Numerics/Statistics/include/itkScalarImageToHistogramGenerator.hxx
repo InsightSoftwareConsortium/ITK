@@ -24,7 +24,7 @@ namespace itk
 {
 namespace Statistics
 {
-template< class TImage >
+template< typename TImage >
 ScalarImageToHistogramGenerator< TImage >
 ::ScalarImageToHistogramGenerator()
 {
@@ -33,7 +33,7 @@ ScalarImageToHistogramGenerator< TImage >
   m_HistogramGenerator->SetInput(m_ImageToListSampleAdaptor);
 }
 
-template< class TImage >
+template< typename TImage >
 void
 ScalarImageToHistogramGenerator< TImage >
 ::SetInput(const ImageType *image)
@@ -41,7 +41,7 @@ ScalarImageToHistogramGenerator< TImage >
   m_ImageToListSampleAdaptor->SetImage(image);
 }
 
-template< class TImage >
+template< typename TImage >
 const typename ScalarImageToHistogramGenerator< TImage >::HistogramType *
 ScalarImageToHistogramGenerator< TImage >
 ::GetOutput() const
@@ -49,7 +49,7 @@ ScalarImageToHistogramGenerator< TImage >
   return m_HistogramGenerator->GetOutput();
 }
 
-template< class TImage >
+template< typename TImage >
 void
 ScalarImageToHistogramGenerator< TImage >
 ::Compute()
@@ -57,7 +57,7 @@ ScalarImageToHistogramGenerator< TImage >
   m_HistogramGenerator->Update();
 }
 
-template< class TImage >
+template< typename TImage >
 void
 ScalarImageToHistogramGenerator< TImage >
 ::SetNumberOfBins(unsigned int numberOfBins)
@@ -68,7 +68,7 @@ ScalarImageToHistogramGenerator< TImage >
   m_HistogramGenerator->SetHistogramSize(size);
 }
 
-template< class TImage >
+template< typename TImage >
 void
 ScalarImageToHistogramGenerator< TImage >
 ::SetHistogramMin(RealPixelType minimumValue)
@@ -80,7 +80,7 @@ ScalarImageToHistogramGenerator< TImage >
   m_HistogramGenerator->SetHistogramBinMinimum(minVector);
 }
 
-template< class TImage >
+template< typename TImage >
 void
 ScalarImageToHistogramGenerator< TImage >
 ::SetHistogramMax(RealPixelType maximumValue)
@@ -92,7 +92,7 @@ ScalarImageToHistogramGenerator< TImage >
   m_HistogramGenerator->SetHistogramBinMaximum(maxVector);
 }
 
-template< class TImage >
+template< typename TImage >
 void
 ScalarImageToHistogramGenerator< TImage >
 ::SetMarginalScale(double marginalScale)
@@ -100,7 +100,7 @@ ScalarImageToHistogramGenerator< TImage >
   m_HistogramGenerator->SetMarginalScale(marginalScale);
 }
 
-template< class TImage >
+template< typename TImage >
 void
 ScalarImageToHistogramGenerator< TImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

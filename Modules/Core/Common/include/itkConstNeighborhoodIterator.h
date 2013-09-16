@@ -46,7 +46,7 @@ namespace itk
  * \wikiexample{Iterators/ConstNeighborhoodIterator,Iterate over a region of an image with a neighborhood (without write access)}
  * \endwiki
  */
-template< class TImage,  class TBoundaryCondition =
+template< typename TImage,  typename TBoundaryCondition =
             ZeroFluxNeumannBoundaryCondition< TImage > >
 class ConstNeighborhoodIterator:
   public Neighborhood< typename TImage::InternalPixelType *,
@@ -537,7 +537,7 @@ protected:
   NeighborhoodAccessorFunctorType m_NeighborhoodAccessorFunctor;
 };
 
-template< class TImage >
+template< typename TImage >
 inline ConstNeighborhoodIterator< TImage >
 operator+(const ConstNeighborhoodIterator< TImage > & it,
           const typename ConstNeighborhoodIterator< TImage >
@@ -549,14 +549,14 @@ operator+(const ConstNeighborhoodIterator< TImage > & it,
   return ret;
 }
 
-template< class TImage >
+template< typename TImage >
 inline ConstNeighborhoodIterator< TImage >
 operator+(const typename ConstNeighborhoodIterator< TImage >
           ::OffsetType & ind,
           const ConstNeighborhoodIterator< TImage > & it)
 {  return ( it + ind ); }
 
-template< class TImage >
+template< typename TImage >
 inline ConstNeighborhoodIterator< TImage >
 operator-(const ConstNeighborhoodIterator< TImage > & it,
           const typename ConstNeighborhoodIterator< TImage >

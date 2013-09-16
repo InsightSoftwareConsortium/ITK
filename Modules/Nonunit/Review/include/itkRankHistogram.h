@@ -51,7 +51,7 @@ namespace Function
  */
 
 
-template< class TInputPixel >
+template< typename TInputPixel >
 class RankHistogram
 {
 public:
@@ -260,7 +260,7 @@ private:
 };
 
 
-template< class TInputPixel >
+template< typename TInputPixel >
 class VectorRankHistogram
 {
 public:

@@ -23,17 +23,17 @@
 
 namespace itk
 {
-template< class TLevelSet >
+template< typename TLevelSet >
 LevelSetTovtkImageDataBase< TLevelSet >
 ::LevelSetTovtkImageDataBase()
   {}
 
-template< class TLevelSet >
+template< typename TLevelSet >
 LevelSetTovtkImageDataBase< TLevelSet >
 ::~LevelSetTovtkImageDataBase()
   {}
 
-template< class TLevelSet >
+template< typename TLevelSet >
 void
 LevelSetTovtkImageDataBase< TLevelSet >
 ::SetInput( LevelSetType* iLevelSet )
@@ -45,7 +45,7 @@ LevelSetTovtkImageDataBase< TLevelSet >
   m_LevelSet = iLevelSet;
 }
 
-template< class TLevelSet >
+template< typename TLevelSet >
 void
 LevelSetTovtkImageDataBase< TLevelSet >
 ::Update()

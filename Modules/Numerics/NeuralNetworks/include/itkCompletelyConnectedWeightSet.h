@@ -30,7 +30,7 @@ namespace Statistics
  * \ingroup ITKNeuralNetworks
  */
 
- template<class TMeasurementVector, class TTargetVector>
+ template<typename TMeasurementVector, typename TTargetVector>
 class CompletelyConnectedWeightSet : public WeightSetBase<TMeasurementVector, TTargetVector>
 {
 public:

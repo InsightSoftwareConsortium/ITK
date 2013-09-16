@@ -51,7 +51,7 @@ namespace itk
  *
  * \ingroup ITKRegistrationCommon
  */
-template<class TTransform>
+template<typename TTransform>
 class TransformParametersAdaptorBase
 : public Object
 {

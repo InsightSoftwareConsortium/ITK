@@ -30,7 +30,7 @@ namespace Statistics
  * \ingroup ITKNeuralNetworks
  */
 
-template<class TMeasurementVector, class TTargetVector,class TLearningLayer=LayerBase<TMeasurementVector, TTargetVector> >
+template<typename TMeasurementVector, typename TTargetVector,typename TLearningLayer=LayerBase<TMeasurementVector, TTargetVector> >
 class MultilayerNeuralNetworkBase : public NeuralNetworkObject<TMeasurementVector, TTargetVector>
 {
 public:

@@ -26,7 +26,7 @@
 //
 // Helper function to test pixel type
 //
-template<class TPixelType>
+template<typename TPixelType>
 bool TestFormat(vidl_pixel_format expectedFormat)
 {
   typedef TPixelType                        PixelType;
@@ -51,7 +51,7 @@ bool TestFormat(vidl_pixel_format expectedFormat)
 //
 // Templated test
 //
-template<class TPixelType>
+template<typename TPixelType>
 int vidl_itk_istreamTestWithPixelType(char* argv[], vidl_pixel_format expectedFormat)
 {
   // typedefs

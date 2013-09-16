@@ -26,7 +26,7 @@ namespace Statistics
 {
 
 /** Constructor */
-template<class TMeasurementVector, class TTargetVector>
+template<typename TMeasurementVector, typename TTargetVector>
 NeuralNetworkObject<TMeasurementVector,TTargetVector>
 ::NeuralNetworkObject()
 {
@@ -34,14 +34,14 @@ NeuralNetworkObject<TMeasurementVector,TTargetVector>
 }
 
 /** Destructor */
-template<class TMeasurementVector, class TTargetVector>
+template<typename TMeasurementVector, typename TTargetVector>
 NeuralNetworkObject<TMeasurementVector,TTargetVector>
 ::~NeuralNetworkObject()
 {
 }
 
 /** Print the object */
-template<class TMeasurementVector, class TTargetVector>
+template<typename TMeasurementVector, typename TTargetVector>
 void
 NeuralNetworkObject<TMeasurementVector,TTargetVector>
 ::PrintSelf( std::ostream& os, Indent indent ) const

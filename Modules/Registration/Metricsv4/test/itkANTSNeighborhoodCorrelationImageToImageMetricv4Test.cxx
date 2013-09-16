@@ -27,7 +27,7 @@
  *
  */
 
-template<class ImagePointerType, class DerivativeType>
+template<typename ImagePointerType, typename DerivativeType>
 void ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintDerivativeAsVectorImage(
     ImagePointerType image, DerivativeType &derivative, itk::SizeValueType vecdim){
 
@@ -60,7 +60,7 @@ void ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintDerivativeAsVector
 }
 
 
-template<class ImageType>
+template<typename ImageType>
 void ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintImage(ImageType *imageP) {
 
   typedef typename ImageType::ConstPointer ImageConstPointerType;
@@ -87,7 +87,7 @@ void ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintImage(ImageType *i
     }
 }
 
-template<class ImagePointerType>
+template<typename ImagePointerType>
 void ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintImage(const ImagePointerType &image) {
 
   typedef typename ImagePointerType::ObjectType ImageType;

@@ -28,7 +28,7 @@ namespace itk
 /**
  *
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 ExtractImageFilter< TInputImage, TOutputImage >
 ::ExtractImageFilter():
 #ifdef ITKV3_COMPATIBILITY
@@ -43,7 +43,7 @@ ExtractImageFilter< TInputImage, TOutputImage >
 /**
  *
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ExtractImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -55,7 +55,7 @@ ExtractImageFilter< TInputImage, TOutputImage >
   os << indent << "DirectionCollapseStrategy: " << m_DirectionCollapseStrategy << std::endl;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ExtractImageFilter< TInputImage, TOutputImage >
 ::CallCopyOutputRegionToInputRegion(InputImageRegionType & destRegion,
@@ -66,7 +66,7 @@ ExtractImageFilter< TInputImage, TOutputImage >
   extractImageRegionCopier(destRegion, srcRegion, m_ExtractionRegion);
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ExtractImageFilter< TInputImage, TOutputImage >
 ::SetExtractionRegion(InputImageRegionType extractRegion)
@@ -113,7 +113,7 @@ ExtractImageFilter< TInputImage, TOutputImage >
  *
  * \sa ProcessObject::GenerateOutputInformaton()
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ExtractImageFilter< TInputImage, TOutputImage >
 ::GenerateOutputInformation()
@@ -261,7 +261,7 @@ ExtractImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ExtractImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
@@ -300,7 +300,7 @@ ExtractImageFilter< TInputImage, TOutputImage >
  * \sa ImageToImageFilter::ThreadedGenerateData(),
  *     ImageToImageFilter::GenerateData()
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ExtractImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,

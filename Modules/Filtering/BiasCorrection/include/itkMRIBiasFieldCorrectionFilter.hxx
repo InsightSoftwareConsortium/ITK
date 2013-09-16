@@ -24,7 +24,7 @@ namespace itk
 {
 // =========== MRIBiasEnergyFunction members =================
 
-template< class TImage, class TImageMask, class TBiasField >
+template< typename TImage, typename TImageMask, typename TBiasField >
 MRIBiasEnergyFunction< TImage, TImageMask, TBiasField >
 ::MRIBiasEnergyFunction()
 {
@@ -37,7 +37,7 @@ MRIBiasEnergyFunction< TImage, TImageMask, TBiasField >
   m_Image = NULL;
 }
 
-template< class TImage, class TImageMask, class TBiasField >
+template< typename TImage, typename TImageMask, typename TBiasField >
 void
 MRIBiasEnergyFunction< TImage, TImageMask, TBiasField >
 ::InitializeDistributions(Array< double > classMeans,
@@ -47,7 +47,7 @@ MRIBiasEnergyFunction< TImage, TImageMask, TBiasField >
     new InternalEnergyFunction(classMeans, classSigmas);
 }
 
-template< class TImage, class TImageMask, class TBiasField >
+template< typename TImage, typename TImageMask, typename TBiasField >
 MRIBiasEnergyFunction< TImage, TImageMask, TBiasField >
 ::~MRIBiasEnergyFunction()
 {
@@ -55,7 +55,7 @@ MRIBiasEnergyFunction< TImage, TImageMask, TBiasField >
   m_InternalEnergyFunction = 0;
 }
 
-template< class TImage, class TImageMask, class TBiasField >
+template< typename TImage, typename TImageMask, typename TBiasField >
 unsigned int
 MRIBiasEnergyFunction< TImage, TImageMask, TBiasField >
 ::GetNumberOfParameters(void) const
@@ -67,7 +67,7 @@ MRIBiasEnergyFunction< TImage, TImageMask, TBiasField >
   return m_BiasField->GetNumberOfCoefficients();
 }
 
-template< class TImage, class TImageMask, class TBiasField >
+template< typename TImage, typename TImageMask, typename TBiasField >
 typename MRIBiasEnergyFunction< TImage, TImageMask, TBiasField >::MeasureType
 MRIBiasEnergyFunction< TImage, TImageMask, TBiasField >
 ::GetValue(const ParametersType & parameters) const
@@ -207,7 +207,7 @@ MRIBiasEnergyFunction< TImage, TImageMask, TBiasField >
 
 // =========== MRIBiasFieldCorrectionFilter members ==================
 
-template< class TInputImage, class TOutputImage, class TMaskImage >
+template< typename TInputImage, typename TOutputImage, typename TMaskImage >
 MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
 ::MRIBiasFieldCorrectionFilter()
 {
@@ -250,7 +250,7 @@ MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
   this->SetNumberOfLevels(2);
 }
 
-template< class TInputImage, class TOutputImage, class TMaskImage >
+template< typename TInputImage, typename TOutputImage, typename TMaskImage >
 void
 MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage,  TMaskImage >
 ::SetNumberOfLevels(unsigned int num)
@@ -285,7 +285,7 @@ MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage,  TMaskImage >
 /**
  * Set the starting shrink factors
  */
-template< class TInputImage, class TOutputImage, class TMaskImage >
+template< typename TInputImage, typename TOutputImage, typename TMaskImage >
 void
 MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage,  TMaskImage >
 ::SetStartingShrinkFactors(unsigned int factor)
@@ -303,7 +303,7 @@ MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage,  TMaskImage >
 /**
  * Set the starting shrink factors
  */
-template< class TInputImage, class TOutputImage, class TMaskImage >
+template< typename TInputImage, typename TOutputImage, typename TMaskImage >
 void
 MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage,  TMaskImage >
 ::SetStartingShrinkFactors(unsigned int *factors)
@@ -335,7 +335,7 @@ MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage,  TMaskImage >
 /**
  * Get the starting shrink factors
  */
-template< class TInputImage, class TOutputImage, class TMaskImage >
+template< typename TInputImage, typename TOutputImage, typename TMaskImage >
 const unsigned int *
 MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage,  TMaskImage >
 ::GetStartingShrinkFactors() const
@@ -346,7 +346,7 @@ MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage,  TMaskImage >
 /**
  * Set the multi-resolution schedule
  */
-template< class TInputImage, class TOutputImage, class TMaskImage >
+template< typename TInputImage, typename TOutputImage, typename TMaskImage >
 void
 MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage,  TMaskImage >
 ::SetSchedule(const ScheduleType & schedule)
@@ -390,7 +390,7 @@ MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage,  TMaskImage >
 /*
  * Is the schedule downward divisible ?
  */
-template< class TInputImage, class TOutputImage, class TMaskImage >
+template< typename TInputImage, typename TOutputImage, typename TMaskImage >
 bool
 MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage,  TMaskImage >
 ::IsScheduleDownwardDivisible(const ScheduleType & schedule)
@@ -415,12 +415,12 @@ MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage,  TMaskImage >
   return true;
 }
 
-template< class TInputImage, class TOutputImage, class TMaskImage >
+template< typename TInputImage, typename TOutputImage, typename TMaskImage >
 MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
 ::~MRIBiasFieldCorrectionFilter()
 {}
 
-template< class TInputImage, class TOutputImage, class TMaskImage >
+template< typename TInputImage, typename TOutputImage, typename TMaskImage >
 void
 MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -518,7 +518,7 @@ MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
   os << m_Schedule << std::endl;
 }
 
-template< class TInputImage, class TOutputImage, class TMaskImage >
+template< typename TInputImage, typename TOutputImage, typename TMaskImage >
 void
 MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
 ::SetInputMask(ImageMaskType *inputMask)
@@ -537,7 +537,7 @@ MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
     }
 }
 
-template< class TInputImage, class TOutputImage, class TMaskImage >
+template< typename TInputImage, typename TOutputImage, typename TMaskImage >
 void
 MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
 ::SetOutputMask(ImageMaskType *outputMask)
@@ -556,7 +556,7 @@ MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
     }
 }
 
-template< class TInputImage, class TOutputImage, class TMaskImage >
+template< typename TInputImage, typename TOutputImage, typename TMaskImage >
 void
 MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
 ::Initialize()
@@ -610,7 +610,7 @@ throw ( ExceptionObject )
     }
 }
 
-template< class TInputImage, class TOutputImage, class TMaskImage >
+template< typename TInputImage, typename TOutputImage, typename TMaskImage >
 typename MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >::BiasFieldType
 MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
 ::EstimateBiasField(InputImageRegionType region,
@@ -740,7 +740,7 @@ MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
   return bias;
 }
 
-template< class TInputImage, class TOutputImage, class TMaskImage >
+template< typename TInputImage, typename TOutputImage, typename TMaskImage >
 void
 MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
 ::CorrectImage(BiasFieldType & bias,
@@ -792,7 +792,7 @@ MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
     }
 }
 
-template< class TInputImage, class TOutputImage, class TMaskImage >
+template< typename TInputImage, typename TOutputImage, typename TMaskImage >
 void
 MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
 ::CorrectInterSliceIntensityInhomogeneity(InputImageRegionType region)
@@ -825,7 +825,7 @@ MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
     }
 }
 
-template< class TInputImage, class TOutputImage, class TMaskImage >
+template< typename TInputImage, typename TOutputImage, typename TMaskImage >
 void
 MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
 ::GenerateData()
@@ -960,7 +960,7 @@ MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
 }
 
 // energy function related members
-template< class TInputImage, class TOutputImage, class TMaskImage >
+template< typename TInputImage, typename TOutputImage, typename TMaskImage >
 void
 MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
 ::SetTissueClassStatistics(const Array< double > & means,
@@ -990,7 +990,7 @@ throw ( ExceptionObject )
 }
 
 // protected members
-template< class TInputImage, class TOutputImage, class TMaskImage >
+template< typename TInputImage, typename TOutputImage, typename TMaskImage >
 bool
 MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
 ::CheckMaskImage(ImageMaskType *mask)
@@ -1008,7 +1008,7 @@ MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
   return true;
 }
 
-template< class TInputImage, class TOutputImage, class TMaskImage >
+template< typename TInputImage, typename TOutputImage, typename TMaskImage >
 void
 MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
 ::Log1PImage(InternalImageType *source,
@@ -1042,7 +1042,7 @@ MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
     }
 }
 
-template< class TInputImage, class TOutputImage, class TMaskImage >
+template< typename TInputImage, typename TOutputImage, typename TMaskImage >
 void
 MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
 ::ExpImage(InternalImageType *source,
@@ -1071,7 +1071,7 @@ MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
     }
 }
 
-template< class TInputImage, class TOutputImage, class TMaskImage >
+template< typename TInputImage, typename TOutputImage, typename TMaskImage >
 void
 MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
 ::GetBiasFieldSize(InputImageRegionType region,
@@ -1102,7 +1102,7 @@ MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
     }
 }
 
-template< class TInputImage, class TOutputImage, class TMaskImage >
+template< typename TInputImage, typename TOutputImage, typename TMaskImage >
 void
 MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
 ::AdjustSlabRegions(SlabRegionVectorType & slabs,

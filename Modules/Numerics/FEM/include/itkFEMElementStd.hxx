@@ -25,7 +25,7 @@ namespace itk
 {
 namespace fem
 {
-template <unsigned int VNumberOfPoints, unsigned int VNumberOfSpatialDimensions, class TBaseClass>
+template <unsigned int VNumberOfPoints, unsigned int VNumberOfSpatialDimensions, typename TBaseClass>
 ElementStd<VNumberOfPoints, VNumberOfSpatialDimensions, TBaseClass>
 ::ElementStd()
 {
@@ -36,7 +36,7 @@ ElementStd<VNumberOfPoints, VNumberOfSpatialDimensions, TBaseClass>
     }
 }
 
-template <unsigned int VNumberOfPoints, unsigned int VNumberOfSpatialDimensions, class TBaseClass>
+template <unsigned int VNumberOfPoints, unsigned int VNumberOfSpatialDimensions, typename TBaseClass>
 void
 ElementStd<VNumberOfPoints, VNumberOfSpatialDimensions, TBaseClass>
 ::PrintSelf(std::ostream& os, Indent indent) const

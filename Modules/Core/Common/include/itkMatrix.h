@@ -42,7 +42,7 @@ namespace itk
  * \endwiki
  */
 
-template< class T, unsigned int NRows = 3, unsigned int NColumns = 3 >
+template< typename T, unsigned int NRows = 3, unsigned int NColumns = 3 >
 class Matrix
 {
 public:
@@ -259,7 +259,7 @@ private:
   InternalMatrixType m_Matrix;
 };
 
-template< class T, unsigned int NRows, unsigned int NColumns >
+template< typename T, unsigned int NRows, unsigned int NColumns >
 std::ostream & operator<<(std::ostream & os, const Matrix< T, NRows, NColumns > & v)
 {
   os << v.GetVnlMatrix();

@@ -23,11 +23,11 @@
 
 namespace itk
 {
-template< class TImage >
+template< typename TImage >
 double GradientNDAnisotropicDiffusionFunction< TImage >
 ::m_MIN_NORM = 1.0e-10;
 
-template< class TImage >
+template< typename TImage >
 GradientNDAnisotropicDiffusionFunction< TImage >
 ::GradientNDAnisotropicDiffusionFunction()
 {
@@ -77,7 +77,7 @@ GradientNDAnisotropicDiffusionFunction< TImage >
   dx_op.CreateDirectional();
 }
 
-template< class TImage >
+template< typename TImage >
 typename GradientNDAnisotropicDiffusionFunction< TImage >::PixelType
 GradientNDAnisotropicDiffusionFunction< TImage >
 ::ComputeUpdate(const NeighborhoodType & it, void *,

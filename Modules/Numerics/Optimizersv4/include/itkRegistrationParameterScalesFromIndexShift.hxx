@@ -23,13 +23,13 @@
 namespace itk
 {
 
-template< class TMetric >
+template< typename TMetric >
 RegistrationParameterScalesFromIndexShift< TMetric >
 ::RegistrationParameterScalesFromIndexShift()
 {
 }
 
-template< class TMetric >
+template< typename TMetric >
 void
 RegistrationParameterScalesFromIndexShift< TMetric >
 ::ComputeSampleShifts(const ParametersType &deltaParameters, ScalesType &sampleShifts)
@@ -44,8 +44,8 @@ RegistrationParameterScalesFromIndexShift< TMetric >
     }
 }
 
-template< class TMetric >
-template< class TTransform >
+template< typename TMetric >
+template< typename TTransform >
 void
 RegistrationParameterScalesFromIndexShift< TMetric >
 ::ComputeSampleShiftsInternal(const ParametersType &deltaParameters, ScalesType &sampleShifts)
@@ -92,8 +92,8 @@ RegistrationParameterScalesFromIndexShift< TMetric >
 }
 
 /** Transform a physical point to its continuous index */
-template< class TMetric >
-template< class TContinuousIndexType >
+template< typename TMetric >
+template< typename TContinuousIndexType >
 void
 RegistrationParameterScalesFromIndexShift< TMetric >
 ::TransformPointToContinuousIndex(const VirtualPointType &point, TContinuousIndexType &mappedIndex)
@@ -113,7 +113,7 @@ RegistrationParameterScalesFromIndexShift< TMetric >
 }
 
 /** Print the information about this class */
-template< class TMetric >
+template< typename TMetric >
 void
 RegistrationParameterScalesFromIndexShift< TMetric >
 ::PrintSelf(std::ostream& os, Indent indent) const

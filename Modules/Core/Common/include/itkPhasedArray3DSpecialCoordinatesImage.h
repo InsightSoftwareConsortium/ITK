@@ -89,7 +89,7 @@ namespace itk
  * \ingroup ImageObjects
  * \ingroup ITKCommon
  */
-template< class TPixel >
+template< typename TPixel >
 class PhasedArray3DSpecialCoordinatesImage:
   public SpecialCoordinatesImage< TPixel, 3 >
 {
@@ -178,7 +178,7 @@ public:
    *
    * Returns true if the resulting index is within the image, false otherwise.
    * \sa Transform */
-  template< class TCoordRep >
+  template< typename TCoordRep >
   bool TransformPhysicalPointToContinuousIndex(
     const Point< TCoordRep, 3 > & point,
     ContinuousIndex< TCoordRep, 3 > & index) const
@@ -212,7 +212,7 @@ public:
    * Floating point index results are truncated to integers.
    * Returns true if the resulting index is within the image, false otherwise
    * \sa Transform */
-  template< class TCoordRep >
+  template< typename TCoordRep >
   bool TransformPhysicalPointToIndex(
     const Point< TCoordRep, 3 > & point,
     IndexType & index) const
@@ -249,7 +249,7 @@ public:
    * the origin and spacing information comes from)
    * from a continuous index (in the index space)
    * \sa Transform */
-  template< class TCoordRep >
+  template< typename TCoordRep >
   void TransformContinuousIndexToPhysicalPoint(
     const ContinuousIndex< TCoordRep, 3 > & index,
     Point< TCoordRep, 3 > & point) const
@@ -282,7 +282,7 @@ public:
    * from a discrete index (in the index space)
    *
    * \sa Transform */
-  template< class TCoordRep >
+  template< typename TCoordRep >
   void TransformIndexToPhysicalPoint(
     const IndexType & index,
     Point< TCoordRep, 3 > & point) const
@@ -325,12 +325,12 @@ public:
   /**  Set the distance to add to the radius. */
   itkSetMacro(FirstSampleDistance, double);
 
-  template< class TCoordRep >
+  template< typename TCoordRep >
   void TransformLocalVectorToPhysicalVector(
     FixedArray< TCoordRep, 3 > & ) const
     {}
 
-  template< class TCoordRep >
+  template< typename TCoordRep >
   void TransformPhysicalVectorToLocalVector(
     const FixedArray< TCoordRep, 3 > & ,
     FixedArray< TCoordRep, 3 > & ) const

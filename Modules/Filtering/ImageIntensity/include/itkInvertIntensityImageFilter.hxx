@@ -36,14 +36,14 @@ namespace itk
 /**
  *
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 InvertIntensityImageFilter< TInputImage, TOutputImage >
 ::InvertIntensityImageFilter()
 {
   m_Maximum = NumericTraits< InputPixelType >::max();
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 InvertIntensityImageFilter< TInputImage, TOutputImage >
 ::BeforeThreadedGenerateData()
@@ -54,7 +54,7 @@ InvertIntensityImageFilter< TInputImage, TOutputImage >
 /**
  *
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 InvertIntensityImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

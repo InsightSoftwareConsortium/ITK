@@ -46,7 +46,7 @@ namespace itk
  *
  * \ingroup ITKFastMarching
 */
-template< class TInput, class TOutput, class TImage >
+template< typename TInput, typename TOutput, typename TImage >
 class FastMarchingImageToNodePairContainerAdaptor :
     public Object
   {

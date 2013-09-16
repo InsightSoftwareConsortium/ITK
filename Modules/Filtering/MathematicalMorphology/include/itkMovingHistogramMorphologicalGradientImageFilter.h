@@ -25,7 +25,7 @@ namespace itk
 {
 namespace Function
 {
-template< class TInputPixel >
+template< typename TInputPixel >
 class MorphologicalGradientHistogram
 {
 public:
@@ -95,7 +95,7 @@ public:
 };
 
 
-template< class TInputPixel >
+template< typename TInputPixel >
 class VectorMorphologicalGradientHistogram
 {
 public:
@@ -221,7 +221,7 @@ class MorphologicalGradientHistogram<bool>:
  * \ingroup ITKMathematicalMorphology
  */
 
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 class MovingHistogramMorphologicalGradientImageFilter:
   public MovingHistogramImageFilter< TInputImage, TOutputImage, TKernel,
                                      typename  Function::MorphologicalGradientHistogram< typename TInputImage::

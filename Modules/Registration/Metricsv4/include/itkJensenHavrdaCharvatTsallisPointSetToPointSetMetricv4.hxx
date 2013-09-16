@@ -23,7 +23,7 @@
 namespace itk {
 
 /** Constructor */
-template<class TPointSet>
+template<typename TPointSet>
 JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
 ::JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4() :
   m_UseAnisotropicCovariances( false ),
@@ -36,14 +36,14 @@ JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
 }
 
 /** Destructor */
-template<class TPointSet>
+template<typename TPointSet>
 JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
 ::~JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4()
 {
 }
 
 /** Initialize the metric */
-template<class TPointSet>
+template<typename TPointSet>
 void
 JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
 ::Initialize( void ) throw ( ExceptionObject )
@@ -80,7 +80,7 @@ JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
   this->m_MovingDensityFunction->SetInputPointSet( this->m_MovingTransformedPointSet );
 }
 
-template<class TPointSet>
+template<typename TPointSet>
 void
 JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
 ::InitializeForIteration() const
@@ -101,7 +101,7 @@ JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
   this->m_Prefactor1 = 1.0 / ( this->m_TotalNumberOfPoints * this->m_TotalNumberOfPoints );
 }
 
-template<class TPointSet>
+template<typename TPointSet>
 typename JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
 ::MeasureType
 JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
@@ -114,7 +114,7 @@ JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
 }
 
 /** Get both the match Measure and the Derivative Measure  */
-template<class TPointSet>
+template<typename TPointSet>
 void
 JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
 ::GetLocalNeighborhoodValueAndDerivative( const PointType & point, MeasureType & value, LocalDerivativeType & derivative, const PixelType & itkNotUsed( pixel ) ) const
@@ -122,7 +122,7 @@ JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
   this->ComputeValueAndDerivative( point, value, derivative, true, true );
 }
 
-template<class TPointSet>
+template<typename TPointSet>
 void
 JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
 ::ComputeValueAndDerivative( const PointType & samplePoint, MeasureType & value, LocalDerivativeType & derivativeReturn, bool calcValue, bool calcDerivative ) const
@@ -203,7 +203,7 @@ JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
     }
 }
 
-template<class TPointSet>
+template<typename TPointSet>
 ::itk::LightObject::Pointer
 JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
 ::Clone() const
@@ -225,7 +225,7 @@ JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
   return smartPtr;
 }
 
-template<class TPointSet>
+template<typename TPointSet>
 void
 JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
 ::PrintSelf( std::ostream& os, Indent indent ) const

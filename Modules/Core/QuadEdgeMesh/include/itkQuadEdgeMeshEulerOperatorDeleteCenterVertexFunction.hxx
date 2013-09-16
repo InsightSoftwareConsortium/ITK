@@ -22,7 +22,7 @@
 
 namespace itk
 {
-template< class TMesh, class TQEType >
+template< typename TMesh, typename TQEType >
 typename QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction< TMesh, TQEType >::OutputType
 QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction< TMesh, TQEType >::Evaluate(QEType *g)
 {

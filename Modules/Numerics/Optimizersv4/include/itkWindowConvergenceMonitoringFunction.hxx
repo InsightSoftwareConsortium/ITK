@@ -31,19 +31,19 @@ namespace itk
 namespace Function
 {
 
-template<class TScalar>
+template<typename TScalar>
 WindowConvergenceMonitoringFunction<TScalar>
 ::WindowConvergenceMonitoringFunction() :
   m_WindowSize( 10 ),
   m_TotalEnergy( 0 )
 {}
 
-template<class TScalar>
+template<typename TScalar>
 WindowConvergenceMonitoringFunction<TScalar>
 ::~WindowConvergenceMonitoringFunction()
 {}
 
-template<class TScalar>
+template<typename TScalar>
 void
 WindowConvergenceMonitoringFunction<TScalar>
 ::AddEnergyValue( const EnergyValueType value )
@@ -60,7 +60,7 @@ WindowConvergenceMonitoringFunction<TScalar>
   this->Modified();
 }
 
-template<class TScalar>
+template<typename TScalar>
 void
 WindowConvergenceMonitoringFunction<TScalar>
 ::ClearEnergyValues()
@@ -69,7 +69,7 @@ WindowConvergenceMonitoringFunction<TScalar>
   this->m_TotalEnergy = NumericTraits<RealType>::Zero;
 }
 
-template<class TScalar>
+template<typename TScalar>
 typename WindowConvergenceMonitoringFunction<TScalar>::RealType
 WindowConvergenceMonitoringFunction<TScalar>
 ::GetConvergenceValue() const
@@ -139,7 +139,7 @@ WindowConvergenceMonitoringFunction<TScalar>
 /**
  * Standard "PrintSelf" method
  */
-template<class TScalar>
+template<typename TScalar>
 void
 WindowConvergenceMonitoringFunction<TScalar>
 ::PrintSelf( std::ostream& os, Indent indent) const

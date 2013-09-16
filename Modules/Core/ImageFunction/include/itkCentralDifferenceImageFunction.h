@@ -73,9 +73,9 @@ namespace itk
  * \ingroup ITKImageFunction
  */
 template<
-  class TInputImage,
-  class TCoordRep = float,
-  class TOutputType = CovariantVector<double, TInputImage::ImageDimension >
+  typename TInputImage,
+  typename TCoordRep = float,
+  typename TOutputType = CovariantVector<double, TInputImage::ImageDimension >
   >
 class CentralDifferenceImageFunction:
   public ImageFunction< TInputImage,
@@ -224,22 +224,22 @@ private:
   };
 
   /** Specialized versions of EvaluteAtIndex() method to handle scalar or vector pixel types.*/
-  template< class Type >
+  template< typename Type >
   inline void EvaluateAtIndexSpecialized( const IndexType & index, OutputType & derivative, OutputTypeSpecializationStructType<OutputType>) const;
-  template< class Type >
+  template< typename Type >
   inline void EvaluateAtIndexSpecialized( const IndexType & index, OutputType & derivative, OutputTypeSpecializationStructType<Type>) const;
 
   /** Specialized versions of EvaluteAtContinuousIndex() method to handle scalar or vector pixel types.*/
-  template< class Type >
+  template< typename Type >
   inline void EvaluateAtContinuousIndexSpecialized( const ContinuousIndexType & index, OutputType & derivative, OutputTypeSpecializationStructType<OutputType>) const;
-  template< class Type >
+  template< typename Type >
   inline void EvaluateAtContinuousIndexSpecialized( const ContinuousIndexType & index, OutputType & derivative, OutputTypeSpecializationStructType<Type>) const;
 
   /** Specialized versions of Evalute() method to handle scalar or vector pixel types.*/
   // NOTE: for some unknown reason, making these methods inline (as those above are inlined) makes them run *slower*.
-  template< class Type >
+  template< typename Type >
   void EvaluateSpecialized( const PointType & point, OutputType & derivative, OutputTypeSpecializationStructType<OutputType>) const;
-  template< class Type >
+  template< typename Type >
   void EvaluateSpecialized( const PointType & point, OutputType & derivative, OutputTypeSpecializationStructType<Type>) const;
 
   // flag to take or not the image direction into account

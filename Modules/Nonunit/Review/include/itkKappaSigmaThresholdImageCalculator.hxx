@@ -24,7 +24,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TMaskImage >
+template< typename TInputImage, typename TMaskImage >
 KappaSigmaThresholdImageCalculator< TInputImage, TMaskImage >
 ::KappaSigmaThresholdImageCalculator(void)
 {
@@ -37,7 +37,7 @@ KappaSigmaThresholdImageCalculator< TInputImage, TMaskImage >
   this->m_NumberOfIterations = 2;
 }
 
-template< class TInputImage, class TMaskImage >
+template< typename TInputImage, typename TMaskImage >
 void
 KappaSigmaThresholdImageCalculator< TInputImage, TMaskImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -52,7 +52,7 @@ KappaSigmaThresholdImageCalculator< TInputImage, TMaskImage >
   os << indent << "Output: " << this->m_Output << std::endl;
 }
 
-template< class TInputImage, class TMaskImage >
+template< typename TInputImage, typename TMaskImage >
 void
 KappaSigmaThresholdImageCalculator< TInputImage, TMaskImage >
 ::Compute()
@@ -126,7 +126,7 @@ KappaSigmaThresholdImageCalculator< TInputImage, TMaskImage >
   this->m_Valid = true;
 }
 
-template< class TInputImage, class TMaskImage >
+template< typename TInputImage, typename TMaskImage >
 const typename KappaSigmaThresholdImageCalculator< TInputImage, TMaskImage >::InputPixelType &
 KappaSigmaThresholdImageCalculator< TInputImage, TMaskImage >
 ::GetOutput() const

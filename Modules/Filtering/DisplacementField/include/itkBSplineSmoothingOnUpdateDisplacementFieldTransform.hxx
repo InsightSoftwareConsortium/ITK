@@ -31,7 +31,7 @@ namespace itk
 /**
  * Constructor
  */
-template<class TScalar, unsigned int NDimensions>
+template<typename TScalar, unsigned int NDimensions>
 BSplineSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
 ::BSplineSmoothingOnUpdateDisplacementFieldTransform() :
   m_SplineOrder( 3 ),
@@ -44,7 +44,7 @@ BSplineSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
 /**
  * Destructor
  */
-template<class TScalar, unsigned int NDimensions>
+template<typename TScalar, unsigned int NDimensions>
 BSplineSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>::
 ~BSplineSmoothingOnUpdateDisplacementFieldTransform()
 {
@@ -53,7 +53,7 @@ BSplineSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>::
 /**
  * set mesh size for update field
  */
-template<class TScalar, unsigned int NDimensions>
+template<typename TScalar, unsigned int NDimensions>
 void
 BSplineSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
 ::SetMeshSizeForTheUpdateField( const ArrayType &meshSize )
@@ -69,7 +69,7 @@ BSplineSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
 /**
  * set mesh size for total field
  */
-template<class TScalar, unsigned int NDimensions>
+template<typename TScalar, unsigned int NDimensions>
 void
 BSplineSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
 ::SetMeshSizeForTheTotalField( const ArrayType &meshSize )
@@ -82,7 +82,7 @@ BSplineSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
   this->SetNumberOfControlPointsForTheTotalField( numberOfControlPoints );
 }
 
-template<class TScalar, unsigned int NDimensions>
+template<typename TScalar, unsigned int NDimensions>
 void
 BSplineSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
 ::UpdateTransformParameters( const DerivativeType & update, ScalarType factor )
@@ -178,7 +178,7 @@ BSplineSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
 /**
  * set displacement field and project it onto the space of b-spline transforms
  */
-template<class TScalar, unsigned int NDimensions>
+template<typename TScalar, unsigned int NDimensions>
 typename BSplineSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>::DisplacementFieldPointer
 BSplineSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
 ::BSplineSmoothDisplacementField( const DisplacementFieldType * field, const ArrayType &numberOfControlPoints )
@@ -197,7 +197,7 @@ BSplineSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
   return smoothField;
 }
 
-template <class TScalar, unsigned int NDimensions>
+template <typename TScalar, unsigned int NDimensions>
 typename LightObject::Pointer
 BSplineSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
 ::InternalClone() const
@@ -229,7 +229,7 @@ BSplineSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>
   return loPtr;
 }
 
-template <class TScalar, unsigned int NDimensions>
+template <typename TScalar, unsigned int NDimensions>
 void
 BSplineSmoothingOnUpdateDisplacementFieldTransform<TScalar, NDimensions>::
 PrintSelf( std::ostream& os, Indent indent ) const

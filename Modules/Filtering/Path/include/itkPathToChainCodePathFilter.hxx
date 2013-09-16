@@ -25,7 +25,7 @@ namespace itk
 /**
  * Constructor
  */
-template< class TInputPath, class TOutputChainCodePath >
+template< typename TInputPath, typename TOutputChainCodePath >
 PathToChainCodePathFilter< TInputPath, TOutputChainCodePath >
 ::PathToChainCodePathFilter()
 {
@@ -36,7 +36,7 @@ PathToChainCodePathFilter< TInputPath, TOutputChainCodePath >
 /**
  * GenerateData Performs the reflection
  */
-template< class TInputPath, class TOutputChainCodePath >
+template< typename TInputPath, typename TOutputChainCodePath >
 void
 PathToChainCodePathFilter< TInputPath, TOutputChainCodePath >
 ::GenerateData(void)
@@ -87,7 +87,7 @@ PathToChainCodePathFilter< TInputPath, TOutputChainCodePath >
     }
 }
 
-template< class TInputPath, class TOutputChainCodePath >
+template< typename TInputPath, typename TOutputChainCodePath >
 void
 PathToChainCodePathFilter< TInputPath, TOutputChainCodePath >
 ::PrintSelf(std::ostream & os, Indent indent) const

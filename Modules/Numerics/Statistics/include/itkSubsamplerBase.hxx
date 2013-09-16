@@ -22,7 +22,7 @@
 namespace itk {
 namespace Statistics {
 
-template <class TSample>
+template <typename TSample>
 SubsamplerBase<TSample>
 ::SubsamplerBase()
 {
@@ -32,7 +32,7 @@ SubsamplerBase<TSample>
   m_Seed =  0;
 }
 
-template <class TSample>
+template <typename TSample>
 typename LightObject::Pointer
 SubsamplerBase<TSample>
 ::InternalClone() const
@@ -54,7 +54,7 @@ SubsamplerBase<TSample>
   return loPtr;
 }
 
-template <class TSample>
+template <typename TSample>
 void
 SubsamplerBase<TSample>
 ::PrintSelf(std::ostream& os, Indent indent) const

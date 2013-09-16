@@ -27,7 +27,7 @@ namespace itk
 /**
  * Define the number of neighbors
  */
-template< class TInputImage, class TCoordRep >
+template< typename TInputImage, typename TCoordRep >
 const unsigned int
 VectorLinearInterpolateNearestNeighborExtrapolateImageFunction< TInputImage, TCoordRep >
 ::m_Neighbors = 1 << TInputImage::ImageDimension;
@@ -35,7 +35,7 @@ VectorLinearInterpolateNearestNeighborExtrapolateImageFunction< TInputImage, TCo
 /**
  * Constructor
  */
-template< class TInputImage, class TCoordRep >
+template< typename TInputImage, typename TCoordRep >
 VectorLinearInterpolateNearestNeighborExtrapolateImageFunction< TInputImage, TCoordRep >
 ::VectorLinearInterpolateNearestNeighborExtrapolateImageFunction()
 {}
@@ -43,7 +43,7 @@ VectorLinearInterpolateNearestNeighborExtrapolateImageFunction< TInputImage, TCo
 /**
  * PrintSelf
  */
-template< class TInputImage, class TCoordRep >
+template< typename TInputImage, typename TCoordRep >
 void
 VectorLinearInterpolateNearestNeighborExtrapolateImageFunction< TInputImage, TCoordRep >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -54,7 +54,7 @@ VectorLinearInterpolateNearestNeighborExtrapolateImageFunction< TInputImage, TCo
 /**
  * Evaluate at image index position
  */
-template< class TInputImage, class TCoordRep >
+template< typename TInputImage, typename TCoordRep >
 typename VectorLinearInterpolateNearestNeighborExtrapolateImageFunction< TInputImage, TCoordRep >
 ::OutputType
 VectorLinearInterpolateNearestNeighborExtrapolateImageFunction< TInputImage, TCoordRep >
@@ -150,7 +150,7 @@ VectorLinearInterpolateNearestNeighborExtrapolateImageFunction< TInputImage, TCo
 /**
  * Evaluate at image index position
  */
-template< class TInputImage, class TCoordRep >
+template< typename TInputImage, typename TCoordRep >
 typename VectorLinearInterpolateNearestNeighborExtrapolateImageFunction< TInputImage, TCoordRep >
 ::OutputType
 VectorLinearInterpolateNearestNeighborExtrapolateImageFunction< TInputImage, TCoordRep >

@@ -42,7 +42,7 @@ namespace Statistics
  * \ingroup ITKStatistics
  */
 
-template< class TVectorContainer >
+template< typename TVectorContainer >
 class VectorContainerToListSampleAdaptor:
   public ListSample< typename TVectorContainer::Element >
 {

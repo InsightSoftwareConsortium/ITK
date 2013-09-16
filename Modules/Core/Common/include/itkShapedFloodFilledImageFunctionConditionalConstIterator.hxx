@@ -22,7 +22,7 @@
 
 namespace itk
 {
-template< class TImage, class TFunction >
+template< typename TImage, typename TFunction >
 bool
 ShapedFloodFilledImageFunctionConditionalConstIterator< TImage, TFunction >
 ::IsPixelIncluded(const IndexType & index) const

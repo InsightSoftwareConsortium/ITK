@@ -31,7 +31,7 @@ namespace itk
  * to an entry in the edge ring.
  * \ingroup ITKQuadEdgeMesh
  */
-template< class TCoordRep, unsigned int VPointDimension, typename TQuadEdge =
+template< typename TCoordRep, unsigned int VPointDimension, typename TQuadEdge =
             GeometricalQuadEdge< unsigned long, unsigned long, bool, bool, true > >
 class QuadEdgeMeshPoint:public Point< TCoordRep, VPointDimension >
 {

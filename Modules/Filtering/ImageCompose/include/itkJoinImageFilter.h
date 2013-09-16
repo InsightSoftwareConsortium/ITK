@@ -44,7 +44,7 @@ namespace Functor
  * cases, the join value type is promoted to a float.
  * \ingroup ITKImageCompose
  */
-template< class TPixel1, class TPixel2 >
+template< typename TPixel1, typename TPixel2 >
 class JoinFunctor
 {
 public:
@@ -200,7 +200,7 @@ struct MakeJoin {
  * \wikiexample{VectorImages/JoinImageFilter,Join images\, stacking their components}
  * \endwiki
  */
-template< class TInputImage1, class TInputImage2 >
+template< typename TInputImage1, typename TInputImage2 >
 class JoinImageFilter:
   public BinaryFunctorImageFilter< TInputImage1,
                                    TInputImage2,

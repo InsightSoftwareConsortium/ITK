@@ -23,7 +23,7 @@
 
 namespace itk
 {
-template< class TDataContainer >
+template< typename TDataContainer >
 ClassifierBase< TDataContainer >
 ::ClassifierBase()
 {
@@ -32,12 +32,12 @@ ClassifierBase< TDataContainer >
   m_MembershipFunctions.resize(0);
 }
 
-template< class TDataContainer >
+template< typename TDataContainer >
 ClassifierBase< TDataContainer >
 ::~ClassifierBase()
 {}
 
-template< class TDataContainer >
+template< typename TDataContainer >
 void
 ClassifierBase< TDataContainer >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -62,7 +62,7 @@ ClassifierBase< TDataContainer >
     }
 }
 
-template< class TDataContainer >
+template< typename TDataContainer >
 void
 ClassifierBase< TDataContainer >
 ::Update()
@@ -88,7 +88,7 @@ ClassifierBase< TDataContainer >
   this->GenerateData();
 }
 
-template< class TDataContainer >
+template< typename TDataContainer >
 unsigned int
 ClassifierBase< TDataContainer >
 ::AddMembershipFunction(MembershipFunctionType *function)

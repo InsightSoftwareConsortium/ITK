@@ -38,7 +38,7 @@ namespace itk
  * \ingroup Numerics
  * \ingroup ITKStatistics
  */
-template< class T, unsigned int VEstimatorDimension >
+template< typename T, unsigned int VEstimatorDimension >
 class KalmanLinearEstimator
 {
 public:
@@ -131,7 +131,7 @@ private:
   MatrixType m_Variance;
 };
 
-template< class T, unsigned int VEstimatorDimension >
+template< typename T, unsigned int VEstimatorDimension >
 void
 KalmanLinearEstimator< T, VEstimatorDimension >
 ::UpdateWithNewMeasure(const ValueType  & newMeasure,
@@ -151,7 +151,7 @@ KalmanLinearEstimator< T, VEstimatorDimension >
   UpdateVariance(newPredictor);
 }
 
-template< class T, unsigned int VEstimatorDimension >
+template< typename T, unsigned int VEstimatorDimension >
 void
 KalmanLinearEstimator< T, VEstimatorDimension >
 ::UpdateVariance(const VectorType & newPredictor)

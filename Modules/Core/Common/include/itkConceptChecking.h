@@ -124,7 +124,7 @@ inline void IgnoreUnusedVariable(T) {}
  * Passing the expression to this function will enforce this requirement.
  * (BOOST)
  */
-template< class T >
+template< typename T >
 void RequireBooleanExpression(const T & t)
 {
   bool x = t;

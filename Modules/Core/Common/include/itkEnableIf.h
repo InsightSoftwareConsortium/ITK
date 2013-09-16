@@ -50,9 +50,9 @@ namespace itk
  * \endcode
  *
  */
-template <bool V, class T = void> struct EnableIfC {};
+template <bool V, typename T = void> struct EnableIfC {};
 /** \cond SPECIALIZATION_IMPLEMENTATION */
-template <class T> struct EnableIfC<true, T> { typedef T Type; };
+template <typename T> struct EnableIfC<true, T> { typedef T Type; };
 /**\endcond*/
 
 
@@ -60,9 +60,9 @@ template <class T> struct EnableIfC<true, T> { typedef T Type; };
  *
  * \sa EnableIf
  */
-template <bool V, class T = void> struct DisableIfC {};
+template <bool V, typename T = void> struct DisableIfC {};
 /** \cond SPECIALIZATION_IMPLEMENTATION */
-template <class T> struct DisableIfC<false, T> { typedef T Type; };
+template <typename T> struct DisableIfC<false, T> { typedef T Type; };
 /**\endcond*/
 
 }

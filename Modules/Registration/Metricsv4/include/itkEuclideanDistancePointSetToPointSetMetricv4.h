@@ -38,7 +38,7 @@ namespace itk
  *
  * \ingroup ITKMetricsv4
  */
-template<class TFixedPointSet, class TMovingPointSet = TFixedPointSet>
+template<typename TFixedPointSet, typename TMovingPointSet = TFixedPointSet>
 class EuclideanDistancePointSetToPointSetMetricv4:
   public PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
 {

@@ -59,7 +59,7 @@ namespace itk
  * \wikiexample{ImageProcessing/ZeroCrossingImageFilter,Find zero crossings in a signed image}
  * \endwiki
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class ZeroCrossingImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {

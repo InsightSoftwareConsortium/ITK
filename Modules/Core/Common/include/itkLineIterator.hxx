@@ -22,13 +22,13 @@
 
 namespace itk
 {
-template< class TImage >
+template< typename TImage >
 LineIterator< TImage >
 ::LineIterator(ImageType *imagePtr, const IndexType & firstIndex, const IndexType & lastIndex):
   LineConstIterator< TImage >(imagePtr, firstIndex, lastIndex)
 {}
 
-template< class TImage >
+template< typename TImage >
 LineIterator< TImage > &
 LineIterator< TImage >
 ::operator=(const Self & it)

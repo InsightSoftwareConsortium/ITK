@@ -27,7 +27,7 @@ namespace itk
 /**
  * Constructor
  */
-template< class TImage >
+template< typename TImage >
 FlipImageFilter< TImage >
 ::FlipImageFilter()
 {
@@ -38,7 +38,7 @@ FlipImageFilter< TImage >
 /**
  * PrintSelf
  */
-template< class TImage >
+template< typename TImage >
 void
 FlipImageFilter< TImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -52,7 +52,7 @@ FlipImageFilter< TImage >
  * The output image meta information is obtained by permuting
  * the input image meta information.
  */
-template< class TImage >
+template< typename TImage >
 void
 FlipImageFilter< TImage >
 ::GenerateOutputInformation()
@@ -136,7 +136,7 @@ FlipImageFilter< TImage >
  * The required input requested region is obtained by permuting
  * the index and size of the output requested region
  */
-template< class TImage >
+template< typename TImage >
 void
 FlipImageFilter< TImage >
 ::GenerateInputRequestedRegion()
@@ -187,7 +187,7 @@ FlipImageFilter< TImage >
 /**
  *
  */
-template< class TImage >
+template< typename TImage >
 void
 FlipImageFilter< TImage >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,

@@ -135,7 +135,7 @@ namespace itk
  * \ingroup ITKConvolution
  */
 
-template <class TInputImage, class TOutputImage, class TMaskImage=TInputImage >
+template <typename TInputImage, typename TOutputImage, typename TMaskImage=TInputImage >
 class MaskedFFTNormalizedCorrelationImageFilter :
     public ImageToImageFilter< TInputImage, TOutputImage >
 {
@@ -278,29 +278,29 @@ protected:
 
   typename TInputImage::Pointer PreProcessImage( const InputImageType * inputImage, const MaskImageType * inputMask );
 
-  template< class LocalInputImageType >
+  template< typename LocalInputImageType >
   typename LocalInputImageType::Pointer RotateImage( LocalInputImageType * inputImage );
 
-  template< class LocalInputImageType, class LocalOutputImageType >
+  template< typename LocalInputImageType, typename LocalOutputImageType >
   typename LocalOutputImageType::Pointer CalculateForwardFFT( LocalInputImageType * inputImage, InputSizeType & FFTImageSize );
 
-  template< class LocalInputImageType, class LocalOutputImageType >
+  template< typename LocalInputImageType, typename LocalOutputImageType >
   typename LocalOutputImageType::Pointer CalculateInverseFFT( LocalInputImageType * inputImage, RealSizeType & combinedImageSize );
 
   // Helper math methods.
-  template< class LocalInputImageType, class LocalOutputImageType >
+  template< typename LocalInputImageType, typename LocalOutputImageType >
   typename LocalOutputImageType::Pointer ElementProduct( LocalInputImageType * inputImage1, LocalInputImageType * inputImage2 );
 
-  template< class LocalInputImageType >
+  template< typename LocalInputImageType >
   typename LocalInputImageType::Pointer ElementQuotient( LocalInputImageType * inputImage1, LocalInputImageType * inputImage2 );
 
-  template< class LocalInputImageType >
+  template< typename LocalInputImageType >
   typename LocalInputImageType::Pointer ElementSubtraction( LocalInputImageType * inputImage1, LocalInputImageType * inputImage2 );
 
-  template< class LocalInputImageType >
+  template< typename LocalInputImageType >
   typename LocalInputImageType::Pointer ElementPositive( LocalInputImageType * inputImage );
 
-  template< class LocalInputImageType, class LocalOutputImageType >
+  template< typename LocalInputImageType, typename LocalOutputImageType >
   typename LocalOutputImageType::Pointer ElementRound( LocalInputImageType * inputImage );
 
   // This function factorizes the image size uses factors of 2, 3, and
@@ -312,7 +312,7 @@ protected:
   // will be a combination of 2s, 3s, and 5s.
   int FindClosestValidDimension( int n );
 
-  template< class LocalInputImageType >
+  template< typename LocalInputImageType >
   double CalculatePrecisionTolerance( LocalInputImageType * inputImage );
 
 private:

@@ -24,12 +24,12 @@ namespace itk
 {
 namespace Statistics
 {
-template< class TSample >
+template< typename TSample >
 WeightedCentroidKdTreeGenerator< TSample >
 ::WeightedCentroidKdTreeGenerator()
 {}
 
-template< class TSample >
+template< typename TSample >
 void
 WeightedCentroidKdTreeGenerator< TSample >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -37,7 +37,7 @@ WeightedCentroidKdTreeGenerator< TSample >
   Superclass::PrintSelf(os, indent);
 }
 
-template< class TSample >
+template< typename TSample >
 inline typename WeightedCentroidKdTreeGenerator< TSample >::KdTreeNodeType *
 WeightedCentroidKdTreeGenerator< TSample >
 ::GenerateNonterminalNode(unsigned int beginIndex,

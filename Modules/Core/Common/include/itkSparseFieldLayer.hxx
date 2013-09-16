@@ -23,7 +23,7 @@
 
 namespace itk
 {
-template< class TNodeType >
+template< typename TNodeType >
 SparseFieldLayer< TNodeType >
 ::SparseFieldLayer()
 {
@@ -33,14 +33,14 @@ SparseFieldLayer< TNodeType >
   m_Size = 0;
 }
 
-template< class TNodeType >
+template< typename TNodeType >
 SparseFieldLayer< TNodeType >
 ::~SparseFieldLayer()
 {
   delete m_HeadNode;
 }
 
-template< class TNodeType >
+template< typename TNodeType >
 void
 SparseFieldLayer< TNodeType >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -51,7 +51,7 @@ SparseFieldLayer< TNodeType >
   os << indent << "Empty? : " << this->Empty() << std::endl;
 }
 
-template< class TNodeType >
+template< typename TNodeType >
 unsigned int
 SparseFieldLayer< TNodeType >
 ::Size() const
@@ -59,7 +59,7 @@ SparseFieldLayer< TNodeType >
   return m_Size;
 }
 
-template< class TNodeType >
+template< typename TNodeType >
 typename SparseFieldLayer< TNodeType >::RegionListType
 SparseFieldLayer< TNodeType >
 ::SplitRegions(int num) const

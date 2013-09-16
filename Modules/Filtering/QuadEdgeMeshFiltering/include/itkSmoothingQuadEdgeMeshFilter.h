@@ -28,7 +28,7 @@ namespace itk
  * \brief Quad Edge Mesh Smoothing Filter
  * \ingroup ITKQuadEdgeMeshFiltering
  */
-template< class TInputMesh, class TOutputMesh=TInputMesh >
+template< typename TInputMesh, typename TOutputMesh=TInputMesh >
 class SmoothingQuadEdgeMeshFilter:
   public QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 {

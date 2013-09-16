@@ -28,7 +28,7 @@
 #include "itkTimeVaryingVelocityFieldTransformParametersAdaptor.h"
 #include "itkVector.h"
 
-template<class TFilter>
+template<typename TFilter>
 class CommandIterationUpdate : public itk::Command
 {
 public:

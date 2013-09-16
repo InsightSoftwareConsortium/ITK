@@ -34,7 +34,7 @@
 namespace itk
 {
 
-template< class TInputImage, class TLevelSet >
+template< typename TInputImage, typename TLevelSet >
 VTKVisualize2DLevelSetAsElevationMap< TInputImage, TLevelSet >
 ::VTKVisualize2DLevelSetAsElevationMap()
 {
@@ -68,13 +68,13 @@ VTKVisualize2DLevelSetAsElevationMap< TInputImage, TLevelSet >
   this->m_Renderer->AddActor( this->m_SurfaceActor );
 }
 
-template< class TInputImage, class TLevelSet >
+template< typename TInputImage, typename TLevelSet >
 VTKVisualize2DLevelSetAsElevationMap< TInputImage, TLevelSet >
 ::~VTKVisualize2DLevelSetAsElevationMap()
 {
 }
 
-template< class TInputImage, class TLevelSet >
+template< typename TInputImage, typename TLevelSet >
 void
 VTKVisualize2DLevelSetAsElevationMap< TInputImage, TLevelSet >
 ::SetLevelSet( LevelSetType * levelSet )
@@ -82,7 +82,7 @@ VTKVisualize2DLevelSetAsElevationMap< TInputImage, TLevelSet >
   this->m_LevelSet = levelSet;
 }
 
-template< class TInputImage, class TLevelSet >
+template< typename TInputImage, typename TLevelSet >
 void
 VTKVisualize2DLevelSetAsElevationMap< TInputImage, TLevelSet >
 ::PrepareVTKPipeline()
@@ -105,7 +105,7 @@ VTKVisualize2DLevelSetAsElevationMap< TInputImage, TLevelSet >
     }
 }
 
-template< class TInputImage, class TLevelSet >
+template< typename TInputImage, typename TLevelSet >
 void
 VTKVisualize2DLevelSetAsElevationMap< TInputImage, TLevelSet >
 ::GenerateElevationMap()

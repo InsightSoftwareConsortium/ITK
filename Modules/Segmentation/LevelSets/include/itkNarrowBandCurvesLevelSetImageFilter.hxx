@@ -22,7 +22,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TFeatureImage, class TOutputType >
+template< typename TInputImage, typename TFeatureImage, typename TOutputType >
 NarrowBandCurvesLevelSetImageFilter< TInputImage, TFeatureImage, TOutputType >
 ::NarrowBandCurvesLevelSetImageFilter()
 {
@@ -36,7 +36,7 @@ NarrowBandCurvesLevelSetImageFilter< TInputImage, TFeatureImage, TOutputType >
   this->ReverseExpansionDirectionOff();
 }
 
-template< class TInputImage, class TFeatureImage, class TOutputType >
+template< typename TInputImage, typename TFeatureImage, typename TOutputType >
 void
 NarrowBandCurvesLevelSetImageFilter< TInputImage, TFeatureImage, TOutputType >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -45,7 +45,7 @@ NarrowBandCurvesLevelSetImageFilter< TInputImage, TFeatureImage, TOutputType >
   os << "CurvesFunction: " << m_CurvesFunction.GetPointer();
 }
 
-template< class TInputImage, class TFeatureImage, class TOutputType >
+template< typename TInputImage, typename TFeatureImage, typename TOutputType >
 void
 NarrowBandCurvesLevelSetImageFilter< TInputImage, TFeatureImage, TOutputType >
 ::GenerateData()

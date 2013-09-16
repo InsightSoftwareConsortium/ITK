@@ -23,7 +23,7 @@
 
 namespace itk
 {
-template< class THistogram, class TOutput >
+template< typename THistogram, typename TOutput >
 void
 OtsuThresholdCalculator< THistogram, TOutput >
 ::GenerateData(void)

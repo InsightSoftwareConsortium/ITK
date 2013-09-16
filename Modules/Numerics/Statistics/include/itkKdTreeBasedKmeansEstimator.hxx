@@ -25,7 +25,7 @@ namespace itk
 {
 namespace Statistics
 {
-template< class TKdTree >
+template< typename TKdTree >
 KdTreeBasedKmeansEstimator< TKdTree >
 ::KdTreeBasedKmeansEstimator()
 {
@@ -43,7 +43,7 @@ KdTreeBasedKmeansEstimator< TKdTree >
   m_MeasurementVectorSize = 0;
 }
 
-template< class TKdTree >
+template< typename TKdTree >
 void
 KdTreeBasedKmeansEstimator< TKdTree >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -75,7 +75,7 @@ KdTreeBasedKmeansEstimator< TKdTree >
   os << indent << "UseClusterLabels: " << this->GetUseClusterLabels() << std::endl;
 }
 
-template< class TKdTree >
+template< typename TKdTree >
 double
 KdTreeBasedKmeansEstimator< TKdTree >
 ::GetSumOfSquaredPositionChanges(InternalParametersType & previous,
@@ -93,7 +93,7 @@ KdTreeBasedKmeansEstimator< TKdTree >
   return sum;
 }
 
-template< class TKdTree >
+template< typename TKdTree >
 inline int
 KdTreeBasedKmeansEstimator< TKdTree >
 ::GetClosestCandidate(ParameterType & measurements,
@@ -119,7 +119,7 @@ KdTreeBasedKmeansEstimator< TKdTree >
   return closest;
 }
 
-template< class TKdTree >
+template< typename TKdTree >
 inline bool
 KdTreeBasedKmeansEstimator< TKdTree >
 ::IsFarther(ParameterType & pointA,
@@ -150,7 +150,7 @@ KdTreeBasedKmeansEstimator< TKdTree >
   return false;
 }
 
-template< class TKdTree >
+template< typename TKdTree >
 inline void
 KdTreeBasedKmeansEstimator< TKdTree >
 ::Filter(KdTreeNodeType *node,
@@ -259,7 +259,7 @@ KdTreeBasedKmeansEstimator< TKdTree >
     }
 }
 
-template< class TKdTree >
+template< typename TKdTree >
 void
 KdTreeBasedKmeansEstimator< TKdTree >
 ::FillClusterLabels(KdTreeNodeType *node, int closestIndex)
@@ -287,7 +287,7 @@ KdTreeBasedKmeansEstimator< TKdTree >
     }
 }
 
-template< class TKdTree >
+template< typename TKdTree >
 void
 KdTreeBasedKmeansEstimator< TKdTree >
 ::CopyParameters(ParametersType & source, InternalParametersType & target)
@@ -305,7 +305,7 @@ KdTreeBasedKmeansEstimator< TKdTree >
     }
 }
 
-template< class TKdTree >
+template< typename TKdTree >
 void
 KdTreeBasedKmeansEstimator< TKdTree >
 ::CopyParameters(InternalParametersType & source, ParametersType & target)
@@ -323,7 +323,7 @@ KdTreeBasedKmeansEstimator< TKdTree >
     }
 }
 
-template< class TKdTree >
+template< typename TKdTree >
 void
 KdTreeBasedKmeansEstimator< TKdTree >
 ::CopyParameters(InternalParametersType & source, InternalParametersType & target)
@@ -339,7 +339,7 @@ KdTreeBasedKmeansEstimator< TKdTree >
     }
 }
 
-template< class TKdTree >
+template< typename TKdTree >
 void
 KdTreeBasedKmeansEstimator< TKdTree >
 ::StartOptimization()
@@ -425,7 +425,7 @@ KdTreeBasedKmeansEstimator< TKdTree >
   this->CopyParameters(currentPosition, m_Parameters);
 }
 
-template< class TKdTree >
+template< typename TKdTree >
 void
 KdTreeBasedKmeansEstimator< TKdTree >
 ::SetKdTree(TKdTree *tree)
@@ -437,7 +437,7 @@ KdTreeBasedKmeansEstimator< TKdTree >
   this->Modified();
 }
 
-template< class TKdTree >
+template< typename TKdTree >
 const TKdTree *
 KdTreeBasedKmeansEstimator< TKdTree >
 ::GetKdTree() const
@@ -445,7 +445,7 @@ KdTreeBasedKmeansEstimator< TKdTree >
   return m_KdTree.GetPointer();
 }
 
-template< class TKdTree >
+template< typename TKdTree >
 const typename KdTreeBasedKmeansEstimator< TKdTree >::MembershipFunctionVectorObjectType *
 KdTreeBasedKmeansEstimator< TKdTree >
 ::GetOutput() const
@@ -474,7 +474,7 @@ KdTreeBasedKmeansEstimator< TKdTree >
   return static_cast< const MembershipFunctionVectorObjectType * >( m_MembershipFunctionsObject );
 }
 
-template< class TKdTree >
+template< typename TKdTree >
 void
 KdTreeBasedKmeansEstimator< TKdTree >
 ::GetPoint(ParameterType & point,
@@ -486,7 +486,7 @@ KdTreeBasedKmeansEstimator< TKdTree >
     }
 }
 
-template< class TKdTree >
+template< typename TKdTree >
 void
 KdTreeBasedKmeansEstimator< TKdTree >
 ::PrintPoint(ParameterType & point)

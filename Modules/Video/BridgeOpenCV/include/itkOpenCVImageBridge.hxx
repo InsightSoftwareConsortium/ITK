@@ -26,7 +26,7 @@ namespace itk
 //
 // IplImageToITKImage
 //
-template<class TOutputImageType>
+template<typename TOutputImageType>
 typename TOutputImageType::Pointer
 OpenCVImageBridge::IplImageToITKImage(const IplImage* in)
 {
@@ -93,7 +93,7 @@ OpenCVImageBridge::IplImageToITKImage(const IplImage* in)
 //
 // CVMatToITKImage
 //
-template<class TOutputImageType>
+template<typename TOutputImageType>
 typename TOutputImageType::Pointer
 OpenCVImageBridge::CVMatToITKImage(const cv::Mat & in)
 {
@@ -104,7 +104,7 @@ OpenCVImageBridge::CVMatToITKImage(const cv::Mat & in)
 //
 // ITKImageToIplImage
 //
-template<class TInputImageType>
+template<typename TInputImageType>
 IplImage*
 OpenCVImageBridge::ITKImageToIplImage(const TInputImageType* in, bool force3Channels)
 {
@@ -252,7 +252,7 @@ OpenCVImageBridge::ITKImageToIplImage(const TInputImageType* in, bool force3Chan
 //
 // ITKImageToIplImage
 //
-template<class TInputImageType>
+template<typename TInputImageType>
 cv::Mat
 OpenCVImageBridge::ITKImageToCVMat(const TInputImageType* in, bool force3Channels)
 {

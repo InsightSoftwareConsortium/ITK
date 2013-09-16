@@ -27,9 +27,9 @@
 
 namespace itk
 {
-template< class TReferenceImagePixelType,
-          class TGradientImagePixelType, class TTensorPixelType,
-          class TMaskImageType >
+template< typename TReferenceImagePixelType,
+          typename TGradientImagePixelType, typename TTensorPixelType,
+          typename TMaskImageType >
 DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
                                             TGradientImagePixelType,
                                             TTensorPixelType,
@@ -49,9 +49,9 @@ DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
   m_MaskImagePresent = false;
 }
 
-template< class TReferenceImagePixelType,
-          class TGradientImagePixelType, class TTensorPixelType,
-          class TMaskImageType >
+template< typename TReferenceImagePixelType,
+          typename TGradientImagePixelType, typename TTensorPixelType,
+          typename TMaskImageType >
 void DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
                                                  TGradientImagePixelType,
                                                  TTensorPixelType,
@@ -173,9 +173,9 @@ void DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
 //
 // Until we fix netlib svd routines, we will need to set the number of thread
 // to 1.
-template< class TReferenceImagePixelType,
-          class TGradientImagePixelType, class TTensorPixelType,
-          class TMaskImageType >
+template< typename TReferenceImagePixelType,
+          typename TGradientImagePixelType, typename TTensorPixelType,
+          typename TMaskImageType >
 void DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
                                                  TGradientImagePixelType,
                                                  TTensorPixelType,
@@ -424,9 +424,9 @@ void DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
     }
 }
 
-template< class TReferenceImagePixelType,
-          class TGradientImagePixelType, class TTensorPixelType,
-          class TMaskImageType >
+template< typename TReferenceImagePixelType,
+          typename TGradientImagePixelType, typename TTensorPixelType,
+          typename TMaskImageType >
 void DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
                                                  TGradientImagePixelType,
                                                  TTensorPixelType,
@@ -479,9 +479,9 @@ void DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
   m_BMatrix.inplace_transpose();
 }
 
-template< class TReferenceImagePixelType,
-          class TGradientImagePixelType, class TTensorPixelType,
-          class TMaskImageType >
+template< typename TReferenceImagePixelType,
+          typename TGradientImagePixelType, typename TTensorPixelType,
+          typename TMaskImageType >
 const Image<TGradientImagePixelType,3> *
 DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
                                                  TGradientImagePixelType,
@@ -500,9 +500,9 @@ DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
     (this->ProcessObject::GetInput(index+2));
 }
 
-template< class TReferenceImagePixelType,
-          class TGradientImagePixelType, class TTensorPixelType,
-          class TMaskImageType >
+template< typename TReferenceImagePixelType,
+          typename TGradientImagePixelType, typename TTensorPixelType,
+          typename TMaskImageType >
 void DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
                                                  TGradientImagePixelType,
                                                  TTensorPixelType,
@@ -533,9 +533,9 @@ void DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
   m_GradientImageTypeEnumeration = GradientIsInManyImages;
 }
 
-template< class TReferenceImagePixelType,
-          class TGradientImagePixelType, class TTensorPixelType,
-          class TMaskImageType >
+template< typename TReferenceImagePixelType,
+          typename TGradientImagePixelType, typename TTensorPixelType,
+          typename TMaskImageType >
 void DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
                                                  TGradientImagePixelType,
                                                  TTensorPixelType,
@@ -585,9 +585,9 @@ void DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
   m_GradientImageTypeEnumeration = GradientIsInASingleImage;
 }
 
-template< class TReferenceImagePixelType,
-          class TGradientImagePixelType, class TTensorPixelType,
-          class TMaskImageType >
+template< typename TReferenceImagePixelType,
+          typename TGradientImagePixelType, typename TTensorPixelType,
+          typename TMaskImageType >
 void
 DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
                                                  TGradientImagePixelType,
@@ -599,9 +599,9 @@ DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
   this->m_MaskImagePresent = true;
 }
 
-template< class TReferenceImagePixelType,
-          class TGradientImagePixelType, class TTensorPixelType,
-          class TMaskImageType >
+template< typename TReferenceImagePixelType,
+          typename TGradientImagePixelType, typename TTensorPixelType,
+          typename TMaskImageType >
 void
 DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
                                                  TGradientImagePixelType,
@@ -615,9 +615,9 @@ DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
   this->SetMaskSpatialObject(maskSpatialObject.GetPointer());
 }
 
-template< class TReferenceImagePixelType,
-          class TGradientImagePixelType, class TTensorPixelType,
-          class TMaskImageType >
+template< typename TReferenceImagePixelType,
+          typename TGradientImagePixelType, typename TTensorPixelType,
+          typename TMaskImageType >
 void DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
                                                  TGradientImagePixelType,
                                                  TTensorPixelType,

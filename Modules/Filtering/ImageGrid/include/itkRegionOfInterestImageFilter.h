@@ -49,7 +49,7 @@ namespace itk
  * \wikiexample{ImageProcessing/RegionOfInterestImageFilter,Extract a portion of an image (region of interest)}
  * \endwiki
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class RegionOfInterestImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {

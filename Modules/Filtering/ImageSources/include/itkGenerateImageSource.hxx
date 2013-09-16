@@ -23,7 +23,7 @@
 
 namespace itk {
 
-template< class TOutputImage >
+template< typename TOutputImage >
 GenerateImageSource< TOutputImage >
 ::GenerateImageSource()
   : m_Spacing( 1.0 ),
@@ -35,7 +35,7 @@ GenerateImageSource< TOutputImage >
 
 
 //----------------------------------------------------------------------------
-template< class TOutputImage >
+template< typename TOutputImage >
 void
 GenerateImageSource< TOutputImage >
 ::GenerateOutputInformation()
@@ -55,7 +55,7 @@ GenerateImageSource< TOutputImage >
   output->SetDirection(this->m_Direction);
 }
 
-template< class TOutputImage >
+template< typename TOutputImage >
 void
 GenerateImageSource< TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

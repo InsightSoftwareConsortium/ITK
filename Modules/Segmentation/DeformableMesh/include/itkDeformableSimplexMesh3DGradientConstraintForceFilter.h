@@ -82,7 +82,7 @@ public:
  * \ingroup ITKDeformableMesh
  */
 
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 class DeformableSimplexMesh3DGradientConstraintForceFilter :
   public DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
 {

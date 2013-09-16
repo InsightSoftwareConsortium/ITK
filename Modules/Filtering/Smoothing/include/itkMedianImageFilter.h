@@ -48,7 +48,7 @@ namespace itk
  * \wikiexample{Smoothing/RGBMedianImageFilter,Median filter an RGB image}
  * \endwiki
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class MedianImageFilter:
   public BoxImageFilter< TInputImage, TOutputImage >
 {

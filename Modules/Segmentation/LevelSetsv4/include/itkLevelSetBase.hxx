@@ -26,13 +26,13 @@
 namespace itk
 {
 
-template< class TInput, unsigned int VDimension, typename TOutput, class TDomain >
+template< typename TInput, unsigned int VDimension, typename TOutput, typename TDomain >
 LevelSetBase< TInput, VDimension, TOutput, TDomain >
 ::LevelSetBase()
   {}
 
 // ----------------------------------------------------------------------------
-template< class TInput, unsigned int VDimension, typename TOutput, class TDomain >
+template< typename TInput, unsigned int VDimension, typename TOutput, typename TDomain >
 bool
 LevelSetBase< TInput, VDimension, TOutput, TDomain >
 ::IsInside( const InputType& iP ) const
@@ -41,7 +41,7 @@ LevelSetBase< TInput, VDimension, TOutput, TDomain >
 }
 
 // ----------------------------------------------------------------------------
-template< class TInput, unsigned int VDimension, typename TOutput, class TDomain >
+template< typename TInput, unsigned int VDimension, typename TOutput, typename TDomain >
 void
 LevelSetBase< TInput, VDimension, TOutput, TDomain >
 ::Initialize()
@@ -50,7 +50,7 @@ LevelSetBase< TInput, VDimension, TOutput, TDomain >
 }
 
 // ----------------------------------------------------------------------------
-template< class TInput, unsigned int VDimension, typename TOutput, class TDomain >
+template< typename TInput, unsigned int VDimension, typename TOutput, typename TDomain >
 void
 LevelSetBase< TInput, VDimension, TOutput, TDomain >
 ::EvaluateGradientNorm( const InputType& iP, LevelSetDataType& ioData ) const
@@ -68,7 +68,7 @@ LevelSetBase< TInput, VDimension, TOutput, TDomain >
 }
 
 // ----------------------------------------------------------------------------
-template< class TInput, unsigned int VDimension, typename TOutput, class TDomain >
+template< typename TInput, unsigned int VDimension, typename TOutput, typename TDomain >
 typename
 LevelSetBase< TInput, VDimension, TOutput, TDomain >
 ::OutputRealType
@@ -80,7 +80,7 @@ LevelSetBase< TInput, VDimension, TOutput, TDomain >
 }
 
 // ----------------------------------------------------------------------------
-template< class TInput, unsigned int VDimension, typename TOutput, class TDomain >
+template< typename TInput, unsigned int VDimension, typename TOutput, typename TDomain >
 typename
 LevelSetBase< TInput, VDimension, TOutput, TDomain >
 ::OutputRealType
@@ -119,7 +119,7 @@ LevelSetBase< TInput, VDimension, TOutput, TDomain >
 }
 
 // ----------------------------------------------------------------------------
-template< class TInput, unsigned int VDimension, typename TOutput, class TDomain >
+template< typename TInput, unsigned int VDimension, typename TOutput, typename TDomain >
 void
 LevelSetBase< TInput, VDimension, TOutput, TDomain >
 ::EvaluateMeanCurvature( const InputType& iP, LevelSetDataType& ioData ) const
@@ -172,7 +172,7 @@ LevelSetBase< TInput, VDimension, TOutput, TDomain >
 }
 
 // ----------------------------------------------------------------------------
-template< class TInput, unsigned int VDimension, typename TOutput, class TDomain >
+template< typename TInput, unsigned int VDimension, typename TOutput, typename TDomain >
 void
 LevelSetBase< TInput, VDimension, TOutput, TDomain >
 ::UpdateOutputInformation()
@@ -193,7 +193,7 @@ LevelSetBase< TInput, VDimension, TOutput, TDomain >
 }
 
 // ----------------------------------------------------------------------------
-template< class TInput, unsigned int VDimension, typename TOutput, class TDomain >
+template< typename TInput, unsigned int VDimension, typename TOutput, typename TDomain >
 void
 LevelSetBase< TInput, VDimension, TOutput, TDomain >
 ::SetRequestedRegionToLargestPossibleRegion()
@@ -203,7 +203,7 @@ LevelSetBase< TInput, VDimension, TOutput, TDomain >
 }
 
 // ----------------------------------------------------------------------------
-template< class TInput, unsigned int VDimension, typename TOutput, class TDomain >
+template< typename TInput, unsigned int VDimension, typename TOutput, typename TDomain >
 void
 LevelSetBase< TInput, VDimension, TOutput, TDomain >
 ::CopyInformation(const DataObject *data)
@@ -239,7 +239,7 @@ LevelSetBase< TInput, VDimension, TOutput, TDomain >
 }
 
 // ----------------------------------------------------------------------------
-template< class TInput, unsigned int VDimension, typename TOutput, class TDomain >
+template< typename TInput, unsigned int VDimension, typename TOutput, typename TDomain >
 void
 LevelSetBase< TInput, VDimension, TOutput, TDomain >
 ::Graft(const DataObject *data)
@@ -271,7 +271,7 @@ LevelSetBase< TInput, VDimension, TOutput, TDomain >
 }
 
 // ----------------------------------------------------------------------------
-template< class TInput, unsigned int VDimension, typename TOutput, class TDomain >
+template< typename TInput, unsigned int VDimension, typename TOutput, typename TDomain >
 bool
 LevelSetBase< TInput, VDimension, TOutput, TDomain >
 ::RequestedRegionIsOutsideOfTheBufferedRegion()
@@ -286,7 +286,7 @@ LevelSetBase< TInput, VDimension, TOutput, TDomain >
 }
 
 // ----------------------------------------------------------------------------
-template< class TInput, unsigned int VDimension, typename TOutput, class TDomain >
+template< typename TInput, unsigned int VDimension, typename TOutput, typename TDomain >
 bool
 LevelSetBase< TInput, VDimension, TOutput, TDomain >
 ::VerifyRequestedRegion()
@@ -312,7 +312,7 @@ LevelSetBase< TInput, VDimension, TOutput, TDomain >
 }
 
 // ----------------------------------------------------------------------------
-template< class TInput, unsigned int VDimension, typename TOutput, class TDomain >
+template< typename TInput, unsigned int VDimension, typename TOutput, typename TDomain >
 void
 LevelSetBase< TInput, VDimension, TOutput, TDomain >
 ::SetRequestedRegion(const DataObject *data)
@@ -328,7 +328,7 @@ LevelSetBase< TInput, VDimension, TOutput, TDomain >
 }
 
 // ----------------------------------------------------------------------------
-template< class TInput, unsigned int VDimension, typename TOutput, class TDomain >
+template< typename TInput, unsigned int VDimension, typename TOutput, typename TDomain >
 void
 LevelSetBase< TInput, VDimension, TOutput, TDomain >
 ::SetRequestedRegion(const RegionType & region)
@@ -340,7 +340,7 @@ LevelSetBase< TInput, VDimension, TOutput, TDomain >
 }
 
 // ----------------------------------------------------------------------------
-template< class TInput, unsigned int VDimension, typename TOutput, class TDomain >
+template< typename TInput, unsigned int VDimension, typename TOutput, typename TDomain >
 void
 LevelSetBase< TInput, VDimension, TOutput, TDomain >
 ::SetBufferedRegion(const RegionType & region)

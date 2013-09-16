@@ -130,7 +130,7 @@ private:
 // These functions should be templated here in order to
 // facilitate their reuse in multiple scenarios.
 //
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 void CopyMeshToMesh(const TInputMesh *in, TOutputMesh *out)
 {
   CopyMeshToMeshPoints(in, out);
@@ -141,7 +141,7 @@ void CopyMeshToMesh(const TInputMesh *in, TOutputMesh *out)
 }
 
 // ---------------------------------------------------------------------
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 void CopyMeshToMeshCellData(const TInputMesh *in, TOutputMesh *out)
 {
   typedef typename TInputMesh::CellDataContainer        InputCellDataContainer;
@@ -173,7 +173,7 @@ void CopyMeshToMeshCellData(const TInputMesh *in, TOutputMesh *out)
 }
 
 // ---------------------------------------------------------------------
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 void CopyMeshToMeshPointData(const TInputMesh *in, TOutputMesh *out)
 {
   typedef typename TOutputMesh::PointDataContainer   OutputPointDataContainer;
@@ -204,7 +204,7 @@ void CopyMeshToMeshPointData(const TInputMesh *in, TOutputMesh *out)
 }
 
 // ---------------------------------------------------------------------
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 void CopyMeshToMeshCells(const TInputMesh *in, TOutputMesh *out)
 {
   // Copy cells
@@ -247,7 +247,7 @@ void CopyMeshToMeshCells(const TInputMesh *in, TOutputMesh *out)
 }
 
 // ---------------------------------------------------------------------
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 void CopyMeshToMeshEdgeCells(const TInputMesh *in, TOutputMesh *out)
 {
   // Copy Edge Cells
@@ -277,7 +277,7 @@ void CopyMeshToMeshEdgeCells(const TInputMesh *in, TOutputMesh *out)
 }
 
 // ---------------------------------------------------------------------
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 void CopyMeshToMeshPoints(const TInputMesh *in, TOutputMesh *out)
 {
   // Copy points

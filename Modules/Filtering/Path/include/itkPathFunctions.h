@@ -28,7 +28,7 @@ namespace itk
  * If restrictMovement is true, then individual steps are allowed to move
  * through only one dimension at a time; for 2D paths this results in an
  * 8-connected chain code. */
-template< class TChainCodePath, class TPathInput >
+template< typename TChainCodePath, typename TPathInput >
 void MakeChainCodeTracePath(TChainCodePath & chainPath,
                             const TPathInput & inPath,
                             bool restrictMovement = false)
@@ -76,7 +76,7 @@ void MakeChainCodeTracePath(TChainCodePath & chainPath,
  * calculate numHarmonics (due to the Nyquist criterion), then as many harmonics
  * as possible (chainPath->NumberOfSteps()/2) will be calculated.  No fewer than
  * 2 harmonics will be calcualted. */
-template< class TFourierSeriesPath, class TChainCodePath >
+template< typename TFourierSeriesPath, typename TChainCodePath >
 void MakeFourierSeriesPathTraceChainCode(TFourierSeriesPath & FSPath,
                                          const TChainCodePath & chainPath,
                                          unsigned int numHarmonics = 8)

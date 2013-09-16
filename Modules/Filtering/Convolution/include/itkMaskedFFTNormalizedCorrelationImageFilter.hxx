@@ -50,7 +50,7 @@ namespace Functor
  * Also, zero-out the correlation values that arise from too few voxels
  * since they are statistically unreliable.
  */
-template< class TImage >
+template< typename TImage >
 class PostProcessCorrelation
 {
 public:
@@ -108,7 +108,7 @@ private:
 };
 }
 
-template < class TInputImage, class TOutputImage, class TMaskImage >
+template < typename TInputImage, typename TOutputImage, typename TMaskImage >
 void MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
 ::GenerateData()
 {
@@ -268,8 +268,8 @@ void MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskI
   outputImage->SetOrigin( outputOrigin );
 }
 
-template< class TInputImage, class TOutputImage, class TMaskImage >
-template< class LocalInputImageType>
+template< typename TInputImage, typename TOutputImage, typename TMaskImage >
+template< typename LocalInputImageType>
 typename LocalInputImageType::Pointer
 MaskedFFTNormalizedCorrelationImageFilter<TInputImage,TOutputImage,TMaskImage>
 ::RotateImage( LocalInputImageType * inputImage )
@@ -293,7 +293,7 @@ MaskedFFTNormalizedCorrelationImageFilter<TInputImage,TOutputImage,TMaskImage>
   return outputImage;
 }
 
-template< class TInputImage, class TOutputImage, class TMaskImage >
+template< typename TInputImage, typename TOutputImage, typename TMaskImage >
 typename TMaskImage::Pointer
 MaskedFFTNormalizedCorrelationImageFilter<TInputImage,TOutputImage, TMaskImage>
 ::PreProcessMask( const InputImageType * inputImage, const MaskImageType * inputMask )
@@ -329,7 +329,7 @@ MaskedFFTNormalizedCorrelationImageFilter<TInputImage,TOutputImage, TMaskImage>
   return outputMask;
 }
 
-template< class TInputImage, class TOutputImage, class TMaskImage >
+template< typename TInputImage, typename TOutputImage, typename TMaskImage >
 typename TInputImage::Pointer
 MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
 ::PreProcessImage( const InputImageType * inputImage, const MaskImageType * inputMask )
@@ -348,8 +348,8 @@ MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
   return outputImage;
 }
 
-template< class TInputImage, class TOutputImage, class TMaskImage >
-template< class LocalInputImageType, class LocalOutputImageType >
+template< typename TInputImage, typename TOutputImage, typename TMaskImage >
+template< typename LocalInputImageType, typename LocalOutputImageType >
 typename LocalOutputImageType::Pointer
 MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
 ::CalculateForwardFFT( LocalInputImageType * inputImage, InputSizeType & FFTImageSize )
@@ -380,8 +380,8 @@ MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
   return outputImage;
  }
 
-template< class TInputImage, class TOutputImage, class TMaskImage >
-template< class LocalInputImageType, class LocalOutputImageType >
+template< typename TInputImage, typename TOutputImage, typename TMaskImage >
+template< typename LocalInputImageType, typename LocalOutputImageType >
 typename LocalOutputImageType::Pointer
 MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
 ::CalculateInverseFFT(LocalInputImageType * inputImage, RealSizeType & combinedImageSize )
@@ -417,8 +417,8 @@ MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
   return outputImage;
  }
 
-template< class TInputImage, class TOutputImage, class TMaskImage >
-template< class LocalInputImageType, class LocalOutputImageType >
+template< typename TInputImage, typename TOutputImage, typename TMaskImage >
+template< typename LocalInputImageType, typename LocalOutputImageType >
 typename LocalOutputImageType::Pointer
 MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
 ::ElementProduct( LocalInputImageType * inputImage1, LocalInputImageType * inputImage2 )
@@ -433,8 +433,8 @@ MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
   return outputImage;
 }
 
-template< class TInputImage, class TOutputImage, class TMaskImage >
-template< class LocalInputImageType >
+template< typename TInputImage, typename TOutputImage, typename TMaskImage >
+template< typename LocalInputImageType >
 typename LocalInputImageType::Pointer
 MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
 ::ElementQuotient( LocalInputImageType * inputImage1, LocalInputImageType * inputImage2 )
@@ -449,8 +449,8 @@ MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
   return outputImage;
 }
 
-template< class TInputImage, class TOutputImage, class TMaskImage >
-template< class LocalInputImageType >
+template< typename TInputImage, typename TOutputImage, typename TMaskImage >
+template< typename LocalInputImageType >
 typename LocalInputImageType::Pointer
 MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
 ::ElementSubtraction( LocalInputImageType * inputImage1, LocalInputImageType * inputImage2 )
@@ -465,8 +465,8 @@ MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
   return outputImage;
 }
 
-template< class TInputImage, class TOutputImage, class TMaskImage >
-template< class LocalInputImageType >
+template< typename TInputImage, typename TOutputImage, typename TMaskImage >
+template< typename LocalInputImageType >
 typename LocalInputImageType::Pointer
 MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
 ::ElementPositive( LocalInputImageType * inputImage )
@@ -483,8 +483,8 @@ MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
   return outputImage;
 }
 
-template< class TInputImage, class TOutputImage, class TMaskImage >
-template< class LocalInputImageType, class LocalOutputImageType >
+template< typename TInputImage, typename TOutputImage, typename TMaskImage >
+template< typename LocalInputImageType, typename LocalOutputImageType >
 typename LocalOutputImageType::Pointer
 MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
 ::ElementRound( LocalInputImageType * inputImage )
@@ -501,7 +501,7 @@ MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
 // This function factorizes the image size uses factors of 2, 3, and
 // 5.  After this factorization, if there are any remaining values,
 // the function returns this value.
-template < class TInputImage, class TOutputImage, class TMaskImage >
+template < typename TInputImage, typename TOutputImage, typename TMaskImage >
 int
 MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
 ::FactorizeNumber( int n )
@@ -525,7 +525,7 @@ MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
 
 // Find the closest valid dimension above the desired dimension.  This
 // will be a combination of 2s, 3s, and 5s.
-template < class TInputImage, class TOutputImage, class TMaskImage >
+template < typename TInputImage, typename TOutputImage, typename TMaskImage >
 int
 MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
 ::FindClosestValidDimension( int n )
@@ -544,8 +544,8 @@ MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
 }
 
 // Find the precision tolerance.
-template< class TInputImage, class TOutputImage, class TMaskImage >
-template< class LocalInputImageType >
+template< typename TInputImage, typename TOutputImage, typename TMaskImage >
+template< typename LocalInputImageType >
 double
 MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
 ::CalculatePrecisionTolerance( LocalInputImageType * inputImage )
@@ -576,7 +576,7 @@ MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
   return precisionTolerance;
 }
 
-template< class TInputImage, class TOutputImage, class TMaskImage >
+template< typename TInputImage, typename TOutputImage, typename TMaskImage >
 void
 MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
 ::VerifyInputInformation()
@@ -606,7 +606,7 @@ MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
   }
  }
 
-template < class TInputImage, class TOutputImage, class TMaskImage >
+template < typename TInputImage, typename TOutputImage, typename TMaskImage >
 void
 MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
 ::GenerateInputRequestedRegion()
@@ -645,7 +645,7 @@ MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
   }
 }
 
-template < class TInputImage, class TOutputImage, class TMaskImage >
+template < typename TInputImage, typename TOutputImage, typename TMaskImage >
 void
 MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
 ::GenerateOutputInformation()
@@ -687,7 +687,7 @@ MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
 }
 
 
-template < class TInputImage, class TOutputImage, class TMaskImage >
+template < typename TInputImage, typename TOutputImage, typename TMaskImage >
 void
 MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
 ::EnlargeOutputRequestedRegion( DataObject *output )
@@ -716,7 +716,7 @@ MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
   }
 }
 
-template< class TInputImage, class TOutputImage, class TMaskImage >
+template< typename TInputImage, typename TOutputImage, typename TMaskImage >
 void
 MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
 ::PrintSelf(std::ostream& os, Indent indent) const

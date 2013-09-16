@@ -26,7 +26,7 @@
 
 namespace itk
 {
-template< class TOutputImage >
+template< typename TOutputImage >
 GridImageSource< TOutputImage >
 ::GridImageSource()
 {
@@ -114,7 +114,7 @@ GridImageSource< TOutputImage >
     }
 }
 
-template< class TOutputImage >
+template< typename TOutputImage >
 void
 GridImageSource< TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

@@ -25,7 +25,7 @@ namespace itk
 /**
  * Constructor
  */
-template< class TImageType, class TCoordRep, class TCoefficientType >
+template< typename TImageType, typename TCoordRep, typename TCoefficientType >
 ComplexBSplineInterpolateImageFunction< TImageType, TCoordRep, TCoefficientType >
 ::ComplexBSplineInterpolateImageFunction()
 {
@@ -41,7 +41,7 @@ ComplexBSplineInterpolateImageFunction< TImageType, TCoordRep, TCoefficientType 
 /**
  * Standard "PrintSelf" method
  */
-template< class TImageType, class TCoordRep, class TCoefficientType >
+template< typename TImageType, typename TCoordRep, typename TCoefficientType >
 void ComplexBSplineInterpolateImageFunction< TImageType, TCoordRep, TCoefficientType >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
@@ -53,7 +53,7 @@ void ComplexBSplineInterpolateImageFunction< TImageType, TCoordRep, TCoefficient
   os << indent << "Complex to Imaginary Filter: " << m_ImaginaryFilter << std::endl;
 }
 
-template< class TImageType, class TCoordRep, class TCoefficientType >
+template< typename TImageType, typename TCoordRep, typename TCoefficientType >
 void ComplexBSplineInterpolateImageFunction< TImageType, TCoordRep, TCoefficientType >
 ::SetInputImage(const TImageType *inputData)
 {
@@ -69,7 +69,7 @@ void ComplexBSplineInterpolateImageFunction< TImageType, TCoordRep, TCoefficient
     }
 }
 
-template< class TImageType, class TCoordRep, class TCoefficientType >
+template< typename TImageType, typename TCoordRep, typename TCoefficientType >
 void ComplexBSplineInterpolateImageFunction< TImageType, TCoordRep, TCoefficientType >
 ::SetSplineOrder(unsigned int SplineOrder)
 {
@@ -78,7 +78,7 @@ void ComplexBSplineInterpolateImageFunction< TImageType, TCoordRep, TCoefficient
   m_ImaginaryInterpolator->SetSplineOrder(SplineOrder);
 }
 
-template< class TImageType, class TCoordRep, class TCoefficientType >
+template< typename TImageType, typename TCoordRep, typename TCoefficientType >
 typename ComplexBSplineInterpolateImageFunction< TImageType, TCoordRep,
                                                  TCoefficientType >::OutputType ComplexBSplineInterpolateImageFunction<
   TImageType, TCoordRep, TCoefficientType >

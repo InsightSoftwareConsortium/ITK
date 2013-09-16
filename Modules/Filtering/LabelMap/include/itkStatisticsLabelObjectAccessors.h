@@ -33,7 +33,7 @@ namespace itk
 {
 namespace Functor
 {
-template< class TLabelObject >
+template< typename TLabelObject >
 class MinimumLabelObjectAccessor
 {
 public:
@@ -46,7 +46,7 @@ public:
   }
 };
 
-template< class TLabelObject >
+template< typename TLabelObject >
 class MaximumLabelObjectAccessor
 {
 public:
@@ -59,7 +59,7 @@ public:
   }
 };
 
-template< class TLabelObject >
+template< typename TLabelObject >
 class MeanLabelObjectAccessor
 {
 public:
@@ -72,7 +72,7 @@ public:
   }
 };
 
-template< class TLabelObject >
+template< typename TLabelObject >
 class SumLabelObjectAccessor
 {
 public:
@@ -85,7 +85,7 @@ public:
   }
 };
 
-template< class TLabelObject >
+template< typename TLabelObject >
 class StandardDeviationLabelObjectAccessor
 {
 public:
@@ -98,7 +98,7 @@ public:
   }
 };
 
-template< class TLabelObject >
+template< typename TLabelObject >
 class VarianceLabelObjectAccessor
 {
 public:
@@ -111,7 +111,7 @@ public:
   }
 };
 
-template< class TLabelObject >
+template< typename TLabelObject >
 class MedianLabelObjectAccessor
 {
 public:
@@ -124,7 +124,7 @@ public:
   }
 };
 
-template< class TLabelObject >
+template< typename TLabelObject >
 class MaximumIndexLabelObjectAccessor
 {
 public:
@@ -137,7 +137,7 @@ public:
   }
 };
 
-template< class TLabelObject >
+template< typename TLabelObject >
 class MinimumIndexLabelObjectAccessor
 {
 public:
@@ -150,7 +150,7 @@ public:
   }
 };
 
-template< class TLabelObject >
+template< typename TLabelObject >
 class CenterOfGravityLabelObjectAccessor
 {
 public:
@@ -164,7 +164,7 @@ public:
 };
 
 /*
-template< class TLabelObject >
+template< typename TLabelObject >
 class CentralMomentsLabelObjectAccessor
 {
 public:
@@ -178,7 +178,7 @@ public:
   };
 */
 
-template< class TLabelObject >
+template< typename TLabelObject >
 class WeightedPrincipalMomentsLabelObjectAccessor
 {
 public:
@@ -191,7 +191,7 @@ public:
   }
 };
 
-template< class TLabelObject >
+template< typename TLabelObject >
 class WeightedPrincipalAxesLabelObjectAccessor
 {
 public:
@@ -204,7 +204,7 @@ public:
   }
 };
 
-template< class TLabelObject >
+template< typename TLabelObject >
 class KurtosisLabelObjectAccessor
 {
 public:
@@ -217,7 +217,7 @@ public:
   }
 };
 
-template< class TLabelObject >
+template< typename TLabelObject >
 class SkewnessLabelObjectAccessor
 {
 public:
@@ -230,7 +230,7 @@ public:
   }
 };
 
-template< class TLabelObject >
+template< typename TLabelObject >
 class WeightedElongationLabelObjectAccessor
 {
 public:
@@ -243,7 +243,7 @@ public:
   }
 };
 
-template< class TLabelObject >
+template< typename TLabelObject >
 class HistogramLabelObjectAccessor
 {
 public:
@@ -257,7 +257,7 @@ public:
   }
 };
 
-template< class TLabelObject >
+template< typename TLabelObject >
 class WeightedFlatnessLabelObjectAccessor
 {
 public:

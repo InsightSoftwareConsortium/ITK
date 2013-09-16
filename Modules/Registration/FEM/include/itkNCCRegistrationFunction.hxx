@@ -28,7 +28,7 @@ namespace itk
 /**
  * Default constructor
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 NCCRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::NCCRegistrationFunction()
 {
@@ -60,7 +60,7 @@ NCCRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 /*
  * Standard "PrintSelf" method.
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void
 NCCRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -81,7 +81,7 @@ NCCRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 /*
  * Set the function state values before each iteration
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 void
 NCCRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::InitializeIteration()
@@ -109,7 +109,7 @@ NCCRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 /*
  * Compute update at a non boundary neighbourhood
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 typename NCCRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::PixelType
 NCCRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >

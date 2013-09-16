@@ -23,7 +23,7 @@
 
 namespace itk
 {
-template< class TPixel, unsigned int VDimension, class TAllocator >
+template< typename TPixel, unsigned int VDimension, typename TAllocator >
 void
 SobelOperator< TPixel, VDimension, TAllocator >
 ::Fill(const CoefficientVector & coeff)
@@ -76,7 +76,7 @@ SobelOperator< TPixel, VDimension, TAllocator >
     }
 }
 
-template< class TPixel, unsigned int VDimension, class TAllocator >
+template< typename TPixel, unsigned int VDimension, typename TAllocator >
 typename SobelOperator< TPixel, VDimension, TAllocator >
 ::CoefficientVector
 SobelOperator< TPixel, VDimension, TAllocator >

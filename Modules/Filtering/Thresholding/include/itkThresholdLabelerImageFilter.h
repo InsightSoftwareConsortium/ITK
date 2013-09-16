@@ -41,7 +41,7 @@ namespace itk
  */
 namespace Functor
 {
-template< class TInput, class TOutput >
+template< typename TInput, typename TOutput >
 class ThresholdLabeler
 {
 public:
@@ -104,7 +104,7 @@ private:
 };
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class ThresholdLabelerImageFilter:
   public
   UnaryFunctorImageFilter< TInputImage, TOutputImage,

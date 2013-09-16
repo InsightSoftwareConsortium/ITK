@@ -35,7 +35,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TGradientImage >
+template< typename TInputImage, typename TGradientImage >
 RobustAutomaticThresholdCalculator< TInputImage, TGradientImage >
 ::RobustAutomaticThresholdCalculator(void)
 {
@@ -46,7 +46,7 @@ RobustAutomaticThresholdCalculator< TInputImage, TGradientImage >
   m_Pow = 1;
 }
 
-template< class TInputImage, class TGradientImage >
+template< typename TInputImage, typename TGradientImage >
 void
 RobustAutomaticThresholdCalculator< TInputImage, TGradientImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -59,7 +59,7 @@ RobustAutomaticThresholdCalculator< TInputImage, TGradientImage >
   os << indent << "Output: " << m_Output << std::endl;
 }
 
-template< class TInputImage, class TGradientImage >
+template< typename TInputImage, typename TGradientImage >
 void
 RobustAutomaticThresholdCalculator< TInputImage, TGradientImage >
 ::Compute()
@@ -96,7 +96,7 @@ RobustAutomaticThresholdCalculator< TInputImage, TGradientImage >
   m_Valid = true;
 }
 
-template< class TInputImage, class TGradientImage >
+template< typename TInputImage, typename TGradientImage >
 const typename RobustAutomaticThresholdCalculator< TInputImage, TGradientImage >::InputPixelType &
 RobustAutomaticThresholdCalculator< TInputImage, TGradientImage >
 ::GetOutput() const

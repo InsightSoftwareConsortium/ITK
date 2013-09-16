@@ -25,7 +25,7 @@ namespace itk
 /**
  *
  */
-template< class TInputImage, class TInputPath, class TOutputImage >
+template< typename TInputImage, typename TInputPath, typename TOutputImage >
 ImageAndPathToImageFilter< TInputImage, TInputPath, TOutputImage >
 ::ImageAndPathToImageFilter()
 {
@@ -36,7 +36,7 @@ ImageAndPathToImageFilter< TInputImage, TInputPath, TOutputImage >
 /**
  *
  */
-template< class TInputImage, class TInputPath, class TOutputImage >
+template< typename TInputImage, typename TInputPath, typename TOutputImage >
 void
 ImageAndPathToImageFilter< TInputImage, TInputPath, TOutputImage >
 ::SetImageInput(const InputImageType *image)
@@ -48,7 +48,7 @@ ImageAndPathToImageFilter< TInputImage, TInputPath, TOutputImage >
                                     const_cast< InputImageType * >( image ) );
 }
 
-template< class TInputImage, class TInputPath, class TOutputImage >
+template< typename TInputImage, typename TInputPath, typename TOutputImage >
 const typename ImageAndPathToImageFilter< TInputImage, TInputPath, TOutputImage >::InputImageType *
 ImageAndPathToImageFilter< TInputImage, TInputPath, TOutputImage >
 ::GetImageInput(void)
@@ -56,7 +56,7 @@ ImageAndPathToImageFilter< TInputImage, TInputPath, TOutputImage >
   return this->GetNonConstImageInput();
 }
 
-template< class TInputImage, class TInputPath, class TOutputImage >
+template< typename TInputImage, typename TInputPath, typename TOutputImage >
 typename ImageAndPathToImageFilter< TInputImage, TInputPath, TOutputImage >::InputImageType *
 ImageAndPathToImageFilter< TInputImage, TInputPath, TOutputImage >
 ::GetNonConstImageInput(void)
@@ -69,7 +69,7 @@ ImageAndPathToImageFilter< TInputImage, TInputPath, TOutputImage >
   return temp_return;
 }
 
-template< class TInputImage, class TInputPath, class TOutputImage >
+template< typename TInputImage, typename TInputPath, typename TOutputImage >
 void
 ImageAndPathToImageFilter< TInputImage, TInputPath, TOutputImage >
 ::SetPathInput(const InputPathType *path)
@@ -80,7 +80,7 @@ ImageAndPathToImageFilter< TInputImage, TInputPath, TOutputImage >
   this->ProcessObject::SetNthInput( 1, const_cast< InputPathType * >( path ) );
 }
 
-template< class TInputImage, class TInputPath, class TOutputImage >
+template< typename TInputImage, typename TInputPath, typename TOutputImage >
 const typename ImageAndPathToImageFilter< TInputImage, TInputPath, TOutputImage >::InputPathType *
 ImageAndPathToImageFilter< TInputImage, TInputPath, TOutputImage >
 ::GetPathInput(void)
@@ -88,7 +88,7 @@ ImageAndPathToImageFilter< TInputImage, TInputPath, TOutputImage >
   return this->GetNonConstPathInput();
 }
 
-template< class TInputImage, class TInputPath, class TOutputImage >
+template< typename TInputImage, typename TInputPath, typename TOutputImage >
 typename ImageAndPathToImageFilter< TInputImage, TInputPath, TOutputImage >::InputPathType *
 ImageAndPathToImageFilter< TInputImage, TInputPath, TOutputImage >
 ::GetNonConstPathInput(void)
@@ -105,7 +105,7 @@ ImageAndPathToImageFilter< TInputImage, TInputPath, TOutputImage >
 /**
  *
  */
-template< class TInputImage, class TInputPath, class TOutputImage >
+template< typename TInputImage, typename TInputPath, typename TOutputImage >
 void
 ImageAndPathToImageFilter< TInputImage, TInputPath, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

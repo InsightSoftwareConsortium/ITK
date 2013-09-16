@@ -22,7 +22,7 @@
 #include "itkImageRegionExclusionIteratorWithIndex.h"
 
 
-template< class TRegion >
+template< typename TRegion >
 static bool RunTest(const TRegion & region, const TRegion & exclusionRegion)
 {
   const unsigned int ImageDimension = TRegion::ImageDimension;

@@ -25,7 +25,7 @@ namespace itk
 /**
  * Initialize member variables with meaningful values.
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 DirectFourierReconstructionImageToImageFilter< TInputImage, TOutputImage >::DirectFourierReconstructionImageToImageFilter():
   Superclass()
 {
@@ -48,7 +48,7 @@ DirectFourierReconstructionImageToImageFilter< TInputImage, TOutputImage >::Dire
 /**
  * Print out class state (member variables)
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void DirectFourierReconstructionImageToImageFilter< TInputImage, TOutputImage >::PrintSelf(std::ostream & os,
                                                                                                    Indent indent) const
 {
@@ -78,7 +78,7 @@ void DirectFourierReconstructionImageToImageFilter< TInputImage, TOutputImage >:
 /**
 * Calculate image boundaries and define output regions, spacing, origin etc.
 */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void DirectFourierReconstructionImageToImageFilter< TInputImage, TOutputImage >::GenerateOutputInformation()
 {
   // call the superclass' implementation of this method
@@ -132,7 +132,7 @@ void DirectFourierReconstructionImageToImageFilter< TInputImage, TOutputImage >:
 /**
  * Calculate necessary input image boundaries
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void DirectFourierReconstructionImageToImageFilter< TInputImage, TOutputImage >::GenerateInputRequestedRegion()
 {
   // call the superclass' implementation of this method
@@ -164,7 +164,7 @@ void DirectFourierReconstructionImageToImageFilter< TInputImage, TOutputImage >:
 /**
  * Actual computation
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void DirectFourierReconstructionImageToImageFilter< TInputImage, TOutputImage >::GenerateData()
 {
   OutputImagePointer     outputImage = this->GetOutput();

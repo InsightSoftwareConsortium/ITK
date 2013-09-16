@@ -32,7 +32,7 @@ namespace itk
  *  iterate through an itkSparseFieldLayer.
  * \ingroup ITKCommon
  */
-template< class TNodeType >
+template< typename TNodeType >
 class ConstSparseFieldLayerIterator
 {
 public:
@@ -85,7 +85,7 @@ protected:
  *  \brief The non-const version of the ConstSparseFieldLayerIterator.
  * \ingroup ITKCommon
  */
-template< class TNodeType >
+template< typename TNodeType >
 class SparseFieldLayerIterator:
   public ConstSparseFieldLayerIterator< TNodeType >
 {
@@ -148,7 +148,7 @@ public:
  *  the list nodes.
  * \ingroup ITKCommon
  */
-template< class TNodeType >
+template< typename TNodeType >
 class SparseFieldLayer:
   public Object
 {

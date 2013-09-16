@@ -25,7 +25,7 @@
 namespace itk
 {
 /** Constructor with default arguments */
-template< class TScalar, unsigned int NDimensions >
+template< typename TScalar, unsigned int NDimensions >
 ScalableAffineTransform< TScalar, NDimensions >
 ::ScalableAffineTransform():
   Superclass(Self::ParametersDimension)
@@ -38,7 +38,7 @@ ScalableAffineTransform< TScalar, NDimensions >
 }
 
 /** Constructor with default arguments */
-template< class TScalar, unsigned int NDimensions >
+template< typename TScalar, unsigned int NDimensions >
 ScalableAffineTransform< TScalar, NDimensions >
 ::ScalableAffineTransform(unsigned int , unsigned int parametersDimension):
   Superclass(parametersDimension)
@@ -50,7 +50,7 @@ ScalableAffineTransform< TScalar, NDimensions >
     }
 }
 
-template< class TScalar, unsigned int NDimensions >
+template< typename TScalar, unsigned int NDimensions >
 ScalableAffineTransform< TScalar, NDimensions >
 ::ScalableAffineTransform(unsigned int parametersDimension):
   Superclass(parametersDimension)
@@ -63,7 +63,7 @@ ScalableAffineTransform< TScalar, NDimensions >
 }
 
 /** Constructor with default arguments */
-template< class TScalar, unsigned int NDimensions >
+template< typename TScalar, unsigned int NDimensions >
 ScalableAffineTransform< TScalar, NDimensions >
 ::ScalableAffineTransform(const MatrixType & matrix,
                           const OutputVectorType & offset):
@@ -77,14 +77,14 @@ ScalableAffineTransform< TScalar, NDimensions >
 }
 
 /** Destructor */
-template< class TScalar, unsigned int NDimensions >
+template< typename TScalar, unsigned int NDimensions >
 ScalableAffineTransform< TScalar, NDimensions >
 ::~ScalableAffineTransform()
 {
 }
 
 /** Print self */
-template< class TScalar, unsigned int NDimensions >
+template< typename TScalar, unsigned int NDimensions >
 void
 ScalableAffineTransform< TScalar, NDimensions >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -108,7 +108,7 @@ ScalableAffineTransform< TScalar, NDimensions >
 }
 
 // Set the parameters in order to fit an Identity transform
-template< class TScalar, unsigned int NDimensions >
+template< typename TScalar, unsigned int NDimensions >
 void
 ScalableAffineTransform< TScalar, NDimensions >
 ::SetIdentity(void)
@@ -122,7 +122,7 @@ ScalableAffineTransform< TScalar, NDimensions >
 }
 
 /** Set the scale of the transformation */
-template< class TScalar, unsigned int NDimensions >
+template< typename TScalar, unsigned int NDimensions >
 void
 ScalableAffineTransform< TScalar, NDimensions >
 ::SetScale(const InputVectorType & scale)
@@ -137,7 +137,7 @@ ScalableAffineTransform< TScalar, NDimensions >
   this->Modified();
 }
 
-template< class TScalar, unsigned int NDimensions >
+template< typename TScalar, unsigned int NDimensions >
 void
 ScalableAffineTransform< TScalar, NDimensions >
 ::SetScale(const double scale[NDimensions])
@@ -153,7 +153,7 @@ ScalableAffineTransform< TScalar, NDimensions >
 }
 
 // Get an inverse of this transform
-template< class TScalar, unsigned int NDimensions >
+template< typename TScalar, unsigned int NDimensions >
 bool
 ScalableAffineTransform< TScalar, NDimensions >
 ::GetInverse(Self *inverse) const
@@ -162,7 +162,7 @@ ScalableAffineTransform< TScalar, NDimensions >
 }
 
 // Return an inverse of this transform
-template< class TScalar, unsigned int NDimensions >
+template< typename TScalar, unsigned int NDimensions >
 typename ScalableAffineTransform< TScalar, NDimensions >
 ::InverseTransformBasePointer
 ScalableAffineTransform< TScalar, NDimensions >
@@ -174,7 +174,7 @@ ScalableAffineTransform< TScalar, NDimensions >
 }
 
 /** Set the scale of the transformation */
-template< class TScalar, unsigned int NDimensions >
+template< typename TScalar, unsigned int NDimensions >
 void
 ScalableAffineTransform< TScalar, NDimensions >
 ::ComputeMatrix()
@@ -210,7 +210,7 @@ ScalableAffineTransform< TScalar, NDimensions >
 }
 
 #if !defined(ITK_LEGACY_REMOVE)
-template< class TScalar, unsigned int NDimensions >
+template< typename TScalar, unsigned int NDimensions >
 void
 ScalableAffineTransform< TScalar, NDimensions >
 ::SetMatrixComponent(const MatrixType & matrix)
@@ -218,7 +218,7 @@ ScalableAffineTransform< TScalar, NDimensions >
   this->SetMatrix(matrix);
 }
 
-template< class TScalar, unsigned int NDimensions >
+template< typename TScalar, unsigned int NDimensions >
 const typename ScalableAffineTransform< TScalar, NDimensions >::MatrixType &
 ScalableAffineTransform< TScalar, NDimensions >
 ::GetMatrixComponent() const
@@ -226,7 +226,7 @@ ScalableAffineTransform< TScalar, NDimensions >
   return this->GetMatrix();
 }
 
-template< class TScalar, unsigned int NDimensions >
+template< typename TScalar, unsigned int NDimensions >
 void
 ScalableAffineTransform< TScalar, NDimensions >
 ::SetOffsetComponent(const OffsetType & offset)
@@ -234,7 +234,7 @@ ScalableAffineTransform< TScalar, NDimensions >
   this->SetTranslation(offset);
 }
 
-template< class TScalar, unsigned int NDimensions >
+template< typename TScalar, unsigned int NDimensions >
 const typename ScalableAffineTransform< TScalar, NDimensions >::OffsetType &
 ScalableAffineTransform< TScalar, NDimensions >
 ::GetOffsetComponent(void) const

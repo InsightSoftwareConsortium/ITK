@@ -63,7 +63,7 @@ namespace itk
  * \endwiki
  */
 
-template< class T, unsigned int NVectorDimension = 3 >
+template< typename T, unsigned int NVectorDimension = 3 >
 class CovariantVector:public FixedArray< T, NVectorDimension >
 {
 public:
@@ -119,13 +119,13 @@ public:
 
   /** Pass-through constructor for the Array base class. Implicit casting is
    * performed to initialize constructor from any another one of datatype. */
-  template< class TVectorValueType >
+  template< typename TVectorValueType >
   CovariantVector(const CovariantVector< TVectorValueType,
                                          NVectorDimension > & r):BaseArray(r) {}
   CovariantVector(const ValueType r[Dimension]):BaseArray(r) {}
 
   /** Assignment operator with implicit casting from another data type */
-  template< class Tt >
+  template< typename Tt >
   Self & operator=(const Tt & v)
   {
     BaseArray::operator=(v);
@@ -138,7 +138,7 @@ public:
   CovariantVector & operator=(const ValueType r[NVectorDimension]);
 
   /** Scalar operator*=.  Scales elements by a scalar. */
-  template< class Tt >
+  template< typename Tt >
   inline const Self & operator*=(const Tt & value)
   {
     for ( unsigned int i = 0; i < NVectorDimension; i++ )
@@ -149,7 +149,7 @@ public:
   }
 
   /** Scalar operator/=.  Scales (divides) elements by a scalar. */
-  template< class Tt >
+  template< typename Tt >
   const Self & operator/=(const Tt & value)
   {
     for ( unsigned int i = 0; i < NVectorDimension; i++ )
@@ -200,7 +200,7 @@ public:
 
   /** Scalar operator/. Scale (divide) the elements of a vector by a scalar.
    * Return a new vector. */
-  template< class Tt >
+  template< typename Tt >
   inline Self operator/(const Tt & val) const
   {
     Self result;
@@ -238,7 +238,7 @@ public:
 
 /** Premultiply Operator for product of a vector and a scalar.
  *  CovariantVector< T, N >  =  T * CovariantVector< T,N > */
-template< class T, unsigned int NVectorDimension >
+template< typename T, unsigned int NVectorDimension >
 inline
 CovariantVector< T, NVectorDimension >
 operator*(const T & scalar, const CovariantVector< T, NVectorDimension > & v)
@@ -248,7 +248,7 @@ operator*(const T & scalar, const CovariantVector< T, NVectorDimension > & v)
 
 /** Performs the scalar product of a covariant with a contravariant.
  * This scalar product is invariant under affine transformations */
-template< class T, unsigned int NVectorDimension >
+template< typename T, unsigned int NVectorDimension >
 inline
 T
 operator*(const Vector< T, NVectorDimension > & contravariant, const CovariantVector< T, NVectorDimension > & covariant)

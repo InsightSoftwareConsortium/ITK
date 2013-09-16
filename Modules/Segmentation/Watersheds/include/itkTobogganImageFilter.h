@@ -35,7 +35,7 @@ namespace itk
  * \ingroup ITKWatersheds
  */
 
-template< class TInputImage >
+template< typename TInputImage >
 class TobogganImageFilter:
   public ImageToImageFilter<
     TInputImage,

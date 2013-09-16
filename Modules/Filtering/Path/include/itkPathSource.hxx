@@ -25,7 +25,7 @@ namespace itk
 /**
  *
  */
-template< class TOutputPath >
+template< typename TOutputPath >
 PathSource< TOutputPath >
 ::PathSource()
 {
@@ -43,7 +43,7 @@ PathSource< TOutputPath >
 /**
  *
  */
-template< class TOutputPath >
+template< typename TOutputPath >
 typename PathSource< TOutputPath >::OutputPathType *
 PathSource< TOutputPath >
 ::GetOutput(void)
@@ -54,7 +54,7 @@ PathSource< TOutputPath >
 /**
  *
  */
-template< class TOutputPath >
+template< typename TOutputPath >
 typename PathSource< TOutputPath >::OutputPathType *
 PathSource< TOutputPath >
 ::GetOutput(unsigned int idx)
@@ -66,7 +66,7 @@ PathSource< TOutputPath >
 /**
  *
  */
-template< class TOutputPath >
+template< typename TOutputPath >
 void
 PathSource< TOutputPath >
 ::GraftOutput(TOutputPath *graft)
@@ -77,7 +77,7 @@ PathSource< TOutputPath >
 /**
  *
  */
-template< class TOutputPath >
+template< typename TOutputPath >
 void
 PathSource< TOutputPath >
 ::GraftNthOutput(unsigned int idx, TOutputPath *graft)
@@ -118,7 +118,7 @@ PathSource< TOutputPath >
 /**
  *
  */
-template< class TOutputPath >
+template< typename TOutputPath >
 typename PathSource< TOutputPath >::DataObjectPointer
 PathSource< TOutputPath >
 ::MakeOutput(DataObjectPointerArraySizeType)
@@ -129,7 +129,7 @@ PathSource< TOutputPath >
 /**
  *
  */
-template< class TOutputPath >
+template< typename TOutputPath >
 void
 PathSource< TOutputPath >
 ::PrintSelf(std::ostream & os, Indent indent) const

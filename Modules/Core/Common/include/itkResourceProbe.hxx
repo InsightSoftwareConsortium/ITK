@@ -34,7 +34,7 @@
 namespace itk
 {
 /** Constructor */
-template< class ValueType, class MeanType >
+template< typename ValueType, typename MeanType >
 ResourceProbe< ValueType, MeanType >
 ::ResourceProbe(const std::string & type, const std::string & unit):
   m_TypeString(type), m_UnitString(unit)
@@ -46,13 +46,13 @@ ResourceProbe< ValueType, MeanType >
 }
 
 /** Destructor */
-template< class ValueType, class MeanType >
+template< typename ValueType, typename MeanType >
 ResourceProbe< ValueType, MeanType >
 ::~ResourceProbe()
 {}
 
 /** Returns the type probed value */
-template< class ValueType, class MeanType >
+template< typename ValueType, typename MeanType >
 std::string
 ResourceProbe< ValueType, MeanType >
 ::GetType(void) const
@@ -61,7 +61,7 @@ ResourceProbe< ValueType, MeanType >
 }
 
 /** Returns the unit probed value */
-template< class ValueType, class MeanType >
+template< typename ValueType, typename MeanType >
 std::string
 ResourceProbe< ValueType, MeanType >
 ::GetUnit(void) const
@@ -70,7 +70,7 @@ ResourceProbe< ValueType, MeanType >
 }
 
 /** Start counting */
-template< class ValueType, class MeanType >
+template< typename ValueType, typename MeanType >
 void
 ResourceProbe< ValueType, MeanType >
 ::Start(void)
@@ -80,7 +80,7 @@ ResourceProbe< ValueType, MeanType >
 }
 
 /** Stop the probe */
-template< class ValueType, class MeanType >
+template< typename ValueType, typename MeanType >
 void
 ResourceProbe< ValueType, MeanType >
 ::Stop(void)
@@ -94,7 +94,7 @@ ResourceProbe< ValueType, MeanType >
 }
 
 /** Get Number of Starts */
-template< class ValueType, class MeanType >
+template< typename ValueType, typename MeanType >
 typename ResourceProbe< ValueType, MeanType >::CountType
 ResourceProbe< ValueType, MeanType >
 ::GetNumberOfStarts(void) const
@@ -103,7 +103,7 @@ ResourceProbe< ValueType, MeanType >
 }
 
 /** Get Number of Stops */
-template< class ValueType, class MeanType >
+template< typename ValueType, typename MeanType >
 typename ResourceProbe< ValueType, MeanType >::CountType
 ResourceProbe< ValueType, MeanType >
 ::GetNumberOfStops(void) const
@@ -112,7 +112,7 @@ ResourceProbe< ValueType, MeanType >
 }
 
 /** Get Total */
-template< class ValueType, class MeanType >
+template< typename ValueType, typename MeanType >
 ValueType
 ResourceProbe< ValueType, MeanType >
 ::GetTotal(void) const
@@ -121,7 +121,7 @@ ResourceProbe< ValueType, MeanType >
 }
 
 /** Get Mean */
-template< class ValueType, class MeanType >
+template< typename ValueType, typename MeanType >
 MeanType
 ResourceProbe< ValueType, MeanType >
 ::GetMean(void) const

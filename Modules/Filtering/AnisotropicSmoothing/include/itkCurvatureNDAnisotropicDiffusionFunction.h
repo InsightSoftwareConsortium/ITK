@@ -71,7 +71,7 @@ namespace itk
  * \todo References
  * \ingroup ITKAnisotropicSmoothing
  */
-template< class TImage >
+template< typename TImage >
 class CurvatureNDAnisotropicDiffusionFunction:
   public ScalarAnisotropicDiffusionFunction< TImage >
 {

@@ -27,14 +27,14 @@
 
 namespace itk
 {
-template< class TPixel >
+template< typename TPixel >
 ColorTable< TPixel >
 ::ColorTable()
 {
   m_NumberOfColors = 0;
 }
 
-template< class TPixel >
+template< typename TPixel >
 void
 ColorTable< TPixel >
 ::DeleteColors()
@@ -43,7 +43,7 @@ ColorTable< TPixel >
   m_ColorName.resize(0);
 }
 
-template< class TPixel >
+template< typename TPixel >
 void
 ColorTable< TPixel >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -59,7 +59,7 @@ ColorTable< TPixel >
     }
 }
 
-template< class TPixel >
+template< typename TPixel >
 void
 ColorTable< TPixel >
 ::UseDiscreteColors(void)
@@ -137,7 +137,7 @@ ColorTable< TPixel >
   m_ColorName[7] = "White";
 }
 
-template< class TPixel >
+template< typename TPixel >
 void
 ColorTable< TPixel >
 ::UseGrayColors(unsigned int n)
@@ -193,7 +193,7 @@ ColorTable< TPixel >
     }
 }
 
-template< class TPixel >
+template< typename TPixel >
 void
 ColorTable< TPixel >
 ::UseHeatColors(unsigned int n)
@@ -260,7 +260,7 @@ ColorTable< TPixel >
     }
 }
 
-template< class TPixel >
+template< typename TPixel >
 void
 ColorTable< TPixel >
 ::UseRandomColors(unsigned int n)
@@ -301,7 +301,7 @@ ColorTable< TPixel >
     }
 }
 
-template< class TPixel >
+template< typename TPixel >
 bool
 ColorTable< TPixel >
 ::SetColor(unsigned int c, RGBPixel<TPixel> pixel, const char *name)
@@ -309,7 +309,7 @@ ColorTable< TPixel >
   return this->SetColor(c, pixel[0], pixel[1], pixel[2], name);
 }
 
-template< class TPixel >
+template< typename TPixel >
 bool
 ColorTable< TPixel >
 ::SetColor(unsigned int c, TPixel r, TPixel g, TPixel b, const char *name)
@@ -325,7 +325,7 @@ ColorTable< TPixel >
   return false;
 }
 
-template< class TPixel >
+template< typename TPixel >
 RGBPixel< TPixel >
 ColorTable< TPixel >
 ::GetColor(unsigned int c)
@@ -342,7 +342,7 @@ ColorTable< TPixel >
     }
 }
 
-template< class TPixel >
+template< typename TPixel >
 TPixel
 ColorTable< TPixel >
 ::GetColorComponent(unsigned int c, char rgb)
@@ -375,7 +375,7 @@ ColorTable< TPixel >
     }
 }
 
-template< class TPixel >
+template< typename TPixel >
 std::string
 ColorTable< TPixel >
 ::GetColorName(unsigned int c)
@@ -390,7 +390,7 @@ ColorTable< TPixel >
     }
 }
 
-template< class TPixel >
+template< typename TPixel >
 unsigned int
 ColorTable< TPixel >
 ::GetClosestColorTableId(TPixel r, TPixel g, TPixel b)

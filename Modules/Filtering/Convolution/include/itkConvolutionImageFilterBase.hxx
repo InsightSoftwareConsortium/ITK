@@ -22,7 +22,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TKernelImage, class TOutputImage >
+template< typename TInputImage, typename TKernelImage, typename TOutputImage >
 ConvolutionImageFilterBase< TInputImage, TKernelImage, TOutputImage >
 ::ConvolutionImageFilterBase()
 {
@@ -32,7 +32,7 @@ ConvolutionImageFilterBase< TInputImage, TKernelImage, TOutputImage >
   m_OutputRegionMode = Self::SAME;
 }
 
-template< class TInputImage, class TKernelImage, class TOutputImage >
+template< typename TInputImage, typename TKernelImage, typename TOutputImage >
 void
 ConvolutionImageFilterBase< TInputImage, TKernelImage, TOutputImage >
 ::GenerateOutputInformation()
@@ -50,7 +50,7 @@ ConvolutionImageFilterBase< TInputImage, TKernelImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TKernelImage, class TOutputImage >
+template< typename TInputImage, typename TKernelImage, typename TOutputImage >
 typename ConvolutionImageFilterBase< TInputImage, TKernelImage, TOutputImage >::OutputRegionType
 ConvolutionImageFilterBase< TInputImage, TKernelImage, TOutputImage >
 ::GetValidRegion() const
@@ -96,7 +96,7 @@ ConvolutionImageFilterBase< TInputImage, TKernelImage, TOutputImage >
   return validRegion;
 }
 
-template< class TInputImage, class TKernelImage, class TOutputImage >
+template< typename TInputImage, typename TKernelImage, typename TOutputImage >
 void
 ConvolutionImageFilterBase< TInputImage, TKernelImage, TOutputImage >
 ::SetOutputRegionModeToSame()
@@ -104,7 +104,7 @@ ConvolutionImageFilterBase< TInputImage, TKernelImage, TOutputImage >
   this->SetOutputRegionMode( Self::SAME );
 }
 
-template< class TInputImage, class TKernelImage, class TOutputImage >
+template< typename TInputImage, typename TKernelImage, typename TOutputImage >
 void
 ConvolutionImageFilterBase< TInputImage, TKernelImage, TOutputImage >
 ::SetOutputRegionModeToValid()
@@ -112,7 +112,7 @@ ConvolutionImageFilterBase< TInputImage, TKernelImage, TOutputImage >
   this->SetOutputRegionMode( Self::VALID );
 }
 
-template< class TInputImage, class TKernelImage, class TOutputImage >
+template< typename TInputImage, typename TKernelImage, typename TOutputImage >
 void
 ConvolutionImageFilterBase< TInputImage, TKernelImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

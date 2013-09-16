@@ -28,8 +28,8 @@ namespace itk
 /**
  * Constructor
  */
-template< class TInputImage1, class TInputImage2,
-          class TOutputImage, class TFunction  >
+template< typename TInputImage1, typename TInputImage2,
+          typename TOutputImage, typename TFunction  >
 BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage, TFunction >
 ::BinaryFunctorImageFilter()
 {
@@ -40,8 +40,8 @@ BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage, TFunction >
 /**
  * Connect one of the operands for pixel-wise addition
  */
-template< class TInputImage1, class TInputImage2,
-          class TOutputImage, class TFunction  >
+template< typename TInputImage1, typename TInputImage2,
+          typename TOutputImage, typename TFunction  >
 void
 BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage, TFunction >
 ::SetInput1(const TInputImage1 *image1)
@@ -50,8 +50,8 @@ BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage, TFunction >
   this->SetNthInput( 0, const_cast< TInputImage1 * >( image1 ) );
 }
 
-template< class TInputImage1, class TInputImage2,
-          class TOutputImage, class TFunction  >
+template< typename TInputImage1, typename TInputImage2,
+          typename TOutputImage, typename TFunction  >
 void
 BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage, TFunction >
 ::SetInput1(const DecoratedInput1ImagePixelType * input1)
@@ -60,8 +60,8 @@ BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage, TFunction >
   this->SetNthInput( 0, const_cast< DecoratedInput1ImagePixelType * >( input1 ) );
 }
 
-template< class TInputImage1, class TInputImage2,
-          class TOutputImage, class TFunction  >
+template< typename TInputImage1, typename TInputImage2,
+          typename TOutputImage, typename TFunction  >
 void
 BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage, TFunction >
 ::SetInput1(const Input1ImagePixelType & input1)
@@ -72,8 +72,8 @@ BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage, TFunction >
   this->SetInput1(newInput);
 }
 
-template< class TInputImage1, class TInputImage2,
-          class TOutputImage, class TFunction  >
+template< typename TInputImage1, typename TInputImage2,
+          typename TOutputImage, typename TFunction  >
 void
 BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage, TFunction >
 ::SetConstant1(const Input1ImagePixelType & input1)
@@ -81,8 +81,8 @@ BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage, TFunction >
   this->SetInput1(input1);
 }
 
-template< class TInputImage1, class TInputImage2,
-          class TOutputImage, class TFunction  >
+template< typename TInputImage1, typename TInputImage2,
+          typename TOutputImage, typename TFunction  >
 const typename BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage, TFunction >::Input1ImagePixelType &
 BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage, TFunction >
 ::GetConstant1() const
@@ -101,8 +101,8 @@ BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage, TFunction >
 /**
  * Connect one of the operands for pixel-wise addition
  */
-template< class TInputImage1, class TInputImage2,
-          class TOutputImage, class TFunction  >
+template< typename TInputImage1, typename TInputImage2,
+          typename TOutputImage, typename TFunction  >
 void
 BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage, TFunction >
 ::SetInput2(const TInputImage2 *image2)
@@ -111,8 +111,8 @@ BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage, TFunction >
   this->SetNthInput( 1, const_cast< TInputImage2 * >( image2 ) );
 }
 
-template< class TInputImage1, class TInputImage2,
-          class TOutputImage, class TFunction  >
+template< typename TInputImage1, typename TInputImage2,
+          typename TOutputImage, typename TFunction  >
 void
 BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage, TFunction >
 ::SetInput2(const DecoratedInput2ImagePixelType * input2)
@@ -121,8 +121,8 @@ BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage, TFunction >
   this->SetNthInput( 1, const_cast< DecoratedInput2ImagePixelType * >( input2 ) );
 }
 
-template< class TInputImage1, class TInputImage2,
-          class TOutputImage, class TFunction  >
+template< typename TInputImage1, typename TInputImage2,
+          typename TOutputImage, typename TFunction  >
 void
 BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage, TFunction >
 ::SetInput2(const Input2ImagePixelType & input2)
@@ -133,8 +133,8 @@ BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage, TFunction >
   this->SetInput2(newInput);
 }
 
-template< class TInputImage1, class TInputImage2,
-          class TOutputImage, class TFunction  >
+template< typename TInputImage1, typename TInputImage2,
+          typename TOutputImage, typename TFunction  >
 void
 BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage, TFunction >
 ::SetConstant2(const Input2ImagePixelType & input2)
@@ -142,8 +142,8 @@ BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage, TFunction >
   this->SetInput2(input2);
 }
 
-template< class TInputImage1, class TInputImage2,
-          class TOutputImage, class TFunction  >
+template< typename TInputImage1, typename TInputImage2,
+          typename TOutputImage, typename TFunction  >
 const typename BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage, TFunction >::Input2ImagePixelType &
 BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage, TFunction >
 ::GetConstant2() const
@@ -159,8 +159,8 @@ BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage, TFunction >
 }
 
 
-template< class TInputImage1, class TInputImage2,
-          class TOutputImage, class TFunction  >
+template< typename TInputImage1, typename TInputImage2,
+          typename TOutputImage, typename TFunction  >
 void
 BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage, TFunction >
 ::GenerateOutputInformation()
@@ -200,7 +200,7 @@ BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage, TFunction >
 /**
  * ThreadedGenerateData Performs the pixel-wise addition
  */
-template< class TInputImage1, class TInputImage2, class TOutputImage, class TFunction  >
+template< typename TInputImage1, typename TInputImage2, typename TOutputImage, typename TFunction  >
 void
 BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage, TFunction >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,

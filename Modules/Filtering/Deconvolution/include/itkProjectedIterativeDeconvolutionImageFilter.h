@@ -41,7 +41,7 @@ namespace itk
  *
  * \ingroup ITKDeconvolution
  */
-template< class TSuperclass >
+template< typename TSuperclass >
 class ProjectedIterativeDeconvolutionImageFilter : public TSuperclass
 {
 public:

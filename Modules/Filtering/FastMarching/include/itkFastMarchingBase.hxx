@@ -27,7 +27,7 @@
 namespace itk
 {
 // -----------------------------------------------------------------------------
-template< class TInput, class TOutput >
+template< typename TInput, typename TOutput >
 FastMarchingBase< TInput, TOutput >::
 FastMarchingBase()
   {
@@ -51,7 +51,7 @@ FastMarchingBase()
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
-template< class TInput, class TOutput >
+template< typename TInput, typename TOutput >
 FastMarchingBase< TInput, TOutput >::
 ~FastMarchingBase()
   {
@@ -59,7 +59,7 @@ FastMarchingBase< TInput, TOutput >::
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
-template< class TInput, class TOutput >
+template< typename TInput, typename TOutput >
 void
 FastMarchingBase< TInput, TOutput >::
 PrintSelf( std::ostream & os, Indent indent ) const
@@ -73,7 +73,7 @@ PrintSelf( std::ostream & os, Indent indent ) const
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
-template< class TInput, class TOutput >
+template< typename TInput, typename TOutput >
 void
 FastMarchingBase< TInput, TOutput >::
 Initialize( OutputDomainType* oDomain )
@@ -123,7 +123,7 @@ Initialize( OutputDomainType* oDomain )
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
-template< class TInput, class TOutput >
+template< typename TInput, typename TOutput >
 void
 FastMarchingBase< TInput, TOutput >::
 GenerateData()

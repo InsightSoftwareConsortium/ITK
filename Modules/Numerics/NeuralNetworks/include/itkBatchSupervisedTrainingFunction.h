@@ -30,7 +30,7 @@ namespace Statistics
  * \ingroup ITKNeuralNetworks
  */
 
-template<class TSample, class TTargetVector, class ScalarType>
+template<typename TSample, typename TTargetVector, typename ScalarType>
 class BatchSupervisedTrainingFunction : public TrainingFunctionBase<TSample, TTargetVector, ScalarType>
 {
 public:

@@ -27,7 +27,7 @@ namespace itk
 /**
  * Constructor
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 MinMaxCurvatureFlowImageFilter< TInputImage, TOutputImage >
 ::MinMaxCurvatureFlowImageFilter()
 {
@@ -43,7 +43,7 @@ MinMaxCurvatureFlowImageFilter< TInputImage, TOutputImage >
 /*
  * Standard PrintSelf method.
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 MinMaxCurvatureFlowImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -55,7 +55,7 @@ MinMaxCurvatureFlowImageFilter< TInputImage, TOutputImage >
 /*
  * Initialize the state of filter and equation before each iteration.
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 MinMaxCurvatureFlowImageFilter< TInputImage, TOutputImage >
 ::InitializeIteration()

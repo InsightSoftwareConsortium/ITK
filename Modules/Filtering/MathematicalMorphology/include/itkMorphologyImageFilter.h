@@ -68,7 +68,7 @@ namespace itk
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKMathematicalMorphology
  */
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 class MorphologyImageFilter:
   public KernelImageFilter< TInputImage, TOutputImage, TKernel >
 {

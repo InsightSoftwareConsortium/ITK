@@ -23,7 +23,7 @@ namespace itk {
 namespace Statistics {
 namespace MembershipFunctionBaseTest {
 
-template <class TMeasurementVector>
+template <typename TMeasurementVector>
 class MyMembershipFunctionBase : public MembershipFunctionBase< TMeasurementVector >
 {
 public:

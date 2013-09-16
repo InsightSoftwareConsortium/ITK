@@ -54,7 +54,7 @@ namespace Functor
  *
  * \ingroup ITKImageIntensity
 */
-template< class TInput1, class TInput2=TInput1, class TOutput=TInput1 >
+template< typename TInput1, typename TInput2=TInput1, typename TOutput=TInput1 >
 class LogicOpBase
 {
 public:
@@ -110,7 +110,7 @@ protected:
  * \ingroup ITKImageIntensity
 */
 
-template< class TInput1, class TInput2=TInput1, class TOutput=TInput1 >
+template< typename TInput1, typename TInput2=TInput1, typename TOutput=TInput1 >
 class Equal : public LogicOpBase<TInput1, TInput2, TOutput>
 {
 public:
@@ -148,7 +148,7 @@ public:
  * \ingroup ITKImageIntensity
 */
 
-template< class TInput1, class TInput2=TInput1, class TOutput=TInput1 >
+template< typename TInput1, typename TInput2=TInput1, typename TOutput=TInput1 >
 class NotEqual : public LogicOpBase<TInput1, TInput2, TOutput>
 {
 public:
@@ -184,7 +184,7 @@ public:
  * \ingroup ITKImageIntensity
 */
 
-template< class TInput1, class TInput2=TInput1, class TOutput=TInput1 >
+template< typename TInput1, typename TInput2=TInput1, typename TOutput=TInput1 >
 class GreaterEqual : public LogicOpBase<TInput1, TInput2, TOutput>
 {
 public:
@@ -219,7 +219,7 @@ public:
  * \ingroup ITKImageIntensity
 */
 
-template< class TInput1, class TInput2=TInput1, class TOutput=TInput1 >
+template< typename TInput1, typename TInput2=TInput1, typename TOutput=TInput1 >
 class Greater : public LogicOpBase<TInput1, TInput2, TOutput>
 {
 public:
@@ -252,7 +252,7 @@ public:
  * \ingroup ITKImageIntensity
 */
 
-template< class TInput1, class TInput2=TInput1, class TOutput=TInput1 >
+template< typename TInput1, typename TInput2=TInput1, typename TOutput=TInput1 >
 class LessEqual : public LogicOpBase<TInput1, TInput2, TOutput>
 {
 public:
@@ -287,7 +287,7 @@ public:
  * \ingroup ITKImageIntensity
 */
 
-template< class TInput1, class TInput2=TInput1, class TOutput=TInput1 >
+template< typename TInput1, typename TInput2=TInput1, typename TOutput=TInput1 >
 class Less : public LogicOpBase<TInput1, TInput2, TOutput>
 {
 public:

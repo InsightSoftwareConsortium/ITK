@@ -27,7 +27,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage, class TCompare >
+template< typename TInputImage, typename TOutputImage, typename TCompare >
 ReconstructionImageFilter< TInputImage, TOutputImage, TCompare >
 ::ReconstructionImageFilter()
 {
@@ -35,7 +35,7 @@ ReconstructionImageFilter< TInputImage, TOutputImage, TCompare >
   m_UseInternalCopy = true;
 }
 
-template< class TInputImage, class TOutputImage, class TCompare >
+template< typename TInputImage, typename TOutputImage, typename TCompare >
 void
 ReconstructionImageFilter< TInputImage, TOutputImage, TCompare >
 ::GenerateInputRequestedRegion()
@@ -58,7 +58,7 @@ ReconstructionImageFilter< TInputImage, TOutputImage, TCompare >
   maskPtr->SetRequestedRegion( maskPtr->GetLargestPossibleRegion() );
 }
 
-template< class TInputImage, class TOutputImage, class TCompare >
+template< typename TInputImage, typename TOutputImage, typename TCompare >
 void
 ReconstructionImageFilter< TInputImage, TOutputImage, TCompare >
 ::EnlargeOutputRequestedRegion(DataObject *)
@@ -67,7 +67,7 @@ ReconstructionImageFilter< TInputImage, TOutputImage, TCompare >
   ->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
 }
 
-template< class TInputImage, class TOutputImage, class TCompare >
+template< typename TInputImage, typename TOutputImage, typename TCompare >
 void
 ReconstructionImageFilter< TInputImage, TOutputImage, TCompare >
 ::SetMarkerImage(const MarkerImageType *markerImage)
@@ -76,14 +76,14 @@ ReconstructionImageFilter< TInputImage, TOutputImage, TCompare >
   this->SetNthInput( 0, const_cast< MarkerImageType * >( markerImage ) );
 }
 
-template< class TInputImage, class TOutputImage, class TCompare >
+template< typename TInputImage, typename TOutputImage, typename TCompare >
 const typename ReconstructionImageFilter< TInputImage, TOutputImage, TCompare >::MarkerImageType *
 ReconstructionImageFilter< TInputImage, TOutputImage, TCompare >::GetMarkerImage()
 {
   return this->GetInput(0);
 }
 
-template< class TInputImage, class TOutputImage, class TCompare >
+template< typename TInputImage, typename TOutputImage, typename TCompare >
 void
 ReconstructionImageFilter< TInputImage, TOutputImage, TCompare >::SetMaskImage(const MaskImageType *maskImage)
 {
@@ -91,7 +91,7 @@ ReconstructionImageFilter< TInputImage, TOutputImage, TCompare >::SetMaskImage(c
   this->SetNthInput( 1, const_cast< MaskImageType * >( maskImage ) );
 }
 
-template< class TInputImage, class TOutputImage, class TCompare >
+template< typename TInputImage, typename TOutputImage, typename TCompare >
 const typename ReconstructionImageFilter< TInputImage, TOutputImage, TCompare >::MaskImageType *
 ReconstructionImageFilter< TInputImage, TOutputImage, TCompare >::GetMaskImage()
 {
@@ -99,7 +99,7 @@ ReconstructionImageFilter< TInputImage, TOutputImage, TCompare >::GetMaskImage()
 }
 
 // a version that takes a padded copy of mask and marker
-template< class TInputImage, class TOutputImage, class TCompare >
+template< typename TInputImage, typename TOutputImage, typename TCompare >
 void
 ReconstructionImageFilter< TInputImage, TOutputImage, TCompare >
 ::GenerateData()
@@ -387,7 +387,7 @@ ReconstructionImageFilter< TInputImage, TOutputImage, TCompare >
     }
 }
 
-template< class TInputImage, class TOutputImage, class TCompare >
+template< typename TInputImage, typename TOutputImage, typename TCompare >
 void
 ReconstructionImageFilter< TInputImage, TOutputImage, TCompare >
 ::PrintSelf(std::ostream & os, Indent indent) const

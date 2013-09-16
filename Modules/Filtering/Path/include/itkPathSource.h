@@ -37,7 +37,7 @@ namespace itk
  * \ingroup ITKPath
  */
 
-template< class TOutputPath >
+template< typename TOutputPath >
 class PathSource:public ProcessObject
 {
 public:

@@ -25,13 +25,13 @@
 namespace itk
 {
 
-template< class TImage, class TLevelSetEvolution >
+template< typename TImage, typename TLevelSetEvolution >
 LevelSetEvolutionUpdateLevelSetsThreader< LevelSetDenseImage< TImage >, ThreadedImageRegionPartitioner< TImage::ImageDimension >, TLevelSetEvolution >
 ::LevelSetEvolutionUpdateLevelSetsThreader()
 {
 }
 
-template< class TImage, class TLevelSetEvolution >
+template< typename TImage, typename TLevelSetEvolution >
 void
 LevelSetEvolutionUpdateLevelSetsThreader< LevelSetDenseImage< TImage >, ThreadedImageRegionPartitioner< TImage::ImageDimension >, TLevelSetEvolution >
 ::BeforeThreadedExecution()
@@ -44,7 +44,7 @@ LevelSetEvolutionUpdateLevelSetsThreader< LevelSetDenseImage< TImage >, Threaded
     }
 }
 
-template< class TImage, class TLevelSetEvolution >
+template< typename TImage, typename TLevelSetEvolution >
 void
 LevelSetEvolutionUpdateLevelSetsThreader< LevelSetDenseImage< TImage >, ThreadedImageRegionPartitioner< TImage::ImageDimension >, TLevelSetEvolution >
 ::ThreadedExecution( const DomainType & imageSubRegion,
@@ -79,7 +79,7 @@ LevelSetEvolutionUpdateLevelSetsThreader< LevelSetDenseImage< TImage >, Threaded
     }
 }
 
-template< class TImage, class TLevelSetEvolution >
+template< typename TImage, typename TLevelSetEvolution >
 void
 LevelSetEvolutionUpdateLevelSetsThreader< LevelSetDenseImage< TImage >, ThreadedImageRegionPartitioner< TImage::ImageDimension >, TLevelSetEvolution >
 ::AfterThreadedExecution()

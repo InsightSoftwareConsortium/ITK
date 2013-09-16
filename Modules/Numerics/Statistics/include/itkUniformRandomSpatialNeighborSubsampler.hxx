@@ -23,7 +23,7 @@
 namespace itk {
 namespace Statistics {
 
-template <class TSample, class TRegion>
+template <typename TSample, typename TRegion>
 UniformRandomSpatialNeighborSubsampler<TSample, TRegion>
 ::UniformRandomSpatialNeighborSubsampler()
 {
@@ -33,7 +33,7 @@ UniformRandomSpatialNeighborSubsampler<TSample, TRegion>
   m_NumberOfResultsRequested = 0;
 }
 
-template <class TSample, class TRegion>
+template <typename TSample, typename TRegion>
 typename LightObject::Pointer
 UniformRandomSpatialNeighborSubsampler<TSample, TRegion>
 ::InternalClone() const
@@ -55,7 +55,7 @@ UniformRandomSpatialNeighborSubsampler<TSample, TRegion>
   return loPtr;
 }
 
-template <class TSample, class TRegion>
+template <typename TSample, typename TRegion>
 void
 UniformRandomSpatialNeighborSubsampler<TSample, TRegion>
 ::Search(const InstanceIdentifier& query,
@@ -192,7 +192,7 @@ UniformRandomSpatialNeighborSubsampler<TSample, TRegion>
     }
 } // end Search method
 
-template <class TSample, class TRegion>
+template <typename TSample, typename TRegion>
 typename UniformRandomSpatialNeighborSubsampler<TSample, TRegion>::RandomIntType
 UniformRandomSpatialNeighborSubsampler<TSample, TRegion>
 ::GetIntegerVariate(RandomIntType lowerBound,
@@ -205,7 +205,7 @@ UniformRandomSpatialNeighborSubsampler<TSample, TRegion>
     m_RandomNumberGenerator->GetIntegerVariate(sizeRange);
 }
 
-template <class TSample, class TRegion>
+template <typename TSample, typename TRegion>
 void
 UniformRandomSpatialNeighborSubsampler<TSample, TRegion>
 ::PrintSelf(std::ostream& os, Indent indent) const

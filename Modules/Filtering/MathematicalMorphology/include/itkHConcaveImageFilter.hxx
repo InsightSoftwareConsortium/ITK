@@ -25,7 +25,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 HConcaveImageFilter< TInputImage, TOutputImage >
 ::HConcaveImageFilter()
 {
@@ -34,7 +34,7 @@ HConcaveImageFilter< TInputImage, TOutputImage >
   m_FullyConnected = false;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 HConcaveImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
@@ -50,7 +50,7 @@ HConcaveImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 HConcaveImageFilter< TInputImage, TOutputImage >
 ::EnlargeOutputRequestedRegion(DataObject *)
@@ -59,7 +59,7 @@ HConcaveImageFilter< TInputImage, TOutputImage >
   ->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 HConcaveImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
@@ -104,7 +104,7 @@ HConcaveImageFilter< TInputImage, TOutputImage >
   this->GraftOutput( subtract->GetOutput() );
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 HConcaveImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

@@ -51,8 +51,8 @@ namespace itk
  * \ingroup ITKLevelSets
  */
 template<
-  class TLevelSet,
-  class TAuxValue,
+  typename TLevelSet,
+  typename TAuxValue,
   unsigned int VAuxDimension = 1
   >
 class LevelSetVelocityNeighborhoodExtractor:

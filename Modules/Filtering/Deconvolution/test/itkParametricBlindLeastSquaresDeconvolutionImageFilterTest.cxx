@@ -27,7 +27,7 @@
 // parameters
 namespace itk
 {
-template< class TOutputImage >
+template< typename TOutputImage >
 class ExampleImageSource : public GaussianImageSource< TOutputImage >
 {
 public:

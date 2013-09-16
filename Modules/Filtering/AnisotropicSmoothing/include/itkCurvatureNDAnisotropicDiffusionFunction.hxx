@@ -22,11 +22,11 @@
 
 namespace itk
 {
-template< class TImage >
+template< typename TImage >
 double CurvatureNDAnisotropicDiffusionFunction< TImage >
 ::m_MIN_NORM = 1.0e-10;
 
-template< class TImage >
+template< typename TImage >
 CurvatureNDAnisotropicDiffusionFunction< TImage >
 ::CurvatureNDAnisotropicDiffusionFunction()
 {
@@ -73,7 +73,7 @@ CurvatureNDAnisotropicDiffusionFunction< TImage >
   dx_op.CreateDirectional();
 }
 
-template< class TImage >
+template< typename TImage >
 typename CurvatureNDAnisotropicDiffusionFunction< TImage >::PixelType
 CurvatureNDAnisotropicDiffusionFunction< TImage >
 ::ComputeUpdate( const NeighborhoodType & it, void *itkNotUsed(globalData),

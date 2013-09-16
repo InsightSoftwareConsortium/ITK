@@ -44,8 +44,8 @@ namespace itk
  *
  *  \ingroup ITKLevelSetsv4
  */
-template< class TInputImage, // Input image
-          class TLevelSetContainer >
+template< typename TInputImage, // Input image
+          typename TLevelSetContainer >
 class LevelSetEquationTermBase : public Object
 {
 public:

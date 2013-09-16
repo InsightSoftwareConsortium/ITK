@@ -25,7 +25,7 @@ namespace itk
 {
 
 //-------------------------------------------------------------------
-template<class TInternalComputationValueType>
+template<typename TInternalComputationValueType>
 ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>
 ::ObjectToObjectOptimizerBaseTemplate()
 {
@@ -39,13 +39,13 @@ ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>
 }
 
 //-------------------------------------------------------------------
-template<class TInternalComputationValueType>
+template<typename TInternalComputationValueType>
 ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>
 ::~ObjectToObjectOptimizerBaseTemplate()
 {}
 
 //-------------------------------------------------------------------
-template<class TInternalComputationValueType>
+template<typename TInternalComputationValueType>
 void
 ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -77,7 +77,7 @@ ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>
 }
 
 //-------------------------------------------------------------------
-template<class TInternalComputationValueType>
+template<typename TInternalComputationValueType>
 void
 ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>
 ::SetNumberOfThreads( ThreadIdType number )
@@ -94,7 +94,7 @@ ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>
 }
 
 //-------------------------------------------------------------------
-template<class TInternalComputationValueType>
+template<typename TInternalComputationValueType>
 void
 ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>
 ::StartOptimization( bool itkNotUsed(doOnlyInitialization) )
@@ -178,7 +178,7 @@ ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>
 }
 
 //-------------------------------------------------------------------
-template<class TInternalComputationValueType>
+template<typename TInternalComputationValueType>
 const typename ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>::ParametersType &
 ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>
 ::GetCurrentPosition() const
@@ -191,7 +191,7 @@ ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>
 }
 
 //-------------------------------------------------------------------
-template<class TInternalComputationValueType>
+template<typename TInternalComputationValueType>
 const typename ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>::MeasureType &
 ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>
 ::GetValue() const

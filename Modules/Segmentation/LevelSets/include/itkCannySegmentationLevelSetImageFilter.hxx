@@ -22,7 +22,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TFeatureImage, class TOutputPixelType >
+template< typename TInputImage, typename TFeatureImage, typename TOutputPixelType >
 CannySegmentationLevelSetImageFilter< TInputImage, TFeatureImage,
                                       TOutputPixelType >
 ::CannySegmentationLevelSetImageFilter()

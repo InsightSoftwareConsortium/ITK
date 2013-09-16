@@ -161,7 +161,7 @@ namespace itk
  * \ingroup ITKKLMRegionGrowing
  */
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class KLMRegionGrowImageFilter:public RegionGrowImageFilter< TInputImage, TOutputImage >
 {
 public:

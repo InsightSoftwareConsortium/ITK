@@ -22,17 +22,17 @@
 
 namespace itk
 {
-template< class TInput, class TOutput, class TCriterion >
+template< typename TInput, typename TOutput, typename TCriterion >
 SquaredEdgeLengthDecimationQuadEdgeMeshFilter< TInput, TOutput,
                                          TCriterion >::SquaredEdgeLengthDecimationQuadEdgeMeshFilter():Superclass()
 {}
 
-template< class TInput, class TOutput, class TCriterion >
+template< typename TInput, typename TOutput, typename TCriterion >
 SquaredEdgeLengthDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >::
 ~SquaredEdgeLengthDecimationQuadEdgeMeshFilter()
 {}
 
-template< class TInput, class TOutput, class TCriterion >
+template< typename TInput, typename TOutput, typename TCriterion >
 typename
 SquaredEdgeLengthDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion
                                          >::OutputPointType

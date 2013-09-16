@@ -42,7 +42,7 @@ namespace itk
 /// Uses the < operator to determin ordering
 /// If first == last then return is pair(first,first);
 /// otherwise is it pair(min, max)
-template< class TInputIter >
+template< typename TInputIter >
 std::pair< TInputIter, TInputIter > min_max_element(TInputIter first, TInputIter last)
 {
   std::pair< TInputIter, TInputIter > result(first, first);
@@ -98,7 +98,7 @@ std::pair< TInputIter, TInputIter > min_max_element(TInputIter first, TInputIter
 /// Uses the provided binary functor
 /// If first == last then return is pair(first,first);
 /// otherwise is it pair(min, max)
-template< class TInputIter, class TCompare >
+template< typename TInputIter, typename TCompare >
 std::pair< TInputIter, TInputIter > min_max_element(TInputIter first, TInputIter last, TCompare comp)
 {
   std::pair< TInputIter, TInputIter > result(first, first);

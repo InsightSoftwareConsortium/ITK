@@ -39,7 +39,7 @@
  * on the segmentation filter in this test.
  */
 namespace {
-template<class TFilter>
+template<typename TFilter>
 class ShowIterationObject
 {
 public:

@@ -21,7 +21,7 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
-template<class TIMAGE>
+template<typename TIMAGE>
 int itkDiscreteGaussianImageFilterTestA(int argc, char* argv[])
 {
     if( argc < 6 )

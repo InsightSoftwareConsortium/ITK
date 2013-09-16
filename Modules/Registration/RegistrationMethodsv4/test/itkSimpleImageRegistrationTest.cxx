@@ -27,7 +27,7 @@
 #include "itkGaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor.h"
 #include "itkJointHistogramMutualInformationImageToImageMetricv4.h"
 
-template<class TFilter>
+template<typename TFilter>
 class CommandIterationUpdate : public itk::Command
 {
 public:

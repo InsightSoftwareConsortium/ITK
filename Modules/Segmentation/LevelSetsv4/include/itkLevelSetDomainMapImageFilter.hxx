@@ -23,7 +23,7 @@
 
 namespace itk
 {
-template < class TInputImage, class TOutputImage >
+template < typename TInputImage, typename TOutputImage >
 LevelSetDomainMapImageFilter< TInputImage, TOutputImage >
 ::LevelSetDomainMapImageFilter()
 {
@@ -34,14 +34,14 @@ LevelSetDomainMapImageFilter< TInputImage, TOutputImage >
 }
 
 
-template < class TInputImage, class TOutputImage >
+template < typename TInputImage, typename TOutputImage >
 LevelSetDomainMapImageFilter< TInputImage, TOutputImage >
 ::~LevelSetDomainMapImageFilter()
 {
 }
 
 
-template < class TInputImage, class TOutputImage >
+template < typename TInputImage, typename TOutputImage >
 const typename LevelSetDomainMapImageFilter< TInputImage, TOutputImage >::DomainMapType &
 LevelSetDomainMapImageFilter< TInputImage, TOutputImage >
 ::GetDomainMap() const
@@ -49,7 +49,7 @@ LevelSetDomainMapImageFilter< TInputImage, TOutputImage >
   return this->m_DomainMap;
 }
 
-template < class TInputImage, class TOutputImage >
+template < typename TInputImage, typename TOutputImage >
 typename LevelSetDomainMapImageFilter< TInputImage, TOutputImage >::InputImageRegionType
 LevelSetDomainMapImageFilter< TInputImage, TOutputImage >
 ::ComputeConsistentRegion( const InputImageRegionType & inputRegion ) const
@@ -101,7 +101,7 @@ LevelSetDomainMapImageFilter< TInputImage, TOutputImage >
 }
 
 
-template < class TInputImage, class TOutputImage >
+template < typename TInputImage, typename TOutputImage >
 void
 LevelSetDomainMapImageFilter< TInputImage, TOutputImage >::
 GenerateData()
@@ -194,7 +194,7 @@ GenerateData()
     }
 }
 
-template < class TInputImage, class TOutputImage >
+template < typename TInputImage, typename TOutputImage >
 void
 LevelSetDomainMapImageFilter< TInputImage, TOutputImage >::
 PrintSelf ( std::ostream& os, Indent indent ) const

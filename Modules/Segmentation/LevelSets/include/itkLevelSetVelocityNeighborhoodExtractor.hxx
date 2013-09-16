@@ -26,7 +26,7 @@ namespace itk
 /**
  *
  */
-template< class TLevelSet, class TAuxValue,
+template< typename TLevelSet, typename TAuxValue,
           unsigned int VAuxDimension >
 LevelSetVelocityNeighborhoodExtractor< TLevelSet, TAuxValue, VAuxDimension >
 ::LevelSetVelocityNeighborhoodExtractor()
@@ -42,7 +42,7 @@ LevelSetVelocityNeighborhoodExtractor< TLevelSet, TAuxValue, VAuxDimension >
 /*
  *
  */
-template< class TLevelSet, class TAuxValue,
+template< typename TLevelSet, typename TAuxValue,
           unsigned int VAuxDimension >
 void
 LevelSetVelocityNeighborhoodExtractor< TLevelSet, TAuxValue, VAuxDimension >
@@ -65,7 +65,7 @@ LevelSetVelocityNeighborhoodExtractor< TLevelSet, TAuxValue, VAuxDimension >
 /*
  *
  */
-template< class TLevelSet, class TAuxValue,
+template< typename TLevelSet, typename TAuxValue,
           unsigned int VAuxDimension >
 void
 LevelSetVelocityNeighborhoodExtractor< TLevelSet, TAuxValue, VAuxDimension >
@@ -81,7 +81,7 @@ LevelSetVelocityNeighborhoodExtractor< TLevelSet, TAuxValue, VAuxDimension >
 /*
  *
  */
-template< class TLevelSet, class TAuxValue,
+template< typename TLevelSet, typename TAuxValue,
           unsigned int VAuxDimension >
 double
 LevelSetVelocityNeighborhoodExtractor< TLevelSet, TAuxValue, VAuxDimension >

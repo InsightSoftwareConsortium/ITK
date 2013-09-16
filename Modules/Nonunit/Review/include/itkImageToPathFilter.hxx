@@ -34,7 +34,7 @@ namespace itk
 /**
  *
  */
-template< class TInputImage, class TOutputPath >
+template< typename TInputImage, typename TOutputPath >
 ImageToPathFilter< TInputImage, TOutputPath >
 ::ImageToPathFilter()
 {
@@ -45,7 +45,7 @@ ImageToPathFilter< TInputImage, TOutputPath >
 /**
  *
  */
-template< class TInputImage, class TOutputPath >
+template< typename TInputImage, typename TOutputPath >
 ImageToPathFilter< TInputImage, TOutputPath >
 ::~ImageToPathFilter()
 {}
@@ -53,7 +53,7 @@ ImageToPathFilter< TInputImage, TOutputPath >
 /**
  *
  */
-template< class TInputImage, class TOutputPath >
+template< typename TInputImage, typename TOutputPath >
 void
 ImageToPathFilter< TInputImage, TOutputPath >
 ::SetInput(const InputImageType *input)
@@ -66,7 +66,7 @@ ImageToPathFilter< TInputImage, TOutputPath >
 /**
  * Connect one of the operands for pixel-wise addition
  */
-template< class TInputImage, class TOutputPath >
+template< typename TInputImage, typename TOutputPath >
 void
 ImageToPathFilter< TInputImage, TOutputPath >
 ::SetInput(unsigned int index, const TInputImage *image)
@@ -79,7 +79,7 @@ ImageToPathFilter< TInputImage, TOutputPath >
 /**
  *
  */
-template< class TInputImage, class TOutputPath >
+template< typename TInputImage, typename TOutputPath >
 const typename ImageToPathFilter< TInputImage, TOutputPath >::InputImageType *
 ImageToPathFilter< TInputImage, TOutputPath >
 ::GetInput(void)
@@ -90,7 +90,7 @@ ImageToPathFilter< TInputImage, TOutputPath >
 /**
  *
  */
-template< class TInputImage, class TOutputPath >
+template< typename TInputImage, typename TOutputPath >
 const typename ImageToPathFilter< TInputImage, TOutputPath >::InputImageType *
 ImageToPathFilter< TInputImage, TOutputPath >
 ::GetInput(unsigned int idx)
@@ -98,7 +98,7 @@ ImageToPathFilter< TInputImage, TOutputPath >
   return itkDynamicCastInDebugMode< const TInputImage * >( this->ProcessObject::GetInput(idx) );
 }
 
-template< class TInputImage, class TOutputPath >
+template< typename TInputImage, typename TOutputPath >
 void
 ImageToPathFilter< TInputImage, TOutputPath >
 ::PrintSelf(std::ostream & os, Indent indent) const

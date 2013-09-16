@@ -22,7 +22,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 typename ZeroFluxNeumannBoundaryCondition< TInputImage, TOutputImage >::OutputPixelType
 ZeroFluxNeumannBoundaryCondition< TInputImage, TOutputImage >
 ::operator()(const OffsetType & point_index, const OffsetType & boundary_offset,
@@ -61,7 +61,7 @@ ZeroFluxNeumannBoundaryCondition< TInputImage, TOutputImage >
     (*( reinterpret_cast< PixelType * >( ( data->operator[](linear_index) ) ) ) );
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 typename ZeroFluxNeumannBoundaryCondition< TInputImage, TOutputImage >::OutputPixelType
 ZeroFluxNeumannBoundaryCondition< TInputImage, TOutputImage >
 ::operator()(const OffsetType & point_index, const OffsetType & boundary_offset,
@@ -81,7 +81,7 @@ ZeroFluxNeumannBoundaryCondition< TInputImage, TOutputImage >
 }
 
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 typename ZeroFluxNeumannBoundaryCondition< TInputImage, TOutputImage >::RegionType
 ZeroFluxNeumannBoundaryCondition< TInputImage, TOutputImage >
 ::GetInputRequestedRegion( const RegionType & inputLargestPossibleRegion,
@@ -151,7 +151,7 @@ ZeroFluxNeumannBoundaryCondition< TInputImage, TOutputImage >
 }
 
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 typename ZeroFluxNeumannBoundaryCondition< TInputImage, TOutputImage >::OutputPixelType
 ZeroFluxNeumannBoundaryCondition< TInputImage, TOutputImage >
 ::GetPixel( const IndexType & index, const TInputImage * image ) const

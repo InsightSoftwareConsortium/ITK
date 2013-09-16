@@ -21,7 +21,7 @@
 #include "itkAbsoluteValueDifferenceImageFilter.h"
 #include "itkImageFileReader.h"
 
-template< class TForwardFFT, class TInverseFFT >
+template< typename TForwardFFT, typename TInverseFFT >
 bool ForwardInverseFullFFTTest(const char * inputFileName)
 {
   double tolerance = 1.e-3;
@@ -64,7 +64,7 @@ bool ForwardInverseFullFFTTest(const char * inputFileName)
   return success;
 }
 
-template< class TForwardFFT, class TInverseFFT >
+template< typename TForwardFFT, typename TInverseFFT >
 bool ForwardInverseHalfFFTTest(const char * inputFileName)
 {
   double tolerance = 1.e-3;

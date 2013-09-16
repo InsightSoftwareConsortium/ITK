@@ -146,7 +146,7 @@ namespace itk
  * \ingroup WatershedSegmentation
  * \ingroup ITKWatersheds
  */
-template< class TInputImage >
+template< typename TInputImage >
 class WatershedImageFilter:
   public ImageToImageFilter< TInputImage, Image< IdentifierType,
                                                  TInputImage::ImageDimension > >

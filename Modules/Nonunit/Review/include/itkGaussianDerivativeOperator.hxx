@@ -27,7 +27,7 @@ namespace itk
 {
 
 /* Constructor. */
-template< class TPixel, unsigned int VDimension, class TAllocator >
+template< typename TPixel, unsigned int VDimension, typename TAllocator >
 GaussianDerivativeOperator< TPixel, VDimension, TAllocator >
 ::GaussianDerivativeOperator()
 {
@@ -40,7 +40,7 @@ GaussianDerivativeOperator< TPixel, VDimension, TAllocator >
 }
 
 /* Copy constructor */
-template< class TPixel, unsigned int VDimension, class TAllocator >
+template< typename TPixel, unsigned int VDimension, typename TAllocator >
 GaussianDerivativeOperator< TPixel, VDimension, TAllocator >
 ::GaussianDerivativeOperator(const Self & other)
   : NeighborhoodOperator< TPixel, VDimension, TAllocator >(other)
@@ -54,7 +54,7 @@ GaussianDerivativeOperator< TPixel, VDimension, TAllocator >
 }
 
 /** Assignment operator */
-template< class TPixel, unsigned int VDimension, class TAllocator >
+template< typename TPixel, unsigned int VDimension, typename TAllocator >
 GaussianDerivativeOperator< TPixel, VDimension, TAllocator > &
 GaussianDerivativeOperator< TPixel, VDimension, TAllocator >
 ::operator=(const Self & other)
@@ -72,7 +72,7 @@ GaussianDerivativeOperator< TPixel, VDimension, TAllocator >
   return *this;
 }
 
-template< class TPixel, unsigned int VDimension, class TAllocator >
+template< typename TPixel, unsigned int VDimension, typename TAllocator >
 typename GaussianDerivativeOperator< TPixel, VDimension, TAllocator >
 ::CoefficientVector
 GaussianDerivativeOperator< TPixel, VDimension, TAllocator >
@@ -139,7 +139,7 @@ GaussianDerivativeOperator< TPixel, VDimension, TAllocator >
   return coeff;
 }
 
-template< class TPixel, unsigned int VDimension, class TAllocator >
+template< typename TPixel, unsigned int VDimension, typename TAllocator >
 typename GaussianDerivativeOperator< TPixel, VDimension, TAllocator >::CoefficientVector
 GaussianDerivativeOperator< TPixel, VDimension, TAllocator >
 ::GenerateGaussianCoefficients() const
@@ -203,7 +203,7 @@ GaussianDerivativeOperator< TPixel, VDimension, TAllocator >
   return coeff;
 }
 
-template< class TPixel, unsigned int VDimension, class TAllocator >
+template< typename TPixel, unsigned int VDimension, typename TAllocator >
 double
 GaussianDerivativeOperator< TPixel, VDimension, TAllocator >
 ::ModifiedBesselI0(double y)
@@ -241,7 +241,7 @@ GaussianDerivativeOperator< TPixel, VDimension, TAllocator >
   return accumulator;
 }
 
-template< class TPixel, unsigned int VDimension, class TAllocator >
+template< typename TPixel, unsigned int VDimension, typename TAllocator >
 double
 GaussianDerivativeOperator< TPixel, VDimension, TAllocator >
 ::ModifiedBesselI1(double y)
@@ -273,7 +273,7 @@ GaussianDerivativeOperator< TPixel, VDimension, TAllocator >
   else { return accumulator; }
 }
 
-template< class TPixel, unsigned int VDimension, class TAllocator >
+template< typename TPixel, unsigned int VDimension, typename TAllocator >
 double
 GaussianDerivativeOperator< TPixel, VDimension, TAllocator >
 ::ModifiedBesselI(int n, double y)
@@ -314,7 +314,7 @@ GaussianDerivativeOperator< TPixel, VDimension, TAllocator >
 }
 
 /* Prints some debugging information. */
-template< class TPixel, unsigned int VDimension, class TAllocator >
+template< typename TPixel, unsigned int VDimension, typename TAllocator >
 void
 GaussianDerivativeOperator< TPixel, VDimension, TAllocator >
 ::PrintSelf(std::ostream & os, Indent i) const

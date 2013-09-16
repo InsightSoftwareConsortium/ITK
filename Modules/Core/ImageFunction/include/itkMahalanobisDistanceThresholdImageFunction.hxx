@@ -22,7 +22,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TCoordRep >
+template< typename TInputImage, typename TCoordRep >
 MahalanobisDistanceThresholdImageFunction< TInputImage, TCoordRep >
 ::MahalanobisDistanceThresholdImageFunction()
 {
@@ -31,7 +31,7 @@ MahalanobisDistanceThresholdImageFunction< TInputImage, TCoordRep >
     MahalanobisDistanceFunctionType::New();
 }
 
-template< class TInputImage, class TCoordRep >
+template< typename TInputImage, typename TCoordRep >
 void
 MahalanobisDistanceThresholdImageFunction< TInputImage, TCoordRep >
 ::SetMean(const MeanVectorType & mean)
@@ -49,7 +49,7 @@ MahalanobisDistanceThresholdImageFunction< TInputImage, TCoordRep >
   m_MahalanobisDistanceMembershipFunction->SetMean(m);
 }
 
-template< class TInputImage, class TCoordRep >
+template< typename TInputImage, typename TCoordRep >
 void
 MahalanobisDistanceThresholdImageFunction< TInputImage, TCoordRep >
 ::SetCovariance(const CovarianceMatrixType & covariance)
@@ -63,7 +63,7 @@ MahalanobisDistanceThresholdImageFunction< TInputImage, TCoordRep >
   m_MahalanobisDistanceMembershipFunction->SetCovariance(c);
 }
 
-template< class TInputImage, class TCoordRep >
+template< typename TInputImage, typename TCoordRep >
 const typename
 MahalanobisDistanceThresholdImageFunction< TInputImage, TCoordRep >::MeanVectorType &
 MahalanobisDistanceThresholdImageFunction< TInputImage, TCoordRep >
@@ -74,7 +74,7 @@ MahalanobisDistanceThresholdImageFunction< TInputImage, TCoordRep >
   return m_Mean;
 }
 
-template< class TInputImage, class TCoordRep >
+template< typename TInputImage, typename TCoordRep >
 const typename
 MahalanobisDistanceThresholdImageFunction< TInputImage, TCoordRep >::CovarianceMatrixType &
 MahalanobisDistanceThresholdImageFunction< TInputImage, TCoordRep >
@@ -85,7 +85,7 @@ MahalanobisDistanceThresholdImageFunction< TInputImage, TCoordRep >
   return m_Covariance;
 }
 
-template< class TInputImage, class TCoordRep >
+template< typename TInputImage, typename TCoordRep >
 bool
 MahalanobisDistanceThresholdImageFunction< TInputImage, TCoordRep >
 ::Evaluate(const PointType & point) const
@@ -96,7 +96,7 @@ MahalanobisDistanceThresholdImageFunction< TInputImage, TCoordRep >
   return ( this->EvaluateAtIndex(index) );
 }
 
-template< class TInputImage, class TCoordRep >
+template< typename TInputImage, typename TCoordRep >
 bool
 MahalanobisDistanceThresholdImageFunction< TInputImage, TCoordRep >
 ::EvaluateAtContinuousIndex(const ContinuousIndexType & index) const
@@ -107,7 +107,7 @@ MahalanobisDistanceThresholdImageFunction< TInputImage, TCoordRep >
   return this->EvaluateAtIndex(nindex);
 }
 
-template< class TInputImage, class TCoordRep >
+template< typename TInputImage, typename TCoordRep >
 bool
 MahalanobisDistanceThresholdImageFunction< TInputImage, TCoordRep >
 ::EvaluateAtIndex(const IndexType & index) const
@@ -117,7 +117,7 @@ MahalanobisDistanceThresholdImageFunction< TInputImage, TCoordRep >
   return ( mahalanobisDistance <= m_Threshold );
 }
 
-template< class TInputImage, class TCoordRep >
+template< typename TInputImage, typename TCoordRep >
 double
 MahalanobisDistanceThresholdImageFunction< TInputImage, TCoordRep >
 ::EvaluateDistance(const PointType & point) const
@@ -129,7 +129,7 @@ MahalanobisDistanceThresholdImageFunction< TInputImage, TCoordRep >
   return mahalanobisDistance;
 }
 
-template< class TInputImage, class TCoordRep >
+template< typename TInputImage, typename TCoordRep >
 double
 MahalanobisDistanceThresholdImageFunction< TInputImage, TCoordRep >
 ::EvaluateDistanceAtIndex(const IndexType & index) const
@@ -156,7 +156,7 @@ MahalanobisDistanceThresholdImageFunction< TInputImage, TCoordRep >
   return mahalanobisDistance;
 }
 
-template< class TInputImage, class TCoordRep >
+template< typename TInputImage, typename TCoordRep >
 void
 MahalanobisDistanceThresholdImageFunction< TInputImage, TCoordRep >
 ::PrintSelf(std::ostream & os, Indent indent) const

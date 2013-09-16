@@ -60,7 +60,7 @@ namespace watershed
  * \ingroup WatershedSegmentation
  * \ingroup ITKWatersheds
  */
-template< class TPixelType, unsigned int TDimension >
+template< typename TPixelType, unsigned int TDimension >
 class BoundaryResolver:public ProcessObject
 {
 public:

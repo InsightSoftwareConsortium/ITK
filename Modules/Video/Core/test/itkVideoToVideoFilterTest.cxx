@@ -68,7 +68,7 @@ InputFrameType::Pointer CreateInputFrame(InputPixelType val)
 /** \class DummyVideoToVideoFilter
  * \brief A simple implementation of VideoTOVideoFilter for the test
  */
-template<class TInputVideoStream, class TOutputVideoStream>
+template<typename TInputVideoStream, typename TOutputVideoStream>
 class DummyVideoToVideoFilter :
   public VideoToVideoFilter<TInputVideoStream, TOutputVideoStream>
 {

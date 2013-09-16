@@ -22,7 +22,7 @@
 #include <iostream>
 #include <fstream>
 
-template <class T>
+template <typename T>
 void TestTransformIndexToPhysicalPoint(T * image)
 {
   typename T::IndexType index3D;
@@ -43,7 +43,7 @@ void TestTransformIndexToPhysicalPoint(T * image)
     if (k == 5) std::cout << point3D << std::endl;
     }
 }
-template <class T>
+template <typename T>
 void TestTransformPhysicalPointToIndex(T * image)
 {
   typename T::IndexType index3D;

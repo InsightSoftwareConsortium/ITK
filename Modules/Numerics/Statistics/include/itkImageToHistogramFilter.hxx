@@ -25,7 +25,7 @@ namespace itk
 {
 namespace Statistics
 {
-template< class TImage >
+template< typename TImage >
 ImageToHistogramFilter< TImage >
 ::ImageToHistogramFilter()
 {
@@ -54,7 +54,7 @@ ImageToHistogramFilter< TImage >
    this->ProcessObject::SetInput( "AutoMinimumMaximum", autoMinMax );
 }
 
-template< class TImage >
+template< typename TImage >
 DataObject::Pointer
 ImageToHistogramFilter< TImage >
 ::MakeOutput( DataObjectPointerArraySizeType itkNotUsed(idx) )
@@ -62,7 +62,7 @@ ImageToHistogramFilter< TImage >
   return HistogramType::New().GetPointer();
 }
 
-template< class TImage >
+template< typename TImage >
 const typename ImageToHistogramFilter< TImage >::HistogramType *
 ImageToHistogramFilter< TImage >
 ::GetOutput() const
@@ -73,7 +73,7 @@ ImageToHistogramFilter< TImage >
   return output;
 }
 
-template< class TImage >
+template< typename TImage >
 typename ImageToHistogramFilter< TImage >::HistogramType *
 ImageToHistogramFilter< TImage >
 ::GetOutput()
@@ -84,7 +84,7 @@ ImageToHistogramFilter< TImage >
   return output;
 }
 
-template< class TImage >
+template< typename TImage >
 void
 ImageToHistogramFilter< TImage >
 ::GraftOutput(DataObject *graft)
@@ -97,7 +97,7 @@ ImageToHistogramFilter< TImage >
 }
 
 
-template< class TImage >
+template< typename TImage >
 void
 ImageToHistogramFilter< TImage >
 ::BeforeThreadedGenerateData()
@@ -123,7 +123,7 @@ ImageToHistogramFilter< TImage >
 }
 
 
-template< class TImage >
+template< typename TImage >
 void
 ImageToHistogramFilter< TImage >
 ::ThreadedGenerateData(const RegionType & inputRegionForThread, ThreadIdType threadId)
@@ -228,7 +228,7 @@ ImageToHistogramFilter< TImage >
 }
 
 
-template< class TImage >
+template< typename TImage >
 void
 ImageToHistogramFilter< TImage >
 ::AfterThreadedGenerateData()
@@ -257,7 +257,7 @@ ImageToHistogramFilter< TImage >
 }
 
 
-template< class TImage >
+template< typename TImage >
 void
 ImageToHistogramFilter< TImage >
 ::ThreadedComputeMinimumAndMaximum(const RegionType & inputRegionForThread, ThreadIdType threadId, ProgressReporter & progress )
@@ -288,7 +288,7 @@ ImageToHistogramFilter< TImage >
   m_Maximums[threadId] = max;
 }
 
-template< class TImage >
+template< typename TImage >
 void
 ImageToHistogramFilter< TImage >
 ::ThreadedComputeHistogram(const RegionType & inputRegionForThread, ThreadIdType threadId, ProgressReporter & progress )
@@ -308,7 +308,7 @@ ImageToHistogramFilter< TImage >
     }
 }
 
-template< class TImage >
+template< typename TImage >
 void
 ImageToHistogramFilter< TImage >
 ::ApplyMarginalScale( HistogramMeasurementVectorType & min, HistogramMeasurementVectorType & max, HistogramSizeType & size )
@@ -379,7 +379,7 @@ ImageToHistogramFilter< TImage >
     }
 }
 
-template< class TImage >
+template< typename TImage >
 void
 ImageToHistogramFilter< TImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

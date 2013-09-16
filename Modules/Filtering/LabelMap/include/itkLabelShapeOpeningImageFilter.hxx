@@ -23,7 +23,7 @@
 
 namespace itk
 {
-template< class TInputImage >
+template< typename TInputImage >
 LabelShapeOpeningImageFilter< TInputImage >
 ::LabelShapeOpeningImageFilter()
 {
@@ -33,7 +33,7 @@ LabelShapeOpeningImageFilter< TInputImage >
   m_Attribute = LabelObjectType::NUMBER_OF_PIXELS;
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void
 LabelShapeOpeningImageFilter< TInputImage >
 ::GenerateInputRequestedRegion()
@@ -49,7 +49,7 @@ LabelShapeOpeningImageFilter< TInputImage >
     }
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void
 LabelShapeOpeningImageFilter< TInputImage >
 ::EnlargeOutputRequestedRegion(DataObject *)
@@ -58,7 +58,7 @@ LabelShapeOpeningImageFilter< TInputImage >
   ->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void
 LabelShapeOpeningImageFilter< TInputImage >
 ::GenerateData()
@@ -109,7 +109,7 @@ LabelShapeOpeningImageFilter< TInputImage >
   this->GraftOutput( binarizer->GetOutput() );
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void
 LabelShapeOpeningImageFilter< TInputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

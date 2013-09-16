@@ -27,7 +27,7 @@
 
 namespace itk
 {
-template< class TImageType, class TFeatureImageType >
+template< typename TImageType, typename TFeatureImageType >
 void
 CurvesLevelSetFunction< TImageType, TFeatureImageType >
 ::Initialize(const RadiusType & r)
@@ -39,7 +39,7 @@ CurvesLevelSetFunction< TImageType, TFeatureImageType >
   this->SetCurvatureWeight(NumericTraits< ScalarValueType >::One);
 }
 
-template< class TImageType, class TFeatureImageType >
+template< typename TImageType, typename TFeatureImageType >
 void CurvesLevelSetFunction< TImageType, TFeatureImageType >
 ::CalculateSpeedImage()
 {
@@ -51,7 +51,7 @@ void CurvesLevelSetFunction< TImageType, TFeatureImageType >
 
 }
 
-template< class TImageType, class TFeatureImageType >
+template< typename TImageType, typename TFeatureImageType >
 void CurvesLevelSetFunction< TImageType, TFeatureImageType >
 ::CalculateAdvectionImage()
 {

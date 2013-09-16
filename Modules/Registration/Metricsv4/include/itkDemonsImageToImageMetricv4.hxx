@@ -23,7 +23,7 @@
 namespace itk
 {
 
-template < class TFixedImage, class TMovingImage, class TVirtualImage, class TInternalComputationValueType, class TMetricTraits >
+template < typename TFixedImage, typename TMovingImage, typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits >
 DemonsImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage, TInternalComputationValueType, TMetricTraits>
 ::DemonsImageToImageMetricv4()
 {
@@ -41,13 +41,13 @@ DemonsImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage, TInternalComp
 
 }
 
-template < class TFixedImage, class TMovingImage, class TVirtualImage, class TInternalComputationValueType, class TMetricTraits >
+template < typename TFixedImage, typename TMovingImage, typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits >
 DemonsImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage, TInternalComputationValueType, TMetricTraits>
 ::~DemonsImageToImageMetricv4()
 {
 }
 
-template < class TFixedImage, class TMovingImage, class TVirtualImage, class TInternalComputationValueType, class TMetricTraits >
+template < typename TFixedImage, typename TMovingImage, typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits >
 void
 DemonsImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage, TInternalComputationValueType, TMetricTraits>
 ::Initialize(void) throw ( itk::ExceptionObject )
@@ -92,7 +92,7 @@ DemonsImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage, TInternalComp
   Superclass::Initialize();
 }
 
-template < class TFixedImage, class TMovingImage, class TVirtualImage, class TInternalComputationValueType, class TMetricTraits >
+template < typename TFixedImage, typename TMovingImage, typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits >
 void
 DemonsImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage, TInternalComputationValueType, TMetricTraits>
 ::PrintSelf(std::ostream& os, Indent indent) const

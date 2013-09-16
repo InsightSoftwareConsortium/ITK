@@ -30,7 +30,7 @@ namespace itk
  * \brief Helper class used to share data in the ScalarChanAndVeseLevelSetFunction.
  * \ingroup ITKLevelSetsv4
  */
-template< class TImage >
+template< typename TImage >
 class LevelSetDomainPartitionImageWithKdTree:
   public LevelSetDomainPartitionImage< TImage >
 {

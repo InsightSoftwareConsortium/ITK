@@ -18,7 +18,7 @@
 
 #include "itkBSplineResampleImageFunction.h"
 #include "itkRandomImageSource.h"
-template<class BSplineInterpolatorFunctionType>
+template<typename BSplineInterpolatorFunctionType>
 typename BSplineInterpolatorFunctionType::Pointer makeRandomImageInterpolator(const int SplineOrder)
 {
   typedef typename BSplineInterpolatorFunctionType::ContinuousIndexType ContinuousIndexType;

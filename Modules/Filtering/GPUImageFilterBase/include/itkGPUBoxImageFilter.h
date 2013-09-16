@@ -36,7 +36,7 @@ namespace itk
  * \ingroup ITKGPUImageFilterBase
  */
 
-template< class TInputImage, class TOutputImage, class TParentImageFilter = BoxImageFilter< TInputImage, TOutputImage > >
+template< typename TInputImage, typename TOutputImage, typename TParentImageFilter = BoxImageFilter< TInputImage, TOutputImage > >
 class GPUBoxImageFilter :
   public GPUImageToImageFilter< TInputImage, TOutputImage, TParentImageFilter >
 {

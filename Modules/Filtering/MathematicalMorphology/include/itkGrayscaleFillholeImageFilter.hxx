@@ -27,7 +27,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 GrayscaleFillholeImageFilter< TInputImage, TOutputImage >
 ::GrayscaleFillholeImageFilter():
   m_NumberOfIterationsUsed(1)
@@ -35,7 +35,7 @@ GrayscaleFillholeImageFilter< TInputImage, TOutputImage >
   m_FullyConnected = false;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 GrayscaleFillholeImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
@@ -51,7 +51,7 @@ GrayscaleFillholeImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 GrayscaleFillholeImageFilter< TInputImage, TOutputImage >
 ::EnlargeOutputRequestedRegion(DataObject *)
@@ -60,7 +60,7 @@ GrayscaleFillholeImageFilter< TInputImage, TOutputImage >
   ->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 GrayscaleFillholeImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
@@ -144,7 +144,7 @@ GrayscaleFillholeImageFilter< TInputImage, TOutputImage >
   this->GraftOutput( erode->GetOutput() );
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 GrayscaleFillholeImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

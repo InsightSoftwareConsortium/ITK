@@ -46,7 +46,7 @@ namespace itk
  * \ingroup ImageFilters
  * \ingroup ITKAnisotropicSmoothing
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class GradientAnisotropicDiffusionImageFilter:
   public AnisotropicDiffusionImageFilter< TInputImage, TOutputImage >
 {

@@ -57,7 +57,7 @@ namespace itkv3
  *
  * \ingroup ITKTransform
  */
-template< class TScalar = double >
+template< typename TScalar = double >
 // type for scalars (float or double)
 class Rigid3DTransform:
     public itk::Rigid3DTransform< TScalar >

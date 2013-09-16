@@ -33,19 +33,19 @@
 namespace itk
 {
 /** Constructor */
-template< class T >
+template< typename T >
 AutoPointerDataObjectDecorator< T >
 ::AutoPointerDataObjectDecorator():m_Component()
 {}
 
 /** Destructor */
-template< class T >
+template< typename T >
 AutoPointerDataObjectDecorator< T >
 ::~AutoPointerDataObjectDecorator()
 {}
 
 /** Set value */
-template< class T >
+template< typename T >
 void
 AutoPointerDataObjectDecorator< T >
 ::Set(T *val)
@@ -60,7 +60,7 @@ AutoPointerDataObjectDecorator< T >
 }
 
 /** PrintSelf method */
-template< class T >
+template< typename T >
 void
 AutoPointerDataObjectDecorator< T >
 ::PrintSelf(std::ostream & os, Indent indent) const

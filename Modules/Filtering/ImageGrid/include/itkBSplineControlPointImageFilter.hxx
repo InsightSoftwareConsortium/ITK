@@ -41,7 +41,7 @@ namespace itk
 /*
  * BSplineControlPointImageFilter class definitions
  */
-template<class InputImage, class TOutputImage>
+template<typename InputImage, typename TOutputImage>
 BSplineControlPointImageFilter<InputImage, TOutputImage>
 ::BSplineControlPointImageFilter()
 {
@@ -70,13 +70,13 @@ BSplineControlPointImageFilter<InputImage, TOutputImage>
   this->m_BSplineEpsilon = vcl_numeric_limits<RealType>::epsilon();
 }
 
-template<class InputImage, class TOutputImage>
+template<typename InputImage, typename TOutputImage>
 BSplineControlPointImageFilter<InputImage, TOutputImage>
 ::~BSplineControlPointImageFilter()
 {
 }
 
-template<class TInputPointImage, class TOutputImage>
+template<typename TInputPointImage, typename TOutputImage>
 void
 BSplineControlPointImageFilter<TInputPointImage, TOutputImage>
 ::SetNumberOfLevels( ArrayType levels )
@@ -112,7 +112,7 @@ BSplineControlPointImageFilter<TInputPointImage, TOutputImage>
   this->Modified();
 }
 
-template<class TInputPointImage, class TOutputImage>
+template<typename TInputPointImage, typename TOutputImage>
 void
 BSplineControlPointImageFilter<TInputPointImage, TOutputImage>
 ::SetSplineOrder( unsigned int order )
@@ -121,7 +121,7 @@ BSplineControlPointImageFilter<TInputPointImage, TOutputImage>
   this->SetSplineOrder( this->m_SplineOrder );
 }
 
-template<class TInputPointImage, class TOutputImage>
+template<typename TInputPointImage, typename TOutputImage>
 void
 BSplineControlPointImageFilter<TInputPointImage, TOutputImage>
 ::SetSplineOrder( ArrayType order )
@@ -177,7 +177,7 @@ BSplineControlPointImageFilter<TInputPointImage, TOutputImage>
   this->Modified();
 }
 
-template<class InputImage, class TOutputImage>
+template<typename InputImage, typename TOutputImage>
 void
 BSplineControlPointImageFilter<InputImage, TOutputImage>
 ::BeforeThreadedGenerateData()
@@ -220,7 +220,7 @@ BSplineControlPointImageFilter<InputImage, TOutputImage>
     }
 }
 
-template<class InputImage, class TOutputImage>
+template<typename InputImage, typename TOutputImage>
 void
 BSplineControlPointImageFilter<InputImage, TOutputImage>
 ::ThreadedGenerateData( const OutputImageRegionType & region,
@@ -311,7 +311,7 @@ BSplineControlPointImageFilter<InputImage, TOutputImage>
     }
 }
 
-template<class InputImage, class TOutputImage>
+template<typename InputImage, typename TOutputImage>
 void
 BSplineControlPointImageFilter<InputImage, TOutputImage>
 ::CollapsePhiLattice( PointDataImageType *lattice,
@@ -372,7 +372,7 @@ BSplineControlPointImageFilter<InputImage, TOutputImage>
     }
 }
 
-template<class TInputImage, class TOutputImage>
+template<typename TInputImage, typename TOutputImage>
 unsigned int
 BSplineControlPointImageFilter<TInputImage, TOutputImage>
 ::SplitRequestedRegion( unsigned int i, unsigned int num, OutputImageRegionType &splitRegion )
@@ -424,7 +424,7 @@ BSplineControlPointImageFilter<TInputImage, TOutputImage>
   return maxThreadIdUsed + 1;
 }
 
-template<class TInputPointImage, class TOutputImage>
+template<typename TInputPointImage, typename TOutputImage>
 typename BSplineControlPointImageFilter<TInputPointImage, TOutputImage>
 ::ControlPointLatticeType::Pointer
 BSplineControlPointImageFilter<TInputPointImage, TOutputImage>
@@ -630,7 +630,7 @@ BSplineControlPointImageFilter<TInputPointImage, TOutputImage>
   return psiLattice;
 }
 
-template<class InputImage, class TOutputImage>
+template<typename InputImage, typename TOutputImage>
 void
 BSplineControlPointImageFilter<InputImage, TOutputImage>
 ::PrintSelf( std::ostream& os, Indent indent ) const

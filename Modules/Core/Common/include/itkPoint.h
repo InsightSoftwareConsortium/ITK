@@ -47,7 +47,7 @@ namespace itk
  * \wikiexample{SimpleOperations/DistanceBetweenIndices,Distance between two indices}
  * \endwiki
  */
-template< class TCoordRep, unsigned int NPointDimension = 3 >
+template< typename TCoordRep, unsigned int NPointDimension = 3 >
 class Point:public FixedArray< TCoordRep, NPointDimension >
 {
 public:
@@ -81,7 +81,7 @@ public:
   Point() {}
 
   /** Pass-through constructors for the Array base class. */
-  template< class TPointValueType >
+  template< typename TPointValueType >
   Point(const Point< TPointValueType, NPointDimension > & r):BaseArray(r) {}
   Point(const ValueType r[NPointDimension]):BaseArray(r) {}
   Point(const ValueType & v):BaseArray(v) {}
@@ -260,11 +260,11 @@ public:
   }
 };
 
-template< class T, unsigned int NPointDimension >
+template< typename T, unsigned int NPointDimension >
 std::ostream & operator<<(std::ostream & os,
                                      const Point< T, NPointDimension > & v);
 
-template< class T, unsigned int NPointDimension >
+template< typename T, unsigned int NPointDimension >
 std::istream & operator>>(std::istream & is,
                                      Point< T, NPointDimension > & v);
 
@@ -293,7 +293,7 @@ std::istream & operator>>(std::istream & is,
  * \ingroup Geometry
  * \ingroup ITKCommon
  */
-template< class TPointContainer, class TWeightContainer >
+template< typename TPointContainer, typename TWeightContainer >
 class BarycentricCombination
 {
 public:

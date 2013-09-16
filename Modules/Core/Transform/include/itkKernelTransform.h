@@ -57,7 +57,7 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template< class TScalar, // probably only float and double make sense here
+template< typename TScalar, // probably only float and double make sense here
           unsigned int NDimensions >
 // Number of dimensions
 class KernelTransform :

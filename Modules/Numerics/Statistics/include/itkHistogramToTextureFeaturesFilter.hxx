@@ -28,7 +28,7 @@ namespace itk
 namespace Statistics
 {
 //constructor
-template< class THistogram >
+template< typename THistogram >
 HistogramToTextureFeaturesFilter< THistogram >::HistogramToTextureFeaturesFilter(void)
 {
   this->ProcessObject::SetNumberOfRequiredInputs(1);
@@ -41,7 +41,7 @@ HistogramToTextureFeaturesFilter< THistogram >::HistogramToTextureFeaturesFilter
     }
 }
 
-template< class THistogram >
+template< typename THistogram >
 void
 HistogramToTextureFeaturesFilter< THistogram >
 ::SetInput(const HistogramType *histogram)
@@ -49,7 +49,7 @@ HistogramToTextureFeaturesFilter< THistogram >
   this->ProcessObject::SetNthInput( 0, const_cast< HistogramType * >( histogram ) );
 }
 
-template< class THistogram >
+template< typename THistogram >
 const typename
 HistogramToTextureFeaturesFilter< THistogram >::HistogramType *
 HistogramToTextureFeaturesFilter< THistogram >
@@ -58,7 +58,7 @@ HistogramToTextureFeaturesFilter< THistogram >
   return itkDynamicCastInDebugMode< const HistogramType * >( this->GetPrimaryInput() );
 }
 
-template< class THistogram >
+template< typename THistogram >
 typename
 HistogramToTextureFeaturesFilter< THistogram >::DataObjectPointer
 HistogramToTextureFeaturesFilter< THistogram >
@@ -67,7 +67,7 @@ HistogramToTextureFeaturesFilter< THistogram >
   return MeasurementObjectType::New().GetPointer();
 }
 
-template< class THistogram >
+template< typename THistogram >
 void
 HistogramToTextureFeaturesFilter< THistogram >::GenerateData(void)
 {
@@ -181,7 +181,7 @@ HistogramToTextureFeaturesFilter< THistogram >::GenerateData(void)
   haralickCorrelationOutputObject->Set(haralickCorrelation);
 }
 
-template< class THistogram >
+template< typename THistogram >
 void
 HistogramToTextureFeaturesFilter< THistogram >::ComputeMeansAndVariances(double & pixelMean,
                                                                          double & marginalMean,
@@ -263,7 +263,7 @@ HistogramToTextureFeaturesFilter< THistogram >::ComputeMeansAndVariances(double 
   delete[] marginalSums;
 }
 
-template< class THistogram >
+template< typename THistogram >
 const
 typename HistogramToTextureFeaturesFilter< THistogram >::MeasurementObjectType *
 HistogramToTextureFeaturesFilter< THistogram >
@@ -272,7 +272,7 @@ HistogramToTextureFeaturesFilter< THistogram >
   return static_cast< const MeasurementObjectType * >( this->ProcessObject::GetOutput(0) );
 }
 
-template< class THistogram >
+template< typename THistogram >
 const
 typename HistogramToTextureFeaturesFilter< THistogram >::MeasurementObjectType *
 HistogramToTextureFeaturesFilter< THistogram >
@@ -281,7 +281,7 @@ HistogramToTextureFeaturesFilter< THistogram >
   return static_cast< const MeasurementObjectType * >( this->ProcessObject::GetOutput(1) );
 }
 
-template< class THistogram >
+template< typename THistogram >
 const
 typename HistogramToTextureFeaturesFilter< THistogram >::MeasurementObjectType *
 HistogramToTextureFeaturesFilter< THistogram >
@@ -290,7 +290,7 @@ HistogramToTextureFeaturesFilter< THistogram >
   return static_cast< const MeasurementObjectType * >( this->ProcessObject::GetOutput(2) );
 }
 
-template< class THistogram >
+template< typename THistogram >
 const
 typename HistogramToTextureFeaturesFilter< THistogram >::MeasurementObjectType *
 HistogramToTextureFeaturesFilter< THistogram >
@@ -299,7 +299,7 @@ HistogramToTextureFeaturesFilter< THistogram >
   return static_cast< const MeasurementObjectType * >( this->ProcessObject::GetOutput(3) );
 }
 
-template< class THistogram >
+template< typename THistogram >
 const
 typename HistogramToTextureFeaturesFilter< THistogram >::MeasurementObjectType *
 HistogramToTextureFeaturesFilter< THistogram >
@@ -308,7 +308,7 @@ HistogramToTextureFeaturesFilter< THistogram >
   return static_cast< const MeasurementObjectType * >( this->ProcessObject::GetOutput(4) );
 }
 
-template< class THistogram >
+template< typename THistogram >
 const
 typename HistogramToTextureFeaturesFilter< THistogram >::MeasurementObjectType *
 HistogramToTextureFeaturesFilter< THistogram >
@@ -317,7 +317,7 @@ HistogramToTextureFeaturesFilter< THistogram >
   return static_cast< const MeasurementObjectType * >( this->ProcessObject::GetOutput(5) );
 }
 
-template< class THistogram >
+template< typename THistogram >
 const
 typename HistogramToTextureFeaturesFilter< THistogram >::MeasurementObjectType *
 HistogramToTextureFeaturesFilter< THistogram >
@@ -326,7 +326,7 @@ HistogramToTextureFeaturesFilter< THistogram >
   return static_cast< const MeasurementObjectType * >( this->ProcessObject::GetOutput(6) );
 }
 
-template< class THistogram >
+template< typename THistogram >
 const
 typename HistogramToTextureFeaturesFilter< THistogram >::MeasurementObjectType *
 HistogramToTextureFeaturesFilter< THistogram >
@@ -335,7 +335,7 @@ HistogramToTextureFeaturesFilter< THistogram >
   return static_cast< const MeasurementObjectType * >( this->ProcessObject::GetOutput(7) );
 }
 
-template< class THistogram >
+template< typename THistogram >
 typename HistogramToTextureFeaturesFilter< THistogram >::MeasurementType
 HistogramToTextureFeaturesFilter< THistogram >
 ::GetEnergy() const
@@ -343,7 +343,7 @@ HistogramToTextureFeaturesFilter< THistogram >
   return this->GetEnergyOutput()->Get();
 }
 
-template< class THistogram >
+template< typename THistogram >
 typename HistogramToTextureFeaturesFilter< THistogram >::MeasurementType
 HistogramToTextureFeaturesFilter< THistogram >
 ::GetEntropy() const
@@ -351,7 +351,7 @@ HistogramToTextureFeaturesFilter< THistogram >
   return this->GetEntropyOutput()->Get();
 }
 
-template< class THistogram >
+template< typename THistogram >
 typename HistogramToTextureFeaturesFilter< THistogram >::MeasurementType
 HistogramToTextureFeaturesFilter< THistogram >
 ::GetCorrelation() const
@@ -359,7 +359,7 @@ HistogramToTextureFeaturesFilter< THistogram >
   return this->GetCorrelationOutput()->Get();
 }
 
-template< class THistogram >
+template< typename THistogram >
 typename HistogramToTextureFeaturesFilter< THistogram >::MeasurementType
 HistogramToTextureFeaturesFilter< THistogram >
 ::GetInverseDifferenceMoment() const
@@ -367,7 +367,7 @@ HistogramToTextureFeaturesFilter< THistogram >
   return this->GetInverseDifferenceMomentOutput()->Get();
 }
 
-template< class THistogram >
+template< typename THistogram >
 typename HistogramToTextureFeaturesFilter< THistogram >::MeasurementType
 HistogramToTextureFeaturesFilter< THistogram >
 ::GetInertia() const
@@ -375,7 +375,7 @@ HistogramToTextureFeaturesFilter< THistogram >
   return this->GetInertiaOutput()->Get();
 }
 
-template< class THistogram >
+template< typename THistogram >
 typename HistogramToTextureFeaturesFilter< THistogram >::MeasurementType
 HistogramToTextureFeaturesFilter< THistogram >
 ::GetClusterShade() const
@@ -383,7 +383,7 @@ HistogramToTextureFeaturesFilter< THistogram >
   return this->GetClusterShadeOutput()->Get();
 }
 
-template< class THistogram >
+template< typename THistogram >
 typename HistogramToTextureFeaturesFilter< THistogram >::MeasurementType
 HistogramToTextureFeaturesFilter< THistogram >
 ::GetClusterProminence() const
@@ -391,7 +391,7 @@ HistogramToTextureFeaturesFilter< THistogram >
   return this->GetClusterProminenceOutput()->Get();
 }
 
-template< class THistogram >
+template< typename THistogram >
 typename HistogramToTextureFeaturesFilter< THistogram >::MeasurementType
 HistogramToTextureFeaturesFilter< THistogram >
 ::GetHaralickCorrelation() const
@@ -399,7 +399,7 @@ HistogramToTextureFeaturesFilter< THistogram >
   return this->GetHaralickCorrelationOutput()->Get();
 }
 
-template< class THistogram >
+template< typename THistogram >
 typename HistogramToTextureFeaturesFilter< THistogram >::MeasurementType
 HistogramToTextureFeaturesFilter< THistogram >
 ::GetFeature(TextureFeatureName feature)
@@ -427,7 +427,7 @@ HistogramToTextureFeaturesFilter< THistogram >
     }
 }
 
-template< class THistogram >
+template< typename THistogram >
 void
 HistogramToTextureFeaturesFilter< THistogram >
 ::PrintSelf(std::ostream & os, Indent indent) const

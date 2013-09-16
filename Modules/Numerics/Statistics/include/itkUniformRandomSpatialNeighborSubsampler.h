@@ -42,7 +42,7 @@ namespace Statistics {
  * \ingroup ITKStatistics
  */
 
-template < class TSample, class TRegion >
+template < typename TSample, typename TRegion >
   class UniformRandomSpatialNeighborSubsampler : public SpatialNeighborSubsampler<TSample, TRegion>
 {
 public:

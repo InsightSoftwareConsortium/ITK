@@ -33,7 +33,7 @@ namespace itk
  * lists of indices and other values.
  * \ingroup ITKLevelSets
  */
-template< class TNodeIndexType >
+template< typename TNodeIndexType >
 class ParallelSparseFieldLevelSetNode
 {
 public:
@@ -71,7 +71,7 @@ public:
  *
  * \ingroup ITKLevelSets
  */
-template< class TNeighborhoodType >
+template< typename TNeighborhoodType >
 class ParallelSparseFieldCityBlockNeighborList
 {
 public:
@@ -245,7 +245,7 @@ private:
  *
  * \ingroup ITKLevelSets
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class ParallelSparseFieldLevelSetImageFilter:
   public FiniteDifferenceImageFilter< TInputImage, TOutputImage >
 {

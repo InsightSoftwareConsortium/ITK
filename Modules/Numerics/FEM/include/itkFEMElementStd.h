@@ -52,7 +52,7 @@ namespace fem
  *                If not specified, it defaults to the Element class.
  * \ingroup ITKFEM
  */
-template <unsigned int VNumberOfNodes, unsigned int VNumberOfSpatialDimensions, class TBaseClass = Element>
+template <unsigned int VNumberOfNodes, unsigned int VNumberOfSpatialDimensions, typename TBaseClass = Element>
 class ElementStd : public TBaseClass
 {
 public:

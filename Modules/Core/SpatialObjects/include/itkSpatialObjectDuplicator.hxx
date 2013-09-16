@@ -24,7 +24,7 @@
 namespace itk
 {
 /** Constructor */
-template< class TInputSpatialObject >
+template< typename TInputSpatialObject >
 SpatialObjectDuplicator< TInputSpatialObject >
 ::SpatialObjectDuplicator()
 {
@@ -35,7 +35,7 @@ SpatialObjectDuplicator< TInputSpatialObject >
 }
 
 /** Recursive function to copy the objects */
-template< class TInputSpatialObject >
+template< typename TInputSpatialObject >
 void
 SpatialObjectDuplicator< TInputSpatialObject >
 ::CopyObject(const InternalSpatialObjectType *source,
@@ -86,7 +86,7 @@ SpatialObjectDuplicator< TInputSpatialObject >
 }
 
 /** Update function */
-template< class TInputSpatialObject >
+template< typename TInputSpatialObject >
 void
 SpatialObjectDuplicator< TInputSpatialObject >
 ::Update(void)
@@ -151,7 +151,7 @@ SpatialObjectDuplicator< TInputSpatialObject >
   delete children;
 }
 
-template< class TInputSpatialObject >
+template< typename TInputSpatialObject >
 void
 SpatialObjectDuplicator< TInputSpatialObject >
 ::PrintSelf(std::ostream & os, Indent indent) const

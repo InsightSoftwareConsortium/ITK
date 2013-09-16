@@ -25,13 +25,13 @@
 namespace itk
 {
 
-template< class TDomainPartitioner, class TJointHistogramMetric >
+template< typename TDomainPartitioner, typename TJointHistogramMetric >
 JointHistogramMutualInformationComputeJointPDFThreaderBase< TDomainPartitioner, TJointHistogramMetric >
 ::JointHistogramMutualInformationComputeJointPDFThreaderBase()
 {
 }
 
-template< class TDomainPartitioner, class TJointHistogramMetric >
+template< typename TDomainPartitioner, typename TJointHistogramMetric >
 void
 JointHistogramMutualInformationComputeJointPDFThreaderBase< TDomainPartitioner, TJointHistogramMetric >
 ::BeforeThreadedExecution()
@@ -52,7 +52,7 @@ JointHistogramMutualInformationComputeJointPDFThreaderBase< TDomainPartitioner, 
     }
 }
 
-template< class TDomainPartitioner, class TJointHistogramMetric >
+template< typename TDomainPartitioner, typename TJointHistogramMetric >
 void
 JointHistogramMutualInformationComputeJointPDFThreaderBase< TDomainPartitioner, TJointHistogramMetric >
 ::ProcessPoint( const VirtualIndexType & itkNotUsed(virtualIndex),
@@ -102,7 +102,7 @@ JointHistogramMutualInformationComputeJointPDFThreaderBase< TDomainPartitioner, 
     }
 }
 
-template< class TDomainPartitioner, class TJointHistogramMetric >
+template< typename TDomainPartitioner, typename TJointHistogramMetric >
 void
 JointHistogramMutualInformationComputeJointPDFThreaderBase< TDomainPartitioner, TJointHistogramMetric >
 ::AfterThreadedExecution()

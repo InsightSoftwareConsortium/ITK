@@ -37,7 +37,7 @@ namespace itk
  *
  * \ingroup ITKOptimizersv4
  */
-template < class TMetric >
+template < typename TMetric >
 class RegistrationParameterScalesFromJacobian :
   public RegistrationParameterScalesEstimator< TMetric >
 {

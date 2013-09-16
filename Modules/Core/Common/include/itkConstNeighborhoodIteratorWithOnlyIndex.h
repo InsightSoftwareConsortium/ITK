@@ -56,7 +56,7 @@ namespace itk
  * \ingroup ITKCommon
  *
  */
-template< class TImage >
+template< typename TImage >
 class ConstNeighborhoodIteratorWithOnlyIndex:
   public Neighborhood< char, TImage::ImageDimension >
 {
@@ -381,7 +381,7 @@ protected:
   bool m_NeedToUseBoundaryCondition;
 };
 
-template< class TImage >
+template< typename TImage >
 inline ConstNeighborhoodIteratorWithOnlyIndex< TImage >
 operator+(const ConstNeighborhoodIteratorWithOnlyIndex< TImage > & it,
           const typename ConstNeighborhoodIteratorWithOnlyIndex< TImage >
@@ -393,14 +393,14 @@ operator+(const ConstNeighborhoodIteratorWithOnlyIndex< TImage > & it,
   return ret;
 }
 
-template< class TImage >
+template< typename TImage >
 inline ConstNeighborhoodIteratorWithOnlyIndex< TImage >
 operator+(const typename ConstNeighborhoodIteratorWithOnlyIndex< TImage >
           ::OffsetType & ind,
           const ConstNeighborhoodIteratorWithOnlyIndex< TImage > & it)
 {  return ( it + ind ); }
 
-template< class TImage >
+template< typename TImage >
 inline ConstNeighborhoodIteratorWithOnlyIndex< TImage >
 operator-(const ConstNeighborhoodIteratorWithOnlyIndex< TImage > & it,
           const typename ConstNeighborhoodIteratorWithOnlyIndex< TImage >

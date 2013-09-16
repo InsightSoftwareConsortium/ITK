@@ -22,7 +22,7 @@
 
 namespace itk
 {
-template< class TInputImageType, class TSparseOutputImageType >
+template< typename TInputImageType, typename TSparseOutputImageType >
 FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
 ::FiniteDifferenceSparseImageFilter()
 {
@@ -30,7 +30,7 @@ FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
   m_PrecomputeFlag = false;
 }
 
-template< class TInputImageType, class TSparseOutputImageType >
+template< typename TInputImageType, typename TSparseOutputImageType >
 void
 FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -39,7 +39,7 @@ FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
   os << indent << "PrecomputeFlag: " << m_PrecomputeFlag << std::endl;
 }
 
-template< class TInputImageType, class TSparseOutputImageType >
+template< typename TInputImageType, typename TSparseOutputImageType >
 void
 FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
 ::SetSparseFunction(SparseFunctionType *sf)
@@ -48,7 +48,7 @@ FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
   Superclass::SetDifferenceFunction (sf);
 }
 
-template< class TInputImageType, class TSparseOutputImageType >
+template< typename TInputImageType, typename TSparseOutputImageType >
 void
 FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
 ::Initialize()
@@ -63,7 +63,7 @@ FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
   // SplitRegions function.
 }
 
-template< class TInputImageType, class TSparseOutputImageType >
+template< typename TInputImageType, typename TSparseOutputImageType >
 ThreadIdType
 FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
 ::GetSplitRegion(ThreadIdType i, ThreadIdType num, ThreadRegionType & splitRegion)
@@ -75,7 +75,7 @@ FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
   // copied it from FiniteDifferenceImageFilter class
 }
 
-template< class TInputImageType, class TSparseOutputImageType >
+template< typename TInputImageType, typename TSparseOutputImageType >
 void
 FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
 ::ApplyUpdate(const TimeStepType& dt)
@@ -92,7 +92,7 @@ FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
   this->GetMultiThreader()->SingleMethodExecute();
 }
 
-template< class TInputImageType, class TSparseOutputImageType >
+template< typename TInputImageType, typename TSparseOutputImageType >
 ITK_THREAD_RETURN_TYPE
 FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
 ::ApplyUpdateThreaderCallback(void *arg)
@@ -120,7 +120,7 @@ FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
   return ITK_THREAD_RETURN_VALUE;
 }
 
-template< class TInputImageType, class TSparseOutputImageType >
+template< typename TInputImageType, typename TSparseOutputImageType >
 void
 FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
 ::ThreadedApplyUpdate(const TimeStepType& dt,
@@ -138,7 +138,7 @@ FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
     }
 }
 
-template< class TInputImageType, class TSparseOutputImageType >
+template< typename TInputImageType, typename TSparseOutputImageType >
 void
 FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
 ::PrecalculateChange()
@@ -156,7 +156,7 @@ FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
   this->GetMultiThreader()->SingleMethodExecute();
 }
 
-template< class TInputImageType, class TSparseOutputImageType >
+template< typename TInputImageType, typename TSparseOutputImageType >
 typename FiniteDifferenceSparseImageFilter< TInputImageType,
                                             TSparseOutputImageType >::TimeStepType
 FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
@@ -199,7 +199,7 @@ FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
   return dt;
 }
 
-template< class TInputImageType, class TSparseOutputImageType >
+template< typename TInputImageType, typename TSparseOutputImageType >
 ITK_THREAD_RETURN_TYPE
 FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
 ::CalculateChangeThreaderCallback(void *arg)
@@ -230,7 +230,7 @@ FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
   return ITK_THREAD_RETURN_VALUE;
 }
 
-template< class TInputImageType, class TSparseOutputImageType >
+template< typename TInputImageType, typename TSparseOutputImageType >
 ITK_THREAD_RETURN_TYPE
 FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
 ::PrecalculateChangeThreaderCallback(void *arg)
@@ -259,7 +259,7 @@ FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
   return ITK_THREAD_RETURN_VALUE;
 }
 
-template< class TInputImageType, class TSparseOutputImageType >
+template< typename TInputImageType, typename TSparseOutputImageType >
 typename FiniteDifferenceSparseImageFilter< TInputImageType,
                                             TSparseOutputImageType >::TimeStepType
 FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
@@ -302,7 +302,7 @@ FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
   return timeStep;
 }
 
-template< class TInputImageType, class TSparseOutputImageType >
+template< typename TInputImageType, typename TSparseOutputImageType >
 void
 FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
 ::ThreadedPrecalculateChange(const ThreadRegionType & regionToProcess, ThreadIdType)

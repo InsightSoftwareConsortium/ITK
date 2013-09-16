@@ -212,7 +212,7 @@ namespace itk
  * \wikiexample{VectorImages/NeighborhoodIterator,NeighborhoodIterator on a VectorImage}
  * \endwiki
  */
-template< class TImage, class TBoundaryCondition =
+template< typename TImage, typename TBoundaryCondition =
             ZeroFluxNeumannBoundaryCondition< TImage > >
 class NeighborhoodIterator:
   public ConstNeighborhoodIterator< TImage, TBoundaryCondition >

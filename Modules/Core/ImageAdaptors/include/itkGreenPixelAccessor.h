@@ -37,7 +37,7 @@ namespace itk
  * \ingroup ITKImageAdaptors
  */
 
-template< class T >
+template< typename T >
 class GreenPixelAccessor
 {
 public:

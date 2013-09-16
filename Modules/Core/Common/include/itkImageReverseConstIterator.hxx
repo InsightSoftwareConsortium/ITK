@@ -25,7 +25,7 @@ namespace itk
 #if !defined(ITK_LEGACY_REMOVE)
 //----------------------------------------------------------------------------
 // Begin() is the last pixel in the region.
-template< class TImage >
+template< typename TImage >
 ImageReverseConstIterator< TImage >
 ImageReverseConstIterator< TImage >
 ::Begin() const
@@ -47,7 +47,7 @@ ImageReverseConstIterator< TImage >
 //           m_StartIndex[VImageDimension-2],
 //           m_StartIndex[VImageDimension-1]]
 //
-template< class TImage >
+template< typename TImage >
 ImageReverseConstIterator< TImage >
 ImageReverseConstIterator< TImage >
 ::End() const

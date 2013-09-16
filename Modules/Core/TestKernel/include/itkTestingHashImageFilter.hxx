@@ -31,7 +31,7 @@ namespace Testing
 //
 // Constructor
 //
-template<class TImageType>
+template<typename TImageType>
 HashImageFilter<TImageType>::HashImageFilter()
 {
 
@@ -44,7 +44,7 @@ HashImageFilter<TImageType>::HashImageFilter()
 //
 // MakeOutput
 //
-template<class TImageType>
+template<typename TImageType>
 typename HashImageFilter<TImageType>::DataObjectPointer
 HashImageFilter<TImageType>::MakeOutput(DataObjectPointerArraySizeType idx)
 {
@@ -58,7 +58,7 @@ HashImageFilter<TImageType>::MakeOutput(DataObjectPointerArraySizeType idx)
 //
 // AfterThreadedGenerateData
 //
-template<class TImageType>
+template<typename TImageType>
 void
 HashImageFilter<TImageType>::AfterThreadedGenerateData()
 {
@@ -142,7 +142,7 @@ HashImageFilter<TImageType>::AfterThreadedGenerateData()
 //
 // EnlargeOutputRequestedRegion
 //
-template<class TImageType>
+template<typename TImageType>
 void
 HashImageFilter<TImageType>::EnlargeOutputRequestedRegion(DataObject *data)
 {
@@ -156,7 +156,7 @@ HashImageFilter<TImageType>::EnlargeOutputRequestedRegion(DataObject *data)
 //
 // PrintSelf
 //
-template<class TImageType>
+template<typename TImageType>
 void
 HashImageFilter<TImageType>::PrintSelf(std::ostream & os, Indent indent) const
 {

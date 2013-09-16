@@ -31,7 +31,7 @@ namespace itk
  */
 
 template<
-  class TScalar = double,   // Data type for scalars (e.g. float or double)
+  typename TScalar = double,   // Data type for scalars (e.g. float or double)
   unsigned int NDimensions = 3 >
 // Number of dimensions in the input space
 class ScalableAffineTransform:

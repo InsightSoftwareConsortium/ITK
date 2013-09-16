@@ -30,7 +30,7 @@ namespace itk
 /**
  * Initialize new instance
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 InverseDisplacementFieldImageFilter< TInputImage, TOutputImage >
 ::InverseDisplacementFieldImageFilter()
 {
@@ -55,7 +55,7 @@ InverseDisplacementFieldImageFilter< TInputImage, TOutputImage >
  *
  * \todo Add details about this class
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 InverseDisplacementFieldImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -72,7 +72,7 @@ InverseDisplacementFieldImageFilter< TInputImage, TOutputImage >
 /**
  * Set the output image spacing.
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 InverseDisplacementFieldImageFilter< TInputImage, TOutputImage >
 ::SetOutputSpacing(const double *spacing)
@@ -85,7 +85,7 @@ InverseDisplacementFieldImageFilter< TInputImage, TOutputImage >
 /**
  * Set the output image origin.
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 InverseDisplacementFieldImageFilter< TInputImage, TOutputImage >
 ::SetOutputOrigin(const double *origin)
@@ -99,7 +99,7 @@ InverseDisplacementFieldImageFilter< TInputImage, TOutputImage >
  * Sub-sample the input displacement field and prepare the KernelBase
  * BSpline
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 InverseDisplacementFieldImageFilter< TInputImage, TOutputImage >
 ::PrepareKernelBaseSpline()
@@ -209,7 +209,7 @@ InverseDisplacementFieldImageFilter< TInputImage, TOutputImage >
 /**
  * GenerateData
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 InverseDisplacementFieldImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
@@ -279,7 +279,7 @@ InverseDisplacementFieldImageFilter< TInputImage, TOutputImage >
  * when we cannot assume anything about the transform being used.
  * So we do the easy thing and request the entire input image.
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 InverseDisplacementFieldImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
@@ -305,7 +305,7 @@ InverseDisplacementFieldImageFilter< TInputImage, TOutputImage >
 /**
  * Inform pipeline of required output region
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 InverseDisplacementFieldImageFilter< TInputImage, TOutputImage >
 ::GenerateOutputInformation()
@@ -333,7 +333,7 @@ InverseDisplacementFieldImageFilter< TInputImage, TOutputImage >
 /**
  * Verify if any of the components has been modified.
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 ModifiedTimeType
 InverseDisplacementFieldImageFilter< TInputImage, TOutputImage >
 ::GetMTime(void) const

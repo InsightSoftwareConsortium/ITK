@@ -25,7 +25,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 DoubleThresholdImageFilter< TInputImage, TOutputImage >
 ::DoubleThresholdImageFilter():
   m_NumberOfIterationsUsed(1)
@@ -41,7 +41,7 @@ DoubleThresholdImageFilter< TInputImage, TOutputImage >
   m_FullyConnected = false;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 DoubleThresholdImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
@@ -57,7 +57,7 @@ DoubleThresholdImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 DoubleThresholdImageFilter< TInputImage, TOutputImage >
 ::EnlargeOutputRequestedRegion(DataObject *)
@@ -66,7 +66,7 @@ DoubleThresholdImageFilter< TInputImage, TOutputImage >
   ->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 DoubleThresholdImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
@@ -121,7 +121,7 @@ DoubleThresholdImageFilter< TInputImage, TOutputImage >
   this->GraftOutput( dilate->GetOutput() );
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 DoubleThresholdImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

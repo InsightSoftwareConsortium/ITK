@@ -45,7 +45,7 @@ namespace itk
  * \ingroup ImageSource
  * \ingroup ITKDisplacementField
  */
-template< class TOutputImage >
+template< typename TOutputImage >
 class LandmarkDisplacementFieldSource:
   public ImageSource< TOutputImage >
 {

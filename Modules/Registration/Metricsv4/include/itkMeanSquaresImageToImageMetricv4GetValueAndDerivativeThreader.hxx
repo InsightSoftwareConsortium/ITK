@@ -24,7 +24,7 @@
 namespace itk
 {
 
-template< class TDomainPartitioner, class TImageToImageMetric, class TMeanSquaresMetric >
+template< typename TDomainPartitioner, typename TImageToImageMetric, typename TMeanSquaresMetric >
 bool
 MeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric, TMeanSquaresMetric >
 ::ProcessPoint( const VirtualIndexType &,

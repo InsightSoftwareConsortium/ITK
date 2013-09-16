@@ -43,7 +43,7 @@ namespace Functor
  *
  * \ingroup ITKImageFusion
  */
-template< class TInputPixel, class TLabel, class TRGBPixel >
+template< typename TInputPixel, typename TLabel, typename TRGBPixel >
 class LabelOverlayFunctor
 {
 public:

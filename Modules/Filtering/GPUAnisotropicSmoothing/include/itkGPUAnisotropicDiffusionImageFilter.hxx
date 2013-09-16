@@ -25,7 +25,7 @@ namespace itk
 {
 
 /** Prepare for the iteration process. */
-template< class TInputImage, class TOutputImage, class TParentImageFilter >
+template< typename TInputImage, typename TOutputImage, typename TParentImageFilter >
 void
 GPUAnisotropicDiffusionImageFilter< TInputImage, TOutputImage, TParentImageFilter >
 ::InitializeIteration()
@@ -96,7 +96,7 @@ GPUAnisotropicDiffusionImageFilter< TInputImage, TOutputImage, TParentImageFilte
     }
 }
 
-template< class TInputImage, class TOutputImage, class TParentImageFilter >
+template< typename TInputImage, typename TOutputImage, typename TParentImageFilter >
 void
 GPUAnisotropicDiffusionImageFilter< TInputImage, TOutputImage, TParentImageFilter >
 ::PrintSelf(std::ostream & os, Indent indent) const

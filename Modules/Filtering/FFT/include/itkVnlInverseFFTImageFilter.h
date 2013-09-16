@@ -41,7 +41,7 @@ namespace itk
  * \wikiexample{SpectralAnalysis/CrossCorrelationInFourierDomain,Compute the cross-correlation of two images in the Fourier domain}
  * \endwiki
  */
-template< class TInputImage, class TOutputImage=Image< typename TInputImage::PixelType::value_type, TInputImage::ImageDimension> >
+template< typename TInputImage, typename TOutputImage=Image< typename TInputImage::PixelType::value_type, TInputImage::ImageDimension> >
 class VnlInverseFFTImageFilter:
   public InverseFFTImageFilter< TInputImage, TOutputImage >
 {

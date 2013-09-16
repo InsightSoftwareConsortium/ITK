@@ -29,14 +29,14 @@ namespace itk
            and if ITK_USE_FFTWD is defined, then only doubles are valid.
 */
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 FFTWRealToHalfHermitianForwardFFTImageFilter< TInputImage, TOutputImage >
 ::FFTWRealToHalfHermitianForwardFFTImageFilter()
 {
   m_PlanRigor = FFTWGlobalConfiguration::GetPlanRigor();
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 FFTWRealToHalfHermitianForwardFFTImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
@@ -100,7 +100,7 @@ FFTWRealToHalfHermitianForwardFFTImageFilter< TInputImage, TOutputImage >
   FFTWProxyType::DestroyPlan(plan);
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 FFTWRealToHalfHermitianForwardFFTImageFilter< TInputImage, TOutputImage >
 ::UpdateOutputData(DataObject * output)
@@ -112,7 +112,7 @@ FFTWRealToHalfHermitianForwardFFTImageFilter< TInputImage, TOutputImage >
   Superclass::UpdateOutputData( output );
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 FFTWRealToHalfHermitianForwardFFTImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

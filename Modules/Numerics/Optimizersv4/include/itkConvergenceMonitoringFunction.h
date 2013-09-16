@@ -39,7 +39,7 @@ namespace Function
  *
  * \ingroup ITKOptimizersv4
  */
-template<class TScalar, class TEnergyValue>
+template<typename TScalar, typename TEnergyValue>
 class ConvergenceMonitoringFunction
 : public Object
 {

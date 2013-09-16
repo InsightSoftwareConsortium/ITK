@@ -24,7 +24,7 @@
 
 namespace itk {
 
-template <class TImage, class TAttributeAccessor>
+template <typename TImage, typename TAttributeAccessor>
 AttributeUniqueLabelMapFilter<TImage, TAttributeAccessor>
 ::AttributeUniqueLabelMapFilter()
 {
@@ -32,7 +32,7 @@ AttributeUniqueLabelMapFilter<TImage, TAttributeAccessor>
 }
 
 
-template <class TImage, class TAttributeAccessor>
+template <typename TImage, typename TAttributeAccessor>
 void
 AttributeUniqueLabelMapFilter<TImage, TAttributeAccessor>
 ::GenerateData()
@@ -248,7 +248,7 @@ AttributeUniqueLabelMapFilter<TImage, TAttributeAccessor>
 }
 
 
-template <class TImage, class TAttributeAccessor>
+template <typename TImage, typename TAttributeAccessor>
 void
 AttributeUniqueLabelMapFilter<TImage, TAttributeAccessor>
 ::PrintSelf(std::ostream& os, Indent indent) const

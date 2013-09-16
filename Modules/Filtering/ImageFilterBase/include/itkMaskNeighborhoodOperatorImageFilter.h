@@ -47,7 +47,7 @@ namespace itk
  * \wikiexample{Images/MaskNeighborhoodOperatorImageFilter,Apply a kernel to every pixel in an image that is non-zero in a mask}
  * \endwiki
  */
-template< class TInputImage, class TMaskImage, class TOutputImage, class TOperatorValueType =
+template< typename TInputImage, typename TMaskImage, typename TOutputImage, typename TOperatorValueType =
             typename TOutputImage::PixelType >
 class MaskNeighborhoodOperatorImageFilter:
   public NeighborhoodOperatorImageFilter< TInputImage, TOutputImage, TOperatorValueType >

@@ -53,7 +53,7 @@ namespace itk
 /**
  * Constructor
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 ScalarToRGBColormapImageFilter< TInputImage, TOutputImage >
 ::ScalarToRGBColormapImageFilter()
 {
@@ -71,7 +71,7 @@ ScalarToRGBColormapImageFilter< TInputImage, TOutputImage >
 /**
  * BeforeThreadedGenerateData
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ScalarToRGBColormapImageFilter< TInputImage, TOutputImage >
 ::BeforeThreadedGenerateData()
@@ -105,7 +105,7 @@ ScalarToRGBColormapImageFilter< TInputImage, TOutputImage >
 /**
  * ThreadedGenerateData performs the pixel-wise mapping
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ScalarToRGBColormapImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
@@ -139,7 +139,7 @@ ScalarToRGBColormapImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ScalarToRGBColormapImageFilter< TInputImage, TOutputImage >
 ::SetColormap(ColormapEnumType map)
@@ -262,7 +262,7 @@ ScalarToRGBColormapImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ScalarToRGBColormapImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

@@ -32,7 +32,7 @@
  *  at each iteration according to the shift of each step.
  */
 
-template< class TMovingTransform >
+template< typename TMovingTransform >
 int itkAutoScaledGradientDescentRegistrationOnVectorTestTemplated(int numberOfIterations, double shiftOfStep, std::string scalesOption)
 {
   const unsigned int Dimension = TMovingTransform::SpaceDimension;

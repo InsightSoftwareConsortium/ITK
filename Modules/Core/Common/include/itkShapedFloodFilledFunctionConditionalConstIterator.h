@@ -39,7 +39,7 @@ namespace itk
  *
  * \ingroup ITKCommon
  */
-template< class TImage, class TFunction >
+template< typename TImage, typename TFunction >
 class ShapedFloodFilledFunctionConditionalConstIterator:
   public ConditionalConstIterator< TImage >
 {

@@ -25,7 +25,7 @@ namespace itk
 {
 namespace fem
 {
-template <class TBaseClass>
+template <typename TBaseClass>
 Element3DMembrane1DOF<TBaseClass>
 ::Element3DMembrane1DOF() : Superclass(), m_Mat(0)
 {
@@ -36,7 +36,7 @@ Element3DMembrane1DOF<TBaseClass>
  * Methods related to the physics of the problem.
  */
 
-template <class TBaseClass>
+template <typename TBaseClass>
 void
 Element3DMembrane1DOF<TBaseClass>
 ::GetStrainDisplacementMatrix(MatrixType & /*HACK B*/, const MatrixType & /*HACK shapeDgl*/) const
@@ -44,7 +44,7 @@ Element3DMembrane1DOF<TBaseClass>
   //HACK:  Comment.
 }
 
-template <class TBaseClass>
+template <typename TBaseClass>
 void
 Element3DMembrane1DOF<TBaseClass>
 ::GetMassMatrix(MatrixType & Me) const
@@ -57,7 +57,7 @@ Element3DMembrane1DOF<TBaseClass>
   Me = Me * m_Mat->GetDensityHeatProduct();
 }
 
-template <class TBaseClass>
+template <typename TBaseClass>
 void
 Element3DMembrane1DOF<TBaseClass>
 ::GetMaterialMatrix(MatrixType & D) const
@@ -77,14 +77,14 @@ Element3DMembrane1DOF<TBaseClass>
     }
 }
 
-template <class TBaseClass>
+template <typename TBaseClass>
 void Element3DMembrane1DOF<TBaseClass>
 ::GetStiffnessMatrix(MatrixType & Ke) const
 {
   Superclass::GetStiffnessMatrix(Ke);
 }
 
-template <class TBaseClass>
+template <typename TBaseClass>
 void
 Element3DMembrane1DOF<TBaseClass>
 ::PrintSelf(std::ostream& os, Indent indent) const

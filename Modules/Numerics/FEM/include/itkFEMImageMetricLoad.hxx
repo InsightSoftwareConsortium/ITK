@@ -25,7 +25,7 @@ namespace itk
 namespace fem
 {
 // Overload the CreateAnother() method.
-template <class TMoving, class TFixed>
+template <typename TMoving, typename TFixed>
 ::itk::LightObject::Pointer
 ImageMetricLoad<TMoving, TFixed>
 ::CreateAnother(void) const
@@ -59,7 +59,7 @@ ImageMetricLoad<TMoving, TFixed>
   return smartPtr;
 }
 
-template <class TMoving, class TFixed>
+template <typename TMoving, typename TFixed>
 void
 ImageMetricLoad<TMoving, TFixed>
 ::InitializeMetric(void)
@@ -127,7 +127,7 @@ ImageMetricLoad<TMoving, TFixed>
     }
 }
 
-template <class TMoving, class TFixed>
+template <typename TMoving, typename TFixed>
 ImageMetricLoad<TMoving, TFixed>
 ::ImageMetricLoad()
 {
@@ -143,7 +143,7 @@ ImageMetricLoad<TMoving, TFixed>
   m_MetricGradientImage = NULL;
 }
 
-template <class TMoving, class TFixed>
+template <typename TMoving, typename TFixed>
 typename ImageMetricLoad<TMoving, TFixed>::Float
 ImageMetricLoad<TMoving, TFixed>
 ::EvaluateMetricGivenSolution(Element::ArrayType *element, Float step)
@@ -213,7 +213,7 @@ ImageMetricLoad<TMoving, TFixed>
   return vcl_fabs( (double)energy * (double)m_Gamma - (double)defe );
 }
 
-template <class TMoving, class TFixed>
+template <typename TMoving, typename TFixed>
 typename ImageMetricLoad<TMoving, TFixed>::Float
 ImageMetricLoad<TMoving, TFixed>
 ::EvaluateMetricGivenSolution1(Element::ArrayType *element, Float step)
@@ -282,7 +282,7 @@ ImageMetricLoad<TMoving, TFixed>
   return vcl_fabs( (double)energy * (double)m_Gamma - (double)defe );
 }
 
-template <class TMoving, class TFixed>
+template <typename TMoving, typename TFixed>
 typename ImageMetricLoad<TMoving, TFixed>::VectorType
 ImageMetricLoad<TMoving, TFixed>
 ::Fe(VectorType Gpos, VectorType Gsol)
@@ -399,7 +399,7 @@ ImageMetricLoad<TMoving, TFixed>
   return OutVec / vcl_sqrt(gmag);
 }
 
-template <class TMoving, class TFixed>
+template <typename TMoving, typename TFixed>
 typename ImageMetricLoad<TMoving, TFixed>::Float
 ImageMetricLoad<TMoving, TFixed>
 ::GetMetric(VectorType InVec)
@@ -499,7 +499,7 @@ ImageMetricLoad<TMoving, TFixed>
   return (Float)measure;
 }
 
-template <class TMoving, class TFixed>
+template <typename TMoving, typename TFixed>
 typename ImageMetricLoad<TMoving, TFixed>::VectorType
 ImageMetricLoad<TMoving, TFixed>
 ::MetricFiniteDiff(VectorType Gpos, VectorType Gsol)
@@ -599,7 +599,7 @@ ImageMetricLoad<TMoving, TFixed>
   return OutVec;
 }
 
-template <class TMoving, class TFixed>
+template <typename TMoving, typename TFixed>
 typename ImageMetricLoad<TMoving, TFixed>::VectorType
 ImageMetricLoad<TMoving, TFixed>
 ::GetPolynomialFitToMetric(VectorType Gpos, VectorType Gsol)
@@ -784,7 +784,7 @@ ImageMetricLoad<TMoving, TFixed>
   return chebycoefs;
 }
 
-template <class TMoving, class TFixed>
+template <typename TMoving, typename TFixed>
 void
 ImageMetricLoad<TMoving, TFixed>
 ::ApplyLoad(Element::ConstPointer element, Element::VectorType & _Fe)
@@ -878,7 +878,7 @@ ImageMetricLoad<TMoving, TFixed>
     }
 }
 
-template <class TMoving, class TFixed>
+template <typename TMoving, typename TFixed>
 void
 ImageMetricLoad<TMoving, TFixed>
 ::PrintSelf(std::ostream& os, Indent indent) const

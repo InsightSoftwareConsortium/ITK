@@ -74,7 +74,7 @@ namespace watershed
  * \ingroup WatershedSegmentation
  * \ingroup ITKWatersheds
  */
-template< class TScalar >
+template< typename TScalar >
 class SegmentTreeGenerator:public ProcessObject
 {
 public:

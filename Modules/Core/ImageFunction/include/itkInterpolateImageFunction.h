@@ -40,7 +40,7 @@ namespace itk
  *
  * \ingroup ITKImageFunction
  */
-template< class TInputImage, class TCoordRep = double >
+template< typename TInputImage, typename TCoordRep = double >
 class InterpolateImageFunction:
   public ImageFunction< TInputImage,
                         typename NumericTraits< typename TInputImage::PixelType >::RealType, TCoordRep >

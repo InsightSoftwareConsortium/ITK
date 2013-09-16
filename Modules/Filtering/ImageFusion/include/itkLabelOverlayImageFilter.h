@@ -50,7 +50,7 @@ namespace itk
  * \wikiexample{ImageProcessing/LabelOverlayImageFilter,Overlay a LabelMap on an image}
  * \endwiki
  */
-template< typename  TInputImage, class TLabelImage, typename  TOutputImage >
+template< typename  TInputImage, typename TLabelImage, typename  TOutputImage >
 class LabelOverlayImageFilter:
   public
   BinaryFunctorImageFilter< TInputImage, TLabelImage, TOutputImage,

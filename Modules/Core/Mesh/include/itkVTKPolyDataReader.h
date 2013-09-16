@@ -35,7 +35,7 @@ namespace itk
  * Caveat3: itkVTKPolyDataReader cannot read binary vtk files.
  * \ingroup ITKMesh
  */
-template< class TOutputMesh >
+template< typename TOutputMesh >
 class VTKPolyDataReader:public MeshSource< TOutputMesh >
 {
 public:

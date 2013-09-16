@@ -38,7 +38,7 @@ namespace itk
  * \tparam TLevelSet type of level set function in the container.
  * \ingroup ITKLevelSetsv4
  */
-template< class TIdentifier, class TLevelSet >
+template< typename TIdentifier, typename TLevelSet >
 class LevelSetContainerBase : public Object
 {
 public:

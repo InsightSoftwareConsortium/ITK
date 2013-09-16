@@ -34,7 +34,7 @@ namespace itk
  *
  * \ingroup ITKOptimizersv4
  */
-template< class TInternalComputationValueType=double >
+template< typename TInternalComputationValueType=double >
 class OptimizerParameterScalesEstimatorTemplate : public Object
 {
 public:

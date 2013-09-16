@@ -20,7 +20,7 @@
 #include "itkDerivativeOperator.h"
 
 namespace itk {
-template< class TPixel, unsigned int VDimension = 2>
+template< typename TPixel, unsigned int VDimension = 2>
 class DerivativeOperatorTestHelper : public DerivativeOperator< TPixel, VDimension >
 {
 public:

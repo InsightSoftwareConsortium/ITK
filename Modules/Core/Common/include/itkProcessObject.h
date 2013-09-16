@@ -406,7 +406,7 @@ protected:
    * \sa DomainThreader
    * \ingroup ITKCommon
    */
-  template< class TDomainPartitioner, class TAssociate >
+  template< typename TDomainPartitioner, typename TAssociate >
   class ProcessObjectDomainThreader: public DomainThreader< TDomainPartitioner, TAssociate >
   {
   public:

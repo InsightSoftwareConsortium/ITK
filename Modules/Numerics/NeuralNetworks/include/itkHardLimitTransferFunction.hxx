@@ -25,19 +25,19 @@ namespace itk
 namespace Statistics
 {
 
-template<class ScalarType>
+template<typename ScalarType>
 HardLimitTransferFunction< ScalarType>
 ::HardLimitTransferFunction()
 {
 }
 
-template<class ScalarType>
+template<typename ScalarType>
 HardLimitTransferFunction<ScalarType>
 ::~HardLimitTransferFunction()
 {
 }
 
-template<class ScalarType>
+template<typename ScalarType>
 ScalarType
 HardLimitTransferFunction<ScalarType>
 ::Evaluate(const ScalarType& input)  const
@@ -45,7 +45,7 @@ HardLimitTransferFunction<ScalarType>
   return (input >= 0);
 }
 
-template<class ScalarType>
+template<typename ScalarType>
 ScalarType
 HardLimitTransferFunction<ScalarType>
 ::EvaluateDerivative(const ScalarType& )  const
@@ -54,7 +54,7 @@ HardLimitTransferFunction<ScalarType>
 }
 
 /** Print the object */
-template<class ScalarType>
+template<typename ScalarType>
 void
 HardLimitTransferFunction<ScalarType>
 ::PrintSelf( std::ostream& os, Indent indent ) const

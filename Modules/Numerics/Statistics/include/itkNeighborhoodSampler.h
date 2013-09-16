@@ -40,7 +40,7 @@ namespace Statistics
  * \ingroup ITKStatistics
  */
 
-template< class TSample >
+template< typename TSample >
 class NeighborhoodSampler:public SampleToSubsampleFilter< TSample >
 {
 public:

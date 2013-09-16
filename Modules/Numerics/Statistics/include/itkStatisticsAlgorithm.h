@@ -28,20 +28,20 @@ namespace Algorithm
 {
 #if !defined( _MSC_VER )
 
-template< class TSize >
+template< typename TSize >
 TSize FloorLog(TSize size);
 
-template< class TValue >
+template< typename TValue >
 TValue MedianOfThree(const TValue a, const TValue b, const TValue c);
 
-template< class TSample >
+template< typename TSample >
 void FindSampleBound(const TSample * sample,
                      typename TSample::ConstIterator begin,
                      typename TSample::ConstIterator end,
                      typename TSample::MeasurementVectorType & min,
                      typename TSample::MeasurementVectorType & max);
 
-template< class TSubsample >
+template< typename TSubsample >
 void FindSampleBoundAndMean(const TSubsample * sample,
                             int beginIndex,
                             int endIndex,
@@ -61,7 +61,7 @@ void FindSampleBoundAndMean(const TSubsample * sample,
  * will be considered by the algorithm. The Algorithm return an index in the
  * range of [beginIndex,endIndex] pointing to the element with activeDimension
  * component closest to the partitionValue. */
-template< class TSubsample >
+template< typename TSubsample >
 int Partition(TSubsample *sample,
               unsigned int activeDimension,
               int beginIndex, int endIndex,
@@ -75,7 +75,7 @@ int Partition(TSubsample *sample,
  * provided in the argument medianGuess. The algorithm returns the value of the
  * activeDimension component in the MeasurementVector located in the kth position.
  * http://en.wikipedia.org/wiki/Selection_algorithm */
-template< class TSubsample >
+template< typename TSubsample >
 typename TSubsample::MeasurementType
 QuickSelect(TSubsample * sample,
             unsigned int activeDimension,
@@ -89,7 +89,7 @@ QuickSelect(TSubsample * sample,
  * search is rectricted to the range between the index begin and end, also
  * passed as arguments.
  * http://en.wikipedia.org/wiki/Selection_algorithm. */
-template< class TSubsample >
+template< typename TSubsample >
 typename TSubsample::MeasurementType
 QuickSelect(TSubsample *sample,
             unsigned int activeDimension,
@@ -102,29 +102,29 @@ QuickSelect(TSubsample *sample,
  * search is restricted to the range between the index begin and end, also
  * passed as arguments. This algorithm was based on the procedure used in the STL
  * nth_element method. */
-template< class TSubsample >
+template< typename TSubsample >
 typename TSubsample::MeasurementType
 NthElement(TSubsample *sample,
            unsigned int activeDimension,
            int beginIndex, int endIndex,
            int nth);
 
-template< class TSubsample >
+template< typename TSubsample >
 void InsertSort(TSubsample *sample,
                 unsigned int activeDimension,
                 int beginIndex, int endIndex);
 
-template< class TSubsample >
+template< typename TSubsample >
 void DownHeap(TSubsample *sample,
               unsigned int activeDimension,
               int beginIndex, int endIndex, int node);
 
-template< class TSubsample >
+template< typename TSubsample >
 void HeapSort(TSubsample *sample,
               unsigned int activeDimension,
               int beginIndex, int endIndex);
 
-template< class TSubsample >
+template< typename TSubsample >
 void IntrospectiveSortLoop(TSubsample *sample,
                            unsigned int activeDimension,
                            int beginIndex,
@@ -132,7 +132,7 @@ void IntrospectiveSortLoop(TSubsample *sample,
                            int depthLimit,
                            int sizeThreshold);
 
-template< class TSubsample >
+template< typename TSubsample >
 void IntrospectiveSort(TSubsample *sample,
                        unsigned int activeDimension,
                        int beginIndex, int endIndex,

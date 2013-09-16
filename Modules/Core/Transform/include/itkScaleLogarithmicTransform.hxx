@@ -23,20 +23,20 @@
 namespace itk
 {
 // Constructor with default arguments
-template <class ScalarType, unsigned int NDimensions>
+template <typename ScalarType, unsigned int NDimensions>
 ScaleLogarithmicTransform<ScalarType, NDimensions>::ScaleLogarithmicTransform()
 {
 }
 
 // Destructor
-template <class ScalarType, unsigned int NDimensions>
+template <typename ScalarType, unsigned int NDimensions>
 ScaleLogarithmicTransform<ScalarType, NDimensions>::
 ~ScaleLogarithmicTransform()
 {
 }
 
 // Set the parameters
-template <class ScalarType, unsigned int NDimensions>
+template <typename ScalarType, unsigned int NDimensions>
 void
 ScaleLogarithmicTransform<ScalarType, NDimensions>
 ::SetParameters(const ParametersType & parameters)
@@ -60,7 +60,7 @@ ScaleLogarithmicTransform<ScalarType, NDimensions>
 }
 
 // Get Parameters
-template <class TScalar, unsigned int NDimensions>
+template <typename TScalar, unsigned int NDimensions>
 const typename ScaleLogarithmicTransform<TScalar, NDimensions>::ParametersType
 & ScaleLogarithmicTransform<TScalar, NDimensions>
 ::GetParameters(void) const
@@ -80,14 +80,14 @@ const typename ScaleLogarithmicTransform<TScalar, NDimensions>::ParametersType
   }
 
 // Print self
-template <class ScalarType, unsigned int NDimensions>
+template <typename ScalarType, unsigned int NDimensions>
 void
 ScaleLogarithmicTransform<ScalarType, NDimensions>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }
 
-template <class ScalarType, unsigned int NDimensions>
+template <typename ScalarType, unsigned int NDimensions>
 void
 ScaleLogarithmicTransform<ScalarType, NDimensions>
 ::ComputeJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const

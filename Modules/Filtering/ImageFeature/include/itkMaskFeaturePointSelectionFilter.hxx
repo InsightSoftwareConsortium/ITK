@@ -30,7 +30,7 @@
 
 namespace itk
 {
-template< class TImage, class TMask, class TFeatures >
+template< typename TImage, typename TMask, typename TFeatures >
 MaskFeaturePointSelectionFilter< TImage, TMask, TFeatures >
 ::MaskFeaturePointSelectionFilter()
 {
@@ -41,13 +41,13 @@ MaskFeaturePointSelectionFilter< TImage, TMask, TFeatures >
   m_ComputeStructureTensors = true;
 }
 
-template< class TImage, class TMask, class TFeatures >
+template< typename TImage, typename TMask, typename TFeatures >
 MaskFeaturePointSelectionFilter< TImage, TMask, TFeatures >
 ::~MaskFeaturePointSelectionFilter()
 {
 }
 
-template< class TImage, class TMask, class TFeatures >
+template< typename TImage, typename TMask, typename TFeatures >
 void
 MaskFeaturePointSelectionFilter< TImage, TMask, TFeatures >
 ::PrintSelf( std::ostream & os, Indent indent ) const
@@ -74,7 +74,7 @@ MaskFeaturePointSelectionFilter< TImage, TMask, TFeatures >
      << indent << "m_SelectFraction: " << m_SelectFraction << std::endl;
 }
 
-template< class TImage, class TMask, class TFeatures >
+template< typename TImage, typename TMask, typename TFeatures >
 void
 MaskFeaturePointSelectionFilter< TImage, TMask, TFeatures >
 ::ComputeConnectivityOffsets( void ) throw ( ExceptionObject )
@@ -112,7 +112,7 @@ MaskFeaturePointSelectionFilter< TImage, TMask, TFeatures >
     }
 }
 
-template< class TImage, class TMask, class TFeatures >
+template< typename TImage, typename TMask, typename TFeatures >
 void
 MaskFeaturePointSelectionFilter< TImage, TMask, TFeatures >
 ::GenerateData()

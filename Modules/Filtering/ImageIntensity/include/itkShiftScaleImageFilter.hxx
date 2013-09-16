@@ -25,7 +25,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 ShiftScaleImageFilter< TInputImage, TOutputImage >
 ::ShiftScaleImageFilter()
 {
@@ -39,12 +39,12 @@ ShiftScaleImageFilter< TInputImage, TOutputImage >
   m_OutputImage = 0;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 ShiftScaleImageFilter< TInputImage, TOutputImage >
 ::~ShiftScaleImageFilter()
 {}
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ShiftScaleImageFilter< TInputImage, TOutputImage >
 ::BeforeThreadedGenerateData()
@@ -60,7 +60,7 @@ ShiftScaleImageFilter< TInputImage, TOutputImage >
   m_OutputImage = this->GetOutput();
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ShiftScaleImageFilter< TInputImage, TOutputImage >
 ::AfterThreadedGenerateData()
@@ -78,7 +78,7 @@ ShiftScaleImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ShiftScaleImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
@@ -117,7 +117,7 @@ ShiftScaleImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ShiftScaleImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

@@ -28,7 +28,7 @@ namespace itk
 /**
  *    Constructor
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 BinaryPruningImageFilter< TInputImage, TOutputImage >
 ::BinaryPruningImageFilter()
 {
@@ -43,7 +43,7 @@ BinaryPruningImageFilter< TInputImage, TOutputImage >
 /**
  *  Return the pruning Image pointer
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 typename BinaryPruningImageFilter<
   TInputImage, TOutputImage >::OutputImageType *
 BinaryPruningImageFilter< TInputImage, TOutputImage >
@@ -56,7 +56,7 @@ BinaryPruningImageFilter< TInputImage, TOutputImage >
 /**
  *  Prepare data for computation
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 BinaryPruningImageFilter< TInputImage, TOutputImage >
 ::PrepareData(void)
@@ -92,7 +92,7 @@ BinaryPruningImageFilter< TInputImage, TOutputImage >
 /**
  *  Post processing for computing thinning
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 BinaryPruningImageFilter< TInputImage, TOutputImage >
 ::ComputePruneImage()
@@ -145,7 +145,7 @@ BinaryPruningImageFilter< TInputImage, TOutputImage >
 /**
  *  Generate PruneImage
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 BinaryPruningImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
@@ -159,7 +159,7 @@ BinaryPruningImageFilter< TInputImage, TOutputImage >
 /**
  *  Print Self
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 BinaryPruningImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

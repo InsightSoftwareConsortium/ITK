@@ -25,19 +25,19 @@
 namespace itk
 {
 
-template< class TIterator >
+template< typename TIterator >
 ThreadedIteratorRangePartitioner< TIterator >
 ::ThreadedIteratorRangePartitioner()
 {
 }
 
-template< class TIterator >
+template< typename TIterator >
 ThreadedIteratorRangePartitioner< TIterator >
 ::~ThreadedIteratorRangePartitioner()
 {
 }
 
-template< class TIterator >
+template< typename TIterator >
 ThreadIdType
 ThreadedIteratorRangePartitioner< TIterator >
 ::PartitionDomain( const ThreadIdType threadId,

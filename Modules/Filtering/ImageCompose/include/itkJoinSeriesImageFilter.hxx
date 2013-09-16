@@ -24,7 +24,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 JoinSeriesImageFilter< TInputImage, TOutputImage >
 ::JoinSeriesImageFilter()
 {
@@ -32,7 +32,7 @@ JoinSeriesImageFilter< TInputImage, TOutputImage >
   m_Origin = 0.0;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 JoinSeriesImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -43,7 +43,7 @@ JoinSeriesImageFilter< TInputImage, TOutputImage >
   os << indent << "Origin: " << m_Origin << std::endl;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 JoinSeriesImageFilter< TInputImage, TOutputImage >
 ::VerifyInputInformation()
@@ -88,7 +88,7 @@ JoinSeriesImageFilter< TInputImage, TOutputImage >
 /**
  * \sa UnaryFunctorImageFilter::GenerateOutputInformation()
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 JoinSeriesImageFilter< TInputImage, TOutputImage >
 ::GenerateOutputInformation()
@@ -198,7 +198,7 @@ JoinSeriesImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 JoinSeriesImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
@@ -242,7 +242,7 @@ JoinSeriesImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 JoinSeriesImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,

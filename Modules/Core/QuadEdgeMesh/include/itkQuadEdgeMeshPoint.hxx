@@ -23,7 +23,7 @@
 namespace itk
 {
 // ---------------------------------------------------------------------
-template< class TCoordRep, unsigned int VPointDimension, typename TQuadEdge >
+template< typename TCoordRep, unsigned int VPointDimension, typename TQuadEdge >
 void
 QuadEdgeMeshPoint< TCoordRep, VPointDimension, TQuadEdge >
 ::Initialize()
@@ -32,7 +32,7 @@ QuadEdgeMeshPoint< TCoordRep, VPointDimension, TQuadEdge >
 }
 
 // ---------------------------------------------------------------------
-template< class TCoordRep, unsigned int VPointDimension, typename TQuadEdge >
+template< typename TCoordRep, unsigned int VPointDimension, typename TQuadEdge >
 QuadEdgeMeshPoint< TCoordRep, VPointDimension, TQuadEdge >
 ::QuadEdgeMeshPoint()
 {
@@ -40,7 +40,7 @@ QuadEdgeMeshPoint< TCoordRep, VPointDimension, TQuadEdge >
 }
 
 // ---------------------------------------------------------------------
-template< class TCoordRep, unsigned int VPointDimension, typename TQuadEdge >
+template< typename TCoordRep, unsigned int VPointDimension, typename TQuadEdge >
 QuadEdgeMeshPoint< TCoordRep, VPointDimension, TQuadEdge >
 ::QuadEdgeMeshPoint(const Self & r):Superclass(r)
 {
@@ -49,7 +49,7 @@ QuadEdgeMeshPoint< TCoordRep, VPointDimension, TQuadEdge >
 }
 
 // ---------------------------------------------------------------------
-template< class TCoordRep, unsigned int VPointDimension, typename TQuadEdge >
+template< typename TCoordRep, unsigned int VPointDimension, typename TQuadEdge >
 QuadEdgeMeshPoint< TCoordRep, VPointDimension, TQuadEdge >
 ::QuadEdgeMeshPoint(const Superclass & r):Superclass(r)
 {
@@ -57,7 +57,7 @@ QuadEdgeMeshPoint< TCoordRep, VPointDimension, TQuadEdge >
 }
 
 // ---------------------------------------------------------------------
-template< class TCoordRep, unsigned int VPointDimension, typename TQuadEdge >
+template< typename TCoordRep, unsigned int VPointDimension, typename TQuadEdge >
 QuadEdgeMeshPoint< TCoordRep, VPointDimension, TQuadEdge > &
 QuadEdgeMeshPoint< TCoordRep, VPointDimension, TQuadEdge >
 ::operator=(const Self & r)
@@ -68,7 +68,7 @@ QuadEdgeMeshPoint< TCoordRep, VPointDimension, TQuadEdge >
 }
 
 // ---------------------------------------------------------------------
-template< class TCoordRep, unsigned int VPointDimension, typename TQuadEdge >
+template< typename TCoordRep, unsigned int VPointDimension, typename TQuadEdge >
 QuadEdgeMeshPoint< TCoordRep, VPointDimension, TQuadEdge > &
 QuadEdgeMeshPoint< TCoordRep, VPointDimension, TQuadEdge >
 ::operator=(const Superclass & r)
@@ -79,7 +79,7 @@ QuadEdgeMeshPoint< TCoordRep, VPointDimension, TQuadEdge >
 }
 
 // ---------------------------------------------------------------------
-template< class TCoordRep, unsigned int VPointDimension, typename TQuadEdge >
+template< typename TCoordRep, unsigned int VPointDimension, typename TQuadEdge >
 QuadEdgeMeshPoint< TCoordRep, VPointDimension, TQuadEdge > &
 QuadEdgeMeshPoint< TCoordRep, VPointDimension, TQuadEdge >
 ::operator=(const ValueType r[VPointDimension])
@@ -89,7 +89,7 @@ QuadEdgeMeshPoint< TCoordRep, VPointDimension, TQuadEdge >
   return ( *this );
 }
 
-template< class TCoordRep, unsigned int VPointDimension, typename TQuadEdge >
+template< typename TCoordRep, unsigned int VPointDimension, typename TQuadEdge >
 bool
 QuadEdgeMeshPoint< TCoordRep, VPointDimension, TQuadEdge >
 ::IsInternal() const
@@ -106,7 +106,7 @@ QuadEdgeMeshPoint< TCoordRep, VPointDimension, TQuadEdge >
  *  @return the valence when an entry in the Onext ring is present,
  *          and -1 otherwise.
  */
-template< class TCoordRep, unsigned int VPointDimension, typename TQuadEdge >
+template< typename TCoordRep, unsigned int VPointDimension, typename TQuadEdge >
 int QuadEdgeMeshPoint< TCoordRep, VPointDimension, TQuadEdge >
 ::GetValence() const
 {
@@ -123,7 +123,7 @@ int QuadEdgeMeshPoint< TCoordRep, VPointDimension, TQuadEdge >
 /** Set Edge
  *
  */
-template< class TCoordRep, unsigned int VPointDimension, typename TQuadEdge >
+template< typename TCoordRep, unsigned int VPointDimension, typename TQuadEdge >
 void
 QuadEdgeMeshPoint< TCoordRep, VPointDimension, TQuadEdge >
 ::SetEdge(TQuadEdge *inputEdge)
@@ -134,7 +134,7 @@ QuadEdgeMeshPoint< TCoordRep, VPointDimension, TQuadEdge >
 /** Get Edge
  *
  */
-template< class TCoordRep, unsigned int VPointDimension, typename TQuadEdge >
+template< typename TCoordRep, unsigned int VPointDimension, typename TQuadEdge >
 TQuadEdge *
 QuadEdgeMeshPoint< TCoordRep, VPointDimension, TQuadEdge >
 ::GetEdge() const
@@ -145,7 +145,7 @@ QuadEdgeMeshPoint< TCoordRep, VPointDimension, TQuadEdge >
 /** Get Edge non-const version
  *
  */
-template< class TCoordRep, unsigned int VPointDimension, typename TQuadEdge >
+template< typename TCoordRep, unsigned int VPointDimension, typename TQuadEdge >
 TQuadEdge *
 QuadEdgeMeshPoint< TCoordRep, VPointDimension, TQuadEdge >
 ::GetEdge()
@@ -156,7 +156,7 @@ QuadEdgeMeshPoint< TCoordRep, VPointDimension, TQuadEdge >
 /** Set Point Coordinates
  *
  */
-template< class TCoordRep, unsigned int VPointDimension, typename TQuadEdge >
+template< typename TCoordRep, unsigned int VPointDimension, typename TQuadEdge >
 void
 QuadEdgeMeshPoint< TCoordRep, VPointDimension, TQuadEdge >
 ::SetPoint(const Superclass & point)

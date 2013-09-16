@@ -23,12 +23,12 @@
 
 namespace itk
 {
-template< class TInputImage >
+template< typename TInputImage >
 TobogganImageFilter< TInputImage >
 ::TobogganImageFilter()
 {}
 
-template< class TInputImage >
+template< typename TInputImage >
 void
 TobogganImageFilter< TInputImage >
 ::GenerateInputRequestedRegion()
@@ -42,7 +42,7 @@ TobogganImageFilter< TInputImage >
     }
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void
 TobogganImageFilter< TInputImage >
 ::EnlargeOutputRequestedRegion(DataObject *data)
@@ -51,7 +51,7 @@ TobogganImageFilter< TInputImage >
   data->SetRequestedRegionToLargestPossibleRegion();
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void
 TobogganImageFilter< TInputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -59,7 +59,7 @@ TobogganImageFilter< TInputImage >
   Superclass::PrintSelf(os, indent);
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void
 TobogganImageFilter< TInputImage >
 ::GenerateData()

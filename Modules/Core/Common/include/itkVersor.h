@@ -46,7 +46,7 @@ namespace itk
  * \sa Matrix
  * \ingroup ITKCommon
  */
-template< class T >
+template< typename T >
 class Versor
 {
 public:
@@ -273,7 +273,7 @@ private:
   ValueType m_W;
 };
 
-template< class T >
+template< typename T >
 std::ostream & operator<<(std::ostream & os,
                                      const Versor< T > & v)
 {
@@ -283,7 +283,7 @@ std::ostream & operator<<(std::ostream & os,
   return os;
 }
 
-template< class T >
+template< typename T >
 std::istream & operator>>(std::istream & is,
                                      Versor< T > & v);
 } // end namespace itk

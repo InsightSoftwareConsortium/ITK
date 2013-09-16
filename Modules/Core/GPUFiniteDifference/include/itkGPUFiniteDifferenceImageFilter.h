@@ -32,7 +32,7 @@ namespace itk
  *
  * \ingroup ITKGPUFiniteDifference
  * \sa GPUDenseFiniteDifferenceImageFilter */
-template< class TInputImage, class TOutputImage, class TParentImageFilter =
+template< typename TInputImage, typename TOutputImage, typename TParentImageFilter =
             FiniteDifferenceImageFilter< TInputImage, TOutputImage > >
 class GPUFiniteDifferenceImageFilter :
   public GPUInPlaceImageFilter< TInputImage, TOutputImage, TParentImageFilter >

@@ -34,7 +34,7 @@ namespace itk
  *
  *  \ingroup ITKLevelSetsv4Visualization
  */
-template< class TInputImage, class TLevelSet >
+template< typename TInputImage, typename TLevelSet >
 class VTKVisualize2DSparseLevelSetLayers
 {};
 
@@ -44,7 +44,7 @@ class VTKVisualize2DSparseLevelSetLayers
  *
  *  \ingroup ITKLevelSetsv4Visualization
  */
-template< class TInputImage, typename TOutput, unsigned int VDimension >
+template< typename TInputImage, typename TOutput, unsigned int VDimension >
 class VTKVisualize2DSparseLevelSetLayers<
     TInputImage,
     itk::WhitakerSparseLevelSetImage< TOutput, VDimension > > :
@@ -91,7 +91,7 @@ private:
  *
  *  \ingroup ITKLevelSetsv4Visualization
  */
-template< class TInputImage, unsigned int VDimension >
+template< typename TInputImage, unsigned int VDimension >
 class VTKVisualize2DSparseLevelSetLayers<
     TInputImage,
     itk::ShiSparseLevelSetImage< VDimension > > :
@@ -139,7 +139,7 @@ private:
  *
  *  \ingroup ITKLevelSetsv4Visualization
  */
-template< class TInputImage, unsigned int VDimension >
+template< typename TInputImage, unsigned int VDimension >
 class VTKVisualize2DSparseLevelSetLayers<
     TInputImage,
     itk::MalcolmSparseLevelSetImage< VDimension > > :

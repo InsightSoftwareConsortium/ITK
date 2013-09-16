@@ -22,7 +22,7 @@
 
 namespace itk
 {
-template< class TTreeType >
+template< typename TTreeType >
 class LeafTreeIterator:public TreeIteratorBase< TTreeType >
 {
 public:
@@ -65,7 +65,7 @@ private:
 };
 
 /** Constructor */
-template< class TTreeType >
+template< typename TTreeType >
 LeafTreeIterator< TTreeType >::LeafTreeIterator(const TTreeType *tree):
   TreeIteratorBase< TTreeType >(tree, NULL)
 {
@@ -82,7 +82,7 @@ LeafTreeIterator< TTreeType >::LeafTreeIterator(const TTreeType *tree):
 }
 
 /** Constructor */
-template< class TTreeType >
+template< typename TTreeType >
 LeafTreeIterator< TTreeType >::LeafTreeIterator(TTreeType *tree):
   TreeIteratorBase< TTreeType >(tree, NULL)
 {
@@ -99,12 +99,12 @@ LeafTreeIterator< TTreeType >::LeafTreeIterator(TTreeType *tree):
 }
 
 /** Destructor */
-template< class TTreeType >
+template< typename TTreeType >
 LeafTreeIterator< TTreeType >::~LeafTreeIterator()
 {}
 
 /** Return the type of iterator */
-template< class TTreeType >
+template< typename TTreeType >
 typename LeafTreeIterator< TTreeType >::NodeType
 LeafTreeIterator< TTreeType >::GetType() const
 {
@@ -112,7 +112,7 @@ LeafTreeIterator< TTreeType >::GetType() const
 }
 
 /** Return true if the next value exists */
-template< class TTreeType >
+template< typename TTreeType >
 bool LeafTreeIterator< TTreeType >::HasNext() const
 {
   if ( this->m_Position == NULL )
@@ -127,7 +127,7 @@ bool LeafTreeIterator< TTreeType >::HasNext() const
 }
 
 /** Return the next node */
-template< class TTreeType >
+template< typename TTreeType >
 const typename LeafTreeIterator< TTreeType >::ValueType &
 LeafTreeIterator< TTreeType >::Next()
 {
@@ -136,7 +136,7 @@ LeafTreeIterator< TTreeType >::Next()
 }
 
 /** Find the next node given the position */
-template< class TTreeType >
+template< typename TTreeType >
 const typename LeafTreeIterator< TTreeType >::TreeNodeType *
 LeafTreeIterator< TTreeType >::FindNextNode() const
 {
@@ -165,7 +165,7 @@ LeafTreeIterator< TTreeType >::FindNextNode() const
 }
 
 /** Clone function */
-template< class TTreeType >
+template< typename TTreeType >
 TreeIteratorBase< TTreeType > *LeafTreeIterator< TTreeType >::Clone()
 {
   LeafTreeIterator< TTreeType > *clone = new LeafTreeIterator< TTreeType >(this->m_Tree);

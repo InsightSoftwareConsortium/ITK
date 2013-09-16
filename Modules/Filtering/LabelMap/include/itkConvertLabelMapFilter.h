@@ -39,7 +39,7 @@ namespace itk
  * \ingroup LabeledImageFilters
  * \ingroup ITKLabelMap
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class ConvertLabelMapFilter:
   public LabelMapFilter< TInputImage, TOutputImage >
 {

@@ -56,7 +56,7 @@ namespace itk
  * \ingroup ITKImageGrid
  */
 
-template <class TInputImage, class TOutputImage = TInputImage>
+template <typename TInputImage, typename TOutputImage = TInputImage>
 class BSplineControlPointImageFilter
   : public ImageToImageFilter<TInputImage, TOutputImage>
 {

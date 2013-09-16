@@ -30,7 +30,7 @@
 
 namespace
 {
-template <class T>
+template <typename T>
 bool TemplatedRoundTest( void )
 {
    bool ok = true;

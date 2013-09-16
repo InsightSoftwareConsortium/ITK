@@ -32,7 +32,7 @@ namespace itk
 //
 // Constructor
 //
-template< class TInputVideoStream >
+template< typename TInputVideoStream >
 VideoFileWriter< TInputVideoStream >
 ::VideoFileWriter()
 {
@@ -53,7 +53,7 @@ VideoFileWriter< TInputVideoStream >
 //
 // Destructor
 //
-template< class TInputVideoStream >
+template< typename TInputVideoStream >
 VideoFileWriter< TInputVideoStream >
 ::~VideoFileWriter()
 {
@@ -64,7 +64,7 @@ VideoFileWriter< TInputVideoStream >
 //
 // PrintSelf
 //
-template< class TInputVideoStream >
+template< typename TInputVideoStream >
 void
 VideoFileWriter< TInputVideoStream >
 ::PrintSelf(std::ostream &os, Indent indent) const
@@ -84,7 +84,7 @@ VideoFileWriter< TInputVideoStream >
 //
 // SetInput
 //
-template< class TInputVideoStream >
+template< typename TInputVideoStream >
 void
 VideoFileWriter< TInputVideoStream >
 ::SetInput( const VideoStreamType* input )
@@ -95,7 +95,7 @@ VideoFileWriter< TInputVideoStream >
 //
 // GetInput
 //
-template< class TInputVideoStream >
+template< typename TInputVideoStream >
 const typename VideoFileWriter< TInputVideoStream >::VideoStreamType*
 VideoFileWriter< TInputVideoStream >
 ::GetInput()
@@ -112,7 +112,7 @@ VideoFileWriter< TInputVideoStream >
 //
 // SetVideoIO
 //
-template< class TInputVideoStream >
+template< typename TInputVideoStream >
 void
 VideoFileWriter< TInputVideoStream >
 ::SetVideoIO(IOBasePointer videoIO)
@@ -124,7 +124,7 @@ VideoFileWriter< TInputVideoStream >
 //
 // Write
 //
-template< class TInputVideoStream >
+template< typename TInputVideoStream >
 void
 VideoFileWriter< TInputVideoStream >
 ::Write()
@@ -241,7 +241,7 @@ VideoFileWriter< TInputVideoStream >
 //
 // FinishWriting
 //
-template< class TInputVideoStream >
+template< typename TInputVideoStream >
 void
 VideoFileWriter< TInputVideoStream >
 ::FinishWriting()
@@ -255,7 +255,7 @@ VideoFileWriter< TInputVideoStream >
 //
 // Update
 //
-template< class TInputVideoStream >
+template< typename TInputVideoStream >
 void
 VideoFileWriter< TInputVideoStream >
 ::Update()
@@ -266,7 +266,7 @@ VideoFileWriter< TInputVideoStream >
 //
 // UpdateLargestPossibleRegion
 //
-template< class TInputVideoStream >
+template< typename TInputVideoStream >
 void
 VideoFileWriter< TInputVideoStream >
 ::UpdateLargestPossibleRegion()
@@ -286,7 +286,7 @@ VideoFileWriter< TInputVideoStream >
 //
 // TemporalStreamingGenerateData
 //
-template< class TInputVideoStream >
+template< typename TInputVideoStream >
 void
 VideoFileWriter< TInputVideoStream >
 ::TemporalStreamingGenerateData()
@@ -314,7 +314,7 @@ VideoFileWriter< TInputVideoStream >
 //
 // InitializeOutputParameters
 //
-template< class TInputVideoStream >
+template< typename TInputVideoStream >
 bool
 VideoFileWriter< TInputVideoStream >
 ::InitializeOutputParameters()
@@ -352,7 +352,7 @@ VideoFileWriter< TInputVideoStream >
 //
 // InitializeVideoIO
 //
-template< class TInputVideoStream >
+template< typename TInputVideoStream >
 bool
 VideoFileWriter< TInputVideoStream >
 ::InitializeVideoIO()

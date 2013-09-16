@@ -24,7 +24,7 @@
 
 // This routine is used to make sure that we call the "const" version
 // of GetPixel() (via the operator[])
-template <class T, unsigned int VImageDimension>
+template <typename T, unsigned int VImageDimension>
 void TestConstPixelAccess(const itk::Image<T, VImageDimension> &in,
                           itk::Image<T, VImageDimension> &out)
 {

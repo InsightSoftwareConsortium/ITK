@@ -45,7 +45,7 @@ namespace itk
  * \wikiexample{ImageProcessing/ShapeOpeningLabelMapFilter,Keep only regions that meet a specified threshold of a specified property}
  * \endwiki
  */
-template< class TImage >
+template< typename TImage >
 class ShapeOpeningLabelMapFilter:
   public InPlaceLabelMapFilter< TImage >
 {
@@ -119,7 +119,7 @@ protected:
 
   void GenerateData();
 
-  template< class TAttributeAccessor >
+  template< typename TAttributeAccessor >
   void TemplatedGenerateData(const TAttributeAccessor & accessor)
   {
     // Allocate the output

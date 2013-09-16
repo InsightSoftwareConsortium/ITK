@@ -34,7 +34,7 @@
 
 namespace itk {
 
-template <class TImage>
+template <typename TImage>
 StatisticsPositionLabelMapFilter<TImage>
 ::StatisticsPositionLabelMapFilter()
 {
@@ -42,7 +42,7 @@ StatisticsPositionLabelMapFilter<TImage>
 }
 
 
-template <class TImage>
+template <typename TImage>
 void
 StatisticsPositionLabelMapFilter<TImage>
 ::ThreadedProcessLabelObject( LabelObjectType * labelObject )

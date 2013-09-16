@@ -39,7 +39,7 @@ namespace itk
  * \ingroup DataAccess
  * \ingroup ITKCommon
  */
-template< class TObjectType >
+template< typename TObjectType >
 class SmartPointer
 {
 public:

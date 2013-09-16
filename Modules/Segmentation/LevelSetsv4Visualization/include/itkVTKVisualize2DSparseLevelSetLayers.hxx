@@ -23,21 +23,21 @@
 
 namespace itk
 {
-template< class TInputImage, typename TOutput, unsigned int VDimension >
+template< typename TInputImage, typename TOutput, unsigned int VDimension >
 VTKVisualize2DSparseLevelSetLayers<
   TInputImage,
   itk::WhitakerSparseLevelSetImage< TOutput, VDimension > >
 ::VTKVisualize2DSparseLevelSetLayers() : Superclass()
 {}
 
-template< class TInputImage, typename TOutput, unsigned int VDimension >
+template< typename TInputImage, typename TOutput, unsigned int VDimension >
 VTKVisualize2DSparseLevelSetLayers<
   TInputImage,
   itk::WhitakerSparseLevelSetImage< TOutput, VDimension > >
 ::~VTKVisualize2DSparseLevelSetLayers()
 {}
 
-template< class TInputImage, typename TOutput, unsigned int VDimension >
+template< typename TInputImage, typename TOutput, unsigned int VDimension >
 void
 VTKVisualize2DSparseLevelSetLayers<
   TInputImage,
@@ -122,7 +122,7 @@ VTKVisualize2DSparseLevelSetLayers<
     }
   }
 
-template< class TInputImage, typename TOutput, unsigned int VDimension >
+template< typename TInputImage, typename TOutput, unsigned int VDimension >
 std::string
 VTKVisualize2DSparseLevelSetLayers<
   TInputImage,
@@ -133,7 +133,7 @@ VTKVisualize2DSparseLevelSetLayers<
   }
 
 // -----------------------------------------------------------------------------
-template< class TInputImage, unsigned int VDimension >
+template< typename TInputImage, unsigned int VDimension >
 VTKVisualize2DSparseLevelSetLayers<
   TInputImage,
   itk::ShiSparseLevelSetImage< VDimension > >
@@ -141,7 +141,7 @@ VTKVisualize2DSparseLevelSetLayers<
   {
   }
 
-template< class TInputImage, unsigned int VDimension >
+template< typename TInputImage, unsigned int VDimension >
 VTKVisualize2DSparseLevelSetLayers<
   TInputImage,
   itk::ShiSparseLevelSetImage< VDimension > >
@@ -149,7 +149,7 @@ VTKVisualize2DSparseLevelSetLayers<
   {
   }
 
-template< class TInputImage, unsigned int VDimension >
+template< typename TInputImage, unsigned int VDimension >
 void
 VTKVisualize2DSparseLevelSetLayers<
   TInputImage,
@@ -190,7 +190,7 @@ VTKVisualize2DSparseLevelSetLayers<
     }
   }
 
-template< class TInputImage, unsigned int VDimension >
+template< typename TInputImage, unsigned int VDimension >
 std::string
 VTKVisualize2DSparseLevelSetLayers<
   TInputImage,
@@ -201,21 +201,21 @@ VTKVisualize2DSparseLevelSetLayers<
   }
 
 // -----------------------------------------------------------------------------
-template< class TInputImage, unsigned int VDimension >
+template< typename TInputImage, unsigned int VDimension >
 VTKVisualize2DSparseLevelSetLayers<
   TInputImage,
   itk::MalcolmSparseLevelSetImage< VDimension > >
 ::VTKVisualize2DSparseLevelSetLayers() : Superclass()
 {}
 
-template< class TInputImage, unsigned int VDimension >
+template< typename TInputImage, unsigned int VDimension >
 VTKVisualize2DSparseLevelSetLayers<
   TInputImage,
   itk::MalcolmSparseLevelSetImage< VDimension > >
 ::~VTKVisualize2DSparseLevelSetLayers()
 {}
 
-template< class TInputImage, unsigned int VDimension >
+template< typename TInputImage, unsigned int VDimension >
 void
 VTKVisualize2DSparseLevelSetLayers<
   TInputImage,
@@ -243,7 +243,7 @@ VTKVisualize2DSparseLevelSetLayers<
     }
 }
 
-template< class TInputImage, unsigned int VDimension >
+template< typename TInputImage, unsigned int VDimension >
 std::string
 VTKVisualize2DSparseLevelSetLayers<
   TInputImage,

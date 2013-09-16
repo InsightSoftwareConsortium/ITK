@@ -27,7 +27,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 SobelEdgeDetectionImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
@@ -81,7 +81,7 @@ throw ( InvalidRequestedRegionError )
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 SobelEdgeDetectionImageFilter< TInputImage, TOutputImage >
 ::GenerateData()

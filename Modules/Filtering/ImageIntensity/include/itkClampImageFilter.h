@@ -38,7 +38,7 @@ namespace Functor
  *
  * \ingroup ITKImageIntensity
  */
-template< class TInput, class TOutput = TInput >
+template< typename TInput, typename TOutput = TInput >
 class Clamp
 {
 public:
@@ -86,7 +86,7 @@ private:
 };
 
 
-template< class TInput, class TOutput >
+template< typename TInput, typename TOutput >
 inline
 typename Clamp< TInput, TOutput >::OutputType
 Clamp< TInput, TOutput >
@@ -134,7 +134,7 @@ Clamp< TInput, TOutput >
  * \wikiexample{ImageProcessing/ClampImageFilter,Cast an image from one type to another but clamp to the output value range}
  * \endwiki
  */
-template <class TInputImage, class TOutputImage>
+template <typename TInputImage, typename TOutputImage>
 class ClampImageFilter :
   public UnaryFunctorImageFilter< TInputImage,TOutputImage,
                                   Functor::Clamp< typename TInputImage::PixelType,

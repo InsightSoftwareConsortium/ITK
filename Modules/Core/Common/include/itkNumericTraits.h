@@ -66,7 +66,7 @@ template< typename TValueType, unsigned int VLength>  class FixedArray;
  * \wikiexample{SimpleOperations/NumericTraits,Get some basic information about a type}
  * \endwiki
  */
-template< class T >
+template< typename T >
 class NumericTraits:public vcl_numeric_limits< T >
 {
 public:
@@ -191,7 +191,7 @@ public:
   }
 
   /** assign the value to an array */
-  template<class TArray>
+  template<typename TArray>
   static void AssignToArray( const T & v, TArray & mv )
   {
     mv[0] = v;
@@ -241,7 +241,7 @@ public:
   static ValueType ZeroValue(const ValueType &) { return ZeroValue(); }
   static ValueType OneValue(const ValueType &) { return OneValue(); }
 
-  template<class TArray>
+  template<typename TArray>
   static void AssignToArray( const ValueType & v, TArray & mv )
   {
     mv[0] = v;
@@ -295,7 +295,7 @@ public:
   static ValueType ZeroValue(const ValueType &) { return ZeroValue(); }
   static ValueType OneValue(const ValueType &) { return OneValue(); }
 
-  template<class TArray>
+  template<typename TArray>
   static void AssignToArray( const ValueType & v, TArray & mv )
   {
     mv[0] = v;
@@ -347,7 +347,7 @@ public:
   static ValueType ZeroValue(const ValueType &) { return ZeroValue(); }
   static ValueType OneValue(const ValueType &) { return OneValue(); }
 
-  template<class TArray>
+  template<typename TArray>
   static void AssignToArray( const ValueType & v, TArray & mv )
   {
     mv[0] = v;
@@ -397,7 +397,7 @@ public:
   static ValueType ZeroValue(const ValueType &) { return ZeroValue(); }
   static ValueType OneValue(const ValueType &) { return OneValue(); }
 
-  template<class TArray>
+  template<typename TArray>
   static void AssignToArray( const ValueType & v, TArray & mv )
   {
     mv[0] = v;
@@ -445,7 +445,7 @@ public:
   static ValueType ZeroValue(const ValueType &) { return ZeroValue(); }
   static ValueType OneValue(const ValueType &) { return OneValue(); }
 
-  template<class TArray>
+  template<typename TArray>
   static void AssignToArray( const ValueType & v, TArray & mv )
   {
     mv[0] = v;
@@ -494,7 +494,7 @@ public:
   static ValueType ZeroValue(const ValueType &) { return ZeroValue(); }
   static ValueType OneValue(const ValueType &) { return OneValue(); }
 
-  template<class TArray>
+  template<typename TArray>
   static void AssignToArray( const ValueType & v, TArray & mv )
   {
     mv[0] = v;
@@ -542,7 +542,7 @@ public:
   static ValueType ZeroValue(const ValueType &) { return ZeroValue(); }
   static ValueType OneValue(const ValueType &) { return OneValue(); }
 
-  template<class TArray>
+  template<typename TArray>
   static void AssignToArray( const ValueType & v, TArray & mv )
   {
     mv[0] = v;
@@ -594,7 +594,7 @@ public:
   static ValueType ZeroValue(const ValueType &) { return ZeroValue(); }
   static ValueType OneValue(const ValueType &) { return OneValue(); }
 
-  template<class TArray>
+  template<typename TArray>
   static void AssignToArray( const ValueType & v, TArray & mv )
   {
     mv[0] = v;
@@ -643,7 +643,7 @@ public:
   static ValueType ZeroValue(const ValueType &) { return ZeroValue(); }
   static ValueType OneValue(const ValueType &) { return OneValue(); }
 
-  template<class TArray>
+  template<typename TArray>
   static void AssignToArray( const ValueType & v, TArray & mv )
   {
     mv[0] = v;
@@ -692,7 +692,7 @@ public:
   static ValueType ZeroValue(const ValueType &) { return ZeroValue(); }
   static ValueType OneValue(const ValueType &) { return OneValue(); }
 
-  template<class TArray>
+  template<typename TArray>
   static void AssignToArray( const ValueType & v, TArray & mv )
   {
     mv[0] = v;
@@ -741,7 +741,7 @@ public:
   static ValueType ZeroValue(const ValueType &) { return ZeroValue(); }
   static ValueType OneValue(const ValueType &) { return OneValue(); }
 
-  template<class TArray>
+  template<typename TArray>
   static void AssignToArray( const ValueType & v, TArray & mv )
   {
     mv[0] = v;
@@ -790,7 +790,7 @@ public:
   static ValueType ZeroValue(const ValueType &) { return ZeroValue(); }
   static ValueType OneValue(const ValueType &) { return OneValue(); }
 
-  template<class TArray>
+  template<typename TArray>
   static void AssignToArray( const ValueType & v, TArray & mv )
   {
     mv[0] = v;
@@ -847,7 +847,7 @@ public:
   static ValueType ZeroValue(const ValueType &) { return ZeroValue(); }
   static ValueType OneValue(const ValueType &) { return OneValue(); }
 
-  template<class TArray>
+  template<typename TArray>
   static void AssignToArray( const ValueType & v, TArray & mv )
   {
     mv[0] = v;
@@ -905,7 +905,7 @@ public:
   static Self NonpositiveMin(const Self &) { return NonpositiveMin(); }
   static Self ZeroValue(const Self &) { return ZeroValue(); }
   static Self OneValue(const Self &) { return OneValue(); }
-  template<class TArray>
+  template<typename TArray>
   static void AssignToArray( const Self & v, TArray & mv )
   {
     mv[0] = v.real();
@@ -964,7 +964,7 @@ public:
   static Self NonpositiveMin(const Self &) { return NonpositiveMin(); }
   static Self ZeroValue(const Self &) { return ZeroValue(); }
   static Self OneValue(const Self &) { return OneValue(); }
-  template<class TArray>
+  template<typename TArray>
   static void AssignToArray( const Self & v, TArray & mv )
   {
     mv[0] = v.real();
@@ -1023,7 +1023,7 @@ public:
   static Self NonpositiveMin(const Self &) { return NonpositiveMin(); }
   static Self ZeroValue(const Self &) { return ZeroValue(); }
   static Self OneValue(const Self &) { return OneValue(); }
-  template<class TArray>
+  template<typename TArray>
   static void AssignToArray( const Self & v, TArray & mv )
   {
     mv[0] = v.real();
@@ -1082,7 +1082,7 @@ public:
   static Self NonpositiveMin(const Self &) { return NonpositiveMin(); }
   static Self ZeroValue(const Self &) { return ZeroValue(); }
   static Self OneValue(const Self &) { return OneValue(); }
-  template<class TArray>
+  template<typename TArray>
   static void AssignToArray( const Self & v, TArray & mv )
   {
     mv[0] = v.real();
@@ -1141,7 +1141,7 @@ public:
   static Self NonpositiveMin(const Self &) { return NonpositiveMin(); }
   static Self ZeroValue(const Self &) { return ZeroValue(); }
   static Self OneValue(const Self &) { return OneValue(); }
-  template<class TArray>
+  template<typename TArray>
   static void AssignToArray( const Self & v, TArray & mv )
   {
     mv[0] = v.real();
@@ -1200,7 +1200,7 @@ public:
   static Self NonpositiveMin(const Self &) { return NonpositiveMin(); }
   static Self ZeroValue(const Self &) { return ZeroValue(); }
   static Self OneValue(const Self &) { return OneValue(); }
-  template<class TArray>
+  template<typename TArray>
   static void AssignToArray( const Self & v, TArray & mv )
   {
     mv[0] = v.real();
@@ -1259,7 +1259,7 @@ public:
   static Self NonpositiveMin(const Self &) { return NonpositiveMin(); }
   static Self ZeroValue(const Self &) { return ZeroValue(); }
   static Self OneValue(const Self &) { return OneValue(); }
-  template<class TArray>
+  template<typename TArray>
   static void AssignToArray( const Self & v, TArray & mv )
   {
     mv[0] = v.real();
@@ -1318,7 +1318,7 @@ public:
   static Self NonpositiveMin(const Self &) { return NonpositiveMin(); }
   static Self ZeroValue(const Self &) { return ZeroValue(); }
   static Self OneValue(const Self &) { return OneValue(); }
-  template<class TArray>
+  template<typename TArray>
   static void AssignToArray( const Self & v, TArray & mv )
   {
     mv[0] = v.real();
@@ -1377,7 +1377,7 @@ public:
   static Self NonpositiveMin(const Self &) { return NonpositiveMin(); }
   static Self ZeroValue(const Self &) { return ZeroValue(); }
   static Self OneValue(const Self &) { return OneValue(); }
-  template<class TArray>
+  template<typename TArray>
   static void AssignToArray( const Self & v, TArray & mv )
   {
     mv[0] = v.real();
@@ -1436,7 +1436,7 @@ public:
   static Self NonpositiveMin(const Self &) { return NonpositiveMin(); }
   static Self ZeroValue(const Self &) { return ZeroValue(); }
   static Self OneValue(const Self &) { return OneValue(); }
-  template<class TArray>
+  template<typename TArray>
   static void AssignToArray( const Self & v, TArray & mv )
   {
     mv[0] = v.real();
@@ -1495,7 +1495,7 @@ public:
   static Self NonpositiveMin(const Self &) { return NonpositiveMin(); }
   static Self ZeroValue(const Self &) { return ZeroValue(); }
   static Self OneValue(const Self &) { return OneValue(); }
-  template<class TArray>
+  template<typename TArray>
   static void AssignToArray( const Self & v, TArray & mv )
   {
     mv[0] = v.real();
@@ -1546,7 +1546,7 @@ public:
   static ValueType ZeroValue(const ValueType &) { return ZeroValue(); }
   static ValueType OneValue(const ValueType &) { return OneValue(); }
 
-  template<class TArray>
+  template<typename TArray>
   static void AssignToArray( const ValueType & v, TArray & mv )
   {
     mv[0] = v;
@@ -1596,7 +1596,7 @@ public:
   static ValueType ZeroValue(const ValueType &) { return ZeroValue(); }
   static ValueType OneValue(const ValueType &) { return OneValue(); }
 
-  template<class TArray>
+  template<typename TArray>
   static void AssignToArray( const ValueType & v, TArray & mv )
   {
     mv[0] = v;

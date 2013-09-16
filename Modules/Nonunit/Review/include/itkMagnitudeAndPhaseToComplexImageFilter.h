@@ -52,7 +52,7 @@ namespace itk
  */
 namespace Functor
 {
-template< class TInput1, class TInput2, class TOutput >
+template< typename TInput1, typename TInput2, typename TOutput >
 class MagnitudeAndPhaseToComplex
 {
 public:
@@ -75,9 +75,9 @@ public:
 };
 }
 
-template< class TInputImage1,
-          class TInputImage2 = TInputImage1,
-          class TOutputImage = itk::Image< std::complex< typename TInputImage1::PixelType>,
+template< typename TInputImage1,
+          typename TInputImage2 = TInputImage1,
+          typename TOutputImage = itk::Image< std::complex< typename TInputImage1::PixelType>,
                                            TInputImage1::ImageDimension > >
 class MagnitudeAndPhaseToComplexImageFilter:
   public BinaryFunctorImageFilter<

@@ -32,7 +32,7 @@ namespace itk
  * \brief TODO
  * \ingroup ITKQuadEdgeMeshFiltering
  */
-template< class TInputMesh, class TOutputMesh=TInputMesh >
+template< typename TInputMesh, typename TOutputMesh=TInputMesh >
 class CleanQuadEdgeMeshFilter:
   public QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 {

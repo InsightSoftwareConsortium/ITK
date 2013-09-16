@@ -26,7 +26,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TLevelSet >
+template< typename TInputImage, typename TLevelSet >
 VTKVisualize2DSparseLevelSetLayersBase< TInputImage, TLevelSet >
 ::VTKVisualize2DSparseLevelSetLayersBase(): Superclass()
 {
@@ -36,13 +36,13 @@ VTKVisualize2DSparseLevelSetLayersBase< TInputImage, TLevelSet >
   this->m_Renderer->AddActor2D( this->m_VTKImageActor );
 }
 
-template< class TInputImage, class TLevelSet >
+template< typename TInputImage, typename TLevelSet >
 VTKVisualize2DSparseLevelSetLayersBase< TInputImage, TLevelSet >
 ::~VTKVisualize2DSparseLevelSetLayersBase()
 {
 }
 
-template< class TInputImage, class TLevelSet >
+template< typename TInputImage, typename TLevelSet >
 void
 VTKVisualize2DSparseLevelSetLayersBase< TInputImage, TLevelSet >
 ::SetInputImage( const InputImageType* iImage )
@@ -59,7 +59,7 @@ VTKVisualize2DSparseLevelSetLayersBase< TInputImage, TLevelSet >
     }
 }
 
-template< class TInputImage, class TLevelSet >
+template< typename TInputImage, typename TLevelSet >
 void
 VTKVisualize2DSparseLevelSetLayersBase< TInputImage, TLevelSet >
 ::SetLevelSet( LevelSetType* levelSet )
@@ -67,7 +67,7 @@ VTKVisualize2DSparseLevelSetLayersBase< TInputImage, TLevelSet >
   this->m_LevelSet = levelSet;
 }
 
-template< class TInputImage, class TLevelSet >
+template< typename TInputImage, typename TLevelSet >
 void
 VTKVisualize2DSparseLevelSetLayersBase< TInputImage, TLevelSet >
 ::PrepareVTKPipeline()

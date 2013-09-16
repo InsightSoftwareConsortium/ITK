@@ -25,7 +25,7 @@
 namespace itk
 {
 
-template< class TInputImage, class TOutputImage, class TKernel > class KernelImageFilter;
+template< typename TInputImage, typename TOutputImage, typename TKernel > class KernelImageFilter;
 
 /**
  * \class VanHerkGilWermanErodeDilateImageFilter
@@ -37,7 +37,7 @@ template< class TInputImage, class TOutputImage, class TKernel > class KernelIma
  * morphology classes in itk.
  * \ingroup ITKMathematicalMorphology
  */
-template< class TImage, class TKernel, class TFunction1 >
+template< typename TImage, typename TKernel, typename TFunction1 >
 class VanHerkGilWermanErodeDilateImageFilter:
   public KernelImageFilter< TImage, TImage, TKernel >
 {

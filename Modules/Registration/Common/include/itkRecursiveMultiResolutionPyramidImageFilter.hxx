@@ -34,7 +34,7 @@ namespace itk
 /**
  * Constructor
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 RecursiveMultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
 ::RecursiveMultiResolutionPyramidImageFilter()
 {
@@ -44,7 +44,7 @@ RecursiveMultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
 /**
  * GenerateData
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 RecursiveMultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
@@ -229,7 +229,7 @@ RecursiveMultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
 /**
  * PrintSelf method
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 RecursiveMultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -240,7 +240,7 @@ RecursiveMultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
 /*
  * GenerateOutputRequestedRegion
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 RecursiveMultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
 ::GenerateOutputRequestedRegion(DataObject *ptr)
@@ -374,7 +374,7 @@ RecursiveMultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
 /**
  * GenerateInputRequestedRegion
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 RecursiveMultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()

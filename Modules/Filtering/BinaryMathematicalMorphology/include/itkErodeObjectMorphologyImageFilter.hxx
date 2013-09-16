@@ -22,7 +22,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 ErodeObjectMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
 ::ErodeObjectMorphologyImageFilter()
 {
@@ -32,7 +32,7 @@ ErodeObjectMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
   this->OverrideBoundaryCondition(&m_ErodeBoundaryCondition);
 }
 
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 void
 ErodeObjectMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
 ::Evaluate(OutputNeighborhoodIteratorType & nit,
@@ -53,7 +53,7 @@ ErodeObjectMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
     }
 }
 
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 void
 ErodeObjectMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
 ::PrintSelf(std::ostream & os, Indent indent) const

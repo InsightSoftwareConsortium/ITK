@@ -23,19 +23,19 @@
 
 namespace itk
 {
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 NormalQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 ::NormalQuadEdgeMeshFilter()
 {
   this->m_Weight = THURMER;
 }
 
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 NormalQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 ::~NormalQuadEdgeMeshFilter()
 {}
 
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 typename NormalQuadEdgeMeshFilter< TInputMesh, TOutputMesh >::OutputFaceNormalType
 NormalQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 ::ComputeFaceNormal(OutputPolygonType *iPoly)
@@ -58,7 +58,7 @@ NormalQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
   return TriangleType::ComputeNormal(pt[0], pt[1], pt[2]);
 }
 
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 void
 NormalQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 ::ComputeAllFaceNormals()
@@ -83,7 +83,7 @@ NormalQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
     }
 }
 
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 void
 NormalQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 ::ComputeAllVertexNormals()
@@ -103,7 +103,7 @@ NormalQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
     }
 }
 
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 typename NormalQuadEdgeMeshFilter< TInputMesh, TOutputMesh >::OutputVertexNormalType
 NormalQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 ::ComputeVertexNormal(const OutputPointIdentifier & iId, OutputMeshType *outputMesh)
@@ -132,7 +132,7 @@ NormalQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
   return n;
 }
 
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 typename NormalQuadEdgeMeshFilter< TInputMesh, TOutputMesh >::OutputVertexNormalComponentType
 NormalQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 ::Weight(const OutputPointIdentifier & iPId, const OutputCellIdentifier & iCId, OutputMeshType *outputMesh)
@@ -231,7 +231,7 @@ NormalQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
     }
 }
 
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 void NormalQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 ::GenerateData()
 {
@@ -240,7 +240,7 @@ void NormalQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
   this->ComputeAllVertexNormals();
 }
 
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 void NormalQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {

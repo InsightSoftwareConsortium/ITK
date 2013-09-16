@@ -25,7 +25,7 @@ namespace itk
 //----------------------------------------------------------------------
 //  Constructor
 //----------------------------------------------------------------------
-template< class TImage >
+template< typename TImage >
 ImageLinearConstIteratorWithIndex< TImage >
 ::ImageLinearConstIteratorWithIndex(
   const ImageType *ptr,
@@ -38,7 +38,7 @@ ImageLinearConstIteratorWithIndex< TImage >
 //----------------------------------------------------------------------
 //  Go to the last pixel of the current line
 //----------------------------------------------------------------------
-template< class TImage >
+template< typename TImage >
 void
 ImageLinearConstIteratorWithIndex< TImage >
 ::GoToReverseBeginOfLine(void)
@@ -53,7 +53,7 @@ ImageLinearConstIteratorWithIndex< TImage >
 //----------------------------------------------------------------------
 //  Go to the first pixel of the current line
 //----------------------------------------------------------------------
-template< class TImage >
+template< typename TImage >
 void
 ImageLinearConstIteratorWithIndex< TImage >
 ::GoToBeginOfLine(void)
@@ -69,7 +69,7 @@ ImageLinearConstIteratorWithIndex< TImage >
 //----------------------------------------------------------------------
 //  Pass to the past last pixel of the current line
 //----------------------------------------------------------------------
-template< class TImage >
+template< typename TImage >
 void
 ImageLinearConstIteratorWithIndex< TImage >
 ::GoToEndOfLine(void)

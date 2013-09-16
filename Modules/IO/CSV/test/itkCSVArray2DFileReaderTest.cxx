@@ -21,7 +21,7 @@
 const double epsilon = 1e-10;
 
 // function for displaying vectors
-template <class T>
+template <typename T>
 void PrintVector(const std::vector<T>& v1)
 {
   if ( v1.empty() )
@@ -40,7 +40,7 @@ void PrintVector(const std::vector<T>& v1)
 }
 
 // function for comparing matrices
-template <class T>
+template <typename T>
 bool testMatrix(const itk::Array2D<T>& m1, const itk::Array2D<T>& m2)
 {
   bool pass = true;
@@ -59,7 +59,7 @@ bool testMatrix(const itk::Array2D<T>& m1, const itk::Array2D<T>& m2)
 }
 
 // function for comparing numeric vectors
-template <class T>
+template <typename T>
 bool testVector(const std::vector<T>& v1, const std::vector<T>& v2)
 {
   bool pass = true;
@@ -91,7 +91,7 @@ bool testStringVector (const std::vector<std::string>& v1,
 }
 
 // function for comparing numeric values
-template <class T>
+template <typename T>
 bool testValue (const T& test, const T& real)
 {
   bool pass = true;

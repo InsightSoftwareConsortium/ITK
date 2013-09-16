@@ -23,7 +23,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TFeatureImage >
+template< typename TInputImage, typename TFeatureImage >
 BinaryStatisticsOpeningImageFilter< TInputImage, TFeatureImage >
 ::BinaryStatisticsOpeningImageFilter()
 {
@@ -36,7 +36,7 @@ BinaryStatisticsOpeningImageFilter< TInputImage, TFeatureImage >
   this->SetNumberOfRequiredInputs(2);
 }
 
-template< class TInputImage, class TFeatureImage >
+template< typename TInputImage, typename TFeatureImage >
 void
 BinaryStatisticsOpeningImageFilter< TInputImage, TFeatureImage >
 ::GenerateInputRequestedRegion()
@@ -52,7 +52,7 @@ BinaryStatisticsOpeningImageFilter< TInputImage, TFeatureImage >
     }
 }
 
-template< class TInputImage, class TFeatureImage >
+template< typename TInputImage, typename TFeatureImage >
 void
 BinaryStatisticsOpeningImageFilter< TInputImage, TFeatureImage >
 ::EnlargeOutputRequestedRegion(DataObject *)
@@ -61,7 +61,7 @@ BinaryStatisticsOpeningImageFilter< TInputImage, TFeatureImage >
   ->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
 }
 
-template< class TInputImage, class TFeatureImage >
+template< typename TInputImage, typename TFeatureImage >
 void
 BinaryStatisticsOpeningImageFilter< TInputImage, TFeatureImage >
 ::GenerateData()
@@ -118,7 +118,7 @@ BinaryStatisticsOpeningImageFilter< TInputImage, TFeatureImage >
   this->GraftOutput( binarizer->GetOutput() );
 }
 
-template< class TInputImage, class TFeatureImage >
+template< typename TInputImage, typename TFeatureImage >
 void
 BinaryStatisticsOpeningImageFilter< TInputImage, TFeatureImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

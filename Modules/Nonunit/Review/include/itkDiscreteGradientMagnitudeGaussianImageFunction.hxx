@@ -24,7 +24,7 @@
 namespace itk
 {
 /** Set the Input Image */
-template< class TInputImage, class TOutput >
+template< typename TInputImage, typename TOutput >
 DiscreteGradientMagnitudeGaussianImageFunction< TInputImage, TOutput >
 ::DiscreteGradientMagnitudeGaussianImageFunction():
   m_MaximumError(0.005),
@@ -38,7 +38,7 @@ DiscreteGradientMagnitudeGaussianImageFunction< TInputImage, TOutput >
 }
 
 /** Print self method */
-template< class TInputImage, class TOutput >
+template< typename TInputImage, typename TOutput >
 void
 DiscreteGradientMagnitudeGaussianImageFunction< TInputImage, TOutput >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -56,7 +56,7 @@ DiscreteGradientMagnitudeGaussianImageFunction< TInputImage, TOutput >
 }
 
 /** Set the input image */
-template< class TInputImage, class TOutput >
+template< typename TInputImage, typename TOutput >
 void
 DiscreteGradientMagnitudeGaussianImageFunction< TInputImage, TOutput >
 ::SetInputImage(const InputImageType *ptr)
@@ -67,7 +67,7 @@ DiscreteGradientMagnitudeGaussianImageFunction< TInputImage, TOutput >
 
 /** Recompute the gaussian kernel used to evaluate indexes
  *  This should use a fastest Derivative Gaussian operator */
-template< class TInputImage, class TOutput >
+template< typename TInputImage, typename TOutput >
 void
 DiscreteGradientMagnitudeGaussianImageFunction< TInputImage, TOutput >
 ::RecomputeGaussianKernel()
@@ -189,7 +189,7 @@ DiscreteGradientMagnitudeGaussianImageFunction< TInputImage, TOutput >
 }
 
 /** Evaluate the function at the specifed index */
-template< class TInputImage, class TOutput >
+template< typename TInputImage, typename TOutput >
 typename DiscreteGradientMagnitudeGaussianImageFunction< TInputImage, TOutput >::OutputType
 DiscreteGradientMagnitudeGaussianImageFunction< TInputImage, TOutput >
 ::EvaluateAtIndex(const IndexType & index) const
@@ -216,7 +216,7 @@ DiscreteGradientMagnitudeGaussianImageFunction< TInputImage, TOutput >
 }
 
 /** Evaluate the function at the specifed point */
-template< class TInputImage, class TOutput >
+template< typename TInputImage, typename TOutput >
 typename DiscreteGradientMagnitudeGaussianImageFunction< TInputImage, TOutput >::OutputType
 DiscreteGradientMagnitudeGaussianImageFunction< TInputImage, TOutput >
 ::Evaluate(const PointType & point) const
@@ -240,7 +240,7 @@ DiscreteGradientMagnitudeGaussianImageFunction< TInputImage, TOutput >
 }
 
 /** Evaluate the function at specified ContinousIndex position.*/
-template< class TInputImage, class TOutput >
+template< typename TInputImage, typename TOutput >
 typename DiscreteGradientMagnitudeGaussianImageFunction< TInputImage, TOutput >::OutputType
 DiscreteGradientMagnitudeGaussianImageFunction< TInputImage, TOutput >
 ::EvaluateAtContinuousIndex(const ContinuousIndexType & cindex) const

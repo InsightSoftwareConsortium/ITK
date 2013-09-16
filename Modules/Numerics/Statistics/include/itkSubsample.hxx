@@ -26,7 +26,7 @@ namespace itk
 {
 namespace Statistics
 {
-template< class TSample >
+template< typename TSample >
 Subsample< TSample >
 ::Subsample()
 {
@@ -35,7 +35,7 @@ Subsample< TSample >
   m_ActiveDimension = 0;
 }
 
-template< class TSample >
+template< typename TSample >
 void
 Subsample< TSample >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -57,7 +57,7 @@ Subsample< TSample >
   os << indent << "InstanceIdentifierHolder : " << &m_IdHolder << std::endl;
 }
 
-template< class TSample >
+template< typename TSample >
 void
 Subsample< TSample >
 ::SetSample(const TSample *sample)
@@ -67,7 +67,7 @@ Subsample< TSample >
   this->Modified();
 }
 
-template< class TSample >
+template< typename TSample >
 const TSample *
 Subsample< TSample >
 ::GetSample() const
@@ -75,7 +75,7 @@ Subsample< TSample >
   return m_Sample;
 }
 
-template< class TSample >
+template< typename TSample >
 void
 Subsample< TSample >
 ::InitializeWithAllInstances()
@@ -94,7 +94,7 @@ Subsample< TSample >
   this->Modified();
 }
 
-template< class TSample >
+template< typename TSample >
 void
 Subsample< TSample >
 ::AddInstance(InstanceIdentifier id)
@@ -109,7 +109,7 @@ Subsample< TSample >
   this->Modified();
 }
 
-template< class TSample >
+template< typename TSample >
 typename Subsample< TSample >::InstanceIdentifier
 Subsample< TSample >
 ::Size() const
@@ -117,7 +117,7 @@ Subsample< TSample >
   return static_cast< unsigned int >( m_IdHolder.size() );
 }
 
-template< class TSample >
+template< typename TSample >
 void
 Subsample< TSample >
 ::Clear()
@@ -127,7 +127,7 @@ Subsample< TSample >
   this->Modified();
 }
 
-template< class TSample >
+template< typename TSample >
 const typename Subsample< TSample >::MeasurementVectorType &
 Subsample< TSample >
 ::GetMeasurementVector(InstanceIdentifier id) const
@@ -142,7 +142,7 @@ Subsample< TSample >
   return m_Sample->GetMeasurementVector(idInTheSample);
 }
 
-template< class TSample >
+template< typename TSample >
 inline typename Subsample< TSample >::AbsoluteFrequencyType
 Subsample< TSample >
 ::GetFrequency(InstanceIdentifier id) const
@@ -157,7 +157,7 @@ Subsample< TSample >
   return m_Sample->GetFrequency(idInTheSample);
 }
 
-template< class TSample >
+template< typename TSample >
 inline typename Subsample< TSample >::TotalAbsoluteFrequencyType
 Subsample< TSample >
 ::GetTotalFrequency() const
@@ -165,7 +165,7 @@ Subsample< TSample >
   return m_TotalFrequency;
 }
 
-template< class TSample >
+template< typename TSample >
 inline void
 Subsample< TSample >
 ::Swap(unsigned int index1, unsigned int index2)
@@ -182,7 +182,7 @@ Subsample< TSample >
   this->Modified();
 }
 
-template< class TSample >
+template< typename TSample >
 inline const typename Subsample< TSample >::MeasurementVectorType &
 Subsample< TSample >
 ::GetMeasurementVectorByIndex(unsigned int index) const
@@ -194,7 +194,7 @@ Subsample< TSample >
   return m_Sample->GetMeasurementVector(m_IdHolder[index]);
 }
 
-template< class TSample >
+template< typename TSample >
 inline typename Subsample< TSample >::AbsoluteFrequencyType
 Subsample< TSample >
 ::GetFrequencyByIndex(unsigned int index) const
@@ -207,7 +207,7 @@ Subsample< TSample >
   return m_Sample->GetFrequency(m_IdHolder[index]);
 }
 
-template< class TSample >
+template< typename TSample >
 typename Subsample< TSample >::InstanceIdentifier
 Subsample< TSample >
 ::GetInstanceIdentifier(unsigned int index)
@@ -219,7 +219,7 @@ Subsample< TSample >
   return m_IdHolder[index];
 }
 
-template< class TSample >
+template< typename TSample >
 void
 Subsample< TSample >
 ::Graft(const DataObject *thatObject)

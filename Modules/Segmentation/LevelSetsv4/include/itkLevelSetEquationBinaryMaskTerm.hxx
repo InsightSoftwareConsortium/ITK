@@ -24,7 +24,7 @@
 namespace itk
 {
 
-template< class TInput, class TLevelSetContainer >
+template< typename TInput, typename TLevelSetContainer >
 LevelSetEquationBinaryMaskTerm< TInput, TLevelSetContainer >
 ::LevelSetEquationBinaryMaskTerm()
 {
@@ -32,17 +32,17 @@ LevelSetEquationBinaryMaskTerm< TInput, TLevelSetContainer >
   this->m_RequiredData.insert( "Value" );
 }
 
-template< class TInput, class TLevelSetContainer >
+template< typename TInput, typename TLevelSetContainer >
 LevelSetEquationBinaryMaskTerm< TInput, TLevelSetContainer >
 ::~LevelSetEquationBinaryMaskTerm()
 {}
 
-template< class TInput, class TLevelSetContainer >
+template< typename TInput, typename TLevelSetContainer >
 void LevelSetEquationBinaryMaskTerm< TInput, TLevelSetContainer >
 ::Update()
 {}
 
-template< class TInput, class TLevelSetContainer >
+template< typename TInput, typename TLevelSetContainer >
 void LevelSetEquationBinaryMaskTerm< TInput, TLevelSetContainer >
 ::InitializeParameters()
 {
@@ -50,20 +50,20 @@ void LevelSetEquationBinaryMaskTerm< TInput, TLevelSetContainer >
 }
 
 
-template< class TInput, class TLevelSetContainer >
+template< typename TInput, typename TLevelSetContainer >
 void LevelSetEquationBinaryMaskTerm< TInput, TLevelSetContainer >
 ::Initialize( const LevelSetInputIndexType& itkNotUsed( index ) )
 {}
 
 
-template< class TInput, class TLevelSetContainer >
+template< typename TInput, typename TLevelSetContainer >
 void LevelSetEquationBinaryMaskTerm< TInput, TLevelSetContainer >
 ::UpdatePixel( const LevelSetInputIndexType& itkNotUsed( index ),
                const LevelSetOutputRealType & itkNotUsed( oldValue ),
                const LevelSetOutputRealType & itkNotUsed( newValue ) )
 {}
 
-template< class TInput, class TLevelSetContainer >
+template< typename TInput, typename TLevelSetContainer >
 typename LevelSetEquationBinaryMaskTerm< TInput, TLevelSetContainer >::LevelSetOutputRealType
 LevelSetEquationBinaryMaskTerm< TInput, TLevelSetContainer >
 ::Value( const LevelSetInputIndexType& index )
@@ -81,7 +81,7 @@ LevelSetEquationBinaryMaskTerm< TInput, TLevelSetContainer >
   return value;
 }
 
-template< class TInput, class TLevelSetContainer >
+template< typename TInput, typename TLevelSetContainer >
 typename LevelSetEquationBinaryMaskTerm< TInput, TLevelSetContainer >::LevelSetOutputRealType
 LevelSetEquationBinaryMaskTerm< TInput, TLevelSetContainer >
 ::Value( const LevelSetInputIndexType& index, const LevelSetDataType& itkNotUsed( data ) )

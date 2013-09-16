@@ -32,7 +32,7 @@ namespace itk
 //
 // Constructor
 //
-template< class TInputImage, class TOperatorValueType, class TOutputValueType , class TOutputImageType >
+template< typename TInputImage, typename TOperatorValueType, typename TOutputValueType , typename TOutputImageType >
 GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType, TOutputImageType >
 ::GradientImageFilter()
 {
@@ -43,12 +43,12 @@ GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType, TOutputI
 //
 // Destructor
 //
-template< class TInputImage, class TOperatorValueType, class TOutputValueType , class TOutputImageType >
+template< typename TInputImage, typename TOperatorValueType, typename TOutputValueType , typename TOutputImageType >
 GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType, TOutputImageType >
 ::~GradientImageFilter()
 {}
 
-template< class TInputImage, class TOperatorValueType, class TOutputValueType , class TOutputImageType >
+template< typename TInputImage, typename TOperatorValueType, typename TOutputValueType , typename TOutputImageType >
 void
 GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType, TOutputImageType >
 ::GenerateInputRequestedRegion()
@@ -105,7 +105,7 @@ throw ( InvalidRequestedRegionError )
     }
 }
 
-template< class TInputImage, class TOperatorValueType, class TOutputValueType , class TOutputImageType >
+template< typename TInputImage, typename TOperatorValueType, typename TOutputValueType , typename TOutputImageType >
 void
 GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType, TOutputImageType >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
@@ -211,7 +211,7 @@ GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType, TOutputI
     }
 }
 
-template< class TInputImage, class TOperatorValueType, class TOutputValueType , class TOutputImageType >
+template< typename TInputImage, typename TOperatorValueType, typename TOutputValueType , typename TOutputImageType >
 void
 GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType, TOutputImageType >
 ::GenerateOutputInformation()
@@ -236,7 +236,7 @@ GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType, TOutputI
 /**
  * Standard "PrintSelf" method
  */
-template< class TInputImage, class TOperatorValueType, class TOutputValueType , class TOutputImageType >
+template< typename TInputImage, typename TOperatorValueType, typename TOutputValueType , typename TOutputImageType >
 void
 GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType, TOutputImageType >
 ::PrintSelf(std::ostream & os, Indent indent) const

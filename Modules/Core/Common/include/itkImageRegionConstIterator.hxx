@@ -26,7 +26,7 @@ namespace itk
 //----------------------------------------------------------------------------
 // Increment when the fastest moving direction has reached its bound.
 // This method should *ONLY* be invoked from the operator++() method.
-template< class TImage >
+template< typename TImage >
 void
 ImageRegionConstIterator< TImage >
 ::Increment()
@@ -77,7 +77,7 @@ ImageRegionConstIterator< TImage >
 //----------------------------------------------------------------------------
 // Decrement when the fastest moving direction has reached its bound.
 // This method should *ONLY* be invoked from the operator--() method.
-template< class TImage >
+template< typename TImage >
 void
 ImageRegionConstIterator< TImage >
 ::Decrement()
@@ -127,7 +127,7 @@ ImageRegionConstIterator< TImage >
 #if !defined(ITK_LEGACY_REMOVE)
 //----------------------------------------------------------------------------
 // Begin() is the first pixel in the region.
-template< class TImage >
+template< typename TImage >
 ImageRegionConstIterator< TImage >
 ImageRegionConstIterator< TImage >
 ::Begin() const
@@ -149,7 +149,7 @@ ImageRegionConstIterator< TImage >
 //           m_StartIndex[VImageDimension-2] + m_Size[VImageDimension-2]-1,
 //           m_StartIndex[VImageDimension-1] + m_Size[VImageDimension-1]-1]
 //
-template< class TImage >
+template< typename TImage >
 ImageRegionConstIterator< TImage >
 ImageRegionConstIterator< TImage >
 ::End() const

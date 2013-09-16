@@ -28,7 +28,7 @@ namespace itk
 /*
  * Compute the Yen's threshold
  */
-template<class THistogram, class TOutput>
+template<typename THistogram, typename TOutput>
 void
 YenThresholdCalculator<THistogram, TOutput>
 ::GenerateData(void)

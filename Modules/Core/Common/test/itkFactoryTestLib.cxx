@@ -22,7 +22,7 @@
 
 static unsigned long itkTotalMemoryUsed = 0;
 
-template<class TElementIdentifier, typename TElement>
+template<typename TElementIdentifier, typename TElement>
 class TestImportImageContainer : public itk::ImportImageContainer< TElementIdentifier, TElement >
 {
 public:

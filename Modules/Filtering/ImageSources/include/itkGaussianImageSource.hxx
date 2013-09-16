@@ -27,7 +27,7 @@
 namespace itk
 {
 //----------------------------------------------------------------------------
-template< class TOutputImage >
+template< typename TOutputImage >
 GaussianImageSource< TOutputImage >
 ::GaussianImageSource()
 {
@@ -41,7 +41,7 @@ GaussianImageSource< TOutputImage >
 }
 
 //----------------------------------------------------------------------------
-template< class TOutputImage >
+template< typename TOutputImage >
 void
 GaussianImageSource< TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -94,7 +94,7 @@ GaussianImageSource< TOutputImage >
 }
 
 //----------------------------------------------------------------------------
-template< class TOutputImage >
+template< typename TOutputImage >
 typename GaussianImageSource< TOutputImage >::ParametersType
 GaussianImageSource< TOutputImage >
 ::GetParameters() const
@@ -111,7 +111,7 @@ GaussianImageSource< TOutputImage >
 }
 
 //----------------------------------------------------------------------------
-template< class TOutputImage >
+template< typename TOutputImage >
 unsigned int
 GaussianImageSource< TOutputImage >
 ::GetNumberOfParameters() const

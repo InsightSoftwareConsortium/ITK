@@ -25,7 +25,7 @@ namespace itk
 {
 namespace Statistics
 {
-template< class TSample >
+template< typename TSample >
 MeanSampleFilter< TSample >
 ::MeanSampleFilter()
 {
@@ -35,12 +35,12 @@ MeanSampleFilter< TSample >
   this->ProcessObject::SetNthOutput( 0, this->MakeOutput(0) );
 }
 
-template< class TSample >
+template< typename TSample >
 MeanSampleFilter< TSample >
 ::~MeanSampleFilter()
 {}
 
-template< class TSample >
+template< typename TSample >
 void
 MeanSampleFilter< TSample >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -48,7 +48,7 @@ MeanSampleFilter< TSample >
   Superclass::PrintSelf(os, indent);
 }
 
-template< class TSample >
+template< typename TSample >
 void
 MeanSampleFilter< TSample >
 ::SetInput(const SampleType *sample)
@@ -56,7 +56,7 @@ MeanSampleFilter< TSample >
   this->ProcessObject::SetNthInput( 0, const_cast< SampleType * >( sample ) );
 }
 
-template< class TSample >
+template< typename TSample >
 const TSample *
 MeanSampleFilter< TSample >
 ::GetInput() const
@@ -64,7 +64,7 @@ MeanSampleFilter< TSample >
   return itkDynamicCastInDebugMode< const SampleType * >( this->GetPrimaryInput() );
 }
 
-template< class TSample >
+template< typename TSample >
 typename MeanSampleFilter< TSample >::DataObjectPointer
 MeanSampleFilter< TSample >
 ::MakeOutput( DataObjectPointerArraySizeType itkNotUsed(idx) )
@@ -78,7 +78,7 @@ MeanSampleFilter< TSample >
   return decoratedMean.GetPointer();
 }
 
-template< class TSample >
+template< typename TSample >
 const typename MeanSampleFilter< TSample >::MeasurementVectorDecoratedType *
 MeanSampleFilter< TSample >
 ::GetOutput() const
@@ -86,7 +86,7 @@ MeanSampleFilter< TSample >
   return itkDynamicCastInDebugMode< const MeasurementVectorDecoratedType * >(this->ProcessObject::GetOutput(0) );
 }
 
-template< class TSample >
+template< typename TSample >
 const typename MeanSampleFilter< TSample >::MeasurementVectorRealType
 MeanSampleFilter< TSample >
 ::GetMean() const
@@ -95,7 +95,7 @@ MeanSampleFilter< TSample >
   return decorator->Get();
 }
 
-template< class TSample >
+template< typename TSample >
 typename MeanSampleFilter< TSample >::MeasurementVectorSizeType
 MeanSampleFilter< TSample >
 ::GetMeasurementVectorSize() const
@@ -122,7 +122,7 @@ MeanSampleFilter< TSample >
 }
 
 
-template< class TSample >
+template< typename TSample >
 void
 MeanSampleFilter< TSample >
 ::GenerateData()

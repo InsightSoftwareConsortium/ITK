@@ -23,20 +23,20 @@
 namespace itk
 {
 
-template< class TIteratingFilter, class TFilterToUpdate >
+template< typename TIteratingFilter, typename TFilterToUpdate >
 LevelSetIterationUpdateCommand< TIteratingFilter, TFilterToUpdate >
 ::LevelSetIterationUpdateCommand():
   m_UpdatePeriod( 1 )
 {
 }
 
-template< class TIteratingFilter, class TFilterToUpdate >
+template< typename TIteratingFilter, typename TFilterToUpdate >
 LevelSetIterationUpdateCommand< TIteratingFilter, TFilterToUpdate >
 ::~LevelSetIterationUpdateCommand()
 {
 }
 
-template< class TIteratingFilter, class TFilterToUpdate >
+template< typename TIteratingFilter, typename TFilterToUpdate >
 void
 LevelSetIterationUpdateCommand< TIteratingFilter, TFilterToUpdate >
 ::Execute( const Object* caller, const EventObject& event )
@@ -44,7 +44,7 @@ LevelSetIterationUpdateCommand< TIteratingFilter, TFilterToUpdate >
   this->Execute( const_cast< Object* >( caller ), event );
 }
 
-template< class TIteratingFilter, class TFilterToUpdate >
+template< typename TIteratingFilter, typename TFilterToUpdate >
 void
 LevelSetIterationUpdateCommand< TIteratingFilter, TFilterToUpdate >
 ::Execute( Object* caller, const EventObject& event )

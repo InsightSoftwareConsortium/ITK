@@ -24,7 +24,7 @@ namespace itk
 {
 namespace Functor
 {
-template< class TInput, class TOutput >
+template< typename TInput, typename TOutput >
 class MatrixIndexSelection
 {
 public:
@@ -77,7 +77,7 @@ private:
  * \ingroup ITKImageIntensity
  */
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class MatrixIndexSelectionImageFilter:
   public
   UnaryFunctorImageFilter< TInputImage, TOutputImage,

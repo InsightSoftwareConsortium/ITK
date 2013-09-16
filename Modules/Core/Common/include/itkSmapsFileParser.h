@@ -218,7 +218,7 @@ protected:
  *
  * \ingroup ITKCommon
  */
-template< class TMapData >
+template< typename TMapData >
 class MapFileParser
 {
 public:
@@ -267,7 +267,7 @@ protected:
  *  long as they implement a operator>>(istream&) and have GetXXXUsage() methods.
  * \ingroup ITKCommon
  */
-template< class TSmapsDataType >
+template< typename TSmapsDataType >
 class SmapsFileParser:public MapFileParser< TSmapsDataType >
 {
 public:
@@ -285,7 +285,7 @@ public:
  *  memory usage information. Used for MAC OS X machines.
  * \ingroup ITKCommon
  */
-template< class TVMMapDataType >
+template< typename TVMMapDataType >
 class VMMapFileParser:public MapFileParser< TVMMapDataType >
 {
 public:

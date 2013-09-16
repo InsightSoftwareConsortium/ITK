@@ -24,7 +24,7 @@
 namespace itk
 {
 /* constructor: seting the default value of the parameters */
-template< class TInputImage, class TOutputImage, class TBinaryPriorImage >
+template< typename TInputImage, typename TOutputImage, typename TBinaryPriorImage >
 VoronoiSegmentationImageFilter< TInputImage, TOutputImage, TBinaryPriorImage >
 ::VoronoiSegmentationImageFilter()
 {
@@ -34,12 +34,12 @@ VoronoiSegmentationImageFilter< TInputImage, TOutputImage, TBinaryPriorImage >
 }
 
 /* destructor */
-template< class TInputImage, class TOutputImage, class TBinaryPriorImage >
+template< typename TInputImage, typename TOutputImage, typename TBinaryPriorImage >
 VoronoiSegmentationImageFilter< TInputImage, TOutputImage, TBinaryPriorImage >
 ::~VoronoiSegmentationImageFilter()
 {}
 
-template< class TInputImage, class TOutputImage, class TBinaryPriorImage >
+template< typename TInputImage, typename TOutputImage, typename TBinaryPriorImage >
 void
 VoronoiSegmentationImageFilter< TInputImage, TOutputImage, TBinaryPriorImage >
 ::SetMeanPercentError(double x)
@@ -48,7 +48,7 @@ VoronoiSegmentationImageFilter< TInputImage, TOutputImage, TBinaryPriorImage >
   m_MeanTolerance = x * m_Mean;
 }
 
-template< class TInputImage, class TOutputImage, class TBinaryPriorImage >
+template< typename TInputImage, typename TOutputImage, typename TBinaryPriorImage >
 void
 VoronoiSegmentationImageFilter< TInputImage, TOutputImage, TBinaryPriorImage >
 ::SetSTDPercentError(double x)
@@ -57,7 +57,7 @@ VoronoiSegmentationImageFilter< TInputImage, TOutputImage, TBinaryPriorImage >
   m_STDTolerance = x * m_STD;
 }
 
-template< class TInputImage, class TOutputImage, class TBinaryPriorImage >
+template< typename TInputImage, typename TOutputImage, typename TBinaryPriorImage >
 bool
 VoronoiSegmentationImageFilter< TInputImage, TOutputImage, TBinaryPriorImage >
 ::TestHomogeneity(IndexList & Plist)
@@ -108,7 +108,7 @@ VoronoiSegmentationImageFilter< TInputImage, TOutputImage, TBinaryPriorImage >
     }
 }
 
-template< class TInputImage, class TOutputImage, class TBinaryPriorImage >
+template< typename TInputImage, typename TOutputImage, typename TBinaryPriorImage >
 void
 VoronoiSegmentationImageFilter< TInputImage, TOutputImage, TBinaryPriorImage >
 ::TakeAPrior(const BinaryObjectImage *aprior)
@@ -211,7 +211,7 @@ VoronoiSegmentationImageFilter< TInputImage, TOutputImage, TBinaryPriorImage >
   m_STDTolerance = m_STD * m_STDPercentError;
 }
 
-template< class TInputImage, class TOutputImage, class TBinaryPriorImage >
+template< typename TInputImage, typename TOutputImage, typename TBinaryPriorImage >
 void
 VoronoiSegmentationImageFilter< TInputImage, TOutputImage, TBinaryPriorImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

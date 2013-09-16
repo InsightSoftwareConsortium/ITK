@@ -27,8 +27,8 @@ namespace itk
 /**
  * Constructor
  */
-template< class TInputImage1, class TInputImage2,
-          class TInputImage3, class TOutputImage, class TFunction  >
+template< typename TInputImage1, typename TInputImage2,
+          typename TInputImage3, typename TOutputImage, typename TFunction  >
 TernaryFunctorImageFilter< TInputImage1, TInputImage2, TInputImage3, TOutputImage, TFunction >
 ::TernaryFunctorImageFilter()
 {
@@ -38,8 +38,8 @@ TernaryFunctorImageFilter< TInputImage1, TInputImage2, TInputImage3, TOutputImag
 /**
  * Connect one of the operands for pixel-wise addition
  */
-template< class TInputImage1, class TInputImage2,
-          class TInputImage3, class TOutputImage, class TFunction  >
+template< typename TInputImage1, typename TInputImage2,
+          typename TInputImage3, typename TOutputImage, typename TFunction  >
 void
 TernaryFunctorImageFilter< TInputImage1, TInputImage2, TInputImage3, TOutputImage, TFunction >
 ::SetInput1(const TInputImage1 *image1)
@@ -51,8 +51,8 @@ TernaryFunctorImageFilter< TInputImage1, TInputImage2, TInputImage3, TOutputImag
 /**
  * Connect one of the operands for pixel-wise addition
  */
-template< class TInputImage1, class TInputImage2,
-          class TInputImage3, class TOutputImage, class TFunction  >
+template< typename TInputImage1, typename TInputImage2,
+          typename TInputImage3, typename TOutputImage, typename TFunction  >
 void
 TernaryFunctorImageFilter< TInputImage1, TInputImage2, TInputImage3, TOutputImage, TFunction >
 ::SetInput2(const TInputImage2 *image2)
@@ -64,8 +64,8 @@ TernaryFunctorImageFilter< TInputImage1, TInputImage2, TInputImage3, TOutputImag
 /**
  * Connect one of the operands for pixel-wise addition
  */
-template< class TInputImage1, class TInputImage2,
-          class TInputImage3, class TOutputImage, class TFunction  >
+template< typename TInputImage1, typename TInputImage2,
+          typename TInputImage3, typename TOutputImage, typename TFunction  >
 void
 TernaryFunctorImageFilter< TInputImage1, TInputImage2, TInputImage3, TOutputImage, TFunction >
 ::SetInput3(const TInputImage3 *image3)
@@ -77,8 +77,8 @@ TernaryFunctorImageFilter< TInputImage1, TInputImage2, TInputImage3, TOutputImag
 /**
  * BeforeThreadedGenerateData function. Validate inputs
  */
-template< class TInputImage1, class TInputImage2,
-          class TInputImage3, class TOutputImage, class TFunction  >
+template< typename TInputImage1, typename TInputImage2,
+          typename TInputImage3, typename TOutputImage, typename TFunction  >
 void
 TernaryFunctorImageFilter< TInputImage1, TInputImage2, TInputImage3, TOutputImage, TFunction >
 ::BeforeThreadedGenerateData()
@@ -102,8 +102,8 @@ TernaryFunctorImageFilter< TInputImage1, TInputImage2, TInputImage3, TOutputImag
 /**
  * ThreadedGenerateData function. Performs the pixel-wise addition
  */
-template< class TInputImage1, class TInputImage2,
-          class TInputImage3, class TOutputImage, class TFunction  >
+template< typename TInputImage1, typename TInputImage2,
+          typename TInputImage3, typename TOutputImage, typename TFunction  >
 void
 TernaryFunctorImageFilter< TInputImage1, TInputImage2, TInputImage3, TOutputImage, TFunction >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,

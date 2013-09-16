@@ -35,7 +35,7 @@ namespace itk
  *
  * \ingroup ITKGPUCommon
  */
-template< class TInputImage, class TOutputImage, class TParentImageFilter =
+template< typename TInputImage, typename TOutputImage, typename TParentImageFilter =
             ImageToImageFilter< TInputImage, TOutputImage > >
 class GPUImageToImageFilter : public TParentImageFilter
 {

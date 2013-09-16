@@ -57,7 +57,7 @@ namespace itk
  * \wikiexample{ImageProcessing/BinaryImageToShapeLabelMapFilter,Label binary regions in an image and get their properties}
  * \endwiki
  */
-template< class TInputImage, class TOutputImage =
+template< typename TInputImage, typename TOutputImage =
             LabelMap< ShapeLabelObject< SizeValueType, TInputImage::ImageDimension > > >
 class BinaryImageToShapeLabelMapFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >

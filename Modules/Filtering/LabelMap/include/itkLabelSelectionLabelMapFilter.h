@@ -49,7 +49,7 @@ namespace itk {
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKLabelMap
  */
-template<class TImage>
+template<typename TImage>
 class LabelSelectionLabelMapFilter :
     public AttributeSelectionLabelMapFilter<TImage, typename Functor::LabelLabelObjectAccessor< typename TImage::LabelObjectType > >
 {

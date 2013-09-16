@@ -66,8 +66,8 @@ namespace itk
  * \ingroup ITKClassifiers
  */
 
-template< class TInputImage,
-          class TClassifiedImage >
+template< typename TInputImage,
+          typename TClassifiedImage >
 class ImageClassifierBase:
   public ClassifierBase< TInputImage >
 {

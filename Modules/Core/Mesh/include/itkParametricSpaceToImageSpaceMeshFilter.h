@@ -44,7 +44,7 @@ namespace itk
  * \ingroup MeshFilters
  * \ingroup ITKMesh
  */
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 class ParametricSpaceToImageSpaceMeshFilter:
   public MeshToMeshFilter< TInputMesh, TOutputMesh >
 {

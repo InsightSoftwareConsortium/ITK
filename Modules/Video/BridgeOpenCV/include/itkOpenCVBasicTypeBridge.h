@@ -27,11 +27,11 @@
 
 namespace itk
 {
-template< class TITKData, class TOpenCVData >
+template< typename TITKData, typename TOpenCVData >
 struct OpenCVBasicTypeBridge
 {};
 
-template< class TPoint >
+template< typename TPoint >
 struct OpenCVBasicTypeBridge< TPoint, cv::Point_< typename TPoint::CoordRepType > >
 {
   typedef TPoint                        ITKDataType;
@@ -60,7 +60,7 @@ struct OpenCVBasicTypeBridge< TPoint, cv::Point_< typename TPoint::CoordRepType 
 
 };
 
-template< class TPoint >
+template< typename TPoint >
 struct OpenCVBasicTypeBridge< TPoint, cv::Point3_< typename TPoint::CoordRepType > >
 {
   typedef TPoint                        ITKDataType;
@@ -153,7 +153,7 @@ struct OpenCVBasicTypeBridge< itk::Size< 2 >, cv::Size >
     }
 };
 
-template< class T, unsigned int NRows, unsigned int NColumns >
+template< typename T, unsigned int NRows, unsigned int NColumns >
 struct OpenCVBasicTypeBridge< itk::Matrix< T, NRows, NColumns >, cv::Matx< T, NRows, NColumns > >
 {
   typedef itk::Matrix< T, NRows, NColumns > ITKDataType;
@@ -173,7 +173,7 @@ struct OpenCVBasicTypeBridge< itk::Matrix< T, NRows, NColumns >, cv::Matx< T, NR
 
 };
 
-template< class TVector >
+template< typename TVector >
 struct OpenCVBasicTypeBridge< TVector, cv::Vec< typename TVector::ValueType, TVector::Dimension > >
 {
   typedef TVector                                   ITKDataType;

@@ -25,7 +25,7 @@ namespace itk
 //----------------------------------------------------------------------
 //  Advance along the line
 //----------------------------------------------------------------------
-template< class TImage >
+template< typename TImage >
 ImageRegionConstIteratorWithOnlyIndex< TImage > &
 ImageRegionConstIteratorWithOnlyIndex< TImage >
 ::operator++()
@@ -51,7 +51,7 @@ ImageRegionConstIteratorWithOnlyIndex< TImage >
 //----------------------------------------------------------------------
 //  Advance along the line in reverse direction
 //----------------------------------------------------------------------
-template< class TImage >
+template< typename TImage >
 ImageRegionConstIteratorWithOnlyIndex< TImage > &
 ImageRegionConstIteratorWithOnlyIndex< TImage >
 ::operator--()

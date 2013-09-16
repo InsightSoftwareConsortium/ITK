@@ -39,7 +39,7 @@ namespace itk
 /**
  *
  */
-template< class TOutputImage >
+template< typename TOutputImage >
 ImageSource< TOutputImage >
 ::ImageSource()
 {
@@ -59,7 +59,7 @@ ImageSource< TOutputImage >
 /**
  *
  */
-template< class TOutputImage >
+template< typename TOutputImage >
 ProcessObject::DataObjectPointer
 ImageSource< TOutputImage >
 ::MakeOutput(ProcessObject::DataObjectPointerArraySizeType)
@@ -70,7 +70,7 @@ ImageSource< TOutputImage >
 /**
  *
  */
-template< class TOutputImage >
+template< typename TOutputImage >
 typename ImageSource< TOutputImage >::OutputImageType *
 ImageSource< TOutputImage >
 ::GetOutput()
@@ -83,7 +83,7 @@ ImageSource< TOutputImage >
 /**
  *
  */
-template< class TOutputImage >
+template< typename TOutputImage >
 const typename ImageSource< TOutputImage >::OutputImageType *
 ImageSource< TOutputImage >
 ::GetOutput() const
@@ -95,7 +95,7 @@ ImageSource< TOutputImage >
 /**
  *
  */
-template< class TOutputImage >
+template< typename TOutputImage >
 typename ImageSource< TOutputImage >::OutputImageType *
 ImageSource< TOutputImage >
 ::GetOutput(unsigned int idx)
@@ -113,7 +113,7 @@ ImageSource< TOutputImage >
 /**
  *
  */
-template< class TOutputImage >
+template< typename TOutputImage >
 void
 ImageSource< TOutputImage >
 ::GraftOutput(DataObject *graft)
@@ -124,7 +124,7 @@ ImageSource< TOutputImage >
 /**
  *
  */
-template< class TOutputImage >
+template< typename TOutputImage >
 void
 ImageSource< TOutputImage >
 ::GraftOutput(const DataObjectIdentifierType & key, DataObject *graft)
@@ -145,7 +145,7 @@ ImageSource< TOutputImage >
 /**
  *
  */
-template< class TOutputImage >
+template< typename TOutputImage >
 void
 ImageSource< TOutputImage >
 ::GraftNthOutput(unsigned int idx, DataObject *graft)
@@ -160,7 +160,7 @@ ImageSource< TOutputImage >
 
 
 //----------------------------------------------------------------------------
-template< class TOutputImage >
+template< typename TOutputImage >
 const ImageRegionSplitterBase*
 ImageSource< TOutputImage >
 ::GetImageRegionSplitter(void) const
@@ -169,7 +169,7 @@ ImageSource< TOutputImage >
 }
 
 //----------------------------------------------------------------------------
-template< class TOutputImage >
+template< typename TOutputImage >
 unsigned int
 ImageSource< TOutputImage >
 ::SplitRequestedRegion(unsigned int i, unsigned int num, OutputImageRegionType & splitRegion)
@@ -185,7 +185,7 @@ ImageSource< TOutputImage >
 }
 
 //----------------------------------------------------------------------------
-template< class TOutputImage >
+template< typename TOutputImage >
 void
 ImageSource< TOutputImage >
 ::AllocateOutputs()
@@ -212,7 +212,7 @@ ImageSource< TOutputImage >
 }
 
 //----------------------------------------------------------------------------
-template< class TOutputImage >
+template< typename TOutputImage >
 void
 ImageSource< TOutputImage >
 ::GenerateData()
@@ -248,7 +248,7 @@ ImageSource< TOutputImage >
 
 //----------------------------------------------------------------------------
 // The execute method created by the subclass.
-template< class TOutputImage >
+template< typename TOutputImage >
 void
 ImageSource< TOutputImage >
 ::ThreadedGenerateData(const OutputImageRegionType &,
@@ -271,7 +271,7 @@ ImageSource< TOutputImage >
 // Callback routine used by the threading library. This routine just calls
 // the ThreadedGenerateData method after setting the correct region for this
 // thread.
-template< class TOutputImage >
+template< typename TOutputImage >
 ITK_THREAD_RETURN_TYPE
 ImageSource< TOutputImage >
 ::ThreaderCallback(void *arg)

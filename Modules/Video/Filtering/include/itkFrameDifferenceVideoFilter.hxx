@@ -30,7 +30,7 @@ namespace itk
 //
 // Constructor
 //
-template<class TInputVideoStream, class TOutputVideoStream>
+template<typename TInputVideoStream, typename TOutputVideoStream>
 FrameDifferenceVideoFilter<TInputVideoStream, TOutputVideoStream>::
 FrameDifferenceVideoFilter()
 {
@@ -51,7 +51,7 @@ FrameDifferenceVideoFilter()
 //
 // PrintSelf
 //
-template<class TInputVideoStream, class TOutputVideoStream>
+template<typename TInputVideoStream, typename TOutputVideoStream>
 void
 FrameDifferenceVideoFilter<TInputVideoStream, TOutputVideoStream>::
 PrintSelf(std::ostream & os, Indent indent) const
@@ -66,7 +66,7 @@ PrintSelf(std::ostream & os, Indent indent) const
 //
 // SetFrameOffset
 //
-template<class TInputVideoStream, class TOutputVideoStream>
+template<typename TInputVideoStream, typename TOutputVideoStream>
 void
 FrameDifferenceVideoFilter<TInputVideoStream, TOutputVideoStream>::
 SetFrameOffset(SizeValueType numFrames)
@@ -82,7 +82,7 @@ SetFrameOffset(SizeValueType numFrames)
 //
 // GetFrameOffset
 //
-template<class TInputVideoStream, class TOutputVideoStream>
+template<typename TInputVideoStream, typename TOutputVideoStream>
 SizeValueType
 FrameDifferenceVideoFilter<TInputVideoStream, TOutputVideoStream>::
 GetFrameOffset()
@@ -94,7 +94,7 @@ GetFrameOffset()
 //
 // ThreadedGenerateData
 //
-template<class TInputVideoStream, class TOutputVideoStream>
+template<typename TInputVideoStream, typename TOutputVideoStream>
 void
 FrameDifferenceVideoFilter<TInputVideoStream, TOutputVideoStream>::
 ThreadedGenerateData(const OutputFrameSpatialRegionType& outputRegionForThread,

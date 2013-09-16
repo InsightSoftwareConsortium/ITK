@@ -40,7 +40,7 @@ namespace itk
  * \sa ImageToImageMetricv4GetValueAndDerivativeThreaderBase
  * \ingroup ITKMetricsv4
  * */
-template < class TDomainPartitioner, class TImageToImageMetricv4 >
+template < typename TDomainPartitioner, typename TImageToImageMetricv4 >
 class ImageToImageMetricv4GetValueAndDerivativeThreader
 {};
 
@@ -48,7 +48,7 @@ class ImageToImageMetricv4GetValueAndDerivativeThreader
  * \brief Specialization for ThreadedImageRegionPartitioner.
  * \ingroup ITKMetricsv4
  * */
-template < class TImageToImageMetricv4 >
+template < typename TImageToImageMetricv4 >
 class ImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedImageRegionPartitioner< TImageToImageMetricv4::VirtualImageDimension >, TImageToImageMetricv4 >
   : public ImageToImageMetricv4GetValueAndDerivativeThreaderBase< ThreadedImageRegionPartitioner< TImageToImageMetricv4::VirtualImageDimension >, TImageToImageMetricv4 >
 {
@@ -122,7 +122,7 @@ private:
  * \brief Specialization for ThreadedIndexedContainerPartitioner.
  * \ingroup ITKMetricsv4
  * */
-template < class TImageToImageMetricv4 >
+template < typename TImageToImageMetricv4 >
 class ImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedIndexedContainerPartitioner, TImageToImageMetricv4 >
   : public ImageToImageMetricv4GetValueAndDerivativeThreaderBase< ThreadedIndexedContainerPartitioner, TImageToImageMetricv4 >
 {

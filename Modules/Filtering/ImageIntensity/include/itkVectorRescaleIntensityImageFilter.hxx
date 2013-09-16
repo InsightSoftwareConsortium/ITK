@@ -36,7 +36,7 @@ namespace itk
 /**
  *
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 VectorRescaleIntensityImageFilter< TInputImage, TOutputImage >
 ::VectorRescaleIntensityImageFilter()
 {
@@ -49,7 +49,7 @@ VectorRescaleIntensityImageFilter< TInputImage, TOutputImage >
 /**
  *
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 VectorRescaleIntensityImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -70,7 +70,7 @@ VectorRescaleIntensityImageFilter< TInputImage, TOutputImage >
 /**
  *
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 VectorRescaleIntensityImageFilter< TInputImage, TOutputImage >
 ::BeforeThreadedGenerateData()

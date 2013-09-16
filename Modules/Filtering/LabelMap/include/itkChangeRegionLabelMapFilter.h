@@ -52,7 +52,7 @@ namespace itk
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKLabelMap
  */
-template< class TInputImage >
+template< typename TInputImage >
 class ChangeRegionLabelMapFilter:public InPlaceLabelMapFilter< TInputImage >
 {
 public:

@@ -39,7 +39,7 @@ namespace itk
  * \ingroup ITKReview
  */
 
-template< class TInputImage, class TOutputImage = TInputImage >
+template< typename TInputImage, typename TOutputImage = TInputImage >
 class BoxMeanImageFilter:
   public BoxImageFilter< TInputImage, TOutputImage >
 {

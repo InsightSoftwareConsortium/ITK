@@ -23,7 +23,7 @@
 namespace itk
 {
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 ConstantBoundaryCondition< TInputImage, TOutputImage >
 ::ConstantBoundaryCondition()
 {
@@ -31,7 +31,7 @@ ConstantBoundaryCondition< TInputImage, TOutputImage >
   m_Constant = NumericTraits< OutputPixelType >::ZeroValue( p );
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 typename ConstantBoundaryCondition< TInputImage, TOutputImage >::OutputPixelType
 ConstantBoundaryCondition< TInputImage, TOutputImage >
 ::operator()(const OffsetType &, const OffsetType &, const NeighborhoodType *) const
@@ -39,7 +39,7 @@ ConstantBoundaryCondition< TInputImage, TOutputImage >
   return m_Constant;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 typename ConstantBoundaryCondition< TInputImage, TOutputImage >::OutputPixelType
 ConstantBoundaryCondition< TInputImage, TOutputImage >
 ::operator()(const OffsetType &, const OffsetType &, const NeighborhoodType *,
@@ -48,7 +48,7 @@ ConstantBoundaryCondition< TInputImage, TOutputImage >
   return m_Constant;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ConstantBoundaryCondition< TInputImage, TOutputImage >
 ::SetConstant(const OutputPixelType & c)
@@ -56,7 +56,7 @@ ConstantBoundaryCondition< TInputImage, TOutputImage >
   m_Constant = c;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 const typename ConstantBoundaryCondition< TInputImage, TOutputImage >::OutputPixelType &
 ConstantBoundaryCondition< TInputImage, TOutputImage >
 ::GetConstant() const
@@ -64,7 +64,7 @@ ConstantBoundaryCondition< TInputImage, TOutputImage >
   return m_Constant;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 typename ConstantBoundaryCondition< TInputImage, TOutputImage >::RegionType
 ConstantBoundaryCondition< TInputImage, TOutputImage >
 :: GetInputRequestedRegion( const RegionType & inputLargestPossibleRegion,
@@ -84,7 +84,7 @@ ConstantBoundaryCondition< TInputImage, TOutputImage >
   return inputRequestedRegion;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 typename ConstantBoundaryCondition< TInputImage, TOutputImage >::OutputPixelType
 ConstantBoundaryCondition< TInputImage, TOutputImage >
 ::GetPixel( const IndexType & index, const TInputImage * image ) const
@@ -98,7 +98,7 @@ ConstantBoundaryCondition< TInputImage, TOutputImage >
   return m_Constant;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ConstantBoundaryCondition< TInputImage, TOutputImage >
 ::Print( std::ostream & os, Indent i ) const

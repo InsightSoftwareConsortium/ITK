@@ -46,7 +46,7 @@ namespace itk
  * \ingroup ITKMesh
  */
 
-template< class TInputMesh, class TOutputMesh >
+template< typename TInputMesh, typename TOutputMesh >
 class ConnectedRegionsMeshFilter:
   public MeshToMeshFilter< TInputMesh, TOutputMesh >
 {

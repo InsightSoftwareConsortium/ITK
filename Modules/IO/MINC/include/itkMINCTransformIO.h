@@ -36,7 +36,7 @@ namespace itk
 *
 * \ingroup ITKIOMINC
 */
-template< class TInternalComputationValueType >
+template< typename TInternalComputationValueType >
 class MINCTransformIOTemplate: public TransformIOBaseTemplate< TInternalComputationValueType >
 {
 public:

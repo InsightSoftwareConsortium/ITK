@@ -67,7 +67,7 @@ namespace itk {
  * \ingroup ITKMetricsv4
  */
 
-template<class TPointSet>
+template<typename TPointSet>
 class JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4 :
     public PointSetToPointSetMetricv4<TPointSet, TPointSet>
 {

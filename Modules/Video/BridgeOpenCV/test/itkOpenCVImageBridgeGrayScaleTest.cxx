@@ -28,7 +28,7 @@
 //-----------------------------------------------------------------------------
 // Convert the data in the IplImage to the templated type
 //
-template<class TPixelType>
+template<typename TPixelType>
 IplImage* ConvertIplImageDataType(IplImage* in)
 {
   int depth = 0;
@@ -72,7 +72,7 @@ IplImage* ConvertIplImageDataType(IplImage* in)
 //-----------------------------------------------------------------------------
 // Templated test function to do the heavy lifting for scalar case
 //
-template<class TPixelType, unsigned int VDimension>
+template<typename TPixelType, unsigned int VDimension>
 int itkOpenCVImageBridgeTestTemplatedScalar(char* argv)
 {
   // typedefs
@@ -212,7 +212,7 @@ int itkOpenCVImageBridgeTestTemplatedScalar(char* argv)
   return EXIT_SUCCESS;
 }
 
-template< class TPixel >
+template< typename TPixel >
 int itkRunScalarTest( char* argv )
 {
   if (itkOpenCVImageBridgeTestTemplatedScalar< TPixel, 2 >(argv) == EXIT_FAILURE)

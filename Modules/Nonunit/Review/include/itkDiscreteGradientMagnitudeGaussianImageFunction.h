@@ -43,7 +43,7 @@ namespace itk
  * \sa ImageFunction
  * \ingroup ITKReview
  */
-template< class TInputImage, class TOutput = double >
+template< typename TInputImage, typename TOutput = double >
 class DiscreteGradientMagnitudeGaussianImageFunction:
   public ImageFunction< TInputImage, TOutput, TOutput >
 {

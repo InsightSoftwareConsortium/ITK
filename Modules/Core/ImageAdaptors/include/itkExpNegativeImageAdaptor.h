@@ -36,7 +36,7 @@ namespace Accessor
  * \ingroup ImageAdaptors
  * \ingroup ITKImageAdaptors
  */
-template< class TInternalType, class TExternalType >
+template< typename TInternalType, typename TExternalType >
 class ExpNegativePixelAccessor
 {
 public:
@@ -65,7 +65,7 @@ public:
  * \ingroup ImageAdaptors
  * \ingroup ITKImageAdaptors
  */
-template< class TImage, class TOutputPixelType >
+template< typename TImage, typename TOutputPixelType >
 class ExpNegativeImageAdaptor:public
   ImageAdaptor< TImage, Accessor::ExpNegativePixelAccessor<
                   typename TImage::PixelType,

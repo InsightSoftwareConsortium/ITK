@@ -46,7 +46,7 @@ namespace itk
    *
    * \ingroup ITKOptimizersv4
    */
-template<class TInternalComputationValueType=double>
+template<typename TInternalComputationValueType=double>
 class ObjectToObjectMetricBaseTemplate:
   public SingleValuedCostFunctionv4Template<TInternalComputationValueType>
 {

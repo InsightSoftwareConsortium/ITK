@@ -22,7 +22,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TFeatureImage, class TOutputPixelType >
+template< typename TInputImage, typename TFeatureImage, typename TOutputPixelType >
 void
 SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -33,7 +33,7 @@ SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >
   os << indent << "m_SegmentationFunction = " << m_SegmentationFunction << std::endl;
 }
 
-template< class TInputImage, class TFeatureImage, class TOutputPixelType >
+template< typename TInputImage, typename TFeatureImage, typename TOutputPixelType >
 SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >
 ::SegmentationLevelSetImageFilter()
 {
@@ -50,7 +50,7 @@ SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >
   m_ReverseExpansionDirection = false;
 }
 
-template< class TInputImage, class TFeatureImage, class TOutputPixelType >
+template< typename TInputImage, typename TFeatureImage, typename TOutputPixelType >
 void
 SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >
 ::GenerateSpeedImage()
@@ -59,7 +59,7 @@ SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >
   m_SegmentationFunction->CalculateSpeedImage();
 }
 
-template< class TInputImage, class TFeatureImage, class TOutputPixelType >
+template< typename TInputImage, typename TFeatureImage, typename TOutputPixelType >
 void
 SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >
 ::GenerateAdvectionImage()
@@ -68,7 +68,7 @@ SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >
   m_SegmentationFunction->CalculateAdvectionImage();
 }
 
-template< class TInputImage, class TFeatureImage, class TOutputPixelType >
+template< typename TInputImage, typename TFeatureImage, typename TOutputPixelType >
 void
 SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >
 ::GenerateData()

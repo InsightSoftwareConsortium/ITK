@@ -62,7 +62,7 @@ namespace Statistics {
  * \ingroup ITKStatistics
  */
 
-template< class THistogram >
+template< typename THistogram >
 class HistogramToRunLengthFeaturesFilter : public ProcessObject
 {
 public:

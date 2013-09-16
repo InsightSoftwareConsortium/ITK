@@ -27,7 +27,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 RelabelComponentImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
@@ -43,7 +43,7 @@ RelabelComponentImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 RelabelComponentImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
@@ -218,7 +218,7 @@ RelabelComponentImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 RelabelComponentImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

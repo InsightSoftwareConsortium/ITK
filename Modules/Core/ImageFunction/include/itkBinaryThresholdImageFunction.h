@@ -39,7 +39,7 @@ namespace itk
  *
  * \ingroup ITKImageFunction
  */
-template< class TInputImage, class TCoordRep = float >
+template< typename TInputImage, typename TCoordRep = float >
 class BinaryThresholdImageFunction:
   public ImageFunction< TInputImage, bool, TCoordRep >
 {

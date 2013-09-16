@@ -22,14 +22,14 @@
 
 namespace itk
 {
-template< class TInputPix, class TCompare >
+template< typename TInputPix, typename TCompare >
 AnchorErodeDilateLine< TInputPix, TCompare >
 ::AnchorErodeDilateLine()
 {
   m_Size = 2;
 }
 
-template< class TInputPix, class TCompare >
+template< typename TInputPix, typename TCompare >
 void
 AnchorErodeDilateLine< TInputPix, TCompare >
 ::DoLine(std::vector<TInputPix> & buffer, std::vector<TInputPix> & inbuffer, unsigned bufflength)
@@ -172,7 +172,7 @@ AnchorErodeDilateLine< TInputPix, TCompare >
              middle);
 }
 
-template< class TInputPix, class TCompare >
+template< typename TInputPix, typename TCompare >
 bool
 AnchorErodeDilateLine< TInputPix, TCompare >
 ::StartLine(std::vector<TInputPix> & buffer,
@@ -277,7 +277,7 @@ AnchorErodeDilateLine< TInputPix, TCompare >
   return ( false );
 }
 
-template< class TInputPix, class TCompare >
+template< typename TInputPix, typename TCompare >
 void
 AnchorErodeDilateLine< TInputPix, TCompare >
 ::FinishLine(std::vector<TInputPix> & buffer,
@@ -334,7 +334,7 @@ AnchorErodeDilateLine< TInputPix, TCompare >
     }
 }
 
-template< class TInputPix, class TCompare >
+template< typename TInputPix, typename TCompare >
 void
 AnchorErodeDilateLine< TInputPix, TCompare >
 ::PrintSelf(std::ostream & os, Indent indent) const

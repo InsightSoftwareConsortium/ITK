@@ -31,7 +31,7 @@
 #include <cxxabi.h>
 #endif
 
-template< class T >
+template< typename T >
 std::string GetClampTypeName()
 {
   std::string name;
@@ -49,7 +49,7 @@ std::string GetClampTypeName()
 }
 
 
-template < class TInputPixelType, class TOutputPixelType >
+template < typename TInputPixelType, typename TOutputPixelType >
 bool TestClampFromTo()
 {
   typedef itk::Image< TInputPixelType, 3 >                        InputImageType;
@@ -127,7 +127,7 @@ bool TestClampFromTo()
 }
 
 
-template < class TInputPixelType >
+template < typename TInputPixelType >
 bool TestClampFrom()
 {
   bool success =
@@ -152,7 +152,7 @@ bool TestClampFrom()
   return success;
 }
 
-template < class TInputPixelType, class TOutputPixelType >
+template < typename TInputPixelType, typename TOutputPixelType >
 bool TestClampFromToWithCustomBounds()
 {
   typedef itk::Image< TInputPixelType, 3 >                        InputImageType;
@@ -234,7 +234,7 @@ bool TestClampFromToWithCustomBounds()
 }
 
 
-template < class TInputPixelType >
+template < typename TInputPixelType >
 bool TestClampFromWithCustomBounds()
 {
   bool success =

@@ -23,7 +23,7 @@
 namespace itk {
 namespace Statistics {
 
-template <class TSample, class TRegion>
+template <typename TSample, typename TRegion>
 SpatialNeighborSubsampler<TSample, TRegion>
 ::SpatialNeighborSubsampler()
 {
@@ -31,7 +31,7 @@ SpatialNeighborSubsampler<TSample, TRegion>
   this->m_Radius.Fill(1);
 }
 
-template <class TSample, class TRegion>
+template <typename TSample, typename TRegion>
 typename LightObject::Pointer
 SpatialNeighborSubsampler<TSample, TRegion>
 ::InternalClone() const
@@ -58,7 +58,7 @@ SpatialNeighborSubsampler<TSample, TRegion>
   return loPtr;
 }
 
-template <class TSample, class TRegion>
+template <typename TSample, typename TRegion>
 void
 SpatialNeighborSubsampler<TSample, TRegion>
 ::SetRadius(const RadiusType& radius)
@@ -74,7 +74,7 @@ SpatialNeighborSubsampler<TSample, TRegion>
     }
 }
 
-template <class TSample, class TRegion>
+template <typename TSample, typename TRegion>
 void
 SpatialNeighborSubsampler<TSample, TRegion>
 ::SetRadius(unsigned int radius)
@@ -84,7 +84,7 @@ SpatialNeighborSubsampler<TSample, TRegion>
   this->SetRadius(radiusND);
 }
 
-template <class TSample, class TRegion>
+template <typename TSample, typename TRegion>
 void
 SpatialNeighborSubsampler<TSample, TRegion>
 ::Search(const InstanceIdentifier& query,
@@ -203,7 +203,7 @@ SpatialNeighborSubsampler<TSample, TRegion>
     }
 } // end Search method
 
-template <class TSample, class TRegion>
+template <typename TSample, typename TRegion>
 void
 SpatialNeighborSubsampler<TSample, TRegion>
 ::PrintSelf(std::ostream& os, Indent indent) const

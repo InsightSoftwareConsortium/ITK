@@ -29,7 +29,7 @@ namespace itk
 /**
  *    Constructor
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 BinaryThinningImageFilter< TInputImage, TOutputImage >
 ::BinaryThinningImageFilter()
 {
@@ -42,7 +42,7 @@ BinaryThinningImageFilter< TInputImage, TOutputImage >
 /**
  *  Return the thinning Image pointer
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 typename BinaryThinningImageFilter<
   TInputImage, TOutputImage >::OutputImageType *
 BinaryThinningImageFilter< TInputImage, TOutputImage >
@@ -57,7 +57,7 @@ BinaryThinningImageFilter< TInputImage, TOutputImage >
  *  Copy the input image to the output image, changing from the input
  *  type to the output type.
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 BinaryThinningImageFilter< TInputImage, TOutputImage >
 ::PrepareData(void)
@@ -102,7 +102,7 @@ BinaryThinningImageFilter< TInputImage, TOutputImage >
 /**
  *  Post processing for computing thinning
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 BinaryThinningImageFilter< TInputImage, TOutputImage >
 ::ComputeThinImage()
@@ -300,7 +300,7 @@ BinaryThinningImageFilter< TInputImage, TOutputImage >
 /**
  *  Generate ThinImage
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 BinaryThinningImageFilter< TInputImage, TOutputImage >
 ::GenerateData()

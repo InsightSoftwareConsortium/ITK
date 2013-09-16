@@ -63,7 +63,7 @@ namespace itk
  *
  * \ingroup ITKTestKernel
  */
- template <class TImageType>
+ template <typename TImageType>
  class PipelineMonitorImageFilter :
   public ImageToImageFilter< TImageType, TImageType>
  {

@@ -34,7 +34,7 @@ namespace Function
  * \ingroup ITKImageFunction
  */
 template< unsigned int VRadius,
-          class TInput = double, class TOutput = double >
+          typename TInput = double, typename TOutput = double >
 class CosineWindowFunction
 {
 public:
@@ -54,7 +54,7 @@ private:
  * \ingroup ITKImageFunction
  */
 template< unsigned int VRadius,
-          class TInput = double, class TOutput = double >
+          typename TInput = double, typename TOutput = double >
 class HammingWindowFunction
 {
 public:
@@ -74,7 +74,7 @@ private:
  * \ingroup ITKImageFunction
  */
 template< unsigned int VRadius,
-          class TInput = double, class TOutput = double >
+          typename TInput = double, typename TOutput = double >
 class WelchWindowFunction
 {
 public:
@@ -96,7 +96,7 @@ private:
  * \ingroup ITKImageFunction
  */
 template< unsigned int VRadius,
-          class TInput = double, class TOutput = double >
+          typename TInput = double, typename TOutput = double >
 class LanczosWindowFunction
 {
 public:
@@ -120,7 +120,7 @@ private:
  * \ingroup ITKImageFunction
  */
 template< unsigned int VRadius,
-          class TInput = double, class TOutput = double >
+          typename TInput = double, typename TOutput = double >
 class BlackmanWindowFunction
 {
 public:
@@ -250,9 +250,9 @@ private:
  * \ingroup ITKImageFunction
  */
 template<
-  class TInputImage,
+  typename TInputImage,
   unsigned int VRadius,
-  class TWindowFunction = Function::HammingWindowFunction< VRadius >,
+  typename TWindowFunction = Function::HammingWindowFunction< VRadius >,
   class TBoundaryCondition = ZeroFluxNeumannBoundaryCondition< TInputImage, TInputImage >,
   class TCoordRep = double >
 class WindowedSincInterpolateImageFunction:

@@ -25,7 +25,7 @@ namespace itk
 {
 template< unsigned int VDimension,
           typename TLevelSetValueType,
-          class TEquationContainer >
+          typename TEquationContainer >
 UpdateWhitakerSparseLevelSet< VDimension, TLevelSetValueType, TEquationContainer >
 ::UpdateWhitakerSparseLevelSet() : m_TimeStep( NumericTraits< LevelSetOutputType >::One ),
 m_RMSChangeAccumulator( NumericTraits< LevelSetOutputType >::Zero ),
@@ -40,14 +40,14 @@ m_MaxStatus( LevelSetType::PlusThreeLayer() )
 
 template< unsigned int VDimension,
           typename TLevelSetValueType,
-          class TEquationContainer >
+          typename TEquationContainer >
 UpdateWhitakerSparseLevelSet< VDimension, TLevelSetValueType, TEquationContainer >
 ::~UpdateWhitakerSparseLevelSet()
 {}
 
 template< unsigned int VDimension,
           typename TLevelSetValueType,
-          class TEquationContainer >
+          typename TEquationContainer >
 void UpdateWhitakerSparseLevelSet< VDimension, TLevelSetValueType, TEquationContainer >
 ::SetUpdate( const LevelSetLayerType& update )
 {
@@ -56,7 +56,7 @@ void UpdateWhitakerSparseLevelSet< VDimension, TLevelSetValueType, TEquationCont
 
 template< unsigned int VDimension,
           typename TLevelSetValueType,
-          class TEquationContainer >
+          typename TEquationContainer >
 void UpdateWhitakerSparseLevelSet< VDimension, TLevelSetValueType, TEquationContainer >
 ::Update()
 {
@@ -212,7 +212,7 @@ void UpdateWhitakerSparseLevelSet< VDimension, TLevelSetValueType, TEquationCont
 
 template< unsigned int VDimension,
           typename TLevelSetValueType,
-          class TEquationContainer >
+          typename TEquationContainer >
 void UpdateWhitakerSparseLevelSet< VDimension, TLevelSetValueType, TEquationContainer >
 ::UpdateLayerZero()
 {
@@ -406,7 +406,7 @@ void UpdateWhitakerSparseLevelSet< VDimension, TLevelSetValueType, TEquationCont
 
 template< unsigned int VDimension,
           typename TLevelSetValueType,
-          class TEquationContainer >
+          typename TEquationContainer >
 void UpdateWhitakerSparseLevelSet< VDimension, TLevelSetValueType, TEquationContainer >
 ::UpdateLayerMinus1()
   {
@@ -531,7 +531,7 @@ void UpdateWhitakerSparseLevelSet< VDimension, TLevelSetValueType, TEquationCont
 
 template< unsigned int VDimension,
           typename TLevelSetValueType,
-          class TEquationContainer >
+          typename TEquationContainer >
 void UpdateWhitakerSparseLevelSet< VDimension, TLevelSetValueType, TEquationContainer >
 ::UpdateLayerPlus1()
   {
@@ -657,7 +657,7 @@ void UpdateWhitakerSparseLevelSet< VDimension, TLevelSetValueType, TEquationCont
 
 template< unsigned int VDimension,
           typename TLevelSetValueType,
-          class TEquationContainer >
+          typename TEquationContainer >
 void UpdateWhitakerSparseLevelSet< VDimension, TLevelSetValueType, TEquationContainer >
 ::UpdateLayerMinus2()
 {
@@ -782,7 +782,7 @@ void UpdateWhitakerSparseLevelSet< VDimension, TLevelSetValueType, TEquationCont
 
 template< unsigned int VDimension,
           typename TLevelSetValueType,
-          class TEquationContainer >
+          typename TEquationContainer >
 void UpdateWhitakerSparseLevelSet< VDimension, TLevelSetValueType, TEquationContainer >
 ::UpdateLayerPlus2()
   {
@@ -909,7 +909,7 @@ void UpdateWhitakerSparseLevelSet< VDimension, TLevelSetValueType, TEquationCont
 
 template< unsigned int VDimension,
           typename TLevelSetValueType,
-          class TEquationContainer >
+          typename TEquationContainer >
 void UpdateWhitakerSparseLevelSet< VDimension, TLevelSetValueType, TEquationContainer >
 ::MovePointIntoZeroLevelSet()
   {
@@ -932,7 +932,7 @@ void UpdateWhitakerSparseLevelSet< VDimension, TLevelSetValueType, TEquationCont
 
 template< unsigned int VDimension,
           typename TLevelSetValueType,
-          class TEquationContainer >
+          typename TEquationContainer >
 void UpdateWhitakerSparseLevelSet< VDimension, TLevelSetValueType, TEquationContainer >
 ::MovePointFromMinus1()
   {
@@ -1007,7 +1007,7 @@ void UpdateWhitakerSparseLevelSet< VDimension, TLevelSetValueType, TEquationCont
 
 template< unsigned int VDimension,
           typename TLevelSetValueType,
-          class TEquationContainer >
+          typename TEquationContainer >
 void UpdateWhitakerSparseLevelSet< VDimension, TLevelSetValueType, TEquationContainer >
 ::MovePointFromPlus1()
 {
@@ -1082,7 +1082,7 @@ void UpdateWhitakerSparseLevelSet< VDimension, TLevelSetValueType, TEquationCont
 
 template< unsigned int VDimension,
           typename TLevelSetValueType,
-          class TEquationContainer >
+          typename TEquationContainer >
 void UpdateWhitakerSparseLevelSet< VDimension, TLevelSetValueType, TEquationContainer >
 ::MovePointFromMinus2()
 {
@@ -1108,7 +1108,7 @@ void UpdateWhitakerSparseLevelSet< VDimension, TLevelSetValueType, TEquationCont
 
 template< unsigned int VDimension,
           typename TLevelSetValueType,
-          class TEquationContainer >
+          typename TEquationContainer >
 void UpdateWhitakerSparseLevelSet< VDimension, TLevelSetValueType, TEquationContainer >
 ::MovePointFromPlus2()
 {

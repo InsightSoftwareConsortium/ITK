@@ -86,7 +86,7 @@ RGBGibbsPriorFilter< TInputImage, TClassifiedImage >
 }
 
 /* GenerateMediumImage method. */
-template< class TInputImage, class TClassifiedImage >
+template< typename TInputImage, typename TClassifiedImage >
 void
 RGBGibbsPriorFilter< TInputImage, TClassifiedImage >
 ::GenerateMediumImage()
@@ -101,7 +101,7 @@ RGBGibbsPriorFilter< TInputImage, TClassifiedImage >
 }
 
 /* Allocate the memeory for classified image. */
-template< class TInputImage, class TClassifiedImage >
+template< typename TInputImage, typename TClassifiedImage >
 void
 RGBGibbsPriorFilter< TInputImage, TClassifiedImage >
 ::Allocate()
@@ -482,7 +482,7 @@ RGBGibbsPriorFilter< TInputImage, TClassifiedImage >
     }
 }
 
-template< class TInputImage, class TClassifiedImage >
+template< typename TInputImage, typename TClassifiedImage >
 void
 RGBGibbsPriorFilter< TInputImage, TClassifiedImage >
 ::GenerateData()
@@ -544,7 +544,7 @@ RGBGibbsPriorFilter< TInputImage, TClassifiedImage >
   m_RecursiveNumber++;
 }
 
-template< class TInputImage, class TClassifiedImage >
+template< typename TInputImage, typename TClassifiedImage >
 void
 RGBGibbsPriorFilter< TInputImage, TClassifiedImage >
 ::ApplyGPImageFilter()
@@ -553,7 +553,7 @@ RGBGibbsPriorFilter< TInputImage, TClassifiedImage >
   MinimizeFunctional();
 }
 
-template< class TInputImage, class TClassifiedImage >
+template< typename TInputImage, typename TClassifiedImage >
 void
 RGBGibbsPriorFilter< TInputImage, TClassifiedImage >
 ::MinimizeFunctional()
@@ -584,7 +584,7 @@ RGBGibbsPriorFilter< TInputImage, TClassifiedImage >
 #endif
 }
 
-template< class TInputImage, class TClassifiedImage >
+template< typename TInputImage, typename TClassifiedImage >
 void
 RGBGibbsPriorFilter< TInputImage, TClassifiedImage >
 ::ApplyGibbsLabeller()
@@ -668,7 +668,7 @@ RGBGibbsPriorFilter< TInputImage, TClassifiedImage >
 }
 
 /* Remove the tiny bias inside the object region. */
-template< class TInputImage, class TClassifiedImage >
+template< typename TInputImage, typename TClassifiedImage >
 void
 RGBGibbsPriorFilter< TInputImage, TClassifiedImage >
 ::RegionEraser()
@@ -738,7 +738,7 @@ RGBGibbsPriorFilter< TInputImage, TClassifiedImage >
   delete[] valid_region_counter;
 }
 
-template< class TInputImage, class TClassifiedImage >
+template< typename TInputImage, typename TClassifiedImage >
 unsigned int
 RGBGibbsPriorFilter< TInputImage, TClassifiedImage >
 ::LabelRegion(int i, int l, int change)
@@ -805,7 +805,7 @@ RGBGibbsPriorFilter< TInputImage, TClassifiedImage >
   return count;
 }
 
-template< class TInputImage, class TClassifiedImage >
+template< typename TInputImage, typename TClassifiedImage >
 void
 RGBGibbsPriorFilter< TInputImage, TClassifiedImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

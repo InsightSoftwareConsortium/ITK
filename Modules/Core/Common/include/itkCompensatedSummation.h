@@ -62,7 +62,7 @@ namespace itk
  *
  * \ingroup ITKCommon
  */
-template < class TFloat >
+template < typename TFloat >
 class CompensatedSummation
 {
 public:

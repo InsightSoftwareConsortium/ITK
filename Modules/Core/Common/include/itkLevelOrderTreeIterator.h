@@ -30,7 +30,7 @@ namespace itk
  *
  * \ingroup ITKCommon
  */
-template< class TTreeType >
+template< typename TTreeType >
 class LevelOrderTreeIterator:public TreeIteratorBase< TTreeType >
 {
 public:

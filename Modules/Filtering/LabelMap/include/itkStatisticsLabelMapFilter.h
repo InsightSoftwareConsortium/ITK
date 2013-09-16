@@ -37,7 +37,7 @@ namespace itk
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKLabelMap
  */
-template< class TImage, class TFeatureImage >
+template< typename TImage, typename TFeatureImage >
 class StatisticsLabelMapFilter:
   public ShapeLabelMapFilter< TImage,
                               Image< typename TImage::PixelType,  TImage ::ImageDimension > >

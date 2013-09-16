@@ -22,20 +22,20 @@
 
 namespace itk
 {
-template <class TPixel, unsigned int VImageDimension>
+template <typename TPixel, unsigned int VImageDimension>
 GPUImage< TPixel, VImageDimension >::GPUImage()
 {
   m_DataManager = GPUImageDataManager< GPUImage< TPixel, VImageDimension > >::New();
   m_DataManager->SetTimeStamp( this->GetTimeStamp() );
 }
 
-template <class TPixel, unsigned int VImageDimension>
+template <typename TPixel, unsigned int VImageDimension>
 GPUImage< TPixel, VImageDimension >::~GPUImage()
 {
 
 }
 
-template <class TPixel, unsigned int VImageDimension>
+template <typename TPixel, unsigned int VImageDimension>
 void GPUImage< TPixel, VImageDimension >::Allocate()
 {
   // allocate CPU memory - calling Allocate() in superclass
@@ -53,7 +53,7 @@ void GPUImage< TPixel, VImageDimension >::Allocate()
   m_DataManager->SetTimeStamp( this->GetTimeStamp() );
 }
 
-template< class TPixel, unsigned int VImageDimension >
+template< typename TPixel, unsigned int VImageDimension >
 void GPUImage< TPixel, VImageDimension >::Initialize()
 {
   // CPU image initialize
@@ -72,35 +72,35 @@ void GPUImage< TPixel, VImageDimension >::Initialize()
   m_DataManager->SetTimeStamp( this->GetTimeStamp() );
 }
 
-template <class TPixel, unsigned int VImageDimension>
+template <typename TPixel, unsigned int VImageDimension>
 void GPUImage< TPixel, VImageDimension >::Modified() const
 {
   Superclass::Modified();
   //m_DataManager->SetGPUBufferDirty();
 }
 
-template <class TPixel, unsigned int VImageDimension>
+template <typename TPixel, unsigned int VImageDimension>
 void GPUImage< TPixel, VImageDimension >::FillBuffer(const TPixel & value)
 {
   m_DataManager->SetGPUBufferDirty();
   Superclass::FillBuffer( value );
 }
 
-template <class TPixel, unsigned int VImageDimension>
+template <typename TPixel, unsigned int VImageDimension>
 void GPUImage< TPixel, VImageDimension >::SetPixel(const IndexType & index, const TPixel & value)
 {
   m_DataManager->SetGPUBufferDirty();
   Superclass::SetPixel( index, value );
 }
 
-template <class TPixel, unsigned int VImageDimension>
+template <typename TPixel, unsigned int VImageDimension>
 const TPixel & GPUImage< TPixel, VImageDimension >::GetPixel(const IndexType & index) const
 {
   m_DataManager->UpdateCPUBuffer();
   return Superclass::GetPixel( index );
 }
 
-template <class TPixel, unsigned int VImageDimension>
+template <typename TPixel, unsigned int VImageDimension>
 TPixel & GPUImage< TPixel, VImageDimension >::GetPixel(const IndexType & index)
 {
   /* Original version - very conservative
@@ -111,7 +111,7 @@ TPixel & GPUImage< TPixel, VImageDimension >::GetPixel(const IndexType & index)
   return Superclass::GetPixel( index );
 }
 
-template <class TPixel, unsigned int VImageDimension>
+template <typename TPixel, unsigned int VImageDimension>
 TPixel & GPUImage< TPixel, VImageDimension >::operator[] (const IndexType &index)
   {
   /* Original version - very conservative
@@ -122,14 +122,14 @@ TPixel & GPUImage< TPixel, VImageDimension >::operator[] (const IndexType &index
   return Superclass::operator[] ( index );
   }
 
-template <class TPixel, unsigned int VImageDimension>
+template <typename TPixel, unsigned int VImageDimension>
 const TPixel & GPUImage< TPixel, VImageDimension >::operator[] (const IndexType &index) const
   {
   m_DataManager->UpdateCPUBuffer();
   return Superclass::operator[] ( index );
   }
 
-template <class TPixel, unsigned int VImageDimension>
+template <typename TPixel, unsigned int VImageDimension>
 void GPUImage< TPixel, VImageDimension >::SetPixelContainer(PixelContainer *container)
 {
   Superclass::SetPixelContainer( container );
@@ -137,14 +137,14 @@ void GPUImage< TPixel, VImageDimension >::SetPixelContainer(PixelContainer *cont
   m_DataManager->SetGPUDirtyFlag( true );
 }
 
-template <class TPixel, unsigned int VImageDimension>
+template <typename TPixel, unsigned int VImageDimension>
 void GPUImage< TPixel, VImageDimension >::UpdateBuffers()
 {
   m_DataManager->UpdateCPUBuffer();
   m_DataManager->UpdateGPUBuffer();
 }
 
-template <class TPixel, unsigned int VImageDimension>
+template <typename TPixel, unsigned int VImageDimension>
 TPixel* GPUImage< TPixel, VImageDimension >::GetBufferPointer()
 {
   /* Original version - very conservative
@@ -159,7 +159,7 @@ TPixel* GPUImage< TPixel, VImageDimension >::GetBufferPointer()
   return Superclass::GetBufferPointer();
 }
 
-template <class TPixel, unsigned int VImageDimension>
+template <typename TPixel, unsigned int VImageDimension>
 const TPixel * GPUImage< TPixel, VImageDimension >::GetBufferPointer() const
 {
   // const does not change buffer, but if CPU is dirty then make it up-to-date
@@ -167,7 +167,7 @@ const TPixel * GPUImage< TPixel, VImageDimension >::GetBufferPointer() const
   return Superclass::GetBufferPointer();
 }
 
-template <class TPixel, unsigned int VImageDimension>
+template <typename TPixel, unsigned int VImageDimension>
 GPUDataManager::Pointer
 GPUImage< TPixel, VImageDimension >::GetGPUDataManager() const
 {
@@ -179,7 +179,7 @@ GPUImage< TPixel, VImageDimension >::GetGPUDataManager() const
   //return m_DataManager.GetPointer();
 }
 
-template <class TPixel, unsigned int VImageDimension>
+template <typename TPixel, unsigned int VImageDimension>
 void
 GPUImage< TPixel, VImageDimension >::Graft(const DataObject *data)
 {

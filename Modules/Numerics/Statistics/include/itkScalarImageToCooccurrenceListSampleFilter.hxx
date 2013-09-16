@@ -24,7 +24,7 @@ namespace itk
 {
 namespace Statistics
 {
-template< class TImage >
+template< typename TImage >
 ScalarImageToCooccurrenceListSampleFilter< TImage >
 ::ScalarImageToCooccurrenceListSampleFilter()
 {
@@ -34,7 +34,7 @@ ScalarImageToCooccurrenceListSampleFilter< TImage >
   this->ProcessObject::SetNthOutput( 0, this->MakeOutput(0) );
 }
 
-template< class TImage >
+template< typename TImage >
 void
 ScalarImageToCooccurrenceListSampleFilter< TImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -42,7 +42,7 @@ ScalarImageToCooccurrenceListSampleFilter< TImage >
   Superclass::PrintSelf(os, indent);
 }
 
-template< class TImage >
+template< typename TImage >
 void
 ScalarImageToCooccurrenceListSampleFilter< TImage >
 ::SetInput(const ImageType *image)
@@ -52,7 +52,7 @@ ScalarImageToCooccurrenceListSampleFilter< TImage >
                                     const_cast< ImageType * >( image ) );
 }
 
-template< class TImage >
+template< typename TImage >
 const TImage *
 ScalarImageToCooccurrenceListSampleFilter< TImage >
 ::GetInput() const
@@ -60,7 +60,7 @@ ScalarImageToCooccurrenceListSampleFilter< TImage >
   return itkDynamicCastInDebugMode< const ImageType * >( this->GetPrimaryInput() );
 }
 
-template< class TImage >
+template< typename TImage >
 const typename ScalarImageToCooccurrenceListSampleFilter< TImage >::SampleType *
 ScalarImageToCooccurrenceListSampleFilter< TImage >
 ::GetOutput() const
@@ -71,7 +71,7 @@ ScalarImageToCooccurrenceListSampleFilter< TImage >
   return output;
 }
 
-template< class TImage >
+template< typename TImage >
 typename ScalarImageToCooccurrenceListSampleFilter< TImage >::DataObjectPointer
 ScalarImageToCooccurrenceListSampleFilter< TImage >
 ::MakeOutput(DataObjectPointerArraySizeType)
@@ -79,7 +79,7 @@ ScalarImageToCooccurrenceListSampleFilter< TImage >
   return SampleType::New().GetPointer();
 }
 
-template< class TImage >
+template< typename TImage >
 void
 ScalarImageToCooccurrenceListSampleFilter< TImage >
 ::GenerateData()
@@ -163,7 +163,7 @@ ScalarImageToCooccurrenceListSampleFilter< TImage >
     }
 }
 
-template< class TImage >
+template< typename TImage >
 void
 ScalarImageToCooccurrenceListSampleFilter< TImage >
 ::UseNeighbor(const OffsetType & offset)

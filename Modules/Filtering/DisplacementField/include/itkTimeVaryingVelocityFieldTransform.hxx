@@ -28,7 +28,7 @@ namespace itk
 /**
  * Constructor
  */
-template<class TScalar, unsigned int NDimensions>
+template<typename TScalar, unsigned int NDimensions>
 TimeVaryingVelocityFieldTransform<TScalar, NDimensions>
 ::TimeVaryingVelocityFieldTransform()
 {
@@ -37,13 +37,13 @@ TimeVaryingVelocityFieldTransform<TScalar, NDimensions>
 /**
  * Destructor
  */
-template<class TScalar, unsigned int NDimensions>
+template<typename TScalar, unsigned int NDimensions>
 TimeVaryingVelocityFieldTransform<TScalar, NDimensions>::
 ~TimeVaryingVelocityFieldTransform()
 {
 }
 
-template<class TScalar, unsigned int NDimensions>
+template<typename TScalar, unsigned int NDimensions>
 void
 TimeVaryingVelocityFieldTransform<TScalar, NDimensions>
 ::IntegrateVelocityField()

@@ -26,7 +26,7 @@ namespace itk
 /**
  * Constructor
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 AccumulateImageFilter< TInputImage, TOutputImage >
 ::AccumulateImageFilter()
 {
@@ -34,7 +34,7 @@ AccumulateImageFilter< TInputImage, TOutputImage >
   m_Average = false;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 AccumulateImageFilter< TInputImage, TOutputImage >
 ::GenerateOutputInformation()
@@ -94,7 +94,7 @@ AccumulateImageFilter< TInputImage, TOutputImage >
   itkDebugMacro("GenerateOutputInformation End");
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 AccumulateImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
@@ -143,7 +143,7 @@ AccumulateImageFilter< TInputImage, TOutputImage >
 /**
  * GenerateData Performs the accumulation
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 AccumulateImageFilter< TInputImage, TOutputImage >
 ::GenerateData(void)
@@ -219,7 +219,7 @@ AccumulateImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 AccumulateImageFilter< TInputImage, TOutputImage >::PrintSelf(std::ostream & os, Indent indent) const
 {

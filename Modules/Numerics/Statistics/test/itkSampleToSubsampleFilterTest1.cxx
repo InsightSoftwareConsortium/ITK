@@ -24,7 +24,7 @@ namespace itk {
 namespace Statistics {
 namespace itkSampleToSubsampleFilter1Namespace {
 
-template<class TSample >
+template<typename TSample >
 class SubsamplerTester : public SampleToSubsampleFilter< TSample >
 {
 public:

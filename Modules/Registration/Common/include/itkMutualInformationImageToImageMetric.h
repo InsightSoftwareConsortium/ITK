@@ -90,7 +90,7 @@ namespace itk
  * \wikiexample{Registration/MutualInformationAffine,Mutual Information Affine}
  * \endwiki
  */
-template< class TFixedImage, class TMovingImage >
+template< typename TFixedImage, typename TMovingImage >
 class MutualInformationImageToImageMetric:
   public ImageToImageMetric< TFixedImage, TMovingImage >
 {

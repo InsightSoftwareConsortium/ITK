@@ -36,7 +36,7 @@ namespace itk
  *
  */
 
-template <class TInputImage, class TOutputImage = TInputImage>
+template <typename TInputImage, typename TOutputImage = TInputImage>
 class ComposeDisplacementFieldsImageFilter
   : public ImageToImageFilter<TInputImage, TOutputImage>
 {

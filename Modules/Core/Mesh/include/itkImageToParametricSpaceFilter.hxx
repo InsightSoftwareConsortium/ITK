@@ -30,7 +30,7 @@ namespace itk
 /**
  *
  */
-template< class TInputImage, class TOutputMesh >
+template< typename TInputImage, typename TOutputMesh >
 ImageToParametricSpaceFilter< TInputImage, TOutputMesh >
 ::ImageToParametricSpaceFilter()
 {
@@ -42,7 +42,7 @@ ImageToParametricSpaceFilter< TInputImage, TOutputMesh >
 /**
  *
  */
-template< class TInputImage, class TOutputMesh >
+template< typename TInputImage, typename TOutputMesh >
 ImageToParametricSpaceFilter< TInputImage, TOutputMesh >
 ::~ImageToParametricSpaceFilter()
 {}
@@ -50,7 +50,7 @@ ImageToParametricSpaceFilter< TInputImage, TOutputMesh >
 /**
  *
  */
-template< class TInputImage, class TOutputMesh >
+template< typename TInputImage, typename TOutputMesh >
 void
 ImageToParametricSpaceFilter< TInputImage, TOutputMesh >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -63,7 +63,7 @@ ImageToParametricSpaceFilter< TInputImage, TOutputMesh >
 /**
  *
  */
-template< class TInputImage, class TOutputMesh >
+template< typename TInputImage, typename TOutputMesh >
 void
 ImageToParametricSpaceFilter< TInputImage, TOutputMesh >
 ::GenerateOutputInformation()
@@ -93,7 +93,7 @@ ImageToParametricSpaceFilter< TInputImage, TOutputMesh >
 /**
  *
  */
-template< class TInputImage, class TOutputMesh >
+template< typename TInputImage, typename TOutputMesh >
 void
 ImageToParametricSpaceFilter< TInputImage, TOutputMesh >
 ::GenerateData(void)

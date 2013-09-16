@@ -37,14 +37,14 @@ namespace itk
 //
 // Machine definitions
 #ifdef CMAKE_WORDS_BIGENDIAN
-template< class T >
+template< typename T >
 bool ByteSwapper< T >::SystemIsBigEndian() { return true; }
-template< class T >
+template< typename T >
 bool ByteSwapper< T >::SystemIsLittleEndian() { return false; }
 #else
-template< class T >
+template< typename T >
 bool ByteSwapper< T >::SystemIsBigEndian() { return false; }
-template< class T >
+template< typename T >
 bool ByteSwapper< T >::SystemIsLittleEndian() { return true; }
 #endif
 
@@ -52,12 +52,12 @@ bool ByteSwapper< T >::SystemIsLittleEndian() { return true; }
 
 // Use different swap methods based on type
 #ifdef CMAKE_WORDS_BIGENDIAN
-template< class T >
+template< typename T >
 void
 ByteSwapper< T >
 ::SwapFromSystemToBigEndian(T *){}
 #else
-template< class T >
+template< typename T >
 void
 ByteSwapper< T >
 ::SwapFromSystemToBigEndian(T *p)
@@ -83,7 +83,7 @@ ByteSwapper< T >
 #endif
 
 #ifdef CMAKE_WORDS_BIGENDIAN
-template< class T >
+template< typename T >
 void
 ByteSwapper< T >
 ::SwapRangeFromSystemToBigEndian(T *, BufferSizeType)
@@ -96,7 +96,7 @@ ByteSwapper< T >
 #ifdef __INTEL_COMPILER
 #pragma warning disable 280 //remark #280: selector expression is constant
 #endif
-template< class T >
+template< typename T >
 void
 ByteSwapper< T >
 ::SwapRangeFromSystemToBigEndian(T *p, BufferSizeType num)
@@ -123,7 +123,7 @@ ByteSwapper< T >
 #endif
 
 #ifdef CMAKE_WORDS_BIGENDIAN
-template< class T >
+template< typename T >
 void
 ByteSwapper< T >
 ::SwapWriteRangeFromSystemToBigEndian(T *p, int num, OStreamType *fp)
@@ -133,7 +133,7 @@ ByteSwapper< T >
 }
 
 #else
-template< class T >
+template< typename T >
 void
 ByteSwapper< T >
 ::SwapWriteRangeFromSystemToBigEndian(T *p, int num, OStreamType *fp)
@@ -161,7 +161,7 @@ ByteSwapper< T >
 //------Little Endian methods----------------------------------------------
 
 #ifdef CMAKE_WORDS_BIGENDIAN
-template< class T >
+template< typename T >
 void
 ByteSwapper< T >
 ::SwapFromSystemToLittleEndian(T *p)
@@ -185,14 +185,14 @@ ByteSwapper< T >
 }
 
 #else
-template< class T >
+template< typename T >
 void
 ByteSwapper< T >
 ::SwapFromSystemToLittleEndian(T *){}
 #endif
 
 #ifdef CMAKE_WORDS_BIGENDIAN
-template< class T >
+template< typename T >
 void
 ByteSwapper< T >
 ::SwapRangeFromSystemToLittleEndian(T *p, BufferSizeType num)
@@ -216,14 +216,14 @@ ByteSwapper< T >
 }
 
 #else
-template< class T >
+template< typename T >
 void
 ByteSwapper< T >
 ::SwapRangeFromSystemToLittleEndian(T *, BufferSizeType) {}
 #endif
 
 #ifdef CMAKE_WORDS_BIGENDIAN
-template< class T >
+template< typename T >
 void
 ByteSwapper< T >
 ::SwapWriteRangeFromSystemToLittleEndian(T *p, int num, OStreamType *fp)
@@ -247,7 +247,7 @@ ByteSwapper< T >
 }
 
 #else
-template< class T >
+template< typename T >
 void
 ByteSwapper< T >
 ::SwapWriteRangeFromSystemToLittleEndian(T *p, int num, OStreamType *fp)
@@ -264,7 +264,7 @@ ByteSwapper< T >
 //------2-byte methods----------------------------------------------
 
 // Swap 2 byte word.
-template< class T >
+template< typename T >
 void
 ByteSwapper< T >
 ::Swap2(void *pin)
@@ -276,7 +276,7 @@ ByteSwapper< T >
 }
 
 // Swap bunch of bytes. Num is the number of two byte words to swap.
-template< class T >
+template< typename T >
 void
 ByteSwapper< T >
 ::Swap2Range(void *ptr, BufferSizeType num)
@@ -292,7 +292,7 @@ ByteSwapper< T >
 }
 
 // Swap bunch of bytes. Num is the number of four byte words to swap.
-template< class T >
+template< typename T >
 void
 ByteSwapper< T >
 ::SwapWrite2Range(void *ptr, BufferSizeType num, OStreamType *fp)
@@ -329,7 +329,7 @@ ByteSwapper< T >
 //------4-byte methods----------------------------------------------
 
 // Swap four byte word.
-template< class T >
+template< typename T >
 void
 ByteSwapper< T >
 ::Swap4(void *ptr)
@@ -347,7 +347,7 @@ ByteSwapper< T >
 }
 
 // Swap bunch of bytes. Num is the number of four byte words to swap.
-template< class T >
+template< typename T >
 void
 ByteSwapper< T >
 ::Swap4Range(void *ptr, BufferSizeType num)
@@ -370,7 +370,7 @@ ByteSwapper< T >
 }
 
 // Swap bunch of bytes. Num is the number of four byte words to swap.
-template< class T >
+template< typename T >
 void
 ByteSwapper< T >
 ::SwapWrite4Range(void *ptr, BufferSizeType num, OStreamType *fp)
@@ -413,7 +413,7 @@ ByteSwapper< T >
 //------8-byte methods----------------------------------------------
 
 // Swap 8 byte double precision
-template< class T >
+template< typename T >
 void
 ByteSwapper< T >
 ::Swap8(void *ptr)
@@ -439,7 +439,7 @@ ByteSwapper< T >
 }
 
 // Swap bunch of bytes. Num is the number of eight byte words to swap.
-template< class T >
+template< typename T >
 void
 ByteSwapper< T >
 ::Swap8Range(void *ptr, BufferSizeType num)
@@ -470,7 +470,7 @@ ByteSwapper< T >
 }
 
 // Swap bunch of bytes. Num is the number of four byte words to swap.
-template< class T >
+template< typename T >
 void
 ByteSwapper< T >
 ::SwapWrite8Range(void *ptr, BufferSizeType num, OStreamType *fp)

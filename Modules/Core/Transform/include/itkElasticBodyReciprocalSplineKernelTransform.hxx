@@ -21,19 +21,19 @@
 
 namespace itk
 {
-template< class TScalar, unsigned int NDimensions >
+template< typename TScalar, unsigned int NDimensions >
 ElasticBodyReciprocalSplineKernelTransform< TScalar, NDimensions >::ElasticBodyReciprocalSplineKernelTransform()
 {
   // Alpha = 8 ( 1 - \nu ) - 1
   m_Alpha = 8.0 * ( 1.0 - .25 ) - 1;
 }
 
-template< class TScalar, unsigned int NDimensions >
+template< typename TScalar, unsigned int NDimensions >
 ElasticBodyReciprocalSplineKernelTransform< TScalar, NDimensions >::
 ~ElasticBodyReciprocalSplineKernelTransform()
 {}
 
-template< class TScalar, unsigned int NDimensions >
+template< typename TScalar, unsigned int NDimensions >
 void
 ElasticBodyReciprocalSplineKernelTransform< TScalar, NDimensions >
 ::ComputeG(const InputVectorType & x, GMatrixType & gmatrix) const
@@ -57,7 +57,7 @@ ElasticBodyReciprocalSplineKernelTransform< TScalar, NDimensions >
     }
 }
 
-template< class TScalar, unsigned int NDimensions >
+template< typename TScalar, unsigned int NDimensions >
 void
 ElasticBodyReciprocalSplineKernelTransform< TScalar, NDimensions >
 ::PrintSelf(std::ostream & os, Indent indent) const

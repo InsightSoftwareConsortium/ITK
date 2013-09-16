@@ -31,7 +31,7 @@ namespace itk
    * \wikiexample{IO/TransformFileReader,Read a transform from a file}
    * \endwiki
    */
-template<class ScalarType>
+template<typename ScalarType>
 class TransformFileReaderTemplate:public LightProcessObject
 {
 public:

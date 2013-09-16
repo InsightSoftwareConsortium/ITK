@@ -98,9 +98,9 @@ namespace itk
  *   \ingroup LevelSetSegmentation
  * \ingroup ITKLevelSets
  */
-template< class TInputImage,
-          class TFeatureImage,
-          class TOutputPixelType = float >
+template< typename TInputImage,
+          typename TFeatureImage,
+          typename TOutputPixelType = float >
 class CurvesLevelSetImageFilter:
   public SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >
 {

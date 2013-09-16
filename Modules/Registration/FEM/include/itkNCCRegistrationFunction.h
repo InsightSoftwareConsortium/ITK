@@ -49,7 +49,7 @@ namespace itk
  * \ingroup FiniteDifferenceFunctions
  * \ingroup ITKFEMRegistration
  */
-template< class TFixedImage, class TMovingImage, class TDisplacementField >
+template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 class NCCRegistrationFunction:
   public PDEDeformableRegistrationFunction< TFixedImage,
                                             TMovingImage, TDisplacementField >

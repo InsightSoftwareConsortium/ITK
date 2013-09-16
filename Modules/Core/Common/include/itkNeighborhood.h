@@ -50,8 +50,8 @@ namespace itk
  * \ingroup ITKCommon
  */
 
-template< class TPixel, unsigned int VDimension = 2,
-          class TAllocator = NeighborhoodAllocator< TPixel > >
+template< typename TPixel, unsigned int VDimension = 2,
+          typename TAllocator = NeighborhoodAllocator< TPixel > >
 class Neighborhood
 {
 public:
@@ -274,7 +274,7 @@ private:
   std::vector< OffsetType > m_OffsetTable;
 };
 
-template< class TPixel, unsigned int VDimension, class TContainer >
+template< typename TPixel, unsigned int VDimension, typename TContainer >
 std::ostream & operator<<(std::ostream & os, const Neighborhood< TPixel, VDimension, TContainer > & neighborhood)
 {
   os << "Neighborhood:" << std::endl;

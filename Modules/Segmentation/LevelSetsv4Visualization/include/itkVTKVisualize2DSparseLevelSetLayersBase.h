@@ -50,7 +50,7 @@ namespace itk
  *  \tparam TLevelSet   Level Set Type
  *  \ingroup ITKLevelSetsv4Visualization
  */
-template< class TInputImage, class TLevelSet >
+template< typename TInputImage, typename TLevelSet >
 class VTKVisualize2DSparseLevelSetLayersBase :
     public VTKVisualizeImageLevelSet< TInputImage, ImageToRGBVTKImageFilter< TInputImage > >
 {

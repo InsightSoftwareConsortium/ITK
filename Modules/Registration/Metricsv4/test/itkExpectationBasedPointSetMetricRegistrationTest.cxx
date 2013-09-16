@@ -25,7 +25,7 @@
 
 #include <fstream>
 
-template<class TFilter>
+template<typename TFilter>
 class itkExpectationBasedPointSetMetricRegistrationTestCommandIterationUpdate : public itk::Command
 {
 public:

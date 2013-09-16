@@ -22,7 +22,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TFeatureImage, class TOutputPixelType >
+template< typename TInputImage, typename TFeatureImage, typename TOutputPixelType >
 void
 ShapePriorSegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -36,7 +36,7 @@ ShapePriorSegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPi
   os << indent << "ShapePriorSegmentationFunction: " << m_ShapePriorSegmentationFunction << std::endl;
 }
 
-template< class TInputImage, class TFeatureImage, class TOutputPixelType >
+template< typename TInputImage, typename TFeatureImage, typename TOutputPixelType >
 ShapePriorSegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >
 ::ShapePriorSegmentationLevelSetImageFilter()
 {
@@ -46,7 +46,7 @@ ShapePriorSegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPi
   m_ShapePriorSegmentationFunction = NULL;
 }
 
-template< class TInputImage, class TFeatureImage, class TOutputPixelType >
+template< typename TInputImage, typename TFeatureImage, typename TOutputPixelType >
 void
 ShapePriorSegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >
 ::SetShapePriorSegmentationFunction(ShapePriorSegmentationFunctionType *s)
@@ -59,7 +59,7 @@ ShapePriorSegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPi
     }
 }
 
-template< class TInputImage, class TFeatureImage, class TOutputPixelType >
+template< typename TInputImage, typename TFeatureImage, typename TOutputPixelType >
 void
 ShapePriorSegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >
 ::SetShapeFunction(ShapeFunctionType *s)
@@ -71,7 +71,7 @@ ShapePriorSegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPi
     }
 }
 
-template< class TInputImage, class TFeatureImage, class TOutputPixelType >
+template< typename TInputImage, typename TFeatureImage, typename TOutputPixelType >
 void
 ShapePriorSegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >
 ::InitializeIteration()
@@ -104,7 +104,7 @@ ShapePriorSegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPi
   Superclass::InitializeIteration();
 }
 
-template< class TInputImage, class TFeatureImage, class TOutputPixelType >
+template< typename TInputImage, typename TFeatureImage, typename TOutputPixelType >
 void
 ShapePriorSegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >
 ::GenerateData()
@@ -146,7 +146,7 @@ ShapePriorSegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPi
 /**
  * Populate a NodeContainer with nodes at each layer of the sparse field.
  */
-template< class TInputImage, class TFeatureImage, class TOutputPixelType >
+template< typename TInputImage, typename TFeatureImage, typename TOutputPixelType >
 void
 ShapePriorSegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >
 ::ExtractActiveRegion(NodeContainerType *ptr)

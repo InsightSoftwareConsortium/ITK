@@ -25,7 +25,7 @@ namespace itk
 {
 namespace fem
 {
-template <class TBaseClass>
+template <typename TBaseClass>
 Element3DMembrane<TBaseClass>
 ::Element3DMembrane() : Superclass(), m_mat(0)
 {
@@ -36,7 +36,7 @@ Element3DMembrane<TBaseClass>
  * Methods related to the physics of the problem.
  */
 
-template <class TBaseClass>
+template <typename TBaseClass>
 void
 Element3DMembrane<TBaseClass>
 ::GetStrainDisplacementMatrix(MatrixType & B, const MatrixType & shapeDgl) const
@@ -93,7 +93,7 @@ Element3DMembrane<TBaseClass>
     }
 }
 
-template <class TBaseClass>
+template <typename TBaseClass>
 void
 Element3DMembrane<TBaseClass>
 ::GetMassMatrix(MatrixType & Me) const
@@ -106,7 +106,7 @@ Element3DMembrane<TBaseClass>
   Me = Me * m_mat->GetDensityHeatProduct();
 }
 
-template <class TBaseClass>
+template <typename TBaseClass>
 void
 Element3DMembrane<TBaseClass>
 ::GetMaterialMatrix(MatrixType & D) const
@@ -126,7 +126,7 @@ Element3DMembrane<TBaseClass>
     }
 }
 
-template <class TBaseClass>
+template <typename TBaseClass>
 void
 Element3DMembrane<TBaseClass>
 ::PrintSelf(std::ostream& os, Indent indent) const

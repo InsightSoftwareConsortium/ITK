@@ -22,7 +22,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TFeatureImage, class TOutputType >
+template< typename TInputImage, typename TFeatureImage, typename TOutputType >
 GeodesicActiveContourShapePriorLevelSetImageFilter< TInputImage, TFeatureImage, TOutputType >
 ::GeodesicActiveContourShapePriorLevelSetImageFilter()
 {
@@ -35,7 +35,7 @@ GeodesicActiveContourShapePriorLevelSetImageFilter< TInputImage, TFeatureImage, 
   this->InterpolateSurfaceLocationOff();
 }
 
-template< class TInputImage, class TFeatureImage, class TOutputType >
+template< typename TInputImage, typename TFeatureImage, typename TOutputType >
 void
 GeodesicActiveContourShapePriorLevelSetImageFilter< TInputImage, TFeatureImage, TOutputType >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -44,7 +44,7 @@ GeodesicActiveContourShapePriorLevelSetImageFilter< TInputImage, TFeatureImage, 
   os << "GeodesicActiveContourFunction: " << m_GeodesicActiveContourFunction.GetPointer();
 }
 
-template< class TInputImage, class TFeatureImage, class TOutputType >
+template< typename TInputImage, typename TFeatureImage, typename TOutputType >
 void
 GeodesicActiveContourShapePriorLevelSetImageFilter< TInputImage, TFeatureImage, TOutputType >
 ::GenerateData()

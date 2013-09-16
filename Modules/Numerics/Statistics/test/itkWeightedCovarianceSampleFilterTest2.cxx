@@ -26,7 +26,7 @@ typedef itk::Array< float >         MeasurementVectorType2;
 
 namespace itk {
 namespace Statistics {
-template < class TSample >
+template < typename TSample >
 class MyWeightedCovarianceSampleFilter : public WeightedCovarianceSampleFilter< TSample >
 {
 public:

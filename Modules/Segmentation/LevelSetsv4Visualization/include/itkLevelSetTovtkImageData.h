@@ -34,14 +34,14 @@
 
 namespace itk
 {
-template< class TLevelSet >
+template< typename TLevelSet >
 class LevelSetTovtkImageData
   {};
 
 /** \class LevelSetTovtkImageData
  *  \ingroup ITKLevelSetsv4Visualization
  */
-template< class TImage >
+template< typename TImage >
 class LevelSetTovtkImageData< LevelSetDenseImage< TImage > > :
     public LevelSetTovtkImageDataBase< LevelSetDenseImage< TImage > >
 {

@@ -30,7 +30,7 @@
 #include "itkVTKVisualize2DLevelSetAsElevationMap.h"
 #include "itkSinRegularizedHeavisideStepFunction.h"
 
-template< class TInputImage, class TLevelSetType >
+template< typename TInputImage, typename TLevelSetType >
 void
 VisualizeLevelSetSurface( TInputImage * inputImage, const int numberOfIterations, const char * )
 {

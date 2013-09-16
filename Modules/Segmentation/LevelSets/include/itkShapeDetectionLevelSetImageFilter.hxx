@@ -22,7 +22,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TFeatureImage, class TOutputType >
+template< typename TInputImage, typename TFeatureImage, typename TOutputType >
 ShapeDetectionLevelSetImageFilter< TInputImage, TFeatureImage, TOutputType >
 ::ShapeDetectionLevelSetImageFilter()
 {
@@ -36,7 +36,7 @@ ShapeDetectionLevelSetImageFilter< TInputImage, TFeatureImage, TOutputType >
   this->InterpolateSurfaceLocationOff();
 }
 
-template< class TInputImage, class TFeatureImage, class TOutputType >
+template< typename TInputImage, typename TFeatureImage, typename TOutputType >
 void
 ShapeDetectionLevelSetImageFilter< TInputImage, TFeatureImage, TOutputType >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -46,7 +46,7 @@ ShapeDetectionLevelSetImageFilter< TInputImage, TFeatureImage, TOutputType >
   m_ShapeDetectionFunction.GetPointer()->Print( os, indent.GetNextIndent() );
 }
 
-template< class TInputImage, class TFeatureImage, class TOutputType >
+template< typename TInputImage, typename TFeatureImage, typename TOutputType >
 void
 ShapeDetectionLevelSetImageFilter< TInputImage, TFeatureImage, TOutputType >
 ::GenerateData()

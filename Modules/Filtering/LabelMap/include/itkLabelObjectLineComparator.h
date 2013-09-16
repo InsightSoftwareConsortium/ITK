@@ -37,7 +37,7 @@ namespace Functor
  * \ingroup LabeledImageObject
  * \ingroup ITKLabelMap
  */
-template< class TLabelObjectLine >
+template< typename TLabelObjectLine >
 class LabelObjectLineComparator
 {
 public:

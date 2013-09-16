@@ -34,7 +34,7 @@ namespace itk
  *
  * \ingroup ITKCommon
  */
-template< class TProbe >
+template< typename TProbe >
 class ResourceProbesCollectorBase
 {
 public:

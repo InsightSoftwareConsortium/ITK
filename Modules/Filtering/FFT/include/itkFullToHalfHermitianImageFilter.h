@@ -40,7 +40,7 @@ namespace itk
  * \sa HalfHermitianToRealInverseFFTImageFilter
  * \ingroup ITKFFT
  */
-template< class TInputImage >
+template< typename TInputImage >
 class FullToHalfHermitianImageFilter :
   public ImageToImageFilter< TInputImage, TInputImage >
 {

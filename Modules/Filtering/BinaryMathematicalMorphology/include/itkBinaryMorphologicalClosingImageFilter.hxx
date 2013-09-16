@@ -38,7 +38,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 BinaryMorphologicalClosingImageFilter< TInputImage, TOutputImage, TKernel >
 ::BinaryMorphologicalClosingImageFilter()
 {
@@ -46,7 +46,7 @@ BinaryMorphologicalClosingImageFilter< TInputImage, TOutputImage, TKernel >
   m_SafeBorder = true;
 }
 
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 void
 BinaryMorphologicalClosingImageFilter< TInputImage, TOutputImage, TKernel >
 ::GenerateData()
@@ -164,7 +164,7 @@ BinaryMorphologicalClosingImageFilter< TInputImage, TOutputImage, TKernel >
   // the end !
 }
 
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 void
 BinaryMorphologicalClosingImageFilter< TInputImage, TOutputImage, TKernel >
 ::PrintSelf(std::ostream & os, Indent indent) const

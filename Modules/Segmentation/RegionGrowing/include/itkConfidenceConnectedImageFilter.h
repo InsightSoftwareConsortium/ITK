@@ -59,7 +59,7 @@ namespace itk
  * \wikiexample{ImageSegmentation/ConfidenceConnectedImageFilter,Segment pixels with similar statistics using connectivity}
  * \endwiki
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class ConfidenceConnectedImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {

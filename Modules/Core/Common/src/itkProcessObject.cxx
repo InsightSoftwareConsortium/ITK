@@ -1872,19 +1872,19 @@ ProcessObject
     }
 }
 
-template< class TDomainPartitioner, class TAssociate >
+template< typename TDomainPartitioner, typename TAssociate >
 ProcessObject::ProcessObjectDomainThreader< TDomainPartitioner, TAssociate >
 ::ProcessObjectDomainThreader()
 {
 }
 
-template< class TDomainPartitioner, class TAssociate >
+template< typename TDomainPartitioner, typename TAssociate >
 ProcessObject::ProcessObjectDomainThreader< TDomainPartitioner, TAssociate >
 ::~ProcessObjectDomainThreader()
 {
 }
 
-template< class TDomainPartitioner, class TAssociate >
+template< typename TDomainPartitioner, typename TAssociate >
 void
 ProcessObject::ProcessObjectDomainThreader< TDomainPartitioner, TAssociate >
 ::DetermineNumberOfThreadsUsed()

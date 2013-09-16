@@ -28,13 +28,13 @@ namespace itk
 /**
  * Constructor
  */
-template<class TInputImage, class TCoordRep, class TPixelCompare>
+template<typename TInputImage, typename TCoordRep, typename TPixelCompare>
 LabelImageGaussianInterpolateImageFunction<TInputImage, TCoordRep, TPixelCompare>
 ::LabelImageGaussianInterpolateImageFunction()
 {
 }
 
-template<class TInputImage, class TCoordRep, class TPixelCompare>
+template<typename TInputImage, typename TCoordRep, typename TPixelCompare>
 typename LabelImageGaussianInterpolateImageFunction<TInputImage, TCoordRep, TPixelCompare>
 ::OutputType
 LabelImageGaussianInterpolateImageFunction<TInputImage, TCoordRep, TPixelCompare>

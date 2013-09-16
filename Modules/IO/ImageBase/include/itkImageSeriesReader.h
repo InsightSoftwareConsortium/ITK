@@ -41,7 +41,7 @@ namespace itk
  *
  */
 
-template< class TOutputImage >
+template< typename TOutputImage >
 class ITKIOImageBase_HIDDEN ImageSeriesReader:public ImageSource< TOutputImage >
 {
 public:

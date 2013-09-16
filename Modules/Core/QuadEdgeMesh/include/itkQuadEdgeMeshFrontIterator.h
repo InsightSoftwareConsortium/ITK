@@ -252,7 +252,7 @@ public:
  * \brief Const quad edge mesh front iterator.
  * \ingroup ITKQuadEdgeMesh
  */
-template< class TMesh, class TQE = typename TMesh::QEType >
+template< typename TMesh, typename TQE = typename TMesh::QEType >
 class QuadEdgeMeshConstFrontIterator:
   public QuadEdgeMeshFrontBaseIterator< TMesh, TQE >
 {

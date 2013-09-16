@@ -23,7 +23,7 @@
 namespace itk
 {
 
-template< class TDomainPartitioner, class TAssociate >
+template< typename TDomainPartitioner, typename TAssociate >
 DomainThreader< TDomainPartitioner, TAssociate >
 ::DomainThreader()
 {
@@ -33,13 +33,13 @@ DomainThreader< TDomainPartitioner, TAssociate >
   this->m_Associate           = NULL;
 }
 
-template< class TDomainPartitioner, class TAssociate >
+template< typename TDomainPartitioner, typename TAssociate >
 DomainThreader< TDomainPartitioner, TAssociate >
 ::~DomainThreader()
 {
 }
 
-template< class TDomainPartitioner, class TAssociate >
+template< typename TDomainPartitioner, typename TAssociate >
 MultiThreader *
 DomainThreader< TDomainPartitioner, TAssociate >
 ::GetMultiThreader() const
@@ -47,7 +47,7 @@ DomainThreader< TDomainPartitioner, TAssociate >
   return this->m_MultiThreader;
 }
 
-template< class TDomainPartitioner, class TAssociate >
+template< typename TDomainPartitioner, typename TAssociate >
 ThreadIdType
 DomainThreader< TDomainPartitioner, TAssociate >
 ::GetMaximumNumberOfThreads() const
@@ -55,7 +55,7 @@ DomainThreader< TDomainPartitioner, TAssociate >
   return this->m_MultiThreader->GetNumberOfThreads();
 }
 
-template< class TDomainPartitioner, class TAssociate >
+template< typename TDomainPartitioner, typename TAssociate >
 void
 DomainThreader< TDomainPartitioner, TAssociate >
 ::SetMaximumNumberOfThreads( const ThreadIdType threads )
@@ -67,7 +67,7 @@ DomainThreader< TDomainPartitioner, TAssociate >
     }
 }
 
-template< class TDomainPartitioner, class TAssociate >
+template< typename TDomainPartitioner, typename TAssociate >
 void
 DomainThreader< TDomainPartitioner, TAssociate >
 ::Execute( TAssociate * enclosingClass, const DomainType & completeDomain )
@@ -85,7 +85,7 @@ DomainThreader< TDomainPartitioner, TAssociate >
   this->AfterThreadedExecution();
 }
 
-template< class TDomainPartitioner, class TAssociate >
+template< typename TDomainPartitioner, typename TAssociate >
 void
 DomainThreader< TDomainPartitioner, TAssociate >
 ::DetermineNumberOfThreadsUsed()
@@ -114,7 +114,7 @@ DomainThreader< TDomainPartitioner, TAssociate >
     }
 }
 
-template< class TDomainPartitioner, class TAssociate >
+template< typename TDomainPartitioner, typename TAssociate >
 void
 DomainThreader< TDomainPartitioner, TAssociate >
 ::StartThreadingSequence()
@@ -130,7 +130,7 @@ DomainThreader< TDomainPartitioner, TAssociate >
   multiThreader->SingleMethodExecute();
 }
 
-template< class TDomainPartitioner, class TAssociate >
+template< typename TDomainPartitioner, typename TAssociate >
 ITK_THREAD_RETURN_TYPE
 DomainThreader< TDomainPartitioner, TAssociate >
 ::ThreaderCallback( void* arg )

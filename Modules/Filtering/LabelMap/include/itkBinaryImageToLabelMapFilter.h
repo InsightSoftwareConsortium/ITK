@@ -55,8 +55,8 @@ namespace itk
  * \endwiki
  */
 
-template< class TInputImage,
-          class TOutputImage =
+template< typename TInputImage,
+          typename TOutputImage =
             LabelMap< LabelObject< SizeValueType, TInputImage::ImageDimension > > >
 class BinaryImageToLabelMapFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >

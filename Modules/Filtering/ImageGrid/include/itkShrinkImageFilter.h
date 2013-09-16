@@ -63,7 +63,7 @@ namespace itk
  * \wikiexample{Images/ShrinkImageFilter,Shrink an image}
  * \endwiki
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class ShrinkImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {

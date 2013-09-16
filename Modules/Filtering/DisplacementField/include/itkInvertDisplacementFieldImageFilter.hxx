@@ -31,7 +31,7 @@ namespace itk
 /*
  * InvertDisplacementFieldImageFilter class definitions
  */
-template<class TInputImage, class TOutputImage>
+template<typename TInputImage, typename TOutputImage>
 InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>
 ::InvertDisplacementFieldImageFilter() :
  m_MaximumNumberOfIterations( 20 ),
@@ -49,13 +49,13 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>
   this->m_EnforceBoundaryCondition = true;
 }
 
-template<class TInputImage, class TOutputImage>
+template<typename TInputImage, typename TOutputImage>
 InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>
 ::~InvertDisplacementFieldImageFilter()
 {
 }
 
-template<class TInputImage, class TOutputImage>
+template<typename TInputImage, typename TOutputImage>
 void
 InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>
 ::SetInterpolator( InterpolatorType *interpolator )
@@ -72,7 +72,7 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>
     }
 }
 
-template<class TInputImage, class TOutputImage>
+template<typename TInputImage, typename TOutputImage>
 void
 InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>
 ::GenerateData()
@@ -166,7 +166,7 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>
     }
 }
 
-template<class TInputImage, class TOutputImage>
+template<typename TInputImage, typename TOutputImage>
 void
 InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>
 ::ThreadedGenerateData( const RegionType & region, ThreadIdType itkNotUsed( threadId ) )
@@ -232,7 +232,7 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>
     }
 }
 
-template<class TInputImage, class TOutputImage>
+template<typename TInputImage, typename TOutputImage>
 void
 InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>
 ::PrintSelf( std::ostream& os, Indent indent ) const

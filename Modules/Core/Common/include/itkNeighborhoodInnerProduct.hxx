@@ -23,7 +23,7 @@
 
 namespace itk
 {
-template< class TImage, class TOperator, class TComputation >
+template< typename TImage, typename TOperator, typename TComputation >
 typename NeighborhoodInnerProduct< TImage, TOperator, TComputation >::OutputPixelType
 NeighborhoodInnerProduct< TImage, TOperator, TComputation >
 ::operator()(const std::slice & s,
@@ -56,7 +56,7 @@ NeighborhoodInnerProduct< TImage, TOperator, TComputation >
   return static_cast< OutputPixelType >( sum );
 }
 
-template< class TImage, class TOperator, class TComputation >
+template< typename TImage, typename TOperator, typename TComputation >
 typename NeighborhoodInnerProduct< TImage, TOperator, TComputation >::OutputPixelType
 NeighborhoodInnerProduct< TImage, TOperator, TComputation >
 ::operator()(const std::slice & s,

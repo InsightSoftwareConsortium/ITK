@@ -32,7 +32,7 @@ namespace itk
  *
  * \ingroup ITKMetricsv4
  */
-template < class TDomainPartitioner, class TJointHistogramMetric >
+template < typename TDomainPartitioner, typename TJointHistogramMetric >
 class JointHistogramMutualInformationComputeJointPDFThreaderBase
   : public DomainThreader< TDomainPartitioner, TJointHistogramMetric >
 {

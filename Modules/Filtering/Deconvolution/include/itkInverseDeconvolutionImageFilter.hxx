@@ -25,14 +25,14 @@
 namespace itk
 {
 
-template< class TInputImage, class TKernelImage, class TOutputImage, class TInternalPrecision >
+template< typename TInputImage, typename TKernelImage, typename TOutputImage, typename TInternalPrecision >
 InverseDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
 ::InverseDeconvolutionImageFilter()
 {
   m_KernelZeroMagnitudeThreshold = 1.0e-4;
 }
 
-template< class TInputImage, class TKernelImage, class TOutputImage, class TInternalPrecision >
+template< typename TInputImage, typename TKernelImage, typename TOutputImage, typename TInternalPrecision >
 void
 InverseDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
 ::GenerateData()
@@ -74,7 +74,7 @@ InverseDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInter
   this->ProduceOutput( inverseFilter->GetOutput(), progress, 0.2 );
 }
 
-template< class TInputImage, class TKernelImage, class TOutputImage, class TInternalPrecision >
+template< typename TInputImage, typename TKernelImage, typename TOutputImage, typename TInternalPrecision >
 void
 InverseDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
 ::PrintSelf(std::ostream &os, Indent indent) const

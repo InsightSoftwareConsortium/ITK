@@ -47,8 +47,8 @@ namespace itk
  * \ingroup ITKLevelSets
  */
 template<
-  class TLevelSet,
-  class TAuxValue = float,
+  typename TLevelSet,
+  typename TAuxValue = float,
   unsigned int VAuxDimension = 1
   >
 class ExtensionVelocitiesImageFilter:

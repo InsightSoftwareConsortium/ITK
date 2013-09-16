@@ -120,7 +120,7 @@ public:
    * or for instance vF = static_cast< VariableLengthVector< float > >( vI );
    * \endcode
    */
-  template< class T >
+  template< typename T >
   VariableLengthVector(const VariableLengthVector< T > & v)
   {
     m_NumElements = v.Size();
@@ -140,7 +140,7 @@ public:
   void Fill(TValueType const & v);
 
   /** Assignment operator  */
-  template< class T >
+  template< typename T >
   const VariableLengthVector< TValueType > & operator=
     (const VariableLengthVector< T > & v)
   {
@@ -236,7 +236,7 @@ public:
    *
    * \note For efficiency, the length of the vectors is not checked;
    * they are assumed to have the same length. */
-  template< class T >
+  template< typename T >
   inline Self operator+(const VariableLengthVector< T > & v) const
   {
     // if( m_NumElements != v.GetSize() )
@@ -262,7 +262,7 @@ public:
    *
    * \note For efficiency, the length of the vectors is not checked;
    * they are assumed to have the same length. */
-  template< class T >
+  template< typename T >
   inline Self operator-(const VariableLengthVector< T > & v) const
   {
     // if( m_NumElements != v.GetSize() )
@@ -285,7 +285,7 @@ public:
    * have to have the same element type as the scalar type. The scalar
    * is cast to the output vector element type before the
    * multiplication is performed. */
-  template< class T >
+  template< typename T >
   inline Self operator*(T s) const
   {
     Self result(m_NumElements);
@@ -301,7 +301,7 @@ public:
    * have to have the same element type as the scalar type. Both the
    * scalar and vector elements are cast to the RealValueType prior to
    * division, and the result is cast to the ValueType. */
-  template< class T >
+  template< typename T >
   inline Self operator/(T s) const
   {
     Self result(m_NumElements);
@@ -386,7 +386,7 @@ public:
    *
    * \note For efficiency, the length of the vectors is not checked;
    * they are assumed to have the same length. */
-  template< class T >
+  template< typename T >
   inline Self & operator-=
     (const VariableLengthVector< T > & v)
   {
@@ -414,7 +414,7 @@ public:
    *
    * \note For efficiency, the length of the vectors is not checked;
    * they are assumed to have the same length. */
-  template< class T >
+  template< typename T >
   inline Self & operator+=
     (const VariableLengthVector< T > & v)
   {
@@ -438,7 +438,7 @@ public:
   /** Multiply each element of the vector by a scalar 's'. The scalar
    * value is cast to the current vector element type prior to
    * multiplication. */
-  template< class T >
+  template< typename T >
   inline Self & operator*=(T s)
   {
     for ( ElementIdentifier i = 0; i < m_NumElements; i++ )
@@ -452,7 +452,7 @@ public:
    * have to have the same element type as the scalar type. Both the
    * scalar and vector elements are cast to the RealValueType prior to
    * division, and the result is cast to the ValueType. */
-  template< class T >
+  template< typename T >
   inline Self & operator/=(T s)
   {
     for ( ElementIdentifier i = 0; i < m_NumElements; i++ )
@@ -488,7 +488,7 @@ private:
 /** Premultiply Operator for product of a VariableLengthVector and a scalar.
  *  VariableLengthVector< TValueType >  =  T * VariableLengthVector< TValueType >
  */
-template< class TValueType, class T >
+template< typename TValueType, typename T >
 inline
 VariableLengthVector< TValueType >
 operator*(const T & scalar, const VariableLengthVector< TValueType > & v)

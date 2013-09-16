@@ -26,20 +26,20 @@ namespace Statistics
 {
 
 /** Constructor */
-template<class ScalarType>
+template<typename ScalarType>
 IdentityTransferFunction<ScalarType>
 ::IdentityTransferFunction()
 {
 }
 
 /** Destructor */
-template<class ScalarType>
+template<typename ScalarType>
 IdentityTransferFunction<ScalarType>
 ::~IdentityTransferFunction()
 {
 }
 
-template<class ScalarType>
+template<typename ScalarType>
 ScalarType
 IdentityTransferFunction<ScalarType>
 ::Evaluate(const ScalarType& input)  const
@@ -47,7 +47,7 @@ IdentityTransferFunction<ScalarType>
   return input;
 }
 
-template<class ScalarType>
+template<typename ScalarType>
 ScalarType
 IdentityTransferFunction<ScalarType>
 ::EvaluateDerivative(const ScalarType & itkNotUsed(input))  const
@@ -56,7 +56,7 @@ IdentityTransferFunction<ScalarType>
 }
 
 /** Print the object */
-template<class ScalarType>
+template<typename ScalarType>
 void
 IdentityTransferFunction<ScalarType>
 ::PrintSelf( std::ostream& os, Indent indent ) const

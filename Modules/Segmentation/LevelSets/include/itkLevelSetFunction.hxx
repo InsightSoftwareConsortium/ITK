@@ -23,7 +23,7 @@
 
 namespace itk
 {
-template< class TImageType >
+template< typename TImageType >
 typename LevelSetFunction< TImageType >::ScalarValueType
 LevelSetFunction< TImageType >::ComputeCurvatureTerm(const NeighborhoodType & neighborhood,
                                                      const FloatOffsetType & offset, GlobalDataStruct *gd)
@@ -49,7 +49,7 @@ LevelSetFunction< TImageType >::ComputeCurvatureTerm(const NeighborhoodType & ne
     }
 }
 
-template< class TImageType >
+template< typename TImageType >
 typename LevelSetFunction< TImageType >::ScalarValueType
 LevelSetFunction< TImageType >
 ::ComputeMinimalCurvature(
@@ -120,7 +120,7 @@ LevelSetFunction< TImageType >
   return ( mincurve / gradMag );
 }
 
-template< class TImageType >
+template< typename TImageType >
 typename LevelSetFunction< TImageType >::ScalarValueType
 LevelSetFunction< TImageType >
 ::Compute3DMinimalCurvature(const NeighborhoodType & neighborhood,
@@ -154,7 +154,7 @@ LevelSetFunction< TImageType >
   return  ( mean_curve - discriminant );
 }
 
-template< class TImageType >
+template< typename TImageType >
 typename LevelSetFunction< TImageType >::ScalarValueType
 LevelSetFunction< TImageType >::ComputeMeanCurvature(
   const NeighborhoodType & itkNotUsed(neighborhood),
@@ -179,7 +179,7 @@ LevelSetFunction< TImageType >::ComputeMeanCurvature(
   return ( curvature_term / gd->m_GradMagSqr );
 }
 
-template< class TImageType >
+template< typename TImageType >
 typename LevelSetFunction< TImageType >::VectorType
 LevelSetFunction< TImageType >::InitializeZeroVectorConstant()
 {
@@ -193,12 +193,12 @@ LevelSetFunction< TImageType >::InitializeZeroVectorConstant()
   return ans;
 }
 
-template< class TImageType >
+template< typename TImageType >
 typename LevelSetFunction< TImageType >::VectorType
 LevelSetFunction< TImageType >::m_ZeroVectorConstant =
   LevelSetFunction< TImageType >::InitializeZeroVectorConstant();
 
-template< class TImageType >
+template< typename TImageType >
 void
 LevelSetFunction< TImageType >::PrintSelf(std::ostream & os, Indent indent) const
 {
@@ -213,13 +213,13 @@ LevelSetFunction< TImageType >::PrintSelf(std::ostream & os, Indent indent) cons
   os << indent << "LaplacianSmoothingWeight: " << m_LaplacianSmoothingWeight << std::endl;
 }
 
-template< class TImageType >
+template< typename TImageType >
 double LevelSetFunction< TImageType >::m_WaveDT = 1.0 / ( 2.0 * ImageDimension );
 
-template< class TImageType >
+template< typename TImageType >
 double LevelSetFunction< TImageType >::m_DT     = 1.0 / ( 2.0 * ImageDimension );
 
-template< class TImageType >
+template< typename TImageType >
 typename LevelSetFunction< TImageType >::TimeStepType
 LevelSetFunction< TImageType >
 ::ComputeGlobalTimeStep(void *GlobalData) const
@@ -269,7 +269,7 @@ LevelSetFunction< TImageType >
   return dt;
 }
 
-template< class TImageType >
+template< typename TImageType >
 void
 LevelSetFunction< TImageType >
 ::Initialize(const RadiusType & r)
@@ -290,7 +290,7 @@ LevelSetFunction< TImageType >
     }
 }
 
-template< class TImageType >
+template< typename TImageType >
 typename LevelSetFunction< TImageType >::PixelType
 LevelSetFunction< TImageType >
 ::ComputeUpdate(const NeighborhoodType & it, void *globalData,

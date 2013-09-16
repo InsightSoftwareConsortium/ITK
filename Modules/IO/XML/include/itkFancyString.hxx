@@ -61,7 +61,7 @@ ClearContent( FancyString& input )
  *
  * An exception will be thrown if errors were encountered during the conversion.
  */
-template < class T >
+template < typename T >
 FancyString&
 FancyString::ToData( std::vector<T>& outputData, int count )
 {
@@ -73,7 +73,7 @@ FancyString::ToData( std::vector<T>& outputData, int count )
  * Functions to convert a vector of type std::vector<T> to a string.
  * An exception will be thrown if errors were encountered during the conversion.
  */
-template < class T >
+template < typename T >
 FancyString&
 FancyString::FromData( const std::vector<T>& inputData )
 {
@@ -94,7 +94,7 @@ FancyString::FromData( const std::vector<T>& inputData )
  *
  * An exception will be thrown if errors were encountered during the conversion.
  */
-template < class T >
+template < typename T >
 FancyString&
 FancyString::ToData( Array<T>& outputData, int count )
 {
@@ -106,7 +106,7 @@ FancyString::ToData( Array<T>& outputData, int count )
  * Functions to convert an array of type itk::Array<T> to a string.
  * An exception will be thrown if errors were encountered during the conversion.
  */
-template < class T >
+template < typename T >
 FancyString&
 FancyString::FromData( const Array<T>& inputData )
 {
@@ -122,7 +122,7 @@ FancyString::FromData( const Array<T>& inputData )
  * Functions to convert a string to a value of basic data type.
  * An exception will be thrown if errors were encountered during the conversion.
  */
-template < class T >
+template < typename T >
 FancyString&
 FancyString::ToData( T& outputData )
 {
@@ -134,7 +134,7 @@ FancyString::ToData( T& outputData )
  * Functions to convert a value of basic data type to a string.
  * An exception will be thrown if errors were encountered during the conversion.
  */
-template < class T >
+template < typename T >
 FancyString&
 FancyString::FromData( const T& inputData )
 {
@@ -156,7 +156,7 @@ namespace itk
  * Number of elements to read is given by data.size().
  * An exception will be thrown if errors were encountered during the conversion.
  */
-template < class T >
+template < typename T >
 FancyString& operator>>( FancyString& s, std::vector<T>& data )
 {
   return s.ToData( data, 0 );
@@ -166,7 +166,7 @@ FancyString& operator>>( FancyString& s, std::vector<T>& data )
  * Functions to convert a vector of type std::vector<T> to a string.
  * An exception will be thrown if errors were encountered during the conversion.
  */
-template < class T >
+template < typename T >
 FancyString& operator<<( FancyString& s, const std::vector<T>& data )
 {
   return s.FromData( data );
@@ -181,7 +181,7 @@ FancyString& operator<<( FancyString& s, const std::vector<T>& data )
  * Number of elements to read is given by data.GetSize().
  * An exception will be thrown if errors were encountered during the conversion.
  */
-template < class T >
+template < typename T >
 FancyString& operator>>( FancyString& s, Array<T>& data )
 {
   return s.ToData( data, 0 );
@@ -191,7 +191,7 @@ FancyString& operator>>( FancyString& s, Array<T>& data )
  * Functions to convert an array of type itk::Array<T> to a string.
  * An exception will be thrown if errors were encountered during the conversion.
  */
-template < class T >
+template < typename T >
 FancyString& operator<<( FancyString& s, const Array<T>& data )
 {
   return s.FromData( data );
@@ -205,7 +205,7 @@ FancyString& operator<<( FancyString& s, const Array<T>& data )
  * Functions to convert a string to a value of basic data type.
  * An exception will be thrown if errors were encountered during the conversion.
  */
-template < class T >
+template < typename T >
 FancyString& operator>>( FancyString& s, T& data )
 {
   return s.ToData( data );
@@ -215,7 +215,7 @@ FancyString& operator>>( FancyString& s, T& data )
  * Functions to convert a value of basic data type to a string.
  * An exception will be thrown if errors were encountered during the conversion.
  */
-template < class T >
+template < typename T >
 FancyString& operator<<( FancyString& s, const T& data )
 {
   return s.FromData( data );

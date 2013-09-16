@@ -50,7 +50,7 @@ namespace itk
  * \ingroup   IntensityImageFilters     SingleThreaded
  * \ingroup ITKImageStatistics
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class AccumulateImageFilter:public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

@@ -33,7 +33,7 @@
 
 namespace itk
 {
-template< class TImage, class TKernel >
+template< typename TImage, typename TKernel >
 class VanHerkGilWermanDilateImageFilter;
 }
 
@@ -53,7 +53,7 @@ FlatStructuringElement< NDimension >
 }
 
 template< unsigned int VDimension >
-template< class TStructuringElement, class TRadius >
+template< typename TStructuringElement, typename TRadius >
 void
 FlatStructuringElement< VDimension >
 ::GeneratePolygon(TStructuringElement & , TRadius , unsigned )

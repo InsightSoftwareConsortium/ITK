@@ -46,8 +46,8 @@ namespace itk
  * \wikiexample{ImageProcessing/BinaryFunctorImageFilterCustom,Apply a custom operation to corresponding pixels in two images}
  * \endwiki
  */
-template< class TInputImage1, class TInputImage2,
-          class TOutputImage, class TFunction    >
+template< typename TInputImage1, typename TInputImage2,
+          typename TOutputImage, typename TFunction    >
 class BinaryFunctorImageFilter:
   public InPlaceImageFilter< TInputImage1, TOutputImage >
 {

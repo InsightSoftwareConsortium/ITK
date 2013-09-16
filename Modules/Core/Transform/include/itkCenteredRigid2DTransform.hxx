@@ -23,7 +23,7 @@
 namespace itk
 {
 // Constructor with default arguments
-template <class TScalar>
+template <typename TScalar>
 CenteredRigid2DTransform<TScalar>
 ::CenteredRigid2DTransform() :
   Superclass(ParametersDimension)
@@ -31,7 +31,7 @@ CenteredRigid2DTransform<TScalar>
 }
 
 // Constructor with arguments
-template <class TScalar>
+template <typename TScalar>
 CenteredRigid2DTransform<TScalar>::CenteredRigid2DTransform(unsigned int spaceDimension,
                                                                 unsigned int parametersDimension) :
   Superclass(spaceDimension, parametersDimension)
@@ -48,7 +48,7 @@ CenteredRigid2DTransform<TScalar>::CenteredRigid2DTransform(unsigned int spaceDi
 // p[3:4} = translation components
 //
 //
-template <class TScalar>
+template <typename TScalar>
 void
 CenteredRigid2DTransform<TScalar>
 ::SetParameters(const ParametersType & parameters)
@@ -100,7 +100,7 @@ CenteredRigid2DTransform<TScalar>
 // p[1:2} = center of rotation coordinates
 // p[3:4} = translation components
 //
-template <class TScalar>
+template <typename TScalar>
 const typename CenteredRigid2DTransform<TScalar>::ParametersType
 & CenteredRigid2DTransform<TScalar>
 ::GetParameters(void) const
@@ -125,7 +125,7 @@ const typename CenteredRigid2DTransform<TScalar>::ParametersType
   return this->m_Parameters;
   }
 
-template <class TScalar>
+template <typename TScalar>
 void
 CenteredRigid2DTransform<TScalar>
 ::ComputeJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const
@@ -160,7 +160,7 @@ CenteredRigid2DTransform<TScalar>
   jacobian[1][4] = 1.0;
 }
 
-template <class TScalar>
+template <typename TScalar>
 void
 CenteredRigid2DTransform<TScalar>
 ::SetFixedParameters( const ParametersType & itkNotUsed(parameters) )
@@ -168,7 +168,7 @@ CenteredRigid2DTransform<TScalar>
   // no fixed parameters
 }
 
-template <class TScalar>
+template <typename TScalar>
 const typename CenteredRigid2DTransform<TScalar>::ParametersType
 & CenteredRigid2DTransform<TScalar>
 ::GetFixedParameters(void) const
@@ -179,7 +179,7 @@ const typename CenteredRigid2DTransform<TScalar>::ParametersType
   }
 
 // Create and return an inverse transformation
-template <class TScalar>
+template <typename TScalar>
 void
 CenteredRigid2DTransform<TScalar>::CloneInverseTo(Pointer & result) const
 {
@@ -188,7 +188,7 @@ CenteredRigid2DTransform<TScalar>::CloneInverseTo(Pointer & result) const
 }
 
 // return an inverse transformation
-template <class TScalar>
+template <typename TScalar>
 bool
 CenteredRigid2DTransform<TScalar>::GetInverse(Self *inverse) const
 {
@@ -205,7 +205,7 @@ CenteredRigid2DTransform<TScalar>::GetInverse(Self *inverse) const
 }
 
 // Return an inverse of this transform
-template <class TScalar>
+template <typename TScalar>
 typename CenteredRigid2DTransform<TScalar>::InverseTransformBasePointer
 CenteredRigid2DTransform<TScalar>
 ::GetInverseTransform() const
@@ -216,7 +216,7 @@ CenteredRigid2DTransform<TScalar>
 }
 
 // Create and return an clone transformation
-template <class TScalar>
+template <typename TScalar>
 void
 CenteredRigid2DTransform<TScalar>::CloneTo(Pointer & result) const
 {
@@ -227,7 +227,7 @@ CenteredRigid2DTransform<TScalar>::CloneTo(Pointer & result) const
 }
 
 // Print self
-template <class TScalar>
+template <typename TScalar>
 void
 CenteredRigid2DTransform<TScalar>::PrintSelf(std::ostream & os, Indent indent) const
 {

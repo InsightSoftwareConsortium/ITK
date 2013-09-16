@@ -37,7 +37,7 @@ namespace itk
  *
  * \ingroup ITKCommon
  */
-template< class TMutex >
+template< typename TMutex >
 class MutexLockHolder
 {
 public:

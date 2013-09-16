@@ -36,7 +36,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 
-template< class SimpleLoggerType >
+template< typename SimpleLoggerType >
 class LoggerThreadWrapper:public SimpleLoggerType
 {
 public:

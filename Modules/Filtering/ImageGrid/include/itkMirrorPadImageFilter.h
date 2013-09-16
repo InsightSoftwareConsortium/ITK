@@ -48,7 +48,7 @@ namespace itk
  * \wikiexample{Images/MirrorPadImageFilter,Pad an image using mirroring over the boundaries}
  * \endwiki
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class MirrorPadImageFilter:
   public PadImageFilter< TInputImage, TOutputImage >
 {

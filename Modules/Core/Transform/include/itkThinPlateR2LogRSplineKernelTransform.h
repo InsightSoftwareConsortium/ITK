@@ -32,7 +32,7 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template< class TScalar,         // Data type for scalars (float or double)
+template< typename TScalar,         // Data type for scalars (float or double)
           unsigned int NDimensions = 3 >
 // Number of dimensions
 class ThinPlateR2LogRSplineKernelTransform:

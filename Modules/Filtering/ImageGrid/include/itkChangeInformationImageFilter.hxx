@@ -28,7 +28,7 @@ namespace itk
 /**
  *
  */
-template< class TInputImage >
+template< typename TInputImage >
 ChangeInformationImageFilter< TInputImage >
 ::ChangeInformationImageFilter()
 {
@@ -48,7 +48,7 @@ ChangeInformationImageFilter< TInputImage >
   m_OutputOffset.Fill(0);
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void
 ChangeInformationImageFilter< TInputImage >
 ::GenerateOutputInformation()
@@ -162,7 +162,7 @@ ChangeInformationImageFilter< TInputImage >
   itkDebugMacro("GenerateOutputInformation End");
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void
 ChangeInformationImageFilter< TInputImage >
 ::GenerateInputRequestedRegion()
@@ -179,7 +179,7 @@ ChangeInformationImageFilter< TInputImage >
     }
 }
 
-template< class TInputImage >
+template< typename TInputImage >
 void
 ChangeInformationImageFilter< TInputImage >
 ::GenerateData()
@@ -204,7 +204,7 @@ ChangeInformationImageFilter< TInputImage >
 /**
  *
  */
-template< class TInputImage >
+template< typename TInputImage >
 void
 ChangeInformationImageFilter< TInputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

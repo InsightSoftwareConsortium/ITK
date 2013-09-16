@@ -71,7 +71,7 @@ namespace itk
  * \wikiexample{SimpleOperations/SetPixels,Set specified pixels to specified values}
  * \endwiki
  */
-template< class TPixel, unsigned int VImageDimension = 2 >
+template< typename TPixel, unsigned int VImageDimension = 2 >
 class Image:public ImageBase< VImageDimension >
 {
 public:
@@ -160,7 +160,7 @@ public:
    * typedef typename ImageType::template Rebind< float >::Type OutputImageType;
    *
    */
-  template <class UPixelType, unsigned int UImageDimension = VImageDimension>
+  template <typename UPixelType, unsigned int UImageDimension = VImageDimension>
   struct Rebind
     {
       typedef itk::Image<UPixelType, UImageDimension>  Type;

@@ -24,7 +24,7 @@ namespace itk
 {
 namespace Statistics
 {
-template< class TMeasurementVector >
+template< typename TMeasurementVector >
 GaussianMembershipFunction< TMeasurementVector >
 ::GaussianMembershipFunction()
 {
@@ -41,7 +41,7 @@ GaussianMembershipFunction< TMeasurementVector >
   m_CovarianceNonsingular = true;
 }
 
-template< class TMeasurementVector >
+template< typename TMeasurementVector >
 void
 GaussianMembershipFunction< TMeasurementVector >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -58,7 +58,7 @@ GaussianMembershipFunction< TMeasurementVector >
     (m_CovarianceNonsingular ? "true" : "false") << std::endl;
 }
 
-template< class TMeasurementVector >
+template< typename TMeasurementVector >
 void
 GaussianMembershipFunction< TMeasurementVector >
 ::SetMean(const MeanVectorType & mean)
@@ -82,7 +82,7 @@ GaussianMembershipFunction< TMeasurementVector >
     }
 }
 
-template< class TMeasurementVector >
+template< typename TMeasurementVector >
 void
 GaussianMembershipFunction< TMeasurementVector >
 ::SetCovariance(const CovarianceMatrixType & cov)
@@ -153,7 +153,7 @@ GaussianMembershipFunction< TMeasurementVector >
   this->Modified();
 }
 
-template< class TMeasurementVector >
+template< typename TMeasurementVector >
 inline double
 GaussianMembershipFunction< TMeasurementVector >
 ::Evaluate(const MeasurementVectorType & measurement) const
@@ -178,7 +178,7 @@ GaussianMembershipFunction< TMeasurementVector >
   return m_PreFactor * temp;
 }
 
-template< class TVector >
+template< typename TVector >
 typename LightObject::Pointer
 GaussianMembershipFunction< TVector >
 ::InternalClone() const

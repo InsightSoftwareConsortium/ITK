@@ -26,7 +26,7 @@ namespace itk
 {
 namespace Statistics
 {
-template< class TImage, class TMaskImage >
+template< typename TImage, typename TMaskImage >
 MaskedImageToHistogramFilter< TImage, TMaskImage >
 ::MaskedImageToHistogramFilter()
 {
@@ -34,7 +34,7 @@ MaskedImageToHistogramFilter< TImage, TMaskImage >
   this->SetMaskValue( NumericTraits<MaskPixelType>::max() );
 }
 
-template< class TImage, class TMaskImage >
+template< typename TImage, typename TMaskImage >
 void
 MaskedImageToHistogramFilter< TImage, TMaskImage >
 ::ThreadedComputeMinimumAndMaximum( const RegionType & inputRegionForThread, ThreadIdType threadId, ProgressReporter & progress )
@@ -73,7 +73,7 @@ MaskedImageToHistogramFilter< TImage, TMaskImage >
   this->m_Maximums[threadId] = max;
 }
 
-template< class TImage, class TMaskImage >
+template< typename TImage, typename TMaskImage >
 void
 MaskedImageToHistogramFilter< TImage, TMaskImage >
 ::ThreadedComputeHistogram(const RegionType & inputRegionForThread, ThreadIdType threadId, ProgressReporter & progress )

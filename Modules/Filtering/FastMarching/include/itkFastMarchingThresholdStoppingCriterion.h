@@ -31,7 +31,7 @@ namespace itk
 
     \ingroup ITKFastMarching
     */
-  template< class TInput, class TOutput >
+  template< typename TInput, typename TOutput >
   class FastMarchingThresholdStoppingCriterion :
       public FastMarchingStoppingCriterionBase< TInput, TOutput >
     {

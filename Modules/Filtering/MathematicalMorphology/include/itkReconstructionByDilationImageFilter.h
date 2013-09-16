@@ -59,7 +59,7 @@ OpeningByReconstructionImageFilter, ClosingByReconstructionImageFilter, Reconstr
  * \ingroup ITKMathematicalMorphology
  */
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class ReconstructionByDilationImageFilter:
   public ReconstructionImageFilter< TInputImage, TOutputImage, std::greater< typename TOutputImage::PixelType > >
 {

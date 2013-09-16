@@ -24,7 +24,7 @@
 namespace itk
 {
 /** Constructor with default arguments */
-template <class TScalar>
+template <typename TScalar>
 VersorTransform<TScalar>
 ::VersorTransform() : Superclass(ParametersDimension)
 {
@@ -32,7 +32,7 @@ VersorTransform<TScalar>
 }
 
 /** Constructor with default arguments */
-template <class TScalar>
+template <typename TScalar>
 VersorTransform<TScalar>::VersorTransform(unsigned int parametersDimension) :
   Superclass(parametersDimension)
 {
@@ -40,7 +40,7 @@ VersorTransform<TScalar>::VersorTransform(unsigned int parametersDimension) :
 }
 
 /** Constructor with default arguments */
-template <class TScalar>
+template <typename TScalar>
 VersorTransform<TScalar>::VersorTransform(const MatrixType & matrix,
                                               const OutputVectorType & offset) : Superclass(matrix, offset)
 {
@@ -48,7 +48,7 @@ VersorTransform<TScalar>::VersorTransform(const MatrixType & matrix,
 }
 
 /** Set Parameters */
-template <class TScalar>
+template <typename TScalar>
 void
 VersorTransform<TScalar>
 ::SetParameters(const ParametersType & parameters)
@@ -83,7 +83,7 @@ VersorTransform<TScalar>
 }
 
 /** Set Parameters */
-template <class TScalar>
+template <typename TScalar>
 const typename VersorTransform<TScalar>::ParametersType
 & VersorTransform<TScalar>
 ::GetParameters(void) const
@@ -96,7 +96,7 @@ const typename VersorTransform<TScalar>::ParametersType
   }
 
 /** Set Rotational Part */
-template <class TScalar>
+template <typename TScalar>
 void
 VersorTransform<TScalar>
 ::SetRotation(const VersorType & versor)
@@ -107,7 +107,7 @@ VersorTransform<TScalar>
 }
 
 /** Set Rotational Part */
-template <class TScalar>
+template <typename TScalar>
 void
 VersorTransform<TScalar>
 ::SetRotation(const AxisType & axis, AngleType angle)
@@ -118,7 +118,7 @@ VersorTransform<TScalar>
 }
 
 /** Set Identity */
-template <class TScalar>
+template <typename TScalar>
 void
 VersorTransform<TScalar>
 ::SetIdentity()
@@ -131,7 +131,7 @@ VersorTransform<TScalar>
 }
 
 /** Compute the matrix */
-template <class TScalar>
+template <typename TScalar>
 void
 VersorTransform<TScalar>
 ::ComputeMatrix(void)
@@ -166,7 +166,7 @@ VersorTransform<TScalar>
 }
 
 /** Compute the matrix */
-template <class TScalar>
+template <typename TScalar>
 void
 VersorTransform<TScalar>
 ::ComputeMatrixParameters(void)
@@ -174,7 +174,7 @@ VersorTransform<TScalar>
   m_Versor.Set( this->GetMatrix() );
 }
 
-template <class TScalar>
+template <typename TScalar>
 void
 VersorTransform<TScalar>
 ::ComputeJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const
@@ -232,7 +232,7 @@ VersorTransform<TScalar>
 }
 
 /** Print self */
-template <class TScalar>
+template <typename TScalar>
 void
 VersorTransform<TScalar>::PrintSelf(std::ostream & os, Indent indent) const
 {
@@ -243,7 +243,7 @@ VersorTransform<TScalar>::PrintSelf(std::ostream & os, Indent indent) const
 
 #ifdef ITKV3_COMPATIBILITY
 #if !defined(ITK_LEGACY_REMOVE)
-template <class TScalar>
+template <typename TScalar>
 void
 VersorTransform<TScalar>::SetRotationMatrix(const MatrixType & matrix)
 {

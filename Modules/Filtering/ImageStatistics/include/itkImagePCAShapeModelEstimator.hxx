@@ -22,7 +22,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 ImagePCAShapeModelEstimator< TInputImage, TOutputImage >
 ::ImagePCAShapeModelEstimator(void):m_NumberOfPixels(0), m_NumberOfTrainingImages(0)
 {
@@ -33,7 +33,7 @@ ImagePCAShapeModelEstimator< TInputImage, TOutputImage >
   this->SetNumberOfPrincipalComponentsRequired(1);
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 ImagePCAShapeModelEstimator< TInputImage, TOutputImage >
 ::~ImagePCAShapeModelEstimator(void)
 {}
@@ -41,7 +41,7 @@ ImagePCAShapeModelEstimator< TInputImage, TOutputImage >
 /**
  * PrintSelf
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ImagePCAShapeModelEstimator< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -85,7 +85,7 @@ ImagePCAShapeModelEstimator< TInputImage, TOutputImage >
 /**
  * Enlarge the output requested region to the largest possible region.
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ImagePCAShapeModelEstimator< TInputImage, TOutputImage >
 ::EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) )
@@ -105,7 +105,7 @@ ImagePCAShapeModelEstimator< TInputImage, TOutputImage >
  * Requires all of the inputs to be in the buffer up to the
  * LargestPossibleRegion of the first input.
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ImagePCAShapeModelEstimator< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
@@ -149,7 +149,7 @@ ImagePCAShapeModelEstimator< TInputImage, TOutputImage >
 /**
  * Generate data (start the model building process)
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ImagePCAShapeModelEstimator< TInputImage, TOutputImage >
 ::GenerateData()
@@ -232,7 +232,7 @@ ImagePCAShapeModelEstimator< TInputImage, TOutputImage >
 /**
  * Set the number of required principal components
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ImagePCAShapeModelEstimator< TInputImage, TOutputImage >
 ::SetNumberOfPrincipalComponentsRequired(unsigned int n)
@@ -272,7 +272,7 @@ ImagePCAShapeModelEstimator< TInputImage, TOutputImage >
 /**
  * Set the number of training images.
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ImagePCAShapeModelEstimator< TInputImage, TOutputImage >
 ::SetNumberOfTrainingImages(unsigned int n)
@@ -293,7 +293,7 @@ ImagePCAShapeModelEstimator< TInputImage, TOutputImage >
  * and variance of the various classes defined in the
  * training set.
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ImagePCAShapeModelEstimator< TInputImage, TOutputImage >
 ::EstimateShapeModels()
@@ -307,7 +307,7 @@ ImagePCAShapeModelEstimator< TInputImage, TOutputImage >
  * Calculate the inner product between the input training vector
  * where each image is treated as a vector of n-elements
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ImagePCAShapeModelEstimator< TInputImage, TOutputImage >
 ::CalculateInnerProduct()
@@ -426,7 +426,7 @@ ImagePCAShapeModelEstimator< TInputImage, TOutputImage >
  *Estimage shape models using PCA.
  *-----------------------------------------------------------------
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 ImagePCAShapeModelEstimator< TInputImage, TOutputImage >
 ::EstimatePCAShapeModelParameters()

@@ -44,7 +44,7 @@ namespace itk
  * \wikiexample{ImageProcessing/UnaryFunctorImageFilter,Apply a custom operation to each pixel in an image}
  * \endwiki
  */
-template< class TInputImage, class TOutputImage, class TFunction >
+template< typename TInputImage, typename TOutputImage, typename TFunction >
 class UnaryFunctorImageFilter:public InPlaceImageFilter< TInputImage, TOutputImage >
 {
 public:

@@ -49,7 +49,7 @@ namespace itk
  * \wikiexample{Images/FlipImageFilter,Flip an image over specified axes}
  * \endwiki
  */
-template< class TImage >
+template< typename TImage >
 class FlipImageFilter:
   public ImageToImageFilter< TImage, TImage >
 {

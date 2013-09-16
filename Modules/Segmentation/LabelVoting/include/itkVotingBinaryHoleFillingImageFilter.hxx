@@ -30,7 +30,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 VotingBinaryHoleFillingImageFilter< TInputImage, TOutputImage >
 ::VotingBinaryHoleFillingImageFilter()
 {
@@ -39,7 +39,7 @@ VotingBinaryHoleFillingImageFilter< TInputImage, TOutputImage >
   this->m_NumberOfPixelsChanged = 0;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 VotingBinaryHoleFillingImageFilter< TInputImage, TOutputImage >
 ::BeforeThreadedGenerateData()
@@ -72,7 +72,7 @@ VotingBinaryHoleFillingImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 VotingBinaryHoleFillingImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
@@ -152,7 +152,7 @@ VotingBinaryHoleFillingImageFilter< TInputImage, TOutputImage >
   this->m_Count[threadId] = numberOfPixelsChanged;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 VotingBinaryHoleFillingImageFilter< TInputImage, TOutputImage >
 ::AfterThreadedGenerateData()
@@ -170,7 +170,7 @@ VotingBinaryHoleFillingImageFilter< TInputImage, TOutputImage >
 /**
  * Standard "PrintSelf" method
  */
-template< class TInputImage, class TOutput >
+template< typename TInputImage, typename TOutput >
 void
 VotingBinaryHoleFillingImageFilter< TInputImage, TOutput >
 ::PrintSelf(

@@ -23,7 +23,7 @@
 
 namespace itk
 {
-template< unsigned int VDimension, class TEquationContainer >
+template< unsigned int VDimension, typename TEquationContainer >
 UpdateShiSparseLevelSet< VDimension, TEquationContainer >
 ::UpdateShiSparseLevelSet() :
   m_CurrentLevelSetId( NumericTraits< IdentifierType >::Zero ),
@@ -34,12 +34,12 @@ UpdateShiSparseLevelSet< VDimension, TEquationContainer >
 }
 
 template< unsigned int VDimension,
-          class TEquationContainer >
+          typename TEquationContainer >
 UpdateShiSparseLevelSet< VDimension, TEquationContainer >
 ::~UpdateShiSparseLevelSet()
 {}
 
-template< unsigned int VDimension, class TEquationContainer >
+template< unsigned int VDimension, typename TEquationContainer >
 void
 UpdateShiSparseLevelSet< VDimension, TEquationContainer >
 ::Update()
@@ -192,7 +192,7 @@ UpdateShiSparseLevelSet< VDimension, TEquationContainer >
   outputLabelMap->Graft( labelImageToLabelMapFilter->GetOutput() );
 }
 
-template< unsigned int VDimension, class TEquationContainer >
+template< unsigned int VDimension, typename TEquationContainer >
 void
 UpdateShiSparseLevelSet< VDimension, TEquationContainer >
 ::UpdateLayerPlusOne()
@@ -308,7 +308,7 @@ UpdateShiSparseLevelSet< VDimension, TEquationContainer >
     }
 }
 
-template< unsigned int VDimension, class TEquationContainer >
+template< unsigned int VDimension, typename TEquationContainer >
 void
 UpdateShiSparseLevelSet< VDimension, TEquationContainer >
 ::UpdateLayerMinusOne()
@@ -421,7 +421,7 @@ UpdateShiSparseLevelSet< VDimension, TEquationContainer >
     }
 }
 
-template< unsigned int VDimension, class TEquationContainer >
+template< unsigned int VDimension, typename TEquationContainer >
 bool
 UpdateShiSparseLevelSet< VDimension, TEquationContainer >
 ::Con( const LevelSetInputType& iIdx, const LevelSetOutputType& currentStatus,

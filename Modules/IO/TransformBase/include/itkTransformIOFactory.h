@@ -31,7 +31,7 @@ typedef enum { ReadMode, WriteMode } TransformIOFactoryFileModeType;
  * \brief Create instances of TransformIO objects using an object factory.
  * \ingroup ITKIOTransformBase
  */
-template<class ParametersValueType>
+template<typename ParametersValueType>
 class TransformIOFactoryTemplate:public Object
 {
 public:

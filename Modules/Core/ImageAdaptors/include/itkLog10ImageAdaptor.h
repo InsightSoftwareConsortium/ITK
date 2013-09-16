@@ -37,7 +37,7 @@ namespace Accessor
  * \ingroup ITKImageAdaptors
  */
 
-template< class TInternalType, class TExternalType >
+template< typename TInternalType, typename TExternalType >
 class Log10PixelAccessor
 {
 public:
@@ -66,7 +66,7 @@ public:
  * \ingroup ImageAdaptors
  * \ingroup ITKImageAdaptors
  */
-template< class TImage, class TOutputPixelType >
+template< typename TImage, typename TOutputPixelType >
 class Log10ImageAdaptor:public
   ImageAdaptor< TImage, Accessor::Log10PixelAccessor<
                   typename TImage::PixelType,

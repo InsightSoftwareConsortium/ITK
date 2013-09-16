@@ -32,7 +32,7 @@ namespace itk
  * assumed internally to be 1.0).
  * \ingroup ITKPath
  */
-template< class TInputPath, class TOutputImage >
+template< typename TInputPath, typename TOutputImage >
 class PathToImageFilter:public ImageSource< TOutputImage >
 {
 public:

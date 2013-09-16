@@ -24,7 +24,7 @@
 
 namespace itk
 {
-template< unsigned int VDimension, class TEquationContainer >
+template< unsigned int VDimension, typename TEquationContainer >
 UpdateMalcolmSparseLevelSet< VDimension, TEquationContainer >
 ::UpdateMalcolmSparseLevelSet() :
   m_CurrentLevelSetId( NumericTraits< IdentifierType >::Zero ),
@@ -35,12 +35,12 @@ UpdateMalcolmSparseLevelSet< VDimension, TEquationContainer >
   this->m_OutputLevelSet = LevelSetType::New();
 }
 
-template< unsigned int VDimension, class TEquationContainer >
+template< unsigned int VDimension, typename TEquationContainer >
 UpdateMalcolmSparseLevelSet< VDimension, TEquationContainer >
 ::~UpdateMalcolmSparseLevelSet()
 {}
 
-template< unsigned int VDimension, class TEquationContainer >
+template< unsigned int VDimension, typename TEquationContainer >
 void
 UpdateMalcolmSparseLevelSet< VDimension, TEquationContainer >
 ::Update()
@@ -127,7 +127,7 @@ UpdateMalcolmSparseLevelSet< VDimension, TEquationContainer >
 }
 
 template< unsigned int VDimension,
-          class TEquationContainer >
+          typename TEquationContainer >
 void
 UpdateMalcolmSparseLevelSet< VDimension, TEquationContainer >
 ::FillUpdateContainer()
@@ -165,7 +165,7 @@ UpdateMalcolmSparseLevelSet< VDimension, TEquationContainer >
 }
 
 template< unsigned int VDimension,
-          class TEquationContainer >
+          typename TEquationContainer >
 void
 UpdateMalcolmSparseLevelSet< VDimension, TEquationContainer >
 ::EvolveWithUnPhasedPropagation()
@@ -274,7 +274,7 @@ UpdateMalcolmSparseLevelSet< VDimension, TEquationContainer >
 }
 
 template< unsigned int VDimension,
-          class TEquationContainer >
+          typename TEquationContainer >
 void
 UpdateMalcolmSparseLevelSet< VDimension, TEquationContainer >
 ::EvolveWithPhasedPropagation( LevelSetLayerType& ioList,
@@ -389,7 +389,7 @@ UpdateMalcolmSparseLevelSet< VDimension, TEquationContainer >
   }
 
 template< unsigned int VDimension,
-          class TEquationContainer >
+          typename TEquationContainer >
 void
 UpdateMalcolmSparseLevelSet< VDimension, TEquationContainer >
 ::CompactLayersToSinglePixelThickness()

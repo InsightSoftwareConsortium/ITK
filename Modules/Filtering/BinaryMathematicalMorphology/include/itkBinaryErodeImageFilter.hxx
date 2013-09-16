@@ -29,14 +29,14 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 BinaryErodeImageFilter< TInputImage, TOutputImage, TKernel >
 ::BinaryErodeImageFilter()
 {
   this->m_BoundaryToForeground = true;
 }
 
-template< class TInputImage, class TOutputImage, class TKernel >
+template< typename TInputImage, typename TOutputImage, typename TKernel >
 void
 BinaryErodeImageFilter< TInputImage, TOutputImage, TKernel >
 ::GenerateData()
@@ -488,7 +488,7 @@ BinaryErodeImageFilter< TInputImage, TOutputImage, TKernel >
 /**
  * Standard "PrintSelf" method
  */
-template< class TInputImage, class TOutput, class TKernel >
+template< typename TInputImage, typename TOutput, typename TKernel >
 void
 BinaryErodeImageFilter< TInputImage, TOutput, TKernel >
 ::PrintSelf(std::ostream & os, Indent indent) const

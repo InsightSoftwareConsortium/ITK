@@ -23,7 +23,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 BinaryImageToShapeLabelMapFilter< TInputImage, TOutputImage >
 ::BinaryImageToShapeLabelMapFilter()
 {
@@ -34,7 +34,7 @@ BinaryImageToShapeLabelMapFilter< TInputImage, TOutputImage >
   m_ComputePerimeter = true;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 BinaryImageToShapeLabelMapFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
@@ -50,7 +50,7 @@ BinaryImageToShapeLabelMapFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 BinaryImageToShapeLabelMapFilter< TInputImage, TOutputImage >
 ::EnlargeOutputRequestedRegion(DataObject *)
@@ -59,7 +59,7 @@ BinaryImageToShapeLabelMapFilter< TInputImage, TOutputImage >
   ->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 BinaryImageToShapeLabelMapFilter< TInputImage, TOutputImage >
 ::GenerateData()
@@ -92,7 +92,7 @@ BinaryImageToShapeLabelMapFilter< TInputImage, TOutputImage >
   this->GraftOutput( valuator->GetOutput() );
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 BinaryImageToShapeLabelMapFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

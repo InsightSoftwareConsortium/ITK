@@ -41,7 +41,7 @@ namespace itk
  * versions of PixelTraits are defined for the standard scalar types.
  * \ingroup ITKCommon
  */
-template< class TPixelType >
+template< typename TPixelType >
 class PixelTraits
 {
 public:
@@ -191,7 +191,7 @@ public:
  * of the JoinTraits are specializations of the base template.
  * \ingroup ITKCommon
  */
-template< class TValueType1, class TValueType2 >
+template< typename TValueType1, typename TValueType2 >
 class JoinTraits
 {
 public:

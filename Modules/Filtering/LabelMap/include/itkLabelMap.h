@@ -66,7 +66,7 @@ namespace itk
  * \wikiexample{ImageProcessing/ManuallyRemovingLabels,Remove labels from a LabelMap}
  * \endwiki
  */
-template< class TLabelObject >
+template< typename TLabelObject >
 class LabelMap:public ImageBase< TLabelObject::ImageDimension >
 {
 public:

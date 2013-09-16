@@ -45,7 +45,7 @@ namespace itk
  *
  * \ingroup ITKImageFusion
  */
-template< class TLabelImage, typename  TOutputImage >
+template< typename TLabelImage, typename  TOutputImage >
 class LabelToRGBImageFilter:
   public
   UnaryFunctorImageFilter< TLabelImage, TOutputImage,

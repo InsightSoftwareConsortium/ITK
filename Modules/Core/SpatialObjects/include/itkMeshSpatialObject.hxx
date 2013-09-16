@@ -24,7 +24,7 @@
 namespace itk
 {
 /** Constructor */
-template< class TMesh >
+template< typename TMesh >
 MeshSpatialObject< TMesh >
 ::MeshSpatialObject()
 {
@@ -36,13 +36,13 @@ MeshSpatialObject< TMesh >
 }
 
 /** Destructor */
-template< class TMesh >
+template< typename TMesh >
 MeshSpatialObject< TMesh >
 ::~MeshSpatialObject()
 {}
 
 /** Return true if the given point is inside the Mesh */
-template< class TMesh >
+template< typename TMesh >
 bool
 MeshSpatialObject< TMesh >
 ::IsEvaluableAt(const PointType & point,
@@ -54,7 +54,7 @@ MeshSpatialObject< TMesh >
 /** Test whether a point is inside or outside the object
  *  For computational speed purposes, it is faster if the method does not
  *  check the name of the class and the current depth */
-template< class TMesh >
+template< typename TMesh >
 bool
 MeshSpatialObject< TMesh >
 ::IsInside(const PointType & point) const
@@ -107,7 +107,7 @@ MeshSpatialObject< TMesh >
 }
 
 /** Return true if the given point is inside the Mesh */
-template< class TMesh >
+template< typename TMesh >
 bool
 MeshSpatialObject< TMesh >
 ::IsInside(const PointType & point, unsigned int depth, char *name) const
@@ -131,7 +131,7 @@ MeshSpatialObject< TMesh >
 
 /** Return the value of the Mesh at a specified point
  *  The value returned is always of type double */
-template< class TMesh >
+template< typename TMesh >
 bool
 MeshSpatialObject< TMesh >
 ::ValueAt(const PointType & point, double & value, unsigned int depth,
@@ -152,7 +152,7 @@ MeshSpatialObject< TMesh >
 }
 
 /** Compute the bounds of the object which is the same as the internal mesh */
-template< class TMesh >
+template< typename TMesh >
 bool
 MeshSpatialObject< TMesh >
 ::ComputeLocalBoundingBox() const
@@ -180,7 +180,7 @@ MeshSpatialObject< TMesh >
 }
 
 /** Set the Mesh in the spatial object */
-template< class TMesh >
+template< typename TMesh >
 void
 MeshSpatialObject< TMesh >
 ::SetMesh(MeshType *mesh)
@@ -191,7 +191,7 @@ MeshSpatialObject< TMesh >
 }
 
 /** Get the Mesh inside the spatial object */
-template< class TMesh >
+template< typename TMesh >
 typename MeshSpatialObject< TMesh >::MeshType *
 MeshSpatialObject< TMesh >
 ::GetMesh(void)
@@ -199,7 +199,7 @@ MeshSpatialObject< TMesh >
   return m_Mesh.GetPointer();
 }
 
-template< class TMesh >
+template< typename TMesh >
 const typename MeshSpatialObject< TMesh >::MeshType *
 MeshSpatialObject< TMesh >
 ::GetMesh(void) const
@@ -208,7 +208,7 @@ MeshSpatialObject< TMesh >
 }
 
 /** Print the object */
-template< class TMesh >
+template< typename TMesh >
 void
 MeshSpatialObject< TMesh >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -220,7 +220,7 @@ MeshSpatialObject< TMesh >
 }
 
 /** Get the modification time */
-template< class TMesh >
+template< typename TMesh >
 ModifiedTimeType
 MeshSpatialObject< TMesh >
 ::GetMTime(void) const

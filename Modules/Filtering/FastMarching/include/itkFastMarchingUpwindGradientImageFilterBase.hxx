@@ -29,7 +29,7 @@ namespace itk
 /**
  *
  */
-template< class TInput, class TOutput >
+template< typename TInput, typename TOutput >
 FastMarchingUpwindGradientImageFilterBase< TInput, TOutput >
 ::FastMarchingUpwindGradientImageFilterBase()
 {
@@ -37,7 +37,7 @@ FastMarchingUpwindGradientImageFilterBase< TInput, TOutput >
   this->SetNthOutput( 1, GradientImage.GetPointer() );
 }
 
-template< class TInput, class TOutput >
+template< typename TInput, typename TOutput >
 typename FastMarchingUpwindGradientImageFilterBase< TInput, TOutput >::GradientImageType*
 FastMarchingUpwindGradientImageFilterBase< TInput, TOutput >
 ::GetGradientImage()
@@ -48,7 +48,7 @@ FastMarchingUpwindGradientImageFilterBase< TInput, TOutput >
 /**
  *
  */
-template< class TInput, class TOutput >
+template< typename TInput, typename TOutput >
 void
 FastMarchingUpwindGradientImageFilterBase< TInput, TOutput >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -59,7 +59,7 @@ FastMarchingUpwindGradientImageFilterBase< TInput, TOutput >
 /**
  *
  */
-template< class TInput, class TOutput >
+template< typename TInput, typename TOutput >
 void
 FastMarchingUpwindGradientImageFilterBase< TInput, TOutput >::
 InitializeOutput(OutputImageType *output)
@@ -92,7 +92,7 @@ InitializeOutput(OutputImageType *output)
 }
 
 
-template< class TInput, class TOutput >
+template< typename TInput, typename TOutput >
 void
 FastMarchingUpwindGradientImageFilterBase< TInput, TOutput >::
 UpdateNeighbors(
@@ -107,7 +107,7 @@ UpdateNeighbors(
 /**
  *
  */
-template< class TInput, class TOutput >
+template< typename TInput, typename TOutput >
 void
 FastMarchingUpwindGradientImageFilterBase< TInput, TOutput >
 ::ComputeGradient( OutputImageType* oImage,

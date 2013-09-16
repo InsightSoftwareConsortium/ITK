@@ -29,7 +29,7 @@ namespace itk
 //
 // Constructor
 //
-template< class TOutputMesh >
+template< typename TOutputMesh >
 VTKPolyDataReader< TOutputMesh >
 ::VTKPolyDataReader()
 {
@@ -41,7 +41,7 @@ VTKPolyDataReader< TOutputMesh >
   this->ProcessObject::SetNthOutput( 0, output.GetPointer() );
 }
 
-template< class TOutputMesh >
+template< typename TOutputMesh >
 void
 VTKPolyDataReader< TOutputMesh >
 ::GenerateData()
@@ -362,7 +362,7 @@ VTKPolyDataReader< TOutputMesh >
   inputFile.close();
 }
 
-template< class TOutputMesh >
+template< typename TOutputMesh >
 void
 VTKPolyDataReader< TOutputMesh >
 ::PrintSelf(std::ostream & os, Indent indent) const

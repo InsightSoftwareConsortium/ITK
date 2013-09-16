@@ -136,7 +136,7 @@ namespace itk
  * \endcode
  * \ingroup ITKImageGrid
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class OrientImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {

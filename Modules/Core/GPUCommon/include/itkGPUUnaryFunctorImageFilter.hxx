@@ -23,7 +23,7 @@
 namespace itk
 {
 
-template< class TInputImage, class TOutputImage, class TFunction, class TParentImageFilter >
+template< typename TInputImage, typename TOutputImage, typename TFunction, typename TParentImageFilter >
 void
 GPUUnaryFunctorImageFilter< TInputImage, TOutputImage, TFunction, TParentImageFilter >
 ::GenerateOutputInformation()
@@ -31,7 +31,7 @@ GPUUnaryFunctorImageFilter< TInputImage, TOutputImage, TFunction, TParentImageFi
   CPUSuperclass::GenerateOutputInformation();
 }
 
-template< class TInputImage, class TOutputImage, class TFunction, class TParentImageFilter >
+template< typename TInputImage, typename TOutputImage, typename TFunction, typename TParentImageFilter >
 void
 GPUUnaryFunctorImageFilter< TInputImage, TOutputImage, TFunction, TParentImageFilter >
 ::GPUGenerateData()

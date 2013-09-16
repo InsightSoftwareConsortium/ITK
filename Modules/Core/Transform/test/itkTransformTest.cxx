@@ -26,7 +26,7 @@ namespace itkTransformTestHelpers
 {
 
 template <
-  class TScalar,
+  typename TScalar,
   unsigned int NInputDimensions,
   unsigned int NOutputDimensions>
 class TransformTestHelper :
@@ -163,7 +163,7 @@ public:
 };
 
 template <
-  class TScalar,
+  typename TScalar,
   unsigned int NInputDimensions,
   unsigned int NOutputDimensions>
 class TransformTester

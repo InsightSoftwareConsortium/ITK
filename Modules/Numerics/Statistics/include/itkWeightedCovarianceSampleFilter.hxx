@@ -25,19 +25,19 @@ namespace itk
 {
 namespace Statistics
 {
-template< class TSample >
+template< typename TSample >
 WeightedCovarianceSampleFilter< TSample >
 ::WeightedCovarianceSampleFilter()
 {
   this->ProcessObject::SetNthInput(1, NULL);
 }
 
-template< class TSample >
+template< typename TSample >
 WeightedCovarianceSampleFilter< TSample >
 ::~WeightedCovarianceSampleFilter()
 {}
 
-template< class TSample >
+template< typename TSample >
 void
 WeightedCovarianceSampleFilter< TSample >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -49,7 +49,7 @@ WeightedCovarianceSampleFilter< TSample >
   os << indent << "WeightingFunction: " << this->GetWeightingFunctionInput() << std::endl;
 }
 
-template< class TSample >
+template< typename TSample >
 inline void
 WeightedCovarianceSampleFilter< TSample >
 ::GenerateData()
@@ -79,7 +79,7 @@ WeightedCovarianceSampleFilter< TSample >
   Superclass::GenerateData();
 }
 
-template< class TSample >
+template< typename TSample >
 inline void
 WeightedCovarianceSampleFilter< TSample >
 ::ComputeCovarianceMatrixWithWeightingFunction()
@@ -176,7 +176,7 @@ WeightedCovarianceSampleFilter< TSample >
   decoratedOutput->Set(output);
 }
 
-template< class TSample >
+template< typename TSample >
 inline void
 WeightedCovarianceSampleFilter< TSample >
 ::ComputeCovarianceMatrixWithWeights()

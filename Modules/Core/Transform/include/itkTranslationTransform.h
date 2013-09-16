@@ -41,7 +41,7 @@ namespace itk
  * \endwiki
  */
 template <
-  class TScalar = double,          // Data type for scalars (float or
+  typename TScalar = double,          // Data type for scalars (float or
                                        // double)
   unsigned int NDimensions = 3>
 // Number of dimensions
@@ -233,7 +233,7 @@ private:
 };                           // class TranslationTransform
 
 // Back transform a point
-template <class TScalar, unsigned int NDimensions>
+template <typename TScalar, unsigned int NDimensions>
 inline
 typename TranslationTransform<TScalar, NDimensions>::InputPointType
 TranslationTransform<TScalar, NDimensions>::BackTransform(const OutputPointType & point) const
@@ -242,7 +242,7 @@ TranslationTransform<TScalar, NDimensions>::BackTransform(const OutputPointType 
 }
 
 // Back transform a vector
-template <class TScalar, unsigned int NDimensions>
+template <typename TScalar, unsigned int NDimensions>
 inline
 typename TranslationTransform<TScalar, NDimensions>::InputVectorType
 TranslationTransform<TScalar, NDimensions>::BackTransform(const OutputVectorType & vect) const
@@ -251,7 +251,7 @@ TranslationTransform<TScalar, NDimensions>::BackTransform(const OutputVectorType
 }
 
 // Back transform a vnl_vector
-template <class TScalar, unsigned int NDimensions>
+template <typename TScalar, unsigned int NDimensions>
 inline
 typename TranslationTransform<TScalar, NDimensions>::InputVnlVectorType
 TranslationTransform<TScalar, NDimensions>::BackTransform(const OutputVnlVectorType & vect) const
@@ -260,7 +260,7 @@ TranslationTransform<TScalar, NDimensions>::BackTransform(const OutputVnlVectorT
 }
 
 // Back Transform a CovariantVector
-template <class TScalar, unsigned int NDimensions>
+template <typename TScalar, unsigned int NDimensions>
 inline
 typename TranslationTransform<TScalar, NDimensions>::InputCovariantVectorType
 TranslationTransform<TScalar, NDimensions>::BackTransform(const OutputCovariantVectorType & vect) const

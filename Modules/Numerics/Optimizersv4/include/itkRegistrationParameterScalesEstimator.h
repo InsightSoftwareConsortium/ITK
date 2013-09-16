@@ -50,7 +50,7 @@ namespace itk
  *
  * \ingroup ITKOptimizersv4
  */
-template < class TMetric >
+template < typename TMetric >
 class RegistrationParameterScalesEstimator
   : public OptimizerParameterScalesEstimatorTemplate<typename TMetric::ParametersValueType>
 {
@@ -177,13 +177,13 @@ protected:
    * transform is a general affine transform that maps a line segment to
    * a line segment.
    */
-  template< class TTransform > bool CheckGeneralAffineTransformTemplated();
+  template< typename TTransform > bool CheckGeneralAffineTransformTemplated();
 
   /** Transform a physical point to a new physical point. */
-  template< class TTargetPointType > void TransformPoint( const VirtualPointType &point, TTargetPointType &mappedPoint);
+  template< typename TTargetPointType > void TransformPoint( const VirtualPointType &point, TTargetPointType &mappedPoint);
 
   /** Transform a point to its continuous index. */
-  template< class TContinuousIndexType > void TransformPointToContinuousIndex( const VirtualPointType &point,TContinuousIndexType &mappedIndex);
+  template< typename TContinuousIndexType > void TransformPointToContinuousIndex( const VirtualPointType &point,TContinuousIndexType &mappedIndex);
 
   /** Compute the transform Jacobian at a physical point. */
   void ComputeSquaredJacobianNorms( const VirtualPointType  & p, ParametersType & squareNorms);

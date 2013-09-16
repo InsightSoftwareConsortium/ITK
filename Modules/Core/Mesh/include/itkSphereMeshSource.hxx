@@ -26,7 +26,7 @@ namespace itk
 /**
  *
  */
-template< class TOutputMesh >
+template< typename TOutputMesh >
 SphereMeshSource< TOutputMesh >
 ::SphereMeshSource()
 {
@@ -47,7 +47,7 @@ SphereMeshSource< TOutputMesh >
 /*
  *
  */
-template< class TOutputMesh >
+template< typename TOutputMesh >
 void
 SphereMeshSource< TOutputMesh >
 ::GenerateData()
@@ -218,7 +218,7 @@ SphereMeshSource< TOutputMesh >
     }
 }
 
-template< class TOutputMesh >
+template< typename TOutputMesh >
 void
 SphereMeshSource< TOutputMesh >
 ::PrintSelf(std::ostream & os, Indent indent) const

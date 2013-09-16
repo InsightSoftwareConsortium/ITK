@@ -39,7 +39,7 @@ namespace itk
  * \wikiexample{Functions/GaussianBlurImageFunctionFilter,GaussianBlurImageFunctionFilter}
  * \endwiki
  */
-template< class TInputImage, class TOutput = double >
+template< typename TInputImage, typename TOutput = double >
 class GaussianBlurImageFunction:
   public ImageFunction< TInputImage, TOutput >
 {

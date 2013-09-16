@@ -24,14 +24,14 @@ namespace itk
 {
 namespace Statistics
 {
-template< class TSample >
+template< typename TSample >
 MembershipSample< TSample >
 ::MembershipSample()
 {
   this->m_NumberOfClasses = 0;
 }
 
-template< class TSample >
+template< typename TSample >
 void
 MembershipSample< TSample >
 ::SetNumberOfClasses(unsigned int numberOfClasses)
@@ -45,7 +45,7 @@ MembershipSample< TSample >
     }
 }
 
-template< class TSample >
+template< typename TSample >
 inline void
 MembershipSample< TSample >
 ::AddInstance(const ClassLabelType & classLabel, const InstanceIdentifier & id)
@@ -61,7 +61,7 @@ MembershipSample< TSample >
   ( m_ClassSamples[classIndex] )->AddInstance(id);
 }
 
-template< class TSample >
+template< typename TSample >
 inline unsigned int
 MembershipSample< TSample >
 ::GetClassLabel(const InstanceIdentifier & id) const
@@ -69,7 +69,7 @@ MembershipSample< TSample >
   return ( *( m_ClassLabelHolder.find(id) ) ).second;
 }
 
-template< class TSample >
+template< typename TSample >
 inline int
 MembershipSample< TSample >
 ::GetInternalClassLabel(const ClassLabelType classLabel) const
@@ -85,7 +85,7 @@ MembershipSample< TSample >
   return -1;
 }
 
-template< class TSample >
+template< typename TSample >
 const typename MembershipSample< TSample >::ClassLabelHolderType
 MembershipSample< TSample >
 ::GetClassLabelHolder() const
@@ -93,7 +93,7 @@ MembershipSample< TSample >
   return m_ClassLabelHolder;
 }
 
-template< class TSample >
+template< typename TSample >
 const typename MembershipSample< TSample >::ClassSampleType *
 MembershipSample< TSample >
 ::GetClassSample(const ClassLabelType & classLabel) const
@@ -103,7 +103,7 @@ MembershipSample< TSample >
   return m_ClassSamples[classIndex];
 }
 
-template< class TSample >
+template< typename TSample >
 inline const typename MembershipSample< TSample >::MeasurementVectorType &
 MembershipSample< TSample >
 ::GetMeasurementVector(const InstanceIdentifier & id) const
@@ -111,7 +111,7 @@ MembershipSample< TSample >
   return m_Sample->GetMeasurementVector(id);
 }
 
-template< class TSample >
+template< typename TSample >
 inline typename MembershipSample< TSample >::MeasurementType
 MembershipSample< TSample >
 ::GetMeasurement(const InstanceIdentifier & id,
@@ -120,7 +120,7 @@ MembershipSample< TSample >
   return m_Sample->GetMeasurement(id, dimension);
 }
 
-template< class TSample >
+template< typename TSample >
 inline typename MembershipSample< TSample >::AbsoluteFrequencyType
 MembershipSample< TSample >
 ::GetFrequency(const InstanceIdentifier & id) const
@@ -128,7 +128,7 @@ MembershipSample< TSample >
   return m_Sample->GetFrequency(id);
 }
 
-template< class TSample >
+template< typename TSample >
 inline typename MembershipSample< TSample >::TotalAbsoluteFrequencyType
 MembershipSample< TSample >
 ::GetTotalFrequency() const
@@ -136,7 +136,7 @@ MembershipSample< TSample >
   return m_Sample->GetTotalFrequency();
 }
 
-template< class TSample >
+template< typename TSample >
 void
 MembershipSample< TSample >
 ::Graft(const DataObject *thatObject)
@@ -158,7 +158,7 @@ MembershipSample< TSample >
     }
 }
 
-template< class TSample >
+template< typename TSample >
 void
 MembershipSample< TSample >
 ::PrintSelf(std::ostream & os, Indent indent) const

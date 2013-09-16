@@ -71,7 +71,7 @@ namespace itk
  * \endwiki
  */
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 class ApproximateSignedDistanceMapImageFilter:public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

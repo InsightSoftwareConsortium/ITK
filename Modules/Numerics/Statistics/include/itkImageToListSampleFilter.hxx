@@ -25,7 +25,7 @@ namespace itk
 {
 namespace Statistics
 {
-template< class TImage, class TMaskImage >
+template< typename TImage, typename TMaskImage >
 ImageToListSampleFilter< TImage, TMaskImage >
 ::ImageToListSampleFilter()
 {
@@ -36,7 +36,7 @@ ImageToListSampleFilter< TImage, TMaskImage >
   this->ProcessObject::SetNthOutput( 0, this->MakeOutput(0) );
 }
 
-template< class TImage, class TMaskImage >
+template< typename TImage, typename TMaskImage >
 void
 ImageToListSampleFilter< TImage, TMaskImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -48,7 +48,7 @@ ImageToListSampleFilter< TImage, TMaskImage >
      << std::endl;
 }
 
-template< class TImage, class TMaskImage >
+template< typename TImage, typename TMaskImage >
 void
 ImageToListSampleFilter< TImage, TMaskImage >
 ::SetInput(const ImageType *image)
@@ -58,7 +58,7 @@ ImageToListSampleFilter< TImage, TMaskImage >
                                     const_cast< ImageType * >( image ) );
 }
 
-template< class TImage, class TMaskImage >
+template< typename TImage, typename TMaskImage >
 void
 ImageToListSampleFilter< TImage, TMaskImage >
 ::SetMaskImage(const MaskImageType *image)
@@ -68,7 +68,7 @@ ImageToListSampleFilter< TImage, TMaskImage >
                                     const_cast< MaskImageType * >( image ) );
 }
 
-template< class TImage, class TMaskImage >
+template< typename TImage, typename TMaskImage >
 const TImage *
 ImageToListSampleFilter< TImage, TMaskImage >
 ::GetInput() const
@@ -76,7 +76,7 @@ ImageToListSampleFilter< TImage, TMaskImage >
   return itkDynamicCastInDebugMode< const ImageType * >( this->GetPrimaryInput() );
 }
 
-template< class TImage, class TMaskImage >
+template< typename TImage, typename TMaskImage >
 const TMaskImage *
 ImageToListSampleFilter< TImage, TMaskImage >
 ::GetMaskImage() const
@@ -84,7 +84,7 @@ ImageToListSampleFilter< TImage, TMaskImage >
   return itkDynamicCastInDebugMode< const MaskImageType * >( this->ProcessObject::GetInput(1) );
 }
 
-template< class TImage, class TMaskImage >
+template< typename TImage, typename TMaskImage >
 typename ImageToListSampleFilter< TImage, TMaskImage >::DataObjectPointer
 ImageToListSampleFilter< TImage, TMaskImage >
 ::MakeOutput( DataObjectPointerArraySizeType itkNotUsed(idx) )
@@ -92,7 +92,7 @@ ImageToListSampleFilter< TImage, TMaskImage >
   return ListSampleType::New().GetPointer();
 }
 
-template< class TImage, class TMaskImage >
+template< typename TImage, typename TMaskImage >
 unsigned int
 ImageToListSampleFilter< TImage, TMaskImage >
 ::GetMeasurementVectorSize() const
@@ -119,7 +119,7 @@ ImageToListSampleFilter< TImage, TMaskImage >
   return measurementVectorSize;
 }
 
-template< class TImage, class TMaskImage >
+template< typename TImage, typename TMaskImage >
 void
 ImageToListSampleFilter< TImage, TMaskImage >
 ::GenerateData()
@@ -178,7 +178,7 @@ ImageToListSampleFilter< TImage, TMaskImage >
     }
 }
 
-template< class TImage, class TMaskImage >
+template< typename TImage, typename TMaskImage >
 void
 ImageToListSampleFilter< TImage, TMaskImage >
 ::GenerateOutputInformation()
@@ -190,7 +190,7 @@ ImageToListSampleFilter< TImage, TMaskImage >
   output->SetMeasurementVectorSize( this->GetMeasurementVectorSize() );
 }
 
-template< class TImage, class TMaskImage >
+template< typename TImage, typename TMaskImage >
 void
 ImageToListSampleFilter< TImage, TMaskImage >
 ::GenerateInputRequestedRegion()
@@ -201,7 +201,7 @@ throw( InvalidRequestedRegionError )
   Superclass::GenerateInputRequestedRegion();
 }
 
-template< class TImage, class TMaskImage >
+template< typename TImage, typename TMaskImage >
 const typename ImageToListSampleFilter< TImage, TMaskImage >::ListSampleType *
 ImageToListSampleFilter< TImage, TMaskImage >
 ::GetOutput() const

@@ -22,7 +22,7 @@
 
 namespace itk
 {
-template< class TImage >
+template< typename TImage >
 ReflectiveImageRegionConstIterator< TImage >
 ::ReflectiveImageRegionConstIterator():ImageConstIteratorWithIndex< TImage >()
 {
@@ -34,7 +34,7 @@ ReflectiveImageRegionConstIterator< TImage >
   this->GoToBegin();
 }
 
-template< class TImage >
+template< typename TImage >
 ReflectiveImageRegionConstIterator< TImage >
 ::ReflectiveImageRegionConstIterator(TImage *ptr, const RegionType & region):
   ImageConstIteratorWithIndex< TImage >(ptr, region)
@@ -48,7 +48,7 @@ ReflectiveImageRegionConstIterator< TImage >
   this->GoToBegin();
 }
 
-template< class TImage >
+template< typename TImage >
 ReflectiveImageRegionConstIterator< TImage >
 ::ReflectiveImageRegionConstIterator(const Self & it)
 {
@@ -56,7 +56,7 @@ ReflectiveImageRegionConstIterator< TImage >
   this->GoToBegin();
 }
 
-template< class TImage >
+template< typename TImage >
 ReflectiveImageRegionConstIterator< TImage >
 ::ReflectiveImageRegionConstIterator(
   const ImageConstIteratorWithIndex< TImage > & it)
@@ -70,7 +70,7 @@ ReflectiveImageRegionConstIterator< TImage >
     }
 }
 
-template< class TImage >
+template< typename TImage >
 ReflectiveImageRegionConstIterator< TImage > &
 ReflectiveImageRegionConstIterator< TImage >
 ::operator=(const Self & it)
@@ -88,7 +88,7 @@ ReflectiveImageRegionConstIterator< TImage >
   return *this;
 }
 
-template< class TImage >
+template< typename TImage >
 void
 ReflectiveImageRegionConstIterator< TImage >
 ::GoToBegin(void)
@@ -111,7 +111,7 @@ ReflectiveImageRegionConstIterator< TImage >
     }
 }
 
-template< class TImage >
+template< typename TImage >
 bool
 ReflectiveImageRegionConstIterator< TImage >
 ::IsReflected(unsigned int dim) const
@@ -119,7 +119,7 @@ ReflectiveImageRegionConstIterator< TImage >
   return !m_IsFirstPass[dim];
 }
 
-template< class TImage >
+template< typename TImage >
 void
 ReflectiveImageRegionConstIterator< TImage >
 ::FillOffsets(const OffsetValueType & value)
@@ -134,7 +134,7 @@ ReflectiveImageRegionConstIterator< TImage >
 //----------------------------------------------------------------------
 //  Advance along the line
 //----------------------------------------------------------------------
-template< class TImage >
+template< typename TImage >
 ReflectiveImageRegionConstIterator< TImage > &
 ReflectiveImageRegionConstIterator< TImage >
 ::operator++()

@@ -27,7 +27,7 @@ namespace itk
 /**
  *
  */
-template< class TInputImage, class TOutputMesh >
+template< typename TInputImage, typename TOutputMesh >
 BinaryMaskToNarrowBandPointSetFilter< TInputImage, TOutputMesh >
 ::BinaryMaskToNarrowBandPointSetFilter()
 {
@@ -56,7 +56,7 @@ BinaryMaskToNarrowBandPointSetFilter< TInputImage, TOutputMesh >
 /**
  *
  */
-template< class TInputImage, class TOutputMesh >
+template< typename TInputImage, typename TOutputMesh >
 BinaryMaskToNarrowBandPointSetFilter< TInputImage, TOutputMesh >
 ::~BinaryMaskToNarrowBandPointSetFilter()
 {}
@@ -64,7 +64,7 @@ BinaryMaskToNarrowBandPointSetFilter< TInputImage, TOutputMesh >
 /**
  *
  */
-template< class TInputImage, class TOutputMesh >
+template< typename TInputImage, typename TOutputMesh >
 void
 BinaryMaskToNarrowBandPointSetFilter< TInputImage, TOutputMesh >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -76,7 +76,7 @@ BinaryMaskToNarrowBandPointSetFilter< TInputImage, TOutputMesh >
 /**
  *
  */
-template< class TInputImage, class TOutputMesh >
+template< typename TInputImage, typename TOutputMesh >
 void
 BinaryMaskToNarrowBandPointSetFilter< TInputImage, TOutputMesh >
 ::GenerateOutputInformation()
@@ -85,7 +85,7 @@ BinaryMaskToNarrowBandPointSetFilter< TInputImage, TOutputMesh >
 /**
  *
  */
-template< class TInputImage, class TOutputMesh >
+template< typename TInputImage, typename TOutputMesh >
 void
 BinaryMaskToNarrowBandPointSetFilter< TInputImage, TOutputMesh >
 ::SetInput(const InputImageType *inputImage)
@@ -99,7 +99,7 @@ BinaryMaskToNarrowBandPointSetFilter< TInputImage, TOutputMesh >
 /**
  *
  */
-template< class TInputImage, class TOutputMesh >
+template< typename TInputImage, typename TOutputMesh >
 void
 BinaryMaskToNarrowBandPointSetFilter< TInputImage, TOutputMesh >
 ::GenerateData(void)

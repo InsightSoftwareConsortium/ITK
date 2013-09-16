@@ -23,7 +23,7 @@
 
 namespace itk
 {
-template< class TImage, class TPath >
+template< typename TImage, typename TPath >
 PathConstIterator< TImage, TPath >
 ::PathConstIterator(const ImageType *imagePtr, const PathType  *pathPtr)
 {
@@ -42,7 +42,7 @@ PathConstIterator< TImage, TPath >
   GoToBegin();
 }
 
-template< class TImage, class TPath >
+template< typename TImage, typename TPath >
 PathConstIterator< TImage, TPath > &
 PathConstIterator< TImage, TPath >
 ::operator=(const Self & it)
@@ -62,7 +62,7 @@ PathConstIterator< TImage, TPath >
   return *this;
 }
 
-template< class TImage, class TPath >
+template< typename TImage, typename TPath >
 void
 PathConstIterator< TImage, TPath >
 ::GoToBegin()
@@ -86,7 +86,7 @@ PathConstIterator< TImage, TPath >
   m_IsAtEnd = false;
 }
 
-template< class TImage, class TPath >
+template< typename TImage, typename TPath >
 void
 PathConstIterator< TImage, TPath >
 ::operator++()

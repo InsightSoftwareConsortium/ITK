@@ -28,7 +28,7 @@ namespace itk
 /**
  * Default constructor.
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 IsoContourDistanceImageFilter< TInputImage, TOutputImage >
 ::IsoContourDistanceImageFilter()
 {
@@ -45,7 +45,7 @@ IsoContourDistanceImageFilter< TInputImage, TOutputImage >
 /**
  * Set the input narrowband container.
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 IsoContourDistanceImageFilter< TInputImage, TOutputImage >
 ::SetNarrowBand(
@@ -61,7 +61,7 @@ IsoContourDistanceImageFilter< TInputImage, TOutputImage >
 /**
  * PrintSelf method.
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 IsoContourDistanceImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -76,7 +76,7 @@ IsoContourDistanceImageFilter< TInputImage, TOutputImage >
 /**
  * GenerateInputRequestedRegion method.
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 IsoContourDistanceImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
@@ -88,7 +88,7 @@ IsoContourDistanceImageFilter< TInputImage, TOutputImage >
 /**
  * EnlargeOutputRequestedRegion method.
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 IsoContourDistanceImageFilter< TInputImage, TOutputImage >
 ::EnlargeOutputRequestedRegion(
@@ -117,7 +117,7 @@ IsoContourDistanceImageFilter< TInputImage, TOutputImage >
  * Before ThreadedGenerateData:
  *  Split the band if we use narrowband mode
  */
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 IsoContourDistanceImageFilter< TInputImage, TOutputImage >
 ::BeforeThreadedGenerateData()
@@ -146,7 +146,7 @@ IsoContourDistanceImageFilter< TInputImage, TOutputImage >
 
 //----------------------------------------------------------------------------
 // The execute method created by the subclass.
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 IsoContourDistanceImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
@@ -202,7 +202,7 @@ IsoContourDistanceImageFilter< TInputImage, TOutputImage >
 }
 
 // The execute method created by the subclass.
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 IsoContourDistanceImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateDataFull( const OutputImageRegionType & outputRegionForThread,
@@ -248,7 +248,7 @@ IsoContourDistanceImageFilter< TInputImage, TOutputImage >
 
 
 // The execute method created by the subclass.
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 IsoContourDistanceImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateDataBand(const OutputImageRegionType & itkNotUsed(outputRegionForThread),
@@ -302,7 +302,7 @@ IsoContourDistanceImageFilter< TInputImage, TOutputImage >
     }     //Band iteratior
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 IsoContourDistanceImageFilter< TInputImage, TOutputImage >
 ::ComputeValue( const InputNeighbordIteratorType& inNeigIt,

@@ -27,7 +27,7 @@ namespace itk
  * Constructor
  */
 template
-<class TScalar, unsigned int NDimensions, unsigned int NSubDimensions>
+<typename TScalar, unsigned int NDimensions, unsigned int NSubDimensions>
 MultiTransform<TScalar, NDimensions, NSubDimensions>::MultiTransform() : Superclass( 0 )
 {
   this->m_NumberOfLocalParameters = NumericTraits< NumberOfParametersType >::Zero;
@@ -39,7 +39,7 @@ MultiTransform<TScalar, NDimensions, NSubDimensions>::MultiTransform() : Supercl
  * Destructor
  */
 template
-<class TScalar, unsigned int NDimensions, unsigned int NSubDimensions>
+<typename TScalar, unsigned int NDimensions, unsigned int NSubDimensions>
 MultiTransform<TScalar, NDimensions, NSubDimensions>::
 ~MultiTransform()
 {
@@ -49,7 +49,7 @@ MultiTransform<TScalar, NDimensions, NSubDimensions>::
  * Get transform category
  */
 template
-<class TScalar, unsigned int NDimensions, unsigned int NSubDimensions>
+<typename TScalar, unsigned int NDimensions, unsigned int NSubDimensions>
 typename MultiTransform<TScalar, NDimensions, NSubDimensions>::TransformCategoryType
 MultiTransform<TScalar, NDimensions, NSubDimensions>
 ::GetTransformCategory() const
@@ -82,7 +82,7 @@ MultiTransform<TScalar, NDimensions, NSubDimensions>
  * Are all the transforms linear?
  */
 template
-<class TScalar, unsigned int NDimensions, unsigned int NSubDimensions>
+<typename TScalar, unsigned int NDimensions, unsigned int NSubDimensions>
 bool
 MultiTransform<TScalar, NDimensions, NSubDimensions>
 ::IsLinear() const
@@ -99,7 +99,7 @@ MultiTransform<TScalar, NDimensions, NSubDimensions>
 }
 
 template
-<class TScalar, unsigned int NDimensions, unsigned int NSubDimensions>
+<typename TScalar, unsigned int NDimensions, unsigned int NSubDimensions>
 const typename MultiTransform<TScalar, NDimensions, NSubDimensions>::ParametersType
 & MultiTransform<TScalar, NDimensions, NSubDimensions>
 ::GetParameters() const
@@ -128,7 +128,7 @@ const typename MultiTransform<TScalar, NDimensions, NSubDimensions>::ParametersT
 }
 
 template
-<class TScalar, unsigned int NDimensions, unsigned int NSubDimensions>
+<typename TScalar, unsigned int NDimensions, unsigned int NSubDimensions>
 void
 MultiTransform<TScalar, NDimensions, NSubDimensions>
 ::SetParameters(const ParametersType & inputParameters)
@@ -175,7 +175,7 @@ MultiTransform<TScalar, NDimensions, NSubDimensions>
 }
 
 template
-<class TScalar, unsigned int NDimensions, unsigned int NSubDimensions>
+<typename TScalar, unsigned int NDimensions, unsigned int NSubDimensions>
 const typename MultiTransform<TScalar, NDimensions, NSubDimensions>::ParametersType
 & MultiTransform<TScalar, NDimensions, NSubDimensions>
 ::GetFixedParameters(void) const
@@ -205,7 +205,7 @@ const typename MultiTransform<TScalar, NDimensions, NSubDimensions>::ParametersT
 }
 
 template
-<class TScalar, unsigned int NDimensions, unsigned int NSubDimensions>
+<typename TScalar, unsigned int NDimensions, unsigned int NSubDimensions>
 void
 MultiTransform<TScalar, NDimensions, NSubDimensions>
 ::SetFixedParameters(const ParametersType & inputParameters)
@@ -243,7 +243,7 @@ MultiTransform<TScalar, NDimensions, NSubDimensions>
   while( it != transforms.end() );
 }
 
-template<class TScalar, unsigned int NDimensions, unsigned int NSubDimensions>
+template<typename TScalar, unsigned int NDimensions, unsigned int NSubDimensions>
 typename MultiTransform<TScalar, NDimensions, NSubDimensions>::NumberOfParametersType
 MultiTransform<TScalar, NDimensions, NSubDimensions>
 ::GetNumberOfParameters(void) const
@@ -268,7 +268,7 @@ MultiTransform<TScalar, NDimensions, NSubDimensions>
   return result;
 }
 
-template<class TScalar, unsigned int NDimensions, unsigned int NSubDimensions>
+template<typename TScalar, unsigned int NDimensions, unsigned int NSubDimensions>
 typename MultiTransform<TScalar, NDimensions, NSubDimensions>::NumberOfParametersType
 MultiTransform<TScalar, NDimensions, NSubDimensions>
 ::GetNumberOfLocalParameters(void) const
@@ -296,7 +296,7 @@ MultiTransform<TScalar, NDimensions, NSubDimensions>
 }
 
 template
-<class TScalar, unsigned int NDimensions, unsigned int NSubDimensions>
+<typename TScalar, unsigned int NDimensions, unsigned int NSubDimensions>
 typename MultiTransform<TScalar, NDimensions, NSubDimensions>::NumberOfParametersType
 MultiTransform<TScalar, NDimensions, NSubDimensions>
 ::GetNumberOfFixedParameters(void) const
@@ -313,7 +313,7 @@ MultiTransform<TScalar, NDimensions, NSubDimensions>
 }
 
 template
-<class TScalar, unsigned int NDimensions, unsigned int NSubDimensions>
+<typename TScalar, unsigned int NDimensions, unsigned int NSubDimensions>
 void
 MultiTransform<TScalar, NDimensions, NSubDimensions>
 ::UpdateTransformParameters(  const DerivativeType & update, ScalarType  factor )
@@ -358,7 +358,7 @@ MultiTransform<TScalar, NDimensions, NSubDimensions>
  * return an inverse transformation
  */
 template
-<class TScalar, unsigned int NDimensions, unsigned int NSubDimensions>
+<typename TScalar, unsigned int NDimensions, unsigned int NSubDimensions>
 bool
 MultiTransform<TScalar, NDimensions, NSubDimensions>
 ::GetInverse( Self *inverse ) const
@@ -385,7 +385,7 @@ MultiTransform<TScalar, NDimensions, NSubDimensions>
 }
 
 template
-<class TScalar, unsigned int NDimensions, unsigned int NSubDimensions>
+<typename TScalar, unsigned int NDimensions, unsigned int NSubDimensions>
 void
 MultiTransform<TScalar, NDimensions, NSubDimensions>
 ::PrintSelf( std::ostream& os, Indent indent ) const

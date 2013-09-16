@@ -27,7 +27,7 @@
 namespace itk
 {
 /* Constructor: setting the default parameter values. */
-template< class TInputImage, class TOutputImage, class TBinaryPriorImage >
+template< typename TInputImage, typename TOutputImage, typename TBinaryPriorImage >
 VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage >
 ::VoronoiSegmentationImageFilterBase()
 {
@@ -46,12 +46,12 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
 }
 
 /* Destructor. */
-template< class TInputImage, class TOutputImage, class TBinaryPriorImage >
+template< typename TInputImage, typename TOutputImage, typename TBinaryPriorImage >
 VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage >
 ::~VoronoiSegmentationImageFilterBase()
 {}
 
-template< class TInputImage, class TOutputImage, class TBinaryPriorImage >
+template< typename TInputImage, typename TOutputImage, typename TBinaryPriorImage >
 void
 VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -76,7 +76,7 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
   os << indent << "Size = " << m_Size << std::endl;
 }
 
-template< class TInputImage, class TOutputImage, class TBinaryPriorImage >
+template< typename TInputImage, typename TOutputImage, typename TBinaryPriorImage >
 void
 VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage >
 ::GetPixelIndexFromPolygon(PointTypeDeque vertlist, IndexList *PixelPool)
@@ -362,7 +362,7 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
     }
 }
 
-template< class TInputImage, class TOutputImage, class TBinaryPriorImage >
+template< typename TInputImage, typename TOutputImage, typename TBinaryPriorImage >
 void
 VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage >
 ::ClassifyDiagram(void)
@@ -416,7 +416,7 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
     }
 }
 
-template< class TInputImage, class TOutputImage, class TBinaryPriorImage >
+template< typename TInputImage, typename TOutputImage, typename TBinaryPriorImage >
 void
 VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage >
 ::GenerateAddingSeeds(void)
@@ -441,7 +441,7 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
     }
 }
 
-template< class TInputImage, class TOutputImage, class TBinaryPriorImage >
+template< typename TInputImage, typename TOutputImage, typename TBinaryPriorImage >
 void
 VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage >
 ::RunSegmentOneStep(void)
@@ -468,7 +468,7 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
     }
 }
 
-template< class TInputImage, class TOutputImage, class TBinaryPriorImage >
+template< typename TInputImage, typename TOutputImage, typename TBinaryPriorImage >
 void
 VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage >
 ::RunSegment(void)
@@ -531,7 +531,7 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
     }
 }
 
-template< class TInputImage, class TOutputImage, class TBinaryPriorImage >
+template< typename TInputImage, typename TOutputImage, typename TBinaryPriorImage >
 void
 VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage >
 ::GenerateData(void)
@@ -561,7 +561,7 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
     }
 }
 
-template< class TInputImage, class TOutputImage, class TBinaryPriorImage >
+template< typename TInputImage, typename TOutputImage, typename TBinaryPriorImage >
 void
 VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage >
 ::BeforeNextStep(void)
@@ -571,7 +571,7 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
   m_NumberOfSeeds += m_NumberOfSeedsToAdded;
 }
 
-template< class TInputImage, class TOutputImage, class TBinaryPriorImage >
+template< typename TInputImage, typename TOutputImage, typename TBinaryPriorImage >
 void
 VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage >
 ::MakeSegmentBoundary(void)
@@ -603,7 +603,7 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
     }
 }
 
-template< class TInputImage, class TOutputImage, class TBinaryPriorImage >
+template< typename TInputImage, typename TOutputImage, typename TBinaryPriorImage >
 void
 VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage >
 ::MakeSegmentObject(void)
@@ -638,7 +638,7 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
     }
 }
 
-template< class TInputImage, class TOutputImage, class TBinaryPriorImage >
+template< typename TInputImage, typename TOutputImage, typename TBinaryPriorImage >
 void
 VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage >
 ::FillPolygon(PointTypeDeque vertlist, OutputPixelType color)
@@ -924,7 +924,7 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
     }
 }
 
-template< class TInputImage, class TOutputImage, class TBinaryPriorImage >
+template< typename TInputImage, typename TOutputImage, typename TBinaryPriorImage >
 void
 VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage >
 ::drawLine(PointType p1, PointType p2)
@@ -994,7 +994,7 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
     }
 }
 
-template< class TInputImage, class TOutputImage, class TBinaryPriorImage >
+template< typename TInputImage, typename TOutputImage, typename TBinaryPriorImage >
 void
 VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage >
 ::DrawDiagram(VDImagePointer result, unsigned char incolor,
@@ -1031,7 +1031,7 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
     }
 }
 
-template< class TInputImage, class TOutputImage, class TBinaryPriorImage >
+template< typename TInputImage, typename TOutputImage, typename TBinaryPriorImage >
 void
 VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage >
 ::drawVDline(VDImagePointer result, PointType p1, PointType p2,
@@ -1111,7 +1111,7 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
     }
 }
 
-template< class TInputImage, class TOutputImage, class TBinaryPriorImage >
+template< typename TInputImage, typename TOutputImage, typename TBinaryPriorImage >
 void
 VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage >
 ::GenerateInputRequestedRegion()
@@ -1130,7 +1130,7 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
     }
 }
 
-template< class TInputImage, class TOutputImage, class TBinaryPriorImage >
+template< typename TInputImage, typename TOutputImage, typename TBinaryPriorImage >
 void
 VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage >
 ::EnlargeOutputRequestedRegion(DataObject *output)

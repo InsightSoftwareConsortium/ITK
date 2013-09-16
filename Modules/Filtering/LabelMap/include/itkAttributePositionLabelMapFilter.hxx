@@ -35,13 +35,13 @@
 
 namespace itk {
 
-template <class TImage, class TAttributeAccessor, bool VPhysicalPosition>
+template <typename TImage, typename TAttributeAccessor, bool VPhysicalPosition>
 AttributePositionLabelMapFilter<TImage, TAttributeAccessor, VPhysicalPosition>
 ::AttributePositionLabelMapFilter()
 {
 }
 
-template <class TImage, class TAttributeAccessor, bool VPhysicalPosition>
+template <typename TImage, typename TAttributeAccessor, bool VPhysicalPosition>
 void
 AttributePositionLabelMapFilter<TImage, TAttributeAccessor, VPhysicalPosition>
 ::ThreadedProcessLabelObject( LabelObjectType * labelObject )
@@ -74,7 +74,7 @@ AttributePositionLabelMapFilter<TImage, TAttributeAccessor, VPhysicalPosition>
   labelObject->AddIndex( idx );
 }
 
-template <class TImage, class TAttributeAccessor, bool VPhysicalPosition>
+template <typename TImage, typename TAttributeAccessor, bool VPhysicalPosition>
 void
 AttributePositionLabelMapFilter<TImage, TAttributeAccessor, VPhysicalPosition>
 ::PrintSelf(std::ostream &os, Indent indent) const

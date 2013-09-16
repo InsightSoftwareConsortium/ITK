@@ -33,7 +33,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 GrayscaleGeodesicDilateImageFilter< TInputImage, TOutputImage >
 ::GrayscaleGeodesicDilateImageFilter()
 {
@@ -43,7 +43,7 @@ GrayscaleGeodesicDilateImageFilter< TInputImage, TOutputImage >
   m_FullyConnected = false;
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 GrayscaleGeodesicDilateImageFilter< TInputImage, TOutputImage >
 ::SetMarkerImage(const MarkerImageType *markerImage)
@@ -52,7 +52,7 @@ GrayscaleGeodesicDilateImageFilter< TInputImage, TOutputImage >
   this->SetNthInput( 0, const_cast< MarkerImageType * >( markerImage ) );
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 const typename GrayscaleGeodesicDilateImageFilter< TInputImage, TOutputImage >::MarkerImageType *
 GrayscaleGeodesicDilateImageFilter< TInputImage, TOutputImage >
 ::GetMarkerImage()
@@ -60,7 +60,7 @@ GrayscaleGeodesicDilateImageFilter< TInputImage, TOutputImage >
   return this->GetInput(0);
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 GrayscaleGeodesicDilateImageFilter< TInputImage, TOutputImage >
 ::SetMaskImage(const MaskImageType *maskImage)
@@ -69,7 +69,7 @@ GrayscaleGeodesicDilateImageFilter< TInputImage, TOutputImage >
   this->SetNthInput( 1, const_cast< MaskImageType * >( maskImage ) );
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 const typename GrayscaleGeodesicDilateImageFilter< TInputImage, TOutputImage >::MaskImageType *
 GrayscaleGeodesicDilateImageFilter< TInputImage, TOutputImage >
 ::GetMaskImage()
@@ -77,7 +77,7 @@ GrayscaleGeodesicDilateImageFilter< TInputImage, TOutputImage >
   return this->GetInput(1);
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 GrayscaleGeodesicDilateImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
@@ -154,7 +154,7 @@ GrayscaleGeodesicDilateImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 GrayscaleGeodesicDilateImageFilter< TInputImage, TOutputImage >
 ::EnlargeOutputRequestedRegion(DataObject *)
@@ -167,7 +167,7 @@ GrayscaleGeodesicDilateImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 GrayscaleGeodesicDilateImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
@@ -280,7 +280,7 @@ GrayscaleGeodesicDilateImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 GrayscaleGeodesicDilateImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
@@ -405,7 +405,7 @@ GrayscaleGeodesicDilateImageFilter< TInputImage, TOutputImage >
     }
 }
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 GrayscaleGeodesicDilateImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

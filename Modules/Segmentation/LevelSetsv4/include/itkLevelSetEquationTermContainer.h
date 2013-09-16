@@ -38,8 +38,8 @@ namespace itk
  *
  *  \ingroup ITKLevelSetsv4
  */
-template< class TInputImage,
-          class TLevelSetContainer >
+template< typename TInputImage,
+          typename TLevelSetContainer >
 class LevelSetEquationTermContainer : public Object
 {
 public:

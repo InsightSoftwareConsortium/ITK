@@ -125,10 +125,10 @@ protected:
 };
 
 
-template < class InterpolatorType,
-            class TransformType,
-            class FixedImageReaderType,
-            class MovingImageReaderType >
+template < typename InterpolatorType,
+            typename TransformType,
+            typename FixedImageReaderType,
+            typename MovingImageReaderType >
 void BasicTest( FixedImageReaderType* fixedImageReader,
                 MovingImageReaderType* movingImageReader,
                 InterpolatorType* interpolator,
@@ -154,12 +154,12 @@ void BasicTest( FixedImageReaderType* fixedImageReader,
                              transform, msMetric.GetPointer(), msMetricInitializer );
 }
 
-template <class FixedImageReaderType,
-          class MovingImageReaderType,
-          class InterpolatorType,
-          class TransformType,
-          class MetricType,
-          class MetricInitializerType>
+template <typename FixedImageReaderType,
+          typename MovingImageReaderType,
+          typename InterpolatorType,
+          typename TransformType,
+          typename MetricType,
+          typename MetricInitializerType>
 void TestAMetric(FixedImageReaderType* fixedImageReader,
                  MovingImageReaderType* movingImageReader,
                  InterpolatorType* interpolator,
@@ -183,7 +183,7 @@ void TestAMetric(FixedImageReaderType* fixedImageReader,
                       interpolator, transform, metric, metricInitializer );
 }
 
-template <class FixedImageReaderType, class MovingImageReaderType>
+template <typename FixedImageReaderType, typename MovingImageReaderType>
 void BSplineLinearTest( FixedImageReaderType* fixedImageReader,
                        MovingImageReaderType* movingImageReader)
 {

@@ -37,7 +37,7 @@
 namespace itk
 {
 //---------------------------------------------------------
-template< class TInputImage >
+template< typename TInputImage >
 ImageFileWriter< TInputImage >
 ::ImageFileWriter():
   m_PasteIORegion(TInputImage::ImageDimension)
@@ -51,13 +51,13 @@ ImageFileWriter< TInputImage >
 }
 
 //---------------------------------------------------------
-template< class TInputImage >
+template< typename TInputImage >
 ImageFileWriter< TInputImage >
 ::~ImageFileWriter()
 {}
 
 //---------------------------------------------------------
-template< class TInputImage >
+template< typename TInputImage >
 void
 ImageFileWriter< TInputImage >
 ::SetInput(const InputImageType *input)
@@ -68,7 +68,7 @@ ImageFileWriter< TInputImage >
 }
 
 //---------------------------------------------------------
-template< class TInputImage >
+template< typename TInputImage >
 const typename ImageFileWriter< TInputImage >::InputImageType *
 ImageFileWriter< TInputImage >
 ::GetInput(void)
@@ -77,7 +77,7 @@ ImageFileWriter< TInputImage >
 }
 
 //---------------------------------------------------------
-template< class TInputImage >
+template< typename TInputImage >
 const typename ImageFileWriter< TInputImage >::InputImageType *
 ImageFileWriter< TInputImage >
 ::GetInput(unsigned int idx)
@@ -86,7 +86,7 @@ ImageFileWriter< TInputImage >
 }
 
 //---------------------------------------------------------
-template< class TInputImage >
+template< typename TInputImage >
 void
 ImageFileWriter< TInputImage >
 ::SetIORegion(const ImageIORegion & region)
@@ -101,7 +101,7 @@ ImageFileWriter< TInputImage >
 }
 
 //---------------------------------------------------------
-template< class TInputImage >
+template< typename TInputImage >
 void
 ImageFileWriter< TInputImage >
 ::Write()
@@ -359,7 +359,7 @@ ImageFileWriter< TInputImage >
 }
 
 //---------------------------------------------------------
-template< class TInputImage >
+template< typename TInputImage >
 void
 ImageFileWriter< TInputImage >
 ::GenerateData(void)
@@ -416,7 +416,7 @@ ImageFileWriter< TInputImage >
 }
 
 //---------------------------------------------------------
-template< class TInputImage >
+template< typename TInputImage >
 void
 ImageFileWriter< TInputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

@@ -24,19 +24,19 @@
 
 namespace itk
 {
-template< class TTermContainer >
+template< typename TTermContainer >
 LevelSetEquationContainer< TTermContainer >
 ::LevelSetEquationContainer()
 {
 }
 
-template< class TTermContainer >
+template< typename TTermContainer >
 LevelSetEquationContainer< TTermContainer >
 ::~LevelSetEquationContainer()
 {
 }
 
-template< class TTermContainer >
+template< typename TTermContainer >
 void
 LevelSetEquationContainer< TTermContainer >
 ::AddEquation( const LevelSetIdentifierType& iId,
@@ -68,7 +68,7 @@ LevelSetEquationContainer< TTermContainer >
     }
 }
 
-template< class TTermContainer >
+template< typename TTermContainer >
 typename LevelSetEquationContainer< TTermContainer >::TermContainerType*
 LevelSetEquationContainer< TTermContainer >
 ::GetEquation( const LevelSetIdentifierType& iId ) const
@@ -86,35 +86,35 @@ LevelSetEquationContainer< TTermContainer >
   return it->second;
 }
 
-template< class TTermContainer >
+template< typename TTermContainer >
 typename LevelSetEquationContainer< TTermContainer >::Iterator
 LevelSetEquationContainer< TTermContainer >::Begin()
 {
   return Iterator( m_Container.begin() );
 }
 
-template< class TTermContainer >
+template< typename TTermContainer >
 typename LevelSetEquationContainer< TTermContainer >::Iterator
 LevelSetEquationContainer< TTermContainer >::End()
 {
   return Iterator( m_Container.end() );
 }
 
-template< class TTermContainer >
+template< typename TTermContainer >
 typename LevelSetEquationContainer< TTermContainer >::ConstIterator
 LevelSetEquationContainer< TTermContainer >::Begin() const
 {
   return ConstIterator( m_Container.begin() );
 }
 
-template< class TTermContainer >
+template< typename TTermContainer >
 typename LevelSetEquationContainer< TTermContainer >::ConstIterator
 LevelSetEquationContainer< TTermContainer >::End() const
 {
   return ConstIterator( m_Container.end() );
 }
 
-template< class TTermContainer >
+template< typename TTermContainer >
 void
 LevelSetEquationContainer< TTermContainer >
 ::UpdateInternalEquationTerms()
@@ -127,7 +127,7 @@ LevelSetEquationContainer< TTermContainer >
     }
 }
 
-template< class TTermContainer >
+template< typename TTermContainer >
 void
 LevelSetEquationContainer< TTermContainer >
 ::UpdatePixel( const LevelSetInputIndexType& iP,
@@ -141,7 +141,7 @@ LevelSetEquationContainer< TTermContainer >
     }
 }
 
-template< class TTermContainer >
+template< typename TTermContainer >
 void
 LevelSetEquationContainer< TTermContainer >
 ::InitializeParameters()
@@ -154,7 +154,7 @@ LevelSetEquationContainer< TTermContainer >
     }
   }
 
-template< class TTermContainer >
+template< typename TTermContainer >
 typename LevelSetEquationContainer< TTermContainer >::LevelSetOutputRealType
 LevelSetEquationContainer< TTermContainer >
 ::ComputeCFLContribution() const

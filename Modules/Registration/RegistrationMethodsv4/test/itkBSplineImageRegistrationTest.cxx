@@ -26,7 +26,7 @@
 #include "itkBSplineTransform.h"
 #include "itkBSplineTransformParametersAdaptor.h"
 
-template<class TFilter>
+template<typename TFilter>
 class CommandIterationUpdate : public itk::Command
 {
 public:

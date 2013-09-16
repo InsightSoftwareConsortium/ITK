@@ -28,7 +28,7 @@ namespace itk
 {
 
 // Constructor with default arguments
-template <class TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
+template <typename TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
 BSplineTransform<TScalar, NDimensions, VSplineOrder>
 ::BSplineTransform() : Superclass( )
 {
@@ -64,14 +64,14 @@ BSplineTransform<TScalar, NDimensions, VSplineOrder>
 }
 
 // Destructor
-template <class TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
+template <typename TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
 BSplineTransform<TScalar, NDimensions, VSplineOrder>
 ::~BSplineTransform()
 {
 }
 
 // Get the number of parameters
-template <class TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
+template <typename TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
 typename BSplineTransform<TScalar, NDimensions, VSplineOrder>::NumberOfParametersType
 BSplineTransform<TScalar, NDimensions, VSplineOrder>
 ::GetNumberOfParameters() const
@@ -82,7 +82,7 @@ BSplineTransform<TScalar, NDimensions, VSplineOrder>
 }
 
 // Get the number of parameters per dimension
-template <class TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
+template <typename TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
 typename BSplineTransform<TScalar, NDimensions, VSplineOrder>::NumberOfParametersType
 BSplineTransform<TScalar, NDimensions, VSplineOrder>
 ::GetNumberOfParametersPerDimension() const
@@ -99,7 +99,7 @@ BSplineTransform<TScalar, NDimensions, VSplineOrder>
 }
 
 // Set the transform origin
-template <class TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
+template <typename TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
 void
 BSplineTransform<TScalar, NDimensions, VSplineOrder>
 ::SetTransformDomainOrigin( const OriginType & origin )
@@ -115,7 +115,7 @@ BSplineTransform<TScalar, NDimensions, VSplineOrder>
 }
 
 // Set the transform dimensions
-template <class TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
+template <typename TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
 void
 BSplineTransform<TScalar, NDimensions, VSplineOrder>
 ::SetTransformDomainPhysicalDimensions( const PhysicalDimensionsType & dims )
@@ -131,7 +131,7 @@ BSplineTransform<TScalar, NDimensions, VSplineOrder>
 }
 
 // Set the transform
-template <class TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
+template <typename TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
 void
 BSplineTransform<TScalar, NDimensions, VSplineOrder>
 ::SetTransformDomainDirection( const DirectionType & direction )
@@ -148,7 +148,7 @@ BSplineTransform<TScalar, NDimensions, VSplineOrder>
 }
 
 // Set the transform domain mesh size
-template <class TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
+template <typename TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
 void
 BSplineTransform<TScalar, NDimensions, VSplineOrder>
 ::SetTransformDomainMeshSize( const MeshSizeType & meshSize )
@@ -171,7 +171,7 @@ BSplineTransform<TScalar, NDimensions, VSplineOrder>
     }
 }
 
-template <class TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
+template <typename TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
 void
 BSplineTransform<TScalar, NDimensions, VSplineOrder>
 ::SetCoefficientImageInformationFromFixedParameters()
@@ -232,7 +232,7 @@ BSplineTransform<TScalar, NDimensions, VSplineOrder>
     }
 }
 
-template <class TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
+template <typename TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
 void
 BSplineTransform<TScalar, NDimensions, VSplineOrder>
 ::SetFixedParametersGridSizeFromTransformDomainInformation() const
@@ -245,7 +245,7 @@ BSplineTransform<TScalar, NDimensions, VSplineOrder>
     }
 }
 
-template <class TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
+template <typename TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
 void
 BSplineTransform<TScalar, NDimensions, VSplineOrder>
 ::SetFixedParametersGridOriginFromTransformDomainInformation() const
@@ -269,7 +269,7 @@ BSplineTransform<TScalar, NDimensions, VSplineOrder>
     }
 }
 
-template <class TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
+template <typename TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
 void
 BSplineTransform<TScalar, NDimensions, VSplineOrder>
 ::SetFixedParametersGridSpacingFromTransformDomainInformation() const
@@ -285,7 +285,7 @@ BSplineTransform<TScalar, NDimensions, VSplineOrder>
     }
 }
 
-template <class TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
+template <typename TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
 void
 BSplineTransform<TScalar, NDimensions, VSplineOrder>
 ::SetFixedParametersGridDirectionFromTransformDomainInformation() const
@@ -303,7 +303,7 @@ BSplineTransform<TScalar, NDimensions, VSplineOrder>
 
 
 // Set the Fixed Parameters
-template <class TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
+template <typename TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
 void
 BSplineTransform<TScalar, NDimensions, VSplineOrder>
 ::SetFixedParameters( const ParametersType & passedParameters )
@@ -371,7 +371,7 @@ BSplineTransform<TScalar, NDimensions, VSplineOrder>
 }
 
 // Set the B-Spline coefficients using input images
-template <class TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
+template <typename TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
 void
 BSplineTransform<TScalar, NDimensions, VSplineOrder>
 ::SetCoefficientImages( const CoefficientImageArray & images )
@@ -436,7 +436,7 @@ BSplineTransform<TScalar, NDimensions, VSplineOrder>
 }
 
 // Print self
-template <class TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
+template <typename TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
 void
 BSplineTransform<TScalar, NDimensions, VSplineOrder>
 ::PrintSelf( std::ostream & os, Indent indent ) const
@@ -461,7 +461,7 @@ BSplineTransform<TScalar, NDimensions, VSplineOrder>
      << this->m_CoefficientImages[0]->GetDirection() << std::endl;
 }
 
-template <class TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
+template <typename TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
 bool
 BSplineTransform<TScalar, NDimensions, VSplineOrder>
 ::InsideValidRegion( ContinuousIndexType & index ) const
@@ -496,7 +496,7 @@ BSplineTransform<TScalar, NDimensions, VSplineOrder>
   return inside;
 }
 
-template <class TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
+template <typename TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
 void
 BSplineTransform<TScalar, NDimensions, VSplineOrder>
 ::TransformPoint( const InputPointType & point, OutputPointType & outputPoint,
@@ -586,7 +586,7 @@ BSplineTransform<TScalar, NDimensions, VSplineOrder>
 }
 
 // Compute the Jacobian in one position
-template <class TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
+template <typename TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
 void
 BSplineTransform<TScalar, NDimensions, VSplineOrder>
 ::ComputeJacobianWithRespectToParameters( const InputPointType & point,

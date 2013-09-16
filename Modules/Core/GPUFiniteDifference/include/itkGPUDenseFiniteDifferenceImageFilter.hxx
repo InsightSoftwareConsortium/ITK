@@ -28,7 +28,7 @@
 
 namespace itk
 {
-template< class TInputImage, class TOutputImage, class TParentImageFilter >
+template< typename TInputImage, typename TOutputImage, typename TParentImageFilter >
 GPUDenseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TParentImageFilter >
 ::GPUDenseFiniteDifferenceImageFilter()
 {
@@ -71,7 +71,7 @@ GPUDenseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TParentImageFilt
 
 }
 
-template< class TInputImage, class TOutputImage, class TParentImageFilter >
+template< typename TInputImage, typename TOutputImage, typename TParentImageFilter >
 void
 GPUDenseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TParentImageFilter >
 ::CopyInputToOutput()
@@ -82,7 +82,7 @@ GPUDenseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TParentImageFilt
   this->GetOutput()->Modified();
 }
 
-template< class TInputImage, class TOutputImage, class TParentImageFilter >
+template< typename TInputImage, typename TOutputImage, typename TParentImageFilter >
 void
 GPUDenseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TParentImageFilter >
 ::AllocateUpdateBuffer()
@@ -91,7 +91,7 @@ GPUDenseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TParentImageFilt
   CPUSuperclass::AllocateUpdateBuffer();
 }
 
-template< class TInputImage, class TOutputImage, class TParentImageFilter >
+template< typename TInputImage, typename TOutputImage, typename TParentImageFilter >
 void
 GPUDenseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TParentImageFilter >
 ::ApplyUpdate(const TimeStepType& dt)
@@ -99,7 +99,7 @@ GPUDenseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TParentImageFilt
   this->GPUApplyUpdate( dt );
 }
 
-template< class TInputImage, class TOutputImage, class TParentImageFilter >
+template< typename TInputImage, typename TOutputImage, typename TParentImageFilter >
 void
 GPUDenseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TParentImageFilter >
 ::GPUApplyUpdate(const TimeStepType& dt)
@@ -155,7 +155,7 @@ GPUDenseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TParentImageFilt
   //this->GetOutput()->Modified();
 }
 
-template< class TInputImage, class TOutputImage, class TParentImageFilter >
+template< typename TInputImage, typename TOutputImage, typename TParentImageFilter >
 typename
 GPUDenseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TParentImageFilter >::TimeStepType
 GPUDenseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TParentImageFilter >
@@ -183,7 +183,7 @@ GPUDenseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TParentImageFilt
   return timeStep;
 }
 
-template< class TInputImage, class TOutputImage, class TParentImageFilter >
+template< typename TInputImage, typename TOutputImage, typename TParentImageFilter >
 void
 GPUDenseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TParentImageFilter >
 ::PrintSelf(std::ostream & os, Indent indent) const

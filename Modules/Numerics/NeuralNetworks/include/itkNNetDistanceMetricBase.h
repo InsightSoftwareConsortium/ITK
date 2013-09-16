@@ -30,7 +30,7 @@ namespace Statistics
  * \ingroup ITKNeuralNetworks
  */
 
-template<class TMeasurementVector>
+template<typename TMeasurementVector>
 class NNetDistanceMetricBase : public FunctionBase<TMeasurementVector, double>
 {
 public:
