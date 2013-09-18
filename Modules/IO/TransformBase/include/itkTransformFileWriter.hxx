@@ -241,6 +241,54 @@ void TransformFileWriterTemplate<ScalarType>
     }
 }
 
+template<>
+void TransformFileWriterTemplate<double>
+::PushBackTransformList(const Object *transObj)
+{
+  TransformBaseTemplate<double>::ConstPointer dblptr = dynamic_cast<const TransformBaseTemplate<double> *>( transObj );
+  if( dblptr.IsNotNull() )
+    {
+    AddToTransformList<double, double>( dblptr, m_TransformList );
+    }
+  else
+    {
+    TransformBaseTemplate<float>::ConstPointer fltptr = dynamic_cast<const TransformBaseTemplate<float> *>( transObj );
+    if( fltptr.IsNotNull() )
+      {
+      AddToTransformList<double, float>( fltptr, m_TransformList );
+      }
+    else
+      {
+      itkExceptionMacro("The input of writer should be whether a double precision"
+                        "or a single precision transform type.");
+      }
+    }
+}
+
+template<>
+void TransformFileWriterTemplate<float>
+::PushBackTransformList(const Object *transObj)
+{
+  TransformBaseTemplate<double>::ConstPointer dblptr = dynamic_cast<const TransformBaseTemplate<double> *>( transObj );
+  if( dblptr.IsNotNull() )
+    {
+    AddToTransformList<float, double>( dblptr, m_TransformList );
+    }
+  else
+    {
+    TransformBaseTemplate<float>::ConstPointer fltptr = dynamic_cast<const TransformBaseTemplate<float> *>( transObj );
+    if( fltptr.IsNotNull() )
+      {
+      AddToTransformList<float, float>( fltptr, m_TransformList );
+      }
+    else
+      {
+      itkExceptionMacro("The input of writer should be whether a double precision"
+                        "or a single precision transform type.");
+      }
+    }
+}
+
 /** Set the input transform and reinitialize the list of transforms */
 template<typename ScalarType>
 void TransformFileWriterTemplate<ScalarType>
