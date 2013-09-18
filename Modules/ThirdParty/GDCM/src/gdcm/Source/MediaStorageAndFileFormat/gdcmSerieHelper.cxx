@@ -27,7 +27,7 @@ namespace gdcm
 SerieHelper::SerieHelper()
 {
   gdcm::Trace::WarningOff();
-  m_UseSeriesDetails = false;
+  UseSeriesDetails = false;
   Clear();
   UserLessThanFunction = 0;
   DirectOrder = true;
@@ -428,7 +428,7 @@ std::string SerieHelper::CreateUniqueSeriesIdentifier( File * inFile )
     //std::string uid = inFile->GetEntryValue (0x0020, 0x000e);
     std::string uid = sf.ToString( Tag(0x0020, 0x000e) );
     std::string id = uid.c_str();
-    if(m_UseSeriesDetails)
+    if(UseSeriesDetails)
       {
       for(SerieRestrictions::iterator it2 = Refine.begin();
         it2 != Refine.end();
