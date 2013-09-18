@@ -223,7 +223,7 @@ TxtTransformIOTemplate<ParametersValueType>
     if ( Name == "Transform" )
       {
       // Transform name should be modified to have the output precision type.
-      CorrectTransformPrecisionType<ParametersValueType>( Value );
+      Superclass::CorrectTransformPrecisionType( Value );
 
       this->CreateTransform(transform, Value);
       this->GetReadTransformList().push_back (transform);

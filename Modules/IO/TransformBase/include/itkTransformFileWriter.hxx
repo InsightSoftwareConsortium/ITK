@@ -28,6 +28,7 @@ namespace itk
 
 namespace
 {
+
 /*
  This helper is used to:
  Create and set a new type transform that have requested output precision type.
@@ -47,7 +48,7 @@ struct TransformIOHelper
   CreateNewTypeTransform(std::string transformName)
   {
     // Transform name is modified to have the output precision type.
-    CorrectTransformPrecisionType<TOutputScalar>( transformName );
+    TransformIOBaseTemplate<TOutputScalar>::CorrectTransformPrecisionType( transformName );
 
     OutputTransformPointer convertedTransform;
     // Instantiate the transform
@@ -91,11 +92,11 @@ inline void AddToTransformList(typename TransformBaseTemplate<TInputScalar>::Con
   typedef TransformBaseTemplate<TInputScalar>        InputTransformType;
   typedef typename InputTransformType::ConstPointer  InputTransformConstPointer;
   typedef std::list< InputTransformConstPointer >    InputConstTransformListType;
-  typedef TransformBaseTemplate<TOutputScalar>        OutputTransformType;
-  typedef typename OutputTransformType::Pointer       OutputTransformPointer;
-  typedef typename OutputTransformType::ConstPointer  OutputTransformConstPointer;
-  typedef std::list< OutputTransformPointer >         OutputTransformListType;
-  typedef std::list< OutputTransformConstPointer >    OutputConstTransformListType;
+  typedef TransformBaseTemplate<TOutputScalar>       OutputTransformType;
+  typedef typename OutputTransformType::Pointer      OutputTransformPointer;
+  typedef typename OutputTransformType::ConstPointer OutputTransformConstPointer;
+  typedef std::list< OutputTransformPointer >        OutputTransformListType;
+  typedef std::list< OutputTransformConstPointer >   OutputConstTransformListType;
 
   const std::string transformName = transform->GetTransformTypeAsString();
   OutputTransformPointer convertedTransform;

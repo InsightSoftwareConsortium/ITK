@@ -42,7 +42,7 @@ namespace itk
  *
  * \ingroup ITKIOTransformBase
  */
-template<typename ScalarType>
+template<typename TScalar>
 class TransformIOBaseTemplate:public LightProcessObject
 {
 public:
@@ -55,6 +55,7 @@ public:
   itkTypeMacro(TransformIOBaseTemplate, Superclass);
 
   /** Transform types */
+  typedef TScalar                           ScalarType;
   typedef TransformBaseTemplate<ScalarType> TransformType;
   /** For writing, a const transform list gets passed in, for
    * reading, a non-const transform list is created from the file.
@@ -95,6 +96,19 @@ public:
   itkGetConstMacro(AppendMode, bool);
   itkBooleanMacro(AppendMode);
 
+  /** The transform type has a string representation used when reading
+   * and writing transform files.  In the case where a double-precision
+   * transform is to be written as float, or vice versa, the transform
+   * type name used to write the file needs to patched in order for the
+   * transform I/O hierachy to work correctly. These template functions
+   * will be chosen at compile time within template classes in order to
+   * patch up the type name.
+   *  */
+  static inline void CorrectTransformPrecisionType( std::string & itkNotUsed(inputTransformName) )
+    {
+    itkGenericExceptionMacro(<< "Unknown ScalarType" << typeid(ScalarType).name());
+    }
+
 protected:
   TransformIOBaseTemplate();
   virtual ~TransformIOBaseTemplate();
@@ -108,7 +122,57 @@ protected:
   TransformListType      m_ReadTransformList;
   ConstTransformListType m_WriteTransformList;
   bool                   m_AppendMode;
+
+  /* The following struct returns the string name of computation type */
+  /* default implementation */
+  static inline const std::string GetTypeNameString()
+    {
+    itkGenericExceptionMacro(<< "Unknown ScalarType" << typeid(ScalarType).name());
+    }
 };
+
+
+template <>
+inline void
+TransformIOBaseTemplate<float>
+::CorrectTransformPrecisionType( std::string & inputTransformName )
+{
+  // output precision type is not found in input transform.
+ if(inputTransformName.find("float") == std::string::npos)
+   {
+   const std::string::size_type begin = inputTransformName.find("double");
+   inputTransformName.replace(begin, 6, "float");
+   }
+}
+
+template <>
+inline void
+TransformIOBaseTemplate<double>
+::CorrectTransformPrecisionType( std::string & inputTransformName )
+{
+  // output precision type is not found in input transform.
+ if(inputTransformName.find("double") == std::string::npos)
+   {
+   const std::string::size_type begin = inputTransformName.find("float");
+   inputTransformName.replace(begin, 5, "double");
+   }
+}
+
+template <>
+inline const std::string
+TransformIOBaseTemplate<float>
+::GetTypeNameString()
+{
+  return std::string("float");
+}
+
+template <>
+inline const std::string
+TransformIOBaseTemplate<double>
+::GetTypeNameString()
+{
+  return std::string("double");
+}
 
 /** This helps to meet backward compatibility */
 typedef itk::TransformIOBaseTemplate<double> TransformIOBase;

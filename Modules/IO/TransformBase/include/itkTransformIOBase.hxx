@@ -26,68 +26,22 @@
 namespace itk
 {
 
-namespace
-{
 
-/* The following struct returns the string name of computation type */
-/* default implementation */
-template <typename ScalarType>
-inline const std::string GetTypeNameString()
-{
-  return std::string(typeid(ScalarType).name());
-}
-
-/* a specialization for each "float" and "double" type that we support
-   and don't like the string returned by typeid */
-template <>
-inline const std::string GetTypeNameString<float>()
-{
-  return std::string("float");
-}
-
-template <>
-inline const std::string GetTypeNameString<double>()
-{
-  return std::string("double");
-}
-
-template<typename ScalarType>
-inline void CorrectTransformPrecisionType( std::string & inputTransformName )
-{
-  const std::string & outputScalarTypeAsString = GetTypeNameString<ScalarType>();
-  if( inputTransformName.find(outputScalarTypeAsString) == std::string::npos ) // output precision type is not found in input transform.
-    {
-    const std::string floatString("float");
-    const std::string doubleString("double");
-    if( outputScalarTypeAsString.compare(floatString) == 0 ) // output precision type is float, so we should search for double and replace that.
-      {
-      const std::string::size_type begin = inputTransformName.find(doubleString);
-      inputTransformName.replace(begin, doubleString.size(), floatString);
-      }
-    else
-      {
-      const std::string::size_type begin = inputTransformName.find(floatString);
-      inputTransformName.replace(begin, floatString.size(), doubleString);
-      }
-    }
-}
-} // end anonymous namespace
-
-template <typename ScalarType>
-TransformIOBaseTemplate<ScalarType>
+template< typename TScalar >
+TransformIOBaseTemplate< TScalar >
 ::TransformIOBaseTemplate() :
   m_AppendMode(false)
 {
 }
 
-template <typename ScalarType>
-TransformIOBaseTemplate<ScalarType>
+template< typename TScalar >
+TransformIOBaseTemplate< TScalar >
 ::~TransformIOBaseTemplate()
 {
 }
 
-template <typename ScalarType>
-void TransformIOBaseTemplate<ScalarType>
+template< typename TScalar >
+void TransformIOBaseTemplate< TScalar >
 ::CreateTransform(TransformPointer & ptr, const std::string & ClassName)
 {
   //
@@ -119,8 +73,8 @@ void TransformIOBaseTemplate<ScalarType>
   ptr->UnRegister();
   }
 
-template <typename ScalarType>
-void TransformIOBaseTemplate<ScalarType>
+template< typename TScalar >
+void TransformIOBaseTemplate< TScalar >
 ::OpenStream(std::ofstream & outputStream, bool binary)
 {
   std::ios::openmode mode(std::ios::out);
@@ -143,15 +97,15 @@ void TransformIOBaseTemplate<ScalarType>
     }
 }
 
-template <typename ScalarType>
-void TransformIOBaseTemplate<ScalarType>
+template< typename TScalar >
+void TransformIOBaseTemplate< TScalar >
 ::SetTransformList(ConstTransformListType & transformList)
 {
   this->m_WriteTransformList = transformList;
 }
 
-template <typename ScalarType>
-void TransformIOBaseTemplate<ScalarType>
+template< typename TScalar >
+void TransformIOBaseTemplate< TScalar >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
 Superclass::PrintSelf(os, indent);
@@ -181,6 +135,7 @@ if ( m_WriteTransformList.size() > 0 )
     }
   }
 }
-} // itk
+
+} // namespace itk
 
 #endif
