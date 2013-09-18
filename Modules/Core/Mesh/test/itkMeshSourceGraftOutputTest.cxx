@@ -94,7 +94,7 @@ MeshSourceGraftOutputFilter<TInputMesh,TOutputMesh,TTransform>
     {
     os << indent << "Transform: " << m_Transform << std::endl;
     }
-};
+}
 
 
 /**
