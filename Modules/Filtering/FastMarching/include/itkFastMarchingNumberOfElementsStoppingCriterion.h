@@ -24,78 +24,78 @@
 
 namespace itk
 {
-  /**
-    \class FastMarchingNumberOfElementsStoppingCriterion
-    \brief Stopping Criterion is verified when Current Number of Elements is equal
-    to or greater than the provided Target Number Of Elements.
+/**
+ * \class FastMarchingNumberOfElementsStoppingCriterion
+ * \brief Stopping Criterion is verified when Current Number of Elements is equal
+ * to or greater than the provided Target Number Of Elements.
+ *
+ * \note For itk::Image, one element is one pixel. So the number of elements is directly
+ * linked to the physical size of the object, i.e.
+ * \f$ PhysicalSize = TargetNumberOfElements \cdot \prod_{i=1}{dim} Spacing_{i} \f$
+ *
+ * \note For itk::QuadEdgeMesh, one element is one vertex.
+ *
+ * \ingroup ITKFastMarching
+ */
+template< typename TInput, typename TOutput >
+class FastMarchingNumberOfElementsStoppingCriterion :
+public FastMarchingStoppingCriterionBase< TInput, TOutput >
+{
+public:
+  typedef FastMarchingNumberOfElementsStoppingCriterion         Self;
+  typedef FastMarchingStoppingCriterionBase< TInput, TOutput >  Superclass;
+  typedef SmartPointer< Self >                                  Pointer;
+  typedef SmartPointer< const Self >                            ConstPointer;
 
-    \note For itk::Image, one element is one pixel. So the number of elements is directly
-    linked to the physical size of the object, i.e.
-    \f$ PhysicalSize = TargetNumberOfElements \cdot \prod_{i=1}{dim} Spacing_{i} \f$
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
 
-    \note For itk::QuadEdgeMesh, one element is one vertex.
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(FastMarchingNumberOfElementsStoppingCriterion,
+                FastMarchingStoppingCriterionBase );
 
-    \ingroup ITKFastMarching
-    */
-  template< typename TInput, typename TOutput >
-  class FastMarchingNumberOfElementsStoppingCriterion :
-      public FastMarchingStoppingCriterionBase< TInput, TOutput >
-    {
-  public:
-    typedef FastMarchingNumberOfElementsStoppingCriterion         Self;
-    typedef FastMarchingStoppingCriterionBase< TInput, TOutput >  Superclass;
-    typedef SmartPointer< Self >                                  Pointer;
-    typedef SmartPointer< const Self >                            ConstPointer;
+  typedef typename Superclass::OutputPixelType  OutputPixelType;
+  typedef typename Superclass::NodeType         NodeType;
 
-    /** Method for creation through the object factory. */
-    itkNewMacro(Self);
+  /** Get/set the threshold used by the stopping criteria. */
+  itkSetMacro( TargetNumberOfElements, IdentifierType );
+  itkGetMacro( TargetNumberOfElements, IdentifierType );
 
-    /** Run-time type information (and related methods). */
-    itkTypeMacro(FastMarchingNumberOfElementsStoppingCriterion,
-                 FastMarchingStoppingCriterionBase );
+  bool IsSatisfied() const
+  {
+    return ( this->m_CurrentNumberOfElements >= this->m_TargetNumberOfElements );
+  }
 
-    typedef typename Superclass::OutputPixelType  OutputPixelType;
-    typedef typename Superclass::NodeType         NodeType;
+  std::string GetDescription() const
+  {
+    return "Current Number of Elements >= Target Number of Elements";
+  }
 
-    /** Get/set the threshold used by the stopping criteria. */
-    itkSetMacro( TargetNumberOfElements, IdentifierType );
-    itkGetMacro( TargetNumberOfElements, IdentifierType );
+protected:
+  FastMarchingNumberOfElementsStoppingCriterion() : Superclass(),
+    m_CurrentNumberOfElements( NumericTraits< IdentifierType >::Zero ),
+    m_TargetNumberOfElements( NumericTraits< IdentifierType >::Zero )
+  {}
 
-    bool IsSatisfied() const
-      {
-      return ( this->m_CurrentNumberOfElements >= this->m_TargetNumberOfElements );
-      }
+  ~FastMarchingNumberOfElementsStoppingCriterion() {}
 
-    std::string GetDescription() const
-      {
-      return "Current Number of Elements >= Target Number of Elements";
-      }
+  IdentifierType  m_CurrentNumberOfElements;
+  IdentifierType  m_TargetNumberOfElements;
 
-  protected:
-    FastMarchingNumberOfElementsStoppingCriterion() : Superclass(),
-      m_CurrentNumberOfElements( NumericTraits< IdentifierType >::Zero ),
-      m_TargetNumberOfElements( NumericTraits< IdentifierType >::Zero )
-    {}
+  void SetCurrentNode( const NodeType& )
+  {
+    ++this->m_CurrentNumberOfElements;
+  }
 
-    ~FastMarchingNumberOfElementsStoppingCriterion() {}
+  void Reset()
+  {
+    this->m_CurrentNumberOfElements = NumericTraits< IdentifierType >::Zero;
+  }
 
-    IdentifierType  m_CurrentNumberOfElements;
-    IdentifierType  m_TargetNumberOfElements;
-
-    void SetCurrentNode( const NodeType& )
-      {
-      ++this->m_CurrentNumberOfElements;
-      }
-
-    void Reset()
-      {
-      this->m_CurrentNumberOfElements = NumericTraits< IdentifierType >::Zero;
-      }
-
-  private:
-    FastMarchingNumberOfElementsStoppingCriterion( const Self& );
-    void operator = ( const Self& );
-    };
+private:
+  FastMarchingNumberOfElementsStoppingCriterion( const Self& );
+  void operator = ( const Self& );
+};
 
 }
 #endif // __itkFastMarchingNumberOfElementsStoppingCriterion_h
