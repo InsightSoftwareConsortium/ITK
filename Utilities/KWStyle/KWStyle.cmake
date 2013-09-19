@@ -1,3 +1,4 @@
+
 find_package(KWStyle 1.0.1
   QUIET
   )
@@ -28,7 +29,7 @@ if(ITK_USE_KWSTYLE)
     ${ITK_SOURCE_DIR}/Utilities/KWStyle/ITKOverwrite.txt
     )
 
-  # Define formatting for error messages
+  # Define formatting for error messages for output of build target
   option(KWSTYLE_USE_VIM_FORMAT
     "Set KWStyle to generate errors with a VIM-compatible format."
     OFF
@@ -71,17 +72,17 @@ if(ITK_USE_KWSTYLE)
     -v
     -D ${KWSTYLE_ITK_FILES_LIST_FILE}
     -o ${KWSTYLE_ITK_OVERWRITE_FILE}
-    ${KWSTYLE_EDITOR_FORMAT}
     )
   add_custom_target(StyleCheckCode
-    COMMAND ${KWSTYLE_EXECUTABLE} ${KWSTYLE_ARGUMENTS}
+    COMMAND ${KWSTYLE_EXECUTABLE} ${KWSTYLE_ARGUMENTS} ${KWSTYLE_EDITOR_FORMAT}
     COMMENT "Coding Style Checker"
     WORKING_DIRECTORY ${ITK_SOURCE_DIR} # the paths in KWSTYLE_CONFIGURATION_FILE are relative
     )
   if(BUILD_TESTING)
     set(itk-module KWStyle)
+    # for uniformity and brevity, test will always output GCC-style
     itk_add_test(NAME KWStyleCodeTest
-      COMMAND ${KWSTYLE_EXECUTABLE} ${KWSTYLE_ARGUMENTS}
+      COMMAND ${KWSTYLE_EXECUTABLE} ${KWSTYLE_ARGUMENTS} -gcc
       WORKING_DIRECTORY ${ITK_SOURCE_DIR}
       )
   endif(BUILD_TESTING)
