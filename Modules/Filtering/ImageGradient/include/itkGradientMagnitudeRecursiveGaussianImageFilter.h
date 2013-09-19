@@ -171,7 +171,7 @@ private:
 
   class SqrSpacing
   {
-public:
+  public:
     SqrSpacing():m_Spacing(0) {}
     ~SqrSpacing() {}
     bool operator!=(const SqrSpacing & other) const
