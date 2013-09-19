@@ -44,7 +44,10 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
   m_NumberOfHistogramBins( 200 ),
   m_WienerFilterNoise( 0.01 ),
   m_BiasFieldFullWidthAtHalfMaximum( 0.15 ),
+  m_ElapsedIterations( 0 ),
   m_ConvergenceThreshold( 0.001 ),
+  m_CurrentConvergenceMeasurement( NumericTraits<RealType>::Zero ),
+  m_CurrentLevel( 0 ),
   m_SplineOrder( 3 )
 {
   this->SetNumberOfRequiredInputs( 1 );
