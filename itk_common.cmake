@@ -52,6 +52,7 @@
 #
 #   dashboard_hook_init       = End of initialization, before loop
 #   dashboard_hook_start      = Start of loop body, before ctest_start
+#   dashboard_hook_started    = After ctest_start
 #   dashboard_hook_build      = Before ctest_build
 #   dashboard_hook_test       = Before ctest_test
 #   dashboard_hook_coverage   = Before ctest_coverage
@@ -377,6 +378,9 @@ while(NOT dashboard_done)
     dashboard_hook_start()
   endif()
   ctest_start(${dashboard_model})
+  if(COMMAND dashboard_hook_started)
+    dashboard_hook_started()
+  endif()
 
   # Always build if the tree is fresh.
   set(dashboard_fresh 0)
