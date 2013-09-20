@@ -650,18 +650,23 @@ MGHImageIO
     this->TWrite(*cit);
     }
 
-  // write c_r, c_a, c_s
-  // defined as origin + DC x resolution x ( dim0/2 , dim1/2, dim2/2 )
+  const float fcx = static_cast<float>(m_Dimensions[0]) / 2.0f;
+  const float fcy = static_cast<float>(m_Dimensions[1]) / 2.0f;
+  const float fcz = static_cast<float>(m_Dimensions[2]) / 2.0f;
+  float c[3];
   for( unsigned int ui = 0; ui < 3; ++ui )
     {
-    float crasBuf = m_Origin[ui];
-    for( unsigned int uj = 0; uj < 3; ++uj )
-      {
-      crasBuf += vvRas[ui][uj] * m_Spacing[uj] * (float)m_Dimensions[uj] / 2.0f;
-      }
-    this->TWrite(crasBuf );
-    }   // next ui
-
+    c[ui] = m_Origin[ui]
+      + ( vvRas[ui][0] * m_Spacing[0] * fcx
+          + vvRas[ui][1] * m_Spacing[1] * fcy
+          + vvRas[ui][2] * m_Spacing[2] * fcz );
+    }
+  c[0] *= -1.0;
+  c[1] *= -1.0;
+  for( unsigned int ui = 0; ui < 3; ++ui )
+    {
+    this->TWrite(c[ui]);
+    }
   // fill the rest of the buffer with zeros
   const char zerobyte(0);
   for(unsigned int i = 0; i < FS_UNUSED_HEADER_SIZE; ++i)
