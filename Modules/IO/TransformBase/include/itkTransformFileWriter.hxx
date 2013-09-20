@@ -28,6 +28,7 @@ namespace itk
 
 namespace
 {
+
 /*
  This helper is used to:
  Create and set a new type transform that have requested output precision type.
@@ -47,7 +48,7 @@ struct TransformIOHelper
   CreateNewTypeTransform(std::string transformName)
   {
     // Transform name is modified to have the output precision type.
-    CorrectTransformPrecisionType<TOutputScalar>( transformName );
+    TransformIOBaseTemplate<TOutputScalar>::CorrectTransformPrecisionType( transformName );
 
     OutputTransformPointer convertedTransform;
     // Instantiate the transform
@@ -91,11 +92,11 @@ inline void AddToTransformList(typename TransformBaseTemplate<TInputScalar>::Con
   typedef TransformBaseTemplate<TInputScalar>        InputTransformType;
   typedef typename InputTransformType::ConstPointer  InputTransformConstPointer;
   typedef std::list< InputTransformConstPointer >    InputConstTransformListType;
-  typedef TransformBaseTemplate<TOutputScalar>        OutputTransformType;
-  typedef typename OutputTransformType::Pointer       OutputTransformPointer;
-  typedef typename OutputTransformType::ConstPointer  OutputTransformConstPointer;
-  typedef std::list< OutputTransformPointer >         OutputTransformListType;
-  typedef std::list< OutputTransformConstPointer >    OutputConstTransformListType;
+  typedef TransformBaseTemplate<TOutputScalar>       OutputTransformType;
+  typedef typename OutputTransformType::Pointer      OutputTransformPointer;
+  typedef typename OutputTransformType::ConstPointer OutputTransformConstPointer;
+  typedef std::list< OutputTransformPointer >        OutputTransformListType;
+  typedef std::list< OutputTransformConstPointer >   OutputConstTransformListType;
 
   const std::string transformName = transform->GetTransformTypeAsString();
   OutputTransformPointer convertedTransform;
@@ -231,6 +232,54 @@ void TransformFileWriterTemplate<ScalarType>
     if( fltptr.IsNotNull() )
       {
       AddToTransformList<ScalarType,float>( fltptr, m_TransformList );
+      }
+    else
+      {
+      itkExceptionMacro("The input of writer should be whether a double precision"
+                        "or a single precision transform type.");
+      }
+    }
+}
+
+template<>
+void TransformFileWriterTemplate<double>
+::PushBackTransformList(const Object *transObj)
+{
+  TransformBaseTemplate<double>::ConstPointer dblptr = dynamic_cast<const TransformBaseTemplate<double> *>( transObj );
+  if( dblptr.IsNotNull() )
+    {
+    AddToTransformList<double, double>( dblptr, m_TransformList );
+    }
+  else
+    {
+    TransformBaseTemplate<float>::ConstPointer fltptr = dynamic_cast<const TransformBaseTemplate<float> *>( transObj );
+    if( fltptr.IsNotNull() )
+      {
+      AddToTransformList<double, float>( fltptr, m_TransformList );
+      }
+    else
+      {
+      itkExceptionMacro("The input of writer should be whether a double precision"
+                        "or a single precision transform type.");
+      }
+    }
+}
+
+template<>
+void TransformFileWriterTemplate<float>
+::PushBackTransformList(const Object *transObj)
+{
+  TransformBaseTemplate<double>::ConstPointer dblptr = dynamic_cast<const TransformBaseTemplate<double> *>( transObj );
+  if( dblptr.IsNotNull() )
+    {
+    AddToTransformList<float, double>( dblptr, m_TransformList );
+    }
+  else
+    {
+    TransformBaseTemplate<float>::ConstPointer fltptr = dynamic_cast<const TransformBaseTemplate<float> *>( transObj );
+    if( fltptr.IsNotNull() )
+      {
+      AddToTransformList<float, float>( fltptr, m_TransformList );
       }
     else
       {

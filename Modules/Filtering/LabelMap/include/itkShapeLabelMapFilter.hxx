@@ -682,7 +682,7 @@ ShapeLabelMapFilter< TImage, TLabelImage >
   perimeter += dx*dy / spacing.GetNorm() * intercepts[nxy]/2.0;
   perimeter *= itk::Math::pi / 4.0;
   return perimeter;
-};
+}
 
 template< typename TImage, typename TLabelImage >
 double
@@ -737,7 +737,7 @@ ShapeLabelMapFilter< TImage, TLabelImage >
   perimeter += vol/dxyz * intercepts[nxyz]/2.0 * c7;
   perimeter *= 4;
   return perimeter;
-};
+}
 #endif
 
 template< typename TImage, typename TLabelImage >
