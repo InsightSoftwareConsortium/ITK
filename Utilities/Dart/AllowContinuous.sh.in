@@ -1,6 +1,0 @@
-#!/bin/sh
-echo "Allow Continuous to run"
-cd @ITK_BINARY_DIR@
-if [ -e continuous.lock ]
-then  rm continuous.lock;
-fi
