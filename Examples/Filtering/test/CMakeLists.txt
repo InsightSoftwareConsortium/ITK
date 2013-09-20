@@ -650,6 +650,7 @@ itk_add_test(NAME  SpatialObjectToImage2 COMMAND ${ITK_TEST_DRIVER}
   $<TARGET_FILE:SpatialObjectToImage2>
         ${TEMP}/SpatialObjectToImage2.mha
 )
+set_property(TEST SpatialObjectToImage2 APPEND PROPERTY LABELS RUNS_LONG)
 itk_add_test(NAME  SpatialObjectToImage3 COMMAND ${ITK_TEST_DRIVER}
   $<TARGET_FILE:SpatialObjectToImage3>
         ${TEMP}/SpatialObjectToImage3.mha

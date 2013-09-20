@@ -34,6 +34,7 @@ itk_add_test(NAME itkSimpleImageRegistrationTest
               100 # number of affine iterations
               10 # number of deformable iterations
               )
+set_property(TEST itkSimpleImageRegistrationTest APPEND PROPERTY LABELS RUNS_LONG)
 
 itk_add_test(NAME itkSimpleImageRegistrationTest2
       COMMAND ITKRegistrationMethodsv4TestDriver
@@ -45,6 +46,7 @@ itk_add_test(NAME itkSimpleImageRegistrationTest2
               ${TEMP}/itkSimpleImageRegistrationTest2New.nii.gz
               100 # number of affine iterations
               )
+set_property(TEST itkSimpleImageRegistrationTest2 APPEND PROPERTY LABELS RUNS_LONG)
 
 itk_add_test(NAME itkExponentialImageRegistrationTest
       COMMAND ITKRegistrationMethodsv4TestDriver
@@ -61,6 +63,7 @@ itk_add_test(NAME itkExponentialImageRegistrationTest
               100 # number of affine iterations
               10 # number of deformable iterations
               )
+set_property(TEST itkExponentialImageRegistrationTest APPEND PROPERTY LABELS RUNS_LONG)
 
 itk_add_test(NAME itkBSplineExponentialImageRegistrationTest
       COMMAND ITKRegistrationMethodsv4TestDriver
@@ -77,6 +80,7 @@ itk_add_test(NAME itkBSplineExponentialImageRegistrationTest
               100 # number of affine iterations
               10 # number of deformable iterations
               )
+set_property(TEST itkBSplineExponentialImageRegistrationTest APPEND PROPERTY LABELS RUNS_LONG)
 
 itk_add_test(NAME itkTimeVaryingVelocityFieldImageRegistrationTest
       COMMAND ITKRegistrationMethodsv4TestDriver
@@ -91,6 +95,7 @@ itk_add_test(NAME itkTimeVaryingVelocityFieldImageRegistrationTest
               1  # number of iterations for third level of the displacement field
               0.5 # learning rate
               )
+set_property(TEST itkTimeVaryingVelocityFieldImageRegistrationTest APPEND PROPERTY LABELS RUNS_LONG)
 
 itk_add_test(NAME itkTimeVaryingBSplineVelocityFieldImageRegistrationTest
       COMMAND ITKRegistrationMethodsv4TestDriver
@@ -173,3 +178,4 @@ itk_add_test(NAME itkBSplineImageRegistrationTest
               100 # number of affine iterations
               10 # number of deformable iterations
               )
+set_property(TEST itkBSplineImageRegistrationTest APPEND PROPERTY LABELS RUNS_LONG)

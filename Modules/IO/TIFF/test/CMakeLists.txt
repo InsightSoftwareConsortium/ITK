@@ -138,6 +138,9 @@ if( "${ITK_COMPUTER_MEMORY_SIZE}" GREATER 5 )
                        LABELS BigIO
                        RESOURCE_LOCK MEMORY_SIZE
                       )
+  set_property(TEST itkLargeTIFFImageWriteReadTest1 APPEND PROPERTY LABELS RUNS_LONG)
+  set_property(TEST itkLargeTIFFImageWriteReadTest2 APPEND PROPERTY LABELS RUNS_LONG)
+  set_property(TEST itkLargeTIFFImageWriteReadTest3 APPEND PROPERTY LABELS RUNS_LONG)
 endif()
 
 
@@ -154,5 +157,6 @@ if( "${ITK_COMPUTER_MEMORY_SIZE}" GREATER 12 )
     LABELS BigIO
     RESOURCE_LOCK MEMORY_SIZE
     )
+  set_property(TEST itkLargeTIFFImageWriteReadTest4 APPEND PROPERTY LABELS RUNS_LONG)
 
 endif()
