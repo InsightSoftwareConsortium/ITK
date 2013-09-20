@@ -227,11 +227,11 @@ public:
    */
   const typename JointPDFType::Pointer GetJointPDF () const
     {
-      if( this->m_PerThread == NULL )
+    if( this->m_MMIMetricPerThreadVariables == NULL )
       {
       return JointPDFType::Pointer(NULL);
       }
-    return this->m_PerThread[0].JointPDF;
+    return this->m_MMIMetricPerThreadVariables[0].JointPDF;
     }
 
   /**
@@ -242,11 +242,11 @@ public:
    */
   const typename JointPDFDerivativesType::Pointer GetJointPDFDerivatives () const
     {
-      if( this->m_PerThread == NULL )
+    if( this->m_MMIMetricPerThreadVariables == NULL )
       {
       return JointPDFDerivativesType::Pointer(NULL);
       }
-    return this->m_PerThread[0].JointPDFDerivatives;
+    return this->m_MMIMetricPerThreadVariables[0].JointPDFDerivatives;
     }
 
 protected:
@@ -321,9 +321,10 @@ private:
   mutable PRatioArrayType m_PRatioArray;
 
   /** The moving image marginal PDF. */
-  mutable std::vector<PDFValueType>               m_MovingImageMarginalPDF;
+  typedef std::vector< PDFValueType > MarginalPDFType;
+  mutable MarginalPDFType             m_MovingImageMarginalPDF;
 
-  struct PerThreadS
+  struct MMIMetricPerThreadStruct
   {
     int JointPDFStartBin;
     int JointPDFEndBin;
@@ -333,17 +334,25 @@ private:
     /** Helper variable for accumulating the derivative of the metric. */
     DerivativeType MetricDerivative;
 
-    std::vector<PDFValueType> FixedImageMarginalPDF;
-
     /** The joint PDF and PDF derivatives. */
     typename JointPDFType::Pointer            JointPDF;
     typename JointPDFDerivativesType::Pointer JointPDFDerivatives;
 
     typename TransformType::JacobianType Jacobian;
+
+    MarginalPDFType FixedImageMarginalPDF;
   };
 
-  itkAlignedTypedef( ITK_CACHE_LINE_ALIGNMENT, PerThreadS, AlignedPerThreadType );
-  AlignedPerThreadType *m_PerThread;
+  itkPadStruct( ITK_CACHE_LINE_ALIGNMENT, MMIMetricPerThreadStruct,
+                                            PaddedMMIMetricPerThreadStruct);
+  itkAlignedTypedef( ITK_CACHE_LINE_ALIGNMENT, PaddedMMIMetricPerThreadStruct,
+                                               AlignedMMIMetricPerThreadStruct );
+  // Due to a bug in older version of Visual Studio where std::vector resize
+  // uses a value instead of a const reference, this must be a pointer.
+  // See
+  //   http://thetweaker.wordpress.com/2010/05/05/stdvector-of-aligned-elements/
+  //   http://connect.microsoft.com/VisualStudio/feedback/details/692988
+  mutable AlignedMMIMetricPerThreadStruct * m_MMIMetricPerThreadVariables;
 
   bool         m_UseExplicitPDFDerivatives;
   mutable bool m_ImplicitDerivativesSecondPass;

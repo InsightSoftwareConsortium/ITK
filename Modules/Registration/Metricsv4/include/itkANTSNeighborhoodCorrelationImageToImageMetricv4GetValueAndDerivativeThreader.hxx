@@ -46,7 +46,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader< TD
   ScanParametersType   scanParameters;
   ScanMemType          scanMem;
 
-  DerivativeType & localDerivativeResult = this->m_LocalDerivativesPerThread[threadId];
+  DerivativeType & localDerivativeResult = this->m_GetValueAndDerivativePerThreadVariables[threadId].LocalDerivatives;
 
   /* Create an iterator over the virtual sub region */
   // this->m_ANTSAssociate->InitializeScanning( virtualImageSubRegion, scanIt, scanMem, scanParameters );
@@ -82,7 +82,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader< TD
     /* Assign the results */
     if ( pointIsValid )
       {
-      this->m_NumberOfValidPointsPerThread[threadId]++;
+      this->m_GetValueAndDerivativePerThreadVariables[threadId].NumberOfValidPoints++;
       metricValueSum -= metricValueResult;
       /* Store the result. This depends on what type of
        * transform is being used. */
@@ -97,7 +97,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader< TD
     }
 
   /* Store metric value result for this thread. */
-  this->m_MeasurePerThread[threadId] = metricValueSum;
+  this->m_GetValueAndDerivativePerThreadVariables[threadId].Measure = metricValueSum;
 }
 
 template < typename TDomainPartitioner, typename TImageToImageMetric, typename TNeighborhoodCorrelationMetric >
@@ -503,7 +503,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader< TD
       }
 
     /* Use a pre-allocated jacobian object for efficiency */
-    JacobianType & jacobian = this->m_MovingTransformJacobianPerThread[threadId];
+    JacobianType & jacobian = this->m_GetValueAndDerivativePerThreadVariables[threadId].MovingTransformJacobian;
 
     /** For dense transforms, this returns identity */
     this->m_Associate->GetMovingTransform()->ComputeJacobianWithRespectToParameters( scanMem.virtualPoint, jacobian );
@@ -539,7 +539,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader< TD
   ScanParametersType   scanParameters;
   ScanMemType          scanMem;
 
-  DerivativeType & localDerivativeResult = this->m_LocalDerivativesPerThread[threadId];
+  DerivativeType & localDerivativeResult = this->m_GetValueAndDerivativePerThreadVariables[threadId].LocalDerivatives;
 
 
   // convert virtualPoint to a single point region
@@ -579,8 +579,8 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader< TD
   /* Assign the results */
   if ( pointIsValid )
     {
-    this->m_NumberOfValidPointsPerThread[threadId]++;
-    this->m_MeasurePerThread[threadId] -= metricValueResult;
+    this->m_GetValueAndDerivativePerThreadVariables[threadId].NumberOfValidPoints++;
+    this->m_GetValueAndDerivativePerThreadVariables[threadId].Measure -= metricValueResult;
     /* Store the result. This depends on what type of
      * transform is being used. */
     if( this->GetComputeDerivative() )

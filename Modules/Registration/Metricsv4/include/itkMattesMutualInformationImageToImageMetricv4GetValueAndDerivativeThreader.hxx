@@ -284,7 +284,7 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< TDomai
 
   // Compute the transform Jacobian.
   typedef JacobianType & JacobianReferenceType;
-  JacobianReferenceType jacobian = this->m_MovingTransformJacobianPerThread[threadID];
+  JacobianReferenceType jacobian = this->m_GetValueAndDerivativePerThreadVariables[threadID].MovingTransformJacobian;
   if( this->m_MattesAssociate->GetComputeDerivative() )
     {
     this->m_MattesAssociate->GetMovingTransform()->ComputeJacobianWithRespectToParameters( virtualPoint, jacobian);
@@ -328,7 +328,7 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< TDomai
     }
 
   // have to do this here since we're returning false
-  this->m_NumberOfValidPointsPerThread[threadID]++;
+  this->m_GetValueAndDerivativePerThreadVariables[threadID].NumberOfValidPoints++;
 
   // Return false to avoid the storage of results in parent class.
   return false;
@@ -397,7 +397,7 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< TDomai
   this->m_MattesAssociate->m_NumberOfValidPoints = NumericTraits< SizeValueType >::Zero;
   for (ThreadIdType i=0; i<this->GetNumberOfThreadsUsed(); i++)
     {
-    this->m_MattesAssociate->m_NumberOfValidPoints += this->m_NumberOfValidPointsPerThread[i];
+    this->m_MattesAssociate->m_NumberOfValidPoints += this->m_GetValueAndDerivativePerThreadVariables[i].NumberOfValidPoints;
     }
 
   /* Porting: This code is from
