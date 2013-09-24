@@ -110,6 +110,48 @@ int itkMGHImageIOTest(int ac, char* av[])
       returnStatus = EXIT_FAILURE;
       }
     }
+  else if( TestMode == "TestOriginWriteTest" )
+    {
+    typedef itk::Image<int, 3> ImageType;
+    ImageType::Pointer input;
+    const std::string imageToBeRead(av[3]);
+    const std::string imageToBeWritten(av[4]);
+    try
+      {
+      std::cout << "Reading Image: " << imageToBeRead << std::endl;
+      input = itk::IOTestHelper::ReadImage<ImageType>(imageToBeRead);
+      std::cout << input << std::endl;
+
+      ImageType::PointType origin;
+      origin[0] = -123.4;
+      origin[1] = 456.7;
+      origin[2] = -890.0;
+      input->SetOrigin(origin);
+
+      itk::ImageFileWriter<ImageType>::Pointer testFactoryWriter=itk::ImageFileWriter<ImageType>::New();
+
+      testFactoryWriter->SetFileName(imageToBeWritten);
+      testFactoryWriter->SetInput(input);
+      testFactoryWriter->Update();
+      itk::ImageFileReader<ImageType>::Pointer testFactoryReader=itk::ImageFileReader<ImageType>::New();
+      testFactoryReader->SetFileName(imageToBeWritten);
+      testFactoryReader->Update();
+      ImageType::Pointer new_image = testFactoryReader->GetOutput();
+      ImageType::PointType origin2 = new_image->GetOrigin();
+      if(origin != origin2)
+        {
+        std::cerr << "Origin written and origin read do not match: "
+                  << "written: " << origin
+                  << " read: " << origin2 << std::endl;
+        returnStatus = EXIT_FAILURE;
+        }
+      }
+    catch (itk::ExceptionObject &e)
+      {
+      e.Print(std::cerr);
+      returnStatus = EXIT_FAILURE;
+      }
+    }
   else
     {
     std::cerr << "Invalid TestMode : " << TestMode << std::endl;
