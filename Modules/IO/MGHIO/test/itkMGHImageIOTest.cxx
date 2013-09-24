@@ -29,6 +29,7 @@
 
 #include "itkIOTestHelper.h"
 #include "itkMGHImageIOTest.h"
+#include <iomanip>
 
 #define SPECIFIC_IMAGEIO_MODULE_TEST
 
@@ -138,11 +139,14 @@ int itkMGHImageIOTest(int ac, char* av[])
       testFactoryReader->Update();
       ImageType::Pointer new_image = testFactoryReader->GetOutput();
       ImageType::PointType origin2 = new_image->GetOrigin();
-      if(origin != origin2)
+      double dist = origin.EuclideanDistanceTo(origin2);
+      if(dist > 1.0E-4)
         {
-        std::cerr << "Origin written and origin read do not match: "
+        std::cerr << std::setprecision(10)
+                  << "Origin written and origin read do not match: "
                   << "written: " << origin
-                  << " read: " << origin2 << std::endl;
+                  << " read: " << origin2 << " distance: "
+                  << dist << std::endl;
         returnStatus = EXIT_FAILURE;
         }
       }
