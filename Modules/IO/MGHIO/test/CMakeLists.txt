@@ -32,3 +32,9 @@ itk_add_test(NAME MGHReadImagesTest_mgh.gz
 itk_add_test(NAME itkMGHIOInternalTests
       COMMAND MGHIOTestDriver itkMGHImageIOTest
               ${ITK_TEST_OUTPUT_DIR} TestReadWriteOfSmallImageOfAllTypes )
+itk_add_test(NAME itkMGHIOOriginTest
+  COMMAND MGHIOTestDriver itkMGHImageIOTest
+  ${ITK_TEST_OUTPUT_DIR} TestOriginWriteTest
+  DATA{${MGH_DATA_ROOT}/T1_longname.mgh.gz} OriginTEST.mgh.gz
+  )
+
