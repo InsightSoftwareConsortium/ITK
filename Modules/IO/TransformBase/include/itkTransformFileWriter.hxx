@@ -217,30 +217,6 @@ bool TransformFileWriterTemplate<ScalarType>
   return ( this->m_AppendMode );
 }
 
-template<typename ScalarType>
-void TransformFileWriterTemplate<ScalarType>
-::PushBackTransformList(const Object *transObj)
-{
-  TransformBaseTemplate<double>::ConstPointer dblptr = dynamic_cast<const TransformBaseTemplate<double> *>( transObj );
-  if( dblptr.IsNotNull() )
-    {
-    AddToTransformList<ScalarType,double>( dblptr, m_TransformList );
-    }
-  else
-    {
-    TransformBaseTemplate<float>::ConstPointer fltptr = dynamic_cast<const TransformBaseTemplate<float> *>( transObj );
-    if( fltptr.IsNotNull() )
-      {
-      AddToTransformList<ScalarType,float>( fltptr, m_TransformList );
-      }
-    else
-      {
-      itkExceptionMacro("The input of writer should be whether a double precision"
-                        "or a single precision transform type.");
-      }
-    }
-}
-
 template<>
 void TransformFileWriterTemplate<double>
 ::PushBackTransformList(const Object *transObj)
