@@ -202,8 +202,7 @@ int itkMultiTransformTest(int, char *[] )
 
   /* Retrieve the transform and check that it's the same */
   std::cout << "Retrieve 1st transform." << std::endl;
-  AffineType::ConstPointer affineGet;
-  affineGet = dynamic_cast<AffineType const *>( multiTransform->GetNthTransform(0).GetPointer() );
+  AffineType::ConstPointer affineGet = dynamic_cast<AffineType const *>( multiTransform->GetNthTransformConstPointer(0) );
   if( affineGet.IsNull() )
     {
     std::cout << "Failed retrieving transform from queue." << std::endl;
@@ -387,13 +386,13 @@ int itkMultiTransformTest(int, char *[] )
     return EXIT_FAILURE;
     }
 
-  if( multiTransform->GetNthTransform(0) != affine )
+  if( multiTransform->GetNthTransformConstPointer(0) != affine )
     {
     std::cout << "ERROR: 1st transform is not affine as expected." << std::endl;
     return EXIT_FAILURE;
     }
 
-  if( multiTransform->GetNthTransform(1) != displacementTransform )
+  if( multiTransform->GetNthTransformConstPointer(1) != displacementTransform )
     {
     std::cout << "ERROR: 2nd transform is not displacementTransform as expected." << std::endl;
     return EXIT_FAILURE;
@@ -409,7 +408,7 @@ int itkMultiTransformTest(int, char *[] )
 
   /* Test inverse parameters using settings from above. */
 
-  if( ! testVectorArray(inverseAffine->GetParameters(), inverseMultiTransform->GetNthTransform(0)->GetParameters() ) )
+  if( ! testVectorArray(inverseAffine->GetParameters(), inverseMultiTransform->GetNthTransformConstPointer(0)->GetParameters() ) )
     {
     std::cout << "ERROR: Wrong parameters for affine in two-transform inverse." << std::endl;
     return EXIT_FAILURE;
@@ -422,7 +421,7 @@ int itkMultiTransformTest(int, char *[] )
     return EXIT_FAILURE;
     }
 
-  if( ! testVectorArray(inverseDisplacement->GetParameters(), inverseMultiTransform->GetNthTransform(1)->GetParameters() ) )
+  if( ! testVectorArray(inverseDisplacement->GetParameters(), inverseMultiTransform->GetNthTransformConstPointer(1)->GetParameters() ) )
     {
     std::cout << "ERROR: Wrong parameters for displacementTransform in two-transform inverse." << std::endl;
     return EXIT_FAILURE;
