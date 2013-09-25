@@ -106,8 +106,19 @@ bool
 MGHImageIO
 ::IsCompressedFilename(const std::string fname)
 {
-  const std::string extension = itksys::SystemTools::GetFilenameExtension(fname.c_str());
-  return extension == __MGZ_EXT || extension == __GZ_EXT || extension == __MGHGZ_EXT;
+  // this is actually working logic that searches for
+  // extensions ".mgz", ".gz", and ".mgh.gz"
+  //
+  // There's something wrong with this logic, since it in
+  // effect will say it can read ANY gzipped files, but since there's
+  // no unique file signature in a MGH file were're kind of stuck.
+/// Since both ".gz" and ".mgh.gz" are valid extension, checking for ".gz" is sufficient.
+  const std::string lastExtension = itksys::SystemTools::GetFilenameLastExtension(fname.c_str());
+  if(lastExtension == __MGZ_EXT || lastExtension == __GZ_EXT)
+    {
+    return true;
+    }
+  return false;
 }
 
 bool
@@ -123,7 +134,7 @@ MGHImageIO
     }
 
   // check if the correct extension is given by the user
-  const std::string extension = itksys::SystemTools::GetFilenameExtension(filename.c_str());
+  const std::string extension = itksys::SystemTools::GetFilenameLastExtension(filename.c_str());
   if( extension == __MGH_EXT || this->IsCompressedFilename(filename) )
     {
     return true;
