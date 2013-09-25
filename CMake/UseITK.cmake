@@ -41,7 +41,7 @@ if(NOT ITK_NO_IO_FACTORY_REGISTER_MANAGER)
   endforeach()
 
   # add ImageIOs in review to the automatic registration
-  if (ITK_USE_REVIEW)
+  if (ITK_USE_REVIEW OR ITKReview_LOADED)
     foreach (ImageFormat MRC)
       set (LIST_OF_FACTORIES_REGISTRATION "${LIST_OF_FACTORIES_REGISTRATION}void ${ImageFormat}ImageIOFactoryRegister__Private(void);")
       set (LIST_OF_FACTORY_NAMES  "${LIST_OF_FACTORY_NAMES}${ImageFormat}ImageIOFactoryRegister__Private,")
