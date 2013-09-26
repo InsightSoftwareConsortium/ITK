@@ -216,6 +216,7 @@ itk_add_test( NAME itkFastMarchingImageFilterTest_wm_multipleSeeds_NoTopo
     150
     0
 )
+set_property(TEST itkFastMarchingImageFilterTest_wm_multipleSeeds_NoTopo APPEND PROPERTY LABELS RUNS_LONG)
 
 itk_add_test( NAME itkFastMarchingImageFilterTest_wm_multipleSeeds_StrictTopo
       COMMAND ITKFastMarchingTestDriver
@@ -229,6 +230,7 @@ itk_add_test( NAME itkFastMarchingImageFilterTest_wm_multipleSeeds_StrictTopo
     150
     1
 )
+set_property(TEST itkFastMarchingImageFilterTest_wm_multipleSeeds_StrictTopo APPEND PROPERTY LABELS RUNS_LONG)
 
 itk_add_test( NAME itkFastMarchingImageFilterTest_wm_multipleSeeds_NoHandlesTopo
       COMMAND ITKFastMarchingTestDriver
@@ -242,3 +244,4 @@ itk_add_test( NAME itkFastMarchingImageFilterTest_wm_multipleSeeds_NoHandlesTopo
     150
     2
 )
+set_property(TEST itkFastMarchingImageFilterTest_wm_multipleSeeds_NoHandlesTopo APPEND PROPERTY LABELS RUNS_LONG)
