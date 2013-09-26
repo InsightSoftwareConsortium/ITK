@@ -81,7 +81,6 @@ public:
   void Update();
 
 protected:
-  void PushBackTransformList(const Object *transObj);
 
   TransformFileWriterTemplate(const Self &); //purposely not implemented
   void operator=(const Self &);      //purposely not implemented
@@ -91,6 +90,7 @@ protected:
   virtual ~TransformFileWriterTemplate();
 
 private:
+  void PushBackTransformList(const Object *transObj);
   void OpenStream(std::ofstream & out, bool binary);
 
   std::string            m_FileName;
