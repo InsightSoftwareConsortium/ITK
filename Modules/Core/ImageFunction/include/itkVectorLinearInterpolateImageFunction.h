@@ -75,6 +75,7 @@ public:
 
   /** ContinuousIndex typedef support. */
   typedef typename Superclass::ContinuousIndexType ContinuousIndexType;
+  typedef typename ContinuousIndexType::ValueType  InternalComputationType;
 
   /** Output type is Vector<double,Dimension> */
   typedef typename Superclass::OutputType OutputType;

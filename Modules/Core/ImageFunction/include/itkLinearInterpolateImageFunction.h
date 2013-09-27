@@ -81,6 +81,7 @@ public:
 
   /** ContinuousIndex typedef support. */
   typedef typename Superclass::ContinuousIndexType ContinuousIndexType;
+  typedef typename ContinuousIndexType::ValueType  InternalComputationType;
 
   /** Evaluate the function at a ContinuousIndex position
    *
@@ -129,7 +130,7 @@ private:
       basei[0] = this->m_StartIndex[0];
       }
 
-    const double distance = index[0] - static_cast< double >( basei[0] );
+    const InternalComputationType & distance = index[0] - static_cast< InternalComputationType >( basei[0] );
 
     const TInputImage * const inputImagePtr = this->GetInputImage();
     const RealType & val0 = inputImagePtr->GetPixel(basei);
@@ -158,14 +159,14 @@ private:
       {
       basei[0] = this->m_StartIndex[0];
       }
-    const double distance0 = index[0] - static_cast< double >( basei[0] );
+    const InternalComputationType & distance0 = index[0] - static_cast< InternalComputationType >( basei[0] );
 
     basei[1] = Math::Floor< IndexValueType >(index[1]);
     if ( basei[1] < this->m_StartIndex[1] )
       {
       basei[1] = this->m_StartIndex[1];
       }
-    const double distance1 = index[1] - static_cast< double >( basei[1] );
+    const InternalComputationType & distance1 = index[1] - static_cast< InternalComputationType >( basei[1] );
 
     const TInputImage * const inputImagePtr = this->GetInputImage();
     const RealType & val00 = inputImagePtr->GetPixel(basei);
@@ -234,21 +235,21 @@ private:
       {
       basei[0] = this->m_StartIndex[0];
       }
-    const double & distance0 = index[0] - static_cast< double >( basei[0] );
+    const InternalComputationType & distance0 = index[0] - static_cast< InternalComputationType >( basei[0] );
 
     basei[1] = Math::Floor< IndexValueType >(index[1]);
     if ( basei[1] < this->m_StartIndex[1] )
       {
       basei[1] = this->m_StartIndex[1];
       }
-    const double & distance1 = index[1] - static_cast< double >( basei[1] );
+    const InternalComputationType & distance1 = index[1] - static_cast< InternalComputationType >( basei[1] );
 
     basei[2] = Math::Floor< IndexValueType >(index[2]);
     if ( basei[2] < this->m_StartIndex[2] )
       {
       basei[2] = this->m_StartIndex[2];
       }
-    const double & distance2 = index[2] - static_cast< double >( basei[2] );
+    const InternalComputationType & distance2 = index[2] - static_cast< InternalComputationType >( basei[2] );
 
     const TInputImage * const inputImagePtr = this->GetInputImage();
     const RealType & val000 = inputImagePtr->GetPixel(basei);

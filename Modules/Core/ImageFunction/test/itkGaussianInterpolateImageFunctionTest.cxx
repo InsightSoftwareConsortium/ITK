@@ -35,11 +35,12 @@ int RunTest( void )
  typedef typename RegionType::SizeType                 SizeType;
  typedef typename ImageType::IndexType                 IndexType;
 
- typedef typename itk::ContinuousIndex<float, Dimensions>
-                                                       ContinuousIndexType;
- typedef typename itk::Point<float,Dimensions>         PointType;
-
  typedef float                                         CoordRepType;
+ typedef typename itk::ContinuousIndex<CoordRepType, Dimensions>
+                                                       ContinuousIndexType;
+ typedef typename ContinuousIndexType::ValueType       AccumulatorType;
+ typedef typename itk::Point<CoordRepType,Dimensions>  PointType;
+
  typedef typename itk::GaussianInterpolateImageFunction<
                                                       ImageType,
                                                       CoordRepType >
@@ -122,7 +123,7 @@ int RunTest( void )
    {
    sigma[d] = 1.0;
    }
- double alpha = 1.0;
+ AccumulatorType alpha = 1.0;
 
  interpolator->SetParameters( sigma, alpha );
  interpolator->Print( std::cout, 3 );
@@ -133,9 +134,9 @@ int RunTest( void )
    std::cerr << "Parameters were not returned correctly." << std::endl;
    }
 
- const double incr = 0.2;
+ const AccumulatorType incr = 0.2;
 
- const double tolerance = 1e-6;
+ const AccumulatorType tolerance = 5e-6;
 
  PointType point;
  unsigned int testLengths[4] = {1,1,1,1};
@@ -143,8 +144,8 @@ int RunTest( void )
   {
   testLengths[ind] = dimMaxLength-1;
   }
- double steps[4];
- double dimItf[4];
+ AccumulatorType steps[4];
+ AccumulatorType dimItf[4];
  for (dimItf[3] = 0; dimItf[3] < testLengths[3]; dimItf[3]++)
    {
    for (dimItf[2] = 0; dimItf[2] < testLengths[2]; dimItf[2]++)
@@ -161,7 +162,7 @@ int RunTest( void )
                {
                for (steps[0] = 0; steps[0] < dimItf[0] + 1.01; steps[0]+=incr)
                  {
-                 double expectedValue = 3*steps[0];
+                 AccumulatorType expectedValue = 3*steps[0];
                  point[0] = steps[0];
                  for( unsigned int ind = 1; ind < Dimensions; ind++ )
                   {
@@ -171,8 +172,8 @@ int RunTest( void )
 
                  if( interpolator->IsInsideBuffer( point ) )
                    {
-                   const double computedValue = interpolator->Evaluate( point );
-                   const double difference = expectedValue - computedValue;
+                   const AccumulatorType computedValue = interpolator->Evaluate( point );
+                   const AccumulatorType difference = expectedValue - computedValue;
 
                    if( vcl_fabs( difference ) > tolerance )
                      {
