@@ -119,7 +119,8 @@ ImageToImageFilter< TInputImage, TOutputImage >
   for( InputDataObjectIterator it( this ); !it.IsAtEnd(); it++ )
     {
     // Check whether the input is an image of the appropriate dimension
-    TInputImage * input = dynamic_cast< TInputImage * >( it.GetInput() );
+    typedef ImageBase< InputImageDimension > ImageBaseType;
+    ImageBaseType * input = dynamic_cast< ImageBaseType * >( it.GetInput() );
     if ( input )
       {
       // Use the function object RegionCopier to copy the output region
@@ -127,7 +128,7 @@ ImageToImageFilter< TInputImage, TOutputImage >
       // to handle the cases where the input and output are the same
       // dimension, the input a higher dimension than the output, and the
       // input a lower dimension than the output.
-      InputImageRegionType inputRegion;
+      typename ImageBaseType::RegionType inputRegion;
       this->CallCopyOutputRegionToInputRegion( inputRegion, this->GetOutput()->GetRequestedRegion() );
       input->SetRequestedRegion(inputRegion);
       }
