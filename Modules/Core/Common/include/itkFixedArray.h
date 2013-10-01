@@ -76,7 +76,7 @@ public:
    */
   class ReverseIterator
   {
-public:
+  public:
     explicit ReverseIterator(Iterator i):m_Iterator(i) {}
     Iterator operator++()        { return --m_Iterator; }
     Iterator operator++(int)     { return m_Iterator--; }
@@ -87,7 +87,7 @@ public:
     bool operator!=(const ReverseIterator & rit) const { return m_Iterator != rit.m_Iterator; }
     bool operator==(const ReverseIterator & rit) const { return m_Iterator == rit.m_Iterator; }
 
-private:
+  private:
     Iterator m_Iterator;
     friend class ConstReverseIterator;
   };
@@ -98,7 +98,7 @@ private:
    */
   class ConstReverseIterator
   {
-public:
+  public:
     explicit ConstReverseIterator(ConstIterator i):m_Iterator(i) {}
     ConstReverseIterator(const ReverseIterator & rit) { m_Iterator = rit.m_Iterator; }
     ConstIterator operator++()         { return --m_Iterator; }
@@ -110,7 +110,7 @@ public:
     bool operator!=(const ConstReverseIterator & rit) const { return m_Iterator != rit.m_Iterator; }
     bool operator==(const ConstReverseIterator & rit) const { return m_Iterator == rit.m_Iterator; }
 
-private:
+  private:
     ConstIterator m_Iterator;
   };
 
