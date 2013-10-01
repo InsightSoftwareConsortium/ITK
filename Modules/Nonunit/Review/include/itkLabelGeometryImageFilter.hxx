@@ -208,6 +208,10 @@ LabelGeometryImageFilter< TLabelImage, TIntensityImage >
   // Iterator over the mapping from labels to geometry values.
   MapIterator mapIt;
 
+  // begin with empty m_LabelGeometryMapper and m_AllLabels
+  m_LabelGeometryMapper.clear();
+  m_AllLabels.clear();
+
   // Do the work
   while ( !labelIt.IsAtEnd() )
     {
