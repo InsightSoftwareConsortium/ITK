@@ -20,12 +20,12 @@
 namespace itk
 {
 
-Barrier::Barrier()
+Barrier::Barrier() :
+  m_NumberArrived(0),
+  m_NumberExpected(0),
+  m_ConditionVariable( ConditionVariable::New() ),
+  m_Mutex()
 {
-  m_NumberExpected = 0;
-  m_NumberArrived  = 0;
-  m_ConditionVariable = ConditionVariable::New();
-
 }
 
 Barrier::~Barrier()
@@ -35,7 +35,6 @@ Barrier::~Barrier()
 void Barrier::Initialize(unsigned int n)
 {
   m_NumberExpected = n;
-
 }
 
 void Barrier::Wait()

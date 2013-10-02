@@ -68,11 +68,10 @@ private:
   Barrier();
   ~Barrier();
 
-  ConditionVariable::Pointer m_ConditionVariable;
   unsigned int               m_NumberArrived;
+  unsigned int               m_NumberExpected;
+  ConditionVariable::Pointer m_ConditionVariable;
   SimpleMutexLock            m_Mutex;
-
-  unsigned int m_NumberExpected;
 };
 } // end namespace itk
 
