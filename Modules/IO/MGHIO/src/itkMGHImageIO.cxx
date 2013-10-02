@@ -27,7 +27,6 @@ namespace itk
 static const std::string __MGH_EXT(".mgh");
 static const std::string __MGZ_EXT(".mgz");
 static const std::string __GZ_EXT(".gz");
-static const std::string __MGHGZ_EXT(".mgh.gz");
 
 
 // -------------------------------
@@ -114,9 +113,20 @@ MGHImageIO
   // no unique file signature in a MGH file were're kind of stuck.
 /// Since both ".gz" and ".mgh.gz" are valid extension, checking for ".gz" is sufficient.
   const std::string lastExtension = itksys::SystemTools::GetFilenameLastExtension(fname.c_str());
-  if(lastExtension == __MGZ_EXT || lastExtension == __GZ_EXT)
+  if(lastExtension == __MGZ_EXT)
     {
     return true;
+    }
+  if(lastExtension == __GZ_EXT)
+    {
+    const std::string fnameWithoutLastExtension =
+      itksys::SystemTools::GetFilenameWithoutLastExtension(fname);
+    const std::string penultimateExtension =
+      itksys::SystemTools::GetFilenameLastExtension(fnameWithoutLastExtension);
+    if(penultimateExtension == __MGH_EXT)
+      {
+      return true;
+      }
     }
   return false;
 }
