@@ -60,31 +60,32 @@ public:
 }
 
 
-int itkHistogramMatchingImageFilterTest(int, char* [] )
+template <typename TScalar>
+int itkHistogramMatchingImageFilterTest()
 {
 
-  typedef float PixelType;
+  typedef TScalar PixelType;
   enum {ImageDimension = 3};
   typedef itk::Image<PixelType,ImageDimension> ImageType;
   typedef itk::ImageRegionIterator<ImageType>  Iterator;
 
-  ImageType::SizeType size;
+  typename ImageType::SizeType size;
   size[0] = 30;
   size[1] = 20;
   size[2] = 2;
 
-  ImageType::RegionType region;
+  typename ImageType::RegionType region;
   region.SetSize( size );
 
-  ImageType::Pointer reference = ImageType::New();
-  ImageType::Pointer source = ImageType::New();
+  typename ImageType::Pointer reference = ImageType::New();
+  typename ImageType::Pointer source = ImageType::New();
 
   reference->SetLargestPossibleRegion( region );
   reference->SetBufferedRegion( region );
   reference->Allocate();
 
   // Change the origin of the reference image.
-  ImageType::PointType origin;
+  typename ImageType::PointType origin;
   origin[0] = 1.0;
   origin[1] = 10.0;
   origin[2] = 100.0;
@@ -111,7 +112,7 @@ int itkHistogramMatchingImageFilterTest(int, char* [] )
 
 
   typedef itk::HistogramMatchingImageFilter<ImageType,ImageType> FilterType;
-  FilterType::Pointer filter = FilterType::New();
+  typename FilterType::Pointer filter = FilterType::New();
 
   filter->SetReferenceImage( reference );
   filter->SetSourceImage( source );
@@ -179,4 +180,45 @@ int itkHistogramMatchingImageFilterTest(int, char* [] )
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
 
+}
+int itkHistogramMatchingImageFilterTest(int, char* [] )
+{
+  if(itkHistogramMatchingImageFilterTest<float>() != EXIT_SUCCESS)
+    {
+    return EXIT_FAILURE;
+    }
+  if(itkHistogramMatchingImageFilterTest<long>() != EXIT_SUCCESS)
+    {
+    return EXIT_FAILURE;
+    }
+  if(itkHistogramMatchingImageFilterTest<unsigned long>() != EXIT_SUCCESS)
+    {
+    return EXIT_FAILURE;
+    }
+  if(itkHistogramMatchingImageFilterTest<int>() != EXIT_SUCCESS)
+    {
+    return EXIT_FAILURE;
+    }
+  if(itkHistogramMatchingImageFilterTest<unsigned int>() != EXIT_SUCCESS)
+    {
+    return EXIT_FAILURE;
+    }
+  if(itkHistogramMatchingImageFilterTest<short>() != EXIT_SUCCESS)
+    {
+    return EXIT_FAILURE;
+    }
+  if(itkHistogramMatchingImageFilterTest<unsigned short>() != EXIT_SUCCESS)
+    {
+    return EXIT_FAILURE;
+    }
+  if(itkHistogramMatchingImageFilterTest<char>() != EXIT_SUCCESS)
+    {
+    return EXIT_FAILURE;
+    }
+  if(itkHistogramMatchingImageFilterTest<unsigned char>() != EXIT_SUCCESS)
+    {
+    return EXIT_FAILURE;
+    }
+
+  return EXIT_SUCCESS;
 }
