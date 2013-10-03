@@ -51,7 +51,7 @@ public:
   typedef itk::Command              Superclass;
   typedef itk::SmartPointer< Self > Pointer;
 
-  itkNewMacro( Self );
+  itkSimpleNewMacro( Self ); //Clone, and CreateAnother are not needed here.
 
   typedef TOptimizer OptimizerType;
   typedef TMIMetric  MIMetricType;
