@@ -224,11 +224,11 @@ void
 LBFGSBOptimizer
 ::SetCostFunctionConvergenceFactor(double value)
 {
-  if ( value < 1.0 )
+  if ( value < 0.0 )
     {
     itkExceptionMacro("Value " << value
                                << " is too small for SetCostFunctionConvergenceFactor()"
-                               << "a typical range would be from 1.0 to 1e+12");
+                               << "a typical range would be from 0.0 to 1e+12");
     }
   m_CostFunctionConvergenceFactor = value;
   if ( m_OptimizerInitialized )
@@ -369,7 +369,11 @@ LBFGSBOptimizer
     {
     this->GetNonConstCostFunctionAdaptor()->NegateCostFunctionOn();
     }
-
+  if(this->m_CostFunctionConvergenceFactor == 0.0 && this->m_ProjectedGradientTolerance == 0.0)
+    {
+    itkExceptionMacro("LBFGSB Optimizer cannot function if both CostFunctionConvergenceFactor"
+                      " and ProjectedGradienctTolerance are zero.");
+    }
   this->SetCurrentPosition( this->GetInitialPosition() );
 
   ParametersType parameters( this->GetInitialPosition() );
