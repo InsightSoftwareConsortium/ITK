@@ -210,13 +210,18 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>
     }
   else
     {
+    VectorType inverseSpacing;
+    for( unsigned int d = 0; d < ImageDimension; ++d )
+      {
+      inverseSpacing[d]=1.0/this->m_DisplacementFieldSpacing[d];
+      }
     for( ItE.GoToBegin(), ItS.GoToBegin(); !ItE.IsAtEnd(); ++ItE, ++ItS )
       {
-      VectorType displacement = ItE.Get();
+      const VectorType & displacement = ItE.Get();
       RealType scaledNorm = 0.0;
-      for( unsigned int d = 0; d < ImageDimension; d++ )
+      for( unsigned int d = 0; d < ImageDimension; ++d )
         {
-        scaledNorm += vnl_math_sqr( displacement[d] / this->m_DisplacementFieldSpacing[d] );
+        scaledNorm += vnl_math_sqr( displacement[d] * inverseSpacing[d] );
         }
       scaledNorm = vcl_sqrt( scaledNorm );
 
