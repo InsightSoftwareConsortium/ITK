@@ -31,6 +31,7 @@ int itkOtsuMultipleThresholdsImageFilterTest(int argc, char* argv[] )
     std::cerr << " numberOfHistogramBins";
     std::cerr << " numberOfThresholds";
     std::cerr << " labelOffset";
+    std::cerr << " [valleyEmphasis]";
     std::cerr << std::endl;
     return EXIT_FAILURE;
     }
@@ -63,6 +64,10 @@ int itkOtsuMultipleThresholdsImageFilterTest(int argc, char* argv[] )
   filter->SetNumberOfHistogramBins (atoi(argv[3]));
   filter->SetNumberOfThresholds( atoi(argv[4]) );
   filter->SetLabelOffset( atoi(argv[5]) );
+  if( argc > 6 )
+  {
+    filter->SetValleyEmphasis(atoi(argv[6]));
+  }
   try
     {
     filter->Update();

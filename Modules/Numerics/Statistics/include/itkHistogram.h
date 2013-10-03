@@ -44,10 +44,10 @@ namespace Statistics
  * specified by measurement, index, or instance identifier.
  *
  * Measurements can be queried by bin index or instance
- * identifier. In this case, the measurement returned in the centroid
+ * identifier. In this case, the measurement returned is the centroid
  * of the histogram bin.
  *
- * The Initialize() method is used to specified the number of bins for
+ * The Initialize() method is used to specify the number of bins for
  * each dimension of the histogram. An overloaded version also allows
  * for regularly spaced bins to defined.  To define irregularly sized
  * bins, use the SetBinMin()/SetBinMax() methods.
@@ -56,7 +56,7 @@ namespace Statistics
  * should use the VariableDimensionHistogram class, instead of the Histogram
  * class.
  *
- * If you know the length of the measuremen vector at compile time, you can
+ * If you know the length of the measurement vector at compile time, it can
  * conveniently be obtained from MeasurementVectorTraits. For instance,
  * instantiate a histogram as below:
  *
