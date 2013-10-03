@@ -32,21 +32,21 @@
  * Exercise other methods
  */
 
-/** \class ImageToImageTestGetValueAndDerivativeThreader
+/** \class TestImageToImageGetValueAndDerivativeThreader
  * \brief Processes points for ImageToImageTest calculation. */
 template < typename TDomainPartitioner, typename TImageToImageMetricv4 >
-class ImageToImageTestGetValueAndDerivativeThreader
+class TestImageToImageGetValueAndDerivativeThreader
   : public itk::ImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetricv4 >
 {
 public:
   /** Standard class typedefs. */
-  typedef ImageToImageTestGetValueAndDerivativeThreader  Self;
+  typedef TestImageToImageGetValueAndDerivativeThreader  Self;
   typedef itk::ImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetricv4 >
                                                          Superclass;
   typedef itk::SmartPointer< Self >                      Pointer;
   typedef itk::SmartPointer< const Self >                ConstPointer;
 
-  itkTypeMacro( ImageToImageTestGetValueAndDerivativeThreader,
+  itkTypeMacro( TestImageToImageGetValueAndDerivativeThreader,
     ImageToImageMetricv4GetValueAndDerivativeThreader );
 
   itkNewMacro( Self );
@@ -66,7 +66,7 @@ public:
   typedef typename Superclass::DerivativeType          DerivativeType;
 
 protected:
-  ImageToImageTestGetValueAndDerivativeThreader() {}
+  TestImageToImageGetValueAndDerivativeThreader() { }
 
   /* Provide the worker routine to process each point */
   virtual bool ProcessPoint(
@@ -85,17 +85,21 @@ protected:
     /* Just return some test values that can verify proper mechanics */
     metricValueResult = mappedFixedPixelValue + mappedMovingPixelValue;
 
-    for ( unsigned int par = 0; par < this->m_Associate->GetNumberOfLocalParameters(); par++ )
+    //Only do derivative calculations when it is requested in the metric.
+    if ( this->GetComputeDerivative() )
       {
-      double sum = 0.0;
-      for ( unsigned int dim = 0; dim < TImageToImageMetricv4::MovingImageDimension; dim++ )
+      for ( unsigned int par = 0; par < this->m_Associate->GetNumberOfLocalParameters(); par++ )
         {
-        sum += mappedMovingImageGradient[dim] + mappedFixedImageGradient[dim];
+        double sum = 0.0;
+        for ( unsigned int dim = 0; dim < TImageToImageMetricv4::MovingImageDimension; dim++ )
+          {
+          sum += mappedMovingImageGradient[dim] + mappedFixedImageGradient[dim];
+          }
+        localDerivativeReturn[par] = sum;
         }
-      localDerivativeReturn[par] = sum;
+      // Return true if the point was used in evaluation
       }
-    // Return true if the point was used in evaluation
-    return true;
+      return true;
     }
 
 };
@@ -142,11 +146,11 @@ public:
       TMovingImage::ImageDimension);
 
 protected:
-  friend class ImageToImageTestGetValueAndDerivativeThreader<itk::ThreadedImageRegionPartitioner< VirtualImageDimension >, Superclass >;
-  friend class ImageToImageTestGetValueAndDerivativeThreader<itk::ThreadedIndexedContainerPartitioner, Superclass >;
+  friend class TestImageToImageGetValueAndDerivativeThreader<itk::ThreadedImageRegionPartitioner< VirtualImageDimension >, Superclass >;
+  friend class TestImageToImageGetValueAndDerivativeThreader<itk::ThreadedIndexedContainerPartitioner, Superclass >;
 
-  typedef ImageToImageTestGetValueAndDerivativeThreader<itk::ThreadedImageRegionPartitioner< VirtualImageDimension >, Superclass > DenseThreaderType;
-  typedef ImageToImageTestGetValueAndDerivativeThreader<itk::ThreadedIndexedContainerPartitioner, Superclass >  SparseThreaderType;
+  typedef TestImageToImageGetValueAndDerivativeThreader<itk::ThreadedImageRegionPartitioner< VirtualImageDimension >, Superclass > DenseThreaderType;
+  typedef TestImageToImageGetValueAndDerivativeThreader<itk::ThreadedIndexedContainerPartitioner, Superclass >  SparseThreaderType;
 
   ImageToImageMetricv4TestMetric()
     {
