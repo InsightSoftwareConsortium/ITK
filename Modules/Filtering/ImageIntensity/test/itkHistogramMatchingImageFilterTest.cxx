@@ -187,10 +187,12 @@ int itkHistogramMatchingImageFilterTest(int, char* [] )
     {
     return EXIT_FAILURE;
     }
+#if !defined(ITKV3_COMPATIBILITY)
   if(itkHistogramMatchingImageFilterTest<long>() != EXIT_SUCCESS)
     {
     return EXIT_FAILURE;
     }
+#endif
   if(itkHistogramMatchingImageFilterTest<unsigned long>() != EXIT_SUCCESS)
     {
     return EXIT_FAILURE;
