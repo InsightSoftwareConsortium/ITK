@@ -141,6 +141,16 @@ private:
   void operator=(const Self &); //purposely not implemented
   void SetPixelTypeFromString(const std::string & pixelType);
 
+  /** Return the number of pixels in the IOregion. */
+  SizeType GetIORegionSizeInPixels() const;
+
+  /** Return the number of bytes in the IOregion. */
+  SizeType GetIORegionSizeInBytes() const;
+
+  /** Return the number of pixels times the number
+   * of components in the IOregion. */
+  SizeType GetIORegionSizeInComponents() const;
+
   SizeType m_HeaderSize;
 };
 } // end namespace itk
