@@ -75,7 +75,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
 
   this->m_Value = NumericTraits<MeasureType>::max();
   this->m_DerivativeResult = NULL;
-  this->m_ComputeDerivative = true;
+  this->m_ComputeDerivative = false;
 }
 
 template<typename TFixedImage,typename TMovingImage,typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits>
@@ -200,7 +200,7 @@ typename ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInterna
 ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 ::GetValue() const
 {
-  this-> m_ComputeDerivative = false;
+  this->m_ComputeDerivative = false;
 
   DerivativeType derivative;
   this->m_DerivativeResult = &derivative;

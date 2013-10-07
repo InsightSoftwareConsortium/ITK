@@ -104,8 +104,7 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
     {
     if( ! this->m_UserHasSetVirtualDomain )
       {
-      typename DisplacementFieldTransformType::Pointer displacementTransform;
-      displacementTransform = this->GetMovingDisplacementFieldTransform();
+      const typename DisplacementFieldTransformType::ConstPointer displacementTransform = this->GetMovingDisplacementFieldTransform();
       if( displacementTransform.IsNull() )
         {
         itkExceptionMacro("Expected the moving transform to be of type DisplacementFieldTransform or derived, "

@@ -295,7 +295,7 @@ protected:
    *  If the moving transform is a CompositeTransform, the routine will check if the
    *  first (last to be added) transform is a DisplacementFieldTransform, and if so return it.
    *  Otherwise, return NULL. */
-  MovingDisplacementFieldTransformType * GetMovingDisplacementFieldTransform() const;
+  const MovingDisplacementFieldTransformType * GetMovingDisplacementFieldTransform() const;
 
   /** Check that the number of valid points is above a default
    * minimum (zero). If not, then return false, and assign to 'value' a value

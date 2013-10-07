@@ -60,7 +60,7 @@ MultiTransform<TScalar, NDimensions, NSubDimensions>
 
   for( SizeValueType tind = 0; tind < this->GetNumberOfTransforms(); tind++ )
     {
-    TransformCategoryType type = this->GetNthTransform( tind ).GetPointer()->GetTransformCategory();
+    const TransformCategoryType type = this->GetNthTransformConstPointer( tind )->GetTransformCategory();
     if( tind == 0 )
       {
       result = type;
@@ -90,7 +90,7 @@ MultiTransform<TScalar, NDimensions, NSubDimensions>
   // If all sub-transforms are linear, return true.
   for( SizeValueType tind = 0; tind < this->GetNumberOfTransforms(); tind++ )
     {
-    if( ! this->GetNthTransform( tind ).GetPointer()->IsLinear() )
+    if( ! this->GetNthTransformConstPointer( tind )->IsLinear() )
       {
       return false;
       }
@@ -257,12 +257,11 @@ MultiTransform<TScalar, NDimensions, NSubDimensions>
    * we wouldn't know that in this class, so this is safest. */
   NumberOfParametersType result = NumericTraits< NumberOfParametersType >::Zero;
 
-  const TransformType * transform;
 
   for( SizeValueType tind = 0; tind < this->GetNumberOfTransforms(); tind++ )
     {
     /* Use raw pointer for efficiency */
-    transform = this->GetNthTransform( tind ).GetPointer();
+    const TransformType * transform = this->GetNthTransformConstPointer( tind );
     result += transform->GetNumberOfParameters();
     }
   return result;
@@ -284,11 +283,10 @@ MultiTransform<TScalar, NDimensions, NSubDimensions>
    * number of local parameters to possibly change, so we can cache
    * the value. */
   NumberOfParametersType result = NumericTraits< NumberOfParametersType >::Zero;
-  const TransformType * transform;
 
   for( SizeValueType tind = 0; tind < this->GetNumberOfTransforms(); tind++ )
     {
-    transform = this->GetNthTransform( tind ).GetPointer();
+    const TransformType * transform = this->GetNthTransformConstPointer( tind );
     result += transform->GetNumberOfLocalParameters();
     }
   this->m_NumberOfLocalParameters = result;
@@ -302,11 +300,10 @@ MultiTransform<TScalar, NDimensions, NSubDimensions>
 ::GetNumberOfFixedParameters(void) const
 {
   NumberOfParametersType result = NumericTraits< NumberOfParametersType >::Zero;
-  const TransformType * transform;
 
   for( SizeValueType tind = 0; tind < this->GetNumberOfTransforms(); tind++ )
     {
-    transform = this->GetNthTransform( tind ).GetPointer();
+    const TransformType * transform = this->GetNthTransformConstPointer( tind );
     result += transform->GetFixedParameters().Size();
     }
   return result;
@@ -336,11 +333,11 @@ MultiTransform<TScalar, NDimensions, NSubDimensions>
     }
 
   NumberOfParametersType offset = NumericTraits< NumberOfParametersType >::Zero;
-  TransformType * subtransform;
 
   for( SizeValueType tind = 0; tind < this->GetNumberOfTransforms(); tind++ )
     {
-    subtransform = const_cast<TransformType*>( this->GetNthTransform( tind ).GetPointer() );
+    // HACK:  The following line looks wrong.  We should not need to const_cast
+    TransformType * subtransform = this->GetNthTransformModifiablePointer( tind );
     /* The input values are in a monolithic block, so we have to point
      * to the subregion corresponding to the individual subtransform.
      * This simply creates an Array object with data pointer, no

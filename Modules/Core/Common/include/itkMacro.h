@@ -461,6 +461,18 @@ itkTypeMacro(newexcp, parentexcp);                                              
 #define ITK_CACHE_LINE_ALIGNMENT 64
 
 //
+// itkPadStruct will add padding to a structure to ensure a minimum size
+// for ensuring that adjacent structures do not share CACHE lines.
+// Each struct will take up some multiple of cacheline sizes.
+// This is particularly useful for arrays of thread private variables.
+//
+#define itkPadStruct( mincachesize, oldtype, newtype )                        \
+    struct newtype: public oldtype                                            \
+      {                                                                       \
+         char _StructPadding[mincachesize - (sizeof(oldtype)%mincachesize) ]; \
+      };
+
+//
 // itkAlignedTypedef is a macro which creates a new typedef to make a
 // data structure aligned.
 //

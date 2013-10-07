@@ -179,7 +179,7 @@ RegistrationParameterScalesEstimator< TMetric >
         for( signed long tind = static_cast<signed long>( compositeTransform->GetNumberOfTransforms() ) - 1; tind >= 0; tind-- )
           {
           if( compositeTransform->GetNthTransformToOptimize( tind ) &&
-            ( compositeTransform->GetNthTransform( tind ).GetPointer()->GetTransformCategory() != MovingTransformType::BSpline ) )
+            ( compositeTransform->GetNthTransformConstPointer( tind )->GetTransformCategory() != MovingTransformType::BSpline ) )
             {
             isBSplineTransform = false;
             break;
@@ -198,7 +198,7 @@ RegistrationParameterScalesEstimator< TMetric >
         for( signed long tind = static_cast<signed long>( compositeTransform->GetNumberOfTransforms() ) - 1; tind >= 0; tind-- )
           {
           if( compositeTransform->GetNthTransformToOptimize( tind ) &&
-            ( compositeTransform->GetNthTransform( tind ).GetPointer()->GetTransformCategory() != FixedTransformType::BSpline ) )
+            ( compositeTransform->GetNthTransformConstPointer( tind )->GetTransformCategory() != FixedTransformType::BSpline ) )
             {
             isBSplineTransform = false;
             break;

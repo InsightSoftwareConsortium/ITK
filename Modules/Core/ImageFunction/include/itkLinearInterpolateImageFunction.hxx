@@ -72,12 +72,12 @@ LinearInterpolateImageFunction< TInputImage, TCoordRep >
    * Compute distance from point to base index
    */
   IndexType baseIndex;
-  double    distance[ImageDimension];
+  InternalComputationType    distance[ImageDimension];
 
   for ( dim = 0; dim < ImageDimension; dim++ )
     {
     baseIndex[dim] = Math::Floor< IndexValueType >(index[dim]);
-    distance[dim] = index[dim] - static_cast< double >( baseIndex[dim] );
+    distance[dim] = index[dim] - static_cast< InternalComputationType >( baseIndex[dim] );
     }
 
   /**
@@ -95,9 +95,9 @@ LinearInterpolateImageFunction< TInputImage, TCoordRep >
   InputPixelScalarRealType totalOverlap = NumericTraits< InputPixelScalarRealType >::Zero;
   bool firstOverlap = true;
 
-  for ( unsigned int counter = 0; counter < m_Neighbors; counter++ )
+  for ( unsigned int counter = 0; counter < m_Neighbors; ++counter )
     {
-    double       overlap = 1.0;    // fraction overlap
+    InternalComputationType       overlap = 1.0;    // fraction overlap
     unsigned int upper = counter;  // each bit indicates upper/lower neighbour
     IndexType    neighIndex;
 

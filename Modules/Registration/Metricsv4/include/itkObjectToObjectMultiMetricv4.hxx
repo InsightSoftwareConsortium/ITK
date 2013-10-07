@@ -162,7 +162,7 @@ ObjectToObjectMultiMetricv4<TFixedDimension, TMovingDimension, TVirtualImage, TI
         if( composite->GetNthTransformToOptimize( n ) )
           {
           count++;
-          transform = composite->GetNthTransform( n );
+          transform = composite->GetNthTransformConstPointer( n );
           }
         }
       if( count != 1 )

@@ -22,8 +22,26 @@
 
 namespace itk
 {
+
 template<typename TDomainPartitioner, typename TImageToImageMetric, typename TCorrelationMetric>
-void CorrelationImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric, TCorrelationMetric>
+CorrelationImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric, TCorrelationMetric>
+::CorrelationImageToImageMetricv4GetValueAndDerivativeThreader():
+  m_CorrelationMetricValueDerivativePerThreadVariables( NULL )
+{
+}
+
+
+template<typename TDomainPartitioner, typename TImageToImageMetric, typename TCorrelationMetric>
+CorrelationImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric, TCorrelationMetric>
+::~CorrelationImageToImageMetricv4GetValueAndDerivativeThreader()
+{
+  delete[] m_CorrelationMetricValueDerivativePerThreadVariables;
+}
+
+
+template<typename TDomainPartitioner, typename TImageToImageMetric, typename TCorrelationMetric>
+void
+CorrelationImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric, TCorrelationMetric>
 ::BeforeThreadedExecution()
 {
   Superclass::BeforeThreadedExecution();
@@ -39,25 +57,26 @@ void CorrelationImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartit
   const NumberOfParametersType globalDerivativeSize = this->GetCachedNumberOfParameters();
 
   // set size
-  m_InternalCumSumPerThread.resize(this->GetNumberOfThreadsUsed());
+  delete[] m_CorrelationMetricValueDerivativePerThreadVariables;
+  m_CorrelationMetricValueDerivativePerThreadVariables = new AlignedCorrelationMetricValueDerivativePerThreadStruct[ this->GetNumberOfThreadsUsed() ];
   for (ThreadIdType i = 0; i < this->GetNumberOfThreadsUsed(); i++)
     {
-    this->m_InternalCumSumPerThread[i].fdm.SetSize(globalDerivativeSize);
-    this->m_InternalCumSumPerThread[i].mdm.SetSize(globalDerivativeSize);
+    this->m_CorrelationMetricValueDerivativePerThreadVariables[i].fdm.SetSize(globalDerivativeSize);
+    this->m_CorrelationMetricValueDerivativePerThreadVariables[i].mdm.SetSize(globalDerivativeSize);
     }
 
   //---------------------------------------------------------------
   // Set initial values.
   for (ThreadIdType i = 0; i < this->GetNumberOfThreadsUsed(); i++)
     {
-    m_InternalCumSumPerThread[i].fm = NumericTraits<InternalComputationValueType>::Zero;
-    m_InternalCumSumPerThread[i].f2 = NumericTraits<InternalComputationValueType>::Zero;
-    m_InternalCumSumPerThread[i].m2 = NumericTraits<InternalComputationValueType>::Zero;
-    m_InternalCumSumPerThread[i].f = NumericTraits<InternalComputationValueType>::Zero;
-    m_InternalCumSumPerThread[i].m = NumericTraits<InternalComputationValueType>::Zero;
+    m_CorrelationMetricValueDerivativePerThreadVariables[i].fm = NumericTraits<InternalComputationValueType>::Zero;
+    m_CorrelationMetricValueDerivativePerThreadVariables[i].f2 = NumericTraits<InternalComputationValueType>::Zero;
+    m_CorrelationMetricValueDerivativePerThreadVariables[i].m2 = NumericTraits<InternalComputationValueType>::Zero;
+    m_CorrelationMetricValueDerivativePerThreadVariables[i].f = NumericTraits<InternalComputationValueType>::Zero;
+    m_CorrelationMetricValueDerivativePerThreadVariables[i].m = NumericTraits<InternalComputationValueType>::Zero;
 
-    this->m_InternalCumSumPerThread[i].mdm.Fill(NumericTraits<DerivativeValueType>::Zero);
-    this->m_InternalCumSumPerThread[i].fdm.Fill(NumericTraits<DerivativeValueType>::Zero);
+    this->m_CorrelationMetricValueDerivativePerThreadVariables[i].mdm.Fill(NumericTraits<DerivativeValueType>::Zero);
+    this->m_CorrelationMetricValueDerivativePerThreadVariables[i].fdm.Fill(NumericTraits<DerivativeValueType>::Zero);
     }
 
 }
@@ -76,7 +95,7 @@ CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner,
   this->m_CorrelationAssociate->m_NumberOfValidPoints = NumericTraits<SizeValueType>::Zero;
   for (ThreadIdType i = 0; i < this->GetNumberOfThreadsUsed(); i++)
     {
-    this->m_CorrelationAssociate->m_NumberOfValidPoints += this->m_NumberOfValidPointsPerThread[i];
+    this->m_CorrelationAssociate->m_NumberOfValidPoints += this->m_GetValueAndDerivativePerThreadVariables[i].NumberOfValidPoints;
     }
 
   /* Check the number of valid points meets the default minimum.
@@ -93,11 +112,11 @@ CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner,
   InternalComputationValueType fm = NumericTraits<InternalComputationValueType>::Zero;
   InternalComputationValueType f2 = NumericTraits<InternalComputationValueType>::Zero;
   InternalComputationValueType m2 = NumericTraits<InternalComputationValueType>::Zero;
-  for (size_t i = 0; i < this->m_MeasurePerThread.size(); i++)
+  for (ThreadIdType threadId = 0; threadId < this->GetNumberOfThreadsUsed(); ++threadId)
     {
-    fm += this->m_InternalCumSumPerThread[i].fm;
-    m2 += this->m_InternalCumSumPerThread[i].m2;
-    f2 += this->m_InternalCumSumPerThread[i].f2;
+    fm += this->m_CorrelationMetricValueDerivativePerThreadVariables[threadId].fm;
+    m2 += this->m_CorrelationMetricValueDerivativePerThreadVariables[threadId].m2;
+    f2 += this->m_CorrelationMetricValueDerivativePerThreadVariables[threadId].f2;
     }
 
   InternalComputationValueType m2f2 = m2 * f2;
@@ -123,8 +142,8 @@ CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner,
 
     for (ThreadIdType i = 0; i < this->GetNumberOfThreadsUsed(); i++)
       {
-      fdm += this->m_InternalCumSumPerThread[i].fdm;
-      mdm += this->m_InternalCumSumPerThread[i].mdm;
+      fdm += this->m_CorrelationMetricValueDerivativePerThreadVariables[i].fdm;
+      mdm += this->m_CorrelationMetricValueDerivativePerThreadVariables[i].mdm;
       }
 
     /** There should be a minus sign of \frac{d}{dp} mathematically, which
@@ -214,7 +233,7 @@ CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner,
                                    mappedFixedImageGradient,
                                    mappedMovingPoint, mappedMovingPixelValue,
                                    mappedMovingImageGradient,
-                                   metricValueResult, this->m_LocalDerivativesPerThread[threadId],
+                                   metricValueResult, this->m_GetValueAndDerivativePerThreadVariables[threadId].LocalDerivatives,
                                    threadId );
     }
   catch( ExceptionObject & exc )
@@ -227,7 +246,7 @@ CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner,
     }
   if( pointIsValid )
     {
-    this->m_NumberOfValidPointsPerThread[threadId]++;
+    this->m_GetValueAndDerivativePerThreadVariables[threadId].NumberOfValidPoints++;
     }
 
   return pointIsValid;
@@ -251,16 +270,15 @@ CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner,
 
   /*
    * metricValueReturn and localDerivativeReturn will not be computed here.
-   * Instead, m_InternalCumSumPerThread will store temporary results for each thread
+   * Instead, m_CorrelationMetricValueDerivativePerThreadVariables will store temporary results for each thread
    * and finally compute metric and derivative in overloaded AfterThreadedExecution
    */
 
-  InternalCumSumType & cumsum = this->m_InternalCumSumPerThread[threadID];
-
   /* subtract the average of pixels (computed during InitializeIteration) */
-  InternalComputationValueType f1 = fixedImageValue - this->m_CorrelationAssociate->m_AverageFix;
-  InternalComputationValueType m1 = movingImageValue - this->m_CorrelationAssociate->m_AverageMov;
+  const InternalComputationValueType & f1 = fixedImageValue - this->m_CorrelationAssociate->m_AverageFix;
+  const InternalComputationValueType & m1 = movingImageValue - this->m_CorrelationAssociate->m_AverageMov;
 
+  AlignedCorrelationMetricValueDerivativePerThreadStruct & cumsum = this->m_CorrelationMetricValueDerivativePerThreadVariables[threadID];
   cumsum.f += f1;
   cumsum.m += m1;
   cumsum.f2 += f1 * f1;
@@ -271,7 +289,7 @@ CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner,
     {
     /* Use a pre-allocated jacobian object for efficiency */
     typedef typename TImageToImageMetric::JacobianType & JacobianReferenceType;
-    JacobianReferenceType jacobian = this->m_MovingTransformJacobianPerThread[threadID];
+    JacobianReferenceType jacobian = this->m_GetValueAndDerivativePerThreadVariables[threadID].MovingTransformJacobian;
 
     /** For dense transforms, this returns identity */
     this->m_CorrelationAssociate->GetMovingTransform()->ComputeJacobianWithRespectToParameters(virtualPoint, jacobian);

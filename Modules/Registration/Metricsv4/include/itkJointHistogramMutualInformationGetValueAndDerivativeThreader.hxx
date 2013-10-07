@@ -24,6 +24,22 @@ namespace itk
 {
 
 template< typename TDomainPartitioner, typename TImageToImageMetric, typename TJointHistogramMetric >
+JointHistogramMutualInformationGetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric, TJointHistogramMetric >
+::JointHistogramMutualInformationGetValueAndDerivativeThreader():
+  m_JointHistogramMIPerThreadVariables( NULL )
+{
+}
+
+
+template< typename TDomainPartitioner, typename TImageToImageMetric, typename TJointHistogramMetric >
+JointHistogramMutualInformationGetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric, TJointHistogramMetric >
+::~JointHistogramMutualInformationGetValueAndDerivativeThreader()
+{
+  delete[] this->m_JointHistogramMIPerThreadVariables;
+}
+
+
+template< typename TDomainPartitioner, typename TImageToImageMetric, typename TJointHistogramMetric >
 void
 JointHistogramMutualInformationGetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric, TJointHistogramMetric >
 ::BeforeThreadedExecution()
@@ -37,27 +53,26 @@ JointHistogramMutualInformationGetValueAndDerivativeThreader< TDomainPartitioner
     itkExceptionMacro("Dynamic casting of associate pointer failed.");
     }
 
-  this->m_JointPDFInterpolatorPerThread.resize( this->GetNumberOfThreadsUsed() );
-  this->m_FixedImageMarginalPDFInterpolatorPerThread.resize( this->GetNumberOfThreadsUsed() );
-  this->m_MovingImageMarginalPDFInterpolatorPerThread.resize( this->GetNumberOfThreadsUsed() );
+  delete[] this->m_JointHistogramMIPerThreadVariables;
+  this->m_JointHistogramMIPerThreadVariables = new AlignedJointHistogramMIPerThreadStruct[ this->GetNumberOfThreadsUsed() ];
 
   for( ThreadIdType i = 0; i < this->GetNumberOfThreadsUsed(); ++i )
     {
-    if( this->m_JointPDFInterpolatorPerThread[i].IsNull() )
+    if( this->m_JointHistogramMIPerThreadVariables[i].JointPDFInterpolator.IsNull() )
       {
-      this->m_JointPDFInterpolatorPerThread[i] = JointPDFInterpolatorType::New();
+      this->m_JointHistogramMIPerThreadVariables[i].JointPDFInterpolator = JointPDFInterpolatorType::New();
       }
-    this->m_JointPDFInterpolatorPerThread[i]->SetInputImage( this->m_JointAssociate->m_JointPDF );
-    if( this->m_FixedImageMarginalPDFInterpolatorPerThread[i].IsNull() )
+    this->m_JointHistogramMIPerThreadVariables[i].JointPDFInterpolator->SetInputImage( this->m_JointAssociate->m_JointPDF );
+    if( this->m_JointHistogramMIPerThreadVariables[i].FixedImageMarginalPDFInterpolator.IsNull() )
       {
-      this->m_FixedImageMarginalPDFInterpolatorPerThread[i] = MarginalPDFInterpolatorType::New();
+      this->m_JointHistogramMIPerThreadVariables[i].FixedImageMarginalPDFInterpolator = MarginalPDFInterpolatorType::New();
       }
-    this->m_FixedImageMarginalPDFInterpolatorPerThread[i]->SetInputImage( this->m_JointAssociate->m_FixedImageMarginalPDF );
-    if( this->m_MovingImageMarginalPDFInterpolatorPerThread[i].IsNull() )
+    this->m_JointHistogramMIPerThreadVariables[i].FixedImageMarginalPDFInterpolator->SetInputImage( this->m_JointAssociate->m_FixedImageMarginalPDF );
+    if( this->m_JointHistogramMIPerThreadVariables[i].MovingImageMarginalPDFInterpolator.IsNull() )
       {
-      this->m_MovingImageMarginalPDFInterpolatorPerThread[i] = MarginalPDFInterpolatorType::New();
+      this->m_JointHistogramMIPerThreadVariables[i].MovingImageMarginalPDFInterpolator = MarginalPDFInterpolatorType::New();
       }
-    this->m_MovingImageMarginalPDFInterpolatorPerThread[i]->SetInputImage( this->m_JointAssociate->m_MovingImageMarginalPDF );
+    this->m_JointHistogramMIPerThreadVariables[i].MovingImageMarginalPDFInterpolator->SetInputImage( this->m_JointAssociate->m_MovingImageMarginalPDF );
     }
 }
 
@@ -108,29 +123,27 @@ JointHistogramMutualInformationGetValueAndDerivativeThreader< TDomainPartitioner
   JointPDFPointType jointPDFpoint;
   this->m_JointAssociate->ComputeJointPDFPoint( fixedImageValue, movingImageValue, jointPDFpoint );
   // Make sure the point is inside th joint pdf.
-  if ( ! this->m_JointPDFInterpolatorPerThread[threadId]->IsInsideBuffer( jointPDFpoint ) )
+  if ( ! this->m_JointHistogramMIPerThreadVariables[threadId].JointPDFInterpolator->IsInsideBuffer( jointPDFpoint ) )
     {
     return false;
     }
-  InternalComputationValueType jointPDFValue = this->m_JointPDFInterpolatorPerThread[threadId]->Evaluate( jointPDFpoint );
+  InternalComputationValueType jointPDFValue = this->m_JointHistogramMIPerThreadVariables[threadId].JointPDFInterpolator->Evaluate( jointPDFpoint );
   SizeValueType ind = 1;
   InternalComputationValueType dJPDF = this->ComputeJointPDFDerivative( jointPDFpoint, threadId , ind );
   typename MarginalPDFType::PointType mind;
   mind[0] = jointPDFpoint[ind];
   InternalComputationValueType movingImagePDFValue =
-    this->m_MovingImageMarginalPDFInterpolatorPerThread[threadId]->Evaluate(mind);
+    this->m_JointHistogramMIPerThreadVariables[threadId].MovingImageMarginalPDFInterpolator->Evaluate(mind);
   InternalComputationValueType dMmPDF =
     this->ComputeMovingImageMarginalPDFDerivative( mind , threadId );
 
-  InternalComputationValueType term1 = NumericTraits< InternalComputationValueType >::Zero;
-  InternalComputationValueType term2 = NumericTraits< InternalComputationValueType >::Zero;
-  InternalComputationValueType eps = 1.e-16;
+  const InternalComputationValueType eps = 1.e-16;
   if( jointPDFValue > eps &&  movingImagePDFValue > eps )
     {
     const InternalComputationValueType pRatio =
                             vcl_log(jointPDFValue)-vcl_log(movingImagePDFValue);
-    term1 = dJPDF*pRatio;
-    term2 = this->m_JointAssociate->m_Log2 * dMmPDF * jointPDFValue / movingImagePDFValue;
+    const InternalComputationValueType & term1 = dJPDF*pRatio;
+    const InternalComputationValueType & term2 = this->m_JointAssociate->m_Log2 * dMmPDF * jointPDFValue / movingImagePDFValue;
     scalingfactor =  ( term2 - term1 );
     }  // end if-block to check non-zero bin contribution
   else
@@ -140,7 +153,7 @@ JointHistogramMutualInformationGetValueAndDerivativeThreader< TDomainPartitioner
 
   /* Use a pre-allocated jacobian object for efficiency */
   FixedTransformJacobianType & jacobian =
-    const_cast< FixedTransformJacobianType &   >(this->m_MovingTransformJacobianPerThread[threadId]);
+    const_cast< FixedTransformJacobianType &   >(this->m_GetValueAndDerivativePerThreadVariables[threadId].MovingTransformJacobian);
 
   /** For dense transforms, this returns identity */
   this->m_JointAssociate->m_MovingTransform->ComputeJacobianWithRespectToParameters( virtualPoint, jacobian );
@@ -230,8 +243,8 @@ JointHistogramMutualInformationGetValueAndDerivativeThreader< TDomainPartitioner
   if ( delta > NumericTraits< InternalComputationValueType >::Zero )
     {
     InternalComputationValueType deriv =
-      this->m_MovingImageMarginalPDFInterpolatorPerThread[threadId]->Evaluate(rightpoint) -
-      this->m_MovingImageMarginalPDFInterpolatorPerThread[threadId]->Evaluate(leftpoint);
+      this->m_JointHistogramMIPerThreadVariables[threadId].MovingImageMarginalPDFInterpolator->Evaluate(rightpoint) -
+      this->m_JointHistogramMIPerThreadVariables[threadId].MovingImageMarginalPDFInterpolator->Evaluate(leftpoint);
     return deriv/delta;
     }
   else
@@ -278,8 +291,8 @@ JointHistogramMutualInformationGetValueAndDerivativeThreader< TDomainPartitioner
   InternalComputationValueType deriv = NumericTraits< InternalComputationValueType >::Zero;
   if ( delta > NumericTraits< InternalComputationValueType >::Zero )
     {
-    deriv = this->m_JointPDFInterpolatorPerThread[threadId]->Evaluate(rightpoint)-
-          this->m_JointPDFInterpolatorPerThread[threadId]->Evaluate(leftpoint);
+    deriv = this->m_JointHistogramMIPerThreadVariables[threadId].JointPDFInterpolator->Evaluate(rightpoint)-
+          this->m_JointHistogramMIPerThreadVariables[threadId].JointPDFInterpolator->Evaluate(leftpoint);
     return deriv/delta;
     }
   return deriv;

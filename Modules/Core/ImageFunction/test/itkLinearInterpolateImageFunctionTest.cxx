@@ -39,11 +39,14 @@ int RunTest( void )
  typedef typename RegionType::SizeType                 SizeType;
  typedef typename ImageType::IndexType                 IndexType;
 
- typedef typename itk::ContinuousIndex<float, Dimensions>
-                                                       ContinuousIndexType;
- typedef typename itk::Point<float,Dimensions>         PointType;
-
  typedef float                                         CoordRepType;
+ typedef typename itk::ContinuousIndex<CoordRepType, Dimensions>
+                                                       ContinuousIndexType;
+
+ typedef typename ContinuousIndexType::ValueType       AccumulatorType;
+
+ typedef typename itk::Point<CoordRepType,Dimensions>  PointType;
+
  typedef typename itk::LinearInterpolateImageFunction<
                                                       ImageType,
                                                       CoordRepType >
@@ -164,9 +167,11 @@ int RunTest( void )
   variablevectorinterpolator = VariableVectorInterpolatorType::New();
  variablevectorinterpolator->SetInputImage( variablevectorimage );
 
- const double incr = 0.2;
+ const AccumulatorType incr = 0.2;
 
- const double tolerance = 1e-6;
+ const AccumulatorType tolerance = 5e-6;
+ // The tolerance of the norm must be greater than the tolerance for individual items.
+ const AccumulatorType normTolerance = vcl_sqrt(4.0f*tolerance*tolerance);
 
  PointType point;
  unsigned int testLengths[4] = {1,1,1,1};
@@ -174,8 +179,8 @@ int RunTest( void )
   {
   testLengths[ind] = dimMaxLength-1;
   }
- double steps[4];
- double dimItf[4];
+ AccumulatorType steps[4];
+ AccumulatorType dimItf[4];
  for (dimItf[3] = 0; dimItf[3] < testLengths[3]; dimItf[3]++)
    {
    for (dimItf[2] = 0; dimItf[2] < testLengths[2]; dimItf[2]++)
@@ -192,7 +197,7 @@ int RunTest( void )
                {
                for (steps[0] = 0; steps[0] < dimItf[0] + 1.01; steps[0]+=incr)
                  {
-                 double expectedValue = 3*steps[0];
+                 AccumulatorType expectedValue = 3*steps[0];
                  point[0] = steps[0];
                  for( unsigned int ind = 1; ind < Dimensions; ind++ )
                   {
@@ -202,8 +207,8 @@ int RunTest( void )
 
                  if( interpolator->IsInsideBuffer( point ) )
                    {
-                   const double computedValue = interpolator->Evaluate( point );
-                   const double difference = expectedValue - computedValue;
+                   const AccumulatorType computedValue = interpolator->Evaluate( point );
+                   const AccumulatorType difference = expectedValue - computedValue;
 
                    if( vcl_fabs( difference ) > tolerance )
                      {
@@ -219,15 +224,15 @@ int RunTest( void )
                      return EXIT_FAILURE;
                      }
 
-                   const InterpolatedVectorType vectorpixel =
+                   const InterpolatedVectorType & vectorpixel =
                     vectorinterpolator->Evaluate( point );
 
                    const InterpolatedVectorType expectedvector(expectedValue);
 
-                   const double errornorm =
+                   const AccumulatorType & errornorm =
                     (expectedvector - vectorpixel).GetNorm();
 
-                   if( errornorm > tolerance )
+                   if( errornorm > normTolerance )
                      {
                      std::cerr << "Error found computing vector interpolation "
                                << std::endl;
@@ -238,6 +243,8 @@ int RunTest( void )
                                << std::endl;
                      std::cerr << "Difference     = "
                                << (expectedvector - vectorpixel)
+                               << " --> "
+                               << errornorm <<  " > " << normTolerance
                                << std::endl;
                      return EXIT_FAILURE;
                      }
@@ -249,10 +256,10 @@ int RunTest( void )
                    expectedvariablevector.SetSize(VectorDimension);
                    expectedvariablevector.Fill(expectedValue);
 
-                   const double varerrornorm =
+                   const AccumulatorType varerrornorm =
                     (expectedvariablevector - variablevectorpixel).GetNorm();
 
-                   if( varerrornorm > tolerance )
+                   if( varerrornorm > normTolerance )
                      {
                      std::cerr << "Error found while computing variable "
                                << " vector interpolation " << std::endl;
@@ -262,8 +269,10 @@ int RunTest( void )
                      std::cerr << "Computed variablevector = "
                       << variablevectorpixel << std::endl;
                      std::cerr << "Difference     = "
-                      << (expectedvariablevector - variablevectorpixel)
-                      << std::endl;
+                       << (expectedvariablevector - variablevectorpixel)
+                       << " --> "
+                       << varerrornorm <<  " > " << normTolerance
+                       << std::endl;
                      return EXIT_FAILURE;
                      }
                    }

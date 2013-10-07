@@ -61,19 +61,17 @@ VectorLinearInterpolateImageFunction< TInputImage, TCoordRep >
 ::EvaluateAtContinuousIndex(
   const ContinuousIndexType & index) const
 {
-  unsigned int dim;  // index over dimension
-
   /**
    * Compute base index = closet index below point
    * Compute distance from point to base index
    */
   IndexType baseIndex;
-  double    distance[ImageDimension];
-
-  for ( dim = 0; dim < ImageDimension; dim++ )
+  InternalComputationType    distance[ImageDimension];
+  const TInputImage * const inputImgPtr=this->GetInputImage();
+  for (unsigned int dim = 0; dim < ImageDimension; ++dim )
     {
     baseIndex[dim] = Math::Floor< IndexValueType >(index[dim]);
-    distance[dim] = index[dim] - static_cast< double >( baseIndex[dim] );
+    distance[dim] = index[dim] - static_cast< InternalComputationType >( baseIndex[dim] );
     }
 
   /**
@@ -87,14 +85,14 @@ VectorLinearInterpolateImageFunction< TInputImage, TCoordRep >
   typedef typename NumericTraits< PixelType >::ScalarRealType ScalarRealType;
   ScalarRealType totalOverlap = NumericTraits< ScalarRealType >::Zero;
 
-  for ( unsigned int counter = 0; counter < m_Neighbors; counter++ )
+  for ( unsigned int counter = 0; counter < m_Neighbors; ++counter )
     {
-    double       overlap = 1.0;    // fraction overlap
+    InternalComputationType overlap = 1.0;    // fraction overlap
     unsigned int upper = counter;  // each bit indicates upper/lower neighbour
-    IndexType    neighIndex;
 
+    IndexType    neighIndex;
     // get neighbor index and overlap fraction
-    for ( dim = 0; dim < ImageDimension; dim++ )
+    for ( unsigned int dim = 0; dim < ImageDimension; ++dim )
       {
       if ( upper & 1 )
         {
@@ -118,17 +116,16 @@ VectorLinearInterpolateImageFunction< TInputImage, TCoordRep >
           }
         overlap *= 1.0 - distance[dim];
         }
-
       upper >>= 1;
       }
 
     // get neighbor value only if overlap is not zero
     if ( overlap )
       {
-      const PixelType input = this->GetInputImage()->GetPixel(neighIndex);
-      for ( unsigned int k = 0; k < Dimension; k++ )
+      const PixelType & input = inputImgPtr->GetPixel(neighIndex);
+      for ( unsigned int k = 0; k < Dimension; ++k )
         {
-        output[k] += overlap * static_cast< RealType >( input[k] );
+        output[k] += overlap * static_cast< InternalComputationType >( input[k] );
         }
       totalOverlap += overlap;
       }

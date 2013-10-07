@@ -147,8 +147,7 @@ int itkCompositeTransformTest(int, char *[] )
 
   /* Retrieve the transform and check that it's the same */
   std::cout << "Retrieve 1st transform." << std::endl;
-  AffineType::ConstPointer affineGet;
-  affineGet = dynamic_cast<AffineType const *>( compositeTransform->GetNthTransform(0).GetPointer() );
+  AffineType::ConstPointer affineGet = dynamic_cast<AffineType const *>( compositeTransform->GetNthTransformConstPointer(0) );
   if( affineGet.IsNull() )
     {
     std::cout << "Failed retrieving transform from queue." << std::endl;
@@ -327,7 +326,7 @@ int itkCompositeTransformTest(int, char *[] )
   std::cout << std::endl << "Two-component Composite Transform:"
             << std::endl << compositeTransform;
   std::cout << std::endl << "Transform at queue position 0: "
-            << std::endl << compositeTransform->GetNthTransform( 0 );
+            << std::endl << compositeTransform->GetNthTransformConstPointer( 0 );
 
   /* Test that we have two tranforms in the queue */
   if( compositeTransform->GetNumberOfTransforms() != 2 )
@@ -469,7 +468,7 @@ int itkCompositeTransformTest(int, char *[] )
   bool allAreLinear = true;
   for( unsigned int n = 0; n < compositeTransform->GetNumberOfTransforms(); n++ )
     {
-    if( !compositeTransform->GetNthTransform( n )->IsLinear() )
+    if( !compositeTransform->GetNthTransformConstPointer( n )->IsLinear() )
       {
       allAreLinear = false;
       }
@@ -794,12 +793,12 @@ int itkCompositeTransformTest(int, char *[] )
     std::cout << "ERROR: expected 2 transforms, got " << compositeTransform->GetNumberOfTransforms() << std::endl;
     return EXIT_FAILURE;
     }
-  if( compositeTransform->GetNthTransform( 0 ) != affine )
+  if( affine != compositeTransform->GetNthTransformConstPointer( 0 ) )
     {
     std::cout << "ERROR: 1st transform is not affine" << std::endl;
     return EXIT_FAILURE;
     }
-  if( compositeTransform->GetNthTransform( 1 ) != affine2 )
+  if( affine2 != compositeTransform->GetNthTransformConstPointer( 1 ) )
     {
     std::cout << "ERROR: 2nd transform is not affine2" << std::endl;
     return EXIT_FAILURE;

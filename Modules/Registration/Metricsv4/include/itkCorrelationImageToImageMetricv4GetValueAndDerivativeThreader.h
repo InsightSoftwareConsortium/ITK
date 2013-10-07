@@ -69,7 +69,8 @@ public:
   typedef typename Superclass::NumberOfParametersType       NumberOfParametersType;
 
 protected:
-  CorrelationImageToImageMetricv4GetValueAndDerivativeThreader() {}
+  CorrelationImageToImageMetricv4GetValueAndDerivativeThreader();
+  virtual ~CorrelationImageToImageMetricv4GetValueAndDerivativeThreader();
 
   /** Overload: Resize and initialize per thread objects:
    *    number of valid points
@@ -124,7 +125,7 @@ private:
    * say f_i is the i-th pixel of fixed image, m_i is the i-th pixel of moving
    * image: see the comments below
    */
-  struct InternalCumSumType{    // keep cumlative summation over points for:
+  struct CorrelationMetricValueDerivativePerThreadStruct{    // keep cumlative summation over points for:
       InternalComputationValueType fm;  // (f_i - \bar f) * (m_i - \bar m)
       InternalComputationValueType m2;  // (m_i - \bar m)^2
       InternalComputationValueType f2;  // (f_i - \bar m)^2
@@ -134,8 +135,12 @@ private:
       DerivativeType mdm; // (m_i - \bar m) * dm_i/dp
   };
 
+  itkPadStruct( ITK_CACHE_LINE_ALIGNMENT, CorrelationMetricValueDerivativePerThreadStruct,
+                                            PaddedCorrelationMetricValueDerivativePerThreadStruct);
+  itkAlignedTypedef( ITK_CACHE_LINE_ALIGNMENT, PaddedCorrelationMetricValueDerivativePerThreadStruct,
+                                               AlignedCorrelationMetricValueDerivativePerThreadStruct );
   /* per thread variables for correlation and its derivatives */
-  mutable std::vector< InternalCumSumType > m_InternalCumSumPerThread;
+  mutable AlignedCorrelationMetricValueDerivativePerThreadStruct * m_CorrelationMetricValueDerivativePerThreadVariables;
 
   /** Internal pointer to the metric object in use by this threader.
    *  This will avoid costly dynamic casting in tight loops. */

@@ -405,23 +405,22 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternal
 }
 
 template<unsigned int TFixedDimension, unsigned int TMovingDimension, typename TVirtualImage, typename TInternalComputationValueType>
-typename ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternalComputationValueType>::MovingDisplacementFieldTransformType *
+const typename ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternalComputationValueType>::MovingDisplacementFieldTransformType *
 ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternalComputationValueType>
 ::GetMovingDisplacementFieldTransform() const
 {
   // If it's a composite transform and the displacement field is the first
   // to be applied (i.e. the most recently added), then return that.
   typedef CompositeTransform<CoordinateRepresentationType, itkGetStaticConstMacro( MovingDimension ) >  MovingCompositeTransformType;
-  MovingTransformType* transform;
-  transform = this->m_MovingTransform.GetPointer();
+  const MovingTransformType* transform = this->m_MovingTransform.GetPointer();
   // If it's a CompositeTransform, get the last transform (1st applied).
-  MovingCompositeTransformType* comptx = dynamic_cast< MovingCompositeTransformType * > ( transform );
+  const MovingCompositeTransformType* comptx = dynamic_cast< const MovingCompositeTransformType * > ( transform );
   if( comptx != NULL )
     {
-    transform = comptx->GetBackTransform().GetPointer();
+    transform = comptx->GetBackTransform();
     }
   // Cast to a DisplacementField type.
-  MovingDisplacementFieldTransformType* deftx = dynamic_cast< MovingDisplacementFieldTransformType * >( transform );
+  const MovingDisplacementFieldTransformType* deftx = dynamic_cast< const MovingDisplacementFieldTransformType * >( transform );
   return deftx;
 }
 
@@ -441,7 +440,7 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternal
    * of the same size, otherwise not.
    * Eventually we'll want a method in Transform something like a
    * GetInputDomainSize to check this cleanly. */
-  MovingDisplacementFieldTransformType * displacementTransform = this->GetMovingDisplacementFieldTransform();
+  const MovingDisplacementFieldTransformType * displacementTransform = this->GetMovingDisplacementFieldTransform();
   if( displacementTransform == NULL )
     {
     itkExceptionMacro("Expected the moving transform to be of type DisplacementFieldTransform or derived, "
