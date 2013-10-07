@@ -22,6 +22,7 @@
 
 namespace itk
 {
+
 /**
  * Standard CellInterface:
  */
@@ -506,21 +507,27 @@ QuadrilateralCell< TCellInterface >
 template< typename TCellInterface >
 void
 QuadrilateralCell< TCellInterface >
-::EvaluateLocation(int & itkNotUsed(subId), PointsContainer *points, CoordRepType pcoords[2],
-                   CoordRepType x[2], InterpolationWeightType *weights)
+::EvaluateLocation(int & itkNotUsed(subId), PointsContainer *points, CoordRepType pcoords[PointDimension],
+                   CoordRepType x[PointDimension], InterpolationWeightType *weights)
 {
   this->InterpolationFunctions(pcoords, weights);
-  x[0] = x[1] = 0.0;
-  for ( unsigned int i = 0; i < 4; i++ )
-    {
-    PointType pt = points->GetElement(m_PointIds[i]);
 
-    for ( unsigned int j = 0; j < PointDimension; j++ )
+  for ( unsigned int ii = 0; ii < PointDimension; ++ii )
+    {
+    x[ii] = NumericTraits< CoordRepType >::Zero;
+    }
+
+  for ( unsigned int ii = 0; ii < NumberOfPoints; ++ii )
+    {
+    const PointType & point = points->GetElement(m_PointIds[ii]);
+
+    for ( unsigned int jj = 0; jj < PointDimension; ++jj )
       {
-      x[j] += pt[j] * weights[i];
+      x[jj] += point[jj] * weights[ii];
       }
     }
 }
+
 } // end namespace itk
 
 #endif

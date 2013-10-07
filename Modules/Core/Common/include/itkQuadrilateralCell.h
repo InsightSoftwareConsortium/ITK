@@ -122,8 +122,8 @@ protected:
 
   void InterpolationDerivs(CoordRepType pcoords[2], CoordRepType derivs[8]);
   void InterpolationFunctions(CoordRepType pcoords[2], InterpolationWeightType sf[4]);
-  void EvaluateLocation(int &itkNotUsed(subId), PointsContainer * points, CoordRepType pcoords[2],
-                        CoordRepType x[2], InterpolationWeightType * weights);
+  void EvaluateLocation(int &itkNotUsed(subId), PointsContainer * points, CoordRepType pcoords[PointDimension],
+                        CoordRepType x[PointDimension], InterpolationWeightType * weights);
 
 private:
   QuadrilateralCell(const Self &); //purposely not implemented
