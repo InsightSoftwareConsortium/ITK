@@ -54,24 +54,24 @@ namespace itk
  * of the output point with respect to the array of parameters that defines
  * the transform.
  *
- * Subclasses must provide implementations for:
- *   virtual OutputPointType           TransformPoint(const InputPointType  &) const
- *   virtual OutputVectorType          TransformVector(const InputVectorType &) const
- *   virtual OutputVnlVectorType       TransformVector(const InputVnlVectorType &) const
- *   virtual OutputCovariantVectorType TransformCovariantVector(const InputCovariantVectorType &) const
- *   virtual void                      SetParameters(const ParametersType &)
- *   virtual void                      SetFixedParameters(const ParametersType &)
+ * Subclasses must provide implementations for:<br>
+ *   virtual OutputPointType           TransformPoint(const InputPointType  &) const<br>
+ *   virtual OutputVectorType          TransformVector(const InputVectorType &) const<br>
+ *   virtual OutputVnlVectorType       TransformVector(const InputVnlVectorType &) const<br>
+ *   virtual OutputCovariantVectorType TransformCovariantVector(const InputCovariantVectorType &) const<br>
+ *   virtual void                      SetParameters(const ParametersType &)<br>
+ *   virtual void                      SetFixedParameters(const ParametersType &)<br>
  *   virtual void                      ComputeJacobianWithRespectToParameters(
  *                                                             const InputPointType &,
- *                                                             JacobianType &) const
+ *                                                             JacobianType &) const<br>
  *   virtual void                      ComputeJacobianWithRespectToPosition(
  *                                                             const InputPointType & x,
- *                                                             JacobianType &jacobian ) const;
+ *                                                             JacobianType &jacobian ) const;<br>
  *
  * Since TranformVector and TransformCovariantVector have multiple
- * overloaded methods from the base class, subclasses must specify:
- *  using Superclass::TransformVector;
- *  using Superclass::TransformCovariantVector;
+ * overloaded methods from the base class, subclasses must specify:<br>
+ *  using Superclass::TransformVector;<br>
+ *  using Superclass::TransformCovariantVector;<br>
  *
  *
  * \ingroup ITKTransform

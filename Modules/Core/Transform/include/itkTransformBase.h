@@ -39,7 +39,7 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template< typename ScalarType >
+template< typename TScalar >
 class TransformBaseTemplate:public Object
 {
 public:
@@ -50,7 +50,7 @@ public:
   typedef SmartPointer< const Self > ConstPointer;
 
   /** Type of the input parameters. */
-  typedef  ScalarType                                 ParametersValueType;
+  typedef  TScalar                                    ParametersValueType;
   typedef  OptimizerParameters< ParametersValueType > ParametersType;
 
   /** Run-time type information (and related methods). */
