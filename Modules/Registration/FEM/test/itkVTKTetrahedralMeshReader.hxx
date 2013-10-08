@@ -265,7 +265,7 @@ VTKTetrahedralMeshReader<TOutputMesh>
         }
 
       unsigned long numberOfPointsFound;
-      if( (numberOfPointsFound = sscanf( line.c_str(), "%lu %lu %lu %lu %lu", &numberOfCellPoints,
+      if( (numberOfPointsFound = sscanf( line.c_str(), "%lu %ld %ld %ld %ld", &numberOfCellPoints,
            &ids[0], &ids[1], &ids[2], &ids[3] )) != 5 )
         {
         itkExceptionMacro(<< "Error reading file: " << m_FileName
