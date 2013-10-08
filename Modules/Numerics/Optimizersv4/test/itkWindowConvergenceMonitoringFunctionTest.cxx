@@ -21,14 +21,16 @@
 
 int itkWindowConvergenceMonitoringFunctionTest( int itkNotUsed( argc ), char * [] )
 {
-  typedef itk::Function::WindowConvergenceMonitoringFunction<double> ConvergenceMonitoringType;
+  typedef float RealType;
+
+  typedef itk::Function::WindowConvergenceMonitoringFunction<RealType> ConvergenceMonitoringType;
   ConvergenceMonitoringType::Pointer convergenceMonitoring = ConvergenceMonitoringType::New();
 
   convergenceMonitoring->SetWindowSize( 10 );
 
-  for( double x = 0.0; x < 20; x += 1.0 )
+  for( RealType x = 0.0; x < 20; x += 1.0 )
     {
-    convergenceMonitoring->AddEnergyValue( vcl_pow( 2.0, -x ) );
+    convergenceMonitoring->AddEnergyValue( vcl_pow( static_cast<RealType>(2.0), -x ) );
     try
       {
       std::cout << "convergence value: " << convergenceMonitoring->GetConvergenceValue() << std::endl;
