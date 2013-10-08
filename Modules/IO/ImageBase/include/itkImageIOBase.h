@@ -141,9 +141,9 @@ public:
 
   /** Set/Get the image direction on an axis-by-axis basis. The
    * SetDirection() method is required when writing the image. */
-  virtual void SetDirection(unsigned int i, std::vector< double > & direction);
+  virtual void SetDirection(unsigned int i, const std::vector< double > & direction);
 
-  virtual void SetDirection(unsigned int i, vnl_vector< double > & direction);
+  virtual void SetDirection(unsigned int i, const vnl_vector< double > & direction);
 
   virtual std::vector< double > GetDirection(unsigned int i) const
   {
