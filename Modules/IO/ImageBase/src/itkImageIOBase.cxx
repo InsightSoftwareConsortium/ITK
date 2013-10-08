@@ -133,7 +133,7 @@ void ImageIOBase::SetSpacing(unsigned int i, double spacing)
   m_Spacing[i] = spacing;
 }
 
-void ImageIOBase::SetDirection(unsigned int i, std::vector< double > & direction)
+void ImageIOBase::SetDirection(unsigned int i, const std::vector< double > & direction)
 {
   if ( i >= m_Direction.size() )
     {
@@ -148,7 +148,7 @@ void ImageIOBase::SetDirection(unsigned int i, std::vector< double > & direction
   m_Direction[i] = direction;
 }
 
-void ImageIOBase::SetDirection(unsigned int i, vnl_vector< double > & direction)
+void ImageIOBase::SetDirection(unsigned int i, const vnl_vector< double > & direction)
 {
   if ( i >= m_Direction.size() )
     {
