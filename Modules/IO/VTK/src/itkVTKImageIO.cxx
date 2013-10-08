@@ -533,6 +533,23 @@ void VTKImageIO::Read(void *buffer)
 
     itkAssertOrThrowMacro(this->GetHeaderSize() != 0, "Header size is unknown when it shouldn't be!");
     this->StreamReadBufferAsBinary(file, buffer);
+
+    switch ( this->GetComponentSize() )
+      {
+      case 1:
+        break;
+      case 2:
+        ByteSwapper< uint16_t >::SwapRangeFromSystemToBigEndian( (uint16_t *)buffer, this->GetIORegionSizeInComponents() );
+        break;
+      case 4:
+        ByteSwapper< uint32_t >::SwapRangeFromSystemToBigEndian( (uint32_t *)buffer, this->GetIORegionSizeInComponents() );
+        break;
+      case 8:
+        ByteSwapper< uint64_t >::SwapRangeFromSystemToBigEndian( (uint64_t *)buffer, this->GetIORegionSizeInComponents() );
+        break;
+      default:
+        itkExceptionMacro(<< "Unknown component size" << this->GetComponentSize());
+      }
     }
   else
     {
@@ -570,8 +587,7 @@ void VTKImageIO::Read(void *buffer)
         this->ReadBufferAsBinary( file, buffer, this->GetImageSizeInBytes() );
         }
 
-      unsigned int size = this->GetComponentSize();
-      switch ( size )
+      switch ( this->GetComponentSize() )
         {
         case 1:
           break;
@@ -585,7 +601,7 @@ void VTKImageIO::Read(void *buffer)
           ByteSwapper< uint64_t >::SwapRangeFromSystemToBigEndian( (uint64_t *)buffer, this->GetImageSizeInComponents() );
           break;
         default:
-          itkExceptionMacro(<< "Unknown component size" << size);
+          itkExceptionMacro(<< "Unknown component size" << this->GetComponentSize());
         }
       }
     }
@@ -828,6 +844,20 @@ void VTKImageIO::WriteBufferAsASCII( std::ostream & os, const void * buffer, IOC
    delete[] tempmemory;                                                                                \
 }                                                                                                      \
 
+#define StreamWriteVTKImageBinaryBlockMACRO(storageType)                                               \
+{                                                                                                      \
+   const ImageIOBase::BufferSizeType numbytes =                                                        \
+                    static_cast< ImageIOBase::BufferSizeType >( this->GetIORegionSizeInBytes() );      \
+   const ImageIOBase::BufferSizeType numberImageComponents =                                           \
+                    static_cast< ImageIOBase::BufferSizeType >( this->GetIORegionSizeInComponents() ); \
+   storageType *tempmemory = new storageType[numberImageComponents];                                   \
+   memcpy(tempmemory, buffer, numbytes );                                                              \
+   ByteSwapper< storageType >::SwapRangeFromSystemToBigEndian(  tempmemory , numberImageComponents );  \
+   /* write the image */                                                                               \
+   this->StreamWriteBufferAsBinary( file, tempmemory);                                                 \
+   delete[] tempmemory;                                                                                \
+}                                                                                                      \
+
 void VTKImageIO::WriteSymmetricTensorBufferAsBinary(std::ostream & os, const void * buffer,
                                                      StreamingImageIOBase::SizeType num)
 {
@@ -937,9 +967,33 @@ void VTKImageIO::Write(const void *buffer)
       this->OpenFileForWriting(file, this->m_FileName.c_str(), false);
       }
 
-    this->StreamWriteBufferAsBinary(file, buffer);
+    // the binary data must be written in big endian format
+    if ( !ByteSwapper< uint16_t >::SystemIsBigEndian() )
+      {
+      // only swap  when needed
+      switch ( this->GetComponentSize() )
+        {
+        case 1:
+          StreamWriteVTKImageBinaryBlockMACRO(char)
+          break;
+        case 2:
+          StreamWriteVTKImageBinaryBlockMACRO(uint16_t)
+          break;
+        case 4:
+          StreamWriteVTKImageBinaryBlockMACRO(uint32_t)
+          break;
+        case 8:
+          StreamWriteVTKImageBinaryBlockMACRO(uint64_t)
+          break;
+        default:
+          itkExceptionMacro(<< "Unknown component size" << this->GetComponentSize());
+        }
+      }
+    else
+      {
+        this->StreamWriteBufferAsBinary(file, buffer);
+      }
     }
-
   else
     {
     // this will truncate file and write header
@@ -987,6 +1041,8 @@ void VTKImageIO::Write(const void *buffer)
           case 8:
             WriteVTKImageBinaryBlockMACRO(uint64_t)
             break;
+          default:
+            itkExceptionMacro(<< "Unknown component size" << this->GetComponentSize());
           }
         }
       else
@@ -1006,6 +1062,21 @@ void VTKImageIO::Write(const void *buffer)
         }
       }
     }
+}
+
+ImageIOBase::SizeType VTKImageIO::GetIORegionSizeInPixels() const
+{
+  return m_IORegion.GetNumberOfPixels();
+}
+
+ImageIOBase::SizeType VTKImageIO::GetIORegionSizeInComponents() const
+{
+  return ( this->GetIORegionSizeInPixels() * m_NumberOfComponents );
+}
+
+ImageIOBase::SizeType VTKImageIO::GetIORegionSizeInBytes() const
+{
+  return ( this->GetIORegionSizeInComponents() * this->GetComponentSize() );
 }
 
 void VTKImageIO::PrintSelf(std::ostream & os, Indent indent) const
