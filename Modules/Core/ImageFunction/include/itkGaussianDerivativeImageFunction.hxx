@@ -236,7 +236,7 @@ GaussianDerivativeImageFunction< TInputImage, TOutput >
     it = gaussianNeighborhood.Begin();
 
     i = 0;
-    double sum = 0.0;
+    CompensatedSummation< TOutput > sum;
     while ( it != gaussianNeighborhood.End() )
       {
       pt[0] = gaussianNeighborhood.GetOffset(i)[direction];
@@ -261,9 +261,10 @@ GaussianDerivativeImageFunction< TInputImage, TOutput >
 
     // Make the filter DC-Constant
     it = gaussianNeighborhood.Begin();
+    const TOutput sumInverse = 1. / sum.GetSum();
     while ( it != gaussianNeighborhood.End() )
       {
-      ( *it ) /= sum;
+      ( *it ) *= sumInverse;
       ++it;
       }
 
@@ -370,7 +371,7 @@ GaussianDerivativeImageFunction< TInputImage, TOutput >
     it = gaussianNeighborhood.Begin();
 
     ii = 0;
-    double sum = 0;
+    CompensatedSummation< TOutput > sum;
     while ( it != gaussianNeighborhood.End() )
       {
       pt[0] = gaussianNeighborhood.GetOffset(ii)[direction] - offset[direction];
@@ -395,9 +396,10 @@ GaussianDerivativeImageFunction< TInputImage, TOutput >
 
     // Make the filter DC-Constant
     it = gaussianNeighborhood.Begin();
+    const TOutput sumInverse = 1. / sum.GetSum();
     while ( it != gaussianNeighborhood.End() )
       {
-      ( *it ) /= sum;
+      ( *it ) *= sumInverse;
       ++it;
       }
 
