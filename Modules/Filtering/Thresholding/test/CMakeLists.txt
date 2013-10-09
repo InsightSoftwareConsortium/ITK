@@ -173,7 +173,14 @@ itk_add_test(NAME itkOtsuMultipleThresholdsImageFilterTest3
       COMMAND ITKThresholdingTestDriver
     --compare DATA{Baseline/itkOtsuMultipleThresholdsImageFilterTest3.png}
               ${ITK_TEST_OUTPUT_DIR}/itkOtsuMultipleThresholdsImageFilterTest3.png
-    itkOtsuMultipleThresholdsImageFilterTest DATA{${ITK_DATA_ROOT}/Input/DotOnVaryingBackground.png} ${ITK_TEST_OUTPUT_DIR}/itkOtsuMultipleThresholdsImageFilterTest3.png 64 1 2)
+    itkOtsuMultipleThresholdsImageFilterTest DATA{${ITK_DATA_ROOT}/Input/DotOnVaryingBackground.png} ${ITK_TEST_OUTPUT_DIR}/itkOtsuMultipleThresholdsImageFilterTest3.png 64 1 2 0)
+
+# Test the valley emphasis algorithm on an image with a small dark region.
+itk_add_test(NAME itkOtsuMultipleThresholdsImageFilterTest4
+      COMMAND ITKThresholdingTestDriver
+    --compare DATA{Baseline/itkOtsuMultipleThresholdsImageFilterTest4.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkOtsuMultipleThresholdsImageFilterTest4.png
+    itkOtsuMultipleThresholdsImageFilterTest DATA{${ITK_DATA_ROOT}/Input/DotOnVaryingBackground.png} ${ITK_TEST_OUTPUT_DIR}/itkOtsuMultipleThresholdsImageFilterTest4.png 64 1 2 1)
 
 itk_add_test(NAME itkOtsuThresholdCalculatorVersusOtsuMultipleThresholdsCalculatorTest
       COMMAND ITKThresholdingTestDriver

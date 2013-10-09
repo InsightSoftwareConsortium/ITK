@@ -32,6 +32,7 @@ OtsuMultipleThresholdsImageFilter< TInputImage, TOutputImage >
   m_NumberOfThresholds = 1;
   m_LabelOffset = NumericTraits< OutputPixelType >::Zero;
   m_Thresholds.clear();
+  m_ValleyEmphasis = false;
 }
 
 template< typename TInputImage, typename TOutputImage >
@@ -52,6 +53,7 @@ OtsuMultipleThresholdsImageFilter< TInputImage, TOutputImage >
   typename OtsuCalculatorType::Pointer otsuHistogramThresholdCalculator = OtsuCalculatorType::New();
   otsuHistogramThresholdCalculator->SetInputHistogram( histogramGenerator->GetOutput() );
   otsuHistogramThresholdCalculator->SetNumberOfThresholds(m_NumberOfThresholds);
+  otsuHistogramThresholdCalculator->SetValleyEmphasis(m_ValleyEmphasis);
   otsuHistogramThresholdCalculator->Compute();
 
   m_Thresholds = otsuHistogramThresholdCalculator->GetOutput();
