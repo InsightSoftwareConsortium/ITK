@@ -298,7 +298,7 @@ bool GetSpacingValueFromSequence(const DataSet& ds, const Tag& tfgs, std::vector
   sp.push_back( at.GetValue(1) );
   sp.push_back( at.GetValue(0) );
 
-  // BUG ! Check for instace:
+  // BUG ! Check for instance:
   // gdcmData/BRTUM001.dcm
   // Slice Thickness is 5.0 while the Zspacing should be 6.0 !
 #if 0
@@ -346,27 +346,40 @@ bool GetUltraSoundSpacingValueFromSequence(const DataSet& ds, std::vector<double
 (fffe,e0dd) na (SequenceDelimitationItem for re-encod.) #   0, 0 SequenceDelimitationItem
 */
   const Tag tsqusreg(0x0018,0x6011);
-  if( !ds.FindDataElement( tsqusreg ) ) return false;
-  //const SequenceOfItems * sqi = ds.GetDataElement( tsqusreg ).GetSequenceOfItems();
-  SmartPointer<SequenceOfItems> sqi = ds.GetDataElement( tsqusreg ).GetValueAsSQ();
-  assert( sqi );
-  // Get first item:
-  const Item &item = sqi->GetItem(1);
-  const DataSet & subds = item.GetNestedDataSet();
-  //  (0018,602c) FD 0.002                                    #   8, 1 PhysicalDeltaX
-  //  (0018,602e) FD 0.002                                    #   8, 1 PhysicalDeltaY
-  gdcm::Attribute<0x0018,0x602c> at1;
-  gdcm::Attribute<0x0018,0x602e> at2;
-  const DataElement &de1 = subds.GetDataElement( at1.GetTag() );
-  at1.SetFromDataElement( de1 );
-  assert( at1.GetNumberOfValues() == 1 );
-  const DataElement &de2 = subds.GetDataElement( at2.GetTag() );
-  at2.SetFromDataElement( de2 );
-  assert( at2.GetNumberOfValues() == 1 );
-  sp.push_back( at1.GetValue() );
-  sp.push_back( at2.GetValue() );
+  const Tag tps(0x0028,0x0030);
+  if( ds.FindDataElement( tsqusreg ) )
+    {
+    //const SequenceOfItems * sqi = ds.GetDataElement( tsqusreg ).GetSequenceOfItems();
+    SmartPointer<SequenceOfItems> sqi = ds.GetDataElement( tsqusreg ).GetValueAsSQ();
+    assert( sqi );
+    // Get first item:
+    const Item &item = sqi->GetItem(1);
+    const DataSet & subds = item.GetNestedDataSet();
+    //  (0018,602c) FD 0.002                                    #   8, 1 PhysicalDeltaX
+    //  (0018,602e) FD 0.002                                    #   8, 1 PhysicalDeltaY
+    gdcm::Attribute<0x0018,0x602c> at1;
+    gdcm::Attribute<0x0018,0x602e> at2;
+    const DataElement &de1 = subds.GetDataElement( at1.GetTag() );
+    at1.SetFromDataElement( de1 );
+    assert( at1.GetNumberOfValues() == 1 );
+    const DataElement &de2 = subds.GetDataElement( at2.GetTag() );
+    at2.SetFromDataElement( de2 );
+    assert( at2.GetNumberOfValues() == 1 );
+    sp.push_back( at1.GetValue() );
+    sp.push_back( at2.GetValue() );
+    return true;
+    }
+  else if( ds.FindDataElement( tps ) )
+    {
+    const DataElement &de = ds.GetDataElement( tps );
+    gdcm::Attribute<0x0028,0x0030> at;
+    at.SetFromDataElement( de );
+    sp.push_back( at.GetValue(1) );
+    sp.push_back( at.GetValue(0) );
+    return true;
+    }
 
-  return true;
+  return false;
 }
 
 
