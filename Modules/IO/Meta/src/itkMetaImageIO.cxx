@@ -656,7 +656,7 @@ void
 MetaImageIO
 ::Write(const void *buffer)
 {
-  unsigned int nDims = this->GetNumberOfDimensions();
+  const unsigned int numberOfDimensions = this->GetNumberOfDimensions();
 
   bool binaryData = true;
 
@@ -757,18 +757,17 @@ MetaImageIO
       break;
     }
 
-  unsigned int i;
-  int *        dSize = new int[nDims];
-  float *      eSpacing = new float[nDims];
-  double *     eOrigin = new double[nDims];
-  for ( i = 0; i < nDims; i++ )
+  int *        dSize = new int[numberOfDimensions];
+  float *      eSpacing = new float[numberOfDimensions];
+  double *     eOrigin = new double[numberOfDimensions];
+  for ( unsigned int ii = 0; ii < numberOfDimensions; ++ii )
     {
-    dSize[i] = this->GetDimensions(i);
-    eSpacing[i] = static_cast< float >( this->GetSpacing(i) );
-    eOrigin[i] = this->GetOrigin(i);
+    dSize[ii] = this->GetDimensions(ii);
+    eSpacing[ii] = static_cast< float >( this->GetSpacing(ii) );
+    eOrigin[ii] = this->GetOrigin(ii);
     }
 
-  m_MetaImage.InitializeEssential( nDims, dSize, eSpacing, eType, nChannels,
+  m_MetaImage.InitializeEssential( numberOfDimensions, dSize, eSpacing, eType, nChannels,
                                    const_cast< void * >( buffer ) );
   m_MetaImage.Position(eOrigin);
   m_MetaImage.BinaryData(binaryData);
@@ -776,7 +775,7 @@ MetaImageIO
   //Write the image Information
   this->WriteImageInformation();
 
-  if ( nDims == 3 )
+  if ( numberOfDimensions == 3 )
     {
     SpatialOrientation::ValidCoordinateOrientationFlags coordOrient =
       SpatialOrientation::ITK_COORDINATE_ORIENTATION_INVALID;
@@ -1022,15 +1021,13 @@ MetaImageIO
         }
       }
     }
-  // Propagage direction cosine information .
-  double *transformMatrix =
-    static_cast< double * >( malloc( this->GetNumberOfDimensions()
-                                     * this->GetNumberOfDimensions() * sizeof( double ) ) );
-  for ( unsigned int ii = 0; ii < this->GetNumberOfDimensions(); ii++ )
+  // Propagage direction cosine information.
+  double *transformMatrix = static_cast< double * >( malloc( numberOfDimensions * numberOfDimensions * sizeof( double ) ) );
+  for ( unsigned int ii = 0; ii < numberOfDimensions; ++ii )
     {
-    for ( unsigned int jj = 0; jj < this->GetNumberOfDimensions(); jj++ )
+    for ( unsigned int jj = 0; jj < numberOfDimensions; ++jj )
       {
-      transformMatrix[ii * this->GetNumberOfDimensions() + jj] =
+      transformMatrix[ii * numberOfDimensions + jj] =
         this->GetDirection(ii)[jj];
       }
     }
@@ -1042,10 +1039,10 @@ MetaImageIO
   // this is a check to see if we are actually streaming
   // we initialize with m_IORegion to match dimensions
   ImageIORegion largestRegion(m_IORegion);
-  for ( i = 0; i < nDims; i++ )
+  for ( unsigned int ii = 0; ii < numberOfDimensions; ++ii )
     {
-    largestRegion.SetIndex(i, 0);
-    largestRegion.SetSize( i, this->GetDimensions(i) );
+    largestRegion.SetIndex( ii, 0 );
+    largestRegion.SetSize( ii, this->GetDimensions(ii) );
     }
 
   if ( m_UseCompression && ( largestRegion != m_IORegion ) )
@@ -1054,15 +1051,15 @@ MetaImageIO
     }
   else if (  largestRegion != m_IORegion )
     {
-    int *indexMin = new int[nDims];
-    int *indexMax = new int[nDims];
-    for ( unsigned int k = 0; k < nDims; k++ )
+    int *indexMin = new int[numberOfDimensions];
+    int *indexMax = new int[numberOfDimensions];
+    for ( unsigned int ii = 0; ii < numberOfDimensions; ++ii )
       {
       // the dimensions of m_IORegion should match out requested
       // dimensions, but ImageIORegion will throw an
       // exception if out of bounds
-      indexMin[k] = m_IORegion.GetIndex()[k];
-      indexMax[k] = m_IORegion.GetIndex()[k] + m_IORegion.GetSize()[k] - 1;
+      indexMin[ii] = m_IORegion.GetIndex()[ii];
+      indexMax[ii] = m_IORegion.GetIndex()[ii] + m_IORegion.GetSize()[ii] - 1;
       }
 
     if ( !m_MetaImage.WriteROI( indexMin, indexMax, m_FileName.c_str() ) )
