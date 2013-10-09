@@ -182,7 +182,7 @@ public:
    *  tests. It is suggested to use 1e-6 for less stringent convergence
    *  checking.
    */
-  itkSetMacro(MinimumConvergenceValue, double);
+  itkSetMacro(MinimumConvergenceValue, TInternalComputationValueType);
 
   /** Window size for the convergence checker.
    *  The convergence checker calculates convergence value by fitting to
@@ -195,7 +195,7 @@ public:
   itkSetMacro(ConvergenceWindowSize, SizeValueType);
 
   /** Get current convergence value */
-  itkGetConstReferenceMacro( ConvergenceValue, double);
+  itkGetConstReferenceMacro( ConvergenceValue, TInternalComputationValueType);
 
   /** Flag. Set to have the optimizer track and return the best
    *  best metric value and corresponding best parameters that were
@@ -257,7 +257,7 @@ protected:
    *  a window of the energy profile. When the convergence value reaches
    *  a small value, such as 1e-8, it would be treated as converged.
    */
-  double m_MinimumConvergenceValue;
+  TInternalComputationValueType m_MinimumConvergenceValue;
 
   /** Window size for the convergence checker.
    *  The convergence checker calculates convergence value by fitting to
@@ -266,8 +266,8 @@ protected:
   SizeValueType m_ConvergenceWindowSize;
 
   /** Current convergence value. */
-  /* WindowConvergenceMonitoringFunction always returns output convergence value in 'double' precision */
-  double m_ConvergenceValue;
+  /* WindowConvergenceMonitoringFunction always returns output convergence value in 'TInternalComputationValueType' precision */
+  TInternalComputationValueType m_ConvergenceValue;
 
   /** The convergence checker. */
   typename ConvergenceMonitoringType::Pointer m_ConvergenceMonitoring;

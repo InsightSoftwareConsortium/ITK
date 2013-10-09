@@ -100,8 +100,8 @@ BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
     }
 
   // Monitor the convergence
-  typedef itk::Function::WindowConvergenceMonitoringFunction<double> ConvergenceMonitoringType;
-  ConvergenceMonitoringType::Pointer convergenceMonitoring = ConvergenceMonitoringType::New();
+  typedef itk::Function::WindowConvergenceMonitoringFunction<RealType> ConvergenceMonitoringType;
+  typename ConvergenceMonitoringType::Pointer convergenceMonitoring = ConvergenceMonitoringType::New();
   convergenceMonitoring->SetWindowSize( this->m_ConvergenceWindowSize );
 
   typedef IdentityTransform<RealType, ImageDimension> IdentityTransformType;
