@@ -49,7 +49,10 @@ public:
   itkSetMacro(Value, typename TOutputImage::PixelType);
 
 protected:
-  ConstantImageSource(){}
+  ConstantImageSource()
+  {
+    m_Value = NumericTraits< typename TOutputImage::PixelType >::Zero;
+  }
   ~ConstantImageSource(){}
 
   /** Does the real work. */
