@@ -77,7 +77,7 @@ public:
 
   typedef Vector< TOutput, itkGetStaticConstMacro(ImageDimension2) >                         VectorType;
   typedef typename Superclass::OutputType                                                    OutputType;
-  typedef FixedArray< OperatorNeighborhoodType, 2 *itkGetStaticConstMacro(ImageDimension2) > OperatorArrayType;
+  typedef FixedArray< OperatorNeighborhoodType, 2 * itkGetStaticConstMacro(ImageDimension2) > OperatorArrayType;
   typedef NeighborhoodOperatorImageFunction< InputImageType,
                                              TOutput > OperatorImageFunctionType;
   typedef typename OperatorImageFunctionType::Pointer OperatorImageFunctionPointer;
