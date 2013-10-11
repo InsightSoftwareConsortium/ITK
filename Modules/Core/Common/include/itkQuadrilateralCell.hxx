@@ -289,7 +289,7 @@ QuadrilateralCell< TCellInterface >
 ::EvaluatePosition(CoordRepType *x,
                    PointsContainer *points,
                    CoordRepType *closestPoint,
-                   CoordRepType pcoord[2],
+                   CoordRepType pcoord[CellDimension],
                    double *dist2,
                    InterpolationWeightType *weight)
 {
@@ -298,16 +298,18 @@ QuadrilateralCell< TCellInterface >
   static const double ITK_DIVERGED = 1.e6;
 
   int                     iteration, converged;
-  double                  params[2];
-  double                  fcol[2], rcol[2], scol[2];
+  double                  params[CellDimension];
+  double                  fcol[CellDimension];
+  double                  rcol[CellDimension];
+  double                  scol[CellDimension];
   double                  d;
   PointType               pt;
-  CoordRepType            derivs[8];
-  InterpolationWeightType weights[4];
+  CoordRepType            derivs[NumberOfDerivatives];
+  InterpolationWeightType weights[NumberOfPoints];
 
   //  set initial position for Newton's method
   int          subId = 0;
-  CoordRepType pcoords[2];
+  CoordRepType pcoords[CellDimension];
 
   pcoords[0] = pcoords[1] = params[0] = params[1] = 0.5;
 
@@ -325,32 +327,32 @@ QuadrilateralCell< TCellInterface >
     this->InterpolationDerivs(pcoords, derivs);
 
     //  calculate newton functions
-    for ( unsigned int i = 0; i < 2; i++ )
+    for ( unsigned int i = 0; i < CellDimension; ++i )
       {
       fcol[i] = rcol[i] = scol[i] = 0.0;
       }
-    for ( unsigned int i = 0; i < 4; i++ )
+    for ( unsigned int i = 0; i < NumberOfPoints; ++i )
       {
       pt = points->GetElement(m_PointIds[i]);
       // using the projection normal n, one can choose which 2 axes to use out of 3
       // any 2 should work, so (not having n) we use [x,y] (also assuming 2D use of QuadCell)
       // if we compute n, one can use the closest two indices as in vtkQuad
-      for ( unsigned int j = 0; j < 2; j++ )
+      for ( unsigned int j = 0; j < CellDimension; ++j )
         {
         fcol[j] += pt[j] * weights[i];
         rcol[j] += pt[j] * derivs[i];
-        scol[j] += pt[j] * derivs[i + 4];
+        scol[j] += pt[j] * derivs[i + NumberOfPoints];
         }
       }
 
-    for ( unsigned int i = 0; i < 2; i++ )
+    for ( unsigned int i = 0; i < CellDimension; ++i )
       {
       fcol[i] -= x[i];
       }
 
     //  compute determinants and generate improvements
-    vnl_matrix_fixed< CoordRepType, 2, 2 > mat;
-    for ( unsigned int i = 0; i < 2; i++ )
+    vnl_matrix_fixed< CoordRepType, CellDimension, CellDimension > mat;
+    for ( unsigned int i = 0; i < CellDimension; ++i )
       {
       mat.put(0, i, rcol[i]);
       mat.put(1, i, scol[i]);
@@ -363,15 +365,15 @@ QuadrilateralCell< TCellInterface >
       return false;
       }
 
-    vnl_matrix_fixed< CoordRepType, 2, 2 > mat1;
-    for ( unsigned int i = 0; i < 2; i++ )
+    vnl_matrix_fixed< CoordRepType, CellDimension, CellDimension > mat1;
+    for ( unsigned int i = 0; i < CellDimension; ++i )
       {
       mat1.put(0, i, fcol[i]);
       mat1.put(1, i, scol[i]);
       }
 
-    vnl_matrix_fixed< CoordRepType, 2, 2 > mat2;
-    for ( unsigned int i = 0; i < 2; i++ )
+    vnl_matrix_fixed< CoordRepType, CellDimension, CellDimension > mat2;
+    for ( unsigned int i = 0; i < CellDimension; ++i )
       {
       mat2.put(0, i, rcol[i]);
       mat2.put(1, i, fcol[i]);
@@ -419,7 +421,7 @@ QuadrilateralCell< TCellInterface >
 
   if ( weight )
     {
-    for ( unsigned int i = 0; i < 4; i++ )
+    for ( unsigned int i = 0; i < NumberOfPoints; ++i )
       {
       weight[i] = weights[i];
       }
@@ -430,17 +432,18 @@ QuadrilateralCell< TCellInterface >
     {
     if ( closestPoint )
       {
-      closestPoint[0] = x[0]; closestPoint[1] = x[1];
+      closestPoint[0] = x[0];
+      closestPoint[1] = x[1];
       *dist2 = 0.0; //inside quadrilateral
       }
     return true;
     }
   else
     {
-    CoordRepType pc[2], w[4];
+    CoordRepType pc[CellDimension], w[NumberOfPoints];
     if ( closestPoint )
       {
-      for ( unsigned int i = 0; i < 2; i++ ) //only approximate ??
+      for ( unsigned int i = 0; i < CellDimension; ++i ) //only approximate ??
         {
         if ( pcoords[i] < 0.0 )
           {
@@ -458,7 +461,7 @@ QuadrilateralCell< TCellInterface >
       this->EvaluateLocation(subId, points, pc, closestPoint, (InterpolationWeightType *)w);
 
       *dist2 = 0;
-      for ( unsigned int i = 0; i < 2; i++ )
+      for ( unsigned int i = 0; i < CellDimension; ++i )
         {
         *dist2 += ( closestPoint[i] - x[i] ) * ( closestPoint[i] - x[i] );
         }
@@ -471,35 +474,35 @@ QuadrilateralCell< TCellInterface >
 template< typename TCellInterface >
 void
 QuadrilateralCell< TCellInterface >
-::InterpolationFunctions(CoordRepType pcoords[2], InterpolationWeightType sf[4])
+::InterpolationFunctions(const CoordRepType pointCoords[CellDimension], InterpolationWeightType weights[NumberOfPoints])
 {
-  const double rm = 1. - pcoords[0];
-  const double sm = 1. - pcoords[1];
+  const double rm = 1. - pointCoords[0];
+  const double sm = 1. - pointCoords[1];
 
-  sf[0] = rm * sm;
-  sf[1] = pcoords[0] * sm;
-  sf[2] = pcoords[0] * pcoords[1];
-  sf[3] = rm * pcoords[1];
+  weights[0] = rm * sm;
+  weights[1] = pointCoords[0] * sm;
+  weights[2] = pointCoords[0] * pointCoords[1];
+  weights[3] = rm * pointCoords[1];
 }
 
 /** Compute iso-parametric interpolation functions */
 template< typename TCellInterface >
 void
 QuadrilateralCell< TCellInterface >
-::InterpolationDerivs(CoordRepType pcoords[2], CoordRepType derivs[8])
+::InterpolationDerivs(const CoordRepType pointCoords[CellDimension], CoordRepType derivs[NumberOfDerivatives])
 {
-  const double rm = 1. - pcoords[0];
-  const double sm = 1. - pcoords[1];
+  const double rm = 1. - pointCoords[0];
+  const double sm = 1. - pointCoords[1];
 
   // r-derivatives
   derivs[0] = -sm;
   derivs[1] = sm;
-  derivs[2] = pcoords[1];
-  derivs[3] = -pcoords[1];
+  derivs[2] = pointCoords[1];
+  derivs[3] = -pointCoords[1];
   // s-derivatives
   derivs[4] = -rm;
-  derivs[5] = -pcoords[0];
-  derivs[6] = pcoords[0];
+  derivs[5] = -pointCoords[0];
+  derivs[6] = pointCoords[0];
   derivs[7] = rm;
 }
 
@@ -507,10 +510,10 @@ QuadrilateralCell< TCellInterface >
 template< typename TCellInterface >
 void
 QuadrilateralCell< TCellInterface >
-::EvaluateLocation(int & itkNotUsed(subId), PointsContainer *points, CoordRepType pcoords[PointDimension],
+::EvaluateLocation(int & itkNotUsed(subId), const PointsContainer *points, const CoordRepType pointCoords[PointDimension],
                    CoordRepType x[PointDimension], InterpolationWeightType *weights)
 {
-  this->InterpolationFunctions(pcoords, weights);
+  this->InterpolationFunctions(pointCoords, weights);
 
   for ( unsigned int ii = 0; ii < PointDimension; ++ii )
     {

@@ -59,6 +59,7 @@ public:
   itkStaticConstMacro(NumberOfVertices, unsigned int, 4);
   itkStaticConstMacro(NumberOfEdges, unsigned int, 4);
   itkStaticConstMacro(CellDimension, unsigned int, 2);
+  itkStaticConstMacro(NumberOfDerivatives, unsigned int, 8);
 
   /** Implement the standard CellInterface. */
   virtual CellGeometry GetType(void) const
@@ -95,12 +96,12 @@ public:
   virtual bool GetEdge(CellFeatureIdentifier, EdgeAutoPointer &);
 
   /** Evaluate the position inside the cell */
-  virtual bool EvaluatePosition(CoordRepType *,
-                                PointsContainer *,
-                                CoordRepType *,
-                                CoordRepType[],
-                                double *,
-                                InterpolationWeightType *);
+  virtual bool EvaluatePosition(CoordRepType * position,
+                                PointsContainer * points,
+                                CoordRepType * closestPoint,
+                                CoordRepType[CellDimension],
+                                double * dist2,
+                                InterpolationWeightType * weight);
 
   /** Visitor interface */
   itkCellVisitMacro(Superclass::QUADRILATERAL_CELL);
@@ -120,9 +121,9 @@ protected:
   /** Store the number of points needed for a quadrilateral. */
   PointIdentifier m_PointIds[NumberOfPoints];
 
-  void InterpolationDerivs(CoordRepType pcoords[2], CoordRepType derivs[8]);
-  void InterpolationFunctions(CoordRepType pcoords[2], InterpolationWeightType sf[4]);
-  void EvaluateLocation(int &itkNotUsed(subId), PointsContainer * points, CoordRepType pcoords[PointDimension],
+  void InterpolationDerivs(const CoordRepType pointCoords[CellDimension], CoordRepType derivs[NumberOfDerivatives]);
+  void InterpolationFunctions(const CoordRepType pointCoords[CellDimension], InterpolationWeightType weights[NumberOfPoints]);
+  void EvaluateLocation(int &itkNotUsed(subId), const PointsContainer * points, const CoordRepType pointCoords[PointDimension],
                         CoordRepType x[PointDimension], InterpolationWeightType * weights);
 
 private:
