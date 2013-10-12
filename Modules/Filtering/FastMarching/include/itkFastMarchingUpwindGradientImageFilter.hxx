@@ -100,10 +100,9 @@ FastMarchingUpwindGradientImageFilter< TLevelSet, TSpeedImage >
   // Need to reset the target value.
   m_TargetValue = 0.0;
 
-  if ( m_TargetReachedMode == SomeTargets || m_TargetReachedMode == AllTargets )
-    {
-    m_ReachedTargetPoints = NodeContainer::New();
-    }
+  // Even if there are no targets, a new NodeContainer should be created
+  // so that querying this structure does not crash.
+  m_ReachedTargetPoints = NodeContainer::New();
 }
 
 template< typename TLevelSet, typename TSpeedImage >
@@ -168,6 +167,7 @@ FastMarchingUpwindGradientImageFilter< TLevelSet, TSpeedImage >
         node = pointsIter.Value();
         if ( node.GetIndex() == index )
           {
+          m_ReachedTargetPoints->InsertElement(m_ReachedTargetPoints->Size(), node);
           targetReached = true;
           break;
           }
