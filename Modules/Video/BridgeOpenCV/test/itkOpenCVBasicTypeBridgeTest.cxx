@@ -311,12 +311,12 @@ int Point2ConversionTest()
     }
   if( ( itkB[0] != cvB.x ) && ( itkB[1] != cvB.y ) )
     {
-    std::cerr << "itkA != cvA" << std::endl;
+    std::cerr << "itkB != cvB" << std::endl;
     return EXIT_FAILURE;
     }
   if( ( itkC[0] != cvC.x ) && ( itkC[1] != cvC.y ) )
     {
-    std::cerr << "itkA != cvA" << std::endl;
+    std::cerr << "itkC != cvC" << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -336,13 +336,13 @@ int Point3ConversionTest()
 
   ITKPoint3fType itkB;
   itkB[0] = 0.1;
-  itkB[0] = 0.2;
-  itkB[0] = 0.3;
+  itkB[1] = 0.2;
+  itkB[2] = 0.3;
 
   ITKPoint3dType itkC;
-  itkB[0] = -0.4;
-  itkB[0] = 3.2;
-  itkB[0] = 5.5;
+  itkC[0] = -0.4;
+  itkC[1] = 3.2;
+  itkC[2] = 5.5;
 
   cv::Point3i cvA = itk::OpenCVBasicTypeBridge< ITKPoint3iType, cv::Point3i >::FromITKToOpenCV( itkA );
   cv::Point3f cvB = itk::OpenCVBasicTypeBridge< ITKPoint3fType, cv::Point3f >::FromITKToOpenCV( itkB );
@@ -355,12 +355,12 @@ int Point3ConversionTest()
     }
   if( ( itkB[0] != cvB.x ) && ( itkB[1] != cvB.y ) && ( itkB[2] != cvB.z ) )
     {
-    std::cerr << "itkA != cvA" << std::endl;
+    std::cerr << "itkB != cvB" << std::endl;
     return EXIT_FAILURE;
     }
   if( ( itkC[0] != cvC.x ) && ( itkC[1] != cvC.y ) && ( itkC[2] != cvC.z ) )
     {
-    std::cerr << "itkA != cvA" << std::endl;
+    std::cerr << "itkC != cvC" << std::endl;
     return EXIT_FAILURE;
     }
 
