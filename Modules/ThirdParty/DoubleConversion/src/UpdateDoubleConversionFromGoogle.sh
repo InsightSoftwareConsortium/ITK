@@ -86,7 +86,7 @@ git push .. HEAD:DoubleConversion-upstream
 cd ..
 #
 # get rid of temporary repository
-rm -fr DoubleConversion-tmp
+rm -fr DoubleConversion-Tmp
 #
 # checkout a new update branch off of the master.
 git checkout -b DoubleConversion-update master
