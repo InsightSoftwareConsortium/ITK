@@ -144,12 +144,12 @@ public:
   void PrintSelf(std::ostream & os, Indent indent) const;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
+  // Begin concept checking
   itkConceptMacro( InputHasNumericTraitsCheck,
                    ( Concept::HasNumericTraits< InputValueType > ) );
   itkConceptMacro( OutputHasNumericTraitsCheck,
                    ( Concept::HasNumericTraits< OutputValueType > ) );
-  /** End concept checking */
+  // End concept checking
 #endif
 
 protected:

@@ -254,7 +254,7 @@ public:
   itkGetConstReferenceMacro(BValue, TTensorPixelType);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
+  // Begin concept checking
   itkConceptMacro( ReferenceEqualityComparableCheck,
                    ( Concept::EqualityComparable< ReferencePixelType > ) );
   itkConceptMacro( TensorEqualityComparableCheck,
@@ -274,7 +274,7 @@ public:
                    ( Concept::OStreamWritable< ReferencePixelType > ) );
   itkConceptMacro( TensorOStreamWritableCheck,
                    ( Concept::OStreamWritable< TensorPixelType > ) );
-  /** End concept checking */
+  // End concept checking
 #endif
 
 protected:

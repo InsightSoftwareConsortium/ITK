@@ -122,14 +122,14 @@ public:
                       TOutputImage::ImageDimension);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
+  // Begin concept checking
   itkConceptMacro( SameDimensionCheck1,
                    ( Concept::SameDimension< Input1ImageDimension, Input2ImageDimension > ) );
   itkConceptMacro( SameDimensionCheck2,
                    ( Concept::SameDimension< Input1ImageDimension, Input3ImageDimension > ) );
   itkConceptMacro( SameDimensionCheck3,
                    ( Concept::SameDimension< Input1ImageDimension, OutputImageDimension > ) );
-  /** End concept checking */
+  // End concept checking
 #endif
 
 protected:

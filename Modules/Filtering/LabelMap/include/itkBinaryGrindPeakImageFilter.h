@@ -88,10 +88,10 @@ public:
   itkBooleanMacro(FullyConnected);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
+  // Begin concept checking
   itkConceptMacro(InputOStreamWritableCheck,
                   (Concept::OStreamWritable<InputImagePixelType>));
-  /** End concept checking */
+  // End concept checking
 #endif
 
   /** Set the value in the image to consider as "foreground". Defaults to

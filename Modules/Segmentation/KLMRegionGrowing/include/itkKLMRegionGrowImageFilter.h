@@ -285,7 +285,7 @@ public:
   void PrintAlgorithmBorderStats(void);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
+  // Begin concept checking
   itkConceptMacro( InputHasNumericTraitsCheck,
                    ( Concept::HasNumericTraits< typename InputImagePixelType::ValueType > ) );
   itkConceptMacro( SameDimension,
@@ -297,7 +297,7 @@ public:
                    ( Concept::SameDimension< itkGetStaticConstMacro(InputImageVectorDimension),
                                              itkGetStaticConstMacro(OutputImageVectorDimension) > ) );
 #endif
-  /** End concept checking */
+  // End concept checking
 #endif
 
 protected:

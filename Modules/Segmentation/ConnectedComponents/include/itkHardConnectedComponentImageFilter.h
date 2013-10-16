@@ -99,7 +99,7 @@ public:
   { m_Seeds.push_front(seed); }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
+  // Begin concept checking
   itkConceptMacro( SameDimensionCheck,
                    ( Concept::SameDimension< InputImageDimension, ImageDimension > ) );
   itkConceptMacro( IntConvertibleToOutputCheck,
@@ -112,7 +112,7 @@ public:
                    ( Concept::Convertible< unsigned char, OutputPixelType > ) );
   itkConceptMacro( OutputIncrementDecrementOperatorsCheck,
                    ( Concept::IncrementDecrementOperators< OutputPixelType > ) );
-  /** End concept checking */
+  // End concept checking
 #endif
 
 protected:

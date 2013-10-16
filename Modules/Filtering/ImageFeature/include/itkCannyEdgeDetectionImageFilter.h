@@ -206,7 +206,7 @@ public:
   throw( InvalidRequestedRegionError );
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
+  // Begin concept checking
   itkConceptMacro( InputHasNumericTraitsCheck,
                    ( Concept::HasNumericTraits< InputImagePixelType > ) );
   itkConceptMacro( OutputHasNumericTraitsCheck,
@@ -217,7 +217,7 @@ public:
                    ( Concept::IsFloatingPoint< InputImagePixelType > ) );
   itkConceptMacro( OutputIsFloatingPointCheck,
                    ( Concept::IsFloatingPoint< OutputImagePixelType > ) );
-  /** End concept checking */
+  // End concept checking
 #endif
 
 protected:

@@ -114,14 +114,14 @@ public:
   itkGetConstMacro(UseImageSpacing, bool);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
+  // Begin concept checking
   itkConceptMacro( SameDimensionCheck,
                    ( Concept::SameDimension< InputImageDimension, ImageDimension > ) );
   itkConceptMacro( InputPixelTypeIsFloatingPointCheck,
                    ( Concept::IsFloatingPoint< InputPixelType > ) );
   itkConceptMacro( OutputPixelTypeIsFloatingPointCheck,
                    ( Concept::IsFloatingPoint< OutputPixelType > ) );
-  /** End concept checking */
+  // End concept checking
 #endif
 
 protected:

@@ -135,12 +135,12 @@ public:
   itkGetConstMacro(Flat, bool);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
+  // Begin concept checking
   itkConceptMacro( InputHasPixelTraitsCheck,
                    ( Concept::HasPixelTraits< InputImagePixelType > ) );
   itkConceptMacro( InputHasNumericTraitsCheck,
                    ( Concept::HasNumericTraits< InputImagePixelType > ) );
-  /** End concept checking */
+  // End concept checking
 #endif
 
 protected:

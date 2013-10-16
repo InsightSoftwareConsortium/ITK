@@ -85,12 +85,12 @@ public:
   virtual OutputType Evaluate( const InputType& inputIndex ) const;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
+  // Begin concept checking
 
   itkConceptMacro( DoubleConvertible,
                     ( Concept::Convertible< OutputRealType, OutputType > ) );
 
-  /** End concept checking */
+  // End concept checking
 #endif // ITK_USE_CONCEPT_CHECKING
 
   static inline LayerIdType MinusThreeLayer() { return -3; }

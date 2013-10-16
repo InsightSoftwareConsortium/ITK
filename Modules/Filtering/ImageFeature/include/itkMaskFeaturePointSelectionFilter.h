@@ -131,14 +131,14 @@ public:
   itkGetMacro(SelectFraction, double);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
+  // Begin concept checking
   itkConceptMacro( ImageDimensionShouldBe3,
                    ( Concept::SameDimension< TImage::ImageDimension, 3u > ) );
   itkConceptMacro( MaskDimensionShouldBe3,
                    ( Concept::SameDimension< TMask::ImageDimension, 3u > ) );
   itkConceptMacro( PointDimensionShouldBe3,
                    ( Concept::SameDimension< TFeatures::PointType::PointDimension, 3u > ) );
-  /** End concept checking */
+  // End concept checking
 #endif
 
 protected:

@@ -117,14 +117,14 @@ public:
   itkTypeMacro(MagnitudeAndPhaseToComplexImageFilter, BinaryFunctorImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
+  // Begin concept checking
   itkConceptMacro( Input1ConvertibleToDoubleCheck,
                    ( Concept::Convertible< InputPixel1Type, double > ) );
   itkConceptMacro( Input2ConvertibleToDoubleCheck,
                    ( Concept::Convertible< InputPixel2Type, double > ) );
   itkConceptMacro( DoubleConvertibleToOutputCheck,
                    ( Concept::Convertible< double, OutputPixelType > ) );
-  /** End concept checking */
+  // End concept checking
 #endif
 
 protected:

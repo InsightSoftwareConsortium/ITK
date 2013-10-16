@@ -171,10 +171,10 @@ public:
   unsigned long GetMTime(void) const;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
+  // Begin concept checking
   itkConceptMacro( OutputHasNumericTraitsCheck,
                    ( Concept::HasNumericTraits< OutputPixelComponentType > ) );
-  /** End concept checking */
+  // End concept checking
 #endif
 
 protected:

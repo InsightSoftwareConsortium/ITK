@@ -70,12 +70,12 @@ namespace itk
                  UnaryFunctorImageFilter);
 
   #ifdef ITK_USE_CONCEPT_CHECKING
-    /** Begin concept checking */
+    // Begin concept checking
     itkConceptMacro( InputConvertibleToDoubleCheck,
                      ( Concept::Convertible< typename TInputImage::PixelType, double > ) );
     itkConceptMacro( DoubleConvertibleToOutputCheck,
                      ( Concept::Convertible< double, typename TOutputImage::PixelType > ) );
-    /** End concept checking */
+    // End concept checking
   #endif
   protected:
     TanHelperImageFilter() {}

@@ -156,7 +156,7 @@ public:
   }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
+  // Begin concept checking
   itkConceptMacro( Input1HasNumericTraitsCheck,
                    ( Concept::HasNumericTraits< typename TInputImage1::PixelType > ) );
   itkConceptMacro( Input1RealTypeMultiplyCheck,
@@ -165,7 +165,7 @@ public:
   itkConceptMacro( Input2RealTypeMultiplyCheck,
                    ( Concept::MultiplyOperator< typename TInputImage2::PixelType,
                                                 RealType, RealType > ) );
-  /** End concept checking */
+  // End concept checking
 #endif
 
 protected:

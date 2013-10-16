@@ -112,7 +112,7 @@ public:
   itkGetConstMacro(StencilRadius, RadiusValueType);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
+  // Begin concept checking
   itkConceptMacro( UnsignedLongConvertibleToOutputCheck,
                    ( Concept::Convertible< unsigned long, typename TOutputImage::PixelType > ) );
   itkConceptMacro( OutputLessThanComparableCheck,
@@ -130,7 +130,7 @@ public:
   itkConceptMacro( UnsignedLongOutputAditiveOperatorsCheck,
                    ( Concept::AdditiveOperators< unsigned long,
                                                  typename TOutputImage::PixelType > ) );
-  /** End concept checking */
+  // End concept checking
 #endif
 
 protected:

@@ -102,14 +102,14 @@ public:
   itkNewMacro(Self);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
+  // Begin concept checking
   itkConceptMacro( InputPixelToOutputPixelTypeGreaterAdditiveOperatorCheck,
                    ( Concept::AdditiveOperators< OutputPixelType,
                                                  InputPixelType,
                                                  OutputPixelType > ) );
   itkConceptMacro( InputHasNumericTraitsCheck,
                    ( Concept::HasNumericTraits< InputPixelType > ) );
-  /** End concept checking */
+  // End concept checking
 #endif
 
 protected:

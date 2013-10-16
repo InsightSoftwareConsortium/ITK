@@ -244,7 +244,7 @@ public:
   void EnlargeOutputRequestedRegion(DataObject *data);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
+  // Begin concept checking
   itkConceptMacro( InputEqualityComparableCheck,
                    ( Concept::EqualityComparable< ScalarType > ) );
   itkConceptMacro( InputAdditiveOperatorsCheck,
@@ -253,7 +253,7 @@ public:
                    ( Concept::MultiplyOperator< double, ScalarType, ScalarType > ) );
   itkConceptMacro( InputLessThanComparableCheck,
                    ( Concept::LessThanComparable< ScalarType > ) );
-  /** End concept checking */
+  // End concept checking
 #endif
 
 protected:

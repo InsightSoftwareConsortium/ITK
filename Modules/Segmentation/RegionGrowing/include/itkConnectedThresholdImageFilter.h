@@ -113,7 +113,7 @@ public:
                       TOutputImage::ImageDimension);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
+  // Begin concept checking
   itkConceptMacro( OutputEqualityComparableCheck,
                    ( Concept::EqualityComparable< OutputImagePixelType > ) );
   itkConceptMacro( InputEqualityComparableCheck,
@@ -126,7 +126,7 @@ public:
                    ( Concept::Convertible< int, InputImagePixelType > ) );
   itkConceptMacro( OutputOStreamWritableCheck,
                    ( Concept::OStreamWritable< OutputImagePixelType > ) );
-  /** End concept checking */
+  // End concept checking
 #endif
 
   /** Face connectivity is 4 connected in 2D, 6  connected in 3D, 2*n   in ND

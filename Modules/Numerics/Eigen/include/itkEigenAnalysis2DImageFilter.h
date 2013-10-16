@@ -108,10 +108,10 @@ public:
   DataObject::Pointer MakeOutput(DataObjectPointerArraySizeType idx);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
+  // Begin concept checking
   itkConceptMacro( VectorComponentHasNumericTraitsCheck,
                    ( Concept::HasNumericTraits< VectorComponentType > ) );
-  /** End concept checking */
+  // End concept checking
 #endif
 
 protected:

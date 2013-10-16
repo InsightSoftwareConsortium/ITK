@@ -144,7 +144,7 @@ public:
   itkGetModifiableObjectMacro(OutputHistogram, HistogramType);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
+  // Begin concept checking
   itkConceptMacro( IntConvertibleToInputCheck,
                    ( Concept::Convertible< int, InputPixelType > ) );
   itkConceptMacro( SameDimensionCheck,
@@ -159,7 +159,7 @@ public:
                    ( Concept::Convertible< OutputPixelType, double > ) );
   itkConceptMacro( SameTypeCheck,
                    ( Concept::SameType< InputPixelType, OutputPixelType > ) );
-  /** End concept checking */
+  // End concept checking
 #endif
 
 protected:

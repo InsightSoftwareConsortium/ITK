@@ -214,10 +214,10 @@ public:
   void SetStateToInitialized() { this->SetIsInitialized( true ); }
 
 #ifdef ITK_USE_STRICT_CONCEPT_CHECKING
-  /** Begin concept checking */
+  // Begin concept checking
   itkConceptMacro( OutputPixelIsFloatingPointCheck,
                    ( Concept::IsFloatingPoint< OutputPixelValueType > ) );
-  /** End concept checking */
+  // End concept checking
 #endif
 
 protected:

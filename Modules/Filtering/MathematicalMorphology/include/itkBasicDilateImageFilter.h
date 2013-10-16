@@ -89,7 +89,7 @@ public:
   typedef typename TKernel::PixelType KernelPixelType;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
+  // Begin concept checking
   itkConceptMacro( InputConvertibleToOutputCheck,
                    ( Concept::Convertible< PixelType, typename TOutputImage::PixelType > ) );
   itkConceptMacro( SameDimensionCheck1,
@@ -100,7 +100,7 @@ public:
                    ( Concept::GreaterThanComparable< PixelType > ) );
   itkConceptMacro( KernelGreaterThanComparableCheck,
                    ( Concept::GreaterThanComparable< KernelPixelType > ) );
-  /** End concept checking */
+  // End concept checking
 #endif
 
 protected:

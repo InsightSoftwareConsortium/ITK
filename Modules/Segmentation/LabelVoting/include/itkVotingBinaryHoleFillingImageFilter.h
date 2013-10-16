@@ -87,12 +87,12 @@ public:
   itkGetConstReferenceMacro(NumberOfPixelsChanged, SizeValueType);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
+  // Begin concept checking
   itkConceptMacro( IntConvertibleToInputCheck,
                    ( Concept::Convertible< int, InputPixelType > ) );
   itkConceptMacro( UnsignedIntConvertibleToInputCheck,
                    ( Concept::Convertible< unsigned int, InputPixelType > ) );
-  /** End concept checking */
+  // End concept checking
 #endif
 
 protected:

@@ -234,7 +234,7 @@ public:
   virtual void AfterThreadedGenerateData();
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
+  // Begin concept checking
   itkConceptMacro( SameDimensionCheck1,
                    ( Concept::SameDimension< ImageDimension, InputImageDimension > ) );
   itkConceptMacro( SameDimensionCheck2,
@@ -243,7 +243,7 @@ public:
                    ( Concept::HasNumericTraits< typename TInputImage::PixelType > ) );
   itkConceptMacro( DisplacementFieldHasNumericTraitsCheck,
                    ( Concept::HasNumericTraits< typename TDisplacementField::PixelType::ValueType > ) );
-  /** End concept checking */
+  // End concept checking
 #endif
 
 protected:

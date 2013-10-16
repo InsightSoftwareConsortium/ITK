@@ -191,7 +191,7 @@ public:
   itkStaticConstMacro(VoronoiImageDimension, unsigned int,
                       TVoronoiImage::ImageDimension);
 
-  /** Begin concept checking */
+  // Begin concept checking
   itkConceptMacro( InputOutputSameDimensionCheck,
                    ( Concept::SameDimension< InputImageDimension, OutputImageDimension > ) );
   itkConceptMacro( InputVoronoiSameDimensionCheck,
@@ -201,7 +201,7 @@ public:
   itkConceptMacro( InputConvertibleToOutputCheck,
                    ( Concept::Convertible< InputPixelType,
                                            OutputPixelType > ) );
-  /** End concept checking */
+  // End concept checking
 #endif
 
 protected:

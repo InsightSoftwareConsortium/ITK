@@ -72,12 +72,12 @@ public:
                       TInputImage::ImageDimension);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
+  // Begin concept checking
   itkConceptMacro( SameDimension,
                    ( Concept::SameDimension< itkGetStaticConstMacro(InputImageDimension),
                                              itkGetStaticConstMacro(OutputImageDimension) > ) );
 
-  /** End concept checking */
+  // End concept checking
 #endif
 
 protected:

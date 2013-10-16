@@ -171,7 +171,7 @@ public:
   itkGetConstMacro(UseBoundaryCondition, bool);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
+  // Begin concept checking
   itkConceptMacro( SameDimensionCheck1,
                    ( Concept::SameDimension< ImageDimension, OutputImageDimension > ) );
   itkConceptMacro( SameDimensionCheck2,
@@ -187,7 +187,7 @@ public:
                    ( Concept::EqualityComparable< PixelType > ) );
   itkConceptMacro( InputOStreamWritableCheck,
                    ( Concept::OStreamWritable< PixelType > ) );
-  /** End concept checking */
+  // End concept checking
 #endif
 
 protected:

@@ -302,7 +302,7 @@ public:
   itkGetConstReferenceMacro(NumberOfIterations, unsigned int);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
+  // Begin concept checking
   itkConceptMacro( UnsignedIntConvertibleToClassifiedCheck,
                    ( Concept::Convertible< unsigned int, LabelledImagePixelType > ) );
   itkConceptMacro( ClassifiedConvertibleToUnsignedIntCheck,
@@ -313,7 +313,7 @@ public:
                    ( Concept::Convertible< int, LabelledImagePixelType > ) );
   itkConceptMacro( SameDimensionCheck,
                    ( Concept::SameDimension< InputImageDimension, ClassifiedImageDimension > ) );
-  /** End concept checking */
+  // End concept checking
 #endif
 
 protected:

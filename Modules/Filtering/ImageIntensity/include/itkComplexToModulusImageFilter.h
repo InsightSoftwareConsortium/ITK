@@ -86,10 +86,10 @@ public:
   typedef typename NumericTraits< InputPixelType >::ValueType InputPixelValueType;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
+  // Begin concept checking
   itkConceptMacro( InputMultiplyOperatorCheck,
                    ( Concept::MultiplyOperator< InputPixelValueType > ) );
-  /** End concept checking */
+  // End concept checking
 #endif
 
 protected:

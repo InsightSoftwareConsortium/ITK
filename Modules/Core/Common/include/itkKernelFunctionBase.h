@@ -58,10 +58,10 @@ public:
   virtual TRealValueType Evaluate(const TRealValueType & u) const = 0;
 
 #ifdef ITK_USE_STRICT_CONCEPT_CHECKING
-    /** Begin concept checking */
+    // Begin concept checking
     itkConceptMacro( TRealValueTypeIsFloatingPointCheck,
                          ( Concept::IsFloatingPoint< TRealValueType > ) );
-      /** End concept checking */
+      // End concept checking
 #endif
 
 protected:

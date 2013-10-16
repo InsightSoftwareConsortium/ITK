@@ -122,10 +122,10 @@ public:
   itkGetConstMacro(Alpha2, double);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
+  // Begin concept checking
   itkConceptMacro( DoubleConvertibleToOutputCheck,
                    ( Concept::Convertible< double, OutputPixelType > ) );
-  /** End concept checking */
+  // End concept checking
 #endif
 
 protected:

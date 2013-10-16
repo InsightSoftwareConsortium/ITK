@@ -117,10 +117,10 @@ public:
   typedef typename ROIFilterType::Pointer                                   ROIFilterPointer;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
+  // Begin concept checking
   itkConceptMacro( OutputHasNumericTraitsCheck,
                    ( Concept::HasNumericTraits< OutputPixelType > ) );
-  /** End concept checking */
+  // End concept checking
 #endif
 
   /** Set/Get the feature image to be used for speed function of the level set

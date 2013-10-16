@@ -108,7 +108,7 @@ public:
                       TOutputImage::ImageDimension);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Start concept checking */
+  // Begin concept checking
   itkConceptMacro( SameDimensionCheck,
                    ( Concept::SameDimension< InputImageDimension, OutputImageDimension > ) );
   itkConceptMacro( SameTypeCheck,
@@ -119,7 +119,7 @@ public:
                    ( Concept::Convertible< int, PixelType > ) );
   itkConceptMacro( PixelLessThanIntCheck,
                    ( Concept::LessThanComparable< PixelType, int > ) );
-  /** End concept checking */
+  // End concept checking
 #endif
 
 protected:

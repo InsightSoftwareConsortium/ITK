@@ -123,10 +123,10 @@ public:
   }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
+  // Begin concept checking
   itkConceptMacro( AuxValueHasNumericTraitsCheck,
                    ( Concept::HasNumericTraits< TAuxValue > ) );
-  /** End concept checking */
+  // End concept checking
 #endif
 
 protected:

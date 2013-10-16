@@ -86,12 +86,12 @@ public:
                UnaryFunctorImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
+  // Begin concept checking
   itkConceptMacro( InputHasNumericTraitsCheck,
                    ( Concept::HasNumericTraits< typename TInputImage::PixelType > ) );
   itkConceptMacro( RealTypeMultiplyOperatorCheck,
                    ( Concept::MultiplyOperator< typename NumericTraits< typename TInputImage::PixelType >::RealType > ) );
-  /** End concept checking */
+  // End concept checking
 #endif
 
 protected:

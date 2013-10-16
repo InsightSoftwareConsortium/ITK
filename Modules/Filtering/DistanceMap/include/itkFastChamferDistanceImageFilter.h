@@ -123,7 +123,7 @@ public:
   NarrowBandPointer GetNarrowBand() const;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
+  // Begin concept checking
   itkConceptMacro( SameDimensionCheck,
                    ( Concept::SameDimension< ImageDimension, OutputImageDimension > ) );
   itkConceptMacro( SameTypeCheck,
@@ -142,7 +142,7 @@ public:
                    ( Concept::GreaterThanComparable< float, PixelType > ) );
   itkConceptMacro( FloatLessThanPixelTypeCheck,
                    ( Concept::LessThanComparable< float, PixelType > ) );
-  /** End concept checking */
+  // End concept checking
 #endif
 
 protected:
