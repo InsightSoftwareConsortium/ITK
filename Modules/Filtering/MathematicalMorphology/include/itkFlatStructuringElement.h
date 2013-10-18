@@ -30,9 +30,13 @@ namespace itk
  *
  * FlatStructuringElement provides several static methods, which can
  * be used to create a structuring element with a particular shape,
- * size, etc. Currently, those methods allow to create a ball, a box,
- * a cross structuring element, and let create a structuring element
- * based on an image.
+ * size, etc. Currently, those methods enable the creation of the following
+ * structuring elements: ball, box, cross, annulus, or polygon.
+ * Polygons are available as fast approximations of balls using line
+ * decompositions. Boxes also use line decompositions.
+ *
+ * "Flat" refers to binary as opposed to grayscale structuring elements. Flat
+ * structuring elements can be used for both binary and grayscale images.
  *
  * \ingroup ITKMathematicalMorphology
  *
