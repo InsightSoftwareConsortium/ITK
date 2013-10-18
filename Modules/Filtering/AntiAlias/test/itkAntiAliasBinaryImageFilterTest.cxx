@@ -18,10 +18,8 @@
 
 #include "itkAntiAliasBinaryImageFilter.h"
 
-//
-// Uncomment the following lines if you are writing the output image.
-//
-
+#include "itkTestingMacros.h"
+#include "itkImageFileWriter.h"
 
 //
 // This is a simple test of the AntiAliasBinaryImageFilter class.  It creates a
@@ -75,12 +73,20 @@ void evaluate_function(itk::Image<char, 3> *im,
 
 } // end namespace
 
-int itkAntiAliasBinaryImageFilterTest(int , char * [] )
+int itkAntiAliasBinaryImageFilterTest(int argc, char * argv [] )
 {
+  if( argc < 2 )
+    {
+    std::cerr << "Missing arguments." << std::endl;
+    std::cerr << "Usage: " << std::endl;
+    std::cerr << argv[0] << " outputImage " << std::endl;
+    return EXIT_FAILURE;
+    }
+  const char * outputImage = argv[1];
+
   typedef char                         InputDataType;
   typedef itk::Image<InputDataType, 3> BinaryImageType;
   typedef itk::Image<float, 3>         RealImageType;
-
 
   itk::AntiAliasBinaryImageFilter<BinaryImageType, RealImageType>::Pointer
     antialiaser = itk::AntiAliasBinaryImageFilter<BinaryImageType, RealImageType>::New();
@@ -92,8 +98,8 @@ int itkAntiAliasBinaryImageFilterTest(int , char * [] )
   BinaryImageType::RegionType::IndexType idx;
   for (unsigned k = 0; k < 3; k++)
     {
-      sz[k] = 64;
-      idx[k] = 0;
+    sz[k] = 64;
+    idx[k] = 0;
     }
   region.SetSize(sz);
   region.SetIndex(idx);
@@ -114,10 +120,15 @@ int itkAntiAliasBinaryImageFilterTest(int , char * [] )
   // loops if the MaximumRMSError has been set too low.
   antialiaser->SetNumberOfIterations(100);
 
-  antialiaser->Update();
+  TRY_EXPECT_NO_EXCEPTION( antialiaser->Update() );
 
   std::cout << "Maximum RMS change value threshold was: 0.02 " << std::endl;
   std::cout << "Last RMS change value was: " << antialiaser->GetRMSChange() << std::endl;
+  if( antialiaser->GetRMSChange() > 0.02 )
+    {
+    std::cerr << "Unexpected RMSChange." << std::endl;
+    return EXIT_FAILURE;
+    }
 
   if (antialiaser->GetElapsedIterations() >= 100)
     {
@@ -126,22 +137,11 @@ int itkAntiAliasBinaryImageFilterTest(int , char * [] )
     }
   else
     {
-    //
-    // Uncomment the following lines if you are writing the output image
-    //
-
-    // itk::RawImageIO<float, 3>::Pointer output_io
-    //    = itk::RawImageIO<float, 3>::New();
-    //
-    // itk::ImageFileWriter<RealImageType>::Pointer writer
-    //    = itk::ImageFileWriter<RealImageType>::New();
-    //      output_io->SetFileTypeToBinary();
-    //      output_io->SetFileDimensionality(3);
-    //      output_io->SetByteOrderToLittleEndian();
-    //      writer->SetInput(antialiaser->GetOutput());
-    //      writer->SetFileName("spheretest.raw");
-    //      writer->SetImageIO(output_io);
-    //      writer->Write();
+    typedef itk::ImageFileWriter<RealImageType> WriterType;
+    WriterType::Pointer writer = WriterType::New();
+    writer->SetInput( antialiaser->GetOutput() );
+    writer->SetFileName( outputImage );
+    TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
     // Repeat just to make sure we reinitialize properly.
     antialiaser->SetNumberOfIterations(200);
@@ -152,6 +152,12 @@ int itkAntiAliasBinaryImageFilterTest(int , char * [] )
 
     std::cout << "Maximum RMS change value threshold was: 0.02 " << std::endl;
     std::cout << "Last RMS change value was: " << antialiaser->GetRMSChange() << std::endl;
+
+    if( antialiaser->GetRMSChange() > 0.02 )
+      {
+      std::cerr << "Unexpected RMSChange." << std::endl;
+      return EXIT_FAILURE;
+      }
     }
 
   return EXIT_SUCCESS;

@@ -83,6 +83,7 @@ AntiAliasBinaryImageFilter< TInputImage, TOutputImage >
   m_UpperBinaryValue = NumericTraits< BinaryValueType >::One;
   m_LowerBinaryValue = -NumericTraits< BinaryValueType >::One;
   this->SetNumberOfIterations(1000);
+  this->SetUseImageSpacing(false);
 }
 
 template< typename TInputImage, typename TOutputImage >
