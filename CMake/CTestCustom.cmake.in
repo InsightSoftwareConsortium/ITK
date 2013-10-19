@@ -92,7 +92,6 @@ set(CTEST_CUSTOM_WARNING_EXCEPTION
   ".*core.vnl.vnl_matrix_fixed.h.*warning.*"
   # DCMTK
   "Note: checking out.*"
-  "-- Warning: SNDFILE support will be disabled because libsndfile was not found.*"
   # FFTW ExternalProject
   ".*fftw[fd]/src/fftw[fd]./*"
   "libtool: install: warning: relinking .libfftw3f?_threads.la."
