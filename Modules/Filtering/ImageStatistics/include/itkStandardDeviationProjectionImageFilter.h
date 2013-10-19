@@ -129,7 +129,7 @@ public:
   itkNewMacro(Self);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
+  // Begin concept checking
   itkConceptMacro( InputPixelToOutputPixelTypeGreaterAdditiveOperatorCheck,
                    ( Concept::AdditiveOperators< TAccumulate,
                                                  InputPixelType,
@@ -140,7 +140,7 @@ public:
   itkConceptMacro( AccumulateHasNumericTraitsCheck,
                    ( Concept::HasNumericTraits< TAccumulate > ) );
 
-  /** End concept checking */
+  // End concept checking
 #endif
 
 protected:

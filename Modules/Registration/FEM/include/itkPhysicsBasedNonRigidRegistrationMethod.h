@@ -137,10 +137,10 @@ public:
   itkGetInputMacro(Mesh, MeshType);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
-  /** Currently only the 3D implementation is available due to a narrow
-   * definition of the filter in the original proposal
-   * and lack of available resources. */
+  // Begin concept checking
+  /* Currently only the 3D implementation is available due to a narrow
+     definition of the filter in the original proposal
+     and lack of available resources. */
   itkConceptMacro( FixedImageDimensionShouldBe3,
                    ( Concept::SameDimension< TFixedImage::ImageDimension, 3u > ) );
   itkConceptMacro( MovingImageDimensionShouldBe3,
@@ -151,7 +151,7 @@ public:
                    ( Concept::SameDimension< TMesh::PointType::PointDimension, 3u > ) );
   itkConceptMacro( DeformationFieldImageDimensionShouldBe3,
                    ( Concept::SameDimension< TDeformationField::ImageDimension, 3u > ) );
-  /** End concept checking */
+  // End concept checking
 #endif
 
 protected:

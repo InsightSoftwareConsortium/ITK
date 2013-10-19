@@ -254,12 +254,12 @@ public:
   static int CubicSolver(double *, double *);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
+  // Begin concept checking
   itkConceptMacro( InputHasNumericTraitsCheck,
                    ( Concept::HasNumericTraits< typename InputPixelType::ValueType > ) );
   itkConceptMacro( RealTypeHasNumericTraitsCheck,
                    ( Concept::HasNumericTraits< RealType > ) );
-  /** End concept checking */
+  // End concept checking
 #endif
 
 protected:

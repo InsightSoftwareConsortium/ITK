@@ -222,7 +222,7 @@ public:
   }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
+  // Begin concept checking
   itkConceptMacro( InputConvertibleToDoubleCheck,
                    ( Concept::Convertible< typename TInputImage::PixelType, double > ) );
   itkConceptMacro( OutputAdditiveOperatorsCheck,
@@ -233,7 +233,7 @@ public:
                    ( Concept::MultiplyOperator< OutputPixelType, double > ) );
   itkConceptMacro( OutputDoubleAdditiveOperatorsCheck,
                    ( Concept::AdditiveOperators< OutputPixelType, OutputPixelType, double > ) );
-  /** End concept checking */
+  // End concept checking
 #endif
 
 protected:

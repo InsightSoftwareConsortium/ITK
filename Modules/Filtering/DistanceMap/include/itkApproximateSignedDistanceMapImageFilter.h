@@ -122,10 +122,10 @@ public:
   itkGetConstMacro(OutsideValue, InputPixelType);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
+  // Begin concept checking
   itkConceptMacro( InputEqualityComparableCheck,
                    ( Concept::EqualityComparable< typename InputImageType::PixelType > ) );
-  /** End concept checking */
+  // End concept checking
 #endif
 
 protected:

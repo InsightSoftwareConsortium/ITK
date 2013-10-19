@@ -102,13 +102,13 @@ public:
   itkGetConstMacro(StopValue, double);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
+  // Begin concept checking
   itkConceptMacro( OutputHasNumericTraitsCheck,
                    ( Concept::HasNumericTraits< OutputImageValueType > ) );
 
   itkConceptMacro( SameDimensionCheck,
                    ( Concept::SameDimension< TInputImage::ImageDimension, TOutputImage::ImageDimension > ) );
-  /** End concept checking */
+  // End concept checking
 #endif
 
 protected:

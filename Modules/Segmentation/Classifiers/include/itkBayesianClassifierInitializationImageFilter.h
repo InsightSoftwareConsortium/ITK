@@ -145,7 +145,7 @@ public:
   virtual void GenerateOutputInformation();
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
+  // Begin concept checking
   itkConceptMacro( InputMultiplyOperatorCheck,
                    ( Concept::MultiplyOperator< InputPixelType > ) );
   itkConceptMacro( DoubleConvertibleToProbabilityCheck,
@@ -156,7 +156,7 @@ public:
                    ( Concept::HasNumericTraits< TProbabilityPrecisionType > ) );
   itkConceptMacro( DoublePlusInputCheck,
                    ( Concept::AdditiveOperators< double, InputPixelType > ) );
-  /** End concept checking */
+  // End concept checking
 #endif
 
 protected:

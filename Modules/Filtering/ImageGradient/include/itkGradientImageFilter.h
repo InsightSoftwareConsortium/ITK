@@ -122,12 +122,12 @@ public:
   itkGetConstMacro(UseImageSpacing, bool);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
+  // Begin concept checking
   itkConceptMacro( InputConvertibleToOutputCheck,
                    ( Concept::Convertible< InputPixelType, OutputValueType > ) );
   itkConceptMacro( OutputHasNumericTraitsCheck,
                    ( Concept::HasNumericTraits< OutputValueType > ) );
-  /** End concept checking */
+  // End concept checking
 #endif
 
   /** The UseImageDirection flag determines whether image derivatives are

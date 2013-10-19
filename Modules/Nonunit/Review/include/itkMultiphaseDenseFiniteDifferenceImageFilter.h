@@ -169,14 +169,14 @@ public:
   void SetFunctionCount(const IdCellType & n);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
+  // Begin concept checking
   itkConceptMacro( OutputTimesDoubleCheck,
                    ( Concept::MultiplyOperator< OutputPixelType, double > ) );
   itkConceptMacro( OutputAdditiveOperatorsCheck,
                    ( Concept::AdditiveOperators< OutputPixelType > ) );
   itkConceptMacro( InputConvertibleToOutputCheck,
                    ( Concept::Convertible< FeaturePixelType, OutputPixelType > ) );
-  /** End concept checking */
+  // End concept checking
 #endif
 
   itkSetMacro(ReinitializeCounter, unsigned int);

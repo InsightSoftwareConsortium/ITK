@@ -240,7 +240,7 @@ public:
   itkTypeMacro(JoinImageFilter, BinaryFunctorImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
+  // Begin concept checking
   itkConceptMacro( Input1HasPixelTraitsCheck,
                    ( Concept::HasPixelTraits< typename TInputImage1::PixelType > ) );
   itkConceptMacro( Input2HasPixelTraitsCheck,
@@ -248,7 +248,7 @@ public:
   itkConceptMacro( Input1Input2HasJoinTraitsCheck,
                    ( Concept::HasJoinTraits< typename PixelTraits< typename TInputImage1::PixelType >::ValueType,
                                              typename PixelTraits< typename TInputImage2::PixelType >::ValueType > ) );
-  /** End concept checking */
+  // End concept checking
 #endif
 
 protected:

@@ -184,7 +184,7 @@ public:
   virtual DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
+  // Begin concept checking
   itkConceptMacro( UnsignedIntConvertibleToLabelsCheck,
                    ( Concept::Convertible< unsigned int, TLabelsType > ) );
   itkConceptMacro( PosteriorsAdditiveOperatorsCheck,
@@ -200,7 +200,7 @@ public:
   itkConceptMacro( InputPriorsPosteriorsMultiplyOperatorCheck,
                    ( Concept::MultiplyOperator< typename InputPixelType::ValueType,
                                                 PriorsPixelType, PosteriorsPixelType > ) );
-  /** End concept checking */
+  // End concept checking
 #endif
 
 protected:

@@ -96,12 +96,12 @@ public:
   { this->SetNthOutput(1, output); }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
+  // Begin concept checking
   itkConceptMacro( ComparableCheck,
                    ( Concept::Comparable< PixelType > ) );
   itkConceptMacro( OStreamWritableCheck,
                    ( Concept::OStreamWritable< PixelType > ) );
-  /** Begin concept checking */
+  // Begin concept checking
 #endif
 
 protected:

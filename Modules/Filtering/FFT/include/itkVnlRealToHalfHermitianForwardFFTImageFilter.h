@@ -73,10 +73,10 @@ public:
                       TOutputImage::ImageDimension);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
+  // Begin concept checking
   itkConceptMacro( ImageDimensionsMatchCheck,
                    ( Concept::SameDimension< InputImageDimension, OutputImageDimension > ) );
-  /** End concept checking */
+  // End concept checking
 #endif
 
 protected:

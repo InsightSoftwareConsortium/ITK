@@ -120,7 +120,7 @@ public:
   }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
+  // Begin concept checking
   itkConceptMacro( SameDimensionCheck,
                    ( Concept::SameDimension< InputImageDimension, MaskImageDimension > ) );
   itkConceptMacro( OutputHasNumericTraitsCheck,
@@ -130,7 +130,7 @@ public:
   // This filter can only operate on data types that are signed.
   itkConceptMacro( SignedOutputPixelType,
                    ( Concept::Signed< OutputPixelType > ) );
-  /** End concept checking */
+  // End concept checking
 #endif
 
 protected:

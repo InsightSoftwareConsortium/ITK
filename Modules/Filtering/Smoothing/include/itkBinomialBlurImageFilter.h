@@ -90,7 +90,7 @@ public:
   void GenerateInputRequestedRegion();
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
+  // Begin concept checking
   itkConceptMacro( SameDimensionCheck,
                    ( Concept::SameDimension< itkGetStaticConstMacro(NDimensions),
                                              itkGetStaticConstMacro(NOutputDimensions) > ) );
@@ -98,7 +98,7 @@ public:
                    ( Concept::Convertible< typename TInputImage::PixelType, double > ) );
   itkConceptMacro( DoubleConvertibleToOutputCheck,
                    ( Concept::Convertible< double, PixelType > ) );
-  /** End concept checking */
+  // End concept checking
 #endif
 
 protected:

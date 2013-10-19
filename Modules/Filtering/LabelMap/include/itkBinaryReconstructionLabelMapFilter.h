@@ -79,14 +79,14 @@ public:
                InPlaceLabelMapFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
+  // Begin concept checking
 /*  itkConceptMacro(InputEqualityComparableCheck,
     (Concept::EqualityComparable<PixelType>));
   itkConceptMacro(IntConvertibleToInputCheck,
     (Concept::Convertible<int, PixelType>));
   itkConceptMacro(InputOStreamWritableCheck,
     (Concept::OStreamWritable<PixelType>));*/
-  /** End concept checking */
+  // End concept checking
 #endif
 
    /** Set the marker image */

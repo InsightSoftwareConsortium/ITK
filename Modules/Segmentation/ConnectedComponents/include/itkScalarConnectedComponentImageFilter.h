@@ -138,7 +138,7 @@ public:
   { return ( this->GetFunctor().GetDistanceThreshold() ); }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
+  // Begin concept checking
   itkConceptMacro( InputEqualityComparableCheck,
                    ( Concept::EqualityComparable< InputPixelType > ) );
   itkConceptMacro( OutputEqualityComparableCheck,
@@ -147,7 +147,7 @@ public:
                    ( Concept::EqualityComparable< typename TMaskImage::PixelType > ) );
   itkConceptMacro( OutputIncrementDecrementOperatorsCheck,
                    ( Concept::IncrementDecrementOperators< typename TOutputImage::PixelType > ) );
-  /** End concept checking */
+  // End concept checking
 #endif
 
 protected:

@@ -474,8 +474,8 @@ public:
   PointIdentifier Splice(QEPrimal *a, QEPrimal *b);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
-  /** End concept checking */
+  // Begin concept checking
+  // End concept checking
 #endif
 
   // for reusability of a mesh in the MeshToMesh filter

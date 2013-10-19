@@ -224,7 +224,7 @@ public:
   }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
+  // Begin concept checking
   itkConceptMacro( InputEqualityComparableCheck,
                    ( Concept::EqualityComparable< InputPixelType > ) );
   itkConceptMacro( UnsignedLongConvertibleToInputCheck,
@@ -235,7 +235,7 @@ public:
                    ( Concept::Convertible< InputPixelType, OutputPixelType > ) );
   itkConceptMacro( SameDimensionCheck,
                    ( Concept::SameDimension< InputImageDimension, ImageDimension > ) );
-  /** End concept checking */
+  // End concept checking
 #endif
 
 protected:

@@ -55,8 +55,8 @@ public:
   typedef ValueType ValueArrayType[itkGetStaticConstMacro(PointDimension)];
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
-  /** End concept checking */
+  // Begin concept checking
+  // End concept checking
 #endif
 
 public:

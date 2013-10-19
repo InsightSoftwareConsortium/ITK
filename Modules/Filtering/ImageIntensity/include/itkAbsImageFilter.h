@@ -93,12 +93,12 @@ public:
   typedef typename TOutputImage::PixelType    OutputPixelType;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
+  // Begin concept checking
   itkConceptMacro( ConvertibleCheck,
                    ( Concept::Convertible< InputPixelType, OutputPixelType > ) );
   itkConceptMacro( InputGreaterThanIntCheck,
                    ( Concept::GreaterThanComparable< InputPixelType, InputPixelType > ) );
-  /** End concept checking */
+  // End concept checking
 #endif
 
 protected:

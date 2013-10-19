@@ -106,7 +106,7 @@ public:
                BinaryFunctorImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
+  // Begin concept checking
   itkConceptMacro( Input1ConvertibleToOutputCheck,
                    ( Concept::Convertible< typename TInputImage1::PixelType,
                                            typename TOutputImage::PixelType > ) );
@@ -116,7 +116,7 @@ public:
   itkConceptMacro( Input1GreaterThanInput2Check,
                    ( Concept::GreaterThanComparable< typename TInputImage1::PixelType,
                                                      typename TInputImage2::PixelType > ) );
-  /** End concept checking */
+  // End concept checking
 #endif
 
 protected:

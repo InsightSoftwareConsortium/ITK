@@ -158,12 +158,12 @@ public:
   ModifiedTimeType GetMTime(void) const;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
+  // Begin concept checking
   itkStaticConstMacro(PixelDimension, unsigned int,
                       PixelType::Dimension);
   itkConceptMacro( SameDimensionCheck,
                    ( Concept::SameDimension< ImageDimension, PixelDimension > ) );
-  /** End concept checking */
+  // End concept checking
 #endif
 
 protected:

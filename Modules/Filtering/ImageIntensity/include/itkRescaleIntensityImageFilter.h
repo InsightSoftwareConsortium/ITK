@@ -171,7 +171,7 @@ public:
   void PrintSelf(std::ostream & os, Indent indent) const;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
+  // Begin concept checking
   itkConceptMacro( InputHasNumericTraitsCheck,
                    ( Concept::HasNumericTraits< InputPixelType > ) );
   itkConceptMacro( OutputHasNumericTraitsCheck,
@@ -180,7 +180,7 @@ public:
                    ( Concept::MultiplyOperator< RealType > ) );
   itkConceptMacro( RealTypeAdditiveOperatorsCheck,
                    ( Concept::AdditiveOperators< RealType > ) );
-  /** End concept checking */
+  // End concept checking
 #endif
 
 protected:

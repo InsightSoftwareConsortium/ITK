@@ -85,14 +85,14 @@ public:
   typedef OutputImageType UpdateBufferType;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
+  // Begin concept checking
   itkConceptMacro( OutputTimesDoubleCheck,
                    ( Concept::MultiplyOperator< PixelType, double > ) );
   itkConceptMacro( OutputAdditiveOperatorsCheck,
                    ( Concept::AdditiveOperators< PixelType > ) );
   itkConceptMacro( InputConvertibleToOutputCheck,
                    ( Concept::Convertible< typename TInputImage::PixelType, PixelType > ) );
-  /** End concept checking */
+  // End concept checking
 #endif
 
   /** Get OpenCL Kernel source as a string, creates a GetOpenCLSource method */

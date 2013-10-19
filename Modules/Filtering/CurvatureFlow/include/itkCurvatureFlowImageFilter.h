@@ -137,7 +137,7 @@ public:
   itkGetConstMacro(TimeStep, TimeStepType);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
+  // Begin concept checking
   itkConceptMacro( DoubleConvertibleToOutputCheck,
                    ( Concept::Convertible< double, PixelType > ) );
   itkConceptMacro( OutputConvertibleToDoubleCheck,
@@ -152,7 +152,7 @@ public:
                    ( Concept::LessThanComparable< PixelType, double > ) );
   itkConceptMacro( OutputDoubleAdditiveOperatorsCheck,
                    ( Concept::AdditiveOperators< PixelType, double > ) );
-  /** End concept checking */
+  // End concept checking
 #endif
 
 protected:

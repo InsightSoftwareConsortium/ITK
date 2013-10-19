@@ -80,10 +80,10 @@ public:
   void SetInput3(const InputImageType *image3);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
+  // Begin concept checking
   itkConceptMacro( InputCovertibleToOutputCheck,
                    ( Concept::Convertible< InputPixelType, typename NumericTraits<OutputPixelType>::ValueType > ) );
-  /** End concept checking */
+  // End concept checking
 #endif
 
 protected:

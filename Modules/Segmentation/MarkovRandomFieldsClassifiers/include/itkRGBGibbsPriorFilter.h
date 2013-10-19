@@ -175,13 +175,13 @@ protected:
   virtual void ApplyGPImageFilter();
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
+  // Begin concept checking
   itkConceptMacro( SameDimension,
                    ( Concept::SameDimension< itkGetStaticConstMacro(InputImageType::ImageDimension),
                                              itkGetStaticConstMacro(ClassifiedImageType::ImageDimension) > ) );
   itkConceptMacro( DimensionShouldBe3,
                    ( Concept::SameDimension< itkGetStaticConstMacro(InputImageType::ImageDimension), 3 > ) );
-  /** End concept checking */
+  // End concept checking
 #endif
 
 private:

@@ -128,10 +128,10 @@ public:
   itkBooleanMacro(ManualReinitialization);
 
 #ifdef ITK_USE_STRICT_CONCEPT_CHECKING
-  /** Begin concept checking */
+  // Begin concept checking
   itkConceptMacro( OutputPixelIsFloatingPointCheck,
                    ( Concept::IsFloatingPoint< OutputPixelValueType > ) );
-  /** End concept checking */
+  // End concept checking
 #endif
 
   /** Methods to get timers */

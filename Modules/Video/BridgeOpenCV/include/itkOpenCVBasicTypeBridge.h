@@ -53,7 +53,7 @@ struct OpenCVBasicTypeBridge< TPoint, cv::Point_< typename TPoint::CoordRepType 
     }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
+  // Begin concept checking
   itkConceptMacro( SameDimensionCheck,
                    ( Concept::SameDimension< TPoint::PointDimension, 2 > ) );
 #endif
@@ -83,7 +83,7 @@ struct OpenCVBasicTypeBridge< TPoint, cv::Point3_< typename TPoint::CoordRepType
     }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
+  // Begin concept checking
   itkConceptMacro( SameDimensionCheck,
                    ( Concept::SameDimension< TPoint::PointDimension, 3 > ) );
 #endif

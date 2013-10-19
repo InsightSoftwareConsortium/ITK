@@ -77,10 +77,10 @@ public:
   itkSetMacro(Width, unsigned int);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
+  // Begin concept checking
   itkConceptMacro( DataTypeHasNumericTraitsCheck,
                    ( Concept::HasNumericTraits< TDataType > ) );
-  /** End concept checking */
+  // End concept checking
 #endif
 
 protected:

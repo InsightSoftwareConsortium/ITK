@@ -134,7 +134,7 @@ public:
   itkBooleanMacro(UseDefaultValue);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
+  // Begin concept checking
   itkConceptMacro( OutputEqualityComparableCheck,
                    ( Concept::EqualityComparable< OutputPixelType > ) );
   itkConceptMacro( SameDimensionCheck1,
@@ -147,7 +147,7 @@ public:
                    ( Concept::Convertible< OperatorValueType, OutputPixelType > ) );
   itkConceptMacro( OutputOStreamWritable,
                    ( Concept::OStreamWritable< OutputPixelType > ) );
-  /** End concept checking */
+  // End concept checking
 #endif
 
 protected:

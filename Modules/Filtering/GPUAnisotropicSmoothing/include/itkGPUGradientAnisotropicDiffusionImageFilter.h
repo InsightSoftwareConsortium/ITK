@@ -69,10 +69,10 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int, GPUSuperclass::ImageDimension);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
+  // Begin concept checking
   itkConceptMacro( UpdateBufferHasNumericTraitsCheck,
                    ( Concept::HasNumericTraits< typename UpdateBufferType::PixelType > ) );
-  /** End concept checking */
+  // End concept checking
 #endif
 
 protected:

@@ -84,9 +84,9 @@ public:
   { this->SetInput(idx, inputImage); }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  /** Begin concept checking */
+  // Begin concept checking
   // Check if the pixeltype is a scalar, (native pixel type).
-  /** End concept checking */
+  // End concept checking
 #endif
 
 protected:
