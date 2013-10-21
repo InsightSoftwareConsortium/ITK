@@ -22,6 +22,8 @@
 #include "itkConceptChecking.h"
 #include "itkSimpleDataObjectDecorator.h"
 
+#include <map>
+
 namespace itk
 {
 /** \class ChangeLabelImageFilter
@@ -45,9 +47,6 @@ namespace itk
  * \ingroup IntensityImageFilters  MultiThreaded
  * \ingroup ITKImageLabel
  */
-
-#include <map>
-
 namespace Functor
 {
 template< typename TInput, typename TOutput >
