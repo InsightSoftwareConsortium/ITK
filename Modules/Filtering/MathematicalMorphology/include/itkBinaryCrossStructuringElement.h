@@ -26,10 +26,17 @@ namespace itk
  * \brief A Neighborhood that represents a cross structuring element
  *        with binary elements.
  *
- * This class defines a Neighborhood whose elements are either 0 or 1
+ * This class defines a Neighborhood whose elements are either on or off
  * depending on whether they are the face connected neighbors of the
- * neighborhood center.  The Neighborhood is defined to be of radii 1
+ * neighborhood center when the radii are all 1.
+ * The neighorhood is a cross for any size radius.
+ * By default, the Neighborhood is defined to be of radii 1
  * (i.e. 3x3x...).
+ * This can be changed explicitly using the SetRadius() method.
+ *
+ * Internally, this class carries out all of its computations using the
+ * FlatStructuringElement.  It is preferable to use that class instead
+ * of this one because FlatStructuringElement is more flexible.
  *
  * \sa Neighborhood
  * \sa MorphologyImageFilter
@@ -81,7 +88,13 @@ public:
   typedef SliceIterator< TPixel, Self > SliceIteratorType;
 
   /** Default constructor. */
-  BinaryCrossStructuringElement() {}
+  BinaryCrossStructuringElement()
+  {
+    // Default structuring element is defined to be 3x3x3...
+    RadiusType radius;
+    radius.Fill(1);
+    this->SetRadius(radius);
+  }
 
   /** Default destructor. */
   virtual ~BinaryCrossStructuringElement() {}

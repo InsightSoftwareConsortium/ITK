@@ -110,7 +110,7 @@ int itkBinaryDilateImageFilterTest2(int, char* [] )
     std::cout << it.Get() << "  ";
     ++it;
 
-    if (++i % 20 == 0)
+    if (++i % size[0] == 0)
       {
       std::cout << std::endl;
       }
@@ -129,12 +129,12 @@ int itkBinaryDilateImageFilterTest2(int, char* [] )
   //FilterWatcher filterWatcher(filter);
 
   // Create the structuring element
-  myKernelType ball;
-  ball.CreateStructuringElement();
+  myKernelType cross;
+  cross.CreateStructuringElement();
 
   // Connect the input image
   filter->SetInput( inputImage );
-  filter->SetKernel( ball );
+  filter->SetKernel( cross );
   filter->SetDilateValue( fgValue );
 
   // Get the Smart Pointer to the Filter Output
@@ -147,34 +147,68 @@ int itkBinaryDilateImageFilterTest2(int, char* [] )
 
   // Execute the filter
   try
-    {
+  {
     filter->Update();
     // Create an iterator for going through the image output
     myIteratorType it2(outputImage, outputImage->GetBufferedRegion());
 
     //  Print the content of the result image
-    std::cout << "Result " << std::endl;
+    std::cout << "Result with cross radius 1 (default)" << std::endl;
     i=0;
+    it2.GoToBegin();
     while( !it2.IsAtEnd() )
-      {
+    {
       std::cout << it2.Get() << "  ";
       ++it2;
 
       if (++i % 20 == 0)
-        {
+      {
         std::cout << std::endl;
-        }
       }
-   }
-
+    }
+  }
   catch (itk::ExceptionObject& e)
-    {
+  {
     std::cerr << "Exception caught during filter Update\n"  << e;
     return -1;
+  }
+
+  // Now try dilation with a cross of higher radius.
+  cross.SetRadius(2);
+  cross.CreateStructuringElement();
+
+  filter->SetKernel(cross);
+  filter->Modified();
+
+  // Execute the filter
+  try
+  {
+    filter->Update();
+    // Create an iterator for going through the image output
+    myIteratorType it2(outputImage, outputImage->GetBufferedRegion());
+
+    //  Print the content of the result image
+    std::cout << "Result with cross radius 2" << std::endl;
+    i=0;
+    it2.GoToBegin();
+    while( !it2.IsAtEnd() )
+    {
+      std::cout << it2.Get() << "  ";
+      ++it2;
+
+      if (++i % 20 == 0)
+      {
+        std::cout << std::endl;
+      }
     }
+  }
+  catch (itk::ExceptionObject& e)
+  {
+    std::cerr << "Exception caught during filter Update\n"  << e;
+    return -1;
+  }
 
   // All objects should be automatically destroyed at this point
 
   return EXIT_SUCCESS;
-
 }
