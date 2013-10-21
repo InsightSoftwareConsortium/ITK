@@ -179,7 +179,7 @@ int main( int argc, char *argv[] )
 
   for( unsigned int i=0; i< SpaceDimension; i++ )
     {
-    fixedOrigin = fixedImage->GetOrigin()[i];
+    fixedOrigin[i] = fixedImage->GetOrigin()[i];
     fixedPhysicalDimensions[i] = fixedImage->GetSpacing()[i] *
       static_cast<double>(
       fixedImage->GetLargestPossibleRegion().GetSize()[i] - 1 );
@@ -254,7 +254,7 @@ int main( int argc, char *argv[] )
 
   for( unsigned int i=0; i< SpaceDimension; i++ )
     {
-    fixedOrigin = fixedImage->GetOrigin()[i];
+    fixedOrigin[i] = fixedImage->GetOrigin()[i];
     fixedPhysicalDimensions[i] = fixedImage->GetSpacing()[i] *
       static_cast<double>(
       fixedImage->GetLargestPossibleRegion().GetSize()[i] - 1 );
