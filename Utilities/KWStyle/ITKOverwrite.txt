@@ -1,4 +1,5 @@
 test/.*\.cxx Namespace Disable
+Examples/.*\.cxx Namespace Disable
 itkFixedArray\.h Typedefs Disable
 itkImage\.h Template Disable
 itkIntTypes\.h Typedefs Disable
