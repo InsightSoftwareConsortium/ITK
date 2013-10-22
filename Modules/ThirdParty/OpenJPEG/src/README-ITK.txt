@@ -10,10 +10,6 @@ j2k-images, ...
 The library is developed by the Communications and Remote Sensing Lab  (TELE),
 in the Université Catholique de Louvain (UCL).
 
-The OpenJPEG library is released under the BSD license (see BSDlicense.txt for
-details). Or online at:
-http://www.tele.ucl.ac.be/PROJECTS/OPENJPEG/BSDlicense.txt
-
 We only include enough of distribution to build libopenjpeg. For instance we do not
 include the codec subdirs.
 Furthermore, the standard OpenJPEG build process is replaced with a CMake build
