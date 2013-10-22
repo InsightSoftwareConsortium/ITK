@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef __itkTestDriverIncludeRequiredIOFactories_h
 #define __itkTestDriverIncludeRequiredIOFactories_h
+
 #include "itkGDCMImageIOFactory.h"
 #include "itkMetaImageIOFactory.h"
 #include "itkJPEGImageIOFactory.h"
@@ -30,7 +31,9 @@
 #include "itkTestDriverInclude.h"
 #include "itkObjectFactoryBase.h"
 
-void RegisterRequiredFactories(){
+void
+RegisterRequiredFactories()
+{
   itk::ObjectFactoryBase::RegisterFactory( itk::MetaImageIOFactory::New() );
   itk::ObjectFactoryBase::RegisterFactory( itk::GDCMImageIOFactory::New() );
   itk::ObjectFactoryBase::RegisterFactory( itk::JPEGImageIOFactory::New() );
@@ -43,10 +46,18 @@ void RegisterRequiredFactories(){
   itk::ObjectFactoryBase::RegisterFactory( itk::NiftiImageIOFactory::New() );
 }
 
-void ProcessArgumentsAndRegisterRequiredFactories(int *ac, ArgumentStringType *av)
+void
+ProcessArgumentsAndRegisterRequiredFactories(int *ac, ArgumentStringType *av)
 {
-  RegisterRequiredFactories();
+  try
+    {
+    RegisterRequiredFactories();
+    }
+  catch( itk::ExceptionObject & error )
+    {
+    std::cerr << "Error during registration of required factories: " << error << std::endl;
+    }
   ProcessArguments( ac, av );
-
 }
+
 #endif
