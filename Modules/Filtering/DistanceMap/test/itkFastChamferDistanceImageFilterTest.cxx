@@ -153,23 +153,23 @@ int FastChamferDistanceImageFilterTest( unsigned int iPositive,
       }
     ++itNB;
     }
-
+  int returnVal(EXIT_SUCCESS);
   if( innerpositive != iPositive )
     {
     std::cout << "Inner positive points: " << innerpositive << " != " << iPositive << std::endl;
-    return EXIT_FAILURE;
+    returnVal = EXIT_FAILURE;
     }
 
   if( innernegative != iNegative )
     {
     std::cout << "Inner negative points: " << innernegative << " != " << iNegative << std::endl;
-    return EXIT_FAILURE;
+    returnVal = EXIT_FAILURE;
     }
 
   if( otherpoints != iOther )
     {
     std::cout << "Rest of points: " << otherpoints << " != " << iOther << std::endl;
-    return EXIT_FAILURE;
+    returnVal = EXIT_FAILURE;
     }
 
   //Exercising filter methods
@@ -197,7 +197,7 @@ int FastChamferDistanceImageFilterTest( unsigned int iPositive,
   if( filter->GetMaximumDistance() != 5 )
     {
     std::cout << "filter->GetMaximumDistance() != 5" <<std::endl;
-    return EXIT_FAILURE;
+    returnVal = EXIT_FAILURE;
     }
   /* For debugging write the result
   typedef itk::ImageFileWriter< ImageType >  WriterType;
@@ -208,8 +208,11 @@ int FastChamferDistanceImageFilterTest( unsigned int iPositive,
   writer->Update();
   */
 
-  std::cout << "Test passed" << std::endl;
-  return EXIT_SUCCESS;
+  if(returnVal == EXIT_SUCCESS)
+    {
+    std::cout << "Test passed" << std::endl;
+    }
+  return returnVal;
 }
 
 int itkFastChamferDistanceImageFilterTest( int argc, char* argv[] )
