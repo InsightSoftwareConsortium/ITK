@@ -18,12 +18,19 @@ if(ITK_USE_KWSTYLE)
   set(KWSTYLE_ITK_CONFIGURATION_FILE
     ${ITK_SOURCE_DIR}/Utilities/KWStyle/ITK.kws.xml
     )
-  set(KWSTYLE_ITK_FILES_LIST_FILE
-    ${ITK_BINARY_DIR}/Utilities/KWStyle/ITKFiles.txt
+  set(KWSTYLE_ITK_CODE_FILES_LIST_FILE
+    ${ITK_BINARY_DIR}/Utilities/KWStyle/ITKCodeFiles.txt
     )
   configure_file( # KWStyle requires that the files list be absolute paths
-    ${ITK_SOURCE_DIR}/Utilities/KWStyle/ITKFiles.txt.in
-    ${KWSTYLE_ITK_FILES_LIST_FILE}
+    ${ITK_SOURCE_DIR}/Utilities/KWStyle/ITKCodeFiles.txt.in
+    ${KWSTYLE_ITK_CODE_FILES_LIST_FILE}
+    )
+  set(KWSTYLE_ITK_EXAMPLES_FILES_LIST_FILE
+    ${ITK_BINARY_DIR}/Utilities/KWStyle/ITKExamplesFiles.txt
+    )
+  configure_file( # KWStyle requires that the files list be absolute paths
+    ${ITK_SOURCE_DIR}/Utilities/KWStyle/ITKExamplesFiles.txt.in
+    ${KWSTYLE_ITK_EXAMPLES_FILES_LIST_FILE}
     )
   set(KWSTYLE_ITK_OVERWRITE_FILE
     ${ITK_SOURCE_DIR}/Utilities/KWStyle/ITKOverwrite.txt
@@ -67,22 +74,42 @@ if(ITK_USE_KWSTYLE)
   endif()
 
   # Add build target and CTest test
-  set(KWSTYLE_ARGUMENTS
+  set(KWSTYLE_COMMON_ARGUMENTS
     -xml ${KWSTYLE_ITK_CONFIGURATION_FILE}
     -v
-    -D ${KWSTYLE_ITK_FILES_LIST_FILE}
     -o ${KWSTYLE_ITK_OVERWRITE_FILE}
     )
   add_custom_target(StyleCheckCode
-    COMMAND ${KWSTYLE_EXECUTABLE} ${KWSTYLE_ARGUMENTS} ${KWSTYLE_EDITOR_FORMAT}
+    COMMAND ${KWSTYLE_EXECUTABLE}
+      ${KWSTYLE_COMMON_ARGUMENTS}
+      -D ${KWSTYLE_ITK_CODE_FILES_LIST_FILE}
+      ${KWSTYLE_EDITOR_FORMAT}
     COMMENT "Coding Style Checker"
+    WORKING_DIRECTORY ${ITK_SOURCE_DIR} # the paths in KWSTYLE_CONFIGURATION_FILE are relative
+    )
+  add_custom_target(StyleCheckExamples
+    COMMAND ${KWSTYLE_EXECUTABLE}
+      ${KWSTYLE_COMMON_ARGUMENTS}
+      -D ${KWSTYLE_ITK_EXAMPLES_FILES_LIST_FILE}
+      ${KWSTYLE_EDITOR_FORMAT}
+    COMMENT "Examples Style Checker"
     WORKING_DIRECTORY ${ITK_SOURCE_DIR} # the paths in KWSTYLE_CONFIGURATION_FILE are relative
     )
   if(BUILD_TESTING)
     set(itk-module KWStyle)
     # for uniformity and brevity, test will always output GCC-style
     itk_add_test(NAME KWStyleCodeTest
-      COMMAND ${KWSTYLE_EXECUTABLE} ${KWSTYLE_ARGUMENTS} -gcc
+      COMMAND ${KWSTYLE_EXECUTABLE}
+        ${KWSTYLE_COMMON_ARGUMENTS}
+        -D ${KWSTYLE_ITK_CODE_FILES_LIST_FILE}
+        -gcc
+      WORKING_DIRECTORY ${ITK_SOURCE_DIR}
+      )
+    itk_add_test(NAME KWStyleExamplesTest
+      COMMAND ${KWSTYLE_EXECUTABLE}
+        ${KWSTYLE_COMMON_ARGUMENTS}
+        -D ${KWSTYLE_ITK_EXAMPLES_FILES_LIST_FILE}
+        -gcc
       WORKING_DIRECTORY ${ITK_SOURCE_DIR}
       )
   endif(BUILD_TESTING)
