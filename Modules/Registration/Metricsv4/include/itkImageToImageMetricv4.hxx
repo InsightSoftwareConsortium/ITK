@@ -294,18 +294,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
   mappedFixedPixelValue = NumericTraits<FixedImagePixelType>::Zero;
 
   // map the point into fixed space
-
-  // Before transforming points, we should convert their types from the ImagePointType (aka Point<double, dim>)
-  // to TransformPointType (aka Point<ScalarType, dim>).
-  typename FixedTransformType::OutputPointType localVirtualPoint;
-  typename FixedTransformType::OutputPointType localMappedFixedPoint;
-
-  localVirtualPoint.CastFrom(virtualPoint);
-  localMappedFixedPoint.CastFrom(mappedFixedPoint);
-
-  localMappedFixedPoint = this->m_FixedTransform->TransformPoint( localVirtualPoint );
-  mappedFixedPoint.CastFrom(localMappedFixedPoint);
-  //TODO: REFACTOR into templated class that may not require so much performance overhead.
+  this->LocalTransformPoint(virtualPoint,mappedFixedPoint);
 
   // check against the mask if one is assigned
   if ( this->m_FixedImageMask )
