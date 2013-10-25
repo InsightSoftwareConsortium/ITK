@@ -20,6 +20,7 @@
 
 #include "itkJointDomainImageToListSampleAdaptor.h"
 #include "itkImageRegionIteratorWithIndex.h"
+#include "itkMath.h"
 
 int itkJointDomainImageToListSampleAdaptorTest(int, char* [] )
 {
@@ -181,9 +182,11 @@ int itkJointDomainImageToListSampleAdaptorTest(int, char* [] )
         MeasurementVectorType measurementVectorFromAdaptor = adaptor->GetMeasurementVector(iid);
         for ( unsigned int m=0; m < 5; m ++ )
           {
-          if ( measurementVectorFromAdaptor[m] != measurementVector[m] )
+          if ( !itk::Math::FloatAlmostEqual(measurementVectorFromAdaptor[m],measurementVector[m],4,1.0E-6) )
             {
-            std::cerr << "Error in measurment vector value accessed using the adaptor" << std::endl;
+            std::cerr << "Error in measurment vector value accessed using the adaptor "
+                      << (measurementVectorFromAdaptor[m] - measurementVector[m])
+                      << std::endl;
             return EXIT_FAILURE;
             }
           }
@@ -217,7 +220,7 @@ int itkJointDomainImageToListSampleAdaptorTest(int, char* [] )
 
   for ( unsigned int m=0; m < 5; m ++ )
     {
-    if ( vcl_fabs( v1[m] - v2[m] ) > epsilon )
+    if ( !itk::Math::FloatAlmostEqual(v1[m],v2[m],4,epsilon) )
       {
       std::cerr << "Accessing the measurement vector using the two method produced different \
                   result " << std::endl;
