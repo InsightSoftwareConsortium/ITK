@@ -19,7 +19,7 @@
 #define __itkBinaryCrossStructuringElement_hxx
 #include "itkBinaryCrossStructuringElement.h"
 
-#include "itkNumericTraits.h"
+#include "itkFlatStructuringElement.h"
 
 namespace itk
 {
@@ -29,39 +29,12 @@ void
 BinaryCrossStructuringElement< TPixel, VDimension, TAllocator >
 ::CreateStructuringElement()
 {
-  // Structuring element is defined to be 3x3x3...
-  RadiusType radius;
+  // Carry out all of the computations using the FlatStructuringElement.
+  typedef FlatStructuringElement<VDimension> SEType;
+  SEType flatKernel = SEType::Cross( this->GetRadius() );
 
-  radius.Fill(1);
-  this->SetRadius(radius);
-
-  //
-  // Zero out the neighborhood
-  //
-  Iterator kernel_it;
-  for ( kernel_it = this->Begin(); kernel_it != this->End(); ++kernel_it )
-    {
-    *kernel_it = NumericTraits< TPixel >::Zero;
-    }
-
-  //
-  // Set the face connected neighbors
-  //
-  unsigned int    d;
-  OffsetValueType i;
-  OffsetType      offset;
-  offset.Fill(0);
-  ( *this )[offset] = NumericTraits< TPixel >::One;
-  for ( d = 0; d < VDimension; ++d )
-    {
-    for ( i = -1; i <= 1; i += 2 )
-      {
-      offset[d] = i;
-      // a neighbor pixel in dimension d
-      ( *this )[offset] = NumericTraits< TPixel >::One;
-      }
-    offset[d] = 0;
-    }
+  // Copy the cross into the kernel
+  std::copy(flatKernel.Begin(),flatKernel.End(),this->Begin());
 }
 } // namespace itk
 

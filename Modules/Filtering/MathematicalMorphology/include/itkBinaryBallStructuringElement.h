@@ -26,7 +26,7 @@ namespace itk
  * \brief A Neighborhood that represents a ball structuring element
  *       (ellipsoid) with binary elements.
  *
- * This class defines a Neighborhood whose elements are either 0 or 1
+ * This class defines a Neighborhood whose elements are either off or on
  * depending on whether they are outside or inside an ellipsoid whose
  * radii match the radii of the Neighborhood.  This class can be used
  * as a structuring element for the Morphology image filters.
@@ -39,6 +39,10 @@ namespace itk
  *
  * BinaryBallStructuringElement objects always have an unambiguous
  * center because their side lengths are always odd.
+ *
+ * Internally, this class carries out all of its computations using the
+ * FlatStructuringElement.  It is preferable to use that class instead
+ * of this one because FlatStructuringElement is more flexible.
  *
  * \sa Neighborhood
  * \sa MorphologyImageFilter
