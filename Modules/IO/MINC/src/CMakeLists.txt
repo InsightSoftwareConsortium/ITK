@@ -1,7 +1,6 @@
 set(ITKIOMINC_SRC
   itkMINCImageIO.cxx
   itkMINCImageIOFactory.cxx
-
   itkMINCTransformIOFactory.cxx
 )
 
