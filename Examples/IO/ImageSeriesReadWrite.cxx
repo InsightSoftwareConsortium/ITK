@@ -108,7 +108,6 @@ int main( int argc, char ** argv )
   // Software Guide : EndCodeSnippet
 
 
-
   // Software Guide : BeginLatex
   //
   // The filenames generator requires us to provide a pattern of text for the
@@ -161,7 +160,6 @@ int main( int argc, char ** argv )
   // Software Guide : BeginCodeSnippet
   writer->SetInput( reader->GetOutput() );
   // Software Guide : EndCodeSnippet
-
 
 
   //  Software Guide : BeginLatex

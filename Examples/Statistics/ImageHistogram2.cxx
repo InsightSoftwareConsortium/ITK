@@ -30,8 +30,6 @@
 // Software Guide : EndLatex
 
 
-
-
 // Software Guide : BeginLatex
 //
 // We should first include the header of the histogram generator and the image
@@ -59,8 +57,6 @@ int main( int argc, char * argv [] )
     }
 
 
-
-
   // Software Guide : BeginLatex
   //
   // The image type must be defined using the typical pair of pixel type and
@@ -75,7 +71,6 @@ int main( int argc, char * argv [] )
 
   typedef itk::Image<PixelType, Dimension > ImageType;
   // Software Guide : EndCodeSnippet
-
 
 
   typedef itk::ImageFileReader< ImageType > ReaderType;
@@ -94,8 +89,6 @@ int main( int argc, char * argv [] )
     std::cerr << excp << std::endl;
     return -1;
     }
-
-
 
 
   // Software Guide : BeginLatex
@@ -117,9 +110,6 @@ int main( int argc, char * argv [] )
   // Software Guide : EndCodeSnippet
 
 
-
-
-
   // Software Guide : BeginLatex
   //
   // The image to be passed as input to the histogram generator is taken in this
@@ -130,9 +120,6 @@ int main( int argc, char * argv [] )
   // Software Guide : BeginCodeSnippet
   histogramGenerator->SetInput(  reader->GetOutput() );
   // Software Guide : EndCodeSnippet
-
-
-
 
 
   // Software Guide : BeginLatex
@@ -167,7 +154,6 @@ int main( int argc, char * argv [] )
   // Software Guide : EndCodeSnippet
 
 
-
   // Software Guide : BeginLatex
   //
   // The resulting histogram can be obtained from the generator by invoking its
@@ -183,7 +169,6 @@ int main( int argc, char * argv [] )
   // Software Guide : EndCodeSnippet
 
 
-
   const unsigned int histogramSize = histogram->Size();
 
   std::cout << "Histogram size " << histogramSize << std::endl;
@@ -194,8 +179,6 @@ int main( int argc, char * argv [] )
     std::cout << "bin = " << bin << " frequency = ";
     std::cout << histogram->GetFrequency( bin, 0 ) << std::endl;
     }
-
-
 
 
   // Software Guide : BeginLatex
@@ -225,5 +208,3 @@ int main( int argc, char * argv [] )
   return 0;
 
 }
-
-

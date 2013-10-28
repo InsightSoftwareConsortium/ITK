@@ -53,7 +53,7 @@ int main()
   sample->SetMeasurementVectorSize( 2 );
 
   MeasurementVectorType mv;
-  for (unsigned int i = 0 ; i < 1000 ; ++i )
+  for (unsigned int i = 0; i < 1000; ++i )
     {
     mv[0] = (float) i;
     mv[1] = (float) ((1000 - i) / 2 );
@@ -196,7 +196,7 @@ int main()
   DistanceMetricType::Pointer distanceMetric = DistanceMetricType::New();
 
   DistanceMetricType::OriginType origin( 2 );
-  for ( unsigned int i = 0 ; i < sample->GetMeasurementVectorSize() ; ++i )
+  for ( unsigned int i = 0; i < sample->GetMeasurementVectorSize(); ++i )
     {
     origin[i] = queryPoint[i];
     }
@@ -214,13 +214,13 @@ int main()
   // Software Guide : BeginCodeSnippet
   unsigned int numberOfNeighbors = 3;
   TreeType::InstanceIdentifierVectorType neighbors;
-  tree->Search( queryPoint, numberOfNeighbors, neighbors ) ;
+  tree->Search( queryPoint, numberOfNeighbors, neighbors );
 
   std::cout << "kd-tree knn search result:" << std::endl
             << "query point = [" << queryPoint << "]" << std::endl
             << "k = " << numberOfNeighbors << std::endl;
   std::cout << "measurement vector : distance" << std::endl;
-  for ( unsigned int i = 0 ; i < numberOfNeighbors ; ++i )
+  for ( unsigned int i = 0; i < numberOfNeighbors; ++i )
     {
     std::cout << "[" << tree->GetMeasurementVector( neighbors[i] )
               << "] : "
@@ -239,12 +239,12 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  centroidTree->Search( queryPoint, numberOfNeighbors, neighbors ) ;
+  centroidTree->Search( queryPoint, numberOfNeighbors, neighbors );
   std::cout << "weighted centroid kd-tree knn search result:" << std::endl
             << "query point = [" << queryPoint << "]" << std::endl
             << "k = " << numberOfNeighbors << std::endl;
   std::cout << "measurement vector : distance" << std::endl;
-  for ( unsigned int i = 0 ; i < numberOfNeighbors ; ++i )
+  for ( unsigned int i = 0; i < numberOfNeighbors; ++i )
     {
     std::cout << "[" << centroidTree->GetMeasurementVector( neighbors[i] )
               << "] : "
@@ -266,13 +266,13 @@ int main()
   // Software Guide : BeginCodeSnippet
   double radius = 437.0;
 
-  tree->Search( queryPoint, radius, neighbors ) ;
+  tree->Search( queryPoint, radius, neighbors );
 
   std::cout << "kd-tree radius search result:" << std::endl
             << "query point = [" << queryPoint << "]" << std::endl
             << "search radius = " << radius << std::endl;
   std::cout << "measurement vector : distance" << std::endl;
-  for ( unsigned int i = 0 ; i < neighbors.size() ; ++i )
+  for ( unsigned int i = 0; i < neighbors.size(); ++i )
     {
     std::cout << "[" << tree->GetMeasurementVector( neighbors[i] )
               << "] : "
@@ -291,12 +291,12 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  centroidTree->Search( queryPoint, radius, neighbors ) ;
+  centroidTree->Search( queryPoint, radius, neighbors );
   std::cout << "weighted centroid kd-tree radius search result:" << std::endl
             << "query point = [" << queryPoint << "]" << std::endl
             << "search radius = " << radius << std::endl;
   std::cout << "measurement vector : distance" << std::endl;
-  for ( unsigned int i = 0 ; i < neighbors.size() ; ++i )
+  for ( unsigned int i = 0; i < neighbors.size(); ++i )
     {
     std::cout << "[" << centroidTree->GetMeasurementVector( neighbors[i] )
               << "] : "

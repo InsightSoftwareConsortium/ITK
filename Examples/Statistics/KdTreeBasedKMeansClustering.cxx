@@ -180,7 +180,7 @@ int main()
   MeasurementVectorType mv;
   double mean = 100;
   double standardDeviation = 30;
-  for ( unsigned int i = 0 ; i < 100 ; ++i )
+  for ( unsigned int i = 0; i < 100; ++i )
     {
     mv[0] = ( normalGenerator->GetVariate() * standardDeviation ) + mean;
     sample->PushBack( mv );
@@ -189,7 +189,7 @@ int main()
   normalGenerator->Initialize( 3024 );
   mean = 200;
   standardDeviation = 30;
-  for ( unsigned int i = 0 ; i < 100 ; ++i )
+  for ( unsigned int i = 0; i < 100; ++i )
     {
     mv[0] = ( normalGenerator->GetVariate() * standardDeviation ) + mean;
     sample->PushBack( mv );
@@ -259,7 +259,7 @@ int main()
 
   EstimatorType::ParametersType estimatedMeans = estimator->GetParameters();
 
-  for ( unsigned int i = 0 ; i < 2 ; ++i )
+  for ( unsigned int i = 0; i < 2; ++i )
     {
     std::cout << "cluster[" << i << "] " << std::endl;
     std::cout << "    estimated mean : " << estimatedMeans[i] << std::endl;
@@ -355,13 +355,13 @@ int main()
     membershipFunctionVectorObject->Get();
 
   int index = 0;
-  for ( unsigned int i = 0 ; i < 2 ; i++ )
+  for ( unsigned int i = 0; i < 2; i++ )
     {
     MembershipFunctionType::Pointer membershipFunction
                                                = MembershipFunctionType::New();
     MembershipFunctionType::CentroidType centroid(
                                           sample->GetMeasurementVectorSize() );
-    for ( unsigned int j = 0 ; j < sample->GetMeasurementVectorSize(); j++ )
+    for ( unsigned int j = 0; j < sample->GetMeasurementVectorSize(); j++ )
       {
       centroid[j] = estimatedMeans[index++];
       }
@@ -396,4 +396,3 @@ int main()
   // Software Guide : EndCodeSnippet
   return 0;
 }
-

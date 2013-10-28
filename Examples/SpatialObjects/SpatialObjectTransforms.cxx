@@ -138,7 +138,6 @@ int main( int , char *[] )
 // Software Guide : EndCodeSnippet
 
 
-
 // Software Guide : BeginLatex
 //
 // We can now display the ObjectToWorldTransform for both objects.  One
@@ -187,7 +186,6 @@ int main( int , char *[] )
   std::cout << "object2 IndexToWorld Offset: ";
   std::cout << object2->GetIndexToWorldTransform()->GetOffset() << std::endl;
 // Software Guide : EndCodeSnippet
-
 
 
 // Software Guide : BeginLatex

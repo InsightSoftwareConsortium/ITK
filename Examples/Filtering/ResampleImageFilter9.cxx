@@ -143,7 +143,6 @@ int main( int argc, char * argv[] )
   writerLinear->SetInput( linearFilter->GetOutput() );
 
 
-
   try
     {
     writerNearest->Update();
@@ -167,4 +166,3 @@ int main( int argc, char * argv[] )
   return EXIT_SUCCESS;
 
 }
-

@@ -112,7 +112,6 @@ int main( int argc, char ** argv )
   NeighborhoodIteratorType it;
 
 
-
 // Software Guide : BeginLatex
 // The Gaussian operator, like the Sobel operator, is instantiated with a pixel
 // type and a dimensionality.  Additionally, we set the variance of the

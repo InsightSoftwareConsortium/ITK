@@ -107,7 +107,6 @@ int main( int argc, char * argv [] )
   // Software Guide : EndCodeSnippet
 
 
-
   // Software Guide : BeginLatex
   //
   // Being this a minimal example, we create a short pipeline where we simply

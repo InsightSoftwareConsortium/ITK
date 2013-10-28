@@ -58,7 +58,6 @@
 // Software Guide : EndLatex
 
 
-
 // Software Guide : BeginLatex
 //
 // In this particular example we make use of classes from the Statistics
@@ -86,7 +85,6 @@
 // Software Guide : EndCodeSnippet
 
 
-
 int main( int argc, char * argv [] )
 {
 
@@ -112,8 +110,6 @@ int main( int argc, char * argv [] )
   // Software Guide : EndCodeSnippet
 
 
-
-
   // Software Guide : BeginLatex
   //
   // Using the image type we proceed to instantiate the readers for both input
@@ -132,10 +128,6 @@ int main( int argc, char * argv [] )
   // Software Guide : EndCodeSnippet
 
 
-
-
-
-
   // Software Guide : BeginLatex
   //
   // Using the \doxygen{JoinImageFilter} we use the two input images and put them
@@ -151,8 +143,6 @@ int main( int argc, char * argv [] )
   joinFilter->SetInput1( reader1->GetOutput() );
   joinFilter->SetInput2( reader2->GetOutput() );
   // Software Guide : EndCodeSnippet
-
-
 
 
   // Software Guide : BeginLatex
@@ -177,8 +167,6 @@ int main( int argc, char * argv [] )
   // Software Guide : EndCodeSnippet
 
 
-
-
   // Software Guide : BeginLatex
   //
   // We prepare now the types to be used for the computation of the Joint
@@ -199,8 +187,6 @@ int main( int argc, char * argv [] )
   // Software Guide : EndCodeSnippet
 
 
-
-
   // Software Guide : BeginLatex
   //
   // We pass the multiple components image as input to the histogram filter,
@@ -214,9 +200,6 @@ int main( int argc, char * argv [] )
 
   histogramFilter->SetMarginalScale( 10.0 );
   // Software Guide : EndCodeSnippet
-
-
-
 
 
   // Software Guide : BeginLatex
@@ -270,8 +253,6 @@ int main( int argc, char * argv [] )
   // Software Guide : EndCodeSnippet
 
 
-
-
   // Software Guide : BeginLatex
   //
   // The histogram can be recovered from the filter by creating a variable
@@ -284,7 +265,6 @@ int main( int argc, char * argv [] )
 
   const HistogramType * histogram = histogramFilter->GetOutput();
   // Software Guide : EndCodeSnippet
-
 
 
   // Software Guide : BeginLatex
@@ -304,9 +284,6 @@ int main( int argc, char * argv [] )
 
   const double Sum = histogram->GetTotalFrequency();
   // Software Guide : EndCodeSnippet
-
-
-
 
 
   // Software Guide : BeginLatex
@@ -339,8 +316,6 @@ int main( int argc, char * argv [] )
   std::cout << "Joint Entropy      = " << JointEntropy << " bits " << std::endl;
 
 
-
-
   // Software Guide : BeginLatex
   //
   // Now that we have the value of the joint entropy we can proceed to estimate
@@ -356,8 +331,6 @@ int main( int argc, char * argv [] )
   histogramFilter->SetHistogramSize( size );
   histogramFilter->Update();
   // Software Guide : EndCodeSnippet
-
-
 
 
   // Software Guide : BeginLatex
@@ -388,8 +361,6 @@ int main( int argc, char * argv [] )
   std::cout << "Image1 Entropy   = " << Entropy1 << " bits " << std::endl;
 
 
-
-
   // Software Guide : BeginLatex
   //
   // The same process is used for computing the entropy of the other component.
@@ -404,9 +375,6 @@ int main( int argc, char * argv [] )
   histogramFilter->SetHistogramSize( size );
   histogramFilter->Update();
   // Software Guide : EndCodeSnippet
-
-
-
 
 
   // Software Guide : BeginLatex
@@ -452,8 +420,6 @@ int main( int argc, char * argv [] )
   std::cout << "Mutual Information = " << MutualInformation << " bits " << std::endl;
 
 
-
-
   // Software Guide : BeginLatex
   //
   // or Normalized Mutual Information, where the value of Mutual Information gets
@@ -467,8 +433,6 @@ int main( int argc, char * argv [] )
   // Software Guide : EndCodeSnippet
 
   std::cout << "Normalized Mutual Information 1 = " << NormalizedMutualInformation1 <<  std::endl;
-
-
 
 
   // Software Guide : BeginLatex
@@ -486,7 +450,6 @@ int main( int argc, char * argv [] )
   std::cout << "Normalized Mutual Information 2 = " << NormalizedMutualInformation2 <<  std::endl;
 
 
-
   // Software Guide : BeginLatex
   //
   // You probably will find very interesting how the value of Mutual Information
@@ -499,4 +462,3 @@ int main( int argc, char * argv [] )
   return 0;
 
 }
-

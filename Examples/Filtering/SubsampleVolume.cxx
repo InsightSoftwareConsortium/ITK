@@ -28,11 +28,9 @@
 //  Software Guide : EndLatex
 
 
-
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-
 
 
 // Software Guide : BeginLatex
@@ -51,7 +49,6 @@
 // Software Guide : EndCodeSnippet
 
 
-
 #include "itkCastImageFilter.h"
 
 
@@ -65,8 +62,6 @@ int main( int argc, char * argv[] )
       << std::endl;
     return EXIT_FAILURE;
     }
-
-
 
 
 // Software Guide : BeginLatex
@@ -90,13 +85,11 @@ int main( int argc, char * argv[] )
 // Software Guide : EndCodeSnippet
 
 
-
   typedef itk::ImageFileReader< InputImageType  >  ReaderType;
 
   ReaderType::Pointer reader = ReaderType::New();
 
   reader->SetFileName( argv[1] );
-
 
 
 // Software Guide : BeginLatex
@@ -127,8 +120,6 @@ int main( int argc, char * argv[] )
   InputImageType::ConstPointer inputImage = reader->GetOutput();
 
 
-
-
 // Software Guide : BeginLatex
 //
 // A casting filter is instantiated in order to convert the pixel type of the
@@ -144,8 +135,6 @@ int main( int argc, char * argv[] )
 
   caster->SetInput( inputImage );
 // Software Guide : EndCodeSnippet
-
-
 
 
 // Software Guide : BeginLatex
@@ -180,8 +169,6 @@ int main( int argc, char * argv[] )
 // Software Guide : EndCodeSnippet
 
 
-
-
 // Software Guide : BeginLatex
 //
 // The Sigma values to use in the smoothing filters is computed based on the
@@ -200,8 +187,6 @@ int main( int argc, char * argv[] )
   smootherY->SetSigma( sigmaY );
   smootherZ->SetSigma( sigmaZ );
 // Software Guide : EndCodeSnippet
-
-
 
 
 // Software Guide : BeginLatex
@@ -224,8 +209,6 @@ int main( int argc, char * argv[] )
 // Software Guide : EndCodeSnippet
 
 
-
-
 // Software Guide : BeginLatex
 //
 // The type of the resampling filter is instantiated using the internal image
@@ -239,8 +222,6 @@ int main( int argc, char * argv[] )
 
   ResampleFilterType::Pointer resampler = ResampleFilterType::New();
 // Software Guide : EndCodeSnippet
-
-
 
 
 // Software Guide : BeginLatex
@@ -258,7 +239,6 @@ int main( int argc, char * argv[] )
   transform->SetIdentity();
   resampler->SetTransform( transform );
 // Software Guide : EndCodeSnippet
-
 
 
 // Software Guide : BeginLatex
@@ -299,8 +279,6 @@ int main( int argc, char * argv[] )
 // Software Guide : EndCodeSnippet
 
 
-
-
 // Software Guide : BeginLatex
 //
 // The origin and direction of the input image is preserved and passed to the
@@ -312,7 +290,6 @@ int main( int argc, char * argv[] )
   resampler->SetOutputOrigin( inputImage->GetOrigin() );
   resampler->SetOutputDirection( inputImage->GetDirection() );
 // Software Guide : EndCodeSnippet
-
 
 
 // Software Guide : BeginLatex
@@ -339,8 +316,6 @@ int main( int argc, char * argv[] )
 // Software Guide : EndCodeSnippet
 
 
-
-
 // Software Guide : BeginLatex
 //
 // Finally, the input to the resampler is taken from the output of the
@@ -351,7 +326,6 @@ int main( int argc, char * argv[] )
 // Software Guide : BeginCodeSnippet
   resampler->SetInput( smootherZ->GetOutput() );
 // Software Guide : EndCodeSnippet
-
 
 
 // Software Guide : BeginLatex
@@ -386,4 +360,3 @@ int main( int argc, char * argv[] )
 
   return EXIT_SUCCESS;
 }
-

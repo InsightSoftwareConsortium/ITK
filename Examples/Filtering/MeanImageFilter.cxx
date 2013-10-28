@@ -63,7 +63,6 @@
 #include "itkImageFileWriter.h"
 
 
-
 //  Software Guide : BeginLatex
 //
 //  The header file corresponding to this filter should be included first.
@@ -197,4 +196,3 @@ int main( int argc, char * argv[] )
 
   return EXIT_SUCCESS;
 }
-

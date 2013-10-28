@@ -77,7 +77,6 @@ int main( int argc, char * argv[] )
   filter->SetInput( reader->GetOutput() );
 
 
-
   typedef itk::ImageFileWriter< OutputImageType >  WriterType;
 
   WriterType::Pointer writer = WriterType::New();
@@ -98,4 +97,3 @@ int main( int argc, char * argv[] )
 
   return EXIT_SUCCESS;
 }
-

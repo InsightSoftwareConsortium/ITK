@@ -273,8 +273,6 @@ int main( int argc, char* argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
-
   //  Software Guide : BeginLatex
   //
   //  The following line of code is extremely important for this process to work

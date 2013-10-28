@@ -98,7 +98,7 @@ int main(int, char * [] )
 // Software Guide : EndLatex
 // Software Guide : BeginCodeSnippet
   calculator->Update();
-  std::cout << "Sample mean = " << calculator->GetMean() << std::endl ;
+  std::cout << "Sample mean = " << calculator->GetMean() << std::endl;
   std::cout << "Sample covariance = " << calculator->GetCovarianceMatrix();
 // Software Guide : EndCodeSnippet
 

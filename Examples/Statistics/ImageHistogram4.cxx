@@ -70,7 +70,6 @@ int main( int argc, char * argv [] )
     }
 
 
-
   // Software Guide : BeginLatex
   //
   // We declare now the type used for the components of the RGB pixel,
@@ -87,9 +86,6 @@ int main( int argc, char * argv [] )
 
   typedef itk::Image< RGBPixelType, Dimension > RGBImageType;
   // Software Guide : EndCodeSnippet
-
-
-
 
 
   typedef itk::ImageFileReader< RGBImageType >  ReaderType;
@@ -127,7 +123,6 @@ int main( int argc, char * argv [] )
   HistogramFilterType::Pointer histogramFilter =
                                            HistogramFilterType::New();
   // Software Guide : EndCodeSnippet
-
 
 
   // Software Guide : BeginLatex
@@ -182,7 +177,6 @@ int main( int argc, char * argv [] )
   //Software Guide : EndCodeSnippet
 
 
-
   // Software Guide : BeginLatex
   //
   // The input to the histogram filter is taken from the output of an image
@@ -194,8 +188,6 @@ int main( int argc, char * argv [] )
   // Software Guide : BeginCodeSnippet
   histogramFilter->SetInput(  reader->GetOutput()  );
   // Software Guide : EndCodeSnippet
-
-
 
 
   // Software Guide : BeginLatex
@@ -210,10 +202,6 @@ int main( int argc, char * argv [] )
   // Software Guide : EndCodeSnippet
 
 
-
-
-
-
   // Software Guide : BeginLatex
   //
   // Finally, the computation of the histogram is triggered by invoking the
@@ -224,9 +212,6 @@ int main( int argc, char * argv [] )
   // Software Guide : BeginCodeSnippet
   histogramFilter->Update();
   // Software Guide : EndCodeSnippet
-
-
-
 
 
   // Software Guide : BeginLatex
@@ -243,8 +228,6 @@ int main( int argc, char * argv [] )
 
   const HistogramType * histogram = histogramFilter->GetOutput();
   // Software Guide : EndCodeSnippet
-
-
 
 
   // Software Guide : BeginLatex
@@ -297,8 +280,6 @@ int main( int argc, char * argv [] )
   // Software Guide : EndCodeSnippet
 
 
-
-
   // Software Guide : BeginLatex
   //
   // Note that here the histogram is saved as a block of memory in a raw file. At
@@ -313,5 +294,3 @@ int main( int argc, char * argv [] )
 
 
 }
-
-

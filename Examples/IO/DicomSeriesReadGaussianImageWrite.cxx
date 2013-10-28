@@ -66,8 +66,6 @@ int main( int argc, char* argv[] )
     std::cout << std::endl << std::endl;
 
 
-
-
     typedef std::vector< std::string >    SeriesIdContainer;
 
     const SeriesIdContainer & seriesUID = nameGenerator->GetSeriesUIDs();
@@ -79,8 +77,6 @@ int main( int argc, char* argv[] )
       std::cout << seriesItr->c_str() << std::endl;
       ++seriesItr;
       }
-
-
 
 
     std::string seriesIdentifier;
@@ -139,7 +135,6 @@ int main( int argc, char* argv[] )
 
     std::cout  << "Writing the image as " << std::endl << std::endl;
     std::cout  << argv[2] << std::endl << std::endl;
-
 
 
     try

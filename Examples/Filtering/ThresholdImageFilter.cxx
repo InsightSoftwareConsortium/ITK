@@ -171,7 +171,6 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
   //  Software Guide : BeginLatex
   //
   //  Both the filter and the reader are created by invoking their \code{New()}
@@ -307,4 +306,3 @@ int main( int argc, char * argv[] )
 
   return EXIT_SUCCESS;
 }
-

@@ -120,8 +120,6 @@
 // Software Guide : EndCodeSnippet
 
 
-
-
 // Software Guide : BeginLatex
 //
 // The resampling filter will need a Transform in order to map point
@@ -142,8 +140,6 @@
 // Software Guide : BeginCodeSnippet
 #include "itkIdentityTransform.h"
 // Software Guide : EndCodeSnippet
-
-
 
 
 // Software Guide : BeginLatex
@@ -192,7 +188,6 @@ int main( int argc, char * argv[] )
 // Software Guide : EndCodeSnippet
 
 
-
   typedef itk::ImageFileReader< InputImageType  >  ReaderType;
 
   ReaderType::Pointer reader = ReaderType::New();
@@ -224,7 +219,6 @@ int main( int argc, char * argv[] )
   intensityWindowing->SetInput( reader->GetOutput() );
 
 
-
 // Software Guide : BeginLatex
 //
 // We instantiate the smoothing filter that will be used on the preprocessing
@@ -237,8 +231,6 @@ int main( int argc, char * argv[] )
                                 InternalImageType,
                                 InternalImageType > GaussianFilterType;
 // Software Guide : EndCodeSnippet
-
-
 
 
 // Software Guide : BeginLatex
@@ -286,8 +278,6 @@ int main( int argc, char * argv[] )
 // Software Guide : EndCodeSnippet
 
 
-
-
 // Software Guide : BeginLatex
 //
 // and apply our ad-hoc conjecture that the correct anisotropic resolution
@@ -303,8 +293,6 @@ int main( int argc, char * argv[] )
   smootherX->SetSigma( isoSpacing );
   smootherY->SetSigma( isoSpacing );
 // Software Guide : EndCodeSnippet
-
-
 
 
 // Software Guide : BeginLatex
@@ -344,8 +332,6 @@ int main( int argc, char * argv[] )
 // Software Guide : EndCodeSnippet
 
 
-
-
 // Software Guide : BeginLatex
 //
 // The resampling filter requires that we provide a Transform, that in this
@@ -361,8 +347,6 @@ int main( int argc, char * argv[] )
 
   resampler->SetTransform( transform );
 // Software Guide : EndCodeSnippet
-
-
 
 
 // Software Guide : BeginLatex
@@ -382,11 +366,7 @@ int main( int argc, char * argv[] )
 // Software Guide : EndCodeSnippet
 
 
-
-
   resampler->SetDefaultPixelValue( 255 ); // highlight regions without source
-
-
 
 
 // Software Guide : BeginLatex
@@ -421,8 +401,6 @@ int main( int argc, char * argv[] )
 // Software Guide : EndCodeSnippet
 
 
-
-
 // Software Guide : BeginLatex
 //
 // The number of pixels to use along each dimension in the grid of the
@@ -447,7 +425,6 @@ int main( int argc, char * argv[] )
 // Software Guide : EndCodeSnippet
 
 
-
 // Software Guide : BeginLatex
 //
 // Finally the values are stored in a \code{SizeType} and passed to the
@@ -466,8 +443,6 @@ int main( int argc, char * argv[] )
 
   resampler->SetSize( size );
 // Software Guide : EndCodeSnippet
-
-
 
 
 // Software Guide : BeginLatex
@@ -496,9 +471,6 @@ int main( int argc, char * argv[] )
 // Software Guide : EndLatex
 
 
-
-
-
   typedef itk::ImageFileWriter< OutputImageType >  WriterType;
 
   WriterType::Pointer writer = WriterType::New();
@@ -519,4 +491,3 @@ int main( int argc, char * argv[] )
 
   return EXIT_SUCCESS;
 }
-

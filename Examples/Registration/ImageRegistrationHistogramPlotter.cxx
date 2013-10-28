@@ -99,7 +99,6 @@
 //   Software Guide : EndLatex
 
 
-
 #include "itkImageRegistrationMethod.h"
 #include "itkTranslationTransform.h"
 #include "itkRegularStepGradientDescentOptimizer.h"
@@ -622,7 +621,6 @@ int main( int argc, char *argv[] )
     {
     observer->SetWriteHistogramsAfterEveryIteration( true );
     }
-
 
 
   try

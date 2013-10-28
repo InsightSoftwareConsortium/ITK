@@ -207,7 +207,6 @@ int main( int argc, char* argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
 // Software Guide : BeginLatex
 //
 // We create a second writer object that will save the rescaled image into a

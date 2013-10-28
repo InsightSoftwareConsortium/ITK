@@ -162,7 +162,6 @@ int main( int argc, char* argv[] )
     std::cout << std::endl << std::endl;
 
 
-
 // Software Guide : BeginLatex
 //
 // The GDCMSeriesFileNames object first identifies the list of DICOM series
@@ -187,7 +186,6 @@ int main( int argc, char* argv[] )
       ++seriesItr;
       }
 // Software Guide : EndCodeSnippet
-
 
 
 // Software Guide : BeginLatex
