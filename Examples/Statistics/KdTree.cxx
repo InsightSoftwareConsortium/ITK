@@ -121,8 +121,8 @@ int main()
 
   // Software Guide : BeginCodeSnippet
   typedef TreeGeneratorType::KdTreeType TreeType;
-  typedef TreeType::NearestNeighbors NeighborsType;
-  typedef TreeType::KdTreeNodeType NodeType;
+  typedef TreeType::NearestNeighbors    NeighborsType;
+  typedef TreeType::KdTreeNodeType      NodeType;
 
   TreeType::Pointer tree = treeGenerator->GetOutput();
   TreeType::Pointer centroidTree = centroidTreeGenerator->GetOutput();

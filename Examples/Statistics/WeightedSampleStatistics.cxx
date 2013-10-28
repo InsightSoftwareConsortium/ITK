@@ -61,10 +61,10 @@ class ExampleWeightFunction :
 {
 public:
   /** Standard class typedefs. */
-  typedef ExampleWeightFunction Self;
+  typedef ExampleWeightFunction                              Self;
   typedef itk::FunctionBase< MeasurementVectorType, double > Superclass;
-  typedef itk::SmartPointer<Self> Pointer;
-  typedef itk::SmartPointer<const Self> ConstPointer;
+  typedef itk::SmartPointer<Self>                            Pointer;
+  typedef itk::SmartPointer<const Self>                      ConstPointer;
 
   /** Standard macros. */
   itkTypeMacro(ExampleWeightFunction, FunctionBase);

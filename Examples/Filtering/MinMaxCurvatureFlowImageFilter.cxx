@@ -214,8 +214,8 @@ int main( int argc, char * argv[] )
   //
   //  Software Guide : EndLatex
 
-  typedef unsigned char WritePixelType;
-  typedef itk::Image< WritePixelType, 2 > WriteImageType;
+  typedef unsigned char                          WritePixelType;
+  typedef itk::Image< WritePixelType, 2 >        WriteImageType;
   typedef itk::RescaleIntensityImageFilter<
                OutputImageType, WriteImageType > RescaleFilterType;
   RescaleFilterType::Pointer rescaler = RescaleFilterType::New();

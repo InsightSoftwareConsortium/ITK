@@ -102,7 +102,8 @@ int main( int argc, char * argv [] )
 
 
   typedef TreeGeneratorType::KdTreeType TreeType;
-  typedef itk::Statistics::KdTreeBasedKmeansEstimator<TreeType> EstimatorType;
+  typedef itk::Statistics::KdTreeBasedKmeansEstimator< TreeType >
+                                        EstimatorType;
 
   EstimatorType::Pointer estimator = EstimatorType::New();
 

@@ -64,8 +64,8 @@
 class CommandIterationUpdate : public itk::Command
 {
 public:
-  typedef  CommandIterationUpdate   Self;
-  typedef  itk::Command             Superclass;
+  typedef CommandIterationUpdate   Self;
+  typedef itk::Command             Superclass;
   typedef itk::SmartPointer<Self>  Pointer;
   itkNewMacro( Self );
 
@@ -74,8 +74,8 @@ protected:
 
 public:
 
-  typedef itk::RegularStepGradientDescentOptimizer     OptimizerType;
-  typedef const OptimizerType                         *OptimizerPointer;
+  typedef itk::RegularStepGradientDescentOptimizer OptimizerType;
+  typedef const OptimizerType*                     OptimizerPointer;
 
   void Execute(itk::Object *caller, const itk::EventObject & event)
   {
@@ -614,11 +614,11 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef unsigned char OutputPixelType;
+  typedef unsigned char                            OutputPixelType;
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
   typedef itk::CastImageFilter<
                         FixedImageType,
-                        OutputImageType > CastFilterType;
+                        OutputImageType >          CastFilterType;
   typedef itk::ImageFileWriter< OutputImageType >  WriterType;
   // Software Guide : EndCodeSnippet
 

@@ -89,10 +89,10 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::FixedArray< float, 1 > MeasurementVectorType;
+  typedef itk::FixedArray< float, 1 >               MeasurementVectorType;
   typedef itk::PointSet< MeasurementVectorType, 2 > ArrayPointSetType;
   typedef itk::ScalarToArrayCastPointSetFilter< FloatPointSet2DType,
-    ArrayPointSetType > CasterType;
+                             ArrayPointSetType >    CasterType;
 
   CasterType::Pointer caster = CasterType::New();
   caster->SetInput( random->GetOutput() );

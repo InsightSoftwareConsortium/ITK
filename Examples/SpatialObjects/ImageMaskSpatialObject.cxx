@@ -56,9 +56,9 @@ int main(int, char* [])
 //
 // Software Guide : EndLatex
 // Software Guide : BeginCodeSnippet
-  typedef ImageMaskSpatialObject::PixelType  PixelType;
-  typedef ImageMaskSpatialObject::ImageType  ImageType;
-  typedef itk::ImageRegionIterator<ImageType> Iterator;
+  typedef ImageMaskSpatialObject::PixelType     PixelType;
+  typedef ImageMaskSpatialObject::ImageType     ImageType;
+  typedef itk::ImageRegionIterator< ImageType > Iterator;
 
 
   ImageType::Pointer image = ImageType::New();

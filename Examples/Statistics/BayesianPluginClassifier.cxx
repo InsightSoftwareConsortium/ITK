@@ -249,7 +249,7 @@ int main( int,  char *[])
 
   // Software Guide : BeginCodeSnippet
   typedef itk::Statistics::GaussianMembershipFunction< MeasurementVectorType >
-    MembershipFunctionType;
+                                                    MembershipFunctionType;
   typedef itk::Statistics::MaximumRatioDecisionRule DecisionRuleType;
   DecisionRuleType::Pointer decisionRule = DecisionRuleType::New();
 

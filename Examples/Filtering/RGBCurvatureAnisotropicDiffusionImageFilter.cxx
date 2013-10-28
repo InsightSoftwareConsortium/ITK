@@ -96,8 +96,8 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef   itk::RGBPixel< float >     InputPixelType;
-  typedef itk::Image< InputPixelType,  2 >   InputImageType;
+  typedef itk::RGBPixel< float >          InputPixelType;
+  typedef itk::Image< InputPixelType, 2 > InputImageType;
   // Software Guide : EndCodeSnippet
 
 

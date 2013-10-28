@@ -174,8 +174,8 @@ int main( int argc, char * argv[] )
   //
   //  The output of the filter is rescaled here and then sent to a writer.
   //
-  typedef unsigned char WritePixelType;
-  typedef itk::Image< WritePixelType, 2 > WriteImageType;
+  typedef unsigned char                          WritePixelType;
+  typedef itk::Image< WritePixelType, 2 >        WriteImageType;
   typedef itk::RescaleIntensityImageFilter<
                OutputImageType, WriteImageType > RescaleFilterType;
 

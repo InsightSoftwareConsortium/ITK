@@ -244,7 +244,8 @@ int main()
 
   // Software Guide : BeginCodeSnippet
   typedef TreeGeneratorType::KdTreeType TreeType;
-  typedef itk::Statistics::KdTreeBasedKmeansEstimator<TreeType> EstimatorType;
+  typedef itk::Statistics::KdTreeBasedKmeansEstimator< TreeType >
+                                        EstimatorType;
   EstimatorType::Pointer estimator = EstimatorType::New();
 
   EstimatorType::ParametersType initialMeans(2);
@@ -299,7 +300,7 @@ int main()
   // Software Guide : BeginCodeSnippet
   typedef itk::Statistics::DistanceToCentroidMembershipFunction<
                                 MeasurementVectorType > MembershipFunctionType;
-  typedef itk::Statistics::MinimumDecisionRule DecisionRuleType;
+  typedef itk::Statistics::MinimumDecisionRule          DecisionRuleType;
   DecisionRuleType::Pointer decisionRule = DecisionRuleType::New();
 
   typedef itk::Statistics::SampleClassifierFilter< SampleType > ClassifierType;
@@ -310,9 +311,9 @@ int main()
   classifier->SetNumberOfClasses( 2 );
 
   typedef ClassifierType::ClassLabelVectorObjectType
-    ClassLabelVectorObjectType;
+                                               ClassLabelVectorObjectType;
   typedef ClassifierType::ClassLabelVectorType ClassLabelVectorType;
-  typedef ClassifierType::ClassLabelType ClassLabelType;
+  typedef ClassifierType::ClassLabelType       ClassLabelType;
 
   ClassLabelVectorObjectType::Pointer classLabelsObject =
     ClassLabelVectorObjectType::New();

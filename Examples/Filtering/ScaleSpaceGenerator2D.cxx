@@ -42,10 +42,10 @@ int main( int argc, char * argv[] )
     }
 
 
-  typedef    float    InputPixelType;
-  typedef    float    OutputPixelType;
-  typedef itk::Image< InputPixelType,  2 >   InputImageType;
-  typedef itk::Image< OutputPixelType, 2 >   OutputImageType;
+  typedef float                            InputPixelType;
+  typedef float                            OutputPixelType;
+  typedef itk::Image< InputPixelType,  2 > InputImageType;
+  typedef itk::Image< OutputPixelType, 2 > OutputImageType;
 
 
   typedef itk::ImageFileReader< InputImageType >  ReaderType;

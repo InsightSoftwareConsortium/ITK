@@ -80,10 +80,12 @@
 #include "itkVector.h"
 // Software Guide : EndCodeSnippet
 
-typedef int MeasurementType;
-typedef itk::Vector< MeasurementType , 2 > MeasurementVectorType;
-typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType;
-typedef itk::Statistics::Subsample< SampleType > SubsampleType;
+typedef int                               MeasurementType;
+typedef itk::Vector< MeasurementType, 2 > MeasurementVectorType;
+typedef itk::Statistics::ListSample< MeasurementVectorType >
+                                          SampleType;
+typedef itk::Statistics::Subsample< SampleType >
+                                          SubsampleType;
 
 // Software Guide : BeginLatex
 //

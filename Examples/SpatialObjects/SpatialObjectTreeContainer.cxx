@@ -39,8 +39,8 @@ int main( int , char *[] )
   // Let's create a 2-dimensional tree.
   // Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
-  typedef itk::GroupSpatialObject<2> NodeType;
-  typedef itk::SpatialObjectTreeContainer<2> TreeType;
+  typedef itk::GroupSpatialObject< 2 >         NodeType;
+  typedef itk::SpatialObjectTreeContainer< 2 > TreeType;
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex

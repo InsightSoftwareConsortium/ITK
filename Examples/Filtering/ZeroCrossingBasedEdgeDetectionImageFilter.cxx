@@ -61,9 +61,9 @@ int main( int argc, char * argv[] )
     }
 
   // Software Guide : BeginCodeSnippet
-  typedef   double  InputPixelType;
-  typedef   double  OutputPixelType;
-  typedef unsigned char    CharPixelType;
+  typedef double        InputPixelType;
+  typedef double        OutputPixelType;
+  typedef unsigned char CharPixelType;
 
   const unsigned int Dimension = 2;
 
