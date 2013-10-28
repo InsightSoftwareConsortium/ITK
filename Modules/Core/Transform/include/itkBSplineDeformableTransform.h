@@ -24,7 +24,11 @@
 namespace itk
 {
 /** \class BSplineDeformableTransform
+ *
  * \brief Deformable transform using a BSpline representation
+ *
+ * \note BSplineTransform is a newer version of this class, and it is
+ * preferred.
  *
  * This class encapsulates a deformable transform of points from one
  * N-dimensional space to another N-dimensional space.
@@ -99,6 +103,8 @@ namespace itk
  * the space dimension and the spline order.
  *
  * \ingroup ITKTransform
+ *
+ * \sa BSplineTransform
  *
  * \wiki
  * \wikiexample{Registration/ImageRegistrationMethodBSpline,A global registration of two images}
