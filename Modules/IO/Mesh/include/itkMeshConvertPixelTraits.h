@@ -347,12 +347,6 @@ template<>                                                                      
 
   ITK_MESH_DEFAULTCONVERTTRAITS_COMPLEX_TYPE(float);
   ITK_MESH_DEFAULTCONVERTTRAITS_COMPLEX_TYPE(double);
-  ITK_MESH_DEFAULTCONVERTTRAITS_COMPLEX_TYPE(signed int);
-  ITK_MESH_DEFAULTCONVERTTRAITS_COMPLEX_TYPE(unsigned int);
-  ITK_MESH_DEFAULTCONVERTTRAITS_COMPLEX_TYPE(signed char);
-  ITK_MESH_DEFAULTCONVERTTRAITS_COMPLEX_TYPE(unsigned char);
-  ITK_MESH_DEFAULTCONVERTTRAITS_COMPLEX_TYPE(signed long);
-  ITK_MESH_DEFAULTCONVERTTRAITS_COMPLEX_TYPE(unsigned long);
 
 #define ITK_MESH_DEFAULTCONVERTTRAITS_ARRAY_TYPE(type,componenttype)               \
 template<>                                                                         \
