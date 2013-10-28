@@ -228,8 +228,8 @@ public:
 
     std::string outputFileBase = "JointHistogram";
             // Base of series filenames ( of the joint histogram )
-    this->outputFile = outputFileBase + "%03d.";
-    this->outputFile += "mhd";   // histogram filename extension
+    this->m_OutputFile = outputFileBase + "%03d.";
+    this->m_OutputFile += "mhd";   // histogram filename extension
     }
 
   ~HistogramWriter() { };
@@ -247,7 +247,7 @@ public:
   void WriteHistogramFile( unsigned int iterationNumber )
     {
     char outputFilename[1000];
-    sprintf (outputFilename, this->outputFile.c_str(), iterationNumber );
+    sprintf (outputFilename, this->m_OutputFile.c_str(), iterationNumber );
 
     m_HistogramFileWriter->SetFileName( outputFilename );
     this->m_Filter->SetInput( m_Metric->GetHistogram() );
@@ -374,7 +374,7 @@ private:
   HistogramToImageFilterPointer   m_Filter;
   HistogramFileWriterPointer      m_HistogramFileWriter;
   // Software Guide : EndCodeSnippet
-  std::string   outputFile;
+  std::string   m_OutputFile;
 };
 
 
