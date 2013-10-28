@@ -25,7 +25,7 @@ from InsightToolkit import *
 from sys import argv
 
 #
-# Reads an image in   8bits/pixel 
+# Reads an image in   8bits/pixel
 # and save it as     16bits/pixel
 #
 reader = itkImageFileReaderUC2_New()

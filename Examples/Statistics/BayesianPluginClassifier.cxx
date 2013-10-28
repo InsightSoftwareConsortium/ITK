@@ -304,7 +304,7 @@ int main( int,  char *[])
   // \code{membershipFunctionVectorObject->Set( membershipFunctionVector )}.
   // Finally, the invocation of the \code{Update()} method will perform the
   // classification.
-  // 
+  //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet

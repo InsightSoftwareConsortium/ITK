@@ -48,7 +48,7 @@ def main():
                  " seedX seedY InitialDistance\n" \
                  " Sigma SigmoidAlpha SigmoidBeta\n" \
                  " PropagationScaling\n"
-        
+
         print >> sys.stderr, errMsg
         return
 
@@ -73,12 +73,12 @@ def main():
     sigmoid = itk.itkSigmoidImageFilterF2F2_New()
     sigmoid.SetOutputMinimum(  0.0  )
     sigmoid.SetOutputMaximum(  1.0  )
-    
+
     fastMarching = itk.itkFastMarchingImageFilterF2F2_New()
-    
+
     gAC = itk.itkGeodesicActiveContourLevelSetImageFilterF2F2_New()
     geodesicActiveContour = gAC
-    
+
     propagationScaling = float(sys.argv[9])
 
     geodesicActiveContour.SetPropagationScaling( propagationScaling );
@@ -143,7 +143,7 @@ def main():
     caster1.SetOutputMinimum(   0 );
     caster1.SetOutputMaximum( 65535 );
     writer1.Update();
-    
+
     caster2 = itk.itkRescaleIntensityImageFilterF2US2_New()
     writer2 = itk.itkImageFileWriterUS2_New()
     caster2.SetInput( gradientMagnitude.GetOutput() );
@@ -161,7 +161,7 @@ def main():
     caster3.SetOutputMinimum(   0 );
     caster3.SetOutputMaximum( 65535 );
     writer3.Update();
-    
+
     caster4 = itk.itkRescaleIntensityImageFilterF2US2_New()
     writer4 = itk.itkImageFileWriterUS2_New()
     caster4.SetInput( fastMarching.GetOutput() );
@@ -169,7 +169,7 @@ def main():
     writer4.SetFileName("GeodesicActiveContourImageFilterOutput4.png");
     caster4.SetOutputMinimum(   0 );
     caster4.SetOutputMaximum( 65535 );
-    
+
     fastMarching.SetOutputSize(
         reader.GetOutput().GetBufferedRegion().GetSize())
 

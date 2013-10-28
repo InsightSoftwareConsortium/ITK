@@ -61,7 +61,7 @@ int test_OpenCVVideoIOFactory ( char* input, char* output, SizeValueType cameraN
   //////
   // Create the VideoIOBase for reading from a camera
   //////
-  
+
   // Use openCV to see if we can even try to open the camera
   CvCapture* cameraCapture = cvCaptureFromCAM( cameraNumber );
   if (cameraCapture != NULL)

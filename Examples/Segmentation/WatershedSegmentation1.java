@@ -31,8 +31,8 @@ public class WatershedSegmentation1
 
     itkImageFileReaderF2_Pointer reader = itkImageFileReaderF2.itkImageFileReaderF2_New();
     reader.SetFileName( argv[0] );
-    
-    itkGradientAnisotropicDiffusionImageFilterF2F2_Pointer diffusion = 
+
+    itkGradientAnisotropicDiffusionImageFilterF2F2_Pointer diffusion =
       itkGradientAnisotropicDiffusionImageFilterF2F2.itkGradientAnisotropicDiffusionImageFilterF2F2_New();
 
     diffusion.SetInput( reader.GetOutput() );
@@ -40,12 +40,12 @@ public class WatershedSegmentation1
     diffusion.SetConductanceParameter( 9.0 );
     diffusion.SetNumberOfIterations(  5 );
 
-    itkGradientMagnitudeImageFilterF2F2_Pointer gradient = 
+    itkGradientMagnitudeImageFilterF2F2_Pointer gradient =
       itkGradientMagnitudeImageFilterF2F2.itkGradientMagnitudeImageFilterF2F2_New();
 
     gradient.SetInput(diffusion.GetOutput());
 
-    itkWatershedImageFilterF2_Pointer watershed = 
+    itkWatershedImageFilterF2_Pointer watershed =
       itkWatershedImageFilterF2.itkWatershedImageFilterF2_New();
 
     watershed.SetInput( gradient.GetOutput() );

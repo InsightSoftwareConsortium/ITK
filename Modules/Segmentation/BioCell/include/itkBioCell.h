@@ -28,7 +28,7 @@ namespace bio
 /** \class Cell
  * \brief This class implements the minimal behavior
  * of a biological cell.
- * 
+ *
  * The basic behavior of a cell is related to the
  * cell cycle. Geometrical concepts like size and shape
  * are also managed by this abstract cell.

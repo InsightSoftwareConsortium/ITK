@@ -257,7 +257,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
      * PointType org = this->GetPoint(orgId);
      */
     PointType oldOrigin = this->GetPoint(oldOriginId);
-    
+
 
     /////////////////////////////////////////////////////////////
     /* We are done with the vertices and we might need to consider the

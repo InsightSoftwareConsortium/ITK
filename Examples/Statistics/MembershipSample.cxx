@@ -121,7 +121,7 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  std::cout << "Total frequency = " 
+  std::cout << "Total frequency = "
             << membershipSample->GetTotalFrequency() << std::endl;
   // Software Guide : EndCodeSnippet
 
@@ -160,9 +160,9 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  std::cout << "class label = 0 sample size = " 
+  std::cout << "class label = 0 sample size = "
             << membershipSample->GetClassSample(0)->Size() << std::endl;
-  std::cout << "class label = 1 sample size = " 
+  std::cout << "class label = 1 sample size = "
             << membershipSample->GetClassSample(1)->Size() << std::endl;
   // Software Guide : EndCodeSnippet
 
