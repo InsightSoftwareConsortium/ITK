@@ -23,6 +23,7 @@
 #include <string>
 #include <vector>
 #include <itk_minc2.h>
+#include "itkMatrixOffsetTransformBase.h"
 
 namespace itk
 {
@@ -49,6 +50,11 @@ public:
   typedef typename Superclass::TransformListType      TransformListType;
   typedef typename Superclass::ConstTransformListType ConstTransformListType;
   typedef typename TransformType::ParametersType      ParametersType;
+
+  typedef MatrixOffsetTransformBase<TInternalComputationValueType, 3, 3> MatrixOffsetTransformBaseType;
+
+  typedef typename MatrixOffsetTransformBaseType::MatrixType    MatrixType;
+  typedef typename MatrixOffsetTransformBaseType::OffsetType    OffsetType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro( MINCTransformIOTemplate, TransformIOBaseTemplate );
