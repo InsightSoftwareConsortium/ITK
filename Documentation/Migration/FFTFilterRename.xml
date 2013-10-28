@@ -51,7 +51,7 @@
       <Old>
         <![CDATA[
         typedef double WorkPixelType;
-	const unsigned int Dimension = 3;
+        const unsigned int Dimension = 3;
         typedef itk::VnlFFTRealToComplexConjugateImageFilter< WorkPixelType, Dimension >
           FFTFilterType;
         typedef itk::VnlFFTComplexConjugateToRealImageFilter< WorkPixelType, Dimension >

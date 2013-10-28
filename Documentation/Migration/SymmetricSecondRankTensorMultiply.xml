@@ -80,22 +80,22 @@
 
     <SampleCode>
       <Old>
-	<![CDATA[
+    <![CDATA[
     typedef itk::SymmetricSecondRankTensor<double,3>   Double3DTensorType;
     typedef itk::Matrix<double, 3, 3>                  Double3DMatrixType;
     Double3DTensorType tensor3D;
     Double3DMatrixType matrix3D;
     Double3DTensorType result1 = tensor3D.PreMultiply( matrix3D ).PostMultiply( matrix3D.GetTranspose() );
-	]]>
+    ]]>
       </Old>
       <New>
-	<![CDATA[
+    <![CDATA[
     typedef itk::SymmetricSecondRankTensor<double,3>   Double3DTensorType;
     typedef itk::Matrix<double, 3, 3>                  Double3DMatrixType;
     Double3DTensorType tensor3D;
     Double3DMatrixType matrix3D;
     Double3DTensorType result1 = tensor3D.Rotate( matrix3D );
-	]]>
+    ]]>
       </New>
     </SampleCode>
 

@@ -173,7 +173,7 @@ SWIG_JAVABODY_METHODS(public, public, SWIGTYPE)
                         self->UnRegister();
                 };
         }
-	%ignore itkClass::Clone;
+        %ignore itkClass::Clone;
 
 /*
         %typemap(out) itkClass * {
