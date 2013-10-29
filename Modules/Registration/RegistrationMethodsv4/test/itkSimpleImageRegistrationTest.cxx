@@ -98,30 +98,30 @@ public:
     }
 };
 
-template <unsigned int VImageDimension>
+template <unsigned int VImageDimension, typename TPixel>
 int PerformSimpleImageRegistration( int argc, char *argv[] )
 {
-  if( argc < 6 )
+  if( argc < 7 )
     {
-    std::cout << argv[0] << " imageDimension fixedImage movingImage outputImage numberOfAffineIterations numberOfDeformableIterations" << std::endl;
+    std::cout << argv[0] << " pixelType imageDimension fixedImage movingImage outputImage numberOfAffineIterations numberOfDeformableIterations" << std::endl;
     exit( 1 );
     }
 
-  typedef double                                 PixelType;
+  typedef TPixel                                 PixelType;
   typedef itk::Image<PixelType, VImageDimension> FixedImageType;
   typedef itk::Image<PixelType, VImageDimension> MovingImageType;
 
   typedef itk::ImageFileReader<FixedImageType> ImageReaderType;
 
   typename ImageReaderType::Pointer fixedImageReader = ImageReaderType::New();
-  fixedImageReader->SetFileName( argv[2] );
+  fixedImageReader->SetFileName( argv[3] );
   fixedImageReader->Update();
   typename FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
   fixedImage->Update();
   fixedImage->DisconnectPipeline();
 
   typename ImageReaderType::Pointer movingImageReader = ImageReaderType::New();
-  movingImageReader->SetFileName( argv[3] );
+  movingImageReader->SetFileName( argv[4] );
   movingImageReader->Update();
   typename MovingImageType::Pointer movingImage = movingImageReader->GetOutput();
   movingImage->Update();
@@ -149,6 +149,7 @@ int PerformSimpleImageRegistration( int argc, char *argv[] )
   mutualInformationMetric->SetUseMovingImageGradientFilter( false );
   mutualInformationMetric->SetUseFixedImageGradientFilter( false );
   mutualInformationMetric->SetUseFixedSampledPointSet( false );
+  mutualInformationMetric->SetVirtualDomainFromImage( fixedImage );
   affineSimple->SetMetric( mutualInformationMetric );
 
   typedef itk::RegistrationParameterScalesFromPhysicalShift<MIMetricType> AffineScalesEstimatorType;
@@ -183,7 +184,7 @@ int PerformSimpleImageRegistration( int argc, char *argv[] )
     itkGenericExceptionMacro( "Error dynamic_cast failed" );
     }
 #ifdef NDEBUG
-  affineOptimizer->SetNumberOfIterations( atoi( argv[5] ) );
+  affineOptimizer->SetNumberOfIterations( atoi( argv[6] ) );
 #else
   affineOptimizer->SetNumberOfIterations( 1 );
 #endif
@@ -273,7 +274,7 @@ int PerformSimpleImageRegistration( int argc, char *argv[] )
   typename GradientDescentOptimizerv4Type::Pointer optimizer = GradientDescentOptimizerv4Type::New();
   optimizer->SetLearningRate( 1.0 );
 #ifdef NDEBUG
-  optimizer->SetNumberOfIterations( atoi( argv[6] ) );
+  optimizer->SetNumberOfIterations( atoi( argv[7] ) );
 #else
   optimizer->SetNumberOfIterations( 1 );
 #endif
@@ -370,7 +371,7 @@ int PerformSimpleImageRegistration( int argc, char *argv[] )
 
   typedef itk::ImageFileWriter<FixedImageType> WriterType;
   typename WriterType::Pointer writer = WriterType::New();
-  writer->SetFileName( argv[4] );
+  writer->SetFileName( argv[5] );
   writer->SetInput( resampler->GetOutput() );
   writer->Update();
 
@@ -379,19 +380,33 @@ int PerformSimpleImageRegistration( int argc, char *argv[] )
 
 int itkSimpleImageRegistrationTest( int argc, char *argv[] )
 {
-  if( argc < 6 )
+  if( argc < 7 )
     {
-    std::cout << argv[0] << " imageDimension fixedImage movingImage outputImage numberOfAffineIterations numberOfDeformableIterations" << std::endl;
+    std::cout << argv[0] << " pixelType imageDimension fixedImage movingImage outputImage numberOfAffineIterations numberOfDeformableIterations" << std::endl;
     exit( 1 );
     }
 
-  switch( atoi( argv[1] ) )
+  switch( atoi( argv[2] ) )
    {
    case 2:
-     PerformSimpleImageRegistration<2>( argc, argv );
+     if( strcmp( argv[1], "float") == 0 )
+       {
+       PerformSimpleImageRegistration<2,float>( argc, argv );
+       }
+     else
+       {
+       PerformSimpleImageRegistration<2,double>( argc, argv );
+       }
      break;
    case 3:
-     PerformSimpleImageRegistration<3>( argc, argv );
+     if( strcmp( argv[1], "float") == 0 )
+       {
+       PerformSimpleImageRegistration<3,float>( argc, argv );
+       }
+     else
+       {
+       PerformSimpleImageRegistration<3,double>( argc, argv );
+       }
      break;
    default:
       std::cerr << "Unsupported dimension" << std::endl;
