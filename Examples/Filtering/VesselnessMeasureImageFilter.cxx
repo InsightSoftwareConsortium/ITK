@@ -33,19 +33,19 @@ int main( int argc, char *argv[] )
     std::cerr << "Usage: inputImage outputImage [sigma] [alpha_1] [alpha_2]" << std::endl;
     }
 
-  const     unsigned int        Dimension       = 3;
-  typedef   double              InputPixelType;
-  typedef   float               OutputPixelType;
+  const unsigned int Dimension       = 3;
+  typedef double     InputPixelType;
+  typedef float      OutputPixelType;
 
-  typedef   itk::Image< InputPixelType, Dimension >   InputImageType;
-  typedef   itk::Image< OutputPixelType, Dimension >  OutputImageType;
+  typedef itk::Image< InputPixelType, Dimension >  InputImageType;
+  typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
 
-  typedef   itk::HessianRecursiveGaussianImageFilter<
-                            InputImageType >              HessianFilterType;
-  typedef   itk::Hessian3DToVesselnessMeasureImageFilter<
-              OutputPixelType > VesselnessMeasureFilterType;
-  typedef   itk::ImageFileReader< InputImageType >  ReaderType;
-  typedef   itk::ImageFileWriter< OutputImageType > WriterType;
+  typedef itk::HessianRecursiveGaussianImageFilter<
+                                    InputImageType >     HessianFilterType;
+  typedef itk::Hessian3DToVesselnessMeasureImageFilter<
+                                       OutputPixelType > VesselnessMeasureFilterType;
+  typedef itk::ImageFileReader< InputImageType >         ReaderType;
+  typedef itk::ImageFileWriter< OutputImageType >        WriterType;
 
   HessianFilterType::Pointer hessianFilter = HessianFilterType::New();
   VesselnessMeasureFilterType::Pointer vesselnessFilter =
@@ -75,5 +75,3 @@ int main( int argc, char *argv[] )
   writer->Update();
   return EXIT_SUCCESS;
 }
-
-

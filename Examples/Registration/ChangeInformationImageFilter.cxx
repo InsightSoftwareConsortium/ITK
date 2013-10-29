@@ -81,7 +81,7 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
 
-  typedef itk::ImageFileReader< ImageType  >  ReaderType;
+  typedef itk::ImageFileReader< ImageType >  ReaderType;
   typedef itk::ImageFileWriter< ImageType >  WriterType;
 
   ReaderType::Pointer reader = ReaderType::New();
@@ -200,4 +200,3 @@ int main( int argc, char * argv[] )
 
   return EXIT_SUCCESS;
 }
-

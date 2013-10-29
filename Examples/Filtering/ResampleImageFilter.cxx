@@ -118,11 +118,11 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  const     unsigned int   Dimension = 2;
-  typedef   unsigned char  InputPixelType;
-  typedef   unsigned char  OutputPixelType;
-  typedef itk::Image< InputPixelType,  Dimension >   InputImageType;
-  typedef itk::Image< OutputPixelType, Dimension >   OutputImageType;
+  const unsigned int                               Dimension = 2;
+  typedef unsigned char                            InputPixelType;
+  typedef unsigned char                            OutputPixelType;
+  typedef itk::Image< InputPixelType,  Dimension > InputImageType;
+  typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
   // Software Guide : EndCodeSnippet
 
 
@@ -449,4 +449,3 @@ int main( int argc, char * argv[] )
 
   return EXIT_SUCCESS;
 }
-

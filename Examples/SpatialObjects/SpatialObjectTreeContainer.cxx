@@ -39,8 +39,8 @@ int main( int , char *[] )
   // Let's create a 2-dimensional tree.
   // Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
-  typedef itk::GroupSpatialObject<2> NodeType;
-  typedef itk::SpatialObjectTreeContainer<2> TreeType;
+  typedef itk::GroupSpatialObject< 2 >         NodeType;
+  typedef itk::SpatialObjectTreeContainer< 2 > TreeType;
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -85,7 +85,7 @@ int main( int , char *[] )
   while(!levelIt.IsAtEnd())
     {
     std::cout << levelIt.Get()->GetId() << " ("<< levelIt.GetLevel()
-      << ")" << std::endl;;
+      << ")" << std::endl;
     ++levelIt;
     }
   // Software Guide : EndCodeSnippet
@@ -103,4 +103,3 @@ int main( int , char *[] )
 
   return EXIT_SUCCESS;
 }
-

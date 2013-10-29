@@ -75,13 +75,13 @@ int main()
   listSample->SetMeasurementVectorSize( MeasurementVectorLength );
 
   MeasurementVectorType mv;
-  for ( unsigned int i = 1 ; i < 6 ; i++ )
+  for ( unsigned int i = 1; i < 6; i++ )
     {
-    for ( unsigned int j = 0 ; j < 2 ; j++ )
+    for ( unsigned int j = 0; j < 2; j++ )
       {
       mv[j] = ( MeasurementType ) i;
       }
-    for ( unsigned int j = 0 ; j < i ; j++ )
+    for ( unsigned int j = 0; j < i; j++ )
       {
       listSample->PushBack(mv);
       }

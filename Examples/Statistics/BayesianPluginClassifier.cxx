@@ -123,7 +123,7 @@ int main( int,  char *[])
 
   typedef itk::Statistics::Subsample< SampleType > ClassSampleType;
   std::vector< ClassSampleType::Pointer > classSamples;
-  for ( unsigned int i = 0 ; i < 2 ; ++i )
+  for ( unsigned int i = 0; i < 2; ++i )
     {
     classSamples.push_back( ClassSampleType::New() );
     classSamples[i]->SetSample( sample );
@@ -159,7 +159,7 @@ int main( int,  char *[])
   double mean = 100;
   double standardDeviation = 30;
   SampleType::InstanceIdentifier id = 0UL;
-  for ( unsigned int i = 0 ; i < 100 ; ++i )
+  for ( unsigned int i = 0; i < 100; ++i )
     {
     mv.Fill( (normalGenerator->GetVariate() * standardDeviation ) + mean);
     sample->PushBack( mv );
@@ -170,7 +170,7 @@ int main( int,  char *[])
   normalGenerator->Initialize( 3024 );
   mean = 200;
   standardDeviation = 30;
-  for ( unsigned int i = 0 ; i < 100 ; ++i )
+  for ( unsigned int i = 0; i < 100; ++i )
     {
     mv.Fill( (normalGenerator->GetVariate() * standardDeviation ) + mean);
     sample->PushBack( mv );
@@ -194,7 +194,7 @@ int main( int,  char *[])
 
   std::vector< CovarianceEstimatorType::Pointer > covarianceEstimators;
 
-  for ( unsigned int i = 0 ; i < 2 ; ++i )
+  for ( unsigned int i = 0; i < 2; ++i )
     {
     covarianceEstimators.push_back( CovarianceEstimatorType::New() );
     covarianceEstimators[i]->SetInput( classSamples[i] );
@@ -209,7 +209,7 @@ int main( int,  char *[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  for ( unsigned int i = 0 ; i < 2 ; ++i )
+  for ( unsigned int i = 0; i < 2; ++i )
     {
     std::cout << "class[" << i << "] " << std::endl;
     std::cout << "    estimated mean : "
@@ -249,15 +249,15 @@ int main( int,  char *[])
 
   // Software Guide : BeginCodeSnippet
   typedef itk::Statistics::GaussianMembershipFunction< MeasurementVectorType >
-    MembershipFunctionType;
+                                                    MembershipFunctionType;
   typedef itk::Statistics::MaximumRatioDecisionRule DecisionRuleType;
   DecisionRuleType::Pointer decisionRule = DecisionRuleType::New();
 
   DecisionRuleType::PriorProbabilityVectorType aPrioris;
   aPrioris.push_back( (double)classSamples[0]->GetTotalFrequency()
-                      / (double)sample->GetTotalFrequency() ) ;
+                      / (double)sample->GetTotalFrequency() );
   aPrioris.push_back( (double)classSamples[1]->GetTotalFrequency()
-                      / (double)sample->GetTotalFrequency() ) ;
+                      / (double)sample->GetTotalFrequency() );
   decisionRule->SetPriorProbabilities( aPrioris );
 
   typedef itk::Statistics::SampleClassifierFilter< SampleType > ClassifierType;
@@ -318,7 +318,7 @@ int main( int,  char *[])
   MembershipFunctionVectorType membershipFunctionVector =
     membershipFunctionVectorObject->Get();
 
-  for ( unsigned int i = 0 ; i < 2 ; i++ )
+  for ( unsigned int i = 0; i < 2; i++ )
     {
     MembershipFunctionType::Pointer membershipFunction =
       MembershipFunctionType::New();
@@ -356,4 +356,3 @@ int main( int,  char *[])
 
   return 0;
 }
-

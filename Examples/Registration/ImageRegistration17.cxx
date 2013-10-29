@@ -126,7 +126,6 @@ int main( int argc, char *argv[] )
   registration->SetInterpolator(  interpolator  );
 
 
-
   MetricType::Pointer metric = MetricType::New();
   registration->SetMetric( metric  );
 

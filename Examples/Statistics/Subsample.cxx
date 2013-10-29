@@ -175,7 +175,7 @@ int main()
   // Software Guide : BeginCodeSnippet
   subsample->Swap(0, 1);
 
-  for ( int index = 0 ; index < subsample->Size() ; ++index )
+  for ( int index = 0; index < subsample->Size(); ++index )
     {
     std::cout << "instance identifier = "
               << subsample->GetInstanceIdentifier(index)

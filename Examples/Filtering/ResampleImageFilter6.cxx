@@ -43,9 +43,9 @@ int main( int argc, char * argv[] )
     return EXIT_FAILURE;
     }
 
-  const     unsigned int   Dimension = 2;
-  typedef   unsigned char  PixelComponentType;
-  typedef   itk::RGBPixel< PixelComponentType > PixelType;
+  const unsigned int                          Dimension = 2;
+  typedef unsigned char                       PixelComponentType;
+  typedef itk::RGBPixel< PixelComponentType > PixelType;
 
   typedef itk::Image< PixelType,  Dimension >   ImageType;
 
@@ -111,7 +111,6 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
   ImageType::SizeType   size;
 
   size[0] = 300;  // number of pixels along X
@@ -121,7 +120,6 @@ int main( int argc, char * argv[] )
 
   filter->SetInput( reader->GetOutput() );
   writer->SetInput( filter->GetOutput() );
-
 
 
   try
@@ -137,4 +135,3 @@ int main( int argc, char * argv[] )
   return EXIT_SUCCESS;
 
 }
-

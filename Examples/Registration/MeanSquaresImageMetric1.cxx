@@ -31,12 +31,9 @@
 // Software Guide : EndLatex
 
 
-
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-
-
 
 
 // Software Guide : BeginLatex
@@ -75,8 +72,6 @@ int main( int argc, char * argv[] )
 
   typedef itk::Image< PixelType, Dimension >   ImageType;
 // Software Guide : EndCodeSnippet
-
-
 
 
   typedef itk::ImageFileReader< ImageType >  ReaderType;
@@ -197,7 +192,6 @@ int main( int argc, char * argv[] )
 // Software Guide : EndCodeSnippet
 
 
-
 // Software Guide : BeginLatex
 //
 // \begin{figure}
@@ -238,8 +232,5 @@ int main( int argc, char * argv[] )
 // Software Guide : EndLatex
 
 
-
   return EXIT_SUCCESS;
 }
-
-

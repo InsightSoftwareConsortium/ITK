@@ -33,11 +33,11 @@ int main( int argc, char * argv[] )
     return EXIT_FAILURE;
     }
 
-  const     unsigned int   Dimension = 2;
-  typedef   unsigned char  InputPixelType;
-  typedef   unsigned char  OutputPixelType;
-  typedef itk::Image< InputPixelType,  Dimension >   InputImageType;
-  typedef itk::Image< OutputPixelType, Dimension >   OutputImageType;
+  const unsigned int                               Dimension = 2;
+  typedef unsigned char                            InputPixelType;
+  typedef unsigned char                            OutputPixelType;
+  typedef itk::Image< InputPixelType,  Dimension > InputImageType;
+  typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
 
   typedef itk::ImageFileReader< InputImageType  >  ReaderType;
   typedef itk::ImageFileWriter< OutputImageType >  WriterType;
@@ -84,4 +84,3 @@ int main( int argc, char * argv[] )
 
   return EXIT_SUCCESS;
 }
-

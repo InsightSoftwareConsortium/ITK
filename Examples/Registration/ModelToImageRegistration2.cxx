@@ -244,7 +244,6 @@ int main( int argc, char * argv [] )
     }
 
 
-
   movingImage = movingImageReader->GetOutput();
 
   SpatialObjectType::SizeType boxSize;

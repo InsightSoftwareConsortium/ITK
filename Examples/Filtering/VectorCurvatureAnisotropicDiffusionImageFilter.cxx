@@ -80,10 +80,10 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef    float    InputPixelType;
-  typedef itk::CovariantVector<float,2>    VectorPixelType;
-  typedef itk::Image< InputPixelType,  2 >   InputImageType;
-  typedef itk::Image< VectorPixelType, 2 >   VectorImageType;
+  typedef float                            InputPixelType;
+  typedef itk::CovariantVector< float, 2 > VectorPixelType;
+  typedef itk::Image< InputPixelType,  2 > InputImageType;
+  typedef itk::Image< VectorPixelType, 2 > VectorImageType;
   // Software Guide : EndCodeSnippet
 
 
@@ -174,8 +174,8 @@ int main( int argc, char * argv[] )
   //  execution of this one. For example, a writer filter could have been used
   //  after the curvature flow filter.
   //
-  typedef    float    OutputPixelType;
-  typedef itk::Image< OutputPixelType,  2 >   OutputImageType;
+  typedef float                                      OutputPixelType;
+  typedef itk::Image< OutputPixelType,  2 >          OutputImageType;
   typedef itk::VectorIndexSelectionCastImageFilter<
                   VectorImageType, OutputImageType > ComponentFilterType;
   ComponentFilterType::Pointer component = ComponentFilterType::New();
@@ -183,10 +183,10 @@ int main( int argc, char * argv[] )
   // Select the component to extract.
   component->SetIndex( 0 );
 
-  typedef unsigned char WritePixelType;
-  typedef itk::Image< WritePixelType, 2 > WriteImageType;
+  typedef unsigned char                      WritePixelType;
+  typedef itk::Image< WritePixelType, 2 >    WriteImageType;
   typedef itk::RescaleIntensityImageFilter<
-               OutputImageType, WriteImageType > RescaleFilterType;
+           OutputImageType, WriteImageType > RescaleFilterType;
   RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
   rescaler->SetOutputMinimum(   0 );
   rescaler->SetOutputMaximum( 255 );
@@ -229,4 +229,3 @@ int main( int argc, char * argv[] )
 
   return EXIT_SUCCESS;
 }
-

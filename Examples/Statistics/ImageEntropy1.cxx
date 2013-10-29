@@ -116,9 +116,6 @@ int main( int argc, char * argv [] )
   // Software Guide : EndCodeSnippet
 
 
-
-
-
   // Software Guide : BeginLatex
   //
   // The parameters of the desired histogram are defined. In particular, the
@@ -137,7 +134,6 @@ int main( int argc, char * argv [] )
   // Software Guide : EndCodeSnippet
 
 
-
   // Software Guide : BeginLatex
   //
   // We can then connect as input the output image from a reader and trigger the
@@ -151,9 +147,6 @@ int main( int argc, char * argv [] )
 
   histogramGenerator->Compute();
   // Software Guide : EndCodeSnippet
-
-
-
 
 
   // Software Guide : BeginLatex
@@ -171,8 +164,6 @@ int main( int argc, char * argv [] )
   // Software Guide : EndCodeSnippet
 
 
-
-
   const unsigned int histogramSize = histogram->Size();
 
   std::cout << "Histogram size " << histogramSize << std::endl;
@@ -182,9 +173,6 @@ int main( int argc, char * argv [] )
     std::cout << "bin = " << bin << " frequency = ";
     std::cout << histogram->GetFrequency( bin, 0 ) << std::endl;
     }
-
-
-
 
 
   // Software Guide : BeginLatex
@@ -212,10 +200,6 @@ int main( int argc, char * argv [] )
 
   double Entropy = 0.0;
   // Software Guide : EndCodeSnippet
-
-
-
-
 
 
   // Software Guide : BeginLatex
@@ -247,8 +231,6 @@ int main( int argc, char * argv [] )
   // Software Guide : EndCodeSnippet
 
 
-
-
   // Software Guide : BeginLatex
   //
   // The result of this sum is considered to be our estimation of the image
@@ -263,8 +245,6 @@ int main( int argc, char * argv [] )
   // Software Guide : BeginCodeSnippet
   std::cout << "Image entropy = " << Entropy << " bits " << std::endl;
   // Software Guide : EndCodeSnippet
-
-
 
 
   // Software Guide : BeginLatex
@@ -299,5 +279,3 @@ int main( int argc, char * argv [] )
   return 0;
 
 }
-
-

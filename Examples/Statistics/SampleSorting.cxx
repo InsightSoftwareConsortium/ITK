@@ -80,10 +80,12 @@
 #include "itkVector.h"
 // Software Guide : EndCodeSnippet
 
-typedef int MeasurementType;
-typedef itk::Vector< MeasurementType , 2 > MeasurementVectorType;
-typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType;
-typedef itk::Statistics::Subsample< SampleType > SubsampleType;
+typedef int                               MeasurementType;
+typedef itk::Vector< MeasurementType, 2 > MeasurementVectorType;
+typedef itk::Statistics::ListSample< MeasurementVectorType >
+                                          SampleType;
+typedef itk::Statistics::Subsample< SampleType >
+                                          SubsampleType;
 
 // Software Guide : BeginLatex
 //
@@ -141,13 +143,13 @@ int main()
   SampleType::Pointer sample = SampleType::New();
 
   MeasurementVectorType mv;
-  for ( unsigned int i = 5 ; i > 0 ; --i )
+  for ( unsigned int i = 5; i > 0; --i )
     {
-    for (unsigned int j = 0 ; j < 2 ; j++ )
+    for (unsigned int j = 0; j < 2; j++ )
       {
       mv[j] = ( MeasurementType ) i;
       }
-    for ( unsigned int j = 0 ; j < i ; j++ )
+    for ( unsigned int j = 0; j < i; j++ )
       {
       sample->PushBack(mv);
       }
@@ -188,7 +190,7 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  int activeDimension = 0 ; 
+  int activeDimension = 0; 
   itk::Statistics::Algorithm::InsertSort< SubsampleType >( subsample,
                               activeDimension, 0, subsample->Size() );
   printSubsample(subsample, "InsertSort");

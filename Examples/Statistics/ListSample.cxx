@@ -61,9 +61,9 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Vector< float, 3 > MeasurementVectorType ;
-  typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType ;
-  SampleType::Pointer sample = SampleType::New() ;
+  typedef itk::Vector< float, 3 > MeasurementVectorType;
+  typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType;
+  SampleType::Pointer sample = SampleType::New();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -79,12 +79,12 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  MeasurementVectorType mv ;
-  mv[0] = 1.0 ;
-  mv[1] = 2.0 ;
-  mv[2] = 4.0 ;
+  MeasurementVectorType mv;
+  mv[0] = 1.0;
+  mv[1] = 2.0;
+  mv[2] = 4.0;
 
-  sample->PushBack(mv) ;
+  sample->PushBack(mv);
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -102,17 +102,17 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  sample->Resize(3) ;
+  sample->Resize(3);
 
-  mv[0] = 2.0 ;
-  mv[1] = 4.0 ;
-  mv[2] = 5.0 ;
-  sample->SetMeasurementVector(1, mv) ;
+  mv[0] = 2.0;
+  mv[1] = 4.0;
+  mv[2] = 5.0;
+  sample->SetMeasurementVector(1, mv);
 
-  mv[0] = 3.0 ;
-  mv[1] = 8.0 ;
-  mv[2] = 6.0 ;
-  sample->SetMeasurementVector(2, mv) ;
+  mv[0] = 3.0;
+  mv[1] = 8.0;
+  mv[2] = 6.0;
+  sample->SetMeasurementVector(2, mv);
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -135,14 +135,14 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  for ( unsigned long i = 0 ; i < sample->Size() ; ++i )
+  for ( unsigned long i = 0; i < sample->Size(); ++i )
     {
     std::cout << "id = " << i
               << "\t measurement vector = "
               << sample->GetMeasurementVector(i)
               << "\t frequency = "
               << sample->GetFrequency(i)
-              << std::endl ;
+              << std::endl;
     }
   // Software Guide : EndCodeSnippet
 
@@ -158,7 +158,7 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  SampleType::Iterator iter = sample->Begin() ;
+  SampleType::Iterator iter = sample->Begin();
 
   while( iter != sample->End() )
     {
@@ -167,8 +167,8 @@ int main()
               << iter.GetMeasurementVector()
               << "\t frequency = "
               << iter.GetFrequency()
-              << std::endl ;
-    ++iter ;
+              << std::endl;
+    ++iter;
     }
   // Software Guide : EndCodeSnippet
 
@@ -188,9 +188,9 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  std::cout << "Size = " << sample->Size() << std::endl ;
+  std::cout << "Size = " << sample->Size() << std::endl;
   std::cout << "Total frequency = "
-            << sample->GetTotalFrequency() << std::endl ;
+            << sample->GetTotalFrequency() << std::endl;
   // Software Guide : EndCodeSnippet
-  return 0 ;
+  return 0;
 }

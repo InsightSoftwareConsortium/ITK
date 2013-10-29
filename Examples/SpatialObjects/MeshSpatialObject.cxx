@@ -49,14 +49,14 @@ int main(int, char * [] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::DefaultDynamicMeshTraits< float , 3, 3 > MeshTrait;
-  typedef itk::Mesh<float,3,MeshTrait>                  MeshType;
-  typedef MeshType::CellTraits                          CellTraits;
-  typedef itk::CellInterface< float, CellTraits >       CellInterfaceType;
-  typedef itk::TetrahedronCell<CellInterfaceType>       TetraCellType;
-  typedef MeshType::PointType                           PointType;
-  typedef MeshType::CellType                            CellType;
-  typedef CellType::CellAutoPointer                     CellAutoPointer;
+  typedef itk::DefaultDynamicMeshTraits< float, 3, 3 > MeshTrait;
+  typedef itk::Mesh< float, 3, MeshTrait >             MeshType;
+  typedef MeshType::CellTraits                         CellTraits;
+  typedef itk::CellInterface< float, CellTraits >      CellInterfaceType;
+  typedef itk::TetrahedronCell< CellInterfaceType >    TetraCellType;
+  typedef MeshType::PointType                          PointType;
+  typedef MeshType::CellType                           CellType;
+  typedef CellType::CellAutoPointer                    CellAutoPointer;
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginCodeSnippet
@@ -68,7 +68,7 @@ int main(int, char * [] )
   MeshType::PointIdentifier tetraPoints[4] = {0,1,2,4};
 
   int i;
-  for(i=0; i < 4 ; ++i)
+  for(i=0; i < 4; ++i)
     {
     myMesh->SetPoint(i, PointType(testPointCoords[i]));
     }
@@ -92,7 +92,7 @@ int main(int, char * [] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::MeshSpatialObject<MeshType>     MeshSpatialObjectType;
+  typedef itk::MeshSpatialObject< MeshType > MeshSpatialObjectType;
   MeshSpatialObjectType::Pointer myMeshSpatialObject =
                                         MeshSpatialObjectType::New();
   // Software Guide : EndCodeSnippet
@@ -135,7 +135,7 @@ int main(int, char * [] )
   // writing.
   // Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
-  typedef itk::SpatialObjectWriter<3,float,MeshTrait> WriterType;
+  typedef itk::SpatialObjectWriter< 3, float, MeshTrait > WriterType;
   WriterType::Pointer writer = WriterType::New();
   // Software Guide : EndCodeSnippet
 
@@ -154,7 +154,7 @@ int main(int, char * [] )
   // Once again we need to specify the type of mesh we intend to read.
   // Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
-  typedef itk::SpatialObjectReader<3,float,MeshTrait> ReaderType;
+  typedef itk::SpatialObjectReader< 3, float, MeshTrait > ReaderType;
   ReaderType::Pointer reader = ReaderType::New();
   // Software Guide : EndCodeSnippet
 
@@ -173,10 +173,10 @@ int main(int, char * [] )
   // First we define and instantiate the SpatialObjectToImageFilter.
   // Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
-  typedef itk::Image<unsigned char,3> ImageType;
-  typedef itk::GroupSpatialObject<3> GroupType;
+  typedef itk::Image< unsigned char, 3 > ImageType;
+  typedef itk::GroupSpatialObject< 3 >   GroupType;
   typedef itk::SpatialObjectToImageFilter< GroupType, ImageType >
-    SpatialObjectToImageFilterType;
+                                         SpatialObjectToImageFilterType;
   SpatialObjectToImageFilterType::Pointer imageFilter =
     SpatialObjectToImageFilterType::New();
   // Software Guide : EndCodeSnippet

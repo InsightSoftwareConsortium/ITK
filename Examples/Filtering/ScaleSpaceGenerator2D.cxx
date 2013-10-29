@@ -42,10 +42,10 @@ int main( int argc, char * argv[] )
     }
 
 
-  typedef    float    InputPixelType;
-  typedef    float    OutputPixelType;
-  typedef itk::Image< InputPixelType,  2 >   InputImageType;
-  typedef itk::Image< OutputPixelType, 2 >   OutputImageType;
+  typedef float                            InputPixelType;
+  typedef float                            OutputPixelType;
+  typedef itk::Image< InputPixelType,  2 > InputImageType;
+  typedef itk::Image< OutputPixelType, 2 > OutputImageType;
 
 
   typedef itk::ImageFileReader< InputImageType >  ReaderType;
@@ -98,7 +98,6 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
   //  Software Guide : BeginLatex
   //
   //  The set of images can now be loaded in a Viewer, such as VolView or
@@ -112,4 +111,3 @@ int main( int argc, char * argv[] )
 
   return EXIT_SUCCESS;
 }
-

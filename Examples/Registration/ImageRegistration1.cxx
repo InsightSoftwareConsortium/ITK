@@ -61,12 +61,11 @@
 #include "itkSubtractImageFilter.h"
 
 
-
 class CommandIterationUpdate : public itk::Command
 {
 public:
-  typedef  CommandIterationUpdate   Self;
-  typedef  itk::Command             Superclass;
+  typedef CommandIterationUpdate   Self;
+  typedef itk::Command             Superclass;
   typedef itk::SmartPointer<Self>  Pointer;
   itkNewMacro( Self );
 
@@ -75,8 +74,8 @@ protected:
 
 public:
 
-  typedef itk::RegularStepGradientDescentOptimizer     OptimizerType;
-  typedef const OptimizerType                         *OptimizerPointer;
+  typedef itk::RegularStepGradientDescentOptimizer OptimizerType;
+  typedef const OptimizerType*                     OptimizerPointer;
 
   void Execute(itk::Object *caller, const itk::EventObject & event)
   {
@@ -177,7 +176,6 @@ int main( int argc, char *argv[] )
                                     FixedImageType,
                                     MovingImageType >    MetricType;
   // Software Guide : EndCodeSnippet
-
 
 
   //  Software Guide : BeginLatex
@@ -534,7 +532,6 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
   //  Software Guide : BeginLatex
   //
   //  A resampling filter is created and the moving image is connected as
@@ -546,7 +543,6 @@ int main( int argc, char *argv[] )
   ResampleFilterType::Pointer resampler = ResampleFilterType::New();
   resampler->SetInput( movingImageReader->GetOutput() );
   // Software Guide : EndCodeSnippet
-
 
 
   //  Software Guide : BeginLatex
@@ -571,7 +567,6 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   resampler->SetTransform( registration->GetOutput()->Get() );
   // Software Guide : EndCodeSnippet
-
 
 
   //  Software Guide : BeginLatex
@@ -619,11 +614,11 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef unsigned char OutputPixelType;
+  typedef unsigned char                            OutputPixelType;
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
   typedef itk::CastImageFilter<
                         FixedImageType,
-                        OutputImageType > CastFilterType;
+                        OutputImageType >          CastFilterType;
   typedef itk::ImageFileWriter< OutputImageType >  WriterType;
   // Software Guide : EndCodeSnippet
 
@@ -693,7 +688,6 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
   // Software Guide : BeginLatex
   //
   //  Note that the use of subtraction as a method for comparing the images is
@@ -752,7 +746,6 @@ int main( int argc, char *argv[] )
     }
 
 
-
   //  Software Guide : BeginLatex
   //
   //  For the purpose of comparison, the difference between the fixed image and
@@ -780,7 +773,6 @@ int main( int argc, char *argv[] )
     }
 
 
-
   //  Software Guide : BeginLatex
   //
   //  The complete pipeline structure of the current example is presented in
@@ -802,8 +794,6 @@ int main( int argc, char *argv[] )
   //  difference image.
   //
   //  Software Guide : EndLatex
-
-
 
 
   //  Software Guide : BeginLatex
@@ -832,4 +822,3 @@ int main( int argc, char *argv[] )
 
   return EXIT_SUCCESS;
 }
-

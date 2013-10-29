@@ -40,9 +40,9 @@
 class CommandIterationUpdate19 : public itk::Command
 {
 public:
-  typedef  CommandIterationUpdate19   Self;
-  typedef  itk::Command             Superclass;
-  typedef itk::SmartPointer<Self>   Pointer;
+  typedef CommandIterationUpdate19 Self;
+  typedef itk::Command             Superclass;
+  typedef itk::SmartPointer<Self>  Pointer;
   itkNewMacro( Self );
 
 protected:
@@ -460,4 +460,3 @@ int main( int argc, char *argv[] )
 
   return EXIT_SUCCESS;
 }
-

@@ -205,7 +205,6 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
   //  Software Guide : BeginLatex
   //
   //  The CellularAggregate will update the life cycle of all the cells in an

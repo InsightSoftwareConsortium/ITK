@@ -72,8 +72,6 @@ int main( int argc, char * argv [] )
 // Software Guide : EndCodeSnippet
 
 
-
-
 // Software Guide : BeginLatex
 //
 // The image file reader and writer types are instantiated using the image
@@ -88,8 +86,6 @@ int main( int argc, char * argv [] )
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
 // Software Guide : EndCodeSnippet
-
-
 
 
 // Software Guide : BeginLatex

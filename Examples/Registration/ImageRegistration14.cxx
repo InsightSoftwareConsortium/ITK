@@ -135,7 +135,6 @@ int main( int argc, char *argv[] )
   registration->SetInterpolator(  interpolator  );
 
 
-
   MetricType::Pointer metric = MetricType::New();
   registration->SetMetric( metric  );
 
@@ -307,8 +306,8 @@ int main( int argc, char *argv[] )
   resample->SetOutputDirection( fixedImage->GetDirection() );
   resample->SetDefaultPixelValue( 100 );
 
-  typedef itk::Image< PixelType, Dimension > OutputImageType;
-  typedef itk::ImageFileWriter< OutputImageType >  WriterType;
+  typedef itk::Image< PixelType, Dimension >      OutputImageType;
+  typedef itk::ImageFileWriter< OutputImageType > WriterType;
 
   WriterType::Pointer writer =  WriterType::New();
   writer->SetFileName( argv[3] );

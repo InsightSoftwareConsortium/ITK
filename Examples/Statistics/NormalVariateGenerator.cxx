@@ -52,7 +52,7 @@ int main()
   GeneratorType::Pointer generator = GeneratorType::New();
   generator->Initialize( (int) 2003 );
 
-  for ( unsigned int i = 0 ; i < 50 ; ++i )
+  for ( unsigned int i = 0; i < 50; ++i )
     {
     std::cout << i << " : \t" << generator->GetVariate() << std::endl;
     }

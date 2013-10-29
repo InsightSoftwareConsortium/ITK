@@ -61,9 +61,9 @@ int main( int argc, char * argv[] )
     }
 
   // Software Guide : BeginCodeSnippet
-  typedef   double  InputPixelType;
-  typedef   double  OutputPixelType;
-  typedef unsigned char    CharPixelType;
+  typedef double        InputPixelType;
+  typedef double        OutputPixelType;
+  typedef unsigned char CharPixelType;
 
   const unsigned int Dimension = 2;
 
@@ -111,7 +111,6 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
 
-
   //  Software Guide : BeginLatex
   //
   //  As with most filters, we connect the input and output of this
@@ -144,4 +143,3 @@ int main( int argc, char * argv[] )
 
   return EXIT_SUCCESS;
 }
-

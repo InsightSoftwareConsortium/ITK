@@ -45,8 +45,6 @@
 // Software Guide : EndCodeSnippet
 
 
-
-
 #include "itkImageFileReader.h"
 
 int main( int argc, char * argv [] )
@@ -58,7 +56,6 @@ int main( int argc, char * argv [] )
     std::cerr << "Usage :  ImageHistogram3  inputRGBImageFileName " << std::endl;
     return -1;
     }
-
 
 
   // Software Guide : BeginLatex
@@ -81,8 +78,6 @@ int main( int argc, char * argv [] )
   // Software Guide : EndCodeSnippet
 
 
-
-
   typedef itk::ImageFileReader< RGBImageType >  ReaderType;
 
   ReaderType::Pointer reader = ReaderType::New();
@@ -101,7 +96,6 @@ int main( int argc, char * argv [] )
     }
 
 
-
   // Software Guide : BeginLatex
   //
   // Using the RGB image type we can instantiate the type of the corresponding
@@ -117,8 +111,6 @@ int main( int argc, char * argv [] )
   HistogramFilterType::Pointer histogramFilter =
                                              HistogramFilterType::New();
   // Software Guide : EndCodeSnippet
-
-
 
 
   // Software Guide : BeginLatex
@@ -146,8 +138,6 @@ int main( int argc, char * argv [] )
 
   histogramFilter->SetHistogramSize( size );
   // Software Guide : EndCodeSnippet
-
-
 
 
   // Software Guide : BeginLatex
@@ -187,8 +177,6 @@ int main( int argc, char * argv [] )
   // Software Guide : EndCodeSnippet
 
 
-
-
   // Software Guide : BeginLatex
   //
   // The input of the filter is taken from an image reader, and the
@@ -204,8 +192,6 @@ int main( int argc, char * argv [] )
 
   histogramFilter->Update();
   // Software Guide : EndCodeSnippet
-
-
 
 
   // Software Guide : BeginLatex
@@ -229,9 +215,6 @@ int main( int argc, char * argv [] )
   // Software Guide : EndCodeSnippet
 
 
-
-
-
   // Software Guide : BeginLatex
   //
   // Just for the sake of exercising the experimental method~\cite{Popper2002}, we
@@ -248,9 +231,6 @@ int main( int argc, char * argv [] )
 
   std::cout << "Histogram size " << histogramSize << std::endl;
   // Software Guide : EndCodeSnippet
-
-
-
 
 
   // Software Guide : BeginLatex
@@ -281,9 +261,6 @@ int main( int argc, char * argv [] )
   // Software Guide : EndCodeSnippet
 
 
-
-
-
   // Software Guide : BeginLatex
   //
   // In order to reinforce the concepts presented above, we modify now the setup
@@ -303,9 +280,6 @@ int main( int argc, char * argv [] )
   
   histogramFilter->Update();
   // Software Guide : EndCodeSnippet
-
-
-
 
 
   // Software Guide : BeginLatex
@@ -328,9 +302,6 @@ int main( int argc, char * argv [] )
   // Software Guide : EndCodeSnippet
 
 
-
-
-
   // Software Guide : BeginLatex
   //
   // To finalize the example, we do the same computation for the case of the blue
@@ -348,7 +319,6 @@ int main( int argc, char * argv [] )
   
   histogramFilter->Update();
   // Software Guide : EndCodeSnippet
-
 
 
   // Software Guide : BeginLatex
@@ -373,5 +343,3 @@ int main( int argc, char * argv [] )
   return 0;
 
 }
-
-

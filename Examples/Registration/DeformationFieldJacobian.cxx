@@ -31,8 +31,8 @@ int main( int argc, char * argv[] )
     }
 
   // For now, this program runs on 3D deformation fields
-  typedef    itk::Vector<float, 3>    InputPixelType;
-  typedef    float    OutputPixelType;
+  typedef itk::Vector< float, 3 > InputPixelType;
+  typedef float                   OutputPixelType;
 
   typedef itk::Image< InputPixelType,  3 >   InputImageType;
   typedef itk::Image< OutputPixelType, 3 >   OutputImageType;
@@ -70,4 +70,3 @@ int main( int argc, char * argv[] )
 
   return EXIT_SUCCESS;
 }
-

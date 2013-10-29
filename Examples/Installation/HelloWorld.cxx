@@ -51,5 +51,3 @@ int main()
 //  Section~\ref{sec:ImageSection}.
 //
 //  Software Guide : EndLatex
-
-

@@ -62,19 +62,19 @@ int main()
   // Software Guide :EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::PointSet<float,2> FloatPointSet2DType ;
+  typedef itk::PointSet<float,2> FloatPointSet2DType;
 
-  itk::RandomPointSetSource<FloatPointSet2DType>::Pointer random ;
-  random = itk::RandomPointSetSource<FloatPointSet2DType>::New() ;
-  random->SetMin(0.0) ;
-  random->SetMax(1000.0) ;
+  itk::RandomPointSetSource<FloatPointSet2DType>::Pointer random;
+  random = itk::RandomPointSetSource<FloatPointSet2DType>::New();
+  random->SetMin(0.0);
+  random->SetMax(1000.0);
 
-  unsigned long size[2] = {20, 20} ;
-  random->SetSize(size) ;
-  float spacing[2] = {0.7, 2.1} ;
-  random->SetSpacing( spacing ) ;
-  float origin[2] = {15, 400} ;
-  random->SetOrigin( origin ) ;
+  unsigned long size[2] = {20, 20};
+  random->SetSize(size);
+  float spacing[2] = {0.7, 2.1};
+  random->SetSpacing( spacing );
+  float origin[2] = {15, 400};
+  random->SetOrigin( origin );
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -89,14 +89,14 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::FixedArray< float, 1 > MeasurementVectorType ;
-  typedef itk::PointSet< MeasurementVectorType, 2 > ArrayPointSetType ;
+  typedef itk::FixedArray< float, 1 >               MeasurementVectorType;
+  typedef itk::PointSet< MeasurementVectorType, 2 > ArrayPointSetType;
   typedef itk::ScalarToArrayCastPointSetFilter< FloatPointSet2DType,
-    ArrayPointSetType > CasterType ;
+                             ArrayPointSetType >    CasterType;
 
-  CasterType::Pointer caster = CasterType::New() ;
-  caster->SetInput( random->GetOutput() ) ;
-  caster->Update() ;
+  CasterType::Pointer caster = CasterType::New();
+  caster->SetInput( random->GetOutput() );
+  caster->Update();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -108,8 +108,8 @@ int main()
 
   // Software Guide : BeginCodeSnippet
   typedef itk::Statistics::PointSetToListSampleAdaptor<
-                                               ArrayPointSetType > SampleType ;
-  SampleType::Pointer sample = SampleType::New() ;
+                                               ArrayPointSetType > SampleType;
+  SampleType::Pointer sample = SampleType::New();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -119,8 +119,8 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  sample->SetPointSet( caster->GetOutput() ) ;
+  sample->SetPointSet( caster->GetOutput() );
   // Software Guide : EndCodeSnippet
 
-  return 0 ;
+  return 0;
 }
