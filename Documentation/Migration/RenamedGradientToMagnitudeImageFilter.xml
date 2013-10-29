@@ -50,17 +50,17 @@
     <SampleCode>
       <Old>
       <![CDATA[
-	#include "itkGradientToMagnitudeImageFilter.h"
-	typedef itk::GradientToMagnitudeImageFilter<VectorImageType,FloatImageType> FilterType;
-        FilterType::Pointer filter = FilterType::New();
+      #include "itkGradientToMagnitudeImageFilter.h"
+      typedef itk::GradientToMagnitudeImageFilter<VectorImageType,FloatImageType> FilterType;
+      FilterType::Pointer filter = FilterType::New();
       ]]>
       </Old>
 
       <New>
       <![CDATA[
-	#include "itkVectorMagnitudeImageFilter.h"
-	typedef itk::VectorMagnitudeImageFilter<VectorImageType,FloatImageType> FilterType;
-        FilterType::Pointer filter = FilterType::New();
+      #include "itkVectorMagnitudeImageFilter.h"
+      typedef itk::VectorMagnitudeImageFilter<VectorImageType,FloatImageType> FilterType;
+      FilterType::Pointer filter = FilterType::New();
       ]]>
       </New>
 

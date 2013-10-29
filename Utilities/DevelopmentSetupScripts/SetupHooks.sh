@@ -28,11 +28,11 @@ egrep-q() {
 }
 
 die() {
-	echo 'failure during hook setup' 1>&2
-	echo '-------------------------' 1>&2
-	echo '' 1>&2
-	echo "$@" 1>&2
-	exit 1
+  echo 'failure during hook setup' 1>&2
+  echo '-------------------------' 1>&2
+  echo '' 1>&2
+  echo "$@" 1>&2
+  exit 1
 }
 
 u=$(cd "$(echo "$0"|sed 's/[^/]*$//')"; pwd)

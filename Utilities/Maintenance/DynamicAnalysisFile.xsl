@@ -11,7 +11,7 @@
        <title><xsl:value-of select="cdash/title"/></title>
         <meta name="robots" content="noindex,nofollow" />
          <link rel="StyleSheet" type="text/css">
-	   <xsl:attribute name="href">stylish.css</xsl:attribute>
+          <xsl:attribute name="href">stylish.css</xsl:attribute>
          </link>
        </head>
        <body bgcolor="#111111">
@@ -27,17 +27,16 @@
   <tr><td align="right"><b>Test Result:</b></td>
     <td>
       <font>
-      <xsl:attribute name="color">
-	<xsl:choose>
-	  <xsl:when
-	    test="Site/DynamicAnalysis/Test[Name='@TESTNAME@']/@Status='passed'">
-	    #00aa00
-	   </xsl:when>
-	  <xsl:otherwise>
-	    #ffcc66
-	   </xsl:otherwise>
-	</xsl:choose>
-      </xsl:attribute>
+        <xsl:attribute name="color">
+          <xsl:choose>
+            <xsl:when test="Site/DynamicAnalysis/Test[Name='@TESTNAME@']/@Status='passed'">
+            #00aa00
+            </xsl:when>
+            <xsl:otherwise>
+            #ffcc66
+            </xsl:otherwise>
+          </xsl:choose>
+        </xsl:attribute>
       <xsl:value-of select="Site/DynamicAnalysis/Test[Name='@TESTNAME@']/@Status"/>
       </font>
    </td>

@@ -63,7 +63,7 @@
     <SampleCode>
       <Old>
         <![CDATA[
-	filter->SetFidelityWeight( 0.1 );
+        filter->SetFidelityWeight( 0.1 );
         ]]>
       </Old>
 

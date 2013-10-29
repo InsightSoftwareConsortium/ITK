@@ -9,7 +9,7 @@
        <title><xsl:value-of select="cdash/title"/></title>
         <meta name="robots" content="noindex,nofollow" />
          <link rel="StyleSheet" type="text/css">
-	   <xsl:attribute name="href">stylish.css</xsl:attribute>
+          <xsl:attribute name="href">stylish.css</xsl:attribute>
          </link>
        </head>
        <body bgcolor="#111111">
@@ -45,13 +45,13 @@
    <xsl:for-each select="Site/DynamicAnalysis/Test">
    <tr align="center" bgcolor="#333333">
       <td align="left"><a>
-	  <xsl:attribute name="href"><xsl:value-of select="Name"/>.html</xsl:attribute>
-	  <xsl:value-of select="Name"/>
-	</a></td>
+        <xsl:attribute name="href"><xsl:value-of select="Name"/>.html</xsl:attribute>
+        <xsl:value-of select="Name"/>
+      </a></td>
       <td>
       <xsl:attribute name="class">
        <xsl:choose>
-	 <xsl:when test="./@Status='passed'">
+          <xsl:when test="./@Status='passed'">
             normal
           </xsl:when>
           <xsl:otherwise>

@@ -3,7 +3,7 @@
     <xsl:output method="text"/>
     <xsl:template match="/">
       <xsl:for-each select="Site/DynamicAnalysis/Test">
-	<xsl:value-of select="Name"/>
+        <xsl:value-of select="Name"/>
 <!--newline-->
 <xsl:text>
 </xsl:text>

@@ -47,15 +47,15 @@
     <SampleCode>
       <Old>
       <![CDATA[
-	namespace Function
-	Function::Compose2DCovariantVector< typename TInputImage::PixelType > > Superclass;
+      namespace Function
+      Function::Compose2DCovariantVector< typename TInputImage::PixelType > > Superclass;
       ]]>
       </Old>
 
       <New>
       <![CDATA[
-	namespace Functor
-	Functor::Compose2DCovariantVector< typename TInputImage::PixelType > > Superclass;
+      namespace Functor
+      Functor::Compose2DCovariantVector< typename TInputImage::PixelType > > Superclass;
       ]]>
       </New>
 

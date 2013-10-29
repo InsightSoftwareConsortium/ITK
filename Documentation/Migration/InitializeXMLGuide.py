@@ -234,7 +234,7 @@ if __name__ == '__main__':
 
       # old line
       if (not startsWith(line, "--")) and startsWith(line, "-"):
-	sampleCodeOldText = sampleCodeOldText + line.lstrip("-").strip() + "\n"
+        sampleCodeOldText = sampleCodeOldText + line.lstrip("-").strip() + "\n"
 
       # new line
       elif (not startsWith(line, "++")) and startsWith(line, "+"):
