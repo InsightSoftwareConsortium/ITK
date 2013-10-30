@@ -107,13 +107,29 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
   typename MultiMetricType::Pointer multiMetric = dynamic_cast<MultiMetricType *>( this->m_Metric.GetPointer() );
   if( multiMetric )
     {
-    virtualDomainImage = dynamic_cast<ImageMetricType *>( multiMetric->GetMetricQueue()[0].GetPointer() )->GetVirtualImage();
-    fixedImageMask = dynamic_cast<ImageMetricType *>( multiMetric->GetMetricQueue()[0].GetPointer() )->GetFixedImageMask();
+    typename ImageMetricType::Pointer metricQueue = dynamic_cast<ImageMetricType *>( multiMetric->GetMetricQueue()[0].GetPointer() );
+    if( metricQueue.IsNotNull() )
+      {
+      virtualDomainImage = metricQueue->GetVirtualImage();
+      fixedImageMask = metricQueue->GetFixedImageMask();
+      }
+    else
+      {
+      itkExceptionMacro("ERROR: Invalid conversion from the multi metric queue.");
+      }
     }
   else
     {
-    virtualDomainImage = dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() )->GetVirtualImage();
-    fixedImageMask = dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() )->GetFixedImageMask();
+    typename ImageMetricType::Pointer metric = dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() );
+    if( metric.IsNotNull() )
+      {
+      virtualDomainImage = metric->GetVirtualImage();
+      fixedImageMask = metric->GetFixedImageMask();
+      }
+    else
+      {
+      itkExceptionMacro("ERROR: Invalid metric conversion.");
+      }
     }
 
   typedef typename ImageMetricType::DerivativeType MetricDerivativeType;
@@ -268,8 +284,16 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
 
         if( multiMetric )
           {
-          dynamic_cast<ImageMetricType *>( multiMetric->GetMetricQueue()[n].GetPointer() )->SetFixedImage( fixedResampler->GetOutput() );
-          dynamic_cast<ImageMetricType *>( multiMetric->GetMetricQueue()[n].GetPointer() )->SetMovingImage( movingResampler->GetOutput() );
+          typename ImageMetricType::Pointer metricQueue = dynamic_cast<ImageMetricType *>( multiMetric->GetMetricQueue()[n].GetPointer() );
+          if( metricQueue.IsNotNull() )
+            {
+            metricQueue->SetFixedImage( fixedResampler->GetOutput() );
+            metricQueue->SetMovingImage( movingResampler->GetOutput() );
+            }
+          else
+            {
+            itkExceptionMacro("ERROR: Invalid conversion from the multi metric queue.");
+            }
           }
         else
           {
@@ -409,7 +433,15 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
     typename MaskImageType::ConstPointer maskImage = NULL;
     if( fixedImageMask )
       {
-      maskImage = dynamic_cast<ImageMaskSpatialObjectType *>( const_cast<FixedImageMaskType *>( fixedImageMask.GetPointer() ) )->GetImage();
+      typename ImageMaskSpatialObjectType::Pointer imageMask = dynamic_cast<ImageMaskSpatialObjectType *>( const_cast<FixedImageMaskType *>( fixedImageMask.GetPointer() ) );
+      if( imageMask.IsNotNull() )
+        {
+        maskImage = imageMask->GetImage();
+        }
+      else
+        {
+        itkExceptionMacro("ERROR: Invalid maskImage conversion.");
+        }
       }
 
     ImageRegionConstIteratorWithIndex<TimeVaryingVelocityFieldType> It( velocityFieldImporter->GetOutput(), velocityFieldImporter->GetOutput()->GetBufferedRegion() );

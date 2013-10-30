@@ -538,6 +538,10 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
   typedef typename FixedSampledPointSetType::PointsContainer PointsContainer;
   typename PointsContainer::ConstPointer
     points = this->m_FixedSampledPointSet->GetPoints();
+  if( points.IsNull() )
+    {
+    itkExceptionMacro("Fixed Sample point set is empty.");
+    }
   typename PointsContainer::ConstIterator fixedIt = points->Begin();
 
   typename FixedTransformType::InverseTransformBasePointer

@@ -92,11 +92,27 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TOu
   typename MultiMetricType::Pointer multiMetric = dynamic_cast<MultiMetricType *>( this->m_Metric.GetPointer() );
   if( multiMetric )
     {
-    virtualDomainImage = dynamic_cast<ImageMetricType *>( multiMetric->GetMetricQueue()[0].GetPointer() )->GetVirtualImage();
+    typename ImageMetricType::Pointer metricQueue = dynamic_cast<ImageMetricType *>( multiMetric->GetMetricQueue()[0].GetPointer() );
+    if( metricQueue.IsNotNull() )
+      {
+      virtualDomainImage = metricQueue->GetVirtualImage();
+      }
+    else
+      {
+      itkExceptionMacro("ERROR: Invalid conversion from the multi metric queue.");
+      }
     }
   else
     {
-    virtualDomainImage = dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() )->GetVirtualImage();
+    typename ImageMetricType::Pointer metric = dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() );
+    if( metric.IsNotNull() )
+      {
+      virtualDomainImage = metric->GetVirtualImage();
+      }
+    else
+      {
+      itkExceptionMacro("ERROR: Invalid metric conversion.");
+      }
     }
 
   typedef typename ImageMetricType::DerivativeType MetricDerivativeType;
@@ -210,8 +226,16 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TOu
 
         if( multiMetric )
           {
-          dynamic_cast<ImageMetricType *>( multiMetric->GetMetricQueue()[n].GetPointer() )->SetFixedImage( fixedResampler->GetOutput() );
-          dynamic_cast<ImageMetricType *>( multiMetric->GetMetricQueue()[n].GetPointer() )->SetMovingImage( movingResampler->GetOutput() );
+          typename ImageMetricType::Pointer metricQueue = dynamic_cast<ImageMetricType *>( multiMetric->GetMetricQueue()[n].GetPointer() );
+          if( metricQueue.IsNotNull() )
+            {
+            metricQueue->SetFixedImage( fixedResampler->GetOutput() );
+            metricQueue->SetMovingImage( movingResampler->GetOutput() );
+            }
+          else
+            {
+            itkExceptionMacro("ERROR: Invalid conversion from the multi metric queue.");
+            }
           }
         else
           {
