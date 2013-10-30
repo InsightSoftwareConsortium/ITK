@@ -107,9 +107,9 @@ Please run
 
 run_KWStyle_on_file() {
   if test -z "$KWStyle_overWriteRulesConf"; then
-    "$KWStyle_path" -v -xml "$KWStyle_conf" "$1"
+    "$KWStyle_path" -gcc -xml "$KWStyle_conf" "$1"
   else
-    "$KWStyle_path" -v -xml "$KWStyle_conf" -o "$KWStyle_overWriteRulesConf" "$1"
+    "$KWStyle_path" -gcc -xml "$KWStyle_conf" -o "$KWStyle_overWriteRulesConf" "$1"
   fi
 
   if test $? -ne 0; then
