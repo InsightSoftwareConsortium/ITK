@@ -127,11 +127,15 @@ int main( int argc, char* argv[] )
 // \code{SetUseSeriesDetails(true)} must be called prior to calling
 // \code{SetDirectory()}. By default \code{SetUseSeriesDetails(true)} will use
 // the following DICOM tags to sub-refine a set of files into multiple series:
-// * 0020 0011 Series Number
-// * 0018 0024 Sequence Name
-// * 0018 0050 Slice Thickness
-// * 0028 0010 Rows
-// * 0028 0011 Columns
+//
+// \begin{description}
+// \item[0020 0011] Series Number
+// \item[0018 0024] Sequence Name
+// \item[0018 0050] Slice Thickness
+// \item[0028 0010] Rows
+// \item[0028 0011] Columns
+// \end{description}
+//
 // If this is not enough for your specific case you can always add some more
 // restrictions using the \code{AddSeriesRestriction()} method. In this example we will use
 // the DICOM Tag: 0008 0021 DA 1 Series Date, to sub-refine each series. The format
