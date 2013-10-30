@@ -7,11 +7,18 @@ set(ITKMINC_NO_SRC 1)
 # For itk_minc2.h
 set(ITKMINC_INCLUDE_DIRS ${CMAKE_CURRENT_BINARY_DIR}/src)
 if(ITK_USE_SYSTEM_MINC)
+
   find_package(LIBMINC REQUIRED)
+
   set(ITKMINC_SYSTEM_INCLUDE_DIRS
     ${LIBMINC_INCLUDE_DIRS}
     )
-  set(ITKMINC_LIBRARIES "${LIBMINC_LIBRARIES}")
+
+  set(ITKMINC_SYSTEM_LIBRARY_DIRS
+    ${LIBMINC_LIBRARY_DIRS}
+  )
+
+  set(ITKMINC_LIBRARIES "${VOLUME_IO_LIBRARIES}" "${LIBMINC_LIBRARIES}")
   itk_module_impl()
 else()
   set(MINC_EPNAME ITKMINC2_ExternalProject)
@@ -38,23 +45,13 @@ else()
 
   if(NOT WIN32)
     set(lib_prefix lib)
-#     if(BUILD_SHARED_LIBS)
-#       set(lib_suffix "${CMAKE_SHARED_LIBRARY_SUFFIX}")
-#       set(lib_prefix "${CMAKE_SHARED_LIBRARY_PREFIX}")
-#     else()
     set(lib_suffix "${CMAKE_STATIC_LIBRARY_SUFFIX}")
     set(lib_prefix "${CMAKE_STATIC_LIBRARY_PREFIX}")
-#     endif()
   else()
     set(MINC_CMAKE_ARGS "-DCMAKE_CXX_FLAGS:STRING=-D_CRT_SECURE_NO_WARNINGS" "-DCMAKE_C_FLAGS:STRING=-D_CRT_SECURE_NO_WARNINGS")
     set(lib_prefix "")
-#     if(BUILD_SHARED_LIBS)
-#       set(lib_suffix "${CMAKE_IMPORT_LIBRARY_SUFFIX}")
-#       set(lib_prefix "${CMAKE_IMPORT_LIBRARY_PREFIX}")
-#     else()
     set(lib_suffix "${CMAKE_STATIC_LIBRARY_SUFFIX}")
     set(lib_prefix "${CMAKE_IMPORT_LIBRARY_PREFIX}")
-#     endif()
   endif()
 
   # create imported targets when module is loaded from build tree
@@ -110,7 +107,7 @@ endif()
   endforeach()
 
   set(MINC_GIT_REPOSITORY "https://github.com/BIC-MNI/libminc.git")
-  set(MINC_GIT_TAG "3cacf3b7f8b3a5edde3c779ac5f4a89bcbc559f8")
+  set(MINC_GIT_TAG "06b3e5914f87f89418bfd7271bcfad6f137a7215")
   set(MINC_HDF5_ARGS )
 
   if(NOT ITK_USE_SYSTEM_HDF5)

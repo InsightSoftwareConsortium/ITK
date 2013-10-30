@@ -157,6 +157,7 @@ void MINCImageIO::CleanupDimensions(void)
   delete[] this->m_MincFileDims;
   delete[] this->m_MincApparentDims;
 
+  this->m_DimensionName    = NULL;
   this->m_DimensionSize    = NULL;
   this->m_DimensionStart   = NULL;
   this->m_DimensionStep    = NULL;
