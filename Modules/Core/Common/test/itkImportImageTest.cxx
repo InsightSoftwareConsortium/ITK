@@ -33,7 +33,6 @@ int itkImportImageTest(int, char* [] )
   // typdefs to simplify the syntax
   typedef itk::ImportImageFilter<short, 2> ImportImageFilter;
   typedef itk::Image<short, 2>             ShortImage;
-
   // Create an ImportImageFilter filter
   ImportImageFilter::Pointer import;
   import = ImportImageFilter::New();
@@ -64,13 +63,13 @@ int itkImportImageTest(int, char* [] )
     }
 
   // Test the SetVectorMacros and GetVectorMacros
-  const double data[2] = {1.0,1.0};
+  const itk::SpacePrecisionType data[2] = {1.0,1.0};
   import->SetSpacing(data);
 
   const float data2[2] = {1.0,1.0};
   import->SetSpacing(data2);
 
-  const double * spacingValue = import->GetSpacing().GetDataPointer();
+  const itk::SpacePrecisionType * spacingValue = import->GetSpacing().GetDataPointer();
   std::cout << "import->GetSpacing(): " << spacingValue << std::endl;
 
   const double data3[2] = {1.0,1.0};
@@ -79,7 +78,7 @@ int itkImportImageTest(int, char* [] )
   const float data4[2] = {1.0,1.0};
   import->SetOrigin(data4);
 
-  const double * originValue = import->GetOrigin().GetDataPointer();
+  const itk::SpacePrecisionType * originValue = import->GetOrigin().GetDataPointer();
   std::cout << "import->GetOrigin(): " << originValue << std::endl;
 
   //

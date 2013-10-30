@@ -83,7 +83,11 @@ public:
   /** Pass-through constructors for the Array base class. */
   template< typename TPointValueType >
   Point(const Point< TPointValueType, NPointDimension > & r):BaseArray(r) {}
+  template< typename TPointValueType >
+  Point(const TPointValueType r[NPointDimension]):BaseArray(r) {}
   Point(const ValueType r[NPointDimension]):BaseArray(r) {}
+  template< typename TPointValueType >
+  Point(const TPointValueType & v):BaseArray(v) {}
   Point(const ValueType & v):BaseArray(v) {}
 
   /** Pass-through assignment operator for the Array base class. */

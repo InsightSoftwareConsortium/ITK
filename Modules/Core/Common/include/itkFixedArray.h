@@ -146,6 +146,12 @@ public:
       }
   }
 
+  template< typename TScalarValue >
+  FixedArray(const TScalarValue *r)
+    {
+      std::copy(r, r + this->Size(), this->GetDataPointer());
+    }
+
   /** This destructor is not virtual for performance reasons. However, this
    * means that subclasses cannot allocate memory.
    *

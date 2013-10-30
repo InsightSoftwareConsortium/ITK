@@ -66,6 +66,27 @@ Matrix< T, NRows, NColumns >
 }
 
 /**
+ *  Product by a vnl_vector_fixed
+ */
+template< typename T, unsigned int NRows, unsigned int NColumns >
+vnl_vector_fixed< T, NRows >
+Matrix< T, NRows, NColumns >
+::operator*(const vnl_vector_fixed< T, NColumns > & inVNLvect) const
+{
+  vnl_vector_fixed< T, NRows > result;
+  for ( unsigned int r = 0; r < NRows; r++ )
+    {
+    T sum = NumericTraits< T >::Zero;
+    for ( unsigned int c = 0; c < NColumns; c++ )
+      {
+      sum += m_Matrix(r, c) * inVNLvect[c];
+      }
+    result[r] = sum;
+    }
+  return result;
+}
+
+/**
  *  Product by a CovariantVector
  */
 template< typename T, unsigned int NRows, unsigned int NColumns >
@@ -94,9 +115,7 @@ Matrix< T, NRows, NColumns >
 Matrix< T, NRows, NColumns >
 ::operator*(const CompatibleSquareMatrixType & matrix) const
 {
-  Self result;
-
-  result = m_Matrix * matrix.GetVnlMatrix();
+  const Self result( m_Matrix * matrix.GetVnlMatrix() );
   return result;
 }
 

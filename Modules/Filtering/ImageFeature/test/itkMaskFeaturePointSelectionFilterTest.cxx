@@ -39,11 +39,12 @@ int itkMaskFeaturePointSelectionFilterTest( int argc, char * argv[] )
 
   typedef unsigned char                  InputPixelType;
   typedef itk::RGBPixel<InputPixelType>  OutputPixelType;
-  typedef itk::Matrix< double, 3, 3 >    PointSetPixelType;
 
-  typedef itk::Image< InputPixelType,  3 >       InputImageType;
-  typedef itk::Image< OutputPixelType, 3 >       OutputImageType;
-  typedef itk::PointSet< PointSetPixelType, 3 >  PointSetType;
+  typedef itk::Image< InputPixelType,  3 > InputImageType;
+  typedef itk::Image< OutputPixelType, 3 > OutputImageType;
+
+  typedef itk::Matrix< itk::SpacePrecisionType, 3, 3 > PointSetPixelType;
+  typedef itk::PointSet< PointSetPixelType, 3 >        PointSetType;
 
   typedef itk::ImageFileReader< InputImageType >  ReaderType;
 

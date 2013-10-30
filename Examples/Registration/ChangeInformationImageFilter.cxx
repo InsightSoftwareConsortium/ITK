@@ -33,12 +33,10 @@
 //
 //  Software Guide : EndLatex
 
-
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkVersor.h"
-
 
 //  Software Guide : BeginLatex
 //
@@ -48,11 +46,9 @@
 //
 //  Software Guide : EndLatex
 
-
 // Software Guide : BeginCodeSnippet
 #include "itkChangeInformationImageFilter.h"
 // Software Guide : EndCodeSnippet
-
 
 int main( int argc, char * argv[] )
 {
@@ -64,7 +60,6 @@ int main( int argc, char * argv[] )
     std::cerr << " [rotationZinDegrees]" << std::endl;
     return EXIT_FAILURE;
     }
-
 
   //  Software Guide : BeginLatex
   //
@@ -79,7 +74,6 @@ int main( int argc, char * argv[] )
 
   typedef itk::Image< PixelType,  Dimension >   ImageType;
   // Software Guide : EndCodeSnippet
-
 
   typedef itk::ImageFileReader< ImageType >  ReaderType;
   typedef itk::ImageFileWriter< ImageType >  WriterType;
@@ -121,7 +115,6 @@ int main( int argc, char * argv[] )
     return EXIT_FAILURE;
     }
 
-
   ImageType::ConstPointer inputImage = reader->GetOutput();
 
   ImageType::PointType     origin    = inputImage->GetOrigin();
@@ -139,7 +132,6 @@ int main( int argc, char * argv[] )
     filter->SetOutputSpacing( spacing );
     filter->ChangeSpacingOn();
     }
-
 
   if( argc > 6 )
     {
@@ -159,7 +151,7 @@ int main( int argc, char * argv[] )
     {
     double additionalAngle = atof( argv[7] );
 
-    itk::Versor< double >  rotation;
+    itk::Versor< itk::SpacePrecisionType >  rotation;
     double angleInRadians = additionalAngle * vnl_math::pi / 180.0;
     rotation.SetRotationAroundZ( angleInRadians );
 
@@ -168,7 +160,6 @@ int main( int argc, char * argv[] )
     filter->SetOutputDirection( newDirection );
     filter->ChangeDirectionOn();
     }
-
 
   //  Software Guide : BeginLatex
   //
@@ -181,7 +172,6 @@ int main( int argc, char * argv[] )
   //  \index{itk::ChangeInformationImageFilter!GetOutput()}
   //
   //  Software Guide : EndLatex
-
 
   // Software Guide : BeginCodeSnippet
   filter->SetInput( reader->GetOutput() );

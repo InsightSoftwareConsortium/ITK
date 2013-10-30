@@ -24,7 +24,7 @@
 
 namespace itk {
 
-template< typename TInputImage, typename TCoordRep = double >
+template< typename TInputImage, typename TCoordRep = SpacePrecisionType >
 class TestImageFunction:
   public ImageFunction< TInputImage,
                         typename NumericTraits<
@@ -164,10 +164,10 @@ int itkImageFunctionTest( int , char*[] )
 
   /* Test SetInputImage & Accessors */
   function->SetInputImage( image );
-  IndexType endIndex = function->GetEndIndex();
-  IndexType startIndex = function->GetStartIndex();
-  ContinuousIndexType endIndexC = function->GetEndContinuousIndex();
-  ContinuousIndexType startIndexC = function->GetStartContinuousIndex();
+  const IndexType & endIndex = function->GetEndIndex();
+  const IndexType & startIndex = function->GetStartIndex();
+  const FunctionType::ContinuousIndexType & endIndexC = function->GetEndContinuousIndex();
+  const FunctionType::ContinuousIndexType & startIndexC = function->GetStartContinuousIndex();
 
   for ( unsigned int j = 0; j < Dimension; j++ )
     {
@@ -233,8 +233,7 @@ int itkImageFunctionTest( int , char*[] )
     }
 
   /* IsInsideBuffer with Continuous index type */
-  ContinuousIndexType indexC;
-  indexC = startIndexC;
+  FunctionType::ContinuousIndexType indexC( startIndexC );
   if( !function->IsInsideBuffer( indexC ) )
     {
     std::cout << "Error with IsInsideBuffer 1C." << std::endl;

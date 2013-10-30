@@ -107,9 +107,7 @@ void
 ImageBase< VImageDimension >
 ::SetSpacing(const double spacing[VImageDimension])
 {
-  SpacingType s(spacing);
-
-  this->SetSpacing(s);
+  this->InternalSetSpacing(spacing);
 }
 
 //----------------------------------------------------------------------------
@@ -118,10 +116,7 @@ void
 ImageBase< VImageDimension >
 ::SetSpacing(const float spacing[VImageDimension])
 {
-  Vector< float, VImageDimension > sf(spacing);
-  SpacingType                      s;
-  s.CastFrom(sf);
-  this->SetSpacing(s);
+  this->InternalSetSpacing(spacing);
 }
 
 //----------------------------------------------------------------------------

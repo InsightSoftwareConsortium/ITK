@@ -96,9 +96,12 @@ int itkPhysicalPointImageSourceTest( int argc, char *argv[] )
 
   itk::Size<ImageDimension> size;
   size.Fill(64);
-  itk::Vector<double, ImageDimension> spacing( 1.0 );
-  itk::Point<double, ImageDimension> origin (0.0);
-  itk::Matrix< double, ImageDimension, ImageDimension> direction;
+
+  typedef itk::Image<unsigned char,ImageDimension> ImageType;
+  ImageType::SpacingType spacing(1.0);
+  ImageType::PointType origin(0.0);
+  ImageType::DirectionType direction;
+
   direction.SetIdentity();
 
   int test;
@@ -118,10 +121,10 @@ int itkPhysicalPointImageSourceTest( int argc, char *argv[] )
     }
   else
     {
-    double M[] = { vcl_cos( theta ), -vcl_sin( theta ),
+    itk::SpacePrecisionType M[] = { vcl_cos( theta ), -vcl_sin( theta ),
                     vcl_sin( theta ), vcl_cos( theta ) };
 
-    direction = vnl_matrix<double>( M, 2, 2);
+    direction = vnl_matrix<itk::SpacePrecisionType>( M, 2, 2);
     test = itkPhysicalPointImageSourceTest< itk::VectorImage<float, ImageDimension> >( std::string( argv[1] ), size, spacing, origin, direction );
     }
 

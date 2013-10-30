@@ -69,7 +69,7 @@ public:
   itkStaticConstMacro(ImageDimension2, unsigned int,
                       InputImageType::ImageDimension);
 
-  typedef ContinuousIndex< TOutput, itkGetStaticConstMacro(ImageDimension2) >
+  typedef ContinuousIndex< SpacePrecisionType, itkGetStaticConstMacro(ImageDimension2) >
   ContinuousIndexType;
 
   typedef Neighborhood< InputPixelType, itkGetStaticConstMacro(ImageDimension2) > NeighborhoodType;
@@ -89,7 +89,8 @@ public:
   typedef typename GaussianFunctionType::Pointer GaussianFunctionPointer;
 
   /** Point typedef support. */
-  typedef Point< TOutput, itkGetStaticConstMacro(ImageDimension2) > PointType;
+  // typedef Point< TOutput, itkGetStaticConstMacro(ImageDimension2) > PointType;
+  typedef typename InputImageType::PointType PointType;
 
   /** Evalutate the  in the given dimension at specified point */
   virtual OutputType Evaluate(const PointType & point) const;

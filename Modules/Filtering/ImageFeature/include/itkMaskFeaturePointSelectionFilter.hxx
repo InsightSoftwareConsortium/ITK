@@ -248,11 +248,10 @@ MaskFeaturePointSelectionFilter< TImage, TMask, TFeatures >
       // compute and add structure tensor into pointData
       if ( m_ComputeStructureTensors )
         {
-        StructureTensorType product;
         StructureTensorType tensor;
         tensor.Fill( 0 );
 
-        Matrix < double, ImageDimension, 1 > gradI; // vector declared as column matrix
+        Matrix < SpacePrecisionType, ImageDimension, 1 > gradI; // vector declared as column matrix
 
         SizeType radius;
         radius.Fill( 1 ); // iterate over neighbourhood of a voxel
@@ -281,14 +280,15 @@ MaskFeaturePointSelectionFilter< TImage, TMask, TFeatures >
 
             const ImagePixelType leftPixelValue  = image->GetPixel( gradientItr.GetIndex( left  ) );
             const ImagePixelType rightPixelValue = image->GetPixel( gradientItr.GetIndex( right ) );
-            const double doubleSpacing = voxelSpacing[ j ] * 2.0;
+            const SpacePrecisionType doubleSpacing = voxelSpacing[ j ] * 2.0;
 
             // using image GetPixel instead of iterator GetPixel since offsets might be outside of neighbourhood
             gradI( j, 0 ) = ( leftPixelValue - rightPixelValue ) / doubleSpacing;
             }
 
           // Compute tensor product of gradI with itself
-          product = gradI * gradI.GetTranspose();
+          const vnl_matrix< SpacePrecisionType > tnspose = gradI.GetTranspose();
+          StructureTensorType product ( gradI * tnspose );
           tensor += product;
           }
 

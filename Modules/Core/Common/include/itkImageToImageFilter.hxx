@@ -210,7 +210,7 @@ ImageToImageFilter< TInputImage, TOutputImage >
 
       // tolerance for origin and spacing depends on the size of pixel
       // tolerance for directions a fraction of the unit cube.
-      const double coordinateTol
+      const SpacePrecisionType coordinateTol
         = this->m_CoordinateTolerance * inputPtr1->GetSpacing()[0]; // use first dimension spacing
 
       if ( !inputPtr1->GetOrigin().GetVnlVector().is_equal(inputPtrN->GetOrigin().GetVnlVector(), coordinateTol) ||

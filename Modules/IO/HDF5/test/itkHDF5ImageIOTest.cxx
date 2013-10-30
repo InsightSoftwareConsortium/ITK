@@ -44,7 +44,7 @@ int HDF5ReadWriteTest(const char *fileName)
   typename ImageType::Pointer im =
     itk::IOTestHelper::AllocateImageFromRegionAndSpacing<ImageType>(imageRegion,spacing);
 
-  itk::Matrix<double> mat;
+  itk::Matrix<itk::SpacePrecisionType> mat;
   mat.SetIdentity();
   // 30deg rotation
   mat[1][1] =

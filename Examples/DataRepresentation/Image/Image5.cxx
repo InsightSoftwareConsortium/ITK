@@ -67,7 +67,9 @@ int main(int argc, char * argv[])
   // Software Guide : BeginCodeSnippet
   typedef unsigned char   PixelType;
   const unsigned int Dimension = 3;
+
   typedef itk::Image< PixelType, Dimension > ImageType;
+
   // Software Guide : EndCodeSnippet
 
 
@@ -139,7 +141,7 @@ int main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  const double origin[ Dimension ] = { 0.0, 0.0, 0.0 };
+  const itk::SpacePrecisionType origin[ Dimension ] = { 0.0, 0.0, 0.0 };
   importFilter->SetOrigin( origin );
   // Software Guide : EndCodeSnippet
 
@@ -151,7 +153,7 @@ int main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   // spacing isotropic volumes to 1.0
-  const double spacing[ Dimension ] =  { 1.0, 1.0, 1.0 };
+  const itk::SpacePrecisionType  spacing[ Dimension ] =  { 1.0, 1.0, 1.0 };
   importFilter->SetSpacing( spacing );
   // Software Guide : EndCodeSnippet
 

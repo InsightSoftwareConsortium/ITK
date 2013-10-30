@@ -46,7 +46,7 @@ ImageFunction< TInputImage, TOutput, TCoordRep >
   std::ostream & os,
   Indent indent) const
 {
-  Superclass::PrintSelf(os, indent);
+  this->Superclass::PrintSelf(os, indent);
   os << indent << "InputImage: " << m_Image.GetPointer() << std::endl;
   os << indent << "StartIndex: " << m_StartIndex << std::endl;
   os << indent << "EndIndex: " << m_EndIndex << std::endl;

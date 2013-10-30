@@ -114,7 +114,7 @@ public:
   itkGetConstReferenceMacro(Origin, OriginType);
   itkSetVectorMacro(Origin, const float, VImageDimension);
 
-  typedef Matrix< double, VImageDimension, VImageDimension > DirectionType;
+  typedef Matrix< SpacePrecisionType, VImageDimension, VImageDimension > DirectionType;
 
   /** Set the direction of the image
    * \sa GetDirection() */

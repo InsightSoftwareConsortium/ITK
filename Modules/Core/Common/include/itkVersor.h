@@ -260,6 +260,20 @@ public:
   Self Exponential(ValueType exponent) const;
 
 private:
+  /** use different epsilon for float and double */
+  static inline ValueType Epsilon(double *)
+    {
+      return 1e-10;
+    }
+  static inline ValueType Epsilon(float *)
+    {
+      return 1e-7;
+    }
+  static inline ValueType Epsilon()
+    {
+      return Epsilon((ValueType *)0);
+    }
+
   /** Component parallel to x axis.  */
   ValueType m_X;
 

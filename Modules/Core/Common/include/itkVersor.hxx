@@ -395,9 +395,9 @@ Versor< T >
   //determining rotational orthogonality, and it occasionally
   //prevented the conversion between different rigid transform types.
 
-  const T epsilon = 1e-10; // vnl_sqrt( vcl_numeric_limits< T >::epsilon() );
+  const T epsilon = Self::Epsilon(); // vnl_sqrt( vcl_numeric_limits< T >::epsilon() );
   // Use a slightly less epsilon for detecting difference
-  const T epsilonDiff = 1e-10; //vcl_numeric_limits< T >::epsilon() * 10.0;
+  const T epsilonDiff = Self::Epsilon(); //vcl_numeric_limits< T >::epsilon() * 10.0;
 
   const vnl_matrix< T > m( mat.GetVnlMatrix() );
 
