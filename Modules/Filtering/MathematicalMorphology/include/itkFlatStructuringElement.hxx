@@ -675,12 +675,13 @@ FlatStructuringElement< VDimension > FlatStructuringElement< VDimension >
 
 template< unsigned int VDimension >
 FlatStructuringElement< VDimension > FlatStructuringElement< VDimension >
-::Ball(RadiusType radius)
+::Ball(RadiusType radius, bool radiusIsParametric)
 {
   Self res = Self();
 
   res.SetRadius(radius);
   res.m_Decomposable = false;
+  res.SetRadiusIsParametric(radiusIsParametric);
 
   unsigned int i;
 
@@ -724,7 +725,14 @@ FlatStructuringElement< VDimension > FlatStructuringElement< VDimension >
   typename EllipsoidType::InputType axes;
   for ( i = 0; i < VDimension; i++ )
     {
-    axes[i] = res.GetSize(i);
+    if( res.GetRadiusIsParametric() )
+      {
+      axes[i] = 2 * res.GetRadius(i);
+      }
+    else
+      {
+      axes[i] = res.GetSize(i);
+      }
     }
   spatialFunction->SetAxes(axes);
 
@@ -779,12 +787,14 @@ FlatStructuringElement< NDimension >
 FlatStructuringElement< NDimension >
 ::Annulus(RadiusType radius,
           unsigned int thickness,
-          bool includeCenter)
+          bool includeCenter,
+          bool radiusIsParametric)
 {
   Self result = Self();
 
   result.SetRadius(radius);
   result.m_Decomposable = false;
+  result.SetRadiusIsParametric( radiusIsParametric );
 
   // Image typedef
   typedef Image< bool, NDimension > ImageType;
@@ -827,8 +837,16 @@ FlatStructuringElement< NDimension >
   typename EllipsoidType::InputType axesInner;
   for ( unsigned int i = 0; i < NDimension; i++ )
     {
-    axesOuter[i] = result.GetSize(i);
-    axesInner[i] = std::max(2 * (OffsetValueType)radius[i] + 1 - 2 * (OffsetValueType)thickness, (OffsetValueType)1);
+    if( result.GetRadiusIsParametric() )
+      {
+      axesOuter[i] = 2 * result.GetRadius(i);
+      axesInner[i] = std::max(2 * (OffsetValueType)radius[i] - 2 * (OffsetValueType)thickness, (OffsetValueType)1);
+      }
+    else
+      {
+      axesOuter[i] = result.GetSize(i);
+      axesInner[i] = std::max(2 * (OffsetValueType)radius[i] + 1 - 2 * (OffsetValueType)thickness, (OffsetValueType)1);
+      }
     }
   ellipsoidOuter->SetAxes(axesOuter);
   ellipsoidInner->SetAxes(axesInner);
