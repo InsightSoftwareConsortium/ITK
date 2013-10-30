@@ -85,7 +85,7 @@ namespace itk
  *
  * \ingroup ITKRegistrationMethodsv4
  */
-template<typename TFixedImage, typename TMovingImage, typename TOutputTransform>
+template<typename TFixedImage, typename TMovingImage, typename TOutputTransform, typename TVirtualImage = TFixedImage>
 class ImageRegistrationMethodv4
 :public ProcessObject
 {
@@ -129,7 +129,7 @@ public:
   typedef ObjectToObjectMetricBaseTemplate<RealType>                  MetricType;
   typedef typename MetricType::Pointer                                MetricPointer;
 
-  typedef Image<typename ObjectToObjectMetricBaseTemplate<RealType>::ParametersValueType, ImageDimension> VirtualImageType;
+  typedef TVirtualImage                                               VirtualImageType;
 
   typedef ObjectToObjectMultiMetricv4<ImageDimension, ImageDimension, VirtualImageType, RealType>  MultiMetricType;
   typedef ImageToImageMetricv4<FixedImageType, MovingImageType, VirtualImageType, RealType>        ImageMetricType;
