@@ -166,7 +166,7 @@ int main()
   weightedMeanAlgorithm->SetWeights( weightArray );
   weightedMeanAlgorithm->Update();
 
-  std::cout << "Sample weighted mean = " 
+  std::cout << "Sample weighted mean = "
             << weightedMeanAlgorithm->GetMean() << std::endl;
 
   typedef itk::Statistics::WeightedCovarianceSampleFilter< SampleType >
@@ -179,7 +179,7 @@ int main()
   weightedCovarianceAlgorithm->SetWeights( weightArray );
   weightedCovarianceAlgorithm->Update();
 
-  std::cout << "Sample weighted covariance = " << std::endl; 
+  std::cout << "Sample weighted covariance = " << std::endl;
   std::cout << weightedCovarianceAlgorithm->GetCovarianceMatrix() << std::endl;
   // Software Guide : EndCodeSnippet
 
@@ -200,13 +200,13 @@ int main()
   weightedMeanAlgorithm->SetWeightingFunction( weightFunction );
   weightedMeanAlgorithm->Update();
 
-  std::cout << "Sample weighted mean = " 
+  std::cout << "Sample weighted mean = "
             << weightedMeanAlgorithm->GetMean() << std::endl;
 
   weightedCovarianceAlgorithm->SetWeightingFunction( weightFunction );
   weightedCovarianceAlgorithm->Update();
 
-  std::cout << "Sample weighted covariance = " << std::endl; 
+  std::cout << "Sample weighted covariance = " << std::endl;
   std::cout << weightedCovarianceAlgorithm->GetCovarianceMatrix();
 
   std::cout << "Sample weighted mean (from WeightedCovarainceSampleFilter) = "

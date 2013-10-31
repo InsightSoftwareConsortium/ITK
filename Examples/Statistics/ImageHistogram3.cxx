@@ -277,7 +277,7 @@ int main( int argc, char * argv [] )
   size[2] =   1;  // number of bins for the Blue  channel
 
   histogramFilter->SetHistogramSize( size );
-  
+
   histogramFilter->Update();
   // Software Guide : EndCodeSnippet
 
@@ -316,7 +316,7 @@ int main( int argc, char * argv [] )
   size[2] = 255;  // number of bins for the Blue  channel
 
   histogramFilter->SetHistogramSize( size );
-  
+
   histogramFilter->Update();
   // Software Guide : EndCodeSnippet
 

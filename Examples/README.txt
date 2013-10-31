@@ -14,7 +14,7 @@ Specifically, the purpose of these examples is as follows:
      and if they do, there should be CMake flags to turn them off.
 
    * Provide a consistent set of examples that will work in conjunctions with
-     the ITK Software Guide. (The ITK Software Guide is found in the 
+     the ITK Software Guide. (The ITK Software Guide is found in the
      separate checkout InsightDocuments/SoftwareGuide.)
 
    * Provide a consistent set of examples that will work with ITK tutorials

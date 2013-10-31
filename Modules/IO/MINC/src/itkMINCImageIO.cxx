@@ -385,8 +385,8 @@ void MINCImageIO::ReadImageInformation()
       {
       itkDebugMacro(" Can not get volume range!!\n");
       }
-      
-    
+
+
     global_scaling_flag=!(volume_min == valid_min && volume_max == valid_max);
     }
 
@@ -1119,7 +1119,7 @@ void MINCImageIO::WriteImageInformation(void)
     for(unsigned int i=0; i<minc_dimensions; i++)
       this->m_MincFileDims[i]=this->m_MincApparentDims[i];
     }
-    
+
   mivolumeprops_t hprops;
   if( minew_volume_props(&hprops) < 0)
     {
@@ -1132,9 +1132,9 @@ void MINCImageIO::WriteImageInformation(void)
       {
       itkDebugMacro("Could not set MINC compression");
       }
-      
+
     if(miset_props_zlib_compression(hprops,this->m_CompressionLevel)<0)
-      { 
+      {
       itkDebugMacro("Could not set MINC compression level");
       }
     }

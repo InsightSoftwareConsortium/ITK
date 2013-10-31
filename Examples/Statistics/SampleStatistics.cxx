@@ -138,7 +138,7 @@ int main()
   std::cout << "Mean = " << std::endl;
   std::cout << covarianceAlgorithm->GetMean() << std::endl;
 
-  std::cout << "Covariance = " << std::endl; 
+  std::cout << "Covariance = " << std::endl;
   std::cout << covarianceAlgorithm->GetCovarianceMatrix() << std::endl;
   // Software Guide : EndCodeSnippet
 

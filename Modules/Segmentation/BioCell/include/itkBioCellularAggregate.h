@@ -34,7 +34,7 @@ namespace bio
 /** \class CellularAggregate
  * \brief Base class for different types of cellular groups,
  * including bacterial colonies and pluricellular organisms
- * 
+ *
  * This class represents an aggregation of bio::Cell objects.
  *
  * \ingroup ITKBioCell

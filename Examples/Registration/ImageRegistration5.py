@@ -34,7 +34,7 @@ movingImageReader.SetFileName( argv[2] )
 fixedImageReader.Update()
 movingImageReader.Update()
 
-fixedImage = fixedImageReader.GetOutput() 
+fixedImage = fixedImageReader.GetOutput()
 movingImage = movingImageReader.GetOutput()
 
 #
@@ -56,7 +56,7 @@ registration.SetFixedImageRegion(  fixedImage.GetBufferedRegion() )
 
 
 #
-# Initial transform parameters 
+# Initial transform parameters
 #
 transform.SetAngle( 0.0 );
 
@@ -68,7 +68,7 @@ fixedSize = fixedImage.GetLargestPossibleRegion().GetSize()
 centerFixed = ( fixedOrigin.GetElement(0) + fixedSpacing.GetElement(0) * fixedSize.GetElement(0) / 2.0,
                 fixedOrigin.GetElement(1) + fixedSpacing.GetElement(1) * fixedSize.GetElement(1) / 2.0 )
 
-# center of the moving image 
+# center of the moving image
 movingSpacing = movingImage.GetSpacing()
 movingOrigin = movingImage.GetOrigin()
 movingSize = movingImage.GetLargestPossibleRegion().GetSize()
@@ -125,7 +125,7 @@ def iterationUpdate():
                                  currentParameter.GetElement(2),
                                  currentParameter.GetElement(3),
                                  currentParameter.GetElement(4) )
- 
+
 iterationCommand = itkPyCommand_New()
 iterationCommand.SetCommandCallable( iterationUpdate )
 optimizer.AddObserver( itkIterationEvent(), iterationCommand.GetPointer() )

@@ -6,7 +6,7 @@ exec perl -w -x $0 ${1+"$@"}
 # If Windows barfs at line 3 here, you will need to run perl -x vxl_doxy.pl
 # You can set up as a permanent file association using the following commands
 #  >assoc .pl-PerlScript
-#  >ftype PerlScript=Perl=C:\Perl\bin\Perl.exe -x "%1" %* 
+#  >ftype PerlScript=Perl=C:\Perl\bin\Perl.exe -x "%1" %*
 
 # Script to change the perceps documentation format to Doxygen (JavaDoc) format
 # Authors:

@@ -48,8 +48,8 @@ struct foo {
 template <class T> struct foo<T *, T *> { void bar() {} };
 template <class T> struct foo<int *, T> { void baz() {} };
 
-int main() 
-{ 
+int main()
+{
   return 0;
 }
 

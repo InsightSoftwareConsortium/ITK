@@ -36,7 +36,7 @@ namespace bio
  * the expression of the gene. These boolean expressions will result in
  * a polynome in a finite different equation determining the rate at which
  * protein is syntethizied by this gene.
- * 
+ *
  * \ingroup ITKBioCell
  */
 class Gene

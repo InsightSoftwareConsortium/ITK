@@ -123,7 +123,7 @@
   fun:_dl_allocate_tls
   fun:allocate_stack
   fun:pthread_create@@GLIBC_2.1
-  fun:TclpThreadCreate  
+  fun:TclpThreadCreate
   fun:Tcl_InitNotifier
   fun:TclInitNotifier
   fun:TclInitSubsystems
@@ -142,7 +142,7 @@
   obj:/usr/lib/libtcl8.4.so.0
   obj:/usr/lib/libtcl8.4.so.0
   fun:Tcl_FSEvalFile
-  fun:Tcl_Main 
+  fun:Tcl_Main
 }
 
 {
@@ -158,37 +158,37 @@
   fun:Tcl_GetsObj
   fun:Tcl_Gets
   obj:/usr/lib/libtcl8.4.so.0
-  fun:Tcl_SetSystemEncoding 
+  fun:Tcl_SetSystemEncoding
   fun:TclpSetInitialEncodings
   obj:/usr/lib/libtcl8.4.so.0
-  fun:Tcl_FindExecutable 
-  fun:Tcl_Main 
+  fun:Tcl_FindExecutable
+  fun:Tcl_Main
 }
 
-{ 
+{
   CrazyTclError5
   Memcheck:Leak
   fun:malloc
   obj:/usr/lib/libtcl8.4.so.0
-  fun:TclpAlloc 
-  fun:Tcl_Alloc 
+  fun:TclpAlloc
+  fun:Tcl_Alloc
   fun:Tcl_MutexLock
-  fun:TclInitObjSubsystem 
-  fun:TclInitSubsystems 
-  fun:Tcl_FindExecutable 
-  fun:Tcl_Main 
+  fun:TclInitObjSubsystem
+  fun:TclInitSubsystems
+  fun:Tcl_FindExecutable
+  fun:Tcl_Main
 }
 
 {
   CrazyTclError6
   Memcheck:Leak
-  fun:malloc 
-  fun:TclThreadAllocObj 
-  fun:Tcl_NewObj 
-  fun:TclpInitLibraryPath 
+  fun:malloc
+  fun:TclThreadAllocObj
+  fun:Tcl_NewObj
+  fun:TclpInitLibraryPath
   obj:/usr/lib/libtcl8.4.so.0
-  fun:Tcl_FindExecutable 
-  fun:Tcl_Main 
+  fun:Tcl_FindExecutable
+  fun:Tcl_Main
 }
 
 {
@@ -204,7 +204,7 @@
   fun:malloc
   fun:Tcl_Alloc
   fun:TclCreateExecEnv
-  fun:Tcl_CreateInterp  
+  fun:Tcl_CreateInterp
 }
 
 {
@@ -926,7 +926,7 @@
    fun:_ZN3itk12ThreadLogger3NewEv
 }
 {
-   itkCommonPrintTest 
+   itkCommonPrintTest
    Memcheck:Cond
    obj:/usr/lib/libstdc++.so.6.0.3
    fun:_ZNKSt7num_putIcSt19ostreambuf_iteratorIcSt11char_traitsIcEEE13_M_insert_intImEES3_S3_RSt8ios_basecT_
@@ -940,7 +940,7 @@
    fun:main
 }
 {
-   itkCommonPrintTest   
+   itkCommonPrintTest
    Memcheck:Value4
    obj:/usr/lib/libstdc++.so.6.0.3
    fun:_ZNKSt7num_putIcSt19ostreambuf_iteratorIcSt11char_traitsIcEEE13_M_insert_intImEES3_S3_RSt8ios_basecT_
@@ -954,7 +954,7 @@
    fun:main
 }
 {
-   Below block is after changes to Multithreader, Aug 05 
+   Below block is after changes to Multithreader, Aug 05
    Memcheck:Leak
    fun:calloc
    obj:/lib/ld-2.3.?.so

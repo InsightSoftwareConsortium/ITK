@@ -133,7 +133,7 @@ int itkRegistrationParameterScalesFromIndexShiftTest(int , char* [])
   fixedTransform->SetIdentity();
   // Transform done
 
-  // Metric 
+  // Metric
   typedef RegistrationParameterScalesFromIndexShiftTestMetric
     <FixedImageType, MovingImageType>   MetricType;
   MetricType::Pointer metric = MetricType::New();

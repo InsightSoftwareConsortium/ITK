@@ -230,7 +230,7 @@ bool OpenCVVideoIO::CanReadFile(const char* filename)
     itkDebugMacro(<< "Unrecognized file extension");
     return false;
     }
-  
+
 
   // Try opening to read
   CvCapture* localCapture = cvCaptureFromFile( filename );
@@ -632,11 +632,11 @@ void OpenCVVideoIO::UpdateReaderProperties()
 {
   this->m_CurrentFrame = //0-based index of the frame tobe decoded/captured next
     cvGetCaptureProperty(this->m_Capture,CV_CAP_PROP_POS_FRAMES);
-  this->m_PositionInMSec = 
+  this->m_PositionInMSec =
     cvGetCaptureProperty(this->m_Capture,CV_CAP_PROP_POS_MSEC);
   this->m_FramesPerSecond = static_cast<double>
     (cvGetCaptureProperty( this->m_Capture, CV_CAP_PROP_FPS ));
-  this->m_Ratio = 
+  this->m_Ratio =
     cvGetCaptureProperty(this->m_Capture,CV_CAP_PROP_POS_AVI_RATIO);
   this->m_FourCC =
     cvGetCaptureProperty(this->m_Capture,CV_CAP_PROP_FOURCC);

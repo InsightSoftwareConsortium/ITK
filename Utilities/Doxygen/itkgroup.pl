@@ -16,7 +16,7 @@ while(<>)
         {
             # I guess it was not a group, dump savebuffer
             if($ingroup)
-            { 
+            {
                 print "/**" . $savebuffer . "\n";
             }
             # if it is a class or brief then output the line but

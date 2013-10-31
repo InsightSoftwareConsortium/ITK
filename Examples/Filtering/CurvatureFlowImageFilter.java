@@ -32,7 +32,7 @@ public class CurvatureFlowImageFilter
     itkImageFileWriterUS2_Pointer writer = itkImageFileWriterUS2.itkImageFileWriterUS2_New();
 
     itkCastImageFilterUS2F2_Pointer inputCast = itkCastImageFilterUS2F2.itkCastImageFilterUS2F2_New();
-      
+
     itkCurvatureFlowImageFilterF2F2_Pointer filter = itkCurvatureFlowImageFilterF2F2.itkCurvatureFlowImageFilterF2F2_New();
 
     itkRescaleIntensityImageFilterF2US2_Pointer outputCast = itkRescaleIntensityImageFilterF2US2.itkRescaleIntensityImageFilterF2US2_New();

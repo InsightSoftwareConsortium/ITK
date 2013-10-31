@@ -41,12 +41,12 @@ inputImage = reader.GetOutput()
 
 size    = inputImage.GetLargestPossibleRegion().GetSize()
 
-centralPixel = itkIndex3()  
+centralPixel = itkIndex3()
 
 centralPixel.SetElement( 0, size.GetElement(0) / 2 )
 centralPixel.SetElement( 1, size.GetElement(1) / 2 )
 
-centralPoint = itkPointD2() 
+centralPoint = itkPointD2()
 
 spacing = inputImage.GetSpacing()
 

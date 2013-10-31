@@ -1,5 +1,5 @@
 # for vxl files run the vxl_doxy.pl script, and use itkgroup.pl for all other files
-if ( $ARGV[0] =~ /(vxl|vcl|vnl)/) 
+if ( $ARGV[0] =~ /(vxl|vcl|vnl)/)
 {
     system ("perl @ITK_SOURCE_DIR@/Utilities/Doxygen/vxl_doxy.pl $ARGV[0]");
 }

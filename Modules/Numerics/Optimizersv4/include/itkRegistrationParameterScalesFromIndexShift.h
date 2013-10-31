@@ -70,13 +70,13 @@ public:
   typedef typename FixedImageType::PointType             FixedPointType;
   typedef typename FixedImageType::IndexType             FixedIndexType;
   typedef typename FixedImageType::PointValueType        FixedPointValueType;
-  
+
   typedef typename itk::ContinuousIndex< FixedPointValueType, FixedImageType::ImageDimension >          FixedContinuousIndexType;
 
   typedef typename MovingImageType::PointType            MovingPointType;
   typedef typename MovingImageType::IndexType            MovingIndexType;
   typedef typename MovingImageType::PointValueType       MovingPointValueType;
-  
+
   typedef typename itk::ContinuousIndex< MovingPointValueType, MovingImageType::ImageDimension >         MovingContinuousIndexType;
 
 protected:

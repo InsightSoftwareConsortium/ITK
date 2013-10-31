@@ -29,10 +29,10 @@ public class VoronoiSegmentation
   {
     System.out.println("VoronoiSegmentationImageFilter Example");
 
-    itkImageFileReaderUC2_Pointer readerInput = 
+    itkImageFileReaderUC2_Pointer readerInput =
       itkImageFileReaderUC2.itkImageFileReaderUC2_New();
-    
-    itkImageFileReaderUC2_Pointer readerPrior = 
+
+    itkImageFileReaderUC2_Pointer readerPrior =
       itkImageFileReaderUC2.itkImageFileReaderUC2_New();
 
     readerInput.SetFileName( argv[0] );
@@ -41,12 +41,12 @@ public class VoronoiSegmentation
     readerInput.Update();
     readerPrior.Update();
 
-    itkVoronoiSegmentationImageFilterUC2UC2UC2_Pointer filter = 
+    itkVoronoiSegmentationImageFilterUC2UC2UC2_Pointer filter =
       itkVoronoiSegmentationImageFilterUC2UC2UC2.itkVoronoiSegmentationImageFilterUC2UC2UC2_New();
 
     filter.SetInput( readerInput.GetOutput() );
     filter.TakeAPrior( readerPrior.GetOutput() );
-        
+
     filter.SetMeanPercentError( Double.parseDouble( argv[3] ) );
     filter.SetSTDPercentError(  Double.parseDouble( argv[4] ) );
 

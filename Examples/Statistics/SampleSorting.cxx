@@ -190,7 +190,7 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  int activeDimension = 0; 
+  int activeDimension = 0;
   itk::Statistics::Algorithm::InsertSort< SubsampleType >( subsample,
                               activeDimension, 0, subsample->Size() );
   printSubsample(subsample, "InsertSort");
@@ -243,7 +243,7 @@ int main()
 
   // Software Guide : BeginCodeSnippet
   initializeSubsample(subsample, sample);
-  SubsampleType::MeasurementType median = 
+  SubsampleType::MeasurementType median =
           itk::Statistics::Algorithm::QuickSelect< SubsampleType >( subsample,
                                                          activeDimension,
                                                          0, subsample->Size(),
