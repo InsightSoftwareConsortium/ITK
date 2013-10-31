@@ -651,6 +651,48 @@ private:
   /** Map the fixed point set samples to the virtual domain */
   void MapFixedSampledPointSetToVirtual( void );
 
+  /** Transform a point. Avoid cast if possible */
+  void LocalTransformPoint(const typename FixedTransformType::OutputPointType &virtualPoint,
+                           typename FixedTransformType::OutputPointType &mappedFixedPoint) const
+    {
+      mappedFixedPoint = this->m_FixedTransform->TransformPoint(virtualPoint);
+    }
+  // cast the virtual point
+  template <typename TVirtualPoint>
+  void LocalTransformPoint(const TVirtualPoint &virtualPoint,
+                           typename FixedTransformType::OutputPointType  &mappedFixedPoint) const
+    {
+      typename FixedTransformType::OutputPointType localVirtualPoint;
+
+      localVirtualPoint.CastFrom(virtualPoint);
+
+      mappedFixedPoint = this->m_FixedTransform->TransformPoint( localVirtualPoint );
+    }
+  // cast the mapped Fixed Point
+  template <typename TFixedImagePoint>
+  void LocalTransformPoint(const typename FixedTransformType::OutputPointType &virtualPoint,
+                           TFixedImagePoint &mappedFixedPoint) const
+    {
+      typename FixedTransformType::OutputPointType localMappedFixedPoint;
+      localMappedFixedPoint.CastFrom(mappedFixedPoint);
+      localMappedFixedPoint = this->m_FixedTransform->TransformPoint( virtualPoint );
+      mappedFixedPoint.CastFrom(localMappedFixedPoint);
+    }
+  // cast both mapped and fixed point.
+  template <typename TVirtualPoint,typename TFixedImagePoint>
+  void LocalTransformPoint(const TVirtualPoint &virtualPoint,
+                           TFixedImagePoint &mappedFixedPoint) const
+    {
+      typename FixedTransformType::OutputPointType localVirtualPoint;
+      typename FixedTransformType::OutputPointType localMappedFixedPoint;
+
+      localVirtualPoint.CastFrom(virtualPoint);
+      localMappedFixedPoint.CastFrom(mappedFixedPoint);
+
+      localMappedFixedPoint = this->m_FixedTransform->TransformPoint( localVirtualPoint );
+      mappedFixedPoint.CastFrom(localMappedFixedPoint);
+    }
+
   /** Flag for warning about use of GetValue. Will be removed when
    *  GetValue implementation is improved. */
   mutable bool m_HaveMadeGetValueWarning;
