@@ -186,10 +186,15 @@ FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPre
   typename FFTFilterType::Pointer imageFFTFilter = FFTFilterType::New();
   imageFFTFilter->SetNumberOfThreads( this->GetNumberOfThreads() );
   imageFFTFilter->SetInput( paddedInput );
+  imageFFTFilter->ReleaseDataFlagOn();
   progress->RegisterInternalFilter( imageFFTFilter, progressWeight );
   imageFFTFilter->Update();
 
   transformedInput = imageFFTFilter->GetOutput();
+  transformedInput->DisconnectPipeline();
+
+  imageFFTFilter->SetInput( NULL );
+  imageFFTFilter = NULL;
 }
 
 template< typename TInputImage, typename TKernelImage, typename TOutputImage, typename TInternalPrecision >
