@@ -72,6 +72,8 @@
 #cmakedefine ITK_HAS_STLTR1_TR1_TYPE_TRAITS
 // defined if the system has <type_traits> header
 #cmakedefine ITK_HAS_STLTR1_TYPE_TRAITS
+// defined if std type traits are in a tr1 sub namespace
+#cmakedefine ITK_HAS_TYPETRAITS_TR1_NAMESPACE
 // defined if the compiler supports C++11 alignas type specifier
 #cmakedefine ITK_HAS_CPP11_ALIGNAS
 // defined if the compiler support GNU's __attribute__(( algined(x) )) extension
