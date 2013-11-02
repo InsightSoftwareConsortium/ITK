@@ -707,7 +707,6 @@ private:
 
   DataObjectIdentifierType MakeNameFromIndex( DataObjectPointerArraySizeType ) const;
   DataObjectPointerArraySizeType MakeIndexFromName( const DataObjectIdentifierType & ) const;
-  bool IsIndexedName( const DataObjectIdentifierType & ) const;
 
   /** STL map to store the named inputs and outputs */
   typedef std::map< DataObjectIdentifierType, DataObjectPointer > DataObjectPointerMap;
