@@ -23,7 +23,6 @@
 
 #include "itk_tiff.h"
 
-
 namespace itk
 {
 class TIFFReaderInternal
@@ -1734,6 +1733,8 @@ void TIFFImageIO::InternalWrite(const void *buffer)
   int    scomponents = this->GetNumberOfComponents();
   float  resolution_x = static_cast< float >( m_Spacing[0] != 0.0 ? 25.4 / m_Spacing[0] : 0.0);
   float  resolution_y = static_cast< float >( m_Spacing[1] != 0.0 ? 25.4 / m_Spacing[1] : 0.0);
+  // rowsperstrip is set to a default value but modified based on the tif scanlinesize before
+  // passing it into the TIFFSetField (see below).
   uint32 rowsperstrip = ( uint32 ) - 1;
   int    bps;
 
@@ -1763,7 +1764,7 @@ void TIFFImageIO::InternalWrite(const void *buffer)
 
   const char *mode = "w";
 
-  // If the size of the image if greater then 2GB then use big tiff
+  // If the size of the image is greater then 2GB then use big tiff
   const SizeType oneKiloByte = 1024;
   const SizeType oneMegaByte = 1024 * oneKiloByte;
   const SizeType oneGigaByte = 1024 * oneMegaByte;
@@ -1889,6 +1890,25 @@ void TIFFImageIO::InternalWrite(const void *buffer)
       }
 
     TIFFSetField(tif, TIFFTAG_PHOTOMETRIC, photometric); // Fix for scomponents
+
+    // Previously, rowsperstrip was set to a default value so that it would be calculated using
+    // the STRIP_SIZE_DEFAULT defined to be 8 kB in tiffiop.h.
+    // However, this a very conservative small number, and it leads to very small strips resulting
+    // in many io operations, which can be slow when written over networks that require
+    // encryption/decryption of each packet (such as sshfs).
+    // Conversely, if the value is too high, a lot of extra memory is required to store the strips
+    // before they are written out.
+    // Experiments writing TIFF images to drives mapped by sshfs showed that a good tradeoff is
+    // achieved when the STRIP_SIZE_DEFAULT is increased to 1 MB.
+    // This results in an increase in memory usage but no increase in writing time when writing
+    // locally and significant writing time improvement when writing over sshfs.
+    // For example, writing a 2048x2048 uint16 image with 8 kB per strip leads to 2 rows per strip
+    // and takes about 120 seconds writing over sshfs.
+    // Using 1 MB per strip leads to 256 rows per strip, which takes only 4 seconds to write over sshfs.
+    // Rather than change that value in the third party libtiff library, we instead compute the
+    // rowsperstrip here to lead to this same value.
+    uint64 scanlinesize=TIFFScanlineSize64(tif);
+    rowsperstrip = (uint32)(1024*1024 / scanlinesize );
 
     TIFFSetField( tif,
                   TIFFTAG_ROWSPERSTRIP,
