@@ -16,21 +16,15 @@
  *
  *=========================================================================*/
 
-//
-// Check if the compiler has is_convertible and type traits in tr1 namespace
-//
 
-#include <iostream>
+// C++11 moved the type traits from the std::tr1 namespace to just std
+// namespace. This tries to compile and check for compatibility with
+// the C++11 for the type_traits.
 
-#ifdef ITK_HAS_STLTR1_TR1_TYPE_TRAITS
-#  include <tr1/type_traits>
-#elif defined ITK_HAS_STLTR1_TYPE_TRAITS
-#  include <type_traits>
-#endif
+#include <type_traits>
 
 int main(void)
 {
     // Just try to use one type_traits function in tr1
-    std::tr1::is_convertible<float, double>();
-    return 0;
+  return std::is_convertible<float, double>::value;
 }
