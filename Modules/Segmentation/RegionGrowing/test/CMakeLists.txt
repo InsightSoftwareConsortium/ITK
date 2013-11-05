@@ -29,6 +29,10 @@ itk_add_test(NAME itkConfidenceConnectedImageFilterTest
     --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/ConfidenceConnectedImageFilterTest.png}
               ${ITK_TEST_OUTPUT_DIR}/ConfidenceConnectedImageFilterTest.png
     itkConfidenceConnectedImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/ConfidenceConnectedImageFilterTest.png 165 165)
+itk_add_test(NAME itkConfidenceConnectedImageFilterTest2
+      COMMAND ITKRegionGrowingTestDriver
+    --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/ConfidenceConnectedImageFilterTest2.png fcd6bcb56c1689fcef28b57c22475bad
+    itkConfidenceConnectedImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/ConfidenceConnectedImageFilterTest2.png 9999 9999)
 itk_add_test(NAME itkVectorConfidenceConnectedImageFilterTest
       COMMAND ITKRegionGrowingTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/VectorConfidenceConnectedImageFilterTest.png}
