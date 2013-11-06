@@ -264,9 +264,9 @@ TreeNode< TValueType >
     {
     if ( name == NULL || strstr(typeid( **it ).name(), name) )
       {
-      cnt++;
+      ++cnt;
       }
-    it++;
+    ++it;
     }
 
   it = m_Children.begin();
@@ -276,7 +276,7 @@ TreeNode< TValueType >
     while ( it != itEnd )
       {
       cnt += ( *it )->GetNumberOfChildren(depth - 1, name);
-      it++;
+      ++it;
       }
     }
 
@@ -312,11 +312,11 @@ TreeNode< TValueType >
       while ( nextIt != nextchildren->end() )
         {
         children->push_back(*nextIt);
-        nextIt++;
+        ++nextIt;
         }
       delete nextchildren;
       }
-    childrenListIt++;
+    ++childrenListIt;
     }
 
   return children;
