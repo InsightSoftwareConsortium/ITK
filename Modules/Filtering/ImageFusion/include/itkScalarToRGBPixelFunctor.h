@@ -55,16 +55,38 @@ public:
 
   void SetLittleEndian()
   {
-    m_IsBigEndian = false;
+    m_UseMSBForHashing = false;
   }
 
   void SetBigEndian()
   {
-    m_IsBigEndian = true;
+    m_UseMSBForHashing = true;
   }
 
+  void SetUseMSBForHashing(bool value)
+  {
+    m_UseMSBForHashing = value;
+  }
+
+  bool GetUseMSBForHashing() const
+  {
+    return m_UseMSBForHashing;
+  }
+
+  void UseMSBForHashingOn()
+  {
+    m_UseMSBForHashing = true;
+  }
+
+  void UseMSBForHashingOff()
+  {
+    m_UseMSBForHashing = false;
+  }
+
+
+
 private:
-  bool          m_IsBigEndian;
+  bool          m_UseMSBForHashing;
   unsigned int  m_ColorIndex[3];
 };
 } // end namespace functor

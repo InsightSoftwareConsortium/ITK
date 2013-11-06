@@ -86,5 +86,34 @@ int itkScalarToRGBPixelFunctorTest(int, char* [] )
                 << static_cast<int>(pixel[1]) << " " << static_cast<int>(pixel[2])
                 << std::endl;
     }
+
+  ff.SetUseMSBForHashing(true);
+  if( ff.GetUseMSBForHashing() != true )
+    {
+    std::cerr << "Error in SetUseMSBForHashing or GetUseMSBForHashing" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  ff.SetUseMSBForHashing(false);
+  if( ff.GetUseMSBForHashing() != false )
+    {
+    std::cerr << "Error in SetUseMSBForHashing or GetUseMSBForHashing" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  ff.UseMSBForHashingOn();
+  if( ff.GetUseMSBForHashing() != true )
+    {
+    std::cerr << "Error in UseMSBForHashingOn or GetUseMSBForHashing" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  ff.UseMSBForHashingOff();
+  if( ff.GetUseMSBForHashing() != false )
+    {
+    std::cerr << "Error in UseMSBForHashingOff or GetUseMSBForHashing" << std::endl;
+    return EXIT_FAILURE;
+    }
+
   return EXIT_SUCCESS;
 }
