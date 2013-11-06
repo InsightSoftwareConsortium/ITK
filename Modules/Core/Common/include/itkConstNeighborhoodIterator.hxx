@@ -277,25 +277,25 @@ ConstNeighborhoodIterator< TImage, TBoundaryCondition >
   const ConstIterator _end = this->End();
   NeighborhoodType    ans;
 
-  typename NeighborhoodType::Iterator ans_it;
-  ConstIterator this_it;
+  typename NeighborhoodType::Iterator ansIt;
+  ConstIterator thisIt;
 
   ans.SetRadius( this->GetRadius() );
 
   if ( m_NeedToUseBoundaryCondition == false )
     {
-    for ( ans_it = ans.Begin(), this_it = this->Begin();
-          this_it < _end; ans_it++, this_it++ )
+    for ( ansIt = ans.Begin(), thisIt = this->Begin();
+          thisIt < _end; ++ansIt, ++thisIt )
       {
-      *ans_it = m_NeighborhoodAccessorFunctor.Get(*this_it);
+      *ansIt = m_NeighborhoodAccessorFunctor.Get(*thisIt);
       }
     }
   else if ( InBounds() )
     {
-    for ( ans_it = ans.Begin(), this_it = this->Begin();
-          this_it < _end; ans_it++, this_it++ )
+    for ( ansIt = ans.Begin(), thisIt = this->Begin();
+          thisIt < _end; ++ansIt, ++thisIt )
       {
-      *ans_it = m_NeighborhoodAccessorFunctor.Get(*this_it);
+      *ansIt = m_NeighborhoodAccessorFunctor.Get(*thisIt);
       }
     }
   else
@@ -311,8 +311,8 @@ ConstNeighborhoodIterator< TImage, TBoundaryCondition >
       }
 
     // Iterate through neighborhood
-    for ( ans_it = ans.Begin(), this_it = this->Begin();
-          this_it < _end; ans_it++, this_it++ )
+    for ( ansIt = ans.Begin(), thisIt = this->Begin();
+          thisIt < _end; ++ansIt, ++thisIt )
       {
       bool flag = true;
 
@@ -339,10 +339,13 @@ ConstNeighborhoodIterator< TImage, TBoundaryCondition >
           }
         }
 
-      if ( flag ) { *ans_it = m_NeighborhoodAccessorFunctor.Get(*this_it); }
+      if ( flag )
+        {
+        *ansIt = m_NeighborhoodAccessorFunctor.Get(*thisIt);
+        }
       else
         {
-        *ans_it = m_NeighborhoodAccessorFunctor.BoundaryCondition(
+        *ansIt = m_NeighborhoodAccessorFunctor.BoundaryCondition(
           temp, offset, this, this->m_BoundaryCondition);
         }
 
@@ -355,7 +358,10 @@ ConstNeighborhoodIterator< TImage, TBoundaryCondition >
           {
           temp[i] = 0;
           }
-        else { break; }
+        else
+          {
+          break;
+          }
         }
       }
     }

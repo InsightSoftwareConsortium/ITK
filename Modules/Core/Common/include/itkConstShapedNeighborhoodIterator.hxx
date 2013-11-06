@@ -158,7 +158,6 @@ ConstShapedNeighborhoodIterator< TImage, TBoundaryCondition > &
 ConstShapedNeighborhoodIterator< TImage, TBoundaryCondition >
 ::operator++()
 {
-
   // Repositioning neighborhood, previous bounds check on neighborhood
   // location is invalid.
   this->m_IsInBoundsValid = false;
