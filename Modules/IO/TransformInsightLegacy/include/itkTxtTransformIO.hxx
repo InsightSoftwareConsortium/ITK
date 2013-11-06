@@ -97,10 +97,8 @@ TxtTransformIOTemplate<ParametersValueType>
    * into a CompositeTransform.
    * The component filenames are listed w/out paths, and are expected
    * to be in the same path as the master file. */
-  std::string filePathUnix =
-    itksys::SystemTools::GetFilenamePath( this->GetFileName() ) + "/";
   std::string filePath =
-    itksys::SystemTools::ConvertToOutputPath( filePathUnix.c_str() );
+    itksys::SystemTools::GetFilenamePath( this->GetFileName() ) + "/";
 
   /* Use TransformFileReader to read each component file. */
   typename TransformFileReaderTemplate<ParametersValueType>::Pointer reader =

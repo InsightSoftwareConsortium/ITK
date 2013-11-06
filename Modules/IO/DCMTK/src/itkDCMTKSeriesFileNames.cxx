@@ -94,9 +94,7 @@ DCMTKSeriesFileNames
   // work in Unix filename conventions, but convert to actually use filename
   itksys::SystemTools::ConvertToUnixSlashes(fullPath);
 
-  // convert to os-specific path name
-  std::string localFilePath =
-    itksys::SystemTools::ConvertToOutputPath(fullPath.c_str());
+  std::string localFilePath = fullPath;
 
   // load the directory
   itksys::Directory directory;
@@ -116,7 +114,6 @@ DCMTKSeriesFileNames
     localFilePath = fullPath;
     localFilePath += '/';
     localFilePath += curFile;
-    itksys::SystemTools::ConvertToOutputPath(localFilePath.c_str());
     if(!itksys::SystemTools::FileIsDirectory(localFilePath.c_str()))
       {
       if(!DCMTKFileReader::IsImageFile(localFilePath))
