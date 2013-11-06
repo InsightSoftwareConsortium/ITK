@@ -92,7 +92,8 @@ protected:
   void  ThreadedGenerateData(const InputImageRegionType & outputRegionForThread,
                              ThreadIdType threadId);
 
-  InputImagePixelType m_Boundary1, m_Boundary2;
+  InputImagePixelType m_Boundary1;
+  InputImagePixelType m_Boundary2;
 
 private:
   AnchorOpenCloseImageFilter(const Self &); //purposely not implemented
