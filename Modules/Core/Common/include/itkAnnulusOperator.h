@@ -87,8 +87,9 @@ public:
     m_Normalize(false), m_BrightCenter(false),
     m_InteriorValue(NumericTraits< PixelType >::Zero),
     m_AnnulusValue(NumericTraits< PixelType >::One),
-    m_ExteriorValue(NumericTraits< PixelType >::Zero)
-  { m_Spacing.Fill(1.0); }
+    m_ExteriorValue(NumericTraits< PixelType >::Zero),
+    m_Spacing( 1.0 )
+  {}
 
   AnnulusOperator(const Self & other):
     NeighborhoodOperator< TPixel, TDimension, TAllocator >(other)
