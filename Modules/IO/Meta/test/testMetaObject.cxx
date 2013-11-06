@@ -100,6 +100,7 @@ int testMetaObject(int argc, char *argv[])
     if(array[i] != i+1)
     {
       std::cout << "MyArray: FAIL" << std::endl;
+      delete[] array;
       return EXIT_FAILURE;
     }
   }
@@ -112,6 +113,7 @@ int testMetaObject(int argc, char *argv[])
     if(matrix[i] != i)
       {
       std::cout << "MyMatrix: FAIL" << std::endl;
+      delete[] matrix;
       return EXIT_FAILURE;
       }
     }
