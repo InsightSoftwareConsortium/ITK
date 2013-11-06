@@ -268,7 +268,6 @@ private:
   double m_OffsetMultiply;
   int    m_MaxSplitAttempts;
 
-  //SizeValueType       m_NumberOfModels;
   bool   m_ValidInCodebook;
   double m_DoubleMaximum;
   double m_OutputDistortion;
@@ -281,6 +280,7 @@ private:
   CodebookMatrixOfIntegerType m_CodewordHistogram;
   CodebookMatrixOfDoubleType  m_CodewordDistortion;
 }; // class ImageKmeansModelEstimator
+
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

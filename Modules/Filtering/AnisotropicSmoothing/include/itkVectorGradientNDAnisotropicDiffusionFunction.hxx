@@ -28,7 +28,8 @@ double VectorGradientNDAnisotropicDiffusionFunction< TImage >
 
 template< typename TImage >
 VectorGradientNDAnisotropicDiffusionFunction< TImage >
-::VectorGradientNDAnisotropicDiffusionFunction()
+::VectorGradientNDAnisotropicDiffusionFunction():
+  m_K( 0.0 )
 {
   unsigned int i, j;
   RadiusType   r;

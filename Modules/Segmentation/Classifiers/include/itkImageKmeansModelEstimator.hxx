@@ -33,6 +33,11 @@ ImageKmeansModelEstimator< TInputImage, TMembershipFunction >
   m_OffsetAdd        = 0.01;
   m_OffsetMultiply   = 0.01;
   m_MaxSplitAttempts = 10;
+  m_OutputDistortion = 0.0;
+  m_OutputNumberOfEmptyCells = 0;
+  m_VectorDimension   = 1;
+  m_NumberOfCodewords = 1;
+  m_CurrentNumberOfCodewords = 1;
 }
 
 template< typename TInputImage,

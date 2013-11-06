@@ -34,7 +34,9 @@ namespace itk
 {
 template< typename TInputImage, typename TOutputImage >
 LabelMapFilter< TInputImage, TOutputImage >
-::LabelMapFilter()
+::LabelMapFilter():
+  m_InverseNumberOfLabelObjects( 1.0f ),
+  m_NumberOfLabelObjectsProcessed( 1 )
 {
 }
 

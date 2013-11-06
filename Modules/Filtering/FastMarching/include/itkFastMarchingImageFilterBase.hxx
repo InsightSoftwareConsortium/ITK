@@ -67,6 +67,7 @@ FastMarchingImageFilterBase()
   m_OutputDirection.SetIdentity();
   m_OverrideOutputInformation = false;
 
+  m_InputCache = NULL;
   m_LabelImage = LabelImageType::New();
   }
 // -----------------------------------------------------------------------------

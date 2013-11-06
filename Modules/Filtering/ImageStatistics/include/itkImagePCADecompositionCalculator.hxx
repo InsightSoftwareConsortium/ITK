@@ -33,6 +33,7 @@ ImagePCADecompositionCalculator< TInputImage, TBasisImage >
   m_Image = NULL;
   m_MeanImage = NULL;
   m_BasisMatrixCalculated = false;
+  m_NumPixels = 0;
 }
 
 template< typename TInputImage, typename TBasisImage >

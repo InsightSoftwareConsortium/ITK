@@ -28,7 +28,8 @@ double VectorCurvatureNDAnisotropicDiffusionFunction< TImage >
 
 template< typename TImage >
 VectorCurvatureNDAnisotropicDiffusionFunction< TImage >
-::VectorCurvatureNDAnisotropicDiffusionFunction()
+::VectorCurvatureNDAnisotropicDiffusionFunction():
+  m_K( 0.0 )
 {
   unsigned int i, j;
   RadiusType   r;
