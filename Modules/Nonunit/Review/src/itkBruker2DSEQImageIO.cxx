@@ -891,32 +891,32 @@ void Bruker2DSEQImageIO::ReadImageInformation()
       if ( recoType.find(MAGNITUDE_IMAGE) != std::string::npos )
         {
         EncapsulateMetaData< std::string >(
-          thisDic, RECO_IMAGE_TYPE, std::string(MAGNITUDE_IMAGE, 15) );
+          thisDic, RECO_IMAGE_TYPE, std::string(MAGNITUDE_IMAGE) );
         }
       else if ( recoType.find(REAL_IMAGE) != std::string::npos )
         {
         EncapsulateMetaData< std::string >(
-          thisDic, RECO_IMAGE_TYPE, std::string(REAL_IMAGE, 10) );
+          thisDic, RECO_IMAGE_TYPE, std::string(REAL_IMAGE) );
         }
       else if ( recoType.find(IMAGINARY_IMAGE) != std::string::npos )
         {
         EncapsulateMetaData< std::string >(
-          thisDic, RECO_IMAGE_TYPE, std::string(IMAGINARY_IMAGE, 15) );
+          thisDic, RECO_IMAGE_TYPE, std::string(IMAGINARY_IMAGE) );
         }
       else if ( recoType.find(COMPLEX_IMAGE) != std::string::npos )
         {
         EncapsulateMetaData< std::string >(
-          thisDic, RECO_IMAGE_TYPE, std::string(COMPLEX_IMAGE, 15) );
+          thisDic, RECO_IMAGE_TYPE, std::string(COMPLEX_IMAGE) );
         }
       else if ( recoType.find(PHASE_IMAGE) != std::string::npos )
         {
         EncapsulateMetaData< std::string >(
-          thisDic, RECO_IMAGE_TYPE, std::string(PHASE_IMAGE, 11) );
+          thisDic, RECO_IMAGE_TYPE, std::string(PHASE_IMAGE) );
         }
       else if ( recoType.find(IR_IMAGE) != std::string::npos )
         {
         EncapsulateMetaData< std::string >(
-          thisDic, RECO_IMAGE_TYPE, std::string(IR_IMAGE, 8) );
+          thisDic, RECO_IMAGE_TYPE, std::string(IR_IMAGE) );
         }
       else
         {
