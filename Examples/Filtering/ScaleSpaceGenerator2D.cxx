@@ -30,7 +30,7 @@
 #include "itkLaplacianRecursiveGaussianImageFilter.h"
 
 #include <stdio.h>
-
+#include <iomanip>
 
 int main( int argc, char * argv[] )
 {
@@ -81,14 +81,14 @@ int main( int argc, char * argv[] )
 
 
   // Software Guide : BeginCodeSnippet
-  char filename[2000];
-
   int numberOfSlices = atoi(argv[3]);
   for( int slice=0; slice < numberOfSlices; slice++ )
     {
-    sprintf( filename, "%s%03d.mhd", argv[2], slice );
-
-    writer->SetFileName( filename );
+    std::ostringstream filename;
+    filename << argv[2]
+             << std::setfill('0') << std::setw(3) << slice
+             << ".mhd";
+    writer->SetFileName( filename.str() );
 
     const float sigma = static_cast< float >( slice ) / 10.0 + 1.0;
 
