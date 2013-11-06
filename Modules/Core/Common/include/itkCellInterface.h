@@ -191,7 +191,7 @@ public:
 public:
     VisitorType * GetVisitor(int id)
     {
-      if ( id <= LAST_ITK_CELL )
+      if ( id < LAST_ITK_CELL )
         {
         return m_Visitors[id];
         }
@@ -211,7 +211,7 @@ public:
     {
       int id = v->GetCellTopologyId();
 
-      if ( id <= LAST_ITK_CELL )
+      if ( id < LAST_ITK_CELL )
         {
         m_Visitors[id] = v;
         }
