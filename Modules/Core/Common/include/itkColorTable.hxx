@@ -395,12 +395,12 @@ unsigned int
 ColorTable< TPixel >
 ::GetClosestColorTableId(TPixel r, TPixel g, TPixel b)
 {
-  double       match;
-  double       bestMatch = 0;
+  double       bestMatch = 0.0;
   unsigned int bestMatchColor = 0;
 
   for ( unsigned int i = 0; i < m_NumberOfColors; i++ )
     {
+    double match;
     match = ( r - (double)m_Color[i].GetRed() )
             * ( r - (double)m_Color[i].GetRed() );
     match += ( g - (double)m_Color[i].GetGreen() )
