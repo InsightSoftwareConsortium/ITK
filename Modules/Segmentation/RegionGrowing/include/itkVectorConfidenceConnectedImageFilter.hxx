@@ -143,13 +143,6 @@ VectorConfidenceConnectedImageFilter< TInputImage, TOutputImage >
   outputImage->Allocate();
   outputImage->FillBuffer (NumericTraits< OutputImagePixelType >::Zero);
 
-  if ( m_Seeds.empty() )
-    {
-    // if there are no seeds set then the output will simply be a zero
-    // filled image.
-    return;
-    }
-
   // Compute the statistics of the seed point
   typedef VectorMeanImageFunction< InputImageType > VectorMeanImageFunctionType;
   typename VectorMeanImageFunctionType::Pointer meanFunction =
@@ -185,26 +178,39 @@ VectorConfidenceConnectedImageFilter< TInputImage, TOutputImage >
 
   typename SeedsContainerType::const_iterator si = m_Seeds.begin();
   typename SeedsContainerType::const_iterator li = m_Seeds.end();
+  SizeValueType seed_cnt = 0;
   while ( si != li )
     {
-    const MeanFunctionVectorType       meanContribution       = meanFunction->EvaluateAtIndex(*si);
-    const CovarianceFunctionMatrixType covarianceContribution = varianceFunction->EvaluateAtIndex(*si);
-    for ( unsigned int ii = 0; ii < dimension; ii++ )
+    if ( region.IsInside(*si) )
       {
-      mean[ii] += meanContribution[ii];
-      for ( unsigned int jj = 0; jj < dimension; jj++ )
+      ++seed_cnt;
+      const MeanFunctionVectorType       meanContribution       = meanFunction->EvaluateAtIndex(*si);
+      const CovarianceFunctionMatrixType covarianceContribution = varianceFunction->EvaluateAtIndex(*si);
+      for ( unsigned int ii = 0; ii < dimension; ii++ )
         {
-        covariance[ii][jj] += covarianceContribution[ii][jj];
+        mean[ii] += meanContribution[ii];
+        for ( unsigned int jj = 0; jj < dimension; jj++ )
+          {
+          covariance[ii][jj] += covarianceContribution[ii][jj];
+          }
         }
       }
     si++;
     }
+
+  if ( seed_cnt == 0 )
+    {
+      this->UpdateProgress(1.0);
+      // no seeds result in zero image
+      return;
+    }
+
   for ( unsigned int ik = 0; ik < dimension; ik++ )
     {
-    mean[ik] /= m_Seeds.size();
+    mean[ik] /= seed_cnt;
     for ( unsigned int jk = 0; jk < dimension; jk++ )
       {
-      covariance[ik][jk] /= m_Seeds.size();
+      covariance[ik][jk] /= seed_cnt;
       }
     }
 
@@ -221,15 +227,19 @@ VectorConfidenceConnectedImageFilter< TInputImage, TOutputImage >
   // the actual
   // region may be grown using a multiplier different from the one specified by
   // the user.
+
   si = m_Seeds.begin();
   li = m_Seeds.end();
   while ( si != li )
     {
-    const double distance =
-      m_ThresholdFunction->EvaluateDistanceAtIndex(*si);
-    if ( distance >  m_Multiplier )
+    if ( region.IsInside(*si) )
       {
-      m_Multiplier = distance;
+      const double distance =
+        m_ThresholdFunction->EvaluateDistanceAtIndex(*si);
+      if ( distance >  m_Multiplier )
+        {
+        m_Multiplier = distance;
+        }
       }
     si++;
     }

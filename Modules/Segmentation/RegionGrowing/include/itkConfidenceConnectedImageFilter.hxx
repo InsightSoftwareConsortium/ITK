@@ -189,16 +189,28 @@ ConfidenceConnectedImageFilter< TInputImage, TOutputImage >
 
     typename SeedsContainerType::const_iterator si = m_Seeds.begin();
     typename SeedsContainerType::const_iterator li = m_Seeds.end();
+    SizeValueType num = 0;
     while ( si != li )
       {
-      m_Mean += meanFunction->EvaluateAtIndex(*si);
-      sumOfSquares += sumOfSquaresFunction->EvaluateAtIndex(*si);
+      if ( region.IsInside(*si) )
+        {
+        m_Mean += meanFunction->EvaluateAtIndex(*si);
+        sumOfSquares += sumOfSquaresFunction->EvaluateAtIndex(*si);
+        ++num;
+        }
       si++;
       }
-    const unsigned int num = m_Seeds.size();
-    const unsigned int totalNum = num * sumOfSquaresFunction->GetNeighborhoodSize();
+
+    if ( num == 0 )
+      {
+      this->UpdateProgress(1.0);
+      // no seeds result in zero image
+      return;
+      }
+
+    const double totalNum = num * sumOfSquaresFunction->GetNeighborhoodSize();
     m_Mean /= num;
-    m_Variance = ( sumOfSquares - ( m_Mean * m_Mean * double(totalNum) ) ) / ( double(totalNum) - 1.0 );
+    m_Variance = ( sumOfSquares - ( m_Mean * m_Mean * totalNum ) ) / ( totalNum - 1.0 );
     }
   else
     {
@@ -207,16 +219,27 @@ ConfidenceConnectedImageFilter< TInputImage, TOutputImage >
 
     typename SeedsContainerType::const_iterator si = m_Seeds.begin();
     typename SeedsContainerType::const_iterator li = m_Seeds.end();
+    SizeValueType num = 0;
     while ( si != li )
       {
-      const InputRealType value =
-        static_cast< InputRealType >( inputImage->GetPixel(*si) );
+      if ( region.IsInside(*si) )
+        {
+        const InputRealType value =
+          static_cast< InputRealType >( inputImage->GetPixel(*si) );
 
-      sum += value;
-      sumOfSquares += value * value;
+        sum += value;
+        sumOfSquares += value * value;
+        ++num;
+        }
       si++;
       }
-    const unsigned int num = m_Seeds.size();
+
+    if ( num == 0 )
+      {
+      this->UpdateProgress(1.0);
+      // no seeds result in zero image
+      return;
+      }
     m_Mean      = sum / double(num);
     m_Variance  = ( sumOfSquares - ( sum * sum / double(num) ) ) / ( double(num) - 1.0 );
     }
@@ -231,18 +254,20 @@ ConfidenceConnectedImageFilter< TInputImage, TOutputImage >
   typename SeedsContainerType::const_iterator li = m_Seeds.end();
   while ( si != li )
     {
-    const InputRealType seedIntensity =
-      static_cast< InputRealType >( inputImage->GetPixel(*si) );
-
-    if ( lowestSeedIntensity > seedIntensity )
+    if ( region.IsInside(*si) )
       {
-      lowestSeedIntensity = seedIntensity;
-      }
-    if ( highestSeedIntensity < seedIntensity )
-      {
-      highestSeedIntensity = seedIntensity;
-      }
+      const InputRealType seedIntensity =
+        static_cast< InputRealType >( inputImage->GetPixel(*si) );
 
+      if ( lowestSeedIntensity > seedIntensity )
+        {
+        lowestSeedIntensity = seedIntensity;
+        }
+      if ( highestSeedIntensity < seedIntensity )
+        {
+        highestSeedIntensity = seedIntensity;
+        }
+      }
     si++;
     }
 
