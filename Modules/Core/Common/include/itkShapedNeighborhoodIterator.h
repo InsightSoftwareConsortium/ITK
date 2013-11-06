@@ -187,7 +187,7 @@ public:
     Iterator(Self *s):ConstIterator(s) {}
 
     ~Iterator() {}
-    const Iterator & operator=(const Iterator & o)
+    Iterator & operator=(const Iterator & o)
     {
       ConstIterator::operator=(o);
       return *this;

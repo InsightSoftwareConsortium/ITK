@@ -126,7 +126,7 @@ public:
 
     virtual ~ConstIterator() {}
 
-    const ConstIterator & operator=(const ConstIterator & o)
+    ConstIterator & operator=(const ConstIterator & o)
     {
       m_NeighborhoodIterator = o.m_NeighborhoodIterator;
       m_ListIterator = o.m_ListIterator;
