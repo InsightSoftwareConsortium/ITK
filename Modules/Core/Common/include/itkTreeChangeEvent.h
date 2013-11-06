@@ -39,7 +39,9 @@ public:
   typedef ModifiedEvent   Superclass;
 
   /** Constructor */
-  TreeChangeEvent() { m_ChangePosition = NULL; }
+  TreeChangeEvent():
+    m_ChangePosition( NULL )
+    {}
 
   /** Copy constructor */
   TreeChangeEvent(const TreeIteratorBase< TTreeType > & position) { m_ChangePosition = &position; }
