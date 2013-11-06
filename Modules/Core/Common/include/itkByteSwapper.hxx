@@ -352,13 +352,11 @@ void
 ByteSwapper< T >
 ::Swap4Range(void *ptr, BufferSizeType num)
 {
-  char           one_byte;
   char *         pos = reinterpret_cast< char * >( ptr );
-  BufferSizeType i;
 
-  for ( i = 0; i < num; i++ )
+  for ( BufferSizeType i = 0; i < num; i++ )
     {
-    one_byte = pos[0];
+    char one_byte = pos[0];
     pos[0] = pos[3];
     pos[3] = one_byte;
 
@@ -444,13 +442,11 @@ void
 ByteSwapper< T >
 ::Swap8Range(void *ptr, BufferSizeType num)
 {
-  char           one_byte;
   char *         pos = reinterpret_cast< char * >( ptr );
-  BufferSizeType i;
 
-  for ( i = 0; i < num; i++ )
+  for ( BufferSizeType i = 0; i < num; i++ )
     {
-    one_byte    = pos[0];
+    char one_byte    = pos[0];
     pos[0] = pos[7];
     pos[7] = one_byte;
 
