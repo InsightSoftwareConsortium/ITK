@@ -92,16 +92,16 @@ public:
   {}
 
   AnnulusOperator(const Self & other):
-    NeighborhoodOperator< TPixel, TDimension, TAllocator >(other)
+    NeighborhoodOperator< TPixel, TDimension, TAllocator >(other),
+    m_InnerRadius( other.m_InnerRadius ),
+    m_Thickness( other.m_Thickness ),
+    m_Normalize( other.m_Normalize ),
+    m_BrightCenter( other.m_BrightCenter ),
+    m_InteriorValue( other.m_InteriorValue ),
+    m_AnnulusValue( other.m_AnnulusValue ),
+    m_ExteriorValue( other.m_ExteriorValue ),
+    m_Spacing( other.m_Spacing )
   {
-    m_InnerRadius = other.m_InnerRadius;
-    m_Thickness = other.m_Thickness;
-    m_Spacing = other.m_Spacing;
-    m_InteriorValue = other.m_InteriorValue;
-    m_AnnulusValue = other.m_AnnulusValue;
-    m_ExteriorValue = other.m_ExteriorValue;
-    m_Normalize = other.m_Normalize;
-    m_BrightCenter = other.m_BrightCenter;
   }
 
   /** This function is called to create the operator.  The radius of
