@@ -45,30 +45,22 @@ check_include_files("sys/types.h" HAVE_SYS_TYPES_H)
 include(CheckSupportForSSERounding)
 
 
-# check of the optional TR1 type_traits, alternative boost
-# implementation could also be searched for
-include(CheckIncludeFileCXX)
-check_include_file_cxx( tr1/type_traits ITK_HAS_STLTR1_TR1_TYPE_TRAITS )
-check_include_file_cxx( type_traits ITK_HAS_STLTR1_TYPE_TRAITS )
 
 # Check for the new C++11 alignas type specifier for future portable alignment
 try_compile( ITK_HAS_CPP11_ALIGNAS
   ${ITK_BINARY_DIR}/CMakeTmp
   ${CMAKE_CURRENT_SOURCE_DIR}/CMake/itkCheckHasCPP11Alignas.cxx )
 
-# definitions and test for tr1 typetraits namespace
-set (TYPETRAITS_TEST_DEFINITIONS "")
-if (ITK_HAS_STLTR1_TR1_TYPE_TRAITS)
-  set(TYPETRAITS_TEST_DEFINITIONS "${TYPETRAITS_TEST_DEFINITIONS} -DITK_HAS_STLTR1_TR1_TYPE_TRAITS")
-endif()
-if (ITK_HAS_STLTR1_TYPE_TRAITS)
-  set(TYPETRAITS_TEST_DEFINITIONS "${TYPETRAITS_TEST_DEFINITIONS} -DITK_HAS_STLTR1_TYPE_TRAITS")
-endif()
+# check of the optional TR1 type_traits, alternative boost
+# implementation could also be searched for
+include(CheckIncludeFileCXX)
+check_include_file_cxx( tr1/type_traits ITK_HAS_STLTR1_TR1_TYPE_TRAITS )
+check_include_file_cxx( type_traits ITK_HAS_STLTR1_TYPE_TRAITS )
 
-try_compile( ITK_HAS_TYPETRAITS_TR1_NAMESPACE
+# Check for C++11 type_traits
+try_compile( ITK_HAS_CPP11_TYPETRAITS
   ${ITK_BINARY_DIR}/CMakeTmp
-  ${CMAKE_CURRENT_SOURCE_DIR}/CMake/itkCheckStlTr1TypeTraits.cxx
-  COMPILE_DEFINITIONS "${TYPETRAITS_TEST_DEFINITIONS}" )
+  ${CMAKE_CURRENT_SOURCE_DIR}/CMake/itkCheckCxx11StlTypeTraits.cxx )
 
 try_compile( ITK_HAS_GNU_ATTRIBUTE_ALIGNED
   ${ITK_BINARY_DIR}/CMakeTmp

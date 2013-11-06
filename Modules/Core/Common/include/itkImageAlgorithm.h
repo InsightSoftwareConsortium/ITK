@@ -20,18 +20,18 @@
 
 #include "itkImageRegionIterator.h"
 
-#ifdef ITK_HAS_STLTR1_TR1_TYPE_TRAITS
-#  include <tr1/type_traits>
-#elif defined ITK_HAS_STLTR1_TYPE_TRAITS
+#ifdef ITK_HAS_STLTR1_TYPE_TRAITS
 #  include <type_traits>
+#elif defined ITK_HAS_STLTR1_TR1_TYPE_TRAITS
+#  include <tr1/type_traits>
 #else
 #  include "itkIsSame.h"
 #endif
 
-#ifdef ITK_HAS_TYPETRAITS_TR1_NAMESPACE
-#  define ITK_STD_TR1_NAMESPACE std::tr1
-#else
+#ifdef ITK_HAS_CPP11_TYPETRAITS
 #  define ITK_STD_TR1_NAMESPACE std
+#else
+#  define ITK_STD_TR1_NAMESPACE std::tr1
 #endif
 
 namespace itk
