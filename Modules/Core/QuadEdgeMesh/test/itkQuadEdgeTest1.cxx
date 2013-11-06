@@ -1166,21 +1166,23 @@ int itkQuadEdgeTest1( int , char* [] )
     // Tests for the IsIsolated() method
     { // create a local scope for these tests
     QuadEdgeType * quadEdge1 = new QuadEdgeType;
-    QuadEdgeType * quadEdge2 = new QuadEdgeType;
-
     const QuadEdgeType * quadEdge1c = quadEdge1;
 
     if( quadEdge1c->IsIsolated() != true )
       {
       std::cerr << "Error in IsIsolated() A" << std::endl;
+      delete quadEdge1;
       return EXIT_FAILURE;
       }
 
+    QuadEdgeType * quadEdge2 = new QuadEdgeType;
     quadEdge1->SetOnext( quadEdge2 );
 
     if( quadEdge1c->IsIsolated() != false )
       {
       std::cerr << "Error in IsIsolated() B" << std::endl;
+      delete quadEdge1;
+      delete quadEdge2;
       return EXIT_FAILURE;
       }
 
@@ -1189,6 +1191,8 @@ int itkQuadEdgeTest1( int , char* [] )
     if( quadEdge1c->IsIsolated() != true )
       {
       std::cerr << "Error in IsIsolated() C" << std::endl;
+      delete quadEdge1;
+      delete quadEdge2;
       return EXIT_FAILURE;
       }
 
