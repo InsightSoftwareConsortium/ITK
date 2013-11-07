@@ -758,6 +758,13 @@ void LinearSystemWrapperItpack::Solve(void)
     case 6:
       NW = N + NB;
       break;
+    default:
+      std::ostringstream msg;
+      msg << "m_Method is" << m_Method << " but must be >=0 and <= 6";
+      throw FEMExceptionLinearSystem(__FILE__,
+                                     __LINE__,
+                                     "LinearSystemWrapperItpack::Solve",
+                                     msg.str().c_str());
     }
   m_IPARM[7] = NW;
   IWKSP = new integer[3 * N];
