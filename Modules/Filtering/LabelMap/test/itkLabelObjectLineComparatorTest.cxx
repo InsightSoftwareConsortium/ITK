@@ -22,7 +22,6 @@
 
 int itkLabelObjectLineComparatorTest(int, char* [] )
 {
-
   typedef itk::LabelObjectLine<2>                                      LabelObjectLineType;
   typedef itk::LabelObjectLine<2>::IndexType                           IndexType;
   typedef itk::Functor::LabelObjectLineComparator<LabelObjectLineType> ComparatorType;
@@ -44,24 +43,36 @@ int itkLabelObjectLineComparatorTest(int, char* [] )
   if (lessThan(*high, *low))
     {
     std::cerr << "Failed, high<low returned true." << std::endl;
+    delete low;
+    delete high;
+    delete lowlong;
     return (EXIT_FAILURE);
     }
 
   if (!lessThan(*low, *high))
     {
     std::cerr << "Failed, low<high returned false." << std::endl;
+    delete low;
+    delete high;
+    delete lowlong;
     return (EXIT_FAILURE);
     }
 
   if (lessThan(*low, *low))
     {
     std::cerr << "Failed, low<low returned true." << std::endl;
+    delete low;
+    delete high;
+    delete lowlong;
     return (EXIT_FAILURE);
     }
 
   if (!lessThan(*low, *lowlong))
     {
     std::cerr << "Failed, low<lowlong returned false." << std::endl;
+    delete low;
+    delete high;
+    delete lowlong;
     return (EXIT_FAILURE);
     }
 
