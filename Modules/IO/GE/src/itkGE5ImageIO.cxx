@@ -236,7 +236,7 @@ GE5ImageIO::ReadHeader(const char  *FileNameToRead)
     {
     pixelHdrFlag = false;
     }
-  strncpy (curImage->filename, FileNameToRead, IOCommon::ITK_MAXPATHLEN + 1);
+  strncpy (curImage->filename, FileNameToRead, IOCommon::ITK_MAXPATHLEN);
 
   //
   // if there's no GE5 header on the file we have to assume
