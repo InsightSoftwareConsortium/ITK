@@ -177,13 +177,11 @@ void JPEG2000ImageIO::ReadImageInformation()
     {
      this->m_Internal->m_DecompressionParameters.decod_format = JPEG2000ImageIOInternal::J2K_CFMT;
     }
-
-  if ( extension == ".jp2" )
+  else if ( extension == ".jp2" )
     {
      this->m_Internal->m_DecompressionParameters.decod_format = JPEG2000ImageIOInternal::JP2_CFMT;
     }
-
-  if ( extension == ".jpt" )
+  else if ( extension == ".jpt" )
     {
      this->m_Internal->m_DecompressionParameters.decod_format = JPEG2000ImageIOInternal::JPT_CFMT;
     }
@@ -837,8 +835,7 @@ JPEG2000ImageIO
     {
     parameters.cod_format = JPEG2000ImageIOInternal::J2K_CFMT;
     }
-
-  if ( extension == ".jp2" )
+  else if ( extension == ".jp2" )
     {
     parameters.cod_format = JPEG2000ImageIOInternal::JP2_CFMT;
     }
@@ -1045,8 +1042,7 @@ JPEG2000ImageIO
         << "Reason: opj_create_compress(CODEC_J2K) returns NULL" );
       }
     }
-
-  if ( extension == ".jp2" )
+  else if ( extension == ".jp2" )
     {
     cinfo = opj_create_compress(CODEC_JP2);
     if ( !cinfo )
@@ -1058,8 +1054,7 @@ JPEG2000ImageIO
         << "Reason: opj_create_compress(CODEC_JP2) returns NULL" );
       }
     }
-
-  if ( extension == ".jpt" )
+  else if ( extension == ".jpt" )
     {
     cinfo = opj_create_compress(CODEC_JPT);
     if ( !cinfo )
@@ -1070,6 +1065,15 @@ JPEG2000ImageIO
         << std::endl
         << "Reason: opj_create_compress(CODEC_JPT) returns NULL" );
       }
+    }
+  else
+    {
+    itkExceptionMacro(
+      "JPEG2000ImageIO failed to write file: "
+      << this->GetFileName()
+      << std::endl
+      << "Reason: unknown encode format: "
+      << extension );
     }
 
   if ( this->GetNumberOfComponents() == 3 )
