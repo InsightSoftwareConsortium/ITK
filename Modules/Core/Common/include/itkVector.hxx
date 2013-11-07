@@ -25,9 +25,6 @@
 
 namespace itk
 {
-/**
- * Constructor to initialize entire vector to one value.
- */
 template< typename T, unsigned int TVectorDimension >
 Vector< T, TVectorDimension >
 ::Vector(const ValueType & r)
@@ -47,9 +44,6 @@ Vector< T, TVectorDimension >
   return *this;
 }
 
-/**
- *
- */
 template< typename T, unsigned int TVectorDimension >
 const typename Vector< T, TVectorDimension >::Self &
 Vector< T, TVectorDimension >
@@ -62,9 +56,6 @@ Vector< T, TVectorDimension >
   return *this;
 }
 
-/**
- *
- */
 template< typename T, unsigned int TVectorDimension >
 const typename Vector< T, TVectorDimension >::Self &
 Vector< T, TVectorDimension >
@@ -77,9 +68,6 @@ Vector< T, TVectorDimension >
   return *this;
 }
 
-/**
- * Returns a temporary copy of a vector
- */
 template< typename T, unsigned int TVectorDimension >
 Vector< T, TVectorDimension >
 Vector< T, TVectorDimension >
@@ -94,9 +82,6 @@ Vector< T, TVectorDimension >
   return result;
 }
 
-/**
- * Returns a temporary copy of a vector
- */
 template< typename T, unsigned int TVectorDimension >
 Vector< T, TVectorDimension >
 Vector< T, TVectorDimension >
@@ -111,9 +96,6 @@ Vector< T, TVectorDimension >
   return result;
 }
 
-/**
- * Returns a temporary copy of a vector
- */
 template< typename T, unsigned int TVectorDimension >
 Vector< T, TVectorDimension >
 Vector< T, TVectorDimension >
@@ -128,9 +110,6 @@ Vector< T, TVectorDimension >
   return result;
 }
 
-/**
- * Returns vector's Squared Euclidean Norm
- */
 template< typename T, unsigned int TVectorDimension >
 typename Vector< T, TVectorDimension >::RealValueType
 Vector< T, TVectorDimension >
@@ -145,9 +124,6 @@ Vector< T, TVectorDimension >
   return sum;
 }
 
-/**
- * Returns vector's Euclidean Norm
- */
 template< typename T, unsigned int TVectorDimension >
 typename Vector< T, TVectorDimension >::RealValueType
 Vector< T, TVectorDimension >
@@ -156,9 +132,6 @@ Vector< T, TVectorDimension >
   return RealValueType( vcl_sqrt( double( this->GetSquaredNorm() ) ) );
 }
 
-/**
- * Divide vector's components by vector's norm
- */
 template< typename T, unsigned int TVectorDimension >
 void
 Vector< T, TVectorDimension >
@@ -172,9 +145,6 @@ Vector< T, TVectorDimension >
     }
 }
 
-/**
- * Return a vnl_vector_ref
- */
 template< typename T, unsigned int TVectorDimension >
 vnl_vector_ref< T >
 Vector< T, TVectorDimension >
@@ -183,9 +153,6 @@ Vector< T, TVectorDimension >
   return vnl_vector_ref< T >( TVectorDimension, this->GetDataPointer() );
 }
 
-/**
- * Return a vnl_vector const
- */
 template< typename T, unsigned int TVectorDimension >
 vnl_vector< T >
 Vector< T, TVectorDimension >
@@ -199,9 +166,6 @@ Vector< T, TVectorDimension >
                               const_cast< T * >( this->GetDataPointer() ) );
 }
 
-/**
- * Set a vnl_vector
- */
 template< typename T, unsigned int TVectorDimension >
 void
 Vector< T, TVectorDimension >
@@ -213,9 +177,6 @@ Vector< T, TVectorDimension >
     }
 }
 
-/**
- * Print content to an ostream
- */
 template< typename T, unsigned int TVectorDimension >
 std::ostream &
 operator<<(std::ostream & os, const Vector< T, TVectorDimension > & vct)
@@ -237,9 +198,6 @@ operator<<(std::ostream & os, const Vector< T, TVectorDimension > & vct)
   return os;
 }
 
-/**
- * Read content from an istream
- */
 template< typename T, unsigned int TVectorDimension >
 std::istream &
 operator>>(std::istream & is, Vector< T, TVectorDimension > & vct)
@@ -251,9 +209,6 @@ operator>>(std::istream & is, Vector< T, TVectorDimension > & vct)
   return is;
 }
 
-/**
- *
- */
 template< typename T, unsigned int TVectorDimension >
 typename Vector< T, TVectorDimension >::ValueType
 Vector< T, TVectorDimension >
@@ -268,9 +223,6 @@ Vector< T, TVectorDimension >
 }
 
 #if !defined(ITK_LEGACY_REMOVE)
-/**
- * Set a vnl_vector
- */
 template< typename T, unsigned int TVectorDimension >
 void
 Vector< T, TVectorDimension >
@@ -282,9 +234,6 @@ Vector< T, TVectorDimension >
     }
 }
 
-/**
- * Return a vnl_vector_ref
- */
 template< typename T, unsigned int TVectorDimension >
 vnl_vector_ref< T >
 Vector< T, TVectorDimension >
@@ -292,9 +241,7 @@ Vector< T, TVectorDimension >
 {
   return vnl_vector_ref< T >( TVectorDimension, this->GetDataPointer() );
 }
-/**
- * Return a vnl_vector const
- */
+
 template< typename T, unsigned int TVectorDimension >
 vnl_vector< T >
 Vector< T, TVectorDimension >
