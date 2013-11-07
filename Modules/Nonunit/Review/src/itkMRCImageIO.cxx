@@ -345,7 +345,7 @@ void MRCImageIO::UpdateHeaderFromImageIO(void)
     }
 
   // magic number
-  strncpy(header.cmap, magicMAP, 4);
+  memcpy(header.cmap, magicMAP, 4);
 
   if ( ByteSwapper< void * >::SystemIsBigEndian() )
     {
