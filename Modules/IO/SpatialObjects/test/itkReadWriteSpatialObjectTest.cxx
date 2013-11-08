@@ -437,6 +437,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
           if((*j).GetPosition()[d] != value * (*obj)->GetId())
             {
             std::cout<<" [FAILED] (Position is: " << (*j).GetPosition()[d] << " expected : "<< value * (*obj)->GetId()<< " ) " <<std::endl;
+            delete mySceneChildren;
             return EXIT_FAILURE;
             }
           }
@@ -444,24 +445,28 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
         if( (*j).GetRed() != value)
           {
           std::cout<<" [FAILED] : Red : found " << ( *j).GetRed() << " instead of " << value <<std::endl;
+          delete mySceneChildren;
           return EXIT_FAILURE;
           }
 
         if((*j).GetGreen() != value+1)
           {
           std::cout<<" [FAILED] : Green : found " << ( *j).GetGreen() << " instead of " << value+1 <<std::endl;
+          delete mySceneChildren;
           return EXIT_FAILURE;
           }
 
         if((*j).GetBlue() != value+2)
           {
           std::cout<<"[FAILED] : Blue : found " << ( *j).GetBlue() << " instead of " << value+2 <<std::endl;
+          delete mySceneChildren;
           return EXIT_FAILURE;
           }
 
         if((*j).GetAlpha() != value+3)
           {
           std::cout<<" [FAILED] : Alpha : found " << ( *j).GetAlpha() << " instead of " << value+3 <<std::endl;
+          delete mySceneChildren;
           return EXIT_FAILURE;
           }
         value++;
@@ -491,6 +496,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
           if((*jv).GetPosition()[d] != value * (*obj)->GetId())
             {
             std::cout<<" [FAILED] (Position is: " << (*jv).GetPosition()[d] << " expected : "<< value * (*obj)->GetId()<< " ) " <<std::endl;
+            delete mySceneChildren;
             return EXIT_FAILURE;
             }
           }
@@ -498,59 +504,70 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
         if( (*jv).GetRed() != value)
           {
           std::cout<<" [FAILED] : Red : found " << ( *jv).GetRed() << " instead of " << value <<std::endl;
+          delete mySceneChildren;
           return EXIT_FAILURE;
           }
 
         if((*jv).GetGreen() != value+1)
           {
           std::cout<<" [FAILED] : Green : found " << ( *jv).GetGreen() << " instead of " << value+1 <<std::endl;
+          delete mySceneChildren;
           return EXIT_FAILURE;
           }
 
         if((*jv).GetBlue() != value+2)
           {
           std::cout<<"[FAILED] : Blue : found " << ( *jv).GetBlue() << " instead of " << value+2 <<std::endl;
+          delete mySceneChildren;
           return EXIT_FAILURE;
           }
 
         if((*jv).GetAlpha() != value+3)
           {
           std::cout<<" [FAILED] : Alpha : found " << ( *jv).GetAlpha() << " instead of " << value+3 <<std::endl;
+          delete mySceneChildren;
           return EXIT_FAILURE;
           }
         if((*jv).GetRidgeness() != value*1)
           {
           std::cout<<" [FAILED] : Ridgeness : found " << ( *jv).GetRidgeness() << " instead of " << value*1 <<std::endl;
+          delete mySceneChildren;
           return EXIT_FAILURE;
           }
         if((*jv).GetMedialness() != value*2)
           {
           std::cout<<" [FAILED] : Medialness : found " << ( *jv).GetMedialness() << " instead of " << value*2 <<std::endl;
+          delete mySceneChildren;
           return EXIT_FAILURE;
           }
         if((*jv).GetBranchness() != value*3)
           {
           std::cout<<" [FAILED] : Branchness : found " << ( *jv).GetBranchness() << " instead of " << value*3 <<std::endl;
+          delete mySceneChildren;
           return EXIT_FAILURE;
           }
         if(!(*jv).GetMark())
           {
           std::cout<<" [FAILED] : GetMark is set to false" << std::endl;
+          delete mySceneChildren;
           return EXIT_FAILURE;
           }
         if((*jv).GetAlpha1() != value*1)
           {
           std::cout<<" [FAILED] : Alpha1 : found " << ( *jv).GetAlpha1() << " instead of " << value*1 <<std::endl;
+          delete mySceneChildren;
           return EXIT_FAILURE;
           }
         if((*jv).GetAlpha2() != value*2)
           {
           std::cout<<" [FAILED] : Alpha2 : found " << ( *jv).GetAlpha2() << " instead of " << value*2 <<std::endl;
+          delete mySceneChildren;
           return EXIT_FAILURE;
           }
         if((*jv).GetAlpha3() != value*3)
           {
           std::cout<<" [FAILED] : Alpha3 : found " << ( *jv).GetAlpha3() << " instead of " << value*3 <<std::endl;
+          delete mySceneChildren;
           return EXIT_FAILURE;
           }
         value++;
@@ -565,6 +582,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
   else
     {
     std::cout << " [FAILED] : Cannot found VesselSpatialObject" << std::endl;
+    delete mySceneChildren;
     return EXIT_FAILURE;
     }
 
@@ -588,6 +606,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
           if((*jdti).GetPosition()[d] != value * (*obj)->GetId())
             {
             std::cout<<" [FAILED] (Position is: " << (*jdti).GetPosition()[d] << " expected : "<< value * (*obj)->GetId()<< " ) " <<std::endl;
+            delete mySceneChildren;
             return EXIT_FAILURE;
             }
           }
@@ -595,55 +614,65 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
         if( (*jdti).GetRed() != value)
           {
           std::cout<<" [FAILED] : Red : found " << ( *jdti).GetRed() << " instead of " << value <<std::endl;
+          delete mySceneChildren;
           return EXIT_FAILURE;
           }
 
         if((*jdti).GetGreen() != value+1)
           {
           std::cout<<" [FAILED] : Green : found " << ( *jdti).GetGreen() << " instead of " << value+1 <<std::endl;
+          delete mySceneChildren;
           return EXIT_FAILURE;
           }
 
         if((*jdti).GetBlue() != value+2)
           {
           std::cout<<"[FAILED] : Blue : found " << ( *jdti).GetBlue() << " instead of " << value+2 <<std::endl;
+          delete mySceneChildren;
           return EXIT_FAILURE;
           }
 
         if((*jdti).GetAlpha() != value+3)
           {
           std::cout<<" [FAILED] : Alpha : found " << ( *jdti).GetAlpha() << " instead of " << value+3 <<std::endl;
+          delete mySceneChildren;
           return EXIT_FAILURE;
           }
 
         if((*jdti).GetField(DTITubePointType::FA) != value+1)
           {
           std::cout<<" [FAILED] : FA : found " << ( *jdti).GetField("FA") << " instead of " << value+1 <<std::endl;
+          delete mySceneChildren;
           return EXIT_FAILURE;
           }
         if((*jdti).GetField(DTITubePointType::ADC) != value*2)
           {
           std::cout<<" [FAILED] : ADC : found " << ( *jdti).GetField("ADC") << " instead of " << value*2 <<std::endl;
+          delete mySceneChildren;
           return EXIT_FAILURE;
           }
         if((*jdti).GetField(DTITubePointType::GA) != value*3)
           {
           std::cout<<" [FAILED] : GA : found " << ( *jdti).GetField("FA") << " instead of " << value*3 <<std::endl;
+          delete mySceneChildren;
           return EXIT_FAILURE;
           }
         if((*jdti).GetField("Lambda1") != value*4)
           {
           std::cout<<" [FAILED] : GetLambda1 : found " << ( *jdti).GetField("Lambda1") << " instead of " << value*4 <<std::endl;
+          delete mySceneChildren;
           return EXIT_FAILURE;
           }
         if((*jdti).GetField("Lambda2") != value*5)
           {
           std::cout<<" [FAILED] : GetLambda2 : found " << ( *jdti).GetField("Lambda2") << " instead of " << value*5 <<std::endl;
+          delete mySceneChildren;
           return EXIT_FAILURE;
           }
         if((*jdti).GetField("Lambda3") != value*6)
           {
           std::cout<<" [FAILED] : GetLambda3 : found " << ( *jdti).GetField("Lambda3") << " instead of " << value*6 <<std::endl;
+          delete mySceneChildren;
           return EXIT_FAILURE;
           }
         int ind;
@@ -652,6 +681,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
           if((*jdti).GetTensorMatrix()[ind] != ind)
             {
             std::cout<<" [FAILED] : GetTensorMatrix : found " << ( *jdti).GetTensorMatrix()[ind] << " instead of " << ind <<std::endl;
+            delete mySceneChildren;
             return EXIT_FAILURE;
             }
           }
@@ -667,6 +697,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
   else
     {
     std::cout << " [FAILED] : Cannot found VesselSpatialObject" << std::endl;
+    delete mySceneChildren;
     return EXIT_FAILURE;
     }
 
@@ -683,6 +714,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
         if (dynamic_cast<EllipseType*>((*obj).GetPointer())->GetRadius()[jj] != 9)
           {
           std::cout<<" [FAILED]"<<std::endl;
+          delete mySceneChildren;
           return EXIT_FAILURE;
           }
         gotEllipse = true;
@@ -693,6 +725,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
   if(!gotEllipse)
     {
     std::cout<<" [FAILED] : No ellipse!"<<std::endl;
+    delete mySceneChildren;
     return EXIT_FAILURE;
     }
 
@@ -712,6 +745,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
           {
           std::cout << "Expected " << i << " , found " << it.Get() << std::endl;
           std::cout<<" [FAILED]"<<std::endl;
+          delete mySceneChildren;
           return EXIT_FAILURE;
           }
         }
@@ -736,6 +770,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
           {
           std::cout << "Expected " << i << " , found " << it.Get() << std::endl;
           std::cout<<" [FAILED]"<<std::endl;
+          delete mySceneChildren;
           return EXIT_FAILURE;
           }
         }
@@ -746,6 +781,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
     {
     std::cout << "No Mask!" << std::endl;
     std::cout<<" [FAILED]"<<std::endl;
+    delete mySceneChildren;
     return EXIT_FAILURE;
     }
 
@@ -768,30 +804,35 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
           if((*pit).GetPosition()[d] != value)
             {
             std::cout<<" [FAILED]"<<std::endl;
+            delete mySceneChildren;
             return EXIT_FAILURE;
             }
           // Testing the color of the tube points
           if( (*pit).GetRed() != value)
             {
             std::cout<<" [FAILED] : Red : found " << (*pit).GetRed() << " instead of " << value <<std::endl;
+            delete mySceneChildren;
             return EXIT_FAILURE;
             }
 
           if((*pit).GetGreen() != value+1)
             {
             std::cout<<" [FAILED] : Green : found " << (*pit).GetGreen() << " instead of " << value+1 <<std::endl;
+            delete mySceneChildren;
             return EXIT_FAILURE;
             }
 
           if((*pit).GetBlue() != value+2)
             {
             std::cout<<" [FAILED] : Blue : found " << (*pit).GetBlue() << " instead of " << value+2 <<std::endl;
+            delete mySceneChildren;
             return EXIT_FAILURE;
             }
 
           if((*pit).GetAlpha() != value+3)
             {
             std::cout<<" [FAILED] : Alpha : found " << (*pit).GetAlpha() << " instead of " << value+3 <<std::endl;
+            delete mySceneChildren;
             return EXIT_FAILURE;
             }
           }
@@ -821,6 +862,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
             {
             std::cout << (*pit).GetPosition()[d] << "!=" << value << std::endl;
             std::cout<<" [FAILED]"<<std::endl;
+            delete mySceneChildren;
             return EXIT_FAILURE;
             }
 
@@ -828,6 +870,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
             {
             std::cout << "Normal : " << (*pit).GetNormal()[d] << std::endl;
             std::cout<<" [FAILED]"<<std::endl;
+            delete mySceneChildren;
             return EXIT_FAILURE;
             }
 
@@ -835,24 +878,28 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
           if( (*pit).GetRed() != value)
             {
             std::cout<<" [FAILED] : Red : found " << ( *pit).GetRed() << " instead of " << value <<std::endl;
+            delete mySceneChildren;
             return EXIT_FAILURE;
             }
 
           if((*pit).GetGreen() != value+1)
             {
             std::cout<<" [FAILED] : Green : found " << ( *pit).GetGreen() << " instead of " << value+1 <<std::endl;
+            delete mySceneChildren;
             return EXIT_FAILURE;
             }
 
           if((*pit).GetBlue() != value+2)
             {
             std::cout<<" [FAILED] : Blue : found " << ( *pit).GetBlue() << " instead of " << value+2 <<std::endl;
+            delete mySceneChildren;
             return EXIT_FAILURE;
             }
 
           if((*pit).GetAlpha() != value+3)
             {
             std::cout<<" [FAILED] : Alpha : found " << ( *pit).GetAlpha() << " instead of " << value+3 <<std::endl;
+            delete mySceneChildren;
             return EXIT_FAILURE;
             }
           }
@@ -880,18 +927,21 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
           if((*pit).GetPosition()[d] != value)
             {
             std::cout<<" [FAILED]"<<std::endl;
+            delete mySceneChildren;
             return EXIT_FAILURE;
             }
 
           if(((*pit).GetNormal(0))[d] != d)
             {
             std::cout<<" [FAILED]"<<std::endl;
+            delete mySceneChildren;
             return EXIT_FAILURE;
             }
 
           if(((*pit).GetNormal(1))[d] != 2*d)
             {
             std::cout<<" [FAILED]"<<std::endl;
+            delete mySceneChildren;
             return EXIT_FAILURE;
             }
 
@@ -899,24 +949,28 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
           if( (*pit).GetRed() != value)
             {
             std::cout<<" [FAILED] : Red : found " << ( *pit).GetRed() << " instead of " << value <<std::endl;
+            delete mySceneChildren;
             return EXIT_FAILURE;
             }
 
           if((*pit).GetGreen() != value+1)
             {
             std::cout<<" [FAILED] : Green : found " << ( *pit).GetGreen() << " instead of " << value+1 <<std::endl;
+            delete mySceneChildren;
             return EXIT_FAILURE;
             }
 
           if((*pit).GetBlue() != value+2)
             {
             std::cout<<" [FAILED] : Blue : found " << ( *pit).GetBlue() << " instead of " << value+2 <<std::endl;
+            delete mySceneChildren;
             return EXIT_FAILURE;
             }
 
           if((*pit).GetAlpha() != value+3)
             {
             std::cout<<" [FAILED] : Alpha : found " << ( *pit).GetAlpha() << " instead of " << value+3 <<std::endl;
+            delete mySceneChildren;
             return EXIT_FAILURE;
             }
           }
@@ -944,6 +998,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
           if((*pit).GetPosition()[d] != value)
             {
             std::cout<<" [FAILED]"<<std::endl;
+            delete mySceneChildren;
             return EXIT_FAILURE;
             }
           }
@@ -961,6 +1016,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
       if(!dynamic_cast<ContourType*>((*obj).GetPointer())->GetClosed())
         {
         std::cout << "The contour should be closed" << std::endl;
+        delete mySceneChildren;
         return EXIT_FAILURE;
         }
 
@@ -969,6 +1025,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
         std::cout << "The contour should have display orientation == 2 instead of"
                   << dynamic_cast<ContourType*>((*obj).GetPointer())->GetDisplayOrientation()
                   << std::endl;
+        delete mySceneChildren;
         return EXIT_FAILURE;
         }
 
@@ -977,6 +1034,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
         std::cout << "The contour should be attached to slice 50 instead of"
                   << dynamic_cast<ContourType*>((*obj).GetPointer())->GetAttachedToSlice()
                   << std::endl;
+        delete mySceneChildren;
         return EXIT_FAILURE;
         }
       ContourType::ControlPointListType::const_iterator ctrl;
@@ -992,12 +1050,14 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
             {
             std::cout << "Control ID [FAILED]" << (*ctrl).GetID()
                       << " v.s. " << value << std::endl;
+            delete mySceneChildren;
             return EXIT_FAILURE;
             }
 
           if((*ctrl).GetPosition()[d] != value)
             {
             std::cout << "Control Position [FAILED]" << std::endl;
+            delete mySceneChildren;
             return EXIT_FAILURE;
             }
 
@@ -1005,12 +1065,14 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
             {
             std::cout << "Picked Point [FAILED]" << (*ctrl).GetPickedPoint()
                       << " v.s. " << -value << std::endl;
+            delete mySceneChildren;
             return EXIT_FAILURE;
             }
 
           if(((*ctrl).GetNormal())[d] != value)
             {
             std::cout << "Normal [FAILED]" << std::endl;
+            delete mySceneChildren;
             return EXIT_FAILURE;
             }
 
@@ -1019,6 +1081,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
             {
             std::cout << " [FAILED] : CRed : found " << (*ctrl).GetRed()
                       << " instead of " << value <<std::endl;
+            delete mySceneChildren;
             return EXIT_FAILURE;
             }
 
@@ -1026,6 +1089,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
             {
             std::cout << " [FAILED] : CGreen : found " << (*ctrl).GetGreen()
                       << " instead of " << value+1 <<std::endl;
+            delete mySceneChildren;
             return EXIT_FAILURE;
             }
 
@@ -1033,6 +1097,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
             {
             std::cout << " [FAILED] : CBlue : found " << (*ctrl).GetBlue()
                       << " instead of " << value+2 <<std::endl;
+            delete mySceneChildren;
             return EXIT_FAILURE;
             }
 
@@ -1040,6 +1105,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
             {
             std::cout << " [FAILED] : CAlpha : found " << (*ctrl).GetAlpha()
                       << " instead of " << value+3 <<std::endl;
+            delete mySceneChildren;
             return EXIT_FAILURE;
             }
           }
@@ -1057,12 +1123,14 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
           if((*inter).GetID() != value)
             {
             std::cout << "Interpolated ID [FAILED]" << std::endl;
+            delete mySceneChildren;
             return EXIT_FAILURE;
             }
 
           if((*inter).GetPosition()[d] != value)
             {
             std::cout << "Interpolated Position [FAILED]" << std::endl;
+            delete mySceneChildren;
             return EXIT_FAILURE;
             }
 
@@ -1071,6 +1139,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
             {
             std::cout << " [FAILED] : IRed : found " << (*inter).GetRed()
                       << " instead of " << value <<std::endl;
+            delete mySceneChildren;
             return EXIT_FAILURE;
             }
 
@@ -1078,6 +1147,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
             {
             std::cout << " [FAILED] : IGreen : found " << (*inter).GetGreen()
                       << " instead of " << value+1 <<std::endl;
+            delete mySceneChildren;
             return EXIT_FAILURE;
             }
 
@@ -1085,6 +1155,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
             {
             std::cout << " [FAILED] : IBlue : found " << (*inter).GetBlue()
                       << " instead of " << value+2 <<std::endl;
+            delete mySceneChildren;
             return EXIT_FAILURE;
             }
 
@@ -1092,6 +1163,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
             {
             std::cout << " [FAILED] : IAlpha : found " << (*inter).GetAlpha()
                       << " instead of " << value+3 <<std::endl;
+            delete mySceneChildren;
             return EXIT_FAILURE;
             }
           }
