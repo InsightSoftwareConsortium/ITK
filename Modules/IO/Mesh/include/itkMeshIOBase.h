@@ -605,6 +605,7 @@ protected:
         }
 
       outputFile.write(reinterpret_cast< char * >( data ), numberOfComponents);
+      delete[] data;
       }
   }
 
