@@ -20,7 +20,7 @@
 
 // Helper function
 template< class SEType>
-bool ComputeAreaError(SEType k, unsigned int thickness = 0);
+bool ComputeAreaError(const SEType &k, unsigned int thickness = 0);
 
 int itkFlatStructuringElementTest(int, char *[])
 {
@@ -177,7 +177,7 @@ int itkFlatStructuringElementTest(int, char *[])
 }
 
 template< class SEType >
-bool ComputeAreaError(SEType k, unsigned int thickness)
+bool ComputeAreaError(const SEType &k, unsigned int thickness)
 {
   float expectedOuterForegroundArea = 1;
   float expectedInnerForegroundArea;
@@ -219,7 +219,7 @@ bool ComputeAreaError(SEType k, unsigned int thickness)
   float expectedForegroundArea = expectedOuterForegroundArea - expectedInnerForegroundArea;
 
   // Show the neighborhood if it is 2D.
-  typename SEType::Iterator SEIt;
+  typename SEType::ConstIterator SEIt;
   if( SEType::NeighborhoodDimension == 2 )
     {
     for( SEIt = k.Begin(); SEIt != k.End(); ++SEIt )
