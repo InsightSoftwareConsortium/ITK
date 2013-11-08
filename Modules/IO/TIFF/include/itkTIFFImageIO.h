@@ -59,7 +59,7 @@ public:
    * file specified. */
   virtual bool CanReadFile(const char *);
 
-  /** Set the spacing and diemention information for the set filename. */
+  /** Set the spacing and dimension information for the set filename. */
   virtual void ReadImageInformation();
 
   /** Reads the data from disk into the memory buffer provided. */
