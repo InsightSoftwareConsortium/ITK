@@ -103,7 +103,7 @@ GEImageHeader * GE4ImageIO::ReadHeader(const char *FileNameToRead)
 
   //
   // save off the name of the current file...
-  strcpy(hdr->filename, FileNameToRead);
+  strncpy(hdr->filename, FileNameToRead, sizeof(hdr->filename));
 
   //
   // Next, can you open it?
@@ -118,25 +118,25 @@ GEImageHeader * GE4ImageIO::ReadHeader(const char *FileNameToRead)
     }
   this->GetStringAt(f, SIGNA_STHDR_START * 2 + SIGNA_STHDR_DATE_ASCII * 2, tmpStr, 10);
   tmpStr[10] = '\0';
-  strcpy(hdr->date, tmpStr);
+  strncpy(hdr->date, tmpStr, sizeof(hdr->date));
 
   RGEDEBUG(std::sprintf (debugbuf, "Date = %s\n", tmpStr); cerr << debugbuf; )
   // Get Patient-Name from the STUDY Header
   this->GetStringAt(f, SIGNA_STHDR_START * 2 + SIGNA_STHDR_PATIENT_NAME * 2, tmpStr, 32);
   tmpStr[32] = '\0';
-  strcpy(hdr->hospital, tmpStr);
+  strncpy(hdr->hospital, tmpStr, sizeof(hdr->hospital));
 
   /* Get Patient-Number from the STUDY Header */
   this->GetStringAt(f, SIGNA_STHDR_START * 2 + SIGNA_STHDR_PATIENT_ID * 2, tmpStr, 12);
   tmpStr[12] = '\0';
   RGEDEBUG(std::sprintf (debugbuf, "Patient-Number = %s\n", tmpStr); cerr << debugbuf; )
-  strcpy(hdr->patientId, tmpStr);
+    strncpy(hdr->patientId, tmpStr, sizeof(hdr->patientId));
 
   /* Get the Exam-Number from the STUDY Header */
   this->GetStringAt(f, SIGNA_STHDR_START * 2 + SIGNA_STHDR_STUDY_NUM * 2, tmpStr, 6);
   tmpStr[6] = '\0';
   RGEDEBUG(std::sprintf (debugbuf, "Exam-Number = %s\n", tmpStr); cerr << debugbuf; )
-  strcpy(hdr->scanId, tmpStr);
+    strncpy(hdr->scanId, tmpStr, sizeof(hdr->scanId));
 
   /* Get the FOV from the SERIES Header */
   f.seekg (SIGNA_SEHDR_START * 2 + SIGNA_SEHDR_FOV * 2, std::ios::beg);
