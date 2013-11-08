@@ -42,12 +42,11 @@ NeighborhoodOperator< TPixel, VDimension, TAllocator >
   // To flip the operator across all of its axes, all we have to do is reverse
   // the order of all coefficients.
   const unsigned size = this->Size();
-  unsigned       i, swap_with;
   PixelType      temp;
 
-  for ( i = 0; i < size / 2; ++i )
+  for ( unsigned i = 0; i < size / 2; ++i )
     {
-    swap_with = size - 1 - i;
+    unsigned swap_with = size - 1 - i;
     temp = this->operator[](i);
 
     this->operator[](i) = this->operator[](swap_with);

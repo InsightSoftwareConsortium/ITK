@@ -104,7 +104,6 @@ AnnulusOperator< TPixel, TDimension, TAllocator >
 
   // Walk the neighborhood (this) and evaluate the sphere spatial
   // functions
-  bool         inInner, inOuter;
   double       sumNotExterior = 0.0;
   double       sumNotExteriorSq = 0.0;
   unsigned int countNotExterior = 0;
@@ -128,8 +127,8 @@ AnnulusOperator< TPixel, TDimension, TAllocator >
       }
 
     // evaluate the spheres
-    inInner = innerS->Evaluate(point);
-    inOuter = outerS->Evaluate(point);
+    const bool inInner = innerS->Evaluate(point);
+    const bool inOuter = outerS->Evaluate(point);
 
     // set the coefficients
     if ( !inOuter )
