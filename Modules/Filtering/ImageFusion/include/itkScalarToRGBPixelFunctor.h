@@ -84,7 +84,6 @@ public:
   }
 
 
-
 private:
   bool          m_UseMSBForHashing;
   unsigned int  m_ColorIndex[3];
