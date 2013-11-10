@@ -48,8 +48,13 @@ namespace itk
  * This class was taken from the Insight Journal paper:
  * http://hdl.handle.net/1926/1387
  *
+ * \deprecated Renamed to TransformToDisplacementFieldFilter when transitioned
+ * out of Review.
+ *
+ * \sa TransformToDisplacementFieldFilter
+ *
  * \ingroup GeometricTransform
- * \ingroup ITKReview
+ * \ingroup ITKDeprecated
  */
 template< typename TOutputImage,
           typename TTransformPrecisionType = double >

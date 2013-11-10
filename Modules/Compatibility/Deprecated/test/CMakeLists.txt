@@ -11,6 +11,8 @@ itkTwoOutputExampleImageFilterTest.cxx
 itkStreamingImageFilterTest.cxx
 itkStreamingImageFilterTest2.cxx
 itkStreamingImageFilterTest3.cxx
+itkTransformToDisplacementFieldSourceTest.cxx
+itkTransformToDisplacementFieldSourceTest1.cxx
 )
 
 # For itkTestDriverIncludeDeprecatedIOFactories.h.
@@ -43,6 +45,19 @@ itk_add_test(NAME itkDeprecatedStreamingImageFilterTest3_2
     --compare DATA{${ITK_DATA_ROOT}/Input/CellsFluorescence1.png}
               ${ITK_TEST_OUTPUT_DIR}/itkStreamingImageFilterTest3_2.png
     itkStreamingImageFilterTest3 DATA{${ITK_DATA_ROOT}/Input/CellsFluorescence1.png} ${ITK_TEST_OUTPUT_DIR}/itkStreamingImageFilterTest3_2.png 1000)
+
+itk_add_test(NAME itkTransformToDisplacementFieldSourceTest01
+      COMMAND ITKDeprecatedTestDriver itkTransformToDisplacementFieldSourceTest
+              Affine ${ITK_TEST_OUTPUT_DIR}/itkTransformToDisplacementFieldSourceTestField01.mha ${ITK_TEST_OUTPUT_DIR}/itkTransformToDisplacementFieldSourceTestImage01.mha)
+itk_add_test(NAME itkTransformToDisplacementFieldSourceTest02
+      COMMAND ITKDeprecatedTestDriver itkTransformToDisplacementFieldSourceTest
+              BSpline ${ITK_TEST_OUTPUT_DIR}/itkTransformToDisplacementFieldSourceTestField02.mha DATA{${ITK_DATA_ROOT}/Input/parametersBSpline.txt} ${ITK_TEST_OUTPUT_DIR}/itkTransformToDisplacementFieldSourceTestImage02.mha)
+itk_add_test(NAME itkTransformToDisplacementFieldSourceTest03
+      COMMAND ITKDeprecatedTestDriver
+    --compare ${ITK_TEST_OUTPUT_DIR}/transformedImage.nii
+              ${ITK_TEST_OUTPUT_DIR}/warpedImage.nii
+  --compareNumberOfPixelsTolerance 20
+   itkTransformToDisplacementFieldSourceTest1 ${ITK_TEST_OUTPUT_DIR}/transformedImage.nii ${ITK_TEST_OUTPUT_DIR}/warpedImage.nii)
 
 create_test_sourcelist(DeprecatedIOTests  DeprecatedIOTestDriver.cxx
         itkDICOMImageIO2Test.cxx
