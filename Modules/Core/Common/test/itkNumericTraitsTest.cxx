@@ -36,7 +36,7 @@
 #include "itkNumericTraitsVariableLengthVectorPixel.h"
 
 
-template<typename T> void CheckVariableLengthArrayTraits(T t)
+template<typename T> void CheckVariableLengthArrayTraits(const T &t)
 {
   std::string name;
 #ifdef GCC_USEDEMANGLE
@@ -60,7 +60,7 @@ template<typename T> void CheckVariableLengthArrayTraits(T t)
 }
 
 
-template<typename T> void CheckFixedArrayTraits(T t)
+template<typename T> void CheckFixedArrayTraits(const T &t)
 {
   std::string name;
 #ifdef GCC_USEDEMANGLE
