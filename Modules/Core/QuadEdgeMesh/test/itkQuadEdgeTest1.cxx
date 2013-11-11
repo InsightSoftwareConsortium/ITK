@@ -327,11 +327,18 @@ int itkQuadEdgeTest1( int , char* [] )
     quadEdge3->SetRot( quadEdge4 );
     quadEdge4->SetRot( quadEdge1 );
 
+
 #ifndef NDEBUG
     quadEdge2->SetOnext( NULL );
     if( quadEdge1->GetRnext() || quadEdge1c->GetRnext( ) )
       {
       std::cerr << "Error in GetRnext()" << std::endl;
+      delete quadEdge1;
+      delete quadEdge2;
+      delete quadEdge3;
+      delete quadEdge4;
+      delete quadEdgeA;
+      delete quadEdgeB;
       return EXIT_FAILURE;
       }
 #endif
@@ -342,22 +349,28 @@ int itkQuadEdgeTest1( int , char* [] )
     if( quadEdge1->GetRnext() || quadEdge1c->GetRnext( ) )
       {
       std::cerr << "Error in GetRnext()" << std::endl;
+      delete quadEdge1;
+      delete quadEdge2;
+      delete quadEdge3;
+      delete quadEdge4;
+      delete quadEdgeA;
+      delete quadEdgeB;
       return EXIT_FAILURE;
       }
 #endif
 
+    bool quadEdgeError = false;
     quadEdgeA->SetRot( quadEdgeB );
 
     if( quadEdgeA->GetRnext() != quadEdge1 )
       {
       std::cerr << "Error in GetRnext()" << std::endl;
-      return EXIT_FAILURE;
+      quadEdgeError = true;
       }
-
-    if( quadEdgeAc->GetRnext() != quadEdge1 )
+    else if( quadEdgeAc->GetRnext() != quadEdge1 )
       {
       std::cerr << "Error in const GetRnext()" << std::endl;
-      return EXIT_FAILURE;
+      quadEdgeError = true;
       }
 
     delete quadEdge1;
@@ -366,6 +379,11 @@ int itkQuadEdgeTest1( int , char* [] )
     delete quadEdge4;
     delete quadEdgeA;
     delete quadEdgeB;
+
+    if( quadEdgeError )
+      {
+        return EXIT_FAILURE;
+      }
 
     std::cout << "GetRnext() Test passed ! " << std::endl;
     }
