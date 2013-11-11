@@ -178,7 +178,7 @@ public:
   }
 
   /** operator = */
-  const Self & operator=(const Self & iterator)
+  Self & operator=(const Self & iterator)
   {
     if(this != &iterator)
       {
