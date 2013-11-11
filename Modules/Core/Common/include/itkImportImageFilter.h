@@ -118,7 +118,7 @@ public:
 
   /** Set the direction of the image
    * \sa GetDirection() */
-  virtual void SetDirection(const DirectionType direction);
+  virtual void SetDirection(const DirectionType & direction);
 
   /**  Get the direction of the image
    * \sa SetDirection */

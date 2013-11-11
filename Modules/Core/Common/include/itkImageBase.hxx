@@ -151,7 +151,7 @@ ImageBase< VImageDimension >
 template< unsigned int VImageDimension >
 void
 ImageBase< VImageDimension >
-::SetDirection(const DirectionType direction)
+::SetDirection(const DirectionType & direction)
 {
   bool modified = false;
 

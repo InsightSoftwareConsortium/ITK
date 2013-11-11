@@ -277,7 +277,7 @@ public:
   virtual void SetOrigin(const float *values /*[ImageDimension]*/);
 
   /** Set the direction of the image. */
-  virtual void SetDirection(const DirectionType direction);
+  virtual void SetDirection(const DirectionType & direction);
 
   /** Get the direction cosines of the image. The direction cosines
    * are vectors that point from one pixel to the next.

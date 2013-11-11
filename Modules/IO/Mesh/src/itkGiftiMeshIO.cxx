@@ -71,7 +71,7 @@ GiftiMeshIO
 
 void
 GiftiMeshIO
-::SetDirection(const DirectionType direction)
+::SetDirection(const DirectionType & direction)
 {
   for ( unsigned int rr = 0; rr < 4; rr++ )
     {
