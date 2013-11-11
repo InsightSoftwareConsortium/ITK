@@ -109,6 +109,8 @@ public:
 
   /** Default constructor and copy constructors. */
   Vector():BaseArray() {}
+
+  /** Constructor to initialize entire vector to one value. */
   Vector(const ValueType & r);
 
   /** Pass-through constructor for the Array base class. */
@@ -253,10 +255,12 @@ operator*(const T & scalar, const Vector< T, NVectorDimension > & v)
   return v * scalar;
 }
 
+/** Print content to an ostream */
 template< typename T, unsigned int NVectorDimension >
 std::ostream & operator<<(std::ostream & os,
                           const Vector< T, NVectorDimension > & v);
 
+/** Read content from an istream */
 template< typename T, unsigned int NVectorDimension >
 std::istream & operator>>(std::istream & is,
                           Vector< T, NVectorDimension > & v);
