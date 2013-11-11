@@ -30,7 +30,8 @@ namespace itk
 // Constructor with default arguments
 template <typename TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
 BSplineBaseTransform<TScalar, NDimensions, VSplineOrder>
-::BSplineBaseTransform() : Superclass( 0 ),
+::BSplineBaseTransform() :
+  Superclass( 0 ),
   m_CoefficientImages( this->ArrayOfImagePointerGeneratorHelper() )
 {
   this->m_InternalParametersBuffer = ParametersType( 0 );
