@@ -71,7 +71,7 @@ int itkQuadEdgeTest1( int , char* [] )
     { // create a local scope for these tests
     QuadEdgeType * quadEdge1 = new QuadEdgeType;
     QuadEdgeType * quadEdge2 = new QuadEdgeType;
-    QuadEdgeType * quadEdge3 = new QuadEdgeType;
+
     const QuadEdgeType * quadEdge1c = quadEdge1;
 
     quadEdge1->GetOnext(); // testing null case
@@ -81,26 +81,40 @@ int itkQuadEdgeTest1( int , char* [] )
     if( quadEdge1->GetOnext() != quadEdge2 )
       {
       std::cerr << "Error in SetOnext() / GetOnext() " << std::endl;
+      delete quadEdge1;
+      delete quadEdge2;
       return EXIT_FAILURE;
       }
+
     // Test the const version
     if( quadEdge1c->GetOnext() != quadEdge2 )
       {
       std::cerr << "Error in const GetOnext() " << std::endl;
+      delete quadEdge1;
+      delete quadEdge2;
       return EXIT_FAILURE;
       }
 
     // Verify that it can be changed.
+    QuadEdgeType * quadEdge3 = new QuadEdgeType;
     quadEdge1->SetOnext( quadEdge3 );
+
     if( quadEdge1->GetOnext() != quadEdge3 )
       {
       std::cerr << "Error in changing SetOnext() / GetOnext() " << std::endl;
+      delete quadEdge1;
+      delete quadEdge2;
+      delete quadEdge3;
       return EXIT_FAILURE;
       }
+
     // Test the const version
     if( quadEdge1c->GetOnext() != quadEdge3 )
       {
       std::cerr << "Error changed const GetOnext() " << std::endl;
+      delete quadEdge1;
+      delete quadEdge2;
+      delete quadEdge3;
       return EXIT_FAILURE;
       }
 
