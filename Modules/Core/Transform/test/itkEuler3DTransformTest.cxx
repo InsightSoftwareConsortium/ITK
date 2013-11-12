@@ -419,7 +419,7 @@ int itkEuler3DTransformTest(int, char *[] )
 
       ParametersType par0 = t3->GetParameters();
       ParametersType par1 = t_inv->GetParameters();
-      for( unsigned int k = 0; k < e.GetSize(); k++ )
+      for( unsigned int k = 0; k < par1.GetSize(); k++ )
         {
         if( vcl_fabs( par1[k] - par0[k] ) > epsilon )
           {
