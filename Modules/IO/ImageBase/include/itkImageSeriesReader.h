@@ -101,8 +101,7 @@ public:
     this->Modified();
   }
 
-  /** Add a single filename to the list of files. To add a vector of
-   * filenames, use the AddFileNames method. */
+  /** Add a single filename to the list of files. */
   void AddFileName(std::string const & name)
   {
     m_FileNames.push_back(name);
