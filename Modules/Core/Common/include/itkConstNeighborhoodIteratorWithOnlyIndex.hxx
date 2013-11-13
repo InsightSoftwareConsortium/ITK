@@ -251,14 +251,11 @@ void ConstNeighborhoodIteratorWithOnlyIndex< TImage >
   const IndexType rStart = region.GetIndex();
   const SizeType  rSize  = region.GetSize();
 
-  OffsetValueType overlapLow;
-  OffsetValueType overlapHigh;
-
   m_NeedToUseBoundaryCondition = false;
   for ( DimensionValueType i = 0; i < Dimension; ++i )
     {
-    overlapLow = static_cast< OffsetValueType >( ( rStart[i] - static_cast<OffsetValueType>( radius[i] ) ) - bStart[i] );
-    overlapHigh = static_cast< OffsetValueType >( ( bStart[i] + bSize[i] ) - ( rStart[i] + rSize[i] + static_cast<OffsetValueType>( radius[i] ) ) );
+    const OffsetValueType overlapLow = static_cast< OffsetValueType >( ( rStart[i] - static_cast<OffsetValueType>( radius[i] ) ) - bStart[i] );
+    const OffsetValueType overlapHigh = static_cast< OffsetValueType >( ( bStart[i] + bSize[i] ) - ( rStart[i] + rSize[i] + static_cast<OffsetValueType>( radius[i] ) ) );
 
     if ( overlapLow < 0 ) // out of bounds condition, define a region of
       {

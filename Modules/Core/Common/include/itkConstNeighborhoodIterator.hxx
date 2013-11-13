@@ -273,30 +273,29 @@ ConstNeighborhoodIterator< TImage, TBoundaryCondition >
 ::GetNeighborhood() const
 {
   OffsetType            OverlapLow, OverlapHigh, temp, offset;
-  bool                  flag;
 
   const ConstIterator _end = this->End();
   NeighborhoodType    ans;
 
-  typename NeighborhoodType::Iterator ans_it;
-  ConstIterator this_it;
+  typename NeighborhoodType::Iterator ansIt;
+  ConstIterator thisIt;
 
   ans.SetRadius( this->GetRadius() );
 
   if ( m_NeedToUseBoundaryCondition == false )
     {
-    for ( ans_it = ans.Begin(), this_it = this->Begin();
-          this_it < _end; ans_it++, this_it++ )
+    for ( ansIt = ans.Begin(), thisIt = this->Begin();
+          thisIt < _end; ++ansIt, ++thisIt )
       {
-      *ans_it = m_NeighborhoodAccessorFunctor.Get(*this_it);
+      *ansIt = m_NeighborhoodAccessorFunctor.Get(*thisIt);
       }
     }
   else if ( InBounds() )
     {
-    for ( ans_it = ans.Begin(), this_it = this->Begin();
-          this_it < _end; ans_it++, this_it++ )
+    for ( ansIt = ans.Begin(), thisIt = this->Begin();
+          thisIt < _end; ++ansIt, ++thisIt )
       {
-      *ans_it = m_NeighborhoodAccessorFunctor.Get(*this_it);
+      *ansIt = m_NeighborhoodAccessorFunctor.Get(*thisIt);
       }
     }
   else
@@ -312,10 +311,10 @@ ConstNeighborhoodIterator< TImage, TBoundaryCondition >
       }
 
     // Iterate through neighborhood
-    for ( ans_it = ans.Begin(), this_it = this->Begin();
-          this_it < _end; ans_it++, this_it++ )
+    for ( ansIt = ans.Begin(), thisIt = this->Begin();
+          thisIt < _end; ++ansIt, ++thisIt )
       {
-      flag = true;
+      bool flag = true;
 
       // Is this pixel in bounds?
       for ( DimensionValueType i = 0; i < Dimension; ++i )
@@ -340,10 +339,13 @@ ConstNeighborhoodIterator< TImage, TBoundaryCondition >
           }
         }
 
-      if ( flag ) { *ans_it = m_NeighborhoodAccessorFunctor.Get(*this_it); }
+      if ( flag )
+        {
+        *ansIt = m_NeighborhoodAccessorFunctor.Get(*thisIt);
+        }
       else
         {
-        *ans_it = m_NeighborhoodAccessorFunctor.BoundaryCondition(
+        *ansIt = m_NeighborhoodAccessorFunctor.BoundaryCondition(
           temp, offset, this, this->m_BoundaryCondition);
         }
 
@@ -356,7 +358,10 @@ ConstNeighborhoodIterator< TImage, TBoundaryCondition >
           {
           temp[i] = 0;
           }
-        else { break; }
+        else
+          {
+          break;
+          }
         }
       }
     }
@@ -403,14 +408,11 @@ ConstNeighborhoodIterator< TImage, TBoundaryCondition >
   const IndexType rStart = region.GetIndex();
   const SizeType  rSize  = region.GetSize();
 
-  OffsetValueType overlapLow;
-  OffsetValueType overlapHigh;
-
   m_NeedToUseBoundaryCondition = false;
   for ( DimensionValueType i = 0; i < Dimension; ++i )
     {
-    overlapLow = static_cast< OffsetValueType >( ( rStart[i] - static_cast<OffsetValueType>( this->GetRadius(i) ) ) - bStart[i] );
-    overlapHigh = static_cast< OffsetValueType >( ( bStart[i] + bSize[i] )
+    OffsetValueType overlapLow = static_cast< OffsetValueType >( ( rStart[i] - static_cast<OffsetValueType>( this->GetRadius(i) ) ) - bStart[i] );
+    OffsetValueType overlapHigh = static_cast< OffsetValueType >( ( bStart[i] + bSize[i] )
                                        - ( rStart[i] + rSize[i] + static_cast<OffsetValueType>( this->GetRadius(i) ) ) );
 
     if ( overlapLow < 0 ) // out of bounds condition, define a region of

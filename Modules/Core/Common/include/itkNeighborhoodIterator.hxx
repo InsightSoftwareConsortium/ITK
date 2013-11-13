@@ -22,18 +22,17 @@
 
 namespace itk
 {
+
 template< typename TImage, typename TBoundaryCondition >
 void
 NeighborhoodIterator< TImage, TBoundaryCondition >
 ::SetPixel(const unsigned n, const PixelType & v)
 {
-  register unsigned int i;
-  OffsetType            OverlapLow, OverlapHigh, temp, offset;
-  bool                  flag;
 
   if ( this->m_NeedToUseBoundaryCondition == false )
-                { this->m_NeighborhoodAccessorFunctor.Set(this->operator[](n), v); }
-
+    {
+    this->m_NeighborhoodAccessorFunctor.Set(this->operator[](n), v);
+    }
   // Is this whole neighborhood in bounds?
   else if ( this->InBounds() )
     {
@@ -41,39 +40,43 @@ NeighborhoodIterator< TImage, TBoundaryCondition >
     }
   else
     {
-    temp = this->ComputeInternalIndex(n);
+    OffsetType temp = this->ComputeInternalIndex(n);
+    OffsetType OverlapLow;
+    OffsetType OverlapHigh;
+    OffsetType offset;
 
     // Calculate overlap
-    for ( i = 0; i < Superclass::Dimension; i++ )
+    for ( unsigned int ii = 0; ii < Superclass::Dimension; ++ii )
       {
-      OverlapLow[i] = this->m_InnerBoundsLow[i] - this->m_Loop[i];
-      OverlapHigh[i] =
-        static_cast< OffsetValueType >( this->GetSize(i)
-                                        - ( ( this->m_Loop[i] + 2 ) - this->m_InnerBoundsHigh[i] ) );
+      OverlapLow[ii] = this->m_InnerBoundsLow[ii] - this->m_Loop[ii];
+      OverlapHigh[ii] = static_cast< OffsetValueType >( this->GetSize(ii) - ( ( this->m_Loop[ii] + 2 ) - this->m_InnerBoundsHigh[ii] ) );
       }
 
-    flag = true;
+    bool flag = true;
 
     // Is this pixel in bounds?
-    for ( i = 0; i < Superclass::Dimension; ++i )
+    for ( unsigned int ii = 0; ii < Superclass::Dimension; ++ii )
       {
-      if ( this->m_InBounds[i] )
+      if ( this->m_InBounds[ii] )
         {
-        offset[i] = 0;                        // this dimension in bounds
+        offset[ii] = 0;                        // this dimension in bounds
         }
       else  // part of this dimension spills out of bounds
         {
-        if ( temp[i] < OverlapLow[i] )
+        if ( temp[ii] < OverlapLow[ii] )
           {
           flag = false;
-          offset[i] = OverlapLow[i] - temp[i];
+          offset[ii] = OverlapLow[ii] - temp[ii];
           }
-        else if ( OverlapHigh[i] < temp[i] )
+        else if ( OverlapHigh[ii] < temp[ii] )
           {
           flag = false;
-          offset[i] =  OverlapHigh[i] - temp[i];
+          offset[ii] =  OverlapHigh[ii] - temp[ii];
           }
-        else { offset[i] = 0; }
+        else
+          {
+          offset[ii] = 0;
+          }
         }
       }
 

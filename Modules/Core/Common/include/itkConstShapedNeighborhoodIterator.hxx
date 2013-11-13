@@ -158,9 +158,6 @@ ConstShapedNeighborhoodIterator< TImage, TBoundaryCondition > &
 ConstShapedNeighborhoodIterator< TImage, TBoundaryCondition >
 ::operator++()
 {
-  unsigned int           i;
-  IndexListConstIterator it;
-
   // Repositioning neighborhood, previous bounds check on neighborhood
   // location is invalid.
   this->m_IsInBoundsValid = false;
@@ -175,6 +172,8 @@ ConstShapedNeighborhoodIterator< TImage, TBoundaryCondition >
     }
   else
     {
+    IndexListConstIterator it;
+
     // Center pointer must be updated whether or not it is active.
     if ( !m_CenterIsActive )
       {
@@ -190,22 +189,22 @@ ConstShapedNeighborhoodIterator< TImage, TBoundaryCondition >
       }
 
     // Check loop bounds, wrap & add pointer offsets if needed.
-    for ( i = 0; i < Dimension; ++i )
+    for ( unsigned int ii = 0; ii < Dimension; ++ii )
       {
-      this->m_Loop[i]++;
-      if ( this->m_Loop[i] == this->m_Bound[i] )
+      this->m_Loop[ii]++;
+      if ( this->m_Loop[ii] == this->m_Bound[ii] )
         {
-        this->m_Loop[i] = this->m_BeginIndex[i];
+        this->m_Loop[ii] = this->m_BeginIndex[ii];
         if ( !m_CenterIsActive )
           {
           this->GetElement( this->GetCenterNeighborhoodIndex() ) +=
-            this->m_WrapOffset[i];
+            this->m_WrapOffset[ii];
           }
         for ( it = m_ActiveIndexList.begin();
               it != m_ActiveIndexList.end();
               it++ )
           {
-          ( this->GetElement(*it) ) += this->m_WrapOffset[i];
+          ( this->GetElement(*it) ) += this->m_WrapOffset[ii];
           }
         }
       else { break; }
