@@ -48,7 +48,9 @@ template <typename TInputImage, typename TOutputImage>
 class NullImageToImageFilterDriver
 {
 public:
-  NullImageToImageFilterDriver() {};
+  NullImageToImageFilterDriver():
+    m_Filter( NULL )
+    {};
 
   typedef typename TInputImage::SizeType  ImageSizeType;
   typedef typename TInputImage::PixelType InputPixelType;
@@ -57,14 +59,14 @@ public:
   /**
    * Set the image-to-image filter to drive.
    */
-  void SetFilter(ImageToImageFilter<TInputImage, TOutputImage> *p)
-  {    m_Filter = p;   }
+  void SetFilter(ImageToImageFilter<TInputImage, TOutputImage> * filter)
+  {    m_Filter = filter;   }
 
   /**
    * Set the size of the input and output image.
    */
-  void SetImageSize(const ImageSizeType s)
-    { m_ImageSize = s; }
+  void SetImageSize(const ImageSizeType size)
+    { m_ImageSize = size; }
 
   /**
    * Drive the filter without using the itk pipeline.
