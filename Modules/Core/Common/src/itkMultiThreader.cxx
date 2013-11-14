@@ -28,7 +28,7 @@
 #include "itkMultiThreader.h"
 #include "itkNumericTraits.h"
 #include <iostream>
-
+#include <algorithm>
 
 #if defined(ITK_USE_PTHREADS)
 #include "itkMultiThreaderPThreads.cxx"
