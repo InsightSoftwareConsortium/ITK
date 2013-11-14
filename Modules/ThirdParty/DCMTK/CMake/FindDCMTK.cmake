@@ -9,7 +9,7 @@
 # DCMTK_DIR can be used to make it simpler to find the various include
 # directories and compiled libraries if you've just compiled it in the
 # source tree. Just set it to the root of the tree where you extracted
-# the source (default to /usr/include/dcmtk/)
+# the source (default to /usr)
 #
 #
 # This file is able to find version of DCMTK that do or do not export
@@ -115,6 +115,17 @@
 # Modified for EasyViz by Thomas Sondergaard.
 #
 
+set(_dcmtk_dir_description "The directory of DCMTK build or install tree.")
+
+# Ensure that DCMTK_DIR is set to a reasonable default value
+# so that DCMTK libraries can be found on a standard Unix distribution.
+# It also overwrite the value of DCMTK_DIR after this one has been
+# set by a successful discovery of DCMTK by the unpatched FindDCMTK.cmake module
+# distributed with CMake (as of 0167cea)
+if(NOT DCMTK_DIR OR DCMTK_DIR STREQUAL "/usr/include/dcmtk")
+  set(DCMTK_DIR "/usr" CACHE PATH ${_dcmtk_dir_description} FORCE)
+endif()
+
 set(_SAVED_DCMTK_DIR ${DCMTK_DIR})
 
 #
@@ -134,7 +145,7 @@ endif()
 message(STATUS "Trying to find DCMTK relying on FindDCMTK.cmake")
 
 # Restore the value reset by the previous call to 'find_package(DCMTK QUIET NO_MODULE)'
-set(DCMTK_DIR ${_SAVED_DCMTK_DIR} CACHE PATH "The directory containing a CMake configuration file for DCMTK." FORCE)
+set(DCMTK_DIR ${_SAVED_DCMTK_DIR} CACHE PATH ${_dcmtk_dir_description} FORCE)
 
 
 #
