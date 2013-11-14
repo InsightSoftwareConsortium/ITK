@@ -327,4 +327,27 @@ find_package_handle_standard_args(DCMTK
   REQUIRED_VARS ${DCMTK_INCLUDE_DIR_NAMES} DCMTK_LIBRARIES
   FAIL_MESSAGE "Please set DCMTK_DIR and re-run configure")
 
+# Workaround bug in packaging of DCMTK 3.6.0 on Debian.
+# See http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=637687
+#
+# By setting 'DCMTK_FIND_PACKAGE_SKIP_ADD_DEFINITIONS' to '1' before
+# calling 'find_package(DCMTK)', the variable 'DCMTK_DEFINITIONS' will be set
+# appropriately.
+if(DCMTK_FOUND AND UNIX AND NOT APPLE)
+  include(CheckCXXSourceCompiles)
+  set(CMAKE_REQUIRED_FLAGS )
+  set(CMAKE_REQUIRED_DEFINITIONS )
+  set(CMAKE_REQUIRED_INCLUDES ${DCMTK_INCLUDE_DIRS})
+  set(CMAKE_REQUIRED_LIBRARIES ${DCMTK_LIBRARIES})
+  check_cxx_source_compiles("#include <dcmtk/config/osconfig.h>\n#include <dcmtk/ofstd/ofstream.h>\nint main(int,char*[]){return 0;}"
+    DCMTK_HAVE_CONFIG_H_OPTIONAL
+    )
+  if(NOT DCMTK_HAVE_CONFIG_H_OPTIONAL)
+    set(DCMTK_DEFINITIONS "-DHAVE_CONFIG_H")
+  endif()
+  if(NOT DCMTK_HAVE_CONFIG_H_OPTIONAL AND NOT DCMTK_FIND_PACKAGE_SKIP_ADD_DEFINITIONS)
+    add_definitions(${DCMTK_DEFINITIONS})
+  endif()
+endif()
+
 message(STATUS "Trying to find DCMTK relying on FindDCMTK.cmake - ok")
