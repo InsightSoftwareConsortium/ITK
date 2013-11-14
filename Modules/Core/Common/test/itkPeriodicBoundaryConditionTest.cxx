@@ -192,7 +192,7 @@ int itkPeriodicBoundaryConditionTest(int, char* [] )
 
   for ( it2.GoToBegin(); !it2.IsAtEnd(); ++it2 )
     {
-    std::cout << "Index: " << it.GetIndex() << std::endl;
+    std::cout << "Index: " << it2.GetIndex() << std::endl;
     bool success = TestPrintNeighborhood( it2, vit2 );
     if ( !success )
       {
