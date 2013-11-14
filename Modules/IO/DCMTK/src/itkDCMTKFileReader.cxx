@@ -658,7 +658,7 @@ DCMTKFileReader
     return EXIT_SUCCESS;
     }
   std::string val;
-  if(this->GetElementOB(group,element,val) != EXIT_SUCCESS)
+  if(this->GetElementOB(group,element,val,throwException) != EXIT_SUCCESS)
     {
     DCMTKExceptionOrErrorReturn(<< "Cant find DecimalString element " << std::hex
                    << group << " " << std::hex
