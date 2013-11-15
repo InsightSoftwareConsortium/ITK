@@ -128,6 +128,8 @@ void MINCImageIO::Read(void *buffer)
       break;
     default:
       itkDebugMacro(<<"Could read datatype " << this->GetComponentType() );
+      delete[] start;
+      delete[] count;
       return;
     }
 
@@ -1349,6 +1351,8 @@ void MINCImageIO::Write(const void *buffer)
       break;
     default:
       itkDebugMacro(<<"Could read datatype " << this->GetComponentType() );
+      delete[] start;
+      delete[] count;
       return;
     }
   this->WriteImageInformation();
