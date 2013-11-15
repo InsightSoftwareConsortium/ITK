@@ -202,7 +202,7 @@ ImportImageFilter< TPixel, VImageDimension >
 template< typename TPixel, unsigned int VImageDimension >
 void
 ImportImageFilter< TPixel, VImageDimension >
-::SetDirection(const DirectionType direction)
+::SetDirection(const DirectionType & direction)
 {
   bool modified = false;
 

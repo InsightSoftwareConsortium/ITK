@@ -64,7 +64,7 @@ public:
   itkSetMacro(ReadPointData, bool);
   itkBooleanMacro(ReadPointData);
 
-  void SetDirection(const DirectionType direction);
+  void SetDirection(const DirectionType & direction);
 
   itkGetConstReferenceMacro(Direction, DirectionType);
 

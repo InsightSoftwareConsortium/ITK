@@ -201,7 +201,7 @@ public:
    * http://www.itk.org/Wiki/Proposals:Orientation#Some_notes_on_the_DICOM_convention_and_current_ITK_usage
    *
    * \sa GetDirection() */
-  virtual void SetDirection(const DirectionType direction);
+  virtual void SetDirection(const DirectionType & direction);
 
   /** Get the direction cosines of the image. The direction cosines
    * are vectors that point from one pixel to the next.

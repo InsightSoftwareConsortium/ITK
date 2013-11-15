@@ -306,7 +306,7 @@ ImageAdaptor< TImage, TAccessor >
 template< typename TImage, typename TAccessor >
 void
 ImageAdaptor< TImage, TAccessor >
-::SetDirection(const DirectionType direction)
+::SetDirection(const DirectionType & direction)
 {
   // delegation to internal image
   m_Image->SetDirection(direction);
