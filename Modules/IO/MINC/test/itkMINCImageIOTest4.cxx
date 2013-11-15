@@ -48,7 +48,6 @@ template<typename ImageType> int test_image_moments(const char *input_image,cons
   calculator->SetImage(reader->GetOutput());
   calculator->Compute();
 
-  std::cout.precision(10);
   std::cout<<"Image:"<<input_image<<" sum="<<calculator->GetTotalMass()<<" COM="<<calculator->GetCenterOfGravity()<<std::endl;
 
   if(total>0.0) //assume that if no total was provided this test should not be performed
@@ -131,6 +130,9 @@ int itkMINCImageIOTest4( int argc, char * argv [] )
     {
       int ret=EXIT_SUCCESS;
 
+      // save and restore cout's precision, to silence a Coverity warning
+      std::streamsize defaultPrecision = std::cout.precision();
+      std::cout.precision( 10 );
       if( test_image_moments<itk::Image< double, 3 > >(input,NULL,total,mx,my,mz,epsilon) != EXIT_SUCCESS )
         {
           ret=EXIT_FAILURE;
@@ -140,6 +142,7 @@ int itkMINCImageIOTest4( int argc, char * argv [] )
         {
           ret=EXIT_FAILURE;
         }
+      std::cout.precision( defaultPrecision );
       return ret;
     }
   catch( itk::ExceptionObject & excp )
