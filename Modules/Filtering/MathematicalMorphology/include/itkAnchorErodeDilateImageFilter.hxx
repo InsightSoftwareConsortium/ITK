@@ -26,7 +26,8 @@ namespace itk
 {
 template< typename TImage, typename TKernel, typename TFunction1 >
 AnchorErodeDilateImageFilter< TImage, TKernel, TFunction1 >
-::AnchorErodeDilateImageFilter()
+::AnchorErodeDilateImageFilter():
+  m_Boundary( NumericTraits< InputImagePixelType >::Zero )
 {
 }
 
