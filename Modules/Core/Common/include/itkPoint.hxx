@@ -264,7 +264,7 @@ BarycentricCombination< TPointContainer, TWeightContainer >
   typename TPointContainer::Iterator point = points->Begin();
   typename TPointContainer::Iterator final = points->End();
   typename TPointContainer::Iterator last  = final;
-  last--; // move to the (N)th point
+  --last; // move to the (N)th point
 
   double weightSum = 0.0;
 
@@ -279,7 +279,7 @@ BarycentricCombination< TPointContainer, TWeightContainer >
       {
       barycentre[i] += weight * ( point->Value() )[i];
       }
-    point++;
+    ++point;
     }
 
   // Compute directly the last one
