@@ -34,28 +34,24 @@
 # Modified for EasyViz by Thomas Sondergaard.
 #
 
+set(_SAVED_DCMTK_DIR ${DCMTK_DIR})
+
 #
 # First, try to use NO_MODULE
-set(_DCMTK_REQUIRED)
-set(_DCMTK_QUIET)
-if(DCMTK_FIND_QUIETLY)
-  set(_DCMTK_QUIET QUIET)
-endif()
-if(DCMTK_FIND_REQUIRED)
-  set(_DCMTK_REQUIRED REQUIRED)
-endif()
-find_package(DCMTK ${_DCMTK_REQUIRED} ${_DCMTK_QUIET} NO_MODULE)
+find_package(DCMTK QUIET NO_MODULE)
 if(DCMTK_FOUND
-    AND NOT "SHRDLU" STREQUAL "SHRDLU${DCMTK_LIBRARIES}"
-    AND NOT "SHRDLU" STREQUAL "SHRDLU${DCMTK_INCLUDE_DIRS}")
+    AND NOT "x" STREQUAL "x${DCMTK_LIBRARIES}"
+    AND NOT "x" STREQUAL "x${DCMTK_INCLUDE_DIRS}")
   return()
 endif()
+
+# Restore the value reset by the previous call to 'find_package(DCMTK QUIET NO_MODULE)'
+set(DCMTK_DIR ${_SAVED_DCMTK_DIR} CACHE PATH "The directory containing a CMake configuration file for DCMTK." FORCE)
 
 # prefer DCMTK_DIR over default system paths like /usr/lib
 if(DCMTK_DIR)
   set(CMAKE_PREFIX_PATH ${DCMTK_DIR}/lib ${CMAKE_PREFIX_PATH}) # this is given to FIND_LIBRARY or FIND_PATH
 endif()
-
 
 # Find all libraries, store debug and release separately
 foreach(lib
@@ -101,6 +97,7 @@ foreach(lib
     ${DCMTK_DIR}/dcmjpeg/lib${lib}/Debug
     NO_DEFAULT_PATH
     )
+
   mark_as_advanced(DCMTK_${lib}_LIBRARY_RELEASE)
   mark_as_advanced(DCMTK_${lib}_LIBRARY_DEBUG)
 
@@ -188,7 +185,6 @@ foreach(dir
     ${DCMTK_DIR}/include/${dir}
     ${SOURCE_DIR_PATH}
     )
-
   mark_as_advanced(DCMTK_${dir}_INCLUDE_DIR)
   list(APPEND DCMTK_INCLUDE_DIR_NAMES DCMTK_${dir}_INCLUDE_DIR)
 
@@ -225,4 +221,4 @@ set(DCMTK_INCLUDE_DIR ${DCMTK_INCLUDE_DIRS})
 
 find_package_handle_standard_args(DCMTK
   REQUIRED_VARS ${DCMTK_INCLUDE_DIR_NAMES} DCMTK_LIBRARIES
-  FAIL_MESSAGE "Please set DCMTK_DIR and re-run configure" )
+  FAIL_MESSAGE "Please set DCMTK_DIR and re-run configure")
