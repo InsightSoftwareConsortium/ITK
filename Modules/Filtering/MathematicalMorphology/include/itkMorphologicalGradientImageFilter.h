@@ -117,12 +117,12 @@ public:
   virtual void Modified() const;
 
   /** define values used to determine which algorithm to use */
-  enum {
+  enum AlgorithmType {
     BASIC = 0,
     HISTO = 1,
     ANCHOR = 2,
     VHGW = 3
-    } AlgorithmChoice;
+    };
 
 protected:
   MorphologicalGradientImageFilter();

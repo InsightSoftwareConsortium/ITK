@@ -81,6 +81,14 @@ public:
   typedef typename TInputImage::OffsetType           OffsetType;
   typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
 
+  /** define values used to determine which algorithm to use */
+  enum AlgorithmType {
+    BASIC = 0,
+    HISTO = 1,
+    ANCHOR = 2,
+    VHGW = 3
+    };
+
   typedef MovingHistogramErodeImageFilter< TInputImage, TOutputImage, TKernel >
   HistogramFilterType;
   typedef BasicErodeImageFilter< TInputImage, TOutputImage, TKernel >
@@ -118,14 +126,6 @@ public:
 
   /** GrayscaleErodeImageFilter need to set its internal filters as modified */
   virtual void Modified() const;
-
-  /** define values used to determine which algorithm to use */
-  enum {
-    BASIC = 0,
-    HISTO = 1,
-    ANCHOR = 2,
-    VHGW = 3
-    } AlgorithmChoice;
 
   void SetNumberOfThreads(ThreadIdType nb);
 
