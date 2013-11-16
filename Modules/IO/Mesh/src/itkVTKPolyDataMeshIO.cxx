@@ -929,7 +929,7 @@ VTKPolyDataMeshIO
           }
         else
           {
-          itkExceptionMacro(<< "Unknown point component type");
+          itkExceptionMacro(<< "Unknown cell component type");
           }
 
         // Set cell pixel type
