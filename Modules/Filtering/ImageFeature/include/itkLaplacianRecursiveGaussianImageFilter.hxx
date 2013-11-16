@@ -54,10 +54,13 @@ LaplacianRecursiveGaussianImageFilter< TInputImage, TOutputImage >
 
   m_SmoothingFilters[0]->SetInput( m_DerivativeFilter->GetOutput() );
 
-  for ( unsigned int i = 1; i < NumberOfSmoothingFilters; i++ )
+  if ( NumberOfSmoothingFilters > 1 )
     {
-    m_SmoothingFilters[i]->SetInput(
-      m_SmoothingFilters[i - 1]->GetOutput() );
+    for ( unsigned int i = 1; i < NumberOfSmoothingFilters; i++ )
+      {
+      m_SmoothingFilters[i]->SetInput(
+        m_SmoothingFilters[i - 1]->GetOutput() );
+      }
     }
 
   this->SetSigma(1.0);
