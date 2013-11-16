@@ -190,11 +190,7 @@ bool GiplImageIO::CanWriteFile(const char *name)
     return false;
     }
 
-  if ( extensionFound )
-    {
-    return true;
-    }
-  return false;
+  return true;
 }
 
 void GiplImageIO::Read(void *buffer)
