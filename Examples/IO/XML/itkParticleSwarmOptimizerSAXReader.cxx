@@ -64,7 +64,10 @@ void ParticleSwarmOptimizerSAXReader::StartElement( const char* name, const char
       {
       bound = &this->m_UpperBound;
       }
-
+    else
+      {
+      itkExceptionMacro( "Bad attribute for bound:" << id);
+      }
     this->ProcessBoundAttributes( atts, *bound );
     }
   else if ( itksys::SystemTools::Strucmp( name, "ParametersConvergenceTolerance" ) == 0 && this->ContextIs( "/optimizer" ) )
