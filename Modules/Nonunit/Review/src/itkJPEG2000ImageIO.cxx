@@ -196,6 +196,8 @@ void JPEG2000ImageIO::ReadImageInformation()
       this->m_Internal->m_Dinfo = opj_create_decompress(CODEC_J2K);
       if (!this->m_Internal->m_Dinfo)
         {
+        opj_stream_destroy(cio);
+        fclose(l_file);
         itkExceptionMacro(
           "JPEG2000ImageIO failed to read file: "
           << this->GetFileName()
@@ -211,6 +213,8 @@ void JPEG2000ImageIO::ReadImageInformation()
       this->m_Internal->m_Dinfo = opj_create_decompress(CODEC_JP2);
       if (!this->m_Internal->m_Dinfo)
         {
+        opj_stream_destroy(cio);
+        fclose(l_file);
         itkExceptionMacro(
           "JPEG2000ImageIO failed to read file: "
           << this->GetFileName()
@@ -226,6 +230,8 @@ void JPEG2000ImageIO::ReadImageInformation()
       this->m_Internal->m_Dinfo = opj_create_decompress(CODEC_JPT);
       if (!this->m_Internal->m_Dinfo)
         {
+        opj_stream_destroy(cio);
+        fclose(l_file);
         itkExceptionMacro(
           "JPEG2000ImageIO failed to read file: "
           << this->GetFileName()
@@ -235,6 +241,8 @@ void JPEG2000ImageIO::ReadImageInformation()
       break;
       }
     default:
+      opj_stream_destroy(cio);
+      fclose(l_file);
       itkExceptionMacro(
         "JPEG2000ImageIO failed to read file: "
         << this->GetFileName()
@@ -242,8 +250,6 @@ void JPEG2000ImageIO::ReadImageInformation()
         << "Reason: "
         << "Unknown decode format: "
         << this->m_Internal->m_DecompressionParameters.decod_format );
-      opj_stream_destroy(cio);
-      return;
     }
   /* catch events using our callbacks and give a local context */
   /* setup the decoder decoding parameters using user parameters */
@@ -251,6 +257,7 @@ void JPEG2000ImageIO::ReadImageInformation()
   bool bResult = opj_setup_decoder(this->m_Internal->m_Dinfo, & (this->m_Internal->m_DecompressionParameters) );
   if ( !bResult )
     {
+    opj_stream_destroy(cio);
     itkExceptionMacro(
       "JPEG2000ImageIO failed to read file: "
       << this->GetFileName()
@@ -283,6 +290,7 @@ void JPEG2000ImageIO::ReadImageInformation()
 
   if ( !bResult )
     {
+    opj_stream_destroy(cio);
     itkExceptionMacro(
       "JPEG2000ImageIO failed to read file: "
       << this->GetFileName()
@@ -292,6 +300,7 @@ void JPEG2000ImageIO::ReadImageInformation()
 
   if ( !l_image )
     {
+    opj_stream_destroy(cio);
     itkExceptionMacro(
       "JPEG2000ImageIO failed to read file: "
       << this->GetFileName()
@@ -322,6 +331,7 @@ void JPEG2000ImageIO::ReadImageInformation()
     }
   else
     {
+    opj_stream_destroy(cio);
     itkExceptionMacro(
       "JPEG2000ImageIO failed to read file: "
       << this->GetFileName()
