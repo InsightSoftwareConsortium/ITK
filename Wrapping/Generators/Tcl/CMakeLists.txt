@@ -326,7 +326,7 @@ endmacro()
 # Create the TclUtils library
 
 if(NOT EXTERNAL_WRAP_ITK_PROJECT)
-  subdirs(Tests)
+  add_subdirectory(Tests)
 
   macro(itk_end_wrap_modules_tcl)
     ###############################################################################

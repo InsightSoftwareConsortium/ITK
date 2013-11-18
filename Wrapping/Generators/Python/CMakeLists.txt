@@ -33,7 +33,7 @@ endif()
 # TODO: file a bug report at opensolaris
 if(CMAKE_SYSTEM MATCHES "SunOS-." AND NOT EXISTS "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/64")
   file(MAKE_DIRECTORY "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}")
-  exec_program(ln ARGS -sf . "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/64")
+  execute_process(COMMAND ln -sf . "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/64")
 endif()
 
 
@@ -228,9 +228,9 @@ configure_file("${CMAKE_CURRENT_SOURCE_DIR}/WrapITK.pth.in"
 
 if(PYTHON_EXECUTABLE)
   file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/det_spp.py "try:\n  import distutils.sysconfig; print distutils.sysconfig.get_python_lib(1)\nexcept: pass")
-  exec_program("${PYTHON_EXECUTABLE}"
-    ARGS "\"${CMAKE_CURRENT_BINARY_DIR}/det_spp.py\""
+  execute_process(COMMAND "${PYTHON_EXECUTABLE}" "${CMAKE_CURRENT_BINARY_DIR}/det_spp.py"
     OUTPUT_VARIABLE py_spp
+    ERROR_VARIABLE py_spp
   )
 endif()
 
