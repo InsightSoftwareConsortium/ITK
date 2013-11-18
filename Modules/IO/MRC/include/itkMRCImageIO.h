@@ -53,7 +53,7 @@ namespace itk
  * http://hdl.handle.net/10380/3171
  *
  * \sa ImageFileWriter ImageFileReader ImageIOBase
- * \ingroup ITKReview
+ * \ingroup ITKIOMRC
  */
 class MRCImageIO :
   public StreamingImageIOBase
