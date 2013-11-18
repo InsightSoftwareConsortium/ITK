@@ -16,6 +16,9 @@
  *
  *=========================================================================*/
 #include "itkMRCHeaderObject.h"
+#include "itkMRCImageIOPrivate.h"
+#include "itkByteSwapper.h"
+
 
 namespace itk
 {

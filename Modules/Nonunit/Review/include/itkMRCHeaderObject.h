@@ -18,14 +18,12 @@
 #ifndef __itkMRCHeaderObject_h
 #define __itkMRCHeaderObject_h
 
+#include "itkObjectFactory.h"
 #include "itkLightObject.h"
-#include "itkByteSwapper.h"
 #include "itkIntTypes.h"
 
 namespace itk
 {
-/** \todo FIXME: This is a very easy way to declare a string constant */
-const char *const magicMAP = "MAP ";
 
 /** \class MRCHeaderObject
  * \brief This class is a light wrapper for a couple of plain old data
@@ -47,7 +45,7 @@ const char *const magicMAP = "MAP ";
  * \ingroup ITKReview
  */
 class MRCHeaderObject:
-  public itk::LightObject
+  public LightObject
 {
 public:
   /** Standard class typedefs. */
