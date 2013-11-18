@@ -289,6 +289,12 @@ int PerformSimpleImageRegistration( int argc, char *argv[] )
   displacementFieldSimple->SetMetric( correlationMetric );
   displacementFieldSimple->SetOptimizer( optimizer );
 
+  typename DisplacementFieldRegistrationType::OptimizerWeightsType optimizerWeights;
+  optimizerWeights.SetSize( VImageDimension );
+  optimizerWeights.Fill( 0.995 );
+
+  displacementFieldSimple->SetOptimizerWeights( optimizerWeights );
+
   // Shrink the virtual domain by specified factors for each level.  See documentation
   // for the itkShrinkImageFilter for more detailed behavior.
   typename DisplacementFieldRegistrationType::ShrinkFactorsArrayType shrinkFactorsPerLevel;

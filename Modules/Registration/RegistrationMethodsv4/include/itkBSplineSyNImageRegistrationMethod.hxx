@@ -349,6 +349,21 @@ BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
   metricDerivative.Fill( NumericTraits<typename MetricDerivativeType::ValueType>::Zero );
   this->m_Metric->GetValueAndDerivative( value, metricDerivative );
 
+  // Ensure that the size of the optimizer weights is the same as the
+  // number of local transform parameters (=ImageDimension)
+
+  if( !this->m_OptimizerWeightsAreIdentity && this->m_OptimizerWeights.Size() == ImageDimension )
+    {
+    typename MetricDerivativeType::iterator it;
+    for( it = metricDerivative.begin(); it != metricDerivative.end(); it += ImageDimension )
+      {
+      for( unsigned int d = 0; d < ImageDimension; d++ )
+        {
+        *(it + d) *= this->m_OptimizerWeights[d];
+        }
+      }
+    }
+
   // we rescale the update velocity field at each time point.
   // we first need to convert to a displacement field to look
   // at the max norm of the field.

@@ -79,6 +79,9 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage>
   optimizer->SetScalesEstimator( scalesEstimator );
   this->m_Optimizer = optimizer;
 
+  this->m_OptimizerWeights.SetSize( 0 );
+  this->m_OptimizerWeightsAreIdentity = true;
+
   this->m_OutputTransform = OutputTransformType::New();
 
   DecoratedOutputTransformPointer transformDecorator = DecoratedOutputTransformType::New().GetPointer();
@@ -172,6 +175,44 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage>
 }
 
 /*
+ * Set optimizer weights and do checking for identity.
+ */
+template<typename TFixedImage, typename TMovingImage, typename TTransform, typename TVirtualImage>
+void
+ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage>
+::SetOptimizerWeights( OptimizerWeightsType & weights )
+{
+  if( weights != this->m_OptimizerWeights )
+    {
+    itkDebugMacro( "setting optimizer weights to " << weights );
+
+    this->m_OptimizerWeights = weights;
+
+    // Check to see if optimizer weights are identity to avoid unnecessary
+    // computations.
+
+    this->m_OptimizerWeightsAreIdentity = true;
+    if( this->m_OptimizerWeights.Size() > 0 )
+      {
+      typedef typename OptimizerWeightsType::ValueType OptimizerWeightsValueType;
+      OptimizerWeightsValueType tolerance = static_cast<OptimizerWeightsValueType>( 1e-4 );
+
+      for( unsigned int i = 0; i < this->m_OptimizerWeights.Size(); i++ )
+        {
+        OptimizerWeightsValueType difference =
+          vcl_fabs( NumericTraits<OptimizerWeightsValueType>::OneValue() - this->m_OptimizerWeights[i] );
+        if( difference > tolerance  )
+          {
+          this->m_OptimizerWeightsAreIdentity = false;
+          break;
+          }
+        }
+      }
+    this->Modified();
+    }
+}
+
+/*
  * Initialize by setting the interconnects between components.
  */
 template<typename TFixedImage, typename TMovingImage, typename TTransform, typename TVirtualImage>
@@ -256,6 +297,11 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage>
     this->m_CompositeTransform->AddTransform( this->m_MovingInitialTransform );
     this->m_CompositeTransform->AddTransform( this->m_OutputTransform );
     this->m_CompositeTransform->FlattenTransformQueue();
+
+    if( this->m_OptimizerWeights.Size() > 0 )
+      {
+      this->m_Optimizer->SetWeights( this->m_OptimizerWeights );
+      }
     }
   this->m_CompositeTransform->SetOnlyMostRecentTransformToOptimizeOn();
 
@@ -634,6 +680,11 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage>
   else
     {
     os << indent << indent << "Smoothing sigmas are specified in voxel units." << std::endl;
+    }
+
+  if( this->m_OptimizerWeights.Size() > 0 )
+    {
+    os << indent << "Optimizers weights: " << this->m_OptimizerWeights << std::endl;
     }
 
   os << indent << "Metric sampling strategy: " << this->m_MetricSamplingStrategy << std::endl;

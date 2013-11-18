@@ -182,6 +182,12 @@ int PerformBSplineSyNImageRegistration( int itkNotUsed( argc ), char *argv[] )
   typedef itk::BSplineSyNImageRegistrationMethod<FixedImageType, MovingImageType> DisplacementFieldRegistrationType;
   typename DisplacementFieldRegistrationType::Pointer displacementFieldRegistration = DisplacementFieldRegistrationType::New();
 
+  typename DisplacementFieldRegistrationType::OptimizerWeightsType optimizerWeights;
+  optimizerWeights.SetSize( TDimension );
+  optimizerWeights.Fill( 0.995 );
+
+  displacementFieldRegistration->SetOptimizerWeights( optimizerWeights );
+
   typedef typename DisplacementFieldRegistrationType::OutputTransformType OutputTransformType;
   typename OutputTransformType::Pointer outputTransform = const_cast<OutputTransformType *>( displacementFieldRegistration->GetOutput()->Get() );
   outputTransform->SetDisplacementField( displacementField );
@@ -282,6 +288,9 @@ int PerformBSplineSyNImageRegistration( int itkNotUsed( argc ), char *argv[] )
   displacementFieldRegistration->SetLearningRate( atof( argv[6] ) );
   displacementFieldRegistration->SetNumberOfIterationsPerLevel( numberOfIterationsPerLevel );
   displacementFieldRegistration->SetTransformParametersAdaptorsPerLevel( adaptors );
+
+  std::cout << displacementFieldRegistration->GetOptimizerWeights() << std::endl;
+
   outputTransform->SetDisplacementField( displacementField );
   outputTransform->SetInverseDisplacementField( inverseDisplacementField );
 

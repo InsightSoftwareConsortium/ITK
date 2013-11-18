@@ -259,6 +259,20 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage, TMovingImage, TOu
       metricDerivative.Fill( NumericTraits<typename MetricDerivativeType::ValueType>::Zero );
       this->m_Metric->GetValueAndDerivative( value, metricDerivative );
 
+      // Ensure that the size of the optimizer weights is the same as the
+      // number of local transform parameters (=ImageDimension)
+      if( !this->m_OptimizerWeightsAreIdentity && this->m_OptimizerWeights.Size() == ImageDimension )
+        {
+        typename MetricDerivativeType::iterator it;
+        for( it = metricDerivative.begin(); it != metricDerivative.end(); it += ImageDimension )
+          {
+          for( unsigned int d = 0; d < ImageDimension; d++ )
+            {
+            *(it + d) *= this->m_OptimizerWeights[d];
+            }
+          }
+        }
+
       // Note: we are intentionally ignoring the jacobian determinant.
       // It does not change the direction of the optimization, only
       // the scaling.  It is very expensive to compute it accurately.

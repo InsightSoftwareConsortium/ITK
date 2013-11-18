@@ -24,8 +24,6 @@
 #include "itkAffineTransform.h"
 #include "itkANTSNeighborhoodCorrelationImageToImageMetricv4.h"
 #include "itkCorrelationImageToImageMetricv4.h"
-#include "itkGaussianSmoothingOnUpdateDisplacementFieldTransform.h"
-#include "itkGaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor.h"
 #include "itkJointHistogramMutualInformationImageToImageMetricv4.h"
 #include "itkObjectToObjectMultiMetricv4.h"
 
