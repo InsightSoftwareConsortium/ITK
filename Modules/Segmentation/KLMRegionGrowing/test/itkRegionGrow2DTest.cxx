@@ -478,7 +478,7 @@ unsigned int test_regiongrowKLM1D()
       if( pixelOut != pixelOut2b || pixelLabel != mb )
         {
         std::cout << "Test FAILED" << std::endl;
-        if( pixelLabel != ma )
+        if( pixelLabel != mb )
           {
           std::cout << "pixelLabel: " << pixelLabel
                     << " != "
