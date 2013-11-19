@@ -158,6 +158,9 @@ public:
   typedef ObjectToObjectOptimizerBaseTemplate<RealType>               OptimizerType;
   typedef typename OptimizerType::Pointer                             OptimizerPointer;
 
+  /** Weights type for the optimizer. */
+  typedef typename OptimizerType::ScalesType                          OptimizerWeightsType;
+
   /** enum type for metric sampling strategy */
   enum MetricSamplingStrategyType { NONE, REGULAR, RANDOM };
 
@@ -189,11 +192,22 @@ public:
 
   /** Set/Get the optimizer. */
   itkSetObjectMacro( Optimizer, OptimizerType );
-  itkGetModifiableObjectMacro(Optimizer, OptimizerType );
+  itkGetModifiableObjectMacro( Optimizer, OptimizerType );
+
+  /**
+   * Set/Get the optimizer weights.  Allows setting of a per-local-parameter
+   * weighting array. If unset, the weights are treated as identity. Weights
+   * are used to mask out a particular parameter during optimzation to hold
+   * it constant. Or they may be used to apply another kind of prior knowledge.
+   * The size of the weights must be equal to the number of the local transformation
+   * parameters.
+   */
+  void SetOptimizerWeights( OptimizerWeightsType & );
+  itkGetConstMacro( OptimizerWeights, OptimizerWeightsType );
 
   /** Set/Get the metric. */
   itkSetObjectMacro( Metric, MetricType );
-  itkGetModifiableObjectMacro(Metric, MetricType );
+  itkGetModifiableObjectMacro( Metric, MetricType );
 
   /** Set/Get the metric sampling strategy. */
   itkSetMacro( MetricSamplingStrategy, MetricSamplingStrategyType );
@@ -208,11 +222,11 @@ public:
 
   /** Set/Get the initial fixed transform. */
   itkSetObjectMacro( FixedInitialTransform, InitialTransformType );
-  itkGetModifiableObjectMacro(FixedInitialTransform, InitialTransformType );
+  itkGetModifiableObjectMacro( FixedInitialTransform, InitialTransformType );
 
   /** Set/Get the initial moving transform. */
   itkSetObjectMacro( MovingInitialTransform, InitialTransformType );
-  itkGetModifiableObjectMacro(MovingInitialTransform, InitialTransformType );
+  itkGetModifiableObjectMacro( MovingInitialTransform, InitialTransformType );
 
   /** Set/Get the transform adaptors. */
   void SetTransformParametersAdaptorsPerLevel( TransformParametersAdaptorsContainerType & );
@@ -355,6 +369,8 @@ protected:
   SizeValueType                                                   m_NumberOfMovingImages;
 
   OptimizerPointer                                                m_Optimizer;
+  OptimizerWeightsType                                            m_OptimizerWeights;
+  bool                                                            m_OptimizerWeightsAreIdentity;
 
   MetricPointer                                                   m_Metric;
   MetricSamplingStrategyType                                      m_MetricSamplingStrategy;
