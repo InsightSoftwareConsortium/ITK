@@ -188,11 +188,7 @@ bool BMPImageIO::CanWriteFile(const char *name)
     return false;
     }
 
-  if ( extensionFound )
-    {
-    return true;
-    }
-  return false;
+  return true;
 }
 
 void BMPImageIO::Read(void *buffer)
