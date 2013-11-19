@@ -44,7 +44,8 @@ namespace itk
  *
  * \ingroup ITKReview
  */
-class MRCImageIOFactory:public ObjectFactoryBase
+class MRCImageIOFactory
+  : public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */
@@ -79,6 +80,7 @@ protected:
 private:
   MRCImageIOFactory(const Self &); //purposely not implemented
   void operator=(const Self &);    //purposely not implemented
+
 };
 } // end namespace itk
 

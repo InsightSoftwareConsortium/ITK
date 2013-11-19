@@ -127,7 +127,6 @@ bool MRCHeaderObject::SetHeader(const Header *buffer)
 
   this->m_ExtendedHeaderSize = this->m_Header.next;
 
-
   // check to make sure the data makes sense
   if ( this->m_Header.nx <= 0 || this->m_Header.ny <= 0 || this->m_Header.nz <= 0
        || ( this->m_Header.nx > 65535 || this->m_Header.ny > 65535 || this->m_Header.nz > 65535 )
@@ -176,7 +175,8 @@ bool MRCHeaderObject::SetExtendedHeader(const void *buffer)
 
     if ( this->m_BigEndianHeader )
       {
-      ByteSwapper< float >::SwapRangeFromSystemToBigEndian( (float *)this->m_ExtendedHeader, this->m_ExtendedHeaderSize );
+      ByteSwapper< float >::SwapRangeFromSystemToBigEndian( (float *)this->m_ExtendedHeader,
+                                                            this->m_ExtendedHeaderSize );
       }
     else
       {
@@ -192,7 +192,10 @@ bool MRCHeaderObject::IsOriginalHeaderBigEndian(void) const
   return this->m_BigEndianHeader;
 }
 
-MRCHeaderObject::MRCHeaderObject(void):m_ExtendedHeaderSize(0), m_ExtendedHeader(0), m_ExtendedFeiHeader(0)
+MRCHeaderObject::MRCHeaderObject(void)
+  : m_ExtendedHeaderSize(0),
+    m_ExtendedHeader(0),
+    m_ExtendedFeiHeader(0)
 {
   memset( &this->m_Header, 0, sizeof( Header ) );
   this->m_BigEndianHeader = ByteSwapper< void * >::SystemIsBE();
@@ -347,6 +350,7 @@ void MRCHeaderObject::swapHeader(bool bigEndian)
 void MRCHeaderObject::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
+
   os << indent << "number: " << this->m_Header.nx << " " << this->m_Header.ny << " " << this->m_Header.nz << std::endl;
   os << indent << "mode: " << this->m_Header.mode << std::endl;
   os << indent << "start: " << this->m_Header.nxstart << " " << this->m_Header.nystart << " "
@@ -398,7 +402,7 @@ void MRCHeaderObject::PrintSelf(std::ostream & os, Indent indent) const
     os << indent << "Extended Header: " << std::endl;
     os << indent
        <<
-    "( atilt, btilt, xstage, ystage, zstage, xshift, yshift, defocus, exptime, meanint, tiltaxis, pixelsize, magnification)"
+      "( atilt, btilt, xstage, ystage, zstage, xshift, yshift, defocus, exptime, meanint, tiltaxis, pixelsize, magnification)"
        << std::endl;
     for ( int32_t z = 0; z < this->m_Header.nz && z < 1024; ++z )
       {
@@ -419,4 +423,5 @@ void MRCHeaderObject::PrintSelf(std::ostream & os, Indent indent) const
       }
     }
 }
+
 } // namespace itk

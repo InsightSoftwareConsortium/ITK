@@ -29,8 +29,8 @@ namespace {
 template <typename TImageType>
 bool Test( const std::string &inFileName, const std::string &outFileName, const std::string &md5 )
 {
-  typedef TImageType                       ImageType;
-  typedef itk::ImageFileReader<ImageType>  ImageFileReaderType;
+  typedef TImageType                      ImageType;
+  typedef itk::ImageFileReader<ImageType> ImageFileReaderType;
 
   typename ImageFileReaderType::Pointer reader = ImageFileReaderType::New();
   reader->SetFileName( inFileName );
@@ -38,13 +38,12 @@ bool Test( const std::string &inFileName, const std::string &outFileName, const 
 
   typename ImageType::Pointer image = reader->GetOutput();
 
-
   typedef itk::MetaDataDictionary            DictionaryType;
   typedef itk::MetaDataObject< std::string > MetaDataStringType;
 
-
   // prepare to iterate over the dictionary
   DictionaryType &dic= image->GetMetaDataDictionary();
+
   DictionaryType::ConstIterator itr = dic.Begin();
   DictionaryType::ConstIterator end = dic.End();
 
@@ -56,7 +55,7 @@ bool Test( const std::string &inFileName, const std::string &outFileName, const 
     if ( itr->first == itk::MRCImageIO::m_MetaDataHeaderName)
       {
       itk::MRCHeaderObject::ConstPointer header;
-      if (itk::ExposeMetaData(dic, itk::MRCImageIO::m_MetaDataHeaderName, header))
+      if (itk::ExposeMetaData(dic, itk::MRCImageIO::m_MetaDataHeaderName, header) )
         {
         std::cout << "MRC Header: " << std::endl;
         std::cout << header;
