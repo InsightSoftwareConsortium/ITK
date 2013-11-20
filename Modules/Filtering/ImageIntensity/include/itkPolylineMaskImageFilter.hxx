@@ -400,7 +400,7 @@ void PolylineMaskImageFilter< TInputImage, TPolyline, TVector, TOutputImage >
   typedef ImageRegionIterator< ProjectionImageType > ProjectionImageIteratorType;
   ProjectionImageIteratorType projectionIt( projectionImagePtr, projectionImagePtr->GetLargestPossibleRegion() );
 
-  itkDebugMacro(<< "Rotation matrix" << std::cout << m_RotationMatrix);
+  itkDebugMacro(<< "Rotation matrix"  << m_RotationMatrix);
 
   typedef typename VertexListType::Pointer VertexListPointer;
 
