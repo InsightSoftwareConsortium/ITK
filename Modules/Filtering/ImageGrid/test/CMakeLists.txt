@@ -1,6 +1,8 @@
 itk_module_test()
 set(ITKImageGridTests
 itkBasicArchitectureTest.cxx
+itkBinShrinkImageFilterTest1.cxx
+itkBinShrinkImageFilterTest2.cxx
 itkBSplineScatteredDataPointSetToImageFilterTest.cxx
 itkBSplineScatteredDataPointSetToImageFilterTest2.cxx
 itkBSplineScatteredDataPointSetToImageFilterTest3.cxx
@@ -59,6 +61,10 @@ CreateTestDriver(ITKImageGrid  "${ITKImageGrid-Test_LIBRARIES}" "${ITKImageGridT
 
 itk_add_test(NAME itkBasicArchitectureTest
       COMMAND ITKImageGridTestDriver itkBasicArchitectureTest)
+itk_add_test(NAME itkBinShrinkImageFilterTest1
+  COMMAND ${itk-module}TestDriver  itkBinShrinkImageFilterTest1 )
+itk_add_test(NAME itkBinShrinkImageFilterTest2
+  COMMAND ${itk-module}TestDriver  itkBinShrinkImageFilterTest2 )
 itk_add_test(NAME itkBSplineScatteredDataPointSetToImageFilterTest01
       COMMAND ITKImageGridTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkBSplineScatteredDataPointSetToImageFilterTest01.mha}
