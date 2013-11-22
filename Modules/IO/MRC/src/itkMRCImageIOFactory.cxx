@@ -62,7 +62,7 @@ static bool MRCImageIOFactoryHasBeenRegistered;
 
 void MRCImageIOFactoryRegister__Private(void)
 {
-  if( ! MRCImageIOFactoryHasBeenRegistered )
+  if( !MRCImageIOFactoryHasBeenRegistered )
     {
     MRCImageIOFactoryHasBeenRegistered = true;
     MRCImageIOFactory::RegisterOneFactory();

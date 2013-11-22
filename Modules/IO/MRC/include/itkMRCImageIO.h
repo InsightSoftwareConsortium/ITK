@@ -20,7 +20,6 @@
 
 #include "itkStreamingImageIOBase.h"
 #include "itkMRCHeaderObject.h"
-#include "itkGenericUtilities.h"
 #include <numeric>
 
 namespace itk
@@ -54,9 +53,9 @@ namespace itk
  * http://hdl.handle.net/10380/3171
  *
  * \sa ImageFileWriter ImageFileReader ImageIOBase
- * \ingroup ITKReview
+ * \ingroup ITKIOMRC
  */
-class MRCImageIO:
+class MRCImageIO :
   public StreamingImageIOBase
 {
 public:
@@ -123,24 +122,7 @@ private:
   // internal methods to update the min and max in the header based on
   // the data, in the image buffer to be written
   template< typename TPixelType >
-  void UpdateHeaderWithMinMaxMean(const TPixelType *bufferBegin)
-  {
-    typedef const TPixelType *ConstPixelPointer;
-
-    ConstPixelPointer bufferEnd = bufferBegin + m_IORegion.GetNumberOfPixels();
-
-    // this could be replaced with std::min_element and
-    // std::max_element, but that is slighlty less efficient
-    std::pair< ConstPixelPointer, ConstPixelPointer > mm =
-      itk::min_max_element(bufferBegin, bufferEnd);
-
-    double mean = std::accumulate( bufferBegin, bufferEnd, double(0.0) )
-                  / std::distance(bufferBegin, bufferEnd);
-
-    m_MRCHeader->m_Header.amin = float(*mm.first);
-    m_MRCHeader->m_Header.amax = float(*mm.second);
-    m_MRCHeader->m_Header.amean = float(mean);
-  }
+  void UpdateHeaderWithMinMaxMean(const TPixelType *bufferBegin);
 
   void UpdateHeaderWithMinMaxMean(const void *bufferBegin);
 

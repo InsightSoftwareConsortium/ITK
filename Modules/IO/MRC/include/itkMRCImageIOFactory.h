@@ -42,9 +42,10 @@ namespace itk
  *  http://www.insight-journal.org/browse/publication/729
  *  http://hdl.handle.net/10380/3171
  *
- * \ingroup ITKReview
+ * \ingroup ITKIOMRC
  */
-class MRCImageIOFactory:public ObjectFactoryBase
+class MRCImageIOFactory
+  : public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */
@@ -79,6 +80,7 @@ protected:
 private:
   MRCImageIOFactory(const Self &); //purposely not implemented
   void operator=(const Self &);    //purposely not implemented
+
 };
 } // end namespace itk
 

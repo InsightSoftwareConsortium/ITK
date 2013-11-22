@@ -18,14 +18,12 @@
 #ifndef __itkMRCHeaderObject_h
 #define __itkMRCHeaderObject_h
 
+#include "itkObjectFactory.h"
 #include "itkLightObject.h"
-#include "itkByteSwapper.h"
 #include "itkIntTypes.h"
 
 namespace itk
 {
-/** \todo FIXME: This is a very easy way to declare a string constant */
-const char *const magicMAP = "MAP ";
 
 /** \class MRCHeaderObject
  * \brief This class is a light wrapper for a couple of plain old data
@@ -44,10 +42,10 @@ const char *const magicMAP = "MAP ";
  *  http://hdl.handle.net/10380/3171
  *
  * \sa MetaDataDictionary
- * \ingroup ITKReview
+ * \ingroup ITKIOMRC
  */
 class MRCHeaderObject:
-  public itk::LightObject
+  public LightObject
 {
 public:
   /** Standard class typedefs. */
@@ -63,7 +61,8 @@ public:
    * http://bio3d.colorado.edu/imod/doc/mrc_format.txt with permision
    * from David Mastronarde on 8/21/2009
    */
-  struct Header {
+  struct Header
+  {
     int32_t nx;            /**< Number of Columns */
     int32_t ny;            /**< Number of Rows */
     int32_t nz;            /**< Number of Sections */
@@ -173,7 +172,8 @@ public:
   };
 
   /** Fei/Agard extended header */
-  struct FeiExtendedHeader {
+  struct FeiExtendedHeader
+  {
     float atilt;        /**< alpha tilt  */
     float btilt;        /**< beta tilt  */
     float xstage;       /**< Stage x position  (unit=m, huh if > 1)  */
@@ -244,7 +244,10 @@ public:
   SizeValueType GetExtendedHeaderSize(void) const;
 
   /** the expected number of bytes in the header */
-  SizeValueType GetHeaderSize(void) const { return sizeof( Header ); }
+  SizeValueType GetHeaderSize(void) const
+    {
+      return sizeof( Header );
+    }
 
   /** returns true if the original header from SetHeader was big
    * endian.
@@ -271,7 +274,7 @@ private:
   void operator=(const Self &);  //purposely not implemented
 
   SizeValueType m_ExtendedHeaderSize;
-  void        * m_ExtendedHeader;
+  void *        m_ExtendedHeader;
 
   FeiExtendedHeader *m_ExtendedFeiHeader;
 

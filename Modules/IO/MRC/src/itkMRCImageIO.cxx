@@ -16,20 +16,23 @@
  *
  *=========================================================================*/
 #include "itkMRCImageIO.h"
+#include "itkMRCImageIOPrivate.h"
 
 #include "itkMetaDataObject.h"
 #include "itkIOCommon.h"
+#include "itkByteSwapper.h"
 
 #include <fstream>
 
 #include "itksys/SystemTools.hxx"
 
+
 namespace itk
 {
-const char *MRCImageIO:: m_MetaDataHeaderName = "MRCHeader";
+const char *MRCImageIO::m_MetaDataHeaderName = "MRCHeader";
 
-MRCImageIO::MRCImageIO():
-  StreamingImageIOBase()
+MRCImageIO::MRCImageIO()
+  : StreamingImageIOBase()
 {
   this->SetNumberOfComponents(1);
   this->SetNumberOfDimensions(3);
@@ -307,12 +310,14 @@ void MRCImageIO
     case 2:
       this->GetByteOrder() == BigEndian ?
       ByteSwapper< uint16_t >::SwapRangeFromSystemToBigEndian( (uint16_t *)buffer, this->GetImageSizeInComponents() ) :
-      ByteSwapper< uint16_t >::SwapRangeFromSystemToLittleEndian( (uint16_t *)buffer, this->GetImageSizeInComponents() );
+      ByteSwapper< uint16_t >::SwapRangeFromSystemToLittleEndian( (uint16_t *)buffer,
+                                                                  this->GetImageSizeInComponents() );
       break;
     case 4:
       this->GetByteOrder() == BigEndian ?
       ByteSwapper< uint32_t >::SwapRangeFromSystemToBigEndian( (uint32_t *)buffer, this->GetImageSizeInComponents() ) :
-      ByteSwapper< uint32_t >::SwapRangeFromSystemToLittleEndian( (uint32_t *)buffer, this->GetImageSizeInComponents() );
+      ByteSwapper< uint32_t >::SwapRangeFromSystemToLittleEndian( (uint32_t *)buffer,
+                                                                  this->GetImageSizeInComponents() );
       break;
     default:
       itkExceptionMacro(<< "Unknown component size");
@@ -330,6 +335,26 @@ bool MRCImageIO::CanWriteFile(const char *fname)
     return true;
     }
   return false;
+}
+
+template< typename TPixelType >
+void MRCImageIO::UpdateHeaderWithMinMaxMean(const TPixelType *bufferBegin)
+{
+  typedef const TPixelType *ConstPixelPointer;
+
+  ConstPixelPointer bufferEnd = bufferBegin + m_IORegion.GetNumberOfPixels();
+
+  // this could be replaced with std::min_element and
+  // std::max_element, but that is slighlty less efficient
+  std::pair< ConstPixelPointer, ConstPixelPointer > mm =
+    itk::min_max_element(bufferBegin, bufferEnd);
+
+  double mean = std::accumulate( bufferBegin, bufferEnd, double(0.0) )
+    / std::distance(bufferBegin, bufferEnd);
+
+  m_MRCHeader->m_Header.amin = float(*mm.first);
+  m_MRCHeader->m_Header.amax = float(*mm.second);
+  m_MRCHeader->m_Header.amean = float(mean);
 }
 
 void MRCImageIO::UpdateHeaderFromImageIO(void)
@@ -395,24 +420,24 @@ void MRCImageIO::UpdateHeaderFromImageIO(void)
       {
       header.mode = MRCHeaderObject::MRCHEADER_MODE_COMPLEX_FLOAT;
       }
-      // ITK does not support short complex well
-      // but if we have gotten this far, it's done
+    // ITK does not support short complex well
+    // but if we have gotten this far, it's done
     else if ( this->GetComponentType() == SHORT )
       {
       header.mode = MRCHeaderObject::MRCHEADER_MODE_COMPLEX_INT16;
       }
     }
-    else if (  this->GetNumberOfComponents() == 3
-               && this->GetComponentType() == UCHAR )
-      {
-      header.mode = MRCHeaderObject::MRCHEADER_MODE_RGB_BYTE;
-      }
+  else if (  this->GetNumberOfComponents() == 3
+             && this->GetComponentType() == UCHAR )
+    {
+    header.mode = MRCHeaderObject::MRCHEADER_MODE_RGB_BYTE;
+    }
 
   if ( header.mode == -1 )
     {
     itkExceptionMacro(<< "Unsupported pixel type: " << this->GetPixelTypeAsString( this->GetPixelType() )
                       << " " << this->GetComponentTypeAsString(
-                         this->GetComponentType() )
+                        this->GetComponentType() )
                       << std::endl
                       <<
                       "Supported pixel types include unsigned byte, unsigned short, signed short, float, rgb unsigned char, float complex"
@@ -604,4 +629,5 @@ void MRCImageIO
       }
     }
 }
+
 } // namespace itk

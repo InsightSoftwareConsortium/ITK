@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkGenericUtilities_h
-#define __itkGenericUtilities_h
+#ifndef __itkMRCImageIOPrivate_h
+#define __itkMRCImageIOPrivate_h
 
 #include <utility>
 
@@ -31,6 +31,12 @@
 
 namespace itk
 {
+
+namespace
+{
+
+const char *const magicMAP = "MAP ";
+
 ///////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////
@@ -93,61 +99,8 @@ std::pair< TInputIter, TInputIter > min_max_element(TInputIter first, TInputIter
   return result;
 }
 
-/// \brief returns the min and max of a
-///
-/// Uses the provided binary functor
-/// If first == last then return is pair(first,first);
-/// otherwise is it pair(min, max)
-template< typename TInputIter, typename TCompare >
-std::pair< TInputIter, TInputIter > min_max_element(TInputIter first, TInputIter last, TCompare comp)
-{
-  std::pair< TInputIter, TInputIter > result(first, first);
+} // end anonymous namespace
 
-  if ( first == last )
-    {
-    return result;
-    }
-
-  while ( ++first != last )
-    {
-    TInputIter prev = first;
-    if ( ++first == last )
-      {
-      if ( comp( *prev, *( result.first ) ) )
-        {
-        result.first = prev;
-        }
-      if ( comp(*( result.second ), *prev) )
-        {
-        result.second = prev;
-        }
-      break;
-      }
-    else if ( comp(*first, *prev) )
-      {
-      if ( comp( *first, *( result.first ) ) )
-        {
-        result.first = first;
-        }
-      if ( comp(*( result.second ), *prev) )
-        {
-        result.second = prev;
-        }
-      }
-    else
-      {
-      if ( comp( *prev, *( result.first ) ) )
-        {
-        result.first = prev;
-        }
-      if ( comp(*( result.second ), *first) )
-        {
-        result.second = first;
-        }
-      }
-    }
-  return result;
-}
 } // end itk namespace
 
-#endif //__itkGenericUtilities_h
+#endif //__itkMRCImageIOPrivate_h
