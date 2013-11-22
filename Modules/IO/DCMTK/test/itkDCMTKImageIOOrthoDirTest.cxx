@@ -61,7 +61,7 @@ int itkDCMTKImageIOOrthoDirTest(int ac, char* av[])
 
   std::cout << "Dir Cosines " << directionCosines;
 
-  itk::Versor<InputImageType::SpacePrecisionType> rotation;
+  itk::Versor<itk::SpacePrecisionType> rotation;
 
   try
     {

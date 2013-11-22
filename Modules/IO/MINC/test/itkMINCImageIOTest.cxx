@@ -303,7 +303,7 @@ template <typename TPixel,int VDimension> int MINCReadWriteTest(const char *file
   im->SetOrigin( origin );
   im->Allocate ();
 
-  itk::Matrix<SpacePrecisionType,VDimension,VDimension> mat;
+  itk::Matrix<itk::SpacePrecisionType,VDimension,VDimension> mat;
 
   mat.SetIdentity();
 
@@ -566,7 +566,7 @@ template <typename TPixel,int VDimension> int MINCReadWriteTestVector(const char
   im->SetVectorLength(vector_length);
   im->Allocate ();
 
-  itk::Matrix<SpacePrecisionType,VDimension,VDimension> mat;
+  itk::Matrix<itk::SpacePrecisionType,VDimension,VDimension> mat;
 
   mat.SetIdentity();
 
