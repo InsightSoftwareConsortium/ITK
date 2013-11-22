@@ -22,6 +22,7 @@
 #include "itkImageScanlineIterator.h"
 #include "itkProgressReporter.h"
 #include <numeric>
+#include <functional>
 
 namespace itk
 {
@@ -114,7 +115,7 @@ BinShrinkImageFilter<TInputImage,TOutputImage>
 
   // Set up shaped neighbor hood by defining the offsets
   OutputOffsetType negativeOffset, positiveOffset, iOffset;
-  typedef typename OutputOffsetType::OffsetValueType OffsetValueType;
+
   negativeOffset[0] = 0;
   positiveOffset[0] = 0;
   for ( unsigned int i=1; i < TInputImage::ImageDimension; ++i)
@@ -154,7 +155,9 @@ BinShrinkImageFilter<TInputImage,TOutputImage>
       }
 
     const size_t numSamples = std::accumulate( this->GetShrinkFactors().Begin(),
-                                               this->GetShrinkFactors().End(), 1u, std::multiplies<size_t>() );
+                                               this->GetShrinkFactors().End(),
+                                               size_t(1),
+                                               std::multiplies<size_t>() );
     const double inumSamples = 1.0 / (double)numSamples;
 
     const unsigned int numberOfLinesToProcess = outputRegionForThread.GetNumberOfPixels() /
