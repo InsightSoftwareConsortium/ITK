@@ -221,10 +221,10 @@ BinShrinkImageFilter<TInputImage,TOutputImage>
     }
   catch(...)
     {
-    delete accBuffer;
+    delete [] accBuffer;
     throw;
     }
-  delete accBuffer;
+  delete [] accBuffer;
 
 }
 
