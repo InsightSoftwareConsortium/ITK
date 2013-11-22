@@ -20,6 +20,7 @@
 #include "itkPipelineMonitorImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
+#include "itkTestingMacros.h"
 
 int itkBinShrinkImageFilterTest1( int , char *[] )
 {
@@ -55,6 +56,32 @@ int itkBinShrinkImageFilterTest1( int , char *[] )
   itk::BinShrinkImageFilter< ImageType, ImageType >::Pointer bin;
   bin = itk::BinShrinkImageFilter< ImageType, ImageType >::New();
   bin->SetInput( monitor1->GetOutput() );
+
+  itk::ModifiedTimeType t = bin->GetMTime();
+  // Exercise some methods for coverage
+  EXERCISE_BASIC_OBJECT_METHODS(bin, BinShrinkImageFilter);
+  std::cout << bin;
+  TEST_EXPECT_EQUAL(bin->GetShrinkFactors()[0], 1 );
+
+  // test no change
+  bin->SetShrinkFactors(1);
+  TEST_EXPECT_EQUAL(bin->GetShrinkFactors()[0], 1 );
+  TEST_EXPECT_EQUAL(t,  bin->GetMTime());
+
+  // test zero value
+  bin->SetShrinkFactors(0);
+  TEST_EXPECT_EQUAL(bin->GetShrinkFactors()[0], 1 );
+  TEST_EXPECT_TRUE( t != bin->GetMTime() );
+  t = bin->GetMTime();
+
+  // no change
+  bin->SetShrinkFactor(0,1);
+  TEST_EXPECT_EQUAL(bin->GetShrinkFactors()[0], 1 );
+  TEST_EXPECT_EQUAL(t,  bin->GetMTime());
+
+  bin->SetShrinkFactor(0,2);
+  TEST_EXPECT_EQUAL(bin->GetShrinkFactors()[0], 2 );
+  TEST_EXPECT_TRUE( t != bin->GetMTime() );
 
 
   MonitorFilter::Pointer monitor2 = MonitorFilter::New();
