@@ -140,7 +140,8 @@ private:
 };
 
 ///////////////////////////////////////////////////////////
-int GradientDescentOptimizerv4RunTest( itk::GradientDescentOptimizerv4::Pointer & itkOptimizer, GradientDescentOptimizerv4TestMetric::ParametersType & trueParameters )
+int GradientDescentOptimizerv4RunTest( itk::GradientDescentOptimizerv4::Pointer & itkOptimizer,
+                                       GradientDescentOptimizerv4TestMetric::ParametersType & trueParameters )
 {
   try
     {

@@ -72,11 +72,20 @@ public:
   Point< T, NRows > operator *(const Point< T, NColumns > & vector) const;
 
   /** Matrix by CovariantVector multiplication.  */
-  CovariantVector< T, NRows >
-  operator *(const CovariantVector< T, NColumns > & vector) const;
+  CovariantVector< T, NRows > operator *(const CovariantVector< T, NColumns > & vector) const;
+
+  /** Matrix by vnl_vector_fixed multiplication.  */
+  vnl_vector_fixed<T,NRows> operator *(const vnl_vector_fixed< T, NColumns > & vector) const;
 
   /** Matrix by Matrix multiplication.  */
   Self operator *(const CompatibleSquareMatrixType & matrix) const;
+
+  template<unsigned int OuterDim>
+   Matrix<T, NRows, OuterDim>  operator*(const  vnl_matrix_fixed< T, NRows, OuterDim > & matrix) const
+      {
+      const Matrix<T, NRows, OuterDim> result ( m_Matrix * matrix );
+      return result;
+      }
 
   /** Matrix addition.  */
   Self operator+(const Self & matrix) const;

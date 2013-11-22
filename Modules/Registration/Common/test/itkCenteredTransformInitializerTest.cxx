@@ -352,7 +352,7 @@ int itkCenteredTransformInitializerTest(int , char* [] )
   movingRegion.SetSize( size );
   movingRegion.SetIndex( movingIndex );
 
-  typedef itk::Versor< double > VersorType;
+  typedef itk::Versor< itk::SpacePrecisionType > VersorType;
   VersorType x; x.SetRotationAroundX( 0.5 );
   VersorType y; y.SetRotationAroundY( 1.0 );
   VersorType z; z.SetRotationAroundZ( 1.5 );

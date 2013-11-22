@@ -73,14 +73,14 @@ public:
   typedef typename Superclass::OutputType OutputType;
 
   /** Basic data-structure types used */
-  typedef ContinuousIndex< double, VDimension >   ContinuousIndexType;
-  typedef Index<  VDimension >                    IndexType;
-  typedef Offset< VDimension >                    OffsetType;
-  typedef Point< double, VDimension >             PointType;
-  typedef Vector< double, VDimension >            VectorType;
-  typedef ContinuousIndexType                     VertexType;
-  typedef VectorContainer< unsigned, VertexType > VertexListType;
-  typedef typename VertexListType::Pointer        VertexListPointer;
+  typedef typename Superclass::ContinuousIndexType ContinuousIndexType;
+  typedef Index<  VDimension >                     IndexType;
+  typedef Offset< VDimension >                     OffsetType;
+  typedef Point< double, VDimension >              PointType;
+  typedef Vector< double, VDimension >             VectorType;
+  typedef ContinuousIndexType                      VertexType;
+  typedef VectorContainer< unsigned, VertexType >  VertexListType;
+  typedef typename VertexListType::Pointer         VertexListPointer;
 
   /** Return the location of the parametric path at the specified location. */
   virtual OutputType Evaluate(const InputType & input) const;

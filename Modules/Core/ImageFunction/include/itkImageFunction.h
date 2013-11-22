@@ -56,7 +56,7 @@ template<
   typename TCoordRep = float
   >
 class ImageFunction:
-  public FunctionBase< Point< TCoordRep, TInputImage::ImageDimension >, TOutput >
+    public FunctionBase< Point< SpacePrecisionType, TInputImage::ImageDimension >, TOutput >
 {
 public:
   /** Dimension underlying input image. */
@@ -65,9 +65,11 @@ public:
 
   /** Standard class typedefs. */
   typedef ImageFunction Self;
+
   typedef FunctionBase<
-    Point< TCoordRep, itkGetStaticConstMacro(ImageDimension) >,
-    TOutput >                                                   Superclass;
+    Point< SpacePrecisionType,
+           itkGetStaticConstMacro(ImageDimension) >, TOutput >
+                                     Superclass;
   typedef SmartPointer< Self >       Pointer;
   typedef SmartPointer< const Self > ConstPointer;
 
@@ -94,11 +96,11 @@ public:
   typedef typename InputImageType::IndexValueType IndexValueType;
 
   /** ContinuousIndex Type. */
-  typedef ContinuousIndex< TCoordRep, itkGetStaticConstMacro(ImageDimension) >
-  ContinuousIndexType;
+  typedef ContinuousIndex< TCoordRep,
+                           itkGetStaticConstMacro(ImageDimension) > ContinuousIndexType;
 
   /** Point Type. */
-  typedef Point< TCoordRep, itkGetStaticConstMacro(ImageDimension) > PointType;
+  typedef typename InputImageType::PointType PointType;
 
   /** Set the input image.
    * \warning this method caches BufferedRegion information.

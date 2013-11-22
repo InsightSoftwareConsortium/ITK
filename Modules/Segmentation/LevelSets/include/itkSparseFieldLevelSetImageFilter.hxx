@@ -525,15 +525,13 @@ void
 SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::Initialize()
 {
-  unsigned int i;
-
   this->m_InputImage = this->GetInput();
   this->m_OutputImage = this->GetOutput();
 
   if ( this->GetUseImageSpacing() )
     {
-    double minSpacing = NumericTraits< double >::max();
-    for ( i = 0; i < ImageDimension; i++ )
+    SpacePrecisionType minSpacing = NumericTraits< SpacePrecisionType >::max();
+    for ( unsigned int i = 0; i < ImageDimension; i++ )
       {
       minSpacing = vnl_math_min(minSpacing, this->GetInput()->GetSpacing()[i]);
       }
@@ -583,7 +581,7 @@ SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
     }
 
   // Erase all existing layer lists.
-  for ( i = 0; i < m_Layers.size(); ++i )
+  for ( unsigned int i = 0; i < m_Layers.size(); ++i )
     {
     while ( !m_Layers[i]->Empty() )
       {
@@ -613,7 +611,7 @@ SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 
   // Construct the rest of the non-active set layers using the first two
   // layers. Inside layers are odd numbers, outside layers are even numbers.
-  for ( i = 1; i < m_Layers.size() - 2; ++i )
+  for ( unsigned int i = 1; i < m_Layers.size() - 2; ++i )
     {
     this->ConstructLayer(i, i + 2);
     }
@@ -689,9 +687,6 @@ SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
   // set (or the active set itself) is sitting on a boundary pixel location. If
   // this is the case, then we need to do active bounds checking in the solver.
   //
-
-  unsigned int i;
-
   NeighborhoodIterator< OutputImageType >
   shiftedIt( m_NeighborList.GetRadius(), m_ShiftedImage,
              this->m_OutputImage->GetRequestedRegion() );
@@ -722,7 +717,7 @@ SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 
       // Check to see if any of the sparse field touches a boundary.  If so,
       // then activate bounds checking.
-      for ( i = 0; i < ImageDimension; i++ )
+      for ( unsigned int i = 0; i < ImageDimension; i++ )
         {
         if ( center_index[i] + static_cast< OffsetValueType >( m_NumberOfLayers ) >= ( upperBounds[i] - 1 )
              || center_index[i] - static_cast< OffsetValueType >( m_NumberOfLayers ) <= lowerBounds[i] )
@@ -745,7 +740,7 @@ SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 
       // Search the neighborhood pixels for first inside & outside layer
       // members.  Construct these lists and set status list values.
-      for ( i = 0; i < m_NeighborList.GetSize(); ++i )
+      for ( unsigned int i = 0; i < m_NeighborList.GetSize(); ++i )
         {
         offset_index = center_index
                        + m_NeighborList.GetNeighborhoodOffset(i);
@@ -829,7 +824,7 @@ SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 
   if ( this->GetUseImageSpacing() )
     {
-    double minSpacing = NumericTraits< double >::max();
+    SpacePrecisionType minSpacing = NumericTraits< SpacePrecisionType >::max();
     for ( unsigned int i = 0; i < ImageDimension; i++ )
       {
       minSpacing = vnl_math_min(minSpacing, this->GetInput()->GetSpacing()[i]);
@@ -913,7 +908,7 @@ SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
   ValueType MIN_NORM      = 1.0e-6;
   if ( this->GetUseImageSpacing() )
     {
-    double minSpacing = NumericTraits< double >::max();
+    SpacePrecisionType minSpacing = NumericTraits< SpacePrecisionType >::max();
     for ( i = 0; i < ImageDimension; i++ )
       {
       minSpacing = vnl_math_min(minSpacing, this->GetInput()->GetSpacing()[i]);

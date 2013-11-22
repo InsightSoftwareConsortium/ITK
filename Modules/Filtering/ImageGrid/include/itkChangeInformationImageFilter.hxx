@@ -134,7 +134,7 @@ ChangeInformationImageFilter< TInputImage >
   if ( m_CenterImage )
     {
     typename TInputImage::PointType centerPoint;
-    ContinuousIndex< double, ImageDimension > centerIndex;
+    ContinuousIndex<SpacePrecisionType, ImageDimension > centerIndex;
 
     for ( i = 0; i < ImageDimension; i++ )
       {

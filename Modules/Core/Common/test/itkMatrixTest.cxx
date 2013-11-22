@@ -75,7 +75,6 @@ int itkMatrixTest(int, char* [] )
   matrix2.GetVnlMatrix()(0,0) = 10;
 
   MatrixType matrixProduct;
-
   matrixProduct = matrix * matrix2;
 
   MatrixType matrix3;
@@ -151,7 +150,7 @@ int itkMatrixTest(int, char* [] )
       std::cout << m1.GetVnlMatrix()*m2.GetVnlMatrix() << std::endl;
 
       std::cout << "ITK * VNL Multiplication result: " << std::endl;
-      std::cout << m1*m2.GetVnlMatrix() << std::endl;
+      std::cout << m1 * m2.GetVnlMatrix() << std::endl;
 
       itk::Matrix<double,2,2> m3;
       itk::Matrix<double,2,3> m4;
@@ -184,7 +183,7 @@ int itkMatrixTest(int, char* [] )
       std::cout << m3.GetVnlMatrix()*m4.GetVnlMatrix() << std::endl;
 
       std::cout << "ITK * VNL Multiplication result: " << std::endl;
-      std::cout << m3*m4.GetVnlMatrix() << std::endl;
+      std::cout << m3 * m4.GetVnlMatrix() << std::endl;
 
     }
   catch ( itk::ExceptionObject & e)

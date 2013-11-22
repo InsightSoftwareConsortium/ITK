@@ -203,7 +203,7 @@ typename MatrixOffsetTransformBase<TScalar,
 MatrixOffsetTransformBase<TScalar, NInputDimensions, NOutputDimensions>
 ::TransformVector(const InputVnlVectorType & vect) const
 {
-  return m_Matrix * vect;
+  return m_Matrix.GetVnlMatrix() * vect;
 }
 
 // Transform a variable length vector

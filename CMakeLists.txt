@@ -269,6 +269,10 @@ set(ITK_EXAMPLE_DATA_ROOT "${ITK_SOURCE_DIR}/Examples/Data")
 set(ITK_COMPUTER_MEMORY_SIZE 1 CACHE STRING "Provide here the size of your RAM Memory in GigaBytes")
 mark_as_advanced(ITK_COMPUTER_MEMORY_SIZE)
 
+#This flag sets the floating point type used in itk::ImageBase for
+# spacing/direction/origin to single precision
+option(ITK_USE_FLOAT_SPACE_PRECISION "Use single precision for origin/spacing/directions in itk::Image" OFF)
+mark_as_advanced(ITK_USE_FLOAT_SPACE_PRECISION)
 
 #----------------------------------------------------------------------
 # Make sure remote modules are downloaded before sorting out the module

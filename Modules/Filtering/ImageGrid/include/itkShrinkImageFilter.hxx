@@ -328,8 +328,8 @@ ShrinkImageFilter< TInputImage, TOutputImage >
 
   // Compute origin offset
   // The physical center's of the input and output should be the same
-  ContinuousIndex< double, TOutputImage::ImageDimension > inputCenterIndex;
-  ContinuousIndex< double, TOutputImage::ImageDimension > outputCenterIndex;
+  ContinuousIndex< SpacePrecisionType, TOutputImage::ImageDimension > inputCenterIndex;
+  ContinuousIndex< SpacePrecisionType, TOutputImage::ImageDimension > outputCenterIndex;
   for ( i = 0; i < TOutputImage::ImageDimension; i++ )
     {
     inputCenterIndex[i] = inputStartIndex[i] + ( inputSize[i] - 1 ) / 2.0;

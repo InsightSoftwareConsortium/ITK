@@ -80,6 +80,10 @@
 // defined if the STL implementation includes std::copy_n
 #cmakedefine ITK_HAS_STD_COPY_N
 
+// defined if the spacing/origin/direction parameters in
+// itk::ImageBase are float instead of double
+#cmakedefine ITK_USE_FLOAT_SPACE_PRECISION
+
 /*
  * Every exception may define a string with the function name for each
  * instantiated template. This can add a substantial number of symbols

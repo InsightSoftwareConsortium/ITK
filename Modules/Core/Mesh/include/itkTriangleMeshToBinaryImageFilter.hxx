@@ -88,8 +88,11 @@ void
 TriangleMeshToBinaryImageFilter< TInputMesh, TOutputImage >
 ::SetSpacing(const double spacing[3])
 {
-  SpacingType s(spacing);
-
+  SpacingType s;
+  for(unsigned int i = 0; i < TOutputImage::ImageDimension; ++i)
+    {
+    s[i] = static_cast<SpacePrecisionType>(spacing[i]);
+    }
   this->SetSpacing(s);
 }
 

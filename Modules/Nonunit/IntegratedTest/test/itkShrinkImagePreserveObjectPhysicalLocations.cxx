@@ -66,9 +66,9 @@ PyramidFilterType::Pointer MakeTwoLevelPyramid(TImageType::Pointer refImage)
 TImageType::PointType GetImageCenterPhysicalPoint(TImageType::Pointer & image)
 {
   const TImageType::SizeType imageOverallSize=image->GetLargestPossibleRegion().GetSize();
-  itk::ContinuousIndex<double, TImageType::ImageDimension> centerIndex;
-  itk::ContinuousIndex<double, TImageType::ImageDimension> firstIndex;
-  itk::ContinuousIndex<double, TImageType::ImageDimension> lastIndex;
+  itk::ContinuousIndex<itk::SpacePrecisionType, TImageType::ImageDimension> centerIndex;
+  itk::ContinuousIndex<itk::SpacePrecisionType, TImageType::ImageDimension> firstIndex;
+  itk::ContinuousIndex<itk::SpacePrecisionType, TImageType::ImageDimension> lastIndex;
   for( unsigned int q=0;q<TImageType::ImageDimension;q++ )
     {
     lastIndex[q]=(imageOverallSize[q]-1);
