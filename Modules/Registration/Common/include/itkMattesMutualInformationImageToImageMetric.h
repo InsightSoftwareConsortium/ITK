@@ -343,6 +343,7 @@ private:
     MarginalPDFType FixedImageMarginalPDF;
   };
 
+#if !defined(__GCCXML__)
   itkPadStruct( ITK_CACHE_LINE_ALIGNMENT, MMIMetricPerThreadStruct,
                                             PaddedMMIMetricPerThreadStruct);
   itkAlignedTypedef( ITK_CACHE_LINE_ALIGNMENT, PaddedMMIMetricPerThreadStruct,
@@ -353,6 +354,7 @@ private:
   //   http://thetweaker.wordpress.com/2010/05/05/stdvector-of-aligned-elements/
   //   http://connect.microsoft.com/VisualStudio/feedback/details/692988
   mutable AlignedMMIMetricPerThreadStruct * m_MMIMetricPerThreadVariables;
+#endif
 
   bool         m_UseExplicitPDFDerivatives;
   mutable bool m_ImplicitDerivativesSecondPass;
