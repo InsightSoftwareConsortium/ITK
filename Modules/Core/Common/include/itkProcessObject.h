@@ -36,6 +36,7 @@
 #include <vector>
 #include <map>
 #include <set>
+#include <algorithm>
 
 namespace itk
 {

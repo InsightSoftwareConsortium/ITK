@@ -22,6 +22,7 @@
 #include <vector>
 #include <iterator>
 #include <iomanip>
+#include <algorithm>
 
 //#include <stdlib.h> // abort
 
