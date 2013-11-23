@@ -17,7 +17,7 @@
  *=========================================================================*/
 #ifndef __itkMRCImageIO_h
 #define __itkMRCImageIO_h
-
+#include "ITKIOMRCExport.h"
 #include "itkStreamingImageIOBase.h"
 #include "itkMRCHeaderObject.h"
 #include <numeric>
@@ -55,7 +55,7 @@ namespace itk
  * \sa ImageFileWriter ImageFileReader ImageIOBase
  * \ingroup ITKIOMRC
  */
-class MRCImageIO :
+class ITKIOMRC_EXPORT MRCImageIO :
   public StreamingImageIOBase
 {
 public:
