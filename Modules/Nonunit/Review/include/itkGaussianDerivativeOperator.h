@@ -21,6 +21,8 @@
 #include "itkGaussianOperator.h"
 #include "itkDerivativeOperator.h"
 
+#include <algorithm>
+
 namespace itk
 {
 /**
