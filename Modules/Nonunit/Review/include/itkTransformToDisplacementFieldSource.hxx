@@ -128,7 +128,7 @@ TransformToDisplacementFieldSource< TOutputImage, TTransformPrecisionType >
   SpacingType s;
   for(unsigned int i = 0; i < TOutputImage::ImageDimension; ++i)
     {
-    s[i] = static_cast<typename TOutputImage::SpacePrecisionType>(spacing[i]);
+    s[i] = static_cast<SpacePrecisionType>(spacing[i]);
     }
 
   this->SetOutputSpacing(s);
