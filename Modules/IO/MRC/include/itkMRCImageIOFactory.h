@@ -27,6 +27,7 @@
  *=========================================================================*/
 #ifndef __itkMRCImageIOFactory_h
 #define __itkMRCImageIOFactory_h
+#include "ITKIOMRCExport.h"
 
 #include "itkObjectFactoryBase.h"
 #include "itkImageIOBase.h"
@@ -44,7 +45,7 @@ namespace itk
  *
  * \ingroup ITKIOMRC
  */
-class MRCImageIOFactory
+class ITKIOMRC_EXPORT MRCImageIOFactory
   : public ObjectFactoryBase
 {
 public:

@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef __itkMRCHeaderObject_h
 #define __itkMRCHeaderObject_h
+#include "ITKIOMRCExport.h"
 
 #include "itkObjectFactory.h"
 #include "itkLightObject.h"
@@ -44,7 +45,7 @@ namespace itk
  * \sa MetaDataDictionary
  * \ingroup ITKIOMRC
  */
-class MRCHeaderObject:
+class ITKIOMRC_EXPORT MRCHeaderObject:
   public LightObject
 {
 public:
