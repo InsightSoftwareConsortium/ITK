@@ -108,6 +108,7 @@ void TIFFReaderInternal::Clean()
   this->m_CurrentPage = 0;
   this->m_NumberOfPages = 0;
   this->m_NumberOfTiles = 0;
+  this->m_Orientation = ORIENTATION_TOPLEFT;
   this->m_TileRows = 0;
   this->m_TileColumns = 0;
   this->m_TileWidth = 0;
@@ -320,7 +321,6 @@ void TIFFImageIO::ReadTwoSamplesPerPixelImage(void *out,
         if ( TIFFReadScanline(m_InternalImage->m_Image, buf, row, 0) <= 0 )
           {
           itkExceptionMacro(<< "Problem reading the row: " << row);
-          break;
           }
 
         if ( m_InternalImage->m_Orientation == ORIENTATION_TOPLEFT )
@@ -354,7 +354,6 @@ void TIFFImageIO::ReadTwoSamplesPerPixelImage(void *out,
           if ( TIFFReadScanline(m_InternalImage->m_Image, buf, row, s) <= 0 )
             {
             itkExceptionMacro(<< "Problem reading the row: " << row);
-            break;
             }
 
           inc = 3;
@@ -392,7 +391,6 @@ void TIFFImageIO::ReadTwoSamplesPerPixelImage(void *out,
         if ( TIFFReadScanline(m_InternalImage->m_Image, buf, row, 0) <= 0 )
           {
           itkExceptionMacro(<< "Problem reading the row: " << row);
-          break;
           }
 
         if ( m_InternalImage->m_Orientation == ORIENTATION_TOPLEFT )
@@ -425,7 +423,6 @@ void TIFFImageIO::ReadTwoSamplesPerPixelImage(void *out,
           if ( TIFFReadScanline(m_InternalImage->m_Image, buf, row, s) <= 0 )
             {
             itkExceptionMacro(<< "Problem reading the row: " << row);
-            break;
             }
 
           if ( m_InternalImage->m_Orientation == ORIENTATION_TOPLEFT )
@@ -476,7 +473,6 @@ void TIFFImageIO::ReadGenericImage(void *out,
   if ( m_InternalImage->m_PlanarConfig != PLANARCONFIG_CONTIG )
     {
     itkExceptionMacro(<< "This reader can only do PLANARCONFIG_CONTIG");
-    return;
     }
 
   switch ( this->GetFormat() )
@@ -506,7 +502,6 @@ void TIFFImageIO::ReadGenericImage(void *out,
         if ( TIFFReadScanline(m_InternalImage->m_Image, buf, row, 0) <= 0 )
           {
           itkExceptionMacro(<< "Problem reading the row: " << row);
-          break;
           }
 
         if ( m_InternalImage->m_Orientation == ORIENTATION_TOPLEFT )
@@ -540,7 +535,6 @@ void TIFFImageIO::ReadGenericImage(void *out,
           if ( TIFFReadScanline(m_InternalImage->m_Image, buf, row, s) <= 0 )
             {
             itkExceptionMacro(<< "Problem reading the row: " << row);
-            break;
             }
 
           inc = 3;
@@ -575,7 +569,6 @@ void TIFFImageIO::ReadGenericImage(void *out,
         if ( TIFFReadScanline(m_InternalImage->m_Image, buf, row, 0) <= 0 )
           {
           itkExceptionMacro(<< "Problem reading the row: " << row);
-          break;
           }
 
         if ( m_InternalImage->m_Orientation == ORIENTATION_TOPLEFT )
@@ -609,7 +602,6 @@ void TIFFImageIO::ReadGenericImage(void *out,
           if ( TIFFReadScanline(m_InternalImage->m_Image, buf, row, s) <= 0 )
             {
             itkExceptionMacro(<< "Problem reading the row: " << row);
-            break;
             }
 
           inc = 3;
@@ -645,7 +637,6 @@ void TIFFImageIO::ReadGenericImage(void *out,
         if ( TIFFReadScanline(m_InternalImage->m_Image, buf, row, 0) <= 0 )
           {
           itkExceptionMacro(<< "Problem reading the row: " << row);
-          break;
           }
 
         if ( m_InternalImage->m_Orientation == ORIENTATION_TOPLEFT )
@@ -678,7 +669,6 @@ void TIFFImageIO::ReadGenericImage(void *out,
           if ( TIFFReadScanline(m_InternalImage->m_Image, buf, row, s) <= 0 )
             {
             itkExceptionMacro(<< "Problem reading the row: " << row);
-            break;
             }
 
           if ( m_InternalImage->m_Orientation == ORIENTATION_TOPLEFT )
@@ -713,7 +703,6 @@ void TIFFImageIO::ReadGenericImage(void *out,
         if ( TIFFReadScanline(m_InternalImage->m_Image, buf, row, 0) <= 0 )
           {
           itkExceptionMacro(<< "Problem reading the row: " << row);
-          break;
           }
 
         if ( m_InternalImage->m_Orientation == ORIENTATION_TOPLEFT )
@@ -746,7 +735,6 @@ void TIFFImageIO::ReadGenericImage(void *out,
           if ( TIFFReadScanline(m_InternalImage->m_Image, buf, row, s) <= 0 )
             {
             itkExceptionMacro(<< "Problem reading the row: " << row);
-            break;
             }
 
           if ( m_InternalImage->m_Orientation == ORIENTATION_TOPLEFT )
@@ -780,7 +768,6 @@ void TIFFImageIO::ReadGenericImage(void *out,
         if ( TIFFReadScanline(m_InternalImage->m_Image, buf, row, 0) <= 0 )
           {
           itkExceptionMacro(<< "Problem reading the row: " << row);
-          break;
           }
 
         if ( m_InternalImage->m_Orientation == ORIENTATION_TOPLEFT )
@@ -813,7 +800,6 @@ void TIFFImageIO::ReadGenericImage(void *out,
           if ( TIFFReadScanline(m_InternalImage->m_Image, buf, row, s) <= 0 )
             {
             itkExceptionMacro(<< "Problem reading the row: " << row);
-            break;
             }
 
           if ( m_InternalImage->m_Orientation == ORIENTATION_TOPLEFT )
@@ -978,7 +964,6 @@ void TIFFImageIO::GetColor(int index, unsigned short *red,
   if ( index < 0 )
     {
     itkExceptionMacro(<< "Color index has to be greater than 0");
-    return;
     }
   if ( m_TotalColors > 0
        && m_ColorRed && m_ColorGreen && m_ColorBlue )
@@ -987,7 +972,6 @@ void TIFFImageIO::GetColor(int index, unsigned short *red,
       {
       itkExceptionMacro(<< "Color index has to be less than number of colors ("
                         << m_TotalColors << ")");
-      return;
       }
     *red   = *( m_ColorRed   + index );
     *green = *( m_ColorGreen + index );
@@ -1002,7 +986,6 @@ void TIFFImageIO::GetColor(int index, unsigned short *red,
     if ( m_InternalImage->m_Photometrics != PHOTOMETRIC_PALETTE )
       {
       itkExceptionMacro(<< "You can only access colors for palette images");
-      return;
       }
     }
 
@@ -1020,13 +1003,11 @@ void TIFFImageIO::GetColor(int index, unsigned short *red,
       itkExceptionMacro(<<  "Sorry, can not handle image with "
                         << m_InternalImage->m_BitsPerSample
                         << "-bit samples");
-      return;
     }
   if ( !TIFFGetField(m_InternalImage->m_Image, TIFFTAG_COLORMAP,
                      &red_orig, &green_orig, &blue_orig) )
     {
     itkExceptionMacro(<< "Missing required \"Colormap\" tag");
-    return;
     }
   m_TotalColors = ( 1L << m_InternalImage->m_BitsPerSample );
 
@@ -1034,7 +1015,6 @@ void TIFFImageIO::GetColor(int index, unsigned short *red,
     {
     itkExceptionMacro(<< "Color index has to be less than number of colors ("
                       << m_TotalColors << ")");
-    return;
     }
   m_ColorRed   =   red_orig;
   m_ColorGreen = green_orig;
@@ -1099,12 +1079,6 @@ void TIFFImageIO::ReadTiles(void *buffer)
       if ( TIFFReadTile(m_InternalImage->m_Image, tempImage, col, row, 0, 0) < 0 )
         {
         itkExceptionMacro(<< "Cannot read tile : " << row << "," << col << " from file");
-        if ( tempImage != buffer )
-          {
-          delete[] tempImage;
-          }
-
-        return;
         }
 
       unsigned int xx, yy;
@@ -1194,7 +1168,6 @@ void TIFFImageIO::ReadVolume(void *buffer)
           delete[] tempImage;
           }
         itkExceptionMacro(<< "Cannot read TIFF image or as a TIFF RGBA image");
-        return;
         }
       int     xx, yy;
       uint32 *ssimage;
@@ -1382,14 +1355,12 @@ void TIFFImageIO::Read(void *buffer)
     if ( !this->CanReadFile( m_FileName.c_str() ) )
       {
       itkExceptionMacro(<< "Cannot open file " << this->m_FileName << "!");
-      return;
       }
     }
 
   if ( m_InternalImage->m_Compression == COMPRESSION_OJPEG )
     {
     itkExceptionMacro(<< "This reader cannot read old JPEG compression");
-    return;
     }
 
   // The IO region should be of dimensions 3 otherwise we read only the first
@@ -1426,7 +1397,6 @@ void TIFFImageIO::Read(void *buffer)
         }
       m_InternalImage->Clean();
       itkExceptionMacro(<< "Cannot read TIFF image or as a TIFF RGBA image");
-      return;
       }
     int            xx, yy;
     uint32 *       ssimage;
@@ -1534,7 +1504,6 @@ void TIFFImageIO::ReadImageInformation()
     if ( !this->CanReadFile( m_FileName.c_str() ) )
       {
       itkExceptionMacro(<< "Cannot open file " << this->m_FileName << "!");
-      return;
       }
     }
 
@@ -1912,6 +1881,10 @@ void TIFFImageIO::InternalWrite(const void *buffer)
 #else
     tsize_t scanlinesize=TIFFScanlineSize(tif);
 #endif
+    if (scanlinesize == 0)
+      {
+      itkExceptionMacro("TIFFScanlineSize returned 0");
+      }
     rowsperstrip = (uint32_t)(1024*1024 / scanlinesize );
     if ( rowsperstrip < 1 )
       {
@@ -1969,7 +1942,6 @@ void TIFFImageIO::InternalWrite(const void *buffer)
       if ( TIFFWriteScanline(tif, const_cast< char * >( outPtr ), row, 0) < 0 )
         {
         itkExceptionMacro(<< "TIFFImageIO: error out of disk space");
-        break;
         }
       outPtr += rowLength;
       ++row;
@@ -2006,7 +1978,6 @@ bool TIFFImageIO::CanFindTIFFTag(unsigned int t)
   if ( !m_InternalImage )
     {
     itkExceptionMacro(<< "Need to call CanReadFile before");
-    return false;
     }
 
   ttag_t           tag = t;     // 32bits integer
@@ -2026,7 +1997,6 @@ void * TIFFImageIO::ReadRawByteFromTag(unsigned int t, unsigned int & value_coun
   if ( !m_InternalImage )
     {
     itkExceptionMacro(<< "Need to call CanReadFile before");
-    return NULL;
     }
   ttag_t           tag = t;
   void *           raw_data = NULL;
@@ -2036,7 +2006,6 @@ void * TIFFImageIO::ReadRawByteFromTag(unsigned int t, unsigned int & value_coun
   if ( fld == NULL )
     {
     itkExceptionMacro(<< "fld is NULL");
-    return NULL;
     }
 
   if ( !itkTIFFFieldPassCount( fld ) )
@@ -2061,14 +2030,12 @@ void * TIFFImageIO::ReadRawByteFromTag(unsigned int t, unsigned int & value_coun
   if ( ret != 1 )
     {
     itkExceptionMacro(<< "Tag cannot be found");
-    return NULL;
     }
   else
     {
     if ( itkTIFFFieldDataType( fld ) != TIFF_BYTE  )
       {
       itkExceptionMacro(<< "Tag is not of type TIFF_BYTE");
-      return NULL;
       }
     }
 
