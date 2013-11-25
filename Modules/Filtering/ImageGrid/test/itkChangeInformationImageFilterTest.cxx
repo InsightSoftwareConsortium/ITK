@@ -145,7 +145,7 @@ int itkChangeInformationImageFilterTest(int, char* [] )
   inputImage->SetOrigin (origin);
 
   itk::SpacePrecisionType newOrigin[ImageDimension] = {1000.0, 2000.0, 3000.0};
-  itk::SpacePrecisionType newSpacing[ImageDimension] = {10, 20, 30};
+  itk::SpacePrecisionType newSpacing[ImageDimension] = {10.0, 20.0, 30.0};
 
   ImageType::OffsetValueType newOffset[ImageDimension] = {10, 20, 30};
 
