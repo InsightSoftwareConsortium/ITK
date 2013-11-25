@@ -164,7 +164,7 @@ public:
   typedef typename PixelConvertType::ComponentType PixelComponentType;
 
   /** Input pixel continuous index typdef */
-  typedef ContinuousIndex< SpacePrecisionType, ImageDimension >
+  typedef ContinuousIndex< TTransformPrecisionType, ImageDimension >
   ContinuousInputIndexType;
 
   /** Typedef to describe the output image region type. */
