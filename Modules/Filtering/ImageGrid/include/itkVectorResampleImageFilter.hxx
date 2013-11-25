@@ -164,7 +164,7 @@ VectorResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType
   PointType outputPoint;         // Coordinates of current output pixel
   PointType inputPoint;          // Coordinates of current input pixel
 
-  typedef ContinuousIndex< SpacePrecisionType, ImageDimension > ContinuousIndexType;
+  typedef ContinuousIndex< TInterpolatorPrecisionType, ImageDimension > ContinuousIndexType;
   ContinuousIndexType inputIndex;
 
   // Doc says this only works for VectorImage, but Image implementation says otherwise...

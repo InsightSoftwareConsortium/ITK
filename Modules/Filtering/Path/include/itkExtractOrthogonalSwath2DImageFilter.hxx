@@ -178,11 +178,12 @@ ExtractOrthogonalSwath2DImageFilter< TImage >
   typedef ImageRegionIteratorWithIndex< ImageType >           OutputIterator;
   typedef LinearInterpolateImageFunction< ImageType, double > InterpolatorType;
 
-  ImageIndexType          index;
-  double                  orthogonalOffset;
-  PathInputType           pathInput;
+  ImageIndexType                      index;
+  double                              orthogonalOffset;
+  PathInputType                       pathInput;
   ContinuousIndex<SpacePrecisionType> continousIndex;
-  PathVectorType          pathDerivative;
+  PathVectorType                      pathDerivative;
+
   typename InterpolatorType::Pointer interpolator = InterpolatorType::New();
   interpolator->SetInputImage(inputImagePtr);
 
