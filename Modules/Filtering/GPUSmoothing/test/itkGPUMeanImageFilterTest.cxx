@@ -107,47 +107,9 @@ int runGPUMeanImageFilterTest(const std::string& inFile, const std::string& outF
       gputimer.Stop();
       std::cout << "GPU mean filter took " << gputimer.GetMean() << " seconds.\n" << std::endl;
 
-      // ---------------
-      // RMS Error check
-      // ---------------
-
-      double diff = 0;
-      unsigned int nPix = 0;
-      itk::ImageRegionIterator<OutputImageType> cit(CPUFilter->GetOutput(), CPUFilter->GetOutput()->GetLargestPossibleRegion());
-      itk::ImageRegionIterator<OutputImageType> git(GPUFilter->GetOutput(), GPUFilter->GetOutput()->GetLargestPossibleRegion());
-
-      for(cit.GoToBegin(), git.GoToBegin(); !cit.IsAtEnd(); ++cit, ++git)
-      {
-        //std::cout << "CPU : " << (double)(cit.Get()) << ", GPU : " << (double)(git.Get()) << std::endl;
-        double err = (double)(cit.Get()) - (double)(git.Get());
-        diff += err*err;
-        nPix++;
-      }
-
       writer->SetInput( GPUFilter->GetOutput() );
       writer->Update();
 
-      if (nPix > 0)
-      {
-        double RMSError = sqrt( diff / (double)nPix );
-        std::cout << "RMS Error : " << RMSError << std::endl;
-        double RMSThreshold = 0;
-        if (vnl_math_isnan(RMSError))
-        {
-          std::cout << "RMS Error is NaN! nPix: " << nPix << std::endl;
-          return EXIT_FAILURE;
-        }
-        if (RMSError > RMSThreshold)
-        {
-          std::cout << "RMS Error exceeds threshold (" << RMSThreshold << ")" << std::endl;
-          return EXIT_FAILURE;
-        }
-      }
-      else
-      {
-        std::cout << "No pixels in output!" << std::endl;
-        return EXIT_FAILURE;
-      }
     }
   }
 
