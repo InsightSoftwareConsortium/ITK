@@ -35,6 +35,10 @@ namespace itk
  * Interpolator. The correlation is normalized by the autocorrelations of both
  * the fixed and moving images.
  *
+ * A more negative metric value indicates a greater degree of correlation
+ * between the fixed and moving image. This makes the metric simpler to use
+ * with optimizers that strive to minimize their cost function by default.
+ *
  * \ingroup RegistrationMetrics
  * \ingroup ITKRegistrationCommon
  */

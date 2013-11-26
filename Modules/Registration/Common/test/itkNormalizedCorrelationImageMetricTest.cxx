@@ -138,7 +138,7 @@ int itkNormalizedCorrelationImageMetricTest(int, char* [] )
 //------------------------------------------------------------
 // Define the region over which the metric will be computed
 //------------------------------------------------------------
-   metric->SetFixedImageRegion( fixedImage->GetBufferedRegion() );
+  metric->SetFixedImageRegion( fixedImage->GetBufferedRegion() );
 
   std::cout << metric << std::endl;
 
@@ -148,7 +148,8 @@ int itkNormalizedCorrelationImageMetricTest(int, char* [] )
 // This method do all the necessary connections between the
 // internal components: Interpolator, Transform and Images
 //------------------------------------------------------------
-  try {
+  try
+    {
     metric->Initialize();
     }
   catch( itk::ExceptionObject & e )
