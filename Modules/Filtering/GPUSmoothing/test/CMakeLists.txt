@@ -18,12 +18,18 @@ set(ITKGPUSmoothing-tests
 CreateTestDriver(ITKGPUSmoothing "${ITKGPUSmoothing-Test_LIBRARIES}" "${ITKGPUSmoothing-tests}")
 
 itk_add_test(NAME itkGPUMeanImageFilterTest2D
-        COMMAND ITKGPUSmoothingTestDriver itkGPUMeanImageFilterTest
+        COMMAND ITKGPUSmoothingTestDriver
+        --compare DATA{Baseline/cpuMeanImageFilterTest2D.png}
+          ${ITK_TEST_OUTPUT_DIR}/gpuMeanImageFilterTest2D.png
+        itkGPUMeanImageFilterTest
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${ITK_TEST_OUTPUT_DIR}/gpuMeanImageFilterTest2D.png 2)
 
 itk_add_test(NAME itkGPUMeanImageFilterTest3D
-        COMMAND ITKGPUSmoothingTestDriver itkGPUMeanImageFilterTest
+        COMMAND ITKGPUSmoothingTestDriver
+        --compare DATA{Baseline/cpuMeanImageFilterTest3D.png}
+          ${ITK_TEST_OUTPUT_DIR}/gpuMeanImageFilterTest3D.png
+        itkGPUMeanImageFilterTest
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
         ${ITK_TEST_OUTPUT_DIR}/gpuMeanImageFilterTest3D.png 3)
 
