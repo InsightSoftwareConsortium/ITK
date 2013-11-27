@@ -43,7 +43,7 @@ public:
   typedef itk::SmartPointer< const Self >                    ConstPointer;
 
   /** New macro for creation of through a smart pointer. */
-  itkNewMacro(Self);
+  itkSimpleNewMacro(Self);
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(NonlinearAffineTransform, AffineTransform);
