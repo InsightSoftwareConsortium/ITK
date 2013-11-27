@@ -2,7 +2,6 @@
 # Make it easier to enable the main supported languages, by providing the option even when
 # the Wrapping directory has not yet been included
 option(ITK_WRAP_PYTHON "Build python support" OFF)
-option(ITK_WRAP_JAVA "Build java support" OFF)
 
 option(ITK_WRAPPING "Build external languages support" OFF)
 mark_as_advanced(ITK_WRAPPING)
