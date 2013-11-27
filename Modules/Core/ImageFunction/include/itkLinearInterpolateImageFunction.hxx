@@ -56,6 +56,7 @@ LinearInterpolateImageFunction< TInputImage, TCoordRep >
   this->Superclass::PrintSelf(os, indent);
 }
 
+
 /**
  * Evaluate at image index position
  */
@@ -65,16 +66,16 @@ typename LinearInterpolateImageFunction< TInputImage, TCoordRep >
 LinearInterpolateImageFunction< TInputImage, TCoordRep >
 ::EvaluateUnoptimized(const ContinuousIndexType & index) const
 {
-  unsigned int dim;  // index over dimension
-
+  // Avoid the smartpointer de-reference in the loop for
+  // "return m_InputImage.GetPointer()"
+  const TInputImage * const inputImagePtr = this->GetInputImage();
   /**
    * Compute base index = closet index below point
    * Compute distance from point to base index
    */
   IndexType baseIndex;
   InternalComputationType    distance[ImageDimension];
-
-  for ( dim = 0; dim < ImageDimension; dim++ )
+  for ( unsigned int dim = 0; dim < ImageDimension; ++dim )
     {
     baseIndex[dim] = Math::Floor< IndexValueType >(index[dim]);
     distance[dim] = index[dim] - static_cast< InternalComputationType >( baseIndex[dim] );
@@ -88,25 +89,28 @@ LinearInterpolateImageFunction< TInputImage, TCoordRep >
   // When RealType is VariableLengthVector, 'value' will be resized properly
   // below when it's assigned again.
   typedef typename NumericTraits< RealType >::ScalarRealType RealTypeScalarRealType;
+
   RealType value;
-  value = NumericTraits< RealTypeScalarRealType >::Zero;
+  // Initialize variable "value" with overloaded function so that
+  // in the case of variable length vectors the "value" is initialized
+  // to all zeros of length equal to the InputImagePtr first pixel length.
+  this->MakeZeroInitializer( inputImagePtr, value );
 
   typedef typename NumericTraits< InputPixelType >::ScalarRealType InputPixelScalarRealType;
   InputPixelScalarRealType totalOverlap = NumericTraits< InputPixelScalarRealType >::Zero;
-  bool firstOverlap = true;
 
   for ( unsigned int counter = 0; counter < m_Neighbors; ++counter )
     {
-    InternalComputationType       overlap = 1.0;    // fraction overlap
+    InternalComputationType overlap = 1.0;    // fraction overlap
     unsigned int upper = counter;  // each bit indicates upper/lower neighbour
-    IndexType    neighIndex;
+    IndexType    neighIndex( baseIndex );
 
     // get neighbor index and overlap fraction
-    for ( dim = 0; dim < ImageDimension; dim++ )
+    for ( unsigned int dim = 0; dim < ImageDimension; ++dim )
       {
       if ( upper & 1 )
         {
-        neighIndex[dim] = baseIndex[dim] + 1;
+        ++(neighIndex[dim]);
         // Take care of the case where the pixel is just
         // in the outer upper boundary of the image grid.
         if ( neighIndex[dim] > this->m_EndIndex[dim] )
@@ -117,7 +121,6 @@ LinearInterpolateImageFunction< TInputImage, TCoordRep >
         }
       else
         {
-        neighIndex[dim] = baseIndex[dim];
         // Take care of the case where the pixel is just
         // in the outer lower boundary of the image grid.
         if ( neighIndex[dim] < this->m_StartIndex[dim] )
@@ -136,17 +139,7 @@ LinearInterpolateImageFunction< TInputImage, TCoordRep >
     // that has overlap > 0, even if index is out of bounds.
     if ( overlap )
       {
-      if( firstOverlap )
-        {
-        // Performing the first assignment of value like this allows
-        // VariableLengthVector type to be resized properly.
-        value = static_cast< RealType >( this->GetInputImage()->GetPixel(neighIndex) ) * overlap;
-        firstOverlap = false;
-        }
-      else
-        {
-        value += static_cast< RealType >( this->GetInputImage()->GetPixel(neighIndex) ) * overlap;
-        }
+      value += static_cast< RealType >( inputImagePtr->GetPixel(neighIndex) ) * overlap;
       totalOverlap += overlap;
       }
 
