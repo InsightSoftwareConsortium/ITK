@@ -17,7 +17,6 @@ if(ITK_USE_SYSTEM_MINC)
   set(ITKMINC_SYSTEM_LIBRARY_DIRS
     ${LIBMINC_LIBRARY_DIRS}
   )
-
   set(ITKMINC_LIBRARIES "${VOLUME_IO_LIBRARIES}" "${LIBMINC_LIBRARIES}")
   itk_module_impl()
 else()
@@ -107,7 +106,7 @@ endif()
   endforeach()
 
   set(MINC_GIT_REPOSITORY "https://github.com/BIC-MNI/libminc.git")
-  set(MINC_GIT_TAG "06b3e5914f87f89418bfd7271bcfad6f137a7215")
+  set(MINC_GIT_TAG "d7e24958baf37b072d1842cbda5b4346d334de53")
   set(MINC_HDF5_ARGS )
 
   if(NOT ITK_USE_SYSTEM_HDF5)

@@ -26,8 +26,22 @@
 #include "itksys/SystemTools.hxx"
 #include "itkDisplacementFieldTransform.h"
 #include "itkIOTestHelper.h"
+#include "vnl/vnl_math.h"
+
+
+static const int    point_counter=1000;
+
 
 template<typename T>void RandomPix(vnl_random &randgen,itk::Vector<T,3> &pix,
+                      double _max=itk::NumericTraits<T>::max() )
+{
+  for(unsigned int i = 0; i < 3; i++)
+    {
+    pix[i] = randgen.drand64(_max);
+    }
+}
+
+template<typename T>void RandomPoint(vnl_random &randgen,itk::Point<T,3> &pix,
                       double _max=itk::NumericTraits<T>::max() )
 {
   for(unsigned int i = 0; i < 3; i++)
@@ -39,7 +53,8 @@ template<typename T>void RandomPix(vnl_random &randgen,itk::Vector<T,3> &pix,
 
 static int check_linear(const char *linear_transform)
 {
-  typedef itk::AffineTransform<double,3>                    AffineTransformType;
+  typedef itk::AffineTransform<double,3>  AffineTransformType;
+  const double tolerance = 1e-5;
 
   AffineTransformType::Pointer        affine = AffineTransformType::New();
   AffineTransformType::InputPointType cor;
@@ -47,18 +62,23 @@ static int check_linear(const char *linear_transform)
   itk::ObjectFactoryBase::RegisterFactory(itk::MINCTransformIOFactory::New() );
 
   // Set it's parameters
-  AffineTransformType::ParametersType p = affine->GetParameters();
-  for( unsigned int i = 0; i < p.GetSize(); ++i )
-    {
-    p[i] = i;
-    }
-  affine->SetParameters ( p );
-  p = affine->GetFixedParameters ();
-  for( unsigned int i = 0; i < p.GetSize(); ++i )
-    {
-    p[i] = i;
-    }
-  affine->SetFixedParameters ( p );
+  AffineTransformType::OutputVectorType rot_axis;
+  rot_axis[0]=0.0;
+  rot_axis[1]=1.0;
+  rot_axis[2]=0.0;
+  // Set it's parameters
+  affine->Rotate3D(rot_axis,vnl_math::pi/6);
+
+  AffineTransformType::OutputVectorType offset;
+
+  offset[0]=0.0;
+  offset[1]=0.0;
+  offset[2]=10.0;
+
+  affine->Translate(offset);
+
+  affine->Scale(4.0);
+
   itk::TransformFileWriter::Pointer writer;
   itk::TransformFileReader::Pointer reader;
 
@@ -88,14 +108,43 @@ static int check_linear(const char *linear_transform)
 
   try
   {
-    itk::TransformFileReader::TransformListType *list;
-    list = reader->GetTransformList();
-    itk::TransformFileReader::TransformListType::iterator lit = list->begin();
-    while ( lit != list->end() )
-    {
-      (*lit)->Print ( std::cout );
-      lit++;
-    }
+    itk::TransformFileReader::TransformListType list=*reader->GetTransformList();
+
+    if(list.front()->GetTransformTypeAsString() != "AffineTransform_double_3_3")
+      {
+        std::cerr<<"Read back transform of type:"<<list.front()->GetTransformTypeAsString()<<std::endl;
+        return EXIT_FAILURE;
+      }
+    AffineTransformType::Pointer affine2 = static_cast<AffineTransformType*>(list.front().GetPointer());
+
+    std::cout<<"Read transform : " << std::endl;
+    affine2->Print( std::cout );
+
+    vnl_random randgen(12345678);
+
+    AffineTransformType::InputPointType pnt,pnt2;
+
+    std::cout << "Testing that transformations are the same ..." << std::endl;
+    for(int i=0;i<point_counter;i++)
+      {
+      AffineTransformType::OutputPointType v1;
+      AffineTransformType::OutputPointType v2;
+
+      RandomPoint<double>(randgen,pnt,100);
+      pnt2=pnt;
+      v1= affine->TransformPoint( pnt );
+      v2= affine2->TransformPoint( pnt2 );
+
+      if( ( v1-v2 ).GetSquaredNorm() > tolerance)
+        {
+        std::cerr << "Original Pixel (" << v1
+                  << ") doesn't match read-in Pixel ("
+                  << v2 << " ) "
+                  << " in "<< linear_transform << " at "<< pnt <<std::endl;
+        return EXIT_FAILURE;
+        }
+      }
+      std::cout << " Done !" << std::endl;
   }
   catch( itk::ExceptionObject & excp )
   {
@@ -141,7 +190,7 @@ static int check_nonlinear_double(const char *nonlinear_transform)
   zeroDisplacement.Fill( 0.0 );
   field->FillBuffer( zeroDisplacement );
 
-  vnl_random                          randgen(12345678);
+  vnl_random  randgen(12345678);
   itk::ImageRegionIterator<DisplacementFieldType> it(field,field->GetLargestPossibleRegion() );
 
   for(it.GoToBegin(); !it.IsAtEnd(); ++it)
