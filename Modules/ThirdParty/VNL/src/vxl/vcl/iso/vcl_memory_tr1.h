@@ -3,7 +3,7 @@
 
 // This is a generated file. DO NOT EDIT! Not even a little bit.
 
-#include <memory_tr1>
+#include <memory>
 
 #ifdef vcl_generic_memory_tr1_STD
   ** error **
