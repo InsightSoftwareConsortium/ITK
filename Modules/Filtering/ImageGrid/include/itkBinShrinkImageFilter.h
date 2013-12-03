@@ -42,10 +42,7 @@ namespace itk
  * This filter is implemented so that the starting extent of the first
  * pixel of the output matches that of the input.
  *
- * \image html BinShrinkGrid.png ["The change in image geometry from a 5x5 image
- *   binned by a factor of 2x2. The green dotted lines are the input
- *   image. The yellow grid is the result of the filter. The points
- *   represent the respective origins."]
+ * \image html BinShrinkGrid.png "The change in image geometry from a 5x5 image binned by a factor of 2x2."
  *
  * This code was contributed in the Insight Journal paper:
  * "BinShrink: A multi-resolution filter with cache efficient averaging"
