@@ -1,6 +1,19 @@
 set(BASELINE ${ITK_DATA_ROOT}/Baseline/Registration)
 set(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
 
+itk_add_test(NAME ImageRegistrationHistogramPlotterTest COMMAND  ${ITK_TEST_DRIVER}
+  --compare DATA{${BASELINE}/JointEntropyHistogramAfterRegistration.png}
+            ${TEMP}/JointEntropyHistogramAfterRegistration.png
+  $<TARGET_FILE:ImageRegistrationHistogramPlotter>
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainT1SliceBorder20.png
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceShifted13x17y.png
+        ${TEMP}/RegisteredImage.png
+        0
+        ${TEMP}/JointEntropyHistogramPriorToRegistration.png
+        ${TEMP}/JointEntropyHistogramAfterRegistration.png
+        512
+)
+
 itk_add_test(NAME ImageRegistration1Test COMMAND  ${ITK_TEST_DRIVER}
   --compare DATA{${BASELINE}/ImageRegistration1TestPixelCentered.png}
             ${TEMP}/ImageRegistration1TestPixelCentered.png

@@ -109,6 +109,8 @@
 #include "itkResampleImageFilter.h"
 #include "itkCastImageFilter.h"
 
+#include <iomanip>
+
 // Software Guide : BeginLatex
 //
 // The header files of the classes featured in this example are included as a
@@ -184,7 +186,7 @@ public:
   // Software Guide : BeginCodeSnippet
   typedef MetricType::HistogramType   HistogramType;
 
-  typedef itk::HistogramToEntropyImageFilter< HistogramType >
+  typedef itk::HistogramToEntropyImageFilter< HistogramType, InternalImageType>
                                 HistogramToEntropyImageFilterType;
 
   typedef HistogramToEntropyImageFilterType::Pointer
@@ -226,10 +228,6 @@ public:
     this->m_HistogramFileWriter->SetInput( this->m_Filter->GetOutput() );
     // Software Guide : EndCodeSnippet
 
-    std::string outputFileBase = "JointHistogram";
-            // Base of series filenames ( of the joint histogram )
-    this->m_OutputFile = outputFileBase + "%03d.";
-    this->m_OutputFile += "mhd";   // histogram filename extension
     }
 
   ~HistogramWriter() { };
@@ -245,12 +243,17 @@ public:
     }
 
   void WriteHistogramFile( unsigned int iterationNumber )
-    {
-    char outputFilename[1000];
-    sprintf (outputFilename, this->m_OutputFile.c_str(), iterationNumber );
-
-    m_HistogramFileWriter->SetFileName( outputFilename );
+  {
+    std::string outputFileBase = "JointHistogram";
+    std::ostringstream outputFilename;
+    outputFilename << outputFileBase
+                   << "."
+                   << std::setfill('0') << std::setw(3) << iterationNumber
+                   << "."
+                   << "mhd";
+    m_HistogramFileWriter->SetFileName( outputFilename.str() );
     this->m_Filter->SetInput( m_Metric->GetHistogram() );
+    this->m_Filter->Modified();
 
     try
       {
@@ -272,7 +275,7 @@ public:
       }
 
     std::cout << "Joint Histogram file: ";
-    std::cout << outputFilename << " written" << std::endl;
+    std::cout << outputFilename.str() << " written" << std::endl;
 
     }
 
@@ -287,13 +290,15 @@ public:
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  void WriteHistogramFile( const char * outputFilename  )
+  void WriteHistogramFile( std::string &outputFilename  )
     {
     // Software Guide : EndCodeSnippet
 
 
     // Software Guide : BeginCodeSnippet
     this->m_Filter->SetInput( m_Metric->GetHistogram() );
+    this->m_Filter->Modified();
+
     // Software Guide : EndCodeSnippet
 
     // Software Guide : BeginLatex
@@ -530,6 +535,7 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   unsigned int numberOfHistogramBins = atoi( argv[7] );
   MetricType::HistogramType::SizeType histogramSize;
+  histogramSize.SetSize(2);
   histogramSize[0] = numberOfHistogramBins;
   histogramSize[1] = numberOfHistogramBins;
   metric->SetHistogramSize( histogramSize );
@@ -593,7 +599,17 @@ int main( int argc, char *argv[] )
   registration->SetMovingImage(   movingSmoother->GetOutput()   );
 
 
-  fixedNormalizer->Update();
+  try
+    {
+    fixedNormalizer->Update();
+    }
+  catch( itk::ExceptionObject & err )
+    {
+    std::cout << "ExceptionObject caught !" << std::endl;
+    std::cout << err << std::endl;
+    return EXIT_FAILURE;
+    }
+
   registration->SetFixedImageRegion(
        fixedNormalizer->GetOutput()->GetBufferedRegion() );
 
@@ -654,7 +670,17 @@ int main( int argc, char *argv[] )
   std::cout << " Metric value  = " << bestValue          << std::endl;
 
   //Write Joint Entropy Histogram after registration.
-  observer->m_JointHistogramWriter.WriteHistogramFile( argv[6] );
+  std::string histogramAfter(argv[6]);
+  try
+    {
+    observer->m_JointHistogramWriter.WriteHistogramFile( histogramAfter );
+    }
+  catch( itk::ExceptionObject & err )
+    {
+    std::cerr << "ERROR: ExceptionObject caught !" << std::endl;
+    std::cerr << err << std::endl;
+    return EXIT_FAILURE;
+    }
 
   typedef itk::ResampleImageFilter<
                             MovingImageType,
@@ -699,7 +725,15 @@ int main( int argc, char *argv[] )
 
   caster->SetInput( resample->GetOutput() );
   writer->SetInput( caster->GetOutput()   );
-  writer->Update();
+  try
+    {
+    writer->Update();
+    }
+  catch( itk::ExceptionObject & err )
+    {
+    std::cerr << "ERROR: ExceptionObject caught !" << std::endl;
+    std::cerr << err << std::endl;
+    }
 
   return EXIT_SUCCESS;
 
