@@ -97,7 +97,6 @@ LinearInterpolateImageFunction< TInputImage, TCoordRep >
   this->MakeZeroInitializer( inputImagePtr, value );
 
   typedef typename NumericTraits< InputPixelType >::ScalarRealType InputPixelScalarRealType;
-  InputPixelScalarRealType totalOverlap = NumericTraits< InputPixelScalarRealType >::Zero;
 
   for ( unsigned int counter = 0; counter < m_Neighbors; ++counter )
     {
@@ -132,22 +131,7 @@ LinearInterpolateImageFunction< TInputImage, TCoordRep >
 
       upper >>= 1;
       }
-
-    // Update output value only if overlap is not zero.
-    // Overlap can be 0 when one or more index dims is an integer.
-    // There will always be at least one iteration of 'counter' loop
-    // that has overlap > 0, even if index is out of bounds.
-    if ( overlap )
-      {
       value += static_cast< RealType >( inputImagePtr->GetPixel(neighIndex) ) * overlap;
-      totalOverlap += overlap;
-      }
-
-    if ( totalOverlap == 1.0 )
-      {
-      // finished
-      break;
-      }
     }
 
   return ( static_cast< OutputType >( value ) );
