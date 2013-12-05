@@ -38,6 +38,7 @@ set(HDF5_USE_H5DUMP_PACKED_BITS ON CACHE INTERNAL "Use the PACKED BITS feature i
 set(HDF5_WANT_DATA_ACCURACY ON CACHE INTERNAL "IF data accuracy is guaranteed during data conversions")
 set(HDF5_WANT_DCONV_EXCEPTION ON CACHE INTERNAL "exception handling functions is checked during data conversions")
 set(HDF_LEGACY_NAMING ON CACHE INTERNAL "Use Legacy Names for Libraries and Programs")
+set(BUILD_STATIC_EXECS OFF CACHE INTERNAL "Build Static Executables")
 
 # Setup all necessary overrides for zlib so that HDF5 uses our
 # internally compiled zlib rather than any other version
