@@ -141,6 +141,7 @@ const typename LeafTreeIterator< TTreeType >::TreeNodeType *
 LeafTreeIterator< TTreeType >::FindNextNode() const
 {
   PreOrderTreeIterator< TTreeType > it(this->m_Tree, this->m_Position);
+  it.m_Root = this->m_Root;
   ++it; // go next
   if ( it.IsAtEnd() )
     {
