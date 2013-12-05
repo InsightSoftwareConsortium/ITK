@@ -76,6 +76,10 @@ LabelVotingImageFilter< TInputImage, TOutputImage >
 
   if ( !this->m_HasLabelForUndecidedPixels )
     {
+    if (this->m_TotalLabelCount > itk::NumericTraits<OutputPixelType>::max())
+      {
+      itkWarningMacro("No new label for undecided pixels, using zero.");
+      }
     this->m_LabelForUndecidedPixels = this->m_TotalLabelCount;
     }
 
@@ -129,12 +133,12 @@ LabelVotingImageFilter< TInputImage, TOutputImage >
     // determine the label with the most votes for this pixel
     out.Set(0);
     unsigned int maxVotes = votesByLabel[0];
-    for ( InputPixelType l = 1; size_t(l) < this->m_TotalLabelCount; ++l )
+    for ( size_t l = 1; l < this->m_TotalLabelCount; ++l )
       {
       if ( votesByLabel[l] > maxVotes )
         {
         maxVotes = votesByLabel[l];
-        out.Set(l);
+        out.Set(static_cast<OutputPixelType>(l));
         }
       else
         {
