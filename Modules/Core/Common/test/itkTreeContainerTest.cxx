@@ -27,6 +27,7 @@
 #include "itkPostOrderTreeIterator.h"
 #include "itkRootTreeIterator.h"
 #include "itkTreeIteratorClone.h"
+#include "itkTestingMacros.h"
 
 int itkTreeContainerTest(int, char* [])
 {
@@ -41,6 +42,8 @@ int itkTreeContainerTest(int, char* [])
   tree->Add(5,2);
   tree->Add(6,5);
   tree->Add(7,1);
+
+  unsigned int expectedIndex = 0;
 
   std::cout << "Testing PrintSelf: " << std::endl;
   std::cout << tree << std::endl;
@@ -97,11 +100,15 @@ int itkTreeContainerTest(int, char* [])
 
   // ChildTreeIterator Test
   std::cout << "Testing ChildTreeIterator: " << std::endl;
+  NodeType expectedChild[] = {1, 2, 3};
+  expectedIndex = 0;
   itk::ChildTreeIterator<TreeType> childIt(tree);
   childIt.GoToBegin();
   while(!childIt.IsAtEnd())
     {
     std::cout << childIt.Get() << std::endl;
+    TEST_EXPECT_EQUAL( childIt.Get(), expectedChild[expectedIndex] );
+    ++expectedIndex;
     ++childIt;
     }
   std::cout << std::endl;
@@ -146,11 +153,15 @@ int itkTreeContainerTest(int, char* [])
 
   // LeafTreeIterator Test
   std::cout << "Testing LeafTreeIterator: " << std::endl;
+  NodeType expectedLeaf[] = {7, 4, 6, 3};
+  expectedIndex = 0;
   itk::LeafTreeIterator<TreeType> leafIt(tree);
   leafIt.GoToBegin();
   while(!leafIt.IsAtEnd())
     {
     std::cout << leafIt.Get() << std::endl;
+    TEST_EXPECT_EQUAL( leafIt.Get(), expectedLeaf[expectedIndex] );
+    ++expectedIndex;
     ++leafIt;
     }
 
@@ -160,11 +171,15 @@ int itkTreeContainerTest(int, char* [])
 
   // InOrderTreeIterator Test
   std::cout << "Testing InOrderTreeIterator: " << std::endl;
+  NodeType expectedInOrder[] = {0, 1, 7, 2, 4, 5, 6, 3};
+  expectedIndex = 0;
   itk::InOrderTreeIterator<TreeType> InOrderIt(tree);
   InOrderIt.GoToBegin();
   while(!InOrderIt.IsAtEnd())
     {
     std::cout << InOrderIt.Get() << std::endl;
+    TEST_EXPECT_EQUAL( InOrderIt.Get(), expectedInOrder[expectedIndex] );
+    ++expectedIndex;
     ++InOrderIt;
     }
   std::cout << std::endl;
@@ -173,11 +188,15 @@ int itkTreeContainerTest(int, char* [])
 
   // PostOrderTreeIterator Test
   std::cout << "Testing PostOrderTreeIterator: " << std::endl;
+  NodeType expectedPostOrder[] = {7, 1, 4, 6, 5, 2, 3, 0};
+  expectedIndex = 0;
   itk::PostOrderTreeIterator<TreeType> PostOrderIt(tree);
   PostOrderIt.GoToBegin();
   while(!PostOrderIt.IsAtEnd())
     {
     std::cout << PostOrderIt.Get() << std::endl;
+    TEST_EXPECT_EQUAL( PostOrderIt.Get(), expectedPostOrder[expectedIndex] );
+    ++expectedIndex;
     ++PostOrderIt;
     }
   std::cout << std::endl;
@@ -185,11 +204,15 @@ int itkTreeContainerTest(int, char* [])
 
   // RootTreeIterator Test
   std::cout << "Testing RootTreeIterator: " << std::endl;
+  NodeType expectedRootTree[] = {6, 5, 2, 0};
+  expectedIndex = 0;
   itk::RootTreeIterator<TreeType> RootIt(tree,tree->GetNode(6));
   RootIt.GoToBegin();
   while(!RootIt.IsAtEnd())
     {
     std::cout << RootIt.Get() << std::endl;
+    TEST_EXPECT_EQUAL( RootIt.Get(), expectedRootTree[expectedIndex] );
+    ++expectedIndex;
     ++RootIt;
     }
   std::cout << std::endl;
@@ -198,11 +221,15 @@ int itkTreeContainerTest(int, char* [])
 
   // PreOrderTreeIterator Test
   std::cout << "Testing PreOrderTreeIterator: " << std::endl;
+  NodeType expectedPreOrder[] = {0, 1, 7, 2, 4, 5, 6, 3};
+  expectedIndex = 0;
   itk::PreOrderTreeIterator<TreeType> PreOrderIt(tree);
   PreOrderIt.GoToBegin();
   while(!PreOrderIt.IsAtEnd())
     {
     std::cout << PreOrderIt.Get() << std::endl;
+    TEST_EXPECT_EQUAL( PreOrderIt.Get(), expectedPreOrder[expectedIndex] );
+    ++expectedIndex;
     ++PreOrderIt;
     }
   std::cout << std::endl;

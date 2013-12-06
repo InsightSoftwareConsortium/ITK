@@ -22,6 +22,10 @@
 
 namespace itk
 {
+
+template< typename TTreeType >
+class LeafTreeIterator;
+
 template< typename TTreeType >
 class PreOrderTreeIterator:public TreeIteratorBase< TTreeType >
 {
@@ -53,6 +57,11 @@ private:
 
   /** Find the next node */
   const TreeNodeType * FindNextNode() const;
+
+  /** LeafTreeIterator uses PreOrderTreeIterator in its implementation, but it
+   * needs to adjust its root.  A friend designation is added to correct
+   * behavior and retain backwards compatible behavior. */
+  friend class LeafTreeIterator< TTreeType >;
 };
 
 /** Constructor */
