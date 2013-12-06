@@ -39,12 +39,19 @@ if(NOT ITK_NO_IO_FACTORY_REGISTER_MANAGER)
   set(LIST_OF_FACTORIES_REGISTRATION "")
   set(LIST_OF_FACTORY_NAMES "")
 
-  foreach (ImageFormat  Nifti Nrrd Gipl HDF5 JPEG GDCM BMP LSM PNG TIFF VTK Stimulate BioRad Meta MINC SCIFIO MGH MRC)
+  # internal image IO modules
+  foreach (ImageFormat  Nifti Nrrd Gipl HDF5 JPEG GDCM BMP LSM PNG TIFF VTK Stimulate BioRad Meta MINC MRC)
     string(TOUPPER ${ImageFormat} ImageFormat_UPPER) ## Need to check for uppercase name as well
     ADD_FACTORY_REGISTRATION("LIST_OF_FACTORIES_REGISTRATION" "LIST_OF_FACTORY_NAMES" ITKIO${ImageFormat} ${ImageFormat}ImageIO)
     if(NOT "${ImageFormat}" STREQUAL "${ImageFormat_UPPER}")
       ADD_FACTORY_REGISTRATION("LIST_OF_FACTORIES_REGISTRATION" "LIST_OF_FACTORY_NAMES" ITKIO${ImageFormat_UPPER} ${ImageFormat}ImageIO)
     endif()
+  endforeach()
+
+   # remote image IO modules
+   # the remote modules do not have "ITKIO" prefix in their module names
+  foreach (ImageFormat MGH SCIFIO)
+    ADD_FACTORY_REGISTRATION("LIST_OF_FACTORIES_REGISTRATION" "LIST_OF_FACTORY_NAMES" ${ImageFormat}IO ${ImageFormat}ImageIO)
   endforeach()
 
   get_filename_component(_selfdir "${CMAKE_CURRENT_LIST_FILE}" PATH)
