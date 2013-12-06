@@ -34,6 +34,7 @@
 
 #include "vnl/vnl_vector.h"
 
+#include <fstream>
 #include <string>
 
 namespace itk
@@ -612,6 +613,24 @@ protected:
   /** Convenient method for accessing the number of bytes to get to the
    * next slice. Returns m_Strides[3]. */
   SizeType GetSliceStride() const;
+
+  /** \brief Opens a file for reading and random access
+   *
+   * The stream is closed if it's already opened. If an error is
+   * encountered then an exception will be thrown.
+   */
+  virtual void OpenFileForReading(std::ifstream & os, const char *filename);
+
+  /** \brief Opens a file for writing and random access
+   *
+   * \param os is an ostream presumed to be opened for writing
+   * \param filename is the name of the file
+   * \param truncate if true then the file is truncated
+   *
+   * The stream is closed if it's already opened. If an error is
+   * encountered then an exception will be thrown.
+   */
+  virtual void OpenFileForWriting(std::ofstream & os, const char *filename, bool truncate);
 
   /** Convenient method to write a buffer as ASCII text. */
   virtual void WriteBufferAsASCII(std::ostream & os, const void *buffer,

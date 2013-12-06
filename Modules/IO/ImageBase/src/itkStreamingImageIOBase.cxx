@@ -242,63 +242,6 @@ bool StreamingImageIOBase::StreamWriteBufferAsBinary(std::ostream & file, const 
   return true;
 }
 
-void StreamingImageIOBase::OpenFileForReading(std::ifstream & os, const char *filename)
-{
-  // Make sure that we have a file to
-  if ( *filename == 0 )
-    {
-    itkExceptionMacro(<< "A FileName must be specified.");
-    }
-
-  // Close file from any previous image
-  if ( os.is_open() )
-    {
-    os.close();
-    }
-
-  // Open the new file for reading
-  itkDebugMacro(<< "Initialize: opening file " << filename);
-
-  os.open(filename,  std::ios::in | std::ios::binary);
-  if ( os.fail() )
-    {
-    itkExceptionMacro(<< "Could not open file for reading: " << filename);
-    }
-}
-
-void StreamingImageIOBase::OpenFileForWriting(std::ofstream & os, const char *filename, bool truncate)
-{
-  // Make sure that we have a file to
-  if ( *filename == 0 )
-    {
-    itkExceptionMacro(<< "A FileName must be specified.");
-    }
-
-  // Close file from any previous image
-  if ( os.is_open() )
-    {
-    os.close();
-    }
-
-  // Open the new file for writing
-  itkDebugMacro(<< "Initialize: opening file " << filename);
-
-  if ( truncate )
-    {
-    // truncate
-    os.open(m_FileName.c_str(), std::ios::out | std::ios::binary | std::ios::trunc);
-    }
-  else
-    {
-    os.open(m_FileName.c_str(), std::ios::out | std::ios::binary | std::ios::in);
-    }
-
-  if ( os.fail() )
-    {
-    itkExceptionMacro(<< "Could not open file for writing: " << filename);
-    }
-}
-
 bool StreamingImageIOBase::CanStreamRead(void)
 {
   return true;
