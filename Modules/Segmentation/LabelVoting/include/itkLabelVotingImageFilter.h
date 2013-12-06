@@ -164,7 +164,7 @@ public:
 #endif
 
 protected:
-  LabelVotingImageFilter() { this->m_HasLabelForUndecidedPixels = false; }
+  LabelVotingImageFilter();
   virtual ~LabelVotingImageFilter() {}
 
   /** Determine maximum label value in all input images and initialize
