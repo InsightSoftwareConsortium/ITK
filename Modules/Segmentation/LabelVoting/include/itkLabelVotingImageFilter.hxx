@@ -26,6 +26,17 @@
 
 namespace itk
 {
+
+
+template< typename TInputImage, typename TOutputImage >
+LabelVotingImageFilter< TInputImage, TOutputImage >
+::LabelVotingImageFilter()
+{
+  this->m_HasLabelForUndecidedPixels = false;
+  this->m_LabelForUndecidedPixels = 0;
+  this->m_TotalLabelCount = 0;
+}
+
 template< typename TInputImage, typename TOutputImage >
 void
 LabelVotingImageFilter< TInputImage, TOutputImage >
