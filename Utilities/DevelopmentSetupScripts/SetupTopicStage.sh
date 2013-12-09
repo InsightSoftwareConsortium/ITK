@@ -52,11 +52,6 @@ if [ "$access" == "y" ] || [ "$access" == "Y" ]; then
     git config remote.origin.pushurl git@itk.org:ITK.git
   fi
 
-  pushd ../../Testing/Data >/dev/null
-  # not sure how the ITKData should be managed... so do as if the one at
-  # itk.org was the only where we want to push
-  git config remote.origin.pushurl git@itk.org:ITKData.git
-  popd >/dev/null
   echo -e "Done.\n"
 
   # We will have the private key corresponding the public key at itk.org at
