@@ -137,10 +137,6 @@ itk_add_test(NAME itkImageReadDICOMSeriesWriteWithDirection002Test
        COMMAND DeprecatedIOTestDriver
       itkImageReadDICOMSeriesWriteTest DATA{${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirection002.mhd}
   ${ITK_TEST_OUTPUT_DIR}/DICOMSeriesOutputHeadMRVolumeWithDirection002)
-itk_add_test(NAME itkImageReadDICOMSeriesWriteWithDirection003Test
-       COMMAND DeprecatedIOTestDriver
-      itkImageReadDICOMSeriesWriteTest DATA{${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirection003.mhd}
-  ${ITK_TEST_OUTPUT_DIR}/DICOMSeriesOutputHeadMRVolumeWithDirection003)
 
 ## The following an expample of how to write a program that uses the deprecated AnalyzeIO class.
 add_executable(ConvertAnalyzeFile ConvertAnalyzeFile.cxx)
