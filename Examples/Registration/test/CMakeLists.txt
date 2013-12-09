@@ -13,6 +13,7 @@ itk_add_test(NAME ImageRegistrationHistogramPlotterTest COMMAND  ${ITK_TEST_DRIV
         ${TEMP}/JointEntropyHistogramAfterRegistration.png
         512
 )
+set_property(TEST ImageRegistrationHistogramPlotterTest APPEND PROPERTY LABELS RUNS_LONG)
 
 itk_add_test(NAME ImageRegistration1Test COMMAND  ${ITK_TEST_DRIVER}
   --compare DATA{${BASELINE}/ImageRegistration1TestPixelCentered.png}
