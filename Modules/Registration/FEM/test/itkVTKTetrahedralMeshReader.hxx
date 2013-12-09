@@ -244,7 +244,7 @@ VTKTetrahedralMeshReader<TOutputMesh>
     // Load the cells into the itk::Mesh
     //
 
-    PointIdentifier numberOfCellPoints;
+    unsigned long numberOfCellPoints;
     long ids[4];
 
     for( CellIdentifier cellId = 0; cellId < numberOfCells; cellId++ )
@@ -279,6 +279,7 @@ VTKTetrahedralMeshReader<TOutputMesh>
         itkExceptionMacro(<< "Error reading file: " << m_FileName
           << "\nnumberOfCellPoints != 4\n"
           << "numberOfCellPoints= " << numberOfCellPoints
+          << "\ncellId = "<< cellId
           << ". VTKTetrahedralMeshReader can only read tetrahedra");
         }
 
