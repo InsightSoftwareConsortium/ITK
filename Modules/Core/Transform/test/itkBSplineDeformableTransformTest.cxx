@@ -457,12 +457,12 @@ int itkBSplineDeformableTransformTest2()
   const unsigned int Dimension = 2;
   typedef double PixelType;
 
-  typedef itk::Image<PixelType, Dimension> ImageType;
 
   // Set up the transform
   const unsigned int SplineOrder = 3;
   typedef double CoordRep;
   typedef itk::BSplineDeformableTransform<CoordRep, Dimension, SplineOrder> TransformType;
+  typedef TransformType::ImageType ImageType;
   TransformType::InputPointType  inputPoint;
   TransformType::OutputPointType outputPoint;
 
@@ -484,7 +484,7 @@ int itkBSplineDeformableTransformTest2()
 
   region.SetSize( size );
 
-  ImageType::Pointer field[Dimension];
+  TransformType::CoefficientImageArray field;
   for( j = 0; j < Dimension; j++ )
     {
     field[j] = ImageType::New();

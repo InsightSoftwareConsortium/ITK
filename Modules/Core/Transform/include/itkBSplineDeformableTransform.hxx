@@ -53,6 +53,8 @@ BSplineDeformableTransform<TScalar, NDimensions, VSplineOrder>
     this->m_SplineOrderOdd = false;
     }
   this->m_ValidRegion = this->m_GridRegion; // HACK:  Perhaps this->m_ValidRegion is redundant also.
+  this->m_ValidRegionFirst.Fill( 0 );
+  this->m_ValidRegionLast.Fill( 1 );
 
   /** Fixed Parameters store the following information:
    *     Grid Size
@@ -70,7 +72,6 @@ BSplineDeformableTransform<TScalar, NDimensions, VSplineOrder>
   // dir[0][2],dir[1][2],dir[2][2]]
 
   this->SetFixedParametersFromTransformDomainInformation();
-  this->UpdateValidGridRegion();
 }
 
 template <typename TScalar, unsigned int NDimensions, unsigned int VSplineOrder>
@@ -116,10 +117,12 @@ BSplineDeformableTransform<TScalar, NDimensions, VSplineOrder>
   // Where offset = floor(spline / 2 ).
   // Note that the last pixel is not included in the valid region
   // with odd spline orders.
-  typename RegionType::SizeType size = this->m_GridRegion.GetSize();
-  typename RegionType::IndexType index = this->m_GridRegion.GetIndex();
-  for( unsigned int j = 0; j < SpaceDimension; j++ )
+  typename RegionType::SizeType size;
+  typename RegionType::IndexType index;
+  for( unsigned int j = 0; j < NDimensions; ++j )
     {
+    index[j] = this->m_GridRegion.GetIndex()[j];
+    size[j] = this->m_GridRegion.GetSize()[j];
     index[j] += static_cast<typename RegionType::IndexValueType>( this->m_Offset );
     size[j] -= static_cast<typename RegionType::SizeValueType>( 2 * this->m_Offset );
     this->m_ValidRegionFirst[j] = index[j];
