@@ -31,6 +31,29 @@ if(ITK_BUILD_SHARED_LIBS)
 
 endif()
 
+# Test ITK ImageIO factory registrations.
+# Please refer to CMake/UseITK.cmake for all the image IO registartion handeling.
+
+# Collecting image format's description into a string for verification
+set(REGEX_IO_Factory_Description_First_Word  "")
+foreach(ImageFormat ${LIST_OF_IMAGEIO_FORMATS})
+  if (${${ImageFormat}_module_name}_ENABLED)
+    if (NOT REGEX_IO_Factory_Description_First_Word)
+      set (REGEX_IO_Factory_Description_First_Word ${ImageFormat})
+    else()
+      set (REGEX_IO_Factory_Description_First_Word"${REGEX_IO_Factory_Description_First_Word} ${ImageFormat}")
+    endif()
+  endif()
+endforeach()
+
+itk_add_test( NAME ImageIOFactoryRegisterTest
+    COMMAND ${ITK_TEST_DRIVER}
+    $<TARGET_FILE:IOFactoryRegistration>
+    )
+set_tests_properties (ImageIOFactoryRegisterTest
+  PROPERTIES PASS_REGULAR_EXPRESSION  ${REGEX_IO_Factory_Description_First_Word})
+
+
 if(ITK_VISIBLEHUMAN_DATA_ROOT)
   itk_add_test(NAME VisibleHumanStreamReadWriteTest
     COMMAND ${ITK_TEST_DRIVER}
