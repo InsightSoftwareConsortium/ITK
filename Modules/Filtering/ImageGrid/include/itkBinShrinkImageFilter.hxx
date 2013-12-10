@@ -103,9 +103,9 @@ BinShrinkImageFilter<TInputImage,TOutputImage>
   InputImageConstPointer inputPtr = this->GetInput();
   OutputImagePointer     outputPtr = this->GetOutput();
 
-  typedef typename NumericTraits<typename TInputImage::PixelType>::RealType AccumulatePixelType;
-
-  typedef typename TOutputImage::PixelType OutputPixelType;
+  typedef typename TInputImage::PixelType                    InputPixelType;
+  typedef typename TOutputImage::PixelType                   OutputPixelType;
+  typedef typename NumericTraits< InputPixelType >::RealType AccumulatePixelType;
 
   typedef ImageScanlineConstIterator< TOutputImage > InputConstIteratorType;
   typedef ImageScanlineIterator< TOutputImage >      OutputIteratorType;
@@ -210,7 +210,7 @@ BinShrinkImageFilter<TInputImage,TOutputImage>
         // this statement is made to work with RGB pixel types
         accBuffer[j] = accBuffer[j] * inumSamples;
 
-        outputIterator.Set( static_cast<OutputPixelType>(accBuffer[j]) );
+        outputIterator.Set( RoundIfInteger< OutputPixelType >( accBuffer[j] ) );
         ++outputIterator;
         }
 
