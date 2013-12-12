@@ -15,10 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
-
 #include "itkImage.h"
 #include "itkMaskedFFTNormalizedCorrelationImageFilter.h"
 #include "itkImageFileReader.h"

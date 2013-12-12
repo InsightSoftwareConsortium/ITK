@@ -19,14 +19,6 @@
 #include <iostream>
 #include <float.h>
 
-#if defined( _MSC_VER )
-//Need to disable compiler warning because we are explicitly trying to force
-//testing of overflow catching
-//warning C4756: overflow in constant arithmetic
-#pragma warning ( push )
-#pragma warning ( disable : 4756 )
-#endif
-
 int
 itkFloatingPointExceptionsTest(int argc, char *argv[] )
 {
@@ -156,8 +148,3 @@ itkFloatingPointExceptionsTest(int argc, char *argv[] )
     }
   return error_return;
 }
-
-#ifdef _MSC_VER
-//warning C4756: overflow in constant arithmetic
-#pragma warning ( pop )
-#endif
