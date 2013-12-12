@@ -129,7 +129,7 @@ int itkBinShrinkImageFilterTest1( int , char *[] )
                                                             monitor2->GetOutput()->GetLargestPossibleRegion() );
     for (inIt.GoToBegin(); !inIt.IsAtEnd(); ++inIt)
       {
-      if (inIt.Get() != (inIt.GetIndex()[0]*factors[0] )*10 + 5 )
+      if (inIt.Get() != static_cast< int >( inIt.GetIndex()[0]*factors[0] )*10 + 5 )
         {
         std::cout << "Wrong pixel value at " << inIt.GetIndex() << " of " << inIt.Get() << std::endl;
         failed = true;
@@ -155,7 +155,7 @@ int itkBinShrinkImageFilterTest1( int , char *[] )
                                                             monitor2->GetOutput()->GetLargestPossibleRegion() );
     for (inIt.GoToBegin(); !inIt.IsAtEnd(); ++inIt)
       {
-      if (inIt.Get() != (inIt.GetIndex()[0]*factors[0] )*10 + 5 )
+      if (inIt.Get() != static_cast< int >( inIt.GetIndex()[0]*factors[0] )*10 + 5 )
         {
         std::cout << "Wrong pixel value at " << inIt.GetIndex() << " of " << inIt.Get() << std::endl;
         failed = true;
@@ -181,7 +181,7 @@ int itkBinShrinkImageFilterTest1( int , char *[] )
                                                             monitor2->GetOutput()->GetLargestPossibleRegion() );
     for (inIt.GoToBegin(); !inIt.IsAtEnd(); ++inIt)
       {
-      if (inIt.Get() != (inIt.GetIndex()[0]*factors[0]+2)*10)
+      if (inIt.Get() != static_cast< int >( inIt.GetIndex()[0]*factors[0]+2)*10 )
         {
         std::cout << "Wrong pixel value at " << inIt.GetIndex() << " of " << inIt.Get() << std::endl;
         failed = true;
@@ -225,7 +225,7 @@ int itkBinShrinkImageFilterTest1( int , char *[] )
                                                             monitor2->GetOutput()->GetLargestPossibleRegion() );
     for (inIt.GoToBegin(); !inIt.IsAtEnd(); ++inIt)
       {
-      if (inIt.Get() != (inIt.GetIndex()[0]*factors[0] )*10 + 5 )
+      if (inIt.Get() != static_cast< int >( inIt.GetIndex()[0]*factors[0] )*10 + 5 )
         {
         std::cout << "Wrong pixel value at " << inIt.GetIndex() << " of " << inIt.Get() << std::endl;
         failed = true;
@@ -251,7 +251,7 @@ int itkBinShrinkImageFilterTest1( int , char *[] )
                                                             monitor2->GetOutput()->GetLargestPossibleRegion() );
     for (inIt.GoToBegin(); !inIt.IsAtEnd(); ++inIt)
       {
-      if (inIt.Get() != (inIt.GetIndex()[0]*factors[0]+1 )*10 )
+      if (inIt.Get() != static_cast< int >(inIt.GetIndex()[0]*factors[0]+1 )*10 )
         {
         std::cout << "Wrong pixel value at " << inIt.GetIndex() << " of " << inIt.Get() << std::endl;
         failed = true;
