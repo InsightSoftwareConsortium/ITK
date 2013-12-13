@@ -30,6 +30,36 @@ macro(ADD_FACTORY_REGISTRATION _registration_list_var _names_list_var _module_na
   endif()
 endmacro()
 
+
+# a list of image IOs to be registered when the corresponding modules are enabled
+set(LIST_OF_IMAGEIO_FORMATS
+    Nifti Nrrd Gipl HDF5 JPEG GDCM BMP LSM PNG TIFF VTK Stimulate BioRad Meta MRC
+    MINC
+    MGH SCIFIO
+    )
+
+# Set each IO format's module name and factory name
+# Most IO modules have consistent string charactors between their module names
+# and their factory class names, except those:
+set(Nifti_module_name  ITKIONIFTI)
+set(Nrrd_module_name ITKIONRRD)
+set(Gipl_module_name ITKIOGIPL)
+
+set(MGH_module_name MGHIO)
+set(MGH_factory_name MGHImageIO)
+
+set(SCIFIO_module_name SCIFIO)
+set(SCIFIO_factory_name SCIFIOImageIO)
+
+foreach(ImageFormat ${LIST_OF_IMAGEIO_FORMATS})
+  if (NOT ${ImageFormat}_module_name )
+     set(${ImageFormat}_module_name ITKIO${ImageFormat})
+  endif()
+  if (NOT ${ImageFormat}_factory_name)
+     set(${ImageFormat}_factory_name ${ImageFormat}ImageIO)
+  endif()
+endforeach()
+
 if(NOT ITK_NO_IO_FACTORY_REGISTER_MANAGER)
   #
   # Infrastructure for registering automatically the factories of commonly used IO formats
@@ -39,19 +69,9 @@ if(NOT ITK_NO_IO_FACTORY_REGISTER_MANAGER)
   set(LIST_OF_FACTORIES_REGISTRATION "")
   set(LIST_OF_FACTORY_NAMES "")
 
-  # internal image IO modules
-  foreach (ImageFormat  Nifti Nrrd Gipl HDF5 JPEG GDCM BMP LSM PNG TIFF VTK Stimulate BioRad Meta MINC MRC)
-    string(TOUPPER ${ImageFormat} ImageFormat_UPPER) ## Need to check for uppercase name as well
-    ADD_FACTORY_REGISTRATION("LIST_OF_FACTORIES_REGISTRATION" "LIST_OF_FACTORY_NAMES" ITKIO${ImageFormat} ${ImageFormat}ImageIO)
-    if(NOT "${ImageFormat}" STREQUAL "${ImageFormat_UPPER}")
-      ADD_FACTORY_REGISTRATION("LIST_OF_FACTORIES_REGISTRATION" "LIST_OF_FACTORY_NAMES" ITKIO${ImageFormat_UPPER} ${ImageFormat}ImageIO)
-    endif()
-  endforeach()
-
-   # remote image IO modules
-   # the remote modules do not have "ITKIO" prefix in their module names
-  foreach (ImageFormat MGH SCIFIO)
-    ADD_FACTORY_REGISTRATION("LIST_OF_FACTORIES_REGISTRATION" "LIST_OF_FACTORY_NAMES" ${ImageFormat}IO ${ImageFormat}ImageIO)
+  foreach (ImageFormat ${LIST_OF_IMAGEIO_FORMATS})
+    ADD_FACTORY_REGISTRATION("LIST_OF_FACTORIES_REGISTRATION" "LIST_OF_FACTORY_NAMES"
+      ${${ImageFormat}_module_name} ${${ImageFormat}_factory_name})
   endforeach()
 
   get_filename_component(_selfdir "${CMAKE_CURRENT_LIST_FILE}" PATH)
