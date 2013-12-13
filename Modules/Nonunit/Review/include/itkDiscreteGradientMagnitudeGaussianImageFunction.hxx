@@ -230,11 +230,7 @@ DiscreteGradientMagnitudeGaussianImageFunction< TInputImage, TOutput >
   else
     {
     ContinuousIndexType cindex;
-#if ( ITK_VERSION_MAJOR < 3 ) || ( ITK_VERSION_MAJOR == 3 && ITK_VERSION_MINOR < 6 )
-    this->ConvertPointToContinousIndex(point, cindex);
-#else
     this->ConvertPointToContinuousIndex(point, cindex);
-#endif
     return this->EvaluateAtContinuousIndex(cindex);
     }
 }

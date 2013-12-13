@@ -66,6 +66,8 @@
 // unreferenced local function has been removed
 #pragma warning ( disable : 4505 )
 
+// 'identifier' : identifier was truncated to 'number' characters in the debug information
+#pragma warning ( disable : 4786 )
 #endif // _MSC_VER
 
 #endif
