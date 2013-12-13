@@ -148,7 +148,7 @@ public:
         }
       else
         {
-        return static_cast<OutputPixelType>( -(30.0 * vcl_log(A)) );
+        return itk::Math::Round<OutputPixelType>( -(30.0 * vcl_log(A)) );
         }
       }
     else
