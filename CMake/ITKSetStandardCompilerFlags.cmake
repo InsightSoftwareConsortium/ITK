@@ -190,6 +190,11 @@ macro(check_compiler_platform_flags)
   #-----------------------------------------------------------------------------
   #ITK requires special compiler flags on some platforms.
   if(CMAKE_COMPILER_IS_GNUCXX)
+    # GCC's -Warray-bounds has been shown to throw false positives with -O3 on 4.7 and 4.8.
+    if(UNIX AND "${CMAKE_CXX_COMPILER_VERSION}" VERSION_GREATER "4.6" AND "${CMAKE_CXX_COMPILER_VERSION}" VERSION_LESS "4.9")
+      set(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} -Wno-array-bounds")
+    endif()
+
    if(APPLE)
      option(ITK_USE_64BITS_APPLE_TRUNCATION_WARNING "Turn on warnings on 64bits to 32bits truncations." OFF)
      mark_as_advanced(ITK_USE_64BITS_APPLE_TRUNCATION_WARNING)
@@ -211,7 +216,6 @@ macro(check_compiler_platform_flags)
          message("-fopenmp causes incorrect compliation of HDF, removing from ${listname}")
        endif()
      endforeach()
-
    endif()
 
    # gcc must have -msse2 option to enable sse2 support
