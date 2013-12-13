@@ -254,7 +254,7 @@ public:
                    << "."
                    << "mhd";
     m_HistogramFileWriter->SetFileName( outputFilename.str() );
-    this->m_Filter->SetInput( m_Metric->GetHistogram() );
+    this->m_Filter->SetInput( this->GetMetric()->GetHistogram() );
     this->m_Filter->Modified();
 
     try
@@ -298,7 +298,7 @@ public:
 
 
     // Software Guide : BeginCodeSnippet
-    this->m_Filter->SetInput( m_Metric->GetHistogram() );
+    this->m_Filter->SetInput( this->GetMetric()->GetHistogram() );
     this->m_Filter->Modified();
 
     // Software Guide : EndCodeSnippet
