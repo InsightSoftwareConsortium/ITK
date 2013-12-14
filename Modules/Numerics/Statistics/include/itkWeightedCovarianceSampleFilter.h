@@ -54,27 +54,23 @@ public:
   itkTypeMacro(WeightedCovarianceSampleFilter, CovarianceSampleFilter);
   itkNewMacro(Self);
 
-  /** Traits derived from the base class */
+  /** Types derived from the base class */
   typedef typename Superclass::SampleType                     SampleType;
   typedef typename Superclass::MeasurementVectorType          MeasurementVectorType;
   typedef typename Superclass::MeasurementVectorSizeType      MeasurementVectorSizeType;
-  typedef typename Superclass::MeasurementVectorDecoratedType MeasurementVectorDecoratedType;
-  typedef typename Superclass::OutputType                     OutputType;
-  typedef typename Superclass::MeasurementRealType            MeasurementRealType;
+  typedef typename Superclass::MeasurementType                MeasurementType;
+
+  /** Types derived from the base class */
   typedef typename Superclass::MeasurementVectorRealType      MeasurementVectorRealType;
+  typedef typename Superclass::MeasurementRealType            MeasurementRealType;
 
-  /** Typedef for WeightedCovariance output */
-  typedef VariableSizeMatrix< double > MatrixType;
 
-  /** Weight calculation function typedef */
-  typedef FunctionBase< MeasurementVectorType, double > WeightingFunctionType;
+  /** Type of weight values */
+  typedef double WeightValueType;
 
-  /** VariableSizeMatrix is not a DataObject, we need to decorate it to push it down
-   * a ProcessObject's pipeline */
-  typedef  SimpleDataObjectDecorator< MatrixType > MatrixDecoratedType;
 
-  /** Array typedef for weights */
-  typedef Array< double > WeightArrayType;
+  /** Array type for weights */
+  typedef Array< WeightValueType > WeightArrayType;
 
   /** Type of DataObjects to use for the weight array type */
   typedef SimpleDataObjectDecorator< WeightArrayType > InputWeightArrayObjectType;
@@ -82,11 +78,24 @@ public:
   /** Method to set the input value of the weight array */
   itkSetGetDecoratedInputMacro(Weights, WeightArrayType);
 
+
+  /** Weight calculation function type */
+  typedef FunctionBase< MeasurementVectorType, WeightValueType > WeightingFunctionType;
+
   /** Type of DataObjects to use for Weight function */
   typedef DataObjectDecorator< WeightingFunctionType > InputWeightingFunctionObjectType;
 
-  /** Method to set the weighting function */
+  /** Method to set/get the weighting function */
   itkSetGetDecoratedObjectInputMacro(WeightingFunction, WeightingFunctionType);
+
+
+  /** Types derived from the base class */
+  typedef typename Superclass::MatrixType          MatrixType;
+  typedef typename Superclass::MatrixDecoratedType MatrixDecoratedType;
+
+  /** Types derived from the base class */
+  typedef typename Superclass::MeasurementVectorDecoratedType MeasurementVectorDecoratedType;
+  typedef typename Superclass::OutputType                     OutputType;
 
 protected:
   WeightedCovarianceSampleFilter();
