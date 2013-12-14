@@ -191,11 +191,11 @@ public:
  * of the JoinTraits are specializations of the base template.
  * \ingroup ITKCommon
  */
-template< typename TValueType1, typename TValueType2 >
+template< typename TValue1, typename TValue2 >
 class JoinTraits
 {
 public:
-  typedef TValueType1 ValueType;
+  typedef TValue1 ValueType;
 };
 
 /** \cond HIDE_SPECIALIZATION_DOCUMENTATION */

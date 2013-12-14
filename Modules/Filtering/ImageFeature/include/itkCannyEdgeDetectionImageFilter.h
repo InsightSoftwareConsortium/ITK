@@ -28,11 +28,11 @@
 
 namespace itk
 {
-template< typename TValueType >
+template< typename TValue >
 class ListNode
 {
 public:
-  TValueType m_Value;
+  TValue m_Value;
 
   ListNode *Next;
   ListNode *Previous;

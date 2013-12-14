@@ -23,34 +23,34 @@
 namespace itk
 {
 /** Default constructor  */
-template< typename TValueType >
-Array2D< TValueType >
-::Array2D():vnl_matrix< TValueType >()
+template< typename TValue >
+Array2D< TValue >
+::Array2D():vnl_matrix< TValue >()
 {}
 
 /** Constructor with number of rows and columns as arguments */
-template< typename TValueType >
-Array2D< TValueType >
+template< typename TValue >
+Array2D< TValue >
 ::Array2D(unsigned int numberOfRows, unsigned int numberOfCols):
-  vnl_matrix< TValueType >(numberOfRows, numberOfCols)
+  vnl_matrix< TValue >(numberOfRows, numberOfCols)
 {}
 
 /** Constructor from a vnl_matrix */
-template< typename TValueType >
-Array2D< TValueType >
-::Array2D(const VnlMatrixType & matrix):vnl_matrix< TValueType >(matrix)
+template< typename TValue >
+Array2D< TValue >
+::Array2D(const VnlMatrixType & matrix):vnl_matrix< TValue >(matrix)
 {}
 
 /** Copy Constructor  */
-template< typename TValueType >
-Array2D< TValueType >
-::Array2D(const Self & array):vnl_matrix< TValueType >(array)
+template< typename TValue >
+Array2D< TValue >
+::Array2D(const Self & array):vnl_matrix< TValue >(array)
 {}
 
 /** Assignment Operator from Array */
-template< typename TValueType >
-const Array2D< TValueType > &
-Array2D< TValueType >
+template< typename TValue >
+const Array2D< TValue > &
+Array2D< TValue >
 ::operator=(const Self & array)
 {
   this->VnlMatrixType::operator=(array);
@@ -58,9 +58,9 @@ Array2D< TValueType >
 }
 
 /** Assignment Operator from vnl_matrix */
-template< typename TValueType >
-const Array2D< TValueType > &
-Array2D< TValueType >
+template< typename TValue >
+const Array2D< TValue > &
+Array2D< TValue >
 ::operator=(const VnlMatrixType & matrix)
 {
   this->VnlMatrixType::operator=(matrix);
@@ -68,8 +68,8 @@ Array2D< TValueType >
 }
 
 /** Set the size of the array */
-template< typename TValueType >
-void Array2D< TValueType >
+template< typename TValue >
+void Array2D< TValue >
 ::SetSize(unsigned int m, unsigned int n)
 {
   this->set_size(m, n);

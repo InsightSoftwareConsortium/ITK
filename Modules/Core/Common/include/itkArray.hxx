@@ -24,18 +24,18 @@
 namespace itk
 {
 /** Default constructor */
-template< typename TValueType >
-Array< TValueType >
-::Array():vnl_vector< TValueType >()
+template< typename TValue >
+Array< TValue >
+::Array():vnl_vector< TValue >()
 {
   m_LetArrayManageMemory = true;
 }
 
 /** Copy constructor */
-template < typename TValueType >
-Array<TValueType>
+template < typename TValue >
+Array<TValue>
 ::Array(const Self & rhs)
-  : vnl_vector<TValueType>(rhs),
+  : vnl_vector<TValue>(rhs),
     // The vnl vector copy constructor creates new memory
     // no matter the setting of let array manage memory of rhs
     m_LetArrayManageMemory(true)
@@ -43,42 +43,43 @@ Array<TValueType>
 }
 
 /** Constructor with size */
-template< typename TValueType >
-Array< TValueType >
-::Array(SizeValueType dimension):vnl_vector< TValueType >(dimension)
+template< typename TValue >
+Array< TValue >
+::Array(SizeValueType dimension)
+  : vnl_vector< TValue >(dimension),
+    m_LetArrayManageMemory(true)
 {
-  m_LetArrayManageMemory = true;
 }
 
 /** Constructor with user specified data */
-template< typename TValueType >
-Array< TValueType >
+template< typename TValue >
+Array< TValue >
 ::Array(ValueType *datain, SizeValueType sz, bool LetArrayManageMemory)
 {
-  vnl_vector< TValueType >::data = datain;
-  vnl_vector< TValueType >::num_elmts = sz;
+  vnl_vector< TValue >::data = datain;
+  vnl_vector< TValue >::num_elmts = sz;
   m_LetArrayManageMemory = LetArrayManageMemory;
 }
 
 /** Constructor with user specified data */
-template< typename TValueType >
-Array< TValueType >
+template< typename TValue >
+Array< TValue >
 ::Array(const ValueType *datain, SizeValueType sz, bool LetArrayManageMemory)
 {
-  vnl_vector< TValueType >::data = const_cast< TValueType * >( datain );
+  vnl_vector< TValue >::data = const_cast< TValue * >( datain );
   // Argh!! Discard constness WRONG.!!
-  vnl_vector< TValueType >::num_elmts = sz;
+  vnl_vector< TValue >::num_elmts = sz;
   m_LetArrayManageMemory = LetArrayManageMemory;
 }
 
 /** Destructor */
-template< typename TValueType >
-Array< TValueType >
+template< typename TValue >
+Array< TValue >
 ::~Array()
 {
   if ( !m_LetArrayManageMemory )
     {
-    vnl_vector< TValueType >::data = 0;
+    vnl_vector< TValue >::data = 0;
     }
 }
 
@@ -87,16 +88,16 @@ Array< TValueType >
  * the responsibility of freeing the memory for this data.  If
  * "LetArrayManageMemory" is true, then this class will free the
  * memory when this object is destroyed. */
-template< typename TValueType >
+template< typename TValue >
 void
-Array< TValueType >
-::SetData(TValueType *datain, bool LetArrayManageMemory)
+Array< TValue >
+::SetData(TValue *datain, bool LetArrayManageMemory)
 {
   if ( m_LetArrayManageMemory )
     {
-    vnl_vector< TValueType >::destroy();
+    vnl_vector< TValue >::destroy();
     }
-  vnl_vector< TValueType >::data = datain;
+  vnl_vector< TValue >::data = datain;
   m_LetArrayManageMemory = LetArrayManageMemory;
 }
 
@@ -109,22 +110,22 @@ Array< TValueType >
  * the responsibility of freeing the memory for this data.  If
  * "LetArrayManageMemory" is true, then this class will free the
  * memory when this object is destroyed. */
-template< typename TValueType >
+template< typename TValue >
 void
-Array< TValueType >
-::SetData(TValueType *datain, SizeValueType sz, bool LetArrayManageMemory)
+Array< TValue >
+::SetData(TValue *datain, SizeValueType sz, bool LetArrayManageMemory)
 {
   if ( m_LetArrayManageMemory )
     {
-    vnl_vector< TValueType >::destroy();
+    vnl_vector< TValue >::destroy();
     }
-  vnl_vector< TValueType >::data = datain;
-  vnl_vector< TValueType >::num_elmts = sz;
+  vnl_vector< TValue >::data = datain;
+  vnl_vector< TValue >::num_elmts = sz;
   m_LetArrayManageMemory = LetArrayManageMemory;
 }
 
-template< typename TValueType >
-void Array< TValueType >
+template< typename TValue >
+void Array< TValue >
 ::SetSize(SizeValueType sz)
 {
   if ( this->size() != sz )
@@ -133,7 +134,7 @@ void Array< TValueType >
     // on a resize
     if ( !m_LetArrayManageMemory )
       {
-      vnl_vector< TValueType >::data = 0;
+      vnl_vector< TValue >::data = 0;
       }
 
     // Call the superclass's set_size
@@ -145,10 +146,10 @@ void Array< TValueType >
     }
 }
 
-template< typename TValueType >
-const typename Array< TValueType >
+template< typename TValue >
+const typename Array< TValue >
 ::Self &
-Array< TValueType >
+Array< TValue >
 ::operator=(const Self & rhs)
 {
   if ( this != &rhs )
@@ -166,10 +167,10 @@ Array< TValueType >
   return *this;
 }
 
-template< typename TValueType >
-const typename Array< TValueType >
+template< typename TValue >
+const typename Array< TValue >
 ::Self &
-Array< TValueType >
+Array< TValue >
 ::operator=(const VnlVectorType & rhs)
 {
   if ( this != &rhs )

@@ -96,11 +96,11 @@ private:
     this->m_OutsideValue = NumericTraits< TPixelType >::Zero;
   }
 
-  template < typename TValueType >
-  void InitializeOutsideValue( VariableLengthVector<TValueType> * )
+  template < typename TValue >
+  void InitializeOutsideValue( VariableLengthVector<TValue> * )
   {
     // set the outside value to be of zero length
-    this->m_OutsideValue = VariableLengthVector< TValueType >(0);
+    this->m_OutsideValue = VariableLengthVector< TValue >(0);
   }
 
   TOutput m_OutsideValue;

@@ -26,16 +26,16 @@
 namespace itk
 {
 /** Default constructor  */
-template< typename TValueType >
-VariableLengthVector< TValueType >
+template< typename TValue >
+VariableLengthVector< TValue >
 ::VariableLengthVector():m_LetArrayManageMemory(true),
   m_Data(0),
   m_NumElements(0)
 {}
 
 /** Constructor with size */
-template< typename TValueType >
-VariableLengthVector< TValueType >
+template< typename TValue >
+VariableLengthVector< TValue >
 ::VariableLengthVector(unsigned int length):
   m_LetArrayManageMemory(true),
   m_Data(0)
@@ -44,8 +44,8 @@ VariableLengthVector< TValueType >
 }
 
 /** Constructor with user specified data */
-template< typename TValueType >
-VariableLengthVector< TValueType >
+template< typename TValue >
+VariableLengthVector< TValue >
 ::VariableLengthVector(ValueType *datain, unsigned int sz, bool LetArrayManageMemory):
   m_LetArrayManageMemory(LetArrayManageMemory),
   m_Data(datain),
@@ -53,8 +53,8 @@ VariableLengthVector< TValueType >
 {}
 
 /** Constructor with user specified data */
-template< typename TValueType >
-VariableLengthVector< TValueType >
+template< typename TValue >
+VariableLengthVector< TValue >
 ::VariableLengthVector(const ValueType *datain, unsigned int sz, bool LetArrayManageMemory):
   m_LetArrayManageMemory(LetArrayManageMemory)
 {
@@ -64,9 +64,9 @@ VariableLengthVector< TValueType >
 
 /** Copy constructer.. Override the default non-templated copy constructor
  * that the compiler provides */
-template< typename TValueType >
-VariableLengthVector< TValueType >
-::VariableLengthVector(const VariableLengthVector< TValueType > & v)
+template< typename TValue >
+VariableLengthVector< TValue >
+::VariableLengthVector(const VariableLengthVector< TValue > & v)
 {
   m_NumElements = v.Size();
   m_Data = this->AllocateElements(m_NumElements);
@@ -78,8 +78,8 @@ VariableLengthVector< TValueType >
 }
 
 /** Destructor */
-template< typename TValueType >
-VariableLengthVector< TValueType >
+template< typename TValue >
+VariableLengthVector< TValue >
 ::~VariableLengthVector()
 {
   // if data exists and we are responsible for its memory, get rid of it..
@@ -90,15 +90,15 @@ VariableLengthVector< TValueType >
 }
 
 /** Reserve memory of certain size for m_Data */
-template< typename TValueType >
-void VariableLengthVector< TValueType >
+template< typename TValue >
+void VariableLengthVector< TValue >
 ::Reserve(ElementIdentifier size)
 {
   if ( m_Data )
     {
     if ( size > m_NumElements )
       {
-      TValueType *temp = this->AllocateElements(size);
+      TValue *temp = this->AllocateElements(size);
       // only copy the portion of the data used in the old buffer
       std::copy(m_Data,
                 m_Data+m_NumElements,
@@ -121,15 +121,15 @@ void VariableLengthVector< TValueType >
 }
 
 /** Allocate memory of certain size and return it */
-template< typename TValueType >
-TValueType *VariableLengthVector< TValueType >
+template< typename TValue >
+TValue *VariableLengthVector< TValue >
 ::AllocateElements(ElementIdentifier size) const
 {
-  TValueType *data;
+  TValue *data;
 
   try
     {
-    data = new TValueType[size];
+    data = new TValue[size];
     }
   catch ( ... )
     {
@@ -149,10 +149,10 @@ TValueType *VariableLengthVector< TValueType >
  * "LetArrayManageMemory" is true, then this class will free the
  * memory when this object is destroyed. Note that you need to explicitly
  * set the number of elements. */
-template< typename TValueType >
+template< typename TValue >
 void
-VariableLengthVector< TValueType >
-::SetData(TValueType *datain, bool LetArrayManageMemory)
+VariableLengthVector< TValue >
+::SetData(TValue *datain, bool LetArrayManageMemory)
 {
   // Free any existing data if we manage its memory
   if ( m_LetArrayManageMemory )
@@ -173,10 +173,10 @@ VariableLengthVector< TValueType >
  * the responsibility of freeing the memory for this data.  If
  * "LetArrayManageMemory" is true, then this class will free the
  * memory when this object is destroyed. */
-template< typename TValueType >
+template< typename TValue >
 void
-VariableLengthVector< TValueType >
-::SetData(TValueType *datain, unsigned int sz, bool LetArrayManageMemory)
+VariableLengthVector< TValue >
+::SetData(TValue *datain, unsigned int sz, bool LetArrayManageMemory)
 {
   // Free any existing data if we manage its memory
   if ( m_LetArrayManageMemory )
@@ -190,8 +190,8 @@ VariableLengthVector< TValueType >
 }
 
 
-template< typename TValueType >
-void VariableLengthVector< TValueType >
+template< typename TValue >
+void VariableLengthVector< TValue >
 ::DestroyExistingData()
 {
     // Free any existing data if we manage its memory.
@@ -213,8 +213,8 @@ void VariableLengthVector< TValueType >
     }
 }
 
-template< typename TValueType >
-void VariableLengthVector< TValueType >
+template< typename TValue >
+void VariableLengthVector< TValue >
 ::SetSize(unsigned int sz, bool destroyExistingData)
 {
   if ( destroyExistingData )
@@ -230,7 +230,7 @@ void VariableLengthVector< TValueType >
     return;
     }
 
-  TValueType *temp = this->AllocateElements(sz);
+  TValue *temp = this->AllocateElements(sz);
 
   if ( sz > m_NumElements )
     {
@@ -258,9 +258,9 @@ void VariableLengthVector< TValueType >
 }
 
 /** Set the all the elements of the array to the specified value */
-template< typename TValueType >
-void VariableLengthVector< TValueType >
-::Fill(TValueType const & v)
+template< typename TValue >
+void VariableLengthVector< TValue >
+::Fill(TValue const & v)
 {
   for ( ElementIdentifier i = 0; i < m_NumElements; i++ )
     {
@@ -269,9 +269,9 @@ void VariableLengthVector< TValueType >
 }
 
 /** Assignment operator */
-template< typename TValueType >
-const VariableLengthVector< TValueType > &
-VariableLengthVector< TValueType >
+template< typename TValue >
+const VariableLengthVector< TValue > &
+VariableLengthVector< TValue >
 ::operator=(const Self & v)
 {
   if ( this != &v )
@@ -286,18 +286,18 @@ VariableLengthVector< TValueType >
 }
 
 /** Assignment operator */
-template< typename TValueType >
-const VariableLengthVector< TValueType > &
-VariableLengthVector< TValueType >
-::operator=(TValueType const & v)
+template< typename TValue >
+const VariableLengthVector< TValue > &
+VariableLengthVector< TValue >
+::operator=(TValue const & v)
 {
   this->Fill(v);
   return *this;
 }
 
-template< typename TValueType >
-VariableLengthVector< TValueType > &
-VariableLengthVector< TValueType >
+template< typename TValue >
+VariableLengthVector< TValue > &
+VariableLengthVector< TValue >
 ::operator-()
 {
   for ( ElementIdentifier i = 0; i < m_NumElements; i++ )
@@ -307,9 +307,9 @@ VariableLengthVector< TValueType >
   return *this;
 }
 
-template< typename TValueType >
+template< typename TValue >
 bool
-VariableLengthVector< TValueType >
+VariableLengthVector< TValue >
 ::operator==(const Self & v) const
 {
   if ( m_NumElements != v.Size() )
@@ -326,9 +326,9 @@ VariableLengthVector< TValueType >
   return true;
 }
 
-template< typename TValueType >
+template< typename TValue >
 bool
-VariableLengthVector< TValueType >
+VariableLengthVector< TValue >
 ::operator!=(const Self & v) const
 {
   if ( m_NumElements != v.Size() )
@@ -348,9 +348,9 @@ VariableLengthVector< TValueType >
 /**
  * Returns vector's Euclidean Norm
  */
-template< typename TValueType >
-typename VariableLengthVector< TValueType >::RealValueType
-VariableLengthVector< TValueType >
+template< typename TValue >
+typename VariableLengthVector< TValue >::RealValueType
+VariableLengthVector< TValue >
 ::GetNorm(void) const
 {
   return (RealValueType)( vcl_sqrt( double( this->GetSquaredNorm() ) ) );
@@ -359,9 +359,9 @@ VariableLengthVector< TValueType >
 /**
  * Returns vector's Squared Euclidean Norm
  */
-template< typename TValueType >
-typename VariableLengthVector< TValueType >::RealValueType
-VariableLengthVector< TValueType >
+template< typename TValue >
+typename VariableLengthVector< TValue >::RealValueType
+VariableLengthVector< TValue >
 ::GetSquaredNorm(void) const
 {
   RealValueType sum = 0.0;

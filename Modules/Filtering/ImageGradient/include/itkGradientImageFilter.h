@@ -170,8 +170,8 @@ private:
 
   // An overloaded method which may transform the gradient to a
   // physical vector and converts to the correct output pixel type.
-  template <typename TValueType>
-  void SetOutputPixel( ImageRegionIterator< VectorImage<TValueType,OutputImageDimension> > &it, CovariantVectorType &gradient )
+  template <typename TValue>
+  void SetOutputPixel( ImageRegionIterator< VectorImage<TValue,OutputImageDimension> > &it, CovariantVectorType &gradient )
   {
     if ( this->m_UseImageDirection )
       {

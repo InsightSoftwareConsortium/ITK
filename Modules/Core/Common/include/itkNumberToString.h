@@ -39,7 +39,7 @@ namespace itk
  *
  * \ingroup ITKCommon
  */
-template< typename TValueType>
+template< typename TValue>
 class NumberToString
 {
 public:
@@ -47,7 +47,7 @@ public:
     m_DoubleToStringConverter(double_conversion::DoubleToStringConverter::EcmaScriptConverter())
     {
     }
-  std::string operator() (TValueType val);
+  std::string operator() (TValue val);
 
 private:
   NumberToString & operator=(const NumberToString &); // not defined

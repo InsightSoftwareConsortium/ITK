@@ -95,11 +95,11 @@ public:
   }
 
   /** GetElement is used by itkArray, itkFixedArray, and VariableLengthVector */
-  template< typename TValueType >
-  inline void GetElement(TValueType & value, unsigned int i,
+  template< typename TValue >
+  inline void GetElement(TValue & value, unsigned int i,
                          unsigned int channel = 0) const
   {
-    value = static_cast< TValueType >( m_MetaArray.ElementData(
+    value = static_cast< TValue >( m_MetaArray.ElementData(
                                          i * m_MetaArray.ElementNumberOfChannels() + channel) );
   }
 
@@ -111,16 +111,16 @@ public:
    *    MetaArrayReader is destroyed.  Otherwise, the buffer (and therefore
    *    the validity of the dat ain the Array) is destroyed when the
    *    MetaArrayReader is dstroyed. */
-  template< typename TValueType >
+  template< typename TValue >
   void GetOutput(MET_ValueEnumType _metaElementType,
-                 Array< TValueType > *_array,
+                 Array< TValue > *_array,
                  bool _letArrayManageData = true)
   {
     if ( m_MetaArray.ElementType() != _metaElementType )
       {
       m_MetaArray.ConvertElementDataTo(_metaElementType);
       }
-    _array->SetData( (TValueType *)( m_MetaArray.ElementData() ),
+    _array->SetData( (TValue *)( m_MetaArray.ElementData() ),
                      m_MetaArray.Length(),
                      _letArrayManageData );
     if ( _letArrayManageData )
@@ -130,9 +130,9 @@ public:
   }
 
   /** Get itk FixedArray */
-  template< typename TValueType, unsigned int VLength >
+  template< typename TValue, unsigned int VLength >
   bool GetOutput(MET_ValueEnumType itkNotUsed(_metaElementType),
-                 FixedArray< TValueType, VLength > *_array)
+                 FixedArray< TValue, VLength > *_array)
   {
     if ( static_cast< int >( VLength ) <= m_MetaArray.Length() )
       {
@@ -149,9 +149,9 @@ public:
   /** Get itk Vector
    *    Specify the MetaType of the elements of the itkVector and provide
    *    a pointer to the itkVector into which the data should be copied */
-  template< typename TValueType, unsigned int VLength >
+  template< typename TValue, unsigned int VLength >
   bool GetOutput(MET_ValueEnumType itkNotUsed(_metaElementType),
-                 Vector< TValueType, VLength > *_vector)
+                 Vector< TValue, VLength > *_vector)
   {
     if ( static_cast< int >( VLength ) <= m_MetaArray.Length() )
       {
@@ -169,9 +169,9 @@ public:
    *    Specify the MetaType of the elements of the itkCovariantVector and
    *    provide a pointer to the itkCovariantVector into which the data
    *    should be copied */
-  template< typename TValueType, unsigned int VLength >
+  template< typename TValue, unsigned int VLength >
   bool GetOutput(MET_ValueEnumType itkNotUsed(_metaElementType),
-                 CovariantVector< TValueType, VLength > *_vector)
+                 CovariantVector< TValue, VLength > *_vector)
   {
     if ( static_cast< int >( VLength ) <= m_MetaArray.Length() )
       {
@@ -194,16 +194,16 @@ public:
    *    MetaArrayReader is destroyed.  Otherwise, the buffer (and therefore
    *    the validity of the dat ain the VariableLengthVector) is destroyed
    *    when the MetaArrayReader is dstroyed. */
-  template< typename TValueType >
+  template< typename TValue >
   void GetOutput(MET_ValueEnumType _metaElementType,
-                 VariableLengthVector< TValueType > *_vector,
+                 VariableLengthVector< TValue > *_vector,
                  bool _letVectorManageData = true)
   {
     if ( m_MetaArray.ElementType() != _metaElementType )
       {
       m_MetaArray.ConvertElementDataTo(_metaElementType);
       }
-    _vector->SetData( (TValueType *)( m_MetaArray.ElementData() ),
+    _vector->SetData( (TValue *)( m_MetaArray.ElementData() ),
                       m_MetaArray.Length(),
                       _letVectorManageData );
     if ( _letVectorManageData )
@@ -217,9 +217,9 @@ public:
    *      Specify the MetaType of the elements of the Array< Array< * > > and
    *    provide a pointer to the Array of arrays.  Elements are copied
    *    into the array of arrays.   */
-  template< typename TValueType >
+  template< typename TValue >
   void GetMultiChannelOutput(MET_ValueEnumType _metaElementType,
-                             Array< TValueType > *_array)
+                             Array< TValue > *_array)
   {
     if ( m_MetaArray.ElementType() != _metaElementType )
       {
@@ -233,7 +233,7 @@ public:
       ( *_array )[i].SetSize(cols);
       for ( int j = 0; j < cols; j++ )
         {
-        ( *_array )[i][j] = static_cast< typename TValueType::ValueType >
+        ( *_array )[i][j] = static_cast< typename TValue::ValueType >
                             ( m_MetaArray.ElementData(i * cols + j) );
         }
       }
