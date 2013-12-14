@@ -664,6 +664,8 @@ void ImageIOBase::WriteBufferAsASCII(std::ostream & os, const void *buffer,
     }
 }
 
+namespace
+{
 template< typename TComponent >
 void ReadBuffer(std::istream & is, TComponent *buffer, ImageIOBase::SizeType num)
 {
@@ -676,7 +678,7 @@ void ReadBuffer(std::istream & is, TComponent *buffer, ImageIOBase::SizeType num
     *ptr = static_cast< TComponent >( temp );
     }
 }
-
+}
 void ImageIOBase::ReadBufferAsASCII(std::istream & is, void *buffer,
                                     IOComponentType ctype,
                                     ImageIOBase::SizeType numComp)
