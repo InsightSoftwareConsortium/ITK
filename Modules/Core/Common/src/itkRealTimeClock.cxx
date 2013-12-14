@@ -78,7 +78,7 @@ RealTimeClock::RealTimeClock():m_Frequency(1)
 
   this->m_Origin = static_cast< TimeStampType >( intTime.QuadPart ) / static_cast< TimeStampType >( 1e7 );
   this->m_Origin -= static_cast< TimeStampType >( static_cast<__int64>( tick.QuadPart ) ) / this->m_Frequency;
-  this->m_Origin += this->m_Difference;
+  this->m_Origin -= this->m_Difference;
 #else
   this->m_Frequency = 1e6;
 #endif  // defined(WIN32) || defined(_WIN32)
