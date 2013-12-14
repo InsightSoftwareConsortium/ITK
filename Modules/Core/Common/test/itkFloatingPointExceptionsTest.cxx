@@ -19,6 +19,13 @@
 #include <iostream>
 #include <float.h>
 
+// constants declared in another compilation unit to prevent
+// compilation time errors for divide by zero and overflow
+extern const double itkFloatingPointExceptionsTest_double_zero;
+extern const double itkFloatingPointExceptionsTest_double_max;
+extern const int itkFloatingPointExceptionsTest_int_zero;
+
+
 int
 itkFloatingPointExceptionsTest(int argc, char *argv[] )
 {
@@ -31,16 +38,10 @@ itkFloatingPointExceptionsTest(int argc, char *argv[] )
     return 1;
     }
   int error_return(0);
-  double force_zero_denom(0.0),test1(0.0);
-  int force_int_zero(0);
-  // this will fool the compiler into not complaining at
-  // compile time about divide by zero
-  if(argc > 32767)
-    {
-    force_zero_denom = 1.0;
-    test1 = 1.0;
-    force_int_zero = 1;
-    }
+  double double_zero = itkFloatingPointExceptionsTest_double_zero;
+  double double_max = itkFloatingPointExceptionsTest_double_max;
+  double test1 = itkFloatingPointExceptionsTest_double_zero;
+  int int_zero = itkFloatingPointExceptionsTest_int_zero;
 
   std::string testName(argv[1]);
   if(testName == "DivByZero")
@@ -49,7 +50,7 @@ itkFloatingPointExceptionsTest(int argc, char *argv[] )
     std::cout.flush();
     try
       {
-      double s = 1.0 / force_zero_denom;
+      double s = 1.0 / double_zero;
       //
       // should never reach here
       std::cout << "Divide by Zero Exception not caught"
@@ -69,7 +70,7 @@ itkFloatingPointExceptionsTest(int argc, char *argv[] )
     std::cout.flush();
     try
       {
-      double s = test1 / force_zero_denom;
+      double s = test1 / double_zero;
       //
       // should never reach here
       std::cout << "Zero divide by Zero Exception not caught"
@@ -89,7 +90,7 @@ itkFloatingPointExceptionsTest(int argc, char *argv[] )
     std::cout.flush();
     try
       {
-      double s = DBL_MAX;
+      double s = double_max;
       s = s * s;
       //
       // should never reach here
@@ -112,7 +113,7 @@ itkFloatingPointExceptionsTest(int argc, char *argv[] )
     try
       {
       double s = DBL_MIN;
-      s = s / DBL_MAX;
+      s = s / double_max;
       //
       // should never reach here
       std::cout << "Underflow Exception not caught"
@@ -132,7 +133,7 @@ itkFloatingPointExceptionsTest(int argc, char *argv[] )
     std::cout.flush();
     try
       {
-      int s = 1 / force_int_zero;
+      int s = 1 / int_zero;
       //
       // should never reach here
       std::cout << "Integer divide by zero Exception not caught"
