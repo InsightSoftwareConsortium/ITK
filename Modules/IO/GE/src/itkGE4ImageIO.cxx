@@ -341,28 +341,21 @@ GEImageHeader * GE4ImageIO::ReadHeader(const char *FileNameToRead)
 float GE4ImageIO
 ::MvtSunf(int numb)
 {
-  float x;
-  int   dg_exp, dg_sign, dg_mantissa;
-  int   sun_exp, sun_num;
-
-#define signbit 020000000000
-#define dmantissa 077777777
-#define dexponent 0177
-#define dmantlen 24
-#define smantissa 037777777
-#define sexponent 0377
-#define smantlen 23
+#define signbit 020000000000U
+#define dmantissa 077777777U
+#define dexponent 0177U
+#define smantissa 037777777U
+#define smantlen 23U
   ByteSwapper< int >::SwapFromSystemToBigEndian(&numb);
-  dg_exp = ( numb >> 24 ) & dexponent;
-  dg_sign = numb & signbit;
-  dg_mantissa = ( numb & dmantissa ) << 8;
-  sun_exp = 4 * ( dg_exp - 64 );
+  unsigned int dg_exp = ( numb >> 24 ) & dexponent;
+  unsigned int dg_sign = numb & signbit;
+  unsigned int dg_mantissa = ( numb & dmantissa ) << 8;
+  int sun_exp = 4 * ( dg_exp - 64 );
   while ( ( dg_mantissa & signbit ) == 0 && dg_mantissa != 0 )
     {
     sun_exp--;
     dg_mantissa = dg_mantissa << 1;
     }
-  sun_num = 0;
   sun_exp += 126;
   if ( sun_exp < 0 )
     {
@@ -373,8 +366,9 @@ float GE4ImageIO
     sun_exp = 255;
     }
   dg_mantissa = dg_mantissa << 1;
-  sun_num = dg_sign | ( sun_exp << smantlen ) | ( ( dg_mantissa >> 9 ) & smantissa );
-  memcpy ( (void *)&x, (void *)&sun_num, sizeof( x ) );
-  return ( x );
+  int sun_num = dg_sign | ( sun_exp << smantlen ) | ( ( dg_mantissa >> 9 ) & smantissa );
+  float x;
+  memcpy ( &x, &sun_num, sizeof( x ) );
+  return x;
 }
 } // end namespace itk
