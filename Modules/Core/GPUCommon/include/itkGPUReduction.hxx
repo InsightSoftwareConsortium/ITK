@@ -36,6 +36,12 @@ GPUReduction< TElement >
   m_GPUKernelManager = GPUKernelManager::New();
   m_GPUDataManager = NULL;
 
+  m_ReduceGPUKernelHandle = 0;
+  m_TestGPUKernelHandle = 0;
+
+  m_Size = 0;
+  m_SmallBlock = false;
+
 }
 template< typename TElement >
 GPUReduction< TElement >
