@@ -60,7 +60,9 @@ For more information, see
 EOF
 fi
 
-if ! git config hooks.uncrustify >/dev/null; then
+if false; then
+# Disable as a suggestion to developers until Uncrustify support is mature
+#if ! git config hooks.uncrustify >/dev/null; then
   cat << EOF
 
 ITK comes with a pre-commit hook to help committed code to conform to the ITK
