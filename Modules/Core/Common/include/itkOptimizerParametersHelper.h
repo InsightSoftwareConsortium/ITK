@@ -30,24 +30,24 @@ namespace itk
  * \ingroup ITKCommon
  */
 
-template< typename TValueType >
+template< typename TValue >
 class OptimizerParametersHelper
 {
 public:
 
   /** The element type stored at each location in the Array. */
-  typedef TValueType                          ValueType;
-  typedef OptimizerParametersHelper           Self;
+  typedef TValue                          ValueType;
+  typedef OptimizerParametersHelper       Self;
 
   /** Type of common data object used by OptimizerParameters. */
-  typedef Array< TValueType >                 CommonContainerType;
+  typedef Array< TValue >                 CommonContainerType;
 
   /** Default constructor. Nothing to do. */
   OptimizerParametersHelper(){}
 
   /** Set a new data pointer for the parameter data, pointing it to a different
    * memory block. The size of the new memory block must equal the current
-   * size, in elements of TValueType.
+   * size, in elements of TValue.
    * This call is passed to the assigned OptimizerParametersHelper.
    * \warning Memory must be managed by caller after this call.
    * \c container is the OptimizerParameters object to which this helper
@@ -56,7 +56,7 @@ public:
    * which this helper is assigned.
    */
   virtual void MoveDataPointer(CommonContainerType* container,
-                               TValueType * pointer )
+                               TValue * pointer )
     {
     container->SetData(
       pointer, container->GetSize(), false /*LetArrayManageMemory*/);

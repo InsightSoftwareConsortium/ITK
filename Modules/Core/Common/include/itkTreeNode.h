@@ -34,19 +34,19 @@ namespace itk
  *
  * The class is templated over the type of the elements.
  *
- * \tparam TValueType = Element type stored in the node
+ * \tparam TValue = Element type stored in the node
  *
  * \ingroup DataRepresentation
  * \ingroup ITKCommon
  */
-template< typename TValueType >
+template< typename TValue >
 class TreeNode:public Object
 {
 public:
 
   /** Standard typedefs */
   typedef Object                     Superclass;
-  typedef TreeNode< TValueType >     Self;
+  typedef TreeNode< TValue >         Self;
   typedef SmartPointer< Self >       Pointer;
   typedef SmartPointer< const Self > ConstPointer;
   typedef std::vector< Pointer >     ChildrenListType;
@@ -59,10 +59,10 @@ public:
   itkTypeMacro(TreeNode, Object);
 
   /** Get the value of the node */
-  const TValueType & Get() const;
+  const TValue & Get() const;
 
   /** Set the current value of the node */
-  TValueType Set(const TValueType data);
+  TValue Set(const TValue data);
 
   /** Get the child node */
   Self * GetChild(ChildIdentifier number) const;
@@ -95,7 +95,7 @@ public:
   ChildIdentifier ChildPosition(const Self *node) const;
 
   /** Return the child position given a value */
-  ChildIdentifier ChildPosition(TValueType node) const;
+  ChildIdentifier ChildPosition(TValue node) const;
 
   /** Add a child to the node */
   void AddChild(Self *node);
@@ -115,13 +115,13 @@ public:
 #endif
 
   /** Set the data of the node */
-  //virtual void SetData(TValueType data) {m_Data = data;}
+  //virtual void SetData(TValue data) {m_Data = data;}
 
 protected:
 
   TreeNode();
   virtual ~TreeNode();
-  TValueType m_Data;
+  TValue m_Data;
 
   Self *m_Parent;
 

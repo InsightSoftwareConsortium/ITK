@@ -32,22 +32,22 @@ namespace itk
  */
 
 /* Can we template of Image type instead, but require that Image be of type
- * Image< Vector< TValueType, NVectorDimension >, VImageDimension > ? */
-template< typename TValueType,
+ * Image< Vector< TValue, NVectorDimension >, VImageDimension > ? */
+template< typename TValue,
           unsigned int NVectorDimension,
           unsigned int VImageDimension >
 class ImageVectorOptimizerParametersHelper
-  : public OptimizerParametersHelper< TValueType >
+  : public OptimizerParametersHelper< TValue >
 {
 public:
 
   /** The element type stored at each location in the Array. */
-  typedef TValueType                                ValueType;
-  typedef ImageVectorOptimizerParametersHelper      Self;
-  typedef OptimizerParametersHelper< TValueType >   Superclass;
+  typedef TValue                                ValueType;
+  typedef ImageVectorOptimizerParametersHelper  Self;
+  typedef OptimizerParametersHelper< TValue >   Superclass;
 
   /** Image type that this class expects. */
-  typedef Image< Vector<TValueType, NVectorDimension>,
+  typedef Image< Vector<TValue, NVectorDimension>,
                  VImageDimension >
                                                 ParameterImageType;
   typedef typename ParameterImageType::Pointer  ParameterImagePointer;
@@ -61,10 +61,10 @@ public:
   /** Set a new data pointer for *both* the Array and parameter image,
    * pointing both to a different memory block.
    * The size of the new memroy block must be the same as current size of
-   * Array and the parameter image's buffer, in elements of TValueType.
+   * Array and the parameter image's buffer, in elements of TValue.
    * Memory must be managed by caller afterwards. */
   virtual void MoveDataPointer(CommonContainerType* container,
-                               TValueType * pointer );
+                               TValue * pointer );
 
   /** Set an image that holds the parameter data. \c container is a pointer
    * of type itkArray to the object to which this helper is assigned.

@@ -32,11 +32,11 @@ namespace itk
  * lists of indices and other values.
  * \ingroup ITKLevelSets
  */
-template< typename TValueType >
+template< typename TValue >
 class SparseFieldLevelSetNode
 {
 public:
-  TValueType               m_Value;
+  TValue               m_Value;
   SparseFieldLevelSetNode *Next;
   SparseFieldLevelSetNode *Previous;
 };

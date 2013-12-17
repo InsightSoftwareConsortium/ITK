@@ -31,7 +31,7 @@ namespace itk
  * assigned to one another, and size information is known for function
  * returns.
  *
- * \tparam TValueType Element type stored at each location in the array.
+ * \tparam TValue Element type stored at each location in the array.
  * \tparam VLength    = Length of the array.
  *
  * The length of the array is fixed at compile time. If you wish to
@@ -46,7 +46,7 @@ namespace itk
  * \wikiexample{Utilities/FixedArray,C-style array}
  * \endwiki
  */
-template< typename TValueType, unsigned int VLength = 3 >
+template< typename TValue, unsigned int VLength = 3 >
 class FixedArray
 {
 public:
@@ -57,7 +57,7 @@ public:
   itkStaticConstMacro(Dimension, unsigned int, VLength);
 
   /** The element type stored at each location in the FixedArray. */
-  typedef TValueType ValueType;
+  typedef TValue ValueType;
 
   /** A type representing the C-array version of this FixedArray. */
   typedef ValueType CArray[VLength];
@@ -142,7 +142,7 @@ public:
     Iterator i = this->Begin();
     while ( i != this->End() )
       {
-      *i++ = static_cast< TValueType >( *input++ );
+      *i++ = static_cast< TValue >( *input++ );
       }
   }
 
@@ -175,7 +175,7 @@ public:
       Iterator i = this->Begin();
       while ( i != this->End() )
         {
-        *i++ = static_cast< TValueType >( *input++ );
+        *i++ = static_cast< TValue >( *input++ );
         }
       }
     return *this;
@@ -257,8 +257,8 @@ public:
   static FixedArray Filled(const ValueType &);
 };
 
-template< typename TValueType, unsigned int VLength >
-std::ostream & operator<<(std::ostream & os, const FixedArray< TValueType, VLength > & arr);
+template< typename TValue, unsigned int VLength >
+std::ostream & operator<<(std::ostream & os, const FixedArray< TValue, VLength > & arr);
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

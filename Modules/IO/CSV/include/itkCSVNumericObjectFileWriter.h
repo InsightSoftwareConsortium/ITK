@@ -57,7 +57,7 @@ namespace itk
  *
  * \ingroup ITKIOCSV
  */
-template <typename TValueType, unsigned int NRows = 0, unsigned int NColumns = 0>
+template <typename TValue, unsigned int NRows = 0, unsigned int NColumns = 0>
 class CSVNumericObjectFileWriter:public LightProcessObject
 {
 public:
@@ -74,9 +74,9 @@ public:
   itkTypeMacro(Self,Superclass);
 
   // Matrix types
-  typedef vnl_matrix<TValueType>                        vnlMatrixType;
-  typedef vnl_matrix_fixed<TValueType, NRows, NColumns> vnlFixedMatrixType;
-  typedef itk::Matrix<TValueType,NRows,NColumns>        itkMatrixType;
+  typedef vnl_matrix<TValue>                        vnlMatrixType;
+  typedef vnl_matrix_fixed<TValue, NRows, NColumns> vnlFixedMatrixType;
+  typedef itk::Matrix<TValue,NRows,NColumns>        itkMatrixType;
 
   typedef std::vector<std::string> StringVectorType;
 
@@ -118,7 +118,7 @@ protected:
 
 private:
   std::string               m_FileName;
-  TValueType               *m_InputObject;
+  TValue                   *m_InputObject;
   char                      m_FieldDelimiterCharacter;
   SizeValueType             m_Rows;
   SizeValueType             m_Columns;

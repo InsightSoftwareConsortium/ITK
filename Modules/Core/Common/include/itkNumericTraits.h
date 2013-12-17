@@ -49,7 +49,7 @@ namespace itk
 {
 
 // forward decare to avoid circular dependencies
-template< typename TValueType, unsigned int VLength>  class FixedArray;
+template< typename TValue, unsigned int VLength>  class FixedArray;
 
 /** \class NumericTraits
  * \brief Define additional traits for native types such as int or float.

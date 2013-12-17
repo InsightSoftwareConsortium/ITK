@@ -38,7 +38,7 @@ class SpatialObject;
  *
  * Template parameters for class Array:
  *
- * - TValueType = Element type stored at each location in the array.
+ * - TValue = Element type stored at each location in the array.
  *
  * \ingroup DataRepresentation
  * \ingroup ITKSpatialObjects
