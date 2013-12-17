@@ -19,6 +19,7 @@
 #define __itkLinearInterpolateImageFunction_h
 
 #include "itkInterpolateImageFunction.h"
+#include "itkVariableLengthVector.h"
 
 namespace itk
 {
@@ -495,6 +496,32 @@ private:
 
   virtual inline OutputType EvaluateUnoptimized(
     const ContinuousIndexType & index) const;
+
+  /** \brief A method to generically set all components to zero
+   */
+  template<typename RealTypeScalarRealType>
+    void
+    MakeZeroInitializer(const TInputImage * const inputImagePtr,
+      VariableLengthVector<RealTypeScalarRealType> & tempZeros) const
+      {
+      // Variable length vector version to get the size of the pixel correct.
+      typename TInputImage::IndexType idx;
+      idx.Fill(0);
+      const typename TInputImage::PixelType & tempPixel = inputImagePtr->GetPixel(idx);
+      const unsigned int sizeOfVarLengthVector = tempPixel.GetSize();
+      tempZeros.SetSize(sizeOfVarLengthVector);
+      tempZeros.Fill(NumericTraits< RealTypeScalarRealType >::Zero);
+      }
+
+  template<typename RealTypeScalarRealType>
+    void
+    MakeZeroInitializer(const TInputImage * const itkNotUsed( inputImagePtr ),
+      RealTypeScalarRealType & tempZeros) const
+      {
+      // All other cases
+      tempZeros = NumericTraits< RealTypeScalarRealType >::Zero;
+      }
+
 };
 } // end namespace itk
 
