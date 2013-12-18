@@ -31,6 +31,11 @@
 
 /* Use the tiff library configured for ITK.  */
 #cmakedefine ITK_USE_SYSTEM_MINC
+
+#ifndef HAVE_MINC1
+#cmakedefine HAVE_MINC1
+#endif /*HAVE_MINC1*/
+
 #ifdef ITK_USE_SYSTEM_MINC
 # include <minc2.h>
 # include <volume_io.h>

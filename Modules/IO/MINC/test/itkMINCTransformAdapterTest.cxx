@@ -27,6 +27,7 @@
 #include "itkDisplacementFieldTransform.h"
 #include "itkIOTestHelper.h"
 #include "itkMINCTransformAdapter.h"
+#include "vnl/vnl_math.h"
 
 
 static const double tolerance = 1e-5;
@@ -65,7 +66,7 @@ static int compare_linear(const char *linear_transform)
   rot_axis[1]=1.0;
   rot_axis[2]=0.0;
   // Set it's parameters
-  affine->Rotate3D(rot_axis,M_PI/12);
+  affine->Rotate3D(rot_axis,vnl_math::pi/12);
 
   AffineTransformType::OutputVectorType offset;
 

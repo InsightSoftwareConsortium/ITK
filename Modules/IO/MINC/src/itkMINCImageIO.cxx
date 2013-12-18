@@ -48,7 +48,21 @@ bool MINCImageIO::CanReadFile(const char *file)
     {
     return true;
     }
+#ifdef HAVE_MINC1
+  mncPos = filename.rfind(".mnc.gz");
+  if ( (mncPos != std::string::npos)
+       && (mncPos == filename.length() - 7) )
+    {
+    return true;
+    }
 
+  mncPos = filename.rfind(".MNC.GZ");
+  if ( (mncPos != std::string::npos)
+       && (mncPos == filename.length() - 7) )
+    {
+    return true;
+    }
+#endif //HAVE_MINC1
   mncPos = filename.rfind(".mnc2");
   if ( (mncPos != std::string::npos)
        && (mncPos == filename.length() - 5) )
