@@ -1,21 +1,18 @@
 # This is the root ITK CMakeLists file.
-CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
-IF(COMMAND CMAKE_POLICY)
-  CMAKE_POLICY(SET CMP0003 NEW)
-ENDIF(COMMAND CMAKE_POLICY)
-
+cmake_minimum_required(VERSION 2.6)
+if(COMMAND CMAKE_POLICY)
+  cmake_policy(SET CMP0003 NEW)
+endif(COMMAND CMAKE_POLICY)
 
 # This project is designed to be built outside the Insight source tree.
-PROJECT( PhaseSymmetryImageFilter)
+project(PhaseSymmetryImageFilter)
 
 # Find ITK.
-FIND_PACKAGE(ITK REQUIRED)
-INCLUDE(${ITK_USE_FILE})
+find_package(ITK REQUIRED)
+include(${ITK_USE_FILE})
 
+add_executable(PhaseSymmetryImageFilter2D main2.cxx)
+target_link_libraries(PhaseSymmetryImageFilter2D ${ITK_LIBRARIES})
 
-
-ADD_EXECUTABLE( PhaseSymmetryImageFilter2D main2.cxx)
-ADD_EXECUTABLE( PhaseSymmetryImageFilter3D main3.cxx)
-
-TARGET_LINK_LIBRARIES( PhaseSymmetryImageFilter3D ${ITK_LIBRARIES} )
-TARGET_LINK_LIBRARIES( PhaseSymmetryImageFilter2D ${ITK_LIBRARIES} )
+add_executable(PhaseSymmetryImageFilter3D main3.cxx)
+target_link_libraries(PhaseSymmetryImageFilter3D ${ITK_LIBRARIES})
