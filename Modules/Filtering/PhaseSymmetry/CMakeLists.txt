@@ -17,5 +17,5 @@ INCLUDE(${ITK_USE_FILE})
 ADD_EXECUTABLE( PhaseSymmetryImageFilter2D main2.cxx)
 ADD_EXECUTABLE( PhaseSymmetryImageFilter3D main3.cxx)
 
-TARGET_LINK_LIBRARIES( PhaseSymmetryImageFilter3D ITKCommon ITKIO ITKBasicFilters ITKAlgorithms ITKReview)
-TARGET_LINK_LIBRARIES( PhaseSymmetryImageFilter2D ITKCommon ITKIO ITKBasicFilters ITKAlgorithms ITKReview)
+TARGET_LINK_LIBRARIES( PhaseSymmetryImageFilter3D ${ITK_LIBRARIES} )
+TARGET_LINK_LIBRARIES( PhaseSymmetryImageFilter2D ${ITK_LIBRARIES} )
