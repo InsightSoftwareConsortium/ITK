@@ -1819,14 +1819,14 @@ void TIFFImageIO::InternalWrite(const void *buffer)
       {
       switch ( m_Compression )
         {
+        case TIFFImageIO::LZW:
+          itkWarningMacro(<< "LZW compression is patented outside US so it is disabled. packbits compression will be used instead");
         case TIFFImageIO::PackBits:
           compression = COMPRESSION_PACKBITS; break;
         case TIFFImageIO::JPEG:
           compression = COMPRESSION_JPEG; break;
         case TIFFImageIO::Deflate:
           compression = COMPRESSION_DEFLATE; break;
-        case TIFFImageIO::LZW:
-          compression = COMPRESSION_LZW; break;
         default:
           compression = COMPRESSION_NONE;
         }
@@ -1844,13 +1844,6 @@ void TIFFImageIO::InternalWrite(const void *buffer)
       {
       TIFFSetField(tif, TIFFTAG_JPEGQUALITY, 75); // Parameter
       TIFFSetField(tif, TIFFTAG_JPEGCOLORMODE, JPEGCOLORMODE_RGB);
-      photometric = PHOTOMETRIC_YCBCR;
-      }
-    else if ( compression == COMPRESSION_LZW )
-      {
-      predictor = 2;
-      TIFFSetField(tif, TIFFTAG_PREDICTOR, predictor);
-      itkDebugMacro(<< "LZW compression is patented outside US so it is disabled");
       }
     else if ( compression == COMPRESSION_DEFLATE )
       {
