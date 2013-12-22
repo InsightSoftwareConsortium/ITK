@@ -142,12 +142,13 @@ public:
    * VariableLengthVector will provide a different implementation
    * where a vector of the correct size is built.
    */
-  static void SetLength(T &, const unsigned int s)
+  static void SetLength(T & m, const unsigned int s)
   {
     if ( s != 1 )
       {
       itkGenericExceptionMacro(<< "Cannot set the size of a scalar to " << s);
       }
+    m = NumericTraits< ValueType >::Zero;
   }
   /** Return the length of the scalar. This API is needed for
    * VariableLengthVector because
@@ -246,12 +247,13 @@ public:
   {
     mv[0] = v;
   }
-  static void SetLength(ValueType &, const unsigned int s)
+  static void SetLength(ValueType & m, const unsigned int s)
   {
     if ( s != 1 )
       {
       itkGenericExceptionMacro(<< "Cannot set the size of a scalar to " << s);
       }
+    m = NumericTraits< ValueType >::Zero;
   }
 
 };
@@ -300,12 +302,13 @@ public:
   {
     mv[0] = v;
   }
-  static void SetLength(ValueType &, const unsigned int s)
+  static void SetLength(ValueType & m, const unsigned int s)
   {
     if ( s != 1 )
       {
       itkGenericExceptionMacro(<< "Cannot set the size of a scalar to " << s);
       }
+    m = NumericTraits< ValueType >::Zero;
   }
 };
 
@@ -352,12 +355,13 @@ public:
   {
     mv[0] = v;
   }
-  static void SetLength(ValueType &, const unsigned int s)
+  static void SetLength(ValueType & m, const unsigned int s)
   {
     if ( s != 1 )
       {
       itkGenericExceptionMacro(<< "Cannot set the size of a scalar to " << s);
       }
+    m = NumericTraits< ValueType >::Zero;
   }
 };
 
@@ -402,12 +406,13 @@ public:
   {
     mv[0] = v;
   }
-  static void SetLength(ValueType &, const unsigned int s)
+  static void SetLength(ValueType & m, const unsigned int s)
   {
     if ( s != 1 )
       {
       itkGenericExceptionMacro(<< "Cannot set the size of a scalar to " << s);
       }
+    m = NumericTraits< ValueType >::Zero;
   }
 };
 
@@ -450,12 +455,13 @@ public:
   {
     mv[0] = v;
   }
-  static void SetLength(ValueType &, const unsigned int s)
+  static void SetLength(ValueType & m, const unsigned int s)
   {
     if ( s != 1 )
       {
       itkGenericExceptionMacro(<< "Cannot set the size of a scalar to " << s);
       }
+    m = NumericTraits< ValueType >::Zero;
   }
 };
 
@@ -499,12 +505,13 @@ public:
   {
     mv[0] = v;
   }
-  static void SetLength(ValueType &, const unsigned int s)
+  static void SetLength(ValueType & m, const unsigned int s)
   {
     if ( s != 1 )
       {
       itkGenericExceptionMacro(<< "Cannot set the size of a scalar to " << s);
       }
+    m = NumericTraits< ValueType >::Zero;
   }
 };
 
@@ -547,12 +554,13 @@ public:
   {
     mv[0] = v;
   }
-  static void SetLength(ValueType &, const unsigned int s)
+  static void SetLength(ValueType & m, const unsigned int s)
   {
     if ( s != 1 )
       {
       itkGenericExceptionMacro(<< "Cannot set the size of a scalar to " << s);
       }
+    m = NumericTraits< ValueType >::Zero;
   }
 };
 
@@ -599,12 +607,13 @@ public:
   {
     mv[0] = v;
   }
-  static void SetLength(ValueType &, const unsigned int s)
+  static void SetLength(ValueType & m, const unsigned int s)
   {
     if ( s != 1 )
       {
       itkGenericExceptionMacro(<< "Cannot set the size of a scalar to " << s);
       }
+    m = NumericTraits< ValueType >::Zero;
   }
 };
 
@@ -648,12 +657,13 @@ public:
   {
     mv[0] = v;
   }
-  static void SetLength(ValueType &, const unsigned int s)
+  static void SetLength(ValueType & m, const unsigned int s)
   {
     if ( s != 1 )
       {
       itkGenericExceptionMacro(<< "Cannot set the size of a scalar to " << s);
       }
+    m = NumericTraits< ValueType >::Zero;
   }
 };
 
@@ -697,12 +707,13 @@ public:
   {
     mv[0] = v;
   }
-  static void SetLength(ValueType &, const unsigned int s)
+  static void SetLength(ValueType & m, const unsigned int s)
   {
     if ( s != 1 )
       {
       itkGenericExceptionMacro(<< "Cannot set the size of a scalar to " << s);
       }
+    m = NumericTraits< ValueType >::Zero;
   }
 };
 
@@ -746,12 +757,13 @@ public:
   {
     mv[0] = v;
   }
-  static void SetLength(ValueType &, const unsigned int s)
+  static void SetLength(ValueType & m, const unsigned int s)
   {
     if ( s != 1 )
       {
       itkGenericExceptionMacro(<< "Cannot set the size of a scalar to " << s);
       }
+    m = NumericTraits< ValueType >::Zero;
   }
 };
 
@@ -795,12 +807,13 @@ public:
   {
     mv[0] = v;
   }
-  static void SetLength(ValueType &, const unsigned int s)
+  static void SetLength(ValueType & m, const unsigned int s)
   {
     if ( s != 1 )
       {
       itkGenericExceptionMacro(<< "Cannot set the size of a scalar to " << s);
       }
+    m = NumericTraits< ValueType >::Zero;
   }
 };
 
@@ -852,12 +865,13 @@ public:
   {
     mv[0] = v;
   }
-  static void SetLength(ValueType &, const unsigned int s)
+  static void SetLength(ValueType & m, const unsigned int s)
   {
     if ( s != 1 )
       {
       itkGenericExceptionMacro(<< "Cannot set the size of a scalar to " << s);
       }
+    m = NumericTraits< ValueType >::Zero;
   }
 };
 
@@ -911,12 +925,13 @@ public:
     mv[0] = v.real();
     mv[1] = v.imag();
   }
-  static void SetLength(Self &, const unsigned int s)
+  static void SetLength(Self & m, const unsigned int s)
   {
     if ( s != 2 )
       {
       itkGenericExceptionMacro(<< "Cannot set the size of a complex to " << s);
       }
+    m = NumericTraits< ValueType >::Zero;
   }
 };
 
@@ -970,12 +985,13 @@ public:
     mv[0] = v.real();
     mv[1] = v.imag();
   }
-  static void SetLength(Self &, const unsigned int s)
+  static void SetLength(Self & m, const unsigned int s)
   {
     if ( s != 2 )
       {
       itkGenericExceptionMacro(<< "Cannot set the size of a complex to " << s);
       }
+    m = NumericTraits< ValueType >::Zero;
   }
 };
 
@@ -1029,12 +1045,13 @@ public:
     mv[0] = v.real();
     mv[1] = v.imag();
   }
-  static void SetLength(Self &, const unsigned int s)
+  static void SetLength(Self & m, const unsigned int s)
   {
     if ( s != 2 )
       {
       itkGenericExceptionMacro(<< "Cannot set the size of a complex to " << s);
       }
+    m = NumericTraits< ValueType >::Zero;
   }
 };
 
@@ -1088,12 +1105,13 @@ public:
     mv[0] = v.real();
     mv[1] = v.imag();
   }
-  static void SetLength(Self &, const unsigned int s)
+  static void SetLength(Self & m, const unsigned int s)
   {
     if ( s != 2 )
       {
       itkGenericExceptionMacro(<< "Cannot set the size of a complex to " << s);
       }
+    m = NumericTraits< ValueType >::Zero;
   }
 };
 
@@ -1147,12 +1165,13 @@ public:
     mv[0] = v.real();
     mv[1] = v.imag();
   }
-  static void SetLength(Self &, const unsigned int s)
+  static void SetLength(Self & m, const unsigned int s)
   {
     if ( s != 2 )
       {
       itkGenericExceptionMacro(<< "Cannot set the size of a complex to " << s);
       }
+    m = NumericTraits< ValueType >::Zero;
   }
 };
 
@@ -1206,12 +1225,13 @@ public:
     mv[0] = v.real();
     mv[1] = v.imag();
   }
-  static void SetLength(Self &, const unsigned int s)
+  static void SetLength(Self & m, const unsigned int s)
   {
     if ( s != 2 )
       {
       itkGenericExceptionMacro(<< "Cannot set the size of a complex to " << s);
       }
+    m = NumericTraits< ValueType >::Zero;
   }
 };
 
@@ -1265,12 +1285,13 @@ public:
     mv[0] = v.real();
     mv[1] = v.imag();
   }
-  static void SetLength(Self &, const unsigned int s)
+  static void SetLength(Self & m, const unsigned int s)
   {
     if ( s != 2 )
       {
       itkGenericExceptionMacro(<< "Cannot set the size of a complex to " << s);
       }
+    m = NumericTraits< ValueType >::Zero;
   }
 };
 
@@ -1324,12 +1345,13 @@ public:
     mv[0] = v.real();
     mv[1] = v.imag();
   }
-  static void SetLength(Self &, const unsigned int s)
+  static void SetLength(Self & m, const unsigned int s)
   {
     if ( s != 2 )
       {
       itkGenericExceptionMacro(<< "Cannot set the size of a complex to " << s);
       }
+    m = NumericTraits< ValueType >::Zero;
   }
 };
 
@@ -1383,12 +1405,13 @@ public:
     mv[0] = v.real();
     mv[1] = v.imag();
   }
-  static void SetLength(Self &, const unsigned int s)
+  static void SetLength(Self & m, const unsigned int s)
   {
     if ( s != 2 )
       {
       itkGenericExceptionMacro(<< "Cannot set the size of a complex to " << s);
       }
+    m = NumericTraits< ValueType >::Zero;
   }
 };
 
@@ -1442,12 +1465,13 @@ public:
     mv[0] = v.real();
     mv[1] = v.imag();
   }
-  static void SetLength(Self &, const unsigned int s)
+  static void SetLength(Self & m, const unsigned int s)
   {
     if ( s != 2 )
       {
       itkGenericExceptionMacro(<< "Cannot set the size of a complex to " << s);
       }
+    m = NumericTraits< ValueType >::Zero;
   }
 };
 
@@ -1501,12 +1525,13 @@ public:
     mv[0] = v.real();
     mv[1] = v.imag();
   }
-  static void SetLength(Self &, const unsigned int s)
+  static void SetLength(Self & m, const unsigned int s)
   {
     if ( s != 2 )
       {
       itkGenericExceptionMacro(<< "Cannot set the size of a complex to " << s);
       }
+    m = NumericTraits< ValueType >::Zero;
   }
 };
 
@@ -1551,12 +1576,13 @@ public:
   {
     mv[0] = v;
   }
-  static void SetLength(ValueType &, const unsigned int s)
+  static void SetLength(ValueType & m, const unsigned int s)
   {
     if ( s != 1 )
       {
       itkGenericExceptionMacro(<< "Cannot set the size of a scalar to " << s);
       }
+    m = NumericTraits< ValueType >::Zero;
   }
 };
 
@@ -1601,12 +1627,13 @@ public:
   {
     mv[0] = v;
   }
-  static void SetLength(ValueType &, const unsigned int s)
+  static void SetLength(ValueType & m, const unsigned int s)
   {
     if ( s != 1 )
       {
       itkGenericExceptionMacro(<< "Cannot set the size of a scalar to " << s);
       }
+    m = NumericTraits< ValueType >::Zero;
   }
 };
 
