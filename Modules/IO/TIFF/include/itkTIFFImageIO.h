@@ -124,6 +124,12 @@ public:
       }
   }
 
+  /** Set/Get the level of quality for the output images if
+    * Compression is JPEG. Settings vary from 1 to 100.
+    * 100 is the highest quality. Default is 75 */
+  itkSetClampMacro(JPEGQuality, int, 1, 100);
+  itkGetConstMacro(JPEGQuality, int);
+
 protected:
   TIFFImageIO();
   ~TIFFImageIO();
@@ -158,6 +164,7 @@ protected:
   TIFFReaderInternal *m_InternalImage;
 
   int m_Compression;
+  int m_JPEGQuality;
 
 private:
   TIFFImageIO(const Self &);    //purposely not implemented

@@ -1462,6 +1462,7 @@ TIFFImageIO::TIFFImageIO()
   m_Origin[1] = 0.0;
 
   m_Compression = TIFFImageIO::PackBits;
+  m_JPEGQuality = 75;
 
   this->AddSupportedWriteExtension(".tif");
   this->AddSupportedWriteExtension(".TIF");
@@ -1484,6 +1485,7 @@ void TIFFImageIO::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Compression: " << m_Compression << "\n";
+  os << indent << "JPEGQuality: " << m_JPEGQuality << "\n";
 }
 
 void TIFFImageIO::InitializeColors()
@@ -1842,7 +1844,7 @@ void TIFFImageIO::InternalWrite(const void *buffer)
 
     if ( compression == COMPRESSION_JPEG )
       {
-      TIFFSetField(tif, TIFFTAG_JPEGQUALITY, 75); // Parameter
+      TIFFSetField(tif, TIFFTAG_JPEGQUALITY, m_JPEGQuality);
       TIFFSetField(tif, TIFFTAG_JPEGCOLORMODE, JPEGCOLORMODE_RGB);
       }
     else if ( compression == COMPRESSION_DEFLATE )
