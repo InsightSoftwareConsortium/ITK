@@ -183,7 +183,7 @@ ImageMomentsCalculator< TImage >::Compute()
   vnl_diag_matrix< double >           pm = eigen.D;
   for ( unsigned int i = 0; i < ImageDimension; i++ )
     {
-    m_Pm[i] = pm(i, i) * m_M0;
+    m_Pm[i] = pm(i) * m_M0;
     }
   m_Pa = eigen.V.transpose();
 
@@ -195,7 +195,7 @@ ImageMomentsCalculator< TImage >::Compute()
 
   for ( unsigned int i = 0; i < ImageDimension; i++ )
     {
-    det *= eigenval(i, i);
+    det *= eigenval(i);
     }
 
   for ( unsigned int i = 0; i < ImageDimension; i++ )

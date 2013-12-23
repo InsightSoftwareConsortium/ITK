@@ -225,7 +225,7 @@ StatisticsLabelMapFilter< TImage, TFeatureImage >
     for ( unsigned int i = 0; i < ImageDimension; i++ )
       {
       //    principalMoments[i] = 4 * vcl_sqrt( pm(i,i) );
-      principalMoments[i] = pm(i, i);
+      principalMoments[i] = pm(i);
       }
     principalAxes = eigen.V.transpose();
 
@@ -237,7 +237,7 @@ StatisticsLabelMapFilter< TImage, TFeatureImage >
 
     for ( unsigned int i = 0; i < ImageDimension; i++ )
       {
-      det *= eigenval(i, i);
+      det *= eigenval(i);
       }
 
     for ( unsigned int i = 0; i < ImageDimension; i++ )
