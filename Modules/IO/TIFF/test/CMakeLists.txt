@@ -128,6 +128,20 @@ foreach(f ${CompressionFiles})
       endforeach()
 endforeach()
 
+set (Compression "JPEG")
+set (CompressionFiles "cthead1")
+set (Quality "1;50;100")
+foreach(f ${CompressionFiles})
+  foreach(q ${Quality})
+    set (file TestTIFFCompression_${f}_JPEG_${q}.tif})
+    itk_add_test(NAME itkTIFFImageIOCompression_${f}_JPEG_${q}
+          COMMAND ITKIOTIFFTestDriver
+          --compare DATA{Baseline/TestTIFFCompression_${f}_JPEG_${q}.tif}
+              ${ITK_TEST_OUTPUT_DIR}/TestTIFFCompression_${f}_JPEG_${q}.tif
+        itkTIFFImageIOCompressionTest DATA{${ITK_DATA_ROOT}/Input/${f}.tif} ${ITK_TEST_OUTPUT_DIR}/TestTIFFCompression_${f}_JPEG_${q}.tif JPEG ${q})
+      endforeach()
+endforeach()
+
 ######################
 if( "${ITK_COMPUTER_MEMORY_SIZE}" GREATER 5 )
 
