@@ -76,7 +76,7 @@ CovarianceSampleFilter< TSample >
     {
     MatrixType covarianceMatrix(measurementVectorSize, measurementVectorSize);
     covarianceMatrix.SetIdentity();
-    MatrixDecoratedType::Pointer decoratedCovarianceMatrix = MatrixDecoratedType::New();
+    typename MatrixDecoratedType::Pointer decoratedCovarianceMatrix = MatrixDecoratedType::New();
     decoratedCovarianceMatrix->Set(covarianceMatrix);
     return decoratedCovarianceMatrix.GetPointer();
     }
@@ -86,7 +86,7 @@ CovarianceSampleFilter< TSample >
     MeasurementVectorRealType mean;
     (void)mean; // for complainty pants : valgrind
     NumericTraits<MeasurementVectorRealType>::SetLength(mean, this->GetMeasurementVectorSize());
-    mean.Fill( NumericTraits< MeasurementRealType >::Zero );
+    // NumericTraits::SetLength also initializes array to zero
     typename MeasurementVectorDecoratedType::Pointer decoratedMean = MeasurementVectorDecoratedType::New();
     decoratedMean->Set( mean );
     return decoratedMean.GetPointer();
@@ -125,6 +125,7 @@ inline void
 CovarianceSampleFilter< TSample >
 ::GenerateData()
 {
+  // set up input / output
   const SampleType *input = this->GetInput();
 
   MeasurementVectorSizeType measurementVectorSize = input->GetMeasurementVectorSize();
@@ -133,47 +134,46 @@ CovarianceSampleFilter< TSample >
     itkDynamicCastInDebugMode< MatrixDecoratedType * >( this->ProcessObject::GetOutput(0) );
 
   MatrixType output = decoratedOutput->Get();
+  output.SetSize( measurementVectorSize, measurementVectorSize );
+  output.Fill( NumericTraits< typename MatrixType::ValueType >::Zero );
 
   MeasurementVectorDecoratedType *decoratedMeanOutput =
-    itkDynamicCastInDebugMode< MeasurementVectorDecoratedType * >(this->ProcessObject::GetOutput(1));
+    itkDynamicCastInDebugMode< MeasurementVectorDecoratedType * >( this->ProcessObject::GetOutput(1) );
 
-  output.SetSize(measurementVectorSize, measurementVectorSize);
-  output.Fill(0.0);
-
-  double totalFrequency = 0.0;
-
-  typename TSample::ConstIterator iter = input->Begin();
-  typename TSample::ConstIterator end = input->End();
-
-  MeasurementVectorRealType diff;
-  MeasurementVectorType measurements;
-
-  NumericTraits<MeasurementVectorRealType>::SetLength(diff, measurementVectorSize);
-  NumericTraits<MeasurementVectorType>::SetLength(measurements, measurementVectorSize);
-
-  typedef MeanSampleFilter< TSample > MeanFilterType;
+  // calculate mean
+  typedef MeanSampleFilter< SampleType > MeanFilterType;
   typename MeanFilterType::Pointer meanFilter = MeanFilterType::New();
 
   meanFilter->SetInput( input );
   meanFilter->Update();
 
-  const typename MeanFilterType::MeasurementVectorDecoratedType * decorator = meanFilter->GetOutput();
-  const typename MeanFilterType::MeasurementVectorRealType mean = decorator->Get();
-
+  const typename MeanFilterType::MeasurementVectorRealType mean = meanFilter->GetMean();
   decoratedMeanOutput->Set( mean );
 
-  iter = input->Begin();
+  // covariance algorithm
+  MeasurementVectorRealType diff;
+  NumericTraits<MeasurementVectorRealType>::SetLength( diff, measurementVectorSize );
+
+  typedef typename SampleType::TotalAbsoluteFrequencyType TotalFrequencyType;
+  TotalFrequencyType totalFrequency = NumericTraits< TotalFrequencyType >::Zero;
+
+  typename SampleType::ConstIterator iter =      input->Begin();
+  const typename SampleType::ConstIterator end = input->End();
 
   // fills the lower triangle and the diagonal cells in the covariance matrix
-  while ( iter != end )
+  for (; iter != end; ++iter )
     {
-    const double frequency = iter.GetFrequency();
-    totalFrequency += frequency;
-    measurements = iter.GetMeasurementVector();
+    const MeasurementVectorType & measurement = iter.GetMeasurementVector();
 
-    for ( unsigned int i = 0; i < measurementVectorSize; ++i )
+    const typename SampleType::AbsoluteFrequencyType frequency = iter.GetFrequency();
+    totalFrequency += frequency;
+
+    for ( unsigned int dim = 0; dim < measurementVectorSize; ++dim )
       {
-      diff[i] = static_cast< MeasurementRealType >( measurements[i] ) - mean[i];
+      const MeasurementRealType component =
+        static_cast< MeasurementRealType >( measurement[dim] );
+
+      diff[dim] = ( component - mean[dim] );
       }
 
     // updates the covariance matrix
@@ -181,10 +181,10 @@ CovarianceSampleFilter< TSample >
       {
       for ( unsigned int col = 0; col < row + 1; ++col )
         {
-        output(row, col) += frequency * diff[row] * diff[col];
+        output(row, col) +=
+          ( static_cast< MeasurementRealType >( frequency ) * diff[row] * diff[col] );
         }
       }
-    ++iter;
     }
 
   // fills the upper triangle using the lower triangle
@@ -196,23 +196,21 @@ CovarianceSampleFilter< TSample >
       }
     }
 
-  if( totalFrequency - 1.0 > vnl_math::eps )
-    {
-    const double factor = 1.0 / ( totalFrequency - 1.0 );
+  const double normalizationFactor =
+    ( static_cast< MeasurementRealType >( totalFrequency ) - 1.0 );
 
-    for ( unsigned int col = 0; col < measurementVectorSize; ++col )
-      {
-      for ( unsigned int row = 0; row < measurementVectorSize; ++row )
-        {
-        output(col, row) *= factor;
-        }
-      }
-    decoratedOutput->Set(output);
+  if( normalizationFactor > vnl_math::eps )
+    {
+    const double inverseNormalizationFactor = 1.0 / normalizationFactor;
+
+    output *= inverseNormalizationFactor;
     }
   else
     {
     itkExceptionMacro("Total Frequency was too close to 1.0. Value = " << totalFrequency );
     }
+
+  decoratedOutput->Set( output );
 }
 
 template< typename TSample >

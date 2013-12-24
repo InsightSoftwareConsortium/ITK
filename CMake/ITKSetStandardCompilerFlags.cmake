@@ -190,8 +190,10 @@ macro(check_compiler_platform_flags)
   #-----------------------------------------------------------------------------
   #ITK requires special compiler flags on some platforms.
   if(CMAKE_COMPILER_IS_GNUCXX)
-    # GCC's -Warray-bounds has been shown to throw false positives with -O3 on 4.7 and 4.8.
-    if(UNIX AND "${CMAKE_CXX_COMPILER_VERSION}" VERSION_GREATER "4.6" AND "${CMAKE_CXX_COMPILER_VERSION}" VERSION_LESS "4.9")
+    # GCC's -Warray-bounds has been shown to throw false positives with -O3 on 4.8.
+    if(UNIX AND (
+      ("${CMAKE_CXX_COMPILER_VERSION}" VERSION_EQUAL "4.8") OR
+      ("${CMAKE_CXX_COMPILER_VERSION}" VERSION_GREATER "4.8" AND "${CMAKE_CXX_COMPILER_VERSION}" VERSION_LESS "4.9") ))
       set(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} -Wno-array-bounds")
     endif()
 

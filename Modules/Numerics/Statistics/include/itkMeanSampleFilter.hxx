@@ -18,8 +18,11 @@
 #ifndef __itkMeanSampleFilter_hxx
 #define __itkMeanSampleFilter_hxx
 
-#include "itkMeasurementVectorTraits.h"
 #include "itkMeanSampleFilter.h"
+
+#include <vector>
+#include "itkCompensatedSummation.h"
+#include "itkMeasurementVectorTraits.h"
 
 namespace itk
 {
@@ -72,7 +75,7 @@ MeanSampleFilter< TSample >
   MeasurementVectorRealType mean;
   (void)mean; // for complainty pants : valgrind
   NumericTraits<MeasurementVectorRealType>::SetLength( mean, this->GetMeasurementVectorSize() );
-  mean.Fill( NumericTraits< MeasurementRealType >::Zero );
+  // NumericTraits::SetLength also initializes array to zero
   typename MeasurementVectorDecoratedType::Pointer decoratedMean = MeasurementVectorDecoratedType::New();
   decoratedMean->Set( mean );
   return decoratedMean.GetPointer();
@@ -127,44 +130,43 @@ void
 MeanSampleFilter< TSample >
 ::GenerateData()
 {
+  // set up input / output
   const SampleType *input = this->GetInput();
 
-  MeasurementVectorSizeType measurementVectorSize =
+  const MeasurementVectorSizeType measurementVectorSize =
     input->GetMeasurementVectorSize();
 
   MeasurementVectorDecoratedType *decoratedOutput =
-    itkDynamicCastInDebugMode< MeasurementVectorDecoratedType * >(this->ProcessObject::GetOutput(0) );
+    itkDynamicCastInDebugMode< MeasurementVectorDecoratedType * >( this->ProcessObject::GetOutput(0) );
 
   MeasurementVectorRealType output = decoratedOutput->Get();
 
   NumericTraits<MeasurementVectorRealType>::SetLength( output, this->GetMeasurementVectorSize() );
 
-  typename TSample::ConstIterator iter = input->Begin();
-  typename TSample::ConstIterator end =  input->End();
-  double totalFrequency = 0.0;
+  // algorithm start
+  typedef CompensatedSummation< MeasurementRealType > MeasurementRealAccumulateType;
+  std::vector< MeasurementRealAccumulateType > sum( measurementVectorSize );
 
-  typedef typename NumericTraits<
-    MeasurementRealType >::AccumulateType MeasurementRealAccumulateType;
+  typedef typename SampleType::TotalAbsoluteFrequencyType TotalFrequencyType;
+  TotalFrequencyType totalFrequency = NumericTraits< TotalFrequencyType >::Zero;
 
-  Array< MeasurementRealAccumulateType > sum( measurementVectorSize );
-  sum.Fill( NumericTraits< MeasurementRealAccumulateType >::Zero );
+  typename SampleType::ConstIterator iter =      input->Begin();
+  const typename SampleType::ConstIterator end = input->End();
 
-  while ( iter != end )
+  for (; iter != end; ++iter )
     {
-    double frequency = iter.GetFrequency();
-    totalFrequency += frequency;
-
     const MeasurementVectorType & measurement = iter.GetMeasurementVector();
+
+    const typename SampleType::AbsoluteFrequencyType frequency = iter.GetFrequency();
+    totalFrequency += frequency;
 
     for ( unsigned int dim = 0; dim < measurementVectorSize; dim++ )
       {
       const MeasurementRealType component =
         static_cast< MeasurementRealType >( measurement[dim] );
 
-      sum[dim] += static_cast< MeasurementRealAccumulateType >( component * frequency );
+      sum[dim] += ( component * static_cast< MeasurementRealType >( frequency ) );
       }
-
-    ++iter;
     }
 
   // compute the mean if the total frequency is different from zero
@@ -172,7 +174,7 @@ MeanSampleFilter< TSample >
     {
     for ( unsigned int dim = 0; dim < measurementVectorSize; dim++ )
       {
-      output[dim] = static_cast< MeasurementRealType >( sum[dim] / totalFrequency );
+      output[dim] = ( sum[dim].GetSum() / static_cast< MeasurementRealType >( totalFrequency ) );
       }
     }
   else
