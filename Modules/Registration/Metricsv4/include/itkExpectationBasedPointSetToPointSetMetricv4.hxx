@@ -131,21 +131,17 @@ ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
 }
 
 template<typename TFixedPointSet, typename TMovingPointSet>
-::itk::LightObject::Pointer
+typename LightObject::Pointer
 ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
-::Clone( void ) const
+::InternalClone( void ) const
 {
-  ::itk::LightObject::Pointer smartPtr;
-  Pointer copyPtr = Self::New();
+  typename Self::Pointer rval = Self::New();
+  rval->SetMovingPointSet( this->m_MovingPointSet );
+  rval->SetFixedPointSet( this->m_FixedPointSet );
+  rval->SetPointSetSigma( this->m_PointSetSigma );
+  rval->SetEvaluationKNeighborhood( this->m_EvaluationKNeighborhood );
 
-  copyPtr->m_MovingPointSet = this->m_MovingPointSet;
-  copyPtr->m_FixedPointSet = this->m_FixedPointSet;
-  copyPtr->m_PointSetSigma = this->m_PointSetSigma;
-  copyPtr->m_EvaluationKNeighborhood = this->m_EvaluationKNeighborhood;
-
-  smartPtr = static_cast<Pointer>( copyPtr );
-
-  return smartPtr;
+  return rval.GetPointer();
 }
 
 template<typename TFixedPointSet, typename TMovingPointSet>

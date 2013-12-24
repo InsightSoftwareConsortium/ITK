@@ -3,7 +3,9 @@ set(ITKMetricsv4Tests
   itkEuclideanDistancePointSetMetricTest.cxx
   itkExpectationBasedPointSetMetricTest.cxx
   itkJensenHavrdaCharvatTsallisPointSetMetricTest.cxx
+  itkJensenHavrdaCharvatTsallisPointSetMetricRegistrationTest.cxx
   itkLabeledPointSetMetricTest.cxx
+  itkLabeledPointSetMetricRegistrationTest.cxx
   itkImageToImageMetricv4Test.cxx
   itkJointHistogramMutualInformationImageToImageMetricv4Test.cxx
   itkJointHistogramMutualInformationImageToImageRegistrationTest.cxx
@@ -50,8 +52,16 @@ itk_add_test(NAME itkExpectationBasedPointSetMetricTest
 itk_add_test(NAME itkJensenHavrdaCharvatTsallisPointSetMetricTest
       COMMAND ITKMetricsv4TestDriver itkJensenHavrdaCharvatTsallisPointSetMetricTest)
 
+itk_add_test(NAME itkJensenHavrdaCharvatTsallisPointSetMetricRegistrationTest
+      COMMAND ITKMetricsv4TestDriver
+              itkJensenHavrdaCharvatTsallisPointSetMetricRegistrationTest)
+
 itk_add_test(NAME itkLabeledPointSetMetricTest
       COMMAND ITKMetricsv4TestDriver itkLabeledPointSetMetricTest)
+
+itk_add_test(NAME itkLabeledPointSetMetricRegistrationTest
+      COMMAND ITKMetricsv4TestDriver
+              itkLabeledPointSetMetricRegistrationTest)
 
 itk_add_test(NAME itkImageToImageMetricv4Test
       COMMAND ITKMetricsv4TestDriver

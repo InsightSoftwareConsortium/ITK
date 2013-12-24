@@ -105,7 +105,7 @@ public:
 
   /** Clone method will clone the existing instance of this type,
    *  including its internal member variables. */
-  virtual ::itk::LightObject::Pointer Clone( void ) const;
+  virtual typename LightObject::Pointer InternalClone() const;
 
 protected:
   ExpectationBasedPointSetToPointSetMetricv4();
