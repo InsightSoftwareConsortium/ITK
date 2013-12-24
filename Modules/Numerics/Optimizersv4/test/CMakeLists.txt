@@ -19,7 +19,9 @@ set(ITKOptimizersv4Tests
   itkWindowConvergenceMonitoringFunctionTest.cxx
   itkQuasiNewtonOptimizerv4Test.cxx
   itkObjectToObjectMetricBaseTest.cxx
-)
+  itkLBFGSOptimizerv4Test.cxx
+  itkLBFGSBOptimizerv4Test.cxx
+  )
 
 set(INPUTDATA ${ITK_DATA_ROOT}/Input)
 set(BASELINE_ROOT ${ITK_DATA_ROOT}/Baseline)
@@ -109,3 +111,11 @@ itk_add_test(NAME itkRegistrationParameterScalesFromPhysicalShiftPointSetTest
 itk_add_test(NAME itkObjectToObjectMetricBaseTest
       COMMAND ITKOptimizersv4TestDriver
       itkObjectToObjectMetricBaseTest)
+
+itk_add_test(NAME itkLBFGSOptimizerv4Test
+  COMMAND ITKOptimizersv4TestDriver
+  itkLBFGSOptimizerv4Test)
+
+itk_add_test(NAME itkLBFGSBOptimizerv4Test
+  COMMAND ITKOptimizersv4TestDriver
+  itkLBFGSBOptimizerv4Test)

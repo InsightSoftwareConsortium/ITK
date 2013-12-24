@@ -74,7 +74,7 @@ public:
   typedef typename MetricType::Pointer                       MetricTypePointer;
 
   /** Derivative type */
-  typedef typename MetricType::DerivativeType                DerivativeType;
+  typedef typename Superclass::DerivativeType                DerivativeType;
 
   /** Measure type */
   typedef typename Superclass::MeasureType                   MeasureType;
