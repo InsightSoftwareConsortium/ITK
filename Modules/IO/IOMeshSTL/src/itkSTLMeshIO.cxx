@@ -216,18 +216,44 @@ STLMeshIO ::Write()
 {}
 
 void
+STLMeshIO ::WritePoints(void * buffer)
+{
+  const IdentifierType numberOfPoints = this->GetNumberOfPoints();
+
+  // Revisit this choice. Although.. STL will only manage 3D.
+  // This probably should throw and exception if the input Mesh is not in 3D space.
+  const unsigned int PointDimension = 3;
+
+  typedef float PointValueType; // FIXME Revisit this choice. It should be read from the MetaData.
+
+  const PointValueType * pointCoordinates = reinterpret_cast<const PointValueType *>(buffer);
+
+  this->m_Points.clear();
+
+  this->m_Points.resize(numberOfPoints);
+
+  for (IdentifierType pi = 0; pi < numberOfPoints; ++pi)
+  {
+    for (unsigned int i = 0; i < PointDimension; ++i)
+    {
+      m_Points[pi][i] = *pointCoordinates++;
+    }
+  }
+}
+
+void
 STLMeshIO ::WriteCells(void * buffer)
 {
 
-  IdentifierType numberOfPolygons = this->GetNumberOfCells();
+  const IdentifierType numberOfPolygons = this->GetNumberOfCells();
 
-  IdentifierType * cellsBuffer = reinterpret_cast<IdentifierType *>(buffer);
+  const IdentifierType * cellsBuffer = reinterpret_cast<const IdentifierType *>(buffer);
 
   SizeValueType index = 0;
 
   typedef MeshIOBase::CellGeometryType CellGeometryType;
 
-  std::cout << "numberOfPolygons " << numberOfPolygons << std::endl;
+  NormalType normal;
 
   for (SizeValueType polygonItr = 0; polygonItr < numberOfPolygons; polygonItr++)
   {
@@ -238,13 +264,24 @@ STLMeshIO ::WriteCells(void * buffer)
 
     if (isTriangle)
     {
-      std::cout << "POLYGON_CELL with " << numberOfVerticesInCell << " vertices " << std::endl;
-      this->m_OutputStream << "  facet normal" << std::endl;
+      const PointType & p0 = m_Points[cellsBuffer[index++]];
+      const PointType & p1 = m_Points[cellsBuffer[index++]];
+      const PointType & p2 = m_Points[cellsBuffer[index++]];
+
+      const VectorType v10(p0 - p1);
+      const VectorType v12(p2 - p1);
+
+      CrossProduct(normal, v10, v12);
+
+      this->m_OutputStream << "  facet normal ";
+      this->m_OutputStream << normal[0] << " " << normal[1] << " " << normal[2] << std::endl;
+
       this->m_OutputStream << "    outer loop" << std::endl;
-      for (unsigned int jj = 0; jj < numberOfVerticesInCell; jj++)
-      {
-        this->m_OutputStream << "      vertex " << cellsBuffer[index++] << std::endl;
-      }
+
+      this->m_OutputStream << "      vertex " << p0[0] << " " << p0[1] << " " << p0[2] << std::endl;
+      this->m_OutputStream << "      vertex " << p1[0] << " " << p1[1] << " " << p1[2] << std::endl;
+      this->m_OutputStream << "      vertex " << p2[0] << " " << p2[1] << " " << p2[2] << std::endl;
+
       this->m_OutputStream << "    endloop" << std::endl;
       this->m_OutputStream << "  endfacet" << std::endl;
     }

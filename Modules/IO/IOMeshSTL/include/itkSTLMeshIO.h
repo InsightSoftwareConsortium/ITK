@@ -99,10 +99,11 @@ public:
   /** The STL format stores point coordinates repeatedly as part of every
    * triangle. Therefore point coordinates are writen as part of the
    * WriteCells() method, and not as an independent operation.
-   * Consequently, this method is implemented as a null operation.
+   * Consequently, this method only performs an internal copy of the Point
+   * coordinates data, than then is used in the WriteCells() method.
    */
   virtual void
-  WritePoints(void * itkNotUsed(buffer)) {};
+  WritePoints(void * buffer);
 
   /** The WriteCells() method does most of the work. It writes
    * out every triangle in the mesh. For every triangle, it
@@ -146,6 +147,16 @@ private:
 
   std::ofstream m_OutputStream; // output file
   std::ifstream m_InputStream;  // input file
+
+  typedef float PointValueType; // type to represent point coordinates
+
+  typedef Point<PointValueType, 3>           PointType;
+  typedef Vector<PointValueType, 3>          VectorType;
+  typedef CovariantVector<PointValueType, 3> NormalType;
+
+  typedef std::vector<PointType> PointContainerType;
+
+  PointContainerType m_Points;
 };
 } // end namespace itk
 
