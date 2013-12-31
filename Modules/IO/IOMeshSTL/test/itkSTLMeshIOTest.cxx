@@ -24,9 +24,11 @@
 int
 itkSTLMeshIOTest(int argc, char * argv[])
 {
-  if (argc < 3)
+  if (argc < 4)
   {
-    std::cerr << "Invalid commands, You need input and output mesh file name " << std::endl;
+    std::cerr << "Missing Arguments." << std::endl;
+    std::cerr << "Usage: " << std::endl;
+    std::cerr << "inputMesh outputMesh (0:ASCII/1:BINARY) " << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -45,6 +47,17 @@ itkSTLMeshIOTest(int argc, char * argv[])
 
   reader->SetFileName(argv[1]);
   writer->SetFileName(argv[2]);
+
+  int fileMode = atoi(argv[3]);
+
+  if (fileMode == 0)
+  {
+    writer->SetFileTypeAsASCII();
+  }
+  else if (fileMode == 1)
+  {
+    writer->SetFileTypeAsBINARY();
+  }
 
   writer->SetInput(reader->GetOutput());
 

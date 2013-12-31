@@ -11,4 +11,15 @@ itk_add_test(
     itkSTLMeshIOTest
     DATA{Baseline/sphere.vtk}
     ${ITK_TEST_OUTPUT_DIR}/sphere00.stl
+    0 # write in ASCII
+)
+
+itk_add_test(
+  NAME itkSTLMeshIOTest01
+  COMMAND
+    ITKIOSTLMeshTestDriver
+    itkSTLMeshIOTest
+    DATA{Baseline/sphere.vtk}
+    ${ITK_TEST_OUTPUT_DIR}/sphere01.stl
+    1 # write in BINARY
 )

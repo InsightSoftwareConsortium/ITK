@@ -188,6 +188,16 @@ private:
 
   typedef std::vector<PointType> PointContainerType;
 
+  /** Helper functions to write elements to binary file */
+  void
+  WriteInt32AsBinary(int32_t value);
+  void
+  WriteInt16AsBinary(int16_t value);
+  void
+  WriteNormalAsBinary(const NormalType & normal);
+  void
+  WritePointAsBinary(const PointType & point);
+
   PointContainerType m_Points;
 };
 } // end namespace itk
