@@ -140,6 +140,38 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const;
 
+  /** Templated version of write points method, that is aware of the specific
+   * type used to represent the point coordinates. */
+  template <typename PointValueType>
+  void
+  WritePointsTyped(const PointValueType * buffer)
+  {
+
+    const unsigned int pointDimension = this->GetPointDimension();
+
+    if (pointDimension != 3)
+    {
+      itkExceptionMacro("STL only supports 3D points");
+    }
+
+    const PointValueType * pointCoordinates = buffer;
+
+    this->m_Points.clear();
+
+    const IdentifierType numberOfPoints = this->GetNumberOfPoints();
+
+    this->m_Points.resize(numberOfPoints);
+
+    for (IdentifierType pi = 0; pi < numberOfPoints; ++pi)
+    {
+      for (unsigned int i = 0; i < pointDimension; ++i)
+      {
+        m_Points[pi][i] = *pointCoordinates++;
+      }
+    }
+  }
+
+
 private:
   STLMeshIO(const Self &); // purposely not implemented
   void
