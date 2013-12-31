@@ -309,7 +309,7 @@ STLMeshIO ::WriteCells(void * buffer)
       const VectorType v10(p0 - p1);
       const VectorType v12(p2 - p1);
 
-      CrossProduct(normal, v10, v12);
+      CrossProduct(normal, v12, v10);
 
       this->m_OutputStream << "  facet normal ";
       this->m_OutputStream << normal[0] << " " << normal[1] << " " << normal[2] << std::endl;
