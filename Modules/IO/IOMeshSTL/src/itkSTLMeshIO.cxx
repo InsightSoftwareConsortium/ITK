@@ -113,8 +113,10 @@ STLMeshIO ::ReadMeshInformation()
       }
 #endif
     }
+
+    this->ReadMeshInternalFromAscii();
   }
-  else if (inputLine.find("BINARY") != std::string::npos)
+  else
   {
     if (this->GetFileType() != BINARY)
     {
@@ -131,11 +133,130 @@ STLMeshIO ::ReadMeshInformation()
       }
 #endif
     }
+
+    this->ReadMeshInternalFromBinary();
   }
 
 
   this->m_InputStream.close();
 }
+
+
+void
+STLMeshIO ::ReadMeshInternalFromAscii()
+{
+  // Read all the points, and reduce them to unique ones
+  std::string inputLine;
+  PointType   p0;
+  PointType   p1;
+  PointType   p2;
+
+  this->m_InputLineNumber = 2;
+
+  while (!this->CheckStringFromAscii("endsolid"))
+  {
+    //
+    // http://en.wikipedia.org/wiki/STL_(file_format)#Binary_STL
+    //
+    //  facet normal ni nj nk
+    //      outer loop
+    //          vertex v1x v1y v1z
+    //          vertex v2x v2y v2z
+    //          vertex v3x v3y v3z
+    //      endloop
+    //  endfacet
+    //
+    this->ReadStringFromAscii("facet normal");
+    this->ReadStringFromAscii("outer loop");
+    this->ReadPointAsAscii(p0);
+    this->ReadPointAsAscii(p1);
+    this->ReadPointAsAscii(p2);
+    this->ReadStringFromAscii("endloop");
+    this->ReadStringFromAscii("endfacet");
+  }
+}
+
+
+void
+STLMeshIO ::ReadStringFromAscii(const std::string & expected)
+{
+  if (this->m_InputLine.empty())
+  {
+    std::getline(this->m_InputStream, this->m_InputLine, '\n');
+  }
+
+  if (this->m_InputLine.find(expected) == std::string::npos)
+  {
+    itkExceptionMacro("Parsing error: missed " << expected << " in line " << this->m_InputLineNumber
+                                               << " found: " << this->m_InputLine);
+  }
+
+  this->m_InputLine.clear();
+
+  this->m_InputLineNumber++;
+}
+
+
+bool
+STLMeshIO ::CheckStringFromAscii(const std::string & expected)
+{
+  std::getline(this->m_InputStream, this->m_InputLine, '\n');
+
+  if (this->m_InputLine.find(expected) != std::string::npos)
+  {
+    this->m_InputLineNumber++;
+    return true;
+  }
+
+  return false;
+}
+
+
+void
+STLMeshIO ::ReadMeshInternalFromBinary()
+{
+  //
+  // http://en.wikipedia.org/wiki/STL_(file_format)#Binary_STL
+  //
+  // UINT8[80] header
+  //
+  char header[80];
+  this->m_InputStream.read(header, 80);
+
+  //
+  // UINT32 -- Number of Triangles
+  //
+  int32_t numberOfTriangles;
+  this->m_InputStream.read(reinterpret_cast<char *>(&numberOfTriangles), sizeof(numberOfTriangles));
+
+  this->SetNumberOfCells(numberOfTriangles);
+
+  //
+  // foreach triangle
+  //
+  NormalType normal;
+  PointType  p0;
+  PointType  p1;
+  PointType  p2;
+  int16_t    bytecount;
+
+  while (numberOfTriangles--)
+  {
+    //
+    //    REAL32[3] – Normal vector
+    //    REAL32[3] – Vertex 1
+    //    REAL32[3] – Vertex 2
+    //    REAL32[3] – Vertex 3
+    //    UINT16 – Attribute byte count
+    //
+    this->ReadNormalAsBinary(normal);
+    this->ReadPointAsBinary(p0);
+    this->ReadPointAsBinary(p1);
+    this->ReadPointAsBinary(p2);
+    this->ReadInt16AsBinary(bytecount);
+  }
+}
+
 
 void
 STLMeshIO ::ReadPoints(void * itkNotUsed(buffer))
@@ -434,6 +555,95 @@ STLMeshIO ::WritePointAsBinary(const PointType & point)
     const float value = point[i];
     this->m_OutputStream.write(reinterpret_cast<const char *>(&value), sizeof(value));
   }
+}
+
+
+void
+STLMeshIO ::ReadNormalAsBinary(NormalType & normal)
+{
+  float value;
+  for (unsigned int i = 0; i < 3; ++i)
+  {
+    this->m_InputStream.read(reinterpret_cast<char *>(&value), sizeof(value));
+    normal[i] = value;
+  }
+}
+
+
+void
+STLMeshIO ::ReadInt32AsBinary(int32_t & value)
+{
+  this->m_InputStream.read(reinterpret_cast<char *>(&value), sizeof(value));
+}
+
+
+void
+STLMeshIO ::ReadInt16AsBinary(int16_t & value)
+{
+  this->m_InputStream.read(reinterpret_cast<char *>(&value), sizeof(value));
+}
+
+
+void
+STLMeshIO ::ReadPointAsBinary(PointType & point)
+{
+  float value;
+  for (unsigned int i = 0; i < 3; ++i)
+  {
+    this->m_InputStream.read(reinterpret_cast<char *>(&value), sizeof(value));
+    point[i] = value;
+  }
+}
+
+
+void
+STLMeshIO ::ReadPointAsAscii(PointType & point)
+{
+  std::string keywword;
+  this->m_InputStream >> keywword;
+
+  if (keywword.find("vertex") == std::string::npos)
+  {
+    itkExceptionMacro("Parsing error: missed 'vertex' in line " << this->m_InputLineNumber);
+  }
+
+  this->m_InputStream >> point;
+
+  this->InsertPointIntoSet(point);
+
+  // read remaining of the line, most often just the end of line.
+  std::string restOfLine;
+  std::getline(this->m_InputStream, restOfLine, '\n');
+
+  this->m_InputLineNumber++;
+}
+
+
+void
+STLMeshIO ::InsertPointIntoSet(const PointType & point)
+{
+  //
+  // combines the FLOAT32 bits components of points into a hash
+  //
+  const unsigned int size = sizeof(float);
+
+  char pointHash[3 * size];
+
+  float valueX = point[0];
+  float valueY = point[1];
+  float valueZ = point[2];
+
+  char * destination = pointHash;
+
+  strncpy(destination, reinterpret_cast<char *>(&valueX), size);
+  destination += size;
+
+  strncpy(destination, reinterpret_cast<char *>(&valueY), size);
+  destination += size;
+
+  strncpy(destination, reinterpret_cast<char *>(&valueZ), size);
+
+  this->m_PointsSet.insert(point);
 }
 
 

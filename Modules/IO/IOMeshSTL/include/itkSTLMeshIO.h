@@ -21,6 +21,7 @@
 #include "itkMeshIOBase.h"
 
 #include <fstream>
+#include <set>
 
 namespace itk
 {
@@ -180,6 +181,8 @@ private:
   std::ofstream m_OutputStream; // output file
   std::ifstream m_InputStream;  // input file
 
+  std::string m_InputLine; // helper during reading
+
   typedef float PointValueType; // type to represent point coordinates
 
   typedef Point<PointValueType, 3>           PointType;
@@ -198,7 +201,63 @@ private:
   void
   WritePointAsBinary(const PointType & point);
 
+  /** Helper functions to read elements from ASCII and BINARY files. */
+  void
+  ReadMeshInternalFromAscii();
+  void
+  ReadMeshInternalFromBinary();
+
+  /** Helper functions to read elements from binary file */
+  void
+  ReadInt32AsBinary(int32_t & value);
+  void
+  ReadInt16AsBinary(int16_t & value);
+  void
+  ReadNormalAsBinary(NormalType & normal);
+  void
+  ReadPointAsBinary(PointType & point);
+
+  /** Helper functions to read elements from ASCII files. */
+  void
+  ReadStringFromAscii(const std::string & keyword);
+  void
+  ReadPointAsAscii(PointType & point);
+  bool
+  CheckStringFromAscii(const std::string & expected);
+
+  /** Functions to create set of points and disambiguate them. */
+  void
+  InsertPointIntoSet(const PointType & point);
+
   PointContainerType m_Points;
+
+  unsigned int m_InputLineNumber;
+
+  static double
+  PointHash(const PointType & point)
+  {
+    double hash = 0;
+    double factor = 1e10;
+    hash = static_cast<double>(point[0]);
+    hash *= factor;
+    hash += static_cast<double>(point[1]);
+    hash *= factor;
+    hash += static_cast<double>(point[2]);
+    return hash;
+  }
+
+  struct PointCompare
+  {
+    bool
+    operator()(const PointType & p1, const PointType & p2) const
+    {
+      return PointHash(p1) < PointHash(p2);
+    }
+  };
+
+  typedef std::set<PointType, PointCompare> PointSetType;
+
+  PointSetType m_PointsSet;
 };
 } // end namespace itk
 
