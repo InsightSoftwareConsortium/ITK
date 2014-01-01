@@ -256,8 +256,23 @@ private:
   };
 
   typedef std::set<PointType, PointCompare> PointSetType;
+  typedef PointSetType::iterator            PointSetIterator;
+  typedef std::pair<PointSetIterator, bool> PointSetResultType;
+  typedef std::vector<PointSetIterator>     PointsVectorType;
 
-  PointSetType m_PointsSet;
+  PointSetType     m_PointsSet;
+  PointsVectorType m_PointsVector;
+
+  // Helper variable to put Ids in points as they are read
+  IdentifierType m_LatestPointId;
+
+  // Triplet to hold the Ids of points in a triagle as they are being read
+  typedef IdentifierType TripletType[3];
+  TripletType            m_TrianglePointIds;
+  unsigned int           m_PointInTriangleCounter;
+
+  typedef std::vector<TripletType> CellsVectorType;
+  CellsVectorType                  m_CellsVector;
 };
 } // end namespace itk
 

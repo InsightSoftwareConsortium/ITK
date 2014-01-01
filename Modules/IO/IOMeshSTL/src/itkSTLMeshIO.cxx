@@ -166,6 +166,8 @@ STLMeshIO ::ReadMeshInternalFromAscii()
     //      endloop
     //  endfacet
     //
+    this->m_PointInTriangleCounter = 0;
+
     this->ReadStringFromAscii("facet normal");
     this->ReadStringFromAscii("outer loop");
     this->ReadPointAsAscii(p0);
@@ -173,6 +175,8 @@ STLMeshIO ::ReadMeshInternalFromAscii()
     this->ReadPointAsAscii(p2);
     this->ReadStringFromAscii("endloop");
     this->ReadStringFromAscii("endfacet");
+
+    // this->m_CellsVector.push_back( this->m_TrianglePointIds );
   }
 }
 
@@ -249,11 +253,15 @@ STLMeshIO ::ReadMeshInternalFromBinary()
     //    REAL32[3] – Vertex 3
     //    UINT16 – Attribute byte count
     //
+    this->m_PointInTriangleCounter = 0;
+
     this->ReadNormalAsBinary(normal);
     this->ReadPointAsBinary(p0);
     this->ReadPointAsBinary(p1);
     this->ReadPointAsBinary(p2);
     this->ReadInt16AsBinary(bytecount);
+
+    // this->m_CellsVector.push_back( this->m_TrianglePointIds );
   }
 }
 
@@ -593,16 +601,18 @@ STLMeshIO ::ReadPointAsBinary(PointType & point)
     this->m_InputStream.read(reinterpret_cast<char *>(&value), sizeof(value));
     point[i] = value;
   }
+
+  this->InsertPointIntoSet(point);
 }
 
 
 void
 STLMeshIO ::ReadPointAsAscii(PointType & point)
 {
-  std::string keywword;
-  this->m_InputStream >> keywword;
+  std::string keyword;
+  this->m_InputStream >> keyword;
 
-  if (keywword.find("vertex") == std::string::npos)
+  if (keyword.find("vertex") == std::string::npos)
   {
     itkExceptionMacro("Parsing error: missed 'vertex' in line " << this->m_InputLineNumber);
   }
@@ -643,7 +653,14 @@ STLMeshIO ::InsertPointIntoSet(const PointType & point)
 
   strncpy(destination, reinterpret_cast<char *>(&valueZ), size);
 
-  this->m_PointsSet.insert(point);
+  PointSetResultType result = this->m_PointsSet.insert(point);
+
+  if (result.second)
+  {
+    this->m_PointsVector.push_back(result.first);
+    this->m_LatestPointId = this->m_PointsVector.size();
+    this->m_TrianglePointIds[this->m_PointInTriangleCounter++] = this->m_LatestPointId;
+  }
 }
 
 
