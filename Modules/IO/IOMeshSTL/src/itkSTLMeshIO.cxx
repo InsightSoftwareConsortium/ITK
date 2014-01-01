@@ -30,6 +30,13 @@ STLMeshIO ::STLMeshIO()
 {
   this->AddSupportedWriteExtension(".stl");
   this->AddSupportedWriteExtension(".STL");
+
+  // STL uses float type by default to store point data
+  this->SetPointComponentType(FLOAT);
+
+  // STL uses UINT32 to store the number of points,
+  // hence the point Ids are of the same UINT32 type.
+  this->SetCellComponentType(UINT);
 }
 
 bool
@@ -176,8 +183,10 @@ STLMeshIO ::ReadMeshInternalFromAscii()
     this->ReadStringFromAscii("endloop");
     this->ReadStringFromAscii("endfacet");
 
-    // this->m_CellsVector.push_back( this->m_TrianglePointIds );
+    this->m_CellsVector.push_back(this->m_TrianglePointIds);
   }
+
+  this->SetNumberOfPoints(this->m_PointsVector.size());
 }
 
 
@@ -261,36 +270,45 @@ STLMeshIO ::ReadMeshInternalFromBinary()
     this->ReadPointAsBinary(p2);
     this->ReadInt16AsBinary(bytecount);
 
-    // this->m_CellsVector.push_back( this->m_TrianglePointIds );
+    this->m_CellsVector.push_back(this->m_TrianglePointIds);
   }
+
+  this->SetNumberOfPoints(this->m_PointsVector.size());
 }
 
 
 void
-STLMeshIO ::ReadPoints(void * itkNotUsed(buffer))
+STLMeshIO ::ReadPoints(void * buffer)
 {
-  // Read input file
+  //
+  // The Point and Cell data were read in the ReadMeshInformation() method.
+  // Here, we can focus on packaging the point data into the return buffer.
+  //
+  std::cout << "Number of Unique Points = " << this->m_PointsVector.size() << std::endl;
+  PointsVectorType::const_iterator pointItr = this->m_PointsVector.begin();
+  PointsVectorType::const_iterator pointEnd = this->m_PointsVector.end();
 
-  if (this->GetFileType() == ASCII)
-  {
-    this->m_InputStream.open(this->m_FileName.c_str(), std::ios::in);
-  }
-  else if (this->GetFileType() == BINARY)
-  {
-    this->m_InputStream.open(this->m_FileName.c_str(), std::ios::in | std::ios::binary);
-  }
+  float * pointCoordinates = reinterpret_cast<float *>(buffer);
 
-  // Test whether the file has been opened
-  if (!this->m_InputStream.is_open())
+  while (pointItr != pointEnd)
   {
-    itkExceptionMacro("Unable to open file\n"
-                      "inputFilename= "
-                      << this->m_FileName);
-    return;
-  }
+    // get the iterator to the Set, pointing to a unique Point.
+    PointSetIterator uniquePointItr = *pointItr;
 
-  this->m_InputStream.close();
+    // Get the reference to that PointType object.
+    const PointType & point = *uniquePointItr;
+
+    //
+    // Store the Point coordintes in the buffer.
+    //
+    *pointCoordinates++ = point[0];
+    *pointCoordinates++ = point[1];
+    *pointCoordinates++ = point[2];
+
+    ++pointItr;
+  }
 }
+
 
 void
 STLMeshIO ::ReadCells(void * itkNotUsed(buffer))
@@ -632,35 +650,50 @@ STLMeshIO ::ReadPointAsAscii(PointType & point)
 void
 STLMeshIO ::InsertPointIntoSet(const PointType & point)
 {
-  //
-  // combines the FLOAT32 bits components of points into a hash
-  //
-  const unsigned int size = sizeof(float);
-
-  char pointHash[3 * size];
-
-  float valueX = point[0];
-  float valueY = point[1];
-  float valueZ = point[2];
-
-  char * destination = pointHash;
-
-  strncpy(destination, reinterpret_cast<char *>(&valueX), size);
-  destination += size;
-
-  strncpy(destination, reinterpret_cast<char *>(&valueY), size);
-  destination += size;
-
-  strncpy(destination, reinterpret_cast<char *>(&valueZ), size);
 
   PointSetResultType result = this->m_PointsSet.insert(point);
 
   if (result.second)
   {
     this->m_PointsVector.push_back(result.first);
+
     this->m_LatestPointId = this->m_PointsVector.size();
-    this->m_TrianglePointIds[this->m_PointInTriangleCounter++] = this->m_LatestPointId;
+    switch (this->m_PointInTriangleCounter)
+    {
+      case 0:
+        this->m_TrianglePointIds.p0 = this->m_LatestPointId;
+        break;
+      case 1:
+        this->m_TrianglePointIds.p1 = this->m_LatestPointId;
+        break;
+      case 2:
+        this->m_TrianglePointIds.p2 = this->m_LatestPointId;
+        break;
+      default:
+        itkExceptionMacro("Point counter went beyond value 2");
+    }
+    this->m_PointInTriangleCounter++;
   }
+}
+
+
+bool
+STLMeshIO ::GetUpdatePoints() const
+{
+  // Always true, since we are reading the point information
+  // in ReadMeshInformation(), and we need ReadPoints() to be
+  // called in order to store the point data into the buffer.
+  return true;
+}
+
+
+bool
+STLMeshIO ::GetUpdateCells() const
+{
+  // Always true, since we are reading the cell information
+  // in ReadMeshInformation(), and we need ReadCells() to be
+  // called in order to store the cell data into the buffer.
+  return true;
 }
 
 
