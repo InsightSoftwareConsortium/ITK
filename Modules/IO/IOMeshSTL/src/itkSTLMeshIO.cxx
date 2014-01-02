@@ -144,7 +144,6 @@ STLMeshIO ::ReadMeshInformation()
     this->ReadMeshInternalFromBinary();
   }
 
-
   this->m_InputStream.close();
 }
 
@@ -187,6 +186,16 @@ STLMeshIO ::ReadMeshInternalFromAscii()
   }
 
   this->SetNumberOfPoints(this->m_PointsVector.size());
+
+  //
+  // The factor 5 accounts for five integers
+  //  1. cell type id
+  //  2. number of points in cell
+  //  3. point id of point 0
+  //  4. point id of point 1
+  //  5. point id of point 2
+  //
+  this->SetCellBufferSize(5 * this->m_CellsVector.size());
 }
 
 
@@ -273,7 +282,19 @@ STLMeshIO ::ReadMeshInternalFromBinary()
     this->m_CellsVector.push_back(this->m_TrianglePointIds);
   }
 
+  std::cout << "Number of Unique Points = " << this->m_PointsVector.size() << std::endl;
+
   this->SetNumberOfPoints(this->m_PointsVector.size());
+
+  //
+  // The factor 5 accounts for five integers
+  //  1. cell type id
+  //  2. number of points in cell
+  //  3. point id of point 0
+  //  4. point id of point 1
+  //  5. point id of point 2
+  //
+  this->SetCellBufferSize(5 * this->m_CellsVector.size());
 }
 
 
@@ -284,7 +305,6 @@ STLMeshIO ::ReadPoints(void * buffer)
   // The Point and Cell data were read in the ReadMeshInformation() method.
   // Here, we can focus on packaging the point data into the return buffer.
   //
-  std::cout << "Number of Unique Points = " << this->m_PointsVector.size() << std::endl;
   PointsVectorType::const_iterator pointItr = this->m_PointsVector.begin();
   PointsVectorType::const_iterator pointEnd = this->m_PointsVector.end();
 
@@ -311,30 +331,36 @@ STLMeshIO ::ReadPoints(void * buffer)
 
 
 void
-STLMeshIO ::ReadCells(void * itkNotUsed(buffer))
+STLMeshIO ::ReadCells(void * buffer)
 {
-  // Read input file
-  std::ifstream inputFile;
+  //
+  // The Point and Cell data were read in the ReadMeshInformation() method.
+  // Here, we can focus on packaging the cell data into the return buffer.
+  //
+  CellsVectorType::const_iterator cellItr = this->m_CellsVector.begin();
+  CellsVectorType::const_iterator cellEnd = this->m_CellsVector.end();
 
-  if (this->GetFileType() == ASCII)
-  {
-    this->m_InputStream.open(this->m_FileName.c_str(), std::ios::in);
-  }
-  else if (this->GetFileType() == BINARY)
-  {
-    this->m_InputStream.open(this->m_FileName.c_str(), std::ios::in | std::ios::binary);
-  }
+  unsigned int * cellPointIds = reinterpret_cast<unsigned int *>(buffer);
 
-  // Test whether the file has been opened
-  if (!this->m_InputStream.is_open())
-  {
-    itkExceptionMacro(<< "Unable to open file\n"
-                         "inputFilename= "
-                      << this->m_FileName);
-    return;
-  }
+  const unsigned int numberOfPointsInCell = 3;
 
-  this->m_InputStream.close();
+  while (cellItr != cellEnd)
+  {
+
+    *cellPointIds++ = MeshIOBase::TRIANGLE_CELL;
+    *cellPointIds++ = numberOfPointsInCell;
+
+    //
+    // Store the Point Ids for this cell, in the buffer.
+    //
+    *cellPointIds++ = cellItr->p0;
+    *cellPointIds++ = cellItr->p1;
+    *cellPointIds++ = cellItr->p2;
+
+    std::cout << "points " << cellItr->p0 << " " << cellItr->p1 << " " << cellItr->p2 << std::endl;
+
+    ++cellItr;
+  }
 }
 
 
@@ -657,7 +683,7 @@ STLMeshIO ::InsertPointIntoSet(const PointType & point)
   {
     this->m_PointsVector.push_back(result.first);
 
-    this->m_LatestPointId = this->m_PointsVector.size();
+    this->m_LatestPointId = this->m_PointsVector.size() - 1;
     switch (this->m_PointInTriangleCounter)
     {
       case 0:
