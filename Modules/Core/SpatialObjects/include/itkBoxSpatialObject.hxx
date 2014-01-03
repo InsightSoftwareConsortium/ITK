@@ -135,22 +135,27 @@ BoxSpatialObject< TDimension >
 
     bb->SetMinimum(pntMin);
     bb->SetMaximum(pntMax);
-
-    const_cast< BoundingBoxType * >( this->GetBounds() )->SetMinimum(pntMin);
-    const_cast< BoundingBoxType * >( this->GetBounds() )->SetMinimum(pntMax);
-
     bb->ComputeBoundingBox();
 
+    // Next Transform the corners of the bounding box
     typedef typename BoundingBoxType::PointsContainer PointsContainer;
     const PointsContainer *corners = bb->GetCorners();
-    typename BoundingBoxType::PointsContainer::const_iterator
-    it = corners->begin();
+    typename PointsContainer::Pointer transformedCorners = PointsContainer::New();
+    transformedCorners->Reserve(corners->size());
+
+    typename PointsContainer::const_iterator it = corners->begin();
+    typename PointsContainer::iterator itTrans = transformedCorners->begin();
     while ( it != corners->end() )
       {
       PointType pnt = this->GetIndexToWorldTransform()->TransformPoint(*it);
-      const_cast< BoundingBoxType * >( this->GetBounds() )->ConsiderPoint(pnt);
+      *itTrans = pnt;
       ++it;
+      ++itTrans;
       }
+
+    // refresh the bounding box with the transformed corners
+    const_cast< BoundingBoxType * >( this->GetBounds() )->SetPoints(transformedCorners);
+    this->GetBounds()->ComputeBoundingBox();
     }
   return true;
 }
