@@ -84,6 +84,11 @@ public:
    * volumes. */
   RegionType GetAxisAlignedBoundingBoxRegion() const;
 
+  /** Get the boundaries of a specific object.  This function needs to
+   *  be called every time one of the object's components is
+   *  changed. */
+  virtual bool ComputeLocalBoundingBox() const;
+
 protected:
   ImageMaskSpatialObject(const Self &); //purposely not implemented
   void operator=(const Self &);         //purposely not implemented

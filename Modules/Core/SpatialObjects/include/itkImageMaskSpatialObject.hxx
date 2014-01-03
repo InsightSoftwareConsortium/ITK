@@ -248,6 +248,70 @@ ImageMaskSpatialObject< TDimension >
   return region;
 }
 
+template< unsigned int TDimension >
+bool
+ImageMaskSpatialObject< TDimension >
+::ComputeLocalBoundingBox() const
+{
+  itkDebugMacro("Computing ImageMaskSpatialObject bounding box");
+
+  if ( this->GetBoundingBoxChildrenName().empty()
+       || strstr( typeid( Self ).name(),
+                  this->GetBoundingBoxChildrenName().c_str() ) )
+    {
+
+    // First get the region bounding box...
+    RegionType boundingRegion = GetAxisAlignedBoundingBoxRegion();
+    const typename RegionType::IndexType index = boundingRegion.GetIndex();
+    const typename RegionType::SizeType  size = boundingRegion.GetSize();
+
+    //Now find the corners (by index)
+    typedef VectorContainer< unsigned int, typename RegionType::IndexType >
+                                                         IndexContainerType;
+
+    typename IndexContainerType::Pointer cornerInds = IndexContainerType::New();
+
+    unsigned int c = 0;
+    cornerInds->InsertElement(c++, index);
+    for ( unsigned int i = 0; i < ImageType::ImageDimension; ++i )
+      {
+      unsigned int curSize = cornerInds->Size();
+      for ( unsigned int ii = 0; ii < curSize; ++ii)
+        {
+        IndexType tmpIndex = cornerInds->ElementAt(ii);
+        tmpIndex[i] += size[i];
+        cornerInds->InsertElement(c++,tmpIndex);
+        }
+      }
+
+    // Next Transform the corners of the bounding box
+    typedef typename BoundingBoxType::PointsContainer PointsContainer;
+    typename PointsContainer::Pointer transformedCorners = PointsContainer::New();
+    transformedCorners->Reserve(cornerInds->size());
+
+    typename IndexContainerType::const_iterator it = cornerInds->begin();
+    typename PointsContainer::iterator itTrans = transformedCorners->begin();
+    while ( it != cornerInds->end() )
+      {
+      PointType origPnt;
+      for ( unsigned int i = 0; i < ImageType::ImageDimension; ++i )
+        {
+        origPnt[i] = static_cast< typename PointType::CoordRepType>( (*it)[i]);
+        }
+      PointType pnt = this->GetIndexToWorldTransform()->TransformPoint(origPnt);
+      *itTrans = pnt;
+      ++it;
+      ++itTrans;
+      }
+
+    // refresh the bounding box with the transformed corners
+    const_cast< BoundingBoxType * >( this->GetBounds() )->SetPoints(transformedCorners);
+    this->GetBounds()->ComputeBoundingBox();
+    }
+  return true;
+}
+
+
 /** Print the object */
 template< unsigned int TDimension >
 void
