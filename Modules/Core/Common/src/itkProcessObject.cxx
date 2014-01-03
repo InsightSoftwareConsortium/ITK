@@ -1732,12 +1732,12 @@ ProcessObject
     {
     this->GenerateData();
     }
-  catch ( ProcessAborted & excp )
+  catch ( ProcessAborted & )
     {
     this->InvokeEvent( AbortEvent() );
     this->ResetPipeline();
     this->RestoreInputReleaseDataFlags();
-    throw &excp;
+    throw;
     }
   catch (...)
     {
