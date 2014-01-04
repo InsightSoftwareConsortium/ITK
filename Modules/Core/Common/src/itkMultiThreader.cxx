@@ -292,7 +292,7 @@ void MultiThreader::SingleMethodExecute()
     m_ThreadInfoArray[0].NumberOfThreads = m_NumberOfThreads;
     m_SingleMethod( (void *)( &m_ThreadInfoArray[0] ) );
     }
-  catch ( ProcessAborted & excp )
+  catch ( ProcessAborted & )
     {
     // Need cleanup and rethrow ProcessAborted
     // close down other threads
@@ -306,7 +306,7 @@ void MultiThreader::SingleMethodExecute()
               {}
       }
     // rethrow
-    throw &excp;
+    throw;
     }
   catch ( std::exception & e )
     {
