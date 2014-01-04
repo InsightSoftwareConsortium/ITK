@@ -263,13 +263,9 @@ private:
     }
   };
 
-  typedef std::set<PointType, PointCompare> PointSetType;
-  typedef PointSetType::iterator            PointSetIterator;
-  typedef std::pair<PointSetIterator, bool> PointSetResultType;
-  typedef std::vector<PointSetIterator>     PointsVectorType;
+  typedef std::map<PointType, IdentifierType, PointCompare> PointsMapType;
 
-  PointSetType     m_PointsSet;
-  PointsVectorType m_PointsVector;
+  PointsMapType m_PointsMap;
 
   // Helper variable to put Ids in points as they are read
   IdentifierType m_LatestPointId;

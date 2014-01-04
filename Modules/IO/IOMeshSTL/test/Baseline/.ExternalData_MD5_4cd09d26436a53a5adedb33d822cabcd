@@ -1,0 +1,14 @@
+# vtk DataFile Version 2.0
+File written by itkVTKPolyDataWriter
+ASCII
+DATASET POLYDATA
+POINTS 4 float
+0 0 0
+1 0 0
+0 1 0
+0 0 1
+POLYGONS 4 16
+3 0 2 1
+3 0 1 3
+3 0 3 2
+3 1 2 3

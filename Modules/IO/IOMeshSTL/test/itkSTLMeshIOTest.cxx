@@ -60,6 +60,12 @@ itkSTLMeshIOTest(int argc, char * argv[])
     writer->SetFileTypeAsBINARY();
   }
 
+  reader->Update();
+  QEMeshType * mesh = reader->GetOutput();
+
+  mesh->Print(std::cout);
+
+
   writer->SetInput(reader->GetOutput());
 
   int result = EXIT_SUCCESS;
