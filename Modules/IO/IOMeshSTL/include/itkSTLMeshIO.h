@@ -241,25 +241,24 @@ private:
 
   unsigned int m_InputLineNumber;
 
-  static double
-  PointHash(const PointType & point)
-  {
-    double hash = 0;
-    double factor = 1e5; // one third of the range of the double mantissa
-    hash = static_cast<double>(point[0]);
-    hash *= factor;
-    hash += static_cast<double>(point[1]);
-    hash *= factor;
-    hash += static_cast<double>(point[2]);
-    return hash;
-  }
-
   struct PointCompare
   {
     bool
     operator()(const PointType & p1, const PointType & p2) const
     {
-      return PointHash(p1) < PointHash(p2);
+      if (p1[0] != p2[0])
+      {
+        return p1[0] < p2[0];
+      }
+      else
+      {
+        if (p1[1] != p2[1])
+        {
+          return p1[1] < p2[1];
+        }
+      }
+
+      return p1[2] < p2[2];
     }
   };
 
