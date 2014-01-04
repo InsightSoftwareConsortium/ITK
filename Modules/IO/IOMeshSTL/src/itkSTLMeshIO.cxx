@@ -310,15 +310,18 @@ STLMeshIO ::ReadPoints(void * buffer)
   PointsMapType::const_iterator pointItr = this->m_PointsMap.begin();
   PointsMapType::const_iterator pointEnd = this->m_PointsMap.end();
 
-  float * pointCoordinates = reinterpret_cast<float *>(buffer);
+  float * pointsBuffer = reinterpret_cast<float *>(buffer);
 
   while (pointItr != pointEnd)
   {
     // Get the reference to that PointType object.
     const PointType & point = pointItr->first;
 
+    // Get the location in the buffer where the point should be stored
+    float * pointCoordinates = pointsBuffer + 3 * pointItr->second;
+
     //
-    // Store the Point coordintes in the buffer.
+    // Store the Point coordinates in the buffer.
     //
     *pointCoordinates++ = point[0];
     *pointCoordinates++ = point[1];
