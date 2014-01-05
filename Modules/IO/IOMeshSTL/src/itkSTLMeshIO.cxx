@@ -97,13 +97,24 @@ STLMeshIO ::ReadMeshInformation()
   }
 
 
-  std::string inputLine;
-
   // Read STL header file(the first line)
-  std::getline(this->m_InputStream, inputLine, '\n');
+  char headerBuffer[6];
+  this->m_InputStream.read(headerBuffer, 6);
+  this->m_InputStream.seekg(0); // Reset to the beginning of the file.
+
+  headerBuffer[5] = '\0';
+  std::string header(headerBuffer);
+
+  bool inputFileIsASCII = false;
+
+  // Based on the header line define whether the file is ASCII or BINARY
+  if (header.find("solid") != std::string::npos)
+  {
+    inputFileIsASCII = true;
+  }
 
   // Determine file type
-  if (inputLine.find("solid") != std::string::npos)
+  if (inputFileIsASCII)
   {
     if (this->GetFileType() != ASCII)
     {
@@ -152,14 +163,16 @@ void
 STLMeshIO ::ReadMeshInternalFromAscii()
 {
   // Read all the points, and reduce them to unique ones
-  std::string inputLine;
-  PointType   p0;
-  PointType   p1;
-  PointType   p2;
+  PointType p0;
+  PointType p1;
+  PointType p2;
 
   this->m_InputLineNumber = 2;
 
   this->m_LatestPointId = NumericTraits<IdentifierType>::Zero;
+
+  // read header line
+  std::getline(this->m_InputStream, this->m_InputLine, '\n');
 
   while (!this->CheckStringFromAscii("endsolid"))
   {
@@ -246,6 +259,9 @@ STLMeshIO ::ReadMeshInternalFromBinary()
   //
   char header[80];
   this->m_InputStream.read(header, 80);
+
+  header[79] = '\0'; // insert string terminator
+
 
   this->m_LatestPointId = NumericTraits<IdentifierType>::Zero;
 
