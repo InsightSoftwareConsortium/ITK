@@ -36,8 +36,8 @@ int main(int , char* [])
 
   typedef itk::Mesh<double> MeshType;
 
-  typedef itk::Vector<float,2>      VectorType;
-  typedef itk::Image<VectorType, 2> VectorImageType;
+  typedef itk::Vector<float,3>         RGBVectorType;
+  typedef itk::Image<RGBVectorType, 2> RGBVectorImageType;
 
   itk::ShapeDetectionLevelSetFunction<InputType,InputType>::Pointer ShapeDetectionLevelSetFunctionObj =
     itk::ShapeDetectionLevelSetFunction<InputType,InputType>::New();
@@ -79,8 +79,8 @@ int main(int , char* [])
     itk::VoronoiSegmentationImageFilterBase<InputType,OutputType>::New();
   std:: cout << "-------------VoronoiSegmentationImageFilterBase " << VoronoiSegmentationImageFilterBaseObj;
 
-  itk::VoronoiSegmentationRGBImageFilter<VectorImageType,CharType>::Pointer VoronoiSegmentationRGBImageFilterObj =
-    itk::VoronoiSegmentationRGBImageFilter<VectorImageType,CharType>::New();
+  itk::VoronoiSegmentationRGBImageFilter<RGBVectorImageType,CharType>::Pointer VoronoiSegmentationRGBImageFilterObj =
+    itk::VoronoiSegmentationRGBImageFilter<RGBVectorImageType,CharType>::New();
   std:: cout << "-------------VoronoiSegmentationRGBImageFilter " << VoronoiSegmentationRGBImageFilterObj;
 
   itk::watershed::Boundary<double,3>::Pointer WatershedBoundaryObj =
