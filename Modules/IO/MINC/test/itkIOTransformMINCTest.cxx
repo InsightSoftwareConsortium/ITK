@@ -474,9 +474,9 @@ int itkIOTransformMINCTest(int argc, char* argv[])
   itk::TransformFactory< itk::DisplacementFieldTransform<double,3> >::RegisterTransform ();
   itk::TransformFactory< itk::DisplacementFieldTransform<float,3> >::RegisterTransform ();
 
-  int result1 =  check_linear("TransformLinear.xfm");
-  int result2 =  check_nonlinear_double( "TransformNonLinear.xfm" );
-  int result3 =  check_nonlinear_float( "TransformNonLinear_float.xfm" );
+  int result1 =  check_linear("itkIOTransformMINCTestTransformLinear.xfm");
+  int result2 =  check_nonlinear_double( "itkIOTransformMINCTestTransformNonLinear.xfm" );
+  int result3 =  check_nonlinear_float( "itkIOTransformMINCTestTransformNonLinear_float.xfm" );
   int result4 =  secondTest();
 
   return !( result1 == EXIT_SUCCESS &&
