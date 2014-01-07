@@ -15,12 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-/**
- *         The specification for this file format is taken from the
- *         web site http://analyzedirect.com/support/10.0Documents/Analyze_Resource_01.pdf
- * \author Hans J. Johnson
- *         The University of Iowa 2002
- */
 
 #ifndef __itkNiftiImageIO_h
 #define __itkNiftiImageIO_h
@@ -34,9 +28,12 @@ namespace itk
 {
 /** \class NiftiImageIO
  *
- * \author Hans J. Johnson
+ * \author Hans J. Johnson, The University of Iowa 2002
  * \brief Class that defines how to read Nifti file format.
  * Nifti IMAGE FILE FORMAT - As much information as I can determine from sourceforge.net/projects/Niftilib
+ *
+ * The specification for this file format is taken from the
+ * web site http://analyzedirect.com/support/10.0Documents/Analyze_Resource_01.pdf
  *
  * \ingroup IOFilters
  * \ingroup ITKIONIFTI
@@ -55,7 +52,7 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(NiftiImageIO, Superclass);
 
-  /*-------- This part of the interfaces deals with reading data. ----- */
+  //-------- This part of the interfaces deals with reading data. -----
 
   /** Determine if the file can be read with this ImageIO implementation.
    * \author Hans J Johnson
@@ -71,7 +68,7 @@ public:
   /** Reads the data from disk into the memory buffer provided. */
   virtual void Read(void *buffer);
 
-  /*-------- This part of the interfaces deals with writing data. ----- */
+  //-------- This part of the interfaces deals with writing data. -----
 
   /** Determine if the file can be written with this ImageIO implementation.
    * \param FileNameToWrite The name of the file to test for writing.
@@ -81,7 +78,11 @@ public:
    */
   virtual bool CanWriteFile(const char *FileNameToWrite);
 
-  /** Set the spacing and dimension information for the set filename. */
+  /** Set the spacing and dimension information for the set filename.
+   *
+   * For Nifti this does not write a file, it only fills in the
+   * appropriate header information.
+   */
   virtual void WriteImageInformation();
 
   /** Writes the data to disk from the memory buffer provided. Make sure
