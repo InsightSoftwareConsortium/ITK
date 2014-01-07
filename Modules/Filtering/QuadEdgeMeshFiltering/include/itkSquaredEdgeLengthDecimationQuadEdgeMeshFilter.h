@@ -73,8 +73,9 @@ protected:
   SquaredEdgeLengthDecimationQuadEdgeMeshFilter();
   virtual ~SquaredEdgeLengthDecimationQuadEdgeMeshFilter();
 
-  /**
-   * Compute the measure value for iEdge.
+  // keep the start of this documentation text on very first comment line,
+  // it prevents a Doxygen bug
+  /** Compute the measure value for iEdge.
    *
    * \param[in] iEdge
    * \return measure value, here the squared edge length
@@ -90,8 +91,9 @@ protected:
     return static_cast< MeasureType >( org.SquaredEuclideanDistanceTo(dest) );
     }
 
-  /**
-   * Calculate the position of the remaining vertex from collapsing iEdge.
+  // keep the start of this documentation text on very first comment line,
+  // it prevents a Doxygen bug
+  /** Calculate the position of the remaining vertex from collapsing iEdge.
    *
    * \param[in] iEdge
    * \return the optimal point location
