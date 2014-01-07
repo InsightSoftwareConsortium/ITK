@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#include "itkMesh.h"
 #include "itkHistogram.h"
+#include "itkPointSet.h"
 
 #include "itkMattesMutualInformationImageToImageMetric.h"
 #include "itkMeanSquaresImageToImageMetric.h"
@@ -36,12 +36,7 @@ int main(int , char* [])
 {
   typedef itk::Image<float,2>          InputType;
   typedef itk::Image<float,2>          OutputType;
-  typedef itk::Image<bool,2>           BinaryImageType;
-  typedef itk::Image<unsigned short,2> UShortImageType;
   typedef itk::Image<unsigned short,3> UShortImageType3D;
-  typedef itk::Image<unsigned char,2>  CharType;
-
-  typedef itk::Mesh<double>  MeshType;
 
   typedef itk::Vector<float,2>      VectorType;
   typedef itk::Image<VectorType, 2> VectorImageType;
@@ -49,10 +44,6 @@ int main(int , char* [])
 
   // Used for NormalizedCorrelationPointSetToImageMetric
   typedef itk::PointSet<float,2> PointSetType;
-
-  // Used for GradientVectorFlowImageFilter
-  typedef itk::CovariantVector<double,2> GradientType;
-  typedef itk::Image<GradientType,2>     GradientImageType;
 
   itk::MattesMutualInformationImageToImageMetric<InputType,InputType>::Pointer MattesMutualInformationImageToImageMetricObj =
     itk::MattesMutualInformationImageToImageMetric<InputType,InputType>::New();

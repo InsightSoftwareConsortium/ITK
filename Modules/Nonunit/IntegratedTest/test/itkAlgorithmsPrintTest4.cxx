@@ -40,10 +40,7 @@ int main(int , char* [])
 {
   typedef itk::Image<float,2>          InputType;
   typedef itk::Image<float,2>          OutputType;
-  typedef itk::Image<bool,2>           BinaryImageType;
   typedef itk::Image<unsigned short,2> UShortImageType;
-  typedef itk::Image<unsigned char,2>  CharType;
-  typedef itk::Mesh<double>            MeshType;
   typedef itk::Vector<float,2>         VectorType;
   typedef itk::Image<VectorType, 2>    VectorImageType;
   typedef itk::PointSet<float,2>       PointSetType;
@@ -60,10 +57,6 @@ int main(int , char* [])
 
   // Used for ImageToSpatialObjectRegistrationMethod
   typedef itk::GroupSpatialObject<2>   GroupType;
-
-  // Used for ImageToSpatialObjectMetric
-  typedef itk::EllipseSpatialObject<2> SpatialObjectType;
-
 
   itk::GeodesicActiveContourLevelSetFunction<InputType>::Pointer GeodesicActiveContourLevelSetFunctionObj =
     itk::GeodesicActiveContourLevelSetFunction<InputType>::New();
