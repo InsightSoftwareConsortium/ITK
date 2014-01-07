@@ -237,8 +237,8 @@ int itkMINCTransformAdapterTest(int argc, char* argv[])
   itk::TransformFactory< itk::DisplacementFieldTransform<double,3> >::RegisterTransform ();
   itk::ObjectFactoryBase::RegisterFactory(itk::MINCTransformIOFactory::New() );
 
-  int result1 = compare_linear( "TransformLinear.xfm" );
-  int result2 =  compare_nonlinear_double( "TransformNonLinear.xfm" );
+  int result1 = compare_linear( "itkMINCTransformAdapterTestTransformLinear.xfm" );
+  int result2 =  compare_nonlinear_double( "itkMINCTransformAdapterTestTransformNonLinear.xfm" );
 
   return !( result1 == EXIT_SUCCESS && result2 == EXIT_SUCCESS );
 }
