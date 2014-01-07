@@ -80,7 +80,7 @@ class vnl_diag_matrix
   }
 
   inline T& operator () (unsigned i, unsigned j) {
-    assert(i == j);
+    assert(i == j); (void)j;
     return diagonal_[i];
   }
   inline T& operator() (unsigned i) { return diagonal_[i]; }
