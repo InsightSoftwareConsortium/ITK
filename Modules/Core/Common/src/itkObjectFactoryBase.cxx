@@ -134,7 +134,7 @@ ObjectFactoryBase::GetStrictVersionChecking()
 
 
 /**
- * Create an instance of a named itk object using the loaded
+ * Create an instance of a named ITK object using the loaded
  * factories
  */
 LightObject::Pointer
@@ -222,9 +222,9 @@ void
 ObjectFactoryBase
 ::RegisterInternal()
 {
-  // Guaranee that no internal factories have already been registered.
-  itkAssertOrThrowMacro( ObjectFactoryBasePrivate::m_RegisteredFactories->empty(),
-                         "Factories unexpectedlly already registered!"  );
+  // Guarantee that no internal factories have already been registered.
+  itkAssertInDebugAndIgnoreInReleaseMacro( ObjectFactoryBasePrivate::m_RegisteredFactories->empty() );
+  ObjectFactoryBasePrivate::m_RegisteredFactories->clear();
 
   // Register all factories registered by the
   // "RegisterFactoryInternal" method
