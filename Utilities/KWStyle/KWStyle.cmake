@@ -15,24 +15,24 @@ if(ITK_USE_KWSTYLE)
     )
 
   # Define and configure configuration files
-  set(KWSTYLE_ITK_CONFIGURATION_FILE
+  set(kwstyle_itk_configuration_file
     ${ITK_SOURCE_DIR}/Utilities/KWStyle/ITK.kws.xml
     )
-  set(KWSTYLE_ITK_CODE_FILES_LIST_FILE
+  set(kwstyle_itk_code_files_list_file
     ${ITK_BINARY_DIR}/Utilities/KWStyle/ITKCodeFiles.txt
     )
   configure_file( # KWStyle requires that the files list be absolute paths
     ${ITK_SOURCE_DIR}/Utilities/KWStyle/ITKCodeFiles.txt.in
-    ${KWSTYLE_ITK_CODE_FILES_LIST_FILE}
+    ${kwstyle_itk_code_files_list_file}
     )
-  set(KWSTYLE_ITK_EXAMPLES_FILES_LIST_FILE
+  set(kwstyle_itk_examples_files_list_file
     ${ITK_BINARY_DIR}/Utilities/KWStyle/ITKExamplesFiles.txt
     )
   configure_file( # KWStyle requires that the files list be absolute paths
     ${ITK_SOURCE_DIR}/Utilities/KWStyle/ITKExamplesFiles.txt.in
-    ${KWSTYLE_ITK_EXAMPLES_FILES_LIST_FILE}
+    ${kwstyle_itk_examples_files_list_file}
     )
-  set(KWSTYLE_ITK_OVERWRITE_FILE
+  set(kwstyle_itk_overwrite_file
     ${ITK_SOURCE_DIR}/Utilities/KWStyle/ITKOverwrite.txt
     )
 
@@ -54,61 +54,61 @@ if(ITK_USE_KWSTYLE)
   mark_as_advanced(KWSTYLE_USE_GCC_FORMAT)
   mark_as_advanced(KWSTYLE_USE_MSVC_FORMAT)
 
-  set(KWSTYLE_EDITOR_FORMAT "")
+  set(kwstyle_editor_format "")
   if(KWSTYLE_USE_VIM_FORMAT)
-    list(APPEND KWSTYLE_EDITOR_FORMAT -vim)
+    list(APPEND kwstyle_editor_format -vim)
   endif()
   if(KWSTYLE_USE_GCC_FORMAT)
-    list(APPEND KWSTYLE_EDITOR_FORMAT -gcc)
+    list(APPEND kwstyle_editor_format -gcc)
   endif()
   if(KWSTYLE_USE_MSVC_FORMAT)
-    list(APPEND KWSTYLE_EDITOR_FORMAT -msvc)
+    list(APPEND kwstyle_editor_format -msvc)
   endif()
 
   list(LENGTH
-    KWSTYLE_EDITOR_FORMAT
-    KWSTYLE_EDITOR_FORMAT_LENGTH
+    kwstyle_editor_format
+    kwstyle_editor_format_length
     )
-  if(KWSTYLE_EDITOR_FORMAT_LENGTH GREATER 1)
+  if(kwstyle_editor_format_length GREATER 1)
     message(FATAL_ERROR "At most, only one of KWSTYLE_USE_*_FORMAT can be set to TRUE.")
   endif()
 
   # Add build target and CTest test
-  set(KWSTYLE_COMMON_ARGUMENTS
-    -xml ${KWSTYLE_ITK_CONFIGURATION_FILE}
+  set(kwstyle_common_arguments
+    -xml ${kwstyle_itk_configuration_file}
     -v
-    -o ${KWSTYLE_ITK_OVERWRITE_FILE}
+    -o ${kwstyle_itk_overwrite_file}
     )
   add_custom_target(StyleCheckCode
     COMMAND ${KWSTYLE_EXECUTABLE}
-      ${KWSTYLE_COMMON_ARGUMENTS}
-      -D ${KWSTYLE_ITK_CODE_FILES_LIST_FILE}
-      ${KWSTYLE_EDITOR_FORMAT}
+      ${kwstyle_common_arguments}
+      -D ${kwstyle_itk_code_files_list_file}
+      ${kwstyle_editor_format}
     COMMENT "Coding Style Checker"
-    WORKING_DIRECTORY ${ITK_SOURCE_DIR} # the paths in KWSTYLE_CONFIGURATION_FILE are relative
+    WORKING_DIRECTORY ${ITK_SOURCE_DIR} # the paths in kwstyle_itk_configuration_file are relative
     )
   add_custom_target(StyleCheckExamples
     COMMAND ${KWSTYLE_EXECUTABLE}
-      ${KWSTYLE_COMMON_ARGUMENTS}
-      -D ${KWSTYLE_ITK_EXAMPLES_FILES_LIST_FILE}
-      ${KWSTYLE_EDITOR_FORMAT}
+      ${kwstyle_common_arguments}
+      -D ${kwstyle_itk_examples_files_list_file}
+      ${kwstyle_editor_format}
     COMMENT "Examples Style Checker"
-    WORKING_DIRECTORY ${ITK_SOURCE_DIR} # the paths in KWSTYLE_CONFIGURATION_FILE are relative
+    WORKING_DIRECTORY ${ITK_SOURCE_DIR} # the paths in kwstyle_itk_configuration_file are relative
     )
   if(BUILD_TESTING)
     set(itk-module KWStyle)
     # for uniformity and brevity, test will always output GCC-style
     itk_add_test(NAME KWStyleCodeTest
       COMMAND ${KWSTYLE_EXECUTABLE}
-        ${KWSTYLE_COMMON_ARGUMENTS}
-        -D ${KWSTYLE_ITK_CODE_FILES_LIST_FILE}
+        ${kwstyle_common_arguments}
+        -D ${kwstyle_itk_code_files_list_file}
         -gcc
       WORKING_DIRECTORY ${ITK_SOURCE_DIR}
       )
     itk_add_test(NAME KWStyleExamplesTest
       COMMAND ${KWSTYLE_EXECUTABLE}
-        ${KWSTYLE_COMMON_ARGUMENTS}
-        -D ${KWSTYLE_ITK_EXAMPLES_FILES_LIST_FILE}
+        ${kwstyle_common_arguments}
+        -D ${kwstyle_itk_examples_files_list_file}
         -gcc
       WORKING_DIRECTORY ${ITK_SOURCE_DIR}
       )
