@@ -87,7 +87,7 @@ ResourceProbe< ValueType, MeanType >
 {
   if ( this->m_NumberOfStops == this->m_NumberOfStarts )
     {
-    itkGenericExceptionMacro(<< "Can't stop a probe that has not been started.");
+    return;
     }
   this->m_TotalValue += this->GetInstantValue() - this->m_StartValue;
   this->m_NumberOfStops++;
