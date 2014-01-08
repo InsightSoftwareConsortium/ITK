@@ -121,7 +121,7 @@ BoxAccumulateFunction(const TInputImage *inputImage,
   setConnectivityEarlyBox(&noutIt, true);
 
   ConstantBoundaryCondition< OutputImageType > oBC;
-  oBC.SetConstant(NumericTraits< OutputPixelType >::Zero);
+  oBC.SetConstant(NumericTraits< OutputPixelType >::ZeroValue() );
   noutIt.OverrideBoundaryCondition(&oBC);
   // This uses several iterators. An alternative and probably better
   // approach would be to copy the input to the output and convolve
@@ -605,7 +605,7 @@ BoxSquareAccumulateFunction(const TInputImage *inputImage,
   setConnectivityEarlyBox(&noutIt, true);
 
   ConstantBoundaryCondition< OutputImageType > oBC;
-  oBC.SetConstant(NumericTraits< OutputPixelType >::Zero);
+  oBC.SetConstant(NumericTraits< OutputPixelType >::ZeroValue() );
   noutIt.OverrideBoundaryCondition(&oBC);
   // This uses several iterators. An alternative and probably better
   // approach would be to copy the input to the output and convolve
