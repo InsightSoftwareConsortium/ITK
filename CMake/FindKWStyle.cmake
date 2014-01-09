@@ -31,12 +31,19 @@ if(KWSTYLE_EXECUTABLE)
     ERROR_QUIET
     OUTPUT_STRIP_TRAILING_WHITESPACE
     )
-  string(REPLACE
-    "Version: "
-    ""
-    KWSTYLE_VERSION_STRING
-    ${KWSTYLE_VERSION_STRING}
-    )
+  if(KWSTYLE_VERSION_STRING)
+    # string(REPLACE ..) fails if the input is an empty string
+    string(REPLACE
+      "Version: "
+      ""
+      KWSTYLE_VERSION_STRING
+      ${KWSTYLE_VERSION_STRING}
+      )
+  else(KWSTYLE_VERSION_STRING)
+    # CMake's find_package_handle_standard_args has a bug where the
+    # version empty string ("") is always acceptable
+    set(KWSTYLE_VERSION_STRING "?")
+  endif(KWSTYLE_VERSION_STRING)
 endif(KWSTYLE_EXECUTABLE)
 
 include(FindPackageHandleStandardArgs)
