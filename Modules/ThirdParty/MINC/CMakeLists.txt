@@ -106,7 +106,7 @@ endif()
   endforeach()
 
   set(MINC_GIT_REPOSITORY "https://github.com/BIC-MNI/libminc.git")
-  set(MINC_GIT_TAG "7aff353f7256a0d6b35c94ac26c428c23c40200b")
+  set(MINC_GIT_TAG "e7d5cf8f6d279efed093cce0d89d792b886655c4")
   set(MINC_HDF5_ARGS )
 
   if(NOT ITK_USE_SYSTEM_HDF5)
