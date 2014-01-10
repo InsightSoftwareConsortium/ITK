@@ -184,6 +184,7 @@ int itkTIFFImageIOCompressionTest( int argc, char* argv[] )
           std::cout << "unknown component type" << std::endl;
           break;
         }
+      break;
     case itk::ImageIOBase::RGB:
       switch( componentType )
         {
@@ -227,6 +228,7 @@ int itkTIFFImageIOCompressionTest( int argc, char* argv[] )
           std::cout << "unknown component type" << std::endl;
           break;
         }
+      break;
     case itk::ImageIOBase::RGBA:
       switch( componentType )
         {
@@ -270,6 +272,7 @@ int itkTIFFImageIOCompressionTest( int argc, char* argv[] )
           std::cout << "unknown component type" << std::endl;
           break;
         }
+      break;
     default:
       std::cout << "unknown pixel type" << std::endl;
       break;
