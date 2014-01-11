@@ -37,7 +37,7 @@ ConnectedComponentFunctorImageFilter< TInputImage, TOutputImage, TFunctor, TMask
 
   InputPixelType        value, neighborValue;
   OutputPixelType       label, originalLabel, neighborLabel;
-  OutputPixelType       maxLabel = NumericTraits< OutputPixelType >::Zero;
+  OutputPixelType       maxLabel = NumericTraits< OutputPixelType >::ZeroValue();
   const OutputPixelType maxPossibleLabel = NumericTraits< OutputPixelType >::max();
 
   typename TOutputImage::Pointer output = this->GetOutput();
@@ -49,7 +49,7 @@ ConnectedComponentFunctorImageFilter< TInputImage, TOutputImage, TFunctor, TMask
 
   // Set up the boundary condition to be zero padded (used on output image)
   ConstantBoundaryCondition< TOutputImage > BC;
-  BC.SetConstant(NumericTraits< OutputPixelType >::Zero);
+  BC.SetConstant(NumericTraits< OutputPixelType >::ZeroValue());
 
   // Neighborhood iterators.  Let's use a shaped neighborhood so we can
   // restrict the access to face connected neighbors. These iterators
@@ -119,10 +119,10 @@ ConnectedComponentFunctorImageFilter< TInputImage, TOutputImage, TFunctor, TMask
     oit.GoToBegin();
     while ( !mit.IsAtEnd() )
       {
-      if ( mit.Get() == NumericTraits< MaskPixelType >::Zero )
+      if ( mit.Get() == NumericTraits< MaskPixelType >::ZeroValue() )
         {
         // mark pixel as unlabeled
-        oit.Set(NumericTraits< OutputPixelType >::Zero);
+        oit.Set(NumericTraits< OutputPixelType >::ZeroValue());
         }
 
       ++mit;
@@ -146,7 +146,7 @@ ConnectedComponentFunctorImageFilter< TInputImage, TOutputImage, TFunctor, TMask
     originalLabel = label;
 
     // If the pixel is not background
-    if ( label != NumericTraits< OutputPixelType >::Zero )
+    if ( label != NumericTraits< OutputPixelType >::ZeroValue() )
       {
       // loop over the "previous" neighbors to find labels.  this loop
       // may establish one or more new equivalence classes
@@ -160,7 +160,7 @@ ConnectedComponentFunctorImageFilter< TInputImage, TOutputImage, TFunctor, TMask
 
         // if the previous pixel has a label, verify equivalence or
         // establish a new equivalence
-        if ( neighborLabel != NumericTraits< OutputPixelType >::Zero )
+        if ( neighborLabel != NumericTraits< OutputPixelType >::ZeroValue() )
           {
           // see if current pixel is connected to its neighbor
           neighborValue = isIt.Get();
@@ -228,7 +228,7 @@ ConnectedComponentFunctorImageFilter< TInputImage, TOutputImage, TFunctor, TMask
     {
     label = oit.Get();
     // if pixel has a label, write out the final equivalence
-    if ( label != NumericTraits< OutputPixelType >::Zero )
+    if ( label != NumericTraits< OutputPixelType >::ZeroValue() )
       {
       oit.Set( eqTable->Lookup(label) );
       }

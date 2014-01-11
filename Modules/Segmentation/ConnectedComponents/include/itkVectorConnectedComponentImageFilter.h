@@ -51,7 +51,7 @@ class SimilarVectorsFunctor
 {
 public:
   SimilarVectorsFunctor()
-  { m_Threshold = itk::NumericTraits< typename TInput::ValueType >::Zero; }
+  { m_Threshold = itk::NumericTraits< typename TInput::ValueType >::ZeroValue(); }
 
   ~SimilarVectorsFunctor() {}
 
@@ -72,7 +72,7 @@ public:
   bool operator()(const TInput & a, const TInput & b) const
   {
     typedef typename NumericTraits<typename TInput::ValueType>::RealType RealValueType;
-    RealValueType dotProduct = NumericTraits<RealValueType>::Zero;
+    RealValueType dotProduct = NumericTraits<RealValueType>::ZeroValue();
     for ( unsigned int i = 0; i < NumericTraits<TInput>::GetLength(a); ++i)
       {
       dotProduct += a[i]*b[i];
