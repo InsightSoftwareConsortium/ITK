@@ -221,6 +221,8 @@ LBFGSOptimizer
   m_VnlOptimizer->default_step_length  = m_DefaultStepLength;
 
   m_OptimizerInitialized = true;
+
+  this->Modified();
 }
 
 /**
