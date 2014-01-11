@@ -26,7 +26,8 @@ namespace itk
 
 template<typename TInternalComputationValueType>
 QuasiNewtonOptimizerv4Template<TInternalComputationValueType>
-::QuasiNewtonOptimizerv4Template()
+::QuasiNewtonOptimizerv4Template():
+  m_BestValue(0.0),m_BestPosition(0),m_BestIteration(0)
 {
   this->m_MaximumIterationsWithoutProgress = 30;
   this->m_LearningRate = NumericTraits<TInternalComputationValueType>::One;

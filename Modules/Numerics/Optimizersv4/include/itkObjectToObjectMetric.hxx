@@ -31,7 +31,8 @@ namespace itk
  */
 template<unsigned int TFixedDimension, unsigned int TMovingDimension, typename TVirtualImage, typename TInternalComputationValueType>
 ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternalComputationValueType>
-::ObjectToObjectMetric()
+::ObjectToObjectMetric():
+  m_NumberOfValidPoints(0)
 {
   /* Both transforms default to an identity transform */
   typedef IdentityTransform<TInternalComputationValueType, itkGetStaticConstMacro( MovingDimension ) > MovingIdentityTransformType;

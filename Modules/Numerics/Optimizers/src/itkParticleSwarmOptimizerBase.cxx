@@ -23,7 +23,9 @@ namespace itk
 
 
 ParticleSwarmOptimizerBase
-::ParticleSwarmOptimizerBase(void)
+::ParticleSwarmOptimizerBase(void):
+  m_FunctionBestValue(0),
+  m_IterationIndex(0)
 {
   this->m_PrintSwarm = false;
   this->m_InitializeNormalDistribution = false;

@@ -28,6 +28,8 @@ template<typename TFixedPointSet, typename TMovingPointSet>
 ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
 ::ExpectationBasedPointSetToPointSetMetricv4() :
   m_PointSetSigma( 1.0 ),
+  m_PreFactor( 0.0 ),
+  m_Denominator( 0.0 ),
   m_EvaluationKNeighborhood( 50 )
 {
 }

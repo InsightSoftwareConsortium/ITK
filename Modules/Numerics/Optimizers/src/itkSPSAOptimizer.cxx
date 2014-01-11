@@ -28,7 +28,8 @@ namespace itk
  * ************************* Constructor ************************
  */
 SPSAOptimizer
-::SPSAOptimizer()
+::SPSAOptimizer():
+  m_Stop(false)
 {
   itkDebugMacro("Constructor");
 
