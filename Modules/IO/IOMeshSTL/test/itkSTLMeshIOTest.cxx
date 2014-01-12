@@ -87,5 +87,18 @@ itkSTLMeshIOTest(int argc, char * argv[])
 
   meshIO->Print(std::cout);
 
+  //
+  //  Report the System Endianness
+  //
+  std::cout << std::endl;
+  if (itk::ByteSwapper<int>::SystemIsLittleEndian())
+  {
+    std::cout << "This system is Little Endian" << std::endl;
+  }
+  else
+  {
+    std::cout << "This system is Big Endian" << std::endl;
+  }
+
   return result;
 }
