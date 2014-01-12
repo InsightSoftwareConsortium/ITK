@@ -490,6 +490,19 @@ STLMeshIO ::WritePoints(void * buffer)
 void
 STLMeshIO ::WriteCells(void * buffer)
 {
+  if (this->GetFileType() == BINARY)
+  {
+    this->WriteCellsAsBinary(buffer);
+  }
+  else
+  {
+    this->WriteCellsAsAscii(buffer);
+  }
+}
+
+void
+STLMeshIO ::WriteCellsAsBinary(void * buffer)
+{
 
   const IdentifierType numberOfPolygons = this->GetNumberOfCells();
 
@@ -501,38 +514,85 @@ STLMeshIO ::WriteCells(void * buffer)
 
   NormalType normal;
 
-  if (this->GetFileType() == BINARY)
+  //
+  // http://en.wikipedia.org/wiki/STL_(file_format)#Binary_STL
+  //
+  // UINT32 -- Number of Triangles
+  //
+  int32_t numberOfTriangles = 0;
+
+  SizeValueType index2 = 0;
+
+  for (SizeValueType polygonItr = 0; polygonItr < numberOfPolygons; polygonItr++)
   {
+    const MeshIOBase::CellGeometryType cellType = static_cast<CellGeometryType>(cellsBuffer[index2++]);
+    const IdentifierType               numberOfVerticesInCell = static_cast<IdentifierType>(cellsBuffer[index2++]);
+
+    const bool isTriangle = (cellType == TRIANGLE_CELL) || (cellType == POLYGON_CELL && numberOfVerticesInCell == 3);
+
+    if (isTriangle)
+    {
+      numberOfTriangles++;
+    }
+    else
+    {
+      itkExceptionMacro("Found Non-Triangular Cell.");
+    }
+
+    index2 += numberOfVerticesInCell;
+  }
+
+  this->WriteInt32AsBinary(numberOfTriangles);
+
+  for (SizeValueType polygonItr = 0; polygonItr < numberOfPolygons; polygonItr++)
+  {
+    const MeshIOBase::CellGeometryType cellType = static_cast<CellGeometryType>(cellsBuffer[index++]);
+    const IdentifierType               numberOfVerticesInCell = static_cast<IdentifierType>(cellsBuffer[index++]);
+
+    const PointType & p0 = m_Points[cellsBuffer[index++]];
+    const PointType & p1 = m_Points[cellsBuffer[index++]];
+    const PointType & p2 = m_Points[cellsBuffer[index++]];
+
+    const VectorType v10(p0 - p1);
+    const VectorType v12(p2 - p1);
+
+    CrossProduct(normal, v12, v10);
+
     //
     // http://en.wikipedia.org/wiki/STL_(file_format)#Binary_STL
     //
-    // UINT32 -- Number of Triangles
+    //    foreach triangle
+    //    REAL32[3] – Normal vector
+    //    REAL32[3] – Vertex 1
+    //    REAL32[3] – Vertex 2
+    //    REAL32[3] – Vertex 3
+    //    UINT16 – Attribute byte count
     //
-    int32_t numberOfTriangles = 0;
-
-    SizeValueType index2 = 0;
-
-    for (SizeValueType polygonItr = 0; polygonItr < numberOfPolygons; polygonItr++)
-    {
-      const MeshIOBase::CellGeometryType cellType = static_cast<CellGeometryType>(cellsBuffer[index2++]);
-      const IdentifierType               numberOfVerticesInCell = static_cast<IdentifierType>(cellsBuffer[index2++]);
-
-      const bool isTriangle = (cellType == TRIANGLE_CELL) || (cellType == POLYGON_CELL && numberOfVerticesInCell == 3);
-
-      if (isTriangle)
-      {
-        numberOfTriangles++;
-      }
-      else
-      {
-        itkExceptionMacro("Found Non-Triangular Cell.");
-      }
-
-      index2 += numberOfVerticesInCell;
-    }
-
-    this->WriteInt32AsBinary(numberOfTriangles);
+    this->WriteNormalAsBinary(normal);
+    this->WritePointAsBinary(p0);
+    this->WritePointAsBinary(p1);
+    this->WritePointAsBinary(p2);
+    this->WriteInt16AsBinary(0);
   }
+
+  //
+  // There is no ending section when doing BINARY
+  //
+}
+
+void
+STLMeshIO ::WriteCellsAsAscii(void * buffer)
+{
+
+  const IdentifierType numberOfPolygons = this->GetNumberOfCells();
+
+  const IdentifierType * cellsBuffer = reinterpret_cast<const IdentifierType *>(buffer);
+
+  SizeValueType index = 0;
+
+  typedef MeshIOBase::CellGeometryType CellGeometryType;
+
+  NormalType normal;
 
   for (SizeValueType polygonItr = 0; polygonItr < numberOfPolygons; polygonItr++)
   {
@@ -541,65 +601,35 @@ STLMeshIO ::WriteCells(void * buffer)
 
     const bool isTriangle = (cellType == TRIANGLE_CELL) || (cellType == POLYGON_CELL && numberOfVerticesInCell == 3);
 
-    if (isTriangle)
+    if (!isTriangle)
     {
-      const PointType & p0 = m_Points[cellsBuffer[index++]];
-      const PointType & p1 = m_Points[cellsBuffer[index++]];
-      const PointType & p2 = m_Points[cellsBuffer[index++]];
-
-      const VectorType v10(p0 - p1);
-      const VectorType v12(p2 - p1);
-
-      CrossProduct(normal, v12, v10);
-
-      if (this->GetFileType() == ASCII)
-      {
-        this->m_OutputStream << "  facet normal ";
-        this->m_OutputStream << normal[0] << " " << normal[1] << " " << normal[2] << std::endl;
-
-        this->m_OutputStream << "    outer loop" << std::endl;
-
-        this->m_OutputStream << "      vertex " << p0[0] << " " << p0[1] << " " << p0[2] << std::endl;
-        this->m_OutputStream << "      vertex " << p1[0] << " " << p1[1] << " " << p1[2] << std::endl;
-        this->m_OutputStream << "      vertex " << p2[0] << " " << p2[1] << " " << p2[2] << std::endl;
-
-        this->m_OutputStream << "    endloop" << std::endl;
-        this->m_OutputStream << "  endfacet" << std::endl;
-      }
-      else if (this->GetFileType() == BINARY)
-      {
-        //
-        // http://en.wikipedia.org/wiki/STL_(file_format)#Binary_STL
-        //
-        //    foreach triangle
-        //    REAL32[3] – Normal vector
-        //    REAL32[3] – Vertex 1
-        //    REAL32[3] – Vertex 2
-        //    REAL32[3] – Vertex 3
-        //    UINT16 – Attribute byte count
-        //
-        this->WriteNormalAsBinary(normal);
-        this->WritePointAsBinary(p0);
-        this->WritePointAsBinary(p1);
-        this->WritePointAsBinary(p2);
-        this->WriteInt16AsBinary(0);
-      }
+      itkExceptionMacro("Found Non-Triangular Cell.");
     }
-    else
-    {
-      index += numberOfVerticesInCell;
-    }
+
+    const PointType & p0 = m_Points[cellsBuffer[index++]];
+    const PointType & p1 = m_Points[cellsBuffer[index++]];
+    const PointType & p2 = m_Points[cellsBuffer[index++]];
+
+    const VectorType v10(p0 - p1);
+    const VectorType v12(p2 - p1);
+
+    CrossProduct(normal, v12, v10);
+
+    this->m_OutputStream << "  facet normal ";
+    this->m_OutputStream << normal[0] << " " << normal[1] << " " << normal[2] << std::endl;
+
+    this->m_OutputStream << "    outer loop" << std::endl;
+
+    this->m_OutputStream << "      vertex " << p0[0] << " " << p0[1] << " " << p0[2] << std::endl;
+    this->m_OutputStream << "      vertex " << p1[0] << " " << p1[1] << " " << p1[2] << std::endl;
+    this->m_OutputStream << "      vertex " << p2[0] << " " << p2[1] << " " << p2[2] << std::endl;
+
+    this->m_OutputStream << "    endloop" << std::endl;
+    this->m_OutputStream << "  endfacet" << std::endl;
   }
 
-  if (this->GetFileType() == ASCII)
-  {
-    this->m_OutputStream << "endsolid" << std::endl;
-  }
-  //
-  // There is no ending section when doing BINARY
-  //
+  this->m_OutputStream << "endsolid" << std::endl;
 }
-
 
 void
 STLMeshIO ::WriteInt32AsBinary(int32_t value)
