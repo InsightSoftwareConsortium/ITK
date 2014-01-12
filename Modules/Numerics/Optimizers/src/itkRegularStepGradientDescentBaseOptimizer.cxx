@@ -26,7 +26,8 @@ namespace itk
  * Constructor
  */
 RegularStepGradientDescentBaseOptimizer
-::RegularStepGradientDescentBaseOptimizer()
+::RegularStepGradientDescentBaseOptimizer():
+  m_Stop(false)
 {
   itkDebugMacro("Constructor");
 

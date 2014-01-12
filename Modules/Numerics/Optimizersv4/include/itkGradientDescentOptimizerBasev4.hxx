@@ -28,7 +28,8 @@ namespace itk
 //-------------------------------------------------------------------
 template<typename TInternalComputationValueType>
 GradientDescentOptimizerBasev4Template<TInternalComputationValueType>
-::GradientDescentOptimizerBasev4Template()
+::GradientDescentOptimizerBasev4Template():
+  m_Stop(false)
 {
   /** Threader for apply scales to gradient */
   typename GradientDescentOptimizerBasev4ModifyGradientByScalesThreaderTemplate<TInternalComputationValueType>::Pointer modifyGradientByScalesThreader =

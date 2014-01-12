@@ -39,6 +39,8 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>
   m_NumberOfHistogramBins(50),
   m_MovingImageNormalizedMin(0.0),
   m_FixedImageNormalizedMin(0.0),
+  m_FixedImageTrueMin(0.0),
+  m_FixedImageTrueMax(0.0),
   m_MovingImageTrueMin(0.0),
   m_MovingImageTrueMax(0.0),
   m_FixedImageBinSize(0.0),
