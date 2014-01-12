@@ -1124,8 +1124,8 @@ void NrrdImageIO::Write(const void *buffer)
     }
 
   // Free the nrrd struct but don't touch nrrd->data
-  nrrd = nrrdNix(nrrd);
-  nio = nrrdIoStateNix(nio);
+  nrrdNix(nrrd);
+  nrrdIoStateNix(nio);
 }
 
 } // end namespace itk
