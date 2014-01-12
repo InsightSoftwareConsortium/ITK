@@ -18,6 +18,7 @@
 
 #include "itkSTLMeshIO.h"
 #include "itkMetaDataObject.h"
+#include "itkByteSwapper.h"
 
 #include <itksys/SystemTools.hxx>
 #include <fstream>
@@ -270,6 +271,12 @@ STLMeshIO ::ReadMeshInternalFromBinary()
   //
   int32_t numberOfTriangles;
   this->m_InputStream.read(reinterpret_cast<char *>(&numberOfTriangles), sizeof(numberOfTriangles));
+
+  //
+  // Binary values in STL files are expected to be in little endian
+  // http://en.wikipedia.org/wiki/STL_(file_format)#Binary_STL
+  //
+  ByteSwapper<int32_t>::SwapFromSystemToLittleEndian(&numberOfTriangles);
 
   this->SetNumberOfCells(numberOfTriangles);
 
@@ -593,6 +600,11 @@ STLMeshIO ::WriteCells(void * buffer)
 void
 STLMeshIO ::WriteInt32AsBinary(int32_t value)
 {
+  //
+  // Binary values in STL files are expected to be in little endian
+  // http://en.wikipedia.org/wiki/STL_(file_format)#Binary_STL
+  //
+  ByteSwapper<int32_t>::SwapFromSystemToLittleEndian(&value);
   this->m_OutputStream.write(reinterpret_cast<const char *>(&value), sizeof(value));
 }
 
@@ -600,6 +612,11 @@ STLMeshIO ::WriteInt32AsBinary(int32_t value)
 void
 STLMeshIO ::WriteInt16AsBinary(int16_t value)
 {
+  //
+  // Binary values in STL files are expected to be in little endian
+  // http://en.wikipedia.org/wiki/STL_(file_format)#Binary_STL
+  //
+  ByteSwapper<int16_t>::SwapFromSystemToLittleEndian(&value);
   this->m_OutputStream.write(reinterpret_cast<const char *>(&value), sizeof(value));
 }
 
@@ -609,7 +626,12 @@ STLMeshIO ::WriteNormalAsBinary(const NormalType & normal)
 {
   for (unsigned int i = 0; i < 3; ++i)
   {
-    const float value = normal[i];
+    float value = normal[i];
+    //
+    // Binary values in STL files are expected to be in little endian
+    // http://en.wikipedia.org/wiki/STL_(file_format)#Binary_STL
+    //
+    ByteSwapper<float>::SwapFromSystemToLittleEndian(&value);
     this->m_OutputStream.write(reinterpret_cast<const char *>(&value), sizeof(value));
   }
 }
@@ -620,7 +642,12 @@ STLMeshIO ::WritePointAsBinary(const PointType & point)
 {
   for (unsigned int i = 0; i < 3; ++i)
   {
-    const float value = point[i];
+    float value = point[i];
+    //
+    // Binary values in STL files are expected to be in little endian
+    // http://en.wikipedia.org/wiki/STL_(file_format)#Binary_STL
+    //
+    ByteSwapper<float>::SwapFromSystemToLittleEndian(&value);
     this->m_OutputStream.write(reinterpret_cast<const char *>(&value), sizeof(value));
   }
 }
@@ -633,6 +660,11 @@ STLMeshIO ::ReadNormalAsBinary(NormalType & normal)
   for (unsigned int i = 0; i < 3; ++i)
   {
     this->m_InputStream.read(reinterpret_cast<char *>(&value), sizeof(value));
+    //
+    // Binary values in STL files are expected to be in little endian
+    // http://en.wikipedia.org/wiki/STL_(file_format)#Binary_STL
+    //
+    ByteSwapper<float>::SwapFromSystemToLittleEndian(&value);
     normal[i] = value;
   }
 }
@@ -642,6 +674,11 @@ void
 STLMeshIO ::ReadInt32AsBinary(int32_t & value)
 {
   this->m_InputStream.read(reinterpret_cast<char *>(&value), sizeof(value));
+  //
+  // Binary values in STL files are expected to be in little endian
+  // http://en.wikipedia.org/wiki/STL_(file_format)#Binary_STL
+  //
+  ByteSwapper<int32_t>::SwapFromSystemToLittleEndian(&value);
 }
 
 
@@ -649,6 +686,11 @@ void
 STLMeshIO ::ReadInt16AsBinary(int16_t & value)
 {
   this->m_InputStream.read(reinterpret_cast<char *>(&value), sizeof(value));
+  //
+  // Binary values in STL files are expected to be in little endian
+  // http://en.wikipedia.org/wiki/STL_(file_format)#Binary_STL
+  //
+  ByteSwapper<int16_t>::SwapFromSystemToLittleEndian(&value);
 }
 
 
@@ -659,6 +701,11 @@ STLMeshIO ::ReadPointAsBinary(PointType & point)
   for (unsigned int i = 0; i < 3; ++i)
   {
     this->m_InputStream.read(reinterpret_cast<char *>(&value), sizeof(value));
+    //
+    // Binary values in STL files are expected to be in little endian
+    // http://en.wikipedia.org/wiki/STL_(file_format)#Binary_STL
+    //
+    ByteSwapper<float>::SwapFromSystemToLittleEndian(&value);
     point[i] = value;
   }
 
