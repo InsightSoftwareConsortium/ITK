@@ -163,12 +163,13 @@ protected:
   /**
    * Default constructors
    */
-  LoadNoisyLandmark()
+  LoadNoisyLandmark():
+    m_Confidence(1.0),
+    m_ErrorNorm(0.0),
+    m_IsOutlier(false),
+    m_IsOutOfMesh(false),
+    m_HasStructureTensor(false)
     {
-    m_IsOutlier = false;
-    m_Confidence = 1.0;
-    m_HasStructureTensor = false;
-    m_IsOutOfMesh = false;
     this->m_Element.resize(1);
     }
 
