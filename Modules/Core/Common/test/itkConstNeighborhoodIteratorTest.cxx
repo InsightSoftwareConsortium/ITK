@@ -403,7 +403,6 @@ int itkConstNeighborhoodIteratorTest(int, char* [] )
     counter = 0;
     //while(!neighborhoodIterator.IsAtEnd()) // no need for this loop as we are only iterating over a 1x1 region
       //{
-    pixelIterator = neighborhoodIterator.Begin();
     for(pixelIterator = neighborhoodIterator.Begin(); pixelIterator < neighborhoodIterator.End(); ++pixelIterator)
       {
       if(**pixelIterator != expectedValuesRegion2[counter])
