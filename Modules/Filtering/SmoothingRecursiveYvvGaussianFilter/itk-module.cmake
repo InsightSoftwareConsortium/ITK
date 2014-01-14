@@ -15,7 +15,7 @@ if(ITK_USE_GPU)
      TEST_DEPENDS
         ITKTestKernel #to handle IO in src
         ITKGPUCommon
-     EXCLUDE_FROM_ALL
+     EXCLUDE_FROM_DEFAULT
      DESCRIPTION
          "${DOCUMENTATION}"
     )
