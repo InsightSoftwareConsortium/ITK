@@ -37,13 +37,17 @@ GE4ImageIO::~GE4ImageIO()
 bool GE4ImageIO::CanReadFile(const char *FileNameToRead)
 {
   char tmpStr[64];
-  //this->SetFileName(FileNameToRead);
-  std::ifstream f(FileNameToRead, std::ios::binary | std::ios::in);
 
-  if ( !f.is_open() )
+  std::ifstream f;
+  try
+    {
+    this->OpenFileForReading( f, FileNameToRead );
+    }
+  catch( ExceptionObject & )
     {
     return false;
     }
+
   // This is a weak heuristic but should only be true for GE4 files
   //
   // Get the Plane from the IMAGE Header.
@@ -107,15 +111,10 @@ GEImageHeader * GE4ImageIO::ReadHeader(const char *FileNameToRead)
 
   //
   // Next, can you open it?
-  std::ifstream f(FileNameToRead, std::ios::binary | std::ios::in);
-  //
-  // if any operation doesn't succeed we want to get the hell out.
-  // I guess since ReadImageInformation returns no error code, the
-  // only way out is to raise an exception
-  if ( !f.is_open() )
-    {
-    RAISE_EXCEPTION();
-    }
+
+  std::ifstream f;
+  this->OpenFileForReading( f, FileNameToRead );
+
   this->GetStringAt(f, SIGNA_STHDR_START * 2 + SIGNA_STHDR_DATE_ASCII * 2, tmpStr, 10);
   tmpStr[10] = '\0';
   strncpy(hdr->date, tmpStr, sizeof(hdr->date));

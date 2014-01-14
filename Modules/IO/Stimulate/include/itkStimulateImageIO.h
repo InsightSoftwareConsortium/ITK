@@ -120,10 +120,6 @@ protected:
   ~StimulateImageIO();
   void PrintSelf(std::ostream & os, Indent indent) const;
 
-  bool OpenStimulateFileForReading(std::ifstream & os, const char *filename);
-
-  bool OpenStimulateFileForWriting(std::ofstream & os, const char *filename);
-
   void InternalReadImageInformation(std::ifstream & file);
 
 private:

@@ -92,10 +92,6 @@ protected:
   ~BioRadImageIO();
   void PrintSelf(std::ostream & os, Indent indent) const;
 
-  bool OpenBioRadFileForReading(std::ifstream & os, const char *filename);
-
-  bool OpenBioRadFileForWriting(std::ofstream & os, const char *filename);
-
   void InternalReadImageInformation(std::ifstream & file);
 
 private:

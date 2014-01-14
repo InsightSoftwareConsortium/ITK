@@ -137,9 +137,6 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const;
 
   //void ComputeInternalFileName(unsigned long slice);
-  void OpenFileForReading(std::ifstream & is);
-
-  void OpenFileForWriting(std::ofstream & os);
 
 private:
   RawImageIO(const Self &);     //purposely not implemented

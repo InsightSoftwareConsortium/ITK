@@ -252,20 +252,8 @@ void Bruker2DSEQImageIO::Read(void *buffer)
   itksys::SystemTools::ConvertToUnixSlashes(file2Dseq);
   /* Try to open the file */
   std::ifstream twodseq_InputStream;
+  this->OpenFileForReading( twodseq_InputStream, file2Dseq );
   twodseq_InputStream.imbue( std::locale::classic() );
-  twodseq_InputStream.open(file2Dseq.c_str(), std::ios::in | std::ios::binary);
-
-  if ( twodseq_InputStream.fail() )
-    {
-    std::ostringstream message;
-    message << "The Brucker2DSEG Data File can not be opened. "
-            << "The following file was attempted:" << std::endl
-            << file2Dseq;
-    ExceptionObject exception(__FILE__, __LINE__,
-                              message.str(),
-                              ITK_LOCATION);
-    throw exception;
-    }
 
   twodseq_InputStream.read( p, Math::CastWithRangeCheck< std::streamsize, SizeType >( this->GetImageSizeInBytes() ) );
 
@@ -280,7 +268,6 @@ void Bruker2DSEQImageIO::Read(void *buffer)
                               ITK_LOCATION);
     throw exception;
     }
-  twodseq_InputStream.close();
   this->SwapBytesIfNecessary(buffer, numberOfPixels);
 }
 
@@ -308,24 +295,15 @@ bool Bruker2DSEQImageIO::CanReadFile(const char *FileNameToRead)
   std::string            readFileBufferString = "";
   char                   readFileBuffer[512] = "";
   std::string::size_type index;
-  SizeValueType          length2DSEQ = 0;
   SizeValueType          calcLength = 1;
-
-  // Does the '2dseq' file exist?
-  if ( !itksys::SystemTools::FileExists( file2Dseq.c_str() ) )
-    {
-    return false;
-    }
-
-  // get length of file in bytes:
-  length2DSEQ = itksys::SystemTools::FileLength( file2Dseq.c_str() );
-  //std::cout << "length2DSEQ = " << length2DSEQ << std::endl;
 
   // Check reco for existence.
   std::ifstream reco_InputStream;
-  reco_InputStream.open(filereco.c_str(),
-                        std::ios::in);
-  if ( reco_InputStream.fail() )
+  try
+    {
+    this->OpenFileForReading( reco_InputStream, filereco, true );
+    }
+  catch( ExceptionObject & )
     {
     return false;
     }
@@ -381,9 +359,11 @@ bool Bruker2DSEQImageIO::CanReadFile(const char *FileNameToRead)
 
   // Check d3proc for existence.
   std::ifstream d3proc_InputStream;
-  d3proc_InputStream.open(filed3proc.c_str(),
-                          std::ios::in);
-  if ( d3proc_InputStream.fail() )
+  try
+    {
+    this->OpenFileForReading( d3proc_InputStream, filed3proc, true );
+    }
+  catch( ExceptionObject & )
     {
     return false;
     }
@@ -483,6 +463,8 @@ bool Bruker2DSEQImageIO::CanReadFile(const char *FileNameToRead)
     }
   d3proc_InputStream.close();
 
+  // get length of file in bytes:
+  SizeValueType length2DSEQ = itksys::SystemTools::FileLength( file2Dseq.c_str() );
   // Compare the file length to the calculated length.
   // Are they equal?
   if ( calcLength != length2DSEQ )
@@ -559,17 +541,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
   EncapsulateMetaData< std::string >(thisDic, ITK_InputFilterName, classname);
 
   std::ifstream d3proc_InputStream;
-  d3proc_InputStream.open(filed3proc.c_str(),
-                          std::ios::in);
-  if ( d3proc_InputStream.fail() )
-    {
-    std::ostringstream message;
-    message << "d3proc file: " <<  filed3proc << " cannot be opened.";
-    ExceptionObject exception(__FILE__, __LINE__,
-                              message.str(),
-                              ITK_LOCATION);
-    throw exception;
-    }
+  this->OpenFileForReading( d3proc_InputStream, filed3proc, true );
   d3proc_InputStream.imbue( std::locale::classic() );
   while ( !d3proc_InputStream.eof() )
     {
@@ -683,17 +655,7 @@ void Bruker2DSEQImageIO::ReadImageInformation()
   d3proc_InputStream.close();
 
   std::ifstream reco_InputStream;
-  reco_InputStream.open(filereco.c_str(),
-                        std::ios::in);
-  if ( reco_InputStream.fail() )
-    {
-    std::ostringstream message;
-    message << "reco file: " <<  filereco << " cannot be opened";
-    ExceptionObject exception(__FILE__, __LINE__,
-                              message.str(),
-                              ITK_LOCATION);
-    throw exception;
-    }
+  this->OpenFileForReading( reco_InputStream, filereco, true );
   reco_InputStream.imbue( std::locale::classic() );
   while ( !reco_InputStream.eof() )
     {
@@ -1012,22 +974,9 @@ void Bruker2DSEQImageIO::ReadImageInformation()
 
   // Open the acqp file & extract relevant info.
   std::ifstream acqp_InputStream;
-  std::string   acqpFileString = "";
-  acqp_InputStream.open(fileacqp.c_str(),
-                        std::ios::in);
-  //std::cout << fileacqp.c_str() << std::endl;
-  if ( acqp_InputStream.fail() )
-    {
-    std::ostringstream message;
-    message << "acqp file cannot be opened. "
-            << "File is "
-            << fileacqp;
-    ExceptionObject exception(__FILE__, __LINE__,
-                              message.str(),
-                              ITK_LOCATION);
-    throw exception;
-    }
+  this->OpenFileForReading( acqp_InputStream, fileacqp, true );
   acqp_InputStream.imbue( std::locale::classic() );
+  std::string   acqpFileString = "";
   while ( !acqp_InputStream.eof() )
     {
     acqp_InputStream.getline( readFileBuffer, sizeof( readFileBuffer ) );

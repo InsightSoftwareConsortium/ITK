@@ -44,69 +44,6 @@ StimulateImageIO::StimulateImageIO()
 StimulateImageIO::~StimulateImageIO()
 {}
 
-bool StimulateImageIO::OpenStimulateFileForReading(std::ifstream & os,
-                                                   const char *filename)
-
-{
-  // Make sure that we have a file to
-  if ( *filename == 0 )
-    {
-    itkExceptionMacro(<< "A FileName must be specified.");
-    return false;
-    }
-
-  // Close file from any previous image
-  if ( os.is_open() )
-    {
-    os.close();
-    }
-
-  // Open the new file for reading
-  itkDebugMacro(<< "Initialize: opening file " << filename);
-
-  // Actually open the file
-  os.open(filename, std::ios::in | std::ios::binary);
-
-  if ( os.fail() )
-    {
-    return false;
-    }
-
-  return true;
-}
-
-bool StimulateImageIO::OpenStimulateFileForWriting(std::ofstream & os,
-                                                   const char *filename)
-
-{
-  // Make sure that we have a file to
-  if ( *filename == 0 )
-    {
-    itkExceptionMacro(<< "A FileName must be specified.");
-    return false;
-    }
-
-  // Close file from any previous image
-  if ( os.is_open() )
-    {
-    os.close();
-    }
-
-  // Open the new file for writing
-  itkDebugMacro(<< "Initialize: opening file " << filename);
-
-  // Actually open the file
-  os.open(filename, std::ios::out | std::ios::binary);
-
-  if ( os.fail() )
-    {
-    itkExceptionMacro(<< "Could not open file for writing: " << filename);
-    return false;
-    }
-
-  return true;
-}
-
 // This method will only test if the header looks like a
 //Stimulate image file.
 bool StimulateImageIO::CanReadFile(const char *filename)
@@ -135,7 +72,11 @@ bool StimulateImageIO::CanReadFile(const char *filename)
     return false;
     }
 
-  if ( !this->OpenStimulateFileForReading(file, filename) )
+  try
+    {
+    this->OpenFileForReading( file, fname );
+    }
+  catch( ExceptionObject & )
     {
     return false;
     }
@@ -179,30 +120,27 @@ void StimulateImageIO::Read(void *buffer)
     m_DataFileName.replace(m_DataFileName.length(), 4, ".sdt");
 
     // Actually open the file
-    file_data.open(m_DataFileName.c_str(), std::ios::in | std::ios::binary);
-    if ( file_data.fail() )
+    try
+      {
+      this->OpenFileForReading( file_data, m_DataFileName );
+      }
+    catch( ExceptionObject & )
       {
       //option 2:
       m_DataFileName = m_FileName;
       m_DataFileName.replace(m_DataFileName.length() - 3, 3, "sdt");
-      file_data.open(m_DataFileName.c_str(), std::ios::in | std::ios::binary);
-      if ( file_data.fail() )
+      try
+        {
+        this->OpenFileForReading( file_data, m_DataFileName );
+        }
+      catch( ExceptionObject & )
         {
         itkExceptionMacro(<< "No Data file was specified in header (spr) file and guessing file data name failed.");
-        return;
         }
       }
     } //a filename was found for data file
 
-  if ( !OpenStimulateFileForReading( file_data, m_DataFileName.c_str() ) )
-    {
-    itkExceptionMacro( "StimulateImageIO could not open file: "
-                       << m_DataFileName << " for reading."
-                       << std::endl
-                       << "Reason: "
-                       << itksys::SystemTools::GetLastSystemError() );
-    return;
-    }
+  this->OpenFileForReading( file_data, m_DataFileName );
 
   if ( !this->ReadBufferAsBinary( file_data, buffer, this->GetImageSizeInBytes() ) )
     {
@@ -255,18 +193,8 @@ void StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
 
   //read .sdt file (header)
 
-  if ( !this->OpenStimulateFileForReading( file, m_FileName.c_str() ) )
-    {
-    itkExceptionMacro( "StimulateImageIO could not open sdt file: "
-                       << m_FileName << " for reading."
-                       << std::endl
-                       << "Reason: "
-                       << itksys::SystemTools::GetLastSystemError() );
-    }
-
-  // re open in ascii mode
-  file.close();
-  file.open(m_FileName.c_str(), std::ios::in);
+  // open in ascii mode
+  this->OpenFileForReading( file, m_FileName, true );
 
   //extract dimensions, spacing, origin
   unsigned int dim;
@@ -551,11 +479,7 @@ void StimulateImageIO::Write(const void *buffer)
   unsigned int i;
 
   std::ofstream file;
-
-  if ( !this->OpenStimulateFileForWriting( file, m_FileName.c_str() ) )
-    {
-    return;
-    }
+  this->OpenFileForWriting( file, m_FileName );
 
   // Check the image region for proper dimensions, etc.
   unsigned int numDims = this->GetNumberOfDimensions();
@@ -642,11 +566,7 @@ void StimulateImageIO::Write(const void *buffer)
 
     //actually read data file
     std::ofstream file_data;
-
-    if ( !this->OpenStimulateFileForWriting( file_data, m_DataFileName.c_str() ) )
-      {
-      return;
-      }
+    this->OpenFileForWriting( file_data, m_DataFileName );
 
     // Write the actual pixel data
     file_data.write(static_cast< const char * >( tempmemory ), numberOfBytes);
