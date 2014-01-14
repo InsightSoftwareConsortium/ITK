@@ -34,6 +34,7 @@
 
 #include "vnl/vnl_vector.h"
 
+#include <fstream>
 #include <string>
 
 namespace itk
@@ -612,6 +613,38 @@ protected:
   /** Convenient method for accessing the number of bytes to get to the
    * next slice. Returns m_Strides[3]. */
   SizeType GetSliceStride() const;
+
+  /** \brief Opens a file for reading and random access
+   *
+   * \param[out] inputStream is an istream presumed to be opened for reading
+   * \param[in] filename is the name of the file
+   * \param[in] ascii optional (default is false);
+   *                  if true than the file will be opened in ASCII mode,
+   *                  which generally only applies to Windows
+   *
+   * The stream is closed if it's already opened. If an error is
+   * encountered than an exception will be thrown.
+   */
+  virtual void OpenFileForReading(std::ifstream & inputStream, const std::string & filename,
+                                  bool ascii = false);
+
+  /** \brief Opens a file for writing and random access
+   *
+   * \param[out] outputStream is an ostream presumed to be opened for writing
+   * \param[in] filename is the name of the file
+   * \param[in] truncate optional (default is true);
+   *                     if true than the file's existing content is truncated,
+   *                     if false than the file is opened for reading and
+   *                     writing with existing content intact
+   * \param[in] ascii optional (default is false);
+   *                  if true than the file will be opened in ASCII mode,
+   *                  which generally only applies to Windows
+   *
+   * The stream is closed if it's already opened. If an error is
+   * encountered than an exception will be thrown.
+   */
+  virtual void OpenFileForWriting(std::ofstream & outputStream, const std::string & filename,
+                                  bool truncate = true, bool ascii = false);
 
   /** Convenient method to write a buffer as ASCII text. */
   virtual void WriteBufferAsASCII(std::ostream & os, const void *buffer,

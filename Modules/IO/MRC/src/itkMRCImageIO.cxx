@@ -66,9 +66,9 @@ bool MRCImageIO::CanReadFile(const char *filename)
   try
     {
     // this may throw an expection, but we just return false
-    this->OpenFileForReading(file, filename);
+    this->OpenFileForReading( file, fname );
     }
-  catch ( ... )
+  catch ( ExceptionObject & )
     {
     return false;
     }
@@ -233,7 +233,7 @@ void MRCImageIO::InternalReadImageInformation(std::ifstream & file)
 
     itkDebugMacro(<< "Reading Information ");
 
-    this->OpenFileForReading( file, this->m_FileName.c_str() );
+    this->OpenFileForReading( file, m_FileName );
 
     buffer = new char[m_MRCHeader->GetHeaderSize()];
     if ( !this->ReadBufferAsBinary( file, static_cast< void * >( buffer ), m_MRCHeader->GetHeaderSize() ) )
@@ -279,7 +279,7 @@ void MRCImageIO
   if ( this->RequestedToStream() )
     {
     // open and stream read
-    this->OpenFileForReading( file, this->m_FileName.c_str() );
+    this->OpenFileForReading( file, m_FileName );
 
     this->StreamReadBufferAsBinary(file, buffer);
     }
@@ -287,7 +287,7 @@ void MRCImageIO
   else
     {
     // open the file
-    this->OpenFileForReading( file, this->m_FileName.c_str() );
+    this->OpenFileForReading( file, m_FileName );
 
     // seek base the header
     std::streampos dataPos = static_cast< std::streampos >( this->GetHeaderSize() );
@@ -473,7 +473,7 @@ void MRCImageIO::WriteImageInformation(const void *buffer)
 
   std::ofstream file;
 
-  this->OpenFileForWriting(file, this->m_FileName.c_str(), true);
+  this->OpenFileForWriting( file, m_FileName, true );
 
   // write the header
   const MRCHeaderObject::Header & header = m_MRCHeader->GetHeader();
@@ -565,7 +565,7 @@ void MRCImageIO
 
       std::ofstream file;
       // open and stream write
-      this->OpenFileForWriting(file, this->m_FileName.c_str(), false);
+      this->OpenFileForWriting( file, m_FileName, false );
 
       // write one byte at the end of the file to allocate (this is a
       // nifty trick which should not write the entire size of the file
@@ -599,7 +599,7 @@ void MRCImageIO
 
     std::ofstream file;
     // open and stream write
-    this->OpenFileForWriting(file, this->m_FileName.c_str(), false);
+    this->OpenFileForWriting( file, m_FileName, false );
 
     this->StreamWriteBufferAsBinary(file, buffer);
     }
@@ -611,7 +611,7 @@ void MRCImageIO
 
     std::ofstream file;
     // open the file
-    this->OpenFileForWriting(file, this->m_FileName.c_str(), false);
+    this->OpenFileForWriting( file, m_FileName, false);
 
     // seek pass the header
     std::streampos dataPos = static_cast< std::streampos >( this->GetHeaderSize() );

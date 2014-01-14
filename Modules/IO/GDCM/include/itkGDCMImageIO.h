@@ -270,11 +270,7 @@ protected:
   ~GDCMImageIO();
   void PrintSelf(std::ostream & os, Indent indent) const;
 
-  bool OpenGDCMFileForReading(std::ifstream & os, const char *filename);
-
-  bool OpenGDCMFileForWriting(std::ofstream & os, const char *filename);
-
-  void InternalReadImageInformation(std::ifstream & file);
+  void InternalReadImageInformation();
 
   double m_RescaleSlope;
   double m_RescaleIntercept;

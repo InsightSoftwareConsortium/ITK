@@ -21,6 +21,8 @@
 #include "itkSimpleFastMutexLock.h"
 #include "itkMutexLockHolder.h"
 
+#include "itksys/SystemTools.hxx"
+
 namespace itk
 {
 ImageIOBase::ImageIOBase():
@@ -553,6 +555,94 @@ ImageIOBase::IOPixelType ImageIOBase::GetPixelTypeFromString(const std::string &
   else
     {
     return UNKNOWNPIXELTYPE;
+    }
+}
+
+void ImageIOBase::OpenFileForReading(std::ifstream & inputStream, const std::string & filename,
+                                     bool ascii)
+{
+  // Make sure that we have a file to
+  if ( filename.empty() )
+    {
+    itkExceptionMacro( << "A FileName must be specified." );
+    }
+
+  // Close file from any previous image
+  if ( inputStream.is_open() )
+    {
+    inputStream.close();
+    }
+
+  // Open the new file for reading
+  itkDebugMacro( << "Opening file for reading: " << filename );
+
+  std::ios::openmode mode = std::ios::in;
+  if ( !ascii )
+    {
+    mode |= std::ios::binary;
+    }
+
+  inputStream.open( filename.c_str(), mode );
+
+  if ( !inputStream.is_open() || inputStream.fail() )
+    {
+    itkExceptionMacro( << "Could not open file: "
+                       << filename << " for reading."
+                       << std::endl
+                       << "Reason: "
+                       << itksys::SystemTools::GetLastSystemError() );
+    }
+}
+
+void ImageIOBase::OpenFileForWriting(std::ofstream & outputStream, const std::string & filename,
+                                     bool truncate, bool ascii)
+{
+  // Make sure that we have a file to
+  if ( filename.empty() )
+    {
+    itkExceptionMacro( << "A FileName must be specified." );
+    }
+
+  // Close file from any previous image
+  if ( outputStream.is_open() )
+    {
+    outputStream.close();
+    }
+
+  // Open the new file for writing
+  itkDebugMacro( << "Opening file for writing: " << filename );
+
+  std::ios::openmode mode = std::ios::out;
+  if ( truncate )
+    {
+    // typically, ios::out also implies ios::trunc, but being explicit is safer
+    mode |= std::ios::trunc;
+    }
+  else
+    {
+    mode |= std::ios::in;
+    // opening a nonexistent file for reading + writing is not allowed on some platforms
+    if ( !itksys::SystemTools::FileExists( filename.c_str() ) )
+      {
+      itksys::SystemTools::Touch( filename.c_str(), true );
+      // don't worry about failure here, errors should be detected later when the file
+      // is "actually" opened, unless there is a race condition
+      }
+    }
+  if ( !ascii )
+    {
+    mode |= std::ios::binary;
+    }
+
+  outputStream.open( filename.c_str(), mode );
+
+  if ( !outputStream.is_open() || outputStream.fail() )
+    {
+    itkExceptionMacro( << "Could not open file: "
+                       << filename << " for writing."
+                       << std::endl
+                       << "Reason: "
+                       << itksys::SystemTools::GetLastSystemError() );
     }
 }
 

@@ -152,24 +152,6 @@ protected:
    */
   virtual SizeType GetDataPosition(void) const { return this->GetHeaderSize(); }
 
-  /** \brief Opens a file for reading and random access
-   *
-   * The stream is closed if it's already opened. If an error is
-   * encountered then an exception will be thrown.
-   */
-  virtual void OpenFileForReading(std::ifstream & os, const char *filename);
-
-  /** \brief Opens a file for writing and random access
-   *
-   * \param os is an ostream presumed to be opened for writing
-   * \param filename is the name of the file
-   * \param truncate if true then the file is truncated
-   *
-   * The stream is closed if it's already opened. If an error is
-   * encountered then an exception will be thrown.
-   */
-  virtual void OpenFileForWriting(std::ofstream & os, const char *filename, bool truncate);
-
 private:
   StreamingImageIOBase(const Self &); //purposely not implemented
   void operator=(const Self &);       //purposely not implemented
