@@ -1,5 +1,6 @@
 itk_module_test()
 set(ITKCommon1Tests
+itkAbortProcessObjectTest.cxx
 itkAdaptorComparisonTest.cxx
 itkCellInterfaceTest.cxx
 itkCovariantVectorGeometryTest.cxx
@@ -196,6 +197,7 @@ if(ITK_BUILD_SHARED_LIBS)
   add_dependencies(ITKCommon2TestDriver FactoryTestLib)
 endif()
 
+itk_add_test(NAME itkAbortProcessObjectTest COMMAND ITKCommon1TestDriver itkAbortProcessObjectTest)
 itk_add_test(NAME itkAdaptorComparisonTest COMMAND ITKCommon1TestDriver itkAdaptorComparisonTest)
 itk_add_test(NAME itkThreadedIndexedContainerPartitionerTest COMMAND ITKCommon2TestDriver itkThreadedIndexedContainerPartitionerTest)
 itk_add_test(NAME itkThreadedIteratorRangePartitionerTest COMMAND ITKCommon2TestDriver itkThreadedIteratorRangePartitionerTest)
