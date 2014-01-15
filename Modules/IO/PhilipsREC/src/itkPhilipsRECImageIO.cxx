@@ -600,9 +600,9 @@ void PhilipsRECImageIO::ReadImageInformation()
     {
     philipsPAR->ReadPAR(HeaderFileName, &par);
     }
-  catch ( itk::ExceptionObject & err )
+  catch ( itk::ExceptionObject & )
     {
-    throw & err;
+    throw;
     }
   if ( par.problemreading )
     {
