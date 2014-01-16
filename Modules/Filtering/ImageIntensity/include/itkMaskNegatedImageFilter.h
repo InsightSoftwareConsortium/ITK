@@ -37,7 +37,7 @@ public:
   typedef typename NumericTraits< TInput >::AccumulateType AccumulatorType;
 
   MaskNegatedInput()
-    : m_OutsideValue(NumericTraits< TOutput >::Zero)
+    : m_OutsideValue(NumericTraits< TOutput >::ZeroValue())
     , m_MaskingValue(NumericTraits< TMask >::ZeroValue())
   {
   }
