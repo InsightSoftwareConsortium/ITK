@@ -31,7 +31,7 @@ namespace itk
  * \author Luis Ibanez, Kitware Inc.
  * \ingroup IOFilters
  * \ingroup ITKIOMesh
- * \ingroup ITKIOSTLMesh
+ * \ingroup IOSTL
  */
 class ITKIOMesh_EXPORT STLMeshIO : public MeshIOBase
 {

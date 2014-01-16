@@ -1,18 +1,18 @@
 set(
-  ITKIOSTLMesh_SRC
+  IOSTL_SRC
   itkSTLMeshIO.cxx
   itkSTLMeshIOFactory.cxx
 )
 
 add_library(
-  ITKIOSTLMesh
+  IOSTL
   ${ITK_LIBRARY_BUILD_TYPE}
-  ${ITKIOSTLMesh_SRC}
+  ${IOSTL_SRC}
 )
 target_link_libraries(
-  ITKIOSTLMesh
+  IOSTL
   ${ITKCommon_LIBRARIES}
   ${ITKIOMesh_LIBRARIES}
 )
 
-itk_module_target(ITKIOSTLMesh)
+itk_module_target(IOSTL)

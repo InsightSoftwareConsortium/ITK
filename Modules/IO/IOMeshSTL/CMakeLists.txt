@@ -1,3 +1,3 @@
-project(ITKIOSTLMesh)
-set(ITKIOSTLMesh_LIBRARIES ITKIOSTLMesh)
+project(IOSTL)
+set(IOSTL_LIBRARIES IOSTL)
 itk_module_impl()

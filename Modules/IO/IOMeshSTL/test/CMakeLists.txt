@@ -1,13 +1,13 @@
 itk_module_test()
 
-set(ITKIOSTLMeshTests itkSTLMeshIOTest.cxx)
+set(IOSTLTests itkSTLMeshIOTest.cxx)
 
-createtestdriver(ITKIOSTLMesh "${ITKIOSTLMesh-Test_LIBRARIES}" "${ITKIOSTLMeshTests}")
+createtestdriver(IOSTL "${IOSTL-Test_LIBRARIES}" "${IOSTLTests}" )
 
 itk_add_test(
   NAME itkSTLMeshIOTest00
   COMMAND
-    ITKIOSTLMeshTestDriver
+    IOSTLTestDriver
     itkSTLMeshIOTest
     DATA{Baseline/sphere.vtk}
     ${ITK_TEST_OUTPUT_DIR}/sphere00.stl
@@ -17,7 +17,7 @@ itk_add_test(
 itk_add_test(
   NAME itkSTLMeshIOTest01
   COMMAND
-    ITKIOSTLMeshTestDriver
+    IOSTLTestDriver
     itkSTLMeshIOTest
     DATA{Baseline/sphere.vtk}
     ${ITK_TEST_OUTPUT_DIR}/sphere01.stl
@@ -27,7 +27,7 @@ itk_add_test(
 itk_add_test(
   NAME itkSTLMeshIOTest02
   COMMAND
-    ITKIOSTLMeshTestDriver
+    IOSTLTestDriver
     itkSTLMeshIOTest
     DATA{Baseline/sphere.stl}
     ${ITK_TEST_OUTPUT_DIR}/sphere02.stl
@@ -37,7 +37,7 @@ itk_add_test(
 itk_add_test(
   NAME itkSTLMeshIOTest03
   COMMAND
-    ITKIOSTLMeshTestDriver
+    IOSTLTestDriver
     itkSTLMeshIOTest
     DATA{Baseline/sphere.stl}
     ${ITK_TEST_OUTPUT_DIR}/sphere03.stl
@@ -47,7 +47,7 @@ itk_add_test(
 itk_add_test(
   NAME itkSTLMeshIOTest04
   COMMAND
-    ITKIOSTLMeshTestDriver
+    IOSTLTestDriver
     itkSTLMeshIOTest
     DATA{Baseline/tetrahedron.vtk}
     ${ITK_TEST_OUTPUT_DIR}/tetrahedron01.stl
@@ -57,7 +57,7 @@ itk_add_test(
 itk_add_test(
   NAME itkSTLMeshIOTest05
   COMMAND
-    ITKIOSTLMeshTestDriver
+    IOSTLTestDriver
     itkSTLMeshIOTest
     DATA{Baseline/tetrahedron.vtk}
     ${ITK_TEST_OUTPUT_DIR}/tetrahedron02.stl
@@ -67,7 +67,7 @@ itk_add_test(
 itk_add_test(
   NAME itkSTLMeshIOTest06
   COMMAND
-    ITKIOSTLMeshTestDriver
+    IOSTLTestDriver
     itkSTLMeshIOTest
     DATA{Baseline/tetrahedron.stl}
     ${ITK_TEST_OUTPUT_DIR}/tetrahedron03.stl
@@ -77,7 +77,7 @@ itk_add_test(
 itk_add_test(
   NAME itkSTLMeshIOTest07
   COMMAND
-    ITKIOSTLMeshTestDriver
+    IOSTLTestDriver
     itkSTLMeshIOTest
     DATA{Baseline/tetrahedron.stl}
     ${ITK_TEST_OUTPUT_DIR}/tetrahedron04.stl
