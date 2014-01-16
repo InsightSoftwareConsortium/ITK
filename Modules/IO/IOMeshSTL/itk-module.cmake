@@ -4,7 +4,7 @@ set(
 QuadEdgeMeshes using the STL file format."
 )
 itk_module(
-  ITKIOSTLMesh
+  IOSTL
   ENABLE_SHARED
   DEPENDS
     ITKCommon
