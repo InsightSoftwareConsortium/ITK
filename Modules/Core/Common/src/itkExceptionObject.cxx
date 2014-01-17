@@ -343,4 +343,30 @@ ExceptionObject
   // Print trailer
   os << indent << std::endl;
 }
+
+MemoryAllocationError::~MemoryAllocationError()
+  throw( )
+{
+}
+
+RangeError::~RangeError()
+  throw( )
+{
+}
+
+InvalidArgumentError::~InvalidArgumentError()
+  throw( )
+{
+}
+
+IncompatibleOperandsError::~IncompatibleOperandsError()
+  throw( )
+{
+}
+
+ProcessAborted::~ProcessAborted() throw( )
+{
+}
+
+
 } // end namespace itk
