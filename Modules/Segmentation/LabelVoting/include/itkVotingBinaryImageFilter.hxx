@@ -45,7 +45,6 @@ template< typename TInputImage, typename TOutputImage >
 void
 VotingBinaryImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
-throw ( InvalidRequestedRegionError )
 {
   // call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();

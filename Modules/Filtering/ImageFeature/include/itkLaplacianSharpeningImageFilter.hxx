@@ -40,7 +40,6 @@ template< typename TInputImage, typename TOutputImage >
 void
 LaplacianSharpeningImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
-throw ( InvalidRequestedRegionError )
 {
   // call the superclass' implementation of this method. This should
   // copy the output requested region to the input requested region

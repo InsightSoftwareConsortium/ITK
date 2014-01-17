@@ -32,7 +32,6 @@ template< typename TInputImage, typename TOutputImage, typename TOperatorValueTy
 void
 GPUNeighborhoodOperatorImageFilter< TInputImage, TOutputImage, TOperatorValueType >
 ::GenerateInputRequestedRegion()
-throw ( InvalidRequestedRegionError )
 {
   // call the superclass' implementation of this method. this should
   // copy the output requested region to the input requested region

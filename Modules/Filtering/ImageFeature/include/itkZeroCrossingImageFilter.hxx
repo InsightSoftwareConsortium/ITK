@@ -31,7 +31,6 @@ template< typename TInputImage, typename TOutputImage >
 void
 ZeroCrossingImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
-throw( InvalidRequestedRegionError )
 {
   // call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
