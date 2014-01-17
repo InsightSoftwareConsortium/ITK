@@ -630,7 +630,7 @@ void test_prob3()
   // initial perturbed parameters, add random gaussian noise
   vnl_vector<double> init_a(a_data,12), init_b(b_data,50);
   double sigma_pos = 1.0, sigma_ang = 0.1;
-  vnl_random rnd;
+  vnl_random rnd(1234);
   for (unsigned i=0; i<init_a.size()/3; ++i)
   {
     init_a[3*i] += rnd.normal()*sigma_ang;
