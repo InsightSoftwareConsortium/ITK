@@ -187,26 +187,69 @@ int itkTransformFactoryBaseTest (int, char*[])
   defaultTransforms.push_back("DisplacementFieldTransform_float_2_2");
   defaultTransforms.push_back("DisplacementFieldTransform_float_3_3");
 
+  defaultTransforms.push_back("BSplineSmoothingOnUpdateDisplacementFieldTransform_double_2_2");
+  defaultTransforms.push_back("BSplineSmoothingOnUpdateDisplacementFieldTransform_double_3_3");
+  defaultTransforms.push_back("BSplineSmoothingOnUpdateDisplacementFieldTransform_float_2_2");
+  defaultTransforms.push_back("BSplineSmoothingOnUpdateDisplacementFieldTransform_float_3_3");
+
+  defaultTransforms.push_back("ConstantVelocityFieldTransform_double_2_2");
+  defaultTransforms.push_back("ConstantVelocityFieldTransform_double_3_3");
+  defaultTransforms.push_back("ConstantVelocityFieldTransform_float_2_2");
+  defaultTransforms.push_back("ConstantVelocityFieldTransform_float_3_3");
+
+  defaultTransforms.push_back("VelocityFieldTransform_double_2_2");
+  defaultTransforms.push_back("VelocityFieldTransform_double_3_3");
+  defaultTransforms.push_back("VelocityFieldTransform_float_2_2");
+  defaultTransforms.push_back("VelocityFieldTransform_float_3_3");
+
+  defaultTransforms.push_back("TimeVaryingBSplineVelocityFieldTransform_double_2_2");
+  defaultTransforms.push_back("TimeVaryingBSplineVelocityFieldTransform_double_3_3");
+  defaultTransforms.push_back("TimeVaryingBSplineVelocityFieldTransform_float_2_2");
+  defaultTransforms.push_back("TimeVaryingBSplineVelocityFieldTransform_float_3_3");
+
+  defaultTransforms.push_back("TimeVaryingVelocityFieldTransform_double_2_2");
+  defaultTransforms.push_back("TimeVaryingVelocityFieldTransform_double_3_3");
+  defaultTransforms.push_back("TimeVaryingVelocityFieldTransform_float_2_2");
+  defaultTransforms.push_back("TimeVaryingVelocityFieldTransform_float_3_3");
+
+  defaultTransforms.push_back("GaussianExponentialDiffeomorphicTransform_double_2_2");
+  defaultTransforms.push_back("GaussianExponentialDiffeomorphicTransform_double_3_3");
+  defaultTransforms.push_back("GaussianExponentialDiffeomorphicTransform_float_2_2");
+  defaultTransforms.push_back("GaussianExponentialDiffeomorphicTransform_float_3_3");
+
+  defaultTransforms.push_back("GaussianSmoothingOnUpdateDisplacementFieldTransform_double_2_2");
+  defaultTransforms.push_back("GaussianSmoothingOnUpdateDisplacementFieldTransform_double_3_3");
+  defaultTransforms.push_back("GaussianSmoothingOnUpdateDisplacementFieldTransform_float_2_2");
+  defaultTransforms.push_back("GaussianSmoothingOnUpdateDisplacementFieldTransform_float_3_3");
+
+  defaultTransforms.push_back("GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform_double_2_2");
+  defaultTransforms.push_back("GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform_double_3_3");
+  defaultTransforms.push_back("GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform_float_2_2");
+  defaultTransforms.push_back("GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform_float_3_3");
+
+  int testReturnStatus = EXIT_SUCCESS;
 
   // check to make sure that all default transforms have been registered
   defaultTransforms.sort();
   // Print out the names of all the registered transforms
   std::list<std::string> names = itk::TransformFactoryBase::GetFactory()->GetClassOverrideWithNames();
   names.sort();
-  std::list<std::string>::iterator namesIt;
-  std::list<std::string>::iterator defaultsIt;
-  for (namesIt = names.begin(), defaultsIt = defaultTransforms.begin();
-       namesIt != names.end() && defaultsIt != defaultTransforms.end();
-       ++namesIt, ++defaultsIt)
     {
-    if (strcmp((*namesIt).c_str(), (*defaultsIt).c_str()) != 0)
+    std::list<std::string>::iterator namesIt;
+    std::list<std::string>::iterator defaultsIt;
+    for (namesIt = names.begin(), defaultsIt = defaultTransforms.begin();
+      namesIt != names.end() && defaultsIt != defaultTransforms.end();
+      ++namesIt, ++defaultsIt)
       {
-      std::cout << "[FAILED] " <<*namesIt<<"   "<< *defaultsIt << " not registered properly with defaults" << std::endl;
-      return EXIT_FAILURE;
-      }
-    else
-      {
-      std::cout << "[SUCCESS] " << *defaultsIt << " registered properly" << std::endl;
+      if (strcmp((*namesIt).c_str(), (*defaultsIt).c_str()) != 0)
+        {
+        std::cout << "[FAILED] " <<*namesIt<<"   "<< *defaultsIt << " not registered properly with defaults" << std::endl;
+        testReturnStatus = EXIT_FAILURE;
+        }
+      else
+        {
+        std::cout << "[SUCCESS] " << *defaultsIt << " registered properly" << std::endl;
+        }
       }
     }
 
@@ -218,6 +261,7 @@ int itkTransformFactoryBaseTest (int, char*[])
   if (strcmp(itkVersion, ITK_SOURCE_VERSION) != 0)
     {
     std::cout << "[FAILED] Did not report version correctly" << std::endl;
+    testReturnStatus = EXIT_FAILURE;
     }
   else
     {
@@ -226,6 +270,7 @@ int itkTransformFactoryBaseTest (int, char*[])
   if (strcmp(description, "Transform FactoryBase") != 0)
     {
     std::cout << "[FAILED] Did not report description correctly" << std::endl;
+    testReturnStatus = EXIT_FAILURE;
     }
   else
     {
@@ -234,6 +279,7 @@ int itkTransformFactoryBaseTest (int, char*[])
   if (strcmp(type, "TransformFactoryBase") != 0)
     {
     std::cout << "[FAILED] Did not report type correctly" << std::endl;
+    testReturnStatus = EXIT_FAILURE;
     }
   else
     {
@@ -241,6 +287,5 @@ int itkTransformFactoryBaseTest (int, char*[])
     }
 
   // return successfully
-  return EXIT_SUCCESS;
-
+  return testReturnStatus;
 }
