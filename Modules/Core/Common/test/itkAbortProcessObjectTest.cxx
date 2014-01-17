@@ -104,7 +104,7 @@ int itkAbortProcessObjectTest(int, char* [] )
     {
     extract->UpdateLargestPossibleRegion();
     }
-  catch(itk::ProcessAborted &a)
+  catch(itk::ProcessAborted &)
     {
     if (onAbortCalled)
       {
