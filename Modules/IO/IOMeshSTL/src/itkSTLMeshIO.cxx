@@ -443,44 +443,83 @@ STLMeshIO ::WritePoints(void * buffer)
   switch (pointValueType)
   {
     case UCHAR:
-      this->WritePointsTyped(reinterpret_cast<unsigned char *>(buffer));
+    {
+      typedef unsigned char CoordType;
+      this->WritePointsTyped<CoordType>(reinterpret_cast<CoordType *>(buffer));
       break;
+    }
     case CHAR:
-      this->WritePointsTyped(reinterpret_cast<const char *>(buffer));
+    {
+      typedef char CoordType;
+      this->WritePointsTyped<CoordType>(reinterpret_cast<CoordType *>(buffer));
       break;
+    }
     case USHORT:
-      this->WritePointsTyped(reinterpret_cast<const unsigned short *>(buffer));
+    {
+      typedef unsigned short CoordType;
+      this->WritePointsTyped<CoordType>(reinterpret_cast<CoordType *>(buffer));
       break;
+    }
     case SHORT:
-      this->WritePointsTyped(reinterpret_cast<const short *>(buffer));
+    {
+      typedef short CoordType;
+      this->WritePointsTyped<CoordType>(reinterpret_cast<CoordType *>(buffer));
       break;
+    }
     case UINT:
-      this->WritePointsTyped(reinterpret_cast<const unsigned int *>(buffer));
+    {
+      typedef unsigned int CoordType;
+      this->WritePointsTyped<CoordType>(reinterpret_cast<CoordType *>(buffer));
       break;
+    }
     case INT:
-      this->WritePointsTyped(reinterpret_cast<const int *>(buffer));
+    {
+      typedef int CoordType;
+      this->WritePointsTyped<CoordType>(reinterpret_cast<CoordType *>(buffer));
       break;
+    }
     case ULONG:
-      this->WritePointsTyped(reinterpret_cast<const unsigned long *>(buffer));
+    {
+      typedef unsigned long CoordType;
+      this->WritePointsTyped<CoordType>(reinterpret_cast<CoordType *>(buffer));
       break;
+    }
     case LONG:
-      this->WritePointsTyped(reinterpret_cast<const long *>(buffer));
+    {
+      typedef long CoordType;
+      this->WritePointsTyped<CoordType>(reinterpret_cast<CoordType *>(buffer));
       break;
+    }
     case ULONGLONG:
-      this->WritePointsTyped(reinterpret_cast<const unsigned long long *>(buffer));
+    {
+      typedef unsigned long long CoordType;
+      this->WritePointsTyped<CoordType>(reinterpret_cast<CoordType *>(buffer));
       break;
+    }
     case LONGLONG:
-      this->WritePointsTyped(reinterpret_cast<const long long *>(buffer));
+    {
+      typedef long long CoordType;
+      this->WritePointsTyped<CoordType>(reinterpret_cast<CoordType *>(buffer));
       break;
+    }
     case FLOAT:
-      this->WritePointsTyped(reinterpret_cast<const float *>(buffer));
+    {
+      typedef float CoordType;
+      this->WritePointsTyped<CoordType>(reinterpret_cast<CoordType *>(buffer));
       break;
+    }
     case DOUBLE:
-      this->WritePointsTyped(reinterpret_cast<const double *>(buffer));
+    {
+      typedef double CoordType;
+      this->WritePointsTyped<CoordType>(reinterpret_cast<CoordType *>(buffer));
       break;
+    }
     case LDOUBLE:
-      this->WritePointsTyped(reinterpret_cast<const long double *>(buffer));
+    {
+      typedef long double CoordType;
+      this->WritePointsTyped<CoordType>(reinterpret_cast<CoordType *>(buffer));
       break;
+    }
     default:
       itkExceptionMacro(<< "Unknonwn point component type");
   }
@@ -509,8 +548,6 @@ STLMeshIO ::WriteCellsAsBinary(void * buffer)
   const IdentifierType * cellsBuffer = reinterpret_cast<const IdentifierType *>(buffer);
 
   SizeValueType index = 0;
-
-  typedef MeshIOBase::CellGeometryType CellGeometryType;
 
   NormalType normal;
 
@@ -586,8 +623,6 @@ STLMeshIO ::WriteCellsAsAscii(void * buffer)
   const IdentifierType * cellsBuffer = reinterpret_cast<const IdentifierType *>(buffer);
 
   SizeValueType index = 0;
-
-  typedef MeshIOBase::CellGeometryType CellGeometryType;
 
   NormalType normal;
 
