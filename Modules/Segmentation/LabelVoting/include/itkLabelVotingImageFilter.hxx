@@ -21,6 +21,7 @@
 #include "itkLabelVotingImageFilter.h"
 
 #include "itkImageRegionIterator.h"
+#include "itkProgressReporter.h"
 
 #include "vnl/vnl_math.h"
 
@@ -104,8 +105,10 @@ template< typename TInputImage, typename TOutputImage >
 void
 LabelVotingImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData( const OutputImageRegionType & outputRegionForThread,
-                        ThreadIdType itkNotUsed(threadId) )
+                        ThreadIdType threadId )
 {
+  ProgressReporter progress( this, threadId, outputRegionForThread.GetSize(InputImageDimension) );
+
   typedef ImageRegionConstIterator< TInputImage > IteratorType;
   typedef ImageRegionIterator< TOutputImage >     OutIteratorType;
 
@@ -159,6 +162,7 @@ LabelVotingImageFilter< TInputImage, TOutputImage >
           }
         }
       }
+    progress.CompletedPixel();
     }
 
   delete[] it;
