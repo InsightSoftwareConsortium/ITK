@@ -209,7 +209,12 @@ SubjectImplementation::PrintObservers(std::ostream & os, Indent indent) const
     {
     const EventObject *e =  ( *i )->m_Event;
     const Command *    c = ( *i )->m_Command;
-    os << indent << e->GetEventName() << "(" << c->GetNameOfClass() << ")\n";
+    os << indent << e->GetEventName() << "(" << c->GetNameOfClass();
+    if (!c->GetObjectName().empty())
+      {
+      os << " \"" << c->GetObjectName() << "\"";
+      }
+    os << ")\n";
     }
   return true;
 }
