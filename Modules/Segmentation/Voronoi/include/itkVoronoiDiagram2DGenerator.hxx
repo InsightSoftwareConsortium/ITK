@@ -108,7 +108,10 @@ template< typename TCoordRepType >
 bool
 VoronoiDiagram2DGenerator< TCoordRepType >::comp(PointType arg1, PointType arg2)
 {
-  if ( arg1[1] < arg2[1] ) { return 1; }
+  if ( arg1[1] < arg2[1] )
+    {
+    return 1;
+    }
   else if ( arg1[1] > arg2[1] )
     {
     return 0;
@@ -121,7 +124,10 @@ VoronoiDiagram2DGenerator< TCoordRepType >::comp(PointType arg1, PointType arg2)
     {
     return 0;
     }
-  else { return 1; }
+  else
+    {
+    return 0;
+    }
 }
 
 /* Sort the seeds with their y coordinates. */
