@@ -25,13 +25,6 @@
 
 namespace itk
 {
-//Forward-declare these because of module dependency conflict.
-//They will soon be moved to a different module, at which
-// time this can be removed.
-template <unsigned int VDimension, typename TDataHolder>
-class ImageToData;
-template <typename TDataHolder>
-class Array1DToData;
 
 /** \class BSplineSyNImageRegistrationMethod
  * \brief Interface method for the performing greedy B-spline SyN image registration.
