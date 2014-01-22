@@ -142,8 +142,7 @@ protected:
    * region is expanded by the radius of the template.  If the request
    * extends past the LargestPossibleRegion for the input, the request
    * is cropped by the LargestPossibleRegion. */
-  void GenerateInputRequestedRegion()
-  throw ( InvalidRequestedRegionError );
+  void GenerateInputRequestedRegion();
 
   /** NormalizedCorrelationImageFilter can be implemented as a
    * multithreaded filter.  Therefore, this implementation provides a

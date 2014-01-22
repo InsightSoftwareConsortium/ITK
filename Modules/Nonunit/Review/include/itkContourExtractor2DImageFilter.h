@@ -181,8 +181,7 @@ protected:
   /** ContourExtractor2DImageFilter manually controls the input requested
     * region via SetRequestedRegion and ClearRequestedRegion, so it must
     * override the superclass method. */
-  virtual void GenerateInputRequestedRegion()
-  throw( InvalidRequestedRegionError );
+  virtual void GenerateInputRequestedRegion();
 
 private:
   VertexType InterpolateContourPosition(InputPixelType fromValue,

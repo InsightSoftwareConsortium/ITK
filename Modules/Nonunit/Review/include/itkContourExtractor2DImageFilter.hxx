@@ -486,7 +486,6 @@ template< typename TInputImage >
 void
 ContourExtractor2DImageFilter< TInputImage >
 ::GenerateInputRequestedRegion()
-throw ( InvalidRequestedRegionError )
 {
   InputImageType *input = const_cast< InputImageType * >( this->GetInput() );
 

@@ -139,7 +139,6 @@ template< typename TInputImage, typename TOutputImage >
 void
 HessianRecursiveGaussianImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
-throw( InvalidRequestedRegionError )
 {
   // call the superclass' implementation of this method. this should
   // copy the output requested region to the input requested region
