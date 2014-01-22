@@ -26,7 +26,6 @@
 #include "itkConstantPadImageFilter.h"
 #include "itkConstNeighborhoodIterator.h"
 #include "itkNeighborhoodIterator.h"
-#include "itkProgressReporter.h"
 
 namespace itk {
 
