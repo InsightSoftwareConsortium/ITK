@@ -36,6 +36,7 @@
 #   dashboard_no_clean        = True to skip build tree wipeout
 #   CTEST_UPDATE_COMMAND      = path to svn command-line client
 #   CTEST_BUILD_FLAGS         = build tool arguments (ex: -j2)
+#   CTEST_BUILD_TARGET        = A specific target to be built (instead of all)
 #   CTEST_DASHBOARD_ROOT      = Where to put source and build trees
 #   CTEST_TEST_CTEST          = Whether to run long CTestTest* tests
 #   CTEST_TEST_TIMEOUT        = Per-test timeout length
