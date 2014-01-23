@@ -219,8 +219,8 @@ private:
         DefaultConvertPixelTraits<OutputPixelType>::SetNthComponent( nc*ImageDimension+dim, correctedGradient,
                                                                      correctedComponentGradient[dim] );
         }
-      it.Set(correctedGradient);
       }
+    it.Set(correctedGradient);
   }
 
   template <template<typename, unsigned int> class P, class T, unsigned int N>
