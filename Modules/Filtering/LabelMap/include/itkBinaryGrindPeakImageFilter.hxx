@@ -81,7 +81,7 @@ BinaryGrindPeakImageFilter<TInputImage>
   labelizer->SetOutputBackgroundValue( m_BackgroundValue );
   labelizer->SetFullyConnected( m_FullyConnected );
   labelizer->SetNumberOfThreads( this->GetNumberOfThreads() );
-  progress->RegisterInternalFilter(labelizer, .6f);
+  progress->RegisterInternalFilter(labelizer, .65f);
 
   typedef typename LabelizerType::OutputImageType                  LabelMapType;
   typedef typename itk::ShapeOpeningLabelMapFilter< LabelMapType > OpeningType;
@@ -99,7 +99,7 @@ BinaryGrindPeakImageFilter<TInputImage>
   binarizer->SetBackgroundValue( m_BackgroundValue );
   binarizer->SetBackgroundImage( this->GetInput() );
   binarizer->SetNumberOfThreads( this->GetNumberOfThreads() );
-  progress->RegisterInternalFilter(binarizer, .2f);
+  progress->RegisterInternalFilter(binarizer, .25f);
 
   binarizer->GraftOutput( this->GetOutput() );
   binarizer->Update();
