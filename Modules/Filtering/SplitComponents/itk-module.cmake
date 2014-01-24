@@ -7,7 +7,7 @@ itk::SymmetricSecondRankTensor."
 )
 
 itk_module(
-  ITKSplitComponents
+  SplitComponents
   DEPENDS
     ITKCommon
   TEST_DEPENDS

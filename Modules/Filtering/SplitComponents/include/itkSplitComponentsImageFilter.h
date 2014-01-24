@@ -35,7 +35,7 @@ namespace itk
  *
  * It puts an image on every output corresponding to each component.
  *
- * \ingroup ITKSplitComponents
+ * \ingroup SplitComponents
  *
  * \sa VectorImageToImageAdaptor
  * \sa Vector
