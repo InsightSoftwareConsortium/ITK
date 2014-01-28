@@ -131,10 +131,7 @@ void ImageAlgorithm::DispatchedCopy( const InputImageType *inImage,
     const typename InputImageType::InternalPixelType* inBuffer = in + inOffset*NumberOfInternalComponents;
     typename OutputImageType::InternalPixelType* outBuffer = out + outOffset*NumberOfInternalComponents;
 
-    // Note: On some MS compilers the following may generate a
-    // warning. Please include itkMacro.h before <algorithm> or
-    // another stl header to avoid.
-    std::copy(inBuffer,
+    CopyHelper(inBuffer,
               inBuffer+sizeOfChunkInInternalComponents ,
               outBuffer);
 
