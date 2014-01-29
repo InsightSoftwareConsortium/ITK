@@ -17,7 +17,7 @@
  *=========================================================================*/
 //  Software Guide : BeginLatex
 //
-//  The following code is an implementation of a small Insight
+//  The following code is an implementation of a small ITK
 //  program. It tests including header files and linking with ITK
 //  libraries.
 //
@@ -45,9 +45,9 @@ int main()
 //  \emph{volume}.} whose pixels are represented with type \code{unsigned
 //  short}. The image is then constructed and assigned to a
 //  \doxygen{SmartPointer}. Although later in the text we will discuss
-//  \code{SmartPointer}'s in detail, for now think of it as a handle on an
+//  \code{SmartPointer}s in detail, for now think of it as a handle on an
 //  instance of an object (see section \ref{sec:SmartPointers} for more
-//  information).  The \doxygen{Image} class will be described in
+//  information). The \doxygen{Image} class will be described in
 //  Section~\ref{sec:ImageSection}.
 //
 //  Software Guide : EndLatex
