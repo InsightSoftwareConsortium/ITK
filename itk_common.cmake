@@ -187,10 +187,14 @@ endif()
 
 # Select a data store.
 if(NOT DEFINED ExternalData_OBJECT_STORES)
-  if(DEFINED dashboard_data_name)
-    set(ExternalData_OBJECT_STORES ${CTEST_DASHBOARD_ROOT}/${dashboard_data_name})
+  if(DEFINED "ENV{ExternalData_OBJECT_STORES}")
+    file(TO_CMAKE_PATH "$ENV{ExternalData_OBJECT_STORES}" ExternalData_OBJECT_STORES)
   else()
-    set(ExternalData_OBJECT_STORES ${CTEST_DASHBOARD_ROOT}/ExternalData)
+    if(DEFINED dashboard_data_name)
+        set(ExternalData_OBJECT_STORES ${CTEST_DASHBOARD_ROOT}/${dashboard_data_name})
+    else()
+        set(ExternalData_OBJECT_STORES ${CTEST_DASHBOARD_ROOT}/ExternalData)
+    endif()
   endif()
 endif()
 
