@@ -124,7 +124,6 @@ int *VTKImageExport< TInputImage >::WholeExtentCallback()
   if ( !input )
     {
     itkExceptionMacro(<< "Need to set an input");
-    return 0;
     }
 
   InputRegionType region = input->GetLargestPossibleRegion();
@@ -159,7 +158,6 @@ double *VTKImageExport< TInputImage >::SpacingCallback()
   if ( !input )
     {
     itkExceptionMacro(<< "Need to set an input");
-    return 0;
     }
 
   const typename TInputImage::SpacingType & spacing = input->GetSpacing();
@@ -215,7 +213,6 @@ double *VTKImageExport< TInputImage >::OriginCallback()
   if ( !input )
     {
     itkExceptionMacro(<< "Need to set an input");
-    return 0;
     }
 
   const typename TInputImage::PointType & origin = input->GetOrigin();
@@ -311,7 +308,6 @@ void VTKImageExport< TInputImage >::PropagateUpdateExtentCallback(int *extent)
   if ( !input )
     {
     itkExceptionMacro(<< "Need to set an input");
-    return;
     }
 
   input->SetRequestedRegion(region);
@@ -331,7 +327,6 @@ int *VTKImageExport< TInputImage >::DataExtentCallback()
   if ( !input )
     {
     itkExceptionMacro(<< "Need to set an input");
-    return 0;
     }
 
   InputRegionType region = input->GetBufferedRegion();
@@ -364,7 +359,6 @@ void *VTKImageExport< TInputImage >::BufferPointerCallback()
   if ( !input )
     {
     itkExceptionMacro(<< "Need to set an input");
-    return 0;
     }
 
   return input->GetBufferPointer();
