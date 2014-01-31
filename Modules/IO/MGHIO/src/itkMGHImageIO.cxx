@@ -57,8 +57,8 @@ MGHImageIO
     }
   else
     {
-    this->m_Output->write(reinterpret_cast<char *>(&out),sizeof(T));
-    return this->m_Output->good() ? sizeof(T) : 0;
+    this->m_Output.write(reinterpret_cast<char *>(&out),sizeof(T));
+    return this->m_Output.good() ? sizeof(T) : 0;
     }
 }
 
@@ -77,8 +77,8 @@ MGHImageIO
     }
   else
     {
-    this->m_Output->write(buf,count);
-    return this->m_Output->good() ? count : 0;
+    this->m_Output.write(buf,count);
+    return this->m_Output.good() ? count : 0;
     }
 }
 // --------------------------------------
@@ -545,9 +545,8 @@ MGHImageIO
     }
   else
     {
-    this->m_Output = new std::ofstream;
-    this->m_Output->open(m_FileName.c_str(), std::ios::out | std::ios::binary );
-    if( this->m_Output->fail() )
+    this->m_Output.open(m_FileName.c_str(), std::ios::out | std::ios::binary );
+    if( this->m_Output.fail() )
       {
       itkExceptionMacro(<< " File cannot be written");
       }
@@ -563,7 +562,7 @@ MGHImageIO
     }
   else
     {
-    this->m_Output->close();
+    this->m_Output.close();
     }
 }
 void

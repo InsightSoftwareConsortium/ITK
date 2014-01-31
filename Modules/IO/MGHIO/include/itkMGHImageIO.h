@@ -117,9 +117,9 @@ private:
 
   std::string GetOrientation( itk::Matrix<double> directions );
 
-  bool           m_IsCompressed;
-  gzFile         m_GZFile;
-  std::ofstream *m_Output;
+  bool          m_IsCompressed;
+  gzFile        m_GZFile;
+  std::ofstream m_Output;
 
   template <class T> int TWrite(T out);
   template <class T> int TRead(T &out);
