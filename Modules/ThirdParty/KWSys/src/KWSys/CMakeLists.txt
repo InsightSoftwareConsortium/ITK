@@ -682,6 +682,7 @@ IF(KWSYS_USE_SystemInformation)
     # usually it's in libc but on FreeBSD
     # it's in libexecinfo
     FIND_LIBRARY(EXECINFO_LIB "execinfo")
+    MARK_AS_ADVANCED(EXECINFO_LIB)
     IF (NOT EXECINFO_LIB)
       SET(EXECINFO_LIB "")
     ENDIF()
@@ -1073,6 +1074,11 @@ IF(MSVC OR (WIN32 AND "${CMAKE_C_COMPILER_ID}" MATCHES "^(Intel)$"))
     )
 ENDIF()
 
+IF(WIN32)
+  # Help enforce the use of wide Windows apis.
+  ADD_DEFINITIONS(-DUNICODE -D_UNICODE)
+ENDIF()
+
 IF(KWSYS_USE_String)
   # Activate code in "String.c".  See the comment in the source.
   SET_SOURCE_FILES_PROPERTIES(String.c PROPERTIES
@@ -1133,6 +1139,11 @@ IF(KWSYS_STANDALONE OR CMake_SOURCE_DIR)
         testEncoding
         )
     ENDIF(KWSYS_STL_HAS_WSTRING)
+    IF(KWSYS_USE_FStream)
+      SET(KWSYS_CXX_TESTS ${KWSYS_CXX_TESTS}
+        testFStream
+        )
+    ENDIF(KWSYS_USE_FStream)
     IF(KWSYS_USE_SystemInformation)
       SET(KWSYS_CXX_TESTS ${KWSYS_CXX_TESTS} testSystemInformation)
     ENDIF(KWSYS_USE_SystemInformation)
