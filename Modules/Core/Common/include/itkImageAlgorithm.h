@@ -175,6 +175,34 @@ private:
   };
 /** \endcond */
 
+  /** Unary functor just for static_cast operator */
+  template<typename TInputType, typename TOutputType>
+  struct StaticCast
+    : public std::unary_function<TInputType,TOutputType>
+  {
+    TOutputType operator() (const TInputType i) { return static_cast<TOutputType>(i); }
+  };
+
+
+  /** Function to dispatch to std::copy or std::transform. */
+  template<typename TType>
+  static TType* CopyHelper(const TType *first, const TType *last, TType *result)
+    {
+      // Note: On some MS compilers the following may generate a
+      // warning. Please include itkMacro.h before <algorithm> or
+      // another stl header to avoid.
+      return std::copy(first, last, result);
+    }
+
+/** \cond HIDE_SPECIALIZATION_DOCUMENTATION */
+  template<typename TInputType, typename TOutputType>
+  static TOutputType* CopyHelper(const TInputType *first, const TInputType *last, TOutputType *result)
+    {
+      return std::transform(first, last, result, StaticCast<TInputType,TOutputType>());
+    }
+/** \endcond */
+
+
 };
 } // end namespace itk
 
