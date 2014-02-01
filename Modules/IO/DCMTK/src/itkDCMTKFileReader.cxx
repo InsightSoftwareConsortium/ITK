@@ -1154,11 +1154,11 @@ int
 DCMTKFileReader
 ::GetSlopeIntercept(double &slope, double &intercept)
 {
-  if(this->GetElementDS<double>(0x0028,1053,1,&slope,false) != EXIT_SUCCESS)
+  if(this->GetElementDS<double>(0x0028,0x1053,1,&slope,false) != EXIT_SUCCESS)
     {
     slope = 1.0;
     }
-  if(this->GetElementDS<double>(0x0028,1052,1,&intercept,false) != EXIT_SUCCESS)
+  if(this->GetElementDS<double>(0x0028,0x1052,1,&intercept,false) != EXIT_SUCCESS)
     {
     intercept = 0.0;
     }
