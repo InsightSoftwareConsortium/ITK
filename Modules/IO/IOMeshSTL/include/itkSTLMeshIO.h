@@ -152,9 +152,9 @@ protected:
 
   /** Templated version of write points method, that is aware of the specific
    * type used to represent the point coordinates. */
-  template <typename PointValueType>
+  template <typename TPointsBuffer>
   void
-  WritePointsTyped(const PointValueType * buffer)
+  WritePointsTyped(const TPointsBuffer * const buffer)
   {
 
     const unsigned int pointDimension = this->GetPointDimension();
@@ -164,7 +164,7 @@ protected:
       itkExceptionMacro("STL only supports 3D points");
     }
 
-    const PointValueType * pointCoordinates = buffer;
+    const TPointsBuffer * pointCoordinates = buffer;
 
     this->m_Points.clear();
 
@@ -176,7 +176,7 @@ protected:
     {
       for (unsigned int i = 0; i < pointDimension; ++i)
       {
-        m_Points[pi][i] = *pointCoordinates++;
+        m_Points[pi][i] = static_cast<PointValueType>(*pointCoordinates++);
       }
     }
   }
