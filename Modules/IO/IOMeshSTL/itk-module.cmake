@@ -13,4 +13,5 @@ itk_module(
     ITKTestKernel
     ITKQuadEdgeMesh
   DESCRIPTION "${DOCUMENTATION}"
+  EXCLUDE_FROM_DEFAULT
 )
