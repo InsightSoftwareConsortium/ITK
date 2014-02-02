@@ -93,10 +93,10 @@ int itkVoronoiSegmentationImageFilterTest(int, char* [] ){
   k=0;
   while( !ot.IsAtEnd()){
     TestImg[k]=ot.Get();
-    TestImg[k] = TestImg[k];  // dummy line to eliminate warning
     k++;
     ++ot;
   }
+  (void)TestImg; // prevents "set but not used" warning
 
   /* Test Ok on local machine.
   FILE *imgfile = fopen("output.raw","wb");
