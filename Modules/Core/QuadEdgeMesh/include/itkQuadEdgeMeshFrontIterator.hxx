@@ -24,10 +24,13 @@ namespace itk
 {
 // ---------------------------------------------------------------------
 template< typename TMesh, typename TQE >
-QuadEdgeMeshFrontBaseIterator< TMesh, TQE >::QuadEdgeMeshFrontBaseIterator(MeshType *mesh,
-                                                                           bool start,
-                                                                           QEType *seed):
-  m_Mesh(mesh), m_Seed(seed), m_Start(start)
+QuadEdgeMeshFrontBaseIterator< TMesh, TQE >::
+QuadEdgeMeshFrontBaseIterator(MeshType *mesh, bool start, QEType *seed) :
+  m_Mesh(mesh),
+  m_Seed(seed),
+  m_Start(start),
+  m_Front(NULL),
+  m_CurrentEdge(NULL)
 {
   if ( !mesh )
     {
