@@ -240,23 +240,23 @@ inline TValue MedianOfThree(const TValue a,
 
 template< typename TSample >
 inline void FindSampleBound(const TSample *sample,
-                            typename TSample::ConstIterator begin,
-                            typename TSample::ConstIterator end,
+                            const typename TSample::ConstIterator & begin,
+                            const typename TSample::ConstIterator & end,
                             typename TSample::MeasurementVectorType & min,
                             typename TSample::MeasurementVectorType & max)
 {
   typedef typename TSample::MeasurementVectorSizeType MeasurementVectorSizeType;
 
-  const MeasurementVectorSizeType Dimension = sample->GetMeasurementVectorSize();
-  if ( Dimension == 0 )
+  const MeasurementVectorSizeType measurementSize = sample->GetMeasurementVectorSize();
+  if ( measurementSize == 0 )
     {
     itkGenericExceptionMacro(
       << "Length of a sample's measurement vector hasn't been set.");
     }
   // Sanity check
-  MeasurementVectorTraits::Assert(max, Dimension,
+  MeasurementVectorTraits::Assert(max, measurementSize,
                                   "Length mismatch StatisticsAlgorithm::FindSampleBound");
-  MeasurementVectorTraits::Assert(min, Dimension,
+  MeasurementVectorTraits::Assert(min, measurementSize,
                                   "Length mismatch StatisticsAlgorithm::FindSampleBound");
 
   if ( sample->Size() == 0 )
@@ -266,30 +266,29 @@ inline void FindSampleBound(const TSample *sample,
        measurement vectors");
     }
 
-  unsigned int dimension;
-  typename TSample::MeasurementVectorType temp;
+  min = begin.GetMeasurementVector();
+  max = min;
 
-  min = max = temp = begin.GetMeasurementVector();
-  while ( true )
+  typename TSample::ConstIterator measurementItr = begin;
+  // increment measurementItr once, since min and max are already set to the 0th measurement
+  ++measurementItr;
+  for(; measurementItr != end; ++measurementItr )
     {
-    for ( dimension = 0; dimension < Dimension; dimension++ )
+    const typename TSample::MeasurementVectorType & currentMeasure =
+      measurementItr.GetMeasurementVector();
+
+    for ( MeasurementVectorSizeType dimension = 0; dimension < measurementSize; ++dimension )
       {
-      if ( temp[dimension] < min[dimension] )
+      if ( currentMeasure[dimension] < min[dimension] )
         {
-        min[dimension] = temp[dimension];
+        min[dimension] = currentMeasure[dimension];
         }
-      else if ( temp[dimension] > max[dimension] )
+      else if ( currentMeasure[dimension] > max[dimension] )
         {
-        max[dimension] = temp[dimension];
+        max[dimension] = currentMeasure[dimension];
         }
       }
-    ++begin;
-    if ( begin == end )
-      {
-      break;
-      }
-    temp = begin.GetMeasurementVector();
-    }   // end of while
+    }
 }
 
 template< typename TSubsample >

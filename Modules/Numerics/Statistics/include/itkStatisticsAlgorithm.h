@@ -51,8 +51,8 @@ TValue MedianOfThree(const TValue a, const TValue b, const TValue c);
  */
 template< typename TSample >
 void FindSampleBound(const TSample * sample,
-                     typename TSample::ConstIterator begin,
-                     typename TSample::ConstIterator end,
+                     const typename TSample::ConstIterator & begin,
+                     const typename TSample::ConstIterator & end,
                      typename TSample::MeasurementVectorType & min,
                      typename TSample::MeasurementVectorType & max);
 
