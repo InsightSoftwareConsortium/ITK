@@ -507,7 +507,7 @@ void NiftiImageIO::Read(void *buffer)
     if ( nifti_read_subregion_image(this->m_NiftiImage,
                                     _origin,
                                     _size,
-                                    &data) == -1 || this->m_NiftiImage == NULL )
+                                    &data) == -1 )
       {
       itkExceptionMacro( << "nifti_read_subregion_image failed for file: "
                          << this->GetFileName() );
