@@ -37,7 +37,17 @@
 #include "itkBSplineTransform.h"
 #include "itkCompositeTransform.h"
 
+//Transforms from Filtering/DisplacementField/include
+#include "itkBSplineExponentialDiffeomorphicTransform.h"
+#include "itkBSplineSmoothingOnUpdateDisplacementFieldTransform.h"
+#include "itkConstantVelocityFieldTransform.h"
 #include "itkDisplacementFieldTransform.h"
+#include "itkGaussianExponentialDiffeomorphicTransform.h"
+#include "itkGaussianSmoothingOnUpdateDisplacementFieldTransform.h"
+#include "itkGaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform.h"
+#include "itkTimeVaryingBSplineVelocityFieldTransform.h"
+#include "itkTimeVaryingVelocityFieldTransform.h"
+#include "itkVelocityFieldTransform.h"
 
 #if defined( ITKV3_COMPATIBILITY )
 #include "itkBSplineDeformableTransform.h"
@@ -234,10 +244,50 @@ void TransformFactoryBase::RegisterDefaultTransforms()
     TransformFactory< VersorRigid3DTransform< float > >::RegisterTransform ();
     TransformFactory< VersorTransform< float > >::RegisterTransform ();
 
+    TransformFactory< BSplineSmoothingOnUpdateDisplacementFieldTransform<float,2> >::RegisterTransform ();
+    TransformFactory< BSplineSmoothingOnUpdateDisplacementFieldTransform<float,3> >::RegisterTransform ();
+    TransformFactory< BSplineSmoothingOnUpdateDisplacementFieldTransform<double,2> >::RegisterTransform ();
+    TransformFactory< BSplineSmoothingOnUpdateDisplacementFieldTransform<double,3> >::RegisterTransform ();
+
+    TransformFactory< ConstantVelocityFieldTransform<float,2> >::RegisterTransform ();
+    TransformFactory< ConstantVelocityFieldTransform<float,3> >::RegisterTransform ();
+    TransformFactory< ConstantVelocityFieldTransform<double,2> >::RegisterTransform ();
+    TransformFactory< ConstantVelocityFieldTransform<double,3> >::RegisterTransform ();
+
     TransformFactory< DisplacementFieldTransform<float, 2> >::RegisterTransform ();
     TransformFactory< DisplacementFieldTransform<float, 3> >::RegisterTransform ();
     TransformFactory< DisplacementFieldTransform<double, 2> >::RegisterTransform ();
     TransformFactory< DisplacementFieldTransform<double, 3> >::RegisterTransform ();
+
+    TransformFactory< GaussianExponentialDiffeomorphicTransform<float,2> >::RegisterTransform ();
+    TransformFactory< GaussianExponentialDiffeomorphicTransform<float,3> >::RegisterTransform ();
+    TransformFactory< GaussianExponentialDiffeomorphicTransform<double,2> >::RegisterTransform ();
+    TransformFactory< GaussianExponentialDiffeomorphicTransform<double,3> >::RegisterTransform ();
+
+    TransformFactory< GaussianSmoothingOnUpdateDisplacementFieldTransform<float,2> >::RegisterTransform ();
+    TransformFactory< GaussianSmoothingOnUpdateDisplacementFieldTransform<float,3> >::RegisterTransform ();
+    TransformFactory< GaussianSmoothingOnUpdateDisplacementFieldTransform<double,2> >::RegisterTransform ();
+    TransformFactory< GaussianSmoothingOnUpdateDisplacementFieldTransform<double,3> >::RegisterTransform ();
+
+    TransformFactory< GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<float,2> >::RegisterTransform ();
+    TransformFactory< GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<float,3> >::RegisterTransform ();
+    TransformFactory< GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<double,2> >::RegisterTransform ();
+    TransformFactory< GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<double,3> >::RegisterTransform ();
+
+    TransformFactory< TimeVaryingBSplineVelocityFieldTransform<float,2> >::RegisterTransform ();
+    TransformFactory< TimeVaryingBSplineVelocityFieldTransform<float,3> >::RegisterTransform ();
+    TransformFactory< TimeVaryingBSplineVelocityFieldTransform<double,2> >::RegisterTransform ();
+    TransformFactory< TimeVaryingBSplineVelocityFieldTransform<double,3> >::RegisterTransform ();
+
+    TransformFactory< TimeVaryingVelocityFieldTransform<float,2> >::RegisterTransform ();
+    TransformFactory< TimeVaryingVelocityFieldTransform<float,3> >::RegisterTransform ();
+    TransformFactory< TimeVaryingVelocityFieldTransform<double,2> >::RegisterTransform ();
+    TransformFactory< TimeVaryingVelocityFieldTransform<double,3> >::RegisterTransform ();
+
+    TransformFactory< VelocityFieldTransform<float,2> >::RegisterTransform ();
+    TransformFactory< VelocityFieldTransform<float,3> >::RegisterTransform ();
+    TransformFactory< VelocityFieldTransform<double,2> >::RegisterTransform ();
+    TransformFactory< VelocityFieldTransform<double,3> >::RegisterTransform ();
     }
   TransformFactoryBasePrivate::DefaultTransformsRegistered = true;
 }
