@@ -18,6 +18,7 @@
 #include "itkGE5ImageIO.h"
 #include "itkByteSwapper.h"
 #include "itksys/SystemTools.hxx"
+#include <algorithm>
 #include <iostream>
 #include <fstream>
 
@@ -292,24 +293,10 @@ GE5ImageIO::ReadHeader(const char  *FileNameToRead)
   curImage->hospital[34] = '\0';
 
   // patient id
-  char tmpId[13];
-  strncpy(tmpId,buffer+VOff(84,88),13);
-  tmpId[12] = '\0';
-
-  char *ptr;
-  if((ptr = strtok(tmpId,"-")) == 0)
-    {
-    strncpy(curImage->patientId,tmpId,sizeof(curImage->patientId));
-    }
-  else
-    {
-    curImage->patientId[0] = '\0';
-    while(ptr != NULL)
-      {
-      strcat(curImage->patientId,ptr);
-      ptr = strtok(NULL,"-");
-      }
-    }
+  std::string tmpId(buffer+VOff(84,88), 13);
+  std::remove(tmpId.begin(), tmpId.end(), '-');
+  strncpy(curImage->patientId, tmpId.c_str(), sizeof(curImage->patientId)-1);
+  curImage->patientId[sizeof(curImage->patientId)-1] = '\0';
 
   strncpy(curImage->name,buffer+VOff(97,101),25);
   curImage->name[24] = '\0';
