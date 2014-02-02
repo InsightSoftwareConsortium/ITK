@@ -40,11 +40,6 @@ inline TSize FloorLog(TSize size)
   return k;
 }
 
-/** The endIndex should points one point after the last elements if multiple
- * partitionValue exist in the sample the return index will points the middle
- * of such values. Implemented following the description of the partition
- * algorithm in the QuickSelect entry of the Wikipedia.
- * http://en.wikipedia.org/wiki/Selection_algorithm. */
 template< typename TSubsample >
 inline int Partition(TSubsample *sample,
                      unsigned int activeDimension,
@@ -297,7 +292,6 @@ inline void FindSampleBound(const TSample *sample,
     }   // end of while
 }
 
-/** The endIndex should points one point after the last elements. */
 template< typename TSubsample >
 inline void
 FindSampleBoundAndMean(const TSubsample *sample,
@@ -357,11 +351,6 @@ FindSampleBoundAndMean(const TSubsample *sample,
     mean[i] = (MeasurementType)( sum[i] / frequencySum );
     }
 }
-
-/** The endIndex should point one point after the last elements.  Note that kth
- * is an index in a different scale than [beginIndex,endIndex].  For example,
- * it is possible to feed this function with beginIndex=15, endIndex=23, and
- * kth=3, since we can ask for the element 3rd in the range [15,23]. */
 
 template< typename TSubsample >
 inline typename TSubsample::MeasurementType
