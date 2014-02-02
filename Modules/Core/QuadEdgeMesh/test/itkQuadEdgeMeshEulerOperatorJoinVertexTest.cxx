@@ -67,7 +67,6 @@ int itkQuadEdgeMeshEulerOperatorJoinVertexTest( int argc, char * argv[] )
 
   switch( InputType )
     {
-    default:
     case 0:
       // The initial configuration and numbering of simpleSquare.vtk:
       //    Vertices: 25 , Edges: 56, Faces: 32, Boundary = 1, Chi = 1
