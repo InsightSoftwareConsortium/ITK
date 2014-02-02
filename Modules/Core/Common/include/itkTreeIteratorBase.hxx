@@ -100,11 +100,7 @@ TreeIteratorBase< TTreeType >::Add(ValueType element)
 {
   if ( m_Position == NULL && m_Root == NULL )
     {
-    bool returnValue = false;
-    if ( m_Tree )
-      {
-      returnValue = const_cast< TTreeType * >( m_Tree )->SetRoot(element);
-      }
+    bool returnValue = const_cast< TTreeType * >( m_Tree )->SetRoot(element);
     // signal AddEvent for self
     m_Root = dynamic_cast< const TreeNodeType * >( const_cast< TTreeType * >( m_Tree )->GetRoot() );
     m_Position =  const_cast< TreeNodeType * >( m_Root );
