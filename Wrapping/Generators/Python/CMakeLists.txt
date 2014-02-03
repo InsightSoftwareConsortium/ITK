@@ -147,7 +147,7 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
     itkBase
     itkTemplate
     itkTypes
-  #  itkExtras/__init__
+    itkExtras
     itkLazy
     )
   # Done listing files.
@@ -898,7 +898,6 @@ endmacro()
 
 if(NOT EXTERNAL_WRAP_ITK_PROJECT)
   add_subdirectory(Tests)
-  add_subdirectory(itkExtras)
 
   macro(itk_end_wrap_modules_python)
     add_subdirectory(${ITK_WRAP_PYTHON_SOURCE_DIR}/PyUtils)
