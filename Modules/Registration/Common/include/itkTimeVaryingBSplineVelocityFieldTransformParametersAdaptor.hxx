@@ -38,7 +38,7 @@ TimeVaryingBSplineVelocityFieldTransformParametersAdaptor<TTransform>
 
   this->m_RequiredTransformDomainOrigin.Fill( 0.0 );
   this->m_RequiredTransformDomainDirection.SetIdentity();
-  this->m_RequiredTransformDomainSize.Fill( 1.0 );
+  this->m_RequiredTransformDomainSize.Fill( 1 );
   this->m_RequiredTransformDomainSpacing.Fill( 0.0 );
   this->m_RequiredTransformDomainMeshSize.Fill( 1 );
 
