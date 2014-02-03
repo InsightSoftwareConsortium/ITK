@@ -101,9 +101,9 @@ int itkCentralDifferenceImageFunctionOnVectorTestRun( )
     {
     PixelType deriv;
     typename ImageType::IndexType indexTest = index;
-    indexTest[dim] = indexTest[dim] + 1.0;
+    indexTest[dim] = indexTest[dim] + 1;
     deriv = image->GetPixel( indexTest );
-    indexTest[dim] = indexTest[dim] - 2.0;
+    indexTest[dim] = indexTest[dim] - 2;
     deriv -= image->GetPixel( indexTest );
     deriv /= 2.0;
     for( unsigned int nc = 0; nc < VectorLength; nc++ )
