@@ -1017,13 +1017,3 @@ try:
 except ImportError:
   # fail silently
   pass
-
-# now loads the other modules we may found in the same directory
-import os.path, sys
-directory = os.path.dirname(__file__)
-moduleNames = [name[:-len('.py')] for name in os.listdir(directory) if name.endswith('.py') and name != '__init__.py']
-for name in moduleNames:
-  # there should be another way - I don't like to much exec -, but the which one ??
-  exec "from %s import *" % name
-# some cleaning
-del directory, os, sys, moduleNames, name
