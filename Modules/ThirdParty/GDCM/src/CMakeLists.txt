@@ -5,6 +5,16 @@ if(ITK_USE_SYSTEM_GDCM)
   return()
 endif()
 
+ITK_CHECK_C_COMPILER_FLAG("-fno-ipa-cp-clone" _HAS_fno-ipa-cp-clone)
+if(_HAS_fno-ipa-cp-clone)
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fno-ipa-cp-clone")
+endif()
+ITK_CHECK_CXX_COMPILER_FLAG("-fno-ipa-cp-clone" _HAS_fno-ipa-cp-clone)
+if(_HAS_fno-ipa-cp-clone)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-ipa-cp-clone")
+endif()
+
+
 set(GDCM_TARGETS_NAME ${ITKGDCM-targets})
 set(GDCM_INSTALL_BIN_DIR ${ITKGDCM_INSTALL_RUNTIME_DIR})
 set(GDCM_INSTALL_LIB_DIR ${ITKGDCM_INSTALL_LIBRARY_DIR})
