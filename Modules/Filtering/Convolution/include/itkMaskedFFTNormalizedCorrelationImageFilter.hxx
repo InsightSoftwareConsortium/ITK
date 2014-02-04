@@ -236,7 +236,7 @@ void MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskI
   typename CalculatorType::Pointer calculator = CalculatorType::New();
   calculator->SetImage(numberOfOverlapPixels);
   calculator->ComputeMaximum();
-  m_MaximumNumberOfOverlappingPixels = calculator->GetMaximum();
+  m_MaximumNumberOfOverlappingPixels = static_cast< SizeValueType >( calculator->GetMaximum() );
   if( m_RequiredNumberOfOverlappingPixels > m_MaximumNumberOfOverlappingPixels )
   {
     m_RequiredNumberOfOverlappingPixels = (SizeValueType)m_MaximumNumberOfOverlappingPixels;
