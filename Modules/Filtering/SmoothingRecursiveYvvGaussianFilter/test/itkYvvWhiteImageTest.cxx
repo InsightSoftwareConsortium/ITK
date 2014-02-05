@@ -12,6 +12,11 @@ typedef double PixelType;
 typedef float PixelType;
 #endif
 
+#define die(error_msg)                                                                                   \
+  std::cerr << "Error: " << error_msg << std::endl;                                                      \
+  std::cerr << "Usage: " << argv[0] << " ndimension sigma num_runs width [height] [depth]" << std::endl; \
+  return EXIT_FAILURE;
+
 int
 itkYvvWhiteImageTest(int argc, char * argv[])
 {
@@ -25,30 +30,22 @@ itkYvvWhiteImageTest(int argc, char * argv[])
 
   if (argc < 4)
   {
-    std::cerr << "Error: missing arguments." << std::endl;
-    std::cerr << "Usage: " << argv[0] << " ndimension sigma num_runs width [height] [depth]" << std::endl;
-    return EXIT_FAILURE;
+    die("missing arguments.");
   }
 
   int dim = atoi(argv[1]);
   if (argc < 4 + dim - 1)
   {
-    std::cerr << "Error: missing arguments." << std::endl;
-    std::cerr << "Usage: " << argv[0] << " ndimension sigma num_runs width [height] [depth]" << std::endl;
-    return EXIT_FAILURE;
+    die("missing arguments.");
   }
-
-
-  unsigned int ntests, size[dim];
-  float        sigma;
-
   if (dim == 3 && argc != 7)
   {
-    std::cerr << "Error: missing arguments for a 3D image." << std::endl;
-    std::cerr << "Usage: " << argv[0] << " ndimension sigma num_runs width [height] [depth]" << std::endl;
-    return EXIT_FAILURE;
+    die("missing arguments for a 3D image.");
   }
 
+  unsigned int   ntests;
+  unsigned int * size = new unsigned int[dim];
+  float          sigma;
   try
   {
     sigma = atof(argv[2]);
@@ -60,9 +57,8 @@ itkYvvWhiteImageTest(int argc, char * argv[])
   }
   catch (...)
   {
-    std::cerr << "Error: invalid size arguments." << std::endl;
-    std::cerr << "Usage: " << argv[0] << " ndimension sigma num_runs width height [depth]" << std::endl;
-    return EXIT_FAILURE;
+    delete[] size;
+    die("invalid size arguments.");
   }
 
   std::cout << ":::  Received: dim =" << dim << ", sigma= " << sigma << ", ntests= " << ntests << ", size= ";
@@ -70,35 +66,36 @@ itkYvvWhiteImageTest(int argc, char * argv[])
   {
     std::cout << size[i] << " ";
   }
+  std::cout << ":::" << std::endl << std::endl;
 
-  std::cout << ":::\n\n";
+  int result;
 
-  int                          res = EXIT_SUCCESS;
   itk::TimeProbesCollectorBase timeCollector;
-
   if (dim == 2)
   {
     typedef itk::Image<PixelType, 2> ImageType;
     ImageType::SizeType              size2D = { { size[0], size[1] } };
-    res = testWhite<ImageType>(size2D, sigma, &timeCollector, ntests);
+    result = testWhite<ImageType>(size2D, sigma, &timeCollector, ntests);
   }
   else if (dim == 3)
   {
     typedef itk::Image<PixelType, 3> ImageType;
     ImageType::SizeType              size3D = { { size[0], size[1], size[2] } };
-    res = testWhite<ImageType>(size3D, sigma, &timeCollector, ntests);
+    result = testWhite<ImageType>(size3D, sigma, &timeCollector, ntests);
   }
   else
   {
     std::cerr << "Error: only 2 or 3 dimensions allowed, " << dim << " selected." << std::endl;
-    res = EXIT_FAILURE;
+    result = EXIT_FAILURE;
   }
-
   timeCollector.Report();
+
+  delete[] size;
+
 #ifndef GPU
-  std::cout
-    << "--      ITK GPU support was not detected and/or not configured, so no GPU filters were tested.     --\n";
+  std::cout << "--      ITK GPU support was not detected and/or not configured, so no GPU filters were tested.     --"
+            << std::endl;
 #endif
 
-  return res;
+  return result;
 }
