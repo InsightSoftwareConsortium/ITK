@@ -107,7 +107,8 @@ GEImageHeader * GE4ImageIO::ReadHeader(const char *FileNameToRead)
 
   //
   // save off the name of the current file...
-  strncpy(hdr->filename, FileNameToRead, sizeof(hdr->filename));
+  strncpy(hdr->filename, FileNameToRead, sizeof(hdr->filename)-1);
+  hdr->filename[sizeof(hdr->filename)-1] = '\0';
 
   //
   // Next, can you open it?
@@ -117,25 +118,29 @@ GEImageHeader * GE4ImageIO::ReadHeader(const char *FileNameToRead)
 
   this->GetStringAt(f, SIGNA_STHDR_START * 2 + SIGNA_STHDR_DATE_ASCII * 2, tmpStr, 10);
   tmpStr[10] = '\0';
-  strncpy(hdr->date, tmpStr, sizeof(hdr->date));
-
   RGEDEBUG(std::sprintf (debugbuf, "Date = %s\n", tmpStr); cerr << debugbuf; )
+  strncpy(hdr->date, tmpStr, sizeof(hdr->date)-1);
+  hdr->date[sizeof(hdr->date)-1] = '\0';
+
   // Get Patient-Name from the STUDY Header
   this->GetStringAt(f, SIGNA_STHDR_START * 2 + SIGNA_STHDR_PATIENT_NAME * 2, tmpStr, 32);
   tmpStr[32] = '\0';
-  strncpy(hdr->hospital, tmpStr, sizeof(hdr->hospital));
+  strncpy(hdr->hospital, tmpStr, sizeof(hdr->hospital)-1);
+  hdr->hospital[sizeof(hdr->hospital)-1] = '\0';
 
   /* Get Patient-Number from the STUDY Header */
   this->GetStringAt(f, SIGNA_STHDR_START * 2 + SIGNA_STHDR_PATIENT_ID * 2, tmpStr, 12);
   tmpStr[12] = '\0';
   RGEDEBUG(std::sprintf (debugbuf, "Patient-Number = %s\n", tmpStr); cerr << debugbuf; )
-    strncpy(hdr->patientId, tmpStr, sizeof(hdr->patientId));
+  strncpy(hdr->patientId, tmpStr, sizeof(hdr->patientId)-1);
+  hdr->patientId[sizeof(hdr->patientId)-1] = '\0';
 
   /* Get the Exam-Number from the STUDY Header */
   this->GetStringAt(f, SIGNA_STHDR_START * 2 + SIGNA_STHDR_STUDY_NUM * 2, tmpStr, 6);
   tmpStr[6] = '\0';
   RGEDEBUG(std::sprintf (debugbuf, "Exam-Number = %s\n", tmpStr); cerr << debugbuf; )
-    strncpy(hdr->scanId, tmpStr, sizeof(hdr->scanId));
+  strncpy(hdr->scanId, tmpStr, sizeof(hdr->scanId)-1);
+  hdr->scanId[sizeof(hdr->scanId)-1] = '\0';
 
   /* Get the FOV from the SERIES Header */
   f.seekg (SIGNA_SEHDR_START * 2 + SIGNA_SEHDR_FOV * 2, std::ios::beg);
