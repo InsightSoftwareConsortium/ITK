@@ -339,6 +339,16 @@ void testStringToolsForStringOperations()
     {
     throw "testStringToolsForStringOperations: failed trimming both sides";
     }
+  s = "Hello World!";
+  if ( itk::StringTools::Trim(s) != "Hello World!" )
+    {
+      throw "testStringToolsForStringOperations: failed [not] trimming both sides";
+    }
+  s = "    ";
+  if ( itk::StringTools::Trim(s) != "" )
+    {
+      throw "testStringToolsForStringOperations: failed trimming entire string";
+    }
   std::cout << "testStringToolsForStringOperations: Trim(-) OK!" << std::endl;
 
   s = "Hello World!";

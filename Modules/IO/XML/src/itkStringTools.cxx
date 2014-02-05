@@ -32,40 +32,19 @@ namespace itk
 std::string&
 StringTools::Trim( std::string& str, const std::string& dislike )
 {
-  if ( str.size() )
-    {
-    std::string::size_type pos = str.find_first_not_of( dislike );
-    if ( pos != std::string::npos )
-      {
-      if ( pos )
-        {
-        str.erase( 0, pos );
-        }
-      pos = str.find_last_not_of( dislike );
-      if ( (++pos) < str.size() )
-        {
-        str.erase( pos );
-        }
-      }
-    else
-      {
-      str.clear();
-      }
-    }
-
-  return str;
+  return StringTools::TrimRight(StringTools::TrimLeft(str, dislike), dislike);
 }
 
 /** Method to trim the spaces or user-specified characters on left end of a string. */
 std::string&
 StringTools::TrimLeft( std::string& str, const std::string& dislike )
 {
-  if ( str.size() )
+  if ( !str.empty() )
     {
     std::string::size_type pos = str.find_first_not_of( dislike );
     if ( pos != std::string::npos )
       {
-      if ( pos )
+      if ( pos > 0 )
         {
         str.erase( 0, pos );
         }
@@ -83,7 +62,7 @@ StringTools::TrimLeft( std::string& str, const std::string& dislike )
 std::string&
 StringTools::TrimRight( std::string& str, const std::string& dislike )
 {
-  if ( str.size() )
+  if ( !str.empty() )
     {
     std::string::size_type pos = str.find_last_not_of( dislike );
     if ( pos != std::string::npos )
