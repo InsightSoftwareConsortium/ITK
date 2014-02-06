@@ -1,3 +1,5 @@
+set(WRAPPER_AUTO_INCLUDE_HEADERS OFF)
+itk_wrap_include("itkTransformFileWriter.h")
 itk_wrap_class("itk::TransformFileWriterTemplate" POINTER)
   foreach(t ${WRAP_ITK_REAL})
     itk_wrap_template("${ITKM_${t}}" "${ITKT_${t}}")
