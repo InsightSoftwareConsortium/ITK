@@ -133,7 +133,7 @@ itk_add_test(NAME ConfidenceConnected3DTest COMMAND ${ITK_TEST_DRIVER}
 )
 
 itk_add_test(NAME ImageRegistration8Test COMMAND ${ITK_TEST_DRIVER}
-  --compare DATA{${BASELINE}/ImageRegistration8RegisteredSlice.png}
+  --compare DATA{${BASELINE}/ImageRegistration8v4RegisteredSlice.png}
             ${TEMP}/ImageRegistration8RegisteredSlice.png
   $<TARGET_FILE:ImageRegistration8>
         DATA{../../Data/BrainWeb/brainweb1e1a10f20.mha}
@@ -147,7 +147,6 @@ itk_add_test(NAME ImageRegistration8Test COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/ImageRegistration8RegisteredSlice.png
 )
 set_property(TEST ImageRegistration8Test APPEND PROPERTY LABELS RUNS_LONG)
-
 
 if( ${CMAKE_BUILD_TYPE} MATCHES "Release")
   # This test is computationally demanding.
