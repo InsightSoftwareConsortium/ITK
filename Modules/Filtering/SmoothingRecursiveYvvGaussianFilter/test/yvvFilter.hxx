@@ -261,8 +261,9 @@ testImage(std::string inputFilename, float sigma, itk::TimeProbesCollectorBase *
   typedef itk::SmoothingRecursiveGaussianImageFilter<CPUImageType, CPUImageType>    DericheFilterType;
 
   std::cout << ":::: Testing on " << inputFilename << ", using sigma = " << sigma << "   ::::" << std::endl;
-  typename ImageType::SizeType size; // empty, since we'll be using an actual file
-  std::ostringstream           parameterStream;
+  typename ImageType::SizeType size;
+  size.Fill(0); // empty, since we'll be using an actual file
+  std::ostringstream parameterStream;
   parameterStream << "_s" << sigma << "_";
 
   ////////////////////////////////
