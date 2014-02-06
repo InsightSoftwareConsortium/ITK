@@ -1,1 +1,7 @@
-itk_wrap_simple_class("itk::OptimizerParameterScalesEstimator" POINTER)
+set(WRAPPER_AUTO_INCLUDE_HEADERS OFF)
+itk_wrap_include("itkOptimizerParameterScalesEstimator.h")
+itk_wrap_class("itk::OptimizerParameterScalesEstimatorTemplate" POINTER)
+  foreach(t ${WRAP_ITK_REAL})
+    itk_wrap_template("${ITKM_${t}}" "${ITKT_${t}}")
+  endforeach(t)
+itk_end_wrap_class()
