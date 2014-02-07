@@ -29,9 +29,9 @@ namespace itk
 //
 #define RGBAPIXELSTATICTRAITSMACRO(T)                                                                     \
   template< >                                                                                             \
-  const RGBAPixel< T >  NumericTraits< RGBAPixel< T > >::Zero = RGBAPixel< T >(NumericTraits< T >::Zero); \
+  ITKCommon_EXPORT const RGBAPixel< T >  NumericTraits< RGBAPixel< T > >::Zero = RGBAPixel< T >(NumericTraits< T >::Zero); \
   template< >                                                                                             \
-  const RGBAPixel< T >  NumericTraits< RGBAPixel< T > >::One = RGBAPixel< T >(NumericTraits< T >::One);
+  ITKCommon_EXPORT const RGBAPixel< T >  NumericTraits< RGBAPixel< T > >::One = RGBAPixel< T >(NumericTraits< T >::One);
 
 //
 // List here the specializations of the Traits:
