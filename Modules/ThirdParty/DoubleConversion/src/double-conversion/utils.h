@@ -53,6 +53,8 @@
 // the output of the division with the expected result. (Inlining must be
 // disabled.)
 // On Linux,x86 89255e-22 != Div_double(89255.0/1e22)
+#include "double-conversion-configure.h"
+#ifndef CMAKE_DEFINE_DOUBLE_CONVERSION_CORRECT_DOUBLE_OPERATIONS
 #if defined(_M_X64) || defined(__x86_64__) || \
     defined(__ARMEL__) || defined(__avr32__) || \
     defined(__hppa__) || defined(__ia64__) || \
@@ -73,6 +75,7 @@
 #else
 #error Target architecture was not detected as supported by Double-Conversion.
 #endif
+#endif // CMake defined DOUBLE_CONVERSION_CORRECT_DOUBLE_OPERATIONS
 
 #if defined(__GNUC__)
 #define DOUBLE_CONVERSION_UNUSED __attribute__((unused))
