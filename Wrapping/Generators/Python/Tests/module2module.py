@@ -17,7 +17,7 @@
 #==========================================================================*/
 
 # def custom_callback(name):
-#   print "loading %s submodule..." % name
+#     print "loading %s submodule..." % name
 # import itkConfig
 # itkConfig.ImportCallback = custom_callback
 
@@ -122,15 +122,15 @@ dests.append(("ITKIOImageBase", writer))
 nb = 0
 failList = []
 for sname, s in sources:
-  for dname, d in dests:
-    nb += 1
-    d.SetInput( s )
-    try:
-      d.Update()
-      print "%s -> %s pass" % (sname, dname)
-    except RuntimeError, e:
-      print "%s -> %s fail" % (sname, dname)
-      failList.append((sname, dname))
+    for dname, d in dests:
+        nb += 1
+        d.SetInput( s )
+        try:
+            d.Update()
+            print "%s -> %s pass" % (sname, dname)
+        except RuntimeError, e:
+            print "%s -> %s fail" % (sname, dname)
+            failList.append((sname, dname))
 
 
 print

@@ -22,9 +22,9 @@ from sys import argv, stderr, exit
 itk.auto_progress(2)
 
 if len(argv) < 3 :
-  print >> stderr, """Missing Parameters
+    print >> stderr, """Missing Parameters
 Usage: AntiAliasBinaryImageFilter inputImage outputImage [RMS] [numberOfIterations]"""
-  exit(1)
+    exit(1)
 
 inputFilename  = argv[1]
 outputFilename = argv[2]
@@ -32,10 +32,10 @@ maximumRMSError = 0.01
 numberOfIterations = 50
 
 if len(argv) > 3 :
-  maximumRMSError = float( argv[3] )
+    maximumRMSError = float( argv[3] )
 
 if len(argv) > 4 :
-  numberOfIterations = int( argv[4] )
+    numberOfIterations = int( argv[4] )
 
 
 CharPixelType = itk.UC
