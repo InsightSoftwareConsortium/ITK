@@ -1,6 +1,6 @@
 set(WRAPPER_AUTO_INCLUDE_HEADERS OFF)
-itk_wrap_include("itkGradientDescentOptimizerv4.h")
-itk_wrap_class("itk::GradientDescentOptimizerv4Template" POINTER)
+itk_wrap_include("itkGradientDescentOptimizerBasev4.h")
+itk_wrap_class("itk::GradientDescentOptimizerBasev4Template" POINTER)
   foreach(t ${WRAP_ITK_REAL})
     itk_wrap_template("${ITKM_${t}}" "${ITKT_${t}}")
   endforeach(t)
