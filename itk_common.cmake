@@ -40,7 +40,9 @@
 #   CTEST_DASHBOARD_ROOT      = Where to put source and build trees
 #   CTEST_TEST_CTEST          = Whether to run long CTestTest* tests
 #   CTEST_TEST_TIMEOUT        = Per-test timeout length
+#   CTEST_COVERAGE_ARGS       = ctest_coverage command args
 #   CTEST_TEST_ARGS           = ctest_test args (ex: PARALLEL_LEVEL 4)
+#   CTEST_MEMCHECK_ARGS       = ctest_memcheck args (defaults to CTEST_TEST_ARGS)
 #   CMAKE_MAKE_PROGRAM        = Path to "make" tool to use
 #
 # Options to configure builds from experimental git repository:
@@ -196,6 +198,10 @@ if(NOT DEFINED ExternalData_OBJECT_STORES)
         set(ExternalData_OBJECT_STORES ${CTEST_DASHBOARD_ROOT}/ExternalData)
     endif()
   endif()
+endif()
+
+if(NOT DEFINED CTEST_MEMCHECK_ARGS)
+  set(CTEST_MEMCHECK_ARGS ${CTEST_CTEST_ARGS})
 endif()
 
 # Delete source tree if it is incompatible with current VCS.
@@ -419,13 +425,13 @@ while(NOT dashboard_done)
       if(COMMAND dashboard_hook_coverage)
         dashboard_hook_coverage()
       endif()
-      ctest_coverage()
+      ctest_coverage(${CTEST_COVERAGE_ARGS})
     endif()
     if(dashboard_do_memcheck)
       if(COMMAND dashboard_hook_memcheck)
         dashboard_hook_memcheck()
       endif()
-      ctest_memcheck()
+      ctest_memcheck(${CTEST_MEMCHECK_ARGS})
     endif()
     if(COMMAND dashboard_hook_submit)
       dashboard_hook_submit()
