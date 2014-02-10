@@ -40,9 +40,9 @@ from sys import argv, stderr, exit
 
 
 if( len(argv) < 10 ):
-  print >> stderr, """Missing Parameters
+    print >> stderr, """Missing Parameters
 Usage: FastMarchingImageFilter.py inputImage  outputImage seedX seedY Sigma SigmoidAlpha SigmoidBeta TimeThreshold StoppingValue"""
-  exit(1)
+    exit(1)
 
 itk.auto_progress(2)
 

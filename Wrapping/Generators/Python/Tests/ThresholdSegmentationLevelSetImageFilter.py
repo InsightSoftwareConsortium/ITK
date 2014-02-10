@@ -35,9 +35,9 @@ itk.auto_progress(2)
 # itk.auto_progress(1)
 
 if len(argv) < 8 :
-  print >> stderr, """Missing Parameters
+    print >> stderr, """Missing Parameters
 Usage: ThresholdSegmentationLevelSetImageFilter.py inputImage  outputImage seedX seedY InitialDistance LowerThreshold UpperThreshold [CurvatureScaling == 1.0]"""
-  exit(1)
+    exit(1)
 
 InternalPixelType = itk.F
 Dimension = 2

@@ -9,44 +9,44 @@ img = itk.Image.UC2.New(Regions=(10,20))
 img.Allocate()
 
 def index(it):
-  idx = itk.Index[2]()
-  for dummy in range(0, it):
-    img.GetPixel(idx)
+    idx = itk.Index[2]()
+    for dummy in range(0, it):
+        img.GetPixel(idx)
 
 def index2(it):
-  idx = itk.Index[2]()
-  for dummy in range(0, it):
-    idx[0] = 0
-    idx[1] = 0
-    img.GetPixel(idx)
+    idx = itk.Index[2]()
+    for dummy in range(0, it):
+        idx[0] = 0
+        idx[1] = 0
+        img.GetPixel(idx)
 
 def integer(it):
-  for dummy in range(0, it):
-    img.GetPixel(0)
+    for dummy in range(0, it):
+        img.GetPixel(0)
 
 def pylist(it):
-  l = [0, 0]
-  for dummy in range(0, it):
-    img.GetPixel(l)
+    l = [0, 0]
+    for dummy in range(0, it):
+        img.GetPixel(l)
 
 def pytuple(it):
-  l = (0, 0)
-  for dummy in range(0, it):
-    img.GetPixel(l)
+    l = (0, 0)
+    for dummy in range(0, it):
+        img.GetPixel(l)
 
 def new(it):
-  for dummy in range(0, it):
-    lo = itk.Image.UC2.__New_orig__()
+    for dummy in range(0, it):
+        lo = itk.Image.UC2.__New_orig__()
 
 def extended_new(it):
-  for dummy in range(0, it):
-    lo = itk.Image.UC2.New()
+    for dummy in range(0, it):
+        lo = itk.Image.UC2.New()
 
 
 def run(f, it):
-  start = time.time()
-  f(it)
-  return time.time() - start
+    start = time.time()
+    f(it)
+    return time.time() - start
 
 
 it = 1000000

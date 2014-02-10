@@ -39,14 +39,14 @@ itk.auto_progress(2)
 
 
 if( len(argv) < 3 ):
-  print >> stderr, """Missing Parameters
+    print >> stderr, """Missing Parameters
 Usage: ResampleImageFilter.py inputImageFile  outputImageFile [exampleAction={0,1,2,3}]"""
-  exit(1)
+    exit(1)
 
 exampleAction = 0
 
 if( len(argv) >= 4 ):
-  exampleAction = int( argv[3] )
+    exampleAction = int( argv[3] )
 
 Dimension = 2
 InputPixelType = itk.UC
@@ -111,11 +111,11 @@ writer.Update()
 transform.Translate( [-30, -50], 0 )
 
 if( exampleAction == 1 ):
-  writer.Update()
+    writer.Update()
 
 
 
 filter.SetDefaultPixelValue( 100 )
 
 if( exampleAction == 2 ):
-  writer.Update()
+    writer.Update()
