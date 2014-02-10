@@ -184,10 +184,10 @@ public:
 // a macro to define and initialize static member variables
 #define itkStaticNumericTraitsGenericArrayMacro(GENERIC_ARRAY, T, D)                                 \
   template< >                                                                                        \
-  const GENERIC_ARRAY< T, D >  NumericTraits< GENERIC_ARRAY< T, D > >::Zero = GENERIC_ARRAY< T, D >( \
+  ITKCommon_EXPORT const GENERIC_ARRAY< T, D >  NumericTraits< GENERIC_ARRAY< T, D > >::Zero = GENERIC_ARRAY< T, D >( \
     NumericTraits< T >::Zero);                                                                       \
   template< >                                                                                        \
-  const GENERIC_ARRAY< T, D >  NumericTraits< GENERIC_ARRAY< T, D > >::One = GENERIC_ARRAY< T, D >(  \
+  ITKCommon_EXPORT const GENERIC_ARRAY< T, D >  NumericTraits< GENERIC_ARRAY< T, D > >::One = GENERIC_ARRAY< T, D >( \
     NumericTraits< T >::One);
 
 //
