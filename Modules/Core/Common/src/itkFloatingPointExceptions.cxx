@@ -27,7 +27,7 @@
 // this is based on work by David N. Williams
 // www-personal.umich.edu/~williams
 // http://www-personal.umich.edu/~williams/archive/computation/fe-handling-example.c
-#if !defined(_WIN32)
+#if !defined(_WIN32) && defined(ITK_HAVE_FENV_H)
 
 #include <iostream>
 #include <string.h> // memcpy
@@ -55,12 +55,8 @@ http://graphviz.sourcearchive.com/documentation/2.16/gvrender__pango_8c-source.h
 #endif // LINUX
 
 
-#ifdef ITK_HAVE_FENV_H
 #include <stdio.h> // needed on Solaris
 #include <fenv.h>
-#else
-#error "fenv.h required for floating point exception handling"
-#endif
 
 #define DEFINED_PPC      (defined(__ppc__) || defined(__ppc64__))
 #define DEFINED_INTEL    (defined(__i386__) || defined(__x86_64__))
@@ -421,7 +417,7 @@ SetEnabled(bool val)
     }
 }
 
-#if defined(_WIN32)
+#if defined(_WIN32) || !defined(ITK_HAVE_FENV_H)
 
 #if defined(_MSC_VER)
 #include <float.h>
@@ -443,7 +439,7 @@ void FloatingPointExceptions
   FloatingPointExceptions::m_Enabled = false;
 }
 
-#else // defined(_MSC_VER)
+#else // defined(_MSC_VER) || !defined(ITK_HAVE_FENV_H)
 
 // MinGW has troubles include'ing float.h.
 void FloatingPointExceptions
@@ -476,7 +472,7 @@ void FloatingPointExceptions
     }
 }
 
-#endif // defined(_MSC_VER)
+#endif // defined(_MSC_VER) || !defined(ITK_HAVE_FENV_H)
 
 #else // defined(_WIN32)
 
