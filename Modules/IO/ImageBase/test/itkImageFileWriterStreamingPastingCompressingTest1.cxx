@@ -260,10 +260,9 @@ int itkImageFileWriterStreamingPastingCompressingTest1(int argc, char* argv[])
       expectException[i] = -1;
     }
 
-  int retValue = EXIT_SUCCESS;
   i = 0;
 
-  retValue = (retValue == EXIT_FAILURE) ? EXIT_FAILURE : ActualTest(argv[1], argv[2], argv[3], 0, 0, 0, expectException[i++]);
+  int retValue =                                         ActualTest(argv[1], argv[2], argv[3], 0, 0, 0, expectException[i++]);
   retValue = (retValue == EXIT_FAILURE) ? EXIT_FAILURE : ActualTest(argv[1], argv[2], argv[3], 0, 0, 1, expectException[i++]);
   retValue = (retValue == EXIT_FAILURE) ? EXIT_FAILURE : ActualTest(argv[1], argv[2], argv[3], 0, 1, 0, expectException[i++]);
   retValue = (retValue == EXIT_FAILURE) ? EXIT_FAILURE : ActualTest(argv[1], argv[2], argv[3], 0, 1, 1, expectException[i++]);
