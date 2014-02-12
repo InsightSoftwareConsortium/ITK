@@ -383,8 +383,6 @@ private:
   // Software Guide : EndCodeSnippet
   std::string   m_OutputFile;
 };
-} // end anonymous namespace
-
 
 // Command - observer invoked after every iteration of the optimizer
 class CommandIterationUpdate : public itk::Command
@@ -464,6 +462,8 @@ private:
   std::string       m_InitialHistogramFile;
 
 };
+
+} // end anonymous namespace
 
 
 int main( int argc, char *argv[] )
