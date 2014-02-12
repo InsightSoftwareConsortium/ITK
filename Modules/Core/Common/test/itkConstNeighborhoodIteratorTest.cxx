@@ -367,10 +367,10 @@ int itkConstNeighborhoodIteratorTest(int, char* [] )
     expectedValuesRegion1[7] = 255;
     expectedValuesRegion1[8] = 255;
     unsigned int counter = 0;
-    //while(!neighborhoodIterator.IsAtEnd()) // no need for this loop as we are only iterating over a 1x1 region
-      //{
-    NeighborhoodIteratorType::ConstIterator pixelIterator = neighborhoodIterator.Begin();
-    for(pixelIterator = neighborhoodIterator.Begin(); pixelIterator < neighborhoodIterator.End(); ++pixelIterator)
+
+    for(NeighborhoodIteratorType::ConstIterator pixelIterator = neighborhoodIterator.Begin();
+        pixelIterator < neighborhoodIterator.End();
+        ++pixelIterator)
       {
       if(**pixelIterator != expectedValuesRegion1[counter])
         {
@@ -378,8 +378,6 @@ int itkConstNeighborhoodIteratorTest(int, char* [] )
         }
       counter++;
       }
-      //++imageIterator;
-      //}
 
     // Change iteration region
     ChangeRegionTestImageType::IndexType region2start;
@@ -401,9 +399,9 @@ int itkConstNeighborhoodIteratorTest(int, char* [] )
     expectedValuesRegion2[7] = 255;
     expectedValuesRegion2[8] = 255;
     counter = 0;
-    //while(!neighborhoodIterator.IsAtEnd()) // no need for this loop as we are only iterating over a 1x1 region
-      //{
-    for(pixelIterator = neighborhoodIterator.Begin(); pixelIterator < neighborhoodIterator.End(); ++pixelIterator)
+    for(NeighborhoodIteratorType::ConstIterator pixelIterator = neighborhoodIterator.Begin();
+        pixelIterator < neighborhoodIterator.End();
+        ++pixelIterator)
       {
       if(**pixelIterator != expectedValuesRegion2[counter])
         {
@@ -411,8 +409,6 @@ int itkConstNeighborhoodIteratorTest(int, char* [] )
         }
       counter++;
       }
-      //++imageIterator;
-      //}
 
   } // end "Change Region" test
 
