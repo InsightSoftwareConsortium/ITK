@@ -76,7 +76,6 @@ ShiSparseLevelSetImage< VDimension >
       itkGenericExceptionMacro( <<"status "
                                 << static_cast< int >( status )
                                 << " should be 3 or -3" );
-      return static_cast<OutputType>( this->PlusThreeLayer() );
       }
     }
 }

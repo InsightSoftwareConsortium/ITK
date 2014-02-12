@@ -76,7 +76,6 @@ MalcolmSparseLevelSetImage< VDimension >::Evaluate( const InputType& inputPixel 
       itkGenericExceptionMacro( <<"status "
                                 << static_cast< int >( status )
                                 << " should be 1 or -1" );
-      return PlusOneLayer();
       }
     }
 }
