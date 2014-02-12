@@ -411,8 +411,6 @@ TDistribution
       << m_Parameters.size()
       << " parameters.");
     }
-
-  return NumericTraits< double >::quiet_NaN();
 }
 
 void
