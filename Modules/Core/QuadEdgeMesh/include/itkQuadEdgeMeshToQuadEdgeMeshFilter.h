@@ -165,8 +165,9 @@ void CopyMeshToMeshCellData(const TInputMesh *in, TOutputMesh *out)
   InputCellDataContainerConstIterator inIt = inputCellData->Begin();
   while ( inIt != inputCellData->End() )
     {
-    outputCellData->SetElement( inIt.Index(), inIt.Value() );
-    inIt++;
+    typename OutputCellDataContainer::Element point(inIt.Value());
+    outputCellData->SetElement( inIt.Index(), point );
+    ++inIt;
     }
 
   out->SetCellData(outputCellData);
@@ -196,7 +197,8 @@ void CopyMeshToMeshPointData(const TInputMesh *in, TOutputMesh *out)
   InputPointDataContainerConstIterator inIt = inputPointData->Begin();
   while ( inIt != inputPointData->End() )
     {
-    outputPointData->SetElement( inIt.Index(), inIt.Value() );
+    typename OutputPointDataContainer::Element point( inIt.Value() );
+    outputPointData->SetElement( inIt.Index(), point );
     inIt++;
     }
 

@@ -68,7 +68,7 @@ int itkSpatialObjectToImageStatisticsCalculatorTest(int, char * [] )
   std::cout << "Sample mean = " << calculator->GetMean() << std::endl;
   std::cout << "Sample covariance = " << calculator->GetCovarianceMatrix();
 
-  if(calculator->GetMean() != 255
+  if(calculator->GetMean() != CalculatorType::VectorType(255)
     || calculator->GetCovarianceMatrix()[0][0] != 0
     )
     {

@@ -110,8 +110,17 @@ public:
   /** Default constructor and copy constructors. */
   Vector():BaseArray() {}
 
-  /** Constructor to initialize entire vector to one value. */
+#if !defined( ITK_LEGACY_FUTURE_REMOVE )
+  /** Constructor to initialize entire vector to one value.
+   * \warning Not intended to convert a scalar value into
+   * a Vector filled with that value.
+   * \deprecated */
   Vector(const ValueType & r);
+#else
+  /** Constructor to initialize entire vector to one value,
+   * if explicitly invoked. */
+  explicit Vector(const ValueType & r);
+#endif
 
   /** Pass-through constructor for the Array base class. */
   template< typename TVectorValueType >
