@@ -21,6 +21,7 @@
 #include "itkMeanReciprocalSquareDifferenceImageToImageMetric.h"
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkGradientDescentOptimizer.h"
+#include "itkTestingMacros.h"
 
 /**
  *  This program test one instantiation of the itk::ImageRegistrationMethod class
@@ -30,8 +31,6 @@
 
 int itkImageRegistrationMethodTest_11(int, char* [] )
 {
-
-  bool pass = true;
 
   const unsigned int dimension = 3;
 
@@ -80,14 +79,77 @@ int itkImageRegistrationMethodTest_11(int, char* [] )
   registration->SetInterpolator(  interpolator  );
 
 
-  if( !pass )
-    {
-    std::cout << "Test failed." << std::endl;
-    return EXIT_FAILURE;
-    }
+  //
+  // Now verify that all the sets are consistent with the Gets
+  //
+  TEST_SET_GET_VALUE( metric, registration->GetMetric() );
+  TEST_SET_GET_VALUE( optimizer, registration->GetOptimizer() );
+  TEST_SET_GET_VALUE( transform, registration->GetTransform() );
+  TEST_SET_GET_VALUE( fixedImage, registration->GetFixedImage() );
+  TEST_SET_GET_VALUE( movingImage, registration->GetMovingImage() );
+  TEST_SET_GET_VALUE( interpolator, registration->GetInterpolator() );
+
+  //
+  // Now verify that they can be changed
+  //
+  MetricType::Pointer         metric2        = MetricType::New();
+  TransformType::Pointer      transform2     = TransformType::New();
+  OptimizerType::Pointer      optimizer2     = OptimizerType::New();
+  FixedImageType::Pointer     fixedImage2    = FixedImageType::New();
+  MovingImageType::Pointer    movingImage2   = MovingImageType::New();
+  InterpolatorType::Pointer   interpolator2  = InterpolatorType::New();
+
+
+  registration->SetMetric(        metric2        );
+  registration->SetOptimizer(     optimizer2     );
+  registration->SetTransform(     transform2     );
+  registration->SetFixedImage(    fixedImage2    );
+  registration->SetMovingImage(   movingImage2   );
+  registration->SetInterpolator(  interpolator2  );
+
+
+  //
+  // Now verify that all the sets are consistent with the Gets
+  //
+  TEST_SET_GET_VALUE( metric2, registration->GetMetric() );
+  TEST_SET_GET_VALUE( optimizer2, registration->GetOptimizer() );
+  TEST_SET_GET_VALUE( transform2, registration->GetTransform() );
+  TEST_SET_GET_VALUE( fixedImage2, registration->GetFixedImage() );
+  TEST_SET_GET_VALUE( movingImage2, registration->GetMovingImage() );
+  TEST_SET_GET_VALUE( interpolator2, registration->GetInterpolator() );
+
+
+  //
+  //  Now verify that they can be set to NULL
+  //
+  MetricType::Pointer         metric3        = NULL;
+  TransformType::Pointer      transform3     = NULL;
+  OptimizerType::Pointer      optimizer3     = NULL;
+  FixedImageType::Pointer     fixedImage3    = NULL;
+  MovingImageType::Pointer    movingImage3   = NULL;
+  InterpolatorType::Pointer   interpolator3  = NULL;
+
+
+  registration->SetMetric(        metric3        );
+  registration->SetOptimizer(     optimizer3     );
+  registration->SetTransform(     transform3     );
+  registration->SetFixedImage(    fixedImage3    );
+  registration->SetMovingImage(   movingImage3   );
+  registration->SetInterpolator(  interpolator3  );
+
+
+  //
+  // Now verify that all the sets are consistent with the Gets
+  //
+  TEST_SET_GET_VALUE( metric3, registration->GetMetric() );
+  TEST_SET_GET_VALUE( optimizer3, registration->GetOptimizer() );
+  TEST_SET_GET_VALUE( transform3, registration->GetTransform() );
+  TEST_SET_GET_VALUE( fixedImage3, registration->GetFixedImage() );
+  TEST_SET_GET_VALUE( movingImage3, registration->GetMovingImage() );
+  TEST_SET_GET_VALUE( interpolator3, registration->GetInterpolator() );
+
 
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
-
 
 }
