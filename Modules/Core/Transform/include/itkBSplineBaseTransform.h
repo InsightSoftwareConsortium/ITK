@@ -249,7 +249,6 @@ public:
   virtual OutputVectorType TransformVector( const InputVectorType & ) const
   {
     itkExceptionMacro( << "Method not applicable for deformable transform." );
-    return OutputVectorType();
   }
 
   /** Method to transform a vnl_vector -
@@ -257,7 +256,6 @@ public:
   virtual OutputVnlVectorType TransformVector( const InputVnlVectorType & ) const
   {
     itkExceptionMacro( << "Method not applicable for deformable transform. " );
-    return OutputVnlVectorType();
   }
 
   /** Method to transform a CovariantVector -
@@ -267,7 +265,6 @@ public:
     const InputCovariantVectorType & ) const
   {
     itkExceptionMacro( << "Method not applicable for deformable transfrom. " );
-    return OutputCovariantVectorType();
   }
 
   /** Get Jacobian at a point. A very specialized function just for BSplines */
