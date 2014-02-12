@@ -199,7 +199,6 @@ const std::type_info & ImageIOBase::GetComponentTypeInfo() const
     default:
       itkExceptionMacro ("Unknown component type: " << m_ComponentType);
     }
-  return typeid( ImageIOBase::UnknownType );
 }
 
 void ImageIOBase::ComputeStrides()
