@@ -1284,7 +1284,6 @@ RayCastHelper< TInputImage, TCoordRep >
       err.SetDescription("The ray traversal direction is unset "
                          "- GetCurrentIntensity().");
       throw err;
-      return 0;
       }
     }
 
