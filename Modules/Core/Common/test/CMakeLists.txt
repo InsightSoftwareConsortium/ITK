@@ -302,6 +302,7 @@ itk_add_test(NAME itkLineIteratorTest COMMAND ITKCommon1TestDriver itkLineIterat
 itk_add_test(NAME itkLoggerTest COMMAND ITKCommon1TestDriver itkLoggerTest ${TEMP}/test_logger.txt)
 itk_add_test(NAME itkLoggerOutputTest COMMAND ITKCommon2TestDriver itkLoggerOutputTest ${TEMP}/test_loggerOutput.txt)
 itk_add_test(NAME itkLoggerManagerTest COMMAND ITKCommon2TestDriver itkLoggerManagerTest ${TEMP}/test_LoggerManager.txt)
+itk_add_test(NAME itkLoggerThreadWrapperTest COMMAND ITKCommon2TestDriver itkLoggerThreadWrapperTest ${TEMP}/test_LoggerThreadWrapper.txt)
 itk_add_test(NAME itkMatrixTest COMMAND ITKCommon2TestDriver itkMatrixTest)
 itk_add_test(NAME itkMapContainerTest COMMAND ITKCommon1TestDriver itkMapContainerTest)
 itk_add_test(NAME itkIteratorTests COMMAND ITKCommon1TestDriver itkIteratorTests)

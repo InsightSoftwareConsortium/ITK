@@ -207,6 +207,9 @@ int itkLoggerThreadWrapperTest( int argc, char * argv[] )
     logger->SetPriorityLevel(itk::LoggerBase::INFO);
     logger->SetLevelForFlushing(itk::LoggerBase::CRITICAL);
 
+    // Exercising PrintSelf()
+    logger->Print(std::cout);
+
     std::cout << "  Adding console and file stream LogOutputs" << std::endl;
     logger->AddLogOutput(coutput);
     logger->AddLogOutput(foutput);
@@ -249,6 +252,46 @@ int itkLoggerThreadWrapperTest( int argc, char * argv[] )
     logger->Flush();
     std::cout << "Ended multi-threaded portion of test." << std::endl;
 
+    std::cout << "Testing SetDelay method" << std::endl;
+    logger->SetDelay(1);
+    logger->Write(itk::LoggerBase::DEBUG, "DEBUG message to tests SetDelay.\n");
+    logger->Flush();
+    std::cout << "Ended multi-threaded portion of test." << std::endl;
+
+    //
+    //  Testing the internal thread
+    //
+    itk::StdStreamLogOutput::Pointer coutput2 = itk::StdStreamLogOutput::New();
+    coutput2->SetStream(std::cout);
+
+    itk::LoggerThreadWrapper<SimpleLogger>::Pointer logger2 = itk::LoggerThreadWrapper<SimpleLogger>::New();
+
+    std::cout << "Testing itk::LoggerThreadWrapper" << std::endl;
+
+    logger2->SetName("org.itk.threadLogger");
+    logger2->SetPriorityLevel(itk::LoggerBase::INFO);
+    logger2->SetLevelForFlushing(itk::LoggerBase::CRITICAL);
+
+    logger2->AddLogOutput(coutput2);
+
+    logger2->SetDelay(10);
+
+    logger2->Write(itk::LoggerBase::DEBUG, "This is the DEBUG message 1.\n");
+    itksys::SystemTools::Delay(1000);
+    logger2->Write(itk::LoggerBase::DEBUG, "This is the DEBUG message 2.\n");
+    itksys::SystemTools::Delay(1000);
+    logger2->Write(itk::LoggerBase::DEBUG, "This is the DEBUG message 3.\n");
+    itksys::SystemTools::Delay(1000);
+    logger2->Write(itk::LoggerBase::DEBUG, "This is the DEBUG message 4.\n");
+    itksys::SystemTools::Delay(1000);
+    logger2->Write(itk::LoggerBase::DEBUG, "This is the DEBUG message 5.\n");
+    itksys::SystemTools::Delay(1000);
+    logger2->Write(itk::LoggerBase::DEBUG, "This is the DEBUG message 6.\n");
+
+    logger2->SetDelay(1000);
+    logger2->SetPriorityLevel(itk::LoggerBase::INFO);
+    logger2->SetLevelForFlushing(itk::LoggerBase::CRITICAL);
+    logger2->Flush();
     }
   catch(...)
     {

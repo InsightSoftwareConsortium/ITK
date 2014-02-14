@@ -139,12 +139,10 @@ void LoggerThreadWrapper< SimpleLoggerType >::Flush()
         this->m_LevelQ.pop();
         this->m_MessageQ.pop();
         break;
-      case Self::FLUSH:
-        this->SimpleLoggerType::Flush();
-        break;
       }
     this->m_OperationQ.pop();
     }
+  this->SimpleLoggerType::Flush();
   this->m_Output->Flush();
   this->m_Mutex.Unlock();
 }
@@ -174,62 +172,54 @@ ITK_THREAD_RETURN_TYPE LoggerThreadWrapper< SimpleLoggerType >::ThreadFunction(v
 {
   struct MultiThreader:: ThreadInfoStruct *pInfo = (struct MultiThreader::ThreadInfoStruct *)pInfoStruct;
 
-  if ( pInfo == NULL )
-    {
-    return ITK_THREAD_RETURN_VALUE;
-    }
-
-  if ( pInfo->UserData == NULL )
-    {
-    return ITK_THREAD_RETURN_VALUE;
-    }
-
-  LoggerThreadWrapper *pLogger = (LoggerThreadWrapper *)pInfo->UserData;
-
-  while ( 1 )
+  if ( ( pInfo != NULL ) && ( pInfo->UserData != NULL ) )
     {
 
-    pInfo->ActiveFlagLock->Lock();
-    int activeFlag = *pInfo->ActiveFlag;
-    pInfo->ActiveFlagLock->Unlock();
-    if ( !activeFlag )
+    LoggerThreadWrapper *pLogger = (LoggerThreadWrapper *)pInfo->UserData;
+
+    while ( 1 )
       {
-      break;
-      }
 
-    pLogger->m_Mutex.Lock();
-    while ( !pLogger->m_OperationQ.empty() )
-      {
-      switch ( pLogger->m_OperationQ.front() )
+      pInfo->ActiveFlagLock->Lock();
+      int activeFlag = *pInfo->ActiveFlag;
+      pInfo->ActiveFlagLock->Unlock();
+      if ( !activeFlag )
         {
-        case Self::SET_PRIORITY_LEVEL:
-          pLogger->m_PriorityLevel = pLogger->m_LevelQ.front();
-          pLogger->m_LevelQ.pop();
-          break;
-
-        case Self::SET_LEVEL_FOR_FLUSHING:
-          pLogger->m_LevelForFlushing = pLogger->m_LevelQ.front();
-          pLogger->m_LevelQ.pop();
-          break;
-
-        case Self::ADD_LOG_OUTPUT:
-          pLogger->m_Output->AddLogOutput( pLogger->m_OutputQ.front() );
-          pLogger->m_OutputQ.pop();
-          break;
-
-        case Self::WRITE:
-          pLogger->SimpleLoggerType::Write( pLogger->m_LevelQ.front(), pLogger->m_MessageQ.front() );
-          pLogger->m_LevelQ.pop();
-          pLogger->m_MessageQ.pop();
-          break;
-        case Self::FLUSH:
-          pLogger->SimpleLoggerType::Flush();
-          break;
+        break;
         }
-      pLogger->m_OperationQ.pop();
+
+      pLogger->m_Mutex.Lock();
+      while ( !pLogger->m_OperationQ.empty() )
+        {
+        switch ( pLogger->m_OperationQ.front() )
+          {
+          case Self::SET_PRIORITY_LEVEL:
+            pLogger->m_PriorityLevel = pLogger->m_LevelQ.front();
+            pLogger->m_LevelQ.pop();
+            break;
+
+          case Self::SET_LEVEL_FOR_FLUSHING:
+            pLogger->m_LevelForFlushing = pLogger->m_LevelQ.front();
+            pLogger->m_LevelQ.pop();
+            break;
+
+          case Self::ADD_LOG_OUTPUT:
+            pLogger->m_Output->AddLogOutput( pLogger->m_OutputQ.front() );
+            pLogger->m_OutputQ.pop();
+            break;
+
+          case Self::WRITE:
+            pLogger->SimpleLoggerType::Write( pLogger->m_LevelQ.front(), pLogger->m_MessageQ.front() );
+            pLogger->m_LevelQ.pop();
+            pLogger->m_MessageQ.pop();
+            break;
+          }
+        pLogger->m_OperationQ.pop();
+        }
+      pLogger->m_Mutex.Unlock();
+      pLogger->SimpleLoggerType::Flush();
+      itksys::SystemTools::Delay(pLogger->GetDelay());
       }
-    pLogger->m_Mutex.Unlock();
-    itksys::SystemTools::Delay(pLogger->GetDelay());
     }
   return ITK_THREAD_RETURN_VALUE;
 }
