@@ -17,6 +17,8 @@
 #==========================================================================*/
 
 # also test the import callback feature
+
+
 def custom_callback(name, progress):
     if progress == 0:
         print >> sys.stderr, "Loading %s..." % name,
@@ -25,7 +27,8 @@ def custom_callback(name, progress):
 import itkConfig
 itkConfig.ImportCallback = custom_callback
 
-import itk, sys
+import itk
+import sys
 
 # test the force load function
 itk.force_load()
@@ -77,7 +80,7 @@ assert itk.image(1) == 1
 # test strel
 # should work with the image type, an image instance or a filter
 # and should work with a list, a tuple, an int or an itk.Size
-for s in [2, (2, 2), [2, 2], itk.Size[2](2)] :
+for s in [2, (2, 2), [2, 2], itk.Size[2](2)]:
     st = itk.strel(dim, s)
 
     (tpl, param) = itk.template(st)
@@ -145,7 +148,8 @@ assert "Index" not in res
 
 # test down_cast
 obj = itk.Object.cast(reader)
-assert obj.__class__ == itk.Object  # be sure that the reader is casted to itk::Object
+# be sure that the reader is casted to itk::Object
+assert obj.__class__ == itk.Object
 down_casted = itk.down_cast(obj)
 assert down_casted == reader
 assert down_casted.__class__ == ReaderType

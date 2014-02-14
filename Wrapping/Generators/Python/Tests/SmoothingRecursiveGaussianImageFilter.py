@@ -24,6 +24,8 @@ import itk
 from sys import argv
 itk.auto_progress(2)
 
-reader = itk.ImageFileReader.IUC2.New( FileName=argv[1] )
-filter  = itk.SmoothingRecursiveGaussianImageFilter.New( reader, Sigma=eval( argv[3] ) )
-itk.write( filter, argv[2] )
+reader = itk.ImageFileReader.IUC2.New(FileName=argv[1])
+filter = itk.SmoothingRecursiveGaussianImageFilter.New(
+    reader,
+    Sigma=eval(argv[3]))
+itk.write(filter, argv[2])

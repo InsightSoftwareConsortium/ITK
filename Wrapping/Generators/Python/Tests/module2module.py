@@ -21,7 +21,8 @@
 # import itkConfig
 # itkConfig.ImportCallback = custom_callback
 
-import itk, sys
+import itk
+import sys
 
 import ITKCommon
 import ITKBinaryMathematicalMorphology
@@ -62,7 +63,8 @@ sources.append(("ITKImageGrid", flip.GetOutput()))
 abs = ITKImageIntensity.AbsImageFilter[IType, IType].New(reader)
 sources.append(("ITKImageIntensity", abs.GetOutput()))
 
-bdilate = ITKBinaryMathematicalMorphology.BinaryDilateImageFilter[IType, IType, kernel].New(reader, Kernel=kernel)
+bdilate = ITKBinaryMathematicalMorphology.BinaryDilateImageFilter[
+    IType, IType, kernel].New(reader, Kernel=kernel)
 sources.append(("ITKBinaryMathematicalMorphology", bdilate.GetOutput()))
 
 minmax = ITKImageStatistics.MinimumMaximumImageFilter[IType].New(reader)
@@ -71,19 +73,16 @@ sources.append(("ITKImageStatistics", minmax.GetOutput()))
 median = ITKSmoothing.MedianImageFilter[IType, IType].New(reader)
 sources.append(("ITKSmoothing", median.GetOutput()))
 
-distance = ITKDistanceMap.DanielssonDistanceMapImageFilter[IType, IType].New(reader)
+distance = ITKDistanceMap.DanielssonDistanceMapImageFilter[
+    IType, IType].New(reader)
 sources.append(("ITKDistanceMap", distance.GetOutput()))
 
-# sobel = EdgesAndContours.SobelEdgeDetectionImageFilter[IType, IType].New(reader)
+# sobel = EdgesAndContours.SobelEdgeDetectionImageFilter[IType, IType].New
+# (reader)
 # sources.append(("EdgesAndContours", sobel.GetOutput()))
 
 # laplacian = Filtering.LaplacianImageFilter[IType, IType].New(reader)
 # sources.append(("Filtering", laplacian.GetOutput()))
-
-
-
-
-
 
 
 dests = []
@@ -97,7 +96,8 @@ dests.append(("ITKImageGrid", dflip))
 dabs = ITKImageIntensity.AbsImageFilter[IType, IType].New()
 dests.append(("ITKImageIntensity", dabs))
 
-dbdilate = ITKBinaryMathematicalMorphology.BinaryDilateImageFilter[IType, IType, kernel].New(Kernel=kernel)
+dbdilate = ITKBinaryMathematicalMorphology.BinaryDilateImageFilter[
+    IType, IType, kernel].New(Kernel=kernel)
 dests.append(("ITKBinaryMathematicalMorphology", dbdilate))
 
 dminmax = ITKImageStatistics.MinimumMaximumImageFilter[IType].New()
@@ -124,11 +124,11 @@ failList = []
 for sname, s in sources:
     for dname, d in dests:
         nb += 1
-        d.SetInput( s )
+        d.SetInput(s)
         try:
             d.Update()
             print "%s -> %s pass" % (sname, dname)
-        except RuntimeError, e:
+        except RuntimeError as e:
             print "%s -> %s fail" % (sname, dname)
             failList.append((sname, dname))
 

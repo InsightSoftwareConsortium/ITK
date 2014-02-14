@@ -17,7 +17,13 @@
 #==========================================================================*/
 
 """itk.py : Top-level container module for ITK wrappers."""
-import itkBase, itkConfig, itkLazy, itkTypes, itkExtras, os, sys
+import itkBase
+import itkConfig
+import itkLazy
+import itkTypes
+import itkExtras
+import os
+import sys
 
 # silently import psyco
 try:
@@ -33,11 +39,12 @@ if itkConfig.LazyLoading:
     # classes/functions/etc. (read from the configuration modules) to the
     # modules they are declared in. Then pass that dict to a LazyITKModule
     # instance and (later) do some surgery on sys.modules so that the 'itk'
-    # module becomes that new instance instead of what is executed from this file.
+    # module becomes that new instance instead of what is executed from this
+    # file.
     lazyAttributes = {}
     for module, data in itkBase.module_data.items():
-        templateNames = [ t[0] for t in data['templates'] ]
-        attributes = dict( [(n, module) for n in templateNames] )
+        templateNames = [t[0] for t in data['templates']]
+        attributes = dict([(n, module) for n in templateNames])
         lazyAttributes.update(attributes)
     if isinstance(thisModule, itkLazy.LazyITKModule):
         # Handle reload case where we've already done this once.

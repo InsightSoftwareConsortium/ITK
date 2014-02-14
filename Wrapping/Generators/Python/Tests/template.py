@@ -42,13 +42,13 @@ readerType3 = itk.ImageFileReader.IUC2
 assert readerType == readerType2 == readerType3
 
 # we should be able to get the template and its parameters from the class
-(tpl, parameters) = itk.template( IType )
+(tpl, parameters) = itk.template(IType)
 assert tpl == itk.Image
 assert parameters == (PType, dim)
 
 # the template must raise a KeyError exception if the template parameter
 # is unknown
-try :
+try:
     itk.ImageFileReader['unknown parameter']
     raise Exception('no exception sent for unknown parameter')
 except KeyError:
@@ -60,10 +60,7 @@ except KeyError:
 # something else ?
 
 
-
-
 # now test the New method
-
 # without parameter
 reader = readerType.New()
 reader2 = readerType.New()
@@ -73,17 +70,17 @@ reader = readerType.New(FileName='test.png')
 assert reader.GetFileName() == 'test.png'
 
 # wwith a wrong attribute name
-try :
+try:
     reader = readerType.New(WrongName='test.png')
     raise Exception('no exception sent for wrong attribute name')
 except AttributeError:
     pass
 
 # wwith a wrong attribute type
-try :
+try:
     reader = readerType.New(FileName=1)
     raise Exception('no exception sent for wrong attribute type')
-except :
+except:
     pass
 
 # pass filter as argument for input
@@ -131,10 +128,11 @@ except TypeError:
 
 
 # pass both input and attribute
-recons = itk.ReconstructionByDilationImageFilter[IType, IType].New(reader.GetOutput(), im, FullyConnected=True)
+recons = itk.ReconstructionByDilationImageFilter[
+    IType, IType].New(reader.GetOutput(), im, FullyConnected=True)
 assert reader.GetOutput() == recons.GetInput(0)
 assert im == recons.GetInput(1)
-assert recons.GetFullyConnected() == True
+assert recons.GetFullyConnected()
 
 
 # pass input to object which do not take one
