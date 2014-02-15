@@ -61,8 +61,7 @@ public:
     SET_PRIORITY_LEVEL,
     SET_LEVEL_FOR_FLUSHING,
     ADD_LOG_OUTPUT,
-    WRITE,
-    FLUSH
+    WRITE
     } OperationType;
 
   /** Set the priority level for the current logger. Only messages that have
