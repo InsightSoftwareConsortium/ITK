@@ -473,6 +473,11 @@ itk_add_test(NAME itkShapeRelabelLabelMapFilterTest1
     --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/cthead1-shape-relabel-labelmap.mha}
               ${ITK_TEST_OUTPUT_DIR}/cthead1-shape-relabel-labelmap.mha
     itkShapeRelabelLabelMapFilterTest1 DATA{${ITK_DATA_ROOT}/Input/cthead1Label.png} ${ITK_TEST_OUTPUT_DIR}/cthead1-shape-relabel-labelmap.mha 1 0)
+itk_add_test(NAME itkShapeUniqueLabelMapFilterTest1
+      COMMAND ITKLabelMapTestDriver
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/cthead1-shape-unique-labelmap.mha}
+              ${ITK_TEST_OUTPUT_DIR}/cthead1-shape-unique-labelmap.mha
+    itkShapeUniqueLabelMapFilterTest1 DATA{${ITK_DATA_ROOT}/Input/cthead1Label.png} ${ITK_TEST_OUTPUT_DIR}/cthead1-shape-unique-labelmap.mha 1 0)
 itk_add_test(NAME itkShiftScaleLabelMapFilterTest1
       COMMAND ITKLabelMapTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/cthead1-label-shiftscaled.mha}
