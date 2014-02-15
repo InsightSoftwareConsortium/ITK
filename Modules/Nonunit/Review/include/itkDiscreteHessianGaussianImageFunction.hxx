@@ -90,14 +90,7 @@ DiscreteHessianGaussianImageFunction< TInputImage, TOutput >
 
       if ( ( m_UseImageSpacing == true ) && ( this->GetInputImage() ) )
         {
-        if ( this->GetInputImage()->GetSpacing()[direction] == 0.0 )
-          {
-          itkExceptionMacro(<< "Pixel spacing cannot be zero");
-          }
-        else
-          {
-          m_OperatorArray[idx].SetSpacing(this->GetInputImage()->GetSpacing()[direction]);
-          }
+        m_OperatorArray[idx].SetSpacing(this->GetInputImage()->GetSpacing()[direction]);
         }
 
       // NOTE: GaussianDerivativeOperator modifies the variance when
