@@ -121,21 +121,6 @@ endif()
 
 
 ###############################################################################
-# Configure the old style module
-
-if(NOT EXTERNAL_WRAP_ITK_PROJECT)
-  set(ITK_WRAP_PYTHON_OLD_STYLE_IMPORTS )
-  foreach(lib ${WRAP_ITK_MODULES})
-    set(ITK_WRAP_PYTHON_OLD_STYLE_IMPORTS "${ITK_WRAP_PYTHON_OLD_STYLE_IMPORTS}from ${lib}Python import *\n")
-  endforeach()
-  configure_file("${ITK_WRAP_PYTHON_SOURCE_DIR}/InsightToolkit.py.in"
-             "${ITK_WRAP_PYTHON_BINARY_DIR}/InsightToolkit.py"
-             @ONLY)
-  WRAP_ITK_BINDINGS_INSTALL(/Python "${ITK_WRAP_PYTHON_BINARY_DIR}/InsightToolkit.py")
-endif()
-
-
-###############################################################################
 # Copy python files for out-of-source builds, and set up install of same.
 
 if(NOT EXTERNAL_WRAP_ITK_PROJECT)
