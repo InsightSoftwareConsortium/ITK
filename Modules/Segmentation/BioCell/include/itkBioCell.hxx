@@ -32,7 +32,8 @@ namespace bio
  */
 template< unsigned int NSpaceDimension >
 Cell< NSpaceDimension >
-::Cell()
+::Cell() :
+  m_Aggregate(NULL)
 {
   m_Force.Fill(0.0f);
 

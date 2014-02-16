@@ -132,7 +132,10 @@ public:
 #endif
 
 protected:
-  VectorNeighborhoodOperatorImageFilter() {}
+  VectorNeighborhoodOperatorImageFilter() :
+    m_BoundsCondition(NULL)
+  {}
+
   virtual ~VectorNeighborhoodOperatorImageFilter() {}
 
   /** VectorNeighborhoodOperatorImageFilter can be implemented as a

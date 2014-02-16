@@ -25,10 +25,10 @@ namespace itk
 
 template<typename TDomainPartitioner, typename TImageToImageMetric, typename TCorrelationMetric>
 CorrelationImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric, TCorrelationMetric>
-::CorrelationImageToImageMetricv4GetValueAndDerivativeThreader():
-  m_CorrelationMetricValueDerivativePerThreadVariables( NULL )
-{
-}
+::CorrelationImageToImageMetricv4GetValueAndDerivativeThreader() :
+  m_CorrelationMetricValueDerivativePerThreadVariables( NULL ),
+  m_CorrelationAssociate( NULL )
+{}
 
 
 template<typename TDomainPartitioner, typename TImageToImageMetric, typename TCorrelationMetric>

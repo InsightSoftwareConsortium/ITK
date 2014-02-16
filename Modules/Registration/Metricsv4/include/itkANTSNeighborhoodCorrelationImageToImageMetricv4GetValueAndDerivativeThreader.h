@@ -143,7 +143,9 @@ public:
   } ScanParametersType;
 
 protected:
-  ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader() {}
+  ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader() :
+    m_ANTSAssociate(NULL)
+  {}
 
   /**
    * Dense threader and sparse threader invoke different in multi-threading. This class uses overloaded

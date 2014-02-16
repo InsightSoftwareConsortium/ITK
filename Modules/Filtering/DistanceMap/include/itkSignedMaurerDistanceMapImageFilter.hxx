@@ -34,9 +34,11 @@ SignedMaurerDistanceMapImageFilter< TInputImage, TOutputImage >
 ::SignedMaurerDistanceMapImageFilter():
   m_BackgroundValue( NumericTraits< InputPixelType >::Zero ),
   m_Spacing(0.0),
+  m_CurrentDimension(0),
   m_InsideIsPositive(false),
   m_UseImageSpacing(true),
-  m_SquaredDistance(false)
+  m_SquaredDistance(false),
+  m_InputCache(NULL)
 {}
 
 template< typename TInputImage, typename TOutputImage >

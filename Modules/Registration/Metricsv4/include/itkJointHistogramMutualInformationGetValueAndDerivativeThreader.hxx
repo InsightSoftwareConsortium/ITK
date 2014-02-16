@@ -25,10 +25,10 @@ namespace itk
 
 template< typename TDomainPartitioner, typename TImageToImageMetric, typename TJointHistogramMetric >
 JointHistogramMutualInformationGetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric, TJointHistogramMetric >
-::JointHistogramMutualInformationGetValueAndDerivativeThreader():
-  m_JointHistogramMIPerThreadVariables( NULL )
-{
-}
+::JointHistogramMutualInformationGetValueAndDerivativeThreader() :
+  m_JointHistogramMIPerThreadVariables( NULL ),
+  m_JointAssociate( NULL )
+{}
 
 
 template< typename TDomainPartitioner, typename TImageToImageMetric, typename TJointHistogramMetric >
