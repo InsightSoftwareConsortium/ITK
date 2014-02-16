@@ -19,6 +19,7 @@
 #define __itkTestingExtractSliceImageFilter_h
 
 #include "itkSmartPointer.h"
+#include "itkImageSource.h"
 #include "itkExtractImageFilterRegionCopier.h"
 
 namespace itk
