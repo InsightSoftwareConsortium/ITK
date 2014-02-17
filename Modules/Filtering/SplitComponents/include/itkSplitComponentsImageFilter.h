@@ -71,7 +71,7 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(SplitComponentsImageFilter, ImageToImageFilter);
 
-  /** Provide ::New() */
+  /** Method of creation through the object factory. */
   itkNewMacro(Self);
 
   /** Set/Get the components mask.  The mask is as long as the number of
