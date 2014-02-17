@@ -15,6 +15,8 @@ itkBSplineExponentialDiffeomorphicTransformTest.cxx
 itkTimeVaryingVelocityFieldTransformTest.cxx
 itkTimeVaryingVelocityFieldIntegrationImageFilterTest.cxx
 itkTimeVaryingBSplineVelocityFieldTransformTest.cxx
+itkTransformToDisplacementFieldFilterTest.cxx
+itkTransformToDisplacementFieldFilterTest1.cxx
 itkDisplacementFieldTransformCloneTest.cxx
 itkExponentialDisplacementFieldImageFilterTest.cxx
 )
@@ -58,6 +60,27 @@ itk_add_test(NAME itkInvertDisplacementFieldImageFilterTest
       COMMAND ITKDisplacementFieldTestDriver itkInvertDisplacementFieldImageFilterTest )
 itk_add_test(NAME itkDisplacementFieldToBSplineImageFilterTest
       COMMAND ITKDisplacementFieldTestDriver itkDisplacementFieldToBSplineImageFilterTest )
+itk_add_test(NAME itkTransformToDisplacementFieldFilterTest01
+      COMMAND ITKDisplacementFieldTestDriver
+        --compare ${ITK_TEST_OUTPUT_DIR}/itkTransformToDisplacementFieldFilterTestField01.mha
+                  DATA{Baseline/itkTransformToDisplacementFieldFilterTestField01.mha}
+        itkTransformToDisplacementFieldFilterTest
+            Affine
+            ${ITK_TEST_OUTPUT_DIR}/itkTransformToDisplacementFieldFilterTestField01.mha)
+itk_add_test(NAME itkTransformToDisplacementFieldFilterTest02
+      COMMAND ITKDisplacementFieldTestDriver
+        --compare ${ITK_TEST_OUTPUT_DIR}/itkTransformToDisplacementFieldFilterTestField02.mha
+                  DATA{Baseline/itkTransformToDisplacementFieldFilterTestField02.mha}
+        itkTransformToDisplacementFieldFilterTest
+              BSpline
+              ${ITK_TEST_OUTPUT_DIR}/itkTransformToDisplacementFieldFilterTestField02.mha
+              DATA{${ITK_DATA_ROOT}/Input/parametersBSpline.txt} )
+itk_add_test(NAME itkTransformToDisplacementFieldFilterTest03
+      COMMAND ITKDisplacementFieldTestDriver
+        --compare ${ITK_TEST_OUTPUT_DIR}/transformedImage.nii
+                  ${ITK_TEST_OUTPUT_DIR}/warpedImage.nii
+        --compareNumberOfPixelsTolerance 20
+        itkTransformToDisplacementFieldFilterTest1 ${ITK_TEST_OUTPUT_DIR}/transformedImage.nii ${ITK_TEST_OUTPUT_DIR}/warpedImage.nii)
 itk_add_test(NAME itkDisplacementFieldTransformCloneTest
   COMMAND ITKDisplacementFieldTestDriver itkDisplacementFieldTransformCloneTest)
 itk_add_test(NAME itkExponentialDisplacementFieldImageFilterTest

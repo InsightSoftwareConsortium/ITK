@@ -60,7 +60,6 @@ namespace itk
  *
  * \sa ImageRegionSplitterSlowDimension
  * \sa ImageRegionSplitterBase
-
  *
  * \ingroup ITKDeprecated
  */
