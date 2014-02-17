@@ -146,6 +146,7 @@ itk_add_test(NAME ImageRegistration8Test COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/ImageRegistration8DifferenceAfter.png
         ${TEMP}/ImageRegistration8RegisteredSlice.png
 )
+set_property(TEST ImageRegistration8Test APPEND PROPERTY LABELS RUNS_LONG)
 
 
 if( ${CMAKE_BUILD_TYPE} MATCHES "Release")
