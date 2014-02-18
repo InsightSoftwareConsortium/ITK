@@ -221,7 +221,6 @@ MeshIOBase
       break;
     }
   itkExceptionMacro ("Unknown pixel type: " << t);
-  return std::string( "unknown" );
 }
 
 void
