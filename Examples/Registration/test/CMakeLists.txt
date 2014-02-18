@@ -548,6 +548,15 @@ itk_add_test(NAME DeformableRegistration13Test4 COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/DeformableRegistration13Test4FinalTransformParameters.txt
 )
 
+itk_add_test(NAME DeformableRegistration1v4Test COMMAND ${ITK_TEST_DRIVER}
+  --compare DATA{Baseline/DeformableRegistration1v4Test.png}
+            ${TEMP}/DeformableRegistration1v4Test.png
+  $<TARGET_FILE:DeformableRegistration1v4>
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBSplined10.png
+        ${TEMP}/DeformableRegistration1v4Test.png
+)
+
 if( ITK_USE_BRAINWEB_DATA )
 
   itk_add_test(NAME BSplineWarping2Test COMMAND ${ITK_TEST_DRIVER}

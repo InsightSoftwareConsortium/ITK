@@ -64,6 +64,9 @@ target_link_libraries(DeformableRegistration7 ${ITK_LIBRARIES})
 add_executable(DeformableRegistration8 DeformableRegistration8.cxx )
 target_link_libraries(DeformableRegistration8 ${ITK_LIBRARIES})
 
+add_executable(DeformableRegistration1v4 DeformableRegistration1v4.cxx )
+target_link_libraries(DeformableRegistration1v4 ${ITK_LIBRARIES})
+
 if( ITK_USE_FFTWD )
   add_executable(DeformableRegistration9 DeformableRegistration9.cxx )
   target_link_libraries(DeformableRegistration9 ${ITK_LIBRARIES})

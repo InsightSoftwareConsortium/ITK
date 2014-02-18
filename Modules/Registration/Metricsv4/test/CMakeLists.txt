@@ -19,6 +19,7 @@ set(ITKMetricsv4Tests
   itkMultiGradientImageToImageMetricv4RegistrationTest.cxx
   itkMetricImageGradientTest.cxx
   itkMeanSquaresImageToImageMetricv4RegistrationTest.cxx
+  itkMeanSquaresImageToImageMetricv4RegistrationTest2.cxx
   itkImageToImageMetricv4RegistrationTest.cxx
   itkDemonsImageToImageMetricv4Test.cxx
   itkDemonsImageToImageMetricv4RegistrationTest.cxx
@@ -143,6 +144,14 @@ itk_add_test(NAME itkMeanSquaresImageToImageMetricv4RegistrationTest
               DATA{Input/face_b.jpg}
               ${TEMP}/itkMeanSquaresImageToImageMetricv4RegistrationTest.nii.gz
               2 1 )
+
+itk_add_test(NAME itkMeanSquaresImageToImageMetricv4RegistrationTest2
+  COMMAND ITKMetricsv4TestDriver
+  itkMeanSquaresImageToImageMetricv4RegistrationTest2
+              DATA{${INPUTDATA}/r16slice.nii.gz}
+              DATA{${INPUTDATA}/r64slice.nii.gz}
+              ${TEMP}/itkMeanSquaresImageToImageMetricv4RegistrationTest2.nii.gz
+              )
 
 itk_add_test(NAME itkImageToImageMetricv4RegistrationTest
       COMMAND ITKMetricsv4TestDriver
