@@ -29,13 +29,24 @@ const double NUMERIC_TOLERENCE = 1.0e-10;
 const double DIFF_TOLERENCE = 0.001;
 
 template< typename TCoordRepType >
-VoronoiDiagram2DGenerator< TCoordRepType >::VoronoiDiagram2DGenerator()
-{
-  m_NumberOfSeeds = 0;
-  m_Pxmin = 0;
-  m_Pymin = 0;
-  m_OutputVD = this->GetOutput();
-}
+VoronoiDiagram2DGenerator< TCoordRepType >::VoronoiDiagram2DGenerator() :
+  m_NumberOfSeeds( 0 ),
+  m_OutputVD( this->GetOutput() ),
+  m_Pxmin( 0.0 ),
+  m_Pxmax( 0.0 ),
+  m_Pymin( 0.0 ),
+  m_Pymax( 0.0 ),
+  m_Deltax( 0.0 ),
+  m_Deltay( 0.0 ),
+  m_SqrtNSites( 0.0 ),
+  m_PQcount( 0 ),
+  m_PQmin( 0 ),
+  m_PQhashsize( 0 ),
+  m_Nedges( 0 ),
+  m_Nvert( 0 ),
+  m_BottomSite( NULL ),
+  m_ELhashsize( 0 )
+{}
 
 template< typename TCoordRepType >
 VoronoiDiagram2DGenerator< TCoordRepType >::

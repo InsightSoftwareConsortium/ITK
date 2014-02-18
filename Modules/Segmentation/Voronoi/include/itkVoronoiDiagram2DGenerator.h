@@ -151,27 +151,41 @@ private:
 
   class FortuneSite
   {
-public:
+  public:
     PointType m_Coord;
     int       m_Sitenbr;
-    FortuneSite():m_Sitenbr( NumericTraits< int >::max() ) { m_Coord.Fill( NumericTraits< CoordRepType >::max() ); }
+
+    FortuneSite() :
+      m_Sitenbr( NumericTraits< int >::max() )
+    {
+      m_Coord.Fill( NumericTraits< CoordRepType >::max() );
+    }
+
     ~FortuneSite(){}
   };
 
   class FortuneEdge
   {
-public:
+  public:
     float        m_A, m_B, m_C;    // explicit line function: Ax + By = C;
     FortuneSite *m_Ep[2];
     FortuneSite *m_Reg[2];
     int          m_Edgenbr;
-    FortuneEdge():m_A(0.0), m_B(0.0), m_C(0.0) { m_Ep[0] = m_Ep[1] = m_Reg[0] = m_Reg[1] = 0; }
+
+    FortuneEdge() :
+      m_A(0.0),
+      m_B(0.0),
+      m_C(0.0)
+    {
+      m_Ep[0] = m_Ep[1] = m_Reg[0] = m_Reg[1] = 0;
+    }
+
     ~FortuneEdge(){}
   };
 
   class FortuneHalfEdge
   {
-public:
+  public:
     FortuneHalfEdge *m_Left;
     FortuneHalfEdge *m_Right;
     FortuneEdge *    m_Edge;
@@ -179,15 +193,28 @@ public:
     FortuneSite *    m_Vert;
     double           m_Ystar;
     FortuneHalfEdge *m_Next;
-    FortuneHalfEdge():m_Left(0), m_Right(0), m_Edge(0), m_RorL(false), m_Vert(0), m_Ystar(0.0), m_Next(0) {}
-    FortuneHalfEdge(const FortuneHalfEdge & edge):m_Left(edge.m_Left),
+
+    FortuneHalfEdge() :
+      m_Left(0),
+      m_Right(0),
+      m_Edge(0),
+      m_RorL(false),
+      m_Vert(0),
+      m_Ystar(0.0),
+      m_Next(0)
+    {}
+
+    FortuneHalfEdge(const FortuneHalfEdge & edge) :
+      m_Left(edge.m_Left),
       m_Right(edge.m_Right),
       m_Edge(edge.m_Edge),
       m_RorL(edge.m_RorL),
       m_Vert(edge.m_Vert),
       m_Ystar(edge.m_Ystar),
-      m_Next(edge.m_Next) {}
-    ~FortuneHalfEdge(){}
+      m_Next(edge.m_Next)
+    {}
+
+    ~FortuneHalfEdge() {}
   };
 
   double m_Pxmin;
