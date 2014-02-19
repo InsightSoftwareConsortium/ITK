@@ -1,6 +1,0 @@
-import sys, os
-sys.path.append(__file__+os.sep+"../lib")
-del sys, os
-
-from ITKPyBase import *
-@ITK_WRAP_PYTHON_OLD_STYLE_IMPORTS@
