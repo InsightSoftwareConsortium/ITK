@@ -20,6 +20,7 @@
 #include "itkImageFileWriter.h"
 #include "itkDiscreteHessianGaussianImageFunction.h"
 #include "itkRescaleIntensityImageFilter.h"
+#include "itkTestingMacros.h"
 
 template < int VDimension >
 int itkDiscreteHessianGaussianImageFunctionTestND( int argc, char* argv[] )
@@ -189,6 +190,9 @@ int itkDiscreteHessianGaussianImageFunctionTestND( int argc, char* argv[] )
       }
     }
 
+  const bool trueValue = true;
+  const bool falseValue = false;
+
   // Test some functions
   typedef typename HessianGaussianImageFunctionType::VarianceArrayType VarianceArrayType;
   VarianceArrayType varReturned = function->GetVariance();
@@ -203,30 +207,69 @@ int itkDiscreteHessianGaussianImageFunctionTestND( int argc, char* argv[] )
       return EXIT_FAILURE;
     }
   }
-  if ( function->GetMaximumError() != maxError )
+
+  // Check that VarianceArrayType can be changed
+  VarianceArrayType varChanged = varReturned;
+  for ( unsigned int i = 0; i < Dimension; ++i )
   {
-    std::cout << "GetMaximumError failed. Expected: "
-      << maxError
-      << " but got: "
-      << function->GetMaximumError() << std::endl;
-    return EXIT_FAILURE;
+    varChanged[i] *= 2.0;
   }
-  if ( function->GetNormalizeAcrossScale() != true )
+  function->SetVariance( varChanged );
+  varReturned = function->GetVariance();
+  for ( unsigned int i = 0; i < Dimension; ++i )
   {
-    std::cout << "GetNormalizeAcrossScale failed. Expected: "
-      << true
-      << " but got: "
-      << function->GetNormalizeAcrossScale() << std::endl;
-    return EXIT_FAILURE;
+    if ( varReturned[ i ] != varChanged[i] )
+    {
+      std::cout << "GetVariance()[" << i << "] failed. Expected: "
+        << varChanged[i]
+        << " but got: "
+        << varReturned[ i ] << std::endl;
+      return EXIT_FAILURE;
+    }
   }
-  if ( function->GetUseImageSpacing() != true )
+
+  const double pivalue = 3.1415;
+  double pivalues[Dimension];
+  for ( unsigned int i = 0; i < Dimension; ++i )
   {
-    std::cout << "GetUseImageSpacing failed. Expected: "
-      << true
-      << " but got: "
-      << function->GetUseImageSpacing() << std::endl;
-    return EXIT_FAILURE;
+    pivalues[i] = pivalue;
   }
+  function->SetVariance( pivalues );
+  varReturned = function->GetVariance();
+  for ( unsigned int i = 0; i < Dimension; ++i )
+  {
+    if ( varReturned[ i ] != pivalue )
+    {
+      std::cout << "GetVariance()[" << i << "] failed. Expected: "
+        << pivalue
+        << " but got: "
+        << varReturned[ i ] << std::endl;
+      return EXIT_FAILURE;
+    }
+  }
+
+
+  TEST_SET_GET_VALUE( maxError, function->GetMaximumError() );
+
+  function->NormalizeAcrossScaleOn();
+  TEST_SET_GET_VALUE( trueValue, function->GetNormalizeAcrossScale() );
+  function->NormalizeAcrossScaleOff();
+  TEST_SET_GET_VALUE( falseValue, function->GetNormalizeAcrossScale() );
+  function->SetNormalizeAcrossScale(trueValue);
+  TEST_SET_GET_VALUE( trueValue, function->GetNormalizeAcrossScale() );
+  function->SetNormalizeAcrossScale(falseValue);
+  TEST_SET_GET_VALUE( falseValue, function->GetNormalizeAcrossScale() );
+
+  function->UseImageSpacingOn();
+  TEST_SET_GET_VALUE( trueValue, function->GetUseImageSpacing() );
+  function->UseImageSpacingOff();
+  TEST_SET_GET_VALUE( falseValue, function->GetUseImageSpacing() );
+  function->SetUseImageSpacing(trueValue);
+  TEST_SET_GET_VALUE( trueValue, function->GetUseImageSpacing() );
+  function->SetUseImageSpacing(falseValue);
+  TEST_SET_GET_VALUE( falseValue, function->GetUseImageSpacing() );
+
+
   if ( function->GetMaximumKernelWidth() != maxKernelWidth )
   {
     std::cout << "GetMaximumKernelWidth failed. Expected: "
@@ -246,6 +289,30 @@ int itkDiscreteHessianGaussianImageFunctionTestND( int argc, char* argv[] )
 
   // Call PrintSelf.
   function->Print( std::cout );
+
+  // Exercise another interpolation mode: LinearInterpolation
+  {
+  function->SetInterpolationMode( HessianGaussianImageFunctionType::LinearInterpolation );
+  const ImageType * inputImage = reader->GetOutput();
+  typename ImageType::RegionType region = inputImage->GetBufferedRegion();
+  typename ImageType::SizeType size = region.GetSize();
+  typename ImageType::IndexType index = region.GetIndex();
+  // Aim for the pixel at the center of the image
+  for( unsigned int i=0; i<Dimension; ++i )
+    {
+    index[i] += size[i] / 2;
+    }
+  hessian = function->EvaluateAtIndex( index );
+  inputImage->TransformIndexToPhysicalPoint( index, point );
+  hessian = function->Evaluate( point );
+
+  // Exercise the fractional computation of the linear interpolator
+  for( unsigned int i=0; i<Dimension; ++i )
+    {
+    cindex[i] = static_cast<double>( index[i] ) + 0.5;
+    }
+  hessian = function->EvaluateAtContinuousIndex( cindex );
+  }
 
   return EXIT_SUCCESS;
 }
