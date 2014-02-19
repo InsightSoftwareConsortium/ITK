@@ -341,8 +341,13 @@ MultiTransform<TScalar, NDimensions, NSubDimensions>
     /* The input values are in a monolithic block, so we have to point
      * to the subregion corresponding to the individual subtransform.
      * This simply creates an Array object with data pointer, no
-     * memory is allocated or copied. */
-    DerivativeType subUpdate( &( (update.data_block() )[offset]), subtransform->GetNumberOfParameters(), false );
+     * memory is allocated or copied.
+     * NOTE: the use of const_cast is used to avoid a deep copy in the underlying vnl_vector
+     * by using LetArrayManageMemory=false, and being very careful here we can
+     * ensure that casting away consteness does not result in memory corruption. */
+    typename DerivativeType::ValueType * nonConstDataRefForPerformance =
+      const_cast< typename DerivativeType::ValueType * >( &( (update.data_block() )[offset]) );
+    const DerivativeType subUpdate( nonConstDataRefForPerformance, subtransform->GetNumberOfParameters(), false );
     /* This call will also call SetParameters, so don't need to call it
      * expliclity here. */
     subtransform->UpdateTransformParameters( subUpdate, factor );

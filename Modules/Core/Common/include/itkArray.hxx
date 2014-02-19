@@ -47,6 +47,8 @@ template< typename TValue >
 Array< TValue >
 ::Array(SizeValueType dimension)
   : vnl_vector< TValue >(dimension),
+    // The vnl vector copy constructor creates new memory
+    // no matter the setting of let array manage memory of rhs
     m_LetArrayManageMemory(true)
 {
 }
@@ -63,11 +65,29 @@ Array< TValue >
 /** Constructor with user specified const data */
 template< typename TValue >
 Array< TValue >
-::Array(const ValueType *datain, SizeValueType sz, bool LetArrayManageMemory):
+::Array(const ValueType *datain, SizeValueType sz):
   vnl_vector< TValue >( datain, sz),
-  m_LetArrayManageMemory(LetArrayManageMemory)
+  // The vnl vector copy constructor creates new memory
+  // no matter the setting of let array manage memory of rhs
+  m_LetArrayManageMemory(true)
 {
 }
+
+#if ! defined ( ITK_FUTURE_LEGACY_REMOVE )
+/** Constructor with user specified const data */
+template< typename TValue >
+Array< TValue >
+::Array(const ValueType *datain, SizeValueType sz, bool /* LetArrayManageMemory */):
+  /* NOTE: The 3rd argument "LetArrayManageMemory, was never valid to use, but is
+   * preserved to maintain backwards compatibility*/
+  vnl_vector< TValue >( datain, sz),
+  // The vnl vector copy constructor creates new memory
+  // no matter the setting of let array manage memory of rhs
+  m_LetArrayManageMemory(true)
+{
+}
+#endif
+
 
 /** Destructor */
 template< typename TValue >

@@ -79,6 +79,13 @@ public:
   Array(ValueType *data, SizeValueType sz, bool LetArrayManageMemory = false);
 
   /** Constructor that initializes array with contents from a user supplied
+   * const buffer. The pointer to the buffer and the length is specified. By default,
+   * the array does a deep copy of the const pointer data, so the array class also
+   * manages memory. */
+  Array(const ValueType *datain, SizeValueType sz);
+
+#if ! defined ( ITK_FUTURE_LEGACY_REMOVE )
+  /** Constructor that initializes array with contents from a user supplied
    * buffer. The pointer to the buffer and the length is specified. By default,
    * the array does not manage the memory of the buffer. It merely points to
    * that location and it is the user's responsibility to delete it.
@@ -86,6 +93,7 @@ public:
    * memory when this object is destroyed. */
   Array(const ValueType *data, SizeValueType sz,
         bool LetArrayManageMemory = false);
+#endif
 
   /** Constructor to initialize an array from another of any data type */
   template< typename TArrayValue >
