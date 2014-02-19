@@ -189,6 +189,7 @@ if(CMAKE_CONFIGURATION_TYPES)
 
   foreach(config ${CMAKE_CONFIGURATION_TYPES})
     set(CONFIG_ITK_WRAP_PYTHON_DIR "${CMAKE_CURRENT_BINARY_DIR}/${config}")
+    set(CONFIG_ITK_WRAP_LIBRARY_DIR "${ITK_BINARY_DIR}/${ITK_INSTALL_LIBRARY_DIR}/${config}")
 
     # SWIG-generated libs and *.py files are sent to ${config} subdir
     # This assumes that CMAKE_LIBRARY_OUTPUT_DIRECTORY is WrapITK_BINARY_DIR/bin (bad!)
@@ -199,6 +200,7 @@ if(CMAKE_CONFIGURATION_TYPES)
   endforeach()
 else()
   set(CONFIG_ITK_WRAP_PYTHON_DIR "${CMAKE_CURRENT_BINARY_DIR}")
+  set(CONFIG_ITK_WRAP_LIBRARY_DIR "${ITK_BINARY_DIR}/${ITK_INSTALL_LIBRARY_DIR}")
 
   configure_file("${CMAKE_CURRENT_SOURCE_DIR}/WrapITK.pth.in"
                  "${CMAKE_CURRENT_BINARY_DIR}/WrapITK.pth"
@@ -207,6 +209,7 @@ else()
 endif()
 
 set(CONFIG_ITK_WRAP_PYTHON_DIR "${CMAKE_INSTALL_PREFIX}/lib/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}/Python")
+set(CONFIG_ITK_WRAP_LIBRARY_DIR "${CMAKE_INSTALL_PREFIX}/${ITK_INSTALL_LIBRARY_DIR}")
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/WrapITK.pth.in"
             "${CMAKE_CURRENT_BINARY_DIR}/InstallOnly/WrapITK.pth"
             @ONLY)
