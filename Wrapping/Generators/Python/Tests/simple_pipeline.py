@@ -16,7 +16,8 @@
 #
 #==========================================================================*/
 
-import itk, sys
+import itk
+import sys
 itk.auto_progress(2)
 
 # first argument is the pixel type

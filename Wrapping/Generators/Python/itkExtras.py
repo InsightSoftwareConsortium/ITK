@@ -20,36 +20,39 @@
 # each new feature use a name in lower case
 clrLine = "\033[2000D\033[K"
 
-def auto_not_in_place( v=True ) :
+
+def auto_not_in_place(v=True):
     """Force it to not run in place
     """
     import itkConfig
     itkConfig.NotInPlace = v
 
-def auto_progress( progressType = 1 ):
+
+def auto_progress(progressType=1):
     """Set up auto progress report
 
     progressType:
-        1 or True    -> auto progress be used in a terminal
-        2                    -> simple auto progress (without special characters)
+        1 or True -> auto progress be used in a terminal
+        2 -> simple auto progress (without special characters)
         0 or False -> disable auto progress
     """
     import itkConfig
 
-    if progressType == True or progressType == 1 :
+    if progressType or progressType == 1:
         itkConfig.ImportCallback = terminal_import_callback
         itkConfig.ProgressCallback = terminal_progress_callback
 
-    elif progressType == 2 :
+    elif progressType == 2:
         itkConfig.ImportCallback = simple_import_callback
         itkConfig.ProgressCallback = simple_progress_callback
 
-    elif progressType == False or progressType == 0 :
+    elif progressType is False or progressType == 0:
         itkConfig.ImportCallback = None
         itkConfig.ProgressCallback = None
 
     else:
-        raise ValueError("Invalid auto progress type: "+repr(progressType))
+        raise ValueError("Invalid auto progress type: " + repr(progressType))
+
 
 def terminal_progress_callback(name, p):
     """Display the progress of an object and clean the display once complete
@@ -57,9 +60,10 @@ def terminal_progress_callback(name, p):
     This function can be used with itkConfig.ProgressCallback
     """
     import sys
-    print >> sys.stderr, clrLine+"%s: %f" % (name, p),
-    if p == 1 :
+    print >> sys.stderr, clrLine + "%s: %f" % (name, p),
+    if p == 1:
         print >> sys.stderr, clrLine,
+
 
 def terminal_import_callback(name, p):
     """Display the loading of a module and clean the display once complete
@@ -67,9 +71,10 @@ def terminal_import_callback(name, p):
     This function can be used with itkConfig.ImportCallback
     """
     import sys
-    print >> sys.stderr, clrLine+"Loading %s..." % name,
-    if p == 1 :
+    print >> sys.stderr, clrLine + "Loading %s..." % name,
+    if p == 1:
         print >> sys.stderr, clrLine,
+
 
 def simple_import_callback(name, p):
     """Print a message when a module is loading
@@ -79,8 +84,9 @@ def simple_import_callback(name, p):
     import sys
     if p == 0:
         print >> sys.stderr, "Loading %s..." % name,
-    elif p == 1 :
+    elif p == 1:
         print >> sys.stderr, "done"
+
 
 def simple_progress_callback(name, p):
     """Print a message when an object is running
@@ -88,9 +94,9 @@ def simple_progress_callback(name, p):
     This function can be used with itkConfig.ProgressCallback
     """
     import sys
-    if p == 0 :
+    if p == 0:
         print >> sys.stderr, "Running %s..." % name,
-    elif p == 1 :
+    elif p == 1:
         print >> sys.stderr, "done"
 
 
@@ -102,17 +108,19 @@ def force_load():
 
 
 import sys
-def echo(object, f=sys.stderr) :
-     """Print an object is f
 
-     If the object has a method Print(), this method is used.
-     repr(object) is used otherwise
-     """
-     print >> f, object
+
+def echo(object, f=sys.stderr):
+    """Print an object is f
+
+    If the object has a method Print(), this method is used.
+    repr(object) is used otherwise
+    """
+    print >> f, object
 del sys
 
 
-def size(imageOrFilter) :
+def size(imageOrFilter):
     """Return the size of an image, or of the output image of a filter
 
     This method take care of updating the needed informations
@@ -123,21 +131,22 @@ def size(imageOrFilter) :
     return img.GetLargestPossibleRegion().GetSize()
 
 
-def physical_size(imageOrFilter) :
+def physical_size(imageOrFilter):
     """Return the physical size of an image, or of the output image of a filter
 
     This method take care of updating the needed informations
     """
-    from __builtin__ import range # required because range is overladed in this module
+    # required because range is overladed in this module
+    from __builtin__ import range
     spacing_ = spacing(imageOrFilter)
     size_ = size(imageOrFilter)
     result = []
     for i in range(0, spacing_.Size()):
-        result.append( spacing_.GetElement(i) * size_.GetElement(i) )
+        result.append(spacing_.GetElement(i) * size_.GetElement(i))
     return result
 
 
-def spacing(imageOrFilter) :
+def spacing(imageOrFilter):
     """Return the spacing of an image, or of the output image of a filter
 
     This method take care of updating the needed informations
@@ -148,7 +157,7 @@ def spacing(imageOrFilter) :
     return img.GetSpacing()
 
 
-def origin(imageOrFilter) :
+def origin(imageOrFilter):
     """Return the origin of an image, or of the output image of a filter
 
     This method take care of updating the needed informations
@@ -159,7 +168,7 @@ def origin(imageOrFilter) :
     return img.GetOrigin()
 
 
-def index(imageOrFilter) :
+def index(imageOrFilter):
     """Return the index of an image, or of the output image of a filter
 
     This method take care of updating the needed informations
@@ -170,7 +179,7 @@ def index(imageOrFilter) :
     return img.GetLargestPossibleRegion().GetIndex()
 
 
-def region(imageOrFilter) :
+def region(imageOrFilter):
     """Return the region of an image, or of the output image of a filter
 
     This method take care of updating the needed informations
@@ -181,20 +190,22 @@ def region(imageOrFilter) :
     return img.GetLargestPossibleRegion()
 
 
-def strel(dim, radius=1) :
+def strel(dim, radius=1):
     """A method to create a ball structuring element
     """
     import itk
     import sys
-    # print >> sys.stderr, "strel() is deprecated and will be removed in the next release"
+    # print >> sys.stderr, "strel() is deprecated and will be removed in the
+    # next release"
     return itk.FlatStructuringElement[dim].Ball(radius)
 
 # return an image
 from itkTemplate import image, output
 
 
-def template(cl) :
-    """Return the template of a class (or of the class of an object) and its parameters
+def template(cl):
+    """Return the template of a class (or of the class of an object) and
+    its parameters
 
     template() returns a tuple with 2 elements:
         - the first one is the itkTemplate object
@@ -204,7 +215,7 @@ def template(cl) :
     return itkTemplate.__class_to_template__[class_(cl)]
 
 
-def ctype(s) :
+def ctype(s):
     """Return the c type corresponding to the string passed in parameter
 
     The string can contain some extra spaces.
@@ -212,26 +223,26 @@ def ctype(s) :
     """
     from itkTypes import itkCType
     ret = itkCType.GetCType(" ".join(s.split()))
-    if ret == None :
+    if ret is None:
         raise KeyError("Unrecognized C type '%s'" % s)
     return ret
 
 
-def class_(obj) :
+def class_(obj):
     """Return a class from an object
 
     Often in itk, the __class__ is not what the user is expecting.
     class_() should do a better job
     """
     import inspect
-    if inspect.isclass(obj) :
+    if inspect.isclass(obj):
         # obj is already a class !
         return obj
-    else :
+    else:
         return obj.__class__
 
 
-def range(imageOrFilter) :
+def range(imageOrFilter):
     """Return the range of values in a image of in the output image of a filter
 
     The minimum and maximum values are returned in a tuple: (min, max)
@@ -262,20 +273,22 @@ def write(imageOrFilter, fileName, compression=False):
     # don't put that writer in the automatic pipeline
     tmp_auto_pipeline = auto_pipeline.current
     auto_pipeline.current = None
-    writer = itk.ImageFileWriter[img].New(Input=img, FileName=fileName, UseCompression=compression)
+    writer = itk.ImageFileWriter[img].New(
+        Input=img,
+        FileName=fileName,
+        UseCompression=compression)
     auto_pipeline.current = tmp_auto_pipeline
     writer.Update()
 
 
-def search( s, case_sensitive=False): #, fuzzy=True):
+def search(s, case_sensitive=False):  # , fuzzy=True):
     """Search for a class name in the itk module.
     """
     s = s.replace(" ", "")
     if not case_sensitive:
         s = s.lower()
     import itk
-    names = dir(itk)
-    names.sort()
+    names = sorted(dir(itk))
     # exact match first
     if case_sensitive:
         res = [n for n in names if s == n]
@@ -288,7 +301,7 @@ def search( s, case_sensitive=False): #, fuzzy=True):
         res += [n for n in names if s in n.lower() and s != n.lower()]
 #     if fuzzy:
 #         try:
-#             # everything now requires editdist
+# everything now requires editdist
 #             import editdist
 #             if case_sensitive:
 #                 res.sort(key=lambda x: editdist.distance(x, s))
@@ -299,13 +312,16 @@ def search( s, case_sensitive=False): #, fuzzy=True):
     return res
 
 
-def set_inputs( newItkObject, args=[], kargs={} ):
-    """Set the inputs of the given objects, according to the non named or the named parameters in args and kargs
+def set_inputs(newItkObject, args=[], kargs={}):
+    """Set the inputs of the given objects, according to the non named or the
+    named parameters in args and kargs
 
-    This function tries to assign all the non named parameters in the input of the newItkObject
+    This function tries to assign all the non named parameters in the input of
+    the newItkObject
     - the first non named parameter in the first input, etc.
 
-    The named parameters are used by calling the method with the same name prefixed by 'Set'.
+    The named parameters are used by calling the method with the same name
+    prefixed by 'Set'.
     set_inputs( obj, kargs={'Threshold': 10} ) calls obj.SetThreshold(10)
 
     This is the function use in the enhanced New() method to manage the inputs.
@@ -327,88 +343,107 @@ def set_inputs( newItkObject, args=[], kargs={} ):
     # r2 = itk.ImageFileReader.US2.New(FileName='image2.png')
     # s = itk.SubtractImageFilter.US2US2US2.New(r1, r2)
     # itk.ImageFileWriter.US2.New(s, FileName='result.png').Update()
-    try :
-        for setInputNb, arg    in enumerate(args) :
-            methodName = 'SetInput%i' % (setInputNb+1)
-            if methodName in dir(newItkObject) :
+    try:
+        for setInputNb, arg in enumerate(args):
+            methodName = 'SetInput%i' % (setInputNb + 1)
+            if methodName in dir(newItkObject):
                 # first try to use methods called SetInput1, SetInput2, ...
-                # those method should have more chances to work in case of multiple
-                # input types
+                # those method should have more chances to work in case of
+                # multiple input types
                 getattr(newItkObject, methodName)(arg)
-            else :
+            else:
                 # no method called SetInput?
                 # try with the standard SetInput(nb, input)
                 newItkObject.SetInput(setInputNb, arg)
-    except TypeError, e :
+    except TypeError as e:
         # the exception have (at least) to possible reasons:
         # + the filter don't take the input number as first argument
         # + arg is an object of wrong type
         #
         # if it's not the first input, re-raise the exception
-        if setInputNb != 0 :
+        if setInputNb != 0:
             raise e
-        # it's the first input, try to use the SetInput() method without input number
+        # it's the first input, try to use the SetInput() method without input
+        # number
         newItkObject.SetInput(args[0])
         # but raise an exception if there is more than 1 argument
-        if len(args) > 1 :
+        if len(args) > 1:
             raise TypeError('Object accept only 1 input.')
-    except AttributeError :
+    except AttributeError:
         # There is no SetInput() method, try SetImage
         # but before, check the number of inputs
-        if len(args) > 1 :
+        if len(args) > 1:
             raise TypeError('Object accept only 1 input.')
         methodList = ['SetImage', 'SetInputImage']
         methodName = None
         for m in methodList:
             if m in dir(newItkObject):
                 methodName = m
-        if methodName :
+        if methodName:
             getattr(newItkObject, methodName)(args[0])
         else:
             raise AttributeError('No method found to set the input.')
 
     # named args : name is the function name, value is argument(s)
-    for attribName, value in kargs.iteritems() :
+    for attribName, value in kargs.iteritems():
         # use Set as prefix. It allow to use a shorter and more intuitive
-        # call (Ex: itk.ImageFileReader.UC2.New(FileName='image.png')) than with the
-        # full name (Ex: itk.ImageFileReader.UC2.New(SetFileName='image.png'))
-        if attribName not in ["auto_progress", "template_parameters"] :
+        # call (Ex: itk.ImageFileReader.UC2.New(FileName='image.png')) than
+        # with the full name
+        # (Ex: itk.ImageFileReader.UC2.New(SetFileName='image.png'))
+        if attribName not in ["auto_progress", "template_parameters"]:
             attrib = getattr(newItkObject, 'Set' + attribName)
             attrib(value)
 
 
-def show(input, **kargs) :
+def show(input, **kargs):
     """display an image
     """
     import itk
     img = output(input)
     if img.GetImageDimension() == 3 and "show3D" in dir(itk):
-                    return itk.show3D(input, **kargs)
-    else :
-                    # print "2D not supported yet, use the 3D viewer."
-                    return show2D(input, **kargs)
+        return itk.show3D(input, **kargs)
+    else:
+        # print "2D not supported yet, use the 3D viewer."
+        return show2D(input, **kargs)
 
-class show2D :
+
+class show2D:
+
     """Display a 2D image
     """
-    def __init__(self, imageOrFilter, Label=False, Title=None) :
-        import tempfile, itk, os, platform
+
+    def __init__(self, imageOrFilter, Label=False, Title=None):
+        import tempfile
+        import itk
+        import os
+        import platform
         # get some data from the environment
         command = os.environ.get("WRAPITK_SHOW2D_COMMAND")
-        if command==None:
+        if command is None:
             if platform.system() == "Darwin":
-                command = "open -a ImageJ -n --args -eval 'open(\"%(image)s\"); run (\"View 100%%\"); rename(\"%(title)s\");'"
+                command = (
+                    "open -a ImageJ -n --args -eval 'open(\"%(image)s\"); "
+                    "run (\"View 100%%\"); rename(\"%(title)s\");'")
             else:
-                command = "imagej %(image)s -run 'View 100%%' -eval 'rename(\"%(title)s\")' &"
+                command = (
+                    "imagej %(image)s -run 'View 100%%' -eval "
+                    "'rename(\"%(title)s\")' &")
 
         label_command = os.environ.get("WRAPITK_SHOW2D_LABEL_COMMAND")
-        if label_command==None:
+        if label_command is None:
             if platform.system() == "Darwin":
-                label_command = "open -a ImageJ -n --args -eval 'open(\"%(image)s\"); run (\"View 100%%\"); rename(\"%(title)s\"); run(\"3-3-2 RGB\");'"
+                label_command = (
+                    "open -a ImageJ -n --args -eval 'open(\"%(image)s\"); "
+                    "run (\"View 100%%\"); rename(\"%(title)s\"); "
+                    "run(\"3-3-2 RGB\");'")
             else:
-                label_command = "imagej %(image)s -run 'View 100%%' -eval 'rename(\"%(title)s\")' -run '3-3-2 RGB' &"
+                label_command = (
+                    "imagej %(image)s -run 'View 100%%' -eval "
+                    "'rename(\"%(title)s\")' -run '3-3-2 RGB' &")
 
-        compress = os.environ.get("WRAPITK_SHOW2D_COMPRESS", "true").lower() in ["on", "true", "yes", "1"]
+        compress = os.environ.get(
+            "WRAPITK_SHOW2D_COMPRESS",
+            "true").lower() in ["on", "true", "yes", "1"]
         extension = os.environ.get("WRAPITK_SHOW2D_EXTENSION", ".tif")
 
         # use the tempfile module to get a non used file name and to put
@@ -418,7 +453,7 @@ class show2D :
         img = output(imageOrFilter)
         img.UpdateOutputInformation()
         img.Update()
-        if Title == None:
+        if Title is None:
             # try to generate a title
             s = img.GetSource()
             if s:
@@ -435,7 +470,7 @@ class show2D :
             try:
                 import IPython.ipapi
                 ip = IPython.ipapi.get()
-                if ip != None:
+                if ip is not None:
                     names = []
                     ref = imageOrFilter
                     if s:
@@ -444,17 +479,22 @@ class show2D :
                         if isinstance(v, itk.LightObject) and v == ref:
                             names.append(n)
                     if names != []:
-                        Title = ", ".join(names)+" - "+Title
+                        Title = ", ".join(names) + " - " + Title
             except ImportError:
                 # just do nothing
                 pass
         # change the LabelMaps to an Image, so we can look at them easily
         if 'LabelMap' in dir(itk) and img.GetNameOfClass() == 'LabelMap':
             # retreive the biggest label in the label map
-            maxLabel = img.GetNthLabelObject( img.GetNumberOfLabelObjects() - 1 ).GetLabel()
+            maxLabel = img.GetNthLabelObject(
+                img.GetNumberOfLabelObjects() - 1).GetLabel()
             # search for a filter to convert the label map
-            label_image_type = sorted( [params[1] for params in itk.LabelMapToLabelImageFilter.keys() if params[0] == class_(img) and itk.NumericTraits[itk.template(params[1])[1][0]].max() >= maxLabel ] )[0]
-            convert = itk.LabelMapToLabelImageFilter[ img, label_image_type ].New( img )
+            lab = itk.LabelMapToLabelImageFilter.keys()
+            maxVal = itk.NumericTraits[itk.template(params[1])[1][0]].max()
+            cond = params[0] == class_(img) and maxVal >= maxLabel
+            label_image_type = sorted([params[1] for params in lab if cond])[0]
+            convert = itk.LabelMapToLabelImageFilter[
+                img, label_image_type].New(img)
             convert.Update()
             img = convert.GetOutput()
             # this is a label image - force the parameter
@@ -463,13 +503,17 @@ class show2D :
         # now run imview
         import os
         if Label:
-            os.system( label_command % {"image":self.__tmpFile__.name, "title": Title} )
+            os.system(
+                label_command %
+                {"image": self.__tmpFile__.name, "title": Title})
         else:
-            os.system( command % {"image":self.__tmpFile__.name, "title": Title} )
-        #tmpFile.close()
+            os.system(
+                command %
+                {"image": self.__tmpFile__.name, "title": Title})
 
 
 class templated_class:
+
     """This class is used to mimic the behavior of the templated C++ classes.
 
     It is used that way:
@@ -480,13 +524,15 @@ class templated_class:
 
     customObject = CustomClass[template, parameters].New()
 
-    The template parameters are passed to the custom class constructor as a named parameter
-    'template_parameters' in a tuple.
+    The template parameters are passed to the custom class constructor as a
+    named parameter 'template_parameters' in a tuple.
 
-    The custom class may implement a static method check_template_parameters(parameters)
-    which should raise an exception if the template parameters provided are not suitable
-    to instantiate the custom class.
+    The custom class may implement a static method
+    check_template_parameters(parameters) which should raise an exception if
+    the template parameters provided are not suitable to instantiate the custom
+    class.
     """
+
     def __init__(self, cls):
         """cls is the custom class
         """
@@ -504,27 +550,31 @@ class templated_class:
     def __getitem__(self, template_parameters):
         """Return a pair class-template parameters ready to be instantiated.
 
-        The template parameters may be validated if the custom class provide the static
-        method check_template_parameters(parameters).
+        The template parameters may be validated if the custom class provide
+        the static method check_template_parameters(parameters).
         """
         if not isinstance(template_parameters, tuple):
             template_parameters = (template_parameters,)
-        return templated_class.__templated_class_and_parameters__(self, template_parameters)
+        return (
+            templated_class.__templated_class_and_parameters__(
+                self,
+                template_parameters)
+        )
 
     def check_template_parameters(self, template_parameters):
         """Check the template parameters passed in parameter.
         """
-        # this method is there mainly to make possible to reuse it in the custom class
-        # constructor after having used templated_class(). Without that, the following
-        # example doesn't work:
+        # this method is there mainly to make possible to reuse it in the
+        # custom class constructor after having used templated_class().
+        # Without that, the following example doesn't work:
         #
         # class CustomClass:
         #     def __init__(self, *args, **kargs):
         #         template_parameters = kargs["template_parameters"]
         #         CustomClass.check_template_parameters(template_parameters)
-        #         # other init stuff
+        # other init stuff
         #     def check_template_parameters(template_parameters):
-        #         # check, really
+        # check, really
         #         pass
         #    CustomClass = templated_class(CustomClass)
         #
@@ -547,35 +597,43 @@ class templated_class:
             temp = []
             for t in types:
                 for c in combinations:
-                    temp.append(c+[t])
+                    temp.append(c + [t])
             combinations = temp
         for d in itk.DIMS:
             for c in combinations:
                 parameters = []
                 name = ""
                 for t in c:
-                    parameters.append( itk.Image[t, d] )
-                    name += "I"+t.short_name+str(d)
+                    parameters.append(itk.Image[t, d])
+                    name += "I" + t.short_name + str(d)
                 self.add_template(name, tuple(parameters))
 
     class __templated_class_and_parameters__:
-        """Inner class used to store the pair class-template parameters ready to instantiate.
+
+        """Inner class used to store the pair class-template parameters ready
+        to instantiate.
         """
+
         def __init__(self, templated_class, template_parameters):
             self.__templated_class__ = templated_class
             self.__template_parameters__ = template_parameters
             if "check_template_parameters" in dir(templated_class.__cls__):
-                templated_class.__cls__.check_template_parameters(template_parameters)
+                templated_class.__cls__.check_template_parameters(
+                    template_parameters)
 
         def New(self, *args, **kargs):
-            """A New() method to mimic the ITK default behavior, even if the class doesn't provide any New() method.
+            """A New() method to mimic the ITK default behavior, even if the
+            class doesn't provide any New() method.
             """
             kargs["template_parameters"] = self.__template_parameters__
             if "New" in dir(self.__templated_class__.__cls__):
                 obj = self.__templated_class__.__cls__.New(*args, **kargs)
             else:
                 obj = self.__templated_class__.__cls__(*args, **kargs)
-            setattr(obj, "__template_parameters__", self.__template_parameters__)
+            setattr(
+                obj,
+                "__template_parameters__",
+                self.__template_parameters__)
             setattr(obj, "__templated_class__", self.__templated_class__)
             return obj
 
@@ -592,36 +650,36 @@ class templated_class:
         for k in self.keys():
             yield k
 
-    def has_key(self,key):
+    def has_key(self, key):
         try:
-            value=self[key]
+            value = self[key]
         except KeyError:
             return False
         return True
 
-    def __contains__(self,key):
-        return self.has_key(key)
+    def __contains__(self, key):
+        return key in self
 
     # third level takes advantage of second level definitions
     def iteritems(self):
         for k in self:
-            yield (k,self[k])
+            yield (k, self[k])
 
     def iterkeys(self):
         return self.__iter__()
 
     # fourth level uses definitions from lower levels
     def itervalues(self):
-        for _,v in self.iteritems():
+        for _, v in self.iteritems():
             yield v
 
     def values(self):
-        return [v for _,v in self.iteritems()]
+        return [v for _, v in self.iteritems()]
 
     def items(self):
         return list(self.iteritems())
 
-    def get(self,key,default=None):
+    def get(self, key, default=None):
         try:
             return self[key]
         except KeyError:
@@ -632,50 +690,53 @@ class templated_class:
 
 
 class pipeline:
+
     """A convenient class to store the reference to the filters of a pipeline
 
-    With this class, a method can create a pipeline of several filters and return
-    it without losing the references to the filters in this pipeline. The pipeline
-    object act almost like a filter (it has a GetOutput() method) and thus can
-    be simply integrated in another pipeline.
+    With this class, a method can create a pipeline of several filters and
+    return it without losing the references to the filters in this pipeline.
+    The pipeline object act almost like a filter (it has a GetOutput() method)
+    and thus can be simply integrated in another pipeline.
     """
-    def __init__( self, *args, **kargs ):
+
+    def __init__(self, *args, **kargs):
         self.clear()
         self.input = None
-        set_inputs( self, args, kargs )
+        set_inputs(self, args, kargs)
 
-    def connect( self, filter ):
+    def connect(self, filter):
         """Connect a new filter to the pipeline
 
         The output of the first filter will be used as the input of this
         one and the filter passed as parameter will be added to the list
         """
-        if self.GetOutput() != None:
-            set_inputs(filter, [self.GetOutput()] )
-        self.append( filter )
+        if self.GetOutput() is not None:
+            set_inputs(filter, [self.GetOutput()])
+        self.append(filter)
 
-    def append( self, filter ):
+    def append(self, filter):
         """Add a new filter to the pipeline
 
         The new filter will not be connected. The user must connect it.
         """
-        self.filters.append( filter )
+        self.filters.append(filter)
 
-    def clear( self ):
+    def clear(self):
         """Clear the filter list
         """
         self.filters = []
 
-    def GetOutput( self, index=0 ):
+    def GetOutput(self, index=0):
         """Return the output of the pipeline
 
         If another output is needed, use
-        pipeline.filters[-1].GetAnotherOutput() instead of this method, subclass
-        pipeline to implement another GetOutput() method, or use expose()
+        pipeline.filters[-1].GetAnotherOutput() instead of this method,
+        subclass pipeline to implement another GetOutput() method, or use
+        expose()
         """
         if len(self.filters) == 0:
             return self.GetInput()
-        else :
+        else:
             filter = self.filters[-1]
             if hasattr(filter, "__getitem__"):
                 return filter[index]
@@ -687,31 +748,31 @@ class pipeline:
                 else:
                     raise ValueError("Index can only be 0 on that object")
 
-    def SetInput( self, input ):
+    def SetInput(self, input):
         """Set the input of the pipeline
         """
         if len(self.filters) != 0:
             set_inputs(self.filters[0], [input])
         self.input = input
 
-    def GetInput( self ):
+    def GetInput(self):
         """Get the input of the pipeline
         """
         return self.input
 
-    def Update( self ):
+    def Update(self):
         """Update the pipeline
         """
         if len(self.filters) > 0:
             return self.filters[-1].Update()
 
-    def UpdateLargestPossibleRegion( self ):
+    def UpdateLargestPossibleRegion(self):
         """Update the pipeline
         """
         if len(self.filters) > 0:
             return self.filters[-1].UpdateLargestPossibleRegion()
 
-    def UpdateOutputInformation( self ):
+    def UpdateOutputInformation(self):
         if "UpdateOutputInformation" in dir(self.filters[-1]):
             self.filters[-1].UpdateOutputInformation()
         else:
@@ -724,62 +785,68 @@ class pipeline:
             return self.filters[-1].GetNumberOfOutputs()
 
     def __getitem__(self, item):
-        return self.GetOutput( item )
+        return self.GetOutput(item)
 
     def __call__(self, *args, **kargs):
-         set_inputs( self, args, kargs )
-         self.UpdateLargestPossibleRegion()
-         return self
+        set_inputs(self, args, kargs)
+        self.UpdateLargestPossibleRegion()
+        return self
 
     def expose(self, name, new_name=None, position=-1):
-         """Expose an attribute from a filter of the minipeline.
+        """Expose an attribute from a filter of the minipeline.
 
-         Once called, the pipeline instance has a new Set/Get set of methods to access
-         directly the corresponding method of one of the filter of the pipeline.
-         Ex: p.expose( "Radius" )
-                 p.SetRadius( 5 )
-                 p.GetRadius( 5 )
-         By default, the attribute usable on the pipeline instance has the same name than
-         the one of the filter, but it can be changed by providing a value to new_name.
-         The last filter of the pipeline is used by default, but another one may be used
-         by giving its position.
-         Ex: p.expose("Radius", "SmoothingNeighborhood", 2)
-                 p.GetSmoothingNeighborhood()
-         """
-         if new_name == None:
-             new_name = name
-         src = self.filters[position]
-         ok = False
-         set_name = "Set" + name
-         if set_name in dir(src):
-             setattr(self, "Set" + new_name, getattr(src, set_name))
-             ok = True
-         get_name = "Get" + name
-         if get_name in dir(src):
-             setattr(self, "Get" + new_name, getattr(src, get_name))
-             ok = True
-         if not ok:
-             raise RuntimeError("No attribute %s at position %s." % (name, position))
+        Once called, the pipeline instance has a new Set/Get set of methods to
+        access directly the corresponding method of one of the filter of the
+        pipeline.
+        Ex: p.expose( "Radius" )
+                p.SetRadius( 5 )
+                p.GetRadius( 5 )
+        By default, the attribute usable on the pipeline instance has the same
+        name than the one of the filter, but it can be changed by providing a
+        value to new_name.
+        The last filter of the pipeline is used by default, but another one may
+        be used by giving its position.
+        Ex: p.expose("Radius", "SmoothingNeighborhood", 2)
+            p.GetSmoothingNeighborhood()
+        """
+        if new_name is None:
+            new_name = name
+        src = self.filters[position]
+        ok = False
+        set_name = "Set" + name
+        if set_name in dir(src):
+            setattr(self, "Set" + new_name, getattr(src, set_name))
+            ok = True
+        get_name = "Get" + name
+        if get_name in dir(src):
+            setattr(self, "Get" + new_name, getattr(src, get_name))
+            ok = True
+        if not ok:
+            raise RuntimeError(
+                "No attribute %s at position %s." %
+                (name, position))
 
 
 class auto_pipeline(pipeline):
-     current = None
+    current = None
 
-     def __init__(self, *args, **kargs):
-         pipeline.__init__(self, *args, **kargs)
-         self.Start()
+    def __init__(self, *args, **kargs):
+        pipeline.__init__(self, *args, **kargs)
+        self.Start()
 
-     def Start(self):
-         auto_pipeline.current = self
+    def Start(self):
+        auto_pipeline.current = self
 
-     def Stop(self):
-         auto_pipeline.current = None
+    def Stop(self):
+        auto_pipeline.current = None
 
 
 def down_cast(obj):
-    """Down cast an itkLightObject (or a object of a subclass) to its most specialized type.
+    """Down cast an itkLightObject (or a object of a subclass) to its most
+    specialized type.
     """
-    import itk, itkTemplate
+    import itk
+    import itkTemplate
     className = obj.GetNameOfClass()
     t = getattr(itk, className)
     if isinstance(t, itkTemplate.itkTemplate):
@@ -789,11 +856,14 @@ def down_cast(obj):
             except:
                 # fail silently for now
                 pass
-        raise RuntimeError("Can't downcast to a specialization of %s" % className)
+        raise RuntimeError(
+            "Can't downcast to a specialization of %s" %
+            className)
     else:
         return t.cast(obj)
 
-def attribute_list( i, name ):
+
+def attribute_list(i, name):
     """Returns a list of the specified attributes for the objects in the image.
 
     i: the input LabelImage
@@ -801,16 +871,20 @@ def attribute_list( i, name ):
     """
     import itk
     i = itk.output(i)
-    relabel = itk.StatisticsRelabelLabelMapFilter[i].New(i, Attribute=name, ReverseOrdering=True, InPlace=False)
+    relabel = itk.StatisticsRelabelLabelMapFilter[i].New(
+        i,
+        Attribute=name,
+        ReverseOrdering=True,
+        InPlace=False)
     relabel.UpdateLargestPossibleRegion()
     r = relabel.GetOutput()
     l = []
-    for i in range(1, r.GetNumberOfLabelObjects()+1):
-        l.append( r.GetLabelObject(i).__getattribute__("Get"+name)() )
+    for i in range(1, r.GetNumberOfLabelObjects() + 1):
+        l.append(r.GetLabelObject(i).__getattribute__("Get" + name)())
     return l
 
 
-def attributes_list( i, names ):
+def attributes_list(i, names):
     """Returns a list of the specified attributes for the objects in the image.
 
     i: the input LabelImage
@@ -818,67 +892,83 @@ def attributes_list( i, names ):
     """
     import itk
     i = itk.output(i)
-    relabel = itk.StatisticsRelabelLabelMapFilter[i].New(i, Attribute=names[0], ReverseOrdering=True, InPlace=False)
+    relabel = itk.StatisticsRelabelLabelMapFilter[i].New(
+        i,
+        Attribute=names[0],
+        ReverseOrdering=True,
+        InPlace=False)
     relabel.UpdateLargestPossibleRegion()
     r = relabel.GetOutput()
     l = []
-    for i in range(1, r.GetNumberOfLabelObjects()+1):
+    for i in range(1, r.GetNumberOfLabelObjects() + 1):
         attrs = []
-        for name in names :
-            attrs.append( r.GetLabelObject(i).__getattribute__("Get"+name)() )
-        l.append( tuple( attrs ) )
+        for name in names:
+            attrs.append(r.GetLabelObject(i).__getattribute__("Get" + name)())
+        l.append(tuple(attrs))
     return l
 
 
-def attribute_dict( i, name ):
-    """Returns a dict with the attribute values in keys and a list of the corresponding objects in value
+def attribute_dict(i, name):
+    """Returns a dict with the attribute values in keys and a list of the
+    corresponding objects in value
 
     i: the input LabelImage
     name: the name of the attribute
     """
     import itk
     i = itk.output(i)
-    relabel = itk.StatisticsRelabelLabelMapFilter[i].New(i, Attribute=name, ReverseOrdering=True, InPlace=False)
+    relabel = itk.StatisticsRelabelLabelMapFilter[i].New(
+        i,
+        Attribute=name,
+        ReverseOrdering=True,
+        InPlace=False)
     relabel.UpdateLargestPossibleRegion()
     r = relabel.GetOutput()
     d = {}
-    for i in range(1, r.GetNumberOfLabelObjects()+1):
+    for i in range(1, r.GetNumberOfLabelObjects() + 1):
         lo = r.GetLabelObject(i)
-        v = lo.__getattribute__("Get"+name)()
-        l = d.get( v, [] )
-        l.append( lo )
+        v = lo.__getattribute__("Get" + name)()
+        l = d.get(v, [])
+        l.append(lo)
         d[v] = l
     return d
 
 
-def number_of_objects( i ):
+def number_of_objects(i):
     """Returns the number of objets in the image.
 
     i: the input LabelImage
     """
     import itk
     i.UpdateLargestPossibleRegion()
-    i =    itk.output(i)
+    i = itk.output(i)
     return i.GetNumberOfLabelObjects()
+
 
 def ipython_kw_matches(text):
     """Match named ITK object's named parameters"""
-    import IPython.ipapi, itk, re, inspect, itkTemplate
-    regexp =    re.compile(r'''
-                    '.*?' |        # single quoted strings or
-                    ".*?" |        # double quoted strings or
-                    \w+     |        # identifier
-                    \S                 # other characters
+    import IPython.ipapi
+    import itk
+    import re
+    import inspect
+    import itkTemplate
+    regexp = re.compile(r'''
+                    '.*?' |  # single quoted strings or
+                    ".*?" |  # double quoted strings or
+                    \w+     |  # identifier
+                    \S  # other characters
                     ''', re.VERBOSE | re.DOTALL)
     ip = IPython.ipapi.get()
-    if "." in text: # a parameter cannot be dotted
+    if "." in text:  # a parameter cannot be dotted
         return []
     # 1. find the nearest identifier that comes before an unclosed
     # parenthesis e.g. for "foo (1+bar(x), pa", the candidate is "foo".
     # Use get_endidx() to find the indentifier at the cursor position
-    tokens = regexp.findall(ip.IP.Completer.get_line_buffer()[:ip.IP.Completer.get_endidx()])
+    tokens = regexp.findall(
+        ip.IP.Completer.get_line_buffer()[:ip.IP.Completer.get_endidx()])
     tokens.reverse()
-    iterTokens = iter(tokens); openPar = 0
+    iterTokens = iter(tokens)
+    openPar = 0
     for token in iterTokens:
         if token == ')':
             openPar -= 1
@@ -896,7 +986,8 @@ def ipython_kw_matches(text):
         try:
             ids.append(iterTokens.next())
             if not isId(ids[-1]):
-                ids.pop(); break
+                ids.pop()
+                break
             if not iterTokens.next() == '.':
                 break
         except StopIteration:
@@ -915,22 +1006,27 @@ def ipython_kw_matches(text):
         try:
             object = eval(callableMatch, ip.IP.Completer.namespace)
             if isinstance(object, itkTemplate.itkTemplate):
-                # this is a template - lets grab the first entry to search for the methods
+                # this is a template - lets grab the first entry to search for
+                # the methods
                 object = object.values()[0]
             namedArgs = []
-            if isinstance(object, itk.LightObject) or (inspect.isclass(object) and issubclass(object, itk.LightObject)):
+            isin = isinstance(object, itk.LightObject)
+            issub = issubclass(object, itk.LightObject)
+            if isin or (inspect.isclass(object) and issub):
                 namedArgs = [n[3:] for n in dir(object) if n.startswith("Set")]
-        except Exception, e:
+        except Exception as e:
             print e
             continue
         for namedArg in namedArgs:
             if namedArg.startswith(text):
-                argMatches.append("%s=" %namedArg)
+                argMatches.append("%s=" % namedArg)
     return argMatches
 
-# install progress callback and custom completer if we are in ipython interpreter
+# install progress callback and custom completer if we are in ipython
+# interpreter
 try:
-    import itkConfig, IPython.ipapi
+    import itkConfig
+    import IPython.ipapi
     if IPython.ipapi.get():
         IPython.ipapi.get().IP.Completer.matchers.insert(0, ipython_kw_matches)
         itkConfig.ProgressCallback = terminal_progress_callback

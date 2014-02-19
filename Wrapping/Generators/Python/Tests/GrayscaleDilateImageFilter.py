@@ -27,10 +27,11 @@ itk.auto_progress(2)
 dim = 2
 IType = itk.Image[itk.UC, dim]
 
-reader = itk.ImageFileReader[IType].New( FileName=argv[1] )
+reader = itk.ImageFileReader[IType].New(FileName=argv[1])
 kernel = itk.strel(dim, 5)
-filter  = itk.GrayscaleDilateImageFilter[IType, IType, kernel].New( reader,
-                Kernel=kernel )
-writer = itk.ImageFileWriter[IType].New( filter, FileName=argv[2] )
+grayscaleFilter = itk.GrayscaleDilateImageFilter[IType, IType, kernel]
+grayscaleFilter.New(reader, Kernel=kernel)
+
+writer = itk.ImageFileWriter[IType].New(grayscaleFilter, FileName=argv[2])
 
 writer.Update()
