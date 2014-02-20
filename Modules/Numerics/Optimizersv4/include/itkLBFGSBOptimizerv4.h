@@ -135,10 +135,7 @@ public:
   itkGetConstMacro(MaximumNumberOfCorrections, unsigned int);
 
   /** This optimizer does not support scaling of the derivatives. */
-  virtual void SetScales(const ScalesType &)
-  {
-  itkExceptionMacro(<< "This optimizer does not support scales.");
-  }
+  virtual void SetScales(const ScalesType &);
 
   /** Get the current iteration number. */
   itkGetConstReferenceMacro(CurrentIteration, unsigned int);

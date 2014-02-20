@@ -81,6 +81,16 @@ LBFGSBOptimizerv4
 
 void
 LBFGSBOptimizerv4
+::SetScales(const ScalesType &)
+{
+  std::cout << "WARNING: LBFGSB optimizer does not support scaling. All scales are set to one." << std::endl;
+  m_Scales.SetSize( this->m_Metric->GetNumberOfLocalParameters() );
+  m_Scales.Fill( NumericTraits<ScalesType::ValueType>::OneValue() );
+  this->m_ScalesAreIdentity = true;
+}
+
+void
+LBFGSBOptimizerv4
 ::SetInitialPosition(const ParametersType & param)
 {
   m_InitialPosition = param;
@@ -199,7 +209,8 @@ LBFGSBOptimizerv4
 
   if ( this->GetInitialPosition().Size() < numberOfParameters )
     {
-    itkExceptionMacro(<< "InitialPosition array does not have sufficient number of elements");
+    std::cout << "Set the initial position of the optimizer:" << std::endl;
+    this->SetInitialPosition( m_Metric->GetParameters() );
     }
 
   if ( m_LowerBound.size() < numberOfParameters )

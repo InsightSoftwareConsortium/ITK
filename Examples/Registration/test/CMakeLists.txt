@@ -381,15 +381,14 @@ itk_add_test(NAME DeformableRegistration3Test COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/DeformableRegistration3Test.png
 )
 
-#Disable until BSplineDeformableTransform is fully implemented.
-#itk_add_test(NAME DeformableRegistration4Test COMMAND ${ITK_TEST_DRIVER}
-#  --compare DATA{Baseline/DeformableRegistration4TestPixelCentered.png}
-#            ${TEMP}/DeformableRegistration4TestPixelCentered.png
-#  $<TARGET_FILE:DeformableRegistration4>
-#        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
-#        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBSplined10.png
-#        ${TEMP}/DeformableRegistration4TestPixelCentered.png
-#)
+itk_add_test(NAME DeformableRegistration4Test COMMAND ${ITK_TEST_DRIVER}
+  --compare DATA{Baseline/DeformableRegistration1v4Test.png}
+            ${TEMP}/DeformableRegistration4TestPixelCentered.png
+  $<TARGET_FILE:DeformableRegistration4>
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
+        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBSplined10.png
+        ${TEMP}/DeformableRegistration4TestPixelCentered.png
+)
 
 itk_add_test(NAME DeformableRegistration5Test COMMAND ${ITK_TEST_DRIVER}
   --compare DATA{${BASELINE}/DeformableRegistration5Test.png,:}
@@ -424,67 +423,20 @@ itk_add_test(NAME BSplineWarping1Test COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/BSplineWarping1TestTransform.txt
 )
 
-itk_add_test(NAME DeformableRegistration12Test1 COMMAND ${ITK_TEST_DRIVER}
+itk_add_test(NAME DeformableRegistration12Test COMMAND ${ITK_TEST_DRIVER}
   --compare DATA{Baseline/DeformableRegistration12Test.png}
-            ${TEMP}/DeformableRegistration12Test1.png
+            ${TEMP}/DeformableRegistration12Test.png
   --compareNumberOfPixelsTolerance 600
   $<TARGET_FILE:DeformableRegistration12>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
         DATA{Baseline/BSplineWarping1Test.png}
-        ${TEMP}/DeformableRegistration12Test1.png
-        ${TEMP}/DeformableRegistration12Test1DifferenceAfter.png
-        ${TEMP}/DeformableRegistration12Test1DifferenceBefore.png
-        ${TEMP}/DeformableRegistration12Test1DisplacementField.mhd
-        0 0
-        ${TEMP}/DeformableRegistration12Test1FinalTransformParameters.txt
+        ${TEMP}/DeformableRegistration12Test.png
+        ${TEMP}/DeformableRegistration12TestDifferenceAfter.png
+        ${TEMP}/DeformableRegistration12TestDifferenceBefore.png
+        ${TEMP}/DeformableRegistration12TestDisplacementField.mhd
+        ${TEMP}/DeformableRegistration12TestFinalTransformParameters.txt
 )
-set_property(TEST DeformableRegistration12Test1 APPEND PROPERTY LABELS RUNS_LONG)
-
-itk_add_test(NAME DeformableRegistration12Test2 COMMAND ${ITK_TEST_DRIVER}
-  --compare DATA{Baseline/DeformableRegistration12Test.png}
-            ${TEMP}/DeformableRegistration12Test2.png
-  --compareNumberOfPixelsTolerance 600
-  $<TARGET_FILE:DeformableRegistration12>
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
-        DATA{Baseline/BSplineWarping1Test.png}
-        ${TEMP}/DeformableRegistration12Test2.png
-        ${TEMP}/DeformableRegistration12Test2DifferenceAfter.png
-        ${TEMP}/DeformableRegistration12Test2DifferenceBefore.png
-        ${TEMP}/DeformableRegistration12Test2DisplacementField.mhd
-        0 1
-        ${TEMP}/DeformableRegistration12Test2FinalTransformParameters.txt
-)
-
-itk_add_test(NAME DeformableRegistration12Test3 COMMAND ${ITK_TEST_DRIVER}
-  --compare DATA{Baseline/DeformableRegistration12Test.png}
-            ${TEMP}/DeformableRegistration12Test3.png
-  --compareNumberOfPixelsTolerance 600
-  $<TARGET_FILE:DeformableRegistration12>
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
-        DATA{Baseline/BSplineWarping1Test.png}
-        ${TEMP}/DeformableRegistration12Test3.png
-        ${TEMP}/DeformableRegistration12Test3DifferenceAfter.png
-        ${TEMP}/DeformableRegistration12Test3DifferenceBefore.png
-        ${TEMP}/DeformableRegistration12Test3DisplacementField.mhd
-        1 0
-        ${TEMP}/DeformableRegistration12Test3FinalTransformParameters.txt
-)
-set_property(TEST DeformableRegistration12Test3 APPEND PROPERTY LABELS RUNS_LONG)
-
-itk_add_test(NAME DeformableRegistration12Test4 COMMAND ${ITK_TEST_DRIVER}
-  --compare DATA{Baseline/DeformableRegistration12Test.png}
-            ${TEMP}/DeformableRegistration12Test4.png
-  --compareNumberOfPixelsTolerance 600
-  $<TARGET_FILE:DeformableRegistration12>
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
-        DATA{Baseline/BSplineWarping1Test.png}
-        ${TEMP}/DeformableRegistration12Test4.png
-        ${TEMP}/DeformableRegistration12Test4DifferenceAfter.png
-        ${TEMP}/DeformableRegistration12Test4DifferenceBefore.png
-        ${TEMP}/DeformableRegistration12Test4DisplacementField.mhd
-        1 1
-        ${TEMP}/DeformableRegistration12Test4FinalTransformParameters.txt
-)
+set_property(TEST DeformableRegistration12Test APPEND PROPERTY LABELS RUNS_LONG)
 
 itk_add_test(NAME DeformableRegistration13Test1 COMMAND ${ITK_TEST_DRIVER}
   --compare DATA{Baseline/DeformableRegistration13Test.png}
@@ -546,15 +498,6 @@ itk_add_test(NAME DeformableRegistration13Test4 COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/DeformableRegistration13Test4DisplacementField.mhd
         1 1
         ${TEMP}/DeformableRegistration13Test4FinalTransformParameters.txt
-)
-
-itk_add_test(NAME DeformableRegistration1v4Test COMMAND ${ITK_TEST_DRIVER}
-  --compare DATA{Baseline/DeformableRegistration1v4Test.png}
-            ${TEMP}/DeformableRegistration1v4Test.png
-  $<TARGET_FILE:DeformableRegistration1v4>
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBSplined10.png
-        ${TEMP}/DeformableRegistration1v4Test.png
 )
 
 if( ITK_USE_BRAINWEB_DATA )

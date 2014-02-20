@@ -197,7 +197,9 @@ LBFGSOptimizerBasev4<TInternalVnlOptimizerType>
         m_StopConditionDescription << "Solution and Function tolerance both reached";
         break;
       case vnl_nonlinear_minimizer::CONVERGED_GTOL:
-        m_StopConditionDescription << "Gradient tolerance reached";
+        m_StopConditionDescription << "Gradient tolerance reached. "
+                                   << "Gradient tolerance is "
+                                   << m_GradientConvergenceTolerance;
         break;
       case vnl_nonlinear_minimizer::FAILED_TOO_MANY_ITERATIONS:
         m_StopConditionDescription << "Too many function evaluations. Function evaluations  = "
