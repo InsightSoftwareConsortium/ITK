@@ -141,6 +141,7 @@ int itkSampleToHistogramFilterTest3( int, char * [] )
       std::cerr << histogramItr.GetMeasurementVector() << std::endl;
       std::cerr << "Expected frequency = " << expectedFrequency1 << std::endl;
       std::cerr << "Computed frequency = " << histogramItr.GetFrequency() << std::endl;
+      return EXIT_FAILURE;
       }
     ++histogramItr;
     }
