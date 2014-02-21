@@ -64,7 +64,9 @@ public:
   typedef typename Superclass::ImageDimensionType           ImageDimensionType;
 
 protected:
-  DemonsImageToImageMetricv4GetValueAndDerivativeThreader() {}
+  DemonsImageToImageMetricv4GetValueAndDerivativeThreader() :
+    m_DemonsAssociate(NULL)
+  {}
 
   /** Overload.
    *  Get pointer to metric object.
