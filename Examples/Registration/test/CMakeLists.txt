@@ -384,6 +384,7 @@ itk_add_test(NAME DeformableRegistration3Test COMMAND ${ITK_TEST_DRIVER}
 itk_add_test(NAME DeformableRegistration4Test COMMAND ${ITK_TEST_DRIVER}
   --compare DATA{Baseline/DeformableRegistration1v4Test.png}
             ${TEMP}/DeformableRegistration4TestPixelCentered.png
+  --compareNumberOfPixelsTolerance 4
   $<TARGET_FILE:DeformableRegistration4>
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBSplined10.png
