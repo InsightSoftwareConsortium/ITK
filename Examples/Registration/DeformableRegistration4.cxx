@@ -252,10 +252,17 @@ int main( int argc, char *argv[] )
     memorymeter.Stop( "Registration" );
 
     const OptimizerType::ConstPointer  outputOptimizer = dynamic_cast<const OptimizerType *>( registration->GetOptimizer() );
-
-    std::cout << "Optimizer stop condition = "
-              << outputOptimizer->GetStopConditionDescription()
-              << std::endl;
+    if( outputOptimizer.IsNotNull() )
+      {
+      std::cout << "Optimizer stop condition = "
+                << outputOptimizer->GetStopConditionDescription()
+                << std::endl;
+      }
+    else
+      {
+      std::cerr << "Output optimizer is null." << std::endl;
+      return EXIT_FAILURE;
+      }
     }
   catch( itk::ExceptionObject & err )
     {
