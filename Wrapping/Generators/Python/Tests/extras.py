@@ -76,18 +76,6 @@ assert itk.output(1) == 1
 assert itk.image(reader) == reader.GetOutput()
 assert itk.image(1) == 1
 
-
-# test strel
-# should work with the image type, an image instance or a filter
-# and should work with a list, a tuple, an int or an itk.Size
-for s in [2, (2, 2), [2, 2], itk.Size[2](2)]:
-    st = itk.strel(dim, s)
-
-    (tpl, param) = itk.template(st)
-    assert tpl == itk.FlatStructuringElement
-    assert param[0] == dim
-    assert st.GetRadius()[0] == st.GetRadius()[1] == 2
-
 # test size
 s = itk.size(reader)
 assert s[0] == s[1] == 256

@@ -190,15 +190,6 @@ def region(imageOrFilter):
     return img.GetLargestPossibleRegion()
 
 
-def strel(dim, radius=1):
-    """A method to create a ball structuring element
-    """
-    import itk
-    import sys
-    # print >> sys.stderr, "strel() is deprecated and will be removed in the
-    # next release"
-    return itk.FlatStructuringElement[dim].Ball(radius)
-
 # return an image
 from itkTemplate import image, output
 
