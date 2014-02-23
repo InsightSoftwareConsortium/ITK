@@ -89,3 +89,9 @@ itk_add_test(NAME RGBColormapTest_overunder
               DATA{Baseline/RGBColormapTest_overunder.png}
     itkScalarToRGBColormapImageFilterTest
               DATA{Input/Colormap_Grey.png} ${ITK_TEST_OUTPUT_DIR}/RGBColormapTest_overunder.png overunder)
+itk_add_test(NAME RGBColormapTest_custom
+      COMMAND ITKColormapTestDriver
+    --compare ${ITK_TEST_OUTPUT_DIR}/RGBColormapTest_custom.png
+              DATA{Baseline/RGBColormapTest_custom.png}
+    itkScalarToRGBColormapImageFilterTest
+              DATA{Input/Colormap_Grey.png} ${ITK_TEST_OUTPUT_DIR}/RGBColormapTest_custom.png custom)
