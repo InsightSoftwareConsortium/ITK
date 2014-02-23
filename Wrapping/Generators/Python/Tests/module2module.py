@@ -34,17 +34,21 @@ import ITKIOImageBase
 import ITKThresholding
 import ITKImageGrid
 
-PType = itk.UC
-dim = 2
-IType = itk.Image[PType, dim]
+inputImage = sys.argv[1]
+radiusValue = int(sys.argv[2])
 
-kernel = itk.strel(2, 1)
+PType = itk.UC
+Dimension = 2
+IType = itk.Image[PType, Dimension]
+
+StructuringElementType = itk.FlatStructuringElement[Dimension]
+structuringElement = StructuringElementType.Ball(radiusValue)
 
 # create the reader
-reader = itk.ImageFileReader[IType].New(FileName=sys.argv[1])
+reader = itk.ImageFileReader[IType].New(FileName=inputImage)
 
 sources = []
-image = ITKCommon.Image[PType, dim].New()
+image = ITKCommon.Image[PType, Dimension].New()
 r = itk.ImageRegion._2()
 r.SetSize((10, 10))
 image.SetRegions(r)
@@ -63,9 +67,14 @@ sources.append(("ITKImageGrid", flip.GetOutput()))
 abs = ITKImageIntensity.AbsImageFilter[IType, IType].New(reader)
 sources.append(("ITKImageIntensity", abs.GetOutput()))
 
-bdilate = ITKBinaryMathematicalMorphology.BinaryDilateImageFilter[
-    IType, IType, kernel].New(reader, Kernel=kernel)
-sources.append(("ITKBinaryMathematicalMorphology", bdilate.GetOutput()))
+binarydilateType = ITKBinaryMathematicalMorphology.BinaryDilateImageFilter[
+    IType, IType, StructuringElementType]
+binarydilateFilter = binarydilateType.New()
+binarydilateFilter.SetInput(reader.GetOutput())
+binarydilateFilter.SetKernel(structuringElement)
+
+output = binarydilateFilter.GetOutput()
+sources.append(("ITKBinaryMathematicalMorphology", output))
 
 minmax = ITKImageStatistics.MinimumMaximumImageFilter[IType].New(reader)
 sources.append(("ITKImageStatistics", minmax.GetOutput()))
@@ -96,9 +105,11 @@ dests.append(("ITKImageGrid", dflip))
 dabs = ITKImageIntensity.AbsImageFilter[IType, IType].New()
 dests.append(("ITKImageIntensity", dabs))
 
-dbdilate = ITKBinaryMathematicalMorphology.BinaryDilateImageFilter[
-    IType, IType, kernel].New(Kernel=kernel)
-dests.append(("ITKBinaryMathematicalMorphology", dbdilate))
+binarydilateType = ITKBinaryMathematicalMorphology.BinaryDilateImageFilter[
+    IType, IType, StructuringElementType]
+binarydilateFilter = binarydilateType.New()
+binarydilateFilter.SetKernel(structuringElement)
+dests.append(("ITKBinaryMathematicalMorphology", binarydilateFilter))
 
 dminmax = ITKImageStatistics.MinimumMaximumImageFilter[IType].New()
 dests.append(("ITKImageStatistics", dminmax))

@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 #==========================================================================
 #
 #   Copyright Insight Software Consortium
@@ -17,21 +19,38 @@
 #==========================================================================*/
 
 #
-#  Example on the use of the GrayscaleDilateImageFilter
+#  Test GrayscaleDilateImageFilter
 #
 
+import sys
 import itk
-from sys import argv
 itk.auto_progress(2)
 
-dim = 2
-IType = itk.Image[itk.UC, dim]
+inputImage = sys.argv[1]
+outputImage = sys.argv[2]
+radiusValue = int(sys.argv[3])
 
-reader = itk.ImageFileReader[IType].New(FileName=argv[1])
-kernel = itk.strel(dim, 5)
-grayscaleFilter = itk.GrayscaleDilateImageFilter[IType, IType, kernel]
-grayscaleFilter.New(reader, Kernel=kernel)
+PixelType = itk.UC
+Dimension = 2
 
-writer = itk.ImageFileWriter[IType].New(grayscaleFilter, FileName=argv[2])
+ImageType = itk.Image[PixelType, Dimension]
+
+ReaderType = itk.ImageFileReader[ImageType]
+reader = ReaderType.New()
+reader.SetFileName(inputImage)
+
+StructuringElementType = itk.FlatStructuringElement[Dimension]
+structuringElement = StructuringElementType.Ball(radiusValue)
+
+GrayscaleFilterType = itk.GrayscaleDilateImageFilter[
+    ImageType, ImageType, StructuringElementType]
+grayscaleFilter = GrayscaleFilterType.New()
+grayscaleFilter.SetInput(reader.GetOutput())
+grayscaleFilter.SetKernel(structuringElement)
+
+WriterType = itk.ImageFileWriter[ImageType]
+writer = WriterType.New()
+writer.SetFileName(outputImage)
+writer.SetInput(grayscaleFilter.GetOutput())
 
 writer.Update()
