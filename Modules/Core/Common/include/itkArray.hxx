@@ -57,11 +57,13 @@ Array< TValue >
 template< typename TValue >
 Array< TValue >
 ::Array(ValueType *datain, SizeValueType sz, bool LetArrayManageMemory):
-  vnl_vector< TValue >( datain, sz),
   m_LetArrayManageMemory(LetArrayManageMemory)
 {
+  vnl_vector< TValue >::data = datain;
+  vnl_vector< TValue >::num_elmts = sz;
 }
 
+#if defined ( ITK_FUTURE_LEGACY_REMOVE )
 /** Constructor with user specified const data */
 template< typename TValue >
 Array< TValue >
@@ -73,7 +75,7 @@ Array< TValue >
 {
 }
 
-#if ! defined ( ITK_FUTURE_LEGACY_REMOVE )
+#else // defined ( ITK_FUTURE_LEGACY_REMOVE )
 /** Constructor with user specified const data */
 template< typename TValue >
 Array< TValue >
