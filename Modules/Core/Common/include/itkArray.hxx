@@ -57,9 +57,10 @@ Array< TValue >
 template< typename TValue >
 Array< TValue >
 ::Array(ValueType *datain, SizeValueType sz, bool LetArrayManageMemory):
-  vnl_vector< TValue >( datain, sz),
   m_LetArrayManageMemory(LetArrayManageMemory)
 {
+  vnl_vector< TValue >::data = datain;
+  vnl_vector< TValue >::num_elmts = sz;
 }
 
 /** Constructor with user specified const data */
