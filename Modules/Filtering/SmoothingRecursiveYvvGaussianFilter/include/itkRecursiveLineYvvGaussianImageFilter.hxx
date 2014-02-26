@@ -10,10 +10,8 @@
 
 // #define VERBOSE
 
-
 namespace itk
 {
-
 template <typename TInputImage, typename TOutputImage>
 RecursiveLineYvvGaussianImageFilter<TInputImage, TOutputImage>::RecursiveLineYvvGaussianImageFilter()
 {
@@ -28,21 +26,28 @@ RecursiveLineYvvGaussianImageFilter<TInputImage, TOutputImage>::RecursiveLineYvv
   std::cout << "-----------Line filter TYPES\n";
 
   if (typeid(typename TInputImage::PixelType) == typeid(double))
+  {
     std::cout << "InputPixelType double\n";
+  }
   if (typeid(typename TOutputImage::PixelType) == typeid(double))
+  {
     std::cout << "OutputPixelType double\n";
+  }
 
   if (typeid(ScalarRealType) == typeid(double))
+  {
     std::cout << "ScalarRealType double\n";
+  }
 
   if (typeid(RealType) == typeid(double))
+  {
     std::cout << "RealType double\n";
+  }
 
   /*if( typeid ( InternalRealType ) == typeid ( double ))
           std::cout<<"InternalRealType double\n"; */
 #  endif
 }
-
 
 /**
  * Set Input Image
@@ -57,7 +62,6 @@ RecursiveLineYvvGaussianImageFilter<TInputImage, TOutputImage>::SetInputImage(co
   // ProcessObject is not const_correct so this const_cast is required
   ProcessObject::SetNthInput(0, const_cast<TInputImage *>(input));
 }
-
 
 /**
  * Get Input Image
@@ -86,12 +90,17 @@ RecursiveLineYvvGaussianImageFilter<TInputImage, TOutputImage>::SetUp(ScalarReal
 
   // Compute q according to 16 in Young et al on Gabor filering
   ScalarRealType q = 0;
+
   if (sigmad >= 3.556)
+  {
     q = 0.9804 * (sigmad - 3.556) + 2.5091;
+  }
   else
   {
     if (sigmad < 0.5)
+    {
       std::cerr << "Too low sigma value (< 0.5), computation will not be precise." << std::endl;
+    }
 
     q = 0.0561 * sigmad * sigmad + 0.5784 * sigmad - 0.2568;
   }
@@ -109,7 +118,8 @@ RecursiveLineYvvGaussianImageFilter<TInputImage, TOutputImage>::SetUp(ScalarReal
   ScalarRealType baseB = (m0 * (m1 * m1 + m2 * m2)) / scale;
   m_B = baseB * baseB;
 
-  // M Matrix for initialization on backward pass, from Triggs and Sdika, IEEE TSP
+  // M Matrix for initialization on backward pass, from Triggs and Sdika, IEEE
+  // TSP
   m_MMatrix = vnl_matrix<ScalarRealType>(3, 3);
 
   m_MMatrix(0, 0) = -m_B3 * m_B1 + 1 - m_B3 * m_B3 - m_B2;
@@ -179,8 +189,9 @@ RecursiveLineYvvGaussianImageFilter<TInputImage, TOutputImage>::FilterDataArray(
    */
 
   for (unsigned int i = 0; i < ln; ++i)
+  {
     outs[i] = scratch[i];
-
+  }
 
   // AntiCausal direction pass
 
@@ -198,13 +209,13 @@ RecursiveLineYvvGaussianImageFilter<TInputImage, TOutputImage>::FilterDataArray(
     Vn2 += (outs[ln - 1 - i] - u_p) * m_MMatrix(2, i);
   }
 
-  // This was not in the 2006 Triggs paper but sounds quite logical since m_B is not one
+  // This was not in the 2006 Triggs paper but sounds quite logical since m_B is
+  // not one
   Vn0 *= m_B;
   Vn1 *= m_B;
   Vn2 *= m_B;
 
   scratch[ln - 1] = Vn0;
-
 
   // Recursively filter the rest
 
@@ -224,7 +235,6 @@ RecursiveLineYvvGaussianImageFilter<TInputImage, TOutputImage>::FilterDataArray(
     outs[i] = scratch[i];
   }
 }
-
 
 // we need all of the image in just the "Direction" we are separated into
 template <typename TInputImage, typename TOutputImage>
@@ -257,7 +267,6 @@ RecursiveLineYvvGaussianImageFilter<TInputImage, TOutputImage>::EnlargeOutputReq
   }
 }
 
-
 template <typename TInputImage, typename TOutputImage>
 const ImageRegionSplitterBase *
 RecursiveLineYvvGaussianImageFilter<TInputImage, TOutputImage>::GetImageRegionSplitter(void) const
@@ -269,7 +278,6 @@ RecursiveLineYvvGaussianImageFilter<TInputImage, TOutputImage>::GetImageRegionSp
   */
   return this->m_ImageRegionSplitter;
 }
-
 
 template <typename TInputImage, typename TOutputImage>
 void
@@ -310,7 +318,6 @@ RecursiveLineYvvGaussianImageFilter<TInputImage, TOutputImage>::BeforeThreadedGe
   }
 }
 
-
 /**
  * Compute Recursive filter
  * line by line in one of the dimensions
@@ -343,7 +350,6 @@ RecursiveLineYvvGaussianImageFilter<TInputImage, TOutputImage>::ThreadedGenerate
 
   inputIterator.SetDirection(this->m_Direction);
   outputIterator.SetDirection(this->m_Direction);
-
 
   const unsigned int ln = region.GetSize()[this->m_Direction];
 
@@ -387,7 +393,6 @@ RecursiveLineYvvGaussianImageFilter<TInputImage, TOutputImage>::ThreadedGenerate
   const unsigned int numberOfLinesToProcess =
     outputRegionForThread.GetNumberOfPixels() / outputRegionForThread.GetSize(this->m_Direction);
   ProgressReporter progress(this, threadId, numberOfLinesToProcess, 10);
-
 
   try // this try is intended to catch an eventual AbortException.
   {
@@ -439,7 +444,6 @@ RecursiveLineYvvGaussianImageFilter<TInputImage, TOutputImage>::ThreadedGenerate
   delete[] scratch;
 }
 
-
 template <typename TInputImage, typename TOutputImage>
 void
 RecursiveLineYvvGaussianImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
@@ -451,7 +455,6 @@ RecursiveLineYvvGaussianImageFilter<TInputImage, TOutputImage>::PrintSelf(std::o
 
   os << indent << "Direction: " << m_Direction << std::endl;
 }
-
 } // end namespace itk
 
 #endif

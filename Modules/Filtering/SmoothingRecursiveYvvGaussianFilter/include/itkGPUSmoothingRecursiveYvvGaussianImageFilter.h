@@ -29,10 +29,8 @@
 #    include "itkOpenCLUtil.h"
 #    include "itkGPUImageToImageFilter.h"
 
-
 namespace itk
 {
-
 /**
  * \class GPUSmoothingRecursiveYvvGaussianImageFilter
  * \brief Recursive Gaussian blur based on Young-Van Vliet's algorithm and
@@ -48,7 +46,6 @@ namespace itk
  * \ingroup SmoothingRecursiveYvvGaussianFilter
  */
 
-
 itkGPUKernelClassMacro(GPUSmoothingRecursiveYvvGaussianImageFilterKernel);
 
 template <typename TInputImage, typename TOutputImage = TInputImage>
@@ -60,7 +57,8 @@ class ITK_EXPORT GPUSmoothingRecursiveYvvGaussianImageFilter
 public:
   /** Standard class typedefs. */
   typedef GPUSmoothingRecursiveYvvGaussianImageFilter Self;
-  // typedef SmoothingRecursiveYvvGaussianImageFilter<TInputImage,TOutputImage>   CPUSuperclass;
+  // typedef SmoothingRecursiveYvvGaussianImageFilter<TInputImage,TOutputImage>
+  //    CPUSuperclass;
   typedef GPUImageToImageFilter<TInputImage,
                                 TOutputImage,
                                 SmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>>
@@ -71,7 +69,6 @@ public:
                                    GPUSuperclass;
   typedef SmartPointer<Self>       Pointer;
   typedef SmartPointer<const Self> ConstPointer;
-
 
   /** Pixel Type of the input image */
   typedef TInputImage                     InputImageType;
@@ -116,16 +113,20 @@ public:
    axis. */
   void
   SetSigmaArray(const SigmaArrayType & sigmas);
+
   void
   SetSigma(ScalarRealType sigma);
+
   SigmaArrayType
   GetSigmaArray() const;
+
   ScalarRealType
   GetSigma() const;
 
   /** Define which normalization factor will be used for the Gaussian */
   void
   SetNormalizeAcrossScale(bool normalizeInScaleSpace);
+
   itkGetConstMacro(NormalizeAcrossScale, bool);
 
   virtual void
@@ -144,7 +145,7 @@ public:
 
 protected:
   GPUSmoothingRecursiveYvvGaussianImageFilter();
-  virtual ~GPUSmoothingRecursiveYvvGaussianImageFilter() {};
+  virtual ~GPUSmoothingRecursiveYvvGaussianImageFilter() {}
   void
   PrintSelf(std::ostream & os, Indent indent) const;
 
@@ -163,6 +164,7 @@ protected:
   // Override since the filter produces the entire dataset
   void
   EnlargeOutputRequestedRegion(DataObject * output);
+
   void
   AllocateGPUCoefficients();
 
@@ -174,7 +176,6 @@ protected:
   ScalarRealType   m_B;
   ScalarRealType * m_Bvalues;
 
-
   // Initialization matrix for anti-causal pass
   ScalarRealType * m_CPUMatrix;
 
@@ -185,9 +186,12 @@ protected:
   GPUDataPointer m_GPULocalDataManager;
 
 private:
-  GPUSmoothingRecursiveYvvGaussianImageFilter(const Self &); // purposely not implemented
+  GPUSmoothingRecursiveYvvGaussianImageFilter(const Self &); // purposely
+                                                             //  not
+                                                             //  implemented
   void
   BuildKernel();
+
   void
   operator=(const Self &); // purposely not implemented
 
@@ -202,7 +206,6 @@ private:
   SigmaArrayType m_Sigma;
   int            telltale; // TODO: REMOVE
 };
-
 } // end namespace itk
 
 #    ifndef ITK_MANUAL_INSTANTIATION

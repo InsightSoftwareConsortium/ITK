@@ -10,7 +10,6 @@
 
 namespace itk
 {
-
 /**
  * Constructor
  */
@@ -61,22 +60,31 @@ SmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::SmoothingRe
   std::cout << "-----------Smoothing filter TYPES\n";
 
   if (typeid(typename TInputImage::PixelType) == typeid(double))
+  {
     std::cout << "PixelType double\n";
+  }
   if (typeid(typename TOutputImage::PixelType) == typeid(double))
+  {
     std::cout << "Output PixelType double\n";
+  }
 
   if (typeid(ScalarRealType) == typeid(double))
+  {
     std::cout << "ScalarRealType double\n";
+  }
 
   if (typeid(RealType) == typeid(double))
+  {
     std::cout << "RealType double\n";
+  }
 
   if (typeid(InternalRealType) == typeid(double))
+  {
     std::cout << "InternalRealType double\n";
+  }
 
 #  endif
 }
-
 
 template <typename TInputImage, typename TOutputImage>
 void
@@ -86,6 +94,7 @@ SmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::SetNumberOf
           std::cout<<telltale  << ". itkSmoothingYvv::SetNumberOfThreads \n";
   #endif*/
   Superclass::SetNumberOfThreads(nb);
+
   for (unsigned int i = 0; i < ImageDimension - 1; i++)
   {
     m_SmoothingFilters[i]->SetNumberOfThreads(nb);
@@ -124,9 +133,9 @@ SmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::SetSigma(Sc
           std::cout<<telltale  << ". itkSmoothingYvv::SetSigma \n";
   #endif*/
   SigmaArrayType sigmas(sigma);
+
   this->SetSigmaArray(sigmas);
 }
-
 
 // Set value of Sigma (an-isotropic)
 
@@ -152,7 +161,6 @@ SmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::SetSigmaArr
   }
 }
 
-
 // Get the sigma array.
 template <typename TInputImage, typename TOutputImage>
 typename SmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::SigmaArrayType
@@ -163,7 +171,6 @@ SmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::GetSigmaArr
   #endif*/
   return m_Sigma;
 }
-
 
 // Get the sigma scalar. If the sigma is anisotropic, we will just
 // return the sigma along the first dimension.
@@ -176,7 +183,6 @@ SmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::GetSigma() 
   #endif*/
   return m_Sigma[0];
 }
-
 
 /**
  * Set Normalize Across Scale Space
@@ -198,7 +204,6 @@ SmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::SetNormaliz
 
   this->Modified();
 }
-
 
 template <typename TInputImage, typename TOutputImage>
 void
@@ -306,7 +311,6 @@ SmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::GenerateDat
   this->GraftOutput(m_CastingFilter->GetOutput());
 }
 
-
 template <typename TInputImage, typename TOutputImage>
 void
 SmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
@@ -319,8 +323,6 @@ SmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::PrintSelf(s
   os << "NormalizeAcrossScale: " << m_NormalizeAcrossScale << std::endl;
   os << "Sigma: " << m_Sigma << std::endl;
 }
-
-
 } // end namespace itk
 
 #endif

@@ -26,7 +26,6 @@
 
 namespace itk
 {
-
 /**
  * \class RecursiveLineYvvGaussianImageFilter
  * \brief 1D recursive Gaussian blur based on Young-Van Vliet's algorithm,
@@ -42,7 +41,6 @@ namespace itk
  *
  * \ingroup SmoothingRecursiveYvvGaussianFilter
  */
-
 
 template <typename TInputImage, typename TOutputImage = TInputImage>
 class ITK_EXPORT RecursiveLineYvvGaussianImageFilter : public InPlaceImageFilter<TInputImage, TOutputImage>
@@ -125,13 +123,14 @@ public:
 
 protected:
   RecursiveLineYvvGaussianImageFilter();
-  virtual ~RecursiveLineYvvGaussianImageFilter() {};
+  virtual ~RecursiveLineYvvGaussianImageFilter() {}
   void
   PrintSelf(std::ostream & os, Indent indent) const;
 
   /** GenerateData (apply) the filter. */
   void
   BeforeThreadedGenerateData();
+
   void
   ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId);
 
@@ -166,7 +165,8 @@ protected:
   FilterDataArray(RealType * outs, const RealType * data, RealType * scratch, unsigned int ln);
 
 protected:
-  /** Causal and anti-causal coefficients that multiply the input data. These are already divided by B0 */
+  /** Causal and anti-causal coefficients that multiply the input data. These
+    are already divided by B0 */
   ScalarRealType m_B1;
   ScalarRealType m_B2;
   ScalarRealType m_B3;
@@ -191,13 +191,10 @@ private:
   bool                                  m_NormalizeAcrossScale;
   ImageRegionSplitterDirection::Pointer m_ImageRegionSplitter;
 };
-
-
 } // end namespace itk
 
 #  ifndef ITK_MANUAL_INSTANTIATION
 #    include "itkRecursiveLineYvvGaussianImageFilter.hxx"
 #  endif
-
 
 #endif

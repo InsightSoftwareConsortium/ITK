@@ -27,7 +27,6 @@
 #  include "itkCommand.h"
 #  include "itkFixedArray.h"
 
-
 namespace itk
 {
 /**
@@ -54,7 +53,6 @@ public:
   typedef InPlaceImageFilter<TInputImage, TOutputImage> Superclass;
   typedef SmartPointer<Self>                            Pointer;
   typedef SmartPointer<const Self>                      ConstPointer;
-
 
   /** Pixel Type of the input image */
   typedef TInputImage                     InputImageType;
@@ -93,7 +91,6 @@ public:
   /**  The last in the pipeline  */
   typedef CastImageFilter<RealImageType, OutputImageType> CastingFilterType;
 
-
   /**  Pointer to a gaussian filter.  */
   typedef typename InternalGaussianFilterType::Pointer InternalGaussianFilterPointer;
 
@@ -115,16 +112,20 @@ public:
    axis. */
   void
   SetSigmaArray(const SigmaArrayType & sigmas);
+
   void
   SetSigma(ScalarRealType sigma);
+
   SigmaArrayType
   GetSigmaArray() const;
+
   ScalarRealType
   GetSigma() const;
 
   /** Define which normalization factor will be used for the Gaussian */
   void
   SetNormalizeAcrossScale(bool normalizeInScaleSpace);
+
   itkGetConstMacro(NormalizeAcrossScale, bool);
 
   void
@@ -140,10 +141,9 @@ public:
   itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<PixelType>));
   /** End concept checking */
 #  endif
-
 protected:
   SmoothingRecursiveYvvGaussianImageFilter();
-  virtual ~SmoothingRecursiveYvvGaussianImageFilter() {};
+  virtual ~SmoothingRecursiveYvvGaussianImageFilter() {}
   void
   PrintSelf(std::ostream & os, Indent indent) const;
 
@@ -164,9 +164,11 @@ protected:
   EnlargeOutputRequestedRegion(DataObject * output);
 
 private:
-  SmoothingRecursiveYvvGaussianImageFilter(const Self &); // purposely not implemented
+  SmoothingRecursiveYvvGaussianImageFilter(const Self &); // purposely not
+                                                          //  implemented
   void
-  operator=(const Self &); // purposely not implemented
+  operator=(const Self &); // purposely not
+                           //  implemented
 
   InternalGaussianFilterPointer m_SmoothingFilters[ImageDimension - 1];
   FirstGaussianFilterPointer    m_FirstSmoothingFilter;
@@ -179,7 +181,6 @@ private:
   SigmaArrayType m_Sigma;
   int            telltale; // TODO: REMOVE
 };
-
 } // end namespace itk
 
 #  ifndef ITK_MANUAL_INSTANTIATION

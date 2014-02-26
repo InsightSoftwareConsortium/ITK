@@ -8,7 +8,6 @@
 // #define VERBOSE
 namespace itk
 {
-
 /**
  * Constructor
  */
@@ -21,7 +20,6 @@ GPUSmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::GPUSmoot
 #    endif
   m_NormalizeAcrossScale = false;
   otPtr = dynamic_cast<GPUOutputImage *>(this->ProcessObject::GetOutput(0));
-
 
   // NB: We must call SetSigma in order to initialize the smoothing
   // filters with the default scale.  However, m_Sigma must first be
@@ -37,7 +35,8 @@ template <typename TInputImage, typename TOutputImage>
 void
 GPUSmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::BuildKernel()
 {
-  const char *                      GPUSource = GPUSmoothingRecursiveYvvGaussianImageFilterKernel::GetOpenCLSource();
+  const char * GPUSource = GPUSmoothingRecursiveYvvGaussianImageFilterKernel::GetOpenCLSource();
+
   typename GPUOutputImage::SizeType lineSizes = inPtr->GetRequestedRegion().GetSize();
   unsigned int                      maxLineSize = lineSizes[0];
   for (unsigned int d = 1; d < ImageDimension; ++d)
@@ -91,11 +90,15 @@ GPUSmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::SetUp(Sc
     // Compute q according to 16 in Young et al on Gabor filering
     ScalarRealType q = 0;
     if (sigmad >= 3.556)
+    {
       q = 0.9804 * (sigmad - 3.556) + 2.5091;
+    }
     else
     {
       if (sigmad < 0.5)
+      {
         std::cerr << "Too low sigma value (< 0.5), computation will not be precise." << std::endl;
+      }
 
       q = 0.0561 * sigmad * sigmad + 0.5784 * sigmad - 0.2568;
     }
@@ -115,7 +118,8 @@ GPUSmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::SetUp(Sc
     ScalarRealType baseB = (m0 * (m1 * m1 + m2 * m2)) / scale;
     m_B = m_Bvalues[0] = baseB * baseB;
 
-    // M Matrix for initialization on backward pass, from Triggs and Sdika, IEEE TSP
+    // M Matrix for initialization on backward pass, from Triggs and Sdika, IEEE
+    // TSP
     m_CPUMatrix = new ScalarRealType[9];
     const ScalarRealType factor =
       (1 + m_B1 - m_B2 + m_B3) * (1 - m_B1 - m_B2 - m_B3) * (1 + m_B2 + (m_B1 - m_B3) * m_B3);
@@ -189,7 +193,6 @@ GPUSmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::SetSigma
   this->SetSigmaArray(sigmas);
 }
 
-
 // Set value of Sigma (an-isotropic)
 
 template <typename TInputImage, typename TOutputImage>
@@ -216,7 +219,6 @@ GPUSmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::SetSigma
   }
 }
 
-
 // Get the sigma array.
 template <typename TInputImage, typename TOutputImage>
 typename GPUSmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::SigmaArrayType
@@ -227,7 +229,6 @@ GPUSmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::GetSigma
   #endif*/
   return m_Sigma;
 }
-
 
 // Get the sigma scalar. If the sigma is anisotropic, we will just
 // return the sigma along the first dimension.
@@ -240,7 +241,6 @@ GPUSmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::GetSigma
   #endif*/
   return m_Sigma[0];
 }
-
 
 /**
  * Set Normalize Across Scale Space
@@ -277,7 +277,6 @@ GPUSmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::Generate
   }
 }
 
-
 template <typename TInputImage, typename TOutputImage>
 void
 GPUSmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::EnlargeOutputRequestedRegion(
@@ -293,7 +292,6 @@ GPUSmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::EnlargeO
     out->SetRequestedRegion(out->GetLargestPossibleRegion());
   }
 }
-
 
 template <typename TInputImage, typename TOutputImage>
 void
@@ -381,7 +379,8 @@ GPUSmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::GPUGener
   }
   else
   {
-    // We must optimize our 2D workgroup sizes to go over our 3D volume in each dimension.
+    // We must optimize our 2D workgroup sizes to go over our 3D volume in each
+    //  dimension.
 
     this->m_GPUKernelManager->SetKernelArg(m_FilterGPUKernelHandle, argidx++, sizeof(unsigned int), &(X));
 #    ifdef VERBOSE
@@ -397,7 +396,8 @@ GPUSmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::GPUGener
 #    endif
     this->m_GPUKernelManager->LaunchKernel2D(m_FilterGPUKernelHandle, m_requestedSize[0], m_requestedSize[2], 16, 16);
 
-    // input is already pointing to previous output; change ONLY direction of filter
+    // input is already pointing to previous output; change ONLY direction of
+    //  filter
     this->m_GPUKernelManager->SetKernelArg(m_FilterGPUKernelHandle, dimArg, sizeof(unsigned int), &(Z));
 #    ifdef VERBOSE
     std::cout << telltale << ". Calling 2D kernel on Z.\n";
@@ -405,7 +405,6 @@ GPUSmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::GPUGener
     this->m_GPUKernelManager->LaunchKernel2D(m_FilterGPUKernelHandle, m_requestedSize[0], m_requestedSize[1], 16, 16);
   }
 }
-
 
 template <typename TInputImage, typename TOutputImage>
 void
@@ -420,7 +419,6 @@ GPUSmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::PrintSel
   os << "NormalizeAcrossScale: " << m_NormalizeAcrossScale << std::endl;
   os << "Sigma: " << m_Sigma << std::endl;
 }
-
 } // end namespace itk
 
 #  endif //_ITK_GPU_SMOOTHING_RECURSIVE_YVV_GAUSSIAN_IMAGE_FILTER_HXX_
