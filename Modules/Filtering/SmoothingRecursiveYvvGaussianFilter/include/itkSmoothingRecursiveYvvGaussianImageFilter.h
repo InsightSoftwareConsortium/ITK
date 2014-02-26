@@ -15,16 +15,17 @@
  * limitations under the License.
  *
  *=========================================================================*/
+#pragma once
 
 #ifndef _ITK_SMOOTHING_RECURSIVE_YVV_GAUSSIAN_IMAGE_FILTER_H_
-#define _ITK_SMOOTHING_RECURSIVE_YVV_GAUSSIAN_IMAGE_FILTER_H_
+#  define _ITK_SMOOTHING_RECURSIVE_YVV_GAUSSIAN_IMAGE_FILTER_H_
 
-#include "itkRecursiveLineYvvGaussianImageFilter.h"
-#include "itkCastImageFilter.h"
-#include "itkImage.h"
-#include "itkPixelTraits.h"
-#include "itkCommand.h"
-#include "itkFixedArray.h"
+#  include "itkRecursiveLineYvvGaussianImageFilter.h"
+#  include "itkCastImageFilter.h"
+#  include "itkImage.h"
+#  include "itkPixelTraits.h"
+#  include "itkCommand.h"
+#  include "itkFixedArray.h"
 
 
 namespace itk
@@ -45,12 +46,12 @@ namespace itk
  * \ingroup SmoothingRecursiveYvvGaussianFilter
  */
 template <typename TInputImage, typename TOutputImage = TInputImage>
-class ITK_EXPORT SmoothingRecursiveYvvGaussianImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
+class ITK_EXPORT SmoothingRecursiveYvvGaussianImageFilter : public InPlaceImageFilter<TInputImage, TOutputImage>
 {
 public:
   /** Standard class typedefs. */
   typedef SmoothingRecursiveYvvGaussianImageFilter      Self;
-  typedef ImageToImageFilter<TInputImage, TOutputImage> Superclass;
+  typedef InPlaceImageFilter<TInputImage, TOutputImage> Superclass;
   typedef SmartPointer<Self>                            Pointer;
   typedef SmartPointer<const Self>                      ConstPointer;
 
@@ -59,16 +60,16 @@ public:
   typedef TInputImage                     InputImageType;
   typedef TOutputImage                    OutputImageType;
   typedef typename TInputImage::PixelType PixelType;
-#ifdef WITH_DOUBLE
+#  ifdef WITH_DOUBLE
   typedef typename NumericTraits<PixelType>::RealType       RealType;
   typedef typename NumericTraits<PixelType>::ScalarRealType ScalarRealType;
-#else
+#  else
   typedef typename NumericTraits<PixelType>::FloatType RealType;
   typedef typename NumericTraits<PixelType>::FloatType ScalarRealType;
-#endif
+#  endif
 
   /** Runtime information support. */
-  itkTypeMacro(SmoothingRecursiveYvvGaussianImageFilter, ImageToImageFilter);
+  itkTypeMacro(SmoothingRecursiveYvvGaussianImageFilter, InPlaceImageFilter);
 
   /** Image dimension. */
   itkStaticConstMacro(ImageDimension, unsigned int, TInputImage::ImageDimension);
@@ -80,8 +81,8 @@ public:
    RealType is usually 'double' in NumericTraits.
    Here we prefer float in order to save memory.  */
 
-  typedef typename NumericTraits<PixelType>::FloatType                    InternalRealType;
-  typedef Image<InternalRealType, itkGetStaticConstMacro(ImageDimension)> RealImageType;
+  typedef typename NumericTraits<PixelType>::FloatType                     InternalRealType;
+  typedef typename InputImageType::template Rebind<InternalRealType>::Type RealImageType;
 
   /**  The first in the pipeline  */
   typedef RecursiveLineYvvGaussianImageFilter<InputImageType, RealImageType> FirstGaussianFilterType;
@@ -127,14 +128,18 @@ public:
   itkGetConstMacro(NormalizeAcrossScale, bool);
 
   void
-  SetNumberOfThreads(int nb);
-  using Superclass::SetNumberOfThreads;
+  SetNumberOfThreads(ThreadIdType nb);
 
-#ifdef ITK_USE_CONCEPT_CHECKING
+  // See super class for doxygen documentation
+  //
+  virtual bool
+  CanRunInPlace(void) const;
+
+#  ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
   itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<PixelType>));
   /** End concept checking */
-#endif
+#  endif
 
 protected:
   SmoothingRecursiveYvvGaussianImageFilter();
@@ -177,8 +182,8 @@ private:
 
 } // end namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#  include "itkSmoothingRecursiveYvvGaussianImageFilter.hxx"
-#endif
+#  ifndef ITK_MANUAL_INSTANTIATION
+#    include "itkSmoothingRecursiveYvvGaussianImageFilter.hxx"
+#  endif
 
 #endif
