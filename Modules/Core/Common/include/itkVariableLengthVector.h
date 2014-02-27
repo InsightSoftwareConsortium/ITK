@@ -493,8 +493,9 @@ inline
 VariableLengthVector< TValue >
 operator*(const T & scalar, const VariableLengthVector< TValue > & v)
 {
-  return v * scalar;
+  return v.operator*(scalar);
 }
+
 
 template< typename TValue >
 std::ostream & operator<<(std::ostream & os, const VariableLengthVector< TValue > & arr)

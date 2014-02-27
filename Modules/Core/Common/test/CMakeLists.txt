@@ -173,6 +173,7 @@ itkImageRegionSplitterDirectionTest.cxx
 itkImageRegionSplitterMultidimensionalTest.cxx
 itkSimpleFastMutexLockTest.cxx
 itkMetaDataObjectTest.cxx
+# itkVectorMultiplyTest.cxx
 )
 
 CreateTestDriver(ITKCommon1 "${ITKCommon_LIBRARIES}" "${ITKCommon1Tests}" itkFloatingPointExceptionsExtern.cxx)
@@ -493,3 +494,7 @@ itk_add_test(NAME itkSimpleFastMutexLockTest COMMAND ITKCommon2TestDriver itkSim
 set_tests_properties(itkSimpleFastMutexLockTest PROPERTIES TIMEOUT 5)
 
 itk_add_test(NAME itkMetaDataObjectTest COMMAND ITKCommon2TestDriver itkMetaDataObjectTest)
+
+# This test doesn't compile.  It exercises the bug I ran into if you multiply 2 vector images; if you
+# try to compile it the compile fails.
+# itk_add_test(NAME itkVectorMultiplyTest COMMAND ITKCommon2TestDriver itkVectorMultiplyTest)
