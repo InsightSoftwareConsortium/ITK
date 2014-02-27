@@ -31,6 +31,8 @@
 
 /* Use the tiff library configured for ITK.  */
 #cmakedefine ITK_USE_SYSTEM_TIFF
+#cmakedefine ITK_TIFF_HAS_TIFFFieldReadCount
+#cmakedefine ITK_TIFF_HAS_TIFFField
 #ifdef ITK_USE_SYSTEM_TIFF
 # include <tiffio.h>
 #else

@@ -14,6 +14,15 @@ if(ITK_USE_SYSTEM_TIFF)
     )
   set(ITKTIFF_LIBRARIES "${TIFF_LIBRARIES}")
   set(ITKTIFF_NO_SRC 1)
+
+  # Check availability of different methods to access TIFF's field
+  # data struture.
+  include(CheckSymbolExists)
+  include(CheckTypeSize)
+  set(CMAKE_REQUIRED_INCLUDES ${ITKTIFF_INCLUDE_DIRS})
+  check_symbol_exists(TIFFFieldReadCount "tiffio.h" ITK_TIFF_HAS_TIFFFieldReadCount)
+  set(CMAKE_EXTRA_INCLUDE_FILES "tiffio.h")
+  check_type_size(TIFFField*  ITK_TIFF_HAS_TIFFField)
 else()
   set(ITKTIFF_INCLUDE_DIRS
     ${ITKTIFF_BINARY_DIR}/src
@@ -21,6 +30,8 @@ else()
     ${ITKTIFF_SOURCE_DIR}/src
     )
   set(ITKTIFF_LIBRARIES itktiff)
+  set(ITK_TIFF_HAS_TIFFFieldReadCount 1)
+  set(ITK_TIFF_HAS_TIFFField 1)
 endif()
 
 configure_file(src/itk_tiff.h.in src/itk_tiff.h)
