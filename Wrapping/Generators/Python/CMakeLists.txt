@@ -147,7 +147,6 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
     endforeach()
   else()
     set(ITK_WRAP_PYTHON_FILES)
-    add_custom_target(copy_python_files ALL)
     foreach(file ${ITK_PYTHON_FILES})
       set(src "${CMAKE_CURRENT_SOURCE_DIR}/${file}.py")
       # recall that WRAP_ITK_BUILD_INTDIR expands to nothing if no config types are set,
@@ -161,19 +160,13 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
       # create the directory to avoid loosing case on windows
       file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/${WRAP_ITK_INSTALL_INTDIR}${path})
 
-      add_custom_command(SOURCE ${src}
-        COMMAND ${CMAKE_COMMAND}
-        ARGS -E copy ${src} ${copy_tgt}
-        OUTPUTS ${copy_tgt}
-        TARGET copy_python_files
+      add_custom_command(OUTPUT ${copy_tgt}
+        COMMAND ${CMAKE_COMMAND} -E copy ${src} ${copy_tgt}
+        DEPENDS ${src}
         COMMENT "Copying ${file}.py to build dir.")
     endforeach()
+    add_custom_target(copy_python_files ALL DEPENDS ${ITK_WRAP_PYTHON_FILES})
 
-    # driver command to make the copy happen.
-    add_custom_command(
-      SOURCE copy_python_files
-      DEPENDS ${ITK_WRAP_PYTHON_FILES}
-      TARGET copy_python_files)
   endif()
 
   # Install the package python files.
