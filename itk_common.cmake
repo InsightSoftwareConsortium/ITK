@@ -201,7 +201,7 @@ if(NOT DEFINED ExternalData_OBJECT_STORES)
 endif()
 
 if(NOT DEFINED CTEST_MEMCHECK_ARGS)
-  set(CTEST_MEMCHECK_ARGS ${CTEST_CTEST_ARGS})
+  set(CTEST_MEMCHECK_ARGS ${CTEST_TEST_ARGS})
 endif()
 
 # Delete source tree if it is incompatible with current VCS.
@@ -299,6 +299,10 @@ foreach(v
     CTEST_CHECKOUT_COMMAND
     CTEST_SCRIPT_DIRECTORY
     CTEST_USE_LAUNCHERS
+    CTEST_TEST_TIMEOUT
+    CTEST_COVERAGE_ARGS
+    CTEST_TEST_ARGS
+    CTEST_MEMCHECK_ARGS
     )
   set(vars "${vars}  ${v}=[${${v}}]\n")
 endforeach(v)
