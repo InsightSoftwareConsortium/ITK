@@ -86,12 +86,16 @@ public:
 
   /** Versor type. */
   typedef typename Superclass::VersorType VersorType;
+  typedef typename VersorType::VectorType VectorType;
+
   typedef typename Superclass::AxisType   AxisType;
   typedef typename Superclass::AngleType  AngleType;
 
   typedef typename Superclass::AxisValueType        AxisValueType;
   typedef typename Superclass::TranslationValueType TranslationValueType;
   typedef typename Superclass::ParameterValueType   ParameterValueType;
+
+  typedef  Array<ParameterValueType>                DerivativeType;
 
   /** Set the transformation from a container of parameters
    * This is typically used by optimizers.
@@ -100,6 +104,15 @@ public:
   void SetParameters(const ParametersType & parameters);
 
   virtual const ParametersType & GetParameters(void) const;
+
+  /** Update the transform's parameters by the values in \c update.
+   * \param update must be of the same length as returned by
+   * GetNumberOfParameters(). Throw an exception otherwise.
+   * \param factor is a scalar multiplier for each value in \c update.
+   * SetParameters is called at the end of this method, to allow the transform
+   * to perform any required operations on the updated parameters - typically
+   * a conversion to member variables for use in TransformPoint. */
+  virtual void UpdateTransformParameters( const DerivativeType & update, TScalar factor = 1.0 );
 
   /** This method computes the Jacobian matrix of the transformation.
    * given point or vector, returning the transformed point or
