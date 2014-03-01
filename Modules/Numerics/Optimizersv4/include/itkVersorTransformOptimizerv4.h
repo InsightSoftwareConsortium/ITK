@@ -19,6 +19,7 @@
 #define __itkVersorTransformOptimizerv4_h
 
 #include "itkGradientDescentOptimizerv4.h"
+#include "itkVersor.h"
 
 namespace itk
 {
