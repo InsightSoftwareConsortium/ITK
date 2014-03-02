@@ -39,7 +39,7 @@ namespace itk
  * In SingleValuedNonLinearCostFunctionAdaptor, the handling of the gradient
  * must be changed to accomodate the fact that local-support transforms expect
  * a gradient to be added to the transform parameters using the
- * local-support-transform::UpdateTransformParameters method. Other optimizers
+ * UpdateTransformParameters method of the local support transform. Other optimizers
  * in the v4 framework use this method, but the use of the vnl optimizers here
  * complicates it.
  *
