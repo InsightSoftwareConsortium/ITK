@@ -163,7 +163,7 @@ public:
   itkGetConstMacro(NumberOfHistogramBins, unsigned int);
 
   /** Does histogram generator compute min and max from data?
-    * Default is false for all but char types */
+    * Default is true for all but char types */
   itkSetMacro(AutoMinimumMaximum, bool);
   itkGetConstMacro(AutoMinimumMaximum, bool);
   itkBooleanMacro(AutoMinimumMaximum);
