@@ -53,11 +53,16 @@ else()
       set(FFTW_SHARED_FLAG --enable-shared)
     endif()
 
+    set(_fftw_target_version 3.3.3)
+    set(_fftw_url_md5 "0a05ca9c7b3bfddc8278e7c40791a1c2")
+    set(_fftw_url "http://midas3.kitware.com/midas/api/rest?method=midas.bitstream.download&checksum=${_fftw_url_md5}&name=fftw-${_fftw_target_version}.tar.gz")
+
     if(ITK_USE_FFTWF)
       ExternalProject_add(fftwf
         PREFIX fftwf
-        URL "http://www.fftw.org/fftw-3.3.2.tar.gz"
-        URL_MD5 6977ee770ed68c85698c7168ffa6e178
+        URL "${_fftw_url}"
+        URL_MD5 "${_fftw_url_md5}"
+        DOWNLOAD_NAME "fftw-${_fftw_target_version}.tar.gz"
         CONFIGURE_COMMAND
           env
             "CC=${CMAKE_C_COMPILER} ${CMAKE_C_COMPILER_ARG1}"
@@ -79,8 +84,9 @@ else()
     if(ITK_USE_FFTWD)
       ExternalProject_add(fftwd
         PREFIX fftwd
-        URL "http://www.fftw.org/fftw-3.3.2.tar.gz"
-        URL_MD5 6977ee770ed68c85698c7168ffa6e178
+        URL "${_fftw_url}"
+        URL_MD5 "${_fftw_url_md5}"
+        DOWNLOAD_NAME "fftw-${_fftw_target_version}.tar.gz"
         CONFIGURE_COMMAND
           env
            "CC=${CMAKE_C_COMPILER} ${CMAKE_C_COMPILER_ARG1}"
