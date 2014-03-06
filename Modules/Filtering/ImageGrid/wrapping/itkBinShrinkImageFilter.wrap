@@ -1,5 +1,4 @@
 itk_wrap_class("itk::BinShrinkImageFilter" POINTER)
-  itk_wrap_image_filter("${WRAP_ITK_SCALAR}" 2)
   itk_wrap_image_filter("${WRAP_ITK_RGB}" 2)
   itk_wrap_image_filter("${WRAP_ITK_RGBA}" 2)
 # VS9 (2008) does not correctly implicitly cast itk::Vector for operator +=
