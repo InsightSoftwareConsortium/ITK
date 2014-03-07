@@ -149,14 +149,6 @@ int itkFEMElement2DC0LinearQuadrilateralStressTest(int argc, char *argv[])
   solver->SetInput( femObject );
   solver->Update();
 
-  bool foundError = false;
-
-  if( foundError )
-    {
-    std::cout << "Test FAILED!" << std::endl;
-    return EXIT_FAILURE;
-    }
-
   // to write the deformed mesh
   // Testing the fe mesh validity
   typedef itk::FEMObjectSpatialObject<Dimension> FEMObjectSpatialObjectType;

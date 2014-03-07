@@ -72,14 +72,6 @@ int itkFEMElement2DC0LinearTriangleMembraneTest(int argc, char *argv[])
   solver->SetInput( femSO->GetFEMObject() );
   solver->Update();
 
-  bool foundError = false;
-
-  if( foundError )
-    {
-    std::cout << "Test FAILED!" << std::endl;
-    return EXIT_FAILURE;
-    }
-
   // to write the deformed mesh
   FEMObjectSpatialObjectType::Pointer femSODef = FEMObjectSpatialObjectType::New();
   femSODef->SetFEMObject(solver->GetOutput() );
