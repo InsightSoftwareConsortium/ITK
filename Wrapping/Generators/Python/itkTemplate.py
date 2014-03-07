@@ -20,8 +20,22 @@ import types
 import inspect
 import sys
 import os
+import warnings
 import itkConfig
 from itkTypes import itkCType
+
+
+def itkFormatWarning(msg, *a):
+    """"Format the warnings issued by itk to display only the message.
+
+    This will ignore the filename and the linenumber where the warning was
+    triggered. The message is returned to the warnings module.
+    """
+
+    return str(msg) + '\n'
+
+# Redefine the format of the warnings
+warnings.formatwarning = itkFormatWarning
 
 
 def registerNoTpl(name, cl):
@@ -87,9 +101,10 @@ class itkTemplate(object):
         # the full class should not be already registered. If it is, there is a
         # problem somewhere so warn the user so he can fix the problem
         if normFullName in itkTemplate.__templates__:
-            print >> sys.stderr, (
-                "Warning: template %s\n already defined as %s\n is redefined "
+            message = (
+                "Template %s\n already defined as %s\n is redefined "
                 "as %s") % (normFullName, self.__templates__[normFullName], cl)
+            warnings.warn(message)
         # register the class
         itkTemplate.__templates__[normFullName] = cl
 
@@ -101,8 +116,8 @@ class itkTemplate(object):
         # once again, warn the user if the tuple of parameter is already
         # defined so he can fix the problem
         if param in self.__template__:
-            print >> sys.stderr, (
-                "Warning: template already defined '%s'") % normFullName
+            message = "Warning: template already defined '%s'" % normFullName
+            warnings.warn(message)
         # and register the parameter tuple
         self.__template__[param] = cl
 
@@ -203,9 +218,10 @@ class itkTemplate(object):
                 # unable to convert the parameter
                 # use it without changes, but display a warning message, to
                 # incite developer to fix the problem
-                print >> sys.stderr, (
+                message = (
                     "Warning: Unknown parameter '%s' in "
                     "template '%s'" % (param, self.__name__))
+                warnings.warn(message)
 
             parameters.append(param)
 
