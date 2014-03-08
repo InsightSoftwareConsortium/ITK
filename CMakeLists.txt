@@ -29,6 +29,12 @@ ${headers}
 set_target_properties(double-conversion
     PROPERTIES PUBLIC_HEADER "${headers}")
 
+if (BUILD_SHARED_LIBS)
+  set_target_properties(double-conversion
+    PROPERTIES VERSION ${double-conversion_SOVERSION}
+               SOVERSION ${double-conversion_SOVERSION_MAJOR})
+endif()
+
 #
 # install command to set up library install
 # given the above PUBLIC_HEADER property set, this
