@@ -109,6 +109,7 @@ TimeVaryingBSplineVelocityFieldTransform<TScalar, NDimensions>
   inverseIntegrator->SetInput( bspliner->GetOutput() );
   inverseIntegrator->SetLowerTimeBound( this->GetUpperTimeBound() );
   inverseIntegrator->SetUpperTimeBound( this->GetLowerTimeBound() );
+
   if( this->GetVelocityFieldInterpolator() )
     {
     inverseIntegrator->SetVelocityFieldInterpolator( this->GetModifiableVelocityFieldInterpolator() );

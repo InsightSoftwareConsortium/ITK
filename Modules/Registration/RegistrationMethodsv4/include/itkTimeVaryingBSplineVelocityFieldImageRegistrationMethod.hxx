@@ -581,6 +581,15 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
     if( this->m_CurrentConvergenceValue < this->m_ConvergenceThreshold )
       {
       this->m_IsConverged = true;
+      }
+
+    if( this->m_IsConverged || this->m_CurrentIteration >= this->m_NumberOfIterationsPerLevel[this->m_CurrentLevel] )
+      {
+
+      // Once we finish by convergence or exceeding number of iterations,
+      // we need to reset the transform by resetting the time bounds to the
+      // full range [0,1] and integrating the velocity field to get the
+      // forward and inverse displacement fields.
 
       this->m_OutputTransform->SetLowerTimeBound( 0 );
       this->m_OutputTransform->SetUpperTimeBound( 1.0 );
