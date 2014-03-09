@@ -41,29 +41,6 @@ LabelStatisticsImageFilter< TInputImage, TLabelImage >
 template< typename TInputImage, typename TLabelImage >
 void
 LabelStatisticsImageFilter< TInputImage, TLabelImage >
-::GenerateInputRequestedRegion()
-{
-  Superclass::GenerateInputRequestedRegion();
-  if ( this->GetInput() )
-    {
-    InputImagePointer image =
-      const_cast< typename Superclass::InputImageType * >( this->GetInput() );
-    if ( image )
-      {
-      image->SetRequestedRegionToLargestPossibleRegion();
-      }
-    }
-  if ( this->GetLabelInput() )
-    {
-    LabelImagePointer label =
-      const_cast< TLabelImage * >( this->GetLabelInput() );
-    label->SetRequestedRegionToLargestPossibleRegion();
-    }
-}
-
-template< typename TInputImage, typename TLabelImage >
-void
-LabelStatisticsImageFilter< TInputImage, TLabelImage >
 ::EnlargeOutputRequestedRegion(DataObject *data)
 {
   Superclass::EnlargeOutputRequestedRegion(data);

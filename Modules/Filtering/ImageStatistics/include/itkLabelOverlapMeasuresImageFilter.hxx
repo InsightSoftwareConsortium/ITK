@@ -36,26 +36,6 @@ LabelOverlapMeasuresImageFilter<TLabelImage>
 template<typename TLabelImage>
 void
 LabelOverlapMeasuresImageFilter<TLabelImage>
-::GenerateInputRequestedRegion()
-{
-  Superclass::GenerateInputRequestedRegion();
-  if( this->GetSourceImage() )
-    {
-    LabelImagePointer source = const_cast
-      <LabelImageType *>( this->GetSourceImage() );
-    source->SetRequestedRegionToLargestPossibleRegion();
-    }
-  if( this->GetTargetImage() )
-    {
-    LabelImagePointer target = const_cast
-      <LabelImageType *>( this->GetTargetImage() );
-    target->SetRequestedRegionToLargestPossibleRegion();
-    }
-}
-
-template<typename TLabelImage>
-void
-LabelOverlapMeasuresImageFilter<TLabelImage>
 ::EnlargeOutputRequestedRegion( DataObject *data )
 {
   Superclass::EnlargeOutputRequestedRegion( data );

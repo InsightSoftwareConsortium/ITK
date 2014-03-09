@@ -196,9 +196,6 @@ protected:
   /** Multi-thread version GenerateData. */
   void ThreadedGenerateData( const RegionType&, ThreadIdType );
 
-  // Override since the filter needs all the data for the algorithm
-  void GenerateInputRequestedRegion();
-
   // Override since the filter produces all of its output
   void EnlargeOutputRequestedRegion( DataObject *data );
 
