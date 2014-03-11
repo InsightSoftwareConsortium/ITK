@@ -1,8 +1,20 @@
 
 ###############################################################################
-# configure python
-find_package(PythonLibs)
+# configure python (find PythonInterp first, as of cmake 3.1)
 find_package(PythonInterp)
+find_package(PythonLibs)
+
+# require at least python 2.6
+if(PYTHON_VERSION_STRING VERSION_LESS 2.6)
+  message(WARNING "Python version less than 2.6: \"${PYTHON_VERSION_STRING}\".")
+endif()
+
+# check for version mismatch.
+if(PYTHONLIBS_FOUND AND PYTHONINTERP_FOUND
+    AND NOT(PYTHON_VERSION_STRING VERSION_EQUAL PYTHONLIBS_VERSION_STRING))
+  message(WARNING "Python executable (\"${PYTHON_VERSION_STRING}\") and library (\"${PYTHONLIBS_VERSION_STRING}\") version mismatch.")
+endif()
+
 mark_as_advanced(PYTHON_EXECUTABLE)
 include_directories(${PYTHON_INCLUDE_PATH})
 
