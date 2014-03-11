@@ -36,10 +36,35 @@ VersorTransformOptimizerv4Template<TInternalComputationValueType>
    * if the options are set to do so. */
   this->EstimateLearningRate();
 
+  // Normalized scaled gradient is used to update versor transform parameters.
+  const double GradientMagnitudeTolerance = 1e-4;
+  double magnitudeSquare = 0;
+  for( unsigned int dim = 0; dim < this->m_Gradient.Size(); ++dim )
+     {
+     const double weighted = this->m_Gradient[dim];
+     magnitudeSquare += weighted * weighted;
+     }
+  const double gradientMagnitude = vcl_sqrt(magnitudeSquare);
+
+  if( gradientMagnitude < GradientMagnitudeTolerance )
+    {
+    this->m_StopCondition = Superclass::GRADIENT_MAGNITUDE_TOLEARANCE;
+    this->m_StopConditionDescription << "Gradient magnitude tolerance met after "
+                                     << this->m_CurrentIteration
+                                     << " iterations. Gradient magnitude ("
+                                     << gradientMagnitude
+                                     << ") is less than gradient magnitude tolerance ("
+                                     << GradientMagnitudeTolerance
+                                     << ").";
+    this->StopOptimization();
+    return;
+    }
+  const double factor = this->m_LearningRate / gradientMagnitude;
+
   try
     {
     /* Pass graident and learning rate to transform and let it do its own updating */
-    this->m_Metric->UpdateTransformParameters( this->m_Gradient, this->m_LearningRate );
+    this->m_Metric->UpdateTransformParameters( this->m_Gradient, factor );
     }
   catch ( ExceptionObject & err )
     {
