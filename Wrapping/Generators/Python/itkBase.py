@@ -199,31 +199,8 @@ def DebugPrintError(error):
 class LibraryLoader(object):
 
     """Do all the work to set up the environment so that a SWIG-generated
-    library can be properly loaded. This invloves setting paths, etc.,
-    defined in itkConfig."""
-
-    # To share symbols across extension modules, we must set
-    #         sys.setdlopenflags(dl.RTLD_NOW|dl.RTLD_GLOBAL)
-    #
-    # Since RTLD_NOW==0x002 and RTLD_GLOBAL==0x100 very commonly
-    # we will just guess that the proper flags are 0x102 when there
-    # is no dl module. On darwin (where there is not yet a dl module)
-    # we need different flags because RTLD_GLOBAL = 0x008.
-    darwin_dlopenflags = 0xA
-    generic_dlopenflags = 0x102
-
-    if sys.platform.startswith('darwin'):
-        dlopenflags = darwin_dlopenflags
-    elif sys.platform.startswith('win'):
-        dlopenflags = None
-    else:
-        dlopenflags = generic_dlopenflags
-    # now try to refine the dlopenflags if we have a dl module.
-    try:
-        import dl
-        dlopenflags = dl.RTLD_NOW | dl.RTLD_GLOBAL
-    except:
-        pass
+    library can be properly loaded. This invloves setting paths defined in
+    itkConfig."""
 
     def setup(self):
         self.old_cwd = os.getcwd()
@@ -234,11 +211,6 @@ class LibraryLoader(object):
             pass
         self.old_path = sys.path
         sys.path = [itkConfig.swig_lib, itkConfig.swig_py] + sys.path
-        try:
-            self.old_dlopenflags = sys.getdlopenflags()
-            sys.setdlopenflags(self.dlopenflags)
-        except:
-            self.old_dlopenflags = None
 
     def load(self, name):
         self.setup()
@@ -257,11 +229,6 @@ class LibraryLoader(object):
     def cleanup(self):
         os.chdir(self.old_cwd)
         sys.path = self.old_path
-        if self.old_dlopenflags:
-            try:
-                sys.setdlopenflags(self.old_dlopenflags)
-            except:
-                pass
 
 
 # Make a list of all know modules (described in *Config.py files in the
