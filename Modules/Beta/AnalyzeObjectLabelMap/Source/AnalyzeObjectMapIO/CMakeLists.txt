@@ -1,14 +1,14 @@
-PROJECT(AnalyzeObjectMapIO)
+project(AnalyzeObjectMapIO)
 
-INCLUDE_DIRECTORIES(${AnalyzeObjectMap_SOURCE_DIR})
+include_directories(${AnalyzeObjectMap_SOURCE_DIR})
 
-SET(AnalyzeObjectMapIOLibrary 
-	itkAnalyzeObjectLabelMapImageIO.cxx 
+set(AnalyzeObjectMapIOLibrary
+	itkAnalyzeObjectLabelMapImageIO.cxx
 	itkAnalyzeObjectLabelMapImageIOFactory.cxx)
 
 
-ADD_LIBRARY(AnalyzeObjectMapIO ${AnalyzeObjectMapIOLibrary})
+add_library(AnalyzeObjectMapIO ${AnalyzeObjectMapIOLibrary})
 
-TARGET_LINK_LIBRARIES(AnalyzeObjectMapIO 
+target_link_libraries(AnalyzeObjectMapIO
 AnalyzeObjectMap
 )

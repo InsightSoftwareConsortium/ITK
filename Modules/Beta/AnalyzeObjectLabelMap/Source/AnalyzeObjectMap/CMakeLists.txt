@@ -1,8 +1,8 @@
-PROJECT(AnalyzeObjectMap)
+project(AnalyzeObjectMap)
 
-SET(AnalyzeObjectMapLibrary
+set(AnalyzeObjectMapLibrary
 itkAnalyzeObjectEntry.cxx
 itkAnalyzeObjectEntry.h
 itkAnalyzeObjectMap.h)
 
-ADD_LIBRARY(AnalyzeObjectMap  ${AnalyzeObjectMapLibrary})
+add_library(AnalyzeObjectMap  ${AnalyzeObjectMapLibrary})

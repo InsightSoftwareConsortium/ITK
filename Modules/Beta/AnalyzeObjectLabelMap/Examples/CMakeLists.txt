@@ -1,33 +1,33 @@
 cmake_minimum_required(VERSION 2.6)
 
-PROJECT(AnalyzeObjectMapExamples)
+project(AnalyzeObjectMapExamples)
 
-FIND_PACKAGE(ITK REQUIRED)
-IF(ITK_FOUND)
-  INCLUDE(${ITK_USE_FILE})
-ENDIF(ITK_FOUND)
+find_package(ITK REQUIRED)
+if(ITK_FOUND)
+  include(${ITK_USE_FILE})
+endif(ITK_FOUND)
 
-#FIND_PACKAGE( VTK REQUIRED )
-#IF ( VTK_FOUND )
-#    INCLUDE( ${USE_VTK_FILE} )
-#ENDIF( VTK_FOUND )
+#find_package( VTK REQUIRED )
+#if( VTK_FOUND )
+#    include( ${USE_VTK_FILE} )
+#endif( VTK_FOUND )
 
 
-INCLUDE_DIRECTORIES(${AnalyzeObjectMap_SOURCE_DIR})
-INCLUDE_DIRECTORIES(${AnalyzeObjectMapIO_SOURCE_DIR})
+include_directories(${AnalyzeObjectMap_SOURCE_DIR})
+include_directories(${AnalyzeObjectMapIO_SOURCE_DIR})
 
-SET(TEST_DATA_ROOT     ${AnalyzeObjectMapExamples_SOURCE_DIR}/Data/Input)
-SET(TESTING_OUTPUT_DIR ${AnalyzeObjectMapExamples_BINARY_DIR}/Temporary)
+set(TEST_DATA_ROOT     ${AnalyzeObjectMapExamples_SOURCE_DIR}/Data/Input)
+set(TESTING_OUTPUT_DIR ${AnalyzeObjectMapExamples_BINARY_DIR}/Temporary)
 
-INCLUDE_DIRECTORIES( ${AnalyzeObjectMapExamples_SOURCE_DIR} )
+include_directories( ${AnalyzeObjectMapExamples_SOURCE_DIR} )
 
-ADD_EXECUTABLE( CreatingObjects CreatingObjects.cxx )
-TARGET_LINK_LIBRARIES( CreatingObjects ITKIO AnalyzeObjectMapIO AnalyzeObjectMap)
+add_executable( CreatingObjects CreatingObjects.cxx )
+target_link_libraries( CreatingObjects ITKIO AnalyzeObjectMapIO AnalyzeObjectMap)
 
-ADD_EXECUTABLE( DisplayingObjectMaps DisplayingObjectMaps.cxx )
-TARGET_LINK_LIBRARIES( DisplayingObjectMaps ITKIO AnalyzeObjectMapIO AnalyzeObjectMap) #vtkRendering vtkImaging vtkIO vtkCommon)
+add_executable( DisplayingObjectMaps DisplayingObjectMaps.cxx )
+target_link_libraries( DisplayingObjectMaps ITKIO AnalyzeObjectMapIO AnalyzeObjectMap) #vtkRendering vtkImaging vtkIO vtkCommon)
 
-ADD_EXECUTABLE( PickOneObjectEntry PickOneObjectEntry.cxx )
-TARGET_LINK_LIBRARIES( PickOneObjectEntry ITKIO AnalyzeObjectMapIO AnalyzeObjectMap)
+add_executable( PickOneObjectEntry PickOneObjectEntry.cxx )
+target_link_libraries( PickOneObjectEntry ITKIO AnalyzeObjectMapIO AnalyzeObjectMap)
 
 

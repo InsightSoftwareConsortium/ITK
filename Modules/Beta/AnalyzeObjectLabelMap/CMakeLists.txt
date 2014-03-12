@@ -1,37 +1,38 @@
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 2.8)
 
-PROJECT( ANALYZE_OBJECT_MAP )
+project( ANALYZE_OBJECT_MAP )
 
-SET (LIBRARY_OUTPUT_PATH ${ANALYZE_OBJECT_MAP_BINARY_DIR}/bin CACHE PATH "Single output directory for building all libraries." FORCE)
-SET (EXECUTABLE_OUTPUT_PATH ${ANALYZE_OBJECT_MAP_BINARY_DIR}/bin CACHE PATH "Single output directory for building all executables." FORCE)
+## TODO: Remove these outdated cmake variables
+set(LIBRARY_OUTPUT_PATH ${ANALYZE_OBJECT_MAP_BINARY_DIR}/bin CACHE PATH "Single output directory for building all libraries." FORCE)
+set(EXECUTABLE_OUTPUT_PATH ${ANALYZE_OBJECT_MAP_BINARY_DIR}/bin CACHE PATH "Single output directory for building all executables." FORCE)
 
 # Add the testing directories
-OPTION(ANALYZE_OBJECT_MAP_BUILD_TESTING "Test" ON)
-IF(ANALYZE_OBJECT_MAP_BUILD_TESTING)
-  ENABLE_TESTING()
-ENDIF(ANALYZE_OBJECT_MAP_BUILD_TESTING)
+option(ANALYZE_OBJECT_MAP_BUILD_TESTING "Test" ON)
+if(ANALYZE_OBJECT_MAP_BUILD_TESTING)
+  enable_testing()
+endif(ANALYZE_OBJECT_MAP_BUILD_TESTING)
 
-SET(CXX_TEST_PATH ${EXECUTABLE_OUTPUT_PATH})
+set(CXX_TEST_PATH ${EXECUTABLE_OUTPUT_PATH})
 
 
 #  FIND ITK
-FIND_PACKAGE(ITK)
-IF (USE_ITK_FILE)
-  INCLUDE (${USE_ITK_FILE})
-ELSE (USE_ITK_FILE)
-  MESSAGE( FATAL_ERROR "This application requires ITK. One of these components is missing. Please verify configuration")
-ENDIF (USE_ITK_FILE)
+find_package(ITK)
+if(USE_ITK_FILE)
+  include(${USE_ITK_FILE})
+else(USE_ITK_FILE)
+  message( FATAL_ERROR "This application requires ITK. One of these components is missing. Please verify configuration")
+endif(USE_ITK_FILE)
 
 
-SUBDIRS(Source)
+subdirs(Source)
 
 # Add the testing directories
-IF(ANALYZE_OBJECT_MAP_BUILD_TESTING)
-   SUBDIRS(Test)
-ENDIF(ANALYZE_OBJECT_MAP_BUILD_TESTING)
+if(ANALYZE_OBJECT_MAP_BUILD_TESTING)
+   subdirs(Test)
+endif(ANALYZE_OBJECT_MAP_BUILD_TESTING)
 
 # Add the examples directories
-OPTION(ANALYZE_OBJECT_MAP_BUILD_EXAMPLES "Examples" ON)
-IF(ANALYZE_OBJECT_MAP_BUILD_EXAMPLES)
-  SUBDIRS(Examples)
-ENDIF(ANALYZE_OBJECT_MAP_BUILD_EXAMPLES)
+option(ANALYZE_OBJECT_MAP_BUILD_EXAMPLES "Examples" ON)
+if(ANALYZE_OBJECT_MAP_BUILD_EXAMPLES)
+  subdirs(Examples)
+endif(ANALYZE_OBJECT_MAP_BUILD_EXAMPLES)
