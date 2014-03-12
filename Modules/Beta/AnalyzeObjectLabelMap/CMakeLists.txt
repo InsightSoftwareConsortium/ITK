@@ -2,10 +2,6 @@ cmake_minimum_required(VERSION 2.8)
 
 project( ANALYZE_OBJECT_MAP )
 
-## TODO: Remove these outdated cmake variables
-set(LIBRARY_OUTPUT_PATH ${ANALYZE_OBJECT_MAP_BINARY_DIR}/bin CACHE PATH "Single output directory for building all libraries." FORCE)
-set(EXECUTABLE_OUTPUT_PATH ${ANALYZE_OBJECT_MAP_BINARY_DIR}/bin CACHE PATH "Single output directory for building all executables." FORCE)
-
 # Add the testing directories
 option(ANALYZE_OBJECT_MAP_BUILD_TESTING "Test" ON)
 if(ANALYZE_OBJECT_MAP_BUILD_TESTING)

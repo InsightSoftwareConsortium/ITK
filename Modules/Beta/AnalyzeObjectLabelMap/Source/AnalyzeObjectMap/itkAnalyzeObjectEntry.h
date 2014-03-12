@@ -583,7 +583,7 @@ public:
    *
    *This function will read in all of the ivars from a file location that is passed into it.
    */
-  void ReadFromFilePointer(std::ifstream & inputFileStream, const bool NeedByteSwap, const bool NeedBlendFactor)
+  void ReadFromFilePointer(std::ifstream & inputFileStream, const bool NeedByteSwap, const bool /* NeedBlendFactor */)
   {
     ReadBytes<char>(inputFileStream, this->m_Name, 32, NeedByteSwap);
     ReadBytes<int>(inputFileStream, &(this->m_DisplayFlag), 1, NeedByteSwap);
