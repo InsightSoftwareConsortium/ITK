@@ -17,7 +17,7 @@ set(TESTING_OUTPUT_DIR ${ANALYZE_OBJECT_MAP_BINARY_DIR}/Temporary)
 include_directories( ${AnalyzeObjectMapTest_SOURCE_DIR} )
 
 add_executable( AnalyzeObjectMapTest AnalyzeObjectMapTest.cxx )
-target_link_libraries( AnalyzeObjectMapTest ITKIO  AnalyzeObjectMapIO AnalyzeObjectMap)
+target_link_libraries( AnalyzeObjectMapTest ${ITK_LIBRARIES}  AnalyzeObjectMapIO AnalyzeObjectMap)
 
 add_test( ImageIOStreamingAnalyzeObjectLabelMapTest01
    ${EXECUTABLE_OUTPUT_PATH}/AnalyzeObjectMapTest

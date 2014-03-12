@@ -16,7 +16,8 @@
 =========================================================================*/
 #include "itkAnalyzeObjectEntry.h"
 
-namespace itk{
+namespace itk
+{
 
 AnalyzeObjectEntry::~AnalyzeObjectEntry( void )
 {
@@ -24,7 +25,7 @@ AnalyzeObjectEntry::~AnalyzeObjectEntry( void )
 
 AnalyzeObjectEntry::AnalyzeObjectEntry( void )
 {
-  for (unsigned int i = 0; i < sizeof(this->m_Name); i++)
+  for( unsigned int i = 0; i < sizeof(this->m_Name); i++ )
     {
     this->m_Name[i] = '\0';
     }
@@ -66,48 +67,48 @@ AnalyzeObjectEntry::AnalyzeObjectEntry( void )
   this->m_BlendFactor = 0;
 }
 
-//AnalyzeObjectEntry & AnalyzeObjectEntry
-//::operator=( const AnalyzeObjectEntry & rhs )
+// AnalyzeObjectEntry & AnalyzeObjectEntry
+// ::operator=( const AnalyzeObjectEntry & rhs )
 
-//Copy everything but the name.  Each ObjectEntry must have a unique name.
+// Copy everything but the name.  Each ObjectEntry must have a unique name.
 void AnalyzeObjectEntry::Copy( AnalyzeObjectEntry::Pointer rhs )
 {
-  this->SetBlendFactor(rhs->GetBlendFactor());
-  this->SetCopyFlag(rhs->GetCopyFlag());
-  this->SetDisplayFlag(rhs->GetDisplayFlag());
-  this->SetEndBlue(rhs->GetEndBlue());
-  this->SetEndGreen(rhs->GetEndGreen());
-  this->SetEndRed(rhs->GetEndRed());
-  this->SetMaximumXValue(rhs->GetMaximumXValue());
-  this->SetMaximumYValue(rhs->GetMaximumYValue());
-  this->SetMaximumZValue(rhs->GetMaximumZValue());
-  this->SetMinimumXValue(rhs->GetMinimumXValue());
-  this->SetMinimumYValue(rhs->GetMinimumYValue());
-  this->SetMinimumZValue(rhs->GetMinimumZValue());
-  this->SetMirrorFlag(rhs->GetMirrorFlag());
-  this->SetNeighborsUsedFlag(rhs->GetNeighborsUsedFlag());
-  this->SetOpacity(rhs->GetOpacity());
-  this->SetOpacityThickness(rhs->GetOpacityThickness());
-  this->SetXRotation(rhs->GetXRotation());
-  this->SetYRotation(rhs->GetYRotation());
-  this->SetZRotation(rhs->GetZRotation());
-  this->SetXRotationIncrement(rhs->GetXRotationIncrement());
-  this->SetYRotationIncrement(rhs->GetYRotationIncrement());
-  this->SetZRotationIncrement(rhs->GetZRotationIncrement());
-  this->SetShades(rhs->GetShades());
-  this->SetStartBlue(rhs->GetStartBlue());
-  this->SetStartGreen(rhs->GetStartGreen());
-  this->SetStartRed(rhs->GetStartRed());
-  this->SetStatusFlag(rhs->GetStatusFlag());
-  this->SetXTranslation(rhs->GetXTranslation());
-  this->SetYTranslation(rhs->GetYTranslation());
-  this->SetZTranslation(rhs->GetZTranslation());
-  this->SetXTranslationIncrement(rhs->GetXTranslationIncrement());
-  this->SetYTranslationIncrement(rhs->GetYTranslationIncrement());
-  this->SetZTranslationIncrement(rhs->GetZTranslationIncrement());
-  this->SetXCenter(rhs->GetXCenter());
-  this->SetYCenter(rhs->GetYCenter());
-  this->SetZCenter(rhs->GetZCenter());
+  this->SetBlendFactor(rhs->GetBlendFactor() );
+  this->SetCopyFlag(rhs->GetCopyFlag() );
+  this->SetDisplayFlag(rhs->GetDisplayFlag() );
+  this->SetEndBlue(rhs->GetEndBlue() );
+  this->SetEndGreen(rhs->GetEndGreen() );
+  this->SetEndRed(rhs->GetEndRed() );
+  this->SetMaximumXValue(rhs->GetMaximumXValue() );
+  this->SetMaximumYValue(rhs->GetMaximumYValue() );
+  this->SetMaximumZValue(rhs->GetMaximumZValue() );
+  this->SetMinimumXValue(rhs->GetMinimumXValue() );
+  this->SetMinimumYValue(rhs->GetMinimumYValue() );
+  this->SetMinimumZValue(rhs->GetMinimumZValue() );
+  this->SetMirrorFlag(rhs->GetMirrorFlag() );
+  this->SetNeighborsUsedFlag(rhs->GetNeighborsUsedFlag() );
+  this->SetOpacity(rhs->GetOpacity() );
+  this->SetOpacityThickness(rhs->GetOpacityThickness() );
+  this->SetXRotation(rhs->GetXRotation() );
+  this->SetYRotation(rhs->GetYRotation() );
+  this->SetZRotation(rhs->GetZRotation() );
+  this->SetXRotationIncrement(rhs->GetXRotationIncrement() );
+  this->SetYRotationIncrement(rhs->GetYRotationIncrement() );
+  this->SetZRotationIncrement(rhs->GetZRotationIncrement() );
+  this->SetShades(rhs->GetShades() );
+  this->SetStartBlue(rhs->GetStartBlue() );
+  this->SetStartGreen(rhs->GetStartGreen() );
+  this->SetStartRed(rhs->GetStartRed() );
+  this->SetStatusFlag(rhs->GetStatusFlag() );
+  this->SetXTranslation(rhs->GetXTranslation() );
+  this->SetYTranslation(rhs->GetYTranslation() );
+  this->SetZTranslation(rhs->GetZTranslation() );
+  this->SetXTranslationIncrement(rhs->GetXTranslationIncrement() );
+  this->SetYTranslationIncrement(rhs->GetYTranslationIncrement() );
+  this->SetZTranslationIncrement(rhs->GetZTranslationIncrement() );
+  this->SetXCenter(rhs->GetXCenter() );
+  this->SetYCenter(rhs->GetYCenter() );
+  this->SetZCenter(rhs->GetZCenter() );
 }
 
 void AnalyzeObjectEntry::PrintSelf(std::ostream& os, Indent indent) const

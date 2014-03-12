@@ -19,13 +19,11 @@ PURPOSE.  See the above copyright notices for more information.
 #include "itkAnalyzeObjectLabelMapImageIO.h"
 #include "itkVersion.h"
 
-
 namespace itk
 {
-void AnalyzeObjectLabelMapImageIOFactory::PrintSelf(std::ostream&, Indent) const
+void AnalyzeObjectLabelMapImageIOFactory::PrintSelf(std::ostream &, Indent) const
 {
 }
-
 
 AnalyzeObjectLabelMapImageIOFactory::AnalyzeObjectLabelMapImageIOFactory()
 {
@@ -33,20 +31,20 @@ AnalyzeObjectLabelMapImageIOFactory::AnalyzeObjectLabelMapImageIOFactory()
                          "itkAnalyzeObjectLabelMapImageIO",
                          "Anaylze Object Label Map IO",
                          1,
-                         CreateObjectFunction<AnalyzeObjectLabelMapImageIO>::New());
+                         CreateObjectFunction<AnalyzeObjectLabelMapImageIO>::New() );
 }
 
 AnalyzeObjectLabelMapImageIOFactory::~AnalyzeObjectLabelMapImageIOFactory()
 {
 }
 
-const char*
+const char *
 AnalyzeObjectLabelMapImageIOFactory::GetITKSourceVersion(void) const
 {
   return ITK_SOURCE_VERSION;
 }
 
-const char*
+const char *
 AnalyzeObjectLabelMapImageIOFactory::GetDescription() const
 {
   return "Anaylyze Object Map ImageIO Factory, allows the loading of Object Maps images into insight";

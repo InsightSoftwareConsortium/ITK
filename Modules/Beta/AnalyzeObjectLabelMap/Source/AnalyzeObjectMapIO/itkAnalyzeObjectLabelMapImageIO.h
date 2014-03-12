@@ -15,7 +15,6 @@ PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
 
-
 #ifndef __itkAnalyzeObjectLabelMapImageIO_h
 #define __itkAnalyzeObjectLabelMapImageIO_h
 
@@ -31,23 +30,23 @@ PURPOSE.  See the above copyright notices for more information.
 
 namespace itk
 {
-typedef std::vector<AnalyzeObjectEntry::Pointer>  AnalyzeObjectEntryArrayType;
+typedef std::vector<AnalyzeObjectEntry::Pointer> AnalyzeObjectEntryArrayType;
 const char *const ANALYZE_OBJECT_LABEL_MAP_ENTRY_ARRAY = "ANALYZE_OBJECT_LABEL_MAP_ENTRY_ARRAY";
-  /**
-  * Constants representing the current version number of the object map file for Analyze
-  */
-  const int VERSION1 = 880102;
-  const int VERSION2 = 880801;
-  const int VERSION3 = 890102;
-  static const int VERSION4 = 900302;
-  static const int VERSION5 = 910402;
-  static const int VERSION6 = 910926;
-  static const int VERSION7 = 20050829;
+/**
+* Constants representing the current version number of the object map file for Analyze
+*/
+const int        VERSION1 = 880102;
+const int        VERSION2 = 880801;
+const int        VERSION3 = 890102;
+static const int VERSION4 = 900302;
+static const int VERSION5 = 910402;
+static const int VERSION6 = 910926;
+static const int VERSION7 = 20050829;
 
 /**
   * Buffer size for reading in the run length encoded object data
   */
-  const int NumberOfRunLengthElementsPerRead = 1;
+const int NumberOfRunLengthElementsPerRead = 1;
 
 /** \class AnalyzeObjectLabelMapImageIO
  *
@@ -55,14 +54,14 @@ const char *const ANALYZE_OBJECT_LABEL_MAP_ENTRY_ARRAY = "ANALYZE_OBJECT_LABEL_M
 class ITK_EXPORT AnalyzeObjectLabelMapImageIO : public ImageIOBase
 {
 public:
-  
-  /** Standard class typedefs. */
-  typedef AnalyzeObjectLabelMapImageIO  Self;
-  typedef ImageIOBase                   Superclass;
-  typedef SmartPointer<Self>            Pointer;
 
-  typedef itk::RGBPixel<int>            RGBPixelType;
-  typedef itk::Image<unsigned char, 4>  ImageType;
+  /** Standard class typedefs. */
+  typedef AnalyzeObjectLabelMapImageIO Self;
+  typedef ImageIOBase                  Superclass;
+  typedef SmartPointer<Self>           Pointer;
+
+  typedef itk::RGBPixel<int>           RGBPixelType;
+  typedef itk::Image<unsigned char, 4> ImageType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -102,30 +101,32 @@ public:
   /** Writes the data to disk from the memory buffer provided. Make sure
    * that the IORegions has been set properly. */
   virtual void Write(const void* buffer);
-  //Streaming not yet supported, so use the default base class to return the LargestPossibleRegion
+
+  // Streaming not yet supported, so use the default base class to return the LargestPossibleRegion
 #if _USE_STREAMABLE_REGION_FOR_AOLM
-  /** Calculate the region of the image that can be efficiently read 
+  /** Calculate the region of the image that can be efficiently read
    *  in response to a given requested region. */
-  virtual ImageIORegion 
-  GenerateStreamableReadRegionFromRequestedRegion( const ImageIORegion & requestedRegion ) const;
+  virtual ImageIORegion GenerateStreamableReadRegionFromRequestedRegion( const ImageIORegion & requestedRegion ) const;
+
 #endif
 
   virtual bool CanStreamRead()
-    {
+  {
     return false;
-    }
+  }
+
 protected:
   AnalyzeObjectLabelMapImageIO();
   ~AnalyzeObjectLabelMapImageIO();
   void PrintSelf(std::ostream& os, Indent indent) const;
+
 private:
-  
+
   std::ifstream m_InputFileStream;
   int           m_LocationOfFile;
   //  int           m_CollapsedDims[8];
-  AnalyzeObjectLabelMapImageIO(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-
+  AnalyzeObjectLabelMapImageIO(const Self &); // purposely not implemented
+  void operator=(const Self &);               // purposely not implemented
 
 };
 

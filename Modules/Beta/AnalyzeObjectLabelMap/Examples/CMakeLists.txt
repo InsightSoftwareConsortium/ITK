@@ -22,12 +22,12 @@ set(TESTING_OUTPUT_DIR ${AnalyzeObjectMapExamples_BINARY_DIR}/Temporary)
 include_directories( ${AnalyzeObjectMapExamples_SOURCE_DIR} )
 
 add_executable( CreatingObjects CreatingObjects.cxx )
-target_link_libraries( CreatingObjects ITKIO AnalyzeObjectMapIO AnalyzeObjectMap)
+target_link_libraries( CreatingObjects ${ITK_LIBRARIES} AnalyzeObjectMapIO AnalyzeObjectMap)
 
 add_executable( DisplayingObjectMaps DisplayingObjectMaps.cxx )
-target_link_libraries( DisplayingObjectMaps ITKIO AnalyzeObjectMapIO AnalyzeObjectMap) #vtkRendering vtkImaging vtkIO vtkCommon)
+target_link_libraries( DisplayingObjectMaps ${ITK_LIBRARIES} AnalyzeObjectMapIO AnalyzeObjectMap) #vtkRendering vtkImaging vtkIO vtkCommon)
 
 add_executable( PickOneObjectEntry PickOneObjectEntry.cxx )
-target_link_libraries( PickOneObjectEntry ITKIO AnalyzeObjectMapIO AnalyzeObjectMap)
+target_link_libraries( PickOneObjectEntry ${ITK_LIBRARIES} AnalyzeObjectMapIO AnalyzeObjectMap)
 
 
