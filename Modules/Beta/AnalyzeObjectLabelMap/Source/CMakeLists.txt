@@ -1,2 +1,0 @@
-subdirs(AnalyzeObjectMap)
-subdirs(AnalyzeObjectMapIO)
