@@ -85,6 +85,9 @@
 # written.
 
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6.3 FATAL_ERROR)
+IF(POLICY CMP0025)
+  CMAKE_POLICY(SET CMP0025 NEW)
+ENDIF()
 
 #-----------------------------------------------------------------------------
 # If a namespace is not specified, use "kwsys" and enable testing.
@@ -1225,6 +1228,9 @@ IF(KWSYS_STANDALONE OR CMake_SOURCE_DIR)
     # Some Apple compilers produce bad optimizations in this source.
     IF(APPLE AND "${CMAKE_C_COMPILER_ID}" MATCHES "^(GNU|LLVM)$")
       SET_SOURCE_FILES_PROPERTIES(testProcess.c PROPERTIES COMPILE_FLAGS -O0)
+    ELSEIF(CMAKE_C_COMPILER_ID STREQUAL "XL")
+      # Tell IBM XL not to warn about our test infinite loop
+      SET_PROPERTY(SOURCE testProcess.c PROPERTY COMPILE_FLAGS -qsuppress=1500-010)
     ENDIF()
 
     # Test SharedForward
