@@ -222,6 +222,9 @@ LabelStatisticsImageFilter< TInputImage, TLabelImage >
   RealType       value;
   LabelPixelType label;
 
+  typename HistogramType::IndexType histogramIndex(1);
+  typename HistogramType::MeasurementVectorType histogramMeasurement(1);
+
   ImageRegionConstIteratorWithIndex< TInputImage > it (this->GetInput(),
                                                        outputRegionForThread);
   ImageRegionConstIterator< TLabelImage > labelIt (this->GetLabelInput(),
@@ -288,10 +291,9 @@ LabelStatisticsImageFilter< TInputImage, TLabelImage >
     // if enabled, update the histogram for this label
     if ( m_UseHistograms )
       {
-      typename HistogramType::MeasurementVectorType meas;
-      meas.SetSize(1);
-      meas[0] = value;
-      ( *mapIt ).second.m_Histogram->IncreaseFrequencyOfMeasurement(meas, 1);
+      histogramMeasurement[0] = value;
+      ( *mapIt ).second.m_Histogram->GetIndex(histogramMeasurement, histogramIndex);
+      ( *mapIt ).second.m_Histogram->IncreaseFrequencyOfIndex(histogramIndex, 1);
       }
 
     ++it;

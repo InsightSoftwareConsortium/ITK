@@ -111,6 +111,7 @@ throw ( ExceptionObject )
   TrainingFixedIteratorType;
   typename FixedImageType::IndexType index;
   typename FixedImageType::RegionType fixedRegion;
+  typename HistogramType::IndexType hIndex;
 
   TrainingFixedIteratorType ti(this->m_TrainingFixedImage,
                                this->m_TrainingFixedImageRegion);
@@ -144,7 +145,9 @@ throw ( ExceptionObject )
         sample.SetSize(2);
         sample[0] = TrainingFixedValue;
         sample[1] = TrainingMovingValue;
-        this->m_TrainingHistogram->IncreaseFrequencyOfMeasurement(sample, 1);
+
+        this->m_TrainingHistogram->GetIndex( sample, hIndex );
+        this->m_TrainingHistogram->IncreaseFrequencyOfIndex( hIndex, 1 );
         }
       }
 

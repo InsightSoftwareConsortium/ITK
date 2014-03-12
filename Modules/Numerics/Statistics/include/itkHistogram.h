@@ -264,7 +264,11 @@ public:
 
   /** Increase the frequency of a measurement.  Frequency is
    * increased by the specified value. Returns false if the
-   * measurement is outside the bounds of the histogram. */
+   * measurement is outside the bounds of the histogram.
+   *
+   * \warning This function performs a dynamic allocation for the
+   * index length, and should not be used in tight per-pixel loops.
+   */
   bool IncreaseFrequencyOfMeasurement(
          const MeasurementVectorType & measurement,
          AbsoluteFrequencyType value);
