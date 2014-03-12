@@ -18,10 +18,6 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#ifdef __BORLANDC__
-#define ITK_LEAN_AND_MEAN
-#endif
-
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
@@ -31,6 +27,7 @@
 #include "itkAnalyzeObjectLabelMapImageIO.h"
 #include "itkAnalyzeObjectMap.h"
 #include "itkAnalyzeObjectLabelMapImageIOFactory.h"
+
 int main( int argc, char * * argv )
 {
   int error_count = 0;

@@ -1,18 +1,8 @@
 cmake_minimum_required(VERSION 2.6)
 
-project(AnalyzeObjectMapTest)
-
-find_package(ITK REQUIRED)
-if(ITK_FOUND)
-  include(${ITK_USE_FILE})
-endif(ITK_FOUND)
-
-include_directories(${AnalyzeObjectMap_SOURCE_DIR})
-include_directories(${AnalyzeObjectMapIO_SOURCE_DIR})
-
-file(MAKE_DIRECTORY ${ANALYZE_OBJECT_MAP_BINARY_DIR}/Temporary)
-set(TEST_DATA_ROOT     ${AnalyzeObjectMapTest_SOURCE_DIR}/Data/Input)
-set(TESTING_OUTPUT_DIR ${ANALYZE_OBJECT_MAP_BINARY_DIR}/Temporary)
+file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+set(TEST_DATA_ROOT     ${CMAKE_CURRENT_LIST_DIR}/Data/Input)
+set(TESTING_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR})
 
 include_directories( ${AnalyzeObjectMapTest_SOURCE_DIR} )
 

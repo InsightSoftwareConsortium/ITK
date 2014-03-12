@@ -214,6 +214,6 @@ private:
 };
 }
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkAnalyzeObjectMap.txx"
+#include "itkAnalyzeObjectMap.hxx"
 #endif
 #endif                           // __OBJECTMAP_H_
