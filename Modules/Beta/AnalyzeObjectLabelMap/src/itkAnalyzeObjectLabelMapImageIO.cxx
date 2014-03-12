@@ -270,9 +270,9 @@ void AnalyzeObjectLabelMapImageIO::ReadImageInformation()
   m_ComponentType = CHAR;
   m_PixelType = SCALAR;
   // Opening the file
-  std::ifstream m_InputFileStream;
-  m_InputFileStream.open(m_FileName.c_str(), std::ios::binary | std::ios::in);
-  if( !m_InputFileStream.is_open() )
+  std::ifstream inputFileStream;
+  inputFileStream.open(m_FileName.c_str(), std::ios::binary | std::ios::in);
+  if( !inputFileStream.is_open() )
     {
     itkDebugMacro(<< "Error: Could not open: " << m_FileName.c_str() << std::endl);
     exit(-1);
@@ -283,7 +283,7 @@ void AnalyzeObjectLabelMapImageIO::ReadImageInformation()
   bool NeedByteSwap = false;
 
   int header[6] = {1};
-  if(  m_InputFileStream.read(reinterpret_cast<char *>(header), sizeof(int) * 5).fail() )
+  if(  inputFileStream.read(reinterpret_cast<char *>(header), sizeof(int) * 5).fail() )
     {
     itkDebugMacro(<< "Error: Could not read header of " << m_FileName.c_str() << std::endl);
     exit(-1);
@@ -305,7 +305,7 @@ void AnalyzeObjectLabelMapImageIO::ReadImageInformation()
   bool NeedBlendFactor = false;
   if( header[0] == VERSION7 )
     {
-    if( ( m_InputFileStream.read(reinterpret_cast<char *>(&(header[5]) ), sizeof(int) * 1) ).fail() )
+    if( ( inputFileStream.read(reinterpret_cast<char *>(&(header[5]) ), sizeof(int) * 1) ).fail() )
       {
       itkDebugMacro(<< "Error: Could not read header of " << m_FileName.c_str() << std::endl);
       exit(-1);
@@ -422,7 +422,7 @@ void AnalyzeObjectLabelMapImageIO::ReadImageInformation()
   if( (header[4] < 1) || (header[4] > 256) )
     {
     itkDebugMacro(<< "Error: Invalid number of object files.\n");
-    m_InputFileStream.close();
+    inputFileStream.close();
     exit(-1);
     }
 
@@ -434,12 +434,12 @@ void AnalyzeObjectLabelMapImageIO::ReadImageInformation()
     {
     // Allocating a object to be created
     (my_reference)[i] = AnalyzeObjectEntry::New();
-    (my_reference)[i]->ReadFromFilePointer( m_InputFileStream, NeedByteSwap, NeedBlendFactor);
+    (my_reference)[i]->ReadFromFilePointer( inputFileStream, NeedByteSwap, NeedBlendFactor);
     // (*my_reference)[i]->Print(myfile);
     }
   // myfile.close();
-  m_LocationOfFile =  m_InputFileStream.tellg();
-  m_InputFileStream.close();
+  m_LocationOfFile =  inputFileStream.tellg();
+  inputFileStream.close();
   // Now fill out the MetaData
   MetaDataDictionary & thisDic = this->GetMetaDataDictionary();
   EncapsulateMetaData<std::string>(thisDic, ITK_OnDiskStorageTypeName, std::string(typeid(unsigned char).name() ) );

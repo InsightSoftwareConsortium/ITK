@@ -48,7 +48,8 @@ typedef std::vector<AnalyzeObjectEntry::Pointer> AnalyzeObjectEntryArrayType;
 template <class TImage = itk::Image<unsigned char, 4>, class TRGBImage = itk::Image<itk::RGBPixel<unsigned char>, 4> >
 
 /** \class AnalyzeObjectMap
- * \brief A class that is an image with functions that let the user change aspects of the class.  This
+ *  \ingroup AnalyzeObjectMapIO
+ *  \brief A class that is an image with functions that let the user change aspects of the class.  This
  * is a templated class where most everything will depend on the Image type that is used.
  */
 class AnalyzeObjectMap : public TImage
@@ -200,9 +201,7 @@ protected:
    * \brief the copy constructor,
    * THIS IS NOT ALLOWED
    */
-  AnalyzeObjectMap( const AnalyzeObjectMap & rhs )       /*Explicitly not allowed*/
-  {
-  };
+  AnalyzeObjectMap( const AnalyzeObjectMap & /* rhs */ ); /*Explicitly not allowed*/
 
   void PrintSelf(std::ostream& os, Indent indent) const;
 

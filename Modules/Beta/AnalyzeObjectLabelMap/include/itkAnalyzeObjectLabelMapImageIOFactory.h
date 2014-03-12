@@ -27,8 +27,9 @@ PURPOSE.  See the above copyright notices for more information.
 namespace itk
 {
 /** \class AnalyzeObjectLabelMapImageIOFactory
-   * \brief Create instances of AnalyzeObjectLabelMapImageIO objects using an object factory.
-   */
+ *  \ingroup AnalyzeObjectMapIO
+ *  \brief Create instances of AnalyzeObjectLabelMapImageIO objects using an object factory.
+ */
 class ITK_EXPORT AnalyzeObjectLabelMapImageIOFactory : public ObjectFactoryBase
 {
 public:

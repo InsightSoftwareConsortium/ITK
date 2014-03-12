@@ -12,8 +12,7 @@ CreateTestDriver(AnalyzeObjectMapIO
   "${AnalyzeObjectMapIO-Test_LIBRARIES}"
   "${AnalyzeObjectMapIOTests}")
 
-
-add_test( ImageIOStreamingAnalyzeObjectLabelMapTest01
+itk_add_test( ImageIOStreamingAnalyzeObjectLabelMapTest01
   COMMAND AnalyzeObjectMapIOTestDriver
   AnalyzeObjectMapTest
   ${TEST_DATA_ROOT}/test.obj

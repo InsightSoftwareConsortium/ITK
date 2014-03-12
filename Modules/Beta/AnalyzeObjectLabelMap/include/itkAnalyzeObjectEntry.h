@@ -48,6 +48,7 @@ void ReadBytes(std::ifstream & inputFileStream, ReadType * dest, const int Repli
 
 /**
  * \class AnalyzeObjectEntry
+ * \ingroup AnalyzeObjectMapIO
  * \brief This class encapsulates a single object in an Analyze object file
  */
 class AnalyzeObjectEntry : public Object

@@ -49,6 +49,7 @@ static const int VERSION7 = 20050829;
 const int NumberOfRunLengthElementsPerRead = 1;
 
 /** \class AnalyzeObjectLabelMapImageIO
+ *   \ingroup AnalyzeObjectMapIO
  *
  */
 class ITK_EXPORT AnalyzeObjectLabelMapImageIO : public ImageIOBase
