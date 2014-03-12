@@ -28,24 +28,24 @@
 #include "itkAnalyzeObjectMap.h"
 #include "itkAnalyzeObjectLabelMapImageIOFactory.h"
 
-int main( int argc, char * * argv )
+int AnalyzeObjectMapTest( int ac, char * av[] )
 {
   int error_count = 0;
 
-  if( argc != 8 )
+  if( ac != 8 )
     {
-    std::cerr << "USAGE: " << argv[0]
+    std::cerr << "USAGE: " << av[0]
               <<
     "<inputFileName> <outputFileName> <Nifti file> <NewObjectMapFileName> <oneObjectEntryFileName> <blankImageFileName> <OneDimensionFileName>"
               << std::endl;
     }
-  const char *InputObjectFileName = argv[1];
-  const char *OuptputObjectFileName = argv[2];
-  const char *NiftiFile = argv[3];
-  const char *CreatingObject = argv[4];
-  const char *oneObjectEntryFileName = argv[5];
-  const char *blankImageFileName = argv[6];
-  const char *OneDimensionFileName = argv[7];
+  const char *InputObjectFileName = av[1];
+  const char *OuptputObjectFileName = av[2];
+  const char *NiftiFile = av[3];
+  const char *CreatingObject = av[4];
+  const char *oneObjectEntryFileName = av[5];
+  const char *blankImageFileName = av[6];
+  const char *OneDimensionFileName = av[7];
   typedef                                                   unsigned char PixelType;
 
   typedef itk::Image<PixelType,  3>               ThreeDimensionImageType;
