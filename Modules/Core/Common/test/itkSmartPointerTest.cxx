@@ -161,6 +161,10 @@ int itkSmartPointerTest(int, char* [] )
     {
     return EXIT_FAILURE;
     }
+
+  // use argument dependent loop up for swap in itk namespace
+  swap(q,o1);
+
   }
   std::cout <<"end first test" << std::endl << std::endl;
   return EXIT_SUCCESS;
