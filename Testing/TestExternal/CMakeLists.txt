@@ -1,6 +1,6 @@
 # This project builds the test directories from all ITK modules as a separate
 # project outside the main ITK build tree as if they were an application.
-cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
+cmake_minimum_required(VERSION 2.8.6 FATAL_ERROR)
 project(ITKTestExternal)
 if(ITK_SOURCE_DIR OR ITK_BINARY_DIR)
   message(FATAL_ERROR "This directory may build only outside ITK!")
