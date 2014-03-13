@@ -59,19 +59,15 @@ void AnalyzeObjectLabelMapImageIO::PrintSelf(std::ostream& os, Indent indent) co
 
 bool AnalyzeObjectLabelMapImageIO::CanWriteFile(const char * FileNameToWrite)
 {
-  // This assumes that the final '.' in a file name is the delimiter
-  // for the file's extension type
-  std::string filename = FileNameToWrite;
-
-  if(  filename == "" )
+  if(FileNameToWrite == 0 || *FileNameToWrite == '\0' )
     {
     itkDebugMacro(<< "No filename specified.");
     return false;
     }
-  const std::string::size_type it = filename.find_last_of( "." );
-  // Now we have the index of the extension, make a new string
-  // that extends from the first letter of the extension to the end of filename
-  std::string fileExt( filename, it, filename.length() );
+  // This assumes that the final '.' in a file name is the delimiter
+  // for the file's extension type
+  std::string filename = FileNameToWrite;
+  const std::string fileExt = itksys::SystemTools::GetFilenameLastExtension(filename);
   if( fileExt != ".obj" )
     {
     return false;
@@ -82,9 +78,9 @@ bool AnalyzeObjectLabelMapImageIO::CanWriteFile(const char * FileNameToWrite)
 
 void AnalyzeObjectLabelMapImageIO::Read(void* buffer)
 {
-  m_InputFileStream.open(m_FileName.c_str(), std::ios::binary | std::ios::in);
-  m_InputFileStream.seekg( m_LocationOfFile);
-  if( !m_InputFileStream.is_open() )
+  this->m_InputFileStream.open(m_FileName.c_str(), std::ios::binary | std::ios::in);
+  this->m_InputFileStream.seekg( m_LocationOfFile);
+  if( !this->m_InputFileStream.is_open() )
     {
     itkDebugMacro(<< "Error: Could not open " << m_FileName.c_str() );
     exit(-1);
@@ -97,10 +93,10 @@ void AnalyzeObjectLabelMapImageIO::Read(void* buffer)
   // When this function decods the run length encoded raw data into an unsigned char volume
   // store the values into this structure.
   struct RunLengthStruct
-    {
+  {
     unsigned char voxel_count;
     unsigned char voxel_value;
-    };
+  };
   typedef struct RunLengthStruct RunLengthElement;
   RunLengthElement RunLengthArray[NumberOfRunLengthElementsPerRead];
 
@@ -164,30 +160,29 @@ void AnalyzeObjectLabelMapImageIO::Read(void* buffer)
       }
       std::cout<<"Can not deal with the image size right now"<<std::endl;*/
 
-  int VolumeSize;
-  if( this->GetNumberOfDimensions() > 3 )
+  int VolumeSize = 1;
+  unsigned dim = this->GetNumberOfDimensions();
+  switch(dim)
     {
-    VolumeSize = this->GetDimensions(0) * this->GetDimensions(1) * this->GetDimensions(2) * this->GetDimensions(3);
-    }
-  else if( this->GetNumberOfDimensions() == 3 )
-    {
-    VolumeSize = this->GetDimensions(0) * this->GetDimensions(1) * this->GetDimensions(2);
-    }
-  else if( this->GetNumberOfDimensions() == 2 )
-    {
-    VolumeSize = this->GetDimensions(0) * this->GetDimensions(1);
-    }
-  else
-    {
-    VolumeSize = this->GetDimensions(0);
+    case 4:
+      VolumeSize *= this->GetDimensions(3);
+    case 3:
+      VolumeSize *= this->GetDimensions(2);
+    case 2:
+      VolumeSize *= this->GetDimensions(1);
+    case 1:
+      VolumeSize *= this->GetDimensions(0);
+      break;
+    default:
+      itkExceptionMacro(<< "Dimensions " << dim << " > maximum dimension 4");
     }
 
   // You can uncomment the following commented out code to have a file written with the exact values that are read in.
 
   //      std::ofstream myfile;
   //      myfile.open("VoxelInformationReader.txt", myfile.app);
-  while( !m_InputFileStream.read(reinterpret_cast<char *>(RunLengthArray), sizeof(RunLengthElement)
-                                 * NumberOfRunLengthElementsPerRead).eof() )
+  while( !this->m_InputFileStream.read(reinterpret_cast<char *>(RunLengthArray), sizeof(RunLengthElement)
+                                       * NumberOfRunLengthElementsPerRead).eof() )
     {
     for( int i = 0; i < NumberOfRunLengthElementsPerRead; i++ )
       {
@@ -197,7 +192,7 @@ void AnalyzeObjectLabelMapImageIO::Read(void* buffer)
       if( RunLengthArray[i].voxel_count == 0 )
         {
         itkDebugMacro(
-            << "Inside AnaylzeObjectLabelMap Invalid Length " << (int)RunLengthArray[i].voxel_count << std::endl);
+          << "Inside AnaylzeObjectLabelMap Invalid Length " << (int)RunLengthArray[i].voxel_count << std::endl);
         exit(-1);
         }
       for( int j = 0; j < RunLengthArray[i].voxel_count; j++ )
@@ -233,7 +228,7 @@ void AnalyzeObjectLabelMapImageIO::Read(void* buffer)
     exit(-1);
     }
 
-  m_InputFileStream.close();
+  this->m_InputFileStream.close();
 
 // The following commented code will run through all of the values and write them to a file.
 
@@ -250,13 +245,21 @@ void AnalyzeObjectLabelMapImageIO::Read(void* buffer)
 bool AnalyzeObjectLabelMapImageIO::CanReadFile( const char* FileNameToRead )
 {
   itkDebugMacro(<< "I am in Can Read File for AnalyzeObjectLabelMapImageIO" << std::endl);
-  std::string filename = FileNameToRead;
+  if(FileNameToRead == 0 || *FileNameToRead == '\0' )
+    {
+    itkDebugMacro(<< "No filename specified.");
+    return false;
+    }
+  // check for existence.
+  if(!itksys::SystemTools::FileExists(FileNameToRead,true))
+    {
+    return false;
+    }
+
   // This assumes that the final '.' in a file name is the delimiter
   // for the file's extension type
-  const std::string::size_type it = filename.find_last_of( "." );
-  // Now we have the index of the extension, make a new string
-  // that extends from the first letter of the extension to the end of filename
-  std::string fileExt( filename, it, filename.length() );
+  std::string filename = FileNameToRead;
+  const std::string fileExt = itksys::SystemTools::GetFilenameLastExtension(filename);
   if( fileExt != ".obj" )
     {
     return false;
@@ -339,29 +342,29 @@ void AnalyzeObjectLabelMapImageIO::ReadImageInformation()
   switch( this->GetNumberOfDimensions() )
     {
     case 4:
-      {
-      this->SetDimensions(3, header[5]);
-      this->SetSpacing(3, 1);
-      }
+    {
+    this->SetDimensions(3, header[5]);
+    this->SetSpacing(3, 1);
+    }
     case 3:
-      {
-      this->SetDimensions(2, header[3]);
-      this->SetSpacing(2, 1);
-      }
+    {
+    this->SetDimensions(2, header[3]);
+    this->SetSpacing(2, 1);
+    }
     case 2:
-      {
-      this->SetDimensions(1, header[2]);
-      this->SetSpacing(1, 1);
-      }
+    {
+    this->SetDimensions(1, header[2]);
+    this->SetSpacing(1, 1);
+    }
     case 1:
-      {
-      this->SetDimensions(0, header[1]);
-      this->SetSpacing(0, 1);
-      }
+    {
+    this->SetDimensions(0, header[1]);
+    this->SetSpacing(0, 1);
+    }
     default:
-      {
-      }
-      break;
+    {
+    }
+    break;
     }
 
   std::vector<double> dirx(this->GetNumberOfDimensions(), 0), diry(this->GetNumberOfDimensions(), 0), dirz(
@@ -370,41 +373,41 @@ void AnalyzeObjectLabelMapImageIO::ReadImageInformation()
   switch( this->GetNumberOfDimensions() )
     {
     case 4:
-      {
-      m_Origin[3] = 0;
-      }
+    {
+    m_Origin[3] = 0;
+    }
     case 3:
-      {
-      dirx[2] = 0;
-      diry[2] = 0;
-      dirz[2] = 1;
+    {
+    dirx[2] = 0;
+    diry[2] = 0;
+    dirz[2] = 1;
 
-      dirz[1] = 0;
+    dirz[1] = 0;
 
-      dirz[0] = 0;
+    dirz[0] = 0;
 
-      m_Origin[2] = 0;
-      }
+    m_Origin[2] = 0;
+    }
     case 2:
-      {
-      dirx[1] = 0;
-      diry[1] = 1;
-      diry[0] = 0;
+    {
+    dirx[1] = 0;
+    diry[1] = 1;
+    diry[0] = 0;
 
-      m_Origin[1] = 0;
-      }
+    m_Origin[1] = 0;
+    }
     case 1:
-      {
-      dirx[0] = 1;
-      m_Origin[0] = 0;
+    {
+    dirx[0] = 1;
+    m_Origin[0] = 0;
 
-      }
-      break;
+    }
+    break;
     default:
-      {
-      itkDebugMacro(<< "Error:  Setting the steps has an error" << std::endl);
-      }
-      break;
+    {
+    itkDebugMacro(<< "Error:  Setting the steps has an error" << std::endl);
+    }
+    break;
     }
 
   this->SetDirection(0, dirx);
@@ -471,29 +474,29 @@ AnalyzeObjectLabelMapImageIO
   switch( this->GetNumberOfDimensions() )
     {
     case 4:
-      {
-      header[5] = this->GetDimensions(3);
-      }
+    {
+    header[5] = this->GetDimensions(3);
+    }
     case 3:
-      {
-      header[3] = this->GetDimensions(2);
-      }
+    {
+    header[3] = this->GetDimensions(2);
+    }
     case 2:
-      {
-      header[2] = this->GetDimensions(1);
-      }
+    {
+    header[2] = this->GetDimensions(1);
+    }
     case 1:
-      {
-      header[1] = this->GetDimensions(0);
-      }
-      break;
+    {
+    header[1] = this->GetDimensions(0);
+    }
+    break;
     default:
       itkDebugMacro(<< "There is an error in writing the header for the Dimensions");
       exit(-1);
     }
 
   bool MetaDataCheck = itk::ExposeMetaData<itk::AnalyzeObjectEntryArrayType>(
-      this->GetMetaDataDictionary(), ANALYZE_OBJECT_LABEL_MAP_ENTRY_ARRAY, my_reference);
+    this->GetMetaDataDictionary(), ANALYZE_OBJECT_LABEL_MAP_ENTRY_ARRAY, my_reference);
   if( MetaDataCheck )
     {
     header[4] = my_reference.size();
