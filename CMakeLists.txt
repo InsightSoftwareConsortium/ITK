@@ -1,14 +1,24 @@
-cmake_minimum_required(VERSION 2.8.6 FATAL_ERROR)
+if(WIN32)
+  cmake_minimum_required(VERSION 2.8.8 FATAL_ERROR)
+else()
+  cmake_minimum_required(VERSION 2.8.6 FATAL_ERROR)
+endif()
+
+foreach(p
+    CMP0025 # CMake 3.0
+    CMP0042 # CMake 3.0
+    )
+  if(POLICY ${p})
+    cmake_policy(SET ${p} NEW)
+  endif()
+endforeach()
+
+project(ITK)
+
 include(CMakeDependentOption)
 #
 # use ExternalProject
 include(ExternalProject)
-
-if(WIN32)
-  cmake_minimum_required(VERSION 2.8.8)
-endif()
-
-project(ITK)
 
 if( CMAKE_HOST_WIN32 )
 

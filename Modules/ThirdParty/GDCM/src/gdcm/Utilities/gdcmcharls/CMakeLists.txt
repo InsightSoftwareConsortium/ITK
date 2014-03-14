@@ -6,7 +6,6 @@ ENDIF(NOT CHARLS_NAMESPACE)
 STRING(TOLOWER ${CHARLS_NAMESPACE} CHARLS_LIBRARY_NAME)
 
 PROJECT(${CHARLS_NAMESPACE} CXX)
-CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 
 #-----------------------------------------------------------------------------
 # CHARLS version number
