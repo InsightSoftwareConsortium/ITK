@@ -210,8 +210,8 @@ protected:
     // Print state vector contents
     os << indent << "State vector: " << state << std::endl;
     os << indent;
-    register const IntegerType *s = state;
-    register int                i = StateVectorLength;
+    const IntegerType *s = state;
+    int                         i = StateVectorLength;
     for (; i--; os << *s++ << "\t" ) {}
     os << std::endl;
 
@@ -292,9 +292,9 @@ MersenneTwisterRandomVariateGenerator::Initialize(const IntegerType seed)
   // See Knuth TAOCP Vol 2, 3rd Ed, p.106 for multiplier.
   // In previous versions, most significant bits (MSBs) of the seed affect
   // only MSBs of the state array.  Modified 9 Jan 2002 by Makoto Matsumoto.
-  register IntegerType *s = state;
-  register IntegerType *r = state;
-  register IntegerType  i = 1;
+  IntegerType *s = state;
+  IntegerType *r = state;
+  IntegerType  i = 1;
 
   *s++ = seed & 0xffffffffUL;
   for ( i = 1; i < MersenneTwisterRandomVariateGenerator::StateVectorLength; ++i )
@@ -312,11 +312,11 @@ MersenneTwisterRandomVariateGenerator::reload()
   // matthew dot bellew at home dot com
 
   // get rid of VS warning
-  register int index = static_cast< int >(
+  int index = static_cast< int >(
     M - MersenneTwisterRandomVariateGenerator::StateVectorLength );
 
-  register IntegerType *p = state;
-  register int          i;
+  IntegerType *p = state;
+  int          i;
 
   for ( i = MersenneTwisterRandomVariateGenerator::StateVectorLength - M; i--; ++p )
     {
@@ -345,9 +345,9 @@ MersenneTwisterRandomVariateGenerator::SetSeed(
   // in each element are discarded.
   // Just call seed() if you want to get array from /dev/urandom
   Initialize(19650218UL);
-  register IntegerType i = 1;
-  register IntegerType j = 0;
-  register int         k;
+  IntegerType i = 1;
+  IntegerType j = 0;
+  int         k;
   if ( StateVectorLength > seedLength )
     {
     k = StateVectorLength;
@@ -411,8 +411,7 @@ MersenneTwisterRandomVariateGenerator::GetIntegerVariate()
   if ( left == 0 ) { reload(); }
   --left;
 
-  register IntegerType s1;
-  s1 = *pNext++;
+  IntegerType s1 = *pNext++;
   s1 ^= ( s1 >> 11 );
   s1 ^= ( s1 <<  7 ) & 0x9d2c5680;
   s1 ^= ( s1 << 15 ) & 0xefc60000;
