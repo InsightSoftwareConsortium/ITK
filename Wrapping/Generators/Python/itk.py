@@ -25,13 +25,6 @@ import itkExtras
 import os
 import sys
 
-# silently import psyco
-try:
-    import psyco
-    psyco.profile()
-except ImportError:
-    pass
-
 thisModule = sys.modules[__name__]
 
 if itkConfig.LazyLoading:
