@@ -62,8 +62,8 @@ else()
 
     # build swig as an external project
     ExternalProject_add(PCRE
-    URL http://downloads.sourceforge.net/project/pcre/pcre/8.12/pcre-8.12.tar.gz
-    URL_MD5 fa69e4c5d8971544acd71d1f10d59193
+    URL http://downloads.sourceforge.net/project/pcre/pcre/8.34/pcre-8.34.tar.gz
+    URL_MD5 eb34b2c9c727fd64940d6fd9a00995eb
     CONFIGURE_COMMAND
       env
         "CC=${CMAKE_C_COMPILER} ${CMAKE_C_COMPILER_ARG1}"
