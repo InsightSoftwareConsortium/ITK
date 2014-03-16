@@ -16,12 +16,11 @@ if(ITK_USE_SYSTEM_TIFF)
   set(ITKTIFF_NO_SRC 1)
 
   # Check availability of different methods to access TIFF's field
-  # data struture.
-  include(CheckSymbolExists)
+  # data structure.
   include(CheckTypeSize)
-  set(CMAKE_REQUIRED_INCLUDES ${ITKTIFF_INCLUDE_DIRS})
-  check_symbol_exists(TIFFFieldReadCount "tiffio.h" ITK_TIFF_HAS_TIFFFieldReadCount)
+  set(CMAKE_REQUIRED_INCLUDES ${ITKTIFF_SYSTEM_INCLUDE_DIRS})
   set(CMAKE_EXTRA_INCLUDE_FILES "tiffio.h")
+  check_type_size(TIFFFieldReadCount ITK_TIFF_HAS_TIFFFieldReadCount)
   check_type_size(TIFFField*  ITK_TIFF_HAS_TIFFField)
 else()
   set(ITKTIFF_INCLUDE_DIRS
