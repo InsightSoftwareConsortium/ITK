@@ -245,7 +245,7 @@ int itkFEMElement2DTest(int argc, char *argv[])
         }
       else if( modelFile == "tri2.meta" )
         {
-        tolerance = 10e-6;
+        tolerance = 10e-5;
         expectedSolution = &(tri2ExpectedSolution[0]);
 
         }
