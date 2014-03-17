@@ -1952,12 +1952,37 @@ void TIFFImageIO::InternalWrite(const void *buffer)
 // With the TIFF 4.0 (aka bigtiff ) interface the tiff field structure
 // was renamed and became an opaque type requiring function to
 // access. The follow are some macros for portable access.
-#ifdef TIFF_INT64_T // detect if libtiff4
+#ifdef ITK_TIFF_HAS_TIFFFieldReadCount
 #define itkTIFFFieldReadCount( TIFFField ) TIFFFieldReadCount( TIFFField )
 #define itkTIFFFieldPassCount( TIFFField ) TIFFFieldPassCount( TIFFField )
 #define itkTIFFFieldDataType( TIFFField )  TIFFFieldDataType( TIFFField )
 #define itkTIFFField TIFFField
-#else
+#elif defined(ITK_TIFF_HAS_TIFFField)
+} // end namespace itk
+/// Tiff 4.0.0-4.0.2 had _TIFFField as a private structure, but missing the
+/// required access mehods added in 4.0.3, This is a copy of the
+/// structure from tiff_dir.h.
+typedef enum {ITK_TIFF_MOC_1 = 0,ITK_TIFF_MOC_2=51 } ITK_TIFF_MOC_TIFFSetGetFieldType;
+struct _TIFFField {
+  uint32 field_tag;                       /* field's tag */
+  short field_readcount;                  /* read count/TIFF_VARIABLE/TIFF_SPP */
+  short field_writecount;                 /* write count/TIFF_VARIABLE */
+  TIFFDataType field_type;                /* type of associated data */
+  uint32 reserved;                        /* reserved for future extension */
+  ITK_TIFF_MOC_TIFFSetGetFieldType set_field_type;     /* type to be passed to TIFFSetField */
+  ITK_TIFF_MOC_TIFFSetGetFieldType get_field_type;     /* type to be passed to TIFFGetField */
+  unsigned short field_bit;               /* bit in fieldsset bit vector */
+  unsigned char field_oktochange;         /* if true, can change while writing */
+  unsigned char field_passcount;          /* if true, pass dir count on set */
+  char* field_name;                       /* ASCII name */
+  TIFFFieldArray* field_subfields;        /* if field points to child ifds, child ifd field definition array */
+};
+namespace itk {
+#define itkTIFFFieldReadCount( TIFFField ) ((TIFFField)->field_readcount)
+#define itkTIFFFieldPassCount( TIFFField ) ((TIFFField)->field_passcount)
+#define itkTIFFFieldDataType( TIFFField ) ((TIFFField)->field_type)
+#define itkTIFFField TIFFField
+#else // libtiff version 3
 #define itkTIFFFieldReadCount( TIFFFieldInfo ) ((TIFFFieldInfo)->field_readcount)
 #define itkTIFFFieldPassCount( TIFFFieldInfo ) ((TIFFFieldInfo)->field_passcount)
 #define itkTIFFFieldDataType( TIFFFieldInfo ) ((TIFFFieldInfo)->field_type)
