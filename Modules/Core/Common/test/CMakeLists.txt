@@ -99,6 +99,7 @@ itkPixelAccessTest.cxx
 itkPointGeometryTest.cxx
 itkMersenneTwisterRandomVariateGeneratorTest.cxx
 itkNumberToStringTest.cxx
+itkTimeProbeTest.cxx
 )
 
 set(ITKCommon2Tests
@@ -371,6 +372,7 @@ itk_add_test(NAME itkPriorityQueueTest COMMAND ITKCommon1TestDriver itkPriorityQ
 itk_add_test(NAME itkRealTimeClockTest COMMAND ITKCommon1TestDriver itkRealTimeClockTest)
 itk_add_test(NAME itkRealTimeStampTest COMMAND ITKCommon1TestDriver itkRealTimeStampTest)
 itk_add_test(NAME itkRealTimeIntervalTest COMMAND ITKCommon1TestDriver itkRealTimeIntervalTest)
+itk_add_test(NAME itkTimeProbeTest COMMAND ITKCommon1TestDriver itkTimeProbeTest)
 itk_add_test(NAME itkTriangleCellTest COMMAND ITKCommon1TestDriver itkTriangleCellTest)
 itk_add_test(NAME itkQuadrilateralCellTest COMMAND ITKCommon1TestDriver itkQuadrilateralCellTest)
 itk_add_test(NAME itkRGBPixelTest COMMAND ITKCommon1TestDriver itkRGBPixelTest)
