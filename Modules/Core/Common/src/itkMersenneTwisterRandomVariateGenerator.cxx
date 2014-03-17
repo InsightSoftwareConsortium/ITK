@@ -25,8 +25,10 @@ namespace itk
 namespace Statistics
 {
 
+// Static/Global variables
 MersenneTwisterRandomVariateGenerator::Pointer  MersenneTwisterRandomVariateGenerator::m_StaticInstance = 0;
 SimpleFastMutexLock MersenneTwisterRandomVariateGenerator::m_StaticInstanceLock;
+MersenneTwisterRandomVariateGenerator::IntegerType MersenneTwisterRandomVariateGenerator::m_StaticDiffer = 0;
 
 MersenneTwisterRandomVariateGenerator::Pointer
 MersenneTwisterRandomVariateGenerator
@@ -72,5 +74,62 @@ MersenneTwisterRandomVariateGenerator
    */
   return m_StaticInstance;
 }
+
+MersenneTwisterRandomVariateGenerator
+::MersenneTwisterRandomVariateGenerator()
+{
+  SetSeed (121212);
+}
+
+MersenneTwisterRandomVariateGenerator::IntegerType
+MersenneTwisterRandomVariateGenerator
+::hash(vcl_time_t t, vcl_clock_t c)
+{
+  // Get a IntegerType from t and c
+  // Better than IntegerType(x) in case x is floating point in [0,1]
+  // Based on code by Lawrence Kirby: fred at genesis dot demon dot co dot uk
+
+  IntegerType    h1 = 0;
+  unsigned char *p = (unsigned char *)&t;
+
+  const unsigned int sizeOfT = static_cast< unsigned int >( sizeof(t) );
+  for ( unsigned int i = 0; i < sizeOfT; ++i )
+    {
+    h1 *= UCHAR_MAX + 2U;
+    h1 += p[i];
+    }
+  IntegerType h2 = 0;
+  p = (unsigned char *)&c;
+
+  const unsigned int sizeOfC = static_cast< unsigned int >( sizeof(c) );
+  for ( unsigned int j = 0; j < sizeOfC; ++j )
+    {
+    h2 *= UCHAR_MAX + 2U;
+    h2 += p[j];
+    }
+  return ( h1 + m_StaticDiffer++ ) ^ h2;
+}
+
+void
+MersenneTwisterRandomVariateGenerator
+::PrintSelf(std::ostream & os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+
+  // Print state vector contents
+  os << indent << "State vector: " << state << std::endl;
+  os << indent;
+  const IntegerType *s = state;
+  int                         i = StateVectorLength;
+  for (; i--; os << *s++ << "\t" ) {}
+  os << std::endl;
+
+  //Print next value to be gotten from state
+  os << indent << "Next value to be gotten from state: " << pNext << std::endl;
+
+  //Number of values left before reload
+  os << indent << "Values left before next reload: " << left << std::endl;
+}
+
 }
 }
