@@ -24,6 +24,7 @@
 #include "itkArray.h"
 #include "itkImageMaskSpatialObject.h"
 #include "vnl/vnl_vector.h"
+#include "itkProgressReporter.h"
 
 namespace itk
 {
@@ -181,7 +182,7 @@ void DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
                                                  TTensorPixelType,
                                                  TMaskImageType >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       ThreadIdType)
+                       ThreadIdType threadId)
 {
   typename OutputImageType::Pointer outputImage =
     static_cast< OutputImageType * >( this->ProcessObject::GetOutput(0) );
@@ -241,6 +242,8 @@ void DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
     // See splweb.bwh.harvard.edu:8000/pages/papers/westin/ISMRM2002.pdf
     // "A Dual Tensor Basis Solution to the Stejskal-Tanner Equations for
     // DT-MRI"
+
+    ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
 
     while ( !it.IsAtEnd() )
       {
@@ -309,6 +312,7 @@ void DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
       oit.Set(tensor);
       ++oit;
       ++it;
+      progress.CompletedPixel();
       }
 
     for ( unsigned int i = 0; i < gradientItContainer.size(); i++ )
@@ -352,6 +356,8 @@ void DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
         gradientind.push_back( gdcit.Index() );
         }
       }
+
+    ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
 
     while ( !git.IsAtEnd() )
       {
@@ -420,6 +426,7 @@ void DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
       oit.Set(tensor);
       ++oit; // Output (reconstructed tensor image) iterator
       ++git; // Gradient  image iterator
+      progress.CompletedPixel();
       }
     }
 }
