@@ -26,6 +26,7 @@
  *
  *=========================================================================*/
 #include "itkMultiThreader.h"
+
 #include "itkObjectFactory.h"
 #include "itksys/SystemTools.hxx"
 #include <unistd.h>
@@ -44,51 +45,50 @@ typedef void *( *c_void_cast )(void *);
 
 ThreadIdType MultiThreader::GetGlobalDefaultNumberOfThreadsByPlatform()
 {
-    ThreadIdType num;
-    // Default the number of threads to be the number of available
-    // processors if we are using pthreads()
+  ThreadIdType num;
+
+  // Default the number of threads to be the number of available
+  // processors if we are using pthreads()
 #ifdef _SC_NPROCESSORS_ONLN
-    num = static_cast<ThreadIdType>( sysconf(_SC_NPROCESSORS_ONLN));
+  num = static_cast<ThreadIdType>( sysconf(_SC_NPROCESSORS_ONLN) );
 #elif defined( _SC_NPROC_ONLN )
-    num = static_cast<ThreadIdType>( sysconf(_SC_NPROC_ONLN) );
+  num = static_cast<ThreadIdType>( sysconf(_SC_NPROC_ONLN) );
 #else
-    num = 1;
+  num = 1;
 #endif
 #if defined( __SVR4 ) && defined( sun ) && defined( PTHREAD_MUTEX_NORMAL )
-    pthread_setconcurrency(num);
+  pthread_setconcurrency(num);
 #endif
 
 #ifdef __APPLE__
-    // Determine the number of CPU cores. Prefer sysctlbyname()
-    // over MPProcessors() because it doesn't require CoreServices
-    // (which is only available in 32bit on Mac OS X 10.4).
-    // hw.logicalcpu takes into account cores/CPUs that are
-    // disabled because of power management.
-    size_t dataLen = sizeof( int ); // 'num' is an 'int'
-    int    result = sysctlbyname ("hw.logicalcpu", &num, &dataLen, ITK_NULLPTR, 0);
-    if ( result == -1 )
-      {
-      num = 1;
-      }
+  // Determine the number of CPU cores. Prefer sysctlbyname()
+  // over MPProcessors() because it doesn't require CoreServices
+  // (which is only available in 32bit on Mac OS X 10.4).
+  // hw.logicalcpu takes into account cores/CPUs that are
+  // disabled because of power management.
+  size_t dataLen = sizeof( int );   // 'num' is an 'int'
+  int    result = sysctlbyname("hw.logicalcpu", &num, &dataLen, ITK_NULLPTR, 0);
+  if( result == -1 )
+    {
+    num = 1;
+    }
 #endif
-    return num;
+  return num;
 }
 
 void MultiThreader::MultipleMethodExecute()
 {
-  ThreadIdType thread_loop;
 
   pthread_t process_id[ITK_MAX_THREADS];
 
   // obey the global maximum number of threads limit
-  if ( m_NumberOfThreads > m_GlobalMaximumNumberOfThreads )
+  if( m_NumberOfThreads > m_GlobalMaximumNumberOfThreads )
     {
     m_NumberOfThreads = m_GlobalMaximumNumberOfThreads;
     }
-
-  for ( thread_loop = 0; thread_loop < m_NumberOfThreads; thread_loop++ )
+  for( ThreadIdType thread_loop = 0; thread_loop < m_NumberOfThreads; ++thread_loop )
     {
-    if ( m_MultipleMethod[thread_loop] == (ThreadFunctionType)ITK_NULLPTR )
+    if( m_MultipleMethod[thread_loop] == (ThreadFunctionType)0 )
       {
       itkExceptionMacro(<< "No multiple method set for: " << thread_loop);
       return;
@@ -113,16 +113,15 @@ void MultiThreader::MultipleMethodExecute()
 #ifndef __CYGWIN__
   pthread_attr_setscope(&attr, PTHREAD_SCOPE_PROCESS);
 #endif
-
-  for ( thread_loop = 1; thread_loop < m_NumberOfThreads; thread_loop++ )
+  for( ThreadIdType thread_loop = 1; thread_loop < m_NumberOfThreads; ++thread_loop )
     {
     m_ThreadInfoArray[thread_loop].UserData =
       m_MultipleData[thread_loop];
     m_ThreadInfoArray[thread_loop].NumberOfThreads = m_NumberOfThreads;
     int threadError = pthread_create( &( process_id[thread_loop] ),
-                    &attr, reinterpret_cast< c_void_cast >( m_MultipleMethod[thread_loop] ),
-                    ( (void *)( &m_ThreadInfoArray[thread_loop] ) ) );
-    if ( threadError != 0 )
+                                      &attr, reinterpret_cast<c_void_cast>( m_MultipleMethod[thread_loop] ),
+                                      ( (void *)( &m_ThreadInfoArray[thread_loop] ) ) );
+    if( threadError != 0 )
       {
       itkExceptionMacro(<< "Unable to create a thread.  pthread_create() returned "
                         << threadError);
@@ -133,10 +132,9 @@ void MultiThreader::MultipleMethodExecute()
   m_ThreadInfoArray[0].UserData = m_MultipleData[0];
   m_ThreadInfoArray[0].NumberOfThreads = m_NumberOfThreads;
   ( m_MultipleMethod[0] )( (void *)( &m_ThreadInfoArray[0] ) );
-
   // The parent thread has finished its method - so now it
   // waits for each of the other processes to exit
-  for ( thread_loop = 1; thread_loop < m_NumberOfThreads; thread_loop++ )
+  for( ThreadIdType thread_loop = 1; thread_loop < m_NumberOfThreads; ++thread_loop )
     {
     pthread_join(process_id[thread_loop], ITK_NULLPTR);
     }
@@ -147,14 +145,14 @@ ThreadIdType MultiThreader::SpawnThread(ThreadFunctionType f, void *UserData)
 {
   ThreadIdType id = 0;
 
-  while ( id < ITK_MAX_THREADS )
+  while( id < ITK_MAX_THREADS )
     {
-    if ( !m_SpawnedThreadActiveFlagLock[id]  )
+    if( !m_SpawnedThreadActiveFlagLock[id]  )
       {
       m_SpawnedThreadActiveFlagLock[id] = MutexLock::New();
       }
     m_SpawnedThreadActiveFlagLock[id]->Lock();
-    if ( m_SpawnedThreadActiveFlag[id] == 0 )
+    if( m_SpawnedThreadActiveFlag[id] == 0 )
       {
       // We've got a useable thread id, so grab it
       m_SpawnedThreadActiveFlag[id] = 1;
@@ -166,7 +164,7 @@ ThreadIdType MultiThreader::SpawnThread(ThreadFunctionType f, void *UserData)
     id++;
     }
 
-  if ( id >= ITK_MAX_THREADS )
+  if( id >= ITK_MAX_THREADS )
     {
     itkExceptionMacro(<< "You have too many active threads!");
     }
@@ -184,9 +182,9 @@ ThreadIdType MultiThreader::SpawnThread(ThreadFunctionType f, void *UserData)
 #endif
 
   int threadError = pthread_create( &( m_SpawnedThreadProcessID[id] ),
-                  &attr, reinterpret_cast< c_void_cast >( f ),
-                  ( (void *)( &m_SpawnedThreadInfoArray[id] ) ) );
-  if ( threadError != 0 )
+                                    &attr, reinterpret_cast<c_void_cast>( f ),
+                                    ( (void *)( &m_SpawnedThreadInfoArray[id] ) ) );
+  if( threadError != 0 )
     {
     itkExceptionMacro(<< "Unable to create a thread.  pthread_create() returned "
                       << threadError);
@@ -197,7 +195,7 @@ ThreadIdType MultiThreader::SpawnThread(ThreadFunctionType f, void *UserData)
 
 void MultiThreader::TerminateThread(ThreadIdType ThreadID)
 {
-  if ( !m_SpawnedThreadActiveFlag[ThreadID] )
+  if( !m_SpawnedThreadActiveFlag[ThreadID] )
     {
     return;
     }
@@ -214,7 +212,28 @@ void MultiThreader::TerminateThread(ThreadIdType ThreadID)
 
 void
 MultiThreader
-::WaitForSingleMethodThread(ThreadProcessIDType threadHandle)
+::ThreadPoolWaitForSingleMethodThread(ThreadProcessIdType threadHandle)
+{
+  itkDebugMacro(<<  std::endl << "For wait : threadhandle :" << threadHandle << std::endl );
+  m_ThreadPool->WaitForJobOnThreadHandle(threadHandle);
+}
+
+ThreadProcessIdType
+MultiThreader
+::ThreadPoolDispatchSingleMethodThread(MultiThreader::ThreadInfoStruct *threadInfo)
+{
+
+  ThreadJob threadJob;
+  threadJob.m_ThreadFunction =  reinterpret_cast<c_void_cast>(this->SingleMethodProxy);
+  threadJob.m_UserData = (void *) threadInfo;
+  ThreadProcessIdType returnHandle = m_ThreadPool->AssignWork(threadJob);
+  itkDebugMacro(<< std::endl << "Got handle :" << returnHandle );
+  return returnHandle;
+}
+
+void
+MultiThreader
+::SpawnWaitForSingleMethodThread(ThreadProcessIdType threadHandle)
 {
   // Using POSIX threads
   if ( pthread_join(threadHandle, ITK_NULLPTR) )
@@ -223,9 +242,9 @@ MultiThreader
     }
 }
 
-ThreadProcessIDType
+ThreadProcessIdType
 MultiThreader
-::DispatchSingleMethodThread(MultiThreader::ThreadInfoStruct *threadInfo)
+::SpawnDispatchSingleMethodThread(MultiThreader::ThreadInfoStruct *threadInfo)
 {
   // Using POSIX threads
   pthread_attr_t attr;
@@ -247,4 +266,5 @@ MultiThreader
     }
   return threadHandle;
 }
+
 } // end namespace itk

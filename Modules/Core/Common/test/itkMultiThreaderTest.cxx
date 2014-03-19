@@ -136,11 +136,11 @@ void ThreadedMethod()
 {
 
 #ifdef ITK_USE_PTHREADS
-// ThreadProcessIDType threadId = pthread_self();
+// ThreadProcessIdType threadId = pthread_self();
 #endif
 
 #ifdef ITK_USE_WIN32_THREADS
-// ThreadProcessIDType threadId = GetCurrentThread();
+// ThreadProcessIdType threadId = GetCurrentThread();
 #endif
 
 }

@@ -28,7 +28,7 @@
 #include "itkMultiThreader.h"
 #include "itkNumericTraits.h"
 #include <iostream>
-#include <algorithm>
+#include "vcl_algorithm.h"
 
 #if defined(ITK_USE_PTHREADS)
 #include "itkMultiThreaderPThreads.cxx"
@@ -38,29 +38,29 @@
 #include "itkMultiThreaderNoThreads.cxx"
 #endif
 
-
 namespace itk
 {
+
 // Initialize static member that controls global maximum number of threads.
-ThreadIdType MultiThreader:: m_GlobalMaximumNumberOfThreads = ITK_MAX_THREADS;
+ThreadIdType MultiThreader::m_GlobalMaximumNumberOfThreads = ITK_MAX_THREADS;
 
 // Initialize static member that controls global default number of threads : 0
 // => Not initialized.
-ThreadIdType MultiThreader:: m_GlobalDefaultNumberOfThreads = 0;
+ThreadIdType MultiThreader::m_GlobalDefaultNumberOfThreads = 0;
 
 void MultiThreader::SetGlobalMaximumNumberOfThreads(ThreadIdType val)
 {
   m_GlobalMaximumNumberOfThreads = val;
 
   // clamp between 1 and ITK_MAX_THREADS
-  m_GlobalMaximumNumberOfThreads = std::min( m_GlobalMaximumNumberOfThreads,
+  m_GlobalMaximumNumberOfThreads = vcl_min( m_GlobalMaximumNumberOfThreads,
                                              (ThreadIdType) ITK_MAX_THREADS );
-  m_GlobalMaximumNumberOfThreads = std::max( m_GlobalMaximumNumberOfThreads,
+  m_GlobalMaximumNumberOfThreads = vcl_max( m_GlobalMaximumNumberOfThreads,
                                              NumericTraits<ThreadIdType>::One );
 
   // If necessary reset the default to be used from now on.
-  m_GlobalDefaultNumberOfThreads = std::min ( m_GlobalDefaultNumberOfThreads,
-                                              m_GlobalMaximumNumberOfThreads);
+  m_GlobalDefaultNumberOfThreads = vcl_min( m_GlobalDefaultNumberOfThreads,
+                                             m_GlobalMaximumNumberOfThreads);
 }
 
 ThreadIdType MultiThreader::GetGlobalMaximumNumberOfThreads()
@@ -73,17 +73,17 @@ void MultiThreader::SetGlobalDefaultNumberOfThreads(ThreadIdType val)
   m_GlobalDefaultNumberOfThreads = val;
 
   // clamp between 1 and m_GlobalMaximumNumberOfThreads
-  m_GlobalDefaultNumberOfThreads  = std::min( m_GlobalDefaultNumberOfThreads,
+  m_GlobalDefaultNumberOfThreads  = vcl_min( m_GlobalDefaultNumberOfThreads,
                                               m_GlobalMaximumNumberOfThreads );
-  m_GlobalDefaultNumberOfThreads  = std::max( m_GlobalDefaultNumberOfThreads,
+  m_GlobalDefaultNumberOfThreads  = vcl_max( m_GlobalDefaultNumberOfThreads,
                                               NumericTraits<ThreadIdType>::One );
 
 }
 
 void MultiThreader::SetNumberOfThreads(ThreadIdType numberOfThreads)
 {
-  if ( m_NumberOfThreads == numberOfThreads &&
-       numberOfThreads <= m_GlobalMaximumNumberOfThreads )
+  if( m_NumberOfThreads == numberOfThreads &&
+      numberOfThreads <= m_GlobalMaximumNumberOfThreads )
     {
     return;
     }
@@ -91,18 +91,17 @@ void MultiThreader::SetNumberOfThreads(ThreadIdType numberOfThreads)
   m_NumberOfThreads = numberOfThreads;
 
   // clamp between 1 and m_GlobalMaximumNumberOfThreads
-  m_NumberOfThreads  = std::min( m_NumberOfThreads,
+  m_NumberOfThreads  = vcl_min( m_NumberOfThreads,
                                  m_GlobalMaximumNumberOfThreads );
-  m_NumberOfThreads  = std::max( m_NumberOfThreads, NumericTraits<ThreadIdType>::One );
+  m_NumberOfThreads  = vcl_max( m_NumberOfThreads, NumericTraits<ThreadIdType>::One );
 
 }
-
 
 ThreadIdType MultiThreader::GetGlobalDefaultNumberOfThreads()
 {
   // if default number has been set then don't try to update it; just
   // return the value
-  if ( m_GlobalDefaultNumberOfThreads != 0 )
+  if( m_GlobalDefaultNumberOfThreads != 0 )
     {
     return m_GlobalDefaultNumberOfThreads;
     }
@@ -123,11 +122,12 @@ ThreadIdType MultiThreader::GetGlobalDefaultNumberOfThreads()
    * environmental variable "NSLOTS" by default
    */
   std::vector<std::string> ITK_NUMBER_OF_THREADS_ENV_LIST;
-  itksys_stl::string itkNumberOfThreadsEvnListString = "";
-  if ( itksys::SystemTools::GetEnv("ITK_NUMBER_OF_THREADS_ENV_LIST",
-                                   itkNumberOfThreadsEvnListString) )
+  itksys_stl::string       itkNumberOfThreadsEvnListString = "";
+  if( itksys::SystemTools::GetEnv("ITK_NUMBER_OF_THREADS_ENV_LIST",
+                                  itkNumberOfThreadsEvnListString) )
     {
-    //NOTE: We always put "ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS" at the end unconditionally.
+    // NOTE: We always put "ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS" at the end
+    // unconditionally.
     itkNumberOfThreadsEvnListString += ":ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS";
     }
   else
@@ -136,24 +136,22 @@ ThreadIdType MultiThreader::GetGlobalDefaultNumberOfThreads()
     }
     {
     std::stringstream numberOfThreadsEnvListStream(itkNumberOfThreadsEvnListString);
-    std::string item;
-    while(std::getline(numberOfThreadsEnvListStream, item, ':'))
+    std::string       item;
+    while( std::getline(numberOfThreadsEnvListStream, item, ':') )
       {
-      if(item.size() > 0)//Do not add empty items.
+      if( item.size() > 0 ) // Do not add empty items.
         {
         ITK_NUMBER_OF_THREADS_ENV_LIST.push_back(item);
         }
       }
     }
-
   // first, check for environment variable
   itksys_stl::string itkGlobalDefaultNumberOfThreadsEnv = "0";
-
-  for( std::vector<std::string>::const_iterator lit=ITK_NUMBER_OF_THREADS_ENV_LIST.begin();
-    lit != ITK_NUMBER_OF_THREADS_ENV_LIST.end();
-    ++lit)
+  for( std::vector<std::string>::const_iterator lit = ITK_NUMBER_OF_THREADS_ENV_LIST.begin();
+       lit != ITK_NUMBER_OF_THREADS_ENV_LIST.end();
+       ++lit )
     {
-    if ( itksys::SystemTools::GetEnv(lit->c_str(), itkGlobalDefaultNumberOfThreadsEnv) )
+    if( itksys::SystemTools::GetEnv(lit->c_str(), itkGlobalDefaultNumberOfThreadsEnv) )
       {
       m_GlobalDefaultNumberOfThreads =
         static_cast<ThreadIdType>( atoi( itkGlobalDefaultNumberOfThreadsEnv.c_str() ) );
@@ -161,30 +159,30 @@ ThreadIdType MultiThreader::GetGlobalDefaultNumberOfThreads()
     }
 
   // otherwise, set number of threads based on system information
-  if ( m_GlobalDefaultNumberOfThreads <= 0 )
+  if( m_GlobalDefaultNumberOfThreads <= 0 )
     {
     const ThreadIdType num = GetGlobalDefaultNumberOfThreadsByPlatform();
     m_GlobalDefaultNumberOfThreads = num;
     }
 
   // limit the number of threads to m_GlobalMaximumNumberOfThreads
-  m_GlobalDefaultNumberOfThreads  = std::min( m_GlobalDefaultNumberOfThreads,
+  m_GlobalDefaultNumberOfThreads  = vcl_min( m_GlobalDefaultNumberOfThreads,
                                               m_GlobalMaximumNumberOfThreads );
 
   // verify that the default number of threads is larger than zero
-  m_GlobalDefaultNumberOfThreads  = std::max( m_GlobalDefaultNumberOfThreads,
+  m_GlobalDefaultNumberOfThreads  = vcl_max( m_GlobalDefaultNumberOfThreads,
                                               NumericTraits<ThreadIdType>::One );
 
   return m_GlobalDefaultNumberOfThreads;
 }
 
-
 // Constructor. Default all the methods to NULL. Since the
 // ThreadInfoArray is static, the ThreadIDs can be initialized here
 // and will not change.
-MultiThreader::MultiThreader()
+
+MultiThreader::MultiThreader() : m_ThreadPool(ThreadPool::GetThreadPool() ), m_UseThreadPool(false)
 {
-  for ( ThreadIdType i = 0; i < ITK_MAX_THREADS; i++ )
+  for( ThreadIdType i = 0; i < ITK_MAX_THREADS; ++i )
     {
     m_ThreadInfoArray[i].ThreadID           = i;
     m_ThreadInfoArray[i].ActiveFlag         = ITK_NULLPTR;
@@ -201,10 +199,21 @@ MultiThreader::MultiThreader()
   m_SingleMethod = ITK_NULLPTR;
   m_SingleData = ITK_NULLPTR;
   m_NumberOfThreads = this->GetGlobalDefaultNumberOfThreads();
+  //
+  // look for runtime request to use thread pool
+  std::string use_threadpool;
+  if( itksys::SystemTools::GetEnv("ITK_USE_THREADPOOL",use_threadpool) )
+    {
+    if(use_threadpool != "NO" && use_threadpool != "OFF")
+      {
+      this->SetUseThreadPool(true);
+      }
+    }
 }
 
 MultiThreader::~MultiThreader()
-{}
+{
+}
 
 // Set the user defined method that will be run on NumberOfThreads threads
 // when SingleMethodExecute is called.
@@ -221,7 +230,7 @@ void MultiThreader::SetSingleMethod(ThreadFunctionType f, void *data)
 void MultiThreader::SetMultipleMethod(ThreadIdType index, ThreadFunctionType f, void *data)
 {
   // You can only set the method for 0 through NumberOfThreads-1
-  if ( index >= m_NumberOfThreads )
+  if( index >= m_NumberOfThreads )
     {
     itkExceptionMacro(<< "Can't set method " << index << " with a thread count of " << m_NumberOfThreads);
     }
@@ -235,16 +244,16 @@ void MultiThreader::SetMultipleMethod(ThreadIdType index, ThreadFunctionType f, 
 // Execute the method set as the SingleMethod on NumberOfThreads threads.
 void MultiThreader::SingleMethodExecute()
 {
-  ThreadIdType                 thread_loop = 0;
-  ThreadProcessIDType process_id[ITK_MAX_THREADS];
+  ThreadIdType        thread_loop = 0;
+  ThreadProcessIdType process_id[ITK_MAX_THREADS];
 
-  if ( !m_SingleMethod )
+  if( !m_SingleMethod )
     {
     itkExceptionMacro(<< "No single method set!");
     }
 
   // obey the global maximum number of threads limit
-  m_NumberOfThreads = std::min( m_GlobalMaximumNumberOfThreads, m_NumberOfThreads );
+  m_NumberOfThreads = vcl_min( m_GlobalMaximumNumberOfThreads, m_NumberOfThreads );
 
   // Spawn a set of threads through the SingleMethodProxy. Exceptions
   // thrown from a thread will be caught by the SingleMethodProxy. A
@@ -257,7 +266,7 @@ void MultiThreader::SingleMethodExecute()
   std::string exceptionDetails;
   try
     {
-    for ( thread_loop = 1; thread_loop < m_NumberOfThreads; thread_loop++ )
+    for( thread_loop = 1; thread_loop < m_NumberOfThreads; ++thread_loop )
       {
       m_ThreadInfoArray[thread_loop].UserData    = m_SingleData;
       m_ThreadInfoArray[thread_loop].NumberOfThreads = m_NumberOfThreads;
@@ -267,7 +276,7 @@ void MultiThreader::SingleMethodExecute()
         this->DispatchSingleMethodThread(&m_ThreadInfoArray[thread_loop]);
       }
     }
-  catch ( std::exception & e )
+  catch( std::exception & e )
     {
     // get the details of the exception to rethrow them
     exceptionDetails = e.what();
@@ -275,7 +284,7 @@ void MultiThreader::SingleMethodExecute()
     // threads are correctly cleaned
     exceptionOccurred = true;
     }
-  catch ( ... )
+  catch( ... )
     {
     // If creation of any thread failed, we must make sure that all
     // threads are correctly cleaned
@@ -291,23 +300,24 @@ void MultiThreader::SingleMethodExecute()
     m_ThreadInfoArray[0].NumberOfThreads = m_NumberOfThreads;
     m_SingleMethod( (void *)( &m_ThreadInfoArray[0] ) );
     }
-  catch ( ProcessAborted & )
+  catch( ProcessAborted & )
     {
     // Need cleanup and rethrow ProcessAborted
     // close down other threads
-    for ( thread_loop = 1; thread_loop < m_NumberOfThreads; thread_loop++ )
+    for( thread_loop = 1; thread_loop < m_NumberOfThreads; ++thread_loop )
       {
       try
         {
         this->WaitForSingleMethodThread(process_id[thread_loop]);
         }
-      catch ( ... )
-              {}
+      catch( ... )
+        {
+        }
       }
     // rethrow
     throw;
     }
-  catch ( std::exception & e )
+  catch( std::exception & e )
     {
     // get the details of the exception to rethrow them
     exceptionDetails = e.what();
@@ -315,41 +325,40 @@ void MultiThreader::SingleMethodExecute()
     // correctly cleaned
     exceptionOccurred = true;
     }
-  catch ( ... )
+  catch( ... )
     {
     // if this method fails, we must make sure all threads are
     // correctly cleaned
     exceptionOccurred = true;
     }
-
   // The parent thread has finished this->SingleMethod() - so now it
   // waits for each of the other processes to exit
-  for ( thread_loop = 1; thread_loop < m_NumberOfThreads; thread_loop++ )
+  for( thread_loop = 1; thread_loop < m_NumberOfThreads; ++thread_loop )
     {
     try
       {
       this->WaitForSingleMethodThread(process_id[thread_loop]);
-      if ( m_ThreadInfoArray[thread_loop].ThreadExitCode
-           != ThreadInfoStruct::SUCCESS )
+      if( m_ThreadInfoArray[thread_loop].ThreadExitCode
+          != ThreadInfoStruct::SUCCESS )
         {
         exceptionOccurred = true;
         }
       }
-    catch ( std::exception & e )
+    catch( std::exception & e )
       {
       // get the details of the exception to rethrow them
       exceptionDetails = e.what();
       exceptionOccurred = true;
       }
-    catch ( ... )
+    catch( ... )
       {
       exceptionOccurred = true;
       }
     }
 
-  if ( exceptionOccurred )
+  if( exceptionOccurred )
     {
-    if ( exceptionDetails.empty() )
+    if( exceptionDetails.empty() )
       {
       itkExceptionMacro("Exception occurred during SingleMethodExecute");
       }
@@ -359,6 +368,7 @@ void MultiThreader::SingleMethodExecute()
       }
     }
 }
+
 ITK_THREAD_RETURN_TYPE
 MultiThreader
 ::SingleMethodProxy(void *arg)
@@ -366,7 +376,7 @@ MultiThreader
   // grab the ThreadInfoStruct originally prescribed
   MultiThreader::ThreadInfoStruct
   * threadInfoStruct =
-    reinterpret_cast< MultiThreader::ThreadInfoStruct * >( arg );
+    reinterpret_cast<MultiThreader::ThreadInfoStruct *>( arg );
 
   // execute the user specified threader callback, catching any exceptions
   try
@@ -374,28 +384,54 @@ MultiThreader
     ( *threadInfoStruct->ThreadFunction )(threadInfoStruct);
     threadInfoStruct->ThreadExitCode = MultiThreader::ThreadInfoStruct::SUCCESS;
     }
-  catch ( ProcessAborted & )
+  catch( ProcessAborted & )
     {
     threadInfoStruct->ThreadExitCode =
       MultiThreader::ThreadInfoStruct::ITK_PROCESS_ABORTED_EXCEPTION;
     }
-  catch ( ExceptionObject & )
+  catch( ExceptionObject & )
     {
     threadInfoStruct->ThreadExitCode =
       MultiThreader::ThreadInfoStruct::ITK_EXCEPTION;
     }
-  catch ( std::exception & )
+  catch( std::exception & )
     {
     threadInfoStruct->ThreadExitCode =
       MultiThreader::ThreadInfoStruct::STD_EXCEPTION;
     }
-  catch ( ... )
+  catch( ... )
     {
     threadInfoStruct->ThreadExitCode = MultiThreader::ThreadInfoStruct::UNKNOWN;
     }
 
   return ITK_THREAD_RETURN_VALUE;
 }
+
+ThreadProcessIdType
+MultiThreader
+::DispatchSingleMethodThread(ThreadInfoStruct *info)
+{
+  if(this->m_UseThreadPool)
+    {
+    return this->ThreadPoolDispatchSingleMethodThread(info);
+    }
+  return this->SpawnDispatchSingleMethodThread(info);
+}
+
+void
+MultiThreader
+::WaitForSingleMethodThread(ThreadProcessIdType threadHandle)
+{
+  if(this->m_UseThreadPool)
+    {
+    this->ThreadPoolWaitForSingleMethodThread(threadHandle);
+    }
+  else
+    {
+    this->SpawnWaitForSingleMethodThread(threadHandle);
+    }
+}
+
 // Print method for the multithreader
 void MultiThreader::PrintSelf(std::ostream & os, Indent indent) const
 {
@@ -407,6 +443,5 @@ void MultiThreader::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "Global Default Number Of Threads: "
      << m_GlobalDefaultNumberOfThreads << std::endl;
 }
-
 
 }
