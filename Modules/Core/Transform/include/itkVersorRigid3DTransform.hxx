@@ -145,15 +145,6 @@ VersorRigid3DTransform<TScalar>
                       << numberOfParameters << std::endl);
     }
 
-  // Normalized scaled gradient is used to update transform parameters.
-  double magnitudeSquare = 0;
-  for ( unsigned int dim = 0; dim < numberOfParameters; dim++ )
-    {
-    const double weighted = update[dim];
-    magnitudeSquare += weighted * weighted;
-    }
-  const double gradientMagnitude = vcl_sqrt(magnitudeSquare);
-
   /* Make sure m_Parameters is updated to reflect the current values in
    * the transform's other parameter-related variables. This is effective for
    * managing the parallel variables used for storing parameter data,
@@ -190,7 +181,7 @@ VersorRigid3DTransform<TScalar>
   // direction.
 
   VersorType gradientRotation;
-  gradientRotation.Set( axis, (factor / gradientMagnitude) * axis.GetNorm() );
+  gradientRotation.Set( axis, factor * axis.GetNorm() );
 
   //
   // Composing the currentRotation with the gradientRotation
@@ -208,7 +199,7 @@ VersorRigid3DTransform<TScalar>
   // RegularStepGradientDescentOptimizer
   for ( unsigned int k = 3; k < numberOfParameters; k++ )
     {
-    newParameters[k] = this->m_Parameters[k] + update[k] * (factor / gradientMagnitude);
+    newParameters[k] = this->m_Parameters[k] + update[k] * factor;
     }
 
   /* Call SetParameters with the updated parameters.
