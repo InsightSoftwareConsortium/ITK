@@ -77,7 +77,7 @@ ENDIF(BUILD_WRAPPERS)
 IF(BUILD_TESTING)
 
 FOREACH(CurrentExe labelSetsErode labelSetsPerf
-labelSetsDilatePerf labelSetsDilateWSPerf labelSetsDilateDanielssonPerf labelSetsDilate labelSetsDilateWS labelSetsDilateDanielsson reportNonZero)
+labelSetsDilatePerf labelSetsDilateWSPerf labelSetsDilateDanielssonPerf labelSetsDilate labelSetsDilateWS labelSetsDilateDanielsson reportNonZero labelSetsDilateSelected labelDilateLoopTest)
 ADD_EXECUTABLE(${CurrentExe} ${CurrentExe}.cxx)
 TARGET_LINK_LIBRARIES(${CurrentExe} ${Libraries})
 ENDFOREACH(CurrentExe)
@@ -122,7 +122,9 @@ ${BRAIN_SLICE} -o labdilate2d.png -r 5
 ADD_TEST(threadDilateTest  ${TEST_COMMAND} ${CMAKE_COMMAND} -DTESTIMAGE=${CMAKE_CURRENT_SOURCE_DIR}/BugsFromDzenan/vCenters10.mha -P ${CMAKE_CURRENT_SOURCE_DIR}/threadtest.cmake
 --compare dil_4.mha dil_1.mha)
 
+ADD_TEST(LoopDilateTest  ${TEST_COMMAND} labelDilateLoopTest  -i ${BRAIN_SLICE} -o looplabdilate2d.png -r 1.1 --iterations 50 )
 
+ADD_TEST(LoopDilateTest2  ${TEST_COMMAND} labelDilateLoopTest  -i ${BRAIN_SLICE} -o looplabdilate2d50.png -r 51 --iterations 1 )
 
 
 
