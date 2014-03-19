@@ -306,7 +306,7 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
     component->Update();
     if ( component->AreParametersModified() )
       {
-      return true;
+      updated = true;
       }
     }
 
