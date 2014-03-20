@@ -143,6 +143,13 @@ public:
     return m_Pointer;
   }
 
+  void swap(SmartPointer &other)
+    {
+      ObjectType *tmp = this->m_Pointer;
+      this->m_Pointer = other.m_Pointer;
+      other.m_Pointer = tmp;
+    }
+
 private:
   /** The pointer to the object referred to by this smart pointer. */
   ObjectType *m_Pointer;
@@ -164,6 +171,13 @@ std::ostream & operator<<(std::ostream & os, SmartPointer< T > p)
   p.Print(os);
   return os;
 }
+
+template<typename T>
+inline void swap( SmartPointer<T> &a, SmartPointer<T> &b )
+{
+  a.swap(b);
+}
+
 } // end namespace itk
 
 #endif
