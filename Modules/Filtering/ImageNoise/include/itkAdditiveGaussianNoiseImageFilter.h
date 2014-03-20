@@ -1,56 +1,55 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    $RCSfile: itkAdditiveGaussianNoiseImageFilter.h,v $
-  Language:  C++
-  Date:      $Date: 2009-02-24 19:03:15 $
-  Version:   $Revision: 1.4 $
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
-
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 #ifndef __itkAdditiveGaussianNoiseImageFilter_h
 #define __itkAdditiveGaussianNoiseImageFilter_h
 
-#include "itkInPlaceImageFilter.h"
-#include "itkNumericTraits.h"
+#include "itkNoiseBaseImageFilter.h"
 
 namespace itk
 {
-  
+
 /** \class AdditiveGaussianNoiseImageFilter
  *
  * \brief Alter an image with additive gaussian white noise.
  *
  * \author Gaetan Lehmann
  *
- * \ingroup IntensityImageFilters  Multithreaded
- * \sa InPlaceImageFilter
+ * This code was contributed in the Insight Journal paper "Noise
+ * Simulation". http://hdl.handle.net/10380/3158
+ *
+ * \ingroup ITKImageNoise
  */
 template <class TInputImage, class TOutputImage=TInputImage>
-class ITK_EXPORT AdditiveGaussianNoiseImageFilter :
-      public
-InPlaceImageFilter<TInputImage,TOutputImage >
+class AdditiveGaussianNoiseImageFilter :
+  public NoiseBaseImageFilter<TInputImage,TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef AdditiveGaussianNoiseImageFilter                               Self;
-  typedef InPlaceImageFilter<
-    TInputImage,TOutputImage   >                             Superclass;
-  typedef SmartPointer<Self>                                 Pointer;
-  typedef SmartPointer<const Self>                           ConstPointer;
+  typedef AdditiveGaussianNoiseImageFilter                 Self;
+  typedef NoiseBaseImageFilter< TInputImage,TOutputImage > Superclass;
+  typedef SmartPointer<Self>                               Pointer;
+  typedef SmartPointer<const Self>                         ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
-  
+
   /** Run-time type information (and related methods). */
-  itkTypeMacro(AdditiveGaussianNoiseImageFilter, InPlaceImageFilter);
+  itkTypeMacro(AdditiveGaussianNoiseImageFilter, NoiseBaseImageFilter);
 
   /** Superclass typedefs. */
   typedef typename Superclass::OutputImageType       OutputImageType;
@@ -59,54 +58,48 @@ public:
   typedef typename Superclass::OutputImagePixelType  OutputImagePixelType;
 
   /** Some convenient typedefs. */
-  typedef TInputImage                             InputImageType;
-  typedef typename InputImageType::Pointer        InputImagePointer;
-  typedef typename InputImageType::ConstPointer   InputImageConstPointer;
-  typedef typename InputImageType::RegionType     InputImageRegionType; 
-  typedef typename InputImageType::PixelType      InputImagePixelType; 
-  
+  typedef TInputImage                           InputImageType;
+  typedef typename InputImageType::Pointer      InputImagePointer;
+  typedef typename InputImageType::ConstPointer InputImageConstPointer;
+  typedef typename InputImageType::RegionType   InputImageRegionType;
+  typedef typename InputImageType::PixelType    InputImagePixelType;
+
   itkGetConstMacro(Mean, double);
   itkSetMacro(Mean, double);
-  
+
   itkGetConstMacro(StandardDeviation, double);
   itkSetMacro(StandardDeviation, double);
-  
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
   itkConceptMacro(InputConvertibleToOutputCheck,
-                   (Concept::Convertible<typename TInputImage::PixelType,
-                    typename TOutputImage::PixelType>));
-  // The following concept check doesn't seem to work with vector immages
-  //itkConceptMacro(Input1Input2OutputDivisionOperatorsCheck,
-  //                (Concept::DivisionOperators<typename TInputImage::PixelType,
-  //                 double,
-  //                 typename TOutputImage::PixelType>));
+                  (Concept::Convertible<typename TInputImage::PixelType,
+                                        typename TOutputImage::PixelType>) );
   /** End concept checking */
 #endif
 
 protected:
   AdditiveGaussianNoiseImageFilter();
-  virtual ~AdditiveGaussianNoiseImageFilter() {};
-   
+  virtual ~AdditiveGaussianNoiseImageFilter() {
+  }
+
   void PrintSelf(std::ostream &os, Indent indent) const;
-  void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
-                            int threadId );
+
+  void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, ThreadIdType threadId );
 
 private:
   AdditiveGaussianNoiseImageFilter(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-  
+  void operator=(const Self&);                   //purposely not implemented
+
   double m_Mean;
   double m_StandardDeviation;
 
 };
 
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkAdditiveGaussianNoiseImageFilter.txx"
+#include "itkAdditiveGaussianNoiseImageFilter.hxx"
 #endif
 
 #endif

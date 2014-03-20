@@ -1,33 +1,34 @@
 /*=========================================================================
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
+#ifndef __itkPeakSignalToNoiseRatioCalculator_hxx
+#define __itkPeakSignalToNoiseRatioCalculator_hxx
 
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    $RCSfile: itkPeakSignalToNoiseRatioCalculator.txx,v $
-  Language:  C++
-  Date:      $Date: 2005/08/10 16:32:57 $
-  Version:   $Revision: 1.52 $
-
-  Copyright (c) Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
-#ifndef __itkPeakSignalToNoiseRatioCalculator_txx
-#define __itkPeakSignalToNoiseRatioCalculator_txx
 #include "itkPeakSignalToNoiseRatioCalculator.h"
 
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkImageRegionConstIterator.h"
 
 namespace itk
-{ 
-
+{
 
 template < class TInputImage>
 PeakSignalToNoiseRatioCalculator<TInputImage>
-::PeakSignalToNoiseRatioCalculator(void) 
+::PeakSignalToNoiseRatioCalculator(void)
 {
   m_Valid = false;
   m_Image = NULL;
@@ -35,19 +36,18 @@ PeakSignalToNoiseRatioCalculator<TInputImage>
   m_Output = NumericTraits< InputPixelType >::Zero;
 }
 
-
 template < class TInputImage >
 void
 PeakSignalToNoiseRatioCalculator<TInputImage>
 ::PrintSelf( std::ostream& os, Indent indent ) const
 {
   Superclass::PrintSelf(os,indent);
+
   os << indent << "Image: " << m_Image.GetPointer() << std::endl;
   os << indent << "NoisyImage: " << m_NoisyImage.GetPointer() << std::endl;
   os << indent << "Valid: " << m_Valid << std::endl;
   os << indent << "Output: " << m_Output << std::endl;
 }
-
 
 template < class TInputImage >
 void
@@ -57,22 +57,22 @@ PeakSignalToNoiseRatioCalculator<TInputImage>
 
   typedef typename InputImageType::IndexType IndexType;
 
-  if( !m_Image || !m_NoisyImage ) 
+  if( !m_Image || !m_NoisyImage )
     {
     return;
     }
 
   ImageRegionConstIteratorWithIndex< InputImageType > iIt( m_Image,
-                                                     m_Image->GetRequestedRegion() ); 
+                                                           m_Image->GetRequestedRegion() );
   iIt.GoToBegin();
   ImageRegionConstIteratorWithIndex< InputImageType > nIt( m_NoisyImage,
-                                                     m_NoisyImage->GetRequestedRegion() ); 
+                                                           m_NoisyImage->GetRequestedRegion() );
   nIt.GoToBegin();
 
   // init the values
-  double mse = 0;
+  double         mse = 0;
   InputPixelType max = NumericTraits<InputPixelType>::NonpositiveMin();
-  
+
   while( !iIt.IsAtEnd() )
     {
     mse += pow( (double)nIt.Get() - (double)iIt.Get(), 2 );
@@ -81,12 +81,11 @@ PeakSignalToNoiseRatioCalculator<TInputImage>
     ++nIt;
     }
   mse /= m_Image->GetRequestedRegion().GetNumberOfPixels();
-  
+
   m_Output = 10 * vcl_log10( max * max / mse );
   m_Valid = true;
 
 }
-
 
 template < class TInputImage >
 const double &

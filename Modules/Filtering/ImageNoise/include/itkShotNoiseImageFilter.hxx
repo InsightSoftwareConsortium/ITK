@@ -1,25 +1,26 @@
 /*=========================================================================
-
-  Program:   Insight Segmentation & Registration Toolkit
-  Module:    $RCSfile: $
-  Language:  C++
-  Date:      $Date: $
-  Version:   $Revision: $
-  Author:    Gavin Baker <gavinb@cs.mu.oz.au>
-
-  Copyright (c) 2004 Insight Software Consortium. All rights reserved.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
-
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
-     PURPOSE.  See the above copyright notices for more information.
-
-=========================================================================*/
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
+#ifndef __itkShotNoiseImageFilter_hxx
+#define __itkShotNoiseImageFilter_hxx
 
 #include "itkShotNoiseImageFilter.h"
-#include "itkThreadSafeMersenneTwisterRandomVariateGenerator.h"
-#include "itkImageRegionIterator.h"
-#include "itkImageRegionConstIterator.h"
+#include "itkMersenneTwisterRandomVariateGenerator.h"
+#include "itkImageScanlineIterator.h"
 #include "itkProgressReporter.h"
 #include "itkNormalVariateGenerator.h"
 
@@ -29,26 +30,26 @@ namespace itk
 template <class TInputImage, class TOutputImage>
 ShotNoiseImageFilter<TInputImage, TOutputImage>
 ::ShotNoiseImageFilter()
+  : m_Scale(1.0)
 {
-  m_Scale = 1.0;
 }
-
 
 template <class TInputImage, class TOutputImage>
 void
 ShotNoiseImageFilter<TInputImage, TOutputImage>
-::ThreadedGenerateData( const OutputImageRegionType &outputRegionForThread,
-                        int threadId)
+::ThreadedGenerateData( const OutputImageRegionType &outputRegionForThread, ThreadIdType threadId)
 {
-  InputImageConstPointer  inputPtr = this->GetInput();
-  OutputImagePointer outputPtr = this->GetOutput(0);
-  
+  const InputImageType* inputPtr = this->GetInput();
+  OutputImageType*      outputPtr = this->GetOutput(0);
+
   // create a random generator per thread
-  typename Statistics::ThreadSafeMersenneTwisterRandomVariateGenerator::Pointer rand = 
-      Statistics::ThreadSafeMersenneTwisterRandomVariateGenerator::New();
-  rand->Initialize();
+  typename Statistics::MersenneTwisterRandomVariateGenerator::Pointer rand =
+    Statistics::MersenneTwisterRandomVariateGenerator::New();
+  const uint32_t seed = Self::Hash(this->GetSeed(),threadId);
+  rand->Initialize(seed);
   typename Statistics::NormalVariateGenerator::Pointer randn = Statistics::NormalVariateGenerator::New();
-  
+  randn->Initialize(*static_cast<int32_t*>( (void*)&seed) );
+
   // Define the portion of the input to walk for this thread, using
   // the CallCopyOutputRegionToInputRegion method allows for the input
   // and output images to be different dimensions
@@ -56,38 +57,50 @@ ShotNoiseImageFilter<TInputImage, TOutputImage>
   this->CallCopyOutputRegionToInputRegion(inputRegionForThread, outputRegionForThread);
 
   // Define the iterators
-  ImageRegionConstIterator<TInputImage>  inputIt(inputPtr, inputRegionForThread);
-  ImageRegionIterator<TOutputImage> outputIt(outputPtr, outputRegionForThread);
+  ImageScanlineConstIterator<TInputImage> inputIt(inputPtr, inputRegionForThread);
+  ImageScanlineIterator<TOutputImage>     outputIt(outputPtr, outputRegionForThread);
 
-  ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
+  ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels() );
 
   inputIt.GoToBegin();
   outputIt.GoToBegin();
 
-  while( !inputIt.IsAtEnd() ) 
+  while ( !inputIt.IsAtEnd() )
     {
-    double in = m_Scale * inputIt.Get();
-    if( in < 50 )
+    while ( !inputIt.IsAtEndOfLine() )
       {
-    double L = vcl_exp( -in );
-    long k = 0;
-      double p = 1.0;
-      do
+      const double in = m_Scale * inputIt.Get();
+
+      // The value of >=50, is the lambda value in a Poisson
+      // distribution where a Gaussian distribution make a "good"
+      // approximation of the Poisson. This could be considered to be
+      // exposed as an advance parameter in the future.
+      if( in < 50 )
         {
-        k += 1;
-        p *= rand->GetVariate();
+        const double L = vcl_exp( -in );
+        long         k = 0;
+        double       p = 1.0;
+
+        do
+          {
+          k += 1;
+          p *= rand->GetVariate();
+          }
+        while( p > L );
+
+        // clip the output to the actual supported range
+        outputIt.Set( Self::ClampCast( (k-1)/m_Scale ) );
         }
-      while( p > L );
-      // clip the output to the actual supported range
-      outputIt.Set( (OutputImagePixelType) std::min( (double)NumericTraits<OutputImagePixelType>::max(), (k-1)/m_Scale ) );
+      else
+        {
+        const double out = in + vcl_sqrt( in ) * randn->GetVariate();
+        outputIt.Set( Self::ClampCast( out/m_Scale ) );
+        }
+      ++inputIt;
+      ++outputIt;
       }
-    else
-      {
-      double out = in + vcl_sqrt( in ) * randn->GetVariate();
-      outputIt.Set( (OutputImagePixelType) std::min( (double)NumericTraits<OutputImagePixelType>::max(), out/m_Scale ) );
-      }
-    ++inputIt;
-    ++outputIt;
+    inputIt.NextLine();
+    outputIt.NextLine();
     progress.CompletedPixel();  // potential exception thrown here
     }
 }
@@ -98,10 +111,13 @@ ShotNoiseImageFilter<TInputImage, TOutputImage>
 ::PrintSelf(std::ostream& os,
             Indent indent) const
 {
-    Superclass::PrintSelf(os, indent);
-    os << indent << "Scale: " 
-       << static_cast<typename NumericTraits<double>::PrintType>(this->GetScale())
-       << std::endl;
+  Superclass::PrintSelf(os, indent);
+
+  os << indent << "Scale: "
+     << static_cast<typename NumericTraits<double>::PrintType>(this->GetScale() )
+     << std::endl;
 }
 
 } /* namespace itk */
+
+#endif // __itkShotNoiseImageFilter_hxx
