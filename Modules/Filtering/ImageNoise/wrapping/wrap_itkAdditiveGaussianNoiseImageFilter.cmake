@@ -1,0 +1,3 @@
+WRAP_CLASS("itk::AdditiveGaussianNoiseImageFilter" POINTER)
+  WRAP_IMAGE_FILTER_SCALAR(2)
+END_WRAP_CLASS()
