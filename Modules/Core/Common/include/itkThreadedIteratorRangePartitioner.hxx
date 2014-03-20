@@ -22,6 +22,8 @@
 #include "itkThreadedIteratorRangePartitioner.h"
 #include "itkMath.h"
 
+#include <iterator>
+
 namespace itk
 {
 
@@ -48,12 +50,8 @@ ThreadedIteratorRangePartitioner< TIterator >
   // overallIndexRange is expected to be inclusive
 
   // determine the actual number of pieces that will be generated
-  typename DomainType::IteratorType it;
-  ThreadIdType count = NumericTraits< ThreadIdType >::Zero;
-  for( it = completeDomain.Begin(); it != completeDomain.End(); ++it )
-    {
-    ++count;
-    }
+  ThreadIdType count = std::distance( completeDomain.Begin(), completeDomain.End() );
+
   ThreadIdType valuesPerThread =
     Math::Ceil<ThreadIdType>( static_cast< double >( count ) / static_cast< double >( requestedTotal ));
   ThreadIdType maxThreadIdUsed =
@@ -66,22 +64,14 @@ ThreadedIteratorRangePartitioner< TIterator >
     return maxThreadIdUsed + 1;
     }
 
-  // Split the domain range
-  it = completeDomain.Begin();
   const ThreadIdType startIndexCount = threadId * valuesPerThread;
-  for( ThreadIdType ii = 0; ii < startIndexCount; ++ii )
-    {
-    ++it;
-    }
-  subDomain.m_Begin = it;
+  subDomain.m_Begin = completeDomain.Begin();
+  std::advance(subDomain.m_Begin, startIndexCount );
+
   if (threadId < maxThreadIdUsed)
     {
-    const ThreadIdType endIndexCount = valuesPerThread;
-    for( ThreadIdType ii = 0; ii < endIndexCount; ++ii )
-      {
-      ++it;
-      }
-    subDomain.m_End = it;
+    subDomain.m_End = subDomain.m_Begin;
+    std::advance(subDomain.m_End, valuesPerThread );
     }
   if (threadId == maxThreadIdUsed)
     {
