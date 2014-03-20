@@ -42,9 +42,17 @@ LabelSetMorphBaseImageFilter<TInputImage, doDilate, TOutputImage>
 }
 
 template <typename TInputImage, bool doDilate, typename TOutputImage>
-unsigned int
+void 
 LabelSetMorphBaseImageFilter<TInputImage, doDilate,TOutputImage>
-::SplitRequestedRegion(unsigned int i, unsigned int num, OutputImageRegionType& splitRegion)
+::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, ThreadIdType threadId)
+{
+
+}
+
+template <typename TInputImage, bool doDilate, typename TOutputImage>
+RegionIndexType
+LabelSetMorphBaseImageFilter<TInputImage, doDilate,TOutputImage>
+::SplitRequestedRegion(RegionIndexType i, RegionIndexType num, OutputImageRegionType& splitRegion)
 {
   // Get the output pointer
   OutputImageType *outputPtr = this->GetOutput();

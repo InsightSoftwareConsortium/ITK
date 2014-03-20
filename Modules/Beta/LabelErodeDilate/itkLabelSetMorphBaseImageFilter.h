@@ -5,6 +5,12 @@
 
 namespace itk
 {
+#if	ITK_VERSION_MAJOR < 4
+	typedef int ThreadIdType;
+	typedef int RegionIndexType;
+#else
+	typedef unsigned int RegionIndexType;
+#endif
 /**
  * \class LabelSetMorphBaseImageFilter
  * \brief Base class for binary morphological erosion of label images.
@@ -91,14 +97,14 @@ protected:
   LabelSetMorphBaseImageFilter();
   virtual ~LabelSetMorphBaseImageFilter() {};
 
-  unsigned int SplitRequestedRegion(unsigned int i, unsigned int num, OutputImageRegionType& splitRegion);
-  virtual void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, ThreadIdType threadId){};
-  void GenerateData( void );
+  RegionIndexType SplitRequestedRegion(RegionIndexType i, RegionIndexType num, OutputImageRegionType& splitRegion) override;
+  virtual void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, ThreadIdType threadId) override;
+  void GenerateData( void ) override;
 
   // Override since the filter produces the entire dataset.
-  void EnlargeOutputRequestedRegion(DataObject *output);
+  void EnlargeOutputRequestedRegion(DataObject *output) override;
   bool m_UseImageSpacing;
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream& os, Indent indent) const override;
 
   RadiusType m_Radius;
   RadiusType m_Scale;

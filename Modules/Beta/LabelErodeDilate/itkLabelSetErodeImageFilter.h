@@ -70,7 +70,7 @@ protected:
   LabelSetErodeImageFilter(){};
   virtual ~LabelSetErodeImageFilter() {};
 
-  void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, ThreadIdType threadId );
+  void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, ThreadIdType threadId ) override;
 
   // Override since the filter produces the entire dataset.
 
