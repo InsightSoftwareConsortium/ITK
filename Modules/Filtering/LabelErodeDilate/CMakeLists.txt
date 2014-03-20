@@ -28,7 +28,7 @@ SET(TEST_COMMAND ${ITK_TEST_DRIVER} --add-before-env PATH ${CMAKE_CURRENT_BINARY
 #cmake install and check that a file named Find(Package).cmake exists
 
 SET(Required_Packages
-ITK4
+ITK
 )
 
 
