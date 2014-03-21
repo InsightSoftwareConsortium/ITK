@@ -8,9 +8,9 @@
 
 option(ITK_USE_SYSTEM_SWIG "Use system swig. If OFF, swig is built as an external project." OFF)
 
-set(swig_version 2.0.12)
-set(swig_md5     c3fb0b2d710cc82ed0154b91e43085a4)
-set(swigwin_md5  3cc7dd131a87972f70fca1490b9e6e6b)
+set(swig_version 3.0.0)
+set(swig_md5     9c8278fad527dda4bf38edffe5acc394)
+set(swigwin_md5  c1d85fee2421d4edac552923fc4e5bde)
 
 if(WIN32)
   set(swig_ep "${CMAKE_CURRENT_BINARY_DIR}/swigwin-${swig_version}/swig.exe")
