@@ -65,7 +65,7 @@ public:
   /** Get the current time.
    *  Warning: the returned value is not the elapsed time since the last Start() call.
    */
-  virtual RealTimeClock::TimeStampType GetInstantValue(void) const;
+  virtual TimeStampType GetInstantValue(void) const;
 
   /** Returns the average times passed between the starts and stops of the
    *  probe. See the RealTimeClock for details on the precision and units of
@@ -74,6 +74,9 @@ public:
    *  \deprecated
    */
   itkLegacyMacro(TimeStampType GetMeanTime(void) const);
+
+  /** Get a handle to m_RealTimeClock. */
+  itkGetConstObjectMacro( RealTimeClock, RealTimeClock );
 
 private:
   RealTimeClock::Pointer m_RealTimeClock;

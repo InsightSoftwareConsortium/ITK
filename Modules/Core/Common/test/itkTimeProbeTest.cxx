@@ -77,6 +77,15 @@ int itkTimeProbeTest( int, char * [] )
     return EXIT_FAILURE;
     }
 
+  /** Invoke GetRealTimeClock. */
+  itk::RealTimeStamp timeStamp = localTimer.GetRealTimeClock()->GetRealTimeStamp();
+  std::cout << "day  " << timeStamp.GetTimeInDays() << std::endl;
+  std::cout << "hour " << timeStamp.GetTimeInHours() << std::endl;
+  std::cout << "min  " << timeStamp.GetTimeInMinutes() << std::endl;
+  std::cout << "sec  " << timeStamp.GetTimeInSeconds() << std::endl;
+  std::cout << "msec " << timeStamp.GetTimeInMilliSeconds() << std::endl;
+  std::cout << "usec " << timeStamp.GetTimeInMicroSeconds() << std::endl;
+
   std::cout << "[PASSED]" << std::endl;
   return EXIT_SUCCESS;
 }
