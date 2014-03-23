@@ -22,11 +22,6 @@ if(EXISTS "${possible_swig_dir}")
 set(SWIG_DIR "${possible_swig_dir}"  CACHE PATH "Path to Swig build or install")
 endif()
 
-# set WrapITK version
-set(WrapITK_VERSION_MAJOR @WrapITK_VERSION_MAJOR@)
-set(WrapITK_VERSION_MINOR @WrapITK_VERSION_MINOR@)
-set(WrapITK_VERSION_PATCH @WrapITK_VERSION_PATCH@)
-
 # Set up the rest of the variables that WrapITK was built with.
 set(ITK_WRAP_unsigned_char @ITK_WRAP_unsigned_char@ CACHE BOOL "Wrap unsigned char type")
 set(ITK_WRAP_unsigned_short @ITK_WRAP_unsigned_short@ CACHE BOOL "Wrap unsigned short type")

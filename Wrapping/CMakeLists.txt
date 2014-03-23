@@ -44,12 +44,6 @@ enable_testing()
 
 # Set up options needed for ConfigureWrapping
 
-# set WrapITK version
-set(WrapITK_VERSION_MAJOR 0)
-set(WrapITK_VERSION_MINOR 4)
-set(WrapITK_VERSION_PATCH 0)
-
-
 option(ITK_WRAP_unsigned_char "Wrap unsigned char type" ON)
 option(ITK_WRAP_unsigned_short "Wrap unsigned short type" OFF)
 option(ITK_WRAP_unsigned_long "Wrap unsigned long type" OFF)
