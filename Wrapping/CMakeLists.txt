@@ -31,11 +31,6 @@ set(ITK_WRAPPING_REACHED ON CACHE INTERNAL "Wrapping folder has been reached")
 
 include("CMakeUtilityFunctions.cmake")
 
-set(ITK_VERSION "${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}.${ITK_VERSION_PATCH}")
-if(NOT "${CMAKE_VERSION}" STRLESS "2.6.3")
-  cmake_policy(SET CMP0011 OLD)
-endif()
-
 enable_testing()
 
 ###############################################################################
