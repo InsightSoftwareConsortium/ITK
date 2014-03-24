@@ -21,6 +21,7 @@ set(ITKOptimizersv4Tests
   itkObjectToObjectMetricBaseTest.cxx
   itkLBFGSOptimizerv4Test.cxx
   itkLBFGSBOptimizerv4Test.cxx
+  itkRegularStepGradientDescentOptimizerv4Test.cxx
   )
 
 set(INPUTDATA ${ITK_DATA_ROOT}/Input)
@@ -119,3 +120,7 @@ itk_add_test(NAME itkLBFGSOptimizerv4Test
 itk_add_test(NAME itkLBFGSBOptimizerv4Test
   COMMAND ITKOptimizersv4TestDriver
   itkLBFGSBOptimizerv4Test)
+
+itk_add_test(NAME itkRegularStepGradientDescentOptimizerv4Test
+  COMMAND ITKOptimizersv4TestDriver
+  itkRegularStepGradientDescentOptimizerv4Test)
