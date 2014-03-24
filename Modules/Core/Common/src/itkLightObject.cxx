@@ -325,12 +325,6 @@ LightObject
 ::PrintTrailer( std::ostream & itkNotUsed(os), Indent itkNotUsed(indent) ) const
 {}
 
-/**
- * This operator allows all subclasses of LightObject to be printed via <<.
- * It in turn invokes the Print method, which in turn will invoke the
- * PrintSelf method that all objects should define, if they have anything
- * interesting to print out.
- */
 std::ostream &
 operator<<(std::ostream & os, const LightObject & o)
 {
