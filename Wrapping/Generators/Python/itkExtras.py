@@ -18,7 +18,6 @@
 
 # new features introduced by itk module
 # each new feature use a name in lower case
-clrLine = "\033[2000D\033[K"
 
 
 def auto_not_in_place(v=True):
@@ -60,9 +59,7 @@ def terminal_progress_callback(name, p):
     This function can be used with itkConfig.ProgressCallback
     """
     import sys
-    print >> sys.stderr, clrLine + "%s: %f" % (name, p),
-    if p == 1:
-        print >> sys.stderr, clrLine,
+    print >> sys.stderr, "%s: %f" % (name, p),
 
 
 def terminal_import_callback(name, p):
@@ -71,9 +68,7 @@ def terminal_import_callback(name, p):
     This function can be used with itkConfig.ImportCallback
     """
     import sys
-    print >> sys.stderr, clrLine + "Loading %s..." % name,
-    if p == 1:
-        print >> sys.stderr, clrLine,
+    print >> sys.stderr, "Loading %s..." % name,
 
 
 def simple_import_callback(name, p):
