@@ -109,7 +109,7 @@ writer.Update()
 # translation.SetElement(0, -30)
 # translation.SetElement(1, -50)
 # transform.Translate( translation, 0 )
-transform.Translate([-30, -50], 0)
+transform.Translate([-30, -50], False)
 
 if(exampleAction == 1):
     writer.Update()
