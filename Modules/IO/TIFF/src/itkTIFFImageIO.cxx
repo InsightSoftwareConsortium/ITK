@@ -70,7 +70,16 @@ int TIFFReaderInternal::Open(const char *filename)
   struct stat fs;
   if ( stat(filename, &fs) )
     {
+#if defined(_WIN32)
+    struct _stat64 fs64;
+    if ( _stat64(filename, &fs64) )
+      {
+      // Both stat() and _stat64() return != 0
+      return 0;
+      }
+#else
     return 0;
+#endif
     }
 
   this->m_Image = TIFFOpen(filename, "r");
@@ -258,6 +267,7 @@ int TIFFReaderInternal::CanRead()
            && ( this->m_Compression == COMPRESSION_NONE
                 || this->m_Compression == COMPRESSION_PACKBITS
                 || this->m_Compression == COMPRESSION_LZW
+                || this->m_Compression == COMPRESSION_DEFLATE
                 )
            && ( this->m_HasValidPhotometricInterpretation )
            && ( this->m_Photometrics == PHOTOMETRIC_RGB
