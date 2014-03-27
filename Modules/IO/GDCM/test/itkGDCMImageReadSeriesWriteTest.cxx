@@ -16,82 +16,52 @@
  *
  *=========================================================================*/
 
-#include "itkGDCMImageIO.h"
-#include "itkNumericSeriesFileNames.h"
 #include "itkImageFileReader.h"
+#include "itkImageFileWriter.h"
+#include "itkImageSeriesReader.h"
 #include "itkImageSeriesWriter.h"
-#include "itkMetaDataObject.h"
+#include "itkNumericSeriesFileNames.h"
+#include "itkRescaleIntensityImageFilter.h"
+#include "itkTestingMacros.h"
+#include "itkGDCMImageIO.h"
+#include "itkGDCMSeriesFileNames.h"
 
-#include <vector>
-#include "itksys/SystemTools.hxx"
-
-//  Software Guide : BeginLatex
-//
-//  This example illustrates how to read a 3D image from a non DICOM file and write it as a series of DICOM slices.
-//  with some changed header information. Header
-//
-//  Please note that modifying the content of a DICOM header is a very risky
-//  operation. The Header contains fundamental information about the patient
-//  and therefore its consistency must be protected from any data corruption.
-//  Before attempting to modify the DICOM headers of your files, you must make
-//  sure that you have a very good reason for doing so, and that you can ensure
-//  that this information change will not result in a lower quality of health
-//  care to be delivered to the patient.
-//
-//  \index{DICOM!Writing Series}
-//
-//  Software Guide : EndLatex
-
-
-int main( int argc, char* argv[] )
+int itkGDCMImageReadSeriesWriteTest( int argc, char* argv[] )
 {
-
-  if( argc < 3 )
+  if( argc < 4 )
     {
     std::cerr << "Usage: " << argv[0];
-    std::cerr << " InputImage  OutputDicomDirectory" << std::endl;
+    std::cerr << " InputImage OutputDicomDirectory SingleOutputImage" << std::endl;
     return EXIT_FAILURE;
     }
-
+  const char * inputImage = argv[1];
+  const char * outputDirectory = argv[2];
+  const char * singleOutputImage = argv[3];
 
   typedef signed short    PixelType;
   const unsigned int      Dimension = 3;
 
-  typedef itk::Image< PixelType, Dimension >      ImageType;
-  typedef itk::ImageFileReader< ImageType >       ReaderType;
+  typedef itk::Image< PixelType, Dimension > ImageType;
+  typedef itk::ImageFileReader< ImageType  > ReaderType;
 
   ReaderType::Pointer reader = ReaderType::New();
 
-  reader->SetFileName( argv[1] );
+  reader->SetFileName( inputImage );
 
-  try
-    {
-    reader->Update();
-    }
-  catch (itk::ExceptionObject &excp)
-    {
-    std::cerr << "Exception thrown while writing the image" << std::endl;
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-    }
+  TRY_EXPECT_NO_EXCEPTION( reader->Update() );
 
-  typedef itk::GDCMImageIO                        ImageIOType;
-  typedef itk::NumericSeriesFileNames             NamesGeneratorType;
+  typedef itk::GDCMImageIO            ImageIOType;
+  typedef itk::NumericSeriesFileNames NamesGeneratorType;
 
   ImageIOType::Pointer gdcmIO = ImageIOType::New();
 
-  const char * outputDirectory = argv[2];
-
   itksys::SystemTools::MakeDirectory( outputDirectory );
-
 
   typedef signed short    OutputPixelType;
   const unsigned int      OutputDimension = 2;
 
   typedef itk::Image< OutputPixelType, OutputDimension >    Image2DType;
-
-  typedef itk::ImageSeriesWriter<
-                         ImageType, Image2DType >  SeriesWriterType;
+  typedef itk::ImageSeriesWriter< ImageType, Image2DType >  SeriesWriterType;
 
   NamesGeneratorType::Pointer namesGenerator = NamesGeneratorType::New();
 
@@ -109,43 +79,38 @@ int main( int argc, char* argv[] )
 
 
   SeriesWriterType::Pointer seriesWriter = SeriesWriterType::New();
-
   seriesWriter->SetInput( reader->GetOutput() );
   seriesWriter->SetImageIO( gdcmIO );
 
-
-  ImageType::RegionType region =
-     reader->GetOutput()->GetLargestPossibleRegion();
-
+  ImageType::RegionType region = reader->GetOutput()->GetLargestPossibleRegion();
   ImageType::IndexType start = region.GetIndex();
   ImageType::SizeType  size  = region.GetSize();
 
 
   std::string format = outputDirectory;
-
   format += "/image%03d.dcm";
 
   namesGenerator->SetSeriesFormat( format.c_str() );
-
   namesGenerator->SetStartIndex( start[2] );
   namesGenerator->SetEndIndex( start[2] + size[2] - 1 );
   namesGenerator->SetIncrementIndex( 1 );
 
-
   seriesWriter->SetFileNames( namesGenerator->GetFileNames() );
 
+  TRY_EXPECT_NO_EXCEPTION( seriesWriter->Update() );
 
-  try
-    {
-    seriesWriter->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
-    std::cerr << "Exception thrown while writing the series " << std::endl;
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-    }
 
+  // Now read back in and write out as 3D image for comparison with the input.
+  typedef itk::ImageSeriesReader< ImageType > SeriesReaderType;
+  SeriesReaderType::Pointer seriesReader = SeriesReaderType::New();
+  seriesReader->SetFileNames( namesGenerator->GetFileNames() );
+
+  typedef itk::ImageFileWriter< ImageType > SingleWriterType;
+  SingleWriterType::Pointer singleWriter = SingleWriterType::New();
+  singleWriter->SetInput( seriesReader->GetOutput() );
+  singleWriter->SetFileName( singleOutputImage );
+
+  TRY_EXPECT_NO_EXCEPTION( singleWriter->Update() );
 
   return EXIT_SUCCESS;
 }
