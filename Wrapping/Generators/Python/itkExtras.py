@@ -16,8 +16,14 @@
 #
 #==========================================================================*/
 
-# new features introduced by itk module
-# each new feature use a name in lower case
+# The following line defines an ascii string used for dynamically refreshing
+# the import and progress callbacks on the same terminal line.
+# See http://www.termsys.demon.co.uk/vtansi.htm
+# \033 is the C-style octal code for an escape character
+# [2000D moves the cursor back 2000 columns, this is a brute force way of
+# getting to the start of the line.
+# [K erases the end of the line
+clrLine = "\033[2000D\033[K"
 
 
 def auto_not_in_place(v=True):
@@ -37,7 +43,7 @@ def auto_progress(progressType=1):
     """
     import itkConfig
 
-    if progressType or progressType == 1:
+    if progressType is True or progressType == 1:
         itkConfig.ImportCallback = terminal_import_callback
         itkConfig.ProgressCallback = terminal_progress_callback
 
@@ -59,7 +65,9 @@ def terminal_progress_callback(name, p):
     This function can be used with itkConfig.ProgressCallback
     """
     import sys
-    print >> sys.stderr, "%s: %f" % (name, p),
+    print >> sys.stderr, clrLine + "%s: %f" % (name, p),
+    if p == 1:
+        print >> sys.stderr, clrLine,
 
 
 def terminal_import_callback(name, p):
@@ -68,7 +76,9 @@ def terminal_import_callback(name, p):
     This function can be used with itkConfig.ImportCallback
     """
     import sys
-    print >> sys.stderr, "Loading %s..." % name,
+    print >> sys.stderr, clrLine + "Loading %s..." % name,
+    if p == 1:
+        print >> sys.stderr, clrLine,
 
 
 def simple_import_callback(name, p):
