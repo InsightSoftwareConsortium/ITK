@@ -66,8 +66,8 @@ public:
     TEST_SET_GET_VALUE( min, sigmoidTF->GetOutputMinimum() );
     TEST_SET_GET_VALUE( max, sigmoidTF->GetOutputMaximum() );
 
-    val = sigmoidTF->Evaluate(input);
-    deriv = sigmoidTF->EvaluateDerivative(input);
+    val = static_cast<double>(sigmoidTF->Evaluate(input));
+    deriv = static_cast<double>(sigmoidTF->EvaluateDerivative(input));
 
     TEST_EXPECT_EQUAL( expectedVal, val );
     TEST_EXPECT_EQUAL( expectedDerivVal, deriv );
