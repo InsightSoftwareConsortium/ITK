@@ -12,7 +12,7 @@ macro(END_WRAPPER_LIBRARY_TCL)
 
   set(modules )
 
-  foreach(source ${WRAPPER_LIBRARY_CABLESWIG_INPUTS})
+  foreach(source ${WRAPPER_LIBRARY_SWIG_INPUTS})
 
     get_filename_component(base_name ${source} NAME_WE)
     string(REGEX REPLACE "^wrap_" "" group_name "${base_name}")
