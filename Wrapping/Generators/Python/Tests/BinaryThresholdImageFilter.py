@@ -17,26 +17,42 @@
 #==========================================================================*/
 
 #
-#  Example on the use of the BinaryThresholdImageFilter
+#  Test BinaryThresholdImageFilter
 #
 
+import sys
 import itk
-from sys import argv
 itk.auto_progress(2)
 
-dim = 2
-IType = itk.Image[itk.UC, dim]
+inputImage = sys.argv[1]
+outputImage = sys.argv[2]
+lowerThreshold = int(sys.argv[3])
+upperThreshold = int(sys.argv[4])
+outsideValue = int(sys.argv[5])
+insideValue = int(sys.argv[6])
 
-reader = itk.ImageFileReader[IType].New(FileName=argv[1])
-filter = itk.BinaryThresholdImageFilter[IType, IType].New(reader,
-                                                          LowerThreshold=eval(
-                                                              argv[3]),
-                                                          UpperThreshold=eval(
-                                                              argv[4]),
-                                                          OutsideValue=eval(
-                                                              argv[5]),
-                                                          InsideValue=eval(
-                                                              argv[6]))
-writer = itk.ImageFileWriter[IType].New(filter, FileName=argv[2])
+PixelType = itk.UC
+Dimension = 2
+
+ImageType = itk.Image[PixelType, Dimension]
+
+ReaderType = itk.ImageFileReader[ImageType]
+reader = ReaderType.New()
+reader.SetFileName(inputImage)
+
+FilterType = itk.BinaryThresholdImageFilter[ImageType, ImageType]
+thresholdFilter = FilterType.New()
+
+thresholdFilter.SetInput(reader.GetOutput())
+
+thresholdFilter.SetLowerThreshold(lowerThreshold)
+thresholdFilter.SetUpperThreshold(upperThreshold)
+thresholdFilter.SetOutsideValue(outsideValue)
+thresholdFilter.SetInsideValue(insideValue)
+
+WriterType = itk.ImageFileWriter[ImageType]
+writer = WriterType.New()
+writer.SetFileName(outputImage)
+writer.SetInput(thresholdFilter.GetOutput())
 
 writer.Update()
