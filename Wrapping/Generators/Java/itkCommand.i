@@ -1,6 +1,6 @@
 // This is needed for a reference in SwigExtras.i
 // The actuall itkCommand wrapping is done in wrap_ITKCommonBase.cxx by
-// CableSwig
+// Swig
 class itkCommand
 {
 public:
