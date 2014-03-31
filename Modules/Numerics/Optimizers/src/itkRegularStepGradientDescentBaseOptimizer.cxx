@@ -166,13 +166,11 @@ RegularStepGradientDescentBaseOptimizer
   if ( m_RelaxationFactor < 0.0 )
     {
     itkExceptionMacro(<< "Relaxation factor must be positive. Current value is " << m_RelaxationFactor);
-    return;
     }
 
   if ( m_RelaxationFactor >= 1.0 )
     {
     itkExceptionMacro(<< "Relaxation factor must less than 1.0. Current value is " << m_RelaxationFactor);
-    return;
     }
 
   // Make sure the scales have been set properly

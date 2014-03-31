@@ -109,8 +109,6 @@ MeshIOBase
     default:
       itkExceptionMacro ("Unknown component type: " << componentType);
     }
-
-  return 0;
 }
 
 std::string

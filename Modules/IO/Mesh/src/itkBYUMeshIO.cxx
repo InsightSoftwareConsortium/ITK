@@ -74,7 +74,6 @@ BYUMeshIO
   if ( !inputFile.is_open() )
     {
     itkExceptionMacro(<< "Unable to open input file " << this->m_FileName);
-    return;
     }
 
   // Read the ASCII file information
@@ -194,7 +193,6 @@ BYUMeshIO
   if ( !inputFile.is_open() )
     {
     itkExceptionMacro(<< "Unable to open input file " << this->m_FileName);
-    return;
     }
 
   // Set the position to points start
@@ -232,7 +230,6 @@ BYUMeshIO
   if ( !inputFile.is_open() )
     {
     itkExceptionMacro(<< "Unable to open input file " << this->m_FileName);
-    return;
     }
 
   // Set the position to current position
@@ -306,7 +303,6 @@ BYUMeshIO
     {
     itkExceptionMacro("Unable to open file\n"
                       "outputFilename= " << this->m_FileName);
-    return;
     }
 
   // Write BYU file header

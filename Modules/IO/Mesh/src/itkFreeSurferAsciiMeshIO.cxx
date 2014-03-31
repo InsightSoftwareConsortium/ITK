@@ -210,7 +210,6 @@ FreeSurferAsciiMeshIO
   if ( this->m_FileName == "" )
     {
     itkExceptionMacro("No Input FileName");
-    return;
     }
 
   // Write to output file
@@ -220,7 +219,6 @@ FreeSurferAsciiMeshIO
     {
     itkExceptionMacro("Unable to open file\n"
                       "outputFilename= " << this->m_FileName);
-    return;
     }
 
   // Write FreeSurfer Surface file header
@@ -240,7 +238,6 @@ FreeSurferAsciiMeshIO
   if ( this->m_FileName == "" )
     {
     itkExceptionMacro("No Input FileName");
-    return;
     }
 
   // Write to output file
@@ -250,7 +247,6 @@ FreeSurferAsciiMeshIO
     {
     itkExceptionMacro("Unable to open file\n"
                       "outputFilename= " << this->m_FileName);
-    return;
     }
 
   // Write points

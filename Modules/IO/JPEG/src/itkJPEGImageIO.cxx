@@ -207,7 +207,6 @@ void JPEGImageIO::Read(void *buffer)
                        << std::endl
                        << "Reason: "
                        << itksys::SystemTools::GetLastSystemError() );
-    return;
     }
 
   // create jpeg decompression object and error handler
@@ -226,7 +225,6 @@ void JPEGImageIO::Read(void *buffer)
     itkExceptionMacro( "libjpeg could not read file: "
                        << this->GetFileName() );
     // this is not a valid jpeg file
-    return;
     }
 
   jpeg_create_decompress(&cinfo);
@@ -325,7 +323,6 @@ void JPEGImageIO::ReadImageInformation()
                        << std::endl
                        << "Reason: "
                        << itksys::SystemTools::GetLastSystemError() );
-    return;
     }
 
   // create jpeg decompression object and error handler
@@ -341,7 +338,6 @@ void JPEGImageIO::ReadImageInformation()
     // this is not a valid jpeg file
     itkExceptionMacro( "Error JPEGImageIO could not open file: "
                        << this->GetFileName() );
-    return;
     }
   jpeg_create_decompress(&cinfo);
 

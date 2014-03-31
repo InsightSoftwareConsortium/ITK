@@ -486,7 +486,6 @@ void StimulateImageIO::Write(const void *buffer)
   if ( numDims < 2 || numDims > 4 )
     {
     itkExceptionMacro(<< "Stimulate Writer can only write 2,3 or 4-dimensional images");
-    return;
     }
 
   // Write the Stimulate header information

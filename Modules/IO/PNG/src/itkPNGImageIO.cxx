@@ -180,7 +180,6 @@ void PNGImageIO::Read(void *buffer)
   if ( !png_ptr )
     {
     itkExceptionMacro( "File is not png type" << this->GetFileName() );
-    return;
     }
 
   png_infop info_ptr = png_create_info_struct(png_ptr);
@@ -189,7 +188,6 @@ void PNGImageIO::Read(void *buffer)
     png_destroy_read_struct(&png_ptr,
                             (png_infopp)NULL, (png_infopp)NULL);
     itkExceptionMacro( "File is not png type " << this->GetFileName() );
-    return;
     }
 
   png_infop end_info = png_create_info_struct(png_ptr);
@@ -198,7 +196,6 @@ void PNGImageIO::Read(void *buffer)
     png_destroy_read_struct(&png_ptr, &info_ptr,
                             (png_infopp)NULL);
     itkExceptionMacro( "File is not png type " << this->GetFileName() );
-    return;
     }
 
   //  VS 7.1 has problems with setjmp/longjmp in C++ code
@@ -207,7 +204,6 @@ void PNGImageIO::Read(void *buffer)
     {
     png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);
     itkExceptionMacro( "File is not png type " << this->GetFileName() );
-    return;
     }
 #endif
 

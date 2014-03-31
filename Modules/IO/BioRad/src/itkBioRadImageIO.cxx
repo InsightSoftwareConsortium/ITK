@@ -435,7 +435,6 @@ void BioRadImageIO::Write(const void *buffer)
   if ( numDims != 3 && numDims != 2 )
     {
     itkExceptionMacro(<< "BioRad Writer can only write 2 or 3-dimensional images");
-    return;
     }
 
   // Write the BioRad header information
@@ -483,7 +482,6 @@ void BioRadImageIO::Write(const void *buffer)
       break;
     default:
       itkExceptionMacro(<< "Component type not supported.");
-      return;
     }
   // write the actual header
   ByteSwapper< unsigned short >::SwapRangeFromSystemToLittleEndian(
