@@ -3,9 +3,9 @@ set(ITKIOGDCMTests
 itkGDCMImageIOTest.cxx
 itkGDCMImageIOTest2.cxx
 itkGDCMImageIONoCrashTest.cxx
-itkGDCMSeriesReadImageWrite.cxx
+itkGDCMSeriesReadImageWriteTest.cxx
 itkGDCMSeriesMissingDicomTagTest.cxx
-itkGDCMSeriesStreamReadImageWrite.cxx
+itkGDCMSeriesStreamReadImageWriteTest.cxx
 itkGDCMImagePositionPatientTest.cxx
 itkGDCMImageIOOrthoDirTest.cxx
 itkGDCMImageOrientationPatientTest.cxx
@@ -29,26 +29,26 @@ itk_add_test(NAME itkGDCMImageIOTest5
       COMMAND ITKIOGDCMTestDriver itkGDCMImageIOTest2
               DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw} ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTest5)
 
-itk_add_test(NAME itkGDCMSeriesReadImageWrite
-      COMMAND ITKIOGDCMTestDriver itkGDCMSeriesReadImageWrite
+itk_add_test(NAME itkGDCMSeriesReadImageWriteTest
+      COMMAND ITKIOGDCMTestDriver itkGDCMSeriesReadImageWriteTest
               DATA{${ITK_DATA_ROOT}/Input/DicomSeries/,REGEX:Image[0-9]+.dcm}
-              ${ITK_TEST_OUTPUT_DIR}/itkGDCMSeriesReadImageWrite.vtk ${ITK_TEST_OUTPUT_DIR})
+              ${ITK_TEST_OUTPUT_DIR}/itkGDCMSeriesReadImageWriteTest.vtk ${ITK_TEST_OUTPUT_DIR})
 
-set_property(TEST itkGDCMSeriesReadImageWrite APPEND PROPERTY DEPENDS ITKData)
+set_property(TEST itkGDCMSeriesReadImageWriteTest APPEND PROPERTY DEPENDS ITKData)
 
-itk_add_test(NAME itkGDCMSeriesStreamReadImageWrite1
-      COMMAND ITKIOGDCMTestDriver itkGDCMSeriesStreamReadImageWrite
+itk_add_test(NAME itkGDCMSeriesStreamReadImageWriteTest1
+      COMMAND ITKIOGDCMTestDriver itkGDCMSeriesStreamReadImageWriteTest
               DATA{${ITK_DATA_ROOT}/Input/DicomSeries/,REGEX:Image[0-9]+.dcm}
-              ${ITK_TEST_OUTPUT_DIR}/itkGDCMSeriesStreamReadImageWrite1.mhd 0.859375 0.85939 1.60016 0)
+              ${ITK_TEST_OUTPUT_DIR}/itkGDCMSeriesStreamReadImageWriteTest1.mhd 0.859375 0.85939 1.60016 0)
 
-set_property(TEST itkGDCMSeriesStreamReadImageWrite1 APPEND PROPERTY DEPENDS ITKData)
+set_property(TEST itkGDCMSeriesStreamReadImageWriteTest1 APPEND PROPERTY DEPENDS ITKData)
 
-itk_add_test(NAME itkGDCMSeriesStreamReadImageWrite2
-      COMMAND ITKIOGDCMTestDriver itkGDCMSeriesStreamReadImageWrite
+itk_add_test(NAME itkGDCMSeriesStreamReadImageWriteTest2
+      COMMAND ITKIOGDCMTestDriver itkGDCMSeriesStreamReadImageWriteTest
               DATA{${ITK_DATA_ROOT}/Input/DicomSeries/,REGEX:Image[0-9]+.dcm}
-              ${ITK_TEST_OUTPUT_DIR}/itkGDCMSeriesStreamReadImageWrite2.mhd 0.859375 0.85939 1.60016 1)
+              ${ITK_TEST_OUTPUT_DIR}/itkGDCMSeriesStreamReadImageWriteTest2.mhd 0.859375 0.85939 1.60016 1)
 
-set_property(TEST itkGDCMSeriesStreamReadImageWrite2 APPEND PROPERTY DEPENDS ITKData)
+set_property(TEST itkGDCMSeriesStreamReadImageWriteTest2 APPEND PROPERTY DEPENDS ITKData)
 
 itk_add_test(NAME itkGDCMImagePositionPatientTest
       COMMAND ITKIOGDCMTestDriver itkGDCMImagePositionPatientTest
