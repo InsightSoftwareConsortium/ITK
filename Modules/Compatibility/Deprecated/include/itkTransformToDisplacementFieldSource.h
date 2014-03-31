@@ -29,9 +29,8 @@ namespace itk
  * Output information (spacing, size and direction) for the output
  * image should be set. This information has the normal defaults of
  * unit spacing, zero origin and identity direction. Optionally, the
- * output information can be obtained from a reference image. If the
- * reference image is provided and UseReferenceImage is On, then the
- * spacing, origin and direction of the reference image will be used.
+ * output information can be obtained from a reference image, with
+ * SetOutputParametersFromImage.
  *
  * Since this filter produces an image which is a different size than
  * its input, it needs to override several of the methods defined
