@@ -150,21 +150,27 @@ ImageFileWriter< TInputImage >
     {
     ImageFileWriterException e(__FILE__, __LINE__);
     std::ostringstream       msg;
-    msg << " Could not create IO object for file "
+    std::list< LightObject::Pointer > allobjects =
+      ObjectFactoryBase::CreateAllInstance("itkImageIOBase");
+    msg << " Could not create IO object for writing file "
         << m_FileName.c_str() << std::endl;
-    msg << "  Tried to create one of the following:" << std::endl;
+    if (allobjects.size() > 0)
       {
-      std::list< LightObject::Pointer > allobjects =
-        ObjectFactoryBase::CreateAllInstance("itkImageIOBase");
+      msg << "  Tried to create one of the following:" << std::endl;
       for ( std::list< LightObject::Pointer >::iterator i = allobjects.begin();
             i != allobjects.end(); ++i )
         {
         ImageIOBase *io = dynamic_cast< ImageIOBase * >( i->GetPointer() );
         msg << "    " << io->GetNameOfClass() << std::endl;
         }
+      msg << "  You probably failed to set a file suffix, or" << std::endl;
+      msg << "    set the suffix to an unsupported type." << std::endl;
       }
-    msg << "  You probably failed to set a file suffix, or" << std::endl;
-    msg << "    set the suffix to an unsupported type." << std::endl;
+    else
+      {
+      msg << "  There are no registered IO factories." << std::endl;
+      msg << "  Please visit http://www.itk.org/Wiki/ITK/FAQ#NoFactoryException to diagnose the problem." << std::endl;
+      }
     e.SetDescription( msg.str().c_str() );
     e.SetLocation(ITK_LOCATION);
     throw e;

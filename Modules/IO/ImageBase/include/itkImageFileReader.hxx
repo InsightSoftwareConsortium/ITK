@@ -120,7 +120,7 @@ ImageFileReader< TOutputImage, ConvertPixelTraits >
   if ( m_ImageIO.IsNull() )
     {
     std::ostringstream msg;
-    msg << " Could not create IO object for file "
+    msg << " Could not create IO object for reading file "
         << this->GetFileName().c_str() << std::endl;
     if ( m_ExceptionMessage.size() )
       {
@@ -128,17 +128,25 @@ ImageFileReader< TOutputImage, ConvertPixelTraits >
       }
     else
       {
-      msg << "  Tried to create one of the following:" << std::endl;
       std::list< LightObject::Pointer > allobjects =
         ObjectFactoryBase::CreateAllInstance("itkImageIOBase");
-      for ( std::list< LightObject::Pointer >::iterator i = allobjects.begin();
-            i != allobjects.end(); ++i )
+      if (allobjects.size() > 0)
         {
-        ImageIOBase *io = dynamic_cast< ImageIOBase * >( i->GetPointer() );
-        msg << "    " << io->GetNameOfClass() << std::endl;
+        msg << "  Tried to create one of the following:" << std::endl;
+        for ( std::list< LightObject::Pointer >::iterator i = allobjects.begin();
+              i != allobjects.end(); ++i )
+          {
+          ImageIOBase *io = dynamic_cast< ImageIOBase * >( i->GetPointer() );
+          msg << "    " << io->GetNameOfClass() << std::endl;
+          }
+        msg << "  You probably failed to set a file suffix, or" << std::endl;
+        msg << "    set the suffix to an unsupported type." << std::endl;
         }
-      msg << "  You probably failed to set a file suffix, or" << std::endl;
-      msg << "    set the suffix to an unsupported type." << std::endl;
+      else
+        {
+        msg << "  There are no registered IO factories." << std::endl;
+        msg << "  Please visit http://www.itk.org/Wiki/ITK/FAQ#NoFactoryException to diagnose the problem." << std::endl;
+        }
       }
     ImageFileReaderException e(__FILE__, __LINE__, msg.str().c_str(), ITK_LOCATION);
     throw e;
