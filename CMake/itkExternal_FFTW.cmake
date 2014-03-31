@@ -58,6 +58,7 @@ else()
     set(_fftw_url "http://midas3.kitware.com/midas/api/rest?method=midas.bitstream.download&checksum=${_fftw_url_md5}&name=fftw-${_fftw_target_version}.tar.gz")
 
     if(ITK_USE_FFTWF)
+      itk_download_attempt_check(FFTW)
       ExternalProject_add(fftwf
         PREFIX fftwf
         URL "${_fftw_url}"
@@ -82,6 +83,7 @@ else()
     endif()
 
     if(ITK_USE_FFTWD)
+      itk_download_attempt_check(FFTW)
       ExternalProject_add(fftwd
         PREFIX fftwd
         URL "${_fftw_url}"

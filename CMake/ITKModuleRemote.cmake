@@ -133,6 +133,7 @@ function(itk_fetch_module _name _description)
   endif()
 
   if(Module_${_name})
+    itk_download_attempt_check(Module_${_name})
     include(CMakeParseArguments)
     cmake_parse_arguments(_fetch_options "" "GIT_REPOSITORY;GIT_TAG" "" ${ARGN})
     find_package(Git)
