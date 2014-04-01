@@ -52,6 +52,7 @@ public:
     // provide some default value for external use (outside
     // LabelOverlayFunctorImageFilter) Inside LabelOverlayFunctorImageFilter,
     // the values are always initialized
+    m_Opacity = 1.0;
     m_BackgroundValue = NumericTraits< TLabel >::Zero;
   }
 
@@ -87,10 +88,15 @@ public:
 
   bool operator!=(const LabelOverlayFunctor & l) const
   {
-    bool value = l.m_Opacity != m_Opacity
-                 || m_BackgroundValue != l.m_BackgroundValue;
+    bool areDifferent = l.m_Opacity != m_Opacity
+                        || l.m_BackgroundValue != m_BackgroundValue
+                        || l.m_RGBFunctor != m_RGBFunctor;
+    return areDifferent;
+  }
 
-    return value;
+  bool operator==(const LabelOverlayFunctor & l) const
+  {
+    return !(*this != l);
   }
 
   ~LabelOverlayFunctor() {}

@@ -55,8 +55,6 @@ public:
 
   LabelToRGBFunctor()
   {
-    TRGBPixel rgbPixel;
-
     typedef typename TRGBPixel::ValueType ValueType;
 
     // the following colors are from "R", and named:
@@ -152,10 +150,22 @@ public:
 
   bool operator!=(const Self & l) const
   {
-    const bool areDifferent = m_BackgroundColor != l.m_BackgroundColor
-                              || m_BackgroundValue != l.m_BackgroundValue;
+    if ( m_BackgroundColor != l.m_BackgroundColor
+         || m_BackgroundValue != l.m_BackgroundValue
+         || m_Colors.size() != l.m_Colors.size() )
+      {
+      return true;
+      }
 
-    return areDifferent;
+    // We need to check each color to see if it's different
+    for ( typename std::vector< TRGBPixel >::size_type i = 0; i < m_Colors.size(); ++i )
+      {
+      if ( m_Colors[i] != l.m_Colors[i] )
+        {
+        return true;
+        }
+      }
+    return false;
   }
 
   bool operator==(const Self & other) const

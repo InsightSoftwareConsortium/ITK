@@ -174,6 +174,20 @@ public:
   itkSetMacro( SliceDimension, int );
   itkGetConstReferenceMacro( SliceDimension, int );
 
+  /** Set/Get the overlay functor - defaults to a reasonable set of colors.
+   * This can be used to apply a different colormap.
+   */
+  virtual void SetFunctor(const FunctorType & functor)
+  {
+    if ( m_Functor != functor )
+      {
+      m_Functor = functor;
+      this->Modified();
+      }
+  }
+  FunctorType &       GetFunctor() { return m_Functor; }
+  const FunctorType & GetFunctor() const { return m_Functor; }
+
 protected:
   LabelMapContourOverlayImageFilter();
   ~LabelMapContourOverlayImageFilter() {};
@@ -212,6 +226,7 @@ private:
   SizeType                  m_ContourThickness;
   SizeType                  m_DilationRadius;
   int                       m_SliceDimension;
+  FunctorType               m_Functor;
 
   LabelMapPointer           m_TempImage;
 
