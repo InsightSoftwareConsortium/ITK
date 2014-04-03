@@ -16,15 +16,21 @@
  *
  *=========================================================================*/
 #include "itkMersenneTwisterRandomVariateGenerator.h"
+#include "itkSimpleFastMutexLock.h"
+#include "itkMutexLockHolder.h"
+
 
 namespace itk
 {
 namespace Statistics
 {
-MersenneTwisterRandomVariateGenerator::Pointer MersenneTwisterRandomVariateGenerator:: m_Instance = 0;
+
+MersenneTwisterRandomVariateGenerator::Pointer  MersenneTwisterRandomVariateGenerator::m_StaticInstance = 0;
+SimpleFastMutexLock MersenneTwisterRandomVariateGenerator::m_StaticInstanceLock;
 
 MersenneTwisterRandomVariateGenerator::Pointer
-MersenneTwisterRandomVariateGenerator::New()
+MersenneTwisterRandomVariateGenerator
+::CreateInstance()
 {
   // Try the factory first
   MersenneTwisterRandomVariateGenerator::Pointer obj  = ObjectFactory< Self >::Create();
@@ -34,8 +40,17 @@ MersenneTwisterRandomVariateGenerator::New()
       obj = new MersenneTwisterRandomVariateGenerator;
       // Remove extra reference from construction.
       obj->UnRegister();
-      obj->SetSeed ( GetInstance()->GetSeed() );
     }
+  return obj;
+}
+
+
+MersenneTwisterRandomVariateGenerator::Pointer
+MersenneTwisterRandomVariateGenerator
+::New()
+{
+  MersenneTwisterRandomVariateGenerator::Pointer obj  = MersenneTwisterRandomVariateGenerator::CreateInstance();
+  obj->SetSeed ( GetInstance()->GetSeed() );
   return obj;
 }
 
@@ -46,22 +61,16 @@ MersenneTwisterRandomVariateGenerator::Pointer
 MersenneTwisterRandomVariateGenerator
 ::GetInstance()
 {
-  if ( !MersenneTwisterRandomVariateGenerator::m_Instance )
+  MutexLockHolder<SimpleFastMutexLock> mutexHolder(m_StaticInstanceLock);
+
+  if ( !m_StaticInstance )
     {
-    // Try the factory first
-    MersenneTwisterRandomVariateGenerator::m_Instance  = ObjectFactory< Self >::Create();
-    // if the factory did not provide one, then create it here
-    if ( !MersenneTwisterRandomVariateGenerator::m_Instance )
-      {
-      MersenneTwisterRandomVariateGenerator::m_Instance = new MersenneTwisterRandomVariateGenerator;
-      // Remove extra reference from construction.
-      MersenneTwisterRandomVariateGenerator::m_Instance->UnRegister();
-      }
+    m_StaticInstance  = MersenneTwisterRandomVariateGenerator::CreateInstance();
     }
   /**
    * return the instance
    */
-  return MersenneTwisterRandomVariateGenerator::m_Instance;
+  return m_StaticInstance;
 }
 }
 }
