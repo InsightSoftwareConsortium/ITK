@@ -16,28 +16,20 @@
 #
 #==========================================================================*/
 
+cmake_minimum_required(VERSION 2.8.6 FATAL_ERROR)
+if(POLICY CMP0025)
+  cmake_policy(SET CMP0025 NEW)
+endif()
+if(POLICY CMP0042)
+  cmake_policy(SET CMP0042 NEW)
+endif()
+
 project(WrapITK)
 
 # set an internal cache to mark when this file is parsed
 set(ITK_WRAPPING_REACHED ON CACHE INTERNAL "Wrapping folder has been reached")
 
-# check cmake version
-# Require 2.4.2 for MATH and LIST commands (REMOVE_ITEM is not the same in
-# 2.4.1)
-# 2.4.5 is required to parse the if(POLICY) command.
-cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
-if(COMMAND CMAKE_POLICY)
-  cmake_policy(SET CMP0003 NEW)
-  if(POLICY CMP0011)
-    cmake_policy(SET CMP0011 NEW)
-  endif()
-endif()
 include("CMakeUtilityFunctions.cmake")
-
-set(ITK_VERSION "${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}.${ITK_VERSION_PATCH}")
-if(NOT "${CMAKE_VERSION}" STRLESS "2.6.3")
-  cmake_policy(SET CMP0011 OLD)
-endif()
 
 enable_testing()
 
@@ -46,12 +38,6 @@ enable_testing()
 ###############################################################################
 
 # Set up options needed for ConfigureWrapping
-
-# set WrapITK version
-set(WrapITK_VERSION_MAJOR 0)
-set(WrapITK_VERSION_MINOR 4)
-set(WrapITK_VERSION_PATCH 0)
-
 
 option(ITK_WRAP_unsigned_char "Wrap unsigned char type" ON)
 option(ITK_WRAP_unsigned_short "Wrap unsigned short type" OFF)

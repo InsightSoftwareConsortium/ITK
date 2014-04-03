@@ -87,6 +87,9 @@ public:
    */
   MeanType    GetMean(void) const;
 
+  /** Reset the probe */
+  void        Reset(void);
+
 private:
 
   ValueType m_StartValue;

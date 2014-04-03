@@ -77,12 +77,14 @@ if(ITK_WRAP_unsigned_char AND WRAP_2)
   add_python_test(PythonModuleToModule
     ${CMAKE_CURRENT_SOURCE_DIR}/module2module.py
     DATA{${WrapITK_SOURCE_DIR}/images/cthead1.png}
+    5
   )
 
   add_python_test(PythonBinaryDilateImageFilter
     ${CMAKE_CURRENT_SOURCE_DIR}/BinaryDilateImageFilter.py
     DATA{${WrapITK_SOURCE_DIR}/images/2th_cthead1.png}
     BinaryDilateImageFilter.png
+    5
     --compare BinaryDilateImageFilter.png DATA{${WrapITK_SOURCE_DIR}/images/BinaryDilateImageFilter.png}
   )
 
@@ -90,6 +92,7 @@ if(ITK_WRAP_unsigned_char AND WRAP_2)
     ${CMAKE_CURRENT_SOURCE_DIR}/BinaryErodeImageFilter.py
     DATA{${WrapITK_SOURCE_DIR}/images/2th_cthead1.png}
     BinaryErodeImageFilter.png
+    5
     --compare BinaryErodeImageFilter.png DATA{${WrapITK_SOURCE_DIR}/images/BinaryErodeImageFilter.png}
   )
 
@@ -113,6 +116,7 @@ if(ITK_WRAP_unsigned_char AND WRAP_2)
     ${CMAKE_CURRENT_SOURCE_DIR}/GrayscaleDilateImageFilter.py
     DATA{${WrapITK_SOURCE_DIR}/images/cthead1.png}
     GrayscaleDilateImageFilter.png
+    5
     --compare GrayscaleDilateImageFilter.png DATA{${WrapITK_SOURCE_DIR}/images/GrayscaleDilateImageFilter.png}
   )
 
@@ -135,6 +139,7 @@ if(ITK_WRAP_unsigned_char AND WRAP_2)
     ${CMAKE_CURRENT_SOURCE_DIR}/GrayscaleErodeImageFilter.py
     DATA{${WrapITK_SOURCE_DIR}/images/cthead1.png}
     GrayscaleErodeImageFilter.png
+    5
     --compare GrayscaleErodeImageFilter.png DATA{${WrapITK_SOURCE_DIR}/images/GrayscaleErodeImageFilter.png}
   )
 

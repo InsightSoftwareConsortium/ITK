@@ -67,16 +67,15 @@ StatisticsLabelMapFilter< TImage, TFeatureImage >
 
   typedef typename LabelObjectType::HistogramType HistogramType;
 
-  typename HistogramType::SizeType histogramSize;
-  histogramSize.SetSize(1);
+  typename HistogramType::IndexType             histogramIndex(1);
+  typename HistogramType::MeasurementVectorType mv(1);
+  typename HistogramType::SizeType              histogramSize(1);
   histogramSize.Fill(m_NumberOfBins);
 
-  typename HistogramType::MeasurementVectorType featureImageMin;
-  featureImageMin.SetSize(1);
+  typename HistogramType::MeasurementVectorType featureImageMin(1);
   featureImageMin.Fill(m_Minimum);
 
-  typename HistogramType::MeasurementVectorType featureImageMax;
-  featureImageMax.SetSize(1);
+  typename HistogramType::MeasurementVectorType featureImageMax(1);
   featureImageMax.Fill(m_Maximum);
 
   typename HistogramType::Pointer histogram = HistogramType::New();
@@ -103,8 +102,7 @@ StatisticsLabelMapFilter< TImage, TFeatureImage >
   VectorType principalMoments;
   principalMoments.Fill(0);
 
-  typename HistogramType::MeasurementVectorType mv;
-  mv.SetSize(1);
+
   // iterate over all the indexes
   typename LabelObjectType::ConstIndexIterator it( labelObject );
   while( ! it.IsAtEnd() )
@@ -112,7 +110,8 @@ StatisticsLabelMapFilter< TImage, TFeatureImage >
     const IndexType & idx = it.GetIndex();
     const FeatureImagePixelType & v = featureImage->GetPixel(idx);
     mv[0] = v;
-    histogram->IncreaseFrequencyOfMeasurement(mv, 1);
+    histogram->GetIndex(mv, histogramIndex);
+    histogram->IncreaseFrequencyOfIndex(histogramIndex, 1);
 
     // update min and max
     if ( v <= min )
@@ -225,7 +224,7 @@ StatisticsLabelMapFilter< TImage, TFeatureImage >
     for ( unsigned int i = 0; i < ImageDimension; i++ )
       {
       //    principalMoments[i] = 4 * vcl_sqrt( pm(i,i) );
-      principalMoments[i] = pm(i, i);
+      principalMoments[i] = pm(i);
       }
     principalAxes = eigen.V.transpose();
 
@@ -237,7 +236,7 @@ StatisticsLabelMapFilter< TImage, TFeatureImage >
 
     for ( unsigned int i = 0; i < ImageDimension; i++ )
       {
-      det *= eigenval(i, i);
+      det *= eigenval(i);
       }
 
     for ( unsigned int i = 0; i < ImageDimension; i++ )

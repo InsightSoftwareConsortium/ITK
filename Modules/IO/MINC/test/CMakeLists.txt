@@ -48,10 +48,10 @@ itk_add_test(NAME itkMINCImageIOTest3
 
 itk_add_test(NAME itkMINCImageIOTest4
   COMMAND ITKIOMINCTestDriver
-      --compare DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd}
+      --compare DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw}
                ${ITK_TEST_OUTPUT_DIR}/HeadMRVolume.mnc
   itkMINCImageIOTest4
-      DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd} ${ITK_TEST_OUTPUT_DIR}/HeadMRVolume.mnc)
+      DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw} ${ITK_TEST_OUTPUT_DIR}/HeadMRVolume.mnc)
 
 # Test to make sure that inter-slice normalization was properly dealt with
 itk_add_test(NAME itkMINCImageIOTest5

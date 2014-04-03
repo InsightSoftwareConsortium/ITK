@@ -398,7 +398,7 @@ HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
   const THistogramMeasurement minValue,
   const THistogramMeasurement maxValue)
 {
-    {
+  {
     // allocate memory for the histogram
     typename HistogramType::SizeType size;
     typename HistogramType::MeasurementVectorType lowerBound;
@@ -416,15 +416,15 @@ HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
     //Initialize with equally spaced bins.
     histogram->Initialize(size, lowerBound, upperBound);
     histogram->SetToZero();
-    }
+  }
 
-  typename HistogramType::MeasurementVectorType measurement;
-  measurement.SetSize(1);
-
+  typename HistogramType::IndexType index(1);
+  typename HistogramType::MeasurementVectorType measurement(1);
   typedef typename HistogramType::MeasurementType MeasurementType;
   measurement[0] = NumericTraits< MeasurementType >::Zero;
 
     {
+
     // put each image pixel into the histogram
     typedef ImageRegionConstIterator< InputImageType > ConstIterator;
     ConstIterator iter( image, image->GetBufferedRegion() );
@@ -439,7 +439,8 @@ HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
         {
         // add sample to histogram
         measurement[0] = value;
-        histogram->IncreaseFrequencyOfMeasurement(measurement, 1);
+        histogram->GetIndex( measurement, index );
+        histogram->IncreaseFrequencyOfIndex( index, 1 );
         }
       ++iter;
       }

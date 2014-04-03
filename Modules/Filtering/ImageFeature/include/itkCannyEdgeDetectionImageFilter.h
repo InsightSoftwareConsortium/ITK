@@ -28,11 +28,11 @@
 
 namespace itk
 {
-template< typename TValueType >
+template< typename TValue >
 class ListNode
 {
 public:
-  TValueType m_Value;
+  TValue m_Value;
 
   ListNode *Next;
   ListNode *Previous;
@@ -174,7 +174,9 @@ public:
       }
   }
 
-  /** TODO:  Document in the ITKv4 migration guide that
+  /** \brief Set the Threshold value for detected edges.
+   *
+   * TODO:  Document in the ITKv4 migration guide that
    * the SetThreshold member function was removed from
    * the CannyEdgeDetectionImageFilter, and that both
    * UpperThreshold and LowerThreshold need to be set.
@@ -182,8 +184,6 @@ public:
    * change "myfilter->SetThrehsold" to "myfilter->SetUpperThreshold",
    * and add "myfilter->SetLowerThreshold(GetUpperThreshold()/2.0)"
    */
-
-  ///* Set the Threshold value for detected edges. */
   itkSetMacro(UpperThreshold, OutputImagePixelType);
   itkGetConstMacro(UpperThreshold, OutputImagePixelType);
 
@@ -202,8 +202,7 @@ public:
    * pipeline execution model.
    *
    * \sa ImageToImageFilter::GenerateInputRequestedRegion()  */
-  virtual void GenerateInputRequestedRegion()
-  throw( InvalidRequestedRegionError );
+  virtual void GenerateInputRequestedRegion();
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking

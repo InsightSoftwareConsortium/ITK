@@ -29,7 +29,8 @@ namespace itk
 
 template <typename TFixedImage, typename TMovingImage, typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits>
 JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage,TInternalComputationValueType, TMetricTraits>
-::JointHistogramMutualInformationImageToImageMetricv4()
+::JointHistogramMutualInformationImageToImageMetricv4():
+  m_JointHistogramTotalCount(0)
 {
   // Initialize histogram properties
   this->m_NumberOfHistogramBins = 20;

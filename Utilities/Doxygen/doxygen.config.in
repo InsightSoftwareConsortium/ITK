@@ -1972,11 +1972,12 @@ PREDEFINED             = "itkNotUsed(x)=" \
                          "itkSetConstObjectMacro(name,type)=                   virtual void Set##name ( const type* _arg);" \
                          "itkGetConstObjectMacro(name,type)=      virtual const type* Get##name () const;" \
                          "itkGetModifiableObjectMacro(name,type)= virtual type* GetModifiable##name ();  virtual const type* Get##name () const;" \
-                         "itkGetConstReferenceMacro(name,type)=                   virtual const type& Get##name ();" \
+                         "itkGetConstReferenceMacro(name,type)=                   virtual const type& Get##name () const;" \
                          "itkSetEnumMacro(name,type)=                   virtual void Set##name (const type _arg);" \
                          "itkGetEnumMacro(name,type)=                   virtual type Get##name () const;" \
                          "itkGetConstReferenceObjectMacro(name,type)=                   virtual const type::Pointer& Get##name () const;" \
                          "itkSetDecoratedInputMacro(name, type, number)=                   virtual void Set##name##Input(const SimpleDataObjectDecorator<type> *_arg);                   virtual void SetInput##number(const SimpleDataObjectDecorator<type> *_arg);                   virtual const SimpleDataObjectDecorator<type> * Get##name##Input() const;                   virtual const SimpleDataObjectDecorator<type> * GetInput##number() const;                   virtual void Set##name(const type &_arg);" \
+                         "itkSetGetDecoratedInputMacro(name, type, number)=                   virtual void Set##name##Input(const SimpleDataObjectDecorator< type > *_arg);         virtual void Set##name(const type &_arg);          virtual const SimpleDataObjectDecorator< type > * Get##name##Input() const;              virtual const type & Get##name() const;          " \
                          "itkSetDecoratedObjectInputMacro(name, type, number)=                   virtual void Set##name##Input(const DataObjectDecorator<type> *_arg);                   virtual void SetInput##number(const DataObjectDecorator<type> *_arg);                   virtual const DataObjectDecorator<type> * Get##name##Input() const;                   virtual const DataObjectDecorator<type> * GetInput##number() const;                   virtual void Set##name(const type *_arg);" \
                          "itkBooleanMacro(name)=                   virtual void name##On ();                   virtual void name##Off ();" \
                          "itkSetVector2Macro(name,type)=                   virtual void Set##name (type _arg1, type _arg2)                   virtual void Set##name (type _arg[2]);" \

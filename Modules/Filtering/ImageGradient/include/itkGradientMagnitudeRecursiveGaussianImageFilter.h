@@ -154,8 +154,7 @@ protected:
    * implementation for GenerateInputRequestedRegion in order to
    * inform the pipeline execution model.  \sa
    * ImageToImageFilter::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion()
-  throw( InvalidRequestedRegionError );
+  virtual void GenerateInputRequestedRegion();
 
   /** GradientMagnitudeRecursiveGaussianImageFilter produces all of
    * the output.  Therefore, it needs to provide an implementation of

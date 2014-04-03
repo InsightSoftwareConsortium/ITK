@@ -16,8 +16,6 @@
  *
  *=========================================================================*/
 
-#include "itkEllipseSpatialObject.h"
-
 #include "itkMRIBiasFieldCorrectionFilter.h"
 #include "itkShapeDetectionLevelSetImageFilter.h"
 #include "itkSphereMeshSource.h"
@@ -29,41 +27,17 @@
 #include "itkWatershedEquivalenceRelabeler.h"
 #include "itkWatershedImageFilter.h"
 
-#include "itkDistanceToCentroidMembershipFunction.h"
-#include "itkMahalanobisDistanceMembershipFunction.h"
-#include "itkGroupSpatialObject.h"
-
 int main(int , char* [])
 {
   typedef itk::Image<float,2> InputType;
   typedef itk::Image<float,2> OutputType;
 
-  typedef itk::Image<unsigned short,2> UShortImageType;
   typedef itk::Image<unsigned char,2>  CharType;
 
   typedef itk::Mesh<double> MeshType;
 
-  typedef itk::Vector<float,2>      VectorType;
-  typedef itk::Image<VectorType, 2> VectorImageType;
-
-  // Used for NormalizedCorrelationPointSetToImageMetric
-  typedef itk::PointSet<float,2> PointSetType;
-
-  // Used for GradientVectorFlowImageFilter
-  typedef itk::CovariantVector<double,2> GradientType;
-  typedef itk::Image<GradientType,2>     GradientImageType;
-
-  //Used for ImageKMeansModelEstimator
-  typedef itk::Statistics::DistanceToCentroidMembershipFunction<VectorType> KMeansMemFuncType;
-
-  // Used for ImageGaussianModelEstimator
-  typedef itk::Statistics::MahalanobisDistanceMembershipFunction<VectorType> GaussianMemFuncType;
-
-  // Used for ImageToSpatialObjectRegistrationMethod
-  typedef itk::GroupSpatialObject<2>   GroupType;
-
-  // Used for ImageToSpatialObjectMetric
-  typedef itk::EllipseSpatialObject<2> SpatialObjectType;
+  typedef itk::Vector<float,3>         RGBVectorType;
+  typedef itk::Image<RGBVectorType, 2> RGBVectorImageType;
 
   itk::ShapeDetectionLevelSetFunction<InputType,InputType>::Pointer ShapeDetectionLevelSetFunctionObj =
     itk::ShapeDetectionLevelSetFunction<InputType,InputType>::New();
@@ -105,8 +79,8 @@ int main(int , char* [])
     itk::VoronoiSegmentationImageFilterBase<InputType,OutputType>::New();
   std:: cout << "-------------VoronoiSegmentationImageFilterBase " << VoronoiSegmentationImageFilterBaseObj;
 
-  itk::VoronoiSegmentationRGBImageFilter<VectorImageType,CharType>::Pointer VoronoiSegmentationRGBImageFilterObj =
-    itk::VoronoiSegmentationRGBImageFilter<VectorImageType,CharType>::New();
+  itk::VoronoiSegmentationRGBImageFilter<RGBVectorImageType,CharType>::Pointer VoronoiSegmentationRGBImageFilterObj =
+    itk::VoronoiSegmentationRGBImageFilter<RGBVectorImageType,CharType>::New();
   std:: cout << "-------------VoronoiSegmentationRGBImageFilter " << VoronoiSegmentationRGBImageFilterObj;
 
   itk::watershed::Boundary<double,3>::Pointer WatershedBoundaryObj =

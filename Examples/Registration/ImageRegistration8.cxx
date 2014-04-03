@@ -30,13 +30,10 @@
 // Software Guide : BeginLatex
 //
 // This example illustrates the use of the \doxygen{VersorRigid3DTransform}
-// class for performing registration of two $3D$ images. The example code is
-// for the most part identical to the code presented in
-// Section~\ref{sec:RigidRegistrationIn2D}.  The major difference is that this
-// example is done in $3D$. The class \doxygen{CenteredTransformInitializer} is
-// used to initialize the center and translation of the transform.  The case of
-// rigid registration of 3D images is probably one of the most commonly found
-// cases of image registration.
+// class for performing registration of two $3D$ images.
+// The class \doxygen{CenteredTransformInitializer} is used to initialize the
+// center and translation of the transform.  The case of rigid registration of
+// 3D images is probably one of the most commonly found cases of image registration.
 //
 //
 // \index{itk::Versor\-Rigid3D\-Transform}
@@ -44,8 +41,8 @@
 //
 //
 // Software Guide : EndLatex
-#include "itkImageRegistrationMethod.h"
-#include "itkMeanSquaresImageToImageMetric.h"
+#include "itkImageRegistrationMethodv4.h"
+#include "itkMeanSquaresImageToImageMetricv4.h"
 
 //  Software Guide : BeginLatex
 //
@@ -63,20 +60,26 @@
 //
 //  The parameter space of the \code{VersorRigid3DTransform} is not a vector
 //  space, due to the fact that addition is not a closed operation in the space
-//  of versor components. This precludes the use of standard gradient descent
-//  algorithms for optimizing the parameter space of this transform. A special
-//  optimizer should be used in this registration configuration. The optimizer
-//  designed for this transform is the
-//  \doxygen{VersorRigid3DTransformOptimizer}. This optimizer uses Versor
-//  composition for updating the first three components of the parameters
-//  array, and Vector addition for updating the last three components of the
-//  parameters array~\cite{Hamilton1866,Joly1905}.
+//  of versor components. This precluded the use of standard gradient descent
+//  algorithms for optimizing the parameter space of this transform in ITKv3,
+//  and a special optimizer \doxygen{VersorRigid3DTransformOptimizer} was used
+//  in registration configuration.
+//  This optimizer was a varient implementation of the gradient descent optimizer
+//  and was using Versor composition for updating the first three components of the
+//  parameters array, and Vector addition for updating the last three components of
+//  the parameters array~\cite{Hamilton1866,Joly1905}.
+//  However, in ITKv4 framework, the task of updating parameters is delegated to the
+//  transforms themselves using the "UpdateTransformParameters" function.
+//  This function is implemented in \code{Transform} class as a virtual function,
+//  and each derived transform class can have its specefic implemenation.
+//  In the \code{VersorRigid3DTransform} the updating function is reimplemented using
+//  versor composition for the rotation parameters.
 //
 //  \index{itk::Versor\-Rigid3D\-Transform\-Optimizer!header}
 //
 //  Software Guide : EndLatex
 // Software Guide : BeginCodeSnippet
-#include "itkVersorRigid3DTransformOptimizer.h"
+#include "itkVersorTransformOptimizerv4.h"
 // Software Guide : EndCodeSnippet
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
@@ -102,7 +105,7 @@ protected:
   CommandIterationUpdate() {};
 
 public:
-  typedef itk::VersorRigid3DTransformOptimizer OptimizerType;
+  typedef itk::VersorTransformOptimizerv4      OptimizerType;
   typedef   const OptimizerType *              OptimizerPointer;
   void Execute(itk::Object *caller, const itk::EventObject & event)
     {
@@ -154,24 +157,41 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   typedef itk::VersorRigid3DTransform< double > TransformType;
   // Software Guide : EndCodeSnippet
-  typedef itk::VersorRigid3DTransformOptimizer                                  OptimizerType;
-  typedef itk::MeanSquaresImageToImageMetric< FixedImageType, MovingImageType > MetricType;
-  typedef itk:: LinearInterpolateImageFunction< MovingImageType, double >       InterpolatorType;
-  typedef itk::ImageRegistrationMethod< FixedImageType, MovingImageType >       RegistrationType;
+  typedef itk::VersorTransformOptimizerv4                                         OptimizerType;
+  typedef itk::MeanSquaresImageToImageMetricv4< FixedImageType, MovingImageType > MetricType;
+  typedef itk::ImageRegistrationMethodv4<
+                                        FixedImageType,
+                                        MovingImageType,
+                                        TransformType >                           RegistrationType;
 
   MetricType::Pointer         metric        = MetricType::New();
   OptimizerType::Pointer      optimizer     = OptimizerType::New();
-  InterpolatorType::Pointer   interpolator  = InterpolatorType::New();
   RegistrationType::Pointer   registration  = RegistrationType::New();
 
   registration->SetMetric(        metric        );
   registration->SetOptimizer(     optimizer     );
-  registration->SetInterpolator(  interpolator  );
+
+  // One level registration is performed using the shrink factor 1 and smoothing sigma 1
+
+  const unsigned int numberOfLevels = 1;
+
+  RegistrationType::ShrinkFactorsArrayType shrinkFactorsPerLevel;
+  shrinkFactorsPerLevel.SetSize( 1 );
+  shrinkFactorsPerLevel[0] = 1;
+
+  RegistrationType::SmoothingSigmasArrayType smoothingSigmasPerLevel;
+  smoothingSigmasPerLevel.SetSize( 1 );
+  smoothingSigmasPerLevel[0] = 0;
+
+  registration->SetNumberOfLevels( numberOfLevels );
+  registration->SetSmoothingSigmasPerLevel( smoothingSigmasPerLevel );
+  registration->SetShrinkFactorsPerLevel( shrinkFactorsPerLevel );
 
   //  Software Guide : BeginLatex
   //
-  //  The transform object is constructed below and passed to the registration
-  //  method.
+  //  The transform object is constructed below, and it points to the
+  //  registration method transform. This transform will be initialized using
+  //  \doxygen{CenteredTransformInitializer}.
   //
   //  \index{itk::Versor\-Rigid3D\-Transform!New()}
   //  \index{itk::Versor\-Rigid3D\-Transform!Pointer}
@@ -179,9 +199,10 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
-  TransformType::Pointer  transform = TransformType::New();
-  registration->SetTransform( transform );
+    // transform will be the output of the registration
+  TransformType::Pointer  transform = const_cast<TransformType *>( registration->GetOutput()->Get() );
   // Software Guide : EndCodeSnippet
+
   typedef itk::ImageFileReader< FixedImageType  > FixedImageReaderType;
   typedef itk::ImageFileReader< MovingImageType > MovingImageReaderType;
   FixedImageReaderType::Pointer  fixedImageReader  = FixedImageReaderType::New();
@@ -190,9 +211,6 @@ int main( int argc, char *argv[] )
   movingImageReader->SetFileName( argv[2] );
   registration->SetFixedImage(    fixedImageReader->GetOutput()    );
   registration->SetMovingImage(   movingImageReader->GetOutput()   );
-  fixedImageReader->Update();
-  registration->SetFixedImageRegion(
-     fixedImageReader->GetOutput()->GetBufferedRegion() );
 
   //  Software Guide : BeginLatex
   //
@@ -213,10 +231,8 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   typedef itk::CenteredTransformInitializer< TransformType,
                                              FixedImageType,
-                                             MovingImageType
-                                                 >  TransformInitializerType;
-  TransformInitializerType::Pointer initializer =
-                                          TransformInitializerType::New();
+                                             MovingImageType >  TransformInitializerType;
+  TransformInitializerType::Pointer initializer = TransformInitializerType::New();
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -287,9 +303,7 @@ int main( int argc, char *argv[] )
   //  parameters to be used when the registration process starts.
   //
   //  Software Guide : EndLatex
-  // Software Guide : BeginCodeSnippet
-  registration->SetInitialTransformParameters( transform->GetParameters() );
-  // Software Guide : EndCodeSnippet
+
   typedef OptimizerType::ScalesType       OptimizerScalesType;
   OptimizerScalesType optimizerScales( transform->GetNumberOfParameters() );
   const double translationScale = 1.0 / 1000.0;
@@ -300,9 +314,12 @@ int main( int argc, char *argv[] )
   optimizerScales[4] = translationScale;
   optimizerScales[5] = translationScale;
   optimizer->SetScales( optimizerScales );
-  optimizer->SetMaximumStepLength( 0.2000  );
-  optimizer->SetMinimumStepLength( 0.0001 );
+  optimizer->SetMaximumStepSizeInPhysicalUnits( 0.2000  );
   optimizer->SetNumberOfIterations( 200 );
+  optimizer->SetLearningRate( 0.2 );
+  optimizer->SetConvergenceWindowSize( 5 );
+  optimizer->SetMinimumConvergenceValue( 1e-3 );
+  optimizer->SetReturnBestParametersAndValue(true);
 
   // Create the Command observer and register it with the optimizer.
   //
@@ -312,8 +329,10 @@ int main( int argc, char *argv[] )
   try
     {
     registration->Update();
+    const OptimizerType::ConstPointer outputOptimizer =
+                                          dynamic_cast<const OptimizerType *>( registration->GetOptimizer() );
     std::cout << "Optimizer stop condition: "
-              << registration->GetOptimizer()->GetStopConditionDescription()
+              << outputOptimizer->GetStopConditionDescription()
               << std::endl;
     }
   catch( itk::ExceptionObject & err )
@@ -322,8 +341,9 @@ int main( int argc, char *argv[] )
     std::cerr << err << std::endl;
     return EXIT_FAILURE;
     }
-  OptimizerType::ParametersType finalParameters =
-                    registration->GetLastTransformParameters();
+
+  const OptimizerType::ParametersType finalParameters =
+                                          transform->GetParameters();
 
   const double versorX              = finalParameters[0];
   const double versorY              = finalParameters[1];
@@ -395,7 +415,6 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
-  transform->SetParameters( finalParameters );
   TransformType::MatrixType matrix = transform->GetMatrix();
   TransformType::OffsetType offset = transform->GetOffset();
   std::cout << "Matrix = " << std::endl << matrix << std::endl;

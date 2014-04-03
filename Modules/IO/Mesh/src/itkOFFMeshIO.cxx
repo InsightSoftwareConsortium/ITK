@@ -337,7 +337,6 @@ OFFMeshIO
   if ( this->m_FileName == "" )
     {
     itkExceptionMacro("No Input FileName");
-    return;
     }
 
   // Write to output file
@@ -355,7 +354,6 @@ OFFMeshIO
     {
     itkExceptionMacro("Unable to open file\n"
                       "outputFilename= " << this->m_FileName);
-    return;
     }
 
   // Write Object file format header
@@ -400,7 +398,6 @@ OFFMeshIO
   if ( this->m_FileName == "" )
     {
     itkExceptionMacro("No Input FileName");
-    return;
     }
 
   // Write to output file
@@ -418,7 +415,6 @@ OFFMeshIO
     {
     itkExceptionMacro("Unable to open file\n"
                       "outputFilename= " << this->m_FileName);
-    return;
     }
 
   // Write points

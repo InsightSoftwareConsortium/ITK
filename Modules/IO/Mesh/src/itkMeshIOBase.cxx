@@ -109,8 +109,6 @@ MeshIOBase
     default:
       itkExceptionMacro ("Unknown component type: " << componentType);
     }
-
-  return 0;
 }
 
 std::string
@@ -221,7 +219,6 @@ MeshIOBase
       break;
     }
   itkExceptionMacro ("Unknown pixel type: " << t);
-  return std::string( "unknown" );
 }
 
 void

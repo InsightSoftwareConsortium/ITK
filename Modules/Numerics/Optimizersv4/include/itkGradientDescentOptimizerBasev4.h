@@ -57,6 +57,7 @@ public:
     UPDATE_PARAMETERS_ERROR,
     STEP_TOO_SMALL,
     CONVERGENCE_CHECKER_PASSED,
+    GRADIENT_MAGNITUDE_TOLEARANCE,
     OTHER_ERROR
     } StopConditionType;
 
@@ -74,7 +75,7 @@ public:
   typedef typename MetricType::Pointer                       MetricTypePointer;
 
   /** Derivative type */
-  typedef typename MetricType::DerivativeType                DerivativeType;
+  typedef typename Superclass::DerivativeType                DerivativeType;
 
   /** Measure type */
   typedef typename Superclass::MeasureType                   MeasureType;

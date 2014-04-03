@@ -120,8 +120,7 @@ public:
    * execution model.
    *
    * \sa ProcessObject::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion()
-  throw ( InvalidRequestedRegionError );
+  virtual void GenerateInputRequestedRegion();
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -133,7 +132,10 @@ public:
 #endif
 
 protected:
-  VectorNeighborhoodOperatorImageFilter() {}
+  VectorNeighborhoodOperatorImageFilter() :
+    m_BoundsCondition(NULL)
+  {}
+
   virtual ~VectorNeighborhoodOperatorImageFilter() {}
 
   /** VectorNeighborhoodOperatorImageFilter can be implemented as a

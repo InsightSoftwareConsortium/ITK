@@ -163,12 +163,6 @@ bool NrrdImageIO::CanReadFile(const char *filename)
   // recognized.
   std::string fname = filename;
 
-  if (  fname == "" )
-    {
-    itkDebugMacro(<< "No filename specified.");
-    return false;
-    }
-
   bool                   extensionFound = false;
   std::string::size_type nrrdPos = fname.rfind(".nrrd");
   if ( ( nrrdPos != std::string::npos )
@@ -193,10 +187,11 @@ bool NrrdImageIO::CanReadFile(const char *filename)
   // We have the correct extension, so now check for the Nrrd magic "NRRD",
   // while ignoring the format version (the next four characters)
   std::ifstream inputStream;
-
-  inputStream.open(filename, std::ios::in | std::ios::binary);
-
-  if ( inputStream.fail() )
+  try
+    {
+    this->OpenFileForReading( inputStream, fname );
+    }
+  catch( ExceptionObject & )
     {
     return false;
     }
@@ -1124,8 +1119,8 @@ void NrrdImageIO::Write(const void *buffer)
     }
 
   // Free the nrrd struct but don't touch nrrd->data
-  nrrd = nrrdNix(nrrd);
-  nio = nrrdIoStateNix(nio);
+  nrrdNix(nrrd);
+  nrrdIoStateNix(nio);
 }
 
 } // end namespace itk

@@ -136,6 +136,9 @@ public:
   itkSetInputMacro(Mesh, MeshType);
   itkGetInputMacro(Mesh, MeshType);
 
+  /** get FEMFilter */
+  itkGetConstObjectMacro(FEMFilter, FEMFilterType);
+
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
   /* Currently only the 3D implementation is available due to a narrow

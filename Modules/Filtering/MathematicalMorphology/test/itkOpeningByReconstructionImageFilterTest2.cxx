@@ -64,7 +64,7 @@ int itkOpeningByReconstructionImageFilterTest2(int argc, char* argv [] )
   SizeType size;
   size.Fill(atoi(argv[2]));
   IndexType index;
-  index.Fill(0.0);
+  index.Fill(0);
   region.SetSize(size);
   region.SetIndex(index);
 

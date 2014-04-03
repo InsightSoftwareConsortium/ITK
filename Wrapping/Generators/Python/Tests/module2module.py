@@ -17,11 +17,12 @@
 #==========================================================================*/
 
 # def custom_callback(name):
-#   print "loading %s submodule..." % name
+#     print "loading %s submodule..." % name
 # import itkConfig
 # itkConfig.ImportCallback = custom_callback
 
-import itk, sys
+import itk
+import sys
 
 import ITKCommon
 import ITKBinaryMathematicalMorphology
@@ -33,17 +34,21 @@ import ITKIOImageBase
 import ITKThresholding
 import ITKImageGrid
 
-PType = itk.UC
-dim = 2
-IType = itk.Image[PType, dim]
+inputImage = sys.argv[1]
+radiusValue = int(sys.argv[2])
 
-kernel = itk.strel(2, 1)
+PType = itk.UC
+Dimension = 2
+IType = itk.Image[PType, Dimension]
+
+StructuringElementType = itk.FlatStructuringElement[Dimension]
+structuringElement = StructuringElementType.Ball(radiusValue)
 
 # create the reader
-reader = itk.ImageFileReader[IType].New(FileName=sys.argv[1])
+reader = itk.ImageFileReader[IType].New(FileName=inputImage)
 
 sources = []
-image = ITKCommon.Image[PType, dim].New()
+image = ITKCommon.Image[PType, Dimension].New()
 r = itk.ImageRegion._2()
 r.SetSize((10, 10))
 image.SetRegions(r)
@@ -62,8 +67,14 @@ sources.append(("ITKImageGrid", flip.GetOutput()))
 abs = ITKImageIntensity.AbsImageFilter[IType, IType].New(reader)
 sources.append(("ITKImageIntensity", abs.GetOutput()))
 
-bdilate = ITKBinaryMathematicalMorphology.BinaryDilateImageFilter[IType, IType, kernel].New(reader, Kernel=kernel)
-sources.append(("ITKBinaryMathematicalMorphology", bdilate.GetOutput()))
+binarydilateType = ITKBinaryMathematicalMorphology.BinaryDilateImageFilter[
+    IType, IType, StructuringElementType]
+binarydilateFilter = binarydilateType.New()
+binarydilateFilter.SetInput(reader.GetOutput())
+binarydilateFilter.SetKernel(structuringElement)
+
+output = binarydilateFilter.GetOutput()
+sources.append(("ITKBinaryMathematicalMorphology", output))
 
 minmax = ITKImageStatistics.MinimumMaximumImageFilter[IType].New(reader)
 sources.append(("ITKImageStatistics", minmax.GetOutput()))
@@ -71,19 +82,16 @@ sources.append(("ITKImageStatistics", minmax.GetOutput()))
 median = ITKSmoothing.MedianImageFilter[IType, IType].New(reader)
 sources.append(("ITKSmoothing", median.GetOutput()))
 
-distance = ITKDistanceMap.DanielssonDistanceMapImageFilter[IType, IType].New(reader)
+distance = ITKDistanceMap.DanielssonDistanceMapImageFilter[
+    IType, IType].New(reader)
 sources.append(("ITKDistanceMap", distance.GetOutput()))
 
-# sobel = EdgesAndContours.SobelEdgeDetectionImageFilter[IType, IType].New(reader)
+# sobel = EdgesAndContours.SobelEdgeDetectionImageFilter[IType, IType].New
+# (reader)
 # sources.append(("EdgesAndContours", sobel.GetOutput()))
 
 # laplacian = Filtering.LaplacianImageFilter[IType, IType].New(reader)
 # sources.append(("Filtering", laplacian.GetOutput()))
-
-
-
-
-
 
 
 dests = []
@@ -97,8 +105,11 @@ dests.append(("ITKImageGrid", dflip))
 dabs = ITKImageIntensity.AbsImageFilter[IType, IType].New()
 dests.append(("ITKImageIntensity", dabs))
 
-dbdilate = ITKBinaryMathematicalMorphology.BinaryDilateImageFilter[IType, IType, kernel].New(Kernel=kernel)
-dests.append(("ITKBinaryMathematicalMorphology", dbdilate))
+binarydilateType = ITKBinaryMathematicalMorphology.BinaryDilateImageFilter[
+    IType, IType, StructuringElementType]
+binarydilateFilter = binarydilateType.New()
+binarydilateFilter.SetKernel(structuringElement)
+dests.append(("ITKBinaryMathematicalMorphology", binarydilateFilter))
 
 dminmax = ITKImageStatistics.MinimumMaximumImageFilter[IType].New()
 dests.append(("ITKImageStatistics", dminmax))
@@ -122,15 +133,15 @@ dests.append(("ITKIOImageBase", writer))
 nb = 0
 failList = []
 for sname, s in sources:
-  for dname, d in dests:
-    nb += 1
-    d.SetInput( s )
-    try:
-      d.Update()
-      print "%s -> %s pass" % (sname, dname)
-    except RuntimeError, e:
-      print "%s -> %s fail" % (sname, dname)
-      failList.append((sname, dname))
+    for dname, d in dests:
+        nb += 1
+        d.SetInput(s)
+        try:
+            d.Update()
+            print "%s -> %s pass" % (sname, dname)
+        except RuntimeError as e:
+            print "%s -> %s fail" % (sname, dname)
+            failList.append((sname, dname))
 
 
 print

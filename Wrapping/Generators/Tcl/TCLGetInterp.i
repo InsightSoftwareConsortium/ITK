@@ -77,7 +77,7 @@ namespace std {
 %}
 
 // import fake itk command
-// because itkCommand will be wrapped elsewhere by cableswig
+// because itkCommand will be wrapped elsewhere by swig
 %import "itkCommand.i"
 
 //  create an itkJavaCommand that has an Execute method that

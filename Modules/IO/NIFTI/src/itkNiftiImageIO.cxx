@@ -125,9 +125,9 @@ static char * str_intent(unsigned int intent)
     }
 }
 
-/*----------------------------------------------------------------------*/
-/*! display the contents of the nifti_1_header (send to stdout)
- *--------------------------------------------------------------------*/
+//--------------------------------------------------------------------
+// display the contents of the nifti_1_header (send to stdout)
+//--------------------------------------------------------------------
 static int DumpNiftiHeader(const std::string & fname)
 {
   int             c;
@@ -173,7 +173,7 @@ static int DumpNiftiHeader(const std::string & fname)
           hp->intent_p1, hp->intent_p2, hp->intent_p3,
           str_intent(hp->intent_code),
           hp->datatype, hp->bitpix, hp->slice_start);
-  /* break pixdim over 2 lines */
+  // break pixdim over 2 lines
   for ( c = 0; c < 4; c++ )
     {
     fprintf(stderr, " %f", hp->pixdim[c]);
@@ -507,7 +507,7 @@ void NiftiImageIO::Read(void *buffer)
     if ( nifti_read_subregion_image(this->m_NiftiImage,
                                     _origin,
                                     _size,
-                                    &data) == -1 || this->m_NiftiImage == NULL )
+                                    &data) == -1 )
       {
       itkExceptionMacro( << "nifti_read_subregion_image failed for file: "
                          << this->GetFileName() );
@@ -752,7 +752,7 @@ NiftiImageIO
     {
     return true;
     }
-  /* image_FTYPE < 0 */
+  // image_FTYPE < 0
   return false;
 }
 
@@ -1278,10 +1278,6 @@ inline mat44 mat44_transpose(mat44 in)
   return out;
 }
 }
-/**
- * For Nifti this does not write a file, it only fills in the
- * appropriate header information.
- */
 void
 NiftiImageIO
 ::WriteImageInformation(void)
@@ -1591,19 +1587,8 @@ NiftiImageIO
   //     -----------------------------------------------------
   this->m_NiftiImage->scl_slope = 1.0f;
   this->m_NiftiImage->scl_inter = 0.0f;
-  this->SetNIfTIOrientationFromImageIO( this->GetNumberOfDimensions(), this->GetNumberOfDimensions() ); //TODO:
-                                                                                                        // Note
-                                                                                                        // both
-                                                                                                        // arguments
-                                                                                                        // are
-                                                                                                        // the
-                                                                                                        // same,
-                                                                                                        // no
-                                                                                                        // need
-                                                                                                        // to
-                                                                                                        // distinguish
-                                                                                                        // between
-                                                                                                        // them.
+  //TODO: Note both arguments are the same, no need to distinguish between them.
+  this->SetNIfTIOrientationFromImageIO( this->GetNumberOfDimensions(), this->GetNumberOfDimensions() );
 }
 
 namespace
@@ -1851,13 +1836,11 @@ NiftiImageIO::SetNIfTIOrientationFromImageIO(unsigned short int origdims, unsign
   //  this->m_NiftiImage->sform_code = 0;
 }
 
-/**
- * Write the image Information before writing data
- */
 void
 NiftiImageIO
 ::Write(const void *buffer)
 {
+  // Write the image Information before writing data
   this->WriteImageInformation();
   unsigned int numComponents = this->GetNumberOfComponents();
   if ( numComponents == 1

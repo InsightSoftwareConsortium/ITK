@@ -20,12 +20,12 @@
 #include "itkIntTypes.h"
 #include "itkTestingMacros.h"
 
-template< typename TValueType >
+template< typename TValue >
 bool runTestByType()
 {
   bool passed = true;
 
-  itk::OptimizerParameters<TValueType> params;
+  itk::OptimizerParameters<TValue> params;
   params.SetSize(10);
   params.Fill(1.23);
   std::cout << "GetSize: " << params.GetSize() << std::endl;
@@ -34,7 +34,7 @@ bool runTestByType()
 
   //Construct by size
   itk::SizeValueType dim = 20;
-  itk::OptimizerParameters<TValueType> paramsSize(dim);
+  itk::OptimizerParameters<TValue> paramsSize(dim);
   if( paramsSize.GetSize() != dim )
     {
     std::cerr << "Constructor with dimension failed. Expected size of "
@@ -44,7 +44,7 @@ bool runTestByType()
 
   //Copy constructor
   {
-  itk::OptimizerParameters<TValueType> paramsCopy( params );
+  itk::OptimizerParameters<TValue> paramsCopy( params );
   for( itk::SizeValueType i=0; i < params.GetSize(); i++ )
     {
     if( params[i] != paramsCopy[i] )
@@ -56,11 +56,11 @@ bool runTestByType()
   }
 
   //Constructor from array
-  itk::Array<TValueType> array(dim);
+  itk::Array<TValue> array(dim);
   for( itk::SizeValueType i=0; i<dim; i++ )
     { array[i]=i*3.19; }
   {
-  itk::OptimizerParameters<TValueType> paramsCopy( array );
+  itk::OptimizerParameters<TValue> paramsCopy( array );
   for( itk::SizeValueType i=0; i < params.GetSize(); i++ )
     {
     if( array[i] != paramsCopy[i] )
@@ -74,7 +74,7 @@ bool runTestByType()
   /* Test assignment operators from different types */
 
   //Assign from Array
-  itk::OptimizerParameters<TValueType> paramsArray;
+  itk::OptimizerParameters<TValue> paramsArray;
   paramsArray = array;
   for( itk::SizeValueType i=0; i < array.GetSize(); i++ )
     {
@@ -86,11 +86,11 @@ bool runTestByType()
     }
 
   //Assign from VnlVector
-  vnl_vector<TValueType> vector(dim);
+  vnl_vector<TValue> vector(dim);
   for( itk::SizeValueType i=0; i<dim; i++ )
     { vector[i]=i*0.123; }
   {
-  itk::OptimizerParameters<TValueType> paramsVnl;
+  itk::OptimizerParameters<TValue> paramsVnl;
   paramsVnl = vector;
   for( itk::SizeValueType i=0; i < paramsVnl.GetSize(); i++ )
     {
@@ -103,7 +103,7 @@ bool runTestByType()
   }
 
   /* Test MoveDataPointer to point to different memory block */
-  TValueType  block[10] = {10,9,8,7,6,5,4,3,2,1};
+  TValue  block[10] = {10,9,8,7,6,5,4,3,2,1};
   params.MoveDataPointer( block );
   for( int i=0; i < 10; i++)
     {
@@ -125,8 +125,8 @@ bool runTestByType()
   TRY_EXPECT_EXCEPTION( params.SetParametersObject( dummyObj.GetPointer() ) );
 
   /* Test copy operator */
-  itk::OptimizerParameters<TValueType> params1(4);
-  itk::OptimizerParameters<TValueType> params2(4);
+  itk::OptimizerParameters<TValue> params1(4);
+  itk::OptimizerParameters<TValue> params2(4);
   params1.Fill(1.23);
   params2 = params1;
   for( itk::SizeValueType i=0; i < params1.GetSize(); i++ )
@@ -142,7 +142,7 @@ bool runTestByType()
     }
 
   /* Exercise set helper */
-  typedef typename itk::OptimizerParameters<TValueType>::OptimizerParametersHelperType HelperType;
+  typedef typename itk::OptimizerParameters<TValue>::OptimizerParametersHelperType HelperType;
   HelperType * helper = new HelperType;
   params1.SetHelper( helper );
 

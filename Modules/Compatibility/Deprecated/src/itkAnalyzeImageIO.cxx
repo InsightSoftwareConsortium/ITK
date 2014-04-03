@@ -808,9 +808,11 @@ bool AnalyzeImageIO::CanReadFile(const char *FileNameToRead)
   const std::string HeaderFileName = GetHeaderFileName(filename);
 
   std::ifstream local_InputStream;
-  local_InputStream.open(HeaderFileName.c_str(),
-                         std::ios::in | std::ios::binary);
-  if ( local_InputStream.fail() )
+  try
+    {
+    this->OpenFileForReading( local_InputStream, HeaderFileName );
+    }
+  catch( ExceptionObject & )
     {
     return false;
     }
@@ -852,12 +854,7 @@ void AnalyzeImageIO::ReadImageInformation()
   const std::string HeaderFileName = GetHeaderFileName(m_FileName);
   std::ifstream     local_InputStream;
 
-  local_InputStream.open(HeaderFileName.c_str(),
-                         std::ios::in | std::ios::binary);
-  if ( local_InputStream.fail() )
-    {
-    itkExceptionMacro(<< "File cannot be read");
-    }
+  this->OpenFileForReading( local_InputStream, HeaderFileName );
   if ( !this->ReadBufferAsBinary( local_InputStream,
                                   (void *)&( this->m_Hdr ),
                                   sizeof( struct dsr ) ) )
@@ -1180,12 +1177,7 @@ AnalyzeImageIO
 
   const std::string HeaderFileName = GetHeaderFileName(m_FileName);
   std::ofstream     local_OutputStream;
-  local_OutputStream.open(HeaderFileName.c_str(),
-                          std::ios::out | std::ios::binary);
-  if ( local_OutputStream.fail() )
-    {
-    itkExceptionMacro(<< "File cannot be written");
-    }
+  this->OpenFileForWriting( local_OutputStream, HeaderFileName );
   std::string temp;
   //
   // most likely NONE of this below does anything useful because
@@ -1560,12 +1552,7 @@ AnalyzeImageIO
     {
     //No compression
     std::ofstream local_OutputStream;
-    local_OutputStream.open(ImageFileName.c_str(), std::ios::out | std::ios::binary);
-    if ( !local_OutputStream )
-      {
-      itkExceptionMacro(<< "Error opening image data file for writing."
-                        << m_FileName);
-      }
+    this->OpenFileForWriting( local_OutputStream, ImageFileName );
     local_OutputStream.write( (const char *)p, static_cast< std::streamsize >( this->GetImageSizeInBytes() ) );
     bool success = !local_OutputStream.bad();
     local_OutputStream.close();

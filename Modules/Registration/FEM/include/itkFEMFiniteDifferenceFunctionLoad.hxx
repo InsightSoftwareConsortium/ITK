@@ -54,19 +54,19 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::CreateAnother(void) const
 }
 
 template <typename TMoving, typename TFixed>
-FiniteDifferenceFunctionLoad<TMoving, TFixed>::FiniteDifferenceFunctionLoad()
+FiniteDifferenceFunctionLoad<TMoving, TFixed>::FiniteDifferenceFunctionLoad() :
+  m_MovingImage(NULL),
+  m_FixedImage(NULL),
+  m_NumberOfIntegrationPoints(0),
+  m_SolutionIndex(1),
+  m_SolutionIndex2(0),
+  m_Gamma(NumericTraits< Float >::Zero),
+  m_Solution(NULL),
+  m_GradSigma(0.0f),
+  m_Sign(1.0f),
+  m_WhichMetric(0.0f)
 {
-  m_SolutionIndex = 1;
-  m_SolutionIndex2 = 0;
-  m_Sign = 1.0;
-  for( unsigned int i = 0; i < ImageDimension; i++ )
-    {
-    m_MetricRadius[i] = 1;
-    }
-
-  m_DifferenceFunction = NULL;
-  m_DisplacementField = NULL;
-
+  m_MetricRadius.Fill(1);
 }
 
 template <typename TMoving, typename TFixed>

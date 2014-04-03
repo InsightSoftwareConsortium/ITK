@@ -102,8 +102,7 @@ public:
    *
    * \sa ImageToImageFilter::GenerateInputRequestedRegion()
    */
-  virtual void GenerateInputRequestedRegion()
-  throw( InvalidRequestedRegionError );
+  virtual void GenerateInputRequestedRegion();
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking

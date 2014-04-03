@@ -16,7 +16,9 @@
 #
 #==========================================================================*/
 
-import itk, sys, gc
+import itk
+import sys
+import gc
 
 # create some vars used later
 
@@ -37,15 +39,31 @@ idx1 = itk.Index[2](idx)
 idx2 = itk.Index[2](t)
 idx3 = itk.Index[2](l)
 idx4 = itk.Index[2](i)
-assert idx1.GetElement(0) == idx2.GetElement(0) == idx3.GetElement(0) == idx4.GetElement(0) == i
-assert idx1.GetElement(1) == idx2.GetElement(1) == idx3.GetElement(1) == idx4.GetElement(1) == i
+assert idx1.GetElement(
+    0) == idx2.GetElement(
+    0) == idx3.GetElement(
+    0) == idx4.GetElement(
+    0) == i
+assert idx1.GetElement(
+    1) == idx2.GetElement(
+    1) == idx3.GetElement(
+    1) == idx4.GetElement(
+    1) == i
 
 size1 = itk.Size[2](size)
 size2 = itk.Size[2](t)
 size3 = itk.Size[2](l)
 size4 = itk.Size[2](i)
-assert size1.GetElement(0) == size2.GetElement(0) == size3.GetElement(0) == size4.GetElement(0) == i
-assert size1.GetElement(1) == size2.GetElement(1) == size3.GetElement(1) == size4.GetElement(1) == i
+assert size1.GetElement(
+    0) == size2.GetElement(
+    0) == size3.GetElement(
+    0) == size4.GetElement(
+    0) == i
+assert size1.GetElement(
+    1) == size2.GetElement(
+    1) == size3.GetElement(
+    1) == size4.GetElement(
+    1) == i
 
 median = itk.MedianImageFilter.IUC2IUC2.New()
 median.SetRadius(size)
@@ -56,36 +74,44 @@ median.SetRadius(l)
 size3 = median.GetRadius()
 median.SetRadius(i)
 size4 = median.GetRadius()
-assert size1.GetElement(0) == size2.GetElement(0) == size3.GetElement(0) == size4.GetElement(0) == i
-assert size1.GetElement(1) == size2.GetElement(1) == size3.GetElement(1) == size4.GetElement(1) == i
+assert size1.GetElement(
+    0) == size2.GetElement(
+    0) == size3.GetElement(
+    0) == size4.GetElement(
+    0) == i
+assert size1.GetElement(
+    1) == size2.GetElement(
+    1) == size3.GetElement(
+    1) == size4.GetElement(
+    1) == i
 
 
 # smart pointers
 im = itk.Image.UC2.New()
-assert im != None
+assert im is not None
 
-median.SetInput( im )
+median.SetInput(im)
 assert median.GetInput() == im
 assert median.GetInput() != median.GetOutput()
 
-median.SetInput( None )
-assert median.GetInput() == None
+median.SetInput(None)
+assert median.GetInput() is None
 
 
 # ImageSource
 
 median2 = itk.MedianImageFilter.IUC2IUC2.New()
-median.SetInput( median2 )
+median.SetInput(median2)
 assert median.GetInput() == median2.GetOutput()
 
 
 # catching exception
 try:
-  median.Update()
-  print >> sys.stderr, "Exception not throwed!"
-  sys.exit(1)
-except RuntimeError, e:
-  print "Exception catched as expected", e
+    median.Update()
+    print >> sys.stderr, "Exception not throwed!"
+    sys.exit(1)
+except RuntimeError as e:
+    print "Exception catched as expected", e
 
 #   ----- keep that at the end! -----
 

@@ -249,7 +249,6 @@ TemporalDataObject
       itkExceptionMacro( << "itk::TemporalDataObject::"
                          << "RequestedRegionIsOutsideOfTheBufferedRegion() "
                          << "Invalid Temporal Unit" );
-      return true;
     }
 }
 
@@ -283,7 +282,6 @@ TemporalDataObject
     default:
       itkExceptionMacro( << "itk::TemporalDataObject::VerifyRequestedRegion() "
                          << "Invalid Temporal Unit" );
-      return false;
     }
 }
 

@@ -8,9 +8,9 @@
 
 option(ITK_USE_SYSTEM_SWIG "Use system swig. If OFF, swig is built as an external project." OFF)
 
-set(swig_version 2.0.4)
-set(swig_md5     4319c503ee3a13d2a53be9d828c3adc0)
-set(swigwin_md5  4ab8064b1a8894c8577ef9d0fb2523c8)
+set(swig_version 3.0.0)
+set(swig_md5     9c8278fad527dda4bf38edffe5acc394)
+set(swigwin_md5  c1d85fee2421d4edac552923fc4e5bde)
 
 if(WIN32)
   set(swig_ep "${CMAKE_CURRENT_BINARY_DIR}/swigwin-${swig_version}/swig.exe")
@@ -62,8 +62,8 @@ else()
 
     # build swig as an external project
     ExternalProject_add(PCRE
-    URL http://downloads.sourceforge.net/project/pcre/pcre/8.12/pcre-8.12.tar.gz
-    URL_MD5 fa69e4c5d8971544acd71d1f10d59193
+    URL http://downloads.sourceforge.net/project/pcre/pcre/8.34/pcre-8.34.tar.gz
+    URL_MD5 eb34b2c9c727fd64940d6fd9a00995eb
     CONFIGURE_COMMAND
       env
         "CC=${CMAKE_C_COMPILER} ${CMAKE_C_COMPILER_ARG1}"
@@ -350,7 +350,6 @@ macro(itk_end_wrap_submodule_swig_interface module)
   # variables used:
   # WRAPPER_LIBRARY_NAME
   # WRAPPER_LIBRARY_OUTPUT_DIR
-  # WRAPPER_LIBRARY_CABLESWIG_INPUTS
   # WRAPPER_LIBRARY_DEPENDS
   # WRAPPER_MASTER_INDEX_OUTPUT_DIR
   # MODULE_INCLUDES

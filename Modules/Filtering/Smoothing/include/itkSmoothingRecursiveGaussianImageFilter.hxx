@@ -184,7 +184,6 @@ template< typename TInputImage, typename TOutputImage >
 void
 SmoothingRecursiveGaussianImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
-throw( InvalidRequestedRegionError )
 {
   // Call the superclass' implementation of this method. This should
   // copy the output requested region to the input requested region.

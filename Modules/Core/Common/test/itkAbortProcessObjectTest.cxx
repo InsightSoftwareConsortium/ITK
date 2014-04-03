@@ -93,13 +93,14 @@ int itkAbortProcessObjectTest(int, char* [] )
 
   itk::CStyleCommand::Pointer progressCmd = itk::CStyleCommand::New();
   progressCmd->SetCallback(onProgress);
+  progressCmd->SetObjectName("Aborting Command");
   extract->AddObserver(itk::ProgressEvent(), progressCmd);
 
   itk::CStyleCommand::Pointer abortCmd = itk::CStyleCommand::New();
   abortCmd->SetCallback(onAbort);
   extract->AddObserver(itk::AbortEvent(), abortCmd);
 
-
+  std::cout << extract << std::endl;
   try
     {
     extract->UpdateLargestPossibleRegion();

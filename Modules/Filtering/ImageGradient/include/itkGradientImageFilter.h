@@ -103,8 +103,7 @@ public:
    * in order to inform the pipeline execution model.
    *
    * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion()
-  throw( InvalidRequestedRegionError );
+  virtual void GenerateInputRequestedRegion();
 
   /** Use the image spacing information in calculations. Use this option if you
    *  want derivatives in physical space. Default is UseImageSpacingOn. */
@@ -170,8 +169,8 @@ private:
 
   // An overloaded method which may transform the gradient to a
   // physical vector and converts to the correct output pixel type.
-  template <typename TValueType>
-  void SetOutputPixel( ImageRegionIterator< VectorImage<TValueType,OutputImageDimension> > &it, CovariantVectorType &gradient )
+  template <typename TValue>
+  void SetOutputPixel( ImageRegionIterator< VectorImage<TValue,OutputImageDimension> > &it, CovariantVectorType &gradient )
   {
     if ( this->m_UseImageDirection )
       {

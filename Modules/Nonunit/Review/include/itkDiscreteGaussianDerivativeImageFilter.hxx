@@ -31,7 +31,6 @@ template< typename TInputImage, typename TOutputImage >
 void
 DiscreteGaussianDerivativeImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
-throw( InvalidRequestedRegionError )
 {
   // call the superclass' implementation of this method. this should
   // copy the output requested region to the input requested region
@@ -57,14 +56,7 @@ throw( InvalidRequestedRegionError )
     oper.SetDirection(i);
     if ( m_UseImageSpacing == true )
       {
-      if ( this->GetInput()->GetSpacing()[i] == 0.0 )
-        {
-        itkExceptionMacro(<< "Pixel spacing cannot be zero");
-        }
-      else
-        {
-        oper.SetSpacing(this->GetInput()->GetSpacing()[i]);
-        }
+      oper.SetSpacing(this->GetInput()->GetSpacing()[i]);
       }
 
     // GaussianDerivativeOperator modifies the variance when setting image
@@ -175,17 +167,10 @@ DiscreteGaussianDerivativeImageFilter< TInputImage, TOutputImage >
     oper[reverse_i].SetOrder(m_Order[i]);
     if ( m_UseImageSpacing == true )
       {
-      if ( localInput->GetSpacing()[i] == 0.0 )
-        {
-        itkExceptionMacro(<< "Pixel spacing cannot be zero");
-        }
-      else
-        {
-        // convert the variance from physical units to pixels
-        double s = localInput->GetSpacing()[i];
-        s = s * s;
-        oper[reverse_i].SetVariance(m_Variance[i] / s);
-        }
+      // convert the variance from physical units to pixels
+      double s = localInput->GetSpacing()[i];
+      s = s * s;
+      oper[reverse_i].SetVariance(m_Variance[i] / s);
       }
     else
       {

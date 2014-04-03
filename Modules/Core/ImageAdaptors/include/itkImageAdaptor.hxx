@@ -185,7 +185,6 @@ template< typename TImage, typename TAccessor >
 void
 ImageAdaptor< TImage, TAccessor >
 ::PropagateRequestedRegion()
-throw ( InvalidRequestedRegionError )
 {
   // call the superclass' method first, then delegate
   Superclass::PropagateRequestedRegion();

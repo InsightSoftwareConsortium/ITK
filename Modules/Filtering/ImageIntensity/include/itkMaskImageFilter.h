@@ -93,14 +93,14 @@ private:
   template < typename TPixelType >
   void InitializeOutsideValue( TPixelType * )
   {
-    this->m_OutsideValue = NumericTraits< TPixelType >::Zero;
+    this->m_OutsideValue = NumericTraits< TPixelType >::ZeroValue();
   }
 
-  template < typename TValueType >
-  void InitializeOutsideValue( VariableLengthVector<TValueType> * )
+  template < typename TValue >
+  void InitializeOutsideValue( VariableLengthVector<TValue> * )
   {
     // set the outside value to be of zero length
-    this->m_OutsideValue = VariableLengthVector< TValueType >(0);
+    this->m_OutsideValue = VariableLengthVector< TValue >(0);
   }
 
   TOutput m_OutsideValue;
@@ -262,12 +262,12 @@ private:
     VariableLengthVector< TValue > currentValue =
       this->GetFunctor().GetOutsideValue();
     VariableLengthVector< TValue > zeroVector( currentValue.GetSize() );
-    zeroVector.Fill( NumericTraits< TValue >::Zero );
+    zeroVector.Fill( NumericTraits< TValue >::ZeroValue() );
 
     if ( currentValue == zeroVector )
       {
       zeroVector.SetSize( this->GetOutput()->GetVectorLength() );
-      zeroVector.Fill( NumericTraits< TValue >::Zero );
+      zeroVector.Fill( NumericTraits< TValue >::ZeroValue() );
       this->GetFunctor().SetOutsideValue( zeroVector );
       }
     else if ( this->GetFunctor().GetOutsideValue().GetSize() !=

@@ -40,8 +40,12 @@ bool SiemensVisionImageIO::CanReadFile(const char *FileNameToRead)
   this->SetFileName(FileNameToRead);
   //
   // Can you open it?
-  std::ifstream f(FileNameToRead, std::ios::binary | std::ios::in);
-  if ( !f.is_open() )
+  std::ifstream f;
+  try
+    {
+    this->OpenFileForReading( f, FileNameToRead );
+    }
+  catch( ExceptionObject & )
     {
     return false;
     }
@@ -90,11 +94,9 @@ GEImageHeader * SiemensVisionImageIO::ReadHeader(const char *FileNameToRead)
 #if defined( DEBUGHEADER )
   std::cerr << "----------------------" << FileNameToRead << "----------------------" << std::endl;
 #endif
-  std::ifstream f(FileNameToRead, std::ios::binary | std::ios::in);
-  if ( !f.is_open() )
-    {
-    RAISE_EXCEPTION();
-    }
+
+  std::ifstream f;
+  this->OpenFileForReading( f, FileNameToRead );
 
   sprintf (hdr->scanner, "GE-ADW");
 

@@ -44,9 +44,12 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::~FEMRegistrationFi
 }
 
 template <typename TMovingImage, typename TFixedImage, typename TFemObject>
-FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::FEMRegistrationFilter()
+FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::FEMRegistrationFilter():
+  m_FileCount(0),
+  m_WhichMetric(0),
+  m_Energy(0.0),
+  m_EnergyReductionFactor(0.0)
 {
-
   this->SetNumberOfRequiredInputs(2);
 
   m_MinE = 0;

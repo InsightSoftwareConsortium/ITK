@@ -33,7 +33,7 @@ namespace itk
  * \brief Implement the Sweep Line Algorithm for the construction of the
  *        2D Voronoi Diagram.
  *
- * Detailed informations of this method can be found in:
+ * Detailed information on this method can be found in:
  * "A sweepline algorithm for Voronoi diagrams."
  * S. Fortune, Algorithmica 2, 153-174, 1987.
  *
@@ -41,10 +41,9 @@ namespace itk
  * (1) Size of the region.
  * (2) Seed points coordinates. These coordinates can also be randomly set.
  *
- * Template parameters for VoronoiDiagram2DGenerator:
+ * \tparam TCoordType The type associated with the coordination of the seeds
+ * and the resulting vertices.
  *
- * TCoordType: the type associated with the coordination of the seeds and the
- *  resulting vertices.
  * \ingroup ITKVoronoi
  */
 template< typename TCoordType >
@@ -77,16 +76,20 @@ public:
   /** Get the number of seed points. */
   itkGetConstMacro(NumberOfSeeds, unsigned int);
 
-  /** Input the seeds information, will overwrite if seeds already
-   * exists. */
+  /** Set the seed points.
+   *
+   * Specify the number of seeds as "num". Will overwrite if seeds already
+   * exists.
+   */
   void SetSeeds(int num, SeedsIterator begin);
 
-  /** Add more seeds at one time. */
+  /** Add more seeds. Specify the number of seeds to be added as "num". */
   void AddSeeds(int num, SeedsIterator begin);
 
+  /** Add one seed. */
   void AddOneSeed(PointType);
 
-  /** Sort the seeds by ____. */
+  /** Sort the seeds with their y, then x, coordinates. */
   void SortSeeds(void);
 
   /** Produce the output information. */
@@ -95,12 +98,15 @@ public:
   /** Update the Voronoi Diagram after adding seed(s). */
   void UpdateDiagram(void);
 
-  /** The boundary that enclose the whole voronoi diagram. */
+  /** Set the rectangle that encloses the whole Voronoi Diagram. */
   void SetBoundary(PointType vorsize);
 
   void SetOrigin(PointType vorsize);
 
-  /** Set the seeds points randomly. */
+  /** Set the seeds points randomly.
+   *
+   * Specify the number of seeds as "num".
+   */
   void SetRandomSeeds(int num);
 
   /** Return the given indexed seed. */
@@ -123,46 +129,63 @@ private:
   OutputType   m_OutputVD;
   SeedsType    m_Seeds;
 
+  /** Compare point coordinates in the y direction. */
   static bool comp(PointType arg1, PointType arg2);
 
   /** \class FortuneSite
-   * Small data structures for Fortune's Method
-   * and some public variables/methods not for external access.
+   * \brief Small data structures for Fortune's Method and some public
+   * variables/methods not for external access.
+   *
    * \ingroup ITKVoronoi
    */
   class FortuneSite;
   class FortuneEdge;
   class FortuneHalfEdge;
 
-  /** All private nested classes must be friend classes to work with SunOS-CC compiler.
-   * If not, the private nested classes will not be able to access each other. */
+  // All private nested classes must be friend classes to work with SunOS-CC
+  // compiler. If not, the private nested classes will not be able to access
+  // each other.
   friend class FortuneSite;
   friend class FortuneEdge;
   friend class FortuneHalfEdge;
 
   class FortuneSite
   {
-public:
+  public:
     PointType m_Coord;
     int       m_Sitenbr;
-    FortuneSite():m_Sitenbr( NumericTraits< int >::max() ) { m_Coord.Fill( NumericTraits< CoordRepType >::max() ); }
+
+    FortuneSite() :
+      m_Sitenbr( NumericTraits< int >::max() )
+    {
+      m_Coord.Fill( NumericTraits< CoordRepType >::max() );
+    }
+
     ~FortuneSite(){}
   };
 
   class FortuneEdge
   {
-public:
+  public:
     float        m_A, m_B, m_C;    // explicit line function: Ax + By = C;
     FortuneSite *m_Ep[2];
     FortuneSite *m_Reg[2];
     int          m_Edgenbr;
-    FortuneEdge():m_A(0.0), m_B(0.0), m_C(0.0) { m_Ep[0] = m_Ep[1] = m_Reg[0] = m_Reg[1] = 0; }
+
+    FortuneEdge() :
+      m_A(0.0),
+      m_B(0.0),
+      m_C(0.0)
+    {
+      m_Ep[0] = m_Ep[1] = m_Reg[0] = m_Reg[1] = 0;
+    }
+
     ~FortuneEdge(){}
   };
 
   class FortuneHalfEdge
   {
-public:
+  public:
     FortuneHalfEdge *m_Left;
     FortuneHalfEdge *m_Right;
     FortuneEdge *    m_Edge;
@@ -170,15 +193,28 @@ public:
     FortuneSite *    m_Vert;
     double           m_Ystar;
     FortuneHalfEdge *m_Next;
-    FortuneHalfEdge():m_Left(0), m_Right(0), m_Edge(0), m_RorL(false), m_Vert(0), m_Ystar(0.0), m_Next(0) {}
-    FortuneHalfEdge(const FortuneHalfEdge & edge):m_Left(edge.m_Left),
+
+    FortuneHalfEdge() :
+      m_Left(0),
+      m_Right(0),
+      m_Edge(0),
+      m_RorL(false),
+      m_Vert(0),
+      m_Ystar(0.0),
+      m_Next(0)
+    {}
+
+    FortuneHalfEdge(const FortuneHalfEdge & edge) :
+      m_Left(edge.m_Left),
       m_Right(edge.m_Right),
       m_Edge(edge.m_Edge),
       m_RorL(edge.m_RorL),
       m_Vert(edge.m_Vert),
       m_Ystar(edge.m_Ystar),
-      m_Next(edge.m_Next) {}
-    ~FortuneHalfEdge(){}
+      m_Next(edge.m_Next)
+    {}
+
+    ~FortuneHalfEdge() {}
   };
 
   double m_Pxmin;
@@ -205,6 +241,9 @@ public:
   FortuneEdge                m_DELETED;
   std::vector< FortuneSite > m_SeedSites;
 
+  /** Methods to convert the result from Fortune Algorithm into itkMesh
+   * structure.
+   */
   bool differentPoint(PointType p1, PointType p2);
 
   bool almostsame(CoordRepType p1, CoordRepType p2);
@@ -223,6 +262,10 @@ public:
 
   FortuneHalfEdge * ELgethash(int b);
 
+  /** Generate Voronoi Diagram using Fortune's Method. (Sweep Line)
+   *
+   * Information is stored in m_VertexList, m_EdgeList and m_LineList.
+   */
   bool right_of(FortuneHalfEdge *el, PointType *p);
 
   FortuneSite * getRightReg(FortuneHalfEdge *he);

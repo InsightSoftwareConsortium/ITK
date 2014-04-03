@@ -25,7 +25,8 @@ namespace itk
 
 template <typename TFixedImage, typename TMovingImage, typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits>
 CorrelationImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage, TInternalComputationValueType, TMetricTraits>
-::CorrelationImageToImageMetricv4()
+::CorrelationImageToImageMetricv4():
+  m_AverageMov(0.0)
 {
   // We have our own GetValueAndDerivativeThreader's that we want
   // ImageToImageMetricv4 to use.

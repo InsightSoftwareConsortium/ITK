@@ -1,0 +1,3 @@
+wrap_class("itk::SaltAndPepperNoiseImageFilter" POINTER)
+  wrap_image_filter_scalar(2)
+end_wrap_class()

@@ -76,6 +76,12 @@ endforeach()
 # options or ITKGroup_* options.
 option(ITK_BUILD_DEFAULT_MODULES "Build the default ITK modules." ON)
 
+#----------------------------------------------------------------------
+# Provide an option to build the tests of dependencies of a module when
+# BUILD_TESTING is ON.
+option(ITK_BUILD_ALL_MODULES_FOR_TESTS "Build the tests of module dependencies." OFF)
+mark_as_advanced(ITK_BUILD_ALL_MODULES_FOR_TESTS)
+
 # To maintain backward compatibility
 if(DEFINED ITK_BUILD_ALL_MODULES)
   message(WARNING "ITK_BUILD_ALL_MODULES is deprecated, please remove this entry from the CMake "
@@ -112,7 +118,7 @@ macro(itk_module_enable itk-module _needed_by)
     foreach(dep IN LISTS ITK_MODULE_${itk-module}_DEPENDS)
       itk_module_enable(${dep} ${itk-module})
     endforeach()
-    if(${itk-module}_TESTED_BY)
+    if(${itk-module}_TESTED_BY AND (ITK_BUILD_DEFAULT_MODULES OR ITK_BUILD_ALL_MODULES_FOR_TESTS OR Module_${itk-module}))
       itk_module_enable(${${itk-module}_TESTED_BY} "")
     endif()
   endif()

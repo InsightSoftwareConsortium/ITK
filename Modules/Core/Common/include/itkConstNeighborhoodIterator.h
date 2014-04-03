@@ -57,11 +57,11 @@ public:
   typedef typename TImage::InternalPixelType InternalPixelType;
   typedef typename TImage::PixelType         PixelType;
 
-  /** Save the image dimension. */
-  itkStaticConstMacro(Dimension, unsigned int, TImage::ImageDimension);
-
   /** Type used to refer to space dimensions */
   typedef unsigned int                  DimensionValueType;
+
+  /** Save the image dimension. */
+  itkStaticConstMacro(Dimension, DimensionValueType, TImage::ImageDimension);
 
   /** Standard class typedefs. */
   typedef ConstNeighborhoodIterator Self;
@@ -115,7 +115,7 @@ public:
                             const RegionType & region)
   {
     this->Initialize(radius, ptr, region);
-    for ( unsigned int i = 0; i < Dimension; i++ )
+    for ( DimensionValueType i = 0; i < Dimension; i++ )
               { m_InBounds[i] = false; }
     this->ResetBoundaryCondition();
     m_NeighborhoodAccessorFunctor = ptr->GetNeighborhoodAccessor();
@@ -130,7 +130,7 @@ public:
 
   /** Computes the internal, N-d offset of a pixel array position n from
    * (0,0, ..., 0) in the "upper-left" corner of the neighborhood. */
-  OffsetType ComputeInternalIndex(NeighborIndexType n) const;
+  OffsetType ComputeInternalIndex(const NeighborIndexType n) const;
 
   /** Returns the array of upper loop bounds used during iteration. */
   IndexType GetBound() const

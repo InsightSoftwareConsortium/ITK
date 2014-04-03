@@ -1,14 +1,24 @@
-cmake_minimum_required(VERSION 2.8.6 FATAL_ERROR)
+if(WIN32)
+  cmake_minimum_required(VERSION 2.8.8 FATAL_ERROR)
+else()
+  cmake_minimum_required(VERSION 2.8.6 FATAL_ERROR)
+endif()
+
+foreach(p
+    CMP0025 # CMake 3.0
+    CMP0042 # CMake 3.0
+    )
+  if(POLICY ${p})
+    cmake_policy(SET ${p} NEW)
+  endif()
+endforeach()
+
+project(ITK)
+
 include(CMakeDependentOption)
 #
 # use ExternalProject
 include(ExternalProject)
-
-if(WIN32)
-  cmake_minimum_required(VERSION 2.8.8)
-endif()
-
-project(ITK)
 
 if( CMAKE_HOST_WIN32 )
 
@@ -44,8 +54,8 @@ set(main_project_name ${_ITKModuleMacros_DEFAULT_LABEL})
 #-----------------------------------------------------------------------------
 # ITK version number.
 set(ITK_VERSION_MAJOR "4")
-set(ITK_VERSION_MINOR "5")
-set(ITK_VERSION_PATCH "1")
+set(ITK_VERSION_MINOR "6")
+set(ITK_VERSION_PATCH "0")
 
 if(NOT ITK_INSTALL_RUNTIME_DIR)
   set(ITK_INSTALL_RUNTIME_DIR bin)

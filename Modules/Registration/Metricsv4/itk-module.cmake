@@ -6,6 +6,7 @@ itk_module(ITKMetricsv4
     ITKOptimizersv4
   TEST_DEPENDS
     ITKTestKernel
+    ITKOptimizersv4
   DESCRIPTION
     "${DOCUMENTATION}"
 )

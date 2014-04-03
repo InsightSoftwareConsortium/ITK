@@ -17,15 +17,18 @@
 #==========================================================================*/
 
 # also test the import callback feature
+
+
 def custom_callback(name, progress):
-  if progress == 0:
-    print >> sys.stderr, "Loading %s..." % name,
-  if progress == 1:
-    print >> sys.stderr, "done"
+    if progress == 0:
+        print >> sys.stderr, "Loading %s..." % name,
+    if progress == 1:
+        print >> sys.stderr, "done"
 import itkConfig
 itkConfig.ImportCallback = custom_callback
 
-import itk, sys
+import itk
+import sys
 
 # test the force load function
 itk.force_load()
@@ -51,19 +54,19 @@ assert itk.class_("dummy") == str
 assert itk.template(ReaderType) == (itk.ImageFileReader, (IType,))
 assert itk.template(reader) == (itk.ImageFileReader, (IType,))
 try:
-  itk.template(str)
-  raise Exception("unknown class should send an exception")
+    itk.template(str)
+    raise Exception("unknown class should send an exception")
 except KeyError:
-  pass
+    pass
 
 # test ctype
 assert itk.ctype("unsigned short") == itk.US
 assert itk.ctype("        unsigned      \n   short \t  ") == itk.US
 try:
-  itk.ctype("dummy")
-  raise Exception("unknown C type should send an exception")
+    itk.ctype("dummy")
+    raise Exception("unknown C type should send an exception")
 except KeyError:
-  pass
+    pass
 
 
 # test output
@@ -72,18 +75,6 @@ assert itk.output(1) == 1
 # test the deprecated image
 assert itk.image(reader) == reader.GetOutput()
 assert itk.image(1) == 1
-
-
-# test strel
-# should work with the image type, an image instance or a filter
-# and should work with a list, a tuple, an int or an itk.Size
-for s in [2, (2, 2), [2, 2], itk.Size[2](2)] :
-  st = itk.strel(dim, s)
-
-  (tpl, param) = itk.template(st)
-  assert tpl == itk.FlatStructuringElement
-  assert param[0] == dim
-  assert st.GetRadius()[0] == st.GetRadius()[1] == 2
 
 # test size
 s = itk.size(reader)
@@ -145,7 +136,8 @@ assert "Index" not in res
 
 # test down_cast
 obj = itk.Object.cast(reader)
-assert obj.__class__ == itk.Object  # be sure that the reader is casted to itk::Object
+# be sure that the reader is casted to itk::Object
+assert obj.__class__ == itk.Object
 down_casted = itk.down_cast(obj)
 assert down_casted == reader
 assert down_casted.__class__ == ReaderType

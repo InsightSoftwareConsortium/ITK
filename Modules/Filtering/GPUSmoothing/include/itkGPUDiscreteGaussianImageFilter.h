@@ -96,8 +96,7 @@ public:
   typedef GPUNeighborhoodOperatorImageFilter< InputImageType, OutputImageType,
                                               RealOutputPixelValueType > SingleFilterType;
 
-  virtual void GenerateInputRequestedRegion()
-  throw( InvalidRequestedRegionError );
+  virtual void GenerateInputRequestedRegion();
 
 protected:
   GPUDiscreteGaussianImageFilter();

@@ -143,14 +143,18 @@ StreamingImageFilter< TInputImage, TOutputImage >
       << " inputs are required but only " << ninputs << " are specified.");
     return;
     }
+
+  /**
+   * Tell all Observers that the filter is starting, before emiting
+   * the 0.0 Progress event
+   */
+  this->InvokeEvent( StartEvent() );
+
+
   this->SetAbortGenerateData(0);
   this->UpdateProgress(0.0);
   this->m_Updating = true;
 
-  /**
-   * Tell all Observers that the filter is starting
-   */
-  this->InvokeEvent( StartEvent() );
 
   /**
    * Allocate the output buffer.

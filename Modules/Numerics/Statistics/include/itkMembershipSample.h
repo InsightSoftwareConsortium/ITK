@@ -112,8 +112,8 @@ public:
    *   identifier, id. */
   unsigned int GetClassLabel(const InstanceIdentifier & id) const;
 
-  /** Gets the Subsample that includes only the instances that belongs
-   *   to the classLabel */
+  /** Gets the Subsample that includes only the instances that belong
+   *   to the classLabel. If classLabel does not exist, NULL is returned. */
   const ClassSampleType * GetClassSample(const ClassLabelType & classLabel) const;
 
   /** Gets the class labels that corresponding to the each instance in

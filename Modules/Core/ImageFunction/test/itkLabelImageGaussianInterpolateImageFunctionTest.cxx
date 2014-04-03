@@ -211,7 +211,7 @@ At: [5, 4] computed value =  17 known_value = 17
            {
            //test scalar small_image
            const double computedValue = interpolator->Evaluate( physPoint );
-           large_image->SetPixel( index, computedValue );
+           large_image->SetPixel( index, static_cast< PixelType >( computedValue ) );
            }
        else
          {

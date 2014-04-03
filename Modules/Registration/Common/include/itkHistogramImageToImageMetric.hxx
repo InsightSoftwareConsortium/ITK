@@ -277,6 +277,7 @@ HistogramImageToImageMetric< TFixedImage, TMovingImage >
 
   typename FixedImageType::IndexType index;
   typename FixedImageType::RegionType fixedRegion;
+  typename HistogramType::IndexType hIndex;
 
   fixedRegion = this->GetFixedImageRegion();
   FixedIteratorType ti(fixedImage, fixedRegion);
@@ -326,7 +327,9 @@ HistogramImageToImageMetric< TFixedImage, TMovingImage >
         sample.SetSize(2);
         sample[0] = fixedValue;
         sample[1] = movingValue;
-        histogram.IncreaseFrequencyOfMeasurement(sample, 1);
+
+        histogram.GetIndex( sample, hIndex );
+        histogram.IncreaseFrequencyOfIndex( hIndex, 1 );
         }
       }
 

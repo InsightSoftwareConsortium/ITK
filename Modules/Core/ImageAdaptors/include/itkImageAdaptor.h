@@ -316,8 +316,7 @@ public:
 
   virtual void SetRequestedRegionToLargestPossibleRegion();
 
-  virtual void PropagateRequestedRegion()
-  throw ( InvalidRequestedRegionError );
+  virtual void PropagateRequestedRegion();
 
   virtual void UpdateOutputData();
 

@@ -33,7 +33,9 @@ namespace Statistics
 /** \class MersenneTwisterRandomVariateGenerator
  * \brief MersenneTwisterRandom random variate generator
  *
- * \warning This class is NOT reentrant.
+ * \warning This class's instance methods are NOT neither reentrant
+ * nor thread-safe, but static methods are both. That is to say you
+ * can use separate objects concurrently.
  *
  * This notice was included with the original implementation.
  * The only changes made were to obfuscate the author's email addresses.
@@ -119,16 +121,19 @@ public:
   itkTypeMacro(MersenneTwisterRandomVariateGenerator,
                RandomVariateGeneratorBase);
 
-  /** Method for creation through the object factory.
-      This method allocates a new instance of a Mersenne Twister,
-      and initializes it with the seed from the global instance. */
+  /** \brief Method for creation through the object factory.
+   *
+   *  This method allocates a new instance of a Mersenne Twister,
+   *  and initializes it with the seed from the global instance.
+   */
   static Pointer New();
 
   /** returns the global Merseene Twister instance
-      This method returns a Singleton of the Mersenne Twister.
-      The seed is initialized from the wall clock, but can be
-      set using SetSeed().
-  */
+   *
+   *   This method returns a Singleton of the Mersenne Twister.
+   *   The seed is initialized from the wall clock, but can be
+   *   set using SetSeed().
+   */
   static Pointer GetInstance();
 
   /** Length of state vector */
@@ -187,11 +192,11 @@ public:
   /** Same as GetVariate() */
   double operator()();
 
-  // Re-seeding functions with same behavior as initializers
+  /** Re-seeding functions with same behavior as initializers */
   inline void SetSeed(const IntegerType oneSeed);
-  // inline void SetSeed(IntegerType *bigSeed, const IntegerType seedLength = StateVectorLength);
   inline void SetSeed();
-  // Return the current seed
+
+  /** Return the current seed */
   IntegerType GetSeed() { return this->m_Seed; };
 
   /*
@@ -203,24 +208,7 @@ public:
 protected:
   inline MersenneTwisterRandomVariateGenerator();
   virtual ~MersenneTwisterRandomVariateGenerator() {}
-  virtual void PrintSelf(std::ostream & os, Indent indent) const
-  {
-    Superclass::PrintSelf(os, indent);
-
-    // Print state vector contents
-    os << indent << "State vector: " << state << std::endl;
-    os << indent;
-    register const IntegerType *s = state;
-    register int                i = StateVectorLength;
-    for (; i--; os << *s++ << "\t" ) {}
-    os << std::endl;
-
-    //Print next value to be gotten from state
-    os << indent << "Next value to be gotten from state: " << pNext << std::endl;
-
-    //Number of values left before reload
-    os << indent << "Values left before next reload: " << left << std::endl;
-  }
+  virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
   // period parameter
   itkStaticConstMacro (M, unsigned int, 397);
@@ -249,40 +237,19 @@ protected:
 
   static IntegerType hash(vcl_time_t t, vcl_clock_t c);
 
-  static Pointer m_Instance;
+private:
+
+  /** Internal method to actually create a new object. */
+  static Pointer CreateInstance();
+
+  // Static/Global Variable need to be thread-safely accessed
+  static Pointer             m_StaticInstance;
+  static SimpleFastMutexLock m_StaticInstanceLock;
+  static IntegerType         m_StaticDiffer;
+
 };  // end of class
 
 // Declare inlined functions.... (must be declared in the header)
-
-inline MersenneTwisterRandomVariateGenerator::IntegerType
-MersenneTwisterRandomVariateGenerator::hash(vcl_time_t t, vcl_clock_t c)
-{
-  // Get a IntegerType from t and c
-  // Better than IntegerType(x) in case x is floating point in [0,1]
-  // Based on code by Lawrence Kirby: fred at genesis dot demon dot co dot uk
-
-  static IntegerType differ = 0;  // guarantee time-based seeds will change
-
-  IntegerType    h1 = 0;
-  unsigned char *p = (unsigned char *)&t;
-
-  const unsigned int sizeOfT = static_cast< unsigned int >( sizeof(t) );
-  for ( unsigned int i = 0; i < sizeOfT; ++i )
-    {
-    h1 *= UCHAR_MAX + 2U;
-    h1 += p[i];
-    }
-  IntegerType h2 = 0;
-  p = (unsigned char *)&c;
-
-  const unsigned int sizeOfC = static_cast< unsigned int >( sizeof(c) );
-  for ( unsigned int j = 0; j < sizeOfC; ++j )
-    {
-    h2 *= UCHAR_MAX + 2U;
-    h2 += p[j];
-    }
-  return ( h1 + differ++ ) ^ h2;
-}
 
 inline void
 MersenneTwisterRandomVariateGenerator::Initialize(const IntegerType seed)
@@ -292,9 +259,9 @@ MersenneTwisterRandomVariateGenerator::Initialize(const IntegerType seed)
   // See Knuth TAOCP Vol 2, 3rd Ed, p.106 for multiplier.
   // In previous versions, most significant bits (MSBs) of the seed affect
   // only MSBs of the state array.  Modified 9 Jan 2002 by Makoto Matsumoto.
-  register IntegerType *s = state;
-  register IntegerType *r = state;
-  register IntegerType  i = 1;
+  IntegerType *s = state;
+  IntegerType *r = state;
+  IntegerType  i = 1;
 
   *s++ = seed & 0xffffffffUL;
   for ( i = 1; i < MersenneTwisterRandomVariateGenerator::StateVectorLength; ++i )
@@ -312,11 +279,11 @@ MersenneTwisterRandomVariateGenerator::reload()
   // matthew dot bellew at home dot com
 
   // get rid of VS warning
-  register int index = static_cast< int >(
+  int index = static_cast< int >(
     M - MersenneTwisterRandomVariateGenerator::StateVectorLength );
 
-  register IntegerType *p = state;
-  register int          i;
+  IntegerType *p = state;
+  int          i;
 
   for ( i = MersenneTwisterRandomVariateGenerator::StateVectorLength - M; i--; ++p )
     {
@@ -330,58 +297,6 @@ MersenneTwisterRandomVariateGenerator::reload()
 
   left = MersenneTwisterRandomVariateGenerator::StateVectorLength, pNext = state;
 }
-
-  /*
-#define SVL 624
-inline void
-MersenneTwisterRandomVariateGenerator::SetSeed(
-  IntegerType *const bigSeed, const IntegerType seedLength)
-{
-  // Seed the generator with an array of IntegerType's
-  // There are 2^19937-1 possible initial states.  This function allows
-  // all of those to be accessed by providing at least 19937 bits (with a
-  // default seed length of StateVectorLength = 624 IntegerType's).
-  // Any bits above the lower 32
-  // in each element are discarded.
-  // Just call seed() if you want to get array from /dev/urandom
-  Initialize(19650218UL);
-  register IntegerType i = 1;
-  register IntegerType j = 0;
-  register int         k;
-  if ( StateVectorLength > seedLength )
-    {
-    k = StateVectorLength;
-    }
-  else
-    {
-    k = seedLength;
-    }
-  for (; k; --k )
-    {
-    state[i] =
-      state[i] ^ ( ( state[i - 1] ^ ( state[i - 1] >> 30 ) ) * 1664525UL );
-    state[i] += ( bigSeed[j] & 0xffffffffUL ) + j;
-    state[i] &= 0xffffffffUL;
-    ++i;  ++j;
-    if ( i >= StateVectorLength ) { state[0] = state[StateVectorLength - 1];  i = 1; }
-    if ( j >= seedLength ) { j = 0; }
-    }
-  for ( k = StateVectorLength - 1; k; --k )
-    {
-    state[i] =
-      state[i] ^ ( ( state[i - 1] ^ ( state[i - 1] >> 30 ) ) * 1566083941UL );
-    state[i] -= i;
-    state[i] &= 0xffffffffUL;
-    ++i;
-    if ( i >= SVL )
-      {
-      state[0] = state[StateVectorLength - 1];  i = 1;
-      }
-    }
-  state[0] = 0x80000000UL;  // MSB is 1, assuring non-zero initial array
-  reload();
-}
-  */
 
 inline void
 MersenneTwisterRandomVariateGenerator::Initialize()
@@ -411,8 +326,7 @@ MersenneTwisterRandomVariateGenerator::GetIntegerVariate()
   if ( left == 0 ) { reload(); }
   --left;
 
-  register IntegerType s1;
-  s1 = *pNext++;
+  IntegerType s1 = *pNext++;
   s1 ^= ( s1 >> 11 );
   s1 ^= ( s1 <<  7 ) & 0x9d2c5680;
   s1 ^= ( s1 << 15 ) & 0xefc60000;
@@ -535,12 +449,6 @@ inline double
 MersenneTwisterRandomVariateGenerator::operator()()
 {
   return GetVariate();
-}
-
-inline
-MersenneTwisterRandomVariateGenerator::MersenneTwisterRandomVariateGenerator()
-{
-  SetSeed (121212);
 }
 
 /* Change log from MTRand.h */

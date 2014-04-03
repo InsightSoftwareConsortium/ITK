@@ -24,29 +24,29 @@
 namespace itk
 {
 /** Default contstructor */
-template< typename TValueType,
+template< typename TValue,
           unsigned int NVectorDimension,
           unsigned int VImageDimension >
-ImageVectorOptimizerParametersHelper< TValueType, NVectorDimension, VImageDimension >
+ImageVectorOptimizerParametersHelper< TValue, NVectorDimension, VImageDimension >
 ::ImageVectorOptimizerParametersHelper()
 {
   m_ParameterImage = NULL;
 }
 
 /** Move the data pointer */
-template< typename TValueType,
+template< typename TValue,
           unsigned int NVectorDimension,
           unsigned int VImageDimension >
 void
-ImageVectorOptimizerParametersHelper< TValueType, NVectorDimension, VImageDimension >
-::MoveDataPointer( CommonContainerType* container, TValueType * pointer )
+ImageVectorOptimizerParametersHelper< TValue, NVectorDimension, VImageDimension >
+::MoveDataPointer( CommonContainerType* container, TValue * pointer )
 {
   if( m_ParameterImage.IsNull() )
     {
     itkGenericExceptionMacro("ImageVectorOptimizerParametersHelper::"
       "MoveDataPointer: m_ParameterImage must be defined.");
     }
-  // The buffer for Image<Vector> points to Vector type, not TValueType, so
+  // The buffer for Image<Vector> points to Vector type, not TValue, so
   // have to cast.
   typedef typename ParameterImageType::PixelContainer::Element vectorElement;
   vectorElement* vectorPointer = reinterpret_cast<vectorElement *>(pointer);
@@ -59,11 +59,11 @@ ImageVectorOptimizerParametersHelper< TValueType, NVectorDimension, VImageDimens
 }
 
 /** Set parameter image */
-template< typename TValueType,
+template< typename TValue,
           unsigned int NVectorDimension,
           unsigned int VImageDimension >
 void
-ImageVectorOptimizerParametersHelper< TValueType, NVectorDimension, VImageDimension >
+ImageVectorOptimizerParametersHelper< TValue, NVectorDimension, VImageDimension >
 ::SetParametersObject(CommonContainerType * container, LightObject * object)
 {
   if( object == NULL )
@@ -84,10 +84,10 @@ ImageVectorOptimizerParametersHelper< TValueType, NVectorDimension, VImageDimens
       }
     m_ParameterImage = image;
     //The PixelContainer for Image<Vector> points to type Vector, so we have
-    // to determine the number of raw elements of type TValueType in the buffer
+    // to determine the number of raw elements of type TValue in the buffer
     // and cast a pointer to it for assignment to the Array data pointer.
     unsigned int sz = image->GetPixelContainer()->Size() * NVectorDimension;
-    TValueType* valuePointer = reinterpret_cast<TValueType *>
+    TValue* valuePointer = reinterpret_cast<TValue *>
                               ( image->GetPixelContainer()->GetBufferPointer() );
     //Set the Array's pointer to the image data buffer. By default it will
     // not manage the memory.

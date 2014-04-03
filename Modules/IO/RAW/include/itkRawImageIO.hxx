@@ -79,7 +79,7 @@ SizeValueType RawImageIO< TPixel, VImageDimension >::GetHeaderSize()
     this->ComputeStrides();
 
     // make sure we figure out a filename to open
-    this->OpenFileForReading(file);
+    this->OpenFileForReading( file, m_FileName );
 
     // Get the size of the header from the size of the image
     file.seekg(0, std::ios::end);
@@ -91,63 +91,6 @@ SizeValueType RawImageIO< TPixel, VImageDimension >::GetHeaderSize()
     }
 
   return m_HeaderSize;
-}
-
-template< typename TPixel, unsigned int VImageDimension >
-void RawImageIO< TPixel, VImageDimension >::OpenFileForReading(std::ifstream & is)
-{
-  if ( m_FileName == "" )
-    {
-    itkExceptionMacro(<< "A FileName must be specified.");
-    }
-
-  // Close file from any previous image
-  if ( is.is_open() )
-    {
-    is.close();
-    }
-
-  // Open the new file
-  itkDebugMacro(<< "Initialize: opening file " << m_FileName);
-#ifdef _WIN32
-  is.open(m_FileName.c_str(), std::ios::in | std::ios::binary);
-#else
-  is.open(m_FileName.c_str(), std::ios::in);
-#endif
-  if ( is.fail() )
-    {
-    itkExceptionMacro(<< "Could not open file: " << m_FileName);
-    }
-}
-
-template< typename TPixel, unsigned int VImageDimension >
-void RawImageIO< TPixel, VImageDimension >::OpenFileForWriting(std::ofstream & os)
-{
-  if ( m_FileName == "" )
-    {
-    itkExceptionMacro(<< "A FileName must be specified.");
-    }
-
-  std::ofstream tFile(m_FileName.c_str(), std::ios::out);
-  tFile.close();
-
-  // Close file from any previous image
-  if ( os.is_open() )
-    {
-    os.close();
-    }
-
-  // Open the new file
-  itkDebugMacro(<< "Initialize: opening file " << m_FileName);
-#ifdef _WIN32
-  os.open(m_FileName.c_str(), std::ios::out | std::ios::binary);
-#else
-  os.open(m_FileName.c_str(), std::ios::out);
-#endif
-  if ( os.fail() )
-    {
-    itkExceptionMacro(<< "Could not open file: " << m_FileName);
-    }
 }
 
 template< typename TPixel, unsigned int VImageDimension >
@@ -169,7 +112,7 @@ void RawImageIO< TPixel, VImageDimension >
   std::ifstream file;
 
   // Open the file
-  this->OpenFileForReading(file);
+  this->OpenFileForReading( file, m_FileName );
   this->ComputeStrides();
 
   // Offset into file
@@ -254,7 +197,7 @@ void RawImageIO< TPixel, VImageDimension >
 
   // Open the file
   //
-  this->OpenFileForWriting(file);
+  this->OpenFileForWriting( file, m_FileName );
 
   // Set up for reading
   this->ComputeStrides();
@@ -312,8 +255,6 @@ void RawImageIO< TPixel, VImageDimension >
     else if itkWriteRawBytesAfterSwappingMacro(float, FLOAT)
     else if itkWriteRawBytesAfterSwappingMacro(double, DOUBLE)
     }
-
-  file.close();
 }
 } // namespace itk
 #endif

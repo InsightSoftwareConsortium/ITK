@@ -35,20 +35,20 @@ namespace itk
  *
  * Template parameters for class Array2D:
  *
- * - TValueType = Element type stored at each location in the array.
+ * - TValue = Element type stored at each location in the array.
  *
  * \ingroup DataRepresentation
  * \ingroup ITKCommon
  */
-template< typename TValueType >
-class Array2D: public vnl_matrix< TValueType >
+template< typename TValue >
+class Array2D: public vnl_matrix< TValue >
 {
 public:
 
   /** The element type stored at each location in the Array2D. */
-  typedef TValueType               ValueType;
-  typedef Array2D                  Self;
-  typedef vnl_matrix< TValueType > VnlMatrixType;
+  typedef TValue               ValueType;
+  typedef Array2D              Self;
+  typedef vnl_matrix< TValue > VnlMatrixType;
 
   Array2D();
   Array2D(unsigned int rows, unsigned int cols);
@@ -59,7 +59,7 @@ public:
 
   const Self & operator=(const VnlMatrixType & matrix);
 
-  void Fill(TValueType const & v) { this->fill(v); }
+  void Fill(TValue const & v) { this->fill(v); }
 
   /** Destructively set the size to that given.  Will lose data.  */
   void SetSize(unsigned int m, unsigned int n);
@@ -69,8 +69,8 @@ public:
   ~Array2D() {}
 };
 
-template< typename TValueType >
-std::ostream & operator<<(std::ostream & os, const Array2D< TValueType > & arr)
+template< typename TValue >
+std::ostream & operator<<(std::ostream & os, const Array2D< TValue > & arr)
 {
   const unsigned int numberOfRows    = arr.rows();
   const unsigned int numberOfColumns = arr.cols();

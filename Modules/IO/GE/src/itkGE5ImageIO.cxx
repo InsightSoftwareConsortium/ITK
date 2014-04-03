@@ -18,6 +18,7 @@
 #include "itkGE5ImageIO.h"
 #include "itkByteSwapper.h"
 #include "itksys/SystemTools.hxx"
+#include <algorithm>
 #include <iostream>
 #include <fstream>
 
@@ -56,12 +57,17 @@ int GE5ImageIO
     return -1;
     }
 
-  std::ifstream f(imageFileTemplate, std::ios::binary | std::ios::in);
-  if ( !f.is_open() )
+  std::ifstream f;
+  try
+    {
+    this->OpenFileForReading( f, imageFileTemplate );
+    }
+  catch( ExceptionObject & )
     {
     reason = "File could not be opened for read";
     return -1;
     }
+
   Ge5xPixelHeader imageHdr;                /* Header Structure for GE 5x images
                                              */
   char            hdr[GENESIS_SU_HDR_LEN]; /* Header to hold GE Suite header */
@@ -192,22 +198,12 @@ GE5ImageIO::ReadHeader(const char  *FileNameToRead)
     }
   memset( curImage, 0, sizeof( GEImageHeader ) );
 
-  std::ifstream f(FileNameToRead, std::ios::binary | std::ios::in);
-  if ( !f.is_open() )
-    {
-    itkExceptionMacro(
-      "GE5ImageIO failed to open "
-      << FileNameToRead << " for input." << std::endl
-      << "Reason: " << itksys::SystemTools::GetLastSystemError()
-      );
-    }
+  std::ifstream f;
+  this->OpenFileForReading( f, FileNameToRead );
+
   f.read( (char *)&imageHdr, sizeof( imageHdr ) );
   if ( f.fail() )
     {
-    if ( f.is_open() )
-      {
-      f.close();
-      }
     itkExceptionMacro(
       "GE5ImageIO IO error while reading  "
       << FileNameToRead << " ." << std::endl
@@ -297,24 +293,10 @@ GE5ImageIO::ReadHeader(const char  *FileNameToRead)
   curImage->hospital[34] = '\0';
 
   // patient id
-  char tmpId[13];
-  strncpy(tmpId,buffer+VOff(84,88),13);
-  tmpId[12] = '\0';
-
-  char *ptr;
-  if((ptr = strtok(tmpId,"-")) == 0)
-    {
-    strncpy(curImage->patientId,tmpId,sizeof(curImage->patientId));
-    }
-  else
-    {
-    curImage->patientId[0] = '\0';
-    while(ptr != NULL)
-      {
-      strcat(curImage->patientId,ptr);
-      ptr = strtok(NULL,"-");
-      }
-    }
+  std::string tmpId(buffer+VOff(84,88), 13);
+  std::remove(tmpId.begin(), tmpId.end(), '-');
+  strncpy(curImage->patientId, tmpId.c_str(), sizeof(curImage->patientId)-1);
+  curImage->patientId[sizeof(curImage->patientId)-1] = '\0';
 
   strncpy(curImage->name,buffer+VOff(97,101),25);
   curImage->name[24] = '\0';

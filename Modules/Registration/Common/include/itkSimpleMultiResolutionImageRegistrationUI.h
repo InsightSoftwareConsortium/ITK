@@ -30,7 +30,8 @@ template <typename TRegistrator>
 class SimpleMultiResolutionImageRegistrationUI
 {
 public:
-  SimpleMultiResolutionImageRegistrationUI( TRegistrator * ptr )
+  SimpleMultiResolutionImageRegistrationUI( TRegistrator * ptr ):
+    m_Tag(0)
     {
 
     if ( !ptr ) return;

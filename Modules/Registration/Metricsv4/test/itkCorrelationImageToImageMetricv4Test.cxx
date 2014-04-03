@@ -39,9 +39,9 @@ double itkCorrelationImageToImageMetricv4Test_GetToyImagePixelValue(TIndexType i
   return v;
 }
 
-template<typename TMetricPointer, typename TValueType, typename TDerivativeType>
+template<typename TMetricPointer, typename TValue, typename TDerivativeType>
 int itkCorrelationImageToImageMetricv4Test_WithSpecifiedThreads(TMetricPointer &metric,
-                                                                TValueType &value,
+                                                                TValue &value,
                                                                 TDerivativeType &derivative)
 {
   typedef typename TMetricPointer::ObjectType MetricType;

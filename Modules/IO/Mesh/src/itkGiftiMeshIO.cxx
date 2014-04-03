@@ -193,6 +193,7 @@ GiftiMeshIO
           break;
         case NIFTI_TYPE_FLOAT128:
           this->m_PointComponentType = LDOUBLE;
+          break;
         default:
           itkExceptionMacro(<< "Unknown point component type");
           break;
@@ -262,6 +263,7 @@ GiftiMeshIO
           break;
         case NIFTI_TYPE_FLOAT128:
           this->m_CellComponentType = LDOUBLE;
+          break;
         default:
           gifti_free_image( m_GiftiImage );
           itkExceptionMacro(<< "Unknown cell component type");

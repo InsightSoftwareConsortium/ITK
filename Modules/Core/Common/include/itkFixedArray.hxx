@@ -26,16 +26,16 @@ namespace itk
  * Default constructor uses compiler's default initialization of memory.
  * For efficiency, no initialization to zero is done.
  */
-template< typename TValueType, unsigned int VLength >
-FixedArray< TValueType, VLength >
+template< typename TValue, unsigned int VLength >
+FixedArray< TValue, VLength >
 ::FixedArray()
 {}
 
 /**
  * Constructor to initialize entire array to one value.
  */
-template< typename TValueType, unsigned int VLength >
-FixedArray< TValueType, VLength >
+template< typename TValue, unsigned int VLength >
+FixedArray< TValue, VLength >
 ::FixedArray(const ValueType & r)
 {
   for ( Iterator i = Begin(); i != End(); ++i )
@@ -49,8 +49,8 @@ FixedArray< TValueType, VLength >
  * Values are copied individually instead of with a binary copy.  This
  * allows the ValueType's assignment operator to be executed.
  */
-template< typename TValueType, unsigned int VLength >
-FixedArray< TValueType, VLength >
+template< typename TValue, unsigned int VLength >
+FixedArray< TValue, VLength >
 ::FixedArray(const ValueType r[VLength])
 {
   ConstIterator input = r;
@@ -67,9 +67,9 @@ FixedArray< TValueType, VLength >
  * Values are copied individually instead of with a binary copy.  This
  * allows the ValueType's assignment operator to be executed.
  */
-template< typename TValueType, unsigned int VLength >
-FixedArray< TValueType, VLength > &
-FixedArray< TValueType, VLength >
+template< typename TValue, unsigned int VLength >
+FixedArray< TValue, VLength > &
+FixedArray< TValue, VLength >
 ::operator=(const ValueType r[VLength])
 {
   if ( r != m_InternalArray )
@@ -87,9 +87,9 @@ FixedArray< TValueType, VLength >
 /**
  * Operator != compares different types of arrays.
  */
-template< typename TValueType, unsigned int VLength >
+template< typename TValue, unsigned int VLength >
 bool
-FixedArray< TValueType, VLength >
+FixedArray< TValue, VLength >
 ::operator==(const FixedArray & r) const
 {
   ConstIterator i = this->Begin();
@@ -111,9 +111,9 @@ FixedArray< TValueType, VLength >
 /**
  * Get an Iterator for the beginning of the FixedArray.
  */
-template< typename TValueType, unsigned int VLength >
-typename FixedArray< TValueType, VLength >::Iterator
-FixedArray< TValueType, VLength >
+template< typename TValue, unsigned int VLength >
+typename FixedArray< TValue, VLength >::Iterator
+FixedArray< TValue, VLength >
 ::Begin()
 {
   return Iterator(m_InternalArray);
@@ -122,9 +122,9 @@ FixedArray< TValueType, VLength >
 /**
  * Get a ConstIterator for the beginning of the FixedArray.
  */
-template< typename TValueType, unsigned int VLength >
-typename FixedArray< TValueType, VLength >::ConstIterator
-FixedArray< TValueType, VLength >
+template< typename TValue, unsigned int VLength >
+typename FixedArray< TValue, VLength >::ConstIterator
+FixedArray< TValue, VLength >
 ::Begin() const
 {
   return ConstIterator(m_InternalArray);
@@ -133,9 +133,9 @@ FixedArray< TValueType, VLength >
 /**
  * Get an Iterator for the end of the FixedArray.
  */
-template< typename TValueType, unsigned int VLength >
-typename FixedArray< TValueType, VLength >::Iterator
-FixedArray< TValueType, VLength >
+template< typename TValue, unsigned int VLength >
+typename FixedArray< TValue, VLength >::Iterator
+FixedArray< TValue, VLength >
 ::End()
 {
   return Iterator(m_InternalArray + VLength);
@@ -144,9 +144,9 @@ FixedArray< TValueType, VLength >
 /**
  * Get a ConstIterator for the end of the FixedArray.
  */
-template< typename TValueType, unsigned int VLength >
-typename FixedArray< TValueType, VLength >::ConstIterator
-FixedArray< TValueType, VLength >
+template< typename TValue, unsigned int VLength >
+typename FixedArray< TValue, VLength >::ConstIterator
+FixedArray< TValue, VLength >
 ::End() const
 {
   return ConstIterator(m_InternalArray + VLength);
@@ -155,9 +155,9 @@ FixedArray< TValueType, VLength >
 /**
  * Get a begin ReverseIterator.
  */
-template< typename TValueType, unsigned int VLength >
-typename FixedArray< TValueType, VLength >::ReverseIterator
-FixedArray< TValueType, VLength >
+template< typename TValue, unsigned int VLength >
+typename FixedArray< TValue, VLength >::ReverseIterator
+FixedArray< TValue, VLength >
 ::rBegin()
 {
   return ReverseIterator(m_InternalArray + VLength);
@@ -166,9 +166,9 @@ FixedArray< TValueType, VLength >
 /**
  * Get a begin ConstReverseIterator.
  */
-template< typename TValueType, unsigned int VLength >
-typename FixedArray< TValueType, VLength >::ConstReverseIterator
-FixedArray< TValueType, VLength >
+template< typename TValue, unsigned int VLength >
+typename FixedArray< TValue, VLength >::ConstReverseIterator
+FixedArray< TValue, VLength >
 ::rBegin() const
 {
   return ConstReverseIterator(m_InternalArray + VLength);
@@ -177,9 +177,9 @@ FixedArray< TValueType, VLength >
 /**
  * Get an end ReverseIterator.
  */
-template< typename TValueType, unsigned int VLength >
-typename FixedArray< TValueType, VLength >::ReverseIterator
-FixedArray< TValueType, VLength >
+template< typename TValue, unsigned int VLength >
+typename FixedArray< TValue, VLength >::ReverseIterator
+FixedArray< TValue, VLength >
 ::rEnd()
 {
   return ReverseIterator(m_InternalArray);
@@ -188,9 +188,9 @@ FixedArray< TValueType, VLength >
 /**
  * Get an end ConstReverseIterator.
  */
-template< typename TValueType, unsigned int VLength >
-typename FixedArray< TValueType, VLength >::ConstReverseIterator
-FixedArray< TValueType, VLength >
+template< typename TValue, unsigned int VLength >
+typename FixedArray< TValue, VLength >::ConstReverseIterator
+FixedArray< TValue, VLength >
 ::rEnd() const
 {
   return ConstReverseIterator(m_InternalArray);
@@ -199,9 +199,9 @@ FixedArray< TValueType, VLength >
 /**
  * Get the size of the FixedArray.
  */
-template< typename TValueType, unsigned int VLength >
-typename FixedArray< TValueType, VLength >::SizeType
-FixedArray< TValueType, VLength >
+template< typename TValue, unsigned int VLength >
+typename FixedArray< TValue, VLength >::SizeType
+FixedArray< TValue, VLength >
 ::Size() const
 {
   return VLength;
@@ -210,9 +210,9 @@ FixedArray< TValueType, VLength >
 /**
  * Fill all elements of the array with the given value.
  */
-template< typename TValueType, unsigned int VLength >
+template< typename TValue, unsigned int VLength >
 void
-FixedArray< TValueType, VLength >
+FixedArray< TValue, VLength >
 ::Fill(const ValueType & value)
 {
   Iterator i = this->Begin();
@@ -226,9 +226,9 @@ FixedArray< TValueType, VLength >
 /**
  * Return an FixedArray with all elements assigned to the given value.
  */
-template< typename TValueType, unsigned int VLength >
-FixedArray< TValueType, VLength >
-FixedArray< TValueType, VLength >
+template< typename TValue, unsigned int VLength >
+FixedArray< TValue, VLength >
+FixedArray< TValue, VLength >
 ::Filled(const ValueType & value)
 {
   FixedArray< ValueType, VLength > array;
@@ -236,8 +236,8 @@ FixedArray< TValueType, VLength >
   return array;
 }
 
-template< typename TValueType, unsigned int VLength >
-std::ostream & operator<<(std::ostream & os, const FixedArray< TValueType, VLength > & arr)
+template< typename TValue, unsigned int VLength >
+std::ostream & operator<<(std::ostream & os, const FixedArray< TValue, VLength > & arr)
 {
   os << "[";
   if ( VLength == 1 )

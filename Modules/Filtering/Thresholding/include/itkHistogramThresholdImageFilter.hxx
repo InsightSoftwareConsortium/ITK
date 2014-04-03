@@ -41,7 +41,9 @@ HistogramThresholdImageFilter<TInputImage, TOutputImage, TMaskImage>
   m_Calculator     = NULL;
   m_MaskOutput     = true;
 
-  if( typeid(ValueType) == typeid(signed char) || typeid(ValueType) == typeid(unsigned char) )
+  if( typeid(ValueType) == typeid(signed char)
+      || typeid(ValueType) == typeid(unsigned char)
+      || typeid(ValueType) == typeid(char))
     {
     m_AutoMinimumMaximum = false;
     }

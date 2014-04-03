@@ -103,8 +103,7 @@ public:
    * pipeline execution model.
    *
    * \sa ImageToImageFilter::GenerateInputRequestedRegion()   */
-  virtual void GenerateInputRequestedRegion()
-  throw( InvalidRequestedRegionError );
+  virtual void GenerateInputRequestedRegion();
 
   /** Set/Get the label value for zero-crossing pixels. */
   itkSetMacro(ForegroundValue, OutputImagePixelType);

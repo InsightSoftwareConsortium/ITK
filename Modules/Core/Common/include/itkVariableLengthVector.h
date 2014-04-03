@@ -72,14 +72,14 @@ namespace itk
  * \wikiexample{SimpleOperations/VariableLengthVector,Variable length vector}
  * \endwiki
  */
-template< typename TValueType >
+template< typename TValue >
 class VariableLengthVector
 {
 public:
 
   /** The element type stored at each location in the Array. */
-  typedef TValueType                                    ValueType;
-  typedef TValueType                                    ComponentType;
+  typedef TValue                                        ValueType;
+  typedef TValue                                        ComponentType;
   typedef typename NumericTraits< ValueType >::RealType RealValueType;
   typedef VariableLengthVector                          Self;
 
@@ -134,14 +134,14 @@ public:
 
   /** Copy constructer.. Override the default non-templated copy constructor
    * that the compiler provides */
-  VariableLengthVector(const VariableLengthVector< TValueType > & v);
+  VariableLengthVector(const VariableLengthVector< TValue > & v);
 
   /** Set the all the elements of the array to the specified value */
-  void Fill(TValueType const & v);
+  void Fill(TValue const & v);
 
   /** Assignment operator  */
   template< typename T >
-  const VariableLengthVector< TValueType > & operator=
+  const VariableLengthVector< TValue > & operator=
     (const VariableLengthVector< T > & v)
   {
     if ( m_Data == static_cast< void * >( const_cast< T * >
@@ -160,22 +160,22 @@ public:
   /** Assignment operators  */
   const Self & operator=(const Self & v);
 
-  const Self & operator=(TValueType const & v);
+  const Self & operator=(TValue const & v);
 
   /** Return the number of elements in the Array  */
   inline unsigned int Size(void) const { return m_NumElements; }
   inline unsigned int GetNumberOfElements(void) const { return m_NumElements; }
 
   /** Return reference to the element at specified index. No range checking. */
-  TValueType       & operator[](unsigned int i) { return this->m_Data[i]; }
+  TValue       & operator[](unsigned int i) { return this->m_Data[i]; }
   /** Return reference to the element at specified index. No range checking. */
-  TValueType const & operator[](unsigned int i) const { return this->m_Data[i]; }
+  TValue const & operator[](unsigned int i) const { return this->m_Data[i]; }
 
   /** Get one element */
-  inline const TValueType & GetElement(unsigned int i) const { return m_Data[i]; }
+  inline const TValue & GetElement(unsigned int i) const { return m_Data[i]; }
 
   /** Set one element */
-  void SetElement(unsigned int i, const TValueType & value) { m_Data[i] = value; }
+  void SetElement(unsigned int i, const TValue & value) { m_Data[i] = value; }
 
   /** Set the size to that given.
    *
@@ -200,7 +200,7 @@ public:
    * the responsibility of freeing the memory for this data.  If
    * "LetArrayManageMemory" is true, then this class will free the
    * memory when this object is destroyed. */
-  void SetData(TValueType *data, bool LetArrayManageMemory = false);
+  void SetData(TValue *data, bool LetArrayManageMemory = false);
 
   /** Similar to the previous method. In the above method, the size must be
    * separately set prior to using user-supplied data. This introduces an
@@ -211,7 +211,7 @@ public:
    * the responsibility of freeing the memory for this data.  If
    * "LetArrayManageMemory" is true, then this class will free the
    * memory when this object is destroyed. */
-  void SetData(TValueType *data, unsigned int sz, bool LetArrayManageMemory = false);
+  void SetData(TValue *data, unsigned int sz, bool LetArrayManageMemory = false);
 
   /** This destructor is not virtual for performance reasons. However, this
    * means that subclasses cannot allocate memory. */
@@ -226,9 +226,9 @@ public:
   void Reserve(ElementIdentifier);
 
   /** Allocate memory of certain size and return it.  */
-  TValueType * AllocateElements(ElementIdentifier size) const;
+  TValue * AllocateElements(ElementIdentifier size) const;
 
-  const TValueType * GetDataPointer() const { return m_Data; }
+  const TValue * GetDataPointer() const { return m_Data; }
 
   /** Element-wise vector addition. The vectors do not have to have
    * the same element type. The input vector elements are cast to the
@@ -316,7 +316,7 @@ public:
   }
 
   /** Add scalar 's' to each element of the vector.*/
-  inline Self operator+(TValueType s) const
+  inline Self operator+(TValue s) const
   {
     Self result(m_NumElements);
 
@@ -328,7 +328,7 @@ public:
   }
 
   /** Subtract scalar 's' from each element of the vector.*/
-  inline Self operator-(TValueType s) const
+  inline Self operator-(TValue s) const
   {
     Self result(m_NumElements);
 
@@ -398,7 +398,7 @@ public:
   }
 
   /** Subtract scalar 's' from each element of the current vector. */
-  inline Self & operator-=(TValueType s)
+  inline Self & operator-=(TValue s)
   {
     for ( ElementIdentifier i = 0; i < m_NumElements; i++ )
       {
@@ -426,7 +426,7 @@ public:
   }
 
   /** Add scalar 's' to each element of the vector. */
-  inline Self & operator+=(TValueType s)
+  inline Self & operator+=(TValue s)
   {
     for ( ElementIdentifier i = 0; i < m_NumElements; i++ )
       {
@@ -481,23 +481,23 @@ private:
 
   bool              m_LetArrayManageMemory; // if true, the array is responsible
                                             // for memory of data
-  TValueType *      m_Data;                 // Array to hold data
+  TValue *          m_Data;                 // Array to hold data
   ElementIdentifier m_NumElements;
 };
 
 /** Premultiply Operator for product of a VariableLengthVector and a scalar.
- *  VariableLengthVector< TValueType >  =  T * VariableLengthVector< TValueType >
+ *  VariableLengthVector< TValue >  =  T * VariableLengthVector< TValue >
  */
-template< typename TValueType, typename T >
+template< typename TValue, typename T >
 inline
-VariableLengthVector< TValueType >
-operator*(const T & scalar, const VariableLengthVector< TValueType > & v)
+VariableLengthVector< TValue >
+operator*(const T & scalar, const VariableLengthVector< TValue > & v)
 {
   return v * scalar;
 }
 
-template< typename TValueType >
-std::ostream & operator<<(std::ostream & os, const VariableLengthVector< TValueType > & arr)
+template< typename TValue >
+std::ostream & operator<<(std::ostream & os, const VariableLengthVector< TValue > & arr)
 {
   const unsigned int length = arr.Size();
   const signed int   last   = (unsigned int)length - 1;

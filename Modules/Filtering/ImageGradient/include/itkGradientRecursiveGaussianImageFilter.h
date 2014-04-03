@@ -148,8 +148,7 @@ public:
    * an implementation for GenerateInputRequestedRegion in order to inform
    * the pipeline execution model.
    * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion()
-  throw( InvalidRequestedRegionError );
+  virtual void GenerateInputRequestedRegion();
 
   /** The UseImageDirection flag determines whether the gradients are
    * computed with respect to the image grid or with respect to the physical
@@ -187,8 +186,8 @@ protected:
 
 private:
 
-  template <typename TValueType>
-  void TransformOutputPixel( ImageRegionIterator< VectorImage<TValueType, ImageDimension> > &it )
+  template <typename TValue>
+  void TransformOutputPixel( ImageRegionIterator< VectorImage<TValue, ImageDimension> > &it )
   {
     // To transform Variable length vector we need to convert to and
     // fro the CovariantVectorType

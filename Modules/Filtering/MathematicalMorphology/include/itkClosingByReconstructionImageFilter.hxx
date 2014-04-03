@@ -80,6 +80,8 @@ ClosingByReconstructionImageFilter< TInputImage, TOutputImage, TKernel >
   dilate->SetInput( this->GetInput() );
   dilate->SetKernel(this->m_Kernel);
 
+  progress->RegisterInternalFilter(dilate, .5);
+
   // Delegate to a dilate filter.
   typename ReconstructionByErosionImageFilter< TInputImage, TInputImage >::Pointer
   erode = ReconstructionByErosionImageFilter< TInputImage, TInputImage >::New();
@@ -90,6 +92,7 @@ ClosingByReconstructionImageFilter< TInputImage, TOutputImage, TKernel >
 
   if ( m_PreserveIntensities )
     {
+    progress->RegisterInternalFilter(erode, .25);
     erode->Update();
     typename TInputImage::Pointer tempImage = TInputImage::New();
     tempImage->SetRegions ( dilate->GetOutput()->GetBufferedRegion() );
@@ -133,6 +136,7 @@ ClosingByReconstructionImageFilter< TInputImage, TOutputImage, TKernel >
     }
   else
     {
+    progress->RegisterInternalFilter(erode, .5);
     erode->GraftOutput( this->GetOutput() );
     erode->Update();
     this->GraftOutput( erode->GetOutput() );

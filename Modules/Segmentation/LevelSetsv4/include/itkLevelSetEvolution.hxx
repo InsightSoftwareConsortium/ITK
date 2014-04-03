@@ -27,7 +27,8 @@ namespace itk
 
 template< typename TEquationContainer, typename TImage >
 LevelSetEvolution< TEquationContainer, LevelSetDenseImage< TImage > >
-::LevelSetEvolution()
+::LevelSetEvolution() :
+  m_IdListToProcessWhenThreading(NULL)
 {
   this->m_SplitLevelSetComputeIterationThreader  = SplitLevelSetComputeIterationThreaderType::New();
   this->m_SplitDomainMapComputeIterationThreader = SplitDomainMapComputeIterationThreaderType::New();

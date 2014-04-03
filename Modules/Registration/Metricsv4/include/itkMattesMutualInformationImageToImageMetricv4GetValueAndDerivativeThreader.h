@@ -82,7 +82,9 @@ public:
   typedef typename TMattesMutualInformationMetric::JacobianType             JacobianType;
 
 protected:
-  MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader() {}
+  MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader() :
+    m_MattesAssociate(NULL)
+  {}
 
   virtual void BeforeThreadedExecution();
 

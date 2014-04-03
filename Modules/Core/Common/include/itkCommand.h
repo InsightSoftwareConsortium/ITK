@@ -135,15 +135,16 @@ public:
   }
 
 protected:
-
   T *                         m_This;
   TMemberFunctionPointer      m_MemberFunction;
   TConstMemberFunctionPointer m_ConstMemberFunction;
-  MemberCommand():
+
+  MemberCommand() :
     m_This( NULL ),
     m_MemberFunction( NULL ),
     m_ConstMemberFunction( NULL )
   {}
+
   virtual ~MemberCommand(){}
 
 private:
@@ -207,7 +208,12 @@ public:
 protected:
   T *                    m_This;
   TMemberFunctionPointer m_MemberFunction;
-  ReceptorMemberCommand():m_MemberFunction(0) {}
+
+  ReceptorMemberCommand() :
+    m_This( NULL ),
+    m_MemberFunction( NULL )
+  {}
+
   virtual ~ReceptorMemberCommand() {}
 
 private:
@@ -269,10 +275,12 @@ public:
 protected:
   T *                    m_This;
   TMemberFunctionPointer m_MemberFunction;
-  SimpleMemberCommand():
+
+  SimpleMemberCommand() :
     m_This( NULL ),
     m_MemberFunction( NULL )
   {}
+
   virtual ~SimpleMemberCommand() {}
 
 private:
@@ -334,10 +342,12 @@ public:
 protected:
   const T *              m_This;
   TMemberFunctionPointer m_MemberFunction;
-  SimpleConstMemberCommand():
+
+  SimpleConstMemberCommand() :
     m_This( NULL ),
     m_MemberFunction( NULL )
   {}
+
   virtual ~SimpleConstMemberCommand() {}
 
 private:
@@ -409,11 +419,12 @@ public:
   }
 
 protected:
-  CStyleCommand():m_ClientData(0), m_Callback(0), m_ConstCallback(0),
-    m_ClientDataDeleteCallback(0)
-  {
-    // not implemented
-  }
+  CStyleCommand() :
+    m_ClientData( NULL ),
+    m_Callback( NULL ),
+    m_ConstCallback( NULL ),
+    m_ClientDataDeleteCallback( NULL )
+  {}
 
   ~CStyleCommand()
   {

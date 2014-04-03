@@ -44,7 +44,6 @@ template< typename TInputImage, typename TOutputImage >
 void
 BinaryMedianImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
-throw ( InvalidRequestedRegionError )
 {
   // call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();

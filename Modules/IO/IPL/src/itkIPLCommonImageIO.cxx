@@ -184,12 +184,9 @@ void IPLCommonImageIO::Read(void *buffer)
   for (; it != itend; it++ )
     {
     std::string   curfilename = ( *it )->GetImageFileName();
-    std::ifstream f(curfilename.c_str(), std::ios::binary | std::ios::in);
+    std::ifstream f;
+    this->OpenFileForReading( f, curfilename );
 
-    if ( !f.is_open() )
-      {
-      RAISE_EXCEPTION();
-      }
     f.seekg ( ( *it )->GetSliceOffset(), std::ios::beg );
     if ( !this->ReadBufferAsBinary( f, img_buffer, m_FilenameList->GetXDim() * m_FilenameList->GetYDim()
                                     * sizeof( short int ) ) )

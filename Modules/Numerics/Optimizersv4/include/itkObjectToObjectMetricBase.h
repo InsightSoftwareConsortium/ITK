@@ -133,7 +133,7 @@ public:
   virtual NumberOfParametersType GetNumberOfParameters() const = 0;
   virtual NumberOfParametersType GetNumberOfLocalParameters() const = 0;
 
-  /** Set the active transform's parameters */
+  /** Set the active transform's parameters by value*/
   virtual void SetParameters( ParametersType & params ) = 0;
 
   /** Get a const reference to the active transform's parameters */

@@ -51,7 +51,7 @@ bool VTKImageIO::CanReadFile(const char *filename)
 
   try
     {
-    this->OpenFileForReading(file, filename);
+    this->OpenFileForReading( file, fname );
     }
   catch ( ... )
     {
@@ -147,7 +147,7 @@ void VTKImageIO::InternalReadImageInformation(std::ifstream & file)
   char        line[255];
   std::string text;
 
-  this->OpenFileForReading( file, m_FileName.c_str() );
+  this->OpenFileForReading( file, m_FileName );
 
   file.getline(line, 255);
   file.getline(line, 255);
@@ -353,7 +353,7 @@ void VTKImageIO::ReadHeaderSize(std::ifstream & file)
   char        line[255];
   std::string text;
 
-  this->OpenFileForReading( file, m_FileName.c_str() );
+  this->OpenFileForReading( file, m_FileName );
 
   file.getline(line, 255); // HEADER
   file.getline(line, 255); // TITLE
@@ -529,7 +529,7 @@ void VTKImageIO::Read(void *buffer)
       }
 
     // open and stream read
-    this->OpenFileForReading( file, this->m_FileName.c_str() );
+    this->OpenFileForReading( file, m_FileName );
 
     itkAssertOrThrowMacro(this->GetHeaderSize() != 0, "Header size is unknown when it shouldn't be!");
     this->StreamReadBufferAsBinary(file, buffer);
@@ -554,7 +554,7 @@ void VTKImageIO::Read(void *buffer)
   else
     {
     // open the file
-    this->OpenFileForReading( file, this->m_FileName.c_str() );
+    this->OpenFileForReading( file, m_FileName );
 
     itkAssertOrThrowMacro(this->GetHeaderSize() != 0, "Header size is unknown when it shouldn't be!");
 
@@ -631,14 +631,13 @@ void VTKImageIO::WriteImageInformation( const void *itkNotUsed(buffer) )
   std::ofstream file;
 
   // this will truncate the file
-  this->OpenFileForWriting(file, m_FileName.c_str(), true);
+  this->OpenFileForWriting( file, m_FileName, true );
 
   // Check the image region for proper dimensions, etc.
   unsigned int numDims = this->GetNumberOfDimensions();
   if ( numDims < 1 || numDims > 3 )
     {
     itkExceptionMacro(<< "VTK Writer can only write 1, 2 or 3-dimensional images");
-    return;
     }
 
   // Write the VTK header information
@@ -945,7 +944,7 @@ void VTKImageIO::Write(const void *buffer)
       this->WriteImageInformation(buffer);
 
       // open and stream write
-      this->OpenFileForWriting(file, this->m_FileName.c_str(), false);
+      this->OpenFileForWriting( file, m_FileName, false );
 
       // write one byte at the end of the file to allocate (this is a
       // nifty trick which should not write the entire size of the file
@@ -964,7 +963,7 @@ void VTKImageIO::Write(const void *buffer)
       itkAssertOrThrowMacro(this->GetHeaderSize() != 0, "Header size is unknown when it shouldn't be!");
 
       // open and stream write
-      this->OpenFileForWriting(file, this->m_FileName.c_str(), false);
+      this->OpenFileForWriting( file, m_FileName, false );
       }
 
     // the binary data must be written in big endian format
@@ -1001,7 +1000,7 @@ void VTKImageIO::Write(const void *buffer)
 
     std::ofstream file;
     // open the file
-    this->OpenFileForWriting(file, this->m_FileName.c_str(), false);
+    this->OpenFileForWriting( file, m_FileName, false );
 
     itkAssertOrThrowMacro(this->GetHeaderSize() != 0, "Header size is unknown when it shouldn't be!");
 

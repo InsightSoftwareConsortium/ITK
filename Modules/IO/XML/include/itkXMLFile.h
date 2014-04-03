@@ -104,7 +104,10 @@ public:
   T * GetOutputObject(void) { return m_OutputObject; }
 
 protected:
-  XMLReader() {}
+  XMLReader() :
+    m_OutputObject(NULL)
+  {}
+
   virtual ~XMLReader() {}
 
   T *m_OutputObject;

@@ -38,8 +38,6 @@
 # only used by the macros defined in a given cmake file.
 ###############################################################################
 
-cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
-
 
 ###############################################################################
 # Find Required Packages
@@ -50,16 +48,6 @@ cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 #-----------------------------------------------------------------------------
 find_package(ITK REQUIRED)
 include(${ITK_USE_FILE})
-# we must be sure we have the right ITK version; WrapITK can't build with
-# an old version of ITK because some classes will not be there.
-# newer version should only cause some warnings
-set(ITK_REQUIRED_VERSION "4.0.0")
-set(ITK_VERSION "${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}.${ITK_VERSION_PATCH}")
-if("${ITK_VERSION}" VERSION_LESS "${ITK_REQUIRED_VERSION}")
-  message(FATAL_ERROR "ITK ${ITK_REQUIRED_VERSION} is required to build this version of WrapITK, and you are trying to use version ${ITK_VERSION}. Set ITK_DIR to point to the directory of ITK ${ITK_REQUIRED_VERSION}.")
-endif()
-
-cmake_policy(SET CMP0003 NEW)
 
 ###############################################################################
 # Set various variables in order

@@ -58,11 +58,11 @@ int itkTriangleMeshToSimplexMeshFilter2Test(int , char *[] )
   simplexMesh->DisconnectPipeline();
 
   typedef  SimplexMeshType::NeighborListType              NeighborsListType;
-  NeighborsListType* neighbors = 0;
 
   for (int i=0; i < 7; i++)
     {
     itk::TimeProbe timeProbe;
+    NeighborsListType* neighbors = 0;
 
     timeProbe.Start();
     const unsigned int lastIndex = simplexMesh->GetPoints()->Size();

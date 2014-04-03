@@ -99,6 +99,10 @@ MembershipSample< TSample >
 ::GetClassSample(const ClassLabelType & classLabel) const
 {
   int classIndex = this->GetInternalClassLabel(classLabel);
+  if (classIndex < 0)
+    {
+    return NULL;
+    }
 
   return m_ClassSamples[classIndex];
 }

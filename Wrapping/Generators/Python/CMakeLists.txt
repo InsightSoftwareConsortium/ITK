@@ -1,8 +1,20 @@
 
 ###############################################################################
-# configure python
-find_package(PythonLibs)
+# configure python (find PythonInterp first, as of cmake 3.1)
 find_package(PythonInterp)
+find_package(PythonLibs)
+
+# require at least python 2.6
+if(PYTHON_VERSION_STRING VERSION_LESS 2.6)
+  message(WARNING "Python version less than 2.6: \"${PYTHON_VERSION_STRING}\".")
+endif()
+
+# check for version mismatch.
+if(PYTHONLIBS_FOUND AND PYTHONINTERP_FOUND
+    AND NOT(PYTHON_VERSION_STRING VERSION_EQUAL PYTHONLIBS_VERSION_STRING))
+  message(WARNING "Python executable (\"${PYTHON_VERSION_STRING}\") and library (\"${PYTHONLIBS_VERSION_STRING}\") version mismatch.")
+endif()
+
 mark_as_advanced(PYTHON_EXECUTABLE)
 include_directories(${PYTHON_INCLUDE_PATH})
 
@@ -121,21 +133,6 @@ endif()
 
 
 ###############################################################################
-# Configure the old style module
-
-if(NOT EXTERNAL_WRAP_ITK_PROJECT)
-  set(ITK_WRAP_PYTHON_OLD_STYLE_IMPORTS )
-  foreach(lib ${WRAP_ITK_MODULES})
-    set(ITK_WRAP_PYTHON_OLD_STYLE_IMPORTS "${ITK_WRAP_PYTHON_OLD_STYLE_IMPORTS}from ${lib}Python import *\n")
-  endforeach()
-  configure_file("${ITK_WRAP_PYTHON_SOURCE_DIR}/InsightToolkit.py.in"
-             "${ITK_WRAP_PYTHON_BINARY_DIR}/InsightToolkit.py"
-             @ONLY)
-  WRAP_ITK_BINDINGS_INSTALL(/Python "${ITK_WRAP_PYTHON_BINARY_DIR}/InsightToolkit.py")
-endif()
-
-
-###############################################################################
 # Copy python files for out-of-source builds, and set up install of same.
 
 if(NOT EXTERNAL_WRAP_ITK_PROJECT)
@@ -147,7 +144,7 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
     itkBase
     itkTemplate
     itkTypes
-  #  itkExtras/__init__
+    itkExtras
     itkLazy
     )
   # Done listing files.
@@ -162,7 +159,6 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
     endforeach()
   else()
     set(ITK_WRAP_PYTHON_FILES)
-    add_custom_target(copy_python_files ALL)
     foreach(file ${ITK_PYTHON_FILES})
       set(src "${CMAKE_CURRENT_SOURCE_DIR}/${file}.py")
       # recall that WRAP_ITK_BUILD_INTDIR expands to nothing if no config types are set,
@@ -176,19 +172,13 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
       # create the directory to avoid loosing case on windows
       file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/${WRAP_ITK_INSTALL_INTDIR}${path})
 
-      add_custom_command(SOURCE ${src}
-        COMMAND ${CMAKE_COMMAND}
-        ARGS -E copy ${src} ${copy_tgt}
-        OUTPUTS ${copy_tgt}
-        TARGET copy_python_files
+      add_custom_command(OUTPUT ${copy_tgt}
+        COMMAND ${CMAKE_COMMAND} -E copy ${src} ${copy_tgt}
+        DEPENDS ${src}
         COMMENT "Copying ${file}.py to build dir.")
     endforeach()
+    add_custom_target(copy_python_files ALL DEPENDS ${ITK_WRAP_PYTHON_FILES})
 
-    # driver command to make the copy happen.
-    add_custom_command(
-      SOURCE copy_python_files
-      DEPENDS ${ITK_WRAP_PYTHON_FILES}
-      TARGET copy_python_files)
   endif()
 
   # Install the package python files.
@@ -204,6 +194,7 @@ if(CMAKE_CONFIGURATION_TYPES)
 
   foreach(config ${CMAKE_CONFIGURATION_TYPES})
     set(CONFIG_ITK_WRAP_PYTHON_DIR "${CMAKE_CURRENT_BINARY_DIR}/${config}")
+    set(CONFIG_ITK_WRAP_LIBRARY_DIR "${ITK_BINARY_DIR}/${ITK_INSTALL_LIBRARY_DIR}/${config}")
 
     # SWIG-generated libs and *.py files are sent to ${config} subdir
     # This assumes that CMAKE_LIBRARY_OUTPUT_DIRECTORY is WrapITK_BINARY_DIR/bin (bad!)
@@ -214,6 +205,7 @@ if(CMAKE_CONFIGURATION_TYPES)
   endforeach()
 else()
   set(CONFIG_ITK_WRAP_PYTHON_DIR "${CMAKE_CURRENT_BINARY_DIR}")
+  set(CONFIG_ITK_WRAP_LIBRARY_DIR "${ITK_BINARY_DIR}/${ITK_INSTALL_LIBRARY_DIR}")
 
   configure_file("${CMAKE_CURRENT_SOURCE_DIR}/WrapITK.pth.in"
                  "${CMAKE_CURRENT_BINARY_DIR}/WrapITK.pth"
@@ -222,6 +214,7 @@ else()
 endif()
 
 set(CONFIG_ITK_WRAP_PYTHON_DIR "${CMAKE_INSTALL_PREFIX}/lib/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}/Python")
+set(CONFIG_ITK_WRAP_LIBRARY_DIR "${CMAKE_INSTALL_PREFIX}/${ITK_INSTALL_LIBRARY_DIR}")
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/WrapITK.pth.in"
             "${CMAKE_CURRENT_BINARY_DIR}/InstallOnly/WrapITK.pth"
             @ONLY)
@@ -898,7 +891,6 @@ endmacro()
 
 if(NOT EXTERNAL_WRAP_ITK_PROJECT)
   add_subdirectory(Tests)
-  add_subdirectory(itkExtras)
 
   macro(itk_end_wrap_modules_python)
     add_subdirectory(${ITK_WRAP_PYTHON_SOURCE_DIR}/PyUtils)

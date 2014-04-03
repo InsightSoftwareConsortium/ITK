@@ -23,9 +23,13 @@
 namespace itk
 {
 template< typename TInput, typename TOutput, typename TCriterion >
-EdgeDecimationQuadEdgeMeshFilter< TInput, TOutput,
-                                       TCriterion >::EdgeDecimationQuadEdgeMeshFilter():Superclass(),
-  m_Relocate(true), m_CheckOrientation(false)
+EdgeDecimationQuadEdgeMeshFilter< TInput, TOutput,TCriterion >::
+EdgeDecimationQuadEdgeMeshFilter() :
+  Superclass(),
+  m_Relocate(true),
+  m_CheckOrientation(false),
+  m_Element(NULL)
+
 {
   m_JoinVertexFunction = OperatorType::New();
   m_PriorityQueue = PriorityQueueType::New();

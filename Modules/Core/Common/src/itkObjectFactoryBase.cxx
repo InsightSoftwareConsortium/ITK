@@ -134,7 +134,7 @@ ObjectFactoryBase::GetStrictVersionChecking()
 
 
 /**
- * Create an instance of a named itk object using the loaded
+ * Create an instance of a named ITK object using the loaded
  * factories
  */
 LightObject::Pointer
@@ -222,9 +222,9 @@ void
 ObjectFactoryBase
 ::RegisterInternal()
 {
-  // Guaranee that no internal factories have already been registered.
-  itkAssertOrThrowMacro( ObjectFactoryBasePrivate::m_RegisteredFactories->empty(),
-                         "Factories unexpectedlly already registered!"  );
+  // Guarantee that no internal factories have already been registered.
+  itkAssertInDebugAndIgnoreInReleaseMacro( ObjectFactoryBasePrivate::m_RegisteredFactories->empty() );
+  ObjectFactoryBasePrivate::m_RegisteredFactories->clear();
 
   // Register all factories registered by the
   // "RegisterFactoryInternal" method
@@ -413,6 +413,15 @@ ObjectFactoryBase
           newfactory->m_LibraryHandle = (void *)lib;
           newfactory->m_LibraryPath = fullpath;
           newfactory->m_LibraryDate = 0; // unused for now...
+
+          // ObjectFactoryBase::RegisterFactory may raise an exception if
+          // a user enables StrictVersionChecking and a library in "path"
+          // is a conflicting version; this exception should be propagated
+          // to the user and not caught by ITK
+          //
+          // Do not edit the next comment line! It is intended to be parsed
+          // by the Coverity analyzer.
+          // coverity[fun_call_w_exception]
           if (!ObjectFactoryBase::RegisterFactory(newfactory))
             {
             DynamicLoader::CloseLibrary(lib);

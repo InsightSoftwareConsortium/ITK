@@ -42,17 +42,17 @@ readerType3 = itk.ImageFileReader.IUC2
 assert readerType == readerType2 == readerType3
 
 # we should be able to get the template and its parameters from the class
-(tpl, parameters) = itk.template( IType )
+(tpl, parameters) = itk.template(IType)
 assert tpl == itk.Image
 assert parameters == (PType, dim)
 
 # the template must raise a KeyError exception if the template parameter
 # is unknown
-try :
-  itk.ImageFileReader['unknown parameter']
-  raise Exception('no exception sent for unknown parameter')
+try:
+    itk.ImageFileReader['unknown parameter']
+    raise Exception('no exception sent for unknown parameter')
 except KeyError:
-  pass
+    pass
 
 # TODO: test the rest of the dict interface
 # TODO: test __eq__, __ne__ and __hash__
@@ -60,10 +60,7 @@ except KeyError:
 # something else ?
 
 
-
-
 # now test the New method
-
 # without parameter
 reader = readerType.New()
 reader2 = readerType.New()
@@ -73,18 +70,18 @@ reader = readerType.New(FileName='test.png')
 assert reader.GetFileName() == 'test.png'
 
 # wwith a wrong attribute name
-try :
-  reader = readerType.New(WrongName='test.png')
-  raise Exception('no exception sent for wrong attribute name')
+try:
+    reader = readerType.New(WrongName='test.png')
+    raise Exception('no exception sent for wrong attribute name')
 except AttributeError:
-  pass
+    pass
 
 # wwith a wrong attribute type
-try :
-  reader = readerType.New(FileName=1)
-  raise Exception('no exception sent for wrong attribute type')
-except :
-  pass
+try:
+    reader = readerType.New(FileName=1)
+    raise Exception('no exception sent for wrong attribute type')
+except:
+    pass
 
 # pass filter as argument for input
 # to a filter with SetInput method
@@ -118,31 +115,32 @@ assert im2 == sub.GetInput(1)
 
 # pass invalid input
 try:
-  itk.MedianImageFilter[IType, IType].New(1)
-  raise Exception('no exception sent for wrong input type')
+    itk.MedianImageFilter[IType, IType].New(1)
+    raise Exception('no exception sent for wrong input type')
 except:
-  pass
+    pass
 
 try:
-  itk.SubtractImageFilter[IType, IType, IType].New(im, "wrong")
-  raise Exception('no exception sent for wrong 2nd input type')
+    itk.SubtractImageFilter[IType, IType, IType].New(im, "wrong")
+    raise Exception('no exception sent for wrong 2nd input type')
 except TypeError:
-  pass
+    pass
 
 
 # pass both input and attribute
-recons = itk.ReconstructionByDilationImageFilter[IType, IType].New(reader.GetOutput(), im, FullyConnected=True)
+recons = itk.ReconstructionByDilationImageFilter[
+    IType, IType].New(reader.GetOutput(), im, FullyConnected=True)
 assert reader.GetOutput() == recons.GetInput(0)
 assert im == recons.GetInput(1)
-assert recons.GetFullyConnected() == True
+assert recons.GetFullyConnected()
 
 
 # pass input to object which do not take one
 try:
-  IType.New(im)
-  raise Exception('no exception sent for object without input')
+    IType.New(im)
+    raise Exception('no exception sent for object without input')
 except AttributeError:
-  pass
+    pass
 
 # TODO: test auto_progress
 # but how ?

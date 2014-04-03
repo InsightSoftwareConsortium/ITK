@@ -12,6 +12,7 @@ itk_add_test(
   NAME itkVtkMedianImageFilterTest
   COMMAND ITKVtkGlueTestDriver
     itkVtkMedianFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} 2)
+set_property(TEST itkVtkMedianImageFilterTest APPEND PROPERTY LABELS REQUIRES_DISPLAY)
 
 itk_add_test(
   NAME itkImageToVTKImageFilterTest
@@ -29,3 +30,4 @@ itk_add_test(
            --compare DATA{Baseline/QuickViewTest.png,:}
                      ${ITK_TEST_OUTPUT_DIR}/QuickViewTest0.png
     QuickViewTest DATA{${ITK_DATA_ROOT}/Input/peppers.png} ${ITK_TEST_OUTPUT_DIR})
+set_property(TEST QuickViewTest APPEND PROPERTY LABELS REQUIRES_DISPLAY)

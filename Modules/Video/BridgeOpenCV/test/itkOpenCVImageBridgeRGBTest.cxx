@@ -130,12 +130,12 @@ IplImage* ConvertIplImageDataType(IplImage* in)
 //-----------------------------------------------------------------------------
 // Templated test function to do the heavy lifting for RGB case
 //
-template<typename TValueType, unsigned int VDimension>
+template<typename TValue, unsigned int VDimension>
 int itkOpenCVImageBridgeTestTemplatedRGB(char* argv0, char* argv1)
 {
   // typedefs
   const unsigned int Dimension =                          VDimension;
-  typedef TValueType                                      ValueType;
+  typedef TValue                                          ValueType;
   typedef itk::RGBPixel< ValueType >                      PixelType;
   typedef typename PixelType::ComponentType               ComponentType;
   typedef itk::Image< PixelType, Dimension >              ImageType;

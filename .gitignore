@@ -6,7 +6,10 @@
 *.bak
 # vim swp files
 *.swp
+## Ignore files that are used for auto_completion with clang
 *.clang_complete
+## YouCompleteMe vim plugin configuration file
+.ycm_extra_conf.py
 
 
 # KWStyle hook output

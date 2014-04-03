@@ -34,13 +34,29 @@ TSize FloorLog(TSize size);
 template< typename TValue >
 TValue MedianOfThree(const TValue a, const TValue b, const TValue c);
 
+/** Finds the minimum and maximum of each measurement value, over an interval
+ * within a sample.
+ *
+ * Samples are considered independently of each other.
+ *
+ * \param[in] sample An instance of TSample.
+ * \param[in] begin An iterator to the first measurement vector in sample to be
+ *                  considered.
+ * \param[in] end An iterator to the last measurement vector in sample to be
+ *                considered.
+ * \param[out] min A new measurement vector, with the minimum values.
+ * \param[out] max A new measurement vector, with the maximum values.
+ *
+ * \tparam TSample A subtype of Statistics::Sample.
+ */
 template< typename TSample >
 void FindSampleBound(const TSample * sample,
-                     typename TSample::ConstIterator begin,
-                     typename TSample::ConstIterator end,
+                     const typename TSample::ConstIterator & begin,
+                     const typename TSample::ConstIterator & end,
                      typename TSample::MeasurementVectorType & min,
                      typename TSample::MeasurementVectorType & max);
 
+/** The endIndex should points one point after the last elements. */
 template< typename TSubsample >
 void FindSampleBoundAndMean(const TSubsample * sample,
                             int beginIndex,
@@ -49,9 +65,10 @@ void FindSampleBoundAndMean(const TSubsample * sample,
                             typename TSubsample::MeasurementVectorType & max,
                             typename TSubsample::MeasurementVectorType & mean);
 
-/** The Partition algorithm performs partial sorting in a sample. Given a
- * partitionValue, the algorithm moves to the beginning of the sample all
- * MeasurementVectors whose component activeDimension is smaller than the
+/** The Partition algorithm performs partial sorting in a sample.
+ *
+ * Given a partitionValue, the algorithm moves to the beginning of the sample
+ * all MeasurementVectors whose component activeDimension is smaller than the
  * partitionValue. In this way, the sample is partially sorted in two groups.
  * First the group with activeDimension component smaller than the
  * partitionValue, then the group of MeasurementVectors with activeDimension
@@ -60,7 +77,15 @@ void FindSampleBoundAndMean(const TSubsample * sample,
  * Only the activeDimension components of the MeasurementVectors in the sample
  * will be considered by the algorithm. The Algorithm return an index in the
  * range of [beginIndex,endIndex] pointing to the element with activeDimension
- * component closest to the partitionValue. */
+ * component closest to the partitionValue.
+ *
+ * The endIndex should points one point after the last elements if multiple
+ * partitionValue exist in the sample the return index will points the middle
+ * of such values. Implemented following the description of the partition
+ * algorithm in the QuickSelect entry of the Wikipedia.
+ *
+ * \sa http://en.wikipedia.org/wiki/Selection_algorithm.
+ */
 template< typename TSubsample >
 int Partition(TSubsample *sample,
               unsigned int activeDimension,
@@ -68,13 +93,22 @@ int Partition(TSubsample *sample,
               const typename TSubsample::MeasurementType partitionValue);
 
 /** QuickSelect is an algorithm for finding the k-th largest element of a list.
+ *
  * In this case, only one of the components of the measurement vectors is
  * considered. This component is defined by the argument activeDimension. The
  * search is rectricted to the range between the index begin and end, also
- * passed as arguments. In this version, a guess value for the median index is
- * provided in the argument medianGuess. The algorithm returns the value of the
- * activeDimension component in the MeasurementVector located in the kth position.
- * http://en.wikipedia.org/wiki/Selection_algorithm */
+ * passed as arguments.
+ *
+ * The endIndex should point one point after the last elements. Note that kth
+ * is an index in a different scale than [beginIndex,endIndex]. For example,
+ * it is possible to feed this function with beginIndex=15, endIndex=23, and
+ * kth=3, since we can ask for the element 3rd in the range [15,23].
+ * In this version, a guess value for the median index is provided in the
+ * argument medianGuess. The algorithm returns the value of the activeDimension
+ * component in the MeasurementVector located in the kth position.
+ *
+ * \sa http://en.wikipedia.org/wiki/Selection_algorithm
+ */
 template< typename TSubsample >
 typename TSubsample::MeasurementType
 QuickSelect(TSubsample * sample,
@@ -84,11 +118,19 @@ QuickSelect(TSubsample * sample,
             typename TSubsample::MeasurementType medianGuess);
 
 /** QuickSelect is an algorithm for finding the k-th largest element of a list.
+ *
  * In this case, only one of the components of the measurement vectors is
  * considered. This component is defined by the argument activeDimension. The
  * search is rectricted to the range between the index begin and end, also
  * passed as arguments.
- * http://en.wikipedia.org/wiki/Selection_algorithm. */
+ *
+ * The endIndex should point one point after the last elements. Note that kth
+ * is an index in a different scale than [beginIndex,endIndex]. For example,
+ * it is possible to feed this function with beginIndex=15, endIndex=23, and
+ * kth=3, since we can ask for the element 3rd in the range [15,23].
+ *
+ * \sa http://en.wikipedia.org/wiki/Selection_algorithm.
+ */
 template< typename TSubsample >
 typename TSubsample::MeasurementType
 QuickSelect(TSubsample *sample,
@@ -97,11 +139,13 @@ QuickSelect(TSubsample *sample,
             int kth);
 
 /** NthElement is an algorithm for finding the n-th largest element of a list.
+ *
  * In this case, only one of the components of the measurement vectors is
  * considered. This component is defined by the argument activeDimension. The
  * search is restricted to the range between the index begin and end, also
  * passed as arguments. This algorithm was based on the procedure used in the STL
- * nth_element method. */
+ * nth_element method.
+ */
 template< typename TSubsample >
 typename TSubsample::MeasurementType
 NthElement(TSubsample *sample,

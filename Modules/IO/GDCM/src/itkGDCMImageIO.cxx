@@ -105,86 +105,20 @@ GDCMImageIO::~GDCMImageIO()
   delete this->m_DICOMHeader;
 }
 
-bool GDCMImageIO::OpenGDCMFileForReading(std::ifstream & os,
-                                         const char *filename)
-{
-  // Make sure that we have a file to
-  if ( *filename == 0 )
-    {
-    itkExceptionMacro(<< "A FileName must be specified.");
-    }
-
-  // Close file from any previous image
-  if ( os.is_open() )
-    {
-    os.close();
-    }
-
-  // Open the new file for reading
-  itkDebugMacro(<< "Initialize: opening file " << filename);
-
-  // Actually open the file
-  os.open(filename, std::ios::in | std::ios::binary);
-
-  if ( os.fail() )
-    {
-    return false;
-    }
-
-  return true;
-}
-
-bool GDCMImageIO::OpenGDCMFileForWriting(std::ofstream & os,
-                                         const char *filename)
-{
-  // Make sure that we have a file to
-  if ( *filename == 0 )
-    {
-    itkExceptionMacro(<< "A FileName must be specified.");
-    }
-
-  // Close file from any previous image
-  if ( os.is_open() )
-    {
-    os.close();
-    }
-
-  // Open the new file for writing
-  itkDebugMacro(<< "Initialize: opening file " << filename);
-
-  // Actually open the file
-  os.open(filename, std::ios::out | std::ios::binary);
-
-  if ( os.fail() )
-    {
-    itkExceptionMacro( << "Could not open file: "
-                       << filename << " for writing."
-                       << std::endl
-                       << "Reason: "
-                       << itksys::SystemTools::GetLastSystemError() );
-    }
-
-  return true;
-}
-
 // This method will only test if the header looks like a
 // GDCM image file.
 bool GDCMImageIO::CanReadFile(const char *filename)
 {
   std::ifstream file;
-  std::string   fname(filename);
-
-  if (  fname == "" )
+  try
     {
-    itkDebugMacro(<< "No filename specified.");
-    return false;
+    this->OpenFileForReading( file, filename );
     }
-
-  //Check for file existence:
-  if ( !this->OpenGDCMFileForReading(file, filename) )
+  catch( ExceptionObject & )
     {
     return false;
     }
+
   //
   // sniff for the DICM signature first at 128
   // then at zero, and if either place has it then
@@ -240,11 +174,15 @@ bool GDCMImageIO::CanReadFile(const char *filename)
 
 void GDCMImageIO::Read(void *pointer)
 {
-  const char *filename = m_FileName.c_str();
+  // ensure file can be opened for reading, before doing any more work
+  std::ifstream inputFileStream;
+  // let any exceptions propagate
+  this->OpenFileForReading( inputFileStream, m_FileName );
+  inputFileStream.close();
 
   itkAssertInDebugAndIgnoreInReleaseMacro( gdcm::ImageHelper::GetForceRescaleInterceptSlope() );
   gdcm::ImageReader reader;
-  reader.SetFileName(filename);
+  reader.SetFileName( m_FileName.c_str() );
   if ( !reader.Read() )
     {
     itkExceptionMacro(<< "Cannot read requested file");
@@ -320,20 +258,19 @@ void GDCMImageIO::Read(void *pointer)
 }
 
 
-void GDCMImageIO::InternalReadImageInformation(std::ifstream & file)
+void GDCMImageIO::InternalReadImageInformation()
 {
-  //read header
-  if ( !this->OpenGDCMFileForReading( file, m_FileName.c_str() ) )
-    {
-    itkExceptionMacro(<< "Cannot read requested file");
-    }
+  // ensure file can be opened for reading, before doing any more work
+  std::ifstream inputFileStream;
+  // let any exceptions propagate
+  this->OpenFileForReading( inputFileStream, m_FileName );
+  inputFileStream.close();
 
   // In general this should be relatively safe to assume
   gdcm::ImageHelper::SetForceRescaleInterceptSlope(true);
 
-  const char *      filename = m_FileName.c_str();
   gdcm::ImageReader reader;
-  reader.SetFileName(filename);
+  reader.SetFileName( m_FileName.c_str() );
   if ( !reader.Read() )
     {
     itkExceptionMacro(<< "Cannot read requested file");
@@ -547,9 +484,7 @@ void GDCMImageIO::InternalReadImageInformation(std::ifstream & file)
 
 void GDCMImageIO::ReadImageInformation()
 {
-  std::ifstream file;
-
-  this->InternalReadImageInformation(file);
+  this->InternalReadImageInformation();
 }
 
 bool GDCMImageIO::CanWriteFile(const char *name)
@@ -598,13 +533,12 @@ void GDCMImageIO::WriteImageInformation()
 
 void GDCMImageIO::Write(const void *buffer)
 {
-  std::ofstream file;
+  // ensure file can be opened for writing, before doing any more work
+  std::ofstream outputFileStream;
+  // let any exceptions propagate
+  this->OpenFileForWriting( outputFileStream, m_FileName );
+  outputFileStream.close();
 
-  if ( !this->OpenGDCMFileForWriting( file, m_FileName.c_str() ) )
-    {
-    return;
-    }
-  file.close();
   // global static:
   gdcm::UIDGenerator::SetRoot( m_UIDPrefix.c_str() );
 
@@ -1070,8 +1004,7 @@ void GDCMImageIO::Write(const void *buffer)
       }
     }
 
-  const char *filename = m_FileName.c_str();
-  writer.SetFileName(filename);
+  writer.SetFileName( m_FileName.c_str() );
   if ( !writer.Write() )
     {
     itkExceptionMacro(<< "DICOM does not support this component type");

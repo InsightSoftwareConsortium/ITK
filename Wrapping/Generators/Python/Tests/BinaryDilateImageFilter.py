@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 #==========================================================================
 #
 #   Copyright Insight Software Consortium
@@ -17,21 +19,39 @@
 #==========================================================================*/
 
 #
-#  Example on the use of the BinaryDilateImageFilter
+#  Test BinaryDilateImageFilter
 #
 
+import sys
 import itk
-from sys import argv
 itk.auto_progress(2)
 
-dim = 2
-IType = itk.Image[itk.UC, dim]
+inputImage = sys.argv[1]
+outputImage = sys.argv[2]
+radiusValue = int(sys.argv[3])
 
-reader = itk.ImageFileReader[IType].New( FileName=argv[1] )
-kernel = itk.strel(dim, 5)
-filter  = itk.BinaryDilateImageFilter[IType, IType, kernel].New( reader,
-                DilateValue=200,
-                Kernel=kernel )
-writer = itk.ImageFileWriter[IType].New( filter, FileName=argv[2] )
+PixelType = itk.UC
+Dimension = 2
+
+ImageType = itk.Image[PixelType, Dimension]
+
+ReaderType = itk.ImageFileReader[ImageType]
+reader = ReaderType.New()
+reader.SetFileName(inputImage)
+
+StructuringElementType = itk.FlatStructuringElement[Dimension]
+structuringElement = StructuringElementType.Ball(radiusValue)
+
+DilateFilterType = itk.BinaryDilateImageFilter[
+    ImageType, ImageType, StructuringElementType]
+dilateFilter = DilateFilterType.New()
+dilateFilter.SetInput(reader.GetOutput())
+dilateFilter.SetKernel(structuringElement)
+dilateFilter.SetDilateValue(200)
+
+WriterType = itk.ImageFileWriter[ImageType]
+writer = WriterType.New()
+writer.SetFileName(outputImage)
+writer.SetInput(dilateFilter.GetOutput())
 
 writer.Update()

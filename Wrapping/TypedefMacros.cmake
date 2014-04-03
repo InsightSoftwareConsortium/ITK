@@ -1,5 +1,5 @@
 ################################################################################
-# Macro definitions for creating proper CableSwig input files from wrap_*.cmake
+# Macro definitions for creating proper Swig input files from wrap_*.cmake
 # files.
 # This file includes definitions for the macros to call from a CMakeList file
 # to cause wrap_*.cmake files to be turned into CXX files, and definitions for
@@ -69,10 +69,10 @@ macro(itk_wrap_module library_name)
   # not the full path or file name.
   set(WRAPPER_LIBRARY_GROUPS )
 
-  # WRAPPER_LIBRARY_CABLESWIG_INPUTS. List of C++ source files to be used
-  # as input for CableSwig. This list is then appended to by
+  # WRAPPER_LIBRARY_SWIG_INPUTS. List of C++ source files to be used
+  # as input for Swig. This list is then appended to by
   # WRAPPER_LIBRARY_AUTO_INCLUDE_WRAP_FILES. A full path to each input is required.
-  set(WRAPPER_LIBRARY_CABLESWIG_INPUTS )
+  set(WRAPPER_LIBRARY_SWIG_INPUTS )
 
   # WRAPPER_SWIG_LIBRARY_FILES. List of swig .swg files to pass to cswig to control
   # type handling and so forth. A full path to each include is required.
@@ -80,7 +80,7 @@ macro(itk_wrap_module library_name)
   set(WRAPPER_SWIG_LIBRARY_FILES )
 
   # WRAPPER_LIBRARY_SWIG_INPUTS. SWIG input files to be fed to swig (not
-  # CableSwig). A full path to each input is required.
+  # Swig). A full path to each input is required.
   set(WRAPPER_LIBRARY_SWIG_INPUTS )
 
   # WRAPPER_LIBRARY_CXX_SOURCES. C++ sources to be compiled and linked in
@@ -153,7 +153,7 @@ macro(itk_auto_load_submodules)
 
   # Include the wrap_*.cmake files in WRAPPER_LIBRARY_SOURCE_DIR. This causes
   # corresponding wrap_*.cxx files to be generated WRAPPER_LIBRARY_OUTPUT_DIR,
-  # and added to the WRAPPER_LIBRARY_CABLESWIG_INPUTS list.
+  # and added to the WRAPPER_LIBRARY_SWIG_INPUTS list.
   # In addition, this causes the other required wrap_*.cxx files for the entire
   # library and each wrapper language to be created.
   # Finally, this macro causes the language support files for the templates and
@@ -284,7 +284,7 @@ macro(itk_end_wrap_submodule)
   # Write the file, inless the included cmake file told us not to.
   # A file might declare WRAPPER_DO_NOT_CREATE_CXX if that cmake file
   # provides a custom wrap_*.cxx file and manually appends it to the
-  # WRAPPER_LIBRARY_CABLESWIG_INPUTS list; thus that file would not
+  # WRAPPER_LIBRARY_SWIG_INPUTS list; thus that file would not
   # need or want any cxx file generated.
 #   if(NOT WRAPPER_DO_NOT_CREATE_CXX)
 #     WRITE_WRAP_CXX("wrap_${module}.cxx")
@@ -405,7 +405,7 @@ macro(itk_wrap_named_class class swig_name)
 endmacro()
 
 macro(itk_wrap_simple_class class)
-  # Similar to itk_wrap_class in that it generates typedefs for CableSwig input.
+  # Similar to itk_wrap_class in that it generates typedefs for Swig input.
   # However, since no templates need to be declared, there's no need for
   # itk_wrap_class ... (declare templates) .. itk_end_wrap_class. Instead
   # itk_wrap_simple_class takes care of it all.
@@ -425,7 +425,7 @@ endmacro()
 
 
 macro(itk_wrap_named_simple_class class swig_name)
-  # Similar to itk_wrap_named_class in that it generates typedefs for CableSwig input.
+  # Similar to itk_wrap_named_class in that it generates typedefs for Swig input.
   # However, since no templates need to be declared, there's no need for
   # itk_wrap_class ... (declare templates) .. itk_end_wrap_class. Instead
   # itk_wrap_named_simple_class takes care of it all.
@@ -469,7 +469,7 @@ endmacro()
 macro(itk_end_wrap_class)
   # Parse through the list of WRAPPER_TEMPLATES set up by the macros at the bottom
   # of this file, turning them into proper C++ type definitions suitable for
-  # input to CableSwig. The C++ definitions are stored in WRAPPER_TYPEDEFS.
+  # input to Swig. The C++ definitions are stored in WRAPPER_TYPEDEFS.
   #
   # Global vars used: WRAPPER_CLASS WRAPPER_WRAP_METHOD WRAPPER_TEMPLATES WRAPPER_SWIG_NAME
   # Global vars modified: WRAPPER_TYPEDEFS
@@ -560,7 +560,7 @@ endmacro()
 # Macros which cause one or more template instantiations to be added to the
 # WRAPPER_TEMPLATES list. This list is initialized by the macro itk_wrap_class above,
 # and used by the macro itk_end_wrap_class to produce the wrap_xxx.cxx files with
-# the correct templates. These cxx files serve as the CableSwig inputs.
+# the correct templates. These cxx files serve as the Swig inputs.
 ################################################################################
 
 macro(itk_wrap_template name types)

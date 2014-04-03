@@ -26,7 +26,8 @@ namespace itk
 //-------------------------------------------------------------------
 template<typename TInternalComputationValueType>
 MultiGradientOptimizerv4Template<TInternalComputationValueType>
-::MultiGradientOptimizerv4Template()
+::MultiGradientOptimizerv4Template():
+  m_Stop(false)
 {
   this->m_NumberOfIterations = static_cast<SizeValueType>(0);
   this->m_CurrentIteration   = static_cast<SizeValueType>(0);

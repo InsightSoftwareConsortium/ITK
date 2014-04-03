@@ -134,6 +134,92 @@ const typename VersorRigid3DTransform<TScalar>::ParametersType
 template <typename TScalar>
 void
 VersorRigid3DTransform<TScalar>
+::UpdateTransformParameters( const DerivativeType & update, TScalar factor )
+{
+  SizeValueType numberOfParameters = this->GetNumberOfParameters();
+
+  if( update.Size() != numberOfParameters )
+    {
+    itkExceptionMacro("Parameter update size, " << update.Size() << ", must "
+                      " be same as transform parameter size, "
+                      << numberOfParameters << std::endl);
+    }
+
+  /* Make sure m_Parameters is updated to reflect the current values in
+   * the transform's other parameter-related variables. This is effective for
+   * managing the parallel variables used for storing parameter data,
+   * but inefficient. However for small global transforms, shouldn't be
+   * too bad. Dense-field transform will want to make sure m_Parameters
+   * is always updated whenever the transform is changed, so GetParameters
+   * can be skipped in their implementations of UpdateTransformParameters.
+   */
+  this->GetParameters();
+
+  VectorType rightPart;
+
+  for ( unsigned int i = 0; i < 3; i++ )
+    {
+    rightPart[i] = this->m_Parameters[i];
+    }
+
+  VersorType currentRotation;
+  currentRotation.Set(rightPart);
+
+  // The gradient indicate the contribution of each one
+  // of the axis to the direction of highest change in
+  // the function
+  VectorType axis;
+  axis[0] = update[0];
+  axis[1] = update[1];
+  axis[2] = update[2];
+
+  // gradientRotation is a rotation along the
+  // versor direction which maximize the
+  // variation of the cost function in question.
+  // An additional Exponentiation produce a jump
+  // of a particular length along the versor gradient
+  // direction.
+
+  VersorType gradientRotation;
+  gradientRotation.Set( axis, factor * axis.GetNorm() );
+
+  //
+  // Composing the currentRotation with the gradientRotation
+  // produces the new Rotation versor
+  //
+  VersorType newRotation = currentRotation * gradientRotation;
+
+  ParametersType newParameters( numberOfParameters );
+
+  newParameters[0] = newRotation.GetX();
+  newParameters[1] = newRotation.GetY();
+  newParameters[2] = newRotation.GetZ();
+
+  // Optimize the non-versor parameters as the
+  // RegularStepGradientDescentOptimizer
+  for ( unsigned int k = 3; k < numberOfParameters; k++ )
+    {
+    newParameters[k] = this->m_Parameters[k] + update[k] * factor;
+    }
+
+  /* Call SetParameters with the updated parameters.
+   * SetParameters in most transforms is used to assign the input params
+   * to member variables, possibly with some processing. The member variables
+   * are then used in TransformPoint.
+   * In the case of dense-field transforms that are updated in blocks from
+   * a threaded implementation, SetParameters doesn't do this, and is
+   * optimized to not copy the input parameters when == m_Parameters.
+   */
+  this->SetParameters( newParameters );
+
+  /* Call Modified, following behavior of other transform when their
+   * parameters change, e.g. MatrixOffsetTransformBase */
+  this->Modified();
+}
+
+template <typename TScalar>
+void
+VersorRigid3DTransform<TScalar>
 ::ComputeJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const
 {
   typedef typename VersorType::ValueType ValueType;

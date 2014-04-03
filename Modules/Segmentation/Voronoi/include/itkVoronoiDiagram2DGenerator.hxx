@@ -29,13 +29,24 @@ const double NUMERIC_TOLERENCE = 1.0e-10;
 const double DIFF_TOLERENCE = 0.001;
 
 template< typename TCoordRepType >
-VoronoiDiagram2DGenerator< TCoordRepType >::VoronoiDiagram2DGenerator()
-{
-  m_NumberOfSeeds = 0;
-  m_Pxmin = 0;
-  m_Pymin = 0;
-  m_OutputVD = this->GetOutput();
-}
+VoronoiDiagram2DGenerator< TCoordRepType >::VoronoiDiagram2DGenerator() :
+  m_NumberOfSeeds( 0 ),
+  m_OutputVD( this->GetOutput() ),
+  m_Pxmin( 0.0 ),
+  m_Pxmax( 0.0 ),
+  m_Pymin( 0.0 ),
+  m_Pymax( 0.0 ),
+  m_Deltax( 0.0 ),
+  m_Deltay( 0.0 ),
+  m_SqrtNSites( 0.0 ),
+  m_PQcount( 0 ),
+  m_PQmin( 0 ),
+  m_PQhashsize( 0 ),
+  m_Nedges( 0 ),
+  m_Nvert( 0 ),
+  m_BottomSite( NULL ),
+  m_ELhashsize( 0 )
+{}
 
 template< typename TCoordRepType >
 VoronoiDiagram2DGenerator< TCoordRepType >::
@@ -51,7 +62,6 @@ VoronoiDiagram2DGenerator< TCoordRepType >::PrintSelf(std::ostream & os, Indent 
      << m_NumberOfSeeds << std::endl;
 }
 
-/* Set random seed points. Specify the number of seeds as "num". */
 template< typename TCoordRepType >
 void
 VoronoiDiagram2DGenerator< TCoordRepType >::SetRandomSeeds(int num)
@@ -70,7 +80,6 @@ VoronoiDiagram2DGenerator< TCoordRepType >::SetRandomSeeds(int num)
   m_NumberOfSeeds = num;
 }
 
-/* Set the seed points. Specify the number of seeds as "num". */
 template< typename TCoordRepType >
 void
 VoronoiDiagram2DGenerator< TCoordRepType >::SetSeeds(int num,  SeedsIterator begin)
@@ -84,7 +93,6 @@ VoronoiDiagram2DGenerator< TCoordRepType >::SetSeeds(int num,  SeedsIterator beg
   m_NumberOfSeeds = num;
 }
 
-/* Set the rectangle that encloses the Voronoi Diagram. */
 template< typename TCoordRepType >
 void
 VoronoiDiagram2DGenerator< TCoordRepType >::SetBoundary(PointType vorsize)
@@ -103,7 +111,6 @@ VoronoiDiagram2DGenerator< TCoordRepType >::SetOrigin(PointType vorsize)
   m_OutputVD->SetOrigin(vorsize);
 }
 
-/* Compare point coordinates  in the y direction. */
 template< typename TCoordRepType >
 bool
 VoronoiDiagram2DGenerator< TCoordRepType >::comp(PointType arg1, PointType arg2)
@@ -116,6 +123,7 @@ VoronoiDiagram2DGenerator< TCoordRepType >::comp(PointType arg1, PointType arg2)
     {
     return 0;
     }
+  // arg1[1] == arg2[1]
   else if ( arg1[0] < arg2[0] )
     {
     return 1;
@@ -124,13 +132,13 @@ VoronoiDiagram2DGenerator< TCoordRepType >::comp(PointType arg1, PointType arg2)
     {
     return 0;
     }
+  // arg1[0] == arg2[0]
   else
     {
     return 0;
     }
 }
 
-/* Sort the seeds with their y coordinates. */
 template< typename TCoordRepType >
 void
 VoronoiDiagram2DGenerator< TCoordRepType >::SortSeeds(void)
@@ -138,10 +146,9 @@ VoronoiDiagram2DGenerator< TCoordRepType >::SortSeeds(void)
   std::sort(m_Seeds.begin(), m_Seeds.end(), comp);
 }
 
-/* Add seeds. Specify the number of seeds to be added as "num". */
 template< typename TCoordRepType >
 void
-VoronoiDiagram2DGenerator< TCoordRepType >::AddSeeds(int num,  SeedsIterator begin)
+VoronoiDiagram2DGenerator< TCoordRepType >::AddSeeds(int num, SeedsIterator begin)
 {
   SeedsIterator ii(begin);
 
@@ -152,7 +159,6 @@ VoronoiDiagram2DGenerator< TCoordRepType >::AddSeeds(int num,  SeedsIterator beg
   m_NumberOfSeeds += num;
 }
 
-/* Add one seed. */
 template< typename TCoordRepType >
 void
 VoronoiDiagram2DGenerator< TCoordRepType >::AddOneSeed(PointType inputSeed)
@@ -188,9 +194,6 @@ VoronoiDiagram2DGenerator< TCoordRepType >::UpdateDiagram(void)
 {
   this->GenerateData();
 }
-
-/** Methods to convert the result from Fortune Algorithm into
- * itkMesh structure. */
 
 template< typename TCoordRepType >
 bool
@@ -442,10 +445,6 @@ VoronoiDiagram2DGenerator< TCoordRepType >::ConstructDiagram(void)
 
   delete[] rawEdges;
 }
-
-/**
- * Generate Voronoi Diagram using Fortune's Method. (Sweep Line)
- * Infomations are stored in m_VertexList, m_EdgeList and m_LineList. */
 
 template< typename TCoordRepType >
 bool
@@ -831,7 +830,7 @@ template< typename TCoordRepType >
 void
 VoronoiDiagram2DGenerator< TCoordRepType >::clip_line(FortuneEdge *task)
 {
-/* clip line */
+  /* clip line */
   FortuneSite *s1;
   FortuneSite *s2;
   double       x1, y1, x2, y2;
@@ -1049,7 +1048,7 @@ VoronoiDiagram2DGenerator< TCoordRepType >::GenerateVDFortune(void)
     m_SeedSites[i].m_Coord = m_Seeds[i];
     m_SeedSites[i].m_Sitenbr = i;
     }
-/* Initialize Boundary. */
+  /* Initialize Boundary. */
   m_Pxmax = m_VorBoundary[0];
   m_Pymax = m_VorBoundary[1];
 

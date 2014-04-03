@@ -79,15 +79,8 @@ class vnl_diag_matrix
     return (i != j) ? T(0) : diagonal_[i];
   }
 
-  inline T& operator () (unsigned i, 
-//Need to avoid compiler bug by not supplying the value of j unless checking the assert.
-#ifdef NDEBUG
-unsigned
-#else
-unsigned j
-#endif
-) {
-    assert(i == j);
+  inline T& operator () (unsigned i, unsigned j) {
+    assert(i == j); (void)j;
     return diagonal_[i];
   }
   inline T& operator() (unsigned i) { return diagonal_[i]; }

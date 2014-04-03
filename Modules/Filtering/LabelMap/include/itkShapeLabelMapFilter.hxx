@@ -299,7 +299,7 @@ ShapeLabelMapFilter< TImage, TLabelImage >
   vnl_diag_matrix< double >           pm = eigen.D;
   for ( unsigned int i = 0; i < ImageDimension; i++ )
     {
-    principalMoments[i] = pm(i, i);
+    principalMoments[i] = pm(i);
     }
   MatrixType principalAxes = eigen.V.transpose();
 
@@ -311,7 +311,7 @@ ShapeLabelMapFilter< TImage, TLabelImage >
 
   for ( unsigned int i = 0; i < ImageDimension; i++ )
     {
-    det *= eigenval(i, i);
+    det *= eigenval(i);
     }
 
   for ( unsigned int i = 0; i < ImageDimension; i++ )

@@ -37,13 +37,17 @@ GE4ImageIO::~GE4ImageIO()
 bool GE4ImageIO::CanReadFile(const char *FileNameToRead)
 {
   char tmpStr[64];
-  //this->SetFileName(FileNameToRead);
-  std::ifstream f(FileNameToRead, std::ios::binary | std::ios::in);
 
-  if ( !f.is_open() )
+  std::ifstream f;
+  try
+    {
+    this->OpenFileForReading( f, FileNameToRead );
+    }
+  catch( ExceptionObject & )
     {
     return false;
     }
+
   // This is a weak heuristic but should only be true for GE4 files
   //
   // Get the Plane from the IMAGE Header.
@@ -103,40 +107,40 @@ GEImageHeader * GE4ImageIO::ReadHeader(const char *FileNameToRead)
 
   //
   // save off the name of the current file...
-  strncpy(hdr->filename, FileNameToRead, sizeof(hdr->filename));
+  strncpy(hdr->filename, FileNameToRead, sizeof(hdr->filename)-1);
+  hdr->filename[sizeof(hdr->filename)-1] = '\0';
 
   //
   // Next, can you open it?
-  std::ifstream f(FileNameToRead, std::ios::binary | std::ios::in);
-  //
-  // if any operation doesn't succeed we want to get the hell out.
-  // I guess since ReadImageInformation returns no error code, the
-  // only way out is to raise an exception
-  if ( !f.is_open() )
-    {
-    RAISE_EXCEPTION();
-    }
+
+  std::ifstream f;
+  this->OpenFileForReading( f, FileNameToRead );
+
   this->GetStringAt(f, SIGNA_STHDR_START * 2 + SIGNA_STHDR_DATE_ASCII * 2, tmpStr, 10);
   tmpStr[10] = '\0';
-  strncpy(hdr->date, tmpStr, sizeof(hdr->date));
-
   RGEDEBUG(std::sprintf (debugbuf, "Date = %s\n", tmpStr); cerr << debugbuf; )
+  strncpy(hdr->date, tmpStr, sizeof(hdr->date)-1);
+  hdr->date[sizeof(hdr->date)-1] = '\0';
+
   // Get Patient-Name from the STUDY Header
   this->GetStringAt(f, SIGNA_STHDR_START * 2 + SIGNA_STHDR_PATIENT_NAME * 2, tmpStr, 32);
   tmpStr[32] = '\0';
-  strncpy(hdr->hospital, tmpStr, sizeof(hdr->hospital));
+  strncpy(hdr->hospital, tmpStr, sizeof(hdr->hospital)-1);
+  hdr->hospital[sizeof(hdr->hospital)-1] = '\0';
 
   /* Get Patient-Number from the STUDY Header */
   this->GetStringAt(f, SIGNA_STHDR_START * 2 + SIGNA_STHDR_PATIENT_ID * 2, tmpStr, 12);
   tmpStr[12] = '\0';
   RGEDEBUG(std::sprintf (debugbuf, "Patient-Number = %s\n", tmpStr); cerr << debugbuf; )
-    strncpy(hdr->patientId, tmpStr, sizeof(hdr->patientId));
+  strncpy(hdr->patientId, tmpStr, sizeof(hdr->patientId)-1);
+  hdr->patientId[sizeof(hdr->patientId)-1] = '\0';
 
   /* Get the Exam-Number from the STUDY Header */
   this->GetStringAt(f, SIGNA_STHDR_START * 2 + SIGNA_STHDR_STUDY_NUM * 2, tmpStr, 6);
   tmpStr[6] = '\0';
   RGEDEBUG(std::sprintf (debugbuf, "Exam-Number = %s\n", tmpStr); cerr << debugbuf; )
-    strncpy(hdr->scanId, tmpStr, sizeof(hdr->scanId));
+  strncpy(hdr->scanId, tmpStr, sizeof(hdr->scanId)-1);
+  hdr->scanId[sizeof(hdr->scanId)-1] = '\0';
 
   /* Get the FOV from the SERIES Header */
   f.seekg (SIGNA_SEHDR_START * 2 + SIGNA_SEHDR_FOV * 2, std::ios::beg);
@@ -341,28 +345,21 @@ GEImageHeader * GE4ImageIO::ReadHeader(const char *FileNameToRead)
 float GE4ImageIO
 ::MvtSunf(int numb)
 {
-  float x;
-  int   dg_exp, dg_sign, dg_mantissa;
-  int   sun_exp, sun_num;
-
-#define signbit 020000000000
-#define dmantissa 077777777
-#define dexponent 0177
-#define dmantlen 24
-#define smantissa 037777777
-#define sexponent 0377
-#define smantlen 23
+#define signbit 020000000000U
+#define dmantissa 077777777U
+#define dexponent 0177U
+#define smantissa 037777777U
+#define smantlen 23U
   ByteSwapper< int >::SwapFromSystemToBigEndian(&numb);
-  dg_exp = ( numb >> 24 ) & dexponent;
-  dg_sign = numb & signbit;
-  dg_mantissa = ( numb & dmantissa ) << 8;
-  sun_exp = 4 * ( dg_exp - 64 );
+  unsigned int dg_exp = ( numb >> 24 ) & dexponent;
+  unsigned int dg_sign = numb & signbit;
+  unsigned int dg_mantissa = ( numb & dmantissa ) << 8;
+  int sun_exp = 4 * ( dg_exp - 64 );
   while ( ( dg_mantissa & signbit ) == 0 && dg_mantissa != 0 )
     {
     sun_exp--;
     dg_mantissa = dg_mantissa << 1;
     }
-  sun_num = 0;
   sun_exp += 126;
   if ( sun_exp < 0 )
     {
@@ -373,8 +370,9 @@ float GE4ImageIO
     sun_exp = 255;
     }
   dg_mantissa = dg_mantissa << 1;
-  sun_num = dg_sign | ( sun_exp << smantlen ) | ( ( dg_mantissa >> 9 ) & smantissa );
-  memcpy ( (void *)&x, (void *)&sun_num, sizeof( x ) );
-  return ( x );
+  int sun_num = dg_sign | ( sun_exp << smantlen ) | ( ( dg_mantissa >> 9 ) & smantissa );
+  float x;
+  memcpy ( &x, &sun_num, sizeof( x ) );
+  return x;
 }
 } // end namespace itk

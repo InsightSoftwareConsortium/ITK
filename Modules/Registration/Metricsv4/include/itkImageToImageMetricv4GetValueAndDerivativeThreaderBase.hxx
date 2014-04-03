@@ -27,7 +27,9 @@ namespace itk
 template< typename TDomainPartitioner, typename TImageToImageMetricv4 >
 ImageToImageMetricv4GetValueAndDerivativeThreaderBase< TDomainPartitioner, TImageToImageMetricv4 >
 ::ImageToImageMetricv4GetValueAndDerivativeThreaderBase():
-  m_GetValueAndDerivativePerThreadVariables( NULL )
+  m_GetValueAndDerivativePerThreadVariables( NULL ),
+  m_CachedNumberOfParameters( 0 ),
+  m_CachedNumberOfLocalParameters( 0 )
 {
 }
 

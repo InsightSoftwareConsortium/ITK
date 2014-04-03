@@ -33,7 +33,13 @@ namespace itk
  *          Use vtkTriangleFilter to convert your mesh to a triangle mesh.
  * Caviet2: itkVTKPolyDataReader can only read vtk legacy files.
  * Caveat3: itkVTKPolyDataReader cannot read binary vtk files.
+ *
+ * This class may be deprecated in the future. The MeshFileReader is
+ * preferred.
+ *
  * \ingroup ITKMesh
+ *
+ * \sa MeshFileReader
  */
 template< typename TOutputMesh >
 class VTKPolyDataReader:public MeshSource< TOutputMesh >

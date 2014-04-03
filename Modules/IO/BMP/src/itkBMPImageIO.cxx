@@ -87,8 +87,11 @@ bool BMPImageIO::CanReadFile(const char *filename)
 
   // Now check the content
   std::ifstream inputStream;
-  inputStream.open(filename, std::ios::in | std::ios::binary);
-  if ( inputStream.fail() )
+  try
+    {
+    this->OpenFileForReading( inputStream, fname );
+    }
+  catch( ExceptionObject & )
     {
     return false;
     }
@@ -197,7 +200,7 @@ void BMPImageIO::Read(void *buffer)
   unsigned long l = 0;
   char *        value;
 
-  m_Ifstream.open(m_FileName.c_str(), std::ios::in | std::ios::binary);
+  this->OpenFileForReading( m_Ifstream, m_FileName );
 
   // If the file is RLE compressed
   // RLE-compressed files are lower-left
@@ -348,15 +351,7 @@ void BMPImageIO::ReadImageInformation()
   int   itmp;      // in case we are on a 64bit machine
 
   // Now check the content
-  m_Ifstream.open(m_FileName.c_str(), std::ios::in | std::ios::binary);
-  if ( m_Ifstream.fail() )
-    {
-    itkExceptionMacro( "BMPImageIO could not open file: "
-                       << this->GetFileName() << " for reading."
-                       << std::endl
-                       << "Reason: "
-                       << itksys::SystemTools::GetLastSystemError() );
-    }
+  this->OpenFileForReading( m_Ifstream, m_FileName );
 
   char magic_number1, magic_number2;
   m_Ifstream.read( (char *)&magic_number1, sizeof( char ) );
@@ -366,7 +361,6 @@ void BMPImageIO::ReadImageInformation()
     {
     m_Ifstream.close();
     itkExceptionMacro("BMPImageIO : Magic Number Fails = " << magic_number1 << " : " << magic_number2);
-    return;
     }
 
   // get the size of the file
@@ -402,7 +396,6 @@ void BMPImageIO::ReadImageInformation()
       {
       itkExceptionMacro(<< "Unknown file type! " << m_FileName.c_str()
                         << " is not a Windows BMP file!");
-      return;
       }
 
     // there are two different types of BMP files
@@ -436,8 +429,6 @@ void BMPImageIO::ReadImageInformation()
       {
       itkExceptionMacro(<< "Unknown file type! " << m_FileName.c_str()
                         << " is not a Windows BMP file!");
-      m_Ifstream.close();
-      return;
       }
 
     // there are two different types of BMP files
@@ -486,7 +477,6 @@ void BMPImageIO::ReadImageInformation()
     {
     m_Ifstream.close();
     itkExceptionMacro("Only BMP depths of (8,24,32) are supported. Not " << m_Depth);
-    return;
     }
 
   if ( infoSize == 40 )
@@ -539,7 +529,6 @@ void BMPImageIO::ReadImageInformation()
     {
     m_Ifstream.close();
     itkExceptionMacro("Compressed BMP are not supposed to be upper-left.");
-    return;
     }
 
   // Read the color palette. Only used for 1,4 and 8 bit images.
@@ -744,14 +733,7 @@ BMPImageIO
     itkExceptionMacro(<< "BMPImageIO supports 1,3 or 4 components only");
     }
 
-  m_Ofstream.open(m_FileName.c_str(), std::ios::binary | std::ios::out);
-  if ( m_Ofstream.fail() )
-    {
-    itkExceptionMacro( << "File: " << this->GetFileName() << " cannot be written."
-                       << std::endl
-                       << "Reason: "
-                       << itksys::SystemTools::GetLastSystemError() );
-    }
+  this->OpenFileForWriting( m_Ofstream, m_FileName );
 
   //
   //

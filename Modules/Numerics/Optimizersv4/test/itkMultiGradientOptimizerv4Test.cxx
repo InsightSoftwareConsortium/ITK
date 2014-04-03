@@ -61,9 +61,9 @@ public:
   typedef Superclass::DerivativeType        DerivativeType;
   typedef Superclass::MeasureType           MeasureType;
 
-  MultiGradientOptimizerv4TestMetric()
-  {
-  }
+  MultiGradientOptimizerv4TestMetric() :
+    m_Parameters(NULL)
+  {}
 
   void Initialize(void) throw ( itk::ExceptionObject ) {}
 
@@ -166,9 +166,9 @@ public:
   typedef Superclass::DerivativeType        DerivativeType;
   typedef Superclass::MeasureType           MeasureType;
 
-  MultiGradientOptimizerv4TestMetric2()
-  {
-  }
+  MultiGradientOptimizerv4TestMetric2() :
+    m_Parameters(NULL)
+  {}
 
   void Initialize(void) throw ( itk::ExceptionObject ) {}
 

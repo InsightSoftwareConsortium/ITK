@@ -113,8 +113,11 @@ bool GiplImageIO::CanReadFile(const char *filename)
   if ( m_IsCompressed == false )
     {
     std::ifstream inputStream;
-    inputStream.open(filename, std::ios::in | std::ios::binary);
-    if ( inputStream.fail() )
+    try
+      {
+      this->OpenFileForReading( inputStream, filename );
+      }
+    catch( ExceptionObject & )
       {
       return false;
       }
@@ -269,13 +272,7 @@ void GiplImageIO::ReadImageInformation()
     }
   else
     {
-    m_Ifstream.open(m_FileName.c_str(), std::ios::in | std::ios::binary);
-    if ( m_Ifstream.fail() )
-      {
-      ExceptionObject exception(__FILE__, __LINE__);
-      exception.SetDescription("File cannot be read");
-      throw exception;
-      }
+    this->OpenFileForReading( m_Ifstream, m_FileName );
     }
 
   unsigned short dims[4];
@@ -731,13 +728,7 @@ GiplImageIO
     }
   else
     {
-    m_Ofstream.open(m_FileName.c_str(), std::ios::binary | std::ios::out);
-    if ( m_Ofstream.fail() )
-      {
-      ExceptionObject exception(__FILE__, __LINE__);
-      exception.SetDescription("File cannot be write");
-      throw exception;
-      }
+    this->OpenFileForWriting( m_Ofstream, m_FileName );
     }
 
   for (unsigned int i = 0; i < 4; i++ )

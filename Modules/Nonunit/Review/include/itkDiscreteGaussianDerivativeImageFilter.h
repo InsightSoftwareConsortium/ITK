@@ -205,8 +205,7 @@ protected:
    * provide an implementation for GenerateInputRequestedRegion() in
    * order to inform the pipeline execution model.
    * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion()
-  throw( InvalidRequestedRegionError );
+  virtual void GenerateInputRequestedRegion();
 
   /** Standard pipeline method. While this class does not implement a
    * ThreadedGenerateData(), its GenerateData() delegates all

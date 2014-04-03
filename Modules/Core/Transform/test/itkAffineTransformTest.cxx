@@ -26,8 +26,6 @@ typedef  itk::Vector<double, 2>    Vector2Type;
 namespace
 {
 
-const double epsilon = 1e-10;
-
 void PrintVector( const Vector2Type & v )
 {
   for( unsigned int i = 0; i < Vector2Type::Dimension; i++ )
@@ -37,8 +35,13 @@ void PrintVector( const Vector2Type & v )
   std::cout << std::endl;
 }
 
+bool testValue( const double v1, const double v2, int maxUlps=4 )
+{
+  return itk::Math::FloatAlmostEqual( v1, v2, maxUlps );
+}
+
 template <typename TMatrix>
-bool testMatrix( const TMatrix & m1, const TMatrix & m2 )
+bool testMatrix( const TMatrix & m1, const TMatrix & m2, int maxUlps=4 )
 {
   bool pass = true;
 
@@ -46,7 +49,7 @@ bool testMatrix( const TMatrix & m1, const TMatrix & m2 )
     {
     for( unsigned int j = 0; j < TMatrix::ColumnDimensions; j++ )
       {
-      if( vcl_fabs( m1[i][j] - m2[i][j] ) > epsilon )
+      if( !testValue( m1[i][j], m2[i][j], maxUlps ) )
         {
         pass = false;
         }
@@ -56,13 +59,13 @@ bool testMatrix( const TMatrix & m1, const TMatrix & m2 )
 }
 
 template <typename TVector>
-bool testVector( const TVector & v1, const TVector & v2 )
+bool testVector( const TVector & v1, const TVector & v2, int maxUlps=4 )
 {
   bool pass = true;
 
   for( unsigned int i = 0; i < TVector::Dimension; i++ )
     {
-    if( vcl_fabs( v1[i] - v2[i] ) > epsilon )
+    if( !testValue( v1[i], v2[i], maxUlps ) )
       {
       pass = false;
       }
@@ -71,7 +74,7 @@ bool testVector( const TVector & v1, const TVector & v2 )
 }
 
 template <typename TVector>
-bool testVariableVector( const TVector & v1, const TVector & v2 )
+bool testVariableVector( const TVector & v1, const TVector & v2, int maxUlps=4 )
 {
   bool               pass = true;
   const unsigned int D1 = v1.Size();
@@ -83,17 +86,12 @@ bool testVariableVector( const TVector & v1, const TVector & v2 )
     }
   for( unsigned int i = 0; i < D1; i++ )
     {
-    if( vcl_fabs( v1[i] - v2[i] ) > epsilon )
+    if( !testValue( v1[i], v2[i], maxUlps ) )
       {
       pass = false;
       }
     }
   return pass;
-}
-
-bool testValue( const double v1, const double v2 )
-{
-  return vcl_fabs( v1 - v2 ) <= epsilon;
 }
 
 } // namespace
@@ -105,7 +103,8 @@ int itkAffineTransformTest(int, char *[])
       has been well-tested by other means already. */
 
   /* Set outstream precision */
-  std::streamsize previousPrecision = std::cout.precision(14);
+  std::streamsize previousPrecisionCout = std::cout.precision(20);
+  std::streamsize previousPrecisionCerr = std::cerr.precision(20);
 
   int any = 0;         // Any errors detected in testing?
 
@@ -135,7 +134,7 @@ int itkAffineTransformTest(int, char *[])
   vector2Truth[0] = 0;
   vector2Truth[1] = 0;
 
-  if( !testMatrix( matrix2, matrix2Truth) ||
+  if( !testMatrix( matrix2, matrix2Truth ) ||
       !testVector( vector2, vector2Truth ) )
     {
     std::cout << "Default identity transformation test failed." << std::endl;
@@ -182,8 +181,8 @@ int itkAffineTransformTest(int, char *[])
   vector2Truth[0] = 4;
   vector2Truth[1] = -4.5;
 
-  if( !testMatrix( affInv2->GetMatrix(), matrix2Truth ) ||
-      !testVector( affInv2->GetOffset(), vector2Truth ) )
+  if( !testMatrix( affInv2->GetMatrix(), matrix2Truth, 7 ) ||
+      !testVector( affInv2->GetOffset(), vector2Truth, 6 ) )
     {
     std::cout << "Inverse transform test failed." << std::endl;
     return EXIT_FAILURE;
@@ -309,7 +308,7 @@ int itkAffineTransformTest(int, char *[])
   vector2Truth[0] = 6;
   vector2Truth[1] = 2.8;
 
-  if( !testMatrix( aff2->GetMatrix(), matrix2Truth ) ||
+  if( !testMatrix( aff2->GetMatrix(), matrix2Truth, 100 ) ||
       !testVector( aff2->GetOffset(), vector2Truth ) )
     {
     std::cout << "Composition with a general N-D rotation test failed."
@@ -460,7 +459,7 @@ int itkAffineTransformTest(int, char *[])
 
   v4T[0] = -379.16666666679;
   v4T[1] = 604.16666666687;
-  if( !testVector( v4, v4T ) )
+  if( !testVector( v4, v4T, 4000 ) )
     {
     std::cout << "Transform a covariant vector test failed." << std::endl;
     return EXIT_FAILURE;
@@ -478,7 +477,7 @@ int itkAffineTransformTest(int, char *[])
 
   m4T[0] = -379.16666666679;
   m4T[1] = 604.16666666687;
-  if( !testVariableVector( m4, m4T ) )
+  if( !testVariableVector( m4, m4T, 4000) )
     {
     std::cout << "Transform a variable length covariant vector test failed." << std::endl;
     return EXIT_FAILURE;
@@ -512,7 +511,7 @@ int itkAffineTransformTest(int, char *[])
   matrix3Truth[2][1] = 0.63905606430472;
   matrix3Truth[2][2] = 0.69353487057876;
 
-  if( !testMatrix( aff3->GetMatrix(), matrix3Truth ) )
+  if( !testMatrix( aff3->GetMatrix(), matrix3Truth, 30 ) )
     {
     std::cout << "3D transform rotation test failed." << std::endl;
     return EXIT_FAILURE;
@@ -538,7 +537,7 @@ int itkAffineTransformTest(int, char *[])
   matrix3Truth[2][1] = -0.33259093488348;
   matrix3Truth[2][2] = 0.69353487057876;
 
-  if( !testMatrix( inv3->GetMatrix(), matrix3Truth ) )
+  if( !testMatrix( inv3->GetMatrix(), matrix3Truth, 40 ) )
     {
     std::cout << "Compute inverse test failed." << std::endl;
     return EXIT_FAILURE;
@@ -554,7 +553,7 @@ int itkAffineTransformTest(int, char *[])
   std::cout << "Create an inverse transformation:" << std::endl;
   inv4->Print( std::cout );
 
-  if( !testMatrix( inv4->GetMatrix(), matrix3Truth ) )
+  if( !testMatrix( inv4->GetMatrix(), matrix3Truth, 35 ) )
     {
     std::cout << "Compute inverse test failed - inv4." << std::endl;
     return EXIT_FAILURE;
@@ -708,7 +707,7 @@ int itkAffineTransformTest(int, char *[])
     expectedParameters[3] = 1.0;
     for( unsigned int k = 0; k < transform->GetNumberOfParameters(); k++ )
       {
-      if( vcl_fabs( parameters2[k] - expectedParameters[k] ) > epsilon )
+      if( ! testValue( parameters2[k], expectedParameters[k] ) )
         {
         std::cout << "Test failed:" << std::endl;
         std::cout << "Results=" << parameters2 << std::endl;
@@ -727,7 +726,7 @@ int itkAffineTransformTest(int, char *[])
     parameters2 = transform->GetParameters();
     for( unsigned int k = 0; k < transform->GetNumberOfParameters(); k++ )
       {
-      if( vcl_fabs( parameters2[k] - expectedParameters[k] ) > epsilon )
+      if( !testValue( parameters2[k], expectedParameters[k] ) )
         {
         std::cout << "Test failed:" << std::endl;
         std::cout << "Results=" << parameters2 << std::endl;
@@ -761,7 +760,7 @@ int itkAffineTransformTest(int, char *[])
     otherbis->Print( std::cout );
     for( unsigned int k = 0; k < transform->GetNumberOfParameters(); k++ )
       {
-      if( vcl_fabs( parameters2[k] - expectedParameters[k] ) > epsilon )
+      if( !testValue( parameters2[k], expectedParameters[k] ) )
         {
         std::cout << "Test failed:" << std::endl;
         std::cout << "Results=" << parameters2 << std::endl;
@@ -772,7 +771,7 @@ int itkAffineTransformTest(int, char *[])
       }
     for( unsigned int k = 0; k < transform->GetNumberOfParameters(); k++ )
       {
-      if( vcl_fabs( parameters2bis[k] - expectedParameters[k] ) > epsilon )
+      if( !testValue( parameters2bis[k], expectedParameters[k] ) )
         {
         std::cout << "Test failed:" << std::endl;
         std::cout << "Results=" << parameters2bis << std::endl;
@@ -810,7 +809,8 @@ int itkAffineTransformTest(int, char *[])
     }
 
   // restore previous outstream precision
-  std::cout.precision(previousPrecision);
+  std::cout.precision(previousPrecisionCout);
+  std::cerr.precision(previousPrecisionCerr);
 
   return any;
 }

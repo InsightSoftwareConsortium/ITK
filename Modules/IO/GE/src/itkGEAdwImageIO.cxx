@@ -42,15 +42,19 @@ bool GEAdwImageIO::CanReadFile(const char *FileNameToRead)
   short  matrixX;
   short  matrixY;
   int    varHdrSize;
-  //this->SetFileName(FileNameToRead);
+
   //
   // Can you open it?
-  std::ifstream f(FileNameToRead, std::ios::binary | std::ios::in);
-
-  if ( !f.is_open() )
+  std::ifstream f;
+  try
+    {
+    this->OpenFileForReading( f, FileNameToRead );
+    }
+  catch( ExceptionObject & )
     {
     return false;
     }
+
   //
   // This test basically snoops out the image dimensions, and the
   // length of the variable-length part of the header, and computes
@@ -101,11 +105,9 @@ GEImageHeader * GEAdwImageIO::ReadHeader(const char *FileNameToRead)
     }
   //
   // Next, can you open it?
-  std::ifstream f(FileNameToRead, std::ios::binary | std::ios::in);
-  if ( !f.is_open() )
-    {
-    RAISE_EXCEPTION();
-    }
+  std::ifstream f;
+  this->OpenFileForReading( f, FileNameToRead );
+
   sprintf(hdr->scanner, "GE-ADW");
   this->GetStringAt(f, GE_ADW_EX_PATID, tmpbuf, 12);
   tmpbuf[12] = '\0';

@@ -27,53 +27,65 @@ bool CheckFileNameParsing(const std::string & fileName,
 {
   // the current kwsys way...
   std::cout << "(kwsys) Extracting...file name...";
-  std::string fileNameString =
-    itksys::SystemTools::GetFilenameWithoutLastExtension
-    (itksys::SystemTools::GetFilenameName(fileName));
-  char* nameOnly = new char[fileNameString.size() + 1];
-  std::strncpy(nameOnly, fileNameString.c_str(),fileNameString.size() + 1);
-  std::cout << "extension...";
-  std::string extensionString =
-    itksys::SystemTools::GetFilenameLastExtension(fileName);
-  // NB: remove the period (kwsys leaves it on, ITK precedent was to
-  // remove it)
-  char* extension = new char[extensionString.size()+1];
-  if (extensionString.length()>0)
-    {
-    std::strncpy(extension, extensionString.c_str()+1,extensionString.size()+1);
-    }
-  else
-    {
-    extension[0]=0;
-    }
-  std::cout << "path...";
-  std::string pathString = itksys::SystemTools::GetFilenamePath(fileName);
-#ifdef _WIN32
-  for (size_t i = 0; i < pathString.size(); i++)
-    {
-    if (pathString[i] == '/')
-      {
-      pathString[i] = '\\';
-      }
-    }
-#endif
-  // NB: add trailing slash iff the result is non-empty (kwsys always
-  // removes it, ITK precedent was to keep it)
-  if (pathString.size() > 1)
+  char* nameOnly;
   {
-#if defined(_WIN32)
-    pathString = pathString + "\\";
-#else
-    pathString = pathString + "/";
-#endif
+    std::string fileNameString =
+      itksys::SystemTools::GetFilenameWithoutLastExtension(
+        itksys::SystemTools::GetFilenameName(fileName));
+    nameOnly = new char[fileNameString.size() + 1];
+    std::strncpy(nameOnly, fileNameString.c_str(), fileNameString.size() + 1);
   }
-  char* path = new char[pathString.size() + 1];
-  std::strncpy(path, pathString.c_str(),pathString.size() + 1);
+
+  std::cout << "extension...";
+  char* extension;
+  {
+    std::string extensionString =
+      itksys::SystemTools::GetFilenameLastExtension(fileName);
+    // NB: remove the period (kwsys leaves it on, ITK precedent was to
+    // remove it)
+    extension = new char[extensionString.size()+1];
+    if ( !extensionString.empty() )
+      {
+      std::strncpy(extension, extensionString.c_str()+1, extensionString.size()+1);
+      }
+    else
+      {
+      extension[0] = '\0';
+      }
+  }
+
+  std::cout << "path...";
+  char* path;
+  {
+    std::string pathString = itksys::SystemTools::GetFilenamePath(fileName);
+#ifdef _WIN32
+    for (size_t i = 0; i < pathString.size(); i++)
+      {
+      if (pathString[i] == '/')
+        {
+        pathString[i] = '\\';
+        }
+      }
+#endif
+    // NB: add trailing slash iff the result is non-empty (kwsys always
+    // removes it, ITK precedent was to keep it)
+    if (pathString.size() > 1)
+    {
+  #if defined(_WIN32)
+      pathString = pathString + "\\";
+  #else
+      pathString = pathString + "/";
+  #endif
+    }
+    path = new char[pathString.size() + 1];
+    std::strncpy(path, pathString.c_str(),pathString.size() + 1);
+  }
+
   std::cout << "DONE" << std::endl;
 
   std::cout << "Comparing...file name...";
   bool nameMatches;
-  if (nameOnly == NULL)
+  if ( strlen(nameOnly) == 0 )
     {
     nameMatches = correctNameOnly.size() == 0;
     }
@@ -84,7 +96,7 @@ bool CheckFileNameParsing(const std::string & fileName,
 
   std::cout << "extension...";
   bool extensionMatches;
-  if (extension == NULL)
+  if ( strlen(extension) == 0 )
     {
     extensionMatches = correctExtension.size() == 0;
     }
@@ -95,7 +107,7 @@ bool CheckFileNameParsing(const std::string & fileName,
 
   std::cout << "path...";
   bool pathMatches;
-  if (path == NULL)
+  if ( strlen(path) == 0 )
     {
     pathMatches = correctPath.size() == 0;
     }
