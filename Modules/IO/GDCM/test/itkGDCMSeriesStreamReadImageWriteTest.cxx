@@ -42,7 +42,7 @@ static bool IsEqualTolerant(const float lm, const float rm, double tol) {
      vcl_fabs(rm) < vcl_numeric_limits<float>::epsilon());
  }
 
-int itkGDCMSeriesStreamReadImageWrite( int argc, char* argv[] )
+int itkGDCMSeriesStreamReadImageWriteTest( int argc, char* argv[] )
 {
   if( argc < 6 )
     {

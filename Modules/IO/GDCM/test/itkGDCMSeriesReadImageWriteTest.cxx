@@ -29,7 +29,7 @@
 #include "itkGDCMImageIO.h"
 #include "itkGDCMSeriesFileNames.h"
 
-int itkGDCMSeriesReadImageWrite( int argc, char* argv[] )
+int itkGDCMSeriesReadImageWriteTest( int argc, char* argv[] )
 {
   if( argc < 3 )
     {
