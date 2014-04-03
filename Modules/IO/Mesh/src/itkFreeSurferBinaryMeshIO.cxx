@@ -282,7 +282,6 @@ FreeSurferBinaryMeshIO
   if ( this->m_FileName == "" )
     {
     itkExceptionMacro("No Input FileName");
-    return;
     }
 
   // Write to output file
@@ -293,7 +292,6 @@ FreeSurferBinaryMeshIO
     {
     itkExceptionMacro("Unable to open file\n"
                       "outputFilename= " << this->m_FileName);
-    return;
     }
 
   if ( this->m_UpdatePoints && this->m_UpdateCells )
@@ -339,7 +337,6 @@ FreeSurferBinaryMeshIO
   if ( this->m_FileName == "" )
     {
     itkExceptionMacro("No Input FileName");
-    return;
     }
 
   // Write to output file
@@ -349,7 +346,6 @@ FreeSurferBinaryMeshIO
     {
     itkExceptionMacro("Unable to open file\n"
                       "outputFilename= " << this->m_FileName);
-    return;
     }
 
   // Write points

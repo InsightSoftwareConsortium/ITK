@@ -638,7 +638,6 @@ void VTKImageIO::WriteImageInformation( const void *itkNotUsed(buffer) )
   if ( numDims < 1 || numDims > 3 )
     {
     itkExceptionMacro(<< "VTK Writer can only write 1, 2 or 3-dimensional images");
-    return;
     }
 
   // Write the VTK header information

@@ -55,17 +55,7 @@ bool mammal::operator== (mammal &o)
     e.SetDescription("Cannot compare mammals of unequal type");
     throw e;
     }
-  else
-    {
-    if ( /* blah blah blah */ 1)
-      {
-      return true;
-      }
-    else
-      {
-      return false;
-      }
-    }
+  return true;
 }
 
 int lookup(const int& i)

@@ -332,7 +332,6 @@ unsigned int ImageIOBase::GetPixelSize() const
     {
     itkExceptionMacro ("Unknown pixel or component type: ("
                        << m_PixelType << ", " << m_ComponentType << ")");
-    return 0;
     }
 
   return this->GetComponentSize() * this->GetNumberOfComponents();
@@ -366,8 +365,6 @@ unsigned int ImageIOBase::GetComponentSize() const
     default:
       itkExceptionMacro ("Unknown component type: " << m_ComponentType);
     }
-
-  return 0;
 }
 
 std::string ImageIOBase::GetFileTypeAsString(FileType t) const

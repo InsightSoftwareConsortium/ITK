@@ -361,7 +361,6 @@ void BMPImageIO::ReadImageInformation()
     {
     m_Ifstream.close();
     itkExceptionMacro("BMPImageIO : Magic Number Fails = " << magic_number1 << " : " << magic_number2);
-    return;
     }
 
   // get the size of the file
@@ -397,7 +396,6 @@ void BMPImageIO::ReadImageInformation()
       {
       itkExceptionMacro(<< "Unknown file type! " << m_FileName.c_str()
                         << " is not a Windows BMP file!");
-      return;
       }
 
     // there are two different types of BMP files
@@ -479,7 +477,6 @@ void BMPImageIO::ReadImageInformation()
     {
     m_Ifstream.close();
     itkExceptionMacro("Only BMP depths of (8,24,32) are supported. Not " << m_Depth);
-    return;
     }
 
   if ( infoSize == 40 )
@@ -532,7 +529,6 @@ void BMPImageIO::ReadImageInformation()
     {
     m_Ifstream.close();
     itkExceptionMacro("Compressed BMP are not supposed to be upper-left.");
-    return;
     }
 
   // Read the color palette. Only used for 1,4 and 8 bit images.

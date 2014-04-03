@@ -298,7 +298,6 @@ VTKPolyDataMeshIO
         {
         itkExceptionMacro("ERROR: numberOfLines < 1\n "
                           << "numberOfLines= " << numberOfLines);
-        return;
         }
 
       if ( numberOfLineIndices < numberOfLines )
@@ -306,7 +305,6 @@ VTKPolyDataMeshIO
         itkExceptionMacro("ERROR: numberOfLineIndices < numberOfLines\n"
                           << "numberOfLineIndices= " << numberOfLineIndices << "\n"
                           << "numberOfLines= " << numberOfLines);
-        return;
         }
 
       // Set cell component type
@@ -337,7 +335,6 @@ VTKPolyDataMeshIO
         {
         itkExceptionMacro("ERROR: numberOfPolygons < 1\n "
                           << "numberOfPolygons= " << numberOfPolygons);
-        return;
         }
 
       if ( numberOfPolygonIndices < numberOfPolygons )
@@ -345,7 +342,6 @@ VTKPolyDataMeshIO
         itkExceptionMacro("ERROR: numberOfPolygonIndices < numberOfPolygons\n"
                           << "numberOfPolygonIndices= " << numberOfPolygonIndices << "\n"
                           << "numberOfPolygons= " << numberOfPolygons);
-        return;
         }
 
       // Set cell component type

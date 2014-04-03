@@ -180,8 +180,6 @@ PredTypeToComponentType(H5::DataType &type)
     }
   itkGenericExceptionMacro(<< "unsupported data type "
                            << type.fromClass());
-  // never reached but silences warning
-  return ImageIOBase::UCHAR;
 }
 
 H5::PredType

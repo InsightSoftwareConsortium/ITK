@@ -241,7 +241,6 @@ void MultiThreader::SingleMethodExecute()
   if ( !m_SingleMethod )
     {
     itkExceptionMacro(<< "No single method set!");
-    return;
     }
 
   // obey the global maximum number of threads limit
