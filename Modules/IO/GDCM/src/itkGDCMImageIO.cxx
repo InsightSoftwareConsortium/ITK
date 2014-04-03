@@ -651,8 +651,9 @@ void GDCMImageIO::Write(const void *buffer)
       else if ( key == ITK_Origin )
         {
         typedef Array< double > DoubleArrayType;
-        DoubleArrayType originArray;
+        DoubleArrayType originArray( 3 );
         ExposeMetaData< DoubleArrayType >(dict, key, originArray);
+        m_Origin.resize( 3 );
         m_Origin[0] = originArray[0];
         m_Origin[1] = originArray[1];
         m_Origin[2] = originArray[2];
@@ -660,8 +661,9 @@ void GDCMImageIO::Write(const void *buffer)
       else if ( key == ITK_Spacing )
         {
         typedef Array< double > DoubleArrayType;
-        DoubleArrayType spacingArray;
+        DoubleArrayType spacingArray( 3 );
         ExposeMetaData< DoubleArrayType >(dict, key, spacingArray);
+        m_Spacing.resize( 3 );
         m_Spacing[0] = spacingArray[0];
         m_Spacing[1] = spacingArray[1];
         m_Spacing[2] = spacingArray[2];
@@ -688,10 +690,7 @@ void GDCMImageIO::Write(const void *buffer)
 
     ++itr;
     }
-  //std::cout << header << std::endl;
 
-  //this->SetNumberOfDimensions(3);
-  //gdcm::Image &image = writer.GetImage();
   gdcm::SmartPointer< gdcm::Image > simage = new gdcm::Image;
   gdcm::Image &                     image = *simage;
   image.SetNumberOfDimensions(2);   // good default
@@ -700,7 +699,7 @@ void GDCMImageIO::Write(const void *buffer)
   //image.SetDimension(2, m_Dimensions[2] );
   image.SetSpacing(0, m_Spacing[0]);
   image.SetSpacing(1, m_Spacing[1]);
-  if ( m_NumberOfDimensions > 2 && m_Dimensions[2] != 1 )
+  if ( m_Spacing.size() > 2 )
     {
     image.SetSpacing(2, m_Spacing[2]);
     }

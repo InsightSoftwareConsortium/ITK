@@ -3,6 +3,7 @@ set(ITKIOGDCMTests
 itkGDCMImageIOTest.cxx
 itkGDCMImageIOTest2.cxx
 itkGDCMImageIONoCrashTest.cxx
+itkGDCMImageReadSeriesWriteTest.cxx
 itkGDCMSeriesReadImageWriteTest.cxx
 itkGDCMSeriesMissingDicomTagTest.cxx
 itkGDCMSeriesStreamReadImageWriteTest.cxx
@@ -53,6 +54,15 @@ set_property(TEST itkGDCMSeriesStreamReadImageWriteTest2 APPEND PROPERTY DEPENDS
 itk_add_test(NAME itkGDCMImagePositionPatientTest
       COMMAND ITKIOGDCMTestDriver itkGDCMImagePositionPatientTest
               ${ITK_TEST_OUTPUT_DIR})
+
+itk_add_test(NAME itkGDCMImageReadSeriesWriteTest
+      COMMAND ITKIOGDCMTestDriver
+      --compare DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mha}
+        ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageReadSeriesWriteTest.mha
+      itkGDCMImageReadSeriesWriteTest
+        DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mha}
+        ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageReadSeriesWriteTest
+        ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageReadSeriesWriteTest.mha )
 
 itk_add_test(NAME itkGDCMSeriesMissingDicomTagTest
   COMMAND ITKIOGDCMTestDriver itkGDCMSeriesMissingDicomTagTest
