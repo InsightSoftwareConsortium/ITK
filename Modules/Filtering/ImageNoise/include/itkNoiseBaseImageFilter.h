@@ -71,7 +71,7 @@ protected:
   inline static uint32_t Hash(uint32_t a, uint32_t b)
   {
     //  Knuth's Multiplicative Method for hashing
-    return (a+b)*2654435761;
+    return (a+b)*2654435761u;
   }
 
   // Clamp and round the input value to the output
