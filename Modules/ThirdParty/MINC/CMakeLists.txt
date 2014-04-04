@@ -117,6 +117,7 @@ endif()
     set(MINC_CMAKE_ARGS ${MINC_CMAKE_ARGS} "-DZLIB_LIBRARY:FILEPATH=${MINCZLIB_LIBRARIES}")
   endif()
 
+  itk_download_attempt_check(${MINC_EPNAME})
   ExternalProject_Add(${MINC_EPNAME}
     GIT_REPOSITORY ${MINC_GIT_REPOSITORY}
     GIT_TAG ${MINC_GIT_TAG}

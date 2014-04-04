@@ -25,7 +25,8 @@ else()
   else()
     set(test )
   endif()
-  ExternalProject_add(GCC_XML
+  itk_download_attempt_check(GCC_XML)
+  ExternalProject_Add(GCC_XML
   URL http://itk.org/files/gccxml/gccxml-2013-11-18.tar.bz2
   URL_MD5 3b8f72ae76c6946a954bddf3222c201b
   PREFIX gccxml

@@ -35,6 +35,7 @@ if(ITK_USE_SYSTEM_SWIG)
 else()
   include(ExternalProject)
   if(WIN32)
+    itk_download_attempt_check(SWIG)
     ExternalProject_Add(swig
       URL http://prdownloads.sourceforge.net/swig/swigwin-${swig_version}.zip
       URL_MD5 ${swigwin_md5}
@@ -61,7 +62,8 @@ else()
     #  CXXCPP      C++ preprocessor
 
     # build swig as an external project
-    ExternalProject_add(PCRE
+    itk_download_attempt_check(PCRE)
+    ExternalProject_Add(PCRE
     URL http://downloads.sourceforge.net/project/pcre/pcre/8.34/pcre-8.34.tar.gz
     URL_MD5 eb34b2c9c727fd64940d6fd9a00995eb
     CONFIGURE_COMMAND
@@ -107,7 +109,8 @@ else()
     #              This script will default YFLAGS to the empty string to avoid a
     #              default value of `-d' given by some make applications.
 
-    ExternalProject_add(swig
+    itk_download_attempt_check(SWIG)
+    ExternalProject_Add(swig
     URL http://prdownloads.sourceforge.net/swig/swig-${swig_version}.tar.gz
     URL_MD5 ${swig_md5}
     CONFIGURE_COMMAND

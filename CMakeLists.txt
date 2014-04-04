@@ -99,10 +99,21 @@ endif()
 
 
 #-----------------------------------------------------------------------------
-# Enable runinng cppcheck for each module on its source and test directories.
+# Enable running cppcheck for each module on its source and test directories.
 option(ITK_CPPCHECK_TEST "Run cppcheck for static code analysis" OFF)
 mark_as_advanced(ITK_CPPCHECK_TEST)
 
+#-----------------------------------------------------------------------------
+# Forbid downloading resources from the network during a build. This helps
+# when building on systems without network connectivity to determine which
+# resources much be obtained manually and made available to the build.
+option(ITK_FORBID_DOWNLOADS "Do not download source code or data from the network" OFF)
+mark_as_advanced(ITK_FORBID_DOWNLOADS)
+macro(itk_download_attempt_check _name)
+  if(ITK_FORBID_DOWNLOADS)
+    message(SEND_ERROR "Attempted to download ${_name} when ITK_FORBID_DOWNLOADS is ON")
+  endif()
+endmacro()
 
 #-----------------------------------------------------------------------------
 # Enable the download and use of BrainWeb datasets.

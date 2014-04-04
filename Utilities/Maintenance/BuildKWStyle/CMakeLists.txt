@@ -3,6 +3,7 @@ project(BuildKWStyle)
 
 include(ExternalProject)
 
+itk_download_attempt_check(KWStyle)
 ExternalProject_add(KWStyle
   GIT_REPOSITORY "http://public.kitware.com/KWStyle.git"
 #  GIT_TAG -- shouldn't there be a release tag? the GIT repo just
