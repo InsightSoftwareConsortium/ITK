@@ -479,7 +479,6 @@ void JPEG2000ImageIO::Read(void *buffer)
         << "Reason: "
         << "Unknown decode format: "
         << this->m_Internal->m_DecompressionParameters.decod_format );
-      return;
 }
   /* catch events using our callbacks and give a local context */
 
@@ -870,7 +869,6 @@ JPEG2000ImageIO
       << "Error: Tile offset dimension is unnappropriate -->"
       << "  TX0(" << parameters.cp_tx0 << ") <= IMG_X0( " << parameters.image_offset_x0
       << ") TYO(" << parameters.cp_ty0 << ") <= IMG_Y0( " << parameters.image_offset_y0 << ") " );
-      return;
     }
 
   for ( int i = 0; i < parameters.numpocs; i++ )
