@@ -186,7 +186,6 @@ void GDCMImageIO::Read(void *pointer)
   if ( !reader.Read() )
     {
     itkExceptionMacro(<< "Cannot read requested file");
-    return;
     }
 
   gdcm::Image & image = reader.GetImage();
@@ -219,7 +218,6 @@ void GDCMImageIO::Read(void *pointer)
   if ( !image.GetBuffer( (char*)pointer ) )
     {
     itkExceptionMacro(<< "Failed to get the buffer!");
-    return;
     }
 
   const gdcm::PixelFormat & pixeltype = image.GetPixelFormat();

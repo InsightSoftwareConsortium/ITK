@@ -90,7 +90,6 @@ VTKPolyDataMeshIO
   if ( !inputFile.is_open() )
     {
     itkExceptionMacro("Unable to open file\n" "inputFilename= " << this->m_FileName);
-    return;
     }
 
   // Define used variables
@@ -116,7 +115,6 @@ VTKPolyDataMeshIO
       if ( !inputFile.is_open() )
         {
         itkExceptionMacro("Unable to open file\n" "inputFilename= " << this->m_FileName);
-        return;
         }
 #endif
       }
@@ -132,7 +130,6 @@ VTKPolyDataMeshIO
       if ( !inputFile.is_open() )
         {
         itkExceptionMacro("Unable to open file\n" "inputFilename= " << this->m_FileName);
-        return;
         }
 #endif
       }
@@ -141,7 +138,6 @@ VTKPolyDataMeshIO
     {
     this->m_FileType = TYPENOTAPPLICABLE;
     itkExceptionMacro("Unknown File store type");
-    return;
     }
 
   // Initialize number of cells
@@ -259,7 +255,6 @@ VTKPolyDataMeshIO
         {
         itkExceptionMacro("ERROR: numberOfVertices < 1\n "
                           << "numberOfVertices= " << numberOfVertices);
-        return;
         }
 
       if ( numberOfVertexIndices < numberOfVertices )
@@ -267,7 +262,6 @@ VTKPolyDataMeshIO
         itkExceptionMacro("ERROR: numberOfVertexIndices < numberOfVertices\n"
                           << "numberOfVertexIndices= " << numberOfVertexIndices << "\n"
                           << "numberOfVertices= " << numberOfVertices);
-        return;
         }
 
       // Set cell component type
@@ -964,7 +958,6 @@ VTKPolyDataMeshIO
   if ( !inputFile.is_open() )
     {
     itkExceptionMacro("Unable to open file\n" "inputFilename= " << this->m_FileName);
-    return;
     }
 
   // Read points according to filetype as ASCII or BINARY
@@ -1173,7 +1166,6 @@ VTKPolyDataMeshIO
   if ( !inputFile.is_open() )
     {
     itkExceptionMacro(<< "Unable to open file\n" "inputFilename= " << this->m_FileName);
-    return;
     }
 
   // Read cells according to file type
@@ -1816,7 +1808,6 @@ VTKPolyDataMeshIO
   if ( this->m_FileName == "" )
     {
     itkExceptionMacro("No Input FileName");
-    return;
     }
 
   // Write to output file
@@ -1834,7 +1825,6 @@ VTKPolyDataMeshIO
     {
     itkExceptionMacro("Unable to open file\n"
                       "outputFilename= " << this->m_FileName);
-    return;
     }
 
   // Write file according to ASCII or BINARY

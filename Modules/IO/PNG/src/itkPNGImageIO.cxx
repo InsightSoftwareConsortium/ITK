@@ -156,7 +156,6 @@ void PNGImageIO::Read(void *buffer)
                        << std::endl
                        << "Reason: "
                        << itksys::SystemTools::GetLastSystemError() );
-    return;
     }
   unsigned char header[8];
   size_t temp = fread(header, 1, 8, fp);
@@ -172,7 +171,6 @@ void PNGImageIO::Read(void *buffer)
   if ( !is_png )
     {
     itkExceptionMacro( "File is not png type: " << this->GetFileName() );
-    return;
     }
   png_structp png_ptr = png_create_read_struct
                           (PNG_LIBPNG_VER_STRING, (png_voidp)NULL,
@@ -541,7 +539,6 @@ void PNGImageIO::WriteSlice(const std::string & fileName, const void *buffer)
                        << std::endl
                        << "Reason: "
                        << itksys::SystemTools::GetLastSystemError() );
-    return;
     }
 #endif
 

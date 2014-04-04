@@ -293,7 +293,6 @@ BYUMeshIO
   if ( this->m_FileName == "" )
     {
     itkExceptionMacro("No Input FileName");
-    return;
     }
 
   // Write to output file
@@ -325,7 +324,6 @@ BYUMeshIO
   if ( this->m_FileName == "" )
     {
     itkExceptionMacro("No Input FileName");
-    return;
     }
 
   // Write to output file
@@ -335,7 +333,6 @@ BYUMeshIO
     {
     itkExceptionMacro("Unable to open file\n"
                       "outputFilename= " << this->m_FileName);
-    return;
     }
 
   // Write points
@@ -445,7 +442,6 @@ BYUMeshIO
     {
     itkExceptionMacro("Unable to open file\n"
                       "outputFilename= " << this->m_FileName);
-    return;
     }
 
   // Write polygons

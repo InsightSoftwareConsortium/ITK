@@ -489,7 +489,6 @@ void JPEGImageIO::WriteSlice(std::string & fileName, const void *buffer)
     {
     jpeg_destroy_compress(&cinfo);
     itkExceptionMacro(<< "JPEG : Out of disk space");
-    return;
     }
 
   jpeg_create_compress(&cinfo);
@@ -509,7 +508,6 @@ void JPEGImageIO::WriteSlice(std::string & fileName, const void *buffer)
   if( cinfo.image_width > 65536 || cinfo.image_height > 65536 )
     {
     itkExceptionMacro(<<"JPEG : Image is too large for JPEG");
-    return;
     }
 
   cinfo.input_components = this->GetNumberOfComponents();
@@ -520,12 +518,10 @@ void JPEGImageIO::WriteSlice(std::string & fileName, const void *buffer)
   if( cinfo.input_components > 255)
     {
     itkExceptionMacro(<<"JPEG : Too many components for JPEG");
-    return;
     }
   if( cinfo.input_components > MAX_COMPONENTS)
     {
     itkExceptionMacro(<<"JPEG : Too many components for IJG. Recompile IJG.");
-    return;
     }
 
   switch ( cinfo.input_components )
@@ -594,7 +590,6 @@ void JPEGImageIO::WriteSlice(std::string & fileName, const void *buffer)
   if ( fflush(fp) == EOF )
     {
     itkExceptionMacro(<< "JPEG : Out of disk space");
-    return;
     }
 
   // finish the compression
