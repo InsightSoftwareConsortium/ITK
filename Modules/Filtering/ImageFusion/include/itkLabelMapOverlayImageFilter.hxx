@@ -91,7 +91,7 @@ LabelMapOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
   LabelMapType * input = const_cast<LabelMapType *>(this->GetInput());
   const FeatureImageType * input2 = this->GetFeatureImage();
 
-  FunctorType function;
+  FunctorType function( m_Functor );
   function.SetBackgroundValue( input->GetBackgroundValue() );
   function.SetOpacity( m_Opacity );
 
@@ -127,7 +127,7 @@ LabelMapOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
   LabelMapType * input = const_cast<LabelMapType *>(this->GetInput());
   const FeatureImageType * input2 = this->GetFeatureImage();
 
-  FunctorType function;
+  FunctorType function( m_Functor );
   function.SetBackgroundValue( input->GetBackgroundValue() );
   function.SetOpacity( m_Opacity );
 

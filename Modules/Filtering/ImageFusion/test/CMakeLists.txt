@@ -7,8 +7,10 @@ itkLabelMapToRGBImageFilterTest1.cxx
 itkLabelMapToRGBImageFilterTest2.cxx
 itkLabelMapContourOverlayImageFilterTest1.cxx
 itkLabelMapContourOverlayImageFilterTest2.cxx
+itkLabelMapContourOverlayImageFilterTest3.cxx
 itkLabelMapOverlayImageFilterTest1.cxx
 itkLabelMapOverlayImageFilterTest2.cxx
+itkLabelMapOverlayImageFilterTest3.cxx
 )
 
 CreateTestDriver(ITKImageFusion  "${ITKBinaryMathematicalMorphology-Test_LIBRARIES}" "${ITKImageFusionTests}")
@@ -106,6 +108,11 @@ itk_add_test(NAME itkLabelMapContourOverlayImageFilterTest3
     --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkLabelMapContourOverlayImageFilterTest2.png}
               ${ITK_TEST_OUTPUT_DIR}/itkLabelMapContourOverlayImageFilterTest3.png
     itkLabelMapContourOverlayImageFilterTest2 DATA{${ITK_DATA_ROOT}/Input/SpotsLabeled.png} DATA{${ITK_DATA_ROOT}/Input/SpotsInverted.png} ${ITK_TEST_OUTPUT_DIR}/itkLabelMapContourOverlayImageFilterTest3.png 0.8 2 3 12 1)
+itk_add_test(NAME itkLabelMapContourOverlayImageFilterTest4
+      COMMAND ITKImageFusionTestDriver
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkLabelMapContourOverlayImageFilterTest4.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkLabelMapContourOverlayImageFilterTest4.png
+    itkLabelMapContourOverlayImageFilterTest3 DATA{${ITK_DATA_ROOT}/Input/SpotsLabeled.png} DATA{${ITK_DATA_ROOT}/Input/SpotsInverted.png} ${ITK_TEST_OUTPUT_DIR}/itkLabelMapContourOverlayImageFilterTest4.png 0.7 1 2 15 0)
 
 itk_add_test(NAME itkLabelMapOverlayImageFilterTest1
       COMMAND ITKImageFusionTestDriver
@@ -120,3 +127,11 @@ itk_add_test(NAME itkLabelMapOverlayImageFilterTest2
   DATA{${ITK_DATA_ROOT}/Input/cthead1Label.png}
   DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
   ${ITK_TEST_OUTPUT_DIR}/itkLabelMapOverlayImageFilterTest2.png 0.3)
+itk_add_test(NAME itkLabelMapOverlayImageFilterTest3
+      COMMAND ITKImageFusionTestDriver
+  --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkLabelMapOverlayImageFilterTest3.png}
+            ${ITK_TEST_OUTPUT_DIR}/itkLabelMapOverlayImageFilterTest3.png
+  itkLabelMapOverlayImageFilterTest3
+  DATA{${ITK_DATA_ROOT}/Input/cthead1Label.png}
+  DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
+  ${ITK_TEST_OUTPUT_DIR}/itkLabelMapOverlayImageFilterTest3.png 0.3)
