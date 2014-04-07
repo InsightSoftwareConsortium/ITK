@@ -26,7 +26,7 @@ namespace itk
 
 /** \class NoiseBaseImageFilter
  *
- * \brief Base class for Noise image filters
+ * \brief An Abstract Base class for Noise image filters
  *
  * This class add common methods for setting a seed for the random
  * generators used to generate the noise.
@@ -47,9 +47,6 @@ public:
 
   typedef typename Superclass::OutputImagePixelType OutputImagePixelType;
 
-  /** Method for creation through the object factory. */
-  itkNewMacro(Self);
-
   /** Run-time type information (and related methods). */
   itkTypeMacro(NoiseBaseImageFilter, InPlaceImageFilter);
 
@@ -64,7 +61,7 @@ public:
 protected:
   NoiseBaseImageFilter();
 
-  virtual ~NoiseBaseImageFilter();
+  virtual ~NoiseBaseImageFilter() = 0;
 
   void PrintSelf(std::ostream &os, Indent indent) const;
 
