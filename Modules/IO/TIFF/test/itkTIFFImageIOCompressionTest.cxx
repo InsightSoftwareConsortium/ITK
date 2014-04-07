@@ -23,7 +23,8 @@
 #include "itkTIFFImageIO.h"
 
 #define SPECIFIC_IMAGEIO_MODULE_TEST
-
+namespace
+{
 template<typename T> int DoIt( int, char * argv[], typename T::Pointer)
 {
   typename itk::ImageFileReader<T>::Pointer reader
@@ -91,7 +92,7 @@ template<typename T> int DoIt( int, char * argv[], typename T::Pointer)
     }
   return EXIT_SUCCESS;
 }
-
+}
 int itkTIFFImageIOCompressionTest( int argc, char* argv[] )
 {
   if (argc < 4 )
