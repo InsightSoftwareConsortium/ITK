@@ -62,7 +62,7 @@ NoiseBaseImageFilter<TInputImage, TOutputImage>
     }
   else if(value <= (double)NumericTraits<OutputImagePixelType>::NonpositiveMin() )
     {
-    return (double)NumericTraits<OutputImagePixelType>::NonpositiveMin();
+    return NumericTraits<OutputImagePixelType>::NonpositiveMin();
     }
   else if (NumericTraits<OutputImagePixelType>::is_integer)
     {
