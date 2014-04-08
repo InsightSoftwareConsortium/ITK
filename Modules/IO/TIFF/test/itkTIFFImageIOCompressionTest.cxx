@@ -23,8 +23,9 @@
 #include "itkTIFFImageIO.h"
 
 #define SPECIFIC_IMAGEIO_MODULE_TEST
-
-template<typename T> int DoIt( int, char * argv[], int JPEGQuality, typename T::Pointer)
+namespace
+{
+template<typename T> int DoIt( int, char * argv[], typename T::Pointer)
 {
   typename itk::ImageFileReader<T>::Pointer reader
     = itk::ImageFileReader<T>::New();
@@ -92,7 +93,7 @@ template<typename T> int DoIt( int, char * argv[], int JPEGQuality, typename T::
     }
   return EXIT_SUCCESS;
 }
-
+}
 int itkTIFFImageIOCompressionTest( int argc, char* argv[] )
 {
   int JPEGQuality = 75;

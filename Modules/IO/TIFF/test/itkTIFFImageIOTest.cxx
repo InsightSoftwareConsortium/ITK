@@ -20,6 +20,9 @@
 #include <fstream>
 #include "itkTIFFImageIO.h"
 
+namespace
+{
+
 template<typename T>
 bool BUG_12266( const std::string &fname, T*)
 {
@@ -103,6 +106,7 @@ template<typename T> int DoIt( int, char * argv[], typename T::Pointer)
     return EXIT_FAILURE;
     }
   return EXIT_SUCCESS;
+}
 }
 
 int itkTIFFImageIOTest( int argc, char* argv[] )
