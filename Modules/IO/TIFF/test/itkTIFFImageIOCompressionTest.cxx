@@ -25,7 +25,7 @@
 #define SPECIFIC_IMAGEIO_MODULE_TEST
 namespace
 {
-template<typename T> int DoIt( int, char * argv[], typename T::Pointer)
+template<typename T> int DoIt( int, char * argv[], int JPEGQuality, typename T::Pointer)
 {
   typename itk::ImageFileReader<T>::Pointer reader
     = itk::ImageFileReader<T>::New();
