@@ -511,7 +511,6 @@ OBJMeshIO
   if ( this->m_FileName == "" )
     {
     itkExceptionMacro("No Input FileName");
-    return;
     }
 
   // Define output stream and open it
@@ -523,7 +522,6 @@ OBJMeshIO
     {
     itkExceptionMacro("Unable to open file\n"
                       "outputFilename= " << this->m_FileName);
-    return;
     }
 
   switch ( this->m_CellComponentType )

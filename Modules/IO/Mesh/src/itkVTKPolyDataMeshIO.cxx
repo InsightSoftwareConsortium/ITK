@@ -1352,7 +1352,6 @@ VTKPolyDataMeshIO
   if ( !inputFile.is_open() )
     {
     itkExceptionMacro(<< "Unable to open file\n" "inputFilename= " << this->m_FileName);
-    return;
     }
 
   // Read cells according to file type
@@ -1561,7 +1560,6 @@ VTKPolyDataMeshIO
   if ( !inputFile.is_open() )
     {
     itkExceptionMacro(<< "Unable to open file\n" "inputFilename= " << this->m_FileName);
-    return;
     }
 
   // Read cell data according file type
@@ -1758,7 +1756,6 @@ VTKPolyDataMeshIO
   if ( this->m_FileName == "" )
     {
     itkExceptionMacro("No Input FileName");
-    return;
     }
 
   // Define output file stream
@@ -1776,7 +1773,6 @@ VTKPolyDataMeshIO
     {
     itkExceptionMacro("Unable to open file\n"
                       "outputFilename= " << this->m_FileName);
-    return;
     }
 
   // Write VTK header
@@ -2020,7 +2016,6 @@ VTKPolyDataMeshIO
   if ( this->m_FileName == "" )
     {
     itkExceptionMacro("No Input FileName");
-    return;
     }
 
   // Write to output file
@@ -2038,7 +2033,6 @@ VTKPolyDataMeshIO
     {
     itkExceptionMacro("Unable to open file\n"
                       "outputFilename= " << this->m_FileName);
-    return;
     }
 
   // Write file according to ASCII or BINARY
@@ -2236,7 +2230,6 @@ VTKPolyDataMeshIO
   if ( this->m_FileName == "" )
     {
     itkExceptionMacro("No Input FileName");
-    return;
     }
 
   // Write to output file
@@ -2254,7 +2247,6 @@ VTKPolyDataMeshIO
     {
     itkExceptionMacro("Unable to open file\n"
                       "outputFilename= " << this->m_FileName);
-    return;
     }
 
   // Write point data according to ASCII or BINARY
@@ -2452,7 +2444,6 @@ VTKPolyDataMeshIO
   if ( this->m_FileName == "" )
     {
     itkExceptionMacro("No Input FileName");
-    return;
     }
 
   // Write to output file
@@ -2470,7 +2461,6 @@ VTKPolyDataMeshIO
     {
     itkExceptionMacro("Unable to open file\n"
                       "outputFilename= " << this->m_FileName);
-    return;
     }
 
   // Write cell data according to ASCII or BINARY
