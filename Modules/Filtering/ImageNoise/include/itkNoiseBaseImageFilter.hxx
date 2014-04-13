@@ -19,7 +19,7 @@
 #define __itkNoiseBaseImageFilter_hxx
 
 #include "itkNoiseBaseImageFilter.h"
-#include <vcl_ctime.h>
+#include <ctime>
 
 namespace itk
 {
@@ -45,10 +45,10 @@ void
 NoiseBaseImageFilter<TInputImage, TOutputImage>
 ::SetSeed()
 {
-  vcl_time_t t;
+  time_t t;
 
-  vcl_time(&t);
-  this->SetSeed(Hash(t,vcl_clock() ) );
+  time(&t);
+  this->SetSeed(Hash(t,clock() ) );
 }
 
 template <class TInputImage, class TOutputImage>

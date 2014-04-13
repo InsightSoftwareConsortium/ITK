@@ -22,9 +22,9 @@
 #include "itkObjectFactory.h"
 #include "itkRandomVariateGeneratorBase.h"
 #include "itkIntTypes.h"
-#include "vcl_ctime.h"
 #include "vnl/vnl_math.h"
 #include <climits>
+#include <ctime>
 
 namespace itk
 {
@@ -142,7 +142,7 @@ public:
   /** initialize with a simple IntegerType */
   void Initialize(const IntegerType oneSeed);
 
-  /* Initialize with vcl_clock time */
+  /* Initialize with clock time */
   void Initialize();
 
   /** Get a random variate in the range [0, 1] */
@@ -235,7 +235,7 @@ protected:
     return m ^ ( mixBits(s0, s1) >> 1 ) ^ ( -static_cast<int32_t>(loBit(s1)) & 0x9908b0df );
   }
 
-  static IntegerType hash(vcl_time_t t, vcl_clock_t c);
+  static IntegerType hash(time_t t, clock_t c);
 
 private:
 
@@ -316,7 +316,7 @@ inline void
 MersenneTwisterRandomVariateGenerator::SetSeed()
 {
   // use time() and clock() to generate a unlikely-to-repeat seed.
-  SetSeed( hash( vcl_time(0), vcl_clock() ) );
+  SetSeed( hash( time(0), clock() ) );
 }
 
 /** Get an integer variate in [0, 2^32-1] */
