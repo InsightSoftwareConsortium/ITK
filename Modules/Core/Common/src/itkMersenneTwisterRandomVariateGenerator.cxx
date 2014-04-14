@@ -83,7 +83,7 @@ MersenneTwisterRandomVariateGenerator
 
 MersenneTwisterRandomVariateGenerator::IntegerType
 MersenneTwisterRandomVariateGenerator
-::hash(vcl_time_t t, vcl_clock_t c)
+::hash(time_t t, clock_t c)
 {
   // Get a IntegerType from t and c
   // Better than IntegerType(x) in case x is floating point in [0,1]
