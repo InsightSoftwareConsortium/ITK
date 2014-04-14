@@ -71,7 +71,6 @@ void
 ExtractSliceImageFilter< TInputImage, TOutputImage >
 ::SetExtractionRegion(InputImageRegionType extractRegion)
 {
-  m_ExtractionRegion = extractRegion;
 
   unsigned int         nonzeroSizeCount = 0;
   InputImageSizeType   inputSize = extractRegion.GetSize();
@@ -88,17 +87,20 @@ ExtractSliceImageFilter< TInputImage, TOutputImage >
     {
     if ( inputSize[i] )
       {
-      outputSize[nonzeroSizeCount] = inputSize[i];
-      outputIndex[nonzeroSizeCount] = extractRegion.GetIndex()[i];
+      if (nonzeroSizeCount < OutputImageDimension)
+        {
+        outputSize[nonzeroSizeCount] = inputSize[i];
+        outputIndex[nonzeroSizeCount] = extractRegion.GetIndex()[i];
+        }
       nonzeroSizeCount++;
       }
     }
-
   if ( nonzeroSizeCount != OutputImageDimension )
     {
     itkExceptionMacro("Extraction Region not consistent with output image");
     }
 
+  m_ExtractionRegion = extractRegion;
   m_OutputImageRegion.SetSize(outputSize);
   m_OutputImageRegion.SetIndex(outputIndex);
   this->Modified();
