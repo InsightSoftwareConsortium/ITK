@@ -32,7 +32,10 @@ namespace itk
 // Construct a new SimpleMutexLock
 SimpleFastMutexLock::SimpleFastMutexLock()
 {
-  pthread_mutex_init(&( m_FastMutexLock ), NULL);
+  pthread_mutexattr_t mta;
+  pthread_mutexattr_init(&mta);
+  pthread_mutexattr_settype(&mta, PTHREAD_MUTEX_RECURSIVE);
+  pthread_mutex_init(&( m_FastMutexLock ), &mta);
 }
 
 // Destruct the SimpleMutexVariable
