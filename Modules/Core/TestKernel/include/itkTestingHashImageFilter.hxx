@@ -98,7 +98,7 @@ HashImageFilter<TImageType>::AfterThreadedGenerateData()
       }
 
     // we feel bad about accessing the data this way
-    ValueType *buffer = static_cast<ValueType*>( (void *)input->GetBufferPointer() );
+    ValueType *buffer = static_cast<ValueType*>( const_cast<void*>((const void *)input->GetBufferPointer()) );
 
     typename ImageType::RegionType largestRegion = input->GetBufferedRegion();
     const size_t numberOfValues = largestRegion.GetNumberOfPixels()*numberOfComponent;

@@ -912,7 +912,7 @@ void GDCMImageIO::Write(const void *buffer)
     image.SetIntercept(m_RescaleIntercept);
     image.SetSlope(m_RescaleSlope);
     char *copy = new char[len];
-    ir.InverseRescale(copy, (char *)buffer, numberOfBytes);
+    ir.InverseRescale(copy, (const char *)buffer, numberOfBytes);
     pixeldata.SetByteValue(copy, static_cast<uint32_t>(len));
     delete[] copy;
     }
@@ -920,7 +920,7 @@ void GDCMImageIO::Write(const void *buffer)
     {
     itkAssertInDebugAndIgnoreInReleaseMacro(len == numberOfBytes);
     // only do a straight copy:
-    pixeldata.SetByteValue( (char *)buffer, static_cast<unsigned int>(numberOfBytes) );
+    pixeldata.SetByteValue( (const char *)buffer, static_cast<unsigned int>(numberOfBytes) );
     }
   image.SetDataElement(pixeldata);
 

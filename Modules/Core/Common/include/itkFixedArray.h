@@ -169,7 +169,7 @@ public:
   template< typename TFixedArrayValueType >
   FixedArray & operator=(const FixedArray< TFixedArrayValueType, VLength > & r)
   {
-    if ( (void *)r.Begin() != (void *)m_InternalArray )
+    if ( (const void *)r.Begin() != (const void *)m_InternalArray )
       {
       typename FixedArray< TFixedArrayValueType, VLength >::ConstIterator input = r.Begin();
       Iterator i = this->Begin();

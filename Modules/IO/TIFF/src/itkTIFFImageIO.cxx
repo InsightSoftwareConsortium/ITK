@@ -1700,7 +1700,7 @@ void TIFFImageIO::Write(const void *buffer)
 
 void TIFFImageIO::InternalWrite(const void *buffer)
 {
-  char *outPtr = (char *)buffer;
+  const char *outPtr = (const char *)buffer;
 
   unsigned int page, pages = 1;
 
