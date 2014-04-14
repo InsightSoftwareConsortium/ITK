@@ -31,9 +31,61 @@ namespace itk
 
 /** \class itk::VariationalRegistrationFilter
  *
+ * \brief Flexible framework for deformable registration of two images using PDE-based variational registration
+ *
+ * VariationalRegistrationFilter aims to minimize the  functional
+ *  \f[
+ *  J( \phi ) = D[R, T\circ\phi] + \alpha S[\phi] \leftarrow \min
+ *  \f]
+ * with \f$ \phi(x)=x+u(x) \f$ by solving the associated Euler-Lagrange equation (ELE)
+ *  \f[
+ *  f(x, u(x)) + A[u](x)=0,\quad x\in\Omega
+ *  \f]
+ *  \f$ f \f$ denotes the force term corresponding to the similarity measure \f$ D\f$ and \f$ A\f$ is a linear
+ * differential operator associated with the regularization term \f$ S \f$. The ELE is solved using gradient descent
+ * with a semi-implicite update scheme and step size \f$ \tau \f$:
+ *  \f[
+ *  u^{k+1} = (Id - \tau A)^{-1}(u^k + \tau f^k).
+ *  \f]
+ *  VariationalRegistrationFilter has two images as input (fixed image \f$ R \f$, and moving image \f$ T \f$)
+ *  and computes the displacement field \f$ u \f$ as output.
+ *
+ *  The force term \f$ f \f$ is implemented in a subclass of VariationalRegistrationFunction. The computation
+ *  of the regularization with \f$ (Id - \tau A)^{-1}\f$ is implemented in a subclass of
+ * VariationalRegistrationRegularizer. Different force terms and regularization methods can be combined by using the
+ * methods SetDifferenceFunction() and SetRegularizer().
+ *
+ * The implemented method can be summariced as follows:
+ *   - initialize \f$ u \f$ (default \f$ u=0 \f$)
+ *   - <b>do</b>
+ *     - compute the update field \f$ f^k \f$ using \f$ R(x) \f$ and the warped image \f$ T(x+u^k(x)) \f$
+ *     - compute the next displacement field by \f$ u^{k+1} = (Id - \tau A)^{-1}(u^k + \tau f^k)\f$
+ *   - <b>until</b> \f$ StopCriterion\f$ is fulfilled or \f$ k>maxIter \f$
+ *
+ * \f$ StopCriterion\f$ is implemented in the class VariationalRegistrationStopCriterion.
+ * Use AddObserver( IterationEvent(), \f$ StopCriterion\f$) to enable different types of stop criteria in the
+ * variational registration framework.
+ *
+ * VariationalRegistrationFilter has the following parameters:
+ * - fixed  image \f$ R \f$
+ * - moving image \f$ T \f$
+ * - force term to compute the update field (see VariationalRegistrationFunction)
+ * - regularizer (see VariationalRegistrationRegularizer)
+ * - maximum number of iterations
+ * - Initial displacement \f$ u^0 \f$ (optional)
+ * - mask image to restrict force computation (optional)
+ *
+ * This class make use of the finite difference solver hierarchy.
+ *
  *  \sa DenseFiniteDifferenceImageFilter
  *
  *  \ingroup VariationalRegistration
+ *
+ * For details see: <i>Rene Werner, Alexander Schmidt-Richberg, Heinz Handels and Jan Ehrhardt:
+ * "Estimation of lung
+ * motion fields in 4D CT data by variational non-linear intensity-based registration:
+ *  A comparison and evaluation
+ * study", Phys. Med. Biol., 2014</i>
  */
 template <class TFixedImage, class TMovingImage, class TDisplacementField>
 class ITK_EXPORT VariationalRegistrationFilter
