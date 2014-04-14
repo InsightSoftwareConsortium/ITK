@@ -99,6 +99,20 @@ IsolatedConnectedImageFilter< TInputImage, TOutputImage >
   output->SetRequestedRegionToLargestPossibleRegion();
 }
 
+/** Add seed point 1. This seed will be isolated from Seed2 (if possible). */
+template< typename TInputImage, typename TOutputImage >
+void
+IsolatedConnectedImageFilter< TInputImage, TOutputImage >
+::AddSeed1(const IndexType & seed)
+{
+  this->m_Seeds1.push_back(seed);
+  this->Modified();
+}
+
+#if ! defined ( ITK_FUTURE_LEGACY_REMOVE )
+/** \deprecated
+ * Set seed point 1. This seed will be isolated from Seed2 (if possible).
+ *  This method is deprecated, please use AddSeed1() */
 template< typename TInputImage, typename TOutputImage >
 void
 IsolatedConnectedImageFilter< TInputImage, TOutputImage >
@@ -107,6 +121,7 @@ IsolatedConnectedImageFilter< TInputImage, TOutputImage >
   this->ClearSeeds1();
   this->AddSeed1(seed);
 }
+#endif
 
 /** Clear all the seeds1. */
 template< typename TInputImage, typename TOutputImage >
@@ -121,18 +136,20 @@ IsolatedConnectedImageFilter< TInputImage, TOutputImage >
     }
 }
 
-/** Add seed point 1. */
+/** Add seed point 2. This seed will be isolated from Seed1 (if possible). */
 template< typename TInputImage, typename TOutputImage >
 void
 IsolatedConnectedImageFilter< TInputImage, TOutputImage >
-::AddSeed1(const IndexType & seed)
+::AddSeed2(const IndexType & seed)
 {
-  this->m_Seeds1.push_back(seed);
+  this->m_Seeds2.push_back(seed);
   this->Modified();
 }
 
-/** Set seed point 2. This seed will be isolated from Seed1 (if possible).
- *  This method is deprecated, please use AddSeed() */
+#if ! defined ( ITK_FUTURE_LEGACY_REMOVE )
+/** \deprecated
+ * Set seed point 2. This seed will be isolated from Seed1 (if possible).
+ *  This method is deprecated, please use AddSeed2() */
 template< typename TInputImage, typename TOutputImage >
 void
 IsolatedConnectedImageFilter< TInputImage, TOutputImage >
@@ -141,6 +158,7 @@ IsolatedConnectedImageFilter< TInputImage, TOutputImage >
   this->ClearSeeds2();
   this->AddSeed2(seed);
 }
+#endif
 
 /** Clear all the seeds2. */
 template< typename TInputImage, typename TOutputImage >
@@ -171,16 +189,6 @@ IsolatedConnectedImageFilter< TInputImage, TOutputImage >
 {
   itkDebugMacro("returning Seeds2");
   return this->m_Seeds2;
-}
-
-/** Add seed point 2. */
-template< typename TInputImage, typename TOutputImage >
-void
-IsolatedConnectedImageFilter< TInputImage, TOutputImage >
-::AddSeed2(const IndexType & seed)
-{
-  this->m_Seeds2.push_back(seed);
-  this->Modified();
 }
 
 template< typename TInputImage, typename TOutputImage >
