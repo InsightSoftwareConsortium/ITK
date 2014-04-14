@@ -54,7 +54,7 @@ SinRegularizedHeavisideStepFunction< TInput, TOutput >
       const RealType angleFactor = 0.5 * vnl_math::pi * this->GetOneOverEpsilon();
       const RealType angle = input * angleFactor;
 
-      return static_cast< OutputType >( 0.5 * ( 1.0 + vcl_sin( angle ) ) );
+      return static_cast< OutputType >( 0.5 * ( 1.0 + std::sin( angle ) ) );
       }
     }
 }
@@ -73,7 +73,7 @@ SinRegularizedHeavisideStepFunction< TInput, TOutput >
     const RealType angleFactor = 0.5 * vnl_math::pi * this->GetOneOverEpsilon();
     const RealType angle = input * angleFactor;
 
-    return static_cast< OutputType >( 0.5 * angleFactor * vcl_cos(angle) );
+    return static_cast< OutputType >( 0.5 * angleFactor * std::cos(angle) );
     }
 }
 

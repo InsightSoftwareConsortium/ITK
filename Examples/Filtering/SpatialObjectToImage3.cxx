@@ -159,8 +159,8 @@ int main( int argc, char *argv[] )
   for( unsigned int i=0; i < numberOfPoints; i++ )
     {
     const double angle = 2.0 * vnl_math::pi * i / numberOfPoints;
-    radial[0] = radius * vcl_cos( angle );
-    radial[1] = radius * vcl_sin( angle );
+    radial[0] = radius * std::cos( angle );
+    radial[1] = radius * std::sin( angle );
     point = center + radial;
     polygon->AddPoint( point );
     }

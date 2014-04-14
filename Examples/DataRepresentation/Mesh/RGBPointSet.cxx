@@ -82,8 +82,8 @@ int main(int, char *[])
   for(unsigned int i=0; i<360; i++)
     {
     const double angle = i * vnl_math::pi / 180.0;
-    point[0] = radius * vcl_sin( angle );
-    point[1] = radius * vcl_cos( angle );
+    point[0] = radius * std::sin( angle );
+    point[1] = radius * std::cos( angle );
     point[2] = 1.0;
     pixel.SetRed(    point[0] * 2.0 );
     pixel.SetGreen(  point[1] * 2.0 );

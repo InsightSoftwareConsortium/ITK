@@ -397,7 +397,7 @@ HexahedronCell< TCellInterface >
 
     d = vnl_determinant(mat);
     //d=vtkMath::Determinant3x3(rcol,scol,tcol);
-    if ( vcl_abs(d) < 1.e-20 )
+    if ( std::abs(d) < 1.e-20 )
       {
       return false;
       }
@@ -438,17 +438,17 @@ HexahedronCell< TCellInterface >
       }
 
     //  check for convergence
-    if ( ( ( vcl_abs(pcoords[0] - params[0]) ) < ITK_HEX_CONVERGED )
-         && ( ( vcl_abs(pcoords[1] - params[1]) ) < ITK_HEX_CONVERGED )
-         && ( ( vcl_abs(pcoords[2] - params[2]) ) < ITK_HEX_CONVERGED ) )
+    if ( ( ( std::abs(pcoords[0] - params[0]) ) < ITK_HEX_CONVERGED )
+         && ( ( std::abs(pcoords[1] - params[1]) ) < ITK_HEX_CONVERGED )
+         && ( ( std::abs(pcoords[2] - params[2]) ) < ITK_HEX_CONVERGED ) )
       {
       converged = 1;
       }
 
     // Test for bad divergence (S.Hirschberg 11.12.2001)
-    else if ( ( vcl_abs(pcoords[0]) > ITK_DIVERGED )
-              || ( vcl_abs(pcoords[1]) > ITK_DIVERGED )
-              || ( vcl_abs(pcoords[2]) > ITK_DIVERGED ) )
+    else if ( ( std::abs(pcoords[0]) > ITK_DIVERGED )
+              || ( std::abs(pcoords[1]) > ITK_DIVERGED )
+              || ( std::abs(pcoords[2]) > ITK_DIVERGED ) )
       {
       return -1;
       }

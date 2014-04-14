@@ -72,7 +72,7 @@ EllipsoidInteriorExteriorSpatialFunction< VDimension, TInput >
       {
       orientationVector[j] = m_Orientations[i][j];
       }
-    distanceSquared += vcl_pow( static_cast< double >( ( orientationVector * pointVector ) / ( .5 * m_Axes[i] ) ),
+    distanceSquared += std::pow( static_cast< double >( ( orientationVector * pointVector ) / ( .5 * m_Axes[i] ) ),
                                 static_cast< double >( 2 ) );
     }
 

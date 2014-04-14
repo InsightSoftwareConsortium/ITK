@@ -119,7 +119,7 @@ int itkComplexToRealFilterAndAdaptorTest(int, char* [] )
     const InputImageType::PixelType  input  = it.Get();
     const OutputImageType::PixelType output = ot.Get();
     const OutputImageType::PixelType real  = input.real();
-    if( vcl_fabs( real - output ) > epsilon )
+    if( std::fabs( real - output ) > epsilon )
       {
       std::cerr << "Error in itkComplexToRealImageFilterTest " << std::endl;
       std::cerr << " real( " << input << ") = " << real << std::endl;
@@ -169,7 +169,7 @@ int itkComplexToRealFilterAndAdaptorTest(int, char* [] )
     {
     std::cout <<  dt.Get() << std::endl;
     const OutputImageType::PixelType diff = dt.Get();
-    if( vcl_fabs( diff ) > epsilon )
+    if( std::fabs( diff ) > epsilon )
       {
       std::cerr << "Error in itkComplexToRealImageFilterTest " << std::endl;
       std::cerr << "Comparing results with Adaptors" << std::endl;

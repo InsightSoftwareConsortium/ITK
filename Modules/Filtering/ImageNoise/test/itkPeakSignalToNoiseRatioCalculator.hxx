@@ -82,7 +82,7 @@ PeakSignalToNoiseRatioCalculator<TInputImage>
     }
   mse /= m_Image->GetRequestedRegion().GetNumberOfPixels();
 
-  m_Output = 10 * vcl_log10( max * max / mse );
+  m_Output = 10 * std::log10( max * max / mse );
   m_Valid = true;
 
 }

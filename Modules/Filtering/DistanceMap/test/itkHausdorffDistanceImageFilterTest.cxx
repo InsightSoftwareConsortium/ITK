@@ -89,7 +89,7 @@ int itkHausdorffDistanceImageFilterTest(int, char* [] )
   filter->Print( std::cout );
 
   // check results
-  const FilterType::RealType trueDistance = 10 * vcl_sqrt( static_cast<double>(ImageDimension) );
+  const FilterType::RealType trueDistance = 10 * std::sqrt( static_cast<double>(ImageDimension) );
   const FilterType::RealType distance = filter->GetDirectedHausdorffDistance();
 
   std::cout << " True distance: " << trueDistance << std::endl;
@@ -117,7 +117,7 @@ int itkHausdorffDistanceImageFilterTest(int, char* [] )
   filter->Update();
 
   // check results
-  const FilterType::RealType trueDistance = 5 * vcl_sqrt( static_cast<double>(ImageDimension) );
+  const FilterType::RealType trueDistance = 5 * std::sqrt( static_cast<double>(ImageDimension) );
   const FilterType::RealType distance = filter->GetDirectedHausdorffDistance();
 
   std::cout << " True distance: " << trueDistance << std::endl;
@@ -146,7 +146,7 @@ int itkHausdorffDistanceImageFilterTest(int, char* [] )
   filter->Update();
 
   // check results
-  const FilterType::RealType trueDistance = 10 * vcl_sqrt( static_cast<double>(ImageDimension) );
+  const FilterType::RealType trueDistance = 10 * std::sqrt( static_cast<double>(ImageDimension) );
   const FilterType::RealType distance = filter->GetHausdorffDistance();
 
   std::cout << " True distance: " << trueDistance << std::endl;
@@ -175,7 +175,7 @@ int itkHausdorffDistanceImageFilterTest(int, char* [] )
   filter->Update();
 
   // check results
-  const FilterType::RealType trueDistance = 10 * vcl_sqrt( static_cast<double>(ImageDimension) );
+  const FilterType::RealType trueDistance = 10 * std::sqrt( static_cast<double>(ImageDimension) );
   const FilterType::RealType distance = filter->GetHausdorffDistance();
 
   std::cout << " True distance: " << trueDistance << std::endl;
@@ -215,7 +215,7 @@ int itkHausdorffDistanceImageFilterTest(int, char* [] )
   filter->Update();
 
   // check results
-  const FilterType::RealType trueDistance = 10 * vcl_sqrt( spacing1[0]*spacing1[0]+spacing1[1]*spacing1[1]+spacing1[2]*spacing1[2]);
+  const FilterType::RealType trueDistance = 10 * std::sqrt( spacing1[0]*spacing1[0]+spacing1[1]*spacing1[1]+spacing1[2]*spacing1[2]);
   const FilterType::RealType trueAverageDistance = 4.5 * spacing1[0];
   const FilterType::RealType distance = filter->GetHausdorffDistance();
 

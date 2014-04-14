@@ -45,7 +45,7 @@ ScalarType
 GaussianTransferFunction<ScalarType>
 ::Evaluate(const ScalarType& input)  const
 {
-  return static_cast<ScalarType>((vcl_exp(-1 * input * input)));
+  return static_cast<ScalarType>((std::exp(-1 * input * input)));
 }
 
 /** Evaluate derivatives function */

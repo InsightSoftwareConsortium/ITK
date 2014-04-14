@@ -153,8 +153,8 @@ Element2DC0LinearQuadrilateral
   ce = (dx * yce) - (dy * xce);
   cn = (dx * ycn) - (dy * xcn);
 
-  localPt[0] = (2 * ce) / (-vcl_sqrt((be * be) - (2 * J1 * ce)) - be);
-  localPt[1] = (2 * cn) / ( vcl_sqrt((bn * bn) + (2 * J2 * cn)) - bn);
+  localPt[0] = (2 * ce) / (-std::sqrt((be * be) - (2 * J1 * ce)) - be);
+  localPt[1] = (2 * cn) / ( std::sqrt((bn * bn) + (2 * J2 * cn)) - bn);
 
   bool isInside=true;
 

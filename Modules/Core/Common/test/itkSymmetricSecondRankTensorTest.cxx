@@ -233,7 +233,7 @@ int itkSymmetricSecondRankTensorTest(int, char* [] )
 
       for(unsigned int i=0; i<3; i++)
         {
-        if( vcl_fabs( expectedValues[i] - eigenValues[i] ) > tolerance )
+        if( std::fabs( expectedValues[i] - eigenValues[i] ) > tolerance )
           {
           std::cerr << "EigenAnalysis computation failed" << std::endl;
           std::cerr << "expectedValues = " << expectedValues << std::endl;
@@ -244,7 +244,7 @@ int itkSymmetricSecondRankTensorTest(int, char* [] )
 
       for(unsigned int j=0; j<3; j++)
         {
-        if( vcl_fabs( expectedValues[j] - eigenValues2[j] ) > tolerance )
+        if( std::fabs( expectedValues[j] - eigenValues2[j] ) > tolerance )
           {
           std::cerr << "EigenValues computation failed" << std::endl;
           std::cerr << "expectedValues = " << expectedValues << std::endl;
@@ -286,7 +286,7 @@ int itkSymmetricSecondRankTensorTest(int, char* [] )
 
       for(unsigned int i=0; i<3; i++)
         {
-        if( vcl_fabs( expectedValues[i] - eigenValues[i] ) > tolerance )
+        if( std::fabs( expectedValues[i] - eigenValues[i] ) > tolerance )
           {
           std::cerr << "EigenAnalysis computation failed" << std::endl;
           std::cerr << "expectedValues = " << expectedValues << std::endl;
@@ -297,7 +297,7 @@ int itkSymmetricSecondRankTensorTest(int, char* [] )
 
       for(unsigned int j=0; j<3; j++)
         {
-        if( vcl_fabs( expectedValues[j] - eigenValues2[j] ) > tolerance )
+        if( std::fabs( expectedValues[j] - eigenValues2[j] ) > tolerance )
           {
           std::cerr << "EigenValues computation failed" << std::endl;
           std::cerr << "expectedValues = " << expectedValues << std::endl;
@@ -340,7 +340,7 @@ int itkSymmetricSecondRankTensorTest(int, char* [] )
 
       for(unsigned int i=0; i<3; i++)
         {
-        if( vcl_fabs( expectedValues[i] - eigenValues[i] ) > tolerance )
+        if( std::fabs( expectedValues[i] - eigenValues[i] ) > tolerance )
           {
           std::cerr << "Eigenvalue computation failed" << std::endl;
           std::cerr << "expectedValues = " << expectedValues << std::endl;
@@ -351,7 +351,7 @@ int itkSymmetricSecondRankTensorTest(int, char* [] )
 
       for(unsigned int j=0; j<3; j++)
         {
-        if( vcl_fabs( expectedValues[j] - eigenValues2[j] ) > tolerance )
+        if( std::fabs( expectedValues[j] - eigenValues2[j] ) > tolerance )
           {
           std::cerr << "EigenValues computation failed" << std::endl;
           std::cerr << "expectedValues = " << expectedValues << std::endl;
@@ -393,7 +393,7 @@ int itkSymmetricSecondRankTensorTest(int, char* [] )
     const double tolerance = 1e-4;
 
     AccumulateValueType computedTrace = tensor3D.GetTrace();
-    if( vcl_fabs( computedTrace - expectedTrace ) > tolerance )
+    if( std::fabs( computedTrace - expectedTrace ) > tolerance )
       {
       std::cerr << "Error computing the Trace" << std::endl;
       std::cerr << "Expected trace = " << expectedTrace << std::endl;

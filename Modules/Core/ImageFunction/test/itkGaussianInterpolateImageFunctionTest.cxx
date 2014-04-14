@@ -175,7 +175,7 @@ int RunTest( void )
                    const AccumulatorType computedValue = interpolator->Evaluate( point );
                    const AccumulatorType difference = expectedValue - computedValue;
 
-                   if( vcl_fabs( difference ) > tolerance )
+                   if( std::fabs( difference ) > tolerance )
                      {
                      std::cerr << "Error found while computing interpolation "
                                << std::endl;

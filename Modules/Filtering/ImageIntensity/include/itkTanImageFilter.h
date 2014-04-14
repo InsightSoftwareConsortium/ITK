@@ -47,13 +47,13 @@ public:
   }
 
   inline TOutput operator()(const TInput & A) const
-  { return (TOutput)vcl_tan( (double)A ); }
+  { return (TOutput)std::tan( (double)A ); }
 };
 }
 /** \class TanImageFilter
  * \brief Computes the tangent of each input pixel.
  *
- * The computations are performed using vcl_tan(x).
+ * The computations are performed using std::tan(x).
  *
  * \ingroup IntensityImageFilters
  * \ingroup MultiThreaded

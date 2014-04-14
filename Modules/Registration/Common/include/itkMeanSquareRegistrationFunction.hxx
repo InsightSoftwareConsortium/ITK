@@ -146,7 +146,7 @@ MeanSquareRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
   if ( normalizemetric )
     {
     denominator = speedValue * speedValue * fixedGradientSquaredMagnitude;
-    denominator = vcl_sqrt(denominator);
+    denominator = std::sqrt(denominator);
     }
   if ( denominator == 0 )
     {

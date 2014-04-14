@@ -214,8 +214,8 @@ int itkCompensatedSummationTest2(int, char* [])
      * optimizations that were not handled by the CompensatedSummation class
      * pragmas, or perhaps because of differences in math coprocessors, or
      * something else. It's not clear. */
-    if( vcl_fabs( referenceSum - enclosingClass.GetCompensatedSumOfThreads() ) >
-        vcl_fabs( referenceSum - enclosingClass.GetUncompensatedSumOfThreads() ) )
+    if( std::fabs( referenceSum - enclosingClass.GetCompensatedSumOfThreads() ) >
+        std::fabs( referenceSum - enclosingClass.GetUncompensatedSumOfThreads() ) )
       {
       std::cerr << "Error. Expected the compensated sum of threads to be closer "
                 << "to reference than the uncompensated sum, or the same value. "

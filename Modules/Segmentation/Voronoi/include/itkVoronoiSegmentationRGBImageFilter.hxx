@@ -62,7 +62,7 @@ VoronoiSegmentationRGBImageFilter< TInputImage, TOutputImage >::SetMeanPercentEr
   for ( unsigned int i = 0; i < 6; i++ )
     {
     m_MeanPercentError[i] = x[i];
-    m_MeanTolerance[i] = vcl_fabs(x[i] * m_Mean[i]);
+    m_MeanTolerance[i] = std::fabs(x[i] * m_Mean[i]);
     }
 }
 
@@ -132,22 +132,22 @@ VoronoiSegmentationRGBImageFilter< TInputImage, TOutputImage >
     X =  0.607 * ipixel[0] + 0.174 * ipixel[1] + 0.201 * ipixel[2];
     Y =  0.299 * ipixel[0] + 0.587 * ipixel[1] + 0.114 * ipixel[2];
     Z =  0.066 * ipixel[1] + 1.117 * ipixel[2];
-    X = vcl_pow( ( X / X0 ), 0.3333 );
-    Y = vcl_pow( ( Y / Y0 ), 0.3333 );
-    Z = vcl_pow( ( Z / Z0 ), 0.3333 );
+    X = std::pow( ( X / X0 ), 0.3333 );
+    Y = std::pow( ( Y / Y0 ), 0.3333 );
+    Z = std::pow( ( Z / Z0 ), 0.3333 );
     L = 116 * Y - 16;
     a = 500 * ( X - Y );
     b = 200 * ( Y - Z );
 
     if ( b != 0.0 )
       {
-      wpixel[3] = vcl_atan2(b, a);     //H
+      wpixel[3] = std::atan2(b, a);     //H
       }
     else
       {
       wpixel[3] = 0;
       }
-    wpixel[4] = vcl_sqrt(a * a + b * b); //C
+    wpixel[4] = std::sqrt(a * a + b * b); //C
     wpixel[5] = L;                       //V
     wit.Set(wpixel);
     ++wit;
@@ -181,7 +181,7 @@ VoronoiSegmentationRGBImageFilter< TInputImage, TOutputImage >::TestHomogeneity(
     for ( i = 0; i < 6; i++ )
       {
       savemean[i] = addp[i] / num;
-      saveSTD[i] = vcl_sqrt( ( addpp[i] - ( addp[i] * addp[i] ) / ( num ) ) / ( num - 1 ) );
+      saveSTD[i] = std::sqrt( ( addpp[i] - ( addp[i] * addp[i] ) / ( num ) ) / ( num - 1 ) );
       }
     }
   else
@@ -320,10 +320,10 @@ VoronoiSegmentationRGBImageFilter< TInputImage, TOutputImage >::TakeAPrior(const
   for ( unsigned int i = 0; i < 6; i++ )
     {
     m_Mean[i] = objaddp[i] / objnum;
-    m_STD[i] = vcl_sqrt( ( objaddpp[i] - ( objaddp[i] * objaddp[i] ) / objnum ) / ( objnum - 1 ) );
+    m_STD[i] = std::sqrt( ( objaddpp[i] - ( objaddp[i] * objaddp[i] ) / objnum ) / ( objnum - 1 ) );
     m_STDTolerance[i] = m_STD[i] * m_STDPercentError[i];
     b_Mean[i] = bkgaddp[i] / bkgnum;
-    b_STD[i] = vcl_sqrt( ( bkgaddpp[i] - ( bkgaddp[i] * bkgaddp[i] ) / bkgnum ) / ( bkgnum - 1 ) );
+    b_STD[i] = std::sqrt( ( bkgaddpp[i] - ( bkgaddp[i] * bkgaddp[i] ) / bkgnum ) / ( bkgnum - 1 ) );
     diffMean[i] = ( b_Mean[i] - m_Mean[i] ) / m_Mean[i];
     if ( diffMean[i] < 0 ) { diffMean[i] = -diffMean[i]; }
     diffSTD[i] = ( b_STD[i] - m_STD[i] ) / m_STD[i];
@@ -334,7 +334,7 @@ VoronoiSegmentationRGBImageFilter< TInputImage, TOutputImage >::TakeAPrior(const
       }
     else
       {
-      m_MeanTolerance[i] = vcl_fabs(m_Mean[i] * m_MeanPercentError[i]);
+      m_MeanTolerance[i] = std::fabs(m_Mean[i] * m_MeanPercentError[i]);
       }
     }
 

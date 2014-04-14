@@ -107,13 +107,13 @@ AzimuthElevationToCartesianTransform< TScalar,
                                - ( ( m_MaxElevation - 1 ) / 2.0 ) );
   ScalarType r = ( m_FirstSampleDistance + point[2] ) * m_RadiusSampleSize;
 
-  ScalarType cosOfAzimuth = vcl_cos(Azimuth);
-  ScalarType tanOfElevation = vcl_tan(Elevation);
+  ScalarType cosOfAzimuth = std::cos(Azimuth);
+  ScalarType tanOfElevation = std::tan(Elevation);
 
-  result[2] = vcl_sqrt( ( r * r * cosOfAzimuth * cosOfAzimuth )
+  result[2] = std::sqrt( ( r * r * cosOfAzimuth * cosOfAzimuth )
                         / ( 1 + cosOfAzimuth * cosOfAzimuth * tanOfElevation
                             * tanOfElevation ) );
-  result[0] = result[2] * vcl_tan(Azimuth);
+  result[0] = result[2] * std::tan(Azimuth);
   result[1] = result[2] * tanOfElevation;
   return result;
 }
@@ -126,11 +126,11 @@ AzimuthElevationToCartesianTransform< TScalar, NDimensions >::TransformCartesian
 {
   InputPointType result;       // Converted point
 
-  result[0] = ( vcl_atan(point[0] / point[2]) ) * ( 360 / ( 2 * vnl_math::pi ) )
+  result[0] = ( std::atan(point[0] / point[2]) ) * ( 360 / ( 2 * vnl_math::pi ) )
               + ( ( m_MaxAzimuth - 1 ) / 2.0 );
-  result[1] = ( vcl_atan(point[1] / point[2]) ) * ( 360 / ( 2 * vnl_math::pi ) )
+  result[1] = ( std::atan(point[1] / point[2]) ) * ( 360 / ( 2 * vnl_math::pi ) )
               + ( ( m_MaxElevation - 1 ) / 2.0 );
-  result[2] = ( ( vcl_sqrt(point[0] * point[0]
+  result[2] = ( ( std::sqrt(point[0] * point[0]
                            + point[1] * point[1]
                            + point[2] * point[2]) / m_RadiusSampleSize )
                 - m_FirstSampleDistance );

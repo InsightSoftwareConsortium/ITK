@@ -135,18 +135,18 @@ JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
     RealType realOne = NumericTraits<RealType>::One;
     if( this->m_Alpha == realOne )
       {
-      value = ( vcl_log( probabilityStar ) );
+      value = ( std::log( probabilityStar ) );
       }
     else
       {
-      value = -realOne * ( vcl_pow( probabilityStar, static_cast<RealType>( this->m_Alpha - realOne ) ) );
+      value = -realOne * ( std::pow( probabilityStar, static_cast<RealType>( this->m_Alpha - realOne ) ) );
       }
     value *= this->m_Prefactor0;
     }
 
   if( calcDerivative )
     {
-    RealType probabilityStarFactor = vcl_pow( probabilityStar, static_cast<RealType>( 2.0 - this->m_Alpha ) );
+    RealType probabilityStarFactor = std::pow( probabilityStar, static_cast<RealType>( 2.0 - this->m_Alpha ) );
 
     typename DensityFunctionType::NeighborsIdentifierType neighbors;
     this->m_MovingDensityFunction->GetPointsLocator()->FindClosestNPoints( samplePoint, this->m_EvaluationKNeighborhood, neighbors );

@@ -562,11 +562,11 @@ MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
   double precisionTolerance=0.0F;
   if( typeid(inputImage->GetPixel(index)) == typeid(double) )
     {
-    precisionTolerance = 1000.0 * vcl_pow(2.0,-52) * vcl_pow(2,vcl_floor(vcl_log(calculator->GetMaximum())/vcl_log(2.0)));
+    precisionTolerance = 1000.0 * std::pow(2.0,-52) * std::pow(2,std::floor(std::log(calculator->GetMaximum())/std::log(2.0)));
     }
   else if( typeid(inputImage->GetPixel(index)) == typeid(float) )
     {
-    precisionTolerance = 1000.0 * vcl_pow(2.0,-23) * vcl_pow(2,vcl_floor(vcl_log(calculator->GetMaximum())/vcl_log(2.0)));
+    precisionTolerance = 1000.0 * std::pow(2.0,-23) * std::pow(2,std::floor(std::log(calculator->GetMaximum())/std::log(2.0)));
     }
   else
     {

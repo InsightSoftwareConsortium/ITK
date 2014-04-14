@@ -73,7 +73,7 @@ int itkAbsImageFilterAndAdaptorTest(int, char* [] )
   InputIteratorType it( inputImage, inputImage->GetBufferedRegion() );
 
   // Initialize the content of Image A
-  const double pi    = vcl_atan( 1.0 ) * 4.0;
+  const double pi    = std::atan( 1.0 ) * 4.0;
   const double value = pi / 6.0;
   std::cout << "Content of the Input " << std::endl;
   it.GoToBegin();
@@ -115,11 +115,11 @@ int itkAbsImageFilterAndAdaptorTest(int, char* [] )
   while( !ot.IsAtEnd() )
     {
     std::cout <<  ot.Get() << " = ";
-    std::cout <<  vcl_fabs( it.Get() )  << std::endl;
+    std::cout <<  std::fabs( it.Get() )  << std::endl;
     const InputImageType::PixelType  input  = it.Get();
     const OutputImageType::PixelType output = ot.Get();
-    const OutputImageType::PixelType absolute  = vcl_fabs(input);
-    if( vcl_fabs( absolute - output ) > epsilon )
+    const OutputImageType::PixelType absolute  = std::fabs(input);
+    if( std::fabs( absolute - output ) > epsilon )
       {
       std::cerr << "Error in itkAbsImageFilterTest " << std::endl;
       std::cerr << " abs( " << input << ") = " << absolute << std::endl;
@@ -169,7 +169,7 @@ int itkAbsImageFilterAndAdaptorTest(int, char* [] )
     {
     std::cout <<  dt.Get() << std::endl;
     const OutputImageType::PixelType diff = dt.Get();
-    if( vcl_fabs( diff ) > epsilon )
+    if( std::fabs( diff ) > epsilon )
       {
       std::cerr << "Error in itkAbsImageFilterTest " << std::endl;
       std::cerr << "Comparing results with Adaptors" << std::endl;

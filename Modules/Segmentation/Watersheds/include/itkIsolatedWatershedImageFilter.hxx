@@ -123,8 +123,8 @@ IsolatedWatershedImageFilter< TInputImage, TOutputImage >
 
   const unsigned int maximumIterationsInBinarySearch =
     static_cast< unsigned int >(
-      vcl_log( ( static_cast< float >( upper ) - static_cast< float >( lower ) )
-               / static_cast< float >( m_IsolatedValueTolerance ) )  / vcl_log(2.0) );
+      std::log( ( static_cast< float >( upper ) - static_cast< float >( lower ) )
+               / static_cast< float >( m_IsolatedValueTolerance ) )  / std::log(2.0) );
 
   const float progressWeight = 1.0f / static_cast< float >( maximumIterationsInBinarySearch + 2 );
   float       cumulatedProgress = 0.0f;

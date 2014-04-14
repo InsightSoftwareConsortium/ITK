@@ -144,8 +144,8 @@ GradientNDAnisotropicDiffusionFunction< TImage >
       }
     else
       {
-      Cx = vcl_exp( ( vnl_math_sqr(dx_forward) + accum )  / m_K );
-      Cxd = vcl_exp( ( vnl_math_sqr(dx_backward) + accum_d ) / m_K );
+      Cx = std::exp( ( vnl_math_sqr(dx_forward) + accum )  / m_K );
+      Cxd = std::exp( ( vnl_math_sqr(dx_backward) + accum_d ) / m_K );
       }
 
     // Conductance modified first order derivatives.

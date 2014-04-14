@@ -360,7 +360,7 @@ QuadrilateralCell< TCellInterface >
 
     d = vnl_determinant(mat);
     //d=vtkMath::Determinant2x2(rcol,scol);
-    if ( vcl_abs(d) < 1.e-20 )
+    if ( std::abs(d) < 1.e-20 )
       {
       return false;
       }
@@ -389,15 +389,15 @@ QuadrilateralCell< TCellInterface >
       }
 
     //  check for convergence
-    if ( ( ( vcl_abs(pcoords[0] - params[0]) ) < ITK_QUAD_CONVERGED )
-         && ( ( vcl_abs(pcoords[1] - params[1]) ) < ITK_QUAD_CONVERGED ) )
+    if ( ( ( std::abs(pcoords[0] - params[0]) ) < ITK_QUAD_CONVERGED )
+         && ( ( std::abs(pcoords[1] - params[1]) ) < ITK_QUAD_CONVERGED ) )
       {
       converged = 1;
       }
 
     // Test for bad divergence (S.Hirschberg 11.12.2001)
-    else if ( ( vcl_abs(pcoords[0]) > ITK_DIVERGED )
-              || ( vcl_abs(pcoords[1]) > ITK_DIVERGED ) )
+    else if ( ( std::abs(pcoords[0]) > ITK_DIVERGED )
+              || ( std::abs(pcoords[1]) > ITK_DIVERGED ) )
       {
       return -1;
       }

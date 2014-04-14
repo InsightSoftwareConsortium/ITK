@@ -70,7 +70,7 @@ CSVArray2DFileReader <TData>
 
   /** initialize the matrix to NaN so that missing data will automatically be
    *  set to this value. */
-  this->m_Array2DDataObject->FillMatrix(vcl_numeric_limits<TData>::quiet_NaN());
+  this->m_Array2DDataObject->FillMatrix(std::numeric_limits<TData>::quiet_NaN());
 
   std::string entry;
 

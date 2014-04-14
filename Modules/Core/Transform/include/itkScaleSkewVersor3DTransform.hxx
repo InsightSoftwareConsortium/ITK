@@ -88,7 +88,7 @@ ScaleSkewVersor3DTransform<TScalar>
   axis[2] = parameters[2];
   if( norm > 0 )
     {
-    norm = vcl_sqrt(norm);
+    norm = std::sqrt(norm);
     }
 
   double epsilon = 1e-10;
@@ -137,7 +137,7 @@ ScaleSkewVersor3DTransform<TScalar>
 //
 // Parameters are ordered as:
 //
-// p[0:2] = right part of the versor (axis times vcl_sin(t/2))
+// p[0:2] = right part of the versor (axis times std::sin(t/2))
 // p[3:5] = translation components
 // p[6:8] = Scale
 // p[9:14] = Skew {xy, xz, yx, yz, zx, zy}

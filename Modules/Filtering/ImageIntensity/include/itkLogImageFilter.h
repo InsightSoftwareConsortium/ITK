@@ -48,7 +48,7 @@ public:
 
   inline TOutput operator()(const TInput & A) const
   {
-    return static_cast< TOutput >( vcl_log( static_cast< double >( A ) ) );
+    return static_cast< TOutput >( std::log( static_cast< double >( A ) ) );
   }
 };
 }

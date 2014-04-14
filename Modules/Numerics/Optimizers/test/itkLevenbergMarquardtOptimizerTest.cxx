@@ -363,7 +363,7 @@ int itkRunLevenbergMarquardOptimization( bool useGradient,
   OptimizerType::MeasureType finalValue = optimizer->GetValue();
 
   // We compare only the first value for this test
-  if(vcl_fabs(finalValue[0]-0.0)>0.01)
+  if(std::fabs(finalValue[0]-0.0)>0.01)
     {
     std::cout << "[FAILURE]" << std::endl;
     return EXIT_FAILURE;

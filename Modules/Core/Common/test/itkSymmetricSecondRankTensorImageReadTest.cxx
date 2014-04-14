@@ -135,7 +135,7 @@ int itkSymmetricSecondRankTensorImageReadTest( int ac, char* av[] )
       {
       for(unsigned int j=0; j<3; j++)
         {
-        if( vcl_abs( matrixPixel[i][j] - tensorPixel(i,j) ) > tolerance )
+        if( std::abs( matrixPixel[i][j] - tensorPixel(i,j) ) > tolerance )
           {
           std::cerr << "Tensor read does not match expected values " << std::endl;
           std::cerr << "Index " << tItr.GetIndex() << std::endl;

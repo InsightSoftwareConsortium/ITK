@@ -151,8 +151,8 @@ QPropXORTest1(int argc, char* argv[])
       std::cout << "Network Output = " << ov << std::endl;
       std::cout << "Target = " << tv << std::endl;
       flag = 0;
-      std::cout<<vcl_fabs(tv[0]-ov[0])<<std::endl;
-      if (vcl_fabs(tv[0]-ov[0])>0.2)
+      std::cout<<std::fabs(tv[0]-ov[0])<<std::endl;
+      if (std::fabs(tv[0]-ov[0])>0.2)
         {
         flag = 1;
         }

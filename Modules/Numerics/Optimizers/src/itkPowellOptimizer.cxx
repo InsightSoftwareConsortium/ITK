@@ -184,7 +184,7 @@ PowellOptimizer
   // Compute the golden ratio as a constant to be
   // used when extrapolating the bracket
   //
-  const double goldenRatio = ( 1.0 + vcl_sqrt(5.0) ) / 2.0;
+  const double goldenRatio = ( 1.0 + std::sqrt(5.0) ) / 2.0;
 
   //
   // Get the value of the function for point x2
@@ -254,7 +254,7 @@ PowellOptimizer
   x = bx;
   w = bx;
 
-  const double goldenSectionRatio = ( 3.0 - vcl_sqrt(5.0) ) / 2;  /* Gold
+  const double goldenSectionRatio = ( 3.0 - std::sqrt(5.0) ) / 2;  /* Gold
                                                                     section
                                                                     ratio    */
   const double POWELL_TINY = 1.0e-20;
@@ -278,10 +278,10 @@ PowellOptimizer
     double tolerance1;
     double tolerance2;
 
-    tolerance1 = m_StepTolerance * vcl_fabs(x) + POWELL_TINY;
+    tolerance1 = m_StepTolerance * std::fabs(x) + POWELL_TINY;
     tolerance2 = 2.0 * tolerance1;
 
-    if ( vcl_fabs(x - middle_range) <= ( tolerance2 - 0.5 * ( b - a ) )
+    if ( std::fabs(x - middle_range) <= ( tolerance2 - 0.5 * ( b - a ) )
          || 0.5 * ( b - a ) < m_StepTolerance )
       {
       *extX = x;
@@ -297,7 +297,7 @@ PowellOptimizer
     new_step = goldenSectionRatio * ( x < middle_range ? b - x : a - x );
 
     /* Decide if the interpolation can be tried  */
-    if ( vcl_fabs(x - w) >= tolerance1  )    /* If x and w are distinct      */
+    if ( std::fabs(x - w) >= tolerance1  )    /* If x and w are distinct      */
       {
       double t;
       t = ( x - w ) * ( functionValueOfX - functionValueOfV );
@@ -321,7 +321,7 @@ PowellOptimizer
 
       /* Chec if x+p/q falls in [a,b] and  not too close to a and b
            and isn't too large */
-      if ( vcl_fabs(p) < vcl_fabs(new_step * q)
+      if ( std::fabs(p) < std::fabs(new_step * q)
            && p > q * ( a - x + 2 * tolerance1 )
            && p < q * ( b - x - 2 * tolerance1 ) )
         {
@@ -333,7 +333,7 @@ PowellOptimizer
       }
 
     /* Adjust the step to be not less than tolerance*/
-    if ( vcl_fabs(new_step) < tolerance1 )
+    if ( std::fabs(new_step) < tolerance1 )
       {
       if ( new_step > 0.0 )
         {
@@ -477,15 +477,15 @@ PowellOptimizer
       this->SetCurrentLinePoint(xx, fx);
       p = this->GetCurrentPosition();
 
-      if ( vcl_fabs(fptt - fx) > del )
+      if ( std::fabs(fptt - fx) > del )
         {
-        del = vcl_fabs(fptt - fx);
+        del = std::fabs(fptt - fx);
         ibig = i;
         }
       }
 
-    if ( 2.0 * vcl_fabs(fp - fx)
-         <= m_ValueTolerance * ( vcl_fabs(fp) + vcl_fabs(fx) ) )
+    if ( 2.0 * std::fabs(fp - fx)
+         <= m_ValueTolerance * ( std::fabs(fp) + std::fabs(fx) ) )
       {
       m_StopConditionDescription << "Cost function values at the current parameter ("
                                  << fx

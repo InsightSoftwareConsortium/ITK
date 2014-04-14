@@ -53,7 +53,7 @@ public:
   { output = (TInternalType)( input ); }
 
   static inline TExternalType Get(const TInternalType & input)
-  { return (TExternalType)( vcl_atan2( input.imag(), input.real() ) ); }
+  { return (TExternalType)( std::atan2( input.imag(), input.real() ) ); }
 };
 } // end namespace Accessor
 

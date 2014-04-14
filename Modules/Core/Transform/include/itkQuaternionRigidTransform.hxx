@@ -28,8 +28,8 @@ QuaternionRigidTransform<TScalar>
 ::QuaternionRigidTransform() :
   Superclass(ParametersDimension)
 {
-  m_Rotation = VnlQuaternionType(0, 0, 0, 1); // axis * vcl_sin(t/2),
-                                              // vcl_cos(t/2)
+  m_Rotation = VnlQuaternionType(0, 0, 0, 1); // axis * std::sin(t/2),
+                                              // std::cos(t/2)
 }
 
 // Constructor with default arguments
@@ -37,8 +37,8 @@ template <typename TScalar>
 QuaternionRigidTransform<TScalar>::QuaternionRigidTransform(unsigned int parametersDimension) :
   Superclass(parametersDimension)
 {
-  m_Rotation = VnlQuaternionType(0, 0, 0, 1); // axis * vcl_sin(t/2),
-                                              // vcl_cos(t/2)
+  m_Rotation = VnlQuaternionType(0, 0, 0, 1); // axis * std::sin(t/2),
+                                              // std::cos(t/2)
 }
 
 // Constructor with explicit arguments

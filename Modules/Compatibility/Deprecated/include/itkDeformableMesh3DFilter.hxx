@@ -580,13 +580,13 @@ DeformableMesh3DFilter< TInputMesh, TOutputMesh >
 
     vec_nor = normals.Value();
 
-    max = vcl_abs(vec_nor[0]);
+    max = std::abs(vec_nor[0]);
 
     //---------------------------------------------------------------------
     // all the movement in z direction is now disabled for further test
     //---------------------------------------------------------------------
-    if ( vcl_abs(vec_nor[1]) > max ) { max = vcl_abs(vec_nor[1]); }
-    if ( vcl_abs(vec_nor[2]) > max ) { max = vcl_abs(vec_nor[2]); }
+    if ( std::abs(vec_nor[1]) > max ) { max = std::abs(vec_nor[1]); }
+    if ( std::abs(vec_nor[2]) > max ) { max = std::abs(vec_nor[2]); }
     if ( flag )
       {
       vec_1[0] = -1 * vec_nor[0] / max;
@@ -682,9 +682,9 @@ DeformableMesh3DFilter< TInputMesh, TOutputMesh >
     coord[1] = static_cast< IndexValueType >( vec_loc[1] );
     coord[2] = static_cast< IndexValueType >( vec_loc[2] );
 
-    coord2[0] = static_cast< IndexValueType >( vcl_ceil(vec_loc[0]) );
-    coord2[1] = static_cast< IndexValueType >( vcl_ceil(vec_loc[1]) );
-    coord2[2] = static_cast< IndexValueType >( vcl_ceil(vec_loc[2]) );
+    coord2[0] = static_cast< IndexValueType >( std::ceil(vec_loc[0]) );
+    coord2[1] = static_cast< IndexValueType >( std::ceil(vec_loc[1]) );
+    coord2[2] = static_cast< IndexValueType >( std::ceil(vec_loc[2]) );
 
     tmp_co_1[0] = coord2[0];
     tmp_co_1[1] = coord[1];
@@ -735,7 +735,7 @@ DeformableMesh3DFilter< TInputMesh, TOutputMesh >
     vec_for[1] = m_GradientMagnitude * mag * vec_nor[1]; /*num_for*/
     vec_for[2] = m_GradientMagnitude * mag * vec_nor[2]; /*num_for*/
 
-    mag = vcl_sqrt(vec_for[0] * vec_for[0] + vec_for[1] * vec_for[1] + vec_for[2] * vec_for[2]);
+    mag = std::sqrt(vec_for[0] * vec_for[0] + vec_for[1] * vec_for[1] + vec_for[2] * vec_for[2]);
     if ( mag > 0.5 )
       {
       for ( int i = 0; i < 3; i++ )
@@ -801,7 +801,7 @@ DeformableMesh3DFilter< TInputMesh, TOutputMesh >
              + v2[0] * ( v3[1] - v1[1] )
              + v3[0] * ( v1[1] - v2[1] ) );
 
-    absvec = -vcl_sqrt ( (double)( ( coa * coa ) + ( cob * cob ) + ( coc * coc ) ) );
+    absvec = -std::sqrt ( (double)( ( coa * coa ) + ( cob * cob ) + ( coc * coc ) ) );
 
     itkAssertInDebugAndIgnoreInReleaseMacro (absvec != 0);
 
@@ -834,7 +834,7 @@ DeformableMesh3DFilter< TInputMesh, TOutputMesh >
     {
     v1 = normals.Value();
 
-    absvec = vcl_sqrt( (double)( ( v1[0] * v1[0] ) + ( v1[1] * v1[1] )
+    absvec = std::sqrt( (double)( ( v1[0] * v1[0] ) + ( v1[1] * v1[1] )
                                  + ( v1[2] * v1[2] ) ) );
     v1[0] = v1[0] / absvec;
     v1[1] = v1[1] / absvec;

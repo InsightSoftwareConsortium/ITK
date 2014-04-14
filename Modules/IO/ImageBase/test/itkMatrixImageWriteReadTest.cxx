@@ -132,7 +132,7 @@ int itkMatrixImageWriteReadTest( int ac, char* av[] )
       {
       for(unsigned int j=0; j<3; j++)
         {
-        if( vcl_abs( matrixPixel1[i][j] - matrixPixel2[i][j] ) > tolerance )
+        if( std::abs( matrixPixel1[i][j] - matrixPixel2[i][j] ) > tolerance )
           {
           std::cerr << "Matrix read does not match expected values " << std::endl;
           std::cerr << "Index " << tItr.GetIndex() << std::endl;

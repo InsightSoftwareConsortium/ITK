@@ -397,9 +397,9 @@ NiftiImageIO
 bool
 NiftiImageIO::MustRescale()
 {
-  return vcl_abs(this->m_RescaleSlope) > vcl_numeric_limits< double >::epsilon()
-         && ( vcl_abs(this->m_RescaleSlope - 1.0) > vcl_numeric_limits< double >::epsilon()
-              || vcl_abs(this->m_RescaleIntercept) > vcl_numeric_limits< double >::epsilon() );
+  return std::abs(this->m_RescaleSlope) > std::numeric_limits< double >::epsilon()
+         && ( std::abs(this->m_RescaleSlope - 1.0) > std::numeric_limits< double >::epsilon()
+              || std::abs(this->m_RescaleIntercept) > std::numeric_limits< double >::epsilon() );
 }
 
 // Internal function to rescale pixel according to Rescale Slope/Intercept
@@ -1605,7 +1605,7 @@ void Normalize(std::vector< double > & x)
     {
     return;
     }
-  sum = vcl_sqrt(sum);
+  sum = std::sqrt(sum);
   for ( unsigned int i = 0; i < x.size(); i++ )
     {
     x[i] = x[i] / sum;

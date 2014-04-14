@@ -137,7 +137,7 @@ int itkWarpMeshFilterTest(int, char* [] )
     for(unsigned int i=0; i<Dimension; i++)
       {
       const double distance = outputPoint.Value()[i] - inputPoint.Value()[i];
-      if( vcl_fabs( distance - simpleVector[i] ) > tolerance )
+      if( std::fabs( distance - simpleVector[i] ) > tolerance )
         {
         std::cerr << "Filter failed" << std::endl;
         std::cerr << "Expected displacement = " << simpleVector[i] << std::endl;

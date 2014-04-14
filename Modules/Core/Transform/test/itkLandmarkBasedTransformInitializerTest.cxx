@@ -24,7 +24,7 @@ void
 Init3DPoints(typename TTransformInitializer::LandmarkPointContainer &fixedLandmarks,
            typename TTransformInitializer::LandmarkPointContainer &movingLandmarks)
 {
-  const double nPI = 4.0 * vcl_atan( 1.0 );
+  const double nPI = 4.0 * std::atan( 1.0 );
   // Moving Landmarks = Fixed Landmarks rotated by 'angle' degrees and then
   //    translated by the 'translation'. Offset can be used to move the fixed
   //    landmarks around.
@@ -44,8 +44,8 @@ Init3DPoints(typename TTransformInitializer::LandmarkPointContainer &fixedLandma
   point[2]=0 + offset[2];
   fixedLandmarks.push_back(point);
   tmp = point;
-  point[0] = vcl_cos(angle)*point[0] - vcl_sin(angle)*point[1] + translation[0];
-  point[1] = vcl_sin(angle)*tmp[0] + vcl_cos(angle)*point[1] + translation[1];
+  point[0] = std::cos(angle)*point[0] - std::sin(angle)*point[1] + translation[0];
+  point[1] = std::sin(angle)*tmp[0] + std::cos(angle)*point[1] + translation[1];
   point[2] = point[2] + translation[2];
   movingLandmarks.push_back(point);
   point[0]=2 + offset[0];
@@ -53,8 +53,8 @@ Init3DPoints(typename TTransformInitializer::LandmarkPointContainer &fixedLandma
   point[2]=0 + offset[2];
   fixedLandmarks.push_back(point);
   tmp = point;
-  point[0] = vcl_cos(angle)*point[0] - vcl_sin(angle)*point[1] + translation[0];
-  point[1] = vcl_sin(angle)*tmp[0] + vcl_cos(angle)*point[1] + translation[1];
+  point[0] = std::cos(angle)*point[0] - std::sin(angle)*point[1] + translation[0];
+  point[1] = std::sin(angle)*tmp[0] + std::cos(angle)*point[1] + translation[1];
   point[2] = point[2] + translation[2];
   movingLandmarks.push_back(point);
   point[0]=-2 + offset[0];
@@ -62,8 +62,8 @@ Init3DPoints(typename TTransformInitializer::LandmarkPointContainer &fixedLandma
   point[2]=0 + offset[2];
   fixedLandmarks.push_back(point);
   tmp = point;
-  point[0] = vcl_cos(angle)*point[0] - vcl_sin(angle)*point[1] + translation[0];
-  point[1] = vcl_sin(angle)*tmp[0] + vcl_cos(angle)*point[1] + translation[1];
+  point[0] = std::cos(angle)*point[0] - std::sin(angle)*point[1] + translation[0];
+  point[1] = std::sin(angle)*tmp[0] + std::cos(angle)*point[1] + translation[1];
   point[2] = point[2] + translation[2];
   movingLandmarks.push_back(point);
   point[0]=-2 + offset[0];
@@ -71,8 +71,8 @@ Init3DPoints(typename TTransformInitializer::LandmarkPointContainer &fixedLandma
   point[2]=0 + offset[2];
   fixedLandmarks.push_back(point);
   tmp = point;
-  point[0] = vcl_cos(angle)*point[0] - vcl_sin(angle)*point[1] + translation[0];
-  point[1] = vcl_sin(angle)*tmp[0] + vcl_cos(angle)*point[1] + translation[1];
+  point[0] = std::cos(angle)*point[0] - std::sin(angle)*point[1] + translation[0];
+  point[1] = std::sin(angle)*tmp[0] + std::cos(angle)*point[1] + translation[1];
   point[2] = point[2] + translation[2];
   movingLandmarks.push_back(point);
 }
@@ -247,7 +247,7 @@ int itkLandmarkBasedTransformInitializerTest(int, char * [])
   // Moving Landmarks = Fixed Landmarks rotated by 'angle' degrees and then
   //    translated by the 'translation'. Offset can be used to move the fixed
   //    landmarks around.
-  const double nPI = 4.0 * vcl_atan( 1.0 );
+  const double nPI = 4.0 * std::atan( 1.0 );
   double angle = 10 * nPI / 180.0;
   TransformInitializerType::LandmarkPointType translation;
   translation[0] = 6;
@@ -260,29 +260,29 @@ int itkLandmarkBasedTransformInitializerTest(int, char * [])
   point[1]=2 + offset[1];
   fixedLandmarks.push_back(point);
   tmp = point;
-  point[0] = vcl_cos(angle)*point[0] - vcl_sin(angle)*point[1] + translation[0];
-  point[1] = vcl_sin(angle)*tmp[0] + vcl_cos(angle)*point[1] + translation[1];
+  point[0] = std::cos(angle)*point[0] - std::sin(angle)*point[1] + translation[0];
+  point[1] = std::sin(angle)*tmp[0] + std::cos(angle)*point[1] + translation[1];
   movingLandmarks.push_back(point);
   point[0]=2 + offset[0];
   point[1]=-2 + offset[1];
   fixedLandmarks.push_back(point);
   tmp = point;
-  point[0] = vcl_cos(angle)*point[0] - vcl_sin(angle)*point[1] + translation[0];
-  point[1] = vcl_sin(angle)*tmp[0] + vcl_cos(angle)*point[1] + translation[1];
+  point[0] = std::cos(angle)*point[0] - std::sin(angle)*point[1] + translation[0];
+  point[1] = std::sin(angle)*tmp[0] + std::cos(angle)*point[1] + translation[1];
   movingLandmarks.push_back(point);
   point[0]=-2 + offset[0];
   point[1]=2 + offset[1];
   fixedLandmarks.push_back(point);
   tmp = point;
-  point[0] = vcl_cos(angle)*point[0] - vcl_sin(angle)*point[1] + translation[0];
-  point[1] = vcl_sin(angle)*tmp[0] + vcl_cos(angle)*point[1] + translation[1];
+  point[0] = std::cos(angle)*point[0] - std::sin(angle)*point[1] + translation[0];
+  point[1] = std::sin(angle)*tmp[0] + std::cos(angle)*point[1] + translation[1];
   movingLandmarks.push_back(point);
   point[0]=-2 + offset[0];
   point[1]=-2 + offset[1];
   fixedLandmarks.push_back(point);
   tmp = point;
-  point[0] = vcl_cos(angle)*point[0] - vcl_sin(angle)*point[1] + translation[0];
-  point[1] = vcl_sin(angle)*tmp[0] + vcl_cos(angle)*point[1] + translation[1];
+  point[0] = std::cos(angle)*point[0] - std::sin(angle)*point[1] + translation[0];
+  point[1] = std::sin(angle)*tmp[0] + std::cos(angle)*point[1] + translation[1];
   movingLandmarks.push_back(point);
 
   initializer->SetFixedLandmarks(fixedLandmarks);

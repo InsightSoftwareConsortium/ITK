@@ -50,7 +50,7 @@ float sphere(unsigned int x, unsigned int y, unsigned int z)
     = (x - (float)WIDTH /2.0)*(x - (float)WIDTH /2.0)
     + (y - (float)HEIGHT/2.0)*(y - (float)HEIGHT/2.0)
     + (z - (float)DEPTH /2.0)*(z - (float)DEPTH /2.0);
-  dis = RADIUS - vcl_sqrt(dis);
+  dis = RADIUS - std::sqrt(dis);
   return(-dis);
 }
 
@@ -58,9 +58,9 @@ float sphere(unsigned int x, unsigned int y, unsigned int z)
 float cube(unsigned int x, unsigned int y, unsigned int z)
 {
   float X, Y, Z;
-  X = vcl_fabs(x - (float)WIDTH /2.0);
-  Y = vcl_fabs(y - (float)HEIGHT/2.0);
-  Z = vcl_fabs(z - (float)DEPTH /2.0);
+  X = std::fabs(x - (float)WIDTH /2.0);
+  Y = std::fabs(y - (float)HEIGHT/2.0);
+  Z = std::fabs(z - (float)DEPTH /2.0);
   float dis;
   if (!((X > RADIUS)&&(Y > RADIUS)&&(Z>RADIUS)))
     {
@@ -283,7 +283,7 @@ int itkParallelSparseFieldLevelSetImageFilterTest(int argc, char* argv[])
   // Squash level sets everywhere but near the zero set.
   for (itr.GoToBegin(); ! itr.IsAtEnd(); ++itr)
     {
-    itr.Value() = itr.Value() /vcl_sqrt((5.0f +vnl_math_sqr(itr.Value())));
+    itr.Value() = itr.Value() /std::sqrt((5.0f +vnl_math_sqr(itr.Value())));
     }
 
   PSFLSIFT::MorphFilter::Pointer mf = PSFLSIFT::MorphFilter::New();

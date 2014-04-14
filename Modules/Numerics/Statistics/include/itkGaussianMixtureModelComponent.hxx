@@ -177,7 +177,7 @@ GaussianMixtureModelComponent< TSample >
       }
     }
 
-  changes = vcl_sqrt(changes);
+  changes = std::sqrt(changes);
   return changes;
 }
 

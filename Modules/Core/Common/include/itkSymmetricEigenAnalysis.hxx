@@ -147,7 +147,7 @@ SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ReduceToTridiagonalMat
 
     e2[i] = scale * scale * h;
     f = d[l];
-    d__1 = vcl_sqrt(h);
+    d__1 = std::sqrt(h);
     g = ( -1.0 ) * vnl_math_sgn0(f) * vnl_math_abs(d__1);
     e[i] = scale * g;
     h -= f * g;
@@ -267,7 +267,7 @@ const
         }
 
       f = d[l];
-      d__1 = vcl_sqrt(h);
+      d__1 = std::sqrt(h);
       g = ( -1.0 ) * vnl_math_sgn0(f) * vnl_math_abs(d__1);
       e[i] = scale * g;
       h -= f * g;

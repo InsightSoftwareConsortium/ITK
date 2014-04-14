@@ -89,11 +89,11 @@ void NormalVariateGenerator::Initialize(int randomSeed)
 //          Z = (sqrt (1/2TLEN)) * A * (B + n)
 //      where:
 //          B = C / A.
-//      We set m_Chic1 = A * vcl_sqrt(0.5 / TLEN),  m_Chic2 = B
+//      We set m_Chic1 = A * std::sqrt(0.5 / TLEN),  m_Chic2 = B
 
   fake = 1.0 + 0.125 / m_TLEN;   // This is A
-  m_Chic2 = vcl_sqrt(2.0 * m_TLEN  -  fake * fake) /  fake;
-  m_Chic1 = fake * vcl_sqrt(0.5 / m_TLEN);
+  m_Chic2 = std::sqrt(2.0 * m_TLEN  -  fake * fake) /  fake;
+  m_Chic1 = fake * std::sqrt(0.5 / m_TLEN);
 
   m_ActualRSD = 0.0;
 }
@@ -333,16 +333,16 @@ nextpair:
   m_Irs = ( m_Irs <= 0 ) ? ( ( m_Irs << 1 ) ^ 333556017 ) : ( m_Irs << 1 );
   r = m_Irs + m_Lseed;
   if ( r < 0 ) { r = ~r; }
-  tz = -2.0 * vcl_log( ( r + 0.5 ) * m_Rcons );   /* Sum of squares */
+  tz = -2.0 * std::log( ( r + 0.5 ) * m_Rcons );   /* Sum of squares */
   ts += tz;
-  tz = vcl_sqrt(tz / tr);
+  tz = std::sqrt(tz / tr);
   m_Vec1[p++] = (int)( m_Scale *  tx * tz );
   m_Vec1[p++] = (int)( m_Scale *  ty * tz );
   if ( p < m_TLEN ) { goto nextpair; }
   /*    Horrid, but good enough */
   /*    Calc correction factor to make sum of squares = TLEN    */
   ts = m_TLEN / ts;  /* Should be close to 1.0  */
-  tr = vcl_sqrt(ts);
+  tr = std::sqrt(ts);
   for ( p = 0; p < m_TLEN; p++ )
     {
     tx = m_Vec1[p] * tr;
@@ -358,7 +358,7 @@ recalcsumsq:
     ts += ( tx * tx );
     }
   /*    Now ts should be Scale*Scale*TLEN or thereabouts   */
-  ts = vcl_sqrt( ts / ( m_Scale * m_Scale * m_TLEN ) );
+  ts = std::sqrt( ts / ( m_Scale * m_Scale * m_TLEN ) );
   m_ActualRSD = 1.0 / ts;   /* Reciprocal of actual Standard Devtn */
   goto startpass;
 }

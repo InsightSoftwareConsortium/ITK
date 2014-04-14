@@ -72,7 +72,7 @@ int itkSphereSignedDistanceFunctionTest( int, char *[])
     std::cout << "f( " << point << ") = " << output << std::endl;
 
     // check results
-    CoordRep expected = p * vcl_sqrt( 2.0 ) - parameters[0];
+    CoordRep expected = p * std::sqrt( 2.0 ) - parameters[0];
     if( vnl_math_abs( output - expected ) > 1e-9 )
       {
       std::cout << "But expected value is: " << expected << std::endl;

@@ -152,10 +152,10 @@ AffineTransform< TScalar, NDimensions >
       }
     trans[i][i] = 1.0;
     }
-  trans[axis1][axis1] =  vcl_cos(angle);
-  trans[axis1][axis2] =  vcl_sin(angle);
-  trans[axis2][axis1] = -vcl_sin(angle);
-  trans[axis2][axis2] =  vcl_cos(angle);
+  trans[axis1][axis1] =  std::cos(angle);
+  trans[axis1][axis2] =  std::sin(angle);
+  trans[axis2][axis1] = -std::sin(angle);
+  trans[axis2][axis2] =  std::cos(angle);
   if ( pre )
     {
     this->SetVarMatrix(this->GetMatrix() * trans);
@@ -180,10 +180,10 @@ AffineTransform< TScalar, NDimensions >
 {
   MatrixType trans;
 
-  trans[0][0] =  vcl_cos(angle);
-  trans[0][1] = -vcl_sin(angle);
-  trans[1][0] =  vcl_sin(angle);
-  trans[1][1] =  vcl_cos(angle);
+  trans[0][0] =  std::cos(angle);
+  trans[0][1] = -std::sin(angle);
+  trans[1][0] =  std::sin(angle);
+  trans[1][1] =  std::cos(angle);
   if ( pre )
     {
     this->SetVarMatrix(this->GetMatrix() * trans);
@@ -211,16 +211,16 @@ AffineTransform< TScalar, NDimensions >
   ScalarType q0, q1, q2, q3;
 
   // Convert the axis to a unit vector
-  r = vcl_sqrt(axis[0] * axis[0] + axis[1] * axis[1] + axis[2] * axis[2]);
+  r = std::sqrt(axis[0] * axis[0] + axis[1] * axis[1] + axis[2] * axis[2]);
   x1 = axis[0] / r;
   x2 = axis[1] / r;
   x3 = axis[2] / r;
 
   // Compute quaternion elements
-  q0 = vcl_cos(angle / 2.0);
-  q1 = x1 * vcl_sin(angle / 2.0);
-  q2 = x2 * vcl_sin(angle / 2.0);
-  q3 = x3 * vcl_sin(angle / 2.0);
+  q0 = std::cos(angle / 2.0);
+  q1 = x1 * std::sin(angle / 2.0);
+  q2 = x2 * std::sin(angle / 2.0);
+  q3 = x3 * std::sin(angle / 2.0);
 
   // Compute elements of the rotation matrix
   trans[0][0] = q0 * q0 + q1 * q1 - q2 * q2 - q3 * q3;
@@ -318,7 +318,7 @@ AffineTransform< TScalar, NDimensions >
     term = this->GetOffset()[i] - other->GetOffset()[i];
     result += term * term;
     }
-  return vcl_sqrt(result);
+  return std::sqrt(result);
 }
 
 /** Compute a distance between self and the identity transform */
@@ -347,7 +347,7 @@ AffineTransform< TScalar, NDimensions >
     result += term * term;
     }
 
-  return vcl_sqrt(result);
+  return std::sqrt(result);
 }
 } // namespace
 

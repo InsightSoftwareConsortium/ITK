@@ -119,8 +119,8 @@ CenteredSimilarity2DTransform<TScalar>
 ::ComputeJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const
 {
   const double angle = this->GetAngle();
-  const double ca = vcl_cos(angle);
-  const double sa = vcl_sin(angle);
+  const double ca = std::cos(angle);
+  const double sa = std::sin(angle);
 
   jacobian.SetSize( 2, this->GetNumberOfLocalParameters() );
   jacobian.Fill(0.0);

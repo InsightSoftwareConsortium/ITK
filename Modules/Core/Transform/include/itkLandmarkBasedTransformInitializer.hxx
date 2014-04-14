@@ -425,7 +425,7 @@ LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
     return;
     }
 
-  const double PI = 4.0 * vcl_atan(1.0);
+  const double PI = 4.0 * std::atan(1.0);
   typedef typename Rigid2DTransformType::OutputVectorType VectorType;
   typedef typename Rigid2DTransformType::OutputPointType  PointType;
 
@@ -510,9 +510,9 @@ LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
       }
 
     itkDebugMacro(<< "Dot Product of landmarks: " << s_dot << " Cross Product: " << s_cross);
-    if ( vcl_fabs(s_dot) > 0.00005 )
+    if ( std::fabs(s_dot) > 0.00005 )
       {
-      rotationAngle = vcl_atan2(s_cross, s_dot);
+      rotationAngle = std::atan2(s_cross, s_dot);
       }
     else
       {

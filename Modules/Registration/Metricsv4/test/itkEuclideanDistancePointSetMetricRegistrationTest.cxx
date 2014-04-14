@@ -103,8 +103,8 @@ int itkEuclideanDistancePointSetMetricRegistrationTestRun(
   for( unsigned int n=0; n < numberOfPoints; n ++ )
     {
     fixedPoint = fixedPoints->GetPoint( n );
-    movingPoint[0] = fixedPoint[0] * vcl_cos( theta ) - fixedPoint[1] * vcl_sin( theta );
-    movingPoint[1] = fixedPoint[0] * vcl_sin( theta ) + fixedPoint[1] * vcl_cos( theta );
+    movingPoint[0] = fixedPoint[0] * std::cos( theta ) - fixedPoint[1] * std::sin( theta );
+    movingPoint[1] = fixedPoint[0] * std::sin( theta ) + fixedPoint[1] * std::cos( theta );
     movingPoints->SetPoint( n, movingPoint );
     std::cout << fixedPoint << " -> " << movingPoint << std::endl;
     }

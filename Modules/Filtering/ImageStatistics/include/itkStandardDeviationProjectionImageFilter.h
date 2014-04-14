@@ -88,7 +88,7 @@ public:
       {
       squaredSum += vnl_math_sqr(*it - mean);
       }
-    return vcl_sqrt( squaredSum / ( m_Size - 1 ) );
+    return std::sqrt( squaredSum / ( m_Size - 1 ) );
   }
 
   TAccumulate                m_Sum;

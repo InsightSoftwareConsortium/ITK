@@ -113,7 +113,7 @@ FloodFilledSpatialFunctionConditionalConstIterator< TImage, TFunction >
       unsigned int counter;
       unsigned int counterCopy;
       unsigned int dim = TImage::ImageDimension;
-      unsigned int numReps = static_cast< unsigned int >( vcl_pow(
+      unsigned int numReps = static_cast< unsigned int >( std::pow(
                                                             static_cast< double >( 2.0 ),
                                                             static_cast< double >( dim ) ) );
 
@@ -160,7 +160,7 @@ FloodFilledSpatialFunctionConditionalConstIterator< TImage, TFunction >
       unsigned int counter;
       unsigned int counterCopy;
       unsigned int dim = TImage::ImageDimension;
-      unsigned int numReps = static_cast< unsigned int >( vcl_pow(
+      unsigned int numReps = static_cast< unsigned int >( std::pow(
                                                             static_cast< double >( 2.0 ),
                                                             static_cast< double >( dim ) ) );
       IndexType tempIndex;

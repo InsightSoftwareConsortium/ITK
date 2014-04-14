@@ -58,10 +58,10 @@ bool TestSettingTranslation(void)
     itk::Matrix<double, 3, 3> R;
     R.SetIdentity();
     const double alpha = vnl_math::pi / 180.0;
-    R[0][0] =        vcl_cos( alpha );
-    R[0][1] =        vcl_sin( alpha );
-    R[1][0] = -1.0 * vcl_sin( alpha );
-    R[1][1] =        vcl_cos( alpha );
+    R[0][0] =        std::cos( alpha );
+    R[0][1] =        std::sin( alpha );
+    R[1][0] = -1.0 * std::sin( alpha );
+    R[1][1] =        std::cos( alpha );
 
     itk::Vector< double, 3> T; T[0]=100;T[1]=200;T[2]=300;
 
@@ -135,7 +135,7 @@ int itkRigid3DTransformTest(int ,char * [] )
 
     for(unsigned int i=0; i<N; i++)
       {
-      if( vcl_fabs( offset[i]-0.0 ) > epsilon )
+      if( std::fabs( offset[i]-0.0 ) > epsilon )
         {
         Ok = false;
         break;
@@ -162,7 +162,7 @@ int itkRigid3DTransformTest(int ,char * [] )
 
     for(unsigned int i=0; i<N; i++)
       {
-      if( vcl_fabs( offset[i]- ioffset[i] ) > epsilon )
+      if( std::fabs( offset[i]- ioffset[i] ) > epsilon )
         {
         Ok = false;
         break;
@@ -184,7 +184,7 @@ int itkRigid3DTransformTest(int ,char * [] )
       r = translation->TransformPoint( p );
       for(unsigned int i=0; i<N; i++)
         {
-        if( vcl_fabs( q[i]- r[i] ) > epsilon )
+        if( std::fabs( q[i]- r[i] ) > epsilon )
           {
           Ok = false;
           break;
@@ -211,7 +211,7 @@ int itkRigid3DTransformTest(int ,char * [] )
       q = translation->TransformVector( p );
       for(unsigned int i=0; i<N; i++)
         {
-        if( vcl_fabs( q[i]- p[i] ) > epsilon )
+        if( std::fabs( q[i]- p[i] ) > epsilon )
           {
           Ok = false;
           break;
@@ -237,7 +237,7 @@ int itkRigid3DTransformTest(int ,char * [] )
       q = translation->TransformCovariantVector( p );
       for(unsigned int i=0; i<N; i++)
         {
-        if( vcl_fabs( q[i]- p[i] ) > epsilon )
+        if( std::fabs( q[i]- p[i] ) > epsilon )
           {
           Ok = false;
           break;
@@ -265,7 +265,7 @@ int itkRigid3DTransformTest(int ,char * [] )
       q = translation->TransformVector( p );
       for(unsigned int i=0; i<N; i++)
         {
-        if( vcl_fabs( q[i] - p[i] ) > epsilon )
+        if( std::fabs( q[i] - p[i] ) > epsilon )
           {
           Ok = false;
           break;
@@ -292,9 +292,9 @@ int itkRigid3DTransformTest(int ,char * [] )
     mrotation.SetIdentity();
 
     // 15 degrees in radians
-    const double angle = 15.0 * vcl_atan( 1.0f ) / 45.0;
-    const double sinth = vcl_sin( angle );
-    const double costh = vcl_cos( angle );
+    const double angle = 15.0 * std::atan( 1.0f ) / 45.0;
+    const double sinth = std::sin( angle );
+    const double costh = std::cos( angle );
 
     // around the positive Z axis
     mrotation[0][0] =  costh;
@@ -316,7 +316,7 @@ int itkRigid3DTransformTest(int ,char * [] )
 
     for(unsigned int i=0; i<N; i++)
       {
-      if( vcl_fabs( offset[i]- ioffset[i] ) > epsilon )
+      if( std::fabs( offset[i]- ioffset[i] ) > epsilon )
         {
         Ok = false;
         break;
@@ -337,7 +337,7 @@ int itkRigid3DTransformTest(int ,char * [] )
       {
       for(unsigned int j=0; j<N; j++)
         {
-        if( vcl_fabs( matrix0[i][j]- mrotation[i][j] ) > epsilon )
+        if( std::fabs( matrix0[i][j]- mrotation[i][j] ) > epsilon )
           {
           Ok = false;
           break;
@@ -365,7 +365,7 @@ int itkRigid3DTransformTest(int ,char * [] )
       r = rotation->TransformPoint( p );
       for(unsigned int i=0; i<N; i++)
         {
-        if( vcl_fabs( q[i]- r[i] ) > epsilon )
+        if( std::fabs( q[i]- r[i] ) > epsilon )
           {
           Ok = false;
           break;
@@ -398,7 +398,7 @@ int itkRigid3DTransformTest(int ,char * [] )
       r = rotation->TransformVector( p );
       for(unsigned int i=0; i<N; i++)
         {
-        if( vcl_fabs( q[i] - r[i] ) > epsilon )
+        if( std::fabs( q[i] - r[i] ) > epsilon )
           {
           Ok = false;
           break;
@@ -432,7 +432,7 @@ int itkRigid3DTransformTest(int ,char * [] )
 
       for(unsigned int i=0; i<N; i++)
         {
-        if( vcl_fabs( q[i] - r[i] ) > epsilon )
+        if( std::fabs( q[i] - r[i] ) > epsilon )
           {
           Ok = false;
           break;
@@ -468,7 +468,7 @@ int itkRigid3DTransformTest(int ,char * [] )
       r = rotation->TransformVector( p );
       for(unsigned int i=0; i<N; i++)
         {
-        if( vcl_fabs( q[i] - r[i] ) > epsilon )
+        if( std::fabs( q[i] - r[i] ) > epsilon )
           {
           Ok = false;
           break;
@@ -530,10 +530,10 @@ int itkRigid3DTransformTest(int ,char * [] )
     matrix.GetVnlMatrix().set_identity();
 
     double a = 1.0 / 180.0 * vnl_math::pi;
-    matrix[0][0] =        vcl_cos( a );
-    matrix[0][1] =        vcl_sin( a );
-    matrix[1][0] = -1.0 * vcl_sin( a );
-    matrix[1][1] =        vcl_cos( a );
+    matrix[0][0] =        std::cos( a );
+    matrix[0][1] =        std::sin( a );
+    matrix[1][0] = -1.0 * std::sin( a );
+    matrix[1][1] =        std::cos( a );
 
     unsigned int par = 0;
     for( unsigned int row = 0; row < 3; row++ )
@@ -655,10 +655,10 @@ int itkRigid3DTransformTest(int ,char * [] )
       matrix.GetVnlMatrix().set_identity();
 
       double a = 1.0 / 180.0 * vnl_math::pi;
-      matrix[0][0] =        vcl_cos( a );
-      matrix[0][1] =        vcl_sin( a );
-      matrix[1][0] = -1.0 * vcl_sin( a );
-      matrix[1][1] =        vcl_cos( a );
+      matrix[0][0] =        std::cos( a );
+      matrix[0][1] =        std::sin( a );
+      matrix[1][0] = -1.0 * std::sin( a );
+      matrix[1][1] =        std::cos( a );
 
      Ok = true;
      try

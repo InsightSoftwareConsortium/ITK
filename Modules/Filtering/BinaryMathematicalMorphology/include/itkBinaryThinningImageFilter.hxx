@@ -201,16 +201,16 @@ BinaryThinningImageFilter< TInputImage, TOutputImage >
           // First find the total number of transitions, and then
           // divide by 2.
           const PixelType transitions = (
-            vcl_abs( static_cast< int >( p3
+            std::abs( static_cast< int >( p3
                                          - p2 ) )
-            + vcl_abs( static_cast< int >( p4
+            + std::abs( static_cast< int >( p4
                                            - p3 ) )
-            + vcl_abs( static_cast< int >( p5 - p4 ) ) + vcl_abs( static_cast< int >( p6 - p5 ) )
-            + vcl_abs( static_cast< int >( p7
+            + std::abs( static_cast< int >( p5 - p4 ) ) + std::abs( static_cast< int >( p6 - p5 ) )
+            + std::abs( static_cast< int >( p7
                                            - p6 ) )
-            + vcl_abs( static_cast< int >( p8
+            + std::abs( static_cast< int >( p8
                                            - p7 ) )
-            + vcl_abs( static_cast< int >( p9 - p8 ) ) + vcl_abs( static_cast< int >( p2 - p9 ) )
+            + std::abs( static_cast< int >( p9 - p8 ) ) + std::abs( static_cast< int >( p2 - p9 ) )
             ) / 2;
 
           if ( transitions == 1 )

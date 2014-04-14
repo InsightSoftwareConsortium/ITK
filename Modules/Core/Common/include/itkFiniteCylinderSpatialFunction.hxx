@@ -29,7 +29,7 @@ FiniteCylinderSpatialFunction< VDimension, TInput >
 {
   // a normalized {1,1,...1} vector is
   // { 1.0 / sqrt( VDmim ), ... }
-  const double orientationVal = 1.0 / vcl_sqrt(static_cast<double>(VDimension));
+  const double orientationVal = 1.0 / std::sqrt(static_cast<double>(VDimension));
   m_Orientation.Fill(orientationVal);
   m_NormalizedOrientation.Fill(orientationVal);
   m_AxisLength = 1.0f; // Length of cylinder axis.
@@ -59,7 +59,7 @@ FiniteCylinderSpatialFunction< VDimension, TInput >
       {
       norm += this->m_Orientation[i] * this->m_Orientation[i];
       }
-    norm = vcl_sqrt(norm);
+    norm = std::sqrt(norm);
     if(norm == 0.0) // avoid divide by zero
       {
       itkExceptionMacro(<< "Degenerate orientation vector " << this->m_Orientation);
@@ -97,8 +97,8 @@ FiniteCylinderSpatialFunction< VDimension, TInput >
   //the point is within the length of the cylinder along the medial axis
   const double distanceFromCenter = dot_product( medialAxisVector.GetVnlVector(), pointVector.GetVnlVector() );
 
-  if ( vcl_fabs(distanceFromCenter) <= ( halfAxisLength )
-       && m_Radius >= vcl_sqrt( vcl_pow(pointVector.GetVnlVector().magnitude(), 2.0) - vcl_pow(distanceFromCenter, 2.0) ) )
+  if ( std::fabs(distanceFromCenter) <= ( halfAxisLength )
+       && m_Radius >= std::sqrt( std::pow(pointVector.GetVnlVector().magnitude(), 2.0) - std::pow(distanceFromCenter, 2.0) ) )
     {
     return 1;
     }

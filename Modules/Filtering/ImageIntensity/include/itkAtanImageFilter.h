@@ -48,7 +48,7 @@ public:
 
   inline TOutput operator()(const TInput & A) const
   {
-    return static_cast< TOutput >( vcl_atan( static_cast< double >( A ) ) );
+    return static_cast< TOutput >( std::atan( static_cast< double >( A ) ) );
   }
 };
 }
@@ -62,8 +62,8 @@ public:
  * each pixel does the following:
  *
  * \li cast the pixel value to \c double,
- * \li apply the \c vcl_atan() function to the \c double value,
- * \li cast the \c double value resulting from \c vcl_atan() to the pixel
+ * \li apply the \c std::atan() function to the \c double value,
+ * \li cast the \c double value resulting from \c std::atan() to the pixel
  * type of the output image,
  * \li store the cast value into the output image.
  *

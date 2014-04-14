@@ -180,7 +180,7 @@ KittlerIllingworthThresholdCalculator<THistogram, TOutput>
     //The terms of the quadratic equation to be solved.
     double w0 = 1.0/sigma2-1.0/tau2;
     double w1 = mu/sigma2-nu/tau2;
-    double w2 = (mu*mu)/sigma2 - (nu*nu)/tau2 + vcl_log10((sigma2*(q*q))/(tau2*p*p));
+    double w2 = (mu*mu)/sigma2 - (nu*nu)/tau2 + std::log10((sigma2*(q*q))/(tau2*p*p));
 
     //If the next threshold would be imaginary, return with the current one.
     double sqterm = (w1*w1)-w0*w2;
@@ -212,7 +212,7 @@ KittlerIllingworthThresholdCalculator<THistogram, TOutput>
       {
       //The updated threshold is the integer part of the solution of the quadratic equation.
       Tprev = threshold;
-      double temp = (w1+vcl_sqrt(sqterm))/w0;
+      double temp = (w1+std::sqrt(sqterm))/w0;
 
       // not sure if this condition is really useful
       if (vnl_math_isnan(temp))

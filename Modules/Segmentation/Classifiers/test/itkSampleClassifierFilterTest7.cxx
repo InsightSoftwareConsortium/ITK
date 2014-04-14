@@ -170,7 +170,7 @@ int itkSampleClassifierFilterTest7(int argc, char* argv[] )
       temp = (components[i])->GetFullParameters()[j] - trueParameters[i][j];
       displacement += (temp * temp);
       }
-    displacement = vcl_sqrt(displacement);
+    displacement = std::sqrt(displacement);
     std::cout << "    Mean displacement: " << std::endl;
     std::cout << "        " << displacement
               << std::endl << std::endl;

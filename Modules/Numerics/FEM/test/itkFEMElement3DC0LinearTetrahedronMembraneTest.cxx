@@ -81,7 +81,7 @@ int itkFEMElement3DC0LinearTetrahedronMembraneTest(int argc, char *argv[])
     {
     soln[i] = solver->GetSolution(i);
     // std::cout << "Solution[" << i << "]:" << soln[i] << std::endl;
-    if( vcl_fabs(exectedResult[i] - soln[i]) > 0.000001 )
+    if( std::fabs(exectedResult[i] - soln[i]) > 0.000001 )
       {
       std::cout << "ERROR: Index " << i << ". Expected " << exectedResult[i] << " Solution " << soln[i] << std::endl;
       foundError = true;

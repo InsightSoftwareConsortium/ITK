@@ -65,9 +65,9 @@ CumulativeGaussianCostFunction
   double fitError = 0.0;
   for ( int i = 0; i < (int)( numberOfElements ); i++ )
     {
-    fitError += vcl_pow( ( setTestArray->get(i) - m_OriginalDataArray->get(i) ), 2 );
+    fitError += std::pow( ( setTestArray->get(i) - m_OriginalDataArray->get(i) ), 2 );
     }
-  return ( vcl_sqrt( ( 1 / numberOfElements ) * fitError ) );
+  return ( std::sqrt( ( 1 / numberOfElements ) * fitError ) );
 }
 
 double
@@ -192,7 +192,7 @@ CumulativeGaussianCostFunction
                          - parameters.get(2) )
                        * ( EvaluateCumulativeGaussian( ( i
                                                          - parameters.get(0) )
-                                                       / ( parameters.get(1) * vcl_sqrt(2.0) ) ) + 1 ) / 2 );
+                                                       / ( parameters.get(1) * std::sqrt(2.0) ) ) + 1 ) / 2 );
     }
 
   return m_Measure;
@@ -211,7 +211,7 @@ CumulativeGaussianCostFunction
                                  - parameters.get(2) )
                                * ( EvaluateCumulativeGaussian( ( i
                                                                  - parameters.get(0) )
-                                                               / ( parameters.get(1) * vcl_sqrt(2.0) ) ) + 1 ) / 2 ) );
+                                                               / ( parameters.get(1) * std::sqrt(2.0) ) ) + 1 ) / 2 ) );
     }
 
   return m_MeasurePointer;

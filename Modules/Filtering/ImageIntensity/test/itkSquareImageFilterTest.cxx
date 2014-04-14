@@ -120,7 +120,7 @@ int itkSquareImageFilterTest(int, char* [] )
     const double x2 = x1 * x1;
     const OutputImageType::PixelType square  =
             static_cast<OutputImageType::PixelType>( x2 );
-    if( vcl_fabs( square - output ) > epsilon )
+    if( std::fabs( square - output ) > epsilon )
       {
       std::cerr << "Error in itkSquareImageFilterTest " << std::endl;
       std::cerr << " square( " << input << ") = " << square << std::endl;

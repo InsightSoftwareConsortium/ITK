@@ -100,7 +100,7 @@ int itkMahalanobisDistanceThresholdImageFunctionTest(int, char* [] )
   std::cout << "function->EvaluateDistanceAtIndex( index ): " << distance << std::endl;
 
   const double expectedDistance = 0.244949;
-  if( vcl_fabs(distance - expectedDistance) > 1e-5 )
+  if( std::fabs(distance - expectedDistance) > 1e-5 )
     {
     std::cerr << "Error in distance computation in EvaluateDistanceAtIndex() !!" << std::endl;
     std::cerr << "Expected distance value = " << expectedDistance << std::endl;
@@ -127,7 +127,7 @@ int itkMahalanobisDistanceThresholdImageFunctionTest(int, char* [] )
   const double distance2 = function->EvaluateDistance(point);
   std::cout << "function->EvaluateDistance(point): " << distance2 << std::endl;
 
-  if( vcl_fabs(distance2 - expectedDistance) > 1e-5 )
+  if( std::fabs(distance2 - expectedDistance) > 1e-5 )
     {
     std::cerr << "Error in distance computation in EvaluateDistance() !!" << std::endl;
     std::cerr << "Expected distance value = " << expectedDistance << std::endl;
@@ -155,7 +155,7 @@ int itkMahalanobisDistanceThresholdImageFunctionTest(int, char* [] )
   // Test GetConstReferenceMacro
   const double & getThreshold = function->GetThreshold();
   std::cout << "function->GetThreshold(): " << getThreshold << std::endl;
-  if( vcl_fabs( threshold - getThreshold ) > 1e-9 )
+  if( std::fabs( threshold - getThreshold ) > 1e-9 )
     {
     std::cerr << "Error: Set/Get Threshold do not match" << std::endl;
     return EXIT_FAILURE;

@@ -250,8 +250,8 @@ ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
 
   double normCE2 = CE[0] * CE[0] + CE[1] * CE[1] + CE[2] * CE[2];
 
-  double normAB = vcl_sqrt(normAB2);
-  double normCE = vcl_sqrt(normCE2);
+  double normAB = std::sqrt(normAB2);
+  double normCE = std::sqrt(normCE2);
 
   itkDebugMacro("scale " << this->m_MapScale);
 
@@ -357,9 +357,9 @@ ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
       return;
       }
 
-    normAB = vcl_sqrt(normAB2);
-    normBC = vcl_sqrt(normBC2);
-    normCA = vcl_sqrt(normCA2);
+    normAB = std::sqrt(normAB2);
+    normBC = std::sqrt(normBC2);
+    normCA = std::sqrt(normCA2);
 
     prodABBC = AB[0] * BC[0] + AB[1] * BC[1] + AB[2] * BC[2];
     prodBCCA = BC[0] * CA[0] + BC[1] * CA[1] + BC[2] * CA[2];
@@ -387,9 +387,9 @@ ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
       return;
       }
 
-    sinABC = vcl_sqrt(1.0 - cosABC * cosABC);
-    sinBCA = vcl_sqrt(1.0 - cosBCA * cosBCA);
-    sinCAB = vcl_sqrt(1.0 - cosCAB * cosCAB);
+    sinABC = std::sqrt(1.0 - cosABC * cosABC);
+    sinBCA = std::sqrt(1.0 - cosBCA * cosBCA);
+    sinCAB = std::sqrt(1.0 - cosCAB * cosCAB);
 
     if ( sinABC < 1e-10 )
       {
@@ -516,14 +516,14 @@ ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
 
   double bounds[6];
 
-  bounds[0] = vcl_numeric_limits< double >::max();
-  bounds[1] = -vcl_numeric_limits< double >::max();
+  bounds[0] = std::numeric_limits< double >::max();
+  bounds[1] = -std::numeric_limits< double >::max();
 
-  bounds[2] = vcl_numeric_limits< double >::max();
-  bounds[3] = -vcl_numeric_limits< double >::max();
+  bounds[2] = std::numeric_limits< double >::max();
+  bounds[3] = -std::numeric_limits< double >::max();
 
-  bounds[4] = vcl_numeric_limits< double >::max();
-  bounds[5] = -vcl_numeric_limits< double >::max();
+  bounds[4] = std::numeric_limits< double >::max();
+  bounds[5] = -std::numeric_limits< double >::max();
 
   if ( this->m_MapToSphere )
     {
@@ -552,7 +552,7 @@ ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
         {
         uiMidPointIdx = numberOfPoints / 2;
         }
-      this->m_MapScale = 1.0 / vcl_sqrt(v_r2[uiMidPointIdx]);
+      this->m_MapScale = 1.0 / std::sqrt(v_r2[uiMidPointIdx]);
       }
 
     i = 0;

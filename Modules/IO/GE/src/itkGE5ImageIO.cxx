@@ -574,7 +574,7 @@ GE5ImageIO::ModifyImageInformation()
     origin2[1] = hdr2->tlhcA;
     origin2[2] = hdr2->tlhcS;
 
-    float distanceBetweenTwoSlices = vcl_sqrt(
+    float distanceBetweenTwoSlices = std::sqrt(
       ( origin1[0] - origin2[0] ) * ( origin1[0] - origin2[0] )
       + ( origin1[1] - origin2[1] ) * ( origin1[1] - origin2[1] )
       + ( origin1[2] - origin2[2] ) * ( origin1[2] - origin2[2] ) );

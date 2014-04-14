@@ -121,11 +121,11 @@ int itkMultiLevelSetEvolutionTest( int , char* [] )
     id_image->SetPixel( idx, list_ids );
     input->SetPixel( idx, idx[0] );
 
-    it1.Set( vcl_sqrt(
+    it1.Set( std::sqrt(
              static_cast< float> ( ( idx[0] - 2 ) * ( idx[0] - 2 ) +
                                    ( idx[1] - 2 ) * ( idx[1] - 2 ) ) ) - 1.5);
 
-    it2.Set( vcl_sqrt(
+    it2.Set( std::sqrt(
              static_cast< float> ( ( idx[0] - 5 ) * ( idx[0] - 5 ) +
                                    ( idx[1] - 5 ) * ( idx[1] - 5 ) ) ) - 2.5 );
     ++it1;

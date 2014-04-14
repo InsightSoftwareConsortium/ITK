@@ -46,7 +46,7 @@ float circle(unsigned x, unsigned y)
   float dis;
   dis = (x - (float)WIDTH/2.0)*(x - (float)WIDTH/2.0)
     + (y - (float)HEIGHT/2.0)*(y - (float)HEIGHT/2.0);
-  dis = RADIUS - vcl_sqrt(dis);
+  dis = RADIUS - std::sqrt(dis);
   return dis;
 }
 
@@ -54,13 +54,13 @@ float circle(unsigned x, unsigned y)
 float square(unsigned x, unsigned y)
 {
   float X, Y;
-  X = vcl_fabs(x - (float)WIDTH/2.0);
-  Y = vcl_fabs(y - (float)HEIGHT/2.0);
+  X = std::fabs(x - (float)WIDTH/2.0);
+  Y = std::fabs(y - (float)HEIGHT/2.0);
   float dis;
   if (!((X > RADIUS)&&(Y > RADIUS)))
     dis = RADIUS - vnl_math_max(X, Y);
   else
-    dis = -vcl_sqrt((X - RADIUS)*(X - RADIUS) +  (Y - RADIUS)*(Y - RADIUS));
+    dis = -std::sqrt((X - RADIUS)*(X - RADIUS) +  (Y - RADIUS)*(Y - RADIUS));
   return dis;
 }
 
@@ -234,7 +234,7 @@ int itkLevelSetFunctionTest(int, char* [] )
   // Squash level sets everywhere but near the zero set.
   for (itr.GoToBegin(); ! itr.IsAtEnd(); ++itr)
     {
-    itr.Value() = itr.Value() /vcl_sqrt((5.0f +vnl_math_sqr(itr.Value())));
+    itr.Value() = itr.Value() /std::sqrt((5.0f +vnl_math_sqr(itr.Value())));
 
     }
 

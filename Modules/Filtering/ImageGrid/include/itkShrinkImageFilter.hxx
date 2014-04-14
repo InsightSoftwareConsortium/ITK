@@ -311,7 +311,7 @@ ShrinkImageFilter< TInputImage, TOutputImage >
 
     // Round down so that all output pixels fit input input region
     outputSize[i] = static_cast<SizeValueType>(
-      vcl_floor( (double)inputSize[i] / (double)m_ShrinkFactors[i] ) );
+      std::floor( (double)inputSize[i] / (double)m_ShrinkFactors[i] ) );
 
     if ( outputSize[i] < 1 )
       {
@@ -321,7 +321,7 @@ ShrinkImageFilter< TInputImage, TOutputImage >
     // Because of the later origin shift this starting index is not
     // critical
     outputStartIndex[i] = static_cast<IndexValueType>(
-      vcl_ceil( (double)inputStartIndex[i] / (double)m_ShrinkFactors[i] ) );
+      std::ceil( (double)inputStartIndex[i] / (double)m_ShrinkFactors[i] ) );
     }
 
   outputPtr->SetSpacing(outputSpacing);

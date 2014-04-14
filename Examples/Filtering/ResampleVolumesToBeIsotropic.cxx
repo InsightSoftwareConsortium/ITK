@@ -288,7 +288,7 @@ int main( int argc, char * argv[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  const double isoSpacing = vcl_sqrt( inputSpacing[2] * inputSpacing[0] );
+  const double isoSpacing = std::sqrt( inputSpacing[2] * inputSpacing[0] );
 
   smootherX->SetSigma( isoSpacing );
   smootherY->SetSigma( isoSpacing );

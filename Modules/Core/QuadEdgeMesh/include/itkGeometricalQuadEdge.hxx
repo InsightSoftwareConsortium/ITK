@@ -30,7 +30,7 @@ template< typename TVRef, typename TFRef,
 const typename GeometricalQuadEdge< TVRef, TFRef,
                                     TPrimalData, TDualData, PrimalDual >::OriginRefType
 GeometricalQuadEdge< TVRef, TFRef, TPrimalData, TDualData, PrimalDual >::m_NoPoint =
-  vcl_numeric_limits< OriginRefType >::max();
+  std::numeric_limits< OriginRefType >::max();
 
 /**
  *   Constructor

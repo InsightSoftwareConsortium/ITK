@@ -195,7 +195,7 @@ StandardDeviationPerComponentSampleFilter< TSample >
     mean[i] = meanValue;
     const double variance =
       ( sumOfSquares[i] - meanValue * meanValue * totalFrequency ) / ( totalFrequency - 1.0 );
-    standardDeviation[i] = vcl_sqrt(variance);
+    standardDeviation[i] = std::sqrt(variance);
     }
 
   decoratedStandardDeviationOutput->Set(standardDeviation);

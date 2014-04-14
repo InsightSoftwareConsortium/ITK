@@ -138,7 +138,7 @@ public:
 
     if ((isstream >> value).fail() || !(isstream >> std::ws).eof())
     {
-      return vcl_numeric_limits<TData>::quiet_NaN();
+      return std::numeric_limits<TData>::quiet_NaN();
     }
     else
     {

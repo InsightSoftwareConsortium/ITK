@@ -111,7 +111,7 @@ LiThresholdCalculator<THistogram, TOutput>
   //
   //#define IS_NEG( x ) ( ( x ) < -DBL_EPSILON )
   //DBL_EPSILON = 2.220446049250313E-16
-  temp = ( mean_back - mean_obj ) / ( vcl_log ( mean_back ) - vcl_log ( mean_obj ) );
+  temp = ( mean_back - mean_obj ) / ( std::log ( mean_back ) - std::log ( mean_obj ) );
 
   if (temp < -2.220446049250313E-16)
     new_thresh = (int) (temp - 0.5);
@@ -120,7 +120,7 @@ LiThresholdCalculator<THistogram, TOutput>
   /*  Stop the iterations when the difference between the
                         new and old threshold values is less than the tolerance */
   }
-  while ( vcl_abs ( new_thresh - old_thresh ) > tolerance );
+  while ( std::abs ( new_thresh - old_thresh ) > tolerance );
 
   this->GetOutput()->Set( static_cast<OutputType>( histogram->GetMeasurement( histthresh, 0 ) ) );
 }

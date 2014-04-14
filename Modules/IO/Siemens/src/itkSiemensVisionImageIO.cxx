@@ -206,7 +206,7 @@ GEImageHeader * SiemensVisionImageIO::ReadHeader(const char *FileNameToRead)
 
   if ( strcmp(tmpStr, "Cor") == 0 )
     {
-    if ( vcl_fabs( atof(tmpStr3) ) <= 45.0 )
+    if ( std::fabs( atof(tmpStr3) ) <= 45.0 )
       {
       //hdr->imagePlane = itk::IOCommon::ITK_ANALYZE_ORIENTATION_IRP_CORONAL;
       hdr->coordinateOrientation = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RSP;
@@ -229,7 +229,7 @@ GEImageHeader * SiemensVisionImageIO::ReadHeader(const char *FileNameToRead)
     }
   else if ( strcmp(tmpStr, "Sag") == 0 )
     {
-    if ( vcl_fabs( atof(tmpStr3) ) <= 45.0 )
+    if ( std::fabs( atof(tmpStr3) ) <= 45.0 )
       {
       //hdr->imagePlane =
       // itk::SpatialOrientation::ITK_ANALYZE_ORIENTATION_IRP_SAGITTAL;
@@ -253,7 +253,7 @@ GEImageHeader * SiemensVisionImageIO::ReadHeader(const char *FileNameToRead)
     }
   else
     {
-    if ( vcl_fabs( atof(tmpStr3) ) <= 45.0 )
+    if ( std::fabs( atof(tmpStr3) ) <= 45.0 )
       {
       //hdr->imagePlane =
       // itk::SpatialOrientation::ITK_ANALYZE_ORIENTATION_IRP_TRANSVERSE;

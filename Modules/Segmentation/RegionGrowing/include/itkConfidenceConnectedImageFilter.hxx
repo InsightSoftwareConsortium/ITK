@@ -244,8 +244,8 @@ ConfidenceConnectedImageFilter< TInputImage, TOutputImage >
     m_Variance  = ( sumOfSquares - ( sum * sum / double(num) ) ) / ( double(num) - 1.0 );
     }
 
-  lower = m_Mean - m_Multiplier *vcl_sqrt(m_Variance);
-  upper = m_Mean + m_Multiplier *vcl_sqrt(m_Variance);
+  lower = m_Mean - m_Multiplier *std::sqrt(m_Variance);
+  upper = m_Mean + m_Multiplier *std::sqrt(m_Variance);
 
   // Find the highest and lowest seed intensity.
   InputRealType lowestSeedIntensity = itk::NumericTraits< InputImagePixelType >::max();
@@ -299,7 +299,7 @@ ConfidenceConnectedImageFilter< TInputImage, TOutputImage >
 
   itkDebugMacro(
     << "\nLower intensity = " << lower << ", Upper intensity = " << upper << "\nmean = " << m_Mean
-    << " , vcl_sqrt(variance) = " << vcl_sqrt(m_Variance) );
+    << " , std::sqrt(variance) = " << std::sqrt(m_Variance) );
 
   // Segment the image, the iterator walks the output image (so Set()
   // writes into the output image), starting at the seed point.  As
@@ -355,15 +355,15 @@ ConfidenceConnectedImageFilter< TInputImage, TOutputImage >
                      << ", Upper intensity = " << upper
                      << "\nmean = " << m_Mean
                      << ", variance = " << m_Variance
-                     << " , vcl_sqrt(variance) = " << vcl_sqrt(m_Variance) );
+                     << " , std::sqrt(variance) = " << std::sqrt(m_Variance) );
       itkDebugMacro(<< "\nsum = " << sum
                     << ", sumOfSquares = "
                     << sumOfSquares << "\nnumberOfSamples = "
                     << numberOfSamples);
       break;
       }
-    lower = m_Mean - m_Multiplier *vcl_sqrt(m_Variance);
-    upper = m_Mean + m_Multiplier *vcl_sqrt(m_Variance);
+    lower = m_Mean - m_Multiplier *std::sqrt(m_Variance);
+    upper = m_Mean + m_Multiplier *std::sqrt(m_Variance);
 
     // Adjust lower and upper to always contain the seed's intensity, otherwise,
     // no pixels will be
@@ -394,7 +394,7 @@ ConfidenceConnectedImageFilter< TInputImage, TOutputImage >
                    << ", Upper intensity = " << upper
                    << "\nmean = " << m_Mean
                    << ", variance = " << m_Variance
-                   << " , vcl_sqrt(variance) = " << vcl_sqrt(m_Variance) );
+                   << " , std::sqrt(variance) = " << std::sqrt(m_Variance) );
     itkDebugMacro(<< "\nsum = " << sum << ", sumOfSquares = " << sumOfSquares << "\nnum = " << numberOfSamples);
 
     // Rerun the segmentation, the iterator walks the output image,

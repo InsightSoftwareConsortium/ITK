@@ -294,10 +294,10 @@ DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
     double tmpNormalProd = dot_product( tmp.GetVnlVector(), data->normal.GetVnlVector() );
 
     double sinphi =  2 *data->circleRadius *D *vnl_math_sgn(tmpNormalProd);
-    double phi = vcl_asin(sinphi);
+    double phi = std::asin(sinphi);
 
     data->phi = phi;
-    data->meanCurvature = vcl_abs(sinphi / data->circleRadius);
+    data->meanCurvature = std::abs(sinphi / data->circleRadius);
     tmp = data->pos - data->neighbors[0];
 
     //compute the foot of p projection of p onto the triangle spanned by its
@@ -374,7 +374,7 @@ DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
   eps1Diff = epsRef[0] - eps[0];
   eps2Diff = epsRef[1] - eps[1];
   eps3Diff = epsRef[2] - eps[2];
-  //    diffAbsSum = vcl_abs(eps1Diff)+vcl_abs(eps2Diff)+vcl_abs(eps3Diff);
+  //    diffAbsSum = std::abs(eps1Diff)+std::abs(eps2Diff)+std::abs(eps3Diff);
 
   tangentForce.SetVnlVector(eps1Diff * ( data->neighbors[0] ).GetVnlVector()
                               + eps2Diff * ( data->neighbors[1] ).GetVnlVector()
@@ -423,9 +423,9 @@ DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
   coord[1] = static_cast< GradientIndexValueType >( data->pos[1] );
   coord[2] = static_cast< GradientIndexValueType >( data->pos[2] );
 
-  coord2[0] = static_cast< GradientIndexValueType >( vcl_ceil(data->pos[0]) );
-  coord2[1] = static_cast< GradientIndexValueType >( vcl_ceil(data->pos[1]) );
-  coord2[2] = static_cast< GradientIndexValueType >( vcl_ceil(data->pos[2]) );
+  coord2[0] = static_cast< GradientIndexValueType >( std::ceil(data->pos[0]) );
+  coord2[1] = static_cast< GradientIndexValueType >( std::ceil(data->pos[1]) );
+  coord2[2] = static_cast< GradientIndexValueType >( std::ceil(data->pos[2]) );
 
   tmp_co_1[0] = coord2[0];
   tmp_co_1[1] = coord[1];
@@ -583,7 +583,7 @@ double DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
   double r2 = r * r;
   double d2 = d * d;
   double r2Minusd2 = r2 - d2;
-  double tanPhi = vcl_tan(phi);
+  double tanPhi = std::tan(phi);
 
   double eps = 1.0;
 
@@ -595,7 +595,7 @@ double DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
   double tmpSqr = r2 + r2Minusd2 * tanPhi * tanPhi;
   if ( tmpSqr > 0 )
     {
-    double denom = eps * ( vcl_sqrt(tmpSqr) + r );
+    double denom = eps * ( std::sqrt(tmpSqr) + r );
     if ( denom != 0 )
       {
       L = ( r2Minusd2 * tanPhi ) / denom;

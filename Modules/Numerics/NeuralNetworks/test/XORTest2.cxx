@@ -114,7 +114,7 @@ XORTest2(int argc, char* argv[])
     tv = iter2.GetMeasurementVector();
     ov.SetVnlVector(net1->GenerateOutput(mv));
     flag = 0;
-    if (vcl_fabs(tv[0]-ov[0])>0.2)
+    if (std::fabs(tv[0]-ov[0])>0.2)
       {
       flag = 1;
       }

@@ -111,9 +111,9 @@ GaussianInterpolateImageFunction<TImageType, TCoordRep>
     {
     int boundingBoxSize = static_cast<int>(
       this->m_BoundingBoxEnd[d] - this->m_BoundingBoxStart[d] + 0.5 );
-    int begin = vnl_math_max( 0, static_cast<int>( vcl_floor( cindex[d] -
+    int begin = vnl_math_max( 0, static_cast<int>( std::floor( cindex[d] -
       this->m_BoundingBoxStart[d] - this->m_CutoffDistance[d] ) ) );
-    int end = vnl_math_min( boundingBoxSize, static_cast<int>( vcl_ceil(
+    int end = vnl_math_min( boundingBoxSize, static_cast<int>( std::ceil(
       cindex[d] - this->m_BoundingBoxStart[d] + this->m_CutoffDistance[d] ) ) );
     region.SetIndex( d, begin );
     region.SetSize( d, end - begin );
@@ -189,10 +189,10 @@ GaussianInterpolateImageFunction<TImageType, TCoordRep>
   int boundingBoxSize = static_cast<int>(
     this->m_BoundingBoxEnd[dimension] - this->m_BoundingBoxStart[dimension] +
     0.5 );
-  int begin = vnl_math_max( 0, static_cast<int>( vcl_floor( cindex -
+  int begin = vnl_math_max( 0, static_cast<int>( std::floor( cindex -
     this->m_BoundingBoxStart[dimension] -
     this->m_CutoffDistance[dimension] ) ) );
-  int end = vnl_math_min( boundingBoxSize, static_cast<int>( vcl_ceil( cindex -
+  int end = vnl_math_min( boundingBoxSize, static_cast<int>( std::ceil( cindex -
     this->m_BoundingBoxStart[dimension] +
     this->m_CutoffDistance[dimension] ) ) );
 
@@ -206,7 +206,7 @@ GaussianInterpolateImageFunction<TImageType, TCoordRep>
   RealType g_last = 0.0;
   if( evaluateGradient )
     {
-    g_last = vnl_math::two_over_sqrtpi * vcl_exp( -vnl_math_sqr( t ) );
+    g_last = vnl_math::two_over_sqrtpi * std::exp( -vnl_math_sqr( t ) );
     }
 
   for( int i = begin; i < end; i++ )
@@ -216,7 +216,7 @@ GaussianInterpolateImageFunction<TImageType, TCoordRep>
     erfArray[i] = e_now - e_last;
     if( evaluateGradient )
       {
-      RealType g_now = vnl_math::two_over_sqrtpi * vcl_exp( -vnl_math_sqr( t ) );
+      RealType g_now = vnl_math::two_over_sqrtpi * std::exp( -vnl_math_sqr( t ) );
       gerfArray[i] = g_now - g_last;
       g_last = g_now;
       }

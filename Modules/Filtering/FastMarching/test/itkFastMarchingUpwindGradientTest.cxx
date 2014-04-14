@@ -175,7 +175,7 @@ int itkFastMarchingUpwindGradientTest(int, char* [] )
       {
       distance += tempIndex[j] * tempIndex[j];
       }
-    distance = vcl_sqrt( distance );
+    distance = std::sqrt( distance );
 
     outputPixel = iterator.Get();
 

@@ -70,10 +70,10 @@ int itkNrrdVectorImageReadTest( int ac, char* av[] )
         {
         coord[0] = xi;
         sample = image->GetPixel(coord);
-        err += vcl_fabs(sample[0] - coord[0]);
-        err += vcl_fabs(sample[1] - coord[1]);
-        err += vcl_fabs(sample[2] - coord[2]);
-        err += vcl_fabs(sample[3] - idx);
+        err += std::fabs(sample[0] - coord[0]);
+        err += std::fabs(sample[1] - coord[1]);
+        err += std::fabs(sample[2] - coord[2]);
+        err += std::fabs(sample[3] - idx);
         idx++;
         }
       }

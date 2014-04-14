@@ -39,7 +39,7 @@ class CosineWindowFunction
 {
 public:
   inline TOutput operator()(const TInput & A) const
-  { return (TOutput)vcl_cos(A * m_Factor); }
+  { return (TOutput)std::cos(A * m_Factor); }
 
 private:
   /** Equal to \f$ \frac{\pi}{2 m} \f$ */
@@ -59,7 +59,7 @@ class HammingWindowFunction
 {
 public:
   inline TOutput operator()(const TInput & A) const
-  { return (TOutput)0.54 + 0.46 * vcl_cos(A * m_Factor); }
+  { return (TOutput)0.54 + 0.46 * std::cos(A * m_Factor); }
 
 private:
   /** Equal to \f$ \frac{\pi}{m} \f$ */
@@ -104,7 +104,7 @@ public:
   {
     if ( A == 0.0 ) { return (TOutput)1.0; }
     double z = m_Factor * A;
-    return (TOutput)( vcl_sin(z) / z );
+    return (TOutput)( std::sin(z) / z );
   }
 
 private:
@@ -127,7 +127,7 @@ public:
   inline TOutput operator()(const TInput & A) const
   {
     return (TOutput)
-           ( 0.42 + 0.5 * vcl_cos(A * m_Factor1) + 0.08 * vcl_cos(A * m_Factor2) );
+           ( 0.42 + 0.5 * std::cos(A * m_Factor1) + 0.08 * std::cos(A * m_Factor2) );
   }
 
 private:
@@ -341,7 +341,7 @@ private:
   {
     double px = vnl_math::pi * x;
 
-    return ( x == 0.0 ) ? 1.0 : vcl_sin(px) / px;
+    return ( x == 0.0 ) ? 1.0 : std::sin(px) / px;
   }
 };
 } // namespace itk

@@ -106,7 +106,7 @@ SlopeInterceptTest()
     if(!Equal(it.Value(),static_cast<float>(i)/256.0))
       {
       //      return EXIT_FAILURE;
-      double error = vcl_abs(it.Value() -
+      double error = std::abs(it.Value() -
                              (static_cast<double>(i)/256.0));
       if(error > maxerror)
         {

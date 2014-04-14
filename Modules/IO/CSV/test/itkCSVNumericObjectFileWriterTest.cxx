@@ -26,7 +26,7 @@ int itkCSVNumericObjectFileWriterTest (int argc, char *argv[])
     return EXIT_FAILURE;
     }
 
-  double nan = vcl_numeric_limits<double>::quiet_NaN();
+  double nan = std::numeric_limits<double>::quiet_NaN();
   const unsigned int ARows = 3;
   const unsigned int ACols = 6;
 

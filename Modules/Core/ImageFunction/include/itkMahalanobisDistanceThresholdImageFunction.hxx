@@ -143,14 +143,14 @@ MahalanobisDistanceThresholdImageFunction< TInputImage, TCoordRep >
   // Deal with cases that are barely negative.
   // In theory they should never appear, but
   // they may happen and would produce NaNs
-  // in the vcl_sqrt
+  // in the std::sqrt
   if ( mahalanobisDistanceSquared < 0.0 )
     {
     mahalanobisDistance = 0.0;
     }
   else
     {
-    mahalanobisDistance = vcl_sqrt(mahalanobisDistanceSquared);
+    mahalanobisDistance = std::sqrt(mahalanobisDistanceSquared);
     }
 
   return mahalanobisDistance;

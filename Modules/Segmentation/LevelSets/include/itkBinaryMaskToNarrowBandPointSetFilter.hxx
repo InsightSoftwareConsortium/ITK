@@ -130,7 +130,7 @@ BinaryMaskToNarrowBandPointSetFilter< TInputImage, TOutputMesh >
     {
     const NodeType & node = nodeItr.Value();
     const float      distance = node.GetValue();
-    if ( vcl_fabs(distance) < m_BandWidth )
+    if ( std::fabs(distance) < m_BandWidth )
       {
       image->TransformIndexToPhysicalPoint(node.GetIndex(), point);
       points->push_back(point);

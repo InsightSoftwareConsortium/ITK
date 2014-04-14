@@ -215,7 +215,7 @@ BorderQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 
   std::vector< InputCoordRepType > tetas(NbBoundaryPt, 0.0);
   tetas[0] = static_cast< InputCoordRepType >(
-    vcl_acos( ( two_r - dist ) * inv_two_r ) );
+    std::acos( ( two_r - dist ) * inv_two_r ) );
 
   MapPointIdentifierIterator BoundaryPtIterator = this->m_BoundaryPtMap.begin();
 
@@ -232,7 +232,7 @@ BorderQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 
     dist = pt1.SquaredEuclideanDistanceTo(pt2);
 
-    tetas[j] = tetas[j - 1] + vcl_acos( ( two_r - dist ) * inv_two_r );
+    tetas[j] = tetas[j - 1] + std::acos( ( two_r - dist ) * inv_two_r );
 
     ++j;
     ++BoundaryPtIterator;
@@ -242,7 +242,7 @@ BorderQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 
   if ( this->m_Radius == 0.0 )
     {
-    this->m_Radius = vcl_pow(vcl_sqrt(r), a);
+    this->m_Radius = std::pow(std::sqrt(r), a);
     }
 
   for ( MapPointIdentifierIterator
@@ -253,8 +253,8 @@ BorderQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
     id = BoundaryPtMapIterator->first;
     j = BoundaryPtMapIterator->second;
 
-    pt1[0] =  this->m_Radius * static_cast< InputCoordRepType >( vcl_cos(a * tetas[j]) );
-    pt1[1] =  this->m_Radius * static_cast< InputCoordRepType >( vcl_sin(a * tetas[j]) );
+    pt1[0] =  this->m_Radius * static_cast< InputCoordRepType >( std::cos(a * tetas[j]) );
+    pt1[1] =  this->m_Radius * static_cast< InputCoordRepType >( std::sin(a * tetas[j]) );
     pt1[2] =  0.0;
 
     this->m_Border[j] = pt1;

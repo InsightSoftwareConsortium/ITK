@@ -87,7 +87,7 @@ HuangThresholdCalculator<THistogram, TOutput>
   for( size_t i = 1; i < Smu.size(); i++)
     {
     double mu = 1. / ( 1. + static_cast< double >( i ) / C );
-    Smu[i] = -mu * vcl_log( mu ) - (1. - mu) * vcl_log( 1. - mu );
+    Smu[i] = -mu * std::log( mu ) - (1. - mu) * std::log( 1. - mu );
     }
 
   // calculate the threshold
@@ -122,7 +122,7 @@ HuangThresholdCalculator<THistogram, TOutput>
       muIdx = muFullIdx[0];
       for( InstanceIdentifier i = m_FirstBin; i <= threshold; i++ )
         {
-        InstanceIdentifier diff = static_cast< InstanceIdentifier >( vcl_abs(static_cast< typename HistogramType::IndexValueType >( i ) - muIdx) );
+        InstanceIdentifier diff = static_cast< InstanceIdentifier >( std::abs(static_cast< typename HistogramType::IndexValueType >( i ) - muIdx) );
         itkAssertInDebugAndIgnoreInReleaseMacro( diff < Smu.size() );
 
         entropy += Smu[ diff ] * histogram->GetFrequency(i, 0);
@@ -138,7 +138,7 @@ HuangThresholdCalculator<THistogram, TOutput>
       muIdx = muFullIdx[0];
       for( InstanceIdentifier i = threshold + 1; i <= m_LastBin; i++ )
         {
-        InstanceIdentifier diff = static_cast< InstanceIdentifier >( vcl_abs(static_cast< typename HistogramType::IndexValueType >( i ) - muIdx) );
+        InstanceIdentifier diff = static_cast< InstanceIdentifier >( std::abs(static_cast< typename HistogramType::IndexValueType >( i ) - muIdx) );
         entropy += Smu[ diff ] * histogram->GetFrequency(i, 0);
         }
       if (bestEntropy > entropy)

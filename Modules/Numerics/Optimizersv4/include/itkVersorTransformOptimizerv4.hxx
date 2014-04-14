@@ -44,7 +44,7 @@ VersorTransformOptimizerv4Template<TInternalComputationValueType>
      const double weighted = this->m_Gradient[dim];
      magnitudeSquare += weighted * weighted;
      }
-  const double gradientMagnitude = vcl_sqrt(magnitudeSquare);
+  const double gradientMagnitude = std::sqrt(magnitudeSquare);
 
   if( gradientMagnitude < GradientMagnitudeTolerance )
     {

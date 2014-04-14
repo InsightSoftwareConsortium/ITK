@@ -231,7 +231,7 @@ void ImageSeriesReader< TOutputImage >
         {
         interSliceSpacing += vnl_math_sqr(position2[j] - position1[j]);
         }
-      interSliceSpacing = static_cast< float >( vcl_sqrt(interSliceSpacing) );
+      interSliceSpacing = static_cast< float >( std::sqrt(interSliceSpacing) );
 
       if ( interSliceSpacing == 0.0f )
         {

@@ -484,7 +484,7 @@ SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
     }
   else
     {
-    this->SetRMSChange( static_cast< double >( vcl_sqrt( (double)( rms_change_accumulator
+    this->SetRMSChange( static_cast< double >( std::sqrt( (double)( rms_change_accumulator
                                                                    / static_cast< ValueType >( counter ) ) ) ) );
     }
 }
@@ -873,7 +873,7 @@ SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
         length += dx_backward * dx_backward;
         }
       }
-    length = vcl_sqrt( (double)length ) + MIN_NORM;
+    length = std::sqrt( (double)length ) + MIN_NORM;
     distance = shiftedIt.GetCenterPixel() / length;
 
     output->SetPixel( activeIt->m_Value,

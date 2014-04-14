@@ -120,13 +120,13 @@ NormalizedCorrelationImageFilter< TInputImage, TMaskImage, TOutputImage, TOperat
     static_cast< OutputPixelRealType >( this->GetOperator().Size() );
   OutputPixelRealType mean = sum / num;
   OutputPixelRealType var = ( sumOfSquares - ( sum * sum / num ) ) / ( num - 1.0 );
-  OutputPixelRealType std = vcl_sqrt(var);
+  OutputPixelRealType std = std::sqrt(var);
 
   // convert std to a scaling factor k such that
   //
   //        || (coeff - mean) / k || = 1.0
   //
-  double k = std * vcl_sqrt(num - 1.0);
+  double k = std * std::sqrt(num - 1.0);
 
   // normalize the template
   for ( ntIt = normalizedTemplate.Begin(), tIt = this->GetOperator().Begin();
@@ -207,7 +207,7 @@ NormalizedCorrelationImageFilter< TInputImage, TMaskImage, TOutputImage, TOperat
           sum += value;
           sumOfSquares += ( value * value );
           }
-        denominator = vcl_sqrt( sumOfSquares - ( sum * sum / realTemplateSize ) );
+        denominator = std::sqrt( sumOfSquares - ( sum * sum / realTemplateSize ) );
 
         it.Value() = numerator / denominator;
 
@@ -243,7 +243,7 @@ NormalizedCorrelationImageFilter< TInputImage, TMaskImage, TOutputImage, TOperat
             sum += value;
             sumOfSquares += ( value * value );
             }
-          denominator = vcl_sqrt( sumOfSquares - ( sum * sum / realTemplateSize ) );
+          denominator = std::sqrt( sumOfSquares - ( sum * sum / realTemplateSize ) );
 
           it.Value() = numerator / denominator;
           }

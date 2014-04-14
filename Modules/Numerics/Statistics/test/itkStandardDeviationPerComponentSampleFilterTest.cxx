@@ -184,7 +184,7 @@ int itkStandardDeviationPerComponentSampleFilterTest(int, char* [] )
   for( unsigned int k = 0; k < MeasurementVectorSize; k++ )
     {
     const double variance = covarianceCalculatedUsingCovarianceSampleFilter(k,k);
-    const double standardDeviationValue = vcl_sqrt( variance );
+    const double standardDeviationValue = std::sqrt( variance );
 
     if ( ( vnl_math_abs( standardDeviationValue - standardDeviation[k] ) > epsilon ) )
       {

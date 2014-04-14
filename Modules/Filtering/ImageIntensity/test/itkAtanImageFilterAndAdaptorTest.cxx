@@ -114,14 +114,14 @@ int itkAtanImageFilterAndAdaptorTest(int, char* [] )
   while( !ot.IsAtEnd() )
     {
     std::cout <<  ot.Get() << " = ";
-    std::cout <<  vcl_atan( it.Get() )  << std::endl;
+    std::cout <<  std::atan( it.Get() )  << std::endl;
     const InputImageType::PixelType  input  = it.Get();
     const OutputImageType::PixelType output = ot.Get();
-    const OutputImageType::PixelType arctangent  = vcl_atan(input);
-    if( vcl_fabs( arctangent - output ) > epsilon )
+    const OutputImageType::PixelType arctangent  = std::atan(input);
+    if( std::fabs( arctangent - output ) > epsilon )
       {
       std::cerr << "Error in itkAtanImageFilterTest " << std::endl;
-      std::cerr << " vcl_atan( " << input << ") = " << arctangent << std::endl;
+      std::cerr << " std::atan( " << input << ") = " << arctangent << std::endl;
       std::cerr << " differs from " << output;
       std::cerr << " by more than " << epsilon << std::endl;
       return EXIT_FAILURE;
@@ -168,7 +168,7 @@ int itkAtanImageFilterAndAdaptorTest(int, char* [] )
     {
     std::cout <<  dt.Get() << std::endl;
     const OutputImageType::PixelType diff = dt.Get();
-    if( vcl_fabs( diff ) > epsilon )
+    if( std::fabs( diff ) > epsilon )
       {
       std::cerr << "Error in itkAtanImageFilterTest " << std::endl;
       std::cerr << "Comparing results with Adaptors" << std::endl;

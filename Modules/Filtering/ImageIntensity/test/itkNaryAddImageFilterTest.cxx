@@ -132,7 +132,7 @@ int itkNaryAddImageFilterTest(int, char* [] )
   unsigned int failures = 0;
   while ( !iterO.IsAtEnd() )
     {
-    if ( vcl_abs( iterO.Get() - (iterA.Get() + iterB.Get() + iterC.Get()) ) > epsilon ) ++failures;
+    if ( std::abs( iterO.Get() - (iterA.Get() + iterB.Get() + iterC.Get()) ) > epsilon ) ++failures;
     ++iterA;
     ++iterB;
     ++iterC;
@@ -160,7 +160,7 @@ int itkNaryAddImageFilterTest(int, char* [] )
     {
     // Here we cannot test using the input iterators anymore since
     // inputImageA should have been overwritten
-    if ( vcl_abs( iterO2.Get() - (12+17-4) ) > epsilon ) ++failures;
+    if ( std::abs( iterO2.Get() - (12+17-4) ) > epsilon ) ++failures;
     ++iterO2;
     }
 

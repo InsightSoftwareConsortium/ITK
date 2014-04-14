@@ -113,7 +113,7 @@ ExponentialDisplacementFieldImageFilter< TInputImage, TOutputImage >
     maxnorm2 /= vnl_math_sqr(minpixelspacing);
 
     InputPixelRealValueType numiterfloat = 2.0
-                                           + 0.5 * vcl_log(maxnorm2) / vnl_math::ln2;
+                                           + 0.5 * std::log(maxnorm2) / vnl_math::ln2;
 
     if ( numiterfloat >= 0.0 )
       {

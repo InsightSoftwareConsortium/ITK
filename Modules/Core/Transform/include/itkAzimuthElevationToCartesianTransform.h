@@ -37,15 +37,15 @@ namespace itk
  *
  * The equations form performing the conversion from azimuth-elevation
  * coordinates to cartesian coordinates are as follows:
- * z = vcl_sqrt((r^2*(cos(azimuth))^2)/(1 + (cos(azimuth))^2 *
+ * z = std::sqrt((r^2*(cos(azimuth))^2)/(1 + (cos(azimuth))^2 *
  *     (tan(elevation))^2);
- * x = z * vcl_tan(azimuth)
- * y = z * vcl_tan(elevation)
+ * x = z * std::tan(azimuth)
+ * y = z * std::tan(elevation)
  *
  * The reversed transforms are:
  * azimuth = arctan(x/y)
  * elevation = arctan(y/z)
- * r = vcl_sqrt(x^2 + y^2 + z^2)
+ * r = std::sqrt(x^2 + y^2 + z^2)
  *
  * In this class, we can also set what a "forward" transform means.  If we call
  * SetForwardAzimuthElevationToCartesian(), a forward transform will return

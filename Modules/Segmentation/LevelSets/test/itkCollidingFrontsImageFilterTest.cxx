@@ -119,7 +119,7 @@ int itkCollidingFrontsImageFilterTest(int argc, char* argv[] )
       {
       distance += tempIndex[j] * tempIndex[j];
       }
-    distance = vcl_sqrt( distance );
+    distance = std::sqrt( distance );
     InternalImageType::PixelType outputPixel = iterator.Get();
 
     // for test to pass, the circle of radius 10 centered in offset

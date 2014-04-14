@@ -105,7 +105,7 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
       {
       if( It.Get() > NumericTraits<typename InputImageType::PixelType>::Zero )
         {
-        It.Set( vcl_log( static_cast< RealType >( It.Get() ) ) );
+        It.Set( std::log( static_cast< RealType >( It.Get() ) ) );
         }
       }
     }
@@ -305,10 +305,10 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
   // histogram to a power of 2.
 
   RealType exponent =
-    vcl_ceil( vcl_log( static_cast<RealType>( this->m_NumberOfHistogramBins ) ) /
-              vcl_log( 2.0 ) ) + 1;
+    std::ceil( std::log( static_cast<RealType>( this->m_NumberOfHistogramBins ) ) /
+              std::log( 2.0 ) ) + 1;
   unsigned int paddedHistogramSize = static_cast<unsigned int>(
-    vcl_pow( static_cast<RealType>( 2.0 ), exponent ) + 0.5 );
+    std::pow( static_cast<RealType>( 2.0 ), exponent ) + 0.5 );
   unsigned int histogramOffset = static_cast<unsigned int>( 0.5 *
     ( paddedHistogramSize - this->m_NumberOfHistogramBins ) );
 
@@ -331,8 +331,8 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
   // Create the Gaussian filter.
 
   RealType scaledFWHM = this->m_BiasFieldFullWidthAtHalfMaximum / histogramSlope;
-  RealType expFactor = 4.0 * vcl_log( 2.0 ) / vnl_math_sqr( scaledFWHM );
-  RealType scaleFactor = 2.0 * vcl_sqrt( vcl_log( 2.0 )
+  RealType expFactor = 4.0 * std::log( 2.0 ) / vnl_math_sqr( scaledFWHM );
+  RealType scaleFactor = 2.0 * std::sqrt( std::log( 2.0 )
                                          / vnl_math::pi ) / scaledFWHM;
 
   vnl_vector< vcl_complex<RealType> > F( paddedHistogramSize,
@@ -344,11 +344,11 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
   for( unsigned int n = 1; n <= halfSize; n++ )
     {
     F[n] = F[paddedHistogramSize - n] = vcl_complex<RealType>( scaleFactor *
-      vcl_exp( -vnl_math_sqr( static_cast<RealType>( n ) ) * expFactor ), 0.0 );
+      std::exp( -vnl_math_sqr( static_cast<RealType>( n ) ) * expFactor ), 0.0 );
     }
   if( paddedHistogramSize % 2 == 0 )
     {
-    F[halfSize] = vcl_complex<RealType>( scaleFactor * vcl_exp( 0.25 *
+    F[halfSize] = vcl_complex<RealType>( scaleFactor * std::exp( 0.25 *
       -vnl_math_sqr( static_cast<RealType>( paddedHistogramSize ) ) *
       expFactor ), 0.0 );
     }
@@ -661,7 +661,7 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
         && ( !confidenceImage ||
              confidenceImage->GetPixel( It.GetIndex() ) > 0.0 ) )
       {
-      RealType pixel = vcl_exp( It.Get() );
+      RealType pixel = std::exp( It.Get() );
       N += 1.0;
 
       if( N > 1.0 )
@@ -671,7 +671,7 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
       mu = mu * ( 1.0 - 1.0 / N ) + pixel / N;
       }
     }
-  sigma = vcl_sqrt( sigma / ( N - 1.0 ) );
+  sigma = std::sqrt( sigma / ( N - 1.0 ) );
 
   return ( sigma / mu );
 }

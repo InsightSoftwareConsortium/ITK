@@ -98,12 +98,12 @@ BoundingBox< TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer >
     radius[i] = m_Bounds[2 * i + 1] - center[i];
     }
 
-  for ( unsigned int j = 0; j < vcl_pow(2.0, (double)VPointDimension); j++ )
+  for ( unsigned int j = 0; j < std::pow(2.0, (double)VPointDimension); j++ )
     {
     PointType pnt;
     for ( unsigned int i = 0; i < VPointDimension; i++ )
       {
-      pnt[i] = center[i] + vcl_pow( -1.0, ( (double)( j / ( int( vcl_pow(2.0, (double)i) ) ) ) ) )
+      pnt[i] = center[i] + std::pow( -1.0, ( (double)( j / ( int( std::pow(2.0, (double)i) ) ) ) ) )
                * radius[i];
       }
 

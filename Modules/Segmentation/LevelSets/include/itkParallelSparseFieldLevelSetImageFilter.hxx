@@ -545,7 +545,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
         length += dx_backward * dx_backward;
         }
       }
-    length = vcl_sqrt(length) + MIN_NORM;
+    length = std::sqrt(length) + MIN_NORM;
     distance = shiftedIt.GetCenterPixel() / length;
 
     m_OutputImage->SetPixel( activeIt->m_Index,
@@ -1246,7 +1246,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
         unsigned int count = str->Filter->m_Data[0].m_Count;
         if ( count != 0 )
           {
-          str->Filter->SetRMSChange( static_cast< double >( vcl_sqrt(
+          str->Filter->SetRMSChange( static_cast< double >( std::sqrt(
                                                               ( static_cast< float >( str->Filter->GetRMSChange() ) )
                                                               / count) ) );
           }
@@ -1276,7 +1276,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
             }
           if ( count != 0 )
             {
-            str->Filter->SetRMSChange( static_cast< double >( vcl_sqrt( ( static_cast< float >( str->Filter->
+            str->Filter->SetRMSChange( static_cast< double >( std::sqrt( ( static_cast< float >( str->Filter->
                                                                                                 m_RMSChange ) )
                                                                         / count ) ) );
             }

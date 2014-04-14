@@ -353,7 +353,7 @@ typename VariableLengthVector< TValue >::RealValueType
 VariableLengthVector< TValue >
 ::GetNorm(void) const
 {
-  return (RealValueType)( vcl_sqrt( double( this->GetSquaredNorm() ) ) );
+  return (RealValueType)( std::sqrt( double( this->GetSquaredNorm() ) ) );
 }
 
 /**

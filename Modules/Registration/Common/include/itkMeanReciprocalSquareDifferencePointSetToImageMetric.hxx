@@ -57,7 +57,7 @@ MeanReciprocalSquareDifferencePointSetToImageMetric<TFixedPointSet, TMovingImage
   MeasureType measure = NumericTraits<MeasureType>::Zero;
 
   this->m_NumberOfPixelsCounted = 0;
-  double lambdaSquared = vcl_pow(this->m_Lambda, 2);
+  double lambdaSquared = std::pow(this->m_Lambda, 2);
 
   this->SetTransformParameters(parameters);
 
@@ -119,7 +119,7 @@ MeanReciprocalSquareDifferencePointSetToImageMetric<TFixedPointSet, TMovingImage
 
   this->m_NumberOfPixelsCounted = 0;
 
-  double lambdaSquared = vcl_pow(this->m_Lambda, 2);
+  double lambdaSquared = std::pow(this->m_Lambda, 2);
 
   this->SetTransformParameters(parameters);
 
@@ -178,7 +178,7 @@ MeanReciprocalSquareDifferencePointSetToImageMetric<TFixedPointSet, TMovingImage
           // Will it be computationally more efficient to instead calculate the
           // derivative using finite differences ?
           sum -= jacobian(dim, par)
-            * gradient[dim] / ( vcl_pow(lambdaSquared + diffSquared, 2) );
+            * gradient[dim] / ( std::pow(lambdaSquared + diffSquared, 2) );
           }
         derivative[par] += diff * sum;
         }
@@ -226,7 +226,7 @@ MeanReciprocalSquareDifferencePointSetToImageMetric<TFixedPointSet, TMovingImage
   MeasureType measure = NumericTraits<MeasureType>::Zero;
 
   this->SetTransformParameters(parameters);
-  double lambdaSquared = vcl_pow(this->m_Lambda, 2);
+  double lambdaSquared = std::pow(this->m_Lambda, 2);
 
   typedef  typename NumericTraits<MeasureType>::AccumulateType AccumulateType;
 
@@ -282,7 +282,7 @@ MeanReciprocalSquareDifferencePointSetToImageMetric<TFixedPointSet, TMovingImage
         for( unsigned int dim = 0; dim < Self::FixedPointSetDimension; dim++ )
           {
           sum -= jacobian(dim, par) * gradient[dim]
-            * vcl_pow(lambdaSquared + diffSquared, 2);
+            * std::pow(lambdaSquared + diffSquared, 2);
           }
         derivative[par] += diff * sum;
         }

@@ -46,11 +46,11 @@ NormalizedMutualInformationHistogramImageToImageMetric< TFixedImage, \
 
     if ( freq > 0 )
       {
-      entropyX += freq * vcl_log(freq);
+      entropyX += freq * std::log(freq);
       }
     }
 
-  entropyX = -entropyX / static_cast< MeasureType >( totalFreq ) + vcl_log(totalFreq);
+  entropyX = -entropyX / static_cast< MeasureType >( totalFreq ) + std::log(totalFreq);
 
   for ( unsigned int i = 0; i < this->GetHistogramSize()[1]; i++ )
     {
@@ -59,11 +59,11 @@ NormalizedMutualInformationHistogramImageToImageMetric< TFixedImage, \
 
     if ( freq > 0 )
       {
-      entropyY += freq * vcl_log(freq);
+      entropyY += freq * std::log(freq);
       }
     }
 
-  entropyY = -entropyY / static_cast< MeasureType >( totalFreq ) + vcl_log(totalFreq);
+  entropyY = -entropyY / static_cast< MeasureType >( totalFreq ) + std::log(totalFreq);
 
   HistogramIteratorType it = histogram.Begin();
   HistogramIteratorType end = histogram.End();
@@ -74,13 +74,13 @@ NormalizedMutualInformationHistogramImageToImageMetric< TFixedImage, \
 
     if ( freq > 0 )
       {
-      jointEntropy += freq * vcl_log(freq);
+      jointEntropy += freq * std::log(freq);
       }
     ++it;
     }
 
   jointEntropy = -jointEntropy / static_cast< MeasureType >( totalFreq )
-                 + vcl_log(totalFreq);
+                 + std::log(totalFreq);
 
   return ( entropyX + entropyY ) / jointEntropy;
 }

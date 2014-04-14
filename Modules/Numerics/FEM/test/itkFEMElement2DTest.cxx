@@ -405,7 +405,7 @@ bool CheckDisplacements1(Solver2DType *S, int s, double *expectedResults, double
     {
     double result = S->GetSolution(i);
     // std::cout  << result << " " << expectedResults[i] << " " << tolerance << std::endl;
-    if( vcl_fabs(expectedResults[i] - result) > tolerance )
+    if( std::fabs(expectedResults[i] - result) > tolerance )
       {
       std::cout << "ERROR: Solver " << s << " Index " << i << ". Expected " << expectedResults[i] << " Solution "
                 << result << std::endl;

@@ -43,7 +43,7 @@ ManhattanDistanceMetric< TVector >
 
   for ( unsigned int i = 0; i < measurementVectorSize; i++ )
     {
-    temp = vcl_abs(this->GetOrigin()[i] - x[i]);
+    temp = std::abs(this->GetOrigin()[i] - x[i]);
     distance += temp;
     }
   return distance;
@@ -65,7 +65,7 @@ ManhattanDistanceMetric< TVector >
   double temp, distance = NumericTraits< double >::Zero;
   for ( unsigned int i = 0; i < measurementVectorSize; i++ )
     {
-    temp = vcl_abs(x1[i] - x2[i]);
+    temp = std::abs(x1[i] - x2[i]);
     distance += temp;
     }
   return distance;

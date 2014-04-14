@@ -79,7 +79,7 @@ public:
   inline TOutput operator()(const TInput & A) const
   {
     const double x = ( static_cast< double >( A ) - m_Beta ) / m_Alpha;
-    const double e = 1.0 / ( 1.0 + vcl_exp(-x) );
+    const double e = 1.0 / ( 1.0 + std::exp(-x) );
     const double v =
       ( m_OutputMaximum - m_OutputMinimum ) * e + m_OutputMinimum;
 

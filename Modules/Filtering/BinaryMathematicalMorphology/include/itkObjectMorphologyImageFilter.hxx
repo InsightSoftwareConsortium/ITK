@@ -189,7 +189,7 @@ ObjectMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
 ::IsObjectPixelOnBoundary(const InputNeighborhoodIteratorType & iNIter)
 {
   static const unsigned int s =
-    (unsigned int)vcl_pow( (double)3.0,
+    (unsigned int)std::pow( (double)3.0,
                            (double)( ImageDimension ) );
 
   PixelType    tf;

@@ -36,7 +36,7 @@ bool testPoint( const TPoint & p1, const TPoint & p2 )
 
   for( unsigned int i = 0; i < TPoint::PointDimension; i++ )
     {
-    if( vcl_fabs( p1[i] - p2[i] ) > epsilon )
+    if( std::fabs( p1[i] - p2[i] ) > epsilon )
       {
       pass = false;
       }
@@ -54,7 +54,7 @@ bool testMatrix( const TMatrix & m1, const TMatrix & m2 )
     {
     for( j = 0; j < TMatrix::ColumnDimensions; j++ )
       {
-      if( vcl_fabs( m1[i][j] - m2[i][j] ) > epsilon )
+      if( std::fabs( m1[i][j] - m2[i][j] ) > epsilon )
         {
         pass = false;
         }
@@ -73,7 +73,7 @@ bool testJacobian( const TArray2D & m1, const TArray2D & m2 )
     {
     for( j = 0; j < m1.cols(); j++ )
       {
-      if( vcl_fabs( m1[i][j] - m2[i][j] ) > epsilon )
+      if( std::fabs( m1[i][j] - m2[i][j] ) > epsilon )
         {
         pass = false;
         }
@@ -89,7 +89,7 @@ bool testVectorArray( const TVector & v1, const TVector & v2 )
 
   for( unsigned int i = 0; i < v1.Size(); i++ )
     {
-    if( vcl_fabs( v1[i] - v2[i] ) > epsilon )
+    if( std::fabs( v1[i] - v2[i] ) > epsilon )
       {
       pass = false;
       }

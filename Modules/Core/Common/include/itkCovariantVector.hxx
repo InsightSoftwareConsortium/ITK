@@ -194,7 +194,7 @@ typename CovariantVector< T, NVectorDimension >::RealValueType
 CovariantVector< T, NVectorDimension >
 ::GetNorm(void) const
 {
-  return vcl_sqrt( this->GetSquaredNorm() );
+  return std::sqrt( this->GetSquaredNorm() );
 }
 
 /**

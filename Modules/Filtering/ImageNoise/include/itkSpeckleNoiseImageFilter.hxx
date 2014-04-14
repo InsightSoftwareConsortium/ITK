@@ -88,20 +88,20 @@ SpeckleNoiseImageFilter<TInputImage, TOutputImage>
         const double v3 = 1.0 - rand->GetVariateWithOpenUpperRange();
         if( v1 <= v0 )
           {
-          xi = vcl_pow( v2, 1 / delta );
-          nu = v3 * vcl_pow( xi, delta - 1.0 );
+          xi = std::pow( v2, 1 / delta );
+          nu = v3 * std::pow( xi, delta - 1.0 );
           }
         else
           {
-          xi = 1.0 - vcl_log( v2 );
-          nu = v3 * vcl_exp( -xi );
+          xi = 1.0 - std::log( v2 );
+          nu = v3 * std::exp( -xi );
           }
         }
-      while( nu > vcl_exp( -xi ) * vcl_pow( xi, delta - 1.0 ) );
+      while( nu > std::exp( -xi ) * std::pow( xi, delta - 1.0 ) );
       double gamma = xi;
       for( int i=0; i<floork; i++ )
         {
-        gamma -= vcl_log( 1.0 - rand->GetVariateWithOpenUpperRange() );
+        gamma -= std::log( 1.0 - rand->GetVariateWithOpenUpperRange() );
         }
       gamma *= theta;
       // ok, so now apply multiplicative noise

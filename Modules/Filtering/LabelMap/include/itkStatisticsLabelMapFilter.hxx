@@ -127,9 +127,9 @@ StatisticsLabelMapFilter< TImage, TFeatureImage >
 
     //increase the sums
     sum += v;
-    sum2 += vcl_pow( (double)v, 2 );
-    sum3 += vcl_pow( (double)v, 3 );
-    sum4 += vcl_pow( (double)v, 4 );
+    sum2 += std::pow( (double)v, 2 );
+    sum3 += std::pow( (double)v, 3 );
+    sum4 += std::pow( (double)v, 4 );
 
     // moments
     PointType physicalPosition;
@@ -151,11 +151,11 @@ StatisticsLabelMapFilter< TImage, TFeatureImage >
   // final computations
   const typename HistogramType::AbsoluteFrequencyType & totalFreq = histogram->GetTotalFrequency();
   const double mean = sum / totalFreq;
-  const double variance = ( sum2 - ( vcl_pow(sum, 2) / totalFreq ) ) / ( totalFreq - 1 );
-  const double sigma = vcl_sqrt(variance);
+  const double variance = ( sum2 - ( std::pow(sum, 2) / totalFreq ) ) / ( totalFreq - 1 );
+  const double sigma = std::sqrt(variance);
   const double mean2 = mean * mean;
   double skewness;
-  if(vcl_abs(variance * sigma) > itk::NumericTraits<double>::min())
+  if(std::abs(variance * sigma) > itk::NumericTraits<double>::min())
     {
     skewness = ( ( sum3 - 3.0 * mean * sum2 ) / totalFreq + 2.0 * mean * mean2 ) / ( variance * sigma );
     }
@@ -164,7 +164,7 @@ StatisticsLabelMapFilter< TImage, TFeatureImage >
     skewness = 0.0;
     }
   double kurtosis;
-  if(vcl_abs(variance) > itk::NumericTraits<double>::min())
+  if(std::abs(variance) > itk::NumericTraits<double>::min())
     {
     kurtosis = ( ( sum4 - 4.0 * mean * sum3 + 6.0 * mean2
                    * sum2 ) / totalFreq - 3.0 * mean2 * mean2 ) /
@@ -223,7 +223,7 @@ StatisticsLabelMapFilter< TImage, TFeatureImage >
     vnl_diag_matrix< double >           pm = eigen.D;
     for ( unsigned int i = 0; i < ImageDimension; i++ )
       {
-      //    principalMoments[i] = 4 * vcl_sqrt( pm(i,i) );
+      //    principalMoments[i] = 4 * std::sqrt( pm(i,i) );
       principalMoments[i] = pm(i);
       }
     principalAxes = eigen.V.transpose();
@@ -253,8 +253,8 @@ StatisticsLabelMapFilter< TImage, TFeatureImage >
       {
       //    elongation = principalMoments[ImageDimension-1] /
       // principalMoments[0];
-      elongation = vcl_sqrt(principalMoments[ImageDimension - 1] / principalMoments[ImageDimension - 2]);
-      flatness = vcl_sqrt(principalMoments[1] / principalMoments[0]);
+      elongation = std::sqrt(principalMoments[ImageDimension - 1] / principalMoments[ImageDimension - 2]);
+      flatness = std::sqrt(principalMoments[1] / principalMoments[0]);
       }
     }
   else

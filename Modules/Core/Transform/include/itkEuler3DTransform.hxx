@@ -152,45 +152,45 @@ Euler3DTransform<TScalar>
 {
   if( m_ComputeZYX )
     {
-    m_AngleY = -vcl_asin(this->GetMatrix()[2][0]);
-    double C = vcl_cos(m_AngleY);
-    if( vcl_fabs(C) > 0.00005 )
+    m_AngleY = -std::asin(this->GetMatrix()[2][0]);
+    double C = std::cos(m_AngleY);
+    if( std::fabs(C) > 0.00005 )
       {
       double x = this->GetMatrix()[2][2] / C;
       double y = this->GetMatrix()[2][1] / C;
-      m_AngleX = vcl_atan2(y, x);
+      m_AngleX = std::atan2(y, x);
       x = this->GetMatrix()[0][0] / C;
       y = this->GetMatrix()[1][0] / C;
-      m_AngleZ = vcl_atan2(y, x);
+      m_AngleZ = std::atan2(y, x);
       }
     else
       {
       m_AngleX = NumericTraits<ScalarType>::Zero;
       double x = this->GetMatrix()[1][1];
       double y = -this->GetMatrix()[0][1];
-      m_AngleZ = vcl_atan2(y, x);
+      m_AngleZ = std::atan2(y, x);
       }
     }
   else
     {
-    m_AngleX = vcl_asin(this->GetMatrix()[2][1]);
-    double A = vcl_cos(m_AngleX);
-    if( vcl_fabs(A) > 0.00005 )
+    m_AngleX = std::asin(this->GetMatrix()[2][1]);
+    double A = std::cos(m_AngleX);
+    if( std::fabs(A) > 0.00005 )
       {
       double x = this->GetMatrix()[2][2] / A;
       double y = -this->GetMatrix()[2][0] / A;
-      m_AngleY = vcl_atan2(y, x);
+      m_AngleY = std::atan2(y, x);
 
       x = this->GetMatrix()[1][1] / A;
       y = -this->GetMatrix()[0][1] / A;
-      m_AngleZ = vcl_atan2(y, x);
+      m_AngleZ = std::atan2(y, x);
       }
     else
       {
       m_AngleZ = NumericTraits<ScalarType>::Zero;
       double x = this->GetMatrix()[0][0];
       double y = this->GetMatrix()[1][0];
-      m_AngleY = vcl_atan2(y, x);
+      m_AngleY = std::atan2(y, x);
       }
     }
   this->ComputeMatrix();
@@ -203,12 +203,12 @@ Euler3DTransform<TScalar>
 ::ComputeMatrix(void)
 {
   // need to check if angles are in the right order
-  const ScalarType cx = vcl_cos(m_AngleX);
-  const ScalarType sx = vcl_sin(m_AngleX);
-  const ScalarType cy = vcl_cos(m_AngleY);
-  const ScalarType sy = vcl_sin(m_AngleY);
-  const ScalarType cz = vcl_cos(m_AngleZ);
-  const ScalarType sz = vcl_sin(m_AngleZ);
+  const ScalarType cx = std::cos(m_AngleX);
+  const ScalarType sx = std::sin(m_AngleX);
+  const ScalarType cy = std::cos(m_AngleY);
+  const ScalarType sy = std::sin(m_AngleY);
+  const ScalarType cz = std::cos(m_AngleZ);
+  const ScalarType sz = std::sin(m_AngleZ);
   const ScalarType one = NumericTraits<ScalarType>::One;
   const ScalarType zero = NumericTraits<ScalarType>::Zero;
 
@@ -245,12 +245,12 @@ Euler3DTransform<TScalar>
 ::ComputeJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const
 {
   // need to check if angles are in the right order
-  const double cx = vcl_cos(m_AngleX);
-  const double sx = vcl_sin(m_AngleX);
-  const double cy = vcl_cos(m_AngleY);
-  const double sy = vcl_sin(m_AngleY);
-  const double cz = vcl_cos(m_AngleZ);
-  const double sz = vcl_sin(m_AngleZ);
+  const double cx = std::cos(m_AngleX);
+  const double sx = std::sin(m_AngleX);
+  const double cy = std::cos(m_AngleY);
+  const double sy = std::sin(m_AngleY);
+  const double cz = std::cos(m_AngleZ);
+  const double sz = std::sin(m_AngleZ);
 
   jacobian.SetSize( 3, this->GetNumberOfLocalParameters() );
   jacobian.Fill(0.0);

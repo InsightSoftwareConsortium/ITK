@@ -85,9 +85,9 @@ int itkDistanceToCentroidMembershipFunctionTest(int, char* [] )
 
   const double tolerance = 0.001;
 
-  if( vcl_fabs( function->GetCentroid()[0] - origin[0]) > tolerance ||
-      vcl_fabs( function->GetCentroid()[1] - origin[1]) > tolerance ||
-      vcl_fabs( function->GetCentroid()[2] - origin[2]) > tolerance )
+  if( std::fabs( function->GetCentroid()[0] - origin[0]) > tolerance ||
+      std::fabs( function->GetCentroid()[1] - origin[1]) > tolerance ||
+      std::fabs( function->GetCentroid()[2] - origin[2]) > tolerance )
     {
     std::cerr << "Error in GetCentroid() method" << std::endl;
     return EXIT_FAILURE;
@@ -102,7 +102,7 @@ int itkDistanceToCentroidMembershipFunctionTest(int, char* [] )
   double trueValue = 3.31662;
   double distanceComputed = function->Evaluate( measurement );
 
-  if( vcl_fabs( distanceComputed - trueValue) > tolerance )
+  if( std::fabs( distanceComputed - trueValue) > tolerance )
     {
     std::cerr << "Distance computed not correct: " << "truevalue= " << trueValue
               << "ComputedValue=" << distanceComputed << std::endl;

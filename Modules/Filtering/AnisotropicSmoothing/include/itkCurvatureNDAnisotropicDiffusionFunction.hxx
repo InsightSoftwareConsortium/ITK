@@ -123,8 +123,8 @@ CurvatureNDAnisotropicDiffusionFunction< TImage >
         grad_mag_sq_d += 0.25f * ( dx[j] + dx_dim ) * ( dx[j] + dx_dim );
         }
       }
-    grad_mag = vcl_sqrt(m_MIN_NORM + grad_mag_sq);
-    grad_mag_d = vcl_sqrt(m_MIN_NORM + grad_mag_sq_d);
+    grad_mag = std::sqrt(m_MIN_NORM + grad_mag_sq);
+    grad_mag_d = std::sqrt(m_MIN_NORM + grad_mag_sq_d);
 
     // Conductance Terms
     if ( m_K == 0.0 )
@@ -134,8 +134,8 @@ CurvatureNDAnisotropicDiffusionFunction< TImage >
       }
     else
       {
-      Cx  = vcl_exp(grad_mag_sq   / m_K);
-      Cxd = vcl_exp(grad_mag_sq_d / m_K);
+      Cx  = std::exp(grad_mag_sq   / m_K);
+      Cxd = std::exp(grad_mag_sq_d / m_K);
       }
     // First order normalized finite-difference conductance products
     dx_forward_Cn  = ( dx_forward[i]  / grad_mag ) * Cx;
@@ -164,7 +164,7 @@ CurvatureNDAnisotropicDiffusionFunction< TImage >
         + vnl_math_sqr( vnl_math_min(dx_forward[i],  0.0) );
       }
     }
-  return static_cast< PixelType >( vcl_sqrt(propagation_gradient) * speed );
+  return static_cast< PixelType >( std::sqrt(propagation_gradient) * speed );
 }
 } // end namespace itk
 

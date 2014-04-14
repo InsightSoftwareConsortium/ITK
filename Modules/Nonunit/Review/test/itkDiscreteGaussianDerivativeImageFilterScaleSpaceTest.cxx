@@ -30,7 +30,7 @@ bool NormalizeSineWave( double frequencyPerImage, unsigned int order, double pix
 
   const unsigned int ImageDimension = 1;
   const unsigned int imageSize = 1024;
-  const double       tol = vcl_pow( .001, 1.0 / order ); // this is
+  const double       tol = std::pow( .001, 1.0 / order ); // this is
                                                          // still
                                                          // larger
                                                          // then it
@@ -39,10 +39,10 @@ bool NormalizeSineWave( double frequencyPerImage, unsigned int order, double pix
   double frequency = frequencyPerImage * 2.0 * vnl_math::pi / ( imageSize * pixelSpacing );
 
   // The theoretical maximal value should occur at this sigma
-  double sigma_max = vcl_sqrt( double( order ) ) / frequency;
+  double sigma_max = std::sqrt( double( order ) ) / frequency;
 
   // the theoreical maximal value of the derivative, obtained at sigma_max
-  double expected_max = vcl_pow( double(order), order *0.5 ) * vcl_exp( -0.5 * order );
+  double expected_max = std::pow( double(order), order *0.5 ) * std::exp( -0.5 * order );
 
   typedef itk::Image< double, ImageDimension > ImageType;
   ImageType::Pointer image = ImageType::New();
@@ -66,7 +66,7 @@ bool NormalizeSineWave( double frequencyPerImage, unsigned int order, double pix
     ImageType::PointType p;
     image->TransformIndexToPhysicalPoint( iter.GetIndex(), p );
     const double x = p[0];
-    double       value = vcl_sin( x * frequency );
+    double       value = std::sin( x * frequency );
 
     iter.Set( value );
     ++iter;
@@ -106,12 +106,12 @@ bool NormalizeSineWave( double frequencyPerImage, unsigned int order, double pix
   while ( !oiter.IsAtEnd() )
     {
     if ( maxLx < oiter.Get() &&
-         vcl_abs( maxLx - oiter.Get() ) > tol )
+         std::abs( maxLx - oiter.Get() ) > tol )
       {
       std::cout << "FAIL: For period: " << 1.0/frequency
                 << " maxLx: " << maxLx
                 << " tolerance exceeded by: "
-                << vcl_abs( maxLx - oiter.Get() ) << std::endl;
+                << std::abs( maxLx - oiter.Get() ) << std::endl;
       return false;
       }
     ++oiter;
@@ -125,12 +125,12 @@ bool NormalizeSineWave( double frequencyPerImage, unsigned int order, double pix
   while ( !oiter.IsAtEnd() )
     {
     if ( maxLx < oiter.Get() &&
-         vcl_abs( maxLx - oiter.Get() ) > tol )
+         std::abs( maxLx - oiter.Get() ) > tol )
       {
       std::cout << "FAIL:  For period: " << 1.0/frequency
                 << " maxLx: " << maxLx
                 << " tolerance exceeded by: "
-                << vcl_abs( maxLx - oiter.Get() ) << std::endl;
+                << std::abs( maxLx - oiter.Get() ) << std::endl;
       return false;
       }
     ++oiter;
@@ -139,7 +139,7 @@ bool NormalizeSineWave( double frequencyPerImage, unsigned int order, double pix
   std::cout << "f: " << frequencyPerImage << " max: " << maxLx
             << " expected max: " << expected_max << std::endl;
 
-  if (  vcl_abs( maxLx - expected_max ) > .01 )
+  if (  std::abs( maxLx - expected_max ) > .01 )
     {
     std::cout << "FAIL: tolerance of expected max exceeded!" << std::endl;
     }

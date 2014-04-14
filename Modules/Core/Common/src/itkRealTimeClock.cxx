@@ -129,8 +129,8 @@ RealTimeClock::GetRealTimeStamp() const
   typedef RealTimeStamp::SecondsCounterType       SecondsCounterType;
   typedef RealTimeStamp::MicroSecondsCounterType  MicroSecondsCounterType;
 
-  SecondsCounterType iseconds = vcl_floor( seconds );
-  MicroSecondsCounterType useconds = vcl_floor( ( seconds - iseconds ) * 1e6 );
+  SecondsCounterType iseconds = std::floor( seconds );
+  MicroSecondsCounterType useconds = std::floor( ( seconds - iseconds ) * 1e6 );
 
   RealTimeStamp value( iseconds, useconds );
   return value;

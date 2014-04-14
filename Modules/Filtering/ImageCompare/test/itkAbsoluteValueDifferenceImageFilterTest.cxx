@@ -142,7 +142,7 @@ int itkAbsoluteValueDifferenceImageFilterTest(int, char* [] )
   while( !it4.IsAtEnd() )
     {
     std::cout << it4.Get() << std::endl;
-    if( vcl_fabs( it4.Get() - outputValue ) > epsilon )
+    if( std::fabs( it4.Get() - outputValue ) > epsilon )
       {
       std::cerr << "Error in the output" << std::endl;
       std::cerr << "Value should be  " << outputValue << std::endl;

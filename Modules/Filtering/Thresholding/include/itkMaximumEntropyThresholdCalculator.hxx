@@ -82,7 +82,7 @@ MaximumEntropyThresholdCalculator<THistogram, TOutput>
   first_bin=0;
   for (ih = 0; (unsigned)ih < size; ih++ )
     {
-    if ( !(vcl_abs(P1[ih])<tolerance))
+    if ( !(std::abs(P1[ih])<tolerance))
       {
       first_bin = ih;
       break;
@@ -93,7 +93,7 @@ MaximumEntropyThresholdCalculator<THistogram, TOutput>
   last_bin=size - 1;
   for (ih = size - 1; ih >= first_bin; ih-- )
     {
-    if ( !(vcl_abs(P2[ih])<tolerance))
+    if ( !(std::abs(P2[ih])<tolerance))
       {
       last_bin = ih;
       break;
@@ -112,7 +112,7 @@ MaximumEntropyThresholdCalculator<THistogram, TOutput>
       {
       if ( histogram->GetFrequency(ih, 0) != 0 )
         {
-        ent_back -= ( norm_histo[ih] / P1[it] ) * vcl_log ( norm_histo[ih] / P1[it] );
+        ent_back -= ( norm_histo[ih] / P1[it] ) * std::log ( norm_histo[ih] / P1[it] );
         }
       }
 
@@ -122,7 +122,7 @@ MaximumEntropyThresholdCalculator<THistogram, TOutput>
       {
       if (histogram->GetFrequency(ih, 0) != 0)
         {
-        ent_obj -= ( norm_histo[ih] / P2[it] ) * vcl_log ( norm_histo[ih] / P2[it] );
+        ent_obj -= ( norm_histo[ih] / P2[it] ) * std::log ( norm_histo[ih] / P2[it] );
         }
       }
 

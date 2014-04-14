@@ -32,7 +32,7 @@ Element3DC0LinearTetrahedron
   // http://www.cs.rpi.edu/~flaherje/pdf/fea6.pdf
   pt.set_size(3);
 
-  Float d = 1.0 / vcl_sqrt(3.0);
+  Float d = 1.0 / std::sqrt(3.0);
 
   pt[0] = d;
   pt[1] = d;

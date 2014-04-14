@@ -174,7 +174,7 @@ MahalanobisDistanceMetric< TVector >
 
   // Compute |y - mean | * inverse(cov) * |y - mean|^T
   double temp;
-  temp = vcl_sqrt( dot_product( tempMat.as_ref(), tempVec.as_ref() ) );
+  temp = std::sqrt( dot_product( tempMat.as_ref(), tempVec.as_ref() ) );
 
   return temp;
 }
@@ -208,7 +208,7 @@ MahalanobisDistanceMetric< TVector >
 
   // Compute |x1 - x2 | * inverse(cov) * |x1 - x2|^T
   double temp;
-  temp = vcl_sqrt( dot_product( tempMat.as_ref(), tempVec.as_ref() ) );
+  temp = std::sqrt( dot_product( tempMat.as_ref(), tempVec.as_ref() ) );
 
   return temp;
 }

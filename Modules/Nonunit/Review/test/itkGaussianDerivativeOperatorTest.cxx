@@ -51,11 +51,11 @@ bool TestGaussianOperator( double variance,
 
   std::cout << "total: " << total << std::endl;
 
-  if ( order == 0 && vcl_abs(total - 1.0) > itk::NumericTraits<double>::epsilon()*32 )
+  if ( order == 0 && std::abs(total - 1.0) > itk::NumericTraits<double>::epsilon()*32 )
     {
     std::cerr << "FAILURE: expected coefficients to sum to 1.0! Actual: " << total << std::endl;
     }
-  else if ( order != 0 && vcl_abs(total) > itk::NumericTraits<double>::epsilon()*32 )
+  else if ( order != 0 && std::abs(total) > itk::NumericTraits<double>::epsilon()*32 )
     {
     std::cerr << "FAILURE: expected coefficients to sum to 0.0! Actual: " << total << std::endl;
     }

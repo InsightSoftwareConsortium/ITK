@@ -261,7 +261,7 @@ FloatAlmostEqual( T x1, T x2,
 {
   // Check if the numbers are really close -- needed
   // when comparing numbers near zero.
-  const T absDifference = vcl_abs(x1 - x2);
+  const T absDifference = std::abs(x1 - x2);
   if ( absDifference <= maxAbsoluteDifference )
     {
     return true;

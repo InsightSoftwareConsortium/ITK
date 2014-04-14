@@ -49,7 +49,7 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>
 
   this->m_NeighborhoodWeightImage = NULL;
 
-  this->m_BSplineEpsilon = vcl_numeric_limits<CoordRepType>::epsilon();
+  this->m_BSplineEpsilon = std::numeric_limits<CoordRepType>::epsilon();
 }
 
 template<typename TInputImage, typename TCoordRep>
@@ -114,7 +114,7 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>
       maximumNumberOfSpans = numberOfSpans;
       }
     }
-  this->m_BSplineEpsilon = 100 * vcl_numeric_limits<CoordRepType>::epsilon();
+  this->m_BSplineEpsilon = 100 * std::numeric_limits<CoordRepType>::epsilon();
   while( static_cast<CoordRepType>( maximumNumberOfSpans ) ==
     static_cast<CoordRepType>( maximumNumberOfSpans ) - this->m_BSplineEpsilon )
     {

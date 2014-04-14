@@ -129,7 +129,7 @@ typename Vector< T, TVectorDimension >::RealValueType
 Vector< T, TVectorDimension >
 ::GetNorm(void) const
 {
-  return RealValueType( vcl_sqrt( double( this->GetSquaredNorm() ) ) );
+  return RealValueType( std::sqrt( double( this->GetSquaredNorm() ) ) );
 }
 
 template< typename T, unsigned int TVectorDimension >

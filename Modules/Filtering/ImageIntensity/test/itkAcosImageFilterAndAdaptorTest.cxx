@@ -72,7 +72,7 @@ int itkAcosImageFilterAndAdaptorTest(int, char* [] )
   InputIteratorType it( inputImage, inputImage->GetBufferedRegion() );
 
   // Initialize the content of Image A
-  const double pi    = vcl_atan( 1.0 ) * 4.0;
+  const double pi    = std::atan( 1.0 ) * 4.0;
   const double value = pi / 6.0;
   std::cout << "Content of the Input " << std::endl;
   it.GoToBegin();
@@ -114,14 +114,14 @@ int itkAcosImageFilterAndAdaptorTest(int, char* [] )
   while( !ot.IsAtEnd() )
     {
     std::cout <<  ot.Get() << " = ";
-    std::cout <<  vcl_acos( it.Get() )  << std::endl;
+    std::cout <<  std::acos( it.Get() )  << std::endl;
     const InputImageType::PixelType  input  = it.Get();
     const OutputImageType::PixelType output = ot.Get();
-    const OutputImageType::PixelType arccosinus  = vcl_acos(input);
-    if( vcl_fabs( arccosinus - output ) > epsilon )
+    const OutputImageType::PixelType arccosinus  = std::acos(input);
+    if( std::fabs( arccosinus - output ) > epsilon )
       {
       std::cerr << "Error in itkAcosImageFilterTest " << std::endl;
-      std::cerr << " vcl_acos( " << input << ") = " << arccosinus << std::endl;
+      std::cerr << " std::acos( " << input << ") = " << arccosinus << std::endl;
       std::cerr << " differs from " << output;
       std::cerr << " by more than " << epsilon << std::endl;
       return EXIT_FAILURE;
@@ -168,7 +168,7 @@ int itkAcosImageFilterAndAdaptorTest(int, char* [] )
     {
     std::cout <<  dt.Get() << std::endl;
     const OutputImageType::PixelType diff = dt.Get();
-    if( vcl_fabs( diff ) > epsilon )
+    if( std::fabs( diff ) > epsilon )
       {
       std::cerr << "Error in itkAcosImageFilterTest " << std::endl;
       std::cerr << "Comparing results with Adaptors" << std::endl;

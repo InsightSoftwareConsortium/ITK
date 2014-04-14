@@ -421,11 +421,11 @@ MersenneTwisterRandomVariateGenerator::GetNormalVariate(
 {
   // Return a real number from a normal (Gaussian) distribution with given
   // mean and variance by Box-Muller method
-  double r = vcl_sqrt(-2.0 * vcl_log( 1.0 - GetVariateWithOpenRange() ) * variance);
+  double r = std::sqrt(-2.0 * std::log( 1.0 - GetVariateWithOpenRange() ) * variance);
   double phi = 2.0 * vnl_math::pi
                * GetVariateWithOpenUpperRange();
 
-  return mean + r *vcl_cos(phi);
+  return mean + r *std::cos(phi);
 }
 
 /* Access to a uniform random number distribution */

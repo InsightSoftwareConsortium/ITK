@@ -28,7 +28,6 @@
 #ifndef __itkNarrowBand_hxx
 #define __itkNarrowBand_hxx
 #include "itkNarrowBand.h"
-#include "vcl_cmath.h"
 #include <cmath>
 
 namespace itk
@@ -50,7 +49,7 @@ NarrowBand< NodeType >
 
   SizeType regionsize =
     static_cast< SizeType >(
-        vcl_floor( static_cast< float >( t_size ) / static_cast< float >( t_n ) ) );
+        std::floor( static_cast< float >( t_size ) / static_cast< float >( t_n ) ) );
 
   if ( regionsize == 0 )
     {

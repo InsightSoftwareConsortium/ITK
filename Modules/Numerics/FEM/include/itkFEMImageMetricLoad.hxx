@@ -192,7 +192,7 @@ ImageMetricLoad<TMoving, TFixed>
       float tempe = 0.0;
       try
         {
-        tempe = vcl_fabs( GetMetric(InVec) );
+        tempe = std::fabs( GetMetric(InVec) );
         }
       catch( itk::ExceptionObject & )
         {
@@ -210,7 +210,7 @@ ImageMetricLoad<TMoving, TFixed>
     }
 
   // std::cout << " def e " << defe << " sim e " << energy*m_Gamma << std::endl;
-  return vcl_fabs( (double)energy * (double)m_Gamma - (double)defe );
+  return std::fabs( (double)energy * (double)m_Gamma - (double)defe );
 }
 
 template <typename TMoving, typename TFixed>
@@ -261,7 +261,7 @@ ImageMetricLoad<TMoving, TFixed>
       float tempe = 0.0;
       try
         {
-        tempe = vcl_fabs( GetMetric(InVec) );
+        tempe = std::fabs( GetMetric(InVec) );
         }
       catch( itk::ExceptionObject & )
         {
@@ -279,7 +279,7 @@ ImageMetricLoad<TMoving, TFixed>
     }
 
   // std::cout << " def e " << defe << " sim e " << energy*m_Gamma << std::endl;
-  return vcl_fabs( (double)energy * (double)m_Gamma - (double)defe );
+  return std::fabs( (double)energy * (double)m_Gamma - (double)defe );
 }
 
 template <typename TMoving, typename TFixed>
@@ -304,7 +304,7 @@ ImageMetricLoad<TMoving, TFixed>
     {
     if( vnl_math_isnan(Gpos[k])  || vnl_math_isinf(Gpos[k])
         || vnl_math_isnan(Gsol[k])  || vnl_math_isinf(Gsol[k])
-        || vcl_fabs(Gpos[k]) > 1.e33  || vcl_fabs(Gsol[k]) > 1.e33  )
+        || std::fabs(Gpos[k]) > 1.e33  || std::fabs(Gsol[k]) > 1.e33  )
       {
       OutVec.set_size(ImageDimension);  OutVec.fill(0.0);  return OutVec;
       }
@@ -394,9 +394,9 @@ ImageMetricLoad<TMoving, TFixed>
   // IN FACT, IT SEEMS MEANSQRS AND NCC POINT IN DIFFT DIRS
   // std::cout   << " deriv " << derivative <<  " val " << measure << endl;
   // if (m_Temp !=0.0)
-  // return OutVec * vcl_exp(-1.*OutVec.magnitude()/m_Temp);
+  // return OutVec * std::exp(-1.*OutVec.magnitude()/m_Temp);
   // else
-  return OutVec / vcl_sqrt(gmag);
+  return OutVec / std::sqrt(gmag);
 }
 
 template <typename TMoving, typename TFixed>

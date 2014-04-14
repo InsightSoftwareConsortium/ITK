@@ -87,7 +87,7 @@ public:
     m_Q1[2] =  0.0;
 
     VersorType versor;
-    const double angle = 10.0 * vcl_atan( 1.0 ) / 45.0;
+    const double angle = 10.0 * std::atan( 1.0 ) / 45.0;
     versor.SetRotationAroundX( angle );
 
     m_Transform->SetRotation( versor );
@@ -338,7 +338,7 @@ int itkVersorRigid3DTransformOptimizerTest(int, char* [] )
   trueAxis[0]  = 1.0f;
   trueAxis[1]  = 0.0f;
   trueAxis[2]  = 0.0f;
-  trueAngle = 10.0 * vcl_atan( 1.0f ) / 45.0;
+  trueAngle = 10.0 * std::atan( 1.0f ) / 45.0;
   VersorType trueRotation;
   trueRotation.Set( trueAxis, trueAngle );
 

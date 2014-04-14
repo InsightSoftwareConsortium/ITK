@@ -32,7 +32,7 @@ CorrelationCoefficientHistogramImageToImageMetric< TFixedImage, TMovingImage >
   const MeasureType varianceY  = this->VarianceY(histogram);
   const MeasureType covariance = this->Covariance(histogram);
 
-  return vcl_fabs( covariance / ( vcl_sqrt(varianceX) * vcl_sqrt(varianceY) ) );
+  return std::fabs( covariance / ( std::sqrt(varianceX) * std::sqrt(varianceY) ) );
 }
 
 template< typename TFixedImage, typename TMovingImage >
@@ -87,10 +87,10 @@ CorrelationCoefficientHistogramImageToImageMetric< TFixedImage, TMovingImage >
     {
     varX += static_cast< double >( histogram.GetFrequency(i, 0) )
             / histogram.GetTotalFrequency()
-            * vcl_pow(histogram.GetMeasurement(i, 0), 2);
+            * std::pow(histogram.GetMeasurement(i, 0), 2);
     }
 
-  return varX - vcl_pow(MeanX(histogram), 2);
+  return varX - std::pow(MeanX(histogram), 2);
 }
 
 template< typename TFixedImage, typename TMovingImage >
@@ -105,10 +105,10 @@ CorrelationCoefficientHistogramImageToImageMetric< TFixedImage, TMovingImage >
     {
     varY += static_cast< double >( histogram.GetFrequency(i, 1) )
             / histogram.GetTotalFrequency()
-            * vcl_pow(histogram.GetMeasurement(i, 1), 2);
+            * std::pow(histogram.GetMeasurement(i, 1), 2);
     }
 
-  return varY - vcl_pow(MeanY(histogram), 2);
+  return varY - std::pow(MeanY(histogram), 2);
 }
 
 template< typename TFixedImage, typename TMovingImage >

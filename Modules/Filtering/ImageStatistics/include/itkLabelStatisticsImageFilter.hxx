@@ -202,7 +202,7 @@ LabelStatisticsImageFilter< TInputImage, TLabelImage >
       }
 
     // sigma
-    labelStats.m_Sigma = vcl_sqrt( labelStats.m_Variance );
+    labelStats.m_Sigma = std::sqrt( labelStats.m_Variance );
     }
 
     {

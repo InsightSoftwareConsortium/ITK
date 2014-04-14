@@ -98,7 +98,7 @@ OtsuThresholdImageCalculator< TInputImage >
       }
     else
       {
-      binNumber = (unsigned int)vcl_ceil( ( value - imageMin ) * binMultiplier ) - 1;
+      binNumber = (unsigned int)std::ceil( ( value - imageMin ) * binMultiplier ) - 1;
       if ( binNumber == m_NumberOfHistogramBins ) // in case of rounding errors
         {
         binNumber -= 1;

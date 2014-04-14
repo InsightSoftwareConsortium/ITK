@@ -67,16 +67,16 @@ int itkHoughTransform2DLinesImageTest(int, char* [])
   float teta = 0.20; // radians
   float radius = 50;
 
-  double Vx = radius * vcl_cos( teta );
-  double Vy = radius * vcl_sin( teta );
+  double Vx = radius * std::cos( teta );
+  double Vy = radius * std::sin( teta );
 
-  double norm = vcl_sqrt(Vx*Vx+Vy*Vy);
+  double norm = std::sqrt(Vx*Vx+Vy*Vy);
   double VxNorm = Vx / norm;
   double VyNorm = Vy / norm;
 
   unsigned int maxval = size[0]*size[1];
 
-  const double nPI = 4.0 * vcl_atan( 1.0 );
+  const double nPI = 4.0 * std::atan( 1.0 );
 
   for(unsigned int i=0;i<maxval;i+=1)
   {
@@ -207,9 +207,9 @@ int itkHoughTransform2DLinesImageTest(int, char* [])
         {
           for(double length = 0; length < m_HoughDiscRadius;length += 1)
           {
-            m_Index[0] = (long int)(it_input.GetIndex()[0] + length * vcl_cos(angle));
-            m_Index[1] = (long int)(it_input.GetIndex()[1] + length * vcl_sin(angle));
-            if( ((m_Index[0]<=vcl_sqrt((double)400*400+400*400)) && (m_Index[0]>=0))
+            m_Index[0] = (long int)(it_input.GetIndex()[0] + length * std::cos(angle));
+            m_Index[1] = (long int)(it_input.GetIndex()[1] + length * std::sin(angle));
+            if( ((m_Index[0]<=std::sqrt((double)400*400+400*400)) && (m_Index[0]>=0))
               && ((m_Index[1]<=500) && (m_Index[1]>=0))
             )
             {
@@ -235,12 +235,12 @@ int itkHoughTransform2DLinesImageTest(int, char* [])
     std::cout << "Angle = " << it_list->angle << " (expected " << teta << ")"<< std::endl;
     std::cout << "Radius = " << it_list->radius << " (expected " << radius << ")"<< std::endl;
 
-    if( vcl_fabs(it_list->angle-teta)>0.1)
+    if( std::fabs(it_list->angle-teta)>0.1)
       {
       std::cout << "Failure" << std::endl;
       return EXIT_FAILURE;
       }
-    if( vcl_fabs(it_list->radius-radius)>1.0)
+    if( std::fabs(it_list->radius-radius)>1.0)
       {
       std::cout << "Failure" << std::endl;
       return EXIT_FAILURE;

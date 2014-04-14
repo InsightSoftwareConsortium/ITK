@@ -127,10 +127,10 @@ throw ( ExceptionObject )
      * in computing the range of intensity values.
      */
 
-    this->m_FixedImageTrueMin = vcl_numeric_limits<typename TFixedImage::PixelType>::max();
-    this->m_FixedImageTrueMax = vcl_numeric_limits<typename TFixedImage::PixelType>::min();
-    this->m_MovingImageTrueMin = vcl_numeric_limits<typename TMovingImage::PixelType>::max();
-    this->m_MovingImageTrueMax = vcl_numeric_limits<typename TMovingImage::PixelType>::min();
+    this->m_FixedImageTrueMin = std::numeric_limits<typename TFixedImage::PixelType>::max();
+    this->m_FixedImageTrueMax = std::numeric_limits<typename TFixedImage::PixelType>::min();
+    this->m_MovingImageTrueMin = std::numeric_limits<typename TMovingImage::PixelType>::max();
+    this->m_MovingImageTrueMax = std::numeric_limits<typename TMovingImage::PixelType>::min();
 
     // We need to make robust measures only over the requested mask region
     itk::ImageRegionConstIteratorWithIndex<TFixedImage> fi(this->m_FixedImage, this->m_FixedImage->GetBufferedRegion() );
@@ -638,13 +638,13 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>
       const PDFValueType jointPDFValue = *( jointPDFPtr );
 
       // check for non-zero bin contribution
-      const PDFValueType closeToZero = vcl_numeric_limits<PDFValueType>::epsilon();
+      const PDFValueType closeToZero = std::numeric_limits<PDFValueType>::epsilon();
       if( jointPDFValue > closeToZero &&  movingImagePDFValue > closeToZero )
         {
-        const PDFValueType pRatio = vcl_log(jointPDFValue / movingImagePDFValue);
+        const PDFValueType pRatio = std::log(jointPDFValue / movingImagePDFValue);
         if( fixedImagePDFValue > closeToZero )
           {
-          sum += jointPDFValue * ( pRatio - vcl_log(fixedImagePDFValue) );
+          sum += jointPDFValue * ( pRatio - std::log(fixedImagePDFValue) );
           }
         } // end if-block to check non-zero bin contribution
       }   // end for-loop over moving index
@@ -926,14 +926,14 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>
       const PDFValueType jointPDFValue = *( jointPDFPtr );
 
       // check for non-zero bin contribution
-      const PDFValueType closeToZero = vcl_numeric_limits<PDFValueType>::epsilon();
+      const PDFValueType closeToZero = std::numeric_limits<PDFValueType>::epsilon();
       if( jointPDFValue > closeToZero &&  movingImagePDFValue > closeToZero )
         {
-        const PDFValueType pRatio = vcl_log(jointPDFValue / movingImagePDFValue);
+        const PDFValueType pRatio = std::log(jointPDFValue / movingImagePDFValue);
 
         if( fixedImagePDFValue > closeToZero )
           {
-          sum += jointPDFValue * ( pRatio - vcl_log(fixedImagePDFValue) );
+          sum += jointPDFValue * ( pRatio - std::log(fixedImagePDFValue) );
           }
 
         if( this->m_UseExplicitPDFDerivatives )

@@ -143,7 +143,7 @@ protected:
   {
     // the slow exp function could be replaced with a lookup table
     if ( v <= 0.0 ) { return NumericTraits< NodeValueType >::One; }
-    else { return static_cast< NodeValueType >( vcl_exp(m_FluxStopConstant * v) ); }
+    else { return static_cast< NodeValueType >( std::exp(m_FluxStopConstant * v) ); }
   }
 
 private:

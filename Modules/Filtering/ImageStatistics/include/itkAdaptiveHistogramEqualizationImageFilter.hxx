@@ -42,7 +42,7 @@ AdaptiveHistogramEqualizationImageFilter< TImageType >
   s = vnl_math_sgn(u - v);
   ad = vnl_math_abs( 2.0 * ( u - v ) );
 
-  return 0.5 *s *vcl_pow(ad, m_Alpha) - m_Beta * 0.5 * s * ad + m_Beta * u;
+  return 0.5 *s *std::pow(ad, m_Alpha) - m_Beta * 0.5 * s * ad + m_Beta * u;
 }
 
 template< typename TImageType >

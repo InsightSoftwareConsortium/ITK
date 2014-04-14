@@ -221,11 +221,11 @@ ExpandImageFilter< TInputImage, TOutputImage >
   for ( i = 0; i < TInputImage::ImageDimension; i++ )
     {
     inputRequestedRegionSize[i] =
-      (SizeValueType)vcl_ceil( (double)outputRequestedRegionSize[i]
+      (SizeValueType)std::ceil( (double)outputRequestedRegionSize[i]
                       / (double)m_ExpandFactors[i] ) + 1;
 
     inputRequestedRegionStartIndex[i] =
-      (SizeValueType)vcl_floor( (double)outputRequestedRegionStartIndex[i]
+      (SizeValueType)std::floor( (double)outputRequestedRegionStartIndex[i]
                        / (double)m_ExpandFactors[i] );
     }
 

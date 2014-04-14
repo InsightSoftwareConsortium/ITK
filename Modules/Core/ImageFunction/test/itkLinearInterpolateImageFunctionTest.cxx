@@ -171,7 +171,7 @@ int RunTest( void )
 
  const AccumulatorType tolerance = 5e-6;
  // The tolerance of the norm must be greater than the tolerance for individual items.
- const AccumulatorType normTolerance = vcl_sqrt(4.0f*tolerance*tolerance);
+ const AccumulatorType normTolerance = std::sqrt(4.0f*tolerance*tolerance);
 
  PointType point;
  unsigned int testLengths[4] = {1,1,1,1};
@@ -210,7 +210,7 @@ int RunTest( void )
                    const AccumulatorType computedValue = interpolator->Evaluate( point );
                    const AccumulatorType difference = expectedValue - computedValue;
 
-                   if( vcl_fabs( difference ) > tolerance )
+                   if( std::fabs( difference ) > tolerance )
                      {
                      std::cerr << "Error found while computing interpolation "
                                << std::endl;

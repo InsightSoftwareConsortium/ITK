@@ -77,7 +77,7 @@ ShotNoiseImageFilter<TInputImage, TOutputImage>
       // exposed as an advance parameter in the future.
       if( in < 50 )
         {
-        const double L = vcl_exp( -in );
+        const double L = std::exp( -in );
         long         k = 0;
         double       p = 1.0;
 
@@ -93,7 +93,7 @@ ShotNoiseImageFilter<TInputImage, TOutputImage>
         }
       else
         {
-        const double out = in + vcl_sqrt( in ) * randn->GetVariate();
+        const double out = in + std::sqrt( in ) * randn->GetVariate();
         outputIt.Set( Self::ClampCast( out/m_Scale ) );
         }
       ++inputIt;

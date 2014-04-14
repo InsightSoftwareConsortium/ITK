@@ -39,7 +39,7 @@ AtanRegularizedHeavisideStepFunction< TInput, TOutput >
 ::Evaluate(const InputType & input) const
 {
   const RealType t = static_cast< RealType >( input ) * this->GetOneOverEpsilon();
-  return 0.5 + static_cast< OutputType >( vnl_math::one_over_pi * vcl_atan( t ) );
+  return 0.5 + static_cast< OutputType >( vnl_math::one_over_pi * std::atan( t ) );
 }
 
 /** Evaluate the derivative at the specified input position */

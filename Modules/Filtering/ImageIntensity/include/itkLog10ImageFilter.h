@@ -48,14 +48,14 @@ public:
 
   inline TOutput operator()(const TInput & A) const
   {
-    return static_cast< TOutput >( vcl_log10( static_cast< double >( A ) ) );
+    return static_cast< TOutput >( std::log10( static_cast< double >( A ) ) );
   }
 };
 }
 /** \class Log10ImageFilter
  * \brief Computes the log10 of each pixel.
  *
- * The computation is performed using vcl_log10(x).
+ * The computation is performed using std::log10(x).
  *
  * \ingroup IntensityImageFilters
  * \ingroup MultiThreaded

@@ -114,11 +114,11 @@ int itkSqrtImageFilterAndAdaptorTest(int, char* [] )
   while( !ot.IsAtEnd() )
     {
     std::cout <<  ot.Get() << " = ";
-    std::cout <<  vcl_sqrt( it.Get() )  << std::endl;
+    std::cout <<  std::sqrt( it.Get() )  << std::endl;
     const InputImageType::PixelType  input  = it.Get();
     const OutputImageType::PixelType output = ot.Get();
-    const OutputImageType::PixelType sqroot  = vcl_sqrt(input);
-    if( vcl_fabs( sqroot - output ) > epsilon )
+    const OutputImageType::PixelType sqroot  = std::sqrt(input);
+    if( std::fabs( sqroot - output ) > epsilon )
       {
       std::cerr << "Error in itkSqrtImageFilterTest " << std::endl;
       std::cerr << " sqrt( " << input << ") = " << sqroot << std::endl;
@@ -168,7 +168,7 @@ int itkSqrtImageFilterAndAdaptorTest(int, char* [] )
     {
     std::cout <<  dt.Get() << std::endl;
     const OutputImageType::PixelType diff = dt.Get();
-    if( vcl_fabs( diff ) > epsilon )
+    if( std::fabs( diff ) > epsilon )
       {
       std::cerr << "Error in itkSqrtImageFilterTest " << std::endl;
       std::cerr << "Comparing results with Adaptors" << std::endl;

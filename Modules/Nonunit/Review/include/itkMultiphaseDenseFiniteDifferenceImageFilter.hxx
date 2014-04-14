@@ -274,7 +274,7 @@ MultiphaseDenseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
       }
     }
 
-  this->SetRMSChange( vcl_sqrt(rms_change_accumulator / den) );
+  this->SetRMSChange( std::sqrt(rms_change_accumulator / den) );
 }
 
 template< typename TInputImage, typename TFeatureImage, typename TOutputImage,

@@ -85,7 +85,7 @@ Rigid3DPerspectiveTransform<TScalar>
   axis[2] = parameters[2];
   if( norm > NumericTraits<double>::Zero )
     {
-    norm = vcl_sqrt(norm);
+    norm = std::sqrt(norm);
     }
 
   double epsilon = 1e-10;
@@ -150,8 +150,8 @@ template <typename TScalar>
 void
 Rigid3DPerspectiveTransform<TScalar>::SetRotation(const Vector<TScalar, 3> & axis, double angle)
 {
-  const double sinus   = vcl_sin(angle / 2.0);
-  const double cosinus = vcl_cos(angle / 2.0);
+  const double sinus   = std::sin(angle / 2.0);
+  const double cosinus = std::cos(angle / 2.0);
 
   Vector<TScalar, 3> norm;
   norm = axis;

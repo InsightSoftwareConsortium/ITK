@@ -48,14 +48,14 @@ public:
 
   inline TOutput operator()(const TInput & A) const
   {
-    return (TOutput)vcl_exp( (double)A );
+    return (TOutput)std::exp( (double)A );
   }
 };
 }
 /** \class ExpImageFilter
  * \brief Computes the exponential function of each pixel.
  *
- * The computation is performed using vcl_exp(x).
+ * The computation is performed using std::exp(x).
  *
  * \ingroup IntensityImageFilters
  * \ingroup MultiThreaded

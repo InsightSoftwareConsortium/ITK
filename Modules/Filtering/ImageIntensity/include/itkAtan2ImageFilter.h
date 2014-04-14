@@ -49,7 +49,7 @@ public:
   inline TOutput operator()(const TInput1 & A, const TInput2 & B) const
   {
     return static_cast< TOutput >(
-             vcl_atan2(
+             std::atan2(
                static_cast< double >( A ),
                static_cast< double >( B ) )
              );
@@ -69,7 +69,7 @@ public:
  * Numeric conversions (castings) are done by the C++ defaults.
  *
  * Both pixel input types are cast to \c double in order to be
- * used as parameters of \c vcl_atan2(). The resulting \c double value
+ * used as parameters of \c std::atan2(). The resulting \c double value
  * is cast to the output pixel type.
  *
  * \ingroup IntensityImageFilters

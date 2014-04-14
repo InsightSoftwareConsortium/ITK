@@ -667,7 +667,7 @@ BSplineInterpolateImageFunction< TImageType, TCoordRep, TCoefficientType >
   const float halfOffset = splineOrder & 1 ? 0.0 : 0.5;
   for ( unsigned int n = 0; n < ImageDimension; n++ )
     {
-    long indx = (long)vcl_floor( (float)x[n] + halfOffset ) - splineOrder / 2;
+    long indx = (long)std::floor( (float)x[n] + halfOffset ) - splineOrder / 2;
     for ( unsigned int k = 0; k <= splineOrder; k++ )
       {
       evaluateIndex[n][k] = indx++;

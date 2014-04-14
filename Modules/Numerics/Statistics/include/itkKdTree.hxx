@@ -204,10 +204,10 @@ KdTree<TSample>
 
   for(  unsigned int d = 0; d < this->m_MeasurementVectorSize; ++d )
     {
-    lowerBound[d] = static_cast< MeasurementType >( -vcl_sqrt(
+    lowerBound[d] = static_cast< MeasurementType >( -std::sqrt(
       -static_cast< double >( NumericTraits< MeasurementType >::
       NonpositiveMin() ) ) / 2.0 );
-    upperBound[d] = static_cast< MeasurementType >( vcl_sqrt(
+    upperBound[d] = static_cast< MeasurementType >( std::sqrt(
       static_cast<double >( NumericTraits< MeasurementType >::max() ) / 2.0 ) );
     }
   this->NearestNeighborSearchLoop( this->m_Root, query, lowerBound, upperBound,
@@ -349,10 +349,10 @@ KdTree<TSample>
 
   for(  unsigned int d = 0; d < this->m_MeasurementVectorSize; ++d )
     {
-    lowerBound[d] = static_cast<MeasurementType>( -vcl_sqrt(
+    lowerBound[d] = static_cast<MeasurementType>( -std::sqrt(
       -static_cast<double>( NumericTraits<MeasurementType>::
       NonpositiveMin() ) ) / 2.0 );
-    upperBound[d] = static_cast< MeasurementType >( vcl_sqrt(
+    upperBound[d] = static_cast< MeasurementType >( std::sqrt(
       static_cast<double>( NumericTraits< MeasurementType >::max() ) / 2.0 ) );
     }
 

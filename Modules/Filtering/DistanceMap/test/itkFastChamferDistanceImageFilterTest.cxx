@@ -33,7 +33,7 @@ SimpleSignedDistance( const TPoint & p )
     {
     accum += static_cast< double >( vnl_math_sqr( p[j] - center[j] ) );
     }
-  accum = vcl_sqrt( accum );
+  accum = std::sqrt( accum );
   if (vnl_math_abs(accum - radius) > 1)
     {
     if((accum - radius) > 0)

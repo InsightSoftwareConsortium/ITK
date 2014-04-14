@@ -53,7 +53,7 @@ public:
 
   inline TOutput operator()(const TInput & A) const
   {
-    return static_cast< TOutput >( vcl_exp( -m_Factor * static_cast< double >( A ) ) );
+    return static_cast< TOutput >( std::exp( -m_Factor * static_cast< double >( A ) ) );
   }
 
   /** Sets the value 'K' used in the function evaluation exp(-K.x). */
@@ -74,7 +74,7 @@ private:
 /** \class ExpNegativeImageFilter
  * \brief Computes the function exp(-K.x) for each input pixel.
  *
- * Every output pixel is equal to vcl_exp(-K.x ). where x is the
+ * Every output pixel is equal to std::exp(-K.x ). where x is the
  * intensity of the homologous input pixel, and K is a user-provided
  * constant.
  *

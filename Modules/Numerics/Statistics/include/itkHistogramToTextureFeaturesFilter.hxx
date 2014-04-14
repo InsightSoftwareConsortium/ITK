@@ -114,7 +114,7 @@ HistogramToTextureFeaturesFilter< THistogram >::GenerateData(void)
   MeasurementType haralickCorrelation = NumericTraits< MeasurementType >::Zero;
 
   double pixelVarianceSquared = pixelVariance * pixelVariance;
-  double log2 = vcl_log(2.0);
+  double log2 = std::log(2.0);
 
   typename RelativeFrequencyContainerType::const_iterator rFreqIterator =
     m_RelativeFrequencyContainer.begin();
@@ -132,15 +132,15 @@ HistogramToTextureFeaturesFilter< THistogram >::GenerateData(void)
 
     IndexType index = inputHistogram->GetIndex( hit.GetInstanceIdentifier() );
     energy += frequency * frequency;
-    entropy -= ( frequency > 0.0001 ) ? frequency *vcl_log(frequency) / log2:0;
+    entropy -= ( frequency > 0.0001 ) ? frequency *std::log(frequency) / log2:0;
     correlation += ( ( index[0] - pixelMean ) * ( index[1] - pixelMean ) * frequency )
                    / pixelVarianceSquared;
     inverseDifferenceMoment += frequency
                                / ( 1.0 + ( index[0] - index[1] ) * ( index[0] - index[1] ) );
     inertia += ( index[0] - index[1] ) * ( index[0] - index[1] ) * frequency;
-    clusterShade += vcl_pow( ( index[0] - pixelMean ) + ( index[1] - pixelMean ), 3 )
+    clusterShade += std::pow( ( index[0] - pixelMean ) + ( index[1] - pixelMean ), 3 )
                     * frequency;
-    clusterProminence += vcl_pow( ( index[0] - pixelMean ) + ( index[1] - pixelMean ), 4 )
+    clusterProminence += std::pow( ( index[0] - pixelMean ) + ( index[1] - pixelMean ), 4 )
                          * frequency;
     haralickCorrelation += index[0] * index[1] * frequency;
     }
@@ -229,7 +229,7 @@ HistogramToTextureFeaturesFilter< THistogram >::ComputeMeansAndVariances(double 
       M(1) = x(1), M(k) = M(k-1) + (x(k) - M(k-1) ) / k
       S(1) = 0, S(k) = S(k-1) + (x(k) - M(k-1)) * (x(k) - M(k))
       for 2 <= k <= n, then
-      sigma = vcl_sqrt(S(n) / n) (or divide by n-1 for sample SD instead of
+      sigma = std::sqrt(S(n) / n) (or divide by n-1 for sample SD instead of
       population SD).
   */
   marginalMean = marginalSums[0];

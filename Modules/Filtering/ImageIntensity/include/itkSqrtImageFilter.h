@@ -48,14 +48,14 @@ public:
 
   inline TOutput operator()(const TInput & A) const
   {
-    return (TOutput)vcl_sqrt( (double)A );
+    return (TOutput)std::sqrt( (double)A );
   }
 };
 }
 /** \class SqrtImageFilter
  * \brief Computes the square root of each pixel.
  *
- * The computations are performed using vcl_sqrt(x).
+ * The computations are performed using std::sqrt(x).
  *
  * \ingroup IntensityImageFilters
  * \ingroup MultiThreaded

@@ -54,7 +54,7 @@ GaussianSpatialFunction< TOutput, VImageDimension, TInput >
 
   if ( m_Normalized )
     {
-    const double squareRootOfTwoPi = vcl_sqrt(2.0 * vnl_math::pi);
+    const double squareRootOfTwoPi = std::sqrt(2.0 * vnl_math::pi);
 
     for ( unsigned int i = 0; i < VImageDimension; i++ )
       {
@@ -70,7 +70,7 @@ GaussianSpatialFunction< TOutput, VImageDimension, TInput >
                  / ( 2 * m_Sigma[i] * m_Sigma[i] );
     }
 
-  double value = m_Scale * ( 1 / prefixDenom ) * vcl_exp(-1 * suffixExp);
+  double value = m_Scale * ( 1 / prefixDenom ) * std::exp(-1 * suffixExp);
 
   return (TOutput)value;
 }

@@ -153,7 +153,7 @@ void LoadLandmark::ApplyLoad(Element::ConstPointer element, Element::VectorType 
   force =  ( this->GetTarget() - new_source ) / this->GetEta();
 
   //  std::cout << " disp " << disp <<  std::endl;
-  // force /= vcl_sqrt(fmag);
+  // force /= std::sqrt(fmag);
   new_source = ( this->GetTarget() - new_source );
   //  std::cout << " force = " << force <<  " distance  " <<
   // new_source.magnitude() << std::endl;

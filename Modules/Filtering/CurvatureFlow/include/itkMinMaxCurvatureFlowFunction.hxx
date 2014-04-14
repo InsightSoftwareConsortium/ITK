@@ -157,7 +157,7 @@ MinMaxCurvatureFlowFunction< TImage >
 
   if ( gradMagnitude == 0.0 ) { return threshold; }
 
-  gradMagnitude = vcl_sqrt( (double)gradMagnitude );
+  gradMagnitude = std::sqrt( (double)gradMagnitude );
 
   // Search for all position in the neighborhood perpendicular to
   // the gradient and at a distance of StencilRadius from center.
@@ -190,7 +190,7 @@ MinMaxCurvatureFlowFunction< TImage >
       vectorMagnitude += static_cast< PixelType >( vnl_math_sqr(diff) );
       }
 
-    vectorMagnitude = vcl_sqrt( (double)vectorMagnitude );
+    vectorMagnitude = std::sqrt( (double)vectorMagnitude );
 
     if ( vectorMagnitude != 0.0 )
       {
@@ -264,7 +264,7 @@ MinMaxCurvatureFlowFunction< TImage >
 
   if ( gradMagnitude == 0.0 ) { return threshold; }
 
-  gradMagnitude = vcl_sqrt( (double)gradMagnitude )
+  gradMagnitude = std::sqrt( (double)gradMagnitude )
                   / static_cast< PixelType >( m_StencilRadius );
 
   for ( j = 0; j < imageDimension; j++ )
@@ -335,7 +335,7 @@ MinMaxCurvatureFlowFunction< TImage >
 
   if ( gradMagnitude == 0.0 ) { return threshold; }
 
-  gradMagnitude = vcl_sqrt( (double)gradMagnitude )
+  gradMagnitude = std::sqrt( (double)gradMagnitude )
                   / static_cast< PixelType >( m_StencilRadius );
 
   for ( j = 0; j < imageDimension; j++ )
@@ -352,7 +352,7 @@ MinMaxCurvatureFlowFunction< TImage >
     {
     gradient[2] = -1.0;
     }
-  theta = vcl_acos( (double)gradient[2] );
+  theta = std::acos( (double)gradient[2] );
 
   if ( gradient[0] == 0 )
     {
@@ -360,13 +360,13 @@ MinMaxCurvatureFlowFunction< TImage >
     }
   else
     {
-    phi = vcl_atan( (double)gradient[1] / (double)gradient[0] );
+    phi = std::atan( (double)gradient[1] / (double)gradient[0] );
     }
 
-  double cosTheta = vcl_cos(theta);
-  double sinTheta = vcl_sin(theta);
-  double cosPhi   = vcl_cos(phi);
-  double sinPhi   = vcl_sin(phi);
+  double cosTheta = std::cos(theta);
+  double sinTheta = std::sin(theta);
+  double cosPhi   = std::cos(phi);
+  double sinPhi   = std::sin(phi);
 
   double rSinTheta       = m_StencilRadius * sinTheta;
   double rCosThetaCosPhi = m_StencilRadius * cosTheta * cosPhi;

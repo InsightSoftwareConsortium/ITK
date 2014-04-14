@@ -90,7 +90,7 @@ int testPointsLocatorTest()
     return EXIT_FAILURE;
     }
 
-  double radius = vcl_sqrt( 3 * vnl_math_sqr( 5.1 ) );
+  double radius = std::sqrt( 3 * vnl_math_sqr( 5.1 ) );
 
   std::cout << "Test:  FindPointsWithinRadius()" << std::endl;
 

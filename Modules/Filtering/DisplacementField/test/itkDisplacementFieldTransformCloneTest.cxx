@@ -29,7 +29,7 @@ bool testVector( const TVector & v1, const TVector & v2 )
 
   for( unsigned int i = 0; i < v1.Size() && i < v2.Size(); i++ )
     {
-    if( vcl_fabs( v1[i] - v2[i] ) > epsilon )
+    if( std::fabs( v1[i] - v2[i] ) > epsilon )
       {
       pass = false;
       }

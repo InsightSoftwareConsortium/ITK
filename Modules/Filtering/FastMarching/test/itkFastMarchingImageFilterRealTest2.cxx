@@ -201,7 +201,7 @@ int itkFastMarchingImageFilterRealTest2(int argc, char* argv[] )
         {
         distance += tempIndex[j] * tempIndex[j];
         }
-      distance = vcl_sqrt( distance );
+      distance = std::sqrt( distance );
 
       if (distance > itk::NumericTraits< double >::epsilon() )
         {
