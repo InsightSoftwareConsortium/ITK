@@ -218,6 +218,27 @@ int PerformDisplacementFieldImageRegistration( int itkNotUsed( argc ), char *arg
   outputTransform->SetDisplacementField( displacementField );
   outputTransform->SetInverseDisplacementField( inverseDisplacementField );
 
+  //Test member functions
+  displacementFieldRegistration->SetDownsampleImagesForMetricDerivatives(false);
+  if( displacementFieldRegistration->GetDownsampleImagesForMetricDerivatives() != false )
+    {
+    return EXIT_FAILURE;
+    }
+  displacementFieldRegistration->SetDownsampleImagesForMetricDerivatives(true);
+  if( displacementFieldRegistration->GetDownsampleImagesForMetricDerivatives() != true )
+    {
+    return EXIT_FAILURE;
+    }
+  displacementFieldRegistration->SetAverageMidPointGradients(false);
+  if( displacementFieldRegistration->GetAverageMidPointGradients() != false )
+    {
+    return EXIT_FAILURE;
+    }
+  displacementFieldRegistration->SetAverageMidPointGradients(true);
+  if( displacementFieldRegistration->GetAverageMidPointGradients() != true )
+    {
+    return EXIT_FAILURE;
+    }
   // Create the transform adaptors
 
   typedef itk::DisplacementFieldTransformParametersAdaptor<OutputTransformType> DisplacementFieldTransformAdaptorType;
@@ -294,11 +315,44 @@ int PerformDisplacementFieldImageRegistration( int itkNotUsed( argc ), char *arg
   displacementFieldRegistration->SetShrinkFactorsPerLevel( shrinkFactorsPerLevel );
   displacementFieldRegistration->SetSmoothingSigmasPerLevel( smoothingSigmasPerLevel );
   displacementFieldRegistration->SetMetric( correlationMetric );
-  displacementFieldRegistration->SetLearningRate( atof( argv[6] ) );
+
+  const typename DisplacementFieldRegistrationType::RealType local_epsilon = itk::NumericTraits< typename DisplacementFieldRegistrationType::RealType >::epsilon();
+  const typename DisplacementFieldRegistrationType::RealType local_LearningRate = atof( argv[6] );
+  displacementFieldRegistration->SetLearningRate( local_LearningRate );
+  if ( displacementFieldRegistration->GetLearningRate() - local_LearningRate > local_epsilon )
+    {
+    return EXIT_FAILURE;
+    }
   displacementFieldRegistration->SetNumberOfIterationsPerLevel( numberOfIterationsPerLevel );
+  if ( displacementFieldRegistration->GetNumberOfIterationsPerLevel() != numberOfIterationsPerLevel )
+    {
+    return EXIT_FAILURE;
+    }
   displacementFieldRegistration->SetTransformParametersAdaptorsPerLevel( adaptors );
   displacementFieldRegistration->SetGaussianSmoothingVarianceForTheUpdateField( varianceForUpdateField );
+  if ( displacementFieldRegistration->GetGaussianSmoothingVarianceForTheUpdateField() - varianceForUpdateField > local_epsilon )
+    {
+    return EXIT_FAILURE;
+    }
+
   displacementFieldRegistration->SetGaussianSmoothingVarianceForTheTotalField( varianceForTotalField );
+  if ( displacementFieldRegistration->GetGaussianSmoothingVarianceForTheTotalField() - varianceForTotalField > local_epsilon )
+    {
+    return EXIT_FAILURE;
+    }
+
+  const typename DisplacementFieldRegistrationType::RealType local_ConvergenceThreshold = 1.0e-6;
+  displacementFieldRegistration->SetConvergenceThreshold( local_ConvergenceThreshold );
+  if ( displacementFieldRegistration->GetConvergenceThreshold() - local_ConvergenceThreshold > local_epsilon )
+    {
+    return EXIT_FAILURE;
+    }
+  const unsigned int local_ConvergenceWindowSize = 10;
+  displacementFieldRegistration->SetConvergenceWindowSize( local_ConvergenceWindowSize );
+  if ( displacementFieldRegistration->GetConvergenceWindowSize() != local_ConvergenceWindowSize )
+    {
+    return EXIT_FAILURE;
+    }
 
   typedef CommandIterationUpdate<DisplacementFieldRegistrationType> DisplacementFieldCommandType;
   typename DisplacementFieldCommandType::Pointer DisplacementFieldObserver = DisplacementFieldCommandType::New();
