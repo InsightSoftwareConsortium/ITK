@@ -161,7 +161,7 @@ int itkEuclideanDistancePointSetMetricRegistrationTestRun(
     }
 
   // applying the resultant transform and verify result
-  std::cout << "Fixed\tMoving\tTransformed Fixed\tDiff" << std::endl;
+  std::cout << "Fixed\tMoving\tMovingTransformed\tFixedTransformed\tDiff" << std::endl;
   bool passed = true;
   typename PointType::ValueType tolerance = static_cast<typename PointType::ValueType>( 1e-4 );
   typename TTransform::InverseTransformBasePointer fixedInverse = metric->GetFixedTransform()->GetInverseTransform();

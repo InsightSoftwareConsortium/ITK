@@ -58,41 +58,20 @@ JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
   this->m_FixedDensityFunction->SetKernelSigma( this->m_KernelSigma );
   this->m_FixedDensityFunction->SetRegularizationSigma( this->m_PointSetSigma );
   this->m_FixedDensityFunction->SetNormalize( true );
-
   this->m_FixedDensityFunction->SetUseAnisotropicCovariances( this->m_UseAnisotropicCovariances );
-
   this->m_FixedDensityFunction->SetCovarianceKNeighborhood( this->m_CovarianceKNeighborhood );
-
   this->m_FixedDensityFunction->SetEvaluationKNeighborhood( this->m_EvaluationKNeighborhood );
-
   this->m_FixedDensityFunction->SetInputPointSet( this->m_FixedTransformedPointSet );
 
   // Initialize the moving density function
   this->m_MovingDensityFunction = DensityFunctionType::New();
   this->m_MovingDensityFunction->SetKernelSigma( this->m_KernelSigma );
   this->m_MovingDensityFunction->SetRegularizationSigma( this->m_PointSetSigma );
-
   this->m_MovingDensityFunction->SetNormalize( true );
-
   this->m_MovingDensityFunction->SetUseAnisotropicCovariances( this->m_UseAnisotropicCovariances );
-
   this->m_MovingDensityFunction->SetCovarianceKNeighborhood( this->m_CovarianceKNeighborhood );
-
   this->m_MovingDensityFunction->SetEvaluationKNeighborhood( this->m_EvaluationKNeighborhood );
-
   this->m_MovingDensityFunction->SetInputPointSet( this->m_MovingTransformedPointSet );
-}
-
-template<typename TPointSet>
-void
-JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
-::InitializeForIteration() const
-{
-  Superclass::InitializeForIteration();
-  if( this->m_NumberOfValidPoints == 0 )
-    {
-    itkExceptionMacro("There are no fixed points within the virtual domain.");
-    }
 
   // Pre-calc some values for efficiency
   this->m_TotalNumberOfPoints = static_cast<RealType>( this->m_NumberOfValidPoints + this->m_MovingDensityFunction->GetInputPointSet()->GetNumberOfPoints() );
@@ -130,6 +109,8 @@ void
 JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
 ::ComputeValueAndDerivative( const PointType & samplePoint, MeasureType & value, LocalDerivativeType & derivativeReturn, bool calcValue, bool calcDerivative ) const
 {
+
+
   if( calcDerivative )
     {
     derivativeReturn.Fill( NumericTraits<DerivativeValueType>::Zero );
@@ -200,32 +181,28 @@ JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
       DerivativeValueType factor = this->m_Prefactor1 * gaussian / probabilityStarFactor;
       for( unsigned int i = 0; i < PointDimension; i++ )
         {
-        derivativeReturn[i] -= diffMean[i] * factor;
+        derivativeReturn[i] += diffMean[i] * factor;
         }
       }
     }
 }
 
 template<typename TPointSet>
-::itk::LightObject::Pointer
+typename LightObject::Pointer
 JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet>
-::Clone() const
+::InternalClone( void ) const
 {
-  ::itk::LightObject::Pointer smartPtr;
-  Pointer copyPtr = Self::New();
+  typename Self::Pointer rval = Self::New();
+  rval->SetMovingPointSet( this->m_MovingPointSet );
+  rval->SetFixedPointSet( this->m_FixedPointSet );
+  rval->SetPointSetSigma( this->m_PointSetSigma );
+  rval->SetEvaluationKNeighborhood( this->m_EvaluationKNeighborhood );
+  rval->SetAlpha( this->m_Alpha );
+  rval->SetKernelSigma( this->m_KernelSigma );
+  rval->SetCovarianceKNeighborhood( this->m_CovarianceKNeighborhood );
+  rval->SetUseAnisotropicCovariances( this->m_UseAnisotropicCovariances );
 
-  copyPtr->m_MovingPointSet = this->m_MovingPointSet;
-  copyPtr->m_FixedPointSet = this->m_FixedPointSet;
-  copyPtr->m_Alpha = this->m_Alpha;
-  copyPtr->m_PointSetSigma = this->m_PointSetSigma;
-  copyPtr->m_KernelSigma = this->m_KernelSigma;
-  copyPtr->m_CovarianceKNeighborhood = this->m_CovarianceKNeighborhood;
-  copyPtr->m_EvaluationKNeighborhood = this->m_EvaluationKNeighborhood;
-  copyPtr->m_UseAnisotropicCovariances = this->m_UseAnisotropicCovariances;
-
-  smartPtr = static_cast<Pointer>( copyPtr );
-
-  return smartPtr;
+  return rval.GetPointer();
 }
 
 template<typename TPointSet>

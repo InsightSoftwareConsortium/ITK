@@ -67,6 +67,10 @@ LabeledPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
   for( it = this->m_CommonPointSetLabels.begin(); it != this->m_CommonPointSetLabels.end(); ++it )
     {
     typename PointSetMetricType::Pointer metricPtr = dynamic_cast<PointSetMetricType *>( this->m_PointSetMetric->Clone().GetPointer() );
+    if( metricPtr.IsNull() )
+      {
+      itkExceptionMacro( "The metric pointer clone is NULL." );
+      }
 
     FixedPointSetPointer fixedPointSet = this->GetLabeledFixedPointSet( *it );
     MovingPointSetPointer movingPointSet = this->GetLabeledMovingPointSet( *it );

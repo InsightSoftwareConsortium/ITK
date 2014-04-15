@@ -173,13 +173,14 @@ public:
 
   /** Get/Set the fixed pointset.  */
   itkSetConstObjectMacro( FixedPointSet, FixedPointSetType );
-  itkGetConstObjectMacro(FixedPointSet, FixedPointSetType );
+  itkGetConstObjectMacro( FixedPointSet, FixedPointSetType );
 
   /** Get the moving transformed point set.  */
-  itkGetModifiableObjectMacro(FixedTransformedPointSet, FixedTransformedPointSetType );
+  itkGetModifiableObjectMacro( FixedTransformedPointSet, FixedTransformedPointSetType );
 
   /** Get/Set the moving point set.  */
   itkSetConstObjectMacro( MovingPointSet, MovingPointSetType );
+  itkGetConstObjectMacro( MovingPointSet, MovingPointSetType );
 
   /** Get the moving transformed point set.  */
   itkGetModifiableObjectMacro(MovingTransformedPointSet, MovingTransformedPointSetType );

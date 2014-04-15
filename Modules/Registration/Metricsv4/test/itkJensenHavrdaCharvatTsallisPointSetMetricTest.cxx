@@ -104,7 +104,7 @@ int itkJensenHavrdaCharvatTsallisPointSetMetricTestRun()
 
   for( unsigned int d=0; d < metric->GetNumberOfParameters(); d++ )
     {
-    if( vcl_fabs( derivative[d] + offset[d] ) / offset[d] > 0.01 )
+    if( vcl_fabs( derivative[d] - offset[d] ) / offset[d] > 0.01 )
       {
       std::cerr << "derivative does not match expected normalized offset of " << offset << std::endl;
       return EXIT_FAILURE;

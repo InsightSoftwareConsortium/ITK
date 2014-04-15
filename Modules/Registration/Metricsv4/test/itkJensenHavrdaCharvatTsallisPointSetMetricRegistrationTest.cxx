@@ -16,7 +16,7 @@
  *
  *=========================================================================*/
 
-#include "itkExpectationBasedPointSetToPointSetMetricv4.h"
+#include "itkJensenHavrdaCharvatTsallisPointSetToPointSetMetricv4.h"
 #include "itkGradientDescentOptimizerv4.h"
 #include "itkTransform.h"
 #include "itkAffineTransform.h"
@@ -26,17 +26,17 @@
 #include <fstream>
 
 template<typename TFilter>
-class itkExpectationBasedPointSetMetricRegistrationTestCommandIterationUpdate : public itk::Command
+class itkJensenHavrdaCharvatTsallisPointSetMetricRegistrationTestCommandIterationUpdate : public itk::Command
 {
 public:
-  typedef itkExpectationBasedPointSetMetricRegistrationTestCommandIterationUpdate   Self;
+  typedef itkJensenHavrdaCharvatTsallisPointSetMetricRegistrationTestCommandIterationUpdate   Self;
 
   typedef itk::Command             Superclass;
   typedef itk::SmartPointer<Self>  Pointer;
   itkNewMacro( Self );
 
 protected:
-  itkExpectationBasedPointSetMetricRegistrationTestCommandIterationUpdate() {};
+  itkJensenHavrdaCharvatTsallisPointSetMetricRegistrationTestCommandIterationUpdate() {};
 
 public:
 
@@ -62,7 +62,7 @@ public:
     }
 };
 
-int itkExpectationBasedPointSetMetricRegistrationTest( int argc, char *argv[] )
+int itkJensenHavrdaCharvatTsallisPointSetMetricRegistrationTest( int argc, char *argv[] )
 {
   const unsigned int Dimension = 2;
 
@@ -140,13 +140,17 @@ int itkExpectationBasedPointSetMetricRegistrationTest( int argc, char *argv[] )
   transform->SetIdentity();
 
   // Instantiate the metric
-  typedef itk::ExpectationBasedPointSetToPointSetMetricv4<PointSetType> PointSetMetricType;
+  typedef itk::JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<PointSetType> PointSetMetricType;
   PointSetMetricType::Pointer metric = PointSetMetricType::New();
   metric->SetFixedPointSet( fixedPoints );
   metric->SetMovingPointSet( movingPoints );
-  metric->SetPointSetSigma( 2.0 );
+  metric->SetPointSetSigma( 1.0 );
+  metric->SetKernelSigma( 10.0 );
+  metric->SetUseAnisotropicCovariances( false );
+  metric->SetCovarianceKNeighborhood( 5 );
   metric->SetEvaluationKNeighborhood( 10 );
   metric->SetMovingTransform( transform );
+  metric->SetAlpha( 1.1 );
   metric->Initialize();
 
   // scales estimator
@@ -164,7 +168,7 @@ int itkExpectationBasedPointSetMetricRegistrationTest( int argc, char *argv[] )
   optimizer->SetScalesEstimator( shiftScaleEstimator );
   optimizer->SetMaximumStepSizeInPhysicalUnits( 3.0 );
 
-  typedef itkExpectationBasedPointSetMetricRegistrationTestCommandIterationUpdate<OptimizerType> CommandType;
+  typedef itkJensenHavrdaCharvatTsallisPointSetMetricRegistrationTestCommandIterationUpdate<OptimizerType> CommandType;
   CommandType::Pointer observer = CommandType::New();
   optimizer->AddObserver( itk::IterationEvent(), observer );
 
@@ -181,7 +185,7 @@ int itkExpectationBasedPointSetMetricRegistrationTest( int argc, char *argv[] )
   // applying the resultant transform to moving points and verify result
   std::cout << "Fixed\tMoving\tMovingTransformed\tFixedTransformed\tDiff" << std::endl;
   bool passed = true;
-  PointType::ValueType tolerance = 1e-4;
+  PointType::ValueType tolerance = 1e-2;
   AffineTransformType::InverseTransformBasePointer movingInverse = metric->GetMovingTransform()->GetInverseTransform();
   AffineTransformType::InverseTransformBasePointer fixedInverse = metric->GetFixedTransform()->GetInverseTransform();
   for( unsigned int n=0; n < metric->GetNumberOfComponents(); n++ )

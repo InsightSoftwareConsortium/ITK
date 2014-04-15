@@ -208,13 +208,11 @@ public:
 
   /** Clone method will clone the existing instance of this type,
    *  including its internal member variables. */
-  virtual ::itk::LightObject::Pointer Clone( void ) const;
+  virtual typename LightObject::Pointer InternalClone() const;
 
 protected:
   JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4();
   ~JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4();
-
-  virtual void InitializeForIteration( void ) const;
 
   void ComputeValueAndDerivative( const PointType & samplePoint, MeasureType &value, LocalDerivativeType &derivativeReturn, bool calcValue, bool calcDerivative ) const;
 
