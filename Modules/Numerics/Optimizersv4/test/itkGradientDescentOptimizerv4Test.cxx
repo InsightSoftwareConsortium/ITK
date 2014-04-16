@@ -302,6 +302,29 @@ int itkGradientDescentOptimizerv4Test(int, char* [] )
   std::cout << "Stop description   = "
             << itkOptimizer->GetStopConditionDescription() << std::endl;
 
+  //
+  // Verify that the optimizer doesn't run if the
+  // number of iterations is set to zero.
+  //
+  std::cout << "\nCheck the optimizer when number of iterations is set to zero:" << std::endl;
+  {
+  itkOptimizer->SetNumberOfIterations( 0 );
+  metric->SetParameters( initialPosition );
+  trueParameters[0] = 100;
+  trueParameters[1] = -100;
+  if( GradientDescentOptimizerv4RunTest( itkOptimizer, trueParameters ) == EXIT_FAILURE )
+    {
+    return EXIT_FAILURE;
+    }
+  if( itkOptimizer->GetCurrentIteration() > 0 )
+    {
+    std::cout << "The optimizer is running iterations despite of ";
+    std::cout << "having a maximum number of iterations set to zero" << std::endl;
+    return EXIT_FAILURE;
+    }
+  }
+
+  std::cout << "\nTest the Exception if the optimizer is not set properly:" << std::endl;
   OptimizerType::Pointer badOptimizer = OptimizerType::New();
   bool caught=false;
   try
