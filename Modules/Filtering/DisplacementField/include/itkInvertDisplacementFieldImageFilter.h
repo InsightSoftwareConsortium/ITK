@@ -20,6 +20,7 @@
 
 #include "itkImageToImageFilter.h"
 #include "itkVectorInterpolateImageFunction.h"
+#include "itkSimpleFastMutexLock.h"
 
 namespace itk
 {
@@ -169,6 +170,7 @@ private:
   SpacingType                                       m_DisplacementFieldSpacing;
   bool                                              m_DoThreadedEstimateInverse;
   bool                                              m_EnforceBoundaryCondition;
+  SimpleFastMutexLock                               m_mutex;
 
 };
 
