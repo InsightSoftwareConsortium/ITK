@@ -19,7 +19,8 @@
 #define __itkVariationalRegistrationFunction_h
 
 #include "itkFiniteDifferenceFunction.h"
-#include "itkWarpImageFilter.h"
+// #include "itkWarpImageFilter.h"
+#include "itkContinuousBorderWarpImageFilter.h"
 
 namespace itk
 {
@@ -73,8 +74,10 @@ public:
   typedef typename MaskImageType::ConstPointer      MaskImagePointer;
 
   /** Typedef of the warp image filter. */
-  typedef itk::WarpImageFilter<FixedImageType, WarpedImageType, DisplacementFieldType> MovingImageWarperType;
-  typedef typename MovingImageWarperType::Pointer                                      MovingImageWarperPointer;
+  // typedef itk::WarpImageFilter< FixedImageType, WarpedImageType, DisplacementFieldType >
+  typedef itk::ContinuousBorderWarpImageFilter<FixedImageType, WarpedImageType, DisplacementFieldType>
+                                                  MovingImageWarperType;
+  typedef typename MovingImageWarperType::Pointer MovingImageWarperPointer;
 
 
   /** Set the Moving image.  */

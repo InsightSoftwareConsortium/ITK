@@ -33,7 +33,7 @@ extern "C"
 #include "getopt.h"
 }
 
-#define ExceptionMacro(x) std::cout << "ERROR: " x << std::endl;
+#define ExceptionMacro(x) std::cerr << "ERROR: " x << std::endl;
 
 // Project includes:
 #include "itkConfigure.h"
@@ -58,7 +58,7 @@ extern "C"
 #include "itkVariationalRegistrationLogger.h"
 
 #include "itkVariationalRegistrationNCCFunction.h"
-// #include "itkContinuousBorderWarpImageFilter.h"
+#include "itkContinuousBorderWarpImageFilter.h"
 
 // ITK library includes
 #include "itkImageFileReader.h"
@@ -602,8 +602,9 @@ main(int argc, char * argv[])
   //
   // Setup registration function
   //
-  typedef WarpImageFilter<ImageType, ImageType, DisplacementFieldType> MovingImageWarperType;
-  MovingImageWarperType::Pointer                                       warper = MovingImageWarperType::New();
+  // typedef WarpImageFilter<ImageType,ImageType,DisplacementFieldType> MovingImageWarperType;
+  typedef ContinuousBorderWarpImageFilter<ImageType, ImageType, DisplacementFieldType> MovingImageWarperType;
+  MovingImageWarperType::Pointer warper = MovingImageWarperType::New();
 
   typedef VariationalRegistrationFunction<ImageType, ImageType, DisplacementFieldType>       FunctionType;
   typedef VariationalRegistrationDemonsFunction<ImageType, ImageType, DisplacementFieldType> DemonsFunctionType;
