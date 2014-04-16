@@ -104,7 +104,8 @@ VariationalRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::
 }
 
 /**
- * TODO
+ * Returns an empty struct that is used by the threads to include the
+ * required update information for each thread.
  */
 template <class TFixedImage, class TMovingImage, class TDisplacementField>
 void *

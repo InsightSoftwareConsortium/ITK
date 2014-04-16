@@ -27,6 +27,8 @@ namespace itk
 
 /** \class itk::VariationalDiffeomorphicRegistrationFilter
  *
+ * TODO class documentation
+ *
  *  \sa VariationalRegistrationFilter
  *
  *  \ingroup VariationalRegistration

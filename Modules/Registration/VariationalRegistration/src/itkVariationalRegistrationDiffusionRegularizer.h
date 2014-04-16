@@ -26,6 +26,8 @@ namespace itk
 
 /** \class itk::VariationalRegistrationDiffusionRegularizer
  *
+ * TODO class documentation
+ *
  *  \sa VariationalRegistrationRegularizer
  *
  *  \ingroup VariationalRegistration

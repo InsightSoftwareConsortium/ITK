@@ -29,6 +29,8 @@ namespace itk
 
 /** \class itk::VariationalRegistrationElasticRegularizer
  *
+ * TODO class documentation
+ *
  *  \sa VariationalRegistrationRegularizer
  *
  *  \ingroup VariationalRegistration
