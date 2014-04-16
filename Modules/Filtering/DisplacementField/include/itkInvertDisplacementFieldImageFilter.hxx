@@ -24,6 +24,7 @@
 #include "itkImageDuplicator.h"
 #include "itkImageRegionIterator.h"
 #include "itkVectorLinearInterpolateImageFunction.h"
+#include "itkMutexLockHolder.h"
 
 namespace itk
 {
@@ -211,6 +212,8 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>
   else
     {
     VectorType inverseSpacing;
+    RealType localMean = NumericTraits<RealType>::Zero;
+    RealType localMax  = NumericTraits<RealType>::Zero;
     for( unsigned int d = 0; d < ImageDimension; ++d )
       {
       inverseSpacing[d]=1.0/this->m_DisplacementFieldSpacing[d];
@@ -225,14 +228,22 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>
         }
       scaledNorm = vcl_sqrt( scaledNorm );
 
-      this->m_MeanErrorNorm += scaledNorm;
-      if( this->m_MaxErrorNorm < scaledNorm )
+      localMean += scaledNorm;
+      if( localMax < scaledNorm )
         {
-        this->m_MaxErrorNorm = scaledNorm;
+        localMax = scaledNorm;
         }
 
       ItS.Set( scaledNorm );
       ItE.Set( -displacement );
+      }
+      {
+      MutexLockHolder<SimpleFastMutexLock> holder(m_Mutex);
+      this->m_MeanErrorNorm += localMean;
+      if( this->m_MaxErrorNorm < localMax )
+        {
+        this->m_MaxErrorNorm = localMax;
+        }
       }
     }
 }
