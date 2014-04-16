@@ -29,8 +29,6 @@ namespace itk
  *
  * This filter provides the code to store the radius information about the
  * neighborhood used in the subclasses.
- * It also conveniently reimplement the GenerateInputRequestedRegion() so
- * that region is well defined for the porvided radius.
  *
  * \author Gaetan Lehmann
  * \ingroup ITKMathematicalMorphology
