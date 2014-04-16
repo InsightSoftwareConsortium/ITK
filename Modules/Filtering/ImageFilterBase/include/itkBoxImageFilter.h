@@ -79,13 +79,13 @@ public:
 
   itkGetConstReferenceMacro(Radius, RadiusType);
 
-  void GenerateInputRequestedRegion();
-
 protected:
   BoxImageFilter();
   ~BoxImageFilter() {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void GenerateInputRequestedRegion();
+
+  virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
   BoxImageFilter(const Self &); //purposely not implemented
