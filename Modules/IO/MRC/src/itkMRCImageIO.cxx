@@ -477,7 +477,7 @@ void MRCImageIO::WriteImageInformation(const void *buffer)
 
   // write the header
   const MRCHeaderObject::Header & header = m_MRCHeader->GetHeader();
-  file.write(static_cast< const char * >( (void *)&( header ) ), 1024);
+  file.write(static_cast< const char * >( (const void *)&( header ) ), 1024);
 }
 
 void MRCImageIO

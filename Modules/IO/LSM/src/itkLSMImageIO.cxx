@@ -246,7 +246,7 @@ void LSMImageIO::FillZeissStruct(char *cz)
 
 void LSMImageIO::Write(const void *buffer)
 {
-  unsigned char *outPtr = (unsigned char *)buffer;
+  const unsigned char *outPtr = (const unsigned char *)buffer;
 
   unsigned int width, height, page, pages = 1;
 
