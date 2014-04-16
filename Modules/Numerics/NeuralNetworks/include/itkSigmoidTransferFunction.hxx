@@ -25,7 +25,7 @@ namespace itk
 namespace Statistics
 {
 
-/** Constructor */
+
 template<typename ScalarType>
 SigmoidTransferFunction< ScalarType>
 ::SigmoidTransferFunction()
@@ -36,14 +36,14 @@ SigmoidTransferFunction< ScalarType>
   m_OutputMaximum = NumericTraits<ScalarType>::max();
 }
 
-/** Destructor */
+
 template<typename ScalarType>
 SigmoidTransferFunction<ScalarType>
 ::~SigmoidTransferFunction()
 {
 }
 
-/** Evaluate */
+
 template<typename ScalarType>
 ScalarType
 SigmoidTransferFunction<ScalarType>
@@ -57,7 +57,7 @@ SigmoidTransferFunction<ScalarType>
   return v;
 }
 
-/** Evaluate Derivatives */
+
 template<typename ScalarType>
 ScalarType
 SigmoidTransferFunction< ScalarType>
@@ -67,7 +67,7 @@ SigmoidTransferFunction< ScalarType>
   return f * (1 - f);
 }
 
-/** Print the object */
+
 template<typename ScalarType>
 void
 SigmoidTransferFunction<ScalarType>
