@@ -49,9 +49,10 @@ ScalarType
 SigmoidTransferFunction<ScalarType>
 ::Evaluate(const ScalarType& input)  const
 {
-  const ScalarType x = (static_cast<ScalarType>(input) - m_Beta) / m_Alpha;
-  const ScalarType e = 1.0 / (1.0 + vcl_exp( static_cast< typename NumericTraits< ScalarType >::RealType >(-x)));
-  const ScalarType v = (m_OutputMaximum - m_OutputMinimum) * e
+  typedef typename NumericTraits< ScalarType >::RealType RealType;
+  const RealType x = static_cast< RealType >( input - m_Beta ) / m_Alpha;
+  const RealType e = 1.0 / (1.0 + vcl_exp( static_cast< typename NumericTraits< ScalarType >::RealType >(-x)));
+  const ScalarType v = static_cast< ScalarType >( (m_OutputMaximum - m_OutputMinimum) * e )
                      + m_OutputMinimum;
   return v;
 }
