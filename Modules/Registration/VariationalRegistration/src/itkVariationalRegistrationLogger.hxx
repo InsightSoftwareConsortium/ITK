@@ -88,66 +88,69 @@ VariationalRegistrationLogger<TRegistrationFilter, TMRFilter>::Execute(const itk
 /**
  *
  */
-template <class TRegistrationFilter, class TMRFilter>
-void
-VariationalRegistrationLogger<TRegistrationFilter, TMRFilter>::InitializeTimeMeasurement()
-{
-  //  clock_gettime( CLOCK_MONOTONIC, & m_MonotonicStartTime );
-  //  clock_gettime( CLOCK_PROCESS_CPUTIME_ID, & m_ProzessStartTime );
-  //  m_TimeIsInitialized = true;
-}
+// template< class TRegistrationFilter, class TMRFilter >
+// void
+// VariationalRegistrationLogger< TRegistrationFilter, TMRFilter >
+//::InitializeTimeMeasurement()
+//{
+//  clock_gettime( CLOCK_MONOTONIC, & m_MonotonicStartTime );
+//  clock_gettime( CLOCK_PROCESS_CPUTIME_ID, & m_ProzessStartTime );
+//  m_TimeIsInitialized = true;
+//}
 
 /**
  *
  */
-template <class TRegistrationFilter, class TMRFilter>
-char *
-VariationalRegistrationLogger<TRegistrationFilter, TMRFilter>::GetProcessTime()
-{
-  //  if( !m_TimeIsInitialized )
-  //  {
-  //    return "";
-  //  }
-  //  else
-  //  {
-  //    // Get current time.
-  //    clock_gettime( CLOCK_PROCESS_CPUTIME_ID, & m_ProcessCurrentTime );
-  //    struct tm * timeinfo;
-  //    time_t diff = (time_t) difftime( m_ProcessCurrentTime.tv_sec, m_ProzessStartTime.tv_sec );
-  //    timeinfo = gmtime ( &diff );
-  //
-  //    static char buffer[20] = "";
-  //    sprintf( buffer,"[%02i:%02i:%02i] ", timeinfo->tm_hour, timeinfo->tm_min, timeinfo->tm_sec );
-  //    return buffer;
-  //  }
-  return "";
-}
+// template< class TRegistrationFilter, class TMRFilter >
+// char*
+// VariationalRegistrationLogger< TRegistrationFilter, TMRFilter >
+//::GetProcessTime()
+//{
+//  if( !m_TimeIsInitialized )
+//  {
+//    return "";
+//  }
+//  else
+//  {
+//    // Get current time.
+//    clock_gettime( CLOCK_PROCESS_CPUTIME_ID, & m_ProcessCurrentTime );
+//    struct tm * timeinfo;
+//    time_t diff = (time_t) difftime( m_ProcessCurrentTime.tv_sec, m_ProzessStartTime.tv_sec );
+//    timeinfo = gmtime ( &diff );
+//
+//    static char buffer[20] = "";
+//    sprintf( buffer,"[%02i:%02i:%02i] ", timeinfo->tm_hour, timeinfo->tm_min, timeinfo->tm_sec );
+//    return buffer;
+//  }
+//  return "";
+//}
 
 /**
  *
  */
-template <class TRegistrationFilter, class TMRFilter>
-char *
-VariationalRegistrationLogger<TRegistrationFilter, TMRFilter>::GetMonotonicTime()
-{
-  //  if( !m_TimeIsInitialized )
-  //  {
-  //    return "";
-  //  }
-  //  else
-  //  {
-  //    // Get current time.
-  //    clock_gettime( CLOCK_PROCESS_CPUTIME_ID, & m_MonotonicCurrentTime );
-  //    struct tm * timeinfo;
-  //    time_t diff = (time_t) difftime( m_ProcessCurrentTime.tv_sec, m_ProzessStartTime.tv_sec );
-  //    timeinfo = gmtime ( &diff );
-  //
-  //    static char buffer[20] = "";
-  //    sprintf( buffer,"[%02i:%02i:%02i] ", timeinfo->tm_hour, timeinfo->tm_min, timeinfo->tm_sec );
-  //    return buffer;
-  //  }
-  return "";
-}
+// template< class TRegistrationFilter, class TMRFilter >
+// char*
+// VariationalRegistrationLogger< TRegistrationFilter, TMRFilter >
+//::GetMonotonicTime()
+//{
+//  if( !m_TimeIsInitialized )
+//  {
+//    return "";
+//  }
+//  else
+//  {
+//    // Get current time.
+//    clock_gettime( CLOCK_PROCESS_CPUTIME_ID, & m_MonotonicCurrentTime );
+//    struct tm * timeinfo;
+//    time_t diff = (time_t) difftime( m_ProcessCurrentTime.tv_sec, m_ProzessStartTime.tv_sec );
+//    timeinfo = gmtime ( &diff );
+//
+//    static char buffer[20] = "";
+//    sprintf( buffer,"[%02i:%02i:%02i] ", timeinfo->tm_hour, timeinfo->tm_min, timeinfo->tm_sec );
+//    return buffer;
+//  }
+//  return "";
+//}
 
 /**
  * Standard "PrintSelf" method.
@@ -157,8 +160,6 @@ void
 VariationalRegistrationLogger<TRegistrationFilter, TMRFilter>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-
-  // TODO print stop criterion members
 }
 
 } // end namespace itk
