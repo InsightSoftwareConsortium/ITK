@@ -170,7 +170,7 @@ private:
   SpacingType                                       m_DisplacementFieldSpacing;
   bool                                              m_DoThreadedEstimateInverse;
   bool                                              m_EnforceBoundaryCondition;
-  SimpleFastMutexLock                               m_mutex;
+  SimpleFastMutexLock                               m_Mutex;
 
 };
 

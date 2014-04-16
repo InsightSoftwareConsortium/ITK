@@ -24,6 +24,7 @@
 #include "itkImageDuplicator.h"
 #include "itkImageRegionIterator.h"
 #include "itkVectorLinearInterpolateImageFunction.h"
+#include "itkMutexLockHolder.h"
 
 namespace itk
 {
@@ -236,15 +237,14 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>
       ItS.Set( scaledNorm );
       ItE.Set( -displacement );
       }
-    m_mutex.Lock();
       {
+      MutexLockHolder<SimpleFastMutexLock> holder(m_Mutex);
       this->m_MeanErrorNorm += localMean;
       if( this->m_MaxErrorNorm < localMax )
         {
         this->m_MaxErrorNorm = localMax;
         }
       }
-    m_mutex.Unlock();
     }
 }
 
