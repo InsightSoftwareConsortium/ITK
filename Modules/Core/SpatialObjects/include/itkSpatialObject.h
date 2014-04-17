@@ -491,8 +491,8 @@ public:
     return false;
   }
 
-  /** Get the bounding box of the object.
-   *  This function calls ComputeBoundingBox() */
+  /** Get a pointer to the bounding box of the object.
+   *  The extents and the position of the box are not computed. */
   virtual BoundingBoxType * GetBoundingBox() const;
 
   /** Set/Get the depth at which the bounding box is computed */
