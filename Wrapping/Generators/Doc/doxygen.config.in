@@ -420,7 +420,7 @@ PREDEFINED  =  "itkNotUsed(x)="\
                   class thisClass : public superclass {};" \
                "itkConceptMacro(name,concept)= \
                   enum { name = 0 };" \
-               "vcl_numeric_limits= \
+               "std::numeric_limits= \
                   std::numeric_limits" \
                "ITK_TYPENAME= \
                   typename" \

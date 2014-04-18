@@ -136,11 +136,11 @@ int itkNeuralNetworkIOTest(int argc,char* argv[])
       {
       flag = 1;
       }
-    if( flag == 1 && vcl_floor(tv[0]+0.5) )
+    if( flag == 1 && std::floor(tv[0]+0.5) )
       {
       ++error1;
       }
-    else if (flag == 1 && vcl_floor(tv[0]+0.5) == -1)
+    else if (flag == 1 && std::floor(tv[0]+0.5) == -1)
       {
       ++error2;
       }

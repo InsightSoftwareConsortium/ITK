@@ -287,7 +287,7 @@ StatisticsImageFilter< TInputImage >
   // unbiased estimate
   variance = ( sumOfSquares - ( sum * sum / static_cast< RealType >( count ) ) )
              / ( static_cast< RealType >( count ) - 1 );
-  sigma = vcl_sqrt(variance);
+  sigma = std::sqrt(variance);
 
   // Set the outputs
   this->GetMinimumOutput()->Set(minimum);

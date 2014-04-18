@@ -472,7 +472,7 @@ ESMDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
     {
     m_Metric = m_SumOfSquaredDifference
                / static_cast< double >( m_NumberOfPixelsProcessed );
-    m_RMSChange = vcl_sqrt( m_SumOfSquaredChange
+    m_RMSChange = std::sqrt( m_SumOfSquaredChange
                             / static_cast< double >( m_NumberOfPixelsProcessed ) );
     }
   m_MetricCalculationLock.Unlock();

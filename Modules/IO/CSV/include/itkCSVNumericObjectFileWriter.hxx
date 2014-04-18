@@ -187,7 +187,7 @@ CSVNumericObjectFileWriter<TValue,NRows,NColumns>
 
       for (unsigned int j = 0; j < this->m_Columns; j++)
         {
-        outputStream << std::setprecision(vcl_numeric_limits
+        outputStream << std::setprecision(std::numeric_limits
                                           <TValue>::digits10)
                      << *(this->m_InputObject++);
 

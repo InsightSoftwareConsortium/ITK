@@ -117,7 +117,7 @@ int itkComplexToPhaseFilterAndAdaptorTest(int, char* [] )
     const InputImageType::PixelType  input  = it.Get();
     const OutputImageType::PixelType output = ot.Get();
 
-    double phased = vcl_atan2( input.imag(), input.real() );
+    double phased = std::atan2( input.imag(), input.real() );
 
     const OutputImageType::PixelType phase  =
        static_cast<OutputImageType::PixelType>( phased );
@@ -125,7 +125,7 @@ int itkComplexToPhaseFilterAndAdaptorTest(int, char* [] )
     std::cout <<  output << " = ";
     std::cout <<  phase  << std::endl;
 
-    if( vcl_fabs( phase - output ) > epsilon )
+    if( std::fabs( phase - output ) > epsilon )
       {
       std::cerr << "Error in itkComplexToPhaseImageFilterTest " << std::endl;
       std::cerr << " phase( " << input << ") = " << phase << std::endl;
@@ -175,7 +175,7 @@ int itkComplexToPhaseFilterAndAdaptorTest(int, char* [] )
     {
     std::cout <<  dt.Get() << std::endl;
     const OutputImageType::PixelType diff = dt.Get();
-    if( vcl_fabs( diff ) > epsilon )
+    if( std::fabs( diff ) > epsilon )
       {
       std::cerr << "Error in itkComplexToPhaseImageFilterTest " << std::endl;
       std::cerr << "Comparing results with Adaptors" << std::endl;

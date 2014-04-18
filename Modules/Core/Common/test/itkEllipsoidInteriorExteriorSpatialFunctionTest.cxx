@@ -97,7 +97,7 @@ int itkEllipsoidInteriorExteriorSpatialFunctionTest(int, char* [] )
   double volume = 4.18879013333*(axes[0]/2)*(axes[1]/2)*(axes[2]/2);
 
   // Percent difference in volume measurement and calculation
-  double volumeError = (vcl_fabs(volume - interiorPixelCounter)/volume)*100;
+  double volumeError = (std::fabs(volume - interiorPixelCounter)/volume)*100;
 
   std::cout << spatialFunc;
 

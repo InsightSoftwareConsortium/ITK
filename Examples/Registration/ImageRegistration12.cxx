@@ -318,7 +318,7 @@ int main( int argc, char *argv[] )
 
   // Print out results
   //
-  const double finalAngleInDegrees = finalAngle * 45.0 / vcl_atan(1.0);
+  const double finalAngleInDegrees = finalAngle * 45.0 / std::atan(1.0);
 
   std::cout << "Result = " << std::endl;
   std::cout << " Angle (radians) " << finalAngle  << std::endl;

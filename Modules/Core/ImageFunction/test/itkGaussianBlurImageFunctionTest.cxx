@@ -106,7 +106,7 @@ int itkGaussianBlurImageFunctionTest(int, char* [] )
 
     for(unsigned int i=0;i<Dimension;i++)
     {
-      if( vcl_fabs( setError[i] - readError[i] ) > 1e-6 )
+      if( std::fabs( setError[i] - readError[i] ) > 1e-6 )
       {
       std::cerr << "[FAILED]" << std::endl;
       return EXIT_FAILURE;
@@ -190,7 +190,7 @@ int itkGaussianBlurImageFunctionTest(int, char* [] )
 
 
   std::cout << "Testing Evaluate(), EvaluateAtIndex() and EvaluateIndex: ";
-  if( (vcl_fabs(blurredvalue_index-blurredvalue_point)>0.01)
+  if( (std::fabs(blurredvalue_index-blurredvalue_point)>0.01)
      || blurredvalue_point != blurredvalue_continuousIndex)
     {
     std::cerr << "[FAILED] : "
@@ -204,7 +204,7 @@ int itkGaussianBlurImageFunctionTest(int, char* [] )
 
   std::cout << "Testing Evaluate() : ";
 
-  if( vcl_fabs(blurredvalue_point-0.158)> 0.1)
+  if( std::fabs(blurredvalue_point-0.158)> 0.1)
     {
     std::cerr << "[FAILED]" << std::endl;
     return EXIT_FAILURE;

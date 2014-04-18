@@ -269,7 +269,7 @@ int itkNewMetaObjectTypeTest(int, char* [])
       return EXIT_FAILURE;
       }
     float value = p->GetValue();
-    if(vcl_fabs(value - Pi) > 0.00001)
+    if(std::fabs(value - Pi) > 0.00001)
       {
       std::cout << "Expected value " << Pi
                 << "but found " << value << std::endl;

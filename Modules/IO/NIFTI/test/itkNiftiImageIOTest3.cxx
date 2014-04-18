@@ -168,7 +168,7 @@ TestImageOfVectors(const std::string &fname)
     {
     for(unsigned int c=0;c<TDimension;c++)
       {
-      if(vcl_abs(readback->GetDirection()[r][c] - vi->GetDirection()[r][c]) > 1e-7 )
+      if(std::abs(readback->GetDirection()[r][c] - vi->GetDirection()[r][c]) > 1e-7 )
         {
         std::cout << "Direction is different:\n " << readback->GetDirection() << "\n != \n" << vi->GetDirection()  << std::endl;
         same = false;

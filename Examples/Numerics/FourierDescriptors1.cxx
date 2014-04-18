@@ -162,8 +162,8 @@ int main(int argc, char * argv[] )
 
   // Software Guide : BeginCodeSnippet
   const unsigned int powerOfTwo   =
-    (unsigned int)vcl_ceil( vcl_log( (double)(numberOfPoints)) /
-                            vcl_log( (double)(2.0)) );
+    (unsigned int)std::ceil( std::log( (double)(numberOfPoints)) /
+                            std::log( (double)(2.0)) );
 
   const unsigned int spectrumSize = 1 << powerOfTwo;
 
@@ -244,7 +244,7 @@ int main(int argc, char * argv[] )
     {
     const double real = signal[k].real();
     const double imag = signal[k].imag();
-    const double magnitude = vcl_sqrt( real * real + imag * imag );
+    const double magnitude = std::sqrt( real * real + imag * imag );
     std::cout << k << "  " << magnitude << std::endl;
     }
   // Software Guide : EndCodeSnippet

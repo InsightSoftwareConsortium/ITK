@@ -197,7 +197,7 @@ RegularStepGradientDescentBaseOptimizer
     magnitudeSquare += weighted * weighted;
     }
 
-  const double gradientMagnitude = vcl_sqrt(magnitudeSquare);
+  const double gradientMagnitude = std::sqrt(magnitudeSquare);
 
   if ( gradientMagnitude < m_GradientMagnitudeTolerance )
     {

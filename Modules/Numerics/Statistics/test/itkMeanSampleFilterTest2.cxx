@@ -82,8 +82,8 @@ int itkMeanSampleFilterTest2(int, char* [] )
   // FilterType::MeasurementVectorType::ValueType is an int in this case
   FilterType::MeasurementVectorType::ValueType    epsilon = 0;
 
-  if ( ( vcl_fabs( meanOutput[0] - expectedMean[0]) > epsilon )  ||
-       ( vcl_fabs( meanOutput[1] - expectedMean[1]) > epsilon ))
+  if ( ( std::fabs( meanOutput[0] - expectedMean[0]) > epsilon )  ||
+       ( std::fabs( meanOutput[1] - expectedMean[1]) > epsilon ))
     {
     pass = false;
     failureMeassage = "The result is not what is expected";

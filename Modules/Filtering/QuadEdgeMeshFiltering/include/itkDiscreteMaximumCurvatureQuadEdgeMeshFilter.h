@@ -78,7 +78,7 @@ protected:
   virtual OutputCurvatureType EstimateCurvature(const OutputPointType & iP)
   {
     this->ComputeMeanAndGaussianCurvatures(iP);
-    return this->m_Mean + vcl_sqrt( this->ComputeDelta() );
+    return this->m_Mean + std::sqrt( this->ComputeDelta() );
   }
 
 private:

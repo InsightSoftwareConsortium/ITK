@@ -48,7 +48,7 @@ public:
 
   inline TOutput operator()(const TInput & A) const
   {
-    return static_cast< TOutput >( vcl_acos( static_cast< double >( A ) ) );
+    return static_cast< TOutput >( std::acos( static_cast< double >( A ) ) );
   }
 };
 }
@@ -63,8 +63,8 @@ public:
  * each pixel does do the following:
  *
  * \li cast the pixel value to \c double,
- * \li apply the \c vcl_acos() function to the \c double value
- * \li cast the \c double value resulting from \c vcl_acos() to the pixel type
+ * \li apply the \c std::acos() function to the \c double value
+ * \li cast the \c double value resulting from \c std::acos() to the pixel type
  *     of the output image
  * \li store the casted value into the output image.
  *

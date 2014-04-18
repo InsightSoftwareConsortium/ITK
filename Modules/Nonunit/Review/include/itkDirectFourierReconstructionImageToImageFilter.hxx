@@ -42,7 +42,7 @@ DirectFourierReconstructionImageToImageFilter< TInputImage, TOutputImage >::Dire
 
   m_RadialSplineOrder = 3;
 
-  m_PI = 4 * vcl_atan(RADIANS);
+  m_PI = 4 * std::atan(RADIANS);
 }
 
 /**
@@ -333,7 +333,7 @@ void DirectFourierReconstructionImageToImageFilter< TInputImage, TOutputImage >:
         }
       else
         {
-        theta = vcl_atan2(v, u);
+        theta = std::atan2(v, u);
         }
       if ( theta < 0 )
         {

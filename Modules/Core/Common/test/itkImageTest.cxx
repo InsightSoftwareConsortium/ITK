@@ -63,10 +63,10 @@ int itkImageTest(int, char* [] )
   Image::DirectionType product;
   product = direction * image->GetInverseDirection();
   double eps = 1e-06;
-  if( vcl_fabs( product[0][0] - 1.0 ) > eps ||
-      vcl_fabs( product[1][1] - 1.0 ) > eps ||
-      vcl_fabs( product[0][1] ) > eps ||
-      vcl_fabs( product[1][0] ) > eps )
+  if( std::fabs( product[0][0] - 1.0 ) > eps ||
+      std::fabs( product[1][1] - 1.0 ) > eps ||
+      std::fabs( product[0][1] ) > eps ||
+      std::fabs( product[1][0] ) > eps )
     {
     std::cerr << "Inverse direction test failed: "
               << "direction * inverse: " << product << std::endl;
@@ -80,8 +80,8 @@ int itkImageTest(int, char* [] )
   truthGradient[1] = 1.0;
   image->TransformLocalVectorToPhysicalVector( truthGradient, outputGradient );
   image->TransformPhysicalVectorToLocalVector( outputGradient, testGradient );
-  if( vcl_fabs( truthGradient[0] - testGradient[0] ) > eps ||
-      vcl_fabs( truthGradient[1] - testGradient[1] ) > eps )
+  if( std::fabs( truthGradient[0] - testGradient[0] ) > eps ||
+      std::fabs( truthGradient[1] - testGradient[1] ) > eps )
     {
     std::cerr << "Transform to/from PhysicalVector test failed: "
               << "truthGradient: " << truthGradient << std::endl

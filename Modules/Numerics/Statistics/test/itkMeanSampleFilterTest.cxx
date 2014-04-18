@@ -106,8 +106,8 @@ int itkMeanSampleFilterTest(int, char* [] )
 
   FilterType::MeasurementVectorType::ValueType    epsilon = 1e-6;
 
-  if ( ( vcl_fabs( meanOutput[0] - mean[0]) > epsilon )  ||
-       ( vcl_fabs( meanOutput[1] - mean[1]) > epsilon ))
+  if ( ( std::fabs( meanOutput[0] - mean[0]) > epsilon )  ||
+       ( std::fabs( meanOutput[1] - mean[1]) > epsilon ))
     {
     pass = false;
     failureMeassage = "The result is not what is expected";

@@ -56,7 +56,7 @@ FRPROptimizer
       {
       len += ( *xi )[i] * ( *xi )[i];
       }
-    len = vcl_sqrt( len / this->GetSpaceDimension() );
+    len = std::sqrt( len / this->GetSpaceDimension() );
     for ( unsigned int i = 0; i < this->GetSpaceDimension(); i++ )
       {
       ( *xi )[i] /= len;
@@ -150,8 +150,8 @@ FRPROptimizer
     fret = fp;
     this->LineOptimize(&p, xi, &fret, tempCoord);
 
-    if ( 2.0 * vcl_abs(fret - fp) <=
-         this->GetValueTolerance() * ( vcl_abs(fret) + vcl_abs(fp) + FRPR_TINY ) )
+    if ( 2.0 * std::abs(fret - fp) <=
+         this->GetValueTolerance() * ( std::abs(fret) + std::abs(fp) + FRPR_TINY ) )
       {
       if ( limitCount <  this->GetSpaceDimension() )
         {

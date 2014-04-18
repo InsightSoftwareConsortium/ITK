@@ -308,7 +308,7 @@ protected:
         }
       accum += sum;
       }
-    return vcl_sqrt(accum);
+    return std::sqrt(accum);
   }
 
   TRealType EvaluateAtNeighborhood3D(const ConstNeighborhoodIteratorType & it) const

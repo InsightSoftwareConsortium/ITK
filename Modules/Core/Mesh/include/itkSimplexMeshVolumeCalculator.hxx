@@ -75,7 +75,7 @@ void SimplexMeshVolumeCalculator< TInputMesh >
   m_Volume =  ( m_Kx * m_VolumeX
                 + m_Ky * m_VolumeY
                 + m_Kz * m_VolumeZ );
-  m_Volume =  vcl_fabs(m_Volume);
+  m_Volume =  std::fabs(m_Volume);
 }
 
 template< typename TInputMesh >
@@ -139,7 +139,7 @@ SimplexMeshVolumeCalculator< TInputMesh >
 
   // Normalize normal
   //
-  length = vcl_sqrt(u[0] * u[0] + u[1] * u[1] + u[2] * u[2]);
+  length = std::sqrt(u[0] * u[0] + u[1] * u[1] + u[2] * u[2]);
   if ( length != 0.0 )
     {
     u[0] /= length;
@@ -153,7 +153,7 @@ SimplexMeshVolumeCalculator< TInputMesh >
 
   // Determine max unit normal component...
   //
-  absu[0] = vcl_fabs(u[0]); absu[1] = vcl_fabs(u[1]); absu[2] = vcl_fabs(u[2]);
+  absu[0] = std::fabs(u[0]); absu[1] = std::fabs(u[1]); absu[2] = std::fabs(u[2]);
   if ( ( absu[0] > absu[1] ) && ( absu[0] > absu[2] ) )
     {
     m_Muncx++;
@@ -196,11 +196,11 @@ SimplexMeshVolumeCalculator< TInputMesh >
 
   // Area of a triangle using Heron's formula...
   //
-  a = vcl_sqrt(ii[1] + jj[1] + kk[1]);
-  b = vcl_sqrt(ii[0] + jj[0] + kk[0]);
-  c = vcl_sqrt(ii[2] + jj[2] + kk[2]);
+  a = std::sqrt(ii[1] + jj[1] + kk[1]);
+  b = std::sqrt(ii[0] + jj[0] + kk[0]);
+  c = std::sqrt(ii[2] + jj[2] + kk[2]);
   s = 0.5 * ( a + b + c );
-  area = vcl_sqrt( vcl_fabs( s * ( s - a ) * ( s - b ) * ( s - c ) ) );
+  area = std::sqrt( std::fabs( s * ( s - a ) * ( s - b ) * ( s - c ) ) );
 
   // Volume elements ...
   //

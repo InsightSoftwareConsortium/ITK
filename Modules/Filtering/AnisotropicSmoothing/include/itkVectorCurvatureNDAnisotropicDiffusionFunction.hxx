@@ -143,8 +143,8 @@ VectorCurvatureNDAnisotropicDiffusionFunction< TImage >
         }
       }
 
-    grad_mag[k]   = vcl_sqrt(m_MIN_NORM + grad_mag_sq[k]);
-    grad_mag_d[k] = vcl_sqrt(m_MIN_NORM + grad_mag_sq_d[k]);
+    grad_mag[k]   = std::sqrt(m_MIN_NORM + grad_mag_sq[k]);
+    grad_mag_d[k] = std::sqrt(m_MIN_NORM + grad_mag_sq_d[k]);
     // this grad mag should depend only on the current k
     for ( i = 0; i < ImageDimension; i++ )
       {
@@ -174,8 +174,8 @@ VectorCurvatureNDAnisotropicDiffusionFunction< TImage >
       }
     else
       {
-      Cx[i]  = vcl_exp(grad_mag_sq_tmp   / m_K);
-      Cxd[i] = vcl_exp(grad_mag_sq_d_tmp / m_K);
+      Cx[i]  = std::exp(grad_mag_sq_tmp   / m_K);
+      Cxd[i] = std::exp(grad_mag_sq_d_tmp / m_K);
       }
     }
 
@@ -213,7 +213,7 @@ VectorCurvatureNDAnisotropicDiffusionFunction< TImage >
         }
       }
 
-    ans[k] = vcl_sqrt(propagation_gradient) * speed;
+    ans[k] = std::sqrt(propagation_gradient) * speed;
     }
 
   return ans;

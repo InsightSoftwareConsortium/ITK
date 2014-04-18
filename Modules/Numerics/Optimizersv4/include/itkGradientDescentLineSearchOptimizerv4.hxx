@@ -131,7 +131,7 @@ GradientDescentLineSearchOptimizerv4Template<TInternalComputationValueType>
     {
     x = b - this->m_Resphi * ( b - a );
     }
-  if ( vcl_abs( c - a ) < this->m_Epsilon * ( vcl_abs( b ) + vcl_abs( x ) ) )
+  if ( std::abs( c - a ) < this->m_Epsilon * ( std::abs( b ) + std::abs( x ) ) )
     {
     return ( c + a ) / 2;
     }

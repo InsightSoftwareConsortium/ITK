@@ -88,7 +88,7 @@ static bool TestDeformationJacobianDeterminantValue(void)
   index[0]=1;
   index[1]=1;
   //std::cout << "Output "  << output->GetPixel(index) << std::endl;
-  if(vcl_abs(output->GetPixel(index) - KNOWN_ANSWER) > 1e-13)
+  if(std::abs(output->GetPixel(index) - KNOWN_ANSWER) > 1e-13)
     {
     std::cout << "Test failed." << KNOWN_ANSWER << "!=" << output->GetPixel(index)  << std::endl;
     testPassed=false;

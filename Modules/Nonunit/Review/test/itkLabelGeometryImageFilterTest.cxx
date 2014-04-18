@@ -171,7 +171,7 @@ int LabelGeometryImageFilterTest(std::string labelImageName,std::string intensit
 
     typename LabelGeometryType::RealType orientation = labelGeometryFilter->GetOrientation(labelValue);
     // If the orientation is very close pi, we set it to 0.
-    orientation = vcl_fabs(vnl_math::pi - orientation) < epsilon ? 0 : orientation;
+    orientation = std::fabs(vnl_math::pi - orientation) < epsilon ? 0 : orientation;
     matrix(rowIndex,columnIndex++) = orientation;
 
     rowIndex++;
@@ -299,9 +299,9 @@ bool compareMatrices(const MatrixType & m1, const MatrixType & m2, double epsilo
         pass = false;
         return pass;
       }
-      if (vcl_fabs(m1[i][j] - m2[i][j]) > epsilon)
+      if (std::fabs(m1[i][j] - m2[i][j]) > epsilon)
       {
-        std::cout << "Matrix difference:" << "abs(m2[" << i << "][" << j << "] - m1[" << i << "][" << j << "]): " << vcl_fabs(m1[i][j] - m2[i][j]) << std::endl;
+        std::cout << "Matrix difference:" << "abs(m2[" << i << "][" << j << "] - m1[" << i << "][" << j << "]): " << std::fabs(m1[i][j] - m2[i][j]) << std::endl;
         pass = false;
         return pass;
       }

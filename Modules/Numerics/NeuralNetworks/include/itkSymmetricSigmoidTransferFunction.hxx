@@ -55,7 +55,7 @@ SymmetricSigmoidTransferFunction<ScalarType>
     }
   else
     {
-    val= (ScalarType)1.0/(1.0+vcl_exp(-input))-0.5;
+    val= (ScalarType)1.0/(1.0+std::exp(-input))-0.5;
     }
   return val;
 }

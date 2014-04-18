@@ -21,7 +21,6 @@
 #include "itkConstShapedNeighborhoodIterator.h"
 #include "itkProgressReporter.h"
 #include "itkConstShapedNeighborhoodIterator.h"
-#include "vcl_cmath.h"
 #include "itkContourExtractor2DImageFilter.h"
 
 namespace itk

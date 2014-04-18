@@ -124,7 +124,7 @@ MahalanobisDistanceMembershipFunction< TVector >
     // define the inverse to be diagonal with large values along the
     // diagonal. value chosen so (X-M)'inv(C)*(X-M) will usually stay
     // below NumericTraits<double>::max()
-    const double aLargeDouble = vcl_pow(NumericTraits<double>::max(), 1.0/3.0)
+    const double aLargeDouble = std::pow(NumericTraits<double>::max(), 1.0/3.0)
       / (double) this->GetMeasurementVectorSize();
     m_InverseCovariance.SetSize(this->GetMeasurementVectorSize(), this->GetMeasurementVectorSize());
     m_InverseCovariance.SetIdentity();

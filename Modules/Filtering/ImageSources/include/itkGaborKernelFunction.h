@@ -65,17 +65,17 @@ public:
   inline TRealValueType Evaluate(const TRealValueType & u) const
   {
     TRealValueType parameter = vnl_math_sqr(u / this->m_Sigma);
-    TRealValueType envelope = vcl_exp(static_cast< TRealValueType >(-0.5) * parameter);
+    TRealValueType envelope = std::exp(static_cast< TRealValueType >(-0.5) * parameter);
     TRealValueType phase = static_cast< TRealValueType >(2.0 * vnl_math::pi) * this->m_Frequency * u
                    + this->m_PhaseOffset;
 
     if ( this->m_CalculateImaginaryPart )
       {
-      return envelope * vcl_sin(phase);
+      return envelope * std::sin(phase);
       }
     else
       {
-      return envelope * vcl_cos(phase);
+      return envelope * std::cos(phase);
       }
   }
 

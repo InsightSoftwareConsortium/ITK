@@ -47,13 +47,13 @@ public:
   }
 
   inline TOutput operator()(const TInput & A) const
-  { return (TOutput)vcl_sin( (double)A ); }
+  { return (TOutput)std::sin( (double)A ); }
 };
 }
 /** \class SinImageFilter
  * \brief Computes the sine of each pixel.
  *
- * The computations are performed using vcl_sin(x).
+ * The computations are performed using std::sin(x).
  *
  * \ingroup IntensityImageFilters
  * \ingroup MultiThreaded

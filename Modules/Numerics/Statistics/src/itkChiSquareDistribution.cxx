@@ -84,8 +84,8 @@ ChiSquareDistribution
 
   if ( x >= 0.0 )
     {
-    pdf = vcl_exp(-0.5 * x) * vcl_pow(x, dofon2 - 1.0)
-          / ( vcl_pow(2.0, dofon2) * dgamma_(&dofon2) );
+    pdf = std::exp(-0.5 * x) * std::pow(x, dofon2 - 1.0)
+          / ( std::pow(2.0, dofon2) * dgamma_(&dofon2) );
     }
 
   return pdf;
@@ -159,7 +159,7 @@ ChiSquareDistribution
   nx = GaussianDistribution::InverseCDF(p);
 
   double f = 2.0 / ( 9.0 * dof );
-  x = dof * vcl_pow(1.0 - f + nx * vcl_sqrt(f), 3.0);
+  x = dof * std::pow(1.0 - f + nx * std::sqrt(f), 3.0);
 
   // The approximation above is only accurate for large degrees of
   // freedom. We'll improve the approximation by a few Newton iterations.

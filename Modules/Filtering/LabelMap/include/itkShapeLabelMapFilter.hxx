@@ -328,8 +328,8 @@ ShapeLabelMapFilter< TImage, TLabelImage >
     }
   else if ( principalMoments[0] != 0 )
     {
-    elongation = vcl_sqrt(principalMoments[ImageDimension - 1] / principalMoments[ImageDimension - 2]);
-    flatness = vcl_sqrt(principalMoments[1] / principalMoments[0]);
+    elongation = std::sqrt(principalMoments[ImageDimension - 1] / principalMoments[ImageDimension - 2]);
+    flatness = std::sqrt(principalMoments[1] / principalMoments[0]);
     }
 
   double physicalSize = nbOfPixels * sizePerPixel;
@@ -343,12 +343,12 @@ ShapeLabelMapFilter< TImage, TLabelImage >
     {
     edet *= principalMoments[i];
     }
-  edet = vcl_pow(edet, 1.0 / ImageDimension);
+  edet = std::pow(edet, 1.0 / ImageDimension);
   for ( unsigned int i = 0; i < ImageDimension; i++ )
     {
     if ( edet != 0.0 )
       {
-      ellipsoidDiameter[i] = 2.0 *equivalentRadius *vcl_sqrt(principalMoments[i] / edet);
+      ellipsoidDiameter[i] = 2.0 *equivalentRadius *std::sqrt(principalMoments[i] / edet);
       }
     else
       {
@@ -443,7 +443,7 @@ ShapeLabelMapFilter< TImage, TLabelImage >
       for ( unsigned int i = 0; i < ImageDimension; i++ )
         {
         const OffsetValueType indexDifference = ( iIt1->operator[](i) - iIt2->operator[](i) );
-        length += vcl_pow(indexDifference * spacing[i], 2);
+        length += std::pow(indexDifference * spacing[i], 2);
         }
       if ( feretDiameter < length )
         {
@@ -452,7 +452,7 @@ ShapeLabelMapFilter< TImage, TLabelImage >
       }
     }
   // Final computation
-  feretDiameter = vcl_sqrt(feretDiameter);
+  feretDiameter = std::sqrt(feretDiameter);
 
   // Finally put the values in the label object
   labelObject->SetFeretDiameter(feretDiameter);
@@ -506,7 +506,7 @@ ShapeLabelMapFilter< TImage, TLabelImage >
   // a data structure to store the number of intercepts on each direction
   typedef typename std::map<OffsetType, SizeValueType, typename OffsetType::LexicographicCompare> MapInterceptType;
   MapInterceptType intercepts;
-  // int nbOfDirections = (int)vcl_pow( 2.0, (int)ImageDimension ) - 1;
+  // int nbOfDirections = (int)std::pow( 2.0, (int)ImageDimension ) - 1;
   // intecepts.resize(nbOfDirections + 1);  // code begins at position 1
 
   // now iterate over the vectors of lines
@@ -693,10 +693,10 @@ ShapeLabelMapFilter< TImage, TLabelImage >
   double dx = spacing[0];
   double dy = spacing[1];
   double dz = spacing[2];
-  double dxy = vcl_sqrt( spacing[0]*spacing[0] + spacing[1]*spacing[1] );
-  double dxz = vcl_sqrt( spacing[0]*spacing[0] + spacing[2]*spacing[2] );
-  double dyz = vcl_sqrt( spacing[1]*spacing[1] + spacing[2]*spacing[2] );
-  double dxyz = vcl_sqrt( spacing[0]*spacing[0] + spacing[1]*spacing[1] + spacing[2]*spacing[2] );
+  double dxy = std::sqrt( spacing[0]*spacing[0] + spacing[1]*spacing[1] );
+  double dxz = std::sqrt( spacing[0]*spacing[0] + spacing[2]*spacing[2] );
+  double dyz = std::sqrt( spacing[1]*spacing[1] + spacing[2]*spacing[2] );
+  double dxyz = std::sqrt( spacing[0]*spacing[0] + spacing[1]*spacing[1] + spacing[2]*spacing[2] );
   double vol = spacing[0]*spacing[1]*spacing[2];
 
   // 'magical numbers', corresponding to area of voronoi partition on the

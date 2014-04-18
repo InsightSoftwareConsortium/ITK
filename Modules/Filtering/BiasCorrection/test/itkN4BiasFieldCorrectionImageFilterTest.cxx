@@ -220,7 +220,7 @@ int N4( int argc, char *argv[] )
       GetLargestPossibleRegion().GetSize()[d] - 1 ) *
       inputImage->GetSpacing()[d];
     unsigned int numberOfSpans = static_cast<unsigned int>(
-      vcl_ceil( domain / splineDistance ) );
+      std::ceil( domain / splineDistance ) );
     unsigned long extraPadding = static_cast<unsigned long>( ( numberOfSpans *
       splineDistance - domain ) / inputImage->GetSpacing()[d] + 0.5 );
     lowerBound[d] = static_cast<unsigned long>( 0.5 * extraPadding );

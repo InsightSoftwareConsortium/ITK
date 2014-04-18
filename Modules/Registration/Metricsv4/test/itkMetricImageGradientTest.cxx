@@ -239,7 +239,7 @@ double itkMetricImageGradientTestRunTest( unsigned int imageSize, typename TTran
     for ( unsigned int j = 0; j < ImageDimensionality; j++ )
      {
       if ( it.GetIndex()[j] < static_cast<typename ImageType::IndexValueType>(imageBorder)
-           || static_cast<unsigned int> (vcl_abs( static_cast<float> (it.GetIndex()[j]) - static_cast<float>(size[j]) ) ) < imageBorder )
+           || static_cast<unsigned int> (std::abs( static_cast<float> (it.GetIndex()[j]) - static_cast<float>(size[j]) ) ) < imageBorder )
         {
         awayfromborder = false;
         }

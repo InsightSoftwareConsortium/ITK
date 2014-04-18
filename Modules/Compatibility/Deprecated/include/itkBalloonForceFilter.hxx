@@ -524,12 +524,12 @@ BalloonForceFilter< TInputMesh, TOutputMesh >
 
     f = normals.Value();
 
-    max = vcl_abs(f[0]);
+    max = std::abs(f[0]);
 
     //---------------------------------------------------------------------
     // all the movement in z direction is now disabled for further test
     //---------------------------------------------------------------------
-    if ( vcl_abs(f[1]) > max ) { max = vcl_abs(f[1]); }
+    if ( std::abs(f[1]) > max ) { max = std::abs(f[1]); }
     n[0] = f[0] / max;
     n[1] = f[1] / max;
 
@@ -564,7 +564,7 @@ BalloonForceFilter< TInputMesh, TOutputMesh >
       pointstatus.Value() = 0.0;
       //   m_ImageOutput->SetPixel(coord, 1);
       }
-    fo = vcl_sqrt(f[0] * f[0] + f[1] * f[1]);
+    fo = std::sqrt(f[0] * f[0] + f[1] * f[1]);
     f[0] = t * 100 * f[0] * xs / fo;
     f[1] = t * 100 * f[1] * ys / fo;
     f[2] = 0;
@@ -907,7 +907,7 @@ BalloonForceFilter< TInputMesh, TOutputMesh >
 
     if ( m_GradientBegin )
       {
-      dist += vcl_sqrt(ds[0] * ds[0] + ds[1] * ds[1]) * m_TimeStep;
+      dist += std::sqrt(ds[0] * ds[0] + ds[1] * ds[1]) * m_TimeStep;
       m_DistanceToBoundary = dist / ( (float)( m_NumberOfNodes - 2 ) );
       }
 
@@ -1050,7 +1050,7 @@ BalloonForceFilter< TInputMesh, TOutputMesh >
     dis[0] = x[0] - y[0];
     dis[1] = x[1] - y[1];
     dis[2] = x[2] - y[2];
-    gap = vcl_sqrt(dis[0] * dis[0] + dis[1] * dis[1] + dis[2] * dis[2]);
+    gap = std::sqrt(dis[0] * dis[0] + dis[1] * dis[1] + dis[2] * dis[2]);
 
     m_Locations->GetPointData(q, st_PixelType);
     if ( gap > 3 )
@@ -1138,8 +1138,8 @@ BalloonForceFilter< TInputMesh, TOutputMesh >
     coord[0] = static_cast< IndexValueType >( vec_loc[0] );
     coord[1] = static_cast< IndexValueType >( vec_loc[1] );
 
-    coord2[0] = static_cast< IndexValueType >( vcl_ceil(vec_loc[0]) );
-    coord2[1] = static_cast< IndexValueType >( vcl_ceil(vec_loc[1]) );
+    coord2[0] = static_cast< IndexValueType >( std::ceil(vec_loc[0]) );
+    coord2[1] = static_cast< IndexValueType >( std::ceil(vec_loc[1]) );
 
     tmp_co_1[0] = coord2[0];
     tmp_co_1[1] = coord[1];
@@ -1232,7 +1232,7 @@ BalloonForceFilter< TInputMesh, TOutputMesh >
              + v2[0] * ( v3[1] - v1[1] )
              + v3[0] * ( v1[1] - v2[1] ) );
 
-    absvec = -vcl_sqrt ( (double)( ( coa * coa ) + ( cob * cob ) + ( coc * coc ) ) );
+    absvec = -std::sqrt ( (double)( ( coa * coa ) + ( cob * cob ) + ( coc * coc ) ) );
 
     itkAssertInDebugAndIgnoreInReleaseMacro (absvec != 0);
 
@@ -1264,7 +1264,7 @@ BalloonForceFilter< TInputMesh, TOutputMesh >
   while ( normals != myNormals->End() )
     {
     v1 = normals.Value();
-    absvec = vcl_sqrt(v1[0] * v1[0] + v1[1] * v1[1] + v1[2] * v1[2]);
+    absvec = std::sqrt(v1[0] * v1[0] + v1[1] * v1[1] + v1[2] * v1[2]);
     v1[0] = v1[0] / absvec;
     v1[1] = v1[1] / absvec;
     v1[2] = v1[2] / absvec;
@@ -1326,9 +1326,9 @@ BalloonForceFilter< TInputMesh, TOutputMesh >
     dis = d1[0] * d2[0] + d1[1] * d2[1]; /*+d1[2]*d2[2]*/
     if ( dis > 0 )
       {
-      l1 = vcl_sqrt(d1[0] * d1[0] + d1[1] * d1[1] /*+d1[2]*d1[2]*/);
-      l2 = vcl_sqrt(d2[0] * d2[0] + d2[1] * d2[1] /*+d2[2]*d2[2]*/);
-      dis = dis / vcl_sqrt(l1 * l2);
+      l1 = std::sqrt(d1[0] * d1[0] + d1[1] * d1[1] /*+d1[2]*d1[2]*/);
+      l2 = std::sqrt(d2[0] * d2[0] + d2[1] * d2[1] /*+d2[2]*d2[2]*/);
+      dis = dis / std::sqrt(l1 * l2);
       d1[0] = d1[0] / l1;
       d1[1] = d1[1] / l1;
       //    d1[2] = d1[2]/l1;
@@ -1338,7 +1338,7 @@ BalloonForceFilter< TInputMesh, TOutputMesh >
       d1[0] = ( d1[0] + d2[0] );
       d1[1] = ( d1[1] + d2[1] );
       //    d1[2] = (d1[2]+d2[2]);
-      l1 = vcl_sqrt(d1[0] * d1[0] + d1[1] * d1[1] /*+d1[2]*d1[2]*/);
+      l1 = std::sqrt(d1[0] * d1[0] + d1[1] * d1[1] /*+d1[2]*d1[2]*/);
       d1[0] = d1[0] / l1;
       d1[1] = d1[1] / l1;
       //    d1[2] = d1[2]/l1;
@@ -1370,9 +1370,9 @@ BalloonForceFilter< TInputMesh, TOutputMesh >
   dis = d1[0] * d2[0] + d1[1] * d2[1]; /*+d1[2]*d2[2]*/
   if ( dis > 0 )
     {
-    l1 = vcl_sqrt(d1[0] * d1[0] + d1[1] * d1[1] /*+d1[2]*d1[2]*/);
-    l2 = vcl_sqrt(d2[0] * d2[0] + d2[1] * d2[1] /*+d2[2]*d2[2]*/);
-    dis = dis / vcl_sqrt(l1 * l2);
+    l1 = std::sqrt(d1[0] * d1[0] + d1[1] * d1[1] /*+d1[2]*d1[2]*/);
+    l2 = std::sqrt(d2[0] * d2[0] + d2[1] * d2[1] /*+d2[2]*d2[2]*/);
+    dis = dis / std::sqrt(l1 * l2);
     d1[0] = d1[0] / l1;
     d1[1] = d1[1] / l1;
     //  d1[2] = d1[2]/l1;
@@ -1382,7 +1382,7 @@ BalloonForceFilter< TInputMesh, TOutputMesh >
     d1[0] = ( d1[0] + d2[0] );
     d1[1] = ( d1[1] + d2[1] );
     //  d1[2] = (d1[2]+d2[2]);
-    l1 = vcl_sqrt(d1[0] * d1[0] + d1[1] * d1[1] /*+d1[2]*d1[2]*/);
+    l1 = std::sqrt(d1[0] * d1[0] + d1[1] * d1[1] /*+d1[2]*d1[2]*/);
     d1[0] = d1[0] / l1;
     d1[1] = d1[1] / l1;
     //  d1[2] = d1[2]/l1;
@@ -1413,9 +1413,9 @@ BalloonForceFilter< TInputMesh, TOutputMesh >
   dis = d1[0] * d2[0] + d1[1] * d2[1];
   if ( dis > 0 )
     {
-    l1 = vcl_sqrt(d1[0] * d1[0] + d1[1] * d1[1]);
-    l2 = vcl_sqrt(d2[0] * d2[0] + d2[1] * d2[1]);
-    dis = dis / vcl_sqrt(l1 * l2);
+    l1 = std::sqrt(d1[0] * d1[0] + d1[1] * d1[1]);
+    l2 = std::sqrt(d2[0] * d2[0] + d2[1] * d2[1]);
+    dis = dis / std::sqrt(l1 * l2);
     d1[0] = d1[0] / l1;
     d1[1] = d1[1] / l1;
     //  d1[2] = d1[2]/l1;
@@ -1425,7 +1425,7 @@ BalloonForceFilter< TInputMesh, TOutputMesh >
     d1[0] = ( d1[0] + d2[0] );
     d1[1] = ( d1[1] + d2[1] );
     //  d1[2] = (d1[2]+d2[2]);
-    l1 = vcl_sqrt(d1[0] * d1[0] + d1[1] * d1[1]);
+    l1 = std::sqrt(d1[0] * d1[0] + d1[1] * d1[1]);
     d1[0] = d1[0] / l1;
     d1[1] = d1[1] / l1;
     //  d1[2] = d1[2]/l1;
@@ -1449,11 +1449,11 @@ BalloonForceFilter< TInputMesh, TOutputMesh >
     ++forces;
     v2 = forces.Value();
     //    m_Displacements->GetPointData(i+j*m_Resolution, d_PixelTyper);
-    dis += vcl_sqrt( ( v1[0] - v2[0] ) * ( v1[0] - v2[0] ) + ( v1[1] - v2[1] ) * ( v1[1] - v2[1] ) );
+    dis += std::sqrt( ( v1[0] - v2[0] ) * ( v1[0] - v2[0] ) + ( v1[1] - v2[1] ) * ( v1[1] - v2[1] ) );
     i++;
     }
   //  m_Displacements->GetPointData(i+j*m_Resolution, d_PixelTyper);
-  dis += vcl_sqrt( ( s[0] - v2[0] ) * ( s[0] - v2[0] ) + ( s[1] - v2[1] ) * ( s[1] - v2[1] ) );
+  dis += std::sqrt( ( s[0] - v2[0] ) * ( s[0] - v2[0] ) + ( s[1] - v2[1] ) * ( s[1] - v2[1] ) );
   length = dis / m_Resolution;
   ++forces;
 
@@ -1471,7 +1471,7 @@ BalloonForceFilter< TInputMesh, TOutputMesh >
     v1 = forces.Value();
     ++forces;
     v2 = forces.Value();
-    dis = vcl_sqrt( ( v1[0] - v2[0] ) * ( v1[0] - v2[0] ) + ( v1[1] - v2[1] ) * ( v1[1] - v2[1] ) );
+    dis = std::sqrt( ( v1[0] - v2[0] ) * ( v1[0] - v2[0] ) + ( v1[1] - v2[1] ) * ( v1[1] - v2[1] ) );
     l2 = -1 * l1;
     l1 += dis;
     //    m_Displacements->GetPointData(i+j*m_Resolution, d_PixelTyper);
@@ -1502,7 +1502,7 @@ BalloonForceFilter< TInputMesh, TOutputMesh >
 
   v1 = forces.Value();
   ++forces;
-  dis = vcl_sqrt( ( v1[0] - v3[0] ) * ( v1[0] - v3[0] ) + ( v1[1] - v3[1] ) * ( v1[1] - v3[1] ) );
+  dis = std::sqrt( ( v1[0] - v3[0] ) * ( v1[0] - v3[0] ) + ( v1[1] - v3[1] ) * ( v1[1] - v3[1] ) );
   l2 = -1 * l1;
   l1 += dis;
   //  m_Displacements->GetPointData(i+j*m_Resolution, d_PixelTyper);
@@ -1557,7 +1557,7 @@ BalloonForceFilter< TInputMesh, TOutputMesh >
       v1 = locations.Value();
       ++locations;
       v2 = locations.Value();
-      //dis = vcl_sqrt((v1[0]-v2[0])*(v1[0]-v2[0])+(v1[1]-v2[1])*(v1[1]-v2[1]));
+      //dis = std::sqrt((v1[0]-v2[0])*(v1[0]-v2[0])+(v1[1]-v2[1])*(v1[1]-v2[1]));
       i++;
       }
     ++locations;

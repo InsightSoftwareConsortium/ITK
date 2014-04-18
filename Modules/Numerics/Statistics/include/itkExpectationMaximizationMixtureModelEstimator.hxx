@@ -264,7 +264,7 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
       // the log may blow up
       if( temp > NumericTraits<double>::epsilon() )
         {
-        logProportion = vcl_log( temp );
+        logProportion = std::log( temp );
         }
       else
         {
@@ -277,7 +277,7 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
                GetWeight(measurementVectorIndex);
         if( temp > NumericTraits<double>::epsilon() )
           {
-          sum += temp * ( logProportion + vcl_log( temp ) );
+          sum += temp * ( logProportion + std::log( temp ) );
           }
         else
           {

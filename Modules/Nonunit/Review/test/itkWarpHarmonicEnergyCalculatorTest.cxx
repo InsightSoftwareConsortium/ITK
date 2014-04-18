@@ -104,7 +104,7 @@ int itkWarpHarmonicEnergyCalculatorTest(int, char* [] )
   const double energy = calculator->GetHarmonicEnergy();
   std::cout << energy << std::endl;
 
-  if ( vcl_abs(energy) > 1e-8 )  return EXIT_FAILURE;
+  if ( std::abs(energy) > 1e-8 )  return EXIT_FAILURE;
 
   return EXIT_SUCCESS;
 }

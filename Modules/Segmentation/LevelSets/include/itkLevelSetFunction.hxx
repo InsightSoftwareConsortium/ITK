@@ -57,7 +57,7 @@ LevelSetFunction< TImageType >
   const FloatOffsetType & itkNotUsed(offset), GlobalDataStruct *gd)
 {
   unsigned int          i, j, n;
-  ScalarValueType       gradMag = vcl_sqrt(gd->m_GradMagSqr);
+  ScalarValueType       gradMag = std::sqrt(gd->m_GradMagSqr);
   ScalarValueType       Pgrad[ImageDimension][ImageDimension];
   ScalarValueType       tmp_matrix[ImageDimension][ImageDimension];
   const ScalarValueType ZERO = NumericTraits< ScalarValueType >::Zero;
@@ -150,7 +150,7 @@ LevelSetFunction< TImageType >
     {
     discriminant = 0.0;
     }
-  discriminant = vcl_sqrt(discriminant);
+  discriminant = std::sqrt(discriminant);
   return  ( mean_curve - discriminant );
 }
 
@@ -434,7 +434,7 @@ LevelSetFunction< TImageType >
       vnl_math_max( gd->m_MaxPropagationChange,
                     vnl_math_abs(propagation_term) );
 
-    propagation_term *= vcl_sqrt(propagation_gradient);
+    propagation_term *= std::sqrt(propagation_gradient);
     }
   else { propagation_term = ZERO; }
 

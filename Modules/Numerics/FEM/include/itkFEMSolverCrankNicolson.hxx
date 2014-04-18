@@ -354,8 +354,8 @@ SolverCrankNicolson<VDimension>
 
   ax = 0.0; bx = 1.;
   Float fc;
-  Float fa = vcl_fabs( EvaluateResidual(ax) );
-  Float fb = vcl_fabs( EvaluateResidual(bx) );
+  Float fa = std::fabs( EvaluateResidual(ax) );
+  Float fb = std::fabs( EvaluateResidual(bx) );
 
   Float ulim, u, r, q, fu, dum;
 
@@ -367,19 +367,19 @@ SolverCrankNicolson<VDimension>
 
   cx = bx + Gold * ( bx - ax );  // first guess for c - the 3rd pt needed to
                                  // bracket the min
-  fc = vcl_fabs( EvaluateResidual(cx) );
+  fc = std::fabs( EvaluateResidual(cx) );
 
-  while( fb > fc /*&& vcl_fabs(ax) < 3. && vcl_fabs(bx) < 3. && vcl_fabs(cx) <
+  while( fb > fc /*&& std::fabs(ax) < 3. && std::fabs(bx) < 3. && std::fabs(cx) <
                     3.*/)
     {
     r = ( bx - ax ) * ( fb - fc );
     q = ( bx - cx ) * ( fb - fa );
-    Float denom = ( 2.0 * GSSign(GSMax(vcl_fabs(q - r), Tiny), q - r) );
+    Float denom = ( 2.0 * GSSign(GSMax(std::fabs(q - r), Tiny), q - r) );
     u = ( bx ) - ( ( bx - cx ) * q - ( bx - ax ) * r ) / denom;
     ulim = bx + Glimit * ( cx - bx );
     if( ( bx - u ) * ( u - cx ) > 0.0 )
       {
-      fu = vcl_fabs( EvaluateResidual(u) );
+      fu = std::fabs( EvaluateResidual(u) );
       if( fu < fc )
         {
         ax = bx;
@@ -395,33 +395,33 @@ SolverCrankNicolson<VDimension>
         }
 
       u = cx + Gold * ( cx - bx );
-      fu = vcl_fabs( EvaluateResidual(u) );
+      fu = std::fabs( EvaluateResidual(u) );
       }
     else if( ( cx - u ) * ( u - ulim ) > 0.0 )
       {
-      fu = vcl_fabs( EvaluateResidual(u) );
+      fu = std::fabs( EvaluateResidual(u) );
       if( fu < fc )
         {
         bx = cx; cx = u; u = cx + Gold * ( cx - bx );
-        fb = fc; fc = fu; fu = vcl_fabs( EvaluateResidual(u) );
+        fb = fc; fc = fu; fu = std::fabs( EvaluateResidual(u) );
         }
       }
     else if( ( u - ulim ) * ( ulim - cx ) >= 0.0 )
       {
       u = ulim;
-      fu = vcl_fabs( EvaluateResidual(u) );
+      fu = std::fabs( EvaluateResidual(u) );
       }
     else
       {
       u = cx + Gold * ( cx - bx );
-      fu = vcl_fabs( EvaluateResidual(u) );
+      fu = std::fabs( EvaluateResidual(u) );
       }
 
     ax = bx; bx = cx; cx = u;
     fa = fb; fb = fc; fc = fu;
     }
 
-  if( vcl_fabs(ax) > 1.e3  || vcl_fabs(bx) > 1.e3 || vcl_fabs(cx) > 1.e3 )
+  if( std::fabs(ax) > 1.e3  || std::fabs(bx) > 1.e3 || std::fabs(cx) > 1.e3 )
     {
     ax = -2.0;  bx = 1.0;  cx = 2.0;
     } // to avoid crazy numbers caused by bad bracket (u goes nuts)
@@ -456,19 +456,19 @@ SolverCrankNicolson<VDimension>
   b = ( ( ax  > cx ) ? ax : cx );
 
   x = w = v = bx;
-  fw = fv = fx = vcl_fabs( EvaluateResidual(x) );
+  fw = fv = fx = std::fabs( EvaluateResidual(x) );
   for( iter = 1; iter <= MaxIters; iter++ )
     {
     xm = 0.5 * ( a + b );
-    tol2 = 2.0 * ( tol1 = tol * vcl_fabs(x) + ZEPS );
-    if( vcl_fabs(x - xm) <= ( tol2 - 0.5 * ( b - a ) ) )
+    tol2 = 2.0 * ( tol1 = tol * std::fabs(x) + ZEPS );
+    if( std::fabs(x - xm) <= ( tol2 - 0.5 * ( b - a ) ) )
       {
       xmin = x;
       SetEnergyToMin(xmin);
       return fx;
       }
 
-    if( vcl_fabs(e) > tol1 )
+    if( std::fabs(e) > tol1 )
       {
       r = ( x - w ) * ( fx - fv );
       q = ( x - v ) * ( fx - fw );
@@ -478,10 +478,10 @@ SolverCrankNicolson<VDimension>
         {
         p = -1. * p;
         }
-      q = vcl_fabs(q);
+      q = std::fabs(q);
       etemp = e;
       e = d;
-      if( vcl_fabs(p) >= vcl_fabs(0.5 * q * etemp) || p <= q * ( a - x ) || p >= q * ( b - x ) )
+      if( std::fabs(p) >= std::fabs(0.5 * q * etemp) || p <= q * ( a - x ) || p >= q * ( b - x ) )
         {
         d = CGOLD * ( e = ( x >= xm ? a - x : b - x ) );
         }
@@ -504,8 +504,8 @@ SolverCrankNicolson<VDimension>
       d = CGOLD * ( e = ( x >= xm ? a - x : b - x ) );
       }
 
-    u = ( vcl_fabs(d) >= tol1 ? x + d : x + GSSign(tol1, d) );
-    fu = vcl_fabs( EvaluateResidual(u) );
+    u = ( std::fabs(d) >= tol1 ? x + d : x + GSSign(tol1, d) );
+    fu = std::fabs( EvaluateResidual(u) );
     if( fu <= fx )
       {
       if( u >= x )
@@ -568,7 +568,7 @@ SolverCrankNicolson<VDimension>
 
   x0 = ax;
   x3 = cx;
-  if( vcl_fabs(cx - bx) > vcl_fabs(bx - ax) )
+  if( std::fabs(cx - bx) > std::fabs(bx - ax) )
     {
     x1 = bx;
     x2 = bx + C * ( cx - bx );
@@ -578,21 +578,21 @@ SolverCrankNicolson<VDimension>
     x2 = bx;
     x1 = bx - C * ( bx - ax );
     }
-  f1 = vcl_fabs( EvaluateResidual(x1) );
-  f2 = vcl_fabs( EvaluateResidual(x2) );
+  f1 = std::fabs( EvaluateResidual(x1) );
+  f2 = std::fabs( EvaluateResidual(x2) );
   unsigned int iters = 0;
-  while( vcl_fabs(x3 - x0) > tol * ( vcl_fabs(x1) + vcl_fabs(x2) ) && iters < MaxIters )
+  while( std::fabs(x3 - x0) > tol * ( std::fabs(x1) + std::fabs(x2) ) && iters < MaxIters )
     {
     iters++;
     if( f2 < f1 )
       {
       x0 = x1; x1 = x2; x2 = R * x1 + C * x3;
-      f1 = f2; f2 = vcl_fabs( EvaluateResidual(x2) );
+      f1 = f2; f2 = std::fabs( EvaluateResidual(x2) );
       }
     else
       {
       x3 = x2; x2 = x1; x1 = R * x2 + C * x0;
-      f2 = f1; f1 = vcl_fabs( EvaluateResidual(x1) );
+      f2 = f1; f1 = std::fabs( EvaluateResidual(x1) );
       }
     }
 
@@ -717,7 +717,7 @@ SolverCrankNicolson<VDimension>
       }
     DeformationEnergy += iSolVal * TempRowVal;
     }
-  Float Energy = (Float)vcl_fabs(DeformationEnergy - ForceEnergy);
+  Float Energy = (Float)std::fabs(DeformationEnergy - ForceEnergy);
   return Energy;
 }
 
@@ -750,9 +750,9 @@ SolverCrankNicolson<VDimension>
       {
       maxs2 = CurrentSolution;
       }
-    if( vcl_fabs(CurrentSolution) > absmax )
+    if( std::fabs(CurrentSolution) > absmax )
       {
-      absmax = vcl_fabs(CurrentSolution);
+      absmax = std::fabs(CurrentSolution);
       }
 
 //  note: set rather than add - i.e. last solution of system not total solution
@@ -784,9 +784,9 @@ SolverCrankNicolson<VDimension>
     this->m_ls->AddVectorValue(i, CurrentForce, m_ForceTotalIndex);
     CurrentTotSolution = this->m_ls->GetSolutionValue(i, m_TotalSolutionIndex);
 
-    if( vcl_fabs(CurrentTotSolution) > maxs )
+    if( std::fabs(CurrentTotSolution) > maxs )
       {
-      maxs = vcl_fabs(CurrentTotSolution);
+      maxs = std::fabs(CurrentTotSolution);
       }
     }
 

@@ -163,7 +163,7 @@ int itkGradientRecursiveGaussianFilterTest3Compare( typename TGradImage1DType::P
         {
       typename TGradImage1DType::PixelType::ValueType truth = scalar[d] / ( c + 1.0);
       typename TGradImage1DType::PixelType::ValueType test = vector[d + (c * numDimensions)];
-      if( vcl_fabs(  truth - test ) > tolerance )
+      if( std::fabs(  truth - test ) > tolerance )
           {
           std::cerr << "One or more components of vector gradient image pixel are not as expected: " << std::endl
                     << "d, c, truth, test: " << d << " " << c << " " << truth << " " << test << std::endl

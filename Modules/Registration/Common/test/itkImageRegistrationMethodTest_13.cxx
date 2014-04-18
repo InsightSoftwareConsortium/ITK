@@ -410,9 +410,9 @@ double F( itk::Vector<double,3> & v )
   double y = v[1];
   double z = v[2];
   const double s = 50;
-  double value = 200.0 * vcl_exp( - ( x*x + y*y + z*z )/(s*s) );
+  double value = 200.0 * std::exp( - ( x*x + y*y + z*z )/(s*s) );
   x -= 8; y += 3; z += 0;
-  double r = vcl_sqrt( x*x + y*y + z*z );
+  double r = std::sqrt( x*x + y*y + z*z );
   if( r > 35 )
     {
     value = 2 * ( vnl_math_abs( x ) +

@@ -49,7 +49,7 @@ GaussianRadialBasisFunction< ScalarType>
 {
   ScalarType val;
   ScalarType radius = Superclass::GetRadius();
-  val = vcl_exp(-0.5*vcl_pow(input,2)/vcl_pow(radius,2));
+  val = std::exp(-0.5*std::pow(input,2)/std::pow(radius,2));
   return val;
 }
 
@@ -65,13 +65,13 @@ GaussianRadialBasisFunction< ScalarType>
   ArrayType center = Superclass::GetCenter();
   if(mode=='u') //w.r.t centers
     {
-    ScalarType temp1= vcl_pow(radius,2);
+    ScalarType temp1= std::pow(radius,2);
     val=Evaluate(dist)
                       *(input.GetElement(element_id)-center.GetElement(element_id))/temp1;
     }
   else if(mode=='s') // w.r.t radius
     {
-    val=Evaluate(dist)*vcl_pow(dist,2)/vcl_pow(radius,3);
+    val=Evaluate(dist)*std::pow(dist,2)/std::pow(radius,3);
     }
   return val;
 }

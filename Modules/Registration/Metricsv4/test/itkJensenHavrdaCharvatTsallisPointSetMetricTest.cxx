@@ -42,20 +42,20 @@ int itkJensenHavrdaCharvatTsallisPointSetMetricTestRun()
     offset[d] = 2;
     normOffset += vnl_math_sqr( offset[d] );
     }
-  normOffset = vcl_sqrt( normOffset );
+  normOffset = std::sqrt( normOffset );
   unsigned long count = 0;
   for( float theta = 0; theta < 2.0 * vnl_math::pi; theta += 0.1 )
     {
     PointType fixedPoint;
     float radius = 100.0;
-    fixedPoint[0] = radius * vcl_cos( theta );
-    fixedPoint[1] = radius * vcl_sin( theta );
+    fixedPoint[0] = radius * std::cos( theta );
+    fixedPoint[1] = radius * std::sin( theta );
 // simplistic point set test:
 //    fixedPoint[0] = 1;
 //    fixedPoint[1] = 1;
     if( Dimension > 2 )
       {
-      fixedPoint[2] = radius * vcl_sin( theta );
+      fixedPoint[2] = radius * std::sin( theta );
 //      fixedPoint[2] = 1;
       }
     fixedPoints->SetPoint( count, fixedPoint );
@@ -104,7 +104,7 @@ int itkJensenHavrdaCharvatTsallisPointSetMetricTestRun()
 
   for( unsigned int d=0; d < metric->GetNumberOfParameters(); d++ )
     {
-    if( vcl_fabs( derivative[d] - offset[d] ) / offset[d] > 0.01 )
+    if( std::fabs( derivative[d] - offset[d] ) / offset[d] > 0.01 )
       {
       std::cerr << "derivative does not match expected normalized offset of " << offset << std::endl;
       return EXIT_FAILURE;
@@ -112,7 +112,7 @@ int itkJensenHavrdaCharvatTsallisPointSetMetricTestRun()
     }
 
   // Check for the same results from different methods
-  if( vcl_fabs( value - value2 ) > 0.01 )
+  if( std::fabs( value - value2 ) > 0.01 )
     {
     std::cerr << "value does not match between calls to different methods: "
               << "value: " << value << " value2: " << value2 << std::endl;

@@ -196,9 +196,9 @@ StochasticFractalDimensionImageFilter< TInputImage, TMaskImage, TOutputImage >
           }
 
         averageAbsoluteIntensityDifference[k] /= static_cast< RealType >( distancesFrequency[k] );
-        averageAbsoluteIntensityDifference[k] = vcl_log(averageAbsoluteIntensityDifference[k]);
+        averageAbsoluteIntensityDifference[k] = std::log(averageAbsoluteIntensityDifference[k]);
 
-        const RealType distance = vcl_log( vcl_sqrt(distances[k]) );
+        const RealType distance = std::log( std::sqrt(distances[k]) );
 
         sumY += averageAbsoluteIntensityDifference[k];
         sumX += distance;

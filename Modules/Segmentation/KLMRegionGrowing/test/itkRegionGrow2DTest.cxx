@@ -1311,13 +1311,13 @@ unsigned int test_regiongrowKLM2D()
       return EXIT_FAILURE;
       }
 
-    labelEntropy -= probability * vcl_log( probability );
+    labelEntropy -= probability * std::log( probability );
 
     ++histIt;
     }
 
-  labelEntropy /= vcl_log( 2.0 );
-  double idealEntropy = -vcl_log( 8.0 / numPixels ) / vcl_log( 2.0 );
+  labelEntropy /= std::log( 2.0 );
+  double idealEntropy = -std::log( 8.0 / numPixels ) / std::log( 2.0 );
 
   std::cout << "Label entropy = " << labelEntropy << " bits " << std::endl;
   std::cout << "Ideal entropy = " << idealEntropy << " bits " << std::endl;
@@ -1949,13 +1949,13 @@ unsigned int test_regiongrowKLM3D()
       return EXIT_FAILURE;
       }
 
-    labelEntropy -= probability * vcl_log( probability );
+    labelEntropy -= probability * std::log( probability );
 
     ++histIt;
     }
 
-  labelEntropy /= vcl_log( 2.0 );
-  double idealEntropy = -vcl_log( 8.0 / numPixels ) / vcl_log( 2.0 );
+  labelEntropy /= std::log( 2.0 );
+  double idealEntropy = -std::log( 8.0 / numPixels ) / std::log( 2.0 );
 
   std::cout << "Label entropy = " << labelEntropy << " bits " << std::endl;
   std::cout << "Ideal entropy = " << idealEntropy << " bits " << std::endl;
@@ -2358,13 +2358,13 @@ unsigned int test_regiongrowKLM4D()
       return EXIT_FAILURE;
       }
 
-    labelEntropy -= probability * vcl_log( probability );
+    labelEntropy -= probability * std::log( probability );
 
     ++histIt;
     }
 
-  labelEntropy /= vcl_log( 2.0 );
-  double idealEntropy = -vcl_log( 1.0 / KLMFilter->GetNumberOfRegions() ) / vcl_log( 2.0 );
+  labelEntropy /= std::log( 2.0 );
+  double idealEntropy = -std::log( 1.0 / KLMFilter->GetNumberOfRegions() ) / std::log( 2.0 );
   std::cout << "Label entropy = " << labelEntropy << " bits " << std::endl;
   std::cout << "Ideal entropy = " << idealEntropy << " bits " << std::endl;
 

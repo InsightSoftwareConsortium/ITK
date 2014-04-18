@@ -224,7 +224,7 @@ int main( int argc, char * argv [] )
 
     if( probability > 0.99 / Sum )
       {
-      Entropy += - probability * vcl_log( probability ) / vcl_log( 2.0 );
+      Entropy += - probability * std::log( probability ) / std::log( 2.0 );
       }
     ++itr;
     }

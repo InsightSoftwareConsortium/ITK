@@ -485,7 +485,7 @@ int main( int argc, char *argv[] )
   translation[2] = tz;
 
   // constant for converting degrees into radians
-  const double dtr = ( vcl_atan(1.0) * 4.0 ) / 180.0;
+  const double dtr = ( std::atan(1.0) * 4.0 ) / 180.0;
 
   transform->SetTranslation( translation );
   transform->SetRotation( dtr*rx, dtr*ry, dtr*rz );

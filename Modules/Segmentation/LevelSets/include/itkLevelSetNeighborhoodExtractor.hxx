@@ -320,7 +320,7 @@ LevelSetNeighborhoodExtractor< TLevelSet >
     return m_LargeValue;
     }
 
-  distance = vcl_sqrt(1.0 / distance);
+  distance = std::sqrt(1.0 / distance);
   centerNode.SetValue(distance);
 
   if ( inside )

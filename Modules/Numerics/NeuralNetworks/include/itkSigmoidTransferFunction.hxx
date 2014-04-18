@@ -51,7 +51,7 @@ SigmoidTransferFunction<ScalarType>
 {
   typedef typename NumericTraits< ScalarType >::RealType RealType;
   const RealType x = static_cast< RealType >( input - m_Beta ) / m_Alpha;
-  const RealType e = 1.0 / (1.0 + vcl_exp( static_cast< typename NumericTraits< ScalarType >::RealType >(-x)));
+  const RealType e = 1.0 / (1.0 + std::exp( static_cast< typename NumericTraits< ScalarType >::RealType >(-x)));
   const ScalarType v = static_cast< ScalarType >( (m_OutputMaximum - m_OutputMinimum) * e )
                      + m_OutputMinimum;
   return v;

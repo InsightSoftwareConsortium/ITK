@@ -595,7 +595,7 @@ VoronoiDiagram2DGenerator< TCoordRepType >::dist(FortuneSite *s1, FortuneSite *s
   double dx = ( s1->m_Coord[0] ) - ( s2->m_Coord[0] );
   double dy = ( s1->m_Coord[1] ) - ( s2->m_Coord[1] );
 
-  return ( vcl_sqrt(dx * dx + dy * dy) );
+  return ( std::sqrt(dx * dx + dy * dy) );
 }
 
 template< typename TCoordRepType >
@@ -1054,7 +1054,7 @@ VoronoiDiagram2DGenerator< TCoordRepType >::GenerateVDFortune(void)
 
   m_Deltay = m_Pymax - m_Pymin;
   m_Deltax = m_Pxmax - m_Pxmin;
-  m_SqrtNSites = vcl_sqrt( (float)( m_NumberOfSeeds + 4 ) );
+  m_SqrtNSites = std::sqrt( (float)( m_NumberOfSeeds + 4 ) );
 
   /* Initialize outputLists. */
   m_Nedges = 0;

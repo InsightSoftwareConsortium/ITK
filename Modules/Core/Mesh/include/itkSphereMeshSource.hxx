@@ -90,7 +90,7 @@ SphereMeshSource< TOutputMesh >
       {
       for ( v = vbeg, j = 0; j < m_ResolutionY; v += vstep, j++ )
         {
-        if ( vcl_cos(u) > 0 )
+        if ( std::cos(u) > 0 )
           {
           signu = 1;
           }
@@ -98,7 +98,7 @@ SphereMeshSource< TOutputMesh >
           {
           signu = -1;
           }
-        if ( vcl_cos(v) > 0 )
+        if ( std::cos(v) > 0 )
           {
           signv = 1;
           }
@@ -107,10 +107,10 @@ SphereMeshSource< TOutputMesh >
           signv = -1;
           }
 
-        p1[0] = m_Scale[0] * signu * ( vcl_pow( (float)( vcl_fabs( vcl_cos(u) ) ), (float)m_Squareness1 ) ) * signv
-                * ( vcl_pow( (float)( vcl_fabs( vcl_cos(v) ) ), (float)m_Squareness2 ) ) + m_Center[0];
+        p1[0] = m_Scale[0] * signu * ( std::pow( (float)( std::fabs( std::cos(u) ) ), (float)m_Squareness1 ) ) * signv
+                * ( std::pow( (float)( std::fabs( std::cos(v) ) ), (float)m_Squareness2 ) ) + m_Center[0];
 
-        if ( vcl_sin(v) > 0 )
+        if ( std::sin(v) > 0 )
           {
           signv = 1;
           }
@@ -119,10 +119,10 @@ SphereMeshSource< TOutputMesh >
           signv = -1;
           }
 
-        p1[1] = m_Scale[1] * signu * ( vcl_pow( (float)( vcl_fabs( vcl_cos(u) ) ), (float)m_Squareness1 ) ) * signv
-                * ( vcl_pow( (float)( vcl_fabs( vcl_sin(v) ) ), (float)m_Squareness2 ) ) + m_Center[1];
+        p1[1] = m_Scale[1] * signu * ( std::pow( (float)( std::fabs( std::cos(u) ) ), (float)m_Squareness1 ) ) * signv
+                * ( std::pow( (float)( std::fabs( std::sin(v) ) ), (float)m_Squareness2 ) ) + m_Center[1];
 
-        if ( vcl_sin(u) > 0 )
+        if ( std::sin(u) > 0 )
           {
           signu = 1;
           }
@@ -131,7 +131,7 @@ SphereMeshSource< TOutputMesh >
           signu = -1;
           }
 
-        p1[2] = m_Scale[2] * signu * ( vcl_pow( (float)( vcl_fabs( vcl_sin(u) ) ), (float)m_Squareness1 ) )
+        p1[2] = m_Scale[2] * signu * ( std::pow( (float)( std::fabs( std::sin(u) ) ), (float)m_Squareness1 ) )
                 + m_Center[2];
 
         point.Value() = p1;
@@ -140,21 +140,21 @@ SphereMeshSource< TOutputMesh >
       }
 
     // calculate the south pole node
-    p1[0] = ( m_Scale[0] * ( vcl_pow( (float)( vcl_fabs( vcl_cos(-vnl_math::pi / 2) ) ), 1.0f ) )
-              * ( vcl_pow( (float)( vcl_fabs( vcl_cos(0.0) ) ), 1.0f ) ) + m_Center[0] );
-    p1[1] = ( m_Scale[1] * ( vcl_pow( (float)( vcl_fabs( vcl_cos(-vnl_math::pi / 2) ) ), 1.0f ) )
-              * ( vcl_pow( (float)( vcl_fabs( vcl_sin(0.0) ) ), 1.0f ) ) + m_Center[1] );
-    p1[2] = ( m_Scale[2] * -1 * ( vcl_pow( (float)( vcl_fabs( vcl_sin(-vnl_math::pi / 2) ) ), 1.0f ) )
+    p1[0] = ( m_Scale[0] * ( std::pow( (float)( std::fabs( std::cos(-vnl_math::pi / 2) ) ), 1.0f ) )
+              * ( std::pow( (float)( std::fabs( std::cos(0.0) ) ), 1.0f ) ) + m_Center[0] );
+    p1[1] = ( m_Scale[1] * ( std::pow( (float)( std::fabs( std::cos(-vnl_math::pi / 2) ) ), 1.0f ) )
+              * ( std::pow( (float)( std::fabs( std::sin(0.0) ) ), 1.0f ) ) + m_Center[1] );
+    p1[2] = ( m_Scale[2] * -1 * ( std::pow( (float)( std::fabs( std::sin(-vnl_math::pi / 2) ) ), 1.0f ) )
               + m_Center[2] );
     point.Value() = p1;
     ++point;
 
     // calculate the north pole node
-    p1[0] = ( m_Scale[0] * ( vcl_pow( (float)( vcl_fabs( vcl_cos(vnl_math::pi / 2) ) ), 1.0f ) )
-              * ( vcl_pow(vcl_fabs( vcl_cos(0.0) ), 1.0) ) + m_Center[0] );
-    p1[1] = ( m_Scale[1] * ( vcl_pow( (float)( vcl_fabs( vcl_cos(vnl_math::pi / 2) ) ), 1.0f ) )
-              * ( vcl_pow(vcl_fabs( vcl_sin(0.0) ), 1.0) ) + m_Center[1] );
-    p1[2] = ( m_Scale[2] * ( vcl_pow( (float)( vcl_fabs( vcl_sin(vnl_math::pi / 2) ) ), 1.0f ) )
+    p1[0] = ( m_Scale[0] * ( std::pow( (float)( std::fabs( std::cos(vnl_math::pi / 2) ) ), 1.0f ) )
+              * ( std::pow(std::fabs( std::cos(0.0) ), 1.0) ) + m_Center[0] );
+    p1[1] = ( m_Scale[1] * ( std::pow( (float)( std::fabs( std::cos(vnl_math::pi / 2) ) ), 1.0f ) )
+              * ( std::pow(std::fabs( std::sin(0.0) ), 1.0) ) + m_Center[1] );
+    p1[2] = ( m_Scale[2] * ( std::pow( (float)( std::fabs( std::sin(vnl_math::pi / 2) ) ), 1.0f ) )
               + m_Center[2] );
     point.Value() = p1;
     ++point;

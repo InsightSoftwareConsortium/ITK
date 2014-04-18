@@ -184,7 +184,7 @@ ArrowSpatialObject< TDimension >
   m_Length = m_Direction.GetSquaredNorm();
   if ( m_Length != 0.0 )
     {
-    m_Length = vcl_sqrt(m_Length);
+    m_Length = std::sqrt(m_Length);
     }
   else
     {

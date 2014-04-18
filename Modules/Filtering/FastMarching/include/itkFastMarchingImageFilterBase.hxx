@@ -373,7 +373,7 @@ Solve( OutputImageType* oImage,
           <<"Discriminant of quadratic equation is negative" );
         }
 
-      oSolution = ( vcl_sqrt(discrim) + bb ) / aa;
+      oSolution = ( std::sqrt(discrim) + bb ) / aa;
       }
     else
       {

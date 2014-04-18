@@ -55,13 +55,13 @@ namespace itk
  *
  * azimuth = arctan(x/y)
  * elevation = arctan(y/z)
- * radius = vcl_sqrt(x^2 + y^2 + z^2)
+ * radius = std::sqrt(x^2 + y^2 + z^2)
  *
  * The reversed transforms are:
  *
- * z = radius / vcl_sqrt(1 + (tan(azimuth))^2 + (tan(elevation))^2 );
- * x = z * vcl_tan(azimuth)
- * y = z * vcl_tan(elevation)
+ * z = radius / std::sqrt(1 + (tan(azimuth))^2 + (tan(elevation))^2 );
+ * x = z * std::tan(azimuth)
+ * y = z * std::tan(elevation)
  *
  * PhasedArray3DSpecialCoordinatesImages are templated over a pixel
  * type and follow the SpecialCoordinatesImage interface.  The data in
@@ -188,9 +188,9 @@ public:
     double     maxElevation =  region.GetSize(1) - 1;
 
     // Convert Cartesian coordinates into angular coordinates
-    TCoordRep azimuth   = vcl_atan(point[0] / point[2]);
-    TCoordRep elevation = vcl_atan(point[1] / point[2]);
-    TCoordRep radius    = vcl_sqrt(point[0] * point[0]
+    TCoordRep azimuth   = std::atan(point[0] / point[2]);
+    TCoordRep elevation = std::atan(point[1] / point[2]);
+    TCoordRep radius    = std::sqrt(point[0] * point[0]
                                    + point[1] * point[1]
                                    + point[2] * point[2]);
 
@@ -222,9 +222,9 @@ public:
     double     maxElevation =  region.GetSize(1) - 1;
 
     // Convert Cartesian coordinates into angular coordinates
-    TCoordRep azimuth   = vcl_atan(point[0] / point[2]);
-    TCoordRep elevation = vcl_atan(point[1] / point[2]);
-    TCoordRep radius    = vcl_sqrt(point[0] * point[0]
+    TCoordRep azimuth   = std::atan(point[0] / point[2]);
+    TCoordRep elevation = std::atan(point[1] / point[2]);
+    TCoordRep radius    = std::sqrt(point[0] * point[0]
                                    + point[1] * point[1]
                                    + point[2] * point[2]);
 
@@ -266,11 +266,11 @@ public:
     TCoordRep radius    = ( index[2] * m_RadiusSampleSize ) + m_FirstSampleDistance;
 
     // Convert the angular coordinates into Cartesian coordinates
-    TCoordRep tanOfAzimuth    = vcl_tan(azimuth);
-    TCoordRep tanOfElevation  = vcl_tan(elevation);
+    TCoordRep tanOfAzimuth    = std::tan(azimuth);
+    TCoordRep tanOfElevation  = std::tan(elevation);
 
     point[2] = static_cast< TCoordRep >( radius
-                                         / vcl_sqrt(1
+                                         / std::sqrt(1
                                                     + tanOfAzimuth * tanOfAzimuth
                                                     + tanOfElevation * tanOfElevation) );
     point[1] = static_cast< TCoordRep >( point[2] * tanOfElevation );
@@ -303,11 +303,11 @@ public:
       + m_FirstSampleDistance;
 
     // Convert the angular coordinates into Cartesian coordinates
-    TCoordRep tanOfAzimuth    = vcl_tan(azimuth);
-    TCoordRep tanOfElevation  = vcl_tan(elevation);
+    TCoordRep tanOfAzimuth    = std::tan(azimuth);
+    TCoordRep tanOfElevation  = std::tan(elevation);
 
     point[2] = static_cast< TCoordRep >(
-      radius / vcl_sqrt(
+      radius / std::sqrt(
         1.0 + tanOfAzimuth * tanOfAzimuth + tanOfElevation * tanOfElevation) );
     point[1] = static_cast< TCoordRep >( point[2] * tanOfElevation );
     point[0] = static_cast< TCoordRep >( point[2] * tanOfAzimuth );

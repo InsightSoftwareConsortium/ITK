@@ -407,11 +407,11 @@ MultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
       outputSpacing[idim] = inputSpacing[idim] * shrinkFactor;
 
       outputSize[idim] = static_cast< SizeValueType >(
-        vcl_floor(static_cast< double >( inputSize[idim] ) / shrinkFactor) );
+        std::floor(static_cast< double >( inputSize[idim] ) / shrinkFactor) );
       if ( outputSize[idim] < 1 ) { outputSize[idim] = 1; }
 
       outputStartIndex[idim] = static_cast< IndexValueType >(
-        vcl_ceil(static_cast< double >( inputStartIndex[idim] ) / shrinkFactor) );
+        std::ceil(static_cast< double >( inputStartIndex[idim] ) / shrinkFactor) );
       }
     //Now compute the new shifted origin for the updated levels;
     const typename OutputImageType::PointType::VectorType outputOriginOffset =
@@ -499,11 +499,11 @@ MultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
         double factor = static_cast< double >( m_Schedule[ilevel][idim] );
 
         outputSize[idim] = static_cast< SizeValueType >(
-          vcl_floor(static_cast< double >( baseSize[idim] ) / factor) );
+          std::floor(static_cast< double >( baseSize[idim] ) / factor) );
         if ( outputSize[idim] < 1 ) { outputSize[idim] = 1; }
 
         outputIndex[idim] = static_cast< IndexValueType >(
-          vcl_ceil(static_cast< double >( baseIndex[idim] ) / factor) );
+          std::ceil(static_cast< double >( baseIndex[idim] ) / factor) );
         }
 
       outputRegion.SetIndex(outputIndex);

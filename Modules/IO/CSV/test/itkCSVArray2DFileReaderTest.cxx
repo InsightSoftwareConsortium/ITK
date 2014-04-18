@@ -49,7 +49,7 @@ bool testMatrix(const itk::Array2D<T>& m1, const itk::Array2D<T>& m2)
     {
     for (unsigned int j = 0; j < m1.cols(); j++)
       {
-      if (vcl_fabs(m1[i][j] - m2[i][j]) > epsilon)
+      if (std::fabs(m1[i][j] - m2[i][j]) > epsilon)
         {
         pass = false;
         }
@@ -66,7 +66,7 @@ bool testVector(const std::vector<T>& v1, const std::vector<T>& v2)
 
   for (unsigned int i = 0; i < v1.size(); i++)
     {
-    if (vcl_fabs(v1[i] - v2[i]) > epsilon)
+    if (std::fabs(v1[i] - v2[i]) > epsilon)
       {
       pass = false;
       }
@@ -95,7 +95,7 @@ template <typename T>
 bool testValue (const T& test, const T& real)
 {
   bool pass = true;
-  if (vcl_fabs(test - real) > epsilon)
+  if (std::fabs(test - real) > epsilon)
     {
     pass = false;
     }
@@ -111,7 +111,7 @@ int itkCSVArray2DFileReaderTest (int argc, char *argv[])
    return EXIT_FAILURE;
    }
 
- double nan = vcl_numeric_limits<double>::quiet_NaN();
+ double nan = std::numeric_limits<double>::quiet_NaN();
 
  // Read and Parse the data
  typedef itk::CSVArray2DFileReader<double> ReaderType;

@@ -17,7 +17,6 @@
  *=========================================================================*/
 
 #include "itkWindowConvergenceMonitoringFunction.h"
-#include "vcl_cmath.h"
 
 int itkWindowConvergenceMonitoringFunctionTest( int itkNotUsed( argc ), char * [] )
 {
@@ -30,7 +29,7 @@ int itkWindowConvergenceMonitoringFunctionTest( int itkNotUsed( argc ), char * [
 
   for( RealType x = 0.0; x < 20; x += 1.0 )
     {
-    convergenceMonitoring->AddEnergyValue( vcl_pow( static_cast<RealType>(2.0), -x ) );
+    convergenceMonitoring->AddEnergyValue( std::pow( static_cast<RealType>(2.0), -x ) );
     try
       {
       std::cout << "convergence value: " << convergenceMonitoring->GetConvergenceValue() << std::endl;

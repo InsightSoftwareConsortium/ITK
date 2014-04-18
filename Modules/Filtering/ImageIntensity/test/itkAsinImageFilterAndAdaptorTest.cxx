@@ -74,7 +74,7 @@ int itkAsinImageFilterAndAdaptorTest(int, char* [] )
   InputIteratorType it( inputImage, inputImage->GetBufferedRegion() );
 
   // Initialize the content of Image A
-  const double pi    = vcl_atan( 1.0 ) * 4.0;
+  const double pi    = std::atan( 1.0 ) * 4.0;
   const double value = pi / 6.0;
   std::cout << "Content of the Input " << std::endl;
   it.GoToBegin();
@@ -116,14 +116,14 @@ int itkAsinImageFilterAndAdaptorTest(int, char* [] )
   while( !ot.IsAtEnd() )
     {
     std::cout <<  ot.Get() << " = ";
-    std::cout <<  vcl_asin( it.Get() )  << std::endl;
+    std::cout <<  std::asin( it.Get() )  << std::endl;
     const InputImageType::PixelType  input  = it.Get();
     const OutputImageType::PixelType output = ot.Get();
-    const OutputImageType::PixelType arcsinus  = vcl_asin(input);
-    if( vcl_fabs( arcsinus - output ) > epsilon )
+    const OutputImageType::PixelType arcsinus  = std::asin(input);
+    if( std::fabs( arcsinus - output ) > epsilon )
       {
       std::cerr << "Error in itkAsinImageFilterTest " << std::endl;
-      std::cerr << " vcl_asin( " << input << ") = " << arcsinus << std::endl;
+      std::cerr << " std::asin( " << input << ") = " << arcsinus << std::endl;
       std::cerr << " differs from " << output;
       std::cerr << " by more than " << epsilon << std::endl;
       return EXIT_FAILURE;
@@ -171,7 +171,7 @@ int itkAsinImageFilterAndAdaptorTest(int, char* [] )
     {
     std::cout <<  dt.Get() << std::endl;
     const OutputImageType::PixelType diff = dt.Get();
-    if( vcl_fabs( diff ) > epsilon )
+    if( std::fabs( diff ) > epsilon )
       {
       std::cerr << "Error in itkAsinImageFilterTest " << std::endl;
       std::cerr << "Comparing results with Adaptors" << std::endl;

@@ -69,7 +69,7 @@ GaussianRandomSpatialNeighborSubsampler<TSample, TRegion>
     {
     RealType randVar = this->m_RandomNumberGenerator->GetNormalVariate(mean,
                                                                        m_Variance);
-    randInt = static_cast<RandomIntType>(vcl_floor(randVar));
+    randInt = static_cast<RandomIntType>(std::floor(randVar));
     } while ((randInt < lowerBound) ||
              (randInt > upperBound));
   return randInt;

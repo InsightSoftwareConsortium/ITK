@@ -69,7 +69,7 @@ int itkFastMarchingQuadEdgeMeshFilterBaseTest4( int , char * [] )
 
   int k = 0;
   double alpha = (30.0 / 180.0) * itk::Math::pi;
-  double delta = 2.0 / vcl_tan(alpha);
+  double delta = 2.0 / std::tan(alpha);
 
   for( int i = 0; i < 10; i++ )
     {
@@ -113,7 +113,7 @@ int itkFastMarchingQuadEdgeMeshFilterBaseTest4( int , char * [] )
   typedef itk::FastMarchingThresholdStoppingCriterion< MeshType, MeshType >
       CriterionType;
   CriterionType::Pointer criterion = CriterionType::New();
-  criterion->SetThreshold( vcl_sqrt(100.0 + 182.25 * delta * delta) + 100.);
+  criterion->SetThreshold( std::sqrt(100.0 + 182.25 * delta * delta) + 100.);
 
   FastMarchingType::Pointer fmm_filter = FastMarchingType::New();
   fmm_filter->SetInput( plane );

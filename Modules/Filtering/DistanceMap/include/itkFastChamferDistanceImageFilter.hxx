@@ -46,7 +46,7 @@ FastChamferDistanceImageFilter< TInputImage, TOutputImage >
       itkWarningMacro(<< "Dimension " << ImageDimension << " with Default weights ");
       for ( unsigned int i = 1; i <= ImageDimension; i++ )
         {
-        m_Weights[i - 1] = vcl_sqrt( static_cast< float >( i ) );
+        m_Weights[i - 1] = std::sqrt( static_cast< float >( i ) );
         }
     }
 
@@ -214,7 +214,7 @@ void FastChamferDistanceImageFilter< TInputImage, TOutputImage >
     // Update the narrow band
     if ( m_NarrowBand.IsNotNull() )
       {
-      if ( vcl_fabs( (float)center_value ) <= m_NarrowBand->GetTotalRadius() )
+      if ( std::fabs( (float)center_value ) <= m_NarrowBand->GetTotalRadius() )
         {
         node.m_Index = it.GetIndex();
         //Check node state.
@@ -223,7 +223,7 @@ void FastChamferDistanceImageFilter< TInputImage, TOutputImage >
           {
           node.m_NodeState += SIGN_MASK;
           }
-        if ( vcl_fabs( (float)center_value ) < m_NarrowBand->GetInnerRadius() )
+        if ( std::fabs( (float)center_value ) < m_NarrowBand->GetInnerRadius() )
           {
           node.m_NodeState += INNER_MASK;
           }

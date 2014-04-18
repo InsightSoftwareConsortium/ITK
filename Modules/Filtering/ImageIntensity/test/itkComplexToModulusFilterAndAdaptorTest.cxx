@@ -77,7 +77,7 @@ int itkComplexToModulusFilterAndAdaptorTest(int, char* [] )
   // Initialize the content of Image A
   InputPixelType value( 13, 25);
 
-  double modulus = vcl_sqrt( value.real() * value.real() +
+  double modulus = std::sqrt( value.real() * value.real() +
                              value.imag() * value.imag()  );
 
   std::cout << "Modulus of input pixel = " << modulus << std::endl;
@@ -123,7 +123,7 @@ int itkComplexToModulusFilterAndAdaptorTest(int, char* [] )
     const InputImageType::PixelType  input  = it.Get();
     const OutputImageType::PixelType output = ot.Get();
 
-    double normd = vcl_sqrt( input.real() * input.real() +
+    double normd = std::sqrt( input.real() * input.real() +
                              input.imag() * input.imag()  );
 
     const OutputImageType::PixelType norm =
@@ -132,7 +132,7 @@ int itkComplexToModulusFilterAndAdaptorTest(int, char* [] )
     std::cout <<  output << " = ";
     std::cout <<  norm  << std::endl;
 
-    if( vcl_fabs( norm - output ) > epsilon )
+    if( std::fabs( norm - output ) > epsilon )
       {
       std::cerr << "Error in itkComplexToModulusImageFilterTest " << std::endl;
       std::cerr << " norm( " << input << ") = " << norm << std::endl;
@@ -182,7 +182,7 @@ int itkComplexToModulusFilterAndAdaptorTest(int, char* [] )
     {
     std::cout <<  dt.Get() << std::endl;
     const OutputImageType::PixelType diff = dt.Get();
-    if( vcl_fabs( diff ) > epsilon )
+    if( std::fabs( diff ) > epsilon )
       {
       std::cerr << "Error in itkComplexToModulusImageFilterTest " << std::endl;
       std::cerr << "Comparing results with Adaptors" << std::endl;

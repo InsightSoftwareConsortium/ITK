@@ -49,7 +49,7 @@ public:
 
   inline TOutput operator()(const TInput & A) const
   {
-    return (TOutput)( vcl_atan2( A.imag(), A.real() ) );
+    return (TOutput)( std::atan2( A.imag(), A.real() ) );
   }
 };
 }

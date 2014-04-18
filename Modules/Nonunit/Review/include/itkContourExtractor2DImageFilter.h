@@ -256,7 +256,7 @@ public:
         }
       int            exponent;
       CoordinateType mantissa = vcl_frexp(k, &exponent);
-      SizeValueType  value = static_cast< SizeValueType >( vcl_fabs(mantissa) );
+      SizeValueType  value = static_cast< SizeValueType >( std::fabs(mantissa) );
       value = ( 2 * value - 1 ) * ~0U;
       return value;
     }

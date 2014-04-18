@@ -39,7 +39,7 @@ int itkQuaternionRigidTransformTest(int, char * [] )
     std::cout << offset << std::endl;
     for( unsigned int i = 0; i < N; i++ )
       {
-      if( vcl_fabs( offset[i] - 0.0 ) > epsilon )
+      if( std::fabs( offset[i] - 0.0 ) > epsilon )
         {
         Ok = false;
         break;
@@ -69,7 +69,7 @@ int itkQuaternionRigidTransformTest(int, char * [] )
     std::cout << translationVector << std::endl;
     for( unsigned int i = 0; i < N; i++ )
       {
-      if( vcl_fabs( translationVector[i] - itransVector[i] ) > epsilon )
+      if( std::fabs( translationVector[i] - itransVector[i] ) > epsilon )
         {
         Ok = false;
         break;
@@ -91,7 +91,7 @@ int itkQuaternionRigidTransformTest(int, char * [] )
       r = translation->TransformPoint( p );
       for( unsigned int i = 0; i < N; i++ )
         {
-        if( vcl_fabs( q[i] - r[i] ) > epsilon )
+        if( std::fabs( q[i] - r[i] ) > epsilon )
           {
           Ok = false;
           break;
@@ -118,7 +118,7 @@ int itkQuaternionRigidTransformTest(int, char * [] )
       q = translation->TransformVector( p );
       for( unsigned int i = 0; i < N; i++ )
         {
-        if( vcl_fabs( q[i] - p[i] ) > epsilon )
+        if( std::fabs( q[i] - p[i] ) > epsilon )
           {
           Ok = false;
           break;
@@ -144,7 +144,7 @@ int itkQuaternionRigidTransformTest(int, char * [] )
       q = translation->TransformCovariantVector( p );
       for( unsigned int i = 0; i < N; i++ )
         {
-        if( vcl_fabs( q[i] - p[i] ) > epsilon )
+        if( std::fabs( q[i] - p[i] ) > epsilon )
           {
           Ok = false;
           break;
@@ -172,7 +172,7 @@ int itkQuaternionRigidTransformTest(int, char * [] )
       q = translation->TransformVector( p );
       for( unsigned int i = 0; i < N; i++ )
         {
-        if( vcl_fabs( q[i] - p[i] ) > epsilon )
+        if( std::fabs( q[i] - p[i] ) > epsilon )
           {
           Ok = false;
           break;
@@ -198,12 +198,12 @@ int itkQuaternionRigidTransformTest(int, char * [] )
     TransformType::VnlQuaternionType qrotation;
 
     // 15 degrees in radians
-    const double angle = 15.0 * vcl_atan( 1.0f ) / 45.0;
-    const double sinth2 = vcl_sin( angle / 2.0 );
-    const double costh2 = vcl_cos( angle / 2.0 );
+    const double angle = 15.0 * std::atan( 1.0f ) / 45.0;
+    const double sinth2 = std::sin( angle / 2.0 );
+    const double costh2 = std::cos( angle / 2.0 );
 
-    const double sinth  = vcl_sin( angle );
-    const double costh  = vcl_cos( angle );
+    const double sinth  = std::sin( angle );
+    const double costh  = std::cos( angle );
 
     // around the positive Z axis
     qrotation[0] =     0.0;
@@ -227,7 +227,7 @@ int itkQuaternionRigidTransformTest(int, char * [] )
     std::cout << "Offset = " << offset << std::endl;
     for( unsigned int i = 0; i < N; i++ )
       {
-      if( vcl_fabs( offset[i] - ioffset[i] ) > epsilon )
+      if( std::fabs( offset[i] - ioffset[i] ) > epsilon )
         {
         Ok = false;
         break;
@@ -250,7 +250,7 @@ int itkQuaternionRigidTransformTest(int, char * [] )
       {
       for( unsigned int j = 0; j < N; j++ )
         {
-        if( vcl_fabs( matrix[i][j] - mrotation[j][i] ) > epsilon )
+        if( std::fabs( matrix[i][j] - mrotation[j][i] ) > epsilon )
           {
           Ok = false;
           break;
@@ -278,7 +278,7 @@ int itkQuaternionRigidTransformTest(int, char * [] )
       r = rotation->TransformPoint( p );
       for( unsigned int i = 0; i < N; i++ )
         {
-        if( vcl_fabs( q[i] - r[i] ) > epsilon )
+        if( std::fabs( q[i] - r[i] ) > epsilon )
           {
           Ok = false;
           break;
@@ -311,7 +311,7 @@ int itkQuaternionRigidTransformTest(int, char * [] )
       r = rotation->TransformVector( p );
       for( unsigned int i = 0; i < N; i++ )
         {
-        if( vcl_fabs( q[i] - r[i] ) > epsilon )
+        if( std::fabs( q[i] - r[i] ) > epsilon )
           {
           Ok = false;
           break;
@@ -344,7 +344,7 @@ int itkQuaternionRigidTransformTest(int, char * [] )
       r = rotation->TransformCovariantVector( p );
       for( unsigned int i = 0; i < N; i++ )
         {
-        if( vcl_fabs( q[i] - r[i] ) > epsilon )
+        if( std::fabs( q[i] - r[i] ) > epsilon )
           {
           Ok = false;
           break;
@@ -380,7 +380,7 @@ int itkQuaternionRigidTransformTest(int, char * [] )
       r = rotation->TransformVector( p );
       for( unsigned int i = 0; i < N; i++ )
         {
-        if( vcl_fabs( q[i] - r[i] ) > epsilon )
+        if( std::fabs( q[i] - r[i] ) > epsilon )
           {
           Ok = false;
           break;
@@ -412,10 +412,10 @@ int itkQuaternionRigidTransformTest(int, char * [] )
 
     double angle = 0.62 / 180.0 * vnl_math::pi;
 
-    parameters[0] =  2.0 * vcl_sin( 0.5 * angle );
-    parameters[1] =  5.0 * vcl_sin( 0.5 * angle );
-    parameters[2] = -4.0 * vcl_sin( 0.5 * angle );
-    parameters[3] =        vcl_cos( 0.5 * angle );
+    parameters[0] =  2.0 * std::sin( 0.5 * angle );
+    parameters[1] =  5.0 * std::sin( 0.5 * angle );
+    parameters[2] = -4.0 * std::sin( 0.5 * angle );
+    parameters[3] =        std::cos( 0.5 * angle );
     parameters[4] = 6.0;
     parameters[5] = 8.0;
     parameters[6] = 10.0;
@@ -512,12 +512,12 @@ int itkQuaternionRigidTransformTest(int, char * [] )
     TransformType::VnlQuaternionType qrotation;
 
     // 15 degrees in radians
-    const double angle = 15.0 * vcl_atan( 1.0f ) / 45.0;
-    const double sinth2 = vcl_sin( angle / 2.0 );
-    const double costh2 = vcl_cos( angle / 2.0 );
+    const double angle = 15.0 * std::atan( 1.0f ) / 45.0;
+    const double sinth2 = std::sin( angle / 2.0 );
+    const double costh2 = std::cos( angle / 2.0 );
 
-    const double sinth  = vcl_sin( angle );
-    const double costh  = vcl_cos( angle );
+    const double sinth  = std::sin( angle );
+    const double costh  = std::cos( angle );
 
     // around the positive Z axis
     qrotation[0] =     0.0;
@@ -564,7 +564,7 @@ int itkQuaternionRigidTransformTest(int, char * [] )
     std::cout << "iOffset = " << ioffset << std::endl;
     for( unsigned int i = 0; i < N; i++ )
       {
-      if( vcl_fabs( offset[i] - ioffset[i] ) > epsilon )
+      if( std::fabs( offset[i] - ioffset[i] ) > epsilon )
         {
         Ok = false;
         break;
@@ -587,7 +587,7 @@ int itkQuaternionRigidTransformTest(int, char * [] )
       {
       for( unsigned int j = 0; j < N; j++ )
         {
-        if( vcl_fabs( matrix[i][j] - mrotation[j][i] ) > epsilon )
+        if( std::fabs( matrix[i][j] - mrotation[j][i] ) > epsilon )
           {
           Ok = false;
           break;
@@ -619,7 +619,7 @@ int itkQuaternionRigidTransformTest(int, char * [] )
       r = rotation->TransformPoint( p );
       for( unsigned int i = 0; i < N; i++ )
         {
-        if( vcl_fabs( q[i] - r[i] ) > epsilon )
+        if( std::fabs( q[i] - r[i] ) > epsilon )
           {
           Ok = false;
           break;
@@ -652,7 +652,7 @@ int itkQuaternionRigidTransformTest(int, char * [] )
       r = rotation->TransformVector( p );
       for( unsigned int i = 0; i < N; i++ )
         {
-        if( vcl_fabs( q[i] - r[i] ) > epsilon )
+        if( std::fabs( q[i] - r[i] ) > epsilon )
           {
           Ok = false;
           break;
@@ -685,7 +685,7 @@ int itkQuaternionRigidTransformTest(int, char * [] )
       r = rotation->TransformCovariantVector( p );
       for( unsigned int i = 0; i < N; i++ )
         {
-        if( vcl_fabs( q[i] - r[i] ) > epsilon )
+        if( std::fabs( q[i] - r[i] ) > epsilon )
           {
           Ok = false;
           break;
@@ -721,7 +721,7 @@ int itkQuaternionRigidTransformTest(int, char * [] )
       r = rotation->TransformVector( p );
       for( unsigned int i = 0; i < N; i++ )
         {
-        if( vcl_fabs( q[i] - r[i] ) > epsilon )
+        if( std::fabs( q[i] - r[i] ) > epsilon )
           {
           Ok = false;
           break;
@@ -794,10 +794,10 @@ int itkQuaternionRigidTransformTest(int, char * [] )
     matrix.GetVnlMatrix().set_identity();
 
     double a = 1.0 / 180.0 * vnl_math::pi;
-    matrix[0][0] =        vcl_cos( a );
-    matrix[0][1] = -1.0 * vcl_sin( a );
-    matrix[1][0] =        vcl_sin( a );
-    matrix[1][1] =        vcl_cos( a );
+    matrix[0][0] =        std::cos( a );
+    matrix[0][1] = -1.0 * std::sin( a );
+    matrix[1][0] =        std::sin( a );
+    matrix[1][1] =        std::cos( a );
 
     Ok = true;
     try
@@ -826,8 +826,8 @@ int itkQuaternionRigidTransformTest(int, char * [] )
     typedef TransformType::ParametersType ParametersType;
     ParametersType e( t->GetNumberOfParameters() );
     e.Fill( 0.0 );
-    e[2] = vcl_sin(0.5 * a);
-    e[3] = vcl_cos(0.5 * a );
+    e[2] = std::sin(0.5 * a);
+    e[3] = std::cos(0.5 * a );
 
     t = TransformType::New();
     t->SetParameters( e );
@@ -838,7 +838,7 @@ int itkQuaternionRigidTransformTest(int, char * [] )
     ParametersType p = t2->GetParameters();
     for( unsigned int k = 0; k < e.GetSize(); k++ )
       {
-      if( vcl_fabs( e[k] - p[k] ) > epsilon )
+      if( std::fabs( e[k] - p[k] ) > epsilon )
         {
         std::cout << " [ FAILED ] " << std::endl;
         std::cout << "Expected parameters: " << e << std::endl;

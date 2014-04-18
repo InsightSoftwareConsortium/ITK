@@ -424,7 +424,7 @@ BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
       {
       localNorm += vnl_math_sqr( vector[d] / spacing[d] );
       }
-    localNorm = vcl_sqrt( localNorm );
+    localNorm = std::sqrt( localNorm );
 
     if( localNorm > maxNorm )
       {

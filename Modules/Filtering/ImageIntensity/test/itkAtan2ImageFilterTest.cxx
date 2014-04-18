@@ -77,7 +77,7 @@ int itkAtan2ImageFilterTest(int, char* [] )
   InputIteratorType it1( sinImage, sinImage->GetBufferedRegion() );
 
   // Initialize the content of Image A
-  const double sinValue = vcl_sin( vnl_math::pi / 6.0 );
+  const double sinValue = std::sin( vnl_math::pi / 6.0 );
   std::cout << "Content of the Input " << std::endl;
 
   it1.GoToBegin();
@@ -94,7 +94,7 @@ int itkAtan2ImageFilterTest(int, char* [] )
   InputIteratorType it2( cosImage, cosImage->GetBufferedRegion() );
 
   // Initialize the content of Image A
-  const double cosValue = vcl_cos( vnl_math::pi / 6.0 );
+  const double cosValue = std::cos( vnl_math::pi / 6.0 );
   std::cout << "Content of the Input " << std::endl;
 
   it2.GoToBegin();
@@ -143,11 +143,11 @@ int itkAtan2ImageFilterTest(int, char* [] )
     const InputImageType::PixelType  input1  = it1.Get();
     const InputImageType::PixelType  input2  = it2.Get();
     const OutputImageType::PixelType output = ot.Get();
-    const OutputImageType::PixelType atan2  = vcl_atan2( input1, input2 );
-    if( vcl_fabs( atan2 - output ) > epsilon )
+    const OutputImageType::PixelType atan2  = std::atan2( input1, input2 );
+    if( std::fabs( atan2 - output ) > epsilon )
       {
       std::cerr << "Error in itkAtanImageFilterTest " << std::endl;
-      std::cerr << " vcl_atan2( " << input1 << ", " << input2 << ") = " << atan2 << std::endl;
+      std::cerr << " std::atan2( " << input1 << ", " << input2 << ") = " << atan2 << std::endl;
       std::cerr << " differs from " << output;
       std::cerr << " by more than " << epsilon << std::endl;
       return EXIT_FAILURE;

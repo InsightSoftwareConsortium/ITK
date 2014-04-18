@@ -37,7 +37,7 @@ SimpleSignedDistance( const TPoint & p )
     {
     accum += vnl_math_sqr( p[j] - center[j] );
     }
-  accum = vcl_sqrt( accum );
+  accum = std::sqrt( accum );
   return ( accum - radius );
 }
 

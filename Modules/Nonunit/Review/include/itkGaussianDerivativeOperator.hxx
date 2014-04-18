@@ -89,10 +89,10 @@ GaussianDerivativeOperator< TPixel, VDimension, TAllocator >
 
 
   // Calculate scale-space normalization factor for derivatives
-  double norm = (m_NormalizeAcrossScale && m_Order ? vcl_pow(m_Variance, m_Order / 2.0) : 1.0 );
+  double norm = (m_NormalizeAcrossScale && m_Order ? std::pow(m_Variance, m_Order / 2.0) : 1.0 );
 
   // additional normalization for spacing
-  norm /= vcl_pow( m_Spacing, static_cast< int >( m_Order ) );
+  norm /= std::pow( m_Spacing, static_cast< int >( m_Order ) );
 
   DerivativeOperatorType derivOp;
   derivOp.SetDirection( this->GetDirection() );
@@ -151,7 +151,7 @@ GaussianDerivativeOperator< TPixel, VDimension, TAllocator >
   const double pixelVariance = m_Variance / ( m_Spacing * m_Spacing );
 
   // Now create coefficients as if they were zero order coeffs
-  const double et  = vcl_exp(-pixelVariance);
+  const double et  = std::exp(-pixelVariance);
   const double cap = 1.0 - m_MaximumError;
   double       sum       = 0.0;
 
@@ -211,7 +211,7 @@ GaussianDerivativeOperator< TPixel, VDimension, TAllocator >
   double d, accumulator;
   double m;
 
-  if ( ( d = vcl_fabs(y) ) < 3.75 )
+  if ( ( d = std::fabs(y) ) < 3.75 )
     {
     m = y / 3.75;
     m *= m;
@@ -222,7 +222,7 @@ GaussianDerivativeOperator< TPixel, VDimension, TAllocator >
   else
     {
     m = 3.75 / d;
-    accumulator = ( vcl_exp(d) / vcl_sqrt(d) ) * ( 0.39894228 + m * ( 0.1328592e-1
+    accumulator = ( std::exp(d) / std::sqrt(d) ) * ( 0.39894228 + m * ( 0.1328592e-1
                                                                       + m
                                                                       * ( 0.225319e-2 + m
                                                                           * ( -0.157565e-2 + m * ( 0.916281e-2
@@ -249,7 +249,7 @@ GaussianDerivativeOperator< TPixel, VDimension, TAllocator >
   double d, accumulator;
   double m;
 
-  if ( ( d = vcl_fabs(y) ) < 3.75 )
+  if ( ( d = std::fabs(y) ) < 3.75 )
     {
     m = y / 3.75;
     m *= m;
@@ -266,7 +266,7 @@ GaussianDerivativeOperator< TPixel, VDimension, TAllocator >
     accumulator = 0.39894228 + m * ( -0.3988024e-1 + m * ( -0.362018e-2
                                                            + m * ( 0.163801e-2 + m * ( -0.1031555e-1 + m * accumulator ) ) ) );
 
-    accumulator *= ( vcl_exp(d) / vcl_sqrt(d) );
+    accumulator *= ( std::exp(d) / std::sqrt(d) );
     }
 
   if ( y < 0.0 ) { return -accumulator; }
@@ -291,15 +291,15 @@ GaussianDerivativeOperator< TPixel, VDimension, TAllocator >
   if ( y == 0.0 ) { return 0.0; }
   else
     {
-    toy = 2.0 / vcl_fabs(y);
+    toy = 2.0 / std::fabs(y);
     qip = accumulator = 0.0;
     qi = 1.0;
-    for ( j = 2 * ( n + (int)(DIGITS*vcl_sqrt((double)n) ) ); j > 0; j-- )
+    for ( j = 2 * ( n + (int)(DIGITS*std::sqrt((double)n) ) ); j > 0; j-- )
       {
       qim = qip + j * toy * qi;
       qip = qi;
       qi = qim;
-      if ( vcl_fabs(qi) > 1.0e10 )
+      if ( std::fabs(qi) > 1.0e10 )
         {
         accumulator *= 1.0e-10;
         qi *= 1.0e-10;

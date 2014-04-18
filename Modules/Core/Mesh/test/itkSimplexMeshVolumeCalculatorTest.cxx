@@ -74,7 +74,7 @@ int itkSimplexMeshVolumeCalculatorTest(int , char *[] )
 
   double volume = calculator->GetVolume();
 
-  const double pi = vcl_atan(1.0) * 4.0;
+  const double pi = std::atan(1.0) * 4.0;
   const double knownVolume = 4.0/3.0 * pi * (1000.0);  // scale was 10 = radius
 
   std::cout << "knownVolume: " << knownVolume << " versus computedVolume: " << volume << std::endl;

@@ -166,7 +166,7 @@ VectorGradientMagnitudeImageFilter< TInputImage, TRealType, TOutputImage >
       {
       itkExceptionMacro(<< "Component weights must be positive numbers");
       }
-    m_SqrtComponentWeights[i] = vcl_sqrt(m_ComponentWeights[i]);
+    m_SqrtComponentWeights[i] = std::sqrt(m_ComponentWeights[i]);
     }
 
   // Set the weights on the derivatives.
@@ -307,12 +307,12 @@ VectorGradientMagnitudeImageFilter< TInputImage, TRealType, TOutputImage >
 
   if ( D < -epsilon ) // D < 0, three real solutions, by far the common case.
     {
-    double phi = 1.0 / 3.0 * vcl_acos( -q / vcl_sqrt(-cb_p) );
-    double t = 2.0 * vcl_sqrt(-p);
+    double phi = 1.0 / 3.0 * std::acos( -q / std::sqrt(-cb_p) );
+    double t = 2.0 * std::sqrt(-p);
 
-    s[0] =   t * vcl_cos(phi);
-    s[1] = -t *vcl_cos(phi + dpi / 3);
-    s[2] = -t *vcl_cos(phi - dpi / 3);
+    s[0] =   t * std::cos(phi);
+    s[1] = -t *std::cos(phi + dpi / 3);
+    s[2] = -t *std::cos(phi - dpi / 3);
     num = 3;
     }
 
@@ -334,7 +334,7 @@ VectorGradientMagnitudeImageFilter< TInputImage, TRealType, TOutputImage >
   else // Only one real solution. This case misses a double root on rare
        // occasions with very large char eqn coefficients.
     {
-    double sqrt_D = vcl_sqrt(D);
+    double sqrt_D = std::sqrt(D);
     double u = vnl_math_cuberoot(sqrt_D - q);
     double v = -vnl_math_cuberoot(sqrt_D + q);
 

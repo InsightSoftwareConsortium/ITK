@@ -181,7 +181,7 @@ bool ImageToImageMetricv4TestTestArray(
   for ( unsigned int i = 0; i < v1.Size(); i++ )
     {
     const double epsilon = 1e-10;
-    if( vcl_fabs( v1[i] - v2[i] ) > epsilon )
+    if( std::fabs( v1[i] - v2[i] ) > epsilon )
       pass=false;
     }
   return pass;
@@ -405,7 +405,7 @@ int ImageToImageMetricv4TestRunSingleTest(
     {
     // Verify results
     const double epsilon = 1e-10;
-    if( vcl_fabs( truthValue - valueReturn2 ) > epsilon )
+    if( std::fabs( truthValue - valueReturn2 ) > epsilon )
       {
       std::cerr << "-FAILED- truthValue does not equal value: " << std::endl
                 << "truthValue: " << truthValue << std::endl

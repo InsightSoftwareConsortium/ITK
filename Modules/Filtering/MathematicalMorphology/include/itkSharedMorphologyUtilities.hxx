@@ -94,12 +94,12 @@ int ComputeStartEnd(const typename TImage::IndexType StartIndex,
   unsigned perpdir = 0;
   for ( unsigned i = 0; i < TImage::RegionType::ImageDimension; i++ )
     {
-    if ( vcl_fabs(line[i]) > domdir )
+    if ( std::fabs(line[i]) > domdir )
       {
-      domdir = vcl_fabs(line[i]);
+      domdir = std::fabs(line[i]);
       perpdir = i;
       }
-    if ( vcl_fabs(line[i]) > tol )
+    if ( std::fabs(line[i]) > tol )
       {
       int   P1 = ImStart[i] - StartIndex[i];
       int   P2 = ImStart[i] + ImSize[i] - 1 - StartIndex[i];
@@ -132,8 +132,8 @@ int ComputeStartEnd(const typename TImage::IndexType StartIndex,
         }
       }
     }
-  sPos = (int)( Tnear * vcl_fabs(line[perpdir]) + 0.5 );
-  ePos = (int)( Tfar * vcl_fabs(line[perpdir]) + 0.5 );
+  sPos = (int)( Tnear * std::fabs(line[perpdir]) + 0.5 );
+  ePos = (int)( Tfar * std::fabs(line[perpdir]) + 0.5 );
 
   //std::cout << Tnear << " " << Tfar << std::endl;
   if ( Tfar < Tnear ) // seems to need some margin
@@ -304,9 +304,9 @@ MakeEnlargedFace(const typename TInputImage::ConstPointer itkNotUsed(input),
   // figure out the dominant direction of the line
   for ( unsigned i = 0; i < TInputImage::RegionType::ImageDimension; i++ )
     {
-    if ( vcl_fabs(line[i]) > MaxComp )
+    if ( std::fabs(line[i]) > MaxComp )
       {
-      MaxComp = vcl_fabs(line[i]);
+      MaxComp = std::fabs(line[i]);
       DomDir = i;
       }
     }
@@ -358,7 +358,7 @@ MakeEnlargedFace(const typename TInputImage::ConstPointer itkNotUsed(input),
       {
       if ( i != NonFaceDim )
         {
-        int Pad = Math::Ceil< int >( (float)( NonFaceLen ) * line[i] / vcl_fabs(line[NonFaceDim]) );
+        int Pad = Math::Ceil< int >( (float)( NonFaceLen ) * line[i] / std::fabs(line[NonFaceDim]) );
         if ( Pad < 0 )
           {
           // just increase the size - no need to change the start
@@ -415,7 +415,7 @@ unsigned int GetLinePixels(const TLine line)
 
   for ( unsigned int i = 0; i < TLine::Dimension; i++ )
     {
-    float tt = vcl_fabs(line[i] / N);
+    float tt = std::fabs(line[i] / N);
     if ( tt > correction ) { correction = tt; }
     }
 

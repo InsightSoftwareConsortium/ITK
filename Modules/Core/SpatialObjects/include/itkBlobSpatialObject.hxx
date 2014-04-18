@@ -164,12 +164,12 @@ BlobSpatialObject< TDimension >
       typename PointType::VectorType difference =
         transformedPoint - it->GetPosition();
 
-      if ( vcl_fabs(difference[0]) <= 0.5
-           && vcl_fabs(difference[1]) <= 0.5 )
+      if ( std::fabs(difference[0]) <= 0.5
+           && std::fabs(difference[1]) <= 0.5 )
         {
         if ( TDimension == 3 )
           {
-          if ( vcl_fabs(difference[2]) <= 0.5 )
+          if ( std::fabs(difference[2]) <= 0.5 )
             {
             return true;
             }

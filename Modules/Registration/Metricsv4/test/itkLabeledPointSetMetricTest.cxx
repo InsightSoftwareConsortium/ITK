@@ -53,11 +53,11 @@ int itkLabeledPointSetMetricTestRun()
       }
 
     PointType fixedPoint;
-    fixedPoint[0] = pointSetRadius * vcl_cos( theta );
-    fixedPoint[1] = pointSetRadius * vcl_sin( theta );
+    fixedPoint[0] = pointSetRadius * std::cos( theta );
+    fixedPoint[1] = pointSetRadius * std::sin( theta );
     if( Dimension > 2 )
       {
-      fixedPoint[2] = pointSetRadius * vcl_sin( theta );
+      fixedPoint[2] = pointSetRadius * std::sin( theta );
       }
     fixedPoints->SetPoint( count, fixedPoint );
     fixedPoints->SetPointData( count, label );
@@ -99,7 +99,7 @@ int itkLabeledPointSetMetricTestRun()
   std::cout << "derivative: " << derivative << std::endl;
   for( unsigned int d=0; d < metric->GetNumberOfParameters(); d++ )
     {
-    if( vcl_fabs( derivative[d] - offset[d] ) / offset[d] > 0.01 )
+    if( std::fabs( derivative[d] - offset[d] ) / offset[d] > 0.01 )
       {
       std::cerr << "derivative does not match expected offset of " << offset << std::endl;
       return EXIT_FAILURE;

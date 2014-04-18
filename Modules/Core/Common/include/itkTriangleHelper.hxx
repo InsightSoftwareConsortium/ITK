@@ -65,7 +65,7 @@ TriangleHelper< TPoint >::ComputeNormal(const PointType & iA,
 
   if ( l2 != 0.0 )
     {
-    w /= vcl_sqrt(l2);
+    w /= std::sqrt(l2);
     }
 
   return w;
@@ -83,14 +83,14 @@ TriangleHelper< TPoint >::Cotangent(const PointType & iA,
 
   if ( v21_l2 != NumericTraits< CoordRepType >::Zero )
     {
-    v21 /= vcl_sqrt(v21_l2);
+    v21 /= std::sqrt(v21_l2);
     }
 
   VectorType   v23 = iC - iB;
   CoordRepType v23_l2 = v23.GetSquaredNorm();
   if ( v23_l2 != NumericTraits< CoordRepType >::Zero )
     {
-    v23 /= vcl_sqrt(v23_l2);
+    v23 /= std::sqrt(v23_l2);
     }
 
   CoordRepType bound(0.999999);
@@ -98,7 +98,7 @@ TriangleHelper< TPoint >::Cotangent(const PointType & iA,
   CoordRepType cos_theta = vnl_math_max( -bound,
                                          vnl_math_min(bound, v21 * v23) );
 
-  return 1.0 / vcl_tan( vcl_acos(cos_theta) );
+  return 1.0 / std::tan( std::acos(cos_theta) );
 }
 
 template< typename TPoint >
@@ -146,11 +146,11 @@ TriangleHelper< TPoint >::ComputeAngle(const PointType & iP1,
 
   if ( v21_l2 != 0.0 )
     {
-    v21 /= vcl_sqrt(v21_l2);
+    v21 /= std::sqrt(v21_l2);
     }
   if ( v23_l2 != 0.0 )
     {
-    v23 /= vcl_sqrt(v23_l2);
+    v23 /= std::sqrt(v23_l2);
     }
 
   CoordRepType bound(0.999999);
@@ -158,7 +158,7 @@ TriangleHelper< TPoint >::ComputeAngle(const PointType & iP1,
   CoordRepType cos_theta = vnl_math_max( -bound,
                                          vnl_math_min(bound, v21 * v23) );
 
-  return vcl_acos(cos_theta);
+  return std::acos(cos_theta);
 }
 
 template< typename TPoint >
@@ -233,7 +233,7 @@ TriangleHelper< TPoint >::ComputeArea(const PointType & iP1,
 
   CoordRepType s = 0.5 * ( a + b + c );
 
-  return static_cast< CoordRepType >( vcl_sqrt ( s * ( s - a ) * ( s - b ) * ( s - c ) ) );
+  return static_cast< CoordRepType >( std::sqrt ( s * ( s - a ) * ( s - b ) * ( s - c ) ) );
 }
 
 template< typename TPoint >

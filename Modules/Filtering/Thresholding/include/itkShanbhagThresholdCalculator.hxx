@@ -78,7 +78,7 @@ ShanbhagThresholdCalculator<THistogram, TOutput>
   first_bin=0;
   for (ih = 0; (unsigned)ih < size; ih++ )
     {
-    if ( !(vcl_abs(P1[ih])<tolerance))
+    if ( !(std::abs(P1[ih])<tolerance))
       {
       first_bin = ih;
       break;
@@ -89,7 +89,7 @@ ShanbhagThresholdCalculator<THistogram, TOutput>
   last_bin=size - 1;
   for (ih = size - 1; ih >= first_bin; ih-- )
     {
-    if ( !(vcl_abs(P2[ih])<tolerance))
+    if ( !(std::abs(P2[ih])<tolerance))
       {
       last_bin = ih;
       break;
@@ -108,7 +108,7 @@ ShanbhagThresholdCalculator<THistogram, TOutput>
     term = 0.5 / P1[it];
     for ( ih = 1; ih <= it; ih++ )
       { //0+1?
-      ent_back -= norm_histo[ih] * vcl_log ( 1.0 - term * P1[ih - 1] );
+      ent_back -= norm_histo[ih] * std::log ( 1.0 - term * P1[ih - 1] );
       }
     ent_back *= term;
 
@@ -117,12 +117,12 @@ ShanbhagThresholdCalculator<THistogram, TOutput>
     term = 0.5 / P2[it];
     for ( ih = it + 1; (unsigned)ih < size; ih++ )
       {
-      ent_obj -= norm_histo[ih] * vcl_log ( 1.0 - term * P2[ih] );
+      ent_obj -= norm_histo[ih] * std::log ( 1.0 - term * P2[ih] );
       }
     ent_obj *= term;
 
     /* Total entropy */
-    tot_ent = vcl_abs ( ent_back - ent_obj );
+    tot_ent = std::abs ( ent_back - ent_obj );
 
     if ( tot_ent < min_ent )
       {

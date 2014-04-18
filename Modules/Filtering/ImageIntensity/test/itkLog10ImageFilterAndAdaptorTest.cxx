@@ -114,14 +114,14 @@ int itkLog10ImageFilterAndAdaptorTest(int, char* [] )
   while( !ot.IsAtEnd() )
     {
     std::cout <<  ot.Get() << " = ";
-    std::cout <<  vcl_log10( it.Get() )  << std::endl;
+    std::cout <<  std::log10( it.Get() )  << std::endl;
     const InputImageType::PixelType  input  = it.Get();
     const OutputImageType::PixelType output = ot.Get();
-    const OutputImageType::PixelType naturallog  = vcl_log10(input);
-    if( vcl_fabs( naturallog - output ) > epsilon )
+    const OutputImageType::PixelType naturallog  = std::log10(input);
+    if( std::fabs( naturallog - output ) > epsilon )
       {
       std::cerr << "Error in itkLog10ImageFilterTest " << std::endl;
-      std::cerr << " vcl_log10( " << input << ") = " << naturallog << std::endl;
+      std::cerr << " std::log10( " << input << ") = " << naturallog << std::endl;
       std::cerr << " differs from " << output;
       std::cerr << " by more than " << epsilon << std::endl;
       return EXIT_FAILURE;
@@ -169,7 +169,7 @@ int itkLog10ImageFilterAndAdaptorTest(int, char* [] )
     {
     std::cout <<  dt.Get() << std::endl;
     const OutputImageType::PixelType diff = dt.Get();
-    if( vcl_fabs( diff ) > epsilon )
+    if( std::fabs( diff ) > epsilon )
       {
       std::cerr << "Error in itkLog10ImageFilterTest " << std::endl;
       std::cerr << "Comparing results with Adaptors" << std::endl;

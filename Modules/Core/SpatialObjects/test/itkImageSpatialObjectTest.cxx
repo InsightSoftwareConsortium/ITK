@@ -157,7 +157,7 @@ int itkImageSpatialObjectTest(int, char* [])
     }
 
   std::cout<<"ValueAt() with interpolator...";
-  if( vcl_fabs(returnedValue-expectedValue)>0.001 )
+  if( std::fabs(returnedValue-expectedValue)>0.001 )
     {
     std::cout << "Expected: " << expectedValue << " returned: " << returnedValue << std::endl;
     return EXIT_FAILURE;
@@ -173,9 +173,9 @@ int itkImageSpatialObjectTest(int, char* [])
   expectedDerivative[1]=10;
   expectedDerivative[2]=100;
   std::cout<<"DerivativeAt() with interpolator ...";
-  if(  vcl_fabs(derivative[0]-expectedDerivative[0])>0.00001
-    || vcl_fabs(derivative[1]-expectedDerivative[1])>0.00001
-    || vcl_fabs(derivative[2]-expectedDerivative[2])>0.00001
+  if(  std::fabs(derivative[0]-expectedDerivative[0])>0.00001
+    || std::fabs(derivative[1]-expectedDerivative[1])>0.00001
+    || std::fabs(derivative[2]-expectedDerivative[2])>0.00001
     )
     {
     std::cout << "Expected: " << derivative << " returned: " << expectedDerivative << std::endl;

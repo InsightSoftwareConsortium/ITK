@@ -142,9 +142,9 @@ RegistrationParameterScalesFromShiftBase< TMetric >
   FloatType maxStep = NumericTraits<FloatType>::Zero;
   for (typename ParametersType::SizeValueType p = 0; p < step.GetSize(); p++)
     {
-    if (maxStep < vcl_abs(step[p]))
+    if (maxStep < std::abs(step[p]))
       {
-      maxStep = vcl_abs(step[p]);
+      maxStep = std::abs(step[p]);
       }
     }
   if (maxStep <= NumericTraits<FloatType>::epsilon())

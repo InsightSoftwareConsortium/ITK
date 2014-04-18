@@ -209,7 +209,7 @@ NormalQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
               v *= norm_v;
               }
             return static_cast< OutputVertexNormalComponentType >(
-                     vcl_acos(u * v) );
+                     std::acos(u * v) );
             }
           case AREA:
             {

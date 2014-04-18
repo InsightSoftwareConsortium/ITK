@@ -45,8 +45,8 @@ ScalarType
 TanHTransferFunction<ScalarType>
 ::Evaluate(const ScalarType& input)  const
 {
-  ScalarType x = vcl_exp(input);
-  ScalarType y = vcl_exp(-input);
+  ScalarType x = std::exp(input);
+  ScalarType y = std::exp(-input);
   return static_cast<ScalarType>((float) (x - y) / (x + y));
 }
 
@@ -57,7 +57,7 @@ TanHTransferFunction<ScalarType>
 ::EvaluateDerivative(const ScalarType& input)  const
 {
   ScalarType f = Evaluate(input);
-  return 1 - vcl_pow(f, 2);
+  return 1 - std::pow(f, 2);
 }
 
 /** Print the object */

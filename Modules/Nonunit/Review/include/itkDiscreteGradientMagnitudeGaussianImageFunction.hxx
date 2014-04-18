@@ -211,7 +211,7 @@ DiscreteGradientMagnitudeGaussianImageFunction< TInputImage, TOutput >
       }
     }
 
-  gradientMagnitude = vcl_sqrt(gradientMagnitude);
+  gradientMagnitude = std::sqrt(gradientMagnitude);
   return gradientMagnitude;
 }
 

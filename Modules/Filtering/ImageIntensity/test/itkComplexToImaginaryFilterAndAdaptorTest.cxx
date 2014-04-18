@@ -119,7 +119,7 @@ int itkComplexToImaginaryFilterAndAdaptorTest(int, char* [] )
     const InputImageType::PixelType  input  = it.Get();
     const OutputImageType::PixelType output = ot.Get();
     const OutputImageType::PixelType imag  = input.imag();
-    if( vcl_fabs( imag - output ) > epsilon )
+    if( std::fabs( imag - output ) > epsilon )
       {
       std::cerr << "Error in itkComplexToImaginaryImageFilterTest " << std::endl;
       std::cerr << " imag( " << input << ") = " << imag << std::endl;
@@ -169,7 +169,7 @@ int itkComplexToImaginaryFilterAndAdaptorTest(int, char* [] )
     {
     std::cout <<  dt.Get() << std::endl;
     const OutputImageType::PixelType diff = dt.Get();
-    if( vcl_fabs( diff ) > epsilon )
+    if( std::fabs( diff ) > epsilon )
       {
       std::cerr << "Error in itkComplexToImaginaryImageFilterTest " << std::endl;
       std::cerr << "Comparing results with Adaptors" << std::endl;

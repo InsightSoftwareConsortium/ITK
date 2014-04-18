@@ -258,7 +258,7 @@ int itkLBFGSOptimizerv4Test(int, char* [] )
   // Get the final value of the optimizer
   std::cout << "Testing GetValue() : ";
   OptimizerType::MeasureType finalValue = itkOptimizer->GetValue();
-  if( vcl_fabs( finalValue + 10.0 ) > 0.01)
+  if( std::fabs( finalValue + 10.0 ) > 0.01)
     {
     std::cout << "[FAILURE]" << std::endl;
     return EXIT_FAILURE;

@@ -179,7 +179,7 @@ HilbertPath<TIndexValue, VDimension>
     return x;
     }
 
-  PathIndexType m = static_cast<PathIndexType>( vcl_ceil( vcl_log( static_cast<double>(x) ) / vcl_log( 2.0 ) ) ) + 1;
+  PathIndexType m = static_cast<PathIndexType>( std::ceil( std::log( static_cast<double>(x) ) / std::log( 2.0 ) ) ) + 1;
 
   PathIndexType i = x;
   PathIndexType j = 1;

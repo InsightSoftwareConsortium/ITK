@@ -120,7 +120,7 @@ int itkGaussianDerivativeImageFunctionTest(int, char* [] )
   std::cout << "Testing Evaluate() : ";
 
   if( (gradient_point[0] > 0.1)  ||
-      (vcl_fabs(gradient_point[1]+1.0)> 10e-4)
+      (std::fabs(gradient_point[1]+1.0)> 10e-4)
     )
     {
     std::cerr << "[FAILED]" << std::endl;
@@ -138,7 +138,7 @@ int itkGaussianDerivativeImageFunctionTest(int, char* [] )
   std::cout << "Testing Evaluate() : ";
 
   if( (gradient_point[0] > 0.1)  ||
-      (vcl_fabs(gradient_point[1]-1.0)> 10e-4)
+      (std::fabs(gradient_point[1]-1.0)> 10e-4)
     )
     {
     std::cerr << "[FAILED]" << std::endl;

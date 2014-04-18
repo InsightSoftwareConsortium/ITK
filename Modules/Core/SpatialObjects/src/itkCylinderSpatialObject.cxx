@@ -72,7 +72,7 @@ bool CylinderSpatialObject
     double lambda = A / B;
 
     if ( (
-           ( lambda > -( m_Radius / ( 2 * vcl_sqrt(B) ) ) )
+           ( lambda > -( m_Radius / ( 2 * std::sqrt(B) ) ) )
            && ( lambda < 0 ) )
          || ( ( lambda <= 1.0 ) && ( lambda >= 0.0 ) )
           )

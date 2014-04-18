@@ -22,7 +22,6 @@
 #include "itkPriorityQueueContainer.h"
 #include "itkQuadEdgeMeshToQuadEdgeMeshFilter.h"
 #include "itkQuadEdgeMeshEulerOperatorFlipEdgeFunction.h"
-#include "vcl_cmath.h"
 #include "vnl/vnl_math.h"
 
 namespace itk
@@ -171,7 +170,7 @@ protected:
 
     if ( den != 0. )
       {
-      dotA /= vcl_sqrt(den);
+      dotA /= std::sqrt(den);
       }
 
     if ( dotA > 1. )
@@ -188,7 +187,7 @@ protected:
 
     if ( den != 0. )
       {
-      dotB /= vcl_sqrt(den);
+      dotB /= std::sqrt(den);
       }
 
     if ( dotB > 1. )
@@ -201,7 +200,7 @@ protected:
       dotB = -1.;
       }
 
-    return ( vcl_acos(dotA) + vcl_acos(dotB) - vnl_math::pi );
+    return ( std::acos(dotA) + std::acos(dotB) - vnl_math::pi );
   }
 
 private:

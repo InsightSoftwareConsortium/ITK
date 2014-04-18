@@ -435,15 +435,15 @@ int itkTubeSpatialObjectTest(int, char * [] )
   TubePointType::CovariantVectorType n1 = static_cast<const TubePointType*>(tube1->GetPoint(1))->GetNormal1();
   TubePointType::CovariantVectorType n2 = static_cast<const TubePointType*>(tube1->GetPoint(1))->GetNormal2();
 
-  if(  (vcl_fabs(t[0]-0.57735)>0.0001)
-    || (vcl_fabs(t[1]-0.57735)>0.0001)
-    || (vcl_fabs(t[2]-0.57735)>0.0001)
-    || (vcl_fabs(n1[0]-0.0)>0.0001)
-    || (vcl_fabs(n1[1]+0.57735)>0.0001)
-    || (vcl_fabs(n1[2]-0.57735)>0.0001)
-    || (vcl_fabs(n2[0]-0.666667)>0.0001)
-    || (vcl_fabs(n2[1]+0.333333)>0.0001)
-    || (vcl_fabs(n2[2]+0.333333)>0.0001)
+  if(  (std::fabs(t[0]-0.57735)>0.0001)
+    || (std::fabs(t[1]-0.57735)>0.0001)
+    || (std::fabs(t[2]-0.57735)>0.0001)
+    || (std::fabs(n1[0]-0.0)>0.0001)
+    || (std::fabs(n1[1]+0.57735)>0.0001)
+    || (std::fabs(n1[2]-0.57735)>0.0001)
+    || (std::fabs(n2[0]-0.666667)>0.0001)
+    || (std::fabs(n2[1]+0.333333)>0.0001)
+    || (std::fabs(n2[2]+0.333333)>0.0001)
     )
     {
     std::cout << "[FAILED]" << std::endl;

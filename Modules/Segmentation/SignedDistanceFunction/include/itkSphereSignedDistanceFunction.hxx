@@ -83,7 +83,7 @@ SphereSignedDistanceFunction< TCoordRep, VSpaceDimension >
     output += vnl_math_sqr( ( point[j] - m_Translation[j] ) );
     }
 
-  output = vcl_sqrt(output) - m_Radius;
+  output = std::sqrt(output) - m_Radius;
 
   return output;
 }

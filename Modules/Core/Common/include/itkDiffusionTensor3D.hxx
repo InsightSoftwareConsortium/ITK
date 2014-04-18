@@ -127,7 +127,7 @@ DiffusionTensor3D< T >
 ::GetFractionalAnisotropy() const
 {
   // Computed as
-  // FA = vcl_sqrt(1.5*sum(sum(N.*N))/sum((sum(D.*D))))
+  // FA = std::sqrt(1.5*sum(sum(N.*N))/sum((sum(D.*D))))
   // where N = D - ((1/3)*trace(D)*eye(3,3))
   // equation (28) in
   // http://lmi.bwh.harvard.edu/papers/pdfs/2002/westinMEDIA02.pdf
@@ -138,7 +138,7 @@ DiffusionTensor3D< T >
     const RealValueType trace = this->GetTrace();
     const RealValueType anisotropy = 3.0 * isp - trace * trace;
     // sometimes anisotropy has been reported to be a small negative
-    // number, and then vcl_sqrt returns NaN.  If it is a small
+    // number, and then std::sqrt returns NaN.  If it is a small
     // negative number, the obvious thing is to round to zero. If
     // it is a larger negative number, I'm not sure what the proper
     // result would be.  In either case, returning zero makes as much
@@ -146,7 +146,7 @@ DiffusionTensor3D< T >
     if(anisotropy > 0.0)
       {
       const RealValueType fractionalAnisotropy =
-        static_cast< RealValueType >( vcl_sqrt( anisotropy / ( 2.0 * isp ) ) );
+        static_cast< RealValueType >( std::sqrt( anisotropy / ( 2.0 * isp ) ) );
       return fractionalAnisotropy;
       }
     }
@@ -180,10 +180,10 @@ DiffusionTensor3D< T >
     }
 
   const RealValueType relativeAnisotropySquared =
-    static_cast< RealValueType >( anisotropy / ( vcl_sqrt(3.0) * trace ) );
+    static_cast< RealValueType >( anisotropy / ( std::sqrt(3.0) * trace ) );
 
   const RealValueType relativeAnisotropy =
-    static_cast< RealValueType >( vcl_sqrt(relativeAnisotropySquared) );
+    static_cast< RealValueType >( std::sqrt(relativeAnisotropySquared) );
 
   return relativeAnisotropy;
 }

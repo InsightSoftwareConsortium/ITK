@@ -147,8 +147,8 @@ VectorGradientNDAnisotropicDiffusionFunction< TImage >
       }
     else
       {
-      Cx[i]  = vcl_exp(GradMag   / m_K);
-      Cxd[i] = vcl_exp(GradMag_d / m_K);
+      Cx[i]  = std::exp(GradMag   / m_K);
+      Cxd[i] = std::exp(GradMag_d / m_K);
       }
     }
 

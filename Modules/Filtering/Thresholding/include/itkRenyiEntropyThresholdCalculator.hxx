@@ -73,7 +73,7 @@ RenyiEntropyThresholdCalculator<THistogram, TOutput>
   m_FirstBin=0;
   for(ih = 0; ih < m_Size; ih++ )
     {
-    if( !( vcl_abs( P1[ih] ) < tolerance ) )
+    if( !( std::abs( P1[ih] ) < tolerance ) )
       {
       m_FirstBin = ih;
       break;
@@ -84,7 +84,7 @@ RenyiEntropyThresholdCalculator<THistogram, TOutput>
   m_LastBin = static_cast< InstanceIdentifier >( m_Size - 1 );
   for(ih = m_Size - 1; ih >= m_FirstBin; ih-- )
     {
-    if( !( vcl_abs( P2[ih] ) < tolerance ) )
+    if( !( std::abs( P2[ih] ) < tolerance ) )
       {
       m_LastBin = ih;
       break;
@@ -123,9 +123,9 @@ RenyiEntropyThresholdCalculator<THistogram, TOutput>
 
   // Adjust beta values
   // note t_star1, t_star2, t_star3 are unsigned
-  if( vcl_abs( static_cast< double >( t_star1 ) - static_cast< double >( t_star2 ) ) <= 5. )
+  if( std::abs( static_cast< double >( t_star1 ) - static_cast< double >( t_star2 ) ) <= 5. )
     {
-    if( vcl_abs( static_cast< double >( t_star2 ) - static_cast< double >( t_star3 ) ) <= 5. )
+    if( std::abs( static_cast< double >( t_star2 ) - static_cast< double >( t_star3 ) ) <= 5. )
       {
       beta1 = 1.;
       beta2 = 2.;
@@ -140,7 +140,7 @@ RenyiEntropyThresholdCalculator<THistogram, TOutput>
     }
   else
     {
-    if( vcl_abs( static_cast< double >( t_star2 ) - static_cast< double >( t_star3 ) ) <= 5. )
+    if( std::abs( static_cast< double >( t_star2 ) - static_cast< double >( t_star3 ) ) <= 5. )
       {
       beta1 = 3.;
       beta2 = 1.;
@@ -194,7 +194,7 @@ RenyiEntropyThresholdCalculator<THistogram, TOutput>
       if( histogram->GetFrequency(ih, 0) != NumericTraits< AbsoluteFrequencyType >::Zero )
         {
         double x = ( normHisto[ih] / P1[it] );
-        ent_back -= x * vcl_log ( x );
+        ent_back -= x * std::log ( x );
         }
       }
 
@@ -205,7 +205,7 @@ RenyiEntropyThresholdCalculator<THistogram, TOutput>
       if( histogram->GetFrequency(ih, 0) != NumericTraits< AbsoluteFrequencyType >::Zero )
         {
         double x = ( normHisto[ih] / P2[it] );
-        ent_obj -= x * vcl_log( x );
+        ent_obj -= x * std::log( x );
         }
       }
 
@@ -243,14 +243,14 @@ RenyiEntropyThresholdCalculator<THistogram, TOutput>
     double ent_back = 0.0;
     for( InstanceIdentifier ih = 0; ih <= it; ih++ )
       {
-      ent_back += vcl_sqrt( normHisto[ih] / P1[it] );
+      ent_back += std::sqrt( normHisto[ih] / P1[it] );
       }
 
     /* Entropy of the object pixels */
     double ent_obj = 0.0;
     for( InstanceIdentifier ih = it + 1; ih < m_Size; ih++ )
       {
-      ent_obj += vcl_sqrt( normHisto[ih] / P2[it] );
+      ent_obj += std::sqrt( normHisto[ih] / P2[it] );
       }
 
     /* Total entropy */
@@ -259,7 +259,7 @@ RenyiEntropyThresholdCalculator<THistogram, TOutput>
 
     if( product > 0.0 )
       {
-      tot_ent = term * vcl_log( ent_back * ent_obj );
+      tot_ent = term * std::log( ent_back * ent_obj );
       }
 
     if( tot_ent > max_ent )
@@ -307,7 +307,7 @@ RenyiEntropyThresholdCalculator<THistogram, TOutput>
     double product = ent_back * ent_obj;
     if( product > 0.0 )
       {
-      tot_ent = term * vcl_log( product );
+      tot_ent = term * std::log( product );
       }
 
     if( tot_ent > max_ent )

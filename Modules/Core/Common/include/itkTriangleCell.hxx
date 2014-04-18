@@ -374,7 +374,7 @@ TriangleCell< TCellInterface >::ComputeArea(PointsContainer *iPoints)
   CoordRepType c = p[1].EuclideanDistanceTo(p[0]);
 
   CoordRepType s = 0.5 * ( a + b + c );
-  return vcl_sqrt( s * ( s - a ) * ( s - b ) * ( s - c ) );
+  return std::sqrt( s * ( s - a ) * ( s - b ) * ( s - c ) );
 }
 
 template< typename TCellInterface >

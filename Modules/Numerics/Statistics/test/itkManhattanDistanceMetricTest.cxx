@@ -79,7 +79,7 @@ int itkManhattanDistanceMetricTest(int, char* [] )
   double distanceComputed = distance->Evaluate( measurement );
   const double tolerance = 0.001;
 
-  if( vcl_fabs( distanceComputed - trueValue) > tolerance )
+  if( std::fabs( distanceComputed - trueValue) > tolerance )
     {
     std::cerr << "Distance computed not correct: " << "truevalue= " << trueValue
               << "ComputedValue=" << distanceComputed << std::endl;
@@ -96,7 +96,7 @@ int itkManhattanDistanceMetricTest(int, char* [] )
   double trueValue2 = 1.7;
   double distanceComputed2 = distance->Evaluate( measurement, measurement2 );
 
-  if( vcl_fabs( distanceComputed2 - trueValue2) > tolerance )
+  if( std::fabs( distanceComputed2 - trueValue2) > tolerance )
     {
     std::cerr << "Distance computed not correct: " << "truevalue= " << trueValue2
               << "ComputedValue=" << distanceComputed2 << std::endl;

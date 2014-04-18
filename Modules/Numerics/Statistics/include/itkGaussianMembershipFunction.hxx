@@ -31,7 +31,7 @@ GaussianMembershipFunction< TMeasurementVector >
   NumericTraits<MeanVectorType>::SetLength(m_Mean, this->GetMeasurementVectorSize());
   m_Mean.Fill( 0.0 );
 
-  m_PreFactor = 1.0 / vcl_sqrt(2.0 * vnl_math::pi); // default univariate
+  m_PreFactor = 1.0 / std::sqrt(2.0 * vnl_math::pi); // default univariate
 
   m_Covariance.SetSize(this->GetMeasurementVectorSize(), this->GetMeasurementVectorSize());
   m_Covariance.SetIdentity();
@@ -136,13 +136,13 @@ GaussianMembershipFunction< TMeasurementVector >
 
     // calculate coefficient C of multivariate gaussian
     m_PreFactor =
-      1.0 / ( vcl_sqrt(det) *
-        vcl_pow( vcl_sqrt(2.0 * vnl_math::pi),
+      1.0 / ( std::sqrt(det) *
+        std::pow( std::sqrt(2.0 * vnl_math::pi),
                static_cast< double >( this->GetMeasurementVectorSize() ) ) );
     }
   else
     {
-    const double aLargeDouble = vcl_pow(NumericTraits<double>::max(), 1.0/3.0)
+    const double aLargeDouble = std::pow(NumericTraits<double>::max(), 1.0/3.0)
       / (double) this->GetMeasurementVectorSize();
     m_InverseCovariance.SetIdentity();
     m_InverseCovariance *= aLargeDouble;
@@ -173,7 +173,7 @@ GaussianMembershipFunction< TMeasurementVector >
   double temp = dot_product( tempVector,
                              m_InverseCovariance.GetVnlMatrix() * tempVector );
 
-  temp = vcl_exp(-0.5 * temp);
+  temp = std::exp(-0.5 * temp);
 
   return m_PreFactor * temp;
 }

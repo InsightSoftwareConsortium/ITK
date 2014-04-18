@@ -174,7 +174,7 @@ Versor< T >
 
   const double epsilon = 1e-300;
 
-  if ( vcl_fabs(1.0f - square) < epsilon )
+  if ( std::fabs(1.0f - square) < epsilon )
     {
     return true;
     }
@@ -222,7 +222,7 @@ Versor< T >
 {
   const ValueType tensor =
     static_cast< ValueType >(
-      vcl_sqrt(m_X * m_X + m_Y * m_Y + m_Z * m_Z + m_W * m_W) );
+      std::sqrt(m_X * m_X + m_Y * m_Y + m_Z * m_Z + m_W * m_W) );
 
   return tensor;
 }
@@ -235,7 +235,7 @@ Versor< T >
 {
   const ValueType tensor = this->GetTensor();
 
-  if ( vcl_fabs(tensor) < 1e-20 )
+  if ( std::fabs(tensor) < 1e-20 )
     {
     ExceptionObject except;
     except.SetDescription("Attempt to normalize a \
@@ -261,7 +261,7 @@ Versor< T >
   const RealType ay = static_cast< RealType >( m_Y );
   const RealType az = static_cast< RealType >( m_Z );
 
-  const RealType vectorNorm = vcl_sqrt(ax * ax  +  ay * ay  +  az * az);
+  const RealType vectorNorm = std::sqrt(ax * ax  +  ay * ay  +  az * az);
 
   if ( vectorNorm == NumericTraits< RealType >::Zero )
     {
@@ -313,9 +313,9 @@ Versor< T >
   const RealType ay = static_cast< RealType >( m_Y );
   const RealType az = static_cast< RealType >( m_Z );
 
-  const RealType vectorNorm = vcl_sqrt(ax * ax  +  ay * ay  +  az * az);
+  const RealType vectorNorm = std::sqrt(ax * ax  +  ay * ay  +  az * az);
 
-  const ValueType angle = 2.0 * vcl_atan2( vectorNorm, static_cast< RealType >( m_W ) );
+  const ValueType angle = 2.0 * std::atan2( vectorNorm, static_cast< RealType >( m_W ) );
 
   return angle;
 }
@@ -326,8 +326,8 @@ Versor< T >
 Versor< T >
 ::SquareRoot(void) const
 {
-  const ValueType newScalar = vcl_sqrt( static_cast< double >( 1.0 + m_W ) );
-  const double    sqrtOfTwo    = vcl_sqrt(2.0f);
+  const ValueType newScalar = std::sqrt( static_cast< double >( 1.0 + m_W ) );
+  const double    sqrtOfTwo    = std::sqrt(2.0f);
 
   const double factor = 1.0f / ( newScalar * sqrtOfTwo );
 
@@ -363,8 +363,8 @@ Versor< T >
 {
   const RealType vectorNorm = axis.GetNorm();
 
-  const RealType cosangle2 = vcl_cos(angle / 2.0);
-  const RealType sinangle2 = vcl_sin(angle / 2.0);
+  const RealType cosangle2 = std::cos(angle / 2.0);
+  const RealType sinangle2 = std::sin(angle / 2.0);
 
   const RealType factor = sinangle2 / vectorNorm;
 
@@ -385,30 +385,30 @@ Versor< T >
   //Keep the epsilon value large enough so that the alternate routes of
   //computing the quaternion are used to within floating point precision of the
   //math to be used.  Using 1e-30 results in degenerate matries for rotations
-  //near vnl_math::pi due to imprecision of the math.  0.5/vcl_sqrt(trace) is
+  //near vnl_math::pi due to imprecision of the math.  0.5/std::sqrt(trace) is
   //not accurate to 1e-30, so the resulting matrices would have very large
   //errors.  By decreasing this epsilon value to a higher tolerance, the
   //alternate stable methods for conversion are used.
   //
-  //The use of vcl_numeric_limits< T >::epsilon() was not consistent with
+  //The use of std::numeric_limits< T >::epsilon() was not consistent with
   //the rest of the ITK toolkit with respect to epsilon values for
   //determining rotational orthogonality, and it occasionally
   //prevented the conversion between different rigid transform types.
 
-  const T epsilon = Self::Epsilon(); // vnl_sqrt( vcl_numeric_limits< T >::epsilon() );
+  const T epsilon = Self::Epsilon(); // vnl_sqrt( std::numeric_limits< T >::epsilon() );
   // Use a slightly less epsilon for detecting difference
-  const T epsilonDiff = Self::Epsilon(); //vcl_numeric_limits< T >::epsilon() * 10.0;
+  const T epsilonDiff = Self::Epsilon(); //std::numeric_limits< T >::epsilon() * 10.0;
 
   const vnl_matrix< T > m( mat.GetVnlMatrix() );
 
   //check for orthonormality and that it isn't a reflection
   const vnl_matrix_fixed< T, 3, 3 > & I = m*m.transpose();
-  if( vcl_abs( I[0][1] ) > epsilon || vcl_abs( I[0][2] ) > epsilon ||
-    vcl_abs( I[1][0] ) > epsilon || vcl_abs( I[1][2] ) > epsilon ||
-    vcl_abs( I[2][0] ) > epsilon || vcl_abs( I[2][1] ) > epsilon ||
-    vcl_abs( I[0][0] - itk::NumericTraits<T>::One ) > epsilonDiff ||
-    vcl_abs( I[1][1] - itk::NumericTraits<T>::One ) > epsilonDiff ||
-    vcl_abs( I[2][2] - itk::NumericTraits<T>::One ) > epsilonDiff ||
+  if( std::abs( I[0][1] ) > epsilon || std::abs( I[0][2] ) > epsilon ||
+    std::abs( I[1][0] ) > epsilon || std::abs( I[1][2] ) > epsilon ||
+    std::abs( I[2][0] ) > epsilon || std::abs( I[2][1] ) > epsilon ||
+    std::abs( I[0][0] - itk::NumericTraits<T>::One ) > epsilonDiff ||
+    std::abs( I[1][1] - itk::NumericTraits<T>::One ) > epsilonDiff ||
+    std::abs( I[2][2] - itk::NumericTraits<T>::One ) > epsilonDiff ||
     vnl_det( I ) < 0 )
     {
     itkGenericExceptionMacro(<< "The following matrix does not represent rotation to within an epsion of "
@@ -423,7 +423,7 @@ Versor< T >
 
   if ( trace > epsilon )
     {
-    const double s = 0.5 / vcl_sqrt(trace);
+    const double s = 0.5 / std::sqrt(trace);
     m_W = 0.25 / s;
     m_X = ( m(2, 1) - m(1, 2) ) * s;
     m_Y = ( m(0, 2) - m(2, 0) ) * s;
@@ -433,7 +433,7 @@ Versor< T >
     {
     if ( m(0, 0) > m(1, 1) && m(0, 0) > m(2, 2) )
       {
-      const double s = 2.0 * vcl_sqrt( 1.0 + m(0, 0) - m(1, 1) - m(2, 2) );
+      const double s = 2.0 * std::sqrt( 1.0 + m(0, 0) - m(1, 1) - m(2, 2) );
       m_X = 0.25 * s;
       m_Y = ( m(0, 1) + m(1, 0) ) / s;
       m_Z = ( m(0, 2) + m(2, 0) ) / s;
@@ -443,7 +443,7 @@ Versor< T >
       {
       if ( m(1, 1) > m(2, 2) )
         {
-        const double s = 2.0 * vcl_sqrt( 1.0 + m(1, 1) - m(0, 0) - m(2, 2) );
+        const double s = 2.0 * std::sqrt( 1.0 + m(1, 1) - m(0, 0) - m(2, 2) );
         m_X = ( m(0, 1) + m(1, 0) ) / s;
         m_Y = 0.25 * s;
         m_Z = ( m(1, 2) + m(2, 1) ) / s;
@@ -451,7 +451,7 @@ Versor< T >
         }
       else
         {
-        const double s = 2.0 * vcl_sqrt( 1.0 + m(2, 2) - m(0, 0) - m(1, 1) );
+        const double s = 2.0 * std::sqrt( 1.0 + m(2, 2) - m(0, 0) - m(1, 1) );
         m_X = ( m(0, 2) + m(2, 0) ) / s;
         m_Y = ( m(1, 2) + m(2, 1) ) / s;
         m_Z = 0.25 * s;
@@ -479,7 +479,7 @@ Versor< T >
     throw exception;
     }
 
-  const ValueType cosangle2 =  vcl_sqrt(NumericTraits< double >::One - sinangle2 * sinangle2);
+  const ValueType cosangle2 =  std::sqrt(NumericTraits< double >::One - sinangle2 * sinangle2);
 
   m_X = axis[0];
   m_Y = axis[1];
@@ -541,8 +541,8 @@ void
 Versor< T >
 ::SetRotationAroundX(ValueType angle)
 {
-  const ValueType sinangle2 = vcl_sin(angle / 2.0);
-  const ValueType cosangle2 = vcl_cos(angle / 2.0);
+  const ValueType sinangle2 = std::sin(angle / 2.0);
+  const ValueType cosangle2 = std::cos(angle / 2.0);
 
   m_X = sinangle2;
   m_Y = NumericTraits< T >::Zero;
@@ -556,8 +556,8 @@ void
 Versor< T >
 ::SetRotationAroundY(ValueType angle)
 {
-  const ValueType sinangle2 = vcl_sin(angle / 2.0);
-  const ValueType cosangle2 = vcl_cos(angle / 2.0);
+  const ValueType sinangle2 = std::sin(angle / 2.0);
+  const ValueType cosangle2 = std::cos(angle / 2.0);
 
   m_X = NumericTraits< T >::Zero;
   m_Y = sinangle2;
@@ -571,8 +571,8 @@ void
 Versor< T >
 ::SetRotationAroundZ(ValueType angle)
 {
-  const ValueType sinangle2 = vcl_sin(angle / 2.0);
-  const ValueType cosangle2 = vcl_cos(angle / 2.0);
+  const ValueType sinangle2 = std::sin(angle / 2.0);
+  const ValueType cosangle2 = std::cos(angle / 2.0);
 
   m_X = NumericTraits< T >::Zero;
   m_Y = NumericTraits< T >::Zero;

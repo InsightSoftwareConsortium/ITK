@@ -16,7 +16,7 @@ if(WIN32)
 endif(WIN32)
 
 # the superclass
-itk_wrap_class(vcl_numeric_limits EXPLICIT_SPECIALIZATION)
+itk_wrap_class(std::numeric_limits EXPLICIT_SPECIALIZATION)
   # the basic types
   foreach(t UC US UI UL SC SS SI SL F D LD B)
     itk_wrap_template("${ITKM_${t}}" "${ITKT_${t}}")

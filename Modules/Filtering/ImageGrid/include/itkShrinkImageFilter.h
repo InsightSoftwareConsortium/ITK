@@ -40,7 +40,7 @@ namespace itk
  * in each dimension. The algorithm implemented is a simple subsample.
  * The output image size in each dimension is given by:
  *
- * outputSize[j] = max( vcl_floor(inputSize[j]/shrinkFactor[j]), 1 );
+ * outputSize[j] = max( std::floor(inputSize[j]/shrinkFactor[j]), 1 );
  *
  * NOTE: The physical centers of the input and output will be the
  * same. Because of this, the Origin of the output may not be the same

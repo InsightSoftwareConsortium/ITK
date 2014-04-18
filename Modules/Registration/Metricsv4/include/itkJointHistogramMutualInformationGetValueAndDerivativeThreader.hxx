@@ -141,7 +141,7 @@ JointHistogramMutualInformationGetValueAndDerivativeThreader< TDomainPartitioner
   if( jointPDFValue > eps &&  movingImagePDFValue > eps )
     {
     const InternalComputationValueType pRatio =
-                            vcl_log(jointPDFValue)-vcl_log(movingImagePDFValue);
+                            std::log(jointPDFValue)-std::log(movingImagePDFValue);
     const InternalComputationValueType & term1 = dJPDF*pRatio;
     const InternalComputationValueType & term2 = this->m_JointAssociate->m_Log2 * dMmPDF * jointPDFValue / movingImagePDFValue;
     scalingfactor =  ( term2 - term1 );

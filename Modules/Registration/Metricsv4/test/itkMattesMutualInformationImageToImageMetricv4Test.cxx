@@ -120,7 +120,7 @@ int TestMattesMetricWithAffineTransform(
     d += displacement;
     const double x = d[0];
     const double y = d[1];
-    ri.Set( (unsigned char) ( 200.0 * vcl_exp( - ( x*x + y*y )/(s*s) ) ) );
+    ri.Set( (unsigned char) ( 200.0 * std::exp( - ( x*x + y*y )/(s*s) ) ) );
     ++ri;
     }
 
@@ -132,7 +132,7 @@ int TestMattesMetricWithAffineTransform(
     d = p-center;
     const double x = d[0];
     const double y = d[1];
-    ti.Set( (unsigned char) ( 200.0 * vcl_exp( - ( x*x + y*y )/(s*s) ) ) );
+    ti.Set( (unsigned char) ( 200.0 * std::exp( - ( x*x + y*y )/(s*s) ) ) );
     ++ti;
     }
 

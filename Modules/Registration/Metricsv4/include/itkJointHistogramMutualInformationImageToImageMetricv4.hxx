@@ -42,7 +42,7 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,TMovingImage,TVi
   this->m_MovingImageBinSize    = NumericTraits< TInternalComputationValueType >::Zero;
   this->m_Padding = 2;
   this->m_JointPDFSum = NumericTraits< TInternalComputationValueType >::Zero;
-  this->m_Log2 = vcl_log(2.0);
+  this->m_Log2 = std::log(2.0);
   this->m_VarianceForJointPDFSmoothing = 1.5;
 
   // We have our own GetValueAndDerivativeThreader's that we want
@@ -71,13 +71,13 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,TMovingImage,TVi
   /** Get the fixed and moving image true max's and mins.
    *  Initialize them to the PixelType min and max. */
   this->m_FixedImageTrueMin =
-                    vcl_numeric_limits<typename TFixedImage::PixelType>::max();
+                    std::numeric_limits<typename TFixedImage::PixelType>::max();
   this->m_FixedImageTrueMax =
-                    vcl_numeric_limits<typename TFixedImage::PixelType>::min();
+                    std::numeric_limits<typename TFixedImage::PixelType>::min();
   this->m_MovingImageTrueMin =
-                    vcl_numeric_limits<typename TMovingImage::PixelType>::max();
+                    std::numeric_limits<typename TMovingImage::PixelType>::max();
   this->m_MovingImageTrueMax =
-                    vcl_numeric_limits<typename TMovingImage::PixelType>::min();
+                    std::numeric_limits<typename TMovingImage::PixelType>::min();
 
   /** Iterate through the fixed image and set the true
    *  max and min for the fixed image. */
@@ -351,7 +351,7 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,TMovingImage,TVi
         if (pxy / denom > eps )
           {
           //the classic mi calculation
-          local_mi = pxy * vcl_log( pxy / denom );
+          local_mi = pxy * std::log( pxy / denom );
           }
         }
       total_mi += local_mi;

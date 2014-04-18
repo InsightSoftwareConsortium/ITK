@@ -80,7 +80,7 @@ GaborImageSource< TOutputImage >
       {
       sum += vnl_math_sqr( ( evalPoint[i] - this->m_Mean[i] ) / this->m_Sigma[i] );
       }
-    double value = vcl_exp(-0.5 * sum) * gabor->Evaluate(evalPoint[0] - this->m_Mean[0]);
+    double value = std::exp(-0.5 * sum) * gabor->Evaluate(evalPoint[0] - this->m_Mean[0]);
 
     // Set the pixel value to the function value
     outIt.Set( static_cast< PixelType >( value ) );

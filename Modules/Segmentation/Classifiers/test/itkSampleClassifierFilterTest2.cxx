@@ -129,7 +129,7 @@ int itkSampleClassifierFilterTest2( int, char * [] )
   MeasurementVectorType mv;
   itk::NumericTraits<MeasurementVectorType>::SetLength( mv, numberOfComponents );
   double mean = mean1[0];
-  double standardDeviation = vcl_sqrt(covariance1[0][0]);
+  double standardDeviation = std::sqrt(covariance1[0][0]);
   unsigned int numberOfSampleEachClass = 10;
   for ( unsigned int i = 0; i < numberOfSampleEachClass; ++i )
     {
@@ -139,7 +139,7 @@ int itkSampleClassifierFilterTest2( int, char * [] )
 
   //Add samples for the second gaussian
   mean = mean2[0];
-  standardDeviation = vcl_sqrt(covariance1[0][0]);
+  standardDeviation = std::sqrt(covariance1[0][0]);
   for ( unsigned int i = 0; i < numberOfSampleEachClass; ++i )
     {
     mv[0] = (normalGenerator->GetVariate() * standardDeviation ) + mean;

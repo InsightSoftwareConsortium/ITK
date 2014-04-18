@@ -41,7 +41,7 @@ namespace itk
       }
 
       inline TOutput operator()(const TInput & A) const
-      { return (TOutput)vcl_tan( (double)A ); }
+      { return (TOutput)std::tan( (double)A ); }
     };
   }
 

@@ -100,14 +100,14 @@ Rigid2DTransform<TScalar>
   vnl_matrix<TScalar> r(2, 2);
   r = svd.U() * svd.V().transpose();
 
-  m_Angle = vcl_acos(r[0][0]);
+  m_Angle = std::acos(r[0][0]);
 
   if( r[1][0] < 0.0 )
     {
     m_Angle = -m_Angle;
     }
 
-  if( r[1][0] - vcl_sin(m_Angle) > 0.000001 )
+  if( r[1][0] - std::sin(m_Angle) > 0.000001 )
     {
     itkWarningMacro( "Bad Rotation Matrix " << this->GetMatrix() );
     }
@@ -200,7 +200,7 @@ void
 Rigid2DTransform<TScalar>
 ::SetAngleInDegrees(TScalar angle)
 {
-  const TScalar angleInRadians = angle * vcl_atan(1.0) / 45.0;
+  const TScalar angleInRadians = angle * std::atan(1.0) / 45.0;
 
   this->SetAngle(angleInRadians);
 }
@@ -211,8 +211,8 @@ void
 Rigid2DTransform<TScalar>
 ::ComputeMatrix(void)
 {
-  const MatrixValueType ca = vcl_cos(m_Angle);
-  const MatrixValueType sa = vcl_sin(m_Angle);
+  const MatrixValueType ca = std::cos(m_Angle);
+  const MatrixValueType sa = std::sin(m_Angle);
 
   MatrixType rotationMatrix;
 
@@ -287,8 +287,8 @@ Rigid2DTransform<TScalar>::ComputeJacobianWithRespectToParameters(const InputPoi
   j.SetSize( OutputSpaceDimension, this->GetNumberOfLocalParameters() );
   j.Fill(0.0);
 
-  const double ca = vcl_cos( this->GetAngle() );
-  const double sa = vcl_sin( this->GetAngle() );
+  const double ca = std::cos( this->GetAngle() );
+  const double sa = std::sin( this->GetAngle() );
 
   const double cx = this->GetCenter()[0];
   const double cy = this->GetCenter()[1];

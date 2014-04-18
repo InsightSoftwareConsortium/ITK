@@ -46,7 +46,7 @@ TanSigmoidTransferFunction<ScalarType>
 ::Evaluate(const ScalarType& input)  const
 {
   return static_cast<ScalarType>((2
-                                / (1 + vcl_exp(-2 * static_cast<ScalarType>(input))))
+                                / (1 + std::exp(-2 * static_cast<ScalarType>(input))))
                                - 1);
 }
 

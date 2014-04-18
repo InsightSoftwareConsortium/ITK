@@ -59,7 +59,7 @@ int itkWatershedImageFilterTest(int, char* [] )
   float q = 0.00f;
   for (; !it2D.IsAtEnd(); ++it2D)
     {
-    it2D.Value() = vcl_sin(q);
+    it2D.Value() = std::sin(q);
     q = q + 0.10f;
     }
 

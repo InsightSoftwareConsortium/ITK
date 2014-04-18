@@ -278,7 +278,7 @@ RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
                                               + it.GetPixel(positionDa) - it.GetPixel(positionCa) );
       }
     }
-  gd->m_GradMag = vcl_sqrt(gd->m_GradMagSqr);
+  gd->m_GradMag = std::sqrt(gd->m_GradMagSqr);
 }
 
 template< typename TInput,

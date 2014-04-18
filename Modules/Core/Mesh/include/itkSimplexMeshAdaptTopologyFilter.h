@@ -134,11 +134,11 @@ public:
       double        meanCurvature = 0;
       PointIdentifier refPoint = *it;
       double        val = mesh->GetMeanCurvature(*it++);
-      meanCurvature += vcl_abs(val);
+      meanCurvature += std::abs(val);
 
       PointIdentifier id1 = *it;
       val = mesh->GetMeanCurvature(*it++);
-      meanCurvature += vcl_abs(val);
+      meanCurvature += std::abs(val);
 
       PointIdentifier id2;
 
@@ -152,7 +152,7 @@ public:
         area += ComputeArea(refPoint, id1, id2);
         id1 = id2;
         val = mesh->GetMeanCurvature(*it);
-        meanCurvature += vcl_abs(val);
+        meanCurvature += std::abs(val);
         cnt++;
         it++;
         }
@@ -181,7 +181,7 @@ public:
       mesh->GetPoint(p1, &v1);
       mesh->GetPoint(p2, &v2);
       mesh->GetPoint(p3, &v3);
-      return vcl_abs (itk_cross_3d( ( v2 - v1 ).GetVnlVector(), ( v3 - v1 ).GetVnlVector() ).two_norm() / 2.0);
+      return std::abs (itk_cross_3d( ( v2 - v1 ).GetVnlVector(), ( v3 - v1 ).GetVnlVector() ).two_norm() / 2.0);
     }
 
     typename DoubleValueMapType::Pointer GetAreaMap()

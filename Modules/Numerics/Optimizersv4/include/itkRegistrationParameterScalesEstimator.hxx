@@ -642,7 +642,7 @@ RegistrationParameterScalesEstimator< TMetric >
       }
     else
       {
-      FloatType ratio = 1 + vcl_log((FloatType)total/SizeOfSmallDomain);
+      FloatType ratio = 1 + std::log((FloatType)total/SizeOfSmallDomain);
       //ratio >= 1 since total/SizeOfSmallDomain > 1
 
       this->m_NumberOfRandomSamples = static_cast<int>(SizeOfSmallDomain * ratio);

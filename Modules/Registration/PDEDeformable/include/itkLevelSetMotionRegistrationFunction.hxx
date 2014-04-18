@@ -362,7 +362,7 @@ LevelSetMotionRegistrationFunction< TFixedImage, TMovingImage, TDisplacementFiel
       }
     gradientMagnitude += vnl_math_sqr(gradient[j]);
     }
-  gradientMagnitude = vcl_sqrt(gradientMagnitude);
+  gradientMagnitude = std::sqrt(gradientMagnitude);
 
   /**
    * Compute Update.
@@ -451,7 +451,7 @@ LevelSetMotionRegistrationFunction< TFixedImage, TMovingImage, TDisplacementFiel
     {
     m_Metric = m_SumOfSquaredDifference
                / static_cast< double >( m_NumberOfPixelsProcessed );
-    m_RMSChange = vcl_sqrt( m_SumOfSquaredChange
+    m_RMSChange = std::sqrt( m_SumOfSquaredChange
                             / static_cast< double >( m_NumberOfPixelsProcessed ) );
     }
   m_MetricCalculationLock.Unlock();

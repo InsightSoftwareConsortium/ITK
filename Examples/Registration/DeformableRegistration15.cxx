@@ -645,7 +645,7 @@ int main( int argc, char *argv[] )
   // image.
   const unsigned long numberOfSamples =
      static_cast<unsigned long>(
-       vcl_sqrt( static_cast<double>( numberOfBSplineParameters ) *
+       std::sqrt( static_cast<double>( numberOfBSplineParameters ) *
                  static_cast<double>( numberOfPixels ) ) );
   metric->SetNumberOfSpatialSamples( numberOfSamples );
 

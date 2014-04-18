@@ -56,10 +56,10 @@ SymmetricEllipsoidInteriorExteriorSpatialFunction< VDimension, TInput >
     pointVector[i] = position[i] - m_Center[i];
     }
 
-  uniqueTerm = vcl_pow( static_cast< double >( ( ( pointVector * m_Orientation ) / ( .5 * m_UniqueAxis ) ) ),
+  uniqueTerm = std::pow( static_cast< double >( ( ( pointVector * m_Orientation ) / ( .5 * m_UniqueAxis ) ) ),
                         static_cast< double >( 2 ) );
   symmetricVector = pointVector - ( m_Orientation * ( pointVector * m_Orientation ) );
-  symmetricTerm = vcl_pow(
+  symmetricTerm = std::pow(
     static_cast< double >( ( ( symmetricVector.GetNorm() ) / ( .5 * m_SymmetricAxes ) ) ), static_cast< double >( 2 ) );
 
   if ( ( uniqueTerm + symmetricTerm ) >= 0 && ( uniqueTerm + symmetricTerm ) <= 1 )

@@ -127,7 +127,7 @@ int itkRGBToLuminanceImageFilterAndAdaptorTest(int, char* [] )
     const InputPixelType  input  = it.Get();
     const OutputPixelType output = ot.Get();
     const OutputPixelType value  = static_cast< OutputPixelType >( input.GetLuminance() );
-    if( vcl_fabs( value - output ) > epsilon )
+    if( std::fabs( value - output ) > epsilon )
       {
       std::cerr << "Error in itkRGBToLuminanceImageFilterTest " << std::endl;
       std::cerr << " Luminance( " << input << ") = " << value << std::endl;
@@ -177,7 +177,7 @@ int itkRGBToLuminanceImageFilterAndAdaptorTest(int, char* [] )
     {
     std::cout <<  dt.Get() << std::endl;
     const OutputPixelType diff = dt.Get();
-    if( vcl_fabs( diff ) > epsilon )
+    if( std::fabs( diff ) > epsilon )
       {
       std::cerr << "Error in itkRGBToLuminanceImageFilterTest " << std::endl;
       std::cerr << "Comparing results with Adaptors" << std::endl;

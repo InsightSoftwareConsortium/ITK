@@ -46,7 +46,7 @@ int itkRigid3DPerspectiveTransformTest(int ,char * [] )
 
     for(unsigned int i=0; i<N; i++)
     {
-      if( vcl_fabs( offset[i]-0.0 ) > epsilon )
+      if( std::fabs( offset[i]-0.0 ) > epsilon )
       {
         Ok = false;
         break;
@@ -75,7 +75,7 @@ int itkRigid3DPerspectiveTransformTest(int ,char * [] )
 
     for(unsigned int i=0; i<N; i++)
     {
-      if( vcl_fabs( offset[i]- ioffset[i] ) > epsilon )
+      if( std::fabs( offset[i]- ioffset[i] ) > epsilon )
       {
         Ok = false;
         break;
@@ -101,7 +101,7 @@ int itkRigid3DPerspectiveTransformTest(int ,char * [] )
       r = translation->TransformPoint( p );
       for(unsigned int i=0; i<N-1; i++)
       {
-        if( vcl_fabs( s[i]- r[i] ) > epsilon )
+        if( std::fabs( s[i]- r[i] ) > epsilon )
         {
           Ok = false;
           break;
@@ -138,7 +138,7 @@ int itkRigid3DPerspectiveTransformTest(int ,char * [] )
     typedef TransformType::VersorType  VersorType;
     VersorType rotation;
     VersorType::VectorType axis;
-    VersorType::ValueType  angle = 30.0f * vcl_atan( 1.0f ) / 45.0f;
+    VersorType::ValueType  angle = 30.0f * std::atan( 1.0f ) / 45.0f;
     axis[0] = 1.0f;
     axis[1] = 1.0f;
     axis[2] = 1.0f;
@@ -160,7 +160,7 @@ int itkRigid3DPerspectiveTransformTest(int ,char * [] )
       r = rigid->TransformPoint( p );
       for(unsigned int i=0; i<N-1; i++)
       {
-        if( vcl_fabs( s[i]- r[i] ) > epsilon )
+        if( std::fabs( s[i]- r[i] ) > epsilon )
         {
           Ok = false;
           break;

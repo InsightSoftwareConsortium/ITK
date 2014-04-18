@@ -169,7 +169,7 @@ int itkMeanSquaresImageToImageMetricv4OnVectorTest2(int, char ** const)
 
   /* Compare */
   double tolerance = 1e-8;
-  if( vcl_fabs( scalarMeasure - ( vectorMeasure / vectorLength ) ) > tolerance )
+  if( std::fabs( scalarMeasure - ( vectorMeasure / vectorLength ) ) > tolerance )
     {
     std::cerr << "Measures do not match within tolerance. scalarMeasure, vectorMeasure: " << scalarMeasure << ", " << vectorMeasure << std::endl;
     return EXIT_FAILURE;
@@ -178,7 +178,7 @@ int itkMeanSquaresImageToImageMetricv4OnVectorTest2(int, char ** const)
 
   for( itk::SizeValueType n = 0; n < scalarDerivative.Size(); n++ )
     {
-    if( vcl_fabs( scalarDerivative[n] - ( vectorDerivative[n] / vectorLength ) ) > tolerance )
+    if( std::fabs( scalarDerivative[n] - ( vectorDerivative[n] / vectorLength ) ) > tolerance )
       {
       std::cerr << "Derivatives do not match within tolerance. scalarDerivative, vectorDerivative: " << scalarDerivative << std::endl << vectorDerivative << std::endl;
       return EXIT_FAILURE;

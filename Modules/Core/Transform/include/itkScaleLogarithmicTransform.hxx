@@ -45,7 +45,7 @@ ScaleLogarithmicTransform<ScalarType, NDimensions>
 
   for( unsigned int i = 0; i < SpaceDimension; i++ )
     {
-    scales[i] = vcl_exp(parameters[i]);
+    scales[i] = std::exp(parameters[i]);
     }
   // Save parameters. Needed for proper operation of TransformUpdateParameters.
   if( &parameters != &(this->m_Parameters) )
@@ -71,7 +71,7 @@ const typename ScaleLogarithmicTransform<TScalar, NDimensions>::ParametersType
   // Transfer the translation part
   for( unsigned int i = 0; i < SpaceDimension; i++ )
     {
-    this->m_Parameters[i] = vcl_log(scales[i]);
+    this->m_Parameters[i] = std::log(scales[i]);
     }
 
   itkDebugMacro(<< "After getting parameters " << this->m_Parameters);

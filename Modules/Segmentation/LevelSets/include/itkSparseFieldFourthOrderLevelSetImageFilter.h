@@ -233,7 +233,7 @@ public:
       processing band. */
   unsigned int GetMinimumNumberOfLayers() const
   {
-    return (int)vcl_ceil( m_CurvatureBandWidth
+    return (int)std::ceil( m_CurvatureBandWidth
                           + itkGetStaticConstMacro(ImageDimension) );
   }
 

@@ -127,11 +127,11 @@ int itkMultiLevelSetChanAndVeseInternalTermTest( int , char* [] )
 
     id_image->SetPixel( idx, list_ids );
 
-    it1.Set( vcl_sqrt(
+    it1.Set( std::sqrt(
              static_cast< float> ( ( idx[0] - 2 ) * ( idx[0] - 2 ) +
                                    ( idx[1] - 2 ) * ( idx[1] - 2 ) ) ) );
 
-    it2.Set( vcl_sqrt(
+    it2.Set( std::sqrt(
              static_cast< float> ( ( idx[0] - 5 ) * ( idx[0] - 5 ) +
                                    ( idx[1] - 5 ) * ( idx[1] - 5 ) ) ) );
     ++it1;

@@ -257,21 +257,21 @@ MutualInformationImageToImageMetric<TFixedImage, TMovingImage>
 
     if( dSumFixed.GetSum() > 0.0 )
       {
-      dLogSumFixed -= vcl_log( dSumFixed.GetSum() );
+      dLogSumFixed -= std::log( dSumFixed.GetSum() );
       }
     if( dSumMoving.GetSum() > 0.0 )
       {
-      dLogSumMoving -= vcl_log( dSumMoving.GetSum() );
+      dLogSumMoving -= std::log( dSumMoving.GetSum() );
       }
     if( dSumJoint.GetSum() > 0.0 )
       {
-      dLogSumJoint -= vcl_log( dSumJoint.GetSum() );
+      dLogSumJoint -= std::log( dSumJoint.GetSum() );
       }
     } // end of sample B loop
 
   double nsamp   = double(m_NumberOfSpatialSamples);
 
-  double threshold = -0.5 *nsamp *vcl_log(m_MinProbability);
+  double threshold = -0.5 *nsamp *std::log(m_MinProbability);
   if( dLogSumMoving.GetSum() > threshold || dLogSumFixed.GetSum() > threshold
       || dLogSumJoint.GetSum() > threshold  )
     {
@@ -282,7 +282,7 @@ MutualInformationImageToImageMetric<TFixedImage, TMovingImage>
 
   MeasureType measure = dLogSumFixed.GetSum() + dLogSumMoving.GetSum() - dLogSumJoint.GetSum();
   measure /= nsamp;
-  measure += vcl_log(nsamp);
+  measure += std::log(nsamp);
 
   return measure;
 }
@@ -376,15 +376,15 @@ MutualInformationImageToImageMetric<TFixedImage, TMovingImage>
 
     if( dSumFixed.GetSum() > 0.0 )
       {
-      dLogSumFixed -= vcl_log( dSumFixed.GetSum() );
+      dLogSumFixed -= std::log( dSumFixed.GetSum() );
       }
     if( dDenominatorMoving.GetSum() > 0.0 )
       {
-      dLogSumMoving -= vcl_log( dDenominatorMoving.GetSum() );
+      dLogSumMoving -= std::log( dDenominatorMoving.GetSum() );
       }
     if( dDenominatorJoint.GetSum() > 0.0 )
       {
-      dLogSumJoint -= vcl_log( dDenominatorJoint.GetSum() );
+      dLogSumJoint -= std::log( dDenominatorJoint.GetSum() );
       }
 
     /** get the image derivative for this B sample */
@@ -423,7 +423,7 @@ MutualInformationImageToImageMetric<TFixedImage, TMovingImage>
 
   double nsamp    = double(m_NumberOfSpatialSamples);
 
-  double threshold = -0.5 *nsamp *vcl_log(m_MinProbability);
+  double threshold = -0.5 *nsamp *std::log(m_MinProbability);
   if( dLogSumMoving.GetSum() > threshold || dLogSumFixed.GetSum() > threshold
       || dLogSumJoint.GetSum() > threshold  )
     {
@@ -434,7 +434,7 @@ MutualInformationImageToImageMetric<TFixedImage, TMovingImage>
 
   value  = dLogSumFixed.GetSum() + dLogSumMoving.GetSum() - dLogSumJoint.GetSum();
   value /= nsamp;
-  value += vcl_log(nsamp);
+  value += std::log(nsamp);
 
   derivative /= nsamp;
   derivative /= vnl_math_sqr(m_MovingImageStandardDeviation);

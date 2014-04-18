@@ -142,13 +142,13 @@ public:
     {
     if( (A > 0.0) )
       {
-      if( -(30.0 * vcl_log(A)) > 255 )
+      if( -(30.0 * std::log(A)) > 255 )
         {
         return static_cast<OutputPixelType>( 255 );
         }
       else
         {
-        return itk::Math::Round<OutputPixelType>( -(30.0 * vcl_log(A)) );
+        return itk::Math::Round<OutputPixelType>( -(30.0 * std::log(A)) );
         }
       }
     else

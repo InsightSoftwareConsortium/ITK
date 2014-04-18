@@ -34,7 +34,7 @@ namespace itk
  * to be extracted. The output is the image of the accumulator.
  * GetLines() returns a list of LinesSpatialObjects.
  *
- * Lines are parameterized in the form: R = x*vcl_cos(Teta)+y*vcl_sin(Teta)
+ * Lines are parameterized in the form: R = x*std::cos(Teta)+y*std::sin(Teta)
  * where R is the perpendicular distance from the origin and Teta
  * the angle with the normal.
  *

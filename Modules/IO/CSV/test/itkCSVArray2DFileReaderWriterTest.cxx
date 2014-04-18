@@ -49,7 +49,7 @@ bool testArray(const itk::Array2D<T> & m1, const itk::Array2D<T> & m2)
         pass = false;
         return pass;
       }
-      if (vcl_fabs(m1[i][j] - m2[i][j]) > epsilon)
+      if (std::fabs(m1[i][j] - m2[i][j]) > epsilon)
         {
         pass = false;
         return pass;
@@ -61,7 +61,7 @@ bool testArray(const itk::Array2D<T> & m1, const itk::Array2D<T> & m2)
 
 int itkCSVFileReaderWriterTest_Func(int argc, char *argv[], bool headers)
 {
-  double nan = vcl_numeric_limits<double>::quiet_NaN();
+  double nan = std::numeric_limits<double>::quiet_NaN();
 
   typedef itk::Array2D<double> MatrixType;
   const unsigned int ARows = 3;

@@ -192,7 +192,7 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::EvaluateMetricGivenSolution( Elem
       try
         {
         this->Fe( Gpos );
-        tempe = vcl_fabs(0.0);
+        tempe = std::fabs(0.0);
         }
       catch( ... )
         {
@@ -209,7 +209,7 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::EvaluateMetricGivenSolution( Elem
     }
 
   // std::cout << " def e " << defe << " sim e " << energy*m_Gamma << std::endl;
-  return vcl_fabs( (double)energy * (double)m_Gamma - (double)defe);
+  return std::fabs( (double)energy * (double)m_Gamma - (double)defe);
 }
 
 
@@ -254,7 +254,7 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::Fe( FEMVectorType  Gpos )
   bool         inimage = true;
   for( k = 0; k < ImageDimension; k++ )
     {
-    if( vnl_math_isnan(Gpos[k])  || vnl_math_isinf(Gpos[k]) || vcl_fabs(Gpos[k]) > 1.e33 )
+    if( vnl_math_isnan(Gpos[k])  || vnl_math_isinf(Gpos[k]) || std::fabs(Gpos[k]) > 1.e33 )
       {
       return femVec;
       }

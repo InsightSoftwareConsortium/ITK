@@ -136,7 +136,7 @@ int itkPointGeometryTest(int, char* [] )
     {
     FloatPointType::ValueType val =
         static_cast< FloatPointType::ValueType >( dp[i] );
-    if( vcl_fabs ( val - fp[i] ) > tolerance )
+    if( std::fabs ( val - fp[i] ) > tolerance )
       {
         std::cout << "Failed at component " << i << std::endl;
         return EXIT_FAILURE;
@@ -190,7 +190,7 @@ int itkPointGeometryTest(int, char* [] )
     for(unsigned int i=0; i<N; i++ )
     {
       const double value = (alpha*A[i]+(1.0-alpha)*B[i]);
-      if( vcl_fabs(combination[i] - value ) > tolerance )
+      if( std::fabs(combination[i] - value ) > tolerance )
       {
         std::cerr << "Failure to compute Barycentric combination" << std::endl;
         return EXIT_FAILURE;
@@ -222,7 +222,7 @@ int itkPointGeometryTest(int, char* [] )
     for(unsigned int i=0; i<N; i++ )
     {
       const double value = alpha*A[i]+beta*B[i]+(1.0-alpha-beta)*C[i];
-      if( vcl_fabs( combination[i] - value ) > tolerance )
+      if( std::fabs( combination[i] - value ) > tolerance )
       {
         std::cerr << "Failure to compute Barycentric combination" << std::endl;
         return EXIT_FAILURE;
@@ -251,7 +251,7 @@ int itkPointGeometryTest(int, char* [] )
     std::cout << "Test for Barycentric combination of an array of Points" << std::endl;
     for(unsigned int i=0; i<N; i++ )
     {
-      if( vcl_fabs( combination[i] - (K/3.0) ) > tolerance )
+      if( std::fabs( combination[i] - (K/3.0) ) > tolerance )
       {
         std::cerr << "Failure to compute Barycentric combination" << std::endl;
         return EXIT_FAILURE;
@@ -291,7 +291,7 @@ int itkPointGeometryTest(int, char* [] )
     std::cout << "Test for Barycentric combination of a VectorContainer of Points" << std::endl;
     for(unsigned int i=0; i<N; i++ )
     {
-      if( vcl_fabs( combination[i] - (K/3.0) ) > tolerance )
+      if( std::fabs( combination[i] - (K/3.0) ) > tolerance )
       {
         std::cerr << "Failure to compute Barycentric combination" << std::endl;
         return EXIT_FAILURE;

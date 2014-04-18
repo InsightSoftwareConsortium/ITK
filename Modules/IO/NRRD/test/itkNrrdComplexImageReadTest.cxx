@@ -66,44 +66,44 @@ int itkNrrdComplexImageReadTest( int ac, char* av[] )
   coord[0] = 0;
   coord[1] = 0;
   sample = image->GetPixel(coord);
-  err += vcl_fabs(sample.real() - 27.985973);
-  err += vcl_fabs(sample.imag() - 0.0);
+  err += std::fabs(sample.real() - 27.985973);
+  err += std::fabs(sample.imag() - 0.0);
 
   coord[0] = 53;
   coord[1] = 43;
   sample = image->GetPixel(coord);
-  err += vcl_fabs(sample.real() - -0.94961888);
-  err += vcl_fabs(sample.imag() - 0.409872);
+  err += std::fabs(sample.real() - -0.94961888);
+  err += std::fabs(sample.imag() - 0.409872);
 
   coord[0] = 10;
   coord[1] = 43;
   sample = image->GetPixel(coord);
-  err += vcl_fabs(sample.real() - -0.096564025);
-  err += vcl_fabs(sample.imag() - 0.0094992276);
+  err += std::fabs(sample.real() - -0.096564025);
+  err += std::fabs(sample.imag() - 0.0094992276);
 
   coord[0] = 10;
   coord[1] = 0;
   sample = image->GetPixel(coord);
-  err += vcl_fabs(sample.real() - 0.036231704);
-  err += vcl_fabs(sample.imag() - -0.016659589);
+  err += std::fabs(sample.real() - 0.036231704);
+  err += std::fabs(sample.imag() - -0.016659589);
 
   coord[0] = 42;
   coord[1] = 42;
   sample = image->GetPixel(coord);
-  err += vcl_fabs(sample.real() - -0.027012844);
-  err += vcl_fabs(sample.imag() - -0.012217643);
+  err += std::fabs(sample.real() - -0.027012844);
+  err += std::fabs(sample.imag() - -0.012217643);
 
   coord[0] = 50;
   coord[1] = 40;
   sample = image->GetPixel(coord);
-  err += vcl_fabs(sample.real() - 0.44949868);
-  err += vcl_fabs(sample.imag() - -0.033380687);
+  err += std::fabs(sample.real() - 0.44949868);
+  err += std::fabs(sample.imag() - -0.033380687);
 
   coord[0] = 8;
   coord[1] = 9;
   sample = image->GetPixel(coord);
-  err += vcl_fabs(sample.real() - -0.036674671);
-  err += vcl_fabs(sample.imag() - -0.0061681992);
+  err += std::fabs(sample.real() - -0.036674671);
+  err += std::fabs(sample.imag() - -0.0061681992);
 
   double thresh = 0.00000038;
   if (err > thresh)

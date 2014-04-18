@@ -151,7 +151,7 @@ int itkObjectToObjectMultiMetricv4TestEvaluate( ObjectToObjectMultiMetricv4TestM
     combinedDerivativeTruth[p] *= totalMagnitude;
     }
 
-  if( vcl_fabs( weightedMetricValue - multiVariateMetric->GetWeightedValue() ) > 1e-6 )
+  if( std::fabs( weightedMetricValue - multiVariateMetric->GetWeightedValue() ) > 1e-6 )
     {
     std::cerr << "Computed weighted metric value " << weightedMetricValue << " does match returned value "
               << multiVariateMetric->GetWeightedValue() << std::endl;
@@ -161,7 +161,7 @@ int itkObjectToObjectMultiMetricv4TestEvaluate( ObjectToObjectMultiMetricv4TestM
   for( MultiMetricType::NumberOfParametersType p = 0; p < multiVariateMetric->GetNumberOfParameters(); p++ )
     {
     MultiMetricType::DerivativeValueType tolerance = static_cast<MultiMetricType::DerivativeValueType> (1e-6);
-    if( vcl_fabs(combinedDerivativeTruth[p] - combinedDerivative[p]) > tolerance )
+    if( std::fabs(combinedDerivativeTruth[p] - combinedDerivative[p]) > tolerance )
       {
       std::cerr << "Error: combinedDerivative does not match expected result." << std::endl;
       if( useDisplacementTransform )
@@ -489,15 +489,15 @@ int itkObjectToObjectMultiMetricv4TestRun(bool useDisplacementTransform )
   // Check that results are the same for all three estimations
   bool passedEstimation = true;
   ScalesEstimatorMultiType::FloatType tolerance = static_cast<ScalesEstimatorMultiType::FloatType>(1e-6);
-  if( vcl_fabs(singleStep - multiSingleStep) > tolerance || vcl_fabs(singleStep - multiDoubleStep) > tolerance )
+  if( std::fabs(singleStep - multiSingleStep) > tolerance || std::fabs(singleStep - multiDoubleStep) > tolerance )
     {
     std::cerr << "Steps do not match as expected between estimation on same metric." << std::endl;
     passedEstimation = false;
     }
-  if( vcl_fabs(singleScales[0] - multiSingleScales[0] ) > tolerance ||
-      vcl_fabs(singleScales[1] - multiSingleScales[1] ) > tolerance ||
-      vcl_fabs(singleScales[0] - multiDoubleScales[0] ) > tolerance ||
-      vcl_fabs(singleScales[1] - multiDoubleScales[1] ) > tolerance   )
+  if( std::fabs(singleScales[0] - multiSingleScales[0] ) > tolerance ||
+      std::fabs(singleScales[1] - multiSingleScales[1] ) > tolerance ||
+      std::fabs(singleScales[0] - multiDoubleScales[0] ) > tolerance ||
+      std::fabs(singleScales[1] - multiDoubleScales[1] ) > tolerance   )
     {
     std::cerr << "Scales do not match as expected between estimation on same metric." << std::endl;
     passedEstimation = false;

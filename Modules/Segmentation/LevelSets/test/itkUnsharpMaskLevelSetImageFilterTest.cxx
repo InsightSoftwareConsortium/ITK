@@ -37,7 +37,7 @@ float square(unsigned x, unsigned y)
       }
     else
       {
-      dis = -vcl_sqrt((X - RADIUS)*(X - RADIUS) +  (Y - RADIUS)*(Y - RADIUS));
+      dis = -std::sqrt((X - RADIUS)*(X - RADIUS) +  (Y - RADIUS)*(Y - RADIUS));
       }
     return(dis);
 }

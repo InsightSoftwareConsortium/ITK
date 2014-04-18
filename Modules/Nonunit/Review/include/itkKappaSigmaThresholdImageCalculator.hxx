@@ -109,7 +109,7 @@ KappaSigmaThresholdImageCalculator< TInputImage, TMaskImage >
         }
       ++iIt;
       }
-    sigma = vcl_sqrt( sigma / ( count - 1 ) );
+    sigma = std::sqrt( sigma / ( count - 1 ) );
 
     // compute the threshold for the next iteration
     InputPixelType newThreshold = static_cast< InputPixelType >( mean + this->m_SigmaFactor * sigma );

@@ -371,20 +371,20 @@ IsoContourDistanceImageFilter< TInputImage, TOutputImage >
         grad[ng] = ( grad0[ng] * alpha0 + grad1[ng] * alpha1 ) / ( 2. * static_cast< PixelRealType >( m_Spacing[ng] ) );
         norm += grad[ng] * grad[ng];
         }
-      norm = vcl_sqrt( norm );
+      norm = std::sqrt( norm );
 
       if ( norm > NumericTraits< PixelRealType >::min() )
         {
-        PixelRealType val = vcl_fabs( grad[n] ) * m_Spacing[n] / norm / diff;
+        PixelRealType val = std::fabs( grad[n] ) * m_Spacing[n] / norm / diff;
 
         PixelRealType valNew0 = val0 * val;
         PixelRealType valNew1 = val1 * val;
 
-        if ( vcl_fabs( static_cast< double >( valNew0 ) ) < vcl_fabs( static_cast< double >( outNeigIt.GetNext(n, 0) ) ) )
+        if ( std::fabs( static_cast< double >( valNew0 ) ) < std::fabs( static_cast< double >( outNeigIt.GetNext(n, 0) ) ) )
           {
           outNeigIt.SetNext( n, 0, static_cast< PixelType >( valNew0 ) );
           }
-        if ( vcl_fabs( static_cast< double >( valNew1 ) ) < vcl_fabs( static_cast< double >( outNeigIt.GetNext(n, 1) ) ) )
+        if ( std::fabs( static_cast< double >( valNew1 ) ) < std::fabs( static_cast< double >( outNeigIt.GetNext(n, 1) ) ) )
           {
           outNeigIt.SetNext( n, 1, static_cast< PixelType >( valNew1 ) );
           }

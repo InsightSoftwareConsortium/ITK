@@ -120,7 +120,7 @@ public:
       magnitude2 += fc * fc;
       }
 
-    const double gradientMagnitude = vcl_sqrt( magnitude2 );
+    const double gradientMagnitude = std::sqrt( magnitude2 );
 
     std::cout << optimizer->GetCurrentIteration() << "   ";
     std::cout << optimizer->GetValue() << "   ";

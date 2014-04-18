@@ -61,7 +61,7 @@ CumulativeGaussianOptimizer
 
   for ( int i = 0; i < (int)( extendedArray->GetNumberOfElements() ); i++ )
     {
-    extendedArray->put( i, amplitude * vcl_exp( -( vcl_pow( ( i - mean ), 2 ) / ( 2 * vcl_pow(sd, 2) ) ) ) );
+    extendedArray->put( i, amplitude * std::exp( -( std::pow( ( i - mean ), 2 ) / ( 2 * std::pow(sd, 2) ) ) ) );
     }
   // Then insert the originalArray over the middle section of extendedArray.
   for ( int i = 0; i < (int)( originalArray->GetNumberOfElements() ); i++ )
@@ -141,12 +141,12 @@ CumulativeGaussianOptimizer
     averageSumOfSquaredDifferences = FindAverageSumOfSquaredDifferences(extendedArray, extendedArrayCopy);
 
     // Stop if there is a very very very small change between iterations.
-    if ( vcl_fabs(temp - averageSumOfSquaredDifferences) <= m_DifferenceTolerance )
+    if ( std::fabs(temp - averageSumOfSquaredDifferences) <= m_DifferenceTolerance )
       {
       m_StopConditionDescription.str("");
       m_StopConditionDescription << this->GetNameOfClass() << ": "
                                  << "Change between iterations ("
-                                 << vcl_fabs(temp - averageSumOfSquaredDifferences)
+                                 << std::fabs(temp - averageSumOfSquaredDifferences)
                                  << ") is less than DifferenceTolerance ("
                                  << m_DifferenceTolerance
                                  << ").";
@@ -197,15 +197,15 @@ void CumulativeGaussianOptimizer
   // Calculate the standard deviation
   for ( int i = 0; i < (int)( array->GetNumberOfElements() ); i++ )
     {
-    m_ComputedStandardDeviation += array->get(i) * vcl_pow( ( i - m_ComputedMean ), 2 );
+    m_ComputedStandardDeviation += array->get(i) * std::pow( ( i - m_ComputedMean ), 2 );
     }
-  m_ComputedStandardDeviation = vcl_sqrt(m_ComputedStandardDeviation / sum);
+  m_ComputedStandardDeviation = std::sqrt(m_ComputedStandardDeviation / sum);
 
   // For the ERF, sum is the difference between the lower and upper intensities.
   m_ComputedTransitionHeight = sum;
 
   // Calculate the amplitude.
-  m_ComputedAmplitude =  sum / ( m_ComputedStandardDeviation * vcl_sqrt(2 * vnl_math::pi) );
+  m_ComputedAmplitude =  sum / ( m_ComputedStandardDeviation * std::sqrt(2 * vnl_math::pi) );
 }
 
 void
@@ -244,7 +244,7 @@ CumulativeGaussianOptimizer
     if ( i < startingPointForInsertion
          || i >= startingPointForInsertion + (int)( originalArray->GetNumberOfElements() ) )
       {
-      extendedArray->put( i, amplitude * vcl_exp( -( vcl_pow( ( i - mean ), 2 ) / ( 2 * vcl_pow(sd, 2) ) ) ) );
+      extendedArray->put( i, amplitude * std::exp( -( std::pow( ( i - mean ), 2 ) / ( 2 * std::pow(sd, 2) ) ) ) );
       }
     }
   return extendedArray;
@@ -298,8 +298,8 @@ CumulativeGaussianOptimizer
   for ( int i = 0; i < sampledGaussianArraySize; i++ )
     {
     sampledGaussianArray->put( i, m_ComputedAmplitude
-                               * vcl_exp( -( vcl_pow( ( i - m_ComputedMean ),
-                                                      2 ) / ( 2 * vcl_pow(m_ComputedStandardDeviation, 2) ) ) ) );
+                               * std::exp( -( std::pow( ( i - m_ComputedMean ),
+                                                      2 ) / ( 2 * std::pow(m_ComputedStandardDeviation, 2) ) ) ) );
     }
   // Add 0.5 to the mean of the sampled Gaussian curve to make up for the 0.5
   // shift during derivation, then take the integral of the Gaussian sample

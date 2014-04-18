@@ -47,7 +47,7 @@ EuclideanDistanceMetric< TVector >
     sumOfSquares += temp * temp;
     }
 
-  const double distance = vcl_sqrt(sumOfSquares);
+  const double distance = std::sqrt(sumOfSquares);
 
   return distance;
 }
@@ -74,7 +74,7 @@ EuclideanDistanceMetric< TVector >
     sumOfSquares += temp * temp;
     }
 
-  const double distance = vcl_sqrt(sumOfSquares);
+  const double distance = std::sqrt(sumOfSquares);
 
   return distance;
 }
@@ -86,7 +86,7 @@ EuclideanDistanceMetric< TVector >
 {
   const double temp = a - b;
 
-  return vcl_abs(temp);
+  return std::abs(temp);
 }
 } // end of namespace Statistics
 } // end of namespace itk

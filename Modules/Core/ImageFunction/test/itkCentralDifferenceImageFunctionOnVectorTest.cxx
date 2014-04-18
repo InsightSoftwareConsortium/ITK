@@ -27,7 +27,7 @@ bool IsEqual( T & m1, T & m2 )
     {
     for( unsigned int c=0; c < T::ColumnDimensions; c++ )
       {
-      if( vcl_fabs( m1(r,c) - m2(r,c) ) > 1e-4 )
+      if( std::fabs( m1(r,c) - m2(r,c) ) > 1e-4 )
         {
         return false;
         }

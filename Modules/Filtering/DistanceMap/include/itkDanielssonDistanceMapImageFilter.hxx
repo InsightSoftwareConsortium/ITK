@@ -296,7 +296,7 @@ DanielssonDistanceMapImageFilter< TInputImage, TOutputImage, TVoronoiImage >
       }
     else
       {
-      dt.Set( static_cast< OutputPixelType >( vcl_sqrt(distance) ) );
+      dt.Set( static_cast< OutputPixelType >( std::sqrt(distance) ) );
       }
     ++ot;
     ++ct;

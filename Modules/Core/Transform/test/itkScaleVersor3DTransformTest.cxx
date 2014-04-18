@@ -68,7 +68,7 @@ int itkScaleVersor3DTransformTest(int, char * [] )
 
     VectorType axis(1.5);
 
-    ValueType angle = 120.0 * vcl_atan(1.0) / 45.0;
+    ValueType angle = 120.0 * std::atan(1.0) / 45.0;
 
     VersorType versor;
     versor.Set( axis, angle );
@@ -132,7 +132,7 @@ int itkScaleVersor3DTransformTest(int, char * [] )
 
     itk::Vector<double, 3> axis(1);
 
-    const double angle = (vcl_atan(1.0) / 45.0) * 120.0; // turn 120 degrees
+    const double angle = (std::atan(1.0) / 45.0) * 120.0; // turn 120 degrees
 
     // this rotation will permute the axis x->y, y->z, z->x
     rotation->SetRotation( axis, angle );
@@ -142,7 +142,7 @@ int itkScaleVersor3DTransformTest(int, char * [] )
     std::cout << offset << std::endl;
     for( unsigned int i = 0; i < 3; i++ )
       {
-      if( vcl_fabs( offset[i] - 0.0 ) > epsilon )
+      if( std::fabs( offset[i] - 0.0 ) > epsilon )
         {
         Ok = false;
         break;
@@ -169,7 +169,7 @@ int itkScaleVersor3DTransformTest(int, char * [] )
       r = rotation->TransformPoint( p );
       for( unsigned int i = 0; i < 3; i++ )
         {
-        if( vcl_fabs( q[i] - r[i] ) > epsilon )
+        if( std::fabs( q[i] - r[i] ) > epsilon )
           {
           Ok = false;
           break;
@@ -199,7 +199,7 @@ int itkScaleVersor3DTransformTest(int, char * [] )
       r = rotation->TransformVector( p );
       for( unsigned int i = 0; i < 3; i++ )
         {
-        if( vcl_fabs( q[i] - r[i] ) > epsilon )
+        if( std::fabs( q[i] - r[i] ) > epsilon )
           {
           Ok = false;
           break;
@@ -229,7 +229,7 @@ int itkScaleVersor3DTransformTest(int, char * [] )
       r = rotation->TransformCovariantVector( p );
       for( unsigned int i = 0; i < 3; i++ )
         {
-        if( vcl_fabs( q[i] - r[i] ) > epsilon )
+        if( std::fabs( q[i] - r[i] ) > epsilon )
           {
           Ok = false;
           break;
@@ -262,7 +262,7 @@ int itkScaleVersor3DTransformTest(int, char * [] )
       r = rotation->TransformVector( p );
       for( unsigned int i = 0; i < 3; i++ )
         {
-        if( vcl_fabs( q[i] - r[i] ) > epsilon )
+        if( std::fabs( q[i] - r[i] ) > epsilon )
           {
           Ok = false;
           break;
@@ -291,7 +291,7 @@ int itkScaleVersor3DTransformTest(int, char * [] )
 
     itk::Vector<double, 3> axis(1);
 
-    const double angle = (vcl_atan(1.0) / 45.0) * 30.0; // turn 30 degrees
+    const double angle = (std::atan(1.0) / 45.0) * 30.0; // turn 30 degrees
 
     transform->SetRotation( axis, angle );
 
@@ -306,7 +306,7 @@ int itkScaleVersor3DTransformTest(int, char * [] )
     transformedPoint = transform->TransformPoint( center );
     for( unsigned int i = 0; i < 3; i++ )
       {
-      if( vcl_fabs( center[i] - transformedPoint[i] ) > epsilon )
+      if( std::fabs( center[i] - transformedPoint[i] ) > epsilon )
         {
         Ok = false;
         break;
@@ -347,7 +347,7 @@ int itkScaleVersor3DTransformTest(int, char * [] )
     const double tolerance = 1e-8;
     for( unsigned int p = 0; p < np; p++ )
       {
-      if( vcl_fabs( parameters[p] - parameters2[p] ) > tolerance )
+      if( std::fabs( parameters[p] - parameters2[p] ) > tolerance )
         {
         std::cerr << "Output parameter does not match input " << std::endl;
         return EXIT_FAILURE;
@@ -428,7 +428,7 @@ int itkScaleVersor3DTransformTest(int, char * [] )
 
     itk::Vector<double, 3> axis(1);
 
-    const double angle = (vcl_atan(1.0) / 45.0) * 30.0; // turn 30 degrees
+    const double angle = (std::atan(1.0) / 45.0) * 30.0; // turn 30 degrees
 
     transform->SetRotation( axis, angle );
 
@@ -462,7 +462,7 @@ int itkScaleVersor3DTransformTest(int, char * [] )
     const double tolerance = 1e-8;
     for( unsigned int p = 0; p < np; p++ )
       {
-      if( vcl_fabs( parameters[p] - parameters2[p] ) > tolerance )
+      if( std::fabs( parameters[p] - parameters2[p] ) > tolerance )
         {
         std::cerr << "Output parameter does not match input " << std::endl;
         return EXIT_FAILURE;
@@ -477,7 +477,7 @@ int itkScaleVersor3DTransformTest(int, char * [] )
 
     itk::Vector<double, 3> axis(1);
 
-    const double angle = (vcl_atan(1.0) / 45.0) * 30.0; // turn 30 degrees
+    const double angle = (std::atan(1.0) / 45.0) * 30.0; // turn 30 degrees
 
     transform->SetRotation( axis, angle );
 
@@ -505,7 +505,7 @@ int itkScaleVersor3DTransformTest(int, char * [] )
     const double tolerance = 1e-8;
     for( unsigned int j = 0; j < 3; j++ )
       {
-      if( vcl_fabs( rscale[j] - scale[j] ) > tolerance )
+      if( std::fabs( rscale[j] - scale[j] ) > tolerance )
         {
         std::cerr << "Error in Set/Get Scale() " << std::endl;
         std::cerr << "Input scale: " << scale << std::endl;
@@ -535,7 +535,7 @@ int itkScaleVersor3DTransformTest(int, char * [] )
     ParametersType parameters2 = transform->GetParameters();
     for( unsigned int p = 0; p < np; p++ )
       {
-      if( vcl_fabs( parameters[p] - parameters2[p] ) > tolerance )
+      if( std::fabs( parameters[p] - parameters2[p] ) > tolerance )
         {
         std::cerr << "Output parameter does not match input " << std::endl;
         return EXIT_FAILURE;

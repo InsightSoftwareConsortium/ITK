@@ -63,7 +63,7 @@ ChainCodeToFourierSeriesPathFilter< TInputChainCodePath, TOutputFourierSeriesPat
   numSteps = inputPtr->NumberOfSteps();
   outputPtr->Clear();
 
-  const double nPI = 4.0 * vcl_atan(1.0);
+  const double nPI = 4.0 * std::atan(1.0);
 
   // Adjust our private copy of numHarmonics if necessary
   if ( numHarmonics <= 1 )
@@ -92,8 +92,8 @@ ChainCodeToFourierSeriesPathFilter< TInputChainCodePath, TOutputFourierSeriesPat
         indexVector[d] = index[d];
         }
 
-      cosCoefficient += indexVector * ( vcl_cos(theta) / numSteps );
-      sinCoefficient += indexVector * ( vcl_sin(theta) / numSteps );
+      cosCoefficient += indexVector * ( std::cos(theta) / numSteps );
+      sinCoefficient += indexVector * ( std::sin(theta) / numSteps );
       }
 
     outputPtr->AddHarmonic(cosCoefficient, sinCoefficient);

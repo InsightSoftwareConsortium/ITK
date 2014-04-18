@@ -32,7 +32,7 @@ namespace itk
  *
  * The output image size in each dimension is given by:
  *
- * outputSize[j] = max( vcl_floor(inputSize[j]/shrinkFactor[j]), 1 );
+ * outputSize[j] = max( std::floor(inputSize[j]/shrinkFactor[j]), 1 );
  *
  * The algorithm implemented can be describe with the following
  * equation for 2D:

@@ -178,7 +178,7 @@ int itkRegistrationParameterScalesFromIndexShiftTest(int , char* [])
   bool affinePass = true;
   for (itk::SizeValueType p = 0; p < theoreticalMovingScales.GetSize(); p++)
     {
-    if (vcl_abs((movingScales[p] - theoreticalMovingScales[p]) / theoreticalMovingScales[p]) > 0.01 )
+    if (std::abs((movingScales[p] - theoreticalMovingScales[p]) / theoreticalMovingScales[p]) > 0.01 )
       {
       affinePass = false;
       break;
@@ -224,11 +224,11 @@ int itkRegistrationParameterScalesFromIndexShiftTest(int , char* [])
     {
     theoreticalStepScale += upperPoint[row] * upperPoint[row];
     }
-  theoreticalStepScale = vcl_sqrt(theoreticalStepScale);
+  theoreticalStepScale = std::sqrt(theoreticalStepScale);
 
   // compare truth and test
   bool stepScalePass = false;
-  if (vcl_abs( (stepScale - theoreticalStepScale)/theoreticalStepScale ) < 0.01)
+  if (std::abs( (stepScale - theoreticalStepScale)/theoreticalStepScale ) < 0.01)
     {
     stepScalePass = true;
     }
@@ -277,7 +277,7 @@ int itkRegistrationParameterScalesFromIndexShiftTest(int , char* [])
   bool displacementPass = true;
   for (itk::SizeValueType p = 0; p < theoreticalLocalScales.GetSize(); p++)
     {
-    if (vcl_abs((localScales[p] - theoreticalLocalScales[p]) / theoreticalLocalScales[p]) > 0.01 )
+    if (std::abs((localScales[p] - theoreticalLocalScales[p]) / theoreticalLocalScales[p]) > 0.01 )
       {
       displacementPass = false;
       break;
@@ -303,8 +303,8 @@ int itkRegistrationParameterScalesFromIndexShiftTest(int , char* [])
   std::cout << "The learning rate of shift for the displacement field transform = " << localLearningRate << std::endl;
 
   bool localStepScalePass = false;
-  FloatType theoreticalLocalStepScale = vcl_sqrt(2.0);
-  if (vcl_abs( (localStepScale - theoreticalLocalStepScale) /theoreticalLocalStepScale ) < 0.01)
+  FloatType theoreticalLocalStepScale = std::sqrt(2.0);
+  if (std::abs( (localStepScale - theoreticalLocalStepScale) /theoreticalLocalStepScale ) < 0.01)
     {
     localStepScalePass = true;
     }
@@ -335,7 +335,7 @@ int itkRegistrationParameterScalesFromIndexShiftTest(int , char* [])
   bool translationPass = true;
   for (itk::SizeValueType p = 0; p < theoreticalFixedScales.GetSize(); p++)
     {
-    if (vcl_abs((fixedScales[p] - theoreticalFixedScales[p]) / theoreticalFixedScales[p]) > 0.01 )
+    if (std::abs((fixedScales[p] - theoreticalFixedScales[p]) / theoreticalFixedScales[p]) > 0.01 )
       {
       translationPass = false;
       break;

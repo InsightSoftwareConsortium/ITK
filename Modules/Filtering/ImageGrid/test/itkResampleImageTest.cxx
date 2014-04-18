@@ -104,7 +104,7 @@ int itkResampleImageTest(int, char* [] )
     value  = iter2.Get();
     pixval = value;
     PixelType expectedValue = static_cast<PixelType>( (index[0] + index[1]) / 2.0 );
-    if ( vcl_fabs( expectedValue - pixval ) > tolerance )
+    if ( std::fabs( expectedValue - pixval ) > tolerance )
       {
       std::cout << "Error in resampled image: Pixel " << index
                 << "value    = " << value << "  "

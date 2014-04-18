@@ -81,9 +81,9 @@ SignedMaurerDistanceMapImageFilter< TInputImage, TOutputImage >
   double range = static_cast< double >( requestedRegionSize[splitAxis] );
 
   unsigned int valuesPerThread =
-    static_cast< unsigned int >( vcl_ceil( range / static_cast< double >( num ) ) );
+    static_cast< unsigned int >( std::ceil( range / static_cast< double >( num ) ) );
   unsigned int maxThreadIdUsed =
-    static_cast< unsigned int >( vcl_ceil( range / static_cast< double >( valuesPerThread ) ) ) - 1;
+    static_cast< unsigned int >( std::ceil( range / static_cast< double >( valuesPerThread ) ) ) - 1;
 
   // Split the region
   if ( i < maxThreadIdUsed )
@@ -288,7 +288,7 @@ SignedMaurerDistanceMapImageFilter< TInputImage, TOutputImage >
       // cast to a real type is required on some platforms
       const OutputPixelType outputValue =
         static_cast< OutputPixelType >(
-          vcl_sqrt( static_cast< OutputRealType >( vnl_math_abs( Ot.Get() ) ) ) );
+          std::sqrt( static_cast< OutputRealType >( vnl_math_abs( Ot.Get() ) ) ) );
 
       if ( It.Get() != this->m_BackgroundValue )
         {

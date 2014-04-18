@@ -248,7 +248,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutput
         // to surfaces that pass close to the current of cells.  This is a
         // heuristic fudge factor that improves interpolation and reduces
         // "wiggling" at convergence.
-        ValueType coeff = current * vcl_sqrt(ImageDimension
+        ValueType coeff = current * std::sqrt(ImageDimension
                                              + 0.5) / ( gradientMagnitudeSqr + MIN_NORM );
 
         for ( j = 0; j < ImageDimension; ++j )
@@ -740,7 +740,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
           }
         gradientMagnitudeSqr += dx * dx;
         }
-      gradientMagnitude = vcl_sqrt (gradientMagnitudeSqr) + MIN_NORM;
+      gradientMagnitude = std::sqrt (gradientMagnitudeSqr) + MIN_NORM;
 
       // Compute the correct distance as phi(x)/gradientMagnitude
       distance = outputIt.GetCenterPixel() / gradientMagnitude;
@@ -892,7 +892,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
           {
           dist += ( p1[j] - p2[j] ) * ( p1[j] - p2[j] );
           }
-        dist = delta * vcl_sqrt(dist);
+        dist = delta * std::sqrt(dist);
 
         value_temp = dist + outputIt.GetPixel (indexNeighbor);   // grab its
                                                                  // value
@@ -993,7 +993,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutput
     }
   else
     {
-    this->SetRMSChange ( vcl_sqrt (m_RMSSum / m_RMSCounter) );
+    this->SetRMSChange ( std::sqrt (m_RMSSum / m_RMSCounter) );
     }
 }
 
@@ -1018,7 +1018,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutput
       {
       m_PixelDistance[i] += offset[j] * spacing[j] * offset[j] * spacing[j];
       }
-    m_PixelDistance[i] = vcl_sqrt(m_PixelDistance[i]);
+    m_PixelDistance[i] = std::sqrt(m_PixelDistance[i]);
     }
 
   for ( IdCellType fId = 0; fId < this->m_FunctionCount; ++fId )

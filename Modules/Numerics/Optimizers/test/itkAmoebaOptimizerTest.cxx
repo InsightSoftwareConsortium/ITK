@@ -347,7 +347,7 @@ int AmoebaTest1()
   // Get the final value of the optimizer
   std::cout << "Testing optimizers GetValue() : ";
   OptimizerType::MeasureType finalValue = itkOptimizer->GetValue();
-  if(vcl_fabs(finalValue+9.99998)>0.01)
+  if(std::fabs(finalValue+9.99998)>0.01)
     {
     std::cerr << "failed\n";
     std::cerr<<"[TEST 1 FAILURE]\n";
@@ -422,7 +422,7 @@ int AmoebaTest1()
   // Get the final value of the optimizer
   std::cout << "Testing optimizer's GetValue() [invokes additional function evaluation]: ";
   finalValue = itkOptimizer->GetValue();
-  if(vcl_fabs(finalValue+9.99998)>0.01)
+  if(std::fabs(finalValue+9.99998)>0.01)
     {
     std::cerr << "failed\n";
     std::cerr <<"[TEST 1 FAILURE]\n";

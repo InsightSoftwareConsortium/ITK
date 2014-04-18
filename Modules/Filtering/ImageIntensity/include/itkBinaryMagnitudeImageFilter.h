@@ -51,7 +51,7 @@ public:
     const double dA = static_cast< double >( A );
     const double dB = static_cast< double >( B );
 
-    return static_cast< TOutput >( vcl_sqrt(dA * dA + dB * dB) );
+    return static_cast< TOutput >( std::sqrt(dA * dA + dB * dB) );
   }
 };
 }
@@ -70,7 +70,7 @@ public:
  * \li cast the input 2 pixel value to \c double
  * \li compute the sum of squares of the two pixel values
  * \li compute the square root of the sum
- * \li cast the \c double value resulting from \c vcl_sqrt() to the pixel type of the output image
+ * \li cast the \c double value resulting from \c std::sqrt() to the pixel type of the output image
  * \li store the cast value into the output image.
  *
  * The filter expects all images to have the same dimension

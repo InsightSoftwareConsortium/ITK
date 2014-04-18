@@ -119,9 +119,9 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
       double Vy = grad[1];
 
       // if the gradient is not flat
-      if ( ( vcl_fabs(Vx) > 1 ) || ( vcl_fabs(Vy) > 1 ) )
+      if ( ( std::fabs(Vx) > 1 ) || ( std::fabs(Vy) > 1 ) )
         {
-        double norm = vcl_sqrt(Vx * Vx + Vy * Vy);
+        double norm = std::sqrt(Vx * Vx + Vy * Vy);
         Vx /= norm;
         Vy /= norm;
 
@@ -132,10 +132,10 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
 
           do
             {
-            index[0] = (IndexValueType)( point[0] - i * ( Vx * vcl_cos(angle) + Vy * vcl_sin(angle) ) );
-            index[1] = (IndexValueType)( point[1] - i * ( Vx * vcl_sin(angle) + Vy * vcl_cos(angle) ) );
+            index[0] = (IndexValueType)( point[0] - i * ( Vx * std::cos(angle) + Vy * std::sin(angle) ) );
+            index[1] = (IndexValueType)( point[1] - i * ( Vx * std::sin(angle) + Vy * std::cos(angle) ) );
 
-            distance = vcl_sqrt( ( index[1] - point[1] ) * ( index[1] - point[1] )
+            distance = std::sqrt( ( index[1] - point[1] ) * ( index[1] - point[1] )
                                  + ( index[0] - point[0] ) * ( index[0] - point[0] ) );
 
             if ( outputImage->GetRequestedRegion().IsInside(index) )
@@ -228,7 +228,7 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
   CirclesListSizeType circles = 0;
   bool         found;
 
-  const double nPI = 4.0 * vcl_atan(1.0);
+  const double nPI = 4.0 * std::atan(1.0);
 
   // Find maxima
   do
@@ -260,8 +260,8 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
           {
           for ( double length = 0; length < m_DiscRadiusRatio * Circle->GetRadius()[0]; length += 1 )
             {
-            index[0] = (IndexValueType)( it_input.GetIndex()[0] + length * vcl_cos(angle) );
-            index[1] = (IndexValueType)( it_input.GetIndex()[1] + length * vcl_sin(angle) );
+            index[0] = (IndexValueType)( it_input.GetIndex()[0] + length * std::cos(angle) );
+            index[1] = (IndexValueType)( it_input.GetIndex()[1] + length * std::sin(angle) );
             if ( postProcessImage->GetLargestPossibleRegion().IsInside(index) )
               {
               postProcessImage->SetPixel(index, 0);

@@ -184,7 +184,7 @@ int GPUDemonsRegistrationFilterTestTemplate(int argc, char *argv[])
       tmp = gpuBuf[i * ImageDimension + d] - cpuBuf[i * ImageDimension + d];
       diff += tmp * tmp;
       }
-    diff = vcl_sqrt(diff);
+    diff = std::sqrt(diff);
     avgDiff += diff;
     if( diff > maxDiff )
       {

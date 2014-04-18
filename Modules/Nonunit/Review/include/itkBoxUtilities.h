@@ -495,7 +495,7 @@ BoxSigmaCalculatorFunction(const TInputImage *accImage,
           ++( CornerItVec[k] );
           }
 
-        oIt.Set( static_cast< OutputPixelType >( vcl_sqrt( ( SquareSum - Sum * Sum / pixelscount ) / ( pixelscount - 1 ) ) ) );
+        oIt.Set( static_cast< OutputPixelType >( std::sqrt( ( SquareSum - Sum * Sum / pixelscount ) / ( pixelscount - 1 ) ) ) );
         progress.CompletedPixel();
         }
       }
@@ -564,7 +564,7 @@ BoxSigmaCalculatorFunction(const TInputImage *accImage,
             }
           }
 
-        oIt.Set( static_cast< OutputPixelType >( vcl_sqrt( ( SquareSum - Sum * Sum
+        oIt.Set( static_cast< OutputPixelType >( std::sqrt( ( SquareSum - Sum * Sum
                                                              / edgepixelscount ) / ( edgepixelscount - 1 ) ) ) );
         progress.CompletedPixel();
         }

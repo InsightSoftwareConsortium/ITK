@@ -123,7 +123,7 @@ BSplineTransformInitializer<TTransform, TImage>
   // We also store the corners using the point set class which gives us easy
   // access to the bounding box.
 
-  const CoordRepType BSplineTransformDomainEpsilon = vcl_pow( 2.0, -3 );
+  const CoordRepType BSplineTransformDomainEpsilon = std::pow( 2.0, -3 );
 
   ContinuousIndexType startIndex;
   for( unsigned int i = 0; i < SpaceDimension; i++ )
@@ -132,7 +132,7 @@ BSplineTransformInitializer<TTransform, TImage>
       BSplineTransformDomainEpsilon;
     }
 
-  for( unsigned int d = 0; d < vcl_pow( 2.0, SpaceDimension ); d++ )
+  for( unsigned int d = 0; d < std::pow( 2.0, SpaceDimension ); d++ )
     {
     ContinuousIndexType whichIndex;
     for( unsigned int i = 0; i < SpaceDimension; i++ )
@@ -200,7 +200,7 @@ BSplineTransformInitializer<TTransform, TImage>
     for( unsigned int i = 0; i < SpaceDimension; i++ )
       {
       PointIdentifier oppositeCornerId = static_cast<PointIdentifier>(
-        vcl_pow( 2.0, static_cast<int>( i ) ) ) ^ transformDomainOriginId;
+        std::pow( 2.0, static_cast<int>( i ) ) ) ^ transformDomainOriginId;
 
       PointType corner;
       corner.Fill( 0.0 );

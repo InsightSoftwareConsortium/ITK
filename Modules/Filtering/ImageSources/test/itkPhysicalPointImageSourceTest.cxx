@@ -121,8 +121,8 @@ int itkPhysicalPointImageSourceTest( int argc, char *argv[] )
     }
   else
     {
-    itk::SpacePrecisionType M[] = { vcl_cos( theta ), -vcl_sin( theta ),
-                    vcl_sin( theta ), vcl_cos( theta ) };
+    itk::SpacePrecisionType M[] = { std::cos( theta ), -std::sin( theta ),
+                    std::sin( theta ), std::cos( theta ) };
 
     direction = vnl_matrix<itk::SpacePrecisionType>( M, 2, 2);
     test = itkPhysicalPointImageSourceTest< itk::VectorImage<float, ImageDimension> >( std::string( argv[1] ), size, spacing, origin, direction );

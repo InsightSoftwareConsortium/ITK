@@ -33,7 +33,7 @@ bool samePoint( const TPoint & p1, const TPoint & p2, double epsilon = 1e-8 )
 
   for( unsigned int i = 0; i < TPoint::PointDimension; i++ )
     {
-    if( vcl_fabs( p1[i] - p2[i] ) > epsilon )
+    if( std::fabs( p1[i] - p2[i] ) > epsilon )
       {
       pass = false;
       }
@@ -48,7 +48,7 @@ bool sameVector( const TVector & p1, const TVector & p2, double epsilon = 1e-8 )
 
   for( unsigned int i = 0; i < TVector::Dimension; i++ )
     {
-    if( vcl_fabs( p1[i] - p2[i] ) > epsilon )
+    if( std::fabs( p1[i] - p2[i] ) > epsilon )
       {
       pass = false;
       }
@@ -70,7 +70,7 @@ bool sameVariableVector( const TVector & p1, const TVector & p2, double epsilon 
     }
   for( unsigned int i = 0; i < D1; i++ )
     {
-    if( vcl_fabs( p1[i] - p2[i] ) > epsilon )
+    if( std::fabs( p1[i] - p2[i] ) > epsilon )
       {
       pass = false;
       }
@@ -85,7 +85,7 @@ bool sameTensor( const TTensor & p1, const TTensor & p2, double epsilon = 1e-8 )
 
   for( unsigned int i = 0; i < TTensor::InternalDimension; i++ )
     {
-    if( vcl_fabs( p1[i] - p2[i] ) > epsilon )
+    if( std::fabs( p1[i] - p2[i] ) > epsilon )
       {
       pass = false;
       }
@@ -106,7 +106,7 @@ bool sameArray2D( const TArray2D & a1, const TArray2D & a2, double epsilon = 1e-
     {
     for( unsigned int j = 0; j < a1.rows(); j++ )
       {
-      if( vcl_fabs( a1(j, i) - a2(j, i) ) > epsilon )
+      if( std::fabs( a1(j, i) - a2(j, i) ) > epsilon )
         {
         pass = false;
         }

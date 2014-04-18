@@ -112,7 +112,7 @@ public:
   /** Return the value for the Nth component. */
   ComponentType GetScalarValue() const
   {
-    return static_cast< ComponentType >( vcl_sqrt(
+    return static_cast< ComponentType >( std::sqrt(
                                            static_cast< double >( this->operator[](0) )
                                            * static_cast< double >( this->operator[](0) )
                                            + static_cast< double >( this->operator[](1) )

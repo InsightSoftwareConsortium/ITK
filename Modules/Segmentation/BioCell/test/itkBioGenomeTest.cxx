@@ -57,7 +57,7 @@ int itkBioGenomeTest( int, char * [] )
 
    const double sigmoid = itk::bio::Genome::Sigmoide( threshold, slant, value );
 
-   const double expectedSigmoid = vcl_atan(( value - threshold ) / slant ) / 3.1416 + 0.5001;
+   const double expectedSigmoid = std::atan(( value - threshold ) / slant ) / 3.1416 + 0.5001;
 
    if( vnl_math_abs( sigmoid - expectedSigmoid ) / expectedSigmoid > tolerance )
      {

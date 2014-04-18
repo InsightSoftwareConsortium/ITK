@@ -35,7 +35,7 @@ FourierSeriesPath< VDimension >
   numHarmonics = m_CosCoefficients->Size();
   output.Fill(0);
 
-  const double PI = 4.0 * vcl_atan(1.0);
+  const double PI = 4.0 * std::atan(1.0);
 
   if ( numHarmonics > 0 ) { output += m_CosCoefficients->ElementAt(0); }
 
@@ -43,8 +43,8 @@ FourierSeriesPath< VDimension >
     {
     // input defined over [0,1] maps to theta defined over [0,2pi * n]
     theta = PI * 2.0 * n * input;
-    output += ( m_CosCoefficients->ElementAt(n) * vcl_cos(theta)
-                + m_SinCoefficients->ElementAt(n) * vcl_sin(theta) ) * 2.0;
+    output += ( m_CosCoefficients->ElementAt(n) * std::cos(theta)
+                + m_SinCoefficients->ElementAt(n) * std::sin(theta) ) * 2.0;
     }
 
   return output;
@@ -62,14 +62,14 @@ FourierSeriesPath< VDimension >
   numHarmonics = m_CosCoefficients->Size();
   output.Fill(0);
 
-  const double PI = 4.0 * vcl_atan(1.0);
+  const double PI = 4.0 * std::atan(1.0);
 
   for ( int n = 1; n < numHarmonics; n++ )
     {
     // input defined over [0,1] maps to theta defined over [0,2pi * n]
     theta = PI * 2.0 * n * input;
-    output += ( m_SinCoefficients->ElementAt(n) * vcl_cos(theta)
-                - m_CosCoefficients->ElementAt(n) * vcl_sin(theta) ) * ( 2.0 * n );
+    output += ( m_SinCoefficients->ElementAt(n) * std::cos(theta)
+                - m_CosCoefficients->ElementAt(n) * std::sin(theta) ) * ( 2.0 * n );
     }
 
   return output;

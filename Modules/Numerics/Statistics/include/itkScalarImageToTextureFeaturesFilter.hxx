@@ -145,7 +145,7 @@ ScalarImageToTextureFeaturesFilter< TImage, THistogramFrequencyContainer >::Full
     M(1) = x(1), M(k) = M(k-1) + (x(k) - M(k-1) ) / k
     S(1) = 0, S(k) = S(k-1) + (x(k) - M(k-1)) * (x(k) - M(k))
     for 2 <= k <= n, then
-    sigma = vcl_sqrt(S(n) / n) (or divide by n-1 for sample SD instead of
+    sigma = std::sqrt(S(n) / n) (or divide by n-1 for sample SD instead of
     population SD).
   */
 
@@ -174,7 +174,7 @@ ScalarImageToTextureFeaturesFilter< TImage, THistogramFrequencyContainer >::Full
     }
   for ( featureNum = 0; featureNum < numFeatures; featureNum++ )
     {
-    tempFeatureDevs[featureNum] = vcl_sqrt(tempFeatureDevs[featureNum] / numOffsets);
+    tempFeatureDevs[featureNum] = std::sqrt(tempFeatureDevs[featureNum] / numOffsets);
 
     m_FeatureMeans->push_back(tempFeatureMeans[featureNum]);
     m_FeatureStandardDeviations->push_back(tempFeatureDevs[featureNum]);

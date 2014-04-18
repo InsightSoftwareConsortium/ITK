@@ -130,7 +130,7 @@ CalculateOrientedImage(
   typename ResampleFilterType::SizeType boundingBoxSize;
   for ( unsigned int i = 0; i < TLabelImage::ImageDimension; i++ )
     {
-    boundingBoxSize[i] = ( typename ResampleFilterType::SizeType::SizeValueType )vcl_ceil(
+    boundingBoxSize[i] = ( typename ResampleFilterType::SizeType::SizeValueType )std::ceil(
       labelGeometry.m_OrientedBoundingBoxSize[i]);
     }
 
@@ -421,14 +421,14 @@ LabelGeometryImageFilter< TLabelImage, TIntensityImage >
     itk::FixedArray< float, ImageDimension > axesLength;
     for ( unsigned int i = 0; i < ImageDimension; i++ )
       {
-      axesLength[i] = 4 * vcl_sqrt(eigenvalues[i]);
+      axesLength[i] = 4 * std::sqrt(eigenvalues[i]);
       }
     ( *mapIt ).second.m_AxesLength = axesLength;
 
     // The following three features are currently only meaningful in 2D.
-    ( *mapIt ).second.m_Eccentricity = vcl_sqrt( ( eigenvalues[ImageDimension-1] - eigenvalues[0] ) / eigenvalues[ImageDimension-1] );
+    ( *mapIt ).second.m_Eccentricity = std::sqrt( ( eigenvalues[ImageDimension-1] - eigenvalues[0] ) / eigenvalues[ImageDimension-1] );
     ( *mapIt ).second.m_Elongation = axesLength[ImageDimension-1] / axesLength[0];
-    RealType orientation = vcl_atan2(eig.get_eigenvector(ImageDimension-1)[1], eig.get_eigenvector(ImageDimension-1)[0]);
+    RealType orientation = std::atan2(eig.get_eigenvector(ImageDimension-1)[1], eig.get_eigenvector(ImageDimension-1)[0]);
     // Change the orientation from being between -pi to pi to being from 0 to pi.
     // We can add pi because the orientation of the major axis is symmetric about the origin.
     ( *mapIt ).second.m_Orientation = orientation < 0.0 ? orientation + vnl_math::pi : orientation;
@@ -556,7 +556,7 @@ LabelGeometryImageFilter< TLabelImage, TIntensityImage >
   // Loop through each dimension of the bounding box and find all of the
   // vertices.
   unsigned int numberOfVertices =
-    (unsigned int)vcl_pow(2.0, (int)ImageDimension);
+    (unsigned int)std::pow(2.0, (int)ImageDimension);
   MatrixType     transformedBoundingBoxVertices(ImageDimension, numberOfVertices, 0);
   int            val;
   LabelIndexType binaryIndex;
@@ -908,7 +908,7 @@ LabelGeometryImageFilter< TLabelImage, TIntensityImage >
 ::GetOrientedBoundingBoxVertices(LabelPixelType label) const
 {
   unsigned int numberOfVertices =
-    (unsigned int)vcl_pow(2.0, (int)ImageDimension);
+    (unsigned int)std::pow(2.0, (int)ImageDimension);
   MapConstIterator mapIt;
 
   mapIt = m_LabelGeometryMapper.find(label);

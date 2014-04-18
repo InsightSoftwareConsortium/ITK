@@ -84,7 +84,7 @@ int itkBinaryThresholdSpatialFunctionTest( int, char *[])
     std::cout << "] " << std::endl;
 
     // check results
-    CoordRep val = p * vcl_sqrt( 2.0 ) - parameters[0];
+    CoordRep val = p * std::sqrt( 2.0 ) - parameters[0];
     bool expected = ( lowerThreshold <= val && upperThreshold >= val );
     if( output != expected )
       {

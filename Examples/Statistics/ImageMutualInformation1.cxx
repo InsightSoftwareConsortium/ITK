@@ -307,7 +307,7 @@ int main( int argc, char * argv [] )
     if( count > 0.0 )
       {
       const double probability = count / Sum;
-      JointEntropy += - probability * vcl_log( probability ) / vcl_log( 2.0 );
+      JointEntropy += - probability * std::log( probability ) / std::log( 2.0 );
       }
     ++itr;
     }
@@ -352,7 +352,7 @@ int main( int argc, char * argv [] )
     if( count > 0.0 )
       {
       const double probability = count / Sum;
-      Entropy1 += - probability * vcl_log( probability ) / vcl_log( 2.0 );
+      Entropy1 += - probability * std::log( probability ) / std::log( 2.0 );
       }
     ++itr;
     }
@@ -397,7 +397,7 @@ int main( int argc, char * argv [] )
     if( count > 0.0 )
       {
       const double probability = count / Sum;
-      Entropy2 += - probability * vcl_log( probability ) / vcl_log( 2.0 );
+      Entropy2 += - probability * std::log( probability ) / std::log( 2.0 );
       }
     ++itr;
     }

@@ -53,7 +53,7 @@ SimpleSignedDistance( const TPoint & p )
     {
     accum += vnl_math_sqr( p[j] - center[j] );
     }
-  accum = vcl_sqrt( accum );
+  accum = std::sqrt( accum );
   return ( accum - radius );
 
 }
@@ -94,7 +94,7 @@ SimpleVelocity( const TPoint & p )
     }
   else
     {
-    value = vcl_atan( y / x );
+    value = std::atan( y / x );
     if ( value < 0.0 )
       {
       value += vnl_math::pi;
@@ -106,7 +106,7 @@ SimpleVelocity( const TPoint & p )
       }
     }
 
-  return ( 10 * vcl_sin( value ) );
+  return ( 10 * std::sin( value ) );
 
 }
 

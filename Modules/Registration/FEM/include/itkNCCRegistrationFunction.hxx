@@ -194,13 +194,13 @@ NCCRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
   double updatenorm = 0.0;
   if ( ( sff * smm ) != 0.0 )
     {
-    const double factor = 1.0 / vcl_sqrt(sff * smm);
+    const double factor = 1.0 / std::sqrt(sff * smm);
     for ( unsigned int i = 0; i < ImageDimension; i++ )
       {
       update[i] = factor * ( derivativeF[i] - ( sfm / smm ) * derivativeM[i] );
       updatenorm += ( update[i] * update[i] );
       }
-    updatenorm = vcl_sqrt(updatenorm);
+    updatenorm = std::sqrt(updatenorm);
     m_MetricTotal += sfm * factor;
     this->m_Energy += sfm * factor;
     }

@@ -25,7 +25,7 @@ namespace itk
 {
 namespace Statistics
 {
-#define INVALID_LAYER_ID vcl_numeric_limits<unsigned int>::max()
+#define INVALID_LAYER_ID std::numeric_limits<unsigned int>::max()
 
 template<typename TMeasurementVector, typename TTargetVector>
 LayerBase<TMeasurementVector,TTargetVector>

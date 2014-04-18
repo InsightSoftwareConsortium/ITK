@@ -120,7 +120,7 @@ int itkRGBPixelTest(int, char* [] )
                               rgbl[2] * 0.11;
   const float tolerance = 1e-4;
 
-  if( vcl_fabs( luminance - realLuminance ) > tolerance )
+  if( std::fabs( luminance - realLuminance ) > tolerance )
     {
     std::cerr << "Error in luminance conversion" << std::endl;
     return EXIT_FAILURE;

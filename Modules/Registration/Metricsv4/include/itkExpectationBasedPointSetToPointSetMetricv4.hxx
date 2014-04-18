@@ -52,7 +52,7 @@ ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
     {
     itkExceptionMacro("m_PointSetSigma is too small. <= epsilon");
     }
-  this->m_PreFactor = 1.0 / ( vcl_sqrt( 2 * vnl_math::pi ) * this->m_PointSetSigma );
+  this->m_PreFactor = 1.0 / ( std::sqrt( 2 * vnl_math::pi ) * this->m_PointSetSigma );
   this->m_Denominator = 2.0 * vnl_math_sqr( this->m_PointSetSigma );
 }
 
@@ -71,7 +71,7 @@ ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
     {
     PointType neighbor = this->m_MovingTransformedPointSet->GetPoint( *it );
     const MeasureType distance = point.SquaredEuclideanDistanceTo( neighbor );
-    localValue -= this->m_PreFactor * vcl_exp( -distance / this->m_Denominator );
+    localValue -= this->m_PreFactor * std::exp( -distance / this->m_Denominator );
     }
 
   return localValue;
@@ -102,11 +102,11 @@ ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
     {
     PointType neighbor = this->m_MovingTransformedPointSet->GetPoint( *it );
     const MeasureType distance = point.SquaredEuclideanDistanceTo( neighbor );
-    measureValues[it - neighborhood.begin()] = -this->m_PreFactor * vcl_exp( -distance / this->m_Denominator );
+    measureValues[it - neighborhood.begin()] = -this->m_PreFactor * std::exp( -distance / this->m_Denominator );
     measure += measureValues[it - neighborhood.begin()];
     }
 
-  if ( vcl_fabs(measure) <= NumericTraits<MeasureType>::epsilon() )
+  if ( std::fabs(measure) <= NumericTraits<MeasureType>::epsilon() )
     {
     return;
     }
@@ -120,7 +120,7 @@ ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
 
   const MeasureType distance = point.SquaredEuclideanDistanceTo( weightedPoint );
 
-  const MeasureType weight = this->m_PreFactor * vcl_exp( -distance / this->m_Denominator ) / -measure;
+  const MeasureType weight = this->m_PreFactor * std::exp( -distance / this->m_Denominator ) / -measure;
 
   VectorType force = ( weightedPoint - point ) * weight;
 

@@ -176,7 +176,7 @@ int itkFastMarchingImageFilterRealTest1(int argc, char* argv[] )
       {
       distance += tempIndex[j] * tempIndex[j];
       }
-    distance = vcl_sqrt( distance );
+    distance = std::sqrt( distance );
 
     double outputValue = static_cast< double >( iterator.Get() );
 
