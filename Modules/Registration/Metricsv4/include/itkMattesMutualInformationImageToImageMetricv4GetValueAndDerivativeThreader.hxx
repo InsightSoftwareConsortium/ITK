@@ -352,24 +352,26 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< TDomai
 
   const OffsetValueType pdfFixedIndex = fixedImageParzenWindowIndex;
 
+  const bool isDisplacementField = ( this->m_MattesAssociate->m_MovingTransform->GetTransformCategory() == MovingTransformType::DisplacementField );
+
   JointPDFDerivativesValueType *derivPtr=0;
-  if( this->m_MattesAssociate->m_MovingTransform->GetTransformCategory() != MovingTransformType::DisplacementField )
+  if( ! isDisplacementField )
     {
     derivPtr = this->m_MattesAssociate->m_ThreaderJointPDFDerivatives[threadID]->GetBufferPointer()
       + ( pdfFixedIndex  * this->m_MattesAssociate->m_ThreaderJointPDFDerivatives[threadID]->GetOffsetTable()[2] )
       + ( pdfMovingIndex * this->m_MattesAssociate->m_ThreaderJointPDFDerivatives[threadID]->GetOffsetTable()[1] );
     }
 
-  for( NumberOfParametersType mu = 0; mu < this->GetCachedNumberOfLocalParameters(); mu++ )
+  for( NumberOfParametersType mu = 0, maxElement=this->GetCachedNumberOfLocalParameters(); mu < maxElement; ++mu )
     {
     PDFValueType innerProduct = 0.0;
-    for( SizeValueType dim = 0; dim < this->m_MattesAssociate->MovingImageDimension; dim++ )
+    for( SizeValueType dim = 0, lastDim = this->m_MattesAssociate->MovingImageDimension; dim < lastDim; ++dim )
       {
       innerProduct += jacobian[dim][mu] * movingImageGradient[dim];
       }
 
     const PDFValueType derivativeContribution = innerProduct * cubicBSplineDerivativeValue;
-    if( this->m_MattesAssociate->m_MovingTransform->GetTransformCategory() == MovingTransformType::DisplacementField )
+    if( isDisplacementField )
       {
       *( localSupportDerivativeResultPtr ) += derivativeContribution;
       localSupportDerivativeResultPtr++;
