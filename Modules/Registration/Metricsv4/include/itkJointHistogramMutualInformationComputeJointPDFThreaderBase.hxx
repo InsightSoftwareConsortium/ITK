@@ -44,9 +44,10 @@ void
 JointHistogramMutualInformationComputeJointPDFThreaderBase< TDomainPartitioner, TJointHistogramMetric >
 ::BeforeThreadedExecution()
 {
+  const ThreadIdType numThreadsUsed = this->GetNumberOfThreadsUsed();
   delete[] this->m_JointHistogramMIPerThreadVariables;
-  this->m_JointHistogramMIPerThreadVariables = new AlignedJointHistogramMIPerThreadStruct[ this->GetNumberOfThreadsUsed() ];
-  for( ThreadIdType i = 0; i < this->GetNumberOfThreadsUsed(); ++i )
+  this->m_JointHistogramMIPerThreadVariables = new AlignedJointHistogramMIPerThreadStruct[ numThreadsUsed ];
+  for( ThreadIdType i = 0; i < numThreadsUsed; ++i )
     {
     if( this->m_JointHistogramMIPerThreadVariables[i].JointHistogram.IsNull() )
       {

@@ -49,12 +49,13 @@ CorrelationImageToImageMetricv4HelperThreader< TDomainPartitioner, TImageToImage
   /* Store the casted pointer to avoid dynamic casting in tight loops. */
   this->m_CorrelationAssociate = dynamic_cast<TCorrelationMetric *>(this->m_Associate);
 
+  const ThreadIdType numThreadsUsed = this->GetNumberOfThreadsUsed();
   delete[] this->m_CorrelationMetricPerThreadVariables;
-  this->m_CorrelationMetricPerThreadVariables = new AlignedCorrelationMetricPerThreadStruct[ this->GetNumberOfThreadsUsed() ];
+  this->m_CorrelationMetricPerThreadVariables = new AlignedCorrelationMetricPerThreadStruct[ numThreadsUsed ];
 
     //---------------------------------------------------------------
     // Set initial values.
-  for (ThreadIdType i = 0; i < this->GetNumberOfThreadsUsed(); i++)
+  for (ThreadIdType i = 0; i < numThreadsUsed; ++i)
     {
     this->m_CorrelationMetricPerThreadVariables[i].FixSum = NumericTraits<InternalComputationValueType>::Zero;
     this->m_CorrelationMetricPerThreadVariables[i].MovSum = NumericTraits<InternalComputationValueType>::Zero;
@@ -72,7 +73,9 @@ CorrelationImageToImageMetricv4HelperThreader<TDomainPartitioner,
    * m_NumberOfValidPoints by collecting the valid points per thread. */
   this->m_CorrelationAssociate->m_NumberOfValidPoints = NumericTraits<SizeValueType>::Zero;
 
-  for (ThreadIdType i = 0; i < this->GetNumberOfThreadsUsed(); i++)
+  const ThreadIdType numThreadsUsed = this->GetNumberOfThreadsUsed();
+
+  for (ThreadIdType i = 0; i < numThreadsUsed; ++i)
     {
     this->m_CorrelationAssociate->m_NumberOfValidPoints += this->m_GetValueAndDerivativePerThreadVariables[i].NumberOfValidPoints;
     }
@@ -86,7 +89,7 @@ CorrelationImageToImageMetricv4HelperThreader<TDomainPartitioner,
   InternalComputationValueType sumF = NumericTraits<InternalComputationValueType>::Zero;
   InternalComputationValueType sumM = NumericTraits<InternalComputationValueType>::Zero;
 
-  for (ThreadIdType threadId = 0; threadId < this->GetNumberOfThreadsUsed(); ++threadId)
+  for (ThreadIdType threadId = 0; threadId < numThreadsUsed; ++threadId)
     {
     sumF += this->m_CorrelationMetricPerThreadVariables[threadId].FixSum;
     sumM += this->m_CorrelationMetricPerThreadVariables[threadId].MovSum;

@@ -30,14 +30,12 @@ ImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedImageRegionPartitione
 ::ThreadedExecution ( const DomainType & imageSubRegion,
                       const ThreadIdType threadId )
 {
-  VirtualPointType virtualPoint;
-  VirtualIndexType virtualIndex;
   typename VirtualImageType::ConstPointer virtualImage = this->m_Associate->GetVirtualImage();
   typedef ImageRegionConstIteratorWithIndex< VirtualImageType > IteratorType;
-  IteratorType it( virtualImage, imageSubRegion );
-  for( it.GoToBegin(); !it.IsAtEnd(); ++it )
+  VirtualPointType virtualPoint;
+  for( IteratorType it( virtualImage, imageSubRegion ); !it.IsAtEnd(); ++it )
     {
-    virtualIndex = it.GetIndex();
+    const VirtualIndexType & virtualIndex = it.GetIndex();
     virtualImage->TransformIndexToPhysicalPoint( virtualIndex, virtualPoint );
     this->ProcessVirtualPoint( virtualIndex, virtualPoint, threadId );
     }
@@ -49,16 +47,15 @@ ImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedIndexedContainerParti
 ::ThreadedExecution ( const DomainType & indexSubRange,
                       const ThreadIdType threadId )
 {
-  VirtualPointType virtualPoint;
-  VirtualIndexType virtualIndex;
-  typename VirtualImageType::ConstPointer virtualImage = this->m_Associate->GetVirtualImage();
   typename TImageToImageMetricv4::VirtualPointSetType::ConstPointer virtualSampledPointSet = this->m_Associate->GetVirtualSampledPointSet();
   typedef typename TImageToImageMetricv4::VirtualPointSetType::MeshTraits::PointIdentifier ElementIdentifierType;
   const ElementIdentifierType begin = indexSubRange[0];
   const ElementIdentifierType end   = indexSubRange[1];
+  VirtualIndexType virtualIndex;
+  typename VirtualImageType::ConstPointer virtualImage = this->m_Associate->GetVirtualImage();
   for( ElementIdentifierType i = begin; i <= end; ++i )
     {
-    virtualPoint = virtualSampledPointSet->GetPoint( i );
+    const VirtualPointType & virtualPoint = virtualSampledPointSet->GetPoint( i );
     virtualImage->TransformPhysicalPointToIndex( virtualPoint, virtualIndex );
     this->ProcessVirtualPoint( virtualIndex, virtualPoint, threadId );
     }
