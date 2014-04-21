@@ -25,6 +25,23 @@ namespace itk
 
 /** \class itk::VariationalRegistrationGaussianRegularizer
  *
+ * \brief This class performs Gaussian smoothing of a vector field.
+ *
+ * We compute \f$u^{out}=K_{\sigma}\star u^{in}\f$ with
+ * \f$K_{\sigma}\f$ the Gaussian kernel. This regularizer can be used
+ * to implement Demons registration within the variational framework.
+ *
+ *  \sa VariationalRegistrationFilter
+ *  \sa VariationalRegistrationRegularizer
+ *  \sa VariationalRegistrationDemonsFunction
+ *
+ *  \ingroup VariationalRegistration
+ *
+ *  \note This class was developed with funding from:
+ *
+ *  \author Alexander Schmidt-Richberg
+ *  \author Rene Werner
+ *  \author Jan Ehrhardt
  * TODO class documentation
  *
  *  \sa VariationalRegistrationRegularizer

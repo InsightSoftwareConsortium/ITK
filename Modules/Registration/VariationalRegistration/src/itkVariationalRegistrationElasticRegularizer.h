@@ -29,11 +29,27 @@ namespace itk
 
 /** \class itk::VariationalRegistrationElasticRegularizer
  *
- * TODO class documentation
+ * \brief This class performs linear elastic regularization of a vector field.
  *
+ * This class implements linear elastic regularization as described in
+ * <em>Modersitzki. "Numerical methods for image registration". OUP Oxford, 2003.</em>.
+ *
+ * We compute \f$u^{out}=(Id - A)^{-1}[u^{in}]\f$ with
+ * \f$A[u]=\mu\Delta u + (\mu+\lambda)\nabla(\nabla\cdot u)\f$ using an FFT based method.
+ * Please note that for given Lame constants \f$\mu'\f$ and \f$\lambda'\f$ you have to set
+ * \f$\mu=\tau\alpha\mu'\f$ and \f$\lambda=\tau\alpha\lambda'\f$ (see Eq.(2)
+ * in VariationalRegistrationFilter).
+ *
+ *  \sa VariationalRegistrationFilter
  *  \sa VariationalRegistrationRegularizer
  *
  *  \ingroup VariationalRegistration
+ *
+ *  \note This class was developed with funding from:
+ *
+ *  \author Alexander Schmidt-Richberg
+ *  \author Rene Werner
+ *  \author Jan Ehrhardt
  */
 template <class TDisplacementField>
 class ITK_EXPORT VariationalRegistrationElasticRegularizer

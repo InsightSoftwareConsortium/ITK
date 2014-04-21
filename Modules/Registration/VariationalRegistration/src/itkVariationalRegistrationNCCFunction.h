@@ -35,23 +35,37 @@ namespace itk
 /**
  * \class VariationalRegistrationNCCFunction
  *
- * This class encapsulate the PDE which drives the registration
- * with normalized cross correlation (NCC). It is used by VariationalRegistrationFilter to compute the
- * output deformation field which will map a moving image onto a
- * a fixed image.
+ * \brief This class computes NCC forces in the variational registration framework.
  *
- * The derivative of NCC is computed as given in Hermosillo et al., IJCV 50(3), 2002
- * and Avants et al., Med Image Anal 12(1), 2008 (except Jacobian term).
+ * This class implements NCC forces as given in <em> Hermosillo, Chefd'Hotel, and Faugeras.
+ * "Variational methods for multimodal image matching." IJCV 50(3), 2002: 329-343</em>
+ * and <em>Avants et al. "Symmetric diffeomorphic image registration with cross-correlation:
+ * evaluating automated labeling of elderly and neurodegenerative brain." Medical image analysis
+ * 12(1), 2008: 26-41</em> (except Jacobian term). We define the derivative of NCC between two
+ * images as:
+ * \f[
+ * f^{NCC}(x)=\tau\kappa
+\frac{2\sum_w (F-\bar{F})(M-\bar{M})}{\sum_w (F-\bar{F})^2\ \sum_w (M-\bar{M})^2}
+\left((M-\bar{M}) - \frac{\sum_w (F-\bar{F})(M-\bar{M})}{\sum_w (F-\bar{F})^2}(F-\bar{F})\right)
+\nabla M(x+u(x))
+ * \f]
+ * \f$\tau\f$ is the step size and \f$\kappa\f$ is the mean squared spacing. Use \c SetRadius()
+ * (see FiniteDifferenceFunction) to set the size of the neighbourhood to compute local mean values
+ * \f$\bar{F}\f$ and \f$\bar{M}\f$ and the local sums.
+ * Alternative, the classical gradient \f$\nabla M(x+u(x))\f$ can be replaced by \f$\nabla F(x)\f$
+ * or \f$\frac{\nabla F(x) + \nabla M(x+u(x))}{2}\f$.
  *
- * This class is templated over the fixed image type, moving image type,
- * and the deformation field type.
- *
- * \warning This filter assumes that the fixed image type, moving image type
- * and deformation field type all have the same number of dimensions.
- *
+ *  \sa VariationalRegistrationFilter
  *  \sa VariationalRegistrationFunction
  *
+ *  \ingroup FiniteDifferenceFunctions
  *  \ingroup VariationalRegistration
+ *
+ *  \note This class was developed with funding from:
+ *
+ *  \author Alexander Schmidt-Richberg
+ *  \author Rene Werner
+ *  \author Jan Ehrhardt
  */
 template <class TFixedImage, class TMovingImage, class TDisplacementField>
 class ITK_EXPORT VariationalRegistrationNCCFunction

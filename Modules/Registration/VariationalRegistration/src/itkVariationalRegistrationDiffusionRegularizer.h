@@ -26,11 +26,27 @@ namespace itk
 
 /** \class itk::VariationalRegistrationDiffusionRegularizer
  *
- * TODO class documentation
+ * \brief This class performs diffusive regularization of a vector field.
  *
+ * This class implements the diffusive regularization as described in
+ * <em>Fischer and Modersitzki. "Fast diffusion registration." Contemporary
+ * Mathematics 313 (2002): 117-128.</em>.
+ *
+ * We efficiently compute \f$u^{out}=(Id - \alpha A)^{-1}[u^{in}]\f$ with
+ * \f$A[u]=\Delta u\f$ using additive operator splitting (AOS).
+ * Please note that \f$\alpha\f$ corresponds to \f$\tau\alpha\f$ in Eq.(2)
+ * in VariationalRegistrationFilter.
+ *
+ *  \sa VariationalRegistrationFilter
  *  \sa VariationalRegistrationRegularizer
  *
  *  \ingroup VariationalRegistration
+ *
+ *  \note This class was developed with funding from:
+ *
+ *  \author Alexander Schmidt-Richberg
+ *  \author Rene Werner
+ *  \author Jan Ehrhardt
  */
 template <class TDisplacementField>
 class ITK_EXPORT VariationalRegistrationDiffusionRegularizer
