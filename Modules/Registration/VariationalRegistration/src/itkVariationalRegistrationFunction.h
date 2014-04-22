@@ -197,9 +197,9 @@ public:
   virtual void
   InitializeIteration();
 
-  //
-  // GlobalData functions for multi-threading.
-  /** This class uses the constant time step m_TimeStep. */
+  /** Computes the time step for an update.
+   * Returns the constant time step.
+   * \sa SetTimeStep() */
   virtual TimeStepType
   ComputeGlobalTimeStep(void * itkNotUsed(GlobalData)) const
   {

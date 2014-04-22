@@ -145,24 +145,9 @@ public:
     return m_IntensityDifferenceThreshold;
   }
 
-  /** Set/Get if global time step is scaled. If the flag is off, m_TimeStep is
-   * returned during ComputeGlobalTimeStep(). If the flag is on, m_Timestep is
-   * multiplied with the mean squared spacing. */
-  virtual void
-  SetScaleGlobalTimeStep(const bool flag)
-  {
-    m_ScaleGlobalTimeStep = flag;
-  }
-  virtual bool
-  GetScaleGlobalTimeStep() const
-  {
-    return m_ScaleGlobalTimeStep;
-  }
-
-  /** Depending on m_ScaleGlobalTimeStep, this class either simply uses the
-   * constant time step m_TimeStep, or scales m_TimeStep with
-   * 1 / ( (Mean squared intensity difference / Mean squared spacing) +
-   * Mean squared magnitude).*/
+  /** Computes the time step for an update.
+   * Returns the constant time step scaled with the mean squared spacing.
+   * \sa SetTimeStep() */
   virtual typename Superclass::TimeStepType
   ComputeGlobalTimeStep(void * gd) const;
 
@@ -205,9 +190,6 @@ private:
 
   /** Zero update return value (zero vector). */
   PixelType m_ZeroUpdateReturn;
-
-  /** Scale timestep with mean vector magnitudes and mean intensity differences. */
-  bool m_ScaleGlobalTimeStep;
 };
 
 } // end namespace itk

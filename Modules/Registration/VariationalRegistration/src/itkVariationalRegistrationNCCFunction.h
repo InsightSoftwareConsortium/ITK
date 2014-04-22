@@ -148,23 +148,9 @@ public:
     m_GradientType = GRADIENT_TYPE_SYMMETRIC;
   }
 
-  /** Set/Get if global time step is scaled. If the flag is off, m_TimeStep is
-   * returned during ComputeGlobalTimeStep(). If the flag is on (default), m_Timestep is
-   * divided by the Mean squared spacing. */
-  virtual void
-  SetScaleGlobalTimeStep(const bool flag)
-  {
-    m_ScaleGlobalTimeStep = flag;
-  }
-  virtual bool
-  GetScaleGlobalTimeStep() const
-  {
-    return m_ScaleGlobalTimeStep;
-  }
-
-  /** Depending on m_ScaleGlobalTimeStep, this class either simply uses the
-   * constant time step m_TimeStep, or scales m_TimeStep with
-   * 1 / Mean squared spacing.*/
+  /** Computes the time step for an update.
+   * Returns the constant time step scaled with the mean squared spacing.
+   * \sa SetTimeStep() */
   virtual typename Superclass::TimeStepType
   ComputeGlobalTimeStep(void * gd) const;
 
@@ -203,9 +189,6 @@ private:
 
   /** Precalculated normalizer for spacing consideration. */
   double m_Normalizer;
-
-  /** Scale timestep with mean squared fixed image spacing. */
-  bool m_ScaleGlobalTimeStep;
 };
 
 
