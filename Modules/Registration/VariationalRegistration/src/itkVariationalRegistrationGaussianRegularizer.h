@@ -42,11 +42,6 @@ namespace itk
  *  \author Alexander Schmidt-Richberg
  *  \author Rene Werner
  *  \author Jan Ehrhardt
- * TODO class documentation
- *
- *  \sa VariationalRegistrationRegularizer
- *
- *  \ingroup VariationalRegistration
  */
 template <class TDisplacementField>
 class ITK_EXPORT VariationalRegistrationGaussianRegularizer

@@ -87,8 +87,8 @@ public:
   typedef typename MaskImageType::ConstPointer      MaskImagePointer;
 
   /** Typedef of the warp image filter. */
-  // typedef itk::WarpImageFilter< FixedImageType, WarpedImageType, DisplacementFieldType >
-  typedef itk::ContinuousBorderWarpImageFilter<FixedImageType, WarpedImageType, DisplacementFieldType>
+  typedef itk::WarpImageFilter<FixedImageType, WarpedImageType, DisplacementFieldType>
+    // typedef itk::ContinuousBorderWarpImageFilter< FixedImageType, WarpedImageType, DisplacementFieldType >
                                                   MovingImageWarperType;
   typedef typename MovingImageWarperType::Pointer MovingImageWarperPointer;
 
