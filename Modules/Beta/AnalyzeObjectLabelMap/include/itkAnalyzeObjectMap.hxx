@@ -106,7 +106,7 @@ typename TRGBImage::Pointer AnalyzeObjectMap<TImage, TRGBImage>::ObjectMapToRGBI
   itk::ImageRegionIterator<ImageType> ObjectIterator(this, this->GetLargestPossibleRegion() );
   /*std::ofstream myfile;
   myfile.open("RGBImageVoxels2.txt");*/
-  for( ObjectIterator.Begin(), RGBIterator.Begin(); !ObjectIterator.IsAtEnd(); ++ObjectIterator, ++RGBIterator )
+  for( ObjectIterator.GoToBegin(), RGBIterator.GoToBegin(); !ObjectIterator.IsAtEnd(); ++ObjectIterator, ++RGBIterator )
     {
     typename itk::ImageRegionIterator<TRGBImage>::PixelType setColors;
 //      typename RGBImage->ImageType setColors;
@@ -149,7 +149,7 @@ void AnalyzeObjectMap<TImage, TRGBImage>::AddObjectEntryBasedOnImagePixel(ImageT
   this->m_AnaylzeObjectEntryArray[i]->SetEndRed(Red);
   this->m_AnaylzeObjectEntryArray[i]->SetEndGreen(Green);
   this->m_AnaylzeObjectEntryArray[i]->SetEndBlue(Blue);
-  for( indexImage.Begin(), indexObjectMap.Begin(); !indexImage.IsAtEnd() && !indexObjectMap.IsAtEnd();
+  for( indexImage.GoToBegin(), indexObjectMap.GoToBegin(); !indexImage.IsAtEnd() && !indexObjectMap.IsAtEnd();
        ++indexImage, ++indexObjectMap )
     {
     if( indexImage.Get() == value )
@@ -188,7 +188,7 @@ void AnalyzeObjectMap<TImage, TRGBImage>::DeleteAnalyzeObjectEntry(const std::st
   this->SetNumberOfObjects(this->GetNumberOfObjects() - 1);
   // this->m_AnaylzeObjectEntryArray.resize(this->GetNumberOfObjects());
   itk::ImageRegionIterator<ImageType> indexIt(this, this->GetLargestPossibleRegion() );
-  for( indexIt.Begin(); !indexIt.IsAtEnd(); ++indexIt )
+  for( indexIt.GoToBegin(); !indexIt.IsAtEnd(); ++indexIt )
     {
     if( indexIt.Get() == i )
       {

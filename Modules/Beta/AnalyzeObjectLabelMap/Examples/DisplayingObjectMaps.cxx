@@ -5,7 +5,6 @@ that you will need to uncomment.  You will also need to have the
 itkApplications installed as well.
 */
 
-#include "itkImage.h"
 #include "itkRGBPixel.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"

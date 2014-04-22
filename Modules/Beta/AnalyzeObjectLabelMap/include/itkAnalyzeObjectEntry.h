@@ -23,10 +23,8 @@ PURPOSE.  See the above copyright notices for more information.
 #include <iostream>
 #include <fstream>
 
-#include "itkObject.h"
 #include "itkObjectFactory.h"
 #include "itkImage.h"
-#include "itkRGBPixel.h"
 #include "itkByteSwapper.h"
 #include "itksys/SystemTools.hxx"
 #include "itkImageIOBase.h"

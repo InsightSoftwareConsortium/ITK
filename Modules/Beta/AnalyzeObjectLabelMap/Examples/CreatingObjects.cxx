@@ -5,7 +5,6 @@ write the object map out to a file.
 
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkImage.h"
 #include "itkAnalyzeObjectMap.h"
 #include "itkAnalyzeObjectLabelMapImageIOFactory.h"
 

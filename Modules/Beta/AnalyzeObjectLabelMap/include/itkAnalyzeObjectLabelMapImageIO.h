@@ -23,7 +23,6 @@ PURPOSE.  See the above copyright notices for more information.
 #endif
 
 #include <fstream>
-#include "itkImageIOBase.h"
 #include "itkImageRegionIterator.h"
 
 #include "itkAnalyzeObjectEntry.h"

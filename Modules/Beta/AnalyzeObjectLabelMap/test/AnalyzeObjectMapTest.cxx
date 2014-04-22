@@ -22,7 +22,6 @@
 #include "itkImageFileWriter.h"
 
 #include "itkRegionOfInterestImageFilter.h"
-#include "itkImage.h"
 
 #include "itkAnalyzeObjectLabelMapImageIO.h"
 #include "itkAnalyzeObjectMap.h"

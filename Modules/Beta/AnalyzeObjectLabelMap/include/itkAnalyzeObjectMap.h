@@ -21,13 +21,10 @@ PURPOSE.  See the above copyright notices for more information.
 #include <string>
 #include <vector>
 #include "itkAnalyzeObjectEntry.h"
-#include "itkObjectFactory.h"
 #include "itkObject.h"
-#include "itkByteSwapper.h"
 #include <itkMetaDataDictionary.h>
 #include "itkMetaDataObject.h"
 #include "itkThresholdImageFilter.h"
-#include "itkImage.h"
 
 const char *const ANALYZE_OBJECT_LABEL_MAP_ENTRY_ARRAY = "ANALYZE_OBJECT_LABEL_MAP_ENTRY_ARRAY";
 /**
