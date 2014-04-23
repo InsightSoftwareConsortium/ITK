@@ -126,6 +126,9 @@ protected:
   virtual ~MetaDataObject();
 
 private:
+  MetaDataObject(const Self &); // purposely not implemented
+  void operator=(const Self &); // purposely not implemented
+
   /**
    * A variable to store this derived type.
    * \author Hans J. Johnson
