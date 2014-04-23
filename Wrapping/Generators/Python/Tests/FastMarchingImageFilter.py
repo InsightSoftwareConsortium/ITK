@@ -35,15 +35,17 @@
 #     OUTPUTS: {FastMarchingFilterOutput3.png}
 #     ARGUMENTS:    40 90 0.5  -0.3  2.0   200 100
 
+from __future__ import print_function
+
 import itk
 from sys import argv, stderr, exit
 
 
 if(len(argv) < 10):
-    print >> stderr, (
+    print((
         "Missing Parameters \n Usage: FastMarchingImageFilter.py inputImage "
         "outputImage seedX seedY Sigma SigmoidAlpha SigmoidBeta TimeThreshold "
-        "StoppingValue")
+        "StoppingValue"), file=stderr)
     exit(1)
 
 itk.auto_progress(2)

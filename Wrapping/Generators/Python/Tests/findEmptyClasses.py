@@ -16,6 +16,8 @@
 #
 #==========================================================================*/
 
+from __future__ import print_function
+
 import itk
 import re
 import sys
@@ -33,7 +35,7 @@ empty = set()
 
 def exploreTpl(tpl):
     for cl in tpl.itervalues():
-        print cl
+        print(cl)
         exploreMethods(cl)
         # try to instanciate the class
         try:
@@ -103,7 +105,7 @@ attrNameList = set(
 for name in attrNameList:
     # use it because of lazy loading
     exec "attr = itk." + name
-    print "-----------", name, "-----------"
+    print("-----------", name, "-----------")
     if isinstance(attr, itkTemplate):
         exploreTpl(attr)
     else:
@@ -117,10 +119,10 @@ for name in attrNameList:
         except:
             pass
 
-print
-print
-print len(empty), "empty classes found"
+print()
+print()
+print(len(empty), "empty classes found")
 for c in empty:
-    print c
+    print(c)
 
 sys.exit(len(empty))

@@ -12,6 +12,8 @@ This module defines:
 * location_t - provides information about physical location of the declaration
 """
 
+from __future__ import print_function
+
 import algorithm
 import templates
 import algorithms_cache
@@ -101,7 +103,7 @@ class declaration_t( object ):
         #Every derived class should implement this method. This method should
         #return a list of items, that should be compared.
 
-        print '_get__cmp__items not implemented for class ', self.__class__.__name__
+        print('_get__cmp__items not implemented for class ', self.__class__.__name__)
         raise NotImplemented()
 
     def _get__cmp__data(self):
@@ -265,7 +267,7 @@ class declaration_t( object ):
 
     def i_depend_on_them( self, recursive=True ):
         """return list of all types and declarations the declaration depends on"""
-        print self
+        print(self)
         raise NotImplementedError()
 
     def _get_compiler( self ):

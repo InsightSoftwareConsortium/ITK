@@ -16,6 +16,8 @@
 #
 #==========================================================================*/
 
+from __future__ import print_function
+
 import itk
 itk.auto_progress(2)
 
@@ -24,5 +26,5 @@ d.Load(".")
 n = d.GetNumberOfFiles()
 i = 0
 while i < n:
-    print d.GetFile(i)
+    print(d.GetFile(i))
     i = i + 1

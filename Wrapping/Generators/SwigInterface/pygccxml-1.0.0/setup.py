@@ -4,6 +4,8 @@
 # accompanying file LICENSE_1_0.txt or copy at
 # http://www.boost.org/LICENSE_1_0.txt)
 
+from __future__ import print_function
+
 import sys, os, os.path
 from distutils import sysconfig
 from distutils.core import setup
@@ -12,7 +14,7 @@ from distutils.cmd import Command
 def generate_doc():
     """Generate the epydoc reference manual.
     """
-    print "Generating epydoc files..."
+    print("Generating epydoc files...")
 
     from epydoc.docbuilder import build_doc_index
     from epydoc.docwriter.html import HTMLWriter

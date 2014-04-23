@@ -15,6 +15,9 @@
 #   limitations under the License.
 #
 #==========================================================================*/
+
+from __future__ import print_function
+
 import itk
 from sys import argv
 
@@ -23,8 +26,8 @@ md = itk.MetaDataDictionary()
 dv = itk.MetaDataObject.D.New()
 dv.SetMetaDataObjectValue(10.0)
 md.Set("double", dv)
-print md.Get("double")
+print(md.Get("double"))
 # other way of setting and retrieving double value (levereges on Python's
 # weak type system)
 md['double'] = 10.0
-print md['double']
+print(md['double'])

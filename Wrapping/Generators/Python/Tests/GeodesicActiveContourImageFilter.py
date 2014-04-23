@@ -36,6 +36,8 @@
 # See the ITK Software Guide, section 9.3.3 "Geodesic Active Contours
 # Segmentation" as well as the CXX example for more comments.
 
+from __future__ import print_function
+
 import itk
 from sys import argv, stderr
 itk.auto_progress(2)
@@ -50,7 +52,7 @@ def main():
                  " Sigma SigmoidAlpha SigmoidBeta\n" \
                  " PropagationScaling\n"
 
-        print >> stderr, errMsg
+        print(errMsg, file=stderr)
         return
 
     # We're going to build the following pipelines:
@@ -163,14 +165,18 @@ def main():
 
     writer.Update()
 
-    print
-    print ("Max. no. iterations: %d"
-           % (geodesicActiveContour.GetNumberOfIterations()))
-    print "Max. RMS error: %.3f" % (geodesicActiveContour.GetMaximumRMSError())
-    print
-    print ("No. elapsed iterations: %d"
-           % (geodesicActiveContour.GetElapsedIterations()))
-    print "RMS change: %.3f" % (geodesicActiveContour.GetRMSChange())
+    print("")
+    print(
+        "Max. no. iterations: %d" %
+        (geodesicActiveContour.GetNumberOfIterations()))
+    print(
+        "Max. RMS error: %.3f" %
+        (geodesicActiveContour.GetMaximumRMSError()))
+    print("")
+    print(
+        "No. elapsed iterations: %d"
+        % (geodesicActiveContour.GetElapsedIterations()))
+    print("RMS change: %.3f" % (geodesicActiveContour.GetRMSChange()))
 
     itk.write(fastMarching, "GeodesicActiveContourImageFilterOutput4.mha")
     itk.write(sigmoid, "GeodesicActiveContourImageFilterOutput3.mha")

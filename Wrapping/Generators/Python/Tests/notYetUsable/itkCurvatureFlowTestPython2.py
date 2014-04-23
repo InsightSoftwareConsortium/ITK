@@ -66,8 +66,8 @@ meanDiff = diff.GetMeanDifference()
 totalDiff = diff.GetTotalDifference()
 
 
-print "MeanDifference  = ", meanDiff
-print "TotalDifference = ", totalDiff
+print("MeanDifference  = ", meanDiff)
+print("TotalDifference = ", totalDiff)
 
 
 print ("<DartMeasurement name=\"MeanDifference\" type=\"numeric/double\">",

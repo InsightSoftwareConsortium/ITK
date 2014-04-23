@@ -16,6 +16,8 @@
 #
 #==========================================================================*/
 
+from __future__ import print_function
+
 import types
 import inspect
 import sys
@@ -418,6 +420,7 @@ def output(input):
 
 def image(input):
     import sys
-    print >> sys.stderr, ("WrapITK warning: itk.image() is deprecated. "
-                          "Use itk.output() instead.")
+    print(
+        ("WrapITK warning: itk.image() is deprecated. "
+            "Use itk.output() instead."), file=sys.stderr)
     return output(input)

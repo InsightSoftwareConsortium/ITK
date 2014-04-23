@@ -21,6 +21,7 @@ output will be written (the file will be clobbered).
 # Author: Prabhu Ramachandran
 # License: BSD style
 
+from __future__ import print_function
 
 from xml.dom import minidom
 import re
@@ -309,7 +310,7 @@ class Doxy2SWIG:
             fname = refid + '.xml'
             if not os.path.exists(fname):
                 fname = os.path.join(self.my_dir,  fname)
-            print "parsing file: %s"%fname
+            print("parsing file: %s"%fname)
             p = Doxy2SWIG(fname)
             p.generate()
             self.pieces.extend(self.clean_pieces(p.pieces))
@@ -366,6 +367,6 @@ def main(input, output):
 
 if __name__ == '__main__':
     if len(sys.argv) != 3:
-        print __doc__
+        print(__doc__)
         sys.exit(1)
     main(sys.argv[1], sys.argv[2])

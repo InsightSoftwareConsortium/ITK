@@ -16,6 +16,8 @@
 #
 #==========================================================================*/
 
+from __future__ import print_function
+
 import os
 import os.path
 import sys
@@ -191,7 +193,7 @@ def LoadModule(name, namespace=None):
 
 def DebugPrintError(error):
     if itkConfig.DebugLevel == itkConfig.WARN:
-        print >> sys.stderr, error
+        print(error, file=sys.stderr)
     elif itkConfig.DebugLevel == itkConfig.ERROR:
         raise RuntimeError(error)
 

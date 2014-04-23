@@ -1,3 +1,5 @@
+from __future__ import print_function
+
 import os
 import sys
 import comtypes
@@ -64,10 +66,10 @@ class binaries_searcher_t:
 bs = binaries_searcher_t()
 
 msdia_path = bs.get_msdia_path()
-print 'msdia path: ', msdia_path
+print('msdia path: ', msdia_path)
 
 msbsc_path = bs.get_msbsc_path()
-print 'msbsc path: ', msbsc_path
+print('msbsc path: ', msbsc_path)
 
 msvcr_path = bs.get_msvcr_path()
-print 'msvcr path: ', msvcr_path
+print('msvcr path: ', msvcr_path)

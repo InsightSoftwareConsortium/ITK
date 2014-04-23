@@ -1,10 +1,13 @@
 #!/usr/bin/env python
+
+from __future__ import print_function
+
 import os, sys
 import re
 
 program = sys.argv[0]
 if len(sys.argv) < 3:
-    print """
+    print("""
 Usage: WhatModulesITK.py itkSourceTree applicationFiles...
     Generate a FindPackage(ITK COMPONENTS) that lists all modules referenced by a set of files
 
@@ -32,7 +35,7 @@ NOTE: IO modules, other than ITKIOImageBase, are not discovered
       unless their include file is present in the application
       code. If ITKIOImageBase is present, a cmake variable
       ITK_IO_MODULES_USED is created and added to the module list.
-"""
+""")
     exit(0)
 
 # Build a dict that maps include files to paths
@@ -85,7 +88,7 @@ pathsToModules = FindModules(sys.argv[1] + "/Modules")
 
 # Test to see if ITK source is provided
 if len(pathsToModules) == 0:
-    print program + ": " + sys.argv[1] + " is not an ITK source directory. It does not contain any itk-module.cmake files."
+    print(program + ": " + sys.argv[1] + " is not an ITK source directory. It does not contain any itk-module.cmake files.")
     exit(1)
 
 # Build a set of includes for all command line files
@@ -97,7 +100,7 @@ for f in sys.argv:
     if os.path.isfile(f):
         allIncludes.update(FindIncludes(f))
     else:
-        print program + ": " + f + " is a directory and is ignored"
+        print(program + ": " + f + " is a directory and is ignored")
 
 # Build a set that contains all modules referenced in command line files
 allModules = set()
@@ -107,12 +110,12 @@ for inc in allIncludes:
         allModules.add(pathsToModules[includesToPaths[inc]])
 
 # Print a useful cmake command
-print r'set(ITK_IO_MODULES_USED "")'
-print "find_package(ITK COMPONENTS"
+print(r'set(ITK_IO_MODULES_USED "")')
+print("find_package(ITK COMPONENTS")
 for module in sorted(allModules):
-    print "  " + module
+    print("  " + module)
 if "ITKIOImageBase" in allModules:
-    print r"  ${ITK_IO_MODULES_USED}"
-print ")"
+    print(r"  ${ITK_IO_MODULES_USED}")
+print(")")
 
-print "Your application code includes " + str(len(allModules)) + " of " + str(len(pathsToModules)) + " itk modules."
+print("Your application code includes " + str(len(allModules)) + " of " + str(len(pathsToModules)) + " itk modules.")

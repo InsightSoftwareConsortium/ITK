@@ -16,12 +16,14 @@
 #
 #==========================================================================*/
 
+from __future__ import print_function
+
 import time
 
 start = time.time()
 import itk
 itk.force_load()
-print "load:", time.time() - start
+print("load:", time.time() - start)
 
 img = itk.Image.UC2.New(Regions=(10, 20))
 img.Allocate()
@@ -75,10 +77,10 @@ def run(f, it):
 
 
 it = 1000000
-print "index:", run(index, it)
-print "index2:", run(index2, it)
-print "integer:", run(integer, it)
-print "list:", run(pylist, it)
-print "tuple:", run(pytuple, it)
-print "new:", run(new, 100000)
-print "extended_new:", run(extended_new, 100000)
+print("index:", run(index, it))
+print("index2:", run(index2, it))
+print("integer:", run(integer, it))
+print("list:", run(pylist, it))
+print("tuple:", run(pytuple, it))
+print("new:", run(new, 100000))
+print("extended_new:", run(extended_new, 100000))

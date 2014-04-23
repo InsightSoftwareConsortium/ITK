@@ -25,6 +25,8 @@
 # [K erases the end of the line
 clrLine = "\033[2000D\033[K"
 
+from __future__ import print_function
+
 
 def auto_not_in_place(v=True):
     """Force it to not run in place
@@ -65,9 +67,9 @@ def terminal_progress_callback(name, p):
     This function can be used with itkConfig.ProgressCallback
     """
     import sys
-    print >> sys.stderr, clrLine + "%s: %f" % (name, p),
+    print(clrLine + "%s: %f" % (name, p), file=sys.stderr)
     if p == 1:
-        print >> sys.stderr, clrLine,
+        print(clrLine, file=sys.stderr)
 
 
 def terminal_import_callback(name, p):
@@ -76,9 +78,9 @@ def terminal_import_callback(name, p):
     This function can be used with itkConfig.ImportCallback
     """
     import sys
-    print >> sys.stderr, clrLine + "Loading %s..." % name,
+    print(clrLine + "Loading %s..." % name, file=sys.stderr)
     if p == 1:
-        print >> sys.stderr, clrLine,
+        print(clrLine, file=sys.stderr)
 
 
 def simple_import_callback(name, p):
@@ -88,9 +90,9 @@ def simple_import_callback(name, p):
     """
     import sys
     if p == 0:
-        print >> sys.stderr, "Loading %s..." % name,
+        print("Loading %s..." % name, file=sys.stderr)
     elif p == 1:
-        print >> sys.stderr, "done"
+        print("done", file=sys.stderr)
 
 
 def simple_progress_callback(name, p):
@@ -100,9 +102,9 @@ def simple_progress_callback(name, p):
     """
     import sys
     if p == 0:
-        print >> sys.stderr, "Running %s..." % name,
+        print("Running %s..." % name, file=sys.stderr)
     elif p == 1:
-        print >> sys.stderr, "done"
+        print("done", file=sys.stderr)
 
 
 def force_load():
@@ -121,7 +123,7 @@ def echo(object, f=sys.stderr):
     If the object has a method Print(), this method is used.
     repr(object) is used otherwise
     """
-    print >> f, object
+    print(f, object)
 del sys
 
 
@@ -399,7 +401,7 @@ def show(input, **kargs):
     if img.GetImageDimension() == 3 and "show3D" in dir(itk):
         return itk.show3D(input, **kargs)
     else:
-        # print "2D not supported yet, use the 3D viewer."
+        # print("2D not supported yet, use the 3D viewer.")
         return show2D(input, **kargs)
 
 
@@ -1011,7 +1013,7 @@ def ipython_kw_matches(text):
             if isin or (inspect.isclass(object) and issub):
                 namedArgs = [n[3:] for n in dir(object) if n.startswith("Set")]
         except Exception as e:
-            print e
+            print(e)
             continue
         for namedArg in namedArgs:
             if namedArg.startswith(text):

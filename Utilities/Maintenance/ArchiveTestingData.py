@@ -10,6 +10,8 @@ local ExternalData object store.
 Requires pydas: https://github.com/midasplatform/pydas
 """
 
+from __future__ import print_function
+
 import argparse
 import fnmatch
 import os

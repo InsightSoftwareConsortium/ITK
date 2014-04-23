@@ -2,6 +2,8 @@
 
 # set environment variables
 
+from __future__ import print_function
+
 import os, subprocess, sys
 from optparse import OptionParser
 
@@ -57,7 +59,7 @@ if len(args) < 1:
 
 command = ["@PYTHON_EXECUTABLE@"] + args
 if options.verbose:
-  print >> sys.stderr, "+", " ".join(command)
+  print(sys.stderr, "+", " ".join(command))
 returnValue = subprocess.call( command )
 if returnValue != 0 :
   sys.exit( returnValue )
@@ -66,7 +68,7 @@ if returnValue != 0 :
 for imageFile1, imageFile2 in options.compare :
   command = ["@IMAGE_COMPARE@", imageFile1, imageFile2]
   if options.verbose:
-    print >> sys.stderr, "+", " ".join(command)
+    print(sys.stderr, "+", " ".join(command))
   returnValue = subprocess.call( command )
   if returnValue != 0 :
     sys.exit( returnValue )

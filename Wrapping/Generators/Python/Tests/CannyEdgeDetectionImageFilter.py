@@ -20,20 +20,22 @@
 #  Example on the use of the CannyEdgeDetectionImageFilter
 #
 
+from __future__ import print_function
+
 import itk
 from sys import argv, stderr, exit
 itk.auto_progress(2)
 
 if len(argv) < 3:
-    print >> stderr, (
+    print((
         "Usage: CannyEdgeDetectionImageFilter.py inputImage outputImage "
-        "[variance]")
+        "[variance]"), file=stderr)
     exit(1)
 
 variance = 2.0
 if len(argv) > 3:
     variance = float(argv[3])
-    print variance
+    print(variance)
 
 reader = itk.ImageFileReader.IF2.New(FileName=argv[1])
 filter = itk.CannyEdgeDetectionImageFilter.IF2IF2.New(

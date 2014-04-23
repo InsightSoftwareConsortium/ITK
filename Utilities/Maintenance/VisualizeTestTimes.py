@@ -8,6 +8,8 @@ Run from the top of the build tree after the ctest has been run at least once.
 
 Pass the --modular-grouping flag to group by module."""
 
+from __future__ import print_function
+
 import os
 import pprint
 import subprocess
