@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Change SYSTEM "http://itk.org/migrationv4/ITKMigration.dtd">
+
+<!--**
+**
+** MetaDataObjectNativeTypes.xml
+**
+**
+** Please, make sure this file validates the following w3c test before committing it: http://validator.w3.org
+**-->
+<Change>
+    <!--**
+    ** Title for the online migration page
+    **-->
+    <Title>
+      Meta Data Object Native Types
+    </Title>
+
+    <!--**
+    ** The author of the change
+    **-->
+    <Author>
+      Matt McCormick
+    </Author>
+
+    <!--**
+    ** Date of creation for the XML document
+    **-->
+    <Date>
+      2014-04-28
+    </Date>
+
+    <!--**
+    ** Plain text description of the change
+    ** Extracted from git commit messages
+    **-->
+    <Description>
+      <![CDATA[
+      MetaDataObject Print specialization for was added for native types.
+      A macro was previous present, NATIVE_TYPE_METADATAPRINT, intended to print out basic types,
+      but it was not applied as intended.  The macro has been applied to the set of plain old
+      datatypes and std::string.  The macro's name was also corrected to ITK style,
+      ITK_NATIVE_TYPE_METADATAPRINT.  Any attempts to work around the previous behavior should
+      allow new use of the macro in itkMetaDataObject.cxx.
+      ]]>
+    </Description>
+
+    <!--**
+    ** Sample code snippets
+    ** Extracted from git diff of changed files in Examples and Testing
+    **-->
+    <SampleCode>
+      <Old>
+        <![CDATA[
+        NATIVE_TYPE_METADATAPRINT( float );
+        ]]>
+      </Old>
+
+      <New>
+        <![CDATA[
+        // None
+        ]]>
+      </New>
+
+    </SampleCode>
+
+    <!--**
+    ** The change-ids for all commits in the topic branch
+    **-->
+    <Gerrit-ChangeId>
+      I3aa89dd09f87626ba8aa2cbb8b642e6aad0fa07d
+    </Gerrit-ChangeId>
+
+    <!--**
+    ** List of all changed files from the topic branch
+    **-->
+    <FileList>
+      Modules/Core/Common/include/itkMetaDataObject.h
+      Modules/Core/Common/include/itkMetaDataObject.hxx
+      Modules/Core/Common/src/CMakeLists.txt
+      Modules/Core/Common/src/itkMetaDataObject.cxx
+      Modules/Core/Common/test/CMakeLists.txt
+      Modules/Core/Common/test/itkMetaDataObjectTest.cxx
+    </FileList>
+
+</Change>
