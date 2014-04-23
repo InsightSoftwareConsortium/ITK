@@ -15,39 +15,44 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkFastMutexLock.h"
+#include "itkMetaDataObjectBase.h"
 
-void
-itk::MetaDataObjectBase
-::Print(std::ostream & os) const
+namespace itk
 {
-  os << "[UNKNOWN_PRINT_CHARACTERISTICS]" << std::endl;
+
+MetaDataObjectBase
+::MetaDataObjectBase()
+{
 }
 
+
+MetaDataObjectBase
+::~MetaDataObjectBase()
+{
+}
+
+
 const char *
-itk::MetaDataObjectBase
-::GetMetaDataObjectTypeName(void) const
+MetaDataObjectBase
+::GetMetaDataObjectTypeName() const
 {
   return typeid( itk::MetaDataObjectBase ).name();
 }
 
+
 const std::type_info &
-itk::MetaDataObjectBase
-::GetMetaDataObjectTypeInfo(void) const
+MetaDataObjectBase
+::GetMetaDataObjectTypeInfo() const
 {
   return typeid( itk::MetaDataObjectBase );
 }
 
-itk::MetaDataObjectBase
-::MetaDataObjectBase()
+
+void
+MetaDataObjectBase
+::Print( std::ostream & os ) const
 {
-  //Nothing to do here
+  os << "[UNKNOWN_PRINT_CHARACTERISTICS]" << std::endl;
 }
 
-itk::MetaDataObjectBase
-::~MetaDataObjectBase()
-{
-  //std::cout << "              MetaDataObjectBase Deleteing: " << this <<
-  // std::endl;
-  //Nothing to do here
-}
+} // end namespace itk
