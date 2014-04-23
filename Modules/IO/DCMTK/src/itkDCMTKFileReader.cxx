@@ -599,7 +599,7 @@ DCMTKFileReader
                    << group << " " << std::hex
                    << element << std::dec);
     }
-  for(int i = 0; i < count; ++count)
+  for(int i = 0; i < count; ++i)
     {
     target[i] = doubleArray[i];
     }
