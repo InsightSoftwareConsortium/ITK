@@ -27,9 +27,7 @@ namespace itk
 {
 namespace Testing
 {
-/**
- *
- */
+
 template< typename TInputImage, typename TOutputImage >
 ExtractSliceImageFilter< TInputImage, TOutputImage >
 ::ExtractSliceImageFilter():
@@ -40,9 +38,7 @@ ExtractSliceImageFilter< TInputImage, TOutputImage >
 #endif
 {}
 
-/**
- *
- */
+
 template< typename TInputImage, typename TOutputImage >
 void
 ExtractSliceImageFilter< TInputImage, TOutputImage >
@@ -55,6 +51,7 @@ ExtractSliceImageFilter< TInputImage, TOutputImage >
   os << indent << "DirectionCollaspeStrategy: " << m_DirectionCollaspeStrategy << std::endl;
 }
 
+
 template< typename TInputImage, typename TOutputImage >
 void
 ExtractSliceImageFilter< TInputImage, TOutputImage >
@@ -65,6 +62,7 @@ ExtractSliceImageFilter< TInputImage, TOutputImage >
 
   extractImageRegionCopier(destRegion, srcRegion, m_ExtractionRegion);
 }
+
 
 template< typename TInputImage, typename TOutputImage >
 void
@@ -106,15 +104,7 @@ ExtractSliceImageFilter< TInputImage, TOutputImage >
   this->Modified();
 }
 
-/**
- * ExtractSliceImageFilter can produce an image which is a different resolution
- * than its input image.  As such, ExtractSliceImageFilter needs to provide an
- * implementation for GenerateOutputInformation() in order to inform
- * the pipeline execution model.  The original documentation of this
- * method is below.
- *
- * \sa ProcessObject::GenerateOutputInformaton()
- */
+
 template< typename TInputImage, typename TOutputImage >
 void
 ExtractSliceImageFilter< TInputImage, TOutputImage >
@@ -261,16 +251,7 @@ ExtractSliceImageFilter< TInputImage, TOutputImage >
     }
 }
 
-/**
- * ExtractSliceImageFilter can be implemented as a multithreaded filter.
- * Therefore, this implementation provides a ThreadedGenerateData()
- * routine which is called for each processing thread. The output
- * image data is allocated automatically by the superclass prior to
- * calling ThreadedGenerateData().  ThreadedGenerateData can only
- * write to the portion of the output image specified by the
- * parameter "outputRegionForThread"
- *
- */
+
 template< typename TInputImage, typename TOutputImage >
 void
 ExtractSliceImageFilter< TInputImage, TOutputImage >
@@ -309,9 +290,7 @@ ExtractSliceImageFilter< TInputImage, TOutputImage >
     }
 }
 
-/**
- *
- */
+
 template< typename TInputImage, typename TOutputImage >
 void
 ExtractSliceImageFilter< TInputImage, TOutputImage >
@@ -321,9 +300,7 @@ ExtractSliceImageFilter< TInputImage, TOutputImage >
   this->ProcessObject::SetNthInput( 0, const_cast< TInputImage * >( input ) );
 }
 
-/**
- *
- */
+
 template< typename TInputImage, typename TOutputImage >
 const TInputImage *
 ExtractSliceImageFilter< TInputImage, TOutputImage >
