@@ -91,8 +91,6 @@ namespace itk
  *
  * Notes:
  * 1. This class returns the negative mutual information value.
- * 2. This class in not thread safe due the private data structures
- *     used to the store the sampled points and the marginal and joint pdfs.
  *
  * References:
  * [1] "Nonrigid multimodality image registration"
