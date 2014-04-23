@@ -41,6 +41,8 @@ public:
   typedef SmartPointer<Self>               Pointer;
   typedef SmartPointer<const Self>         ConstPointer;
 
+  typedef typename NumericTraits< ScalarType >::RealType RealType;
+
   /** Run-time type information (and related methods). */
   itkTypeMacro(SigmoidTransferFunction, TransferFunctionBase);
 
@@ -73,8 +75,8 @@ protected:
 
 private:
 
-  ScalarType m_Alpha;
-  ScalarType m_Beta;
+  RealType   m_Alpha;
+  RealType   m_Beta;
   ScalarType m_OutputMinimum;
   ScalarType m_OutputMaximum;
 };
