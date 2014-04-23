@@ -158,8 +158,8 @@ int main( int argc, char *argv[] )
   //  command line arguments.
   //
   //  \index{itk::Isolated\-Connected\-Image\-Filter!SetLower()}
-  //  \index{itk::Isolated\-Connected\-Image\-Filter!SetSeed1()}
-  //  \index{itk::Isolated\-Connected\-Image\-Filter!SetSeed2()}
+  //  \index{itk::Isolated\-Connected\-Image\-Filter!AddSeed1()}
+  //  \index{itk::Isolated\-Connected\-Image\-Filter!AddSeed2()}
   //
   //  Software Guide : EndLatex
 
@@ -179,8 +179,8 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   isolatedConnected->SetLower(  lowerThreshold  );
-  isolatedConnected->SetSeed1( indexSeed1 );
-  isolatedConnected->SetSeed2( indexSeed2 );
+  isolatedConnected->AddSeed1( indexSeed1 );
+  isolatedConnected->AddSeed2( indexSeed2 );
   // Software Guide : EndCodeSnippet
 
 

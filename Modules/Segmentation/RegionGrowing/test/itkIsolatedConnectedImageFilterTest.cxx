@@ -32,8 +32,7 @@ int itkIsolatedConnectedImageFilterTest(int ac, char* av[] )
 
   typedef unsigned char            PixelType;
   typedef itk::Image<PixelType, 2> myImage;
-  itk::ImageFileReader<myImage>::Pointer input
-    = itk::ImageFileReader<myImage>::New();
+  itk::ImageFileReader<myImage>::Pointer input = itk::ImageFileReader<myImage>::New();
   input->SetFileName(av[1]);
 
   // Create a filter
@@ -46,14 +45,18 @@ int itkIsolatedConnectedImageFilterTest(int ac, char* av[] )
 
   FilterType::IndexType seed1;
 
+#if ! defined ( ITK_FUTURE_LEGACY_REMOVE )
   seed1[0] = atoi(av[4]); seed1[1] = atoi(av[5]);
   filter->SetSeed1(seed1); // deprecated method
 
   seed1[0] = atoi(av[6]); seed1[1] = atoi(av[7]);
   filter->SetSeed2(seed1); // deprecated method
+#endif
 
-  // Add additional seeds
-  for (int i=8; i<ac; i+=4)
+  // Clear the seeds and then add all of the seeds
+  filter->ClearSeeds1();
+  filter->ClearSeeds2();
+  for (int i=4; i<ac; i+=4)
     {
     seed1[0] = atoi(av[i]); seed1[1] = atoi(av[i+1]);
     filter->AddSeed1(seed1);
@@ -64,7 +67,9 @@ int itkIsolatedConnectedImageFilterTest(int ac, char* av[] )
 
   // The min and max values for a .png image
   filter->SetLower(0);
+#if ! defined ( ITK_FUTURE_LEGACY_REMOVE )
   filter->SetUpperValueLimit(255); //deprecated method
+#endif
   filter->SetUpper(255);
   filter->SetReplaceValue(255);
 
@@ -87,10 +92,12 @@ int itkIsolatedConnectedImageFilterTest(int ac, char* av[] )
   std::cout << "filter->GetIsolatedValueTolerance(): "
             << static_cast<itk::NumericTraits<PixelType>::PrintType>(isolatedValueTolerance)
             << std::endl;
+#if ! defined ( ITK_FUTURE_LEGACY_REMOVE )
   PixelType upperValueLimit = filter->GetUpperValueLimit();
   std::cout << "filter->GetUpperValueLimit(): "
             << static_cast<itk::NumericTraits<PixelType>::PrintType>(upperValueLimit)
             << std::endl;
+#endif
   PixelType upper = filter->GetUpper();
   std::cout << "filter->GetUpper(): "
             << static_cast<itk::NumericTraits<PixelType>::PrintType>(upper)
