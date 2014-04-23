@@ -88,10 +88,14 @@ int itkTestingExtractSliceImageFilterTest(int, char* [] )
   TRY_EXPECT_NO_EXCEPTION( filter->SetExtractionRegion( extractRegion ) );
   TEST_SET_GET_VALUE( extractRegion, filter->GetExtractionRegion() );
 
+#ifdef ITKV3_COMPATIBILITY
+  FilterType::DIRECTIONCOLLAPSESTRATEGY strategy = FilterType::DIRECTIONCOLLAPSETOGUESS;
+#else
   FilterType::DIRECTIONCOLLAPSESTRATEGY strategy = FilterType::DIRECTIONCOLLAPSETOUNKOWN;
 
   TEST_SET_GET_VALUE( strategy, filter->GetDirectionCollapseToStrategy() );
   TRY_EXPECT_EXCEPTION( filter->Update() );
+#endif
 
   TRY_EXPECT_EXCEPTION( filter->SetDirectionCollapseToStrategy( FilterType::DIRECTIONCOLLAPSETOUNKOWN ) );
 
