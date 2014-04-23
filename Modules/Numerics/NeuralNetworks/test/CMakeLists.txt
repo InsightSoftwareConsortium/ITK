@@ -8,6 +8,7 @@ RBFTest1.cxx
 QPropXORTest1.cxx
 XORTest1.cxx
 XORTest2.cxx
+itkLogSigmoidTransferFunctionTest.cxx
 itkSigmoidTransferFunctionTest.cxx
 )
 
@@ -49,5 +50,7 @@ itk_add_test(NAME XORTest2
       COMMAND ITKNeuralNetworksTestDriver XORTest2
               DATA{${ITK_DATA_ROOT}/Input/NeuralNetworks/xortest.txt})
 
+itk_add_test(NAME itkLogSigmoidTransferFunctionTest
+      COMMAND ITKNeuralNetworksTestDriver itkLogSigmoidTransferFunctionTest)
 itk_add_test(NAME itkSigmoidTransferFunctionTest
       COMMAND ITKNeuralNetworksTestDriver itkSigmoidTransferFunctionTest)
