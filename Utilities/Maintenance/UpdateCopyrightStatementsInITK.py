@@ -22,6 +22,9 @@
 #
 # This script is designed to help change the copyright notices in all ITK files to a common format.
 # For files that are .h, .cxx, .hxx, .c, if there is no other copyright information, add the itkCopyright.
+
+from __future__ import print_function
+
 import re
 import sys
 import os
@@ -108,10 +111,10 @@ for top,directory,files in os.walk(HeadOfITKTree):
         continue
       if ff[0] == '.': #Skip all files that begin with '.'
         files.remove(ff)
-        #print "@@@@@@@",ff
+        #print("@@@@@@@",ff)
         continue
       currFile=os.path.join(top,ff)
-      print currFile
+      print(currFile)
 
       infile=open(currFile,'r')
       file_text=infile.read()

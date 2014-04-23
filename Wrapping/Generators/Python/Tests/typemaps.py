@@ -16,6 +16,8 @@
 #
 #==========================================================================*/
 
+from __future__ import print_function
+
 import itk
 import sys
 import gc
@@ -108,10 +110,10 @@ assert median.GetInput() == median2.GetOutput()
 # catching exception
 try:
     median.Update()
-    print >> sys.stderr, "Exception not throwed!"
+    print("Exception not throwed!", file=sys.stderr)
     sys.exit(1)
 except RuntimeError as e:
-    print "Exception catched as expected", e
+    print("Exception catched as expected", e)
 
 #   ----- keep that at the end! -----
 

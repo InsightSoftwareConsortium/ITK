@@ -14,6 +14,8 @@ The cache class is L{directory_cache_t} which can be passed to the C{cache}
 argument of the L{parse()} function.
 """
 
+from __future__ import print_function
+
 import os, os.path, gzip
 try:
   import hashlib as md5
@@ -171,7 +173,7 @@ class directory_cache_t ( declarations_cache.cache_base_t ):
         key = self._create_cache_key(source_file)
         entry = self.__index.get(key)
         if entry==None:
-#            print "CACHE: %s: Not cached"%source_file
+#            print("CACHE: %s: Not cached"%source_file)
             return None
 
         # Check if the entry is still valid. It is not valid if:
@@ -187,20 +189,20 @@ class directory_cache_t ( declarations_cache.cache_base_t ):
         # Check if the config is different...
         configsig = self._create_config_signature(configuration)
         if configsig!=entry.configsig:
-#            print "CACHE: %s: Config mismatch"%source_file
+#            print("CACHE: %s: Config mismatch"%source_file)
             return None
 
         # Check if any of the dependent files has been modified...
         for id_, sig in entry.filesigs:
             if self.__filename_rep.is_file_modified(id_, sig):
-#                print "CACHE: %s: Entry not up to date"%source_file
+#                print("CACHE: %s: Entry not up to date"%source_file)
                 return None
 
         # Load and return the cached declarations
         cachefilename = self._create_cache_filename(source_file)
         decls = self._read_file(cachefilename)
 
-#        print "CACHE: Using cached decls for",source_file
+#        print("CACHE: Using cached decls for",source_file)
         return decls
 
     def _load(self):
@@ -218,8 +220,8 @@ class directory_cache_t ( declarations_cache.cache_base_t ):
             self.__index = data[0]
             self.__filename_rep = data[1]
             if self.__filename_rep._md5_sigs!=self.__md5_sigs:
-                print "CACHE: Warning: md5_sigs stored in the cache is set to %s."%self.__filename_rep._md5_sigs
-                print "       Please remove the cache to change this setting."
+                print("CACHE: Warning: md5_sigs stored in the cache is set to %s."%self.__filename_rep._md5_sigs()
+                print("       Please remove the cache to change this setting.")
                 self.__md5_sigs = self.__filename_rep._md5_sigs
         else:
             self.__index = {}
@@ -307,7 +309,7 @@ class directory_cache_t ( declarations_cache.cache_base_t ):
         try:
             os.remove(cachefilename)
         except OSError, e:
-            print "Could not remove cache file (%s)"%e
+            print("Could not remove cache file (%s)"%e)
 
 
     def _create_cache_key(self, source_file):
@@ -501,7 +503,7 @@ class filename_repository_t:
             try:
                 f = file(entry.filename)
             except IOError, e:
-                print "Cannot determine md5 digest:",e
+                print("Cannot determine md5 digest: " + e)
                 return None
             data = f.read()
             f.close()
@@ -517,15 +519,15 @@ class filename_repository_t:
         """Dump contents for debugging/testing.
         """
 
-        print 70*"-"
-        print "ID lookup table:"
+        print(70*"-")
+        print("ID lookup table:")
         for name in self.__id_lut:
             id_ = self.__id_lut[name]
-            print "  %s -> %d"%(name, id_)
+            print("  %s -> %d"%(name, id_))
 
-        print 70*"-"
-        print "%-4s %-60s %s"%("ID", "Filename", "Refcount")
-        print 70*"-"
+        print(70*"-")
+        print("%-4s %-60s %s"%("ID", "Filename", "Refcount"))
+        print(70*"-")
         for id_ in self.__entries:
             entry = self.__entries[id_]
-            print "%04d %-60s %d"%(id_, entry.filename, entry.refcount)
+            print("%04d %-60s %d"%(id_, entry.filename, entry.refcount))

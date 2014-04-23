@@ -25,6 +25,8 @@
 ## you can remove the sibling include.
 
 ## in the ITK/Code directory issue the following command
+from __future__ import print_function
+
 import os
 import sys
 import re
@@ -47,7 +49,7 @@ class FileToPathMapping:
            curr_dir=os.path.dirname(testfile)
            if not os.path.isfile(testfile):
              continue
-           #print testfile
+           #print(testfile)
            ff=open(testfile)
            search_string=r'^#include *([<"])(itk[^<"]*h)([>"])'
            myregexp=re.compile(search_string)
@@ -79,14 +81,14 @@ class FileToPathMapping:
         ## Pocess all children
         isdone=donenode.get((starting_child,dupcandidate),None)
         if isdone != None:
-          #print "found {0} {1}".format(starting_child,dupcandidate)
+          #print("found {0} {1}".format(starting_child,dupcandidate))
           return False
         else:
-          #print "adding {0} {1}".format(starting_child,dupcandidate)
+          #print("adding {0} {1}".format(starting_child,dupcandidate))
           donenode[(starting_child,dupcandidate)]=True
 
         nodeEdges=myDependTree[node]
-        #print nodeEdges
+        #print(nodeEdges)
         if ( dupcandidate not in nodeEdges): # Nothing to do
           print("-")
           return False
@@ -125,7 +127,7 @@ myDependTree=mymapper.FillFromWalkingTree(basedir)
 #    print(parentFiles)
 #    for childFiles in myDependTree[parentFiles]:
 #        print(" "*3+childFiles)
-#print mymapper.filePathBaseDirs
+#print(mymapper.filePathBaseDirs)
 
 
 donenode=dict()

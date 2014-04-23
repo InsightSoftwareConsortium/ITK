@@ -33,15 +33,17 @@
 #     OUTPUTS: {ResampleImageFilterOutput4.png}
 #     3
 
+from __future__ import print_function
+
 import itk
 from sys import argv, stderr, exit
 itk.auto_progress(2)
 
 
 if(len(argv) < 3):
-    print >> stderr, (
+    print((
         "Missing Parameters \n Usage: ResampleImageFilter.py inputImageFile "
-        "outputImageFile [exampleAction={0,1,2,3}]")
+        "outputImageFile [exampleAction={0,1,2,3}]"), file=stderr)
     exit(1)
 
 exampleAction = 0

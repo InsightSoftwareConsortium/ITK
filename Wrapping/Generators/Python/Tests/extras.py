@@ -18,12 +18,14 @@
 
 # also test the import callback feature
 
+from __future__ import print_function
+
 
 def custom_callback(name, progress):
     if progress == 0:
-        print >> sys.stderr, "Loading %s..." % name,
+        print("Loading %s..." % name, file=sys.stderr)
     if progress == 1:
-        print >> sys.stderr, "done"
+        print("done", file=sys.stderr)
 import itkConfig
 itkConfig.ImportCallback = custom_callback
 

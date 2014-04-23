@@ -5,6 +5,8 @@
 
 """implementation details"""
 
+from __future__ import print_function
+
 import types
 
 class parser_t( object ):
@@ -67,7 +69,7 @@ class parser_t( object ):
                 args.append( args_only[ previous_found : ] )
                 break
             #elif decl_string[ found ] == self.__end:
-            #    print args
+            #    print(args)
             #    raise RuntimeError( "unmatched '%s' token has been found." % self.__end )
             else:
                 args.append( args_only[ previous_found : found ] )

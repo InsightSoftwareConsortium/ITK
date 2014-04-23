@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from __future__ import print_function
+
 import sys, os
 sys.path.append(sys.path[0]+os.sep+'pygccxml-1.0.0')
 
@@ -29,7 +31,7 @@ for typedef in wrappers_ns.typedefs():
   # drop the :: prefix - it make swig produce invalid code
   if s.startswith("::"):
     s = s[2:]
-  print >> outputFile, "{%s} {%s} {%s}" % (s, n, module)
+  print(outputFile, " {%s} {%s} {%s}" % (s, n, module))
 
 content = outputFile.getvalue()
 

@@ -1,7 +1,6 @@
 import os
 import sys
 import ctypes
-import pprint
 import logging
 import comtypes
 import comtypes.client

@@ -1,9 +1,11 @@
+
+from __future__ import print_function
+
 import os
 import re
 import pdb
 import sys
 import ctypes
-import pprint
 import logging
 import comtypes
 import itertools
@@ -44,7 +46,7 @@ def print_files( session ):
     files = iter( session.findFile( None, '', 0 ) )
     for f in files:
         f = ctypes.cast( f, ctypes.POINTER(msdia.IDiaSourceFile) )
-        print 'File: ', f.fileName
+        print('File: ', f.fileName)
 
 class decl_loader_t(object):
     COMPILER = declarations.compilers.MSVC_PDB_9
@@ -193,9 +195,9 @@ class decl_loader_t(object):
                     parent = self.global_ns.decl( parent_name )
                 except:
                     declarations.print_declarations( self.global_ns )
-                    print 'identifiers:'
+                    print('identifiers:')
                     for index, identifier in enumerate(name_splitter.identifiers):
-                        print index, ':', identifier
+                        print(index, ':', identifier)
                     raise
                 self.__adopt_declaration( parent, decl )
 
@@ -255,7 +257,7 @@ class decl_loader_t(object):
             if not name_splitter.scope_names:
                 return True #global namespace
             else:
-                #print "I am here " + '::' + name_splitter.scope_names[-1]
+                #print("I am here " + '::' + name_splitter.scope_names[-1])
                 parent_name = '::' + name_splitter.scope_names[-1]
                 if parent_name in self.__parent_exist:
                     return True
@@ -357,8 +359,8 @@ class decl_loader_t(object):
             #~ return [as_symbol( s ) for s in  iter(found)]
             #~ for s in iter(found):
                 #~ s =
-                #~ print s.name
-                #~ print impl_details.guess_class_type(s.udtKind)
+                #~ print(s.name)
+                #~ print(impl_details.guess_class_type(s.udtKind))
         else:
             self.logger.debug( 'name( "%s" ) is **NOT** UDT symbol' % name )
             return None

@@ -3,6 +3,8 @@
 # accompanying file LICENSE_1_0.txt or copy at
 # http://www.boost.org/LICENSE_1_0.txt)
 
+from __future__ import print_function
+
 import os
 from types import *
 
@@ -126,11 +128,11 @@ if '__main__' == __name__:
     pass
     #lFileCount = 0
     #for file_os in files_iterator( r'C:\Program Files\Microsoft Visual Studio\VC98\Include\stlport', ['*.h', '*.'], True, False):
-        #print file_os
+        #print(file_os)
         #lFileCount += 1
-    #print lFileCount
+    #print(lFileCount)
 
     #~ for directory in directories_iterator( '/home/roman/language-binding', False ):
-        #~ print directory
+        #~ print(directory)
     #~ for directory in directories_iterator( '/home/roman/language-binding', True ):
-        #~ print directory
+        #~ print(directory)

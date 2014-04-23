@@ -1,3 +1,5 @@
+from __future__ import print_function
+
 from . import enums
 from pygccxml import declarations
 
@@ -66,8 +68,8 @@ if '__main__' == __name__:
     name = "boost::detail::is_base_and_derived_impl2<engine_objects::universal_base_t,engine_objects::erroneous_transactions_file_configuration_t>::Host"
     fnsp = full_name_splitter_t( name )
     for x in fnsp.scope_names:
-        print x
+        print(x)
 
     fnsp = full_name_splitter_t( 'x' )
     for x in fnsp.scope_names:
-        print x
+        print(x)

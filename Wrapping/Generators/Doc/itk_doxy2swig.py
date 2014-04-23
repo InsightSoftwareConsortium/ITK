@@ -7,6 +7,8 @@ Usage:
 
 """
 
+from __future__ import print_function
+
 import sys
 import os
 import glob
@@ -33,7 +35,7 @@ class itkDoxy2SWIG(Doxy2SWIG):
     def do_compoundname(self, node):
         self.add_text('\n\n')
         data = self.cpp_to_swig_name(node.firstChild.data)
-        # print "=================", data
+        # print("=================", data)
         self.add_text('%%feature("docstring") %s "\n'%data)
 
     def do_memberdef(self, node):
@@ -73,7 +75,7 @@ class itkDoxy2SWIG(Doxy2SWIG):
                 cname = self.cpp_to_swig_name(anc_node[0].firstChild.data)
                 # self.add_text(' %s::%s "\n%s'%(cname, name, defn))
                 self.add_text(' %s::%s "'%(cname, name))
-                # print "***", name, defn
+                # print("***", name, defn)
 
             # make sure that the docstring won't be empty before writing any text
             current_length = len(self.pieces)
@@ -111,7 +113,7 @@ def d2s_dir(in_dir_name, out_swig_i):
           for swig_name in ls[2:]:
             output.write(tpl.replace("@[{(]})@", swig_name))
       else:
-        print >> sys.stderr, "Warning: %s does not exist. Ignore it." % xfn
+        print("Warning: %s does not exist. Ignore it." % xfn, file=sys.stderr)
   f = open(out_swig_i, 'w')
   f.write(output.getvalue())
   f.close()
@@ -121,6 +123,6 @@ def main(in_dir_name, out_swig_i):
 
 if __name__ == '__main__':
         if len(sys.argv) != 3:
-                print __doc__
+                print(__doc__)
                 sys.exit(1)
         main(sys.argv[1], sys.argv[2])

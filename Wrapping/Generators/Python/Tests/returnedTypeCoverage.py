@@ -16,6 +16,8 @@
 #
 #==========================================================================*/
 
+from __future__ import print_function
+
 import itk
 import re
 import sys
@@ -151,7 +153,7 @@ excludedClasses = [
 
 def log(s, level):
     if level <= options.verbose:
-        print >> logFile, s
+        print(logFile, s)
         logFile.flush()
 
 

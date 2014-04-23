@@ -28,6 +28,8 @@
 #     OUTPUTS: {ThresholdSegmentationLevelSetImageFilterGrayMatter.png}
 #     107 69 5 180  210
 
+from __future__ import print_function
+
 import itk
 from sys import argv, stderr, exit
 itk.auto_progress(2)
@@ -35,11 +37,11 @@ itk.auto_progress(2)
 # itk.auto_progress(1)
 
 if len(argv) < 8:
-    print >> stderr, (
+    print((
         "Missing Parameters \n Usage: "
         "ThresholdSegmentationLevelSetImageFilter.py inputImage outputImage "
         "seedX seedY InitialDistance LowerThreshold UpperThreshold "
-        "[CurvatureScaling == 1.0]")
+        "[CurvatureScaling == 1.0]"), file=stderr)
     exit(1)
 
 InternalPixelType = itk.F

@@ -16,15 +16,17 @@
 #
 #==========================================================================*/
 
+from __future__ import print_function
+
 import itk
 from sys import argv, stderr, exit
 
 itk.auto_progress(2)
 
 if len(argv) < 3:
-    print >> stderr, (
+    print((
         "Missing Parameters \n Usage: AntiAliasBinaryImageFilter"
-        " inputImage outputImage [RMS] [numberOfIterations]")
+        " inputImage outputImage [RMS] [numberOfIterations]"), file=stderr)
     exit(1)
 
 inputFilename = argv[1]

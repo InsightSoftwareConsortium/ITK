@@ -16,6 +16,8 @@
 #
 #==========================================================================*/
 
+from __future__ import print_function
+
 import sys
 import re
 import itk
@@ -71,15 +73,16 @@ nonWrapped = classes - wrapped
 # print non wrapped classes without much text to stdout, so they can be
 # easily reused
 for f in sorted(nonWrapped):
-    print f
+    print(f)
 
 # and print stats in stderr to avoid poluting the list above
-print >>sys.stderr
-print >>sys.stderr, '%i %s' % (len(classes), opts.base)
-print >>sys.stderr, '%i wrapped %s' % (len(wrapped), opts.base)
-print >>sys.stderr, '%i non wrapped %s' % (len(nonWrapped), opts.base)
-print >>sys.stderr, '%f%% covered' % (len(wrapped) / float(len(classes)) * 100)
-print >>sys.stderr
+print("", file=sys.stderr)
+print('%i %s' % (len(classes), opts.base), file=sys.stderr)
+print('%i wrapped %s' % (len(wrapped), opts.base), file=sys.stderr)
+print('%i non wrapped %s' % (len(nonWrapped), opts.base), file=sys.stderr)
+covered = len(wrapped) / float(len(classes))
+print('%f%% covered' % (covered * 100), file=sys.stderr)
+print("", file=sys.stderr)
 
 if not opts.noError:
     sys.exit(len(nonWrapped))

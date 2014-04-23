@@ -1,3 +1,5 @@
+from __future__ import print_function
+
 import os
 import sys
 import logging
@@ -254,37 +256,37 @@ class reader_t( object ):
         stat = BSC_STAT()
         BSCGetStatistics( self.__bsc, byref( stat ) )
         for f, t in stat._fields_:
-            print '%s: %s' % ( f, str( getattr( stat, f) ) )
+            print('%s: %s' % ( f, str( getattr( stat, f) ) ))
 
     def print_classes(self, file_name=None):
         for m in self.files:
             if file_name and m.path != file_name:
                 continue
-            print 'File: ', m.path
+            print('File: ', m.path)
             if m.instances:
-                print '\tInstances:'
+                print('\tInstances:')
                 for inst in m.instances:
-                    print '\t\t', str(inst)
+                    print('\t\t', str(inst))
                     if inst.definitions:
-                        print '\t\t\tDefinitions:'
+                        print('\t\t\tDefinitions:')
                         for definition in inst.definitions:
-                            print '\t\t\t\t', str( definition )
+                            print('\t\t\t\t', str( definition ))
                     if inst.members:
-                        print '\t\t\tMembers:'
+                        print('\t\t\tMembers:')
                         for member in inst.members:
-                            print '\t\t\t\t', str( member )
+                            print('\t\t\t\t', str( member ))
                     if inst.used_symbols:
-                        print '\t\t\tUsed symbols:'
+                        print('\t\t\tUsed symbols:')
                         for used_symbol in inst.used_symbols:
-                            print '\t\t\t\t', str( used_symbol )
+                            print('\t\t\t\t', str( used_symbol ))
                     if inst.base_classes:
-                        print '\t\t\tBase classes:'
+                        print('\t\t\tBase classes:')
                         for base_class in inst.base_classes:
-                            print '\t\t\t\t', str( base_class )
+                            print('\t\t\t\t', str( base_class ))
                     if inst.derived_classes:
-                        print '\t\t\tDerived classes:'
+                        print('\t\t\tDerived classes:')
                         for derived_class in inst.derived_classes:
-                            print '\t\t\t\t', str( derived_class )
+                            print('\t\t\t\t', str( derived_class ))
 
     def __del__( self ):
         if self.__bsc:

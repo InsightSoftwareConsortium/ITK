@@ -35,6 +35,7 @@ relativeFileList = "filelist.txt" # files to process
 includesToSkip = ["itkVersion.h","<cstring>", "<iostream>", "<fstream>","vnl/vnl_math.h","<string>","itkConfigure.h","<stdlib>","<time.h>"] #keep those headers
 #######################################################################
 
+from __future__ import print_function
 
 import os
 
@@ -81,7 +82,7 @@ def processFile(directory, fileName):
         if line.startswith('#include'):
             if shouldSkipInclude(line): continue
 
-            print "Try remove:", line
+            print("Try remove:", line)
             lines[i] = ""
 
             writeFile(lines, absFileName)
@@ -89,7 +90,7 @@ def processFile(directory, fileName):
             if returnCode == 0:
                 removedLines.append(i)
             else:
-                print "Restoring:", line
+                print("Restoring:", line)
                 lines[i] = line
 
     # Write final changes to file

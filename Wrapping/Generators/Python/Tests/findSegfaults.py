@@ -16,6 +16,7 @@
 #
 #==========================================================================*/
 
+from __future__ import print_function
 
 import sys
 import commands
@@ -61,7 +62,7 @@ while ret != 0:
     if lastClass:
         command += " --start-from " + lastClass
     if options.verbose:
-        print command
+        print(command)
     (ret, output) = commands.getstatusoutput(command)
     if ret != 0:
         # find last args (the ones which caused the segfault)
@@ -76,6 +77,6 @@ while ret != 0:
                 if len(l) != 0 and l[0].isupper():
                     lastClass = l
                     break
-        print repr(faultyArgs)
+        print(repr(faultyArgs))
         segfaultFile.write(faultyArgs + "\n")
         segfaultFile.flush()

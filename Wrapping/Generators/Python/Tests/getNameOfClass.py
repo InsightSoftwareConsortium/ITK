@@ -18,6 +18,8 @@
 
 # a short program to check the value returned by the GetNameOfClass() methods
 
+from __future__ import print_function
+
 import itk
 import sys
 itk.auto_progress(2)
@@ -55,24 +57,24 @@ for t in dir(itk):
                 # is an "abstract" one and don't provide any New() method.
                 # In that case, the one of the superclass is used.
                 if 'GetNameOfClass' in dir(I):
-                    # print "Checking", t
+                    # print("Checking", t)
                     n = I.GetNameOfClass()
                     if n != t and itk.class_(I) == i:
                         msg = "doesn't provide the right name."
-                        print >> sys.stderr, t, msg
+                        print(t, msg, file=sys.stderr)
                         wrongName = True
         else:
             if 'New' in dir(T):
                 I = T.New()
                 if 'GetNameOfClass' in dir(I):
-                    # print "Checking", t
+                    # print("Checking", t)
                     n = I.GetNameOfClass()
                     if n != t and itk.class_(I) == T:
                         msg = "doesn't provide the right name."
-                        print >> sys.stderr, t, msg
+                        print(t, msg, file=sys.stderr)
                         wrongName = True
 
 
 if wrongName:
-    print >> sys.stderr, "Some classes are not providing the correct name."
+    print("Some classes are not providing the correct name.", file=sys.stderr)
     sys.exit(1)

@@ -5,6 +5,8 @@
 # This script will parse the Git commits on the current branch and initializes
 # an XML migration guide document with the apropriate content.
 
+from __future__ import print_function
+
 import os.path
 import sys
 import subprocess
@@ -120,7 +122,7 @@ if __name__ == '__main__':
   uniqueName = False
   XMLFileName = ""
   XMLFilePath = ""
-  print "Please enter a unique name for the XML document"
+  print("Please enter a unique name for the XML document")
   while uniqueName == False:
 
     # get the user's input
@@ -135,7 +137,8 @@ if __name__ == '__main__':
       XMLFileName = nameCandidate
       XMLFilePath = pathCandidate
     else:
-      print '"' + nameCandidate + '" already exists.  Please specify a differnt name'
+      print('"' + nameCandidate + '" already exists.'
+            'Please specify a different name')
 
   # split the name for the title tag
   titleText = addCamelCaseSpaces(stripSuffix(XMLFileName, ".xml"))
@@ -149,7 +152,7 @@ if __name__ == '__main__':
   try:
     HEADfile = open(HEADfilename, "r")
   except IOError:
-    print "I/O error: Could not open .git/HEAD"
+    print("I/O error: Could not open .git/HEAD")
     sys.exit()
   branchName = HEADfile.readline()
   branchName = stripPrefix(branchName, "ref: refs/heads/")
@@ -160,7 +163,7 @@ if __name__ == '__main__':
   try:
     branchLogFile = open(branchLogFilename, "r")
   except IOError:
-    print "I/O error: Could not open branch log file"
+    print("I/O error: Could not open branch log file")
     sys.exit()
 
   # grab the commit lines, but ignore ammended ones
@@ -216,7 +219,7 @@ if __name__ == '__main__':
   #
   # parse the diff of each Example or Testing file
   #
-  print exampleAndTestChangedFileList
+  print(exampleAndTestChangedFileList)
   for filename in exampleAndTestChangedFileList:
 
     # Add filename
@@ -226,7 +229,7 @@ if __name__ == '__main__':
     # get the log for the commit
     fullPath = baseDir + "/" + filename
     diffCommand = "git diff " + baseCommit + " -- " + fullPath
-    print diffCommand
+    print(diffCommand)
     diff = runCommand(diffCommand)
 
     # parse lines into old and new
@@ -339,5 +342,5 @@ if __name__ == '__main__':
     xmlFile = open(XMLFilePath, "w")
     xmlFile.write(xmlString)
   except IOError:
-    print "I/O Error: Could not write to " + XMLFilePath
+    print("I/O Error: Could not write to " + XMLFilePath)
     sys.exit()
