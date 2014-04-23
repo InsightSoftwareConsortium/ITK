@@ -86,30 +86,6 @@ public:
   itkTypeMacro(MetaDataObject, MetaDataObjectBase);
 
   /**
-   * Default constructor with no initialization.
-   * \author Hans J. Johnson
-   */
-  MetaDataObject();
-
-  /**
-   * Default virtual Destructor
-   * \author Hans J. Johnson
-   */
-  virtual ~MetaDataObject();
-
-  /**
-   * Initializer constructor that sets m_MetaDataObjectValue to InitializerValue
-   * \author Hans J. Johnson
-   */
-  MetaDataObject(const MetaDataObjectType initializerValue);
-
-  /**
-   * Copy constructor that sets m_MetaDataObjectValue to TemplateObject.m_MetaDataObjectValue
-   * \author Hans J. Johnson
-   */
-  MetaDataObject(const MetaDataObject< MetaDataObjectType > & templateObject);
-
-  /**
    * The definition of this function is necessary to fulfill
    * the interface of the MetaDataObjectBase
    * \author Hans J. Johnson
@@ -144,6 +120,10 @@ public:
    * \param os An output stream
    */
   virtual void Print(std::ostream & os) const;
+
+protected:
+  MetaDataObject();
+  virtual ~MetaDataObject();
 
 private:
   /**
@@ -244,13 +224,6 @@ template <> ITKCommon_EXPORT void MetaDataObject< std::string >::Print( std::ost
     {                                               \
     os << this->m_MetaDataObjectValue << std::endl; \
     }                                               \
-  template< >                                       \
-  void                                              \
-  ::itk::MetaDataObject< const TYPE_NAME >            \
-  ::Print(std::ostream & os) const                  \
-    {                                               \
-    os << this->m_MetaDataObjectValue << std::endl; \
-    }
 
 /**
  * \def ITK_OBJECT_TYPE_METADATAPRINT_1COMMA( TYPE_NAME_PART1, TYPE_NAME_PART2 )
@@ -268,13 +241,6 @@ template <> ITKCommon_EXPORT void MetaDataObject< std::string >::Print( std::ost
     {                                                                          \
     this->m_MetaDataObjectValue->Print(os);                                    \
     }                                                                          \
-  template< >                                                                  \
-  void                                                                         \
-  itk::MetaDataObject< const TYPE_NAME_PART1, TYPE_NAME_PART2 >                \
-  ::Print(std::ostream & os) const                                             \
-    {                                                                          \
-    this->m_MetaDataObjectValue->Print(os);                                    \
-    }
 
 /**
  * \def ITK_IMAGE_TYPE_METADATAPRINT( STORAGE_TYPE )

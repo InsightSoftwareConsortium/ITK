@@ -47,20 +47,6 @@ MetaDataObject< MetaDataObjectType >
 }
 
 template< typename MetaDataObjectType >
-MetaDataObject< MetaDataObjectType >
-::MetaDataObject(const MetaDataObjectType initializerValue):
-  m_MetaDataObjectValue(initializerValue)
-{
-}
-
-template< typename MetaDataObjectType >
-MetaDataObject< MetaDataObjectType >
-::MetaDataObject(const MetaDataObject< MetaDataObjectType > & templateObject):
-  Superclass(), m_MetaDataObjectValue(templateObject.m_MetaDataObjectValue)
-{
-}
-
-template< typename MetaDataObjectType >
 const char *
 MetaDataObject< MetaDataObjectType >
 ::GetMetaDataObjectTypeName() const
