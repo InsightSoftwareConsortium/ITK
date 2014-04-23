@@ -235,29 +235,6 @@ if(PY_SITE_PACKAGES_PATH)
   INSTALL_AT_ABSOLUTE_PATH(install_wrapitk_compatibility "${PY_SITE_PACKAGES_PATH}" "${CMAKE_CURRENT_BINARY_DIR}/InstallOnly/WrapITK.pth")
 endif()
 
-
-
-# # compile python files
-# set(PYTHON_MODULES "")
-# foreach(m ${WRAP_ITK_MODULES})
-#   set(PYTHON_MODULES ${PYTHON_MODULES} _${m}Python)
-# endforeach()
-#
-# add_custom_target(PythonCompile ALL
-#   ${PYTHON_EXECUTABLE}
-#   ${PY_SITE_PACKAGES_PATH}/../compileall.py -l
-#   -d "${CMAKE_INSTALL_PREFIX}/${WRAP_ITK_INSTALL_PREFIX}/lib"
-#   ${WrapITK_BINARY_DIR}/lib
-#
-#   COMMAND ${PYTHON_EXECUTABLE}
-#   ${PY_SITE_PACKAGES_PATH}/../compileall.py -l
-#   -d "${CMAKE_INSTALL_PREFIX}/${WRAP_ITK_INSTALL_PREFIX}/Python"
-#   ${WrapITK_BINARY_DIR}/Python
-#
-#   DEPENDS SwigRuntimePython ${PYTHON_MODULES}
-# )
-
-
 ###############################################################################
 # Install python stuff for external projects
 if(NOT EXTERNAL_WRAP_ITK_PROJECT)
