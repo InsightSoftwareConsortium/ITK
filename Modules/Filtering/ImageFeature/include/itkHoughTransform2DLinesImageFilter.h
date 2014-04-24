@@ -34,9 +34,11 @@ namespace itk
  * to be extracted. The output is the image of the accumulator.
  * GetLines() returns a list of LinesSpatialObjects.
  *
- * Lines are parameterized in the form: R = x*std::cos(Teta)+y*std::sin(Teta)
- * where R is the perpendicular distance from the origin and Teta
- * the angle with the normal.
+ * Lines are parameterized in the form:
+ *
+ * \f$ R = x \cos(\theta) + y \sin(\theta) \f$
+ * where \f$R\f$ is the perpendicular distance from the origin and
+ * \f$\theta\f$ the angle with the normal.
  *
  * The output is the accumulator array:
  *    -The first dimension (X) represents the distance R from the corner
