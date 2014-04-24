@@ -24,22 +24,25 @@ namespace itk
 {
 namespace Statistics
 {
+
 /** \class SigmoidTransferFunction
  * \brief This is the itkSigmoidTransferFunction class.
  *
  * \ingroup ITKNeuralNetworks
  */
-
-template<typename ScalarType>
-class SigmoidTransferFunction : public TransferFunctionBase<ScalarType>
+template<typename TScalar>
+class SigmoidTransferFunction : public TransferFunctionBase<TScalar>
 {
 public:
 
   /** Standard class typedefs. */
   typedef SigmoidTransferFunction          Self;
-  typedef TransferFunctionBase<ScalarType> Superclass;
+  typedef TransferFunctionBase<TScalar>    Superclass;
   typedef SmartPointer<Self>               Pointer;
   typedef SmartPointer<const Self>         ConstPointer;
+
+  typedef TScalar                                        ScalarType;
+  typedef typename NumericTraits< ScalarType >::RealType RealType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(SigmoidTransferFunction, TransferFunctionBase);
@@ -48,10 +51,10 @@ public:
   itkNewMacro(Self);
 
   /** Set/Get macros */
-  itkSetMacro(Alpha,ScalarType);
-  itkGetMacro(Alpha,ScalarType);
-  itkSetMacro(Beta,ScalarType);
-  itkGetMacro(Beta,ScalarType);
+  itkSetMacro(Alpha,RealType);
+  itkGetMacro(Alpha,RealType);
+  itkSetMacro(Beta,RealType);
+  itkGetMacro(Beta,RealType);
   itkSetMacro(OutputMinimum,ScalarType);
   itkGetMacro(OutputMinimum,ScalarType);
   itkSetMacro(OutputMaximum,ScalarType);
@@ -73,8 +76,8 @@ protected:
 
 private:
 
-  ScalarType m_Alpha;
-  ScalarType m_Beta;
+  RealType   m_Alpha;
+  RealType   m_Beta;
   ScalarType m_OutputMinimum;
   ScalarType m_OutputMaximum;
 };

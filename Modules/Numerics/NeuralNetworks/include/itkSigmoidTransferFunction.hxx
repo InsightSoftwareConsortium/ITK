@@ -26,8 +26,8 @@ namespace Statistics
 {
 
 
-template<typename ScalarType>
-SigmoidTransferFunction< ScalarType>
+template<typename TScalar>
+SigmoidTransferFunction<TScalar>
 ::SigmoidTransferFunction()
 {
   m_Alpha = 1.0;
@@ -44,12 +44,11 @@ SigmoidTransferFunction<ScalarType>
 }
 
 
-template<typename ScalarType>
-ScalarType
-SigmoidTransferFunction<ScalarType>
+template<typename TScalar>
+TScalar
+SigmoidTransferFunction<TScalar>
 ::Evaluate(const ScalarType& input)  const
 {
-  typedef typename NumericTraits< ScalarType >::RealType RealType;
   const RealType x = static_cast< RealType >( input - m_Beta ) / m_Alpha;
   const RealType e = 1.0 / (1.0 + std::exp( static_cast< typename NumericTraits< ScalarType >::RealType >(-x)));
   const ScalarType v = static_cast< ScalarType >( (m_OutputMaximum - m_OutputMinimum) * e )
@@ -58,9 +57,9 @@ SigmoidTransferFunction<ScalarType>
 }
 
 
-template<typename ScalarType>
-ScalarType
-SigmoidTransferFunction< ScalarType>
+template<typename TScalar>
+TScalar
+SigmoidTransferFunction< TScalar>
 ::EvaluateDerivative(const ScalarType& input)  const
 {
   ScalarType f = Evaluate(input);
@@ -68,9 +67,9 @@ SigmoidTransferFunction< ScalarType>
 }
 
 
-template<typename ScalarType>
+template<typename TScalar>
 void
-SigmoidTransferFunction<ScalarType>
+SigmoidTransferFunction<TScalar>
 ::PrintSelf( std::ostream& os, Indent indent ) const
 {
   os << indent << "SigmoidTransferFunction(" << this << ")" << std::endl;
