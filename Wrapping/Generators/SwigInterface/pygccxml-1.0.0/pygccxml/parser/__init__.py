@@ -6,6 +6,8 @@
 """Parser sub-package.
 """
 
+from __future__ import print_function
+
 from config import config_t
 from config import gccxml_configuration_t
 
