@@ -102,10 +102,6 @@ else()
   set(WRAP_ITK_LIBNAME_PREFIX "")
 endif()
 
-# 467 is for warnings caused by typemap on overloaded methods
-set(CSWIG_IGNORE_WARNINGS -w362 -w389 -w467 -w503 -w508 -w509 -w516)
-add_definitions(-DSWIG_GLOBAL)
-
 # generators dir
 set(GENERATORS_SRC_DIR "${WRAP_ITK_CMAKE_DIR}/Generators" CACHE INTERNAL "generators source directory")
 

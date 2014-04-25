@@ -1,4 +1,3 @@
-
 ###############################################################################
 # configure python (find PythonInterp first, as of cmake 3.1)
 find_package(PythonInterp)
@@ -28,15 +27,6 @@ set(ITK_WRAP_PYTHON_BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}" CACHE INTERNAL "pyt
 ###############################################################################
 # create the python directory in the classindex dir
 file(MAKE_DIRECTORY ${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/python)
-
-###############################################################################
-# should we use autodoc? swig 1.3.37 produce invalid code with autodoc.
-# see https://sourceforge.net/tracker/index.php?func=detail&aid=2552048&group_id=1645&atid=101645
-if("${SWIG_VERSION}" STREQUAL "1.3.37")
-  set(ITK_WRAP_PYTHON_AUTODOC "" CACHE INTERNAL "python autodoc option")
-else()
-  set(ITK_WRAP_PYTHON_AUTODOC -features autodoc=1 CACHE INTERNAL "python autodoc option")
-endif()
 
 ###############################################################################
 # python 2.6 search for the modules in a "64" subdirectory, and don't provide
@@ -252,9 +242,8 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
   )
 endif()
 
-
-
-
+###############################################################################
+# Define the wrapping macros
 
 macro(itk_wrap_module_python library_name)
   set(ITK_WRAP_PYTHON_CONFIGURATION_TEMPLATES "")
@@ -263,6 +252,77 @@ macro(itk_wrap_module_python library_name)
   set(ITK_WRAP_PYTHON_LIBRARY_DECLS )
   set(ITK_WRAP_PYTHON_LIBRARY_CALLS )
   set(ITK_WRAP_PYTHON_CXX_FILES )
+endmacro()
+
+
+macro(itk_setup_swig_python type base_name interface_file python_file cpp_file doc_file)
+
+  #############################################################################
+  # Runs swig to produce the .so and the .py file
+  # Called by itk_end_wrap_module_python and by itk_end_wrap_submodule_python
+  # Type will then be either "module" or "submodule"
+  #############################################################################
+
+  set(swig_command ${SWIG_EXECUTABLE})
+  if(ITK_USE_CCACHE)
+    set(swig_command ${CCACHE_EXECUTABLE} ${swig_command})
+  endif()
+
+  set(_swig_depend)
+  if(NOT ITK_USE_SYSTEM_SWIG)
+    # The ExternalProject SWIG install.
+    set(_swig_depend swig)
+  endif()
+
+  set(dependencies
+    "${DEPS}"
+    "${interface_file}"
+    "${WRAP_ITK_TYPEDEFS_DIRECTORY}/pyBase.i"
+    "${_swig_depend}")
+
+  if("${type}" STREQUAL "module")
+    # Module
+    set(dependencies ${dependencies}
+      "${ITK_WRAP_PYTHON_LIBRARY_DEPS}"
+      "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/python/${WRAPPER_LIBRARY_NAME}_ext.i")
+  else()
+    # Submodule
+    set(dependencies ${dependencies}
+      "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/python/${base_name}_ext.i"
+      "${doc_file}")
+  endif()
+
+  add_custom_command(
+    OUTPUT ${cpp_file} ${python_file}
+    COMMAND ${swig_command} -c++ -python -O -features autodoc=1
+    -Werror
+    -w302 # Identifier 'name' redefined (ignored)
+    -w303 # %extend defined for an undeclared class 'name' (to avoid warning about customization in pyBase.i)
+    -w312 # Unnamed nested class not currently supported (ignored)
+    -w314 # 'identifier' is a lang keyword
+    -w361 # operator! ignored
+    -w362 # operator= ignored
+    -w350 # operator new ignored
+    -w383 # operator++ ignored
+    -w384 # operator-- ignored
+    -w389 # operator[] ignored
+    -w394 # operator new[] ignored
+    -w395 # operator delete[] ignored
+    -w467 # Overloaded declaration not supported (no type checking rule for 'type')
+    -w508 # Declaration of 'name' shadows declaration accessible via operator->(), previous declaration of'declaration'
+    -w509 # Overloaded method declaration effectively ignored, as it is shadowed by declaration
+    -o ${cpp_file}
+    -I${GENERATORS_SRC_DIR}
+    -I${WRAP_ITK_TYPEDEFS_DIRECTORY}/python
+    -I${WRAP_ITK_TYPEDEFS_DIRECTORY}
+    ${WRAP_ITK_SWIG_ARGS_PYTHON}
+    -outdir ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
+    ${interface_file}
+    WORKING_DIRECTORY ${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/python
+    DEPENDS ${dependencies}
+  )
+  WRAP_ITK_BINDINGS_INSTALL("/Python" "${python_file}")
+
 endmacro()
 
 
@@ -305,7 +365,6 @@ macro(itk_end_wrap_module_python)
     "${ITK_WRAP_PYTHON_BINARY_DIR}/Configuration/${WRAPPER_LIBRARY_NAME}Config.py"
   )
 
-
   # create the advanced lib module python file
   # this file let the final user _not_ use the itk module, but rather
   # something like "import Base"
@@ -314,9 +373,6 @@ macro(itk_end_wrap_module_python)
     "${ITK_WRAP_PYTHON_BINARY_DIR}/${WRAPPER_LIBRARY_NAME}.py"
     @ONLY)
   WRAP_ITK_BINDINGS_INSTALL("/Python" "${ITK_WRAP_PYTHON_BINARY_DIR}/${WRAPPER_LIBRARY_NAME}.py")
-
-#   add_custom_target(${WRAPPER_LIBRARY_NAME}SwigPython DEPENDS ${cpp_files} ${python_files})
-#   add_custom_target(${WRAPPER_LIBRARY_NAME}Python DEPENDS ${modules})
 
   # create the python customization stuff in the main module
   # it allow to group the pythons module in a single shared lib, by loading the int
@@ -332,7 +388,6 @@ macro(itk_end_wrap_module_python)
     "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/python/${WRAPPER_LIBRARY_NAME}_ext.i"
   )
 
-
   # set some var reused later
   set(interface_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_LIBRARY_NAME}.i")
   set(lib ${WRAPPER_LIBRARY_NAME}Python)
@@ -344,44 +399,10 @@ macro(itk_end_wrap_module_python)
     set(WRAP_ITK_SWIG_ARGS_PYTHON "" CACHE STRING "Extra user-defined swig arguments to be to the swig executable.")
   endif()
 
-  # and generate c++ code from the main module swig interface.
-  set(swig_command ${SWIG_EXECUTABLE})
-  if(ITK_USE_CCACHE)
-    set(swig_command ${CCACHE_EXECUTABLE} ${swig_command})
-  endif()
-
-  set(_swig_depend)
-  if(NOT ITK_USE_SYSTEM_SWIG)
-    # The ExternalProject SWIG install.
-    set(_swig_depend swig)
-  endif()
-  add_custom_command(
-    OUTPUT ${cpp_file} ${python_file}
-    COMMAND ${swig_command} -c++ -python -O ${ITK_WRAP_PYTHON_AUTODOC} -Werror
-#       -fcompact
-    -w508 -w312 -w314 -w509 -w302 -w362
-    -w389 # operator[], to be suppressed later...
-    -w384 -w383 # operator++ ane operator--
-    -w361 # operator!
-    -w467 # overloaded functions (with typemaps)
-    -w350 -w394 -w395  # operator new/new[]/delete[] ignored
-    -w303 # to avoid warning about customization in pyBase.i
-    -o ${cpp_file}
-    -I${GENERATORS_SRC_DIR}
-    -I${WRAP_ITK_TYPEDEFS_DIRECTORY}/python
-    -I${WRAP_ITK_TYPEDEFS_DIRECTORY}
-    ${WRAP_ITK_SWIG_ARGS_PYTHON}
-    -outdir ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
-    ${interface_file}
-    WORKING_DIRECTORY ${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/python
-    DEPENDS ${DEPS} ${ITK_WRAP_PYTHON_LIBRARY_DEPS} ${interface_file}
-    ${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/python/${WRAPPER_LIBRARY_NAME}_ext.i
-    ${WRAP_ITK_TYPEDEFS_DIRECTORY}/pyBase.i ${_swig_depend}
-  )
-  WRAP_ITK_BINDINGS_INSTALL("/Python" "${python_file}")
+  # Run swig to produce the .so and the .py file
+  itk_setup_swig_python("module" ${base_name} ${interface_file} ${python_file} ${cpp_file} "")
 
   # build all the c++ files from this module in a common lib
-  set(lib ${WRAPPER_LIBRARY_NAME}Python)
   add_library(${lib} MODULE ${cpp_file} ${ITK_WRAP_PYTHON_CXX_FILES} ${WRAPPER_LIBRARY_CXX_SOURCES})
   set_target_properties(${lib} PROPERTIES PREFIX "_")
   # gcc 4.4 complains a lot without this flag when building in release mode
@@ -461,7 +482,6 @@ macro(itk_end_wrap_submodule_python group_name)
   set(ITK_WRAP_PYTHON_SWIG_EXT "%import pyBase.i\n\n${ITK_WRAP_PYTHON_SWIG_EXT}")
 
   # create the swig interface for all the groups in the module
-  #
   set(interface_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${base_name}.i")
   set(lib ${group_name}Python)
   set(python_file "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/${lib}.py")
@@ -480,48 +500,8 @@ macro(itk_end_wrap_submodule_python group_name)
     set(DEPS ${DEPS} ${${dep}SwigFiles})
   endforeach()
 
-  # and run swig to produce the c++ file and the .py file
-  set(swig_command ${SWIG_EXECUTABLE})
-  if(ITK_USE_CCACHE)
-    set(swig_command ${CCACHE_EXECUTABLE} ${swig_command})
-  endif()
-
-  if(NOT ITK_USE_SYSTEM_SWIG)
-    # The ExternalProject SWIG install.
-    set(_swig_depend swig)
-  endif()
-  add_custom_command(
-    OUTPUT ${cpp_file} ${python_file}
-    COMMAND ${swig_command} -c++ -python -O ${ITK_WRAP_PYTHON_AUTODOC} -Werror
-#       -fcompact
-    -w508 -w312 -w314 -w509 -w302 -w362
-    -w389 # operator[], to be suppressed later...
-    -w384 -w383 # operator++ ane operator--
-    -w361 # operator!
-    -w467 # overloaded functions (with typemaps)
-    -w350 -w394 -w395  # operator new/new[]/delete[] ignored
-    -w303 # to avoid warning about customization in pyBase.i
-    -o ${cpp_file}
-    -I${GENERATORS_SRC_DIR}
-    -I${WRAP_ITK_TYPEDEFS_DIRECTORY}/python
-    -I${WRAP_ITK_TYPEDEFS_DIRECTORY}
-    ${WRAP_ITK_SWIG_ARGS_PYTHON}
-    -outdir ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
-    ${interface_file}
-    WORKING_DIRECTORY ${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/python
-    DEPENDS ${DEPS} ${interface_file}
-    ${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/python/${base_name}_ext.i
-    ${WRAP_ITK_TYPEDEFS_DIRECTORY}/pyBase.i ${doc_file} ${_swig_depend}
-    # ${ITK_WRAP_PYTHON_LIBRARY_DEPS}
-  )
-  WRAP_ITK_BINDINGS_INSTALL("/Python" "${python_file}")
-
-# gcc visibility can't be used without getting errors when passing objects
-# from one module to an other
-#
-#    if(CMAKE_COMPILER_IS_GNUCC)
-#      set_target_properties(${lib} PROPERTIES COMPILE_FLAGS "-fvisibility=hidden")
-#    endif()
+  # Run swig to produce the .so and the .py file
+  itk_setup_swig_python("submodule" ${base_name} ${interface_file} ${python_file} ${cpp_file} "${doc_file}")
 
   # add the c++ files which will be generated by the swig command to the
   # list of python related c++ files, so they can be built at the end
@@ -647,8 +627,6 @@ macro(itk_wrap_simple_type_python wrap_class swig_name)
     set(ext_def "")
   endif()
   string(REGEX REPLACE ".*::" "" simple_name "${cpp_name}")
-#  message("${wrap_class} -- ${swig_name}")
-#  message("${cpp_name} -- ${template_params} -- ${ext_def}")
 
   # must be done first so the typemap are used in the %template commands
   if("${swig_name}" MATCHES "_Pointer$")
