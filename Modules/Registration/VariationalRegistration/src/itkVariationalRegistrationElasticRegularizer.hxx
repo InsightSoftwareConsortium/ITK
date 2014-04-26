@@ -73,7 +73,7 @@ VariationalRegistrationElasticRegularizer<TDisplacementField>::GenerateData()
   // Initialize and allocate data
   this->Initialize();
 
-  // Execute regulatization
+  // Execute regularization
   this->Regularize();
 }
 

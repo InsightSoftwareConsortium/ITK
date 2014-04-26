@@ -86,9 +86,10 @@ public:
   typedef Image<MaskImagePixelType, ImageDimension> MaskImageType;
   typedef typename MaskImageType::ConstPointer      MaskImagePointer;
 
+  // uncomment the following line to use the standard ITK warper (not recommended)
+  // typedef itk::WarpImageFilter< FixedImageType, WarpedImageType, DisplacementFieldType >
   /** Typedef of the warp image filter. */
-  typedef itk::WarpImageFilter<FixedImageType, WarpedImageType, DisplacementFieldType>
-    // typedef itk::ContinuousBorderWarpImageFilter< FixedImageType, WarpedImageType, DisplacementFieldType >
+  typedef itk::ContinuousBorderWarpImageFilter<FixedImageType, WarpedImageType, DisplacementFieldType>
                                                   MovingImageWarperType;
   typedef typename MovingImageWarperType::Pointer MovingImageWarperPointer;
 
