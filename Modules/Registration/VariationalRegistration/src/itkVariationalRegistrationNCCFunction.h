@@ -18,16 +18,11 @@
 #ifndef __itkVariationalRegistrationNCCFunction_h
 #define __itkVariationalRegistrationNCCFunction_h
 
-// #include "itkPDEDeformableRegistrationFunction.h"
-// #include "itkPoint.h"
 #include "itkVariationalRegistrationFunction.h"
 #include "itkCovariantVector.h"
 #include "itkInterpolateImageFunction.h"
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkCentralDifferenceImageFunction.h"
-
-#include "itkNCCRegistrationFunction.h"
-
 
 namespace itk
 {

@@ -1,7 +1,7 @@
 include(${CMAKE_SOURCE_DIR}/IJMacros.txt)
 
 #Change PROJECT_NAME to the name of your project
-project(ITKVariationalRegistration)
+project(VariationalRegistration)
 
 #The following lines are required to use Dart
 enable_testing()
@@ -83,8 +83,8 @@ set(
 )
 set(EXT tif)
 
-# Active Thirion forces and gaussian smoothing (sigma=3)
-set(TESTNAME ActiveThirionGauss2D)
+# Active Thirion forces and gaussian smoothing
+set(TESTNAME VariationalRegistrationGaussian2DTest)
 add_test(
   NAME ${TESTNAME}
   COMMAND
@@ -93,8 +93,8 @@ add_test(
     ${COMMON_PARAMS2D} -v 1.5 -u 0 -W ${TEMP}/${TESTNAME}.${EXT}
 )
 
-# Active Thirion forces and diffusive regularization (alpha=3)
-set(TESTNAME ActiveThirionDiffusive2D)
+# Active Thirion forces and diffusive regularization
+set(TESTNAME VariationalRegistrationDiffusive2DTest)
 add_test(
   NAME ${TESTNAME}
   COMMAND
@@ -103,8 +103,8 @@ add_test(
     ${COMMON_PARAMS2D} -r 1 -a 1.5 -W ${TEMP}/${TESTNAME}.${EXT}
 )
 
-# Active Thirion forces and elastic regularization (lambda=mu=3)
-set(TESTNAME ActiveThirionElastic2D)
+# Active Thirion forces and elastic regularization
+set(TESTNAME VariationalRegistrationElastic2DTest)
 add_test(
   NAME ${TESTNAME}
   COMMAND
@@ -113,8 +113,8 @@ add_test(
     ${COMMON_PARAMS2D} -r 2 -m 0.5 -b 1.0 -W ${TEMP}/${TESTNAME}.${EXT}
 )
 
-# Passive Thirion forces and gaussian smoothing (sigma=3)
-set(TESTNAME PassiveThirionGauss2D)
+# Passive Thirion forces and gaussian smoothing
+set(TESTNAME VariationalRegistrationPassiveDemons2D)
 add_test(
   NAME ${TESTNAME}
   COMMAND
@@ -123,8 +123,8 @@ add_test(
     ${COMMON_PARAMS2D} -d 1 -v 1.5 -u 0 -W ${TEMP}/${TESTNAME}.${EXT}
 )
 
-# Symmetric Thirion forces and gaussian smoothing (sigma=3)
-set(TESTNAME SymmetricThirionGauss2D)
+# Symmetric Thirion forces and gaussian smoothing
+set(TESTNAME VariationalRegistrationSymmetricDemons2DTest)
 add_test(
   NAME ${TESTNAME}
   COMMAND
@@ -133,8 +133,8 @@ add_test(
     ${COMMON_PARAMS2D} -d 2 -v 1.5 -u 0 -W ${TEMP}/${TESTNAME}.${EXT}
 )
 
-# SSD forces and gaussian smoothing (sigma=3)
-set(TESTNAME SSDGauss2D)
+# SSD forces and gaussian smoothing
+set(TESTNAME VariationalRegistrationSSD2DTest)
 add_test(
   NAME ${TESTNAME}
   COMMAND
@@ -143,8 +143,8 @@ add_test(
     ${COMMON_PARAMS2D} -f 1 -t 0.001 -v 1.0 -u 0 -W ${TEMP}/${TESTNAME}.${EXT}
 )
 
-# NCC forces and gaussian smoothing (sigma=3)
-set(TESTNAME NCCGauss2D)
+# NCC forces and gaussian smoothing
+set(TESTNAME VariationalRegistrationNCC2DTest)
 add_test(
   NAME ${TESTNAME}
   COMMAND
@@ -172,8 +172,8 @@ set(
 )
 set(EXT nii.gz)
 
-# Active Thirion forces and gaussian smoothing (sigma=3)
-set(TESTNAME ActiveThirionGauss3D)
+# Active Thirion forces and gaussian smoothing
+set(TESTNAME VariationalRegistrationGaussian3DTest)
 add_test(
   NAME ${TESTNAME}
   COMMAND
@@ -183,8 +183,8 @@ add_test(
     ${TEMP}/${TESTNAME}_displ.mhd
 )
 
-# Active Thirion forces and diffusive regularization (alpha=3)
-set(TESTNAME ActiveThirionDiffusive3D)
+# Active Thirion forces and diffusive regularization
+set(TESTNAME VariationalRegistrationDiffusive3DTest)
 add_test(
   NAME ${TESTNAME}
   COMMAND
@@ -194,8 +194,8 @@ add_test(
     ${TEMP}/${TESTNAME}_displ.mhd
 )
 
-# Active Thirion forces and elastic regularization (lambda=mu=3)
-set(TESTNAME ActiveThirionElastic3D)
+# Active Thirion forces and elastic regularization
+set(TESTNAME VariationalRegistrationElastic3DTest)
 add_test(
   NAME ${TESTNAME}
   COMMAND
@@ -205,8 +205,8 @@ add_test(
     ${TEMP}/${TESTNAME}_displ.mhd
 )
 
-# SSD forces and gaussian smoothing (sigma=3)
-set(TESTNAME SSDGauss3D)
+# SSD forces and gaussian smoothing
+set(TESTNAME VariationalRegistrationSSD3DTest)
 add_test(
   NAME ${TESTNAME}
   COMMAND
@@ -216,8 +216,8 @@ add_test(
     -O ${TEMP}/${TESTNAME}_displ.mhd
 )
 
-# NCC forces and gaussian smoothing (sigma=3)
-set(TESTNAME NCCGauss3D)
+# NCC forces and gaussian smoothing
+set(TESTNAME VariationalRegistrationNCC3DTest)
 add_test(
   NAME ${TESTNAME}
   COMMAND
