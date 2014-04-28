@@ -129,9 +129,9 @@ PrintHelp()
   std::cout << "                           1: true" << std::endl;
   std::cout << std::endl;
   std::cout << "Parameters for stop criterion:" << std::endl;
-  std::cout << "-p 0|1|2|3|4|5           Select stop criterion policy for multi-resolution." << std::endl;
+  std::cout << "-p 0|1|2                 Select stop criterion policy for multi-resolution." << std::endl;
   std::cout << "                           0: Use default stop criterion." << std::endl;
-  std::cout << "                           1: Use simple graduated policy." << std::endl;
+  std::cout << "                           1: Use simple graduated policy (default)." << std::endl;
   std::cout << "                           2: Use graduated policy." << std::endl;
   std::cout << "-g <grad slope>          Set fitted line slope for stop criterion (default 0.005)." << std::endl;
   std::cout << std::endl;
@@ -198,7 +198,7 @@ main(int argc, char * argv[])
   bool useWarpedMask = false;
 
   // Stop criterion parameters
-  int   stopCriterionPolicy = 1; // TODO 0?
+  int   stopCriterionPolicy = 1; // simple graduated as default
   float stopCriterionSlope = 0.005;
 
   // Preproc and general parameters
