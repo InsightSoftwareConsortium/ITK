@@ -447,8 +447,7 @@ MultiResolutionVariationalRegistration<TFixedImage, TMovingImage, TDisplacementF
 
     // Compute new deformation field -> Execute registration on current level.
     itkDebugMacro(<< "Starting multi-resolution level " << m_ElapsedLevels + 1);
-    std::cout << "Starting reg " << m_ElapsedLevels + 1 << " with " << m_NumberOfIterations[m_ElapsedLevels]
-              << std::endl; // TODO
+
     m_RegistrationFilter->UpdateLargestPossibleRegion();
     tempField = m_RegistrationFilter->GetOutput();
     tempField->DisconnectPipeline();

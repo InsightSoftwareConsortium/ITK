@@ -33,7 +33,7 @@ extern "C"
 #include "getopt.h"
 }
 
-#define ExceptionMacro(x) std::cout << "ERROR: " x << std::endl;
+#define ExceptionMacro(x) std::cerr << "ERROR: " x << std::endl;
 
 // Project includes:
 #include "itkConfigure.h"
@@ -48,6 +48,7 @@ extern "C"
 #include "itkVariationalRegistrationFunction.h"
 #include "itkVariationalRegistrationDemonsFunction.h"
 #include "itkVariationalRegistrationSSDFunction.h"
+#include "itkVariationalRegistrationNCCFunction.h"
 
 #include "itkVariationalRegistrationRegularizer.h"
 #include "itkVariationalRegistrationGaussianRegularizer.h"
@@ -99,7 +100,7 @@ PrintHelp()
   std::cout << "                           0: Standard (default)." << std::endl;
   std::cout << "                           1: Diffeomorphic." << std::endl;
   std::cout << "                           2: Symmetric diffeomorphic (NYI)." << std::endl;
-  std::cout << "-u 0|1                   Use spacing." << std::endl;
+  std::cout << "-u 0|1                   Use spacing for regularization." << std::endl;
   std::cout << "                           0: false" << std::endl;
   std::cout << "                           1: true (default)" << std::endl;
   std::cout << std::endl;
@@ -194,11 +195,11 @@ main(int argc, char * argv[])
 
   // Force parameters
   int  forceType = 0;   // Demon
-  int  forceDomain = 1; // Warped moving
+  int  forceDomain = 0; // Warped moving
   bool useWarpedMask = false;
 
   // Stop criterion parameters
-  int   stopCriterionPolicy = 1; // simple graduated as default
+  int   stopCriterionPolicy = 1; // Simple graduated is default
   float stopCriterionSlope = 0.005;
 
   // Preproc and general parameters
@@ -602,8 +603,6 @@ main(int argc, char * argv[])
   //
   // Setup registration function
   //
-  typedef WarpImageFilter<ImageType, ImageType, DisplacementFieldType> MovingImageWarperType;
-  MovingImageWarperType::Pointer                                       warper = MovingImageWarperType::New();
 
   typedef VariationalRegistrationFunction<ImageType, ImageType, DisplacementFieldType>       FunctionType;
   typedef VariationalRegistrationDemonsFunction<ImageType, ImageType, DisplacementFieldType> DemonsFunctionType;
@@ -945,6 +944,10 @@ main(int argc, char * argv[])
 
   if (warpedImageFilename != NULL)
   {
+
+    typedef FunctionType::MovingImageWarperType MovingImageWarperType;
+    MovingImageWarperType::Pointer              warper = MovingImageWarperType::New();
+
     warper->SetInput(movingImage);
     warper->SetOutputParametersFromImage(fixedImage);
     warper->SetDisplacementField(outputDisplacementField);

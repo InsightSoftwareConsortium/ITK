@@ -35,17 +35,17 @@ namespace itk
  *
  * VariationalRegistrationFilter aims to minimize the  functional
  *  \f[
- *  J( \phi ) = D[R, T\circ\phi] + \alpha S[\phi] \leftarrow \min
+ *  (1)\quad J( \phi ) = D[R, T\circ\phi] + \alpha S[\phi] \rightarrow \min
  *  \f]
  * with \f$ \phi(x)=x+u(x) \f$ by solving the associated Euler-Lagrange equation (ELE)
  *  \f[
- *  f(x, u(x)) + A[u](x)=0,\quad x\in\Omega
+ *  f(x, u(x)) + \alpha A[u](x)=0,\quad x\in\Omega
  *  \f]
  *  \f$ f \f$ denotes the force term corresponding to the similarity measure \f$ D\f$ and \f$ A\f$ is a linear
  * differential operator associated with the regularization term \f$ S \f$. The ELE is solved using gradient descent
  * with a semi-implicite update scheme and step size \f$ \tau \f$:
  *  \f[
- *  u^{k+1} = (Id - \tau A)^{-1}(u^k + \tau f^k).
+ *  (2)\quad u^{k+1} = (Id - \tau\alpha A)^{-1}(u^k + \tau f^k).
  *  \f]
  *  VariationalRegistrationFilter has two images as input (fixed image \f$ R \f$, and moving image \f$ T \f$)
  *  and computes the displacement field \f$ u \f$ as output.
@@ -80,6 +80,10 @@ namespace itk
  *  \sa DenseFiniteDifferenceImageFilter
  *
  *  \ingroup VariationalRegistration
+ *
+ *  \author Alexander Schmidt-Richberg
+ *  \author Rene Werner
+ *  \author Jan Ehrhardt
  *
  * For details see: <i>Rene Werner, Alexander Schmidt-Richberg, Heinz Handels and Jan Ehrhardt:
  * "Estimation of lung

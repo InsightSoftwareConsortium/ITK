@@ -42,7 +42,7 @@ VariationalRegistrationDiffusionRegularizer<TDisplacementField>::VariationalRegi
 }
 
 /**
- * TODO comment
+ * Generate data by regularizing each component of the field independently
  */
 template <class TDisplacementField>
 void
@@ -104,7 +104,7 @@ VariationalRegistrationDiffusionRegularizer<TDisplacementField>::Initialize()
 }
 
 /**
- * TODO comment
+ * Initialize the matrices for the LU decomposition
  */
 template <class TDisplacementField>
 void
@@ -162,7 +162,7 @@ VariationalRegistrationDiffusionRegularizer<TDisplacementField>::InitLUMatrices(
 }
 
 /**
- * TODO comment
+ * Regularize one component of the field using AOS
  */
 template <class TDisplacementField>
 void
@@ -222,7 +222,8 @@ VariationalRegistrationDiffusionRegularizer<TDisplacementField>::RegularizeCompo
 }
 
 /**
- * TODO comment
+ * Callback function for threaded copying of one field component into the
+ * image buffer as a preparation for AOS
  */
 template <class TDisplacementField>
 ITK_THREAD_RETURN_TYPE
@@ -263,7 +264,8 @@ VariationalRegistrationDiffusionRegularizer<TDisplacementField>::CalcBufferCallb
 }
 
 /**
- * Regularize the buffered image in a given direction.
+ * Callback function for threaded regularization of the buffered image
+ * in a given direction.
  *
  * For efficiency reasons, this method operates directly on the image buffers.
  */
@@ -352,7 +354,8 @@ VariationalRegistrationDiffusionRegularizer<TDisplacementField>::RegularizeDirec
 }
 
 /**
- * TODO comment
+ * Callback function for the threaded adding of the regularization in
+ * each spatial direction
  */
 template <class TDisplacementField>
 ITK_THREAD_RETURN_TYPE
@@ -404,7 +407,9 @@ VariationalRegistrationDiffusionRegularizer<TDisplacementField>::MergeDirections
 }
 
 /**
- * TODO
+ * Split the regions for multithreading. This is used instead of the standard
+ * version because the split is performed differently for each direction of
+ * regularization.
  */
 template <class TDisplacementField>
 int

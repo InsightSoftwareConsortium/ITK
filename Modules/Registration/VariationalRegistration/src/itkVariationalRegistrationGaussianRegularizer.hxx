@@ -50,26 +50,15 @@ template <class TDisplacementField>
 void
 VariationalRegistrationGaussianRegularizer<TDisplacementField>::SetStandardDeviations(double value)
 {
-  unsigned int j;
-  for (j = 0; j < ImageDimension; j++)
-  {
-    if (value != m_StandardDeviations[j])
-    {
-      break;
-    }
-  }
-  if (j < ImageDimension)
-  {
-    this->Modified();
-    for (j = 0; j < ImageDimension; j++)
-    {
-      m_StandardDeviations[j] = value;
-    }
-  }
+  StandardDeviationsType sigma;
+  sigma.Fill(value);
+
+  SetStandardDeviations(sigma);
 }
 
 /**
- * TODO comment
+ * Generate data by applying Gaussian regularization independently
+ * on each component of the field
  */
 template <class TDisplacementField>
 void
@@ -95,8 +84,21 @@ VariationalRegistrationGaussianRegularizer<TDisplacementField>::GenerateData()
   {
     // smooth along this dimension
     opers[j].SetDirection(j);
-    double variance = vnl_math_sqr(this->GetStandardDeviations()[j]);
-    opers[j].SetVariance(variance);
+    typename StandardDeviationsType::ValueType variance = vnl_math_sqr(this->GetStandardDeviations()[j]);
+    if (this->GetUseImageSpacing() == true)
+    {
+      if (this->GetInput()->GetSpacing()[j] == 0.0)
+      {
+        itkExceptionMacro(<< "Pixel spacing cannot be zero");
+      }
+      // convert the variance from physical units to pixels
+      const double s = this->GetInput()->GetSpacing()[j];
+      opers[j].SetVariance(variance / vnl_math_sqr(s));
+    }
+    else
+    {
+      opers[j].SetVariance(variance);
+    }
     opers[j].SetMaximumError(this->GetMaximumError());
     opers[j].SetMaximumKernelWidth(this->GetMaximumKernelWidth());
     opers[j].CreateDirectional();
@@ -124,7 +126,6 @@ template <class TDisplacementField>
 void
 VariationalRegistrationGaussianRegularizer<TDisplacementField>::Initialize()
 {
-  // TODO warning use image spacing
   this->Superclass::Initialize();
 }
 

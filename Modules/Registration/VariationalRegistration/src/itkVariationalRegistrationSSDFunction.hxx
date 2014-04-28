@@ -44,23 +44,17 @@ VariationalRegistrationSSDFunction<TFixedImage, TMovingImage, TDisplacementField
   m_WarpedImageGradientCalculator = GradientCalculatorType::New();
 
   m_GradientType = GRADIENT_TYPE_WARPED;
-
-  // Default: normalize time step with image spacing.
-  m_ScaleGlobalTimeStep = true;
 }
 
-/** This class uses the constant time step m_TimeStep. */
+/** Computes the time step for an update.
+ * Returns the constant time step scaled with the mean squared spacing.
+ * \sa SetTimeStep() */
 template <class TFixedImage, class TMovingImage, class TDisplacementField>
 typename VariationalRegistrationSSDFunction<TFixedImage, TMovingImage, TDisplacementField>::Superclass::TimeStepType
 VariationalRegistrationSSDFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeGlobalTimeStep(
   void * gd) const
 {
-  if (m_ScaleGlobalTimeStep)
-  {
-    return this->GetTimeStep() * m_Normalizer;
-  }
-
-  return this->GetTimeStep();
+  return this->GetTimeStep() * m_Normalizer;
 }
 
 /**
@@ -115,28 +109,6 @@ VariationalRegistrationSSDFunction<TFixedImage, TMovingImage, TDisplacementField
   const double warpedValue = (double)this->GetWarpedImage()->GetPixel(index);
   const double fixedValue = (double)this->GetFixedImage()->GetPixel(index);
 
-  typename GradientCalculatorType::OutputType gradient;
-
-  // Compute the gradient of either fixed or moving image
-  if (m_GradientType == GRADIENT_TYPE_WARPED)
-  {
-    gradient = m_WarpedImageGradientCalculator->EvaluateAtIndex(index);
-  }
-  else if (m_GradientType == GRADIENT_TYPE_FIXED)
-  {
-    gradient = m_FixedImageGradientCalculator->EvaluateAtIndex(index);
-  }
-  else if (m_GradientType == GRADIENT_TYPE_SYMMETRIC)
-  {
-    // Does not have to be divided by 2, normalization is done afterwards
-    gradient =
-      m_WarpedImageGradientCalculator->EvaluateAtIndex(index) + m_FixedImageGradientCalculator->EvaluateAtIndex(index);
-  }
-  else
-  {
-    itkExceptionMacro(<< "Unknown gradient type!");
-  }
-
   // Calculate spped value
   const double speedValue = fixedValue - warpedValue;
   const double sqr_speedValue = vnl_math_sqr(speedValue);
@@ -149,6 +121,28 @@ VariationalRegistrationSSDFunction<TFixedImage, TMovingImage, TDisplacementField
   }
   else
   {
+    typename GradientCalculatorType::OutputType gradient;
+
+    // Compute the gradient of either fixed or moving image
+    if (m_GradientType == GRADIENT_TYPE_WARPED)
+    {
+      gradient = m_WarpedImageGradientCalculator->EvaluateAtIndex(index);
+    }
+    else if (m_GradientType == GRADIENT_TYPE_FIXED)
+    {
+      gradient = m_FixedImageGradientCalculator->EvaluateAtIndex(index);
+    }
+    else if (m_GradientType == GRADIENT_TYPE_SYMMETRIC)
+    {
+      // Does not have to be divided by 2, normalization is done afterwards
+      gradient = m_WarpedImageGradientCalculator->EvaluateAtIndex(index) +
+                 m_FixedImageGradientCalculator->EvaluateAtIndex(index);
+    }
+    else
+    {
+      itkExceptionMacro(<< "Unknown gradient type!");
+    }
+
     for (unsigned int j = 0; j < ImageDimension; j++)
     {
       update[j] = speedValue * gradient[j];

@@ -57,6 +57,9 @@ VariationalRegistrationStopCriterion<TRegistrationFilter, TMRFilter>::Variationa
   m_DistanceArray = NULL;
   m_DistanceArrayForFitting = NULL;
 
+  m_MaxMetricValue = NumericTraits<double>::min();
+  m_MinMetricValue = NumericTraits<double>::max();
+
   this->ResetFittingData();
 }
 
@@ -75,7 +78,8 @@ VariationalRegistrationStopCriterion<TRegistrationFilter, TMRFilter>::~Variation
 }
 
 /**
- * TODO
+ * Not implemented because registration filter must not be const to
+ * return the result of check
  */
 template <class TRegistrationFilter, class TMRFilter>
 void
@@ -86,7 +90,7 @@ VariationalRegistrationStopCriterion<TRegistrationFilter, TMRFilter>::Execute(co
 }
 
 /**
- * TODO
+ * Handle iteration event to check if stop criterion is fulfilled
  */
 template <class TRegistrationFilter, class TMRFilter>
 void
