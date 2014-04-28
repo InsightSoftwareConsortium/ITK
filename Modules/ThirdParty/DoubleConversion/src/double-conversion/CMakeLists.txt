@@ -30,9 +30,6 @@ endif()
 itk_module_target(itkdouble-conversion NO_INSTALL)
 
 #
-# associates the list of headers with the library
-# for the purposes of installation/import into other projects
-#
 # install command to set up library install
 # given the above PUBLIC_HEADER property set, this
 # pulls along all the header files with the library.
