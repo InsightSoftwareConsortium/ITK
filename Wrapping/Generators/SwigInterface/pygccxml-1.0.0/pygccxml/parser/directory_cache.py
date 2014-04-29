@@ -220,7 +220,7 @@ class directory_cache_t ( declarations_cache.cache_base_t ):
             self.__index = data[0]
             self.__filename_rep = data[1]
             if self.__filename_rep._md5_sigs!=self.__md5_sigs:
-                print("CACHE: Warning: md5_sigs stored in the cache is set to %s."%self.__filename_rep._md5_sigs()
+                print("CACHE: Warning: md5_sigs stored in the cache is set to %s."%self.__filename_rep._md5_sigs())
                 print("       Please remove the cache to change this setting.")
                 self.__md5_sigs = self.__filename_rep._md5_sigs
         else:
