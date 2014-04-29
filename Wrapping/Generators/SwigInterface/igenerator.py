@@ -5,17 +5,15 @@
 from __future__ import unicode_literals
 from __future__ import print_function
 
-import sys, os
-sys.path.append(sys.path[0]+os.sep+'pygccxml-1.0.0')
+import sys, os, re, time
+from optparse import OptionParser
 
-import pygccxml, sys, re, time, os
 try:
     # Python 3
     from io import StringIO
 except ImportError:
     # Python 2
     from cStringIO import StringIO
-from optparse import OptionParser
 
 # Start process time measurement
 t0 = time.clock()
@@ -34,7 +32,12 @@ optionParser.add_option("-A", "--disable-access-warning", action="append", dest=
 optionParser.add_option("-W", "--warning-error", action="store_true", dest="warningError", help="Treat warnings as errors.")
 optionParser.add_option("-v", "--verbose", action="store_true", dest="verbose", help="Log what is currently done.")
 optionParser.add_option("-k", "--keep", action="store_true", dest="keep", help="Don't rewrite the output file if the content is unchanged.")
+optionParser.add_option("-p", "--pygccxml-path", action="store", dest="pygccxml_path", help="Path to pygccxml")
+optionParser.add_option("-g", "--gccxml-path", action="store", dest="gccxml_path", help="Path to gccxml")
 options, args = optionParser.parse_args()
+
+sys.path.append(options.pygccxml_path)
+import pygccxml
 
 # the output file
 outputFile = StringIO()
@@ -509,10 +512,7 @@ def generate_method( typedef, method, indent, w ):
 # init the pygccxml stuff
 pygccxml.declarations.scopedef_t.RECURSIVE_DEFAULT = False
 pygccxml.declarations.scopedef_t.ALLOW_EMPTY_MDECL_WRAPPER = True
-# pass a fake gccxml path: it is not used here, but is required by
-# pygccxml
-pygccxml_config = pygccxml.parser.config.config_t()
-#pygccxml_config = pygccxml.parser.config.config_t("gccxml")
+pygccxml_config = pygccxml.parser.config.gccxml_configuration_t(gccxml_path=options.gccxml_path)
 # create a reader
 pygccxml_reader = pygccxml.parser.source_reader.source_reader_t(pygccxml_config)
 # and read a xml file
@@ -522,7 +522,6 @@ res = pygccxml_reader.read_xml_file(args[0])
 global_ns = pygccxml.declarations.get_global_namespace( res )
 cable_ns = global_ns.namespace('_cable_')
 wrappers_ns = cable_ns.namespace('wrappers')
-# pygccxml.declarations.print_declarations( global_ns )
 
 moduleName = cable_ns.variable('group').value[len('(const char*)"'):-1]
 
