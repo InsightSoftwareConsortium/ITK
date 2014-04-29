@@ -30,16 +30,19 @@ namespace Statistics
  * \ingroup ITKNeuralNetworks
  */
 
-template<typename ScalarType>
-class LogSigmoidTransferFunction : public TransferFunctionBase<ScalarType>
+template<typename TScalar>
+class LogSigmoidTransferFunction : public TransferFunctionBase<TScalar>
 {
 public:
 
   /** Standard class typedefs. */
   typedef LogSigmoidTransferFunction       Self;
-  typedef TransferFunctionBase<ScalarType> Superclass;
+  typedef TransferFunctionBase<TScalar>    Superclass;
   typedef SmartPointer<Self>               Pointer;
   typedef SmartPointer<const Self>         ConstPointer;
+
+  typedef TScalar                                        ScalarType;
+  typedef typename NumericTraits< ScalarType >::RealType RealType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(LogSigmoidTransferFunction, TransferFunctionBase);
@@ -48,10 +51,10 @@ public:
   itkNewMacro(Self);
 
   /** Evaluate at the specified input position */
-  virtual ScalarType Evaluate(const ScalarType& input) const;
+  virtual TScalar Evaluate(const ScalarType& input) const;
 
   /** Evaluate the derivative at the specified input position */
-  virtual ScalarType EvaluateDerivative(const ScalarType& input) const;
+  virtual TScalar EvaluateDerivative(const ScalarType& input) const;
 
 protected:
 
