@@ -9,8 +9,8 @@ createtestdriver(${itk-module} "${${itk-module}-Test_LIBRARIES}" "${ITK${itk-mod
 # ADD TESTS
 #
 #####################################
-set(BASELINE ${CMAKE_SOURCE_DIR}/Baseline)
-set(INPUTDIR ${CMAKE_SOURCE_DIR}/Input)
+set(BASELINE ${TEST_DATA_ROOT}/Baseline)
+set(INPUTDIR ${TEST_DATA_ROOT}/Input)
 set(TEMP ${CMAKE_BINARY_DIR}/Testing/Temporary)
 
 #####################################
