@@ -25,36 +25,31 @@ namespace itk
 namespace Statistics
 {
 
-/** Constructor */
-template<typename ScalarType>
-LogSigmoidTransferFunction<ScalarType>
+template<typename TScalar>
+LogSigmoidTransferFunction<TScalar>
 ::LogSigmoidTransferFunction()
 {
 }
 
-/** Destructor */
-template<typename ScalarType>
-LogSigmoidTransferFunction<ScalarType>
+template<typename TScalar>
+LogSigmoidTransferFunction<TScalar>
 ::~LogSigmoidTransferFunction()
 {
 }
 
-/** Evaluate */
-template<typename ScalarType>
-ScalarType
-LogSigmoidTransferFunction<ScalarType>
+template<typename TScalar>
+TScalar
+LogSigmoidTransferFunction<TScalar>
 ::Evaluate(const ScalarType& input)  const
 {
-  typedef typename NumericTraits< ScalarType >::RealType RealType;
   const ScalarType v = static_cast< ScalarType >( 1.0 /
     ( 1.0 + std::exp( static_cast< typename NumericTraits< ScalarType >::RealType >(-input)) ) );
   return v;
 }
 
-/** Evaluate derivatives */
-template<typename ScalarType>
-ScalarType
-LogSigmoidTransferFunction<ScalarType>
+template<typename TScalar>
+TScalar
+LogSigmoidTransferFunction<TScalar>
 ::EvaluateDerivative(const ScalarType& input)  const
 {
   ScalarType f = Evaluate(input);
@@ -62,9 +57,9 @@ LogSigmoidTransferFunction<ScalarType>
 }
 
 /** Print the object */
-template<typename ScalarType>
+template<typename TScalar>
 void
-LogSigmoidTransferFunction<ScalarType>
+LogSigmoidTransferFunction<TScalar>
 ::PrintSelf( std::ostream& os, Indent indent ) const
 {
   os << indent << "LogSigmoidTransferFunction(" << this << ")" << std::endl;
