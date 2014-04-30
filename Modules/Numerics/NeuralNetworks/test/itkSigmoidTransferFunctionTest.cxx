@@ -72,6 +72,8 @@ public:
     TEST_EXPECT_EQUAL( expectedVal, val );
     TEST_EXPECT_EQUAL( expectedDerivVal, deriv );
 
+    sigmoidTF->Print(std::cout);
+
     std::cout << "Test succeeded." << std::endl;
     return EXIT_SUCCESS;
 
