@@ -90,7 +90,7 @@ add_test(
   COMMAND
     itkTestDriver --compare ${BASELINE}/${TESTNAME}.${EXT}
     ${TEMP}/${TESTNAME}.${EXT} $<TARGET_FILE:itkVariationalRegistration2D>
-    ${COMMON_PARAMS2D} -v 1.5 -u 0 -W ${TEMP}/${TESTNAME}.${EXT}
+    ${COMMON_PARAMS2D} -r 0 -v 1.5 -u 0 -W ${TEMP}/${TESTNAME}.${EXT}
 )
 
 # Active Thirion forces and diffusive regularization
@@ -120,7 +120,7 @@ add_test(
   COMMAND
     itkTestDriver --compare ${BASELINE}/${TESTNAME}.${EXT}
     ${TEMP}/${TESTNAME}.${EXT} $<TARGET_FILE:itkVariationalRegistration2D>
-    ${COMMON_PARAMS2D} -d 1 -v 1.5 -u 0 -W ${TEMP}/${TESTNAME}.${EXT}
+    ${COMMON_PARAMS2D} -d 1 -a 1.5 -W ${TEMP}/${TESTNAME}.${EXT}
 )
 
 # Symmetric Thirion forces and gaussian smoothing
@@ -130,7 +130,7 @@ add_test(
   COMMAND
     itkTestDriver --compare ${BASELINE}/${TESTNAME}.${EXT}
     ${TEMP}/${TESTNAME}.${EXT} $<TARGET_FILE:itkVariationalRegistration2D>
-    ${COMMON_PARAMS2D} -d 2 -v 1.5 -u 0 -W ${TEMP}/${TESTNAME}.${EXT}
+    ${COMMON_PARAMS2D} -d 2 -a 1.5 -W ${TEMP}/${TESTNAME}.${EXT}
 )
 
 # SSD forces and gaussian smoothing
@@ -140,7 +140,7 @@ add_test(
   COMMAND
     itkTestDriver --compare ${BASELINE}/${TESTNAME}.${EXT}
     ${TEMP}/${TESTNAME}.${EXT} $<TARGET_FILE:itkVariationalRegistration2D>
-    ${COMMON_PARAMS2D} -f 1 -t 0.001 -v 1.0 -u 0 -W ${TEMP}/${TESTNAME}.${EXT}
+    ${COMMON_PARAMS2D} -f 1 -t 0.00075 -a 0.5 -W ${TEMP}/${TESTNAME}.${EXT}
 )
 
 # NCC forces and gaussian smoothing
@@ -150,8 +150,7 @@ add_test(
   COMMAND
     itkTestDriver --compare ${BASELINE}/${TESTNAME}.${EXT}
     ${TEMP}/${TESTNAME}.${EXT} $<TARGET_FILE:itkVariationalRegistration2D>
-    ${COMMON_PARAMS2D} -f 2 -t 40 -v 1.5 -u 0 -q 3 -p 2 -W
-    ${TEMP}/${TESTNAME}.${EXT}
+    ${COMMON_PARAMS2D} -f 2 -t 40 -a 1.5 -q 3 -p 2 -W ${TEMP}/${TESTNAME}.${EXT}
 )
 
 #####################################
@@ -179,7 +178,7 @@ add_test(
   COMMAND
     itkTestDriver --compare ${BASELINE}/${TESTNAME}.${EXT}
     ${TEMP}/${TESTNAME}.${EXT} $<TARGET_FILE:itkVariationalRegistration>
-    ${COMMON_PARAMS3D} -v 1.5 -u 0 -W ${TEMP}/${TESTNAME}.${EXT} -O
+    ${COMMON_PARAMS3D} -r 0 -v 1.5 -u 0 -W ${TEMP}/${TESTNAME}.${EXT} -O
     ${TEMP}/${TESTNAME}_displ.mhd
 )
 
@@ -212,8 +211,8 @@ add_test(
   COMMAND
     itkTestDriver --compare ${BASELINE}/${TESTNAME}.${EXT}
     ${TEMP}/${TESTNAME}.${EXT} $<TARGET_FILE:itkVariationalRegistration>
-    ${COMMON_PARAMS3D} -f 1 -t 0.00001 -v 1 -u 0 -W ${TEMP}/${TESTNAME}.${EXT}
-    -O ${TEMP}/${TESTNAME}_displ.mhd
+    ${COMMON_PARAMS3D} -f 1 -t 0.00001 -a 1 -W ${TEMP}/${TESTNAME}.${EXT} -O
+    ${TEMP}/${TESTNAME}_displ.mhd
 )
 
 # NCC forces and gaussian smoothing
@@ -223,6 +222,6 @@ add_test(
   COMMAND
     itkTestDriver --compare ${BASELINE}/${TESTNAME}.${EXT}
     ${TEMP}/${TESTNAME}.${EXT} $<TARGET_FILE:itkVariationalRegistration>
-    ${COMMON_PARAMS3D} -f 2 -t 40 -v 1 -u 0 -q 2 -p 1 -W
+    ${COMMON_PARAMS3D} -f 2 -t 40 -r 0 -v 1 -u 0 -q 2 -p 1 -W
     ${TEMP}/${TESTNAME}.${EXT} -O ${TEMP}/${TESTNAME}_displ.mhd
 )
