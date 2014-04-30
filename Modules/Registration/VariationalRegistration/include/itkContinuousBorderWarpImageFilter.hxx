@@ -77,18 +77,15 @@ ContinuousBorderWarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::
       // project point into image region
       inputPtr->TransformPhysicalPointToContinuousIndex(point, contIndex);
 
-      bool changedIndex = false;
       for (unsigned int j = 0; j < ImageDimension; j++)
       {
         if (contIndex[j] < startIndex[j])
         {
           contIndex[j] = startIndex[j];
-          changedIndex = true;
         }
         if (contIndex[j] > endIndex[j])
         {
           contIndex[j] = endIndex[j];
-          changedIndex = true;
         }
       }
 

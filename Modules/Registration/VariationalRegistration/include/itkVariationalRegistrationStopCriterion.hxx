@@ -83,8 +83,8 @@ VariationalRegistrationStopCriterion<TRegistrationFilter, TMRFilter>::~Variation
  */
 template <class TRegistrationFilter, class TMRFilter>
 void
-VariationalRegistrationStopCriterion<TRegistrationFilter, TMRFilter>::Execute(const itk::Object *      caller,
-                                                                              const itk::EventObject & event)
+VariationalRegistrationStopCriterion<TRegistrationFilter, TMRFilter>::Execute(const itk::Object * /*caller*/,
+                                                                              const itk::EventObject & /*event*/)
 {
   itkWarningMacro(<< "Execute called with const Filter, no check performed.");
 }
