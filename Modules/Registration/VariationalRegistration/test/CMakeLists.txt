@@ -42,6 +42,8 @@ itk_add_test(
     ${TEMP}/${TESTNAME}.${EXT}
     $<TARGET_FILE:itkVariationalRegistration2D>
     ${COMMON_PARAMS2D}
+    -r
+    0
     -v
     1.5
     -u
@@ -103,10 +105,8 @@ itk_add_test(
     ${COMMON_PARAMS2D}
     -d
     1
-    -v
+    -a
     1.5
-    -u
-    0
     -W
     ${TEMP}/${TESTNAME}.${EXT}
 )
@@ -124,10 +124,8 @@ itk_add_test(
     ${COMMON_PARAMS2D}
     -d
     2
-    -v
+    -a
     1.5
-    -u
-    0
     -W
     ${TEMP}/${TESTNAME}.${EXT}
 )
@@ -146,11 +144,9 @@ itk_add_test(
     -f
     1
     -t
-    0.001
-    -v
-    1.0
-    -u
-    0
+    0.00075
+    -a
+    0.5
     -W
     ${TEMP}/${TESTNAME}.${EXT}
 )
@@ -170,10 +166,8 @@ itk_add_test(
     2
     -t
     40
-    -v
+    -a
     1.5
-    -u
-    0
     -q
     3
     -p
@@ -211,6 +205,8 @@ itk_add_test(
     ${TEMP}/${TESTNAME}.${EXT}
     $<TARGET_FILE:itkVariationalRegistration>
     ${COMMON_PARAMS3D}
+    -r
+    0
     -v
     1.5
     -u
@@ -280,10 +276,8 @@ itk_add_test(
     1
     -t
     0.00001
-    -v
+    -a
     1
-    -u
-    0
     -W
     ${TEMP}/${TESTNAME}.${EXT}
     -O
@@ -305,6 +299,8 @@ itk_add_test(
     2
     -t
     40
+    -r
+    0
     -v
     1
     -u
