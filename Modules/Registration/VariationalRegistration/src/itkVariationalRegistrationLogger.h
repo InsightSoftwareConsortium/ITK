@@ -21,12 +21,6 @@
 #include "itkCommand.h"
 #include "itkEventObject.h"
 
-#include "itkVariationalRegistrationFilter.h"
-#include "itkMultiResolutionVariationalRegistration.h"
-
-#include <time.h>
-#include <vector>
-
 namespace itk
 {
 
@@ -55,61 +49,28 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  // TODO implement platform independent time measurement
-  //  /** Write to log file. */
-  //  itkSetMacro( WriteToLogFile, bool );
-  //  itkGetMacro( WriteToLogFile, bool );
-  //  itkBooleanMacro( WriteToLogFile );
-  //
-  //  /** Write to standard output. */
-  //  itkSetMacro( WriteToStdOut, bool );
-  //  itkGetMacro( WriteToStdOut, bool );
-  //  itkBooleanMacro( WriteToStdOut );
-  //
-  //  /** \brief Method to start time measurement. */
-  //  void InitializeTimeMeasurement();
-
+  /** print iterations, levels or metric values on IterationEvent or InitializeEvent */
   void
   Execute(itk::Object * caller, const itk::EventObject & event)
   {
     Execute((const itk::Object *)caller, event);
   }
 
+  /** print iterations, levels or metric values on IterationEvent or InitializeEvent */
   void
   Execute(const itk::Object * caller, const itk::EventObject & event);
 
 protected:
   VariationalRegistrationLogger();
   ~VariationalRegistrationLogger();
+
   void
   PrintSelf(std::ostream & os, Indent indent) const;
-
-  /** \brief Method to get time since initialization as a string. */
-  char *
-  GetMonotonicTime();
-
-  /** \brief Method to get process time since initialization as a string. */
-  char *
-  GetProcessTime();
 
 private:
   VariationalRegistrationLogger(const Self &); // purposely not implemented
   void
   operator=(const Self &); // purposely not implemented
-
-  //  bool   m_TimeIsInitialized;
-  //
-  //  /** \brief The starting time of the program. */
-  //  timespec m_MonotonicStartTime;
-  //
-  //  /** \brief The current time of the program. */
-  //  timespec m_MonotonicCurrentTime;
-  //
-  //  /** \brief The starting process time of the program. */
-  //  timespec m_ProzessStartTime;
-  //
-  //  /** \brief The current process time of the program. */
-  //  timespec m_ProcessCurrentTime;
 };
 
 } // end namespace itk
