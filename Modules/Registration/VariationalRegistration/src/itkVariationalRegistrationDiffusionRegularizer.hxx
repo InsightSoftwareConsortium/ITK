@@ -445,8 +445,8 @@ VariationalRegistrationDiffusionRegularizer<TDisplacementField>::SplitBoundaryFa
 
   // Determine the actual number of pieces that will be generated
   typename BufferImageType::SizeType::SizeValueType range = splitSize[splitAxis];
-  unsigned int                                      valuesPerThread = Math::Ceil<unsigned int>(range / (double)num);
-  unsigned int maxThreadIdUsed = Math::Ceil<unsigned int>(range / (double)valuesPerThread) - 1;
+  int                                               valuesPerThread = Math::Ceil<int>(range / (double)num);
+  int maxThreadIdUsed = Math::Ceil<int>(range / (double)valuesPerThread) - 1;
 
   // Split the region
   if (i < maxThreadIdUsed)

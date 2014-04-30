@@ -52,7 +52,7 @@ VariationalRegistrationSSDFunction<TFixedImage, TMovingImage, TDisplacementField
 template <class TFixedImage, class TMovingImage, class TDisplacementField>
 typename VariationalRegistrationSSDFunction<TFixedImage, TMovingImage, TDisplacementField>::Superclass::TimeStepType
 VariationalRegistrationSSDFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeGlobalTimeStep(
-  void * gd) const
+  void * /*gd*/) const
 {
   return this->GetTimeStep() * m_Normalizer;
 }

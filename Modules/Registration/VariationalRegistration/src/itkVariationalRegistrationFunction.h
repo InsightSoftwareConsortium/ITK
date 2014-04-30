@@ -188,7 +188,7 @@ public:
 
   /** Get the MaskBackgroundThreshold. All Pixels of the mask image will be
    *  treated as background if the are <= this threshold. */
-  const MaskImagePixelType
+  MaskImagePixelType
   GetMaskBackgroundThreshold(void) const
   {
     return m_MaskBackgroundThreshold;

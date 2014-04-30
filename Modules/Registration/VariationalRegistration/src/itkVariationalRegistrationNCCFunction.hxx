@@ -73,7 +73,7 @@ VariationalRegistrationNCCFunction<TFixedImage, TMovingImage, TDisplacementField
 template <class TFixedImage, class TMovingImage, class TDisplacementField>
 typename VariationalRegistrationNCCFunction<TFixedImage, TMovingImage, TDisplacementField>::Superclass::TimeStepType
 VariationalRegistrationNCCFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeGlobalTimeStep(
-  void * gd) const
+  void * /*gd*/) const
 {
   return this->GetTimeStep() * m_Normalizer;
 }
@@ -141,8 +141,7 @@ VariationalRegistrationNCCFunction<TFixedImage, TMovingImage, TDisplacementField
   //
   // Get fixed image information and neighborhood radius
   //
-  const RadiusType                        radius = it.GetRadius(); // should be same as this->GetRadius()
-  const typename FixedImageType::SizeType fixedImageSize = fixedImage->GetLargestPossibleRegion().GetSize();
+  const RadiusType radius = it.GetRadius(); // should be same as this->GetRadius()
 
   //
   // Setup an NeighborhoodIterator to compute sums and mean in local neighborhood
