@@ -1,15 +1,24 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+# Import unicode literals so that StringIO works on both Python 2 and 3
+from __future__ import unicode_literals
 from __future__ import print_function
 
 import sys, os
 sys.path.append(sys.path[0]+os.sep+'pygccxml-1.0.0')
 
-import pygccxml, sys, cStringIO
+import pygccxml, sys
+
+try:
+    # Python 3
+    from io import StringIO
+except ImportError:
+    # Python 2
+    from cStringIO import StringIO
 
 # the output file
-outputFile = cStringIO.StringIO()
+outputFile = StringIO()
 # init the pygccxml stuff
 pygccxml.declarations.scopedef_t.RECURSIVE_DEFAULT = False
 pygccxml.declarations.scopedef_t.ALLOW_EMPTY_MDECL_WRAPPER = True
@@ -31,7 +40,7 @@ for typedef in wrappers_ns.typedefs():
   # drop the :: prefix - it make swig produce invalid code
   if s.startswith("::"):
     s = s[2:]
-  print(outputFile, " {%s} {%s} {%s}" % (s, n, module))
+  outputFile.write("{%s} {%s} {%s}\n" % (s, n, module))
 
 content = outputFile.getvalue()
 
