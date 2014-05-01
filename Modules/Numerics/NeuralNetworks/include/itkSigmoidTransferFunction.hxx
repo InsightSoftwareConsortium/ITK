@@ -37,8 +37,8 @@ SigmoidTransferFunction<TScalar>
 }
 
 
-template<typename ScalarType>
-SigmoidTransferFunction<ScalarType>
+template<typename TScalar>
+SigmoidTransferFunction<TScalar>
 ::~SigmoidTransferFunction()
 {
 }
@@ -59,7 +59,7 @@ SigmoidTransferFunction<TScalar>
 
 template<typename TScalar>
 TScalar
-SigmoidTransferFunction< TScalar>
+SigmoidTransferFunction<TScalar>
 ::EvaluateDerivative(const ScalarType& input)  const
 {
   ScalarType f = Evaluate(input);
