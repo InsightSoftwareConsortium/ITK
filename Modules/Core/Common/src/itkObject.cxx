@@ -34,7 +34,7 @@ namespace itk
  */
 bool Object:: m_GlobalWarningDisplay = true;
 
-class Observer
+class ITKCommon_HIDDEN Observer
 {
 public:
   Observer(Command *c,
@@ -50,7 +50,7 @@ public:
   unsigned long      m_Tag;
 };
 
-class SubjectImplementation
+class ITKCommon_HIDDEN SubjectImplementation
 {
 public:
   SubjectImplementation() { m_Count = 0; }
