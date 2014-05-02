@@ -19,13 +19,14 @@
 #include "itkTriangleMeshToBinaryImageFilter.h"
 #include "itkImageFileWriter.h"
 #include "itkMeshFileReader.h"
-
-int itkTriangleMeshToBinaryImageFilterTest3( int argc, char * argv [] )
+#include "itkTestingMacros.h"
+#include "itkImage.h"
+int itkTriangleMeshToBinaryImageFilterTest4( int argc, char * argv [] )
 {
 
   if( argc != 12 )
     {
-    std::cerr << "Usage: itkTriangleMeshToBinaryImageFilterTest3 ";
+    std::cerr << "Usage: itkTriangleMeshToBinaryImageFilterTest4 ";
     std::cerr << " inputFilename.vtk outputImageMask";
     std::cerr << " imageSizeX imageSizeY imageSizeZ ";
     std::cerr << " imageOriginX imageOriginY imageOriginZ ";
@@ -62,13 +63,12 @@ int itkTriangleMeshToBinaryImageFilterTest3( int argc, char * argv [] )
 
   imageFilter->SetInput( polyDataReader->GetOutput() );
 
+  /* Allocate the 2D image */
   ImageType::SizeType size;
 
   size[0] = atoi( argv[3] );
   size[1] = atoi( argv[4] );
   size[2] = atoi( argv[5] );
-
-  imageFilter->SetSize( size );
 
   ImageType::PointType origin;
 
@@ -76,15 +76,27 @@ int itkTriangleMeshToBinaryImageFilterTest3( int argc, char * argv [] )
   origin[1] = atof( argv[7] );
   origin[2] = atof( argv[8] );
 
-  imageFilter->SetOrigin( origin );
-
   ImageType::SpacingType spacing;
 
   spacing[0] = atof( argv[9] );
   spacing[1] = atof( argv[10] );
   spacing[2] = atof( argv[11] );
 
-  imageFilter->SetSpacing( spacing );
+
+  ImageType::IndexType index3D = {{0,0,0}};
+  ImageType::RegionType region3D;
+  region3D.SetSize( size );
+  region3D.SetIndex( index3D );
+
+  ImageType::Pointer inputImage = ImageType::New();
+  inputImage->SetLargestPossibleRegion( region3D );
+  inputImage->SetBufferedRegion( region3D );
+  inputImage->SetRequestedRegion( region3D );
+  inputImage->SetOrigin( origin );
+  inputImage->SetSpacing( spacing );
+  inputImage->Allocate();
+
+  imageFilter->SetInfoImage(inputImage);
 
   const ImageType::IndexType& inbuiltIndex = imageFilter->GetIndex();
   if ((inbuiltIndex[0] == 0)&&(inbuiltIndex[1] == 0)&&(inbuiltIndex[2] == 0))
@@ -107,7 +119,7 @@ int itkTriangleMeshToBinaryImageFilterTest3( int argc, char * argv [] )
     Direction[2][2] = 1;
     imageFilter->SetDirection(Direction);
   }
-  imageFilter->SetInsideValue( 200.0);
+  imageFilter->SetInsideValue( 255.0);
   imageFilter->SetOutsideValue( 0.0);
   const double imTolerance = imageFilter->GetTolerance();
   if (imTolerance > 1e-5)
@@ -124,7 +136,16 @@ int itkTriangleMeshToBinaryImageFilterTest3( int argc, char * argv [] )
   std::cout << imageFilter <<std::endl;
 
   //Update the filter
-  imageFilter->Update();
+  try
+    {
+    imageFilter->Update();
+    }
+  catch( itk::ExceptionObject & excp )
+    {
+    std::cerr << "Error during Update() " << std::endl;
+    std::cerr << excp << std::endl;
+    return EXIT_FAILURE;
+    }
 
   const ImageType::SpacingType& mySpacing = imageFilter->GetOutput()->GetSpacing();
 
@@ -145,6 +166,7 @@ int itkTriangleMeshToBinaryImageFilterTest3( int argc, char * argv [] )
     std::cerr << "image->GetOutsideValue() != 0" <<std::endl;
     return EXIT_FAILURE;
     }
+
   const ImageType::SizeType& imSize = imageFilter->GetSize();
   if((imSize[0] != size[0])&&(imSize[1] != size[1])&&(imSize[2] != size[2]))
     {
@@ -152,8 +174,89 @@ int itkTriangleMeshToBinaryImageFilterTest3( int argc, char * argv [] )
     return EXIT_FAILURE;
     }
 
-  typedef itk::ImageFileWriter<ImageType > WriterType;
+  //setting a different signature of spacing as double//
+  double spacingAsDoubleArray[3];
 
+  spacingAsDoubleArray[0] = atof( argv[9] );
+  spacingAsDoubleArray[1] = atof( argv[10] );
+  spacingAsDoubleArray[2] = atof( argv[11] );
+  imageFilter->SetSpacing( spacingAsDoubleArray );
+
+  //setting a different signature of origin as double//
+  double originAsDoubleArray[3];
+
+  originAsDoubleArray[0] = atof( argv[6] );
+  originAsDoubleArray[1] = atof( argv[7] );
+  originAsDoubleArray[2] = atof( argv[8] );
+  imageFilter->SetOrigin( originAsDoubleArray );
+
+  try
+    {
+    imageFilter->Update();
+    }
+  catch( itk::ExceptionObject & excp )
+    {
+    std::cerr << "Error during Update() " << std::endl;
+    std::cerr << excp << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  //setting a different signature of spacing as float//
+  float spacingAsFloatArray[3];
+
+  spacingAsFloatArray[0] = atof( argv[9] );
+  spacingAsFloatArray[1] = atof( argv[10] );
+  spacingAsFloatArray[2] = atof( argv[11] );
+  imageFilter->SetSpacing( spacingAsFloatArray );
+
+  const ImageType::SpacingType& testSpacing = imageFilter->GetSpacing();
+
+  for(unsigned i = 0; i < 3; ++i)
+    {
+    if(testSpacing[i] != spacingAsFloatArray[i])
+      {
+      std::cerr << "SetSpacing failure " << testSpacing << std::endl
+                << "!= " << spacingAsFloatArray[0]
+                << " " << spacingAsFloatArray[1]
+                << " " << spacingAsFloatArray[2] << std::endl;
+      return EXIT_FAILURE;
+      }
+    }
+  //setting a different signature of origin as float//
+  float originAsFloatArray[3];
+
+  originAsFloatArray[0] = atof( argv[6] );
+  originAsFloatArray[1] = atof( argv[7] );
+  originAsFloatArray[2] = atof( argv[8] );
+  imageFilter->SetOrigin( originAsFloatArray );
+  const ImageType::PointType& testOrigin =imageFilter->GetOrigin();
+  for(unsigned i = 0; i < 3; ++i)
+    {
+    if(testOrigin[i] != originAsFloatArray[i])
+      {
+      std::cerr << "SetOrigin failure " << testOrigin << std::endl
+                << "!= " << originAsFloatArray[0]
+                << " " << originAsFloatArray[1]
+                << " " << originAsFloatArray[2] << std::endl;
+      return EXIT_FAILURE;
+      }
+    }
+
+  try
+    {
+    imageFilter->Update();
+    }
+  catch( itk::ExceptionObject & excp )
+    {
+    std::cerr << "Error during Update() " << std::endl;
+    std::cerr << excp << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  //Exercising Printself//
+  imageFilter->Print(std::cout);
+
+  typedef itk::ImageFileWriter<ImageType > WriterType;
   WriterType::Pointer imageWriter = WriterType::New();
   imageWriter->SetInput(imageFilter->GetOutput() );
   imageWriter->SetFileName( argv[2] );

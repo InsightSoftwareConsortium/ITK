@@ -14,6 +14,7 @@ itkTransformMeshFilterTest.cxx
 itkTriangleMeshToBinaryImageFilterTest.cxx
 itkTriangleMeshToBinaryImageFilterTest2.cxx
 itkTriangleMeshToBinaryImageFilterTest3.cxx
+itkTriangleMeshToBinaryImageFilterTest4.cxx
 itkTriangleMeshToSimplexMeshFilterTest.cxx
 itkVTKPolyDataReaderTest.cxx
 itkVTKPolyDataWriterTest01.cxx
@@ -66,10 +67,12 @@ itk_add_test(NAME itkTriangleMeshToBinaryImageFilterTest2
               ${ITK_TEST_OUTPUT_DIR}/itkTriangleMeshToBinaryImageFilterTest2.mha)
 set_tests_properties(itkTriangleMeshToBinaryImageFilterTest2 PROPERTIES
       ATTACHED_FILES_ON_FAIL ${ITK_TEST_OUTPUT_DIR}/itkTriangleMeshToBinaryImageFilterTest2.txt)
-
 itk_add_test(NAME itkTriangleMeshToBinaryImageFilterTest3
       COMMAND ITKMeshTestDriver itkTriangleMeshToBinaryImageFilterTest3
               DATA{${ITK_DATA_ROOT}/Input/genusZeroSurface01.vtk} ${ITK_TEST_OUTPUT_DIR}/itkTriangleMeshToBinaryImageFilterTest3.mha 140 160 180 -0.7 -0.8 -0.9 0.01 0.01 0.01)
+itk_add_test(NAME itkTriangleMeshToBinaryImageFilterTest4
+      COMMAND ITKMeshTestDriver itkTriangleMeshToBinaryImageFilterTest4
+              DATA{${ITK_DATA_ROOT}/Input/genusZeroSurface01.vtk} ${ITK_TEST_OUTPUT_DIR}/itkTriangleMeshToBinaryImageFilterTest4.mha 140 160 180 -0.7 -0.8 -0.9 0.01 0.01 0.01)
 itk_add_test(NAME itkTriangleMeshToSimplexMeshFilterTest
       COMMAND ITKMeshTestDriver itkTriangleMeshToSimplexMeshFilterTest)
 itk_add_test(NAME itkVTKPolyDataReaderTest

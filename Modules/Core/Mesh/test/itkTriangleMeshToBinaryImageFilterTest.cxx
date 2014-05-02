@@ -70,6 +70,28 @@ int itkTriangleMeshToBinaryImageFilterTest(int argc, char * argv [] )
   size[2]=100;
   imageFilter->SetSize(size);
 
+  const double dspacing[3] = { 2.0, 2.0, 2.0 };
+  const float fspacing[3] = { 3.0, 3.0, 3.0 };
+  const double defaultSpacing[3] = { 1.0, 1.0, 1.0 };
+  imageFilter->SetSpacing(dspacing);
+  imageFilter->SetSpacing(fspacing);
+  imageFilter->SetSpacing(defaultSpacing);
+
+  const double dorigin[3] = { 2.0, 2.0, 2.0 };
+  const float forigin[3] = { 3.0, 3.0, 3.0 };
+  const double defaultOrigin[3] = { 0.0, 0.0, 0.0 };
+  imageFilter->SetOrigin(dorigin);
+  imageFilter->SetOrigin(forigin);
+  imageFilter->SetOrigin(defaultOrigin);
+
+  imageFilter->Update();
+
+  ImageType::Pointer im = ImageType::New();
+  ImageType::SizeType imSize; imSize[0] = imSize[1] = imSize[2] = 100;
+  im->SetRegions(imSize);
+  im->Allocate();
+
+  imageFilter->SetInfoImage(im);
   imageFilter->Update();
 
   std::cout << "[PASSED]" << std::endl;
