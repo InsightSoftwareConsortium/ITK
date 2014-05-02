@@ -15,44 +15,22 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkMetaDataObjectBase.h"
+#include "itkMetaDataObject.h"
 
 namespace itk
 {
 
-MetaDataObjectBase
-::MetaDataObjectBase()
-{
-}
-
-
-MetaDataObjectBase
-::~MetaDataObjectBase()
-{
-}
-
-
-const char *
-MetaDataObjectBase
-::GetMetaDataObjectTypeName() const
-{
-  return typeid( itk::MetaDataObjectBase ).name();
-}
-
-
-const std::type_info &
-MetaDataObjectBase
-::GetMetaDataObjectTypeInfo() const
-{
-  return typeid( itk::MetaDataObjectBase );
-}
-
-
-void
-MetaDataObjectBase
-::Print( std::ostream & os ) const
-{
-  os << "[UNKNOWN_PRINT_CHARACTERISTICS]" << std::endl;
-}
+ITK_NATIVE_TYPE_METADATAPRINT( unsigned char );
+ITK_NATIVE_TYPE_METADATAPRINT( char );
+ITK_NATIVE_TYPE_METADATAPRINT( signed char );
+ITK_NATIVE_TYPE_METADATAPRINT( unsigned short );
+ITK_NATIVE_TYPE_METADATAPRINT( short );
+ITK_NATIVE_TYPE_METADATAPRINT( unsigned int );
+ITK_NATIVE_TYPE_METADATAPRINT( int );
+ITK_NATIVE_TYPE_METADATAPRINT( unsigned long );
+ITK_NATIVE_TYPE_METADATAPRINT( long );
+ITK_NATIVE_TYPE_METADATAPRINT( float );
+ITK_NATIVE_TYPE_METADATAPRINT( double );
+ITK_NATIVE_TYPE_METADATAPRINT( std::string );
 
 } // end namespace itk

@@ -25,6 +25,7 @@ itkRealTimeInterval.cxx
 itkOctreeNode.cxx
 itkNumericTraitsFixedArrayPixel.cxx
 itkMultiThreader.cxx
+itkMetaDataObject.cxx
 itkMetaDataDictionary.cxx
 itkDataObject.cxx
 itkThreadLogger.cxx

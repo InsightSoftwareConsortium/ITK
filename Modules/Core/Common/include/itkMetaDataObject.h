@@ -86,32 +86,12 @@ public:
   itkTypeMacro(MetaDataObject, MetaDataObjectBase);
 
   /**
-   * Default constructor with no initialization.
-   * \author Hans J. Johnson
-   */
-  MetaDataObject(void);
-  /**
-   * Default virtual Destructor
-   * \author Hans J. Johnson
-   */
-  virtual ~MetaDataObject(void);
-  /**
-   * Initializer constructor that sets m_MetaDataObjectValue to InitializerValue
-   * \author Hans J. Johnson
-   */
-  MetaDataObject(const MetaDataObjectType InitializerValue);
-  /**
-   * Copy constructor that sets m_MetaDataObjectValue to TemplateObject.m_MetaDataObjectValue
-   * \author Hans J. Johnson
-   */
-  MetaDataObject(const MetaDataObject< MetaDataObjectType > & TemplateObject);
-  /**
    * The definition of this function is necessary to fulfill
    * the interface of the MetaDataObjectBase
    * \author Hans J. Johnson
    * \return A pointer to a const char array containing the unique type name.
    */
-  virtual const char * GetMetaDataObjectTypeName(void) const;
+  virtual const char * GetMetaDataObjectTypeName() const;
 
   /**
    * The definition of this function is necessary to fulfill
@@ -119,21 +99,21 @@ public:
    * \author Hans J. Johnson
    * \return A constant reference to a std::type_info object
    */
-  virtual const std::type_info & GetMetaDataObjectTypeInfo(void) const;
+  virtual const std::type_info & GetMetaDataObjectTypeInfo() const;
 
   /**
    * Function to return the stored value of type MetaDataObjectType.
    * \author Hans J. Johnson
    * \return a constant reference to a MetaDataObjectType
    */
-  const MetaDataObjectType & GetMetaDataObjectValue(void) const;
+  const MetaDataObjectType & GetMetaDataObjectValue() const;
 
   /**
    * Function to set the stored value of type MetaDataObjectType.
    * \author Hans J. Johnson
    * \param NewValue A constant reference to at MetaDataObjectType.
    */
-  void SetMetaDataObjectValue(const MetaDataObjectType & NewValue);
+  void SetMetaDataObjectValue(const MetaDataObjectType & newValue);
 
   /**
    * Defines the default behavior for printing out this element
@@ -141,10 +121,13 @@ public:
    */
   virtual void Print(std::ostream & os) const;
 
+protected:
+  MetaDataObject();
+  virtual ~MetaDataObject();
+
 private:
-  // This is made private to force the use of the
-  // MetaDataObject<MetaDataObjectType>::New() operator!
-  //void * operator new(SizeValueType nothing) {};//purposefully not implemented
+  MetaDataObject(const Self &); // purposely not implemented
+  void operator=(const Self &); // purposely not implemented
 
   /**
    * A variable to store this derived type.
@@ -212,6 +195,21 @@ inline bool ExposeMetaData(const MetaDataDictionary & Dictionary, const std::str
     }
   return true;
 }
+
+// Specializations
+template <> ITKCommon_EXPORT void MetaDataObject< unsigned char >::Print( std::ostream & os ) const;
+template <> ITKCommon_EXPORT void MetaDataObject< char >::Print( std::ostream & os ) const;
+template <> ITKCommon_EXPORT void MetaDataObject< signed char >::Print( std::ostream & os ) const;
+template <> ITKCommon_EXPORT void MetaDataObject< unsigned short >::Print( std::ostream & os ) const;
+template <> ITKCommon_EXPORT void MetaDataObject< short >::Print( std::ostream & os ) const;
+template <> ITKCommon_EXPORT void MetaDataObject< unsigned int >::Print( std::ostream & os ) const;
+template <> ITKCommon_EXPORT void MetaDataObject< int >::Print( std::ostream & os ) const;
+template <> ITKCommon_EXPORT void MetaDataObject< unsigned long >::Print( std::ostream & os ) const;
+template <> ITKCommon_EXPORT void MetaDataObject< long >::Print( std::ostream & os ) const;
+template <> ITKCommon_EXPORT void MetaDataObject< float >::Print( std::ostream & os ) const;
+template <> ITKCommon_EXPORT void MetaDataObject< double >::Print( std::ostream & os ) const;
+template <> ITKCommon_EXPORT void MetaDataObject< std::string >::Print( std::ostream & os ) const;
+
 } // end namespace itk
 
 /**
@@ -221,21 +219,14 @@ inline bool ExposeMetaData(const MetaDataDictionary & Dictionary, const std::str
  * have operator<< defined.
  * \param TYPE_NAME the native type parameter type
  */
-#define NATIVE_TYPE_METADATAPRINT(TYPE_NAME)        \
+#define ITK_NATIVE_TYPE_METADATAPRINT(TYPE_NAME)        \
   template< >                                       \
   void                                              \
-  itk::MetaDataObject< TYPE_NAME >                  \
+  ::itk::MetaDataObject< TYPE_NAME >                  \
   ::Print(std::ostream & os) const                  \
     {                                               \
     os << this->m_MetaDataObjectValue << std::endl; \
     }                                               \
-  template< >                                       \
-  void                                              \
-  itk::MetaDataObject< const TYPE_NAME >            \
-  ::Print(std::ostream & os) const                  \
-    {                                               \
-    os << this->m_MetaDataObjectValue << std::endl; \
-    }
 
 /**
  * \def ITK_OBJECT_TYPE_METADATAPRINT_1COMMA( TYPE_NAME_PART1, TYPE_NAME_PART2 )
@@ -253,13 +244,6 @@ inline bool ExposeMetaData(const MetaDataDictionary & Dictionary, const std::str
     {                                                                          \
     this->m_MetaDataObjectValue->Print(os);                                    \
     }                                                                          \
-  template< >                                                                  \
-  void                                                                         \
-  itk::MetaDataObject< const TYPE_NAME_PART1, TYPE_NAME_PART2 >                \
-  ::Print(std::ostream & os) const                                             \
-    {                                                                          \
-    this->m_MetaDataObjectValue->Print(os);                                    \
-    }
 
 /**
  * \def ITK_IMAGE_TYPE_METADATAPRINT( STORAGE_TYPE )

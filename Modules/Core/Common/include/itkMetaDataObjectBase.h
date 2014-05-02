@@ -44,7 +44,7 @@ namespace itk
  * \author Hans J. Johnson
  * \ingroup ITKCommon
  */
-class ITKCommon_EXPORT MetaDataObjectBase:public LightObject
+class ITKCommon_EXPORT MetaDataObjectBase: public LightObject
 {
 public:
   /** Smart pointer typedef support. */
@@ -60,32 +60,25 @@ public:
    * \author Hans J. Johnson
    * \return A pointer to a const char array containing the unique type name.
    */
-  virtual const char * GetMetaDataObjectTypeName(void) const;
+  virtual const char * GetMetaDataObjectTypeName() const;
 
   /**
    * \author Hans J. Johnson
    * \return A constant reference to a std::type_info object
    */
-  virtual const std::type_info & GetMetaDataObjectTypeInfo(void) const;
+  virtual const std::type_info & GetMetaDataObjectTypeInfo() const;
 
   /**
    * Defines the default behavior for printing out this element
    * \param os An output stream
    */
-  virtual void Print(std::ostream & os) const;
+  virtual void Print( std::ostream & os ) const;
 
 protected:
-  /** Method for creation through the object factory.   */
-  // Should not be able to construct a new MetaDataObjectBase
-//       static  Pointer New(void);
-/**
- * Default destructor
- */
-  virtual ~MetaDataObjectBase();
   MetaDataObjectBase();
+  virtual ~MetaDataObjectBase();
 
 private:
-  //void * operator new(size_t nothing) {};//purposefully not implemented
   MetaDataObjectBase(const Self &); //purposely not implemented
   void operator=(const Self &);     //purposely not implemented
 };
