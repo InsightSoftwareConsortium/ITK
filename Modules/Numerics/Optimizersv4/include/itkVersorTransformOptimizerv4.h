@@ -41,9 +41,23 @@ namespace itk
  * This optimizer assumes that the CostFunction to be
  * optimized has an itk::Versor as parameter.
  *
+ * NOTE: THE USE OF THIS OPTIMIZER IS DEPRECATED.
+ *
+ * In ITKv4 framework the \doxygen{RegularStepGradientDescentOptimizerv4}
+ * can be used for both vector and versor transforms optimization,
+ * since in the new registration framework the task of updating parameters
+ * is delegated to the transforms themselves. The "UpdateTransformParameters"
+ * function is implemented in \doxygen{Transform} class as a virtual function,
+ * and all the derived transform classes can have their own specific implementations
+ * of this function. Due to this fact, the updating function can be re-implemented
+ * for the versor transforms in a way, so it can be able to handle the versor
+ * composition of the rotation parameters.
+ *
+ *
  * \sa GradientDescentOptimizerv4
  * \sa Versor
  * \sa VersorTransform
+ * \sa RegularStepGradientDescentOptimizerv4 \deprecated
  *
  * \ingroup ITKOptimizersv4
  */
