@@ -220,7 +220,8 @@ configure_file("${CMAKE_CURRENT_SOURCE_DIR}/WrapITK.pth.in"
             @ONLY)
 
 if(PYTHON_EXECUTABLE)
-  file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/det_spp.py "try:\n from __future__ import print_function\n import distutils.sysconfig\n print(distutils.sysconfig.get_python_lib(1))\nexcept: pass")
+  set(python_check "from __future__ import print_function\ntry:\n    import distutils.sysconfig\n    print(distutils.sysconfig.get_python_lib(1))\nexcept:\n    pass")
+  file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/det_spp.py ${python_check})
   execute_process(COMMAND "${PYTHON_EXECUTABLE}" "${CMAKE_CURRENT_BINARY_DIR}/det_spp.py"
     OUTPUT_VARIABLE py_spp
     ERROR_VARIABLE py_spp
