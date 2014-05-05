@@ -27,11 +27,46 @@ namespace itk
 
 /** \class itk::VariationalDiffeomorphicRegistrationFilter
  *
- * TODO class documentation
+ * \brief Diffeomorphic deformable registration of two images using static velocity fields.
  *
+ * VariationalDiffeomorphicRegistrationFilter is derived from VariationalRegistrationFilter and aims
+ * to minimize the  functional
+ *  \f[
+ *  (1)\quad J( \phi ) = D[R, T\circ\phi] + \alpha S[\phi] \rightarrow \min
+ *  \f]
+ * with \f$ \phi(x)=exp(v(x))\f$ and \f$ v(x)\f$ is a static velocity field.
+ * Let \f$ f \f$ denote the force term corresponding to the similarity measure \f$ D\f$ and \f$ A\f$ denote the  linear
+ * differential operator associated with the regularization term \f$ S \f$, VariationalDiffeomorphicRegistrationFilter
+ * implements the following iterative scheme to compute \f$ v\f$ (and \f$ \phi\f$):
+ *   - initialize \f$ v^0 \f$ (default \f$ v^0=0 \f$) and \f$ \phi^0=exp(v)\f$ (default \f$ \phi^0=Id\f$)
+ *   - <b>do</b>
+ *     - compute the update field \f$ f^k \f$ using \f$ R(x) \f$ and the warped image \f$ T\circ\phi^k \f$
+ *     - compute the next velocity field by \f$ v^{k+1} = (Id - \tau\alpha A)^{-1}(v^k + \tau f^k)\f$
+ *     - compute the next transformation \f$ \phi^{k+1}=exp(v^{k+1})\f$
+ *   - <b>until</b> \f$ StopCriterion\f$ is fulfilled or \f$ k>maxIter \f$
+ *
+ *  The force term \f$ f \f$ is implemented in a subclass of VariationalRegistrationFunction. The computation
+ *  of the regularization with \f$ (Id - \tau\alpha A)^{-1}\f$ is implemented in a subclass of
+ * VariationalRegistrationRegularizer. The exponentiation of the velocity field \f$ \phi(x)=exp(v(x))\f$ is done using
+ * the ExponentialDisplacementFieldImageFilter.
+ *
+ *  You can set SmoothUpdateField to smooth the velocity field before exponentiation.
+ *
+ *  \sa VariationalRegistrationFunction
+ *  \sa VariationalRegistrationRegularizer
+ *  \sa ExponentialDisplacementFieldImageFilter
  *  \sa VariationalRegistrationFilter
+ *  \sa DenseFiniteDifferenceImageFilter
  *
  *  \ingroup VariationalRegistration
+ *
+ *  \author Alexander Schmidt-Richberg
+ *  \author Rene Werner
+ *  \author Jan Ehrhardt
+ *
+ * For details see: <i>Rene Werner, Alexander Schmidt-Richberg, Heinz Handels and Jan Ehrhardt:
+ * "Estimation of lung motion fields in 4D CT data by variational non-linear intensity-based registration:
+ *  A comparison and evaluation study", Phys. Med. Biol., 2014</i>
  */
 template <class TFixedImage, class TMovingImage, class TDisplacementField>
 class ITK_EXPORT VariationalDiffeomorphicRegistrationFilter
@@ -79,11 +114,11 @@ public:
   /** The value type of a time step.  Inherited from the superclass. */
   typedef typename Superclass::TimeStepType TimeStepType;
 
-  /** Set initial deformation field. */
+  /** Set initial deformation field. \warning This can't be used for diffeomorphic registration.*/
   virtual void
   SetInitialDisplacementField(DisplacementFieldType * ptr);
 
-  /** Get output deformation field. */
+  /** Get output deformation field. Returns the displacement field of the current transformation.*/
   virtual DisplacementFieldType *
   GetDisplacementField()
   {

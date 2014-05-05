@@ -51,7 +51,7 @@ namespace itk
  *  and computes the displacement field \f$ u \f$ as output.
  *
  *  The force term \f$ f \f$ is implemented in a subclass of VariationalRegistrationFunction. The computation
- *  of the regularization with \f$ (Id - \tau A)^{-1}\f$ is implemented in a subclass of
+ *  of the regularization with \f$ (Id - \tau\alpha A)^{-1}\f$ is implemented in a subclass of
  * VariationalRegistrationRegularizer. Different force terms and regularization methods can be combined by using the
  * methods SetDifferenceFunction() and SetRegularizer().
  *
@@ -59,7 +59,7 @@ namespace itk
  *   - initialize \f$ u \f$ (default \f$ u=0 \f$)
  *   - <b>do</b>
  *     - compute the update field \f$ f^k \f$ using \f$ R(x) \f$ and the warped image \f$ T(x+u^k(x)) \f$
- *     - compute the next displacement field by \f$ u^{k+1} = (Id - \tau A)^{-1}(u^k + \tau f^k)\f$
+ *     - compute the next displacement field by \f$ u^{k+1} = (Id - \tau\alpha A)^{-1}(u^k + \tau f^k)\f$
  *   - <b>until</b> \f$ StopCriterion\f$ is fulfilled or \f$ k>maxIter \f$
  *
  * \f$ StopCriterion\f$ is implemented in the class VariationalRegistrationStopCriterion.
