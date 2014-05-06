@@ -212,6 +212,24 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage>
     }
 }
 
+template<typename TFixedImage, typename TMovingImage, typename TTransform, typename TVirtualImage>
+void
+ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage>
+::InitializeOutputTransformFromReference( const OutputTransformType * initTransform )
+{
+  itkDebugMacro( "Direct initialization of the optimizable transform." );
+  if( initTransform->GetNumberOfParameters() > 0 )
+    {
+    this->m_OutputTransform->SetFixedParameters( initTransform->GetFixedParameters() );
+    this->m_OutputTransform->SetParameters( initTransform->GetParameters() );
+    this->Modified();
+    }
+  else
+    {
+    itkExceptionMacro( "The initial transform has no parameters." );
+    }
+}
+
 /*
  * Initialize by setting the interconnects between components.
  */
@@ -289,13 +307,22 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage>
     {
     this->m_CompositeTransform->ClearTransformQueue();
 
-    // If the moving initial transform is a composite transform, unroll
-    // it into m_CompositeTransform.  This is a temporary fix to accommodate
-    // the lack of support for calculating the jacobian in the composite
-    // transform.
+    // Since we cannot instantiate a null object from an abstract class, we need to initialize the moving
+    // initial transform as an identity transform.
+    // Nevertheless, we do not need add this transform to the composite transform when it is only an
+    // identity transform. Simply by not setting that, we can save lots of time in jacobian computations
+    // of the composite transform since we can avoid some matrix multiplications.
 
-    this->m_CompositeTransform->AddTransform( this->m_MovingInitialTransform );
+    // Skip adding an IdentityTransform to the m_CompositeTransform
+    if( this->m_MovingInitialTransform.IsNotNull() &&
+      std::string(this->m_MovingInitialTransform->GetNameOfClass() ) != std::string("IdentityTransform") )
+      {
+      this->m_CompositeTransform->AddTransform( this->m_MovingInitialTransform );
+      }
+
     this->m_CompositeTransform->AddTransform( this->m_OutputTransform );
+    // If the moving initial transform is a composite transform, unroll
+    // it into m_CompositeTransform.
     this->m_CompositeTransform->FlattenTransformQueue();
 
     if( this->m_OptimizerWeights.Size() > 0 )
