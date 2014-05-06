@@ -38,7 +38,7 @@ LevelSetEvolutionUpdateLevelSetsThreader< LevelSetDenseImage< TImage >, Threaded
 {
   this->m_RMSChangeAccumulatorPerThread.resize( this->GetNumberOfThreadsUsed() );
 
-  for( ThreadIdType ii = 0; ii < this->GetNumberOfThreadsUsed(); ++ii )
+  for( ThreadIdType ii = 0, maxThreads = this->GetNumberOfThreadsUsed(); ii < maxThreads; ++ii )
     {
     this->m_RMSChangeAccumulatorPerThread[ii].ResetToZero();
     }
@@ -66,10 +66,9 @@ LevelSetEvolutionUpdateLevelSetsThreader< LevelSetDenseImage< TImage >, Threaded
   levelSetImageIt.GoToBegin();
   levelSetUpdateImageIt.GoToBegin();
 
-  LevelSetOutputRealType p;
   while( !levelSetImageIt.IsAtEnd() )
     {
-    p = this->m_Associate->m_Dt * levelSetUpdateImageIt.Get();
+    const LevelSetOutputRealType & p = this->m_Associate->m_Dt * levelSetUpdateImageIt.Get();
     levelSetImageIt.Set( levelSetImageIt.Get() + p );
 
     this->m_RMSChangeAccumulatorPerThread[threadId] += p*p;
@@ -84,7 +83,7 @@ void
 LevelSetEvolutionUpdateLevelSetsThreader< LevelSetDenseImage< TImage >, ThreadedImageRegionPartitioner< TImage::ImageDimension >, TLevelSetEvolution >
 ::AfterThreadedExecution()
 {
-  for( ThreadIdType ii = 0; ii < this->GetNumberOfThreadsUsed(); ++ii )
+  for( ThreadIdType ii = 0, maxThreads = this->GetNumberOfThreadsUsed(); ii < maxThreads; ++ii )
     {
     this->m_Associate->m_RMSChangeAccumulator += this->m_RMSChangeAccumulatorPerThread[ii].GetSum();
     }

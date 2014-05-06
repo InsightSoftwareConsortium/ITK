@@ -56,8 +56,9 @@ public:
   private:
     virtual void BeforeThreadedExecution()
       {
-      this->m_PerThreadCompensatedSum.resize( this->GetNumberOfThreadsUsed() );
-      for( itk::ThreadIdType i=0; i < this->GetNumberOfThreadsUsed(); i++ )
+      const itk::ThreadIdType numThreadsUsed = this->GetNumberOfThreadsUsed();
+      this->m_PerThreadCompensatedSum.resize( numThreadsUsed );
+      for( itk::ThreadIdType i = 0; i < numThreadsUsed; ++i )
         {
         this->m_PerThreadCompensatedSum[i].ResetToZero();
         }
@@ -79,7 +80,7 @@ public:
       this->m_Associate->m_UncompensatedSumOfThreads = itk::NumericTraits<double>::Zero;
       this->m_Associate->m_CompensatedSumOfThreads.ResetToZero();
 
-      for( itk::ThreadIdType i = 0; i < this->GetNumberOfThreadsUsed(); ++i )
+      for( itk::ThreadIdType i = 0, numThreadsUsed = this->GetNumberOfThreadsUsed(); i < numThreadsUsed; ++i )
         {
         double sum = this->m_PerThreadCompensatedSum[i].GetSum();
         std::cout << i << ": " << sum << std::endl;

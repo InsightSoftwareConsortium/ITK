@@ -49,12 +49,13 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase< TDomainPartitioner, TImag
   // Resize the per thread memory objects.
 
   /* Per-thread results */
+  const ThreadIdType numThreadsUsed = this->GetNumberOfThreadsUsed();
   delete[] m_GetValueAndDerivativePerThreadVariables;
-  this->m_GetValueAndDerivativePerThreadVariables = new AlignedGetValueAndDerivativePerThreadStruct[ this->GetNumberOfThreadsUsed() ];
+  this->m_GetValueAndDerivativePerThreadVariables = new AlignedGetValueAndDerivativePerThreadStruct[ numThreadsUsed ];
 
   if( this->m_Associate->GetComputeDerivative() )
     {
-    for (ThreadIdType i=0; i<this->GetNumberOfThreadsUsed(); ++i)
+    for (ThreadIdType i = 0; i < numThreadsUsed; ++i)
       {
       /* Allocate intermediary per-thread storage used to get results from
        * derived classes */
@@ -87,7 +88,7 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase< TDomainPartitioner, TImag
 
   //---------------------------------------------------------------
   // Set initial values.
-  for (ThreadIdType thread = 0; thread<this->GetNumberOfThreadsUsed(); thread++)
+  for (ThreadIdType thread = 0; thread < numThreadsUsed; ++thread)
     {
     this->m_GetValueAndDerivativePerThreadVariables[thread].NumberOfValidPoints = NumericTraits< SizeValueType >::Zero;
     this->m_GetValueAndDerivativePerThreadVariables[thread].Measure = NumericTraits< InternalComputationValueType >::Zero;
@@ -117,10 +118,11 @@ void
 ImageToImageMetricv4GetValueAndDerivativeThreaderBase< TDomainPartitioner, TImageToImageMetricv4 >
 ::AfterThreadedExecution()
 {
+  const ThreadIdType numThreadsUsed = this->GetNumberOfThreadsUsed();
   /* Store the number of valid points the enclosing class \c
    * m_NumberOfValidPoints by collecting the valid points per thread. */
   this->m_Associate->m_NumberOfValidPoints = NumericTraits< SizeValueType >::Zero;
-  for (ThreadIdType i=0; i<this->GetNumberOfThreadsUsed(); i++)
+  for (ThreadIdType i = 0; i < numThreadsUsed; ++i)
     {
     this->m_Associate->m_NumberOfValidPoints += this->m_GetValueAndDerivativePerThreadVariables[i].NumberOfValidPoints;
     }
@@ -136,7 +138,7 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase< TDomainPartitioner, TImag
         /* Use a compensated sum to be ready for when there is a very large number of threads */
         CompensatedDerivativeValueType sum;
         sum.ResetToZero();
-        for (ThreadIdType i=0; i<this->GetNumberOfThreadsUsed(); i++)
+        for (ThreadIdType i=0; i<numThreadsUsed; i++)
           {
           sum += this->m_GetValueAndDerivativePerThreadVariables[i].CompensatedDerivatives[p].GetSum();
           }
@@ -152,7 +154,7 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase< TDomainPartitioner, TImag
     {
     this->m_Associate->m_Value = NumericTraits<MeasureType>::Zero;
     /* Accumulate the metric value from threads and store the average. */
-    for(ThreadIdType threadId = 0; threadId < this->GetNumberOfThreadsUsed(); ++threadId )
+    for(ThreadIdType threadId = 0; threadId < numThreadsUsed; ++threadId )
       {
       this->m_Associate->m_Value += this->m_GetValueAndDerivativePerThreadVariables[threadId].Measure;
       }
