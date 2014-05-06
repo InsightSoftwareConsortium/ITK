@@ -16,6 +16,8 @@
 #
 #==========================================================================*/
 
+from __future__ import print_function
+
 # The following line defines an ascii string used for dynamically refreshing
 # the import and progress callbacks on the same terminal line.
 # See http://www.termsys.demon.co.uk/vtansi.htm
@@ -24,8 +26,6 @@
 # getting to the start of the line.
 # [K erases the end of the line
 clrLine = "\033[2000D\033[K"
-
-from __future__ import print_function
 
 
 def auto_not_in_place(v=True):
