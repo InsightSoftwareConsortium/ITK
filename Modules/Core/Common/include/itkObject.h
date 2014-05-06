@@ -71,7 +71,7 @@ public:
    * object that is exactly the same type as the referring object.
    * This is useful in cases where an object has been cast back to a
    * base class. */
-  virtual LightObject::Pointer CreateAnother() const;
+  virtual LightObject::Pointer CreateAnother() const ITK_OVERRIDE;
 
   /** Standard part of all itk objects. */
   itkTypeMacro(Object, LightObject);

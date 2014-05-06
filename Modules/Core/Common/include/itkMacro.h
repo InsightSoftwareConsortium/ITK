@@ -118,6 +118,16 @@ namespace itk
   #endif
 #endif
 
+// In c++11 the override keyword allows you to explicity define that a function
+// is intended to override the base-class version.  This makes the code more
+// managable and fixes a set of common hard-to-find bugs.
+#if __cplusplus >= 201103L
+#define ITK_OVERRIDE override
+#else
+#define ITK_OVERRIDE
+#endif
+
+
 /** Define two object creation methods.  The first method, New(),
  * creates an object from a class, potentially deferring to a factory.
  * The second method, CreateAnother(), creates an object from an
@@ -156,7 +166,7 @@ namespace itk
     }
 
 #define itkCreateAnotherMacro(x)                               \
-  virtual::itk::LightObject::Pointer CreateAnother(void) const \
+  virtual::itk::LightObject::Pointer CreateAnother(void) const ITK_OVERRIDE \
     {                                                          \
     ::itk::LightObject::Pointer smartPtr;                      \
     smartPtr = x::New().GetPointer();                          \
@@ -196,7 +206,7 @@ namespace itk
     rawPtr->UnRegister();                                      \
     return smartPtr;                                           \
     }                                                          \
-  virtual::itk::LightObject::Pointer CreateAnother(void) const \
+  virtual::itk::LightObject::Pointer CreateAnother(void) const ITK_OVERRIDE \
     {                                                          \
     ::itk::LightObject::Pointer smartPtr;                      \
     smartPtr = x::New().GetPointer();                          \
