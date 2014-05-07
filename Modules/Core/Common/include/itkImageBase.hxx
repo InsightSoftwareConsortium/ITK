@@ -302,16 +302,7 @@ ImageBase< VImageDimension >
   if ( data )
     {
     // Attempt to cast data to an ImageBase
-    const ImageBase< VImageDimension > *imgData;
-
-    try
-      {
-      imgData = dynamic_cast< const ImageBase< VImageDimension > * >( data );
-      }
-    catch ( ... )
-      {
-      return;
-      }
+    const ImageBase< VImageDimension > * const imgData = dynamic_cast< const ImageBase< VImageDimension > * >( data );
 
     if ( imgData )
       {

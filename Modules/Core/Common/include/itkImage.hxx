@@ -113,16 +113,7 @@ Image< TPixel, VImageDimension >
   if ( data )
     {
     // Attempt to cast data to an Image
-    const Self *imgData;
-
-    try
-      {
-      imgData = dynamic_cast< const Self * >( data );
-      }
-    catch ( ... )
-      {
-      return;
-      }
+    const Self * const imgData = dynamic_cast< const Self * >( data );
 
     if ( imgData )
       {
