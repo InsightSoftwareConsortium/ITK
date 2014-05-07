@@ -128,7 +128,7 @@ public:
 
   ImageTypePointer GetImage();
 
-  virtual void BuildFromBuffer(const void *buffer, const unsigned int xsize, const unsigned int ysize, const unsigned int zsize);
+  virtual void BuildFromBuffer(const void *buffer, const unsigned int xsize, const unsigned int ysize, const unsigned int zsize) ITK_OVERRIDE;
 
   void BuildFromImage(Image< TPixel, 3 > *fromImage);
 
@@ -142,19 +142,19 @@ public:
   int GetValue(const unsigned int Dim0, const unsigned int Dim1,
                         const unsigned int Dim2);
 
-  virtual void SetWidth(unsigned int width);
+  virtual void SetWidth(unsigned int width) ITK_OVERRIDE;
 
-  virtual void SetDepth(unsigned int depth);
+  virtual void SetDepth(unsigned int depth) ITK_OVERRIDE;
 
-  virtual unsigned int GetWidth();
+  virtual unsigned int GetWidth() ITK_OVERRIDE;
 
-  virtual unsigned int GetDepth();
+  virtual unsigned int GetDepth() ITK_OVERRIDE;
 
-  virtual OctreeNode * GetTree();
+  virtual OctreeNode * GetTree() ITK_OVERRIDE;
 
-  virtual const char * GetColorTable() const;
+  virtual const char * GetColorTable() const ITK_OVERRIDE;
 
-  virtual int GetColorTableSize() const;
+  virtual int GetColorTableSize() const ITK_OVERRIDE;
 
 private:
   Octree(const Self &);         // purposely not implemented

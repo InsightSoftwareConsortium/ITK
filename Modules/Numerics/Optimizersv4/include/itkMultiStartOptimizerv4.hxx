@@ -37,7 +37,7 @@ MultiStartOptimizerv4Template<TInternalComputationValueType>
   this->m_BestParametersIndex= static_cast<ParameterListSizeType>(0);
   this->m_MaximumMetricValue=NumericTraits<MeasureType>::max();
   this->m_MinimumMetricValue = this->m_MaximumMetricValue;
-  m_LocalOptimizer = NULL;
+  m_LocalOptimizer = ITK_NULLPTR;
 }
 
 //-------------------------------------------------------------------

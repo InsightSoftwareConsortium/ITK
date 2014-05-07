@@ -28,7 +28,7 @@ namespace itk
 template< typename TDomainPartitioner, typename TJointHistogramMetric >
 JointHistogramMutualInformationComputeJointPDFThreaderBase< TDomainPartitioner, TJointHistogramMetric >
 ::JointHistogramMutualInformationComputeJointPDFThreaderBase():
-  m_JointHistogramMIPerThreadVariables( NULL )
+  m_JointHistogramMIPerThreadVariables( ITK_NULLPTR )
 {
 }
 

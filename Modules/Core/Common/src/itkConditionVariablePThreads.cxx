@@ -21,7 +21,7 @@ namespace itk
 {
 ConditionVariable::ConditionVariable()
 {
-  pthread_cond_init(&m_ConditionVariable.m_ConditionVariable, NULL);
+  pthread_cond_init(&m_ConditionVariable.m_ConditionVariable, ITK_NULLPTR);
 }
 
 ConditionVariable::~ConditionVariable()

@@ -83,7 +83,7 @@ template< typename TTreeType >
 bool
 RootTreeIterator< TTreeType >::HasNext() const
 {
-  if ( const_cast< TreeNodeType * >( FindNextNode() ) != NULL )
+  if ( const_cast< TreeNodeType * >( FindNextNode() ) != ITK_NULLPTR )
     {
     return true;
     }
@@ -104,13 +104,13 @@ template< typename TTreeType >
 const typename RootTreeIterator< TTreeType >::TreeNodeType *
 RootTreeIterator< TTreeType >::FindNextNode() const
 {
-  if ( this->m_Position == NULL )
+  if ( this->m_Position == ITK_NULLPTR )
     {
-    return NULL;
+    return ITK_NULLPTR;
     }
   if ( this->m_Position == this->m_Root )
     {
-    return NULL;
+    return ITK_NULLPTR;
     }
   return this->m_Position->GetParent();
 }

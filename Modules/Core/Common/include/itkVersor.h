@@ -271,7 +271,7 @@ private:
     }
   static inline ValueType Epsilon()
     {
-      return Epsilon((ValueType *)0);
+      return Epsilon((ValueType *)ITK_NULLPTR);
     }
 
   /** Component parallel to x axis.  */

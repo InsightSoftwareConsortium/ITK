@@ -106,7 +106,7 @@ public:
       }
     else
       {
-      return NULL;
+      return ITK_NULLPTR;
       }
   }
 

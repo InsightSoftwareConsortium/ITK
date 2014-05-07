@@ -62,19 +62,19 @@ public:
   itkTypeMacro(XMLFileOutputWindow, FileOutputWindow);
 
   /** Send a string to the XML file. */
-  virtual void DisplayText(const char *);
+  virtual void DisplayText(const char *) ITK_OVERRIDE;
 
   /** Send an error string to the XML file. */
-  virtual void DisplayErrorText(const char *);
+  virtual void DisplayErrorText(const char *) ITK_OVERRIDE;
 
   /** Send a warning string to the XML file. */
-  virtual void DisplayWarningText(const char *);
+  virtual void DisplayWarningText(const char *) ITK_OVERRIDE;
 
   /** Send a generic output string to the XML file. */
-  virtual void DisplayGenericOutputText(const char *);
+  virtual void DisplayGenericOutputText(const char *) ITK_OVERRIDE;
 
   /** Send a debug string to the XML file. */
-  virtual void DisplayDebugText(const char *);
+  virtual void DisplayDebugText(const char *) ITK_OVERRIDE;
 
   /**  Put the text into the log file without processing it. */
   virtual void DisplayTag(const char *);
@@ -82,7 +82,7 @@ public:
 protected:
   XMLFileOutputWindow();
   virtual ~XMLFileOutputWindow();
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   void Initialize();
 

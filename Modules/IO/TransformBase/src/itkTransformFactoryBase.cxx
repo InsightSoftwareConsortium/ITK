@@ -55,7 +55,7 @@
 
 namespace itk
 {
-TransformFactoryBase *TransformFactoryBase:: m_Factory = 0;
+TransformFactoryBase *TransformFactoryBase:: m_Factory = ITK_NULLPTR;
 
 namespace TransformFactoryBasePrivate
 {

@@ -34,7 +34,7 @@
 
 namespace itk
 {
-OutputWindow::Pointer OutputWindow:: m_Instance = 0;
+OutputWindow::Pointer OutputWindow:: m_Instance = ITK_NULLPTR;
 
 /**
  * Prompting off by default

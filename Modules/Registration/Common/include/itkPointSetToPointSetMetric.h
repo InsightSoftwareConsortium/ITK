@@ -114,7 +114,7 @@ public:
   void SetTransformParameters(const ParametersType & parameters) const;
 
   /** Return the number of parameters required by the Transform */
-  unsigned int GetNumberOfParameters(void) const
+  virtual unsigned int GetNumberOfParameters(void) const ITK_OVERRIDE
   { return m_Transform->GetNumberOfParameters(); }
 
   /** Initialize the Metric by making sure that all the components
@@ -125,7 +125,7 @@ public:
 protected:
   PointSetToPointSetMetric();
   virtual ~PointSetToPointSetMetric() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   FixedPointSetConstPointer m_FixedPointSet;
 

@@ -55,13 +55,13 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::CreateAnother(void) const
 
 template <typename TMoving, typename TFixed>
 FiniteDifferenceFunctionLoad<TMoving, TFixed>::FiniteDifferenceFunctionLoad() :
-  m_MovingImage(NULL),
-  m_FixedImage(NULL),
+  m_MovingImage(ITK_NULLPTR),
+  m_FixedImage(ITK_NULLPTR),
   m_NumberOfIntegrationPoints(0),
   m_SolutionIndex(1),
   m_SolutionIndex2(0),
   m_Gamma(NumericTraits< Float >::Zero),
-  m_Solution(NULL),
+  m_Solution(ITK_NULLPTR),
   m_GradSigma(0.0f),
   m_Sign(1.0f),
   m_WhichMetric(0.0f)
@@ -145,7 +145,7 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::EvaluateMetricGivenSolution( Elem
 
 
   //ElementContainerType::Iterator elt;
-  if ( (el == NULL) || (el->Size() < 1) )
+  if ( (el == ITK_NULLPTR) || (el->Size() < 1) )
     {
     return 10.0;
     }
@@ -280,7 +280,7 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::Fe( FEMVectorType  Gpos )
   FieldIteratorType nD(m_MetricRadius, m_DisplacementField, m_DisplacementField->GetLargestPossibleRegion() );
   nD.SetLocation(oindex);
 
-  void* globalData = NULL;
+  void* globalData = ITK_NULLPTR;
   OutVec = m_DifferenceFunction->ComputeUpdate(nD, globalData);
   for( k = 0; k < ImageDimension; k++ )
     {

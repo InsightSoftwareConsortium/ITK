@@ -26,8 +26,8 @@ namespace itk
 template<typename TDomainPartitioner, typename TImageToImageMetric, typename TCorrelationMetric>
 CorrelationImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric, TCorrelationMetric>
 ::CorrelationImageToImageMetricv4GetValueAndDerivativeThreader() :
-  m_CorrelationMetricValueDerivativePerThreadVariables( NULL ),
-  m_CorrelationAssociate( NULL )
+  m_CorrelationMetricValueDerivativePerThreadVariables( ITK_NULLPTR ),
+  m_CorrelationAssociate( ITK_NULLPTR )
 {}
 
 
@@ -48,7 +48,7 @@ CorrelationImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner
 
   /* Store the casted pointer to avoid dynamic casting in tight loops. */
   this->m_CorrelationAssociate = dynamic_cast<TCorrelationMetric *>(this->m_Associate);
-  if( this->m_CorrelationAssociate == NULL )
+  if( this->m_CorrelationAssociate == ITK_NULLPTR )
     {
     itkExceptionMacro("Dynamic casting of associate pointer failed.");
     }

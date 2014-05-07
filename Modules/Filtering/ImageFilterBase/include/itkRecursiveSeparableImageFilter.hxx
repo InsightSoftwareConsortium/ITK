@@ -263,9 +263,9 @@ RecursiveSeparableImageFilter< TInputImage, TOutputImage >
 
   const unsigned int ln = region.GetSize()[this->m_Direction];
 
-  RealType *inps = 0;
-  RealType *outs = 0;
-  RealType *scratch = 0;
+  RealType *inps = ITK_NULLPTR;
+  RealType *outs = ITK_NULLPTR;
+  RealType *scratch = ITK_NULLPTR;
 
   try
     {

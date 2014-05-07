@@ -48,9 +48,9 @@ public:
   typedef SmartPointer<const Self> ConstPointer;
 
   /** Class methods used to interface with the registered factories. */
-  virtual const char * GetITKSourceVersion(void) const;
+  virtual const char * GetITKSourceVersion(void) const ITK_OVERRIDE;
 
-  virtual const char * GetDescription(void) const;
+  virtual const char * GetDescription(void) const ITK_OVERRIDE;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(FEMFactoryBase, ObjectFactoryBase);
@@ -64,13 +64,13 @@ public:
   /** Register this transform */
   static FEMFactoryBase * GetFactory()
   {
-    if( m_Factory == 0 )
+    if( m_Factory == ITK_NULLPTR )
       {
       m_CreationLock.Lock();
       //Need to make sure that during gaining access
       //to the lock that some other thread did not
       //initialize the singleton.
-      if( m_Factory == 0 )
+      if( m_Factory == ITK_NULLPTR )
         {
         // Make and register the factory
         FEMFactoryBase::Pointer p = FEMFactoryBase::New();

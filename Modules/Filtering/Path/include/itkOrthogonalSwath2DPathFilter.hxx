@@ -37,9 +37,9 @@ OrthogonalSwath2DPathFilter< TParametricPath, TSwathMeritImage >
   size[0] = 0;
   size[1] = 0;
   m_SwathSize = size;
-  m_StepValues  = NULL;
-  m_MeritValues = NULL;
-  m_OptimumStepsValues = NULL;
+  m_StepValues  = ITK_NULLPTR;
+  m_MeritValues = ITK_NULLPTR;
+  m_OptimumStepsValues = ITK_NULLPTR;
   m_FinalOffsetValues = OrthogonalCorrectionTableType::New();
 }
 

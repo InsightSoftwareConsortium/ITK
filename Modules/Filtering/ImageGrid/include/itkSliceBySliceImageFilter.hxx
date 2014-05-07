@@ -30,8 +30,8 @@ SliceBySliceImageFilter< TInputImage, TOutputImage, TInputFilter, TOutputFilter,
                          TInternalOutputImageType >
 ::SliceBySliceImageFilter()
 {
-  m_InputFilter = NULL;
-  m_OutputFilter = NULL;
+  m_InputFilter = ITK_NULLPTR;
+  m_OutputFilter = ITK_NULLPTR;
   this->m_Dimension = ImageDimension - 1;
   m_SliceIndex = 0;
 }
@@ -113,7 +113,7 @@ SliceBySliceImageFilter< TInputImage, TOutputImage, TInputFilter, TOutputFilter,
 {
   OutputFilterType *outputFilter = dynamic_cast< OutputFilterType * >( filter );
 
-  if ( outputFilter == NULL && filter != NULL )
+  if ( outputFilter == ITK_NULLPTR && filter != ITK_NULLPTR )
     {
     // TODO: can it be replaced by a concept check ?
     itkExceptionMacro(

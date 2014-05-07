@@ -54,8 +54,8 @@ PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
   m_ManualReinitialization  = false;
   m_State                   = UNINITIALIZED;
 
-  m_InputImage  = 0;
-  m_OutputImage = 0;
+  m_InputImage  = ITK_NULLPTR;
+  m_OutputImage = ITK_NULLPTR;
 }
 
 template <typename TInputImage, typename TOutputImage>
@@ -249,7 +249,7 @@ PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
 {
   const typename Self::Pointer thisPtr = const_cast< Self* >(this);
   // cache input image, if it has not yet been set.
-  if(thisPtr->m_InputImage == 0)
+  if(thisPtr->m_InputImage == ITK_NULLPTR)
     {
     thisPtr->m_InputImage = this->GetInput();
     }

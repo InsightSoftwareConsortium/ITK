@@ -528,7 +528,7 @@ MatrixOffsetTransformBase<TScalar, NInputDimensions, NOutputDimensions>
 {
   Pointer inv = New();
 
-  return GetInverse(inv) ? inv.GetPointer() : NULL;
+  return GetInverse(inv) ? inv.GetPointer() : ITK_NULLPTR;
 }
 
 // Get fixed parameters

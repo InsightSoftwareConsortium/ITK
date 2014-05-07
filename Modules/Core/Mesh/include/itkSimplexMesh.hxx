@@ -288,7 +288,7 @@ typename SimplexMesh< TPixelType, VDimension, TMeshTraits >::NeighborListType *
 SimplexMesh< TPixelType, VDimension, TMeshTraits >
 ::GetNeighbors(PointIdentifier idx, unsigned int radius, NeighborListType *list) const
 {
-  if ( list == NULL )
+  if ( list == ITK_NULLPTR )
     {
     list = new NeighborListType();
     IndexArray neighborArray = GetNeighbors(idx);

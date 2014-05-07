@@ -73,13 +73,13 @@ public:
   /** Return true if the object is evaluable at the requested point,
    *  and else otherwise. */
   bool IsEvaluableAt(const PointType & point,
-                     unsigned int depth = 0, char *name = NULL) const;
+                     unsigned int depth = 0, char *name = ITK_NULLPTR) const;
 
   /** Returns the value of the Mesh at the requested point.
    *  If the point is not inside the object, then an exception is thrown.
    * \sa ExceptionObject */
   bool ValueAt(const PointType & point, double & value,
-               unsigned int depth = 0, char *name = NULL) const;
+               unsigned int depth = 0, char *name = ITK_NULLPTR) const;
 
   /** Returns true if the point is inside, false otherwise. */
   bool IsInside(const PointType & point,

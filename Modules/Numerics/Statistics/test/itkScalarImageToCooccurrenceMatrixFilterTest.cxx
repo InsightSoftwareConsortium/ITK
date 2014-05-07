@@ -115,14 +115,14 @@ int itkScalarImageToCooccurrenceMatrixFilterTest(int, char* [] )
 
     filter->ResetPipeline();
 
-    if ( filter->GetInput() != NULL )
+    if ( filter->GetInput() != ITK_NULLPTR )
       {
       std::cerr << "GetInput() should return NULL since the input is\
                     not set yet " << std::endl;
       passed = false;
       }
 
-    if ( filter->GetMaskImage() != NULL )
+    if ( filter->GetMaskImage() != ITK_NULLPTR )
       {
       std::cerr << "GetMaskImage() should return NULL since the mask image is\
                     not set yet " << std::endl;
@@ -132,7 +132,7 @@ int itkScalarImageToCooccurrenceMatrixFilterTest(int, char* [] )
 
     //Invoke update with a NULL input. An exception should be
     //thrown.
-    filter->SetInput( NULL );
+    filter->SetInput( ITK_NULLPTR );
     try
       {
       filter->Update();
@@ -147,7 +147,7 @@ int itkScalarImageToCooccurrenceMatrixFilterTest(int, char* [] )
 
     filter->ResetPipeline();
 
-    if ( filter->GetInput() != NULL )
+    if ( filter->GetInput() != ITK_NULLPTR )
       {
       passed = false;
       }

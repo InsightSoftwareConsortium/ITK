@@ -34,7 +34,7 @@ ImageClassifierFilter< TSample, TInputImage, TOutputImage >
   this->SetNumberOfRequiredOutputs(1);
 
   /** Initialize decision rule */
-  m_DecisionRule = NULL;
+  m_DecisionRule = ITK_NULLPTR;
 
   m_NumberOfClasses = 0;
 }
@@ -143,7 +143,7 @@ ImageClassifierFilter< TSample, TInputImage, TOutputImage >
     }
 
   MembershipFunctionsWeightsArrayType membershipFunctionsWeightsArray;
-  if ( membershipFunctionsWeightsArrayDecorated == NULL )
+  if ( membershipFunctionsWeightsArrayDecorated == ITK_NULLPTR )
     {
     // no weights array is set and hence all membership functions will have
     // equal

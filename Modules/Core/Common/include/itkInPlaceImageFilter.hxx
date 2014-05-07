@@ -85,7 +85,7 @@ InPlaceImageFilter< TInputImage, TOutputImage >
   // additionally the buffered and requested regions of the input and
   // output must match.
   bool rMatch = true;
-  if( inputPtr != NULL && (unsigned int)InputImageDimension == (unsigned int)OutputImageDimension )
+  if( inputPtr != ITK_NULLPTR && (unsigned int)InputImageDimension == (unsigned int)OutputImageDimension )
     {
     for( unsigned int i=0; i<(unsigned int)InputImageDimension; i++ )
       {
@@ -103,7 +103,7 @@ InPlaceImageFilter< TInputImage, TOutputImage >
     {
     rMatch = false;
     }
-  if ( inputPtr != NULL &&
+  if ( inputPtr != ITK_NULLPTR &&
        this->GetInPlace() &&
        this->CanRunInPlace() &&
        rMatch )
@@ -111,7 +111,7 @@ InPlaceImageFilter< TInputImage, TOutputImage >
     // Graft this first input to the output.  Later, we'll need to
     // remove the input's hold on the bulk data.
     //
-    OutputImagePointer inputAsOutput = NULL;
+    OutputImagePointer inputAsOutput = ITK_NULLPTR;
     if ( IsSame<TInputImage, TOutputImage>() )
       {
       inputAsOutput = reinterpret_cast<TOutputImage *>( const_cast< TInputImage * >( inputPtr ) );

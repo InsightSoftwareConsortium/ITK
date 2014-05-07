@@ -26,7 +26,7 @@ template <typename TSample>
 SubsamplerBase<TSample>
 ::SubsamplerBase()
 {
-  m_Sample = NULL;
+  m_Sample = ITK_NULLPTR;
   m_RequestMaximumNumberOfResults = true;
   m_CanSelectQuery = true;
   m_Seed =  0;

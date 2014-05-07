@@ -56,7 +56,7 @@ public:
   typedef Superclass::ParametersType ParametersType;
   typedef Superclass::ScalesType     ScalesType;
 
-  virtual void StartOptimization(bool doOnlyInitialization = false);
+  virtual void StartOptimization(bool doOnlyInitialization = false) ITK_OVERRIDE;
 
   /** Set the metric (cost function). This method has to be overloaded
    *  by derived classes because the CostFunctionAdaptor requires
@@ -91,7 +91,7 @@ protected:
   CostFunctionAdaptorType * GetNonConstCostFunctionAdaptor(void) const;
 
   /** Print out internal state */
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   /** The purpose of this method is to get around the lack of iteration reporting

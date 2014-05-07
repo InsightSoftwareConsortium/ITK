@@ -30,7 +30,7 @@ LevelOrderTreeIterator< TTreeType >
 {
   m_StartLevel =  -1;
   m_EndLevel = endLevel;
-  if ( start != NULL )
+  if ( start != ITK_NULLPTR )
     {
     m_Queue.push(start);
     this->m_Position = const_cast< TreeNodeType * >( start );
@@ -54,7 +54,7 @@ LevelOrderTreeIterator< TTreeType >
 {
   m_StartLevel = startLevel;
   m_EndLevel = endLevel;
-  if ( start != NULL )
+  if ( start != ITK_NULLPTR )
     {
     m_Queue.push(start);
     this->m_Position = const_cast< TreeNodeType * >( start );
@@ -125,14 +125,14 @@ LevelOrderTreeIterator< TTreeType >::FindNextNode() const
   do
     {
     node = FindNextNodeHelp();
-    if ( node == NULL )
+    if ( node == ITK_NULLPTR )
       {
-      return NULL;
+      return ITK_NULLPTR;
       }
     level = GetLevel(node);
     if ( level > m_EndLevel )
       {
-      return NULL;
+      return ITK_NULLPTR;
       }
     }
   while ( level < m_StartLevel );
@@ -145,7 +145,7 @@ template< typename TTreeType >
 int
 LevelOrderTreeIterator< TTreeType >::GetLevel() const
 {
-  if ( this->m_Position == NULL )
+  if ( this->m_Position == ITK_NULLPTR )
     {
     return -1;
     }
@@ -165,7 +165,7 @@ template< typename TTreeType >
 int
 LevelOrderTreeIterator< TTreeType >::GetLevel(const TreeNodeType *node) const
 {
-  if ( node == NULL )
+  if ( node == ITK_NULLPTR )
     {
     return -1;
     }
@@ -186,15 +186,15 @@ LevelOrderTreeIterator< TTreeType >::FindNextNodeHelp() const
 {
   if ( m_Queue.empty() )
     {
-    return NULL;
+    return ITK_NULLPTR;
     }
 
   const TreeNodeType *currentNode = m_Queue.front();
   m_Queue.pop();
 
-  if ( currentNode == NULL )
+  if ( currentNode == ITK_NULLPTR )
     {
-    return NULL;
+    return ITK_NULLPTR;
     }
 
   int size = currentNode->CountChildren();
@@ -202,7 +202,7 @@ LevelOrderTreeIterator< TTreeType >::FindNextNodeHelp() const
   for ( int i = 0; i < size; i++ )
     {
     TreeNodeType *child = dynamic_cast< TreeNodeType * >( currentNode->GetChild(i) );
-    if ( child != NULL )
+    if ( child != ITK_NULLPTR )
       {
       m_Queue.push(child);
       }

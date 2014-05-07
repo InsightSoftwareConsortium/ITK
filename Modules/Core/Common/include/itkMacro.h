@@ -118,6 +118,23 @@ namespace itk
   #endif
 #endif
 
+#if __cplusplus >= 201103L
+// In c++11 the override keyword allows you to explicity define that a function
+// is intended to override the base-class version.  This makes the code more
+// managable and fixes a set of common hard-to-find bugs.
+#define ITK_OVERRIDE override
+// In c++11 there is an explicit nullptr type that introduces a new keyword to
+// serve as a distinguished null pointer constant: nullptr. It is of type
+// nullptr_t, which is implicitly convertible and comparable to any pointer type
+// or pointer-to-member type. It is not implicitly convertible or comparable to
+// integral types, except for bool.
+#define ITK_NULLPTR  nullptr
+#else
+#define ITK_OVERRIDE
+#define ITK_NULLPTR  NULL
+#endif
+
+
 /** Define two object creation methods.  The first method, New(),
  * creates an object from a class, potentially deferring to a factory.
  * The second method, CreateAnother(), creates an object from an
@@ -147,7 +164,7 @@ namespace itk
   static Pointer New(void)                                     \
     {                                                          \
     Pointer smartPtr = ::itk::ObjectFactory< x >::Create();    \
-    if ( smartPtr.GetPointer() == NULL )                       \
+    if ( smartPtr.GetPointer() == ITK_NULLPTR )                \
       {                                                        \
       smartPtr = new x;                                        \
       }                                                        \
@@ -156,7 +173,7 @@ namespace itk
     }
 
 #define itkCreateAnotherMacro(x)                               \
-  virtual::itk::LightObject::Pointer CreateAnother(void) const \
+  virtual::itk::LightObject::Pointer CreateAnother(void) const ITK_OVERRIDE \
     {                                                          \
     ::itk::LightObject::Pointer smartPtr;                      \
     smartPtr = x::New().GetPointer();                          \
@@ -196,7 +213,7 @@ namespace itk
     rawPtr->UnRegister();                                      \
     return smartPtr;                                           \
     }                                                          \
-  virtual::itk::LightObject::Pointer CreateAnother(void) const \
+  virtual::itk::LightObject::Pointer CreateAnother(void) const ITK_OVERRIDE \
     {                                                          \
     ::itk::LightObject::Pointer smartPtr;                      \
     smartPtr = x::New().GetPointer();                          \
@@ -779,7 +796,7 @@ TTarget itkDynamicCastInDebugMode(TSource x)
     const DecoratorType *input =                                     \
       static_cast< const DecoratorType * >(                          \
         this->ProcessObject::GetInput(#name) );                      \
-    if( input == NULL )                                              \
+    if( input == ITK_NULLPTR )                                       \
       {                                                              \
       itkExceptionMacro(<<"input" #name " is not set");              \
       }                                                              \
@@ -840,7 +857,7 @@ TTarget itkDynamicCastInDebugMode(TSource x)
     const DecoratorType *input =                                     \
       static_cast< const DecoratorType * >(                          \
         this->ProcessObject::GetInput(#name) );                      \
-    if( input == NULL )                                              \
+    if( input == ITK_NULLPTR )                                       \
       {                                                              \
       itkExceptionMacro(<<"input" #name " is not set");              \
       }                                                              \

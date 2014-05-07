@@ -133,7 +133,7 @@ public:
 protected:
   LevelSetNeighborhoodExtractor();
   ~LevelSetNeighborhoodExtractor(){}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   typename LevelSetImageType::PixelType GetLargeValue() const
   { return m_LargeValue; }
@@ -145,7 +145,7 @@ protected:
 
   virtual double CalculateDistance(IndexType & index);
 
-  void GenerateData();
+  virtual void GenerateData() ITK_OVERRIDE;
 
   bool GetLastPointIsInside() const
   { return m_LastPointIsInside; }

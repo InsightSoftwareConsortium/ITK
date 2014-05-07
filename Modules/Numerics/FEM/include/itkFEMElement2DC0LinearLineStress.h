@@ -48,7 +48,7 @@ public:
 
   /** CreateAnother method will clone the existing instance of this type,
    * including its internal member variables. */
-  virtual::itk::LightObject::Pointer CreateAnother(void) const;
+  virtual::itk::LightObject::Pointer CreateAnother(void) const ITK_OVERRIDE;
 
   /**
    * Default constructor only clears the internal storage
@@ -65,10 +65,10 @@ public:
    * Consistent mass matrix for a line element.
    * See any finite element book for Consistent mass matrix definition.
    */
-  virtual void GetMassMatrix(MatrixType & Me) const;
+  virtual void GetMassMatrix(MatrixType & Me) const ITK_OVERRIDE;
 
 protected:
-  virtual void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
 };  // class Element2DC0LinearLineStress
 

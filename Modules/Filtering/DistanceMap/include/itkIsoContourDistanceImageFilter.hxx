@@ -37,7 +37,7 @@ IsoContourDistanceImageFilter< TInputImage, TOutputImage >
   m_FarValue = 10 * NumericTraits< PixelType >::One;
 
   m_NarrowBanding = false;
-  m_NarrowBand = NULL;
+  m_NarrowBand = ITK_NULLPTR;
 
   m_Barrier = Barrier::New();
 }

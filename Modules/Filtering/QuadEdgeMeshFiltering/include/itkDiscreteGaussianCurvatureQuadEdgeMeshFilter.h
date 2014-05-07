@@ -85,7 +85,7 @@ protected:
 
     OutputQEType *qe = iP.GetEdge();
 
-    if ( qe != 0 )
+    if ( qe != ITK_NULLPTR )
       {
       OutputQEType *qe_it = qe;
       OutputQEType *qe_it2;

@@ -45,42 +45,42 @@ public:
   itkNewMacro(Self);
 
   // Pure virtual functions that all Metrics must provide
-  unsigned int GetNumberOfParameters() const { return 5; }
+  virtual unsigned int GetNumberOfParameters() const ITK_OVERRIDE { return 5; }
 
-  MeasureType GetValue() const
+  virtual MeasureType GetValue() const ITK_OVERRIDE
   {
     this->m_Value = 1.0;
     return this->m_Value;
   }
 
-  virtual void GetDerivative( DerivativeType & derivative ) const
+  virtual void GetDerivative( DerivativeType & derivative ) const ITK_OVERRIDE
   {
     derivative.Fill(0.0);
   }
 
-  void GetValueAndDerivative( MeasureType & value, DerivativeType & derivative ) const
+  virtual void GetValueAndDerivative( MeasureType & value, DerivativeType & derivative ) const ITK_OVERRIDE
   {
     value = 1.0; derivative.Fill(0.0);
   }
 
-  unsigned int GetNumberOfLocalParameters() const
+  virtual unsigned int GetNumberOfLocalParameters() const ITK_OVERRIDE
   { return 0; }
 
-  void UpdateTransformParameters( const DerivativeType &, ParametersValueType ) {}
+  virtual void UpdateTransformParameters( const DerivativeType &, ParametersValueType ) ITK_OVERRIDE {}
 
-  const ParametersType & GetParameters() const
+  virtual const ParametersType & GetParameters() const ITK_OVERRIDE
   { return m_Parameters; }
 
-  virtual bool HasLocalSupport() const
+  virtual bool HasLocalSupport() const ITK_OVERRIDE
     { return false; }
 
-  void SetParameters( ParametersType & )
+  virtual void SetParameters( ParametersType & ) ITK_OVERRIDE
   {
   }
 
-  void Initialize(void) throw ( itk::ExceptionObject ) {}
+  virtual void Initialize(void) throw ( itk::ExceptionObject ) ITK_OVERRIDE {}
 
-  void PrintSelf(std::ostream& os, itk::Indent indent) const
+  virtual void PrintSelf(std::ostream& os, itk::Indent indent) const ITK_OVERRIDE
   { Superclass::PrintSelf( os, indent ); }
 
   ParametersType  m_Parameters;

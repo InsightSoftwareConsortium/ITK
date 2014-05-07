@@ -182,14 +182,14 @@ int TestDriverInvokeProcess( const ArgumentsList & args )
     {
     argv[i] = args[i];
     }
-  argv[args.size()] = NULL;
+  argv[args.size()] = ITK_NULLPTR;
 
   itksysProcess *process = itksysProcess_New();
   itksysProcess_SetCommand(process, argv);
   itksysProcess_SetPipeShared(process, itksysProcess_Pipe_STDOUT, true);
   itksysProcess_SetPipeShared(process, itksysProcess_Pipe_STDERR, true);
   itksysProcess_Execute(process);
-  itksysProcess_WaitForExit(process, NULL);
+  itksysProcess_WaitForExit(process, ITK_NULLPTR);
 
   delete[] argv;
 

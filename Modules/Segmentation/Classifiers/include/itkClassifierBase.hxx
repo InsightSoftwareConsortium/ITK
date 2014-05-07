@@ -28,7 +28,7 @@ ClassifierBase< TDataContainer >
 ::ClassifierBase()
 {
   m_NumberOfClasses = 0;
-  m_DecisionRule = 0;
+  m_DecisionRule = ITK_NULLPTR;
   m_MembershipFunctions.resize(0);
 }
 

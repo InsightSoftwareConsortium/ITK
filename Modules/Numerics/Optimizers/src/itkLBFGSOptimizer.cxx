@@ -29,7 +29,7 @@ LBFGSOptimizer
 ::LBFGSOptimizer()
 {
   m_OptimizerInitialized    = false;
-  m_VnlOptimizer            = 0;
+  m_VnlOptimizer            = ITK_NULLPTR;
   m_Trace                              = false;
   m_MaximumNumberOfFunctionEvaluations = 2000;
   m_GradientConvergenceTolerance       = 1e-5;

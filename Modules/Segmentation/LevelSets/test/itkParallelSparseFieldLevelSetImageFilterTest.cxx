@@ -145,7 +145,7 @@ private:
     const NeighborhoodType& neighborhood,
     const FloatOffsetType &,
     GlobalDataStruct *
-    ) const
+    ) const ITK_OVERRIDE
   {
     ::itk::Index<3> idx = neighborhood.GetIndex();
     return m_DistanceTransform->GetPixel(idx);
@@ -179,7 +179,7 @@ public:
   void SetDistanceTransform(::itk::Image<float, 3> *im)
   {
   MorphFunction *func = dynamic_cast<MorphFunction *>( this->GetDifferenceFunction().GetPointer());
-  if( func == 0 )
+  if( func == ITK_NULLPTR )
     {
     itkGenericExceptionMacro("MorphFunction cast failed");
     }
@@ -202,7 +202,7 @@ protected:
 private:
   unsigned int m_Iterations;
 
-  virtual bool Halt()
+  virtual bool Halt() ITK_OVERRIDE
   {
     if (this->GetElapsedIterations() == m_Iterations) return true;
     else return false;

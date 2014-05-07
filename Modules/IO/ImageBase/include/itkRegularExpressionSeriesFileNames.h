@@ -115,7 +115,7 @@ protected:
     m_RegularExpression(".*\\.([0-9]+)")
   {}
   ~RegularExpressionSeriesFileNames() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   RegularExpressionSeriesFileNames(const Self &); //purposely not implemented

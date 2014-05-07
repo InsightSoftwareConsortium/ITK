@@ -31,7 +31,7 @@ QuadEdgeMeshTopologyChecker< TMesh >
   m_ExpectedNumberOfFaces = NumericTraits< CellIdentifier >::Zero;
   m_ExpectedNumberOfBoundaries = NumericTraits< CellIdentifier >::Zero;
   m_ExpectedGenus = NumericTraits< OffsetValueType >::Zero;
-  m_Mesh = NULL;
+  m_Mesh = ITK_NULLPTR;
 }
 
 template< typename TMesh >

@@ -107,7 +107,7 @@ public:
   {
     if ( idx >= VAuxDimension )
       {
-      return NULL;
+      return ITK_NULLPTR;
       }
     else
       {

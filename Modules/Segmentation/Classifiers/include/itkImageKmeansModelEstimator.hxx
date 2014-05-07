@@ -620,7 +620,7 @@ ImageKmeansModelEstimator< TInputImage, TMembershipFunction >
 
   for ( i = 0; i < m_VectorDimension; i++ )
     {
-    srand( (unsigned)time(NULL) );
+    srand( (unsigned)time(ITK_NULLPTR) );
     rand_num = ( rand() ) / ( (double)RAND_MAX );
 
     if ( oldCodeword[i] == 0.0 )

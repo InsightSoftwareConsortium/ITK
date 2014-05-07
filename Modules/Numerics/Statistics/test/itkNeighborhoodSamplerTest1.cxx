@@ -40,14 +40,14 @@ int itkNeighborhoodSamplerTest1(int, char* [] )
   FilterType::Pointer filter = FilterType::New();
 
   // Test GetInput() before setting the input
-  if( filter->GetInput() != NULL )
+  if( filter->GetInput() != ITK_NULLPTR )
     {
     std::cerr << "GetInput() should have returned NULL" << std::endl;
     return EXIT_FAILURE;
     }
 
   // Test GetOutput() before creating the output
-  if( filter->GetOutput() == NULL )
+  if( filter->GetOutput() == ITK_NULLPTR )
     {
     std::cerr << "GetOutput() should have returned NON-NULL" << std::endl;
     return EXIT_FAILURE;
@@ -71,7 +71,7 @@ int itkNeighborhoodSamplerTest1(int, char* [] )
   const InputRadiusObjectType * recoveredRadiusObject =
     filter->GetRadiusInput();
 
-  if( recoveredRadiusObject == NULL )
+  if( recoveredRadiusObject == ITK_NULLPTR )
     {
     std::cerr << "GetRadiusInput() returned NULL object." << std::endl;
     return EXIT_FAILURE;
@@ -87,7 +87,7 @@ int itkNeighborhoodSamplerTest1(int, char* [] )
 
   recoveredRadiusObject = filter->GetRadiusInput();
 
-  if( recoveredRadiusObject == NULL )
+  if( recoveredRadiusObject == ITK_NULLPTR )
     {
     std::cerr << "GetRadiusInput() returned NULL object." << std::endl;
     return EXIT_FAILURE;
@@ -145,7 +145,7 @@ int itkNeighborhoodSamplerTest1(int, char* [] )
   //
   // Testing exception cases in the GenerateData() method.
   //
-  filter->SetRadiusInput( NULL );
+  filter->SetRadiusInput( ITK_NULLPTR );
 
   std::cout << "GetRadiusInput() =  " <<  filter->GetRadiusInput() << std::endl;
 

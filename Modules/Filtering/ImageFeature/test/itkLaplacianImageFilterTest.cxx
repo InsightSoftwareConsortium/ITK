@@ -51,7 +51,7 @@ int itkLaplacianImageFilterTest(int , char * [] )
 
       // verify the fix for Bug: 788
       // The following code should throw an exception and not crash.
-      filter->SetInput(NULL);
+      filter->SetInput(ITK_NULLPTR);
       bool exceptionSeen = false;
       try
         {

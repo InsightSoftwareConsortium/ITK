@@ -74,7 +74,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
   this->m_NumberOfSkippedFixedSampledPoints = 0;
 
   this->m_Value = NumericTraits<MeasureType>::max();
-  this->m_DerivativeResult = NULL;
+  this->m_DerivativeResult = ITK_NULLPTR;
   this->m_ComputeDerivative = false;
 }
 
@@ -161,13 +161,13 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
   if( ! this->m_UseFixedImageGradientFilter )
     {
     itkDebugMacro("Initialize FixedImageGradientCalculator");
-    this->m_FixedImageGradientImage = NULL;
+    this->m_FixedImageGradientImage = ITK_NULLPTR;
     this->m_FixedImageGradientCalculator->SetInputImage(this->m_FixedImage);
     }
   if( ! this->m_UseMovingImageGradientFilter )
     {
     itkDebugMacro("Initialize MovingImageGradientCalculator");
-    this->m_MovingImageGradientImage = NULL;
+    this->m_MovingImageGradientImage = ITK_NULLPTR;
     this->m_MovingImageGradientCalculator->SetInputImage(this->m_MovingImage);
     }
 
@@ -599,7 +599,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
      << indent << "UseFloatingPointCorrection: " << this->GetUseFloatingPointCorrection() << std::endl
      << indent << "FloatingPointCorrectionResolution: " << this->GetFloatingPointCorrectionResolution() << std::endl;
 
-  if( this->GetFixedImage() != NULL )
+  if( this->GetFixedImage() != ITK_NULLPTR )
     {
     os << indent << "FixedImage: " << this->GetFixedImage() << std::endl;
     }
@@ -607,7 +607,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
     {
     os << indent << "FixedImage is NULL." << std::endl;
     }
-  if( this->GetMovingImage() != NULL )
+  if( this->GetMovingImage() != ITK_NULLPTR )
     {
     os << indent << "MovingImage: " << this->GetMovingImage() << std::endl;
     }
@@ -615,7 +615,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
     {
     os << indent << "MovingImage is NULL." << std::endl;
     }
-  if( this->GetFixedTransform() != NULL )
+  if( this->GetFixedTransform() != ITK_NULLPTR )
     {
     os << indent << "FixedTransform: " << this->GetFixedTransform() << std::endl;
     }
@@ -623,7 +623,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
     {
     os << indent << "FixedTransform is NULL." << std::endl;
     }
-  if( this->GetMovingTransform() != NULL )
+  if( this->GetMovingTransform() != ITK_NULLPTR )
     {
     os << indent << "MovingTransform: " << this->GetMovingTransform() << std::endl;
     }
@@ -631,7 +631,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
     {
     os << indent << "MovingTransform is NULL." << std::endl;
     }
-  if( this->GetFixedImageMask() != NULL )
+  if( this->GetFixedImageMask() != ITK_NULLPTR )
     {
     os << indent << "FixedImageMask: " << this->GetFixedImageMask() << std::endl;
     }
@@ -639,7 +639,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
     {
     os << indent << "FixedImageMask is NULL." << std::endl;
     }
-  if( this->GetMovingImageMask() != NULL )
+  if( this->GetMovingImageMask() != ITK_NULLPTR )
     {
     os << indent << "MovingImageMask: " << this->GetMovingImageMask() << std::endl;
     }

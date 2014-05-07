@@ -105,7 +105,7 @@ public:
   * column headers, if any, into std::vectors of strings and parses the numeric
   * data into an Array2D object. The vectors and the Array2D object are part of
   * the Array2DDataFrameobject. */
-  void Parse();
+  virtual void Parse() ITK_OVERRIDE;
 
   /** Aliased to the Parse() method to be consistent with the rest of the
    * pipeline. */
@@ -121,7 +121,7 @@ protected:
   virtual ~CSVArray2DFileReader () {}
 
   /** Print the reader. */
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
 

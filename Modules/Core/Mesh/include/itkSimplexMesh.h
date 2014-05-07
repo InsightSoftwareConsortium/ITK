@@ -170,7 +170,7 @@ public:
   /**
    * Get all neighbor points with a specified radius
    */
-  NeighborListType * GetNeighbors(PointIdentifier pointId, unsigned int radius, NeighborListType *list = NULL) const;
+  NeighborListType * GetNeighbors(PointIdentifier pointId, unsigned int radius, NeighborListType *list = ITK_NULLPTR) const;
 
   /**
    * Add a neighbor to a point.

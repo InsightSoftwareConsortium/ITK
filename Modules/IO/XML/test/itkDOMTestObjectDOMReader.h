@@ -47,7 +47,7 @@ protected:
    * This function is called automatically when update functions are performed.
    * It should fill the contents of the output object by pulling information from the intermediate DOM object.
    */
-  virtual void GenerateData( const DOMNodeType* inputdom, const void* );
+  virtual void GenerateData( const DOMNodeType* inputdom, const void* ) ITK_OVERRIDE;
 
 private:
   DOMTestObjectDOMReader(const Self &); //purposely not implemented
@@ -58,7 +58,7 @@ inline void
 DOMTestObjectDOMReader::GenerateData( const DOMNodeType* inputdom, const void* )
 {
   OutputType* output = this->GetOutput();
-  if ( output == NULL )
+  if ( output == ITK_NULLPTR )
     {
     OutputType::Pointer object = OutputType::New();
     output = (OutputType*)object;
@@ -75,7 +75,7 @@ DOMTestObjectDOMReader::GenerateData( const DOMNodeType* inputdom, const void* )
 
   // read child foo
   const DOMNodeType* foo = inputdom->GetChild( "foo" );
-  if ( foo == NULL )
+  if ( foo == ITK_NULLPTR )
     {
     itkExceptionMacro( "child foo not found" );
     }

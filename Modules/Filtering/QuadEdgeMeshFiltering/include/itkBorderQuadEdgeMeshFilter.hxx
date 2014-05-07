@@ -56,7 +56,7 @@ void
 BorderQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 ::ComputeBoundary()
 {
-  InputQEType *bdryEdge = NULL;
+  InputQEType *bdryEdge = ITK_NULLPTR;
 
   switch( m_BorderPick )
     {

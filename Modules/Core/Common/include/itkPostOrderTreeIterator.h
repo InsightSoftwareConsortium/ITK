@@ -63,16 +63,16 @@ protected:
 /** Constructor */
 template< typename TTreeType >
 PostOrderTreeIterator< TTreeType >::PostOrderTreeIterator(TTreeType *tree):
-  TreeIteratorBase< TTreeType >(tree, NULL)
+  TreeIteratorBase< TTreeType >(tree, ITK_NULLPTR)
 {
-  if ( tree->GetRoot() == 0 )
+  if ( tree->GetRoot() == ITK_NULLPTR )
     {
-    this->m_Begin = 0;
+    this->m_Begin = ITK_NULLPTR;
     }
   else
     {
     const TreeNodeType *root = dynamic_cast<const TreeNodeType *>(tree->GetRoot());
-    if(root == 0)
+    if(root == ITK_NULLPTR)
       {
       itkGenericExceptionMacro(<< "Can't downcast root node to TreeNodeType *");
       }
@@ -95,7 +95,7 @@ template< typename TTreeType >
 bool
 PostOrderTreeIterator< TTreeType >::HasNext() const
 {
-  if ( const_cast< TreeNodeType * >( FindNextNode() ) != NULL )
+  if ( const_cast< TreeNodeType * >( FindNextNode() ) != ITK_NULLPTR )
     {
     return true;
     }
@@ -116,22 +116,22 @@ template< typename TTreeType >
 const typename PostOrderTreeIterator< TTreeType >::TreeNodeType *
 PostOrderTreeIterator< TTreeType >::FindNextNode() const
 {
-  if ( this->m_Position == NULL || this->m_Position == this->m_Root )
+  if ( this->m_Position == ITK_NULLPTR || this->m_Position == this->m_Root )
     {
-    return NULL;
+    return ITK_NULLPTR;
     }
   TreeNodeType *sister = const_cast< TreeNodeType * >( FindSister(this->m_Position) );
 
-  if ( sister != NULL )
+  if ( sister != ITK_NULLPTR )
     {
     return FindMostRightLeaf(sister);
     }
-  if(this->m_Position->GetParent() == 0)
+  if(this->m_Position->GetParent() == ITK_NULLPTR)
     {
-    return 0;
+    return ITK_NULLPTR;
     }
   TreeNodeType *rval = dynamic_cast<TreeNodeType *>(this->m_Position->GetParent());
-  if(rval == 0)
+  if(rval == ITK_NULLPTR)
     {
       itkGenericExceptionMacro(<< "Can't downcast to TreeNodeType *");
     }
@@ -145,11 +145,11 @@ PostOrderTreeIterator< TTreeType >::FindSister(TreeNodeType *node) const
 {
   if ( !node->HasParent() )
     {
-    return NULL;
+    return ITK_NULLPTR;
     }
 
   TreeNodeType *parent = dynamic_cast<TreeNodeType *>(node->GetParent());
-  if(parent == 0)
+  if(parent == ITK_NULLPTR)
     {
     itkGenericExceptionMacro(<< "Can't downcast to TreeNodeType *");
     }
@@ -159,21 +159,21 @@ PostOrderTreeIterator< TTreeType >::FindSister(TreeNodeType *node) const
 
   while ( childPosition < lastChildPosition )
     {
-    if(parent->GetChild(childPosition + 1) == 0)
+    if(parent->GetChild(childPosition + 1) == ITK_NULLPTR)
       {
       childPosition++;
       }
     else
       {
       TreeNodeType *sister = dynamic_cast<TreeNodeType *>(parent->GetChild(childPosition + 1));
-      if ( sister == 0)
+      if ( sister == ITK_NULLPTR)
       {
       itkGenericExceptionMacro(<< "Can't downcast to TreeNodeType *");
       }
       return sister;
       }
     }
-  return NULL;
+  return ITK_NULLPTR;
 }
 
 /** Find the most right leaf */
@@ -189,23 +189,23 @@ PostOrderTreeIterator< TTreeType >::FindMostRightLeaf(TreeNodeType *node) const
 
     do
       {
-      if(node->GetChild(i) == 0)
+      if(node->GetChild(i) == ITK_NULLPTR)
         {
-        helpNode = 0;
+        helpNode = ITK_NULLPTR;
         }
       else
         {
         helpNode = dynamic_cast<TreeNodeType *>(node->GetChild(i));
-       if(helpNode == 0)
+       if(helpNode == ITK_NULLPTR)
           {
           itkGenericExceptionMacro(<< "Can't downcast to TreeNodeType *");
           }
         }
       i++;
       }
-    while ( helpNode == NULL && i < childCount );
+    while ( helpNode == ITK_NULLPTR && i < childCount );
 
-    if ( helpNode == NULL )
+    if ( helpNode == ITK_NULLPTR )
       {
       return node;
       }

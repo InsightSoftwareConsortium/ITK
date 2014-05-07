@@ -104,7 +104,7 @@ void TIFFReaderInternal::Clean()
     {
     TIFFClose(this->m_Image);
     }
-  this->m_Image = NULL;
+  this->m_Image = ITK_NULLPTR;
   this->m_Width = 0;
   this->m_Height = 0;
   this->m_SamplesPerPixel = 0;
@@ -133,7 +133,7 @@ void TIFFReaderInternal::Clean()
 
 TIFFReaderInternal::TIFFReaderInternal()
 {
-  this->m_Image           = NULL;
+  this->m_Image           = ITK_NULLPTR;
   this->Clean();
 }
 
@@ -291,7 +291,7 @@ bool TIFFImageIO::CanReadFile(const char *file)
     }
 
   // Now check if this is a valid TIFF image
-  TIFFErrorHandler save = TIFFSetErrorHandler(0);
+  TIFFErrorHandler save = TIFFSetErrorHandler(ITK_NULLPTR);
   int              res = m_InternalImage->Open(file);
   if ( res )
     {
@@ -1500,9 +1500,9 @@ void TIFFImageIO::PrintSelf(std::ostream & os, Indent indent) const
 
 void TIFFImageIO::InitializeColors()
 {
-  m_ColorRed    = 0;
-  m_ColorGreen  = 0;
-  m_ColorBlue   = 0;
+  m_ColorRed    = ITK_NULLPTR;
+  m_ColorGreen  = ITK_NULLPTR;
+  m_ColorBlue   = ITK_NULLPTR;
   m_TotalColors = -1;
   m_ImageFormat = TIFFImageIO::NOFORMAT;
 }
@@ -2014,7 +2014,7 @@ bool TIFFImageIO::CanFindTIFFTag(unsigned int t)
 
   const itkTIFFField *fld = TIFFFieldWithTag(m_InternalImage->m_Image, tag);
 
-  if ( fld == NULL )
+  if ( fld == ITK_NULLPTR )
     {
     return false;
     }
@@ -2029,18 +2029,18 @@ void * TIFFImageIO::ReadRawByteFromTag(unsigned int t, unsigned int & value_coun
     itkExceptionMacro(<< "Need to call CanReadFile before");
     }
   ttag_t           tag = t;
-  void *           raw_data = NULL;
+  void *           raw_data = ITK_NULLPTR;
 
   const itkTIFFField *fld = TIFFFieldWithTag(m_InternalImage->m_Image, tag);
 
-  if ( fld == NULL )
+  if ( fld == ITK_NULLPTR )
     {
     itkExceptionMacro(<< "fld is NULL");
     }
 
   if ( !itkTIFFFieldPassCount( fld ) )
     {
-    return NULL;
+    return ITK_NULLPTR;
     }
 
   int ret = 0;

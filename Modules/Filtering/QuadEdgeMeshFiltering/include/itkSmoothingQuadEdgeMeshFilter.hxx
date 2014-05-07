@@ -26,7 +26,7 @@ template< typename TInputMesh, typename TOutputMesh >
 SmoothingQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 ::SmoothingQuadEdgeMeshFilter()
 {
-  this->m_CoefficientsMethod = 0;
+  this->m_CoefficientsMethod = ITK_NULLPTR;
   this->m_DelaunayConforming = false;
   this->m_NumberOfIterations = 1;
   this->m_RelaxationFactor = static_cast< OutputCoordType >( 1.0 );
@@ -98,7 +98,7 @@ void SmoothingQuadEdgeMeshFilter< TInputMesh, TOutputMesh >::GenerateData()
       {
       p = it.Value();
       qe = p.GetEdge();
-      if ( qe != 0 )
+      if ( qe != ITK_NULLPTR )
         {
         r = p;
         v.Fill(0.0);

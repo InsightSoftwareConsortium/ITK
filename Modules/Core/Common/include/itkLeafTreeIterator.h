@@ -84,7 +84,7 @@ LeafTreeIterator< TTreeType >::LeafTreeIterator(const TTreeType *tree):
 /** Constructor */
 template< typename TTreeType >
 LeafTreeIterator< TTreeType >::LeafTreeIterator(TTreeType *tree):
-  TreeIteratorBase< TTreeType >(tree, NULL)
+  TreeIteratorBase< TTreeType >(tree, ITK_NULLPTR)
 {
   this->m_Begin = const_cast< TreeNodeType * >( this->FindNextNode() ); //
                                                                         //
@@ -115,11 +115,11 @@ LeafTreeIterator< TTreeType >::GetType() const
 template< typename TTreeType >
 bool LeafTreeIterator< TTreeType >::HasNext() const
 {
-  if ( this->m_Position == NULL )
+  if ( this->m_Position == ITK_NULLPTR )
     {
     return false;
     }
-  if ( const_cast< TreeNodeType * >( FindNextNode() ) != NULL )
+  if ( const_cast< TreeNodeType * >( FindNextNode() ) != ITK_NULLPTR )
     {
     return true;
     }
@@ -145,7 +145,7 @@ LeafTreeIterator< TTreeType >::FindNextNode() const
   ++it; // go next
   if ( it.IsAtEnd() )
     {
-    return NULL;
+    return ITK_NULLPTR;
     }
 
   if ( !it.HasChild() )
@@ -162,7 +162,7 @@ LeafTreeIterator< TTreeType >::FindNextNode() const
     ++it;
     }
 
-  return NULL;
+  return ITK_NULLPTR;
 }
 
 /** Clone function */

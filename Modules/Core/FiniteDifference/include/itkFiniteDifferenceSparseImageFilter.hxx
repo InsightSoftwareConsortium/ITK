@@ -26,7 +26,7 @@ template< typename TInputImageType, typename TSparseOutputImageType >
 FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
 ::FiniteDifferenceSparseImageFilter()
 {
-  m_SparseFunction = 0;
+  m_SparseFunction = ITK_NULLPTR;
   m_PrecomputeFlag = false;
 }
 

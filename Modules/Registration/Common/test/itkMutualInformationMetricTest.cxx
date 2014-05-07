@@ -254,7 +254,7 @@ int itkMutualInformationMetricTest(int, char* [] )
 
   std::cout << "Try causing a exception by making fixed image NULL";
   std::cout << std::endl;
-  metric->SetFixedImage( NULL );
+  metric->SetFixedImage( ITK_NULLPTR );
   try
     {
     metric->Initialize();

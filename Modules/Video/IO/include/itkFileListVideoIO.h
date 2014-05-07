@@ -50,7 +50,7 @@ public:
   itkTypeMacro(FileListVideoIO, Superclass);
 
   /** Close the reader and writer and reset members */
-  virtual void FinishReadingOrWriting();
+  virtual void FinishReadingOrWriting() ITK_OVERRIDE;
 
   /** Split up the input file names -- This is public so that places where
    * FileListVideoIO is used can access the individual file names. This is
@@ -60,27 +60,27 @@ public:
   /*-------- This part of the interface deals with reading data. ------ */
 
   /** Set to reading from file */
-  virtual void SetReadFromFile();
+  virtual void SetReadFromFile() ITK_OVERRIDE;
 
   /** Set to reading from a camera */
-  virtual void SetReadFromCamera();
+  virtual void SetReadFromCamera() ITK_OVERRIDE;
 
   /** Determine the file type. Returns true if this ImageIO can read the
    * file specified. */
-  virtual bool CanReadFile(const char *);
+  virtual bool CanReadFile(const char *) ITK_OVERRIDE;
 
   /** Return whether or not the VideoIO can read from a camera */
-  virtual bool CanReadCamera( CameraIDType cameraID )const;
+  virtual bool CanReadCamera( CameraIDType cameraID )const ITK_OVERRIDE;
 
   /** Set the spacing and dimension information for the set filename. */
-  virtual void ReadImageInformation();
+  virtual void ReadImageInformation() ITK_OVERRIDE;
 
   /** Reads the data from disk into the memory buffer provided. */
-  virtual void Read(void *buffer);
+  virtual void Read(void *buffer) ITK_OVERRIDE;
 
   /** Set the next frame that should be read. Return true if you operation
    * successful */
-  virtual bool SetNextFrameToRead(FrameOffsetType frameNumber);
+  virtual bool SetNextFrameToRead(FrameOffsetType frameNumber) ITK_OVERRIDE;
 
   /** Accessor functions for video specific information */
   itkGetConstMacro(PositionInMSec,TemporalOffsetType);
@@ -92,42 +92,42 @@ public:
   itkGetConstMacro(LastIFrame,FrameOffsetType);
 
   /** Override SetFileName to do parsing */
-  virtual void SetFileName(const std::string& fileList);
-  virtual void SetFileName(const char* fileList);
+  virtual void SetFileName(const std::string& fileList) ITK_OVERRIDE;
+  virtual void SetFileName(const char* fileList) ITK_OVERRIDE;
 
   /** Override Accessors to pass through to internal image reader */
-  virtual double GetSpacing(unsigned int i) const;
+  virtual double GetSpacing(unsigned int i) const ITK_OVERRIDE;
 
-  virtual double GetOrigin(unsigned int i) const;
+  virtual double GetOrigin(unsigned int i) const ITK_OVERRIDE;
 
-  virtual std::vector< double > GetDirection(unsigned int i) const;
+  virtual std::vector< double > GetDirection(unsigned int i) const ITK_OVERRIDE;
 
   /*-------- This part of the interfaces deals with writing data. ----- */
 
   /** Determine the file type. Returns true if this ImageIO can write the
    * file specified. */
-  virtual bool CanWriteFile(const char *);
+  virtual bool CanWriteFile(const char *) ITK_OVERRIDE;
 
   /** Writes the spacing and dimensions of the image.
    * Assumes SetFileName has been called with a valid file name. */
-  virtual void WriteImageInformation();
+  virtual void WriteImageInformation() ITK_OVERRIDE;
 
   /** Writes the data to disk from the memory buffer provided. Make sure
    * that the IORegion has been set properly. */
-  virtual void Write(const void *buffer);
+  virtual void Write(const void *buffer) ITK_OVERRIDE;
 
   /** Set Writer Parameters */
   virtual void SetWriterParameters( TemporalRatioType framesPerSecond,
                                     const std::vector<SizeValueType>& dim,
                                     const char* fourCC,
                                     unsigned int nChannels,
-                                    IOComponentType componentType );
+                                    IOComponentType componentType ) ITK_OVERRIDE;
 
 protected:
   FileListVideoIO();
   ~FileListVideoIO();
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Reset member variables to empty state closed */
   void ResetMembers();

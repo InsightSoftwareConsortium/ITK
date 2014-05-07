@@ -23,7 +23,7 @@ namespace itk
 /** Constructor */
 StdStreamLogOutput::StdStreamLogOutput()
 {
-  this->m_Stream = 0;
+  this->m_Stream = ITK_NULLPTR;
 }
 
 /** Destructor */

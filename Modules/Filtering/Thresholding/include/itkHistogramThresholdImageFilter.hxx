@@ -38,7 +38,7 @@ HistogramThresholdImageFilter<TInputImage, TOutputImage, TMaskImage>
   m_InsideValue    = NumericTraits<OutputPixelType>::max();
   m_Threshold      = NumericTraits<InputPixelType>::Zero;
   m_MaskValue      = NumericTraits<MaskPixelType>::max();
-  m_Calculator     = NULL;
+  m_Calculator     = ITK_NULLPTR;
   m_MaskOutput     = true;
 
   if( typeid(ValueType) == typeid(signed char)
@@ -134,7 +134,7 @@ HistogramThresholdImageFilter<TInputImage, TOutputImage, TMaskImage>
     this->GraftOutput( thresholder->GetOutput() );
     }
   m_Threshold = m_Calculator->GetThreshold();
-  m_Calculator->SetInput( NULL );
+  m_Calculator->SetInput( ITK_NULLPTR );
 }
 
 template<typename TInputImage, typename TOutputImage, typename TMaskImage>

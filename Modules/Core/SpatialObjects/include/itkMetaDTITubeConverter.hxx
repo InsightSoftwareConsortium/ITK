@@ -43,7 +43,7 @@ MetaDTITubeConverter< NDimensions >
 ::MetaObjectToSpatialObject(const MetaObjectType *mo)
 {
   const MetaDTITube *tube = dynamic_cast<const MetaDTITube *>(mo);
-  if(tube == 0)
+  if(tube == ITK_NULLPTR)
     {
     itkExceptionMacro(<< "Can't downcast MetaObject to MetaDTITube");
     }

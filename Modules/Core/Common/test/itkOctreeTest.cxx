@@ -47,7 +47,7 @@ int itkOctreeTest(int, char *[])
   img->SetBufferedRegion(region);
   img->SetRequestedRegion(region);
   img->Allocate();
-  srand( (unsigned)time( NULL) );
+  srand( (unsigned)time( ITK_NULLPTR) );
   itk::ImageRegionIterator<ImageType> ri(img,region);
   try
     {

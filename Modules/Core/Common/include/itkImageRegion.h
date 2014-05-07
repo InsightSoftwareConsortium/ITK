@@ -104,7 +104,7 @@ public:
   typedef ImageRegion< itkGetStaticConstMacro(SliceDimension) > SliceRegion;
 
   /** Return the region type. Images are described with structured regions. */
-  virtual typename Superclass::RegionType GetRegionType() const
+  virtual typename Superclass::RegionType GetRegionType() const ITK_OVERRIDE
   { return Superclass::ITK_STRUCTURED_REGION; }
 
   /** Constructor. ImageRegion is a lightweight object that is not reference
@@ -308,7 +308,7 @@ protected:
    * including superclasses. Typically not called by the user (use Print()
    * instead) but used in the hierarchical print process to combine the
    * output of several classes.  */
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   IndexType m_Index;

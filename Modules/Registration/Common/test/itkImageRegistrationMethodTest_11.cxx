@@ -122,12 +122,12 @@ int itkImageRegistrationMethodTest_11(int, char* [] )
   //
   //  Now verify that they can be set to NULL
   //
-  MetricType::Pointer         metric3        = NULL;
-  TransformType::Pointer      transform3     = NULL;
-  OptimizerType::Pointer      optimizer3     = NULL;
-  FixedImageType::Pointer     fixedImage3    = NULL;
-  MovingImageType::Pointer    movingImage3   = NULL;
-  InterpolatorType::Pointer   interpolator3  = NULL;
+  MetricType::Pointer         metric3        = ITK_NULLPTR;
+  TransformType::Pointer      transform3     = ITK_NULLPTR;
+  OptimizerType::Pointer      optimizer3     = ITK_NULLPTR;
+  FixedImageType::Pointer     fixedImage3    = ITK_NULLPTR;
+  MovingImageType::Pointer    movingImage3   = ITK_NULLPTR;
+  InterpolatorType::Pointer   interpolator3  = ITK_NULLPTR;
 
 
   registration->SetMetric(        metric3        );

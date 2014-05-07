@@ -49,7 +49,7 @@ public:
 
   /** Constructor.  */
   WeakPointer ()
-  { m_Pointer = 0; }
+  { m_Pointer = ITK_NULLPTR; }
 
   /** Copy constructor.  */
   WeakPointer (const WeakPointer< ObjectType > & p):m_Pointer(p.m_Pointer) {}
@@ -59,7 +59,7 @@ public:
 
   /** Destructor.  */
   ~WeakPointer ()
-  { m_Pointer = 0; }
+  { m_Pointer = ITK_NULLPTR; }
 
   /** Overload operator ->.  */
   ObjectType * operator->() const

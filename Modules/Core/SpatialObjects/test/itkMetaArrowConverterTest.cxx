@@ -117,7 +117,7 @@ int itkMetaArrowConverterTest(int ac, char* av[])
   // test itk to metaArrow
   //
   MetaArrow* newMetaArrow = dynamic_cast<MetaArrow *>(converter->SpatialObjectToMetaObject(itkArrow));
-  if(newMetaArrow == 0)
+  if(newMetaArrow == ITK_NULLPTR)
     {
     itkGenericExceptionMacro(<< "Failed to downcast from MetaObject to MetaArrow");
     }

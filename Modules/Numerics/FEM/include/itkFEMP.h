@@ -75,7 +75,7 @@ public:
       }
     else
       {
-      m_Data = 0;
+      m_Data = ITK_NULLPTR;
       }
   }
 
@@ -94,7 +94,7 @@ public:
    */
   ~FEMP()
   {
-    m_Data = 0;
+    m_Data = ITK_NULLPTR;
   }
 
   /**
@@ -145,7 +145,7 @@ const FEMP<T> & FEMP<T>::operator=(const FEMP<T> & rhs)
     /**
      * First destroy the existing object on the left hand side
      */
-    m_Data = 0;
+    m_Data = ITK_NULLPTR;
 
     /**
      * Then clone the one on the right hand side
@@ -162,7 +162,7 @@ const FEMP<T> & FEMP<T>::operator=(const FEMP<T> & rhs)
       }
     else
       {
-      m_Data = 0;
+      m_Data = ITK_NULLPTR;
       }
     }
   return *this;

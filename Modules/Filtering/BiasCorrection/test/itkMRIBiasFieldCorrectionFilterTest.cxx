@@ -206,9 +206,9 @@ int itkMRIBiasFieldCorrectionFilterTest ( int , char* [] )
   filter->SetInitialBiasFieldCoefficients(initCoefficients); //default value is all zero
 
   //timing
-  long int t1 = time(NULL);
+  long int t1 = time(ITK_NULLPTR);
   filter->Update();
-  long int t2 = time(NULL);
+  long int t2 = time(ITK_NULLPTR);
   std::cout << "Run time (in s)" << t2-t1  << std::endl;
 
   sumOfError = 0.0;
@@ -262,9 +262,9 @@ int itkMRIBiasFieldCorrectionFilterTest ( int , char* [] )
   filter->SetVolumeCorrectionMaximumIteration( 200 ); // default value = 100
   filter->SetInterSliceCorrectionMaximumIteration( 100 ); // default value = 100
   //filter->SetOptimizerInitialRadius( 0.02 ); // default value
-  t1 = time(NULL);
+  t1 = time(ITK_NULLPTR);
   filter->Update();
-  t2 = time(NULL);
+  t2 = time(ITK_NULLPTR);
   std::cout << "Run time (in s)" << t2-t1  << std::endl;
 
   sumOfError = 0.0;
@@ -301,9 +301,9 @@ int itkMRIBiasFieldCorrectionFilterTest ( int , char* [] )
   filter->SetVolumeCorrectionMaximumIteration( 200 ); // default value = 100
   filter->SetInterSliceCorrectionMaximumIteration( 100 ); // default value = 100
   //filter->SetOptimizerInitialRadius( 0.02 ); // default value
-  t1 = time(NULL);
+  t1 = time(ITK_NULLPTR);
   filter->Update();
-  t2 = time(NULL);
+  t2 = time(ITK_NULLPTR);
   std::cout << "Run time (in s)" << t2-t1  << std::endl;
 
   sumOfError = 0.0;
@@ -338,9 +338,9 @@ int itkMRIBiasFieldCorrectionFilterTest ( int , char* [] )
   filter->SetVolumeCorrectionMaximumIteration( 200 ); // default value = 100
   filter->SetInterSliceCorrectionMaximumIteration( 100 ); // default value = 100
   filter->SetInitialBiasFieldCoefficients(initCoefficients);
-  t1 = time(NULL);
+  t1 = time(ITK_NULLPTR);
   filter->Update();
-  t2 = time(NULL);
+  t2 = time(ITK_NULLPTR);
   std::cout << "Run time (in s)" << t2-t1  << std::endl;
 
   sumOfError = 0.0;
@@ -370,9 +370,9 @@ int itkMRIBiasFieldCorrectionFilterTest ( int , char* [] )
   filter->SetInitialBiasFieldCoefficients(initCoefficients);
   filter->SetVolumeCorrectionMaximumIteration( 2000 ); // default value = 100
   filter->SetInterSliceCorrectionMaximumIteration( 100 ); // default value = 100
-  t1 = time(NULL);
+  t1 = time(ITK_NULLPTR);
   filter->Update();
-  t2 = time(NULL);
+  t2 = time(ITK_NULLPTR);
   std::cout << "Run time (in s)" << t2-t1  << std::endl;
 
   double sumOfErrorFinal = 0.0;

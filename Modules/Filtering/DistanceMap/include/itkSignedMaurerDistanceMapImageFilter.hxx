@@ -38,7 +38,7 @@ SignedMaurerDistanceMapImageFilter< TInputImage, TOutputImage >
   m_InsideIsPositive(false),
   m_UseImageSpacing(true),
   m_SquaredDistance(false),
-  m_InputCache(NULL)
+  m_InputCache(ITK_NULLPTR)
 {}
 
 template< typename TInputImage, typename TOutputImage >

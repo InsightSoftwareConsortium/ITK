@@ -25,7 +25,7 @@ namespace fem
 void LinearSystemWrapperDenseVNL::InitializeMatrix(unsigned int matrixIndex)
 {
   // allocate if necessary
-  if( m_Matrices == 0 )
+  if( m_Matrices == ITK_NULLPTR )
     {
     m_Matrices = new MatrixHolder(m_NumberOfMatrices);
     }
@@ -56,14 +56,14 @@ void LinearSystemWrapperDenseVNL::DestroyMatrix(unsigned int matrixIndex)
   if( m_Matrices )
     {
     delete ( *m_Matrices )[matrixIndex];
-    ( *m_Matrices )[matrixIndex] = 0;
+    ( *m_Matrices )[matrixIndex] = ITK_NULLPTR;
     }
 }
 
 void LinearSystemWrapperDenseVNL::InitializeVector(unsigned int vectorIndex)
 {
   // allocate if necessary
-  if( m_Vectors == 0 )
+  if( m_Vectors == ITK_NULLPTR )
     {
     m_Vectors = new std::vector<vnl_vector<Float> *>(m_NumberOfVectors);
     }
@@ -94,14 +94,14 @@ void LinearSystemWrapperDenseVNL::DestroyVector(unsigned int vectorIndex)
   if( m_Vectors )
     {
     delete ( *m_Vectors )[vectorIndex];
-    ( *m_Vectors )[vectorIndex] = 0;
+    ( *m_Vectors )[vectorIndex] = ITK_NULLPTR;
     }
 }
 
 void LinearSystemWrapperDenseVNL::InitializeSolution(unsigned int solutionIndex)
 {
   // allocate if necessary
-  if( m_Solutions == 0 )
+  if( m_Solutions == ITK_NULLPTR )
     {
     m_Solutions = new std::vector<vnl_vector<Float> *>(m_NumberOfSolutions);
     }
@@ -132,14 +132,14 @@ void LinearSystemWrapperDenseVNL::DestroySolution(unsigned int solutionIndex)
   if( m_Solutions )
     {
     delete ( *m_Solutions )[solutionIndex];
-    ( *m_Solutions )[solutionIndex] = 0;
+    ( *m_Solutions )[solutionIndex] = ITK_NULLPTR;
     }
 }
 
 LinearSystemWrapperDenseVNL::Float LinearSystemWrapperDenseVNL::GetSolutionValue(unsigned int i,
                                                                                  unsigned int solutionIndex) const
 {
-  if( m_Solutions == 0 )
+  if( m_Solutions == ITK_NULLPTR )
     {
     return 0.0;
     }

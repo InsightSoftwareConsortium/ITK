@@ -65,48 +65,48 @@ public:
 // see super class for documentation
   //
   // overidden to return true only when supported
-  virtual bool CanStreamWrite(void);
+  virtual bool CanStreamWrite(void) ITK_OVERRIDE;
 
   // see super class for documentation
   //
   // overidden to return true only when supported
-  virtual bool CanStreamRead(void);
+  virtual bool CanStreamRead(void) ITK_OVERRIDE;
 
 
   /*-------- This part of the interface deals with reading data. ------ */
 
   /** Determine the file type. Returns true if this ImageIO can read the
    * file specified. */
-  virtual bool CanReadFile(const char *);
+  virtual bool CanReadFile(const char *) ITK_OVERRIDE;
 
   /** Set the spacing and dimesion information for the current filename. */
-  virtual void ReadImageInformation();
+  virtual void ReadImageInformation() ITK_OVERRIDE;
 
   /** Reads the data from disk into the memory buffer provided. */
-  virtual void Read(void *buffer);
+  virtual void Read(void *buffer) ITK_OVERRIDE;
 
   /*-------- This part of the interfaces deals with writing data. ----- */
 
   /** Determine the file type. Returns true if this ImageIO can read the
    * file specified. */
-  virtual bool CanWriteFile(const char *);
+  virtual bool CanWriteFile(const char *) ITK_OVERRIDE;
 
   /** Writes the spacing and dimensions of the image.
    * Assumes SetFileName has been called with a valid file name. */
-  virtual void WriteImageInformation() {}
+  virtual void WriteImageInformation() ITK_OVERRIDE {}
 
   /** Writes the data to disk from the memory buffer provided. Make sure
    * that the IORegion has been set properly. */
-  virtual void Write(const void *buffer);
+  virtual void Write(const void *buffer) ITK_OVERRIDE;
 
   /** returns the header size, if it is unknown it will return 0 */
-  virtual SizeType GetHeaderSize() const { return this->m_HeaderSize; }
+  virtual SizeType GetHeaderSize() const ITK_OVERRIDE { return this->m_HeaderSize; }
 
 protected:
   VTKImageIO();
   ~VTKImageIO();
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   void InternalReadImageInformation(std::ifstream & file);
 
@@ -117,12 +117,12 @@ protected:
   /** Convenient method to read a buffer as ASCII text. */
   virtual void ReadBufferAsASCII(std::istream & os, void *buffer,
                          IOComponentType ctype,
-                         SizeType numberOfBytesToBeRead);
+                         SizeType numberOfBytesToBeRead) ITK_OVERRIDE;
 
   /** Convenient method to write a buffer as ASCII text. */
   virtual void WriteBufferAsASCII(std::ostream & os, const void *buffer,
                           IOComponentType ctype,
-                          SizeType numberOfBytesToWrite);
+                          SizeType numberOfBytesToWrite) ITK_OVERRIDE;
 
   /** We have a special method to read symmetric second rank tensors because
    * the VTK file format expands the symmetry and only supports 3D tensors. */

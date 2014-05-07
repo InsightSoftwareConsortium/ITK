@@ -37,7 +37,7 @@ ImageFilterToVideoFilterWrapper()
   this->TemporalProcessObject::m_FrameSkipPerOutput = 1;
 
   // Initialize image filter to NULL
-  m_ImageFilter = NULL;
+  m_ImageFilter = ITK_NULLPTR;
 }
 
 //

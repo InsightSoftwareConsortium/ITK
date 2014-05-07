@@ -124,7 +124,7 @@ public:
 protected:
   MRASlabIdentifier();
   virtual ~MRASlabIdentifier() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   MRASlabIdentifier(const Self &); //purposely not implemented

@@ -129,7 +129,7 @@ ProcessObject
       // let the output know we no longer want to associate with the object
       it->second->DisconnectSource(this, it->first);
       // let go of our reference to the data object
-      it->second = 0;
+      it->second = ITK_NULLPTR;
       }
     }
 }
@@ -159,7 +159,7 @@ ProcessObject
 
       if (num < 1 )
         {
-        m_IndexedInputs[0]->second = NULL;
+        m_IndexedInputs[0]->second = ITK_NULLPTR;
         }
       }
     else
@@ -224,7 +224,7 @@ ProcessObject
   // if primary or required set to null
   if ( key ==  m_IndexedInputs[0]->first || this->IsRequiredInputName(key) )
     {
-    this->SetInput(key, NULL);
+    this->SetInput(key, ITK_NULLPTR);
     return;
     }
 
@@ -233,7 +233,7 @@ ProcessObject
     {
     if ( m_IndexedInputs[i]->first == key )
       {
-      this->SetNthInput(i, NULL);
+      this->SetNthInput(i, ITK_NULLPTR);
       if ( i == m_IndexedInputs.size() - 1 )
         {
         // remove the last indexed input
@@ -385,7 +385,7 @@ ProcessObject
   // if primary or required set to null
   if ( key == m_IndexedOutputs[0]->first )
     {
-    this->SetOutput( key, NULL );
+    this->SetOutput( key, ITK_NULLPTR );
     return;
     }
 
@@ -394,7 +394,7 @@ ProcessObject
     {
     if ( m_IndexedOutputs[i]->first == key )
       {
-      this->SetNthOutput(i, NULL);
+      this->SetNthOutput(i, ITK_NULLPTR);
       if ( i == m_IndexedOutputs.size() - 1 )
         {
         // remove the last indexed input
@@ -560,7 +560,7 @@ ProcessObject
 
       if (num < 1 )
         {
-        m_IndexedOutputs[0]->second = NULL;
+        m_IndexedOutputs[0]->second = ITK_NULLPTR;
         }
       }
     else
@@ -588,7 +588,7 @@ ProcessObject
   DataObjectPointerMap::iterator it = m_Outputs.find(key);
   if ( it == m_Outputs.end() )
     {
-    return NULL;
+    return ITK_NULLPTR;
     }
   return it->second.GetPointer();
 }
@@ -600,7 +600,7 @@ ProcessObject
   DataObjectPointerMap::const_iterator it = m_Outputs.find(key);
   if ( it == m_Outputs.end() )
     {
-    return NULL;
+    return ITK_NULLPTR;
     }
   return it->second.GetPointer();
 }
@@ -734,7 +734,7 @@ ProcessObject
     {
     return m_IndexedOutputs.size();
     }
-  return this->GetPrimaryOutput() != NULL;
+  return this->GetPrimaryOutput() != ITK_NULLPTR;
 }
 
 // ProcessObject::ConstDataObjectPointerArray
@@ -771,7 +771,7 @@ ProcessObject
   DataObjectPointerMap::iterator it = m_Inputs.find(key);
   if ( it == m_Inputs.end() )
     {
-    return NULL;
+    return ITK_NULLPTR;
     }
   return it->second.GetPointer();
 }
@@ -783,7 +783,7 @@ ProcessObject
   DataObjectPointerMap::const_iterator it = m_Inputs.find(key);
   if ( it == m_Inputs.end() )
     {
-    return NULL;
+    return ITK_NULLPTR;
     }
   return it->second.GetPointer();
 }
@@ -1006,7 +1006,7 @@ ProcessObject
     {
     return m_IndexedInputs.size();
     }
-  return this->GetPrimaryInput() != NULL;
+  return this->GetPrimaryInput() != ITK_NULLPTR;
 }
 
 // ProcessObject::ConstDataObjectPointerArray
@@ -1365,7 +1365,7 @@ ProcessObject
    */
   for( NameSet::const_iterator it = this->m_RequiredInputNames.begin(); it != this->m_RequiredInputNames.end(); ++it )
     {
-    if ( this->GetInput( *it ) == NULL )
+    if ( this->GetInput( *it ) == ITK_NULLPTR )
       {
       itkExceptionMacro(<< "Input " << *it << " is required but not set.");
       }
@@ -1377,7 +1377,7 @@ ProcessObject
   NameSet::const_iterator i = m_RequiredInputNames.begin();
   while (i != m_RequiredInputNames.end())
     {
-    if ( this->GetInput(*i) == NULL )
+    if ( this->GetInput(*i) == ITK_NULLPTR )
       {
       itkExceptionMacro( << "Required Input " << *i << "is not specified!"
                          << " The required inputs are expected to be the first inputs.");

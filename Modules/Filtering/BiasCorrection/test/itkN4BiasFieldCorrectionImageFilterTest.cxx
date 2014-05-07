@@ -36,12 +36,12 @@ protected:
 
 public:
 
-  void Execute(itk::Object *caller, const itk::EventObject & event)
+  virtual void Execute(itk::Object *caller, const itk::EventObject & event) ITK_OVERRIDE
     {
     Execute( (const itk::Object *) caller, event);
     }
 
-  void Execute(const itk::Object * object, const itk::EventObject & event)
+  virtual void Execute(const itk::Object * object, const itk::EventObject & event) ITK_OVERRIDE
     {
     const TFilter * filter =
       dynamic_cast< const TFilter * >( object );
@@ -132,7 +132,7 @@ int N4( int argc, char *argv[] )
 
   // handle the mask image
   typedef itk::Image<unsigned char, ImageDimension> MaskImageType;
-  typename MaskImageType::Pointer maskImage = NULL;
+  typename MaskImageType::Pointer maskImage = ITK_NULLPTR;
 
   if( argc > 6 )
     {
@@ -147,7 +147,7 @@ int N4( int argc, char *argv[] )
       }
     catch( ... )
       {
-      maskImage = NULL;
+      maskImage = ITK_NULLPTR;
       }
     }
 

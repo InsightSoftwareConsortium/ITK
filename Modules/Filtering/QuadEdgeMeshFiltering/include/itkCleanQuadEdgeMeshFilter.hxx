@@ -141,7 +141,7 @@ CleanQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
   while ( p_it != p_end )
     {
     id = p_it->Index();
-    if ( output->FindEdge(id) == 0 )
+    if ( output->FindEdge(id) == ITK_NULLPTR )
       {
       output->DeletePoint(id);
       }

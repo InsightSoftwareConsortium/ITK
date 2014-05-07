@@ -26,7 +26,7 @@ namespace itk
 /** Constructor */
 template< typename TValue >
 TreeNode< TValue >
-::TreeNode():m_Parent(NULL)
+::TreeNode():m_Parent(ITK_NULLPTR)
 {}
 
 /** Destructor */
@@ -43,10 +43,10 @@ TreeNode< TValue >
 
   for ( ChildIdentifier i = numberOfChildren; i > 0; i-- )
     {
-    m_Children[i - 1]->SetParent(NULL);
+    m_Children[i - 1]->SetParent(ITK_NULLPTR);
     }
   m_Children.clear();
-  m_Parent = NULL;
+  m_Parent = ITK_NULLPTR;
   m_Data = 0;
 }
 
@@ -73,7 +73,7 @@ TreeNode< TValue >
     }
   else
     {
-    return NULL;
+    return ITK_NULLPTR;
     }
 }
 
@@ -116,7 +116,7 @@ TreeNode< TValue >
   //keep ourself alive just a bit longer
   Pointer ourself = this;
 
-  if ( m_Parent != NULL )
+  if ( m_Parent != ITK_NULLPTR )
     {
     m_Parent->Remove(this);
     }
@@ -154,7 +154,7 @@ TreeNode< TValue >
     //keep node alive just a bit longer
     Pointer position = n;
     m_Children.erase(pos);
-    n->SetParent(NULL);
+    n->SetParent(ITK_NULLPTR);
     return true;
     }
   return false;
@@ -241,7 +241,7 @@ TreeNode< TValue >
     m_Children.resize(childId);
     for ( ChildIdentifier i = numberOfChildren; i <= childId; i++ )
       {
-      m_Children[i] = NULL;
+      m_Children[i] = ITK_NULLPTR;
       }
     m_Children[number] = node;
     return;
@@ -262,7 +262,7 @@ TreeNode< TValue >
   ChildIdentifier cnt = 0;
   while ( it != itEnd )
     {
-    if ( name == NULL || strstr(typeid( **it ).name(), name) )
+    if ( name == ITK_NULLPTR || strstr(typeid( **it ).name(), name) )
       {
       ++cnt;
       }
@@ -299,7 +299,7 @@ TreeNode< TValue >
 
   while ( childrenListIt != childrenListEnd )
     {
-    if ( name == NULL || strstr(typeid( **childrenListIt ).name(), name) )
+    if ( name == ITK_NULLPTR || strstr(typeid( **childrenListIt ).name(), name) )
       {
       children->push_back(*childrenListIt);
       }

@@ -192,7 +192,7 @@ PolygonGroupSpatialObjectXMLFileWriter::WriteFile()
 {
   //
   // sanity checks
-  if ( m_InputObject == 0 )
+  if ( m_InputObject == ITK_NULLPTR )
     {
     std::string errmsg("No PolygonGroup to Write");
     RAISE_EXCEPTION(errmsg);
@@ -247,7 +247,7 @@ PolygonGroupSpatialObjectXMLFileWriter::WriteFile()
   //
   // Write out polygondata
   PolygonGroupType::ChildrenListType *children =
-    m_InputObject->GetChildren(0, NULL);
+    m_InputObject->GetChildren(0, ITK_NULLPTR);
   PolygonGroupType::ChildrenListType::iterator it = children->begin();
   PolygonGroupType::ChildrenListType::iterator end = children->end();
   while ( it != end )

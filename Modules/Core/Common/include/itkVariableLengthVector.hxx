@@ -29,7 +29,7 @@ namespace itk
 template< typename TValue >
 VariableLengthVector< TValue >
 ::VariableLengthVector():m_LetArrayManageMemory(true),
-  m_Data(0),
+  m_Data(ITK_NULLPTR),
   m_NumElements(0)
 {}
 
@@ -38,7 +38,7 @@ template< typename TValue >
 VariableLengthVector< TValue >
 ::VariableLengthVector(unsigned int length):
   m_LetArrayManageMemory(true),
-  m_Data(0)
+  m_Data(ITK_NULLPTR)
 {
   Reserve(length);
 }
@@ -133,7 +133,7 @@ TValue *VariableLengthVector< TValue >
     }
   catch ( ... )
     {
-    data = 0;
+    data = ITK_NULLPTR;
     }
   if ( !data )
     {
@@ -197,7 +197,7 @@ void VariableLengthVector< TValue >
     // Free any existing data if we manage its memory.
   if ( !m_LetArrayManageMemory )
     {
-    m_Data = 0;
+    m_Data = ITK_NULLPTR;
     m_NumElements = 0;
     return;
     }
@@ -207,7 +207,7 @@ void VariableLengthVector< TValue >
     if ( m_NumElements > 0 )
       {
       delete[] m_Data;
-      m_Data = 0;
+      m_Data = ITK_NULLPTR;
       m_NumElements = 0;
       }
     }

@@ -31,7 +31,7 @@ DemonsImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TIm
 
   /* Store the casted pointer to avoid dynamic casting in tight loops. */
   this->m_DemonsAssociate = dynamic_cast<TDemonsMetric*>( this->m_Associate );
-  if( this->m_DemonsAssociate == NULL )
+  if( this->m_DemonsAssociate == ITK_NULLPTR )
     {
     itkExceptionMacro("Dynamic casting of associate pointer failed.");
     }

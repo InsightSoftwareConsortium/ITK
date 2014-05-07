@@ -62,16 +62,16 @@ public:
   void SetStream(StreamType & Stream);
 
   /** flush a buffer */
-  virtual void Flush();
+  virtual void Flush() ITK_OVERRIDE;
 
   /** Write to multiple outputs */
-  virtual void Write(double timestamp);
+  virtual void Write(double timestamp) ITK_OVERRIDE;
 
   /** Write to a buffer */
-  virtual void Write(std::string const & content);
+  virtual void Write(std::string const & content) ITK_OVERRIDE;
 
   /** Write to a buffer */
-  virtual void Write(std::string const & content, double timestamp);
+  virtual void Write(std::string const & content, double timestamp) ITK_OVERRIDE;
 
 protected:
   /** Constructor */
@@ -80,7 +80,7 @@ protected:
   /** Destructor */
   virtual ~StdStreamLogOutput();
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
 

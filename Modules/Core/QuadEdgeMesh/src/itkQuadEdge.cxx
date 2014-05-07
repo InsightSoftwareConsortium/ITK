@@ -24,15 +24,15 @@ QuadEdge
 ::QuadEdge()
 {
   this->m_Onext = this;
-  this->m_Rot   = NULL;
+  this->m_Rot   = ITK_NULLPTR;
 }
 
 // ---------------------------------------------------------------------
 QuadEdge
 ::~QuadEdge()
 {
-  this->m_Onext = NULL;
-  this->m_Rot   = NULL;
+  this->m_Onext = ITK_NULLPTR;
+  this->m_Rot   = ITK_NULLPTR;
 }
 
 // ---------------------------------------------------------------------
@@ -440,7 +440,7 @@ QuadEdge
     ConstIterator it = this->BeginOnext();
     while ( it != this->EndOnext() )
       {
-      if ( it.Value() == NULL )
+      if ( it.Value() == ITK_NULLPTR )
         {
         return false;
         }

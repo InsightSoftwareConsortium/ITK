@@ -34,7 +34,7 @@ NormalVariateGenerator::NormalVariateGenerator()
   m_TLEN  = ( 8 * m_LEN );
   m_Vec1 = new int[m_TLEN];
 
-  m_Gausssave = 0;
+  m_Gausssave = ITK_NULLPTR;
   this->Initialize(0);
 }
 
@@ -124,12 +124,12 @@ double NormalVariateGenerator::FastNorm(void)
   int    r;
   int    s;
   int    t;
-  int *  pa = 0;
-  int *  pb = 0;
-  int *  pc = 0;
-  int *  pd = 0;
+  int *  pa = ITK_NULLPTR;
+  int *  pb = ITK_NULLPTR;
+  int *  pc = ITK_NULLPTR;
+  int *  pd = ITK_NULLPTR;
   int *  pe;
-  int *  p0 = 0;
+  int *  p0 = ITK_NULLPTR;
   int    mtype;
   int    stype;
   double ts;

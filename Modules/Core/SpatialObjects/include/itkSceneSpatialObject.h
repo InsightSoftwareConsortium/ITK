@@ -71,12 +71,12 @@ public:
    *  \warning This function creates a new list therefore
    *  the user is responsible for the deletion of the list. */
   ObjectListType * GetObjects(unsigned int depth = MaximumDepth,
-                              char *name = NULL);
+                              char *name = ITK_NULLPTR);
 
   /** Returns the number of children currently assigned to
    *  the SceneSpatialObject object. */
   unsigned int GetNumberOfObjects(unsigned int depth = MaximumDepth,
-                                  char *name = NULL);
+                                  char *name = ITK_NULLPTR);
 
   /** Set the list of pointers to children to the list passed as
 * argument. */
@@ -84,7 +84,7 @@ public:
 
   /** Returns the latest modified time of all the objects contained
    *  in this SceneSpatialObject object. */
-  ModifiedTimeType GetMTime(void) const;
+  virtual ModifiedTimeType GetMTime(void) const ITK_OVERRIDE;
 
   /** Get/Set the ParentID */
   void SetParentId(int parentid) { m_ParentId = parentid; }
@@ -122,7 +122,7 @@ protected:
   virtual ~SceneSpatialObject();
 
   /** Print the object informations in a stream. */
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Parent ID : default = -1 */
   int m_ParentId;

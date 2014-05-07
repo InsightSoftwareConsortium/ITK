@@ -69,9 +69,9 @@ SlopeInterceptTest()
                          &(niftiImage->qoffset_x),
                          &(niftiImage->qoffset_y),
                          &(niftiImage->qoffset_z),
-                         0,
-                         0,
-                         0,
+                         ITK_NULLPTR,
+                         ITK_NULLPTR,
+                         ITK_NULLPTR,
                          &(niftiImage->qfac));
   niftiImage->data = malloc(sizeof(PixelType) * 256);
   for(unsigned i = 0; i < 256; i++)

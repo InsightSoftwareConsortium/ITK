@@ -26,8 +26,8 @@ namespace itk
 template<typename TDomainPartitioner, typename TImageToImageMetric, typename TCorrelationMetric>
 CorrelationImageToImageMetricv4HelperThreader< TDomainPartitioner, TImageToImageMetric, TCorrelationMetric>
 ::CorrelationImageToImageMetricv4HelperThreader() :
-  m_CorrelationMetricPerThreadVariables( NULL ),
-  m_CorrelationAssociate( NULL )
+  m_CorrelationMetricPerThreadVariables( ITK_NULLPTR ),
+  m_CorrelationAssociate( ITK_NULLPTR )
 {}
 
 

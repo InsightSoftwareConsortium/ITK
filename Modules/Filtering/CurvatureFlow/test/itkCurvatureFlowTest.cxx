@@ -67,7 +67,7 @@ public:
     { return 0; }
 
   virtual void *GetGlobalDataPointer() const
-    { return NULL; }
+    { return ITK_NULLPTR; }
 
   virtual void ReleaseGlobalDataPointer(void *) const {}
 
@@ -105,7 +105,7 @@ int itkCurvatureFlowTest(int argc, char* argv[] )
   std::cout << "Test error handling." << std::endl;
   typedef itk::CurvatureFlowImageFilter<ImageType,ImageType> FilterType;
   FilterType::Pointer filter = FilterType::New();
-  filter->SetInput( NULL );
+  filter->SetInput( ITK_NULLPTR );
 
   bool passed = false;
   try

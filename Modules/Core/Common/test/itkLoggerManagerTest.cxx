@@ -24,7 +24,7 @@
 class LogTester
 {
 public:
-  LogTester(){ this->m_Logger = NULL; }
+  LogTester(){ this->m_Logger = ITK_NULLPTR; }
   itk::Logger* GetLogger() { return m_Logger; }
   void SetLogger(itk::Logger* logger) { m_Logger = logger; }
   void log() {
@@ -103,12 +103,12 @@ int itkLoggerManagerTest( int argc, char *argv [] )
     std::cout << "  Message #3" << std::endl;
     itk::Logger* pLogger;
     pLogger = manager->GetLogger("org.itk.logTester.logger");
-    if( pLogger == NULL )
+    if( pLogger == ITK_NULLPTR )
     {
       throw "LoggerManager::GetLogger() failed";
     }
     pLogger->Write(itk::LoggerBase::INFO, "This is the message from the logger got from a LoggerManager");
-    if( manager->GetLogger("abc") != NULL )
+    if( manager->GetLogger("abc") != ITK_NULLPTR )
     {
       throw "LoggerManager::GetLogger() must return NULL";
     }

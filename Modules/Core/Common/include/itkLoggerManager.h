@@ -99,7 +99,7 @@ protected:
   virtual ~LoggerManager() {}
 
   /** Print contents of a LoggerManager */
-  void PrintSelf(std::ostream & s, Indent indent) const;
+  virtual void PrintSelf(std::ostream & s, Indent indent) const ITK_OVERRIDE;
 
 private:
 

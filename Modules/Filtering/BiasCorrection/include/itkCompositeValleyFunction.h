@@ -136,7 +136,7 @@ public:
   }
 
   /** Evalaute the function at point x.  */
-  inline MeasureType Evaluate(MeasureType x)
+  virtual inline MeasureType Evaluate(MeasureType x) ITK_OVERRIDE
   {
     MeasureType res = 1;
 

@@ -47,9 +47,9 @@ BSplineInterpolateImageFunction< TImageType, TCoordRep, TCoefficientType >
 ::BSplineInterpolateImageFunction()
 {
   m_NumberOfThreads = 1;
-  m_ThreadedEvaluateIndex = NULL;
-  m_ThreadedWeights = NULL;
-  m_ThreadedWeightsDerivative = NULL;
+  m_ThreadedEvaluateIndex = ITK_NULLPTR;
+  m_ThreadedWeights = ITK_NULLPTR;
+  m_ThreadedWeightsDerivative = ITK_NULLPTR;
 
   m_CoefficientFilter = CoefficientFilter::New();
   m_Coefficients = CoefficientImageType::New();
@@ -65,13 +65,13 @@ BSplineInterpolateImageFunction< TImageType, TCoordRep, TCoefficientType >
 ::~BSplineInterpolateImageFunction()
 {
   delete[] m_ThreadedEvaluateIndex;
-  m_ThreadedEvaluateIndex = NULL;
+  m_ThreadedEvaluateIndex = ITK_NULLPTR;
 
   delete[] m_ThreadedWeights;
-  m_ThreadedWeights = NULL;
+  m_ThreadedWeights = ITK_NULLPTR;
 
   delete[] m_ThreadedWeightsDerivative;
-  m_ThreadedWeightsDerivative = NULL;
+  m_ThreadedWeightsDerivative = ITK_NULLPTR;
 }
 
 /**
@@ -111,7 +111,7 @@ BSplineInterpolateImageFunction< TImageType, TCoordRep, TCoefficientType >
     }
   else
     {
-    m_Coefficients = NULL;
+    m_Coefficients = ITK_NULLPTR;
     }
 }
 

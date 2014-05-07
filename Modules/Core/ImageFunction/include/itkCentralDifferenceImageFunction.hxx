@@ -54,7 +54,7 @@ CentralDifferenceImageFunction< TInputImage, TCoordRep, TOutputType >
     // Verify the output vector is the right size.
     // OutputType of VariablelengthVector will have size 0 until allocated, so this
     // case can't be tested.
-    if( inputData != NULL )
+    if( inputData != ITK_NULLPTR )
     {
       SizeValueType nComponents = OutputConvertType::GetNumberOfComponents();
       if( nComponents > 0 )
@@ -81,7 +81,7 @@ CentralDifferenceImageFunction< TInputImage, TCoordRep, TOutputType >
   if ( interpolator != this->m_Interpolator )
     {
     this->m_Interpolator = interpolator;
-    if( this->GetInputImage() != NULL )
+    if( this->GetInputImage() != ITK_NULLPTR )
       {
       this->m_Interpolator->SetInputImage( this->GetInputImage() );
       }

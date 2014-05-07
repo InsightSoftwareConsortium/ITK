@@ -217,7 +217,7 @@ CenteredEuler3DTransform<TScalar>
 {
   Pointer inv = New();
 
-  return this->GetInverse(inv) ? inv.GetPointer() : NULL;
+  return this->GetInverse(inv) ? inv.GetPointer() : ITK_NULLPTR;
 }
 
 // Print self

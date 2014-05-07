@@ -36,7 +36,7 @@ SampleClassifierFilter< TSample >
   this->ProcessObject::SetNthOutput( 0, this->MakeOutput(0) );
 
   /** Initialize decision rule */
-  m_DecisionRule = NULL;
+  m_DecisionRule = ITK_NULLPTR;
 }
 
 template< typename TSample >
@@ -146,7 +146,7 @@ SampleClassifierFilter< TSample >
     }
 
   MembershipFunctionsWeightsArrayType membershipFunctionsWeightsArray;
-  if ( membershipFunctionsWeightsArrayDecorated == NULL )
+  if ( membershipFunctionsWeightsArrayDecorated == ITK_NULLPTR )
     {
     // no weights array is set and hence all membership functions will have
     // equal

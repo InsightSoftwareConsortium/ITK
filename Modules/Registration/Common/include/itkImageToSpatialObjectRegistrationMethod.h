@@ -174,11 +174,11 @@ public:
    * output. */
   typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  virtual DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx);
+  virtual DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) ITK_OVERRIDE;
 
   /** Method to return the latest modified time of this object or
    * any of its cached ivars */
-  ModifiedTimeType GetMTime() const;
+  virtual ModifiedTimeType GetMTime() const ITK_OVERRIDE;
 
 #ifdef ITKV3_COMPATIBILITY
   // StartRegistration is an old API from before
@@ -198,11 +198,11 @@ public:
 protected:
   ImageToSpatialObjectRegistrationMethod();
   virtual ~ImageToSpatialObjectRegistrationMethod() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Method invoked by the pipeline in order to trigger the computation of
    * the registration. */
-  void  GenerateData();
+  virtual void  GenerateData() ITK_OVERRIDE;
 
   /** Initialize by setting the interconnects between the components. */
   void Initialize()

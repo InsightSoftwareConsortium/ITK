@@ -26,7 +26,7 @@ template< typename TInputImage,
           typename TTrainingImage >
 ImageGaussianModelEstimator< TInputImage, TMembershipFunction, TTrainingImage >
 ::ImageGaussianModelEstimator(void):
-  m_Covariance(NULL)
+  m_Covariance(ITK_NULLPTR)
 {}
 
 template< typename TInputImage,

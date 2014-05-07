@@ -54,9 +54,9 @@ LinearSystemWrapperItpack::LinearSystemWrapperItpack()
   m_RPARM[7] = 500.0 * NumericTraits<double>::min();
 
   m_MaximumNonZeroValues = 0;
-  m_Matrices = 0;
-  m_Vectors = 0;
-  m_Solutions = 0;
+  m_Matrices = ITK_NULLPTR;
+  m_Vectors = ITK_NULLPTR;
+  m_Solutions = ITK_NULLPTR;
 }
 
 void LinearSystemWrapperItpack::InitializeMatrix(unsigned int matrixIndex)
@@ -86,7 +86,7 @@ void LinearSystemWrapperItpack::InitializeMatrix(unsigned int matrixIndex)
     }
 
   // allocate if necessay
-  if( m_Matrices == 0 )
+  if( m_Matrices == ITK_NULLPTR )
     {
     m_Matrices = new MatrixHolder(m_NumberOfMatrices);
     }
@@ -135,7 +135,7 @@ void LinearSystemWrapperItpack::InitializeVector(unsigned int vectorIndex)
     }
 
   /* allocate if necessay */
-  if( m_Vectors == 0 )
+  if( m_Vectors == ITK_NULLPTR )
     {
     m_Vectors = new VectorHolder(m_NumberOfVectors);
     }
@@ -186,7 +186,7 @@ void LinearSystemWrapperItpack::InitializeSolution(unsigned int solutionIndex)
     }
 
   // allocate if necessay
-  if( m_Solutions == 0 )
+  if( m_Solutions == ITK_NULLPTR )
     {
     m_Solutions = new VectorHolder(m_NumberOfSolutions);
     }
@@ -251,7 +251,7 @@ void LinearSystemWrapperItpack::DestroyVector(unsigned int vectorIndex)
 
     /* delete vector */
     delete[] ( *m_Vectors )[vectorIndex];
-    ( *m_Vectors )[vectorIndex] = 0;
+    ( *m_Vectors )[vectorIndex] = ITK_NULLPTR;
     }
 }
 
@@ -271,7 +271,7 @@ void LinearSystemWrapperItpack::DestroySolution(unsigned int solutionIndex)
 
     /* delete vector */
     delete[] ( *m_Solutions )[solutionIndex];
-    ( *m_Solutions )[solutionIndex] = 0;
+    ( *m_Solutions )[solutionIndex] = ITK_NULLPTR;
     }
 }
 

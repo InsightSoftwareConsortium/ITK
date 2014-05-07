@@ -122,7 +122,7 @@ public:
    * output. */
   typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  virtual DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx);
+  virtual DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) ITK_OVERRIDE;
 
   /** Get the output data of this process object.  The output of this
    * function is not valid until an appropriate Update() method has
@@ -144,10 +144,10 @@ public:
 protected:
   ImageToRectilinearFEMObjectFilter();
   virtual ~ImageToRectilinearFEMObjectFilter() { }
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
   /** Method invoked by the pipeline in order to trigger mesh generation */
-  void  GenerateData();
+  virtual void  GenerateData() ITK_OVERRIDE;
 
   void Generate2DRectilinearMesh(void);
 

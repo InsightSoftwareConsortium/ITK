@@ -29,7 +29,7 @@ template< typename TInputImage, typename TOutput, typename TCoordRep >
 ImageFunction< TInputImage, TOutput, TCoordRep >
 ::ImageFunction()
 {
-  m_Image = NULL;
+  m_Image = ITK_NULLPTR;
   m_StartIndex.Fill(0);
   m_EndIndex.Fill(0);
   m_StartContinuousIndex.Fill(0.0f);

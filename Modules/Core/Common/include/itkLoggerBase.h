@@ -169,7 +169,7 @@ protected:
   virtual ~LoggerBase();
 
   /** Print contents of a LoggerBase */
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 protected:
 

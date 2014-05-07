@@ -184,10 +184,10 @@ ConstNeighborhoodIterator< TImage, TBoundaryCondition >
   SizeType zeroSize; zeroSize.Fill(0);
 
   m_Bound.Fill(0);
-  m_Begin = 0;
+  m_Begin = ITK_NULLPTR;
   m_BeginIndex.Fill(0);
   // m_ConstImage
-  m_End   = 0;
+  m_End   = ITK_NULLPTR;
   m_EndIndex.Fill(0);
   m_Loop.Fill(0);
   m_Region.SetIndex(zeroIndex);

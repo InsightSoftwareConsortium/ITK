@@ -104,7 +104,7 @@ public:
 protected:
   MinimumMaximumImageCalculator();
   virtual ~MinimumMaximumImageCalculator() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   MinimumMaximumImageCalculator(const Self &); //purposely not implemented

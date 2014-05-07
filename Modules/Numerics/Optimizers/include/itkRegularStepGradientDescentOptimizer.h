@@ -61,7 +61,7 @@ protected:
    * \sa AdvanceOneStep */
   virtual void StepAlongGradient(
     double factor,
-    const DerivativeType & transformedGradient);
+    const DerivativeType & transformedGradient) ITK_OVERRIDE;
 
 private:
   RegularStepGradientDescentOptimizer(const Self &); //purposely not implemented

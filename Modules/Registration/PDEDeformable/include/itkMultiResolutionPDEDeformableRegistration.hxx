@@ -44,7 +44,7 @@ MultiResolutionPDEDeformableRegistration< TFixedImage, TMovingImage, TDisplaceme
   m_MovingImagePyramid  = MovingImagePyramidType::New();
   m_FixedImagePyramid     = FixedImagePyramidType::New();
   m_FieldExpander     = FieldExpanderType::New();
-  m_InitialDisplacementField = NULL;
+  m_InitialDisplacementField = ITK_NULLPTR;
 
   m_NumberOfLevels = 3;
   m_NumberOfIterations.SetSize(m_NumberOfLevels);
@@ -262,7 +262,7 @@ MultiResolutionPDEDeformableRegistration< TFixedImage, TMovingImage, TDisplaceme
   unsigned int fixedLevel = vnl_math_min( (int)m_CurrentLevel,
                                           (int)m_FixedImagePyramid->GetNumberOfLevels() );
 
-  DisplacementFieldPointer tempField = NULL;
+  DisplacementFieldPointer tempField = ITK_NULLPTR;
 
   DisplacementFieldPointer inputPtr =
     const_cast< DisplacementFieldType * >( this->GetInput(0) );
@@ -318,7 +318,7 @@ MultiResolutionPDEDeformableRegistration< TFixedImage, TMovingImage, TDisplaceme
     m_FieldExpander->SetOutputDirection( fi->GetDirection() );
 
     m_FieldExpander->UpdateLargestPossibleRegion();
-    m_FieldExpander->SetInput(NULL);
+    m_FieldExpander->SetInput(ITK_NULLPTR);
     tempField = m_FieldExpander->GetOutput();
     tempField->DisconnectPipeline();
     }
@@ -329,7 +329,7 @@ MultiResolutionPDEDeformableRegistration< TFixedImage, TMovingImage, TDisplaceme
     {
     if ( tempField.IsNull() )
       {
-      m_RegistrationFilter->SetInitialDisplacementField(NULL);
+      m_RegistrationFilter->SetInitialDisplacementField(ITK_NULLPTR);
       }
     else
       {
@@ -348,7 +348,7 @@ MultiResolutionPDEDeformableRegistration< TFixedImage, TMovingImage, TDisplaceme
       m_FieldExpander->SetOutputDirection( fi->GetDirection() );
 
       m_FieldExpander->UpdateLargestPossibleRegion();
-      m_FieldExpander->SetInput(NULL);
+      m_FieldExpander->SetInput(ITK_NULLPTR);
       tempField = m_FieldExpander->GetOutput();
       tempField->DisconnectPipeline();
 
@@ -427,9 +427,9 @@ MultiResolutionPDEDeformableRegistration< TFixedImage, TMovingImage, TDisplaceme
     }
 
   // Release memory
-  m_FieldExpander->SetInput(NULL);
+  m_FieldExpander->SetInput(ITK_NULLPTR);
   m_FieldExpander->GetOutput()->ReleaseData();
-  m_RegistrationFilter->SetInput(NULL);
+  m_RegistrationFilter->SetInput(ITK_NULLPTR);
   m_RegistrationFilter->GetOutput()->ReleaseData();
 }
 

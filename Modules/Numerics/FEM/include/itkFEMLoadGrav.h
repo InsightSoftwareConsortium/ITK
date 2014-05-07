@@ -51,7 +51,7 @@ public:
   virtual vnl_vector<Float> GetGravitationalForceAtPoint(vnl_vector<Float> ) = 0;
 
 protected:
-  virtual void PrintSelf(std::ostream& os, Indent indent) const
+  virtual void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE
   {
     Superclass::PrintSelf(os, indent);
   }
@@ -83,9 +83,9 @@ public:
 
   /** CreateAnother method will clone the existing instance of this type,
    * including its internal member variables. */
-  virtual::itk::LightObject::Pointer CreateAnother(void) const;
+  virtual::itk::LightObject::Pointer CreateAnother(void) const ITK_OVERRIDE;
 
-  virtual vnl_vector<Float> GetGravitationalForceAtPoint(vnl_vector<Float> )
+  virtual vnl_vector<Float> GetGravitationalForceAtPoint(vnl_vector<Float> ) ITK_OVERRIDE
   {
     return m_GravityForce;
   }
@@ -102,10 +102,10 @@ public:
   const vnl_vector<itk::fem::Element::Float> & GetForce() const;
 
   /** Apply the load to the specified element */
-  virtual void ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe);
+  virtual void ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe) ITK_OVERRIDE;
 
 protected:
-  virtual void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
   vnl_vector<Float> m_GravityForce;
 };

@@ -96,8 +96,8 @@ public:
   typedef itk::SmartPointer<const Self> ConstPointer;
 
   /** Class methods used to interface with the registered factories. */
-  virtual const char* GetITKSourceVersion() const { return ITK_SOURCE_VERSION; }
-  const char* GetDescription() const { return "A Test Factory"; }
+  virtual const char* GetITKSourceVersion() const ITK_OVERRIDE { return ITK_SOURCE_VERSION; }
+  virtual const char* GetDescription() const ITK_OVERRIDE { return "A Test Factory"; }
 
   /** Method for class instantiation. */
   itkFactorylessNewMacro(Self);

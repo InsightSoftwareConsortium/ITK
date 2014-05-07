@@ -64,8 +64,8 @@ CellBase::ColorType CellBase:: StarvingColor;
 CellBase
 ::CellBase()
 {
-  m_Genome      = NULL;
-  m_GenomeCopy  = NULL;
+  m_Genome      = ITK_NULLPTR;
+  m_GenomeCopy  = ITK_NULLPTR;
 
   m_Radius      = DefaultRadius;
   m_Color       = DefaultColor;
@@ -107,9 +107,9 @@ CellBase
 ::~CellBase()
 {
   delete m_Genome;
-  m_Genome = NULL;
+  m_Genome = ITK_NULLPTR;
   delete m_GenomeCopy;
-  m_GenomeCopy = NULL;
+  m_GenomeCopy = ITK_NULLPTR;
 }
 
 /**
@@ -132,9 +132,9 @@ CellBase
 ::Apoptosis(void)
 {
   delete m_Genome;
-  m_Genome = NULL;
+  m_Genome = ITK_NULLPTR;
   delete m_GenomeCopy;
-  m_GenomeCopy = NULL;
+  m_GenomeCopy = ITK_NULLPTR;
 }
 
 /**

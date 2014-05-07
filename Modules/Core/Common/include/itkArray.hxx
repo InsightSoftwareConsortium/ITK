@@ -98,7 +98,7 @@ Array< TValue >
 {
   if ( !m_LetArrayManageMemory )
     {
-    vnl_vector< TValue >::data = 0;
+    vnl_vector< TValue >::data = ITK_NULLPTR;
     }
 }
 
@@ -153,7 +153,7 @@ void Array< TValue >
     // on a resize
     if ( !m_LetArrayManageMemory )
       {
-      vnl_vector< TValue >::data = 0;
+      vnl_vector< TValue >::data = ITK_NULLPTR;
       }
 
     // Call the superclass's set_size

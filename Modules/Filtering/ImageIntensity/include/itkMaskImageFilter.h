@@ -40,7 +40,7 @@ public:
   MaskInput()
   {
     m_MaskingValue = NumericTraits< TMask >::ZeroValue();
-    InitializeOutsideValue( static_cast<TOutput*>( NULL ) );
+    InitializeOutsideValue( static_cast<TOutput*>( ITK_NULLPTR ) );
   }
   ~MaskInput() {}
   bool operator!=(const MaskInput &) const
@@ -221,7 +221,7 @@ public:
   void BeforeThreadedGenerateData()
   {
     typedef typename TOutputImage::PixelType PixelType;
-    this->CheckOutsideValue( static_cast<PixelType*>(NULL) );
+    this->CheckOutsideValue( static_cast<PixelType*>(ITK_NULLPTR) );
   }
 
 #ifdef ITK_USE_CONCEPT_CHECKING

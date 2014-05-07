@@ -46,7 +46,7 @@ BayesianClassifierImageFilter< TInputVectorImage, TLabelsType,
   m_UserProvidedSmoothingFilter = false;
   this->SetNumberOfRequiredOutputs(2);
   m_NumberOfSmoothingIterations = 0;
-  m_SmoothingFilter = NULL;
+  m_SmoothingFilter = ITK_NULLPTR;
   PosteriorsImagePointer p =
     static_cast< PosteriorsImageType * >( this->MakeOutput(1).GetPointer() );
   this->SetNthOutput( 1, p.GetPointer() );
@@ -174,7 +174,7 @@ BayesianClassifierImageFilter< TInputVectorImage, TLabelsType,
     const PriorsImageType *priorsImage =
       dynamic_cast< const PriorsImageType * >( this->GetInput(1) );
 
-    if ( priorsImage == NULL )
+    if ( priorsImage == ITK_NULLPTR )
       {
       itkExceptionMacro("Second input type does not correspond to expected Priors Image Type");
       }
@@ -182,7 +182,7 @@ BayesianClassifierImageFilter< TInputVectorImage, TLabelsType,
     PosteriorsImageType *posteriorsImage =
       dynamic_cast< PosteriorsImageType * >( this->GetPosteriorImage() );
 
-    if ( posteriorsImage == NULL )
+    if ( posteriorsImage == ITK_NULLPTR )
       {
       itkExceptionMacro("Second output type does not correspond to expected Posteriors Image Type");
       }
@@ -219,7 +219,7 @@ BayesianClassifierImageFilter< TInputVectorImage, TLabelsType,
     PosteriorsImageType *posteriorsImage =
       dynamic_cast< PosteriorsImageType * >( this->GetPosteriorImage() );
 
-    if ( posteriorsImage == NULL )
+    if ( posteriorsImage == ITK_NULLPTR )
       {
       itkExceptionMacro("Second output type does not correspond to expected Posteriors Image Type");
       }
@@ -365,7 +365,7 @@ BayesianClassifierImageFilter< TInputVectorImage, TLabelsType,
   PosteriorsImageType *posteriorsImage =
     dynamic_cast< PosteriorsImageType * >( this->GetPosteriorImage() );
 
-  if ( posteriorsImage == NULL )
+  if ( posteriorsImage == ITK_NULLPTR )
     {
     itkExceptionMacro("Second output type does not correspond to expected Posteriors Image Type");
     }

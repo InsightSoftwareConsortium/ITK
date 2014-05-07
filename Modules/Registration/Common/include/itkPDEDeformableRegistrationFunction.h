@@ -112,9 +112,9 @@ public:
 protected:
   PDEDeformableRegistrationFunction()
   {
-    m_MovingImage = NULL;
-    m_FixedImage = NULL;
-    m_DisplacementField = NULL;
+    m_MovingImage = ITK_NULLPTR;
+    m_FixedImage = ITK_NULLPTR;
+    m_DisplacementField = ITK_NULLPTR;
     m_Energy = 0.0;
     m_NormalizeGradient = true;
     m_GradientStep = 1.0;

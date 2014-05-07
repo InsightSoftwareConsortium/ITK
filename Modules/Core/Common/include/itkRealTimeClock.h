@@ -74,7 +74,7 @@ protected:
   virtual ~RealTimeClock();
 
   /** Print the object information in a stream. */
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   FrequencyType m_Frequency;
@@ -84,7 +84,7 @@ private:
   // We hide this method in the private section, because it returns the
   // modified time of the itk::Object.  That modified time is ambiguous with
   // the role of the RealTimeStamp.
-  virtual const TimeStamp & GetTimeStamp() const;
+  virtual const TimeStamp & GetTimeStamp() const ITK_OVERRIDE;
 };
 } // end of namespace itk
 

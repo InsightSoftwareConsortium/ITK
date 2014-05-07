@@ -153,7 +153,7 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
   this->m_OutputTransform->SetVelocityFieldSize( sampledVelocityFieldSize );
   this->m_OutputTransform->IntegrateVelocityField();
 
-  typename TimeVaryingWeightedMaskImageType::Pointer timeVaryingFixedWeightedMaskImage = NULL;
+  typename TimeVaryingWeightedMaskImageType::Pointer timeVaryingFixedWeightedMaskImage = ITK_NULLPTR;
   if( fixedImageMask )
     {
     timeVaryingFixedWeightedMaskImage = TimeVaryingWeightedMaskImageType::New();
@@ -444,7 +444,7 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
     const typename VirtualImageType::IndexType virtualDomainIndex = virtualDomainImage->GetLargestPossibleRegion().GetIndex();
     const typename VirtualImageType::SizeType virtualDomainSize = virtualDomainImage->GetLargestPossibleRegion().GetSize();
 
-    typename MaskImageType::ConstPointer maskImage = NULL;
+    typename MaskImageType::ConstPointer maskImage = ITK_NULLPTR;
     if( fixedImageMask )
       {
       typename ImageMaskSpatialObjectType::Pointer imageMask = dynamic_cast<ImageMaskSpatialObjectType *>( const_cast<FixedImageMaskType *>( fixedImageMask.GetPointer() ) );
@@ -559,7 +559,7 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
 
     TimeVaryingVelocityFieldControlPointLatticePointer updateControlPointLattice = bspliner->GetPhiLattice();
 
-    TimeVaryingVelocityFieldPointer velocityField = NULL;
+    TimeVaryingVelocityFieldPointer velocityField = ITK_NULLPTR;
     if( this->GetDebug() )
       {
       velocityField = bspliner->GetOutput();

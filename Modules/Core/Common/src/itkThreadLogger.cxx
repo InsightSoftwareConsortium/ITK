@@ -180,12 +180,12 @@ ThreadLogger
 {
   struct MultiThreader:: ThreadInfoStruct *pInfo = (struct MultiThreader::ThreadInfoStruct *)pInfoStruct;
 
-  if ( pInfo == NULL )
+  if ( pInfo == ITK_NULLPTR )
     {
     return ITK_THREAD_RETURN_VALUE;
     }
 
-  if ( pInfo->UserData == NULL )
+  if ( pInfo->UserData == ITK_NULLPTR )
     {
     return ITK_THREAD_RETURN_VALUE;
     }

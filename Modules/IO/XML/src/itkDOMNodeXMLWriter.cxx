@@ -35,7 +35,7 @@ void
 DOMNodeXMLWriter::Update( std::ostream& os, std::string indent )
 {
   const InputType* input = this->GetInput();
-  if ( input == NULL )
+  if ( input == ITK_NULLPTR )
     {
     itkExceptionMacro( "input object is null" );
     }

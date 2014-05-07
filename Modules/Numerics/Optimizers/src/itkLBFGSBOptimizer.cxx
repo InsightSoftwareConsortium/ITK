@@ -45,7 +45,7 @@ public:
                         LBFGSBOptimizer * const itkObj);
 
   /** Handle new iteration event */
-  virtual bool report_iter();
+  virtual bool report_iter() ITK_OVERRIDE;
 
 private:
   LBFGSBOptimizer * const m_ItkObj;
@@ -65,7 +65,7 @@ LBFGSBOptimizer
   m_MaximumNumberOfCorrections(5),
   m_CurrentIteration(0),
   m_InfinityNormOfProjectedGradient(0.0),
-  m_VnlOptimizer(0)
+  m_VnlOptimizer(ITK_NULLPTR)
 {
   m_LowerBound       = InternalBoundValueType(0);
   m_UpperBound       = InternalBoundValueType(0);

@@ -82,7 +82,7 @@ template<typename T> int DoIt( int, char * argv[], typename T::Pointer)
     return EXIT_FAILURE;
     }
 
-  BUG_12266<T>( argv[1], NULL );
+  BUG_12266<T>( argv[1], ITK_NULLPTR );
 
 
   typename T::Pointer image = reader->GetOutput();

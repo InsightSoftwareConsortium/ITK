@@ -33,7 +33,7 @@ template< typename TInternalComputationValueType >
 HDF5TransformIOTemplate< TInternalComputationValueType >
 ::HDF5TransformIOTemplate()
 {
-  this->m_H5File = 0;
+  this->m_H5File = ITK_NULLPTR;
 }
 
 template< typename TInternalComputationValueType >
@@ -75,11 +75,11 @@ HDF5TransformIOTemplate< TInternalComputationValueType >
   // all and this is just by convention.
   const char *extensions[] =
   {
-    ".hdf",".h4",".hdf4",".h5",".hdf5",".he4",".he5",".hd5",0,
+    ".hdf",".h4",".hdf4",".h5",".hdf5",".he4",".he5",".hd5",ITK_NULLPTR,
   };
   std::string ext
     (itksys::SystemTools::GetFilenameLastExtension(fileName));
-  for(unsigned i = 0; extensions[i] != 0; i++)
+  for(unsigned i = 0; extensions[i] != ITK_NULLPTR; i++)
     {
     if(ext == extensions[i])
       {
@@ -158,7 +158,7 @@ HDF5TransformIOTemplate< TInternalComputationValueType >
     itkExceptionMacro(<< "Wrong # of dims for TransformType "
                       << "in HDF5 File");
     }
-  Space.getSimpleExtentDims(&dim,0);
+  Space.getSimpleExtentDims(&dim,ITK_NULLPTR);
   ParameterArray.SetSize(dim);
   H5::FloatType ParamType = paramSet.getFloatType();
 

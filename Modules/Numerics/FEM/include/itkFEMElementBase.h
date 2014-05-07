@@ -171,7 +171,7 @@ public:
 
     /** CreateAnother method will clone the existing instance of this type,
      * including its internal member variables. */
-    virtual::itk::LightObject::Pointer CreateAnother(void) const
+    virtual::itk::LightObject::Pointer CreateAnother(void) const ITK_OVERRIDE
       {
         ::itk::LightObject::Pointer smartPtr;
         Pointer copyPtr = Self::New();
@@ -265,7 +265,7 @@ public:
     typedef std::set<Element *> SetOfElements;
     mutable SetOfElements m_elements;
   protected:
-    virtual void PrintSelf(std::ostream& os, Indent indent) const
+    virtual void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE
       {
         Superclass::PrintSelf(os, indent);
         // os << indent << "DOF: " << this->m_dof << std::endl;
@@ -437,7 +437,7 @@ public:
    */
   virtual Material::ConstPointer GetMaterial(void) const
     {
-      return 0;
+      return ITK_NULLPTR;
     }
 
   /**
@@ -629,8 +629,8 @@ public:
    *
    * \sa ShapeFunctionDerivatives
    */
-  virtual void ShapeFunctionGlobalDerivatives(const VectorType & pt, MatrixType & shapeDgl, const MatrixType *pJ = 0,
-                                              const MatrixType *pshapeD = 0) const;
+  virtual void ShapeFunctionGlobalDerivatives(const VectorType & pt, MatrixType & shapeDgl, const MatrixType *pJ = ITK_NULLPTR,
+                                              const MatrixType *pshapeD = ITK_NULLPTR) const;
 
   /**
    * Compute the Jacobian matrix of the transformation from local
@@ -653,7 +653,7 @@ public:
    *                If this pointer is 0, derivatives will be computed as
    *                necessary.
    */
-  virtual void Jacobian(const VectorType & pt, MatrixType & J, const MatrixType *pshapeD = 0) const;
+  virtual void Jacobian(const VectorType & pt, MatrixType & J, const MatrixType *pshapeD = ITK_NULLPTR) const;
 
   /**
    * Compute the determinant of the Jacobian matrix
@@ -664,7 +664,7 @@ public:
    * \param pJ Optional pointer to Jacobian matrix computed at point pt. If this
    *           is set to 0, the Jacobian will be computed as necessary.
    */
-  virtual Float JacobianDeterminant(const VectorType & pt, const MatrixType *pJ = 0) const;
+  virtual Float JacobianDeterminant(const VectorType & pt, const MatrixType *pJ = ITK_NULLPTR) const;
 
   /**
    * Compute the inverse of the Jacobian matrix
@@ -677,7 +677,7 @@ public:
    * \param pJ Optional pointer to Jacobian matrix computed at point pt. If this
    *           is set to 0, the Jacobian will be computed as necessary.
    */
-  virtual void JacobianInverse(const VectorType & pt, MatrixType & invJ, const MatrixType *pJ = 0) const;
+  virtual void JacobianInverse(const VectorType & pt, MatrixType & invJ, const MatrixType *pJ = ITK_NULLPTR) const;
 
   /**
    * Return the total number of degrees of freedom defined in a derived
@@ -714,7 +714,7 @@ protected:
   // to store edge connectivity data
   std::vector<std::vector<int> > m_EdgeIds;
 
-  virtual void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
 };
 

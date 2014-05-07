@@ -61,7 +61,7 @@ LoggerManager::GetLogger(const NameType & name)
 
   if ( loggerItr == this->m_LoggerSet.end() )
     {
-    return NULL;
+    return ITK_NULLPTR;
     }
   return loggerItr->second.GetPointer();
 }

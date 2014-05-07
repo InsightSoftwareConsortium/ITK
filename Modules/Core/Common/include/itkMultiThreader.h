@@ -147,7 +147,7 @@ public:
 protected:
   MultiThreader();
   ~MultiThreader();
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   MultiThreader(const Self &);  //purposely not implemented

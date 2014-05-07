@@ -210,7 +210,7 @@ int itkMeanReciprocalSquareDifferenceImageMetricTest(int, char* [] )
 // exercise misc member functions
 //-------------------------------------------------------
   std::cout << "Check case when Target is NULL" << std::endl;
-  metric->SetFixedImage( NULL );
+  metric->SetFixedImage( ITK_NULLPTR );
   try
     {
     std::cout << "Value = " << metric->GetValue( parameters );

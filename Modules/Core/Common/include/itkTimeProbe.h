@@ -65,7 +65,7 @@ public:
   /** Get the current time.
    *  Warning: the returned value is not the elapsed time since the last Start() call.
    */
-  virtual TimeStampType GetInstantValue(void) const;
+  virtual TimeStampType GetInstantValue(void) const ITK_OVERRIDE;
 
   /** Returns the average times passed between the starts and stops of the
    *  probe. See the RealTimeClock for details on the precision and units of

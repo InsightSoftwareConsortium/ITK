@@ -420,7 +420,7 @@ public:
    */
   virtual InverseTransformBasePointer GetInverseTransform() const
   {
-    return NULL;
+    return ITK_NULLPTR;
   }
 
   /** Generate a platform independent name */

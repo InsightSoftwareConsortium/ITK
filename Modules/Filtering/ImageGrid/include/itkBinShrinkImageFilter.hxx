@@ -142,7 +142,7 @@ BinShrinkImageFilter<TInputImage,TOutputImage>
 
   // allocate acumulate line
   const size_t         ln =  outputRegionForThread.GetSize(0);
-  AccumulatePixelType *accBuffer = 0;
+  AccumulatePixelType *accBuffer = ITK_NULLPTR;
   accBuffer = new AccumulatePixelType[ln];
 
   try

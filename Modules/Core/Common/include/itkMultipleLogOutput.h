@@ -59,16 +59,16 @@ public:
   void AddLogOutput(OutputType *output);
 
   /** Broadcast a flush operation to all the output streams */
-  virtual void Flush();
+  virtual void Flush() ITK_OVERRIDE;
 
   /** Write to multiple outputs */
-  virtual void Write(double timestamp);
+  virtual void Write(double timestamp) ITK_OVERRIDE;
 
   /** Write to multiple outputs */
-  virtual void Write(const std::string & content);
+  virtual void Write(const std::string & content) ITK_OVERRIDE;
 
   /** Write to a buffer */
-  virtual void Write(const std::string & content, double timestamp);
+  virtual void Write(const std::string & content, double timestamp) ITK_OVERRIDE;
 
 protected:
   /** Constructor */

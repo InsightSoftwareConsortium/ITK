@@ -325,7 +325,7 @@ ParticleSwarmOptimizerBase
   unsigned int i,n;
 
                //we have to have a cost function
-  if( GetCostFunction() == NULL )
+  if( GetCostFunction() == ITK_NULLPTR )
     {
     itkExceptionMacro(<<"NULL cost function")
     }

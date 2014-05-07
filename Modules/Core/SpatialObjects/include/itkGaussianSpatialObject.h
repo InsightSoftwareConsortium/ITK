@@ -85,13 +85,13 @@ public:
   /** Returns the value of the Gaussian at the given point.  */
   virtual bool ValueAt(const PointType & point, ScalarType & value,
                        unsigned int depth = 0,
-                       char *name = NULL) const;
+                       char *name = ITK_NULLPTR) const;
 
   /** Return true if the object provides a method to evaluate the value
    * at the specified point, false otherwise. */
   virtual bool IsEvaluableAt(const PointType & point,
                              unsigned int depth = 0,
-                             char *name = NULL) const;
+                             char *name = ITK_NULLPTR) const;
 
   /** Test whether a point is inside or outside the object */
   virtual bool IsInside(const PointType & point,

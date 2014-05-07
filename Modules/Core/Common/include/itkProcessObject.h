@@ -436,7 +436,7 @@ protected:
     void operator=( const Self & ); // purposely not implemented
    };
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   //
   // Input Methods
@@ -449,9 +449,9 @@ protected:
   /** Method used internally for getting an indexed input.
    */
   DataObject * GetInput(DataObjectPointerArraySizeType idx)
-  { return idx < m_IndexedInputs.size() ? m_IndexedInputs[idx]->second : NULL; }
+  { return idx < m_IndexedInputs.size() ? m_IndexedInputs[idx]->second : ITK_NULLPTR; }
   const DataObject * GetInput(DataObjectPointerArraySizeType idx) const
-  { return idx < m_IndexedInputs.size() ? m_IndexedInputs[idx]->second : NULL; }
+  { return idx < m_IndexedInputs.size() ? m_IndexedInputs[idx]->second : ITK_NULLPTR; }
 
   /** Set an input */
   virtual void SetInput(const DataObjectIdentifierType & key, DataObject *input);

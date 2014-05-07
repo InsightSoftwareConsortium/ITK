@@ -100,7 +100,7 @@ ImageToImageFilter< TInputImage, TOutputImage >
   const TInputImage *in = dynamic_cast< const TInputImage * >
     ( this->ProcessObject::GetInput(idx) );
 
-  if ( in == NULL && this->ProcessObject::GetInput(idx) != NULL )
+  if ( in == ITK_NULLPTR && this->ProcessObject::GetInput(idx) != ITK_NULLPTR )
     {
     itkWarningMacro (<< "Unable to convert input number " << idx << " to type " <<  typeid( InputImageType ).name () );
     }
@@ -177,7 +177,7 @@ ImageToImageFilter< TInputImage, TOutputImage >
 
   typedef ImageBase< InputImageDimension > ImageBaseType;
 
-  ImageBaseType *inputPtr1 = 0;
+  ImageBaseType *inputPtr1 = ITK_NULLPTR;
   InputDataObjectIterator it(this);
 
   for(; !it.IsAtEnd(); ++it )

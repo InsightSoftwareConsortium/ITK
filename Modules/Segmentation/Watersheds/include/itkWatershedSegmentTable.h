@@ -112,7 +112,7 @@ public:
   {
     Iterator result = m_HashMap.find(a);
 
-    if ( result == m_HashMap.end() ) { return 0; }
+    if ( result == m_HashMap.end() ) { return ITK_NULLPTR; }
     else { return &( ( *result ).second ); }
   }
 

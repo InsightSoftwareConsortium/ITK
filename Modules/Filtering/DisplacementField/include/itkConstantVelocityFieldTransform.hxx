@@ -34,7 +34,7 @@ namespace itk
 template <typename TScalar, unsigned int NDimensions>
 ConstantVelocityFieldTransform<TScalar, NDimensions>
 ::ConstantVelocityFieldTransform() :
-  m_ConstantVelocityField( NULL ),
+  m_ConstantVelocityField( ITK_NULLPTR ),
   m_CalculateNumberOfIntegrationStepsAutomatically( false ),
   m_ConstantVelocityFieldSetTime( 0 )
 {
@@ -118,7 +118,7 @@ ConstantVelocityFieldTransform<TScalar, NDimensions>
     }
   else
     {
-    return NULL;
+    return ITK_NULLPTR;
     }
 }
 

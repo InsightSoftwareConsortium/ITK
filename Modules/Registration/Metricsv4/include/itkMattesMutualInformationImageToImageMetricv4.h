@@ -170,7 +170,7 @@ public:
     {
     if( this->m_ThreaderJointPDF.size() == 0 )
       {
-      return typename JointPDFType::Pointer(NULL);
+      return typename JointPDFType::Pointer(ITK_NULLPTR);
       }
     return this->m_ThreaderJointPDF[0];
     }
@@ -185,7 +185,7 @@ public:
     {
     if( this->m_ThreaderJointPDFDerivatives.size() == 0 )
       {
-      return typename JointPDFDerivativesType::Pointer(NULL);
+      return typename JointPDFDerivativesType::Pointer(ITK_NULLPTR);
       }
     return this->m_ThreaderJointPDFDerivatives[0];
     }

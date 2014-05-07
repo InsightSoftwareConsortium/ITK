@@ -78,7 +78,7 @@ public:
 protected:
   SegmentationRegion();
   ~SegmentationRegion();
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   SegmentationRegion(const Self &); //purposely not implemented

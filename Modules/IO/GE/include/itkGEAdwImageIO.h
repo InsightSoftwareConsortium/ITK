@@ -68,7 +68,7 @@ public:
        * \post Sets classes ImageIOBase::m_FileName variable to be FileNameToWrite
        * \return Returns true if this ImageIO can read the file specified.
        */
-  virtual bool CanReadFile(const char *FileNameToRead);
+  virtual bool CanReadFile(const char *FileNameToRead) ITK_OVERRIDE;
 
   /* * Set the spacing and dimension information for the set filename. */
   // Implemented in superclass
@@ -113,7 +113,7 @@ protected:
   ~GEAdwImageIO();
   // Implemented in superclass
   //      void PrintSelf(std::ostream& os, Indent indent) const;
-  virtual GEImageHeader * ReadHeader(const char *FileNameToRead);
+  virtual GEImageHeader * ReadHeader(const char *FileNameToRead) ITK_OVERRIDE;
 
 private:
   GEAdwImageIO(const Self &);   //purposely not implemented

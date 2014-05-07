@@ -225,7 +225,7 @@ void MRCImageIO::ReadImageInformation(void)
 // methods to load the data into the MRCHeader member variable
 void MRCImageIO::InternalReadImageInformation(std::ifstream & file)
 {
-  char *buffer = 0;
+  char *buffer = ITK_NULLPTR;
 
   try
     {
@@ -264,7 +264,7 @@ void MRCImageIO::InternalReadImageInformation(std::ifstream & file)
     {
     // clean up dynamic allocation
     delete[] buffer;
-    buffer = 0;
+    buffer = ITK_NULLPTR;
     throw;
     }
 

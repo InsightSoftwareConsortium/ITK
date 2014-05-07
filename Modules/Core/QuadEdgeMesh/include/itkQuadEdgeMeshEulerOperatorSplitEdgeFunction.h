@@ -61,13 +61,13 @@ public:
     if ( !e )
       {
       itkDebugMacro("Input is not an edge.");
-      return ( (QEType *)0 );
+      return ( (QEType *)ITK_NULLPTR );
       }
 
     if ( !this->m_Mesh )
       {
       itkDebugMacro("No mesh present.");
-      return ( (QEType *)0 );
+      return ( (QEType *)ITK_NULLPTR );
       }
 
     m_SplitVertex->SetInput(this->m_Mesh);

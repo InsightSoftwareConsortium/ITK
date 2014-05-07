@@ -126,7 +126,7 @@ BlockMatchingImageFilter< TFixedImage, TMovingImage, TFeatures, TDisplacements, 
       break;
     }
   itkExceptionMacro(<< "Bad output index " << idx );
-  return 0;
+  return ITK_NULLPTR;
 }
 
 

@@ -65,7 +65,7 @@ public:
 
 protected:
   DemonsImageToImageMetricv4GetValueAndDerivativeThreader() :
-    m_DemonsAssociate(NULL)
+    m_DemonsAssociate(ITK_NULLPTR)
   {}
 
   /** Overload.

@@ -44,7 +44,7 @@ MetaGaussianConverter< NDimensions >
 {
   const GaussianMetaObjectType *gaussian =
     dynamic_cast<const GaussianMetaObjectType *>(mo);
-  if(gaussian == 0)
+  if(gaussian == ITK_NULLPTR)
     {
     itkExceptionMacro(<< "Can't convert MetaObject to MetaGaussian" );
     }

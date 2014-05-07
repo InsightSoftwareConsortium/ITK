@@ -67,7 +67,7 @@ public:
   /** write out a Scene SpatialObject */
   bool WriteMeta(SceneType *scene, const char *fileName,
                  unsigned int depth = MaximumDepth,
-                 char *spatialObjectTypeName = NULL);
+                 char *spatialObjectTypeName = ITK_NULLPTR);
 
   const MetaEvent * GetEvent() const { return m_Event; }
   void  SetEvent(MetaEvent *event) { m_Event = event; }
@@ -99,7 +99,7 @@ public:
 
   MetaScene * CreateMetaScene(SceneType *scene,
                               unsigned int depth = MaximumDepth,
-                              char *name = NULL);
+                              char *name = ITK_NULLPTR);
 
   ScenePointer CreateSpatialObjectScene(MetaScene *scene);
 

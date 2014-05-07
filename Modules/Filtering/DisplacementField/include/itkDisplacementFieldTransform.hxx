@@ -35,8 +35,8 @@ template <typename TScalar, unsigned int NDimensions>
 DisplacementFieldTransform<TScalar, NDimensions>::DisplacementFieldTransform()
 : Superclass( 0 )
 {
-  this->m_DisplacementField = NULL;
-  this->m_InverseDisplacementField = NULL;
+  this->m_DisplacementField = ITK_NULLPTR;
+  this->m_InverseDisplacementField = ITK_NULLPTR;
 
   this->m_FixedParameters.SetSize( NDimensions * ( NDimensions + 3 ) );
   this->m_FixedParameters.Fill( 0.0 );
@@ -151,7 +151,7 @@ DisplacementFieldTransform<TScalar, NDimensions>
     }
   else
     {
-    return NULL;
+    return ITK_NULLPTR;
     }
 }
 
@@ -377,7 +377,7 @@ void DisplacementFieldTransform<TScalar, NDimensions>
 
     if( !this->m_InverseDisplacementField.IsNull() )
       {
-      this->m_InverseDisplacementField = NULL;
+      this->m_InverseDisplacementField = ITK_NULLPTR;
       }
     this->Modified();
     /* Store this separately for use in smoothing because we only want

@@ -31,8 +31,8 @@ IterativeDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInt
   m_NumberOfIterations = 1;
   m_Iteration = 0;
   m_StopIteration = false;
-  m_TransferFunction = NULL;
-  m_CurrentEstimate = NULL;
+  m_TransferFunction = ITK_NULLPTR;
+  m_CurrentEstimate = ITK_NULLPTR;
   m_InputMTime = 0L;
   m_KernelMTime = 0L;
 }
@@ -41,8 +41,8 @@ template< typename TInputImage, typename TKernelImage, typename TOutputImage, ty
 IterativeDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
 ::~IterativeDeconvolutionImageFilter()
 {
-  m_TransferFunction = NULL;
-  m_CurrentEstimate = NULL;
+  m_TransferFunction = ITK_NULLPTR;
+  m_CurrentEstimate = ITK_NULLPTR;
 }
 
 template< typename TInputImage, typename TKernelImage, typename TOutputImage, typename TInternalPrecision >
@@ -82,8 +82,8 @@ IterativeDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInt
 {
   this->CropOutput( m_CurrentEstimate, progress, progressWeight );
 
-  m_CurrentEstimate = NULL;
-  m_TransferFunction = NULL;
+  m_CurrentEstimate = ITK_NULLPTR;
+  m_TransferFunction = ITK_NULLPTR;
 }
 
 template< typename TInputImage, typename TKernelImage, typename TOutputImage, typename TInternalPrecision >

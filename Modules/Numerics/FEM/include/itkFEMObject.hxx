@@ -57,10 +57,10 @@ FEMObject<VDimension>
 ::~FEMObject()
 {
   this->Clear();
-  this->m_ElementContainer = 0;
-  this->m_NodeContainer = 0;
-  this->m_LoadContainer = 0;
-  this->m_MaterialContainer = 0;
+  this->m_ElementContainer = ITK_NULLPTR;
+  this->m_NodeContainer = ITK_NULLPTR;
+  this->m_LoadContainer = ITK_NULLPTR;
+  this->m_MaterialContainer = ITK_NULLPTR;
 }
 
 template <unsigned int VDimension>
@@ -144,7 +144,7 @@ FEMObject<VDimension>
 
   // copy element information
   int                       numElements = Copy->GetNumberOfElements();
-  itk::LightObject::Pointer a = 0;
+  itk::LightObject::Pointer a = ITK_NULLPTR;
   for( int i = 0; i < numElements; i++ )
     {
     fem::Element *elCopy = Copy->GetElement(i);
@@ -537,7 +537,7 @@ FEMObject<VDimension>
       return this->m_ElementContainer->GetElement(i).GetPointer();
       }
     }
-  return NULL;
+  return ITK_NULLPTR;
 }
 
 template <unsigned int VDimension>
@@ -577,7 +577,7 @@ FEMObject<VDimension>
       return this->m_NodeContainer->GetElement(i);
       }
     }
-  return NULL;
+  return ITK_NULLPTR;
 }
 
 template <unsigned int VDimension>
@@ -608,7 +608,7 @@ FEMObject<VDimension>
       return this->m_LoadContainer->GetElement(i);
       }
     }
-  return NULL;
+  return ITK_NULLPTR;
 }
 
 template <unsigned int VDimension>
@@ -640,7 +640,7 @@ FEMObject<VDimension>
       return this->m_MaterialContainer->GetElement(i).GetPointer();
       }
     }
-  return NULL;
+  return ITK_NULLPTR;
 }
 
 template <unsigned int VDimension>

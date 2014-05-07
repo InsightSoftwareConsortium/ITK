@@ -150,7 +150,7 @@ public:
   virtual OutputType EvaluateAtContinuousIndex(
     const ContinuousIndexType & cindex ) const
     {
-    return this->EvaluateAtContinuousIndex( cindex, NULL );
+    return this->EvaluateAtContinuousIndex( cindex, ITK_NULLPTR );
     }
 
 protected:

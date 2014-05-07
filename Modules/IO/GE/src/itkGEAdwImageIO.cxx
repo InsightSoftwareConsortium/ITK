@@ -99,7 +99,7 @@ GEImageHeader * GEAdwImageIO::ReadHeader(const char *FileNameToRead)
     RAISE_EXCEPTION();
     }
   GEImageHeader *hdr = new GEImageHeader;
-  if ( hdr == 0 )
+  if ( hdr == ITK_NULLPTR )
     {
     RAISE_EXCEPTION();
     }
@@ -112,7 +112,7 @@ GEImageHeader * GEAdwImageIO::ReadHeader(const char *FileNameToRead)
   this->GetStringAt(f, GE_ADW_EX_PATID, tmpbuf, 12);
   tmpbuf[12] = '\0';
   hdr->patientId[0] = '\0';
-  for ( char *ptr = strtok(tmpbuf, "-"); ptr != NULL; ptr = strtok(NULL, "-") )
+  for ( char *ptr = strtok(tmpbuf, "-"); ptr != ITK_NULLPTR; ptr = strtok(ITK_NULLPTR, "-") )
     {
     strcat(hdr->patientId, ptr);
     }

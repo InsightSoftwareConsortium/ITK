@@ -81,7 +81,7 @@ int itkPadLabelMapFilterTest1(int argc, char * argv[])
 
   TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
-  l2i->SetInput( NULL );
+  l2i->SetInput( ITK_NULLPTR );
   TRY_EXPECT_EXCEPTION( l2i->Update() );
 
   return EXIT_SUCCESS;

@@ -150,7 +150,7 @@ public:
 protected:
   ClassifierBase();
   ~ClassifierBase();
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** The real classification logic implementaion. All the subclasses
    * of this class should implement this method. */

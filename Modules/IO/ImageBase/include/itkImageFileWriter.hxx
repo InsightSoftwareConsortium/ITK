@@ -111,7 +111,7 @@ ImageFileWriter< TInputImage >
   itkDebugMacro(<< "Writing an image file");
 
   // Make sure input is available
-  if ( input == 0 )
+  if ( input == ITK_NULLPTR )
     {
     itkExceptionMacro(<< "No input to writer!");
     }
@@ -243,14 +243,14 @@ ImageFileWriter< TInputImage >
   if ( strcmp(input->GetNameOfClass(), "VectorImage") == 0 )
     {
     typedef typename InputImageType::InternalPixelType VectorImageScalarType;
-    m_ImageIO->SetPixelTypeInfo(static_cast<const VectorImageScalarType *>(0));
+    m_ImageIO->SetPixelTypeInfo(static_cast<const VectorImageScalarType *>(ITK_NULLPTR));
     typedef typename InputImageType::AccessorFunctorType AccessorFunctorType;
     m_ImageIO->SetNumberOfComponents( AccessorFunctorType::GetVectorLength(input) );
     }
   else
     {
     // Set the pixel and component type; the number of components.
-    m_ImageIO->SetPixelTypeInfo(static_cast<const InputImagePixelType *>(0));
+    m_ImageIO->SetPixelTypeInfo(static_cast<const InputImagePixelType *>(ITK_NULLPTR));
     }
 
   // Setup the image IO for writing.

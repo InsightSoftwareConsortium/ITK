@@ -98,7 +98,7 @@ public:
 protected:
   SparseFrequencyContainer2();
   virtual ~SparseFrequencyContainer2() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   SparseFrequencyContainer2(const Self &); //purposely not implemented

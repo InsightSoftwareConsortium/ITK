@@ -88,7 +88,7 @@ int itkQuadEdgeMeshEulerOperatorDeleteCenterVertexTest(int argc, char* argv[] )
 
   deleteCenterVertex->SetInput( mesh );
   std::cout << "     " << "Test No QE Input";
-  if( deleteCenterVertex->Evaluate( (QEType*)0 ) )
+  if( deleteCenterVertex->Evaluate( (QEType*)ITK_NULLPTR ) )
     {
     std::cout << "FAILED." << std::endl;
     return EXIT_FAILURE;

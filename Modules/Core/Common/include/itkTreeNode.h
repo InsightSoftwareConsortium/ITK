@@ -86,7 +86,7 @@ public:
   bool Remove(Self *n);
 
   /** Get the number of children given a name and depth */
-  ChildIdentifier GetNumberOfChildren(unsigned int depth = 0, char *name = NULL) const;
+  ChildIdentifier GetNumberOfChildren(unsigned int depth = 0, char *name = ITK_NULLPTR) const;
 
   /** Replace a given child by a new one */
   bool ReplaceChild(Self *oldChild, Self *newChild);
@@ -105,7 +105,7 @@ public:
 
   /** Get the children list */
 #if !defined( CABLE_CONFIGURATION )
-  virtual ChildrenListType * GetChildren(unsigned int depth = 0, char *name = NULL) const;
+  virtual ChildrenListType * GetChildren(unsigned int depth = 0, char *name = ITK_NULLPTR) const;
 
 #endif
 

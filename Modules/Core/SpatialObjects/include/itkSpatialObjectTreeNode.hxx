@@ -32,7 +32,7 @@ SpatialObjectTreeNode< TDimension >
   m_NodeToParentNodeTransform->SetIdentity();
   m_NodeToWorldTransform = TransformType::New();
   m_NodeToWorldTransform->SetIdentity();
-  this->m_Parent = NULL;
+  this->m_Parent = ITK_NULLPTR;
 }
 
 template< unsigned int TDimension >
@@ -88,7 +88,7 @@ SpatialObjectTreeNode< TDimension >
 
   while ( childrenListIt != childrenListEnd )
     {
-    if ( name == NULL || strstr(typeid( *( ( *childrenListIt )->Get() ) ).name(),
+    if ( name == ITK_NULLPTR || strstr(typeid( *( ( *childrenListIt )->Get() ) ).name(),
                                 name) )
       {
       children->push_back(*childrenListIt);

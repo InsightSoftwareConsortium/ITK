@@ -80,7 +80,7 @@ int itkPadImageFilterTest( int, char* [] )
     return EXIT_FAILURE;
     }
 
-  if ( padFilter->GetBoundaryCondition() != NULL )
+  if ( padFilter->GetBoundaryCondition() != ITK_NULLPTR )
     {
     std::cerr << "Default BoundaryCondition was not NULL." << std::endl;
     return EXIT_FAILURE;
@@ -146,7 +146,7 @@ int itkPadImageFilterTest( int, char* [] )
   // Set the boundary condition back to NULL and check that exception
   // is thrown.
   std::cout << "Testing that exception is thrown when boundary condition is NULL." << std::endl;
-  padFilter->SetBoundaryCondition( NULL );
+  padFilter->SetBoundaryCondition( ITK_NULLPTR );
   try
     {
     padFilter->Update();

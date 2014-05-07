@@ -104,13 +104,13 @@ public:
    * \post Sets classes ImageIOBase::m_FileName variable to be FileNameToWrite
    * \return Returns true if this ImageIO can read the file specified.
    */
-  virtual bool CanReadFile(const char *FileNameToRead);
+  virtual bool CanReadFile(const char *FileNameToRead) ITK_OVERRIDE;
 
   /** Set the spacing and dimension information for the set filename. */
-  virtual void ReadImageInformation();
+  virtual void ReadImageInformation() ITK_OVERRIDE;
 
   /** Reads the data from disk into the memory buffer provided. */
-  virtual void Read(void *buffer);
+  virtual void Read(void *buffer) ITK_OVERRIDE;
 
   /*-------- This part of the interfaces deals with writing data. ----- */
 
@@ -120,22 +120,22 @@ public:
    * \post Sets classes ImageIOBase::m_FileName variable to be FileNameToWrite
    * \return Returns true if this ImageIO can write the file specified.
    */
-  virtual bool CanWriteFile(const char *FileNameToWrite);
+  virtual bool CanWriteFile(const char *FileNameToWrite) ITK_OVERRIDE;
 
   /** Set the spacing and dimension information for the set filename. */
-  virtual void WriteImageInformation();
+  virtual void WriteImageInformation() ITK_OVERRIDE;
 
   /** Writes the data to disk from the memory buffer provided. Make sure
    * that the IORegions has been set properly. */
-  virtual void Write(const void *buffer);
+  virtual void Write(const void *buffer) ITK_OVERRIDE;
 
 protected:
   HDF5ImageIO();
   ~HDF5ImageIO();
 
-  virtual SizeType GetHeaderSize(void) const;
+  virtual SizeType GetHeaderSize(void) const ITK_OVERRIDE;
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   HDF5ImageIO(const Self &);   //purposely not implemented

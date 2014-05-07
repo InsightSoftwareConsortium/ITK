@@ -44,7 +44,7 @@ MetaLineConverter< NDimensions >
 {
   const LineMetaObjectType *lineMO =
     dynamic_cast<const LineMetaObjectType *>(mo);
-  if(lineMO == 0)
+  if(lineMO == ITK_NULLPTR)
     {
     itkExceptionMacro(<< "Can't convert MetaObject to MetaLine" );
     }

@@ -33,12 +33,12 @@ public:
   typedef itk::SmartPointer< Self >      Pointer;
   itkNewMacro( Self );
 
-  void Execute(itk::Object *caller, const itk::EventObject & event)
+  virtual void Execute(itk::Object *caller, const itk::EventObject & event) ITK_OVERRIDE
   {
     this->Execute( (const itk::Object *)caller, event);
   }
 
-  void Execute(const itk::Object *object, const itk::EventObject & event)
+  virtual void Execute(const itk::Object *object, const itk::EventObject & event) ITK_OVERRIDE
   {
     m_NumberOfIterations++;
     if ( ! itk::IterationEvent().CheckEvent( &event ) )
@@ -49,11 +49,11 @@ public:
               << m_NumberOfIterations << std::endl;
 
     const TFilterType * filter = dynamic_cast< const TFilterType * >( object );
-    if ( filter == NULL )
+    if ( filter == ITK_NULLPTR )
       {
       itkExceptionMacro(<< "Could not cast object to deconvolution filter type");
       }
-    if ( filter->GetCurrentEstimate() == NULL )
+    if ( filter->GetCurrentEstimate() == ITK_NULLPTR )
       {
       itkExceptionMacro(<< "CurrentEstimate is NULL, but should not be.");
       }

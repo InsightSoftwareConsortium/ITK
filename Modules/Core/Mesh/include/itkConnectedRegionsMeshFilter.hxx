@@ -45,8 +45,8 @@ ConnectedRegionsMeshFilter< TInputMesh, TOutputMesh >
   m_ExtractionMode(Self::LargestRegion),
   m_NumberOfCellsInRegion(NumericTraits< SizeValueType >::Zero),
   m_RegionNumber(NumericTraits< IdentifierType >::Zero),
-  m_Wave(NULL),
-  m_Wave2(NULL)
+  m_Wave(ITK_NULLPTR),
+  m_Wave2(ITK_NULLPTR)
 {
   m_ClosestPoint.Fill(0);
 }
@@ -291,7 +291,7 @@ ConnectedRegionsMeshFilter< TInputMesh, TOutputMesh >
 
   delete m_Wave;
   delete m_Wave2;
-  m_Wave = m_Wave2 = 0;
+  m_Wave = m_Wave2 = ITK_NULLPTR;
 
   itkDebugMacro (<< "Extracted " << m_RegionNumber << " region(s)");
 

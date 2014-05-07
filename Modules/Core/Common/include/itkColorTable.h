@@ -108,7 +108,7 @@ public:
 
 protected:
   ColorTable();
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   unsigned int m_NumberOfColors;
 

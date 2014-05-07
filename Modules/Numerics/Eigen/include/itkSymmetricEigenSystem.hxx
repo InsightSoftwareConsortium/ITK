@@ -29,7 +29,7 @@ template< typename TMatrixElement, int VNumberOfRows >
 SymmetricEigenSystem< TMatrixElement, VNumberOfRows >
 ::SymmetricEigenSystem()
 {
-  m_Matrix = 0;
+  m_Matrix = ITK_NULLPTR;
   m_UseAbsoluteOrder = true;
   m_EigenValues.Fill(NumericTraits< TMatrixElement >::Zero);
   ArrayType temp;
@@ -54,7 +54,7 @@ SymmetricEigenSystem< TMatrixElement, VNumberOfRows >
 
   os << indent << "Matrix:";
 
-  if ( m_Matrix != 0 )
+  if ( m_Matrix != ITK_NULLPTR )
     {
     os << m_Matrix << std::endl;
     }

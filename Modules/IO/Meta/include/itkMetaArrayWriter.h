@@ -131,7 +131,7 @@ public:
     m_MetaArray.InitializeEssential(rows,
                                     _metaElementType,
                                     cols,
-                                    NULL,
+                                    ITK_NULLPTR,
                                     true,
                                     true);
     m_Buffer = m_MetaArray.ElementData();
@@ -158,7 +158,7 @@ protected:
 
   MetaArrayWriter();
   virtual ~MetaArrayWriter();
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
 

@@ -100,7 +100,7 @@ public:
 protected:
   OutputWindow();
   virtual ~OutputWindow();
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   OutputWindow(const Self &);   //purposely not implemented

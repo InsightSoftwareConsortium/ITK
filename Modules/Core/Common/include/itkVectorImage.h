@@ -276,11 +276,11 @@ public:
    * the image iterator class. */
   InternalPixelType * GetBufferPointer()
   {
-    return m_Buffer ? m_Buffer->GetBufferPointer() : 0;
+    return m_Buffer ? m_Buffer->GetBufferPointer() : ITK_NULLPTR;
   }
   const InternalPixelType * GetBufferPointer() const
   {
-    return m_Buffer ? m_Buffer->GetBufferPointer() : 0;
+    return m_Buffer ? m_Buffer->GetBufferPointer() : ITK_NULLPTR;
   }
 
   /** Return a pointer to the container. */

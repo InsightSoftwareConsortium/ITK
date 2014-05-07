@@ -51,7 +51,7 @@ public:
   typedef double MeanMemoryLoadType;
 
 protected:
-  virtual MemoryLoadType GetInstantValue(void) const;
+  virtual MemoryLoadType GetInstantValue(void) const ITK_OVERRIDE;
 
 private:
   mutable MemoryUsageObserver m_MemoryObserver;

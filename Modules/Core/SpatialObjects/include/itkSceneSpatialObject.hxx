@@ -106,7 +106,7 @@ SceneSpatialObject< TSpaceDimension >
 
   while ( it != itEnd )
     {
-    if ( name == NULL || strstr(typeid( **it ).name(), name) )
+    if ( name == ITK_NULLPTR || strstr(typeid( **it ).name(), name) )
       {
       newList->push_back(*it);
       }
@@ -155,7 +155,7 @@ SceneSpatialObject< TSpaceDimension >
   unsigned int cnt = 0;
   while ( it != itEnd )
     {
-    if ( name == NULL || strstr(typeid( **it ).name(), name) )
+    if ( name == ITK_NULLPTR || strstr(typeid( **it ).name(), name) )
       {
       cnt++;
       }
@@ -247,7 +247,7 @@ SceneSpatialObject< TSpaceDimension >
     it++;
     }
 
-  return NULL;
+  return ITK_NULLPTR;
 }
 
 template< unsigned int TSpaceDimension >
@@ -268,7 +268,7 @@ SceneSpatialObject< TSpaceDimension >
       SpatialObject< TSpaceDimension > *parentObject =
         static_cast< SpatialObject< TSpaceDimension > * >
         ( this->GetObjectById(parentId) );
-      if ( parentObject == NULL )
+      if ( parentObject == ITK_NULLPTR )
         {
         ret = false;
         ++it;

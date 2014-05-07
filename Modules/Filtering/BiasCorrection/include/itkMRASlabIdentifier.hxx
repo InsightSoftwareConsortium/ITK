@@ -31,7 +31,7 @@ template< typename TInputImage >
 MRASlabIdentifier< TInputImage >
 ::MRASlabIdentifier()
 {
-  m_Image = 0;
+  m_Image = ITK_NULLPTR;
   m_NumberOfSamples = 10;
   m_BackgroundMinimumThreshold = NumericTraits< ImagePixelType >::min();
   m_Tolerance = 0.0;

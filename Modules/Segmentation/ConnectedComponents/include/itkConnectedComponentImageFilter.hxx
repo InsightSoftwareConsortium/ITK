@@ -407,9 +407,9 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
 ::AfterThreadedGenerateData()
 {
   m_NumberOfLabels.clear();
-  m_Barrier = NULL;
+  m_Barrier = ITK_NULLPTR;
   m_LineMap.clear();
-  m_Input = NULL;
+  m_Input = ITK_NULLPTR;
 }
 
 template< typename TInputImage, typename TOutputImage, typename TMaskImage >

@@ -230,7 +230,7 @@ public:
    * multiple outputs of different types, then that class must provide
    * an implementation of MakeOutput(). */
   using Superclass::MakeOutput;
-  virtual ProcessObject::DataObjectPointer MakeOutput(ProcessObject::DataObjectPointerArraySizeType idx);
+  virtual ProcessObject::DataObjectPointer MakeOutput(ProcessObject::DataObjectPointerArraySizeType idx) ITK_OVERRIDE;
 
 protected:
   ImageSource();
@@ -251,7 +251,7 @@ protected:
    * instead.
    *
    * \sa ThreadedGenerateData() */
-  virtual void GenerateData();
+  virtual void GenerateData() ITK_OVERRIDE;
 
   /** If an imaging filter can be implemented as a multithreaded
    * algorithm, the filter will provide an implementation of

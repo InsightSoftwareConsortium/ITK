@@ -134,14 +134,14 @@ public:
   itkTypeMacro(DummyTemporalDataObject, TemporalDataObject);
 
   /** Override update for debug output */
-  virtual void Update()
+  virtual void Update() ITK_OVERRIDE
   {
     //std::cout << "Calling Update from temporal data object" << std::endl;
     Superclass::Update();
   }
 
   /** Override UpdateOutputInformation for debug output */
-  virtual void UpdateOutputInformation()
+  virtual void UpdateOutputInformation() ITK_OVERRIDE
   {
     //std::cout << "Calling UpdateOutputInformation from temporal data object"
     // << std::endl;
@@ -149,13 +149,13 @@ public:
   }
 
   /** Override PropagateRequestedRegion for debug output */
-  virtual void PropagateRequestedRegion() throw (itk::InvalidRequestedRegionError)
+  virtual void PropagateRequestedRegion() throw (itk::InvalidRequestedRegionError) ITK_OVERRIDE
   {
     Superclass::PropagateRequestedRegion();
   }
 
   /** Override UpdateOutputData for debug output */
-  virtual void UpdateOutputData()
+  virtual void UpdateOutputData() ITK_OVERRIDE
   {
     std::cout << "      UpdateOutputData from temporal data object" << std::endl;
 
@@ -198,7 +198,7 @@ public:
     // if nothing buffered, just fail
     if (m_BufferedTemporalRegion.GetFrameDuration() == 0)
       {
-      return NULL;
+      return ITK_NULLPTR;
       }
 
     // make sure we have the desired frame buffered
@@ -206,7 +206,7 @@ public:
     SizeValueType bufEnd = bufStart + m_BufferedTemporalRegion.GetFrameDuration() - 1;
     if (frameNumber < bufStart || frameNumber > bufEnd)
       {
-      return NULL;
+      return ITK_NULLPTR;
       }
 
     // If we can, fetch the desired frame
@@ -236,7 +236,7 @@ public:
   /*-REQUIRED IMPLEMENTATIONS------------------------------------------------*/
 
   /** TemporalStreamingGenerateData */
-  virtual void TemporalStreamingGenerateData()
+  virtual void TemporalStreamingGenerateData() ITK_OVERRIDE
   {
     // Create a START entry in the stack trace
     m_CallStack.push_back(CallRecord(m_IdNumber,
@@ -331,21 +331,21 @@ public:
   /*-DEBUG OVERRIDES---------------------------------------------------------*/
 
   /** Override Update for debug output */
-  virtual void Update()
+  virtual void Update() ITK_OVERRIDE
   {
     std::cout << "(ID = " << m_IdNumber << ") - Update" << std::endl;
     Superclass::Update();
   }
 
   /** Override UpdateOutputData for debug output */
-  virtual void UpdateOutputData(DataObject* dobj)
+  virtual void UpdateOutputData(DataObject* dobj) ITK_OVERRIDE
   {
     std::cout << "(ID = " << m_IdNumber << ") - UpdateOutputData" << std::endl;
     Superclass::UpdateOutputData(dobj);
   }
 
   /** Override GenerateData for debug output */
-  virtual void GenerateData()
+  virtual void GenerateData() ITK_OVERRIDE
   {
     // Create a START entry in the stack trace
     m_CallStack.push_back(CallRecord(m_IdNumber,
@@ -361,14 +361,14 @@ public:
   }
 
   /** Override EnlargeOutputRequestedTemporalRegion for debug output */
-  virtual void EnlargeOutputRequestedTemporalRegion(TemporalDataObject* output)
+  virtual void EnlargeOutputRequestedTemporalRegion(TemporalDataObject* output) ITK_OVERRIDE
   {
     std::cout << "(ID = " << m_IdNumber << ") - EnlargeOutputRequestedTemporalRegion" << std::endl;
     Superclass::EnlargeOutputRequestedTemporalRegion(output);
   }
 
   /** Override GenerateInputRequestedTemporalRegion for debug output */
-  virtual void GenerateInputRequestedTemporalRegion()
+  virtual void GenerateInputRequestedTemporalRegion() ITK_OVERRIDE
   {
     std::cout << "(ID = " << m_IdNumber << ") - GenerateInputRequestedTemporalRegion" << std::endl;
     Superclass::GenerateInputRequestedTemporalRegion();

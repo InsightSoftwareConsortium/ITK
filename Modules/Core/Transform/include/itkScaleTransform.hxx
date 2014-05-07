@@ -199,7 +199,7 @@ ScaleTransform<ScalarType, NDimensions>
     {
     return inv.GetPointer();
     }
-  return NULL;
+  return ITK_NULLPTR;
 }
 
 // Compute the Jacobian of the transformation

@@ -26,11 +26,11 @@ namespace itk
 template< typename TFixedImage, typename TMovingImage >
 CompareHistogramImageToImageMetric< TFixedImage, TMovingImage >::CompareHistogramImageToImageMetric()
 {
-  m_TrainingFixedImage        = 0; // has to be provided by the user.
-  m_TrainingMovingImage       = 0; // has to be provided by the user.
-  m_TrainingTransform         = 0; // has to be provided by the user.
-  m_TrainingInterpolator      = 0; // has to be provided by the user.
-  m_TrainingHistogram         = 0; // either provided by the user or created
+  m_TrainingFixedImage        = ITK_NULLPTR; // has to be provided by the user.
+  m_TrainingMovingImage       = ITK_NULLPTR; // has to be provided by the user.
+  m_TrainingTransform         = ITK_NULLPTR; // has to be provided by the user.
+  m_TrainingInterpolator      = ITK_NULLPTR; // has to be provided by the user.
+  m_TrainingHistogram         = ITK_NULLPTR; // either provided by the user or created
 }
 
 template< typename TFixedImage, typename TMovingImage >

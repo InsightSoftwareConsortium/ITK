@@ -75,10 +75,10 @@ public:
   enum { DefaultIntegrationOrder = 1 };
 
   /** Get the Integration point and weight */
-  virtual void GetIntegrationPointAndWeight(unsigned int i, VectorType & pt, Float & w, unsigned int order) const;
+  virtual void GetIntegrationPointAndWeight(unsigned int i, VectorType & pt, Float & w, unsigned int order) const ITK_OVERRIDE;
 
   /** Get the number of integration points */
-  virtual unsigned int GetNumberOfIntegrationPoints(unsigned int order) const;
+  virtual unsigned int GetNumberOfIntegrationPoints(unsigned int order) const ITK_OVERRIDE;
 
   // ////////////////////////////////////////////////////////////////////////
   /**
@@ -86,20 +86,20 @@ public:
    */
 
   /** Return the shape functions used to interpolate across the element */
-  virtual VectorType ShapeFunctions(const VectorType & pt) const;
+  virtual VectorType ShapeFunctions(const VectorType & pt) const ITK_OVERRIDE;
 
   /** Return the shape functions derivatives in the shapeD matrix */
-  virtual void ShapeFunctionDerivatives(const VectorType & pt, MatrixType & shapeD) const;
+  virtual void ShapeFunctionDerivatives(const VectorType & pt, MatrixType & shapeD) const ITK_OVERRIDE;
 
   /** Convert from global to local coordinates */
-  virtual bool GetLocalFromGlobalCoordinates(const VectorType & globalPt, VectorType & localPt) const;
+  virtual bool GetLocalFromGlobalCoordinates(const VectorType & globalPt, VectorType & localPt) const ITK_OVERRIDE;
 
   // Since the Jacobian is not quadratic, we need to provide our
   // own implementation of calculating the determinant and inverse.
-  virtual Float JacobianDeterminant(const VectorType & pt, const MatrixType *pJ = 0) const;
+  virtual Float JacobianDeterminant(const VectorType & pt, const MatrixType *pJ = ITK_NULLPTR) const ITK_OVERRIDE;
 
   /** Return the inverse of the Jacobian */
-  virtual void JacobianInverse(const VectorType & pt, MatrixType & invJ, const MatrixType *pJ = 0) const;
+  virtual void JacobianInverse(const VectorType & pt, MatrixType & invJ, const MatrixType *pJ = ITK_NULLPTR) const ITK_OVERRIDE;
 
   /**
    * Constants for integration rules.
@@ -113,9 +113,9 @@ public:
   static const unsigned int Nip[6];
 
 protected:
-  virtual void PopulateEdgeIds(void);
+  virtual void PopulateEdgeIds(void) ITK_OVERRIDE;
 
-  virtual void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
 };
 }

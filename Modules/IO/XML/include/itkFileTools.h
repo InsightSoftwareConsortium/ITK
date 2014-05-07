@@ -52,7 +52,7 @@ namespace itk
 inline void
 FileTools::CreateDirectory( const char* dir )
 {
-  if ( dir == 0 || itksys::SystemTools::FileExists(dir,true) )
+  if ( dir == ITK_NULLPTR || itksys::SystemTools::FileExists(dir,true) )
     {
     ExceptionObject eo( __FILE__, __LINE__, "directory cannot be created" );
     throw eo;
@@ -80,7 +80,7 @@ FileTools::CreateDirectory( const char* dir )
 inline void
 FileTools::CreateFile( const char* fn )
 {
-  if ( fn == 0 || *fn == 0 || itksys::SystemTools::FileIsDirectory(fn) )
+  if ( fn == ITK_NULLPTR || *fn == 0 || itksys::SystemTools::FileIsDirectory(fn) )
     {
     ExceptionObject eo( __FILE__, __LINE__, "file cannot be created" );
     throw eo;

@@ -89,10 +89,10 @@ public:
   }
 
   /** Start optimization with an initial value. */
-  virtual void StartOptimization(bool doOnlyInitialization = false);
+  virtual void StartOptimization(bool doOnlyInitialization = false) ITK_OVERRIDE;
 
   /** Plug in a Cost Function into the optimizer  */
-  virtual void SetMetric(MetricType *metric);
+  virtual void SetMetric(MetricType *metric) ITK_OVERRIDE;
 
   /** Set the lower bound value for each variable. */
   void SetLowerBound(const BoundValueType & value);
@@ -135,7 +135,7 @@ public:
   itkGetConstMacro(MaximumNumberOfCorrections, unsigned int);
 
   /** This optimizer does not support scaling of the derivatives. */
-  virtual void SetScales(const ScalesType &);
+  virtual void SetScales(const ScalesType &) ITK_OVERRIDE;
 
   /** Get the current iteration number. */
   itkGetConstReferenceMacro(CurrentIteration, unsigned int);
@@ -147,7 +147,7 @@ public:
 protected:
   LBFGSBOptimizerv4();
   virtual ~LBFGSBOptimizerv4();
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Internal optimizer type. */
   typedef   vnl_lbfgsb   InternalOptimizerType;

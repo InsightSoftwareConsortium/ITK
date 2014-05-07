@@ -27,8 +27,8 @@ SpatialObjectReader< NDimensions, PixelType, TMeshTraits >
 ::SpatialObjectReader()
 {
   m_FileName = "";
-  m_Scene = 0;
-  m_Group = 0;
+  m_Scene = ITK_NULLPTR;
+  m_Group = ITK_NULLPTR;
 }
 
 template< unsigned int NDimensions, typename PixelType, typename TMeshTraits >

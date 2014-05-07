@@ -154,7 +154,7 @@ int itkImageVectorOptimizerParametersHelperTest(int, char *[])
   params.MoveDataPointer( array.data_block() );
 
   //Test null image pointer
-  params.SetParametersObject( NULL );
+  params.SetParametersObject( ITK_NULLPTR );
   TRY_EXPECT_EXCEPTION( params.MoveDataPointer( array.data_block() ) );
 
   //Test setting an image of wrong type

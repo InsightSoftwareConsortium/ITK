@@ -32,7 +32,7 @@ template< typename TInputMesh >
 VTKPolyDataWriter< TInputMesh >
 ::VTKPolyDataWriter()
 {
-  this->m_Input = NULL;
+  this->m_Input = ITK_NULLPTR;
   this->m_FileName = "";
 }
 

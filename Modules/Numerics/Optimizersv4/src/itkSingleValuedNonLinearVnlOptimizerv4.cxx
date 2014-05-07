@@ -22,7 +22,7 @@ namespace itk
 SingleValuedNonLinearVnlOptimizerv4
 ::SingleValuedNonLinearVnlOptimizerv4()
 {
-  this->m_CostFunctionAdaptor = 0;
+  this->m_CostFunctionAdaptor = ITK_NULLPTR;
   this->m_Command = CommandType::New();
   this->m_Command->SetCallbackFunction(this,  &SingleValuedNonLinearVnlOptimizerv4::IterationReport);
 
@@ -36,7 +36,7 @@ SingleValuedNonLinearVnlOptimizerv4
   if ( this->m_CostFunctionAdaptor )
     {
     delete this->m_CostFunctionAdaptor;
-    this->m_CostFunctionAdaptor = 0;
+    this->m_CostFunctionAdaptor = ITK_NULLPTR;
     }
 }
 
@@ -48,7 +48,7 @@ SingleValuedNonLinearVnlOptimizerv4
   Superclass::StartOptimization();
 
   // Verify adaptor
-  if( this->m_CostFunctionAdaptor == NULL )
+  if( this->m_CostFunctionAdaptor == ITK_NULLPTR )
     {
     itkExceptionMacro("CostFunctionAdaptor has not been set.");
     }

@@ -43,12 +43,12 @@ protected:
 
 public:
 
-  void Execute(itk::Object *caller, const itk::EventObject & event)
+  virtual void Execute(itk::Object *caller, const itk::EventObject & event) ITK_OVERRIDE
     {
     Execute( (const itk::Object *) caller, event);
     }
 
-  void Execute(const itk::Object * object, const itk::EventObject & event)
+  virtual void Execute(const itk::Object * object, const itk::EventObject & event) ITK_OVERRIDE
     {
     const TFilter * filter =
       dynamic_cast< const TFilter * >( object );
@@ -258,7 +258,7 @@ int PerformBSplineExpImageRegistration( int argc, char *argv[] )
 #else
   optimizer->SetNumberOfIterations( 1 );
 #endif
-  optimizer->SetScalesEstimator( NULL );
+  optimizer->SetScalesEstimator( ITK_NULLPTR );
   optimizer->SetDoEstimateLearningRateOnce( false ); //true by default
   optimizer->SetDoEstimateLearningRateAtEachIteration( true );
 

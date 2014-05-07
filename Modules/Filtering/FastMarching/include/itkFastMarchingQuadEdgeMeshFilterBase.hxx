@@ -31,7 +31,7 @@ template< typename TInput, typename TOutput >
 FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
 ::FastMarchingQuadEdgeMeshFilterBase() : Superclass()
 {
-  this->m_InputMesh = 0;
+  this->m_InputMesh = ITK_NULLPTR;
 }
 
 template< typename TInput, typename TOutput >

@@ -28,7 +28,7 @@ namespace itk
 {
 
 template< typename TInput >
-DOMWriter<TInput>::DOMWriter() : m_Input( NULL )
+DOMWriter<TInput>::DOMWriter() : m_Input( ITK_NULLPTR )
 {
   // Create the logger.
   this->m_Logger = LoggerType::New();
@@ -72,12 +72,12 @@ template< typename TInput >
 void
 DOMWriter<TInput>::Update( DOMNodeType* outputdom, const void* userdata )
 {
-  if ( outputdom == NULL )
+  if ( outputdom == ITK_NULLPTR )
     {
     itkExceptionMacro( "write to an invalid DOM object" );
     }
 
-  if ( this->GetInput() == NULL )
+  if ( this->GetInput() == ITK_NULLPTR )
     {
     itkExceptionMacro( "input object is null" );
     }

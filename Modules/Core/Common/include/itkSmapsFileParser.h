@@ -169,10 +169,10 @@ public:
   virtual ~SmapsData_2_6();
 
   /** Returns the heap usage in kB of the process */
-  virtual MemoryLoadType GetHeapUsage();
+  virtual MemoryLoadType GetHeapUsage() ITK_OVERRIDE;
 
   /** Returns the stack usage in kB of the process */
-  virtual MemoryLoadType GetStackUsage();
+  virtual MemoryLoadType GetStackUsage() ITK_OVERRIDE;
 
   /** fill the smaps data */
   friend ITKCommon_EXPORT std::istream &  operator>>(std::istream & smapsStream,
@@ -198,10 +198,10 @@ public:
   virtual ~VMMapData_10_2();
 
   /** Returns the heap usage in kB of the process */
-  virtual MemoryLoadType GetHeapUsage();
+  virtual MemoryLoadType GetHeapUsage() ITK_OVERRIDE;
 
   /** Returns the stack usage in kB of the process */
-  virtual MemoryLoadType GetStackUsage();
+  virtual MemoryLoadType GetStackUsage() ITK_OVERRIDE;
 
   /** fill the smaps data */
   friend ITKCommon_EXPORT std::istream & operator>>(std::istream & stream,

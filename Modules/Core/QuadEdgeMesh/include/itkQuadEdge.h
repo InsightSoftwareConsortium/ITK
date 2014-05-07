@@ -403,7 +403,7 @@ public:
   inline const Self * GetInvDnext() const { return this->GetDprev(); }
 
   /** Queries. */
-  inline bool IsHalfEdge() const { return ( ( m_Onext == this ) || ( m_Rot == NULL ) ); }
+  inline bool IsHalfEdge() const { return ( ( m_Onext == this ) || ( m_Rot == ITK_NULLPTR ) ); }
   inline bool IsIsolated() const { return ( this == this->GetOnext() ); }
   bool IsEdgeInOnextRing(Self *testEdge) const;
 

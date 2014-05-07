@@ -35,8 +35,8 @@ ShiftScaleImageFilter< TInputImage, TOutputImage >
   m_OverflowCount = 0;
   m_ThreadUnderflow.SetSize(1);
   m_ThreadOverflow.SetSize(1);
-  m_InputImage = 0;
-  m_OutputImage = 0;
+  m_InputImage = ITK_NULLPTR;
+  m_OutputImage = ITK_NULLPTR;
 }
 
 template< typename TInputImage, typename TOutputImage >

@@ -54,9 +54,9 @@ public:
   *ImageBoundaryConditionConstPointerType;
 
   VectorImageNeighborhoodAccessorFunctor(VectorLengthType length):
-    m_VectorLength(length), m_OffsetMultiplier(length - 1), m_Begin(NULL) {}
+    m_VectorLength(length), m_OffsetMultiplier(length - 1), m_Begin(ITK_NULLPTR) {}
   VectorImageNeighborhoodAccessorFunctor():
-    m_VectorLength(0), m_OffsetMultiplier(0), m_Begin(NULL) {}
+    m_VectorLength(0), m_OffsetMultiplier(0), m_Begin(ITK_NULLPTR) {}
 
   /** Set the pointer index to the start of the buffer.
    * This must be set by the iterators to the starting location of the buffer.

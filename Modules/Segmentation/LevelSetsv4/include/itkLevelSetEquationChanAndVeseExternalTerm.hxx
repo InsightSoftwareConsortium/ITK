@@ -29,8 +29,8 @@ LevelSetEquationChanAndVeseExternalTerm< TInput, TLevelSetContainer >
 {
   this->m_TermName = "External Chan And Vese term";
   this->m_RequiredData.insert( "Value" );
-  this->m_DomainMapImageFilter = 0;
-  this->m_CacheImage = 0;
+  this->m_DomainMapImageFilter = ITK_NULLPTR;
+  this->m_CacheImage = ITK_NULLPTR;
 }
 
 template< typename TInput, typename TLevelSetContainer >
@@ -58,7 +58,7 @@ void LevelSetEquationChanAndVeseExternalTerm< TInput, TLevelSetContainer >
 
   if( this->m_LevelSetContainer->HasDomainMap() )
     {
-    if(this->m_DomainMapImageFilter == 0)
+    if(this->m_DomainMapImageFilter == ITK_NULLPTR)
       {
       this->m_DomainMapImageFilter = this->m_LevelSetContainer->GetModifiableDomainMapFilter();
       this->m_CacheImage = this->m_DomainMapImageFilter->GetOutput();

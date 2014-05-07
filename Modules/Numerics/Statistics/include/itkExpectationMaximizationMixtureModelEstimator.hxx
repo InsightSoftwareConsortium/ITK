@@ -34,7 +34,7 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
   m_MembershipFunctionsObject            = MembershipFunctionVectorObjectType::New();
   m_MembershipFunctionsWeightArrayObject =
     MembershipFunctionsWeightsArrayObjectType::New();
-  m_Sample = 0;
+  m_Sample = ITK_NULLPTR;
   m_MaxIteration = 100;
 }
 

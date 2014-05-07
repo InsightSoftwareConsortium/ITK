@@ -31,7 +31,7 @@ FiniteDifferenceImageFilter< TInputImage, TOutputImage >
 {
   m_UseImageSpacing    = true;
   m_ElapsedIterations  = 0;
-  m_DifferenceFunction = 0;
+  m_DifferenceFunction = ITK_NULLPTR;
   m_NumberOfIterations = NumericTraits< IdentifierType >::max();
   m_MaximumRMSError = 0.0;
   m_RMSChange = 0.0;
@@ -264,7 +264,7 @@ FiniteDifferenceImageFilter< TInputImage, TOutputImage >
   if ( this->m_UseImageSpacing )
     {
     const TOutputImage *outputImage =  this->GetOutput();
-    if ( outputImage == NULL )
+    if ( outputImage == ITK_NULLPTR )
       {
       itkExceptionMacro("Output image is NULL");
       }

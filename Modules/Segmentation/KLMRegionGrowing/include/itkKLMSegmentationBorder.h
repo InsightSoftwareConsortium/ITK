@@ -179,7 +179,7 @@ protected:
   ~KLMSegmentationBorder();
 
   /** Print self identity */
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   KLMSegmentationBorder(const Self &); //purposely not implemented

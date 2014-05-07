@@ -58,7 +58,7 @@ LightObject::New()
   Pointer      smartPtr;
   LightObject *rawPtr = ::itk::ObjectFactory< LightObject >::Create();
 
-  if ( rawPtr == NULL )
+  if ( rawPtr == ITK_NULLPTR )
     {
     rawPtr = new LightObject;
     }
@@ -286,7 +286,7 @@ LightObject
 #ifdef GCC_USEDEMANGLE
   char const *mangledName = typeid( *this ).name();
   int         status;
-  char *      unmangled = abi::__cxa_demangle(mangledName, 0, 0, &status);
+  char *      unmangled = abi::__cxa_demangle(mangledName, ITK_NULLPTR, ITK_NULLPTR, &status);
 
   os << indent << "RTTI typeinfo:   ";
 

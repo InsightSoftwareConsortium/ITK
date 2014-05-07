@@ -234,18 +234,18 @@ int itkPCAShapeSignedDistanceFunctionTest( int, char *[])
     }
 
   // NULL MeanImage
-  TEST_INITIALIZATION_ERROR( MeanImage, NULL, meanImage );
+  TEST_INITIALIZATION_ERROR( MeanImage, ITK_NULLPTR, meanImage );
 
   // Wrong number of PC images
   ShapeFunction::ImagePointerVector   badPCImages;
   badPCImages.resize(1);
-  badPCImages[0] = NULL;
+  badPCImages[0] = ITK_NULLPTR;
 
   TEST_INITIALIZATION_ERROR( PrincipalComponentImages, badPCImages, pcImages );
 
   // A NULL PC image
   badPCImages = pcImages;
-  badPCImages[1] = NULL;
+  badPCImages[1] = ITK_NULLPTR;
 
   TEST_INITIALIZATION_ERROR( PrincipalComponentImages, badPCImages, pcImages );
 

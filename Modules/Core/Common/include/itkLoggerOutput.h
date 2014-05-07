@@ -64,27 +64,27 @@ public:
   typedef Logger *LoggerType;
 
   /** Send a string to display. */
-  virtual void DisplayText(const char *t);
+  virtual void DisplayText(const char *t) ITK_OVERRIDE;
 
   /** Send a string as an error message to display.
    * The default implementation calls DisplayText() but subclasses
    * could present this message differently. */
-  virtual void DisplayErrorText(const char *t);
+  virtual void DisplayErrorText(const char *t) ITK_OVERRIDE;
 
   /** Send a string as a warningmessage to display.
    * The default implementation calls DisplayText() but subclasses
    * could present this message differently. */
-  virtual void DisplayWarningText(const char *t);
+  virtual void DisplayWarningText(const char *t) ITK_OVERRIDE;
 
   /** Send a string as a message to display.
    * The default implementation calls DisplayText() but subclasses
    * could present this message differently. */
-  virtual void DisplayGenericOutputText(const char *t);
+  virtual void DisplayGenericOutputText(const char *t) ITK_OVERRIDE;
 
   /** Send a string as a debug message to display.
    * The default implementation calls DisplayText() but subclasses
    * could present this message differently. */
-  virtual void DisplayDebugText(const char *t);
+  virtual void DisplayDebugText(const char *t) ITK_OVERRIDE;
 
   itkSetMacro(Logger, LoggerType);
 
@@ -96,9 +96,9 @@ public:
   }
 
 protected:
-  LoggerOutput():m_Logger(0) {}
+  LoggerOutput():m_Logger(ITK_NULLPTR) {}
   virtual ~LoggerOutput() {}
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   Logger *m_Logger;

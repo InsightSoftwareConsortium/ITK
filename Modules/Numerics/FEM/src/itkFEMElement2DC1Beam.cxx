@@ -39,7 +39,7 @@ namespace fem
 }
 
 Element2DC1Beam
-::Element2DC1Beam() : Superclass(), m_mat(0)
+::Element2DC1Beam() : Superclass(), m_mat(ITK_NULLPTR)
 {
 }
 

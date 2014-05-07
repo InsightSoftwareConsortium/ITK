@@ -122,12 +122,12 @@ public:
 
   /** Gets the total energy value of an image or a slice using the
    * given parameters. */
-  MeasureType GetValue(const ParametersType & parameters) const;
+  virtual MeasureType GetValue(const ParametersType & parameters) const ITK_OVERRIDE;
 
   /** Dummy implementation to confirm to the SingleValuedCostFunction
    * interfaces. It is pure virtual in the superclass */
   void GetDerivative( const ParametersType & itkNotUsed(parameters),
-                      DerivativeType & itkNotUsed(derivative) ) const
+                      DerivativeType & itkNotUsed(derivative) ) const ITK_OVERRIDE
   {}
 
   /** Set Mean and Sigma for the normal distributions
@@ -137,7 +137,7 @@ public:
   void InitializeDistributions(Array< double > classMeans,
                                Array< double > classSigmas);
 
-  unsigned int GetNumberOfParameters(void) const;
+  virtual unsigned int GetNumberOfParameters(void) const ITK_OVERRIDE;
 
 protected:
   /** Constructor: */

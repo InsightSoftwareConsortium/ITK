@@ -230,7 +230,7 @@ DisplacementFieldTransformParametersAdaptor<TTransform>
   newDisplacementField->Update();
   newDisplacementField->DisconnectPipeline();
 
-  typename DisplacementFieldType::Pointer newInverseDisplacementField = NULL;
+  typename DisplacementFieldType::Pointer newInverseDisplacementField = ITK_NULLPTR;
   if( this->m_Transform->GetInverseDisplacementField() )
     {
     typename LinearInterpolatorType::Pointer inverseInterpolator = LinearInterpolatorType::New();

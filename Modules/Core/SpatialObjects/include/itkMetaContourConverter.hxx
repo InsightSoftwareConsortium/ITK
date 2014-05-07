@@ -44,7 +44,7 @@ MetaContourConverter< NDimensions >
 ::MetaObjectToSpatialObject(const MetaObjectType *mo)
 {
   const ContourMetaObjectType *contourMO = dynamic_cast<const MetaContour *>(mo);
-  if(contourMO == 0)
+  if(contourMO == ITK_NULLPTR)
     {
     itkExceptionMacro(<< "Can't downcast MetaObject to MetaContour");
     }

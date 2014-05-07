@@ -30,7 +30,7 @@ ImageRandomNonRepeatingConstIteratorWithIndex< TImage >
   m_NumberOfPixelsInRegion    = 0L;
   m_NumberOfSamplesRequested  = 0L;
   m_NumberOfSamplesDone       = 0L;
-  m_Permutation = NULL;
+  m_Permutation = ITK_NULLPTR;
 }
 
 /** Constructor establishes an iterator to walk a particular image and a

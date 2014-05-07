@@ -46,10 +46,10 @@ FastMarchingImageFilter< TLevelSet, TSpeedImage >
   m_OutputDirection.SetIdentity();
   m_OverrideOutputInformation = false;
 
-  m_AlivePoints = NULL;
-  m_OutsidePoints = NULL;
-  m_TrialPoints = NULL;
-  m_ProcessedPoints = NULL;
+  m_AlivePoints = ITK_NULLPTR;
+  m_OutsidePoints = ITK_NULLPTR;
+  m_TrialPoints = ITK_NULLPTR;
+  m_ProcessedPoints = ITK_NULLPTR;
 
   m_SpeedConstant = 1.0;
   m_InverseSpeed = -1.0;
@@ -94,7 +94,7 @@ FastMarchingImageFilter< TLevelSet, TSpeedImage >
   Superclass::GenerateOutputInformation();
 
   // use user-specified output information
-  if ( this->GetInput() == NULL || m_OverrideOutputInformation )
+  if ( this->GetInput() == ITK_NULLPTR || m_OverrideOutputInformation )
     {
     LevelSetPointer output = this->GetOutput();
     output->SetLargestPossibleRegion(m_OutputRegion);

@@ -29,7 +29,7 @@ ConjugateGradientOptimizer
 ::ConjugateGradientOptimizer()
 {
   m_OptimizerInitialized    = false;
-  m_VnlOptimizer            = 0;
+  m_VnlOptimizer            = ITK_NULLPTR;
 }
 
 /**

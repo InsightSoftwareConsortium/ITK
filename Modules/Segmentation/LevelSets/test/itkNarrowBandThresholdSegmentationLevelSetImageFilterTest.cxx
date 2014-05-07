@@ -79,7 +79,7 @@ public:
   itkNewMacro(Self);
 
   /** Standard Command virtual methods */
-  void Execute(Object *caller, const EventObject &)
+  virtual void Execute(Object *caller, const EventObject &) ITK_OVERRIDE
   {
     std::cout <<
       (dynamic_cast<NarrowBandLevelSetImageFilter< ::NBTS::SeedImageType,
@@ -87,7 +87,7 @@ public:
               << std::endl;
 
   }
-  void Execute(const Object *, const EventObject &)
+  virtual void Execute(const Object *, const EventObject &) ITK_OVERRIDE
   {
     std::cout << "ack" << std::endl;
 

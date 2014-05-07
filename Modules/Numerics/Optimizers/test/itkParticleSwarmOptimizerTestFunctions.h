@@ -50,7 +50,7 @@ public:
   {
   }
 
-  double GetValue( const ParametersType & parameters ) const
+  virtual double GetValue( const ParametersType & parameters ) const ITK_OVERRIDE
   {
     double val;
 
@@ -66,13 +66,13 @@ public:
   }
 
   void GetDerivative( const ParametersType & itkNotUsed(parameters),
-                      DerivativeType & itkNotUsed(derivative) ) const
+                      DerivativeType & itkNotUsed(derivative) ) const ITK_OVERRIDE
   {
     throw itk::ExceptionObject( __FILE__, __LINE__,
                                 "no derivative available" );
   }
 
-  unsigned int GetNumberOfParameters(void) const
+  virtual unsigned int GetNumberOfParameters(void) const ITK_OVERRIDE
   {
     return 1;
   }
@@ -120,7 +120,7 @@ public:
     m_Intercept[1]    = -8;
   }
 
-  double GetValue( const ParametersType & parameters ) const
+  virtual double GetValue( const ParametersType & parameters ) const ITK_OVERRIDE
   {
     return 0.5 * ( m_A(0, 0) * parameters[0] * parameters[0]
                    + m_A(0, 1) * parameters[0] * parameters[1]
@@ -130,13 +130,13 @@ public:
   }
 
   void GetDerivative( const ParametersType & itkNotUsed(parameters),
-                      DerivativeType & itkNotUsed(derivative) ) const
+                      DerivativeType & itkNotUsed(derivative) ) const ITK_OVERRIDE
   {
     throw itk::ExceptionObject( __FILE__, __LINE__,
                                 "no derivative available" );
   }
 
-  unsigned int GetNumberOfParameters(void) const
+  virtual unsigned int GetNumberOfParameters(void) const ITK_OVERRIDE
   {
     return 2;
   }
@@ -169,7 +169,7 @@ public:
   {
   }
 
-  double GetValue( const ParametersType & parameters ) const
+  virtual double GetValue( const ParametersType & parameters ) const ITK_OVERRIDE
   {
     return (1 - parameters[0]) * (1 - parameters[0])
            + 100 * (parameters[1] - parameters[0] * parameters[0])
@@ -177,13 +177,13 @@ public:
   }
 
   void GetDerivative( const ParametersType & itkNotUsed(parameters),
-                      DerivativeType & itkNotUsed(derivative) ) const
+                      DerivativeType & itkNotUsed(derivative) ) const ITK_OVERRIDE
   {
     throw itk::ExceptionObject( __FILE__, __LINE__,
                                 "no derivative available" );
   }
 
-  unsigned int GetNumberOfParameters(void) const
+  virtual unsigned int GetNumberOfParameters(void) const ITK_OVERRIDE
   {
     return 2;
   }
@@ -205,12 +205,12 @@ public:
 
   itkSetMacro( PrintOptimizer, bool );
 
-  void Execute(itk::Object *caller, const itk::EventObject & event)
+  virtual void Execute(itk::Object *caller, const itk::EventObject & event) ITK_OVERRIDE
   {
     Execute( (const itk::Object *)caller, event);
   }
 
-  void Execute(const itk::Object * object, const itk::EventObject & event)
+  virtual void Execute(const itk::Object * object, const itk::EventObject & event) ITK_OVERRIDE
   {
     const itk::ParticleSwarmOptimizerBase *optimizer =
       dynamic_cast<const itk::ParticleSwarmOptimizerBase *>( object );

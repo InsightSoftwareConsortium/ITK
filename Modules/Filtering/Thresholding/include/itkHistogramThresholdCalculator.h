@@ -75,7 +75,7 @@ public:
   {
     if ( this->GetNumberOfInputs() < 1 )
       {
-      return 0;
+      return ITK_NULLPTR;
       }
     return static_cast< const HistogramType * >( this->ProcessObject::GetInput(0) );
   }
@@ -84,13 +84,13 @@ public:
   {
     if ( this->GetNumberOfOutputs() < 1 )
       {
-      return 0;
+      return ITK_NULLPTR;
       }
     return static_cast< DecoratedOutputType * >( this->ProcessObject::GetOutput(0) );
   }
 
   using Superclass::MakeOutput;
-  virtual typename DataObject::Pointer MakeOutput(DataObjectPointerArraySizeType)
+  virtual typename DataObject::Pointer MakeOutput(DataObjectPointerArraySizeType) ITK_OVERRIDE
   {
     return DecoratedOutputType::New().GetPointer();
   }

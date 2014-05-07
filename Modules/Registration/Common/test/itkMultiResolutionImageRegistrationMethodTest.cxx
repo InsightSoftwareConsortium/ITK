@@ -168,14 +168,14 @@ int itkMultiResolutionImageRegistrationMethodTest(int, char* [] )
     return EXIT_FAILURE; \
     }
 
-  TEST_INITIALIZATION_ERROR( Metric, NULL, metric );
-  TEST_INITIALIZATION_ERROR( Optimizer, NULL, optimizer );
-  TEST_INITIALIZATION_ERROR( Transform, NULL, transform );
-  TEST_INITIALIZATION_ERROR( FixedImage, NULL, fixedImage );
-  TEST_INITIALIZATION_ERROR( MovingImage, NULL, movingImage );
-  TEST_INITIALIZATION_ERROR( Interpolator, NULL, interpolator );
-  TEST_INITIALIZATION_ERROR( FixedImagePyramid, NULL, fixedImagePyramid );
-  TEST_INITIALIZATION_ERROR( MovingImagePyramid, NULL, movingImagePyramid );
+  TEST_INITIALIZATION_ERROR( Metric, ITK_NULLPTR, metric );
+  TEST_INITIALIZATION_ERROR( Optimizer, ITK_NULLPTR, optimizer );
+  TEST_INITIALIZATION_ERROR( Transform, ITK_NULLPTR, transform );
+  TEST_INITIALIZATION_ERROR( FixedImage, ITK_NULLPTR, fixedImage );
+  TEST_INITIALIZATION_ERROR( MovingImage, ITK_NULLPTR, movingImage );
+  TEST_INITIALIZATION_ERROR( Interpolator, ITK_NULLPTR, interpolator );
+  TEST_INITIALIZATION_ERROR( FixedImagePyramid, ITK_NULLPTR, fixedImagePyramid );
+  TEST_INITIALIZATION_ERROR( MovingImagePyramid, ITK_NULLPTR, movingImagePyramid );
   TEST_INITIALIZATION_ERROR( InitialTransformParameters, ParametersType(1),
                                                          initialParameters );
 

@@ -133,7 +133,7 @@ public:
 
 protected:
   VectorNeighborhoodOperatorImageFilter() :
-    m_BoundsCondition(NULL)
+    m_BoundsCondition(ITK_NULLPTR)
   {}
 
   virtual ~VectorNeighborhoodOperatorImageFilter() {}

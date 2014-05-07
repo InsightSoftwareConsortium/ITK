@@ -49,7 +49,7 @@ class AllEvents
 public:
   void WatchEvents(itk::Object *caller, const itk::EventObject & event )
     {
-      const char* eventName = 0;
+      const char* eventName = ITK_NULLPTR;
       if( typeid( event ) == typeid( itk::DeleteEvent ) )
         {
         eventName = "DeleteEvent";

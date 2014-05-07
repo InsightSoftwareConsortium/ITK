@@ -71,7 +71,7 @@ public:
 
   /** Advance one step following the gradient direction. */
   virtual void StepAlongGradient(double factor,
-                                 const DerivativeType & transformedGradient);
+                                 const DerivativeType & transformedGradient) ITK_OVERRIDE;
 
 protected:
   VersorTransformOptimizer() {}

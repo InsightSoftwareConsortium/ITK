@@ -97,7 +97,7 @@ void
 KLMSegmentationRegion
 ::DeleteRegionBorder(KLMSegmentationBorder *pBorderCandidate)
 {
-  if ( pBorderCandidate == NULL )
+  if ( pBorderCandidate == ITK_NULLPTR )
     {
     itkExceptionMacro(<< "Null pointer to segmentation region border");
     }
@@ -130,7 +130,7 @@ void
 KLMSegmentationRegion
 ::PushBackRegionBorder(KLMSegmentationBorder *pBorderCandidate)
 {
-  if ( pBorderCandidate == NULL )
+  if ( pBorderCandidate == ITK_NULLPTR )
     {
     itkExceptionMacro(<< "Null pointer to segmentation region border");
     }
@@ -141,7 +141,7 @@ void
 KLMSegmentationRegion
 ::PushFrontRegionBorder(KLMSegmentationBorder *pBorderCandidate)
 {
-  if ( pBorderCandidate == NULL )
+  if ( pBorderCandidate == ITK_NULLPTR )
     {
     itkExceptionMacro(<< "Null pointer to segmentation region border");
     }
@@ -153,7 +153,7 @@ KLMSegmentationRegion
 ::InsertRegionBorder(KLMSegmentationBorder *pBorderCandidate)
 {
   // Ensure that the border candidate is not a null pointer
-  if ( pBorderCandidate == NULL )
+  if ( pBorderCandidate == ITK_NULLPTR )
     {
     itkExceptionMacro(<< "Null pointer to segmentation region border");
     }
@@ -209,7 +209,7 @@ KLMSegmentationRegion
                      KLMSegmentationBorder *pBorderCandidate)
 {
   // Ensure that the border candidate is not a null pointer
-  if ( pBorderCandidate == NULL )
+  if ( pBorderCandidate == ITK_NULLPTR )
     {
     itkExceptionMacro(<< "Null pointer to segmentation region border");
     }
@@ -379,8 +379,8 @@ KLMSegmentationRegion
         } // end else
 
       // Nullify the duplicate border so it can be identified and removed.
-      ( *thatRegionBordersIt )->SetRegion1(NULL);
-      ( *thatRegionBordersIt )->SetRegion2(NULL);
+      ( *thatRegionBordersIt )->SetRegion1(ITK_NULLPTR);
+      ( *thatRegionBordersIt )->SetRegion2(ITK_NULLPTR);
       ( *thatRegionBordersIt )->SetLambda(-1.0);
 
       thisRegionBordersIt++;

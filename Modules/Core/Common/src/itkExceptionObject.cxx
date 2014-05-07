@@ -94,14 +94,14 @@ public:
 
   /** Increase the reference count (mark as used by another object).
     * Delegates the counting to its LightObject superclass  */
-  virtual void Register() const
+  virtual void Register() const ITK_OVERRIDE
   {
     this->LightObject::Register();
   }
 
   /** Decrease the reference count (release by another object).
     * Delegates the counting to its LightObject superclass  */
-  virtual void UnRegister() const
+  virtual void UnRegister() const ITK_OVERRIDE
   {
     this->LightObject::UnRegister();
   }
@@ -135,8 +135,8 @@ ExceptionObject::ExceptionObject(
   unsigned int lineNumber,
   const char *desc,
   const char *loc):
-  m_ExceptionData( ReferenceCountedExceptionData::ConstNew(file == 0 ? "":file, lineNumber, desc == 0 ? "":desc, loc ==
-                                                               0 ? "":loc) )
+  m_ExceptionData( ReferenceCountedExceptionData::ConstNew(file == ITK_NULLPTR ? "":file, lineNumber, desc == ITK_NULLPTR ? "":desc, loc ==
+                                                               ITK_NULLPTR ? "":loc) )
 {}
 
 ExceptionObject::ExceptionObject(
@@ -213,7 +213,7 @@ ExceptionObject::operator==(const ExceptionObject & orig)
     }
   else
     {
-    return ( thisData != 0 ) && ( origData != 0 )
+    return ( thisData != ITK_NULLPTR ) && ( origData != ITK_NULLPTR )
            && thisData->m_Location == origData->m_Location
            && thisData->m_Description == origData->m_Description
            && thisData->m_File == origData->m_File

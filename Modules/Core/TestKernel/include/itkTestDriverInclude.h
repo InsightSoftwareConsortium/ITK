@@ -193,7 +193,7 @@ static char my_to_lower(const char c)
   return static_cast<char>( ::tolower(c));
 }
 
-int ProcessArguments(int *ac, ArgumentStringType *av, ProcessedOutputType * processedOutput = NULL )
+int ProcessArguments(int *ac, ArgumentStringType *av, ProcessedOutputType * processedOutput = ITK_NULLPTR )
 {
 #ifdef LINUX
   itk::FloatingPointExceptions::Enable();

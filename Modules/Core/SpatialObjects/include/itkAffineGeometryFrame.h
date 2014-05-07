@@ -92,13 +92,13 @@ public:
   virtual void Initialize();
 
   /** Clone the geometry frame */
-  virtual LightObject::Pointer InternalClone() const;
+  virtual LightObject::Pointer InternalClone() const ITK_OVERRIDE;
 
 protected:
 
   AffineGeometryFrame();
   virtual ~AffineGeometryFrame();
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** used in clone to initialize the newly created geometry */
   virtual void InitializeGeometry(Self *newGeometry) const;

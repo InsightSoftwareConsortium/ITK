@@ -29,7 +29,7 @@ template< typename TImageType, typename TFeatureImageType >
 ShapePriorSegmentationLevelSetFunction< TImageType, TFeatureImageType >
 ::ShapePriorSegmentationLevelSetFunction()
 {
-  m_ShapeFunction = NULL;
+  m_ShapeFunction = ITK_NULLPTR;
   m_ShapePriorWeight = NumericTraits< ScalarValueType >::Zero;
 }
 

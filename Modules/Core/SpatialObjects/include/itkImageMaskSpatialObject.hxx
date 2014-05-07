@@ -85,7 +85,7 @@ bool
 ImageMaskSpatialObject< TDimension >
 ::IsInside(const PointType & point, unsigned int depth, char *name) const
 {
-  if ( name == NULL )
+  if ( name == ITK_NULLPTR )
     {
     if ( IsInside(point) )
       {

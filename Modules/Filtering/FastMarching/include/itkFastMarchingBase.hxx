@@ -33,10 +33,10 @@ FastMarchingBase()
   {
   this->ProcessObject::SetNumberOfRequiredInputs(0);
 
-  m_TrialPoints = NULL;
-  m_AlivePoints = NULL;
-  m_ProcessedPoints = NULL;
-  m_ForbiddenPoints = NULL;
+  m_TrialPoints = ITK_NULLPTR;
+  m_AlivePoints = ITK_NULLPTR;
+  m_ProcessedPoints = ITK_NULLPTR;
+  m_ForbiddenPoints = ITK_NULLPTR;
 
   //m_Heap = PriorityQueueType::New();
   m_SpeedConstant = 1.;

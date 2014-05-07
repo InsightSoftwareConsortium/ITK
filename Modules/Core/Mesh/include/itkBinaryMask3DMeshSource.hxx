@@ -47,18 +47,18 @@ BinaryMask3DMeshSource< TInputImage, TOutputMesh >
   m_LastFrameIndex = 0;
   m_CurrentRowIndex = 0;
   m_CurrentFrameIndex = 0;
-  m_CurrentFrame = 0;
-  m_CurrentRow = 0;
-  m_LastRow = 0;
+  m_CurrentFrame = ITK_NULLPTR;
+  m_CurrentRow = ITK_NULLPTR;
+  m_LastRow = ITK_NULLPTR;
   m_LastRowNum = 0;
   m_LastFrameNum = 0;
-  m_LastFrame = 0;
+  m_LastFrame = ITK_NULLPTR;
   m_CurrentRowNum = 200;
   m_CurrentFrameNum = 2000;
   this->GetOutput()->GetPoints()->Reserve(m_NodeLimit);
   this->GetOutput()->GetCells()->Reserve(m_CellLimit);
-  m_OutputMesh = 0;
-  m_InputImage = 0;
+  m_OutputMesh = ITK_NULLPTR;
+  m_InputImage = ITK_NULLPTR;
   m_ObjectValue = NumericTraits< InputPixelType >::One;
 }
 
@@ -1055,12 +1055,12 @@ BinaryMask3DMeshSource< TInputImage, TOutputMesh >
   m_LastFrameIndex = 0;
   m_CurrentRowIndex = 0;
   m_CurrentFrameIndex = 0;
-  m_CurrentFrame = 0;
-  m_CurrentRow = 0;
-  m_LastRow = 0;
+  m_CurrentFrame = ITK_NULLPTR;
+  m_CurrentRow = ITK_NULLPTR;
+  m_LastRow = ITK_NULLPTR;
   m_LastRowNum = 0;
   m_LastFrameNum = 0;
-  m_LastFrame = 0;
+  m_LastFrame = ITK_NULLPTR;
   m_CurrentRowNum = 200;
   m_CurrentFrameNum = 2000;
   m_OutputMesh = this->GetOutput();
@@ -1294,7 +1294,7 @@ BinaryMask3DMeshSource< TInputImage, TOutputMesh >
           free (m_LastRow[i]);
           }
         free (m_LastRow);
-        m_LastRow = NULL;
+        m_LastRow = ITK_NULLPTR;
         }
       m_LastRowNum = 0;
       }
@@ -1341,7 +1341,7 @@ BinaryMask3DMeshSource< TInputImage, TOutputMesh >
         free (m_LastFrame[i]);
         }
       free (m_LastFrame);
-      m_LastFrame = 0;
+      m_LastFrame = ITK_NULLPTR;
       }
     }
 

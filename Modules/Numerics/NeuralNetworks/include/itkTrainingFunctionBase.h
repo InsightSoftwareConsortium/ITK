@@ -105,7 +105,7 @@ protected:
   ~TrainingFunctionBase(){};
 
   /** Method to print the object. */
-  virtual void PrintSelf( std::ostream& os, Indent indent ) const;
+  virtual void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
 
   TSample*                m_TrainingSamples;// original samples
   TTargetVector*          m_SampleTargets;  // original samples

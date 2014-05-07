@@ -136,7 +136,7 @@ protected:
   SampleToHistogramFilter();
   virtual ~SampleToHistogramFilter();
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Make a DataObject of the correct type to used as the specified
    * output. This method
@@ -146,10 +146,10 @@ protected:
    */
   typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  virtual DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx);
+  virtual DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) ITK_OVERRIDE;
 
   // Where the histogram is actually computed
-  virtual void GenerateData();
+  virtual void GenerateData() ITK_OVERRIDE;
 
 private:
   SampleToHistogramFilter(const Self &); //purposely not implemented

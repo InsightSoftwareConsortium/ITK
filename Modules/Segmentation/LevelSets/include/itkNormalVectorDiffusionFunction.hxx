@@ -84,7 +84,7 @@ NormalVectorDiffusionFunction< TSparseImageType >
   for ( i = 0; i < ImageDimension; i++ ) // flux offset axis
     {
     PreviousNode = it.GetPrevious (i);
-    if ( PreviousNode == 0 )
+    if ( PreviousNode == ITK_NULLPTR )
       {
       for ( j = 0; j < ImageDimension; j++ )
         {
@@ -100,7 +100,7 @@ NormalVectorDiffusionFunction< TSparseImageType >
           {
           // compute differences (j-axis) in line with center pixel
           OtherNode = it.GetPrevious (j);
-          if ( OtherNode == 0 )
+          if ( OtherNode == ITK_NULLPTR )
             {
             NegativeSidePixel[0] = CenterPixel;
             }
@@ -109,7 +109,7 @@ NormalVectorDiffusionFunction< TSparseImageType >
             NegativeSidePixel[0] = OtherNode->m_Data;
             }
           OtherNode = it.GetNext (j);
-          if ( OtherNode == 0 )
+          if ( OtherNode == ITK_NULLPTR )
             {
             PositiveSidePixel[0] = CenterPixel;
             }
@@ -120,7 +120,7 @@ NormalVectorDiffusionFunction< TSparseImageType >
 
           // compute derivative (j-axis) offset from center pixel on i-axis
           OtherNode = it.GetPixel (center - stride[i] - stride[j]);
-          if ( OtherNode == 0 )
+          if ( OtherNode == ITK_NULLPTR )
             {
             NegativeSidePixel[1] = PreviousPixel;
             }
@@ -129,7 +129,7 @@ NormalVectorDiffusionFunction< TSparseImageType >
             NegativeSidePixel[1] = OtherNode->m_Data;
             }
           OtherNode = it.GetPixel (center - stride[i] + stride[j]);
-          if ( OtherNode == 0 )
+          if ( OtherNode == ITK_NULLPTR )
             {
             PositiveSidePixel[1] = PreviousPixel;
             }
@@ -194,7 +194,7 @@ NormalVectorDiffusionFunction< TSparseImageType >
   for ( i = 0; i < ImageDimension; i++ ) // flux offset axis
     {
     NextNode = it.GetNext (i);
-    if ( NextNode == 0 )
+    if ( NextNode == ITK_NULLPTR )
       {
       change -= CenterNode->m_Flux[i] * neighborhoodScales[i];
       }

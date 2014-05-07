@@ -50,14 +50,14 @@ SimplexMeshGeometry
   neighbors.Fill(p);
   meanCurvature = c;
 
-  neighborSet = NULL;
+  neighborSet = ITK_NULLPTR;
 }
 
 SimplexMeshGeometry
 ::~SimplexMeshGeometry()
 {
   delete this->neighborSet;
-  this->neighborSet = NULL;
+  this->neighborSet = ITK_NULLPTR;
 }
 
 void
@@ -157,7 +157,7 @@ SimplexMeshGeometry
     }
   else
     {
-    this->neighborSet = NULL;
+    this->neighborSet = ITK_NULLPTR;
     }
 }
 

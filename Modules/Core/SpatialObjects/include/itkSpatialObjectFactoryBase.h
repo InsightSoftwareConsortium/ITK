@@ -47,9 +47,9 @@ public:
   typedef SmartPointer< const Self > ConstPointer;
 
   /** Class methods used to interface with the registered factories. */
-  virtual const char * GetITKSourceVersion(void) const;
+  virtual const char * GetITKSourceVersion(void) const ITK_OVERRIDE;
 
-  virtual const char * GetDescription(void) const;
+  virtual const char * GetDescription(void) const ITK_OVERRIDE;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(SpatialObjectFactoryBase, ObjectFactoryBase);
@@ -63,7 +63,7 @@ public:
   /** Register this SpatialObject */
   static SpatialObjectFactoryBase * GetFactory()
   {
-    if ( m_Factory == 0 )
+    if ( m_Factory == ITK_NULLPTR )
       {
       // Make and register the factory
       SpatialObjectFactoryBase::Pointer p = SpatialObjectFactoryBase::New();
