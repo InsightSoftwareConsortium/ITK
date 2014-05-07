@@ -5,6 +5,7 @@ set(ITKIODCMTKTests
   itkDCMTKSeriesStreamReadImageWrite.cxx
   itkDCMTKImageIOOrthoDirTest.cxx
   itkDCMTKMultiFrame4DTest.cxx
+  itkDCMTKLoggerTest.cxx
 )
 
 
@@ -74,3 +75,7 @@ itk_add_test(NAME itkDCMTKImageIONonSquareTest
   ${ITK_TEST_OUTPUT_DIR}/itkDCMTKNonSquare.nii.gz
   ${ITK_TEST_OUTPUT_DIR}/itkDCMTKNonSquare.nii.gz
   ${ITK_TEST_OUTPUT_DIR}/itkDCMTKNonSquareRescale.dcm)
+
+itk_add_test(NAME ITKDCMTKLoggerTest
+  COMMAND ITKIODCMTKTestDriver itkDCMTKLoggerTest
+  )
