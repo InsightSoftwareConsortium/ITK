@@ -103,7 +103,7 @@ CopyImageBuffer(TImage * input, TImage * output)
 }
 
 int
-itkVariationalRegistrationFilterTest(int, char *[])
+VariationalRegistrationMultiResolutionFilterTest(int, char *[])
 {
 
   typedef unsigned char PixelType;
@@ -178,7 +178,7 @@ itkVariationalRegistrationFilterTest(int, char *[])
   caster->InPlaceOff();
 
   //-------------------------------------------------------------
-  std::cout << "Run registration and warp moving" << std::endl;
+  std::cout << "Run Multi-resolution registration and warp moving" << std::endl;
 
   // Setup registration function
   typedef itk::VariationalRegistrationDemonsFunction<ImageType, ImageType, FieldType> DemonsFunctionType;
@@ -196,28 +196,38 @@ itkVariationalRegistrationFilterTest(int, char *[])
   RegistrationFilterType::Pointer                                             regFilter = RegistrationFilterType::New();
   regFilter->SetRegularizer(diffRegularizer);
   regFilter->SetDifferenceFunction(demonsFunction);
-  regFilter->SetMovingImage(moving);
-  regFilter->SetFixedImage(fixed);
-  regFilter->SetNumberOfIterations(200);
-  regFilter->SetInitialDisplacementField(caster->GetOutput());
 
-  // type needed for stop criterion
+  // Setup multi-resolution filter
+  unsigned int its[2];
+  its[1] = 200;
+  its[0] = 200;
+
   typedef itk::VariationalRegistrationMultiResolutionFilter<ImageType, ImageType, FieldType> MRRegistrationFilterType;
+  MRRegistrationFilterType::Pointer mrRegFilter = MRRegistrationFilterType::New();
+  mrRegFilter->SetRegistrationFilter(regFilter);
+  mrRegFilter->SetMovingImage(moving);
+  mrRegFilter->SetFixedImage(fixed);
+  mrRegFilter->SetNumberOfLevels(2);
+  mrRegFilter->SetNumberOfIterations(its);
+  mrRegFilter->SetArbitraryInitialDisplacementField(caster->GetOutput());
 
   // Setup stop criterion
   typedef itk::VariationalRegistrationStopCriterion<RegistrationFilterType, MRRegistrationFilterType> StopCriterionType;
   StopCriterionType::Pointer stopCriterion = StopCriterionType::New();
   stopCriterion->SetRegressionLineSlopeThreshold(0.0001);
   stopCriterion->PerformLineFittingMaxDistanceCheckOn();
-  stopCriterion->SetMultiResolutionPolicyToDefault();
+  stopCriterion->SetMultiResolutionPolicyToSimpleGraduated();
 
   regFilter->AddObserver(itk::IterationEvent(), stopCriterion);
+  mrRegFilter->AddObserver(itk::IterationEvent(), stopCriterion);
+  mrRegFilter->AddObserver(itk::InitializeEvent(), stopCriterion);
 
   // Setup logger
   typedef itk::VariationalRegistrationLogger<RegistrationFilterType, MRRegistrationFilterType> LoggerType;
   LoggerType::Pointer logger = LoggerType::New();
 
   regFilter->AddObserver(itk::IterationEvent(), logger);
+  mrRegFilter->AddObserver(itk::IterationEvent(), logger);
 
   // warp moving image
   typedef itk::ContinuousBorderWarpImageFilter<ImageType, ImageType, FieldType> WarperType;
@@ -227,8 +237,9 @@ itkVariationalRegistrationFilterTest(int, char *[])
   typedef itk::NearestNeighborInterpolateImageFunction<ImageType, CoordRepType> InterpolatorType;
   InterpolatorType::Pointer                                                     interpolator = InterpolatorType::New();
 
+
   warper->SetInput(moving);
-  warper->SetDisplacementField(regFilter->GetOutput());
+  warper->SetDisplacementField(mrRegFilter->GetOutput());
   warper->SetInterpolator(interpolator);
   warper->SetOutputSpacing(fixed->GetSpacing());
   warper->SetOutputOrigin(fixed->GetOrigin());
@@ -266,58 +277,9 @@ itkVariationalRegistrationFilterTest(int, char *[])
     return EXIT_FAILURE;
   }
 
-  regFilter->Print(std::cout);
-
-  // -----------------------------------------------------------
-  std::cout << "Test running registrator without initial deformation field.";
-  std::cout << std::endl;
-
-  bool passed = true;
-  try
-  {
-    regFilter->SetInput(NULL);
-    regFilter->SetNumberOfIterations(2);
-    regFilter->Update();
-  }
-  catch (itk::ExceptionObject & err)
-  {
-    std::cout << "Unexpected error." << std::endl;
-    std::cout << err << std::endl;
-    passed = false;
-  }
-
-  if (!passed)
-  {
-    std::cout << "Test failed" << std::endl;
-    return EXIT_FAILURE;
-  }
+  mrRegFilter->Print(std::cout);
 
   //--------------------------------------------------------------
-  std::cout << "Test exception handling." << std::endl;
-
-  std::cout << "Test NULL moving image. " << std::endl;
-  passed = false;
-  try
-  {
-    regFilter->SetInput(caster->GetOutput());
-    regFilter->SetMovingImage(NULL);
-    regFilter->Update();
-  }
-  catch (itk::ExceptionObject & err)
-  {
-    std::cout << "Caught expected error." << std::endl;
-    std::cout << err << std::endl;
-    passed = true;
-  }
-
-  if (!passed)
-  {
-    std::cout << "Test failed" << std::endl;
-    return EXIT_FAILURE;
-  }
-  regFilter->SetMovingImage(moving);
-  regFilter->ResetPipeline();
-
 
   std::cout << "Test passed" << std::endl;
   return EXIT_SUCCESS;
