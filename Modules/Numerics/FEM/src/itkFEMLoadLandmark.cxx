@@ -62,7 +62,7 @@ Element::ConstPointer LoadLandmark::GetAssignedElement(Element::ArrayType1::Poin
       }
     }
 
-  return NULL;
+  return ITK_NULLPTR;
 }
 
 /**

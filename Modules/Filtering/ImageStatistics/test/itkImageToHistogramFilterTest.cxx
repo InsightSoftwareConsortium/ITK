@@ -102,7 +102,7 @@ int itkImageToHistogramFilterTest( int , char * [] )
   const InputHistogramMeasurementVectorObjectType * returnedHistogramBinMinimumObject =
     filter->GetHistogramBinMinimumInput();
 
-  if( returnedHistogramBinMinimumObject == NULL )
+  if( returnedHistogramBinMinimumObject == ITK_NULLPTR )
     {
     std::cerr << "SetHistogramSize() failed pointer consistency test" << std::endl;
     return EXIT_FAILURE;
@@ -199,7 +199,7 @@ int itkImageToHistogramFilterTest( int , char * [] )
   const InputHistogramMeasurementVectorObjectType * returnedHistogramBinMaximumObject =
     filter->GetHistogramBinMaximumInput();
 
-  if( returnedHistogramBinMaximumObject == NULL )
+  if( returnedHistogramBinMaximumObject == ITK_NULLPTR )
     {
     std::cerr << "SetHistogramSize() failed pointer consistency test" << std::endl;
     return EXIT_FAILURE;

@@ -99,7 +99,7 @@ int itkSpatialObjectTreeContainerTest(int, char* [])
   std::cout << "Testing node type of SpatialObject added to tree by iterator (PreOrderTreeIterator): " << std::endl;
   const itk::SpatialObjectTreeNode<2>* spatialObjectTreeNode =
     dynamic_cast<const itk::SpatialObjectTreeNode<2>*>(preIt.GetNode());
-  if(spatialObjectTreeNode==NULL)
+  if(spatialObjectTreeNode==ITK_NULLPTR)
     {
     std::cout << "[FAILED]" << std::endl;
     return EXIT_FAILURE;

@@ -122,14 +122,14 @@ int itkScalarImageToRunLengthFeaturesFilterTest(int, char* [] )
 
     texFilter->ResetPipeline();
 
-    if ( texFilter->GetInput() != NULL )
+    if ( texFilter->GetInput() != ITK_NULLPTR )
       {
       std::cerr << "GetInput() should return NULL since the input is "
                 << " not set yet " << std::endl;
       passed = false;
       }
 
-    if ( texFilter->GetMaskImage() != NULL )
+    if ( texFilter->GetMaskImage() != ITK_NULLPTR )
       {
       std::cerr << "GetMaskImage() should return NULL since the mask image is "
                 << "not set yet " << std::endl;
@@ -138,7 +138,7 @@ int itkScalarImageToRunLengthFeaturesFilterTest(int, char* [] )
 
     //Invoke update with a NULL input. An exception should be
     //thrown.
-    texFilter->SetInput( NULL );
+    texFilter->SetInput( ITK_NULLPTR );
     try
       {
       texFilter->Update();
@@ -153,7 +153,7 @@ int itkScalarImageToRunLengthFeaturesFilterTest(int, char* [] )
 
     texFilter->ResetPipeline();
 
-    if ( texFilter->GetInput() != NULL )
+    if ( texFilter->GetInput() != ITK_NULLPTR )
       {
       passed = false;
       }
@@ -290,7 +290,7 @@ int itkScalarImageToRunLengthFeaturesFilterTest(int, char* [] )
 
     texFilter->Update();
 
-    if ( texFilter->GetMaskImage() == NULL )
+    if ( texFilter->GetMaskImage() == ITK_NULLPTR )
       {
       std::cerr << "Error: " << std::endl;
       std::cerr << "Mask should not be null." << std::endl;

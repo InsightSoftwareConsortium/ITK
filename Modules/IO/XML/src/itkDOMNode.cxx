@@ -23,7 +23,7 @@
 namespace itk
 {
 
-DOMNode::DOMNode() : m_Parent( NULL )
+DOMNode::DOMNode() : m_Parent( ITK_NULLPTR )
 {
 }
 
@@ -230,7 +230,7 @@ DOMNode::AddChild( DOMNode* node, IdentifierType i )
     return;
     }
 
-  if ( node == NULL || this->ShareRoot(node) )
+  if ( node == ITK_NULLPTR || this->ShareRoot(node) )
     {
     itkExceptionMacro( "not able to add child" );
     }
@@ -248,7 +248,7 @@ DOMNode::AddChild( DOMNode* node, IdentifierType i )
 void
 DOMNode::AddChildAtBegin( DOMNode* node )
 {
-  if ( node == NULL || this->ShareRoot(node) )
+  if ( node == ITK_NULLPTR || this->ShareRoot(node) )
     {
     itkExceptionMacro( "not able to add child" );
     }
@@ -261,7 +261,7 @@ DOMNode::AddChildAtBegin( DOMNode* node )
 void
 DOMNode::AddChildAtEnd( DOMNode* node )
 {
-  if ( node == NULL || this->ShareRoot(node) )
+  if ( node == ITK_NULLPTR || this->ShareRoot(node) )
     {
     itkExceptionMacro( "not able to add child" );
     }
@@ -274,7 +274,7 @@ DOMNode::AddChildAtEnd( DOMNode* node )
 void
 DOMNode::SetChild( DOMNode* node, IdentifierType i )
 {
-  if ( node == NULL || this->ShareRoot(node) )
+  if ( node == ITK_NULLPTR || this->ShareRoot(node) )
     {
     itkExceptionMacro( "not able to add child" );
     }
@@ -297,7 +297,7 @@ DOMNode::RemoveChild( IdentifierType i )
     itkExceptionMacro( "not able to remove child" );
     }
 
-  this->m_Children[i]->m_Parent = 0;
+  this->m_Children[i]->m_Parent = ITK_NULLPTR;
   this->m_Children.erase( this->m_Children.begin() + i );
 }
 
@@ -315,7 +315,7 @@ DOMNode::GetChild( IdentifierType i )
 {
   if ( i < 0 || i >= static_cast<IdentifierType>(this->m_Children.size()) )
     {
-    return NULL;
+    return ITK_NULLPTR;
     }
   else
     {
@@ -348,7 +348,7 @@ DOMNode::GetChild( const std::string& tag, IdentifierType i )
         }
       }
     }
-  return NULL;
+  return ITK_NULLPTR;
 }
 
 /** Retrieve a child by tag name and an index (multiple children can have a same tag name, return NULL if no such child). */
@@ -372,7 +372,7 @@ DOMNode::GetChildByID( const std::string& value )
       return node;
       }
     }
-  return NULL;
+  return ITK_NULLPTR;
 }
 
 /** Retrieve a child by its unique "id" attribute value (return NULL if not found). */
@@ -390,9 +390,9 @@ DOMNode::GetSibling( OffsetType i )
 {
   DOMNode* parent = this->GetParent();
 
-  if ( parent == 0 )
+  if ( parent == ITK_NULLPTR )
     {
-    return NULL;
+    return ITK_NULLPTR;
     }
 
   IdentifierType j;
@@ -407,7 +407,7 @@ DOMNode::GetSibling( OffsetType i )
   j += i;
   if ( j < 0 || j >= static_cast<IdentifierType>(parent->GetNumberOfChildren()) )
     {
-    return NULL;
+    return ITK_NULLPTR;
     }
   else
     {
@@ -430,7 +430,7 @@ DOMNode::GetRoot()
 {
   DOMNode* node = this->GetParent();
 
-  if ( node == NULL )
+  if ( node == ITK_NULLPTR )
     {
     return this;
     }
@@ -453,7 +453,7 @@ DOMNode::GetRoot() const
 bool
 DOMNode::ShareRoot( const DOMNode* node ) const
 {
-  return ( node != NULL && node->GetRoot() == this->GetRoot() );
+  return ( node != ITK_NULLPTR && node->GetRoot() == this->GetRoot() );
 }
 
 /**
@@ -491,7 +491,7 @@ DOMNode::Find( const std::string& path )
       }
     }
 
-  DOMNode* node = 0;
+  DOMNode* node = ITK_NULLPTR;
 
   // /<rpath>
   if ( s == "" )
@@ -592,7 +592,7 @@ DOMNode::Find( const std::string& path )
       }
     }
 
-  if ( rpath == "" || node == NULL )
+  if ( rpath == "" || node == ITK_NULLPTR )
     {
     return node;
     }
@@ -621,7 +621,7 @@ DOMNode::GetPath() const
   std::string path = "";
 
   const DOMNode* parent = this->GetParent();
-  if ( parent == NULL )
+  if ( parent == ITK_NULLPTR )
     {
     return path;
     }

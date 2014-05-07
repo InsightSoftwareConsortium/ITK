@@ -33,7 +33,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader< TD
 {
   /* Store the casted pointer to avoid dynamic casting in tight loops. */
   this->m_ANTSAssociate = dynamic_cast< TNeighborhoodCorrelationMetric * >( this->m_Associate );
-  if( this->m_ANTSAssociate == NULL )
+  if( this->m_ANTSAssociate == ITK_NULLPTR )
     {
     itkExceptionMacro("Dynamic casting of associate pointer failed.");
     }
@@ -112,7 +112,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader< TD
     /* call base method */
     /* Store the casted pointer to avoid dynamic casting in tight loops. */
     this->m_ANTSAssociate = dynamic_cast< TNeighborhoodCorrelationMetric * >( this->m_Associate );
-    if( this->m_ANTSAssociate == NULL )
+    if( this->m_ANTSAssociate == ITK_NULLPTR )
       {
       itkExceptionMacro("Dynamic casting of associate pointer failed.");
       }

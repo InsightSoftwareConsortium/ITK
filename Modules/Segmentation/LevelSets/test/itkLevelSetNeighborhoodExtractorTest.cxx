@@ -98,7 +98,7 @@ int itkLevelSetNeighborhoodExtractorTest(int, char* [] )
   try
     {
     passed = false;
-    extractor->SetInputLevelSet( NULL );
+    extractor->SetInputLevelSet( ITK_NULLPTR );
     extractor->Locate();
     }
   catch( itk::ExceptionObject& err )
@@ -118,7 +118,7 @@ int itkLevelSetNeighborhoodExtractorTest(int, char* [] )
     {
     passed = false;
     extractor->NarrowBandingOn();
-    extractor->SetInputNarrowBand( NULL );
+    extractor->SetInputNarrowBand( ITK_NULLPTR );
     extractor->Locate();
     }
   catch( itk::ExceptionObject& err )

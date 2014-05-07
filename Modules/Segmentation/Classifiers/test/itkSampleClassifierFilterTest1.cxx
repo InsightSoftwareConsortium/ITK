@@ -47,14 +47,14 @@ int itkSampleClassifierFilterTest1( int, char * [] )
   sample->SetMeasurementVectorSize( numberOfComponents );
 
   // Test GetInput() before setting the input
-  if( filter->GetInput() != NULL )
+  if( filter->GetInput() != ITK_NULLPTR )
     {
     std::cerr << "GetInput() should have returned NULL" << std::endl;
     return EXIT_FAILURE;
     }
 
   // Test GetOutput() before creating the output
-  if( filter->GetOutput() == NULL )
+  if( filter->GetOutput() == ITK_NULLPTR )
     {
     std::cerr << "GetOutput() should have returned NON-NULL" << std::endl;
     return EXIT_FAILURE;
@@ -224,7 +224,7 @@ int itkSampleClassifierFilterTest1( int, char * [] )
     }
 
   // Test GetOutput() after creating the output
-  if( filter->GetOutput() == NULL )
+  if( filter->GetOutput() == ITK_NULLPTR )
     {
     std::cerr << "GetOutput() should have returned NON-NULL" << std::endl;
     return EXIT_FAILURE;

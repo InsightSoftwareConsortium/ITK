@@ -63,7 +63,7 @@ public:
   /** Register this transform */
   static TransformFactoryBase * GetFactory()
   {
-    if ( m_Factory == 0 )
+    if ( m_Factory == ITK_NULLPTR )
       {
       // Make and register the factory
       Pointer p = New();

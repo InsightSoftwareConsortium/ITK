@@ -30,7 +30,7 @@ TriangleMeshToSimplexMeshFilter< TInputMesh, TOutputMesh >
   this->ProcessObject::SetNumberOfRequiredOutputs(1);
   this->ProcessObject::SetNthOutput( 0, output.GetPointer() );
   m_HandledEdgeIds = IdVectorType::New();
-  m_FaceSet = NULL;
+  m_FaceSet = ITK_NULLPTR;
 }
 
 template< typename TInputMesh, typename TOutputMesh >

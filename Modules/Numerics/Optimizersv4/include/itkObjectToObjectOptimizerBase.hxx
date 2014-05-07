@@ -29,7 +29,7 @@ template<typename TInternalComputationValueType>
 ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>
 ::ObjectToObjectOptimizerBaseTemplate()
 {
-  this->m_Metric = NULL;
+  this->m_Metric = ITK_NULLPTR;
   this->m_CurrentMetricValue = 0;
   // Initialize, but w/out calling SetNumberOfThreads, to avoid
   // valgrind warning.

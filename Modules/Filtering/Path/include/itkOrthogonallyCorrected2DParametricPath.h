@@ -92,8 +92,8 @@ public:
   /** Needed for Pipelining */
   virtual void Initialize(void) ITK_OVERRIDE
   {
-    this->m_OriginalPath = NULL;
-    this->m_OrthogonalCorrectionTable = NULL;
+    this->m_OriginalPath = ITK_NULLPTR;
+    this->m_OrthogonalCorrectionTable = ITK_NULLPTR;
   }
 
   /** These are determined by the original path */

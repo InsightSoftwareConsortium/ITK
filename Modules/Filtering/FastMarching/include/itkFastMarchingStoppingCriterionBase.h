@@ -70,7 +70,7 @@ public:
 
  protected:
   /** Constructor */
-  FastMarchingStoppingCriterionBase() : Superclass(), m_Domain( NULL )
+  FastMarchingStoppingCriterionBase() : Superclass(), m_Domain( ITK_NULLPTR )
   {
     m_CurrentValue = NumericTraits< OutputPixelType >::Zero;
     m_PreviousValue = NumericTraits< OutputPixelType >::Zero;

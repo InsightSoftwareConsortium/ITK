@@ -314,7 +314,7 @@ TubeSpatialObject< TDimension, TTubePointType >
 {
   itkDebugMacro("Checking the point [" << point << "] is inside the tube");
 
-  if ( name == NULL )
+  if ( name == ITK_NULLPTR )
     {
     if ( IsInside(point) )
       {

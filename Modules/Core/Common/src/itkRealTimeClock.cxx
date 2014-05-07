@@ -100,7 +100,7 @@ RealTimeClock::GetTimeInSeconds() const
   return value;
 #else
   struct timeval tval;
-  ::gettimeofday(&tval, 0);
+  ::gettimeofday(&tval, ITK_NULLPTR);
 
   TimeStampType value = static_cast< TimeStampType >( tval.tv_sec ) + static_cast< TimeStampType >( tval.tv_usec )
                         / this->m_Frequency;
@@ -136,7 +136,7 @@ RealTimeClock::GetRealTimeStamp() const
   return value;
 #else
   struct timeval tval;
-  ::gettimeofday(&tval, 0);
+  ::gettimeofday(&tval, ITK_NULLPTR);
 
   RealTimeStamp value( static_cast<RealTimeStamp::SecondsCounterType>(tval.tv_sec), static_cast<RealTimeStamp::MicroSecondsCounterType>(tval.tv_usec) );
   return value;

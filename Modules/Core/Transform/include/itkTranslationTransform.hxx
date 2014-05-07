@@ -174,7 +174,7 @@ TranslationTransform<TScalar, NDimensions>
 {
   Pointer inv = New();
 
-  return GetInverse(inv) ? inv.GetPointer() : NULL;
+  return GetInverse(inv) ? inv.GetPointer() : ITK_NULLPTR;
 }
 
 // Compute the Jacobian in one position

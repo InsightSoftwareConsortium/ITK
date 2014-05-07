@@ -112,7 +112,7 @@ public:
 
 protected:
   JointPDFStatus() :
-    m_MIMetric( NULL ),
+    m_MIMetric( ITK_NULLPTR ),
     m_Count( 0 )
     {
     this->m_Writer = WriterType::New();

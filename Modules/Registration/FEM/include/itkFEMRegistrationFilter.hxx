@@ -93,12 +93,12 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::FEMRegistrationFil
     m_StandardDeviations[i] = 1.0;
     }
 
-  m_FloatImage = NULL;
-  m_Field = NULL;
-  m_TotalField = NULL;
-  m_WarpedImage = NULL;
-  m_Load = 0;
-  m_FEMObject = NULL;
+  m_FloatImage = ITK_NULLPTR;
+  m_Field = ITK_NULLPTR;
+  m_TotalField = ITK_NULLPTR;
+  m_WarpedImage = ITK_NULLPTR;
+  m_Load = ITK_NULLPTR;
+  m_FEMObject = ITK_NULLPTR;
   m_CreateMeshFromImage = true;
 
   // Setup the default interpolator
@@ -300,7 +300,7 @@ void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::CreateMesh(un
   pixPerElement.set_size( ImageDimension );
   pixPerElement.fill( PixelsPerElement );
 
-  if( ImageDimension == 2 && dynamic_cast<Element2DC0LinearQuadrilateral *>(&*m_Element) != NULL )
+  if( ImageDimension == 2 && dynamic_cast<Element2DC0LinearQuadrilateral *>(&*m_Element) != ITK_NULLPTR )
     {
     m_Material->SetYoungsModulus(this->GetElasticity(m_CurrentLevel) );
 
@@ -315,7 +315,7 @@ void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::CreateMesh(un
     m_FEMObject->FinalizeMesh();
     itkDebugMacro( << " generating regular mesh done " << std::endl );
     }
-  else if( ImageDimension == 3 && dynamic_cast<Element3DC0LinearHexahedron *>(&*m_Element) != NULL )
+  else if( ImageDimension == 3 && dynamic_cast<Element3DC0LinearHexahedron *>(&*m_Element) != ITK_NULLPTR )
     {
     m_Material->SetYoungsModulus( this->GetElasticity(m_CurrentLevel) );
 
@@ -412,7 +412,7 @@ void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::ApplyLoads(
     {
     for( unsigned int lmind = 0; lmind < m_LandmarkArray.size(); lmind++ )
       {
-      m_LandmarkArray[lmind]->GetElementArray()[0] = NULL;
+      m_LandmarkArray[lmind]->GetElementArray()[0] = ITK_NULLPTR;
 
       itkDebugMacro( << " Prescale Pt " <<  m_LandmarkArray[lmind]->GetTarget() );
       if( scaling )
@@ -1175,7 +1175,7 @@ void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::MultiResSolve
         m_FEMObject = GetInputFEMObject( m_CurrentLevel );
         }
 
-      ApplyLoads(m_FullImageSize, NULL);
+      ApplyLoads(m_FullImageSize, ITK_NULLPTR);
       ApplyImageLoads(m_MovingImage, m_FixedImage );
 
 

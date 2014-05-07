@@ -103,7 +103,7 @@ ImageSource< TOutputImage >
   TOutputImage *out = dynamic_cast< TOutputImage * >
                       ( this->ProcessObject::GetOutput(idx) );
 
-  if ( out == NULL && this->ProcessObject::GetOutput(idx) != NULL )
+  if ( out == ITK_NULLPTR && this->ProcessObject::GetOutput(idx) != ITK_NULLPTR )
     {
     itkWarningMacro (<< "Unable to convert output number " << idx << " to type " <<  typeid( OutputImageType ).name () );
     }

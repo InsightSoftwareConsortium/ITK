@@ -27,7 +27,7 @@ namespace fem
 {
 template <typename TBaseClass>
 Element2DStrain<TBaseClass>
-::Element2DStrain() : Superclass(), m_mat(0)
+::Element2DStrain() : Superclass(), m_mat(ITK_NULLPTR)
 {
 }
 

@@ -55,13 +55,13 @@ int itkMetaDataDictionaryTest(int , char * [])
   //NOTE: Only the pointer is copied, not the data within the pointer!
   itk::EncapsulateMetaData<char *>(MyDictionary,"MemoryChangedOutsideOfDictionary",StrandedMemory);
   {
-    char * temp = NULL;
+    char * temp = ITK_NULLPTR;
     itk::ExposeMetaData<char *>(MyDictionary,"MemoryChangedOutsideOfDictionary",temp);
     std::cout << "Memory Before Change: "<<temp <<std::endl;
   }
   strcpy(StrandedMemory,"------------This this was changed outside the class, and may cause all types of errors.");
   {
-    char * temp = NULL;
+    char * temp = ITK_NULLPTR;
     itk::ExposeMetaData<char *>(MyDictionary,"MemoryChangedOutsideOfDictionary",temp);
     std::cout << "Memory After Change: "<<temp <<std::endl;
   }

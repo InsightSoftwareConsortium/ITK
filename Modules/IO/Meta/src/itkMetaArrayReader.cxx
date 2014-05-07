@@ -27,7 +27,7 @@ MetaArrayReader
 ::MetaArrayReader()
 {
   m_FileName = "";
-  m_Buffer = NULL;
+  m_Buffer = ITK_NULLPTR;
 }
 
 /** Destructor */

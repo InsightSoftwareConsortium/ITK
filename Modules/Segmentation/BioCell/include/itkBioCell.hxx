@@ -33,7 +33,7 @@ namespace bio
 template< unsigned int NSpaceDimension >
 Cell< NSpaceDimension >
 ::Cell() :
-  m_Aggregate(NULL)
+  m_Aggregate(ITK_NULLPTR)
 {
   m_Force.Fill(0.0f);
 
@@ -86,8 +86,8 @@ Cell< NSpaceDimension >
   siblingB->m_Genome = m_GenomeCopy;
 
   // Mark that the genome pointer is not owned by this cell anymore.
-  m_Genome     = NULL;
-  m_GenomeCopy = NULL;
+  m_Genome     = ITK_NULLPTR;
+  m_GenomeCopy = ITK_NULLPTR;
 
   // Register both daughter cells with the CellularAggregate.
   CellularAggregateBase *aggregate = this->GetCellularAggregate();

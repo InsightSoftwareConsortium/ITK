@@ -38,7 +38,7 @@ std::string GetClampTypeName()
 #ifdef GCC_USEDEMANGLE
   char const *mangledName = typeid( T ).name();
   int         status;
-  char *      unmangled = abi::__cxa_demangle(mangledName, 0, 0, &status);
+  char *      unmangled = abi::__cxa_demangle(mangledName, ITK_NULLPTR, ITK_NULLPTR, &status);
   name = unmangled;
   free(unmangled);
 #else

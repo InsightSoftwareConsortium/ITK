@@ -111,7 +111,7 @@ public:
   {
     if( n >= NumberOfNodes )
       {
-      return 0;
+      return ITK_NULLPTR;
       }
     return this->m_node[n];
   }

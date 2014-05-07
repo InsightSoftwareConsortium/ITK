@@ -68,7 +68,7 @@ void
 OptimizerParameters< TValue >
 ::Initialize()
 {
-  this->m_Helper = NULL;
+  this->m_Helper = ITK_NULLPTR;
   // Set the default OptimizerParametersHelper
   OptimizerParametersHelperType* helper = new OptimizerParametersHelperType;
   // OptimizerParameters will manage this memory.
@@ -132,7 +132,7 @@ void
 OptimizerParameters< TValue >
 ::MoveDataPointer( TValue * pointer )
 {
-  if( m_Helper == NULL )
+  if( m_Helper == ITK_NULLPTR )
     {
     itkGenericExceptionMacro("OptimizerParameters::MoveDataPointer: "
       "m_Helper must be set.");
@@ -145,7 +145,7 @@ void
 OptimizerParameters< TValue >
 ::SetParametersObject( LightObject * object )
 {
-  if( m_Helper == NULL )
+  if( m_Helper == ITK_NULLPTR )
     {
     itkGenericExceptionMacro("OptimizerParameters::SetParameterObject: "
       "m_Helper must be set.");

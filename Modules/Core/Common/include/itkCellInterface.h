@@ -204,7 +204,7 @@ public:
           return ( *pos ).second;
           }
         }
-      return 0;
+      return ITK_NULLPTR;
     }
 
     void AddVisitor(VisitorType *v)

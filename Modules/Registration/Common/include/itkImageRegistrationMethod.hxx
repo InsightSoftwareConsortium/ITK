@@ -31,12 +31,12 @@ ImageRegistrationMethod< TFixedImage, TMovingImage >
 {
   this->SetNumberOfRequiredOutputs(1);    // for the Transform
 
-  m_FixedImage   = 0; // has to be provided by the user.
-  m_MovingImage  = 0; // has to be provided by the user.
-  m_Transform    = 0; // has to be provided by the user.
-  m_Interpolator = 0; // has to be provided by the user.
-  m_Metric       = 0; // has to be provided by the user.
-  m_Optimizer    = 0; // has to be provided by the user.
+  m_FixedImage   = ITK_NULLPTR; // has to be provided by the user.
+  m_MovingImage  = ITK_NULLPTR; // has to be provided by the user.
+  m_Transform    = ITK_NULLPTR; // has to be provided by the user.
+  m_Interpolator = ITK_NULLPTR; // has to be provided by the user.
+  m_Metric       = ITK_NULLPTR; // has to be provided by the user.
+  m_Optimizer    = ITK_NULLPTR; // has to be provided by the user.
 
   m_InitialTransformParameters = ParametersType(1);
   m_LastTransformParameters = ParametersType(1);
@@ -312,7 +312,7 @@ ImageRegistrationMethod< TFixedImage, TMovingImage >
       break;
     default:
       itkExceptionMacro("MakeOutput request for an output number larger than the expected number of outputs");
-      return 0;
+      return ITK_NULLPTR;
     }
 }
 

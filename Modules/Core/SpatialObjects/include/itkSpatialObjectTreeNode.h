@@ -69,7 +69,7 @@ public:
   /** Return a list of children (the list should be deleted by the user */
 #if !defined( CABLE_CONFIGURATION )
   virtual ChildrenListType * GetChildren(unsigned int depth = 0,
-                                         char *name = NULL) const;
+                                         char *name = ITK_NULLPTR) const;
 
 #endif
 

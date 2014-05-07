@@ -176,7 +176,7 @@ SurfaceSpatialObject< TDimension >
 {
   itkDebugMacro("Checking the point [" << point << "is on the surface");
 
-  if ( name == NULL )
+  if ( name == ITK_NULLPTR )
     {
     if ( IsInside(point) )
       {

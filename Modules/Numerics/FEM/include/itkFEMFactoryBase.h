@@ -64,13 +64,13 @@ public:
   /** Register this transform */
   static FEMFactoryBase * GetFactory()
   {
-    if( m_Factory == 0 )
+    if( m_Factory == ITK_NULLPTR )
       {
       m_CreationLock.Lock();
       //Need to make sure that during gaining access
       //to the lock that some other thread did not
       //initialize the singleton.
-      if( m_Factory == 0 )
+      if( m_Factory == ITK_NULLPTR )
         {
         // Make and register the factory
         FEMFactoryBase::Pointer p = FEMFactoryBase::New();

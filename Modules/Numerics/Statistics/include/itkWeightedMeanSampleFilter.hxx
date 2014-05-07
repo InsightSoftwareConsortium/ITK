@@ -32,7 +32,7 @@ template< typename TSample >
 WeightedMeanSampleFilter< TSample >
 ::WeightedMeanSampleFilter()
 {
-  this->ProcessObject::SetNthInput(1, NULL);
+  this->ProcessObject::SetNthInput(1, ITK_NULLPTR);
 }
 
 template< typename TSample >
@@ -61,7 +61,7 @@ WeightedMeanSampleFilter< TSample >
   const InputWeightingFunctionObjectType *functionObject =
     this->GetWeightingFunctionInput();
 
-  if ( functionObject != NULL )
+  if ( functionObject != ITK_NULLPTR )
     {
     this->ComputeMeanWithWeightingFunction();
     return;
@@ -71,7 +71,7 @@ WeightedMeanSampleFilter< TSample >
   const InputWeightArrayObjectType *weightArrayObject =
     this->GetWeightsInput();
 
-  if ( weightArrayObject != NULL )
+  if ( weightArrayObject != ITK_NULLPTR )
     {
     this->ComputeMeanWithWeights();
     return;

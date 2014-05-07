@@ -208,7 +208,7 @@ void
 LevelSetBase< TInput, VDimension, TOutput, TDomain >
 ::CopyInformation(const DataObject *data)
 {
-  const LevelSetBase *levelSet = NULL;
+  const LevelSetBase *levelSet = ITK_NULLPTR;
 
   try
     {
@@ -247,7 +247,7 @@ LevelSetBase< TInput, VDimension, TOutput, TDomain >
   // Copy Meta Data
   this->CopyInformation(data);
 
-  const Self * levelSet = NULL;
+  const Self * levelSet = ITK_NULLPTR;
 
   try
     {

@@ -42,8 +42,8 @@ ObjectByObjectLabelMapFilter<TInputImage, TOutputImage, TInputFilter, TOutputFil
   m_KeepLabels = true;
   m_InternalForegroundValue = itk::NumericTraits< InternalOutputPixelType >::max();
 
-  m_InputFilter = NULL;
-  m_OutputFilter = NULL;
+  m_InputFilter = ITK_NULLPTR;
+  m_OutputFilter = ITK_NULLPTR;
 
 
   m_Select = SelectType::New();
@@ -80,7 +80,7 @@ ObjectByObjectLabelMapFilter<TInputImage, TOutputImage, TInputFilter, TOutputFil
 ::SetFilter( InputFilterType * filter )
 {
   OutputFilterType * outputFilter = dynamic_cast< OutputFilterType * >( filter );
-  if( outputFilter == NULL && filter != NULL )
+  if( outputFilter == ITK_NULLPTR && filter != ITK_NULLPTR )
     {
     // TODO: can it be replaced by a concept check ?
     itkExceptionMacro("Wrong output filter type. Use SetOutputFilter() and SetInputFilter() instead of SetFilter() when input and output filter types are different.");

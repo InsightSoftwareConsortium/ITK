@@ -88,7 +88,7 @@ SimpleFilterWatcher
   m_Quiet = false;
 #endif
 
-  m_Process = 0;
+  m_Process = ITK_NULLPTR;
 }
 
 SimpleFilterWatcher

@@ -25,7 +25,7 @@ namespace itk
 MultipleValuedNonLinearOptimizer
 ::MultipleValuedNonLinearOptimizer()
 {
-  m_CostFunction = 0;
+  m_CostFunction = ITK_NULLPTR;
 }
 
 /**

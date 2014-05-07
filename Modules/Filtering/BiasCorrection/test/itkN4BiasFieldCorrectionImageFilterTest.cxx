@@ -132,7 +132,7 @@ int N4( int argc, char *argv[] )
 
   // handle the mask image
   typedef itk::Image<unsigned char, ImageDimension> MaskImageType;
-  typename MaskImageType::Pointer maskImage = NULL;
+  typename MaskImageType::Pointer maskImage = ITK_NULLPTR;
 
   if( argc > 6 )
     {
@@ -147,7 +147,7 @@ int N4( int argc, char *argv[] )
       }
     catch( ... )
       {
-      maskImage = NULL;
+      maskImage = ITK_NULLPTR;
       }
     }
 

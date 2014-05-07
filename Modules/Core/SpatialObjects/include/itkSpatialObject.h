@@ -167,7 +167,7 @@ public:
   /** Returns the value at a point */
   virtual bool ValueAt(const PointType & point, double & value,
                        unsigned int depth = 0,
-                       char *name = NULL) const;
+                       char *name = ITK_NULLPTR) const;
 
   /** Returns true if the object can provide a "meaningful" value at
    * a point.   Often defaults to returning same answer as IsInside, but
@@ -177,12 +177,12 @@ public:
    */
   virtual bool IsEvaluableAt(const PointType & point,
                              unsigned int depth = 0,
-                             char *name = NULL) const;
+                             char *name = ITK_NULLPTR) const;
 
   /** Returns true if a point is inside the object. */
   virtual bool IsInside(const PointType & point,
                         unsigned int depth = 0,
-                        char *name = NULL) const;
+                        char *name = ITK_NULLPTR) const;
 
   /** Returns true if a point is inside the object - provided
    * to make spatial objects compatible with spatial functions
@@ -198,7 +198,7 @@ public:
                             short unsigned int order,
                             OutputVectorType & value,
                             unsigned int depth = 0,
-                            char *name = NULL);
+                            char *name = ITK_NULLPTR);
 
   /** Returns the latest modified time of the spatial object, and
    * any of its components. */
@@ -447,11 +447,11 @@ public:
    * \warning User is responsible for freeing the list, but not the elements of
    * the list. */
   virtual ChildrenListType * GetChildren(unsigned int depth = 0,
-                                         char *name = NULL) const;
+                                         char *name = ITK_NULLPTR) const;
 
   /** Returns the number of children currently assigned to the object. */
   unsigned int GetNumberOfChildren(unsigned int depth = 0,
-                                   char *name = NULL) const;
+                                   char *name = ITK_NULLPTR) const;
 
   /** Set the list of pointers to children to the list passed as argument. */
   void SetChildren(ChildrenListType & children);

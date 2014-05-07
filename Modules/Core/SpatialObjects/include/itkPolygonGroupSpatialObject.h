@@ -97,7 +97,7 @@ public:
   /** Test whether a point is inside or outside the object. */
   virtual bool IsInside(const PointType & point,
                         unsigned int depth = 0,
-                        char *name = NULL) const;
+                        char *name = ITK_NULLPTR) const;
 
 protected:
   PolygonGroupSpatialObject(const Self &); //purposely not implemented

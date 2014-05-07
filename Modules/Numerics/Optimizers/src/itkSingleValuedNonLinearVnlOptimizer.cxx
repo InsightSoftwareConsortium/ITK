@@ -26,7 +26,7 @@ namespace itk
 SingleValuedNonLinearVnlOptimizer
 ::SingleValuedNonLinearVnlOptimizer()
 {
-  m_CostFunctionAdaptor = 0;
+  m_CostFunctionAdaptor = ITK_NULLPTR;
   m_Maximize = false;
   m_Command = CommandType::New();
   m_Command->SetCallbackFunction(this,
@@ -41,7 +41,7 @@ SingleValuedNonLinearVnlOptimizer
 ::~SingleValuedNonLinearVnlOptimizer()
 {
   delete m_CostFunctionAdaptor;
-  m_CostFunctionAdaptor = 0;
+  m_CostFunctionAdaptor = ITK_NULLPTR;
 }
 
 void

@@ -36,8 +36,8 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualI
   m_FixedImageBinSize(0.0),
   m_MovingImageBinSize(0.0),
 
-  m_CubicBSplineKernel(NULL),
-  m_CubicBSplineDerivativeKernel(NULL),
+  m_CubicBSplineKernel(ITK_NULLPTR),
+  m_CubicBSplineDerivativeKernel(ITK_NULLPTR),
 
   m_PRatioArray(0),
 

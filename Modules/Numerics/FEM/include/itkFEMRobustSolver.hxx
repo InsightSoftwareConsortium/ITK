@@ -143,7 +143,7 @@ RobustSolver<VDimension>
         const Element * element = this->m_InterpolationGrid->GetPixel(index);
 
         // landmark is inside the mesh
-        if(element != NULL)
+        if(element != ITK_NULLPTR)
           {
           landmark->SetContainedElement( element );
 
@@ -341,7 +341,7 @@ RobustSolver<VDimension>
 
     LoadNoisyLandmark *landmark = dynamic_cast<LoadNoisyLandmark*>(load.GetPointer());
 
-    if(landmark == NULL)
+    if(landmark == ITK_NULLPTR)
       {
       itkExceptionMacro("Encounter landmark that is not a LoadNoisyLandmark");
       }
@@ -579,7 +579,7 @@ RobustSolver<VDimension>
 
     LoadNoisyLandmark *landmark = dynamic_cast<LoadNoisyLandmark*>(load.GetPointer());
 
-    if(landmark == NULL)
+    if(landmark == ITK_NULLPTR)
       {
       itkExceptionMacro("Encounter landmark that is not a LoadNoisyLandmark");
       }
@@ -710,7 +710,7 @@ RobustSolver<VDimension>
 
     LoadNoisyLandmark *landmark = dynamic_cast<LoadNoisyLandmark*>(load.GetPointer());
 
-    if(landmark == NULL)
+    if(landmark == ITK_NULLPTR)
       {
       itkExceptionMacro("Encounter landmark that is not a LoadNoisyLandmark");
       }
@@ -1008,7 +1008,7 @@ RobustSolver<VDimension>
   this->m_InterpolationGrid->Allocate();
 
    // initialize all pointers in interpolation grid image to 0
-  this->m_InterpolationGrid->FillBuffer(0);
+  this->m_InterpolationGrid->FillBuffer(ITK_NULLPTR);
 
   // fill the interpolation grid with proper pointers to elements
   FEMIndexType numberOfElements = this->m_FEMObject->GetNumberOfElements();

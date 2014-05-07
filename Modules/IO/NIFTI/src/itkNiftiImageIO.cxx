@@ -348,7 +348,7 @@ NiftiImageIO
 }
 
 NiftiImageIO::NiftiImageIO():
-  m_NiftiImage(0),
+  m_NiftiImage(ITK_NULLPTR),
   m_RescaleSlope(1.0),
   m_RescaleIntercept(0.0),
   m_OnDiskComponentType(UNKNOWNCOMPONENTTYPE),
@@ -431,7 +431,7 @@ CastCopy(float *to, void *from, size_t pixelcount)
 
 void NiftiImageIO::Read(void *buffer)
 {
-  void *data = 0;
+  void *data = ITK_NULLPTR;
 
   ImageIORegion            regionToRead = this->GetIORegion();
   ImageIORegion::SizeType  size = regionToRead.GetSize();
@@ -467,14 +467,14 @@ void NiftiImageIO::Read(void *buffer)
     _size[4] = numComponents;
     }
   // Free memory if any was occupied already (incase of re-using the IO filter).
-  if ( this->m_NiftiImage != NULL )
+  if ( this->m_NiftiImage != ITK_NULLPTR )
     {
     nifti_image_free(this->m_NiftiImage);
     }
   //
   // allocate nifti image...
   this->m_NiftiImage = nifti_image_read(this->GetFileName(), false);
-  if ( this->m_NiftiImage == NULL )
+  if ( this->m_NiftiImage == ITK_NULLPTR )
     {
     itkExceptionMacro( << "nifti_image_read (just header) failed for file: "
                        << this->GetFileName() );
@@ -932,7 +932,7 @@ NiftiImageIO
 #endif
     prev = this->GetFileName();
     }
-  if ( this->m_NiftiImage == 0 )
+  if ( this->m_NiftiImage == ITK_NULLPTR )
     {
     itkExceptionMacro(<< this->GetFileName() << " is not recognized as a NIFTI file");
     }
@@ -1259,7 +1259,7 @@ NiftiImageIO
 
   // We don't need the image anymore
   nifti_image_free(this->m_NiftiImage);
-  this->m_NiftiImage = 0;
+  this->m_NiftiImage = ITK_NULLPTR;
 }
 
 namespace
@@ -1299,7 +1299,7 @@ NiftiImageIO
     }
 
   // fill out the image header.
-  if ( this->m_NiftiImage == 0 )
+  if ( this->m_NiftiImage == ITK_NULLPTR )
     {
     this->m_NiftiImage = nifti_simple_init_nim();
     }
@@ -1309,7 +1309,7 @@ NiftiImageIO
   //
   // set the file type
   const char *tempextension = nifti_find_file_extension( FName.c_str() );
-  if ( tempextension == NULL )
+  if ( tempextension == ITK_NULLPTR )
     {
     itkExceptionMacro(
       << "Bad Nifti file name. No extension found for file: " << FName);
@@ -1808,9 +1808,9 @@ NiftiImageIO::SetNIfTIOrientationFromImageIO(unsigned short int origdims, unsign
                           &( this->m_NiftiImage->qoffset_x ),
                           &( this->m_NiftiImage->qoffset_y ),
                           &( this->m_NiftiImage->qoffset_z ),
-                          0,
-                          0,
-                          0,
+                          ITK_NULLPTR,
+                          ITK_NULLPTR,
+                          ITK_NULLPTR,
                           &( this->m_NiftiImage->qfac ) );
   // copy q matrix to s matrix
   this->m_NiftiImage->qto_xyz =  matrix;
@@ -1852,7 +1852,7 @@ NiftiImageIO
     // for writing.
     this->m_NiftiImage->data = const_cast< void * >( buffer );
     nifti_image_write(this->m_NiftiImage);
-    this->m_NiftiImage->data = 0; // if left pointing to data buffer
+    this->m_NiftiImage->data = ITK_NULLPTR; // if left pointing to data buffer
     // nifti_image_free will try and free this memory
     }
   else  ///Image intent is vector image
@@ -1938,7 +1938,7 @@ NiftiImageIO
     //writing.
     this->m_NiftiImage->data = (void *)nifti_buf;
     nifti_image_write(this->m_NiftiImage);
-    this->m_NiftiImage->data = 0; // if left pointing to data buffer
+    this->m_NiftiImage->data = ITK_NULLPTR; // if left pointing to data buffer
     delete[] nifti_buf;
     }
 }

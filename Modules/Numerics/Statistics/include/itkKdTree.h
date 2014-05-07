@@ -385,25 +385,25 @@ struct KdTreeTerminalNode:public KdTreeNode<TSample>
   /** Return the left tree pointer. Null for terminal nodes. */
   Superclass * Left()
   {
-    return 0;
+    return ITK_NULLPTR;
   }
 
   /** Return the right tree pointer. Null for terminal nodes. */
   Superclass * Right()
   {
-    return 0;
+    return ITK_NULLPTR;
   }
 
   /** Return the left tree const pointer. Null for terminal nodes. */
   const Superclass * Left() const
   {
-    return 0;
+    return ITK_NULLPTR;
   }
 
   /** Return the right tree const pointer. Null for terminal nodes. */
   const Superclass * Right() const
   {
-    return 0;
+    return ITK_NULLPTR;
   }
 
   /** Return the size of the node. */

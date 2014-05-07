@@ -29,13 +29,13 @@ template< typename TFixedPointSet, typename TMovingImage >
 PointSetToImageMetric< TFixedPointSet, TMovingImage >
 ::PointSetToImageMetric()
 {
-  m_FixedPointSet = 0;         // has to be provided by the user.
-  m_MovingImage   = 0;         // has to be provided by the user.
-  m_Transform     = 0;         // has to be provided by the user.
-  m_Interpolator  = 0;         // has to be provided by the user.
+  m_FixedPointSet = ITK_NULLPTR;         // has to be provided by the user.
+  m_MovingImage   = ITK_NULLPTR;         // has to be provided by the user.
+  m_Transform     = ITK_NULLPTR;         // has to be provided by the user.
+  m_Interpolator  = ITK_NULLPTR;         // has to be provided by the user.
   m_ComputeGradient = true;    // metric computes gradient by default
   m_NumberOfPixelsCounted = 0; // initialize to zero
-  m_GradientImage = NULL;      // computed at initialization
+  m_GradientImage = ITK_NULLPTR;      // computed at initialization
 }
 
 /**

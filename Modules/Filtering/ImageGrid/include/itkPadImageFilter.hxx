@@ -41,7 +41,7 @@ PadImageFilter< TInputImage, TOutputImage >
     m_PadUpperBound[j] = 0;
     }
 
-  m_BoundaryCondition = NULL;
+  m_BoundaryCondition = ITK_NULLPTR;
 }
 
 /**

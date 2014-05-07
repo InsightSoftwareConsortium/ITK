@@ -33,8 +33,8 @@ int itkQuadEdgeMeshTest1( int , char* [] )
 
   MeshType::Pointer  mesh = MeshType::New();
 
-  mesh->GetCellBoundaryFeatureNeighbors( 0, 0, 0, 0 );
-  mesh->GetCellNeighbors( 0, 0 );
+  mesh->GetCellBoundaryFeatureNeighbors( 0, 0, 0, ITK_NULLPTR );
+  mesh->GetCellNeighbors( 0, ITK_NULLPTR );
 
   // test ComputeNumberOfPoints( ) failsafe
     {
@@ -162,7 +162,7 @@ int itkQuadEdgeMeshTest1( int , char* [] )
 
     // LightWeightDeleteEdge
     QELineCellType * qeLineCell = new QELineCellType;
-    mesh->LightWeightDeleteEdge( (QEType *)NULL );
+    mesh->LightWeightDeleteEdge( (QEType *)ITK_NULLPTR );
     mesh->LightWeightDeleteEdge( qeLineCell->GetQEGeom( ) );
     mesh->LightWeightDeleteEdge( qeLineCell );
     }

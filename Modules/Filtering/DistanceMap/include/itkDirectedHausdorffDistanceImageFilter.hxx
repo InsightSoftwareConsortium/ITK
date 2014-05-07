@@ -32,7 +32,7 @@ DirectedHausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
   // this filter requires two input images
   this->SetNumberOfRequiredInputs(2);
 
-  m_DistanceMap = NULL;
+  m_DistanceMap = ITK_NULLPTR;
   m_DirectedHausdorffDistance = NumericTraits< RealType >::Zero;
   m_AverageHausdorffDistance = NumericTraits< RealType >::Zero;
   m_UseImageSpacing     = true;
@@ -182,7 +182,7 @@ DirectedHausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
     }
 
   // clean up
-  m_DistanceMap = NULL;
+  m_DistanceMap = ITK_NULLPTR;
 }
 
 template< typename TInputImage1, typename TInputImage2 >

@@ -225,9 +225,9 @@ public:
    */
   const typename JointPDFType::Pointer GetJointPDF () const
     {
-    if( this->m_MMIMetricPerThreadVariables == NULL )
+    if( this->m_MMIMetricPerThreadVariables == ITK_NULLPTR )
       {
-      return JointPDFType::Pointer(NULL);
+      return JointPDFType::Pointer(ITK_NULLPTR);
       }
     return this->m_MMIMetricPerThreadVariables[0].JointPDF;
     }
@@ -240,9 +240,9 @@ public:
    */
   const typename JointPDFDerivativesType::Pointer GetJointPDFDerivatives () const
     {
-    if( this->m_MMIMetricPerThreadVariables == NULL )
+    if( this->m_MMIMetricPerThreadVariables == ITK_NULLPTR )
       {
-      return JointPDFDerivativesType::Pointer(NULL);
+      return JointPDFDerivativesType::Pointer(ITK_NULLPTR);
       }
     return this->m_MMIMetricPerThreadVariables[0].JointPDFDerivatives;
     }

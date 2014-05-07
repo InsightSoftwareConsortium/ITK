@@ -36,7 +36,7 @@ template< typename TOutputMesh, typename ConvertPointPixelTraits, typename Conve
 MeshFileReader< TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits >
 ::MeshFileReader()
 {
-  m_MeshIO = 0;
+  m_MeshIO = ITK_NULLPTR;
   m_FileName = "";
   m_UserSpecifiedMeshIO = false;
 }
@@ -345,7 +345,7 @@ MeshFileReader< TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits >
 {
   typename TOutputMesh::Pointer output = this->GetOutput();
 
-  char *                inputPointDataBuffer = 0;
+  char *                inputPointDataBuffer = ITK_NULLPTR;
   OutputPointPixelType *outputPointDataBuffer = new OutputPointPixelType[m_MeshIO->GetNumberOfPointPixels()];
 
   try
@@ -385,10 +385,10 @@ MeshFileReader< TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits >
 
     // clean up
     delete[] inputPointDataBuffer;
-    inputPointDataBuffer = 0;
+    inputPointDataBuffer = ITK_NULLPTR;
 
     delete[] outputPointDataBuffer;
-    outputPointDataBuffer = 0;
+    outputPointDataBuffer = ITK_NULLPTR;
 
     // then rethrow
     throw;
@@ -396,7 +396,7 @@ MeshFileReader< TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits >
 
   // clean up
   delete[] inputPointDataBuffer;
-  inputPointDataBuffer = 0;
+  inputPointDataBuffer = ITK_NULLPTR;
 
   for ( OutputPointIdentifier id = 0; id < m_MeshIO->GetNumberOfPointPixels(); id++ )
     {
@@ -404,7 +404,7 @@ MeshFileReader< TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits >
     }
 
   delete[] outputPointDataBuffer;
-  outputPointDataBuffer = 0;
+  outputPointDataBuffer = ITK_NULLPTR;
 }
 
 template< typename TOutputMesh, typename ConvertPointPixelTraits, typename ConvertCellPixelTraits >
@@ -414,7 +414,7 @@ MeshFileReader< TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits >
 {
   typename TOutputMesh::Pointer output = this->GetOutput();
 
-  char *               inputCellDataBuffer = 0;
+  char *               inputCellDataBuffer = ITK_NULLPTR;
   OutputCellPixelType *outputCellDataBuffer = new OutputCellPixelType[m_MeshIO->GetNumberOfCellPixels()];
 
   try
@@ -454,10 +454,10 @@ MeshFileReader< TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits >
 
     // clean up
     delete[] inputCellDataBuffer;
-    inputCellDataBuffer = 0;
+    inputCellDataBuffer = ITK_NULLPTR;
 
     delete[] outputCellDataBuffer;
-    outputCellDataBuffer = 0;
+    outputCellDataBuffer = ITK_NULLPTR;
 
     // then rethrow
     throw;
@@ -465,7 +465,7 @@ MeshFileReader< TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits >
 
   // clean up
   delete[] inputCellDataBuffer;
-  inputCellDataBuffer = 0;
+  inputCellDataBuffer = ITK_NULLPTR;
 
   for ( OutputCellIdentifier id = 0; id < m_MeshIO->GetNumberOfCellPixels(); id++ )
     {
@@ -473,7 +473,7 @@ MeshFileReader< TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits >
     }
 
   delete[] outputCellDataBuffer;
-  outputCellDataBuffer = 0;
+  outputCellDataBuffer = ITK_NULLPTR;
 }
 
 template< typename TOutputMesh, typename ConvertPointPixelTraits, typename ConvertCellPixelTraits >

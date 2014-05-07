@@ -89,10 +89,10 @@ public:
   virtual bool GetLocalFromGlobalCoordinates(const VectorType & globalPt, VectorType & localPt) const ITK_OVERRIDE;
 
   /** Compute the determinate of the Jacobian matrix */
-  virtual Float JacobianDeterminant(const VectorType & pt, const MatrixType *pJ = 0) const ITK_OVERRIDE;
+  virtual Float JacobianDeterminant(const VectorType & pt, const MatrixType *pJ = ITK_NULLPTR) const ITK_OVERRIDE;
 
   /** Compute the inverse of the Jacobian matrix */
-  virtual void JacobianInverse(const VectorType & pt, MatrixType & invJ, const MatrixType *pJ = 0) const ITK_OVERRIDE;
+  virtual void JacobianInverse(const VectorType & pt, MatrixType & invJ, const MatrixType *pJ = ITK_NULLPTR) const ITK_OVERRIDE;
 
   /** Define the edges and nodes that correspond to the edges */
   virtual void PopulateEdgeIds() ITK_OVERRIDE;

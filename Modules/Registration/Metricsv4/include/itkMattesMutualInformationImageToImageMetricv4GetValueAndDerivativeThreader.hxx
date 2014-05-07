@@ -38,7 +38,7 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< TDomai
 
   /* Store the casted pointer to avoid dynamic casting in tight loops. */
   this->m_MattesAssociate = dynamic_cast<TMattesMutualInformationMetric*>(this->m_Associate);
-  if( this->m_MattesAssociate == NULL )
+  if( this->m_MattesAssociate == ITK_NULLPTR )
     {
     itkExceptionMacro("Dynamic casting of associate pointer failed.");
     }
@@ -305,7 +305,7 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< TDomai
 
       // Pointer to local derivative partial result container.
       // Not used with global support transforms.
-      DerivativeValueType * localSupportDerivativeResultPtr = NULL;
+      DerivativeValueType * localSupportDerivativeResultPtr = ITK_NULLPTR;
 
       if( transformIsDisplacement )
         {
@@ -354,7 +354,7 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< TDomai
 
   const bool isDisplacementField = ( this->m_MattesAssociate->m_MovingTransform->GetTransformCategory() == MovingTransformType::DisplacementField );
 
-  JointPDFDerivativesValueType *derivPtr=0;
+  JointPDFDerivativesValueType *derivPtr=ITK_NULLPTR;
   if( ! isDisplacementField )
     {
     derivPtr = this->m_MattesAssociate->m_ThreaderJointPDFDerivatives[threadID]->GetBufferPointer()

@@ -526,7 +526,7 @@ void FileListVideoIO::OpenWriter()
 //
 void FileListVideoIO::ResetMembers()
 {
-  m_ImageIO = NULL;
+  m_ImageIO = ITK_NULLPTR;
   m_FileNames.clear();
   m_WriterOpen = false;
   m_ReaderOpen = false;

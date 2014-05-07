@@ -1062,7 +1062,7 @@ RayCastHelper< TInputImage, TCoordRep >
 
     for ( i = 0; i < 4; i++ )
       {
-      m_RayIntersectionVoxels[i] = 0;
+      m_RayIntersectionVoxels[i] = ITK_NULLPTR;
       }
     for ( i = 0; i < 3; i++ )
       {
@@ -1121,7 +1121,7 @@ RayCastHelper< TInputImage, TCoordRep >
         m_RayIntersectionVoxels[0] =
           m_RayIntersectionVoxels[1] =
             m_RayIntersectionVoxels[2] =
-              m_RayIntersectionVoxels[3] = NULL;
+              m_RayIntersectionVoxels[3] = ITK_NULLPTR;
         }
       break;
       }
@@ -1153,7 +1153,7 @@ RayCastHelper< TInputImage, TCoordRep >
         m_RayIntersectionVoxels[0] =
           m_RayIntersectionVoxels[1] =
             m_RayIntersectionVoxels[2] =
-              m_RayIntersectionVoxels[3] = NULL;
+              m_RayIntersectionVoxels[3] = ITK_NULLPTR;
         }
       break;
       }
@@ -1185,7 +1185,7 @@ RayCastHelper< TInputImage, TCoordRep >
         m_RayIntersectionVoxels[0] =
           m_RayIntersectionVoxels[1] =
             m_RayIntersectionVoxels[2] =
-              m_RayIntersectionVoxels[3] = NULL;
+              m_RayIntersectionVoxels[3] = ITK_NULLPTR;
         }
       break;
       }
@@ -1385,7 +1385,7 @@ RayCastHelper< TInputImage, TCoordRep >
 
   for ( i = 0; i < 4; i++ )
     {
-    m_RayIntersectionVoxels[i] = 0;
+    m_RayIntersectionVoxels[i] = ITK_NULLPTR;
     }
   for ( i = 0; i < 3; i++ )
     {

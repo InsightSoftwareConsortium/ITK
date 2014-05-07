@@ -43,7 +43,7 @@ DisplacementFieldToBSplineImageFilter<TInputImage, TOutputImage>
   this->m_NumberOfFittingLevels.Fill( 1 );
   this->m_NumberOfControlPoints.Fill( 4 );
 
-  this->m_DisplacementFieldControlPointLattice = NULL;
+  this->m_DisplacementFieldControlPointLattice = ITK_NULLPTR;
 }
 
 template<typename TInputImage, typename TOutputImage>

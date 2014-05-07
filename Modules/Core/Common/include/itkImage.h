@@ -227,9 +227,9 @@ public:
   /** Return a pointer to the beginning of the buffer.  This is used by
    * the image iterator class. */
   virtual TPixel * GetBufferPointer()
-  { return m_Buffer ? m_Buffer->GetBufferPointer() : 0; }
+  { return m_Buffer ? m_Buffer->GetBufferPointer() : ITK_NULLPTR; }
   virtual const TPixel * GetBufferPointer() const
-  { return m_Buffer ? m_Buffer->GetBufferPointer() : 0; }
+  { return m_Buffer ? m_Buffer->GetBufferPointer() : ITK_NULLPTR; }
 
   /** Return a pointer to the container. */
   PixelContainer * GetPixelContainer()

@@ -43,7 +43,7 @@ void MRCHeaderObject::DeepCopy(ConstPointer h)
     }
   else
     {
-    this->m_ExtendedFeiHeader = 0;
+    this->m_ExtendedFeiHeader = ITK_NULLPTR;
     }
 }
 
@@ -109,8 +109,8 @@ bool MRCHeaderObject::SetHeader(const Header *buffer)
   // clean up
   delete[] static_cast< char * >( this->m_ExtendedHeader );
 
-  this->m_ExtendedHeader = 0;
-  this->m_ExtendedFeiHeader = 0;
+  this->m_ExtendedHeader = ITK_NULLPTR;
+  this->m_ExtendedFeiHeader = ITK_NULLPTR;
 
   SizeValueType extendedHeaderBytes = 0;
   if ( this->m_Header.nreal & 1   ) { extendedHeaderBytes += 2; }
@@ -168,7 +168,7 @@ bool MRCHeaderObject::SetExtendedHeader(const void *buffer)
   this->m_ExtendedHeader = new char[this->m_ExtendedHeaderSize];
   memcpy(this->m_ExtendedHeader, buffer, this->m_ExtendedHeaderSize);
 
-  this->m_ExtendedFeiHeader = 0;
+  this->m_ExtendedFeiHeader = ITK_NULLPTR;
   if ( this->m_ExtendedHeaderSize == 128 * 1024 && this->m_Header.nint == 0 && this->m_Header.nreal == 32 )
     {
     this->m_ExtendedFeiHeader = static_cast< FeiExtendedHeader * >( this->m_ExtendedHeader );
@@ -194,8 +194,8 @@ bool MRCHeaderObject::IsOriginalHeaderBigEndian(void) const
 
 MRCHeaderObject::MRCHeaderObject(void)
   : m_ExtendedHeaderSize(0),
-    m_ExtendedHeader(0),
-    m_ExtendedFeiHeader(0)
+    m_ExtendedHeader(ITK_NULLPTR),
+    m_ExtendedFeiHeader(ITK_NULLPTR)
 {
   memset( &this->m_Header, 0, sizeof( Header ) );
   this->m_BigEndianHeader = ByteSwapper< void * >::SystemIsBE();

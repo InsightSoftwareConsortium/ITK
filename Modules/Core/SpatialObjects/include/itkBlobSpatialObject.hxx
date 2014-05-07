@@ -193,7 +193,7 @@ BlobSpatialObject< TDimension >
 ::IsInside(const PointType & point, unsigned int depth, char *name) const
 {
   itkDebugMacro("Checking the point [" << point << "] is inside the blob");
-  if ( name == NULL )
+  if ( name == ITK_NULLPTR )
     {
     if ( IsInside(point) )
       {

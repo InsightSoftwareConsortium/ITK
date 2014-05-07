@@ -36,7 +36,7 @@ template< typename TElementIdentifier, typename TElement >
 ImportImageContainer< TElementIdentifier, TElement >
 ::ImportImageContainer()
 {
-  m_ImportPointer = 0;
+  m_ImportPointer = ITK_NULLPTR;
   m_ContainerManageMemory = true;
   m_Capacity = 0;
   m_Size = 0;
@@ -183,7 +183,7 @@ TElement *ImportImageContainer< TElementIdentifier, TElement >
     }
   catch ( ... )
     {
-    data = 0;
+    data = ITK_NULLPTR;
     }
   if ( !data )
     {
@@ -205,7 +205,7 @@ void ImportImageContainer< TElementIdentifier, TElement >
     {
     delete[] m_ImportPointer;
     }
-  m_ImportPointer = 0;
+  m_ImportPointer = ITK_NULLPTR;
   m_Capacity = 0;
   m_Size = 0;
 }

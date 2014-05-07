@@ -188,7 +188,7 @@ GE5ImageIO::ReadHeader(const char  *FileNameToRead)
     }
 
   curImage = new GEImageHeader;
-  if ( curImage == NULL )
+  if ( curImage == ITK_NULLPTR )
     {
     itkExceptionMacro(
       "GE5ImageIO failed to create a GEImageHeader while reading "
@@ -256,11 +256,11 @@ GE5ImageIO::ReadHeader(const char  *FileNameToRead)
 #define VOff(a,b) (imageHdr.GENESIS_IH_img_version != 2 ? a : b)
   // Create a buffer to read the exam header.
   // Now seek to the exam header and read the data into the buffer.
-  char *buffer = NULL;
+  char *buffer = ITK_NULLPTR;
   if(pixelHdrFlag)
     {
     buffer = new char[imageHdr.GENESIS_IH_img_l_exam];
-    if ( buffer == NULL )
+    if ( buffer == ITK_NULLPTR )
       {
       f.close();
       itkExceptionMacro("GE5ImageIO:Unable to allocate memory for exam header!");
@@ -271,7 +271,7 @@ GE5ImageIO::ReadHeader(const char  *FileNameToRead)
   else
     {
     buffer = new char[GENESIS_EX_HDR_LEN];
-    if ( buffer == NULL )
+    if ( buffer == ITK_NULLPTR )
       {
       f.close();
       itkExceptionMacro("GE5ImageIO:Unable to allocate memory for exam header!");
@@ -312,14 +312,14 @@ GE5ImageIO::ReadHeader(const char  *FileNameToRead)
 
   // Done with exam, delete buffer.
   delete[] buffer;
-  buffer = NULL;
+  buffer = ITK_NULLPTR;
 
   // Allocate buffer for series header.
   // Now seek to the series header and read the data into the buffer.
   if(pixelHdrFlag)
     {
     buffer = new char[imageHdr.GENESIS_IH_img_l_series];
-    if ( buffer == NULL )
+    if ( buffer == ITK_NULLPTR )
       {
       f.close();
       itkExceptionMacro
@@ -331,7 +331,7 @@ GE5ImageIO::ReadHeader(const char  *FileNameToRead)
   else
     {
     buffer = new char[GENESIS_SE_HDR_LEN];
-    if ( buffer == NULL )
+    if ( buffer == ITK_NULLPTR )
       {
       f.close();
       itkExceptionMacro
@@ -354,11 +354,11 @@ GE5ImageIO::ReadHeader(const char  *FileNameToRead)
 
   // Done with series, delete buffer and allocate for MR header.
   delete[] buffer;
-  buffer = NULL;
+  buffer = ITK_NULLPTR;
   if(pixelHdrFlag)
     {
     buffer = new char[imageHdr.GENESIS_IH_img_l_image];
-    if ( buffer == NULL )
+    if ( buffer == ITK_NULLPTR )
       {
       f.close();
       itkExceptionMacro("GE5ImageIO:Unable to allocate memory for MR header!");
@@ -370,7 +370,7 @@ GE5ImageIO::ReadHeader(const char  *FileNameToRead)
   else
     {
     buffer = new char[GENESIS_MR_HDR_LEN];
-    if ( buffer == NULL )
+    if ( buffer == ITK_NULLPTR )
       {
       f.close();
       itkExceptionMacro("GE5ImageIO:Unable to allocate memory for MR header!");

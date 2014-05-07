@@ -59,7 +59,7 @@ namespace itk
 class InternalHeader
 {
 public:
-  InternalHeader():m_Header(0) {}
+  InternalHeader():m_Header(ITK_NULLPTR) {}
   ~InternalHeader()
   {
     delete m_Header;

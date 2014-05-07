@@ -117,11 +117,11 @@ Element2DC0QuadraticTriangular
 {
 //  return Superclass::JacobianDeterminant( pt, pJ );
 
-  MatrixType *pJlocal = 0;
+  MatrixType *pJlocal = ITK_NULLPTR;
 
   // If Jacobian was not provided, we
   // need to compute it here
-  if( pJ == 0 )
+  if( pJ == ITK_NULLPTR )
     {
     pJlocal = new MatrixType();
     this->Jacobian(pt, *pJlocal);
@@ -140,11 +140,11 @@ void
 Element2DC0QuadraticTriangular
 ::JacobianInverse(const VectorType & pt, MatrixType & invJ, const MatrixType *pJ) const
 {
-  MatrixType *pJlocal = 0;
+  MatrixType *pJlocal = ITK_NULLPTR;
 
   // If Jacobian was not provided, we
   // need to compute it here
-  if( pJ == 0 )
+  if( pJ == ITK_NULLPTR )
     {
     pJlocal = new MatrixType();
     this->Jacobian(pt, *pJlocal);

@@ -51,7 +51,7 @@ public:
   typedef AutoPointer Self;
 
   /** Constructor.  */
-  AutoPointer ():m_Pointer(0), m_IsOwner(false)
+  AutoPointer ():m_Pointer(ITK_NULLPTR), m_IsOwner(false)
   {}
 
   /** Copy constructor.  */
@@ -85,7 +85,7 @@ public:
       {
       delete m_Pointer;
       }
-    m_Pointer = 0;
+    m_Pointer = ITK_NULLPTR;
     m_IsOwner = false;
   }
 

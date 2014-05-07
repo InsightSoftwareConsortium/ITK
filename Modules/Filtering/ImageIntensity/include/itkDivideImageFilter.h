@@ -136,7 +136,7 @@ protected:
     const typename Superclass::DecoratedInput2ImagePixelType *input
        = dynamic_cast< const typename Superclass::DecoratedInput2ImagePixelType * >(
         this->ProcessObject::GetInput(1) );
-    if( input != NULL && input->Get() == itk::NumericTraits< typename TInputImage2::PixelType >::Zero )
+    if( input != ITK_NULLPTR && input->Get() == itk::NumericTraits< typename TInputImage2::PixelType >::Zero )
       {
       itkGenericExceptionMacro(<<"The constant value used as denominator should not be set to zero");
       }

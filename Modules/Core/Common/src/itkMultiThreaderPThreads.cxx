@@ -65,7 +65,7 @@ ThreadIdType MultiThreader::GetGlobalDefaultNumberOfThreadsByPlatform()
     // hw.logicalcpu takes into account cores/CPUs that are
     // disabled because of power management.
     size_t dataLen = sizeof( int ); // 'num' is an 'int'
-    int    result = sysctlbyname ("hw.logicalcpu", &num, &dataLen, NULL, 0);
+    int    result = sysctlbyname ("hw.logicalcpu", &num, &dataLen, ITK_NULLPTR, 0);
     if ( result == -1 )
       {
       num = 1;
@@ -88,7 +88,7 @@ void MultiThreader::MultipleMethodExecute()
 
   for ( thread_loop = 0; thread_loop < m_NumberOfThreads; thread_loop++ )
     {
-    if ( m_MultipleMethod[thread_loop] == (ThreadFunctionType)0 )
+    if ( m_MultipleMethod[thread_loop] == (ThreadFunctionType)ITK_NULLPTR )
       {
       itkExceptionMacro(<< "No multiple method set for: " << thread_loop);
       return;
@@ -138,7 +138,7 @@ void MultiThreader::MultipleMethodExecute()
   // waits for each of the other processes to exit
   for ( thread_loop = 1; thread_loop < m_NumberOfThreads; thread_loop++ )
     {
-    pthread_join(process_id[thread_loop], 0);
+    pthread_join(process_id[thread_loop], ITK_NULLPTR);
     }
 
 }
@@ -206,10 +206,10 @@ void MultiThreader::TerminateThread(ThreadIdType ThreadID)
   m_SpawnedThreadActiveFlag[ThreadID] = 0;
   m_SpawnedThreadActiveFlagLock[ThreadID]->Unlock();
 
-  pthread_join(m_SpawnedThreadProcessID[ThreadID], 0);
+  pthread_join(m_SpawnedThreadProcessID[ThreadID], ITK_NULLPTR);
 
-  m_SpawnedThreadActiveFlagLock[ThreadID] = 0;
-  m_SpawnedThreadActiveFlagLock[ThreadID] = 0;
+  m_SpawnedThreadActiveFlagLock[ThreadID] = ITK_NULLPTR;
+  m_SpawnedThreadActiveFlagLock[ThreadID] = ITK_NULLPTR;
 }
 
 void
@@ -217,7 +217,7 @@ MultiThreader
 ::WaitForSingleMethodThread(ThreadProcessIDType threadHandle)
 {
   // Using POSIX threads
-  if ( pthread_join(threadHandle, 0) )
+  if ( pthread_join(threadHandle, ITK_NULLPTR) )
     {
     itkExceptionMacro(<< "Unable to join thread.");
     }

@@ -370,7 +370,7 @@ SmapsData_2_6::~SmapsData_2_6()
 
 std::istream & operator>>(std::istream & smapsStream, SmapsData_2_6 & data)
 {
-  SmapsRecord *record = NULL;
+  SmapsRecord *record = ITK_NULLPTR;
 
   // reset the records from a previous parsing
   data.Reset();
@@ -428,7 +428,7 @@ VMMapData_10_2
 
 std::istream & operator>>(std::istream & stream, VMMapData_10_2 & data)
 {
-  MapRecord *record = NULL;
+  MapRecord *record = ITK_NULLPTR;
 
   // reset the records from a previous parsing
   data.Reset();

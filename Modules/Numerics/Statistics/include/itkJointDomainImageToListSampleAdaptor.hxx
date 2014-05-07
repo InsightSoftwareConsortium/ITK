@@ -29,7 +29,7 @@ JointDomainImageToListSampleAdaptor< TImage >
 ::JointDomainImageToListSampleAdaptor()
 {
   m_NormalizationFactors.Fill(1.0f);
-  m_Image = 0;
+  m_Image = ITK_NULLPTR;
   m_UsePixelContainer = true;
 }
 

@@ -105,7 +105,7 @@ public:
 
 protected:
   XMLReader() :
-    m_OutputObject(NULL)
+    m_OutputObject(ITK_NULLPTR)
   {}
 
   virtual ~XMLReader() {}
@@ -137,7 +137,7 @@ public:
    */
   XMLWriterBase()
   {
-    m_InputObject = 0;
+    m_InputObject = ITK_NULLPTR;
   }
 
   /** Set the filename to write */

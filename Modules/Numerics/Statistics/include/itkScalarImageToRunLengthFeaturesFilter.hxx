@@ -320,7 +320,7 @@ ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
 {
   if ( this->GetNumberOfInputs() < 1 )
     {
-    return 0;
+    return ITK_NULLPTR;
     }
   return static_cast<const ImageType *>( this->ProcessObject::GetInput( 0 ) );
 }
@@ -354,7 +354,7 @@ ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
 {
   if ( this->GetNumberOfInputs() < 2 )
     {
-    return 0;
+    return ITK_NULLPTR;
     }
   return static_cast< const ImageType *>( this->ProcessObject::GetInput( 1 ) );
 }

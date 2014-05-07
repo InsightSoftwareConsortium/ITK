@@ -96,7 +96,7 @@ MetaImageConverter< NDimensions, PixelType, TSpatialObjectType >
   const ImageMetaObjectType *imageMO =
     dynamic_cast<const ImageMetaObjectType *>(mo);
 
-  if(imageMO == 0)
+  if(imageMO == ITK_NULLPTR)
     {
     itkExceptionMacro(<< "Can't convert MetaObject to MetaImage" );
     }

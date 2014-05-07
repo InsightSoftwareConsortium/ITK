@@ -92,7 +92,7 @@ int itkFEMElement3DTest(int argc, char *argv[])
 
   femSO->GetFEMObject()->FinalizeMesh();
 
-  double *    expectedSolution = NULL;
+  double *    expectedSolution = ITK_NULLPTR;
   bool        foundError = false;
   std::string modelFile = itksys::SystemTools::GetFilenameName( argv[1] );
 
@@ -233,7 +233,7 @@ int itkFEMElement3DTest(int argc, char *argv[])
       PrintNodalCoordinates1(solver, s);
       // PrintU(S, s, );
 
-      if( expectedSolution != NULL )
+      if( expectedSolution != ITK_NULLPTR )
         {
         bool testError = CheckDisplacements1(solver, s, expectedSolution, tolerance);
         if( testError )
@@ -253,7 +253,7 @@ int itkFEMElement3DTest(int argc, char *argv[])
     {
     std::cerr << "ITK exception detected: "  << err;
     std::cout << "Test FAILED" << std::endl;
-    myScene = 0;
+    myScene = ITK_NULLPTR;
     return EXIT_FAILURE;
     }
 
@@ -261,10 +261,10 @@ int itkFEMElement3DTest(int argc, char *argv[])
   if( foundError )
     {
     std::cout << "Overall Test : [FAILED]" << std::endl;
-    myScene = 0;
+    myScene = ITK_NULLPTR;
     return EXIT_FAILURE;
     }
-  myScene = 0;
+  myScene = ITK_NULLPTR;
   std::cout << "Overall Test : [PASSED]" << std::endl;
   return EXIT_SUCCESS;
 }

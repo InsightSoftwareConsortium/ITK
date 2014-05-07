@@ -453,7 +453,7 @@ CellularAggregate< NSpaceDimension >
       {
       const IdentifierType cell2Id = ( *neighbor );
 
-      BioCellType *cell2 = 0;
+      BioCellType *cell2 = ITK_NULLPTR;
       PointType    position2;
 
       if ( !m_Mesh->GetPoint(cell2Id, &position2) )
@@ -506,7 +506,7 @@ CellularAggregate< NSpaceDimension >
 
     PointsConstIterator point2It   = beginPoints;
 
-    BioCellType *cell1 = 0;
+    BioCellType *cell1 = ITK_NULLPTR;
 
     IdentifierType cell1Id = point1It.Index();
     m_Mesh->GetPointData(cell1Id, &cell1);

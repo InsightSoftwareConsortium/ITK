@@ -435,25 +435,25 @@ int itkQuadEdgeMeshCellInterfaceTest(int, char* [] )
   QELineCellType* test = new QELineCellType();
   QEType* m_QuadEdgeGeom = test->GetQEGeom( );
   delete m_QuadEdgeGeom->GetRot( )->GetRot( )->GetRot( );
-  m_QuadEdgeGeom->GetRot( )->GetRot( )->SetRot( NULL );
+  m_QuadEdgeGeom->GetRot( )->GetRot( )->SetRot( ITK_NULLPTR );
   delete test;
 
   test = new QELineCellType();
   m_QuadEdgeGeom = test->GetQEGeom( );
   delete m_QuadEdgeGeom->GetRot( )->GetRot( )->GetRot( );
-  m_QuadEdgeGeom->GetRot( )->GetRot( )->SetRot( NULL );
+  m_QuadEdgeGeom->GetRot( )->GetRot( )->SetRot( ITK_NULLPTR );
   delete m_QuadEdgeGeom->GetRot( )->GetRot( );
-  m_QuadEdgeGeom->GetRot( )->SetRot( NULL );
+  m_QuadEdgeGeom->GetRot( )->SetRot( ITK_NULLPTR );
   delete test;
 
   test = new QELineCellType();
   m_QuadEdgeGeom = test->GetQEGeom( );
   delete m_QuadEdgeGeom->GetRot( )->GetRot( )->GetRot( );
-  m_QuadEdgeGeom->GetRot( )->GetRot( )->SetRot( NULL );
+  m_QuadEdgeGeom->GetRot( )->GetRot( )->SetRot( ITK_NULLPTR );
   delete m_QuadEdgeGeom->GetRot( )->GetRot( );
-  m_QuadEdgeGeom->GetRot( )->SetRot( NULL );
+  m_QuadEdgeGeom->GetRot( )->SetRot( ITK_NULLPTR );
   delete m_QuadEdgeGeom->GetRot( );
-  m_QuadEdgeGeom->SetRot( NULL );
+  m_QuadEdgeGeom->SetRot( ITK_NULLPTR );
   delete test;
 
   return status;

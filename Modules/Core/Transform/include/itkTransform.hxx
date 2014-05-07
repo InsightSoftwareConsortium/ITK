@@ -71,7 +71,7 @@ std::string Transform<TScalar, NInputDimensions, NOutputDimensions>
 
   n << GetNameOfClass();
   n << "_";
-  n << this->GetTransformTypeAsString(static_cast<TScalar *>(0) );
+  n << this->GetTransformTypeAsString(static_cast<TScalar *>(ITK_NULLPTR) );
   n << "_" << this->GetInputSpaceDimension() << "_" << this->GetOutputSpaceDimension();
   return n.str();
 }

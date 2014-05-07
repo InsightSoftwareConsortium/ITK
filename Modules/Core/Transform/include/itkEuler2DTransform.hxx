@@ -69,7 +69,7 @@ Euler2DTransform< TScalar >
 {
   Pointer inv = New();
 
-  return GetInverse(inv) ? inv.GetPointer() : NULL;
+  return GetInverse(inv) ? inv.GetPointer() : ITK_NULLPTR;
 }
 
 // Create and return an inverse transformation

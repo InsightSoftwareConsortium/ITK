@@ -154,7 +154,7 @@ ObjectFactoryBase
       return newobject;
       }
     }
-  return 0;
+  return ITK_NULLPTR;
 }
 
 std::list< LightObject::Pointer >
@@ -455,7 +455,7 @@ ObjectFactoryBase
  */
 ObjectFactoryBase::ObjectFactoryBase()
 {
-  m_LibraryHandle = 0;
+  m_LibraryHandle = ITK_NULLPTR;
   m_LibraryDate = 0;
   m_OverrideMap = new OverRideMap;
 }
@@ -479,7 +479,7 @@ void
 ObjectFactoryBase
 ::RegisterFactoryInternal(ObjectFactoryBase *factory)
 {
-  if ( factory->m_LibraryHandle != NULL )
+  if ( factory->m_LibraryHandle != ITK_NULLPTR )
     {
     itkGenericExceptionMacro( "A dynamic factory tried to be loaded internally!" );
     }
@@ -506,7 +506,7 @@ bool
 ObjectFactoryBase
 ::RegisterFactory(ObjectFactoryBase *factory, InsertionPositionType where, size_t position)
 {
-  if ( factory->m_LibraryHandle == 0 )
+  if ( factory->m_LibraryHandle == ITK_NULLPTR )
     {
     const char nonDynamicName[] = "Non-Dynamicaly loaded factory";
     factory->m_LibraryPath = nonDynamicName;
@@ -701,7 +701,7 @@ ObjectFactoryBase
         }
       }
     delete ObjectFactoryBasePrivate::m_RegisteredFactories;
-    ObjectFactoryBasePrivate::m_RegisteredFactories = 0;
+    ObjectFactoryBasePrivate::m_RegisteredFactories = ITK_NULLPTR;
     ObjectFactoryBasePrivate::m_Initialized = false;
     }
 }
@@ -742,7 +742,7 @@ ObjectFactoryBase
       return ( *i ).second.m_CreateObject->CreateObject();
       }
     }
-  return 0;
+  return ITK_NULLPTR;
 }
 
 std::list< LightObject::Pointer >

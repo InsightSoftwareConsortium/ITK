@@ -31,11 +31,11 @@ template< typename TLevelSet, typename TAuxValue,
 LevelSetVelocityNeighborhoodExtractor< TLevelSet, TAuxValue, VAuxDimension >
 ::LevelSetVelocityNeighborhoodExtractor()
 {
-  m_AuxInsideValues = 0;
-  m_AuxOutsideValues = 0;
+  m_AuxInsideValues = ITK_NULLPTR;
+  m_AuxOutsideValues = ITK_NULLPTR;
   for ( unsigned int i = 0; i < VAuxDimension; ++i )
     {
-    m_AuxImage[i] = 0;
+    m_AuxImage[i] = ITK_NULLPTR;
     }
 }
 

@@ -33,7 +33,7 @@ PCAShapeSignedDistanceFunction< TCoordRep, VSpaceDimension, TImage >
   m_NumberOfPrincipalComponents = 0;
   m_NumberOfTransformParameters = 0;
 
-  m_MeanImage = NULL;
+  m_MeanImage = ITK_NULLPTR;
   m_PrincipalComponentImages.resize(0);
   m_PrincipalComponentStandardDeviations.SetSize(0);
 
@@ -55,7 +55,7 @@ PCAShapeSignedDistanceFunction< TCoordRep, VSpaceDimension, TImage >
 {
   m_NumberOfPrincipalComponents = n;
 
-  m_PrincipalComponentImages.resize(n, NULL);
+  m_PrincipalComponentImages.resize(n, ITK_NULLPTR);
   m_PrincipalComponentStandardDeviations.SetSize(n);
   m_PrincipalComponentStandardDeviations.Fill(1.0);
 

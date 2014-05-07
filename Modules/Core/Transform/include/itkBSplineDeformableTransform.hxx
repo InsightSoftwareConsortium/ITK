@@ -507,7 +507,7 @@ BSplineDeformableTransform<TScalar, NDimensions, VSplineOrder>
     }
 
   // if no coefficients are set, this isn't a proper BSpline Transform
-  if( this->m_CoefficientImages[0]->GetBufferPointer() == 0)
+  if( this->m_CoefficientImages[0]->GetBufferPointer() == ITK_NULLPTR)
     {
     itkExceptionMacro( "B-spline coefficients have not been set" );
     }

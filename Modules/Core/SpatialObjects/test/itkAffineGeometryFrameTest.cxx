@@ -35,7 +35,7 @@ int itkAffineGeometryFrameTest(int, char* [])
   std::cout<<"[DONE]"<<std::endl;
 
   std::cout << "Testing GetBoundingBox(): ";
-  if(geometryFrame1->GetBoundingBox() == NULL)
+  if(geometryFrame1->GetBoundingBox() == ITK_NULLPTR)
      {
     std::cerr << "not initialized [FAILED]" << std::endl;
     return EXIT_FAILURE;
@@ -43,7 +43,7 @@ int itkAffineGeometryFrameTest(int, char* [])
   std::cout<<"[PASSED]"<<std::endl;
 
   std::cout << "Testing GetIndexToObjectTransform(): ";
-  if(geometryFrame1->GetIndexToObjectTransform() == NULL)
+  if(geometryFrame1->GetIndexToObjectTransform() == ITK_NULLPTR)
     {
     std::cerr << "not initialized [FAILED]" << std::endl;
     return EXIT_FAILURE;
@@ -51,7 +51,7 @@ int itkAffineGeometryFrameTest(int, char* [])
   std::cout<<"[PASSED]"<<std::endl;
 
   std::cout << "Testing GetObjectToNodeTransform(): ";
-  if(geometryFrame1->GetObjectToNodeTransform() == NULL)
+  if(geometryFrame1->GetObjectToNodeTransform() == ITK_NULLPTR)
     {
     std::cerr << "not initialized [FAILED]" << std::endl;
     return EXIT_FAILURE;
@@ -91,7 +91,7 @@ int itkAffineGeometryFrameTest(int, char* [])
   std::cout<<"[DONE]"<<std::endl;
 
   std::cout << "Testing GetBoundingBox() of cloned geometry-frame: ";
-  if(clonedGeometryFrame1->GetBoundingBox() == NULL)
+  if(clonedGeometryFrame1->GetBoundingBox() == ITK_NULLPTR)
     {
     std::cerr << "not initialized [FAILED]" << std::endl;
     return EXIT_FAILURE;
@@ -99,7 +99,7 @@ int itkAffineGeometryFrameTest(int, char* [])
   std::cout<<"[PASSED]"<<std::endl;
 
   std::cout << "Testing GetIndexToObjectTransform() of cloned geometry-frame: ";
-  if(clonedGeometryFrame1->GetIndexToObjectTransform() == NULL)
+  if(clonedGeometryFrame1->GetIndexToObjectTransform() == ITK_NULLPTR)
     {
     std::cerr << "not initialized [FAILED]" << std::endl;
     return EXIT_FAILURE;
@@ -107,7 +107,7 @@ int itkAffineGeometryFrameTest(int, char* [])
   std::cout<<"[PASSED]"<<std::endl;
 
   std::cout << "Testing GetObjectToNodeTransform() of cloned geometry-frame: ";
-  if(clonedGeometryFrame1->GetObjectToNodeTransform() == NULL)
+  if(clonedGeometryFrame1->GetObjectToNodeTransform() == ITK_NULLPTR)
     {
     std::cerr << "not initialized [FAILED]" << std::endl;
     return EXIT_FAILURE;

@@ -212,7 +212,7 @@ public:
     m_Target(0),
     m_Source(0),
     m_Force(0),
-    m_Solution(0)
+    m_Solution(ITK_NULLPTR)
   {
   }
 

@@ -120,7 +120,7 @@ int itkSliceBySliceImageFilterTest(int argc, char * argv[])
   std::cout << "Testing with requested region..." << std::endl;
   ImageType::Pointer temp = filter->GetOutput();
   temp->DisconnectPipeline();
-  temp = NULL;
+  temp = ITK_NULLPTR;
 
   ImageType::RegionType rr = reader->GetOutput()->GetLargestPossibleRegion();
   for (unsigned int i = 0; i < ImageType::ImageDimension; ++i)

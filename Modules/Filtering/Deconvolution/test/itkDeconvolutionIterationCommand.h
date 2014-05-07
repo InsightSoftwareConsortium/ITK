@@ -49,11 +49,11 @@ public:
               << m_NumberOfIterations << std::endl;
 
     const TFilterType * filter = dynamic_cast< const TFilterType * >( object );
-    if ( filter == NULL )
+    if ( filter == ITK_NULLPTR )
       {
       itkExceptionMacro(<< "Could not cast object to deconvolution filter type");
       }
-    if ( filter->GetCurrentEstimate() == NULL )
+    if ( filter->GetCurrentEstimate() == ITK_NULLPTR )
       {
       itkExceptionMacro(<< "CurrentEstimate is NULL, but should not be.");
       }

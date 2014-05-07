@@ -50,7 +50,7 @@ class SmartPointerForwardReference
 public:
   /** Constructor  */
   SmartPointerForwardReference ()
-  { m_Pointer = 0; }
+  { m_Pointer = ITK_NULLPTR; }
 
   /** Const constructor  */
   SmartPointerForwardReference (const SmartPointerForwardReference< T > & p);

@@ -76,7 +76,7 @@ int itkChangeRegionLabelMapFilterTest1(int argc, char * argv[])
 
   TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
-  change->SetInput( NULL );
+  change->SetInput( ITK_NULLPTR );
   TRY_EXPECT_EXCEPTION( change->Update() );
 
   return EXIT_SUCCESS;

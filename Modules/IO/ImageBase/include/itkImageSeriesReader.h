@@ -155,7 +155,7 @@ public:
   itkBooleanMacro(UseStreaming);
 
 protected:
-  ImageSeriesReader():m_ImageIO(0), m_ReverseOrder(false),
+  ImageSeriesReader():m_ImageIO(ITK_NULLPTR), m_ReverseOrder(false),
     m_UseStreaming(true), m_MetaDataDictionaryArrayUpdate(true) {}
   ~ImageSeriesReader();
   void PrintSelf(std::ostream & os, Indent indent) const;

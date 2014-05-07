@@ -38,7 +38,7 @@ ContourDirectedMeanDistanceImageFilter< TInputImage1, TInputImage2 >
   this->SetNumberOfRequiredInputs(2);
 
   m_UseImageSpacing = true;
-  m_DistanceMap = NULL;
+  m_DistanceMap = ITK_NULLPTR;
   m_ContourDirectedMeanDistance = NumericTraits< RealType >::Zero;
 }
 

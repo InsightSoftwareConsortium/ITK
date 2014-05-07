@@ -27,14 +27,14 @@ template< typename TSuperclass >
 ProjectedIterativeDeconvolutionImageFilter< TSuperclass >
 ::ProjectedIterativeDeconvolutionImageFilter()
 {
-  m_ProjectionFilter = NULL;
+  m_ProjectionFilter = ITK_NULLPTR;
 }
 
 template< typename TSuperclass >
 ProjectedIterativeDeconvolutionImageFilter< TSuperclass >
 ::~ProjectedIterativeDeconvolutionImageFilter()
 {
-  m_ProjectionFilter = NULL;
+  m_ProjectionFilter = ITK_NULLPTR;
 }
 
 template< typename TSuperclass >

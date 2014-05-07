@@ -26,7 +26,7 @@ namespace itk
 template< typename TValue >
 TreeContainer< TValue >::TreeContainer()
 {
-  m_Root = NULL;
+  m_Root = ITK_NULLPTR;
   this->SetSubtree(false);
   m_DefaultChildrenCount = 2;
 }
@@ -61,7 +61,7 @@ TreeContainer< TValue >::SetRoot(const TValue element)
 {
   m_Root = TreeNodeType::New();
   m_Root->Set(element);
-  m_Root->SetParent(NULL);
+  m_Root->SetParent(ITK_NULLPTR);
   return true;
 }
 
@@ -231,7 +231,7 @@ bool TreeContainer< TValue >::Clear()
 {
   PreOrderTreeIterator< Self > it(this, m_Root);
   bool                         success = it.Remove();
-  m_Root = NULL;
+  m_Root = ITK_NULLPTR;
   return success;
 }
 
@@ -250,7 +250,7 @@ TreeContainer< TValue >::GetNode(TValue val) const
       }
     ++it;
     }
-  return NULL;
+  return ITK_NULLPTR;
 }
 
 /** Set the root of the tree from the iterator position */

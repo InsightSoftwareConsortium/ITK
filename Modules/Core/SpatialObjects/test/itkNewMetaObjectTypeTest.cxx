@@ -147,7 +147,7 @@ public:
   virtual SpatialObjectPointer MetaObjectToSpatialObject(const MetaObjectType *mo)
   {
     const DummyMetaObjectType *dummyMO = dynamic_cast<const MetaDummy *>(mo);
-    if(dummyMO == 0)
+    if(dummyMO == ITK_NULLPTR)
       {
       itkExceptionMacro(<< "Can't convert MetaObject to MetaDummy");
       }

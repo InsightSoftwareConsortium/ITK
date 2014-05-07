@@ -36,8 +36,8 @@ CumulativeGaussianOptimizer::CumulativeGaussianOptimizer()
   m_DifferenceTolerance = 1e-10;
   m_Verbose = 0;
   m_FitError = 0;
-  m_FinalSampledArray = NULL;
-  m_CumulativeGaussianArray = NULL;
+  m_FinalSampledArray = ITK_NULLPTR;
+  m_CumulativeGaussianArray = ITK_NULLPTR;
   m_StopConditionDescription << this->GetNameOfClass() << ": Constructed";
 }
 

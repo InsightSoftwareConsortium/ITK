@@ -368,7 +368,7 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
     }
 
   this->m_NumberOfLabels.clear();
-  this->m_Barrier = NULL;
+  this->m_Barrier = ITK_NULLPTR;
 
   m_LineMap.clear();
 }

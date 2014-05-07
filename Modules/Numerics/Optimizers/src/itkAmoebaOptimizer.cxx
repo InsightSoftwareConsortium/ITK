@@ -32,7 +32,7 @@ AmoebaOptimizer
   this->m_AutomaticInitialSimplex        = true;
   this->m_InitialSimplexDelta.Fill( NumericTraits< ParametersType::ValueType >::One );
   this->m_OptimizeWithRestarts = false;
-  this->m_VnlOptimizer = NULL;
+  this->m_VnlOptimizer = ITK_NULLPTR;
 }
 
 
@@ -78,7 +78,7 @@ AmoebaOptimizer
   SingleValuedNonLinearVnlOptimizer::CostFunctionAdaptorType *costFunction =
     this->GetNonConstCostFunctionAdaptor();
 
-  if( costFunction != NULL )
+  if( costFunction != ITK_NULLPTR )
     {
     if( static_cast<unsigned int>(costFunction->get_number_of_unknowns()) !=
         numberOfParameters )
@@ -310,7 +310,7 @@ AmoebaOptimizer
 ::ValidateSettings()
 {
   //we have to have a cost function
-  if( GetCostFunctionAdaptor() == NULL )
+  if( GetCostFunctionAdaptor() == ITK_NULLPTR )
     {
     itkExceptionMacro(<<"NULL cost function")
     }

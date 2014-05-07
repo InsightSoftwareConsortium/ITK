@@ -122,7 +122,7 @@ int itkHistogramToTextureFeaturesFilterTest(int, char* [] )
     std::cerr << "Exception caught: " << excp << std::endl;
     }
 
-  if ( filter->GetInput() != NULL )
+  if ( filter->GetInput() != ITK_NULLPTR )
     {
     passed = false;
     }

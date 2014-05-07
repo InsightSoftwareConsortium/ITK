@@ -710,7 +710,7 @@ DiscreteLevelSetImage< TOutput, VDimension >
 {
   Superclass::CopyInformation( data );
 
-  const Self *LevelSet = NULL;
+  const Self *LevelSet = ITK_NULLPTR;
 
   try
     {
@@ -740,7 +740,7 @@ DiscreteLevelSetImage< TOutput, VDimension >
 ::Graft( const DataObject* data )
 {
   Superclass::Graft( data );
-  const Self *LevelSet = NULL;
+  const Self *LevelSet = ITK_NULLPTR;
 
   try
     {

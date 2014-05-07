@@ -40,10 +40,10 @@ template< typename TInputImage, typename TFeatureImage, typename TOutputPixelTyp
 ShapePriorSegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >
 ::ShapePriorSegmentationLevelSetImageFilter()
 {
-  m_ShapeFunction = NULL;
-  m_Optimizer = NULL;
-  m_CostFunction = NULL;
-  m_ShapePriorSegmentationFunction = NULL;
+  m_ShapeFunction = ITK_NULLPTR;
+  m_Optimizer = ITK_NULLPTR;
+  m_CostFunction = ITK_NULLPTR;
+  m_ShapePriorSegmentationFunction = ITK_NULLPTR;
 }
 
 template< typename TInputImage, typename TFeatureImage, typename TOutputPixelType >

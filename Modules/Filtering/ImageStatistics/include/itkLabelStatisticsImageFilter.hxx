@@ -563,7 +563,7 @@ LabelStatisticsImageFilter< TInputImage, TLabelImage >
   if ( mapIt == m_LabelStatistics.end() )
     {
     // label does not exist, return a default value
-    return 0;
+    return ITK_NULLPTR;
     }
   else
     {

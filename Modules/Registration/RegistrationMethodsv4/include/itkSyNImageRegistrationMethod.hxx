@@ -173,9 +173,9 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
     MeasureType movingMetricValue = 0.0;
 
     DisplacementFieldPointer fixedToMiddleSmoothUpdateField = this->ComputeUpdateField(
-      this->m_FixedSmoothImages, fixedComposite, this->m_MovingSmoothImages, movingComposite, NULL, movingMetricValue );
+      this->m_FixedSmoothImages, fixedComposite, this->m_MovingSmoothImages, movingComposite, ITK_NULLPTR, movingMetricValue );
     DisplacementFieldPointer movingToMiddleSmoothUpdateField = this->ComputeUpdateField(
-      this->m_MovingSmoothImages, movingComposite, this->m_FixedSmoothImages, fixedComposite, NULL, fixedMetricValue );
+      this->m_MovingSmoothImages, movingComposite, this->m_FixedSmoothImages, fixedComposite, ITK_NULLPTR, fixedMetricValue );
 
     if ( this->m_AverageMidPointGradients )
       {

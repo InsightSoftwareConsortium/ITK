@@ -123,7 +123,7 @@ WindowedSincInterpolateImageFunction< TInputImage, VRadius,
   // Call the parent implementation
   Superclass::SetInputImage(image);
 
-  if ( image == NULL )
+  if ( image == ITK_NULLPTR )
     {
     return;
     }

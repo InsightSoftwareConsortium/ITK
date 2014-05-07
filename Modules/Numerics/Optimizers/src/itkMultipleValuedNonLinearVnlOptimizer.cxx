@@ -28,7 +28,7 @@ namespace itk
 MultipleValuedNonLinearVnlOptimizer
 ::MultipleValuedNonLinearVnlOptimizer()
 {
-  m_CostFunctionAdaptor = 0;
+  m_CostFunctionAdaptor = ITK_NULLPTR;
   m_UseGradient = true;
   m_Command = CommandType::New();
   m_Command->SetCallbackFunction(this,
@@ -45,7 +45,7 @@ MultipleValuedNonLinearVnlOptimizer
 ::~MultipleValuedNonLinearVnlOptimizer()
 {
   delete m_CostFunctionAdaptor;
-  m_CostFunctionAdaptor = 0;
+  m_CostFunctionAdaptor = ITK_NULLPTR;
 }
 
 void

@@ -44,7 +44,7 @@ Solver<VDimension>
 
   this->m_NGFN = 0;
   this->m_NMFC = 0;
-  this->m_FEMObject = 0;
+  this->m_FEMObject = ITK_NULLPTR;
   this->m_Origin.Fill( 0.0 );
   this->m_Spacing.Fill( 1.0 );
 
@@ -95,7 +95,7 @@ Solver<VDimension>
   {
   if( this->GetNumberOfInputs() < 1 )
     {
-    return 0;
+    return ITK_NULLPTR;
     }
 
   return itkDynamicCastInDebugMode<FEMObjectType *>(this->ProcessObject::GetInput(0) );
@@ -147,7 +147,7 @@ Solver<VDimension>
   {
   if( this->GetNumberOfOutputs() < 1 )
     {
-    return 0;
+    return ITK_NULLPTR;
     }
 
   return itkDynamicCastInDebugMode<FEMObjectType *>(this->ProcessObject::GetOutput(0));
@@ -974,7 +974,7 @@ Solver<VDimension>
   m_InterpolationGrid->Allocate();
 
    // Initialize all pointers in interpolation grid image to 0
-  m_InterpolationGrid->FillBuffer(0);
+  m_InterpolationGrid->FillBuffer(ITK_NULLPTR);
 
   FillInterpolationGrid();
 }
@@ -1008,7 +1008,7 @@ Solver<VDimension>
   else
     {
     // Return 0, if outside the grid.
-    return 0;
+    return ITK_NULLPTR;
     }
 }
 

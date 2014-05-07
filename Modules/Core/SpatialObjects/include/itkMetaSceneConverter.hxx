@@ -47,7 +47,7 @@ MetaSceneConverter< NDimensions, PixelType, TMeshTraits >
 {
   // default behaviour of scene converter is not to save transform
   // with each spatial object.
-  m_Event = NULL;
+  m_Event = ITK_NULLPTR;
   m_BinaryPoints = false;
   m_TransformPrecision = 6;
   m_WriteImagesInSeparateFile = false;

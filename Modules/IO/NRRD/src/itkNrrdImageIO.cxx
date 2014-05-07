@@ -544,8 +544,8 @@ void NrrdImageIO::ReadImageInformation()
     // Store key/value pairs in MetaDataDictionary
     char                 key[AIR_STRLEN_SMALL];
     const char *         val;
-    char *               keyPtr = NULL;
-    char *               valPtr = NULL;
+    char *               keyPtr = ITK_NULLPTR;
+    char *               valPtr = ITK_NULLPTR;
     MetaDataDictionary & thisDic = this->GetMetaDataDictionary();
     // Necessary to clear dict if ImageIO object is re-used
     thisDic.Clear();
@@ -742,7 +742,7 @@ void NrrdImageIO::Read(void *buffer)
 
   // Read in the nrrd.  Yes, this means that the header is being read
   // twice: once by NrrdImageIO::ReadImageInformation, and once here
-  if ( nrrdLoad(nrrd, this->GetFileName(), NULL) != 0 )
+  if ( nrrdLoad(nrrd, this->GetFileName(), ITK_NULLPTR) != 0 )
     {
     char *err =  biffGetDone(NRRD); // would be nice to free(err)
     itkExceptionMacro("Read: Error reading "

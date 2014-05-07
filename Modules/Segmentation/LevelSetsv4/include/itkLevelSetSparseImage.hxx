@@ -81,7 +81,7 @@ LevelSetSparseImage< TOutput, VDimension >
 ::Graft( const DataObject* data )
 {
   Superclass::Graft( data );
-  const Self *LevelSet = 0;
+  const Self *LevelSet = ITK_NULLPTR;
 
   try
     {
@@ -157,7 +157,7 @@ LevelSetSparseImage< TOutput, VDimension >
 {
   Superclass::Initialize();
 
-  this->m_LabelMap = 0;
+  this->m_LabelMap = ITK_NULLPTR;
   this->InitializeLayers();
   this->InitializeInternalLabelList();
 }
@@ -170,7 +170,7 @@ LevelSetSparseImage< TOutput, VDimension >
 {
   Superclass::CopyInformation( data );
 
-  const Self *LevelSet = NULL;
+  const Self *LevelSet = ITK_NULLPTR;
   try
     {
     LevelSet = dynamic_cast< const Self* >( data );

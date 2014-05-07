@@ -172,7 +172,7 @@ ITK_THREAD_RETURN_TYPE LoggerThreadWrapper< SimpleLoggerType >::ThreadFunction(v
 {
   struct MultiThreader:: ThreadInfoStruct *pInfo = (struct MultiThreader::ThreadInfoStruct *)pInfoStruct;
 
-  if ( ( pInfo != NULL ) && ( pInfo->UserData != NULL ) )
+  if ( ( pInfo != ITK_NULLPTR ) && ( pInfo->UserData != ITK_NULLPTR ) )
     {
 
     LoggerThreadWrapper *pLogger = (LoggerThreadWrapper *)pInfo->UserData;

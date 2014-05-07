@@ -65,7 +65,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   m_KernelBandwidthSigmaIsSet = false;
 
   m_TotalNumberPixels  = 0;       // won't be valid until an image is provided
-  m_Sampler            = 0;       // won't be valid until a sampler is provided
+  m_Sampler            = ITK_NULLPTR;       // won't be valid until a sampler is provided
   m_NumPixelComponents = 0;       // won't be valid until Initialize() gets
                                   // called
   m_NumIndependentComponents = 0; // won't be valid until Initialize() gets
@@ -354,7 +354,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
       newStruct.minNorm[ic] = 0;
       newStruct.maxNorm[ic] = 0;
       }
-    newStruct.sampler = NULL;
+    newStruct.sampler = ITK_NULLPTR;
 
     m_ThreadData.push_back(newStruct);
     }
@@ -1109,8 +1109,8 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 
     if (cacheIndex >= eigenValsCache.size() )
       {
-      eigenValsCache.resize(cacheIndex+1, 0);
-      eigenVecsCache.resize(cacheIndex+1, 0);
+      eigenValsCache.resize(cacheIndex+1, ITK_NULLPTR);
+      eigenVecsCache.resize(cacheIndex+1, ITK_NULLPTR);
       }
 
     delete eigenValsCache[cacheIndex];

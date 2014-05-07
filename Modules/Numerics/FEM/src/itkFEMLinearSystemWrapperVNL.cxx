@@ -27,10 +27,10 @@ void LinearSystemWrapperVNL::InitializeMatrix(unsigned int matrixIndex)
 {
 
   // allocate if necessary
-  if( m_Matrices == 0 )
+  if( m_Matrices == ITK_NULLPTR )
     {
     m_Matrices = new MatrixHolder(m_NumberOfMatrices);
-    if( m_Matrices == NULL )
+    if( m_Matrices == ITK_NULLPTR )
       {
       itkGenericExceptionMacro(<< "LinearSystemWrapperVNL::InitializeMatrix(): m_Matrices allocation failed.");
       }
@@ -40,7 +40,7 @@ void LinearSystemWrapperVNL::InitializeMatrix(unsigned int matrixIndex)
   delete ( *m_Matrices )[matrixIndex];
 
   ( *m_Matrices )[matrixIndex] = new MatrixRepresentation( this->GetSystemOrder(), this->GetSystemOrder() );
-  if( ( *m_Matrices )[matrixIndex] == NULL )
+  if( ( *m_Matrices )[matrixIndex] == ITK_NULLPTR )
     {
     itkGenericExceptionMacro(
       << "LinearSystemWrapperVNL::InitializeMatrix(): allocation of (*m_Matrices)[" << matrixIndex << "] failed.");
@@ -66,17 +66,17 @@ void LinearSystemWrapperVNL::DestroyMatrix(unsigned int matrixIndex)
   if( m_Matrices )
     {
     delete ( *m_Matrices )[matrixIndex];
-    ( *m_Matrices )[matrixIndex] = 0;
+    ( *m_Matrices )[matrixIndex] = ITK_NULLPTR;
     }
 }
 
 void LinearSystemWrapperVNL::InitializeVector(unsigned int vectorIndex)
 {
   // allocate if necessary
-  if( m_Vectors == 0 )
+  if( m_Vectors == ITK_NULLPTR )
     {
     m_Vectors = new std::vector<vnl_vector<Float> *>(m_NumberOfVectors);
-    if( m_Vectors == NULL )
+    if( m_Vectors == ITK_NULLPTR )
       {
       itkGenericExceptionMacro(<< "InitializeVector(): m_Vectors memory allocation failed.");
       }
@@ -86,7 +86,7 @@ void LinearSystemWrapperVNL::InitializeVector(unsigned int vectorIndex)
   delete ( *m_Vectors )[vectorIndex];
 
   ( *m_Vectors )[vectorIndex] = new vnl_vector<Float>( this->GetSystemOrder() );
-  if( ( *m_Vectors )[vectorIndex] == NULL )
+  if( ( *m_Vectors )[vectorIndex] == ITK_NULLPTR )
     {
     itkGenericExceptionMacro(<< "InitializeVector(): allocation of (*m_Vectors)[" << vectorIndex << "] failed.");
     }
@@ -112,17 +112,17 @@ void LinearSystemWrapperVNL::DestroyVector(unsigned int vectorIndex)
   if( m_Vectors )
     {
     delete ( *m_Vectors )[vectorIndex];
-    ( *m_Vectors )[vectorIndex] = 0;
+    ( *m_Vectors )[vectorIndex] = ITK_NULLPTR;
     }
 }
 
 void LinearSystemWrapperVNL::InitializeSolution(unsigned int solutionIndex)
 {
   // allocate if necessary
-  if( m_Solutions == 0 )
+  if( m_Solutions == ITK_NULLPTR )
     {
     m_Solutions = new std::vector<vnl_vector<Float> *>(m_NumberOfSolutions);
-    if( m_Solutions == NULL )
+    if( m_Solutions == ITK_NULLPTR )
       {
       itkGenericExceptionMacro(<< "InitializeSolution(): m_Solutions memory allocation failed.");
       }
@@ -132,7 +132,7 @@ void LinearSystemWrapperVNL::InitializeSolution(unsigned int solutionIndex)
   delete ( *m_Solutions )[solutionIndex];
 
   ( *m_Solutions )[solutionIndex] = new vnl_vector<Float>( this->GetSystemOrder() );
-  if( ( *m_Solutions )[solutionIndex] == NULL )
+  if( ( *m_Solutions )[solutionIndex] == ITK_NULLPTR )
     {
     itkGenericExceptionMacro(<< "InitializeSolution(): allocation of (*m_olutions)[" << solutionIndex << "] failed.");
     }
@@ -158,14 +158,14 @@ void LinearSystemWrapperVNL::DestroySolution(unsigned int solutionIndex)
   if( m_Solutions )
     {
     delete ( *m_Solutions )[solutionIndex];
-    ( *m_Solutions )[solutionIndex] = 0;
+    ( *m_Solutions )[solutionIndex] = ITK_NULLPTR;
     }
 }
 
 LinearSystemWrapperVNL::Float LinearSystemWrapperVNL::GetSolutionValue(unsigned int i,
                                                                        unsigned int SolutionIndex) const
 {
-  if( m_Solutions == 0 )
+  if( m_Solutions == ITK_NULLPTR )
     {
     return 0.0;
     }

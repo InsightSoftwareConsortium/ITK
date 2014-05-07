@@ -29,8 +29,8 @@ template< typename TInputImage, typename TOutputImage >
 CollidingFrontsImageFilter< TInputImage, TOutputImage >
 ::CollidingFrontsImageFilter()
 {
-  m_SeedPoints1 = NULL;
-  m_SeedPoints2 = NULL;
+  m_SeedPoints1 = ITK_NULLPTR;
+  m_SeedPoints2 = ITK_NULLPTR;
   m_StopOnTargets = false;
   m_ApplyConnectivity = true;
   m_NegativeEpsilon = -1E-6;

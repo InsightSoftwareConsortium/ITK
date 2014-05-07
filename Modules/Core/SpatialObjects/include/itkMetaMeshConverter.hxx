@@ -49,7 +49,7 @@ MetaMeshConverter< NDimensions, PixelType, TMeshTraits >
 {
   const MeshMetaObjectType *_mesh =
     dynamic_cast<const MeshMetaObjectType *>(mo);
-  if(_mesh == 0)
+  if(_mesh == ITK_NULLPTR)
     {
     itkExceptionMacro(<< "Can't convert MetaObject to MetaMesh");
     }
@@ -244,7 +244,7 @@ MetaMeshConverter< NDimensions, PixelType, TMeshTraits >
     {
     std::cout << "MetaMeshConverter : GetMesh() returned a NULL Pointer"
               << std::endl;
-    return NULL;
+    return ITK_NULLPTR;
     }
 
   // fill in the Mesh information

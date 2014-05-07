@@ -90,7 +90,7 @@ int itkFEMElement2DTest(int argc, char *argv[])
 
   femSO->GetFEMObject()->FinalizeMesh();
 
-  double *    expectedSolution = NULL;
+  double *    expectedSolution = ITK_NULLPTR;
   bool        foundError = false;
   std::string modelFile = itksys::SystemTools::GetFilenameName( argv[1] );
 
@@ -295,7 +295,7 @@ int itkFEMElement2DTest(int argc, char *argv[])
         }
       else
         {
-        if( expectedSolution != NULL )
+        if( expectedSolution != ITK_NULLPTR )
           {
           bool testError = CheckDisplacements1(solver, s, expectedSolution, tolerance);
           if( testError )

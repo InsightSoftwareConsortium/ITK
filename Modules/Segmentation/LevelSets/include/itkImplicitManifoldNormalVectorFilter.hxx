@@ -28,7 +28,7 @@ ImplicitManifoldNormalVectorFilter< TInputImage, TSparseOutputImage >
 ::ImplicitManifoldNormalVectorFilter()
 {
   this->SetPrecomputeFlag(true);
-  m_NormalFunction = 0;
+  m_NormalFunction = ITK_NULLPTR;
 
   // set defaults for parameters
   m_IsoLevelLow  = NumericTraits< NodeValueType >::Zero;
@@ -113,7 +113,7 @@ ImplicitManifoldNormalVectorFilter< TInputImage, TSparseOutputImage >
       }
     else
       {
-      output->SetPixel(index, 0);
+      output->SetPixel(index, ITK_NULLPTR);
       }
     ++it;
     }

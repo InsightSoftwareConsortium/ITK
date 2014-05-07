@@ -112,7 +112,7 @@ int itkInterpolateImageFilterTest(int, char* [] )
   filter->GetDistance();
 
   // set the interpolator to be null
-  filter->SetInterpolator( NULL );
+  filter->SetInterpolator( ITK_NULLPTR );
   bool pass = false;
 
   try

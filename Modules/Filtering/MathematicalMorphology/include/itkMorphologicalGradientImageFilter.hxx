@@ -44,7 +44,7 @@ void
 MorphologicalGradientImageFilter< TInputImage, TOutputImage, TKernel >
 ::SetKernel(const KernelType & kernel)
 {
-  const FlatKernelType *flatKernel = NULL;
+  const FlatKernelType *flatKernel = ITK_NULLPTR;
 
   try
     {
@@ -53,7 +53,7 @@ MorphologicalGradientImageFilter< TInputImage, TOutputImage, TKernel >
   catch ( ... )
                   {}
 
-  if ( flatKernel != NULL && flatKernel->GetDecomposable() )
+  if ( flatKernel != ITK_NULLPTR && flatKernel->GetDecomposable() )
     {
     m_AnchorDilateFilter->SetKernel(*flatKernel);
     m_AnchorErodeFilter->SetKernel(*flatKernel);

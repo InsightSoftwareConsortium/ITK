@@ -52,7 +52,7 @@ public:
   typedef std::vector<MatrixRepresentation *> MatrixHolder;
 
   /* constructor & destructor */
-  LinearSystemWrapperDenseVNL() : LinearSystemWrapper(), m_Matrices(0), m_Vectors(0), m_Solutions(0)
+  LinearSystemWrapperDenseVNL() : LinearSystemWrapper(), m_Matrices(ITK_NULLPTR), m_Vectors(ITK_NULLPTR), m_Solutions(ITK_NULLPTR)
   {
   }
   virtual ~LinearSystemWrapperDenseVNL();

@@ -98,7 +98,7 @@ QuadEdgeMeshEulerOperatorFlipEdgeFunction< TMesh, TQEType >::CheckStatus(QEType 
     }
 
   if ( this->m_Mesh->FindEdge( h->GetOnext()->GetDestination(),
-                               h->GetSym()->GetOnext()->GetDestination() ) != 0 )
+                               h->GetSym()->GetOnext()->GetDestination() ) != ITK_NULLPTR )
     {
     m_EdgeStatus = EXISTING_OPPOSITE_EDGE;
     return;
@@ -134,22 +134,22 @@ QuadEdgeMeshEulerOperatorFlipEdgeFunction< TMesh, TQEType >::Evaluate(QEType *h)
       return Process(h);
     case EDGE_NULL:
       itkDebugMacro("No Edge to flip.");
-      return ( (QEType *)0 );
+      return ( (QEType *)ITK_NULLPTR );
     case MESH_NULL:
       itkDebugMacro("No mesh present.");
-      return ( (QEType *)0 );
+      return ( (QEType *)ITK_NULLPTR );
     case NON_INTERNAL_EDGE:
       itkDebugMacro("Can only flip internal edge.");
-      return ( (QEType *)0 );
+      return ( (QEType *)ITK_NULLPTR );
     case NON_TRIANGULAR_LEFT_FACE:
       itkDebugMacro("Can only flip edge for triangles.");
-      return ( (QEType *)0 );
+      return ( (QEType *)ITK_NULLPTR );
     case NON_TRIANGULAR_RIGHT_FACE:
       itkDebugMacro("Can only flip edge for triangles.");
-      return ( (QEType *)0 );
+      return ( (QEType *)ITK_NULLPTR );
     case EXISTING_OPPOSITE_EDGE:
       itkDebugMacro("The opposite edge already exists.");
-      return ( (QEType *)0 );
+      return ( (QEType *)ITK_NULLPTR );
     }
 }
 

@@ -82,11 +82,11 @@ if (m_Metric.IsNull())
     itkExceptionMacro("RegistrationParameterScalesEstimator: the metric is NULL");
     }
 
-  if (this->m_Metric->GetMovingTransform() == NULL)
+  if (this->m_Metric->GetMovingTransform() == ITK_NULLPTR)
     {
     itkExceptionMacro("RegistrationParameterScalesEstimator: this->m_MovingTransform in the metric is NULL.");
     }
-  if (this->m_Metric->GetFixedTransform() == NULL)
+  if (this->m_Metric->GetFixedTransform() == ITK_NULLPTR)
     {
     itkExceptionMacro("RegistrationParameterScalesEstimator: this->m_FixedTransform in the metric is NULL.");
     }
@@ -475,10 +475,10 @@ RegistrationParameterScalesEstimator< TMetric >
 
   const TransformBaseTemplate<typename TMetric::MeasureType> *transform = this->GetTransform();
 
-  if ( dynamic_cast< const MatrixOffsetTransformBaseType * >( transform ) != NULL
-    || dynamic_cast< const TranslationTransformType * >( transform ) != NULL
-    || dynamic_cast< const IdentityTransformType * >( transform ) != NULL
-    || dynamic_cast< const Rigid3DPerspectiveTransformType * >( transform ) != NULL
+  if ( dynamic_cast< const MatrixOffsetTransformBaseType * >( transform ) != ITK_NULLPTR
+    || dynamic_cast< const TranslationTransformType * >( transform ) != ITK_NULLPTR
+    || dynamic_cast< const IdentityTransformType * >( transform ) != ITK_NULLPTR
+    || dynamic_cast< const Rigid3DPerspectiveTransformType * >( transform ) != ITK_NULLPTR
     )
     {
     return true;

@@ -552,7 +552,7 @@ protected:
   void CreateMesh(unsigned int ElementsPerSide, SolverType *solver);
 
   /** The non-image loads are entered into the solver. */
-  void ApplyLoads(ImageSizeType Isz, double* spacing = NULL);
+  void ApplyLoads(ImageSizeType Isz, double* spacing = ITK_NULLPTR);
 
   /** The image loads are entered into the solver. */
   void ApplyImageLoads(MovingImageType* i1, FixedImageType* i2);

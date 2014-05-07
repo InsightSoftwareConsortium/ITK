@@ -40,7 +40,7 @@ NarrowBandLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType, TOu
   this->SetNumberOfRequiredInputs(2);
   //this->SetNarrowBandInnerRadius();
   //this->SetNarrowBandTotalRadius();
-  m_SegmentationFunction = 0;
+  m_SegmentationFunction = ITK_NULLPTR;
 
   m_IsoFilter = IsoFilterType::New();
   m_ChamferFilter = ChamferFilterType::New();
@@ -77,7 +77,7 @@ void
 NarrowBandLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType, TOutputImage >
 ::GenerateData()
 {
-  if ( m_SegmentationFunction == 0 )
+  if ( m_SegmentationFunction == ITK_NULLPTR )
         { itkExceptionMacro("No finite difference function was specified."); }
 
   // A positive speed value causes surface expansion, the opposite of the
@@ -137,8 +137,8 @@ NarrowBandLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType, TOu
   m_ChamferFilter->Update();
 
   this->GraftOutput( m_ChamferFilter->GetOutput() );
-  m_IsoFilter->SetInput(NULL);
-  m_ChamferFilter->SetInput(NULL);
+  m_IsoFilter->SetInput(ITK_NULLPTR);
+  m_ChamferFilter->SetInput(ITK_NULLPTR);
 }
 } // end namespace itk
 

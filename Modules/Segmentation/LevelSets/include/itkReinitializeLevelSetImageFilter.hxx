@@ -39,8 +39,8 @@ ReinitializeLevelSetImageFilter< TLevelSet >
   m_NarrowBanding = false;
   m_InputNarrowBandwidth = 12.0;
   m_OutputNarrowBandwidth = 12.0;
-  m_InputNarrowBand = NULL;
-  m_OutputNarrowBand = NULL;
+  m_InputNarrowBand = ITK_NULLPTR;
+  m_OutputNarrowBand = ITK_NULLPTR;
 }
 
 /*

@@ -88,7 +88,7 @@ public:
    *
    * Jacobian is a scalar for this element.
    */
-  virtual void Jacobian(const VectorType & pt, MatrixType & J, const MatrixType *pshapeD = 0) const ITK_OVERRIDE;
+  virtual void Jacobian(const VectorType & pt, MatrixType & J, const MatrixType *pshapeD = ITK_NULLPTR) const ITK_OVERRIDE;
 
   /**
    * Distance of a point to a line.(Used in GetLocalFromGlobalCoordinates ).

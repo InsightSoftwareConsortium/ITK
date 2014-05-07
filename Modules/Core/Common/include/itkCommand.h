@@ -140,9 +140,9 @@ protected:
   TConstMemberFunctionPointer m_ConstMemberFunction;
 
   MemberCommand() :
-    m_This( NULL ),
-    m_MemberFunction( NULL ),
-    m_ConstMemberFunction( NULL )
+    m_This( ITK_NULLPTR ),
+    m_MemberFunction( ITK_NULLPTR ),
+    m_ConstMemberFunction( ITK_NULLPTR )
   {}
 
   virtual ~MemberCommand(){}
@@ -210,8 +210,8 @@ protected:
   TMemberFunctionPointer m_MemberFunction;
 
   ReceptorMemberCommand() :
-    m_This( NULL ),
-    m_MemberFunction( NULL )
+    m_This( ITK_NULLPTR ),
+    m_MemberFunction( ITK_NULLPTR )
   {}
 
   virtual ~ReceptorMemberCommand() {}
@@ -277,8 +277,8 @@ protected:
   TMemberFunctionPointer m_MemberFunction;
 
   SimpleMemberCommand() :
-    m_This( NULL ),
-    m_MemberFunction( NULL )
+    m_This( ITK_NULLPTR ),
+    m_MemberFunction( ITK_NULLPTR )
   {}
 
   virtual ~SimpleMemberCommand() {}
@@ -420,10 +420,10 @@ public:
 
 protected:
   CStyleCommand() :
-    m_ClientData( NULL ),
-    m_Callback( NULL ),
-    m_ConstCallback( NULL ),
-    m_ClientDataDeleteCallback( NULL )
+    m_ClientData( ITK_NULLPTR ),
+    m_Callback( ITK_NULLPTR ),
+    m_ConstCallback( ITK_NULLPTR ),
+    m_ClientDataDeleteCallback( ITK_NULLPTR )
   {}
 
   ~CStyleCommand()

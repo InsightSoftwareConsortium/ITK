@@ -100,7 +100,7 @@ LevelSetContainerBase< TIdentifier, TLevelSet >
     }
   else
     {
-    return NULL;
+    return ITK_NULLPTR;
     }
 }
 
@@ -151,7 +151,7 @@ LevelSetContainerBase< TIdentifier, TLevelSet >
 
   if( it != m_Container.end() )
     {
-    it->second = NULL;
+    it->second = ITK_NULLPTR;
     m_Container.erase( it );
 
     this->Modified();

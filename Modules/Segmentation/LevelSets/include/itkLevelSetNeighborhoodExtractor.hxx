@@ -35,16 +35,16 @@ LevelSetNeighborhoodExtractor< TLevelSet >
 ::LevelSetNeighborhoodExtractor()
 {
   m_LevelSetValue = 0.0;
-  m_InsidePoints = 0;
-  m_OutsidePoints = 0;
-  m_InputLevelSet = 0;
+  m_InsidePoints = ITK_NULLPTR;
+  m_OutsidePoints = ITK_NULLPTR;
+  m_InputLevelSet = ITK_NULLPTR;
 
   m_LargeValue = NumericTraits< PixelType >::max();
   m_NodesUsed.resize(SetDimension);
 
   m_NarrowBanding = false;
   m_NarrowBandwidth = 12.0;
-  m_InputNarrowBand = 0;
+  m_InputNarrowBand = ITK_NULLPTR;
   for ( unsigned int i = 0; i < SetDimension; ++i )
     {
     m_ImageSize[i] = 0;

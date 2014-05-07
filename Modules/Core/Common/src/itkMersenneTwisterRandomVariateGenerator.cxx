@@ -26,7 +26,7 @@ namespace Statistics
 {
 
 // Static/Global variables
-MersenneTwisterRandomVariateGenerator::Pointer  MersenneTwisterRandomVariateGenerator::m_StaticInstance = 0;
+MersenneTwisterRandomVariateGenerator::Pointer  MersenneTwisterRandomVariateGenerator::m_StaticInstance = ITK_NULLPTR;
 SimpleFastMutexLock MersenneTwisterRandomVariateGenerator::m_StaticInstanceLock;
 MersenneTwisterRandomVariateGenerator::IntegerType MersenneTwisterRandomVariateGenerator::m_StaticDiffer = 0;
 

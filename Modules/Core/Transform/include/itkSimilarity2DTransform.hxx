@@ -255,7 +255,7 @@ Similarity2DTransform<TScalar>
     {
     return inv.GetPointer();
     }
-  return NULL;
+  return ITK_NULLPTR;
 }
 
 // Create and return a clone of the transformation

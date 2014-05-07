@@ -77,7 +77,7 @@ CompositeTransformIOHelperTemplate<TScalar>
   typedef CompositeTransform<TScalar,TDim> CompositeType;
 
   const CompositeType *composite = dynamic_cast<const CompositeType *>(transform);
-  if(composite == 0)
+  if(composite == ITK_NULLPTR)
     {
     //
     // if not, return zero
@@ -95,7 +95,7 @@ CompositeTransformIOHelperTemplate<TScalar>
       transforms.begin(); it != transforms.end(); ++it)
     {
     const TransformType *curTransform = dynamic_cast<const TransformType *>((*it).GetPointer());
-    if(curTransform == 0)
+    if(curTransform == ITK_NULLPTR)
       {
       itkGenericExceptionMacro(<< "Failure to convert transform of type "
                                << (*it)->GetTransformTypeAsString()
@@ -121,7 +121,7 @@ CompositeTransformIOHelperTemplate<TScalar>
   //
   // see if we've found the right type
   CompositeType *composite = dynamic_cast<CompositeType *>(transform);
-  if(composite == 0)
+  if(composite == ITK_NULLPTR)
     {
     //
     // if not, we'll try then next dim down
@@ -135,7 +135,7 @@ CompositeTransformIOHelperTemplate<TScalar>
     {
     ComponentTransformType *component =
     dynamic_cast<ComponentTransformType *>((*it).GetPointer());
-    if(component == 0)
+    if(component == ITK_NULLPTR)
       {
       itkGenericExceptionMacro(<< "Can't assign transform of type "
                                << (*it)->GetTransformTypeAsString()

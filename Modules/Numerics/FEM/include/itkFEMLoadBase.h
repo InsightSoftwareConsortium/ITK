@@ -66,7 +66,7 @@ public:
   virtual void SetSolution(Solution::ConstPointer itkNotUsed(ptr)) { }
   virtual Solution::ConstPointer GetSolution()
   {
-    return 0;
+    return ITK_NULLPTR;
   }
   /**
   * Get the element containing the degree of freedom

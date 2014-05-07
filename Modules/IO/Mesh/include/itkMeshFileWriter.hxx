@@ -33,7 +33,7 @@ template< typename TInputMesh >
 MeshFileWriter< TInputMesh >
 ::MeshFileWriter()
 {
-  m_MeshIO = 0;
+  m_MeshIO = ITK_NULLPTR;
   m_UseCompression = false;
   m_FactorySpecifiedMeshIO = false;
   m_UserSpecifiedMeshIO = false;
@@ -60,7 +60,7 @@ MeshFileWriter< TInputMesh >
 {
   if ( this->GetNumberOfInputs() < 1 )
     {
-    return 0;
+    return ITK_NULLPTR;
     }
 
   return static_cast< TInputMesh * >( this->ProcessObject::GetInput(0) );
@@ -84,7 +84,7 @@ MeshFileWriter< TInputMesh >
   itkDebugMacro(<< "Writing an mesh file");
 
   // Make sure input is available
-  if ( input == 0 )
+  if ( input == ITK_NULLPTR )
     {
     itkExceptionMacro(<< "No input to writer!");
     }

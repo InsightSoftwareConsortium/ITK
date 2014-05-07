@@ -270,7 +270,7 @@ template< typename TLabel, unsigned int VImageDimension >
 void
 LabelObject< TLabel, VImageDimension >::CopyAttributesFrom(const Self *src)
 {
-  itkAssertOrThrowMacro ( ( src != NULL ), "Null Pointer" );
+  itkAssertOrThrowMacro ( ( src != ITK_NULLPTR ), "Null Pointer" );
   m_Label = src->m_Label;
 }
 
@@ -279,7 +279,7 @@ template< typename TLabel, unsigned int VImageDimension >
 void
 LabelObject< TLabel, VImageDimension >::CopyAllFrom(const Self *src)
 {
-  itkAssertOrThrowMacro ( ( src != NULL ), "Null Pointer" );
+  itkAssertOrThrowMacro ( ( src != ITK_NULLPTR ), "Null Pointer" );
   m_LineContainer = src->m_LineContainer;
   // also copy the attributes
   this->CopyAttributesFrom(src);

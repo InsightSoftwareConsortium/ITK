@@ -27,8 +27,8 @@ namespace itk
      */
 OctreeNode::OctreeNode(void)
 {
-  m_Parent = 0;
-  m_Branch = 0;
+  m_Parent = ITK_NULLPTR;
+  m_Branch = ITK_NULLPTR;
 }
 
 OctreeNode::~OctreeNode(void)

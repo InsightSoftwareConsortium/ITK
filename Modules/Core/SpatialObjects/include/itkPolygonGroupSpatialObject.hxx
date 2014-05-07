@@ -70,7 +70,7 @@ bool PolygonGroupSpatialObject< TDimension >::IsClosed()
     {
     PolygonSpatialObject< TDimension > *curstrand =
       dynamic_cast< PolygonSpatialObject< TDimension > * >( ( *it ).GetPointer() );
-    if ( curstrand != 0 )
+    if ( curstrand != ITK_NULLPTR )
       {
       if ( !curstrand->IsClosed() )
         {

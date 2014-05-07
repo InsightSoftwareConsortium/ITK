@@ -133,8 +133,8 @@ public:
     m_PixelAccessor(),
     m_PixelAccessorFunctor()
   {
-    m_Image = 0;
-    m_Buffer = 0;
+    m_Image = ITK_NULLPTR;
+    m_Buffer = ITK_NULLPTR;
     m_Offset = 0;
     m_BeginOffset = 0;
     m_EndOffset = 0;

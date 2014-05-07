@@ -27,7 +27,7 @@ MetaArrayWriter
 {
   m_FileName = "";
   m_Precision = 6;
-  m_Buffer = NULL;
+  m_Buffer = ITK_NULLPTR;
   m_Binary = false;
 }
 
@@ -38,7 +38,7 @@ MetaArrayWriter
 void MetaArrayWriter
 ::ConvertTo(MET_ValueEnumType _metaElementType)
 {
-  if ( m_Buffer != NULL )
+  if ( m_Buffer != ITK_NULLPTR )
     {
     m_MetaArray.ImportBufferToElementData( m_Buffer,
                                            m_MetaArray.ElementType() );
@@ -53,7 +53,7 @@ void MetaArrayWriter
   m_MetaArray.SetDoublePrecision(m_Precision);
 
   m_MetaArray.BinaryData(m_Binary);
-  if ( m_Buffer != NULL )
+  if ( m_Buffer != ITK_NULLPTR )
     {
     m_MetaArray.Write(m_FileName.c_str(), m_DataFileName.c_str(),
                       true, m_Buffer);

@@ -50,7 +50,7 @@ template< typename TTreeType >
 bool
 ChildTreeIterator< TTreeType >::GoToChild(ChildIdentifier number)
 {
-  if ( m_ParentNode->GetChild(number) == NULL )
+  if ( m_ParentNode->GetChild(number) == ITK_NULLPTR )
     {
     return false;
     }
@@ -69,7 +69,7 @@ ChildTreeIterator< TTreeType >::GoToParent()
 {
   TreeNodeType *parent =  m_ParentNode->GetParent();
 
-  if ( parent == NULL )
+  if ( parent == ITK_NULLPTR )
     {
     return false;
     }

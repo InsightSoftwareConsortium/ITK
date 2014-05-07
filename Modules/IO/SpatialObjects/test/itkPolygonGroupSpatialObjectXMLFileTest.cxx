@@ -76,14 +76,14 @@ int testPolygonGroupEquivalence(PolygonGroup3DPointer &p1,
   //
   // Write out polygondata
   PolygonGroup3DType::ChildrenListType *children1 =
-    p1->GetChildren(0,NULL);
+    p1->GetChildren(0,ITK_NULLPTR);
   PolygonGroup3DType::ChildrenListType::iterator it1 =
     children1->begin();
   PolygonGroup3DType::ChildrenListType::iterator end1 =
     children1->end();
 
   PolygonGroup3DType::ChildrenListType *children2 =
-    p2->GetChildren(0,NULL);
+    p2->GetChildren(0,ITK_NULLPTR);
   PolygonGroup3DType::ChildrenListType::iterator it2 =
     children2->begin();
   PolygonGroup3DType::ChildrenListType::iterator end2 =

@@ -139,7 +139,7 @@ BinaryImageToLevelSetImageAdaptor<
   this->m_LevelSet->SetLabelMap( this->m_LabelMap );
 
   // release the memory
-  this->m_InternalImage = NULL;
+  this->m_InternalImage = ITK_NULLPTR;
 }
 
 template< typename TInput, typename TOutput >
@@ -463,7 +463,7 @@ void BinaryImageToLevelSetImageAdaptor< TInput, ShiSparseLevelSetImage< TInput::
   FindActiveLayer();
 
   this->m_LevelSet->SetLabelMap( this->m_LabelMap );
-  this->m_InternalImage = NULL;
+  this->m_InternalImage = ITK_NULLPTR;
 }
 
 
@@ -622,7 +622,7 @@ void BinaryImageToLevelSetImageAdaptor< TInput,MalcolmSparseLevelSetImage< TInpu
   this->CreateMinimalInterface();
 
   this->m_LevelSet->SetLabelMap( this->m_LabelMap );
-  this->m_InternalImage = NULL;
+  this->m_InternalImage = ITK_NULLPTR;
 }
 
 template< typename TInput >

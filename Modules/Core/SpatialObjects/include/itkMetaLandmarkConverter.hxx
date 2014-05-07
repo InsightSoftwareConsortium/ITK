@@ -44,7 +44,7 @@ MetaLandmarkConverter< NDimensions >
 {
   const LandmarkMetaObjectType *landmarkMO =
     dynamic_cast<const LandmarkMetaObjectType *>(mo);
-  if(landmarkMO == 0)
+  if(landmarkMO == ITK_NULLPTR)
     {
     itkExceptionMacro(<< "Can't convert MetaObject to MetaLandmark");
     }

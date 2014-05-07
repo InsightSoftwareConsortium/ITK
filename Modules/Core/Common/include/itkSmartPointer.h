@@ -39,6 +39,16 @@ namespace itk
  * \ingroup DataAccess
  * \ingroup ITKCommon
  */
+#if __cplusplus >= 201103L
+// In c++11 there is an explicit nullptr type that introduces a new keyword to
+// serve as a distinguished null pointer constant: nullptr. It is of type
+// nullptr_t, which is implicitly convertible and comparable to any pointer type
+// or pointer-to-member type. It is not implicitly convertible or comparable to
+// integral types, except for bool.
+#define SP_ITK_NULLPTR  nullptr
+#else
+#define SP_ITK_NULLPTR  NULL
+#endif
 template< typename TObjectType >
 class SmartPointer
 {
@@ -47,7 +57,7 @@ public:
 
   /** Constructor  */
   SmartPointer ()
-  { m_Pointer = 0; }
+  { m_Pointer = SP_ITK_NULLPTR; }
 
   /** Copy constructor  */
   SmartPointer (const SmartPointer< ObjectType > & p):
@@ -63,7 +73,7 @@ public:
   ~SmartPointer ()
   {
     this->UnRegister();
-    m_Pointer = 0;
+    m_Pointer = SP_ITK_NULLPTR;
   }
 
   /** Overload operator ->  */
@@ -76,9 +86,9 @@ public:
 
   /** Test if the pointer has been initialized */
   bool IsNotNull() const
-  { return m_Pointer != 0; }
+  { return m_Pointer != SP_ITK_NULLPTR; }
   bool IsNull() const
-  { return m_Pointer == 0; }
+  { return m_Pointer == SP_ITK_NULLPTR; }
 
   /** Template comparison operators. */
   template< typename TR >

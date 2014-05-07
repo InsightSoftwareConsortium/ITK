@@ -74,7 +74,7 @@ ExtensionVelocitiesImageFilter< TLevelSet, TAuxValue, VAuxDimension >
 {
   if ( idx >= VAuxDimension || this->GetNumberOfIndexedInputs() < idx + 2 )
     {
-    return NULL;
+    return ITK_NULLPTR;
     }
 
   return dynamic_cast< AuxImageType * >(
@@ -92,7 +92,7 @@ ExtensionVelocitiesImageFilter< TLevelSet, TAuxValue, VAuxDimension >
 {
   if ( idx >= VAuxDimension || this->GetNumberOfIndexedOutputs() < idx + 2 )
     {
-    return NULL;
+    return ITK_NULLPTR;
     }
 
   return itkDynamicCastInDebugMode< AuxImageType * >(this->ProcessObject::GetOutput(idx + 1) );

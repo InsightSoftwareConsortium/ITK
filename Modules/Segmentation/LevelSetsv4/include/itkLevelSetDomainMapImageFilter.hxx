@@ -29,8 +29,8 @@ LevelSetDomainMapImageFilter< TInputImage, TOutputImage >
 {
   this->Superclass::SetNumberOfRequiredInputs ( 1 );
   this->Superclass::SetNumberOfRequiredOutputs ( 1 );
-  this->m_InputImage = 0;
-  this->m_OutputImage = 0;
+  this->m_InputImage = ITK_NULLPTR;
+  this->m_OutputImage = ITK_NULLPTR;
 }
 
 

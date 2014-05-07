@@ -44,7 +44,7 @@ VoronoiDiagram2DGenerator< TCoordRepType >::VoronoiDiagram2DGenerator() :
   m_PQhashsize( 0 ),
   m_Nedges( 0 ),
   m_Nvert( 0 ),
-  m_BottomSite( NULL ),
+  m_BottomSite( ITK_NULLPTR ),
   m_ELhashsize( 0 )
 {}
 
@@ -501,15 +501,15 @@ VoronoiDiagram2DGenerator< TCoordRepType >::createHalfEdge(FortuneHalfEdge *task
 {
   task->m_Edge = e;
   task->m_RorL = pm;
-  task->m_Next = NULL;
-  task->m_Vert = NULL;
+  task->m_Next = ITK_NULLPTR;
+  task->m_Vert = ITK_NULLPTR;
 }
 
 template< typename TCoordRepType >
 void
 VoronoiDiagram2DGenerator< TCoordRepType >::PQshowMin(PointType *answer)
 {
-  while ( ( m_PQHash[m_PQmin].m_Next ) == NULL )
+  while ( ( m_PQHash[m_PQmin].m_Next ) == ITK_NULLPTR )
     {
     m_PQmin += 1;
     }
@@ -523,7 +523,7 @@ VoronoiDiagram2DGenerator< TCoordRepType >::deletePQ(FortuneHalfEdge *task)
 {
   FortuneHalfEdge *last;
 
-  if ( ( task->m_Vert ) != NULL )
+  if ( ( task->m_Vert ) != ITK_NULLPTR )
     {
     last = &( m_PQHash[PQbucket(task)] );
     while ( ( last->m_Next ) != task )
@@ -532,7 +532,7 @@ VoronoiDiagram2DGenerator< TCoordRepType >::deletePQ(FortuneHalfEdge *task)
       }
     last->m_Next = ( task->m_Next );
     m_PQcount--;
-    task->m_Vert = NULL;
+    task->m_Vert = ITK_NULLPTR;
     }
 }
 
@@ -576,7 +576,7 @@ VoronoiDiagram2DGenerator< TCoordRepType >::insertPQ(FortuneHalfEdge *he, Fortun
   FortuneHalfEdge *last = &( m_PQHash[PQbucket(he)] );
   FortuneHalfEdge *enext;
 
-  while ( ( ( enext = ( last->m_Next ) ) != NULL )
+  while ( ( ( enext = ( last->m_Next ) ) != ITK_NULLPTR )
           && ( ( ( he->m_Ystar ) > ( enext->m_Ystar ) )
                || ( ( ( he->m_Ystar ) == ( enext->m_Ystar ) )
                     && ( ( v->m_Coord[0] ) > ( enext->m_Vert->m_Coord[0] ) ) ) ) )
@@ -604,14 +604,14 @@ VoronoiDiagram2DGenerator< TCoordRepType >::ELgethash(int b)
 {
   if ( ( b < 0 ) || ( b >= static_cast< int >( m_ELhashsize ) ) )
     {
-    return ( NULL );
+    return ( ITK_NULLPTR );
     }
   FortuneHalfEdge *he = m_ELHash[b];
-  if ( he == NULL )
+  if ( he == ITK_NULLPTR )
     {
     return ( he );
     }
-  if ( he->m_Edge == NULL )
+  if ( he->m_Edge == ITK_NULLPTR )
     {
     return ( he );
     }
@@ -619,9 +619,9 @@ VoronoiDiagram2DGenerator< TCoordRepType >::ELgethash(int b)
     {
     return ( he );
     }
-  m_ELHash[b] = NULL;
+  m_ELHash[b] = ITK_NULLPTR;
 
-  return ( NULL );
+  return ( ITK_NULLPTR );
 }
 
 template< typename TCoordRepType >
@@ -640,12 +640,12 @@ VoronoiDiagram2DGenerator< TCoordRepType >::findLeftHE(PointType *p)
     bucket = static_cast< int >( m_ELhashsize ) - 1;
     }
   FortuneHalfEdge *he = ELgethash(bucket);
-  if ( he == NULL )
+  if ( he == ITK_NULLPTR )
     {
     for ( i = 1; 1; i++ )
       {
-      if ( ( he = ELgethash(bucket - i) ) != NULL ) { break; }
-      if ( ( he = ELgethash(bucket + i) ) != NULL ) { break; }
+      if ( ( he = ELgethash(bucket - i) ) != ITK_NULLPTR ) { break; }
+      if ( ( he = ELgethash(bucket + i) ) != ITK_NULLPTR ) { break; }
       }
     }
 
@@ -678,7 +678,7 @@ template< typename TCoordRepType >
 typename VoronoiDiagram2DGenerator< TCoordRepType >::FortuneSite *
 VoronoiDiagram2DGenerator< TCoordRepType >::getRightReg(FortuneHalfEdge *he)
 {
-  if ( ( he->m_Edge ) == NULL )
+  if ( ( he->m_Edge ) == ITK_NULLPTR )
     {
     return ( m_BottomSite );
     }
@@ -696,7 +696,7 @@ template< typename TCoordRepType >
 typename VoronoiDiagram2DGenerator< TCoordRepType >::FortuneSite *
 VoronoiDiagram2DGenerator< TCoordRepType >::getLeftReg(FortuneHalfEdge *he)
 {
-  if ( ( he->m_Edge ) == NULL )
+  if ( ( he->m_Edge ) == ITK_NULLPTR )
     {
     return ( m_BottomSite );
     }
@@ -726,8 +726,8 @@ VoronoiDiagram2DGenerator< TCoordRepType >::bisect(FortuneEdge *answer, FortuneS
 {
   answer->m_Reg[0] = s1;
   answer->m_Reg[1] = s2;
-  answer->m_Ep[0] = NULL;
-  answer->m_Ep[1] = NULL;
+  answer->m_Ep[0] = ITK_NULLPTR;
+  answer->m_Ep[1] = ITK_NULLPTR;
 
   double dx = ( s2->m_Coord[0] ) - ( s1->m_Coord[0] );
   double dy = ( s2->m_Coord[1] ) - ( s1->m_Coord[1] );
@@ -764,12 +764,12 @@ VoronoiDiagram2DGenerator< TCoordRepType >::intersect(FortuneSite *newV, Fortune
   FortuneHalfEdge *saveHE;
   FortuneEdge *    saveE;
 
-  if ( e1 == NULL )
+  if ( e1 == ITK_NULLPTR )
     {
     newV->m_Sitenbr = -1;
     return;
     }
-  if ( e2 == NULL )
+  if ( e2 == ITK_NULLPTR )
     {
     newV->m_Sitenbr = -2;
     return;
@@ -850,7 +850,7 @@ VoronoiDiagram2DGenerator< TCoordRepType >::clip_line(FortuneEdge *task)
   int id2;
   if ( ( task->m_A ) == 1.0 )
     {
-    if ( ( s1 != NULL ) && ( ( s1->m_Coord[1] ) > m_Pymin ) )
+    if ( ( s1 != ITK_NULLPTR ) && ( ( s1->m_Coord[1] ) > m_Pymin ) )
       {
       y1 = s1->m_Coord[1];
       if ( y1 > m_Pymax )
@@ -867,7 +867,7 @@ VoronoiDiagram2DGenerator< TCoordRepType >::clip_line(FortuneEdge *task)
       id1 = -1;
       }
 
-    if ( ( s2 != NULL ) && ( ( s2->m_Coord[1] ) < m_Pymax ) )
+    if ( ( s2 != ITK_NULLPTR ) && ( ( s2->m_Coord[1] ) < m_Pymax ) )
       {
       y2 = s2->m_Coord[1];
       if ( y2 < m_Pymin )
@@ -919,7 +919,7 @@ VoronoiDiagram2DGenerator< TCoordRepType >::clip_line(FortuneEdge *task)
     }
   else
     {
-    if ( ( s1 != NULL ) && ( ( s1->m_Coord[0] ) > m_Pxmin ) )
+    if ( ( s1 != ITK_NULLPTR ) && ( ( s1->m_Coord[0] ) > m_Pxmin ) )
       {
       x1 = s1->m_Coord[0];
       if ( x1 > m_Pxmax )
@@ -935,7 +935,7 @@ VoronoiDiagram2DGenerator< TCoordRepType >::clip_line(FortuneEdge *task)
       y1 = ( task->m_C ) - ( task->m_A ) * x1;
       id1 = -1;
       }
-    if ( ( s2 != NULL ) && ( ( s2->m_Coord[0] ) < m_Pxmax ) )
+    if ( ( s2 != ITK_NULLPTR ) && ( ( s2->m_Coord[0] ) < m_Pxmax ) )
       {
       x2 = s2->m_Coord[0];
       if ( x2 < m_Pxmin )
@@ -1027,7 +1027,7 @@ void
 VoronoiDiagram2DGenerator< TCoordRepType >::makeEndPoint(FortuneEdge *task, bool lr, FortuneSite *ends)
 {
   task->m_Ep[lr] = ends;
-  if ( ( task->m_Ep[1 - lr] ) == NULL )
+  if ( ( task->m_Ep[1 - lr] ) == ITK_NULLPTR )
     {
     return;
     }
@@ -1070,20 +1070,20 @@ VoronoiDiagram2DGenerator< TCoordRepType >::GenerateVDFortune(void)
   m_PQHash.resize(m_PQhashsize);
   for ( i = 0; i < m_PQhashsize; i++ )
     {
-    m_PQHash[i].m_Next = NULL;
+    m_PQHash[i].m_Next = ITK_NULLPTR;
     }
   m_ELhashsize = (int)( 2 * m_SqrtNSites );
   m_ELHash.resize(m_ELhashsize);
   for ( i = 0; i < m_ELhashsize; i++ )
     {
-    m_ELHash[i] = NULL;
+    m_ELHash[i] = ITK_NULLPTR;
     }
-  createHalfEdge(&( m_ELleftend ), NULL, 0);
-  createHalfEdge(&( m_ELrightend ), NULL, 0);
-  m_ELleftend.m_Left = NULL;
+  createHalfEdge(&( m_ELleftend ), ITK_NULLPTR, 0);
+  createHalfEdge(&( m_ELrightend ), ITK_NULLPTR, 0);
+  m_ELleftend.m_Left = ITK_NULLPTR;
   m_ELleftend.m_Right = &( m_ELrightend );
   m_ELrightend.m_Left = &( m_ELleftend );
-  m_ELrightend.m_Right = NULL;
+  m_ELrightend.m_Right = ITK_NULLPTR;
   m_ELHash[0] = &( m_ELleftend );
   m_ELHash[m_ELhashsize - 1] = &( m_ELrightend );
 

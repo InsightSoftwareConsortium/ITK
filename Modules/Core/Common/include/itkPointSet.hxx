@@ -50,7 +50,7 @@ PointSet< TPixelType, VDimension, TMeshTraits >
   os << indent << "Maximum Number Of Regions: "
      << m_MaximumNumberOfRegions << std::endl;
   os << indent << "Point Data Container pointer: "
-     << ( ( this->m_PointDataContainer ) ?  this->m_PointDataContainer.GetPointer() : 0 ) << std::endl;
+     << ( ( this->m_PointDataContainer ) ?  this->m_PointDataContainer.GetPointer() : ITK_NULLPTR ) << std::endl;
   os << indent << "Size of Point Data Container: "
      << ( ( this->m_PointDataContainer ) ?  this->m_PointDataContainer->Size() : 0 ) << std::endl;
 }
@@ -308,8 +308,8 @@ PointSet< TPixelType, VDimension, TMeshTraits >
 {
   Superclass::Initialize();
 
-  m_PointsContainer = 0;
-  m_PointDataContainer = 0;
+  m_PointsContainer = ITK_NULLPTR;
+  m_PointDataContainer = ITK_NULLPTR;
 }
 
 /******************************************************************************
@@ -323,8 +323,8 @@ PointSet< TPixelType, VDimension, TMeshTraits >
 template< typename TPixelType, unsigned int VDimension, typename TMeshTraits >
 PointSet< TPixelType, VDimension, TMeshTraits >
 ::PointSet():
-  m_PointsContainer(0),
-  m_PointDataContainer(0)
+  m_PointsContainer(ITK_NULLPTR),
+  m_PointDataContainer(ITK_NULLPTR)
 {
 
   // If we used unstructured regions instead of structured regions, then
@@ -374,7 +374,7 @@ void
 PointSet< TPixelType, VDimension, TMeshTraits >
 ::CopyInformation(const DataObject *data)
 {
-  const PointSet *pointSet = NULL;
+  const PointSet *pointSet = ITK_NULLPTR;
 
   try
     {
@@ -413,7 +413,7 @@ PointSet< TPixelType, VDimension, TMeshTraits >
   // Copy Meta Data
   this->CopyInformation(data);
 
-  const Self *pointSet = NULL;
+  const Self *pointSet = ITK_NULLPTR;
 
   try
     {

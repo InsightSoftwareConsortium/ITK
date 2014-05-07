@@ -173,7 +173,7 @@ ScalarImageToCooccurrenceMatrixFilter< TImageType,
   RadiusType radius;
   radius.Fill(minRadius);
 
-  const ImageType *maskImage = NULL;
+  const ImageType *maskImage = ITK_NULLPTR;
 
   // Check if a mask image has been provided
   //
@@ -183,7 +183,7 @@ ScalarImageToCooccurrenceMatrixFilter< TImageType,
     }
 
   // Now fill in the histogram
-  if ( maskImage != NULL )
+  if ( maskImage != ITK_NULLPTR )
     {
     this->FillHistogramWithMask(radius, input->GetRequestedRegion(), maskImage);
     }

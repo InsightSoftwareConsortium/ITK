@@ -63,7 +63,7 @@ public:
   /** Register this SpatialObject */
   static SpatialObjectFactoryBase * GetFactory()
   {
-    if ( m_Factory == 0 )
+    if ( m_Factory == ITK_NULLPTR )
       {
       // Make and register the factory
       SpatialObjectFactoryBase::Pointer p = SpatialObjectFactoryBase::New();

@@ -28,7 +28,7 @@ template< typename TFixedPointSet, typename TMovingPointSet, typename TDistanceM
 EuclideanDistancePointMetric< TFixedPointSet, TMovingPointSet, TDistanceMap >
 ::EuclideanDistancePointMetric()
 {
-  m_DistanceMap = 0;
+  m_DistanceMap = ITK_NULLPTR;
 
   // when set to true it will be a bit faster, but it will result in minimizing
   // the sum of distances^4 instead of the sum of distances^2

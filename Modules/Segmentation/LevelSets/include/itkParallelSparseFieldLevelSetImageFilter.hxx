@@ -136,11 +136,11 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
   m_InterpolateSurfaceLocation = true;
   m_BoundsCheckingActive = false;
   m_ConstantGradientValue = 1.0;
-  m_GlobalZHistogram = 0;
-  m_ZCumulativeFrequency = 0;
-  m_MapZToThreadNumber = 0;
-  m_Boundary = 0;
-  m_Data = 0;
+  m_GlobalZHistogram = ITK_NULLPTR;
+  m_ZCumulativeFrequency = ITK_NULLPTR;
+  m_MapZToThreadNumber = ITK_NULLPTR;
+  m_Boundary = ITK_NULLPTR;
+  m_Data = ITK_NULLPTR;
 }
 
 template< typename TInputImage, typename TOutputImage >
@@ -716,7 +716,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
     }
 
   // deallocate the shifted-image
-  m_ShiftedImage = 0;
+  m_ShiftedImage = ITK_NULLPTR;
 }
 
 template< typename TInputImage, typename TOutputImage >
@@ -974,16 +974,16 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 
   // Delete data structures used for load distribution and balancing.
   delete[] m_GlobalZHistogram;
-  m_GlobalZHistogram = 0;
+  m_GlobalZHistogram = ITK_NULLPTR;
   delete[] m_ZCumulativeFrequency;
-  m_ZCumulativeFrequency = 0;
+  m_ZCumulativeFrequency = ITK_NULLPTR;
   delete[] m_MapZToThreadNumber;
-  m_MapZToThreadNumber = 0;
+  m_MapZToThreadNumber = ITK_NULLPTR;
   delete[] m_Boundary;
-  m_Boundary = 0;
+  m_Boundary = ITK_NULLPTR;
 
   // Deallocate the status image.
-  m_StatusImage = 0;
+  m_StatusImage = ITK_NULLPTR;
 
   // Remove the barrier from the system.
   //  m_Barrier->Remove ();
@@ -994,7 +994,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
     for ( i = 0; i < 2 * static_cast< unsigned int >( m_NumberOfLayers ) + 1; i++ )
       {
       // return all the nodes in layer i to the main node pool
-      LayerNodeType *  nodePtr = 0;
+      LayerNodeType *  nodePtr = ITK_NULLPTR;
       LayerPointerType layerPtr = m_Layers[i];
       while ( !layerPtr->Empty() )
         {
@@ -1010,7 +1010,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
     m_Layers.clear();
     }
 
-  if ( m_Data != 0 )
+  if ( m_Data != ITK_NULLPTR )
     {
     // Deallocate the thread local data structures.
     for ( ThreadIdType ThreadId = 0; ThreadId < m_NumOfThreads; ThreadId++ )
@@ -1019,10 +1019,10 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 
       delete[] m_Data[ThreadId].m_ZHistogram;
 
-      if ( m_Data[ThreadId].globalData != 0 )
+      if ( m_Data[ThreadId].globalData != ITK_NULLPTR )
         {
         this->GetDifferenceFunction()->ReleaseGlobalDataPointer (m_Data[ThreadId].globalData);
-        m_Data[ThreadId].globalData = 0;
+        m_Data[ThreadId].globalData = ITK_NULLPTR;
         }
 
       // 1. delete nodes on the thread layers
@@ -1102,7 +1102,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 
     delete[] m_Data;
     } // if m_data != 0
-  m_Data = 0;
+  m_Data = ITK_NULLPTR;
 }
 
 template< typename TInputImage, typename TOutputImage >
@@ -1197,13 +1197,13 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 
     if ( ThreadId == 0 )
       {
-      str->Filter->m_StatusImage = 0;
+      str->Filter->m_StatusImage = ITK_NULLPTR;
       str->Filter->m_StatusImage = str->Filter->m_StatusImageTemp;
-      str->Filter->m_StatusImageTemp = 0;
+      str->Filter->m_StatusImageTemp = ITK_NULLPTR;
 
-      str->Filter->m_OutputImage = 0;
+      str->Filter->m_OutputImage = ITK_NULLPTR;
       str->Filter->m_OutputImage = str->Filter->m_OutputImageTemp;
-      str->Filter->m_OutputImageTemp = 0;
+      str->Filter->m_OutputImageTemp = ITK_NULLPTR;
       //
       str->Filter->GraftOutput(str->Filter->m_OutputImage);
       }
@@ -2665,7 +2665,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
   for ( ThreadId = 0; ThreadId < m_NumOfThreads; ThreadId++ )
     {
     os << indent << "ThreadId: " << ThreadId << std::endl;
-    if ( m_Data != 0 )
+    if ( m_Data != ITK_NULLPTR )
       {
       for ( i = 0; i < m_Data[ThreadId].m_Layers.size(); i++ )
         {

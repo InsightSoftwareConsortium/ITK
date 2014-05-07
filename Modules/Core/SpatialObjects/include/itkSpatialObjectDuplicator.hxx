@@ -28,8 +28,8 @@ template< typename TInputSpatialObject >
 SpatialObjectDuplicator< TInputSpatialObject >
 ::SpatialObjectDuplicator()
 {
-  m_Input = NULL;
-  m_Output = NULL;
+  m_Input = ITK_NULLPTR;
+  m_Output = ITK_NULLPTR;
   m_InternalSpatialObjectTime = 0;
   SpatialObjectFactoryBase::RegisterDefaultSpatialObjects();
 }
@@ -50,7 +50,7 @@ SpatialObjectDuplicator< TInputSpatialObject >
   typedef itk::SpatialObject< TInputSpatialObject::ObjectDimension > SOType;
 
   SOType *newSO = dynamic_cast< SOType * >( i.GetPointer() );
-  if ( newSO == NULL )
+  if ( newSO == ITK_NULLPTR )
     {
     std::cout << "Could not create an instance of " << value << std::endl
               << "The usual cause of this error is not registering the "

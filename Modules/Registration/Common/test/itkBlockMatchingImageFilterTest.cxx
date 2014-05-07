@@ -152,13 +152,13 @@ int itkBlockMatchingImageFilterTest( int argc, char * argv[] )
 
   // Exercise the following methods
   BlockMatchingFilterType::DisplacementsType * displacements = blockMatchingFilter->GetDisplacements();
-  if( displacements == NULL )
+  if( displacements == ITK_NULLPTR )
     {
     std::cerr << "GetDisplacements() failed." << std::endl;
     return EXIT_FAILURE;
     }
   BlockMatchingFilterType::SimilaritiesType * similarities = blockMatchingFilter->GetSimilarities();
-  if( similarities == NULL )
+  if( similarities == ITK_NULLPTR )
     {
     std::cerr << "GetSimilarities() failed." << std::endl;
     return EXIT_FAILURE;

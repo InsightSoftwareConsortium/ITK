@@ -1180,7 +1180,7 @@ int itkQuadEdgeTest1( int , char* [] )
       return EXIT_FAILURE;
       }
 
-    quadEdge1->SetRot( NULL );
+    quadEdge1->SetRot( ITK_NULLPTR );
 
     if( quadEdge1c->IsHalfEdge() != true )
       {
@@ -1245,8 +1245,8 @@ int itkQuadEdgeTest1( int , char* [] )
 
     const QuadEdgeType * quadEdge1c = quadEdge1;
 
-    quadEdge1->SetOnext( NULL );
-    quadEdge1c->IsEdgeInOnextRing( NULL );
+    quadEdge1->SetOnext( ITK_NULLPTR );
+    quadEdge1c->IsEdgeInOnextRing( ITK_NULLPTR );
 
     if( quadEdge1c->IsEdgeInOnextRing( quadEdge6 ) == true )
       {

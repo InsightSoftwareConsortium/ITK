@@ -69,7 +69,7 @@ VideoSource<TOutputVideoStream>::GetOutput()
   if (this->GetNumberOfOutputs() < 1)
     {
     itkWarningMacro("No outputs set");
-    return NULL;
+    return ITK_NULLPTR;
     }
 
   // Return the output
@@ -87,7 +87,7 @@ VideoSource<TOutputVideoStream>::GetOutput(unsigned int idx)
     (this->TemporalProcessObject::GetOutput(idx) );
 
   // Make sure there is at least 1 output
-  if (out == NULL)
+  if (out == ITK_NULLPTR)
     {
     itkWarningMacro("dynamic_cast to output type failed");
     }

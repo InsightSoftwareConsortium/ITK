@@ -74,7 +74,7 @@ int itkMeanSampleFilterTest(int, char* [] )
     std::cerr << "Exception caught: " << excp << std::endl;
     }
 
-  if ( filter->GetInput() != NULL )
+  if ( filter->GetInput() != ITK_NULLPTR )
     {
     pass = false;
     failureMeassage = "GetInput() should return NULL if the input \

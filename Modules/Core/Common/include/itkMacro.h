@@ -118,13 +118,20 @@ namespace itk
   #endif
 #endif
 
+#if __cplusplus >= 201103L
 // In c++11 the override keyword allows you to explicity define that a function
 // is intended to override the base-class version.  This makes the code more
 // managable and fixes a set of common hard-to-find bugs.
-#if __cplusplus >= 201103L
 #define ITK_OVERRIDE override
+// In c++11 there is an explicit nullptr type that introduces a new keyword to
+// serve as a distinguished null pointer constant: nullptr. It is of type
+// nullptr_t, which is implicitly convertible and comparable to any pointer type
+// or pointer-to-member type. It is not implicitly convertible or comparable to
+// integral types, except for bool.
+#define ITK_NULLPTR  nullptr
 #else
 #define ITK_OVERRIDE
+#define ITK_NULLPTR  NULL
 #endif
 
 
@@ -157,7 +164,7 @@ namespace itk
   static Pointer New(void)                                     \
     {                                                          \
     Pointer smartPtr = ::itk::ObjectFactory< x >::Create();    \
-    if ( smartPtr.GetPointer() == NULL )                       \
+    if ( smartPtr.GetPointer() == ITK_NULLPTR )                \
       {                                                        \
       smartPtr = new x;                                        \
       }                                                        \
@@ -789,7 +796,7 @@ TTarget itkDynamicCastInDebugMode(TSource x)
     const DecoratorType *input =                                     \
       static_cast< const DecoratorType * >(                          \
         this->ProcessObject::GetInput(#name) );                      \
-    if( input == NULL )                                              \
+    if( input == ITK_NULLPTR )                                       \
       {                                                              \
       itkExceptionMacro(<<"input" #name " is not set");              \
       }                                                              \
@@ -850,7 +857,7 @@ TTarget itkDynamicCastInDebugMode(TSource x)
     const DecoratorType *input =                                     \
       static_cast< const DecoratorType * >(                          \
         this->ProcessObject::GetInput(#name) );                      \
-    if( input == NULL )                                              \
+    if( input == ITK_NULLPTR )                                       \
       {                                                              \
       itkExceptionMacro(<<"input" #name " is not set");              \
       }                                                              \

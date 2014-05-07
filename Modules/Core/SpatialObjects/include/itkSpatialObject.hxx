@@ -35,7 +35,7 @@ SpatialObject< TDimension >
   m_Bounds = BoundingBoxType::New();
   m_BoundsMTime = 0;
   m_Property = PropertyType::New();
-  m_TreeNode = NULL;
+  m_TreeNode = ITK_NULLPTR;
 
   m_ObjectToWorldTransform = TransformType::New();
   m_ObjectToWorldTransform->SetIdentity();
@@ -593,7 +593,7 @@ SpatialObject< TDimension >
 {
   if ( !m_TreeNode )
     {
-    return 0;
+    return ITK_NULLPTR;
     }
 
   typename TreeNodeType::ChildrenListType * children =
@@ -668,7 +668,7 @@ SpatialObject< TDimension >
     {
     return m_TreeNode->GetParent()->Get();
     }
-  return NULL;
+  return ITK_NULLPTR;
 }
 
 /** Get the parent of the spatial object */
@@ -681,7 +681,7 @@ SpatialObject< TDimension >
     {
     return m_TreeNode->GetParent()->Get();
     }
-  return NULL;
+  return ITK_NULLPTR;
 }
 
 /** Set the parent of the spatial object */

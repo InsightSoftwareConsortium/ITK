@@ -52,7 +52,7 @@ MetaFEMObjectConverter<NDimensions>
 ::MetaObjectToSpatialObject(const MetaObjectType * mo)
 {
   const MetaFEMObject *FEMmo = dynamic_cast<const MetaFEMObject *>(mo);
-  if(FEMmo == 0)
+  if(FEMmo == ITK_NULLPTR)
     {
     itkExceptionMacro(<< "Can't convert MetaObject to MetaFEMObject");
     }

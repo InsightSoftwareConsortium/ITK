@@ -77,7 +77,7 @@ LevelSetDenseImage< TImage >
 {
   Superclass::Initialize();
 
-  this->m_Image = NULL;
+  this->m_Image = ITK_NULLPTR;
 }
 
 // ----------------------------------------------------------------------------
@@ -88,7 +88,7 @@ LevelSetDenseImage< TImage >
 {
   Superclass::CopyInformation( data );
 
-  const Self *LevelSet = NULL;
+  const Self *LevelSet = ITK_NULLPTR;
 
   try
     {
@@ -118,7 +118,7 @@ LevelSetDenseImage< TImage >
 ::Graft( const DataObject* data )
 {
   Superclass::Graft( data );
-  const Self *LevelSet = NULL;
+  const Self *LevelSet = ITK_NULLPTR;
 
   try
     {

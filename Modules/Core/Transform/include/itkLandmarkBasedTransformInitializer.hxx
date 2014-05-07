@@ -59,7 +59,7 @@ LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
 {
   AffineTransformType *transform =
     dynamic_cast<AffineTransformType *>(this->m_Transform.GetPointer());
-  if ( transform == 0 )
+  if ( transform == ITK_NULLPTR )
     {
     itkExceptionMacro( << "AffineTransform Expected but transform is "
                        << this->m_Transform->GetNameOfClass() );
@@ -211,7 +211,7 @@ LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
   itkDebugMacro("Internal Initialize VersorRigid3DTransformType");
   VersorRigid3DTransformType *transform = dynamic_cast< VersorRigid3DTransformType * >(
     this->m_Transform.GetPointer() );
-  if ( transform == 0 )
+  if ( transform == ITK_NULLPTR )
     {
     itkExceptionMacro( << "VersorRigid3DTransformType Expected but transform is "
                        << this->m_Transform->GetNameOfClass() );
@@ -406,7 +406,7 @@ LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
   Rigid2DTransformType *transform =
     dynamic_cast< Rigid2DTransformType * >(this->m_Transform.GetPointer() );
 
-  if ( transform == 0 )
+  if ( transform == ITK_NULLPTR )
     {
     itkExceptionMacro( << "VersorRigid3DTransformType Expected but transform is "
                        << this->m_Transform->GetNameOfClass() );
@@ -554,7 +554,7 @@ LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
     itkExceptionMacro("Different number of fixed and moving landmarks");
     return;
     }
-  this->InternalInitializeTransform(static_cast<TTransform *>(0));
+  this->InternalInitializeTransform(static_cast<TTransform *>(ITK_NULLPTR));
 }
 
 template< typename TTransform, typename TFixedImage, typename TMovingImage >

@@ -43,7 +43,7 @@ QuadEdgeMeshEulerOperatorJoinFacetFunction< TMesh, TQEType >::Evaluate(QEType *e
   if ( !e->IsInternal() )
     {
     itkDebugMacro("The edge is either border or wire.");
-    return ( (QEType *)0 );
+    return ( (QEType *)ITK_NULLPTR );
     }
 
   //     Initial state                           Final state        //

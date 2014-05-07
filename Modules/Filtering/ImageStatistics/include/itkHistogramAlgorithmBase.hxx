@@ -26,7 +26,7 @@ template< typename TInputHistogram >
 HistogramAlgorithmBase< TInputHistogram >
 ::HistogramAlgorithmBase()
 {
-  m_InputHistogram = 0;
+  m_InputHistogram = ITK_NULLPTR;
 }
 
 template< typename TInputHistogram >

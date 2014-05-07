@@ -28,8 +28,8 @@ template< typename TInput, typename TOutput,
 FastMarchingExtensionImageFilterBase< TInput, TOutput, TAuxValue, VAuxDimension >
 ::FastMarchingExtensionImageFilterBase()
 {
-  m_AuxiliaryAliveValues = NULL;
-  m_AuxiliaryTrialValues = NULL;
+  m_AuxiliaryAliveValues = ITK_NULLPTR;
+  m_AuxiliaryTrialValues = ITK_NULLPTR;
 
   this->ProcessObject::SetNumberOfRequiredOutputs(1 + AuxDimension);
 
@@ -38,7 +38,7 @@ FastMarchingExtensionImageFilterBase< TInput, TOutput, TAuxValue, VAuxDimension 
     {
     ptr = AuxImageType::New();
     this->ProcessObject::SetNthOutput( k + 1, ptr.GetPointer() );
-    this->m_AuxImages[k] = 0;
+    this->m_AuxImages[k] = ITK_NULLPTR;
     }
 }
 
@@ -67,7 +67,7 @@ FastMarchingExtensionImageFilterBase< TInput, TOutput, TAuxValue, VAuxDimension 
 {
   if ( idx >= AuxDimension || this->GetNumberOfIndexedOutputs() < idx + 2 )
     {
-    return NULL;
+    return ITK_NULLPTR;
     }
 
   return static_cast< AuxImageType * >( this->ProcessObject::GetOutput(idx + 1) );

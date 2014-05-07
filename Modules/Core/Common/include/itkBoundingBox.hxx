@@ -118,7 +118,7 @@ BoundingBox< TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer >
 template< typename TPointIdentifier, int VPointDimension,
           typename TCoordRep, typename TPointsContainer >
 BoundingBox< TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer >
-::BoundingBox():m_PointsContainer(NULL)
+::BoundingBox():m_PointsContainer(ITK_NULLPTR)
 {
   m_Bounds.Fill(NumericTraits< CoordRepType >::Zero);
   m_CornersContainer = PointsContainer::New();

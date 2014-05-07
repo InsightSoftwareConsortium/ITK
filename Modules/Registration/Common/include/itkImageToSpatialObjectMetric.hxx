@@ -28,10 +28,10 @@ ImageToSpatialObjectMetric< TFixedImage, TMovingSpatialObject >
 ::ImageToSpatialObjectMetric():
   m_MatchMeasure(0)
 {
-  m_FixedImage          = 0; // has to be provided by the user.
-  m_MovingSpatialObject = 0; // has to be provided by the user.
-  m_Transform           = 0; // has to be provided by the user.
-  m_Interpolator        = 0; // has to be provided by the user.
+  m_FixedImage          = ITK_NULLPTR; // has to be provided by the user.
+  m_MovingSpatialObject = ITK_NULLPTR; // has to be provided by the user.
+  m_Transform           = ITK_NULLPTR; // has to be provided by the user.
+  m_Interpolator        = ITK_NULLPTR; // has to be provided by the user.
 }
 
 /**

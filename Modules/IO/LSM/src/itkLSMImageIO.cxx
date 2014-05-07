@@ -139,7 +139,7 @@ bool LSMImageIO::CanReadFile(const char *filename)
     }
 
   // Check that TIFFImageIO can read this file:
-  TIFFErrorHandler save = TIFFSetWarningHandler(0); // get rid of warning about
+  TIFFErrorHandler save = TIFFSetWarningHandler(ITK_NULLPTR); // get rid of warning about
                                                     // Zeiss tag
   if ( !this->TIFFImageIO::CanReadFile(filename) )
     {
@@ -174,7 +174,7 @@ void LSMImageIO::ReadImageInformation()
   unsigned int tif_cz_lsminfo_size;
   void *praw = this->TIFFImageIO::ReadRawByteFromTag(TIF_CZ_LSMINFO, tif_cz_lsminfo_size);
   zeiss_info *zi = reinterpret_cast< zeiss_info * >( praw );
-  if ( praw == NULL
+  if ( praw == ITK_NULLPTR
        || tif_cz_lsminfo_size != TIF_CZ_LSMINFO_SIZE )
     {
     // no zeiss info, just use tiff spacing

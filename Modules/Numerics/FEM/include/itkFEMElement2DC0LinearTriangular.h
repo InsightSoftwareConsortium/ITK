@@ -96,10 +96,10 @@ public:
 
   // Since the Jacobian is not quadratic, we need to provide our
   // own implementation of calculating the determinant and inverse.
-  virtual Float JacobianDeterminant(const VectorType & pt, const MatrixType *pJ = 0) const ITK_OVERRIDE;
+  virtual Float JacobianDeterminant(const VectorType & pt, const MatrixType *pJ = ITK_NULLPTR) const ITK_OVERRIDE;
 
   /** Return the inverse of the Jacobian */
-  virtual void JacobianInverse(const VectorType & pt, MatrixType & invJ, const MatrixType *pJ = 0) const ITK_OVERRIDE;
+  virtual void JacobianInverse(const VectorType & pt, MatrixType & invJ, const MatrixType *pJ = ITK_NULLPTR) const ITK_OVERRIDE;
 
   /**
    * Constants for integration rules.

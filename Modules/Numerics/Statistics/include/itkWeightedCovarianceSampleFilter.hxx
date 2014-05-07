@@ -29,7 +29,7 @@ template< typename TSample >
 WeightedCovarianceSampleFilter< TSample >
 ::WeightedCovarianceSampleFilter()
 {
-  this->ProcessObject::SetNthInput(1, NULL);
+  this->ProcessObject::SetNthInput(1, ITK_NULLPTR);
 }
 
 template< typename TSample >
@@ -58,7 +58,7 @@ WeightedCovarianceSampleFilter< TSample >
   const InputWeightingFunctionObjectType *functionObject =
     this->GetWeightingFunctionInput();
 
-  if ( functionObject != NULL )
+  if ( functionObject != ITK_NULLPTR )
     {
     this->ComputeCovarianceMatrixWithWeightingFunction();
     return;
@@ -68,7 +68,7 @@ WeightedCovarianceSampleFilter< TSample >
   const InputWeightArrayObjectType *weightArrayObject =
     this->GetWeightsInput();
 
-  if ( weightArrayObject != NULL )
+  if ( weightArrayObject != ITK_NULLPTR )
     {
     this->ComputeCovarianceMatrixWithWeights();
     return;

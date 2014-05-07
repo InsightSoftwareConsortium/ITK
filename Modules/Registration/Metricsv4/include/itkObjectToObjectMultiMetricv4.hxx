@@ -32,7 +32,7 @@ ObjectToObjectMultiMetricv4<TFixedDimension, TMovingDimension, TVirtualImage, TI
   this->m_MetricQueue.clear();
 
   //We want the moving transform to be NULL by default
-  this->m_MovingTransform = NULL;
+  this->m_MovingTransform = ITK_NULLPTR;
 }
 
 /** Destructor */
@@ -146,7 +146,7 @@ ObjectToObjectMultiMetricv4<TFixedDimension, TMovingDimension, TVirtualImage, TI
   this->m_MetricValueArray.SetSize( this->GetNumberOfMetrics() );
 
   /* Verify the same transform is in all metrics. */
-  const MovingTransformType * firstTransform = NULL;
+  const MovingTransformType * firstTransform = ITK_NULLPTR;
   for (SizeValueType j = 0; j < this->GetNumberOfMetrics(); j++)
     {
     const MovingTransformType * transform = this->m_MetricQueue[j]->GetMovingTransform();
@@ -154,7 +154,7 @@ ObjectToObjectMultiMetricv4<TFixedDimension, TMovingDimension, TVirtualImage, TI
     // optimized, and it must be the same as in other metrics.
     typedef CompositeTransform<typename MovingTransformType::ScalarType, TFixedDimension> CompositeType;
     const CompositeType * composite = dynamic_cast<const CompositeType*>(transform);
-    if( composite != NULL )
+    if( composite != ITK_NULLPTR )
       {
       SizeValueType count = 0;
       for( size_t n = 0; n < composite->GetNumberOfTransforms(); n++ )

@@ -239,7 +239,7 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternal
     {
     this->m_VirtualImage = virtualImage;
     this->Modified();
-    this->m_UserHasSetVirtualDomain = virtualImage != NULL;
+    this->m_UserHasSetVirtualDomain = virtualImage != ITK_NULLPTR;
     }
 }
 
@@ -416,7 +416,7 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternal
   const MovingTransformType* transform = this->m_MovingTransform.GetPointer();
   // If it's a CompositeTransform, get the last transform (1st applied).
   const MovingCompositeTransformType* comptx = dynamic_cast< const MovingCompositeTransformType * > ( transform );
-  if( comptx != NULL )
+  if( comptx != ITK_NULLPTR )
     {
     transform = comptx->GetBackTransform();
     }
@@ -442,7 +442,7 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternal
    * Eventually we'll want a method in Transform something like a
    * GetInputDomainSize to check this cleanly. */
   const MovingDisplacementFieldTransformType * displacementTransform = this->GetMovingDisplacementFieldTransform();
-  if( displacementTransform == NULL )
+  if( displacementTransform == ITK_NULLPTR )
     {
     itkExceptionMacro("Expected the moving transform to be of type DisplacementFieldTransform or derived, "
                       "or a CompositeTransform with DisplacementFieldTransform as the last to have been added." );

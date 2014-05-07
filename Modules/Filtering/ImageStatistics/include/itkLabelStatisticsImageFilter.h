@@ -140,7 +140,7 @@ public:
         m_BoundingBox[i] = NumericTraits< IndexValueType >::max();
         m_BoundingBox[i + 1] = NumericTraits< IndexValueType >::NonpositiveMin();
         }
-      m_Histogram = 0;
+      m_Histogram = ITK_NULLPTR;
     }
 
     // constructor with histogram enabled

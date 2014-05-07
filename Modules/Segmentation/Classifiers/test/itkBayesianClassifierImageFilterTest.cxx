@@ -104,8 +104,8 @@ int itkBayesianClassifierImageFilterTest(int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-  filter->SetSmoothingFilter( NULL );
-  if( filter->GetSmoothingFilter().GetPointer() != NULL )
+  filter->SetSmoothingFilter( ITK_NULLPTR );
+  if( filter->GetSmoothingFilter().GetPointer() != ITK_NULLPTR )
     {
     std::cerr << "Error in Set/GetSmoothingFilter()" << std::endl;
     return EXIT_FAILURE;

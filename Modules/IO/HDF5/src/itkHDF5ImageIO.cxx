@@ -25,20 +25,20 @@
 namespace itk
 {
 
-HDF5ImageIO::HDF5ImageIO() : m_H5File(0),
-                             m_VoxelDataSet(0),
+HDF5ImageIO::HDF5ImageIO() : m_H5File(ITK_NULLPTR),
+                             m_VoxelDataSet(ITK_NULLPTR),
                              m_ImageInformationWritten(false)
 {
 }
 
 HDF5ImageIO::~HDF5ImageIO()
 {
-  if(this->m_VoxelDataSet != 0)
+  if(this->m_VoxelDataSet != ITK_NULLPTR)
     {
     m_VoxelDataSet->close();
     delete m_VoxelDataSet;
     }
-  if(this->m_H5File != 0)
+  if(this->m_H5File != ITK_NULLPTR)
     {
     this->m_H5File->close();
     delete this->m_H5File;
@@ -397,7 +397,7 @@ HDF5ImageIO
     itkExceptionMacro(<< "Wrong # of dims for TransformType "
                       << "in HDF5 File");
     }
-  Space.getSimpleExtentDims(&dim,0);
+  Space.getSimpleExtentDims(&dim,ITK_NULLPTR);
   if(dim != 1)
     {
     itkExceptionMacro(<< "Elements > 1 for scalar type "
@@ -485,7 +485,7 @@ HDF5ImageIO
     itkExceptionMacro(<< "Wrong # of dims for TransformType "
                       << "in HDF5 File");
     }
-  Space.getSimpleExtentDims(&dim,0);
+  Space.getSimpleExtentDims(&dim,ITK_NULLPTR);
   vec.resize(dim);
   TScalar *buf = new TScalar[dim];
   H5::PredType vecType =
@@ -541,7 +541,7 @@ HDF5ImageIO
     itkExceptionMacro(<< " Wrong # of dims for Image Directions "
                       << "in HDF5 File");
     }
-  dirSpace.getSimpleExtentDims(dim,0);
+  dirSpace.getSimpleExtentDims(dim,ITK_NULLPTR);
   rval.resize(dim[1]);
   for(unsigned i = 0; i < dim[1]; i++)
     {
@@ -616,10 +616,10 @@ HDF5ImageIO
 {
   const char *extensions[] =
     {
-      ".hdf",".h4",".hdf4",".h5",".hdf5",".he4",".he5",".hd5",0,
+      ".hdf",".h4",".hdf4",".h5",".hdf5",".he4",".he5",".hd5",ITK_NULLPTR,
     };
   std::string ext(itksys::SystemTools::GetFilenameLastExtension(FileNameToWrite));
-  for(unsigned i = 0; extensions[i] != 0; i++)
+  for(unsigned i = 0; extensions[i] != ITK_NULLPTR; i++)
     {
     if(ext == extensions[i])
       {
@@ -977,7 +977,7 @@ HDF5ImageIO
   std::string VoxelDataName(ImageGroup);
   VoxelDataName += "/0";
   VoxelDataName += VoxelData;
-  if(this->m_VoxelDataSet == 0)
+  if(this->m_VoxelDataSet == ITK_NULLPTR)
     {
     this->m_VoxelDataSet = new H5::DataSet();
     *(this->m_VoxelDataSet) = this->m_H5File->openDataSet(VoxelDataName);
@@ -998,7 +998,7 @@ HDF5ImageIO
 {
   MetaDataObject<TType> *metaObj =
     dynamic_cast<MetaDataObject<TType> *>(metaObjBase);
-  if(metaObj == 0)
+  if(metaObj == ITK_NULLPTR)
     {
     return false;
     }
@@ -1015,7 +1015,7 @@ HDF5ImageIO
   typedef MetaDataObject< Array<TType> > MetaDataArrayObject;
     MetaDataArrayObject *metaObj =
     dynamic_cast<MetaDataArrayObject  *>(metaObjBase);
-  if(metaObj == 0)
+  if(metaObj == ITK_NULLPTR)
     {
     return false;
     }
@@ -1184,10 +1184,10 @@ HDF5ImageIO
         dynamic_cast<MetaDataObject<char *> *>(metaObj);
       MetaDataObject<const char *> *constCstringObj =
         dynamic_cast<MetaDataObject<const char *> *>(metaObj);
-      if(cstringObj != 0 || constCstringObj != 0)
+      if(cstringObj != ITK_NULLPTR || constCstringObj != ITK_NULLPTR)
         {
         const char *val;
-        if(cstringObj != 0)
+        if(cstringObj != ITK_NULLPTR)
           {
           val = cstringObj->GetMetaDataObjectValue();
           }
@@ -1204,7 +1204,7 @@ HDF5ImageIO
       {
       MetaDataObject<std::string> *stdStringObj =
         dynamic_cast<MetaDataObject<std::string> *>(metaObj);
-      if(stdStringObj != 0)
+      if(stdStringObj != ITK_NULLPTR)
         {
         std::string val = stdStringObj->GetMetaDataObjectValue();
         this->WriteString(objName,val);
@@ -1279,7 +1279,7 @@ HDF5ImageIO
 
     //
     // Create DataSet Once, potentially write to it many times
-    if(this->m_VoxelDataSet == 0)
+    if(this->m_VoxelDataSet == ITK_NULLPTR)
       {
       this->m_VoxelDataSet = new H5::DataSet();
       *(this->m_VoxelDataSet) = this->m_H5File->createDataSet(VoxelDataName,

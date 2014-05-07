@@ -412,7 +412,7 @@ void
 LabelMap< TLabelObject >
 ::AddLabelObject(LabelObjectType *labelObject)
 {
-  itkAssertOrThrowMacro( ( labelObject != NULL ), "Input LabelObject can't be Null" );
+  itkAssertOrThrowMacro( ( labelObject != ITK_NULLPTR ), "Input LabelObject can't be Null" );
 
   m_LabelObjectContainer[labelObject->GetLabel()] = labelObject;
   this->Modified();
@@ -423,7 +423,7 @@ void
 LabelMap< TLabelObject >
 ::PushLabelObject(LabelObjectType *labelObject)
 {
-  itkAssertOrThrowMacro( ( labelObject != NULL ), "Input LabelObject can't be Null" );
+  itkAssertOrThrowMacro( ( labelObject != ITK_NULLPTR ), "Input LabelObject can't be Null" );
 
   if ( m_LabelObjectContainer.empty() )
     {
@@ -488,7 +488,7 @@ void
 LabelMap< TLabelObject >
 ::RemoveLabelObject(LabelObjectType *labelObject)
 {
-  itkAssertOrThrowMacro( ( labelObject != NULL ), "Input LabelObject can't be Null" );
+  itkAssertOrThrowMacro( ( labelObject != ITK_NULLPTR ), "Input LabelObject can't be Null" );
   // modified is called in RemoveLabel()
   this->RemoveLabel( labelObject->GetLabel() );
 }

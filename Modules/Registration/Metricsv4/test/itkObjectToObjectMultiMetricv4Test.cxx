@@ -315,10 +315,10 @@ int itkObjectToObjectMultiMetricv4TestRun(bool useDisplacementTransform )
     std::cerr << "Automatic transform assignment failed. transform: " << transform.GetPointer() << " GetMovingTranform: " << multiVariateMetric->GetMovingTransform() << std::endl;
     return EXIT_FAILURE;
     }
-  multiVariateMetric->SetMovingTransform( NULL );
+  multiVariateMetric->SetMovingTransform( ITK_NULLPTR );
   for( itk::SizeValueType n = 0; n < multiVariateMetric->GetNumberOfMetrics(); n++ )
     {
-    if( multiVariateMetric->GetMovingTransform() != NULL || multiVariateMetric->GetMetricQueue()[n]->GetMovingTransform() != NULL )
+    if( multiVariateMetric->GetMovingTransform() != ITK_NULLPTR || multiVariateMetric->GetMetricQueue()[n]->GetMovingTransform() != ITK_NULLPTR )
       {
       std::cerr << "Assignment of null transform failed. multiVariateMetric->GetMovingTransform(): " << multiVariateMetric->GetMovingTransform()
                 << " multiVariateMetric->GetMetricQueue()[" << n << "]->GetMovingTransform(): "

@@ -316,7 +316,7 @@ inline void
 MersenneTwisterRandomVariateGenerator::SetSeed()
 {
   // use time() and clock() to generate a unlikely-to-repeat seed.
-  SetSeed( hash( time(0), clock() ) );
+  SetSeed( hash( time(ITK_NULLPTR), clock() ) );
 }
 
 /** Get an integer variate in [0, 2^32-1] */

@@ -38,8 +38,8 @@ ImageToRectilinearFEMObjectFilter<TInputImage>
   this->m_NumberOfElements.fill( 0 );
   this->m_PixelsPerElement.set_size( NDimensions );
   this->m_PixelsPerElement.fill( 1 );
-  this->m_Material = NULL;
-  this->m_Element = NULL;
+  this->m_Material = ITK_NULLPTR;
+  this->m_Element = ITK_NULLPTR;
   this->ProcessObject::SetNthOutput(0, this->MakeOutput(0) );
 }
 
@@ -76,7 +76,7 @@ ImageToRectilinearFEMObjectFilter<TInputImage>
 {
   if( this->GetNumberOfInputs() < 1 )
     {
-    return 0;
+    return ITK_NULLPTR;
     }
 
   return itkDynamicCastInDebugMode<InputImageType *>(this->ProcessObject::GetInput(0) );
@@ -114,7 +114,7 @@ ImageToRectilinearFEMObjectFilter<TInputImage>
 {
   if( this->GetNumberOfOutputs() < 1 )
     {
-    return 0;
+    return ITK_NULLPTR;
     }
 
   return itkDynamicCastInDebugMode<FEMObjectType *>(this->ProcessObject::GetOutput(0) );

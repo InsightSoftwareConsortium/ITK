@@ -23,7 +23,7 @@
   try
     {
     std::ofstream redirectStream;
-    std::streambuf *redirectBuf, *oldCoutBuf = 0;
+    std::streambuf *redirectBuf, *oldCoutBuf = ITK_NULLPTR;
     if (redirectOutputParameters.redirect)
       {
       std::cout << "Test output has been redirected to: " << redirectOutputParameters.fileName << std::endl;

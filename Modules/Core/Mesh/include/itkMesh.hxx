@@ -48,7 +48,7 @@ Mesh< TPixelType, VDimension, TMeshTraits >
   os << indent << "Number Of Cells: "
      << ( ( m_CellsContainer ) ?  m_CellsContainer->Size() : 0 ) << std::endl;
   os << indent << "Cell Data Container pointer: "
-     << ( ( m_CellDataContainer ) ?  m_CellDataContainer.GetPointer() : 0 ) << std::endl;
+     << ( ( m_CellDataContainer ) ?  m_CellDataContainer.GetPointer() : ITK_NULLPTR ) << std::endl;
   os << indent << "Size of Cell Data Container: "
      << ( ( m_CellDataContainer ) ?  m_CellDataContainer->Size() : 0 ) << std::endl;
   os << indent << "Number of explicit cell boundary assignments: "
@@ -280,7 +280,7 @@ Mesh< TPixelType, VDimension, TMeshTraits >
   /**
    * Ask the container if the cell identifier exists.
    */
-  CellType * cellptr = 0;
+  CellType * cellptr = ITK_NULLPTR;
   const bool found = m_CellsContainer->GetElementIfIndexExists(cellId, &cellptr);
   if ( found )
     {
@@ -514,9 +514,9 @@ Mesh< TPixelType, VDimension, TMeshTraits >
 
   this->ReleaseCellsMemory();
 
-  m_CellsContainer = 0;
-  m_CellDataContainer = 0;
-  m_CellLinksContainer = 0;
+  m_CellsContainer = ITK_NULLPTR;
+  m_CellDataContainer = ITK_NULLPTR;
+  m_CellLinksContainer = ITK_NULLPTR;
 }
 
 /**
@@ -613,7 +613,7 @@ Mesh< TPixelType, VDimension, TMeshTraits >
      * and put them in the output set except for the cell through which the
      * request was made.  First we empty the output set.
      */
-    if ( cellSet != 0 )
+    if ( cellSet != ITK_NULLPTR )
       {
       cellSet->erase( cellSet->begin(), cellSet->end() );
 
@@ -720,7 +720,7 @@ Mesh< TPixelType, VDimension, TMeshTraits >
    */
   currentCells->erase(cellId);
   CellIdentifier numberOfNeighboringCells = currentCells->size();
-  if ( cellSet != 0 )
+  if ( cellSet != ITK_NULLPTR )
     {
     *cellSet = *currentCells;
     }
@@ -783,7 +783,7 @@ Mesh< TPixelType, VDimension, TMeshTraits >
      * Loop through UsingCells and put them in the output set.  First
      * we empty the output set.
      */
-    if ( cellSet != 0 )
+    if ( cellSet != ITK_NULLPTR )
       {
       cellSet->erase( cellSet->begin(), cellSet->end() );
 
@@ -869,7 +869,7 @@ Mesh< TPixelType, VDimension, TMeshTraits >
    * this set to the output cell set.
    */
   CellIdentifier numberOfNeighboringCells = currentCells->size();
-  if ( cellSet != 0 )
+  if ( cellSet != ITK_NULLPTR )
     {
     *cellSet = *currentCells;
     }
@@ -911,7 +911,7 @@ Mesh< TPixelType, VDimension, TMeshTraits >
     if ( m_BoundaryAssignmentsContainers[dimension]->
          GetElementIfIndexExists(assignId, &boundaryId) )
       {
-      CellType * boundaryptr = 0;
+      CellType * boundaryptr = ITK_NULLPTR;
       const bool found = m_CellsContainer->
                          GetElementIfIndexExists(boundaryId, &boundaryptr);
       if ( found )
@@ -1138,7 +1138,7 @@ Mesh< TPixelType, VDimension, TMeshTraits >
 {
   this->Superclass::CopyInformation(data);
 
-  const Self *mesh = NULL;
+  const Self *mesh = ITK_NULLPTR;
 
   try
     {
@@ -1170,7 +1170,7 @@ Mesh< TPixelType, VDimension, TMeshTraits >
 {
   this->Superclass::Graft(data);
 
-  const Self *mesh = NULL;
+  const Self *mesh = ITK_NULLPTR;
 
   try
     {

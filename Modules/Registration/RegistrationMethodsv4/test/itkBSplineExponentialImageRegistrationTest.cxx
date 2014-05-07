@@ -258,7 +258,7 @@ int PerformBSplineExpImageRegistration( int argc, char *argv[] )
 #else
   optimizer->SetNumberOfIterations( 1 );
 #endif
-  optimizer->SetScalesEstimator( NULL );
+  optimizer->SetScalesEstimator( ITK_NULLPTR );
   optimizer->SetDoEstimateLearningRateOnce( false ); //true by default
   optimizer->SetDoEstimateLearningRateAtEachIteration( true );
 

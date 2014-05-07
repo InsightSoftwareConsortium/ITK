@@ -170,7 +170,7 @@ BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
     fixedComposer->Update();
 
     DisplacementFieldPointer fixedToMiddleSmoothTotalFieldTmp = this->BSplineSmoothDisplacementField( fixedComposer->GetOutput(),
-      this->m_FixedToMiddleTransform->GetNumberOfControlPointsForTheTotalField(), NULL );
+      this->m_FixedToMiddleTransform->GetNumberOfControlPointsForTheTotalField(), ITK_NULLPTR );
 
     typename ComposerType::Pointer movingComposer = ComposerType::New();
     movingComposer->SetDisplacementField( movingToMiddleSmoothUpdateField );
@@ -178,7 +178,7 @@ BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
     movingComposer->Update();
 
     DisplacementFieldPointer movingToMiddleSmoothTotalFieldTmp = this->BSplineSmoothDisplacementField( movingComposer->GetOutput(),
-      this->m_MovingToMiddleTransform->GetNumberOfControlPointsForTheTotalField(), NULL );
+      this->m_MovingToMiddleTransform->GetNumberOfControlPointsForTheTotalField(), ITK_NULLPTR );
 
     // Iteratively estimate the inverse fields.
 
@@ -384,7 +384,7 @@ BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform>
   importer->SetDirection( virtualDomainImage->GetDirection() );
   importer->Update();
 
-  typename WeightedMaskImageType::Pointer weightedMask = NULL;
+  typename WeightedMaskImageType::Pointer weightedMask = ITK_NULLPTR;
 
   if( mask )
     {

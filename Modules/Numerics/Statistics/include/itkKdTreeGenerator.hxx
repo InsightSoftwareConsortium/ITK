@@ -28,7 +28,7 @@ template< typename TSample >
 KdTreeGenerator< TSample >
 ::KdTreeGenerator()
 {
-  m_SourceSample = 0;
+  m_SourceSample = ITK_NULLPTR;
   m_BucketSize = 16;
   m_Subsample = SubsampleType::New();
   m_MeasurementVectorSize = 0;
@@ -42,7 +42,7 @@ KdTreeGenerator< TSample >
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Source Sample: ";
-  if ( m_SourceSample != 0 )
+  if ( m_SourceSample != ITK_NULLPTR )
     {
     os << m_SourceSample << std::endl;
     }
@@ -83,7 +83,7 @@ void
 KdTreeGenerator< TSample >
 ::GenerateData()
 {
-  if ( m_SourceSample == 0 )
+  if ( m_SourceSample == ITK_NULLPTR )
     {
     return;
     }

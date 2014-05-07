@@ -71,12 +71,12 @@ public:
    *  \warning This function creates a new list therefore
    *  the user is responsible for the deletion of the list. */
   ObjectListType * GetObjects(unsigned int depth = MaximumDepth,
-                              char *name = NULL);
+                              char *name = ITK_NULLPTR);
 
   /** Returns the number of children currently assigned to
    *  the SceneSpatialObject object. */
   unsigned int GetNumberOfObjects(unsigned int depth = MaximumDepth,
-                                  char *name = NULL);
+                                  char *name = ITK_NULLPTR);
 
   /** Set the list of pointers to children to the list passed as
 * argument. */

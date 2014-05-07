@@ -248,7 +248,7 @@ public:
 
     // copy the data of the current type if possible
     const Self *src = dynamic_cast< const Self * >( lo );
-    if ( src == NULL )
+    if ( src == ITK_NULLPTR )
       {
       return;
       }
@@ -528,7 +528,7 @@ protected:
     m_Kurtosis = 0;
     m_Skewness = 0;
     m_WeightedElongation = 0;
-    m_Histogram = NULL;
+    m_Histogram = ITK_NULLPTR;
     m_WeightedFlatness = 0;
   }
 

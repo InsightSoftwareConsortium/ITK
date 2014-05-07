@@ -44,7 +44,7 @@ MetaArrowConverter< NDimensions >
 ::MetaObjectToSpatialObject( const MetaObjectType *mo )
 {
   const ArrowMetaObjectType *metaArrow = dynamic_cast<const MetaArrow *>(mo);
-  if(metaArrow == 0)
+  if(metaArrow == ITK_NULLPTR)
     {
     itkExceptionMacro(<< "Can't convert MetaObject to MetaArrow");
     }

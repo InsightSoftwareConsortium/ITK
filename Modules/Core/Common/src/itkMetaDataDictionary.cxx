@@ -29,7 +29,7 @@ MetaDataDictionary
 ::~MetaDataDictionary()
 {
   delete m_Dictionary;
-  m_Dictionary = 0;
+  m_Dictionary = ITK_NULLPTR;
 }
 
 MetaDataDictionary

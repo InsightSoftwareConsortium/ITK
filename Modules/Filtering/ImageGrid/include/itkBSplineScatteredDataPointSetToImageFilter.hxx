@@ -66,7 +66,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
   this->m_NumberOfLevels.Fill( 1 );
   this->m_MaximumNumberOfLevels = 1;
 
-  this->m_PhiLattice = NULL;
+  this->m_PhiLattice = ITK_NULLPTR;
   this->m_PsiLattice = PointDataImageType::New();
   this->m_InputPointData = PointDataContainerType::New();
   this->m_OutputPointData = PointDataContainerType::New();
