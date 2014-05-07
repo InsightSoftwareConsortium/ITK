@@ -112,7 +112,7 @@ public:
 protected:
   PointsLocator();
   ~PointsLocator();
-  virtual void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
 private:
   PointsLocator( const Self& ); //purposely not implemented

@@ -139,7 +139,7 @@ protected:
   /** PrintSelf routine. Normally this is a protected internal method. It is
    * made public here so that Image can call this method.  Users should not
    * call this method but should call Print() instead. */
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   virtual TElement * AllocateElements(ElementIdentifier size) const;
 

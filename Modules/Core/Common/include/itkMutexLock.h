@@ -120,7 +120,7 @@ protected:
   ~MutexLock() {}
 
   SimpleMutexLock m_SimpleMutexLock;
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   MutexLock(const Self &);      //purposely not implemented

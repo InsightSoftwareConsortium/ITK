@@ -56,7 +56,7 @@ public:
 
   virtual void Mitosis(void);
 
-  virtual void Apoptosis(void);
+  virtual void Apoptosis(void) ITK_OVERRIDE;
 
   virtual void ReceptorsReading(void);
 

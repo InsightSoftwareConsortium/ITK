@@ -165,7 +165,7 @@ protected:
   KdTreeBasedKmeansEstimator();
   virtual ~KdTreeBasedKmeansEstimator() {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   void FillClusterLabels(KdTreeNodeType *node, int closestIndex);
 

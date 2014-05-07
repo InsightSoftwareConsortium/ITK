@@ -69,7 +69,7 @@ public:
   m_HasLocalSupport = false;
   }
 
-  MeasureType GetValue() const
+  virtual MeasureType GetValue() const ITK_OVERRIDE
   {
     double x = this->m_Parameters[0];
     double y = this->m_Parameters[1];
@@ -83,7 +83,7 @@ public:
     return val;
   }
 
-  void GetDerivative( DerivativeType  & derivative ) const
+  virtual void GetDerivative( DerivativeType  & derivative ) const ITK_OVERRIDE
   {
     double x = this->m_Parameters[0];
     double y = this->m_Parameters[1];
@@ -97,38 +97,38 @@ public:
     std::cout << "(" << derivative[0] <<" , " << derivative[1] << ")" << std::endl;
   }
 
-  void GetValueAndDerivative( MeasureType & value, DerivativeType & derivative ) const
+  virtual void GetValueAndDerivative( MeasureType & value, DerivativeType & derivative ) const ITK_OVERRIDE
   {
     value = GetValue();
     GetDerivative( derivative );
   }
 
-  virtual void Initialize(void) throw ( itk::ExceptionObject )
+  virtual void Initialize(void) throw ( itk::ExceptionObject ) ITK_OVERRIDE
   {
     m_Parameters.SetSize( SpaceDimension );
   }
 
-  Superclass::NumberOfParametersType GetNumberOfLocalParameters() const
+  virtual Superclass::NumberOfParametersType GetNumberOfLocalParameters() const ITK_OVERRIDE
   {
     return SpaceDimension;
   }
 
-  Superclass::NumberOfParametersType GetNumberOfParameters(void) const
+  virtual Superclass::NumberOfParametersType GetNumberOfParameters(void) const ITK_OVERRIDE
   {
     return SpaceDimension;
   }
 
-  void SetParameters( ParametersType & params )
+  virtual void SetParameters( ParametersType & params ) ITK_OVERRIDE
   {
     this->m_Parameters =  params;
   }
 
-  const ParametersType & GetParameters() const
+  virtual const ParametersType & GetParameters() const ITK_OVERRIDE
   {
     return this->m_Parameters;
   }
 
-  bool HasLocalSupport() const
+  virtual bool HasLocalSupport() const ITK_OVERRIDE
   {
     return m_HasLocalSupport;
   }
@@ -138,7 +138,7 @@ public:
     m_HasLocalSupport = hls;
   }
 
-  virtual void UpdateTransformParameters( const DerivativeType &, ParametersValueType )
+  virtual void UpdateTransformParameters( const DerivativeType &, ParametersValueType ) ITK_OVERRIDE
   {
   }
 

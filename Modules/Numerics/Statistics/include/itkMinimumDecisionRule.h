@@ -60,7 +60,7 @@ public:
    * Evaluate the decision rule, returning the class label associated
    * with the smallest discriminant score.
    */
-  virtual ClassIdentifierType Evaluate(const MembershipVectorType & discriminantScores) const;
+  virtual ClassIdentifierType Evaluate(const MembershipVectorType & discriminantScores) const ITK_OVERRIDE;
 
 protected:
   MinimumDecisionRule() {}

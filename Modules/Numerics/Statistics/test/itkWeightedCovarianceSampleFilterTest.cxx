@@ -79,7 +79,7 @@ public:
   typedef double OutputType;
 
   /**Evaluate at the specified input position */
-  OutputType Evaluate( const InputType & itkNotUsed( input ) ) const
+  virtual OutputType Evaluate( const InputType & itkNotUsed( input ) ) const ITK_OVERRIDE
     {
     MeasurementVectorType measurements;
     // set the weight factor of the measurment

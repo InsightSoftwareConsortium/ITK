@@ -147,7 +147,7 @@ protected:
   LandmarkBasedTransformInitializer();
   ~LandmarkBasedTransformInitializer(){}
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   // Supported Transform types
   typedef enum {

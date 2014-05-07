@@ -59,11 +59,11 @@ public:
 
 
   void GetDerivative( const ParametersType & ,
-                      DerivativeType &  ) const
+                      DerivativeType &  ) const ITK_OVERRIDE
   {
   }
 
-  MeasureType  GetValue( const ParametersType & parameters ) const
+  virtual MeasureType  GetValue( const ParametersType & parameters ) const ITK_OVERRIDE
   {
     ++POWELL_CALLS_TO_GET_VALUE;
 
@@ -82,7 +82,7 @@ public:
 
   }
 
-  unsigned int GetNumberOfParameters(void) const
+  virtual unsigned int GetNumberOfParameters(void) const ITK_OVERRIDE
     {
     return SpaceDimension;
     }

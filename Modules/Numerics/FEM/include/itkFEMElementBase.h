@@ -171,7 +171,7 @@ public:
 
     /** CreateAnother method will clone the existing instance of this type,
      * including its internal member variables. */
-    virtual::itk::LightObject::Pointer CreateAnother(void) const
+    virtual::itk::LightObject::Pointer CreateAnother(void) const ITK_OVERRIDE
       {
         ::itk::LightObject::Pointer smartPtr;
         Pointer copyPtr = Self::New();
@@ -265,7 +265,7 @@ public:
     typedef std::set<Element *> SetOfElements;
     mutable SetOfElements m_elements;
   protected:
-    virtual void PrintSelf(std::ostream& os, Indent indent) const
+    virtual void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE
       {
         Superclass::PrintSelf(os, indent);
         // os << indent << "DOF: " << this->m_dof << std::endl;
@@ -714,7 +714,7 @@ protected:
   // to store edge connectivity data
   std::vector<std::vector<int> > m_EdgeIds;
 
-  virtual void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
 };
 

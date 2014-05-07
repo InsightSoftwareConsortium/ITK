@@ -100,7 +100,7 @@ protected:
   BSplineTransformInitializer();
   ~BSplineTransformInitializer();
 
-  void PrintSelf( std::ostream & os, Indent indent ) const;
+  virtual void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
 
 private:
   BSplineTransformInitializer( const Self & ); //purposely not

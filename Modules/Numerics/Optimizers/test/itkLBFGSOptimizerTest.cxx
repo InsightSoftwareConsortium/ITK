@@ -63,7 +63,7 @@ public:
   {
   }
 
-  double GetValue( const ParametersType & position ) const
+  virtual double GetValue( const ParametersType & position ) const ITK_OVERRIDE
   {
     double x = position[0];
     double y = position[1];
@@ -80,7 +80,7 @@ public:
   }
 
   void GetDerivative( const ParametersType & position,
-                            DerivativeType  & derivative ) const
+                            DerivativeType  & derivative ) const ITK_OVERRIDE
   {
     double x = position[0];
     double y = position[1];
@@ -98,7 +98,7 @@ public:
   }
 
 
-  unsigned int GetNumberOfParameters(void) const
+  virtual unsigned int GetNumberOfParameters(void) const ITK_OVERRIDE
     {
     return SpaceDimension;
     }

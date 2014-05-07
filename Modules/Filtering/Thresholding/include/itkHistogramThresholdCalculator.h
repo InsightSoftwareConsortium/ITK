@@ -90,7 +90,7 @@ public:
   }
 
   using Superclass::MakeOutput;
-  virtual typename DataObject::Pointer MakeOutput(DataObjectPointerArraySizeType)
+  virtual typename DataObject::Pointer MakeOutput(DataObjectPointerArraySizeType) ITK_OVERRIDE
   {
     return DecoratedOutputType::New().GetPointer();
   }

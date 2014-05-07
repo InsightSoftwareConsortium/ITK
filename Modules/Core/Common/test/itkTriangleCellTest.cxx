@@ -54,7 +54,7 @@ int itkTriangleCellTest(int, char* [] )
                                 CoordRepType* closestPoint,
                                 CoordRepType pcoord [],
                                 double * distance,
-                                InterpolationWeightType* weights)
+                                InterpolationWeightType* weights) ITK_OVERRIDE
       {
       return this->Superclass::EvaluatePosition( inputPoint,
         points, closestPoint, pcoord, distance, weights );

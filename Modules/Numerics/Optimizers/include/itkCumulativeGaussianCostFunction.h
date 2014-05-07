@@ -74,10 +74,10 @@ public:
 
   /** Not necessary for this optimizer. */
   void GetDerivative( const ParametersType & itkNotUsed(parameters),
-                      DerivativeType & itkNotUsed(derivative) ) const {}
+                      DerivativeType & itkNotUsed(derivative) ) const ITK_OVERRIDE {}
 
   /** Return the values evaluated for the given parameters. */
-  MeasureType GetValue(const ParametersType & parameters) const;
+  virtual MeasureType GetValue(const ParametersType & parameters) const ITK_OVERRIDE;
 
   /** Return a pointer of values evaluated for the given parameters. */
   MeasureType * GetValuePointer(ParametersType & parameters);
@@ -89,10 +89,10 @@ public:
   double EvaluateCumulativeGaussian(double argument) const;
 
   /** Get the SpaceDimension. */
-  unsigned int GetNumberOfParameters() const;
+  virtual unsigned int GetNumberOfParameters() const ITK_OVERRIDE;
 
   /** Get the number Range Dimension. */
-  unsigned int GetNumberOfValues() const;
+  virtual unsigned int GetNumberOfValues() const ITK_OVERRIDE;
 
   /** Initialize the arrays. */
   void Initialize(unsigned int rangeDimension);
@@ -104,7 +104,7 @@ protected:
   CumulativeGaussianCostFunction();
   virtual ~CumulativeGaussianCostFunction();
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
 

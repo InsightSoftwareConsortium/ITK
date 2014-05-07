@@ -303,7 +303,7 @@ public:
   /** Make a DataObject of the correct type to be used as the specified output. */
   typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  virtual DataObjectPointer MakeOutput( DataObjectPointerArraySizeType );
+  virtual DataObjectPointer MakeOutput( DataObjectPointerArraySizeType ) ITK_OVERRIDE;
 
   /** Returns the transform resulting from the registration process  */
   virtual const DecoratedOutputTransformType * GetOutput() const;
@@ -353,10 +353,10 @@ public:
 protected:
   ImageRegistrationMethodv4();
   virtual ~ImageRegistrationMethodv4();
-  virtual void PrintSelf( std::ostream & os, Indent indent ) const;
+  virtual void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
 
   /** Perform the registration. */
-  virtual void  GenerateData();
+  virtual void  GenerateData() ITK_OVERRIDE;
 
   /** Initialize by setting the interconnects between the components. */
   virtual void InitializeRegistrationAtEachLevel( const SizeValueType );

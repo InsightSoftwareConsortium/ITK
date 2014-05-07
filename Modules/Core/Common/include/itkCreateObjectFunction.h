@@ -67,7 +67,7 @@ public:
 
   /** Methods from itk:LightObject. */
   itkFactorylessNewMacro(Self);
-  LightObject::Pointer CreateObject() { return T::New().GetPointer(); }
+  virtual LightObject::Pointer CreateObject() ITK_OVERRIDE { return T::New().GetPointer(); }
 
 protected:
   CreateObjectFunction() {}

@@ -82,7 +82,7 @@ public:
 
   /** CreateAnother method will clone the existing instance of this type,
    *  including its internal member variables. */
-  virtual::itk::LightObject::Pointer CreateAnother(void) const;
+  virtual::itk::LightObject::Pointer CreateAnother(void) const ITK_OVERRIDE;
 
   // Necessary typedefs for dealing with images BEGIN
   typedef typename LoadElement::Float Float;
@@ -256,12 +256,12 @@ public:
     m_Gamma = s;
   }
 
-  void SetSolution(Solution::ConstPointer ptr)
+  virtual void SetSolution(Solution::ConstPointer ptr) ITK_OVERRIDE
   {
     m_Solution = ptr;
   }
 
-  Solution::ConstPointer GetSolution()
+  virtual Solution::ConstPointer GetSolution() ITK_OVERRIDE
   {
     return m_Solution;
   }
@@ -302,7 +302,7 @@ public:
 
   void  SetCurrentEnergy( double e = 0.0);
 
-  virtual void ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe);
+  virtual void ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe) ITK_OVERRIDE;
 
 protected:
 

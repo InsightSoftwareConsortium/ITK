@@ -55,7 +55,7 @@ public:
 
   /** CreateAnother method will clone the existing instance of this type,
    * including its internal member variables. */
-  virtual::itk::LightObject::Pointer CreateAnother(void) const;
+  virtual::itk::LightObject::Pointer CreateAnother(void) const ITK_OVERRIDE;
 
   /**
    * Default constructor only clears the internal storage
@@ -69,16 +69,16 @@ public:
   Element3DC0LinearTriangularLaplaceBeltrami(NodeIDType n1_, NodeIDType n2_, NodeIDType n3_, Material::ConstPointer p_);
 
    /** Get the degress of freesom for each node */
-  virtual unsigned int GetNumberOfDegreesOfFreedomPerNode(void) const
+  virtual unsigned int GetNumberOfDegreesOfFreedomPerNode(void) const ITK_OVERRIDE
   {
     return 1;
   }
 
    /** Get the Stiffness matrix */
-  virtual void GetStiffnessMatrix(MatrixType & Ke) const;
+  virtual void GetStiffnessMatrix(MatrixType & Ke) const ITK_OVERRIDE;
 
 protected:
-  virtual void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
 };  // class Element3DC0LinearTriangularLaplaceBeltrami
 

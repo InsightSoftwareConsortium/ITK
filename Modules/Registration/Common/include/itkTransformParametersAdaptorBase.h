@@ -88,7 +88,7 @@ protected:
   TransformParametersAdaptorBase() {}
   ~TransformParametersAdaptorBase() {}
 
-  void PrintSelf( std::ostream & os, Indent indent ) const
+  virtual void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE
   {
     this->m_Transform->Print( os, indent );
     os << "Fixed parameters" << this->m_RequiredFixedParameters << std::endl;

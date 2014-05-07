@@ -67,7 +67,7 @@ public:
   virtual ~MeshRegion();
 
   /** Return the region type. Meshes are described with unstructured regions. */
-  virtual RegionType GetRegionType() const
+  virtual RegionType GetRegionType() const ITK_OVERRIDE
   { return Superclass::ITK_UNSTRUCTURED_REGION; }
 
   /** Get the number of regions. */

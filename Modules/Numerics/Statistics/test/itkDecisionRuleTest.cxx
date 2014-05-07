@@ -45,7 +45,7 @@ public:
   typedef Superclass::ClassIdentifierType ClassIdentifierType;
 
   /** Evaluate membership score */
-  ClassIdentifierType Evaluate(const MembershipVectorType &scoreVector) const
+  virtual ClassIdentifierType Evaluate(const MembershipVectorType &scoreVector) const ITK_OVERRIDE
     {
     double max = scoreVector[0];
 

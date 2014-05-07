@@ -80,25 +80,25 @@ public:
   }
   virtual ~Stapler() {}
 
-  virtual double GetConfidenceWeight( ) const
+  virtual double GetConfidenceWeight( ) const ITK_OVERRIDE
   { return m_Stapler->GetConfidenceWeight(); }
-  virtual void SetConfidenceWeight( double w )
+  virtual void SetConfidenceWeight( double w ) ITK_OVERRIDE
   { m_Stapler->SetConfidenceWeight( w); }
 
-  virtual double GetSensitivity( unsigned int i )
+  virtual double GetSensitivity( unsigned int i ) ITK_OVERRIDE
   { return m_Stapler->GetSensitivity(i); }
-  virtual double GetSpecificity( unsigned int i )
+  virtual double GetSpecificity( unsigned int i ) ITK_OVERRIDE
   { return m_Stapler->GetSpecificity(i); }
 
-  virtual unsigned short GetForeground() const
+  virtual unsigned short GetForeground() const ITK_OVERRIDE
   { return m_Stapler->GetForegroundValue(); }
-  virtual void SetForeground( unsigned short l )
+  virtual void SetForeground( unsigned short l ) ITK_OVERRIDE
   { m_Stapler->SetForegroundValue( l ); }
 
-  virtual unsigned int GetElapsedIterations()
+  virtual unsigned int GetElapsedIterations() ITK_OVERRIDE
   { return m_Stapler->GetElapsedIterations(); }
 
-  virtual int Execute();
+  virtual int Execute() ITK_OVERRIDE;
 
 private:
   typename StapleFilterType::Pointer m_Stapler;

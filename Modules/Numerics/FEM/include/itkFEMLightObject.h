@@ -81,7 +81,7 @@ protected:
   {
   }
 
-  virtual void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
   /**
    * Copy constructor must be available for the FEM objects...

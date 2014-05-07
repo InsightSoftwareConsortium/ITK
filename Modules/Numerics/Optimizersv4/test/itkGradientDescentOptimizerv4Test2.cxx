@@ -57,16 +57,16 @@ public:
     m_Parameters.Fill( 0 );
   }
 
-  void Initialize(void) throw ( itk::ExceptionObject ) {}
+  virtual void Initialize(void) throw ( itk::ExceptionObject ) ITK_OVERRIDE {}
 
-  void GetDerivative( DerivativeType & derivative ) const
+  virtual void GetDerivative( DerivativeType & derivative ) const ITK_OVERRIDE
   {
     MeasureType value;
     GetValueAndDerivative( value, derivative );
   }
 
   void GetValueAndDerivative( MeasureType & value,
-                              DerivativeType & derivative ) const
+                              DerivativeType & derivative ) const ITK_OVERRIDE
   {
     if( derivative.Size() != this->GetNumberOfParameters() )
       derivative.SetSize( this->GetNumberOfParameters() );
@@ -81,39 +81,39 @@ public:
     std::cout << "derivative: " << derivative << std::endl;
   }
 
-  MeasureType  GetValue() const
+  virtual MeasureType  GetValue() const ITK_OVERRIDE
   {
     return 0.0;
   }
 
-  void UpdateTransformParameters( const DerivativeType & update, ParametersValueType )
+  virtual void UpdateTransformParameters( const DerivativeType & update, ParametersValueType ) ITK_OVERRIDE
   {
     m_Parameters += update;
   }
 
-  unsigned int GetNumberOfParameters(void) const
+  virtual unsigned int GetNumberOfParameters(void) const ITK_OVERRIDE
   {
     return SpaceDimension * 3;
   }
 
-  virtual bool HasLocalSupport() const
+  virtual bool HasLocalSupport() const ITK_OVERRIDE
     {
     return false;
     }
 
-  unsigned int GetNumberOfLocalParameters() const
+  virtual unsigned int GetNumberOfLocalParameters() const ITK_OVERRIDE
   {
     return SpaceDimension;
   }
 
   /* These Set/Get methods are only needed for this test derivation that
    * isn't using a transform */
-  void SetParameters( ParametersType & parameters )
+  virtual void SetParameters( ParametersType & parameters ) ITK_OVERRIDE
   {
     m_Parameters = parameters;
   }
 
-  const ParametersType & GetParameters() const
+  virtual const ParametersType & GetParameters() const ITK_OVERRIDE
   {
     return m_Parameters;
   }

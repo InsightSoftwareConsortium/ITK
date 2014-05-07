@@ -103,7 +103,7 @@ public:
 protected:
   PointSetToSpatialObjectDemonsRegistration();
   virtual ~PointSetToSpatialObjectDemonsRegistration() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   PointSetToSpatialObjectDemonsRegistration(const Self &); //purposely not

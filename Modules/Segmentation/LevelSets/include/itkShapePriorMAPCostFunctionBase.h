@@ -106,15 +106,15 @@ public:
 
   /** This method returns the value of the cost function corresponding
     * to the specified parameters.    */
-  virtual MeasureType GetValue(const ParametersType & parameters) const;
+  virtual MeasureType GetValue(const ParametersType & parameters) const ITK_OVERRIDE;
 
   /** This method returns the derivative of the cost function corresponding
     * to the specified parameters.   */
-  virtual void GetDerivative(const ParametersType &, DerivativeType &) const
+  virtual void GetDerivative(const ParametersType &, DerivativeType &) const ITK_OVERRIDE
   { itkExceptionMacro(<< "This function is currently not supported."); }
 
   /** Return the number of parameters. */
-  virtual unsigned int GetNumberOfParameters(void) const
+  virtual unsigned int GetNumberOfParameters(void) const ITK_OVERRIDE
   { return m_ShapeFunction->GetNumberOfParameters(); }
 
   /** Compute the inside term component of the MAP cost function.
@@ -142,7 +142,7 @@ protected:
   ShapePriorMAPCostFunctionBase();
   virtual ~ShapePriorMAPCostFunctionBase() {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   ShapeFunctionPointer m_ShapeFunction;
   NodeContainerPointer m_ActiveRegion;

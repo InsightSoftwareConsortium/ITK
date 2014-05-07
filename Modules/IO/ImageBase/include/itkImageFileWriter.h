@@ -161,7 +161,7 @@ public:
 
   /** Aliased to the Write() method to be consistent with the rest of the
    * pipeline. */
-  virtual void Update()
+  virtual void Update() ITK_OVERRIDE
   {
     this->Write();
   }
@@ -171,7 +171,7 @@ public:
    * Updates the pipeline, streaming it the NumberOfStreamDivisions times.
    * Existing PasteIORegion is reset.
    */
-  virtual void UpdateLargestPossibleRegion()
+  virtual void UpdateLargestPossibleRegion() ITK_OVERRIDE
   {
     m_PasteIORegion = ImageIORegion(TInputImage::ImageDimension);
     m_UserSpecifiedIORegion = false;
@@ -196,10 +196,10 @@ public:
 protected:
   ImageFileWriter();
   ~ImageFileWriter();
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Does the real work. */
-  void GenerateData(void);
+  virtual void GenerateData(void) ITK_OVERRIDE;
 
 private:
   ImageFileWriter(const Self &); //purposely not implemented

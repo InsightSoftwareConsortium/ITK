@@ -68,7 +68,7 @@ protected:
   typename TransformIOBaseTemplate<ScalarType>::Pointer m_TransformIO;
   TransformFileReaderTemplate(const Self &); //purposely not implemented
   void operator=(const Self &);      //purposely not implemented
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   std::string m_FileName;
 

@@ -33,17 +33,17 @@ public:
 
   itkNewMacro(Self);
 
-  virtual SizeValueType GetNumberOfParameters() const { return 42; }
-  virtual double EvaluatePDF(double ) const { return 42.0; }
-  virtual double EvaluatePDF(double , const ParametersType&) const { return 42.0; }
-  virtual double EvaluateCDF(double ) const { return 42.0; }
-  virtual double EvaluateCDF(double , const ParametersType&) const { return 42.0; }
-  virtual double EvaluateInverseCDF(double ) const  { return 42.0; }
-  virtual double EvaluateInverseCDF(double , const ParametersType&) const  { return 42.0; }
-  virtual bool HasMean() const { return true; }
-  virtual bool HasVariance() const { return true; }
-  virtual double GetMean() const { return 42.0; }
-  virtual double GetVariance() const { return 42.0; }
+  virtual SizeValueType GetNumberOfParameters() const ITK_OVERRIDE { return 42; }
+  virtual double EvaluatePDF(double ) const ITK_OVERRIDE { return 42.0; }
+  virtual double EvaluatePDF(double , const ParametersType&) const ITK_OVERRIDE { return 42.0; }
+  virtual double EvaluateCDF(double ) const ITK_OVERRIDE { return 42.0; }
+  virtual double EvaluateCDF(double , const ParametersType&) const ITK_OVERRIDE { return 42.0; }
+  virtual double EvaluateInverseCDF(double ) const ITK_OVERRIDE  { return 42.0; }
+  virtual double EvaluateInverseCDF(double , const ParametersType&) const ITK_OVERRIDE  { return 42.0; }
+  virtual bool HasMean() const ITK_OVERRIDE { return true; }
+  virtual bool HasVariance() const ITK_OVERRIDE { return true; }
+  virtual double GetMean() const ITK_OVERRIDE { return 42.0; }
+  virtual double GetVariance() const ITK_OVERRIDE { return 42.0; }
 
   void RunTests()
     {

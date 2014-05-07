@@ -187,7 +187,7 @@ public:
    * values together, otherwise the generator state can be learned after
    * reading 624 consecutive values.
    */
-  virtual double GetVariate();
+  virtual double GetVariate() ITK_OVERRIDE;
 
   /** Same as GetVariate() */
   double operator()();
@@ -208,7 +208,7 @@ public:
 protected:
   inline MersenneTwisterRandomVariateGenerator();
   virtual ~MersenneTwisterRandomVariateGenerator() {}
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   // period parameter
   itkStaticConstMacro (M, unsigned int, 397);

@@ -57,13 +57,13 @@ public:
 
   /** Determine the file type. Returns true if this ImageIO can read the
    * file specified. */
-  virtual bool CanReadFile(const char *);
+  virtual bool CanReadFile(const char *) ITK_OVERRIDE;
 
   /** Set the spacing and dimension information for the set filename. */
-  virtual void ReadImageInformation();
+  virtual void ReadImageInformation() ITK_OVERRIDE;
 
   /** Reads the data from disk into the memory buffer provided. */
-  virtual void Read(void *buffer);
+  virtual void Read(void *buffer) ITK_OVERRIDE;
 
   /** Reads 3D data from multi-pages tiff. */
   virtual void ReadVolume(void *buffer);
@@ -75,15 +75,15 @@ public:
 
   /** Determine the file type. Returns true if this ImageIO can read the
    * file specified. */
-  virtual bool CanWriteFile(const char *);
+  virtual bool CanWriteFile(const char *) ITK_OVERRIDE;
 
   /** Writes the spacing and dimensions of the image.
    * Assumes SetFileName has been called with a valid file name. */
-  virtual void WriteImageInformation();
+  virtual void WriteImageInformation() ITK_OVERRIDE;
 
   /** Writes the data to disk from the memory buffer provided. Make sure
    * that the IORegion has been set properly. */
-  virtual void Write(const void *buffer);
+  virtual void Write(const void *buffer) ITK_OVERRIDE;
 
   enum { NOFORMAT, RGB_, GRAYSCALE, PALETTE_RGB, PALETTE_GRAYSCALE, OTHER };
 
@@ -133,7 +133,7 @@ public:
 protected:
   TIFFImageIO();
   ~TIFFImageIO();
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   void InternalWrite(const void *buffer);
 

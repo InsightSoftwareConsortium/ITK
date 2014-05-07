@@ -57,10 +57,10 @@ public:
   vnl_conjugate_gradient * GetOptimizer(void);
 
   /** Start optimization with an initial value. */
-  void StartOptimization(void);
+  virtual void StartOptimization(void) ITK_OVERRIDE;
 
   /** Plug in a Cost Function into the optimizer  */
-  virtual void SetCostFunction(SingleValuedCostFunction *costFunction);
+  virtual void SetCostFunction(SingleValuedCostFunction *costFunction) ITK_OVERRIDE;
 
   /** Return the number of iterations performed so far */
   SizeValueType GetNumberOfIterations(void) const;

@@ -202,7 +202,7 @@ public:
 
   /** Returns the latest modified time of the spatial object, and
    * any of its components. */
-  ModifiedTimeType GetMTime(void) const;
+  virtual ModifiedTimeType GetMTime(void) const ITK_OVERRIDE;
 
   /** Returns the latest modified time of the spatial object, but not
    *  the modification time of the children */
@@ -249,7 +249,7 @@ public:
    * region of the data object passed in as a parameter.  This method
    * implements the API from DataObject. The data object parameter must be
    * castable to an ImageBase. */
-  virtual void SetRequestedRegion(const DataObject *data);
+  virtual void SetRequestedRegion(const DataObject *data) ITK_OVERRIDE;
 
   /** Get the region object that defines the size and starting index
    * for the region of the image requested (i.e., the region of the
@@ -315,7 +315,7 @@ public:
    * ImageBase has more meta-data than its DataObject.  Thus, it must
    * provide its own version of CopyInformation() in order to copy the
    * LargestPossibleRegion from the input parameter. */
-  virtual void CopyInformation(const DataObject *data);
+  virtual void CopyInformation(const DataObject *data) ITK_OVERRIDE;
 
   /** Update the information for this DataObject so that it can be used
    * as an output of a ProcessObject.  This method is used the pipeline
@@ -324,12 +324,12 @@ public:
    * ProcessObject::UpdateOutputInformation() which determines modified
    * times, LargestPossibleRegions, and any extra meta data like spacing,
    * origin, etc. */
-  virtual void UpdateOutputInformation();
+  virtual void UpdateOutputInformation() ITK_OVERRIDE;
 
   /** Set the RequestedRegion to the LargestPossibleRegion.  This
    * forces a filter to produce all of the output in one execution
    * (i.e. not streaming) on the next call to Update(). */
-  virtual void SetRequestedRegionToLargestPossibleRegion();
+  virtual void SetRequestedRegionToLargestPossibleRegion() ITK_OVERRIDE;
 
   /** Determine whether the RequestedRegion is outside of the
    * BufferedRegion. This method returns true if the RequestedRegion
@@ -340,7 +340,7 @@ public:
    * inside the BufferedRegion from the previous execution (and the
    * current filter is up to date), then a given filter does not need
    * to re-execute */
-  virtual bool RequestedRegionIsOutsideOfTheBufferedRegion();
+  virtual bool RequestedRegionIsOutsideOfTheBufferedRegion() ITK_OVERRIDE;
 
   /** Verify that the RequestedRegion is within the
    * LargestPossibleRegion.  If the RequestedRegion is not within the
@@ -350,7 +350,7 @@ public:
    * used by PropagateRequestedRegion().  PropagateRequestedRegion()
    * throws a InvalidRequestedRegionError exception is the requested
    * region is not within the LargestPossibleRegion. */
-  virtual bool VerifyRequestedRegion();
+  virtual bool VerifyRequestedRegion() ITK_OVERRIDE;
 
   /** Returns a pointer to the property object applied to this class. */
   PropertyType * GetProperty(void);
@@ -369,7 +369,7 @@ public:
   itkGetConstReferenceMacro(ParentId, int);
 
   /** Specify that the object has been updated */
-  virtual void Update(void);
+  virtual void Update(void) ITK_OVERRIDE;
 
   /** Set the tree container */
   itkSetObjectMacro(TreeNode, TreeNodeType)
@@ -537,7 +537,7 @@ protected:
   /** Destructor. */
   virtual ~SpatialObject();
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Calculate the offsets needed to move from one pixel to the next
    * along a row, column, slice, volume, etc. These offsets are based

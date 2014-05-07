@@ -155,7 +155,7 @@ public:
 protected:
   ProbabilityDistribution(void) {}
   virtual ~ProbabilityDistribution(void) {}
-  void PrintSelf(std::ostream & os, Indent indent) const
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
   {
     Superclass::PrintSelf(os, indent);
     os << indent << "Parameters: " << m_Parameters << std::endl;

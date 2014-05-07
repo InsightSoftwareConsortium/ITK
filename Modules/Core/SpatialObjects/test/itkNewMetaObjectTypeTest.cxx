@@ -32,7 +32,7 @@ public:
   void SetValue(float val) { m_Value = val; }
 
 protected:
-  virtual void M_SetupReadFields(void)
+  virtual void M_SetupReadFields(void) ITK_OVERRIDE
     {
       MetaObject::M_SetupReadFields();
       MET_FieldRecordType *mf = new MET_FieldRecordType;
@@ -40,7 +40,7 @@ protected:
       mf->terminateRead = false;
       m_Fields.push_back(mf);
     }
-  virtual void M_SetupWriteFields(void)
+  virtual void M_SetupWriteFields(void) ITK_OVERRIDE
     {
       strcpy(m_ObjectTypeName,"Dummy");
       MetaObject::M_SetupWriteFields();
@@ -49,7 +49,7 @@ protected:
       MET_InitWriteField(mf, "Value", MET_FLOAT, m_Value);
       m_Fields.push_back(mf);
     }
-  virtual bool M_Read(void)
+  virtual bool M_Read(void) ITK_OVERRIDE
     {
       if(!MetaObject::M_Read())
         {

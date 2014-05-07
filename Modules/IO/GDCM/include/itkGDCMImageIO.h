@@ -101,13 +101,13 @@ public:
 
   /** Determine the file type. Returns true if this ImageIO can read the
    * file specified. */
-  virtual bool CanReadFile(const char *);
+  virtual bool CanReadFile(const char *) ITK_OVERRIDE;
 
   /** Set the spacing and dimesion information for the current filename. */
-  virtual void ReadImageInformation();
+  virtual void ReadImageInformation() ITK_OVERRIDE;
 
   /** Reads the data from disk into the memory buffer provided. */
-  virtual void Read(void *buffer);
+  virtual void Read(void *buffer) ITK_OVERRIDE;
 
   /** Get the original component type of the image. This differs from
    * ComponentType which may change as a function of rescale slope and
@@ -118,15 +118,15 @@ public:
 
   /** Determine the file type. Returns true if this ImageIO can write the
    * file specified. GDCM triggers on ".dcm" and ".dicom". */
-  virtual bool CanWriteFile(const char *);
+  virtual bool CanWriteFile(const char *) ITK_OVERRIDE;
 
   /** Writes the spacing and dimensions of the image.
    * Assumes SetFileName has been called with a valid file name. */
-  virtual void WriteImageInformation();
+  virtual void WriteImageInformation() ITK_OVERRIDE;
 
   /** Writes the data to disk from the memory buffer provided. Make sure
    * that the IORegion has been set properly. */
-  virtual void Write(const void *buffer);
+  virtual void Write(const void *buffer) ITK_OVERRIDE;
 
   /** Macro to access Rescale Slope and Rescale Intercept. Which are
    * needed to rescale properly image when needed. User then need to
@@ -268,7 +268,7 @@ public:
 protected:
   GDCMImageIO();
   ~GDCMImageIO();
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   void InternalReadImageInformation();
 

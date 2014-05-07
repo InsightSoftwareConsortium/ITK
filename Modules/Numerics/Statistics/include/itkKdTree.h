@@ -721,7 +721,7 @@ protected:
   /** Destructor: deletes the root node and the empty terminal node. */
   virtual ~KdTree();
 
-  void PrintSelf( std::ostream & os, Indent indent ) const;
+  virtual void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
 
   /** search loop */
   int NearestNeighborSearchLoop( const KdTreeNodeType *,

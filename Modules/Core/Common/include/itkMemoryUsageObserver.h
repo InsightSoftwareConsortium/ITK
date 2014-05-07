@@ -95,7 +95,7 @@ class ITKCommon_EXPORT MacOSXMemoryUsageObserver:public MemoryUsageObserverBase
 public:
   /** destructor */
   virtual ~MacOSXMemoryUsageObserver();
-  virtual MemoryLoadType GetMemoryUsage();
+  virtual MemoryLoadType GetMemoryUsage() ITK_OVERRIDE;
 };
 #endif // Mac OS X
 
@@ -115,7 +115,7 @@ class ITKCommon_EXPORT SysResourceMemoryUsageObserver:public MemoryUsageObserver
 public:
   /** destructor */
   virtual ~SysResourceMemoryUsageObserver();
-  virtual MemoryLoadType GetMemoryUsage();
+  virtual MemoryLoadType GetMemoryUsage() ITK_OVERRIDE;
 };
 #if !defined( __APPLE__ ) && !defined( __SUNPRO_CC ) && !defined ( __sun__ ) && !defined( __FreeBSD__ ) \
   && !defined( __OpenBSD__ )

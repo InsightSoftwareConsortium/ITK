@@ -70,7 +70,7 @@ public:
 protected:
   SegmentationBorder();
   ~SegmentationBorder();
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   SegmentationBorder(const Self &); //purposely not implemented

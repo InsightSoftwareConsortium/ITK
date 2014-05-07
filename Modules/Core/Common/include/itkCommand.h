@@ -117,7 +117,7 @@ public:
   }
 
   /**  Invoke the member function. */
-  virtual void Execute(Object *caller, const EventObject & event)
+  virtual void Execute(Object *caller, const EventObject & event) ITK_OVERRIDE
   {
     if ( m_MemberFunction )
       {
@@ -126,7 +126,7 @@ public:
   }
 
   /**  Invoke the member function with a const object. */
-  virtual void Execute(const Object *caller, const EventObject & event)
+  virtual void Execute(const Object *caller, const EventObject & event) ITK_OVERRIDE
   {
     if ( m_ConstMemberFunction )
       {
@@ -188,7 +188,7 @@ public:
   }
 
   /**  Invoke the member function. */
-  virtual void Execute(Object *, const EventObject & event)
+  virtual void Execute(Object *, const EventObject & event) ITK_OVERRIDE
   {
     if ( m_MemberFunction )
       {
@@ -197,7 +197,7 @@ public:
   }
 
   /**  Invoke the member function with a const object */
-  virtual void Execute(const Object *, const EventObject & event)
+  virtual void Execute(const Object *, const EventObject & event) ITK_OVERRIDE
   {
     if ( m_MemberFunction )
       {
@@ -256,7 +256,7 @@ public:
   }
 
   /** Invoke the callback function. */
-  virtual void Execute(Object *, const EventObject &)
+  virtual void Execute(Object *, const EventObject &) ITK_OVERRIDE
   {
     if ( m_MemberFunction )
       {
@@ -264,7 +264,7 @@ public:
       }
   }
 
-  virtual void Execute(const Object *, const EventObject &)
+  virtual void Execute(const Object *, const EventObject &) ITK_OVERRIDE
   {
     if ( m_MemberFunction )
       {
@@ -323,7 +323,7 @@ public:
   }
 
   /** Invoke the const member method callback. */
-  virtual void Execute(Object *, const EventObject &)
+  virtual void Execute(Object *, const EventObject &) ITK_OVERRIDE
   {
     if ( m_MemberFunction )
       {
@@ -331,7 +331,7 @@ public:
       }
   }
 
-  virtual void Execute(const Object *, const EventObject &)
+  virtual void Execute(const Object *, const EventObject &) ITK_OVERRIDE
   {
     if ( m_MemberFunction )
       {
@@ -401,7 +401,7 @@ public:
   { m_ClientDataDeleteCallback = f; }
 
   /** Execute the callback function. */
-  void Execute(Object *caller, const EventObject & event)
+  virtual void Execute(Object *caller, const EventObject & event) ITK_OVERRIDE
   {
     if ( m_Callback )
       {
@@ -410,7 +410,7 @@ public:
   }
 
   /** Execute the callback function with a const Object */
-  void Execute(const Object *caller, const EventObject & event)
+  virtual void Execute(const Object *caller, const EventObject & event) ITK_OVERRIDE
   {
     if ( m_ConstCallback )
       {

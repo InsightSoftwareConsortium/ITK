@@ -76,7 +76,7 @@ public:
     m_Negate = false;
     }
 
-  double GetValue( const ParametersType & parameters ) const
+  virtual double GetValue( const ParametersType & parameters ) const ITK_OVERRIDE
     {
 
     VectorType v( parameters.Size() );
@@ -95,7 +95,7 @@ public:
     }
 
   void GetDerivative( const ParametersType & parameters,
-                            DerivativeType & derivative ) const
+                            DerivativeType & derivative ) const ITK_OVERRIDE
     {
 
     VectorType v( parameters.Size() );
@@ -120,7 +120,7 @@ public:
       }
     }
 
-  unsigned int GetNumberOfParameters(void) const
+  virtual unsigned int GetNumberOfParameters(void) const ITK_OVERRIDE
     {
     return SpaceDimension;
     }
@@ -163,7 +163,7 @@ public:
    {
    }
 
-  double GetValue( const ParametersType & parameters ) const
+  virtual double GetValue( const ParametersType & parameters ) const ITK_OVERRIDE
     {
     double val;
     if( parameters[0]<0 )
@@ -178,13 +178,13 @@ public:
     }
 
   void GetDerivative( const ParametersType & itkNotUsed(parameters),
-                            DerivativeType & itkNotUsed(derivative) ) const
+                            DerivativeType & itkNotUsed(derivative) ) const ITK_OVERRIDE
     {
       throw itk::ExceptionObject( __FILE__, __LINE__,
                                   "no derivative available" );
     }
 
-  unsigned int GetNumberOfParameters(void) const
+  virtual unsigned int GetNumberOfParameters(void) const ITK_OVERRIDE
     {
     return 1;
     }
@@ -200,12 +200,12 @@ public:
 
   void Reset() { m_IterationNumber = 0; }
 
-  void Execute(itk::Object *caller, const itk::EventObject & event)
+  virtual void Execute(itk::Object *caller, const itk::EventObject & event) ITK_OVERRIDE
     {
       Execute( (const itk::Object *)caller, event);
     }
 
-  void Execute(const itk::Object * object, const itk::EventObject & event)
+  virtual void Execute(const itk::Object * object, const itk::EventObject & event) ITK_OVERRIDE
     {
     const itk::AmoebaOptimizer *optimizer =
       dynamic_cast< const itk::AmoebaOptimizer * >( object );

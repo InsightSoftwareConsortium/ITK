@@ -70,7 +70,7 @@ public:
   typedef Superclass::ParametersType ParametersType;
 
   /** Advance one step following the gradient direction. */
-  virtual void AdvanceOneStep(void);
+  virtual void AdvanceOneStep(void) ITK_OVERRIDE;
 
 protected:
   QuaternionRigidTransformGradientDescentOptimizer() {}

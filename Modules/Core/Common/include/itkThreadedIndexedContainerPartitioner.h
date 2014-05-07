@@ -79,7 +79,7 @@ public:
   ThreadIdType PartitionDomain(const ThreadIdType threadId,
                            const ThreadIdType requestedTotal,
                            const DomainType& completeIndexRange,
-                           DomainType& subIndexRange) const;
+                           DomainType& subIndexRange) const ITK_OVERRIDE;
 
 protected:
   ThreadedIndexedContainerPartitioner();

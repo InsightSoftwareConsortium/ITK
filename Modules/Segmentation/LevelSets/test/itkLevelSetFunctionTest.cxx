@@ -132,7 +132,7 @@ private:
                             const NeighborhoodType& neighborhood,
                             const FloatOffsetType &,
                             GlobalDataStruct *
-                          ) const
+                          ) const ITK_OVERRIDE
     {
       ::itk::Index<2> idx = neighborhood.GetIndex();
       return m_DistanceTransform->GetPixel(idx);
@@ -190,7 +190,7 @@ protected:
 private:
   unsigned int m_Iterations;
 
-  virtual bool Halt()
+  virtual bool Halt() ITK_OVERRIDE
     {
       if (this->GetElapsedIterations() == m_Iterations) return true;
       else return false;

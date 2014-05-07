@@ -106,7 +106,7 @@ public:
 protected:
   DenseFrequencyContainer2();
   virtual ~DenseFrequencyContainer2() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   DenseFrequencyContainer2(const Self &); //purposely not implemented

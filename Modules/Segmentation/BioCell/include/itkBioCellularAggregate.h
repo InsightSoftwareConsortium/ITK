@@ -128,9 +128,9 @@ public:
 
   virtual void Add(CellBase *cell, const VectorType & perturbation);
 
-  virtual void Add(CellBase *cellA, CellBase *cellB, double perturbationLength);
+  virtual void Add(CellBase *cellA, CellBase *cellB, double perturbationLength) ITK_OVERRIDE;
 
-  virtual void Remove(CellBase *cell);
+  virtual void Remove(CellBase *cell) ITK_OVERRIDE;
 
   virtual void GetVoronoi(IdentifierType cellId, VoronoiRegionAutoPointer &) const;
 
@@ -141,7 +141,7 @@ public:
   virtual SubstratesVector & GetSubstrates(void);
 
   virtual SubstrateValueType GetSubstrateValue(IdentifierType cellId,
-                                               unsigned int substrateId) const;
+                                               unsigned int substrateId) const ITK_OVERRIDE;
 
   virtual void KillAll(void);
 
@@ -151,7 +151,7 @@ protected:
   CellularAggregate(const Self &);
   void operator=(const Self &);
 
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   virtual void ComputeForces(void);
 

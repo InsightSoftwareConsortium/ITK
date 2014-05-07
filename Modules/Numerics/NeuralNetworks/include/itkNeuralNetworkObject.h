@@ -62,7 +62,7 @@ protected:
   virtual ~NeuralNetworkObject();
 
   /** Method to print the object. */
-  virtual void PrintSelf( std::ostream& os, Indent indent ) const;
+  virtual void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
 
   ValueType m_LearningRate;
 

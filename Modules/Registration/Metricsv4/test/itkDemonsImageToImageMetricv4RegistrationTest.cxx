@@ -59,12 +59,12 @@ protected:
 
 public:
 
-  void Execute(itk::Object *caller, const itk::EventObject & event)
+  virtual void Execute(itk::Object *caller, const itk::EventObject & event) ITK_OVERRIDE
     {
     Execute( (const itk::Object *) caller, event);
     }
 
-  void Execute(const itk::Object * object, const itk::EventObject & event)
+  virtual void Execute(const itk::Object * object, const itk::EventObject & event) ITK_OVERRIDE
     {
     if( typeid( event ) != typeid( itk::IterationEvent ) )
       {

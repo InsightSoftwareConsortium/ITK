@@ -55,10 +55,10 @@ public:
   vnl_lbfgs * GetOptimizer(void);
 
   /** Start optimization with an initial value. */
-  void StartOptimization(void);
+  virtual void StartOptimization(void) ITK_OVERRIDE;
 
   /** Plug in a Cost Function into the optimizer  */
-  virtual void SetCostFunction(SingleValuedCostFunction *costFunction);
+  virtual void SetCostFunction(SingleValuedCostFunction *costFunction) ITK_OVERRIDE;
 
   /** Set/Get the optimizer trace flag. If set to true, the optimizer
    * prints out information every iteration.
@@ -104,12 +104,12 @@ public:
   MeasureType GetValue() const;
 
   /** Get the reason for termination */
-  const std::string GetStopConditionDescription() const;
+  virtual const std::string GetStopConditionDescription() const ITK_OVERRIDE;
 
 protected:
   LBFGSOptimizer();
   virtual ~LBFGSOptimizer();
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   typedef Superclass::CostFunctionAdaptorType CostFunctionAdaptorType;
 

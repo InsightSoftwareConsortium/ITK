@@ -87,7 +87,7 @@ public:
   virtual void AdvanceOneStep(void);
 
   /** Start optimization. */
-  void    StartOptimization(void);
+  virtual void    StartOptimization(void) ITK_OVERRIDE;
 
   /** Resume previously stopped optimization with current parameters
    * \sa StopOptimization. */
@@ -117,7 +117,7 @@ public:
 
   /** Get Stop condition. */
   itkGetConstReferenceMacro(StopCondition, StopConditionType);
-  const std::string GetStopConditionDescription() const;
+  virtual const std::string GetStopConditionDescription() const ITK_OVERRIDE;
 
   /** Get Gradient condition. */
   itkGetConstReferenceMacro(Gradient, DerivativeType);
@@ -125,7 +125,7 @@ public:
 protected:
   GradientDescentOptimizer();
   virtual ~GradientDescentOptimizer() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   // made protected so subclass can access
   DerivativeType m_Gradient;

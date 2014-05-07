@@ -37,7 +37,7 @@ public:
   /** New macro for creation of through a Smart Pointer   */
   itkNewMacro(TextOutput);
 
-  virtual void DisplayText(const char *s)
+  virtual void DisplayText(const char *s) ITK_OVERRIDE
   { std::cout << s << std::endl; }
 
 protected:

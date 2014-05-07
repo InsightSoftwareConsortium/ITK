@@ -55,10 +55,10 @@ public:
   virtual void GetIntegrationPointAndWeight(unsigned int i,
                                             VectorType & pt,
                                             Float & w,
-                                            unsigned int order) const;
+                                            unsigned int order) const ITK_OVERRIDE;
 
   /** Get the number of integration points */
-  virtual unsigned int GetNumberOfIntegrationPoints(unsigned int order) const;
+  virtual unsigned int GetNumberOfIntegrationPoints(unsigned int order) const ITK_OVERRIDE;
 
   // ////////////////////////////////////////////////////////////////////////
   /**
@@ -66,10 +66,10 @@ public:
    */
 
   /** Return the shape functions used to interpolate across the element */
-  virtual VectorType ShapeFunctions(const VectorType & pt) const;
+  virtual VectorType ShapeFunctions(const VectorType & pt) const ITK_OVERRIDE;
 
   /** Return the shape functions derivatives in the shapeD matrix */
-  virtual void ShapeFunctionDerivatives(const VectorType & pt, MatrixType & shapeD) const;
+  virtual void ShapeFunctionDerivatives(const VectorType & pt, MatrixType & shapeD) const ITK_OVERRIDE;
 
   /**
    * Get parametric/local coordinates given global coordinates. The function returns true if the
@@ -77,7 +77,7 @@ public:
    * For a line, line length*1e-4 is used as the tolerance
    */
   virtual bool GetLocalFromGlobalCoordinates(const VectorType & globalPt,
-                                             VectorType & localPt) const;
+                                             VectorType & localPt) const ITK_OVERRIDE;
 
   /**
    * We need to provide our own implementation of calculating Jacobian,
@@ -88,7 +88,7 @@ public:
    *
    * Jacobian is a scalar for this element.
    */
-  virtual void Jacobian(const VectorType & pt, MatrixType & J, const MatrixType *pshapeD = 0) const;
+  virtual void Jacobian(const VectorType & pt, MatrixType & J, const MatrixType *pshapeD = 0) const ITK_OVERRIDE;
 
   /**
    * Distance of a point to a line.(Used in GetLocalFromGlobalCoordinates ).
@@ -97,9 +97,9 @@ public:
                        VectorType & closestPoint) const;
 
 protected:
-  virtual void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
-  virtual void PopulateEdgeIds(void); // HACK:  Should PopulateEdgeIds
+  virtual void PopulateEdgeIds(void) ITK_OVERRIDE; // HACK:  Should PopulateEdgeIds
                                       // be const or not in this
                                       // hierarchy. Sometimes it is,
                                       // sometimes it is not.

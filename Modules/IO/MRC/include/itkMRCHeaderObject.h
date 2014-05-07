@@ -268,7 +268,7 @@ protected:
   void swapHeader(bool bigEndian);
 
   /** Prints loads of information from the header */
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   MRCHeaderObject(const Self &); //purposely not implemented

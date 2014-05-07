@@ -66,7 +66,7 @@ public:
 protected:
   XMLReaderBase() {}
   virtual ~XMLReaderBase() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Instantiates and invokes the XML parser for the file named by
    * m_Filename.  The parser will throw an exception in the case of XML

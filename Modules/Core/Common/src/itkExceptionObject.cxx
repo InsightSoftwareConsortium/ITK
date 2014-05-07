@@ -94,14 +94,14 @@ public:
 
   /** Increase the reference count (mark as used by another object).
     * Delegates the counting to its LightObject superclass  */
-  virtual void Register() const
+  virtual void Register() const ITK_OVERRIDE
   {
     this->LightObject::Register();
   }
 
   /** Decrease the reference count (release by another object).
     * Delegates the counting to its LightObject superclass  */
-  virtual void UnRegister() const
+  virtual void UnRegister() const ITK_OVERRIDE
   {
     this->LightObject::UnRegister();
   }

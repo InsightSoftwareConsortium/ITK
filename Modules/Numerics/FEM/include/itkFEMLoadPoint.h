@@ -49,7 +49,7 @@ public:
 
   /** CreateAnother method will clone the existing instance of this type,
    * including its internal member variables. */
-  virtual::itk::LightObject::Pointer CreateAnother(void) const;
+  virtual::itk::LightObject::Pointer CreateAnother(void) const ITK_OVERRIDE;
 
   /**
    * Default constructor
@@ -81,11 +81,11 @@ public:
   vnl_vector<Float> GetForce();
 
   /** Apply the load to the specified element */
-  virtual void ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe);
+  virtual void ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe) ITK_OVERRIDE;
 
 protected:
 
-  virtual void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
   /**
   * Point of which the load acts in global coord. sys.

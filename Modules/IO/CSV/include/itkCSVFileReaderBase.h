@@ -167,7 +167,7 @@ protected:
   CSVFileReaderBase();
   virtual ~CSVFileReaderBase() {}
   /** Print method */
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Check that all essential components are present and plugged in. */
   void PrepareForParsing();

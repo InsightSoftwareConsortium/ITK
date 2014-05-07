@@ -112,7 +112,7 @@ public:
   }
 
 
-  MeasureType GetValue( const ParametersType & parameters ) const
+  virtual MeasureType GetValue( const ParametersType & parameters ) const ITK_OVERRIDE
   {
     TransformType::ParametersType p( itkGetStaticConstMacro( SpaceDimension ));
     for(unsigned int i=0; i<6; i++)
@@ -132,7 +132,7 @@ public:
   }
 
   void GetDerivative( const ParametersType & parameters,
-                            DerivativeType & derivative  ) const
+                            DerivativeType & derivative  ) const ITK_OVERRIDE
   {
     VectorType rightPart;
     for(unsigned int i=0; i<3; i++)
@@ -206,7 +206,7 @@ public:
 
   }
 
-  unsigned int GetNumberOfParameters(void) const
+  virtual unsigned int GetNumberOfParameters(void) const ITK_OVERRIDE
     {
     return itkGetStaticConstMacro( SpaceDimension );
     }

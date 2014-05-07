@@ -124,7 +124,7 @@ protected:
    * specific exception subtypes.  The default is to print out the
    * location where the exception was first thrown and any description
    * provided by the ``thrower''.   */
-  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 };
 
 /*----------------------------Data Object--------------------------------*/
@@ -481,7 +481,7 @@ public:
 protected:
   DataObject();
   ~DataObject();
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Propagate a call to ResetPipeline(). Called only from ProcessObject. */
   virtual void PropagateResetPipeline();

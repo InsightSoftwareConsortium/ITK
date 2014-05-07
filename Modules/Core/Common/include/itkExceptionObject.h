@@ -104,8 +104,7 @@ public:
   virtual unsigned int GetLine() const;
 
   /** Provide std::exception::what() implementation. */
-  virtual const char * what() const
-  throw( );
+  virtual const char * what() const throw( ) ITK_OVERRIDE;
 
 private:
   /** \class ReferenceCounterInterface
@@ -187,7 +186,7 @@ public:
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
   virtual ~MemoryAllocationError() throw( );
 
-  virtual const char * GetNameOfClass() const
+  virtual const char * GetNameOfClass() const ITK_OVERRIDE
   { return "MemoryAllocationError"; }
 };
 
@@ -212,7 +211,7 @@ public:
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
   virtual ~RangeError() throw( );
 
-  virtual const char * GetNameOfClass() const
+  virtual const char * GetNameOfClass() const ITK_OVERRIDE
   { return "RangeError"; }
 };
 
@@ -244,7 +243,7 @@ public:
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
   virtual ~InvalidArgumentError() throw( );
 
-  virtual const char * GetNameOfClass() const
+  virtual const char * GetNameOfClass() const ITK_OVERRIDE
   { return "InvalidArgumentError"; }
 };
 
@@ -269,7 +268,7 @@ public:
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
   virtual ~IncompatibleOperandsError() throw( );
 
-  virtual const char * GetNameOfClass() const
+  virtual const char * GetNameOfClass() const ITK_OVERRIDE
   { return "IncompatibleOperandsError"; }
 };
 
@@ -303,7 +302,7 @@ public:
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
   virtual ~ProcessAborted()  throw( );
 
-  virtual const char * GetNameOfClass() const
+  virtual const char * GetNameOfClass() const ITK_OVERRIDE
   { return "ProcessAborted"; }
 };
 } // end namespace itk

@@ -87,7 +87,7 @@ public:
     }
 
 protected:
-  virtual void PrintSelf(std::ostream& os, Indent indent) const;
+  virtual void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
   /**
    * Pointer to an element in a system that contains the DOF
    * on which the external force is applied.

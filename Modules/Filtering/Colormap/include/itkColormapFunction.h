@@ -123,7 +123,7 @@ protected:
     return rescaled;
     }
 
-  void PrintSelf(std::ostream & os, Indent indent) const
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
     {
     Superclass::PrintSelf(os, indent);
 

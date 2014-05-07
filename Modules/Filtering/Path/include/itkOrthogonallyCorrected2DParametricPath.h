@@ -73,7 +73,7 @@ public:
   typedef OrthogonalCorrectionTableType::ElementIdentifier  OrthogonalCorrectionTableSizeType;
 
   /** Return the location of the parametric path at the specified location. */
-  virtual OutputType Evaluate(const InputType & input) const;
+  virtual OutputType Evaluate(const InputType & input) const ITK_OVERRIDE;
 
   /** Set pointer to the original path.  The path MUST be continuous in its
    * first derivative to prevent discontinuities in the corrected path.  The
@@ -90,19 +90,19 @@ public:
   itkNewMacro(Self);
 
   /** Needed for Pipelining */
-  virtual void Initialize(void)
+  virtual void Initialize(void) ITK_OVERRIDE
   {
     this->m_OriginalPath = NULL;
     this->m_OrthogonalCorrectionTable = NULL;
   }
 
   /** These are determined by the original path */
-  virtual inline InputType StartOfInput() const
+  virtual inline InputType StartOfInput() const ITK_OVERRIDE
   {
     return m_OriginalPath->StartOfInput();
   }
 
-  virtual inline InputType EndOfInput() const
+  virtual inline InputType EndOfInput() const ITK_OVERRIDE
   {
     return m_OriginalPath->EndOfInput();
   }
@@ -110,7 +110,7 @@ public:
 protected:
   OrthogonallyCorrected2DParametricPath();
   ~OrthogonallyCorrected2DParametricPath(){}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   OrthogonallyCorrected2DParametricPath(const Self &); //purposely not
