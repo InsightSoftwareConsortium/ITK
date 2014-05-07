@@ -151,7 +151,8 @@ int itkThresholdImageFilterTest(int, char* [] )
     inputRegion.SetSize(0, inputSize);
     input->SetRegions(inputRegion);
     input->Allocate();
-    int inputValue = 0;
+    // The inputValue can be any random value.
+    int inputValue = 9;
     input->FillBuffer(inputValue);
 
     itk::ThresholdImageFilter<IntImage1DType>::Pointer threshold;
@@ -163,8 +164,8 @@ int itkThresholdImageFilterTest(int, char* [] )
     index.Fill(0);
 
     int outputValue;
-    // Above -1
-    threshold->ThresholdAbove(-1);
+    // Above inputValue-1
+    threshold->ThresholdAbove(inputValue-1);
     threshold->Update();
     outputValue = threshold->GetOutput()->GetPixel(index);
     if ( outputValue != outsideValue)
@@ -178,8 +179,8 @@ int itkThresholdImageFilterTest(int, char* [] )
       return EXIT_FAILURE;
       }
 
-    // Above 1
-    threshold->ThresholdAbove(1);
+    // Above inputValue+1
+    threshold->ThresholdAbove(inputValue+1);
     threshold->Update();
     outputValue = threshold->GetOutput()->GetPixel(index);
     if ( outputValue != inputValue)
@@ -193,8 +194,25 @@ int itkThresholdImageFilterTest(int, char* [] )
       return EXIT_FAILURE;
       }
 
-    // Below -1
-    threshold->ThresholdBelow(-1);
+    // Above inputValue
+    // By definition, the values greater than the value are set to OutsideValue.
+    // So, with the threshold set to inputValue, the output should still be equal to the input.
+    threshold->ThresholdAbove(inputValue);
+    threshold->Update();
+    outputValue = threshold->GetOutput()->GetPixel(index);
+    if ( outputValue != inputValue)
+      {
+      os = new itksys_ios::ostringstream;
+      *os << "Filter above failed:"
+          << " lower: " << threshold->GetLower()
+          << " upper: " << threshold->GetUpper()
+          << " output: " << outputValue;
+      itk::OutputWindow::GetInstance()->DisplayText( os->str().c_str() );
+      return EXIT_FAILURE;
+      }
+
+    // Below inputValue-1
+    threshold->ThresholdBelow(inputValue-1);
     threshold->Update();
     outputValue = threshold->GetOutput()->GetPixel(index);
     if ( outputValue != inputValue)
@@ -208,8 +226,8 @@ int itkThresholdImageFilterTest(int, char* [] )
       return EXIT_FAILURE;
       }
 
-    // Below 1
-    threshold->ThresholdBelow(1);
+    // Below inputValue+1
+    threshold->ThresholdBelow(inputValue+1);
     threshold->Update();
     outputValue = threshold->GetOutput()->GetPixel(index);
     if ( outputValue != outsideValue)
@@ -223,8 +241,25 @@ int itkThresholdImageFilterTest(int, char* [] )
       return EXIT_FAILURE;
       }
 
-    // Outside [-1 1]
-    threshold->ThresholdOutside(-1, 1);
+    // Below inputValue
+    // By definition, the values less than the value are set to OutsideValue
+    // So, with the threshold set to inputValue, the output should still be equal to the input.
+    threshold->ThresholdBelow(inputValue);
+    threshold->Update();
+    outputValue = threshold->GetOutput()->GetPixel(index);
+    if ( outputValue != inputValue)
+    {
+      os = new itksys_ios::ostringstream;
+      *os << "Filter below failed:"
+          << " lower: " << threshold->GetLower()
+          << " upper: " << threshold->GetUpper()
+          << " output: " << outputValue;
+      itk::OutputWindow::GetInstance()->DisplayText( os->str().c_str() );
+      return EXIT_FAILURE;
+    }
+
+    // Outside [inputValue-1 inputValue+1]
+    threshold->ThresholdOutside(inputValue-1, inputValue+1);
     threshold->Update();
     outputValue = threshold->GetOutput()->GetPixel(index);
     if ( outputValue != inputValue)
@@ -238,8 +273,10 @@ int itkThresholdImageFilterTest(int, char* [] )
       return EXIT_FAILURE;
       }
 
-    // Outside [0, 2]
-    threshold->ThresholdOutside(0, 2);
+    // Outside [inputValue, inputValue+2]
+    // By definition, the values outside the range (less than lower or greater than upper) are set to OutsideValue
+    // So, with the threshold including inputValue=0, the output should still be equal to the input.
+    threshold->ThresholdOutside(inputValue, inputValue+2);
     threshold->Update();
     outputValue = threshold->GetOutput()->GetPixel(index);
     if ( outputValue != inputValue)
@@ -253,8 +290,8 @@ int itkThresholdImageFilterTest(int, char* [] )
       return EXIT_FAILURE;
       }
 
-    // Outside [1, 3]
-    threshold->ThresholdOutside(1, 3);
+    // Outside [inputValue+1, inputValue+3]
+    threshold->ThresholdOutside(inputValue+1, inputValue+3);
     threshold->Update();
     outputValue = threshold->GetOutput()->GetPixel(index);
     if ( outputValue != outsideValue)
