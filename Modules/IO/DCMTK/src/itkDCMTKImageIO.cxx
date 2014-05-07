@@ -23,6 +23,7 @@
 #include "itkDCMTKFileReader.h"
 #include <iostream>
 #include "vnl/vnl_cross.h"
+#include "vnl/vnl_math.h"
 
 #include "dcmtk/dcmimgle/dcmimage.h"
 #include "dcmtk/dcmjpeg/djdecode.h"
@@ -221,88 +222,84 @@ DCMTKImageIO
                       << this->m_FileName)
     }
 }
+
+
 //------------------------------------------------------------------------------
 void
 DCMTKImageIO
 ::Read(void *buffer)
 {
   this->OpenDicomImage();
-  if (m_DImage->getStatus() == EIS_Normal)
+  if (m_DImage->getStatus() != EIS_Normal)
     {
-    m_Dimensions[0] = (unsigned int)(m_DImage->getWidth());
-    m_Dimensions[1] = (unsigned int)(m_DImage->getHeight());
-    // m_Spacing[0] =
-    // m_Spacing[1] =
-    // m_Origin[0] =
-    // m_Origin[1] =
-
-    // pick a size for output image (should get it from DCMTK in the ReadImageInformation()))
-    // NOTE ALEX: EP_Representation is made for that
-    // but i don t know yet where to fetch it from
-    size_t scalarSize = 0;
-    switch(this->m_ComponentType)
-      {
-      case UCHAR:
-        scalarSize = sizeof(unsigned char);
-        break;
-      case CHAR:
-        scalarSize = sizeof(char);
-        break;
-      case USHORT:
-        scalarSize = sizeof(unsigned short);
-        break;
-      case SHORT:
-        scalarSize = sizeof(short);
-        break;
-      case UINT:
-        scalarSize = sizeof(unsigned int);
-        break;
-      case INT:
-        scalarSize = sizeof(int);
-        break;
-      case ULONG:
-        scalarSize = sizeof(unsigned long);
-        break;
-      case LONG:
-        scalarSize = sizeof(long);
-        break;
-      case UNKNOWNCOMPONENTTYPE:
-      case FLOAT:
-      case DOUBLE:
-        itkExceptionMacro(<< "Bad component type" <<
-                          ImageIOBase::GetComponentTypeAsString(this->m_ComponentType));
-        break;
+    itkExceptionMacro(<< "Error: cannot load DICOM image ("
+                      << DicomImage::getString(m_DImage->getStatus())
+                      << ")")
       }
-    size_t voxelSize(scalarSize);
-    switch(this->m_PixelType)
-      {
-      case VECTOR:
-        voxelSize *= this->GetNumberOfComponents();
-        break;
-      case RGB:
-        voxelSize *= 3;
-        break;
-      case RGBA:
-        voxelSize *= 4;
-        break;
-      default:
-        voxelSize *= 1;
-        break;
-      }
-    // get the image in the DCMTK buffer
-    const DiPixel * const interData = m_DImage->getInterData();
-    memcpy(buffer,
-           interData->getData(),
-           interData->getCount() * voxelSize);
 
-    }
-  else
+  m_Dimensions[0] = (unsigned int)(m_DImage->getWidth());
+  m_Dimensions[1] = (unsigned int)(m_DImage->getHeight());
+
+  // pick a size for output image (should get it from DCMTK in the ReadImageInformation()))
+  // NOTE ALEX: EP_Representation is made for that
+  // but i don t know yet where to fetch it from
+  size_t scalarSize = 0;
+  switch(this->m_ComponentType)
     {
-    std::cerr << "Error: cannot load DICOM image (";
-    std::cerr << DicomImage::getString(m_DImage->getStatus());
-    std::cerr << ")" << std::endl;
+    case UCHAR:
+      scalarSize = sizeof(unsigned char);
+      break;
+    case CHAR:
+      scalarSize = sizeof(char);
+      break;
+    case USHORT:
+      scalarSize = sizeof(unsigned short);
+      break;
+    case SHORT:
+      scalarSize = sizeof(short);
+      break;
+    case UINT:
+      scalarSize = sizeof(unsigned int);
+      break;
+    case INT:
+      scalarSize = sizeof(int);
+      break;
+    case ULONG:
+      scalarSize = sizeof(unsigned long);
+      break;
+    case LONG:
+      scalarSize = sizeof(long);
+      break;
+    case UNKNOWNCOMPONENTTYPE:
+    case FLOAT:
+    case DOUBLE:
+      itkExceptionMacro(<< "Bad component type" <<
+                        ImageIOBase::GetComponentTypeAsString(this->m_ComponentType));
+      break;
     }
-
+  size_t voxelSize(scalarSize);
+  switch(this->m_PixelType)
+    {
+    case VECTOR:
+      voxelSize *= this->GetNumberOfComponents();
+      break;
+    case RGB:
+      voxelSize *= 3;
+      break;
+    case RGBA:
+      voxelSize *= 4;
+      break;
+    default:
+      voxelSize *= 1;
+      break;
+    }
+  // get the image in the DCMTK buffer
+  const DiPixel * const interData = m_DImage->getInterData();
+  const void *data = interData->getData();
+  unsigned long count = interData->getCount();
+  memcpy(buffer,
+         data,
+         count * voxelSize);
 }
 
 /**
@@ -394,8 +391,6 @@ void DCMTKImageIO::ReadImageInformation()
 
   // get slope and intercept
   reader.GetSlopeIntercept(this->m_RescaleSlope,this->m_RescaleIntercept);
-  this->m_ComponentType = reader.GetImageDataType();
-  this->m_PixelType = reader.GetImagePixelType();
 
   double spacing[3];
   double origin[3];
