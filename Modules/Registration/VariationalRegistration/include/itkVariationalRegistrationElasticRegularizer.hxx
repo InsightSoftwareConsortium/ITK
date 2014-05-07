@@ -21,9 +21,7 @@
 
 #include "itkImageRegionConstIterator.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
-
 #include "itkNeighborhoodAlgorithm.h"
-#include "itkMultiResolutionVariationalRegistration.h"
 
 namespace itk
 {

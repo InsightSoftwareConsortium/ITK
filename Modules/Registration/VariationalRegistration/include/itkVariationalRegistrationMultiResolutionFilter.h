@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMultiResolutionVariationalRegistration_h
-#define __itkMultiResolutionVariationalRegistration_h
+#ifndef __itkVariationalRegistrationMultiResolutionFilter_h
+#define __itkVariationalRegistrationMultiResolutionFilter_h
 
 #include "itkImage.h"
 #include "itkMultiResolutionPyramidImageFilter.h"
@@ -26,10 +26,10 @@
 
 namespace itk
 {
-/** \class itk::MultiResolutionVariationalRegistration
+/** \class itk::VariationalRegistrationMultiResolutionFilter
  *  \brief Framework for performing multi-resolution variational registration.
  *
- *  MultiResolutionVariationalRegistration provides a generic framework
+ *  VariationalRegistrationMultiResolutionFilter provides a generic framework
  *  to perform multi-resolution variational registration.
  *
  *  At each resolution level a VariationalRegistrationFilter is used
@@ -73,12 +73,12 @@ namespace itk
  *  \ingroup VariationalRegistration
  */
 template <class TFixedImage, class TMovingImage, class TDisplacementField, class TRealType = float>
-class ITK_EXPORT MultiResolutionVariationalRegistration
+class ITK_EXPORT VariationalRegistrationMultiResolutionFilter
   : public ImageToImageFilter<TDisplacementField, TDisplacementField>
 {
 public:
   /** Standard class typedefs */
-  typedef MultiResolutionVariationalRegistration                     Self;
+  typedef VariationalRegistrationMultiResolutionFilter               Self;
   typedef ImageToImageFilter<TDisplacementField, TDisplacementField> Superclass;
   typedef SmartPointer<Self>                                         Pointer;
   typedef SmartPointer<const Self>                                   ConstPointer;
@@ -87,7 +87,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MultiResolutionVariationalRegistration, ImageToImageFilter);
+  itkTypeMacro(VariationalRegistrationMultiResolutionFilter, ImageToImageFilter);
 
   /** Fixed image type. */
   typedef TFixedImage                           FixedImageType;
@@ -192,9 +192,9 @@ public:
   }
 
   /** Get the number of valid inputs.  For
-   *  MultiResolutionVariationalRegistration, this checks whether the
+   *  VariationalRegistrationMultiResolutionFilter, this checks whether the
    *  fixed and moving images have been set. While
-   *  MultiResolutionVariationalRegistration can take a third input
+   *  VariationalRegistrationMultiResolutionFilter can take a third input
    *  as an initial deformation field, this input is not a required input. */
   virtual std::vector<SmartPointer<DataObject>>::size_type
   GetNumberOfValidRequiredInputs() const;
@@ -251,8 +251,8 @@ public:
   StopRegistration();
 
 protected:
-  MultiResolutionVariationalRegistration();
-  ~MultiResolutionVariationalRegistration() {}
+  VariationalRegistrationMultiResolutionFilter();
+  ~VariationalRegistrationMultiResolutionFilter() {}
   void
   PrintSelf(std::ostream & os, Indent indent) const;
 
@@ -288,7 +288,7 @@ protected:
   Halt();
 
 private:
-  MultiResolutionVariationalRegistration(const Self &); // purposely not implemented
+  VariationalRegistrationMultiResolutionFilter(const Self &); // purposely not implemented
   void
   operator=(const Self &); // purposely not implemented
 
@@ -310,7 +310,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#  include "itkMultiResolutionVariationalRegistration.hxx"
+#  include "itkVariationalRegistrationMultiResolutionFilter.hxx"
 #endif
 
 

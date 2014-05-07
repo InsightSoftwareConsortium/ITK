@@ -41,7 +41,7 @@ extern "C"
 
 #include "itkExponentialDisplacementFieldImageFilter.h"
 
-#include "itkMultiResolutionVariationalRegistration.h"
+#include "itkVariationalRegistrationMultiResolutionFilter.h"
 #include "itkVariationalRegistrationFilter.h"
 #include "itkVariationalDiffeomorphicRegistrationFilter.h"
 #include "itkVariationalSymmetricDiffeomorphicRegistrationFilter.h"
@@ -746,7 +746,8 @@ main(int argc, char * argv[])
     its[level] = its[level + 1];
   }
 
-  typedef MultiResolutionVariationalRegistration<ImageType, ImageType, DisplacementFieldType> MRRegistrationFilterType;
+  typedef VariationalRegistrationMultiResolutionFilter<ImageType, ImageType, DisplacementFieldType>
+    MRRegistrationFilterType;
 
   MRRegistrationFilterType::Pointer mrRegFilter = MRRegistrationFilterType::New();
   mrRegFilter->SetRegistrationFilter(regFilter);

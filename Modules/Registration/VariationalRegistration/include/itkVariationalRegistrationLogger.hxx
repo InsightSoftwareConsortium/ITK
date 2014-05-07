@@ -22,7 +22,7 @@
 #include "itkVariationalRegistrationLogger.h"
 
 #include "itkVariationalRegistrationFilter.h"
-#include "itkMultiResolutionVariationalRegistration.h"
+#include "itkVariationalRegistrationMultiResolutionFilter.h"
 
 namespace itk
 {

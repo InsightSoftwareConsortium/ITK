@@ -15,9 +15,9 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMultiResolutionVariationalRegistration_hxx
-#define __itkMultiResolutionVariationalRegistration_hxx
-#include "itkMultiResolutionVariationalRegistration.h"
+#ifndef __itkVariationalRegistrationMultiResolutionFilter_hxx
+#define __itkVariationalRegistrationMultiResolutionFilter_hxx
+#include "itkVariationalRegistrationMultiResolutionFilter.h"
 
 #include "itkRecursiveGaussianImageFilter.h"
 #include "itkMinimumMaximumImageCalculator.h"
@@ -34,8 +34,8 @@ namespace itk
  * Default constructor
  */
 template <class TFixedImage, class TMovingImage, class TDisplacementField, class TRealType>
-MultiResolutionVariationalRegistration<TFixedImage, TMovingImage, TDisplacementField, TRealType>::
-  MultiResolutionVariationalRegistration()
+VariationalRegistrationMultiResolutionFilter<TFixedImage, TMovingImage, TDisplacementField, TRealType>::
+  VariationalRegistrationMultiResolutionFilter()
 {
   this->SetNumberOfRequiredInputs(2);
 
@@ -73,7 +73,7 @@ MultiResolutionVariationalRegistration<TFixedImage, TMovingImage, TDisplacementF
  */
 template <class TFixedImage, class TMovingImage, class TDisplacementField, class TRealType>
 void
-MultiResolutionVariationalRegistration<TFixedImage, TMovingImage, TDisplacementField, TRealType>::SetMovingImage(
+VariationalRegistrationMultiResolutionFilter<TFixedImage, TMovingImage, TDisplacementField, TRealType>::SetMovingImage(
   const MovingImageType * ptr)
 {
   this->ProcessObject::SetNthInput(2, const_cast<MovingImageType *>(ptr));
@@ -83,10 +83,12 @@ MultiResolutionVariationalRegistration<TFixedImage, TMovingImage, TDisplacementF
  * Get the moving image image.
  */
 template <class TFixedImage, class TMovingImage, class TDisplacementField, class TRealType>
-const typename MultiResolutionVariationalRegistration<TFixedImage, TMovingImage, TDisplacementField, TRealType>::
-  MovingImageType *
-  MultiResolutionVariationalRegistration<TFixedImage, TMovingImage, TDisplacementField, TRealType>::GetMovingImage(
-    void) const
+const typename VariationalRegistrationMultiResolutionFilter<TFixedImage,
+                                                            TMovingImage,
+                                                            TDisplacementField,
+                                                            TRealType>::MovingImageType *
+VariationalRegistrationMultiResolutionFilter<TFixedImage, TMovingImage, TDisplacementField, TRealType>::GetMovingImage(
+  void) const
 {
   return dynamic_cast<const MovingImageType *>(this->ProcessObject::GetInput(2));
 }
@@ -96,7 +98,7 @@ const typename MultiResolutionVariationalRegistration<TFixedImage, TMovingImage,
  */
 template <class TFixedImage, class TMovingImage, class TDisplacementField, class TRealType>
 void
-MultiResolutionVariationalRegistration<TFixedImage, TMovingImage, TDisplacementField, TRealType>::SetFixedImage(
+VariationalRegistrationMultiResolutionFilter<TFixedImage, TMovingImage, TDisplacementField, TRealType>::SetFixedImage(
   const FixedImageType * ptr)
 {
   this->ProcessObject::SetNthInput(1, const_cast<FixedImageType *>(ptr));
@@ -106,9 +108,9 @@ MultiResolutionVariationalRegistration<TFixedImage, TMovingImage, TDisplacementF
  * Get the fixed image.
  */
 template <class TFixedImage, class TMovingImage, class TDisplacementField, class TRealType>
-const typename MultiResolutionVariationalRegistration<TFixedImage, TMovingImage, TDisplacementField, TRealType>::
+const typename VariationalRegistrationMultiResolutionFilter<TFixedImage, TMovingImage, TDisplacementField, TRealType>::
   FixedImageType *
-  MultiResolutionVariationalRegistration<TFixedImage, TMovingImage, TDisplacementField, TRealType>::GetFixedImage(
+  VariationalRegistrationMultiResolutionFilter<TFixedImage, TMovingImage, TDisplacementField, TRealType>::GetFixedImage(
     void) const
 {
   return dynamic_cast<const FixedImageType *>(this->ProcessObject::GetInput(1));
@@ -119,7 +121,7 @@ const typename MultiResolutionVariationalRegistration<TFixedImage, TMovingImage,
  */
 template <class TFixedImage, class TMovingImage, class TDisplacementField, class TRealType>
 void
-MultiResolutionVariationalRegistration<TFixedImage, TMovingImage, TDisplacementField, TRealType>::SetMaskImage(
+VariationalRegistrationMultiResolutionFilter<TFixedImage, TMovingImage, TDisplacementField, TRealType>::SetMaskImage(
   const MaskImageType * ptr)
 {
   this->ProcessObject::SetNthInput(3, const_cast<MaskImageType *>(ptr));
@@ -129,9 +131,10 @@ MultiResolutionVariationalRegistration<TFixedImage, TMovingImage, TDisplacementF
  * Get the mask image.
  */
 template <class TFixedImage, class TMovingImage, class TDisplacementField, class TRealType>
-const typename MultiResolutionVariationalRegistration<TFixedImage, TMovingImage, TDisplacementField, TRealType>::
+const typename VariationalRegistrationMultiResolutionFilter<TFixedImage, TMovingImage, TDisplacementField, TRealType>::
   MaskImageType *
-  MultiResolutionVariationalRegistration<TFixedImage, TMovingImage, TDisplacementField, TRealType>::GetMaskImage() const
+  VariationalRegistrationMultiResolutionFilter<TFixedImage, TMovingImage, TDisplacementField, TRealType>::GetMaskImage()
+    const
 {
   return dynamic_cast<const MaskImageType *>(this->ProcessObject::GetInput(3));
 }
@@ -141,7 +144,7 @@ const typename MultiResolutionVariationalRegistration<TFixedImage, TMovingImage,
  */
 template <class TFixedImage, class TMovingImage, class TDisplacementField, class TRealType>
 std::vector<SmartPointer<DataObject>>::size_type
-MultiResolutionVariationalRegistration<TFixedImage, TMovingImage, TDisplacementField, TRealType>::
+VariationalRegistrationMultiResolutionFilter<TFixedImage, TMovingImage, TDisplacementField, TRealType>::
   GetNumberOfValidRequiredInputs() const
 {
   typename std::vector<SmartPointer<DataObject>>::size_type num = 0;
@@ -164,8 +167,8 @@ MultiResolutionVariationalRegistration<TFixedImage, TMovingImage, TDisplacementF
  */
 template <class TFixedImage, class TMovingImage, class TDisplacementField, class TRealType>
 void
-MultiResolutionVariationalRegistration<TFixedImage, TMovingImage, TDisplacementField, TRealType>::SetNumberOfLevels(
-  unsigned int num)
+VariationalRegistrationMultiResolutionFilter<TFixedImage, TMovingImage, TDisplacementField, TRealType>::
+  SetNumberOfLevels(unsigned int num)
 {
   if (m_NumberOfLevels != num)
   {
@@ -193,7 +196,7 @@ MultiResolutionVariationalRegistration<TFixedImage, TMovingImage, TDisplacementF
  */
 template <class TFixedImage, class TMovingImage, class TDisplacementField, class TRealType>
 void
-MultiResolutionVariationalRegistration<TFixedImage, TMovingImage, TDisplacementField, TRealType>::PrintSelf(
+VariationalRegistrationMultiResolutionFilter<TFixedImage, TMovingImage, TDisplacementField, TRealType>::PrintSelf(
   std::ostream & os,
   Indent         indent) const
 {
@@ -240,7 +243,7 @@ MultiResolutionVariationalRegistration<TFixedImage, TMovingImage, TDisplacementF
  */
 template <class TFixedImage, class TMovingImage, class TDisplacementField, class TRealType>
 void
-MultiResolutionVariationalRegistration<TFixedImage, TMovingImage, TDisplacementField, TRealType>::GenerateData()
+VariationalRegistrationMultiResolutionFilter<TFixedImage, TMovingImage, TDisplacementField, TRealType>::GenerateData()
 {
   // Check for NULL images and pointers
   MovingImageConstPointer movingImage = this->GetMovingImage();
@@ -513,7 +516,8 @@ MultiResolutionVariationalRegistration<TFixedImage, TMovingImage, TDisplacementF
  */
 template <class TFixedImage, class TMovingImage, class TDisplacementField, class TRealType>
 void
-MultiResolutionVariationalRegistration<TFixedImage, TMovingImage, TDisplacementField, TRealType>::StopRegistration()
+VariationalRegistrationMultiResolutionFilter<TFixedImage, TMovingImage, TDisplacementField, TRealType>::
+  StopRegistration()
 {
   m_RegistrationFilter->StopRegistration();
   m_StopRegistrationFlag = true;
@@ -524,7 +528,7 @@ MultiResolutionVariationalRegistration<TFixedImage, TMovingImage, TDisplacementF
  */
 template <class TFixedImage, class TMovingImage, class TDisplacementField, class TRealType>
 bool
-MultiResolutionVariationalRegistration<TFixedImage, TMovingImage, TDisplacementField, TRealType>::Halt()
+VariationalRegistrationMultiResolutionFilter<TFixedImage, TMovingImage, TDisplacementField, TRealType>::Halt()
 {
   // Halt the registration after the user-specified number of levels
   if (m_NumberOfLevels != 0)
@@ -552,7 +556,7 @@ MultiResolutionVariationalRegistration<TFixedImage, TMovingImage, TDisplacementF
  */
 template <class TFixedImage, class TMovingImage, class TDisplacementField, class TRealType>
 void
-MultiResolutionVariationalRegistration<TFixedImage, TMovingImage, TDisplacementField, TRealType>::
+VariationalRegistrationMultiResolutionFilter<TFixedImage, TMovingImage, TDisplacementField, TRealType>::
   GenerateOutputInformation()
 {
   typename DataObject::Pointer output;
@@ -583,7 +587,7 @@ MultiResolutionVariationalRegistration<TFixedImage, TMovingImage, TDisplacementF
  */
 template <class TFixedImage, class TMovingImage, class TDisplacementField, class TRealType>
 void
-MultiResolutionVariationalRegistration<TFixedImage, TMovingImage, TDisplacementField, TRealType>::
+VariationalRegistrationMultiResolutionFilter<TFixedImage, TMovingImage, TDisplacementField, TRealType>::
   GenerateInputRequestedRegion()
 {
 
@@ -619,7 +623,7 @@ MultiResolutionVariationalRegistration<TFixedImage, TMovingImage, TDisplacementF
  */
 template <class TFixedImage, class TMovingImage, class TDisplacementField, class TRealType>
 void
-MultiResolutionVariationalRegistration<TFixedImage, TMovingImage, TDisplacementField, TRealType>::
+VariationalRegistrationMultiResolutionFilter<TFixedImage, TMovingImage, TDisplacementField, TRealType>::
   EnlargeOutputRequestedRegion(DataObject * ptr)
 {
   // call the superclass's implementation

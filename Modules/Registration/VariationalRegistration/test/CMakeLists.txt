@@ -3,7 +3,7 @@ itk_module_test()
 set(
   ${itk-module}Tests
   itkVariationalRegistrationFilterTest.cxx
-  itkMultiResolutionVariationalRegistrationTest.cxx
+  itkVariationalRegistrationMultiResolutionFilterTest.cxx
 )
 
 # list(APPEND ExternalData_URL_TEMPLATES "https://googledrive.com/host/0B-qP96NdUKVfTFVZYUNyNEJoTlk/ExternalData_%(algo)_%(hash)")
@@ -26,10 +26,10 @@ itk_add_test(
 )
 
 itk_add_test(
-  NAME MultiResolutionVariationalRegistrationTest
+  NAME VariationalRegistrationMultiResolutionFilterTest
   COMMAND
     ${itk-module}TestDriver
-    itkMultiResolutionVariationalRegistrationTest
+    itkVariationalRegistrationMultiResolutionFilterTest
 )
 
 #####################################
