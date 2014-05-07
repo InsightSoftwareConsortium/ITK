@@ -58,7 +58,7 @@ itk_add_test(
     --compare
     DATA{Baseline/${TESTNAME}.tif}
     ${TEMP}/${TESTNAME}.tif
-    $<TARGET_FILE:itkVariationalRegistration2D>
+    $<TARGET_FILE:VariationalRegistration2D>
     ${COMMON_PARAMS2D}
     -r
     0
@@ -79,7 +79,7 @@ itk_add_test(
     --compare
     DATA{Baseline/${TESTNAME}.tif}
     ${TEMP}/${TESTNAME}.tif
-    $<TARGET_FILE:itkVariationalRegistration2D>
+    $<TARGET_FILE:VariationalRegistration2D>
     ${COMMON_PARAMS2D}
     -r
     1
@@ -98,7 +98,7 @@ itk_add_test(
     --compare
     DATA{Baseline/${TESTNAME}.tif}
     ${TEMP}/${TESTNAME}.tif
-    $<TARGET_FILE:itkVariationalRegistration2D>
+    $<TARGET_FILE:VariationalRegistration2D>
     ${COMMON_PARAMS2D}
     -r
     2
@@ -119,7 +119,7 @@ itk_add_test(
     --compare
     DATA{Baseline/${TESTNAME}.tif}
     ${TEMP}/${TESTNAME}.tif
-    $<TARGET_FILE:itkVariationalRegistration2D>
+    $<TARGET_FILE:VariationalRegistration2D>
     ${COMMON_PARAMS2D}
     -d
     1
@@ -138,7 +138,7 @@ itk_add_test(
     --compare
     DATA{Baseline/${TESTNAME}.tif}
     ${TEMP}/${TESTNAME}.tif
-    $<TARGET_FILE:itkVariationalRegistration2D>
+    $<TARGET_FILE:VariationalRegistration2D>
     ${COMMON_PARAMS2D}
     -d
     2
@@ -157,7 +157,7 @@ itk_add_test(
     --compare
     DATA{Baseline/${TESTNAME}.tif}
     ${TEMP}/${TESTNAME}.tif
-    $<TARGET_FILE:itkVariationalRegistration2D>
+    $<TARGET_FILE:VariationalRegistration2D>
     ${COMMON_PARAMS2D}
     -f
     1
@@ -178,7 +178,7 @@ itk_add_test(
     --compare
     DATA{Baseline/${TESTNAME}.tif}
     ${TEMP}/${TESTNAME}.tif
-    $<TARGET_FILE:itkVariationalRegistration2D>
+    $<TARGET_FILE:VariationalRegistration2D>
     ${COMMON_PARAMS2D}
     -f
     2
@@ -220,7 +220,7 @@ itk_add_test(
     --compare
     DATA{Baseline/${TESTNAME}.nii.gz}
     ${TEMP}/${TESTNAME}.nii.gz
-    $<TARGET_FILE:itkVariationalRegistration>
+    $<TARGET_FILE:VariationalRegistration>
     ${COMMON_PARAMS3D}
     -r
     0
@@ -243,7 +243,7 @@ itk_add_test(
     --compare
     DATA{Baseline/${TESTNAME}.nii.gz}
     ${TEMP}/${TESTNAME}.nii.gz
-    $<TARGET_FILE:itkVariationalRegistration>
+    $<TARGET_FILE:VariationalRegistration>
     ${COMMON_PARAMS3D}
     -r
     1
@@ -264,7 +264,7 @@ itk_add_test(
     --compare
     DATA{Baseline/${TESTNAME}.nii.gz}
     ${TEMP}/${TESTNAME}.nii.gz
-    $<TARGET_FILE:itkVariationalRegistration>
+    $<TARGET_FILE:VariationalRegistration>
     ${COMMON_PARAMS3D}
     -r
     2
@@ -287,7 +287,7 @@ itk_add_test(
     --compare
     DATA{Baseline/${TESTNAME}.nii.gz}
     ${TEMP}/${TESTNAME}.nii.gz
-    $<TARGET_FILE:itkVariationalRegistration>
+    $<TARGET_FILE:VariationalRegistration>
     ${COMMON_PARAMS3D}
     -f
     1
@@ -310,7 +310,7 @@ itk_add_test(
     --compare
     DATA{Baseline/${TESTNAME}.nii.gz}
     ${TEMP}/${TESTNAME}.nii.gz
-    $<TARGET_FILE:itkVariationalRegistration>
+    $<TARGET_FILE:VariationalRegistration>
     ${COMMON_PARAMS3D}
     -f
     2

@@ -17,7 +17,7 @@
  *=========================================================================*/
 
 #include "itkVariationalRegistrationFilter.h"
-#include "itkMultiResolutionVariationalRegistration.h"
+#include "itkVariationalRegistrationMultiResolutionFilter.h"
 #include "itkVariationalRegistrationDemonsFunction.h"
 #include "itkVariationalRegistrationDiffusionRegularizer.h"
 #include "itkVariationalRegistrationStopCriterion.h"
@@ -202,7 +202,7 @@ itkVariationalRegistrationFilterTest(int, char *[])
   regFilter->SetInitialDisplacementField(caster->GetOutput());
 
   // type needed for stop criterion
-  typedef itk::MultiResolutionVariationalRegistration<ImageType, ImageType, FieldType> MRRegistrationFilterType;
+  typedef itk::VariationalRegistrationMultiResolutionFilter<ImageType, ImageType, FieldType> MRRegistrationFilterType;
 
   // Setup stop criterion
   typedef itk::VariationalRegistrationStopCriterion<RegistrationFilterType, MRRegistrationFilterType> StopCriterionType;
