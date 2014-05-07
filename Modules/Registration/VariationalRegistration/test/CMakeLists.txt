@@ -1,33 +1,32 @@
 itk_module_test()
 
 set(
-  ITK${itk-module}Tests
+  ${itk-module}Tests
   itkVariationalRegistrationFilterTest.cxx
   itkMultiResolutionVariationalRegistrationTest.cxx
 )
 
-set(TEST_DATA_ROOT "${${itk-module}_SOURCE_DIR}/Data")
+# list(APPEND ExternalData_URL_TEMPLATES "https://googledrive.com/host/0B-qP96NdUKVfTFVZYUNyNEJoTlk/ExternalData_%(algo)_%(hash)")
+# list(APPEND ExternalData_URL_TEMPLATES "file:///vol/medic01/users/aschmidt/Dropbox/ITKExternalData/ExternalData_%(algo)_%(hash)")
 
-createtestdriver(${itk-module} "${${itk-module}-Test_LIBRARIES}" "${ITK${itk-module}Tests}")
+createtestdriver(${itk-module} "${${itk-module}-Test_LIBRARIES}" "${${itk-module}Tests}")
 
 #####################################
 #
 # ADD TESTS
 #
 #####################################
-set(BASELINE ${TEST_DATA_ROOT}/Baseline)
-set(INPUTDIR ${TEST_DATA_ROOT}/Input)
 set(TEMP ${CMAKE_BINARY_DIR}/Testing/Temporary)
 
 itk_add_test(
-  NAME itkVariationalRegistrationFilterTest
+  NAME VariationalRegistrationFilterTest
   COMMAND
     ${itk-module}TestDriver
     itkVariationalRegistrationFilterTest
 )
 
 itk_add_test(
-  NAME itkMultiResolutionVariationalRegistrationTest
+  NAME MultiResolutionVariationalRegistrationTest
   COMMAND
     ${itk-module}TestDriver
     itkMultiResolutionVariationalRegistrationTest
@@ -39,9 +38,9 @@ itk_add_test(
 set(
   COMMON_PARAMS2D
   -F
-  ${INPUTDIR}/img1.png
+  DATA{Input/img1.png}
   -M
-  ${INPUTDIR}/img2.png
+  DATA{Input/img2.png}
   -l
   4
   -p
@@ -49,7 +48,6 @@ set(
   -g
   0.00001
 )
-set(EXT tif)
 
 # Active Thirion forces and gaussian smoothing
 set(TESTNAME VariationalRegistrationGaussian2DTest)
@@ -58,8 +56,8 @@ itk_add_test(
   COMMAND
     itkTestDriver
     --compare
-    ${BASELINE}/${TESTNAME}.${EXT}
-    ${TEMP}/${TESTNAME}.${EXT}
+    DATA{Baseline/${TESTNAME}.tif}
+    ${TEMP}/${TESTNAME}.tif
     $<TARGET_FILE:itkVariationalRegistration2D>
     ${COMMON_PARAMS2D}
     -r
@@ -69,7 +67,7 @@ itk_add_test(
     -u
     0
     -W
-    ${TEMP}/${TESTNAME}.${EXT}
+    ${TEMP}/${TESTNAME}.tif
 )
 
 # Active Thirion forces and diffusive regularization
@@ -79,8 +77,8 @@ itk_add_test(
   COMMAND
     itkTestDriver
     --compare
-    ${BASELINE}/${TESTNAME}.${EXT}
-    ${TEMP}/${TESTNAME}.${EXT}
+    DATA{Baseline/${TESTNAME}.tif}
+    ${TEMP}/${TESTNAME}.tif
     $<TARGET_FILE:itkVariationalRegistration2D>
     ${COMMON_PARAMS2D}
     -r
@@ -88,7 +86,7 @@ itk_add_test(
     -a
     1.5
     -W
-    ${TEMP}/${TESTNAME}.${EXT}
+    ${TEMP}/${TESTNAME}.tif
 )
 
 # Active Thirion forces and elastic regularization
@@ -98,8 +96,8 @@ itk_add_test(
   COMMAND
     itkTestDriver
     --compare
-    ${BASELINE}/${TESTNAME}.${EXT}
-    ${TEMP}/${TESTNAME}.${EXT}
+    DATA{Baseline/${TESTNAME}.tif}
+    ${TEMP}/${TESTNAME}.tif
     $<TARGET_FILE:itkVariationalRegistration2D>
     ${COMMON_PARAMS2D}
     -r
@@ -109,7 +107,7 @@ itk_add_test(
     -b
     1.0
     -W
-    ${TEMP}/${TESTNAME}.${EXT}
+    ${TEMP}/${TESTNAME}.tif
 )
 
 # Passive Thirion forces and gaussian smoothing
@@ -119,8 +117,8 @@ itk_add_test(
   COMMAND
     itkTestDriver
     --compare
-    ${BASELINE}/${TESTNAME}.${EXT}
-    ${TEMP}/${TESTNAME}.${EXT}
+    DATA{Baseline/${TESTNAME}.tif}
+    ${TEMP}/${TESTNAME}.tif
     $<TARGET_FILE:itkVariationalRegistration2D>
     ${COMMON_PARAMS2D}
     -d
@@ -128,7 +126,7 @@ itk_add_test(
     -a
     1.5
     -W
-    ${TEMP}/${TESTNAME}.${EXT}
+    ${TEMP}/${TESTNAME}.tif
 )
 
 # Symmetric Thirion forces and gaussian smoothing
@@ -138,8 +136,8 @@ itk_add_test(
   COMMAND
     itkTestDriver
     --compare
-    ${BASELINE}/${TESTNAME}.${EXT}
-    ${TEMP}/${TESTNAME}.${EXT}
+    DATA{Baseline/${TESTNAME}.tif}
+    ${TEMP}/${TESTNAME}.tif
     $<TARGET_FILE:itkVariationalRegistration2D>
     ${COMMON_PARAMS2D}
     -d
@@ -147,7 +145,7 @@ itk_add_test(
     -a
     1.5
     -W
-    ${TEMP}/${TESTNAME}.${EXT}
+    ${TEMP}/${TESTNAME}.tif
 )
 
 # SSD forces and gaussian smoothing
@@ -157,8 +155,8 @@ itk_add_test(
   COMMAND
     itkTestDriver
     --compare
-    ${BASELINE}/${TESTNAME}.${EXT}
-    ${TEMP}/${TESTNAME}.${EXT}
+    DATA{Baseline/${TESTNAME}.tif}
+    ${TEMP}/${TESTNAME}.tif
     $<TARGET_FILE:itkVariationalRegistration2D>
     ${COMMON_PARAMS2D}
     -f
@@ -168,7 +166,7 @@ itk_add_test(
     -a
     0.5
     -W
-    ${TEMP}/${TESTNAME}.${EXT}
+    ${TEMP}/${TESTNAME}.tif
 )
 
 # NCC forces and gaussian smoothing
@@ -178,8 +176,8 @@ itk_add_test(
   COMMAND
     itkTestDriver
     --compare
-    ${BASELINE}/${TESTNAME}.${EXT}
-    ${TEMP}/${TESTNAME}.${EXT}
+    DATA{Baseline/${TESTNAME}.tif}
+    ${TEMP}/${TESTNAME}.tif
     $<TARGET_FILE:itkVariationalRegistration2D>
     ${COMMON_PARAMS2D}
     -f
@@ -193,7 +191,7 @@ itk_add_test(
     -p
     2
     -W
-    ${TEMP}/${TESTNAME}.${EXT}
+    ${TEMP}/${TESTNAME}.tif
 )
 
 #####################################
@@ -202,9 +200,9 @@ itk_add_test(
 set(
   COMMON_PARAMS3D
   -F
-  ${INPUTDIR}/10-P_5x5x5.nii.gz
+  DATA{Input/10-P_5x5x5.nii.gz}
   -M
-  ${INPUTDIR}/60-P_5x5x5.nii.gz
+  DATA{Input/60-P_5x5x5.nii.gz}
   -l
   3
   -p
@@ -212,7 +210,6 @@ set(
   -g
   0.00001
 )
-set(EXT nii.gz)
 
 # Active Thirion forces and gaussian smoothing
 set(TESTNAME VariationalRegistrationGaussian3DTest)
@@ -221,8 +218,8 @@ itk_add_test(
   COMMAND
     itkTestDriver
     --compare
-    ${BASELINE}/${TESTNAME}.${EXT}
-    ${TEMP}/${TESTNAME}.${EXT}
+    DATA{Baseline/${TESTNAME}.nii.gz}
+    ${TEMP}/${TESTNAME}.nii.gz
     $<TARGET_FILE:itkVariationalRegistration>
     ${COMMON_PARAMS3D}
     -r
@@ -232,7 +229,7 @@ itk_add_test(
     -u
     0
     -W
-    ${TEMP}/${TESTNAME}.${EXT}
+    ${TEMP}/${TESTNAME}.nii.gz
     -O
     ${TEMP}/${TESTNAME}_displ.mhd
 )
@@ -244,7 +241,7 @@ itk_add_test(
   COMMAND
     itkTestDriver
     --compare
-    ${BASELINE}/${TESTNAME}.nii.gz
+    DATA{Baseline/${TESTNAME}.nii.gz}
     ${TEMP}/${TESTNAME}.nii.gz
     $<TARGET_FILE:itkVariationalRegistration>
     ${COMMON_PARAMS3D}
@@ -265,7 +262,7 @@ itk_add_test(
   COMMAND
     itkTestDriver
     --compare
-    ${BASELINE}/${TESTNAME}.nii.gz
+    DATA{Baseline/${TESTNAME}.nii.gz}
     ${TEMP}/${TESTNAME}.nii.gz
     $<TARGET_FILE:itkVariationalRegistration>
     ${COMMON_PARAMS3D}
@@ -288,8 +285,8 @@ itk_add_test(
   COMMAND
     itkTestDriver
     --compare
-    ${BASELINE}/${TESTNAME}.${EXT}
-    ${TEMP}/${TESTNAME}.${EXT}
+    DATA{Baseline/${TESTNAME}.nii.gz}
+    ${TEMP}/${TESTNAME}.nii.gz
     $<TARGET_FILE:itkVariationalRegistration>
     ${COMMON_PARAMS3D}
     -f
@@ -299,7 +296,7 @@ itk_add_test(
     -a
     1
     -W
-    ${TEMP}/${TESTNAME}.${EXT}
+    ${TEMP}/${TESTNAME}.nii.gz
     -O
     ${TEMP}/${TESTNAME}_displ.mhd
 )
@@ -311,8 +308,8 @@ itk_add_test(
   COMMAND
     itkTestDriver
     --compare
-    ${BASELINE}/${TESTNAME}.${EXT}
-    ${TEMP}/${TESTNAME}.${EXT}
+    DATA{Baseline/${TESTNAME}.nii.gz}
+    ${TEMP}/${TESTNAME}.nii.gz
     $<TARGET_FILE:itkVariationalRegistration>
     ${COMMON_PARAMS3D}
     -f
@@ -330,7 +327,7 @@ itk_add_test(
     -p
     1
     -W
-    ${TEMP}/${TESTNAME}.${EXT}
+    ${TEMP}/${TESTNAME}.nii.gz
     -O
     ${TEMP}/${TESTNAME}_displ.mhd
 )
