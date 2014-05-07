@@ -55,6 +55,11 @@ void onAnyConst( const itk::Object *, const itk::EventObject &, void *  )
   ++onAnyCount;
 }
 
+void onAnyThrow( itk::Object *, const itk::EventObject &, void *  )
+{
+  throw;
+}
+
 void onUserRemove( itk::Object *o, const itk::EventObject &, void *data )
 {
   unsigned long idToRemove = *static_cast<unsigned long*>(data);
@@ -165,7 +170,7 @@ int testDeleteObserverDuringEvent(void)
 }
 
 
-bool testCommandConstObject(void)
+int testCommandConstObject(void)
 {
 
   itk::Object::Pointer o = itk::Object::New();
@@ -196,7 +201,7 @@ bool testCommandConstObject(void)
 }
 
 
-bool testCommandRecursiveObject(void)
+int testCommandRecursiveObject(void)
 {
   // this test has an command invoking another event, while removing a
   // a Command.
@@ -205,7 +210,7 @@ bool testCommandRecursiveObject(void)
   itk::Object::Pointer o = itk::Object::New();
   itk::Object::ConstPointer co = o.GetPointer();
 
-    unsigned long idToRemove;
+  unsigned long idToRemove;
 
   itk::CStyleCommand::Pointer cmd = itk::CStyleCommand::New();
   cmd->SetCallback(onAny);
@@ -256,6 +261,19 @@ bool testCommandRecursiveObject(void)
   return EXIT_SUCCESS;
 }
 
+
+bool testDeleteEventThrow(void)
+{
+  // check the case where an exception in thrown in the DeleteEvent
+  itk::Object::Pointer o = itk::Object::New();
+
+  itk::CStyleCommand::Pointer cmd = itk::CStyleCommand::New();
+  cmd->SetCallback(onAnyThrow);
+
+  o->AddObserver(itk::DeleteEvent(), cmd);
+  return EXIT_SUCCESS;
+}
+
 } // end namespace
 
 
@@ -266,6 +284,7 @@ int itkCommandObserverObjectTest(int, char* [] )
   ret &= ( testDeleteObserverDuringEvent() == EXIT_SUCCESS );
   ret &= ( testCommandConstObject() == EXIT_SUCCESS );
   ret &= ( testCommandRecursiveObject() == EXIT_SUCCESS );
+  ret &= ( testDeleteEventThrow() == EXIT_SUCCESS );
 
   return ret ? EXIT_SUCCESS : EXIT_FAILURE;
 }
