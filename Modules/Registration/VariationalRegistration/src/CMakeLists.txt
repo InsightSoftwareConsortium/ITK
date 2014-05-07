@@ -5,7 +5,7 @@ include(${ITK_USE_FILE})
 
 message(
   STATUS
-  "Use Librariers:"
+  "Use Libraries:"
   "${ITK_LIBRARIES} ${VariationalRegistration_LIBRARIES}"
 )
 
