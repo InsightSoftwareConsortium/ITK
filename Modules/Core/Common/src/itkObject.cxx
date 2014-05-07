@@ -419,7 +419,14 @@ Object
     /**
      * If there is a delete method, invoke it.
      */
-    this->InvokeEvent( DeleteEvent() );
+    try
+      {
+      this->InvokeEvent( DeleteEvent() );
+      }
+    catch(...)
+      {
+      itkWarningMacro("Exception occurred in DeleteEvent Observer!");
+      }
     }
 
   Superclass::UnRegister();
@@ -441,7 +448,14 @@ Object
     /**
      * If there is a delete method, invoke it.
      */
-    this->InvokeEvent( DeleteEvent() );
+    try
+      {
+      this->InvokeEvent( DeleteEvent() );
+      }
+    catch(...)
+      {
+      itkWarningMacro("Exception occurred in DeleteEvent Observer!");
+      }
     }
 
   Superclass::SetReferenceCount(ref);
