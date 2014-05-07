@@ -15,11 +15,10 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkDemonsRegistrationDemonsFunction_h
-#define __itkDemonsRegistrationDemonsFunction_h
+#ifndef __itkVariationalRegistrationDemonsFunction_h
+#define __itkVariationalRegistrationDemonsFunction_h
 
 #include "itkVariationalRegistrationFunction.h"
-
 #include "itkCentralDifferenceImageFunction.h"
 
 namespace itk
@@ -42,17 +41,17 @@ namespace itk
  * \f]
  * with \f$\tau\f$ as the step size and \f$\kappa\f$ as the mean squared spacing.
  *
- *  \sa VariationalRegistrationFilter
- *  \sa VariationalRegistrationFunction
+ * \sa VariationalRegistrationFilter
+ * \sa VariationalRegistrationFunction
  *
- *  \ingroup FiniteDifferenceFunctions
- *  \ingroup VariationalRegistration
+ * \ingroup FiniteDifferenceFunctions
+ * \ingroup VariationalRegistration
  *
- *  \note This class was developed with funding from:
+ * \note This class was developed with funding from:
  *
- *  \author Alexander Schmidt-Richberg
- *  \author Rene Werner
- *  \author Jan Ehrhardt
+ * \author Alexander Schmidt-Richberg
+ * \author Rene Werner
+ * \author Jan Ehrhardt
  */
 template <class TFixedImage, class TMovingImage, class TDisplacementField>
 class ITK_EXPORT VariationalRegistrationDemonsFunction

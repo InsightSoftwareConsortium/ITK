@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVariationalRegistrationDemonsFunction_txx
-#define __itkVariationalRegistrationDemonsFunction_txx
+#ifndef __itkVariationalRegistrationDemonsFunction_hxx
+#define __itkVariationalRegistrationDemonsFunction_hxx
 
 #include "itkVariationalRegistrationDemonsFunction.h"
 #include "vnl/vnl_math.h"

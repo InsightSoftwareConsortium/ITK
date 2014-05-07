@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVariationalRegistrationLogger_txx
-#define __itkVariationalRegistrationLogger_txx
+#ifndef __itkVariationalRegistrationLogger_hxx
+#define __itkVariationalRegistrationLogger_hxx
 
 #include "vnl/vnl_math.h"
 #include "itkVariationalRegistrationLogger.h"
