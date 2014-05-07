@@ -1,30 +1,14 @@
 include_directories("${VariationalRegistration_SOURCE_DIR}/src")
 
-find_package(ITK REQUIRED)
-include(${ITK_USE_FILE})
+if( ITK_USE_FFTWD OR ITK_USE_FFTWF )
 
-message(
-  STATUS
-  "Use Librariers:"
-  "${ITK_LIBRARIES} ${VariationalRegistration_LIBRARIES}"
-)
+  add_executable(itkVariationalRegistration VariationalRegistrationMain.cxx )
+  target_link_libraries(itkVariationalRegistration ${VariationalRegistration_LIBRARIES})
 
-add_executable(itkVariationalRegistration VariationalRegistrationMain.cxx)
-target_link_libraries(
-  itkVariationalRegistration
-  ${ITK_LIBRARIES}
-  ${VariationalRegistration_LIBRARIES}
-)
+  add_executable(itkVariationalRegistration2D VariationalRegistrationMain.cxx)
+  target_link_libraries(itkVariationalRegistration2D ${VariationalRegistration_LIBRARIES})
+  set_target_properties(itkVariationalRegistration2D PROPERTIES COMPILE_FLAGS -DUSE_2D_IMPL )
 
-add_executable(itkVariationalRegistration2D VariationalRegistrationMain.cxx)
-target_link_libraries(
-  itkVariationalRegistration2D
-  ${ITK_LIBRARIES}
-  ${VariationalRegistration_LIBRARIES}
-)
-set_target_properties(
-  itkVariationalRegistration2D
-  PROPERTIES
-    COMPILE_FLAGS
-      -DUSE_2D_IMPL
-)
+else()
+  MESSAGE(ERROR " Module VariationalRegistration requires FFTW.")
+endif()

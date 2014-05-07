@@ -37,6 +37,7 @@ extern "C"
 
 // Project includes:
 #include "itkConfigure.h"
+#include "itkVariationalRegistrationIncludeRequiredIOFactories.h"
 
 #include "itkExponentialDisplacementFieldImageFilter.h"
 
@@ -152,6 +153,16 @@ main(int argc, char * argv[])
   {
     PrintHelp();
     return 1;
+  }
+
+  // Register required factories for image IO (only needed inside ITK module)
+  try
+  {
+    RegisterRequiredFactories();
+  }
+  catch (itk::ExceptionObject & error)
+  {
+    std::cerr << "Error during registration of required factories: " << error << std::endl;
   }
 
   std::cout << "==========================================" << std::endl;

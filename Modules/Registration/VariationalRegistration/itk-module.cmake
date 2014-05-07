@@ -17,9 +17,7 @@ itk_module(
     ITKRegistrationCommon
     ITKMathematicalMorphology
     ITKBinaryMathematicalMorphology
-  TEST_DEPENDS
-    ITKIOImageBase
-    ITKTestKernel #to handle IO in src
-  DESCRIPTION "${DOCUMENTATION}"
+    ITKTestKernel #necessary to handle IO in src
   EXCLUDE_FROM_DEFAULT
+  DESCRIPTION "${DOCUMENTATION}"
 )
