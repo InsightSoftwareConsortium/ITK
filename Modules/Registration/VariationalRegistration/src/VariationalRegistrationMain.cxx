@@ -59,9 +59,6 @@ extern "C"
 #include "itkVariationalRegistrationStopCriterion.h"
 #include "itkVariationalRegistrationLogger.h"
 
-#include "itkVariationalRegistrationNCCFunction.h"
-// #include "itkContinuousBorderWarpImageFilter.h"
-
 // ITK library includes
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
@@ -75,75 +72,93 @@ void
 PrintHelp()
 {
   std::cout << std::endl;
-  std::cout << "Usage:" << std::endl;
-  std::cout << "itkVariationalRegistration -F <fixed image> -M <moving image> "
-               "-D <output displacement field> [-S <segmentation mask>] [-W <warped image>] [-G <grid image>]"
-               "..."
-            << std::endl
+  std::cout << "DESCRIPTION:" << std::endl;
+  std::cout << "  This is an executable program for the ITK VariationalRegistration module." << std::endl;
+  std::cout << std::endl;
+  std::cout << "  For further information on the algorithm, please refer to:" << std::endl;
+  std::cout << "    Rene Werner, Alexander Schmidt-Richberg, Heinz Handels and Jan Ehrhardt:" << std::endl;
+  std::cout << "    Estimation of lung motion fields in 4D CT data by variational non-linear intensity-based"
             << std::endl;
-  std::cout << "This is a " << DIMENSION << "D - implementation." << std::endl;
-  std::cout << "Input:" << std::endl;
-  std::cout << "-F <fixed image>         Filename of the fixed image." << std::endl;
-  std::cout << "-M <moving image>        Filename of the moving image." << std::endl;
-  std::cout << "-S <segmentation mask>   Filename of the mask image for the registration." << std::endl;
-  std::cout << "-I <initial field>       Filename of the initial deformation field." << std::endl;
+  std::cout << "    registration: A comparison and evaluation study, Phys. Med. Biol., 2014" << std::endl;
   std::cout << std::endl;
-  std::cout << "Output:" << std::endl;
-  std::cout << "-O <output def. field>   Filename of the output deformation field." << std::endl;
-  std::cout << "-W <warped image>        Filename of the output warped image." << std::endl;
-  std::cout << "-L <log file>            Filename of the log file of the registration (NYI)." << std::endl;
+  std::cout << "  Information on the implementation can be found in:" << std::endl;
+  std::cout << "    Alexander Schmidt-Richberg, Rene Werner, Heinz Handels and Jan Ehrhardt:" << std::endl;
+  std::cout << "    A Flexible Variational Registration Framework, Insight Journal, 2014" << std::endl;
   std::cout << std::endl;
-  std::cout << "Parameters for registration filter:" << std::endl;
-  std::cout << "-i <iterations>          Number of iterations." << std::endl;
-  std::cout << "-l <levels>              Number of multi-resolution levels." << std::endl;
-  std::cout << "-t <tau>                 Registration time step." << std::endl;
-  std::cout << "-s 0|1|2                 Select search space." << std::endl;
-  std::cout << "                           0: Standard (default)." << std::endl;
-  std::cout << "                           1: Diffeomorphic." << std::endl;
-  std::cout << "                           2: Symmetric diffeomorphic." << std::endl;
-  std::cout << "-u 0|1                   Use spacing for regularization." << std::endl;
-  std::cout << "                           0: false" << std::endl;
-  std::cout << "                           1: true (default)" << std::endl;
-  std::cout << "-e <exp iterations>      Number of iterations for exponentiator in case of" << std::endl;
-  std::cout << "                         diffeomorphic registration (search space 1 or 2)." << std::endl;
+  std::cout << "  Info: This is a " << DIMENSION << "D build." << std::endl;
   std::cout << std::endl;
-  std::cout << "Parameters for regularizer:" << std::endl;
-  std::cout << "-r 0|1|2                 Select regularizer." << std::endl;
-  std::cout << "                           0: Gaussian smoother." << std::endl;
-  std::cout << "                           1: Diffusive regularizer (default)." << std::endl;
-  std::cout << "                           2: Elastic regularizer." << std::endl;
-  std::cout << "-a <alpha>               Alpha for the regularization (only diffusive)." << std::endl;
-  std::cout << "-v <variance>            Variance for the regularization (only Gaussian)." << std::endl;
-  std::cout << "-m <mu>                  Mu for the regularization (only elastic)." << std::endl;
-  std::cout << "-b <lambda>              Lambda for the regularization (only elasic)." << std::endl;
-  std::cout << std::endl;
-  std::cout << "Parameters for registration function:" << std::endl;
-  std::cout << "-f 0|1|2                 Select force term." << std::endl;
-  std::cout << "                           0: Demon forces (default)." << std::endl;
-  std::cout << "                           1: Sum of Squared Differences." << std::endl;
-  std::cout << "                           2: Cross Correlation." << std::endl;
-  std::cout << "-q <radius>              Radius of neighborhood size for Cross Correlation." << std::endl;
-  std::cout << "-d 0|1|2                 Select image domain for force calculation." << std::endl;
-  std::cout << "                           0: Warped image forces (default)." << std::endl;
-  std::cout << "                           1: Fixed image forces." << std::endl;
-  std::cout << "                           2: Symmetric forces." << std::endl;
-  std::cout << std::endl;
-  std::cout << "Parameters for stop criterion:" << std::endl;
-  std::cout << "-p 0|1|2                 Select stop criterion policy for multi-resolution." << std::endl;
-  std::cout << "                           0: Use default stop criterion." << std::endl;
-  std::cout << "                           1: Use simple graduated policy (default)." << std::endl;
-  std::cout << "                           2: Use graduated policy." << std::endl;
-  std::cout << "-g <grad slope>          Set fitted line slope for stop criterion (default 0.005)." << std::endl;
-  std::cout << std::endl;
-  std::cout << "Preprocessing and general parameters:" << std::endl;
-  std::cout << "-h 0|1                   Perform histogram matching." << std::endl;
-  std::cout << "                           0: false (default)" << std::endl;
-  std::cout << "                           1: true" << std::endl;
-  //  std::cout << "-c <low-thr> <up-thr>    Crop intensity values to interval [low-thr, up-thr]." << std::endl;
-  std::cout << "-3                       Write 2D displacements as 3D displacements (with zero z-component)."
+  std::cout << "SYNOPSIS:" << std::endl;
+  std::cout << "  itkVariationalRegistration -F <fixed image> -M <moving image> -D <output displacement field> [<args>]"
             << std::endl;
-  std::cout << "-?                       Print this help." << std::endl;
-  std::cout << "" << std::endl;
+  std::cout << std::endl;
+  std::cout << "OPTIONS:" << std::endl;
+  std::cout << "  Input:" << std::endl;
+  std::cout << "    -F <fixed image>         Filename of the fixed image." << std::endl;
+  std::cout << "    -M <moving image>        Filename of the moving image." << std::endl;
+  std::cout << "    -S <segmentation mask>   Filename of the mask image for the registration." << std::endl;
+  std::cout << "    -I <initial field>       Filename of the initial deformation field." << std::endl;
+  std::cout << std::endl;
+  std::cout << "  Output:" << std::endl;
+  std::cout << "    -O <output def. field>   Filename of the output displacement field." << std::endl;
+  std::cout
+    << "    -V <output velo. field>  Filename of the output velocity field (only for diffeomorphic registration)."
+    << std::endl;
+  std::cout << "    -W <warped image>        Filename of the output warped image." << std::endl;
+  std::cout << "    -L <log file>            Filename of the log file of the registration (NYI)." << std::endl;
+  std::cout << std::endl;
+  std::cout << "  Parameters for registration filter:" << std::endl;
+  std::cout << "    -i <iterations>          Number of iterations." << std::endl;
+  std::cout << "    -l <levels>              Number of multi-resolution levels." << std::endl;
+  std::cout << "    -t <tau>                 Registration time step." << std::endl;
+  std::cout << "    -s 0|1|2                 Select search space." << std::endl;
+  std::cout << "                               0: Standard (default)." << std::endl;
+  std::cout << "                               1: Diffeomorphic." << std::endl;
+  std::cout << "                               2: Symmetric diffeomorphic." << std::endl;
+  std::cout << "    -u 0|1                   Use spacing for regularization." << std::endl;
+  std::cout << "                               0: false" << std::endl;
+  std::cout << "                               1: true (default)" << std::endl;
+  std::cout << "    -e <exp iterations>      Number of iterations for exponentiator in case of" << std::endl;
+  std::cout << "                               diffeomorphic registration (search space 1 or 2)." << std::endl;
+  std::cout << std::endl;
+  std::cout << "  Parameters for regularizer:" << std::endl;
+  std::cout << "    -r 0|1|2                 Select regularizer." << std::endl;
+  std::cout << "                               0: Gaussian smoother." << std::endl;
+  std::cout << "                               1: Diffusive regularizer (default)." << std::endl;
+  std::cout << "                               2: Elastic regularizer." << std::endl;
+  std::cout << "    -a <alpha>               Alpha for the regularization (only diffusive)." << std::endl;
+  std::cout << "    -v <variance>            Variance for the regularization (only gaussian)." << std::endl;
+  std::cout << "    -m <mu>                  Mu for the regularization (only elastic)." << std::endl;
+  std::cout << "    -b <lambda>              Lambda for the regularization (only elasic)." << std::endl;
+  std::cout << std::endl;
+  std::cout << "  Parameters for registration function:" << std::endl;
+  std::cout << "    -f 0|1|2                 Select force term." << std::endl;
+  std::cout << "                               0: Demon forces (default)." << std::endl;
+  std::cout << "                               1: Sum of Squared Differences." << std::endl;
+  std::cout << "                               2: Normalized Cross Correlation." << std::endl;
+  std::cout << "                               3: Normalized Mutual Information (NYI)." << std::endl;
+  std::cout << "    -q <radius>              Radius of neighborhood size for Normalized Cross Correlation."
+            << std::endl;
+  std::cout << "    -d 0|1|2                 Select image domain for force calculation." << std::endl;
+  std::cout << "                               0: Warped image forces (default)." << std::endl;
+  std::cout << "                               1: Fixed image forces." << std::endl;
+  std::cout << "                               2: Symmetric forces." << std::endl;
+  std::cout << std::endl;
+  std::cout << "  Parameters for stop criterion:" << std::endl;
+  std::cout << "    -p 0|1|2                 Select stop criterion policy for multi-resolution." << std::endl;
+  std::cout << "                               0: Use default stop criterion." << std::endl;
+  std::cout << "                               1: Use simple graduated policy (default)." << std::endl;
+  std::cout << "                               2: Use graduated policy." << std::endl;
+  std::cout << "    -g <grad slope>          Set fitted line slope for stop criterion (default 0.005)." << std::endl;
+  std::cout << std::endl;
+  std::cout << "  Preprocessing and general parameters:" << std::endl;
+  std::cout << "    -h 0|1                   Perform histogram matching." << std::endl;
+  std::cout << "                               0: false (default)" << std::endl;
+  std::cout << "                               1: true" << std::endl;
+  std::cout << "    -x                       Print debug information during execution." << std::endl;
+  std::cout << "    -3                       Write 2D displacements as 3D displacements (with zero z-component)."
+            << std::endl;
+  std::cout << "    -?                       Print this help." << std::endl;
+  std::cout << std::endl;
 }
 
 
@@ -153,7 +168,7 @@ main(int argc, char * argv[])
   if (argc < 2)
   {
     PrintHelp();
-    return 1;
+    return EXIT_FAILURE;
   }
 
   // Register required factories for image IO (only needed inside ITK module)
@@ -179,11 +194,10 @@ main(int argc, char * argv[])
   char * fixedImageFilename = NULL;
   char * movingImageFilename = NULL;
   char * maskImageFilename = NULL;
-  char * outputDeformationFilename = NULL;
+  char * outputDisplacementFilename = NULL;
   char * outputVelocityFilename = NULL;
   char * warpedImageFilename = NULL;
   char * initialFieldFilename = NULL;
-  char * gridImageFilename = NULL;
   char * logFilename = NULL;
 
   // Registration parameters
@@ -214,11 +228,10 @@ main(int argc, char * argv[])
   // Preproc and general parameters
   bool useHistogramMatching = false;
   bool useDebugMode = false;
-
   bool bWrite3DDisplacementField = false;
 
   // Reading parameters
-  while ((c = getopt(argc, argv, "Z:F:R:M:T:I:S:O:W:G:L:e:i:n:l:t:s:u:r:a:v:m:b:f:d:w:p:g:h:q:x?3")) != -1)
+  while ((c = getopt(argc, argv, "F:R:M:T:S:I:D:O:V:W:L:i:n:l:t:s:u:e:r:a:v:m:b:f:d:p:g:h:q:x?3")) != -1)
   {
     switch (c)
     {
@@ -232,29 +245,26 @@ main(int argc, char * argv[])
         movingImageFilename = optarg;
         std::cout << "  Moving image filename:           " << movingImageFilename << std::endl;
         break;
-      case 'I':
-        initialFieldFilename = optarg;
-        std::cout << "  Initial deform. field filename:  " << initialFieldFilename << std::endl;
-        break;
       case 'S':
         maskImageFilename = optarg;
         std::cout << "  Mask image filename:             " << maskImageFilename << std::endl;
         break;
-      case 'O':
-        outputDeformationFilename = optarg;
-        std::cout << "  Output deform. field filename:   " << outputDeformationFilename << std::endl;
+      case 'I':
+        initialFieldFilename = optarg;
+        std::cout << "  Initial displ. field filename:   " << initialFieldFilename << std::endl;
         break;
-      case 'Z':
+      case 'D':
+      case 'O':
+        outputDisplacementFilename = optarg;
+        std::cout << "  Output displ. field filename:    " << outputDisplacementFilename << std::endl;
+        break;
+      case 'V':
         outputVelocityFilename = optarg;
         std::cout << "  Output velocity field filename:  " << outputVelocityFilename << std::endl;
         break;
       case 'W':
         warpedImageFilename = optarg;
         std::cout << "  Warped image filename:           " << warpedImageFilename << std::endl;
-        break;
-      case 'G':
-        gridImageFilename = optarg;
-        std::cout << "  Grid image filename:             " << gridImageFilename << std::endl;
         break;
       case 'L':
         logFilename = optarg;
@@ -293,8 +303,8 @@ main(int argc, char * argv[])
         }
         else
         {
-          std::cout << "  ERROR: Search space unknown!" << std::endl;
-          return 0;
+          ExceptionMacro("Search space unknown!");
+          return EXIT_FAILURE;
         }
         break;
       case 'u':
@@ -326,8 +336,8 @@ main(int argc, char * argv[])
         }
         else
         {
-          std::cout << "  ERROR: Regularizer space unknown!" << std::endl;
-          return 0;
+          ExceptionMacro("Regularizer space unknown!");
+          return EXIT_FAILURE;
         }
         break;
       case 'a':
@@ -362,13 +372,9 @@ main(int argc, char * argv[])
         }
         else
         {
-          std::cout << "  ERROR: Force type unknown!" << std::endl;
-          return 0;
+          ExceptionMacro("Force type unknown!");
+          return EXIT_FAILURE;
         }
-        break;
-      case 'q':
-        nccRadius = atoi(optarg);
-        std::cout << "  Radius size for NCC:             " << nccRadius << std::endl;
         break;
       case 'd':
         forceDomain = atoi(optarg);
@@ -386,8 +392,8 @@ main(int argc, char * argv[])
         }
         else
         {
-          std::cout << "  ERROR: Force domain unknown!" << std::endl;
-          return 0;
+          ExceptionMacro("Force domain unknown!");
+          return EXIT_FAILURE;
         }
         break;
       case 'p':
@@ -429,6 +435,10 @@ main(int argc, char * argv[])
           useHistogramMatching = true;
         }
         break;
+      case 'q':
+        nccRadius = atoi(optarg);
+        std::cout << "  Radius size for NCC:             " << nccRadius << std::endl;
+        break;
       case 'x':
         std::cout << "  Use debug mode:                  true" << std::endl;
         useDebugMode = true;
@@ -443,13 +453,12 @@ main(int argc, char * argv[])
         break;
       case '?':
         PrintHelp();
-        exit(0);
+        return EXIT_SUCCESS;
       default:
         ExceptionMacro(<< "Argument " << (char)c << " not processed");
         break;
     }
   }
-
   std::cout << "==========================================" << std::endl;
   std::cout << "INITIALIZING data and filter..." << std::endl;
   //////////////////////////////////////////////
@@ -460,12 +469,12 @@ main(int argc, char * argv[])
   if (fixedImageFilename == NULL || movingImageFilename == NULL)
   {
     ExceptionMacro(<< "No input fixed and/or moving image given!");
-    return -1;
+    return EXIT_FAILURE;
   }
-  if (outputDeformationFilename == NULL && warpedImageFilename == NULL)
+  if (outputDisplacementFilename == NULL && warpedImageFilename == NULL)
   {
     ExceptionMacro(<< "No output (deformation field or warped image) given!");
-    return -1;
+    return EXIT_FAILURE;
   }
 
   //////////////////////////////////////////////
@@ -490,7 +499,7 @@ main(int argc, char * argv[])
   ImagePointerType             fixedImage;
   ImagePointerType             movingImage;
   MaskPointerType              maskImage;
-  DisplacementFieldPointerType initialDisplacementField;
+  DisplacementFieldPointerType initialField;
 
   ImagePointerType             warpedOutputImage;
   DisplacementFieldPointerType outputDisplacementField;
@@ -521,7 +530,7 @@ main(int argc, char * argv[])
   if (fixedImage.IsNull() || movingImage.IsNull())
   {
     ExceptionMacro(<< "Fixed or moving image data is null");
-    return -1;
+    return EXIT_FAILURE;
   }
 
   if (maskImageFilename != NULL)
@@ -538,23 +547,23 @@ main(int argc, char * argv[])
     if (maskImage.IsNull())
     {
       ExceptionMacro(<< "Mask image data is null");
-      return -1;
+      return EXIT_FAILURE;
     }
   }
   if (initialFieldFilename != NULL)
   {
-    std::cout << "Loading initial deformation field..." << std::endl;
+    std::cout << "Loading initial field..." << std::endl;
     DisplacementFieldReaderType::Pointer DisplacementFieldReader;
     DisplacementFieldReader = DisplacementFieldReaderType::New();
 
     DisplacementFieldReader->SetFileName(initialFieldFilename);
     DisplacementFieldReader->Update();
 
-    initialDisplacementField = DisplacementFieldReader->GetOutput();
-    if (initialDisplacementField.IsNull())
+    initialField = DisplacementFieldReader->GetOutput();
+    if (initialField.IsNull())
     {
       ExceptionMacro(<< "Initial deformation field is null");
-      return -1;
+      return EXIT_FAILURE;
     }
   }
 
@@ -588,7 +597,7 @@ main(int argc, char * argv[])
     catch (itk::ExceptionObject & err)
     {
       ExceptionMacro(<< "Could not match input images!");
-      return -1;
+      return EXIT_FAILURE;
     }
 
     movingImage = matcher->GetOutput();
@@ -726,25 +735,29 @@ main(int argc, char * argv[])
   typedef VariationalSymmetricDiffeomorphicRegistrationFilter<ImageType, ImageType, DisplacementFieldType>
     SymmetricDiffeomorphicRegistrationFilterType;
 
-  RegistrationFilterType::Pointer                       regFilter;
-  DiffeomorphicRegistrationFilterType::Pointer          diffeoRegFilter;
-  SymmetricDiffeomorphicRegistrationFilterType::Pointer symmDiffeoRegFilter;
-
+  RegistrationFilterType::Pointer regFilter;
   switch (searchSpace)
   {
     case 0:
+    {
       regFilter = RegistrationFilterType::New();
       break;
+    }
     case 1:
-      diffeoRegFilter = DiffeomorphicRegistrationFilterType::New();
+    {
+      DiffeomorphicRegistrationFilterType::Pointer diffeoRegFilter = DiffeomorphicRegistrationFilterType::New();
       diffeoRegFilter->SetNumberOfExponentiatorIterations(numberOfExponentiatorIterations);
       regFilter = diffeoRegFilter;
       break;
+    }
     case 2:
-      symmDiffeoRegFilter = SymmetricDiffeomorphicRegistrationFilterType::New();
+    {
+      SymmetricDiffeomorphicRegistrationFilterType::Pointer symmDiffeoRegFilter =
+        SymmetricDiffeomorphicRegistrationFilterType::New();
       symmDiffeoRegFilter->SetNumberOfExponentiatorIterations(numberOfExponentiatorIterations);
       regFilter = symmDiffeoRegFilter;
       break;
+    }
   }
   regFilter->SetRegularizer(regularizer);
   regFilter->SetDifferenceFunction(function);
@@ -769,7 +782,7 @@ main(int argc, char * argv[])
   mrRegFilter->SetMaskImage(maskImage);
   mrRegFilter->SetNumberOfLevels(numberOfLevels);
   mrRegFilter->SetNumberOfIterations(its);
-  // mrRegFilter->SetInitialDisplacementField( initialDisplacementField );
+  mrRegFilter->SetInitialField(initialField);
 
   //
   // Setup stop criterion
@@ -837,7 +850,7 @@ main(int argc, char * argv[])
   std::cout << "==========================================" << std::endl;
   std::cout << "WRITING output data..." << std::endl;
 
-  if (outputDeformationFilename != NULL && outputDisplacementField.IsNotNull())
+  if (outputDisplacementFilename != NULL && outputDisplacementField.IsNotNull())
   {
     if (DIMENSION == 2 && bWrite3DDisplacementField)
     {
@@ -897,7 +910,7 @@ main(int argc, char * argv[])
       DisplacementFieldWriter = OutDisplacementFieldWriterType::New();
 
       DisplacementFieldWriter->SetInput(writeField);
-      DisplacementFieldWriter->SetFileName(outputDeformationFilename);
+      DisplacementFieldWriter->SetFileName(outputDisplacementFilename);
       DisplacementFieldWriter->Update();
     }
     else
@@ -907,7 +920,7 @@ main(int argc, char * argv[])
       DisplacementFieldWriter = DisplacementFieldWriterType::New();
 
       DisplacementFieldWriter->SetInput(outputDisplacementField);
-      DisplacementFieldWriter->SetFileName(outputDeformationFilename);
+      DisplacementFieldWriter->SetFileName(outputDisplacementFilename);
       DisplacementFieldWriter->Update();
 
       if (outputVelocityFilename != NULL && outputVelocityField.IsNotNull())
@@ -945,5 +958,5 @@ main(int argc, char * argv[])
   std::cout << "VariationalRegistration (" << DIMENSION << "D) FINISHED!" << std::endl;
   std::cout << "==========================================\n\n" << std::endl;
 
-  return 0;
+  return EXIT_SUCCESS;
 }
