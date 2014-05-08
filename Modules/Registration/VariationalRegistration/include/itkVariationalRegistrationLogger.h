@@ -25,10 +25,15 @@ namespace itk
 {
 
 /** \class itk::VariationalRegistrationLogger
+ * \brief A simple callback/observer class to print information during the registration process.
  *
- * TODO class documentation
+ * VariationalRegistrationLogger is an implementation of the Command design pattern that is
+ * invoked every iteration of the registration process. Use AddObserver() to connect the logger
+ * with VariationalRegistrationFilter and/or VariationalRegistrationMultiResolutionFilter.
+ * VariationalRegistrationLogger prints levels or metric values on IterationEvent or InitializeEvent.
  *
  *  \sa VariationalRegistrationFilter
+ *  \sa VariationalRegistrationMultiResolutionFilter
  *
  *  \ingroup VariationalRegistration
  */
