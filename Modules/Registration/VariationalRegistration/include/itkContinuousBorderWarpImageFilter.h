@@ -23,7 +23,26 @@ namespace itk
 {
 
 /** \class ContinuousBorderWarpImageFilter
- * \brief Warps an image using an input deformation field.
+ * \brief Warps an image using an input deformation field with continuous boundary conditions.
+ *
+ * ContinuousBorderWarpImageFilter warps an existing image with respect to
+ * a given displacement field and a given interpolation scheme.The default
+ * interpolation typed used is the LinearInterpolateImageFunction.
+ * The user can specify a particular interpolation function via
+ * SetInterpolator().
+ *
+ * Positions mapped to outside of the input image buffer are assigned
+ * the value of the next boundary pixel in the image.
+ *
+ * The input image is set via SetInput. The input displacement field
+ * is set via SetDisplacementField.
+ *
+ * This filter is implemented as a multithreaded filter.
+ *
+ * \sa WarpImageFilter
+ *
+ * \warning This filter assumes that the input type, output type
+ * and displacement field type all have the same number of dimensions.
  *
  * \ingroup VariationalRegistration
  * \ingroup GeometricTransforms
