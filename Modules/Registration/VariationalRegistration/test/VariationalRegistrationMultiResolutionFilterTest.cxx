@@ -215,7 +215,11 @@ VariationalRegistrationMultiResolutionFilterTest(int, char *[])
   typedef itk::VariationalRegistrationStopCriterion<RegistrationFilterType, MRRegistrationFilterType> StopCriterionType;
   StopCriterionType::Pointer stopCriterion = StopCriterionType::New();
   stopCriterion->SetRegressionLineSlopeThreshold(0.0001);
-  stopCriterion->PerformLineFittingMaxDistanceCheckOn();
+  stopCriterion->SetNumberOfFittingIterations(20);
+  stopCriterion->SetMaxDistanceToRegressionLine(0.005);
+  stopCriterion->LineFittingUseAbsoluteValuesOff();
+  stopCriterion->PerformLineFittingMaxDistanceCheckOff();
+  stopCriterion->PerformIncreaseCountCheckOn();
   stopCriterion->SetMultiResolutionPolicyToSimpleGraduated();
 
   regFilter->AddObserver(itk::IterationEvent(), stopCriterion);
@@ -278,6 +282,32 @@ VariationalRegistrationMultiResolutionFilterTest(int, char *[])
   }
 
   mrRegFilter->Print(std::cout);
+
+  //--------------------------------------------------------------
+  std::cout << "Test exception handling." << std::endl;
+
+  std::cout << "Test for two input fields given. " << std::endl;
+  bool passed = false;
+  try
+  {
+    mrRegFilter->SetInitialDisplacementField(caster->GetOutput());
+    mrRegFilter->SetArbitraryInitialDisplacementField(caster->GetOutput());
+    mrRegFilter->Update();
+  }
+  catch (itk::ExceptionObject & err)
+  {
+    std::cout << "Caught expected error." << std::endl;
+    std::cout << err << std::endl;
+    passed = true;
+  }
+
+  if (!passed)
+  {
+    std::cout << "Test failed" << std::endl;
+    return EXIT_FAILURE;
+  }
+  mrRegFilter->SetMovingImage(moving);
+  mrRegFilter->ResetPipeline();
 
   //--------------------------------------------------------------
 
