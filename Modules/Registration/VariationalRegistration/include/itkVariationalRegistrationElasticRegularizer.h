@@ -37,7 +37,7 @@ namespace itk
  * We compute \f$u^{out}=(Id - A)^{-1}[u^{in}]\f$ with
  * \f$A[u]=\mu\Delta u + (\mu+\lambda)\nabla(\nabla\cdot u)\f$ using an FFT based method.
  * Please note that for given Lame constants \f$\mu'\f$ and \f$\lambda'\f$ you have to set
- * \f$\mu=\tau\alpha\mu'\f$ and \f$\lambda=\tau\alpha\lambda'\f$ (see Eq.(2)
+ * \f$\mu=\tau\mu'\f$ and \f$\lambda=\tau\lambda'\f$ (see Eq.(2)
  * in VariationalRegistrationFilter).
  *
  *  \sa VariationalRegistrationFilter
