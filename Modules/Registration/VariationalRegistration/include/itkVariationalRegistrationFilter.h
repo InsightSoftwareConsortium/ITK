@@ -200,7 +200,7 @@ public:
    * elastic in nature. If SmoothDisplacementField is on, then the
    * deformation field is smoothed using the DenseRegistrationRegularizer. */
   itkSetMacro(SmoothDisplacementField, bool);
-  itkGetMacro(SmoothDisplacementField, bool);
+  itkGetConstMacro(SmoothDisplacementField, bool);
   itkBooleanMacro(SmoothDisplacementField);
 
   /** Set/Get whether the update field is smoothed
@@ -208,7 +208,7 @@ public:
    * viscous in nature. If SmoothUpdateField is on, then the
    * update field is smoothed using the DenseRegistrationRegularizer. */
   itkSetMacro(SmoothUpdateField, bool);
-  itkGetMacro(SmoothUpdateField, bool);
+  itkGetConstMacro(SmoothUpdateField, bool);
   itkBooleanMacro(SmoothUpdateField);
 
   /** Get the metric value. The metric value is the mean square difference

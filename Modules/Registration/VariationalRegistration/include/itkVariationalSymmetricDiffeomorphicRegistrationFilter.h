@@ -125,11 +125,7 @@ public:
   typedef typename Superclass::TimeStepType TimeStepType;
 
   /** Get output inverse deformation field. */
-  virtual DisplacementFieldType *
-  GetInverseDisplacementField()
-  {
-    return m_InverseDisplacementField;
-  }
+  itkGetObjectMacro(InverseDisplacementField, DisplacementFieldType);
 
 protected:
   VariationalSymmetricDiffeomorphicRegistrationFilter();
@@ -162,11 +158,7 @@ protected:
 
   /** Method to allow subclasses to get direct access to the update
    * buffer */
-  virtual UpdateBufferType *
-  GetBackwardUpdateBuffer()
-  {
-    return m_BackwardUpdateBuffer;
-  }
+  itkGetObjectMacro(BackwardUpdateBuffer, UpdateBufferType);
 
   /** The type of region used for multithreading */
   typedef typename UpdateBufferType::RegionType ThreadRegionType;

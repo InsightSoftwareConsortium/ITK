@@ -93,12 +93,12 @@ public:
   /** Set/Get the desired maximum error of the Gaussian kernel approximate.
    * \sa GaussianOperator. */
   itkSetMacro(MaximumError, double);
-  itkGetMacro(MaximumError, double);
+  itkGetConstMacro(MaximumError, double);
 
   /** Set/Get the desired limits of the Gaussian kernel width.
    * \sa GaussianOperator. */
   itkSetMacro(MaximumKernelWidth, unsigned int);
-  itkGetMacro(MaximumKernelWidth, unsigned int);
+  itkGetConstMacro(MaximumKernelWidth, unsigned int);
 
 protected:
   VariationalRegistrationGaussianRegularizer();

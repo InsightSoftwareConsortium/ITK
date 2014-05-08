@@ -72,7 +72,7 @@ public:
 
   /** Set/Get whether the image spacing should be considered or not */
   itkSetMacro(UseImageSpacing, bool);
-  itkGetMacro(UseImageSpacing, bool);
+  itkGetConstMacro(UseImageSpacing, bool);
   itkBooleanMacro(UseImageSpacing);
 
 protected:

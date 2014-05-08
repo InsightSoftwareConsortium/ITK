@@ -381,7 +381,7 @@ VariationalRegistrationElasticRegularizer<TDisplacementField>::ThreadedSolveElas
     const double lambdaPlusmu_hxhz = (m_Lambda + m_Mu) / (m_Spacing[0] * m_Spacing[2]);
     const double lambdaPlusmu_hyhz = (m_Lambda + m_Mu) / (m_Spacing[1] * m_Spacing[2]);
 
-    float meanSquaredSpacing = 0.0;
+    ValueType meanSquaredSpacing = 0.0;
     for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       meanSquaredSpacing += vnl_math_sqr(m_Spacing[i]);
@@ -503,7 +503,7 @@ VariationalRegistrationElasticRegularizer<TDisplacementField>::ThreadedSolveElas
 
     const double lambdaPlusmu_hxhy = (m_Lambda + m_Mu) / (m_Spacing[0] * m_Spacing[1]);
 
-    float meanSquaredSpacing = 0.0;
+    ValueType meanSquaredSpacing = 0.0;
     for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       meanSquaredSpacing += vnl_math_sqr(m_Spacing[i]);

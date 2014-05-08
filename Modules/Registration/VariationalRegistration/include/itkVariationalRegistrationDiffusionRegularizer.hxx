@@ -114,14 +114,14 @@ VariationalRegistrationDiffusionRegularizer<TDisplacementField>::InitLUMatrices(
                                                                                 int          n,
                                                                                 int          dim)
 {
-  ValueType * alpha = new float[n];
-  ValueType * beta = new float[n - 1];
-  ValueType * gamma = new float[n - 1];
+  ValueType * alpha = new ValueType[n];
+  ValueType * beta = new ValueType[n - 1];
+  ValueType * gamma = new ValueType[n - 1];
 
-  float weight = this->GetAlpha();
+  ValueType weight = this->GetAlpha();
   if (this->GetUseImageSpacing())
   {
-    float meanSquaredSpacing = NumericTraits<float>::Zero;
+    ValueType meanSquaredSpacing = NumericTraits<ValueType>::Zero;
     for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       meanSquaredSpacing += m_Spacing[i] * m_Spacing[i];

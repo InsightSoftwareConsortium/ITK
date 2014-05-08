@@ -74,11 +74,10 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int, TDisplacementField::ImageDimension);
 
   /** Deformation field types, inherited from Superclass. */
-  typedef typename Superclass::DisplacementFieldType         DisplacementFieldType;
-  typedef typename Superclass::DisplacementFieldPointer      DisplacementFieldPointer;
-  typedef typename Superclass::DisplacementFieldConstPointer DisplacementFieldConstPointer;
-  typedef typename Superclass::PixelType                     PixelType;
-
+  typedef typename Superclass::DisplacementFieldType              DisplacementFieldType;
+  typedef typename Superclass::DisplacementFieldPointer           DisplacementFieldPointer;
+  typedef typename Superclass::DisplacementFieldConstPointer      DisplacementFieldConstPointer;
+  typedef typename Superclass::PixelType                          PixelType;
   typedef typename Superclass::ValueType                          ValueType;
   typedef typename DisplacementFieldType::SizeType::SizeValueType OffsetValueType;
 
@@ -86,12 +85,12 @@ public:
   typedef typename fftw::Proxy<double> FFTWProxyType;
 
   /** Set/Get the regularization weight lambda */
-  itkSetMacro(Lambda, float);
-  itkGetMacro(Lambda, float);
+  itkSetMacro(Lambda, ValueType);
+  itkGetConstMacro(Lambda, ValueType);
 
   /** Set/Get the regularization weight mu */
-  itkSetMacro(Mu, float);
-  itkGetMacro(Mu, float);
+  itkSetMacro(Mu, ValueType);
+  itkGetConstMacro(Mu, ValueType);
 
 protected:
   VariationalRegistrationElasticRegularizer();
@@ -142,10 +141,10 @@ private:
   operator=(const Self &); // purposely not implemented
 
   /** Weight of the regularization term. */
-  float m_Lambda;
+  ValueType m_Lambda;
 
   /** Weight of the regularization term. */
-  float m_Mu;
+  ValueType m_Mu;
 
   /** The spacing of the displacement field. */
   typename DisplacementFieldType::SpacingType m_Spacing;

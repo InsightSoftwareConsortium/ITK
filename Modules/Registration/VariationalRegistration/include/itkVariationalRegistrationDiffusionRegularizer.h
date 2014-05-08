@@ -73,17 +73,18 @@ public:
   typedef typename Superclass::DisplacementFieldPointer      DisplacementFieldPointer;
   typedef typename Superclass::DisplacementFieldConstPointer DisplacementFieldConstPointer;
   typedef typename Superclass::PixelType                     PixelType;
-
-  typedef typename Superclass::ValueType ValueType;
+  typedef typename Superclass::ValueType                     ValueType;
 
   /** Types for buffer image. */
   typedef Image<ValueType, ImageDimension>     BufferImageType;
   typedef typename BufferImageType::Pointer    BufferImagePointer;
   typedef typename BufferImageType::RegionType BufferImageRegionType;
 
-  /** Set/Get the regularization weight alpha */
-  itkSetMacro(Alpha, float);
-  itkGetMacro(Alpha, float);
+  /** Set the regularization weight alpha */
+  itkSetMacro(Alpha, ValueType);
+
+  /** Get the regularization weight alpha */
+  itkGetConstMacro(Alpha, ValueType);
 
 protected:
   VariationalRegistrationDiffusionRegularizer();
@@ -165,7 +166,7 @@ private:
   operator=(const Self &); // purposely not implemented
 
   /** Weight of the regularization term. */
-  float m_Alpha;
+  ValueType m_Alpha;
 
   /** The size of the displacement field. */
   typename DisplacementFieldType::SizeType m_Size;
