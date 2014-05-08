@@ -34,6 +34,9 @@ VariationalDiffeomorphicRegistrationFilter<TFixedImage, TMovingImage, TDisplacem
 {
   // Create new exponential field calculator.
   m_Exponentiator = FieldExponentiatorType::New();
+
+  // Initialize exponentiator iterations.
+  m_NumberOfExponentiatorIterations = 4;
 }
 
 /*
@@ -117,52 +120,8 @@ VariationalDiffeomorphicRegistrationFilter<TFixedImage, TMovingImage, TDisplacem
   CalcDeformationFromVelocityField(const DisplacementFieldType * velocityField)
 {
   m_Exponentiator->SetInput(velocityField);
-  unsigned int numiter = 2;
   m_Exponentiator->AutomaticNumberOfIterationsOff();
-  m_Exponentiator->SetMaximumNumberOfIterations(numiter);
-
-  // const RegistrationFunctionType *rfp = this->DownCastDifferenceFunctionType();
-  // const double maxStepWidth = rfp->GetTimeStep();
-  // if( maxStepWidth > 0.0 )
-  // if( false )
-  //{
-  //  max(norm(Phi))/2^N <= 0.25*pixelspacing
-
-  /* Implementation acc. to Tom Vercauteren; doesn't make sense for SSD as time steps are
-   usually << 1 ... */
-
-  // const double numiterfloat = 2.0 + vcl_log(maxStepWidth)/vnl_math::ln2;
-  // unsigned int numiter = 0;
-  // if ( numiterfloat > 0.0 )
-  //{
-  //   numiter = static_cast<unsigned int>( vcl_ceil(numiterfloat) );
-  // }
-  //  Work around for eval study.
-  //   unsigned int numiter = 0;
-  //   m_Exponentiator->AutomaticNumberOfIterationsOff();
-  //   m_Exponentiator->SetMaximumNumberOfIterations( numiter );
-  // }
-  /*else
-   {
-   // Just set a high value so that automatic number of step
-   // is not thresholded
-   m_Exponentiator->AutomaticNumberOfIterationsOn();
-   m_Exponentiator->SetMaximumNumberOfIterations( 2000u );
-   }*/
-
-  /* imi::imiVelocityFieldScalingAndSquaringExponential *velocityFieldExponentFilter;
-   velocityFieldExponentFilter = imi::imiVelocityFieldScalingAndSquaringExponential::New();
-   velocityFieldExponentFilter->SetAccuracy( 2 );
-
-   bool ret = velocityFieldExponentFilter->GetDisplacementFromVelocityField(const_cast<DisplacementFieldType
-   *>(velocityField), m_DisplacementField);
-
-   if(!ret)
-   {
-   imiERROR("Calculating exponential failed!");
-   return;
-   }
-   */
+  m_Exponentiator->SetMaximumNumberOfIterations(this->GetNumberOfExponentiatorIterations());
 
   // Graft output of exponentiator.
   m_Exponentiator->GraftOutput(m_DisplacementField);

@@ -209,35 +209,8 @@ VariationalSymmetricDiffeomorphicRegistrationFilter<TFixedImage, TMovingImage, T
   CalcInverseDeformationFromVelocityField(const DisplacementFieldType * velocityField)
 {
   m_InverseExponentiator->SetInput(velocityField);
-
-  const RegistrationFunctionType * rfp = this->DownCastDifferenceFunctionType();
-  const double                     maxStepWidth = rfp->GetTimeStep();
-  if (maxStepWidth > 0.0)
-  {
-    // max(norm(Phi))/2^N <= 0.25*pixelspacing
-
-    /* Implementation acc. to Tom Vercauteren; doesn't make sense for SSD as time steps are
-     usually << 1 ... */
-
-    // const double numiterfloat = 2.0 + vcl_log(maxStepWidth)/vnl_math::ln2;
-    // unsigned int numiter = 0;
-    // if ( numiterfloat > 0.0 )
-    //{
-    //   numiter = static_cast<unsigned int>( vcl_ceil(numiterfloat) );
-    // }
-    //  Work around for eval study.
-    unsigned int numiter = 2;
-
-    m_InverseExponentiator->AutomaticNumberOfIterationsOff();
-    m_InverseExponentiator->SetMaximumNumberOfIterations(numiter);
-  }
-  else
-  {
-    // Just set a high value so that automatic number of step
-    // is not thresholded
-    m_InverseExponentiator->AutomaticNumberOfIterationsOn();
-    m_InverseExponentiator->SetMaximumNumberOfIterations(2000u);
-  }
+  m_InverseExponentiator->AutomaticNumberOfIterationsOff();
+  m_InverseExponentiator->SetMaximumNumberOfIterations(this->GetNumberOfExponentiatorIterations());
 
   // Graft output of exponentiator.
   m_InverseExponentiator->GraftOutput(m_InverseDisplacementField);

@@ -114,6 +114,10 @@ public:
   /** The value type of a time step.  Inherited from the superclass. */
   typedef typename Superclass::TimeStepType TimeStepType;
 
+  /** Set/Get the desired number of iterations for the exponentiator. */
+  itkSetMacro(NumberOfExponentiatorIterations, unsigned int);
+  itkGetConstMacro(NumberOfExponentiatorIterations, unsigned int);
+
   /** Set initial deformation field. \warning This can't be used for diffeomorphic registration.*/
   virtual void
   SetInitialDisplacementField(DisplacementFieldType * ptr);
@@ -178,6 +182,9 @@ private:
   /** The deformation field. */
   FieldExponentiatorPointer m_Exponentiator;
   DisplacementFieldPointer  m_DisplacementField;
+
+  /** Number of iterations for exponentiation (self composing) of velocity field. */
+  unsigned int m_NumberOfExponentiatorIterations;
 };
 
 } // end namespace itk
