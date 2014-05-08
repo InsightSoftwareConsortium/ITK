@@ -82,7 +82,19 @@ public:
   typedef typename DisplacementFieldType::SizeType::SizeValueType OffsetValueType;
 
   /** Types for FFTW proxy */
-  typedef typename fftw::Proxy<double> FFTWProxyType;
+
+#if defined(ITK_USE_FFTWD)
+  // Prefer to use double precision
+  typedef double RealTypeFFT;
+#else
+#  if defined(ITK_USE_FFTWF)
+  // Allow to use single precision
+#    warning "Using single precision for FFT computations!"
+  typedef float RealTypeFFT;
+#  endif
+#endif
+
+  typedef typename fftw::Proxy<RealTypeFFT> FFTWProxyType;
 
   /** Set/Get the regularization weight lambda */
   itkSetMacro(Lambda, ValueType);
@@ -171,9 +183,9 @@ private:
   typename FFTWProxyType::PlanType m_PlanForward[ImageDimension];  /** FFT forward plan  */
   typename FFTWProxyType::PlanType m_PlanBackward[ImageDimension]; /** FFT backward plan */
   typename FFTWProxyType::ComplexType *
-           m_ComplexBuffer[ImageDimension]; /** memory space for output of forward and input of backward FFT*/
-  double * m_InputBuffer;                   /** FFT memory space for input data */
-  double * m_OutputBuffer;                  /** FFT memory space for output data */
+    m_ComplexBuffer[ImageDimension];                  /** memory space for output of forward and input of backward FFT*/
+  typename FFTWProxyType::PixelType * m_InputBuffer;  /** FFT memory space for input data */
+  typename FFTWProxyType::PixelType * m_OutputBuffer; /** FFT memory space for output data */
 
   struct ElasticFFTThreadStruct
   {

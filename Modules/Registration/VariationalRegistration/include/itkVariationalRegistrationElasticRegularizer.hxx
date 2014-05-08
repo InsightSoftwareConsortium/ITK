@@ -181,8 +181,8 @@ VariationalRegistrationElasticRegularizer<TDisplacementField>::InitializeElastic
   }
 
   // Allocate buffers
-  this->m_InputBuffer = new double[this->m_TotalSize];
-  this->m_OutputBuffer = new double[this->m_TotalSize];
+  this->m_InputBuffer = new FFTWProxyType::PixelType[this->m_TotalSize];
+  this->m_OutputBuffer = new FFTWProxyType::PixelType[this->m_TotalSize];
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     this->m_ComplexBuffer[i] = new typename FFTWProxyType::ComplexType[this->m_TotalComplexSize];
