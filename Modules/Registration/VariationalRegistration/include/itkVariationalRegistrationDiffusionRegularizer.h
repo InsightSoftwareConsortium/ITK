@@ -32,8 +32,8 @@ namespace itk
  * <em>Fischer and Modersitzki. "Fast diffusion registration." Contemporary
  * Mathematics 313 (2002): 117-128.</em>.
  *
- * We efficiently compute \f$u^{out}=(Id - \alpha A)^{-1}[u^{in}]\f$ with
- * \f$A[u]=\Delta u\f$ using additive operator splitting (AOS).
+ * We efficiently compute \f$u^{out}=(Id - A)^{-1}[u^{in}]\f$ with
+ * \f$A[u]=\alpha\Delta u\f$ using additive operator splitting (AOS).
  * Please note that \f$\alpha\f$ corresponds to \f$\tau\alpha\f$ in Eq.(2)
  * in VariationalRegistrationFilter.
  *
