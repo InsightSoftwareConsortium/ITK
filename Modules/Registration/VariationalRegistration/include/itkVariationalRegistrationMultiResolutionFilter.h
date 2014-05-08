@@ -167,11 +167,10 @@ public:
 
   /** Set initial deformation field to be used as is (no smoothing, no
    *  subsampling at the coarsest level of the pyramid. */
-  virtual void
-  SetInitialDisplacementField(DisplacementFieldType * ptr)
-  {
-    this->m_InitialDisplacementField = ptr;
-  }
+  itkSetObjectMacro(InitialDisplacementField, DisplacementFieldType);
+
+  /** Get the initial deformation field, if set. */
+  itkGetConstObjectMacro(InitialDisplacementField, DisplacementFieldType);
 
   /** Set initial deformation field. No assumption is made on the
    *  input. It will therefore be smoothed and resampled to match the
