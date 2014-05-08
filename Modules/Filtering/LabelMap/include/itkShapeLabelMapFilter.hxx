@@ -392,8 +392,6 @@ ShapeLabelMapFilter< TImage, TLabelImage >
   typedef typename std::deque< IndexType > IndexListType;
   IndexListType idxList;
 
-  typedef typename LabelObjectType::LengthType LengthType;
-
   typedef typename itk::ConstNeighborhoodIterator< LabelImageType > NeighborIteratorType;
   SizeType neighborHoodRadius;
   neighborHoodRadius.Fill(1);

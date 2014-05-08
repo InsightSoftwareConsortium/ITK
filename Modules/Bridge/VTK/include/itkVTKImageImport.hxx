@@ -243,7 +243,6 @@ VTKImageImport< TOutputImage >
     }
   if ( m_ScalarTypeCallback )
     {
-    typedef typename OutputImageType::PixelType ScalarType;
     const char *scalarName = (m_ScalarTypeCallback)( m_CallbackUserData );
     if ( scalarName != m_ScalarTypeName )
       {
