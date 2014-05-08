@@ -50,7 +50,7 @@ VariationalRegistrationMultiResolutionFilter<TFixedImage, TMovingImage, TDisplac
   m_MaskImagePyramid = MaskImagePyramidType::New();
 
   m_FieldExpander = FieldExpanderType::New();
-  m_InitialDisplacementField = NULL;
+  m_DisplacementField = NULL;
 
   m_NumberOfLevels = 3;
   m_NumberOfIterations.SetSize(m_NumberOfLevels);
@@ -270,14 +270,6 @@ VariationalRegistrationMultiResolutionFilter<TFixedImage, TMovingImage, TDisplac
     itkExceptionMacro(<< "Registration filter not set");
   }
 
-  if (this->m_InitialDisplacementField && this->GetInput(0))
-  {
-    itkExceptionMacro(<< "Only one initial deformation can be given. "
-                      << "SetInitialDisplacementField should not be used in "
-                      << "conjunction with SetArbitraryInitialDisplacementField "
-                      << "or SetInput.");
-  }
-
   // As per suggestion in this bug report:
   // http://public.kitware.com/Bug/view.php?id=3590
   // This should allow input images to be released, since
@@ -312,21 +304,15 @@ VariationalRegistrationMultiResolutionFilter<TFixedImage, TMovingImage, TDisplac
 
   unsigned int maskLevel = vnl_math_min((int)m_ElapsedLevels, (int)m_MaskImagePyramid->GetNumberOfLevels());
 
-  // Get valid input deformation field. If InitialDeforamtionField is set,
-  // use this. If only ArbitraryInputField is set, smooth and resample first.
+  // Get valid input deformation field.
   DisplacementFieldPointer tempField = NULL;
+  DisplacementFieldPointer displField = NULL;
 
+  // If InitialField is set, smooth and resample it to the size of the coarsest
+  // level and then use it.
   DisplacementFieldPointer inputPtr = const_cast<DisplacementFieldType *>(this->GetInput(0));
-
-  if (this->m_InitialDisplacementField)
+  if (inputPtr)
   {
-    tempField = this->m_InitialDisplacementField;
-  }
-  else if (inputPtr)
-  {
-    // Arbitrary initial deformation field is set.
-    // Smooth it and resample.
-
     // First smooth it.
     tempField = inputPtr;
 
@@ -451,7 +437,11 @@ VariationalRegistrationMultiResolutionFilter<TFixedImage, TMovingImage, TDisplac
     // Compute new deformation field -> Execute registration on current level.
     itkDebugMacro(<< "Starting multi-resolution level " << m_ElapsedLevels + 1);
 
+    // Update registration filter
     m_RegistrationFilter->UpdateLargestPossibleRegion();
+
+    // Get results
+    displField = m_RegistrationFilter->GetDisplacementField();
     tempField = m_RegistrationFilter->GetOutput();
     tempField->DisconnectPipeline();
 
@@ -495,6 +485,13 @@ VariationalRegistrationMultiResolutionFilter<TFixedImage, TMovingImage, TDisplac
 
     m_FieldExpander->UpdateLargestPossibleRegion();
     this->GraftOutput(m_FieldExpander->GetOutput());
+
+    if (displField != tempField)
+    {
+      m_FieldExpander->SetInput(displField);
+      m_FieldExpander->UpdateLargestPossibleRegion();
+      m_DisplacementField = m_FieldExpander->GetOutput();
+    }
   }
   else
   {
@@ -502,6 +499,7 @@ VariationalRegistrationMultiResolutionFilter<TFixedImage, TMovingImage, TDisplac
     // graft the output of registration filter to
     // to output of this filter
     this->GraftOutput(tempField);
+    m_DisplacementField = displField;
   }
 
   // Release memory

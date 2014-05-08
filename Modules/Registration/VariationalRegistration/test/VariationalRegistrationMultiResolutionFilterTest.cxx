@@ -209,7 +209,7 @@ VariationalRegistrationMultiResolutionFilterTest(int, char *[])
   mrRegFilter->SetFixedImage(fixed);
   mrRegFilter->SetNumberOfLevels(2);
   mrRegFilter->SetNumberOfIterations(its);
-  mrRegFilter->SetArbitraryInitialDisplacementField(caster->GetOutput());
+  mrRegFilter->SetInitialField(caster->GetOutput());
 
   // Setup stop criterion
   typedef itk::VariationalRegistrationStopCriterion<RegistrationFilterType, MRRegistrationFilterType> StopCriterionType;
@@ -282,32 +282,6 @@ VariationalRegistrationMultiResolutionFilterTest(int, char *[])
   }
 
   mrRegFilter->Print(std::cout);
-
-  //--------------------------------------------------------------
-  std::cout << "Test exception handling." << std::endl;
-
-  std::cout << "Test for two input fields given. " << std::endl;
-  bool passed = false;
-  try
-  {
-    mrRegFilter->SetInitialDisplacementField(caster->GetOutput());
-    mrRegFilter->SetArbitraryInitialDisplacementField(caster->GetOutput());
-    mrRegFilter->Update();
-  }
-  catch (itk::ExceptionObject & err)
-  {
-    std::cout << "Caught expected error." << std::endl;
-    std::cout << err << std::endl;
-    passed = true;
-  }
-
-  if (!passed)
-  {
-    std::cout << "Test failed" << std::endl;
-    return EXIT_FAILURE;
-  }
-  mrRegFilter->SetMovingImage(moving);
-  mrRegFilter->ResetPipeline();
 
   //--------------------------------------------------------------
 

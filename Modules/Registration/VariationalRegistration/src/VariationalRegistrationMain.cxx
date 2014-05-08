@@ -810,30 +810,10 @@ main(int argc, char * argv[])
 
   std::cout << "Registration execution finished." << std::endl;
 
-  // Get output image and deformation field
-  if (searchSpace == 0)
-  {
-    outputDisplacementField = mrRegFilter->GetOutput();
-  }
-  else if (searchSpace == 1 || searchSpace == 2)
-  // TODO: Viel zu kompliziert. Eigentlich: GetDisplacementField fuer DisplacementField
-  // GetVeloField fuer Velofield. ABER: Geht natuerlich nur fuer Regfilter ...
+  outputDisplacementField = mrRegFilter->GetDisplacementField();
+  if (searchSpace == 1 || searchSpace == 2)
   {
     outputVelocityField = mrRegFilter->GetOutput();
-
-    // Run a final exponentiation to obtain deformation field:
-    // TODO Define param for exponentiation accuracy.
-    typedef itk::ExponentialDisplacementFieldImageFilter<DisplacementFieldType, DisplacementFieldType>
-                                            FieldExponentiatorType;
-    typedef FieldExponentiatorType::Pointer FieldExponentiatorPointer;
-    FieldExponentiatorPointer               exponentiator = FieldExponentiatorType::New();
-
-    exponentiator->SetInput(outputVelocityField);
-    exponentiator->AutomaticNumberOfIterationsOff();
-    exponentiator->SetMaximumNumberOfIterations(2);
-    exponentiator->Update();
-
-    outputDisplacementField = exponentiator->GetOutput();
   }
 
   //////////////////////////////////////////////

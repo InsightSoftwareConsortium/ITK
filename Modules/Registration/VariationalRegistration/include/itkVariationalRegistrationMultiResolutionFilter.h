@@ -36,24 +36,25 @@ namespace itk
  *  to register two images by computing the deformation field which will
  *  map a moving image onto a fixed image.
  *
- *  A deformation field is represented as an image whose pixel type is some
+ *  A displacement field is represented as an image whose pixel type is some
  *  vector type with at least N elements, where N is the dimension of
  *  the fixed image. The vector type must support element access via operator
  *  []. It is assumed that the vector elements behave like floating point
  *  scalars.
  *
  *  The internal VariationalRegistrationFilter can be set using
- *  SetRegistrationFilter. By default a DemonsRegistrationFilter is used.
+ *  SetRegistrationFilter. By default the standard VariationalRegistrationFilter
+ *  is used.
  *
  *  The input fixed and moving images are set via methods SetFixedImage
- *  and SetMovingImage respectively. An initial deformation field maybe set via
- *  SetInitialDisplacementField if is matches the characteristics of the coarsest
- *  pyramid level. If no such assumption can be made (e.g. the deformation field
- *  has the same characteristics as the input images), an initial deformation
- *  field can still be set via SetArbitraryInitialDisplacementField or
- *  SetInput. The filter will then take care of matching the coarsest level
- *  characteristics. If no initial field is set a zero field is used as the
- *  initial condition.
+ *  and SetMovingImage respectively.
+ *
+ *  The input and output of the filter can be set via SetInput() or
+ *  SetInitialField() and is interpreted either as a displacement field
+ *  (standard registration) or velocity field (diffeomorphic registration).
+ *  The same is true for the outpur field returned by GetOutput() or
+ *  GetOutputField(). However, GetDisplacementField() always returns the
+ *  corresponding displacement field.
  *
  *  MultiResolutionPyramidImageFilters are used to downsample the fixed
  *  and moving images. A VectorExpandImageFilter is used to upsample
@@ -165,30 +166,34 @@ public:
   const MaskImageType *
   GetMaskImage(void) const;
 
-  /** Set initial deformation field to be used as is (no smoothing, no
-   *  subsampling at the coarsest level of the pyramid. */
-  itkSetObjectMacro(InitialDisplacementField, DisplacementFieldType);
-
-  /** Get the initial deformation field, if set. */
-  itkGetConstObjectMacro(InitialDisplacementField, DisplacementFieldType);
-
-  /** Set initial deformation field. No assumption is made on the
-   *  input. It will therefore be smoothed and resampled to match the
-   *  images characteristics at the coarsest level of the pyramid. */
+  /** Set initial field, which will be smoothed and scaled to the size of the
+   *  coarsest level. The field is interpreted either as displacement field
+   *  (standard registration) or velocity field  (diffeomorphic registration).
+   */
   virtual void
-  SetArbitraryInitialDisplacementField(DisplacementFieldType * ptr)
+  SetInitialField(DisplacementFieldType * ptr)
   {
     this->SetInput(ptr);
   }
 
-  /** Get output deformation field. */
-  // FIXME returns velocities if registration filter is diffeomorphic
-  // Should be fixed by: return this->GetDisplacementField();
+  /** Get the initial field. The field is either a displacement field (standard
+   *  registration) or velocity field (diffeomorphic registration). */
   const DisplacementFieldType *
-  GetDisplacementField(void)
+  GetInitialField(void)
+  {
+    return this->GetInput();
+  }
+
+  /** Get the output field. The field is either a displacement field (standard
+   *  registration) or velocity field (diffeomorphic registration). */
+  const DisplacementFieldType *
+  GetOutputField(void)
   {
     return this->GetOutput();
   }
+
+  /** Get the output displacement field provided by the registration filter. */
+  itkGetObjectMacro(DisplacementField, DisplacementFieldType);
 
   /** Get the number of valid inputs.  For
    *  VariationalRegistrationMultiResolutionFilter, this checks whether the
@@ -296,7 +301,7 @@ private:
   MovingImagePyramidPointer m_MovingImagePyramid;
   MaskImagePyramidPointer   m_MaskImagePyramid;
   FieldExpanderPointer      m_FieldExpander;
-  DisplacementFieldPointer  m_InitialDisplacementField;
+  DisplacementFieldPointer  m_DisplacementField;
 
   unsigned int           m_NumberOfLevels;
   unsigned int           m_ElapsedLevels;
