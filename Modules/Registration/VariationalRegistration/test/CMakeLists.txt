@@ -8,6 +8,13 @@ set(
 
 # list(APPEND ExternalData_URL_TEMPLATES "https://googledrive.com/host/0B-qP96NdUKVfTFVZYUNyNEJoTlk/ExternalData_%(algo)_%(hash)")
 # list(APPEND ExternalData_URL_TEMPLATES "file:///vol/medic01/users/aschmidt/Dropbox/ITKExternalData/ExternalData_%(algo)_%(hash)")
+#list(APPEND ExternalData_URL_TEMPLATES "http://jehrhardt.bplaced.net/VariationalRegistration/%(algo)/%(hash)")
+set(
+  ExternalData_URL_TEMPLATES
+  "http://jehrhardt.bplaced.net/VariationalRegistration/%(algo)/%(hash)"
+)
+
+message(STATUS "Using OpenCL: ${ExternalData_URL_TEMPLATES}")
 
 createtestdriver(${itk-module} "${${itk-module}-Test_LIBRARIES}" "${${itk-module}Tests}")
 
